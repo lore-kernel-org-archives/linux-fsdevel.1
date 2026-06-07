@@ -1,132 +1,102 @@
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD891A262D
-	for <linux-fsdevel@vger.kernel.org>; Sun,  7 Jun 2026 19:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517391DE8AD
+	for <linux-fsdevel@vger.kernel.org>; Sun,  7 Jun 2026 20:57:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780861718; cv=none; b=rqUkrndrRFyhuIe47bm5iuLzNhF0Oj4saQRP3C86vjhpCXaUEvZcDgzAhDx1bKfU6wzC0EMwbSQJD6UFVfNZSImd+oaEZaJF/Hz/qxcsS+3PpBldkTa5rMkzKohQ/A+dEXddJSpi5PP7apqMZCkFeqkC98sc5PWk7m/vfNGjat0=
+	t=1780865851; cv=none; b=B5nEFnuKUD44Zmeb69sHzEFQysGGgAAZ0YvxVyIsO6J5KiuNlO6hwRngwB3/5KvzprZy1X8X9Q7nMdXC9H1F3oIZ1jXDwdRD+Bhhb3DpYbKYdRwwPsU0wZQaFvdaUP47Ypb/gF2c/9rJ/2upaXErSk44cfjNpr9Sd7MPapu+KvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780861718; c=relaxed/simple;
-	bh=G20GcOrX6+CGaKGOIV5guEJ3jwzC6ddpTkB7zGUUneQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rledxGrSxipoTNyBbE4ZORKVgXDT5nFD4uAu1q0zWHdhXNrhQyXq6S5i+oI7znLCBWNcgHQ3c4+eKuPn0Ese5u7ZxnseNEYCgfs+Iqvd4a5FzrxJoKBbJ/RZ8mSVbuQuyQ4+5ceCu/OW6JJJQ39xElBplo9DfpSMiQINfvDikLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=mErCY45Y; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Gw9pjOzg; arc=none smtp.client-ip=103.168.172.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1780865851; c=relaxed/simple;
+	bh=B/sZVvAFXdE6Bx1i/RUTN4ZrzNDzrsaCqVA7xoOqA0c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rs/ElkEps4IuFCE0Eih9L1TF/2PnQD43ugQviuHcvPGlOf1bIO2a/dk3PEaxlmTi+UocsP3/AOXv12N4lTUSXNLXZvqx2LfotuxBh/sEniarCs0vjMhB6g2s/CN9d+mQ9Amv2Svf86lg4ebwO15W7/uOC+oAPx31xXOS74DibiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=jUWyvFwx; arc=none smtp.client-ip=195.121.94.167
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="mErCY45Y";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Gw9pjOzg"
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailfout.phl.internal (Postfix) with ESMTP id EF65FEC00FB;
-	Sun,  7 Jun 2026 15:48:35 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-08.internal (MEProxy); Sun, 07 Jun 2026 15:48:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1780861715;
-	 x=1780948115; bh=ZnKN/f0qBAtORJ7B2OJO4R0odBgi6aleDgJZnOdbtkc=; b=
-	mErCY45Yu5ng48ISmFCE20vupfMec2I71IKAX1uh+060uqEtaEXwjAk9DiOwAPu9
-	ms1Nsnu11+7PJI9wXllrWhKKG01ZceAMYKlRUpdktDyzWk9tQz5lbFv6OHgK9nTn
-	+JUBooFwExhJtsC7s3dVbN54KdQAf7zv8If4CTj1T5I6af0zU2ubBYYhBaHeGdLJ
-	TTRwcH4KRgGylR/+56h5ngQlzxLwZ7b4LO8/t936/QZnqksHy4a/s8UPFZcVBgsS
-	RmMy9AzXf2JRteqhQTos+MB/W1lOvzo+6YOLPK0ZFLgnz8WQmE9z/9Aq7fat6TpJ
-	T8Z5i2ChpscktBXBte0HMA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1780861715; x=
-	1780948115; bh=ZnKN/f0qBAtORJ7B2OJO4R0odBgi6aleDgJZnOdbtkc=; b=G
-	w9pjOzgsSmmUo0sHYcFtXiAbPsbg74pEGtFzEjsgVwa9vLoV5XwzBK3rRI002JEC
-	h1k0kmlIt9A4GMSdLSfEQ0Ux97qJgaDgBLkS1rsQPAT+4+5VtXWlhD2ddlT2etGd
-	2xyJuOvyGQO28T115unVYwMeBiq48G04IbAuBkdf/Cth0MkMv4aeIrupFp1abc92
-	ODemYYiLe53PzR2aOz+CZMyjwnUz5SQqtUrInW2x73GjNnLcuG5NQpPXISkfkqQb
-	DX14QRENqjvrKGRLjcrCjquVRHq4EneBJEswnaoirDqJAMmDjwJvHJgqylcLx62M
-	I40ieWnRZzpLfWpO3F6ig==
-X-ME-Sender: <xms:E8slat9a9mTnZqvb3198q9LBCAL2XxtlkY13LsyjfQ6miRPgRu3oqg>
-    <xme:E8slapeO52IvIILO7HAXew5sYy7tjGtSjnX35Q9cix0Sde7p3ZD3-z3V8tlBRaPGA
-    yec-qAkb6eZO_CHn7-zWip2yla9pYvyn83jDTE7NL7yryy4m1yZ>
-X-ME-Received: <xmr:E8slauHbSPbNdCcugswiO7M5apdiHk80vevkDLZkiaFMnjngNMp3EONrnyfZQSQXs6Yc7FhjQ3fJFvvderY6HwR4FYGDKr26lW5ofz9fe6R4mXwgiA>
-X-ME-Proxy-Cause: dmFkZTESejR6ipOvY3VuKo6FBc+Z1pBmqJ7bwaY4DsssYilvgQjwhXomTIUw5Oq23OSZ58
-    5MLF2AqsWfj64kXJkwQ+Qkk7xM9tKtCUwO8SraS6wluVSw4a3Z8/8M34gDEQJha2yINuFt
-    TuRH0hDX/EVJ9dF6+sWlkd4/qd7wmqVXvQqiX+e5OhWpsXdijo/lmcpb1ZOdcy9Qb0ikBr
-    23CvYzmDp90Azhy49X3jAzfBgMlrbRRbDARsaCtLvNONFTEtK+RzNi0+e8Urav5Vqv/4A/
-    xDEz5cNl3haDSe9N4gTMgaLT09WDUjarDqrcRWvqer+/JyE1Ti3v+7YeFJii04WDOTWYMm
-    4kOzjDVXVqWzn9x8E5y88ygrj8/UGPbcnvl5Kb+2crlG1b0DOabPFhj9iOZe4z4Abi26Zm
-    93jnzWXQ8z5HLVQYgnBRgKJ68mQgksxHKPKFo+3Q6wgDQ/LiNXhmsmgvoRwDa5ti+79Ptx
-    WgljBqlJRNgDRFqA5yIoSWauFvdRkHNWWUxmlhtc95KHIouw29mGUGVs5jy5Ht04ZSr5K/
-    7noY9KCccwEXyLXbgJAcaIRLZA5JhYhNT4p26z1/hmTzDlA9JXt1SSL5PF3NVqrLYah0Ak
-    SOqegYfgHrze9mRunEhJ/nEPPHrTNWt/HkTPilhTWitazfm2hWDiEx6MAJmQ
-X-ME-Proxy: <xmx:E8slavdFjy77fxF0E2hvqo3uwA9eiyGf8Iu84v1dS-HpozEsc8zfww>
-    <xmx:E8slagG-Y6u8MDFptpNrmqXx-6r-VKVtiHmy7tw67948gMphHMftLw>
-    <xmx:E8slagWNRwCJgtYBAqyQV1kQhkAH_2So2PfQuNH1OboORkt0ULPQBw>
-    <xmx:E8slavKWryufsNvismt6c9MfgauWa6-uCYsw52jNbpFtAkC_Kt-4yA>
-    <xmx:E8slaluBI1BOSc1LdHgBZGR6tiRuZGQVEe-noK7Cu_WdW-oGpwwUqd4t>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 7 Jun 2026 15:48:35 -0400 (EDT)
-Message-ID: <14b642b6-0df3-4d4c-a33a-fa9dddbe952f@bsbernd.com>
-Date: Sun, 7 Jun 2026 21:48:34 +0200
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="jUWyvFwx"
+X-KPN-MessageId: 788d0502-62b3-11f1-96a9-005056abbe64
+Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 788d0502-62b3-11f1-96a9-005056abbe64;
+	Sun, 07 Jun 2026 22:57:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:message-id:subject:to:from:date;
+	bh=xlUmDG2nlDW4848cVrZwRBD696dw89A3xToKVOP2e/0=;
+	b=jUWyvFwxFBLevPNuNhZzYMh1J/DMOjVyk21gdbxlU1u/6SUf7fs7f9b7tdKftbIGBUmNyy9hdjSu2
+	 +DvUZRQr/yxupWxV9BUPfdc5wijxOrpqQ70qNhTH+0Bzt87mlKutEhitn71ltzqx56ARsBf3VgbIZB
+	 QnMGfYER4T0dTAureOfFe3avHJRXRlBtGQzTqXXkThnKmRgccr3zYdNqXnsLWD1pbFLNtTDiN34QpL
+	 6RHxNkFonziqSyet0URPPxujl98Au0gtuI9K+3q0TuOytd3/6+OsAH2XPW/CmAaHVWH9VgV6aa4nJq
+	 GU9SmtVylvcR+xZz4Xuuh5Eb3f+gNGA==
+X-KPN-MID: 33|I6LvFKtO1/NFu1Q8+EZrhwkCiekSZq3o/g4C1e2ZhAhJAr45OFqXWpFkttGcHcz
+ 11g2B9Ez4yzibwUoMnLxwT5WrmetNsqOCH9EBGZ17LpI=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|oknSqWqjgHPSYNouYsAAFHMWTPeZDpPRo95rdBFgTcT6wU2i/vWc1ydw0YQ1JO/
+ 2xhx4egmAgz88NSAki0jVbw==
+Received: from localhost (unknown [178.226.150.234])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 78661918-62b3-11f1-a6ce-005056abf0db;
+	Sun, 07 Jun 2026 22:57:18 +0200 (CEST)
+Date: Sun, 7 Jun 2026 22:57:16 +0200
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Maxwell Doose <m32285159@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
+	open list <linux-kernel@vger.kernel.org>, Jan Kara <jack@suse.cz>
+Subject: Re: [RFC] Maintainership of the EFS filesystem
+Message-ID: <aiXXi3mqIcHSo7lS@lt-jori.localdomain>
+Mail-Followup-To: Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Maxwell Doose <m32285159@gmail.com>, Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
+	open list <linux-kernel@vger.kernel.org>, Jan Kara <jack@suse.cz>
+References: <CAKqfh0HhN4zzV2=WJwC4ejRQup7Q3L6MkUegC9Bc0xFmzK+Msg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] mount_service: don't pass the chopped buffer to
- apply_fsconfig_mount_opts
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
-References: <178044567804.1435997.11438899616254127750.stgit@frogsfrogsfrogs>
- <178044567862.1435997.14889132979032394431.stgit@frogsfrogsfrogs>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <178044567862.1435997.14889132979032394431.stgit@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKqfh0HhN4zzV2=WJwC4ejRQup7Q3L6MkUegC9Bc0xFmzK+Msg@mail.gmail.com>
 
-
-
-On 6/3/26 02:15, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
+On Fri, Jun 05, 2026 at 09:52:19PM -0500, Maxwell Doose wrote:
+> Hi Christian, Al,
 > 
-> If mount_service_handle_mntopts_cmd previously looked at the mount
-> options to screen for allow_{other,root}, then tokstr (aka oc->value)
-> has been modified and not put back.  This causes truncation of the mount
-> options passed to fsconfig, so let's use the snapshot that we took
-> previously.  Codex noticed this.
-> 
-> Fixes: 7211953256526f ("mount_service: use the fsmount API helpers from mount_fsmount.c")
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  util/mount_service.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> 
-> diff --git a/util/mount_service.c b/util/mount_service.c
-> index adcc7a296645ff..360a78bab3bd3d 100644
-> --- a/util/mount_service.c
-> +++ b/util/mount_service.c
-> @@ -994,7 +994,7 @@ static int mount_service_handle_mntopts_cmd(struct mount_service *mo,
->  
->  #ifdef HAVE_NEW_MOUNT_API
->  	if (mo->fsopenfd >= 0) {
-> -		int ret = apply_fsconfig_mount_opts(mo->fsopenfd, oc->value);
-> +		int ret = apply_fsconfig_mount_opts(mo->fsopenfd, mntopts);
->  
->  		if (ret < 0) {
->  			free(mntopts);
+> I recently sent a patch for the EFS filesystem [1]. While writing that
+> patch, which fixed code that was now incompatible with the latest GCC
+> (+ an undefined variable), I discovered that the EFS filesystem was
+> orphaned and without a maintainer. I inquired with Andrew Morton, the
+> person who merged my patch, about potentially taking over
+> maintainership for EFS. He noted that he was fine with it [2], and he
+> directed me to Christian regarding this possibility. As the subject
+> suggests, I'd like to take over maintainership of EFS, if it's fine
+> with you all.
 > 
 
-Wouldn't it be easier to read if strtok would operate on the string the
-was duped than letting it work on the original? And also cleaner, let's
-say oc->value would get uses somewhere else? Checking for "allow_other"
-and "allow_root" could be even factored into a helper function.
+Hi!
 
+Thanks for looking into EFS. I am not sure whether it makes sense to
+have a maintainer for just EFS. The only reason this (and some other)
+old filesystems are still in tree is because we don't really know much
+about their users. Linux strongly emphasizes stability of user space, so
+we don't just rip them out. Ideally, they should be replaced with a FUSE
+driver and removed, but no one has stepped up to do this (for good
+reasons).
+
+What would perhaps make sense is to have someone maintain API
+compatibility for all old filesystems, to unburden the vfs maintainers.
+This maintainer would just be focused on ensuring that modern API is
+ported, so that the old stuff can be removed. But that does require some
+expertise while it might not add much.
 
 Thanks,
-Bernd
+Jori.
+> -- 
+> best regards.
+> max
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new.git/tree/patches/fs-efs-remove-unneeded-debug-prints.patch
+> [2] https://lore.kernel.org/mm-commits/20260605193524.f277071da69189161e84e327@linux-foundation.org/
