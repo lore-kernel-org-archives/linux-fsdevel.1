@@ -1,71 +1,71 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F20292B2E
-	for <linux-fsdevel@vger.kernel.org>; Sun,  7 Jun 2026 05:17:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D57E299A87
+	for <linux-fsdevel@vger.kernel.org>; Sun,  7 Jun 2026 05:17:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780809460; cv=none; b=kldHS8mUzrg7Kvkh3a6UkAFlMExARhRf/iXkxcQajTdf0d8QZ9cTAQoUYXHOrNlcYyL+aPF04njE8PuhxuCTCE6hw2A4Iuw34Po4Dq+mdWO3WVh+vGxTiWziAbA//cOqXyWIovp4S4uageAICe9iob6gt5iW52mOE/PXyZEibgM=
+	t=1780809461; cv=none; b=aNfKCwowBlQ2tAA4C7dyx+UOZpUjuckvaQms+2h751jhkjlXuCyMk64nkFBnWn8IxoH+6x18VixnqbKDRdcrfJkfPJShbZJHHpAHptt3vo4JwfvCvNFPvqCE2VMrc6wAJHYCcOfi//iDsSdsH6o+pGh2ln5FD+eeHmv0p/3JlOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780809460; c=relaxed/simple;
-	bh=v0FBSHIKiW9lnEit+UkePQ6b37Ht1w5NjycqmlL3Ptw=;
+	s=arc-20240116; t=1780809461; c=relaxed/simple;
+	bh=7aEKoCbAZP8jKDextGuPOy3ovK/navVFADXy48US3yM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ck1fYC9gjujryw/rwssey4pBigGLdZDVfptmJQ3vlDuX3TIq7ZUKA5U39/sI+0Bx0sIINrYtM4GVi2Y5s1f4QvxS7o2S1u3vKKx3Au+II/sSW9mgMCx2+hpHJNjal/yvNJAEcvXgRAyrKArQcH24JdAM/j6Vg/hDpuHGISydspU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p2/UeL0z; arc=none smtp.client-ip=209.85.214.171
+	 MIME-Version; b=tvVNL/MKLdKCACa0rxBvQH3K4hQOC3rAgmVe1RlmeR+FoM5dL3ytL7/WauzCrA7wpOHWa3teEJ8SGiP791nQ8qKhwzsXNeQEC39oJInoANhM5oyEAa1w6QyHs7/i4hd1k6W/Xlx4x4XuYbWi00j+M5hQSNOcFwpOJAN4qx57NGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WbWk0/83; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p2/UeL0z"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2bf20ddcaeeso2294545ad.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 06 Jun 2026 22:17:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WbWk0/83"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-841f68bebb4so71188b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 06 Jun 2026 22:17:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780809458; x=1781414258; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780809456; x=1781414256; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CI8yVfevv6ra0nY4MhczUOj4WKWNeHenXaOHU4XUI8g=;
-        b=p2/UeL0zu6eBClSIiHJrtcajGocM4iUBmoa7boWEZhSOYSGUO4BFRqa5YkCTGxdVGX
-         mnUH+62WNZnA+wG8U1ruadPImaM4qlvjnSSoiH9VxJMIIFZwYZv3ZeUokArwO8tkBqq0
-         FBWQKBpe5VytlbIYjPFVG3ueggCID/6fKZVH5FvftFB8pOMMo2gJ/0TfVg3vG9Nb8Ugm
-         xd8LL3ZB8NzhmZzpT2p6I81F841/PRazUeAEYk0Fgj9cewv4GTOxPL2vlFZDra30lz2H
-         i0WxoF5Z4+/sJI2VQ04xwqsMNRFO02BKVkdJ2+vlwO5fTy+ySyUeJ0KARBhlIEWM68P+
-         SHwA==
+        bh=OUmwuBjLvF0gJnDu5WwguMvo2blC3awnfJ4Cf5R95CQ=;
+        b=WbWk0/83P5HUgg2SorlR0ankmqpPp54656ILwHLFKZugHOvmFxr/flfZRMWBpA1OVv
+         +XUzzN8lAsr/PDJO0W+xekDeVMjaU881wRXjdOW3Ff2vejl7xjcD/Gnz3yOUnLBGdE/L
+         mv1imPVPtADhwDDupST4RULXABc0pLS4wiK5aq1D2DXFoXrSZPr60sV6+MJ0cR4YSrH8
+         s1zGepgM/6EtiPTmSOeS33OPl+HjTL0dXkGQWAlCQQvIQ+vYow2GyUHeu0y4MxuKCYGo
+         EbFgJuhCzcqoSTbDxjhTnPSgQDt47Y32BOD2K0lQ94zJ6yfarRXfZw7w2LUnMkLCh/EV
+         se0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780809458; x=1781414258;
+        d=1e100.net; s=20251104; t=1780809456; x=1781414256;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=CI8yVfevv6ra0nY4MhczUOj4WKWNeHenXaOHU4XUI8g=;
-        b=mmGEpbLrHFJZgB44MeX67eVEHJNZhhhFZFztZMThw9s3C3BYtKsO6q/Wd8FkWkGrJ4
-         tdY4CURcraqOLbgFqG85jVre8netPCwSqS+IxcsSq4d+nbVwwjuB9niZeeDb27c2Tf/L
-         uy6Hvzqlgj5rNMUIZQAsnY3rBw45SirOI4i4CEduaYLPXl2uor3UAk+v7FVvdaOWZZH2
-         uEqX6yzXudyg+DU6PezGWzoX2lgpNLexPHu9iXDUzF7NH/5TbFYGUHnNVgVS/AjtHi/k
-         vwHDLEh8xhLTnBR+Ej+JRGGJv7UdubhcG/uIM3WGGnEClFsuJnT8SHLdk8cBnCUsR/Tl
-         p4Tw==
-X-Gm-Message-State: AOJu0YwBMj7DUdN3p8dPmqAXm0qsY7F+J8v42U9Zv3NawS7vq43DNWHv
-	fqzE5hBMy0ZUpU7sifo0oVjCXTM4SBBrecMUS4i5kl6nbP9q8NH9uCC+
-X-Gm-Gg: Acq92OEni7EI9oUrU3qyit3lNlIo5vxJnxhkZs8/m+D7fXJ6LtI9APkyEVsxymcKMg6
-	QilgFvHvPMg02HvJkiGsHE4jGhYVcd1ppNfqUD0OCfyICgAmVjL01a6Q/tEe96SAUS42rk7z2OY
-	pbJv2uBOlWm6l4K58i0YXf/X0r5u20X3f5BWWRWaE3/KMsyk1GfFZuJhWdOm7cLFYzFGOS6dlFY
-	NVobvkSQzyk7DWSDRCiWeltsELFA6uRqowphI6WP1r8TkHKMlrri7UNs3h/y+Wnh9VmyQKR0D5a
-	KaA5gAi2HM3NJNLdInSj8O7FAqy3AbaJIxwLCOe6flGcv0l9oT0KU1y6bSJ2FeFPnJnErABp6jB
-	a/l2q6ZiCujKUzv2gNqeuEYr6Ac1LQuPaRR/l6p8ickP2nYuookHPMrMtvIxwnbRNT8sABSCJ6Y
-	23huSxFz9Y163Gur6RSmHFv9bo2c8ercEVOk4Elw==
-X-Received: by 2002:a17:90b:538b:b0:36d:f28a:c5e2 with SMTP id 98e67ed59e1d1-370f1eec20amr5843761a91.8.1780809458553;
-        Sat, 06 Jun 2026 22:17:38 -0700 (PDT)
+        bh=OUmwuBjLvF0gJnDu5WwguMvo2blC3awnfJ4Cf5R95CQ=;
+        b=YDYf+gi64cXvtjAONNUFjM3uOk5FSorEEIc5Ir1gIebw13C31fr4LiVewKLE/VFhOy
+         Hoyywl162CYbhRLmq7yj4/MUQEdTbz36A5EhtfX+2lrGWdAf2LGgD8TKCfHeaXAPF0Fu
+         YQhZExGREczWBJVUTXYZ6KoavmYc4Io8UzQWDbmUW7rz59LB0n31kwWDL4kMDQRQ2Wg0
+         +nvmje/sGZJ7u9Eh3+HAmB32OL3fxasIKCmVRb56S/1umm0eHnV2IOJbkM40KS9foZse
+         LdUZnrZNS6kIpGmYs7xPNgkDLUjGBhDVv/L/MBEuzBTwBfXsFY+FKkTiyATNAkUqmTya
+         WMqQ==
+X-Gm-Message-State: AOJu0Yw6rAoNBVgoOkIfXUNVgwwG93NvaknSfN2dVIVcxnprIMhbj3hC
+	k91gDb9msYg4Mryl9nnw5Ya6AGHGszwFIFLDYTV0C2wpH73y6OSb+xrV2QMqHw==
+X-Gm-Gg: Acq92OEdqI+KMENVxyW8R6SO3eZI23HZxxN0xP0Z9Lt6XpJCLJdTfqLHfYSWHojZ8rM
+	E7DcTalXU0ZkF/wznCfLCw5jGk4h04/zH2vCNdgc2ronZ7zOTxXx/FLdyzOBg2nrrysBGn1VrG0
+	GbqGkweglpyh+LOZcTy/mE+F8LaxcgWWV+Dvbaq1PuIfS9iEk/H3n2kj2LQVMSu7bP1YgsjKxw+
+	im+CGRt0LCpa1Dygem4d2/d7TjjCGZAEJXInO6K4tTP1ieo/FKLb/3qhVLlfC6dMvx8q0pdXE0K
+	7NVyBvvbON7j536bW9wCzJbh8R0JEAd90Yq7XZrwJXVV/VpoQQiQrSwP4ma93IX94HLycSZYeZP
+	lUpxvbhTUZlZ0/iwqTW+DtVzdTRM/JioGlXJWrAe5vcw/6cz6C/TjuAFogmNkNoNtR8pfTWi9UY
+	Fvcw/2OCvSvn9CAOy/cKWrDgXxKpWhIKuG1i2lGg==
+X-Received: by 2002:a05:6a00:a203:b0:834:dfb5:6e7f with SMTP id d2e1a72fcca58-842b0d4c5c2mr4955360b3a.2.1780809455818;
+        Sat, 06 Jun 2026 22:17:35 -0700 (PDT)
 Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-842828e5638sm14494648b3a.50.2026.06.06.22.17.37
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-842828e5638sm14494648b3a.50.2026.06.06.22.17.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Jun 2026 22:17:38 -0700 (PDT)
+        Sat, 06 Jun 2026 22:17:35 -0700 (PDT)
 From: DaeMyung Kang <charsyam@gmail.com>
 To: Namjae Jeon <linkinjeon@kernel.org>,
 	Hyunchul Lee <hyc.lee@gmail.com>
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH v5 4/4] ntfs: validate index root allocated_size on lookup
-Date: Sun,  7 Jun 2026 14:17:23 +0900
-Message-ID: <20260607051723.1499833-5-charsyam@gmail.com>
+Subject: [PATCH v5 3/4] ntfs: update index root allocated size before shrink
+Date: Sun,  7 Jun 2026 14:17:22 +0900
+Message-ID: <20260607051723.1499833-4-charsyam@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260607051723.1499833-1-charsyam@gmail.com>
 References: <20260607051723.1499833-1-charsyam@gmail.com>
@@ -77,48 +77,67 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The resident $INDEX_ROOT validator already checks the index root header
-fields, but it still does not bound index_length through allocated_size or
-ensure allocated_size stays within the resident index area.
+ntfs_ir_truncate() currently shrinks the resident $INDEX_ROOT value first
+and only updates index.allocated_size after re-looking up the attribute.
+During that relookup, the resident value_length can already be smaller
+while index.allocated_size still contains the old larger size.
 
-Callers consume index.allocated_size as the resident root capacity.
-ntfs_ie_add() uses it to decide whether an insertion can be done in place,
-and ntfs_ie_insert() then updates the root without re-checking the resident
-value boundary.
+That leaves a transiently inconsistent $INDEX_ROOT layout and prevents
+lookup-time $INDEX_ROOT validation from being enabled: validation can
+correctly reject allocated_size extending past the newly shrunk resident
+value.
 
-Read allocated_size in the resident $INDEX_ROOT validator, require it to be
-8-byte aligned, require index_length <= allocated_size, and require
-allocated_size <= the resident index area. Valid slack remains allowed.
+When shrinking, lower index.allocated_size before shrinking value_length.
+If the truncate fails, restore the old allocated_size. Keep the existing
+grow ordering because the old allocated_size remains within the enlarged
+resident value until it is updated after the relookup. The shrink path is
+safe because the new value_length still covers struct index_root, so the
+index.allocated_size field remains present while it is updated first.
 
 Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
 ---
- fs/ntfs/attrib.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ fs/ntfs/index.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
-index cf49eade6b22..49c8f1f3b9dd 100644
---- a/fs/ntfs/attrib.c
-+++ b/fs/ntfs/attrib.c
-@@ -657,15 +657,19 @@ static bool ntfs_index_root_attr_value_is_valid(const u8 *value, const u32 value
- 	u32 index_size;
- 	u32 entries_offset;
- 	u32 index_length;
-+	u32 allocated_size;
+diff --git a/fs/ntfs/index.c b/fs/ntfs/index.c
+index ab9a4bc36f0b..a411ca7fe629 100644
+--- a/fs/ntfs/index.c
++++ b/fs/ntfs/index.c
+@@ -1298,9 +1298,16 @@ static int ntfs_ir_reparent(struct ntfs_index_context *icx)
+ static int ntfs_ir_truncate(struct ntfs_index_context *icx, int data_size)
+ {
+ 	int ret;
++	u32 old_allocated_size;
++	bool shrink;
  
- 	ir = (const struct index_root *)value;
- 	index_size = value_length - offsetof(struct index_root, index);
- 	entries_offset = le32_to_cpu(ir->index.entries_offset);
- 	index_length = le32_to_cpu(ir->index.index_length);
-+	allocated_size = le32_to_cpu(ir->index.allocated_size);
+ 	ntfs_debug("Entering\n");
  
--	if ((entries_offset | index_length) & 7 ||
-+	if ((entries_offset | index_length | allocated_size) & 7 ||
- 	    entries_offset < sizeof(struct index_header) ||
- 	    entries_offset > index_length ||
-+	    index_length > allocated_size ||
-+	    allocated_size > index_size ||
- 	    index_length - entries_offset < sizeof(struct index_entry_header))
- 		return false;
++	old_allocated_size = le32_to_cpu(icx->ir->index.allocated_size);
++	shrink = data_size < old_allocated_size;
++	if (shrink)
++		icx->ir->index.allocated_size = cpu_to_le32(data_size);
++
+ 	/*
+ 	 *  INDEX_ROOT must be resident and its entries can be moved to
+ 	 *  struct index_block, so ENOSPC isn't a real error.
+@@ -1312,9 +1319,14 @@ static int ntfs_ir_truncate(struct ntfs_index_context *icx, int data_size)
+ 		if (!icx->ir)
+ 			return -ENOENT;
  
+-		icx->ir->index.allocated_size = cpu_to_le32(data_size);
+-	} else if (ret != -ENOSPC)
+-		ntfs_error(icx->idx_ni->vol->sb, "Failed to truncate INDEX_ROOT");
++		if (!shrink)
++			icx->ir->index.allocated_size = cpu_to_le32(data_size);
++	} else {
++		if (shrink)
++			icx->ir->index.allocated_size = cpu_to_le32(old_allocated_size);
++		if (ret != -ENOSPC)
++			ntfs_error(icx->idx_ni->vol->sb, "Failed to truncate INDEX_ROOT");
++	}
+ 
+ 	return ret;
+ }
 -- 
 2.43.0
+
