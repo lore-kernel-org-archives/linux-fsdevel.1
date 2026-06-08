@@ -1,87 +1,91 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258591EE01A
-	for <linux-fsdevel@vger.kernel.org>; Mon,  8 Jun 2026 12:46:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41BFD36C5B4
+	for <linux-fsdevel@vger.kernel.org>; Mon,  8 Jun 2026 13:06:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780922773; cv=none; b=hItgur1PfhGvMXX/e+kUjz/G4hyDc5qoP35MdTkDx5GluBjH8whJwWnqF8ylCCSpQjWzPiSg3dMpN2LTeaNtn09RymDy0pMj0SO8PHVNgGE78hLmjxZ04DBH223Y/qdex+NyehMhjlX/2F7oK77L0duL3lXkEQAkP38t0cu1FU0=
+	t=1780923983; cv=none; b=Z39JO9L1j6wUSNlPibjQSmsdfHLEiv96tdW53/BY0OHqUWW0/rWBYQ+torXt2VTPunyR4yBiIkZPaqTYBdqiyYgJ282CueAH87g0GgPXNkbGo+YXC0BMRURwVLT7SyH/oiQvdaXOB82ZuCWj68NvDxAPfpfixtoMJQvGLaDOYhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780922773; c=relaxed/simple;
-	bh=hk09Vs7o138n+cVWtcoYYoGd3uGMrSTdXRBmk7MNyrg=;
+	s=arc-20240116; t=1780923983; c=relaxed/simple;
+	bh=ep0WguZQAZSNbW0FWByBNjNW4teDigRO6p4TA2lA3NM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AdskYKTpr5w+KV+VMrKTyXBT2wXsPzDu4PLGYCE9SppDou0l5nc+FiiMip/fHKTYMMzGOfgRTt660A1ZO2nfpHDLRhhUaktSYqPQCYWbf7C4m7aneZIB4dFl2oos6Hye2toHVKXXEmW+M0jR/gWKvwRkX887LSNE/vbOqZQ4ixo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sxHV603i; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0POWYaje; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Vg49oO6H; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=+v4qY/G0; arc=none smtp.client-ip=195.135.223.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=ggmt5lYqRDn/3A5bepseBFR6SSS8ECU4t+fO5+6MMsrwLNGVCiKhfvaJd2amcjBWRYCe9MmrkDZw3cdiIVsACnB7MWDIdnvwWvC+jrHfNBBXWLK5SksqvBktGO65NkKgtaw7sIu1eGDqrDuycvsHtMQ9TXwagZmm+8phFDrcVx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=f0laCf9C; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=icACAcuz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=f0laCf9C; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=icACAcuz; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sxHV603i";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0POWYaje";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Vg49oO6H";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="+v4qY/G0"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="f0laCf9C";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="icACAcuz";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="f0laCf9C";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="icACAcuz"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 79C7567C1D;
-	Mon,  8 Jun 2026 12:46:09 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8153567E4B;
+	Mon,  8 Jun 2026 13:06:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1780922770; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1780923979; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hi9jc/EWeA1ZGhidtaSrLbqdF5PCARVWlIlbMdH1zbk=;
-	b=sxHV603iXBqaRQc/+/DccNhrVdsfteGQB3mVFHYeOD3JvUEDJ39QAxnFL87MMkkSA5jhtn
-	oRpHNtGr9aRgtllbZcfAfg2GeuxBJGKNZG19Mi8cpeEwffjGawhGO9AmxyV/SdNM/16SF+
-	p8O55EjWMnqp2mzHYtsFSUyEt+UUwto=
+	bh=HMB4AqGU9r85UvCAjl82db9r/yv2VFlIMAfWID79ax8=;
+	b=f0laCf9CeYs7H4jIE7BgDu1Y0vO4qgBzUOFLHP32Nv7iRyfknylZUVac8tkISaFgtZIXmz
+	r5nwj7f9DMQxYzPLwX5lbP92xb8d179gZBlkrB3FeXKPU58q5A8Wwa5Q4Mo/7h5/XoJ6Kq
+	95VA3BnJm45z/cUIaHTddcLAABfWEv8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1780922770;
+	s=susede2_ed25519; t=1780923979;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hi9jc/EWeA1ZGhidtaSrLbqdF5PCARVWlIlbMdH1zbk=;
-	b=0POWYajeqns8VbZ6crddF4rM9ZNQ3VkIQTVz/fGUrNu2T/4IesQPSafa1X/FJKGgM3Fgb2
-	Sswll5afxdwP0dBw==
+	bh=HMB4AqGU9r85UvCAjl82db9r/yv2VFlIMAfWID79ax8=;
+	b=icACAcuzRIbQD3F//ITzaUpe5nopu8Cn6Rfy3Kc+9qaQ6YC+fF2z1OICYw5Cj3AnlZKn0m
+	zRZhh6Kbc/8Y0DDQ==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1780922769; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1780923979; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hi9jc/EWeA1ZGhidtaSrLbqdF5PCARVWlIlbMdH1zbk=;
-	b=Vg49oO6HOkahE2ITEfVYMZjn/SxRQgx8ieuRSxD+WfRaK780oTsfuCLhYDOzd3lAwpqubi
-	aA8h07YxAtVOybmEXkQUBQtD4psVfG33xXl+lgJUzkS3izeLJk9uf1guKd+3V886Y7A02p
-	qSyu96vRJVeTKaG5HrVBsleC/s1+2P0=
+	bh=HMB4AqGU9r85UvCAjl82db9r/yv2VFlIMAfWID79ax8=;
+	b=f0laCf9CeYs7H4jIE7BgDu1Y0vO4qgBzUOFLHP32Nv7iRyfknylZUVac8tkISaFgtZIXmz
+	r5nwj7f9DMQxYzPLwX5lbP92xb8d179gZBlkrB3FeXKPU58q5A8Wwa5Q4Mo/7h5/XoJ6Kq
+	95VA3BnJm45z/cUIaHTddcLAABfWEv8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1780922769;
+	s=susede2_ed25519; t=1780923979;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hi9jc/EWeA1ZGhidtaSrLbqdF5PCARVWlIlbMdH1zbk=;
-	b=+v4qY/G0wJq/EdarYrCWXyzr4hro3BnQF5VsCM2y8Hp5v876+lil/Qr2nh1/5v2EKehgCB
-	xrV+evV0AddMgqBw==
+	bh=HMB4AqGU9r85UvCAjl82db9r/yv2VFlIMAfWID79ax8=;
+	b=icACAcuzRIbQD3F//ITzaUpe5nopu8Cn6Rfy3Kc+9qaQ6YC+fF2z1OICYw5Cj3AnlZKn0m
+	zRZhh6Kbc/8Y0DDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 701D1779A7;
-	Mon,  8 Jun 2026 12:46:09 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7310D779A7;
+	Mon,  8 Jun 2026 13:06:19 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 3qleG5G5JmpHUgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 08 Jun 2026 12:46:09 +0000
+	id upkPHEu+JmpqZgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 08 Jun 2026 13:06:19 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 13F82A0923; Mon, 08 Jun 2026 14:46:09 +0200 (CEST)
-Date: Mon, 8 Jun 2026 14:46:09 +0200
+	id 1023BA0923; Mon, 08 Jun 2026 15:06:15 +0200 (CEST)
+Date: Mon, 8 Jun 2026 15:06:15 +0200
 From: Jan Kara <jack@suse.cz>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Breno Leitao <leitao@debian.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH v2 14/18] kill configfs_drop_dentry()
-Message-ID: <ew4rktt25s2hkvbnsp4tfvbf6r22p3nl53udtngvjnac5zaham@elixg6bjovic>
-References: <20260519070633.2025485-1-viro@zeniv.linux.org.uk>
- <20260603074815.3033766-1-viro@zeniv.linux.org.uk>
- <20260603074815.3033766-18-viro@zeniv.linux.org.uk>
+To: Jia Zhu <zhujia.zj@bytedance.com>
+Cc: Theodore Ts'o <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Matthew Wilcox <willy@infradead.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
+	Ritesh Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>, linux-ext4@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] fs/buffer: avoid tail commit walk for uptodate
+ folios
+Message-ID: <ariq5gm6azlmrsx2luoqetrmn44vtyz6j6mt327ftrhnxod5zc@h4db2nnexn7c>
+References: <20260603134800.25155-1-zhujia.zj@bytedance.com>
+ <20260608120131.45146-1-zhujia.zj@bytedance.com>
+ <20260608120131.45146-2-zhujia.zj@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -90,40 +94,62 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260603074815.3033766-18-viro@zeniv.linux.org.uk>
+In-Reply-To: <20260608120131.45146-2-zhujia.zj@bytedance.com>
 X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
+X-Spam-Score: -2.30
+X-Spamd-Result: default: False [-2.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_COUNT_THREE(0.00)[3];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_HAS_DN(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.org.uk:email,suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo]
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[mit.edu,dilger.ca,infradead.org,zeniv.linux.org.uk,kernel.org,suse.cz,linux.alibaba.com,linux.ibm.com,gmail.com,huawei.com,vger.kernel.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:email,suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
 X-Spam-Level: 
-X-Spam-Score: -3.80
 
-On Wed 03-06-26 08:48:11, Al Viro wrote:
-> Fold into the only remaining user, don't bother with the timestamps
-> of parent - we are going to rmdir it shortly anyway, which will
-> override those.
+On Mon 08-06-26 20:01:30, Jia Zhu wrote:
+> block_commit_write() always walks every buffer_head attached to the
+> folio.  That was cheap for order-0 folios, but large folios can contain
+> hundreds of buffer_heads.  For a small buffered overwrite of an
+> already-uptodate large folio, the commit work is therefore proportional
+> to the folio size rather than the copied range.
 > 
-> Fix the locking of inode, while we are at it - updating the link
-> count and timestamps ought to be done with the inode locked.
+> This became visible with ext4 regular-file large folios, where cached
+> small overwrites reach block_commit_write() through block_write_end().
+> Before ext4 enabled large folios for regular files, this path was only
+> hit with order-0 folios for normal ext4 buffered writes, so the full walk
+> was bounded.  The ext4 large-folio commit is therefore the regression
+> point for this generic helper cost.
 > 
-> Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+> The full walk is still needed when the folio is not uptodate, because
+> block_commit_write() uses per-buffer uptodate state to decide whether
+> the whole folio can be marked uptodate.  Keep those folios on the old
+> full-buffer path.
+> 
+> For a folio that was already uptodate on entry, the commit no longer
+> needs tail buffers for folio-uptodate discovery.  The copied range has
+> already been processed once block_start reaches @to, so stop there and
+> avoid the suffix walk.
+> 
+> Fixes: 7ac67301e82f0 ("ext4: enable large folio for regular file")
+> Suggested-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Signed-off-by: Jia Zhu <zhujia.zj@bytedance.com>
 
 Looks good. Feel free to add:
 
@@ -132,96 +158,32 @@ Reviewed-by: Jan Kara <jack@suse.cz>
 								Honza
 
 > ---
->  fs/configfs/configfs_internal.h |  1 -
->  fs/configfs/dir.c               | 24 +++++++++++++++++++++++-
->  fs/configfs/inode.c             | 22 ----------------------
->  3 files changed, 23 insertions(+), 24 deletions(-)
+>  fs/buffer.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> diff --git a/fs/configfs/configfs_internal.h b/fs/configfs/configfs_internal.h
-> index 0b969d0eb8ff..acdeea8e2d69 100644
-> --- a/fs/configfs/configfs_internal.h
-> +++ b/fs/configfs/configfs_internal.h
-> @@ -76,7 +76,6 @@ extern int configfs_make_dirent(struct configfs_dirent *, struct dentry *,
->  extern int configfs_dirent_is_ready(struct configfs_dirent *);
+> diff --git a/fs/buffer.c b/fs/buffer.c
+> index b0b3792b1496e..c8c41c799030d 100644
+> --- a/fs/buffer.c
+> +++ b/fs/buffer.c
+> @@ -2096,6 +2096,7 @@ void block_commit_write(struct folio *folio, size_t from, size_t to)
+>  {
+>  	size_t block_start, block_end;
+>  	bool partial = false;
+> +	bool uptodate = folio_test_uptodate(folio);
+>  	unsigned blocksize;
+>  	struct buffer_head *bh, *head;
 >  
->  extern const unsigned char * configfs_get_name(struct configfs_dirent *sd);
-> -extern void configfs_drop_dentry(struct configfs_dirent *sd, struct dentry *parent);
->  extern int configfs_setattr(struct mnt_idmap *idmap,
->  			    struct dentry *dentry, struct iattr *iattr);
+> @@ -2118,6 +2119,8 @@ void block_commit_write(struct folio *folio, size_t from, size_t to)
+>  			clear_buffer_new(bh);
 >  
-> diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
-> index 479d37b8d806..4a4bad1741cf 100644
-> --- a/fs/configfs/dir.c
-> +++ b/fs/configfs/dir.c
-> @@ -581,12 +581,34 @@ static void detach_attrs(struct dentry *dentry)
+>  		block_start = block_end;
+> +		if (uptodate && block_start >= to)
+> +			break;
+>  		bh = bh->b_this_page;
+>  	} while (bh != head);
 >  
->  	spin_lock(&configfs_dirent_lock);
->  	for (sd = next_dirent(parent_sd, NULL); sd; sd = next) {
-> +		struct dentry *child;
-> +
->  		next = next_dirent(parent_sd, sd);
->  		if (!(sd->s_type & CONFIGFS_NOT_PINNED))
->  			continue;
->  		list_del_init(&sd->s_sibling);
-> +		child = sd->s_dentry;
-> +		if (child) {
-> +			spin_lock(&child->d_lock);
-> +			if (simple_positive(child)) {
-> +				dget_dlock(child);
-> +				__d_drop(child);
-> +				spin_unlock(&child->d_lock);
-> +			} else {
-> +				spin_unlock(&child->d_lock);
-> +				child = NULL;
-> +			}
-> +		}
->  		spin_unlock(&configfs_dirent_lock);
-> -		configfs_drop_dentry(sd, dentry);
-> +		if (child) {
-> +			struct inode *inode = child->d_inode;
-> +
-> +			inode_lock_nested(inode, I_MUTEX_NONDIR2);
-> +			inode_set_ctime_current(inode);
-> +			drop_nlink(inode);
-> +			inode_unlock(inode);
-> +			dput(child);
-> +		}
->  		configfs_put(sd);
->  		spin_lock(&configfs_dirent_lock);
->  	}
-> diff --git a/fs/configfs/inode.c b/fs/configfs/inode.c
-> index bc507b720a01..3c26b6c443be 100644
-> --- a/fs/configfs/inode.c
-> +++ b/fs/configfs/inode.c
-> @@ -195,25 +195,3 @@ const unsigned char * configfs_get_name(struct configfs_dirent *sd)
->  	}
->  	return NULL;
->  }
-> -
-> -
-> -/*
-> - * Unhashes the dentry corresponding to given configfs_dirent
-> - * Called with parent inode's i_mutex held.
-> - */
-> -void configfs_drop_dentry(struct configfs_dirent * sd, struct dentry * parent)
-> -{
-> -	struct dentry * dentry = sd->s_dentry;
-> -
-> -	if (dentry) {
-> -		spin_lock(&dentry->d_lock);
-> -		if (simple_positive(dentry)) {
-> -			dget_dlock(dentry);
-> -			__d_drop(dentry);
-> -			spin_unlock(&dentry->d_lock);
-> -			__simple_unlink(d_inode(parent), dentry);
-> -			dput(dentry);
-> -		} else
-> -			spin_unlock(&dentry->d_lock);
-> -	}
-> -}
 > -- 
-> 2.47.3
-> 
+> 2.20.1
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
