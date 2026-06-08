@@ -1,143 +1,171 @@
-Received: from va-1-112.ptr.blmpb.com (va-1-112.ptr.blmpb.com [209.127.230.112])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27401377EA9
-	for <linux-fsdevel@vger.kernel.org>; Mon,  8 Jun 2026 12:01:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37EE230E838
+	for <linux-fsdevel@vger.kernel.org>; Mon,  8 Jun 2026 12:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780920109; cv=none; b=PMD6XnI0ZLR4wtbfJezMXL/PdHvur9uBrCAoeKLFStAK/KDCUWOHjw/P08NvjyJZ3TYqVEVYNGQdIRs7dN7lHhsywCkVSI7YykaHwHEsA7Y+VZG4sjKf7ZI8LqB/wZdO96+6jFj4bX1LVASiMl4L1DUqn3c8xLc4yasrIPhwHs0=
+	t=1780921849; cv=none; b=u7xhvoo3EsEKXehRYam75uot5Q9oCLkqHZRCwK9BM7PIzwytT7lNCMxBogLD2tcj9ngVYlgeqKCt+cCxw+H44HTOEhk+8KFSAxcjPbKYBO2ke/s/K3/lrLBzc4q0g+jnXcuYkcwUeshfYBTEENp39LKdj/t6NawYyS3TW5Vqw+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780920109; c=relaxed/simple;
-	bh=nxBReTtgXEOdoK08ecCVK6IIiXQNBL2ng8ZgSRyirdg=;
-	h=Content-Type:From:Subject:Mime-Version:References:In-Reply-To:To:
-	 Message-Id:Cc:Date; b=sk0+jfTaCkiidnVXBLI6fads61SPhqqsdFGrGMFAMf4UlmuuljaHSdHM9DVt+sQxoEAuvBOaJd/BTqqwGTtCkJDTGfWzrDzOA22BLye+KoDhJ8XpMZXp7Pb+mu7YzKeM8YD8OZXK9X80fB3I7jjxp6KpII5P3/d6oOAnxKltHLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=jAKVpKVB; arc=none smtp.client-ip=209.127.230.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1780921849; c=relaxed/simple;
+	bh=lOjnR64XkI501gwX1UyR2pCGlV51w7oRDzQIe/41LwI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XZ/Tn9gcplBQOAO2YlWpGQzxSJXz1xlAh7/SzTsk17TCLNCHrqY04h9LEb8AQKn1Ih2TrCZEh8AjYh7sFzfEcnKC5f5NsiOxSDROBtaLAW+y9zhxmQRjb8KDM99CrvzbzJh9DieaVgZRN2HE3LR7WLSTpQf3H6hpokhlBj2w2mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uvt0F2c4; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=UHozGo1i; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uvt0F2c4; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=UHozGo1i; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="jAKVpKVB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1780920103; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=CZ3e7zSW6X1XPqE/y8VQoOiYZsVskqQHsMXJNCoC5TU=;
- b=jAKVpKVBuk6l0FkW9lyocz1aSaSs3qNT7OlDIROsXdjsY3C7p/F7QlXQvL+eBEDWVWUrl1
- 69KNVtEcHRKzAA2QBXD7CTWt8ksf8eBijcXIluYdyUrbAQqTmm91hgn3jmkhie0Nm8xKPT
- WxVGR/5Q7i2RdB4u9lLJbG6hWK66WxjTaWp0D4vULcMAooZhLVPkYI9+n4+fycs7umjS1G
- vUUXg+CarlnafvuaIyqLnIMqheCgMwbmG1nQFyGeMJWoK+AwQlNGMds0EQPF0v0jfnK6kf
- NMSx67zMBlslrbh+vDTD+xNmHY/Vxeb8G2mzAP2A5xfQD+x8daNVA8MJxfu66A==
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-Content-Type: text/plain; charset=UTF-8
-From: "Jia Zhu" <zhujia.zj@bytedance.com>
-Subject: [PATCH v2 2/2] ext4: avoid tail write_begin walk for uptodate folios
-X-Original-From: Jia Zhu <zhujia.zj@bytedance.com>
-Content-Transfer-Encoding: 7bit
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uvt0F2c4";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="UHozGo1i";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uvt0F2c4";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="UHozGo1i"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3A31A6AA8E;
+	Mon,  8 Jun 2026 12:30:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780921846; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3CEMHgzVgCoyMj1BsY5Pjq91TB7XSHuTH09mh544nWU=;
+	b=uvt0F2c4cFMfCpTN5Ou+MHAnt+oHI8MFgLjw9NHCiaNgsyRLD4sMvbTI9+jcDfVKISHJqq
+	WnuaqpAt/TF2g4S8w+Y2ljGSuT/6zHILwO6tbe/JZew00wjJEBRqoKzylTc/FApCQqbKMT
+	73x1VW80wokYrFW0OFDWPbvzaAfaaCI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780921846;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3CEMHgzVgCoyMj1BsY5Pjq91TB7XSHuTH09mh544nWU=;
+	b=UHozGo1iaHca1zI81z6ZvU4B8RnQSFsSXRVNpKaITxMmyIT/AhBv2Oe7/hVVvSZqoRZdN+
+	8IocMWqPo58bPGDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=uvt0F2c4;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=UHozGo1i
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780921846; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3CEMHgzVgCoyMj1BsY5Pjq91TB7XSHuTH09mh544nWU=;
+	b=uvt0F2c4cFMfCpTN5Ou+MHAnt+oHI8MFgLjw9NHCiaNgsyRLD4sMvbTI9+jcDfVKISHJqq
+	WnuaqpAt/TF2g4S8w+Y2ljGSuT/6zHILwO6tbe/JZew00wjJEBRqoKzylTc/FApCQqbKMT
+	73x1VW80wokYrFW0OFDWPbvzaAfaaCI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780921846;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3CEMHgzVgCoyMj1BsY5Pjq91TB7XSHuTH09mh544nWU=;
+	b=UHozGo1iaHca1zI81z6ZvU4B8RnQSFsSXRVNpKaITxMmyIT/AhBv2Oe7/hVVvSZqoRZdN+
+	8IocMWqPo58bPGDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2FCF4779A7;
+	Mon,  8 Jun 2026 12:30:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6eSlC/a1JmpkQgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 08 Jun 2026 12:30:46 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 961BDA0923; Mon, 08 Jun 2026 14:30:45 +0200 (CEST)
+Date: Mon, 8 Jun 2026 14:30:45 +0200
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, AnonymeMeow <anonymemeow@gmail.com>, 
+	amir73il@gmail.com, repnop@google.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC][PATCH] fanotify: register event pid for pidfd reporting
+Message-ID: <wudpprxslydgxcbqgteyykpqw5g7fubmjhjf23qbwuvbujmggh@ots2k4gqb7uh>
+References: <20260530013732.50811-1-anonymemeow@gmail.com>
+ <20260530105117.45792-1-anonymemeow@gmail.com>
+ <dolfs6j4x4thpgluglxhlepg34l5uvvxv2sjcmuao57bxnbtjb@urx5vgczxbup>
+ <20260602-patzt-sturz-segen-f1f305d61b75@brauner>
+ <i2gudjbai3vbyvhbbgcppt2vexnkkjqq35n53sjpx66i5k4lg3@5wu5hvzifpnc>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260603134800.25155-1-zhujia.zj@bytedance.com> <20260608120131.45146-1-zhujia.zj@bytedance.com>
-In-Reply-To: <20260608120131.45146-1-zhujia.zj@bytedance.com>
-To: "Theodore Ts'o" <tytso@mit.edu>, 
-	"Andreas Dilger" <adilger.kernel@dilger.ca>
-Message-Id: <20260608120131.45146-3-zhujia.zj@bytedance.com>
-X-Lms-Return-Path: <lba+26a26af25+7df8eb+vger.kernel.org+zhujia.zj@bytedance.com>
-Cc: "Matthew Wilcox" <willy@infradead.org>, 
-	"Alexander Viro" <viro@zeniv.linux.org.uk>, 
-	"Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>, 
-	"Baokun Li" <libaokun@linux.alibaba.com>, 
-	"Ojaswin Mujoo" <ojaswin@linux.ibm.com>, 
-	"Ritesh Harjani" <ritesh.list@gmail.com>, 
-	"Zhang Yi" <yi.zhang@huawei.com>, <linux-ext4@vger.kernel.org>, 
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	"Jia Zhu" <zhujia.zj@bytedance.com>
-Date: Mon,  8 Jun 2026 20:01:31 +0800
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <i2gudjbai3vbyvhbbgcppt2vexnkkjqq35n53sjpx66i5k4lg3@5wu5hvzifpnc>
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 3A31A6AA8E
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,gmail.com,google.com,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.com:email];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-Ext4 buffered writes into large folios also pay a full buffer_head
-walk in ext4_block_write_begin().  For a small overwrite of an existing
-cached folio, the folio is already uptodate and the write only needs to
-prepare the buffers through the written range.  Walking the suffix still
-makes the write_begin cost proportional to the folio size.
+On Mon 08-06-26 11:27:01, Jan Kara wrote:
+> On Tue 02-06-26 15:50:19, Christian Brauner wrote:
+> > On Mon, Jun 01, 2026 at 05:24:36PM +0200, Jan Kara wrote:
+> > > On Sat 30-05-26 18:51:17, AnonymeMeow wrote:
+> > > > pidfd_prepare() may still fail if userspace reads the event after the
+> > > > task has been reaped and the pid has not been registered with pidfs.
+> > > > Register the event pid with pidfs when creating the fanotify event if
+> > > > pidfd reporting was requested, so pidfd_prepare() can later create a
+> > > > pidfd for the reaped task.
+> > > > 
+> > > > Signed-off-by: AnonymeMeow <anonymemeow@gmail.com>
+> > > 
+> > > So the two patches in this series so far look good to me. This patch looks
+> > > OK to me as well and since the overhead of allocation etc. is only once per
+> > 
+> > It's a kmem cache so should not matter at all...
+> > 
+> > > registered task, I think it's fine but let's wait a bit whether Christian
+> > > agrees this is what needs to be done.
+> > 
+> > pidfs_register_pid() can only fail with ENOMEM or if the task is already
+> > dead. The latter cannot happen because even for a non-empty thread group
+> > where the thread-group leader already exited but subthreads are still
+> > alive the thread-group leader cannot be reaped. So the only error here
+> > is ENOMEM which means we should defo fail this, imho.
+> > 
+> > And yes, I think this is worth doing. Because you get a persistent
+> > handle on the task that generated that event + all the exit information
+> > even if that thask has been reaped in the meantime. I'm pretty sure if
+> > you're using fanotify that's a rather huge win for apps that need it.
+> 
+> OK, thanks for opinion. So I've somewhat massaged the error handling in the
+> patch AnonymeMeow. Attached is what I currently have in my tree (testing
+> pending).
 
-Before ext4 enabled large folios for regular files, the same loop was
-bounded by a single page of buffers.  That commit made the existing
-full-folio walk visible as a regression for cached small overwrites.
+OK, reverted that for now since I've found further versions of the series
+in my huge inbox after a few days of vacation now :).
 
-The suffix walk is needed for non-uptodate folios, where ext4 may have
-to submit reads for partial blocks, preserve new-buffer cleanup, and run
-error zeroing.  Keep those folios on the old full walk.
-
-For already-uptodate folios, keep the walk starting at the first buffer
-rather than seeking directly to from.  This preserves the existing prefix
-buffer state handling.  Stop once block_start reaches the end of the
-write range, because the skipped suffix would only repeat the
-outside-range uptodate handling for buffers beyond @to.
-
-On current master, the libMicro ext4 large-folio overwrite test shows
-the following full-series result.  Results are median usecs/call over 10
-runs, lower is better:
-
-case        nofix     this series   improvement
-write_u1k   1.418     0.3405        76.0%
-write_u10k  1.887     0.4175        77.9%
-pwrite_u1k  1.6775    0.3390        79.8%
-pwrite_u10k 1.9035    0.4130        78.3%
-
-Fixes: 7ac67301e82f0 ("ext4: enable large folio for regular file")
-Signed-off-by: Jia Zhu <zhujia.zj@bytedance.com>
----
- fs/ext4/inode.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
-
-diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index c2c2d6ac7f3d1..d63785fcd2acb 100644
---- a/fs/ext4/inode.c
-+++ b/fs/ext4/inode.c
-@@ -1182,6 +1182,7 @@ int ext4_block_write_begin(handle_t *handle, struct folio *folio,
- 	int nr_wait = 0;
- 	int i;
- 	bool should_journal_data = ext4_should_journal_data(inode);
-+	bool folio_uptodate = folio_test_uptodate(folio);
- 
- 	BUG_ON(!folio_test_locked(folio));
- 	BUG_ON(to > folio_size(folio));
-@@ -1193,13 +1194,14 @@ int ext4_block_write_begin(handle_t *handle, struct folio *folio,
- 		head = create_empty_buffers(folio, blocksize, 0);
- 	block = EXT4_PG_TO_LBLK(inode, folio->index);
- 
--	for (bh = head, block_start = 0; bh != head || !block_start;
-+	for (bh = head, block_start = 0;
-+	     (bh != head || !block_start) &&
-+	     (!folio_uptodate || block_start < to);
- 	    block++, block_start = block_end, bh = bh->b_this_page) {
- 		block_end = block_start + blocksize;
- 		if (block_end <= from || block_start >= to) {
--			if (folio_test_uptodate(folio)) {
-+			if (folio_uptodate)
- 				set_buffer_uptodate(bh);
--			}
- 			continue;
- 		}
- 		if (WARN_ON_ONCE(buffer_new(bh)))
-@@ -1220,7 +1222,7 @@ int ext4_block_write_begin(handle_t *handle, struct folio *folio,
- 				if (should_journal_data)
- 					do_journal_get_write_access(handle,
- 								    inode, bh);
--				if (folio_test_uptodate(folio)) {
-+				if (folio_uptodate) {
- 					/*
- 					 * Unlike __block_write_begin() we leave
- 					 * dirtying of new uptodate buffers to
-@@ -1237,7 +1239,7 @@ int ext4_block_write_begin(handle_t *handle, struct folio *folio,
- 				continue;
- 			}
- 		}
--		if (folio_test_uptodate(folio)) {
-+		if (folio_uptodate) {
- 			set_buffer_uptodate(bh);
- 			continue;
- 		}
+								Honza
 -- 
-2.20.1
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
