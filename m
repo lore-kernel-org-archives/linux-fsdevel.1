@@ -1,92 +1,163 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25EEF2F617C
-	for <linux-fsdevel@vger.kernel.org>; Mon,  8 Jun 2026 04:26:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780892780; cv=none; b=eYuUDknEAdqicLyW+Pu26Gjz3BKP3T/1VIUb6iASFWkqykf0ei8Iyfd1GzpwjxMhuehA41qlHFUADuk339UFzOjST4zs+TCNpWqLKlmZ6kB84MLPpPZFgzlgR/FnmAnjtaZLdCuR85LhFgceuMLGQ/KsxSKsJWUzfX7D+HgGHQE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780892780; c=relaxed/simple;
-	bh=FK66q514EVgPzk1rVgp4Jk7Gq3cD8XfvIQWXd7mXCaY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hrATiYFQZBQalAa2GAHQPaQgn6lPCcq8a15cVvcdupf1ZMkJXvFrYZlCCbLQsLvr7D2zcT1Fc7qUarPcv0I85D6pQMJ4SrmkgEm7QyxhqDy8pWMqnWO0cRoJ4H2VR6K5G7N2xq+kEVgjozCitJO5X6AIRhCUxCrDOCH5t06X9Bo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P897U6Nl; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87991351C3B
+	for <linux-fsdevel@vger.kernel.org>; Mon,  8 Jun 2026 05:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780895299; cv=pass; b=gM4LBgffZ7deDhL/vTZfX5O+/uPdh3v7TR/ZzwJvyd4177ZNzYGkSVatBvaQU6Win7jBg4IgMnq/vazkDNFewzV6RYUoYFCPhO2JpcBGScuPwfptfPXeUNI5GaOmGr3AIKscrmYsAxBbrKAJOl+jAh7PnFQs83kfVm2HnhSQpwY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780895299; c=relaxed/simple;
+	bh=/JCB0ytz7h43gzLuu78Uyq85l2ziK1k/0B1owyqPzDM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qUxqyczrjLDVqX11XLJ4BsM/7IDnaJUF399QlU1Yr650eIJECqP2JVTWMFPK1J2+mxA6peVrgnwdLMwqYI/3o8VG5T9A5GHl7AbPG3+qrp0pSIZJtNXPauJQHAKk6jNsdpERTi4ehNLg6GGqPB/JCTEuRuoxnULroXlctNrZX8s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J4WPLtb8; arc=pass smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P897U6Nl"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-45ef41adbc1so2795381f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 07 Jun 2026 21:26:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J4WPLtb8"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5aa6863327fso3209814e87.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 07 Jun 2026 22:08:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780895296; cv=none;
+        d=google.com; s=arc-20240605;
+        b=F/K6bRu80ZoclNtdH/0tnP45FGsTrlembvw3sOfT8o4NMII83HW6ea/+PrFm4UlsmE
+         YYRzCcgOF3k/cqjtDI/QO5w6qw/WXwVeS/vTpvXqdvmQbYcI5IH+na3dwMmOaMwfU6z6
+         QsYUmHh8ywoFT3uCwhkjIYxIrzExwL+yh4oUyEOAW1YEsMQ2WB8kFeAMdykSPws6ErBG
+         EUfGdoQlcqHHnEIDyIUEzuRjtoIOSImukPpXVL2+3M2mcg4AgaS2nWg2IJoLNoiJgSMY
+         b6PTIlu9nUYa/RFjMp66guktm97zVmy5Wp6BoIKoM3VpIFrOFQrUW1CYZtnLbX9l3NoO
+         hFqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=t7iXK/pcVu+Tc1kragglkB/zLccWHIE57bsV7KkT/08=;
+        fh=tr4dmskBauWPiox00TadQjBVOG460MdlE0qKzXBcZD8=;
+        b=ZNsnjIz36/0EVh3+e8otEPKtHTsQgxq/sW3dmjI85u0ykmC4BgPGkJTZWDPg+F83+i
+         7u5cYvbB8ghfJVRw/rVrLQSTYOl2icjXi58Bie2MTYFPHLj7+5L7DDJsP/ghrq5R0FA+
+         GJKtEbtu2E+tVnYC+ayaIYTeYI88FaCHM71pHvgcOBvjdI8W2OvF1yUrDGFn0cAm9K9m
+         rgtdZbByyfauAGmTU+xiDpiHzMzmi4z5gjWCJ0H3hVp8Rmw99tzyzwRchvvF4oRus8dU
+         0Svg8XdAl/r8h3hjpzjrY1RKoWLd2YAV/jynrdH5WMmyGjZrJmnR7Q4agQQH5ZMrASVW
+         Arjg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780892777; x=1781497577; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780895296; x=1781500096; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FK66q514EVgPzk1rVgp4Jk7Gq3cD8XfvIQWXd7mXCaY=;
-        b=P897U6NlKo5FQUQzjTy+zRuDqV0m18P6e4yKXxoQgZ8rYnMDB7joS3o7OHfgMEmei4
-         /TOjALFAnTxdUNkVq1dphG62BOrzwIqMdF3ejqH2pwHY4pmq+e8vsMv8n0O+wBno7zk4
-         BDtqwvTFd1mQRb9cnIHihz1Y/hE9NRLuuFmnzNm9NbTDMO90cPz8WjiOyASUnQZKXtGQ
-         kJ6igNbK65OJY4XCrlU/sRAFgYkUpI1vuE9LR+Dh+oONyZhTbAUQvjFqFezEIEDoTSas
-         yHFJSUfbxTrLA3b6IRVWYZ+oW1iWKjWAf/peyC/nU24OfFxXh2n8aIZs1MC+mkMVdrdO
-         EGEQ==
+        bh=t7iXK/pcVu+Tc1kragglkB/zLccWHIE57bsV7KkT/08=;
+        b=J4WPLtb8n1MKDG8qxgvWGUtJWUqFfynIiqmWyivtQG5PTrd+JYMa5C1LZpdV3n9gW5
+         G/0+tzPpry258xJxFxR4xIX6BjfTah77OKCNiXiXuY1a/OHIWgfsNRJfAUtM3tf400NF
+         +Z2I/gaYu7wOLKDa1I+TNypnX4XpOGLTkTM7nUsVe1aABCT8LiEkD5/RIjyEbTVvHTi4
+         +U3I0lLP85ChST0I5KOpdH6Mlm03l5o9GbeDIOiDYq9Aw5dImy0FplFjiumKg4aBowgL
+         kaRDZWA9xsoGTAEJqUiz8kXbjnrH0KVfr4TGxssXPmN9Wne925zrV2WorrX42JEQMzsC
+         BH0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780892777; x=1781497577;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1780895296; x=1781500096;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=FK66q514EVgPzk1rVgp4Jk7Gq3cD8XfvIQWXd7mXCaY=;
-        b=S4P30o8Q+vexHcPb05YGc7TjFuvDuwmwv1TsCLHj86UOXCxyTQFvFLYpp78oRXJo3m
-         9FWwesvkLtpSH6NyfSBWhyMIASCqan1c0kqhz+FOu8Gr3kNQHXTkFUCrvi5Wu0tv77nu
-         PxSR+Jvjb+wSI3GlLjH4+EWmSx+EergQUuyjYUGzs49Z2y7IF9GrAX5JEX57pyyHjXv2
-         7Ump4+6VTSl1gDs2awzt2GA9pdIfYJ/rC7ykSjJdpICbCOPjF9V9JLeDY+hbgI7BlcYF
-         XeX1lJedxAzQlqKCS3nrd9+by8B2VAdAb90J+vNdhMYbPTMMey6FbcN3HfR1Q9zOppKg
-         E7iQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9s3btCXjBO7wgksKcMOg7fqQuGVaeR9grlV4Fvs/FvDfsTN5/VmKGdNi5iZKOYGIFHNaz9ArKHnO+jo5dq@vger.kernel.org
-X-Gm-Message-State: AOJu0YyODqP4D0CFAlOewTfarSaeG/OfdZwi8z5R7NiM3kZgGzIU3QK1
-	/9PyIqglq8SftJKZiCeRpZ227oM5OPRcmGmdqqFqw2UAHOdePmBuDl7j
-X-Gm-Gg: Acq92OEnxhBL+cO+43TifnoRK0e5U+I6PMA1WJFiJIMeZ6xWHislgVUPGQSdIWEyXzU
-	aurgL+G0WnM6Q7o31OgNGINEyo6v9GMO0kwGlpQgDQh8HsEcavYw/dkv17sEXta9vQ1nw6dwiFL
-	uISUfl/y/51HvKRZ5pJ0bAQLXlL6tcXhtkdEBvfsjGqAGOfgytifthGGWJJL65Qyqbc1tjzsV7R
-	guEPSCD+r2vtRuicJwqpSEe7AFhlUd8MYzJm8TeK9gmh0qojh2Io+ybrYbObWVqMkSqCniZqFsr
-	ZYVAD5byVLHI0ygtDT93D4tfAZrbDnWgxccB8TfdZCm+qj/78T1Y1TvrFHo3v53h/MT8Rks+yJ9
-	dQQ6M8psuPtFQ1MjlXNju80V01KNJoqi4WGvlnNOCQxpwWgLs3ccXrUuhuVdkdCJTagx7ClJmFu
-	V9wVpXT9yd4MZA6J3bVSCrDWphxqrb8PDsQtC9Hv0d3NJqI9DdchtE7wKT9nqw6Dhpt1JyRaiNP
-	4OMutP4nAvAsyHitA9MwA0mW/wRWxFKcfWXyRB/O/ihEKbeI16bTbJ3CfULfAnUXXh4wgFRLeRr
-	czxLz/7JeW9iWsSKPse0
-X-Received: by 2002:adf:e004:0:20b0:460:2eee:4e21 with SMTP id ffacd0b85a97d-460302f0702mr15376677f8f.17.1780892777279;
-        Sun, 07 Jun 2026 21:26:17 -0700 (PDT)
-Received: from instance-20260604-012959.europe-west1-b.c.project-2c9d95d2-bf4e-4d5a-ac6.internal (250.69.76.34.bc.googleusercontent.com. [34.76.69.250])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2f2710sm38444434f8f.14.2026.06.07.21.26.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jun 2026 21:26:16 -0700 (PDT)
-From: David Maximiliano Hermitte <davemadmaxxx@gmail.com>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: djwong@kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com,
-	David Maximiliano Hermitte <davemadmaxxx@gmail.com>
-Subject: Re: [PATCH v2] hfs: return -EFSCORRUPTED instead of BUG() in hfs_write_inode()
-Date: Mon,  8 Jun 2026 04:24:25 +0000
-Message-ID: <20260608042425.1085828-1-davemadmaxxx@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260607035339.1015062-1-davemadmaxxx@gmail.com>
-References: <20260607035339.1015062-1-davemadmaxxx@gmail.com>
+        bh=t7iXK/pcVu+Tc1kragglkB/zLccWHIE57bsV7KkT/08=;
+        b=m1y6MJ4XAHrOHWwoW2xx6fb9YACdYOTyNWirVNEkPBGHun3BE7yFAxjHfyk+CGyUOL
+         v1OQbGmVMEtP3YVL0e0q8QEtpUv8P3JZ/sbG16Ze2lfgYOqGm8R2VraK6i6KgYRUpAS5
+         zy+rOLdsBGmnXDfXDh7ZbFC9LLLwGZ2kduQJLxAtYikQiNCj6OEZ0W7A4lNwqQIjdIrh
+         q3OQokee8QexytzlmpQllGb0cVwpPKN6GuLFMq5dmgXBxD6pxOorZ3OS46M1PNK14fKP
+         XIAoOqtuonsDqjFoyQL2Df7nqK6ppg1JKuB/zYiRYpthx6xzy8Vpa8URYr0rg8+f7cCN
+         CW6w==
+X-Forwarded-Encrypted: i=1; AFNElJ8EOMVk8YkNB4ene9x8ySgsidmXurTNwGM3gl/2RAhrO0hWq/4TdpWFK7K9wrmI7vEFQWnT0BfY4z8pkcVR@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywi/5IR0YONOhORRcIiXcttq/sTN3R6IERdlpotNBEtoKKVKJId
+	5nV0lbtMxlNbOQxRnAigRxyzf6hubH3HVrdP05jBHaFckaiHYHkn1gORDs+6ycsP4y19anycMjr
+	CIwgZjY1wlLm3nKL0Mja87bj55zOUH/k=
+X-Gm-Gg: Acq92OG+JyxYv3qHkx4i5zBN03J2SfzNEUwM647lKNL2n8bdf1a1L/14v24ZdcrJYwm
+	RDu/kkK7hA6+S72El4SV85+1WpvR66pifYErwFl89b2q8SqBJ/g1KLjQaMaJCao6TR8LPznTQVC
+	ixvQlnwViFj/QmK6MTArQSaPboot43iHFRCEVYJELTMGcQzjNUMpizoFT2ftqMh95WoZ+EcWSNu
+	LQmbC9goHOXKYAlBCtfBZLBN9byvmldOq43DuZty9/Ed1dnrhrNvGc4E2yHFGPbd3OC8dEJyC2k
+	u32OoleV32ikygTFdw==
+X-Received: by 2002:a05:6512:3051:b0:5aa:80b1:6ae0 with SMTP id
+ 2adb3069b0e04-5aa87a1325dmr3612364e87.0.1780895295485; Sun, 07 Jun 2026
+ 22:08:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260607051723.1499833-1-charsyam@gmail.com> <20260607051723.1499833-5-charsyam@gmail.com>
+In-Reply-To: <20260607051723.1499833-5-charsyam@gmail.com>
+From: Hyunchul Lee <hyc.lee@gmail.com>
+Date: Mon, 8 Jun 2026 14:08:02 +0900
+X-Gm-Features: AVVi8Cf_PVF106kV-CVqs9X6xFHLE8vQBT-ntKsylQRhX0lR0nJDMpMu4pVE3Uo
+Message-ID: <CANFS6batLwvN5KY2pLFrvmM-ZLa5+yQKUXP+kTPzJo5CqTebZw@mail.gmail.com>
+Subject: Re: [PATCH v5 4/4] ntfs: validate index root allocated_size on lookup
+To: DaeMyung Kang <charsyam@gmail.com>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for the review.
+Hi Daemyung,
 
-That makes sense. I agree that replacing the BUG() with a silent return is probably not enough if this state indicates serious filesystem corruption.
+2026=EB=85=84 6=EC=9B=94 7=EC=9D=BC (=EC=9D=BC) =EC=98=A4=ED=9B=84 2:17, Da=
+eMyung Kang <charsyam@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> The resident $INDEX_ROOT validator already checks the index root header
+> fields, but it still does not bound index_length through allocated_size o=
+r
+> ensure allocated_size stays within the resident index area.
+>
+> Callers consume index.allocated_size as the resident root capacity.
+> ntfs_ie_add() uses it to decide whether an insertion can be done in place=
+,
+> and ntfs_ie_insert() then updates the root without re-checking the reside=
+nt
+> value boundary.
+>
+> Read allocated_size in the resident $INDEX_ROOT validator, require it to =
+be
+> 8-byte aligned, require index_length <=3D allocated_size, and require
+> allocated_size <=3D the resident index area. Valid slack remains allowed.
+>
+> Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
+> ---
+>  fs/ntfs/attrib.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
+> index cf49eade6b22..49c8f1f3b9dd 100644
+> --- a/fs/ntfs/attrib.c
+> +++ b/fs/ntfs/attrib.c
+> @@ -657,15 +657,19 @@ static bool ntfs_index_root_attr_value_is_valid(con=
+st u8 *value, const u32 value
 
-At this point I would prefer not to slow down the fix by guessing the best HFS/VFS error-handling policy. My main goal was to report and narrow down the reachable BUG() site and provide a minimal tested patch showing that the crash can be avoided.
+Applying this patch failed.
+It seems that the patch below has not been merged yet.
+https://lore.kernel.org/all/20260530143514.3083601-7-charsyam@gmail.com/
 
-If someone with more HFS/VFS experience wants to take over the final form of the fix, I would be happy with that. I can also help retest a proposed v3 against the public syzbot reproducer.
+>         u32 index_size;
+>         u32 entries_offset;
+>         u32 index_length;
+> +       u32 allocated_size;
+>
+>         ir =3D (const struct index_root *)value;
+>         index_size =3D value_length - offsetof(struct index_root, index);
+>         entries_offset =3D le32_to_cpu(ir->index.entries_offset);
+>         index_length =3D le32_to_cpu(ir->index.index_length);
+> +       allocated_size =3D le32_to_cpu(ir->index.allocated_size);
+>
+> -       if ((entries_offset | index_length) & 7 ||
+> +       if ((entries_offset | index_length | allocated_size) & 7 ||
+>             entries_offset < sizeof(struct index_header) ||
+>             entries_offset > index_length ||
+> +           index_length > allocated_size ||
+> +           allocated_size > index_size ||
+>             index_length - entries_offset < sizeof(struct index_entry_hea=
+der))
+>                 return false;
+>
+> --
+> 2.43.0
 
-Thanks again for taking a look.
+
+
+--=20
+Thanks,
+Hyunchul
