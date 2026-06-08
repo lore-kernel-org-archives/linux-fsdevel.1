@@ -1,141 +1,186 @@
-Received: from mailtransmit04.runbox.com (mailtransmit04.runbox.com [185.226.149.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F050A3D5246;
-	Mon,  8 Jun 2026 09:55:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A46823C1F5B
+	for <linux-fsdevel@vger.kernel.org>; Mon,  8 Jun 2026 09:57:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780912562; cv=none; b=jZRzO3YGqp/4a1GsrUu7cNi8Acxzv1fb6cHT+zJs3fS9UWzog5WbDAKqJqyTbQaCafUdMQyf45MqzZ7is25wb5lHb5Tgms21OSAnwugQKqaP1nqIpCw7iEEutHnmuyoQbzqaaZedw6BlYt88oAALsmkAFBJW+YnbqJYPIGuhPbk=
+	t=1780912649; cv=none; b=tOeU7GL3VErv3OykCnGvqKOsK3k46l7yD9vPT0zgM+mDXqhKoMh2DMAxAt0btLYBSxZzc3tvjoNEeyRdv+5Iw1cZAsalC/MhgfIRjUoav8bSzxnNcQejD5DcfEMTwseI04p27dA0WN2O/4eZLm/xczdvbTSrJz3JUoKZ6xRKsDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780912562; c=relaxed/simple;
-	bh=QZhDdnIvk63VLg3Mg7mqOrjikRNUcZ0sAnfl3U5WDi0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ot4zC71xmYbnTESUADU+rX5nkOFLLBcQyzQKWair2WJcvDwEGCn3fDIWQgdDKHe2MrsA01NqfuySaEdslLuh4WJxHDuTnPN8vm9y16Aa1sX5bWqtGDHKc3z/apoaNMJKnjeAw6ZxFtL3TAwRDSsp8i05MuKhkhl+PlnCLyzhs+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=hWljEqgf; arc=none smtp.client-ip=185.226.149.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=runbox.com
+	s=arc-20240116; t=1780912649; c=relaxed/simple;
+	bh=7cIt5qqEelwEsbsbjYdQKQ3wfCqycNd4eQmWTQXlhVg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jffTT96t7g6rnEO+9xvEfK+JovGmggzPvzBt4V1ZyZL7+UMnqcYGIBXFxVNlqwU06rfPWvGXedIwIP/gSVtC+KgdGLvG9tmXPL4WYpMMJDfdpDbfq9e0nhAEBRlrgqF0Kq17E7m31dbUjmbrgHZ025xHO2xhLCRndiO+2O34hAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Z9sED5ks; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=AvA9Fjba; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Z9sED5ks; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=AvA9Fjba; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="hWljEqgf"
-Received: from mailtransmit03.runbox ([10.9.9.163] helo=aibo.runbox.com)
-	by mailtransmit04.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.93)
-	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1wWWi6-00BS7F-6q; Mon, 08 Jun 2026 11:55:58 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
-	 s=selector1; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:
-	Subject:Cc:To:From; bh=+TUDeRo6uXUEYuCu4+sViiQyZ/RIT+jUN6+gUV+/i/0=; b=hWljEq
-	gfSs96TAzcubcBYXiLvMQHlhvgFGEnMODqIIzcVVkI7r6yhiEStDpPmB8xhOUGgqcJLpE4+qp4IoI
-	iERSQdmLZh2YFJx4YmWBpxJ59ZMD4ojX4LwM6jy94NLxcSvEIqAznZMeRRvs4ub0pRxgoUtbN1k/o
-	vtxKqnDQEFnoBBeq7dOP0cwsHQDuzPMar1ZaLqXBgxd3UEo+xMYXW3M5JvQpKF3q1MgLlLzK2XZ0K
-	DECtsQPcdWD8cqPWEJBLKwahiGBzfcNIKnHkk25Hh6uki1GHR8sFU9XP4fX47F2pY+CCM0sWpvZyj
-	rUlcEyRvttlzQaC6f4FxnGe+0Q9A==;
-Received: from [10.9.9.73] (helo=submission02.runbox)
-	by mailtransmit03.runbox with esmtp (Exim 4.86_2)
-	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1wWWi4-0003js-Vk; Mon, 08 Jun 2026 11:55:57 +0200
-Received: by submission02.runbox with esmtpsa  [Authenticated ID (1493616)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.95)
-	id 1wWWhp-00Ag6G-9D;
-	Mon, 08 Jun 2026 11:55:41 +0200
-From: david.laight.linux@gmail.com
-To: Kees Cook <kees@kernel.org>,
-	linux-hardening@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Arnd Bergmann <arnd@kernel.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	Yangtao Li <frank.li@vivo.com>,
-	David Laight <david.laight.linux@gmail.com>
-Subject: [PATCH next] fs/hfsplus/xattr: Use memcpy() and strscpy() to build xattr_name
-Date: Mon,  8 Jun 2026 10:55:23 +0100
-Message-Id: <20260608095523.2606-39-david.laight.linux@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Z9sED5ks";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="AvA9Fjba";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Z9sED5ks";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="AvA9Fjba"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0407867406;
+	Mon,  8 Jun 2026 09:57:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780912646; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4WHC6YGWDqkZpp81mnN/Um769+dyiH1mIzuumkwpAA4=;
+	b=Z9sED5ksn+jtJc+hanT/IkmuDu3WcKNq4PGFSKY0FAWt0PqhgRyeVRBbrjq/XlNdTl73Z8
+	BgcggrpMbrGlE9XqwyZDpYQxrXH7V9gH6EH0XoBh+zSz3bWp0hmIyOY62ESblhfqxPmPhd
+	yrMn+qH3xT3ML9drFhf3TSOtZj9vaxo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780912646;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4WHC6YGWDqkZpp81mnN/Um769+dyiH1mIzuumkwpAA4=;
+	b=AvA9FjbaHx+Q41IJi1iHbubM1CWkC8j/PksWMoXIGAvcZIYjafEMnk2ZnCBLhorGQ20ore
+	FyGA37dv0xCQ8aDg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780912646; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4WHC6YGWDqkZpp81mnN/Um769+dyiH1mIzuumkwpAA4=;
+	b=Z9sED5ksn+jtJc+hanT/IkmuDu3WcKNq4PGFSKY0FAWt0PqhgRyeVRBbrjq/XlNdTl73Z8
+	BgcggrpMbrGlE9XqwyZDpYQxrXH7V9gH6EH0XoBh+zSz3bWp0hmIyOY62ESblhfqxPmPhd
+	yrMn+qH3xT3ML9drFhf3TSOtZj9vaxo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780912646;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4WHC6YGWDqkZpp81mnN/Um769+dyiH1mIzuumkwpAA4=;
+	b=AvA9FjbaHx+Q41IJi1iHbubM1CWkC8j/PksWMoXIGAvcZIYjafEMnk2ZnCBLhorGQ20ore
+	FyGA37dv0xCQ8aDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EA7DF779A7;
+	Mon,  8 Jun 2026 09:57:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id kVk3OQWSJmrZIgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 08 Jun 2026 09:57:25 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 954F9A10CB; Mon, 08 Jun 2026 11:57:21 +0200 (CEST)
+Date: Mon, 8 Jun 2026 11:57:21 +0200
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Jan Kara <jack@suse.cz>, 
+	Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Carlos Maiolino <cem@kernel.org>, linux-xfs@vger.kernel.org, Chris Mason <clm@fb.com>, 
+	David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>, 
+	linux-ext4@vger.kernel.org, Gao Xiang <xiang@kernel.org>, linux-erofs@lists.ozlabs.org
+Subject: Re: [PATCH RFC 1/8] fs, block: move blk_mode_t and fop_flags_t into
+ <linux/types.h>
+Message-ID: <lcq56poi7ebfdzbjevobd7fhbture7tn234wsxkk7q6kmr4cbx@zbit7mxburgd>
+References: <20260602-work-super-bdev_holder_global-v1-0-bb0fd82f3861@kernel.org>
+ <20260602-work-super-bdev_holder_global-v1-1-bb0fd82f3861@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260602-work-super-bdev_holder_global-v1-1-bb0fd82f3861@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email]
+X-Spam-Level: 
 
-From: David Laight <david.laight.linux@gmail.com>
+On Tue 02-06-26 12:10:07, Christian Brauner wrote:
+> blk_mode_t and fop_flags_t are both plain 'unsigned int __bitwise' flag
+> typedefs, exactly like the gfp_t, slab_flags_t and fmode_t that already
+> live in <linux/types.h>. Move them there so they are available
+> everywhere without having to drag in a subsystem header.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-xattr_name is kmalloc()ed at the (assumed) maximal size and then the prefix
-and name concatenated together.
-Use memcpy() for the prefix - its length is passed and strscpy() for the
-name to ensure it really doesnt overflow.
+Makes sense. Feel free to add:
 
-Prior to bf29e886b242c the buffers were smaller and on-stack.
-(But I cant see the copy in the old code.)
-I am also not sure why the buffer isnt created "just long enough".
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Signed-off-by: David Laight <david.laight.linux@gmail.com>
----
-This is one of a group of patches that remove potentially unbounded
-strcpy() calls.
+								Honza
 
-They are mostly replaced by strscpy() or, when strlen() has just been
-called, with memcpy() (usually including the '\0').
-
-Calls with copy string literals into arrays are left unchanged.
-They are safe and easily detected as such.
-
-The changes were made by getting the compiler to detect the calls and
-then fixing the code by hand.
-
-Note that all the changes are only compile tested.
-
-Some Makefiles were changed to allow files to contain strcpy().
-As well as 'difficult to fix' files, this included 'show' functions
-as they really need to use sysfs_emit() or seq_printf().
-
-All the patches are being sent individually to avoid very long cc lists.
-Apologies for the terse commit messages and likely unexpected tags.
-(There are about 100 patches in total.)
-
- fs/hfsplus/xattr.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
-index 452a1f9becb2..0b3dd48c28c9 100644
---- a/fs/hfsplus/xattr.c
-+++ b/fs/hfsplus/xattr.c
-@@ -550,8 +550,8 @@ int hfsplus_setxattr(struct inode *inode, const char *name,
- 	xattr_name = kmalloc(xattr_name_len, GFP_KERNEL);
- 	if (!xattr_name)
- 		return -ENOMEM;
--	strcpy(xattr_name, prefix);
--	strcpy(xattr_name + prefixlen, name);
-+	memcpy(xattr_name, prefix, prefixlen);
-+	strscpy(xattr_name + prefixlen, name, xattr_name_len - prefixlen);
- 	res = __hfsplus_setxattr(inode, xattr_name, value, size, flags);
- 	kfree(xattr_name);
- 
-@@ -698,6 +698,7 @@ ssize_t hfsplus_getxattr(struct inode *inode, const char *name,
- 			 void *value, size_t size,
- 			 const char *prefix, size_t prefixlen)
- {
-+	size_t xattr_name_len = NLS_MAX_CHARSET_SIZE * HFSPLUS_ATTR_MAX_STRLEN + 1;
- 	int res;
- 	char *xattr_name;
- 
-@@ -705,13 +706,12 @@ ssize_t hfsplus_getxattr(struct inode *inode, const char *name,
- 		inode->i_ino, name ? name : NULL,
- 		prefix ? prefix : NULL);
- 
--	xattr_name = kmalloc(NLS_MAX_CHARSET_SIZE * HFSPLUS_ATTR_MAX_STRLEN + 1,
--			     GFP_KERNEL);
-+	xattr_name = kmalloc(xattr_name_len, GFP_KERNEL);
- 	if (!xattr_name)
- 		return -ENOMEM;
- 
--	strcpy(xattr_name, prefix);
--	strcpy(xattr_name + prefixlen, name);
-+	memcpy(xattr_name, prefix, prefixlen);
-+	strscpy(xattr_name + prefixlen, name, xattr_name_len - prefixlen);
- 
- 	res = __hfsplus_getxattr(inode, xattr_name, value, size);
- 	kfree(xattr_name);
+> ---
+>  include/linux/blkdev.h | 2 --
+>  include/linux/fs.h     | 2 --
+>  include/linux/types.h  | 2 ++
+>  3 files changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index 890128cdea1c..c8494d64a69d 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -126,8 +126,6 @@ struct blk_integrity {
+>  	unsigned char				pi_tuple_size;
+>  };
+>  
+> -typedef unsigned int __bitwise blk_mode_t;
+> -
+>  /* open for reading */
+>  #define BLK_OPEN_READ		((__force blk_mode_t)(1 << 0))
+>  /* open for writing */
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 11559c513dfb..e9346be8470f 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -1921,8 +1921,6 @@ struct dir_context {
+>  struct io_uring_cmd;
+>  struct offset_ctx;
+>  
+> -typedef unsigned int __bitwise fop_flags_t;
+> -
+>  struct file_operations {
+>  	struct module *owner;
+>  	fop_flags_t fop_flags;
+> diff --git a/include/linux/types.h b/include/linux/types.h
+> index 608050dbca6a..ef026585420b 100644
+> --- a/include/linux/types.h
+> +++ b/include/linux/types.h
+> @@ -163,6 +163,8 @@ typedef u32 dma_addr_t;
+>  typedef unsigned int __bitwise gfp_t;
+>  typedef unsigned int __bitwise slab_flags_t;
+>  typedef unsigned int __bitwise fmode_t;
+> +typedef unsigned int __bitwise blk_mode_t;
+> +typedef unsigned int __bitwise fop_flags_t;
+>  
+>  #ifdef CONFIG_PHYS_ADDR_T_64BIT
+>  typedef u64 phys_addr_t;
+> 
+> -- 
+> 2.47.3
+> 
 -- 
-2.39.5
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
