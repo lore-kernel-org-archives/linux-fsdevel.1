@@ -1,90 +1,89 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37EE230E838
-	for <linux-fsdevel@vger.kernel.org>; Mon,  8 Jun 2026 12:30:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF3A37AA79
+	for <linux-fsdevel@vger.kernel.org>; Mon,  8 Jun 2026 12:40:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780921849; cv=none; b=u7xhvoo3EsEKXehRYam75uot5Q9oCLkqHZRCwK9BM7PIzwytT7lNCMxBogLD2tcj9ngVYlgeqKCt+cCxw+H44HTOEhk+8KFSAxcjPbKYBO2ke/s/K3/lrLBzc4q0g+jnXcuYkcwUeshfYBTEENp39LKdj/t6NawYyS3TW5Vqw+k=
+	t=1780922461; cv=none; b=KpxA29UlmZI5lGxx5FlSg9XEdwhcQ2AYdPwHmNIZr30DCwjXkYUvRVhE7Ik2zg9ZvsH1DdY1KNQaXPWKULuc4i65jpZp03QNukMYH2cYvIeLnrvmqXZlJQIEls05daGSSSIn+6pUusOEYsMpUFTFUpv4eYYKfIzl8A8xQfEF7ZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780921849; c=relaxed/simple;
-	bh=lOjnR64XkI501gwX1UyR2pCGlV51w7oRDzQIe/41LwI=;
+	s=arc-20240116; t=1780922461; c=relaxed/simple;
+	bh=1g3lP6pDwst18zyiflR47q/6XO0aVgNaOnO8clA952g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XZ/Tn9gcplBQOAO2YlWpGQzxSJXz1xlAh7/SzTsk17TCLNCHrqY04h9LEb8AQKn1Ih2TrCZEh8AjYh7sFzfEcnKC5f5NsiOxSDROBtaLAW+y9zhxmQRjb8KDM99CrvzbzJh9DieaVgZRN2HE3LR7WLSTpQf3H6hpokhlBj2w2mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uvt0F2c4; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=UHozGo1i; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uvt0F2c4; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=UHozGo1i; arc=none smtp.client-ip=195.135.223.130
+	 Content-Type:Content-Disposition:In-Reply-To; b=oYB22R2uEAAKDnm+qb8XzZ0sfPkIbovPDNAtOjbJpSsER1izfP9kGDA2PrGXXoR2dCQ0Z29wqEOaJNoPhFRj8KSqgoSZzW3HJYyihzYdYjMg7yeBx9jgl2KHBni/ezVFYjQvM01FCwK7AlPGbOd/agyXbKaLj6azTqtd5qDMBb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=dF+RZC4D; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=QNuQnoDN; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ax30bfQS; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=i9i+zzEq; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uvt0F2c4";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="UHozGo1i";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uvt0F2c4";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="UHozGo1i"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="dF+RZC4D";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="QNuQnoDN";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ax30bfQS";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="i9i+zzEq"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3A31A6AA8E;
-	Mon,  8 Jun 2026 12:30:46 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 367996AAFA;
+	Mon,  8 Jun 2026 12:40:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1780921846; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1780922455; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3CEMHgzVgCoyMj1BsY5Pjq91TB7XSHuTH09mh544nWU=;
-	b=uvt0F2c4cFMfCpTN5Ou+MHAnt+oHI8MFgLjw9NHCiaNgsyRLD4sMvbTI9+jcDfVKISHJqq
-	WnuaqpAt/TF2g4S8w+Y2ljGSuT/6zHILwO6tbe/JZew00wjJEBRqoKzylTc/FApCQqbKMT
-	73x1VW80wokYrFW0OFDWPbvzaAfaaCI=
+	bh=+JSEP4ElryDMFRhr9WwxebizbxrmfrNXfAft0DSJ/lk=;
+	b=dF+RZC4D0iyufEJpWpnIPfmCY9sJhzD3vMzusQ4+JjOLKw9m4J3zG1/apu5gCEvGYjp+dG
+	OYwSRethx77JAn4q7BEIzDuHj3f7Ej0fT/hHHwh6zv9fMbXgeYdl0rbxx7o6Af7lCMzLLP
+	0WzgYcSnmTVZudHuxNrIjrJbXaFWAjc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1780921846;
+	s=susede2_ed25519; t=1780922455;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3CEMHgzVgCoyMj1BsY5Pjq91TB7XSHuTH09mh544nWU=;
-	b=UHozGo1iaHca1zI81z6ZvU4B8RnQSFsSXRVNpKaITxMmyIT/AhBv2Oe7/hVVvSZqoRZdN+
-	8IocMWqPo58bPGDA==
+	bh=+JSEP4ElryDMFRhr9WwxebizbxrmfrNXfAft0DSJ/lk=;
+	b=QNuQnoDNS4O+rJU0R4BPZH/rWfoJPeECkQGw1Yg/ZCCRp6sTh4PYT5hGQAgvpxgr3E0neF
+	ngs4MJJY4qDKdhAw==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=uvt0F2c4;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=UHozGo1i
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=ax30bfQS;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=i9i+zzEq
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1780921846; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1780922454; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3CEMHgzVgCoyMj1BsY5Pjq91TB7XSHuTH09mh544nWU=;
-	b=uvt0F2c4cFMfCpTN5Ou+MHAnt+oHI8MFgLjw9NHCiaNgsyRLD4sMvbTI9+jcDfVKISHJqq
-	WnuaqpAt/TF2g4S8w+Y2ljGSuT/6zHILwO6tbe/JZew00wjJEBRqoKzylTc/FApCQqbKMT
-	73x1VW80wokYrFW0OFDWPbvzaAfaaCI=
+	bh=+JSEP4ElryDMFRhr9WwxebizbxrmfrNXfAft0DSJ/lk=;
+	b=ax30bfQSsJk8ssANZczy8rKU/v74Xk7oUp7yBY/TkGMVPbeTdVW3Lwpmg8sLSYRfxF9ZBE
+	yDvZcEM3luMceb1b1vbt27mre1fhVb/hQQGXSPf8lmIutxhRm1tbGaxtDSxFqNwARnwPKY
+	nW9AG/cuem0A6XfG5e1CEq9HyOiw5Jk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1780921846;
+	s=susede2_ed25519; t=1780922454;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3CEMHgzVgCoyMj1BsY5Pjq91TB7XSHuTH09mh544nWU=;
-	b=UHozGo1iaHca1zI81z6ZvU4B8RnQSFsSXRVNpKaITxMmyIT/AhBv2Oe7/hVVvSZqoRZdN+
-	8IocMWqPo58bPGDA==
+	bh=+JSEP4ElryDMFRhr9WwxebizbxrmfrNXfAft0DSJ/lk=;
+	b=i9i+zzEqlHJJBmfaMVCd2aErCJNVSN6Itu8LmZgB/672Y8e9y1hGjyYbAbCzV62ro/rsyF
+	Nml+76z2m1ahEqAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2FCF4779A7;
-	Mon,  8 Jun 2026 12:30:46 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 20B0E779A7;
+	Mon,  8 Jun 2026 12:40:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6eSlC/a1JmpkQgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 08 Jun 2026 12:30:46 +0000
+	id X9f5B1a4JmrbTAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 08 Jun 2026 12:40:54 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 961BDA0923; Mon, 08 Jun 2026 14:30:45 +0200 (CEST)
-Date: Mon, 8 Jun 2026 14:30:45 +0200
+	id B9AE1A0923; Mon, 08 Jun 2026 14:40:53 +0200 (CEST)
+Date: Mon, 8 Jun 2026 14:40:53 +0200
 From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, AnonymeMeow <anonymemeow@gmail.com>, 
-	amir73il@gmail.com, repnop@google.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC][PATCH] fanotify: register event pid for pidfd reporting
-Message-ID: <wudpprxslydgxcbqgteyykpqw5g7fubmjhjf23qbwuvbujmggh@ots2k4gqb7uh>
-References: <20260530013732.50811-1-anonymemeow@gmail.com>
- <20260530105117.45792-1-anonymemeow@gmail.com>
- <dolfs6j4x4thpgluglxhlepg34l5uvvxv2sjcmuao57bxnbtjb@urx5vgczxbup>
- <20260602-patzt-sturz-segen-f1f305d61b75@brauner>
- <i2gudjbai3vbyvhbbgcppt2vexnkkjqq35n53sjpx66i5k4lg3@5wu5hvzifpnc>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Breno Leitao <leitao@debian.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v2 02/18] configfs: fix lockless traversals of
+ ->s_children
+Message-ID: <p6ald26ubqsm7fy2kdnyleuuuto6763foan5nvrimeyedn36ej@myqqctog3uyc>
+References: <20260519070633.2025485-1-viro@zeniv.linux.org.uk>
+ <20260603074815.3033766-1-viro@zeniv.linux.org.uk>
+ <20260603074815.3033766-5-viro@zeniv.linux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -93,11 +92,9 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <i2gudjbai3vbyvhbbgcppt2vexnkkjqq35n53sjpx66i5k4lg3@5wu5hvzifpnc>
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 3A31A6AA8E
+In-Reply-To: <20260603074815.3033766-5-viro@zeniv.linux.org.uk>
 X-Spam-Flag: NO
-X-Spam-Score: -4.01
+X-Rspamd-Action: no action
 X-Spam-Level: 
 X-Spamd-Result: default: False [-4.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
@@ -107,65 +104,180 @@ X-Spamd-Result: default: False [-4.01 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,google.com,vger.kernel.org];
-	RCVD_COUNT_THREE(0.00)[3];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.com:email];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	RCVD_COUNT_THREE(0.00)[3];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:email,suse.cz:dkim,linux.org.uk:email,suse.com:email]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 367996AAFA
+X-Spam-Score: -4.01
 
-On Mon 08-06-26 11:27:01, Jan Kara wrote:
-> On Tue 02-06-26 15:50:19, Christian Brauner wrote:
-> > On Mon, Jun 01, 2026 at 05:24:36PM +0200, Jan Kara wrote:
-> > > On Sat 30-05-26 18:51:17, AnonymeMeow wrote:
-> > > > pidfd_prepare() may still fail if userspace reads the event after the
-> > > > task has been reaped and the pid has not been registered with pidfs.
-> > > > Register the event pid with pidfs when creating the fanotify event if
-> > > > pidfd reporting was requested, so pidfd_prepare() can later create a
-> > > > pidfd for the reaped task.
-> > > > 
-> > > > Signed-off-by: AnonymeMeow <anonymemeow@gmail.com>
-> > > 
-> > > So the two patches in this series so far look good to me. This patch looks
-> > > OK to me as well and since the overhead of allocation etc. is only once per
-> > 
-> > It's a kmem cache so should not matter at all...
-> > 
-> > > registered task, I think it's fine but let's wait a bit whether Christian
-> > > agrees this is what needs to be done.
-> > 
-> > pidfs_register_pid() can only fail with ENOMEM or if the task is already
-> > dead. The latter cannot happen because even for a non-empty thread group
-> > where the thread-group leader already exited but subthreads are still
-> > alive the thread-group leader cannot be reaped. So the only error here
-> > is ENOMEM which means we should defo fail this, imho.
-> > 
-> > And yes, I think this is worth doing. Because you get a persistent
-> > handle on the task that generated that event + all the exit information
-> > even if that thask has been reaped in the meantime. I'm pretty sure if
-> > you're using fanotify that's a rather huge win for apps that need it.
+On Wed 03-06-26 08:47:58, Al Viro wrote:
+> Having the parent directory locked protects entries from removal
+> by another thread, but it does *not* protect cursors from being
+> moved around by lseek() - or freed, for that matter.
 > 
-> OK, thanks for opinion. So I've somewhat massaged the error handling in the
-> patch AnonymeMeow. Attached is what I currently have in my tree (testing
-> pending).
+> Fixes: 6f6107640625 ("configfs: Introduce configfs_dirent_lock")
+> Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 
-OK, reverted that for now since I've found further versions of the series
-in my huge inbox after a few days of vacation now :).
+Good catch. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
+
+> ---
+>  fs/configfs/dir.c | 54 +++++++++++++++++++++++++++++++++++------------
+>  1 file changed, 41 insertions(+), 13 deletions(-)
+> 
+> diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
+> index e84483a0836d..eb991b2a9c34 100644
+> --- a/fs/configfs/dir.c
+> +++ b/fs/configfs/dir.c
+> @@ -235,15 +235,16 @@ static int configfs_dirent_exists(struct dentry *dentry)
+>  	const unsigned char *new = dentry->d_name.name;
+>  	struct configfs_dirent *sd;
+>  
+> +	spin_lock(&configfs_dirent_lock);
+>  	list_for_each_entry(sd, &parent_sd->s_children, s_sibling) {
+>  		if (sd->s_element) {
+> -			const unsigned char *existing = configfs_get_name(sd);
+> -			if (strcmp(existing, new))
+> -				continue;
+> -			else
+> +			if (strcmp(configfs_get_name(sd), new) == 0) {
+> +				spin_unlock(&configfs_dirent_lock);
+>  				return -EEXIST;
+> +			}
+>  		}
+>  	}
+> +	spin_unlock(&configfs_dirent_lock);
+>  
+>  	return 0;
+>  }
+> @@ -575,11 +576,28 @@ static void configfs_detach_rollback(struct dentry *dentry)
+>  			configfs_detach_rollback(sd->s_dentry);
+>  }
+>  
+> +/*
+> + * Find the next non-cursor.  configfs_dirent_lock held by caller.
+> + */
+> +static struct configfs_dirent *next_dirent(struct configfs_dirent *parent,
+> +					   struct configfs_dirent *last)
+> +{
+> +	struct configfs_dirent *s;
+> +
+> +	s = list_prepare_entry(last, &parent->s_children, s_sibling);
+> +
+> +	list_for_each_entry_continue(s, &parent->s_children, s_sibling) {
+> +		if (s->s_element)
+> +			return s;
+> +	}
+> +	return NULL;
+> +}
+> +
+>  static void detach_attrs(struct config_item * item)
+>  {
+>  	struct dentry * dentry = dget(item->ci_dentry);
+> -	struct configfs_dirent * parent_sd;
+> -	struct configfs_dirent * sd, * tmp;
+> +	struct configfs_dirent *parent_sd;
+> +	struct configfs_dirent *sd, *next;
+>  
+>  	if (!dentry)
+>  		return;
+> @@ -588,15 +606,19 @@ static void detach_attrs(struct config_item * item)
+>  		 dentry->d_name.name);
+>  
+>  	parent_sd = dentry->d_fsdata;
+> -	list_for_each_entry_safe(sd, tmp, &parent_sd->s_children, s_sibling) {
+> -		if (!sd->s_element || !(sd->s_type & CONFIGFS_NOT_PINNED))
+> +
+> +	spin_lock(&configfs_dirent_lock);
+> +	for (sd = next_dirent(parent_sd, NULL); sd; sd = next) {
+> +		next = next_dirent(parent_sd, sd);
+> +		if (!(sd->s_type & CONFIGFS_NOT_PINNED))
+>  			continue;
+> -		spin_lock(&configfs_dirent_lock);
+>  		list_del_init(&sd->s_sibling);
+>  		spin_unlock(&configfs_dirent_lock);
+>  		configfs_drop_dentry(sd, dentry);
+>  		configfs_put(sd);
+> +		spin_lock(&configfs_dirent_lock);
+>  	}
+> +	spin_unlock(&configfs_dirent_lock);
+>  
+>  	/**
+>  	 * Drop reference from dget() on entrance.
+> @@ -655,18 +677,20 @@ static void detach_groups(struct config_group *group)
+>  	struct dentry * dentry = dget(group->cg_item.ci_dentry);
+>  	struct dentry *child;
+>  	struct configfs_dirent *parent_sd;
+> -	struct configfs_dirent *sd, *tmp;
+> +	struct configfs_dirent *sd, *next;
+>  
+>  	if (!dentry)
+>  		return;
+>  
+>  	parent_sd = dentry->d_fsdata;
+> -	list_for_each_entry_safe(sd, tmp, &parent_sd->s_children, s_sibling) {
+> -		if (!sd->s_element ||
+> -		    !(sd->s_type & CONFIGFS_USET_DEFAULT))
+> +	spin_lock(&configfs_dirent_lock);
+> +	for (sd = next_dirent(parent_sd, NULL); sd; sd = next) {
+> +		next = next_dirent(parent_sd, sd);
+> +		if (!(sd->s_type & CONFIGFS_USET_DEFAULT))
+>  			continue;
+>  
+>  		child = sd->s_dentry;
+> +		spin_unlock(&configfs_dirent_lock);
+>  
+>  		inode_lock(d_inode(child));
+>  
+> @@ -678,7 +702,9 @@ static void detach_groups(struct config_group *group)
+>  
+>  		d_delete(child);
+>  		dput(child);
+> +		spin_lock(&configfs_dirent_lock);
+>  	}
+> +	spin_unlock(&configfs_dirent_lock);
+>  
+>  	/**
+>  	 * Drop reference from dget() on entrance.
+> @@ -1130,6 +1156,7 @@ configfs_find_subsys_dentry(struct configfs_dirent *root_sd,
+>  	struct configfs_dirent *p;
+>  	struct configfs_dirent *ret = NULL;
+>  
+> +	spin_lock(&configfs_dirent_lock);
+>  	list_for_each_entry(p, &root_sd->s_children, s_sibling) {
+>  		if (p->s_type & CONFIGFS_DIR &&
+>  		    p->s_element == subsys_item) {
+> @@ -1137,6 +1164,7 @@ configfs_find_subsys_dentry(struct configfs_dirent *root_sd,
+>  			break;
+>  		}
+>  	}
+> +	spin_unlock(&configfs_dirent_lock);
+>  
+>  	return ret;
+>  }
+> -- 
+> 2.47.3
+> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
