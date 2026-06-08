@@ -1,168 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBEB3DB32F;
-	Mon,  8 Jun 2026 15:38:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780933112; cv=none; b=b3DHR5opC+s7QbOJvymzsP2+VGPjZw0+ZZP04tZdGC+ypHmZsMm87b/8UyPwRjIMxzFlv3pf7pe37Od+/8UEXMATiOEkvAqbq672IH3b5EnAXaYyUyiFLdm2JiKIbrbexpscYZHWOIWq01SX30X7P03LcJCYM0hjQv+QButq4kU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780933112; c=relaxed/simple;
-	bh=XKi+0XzP0f1FDe3bf/9f9av1v2AA+IK6ZH+JJaORvUk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o0hr261X1RwNiET35y+fiW0vatOCe6KNU6flDK+dZRGImJIzUVoV9Qpxe7LGRBDvkBVuS3KEUFlzGSrleAiEisQWFuzgwvdhR+kaPiAl55uvW7X8oZLLFJUzIXvHsid4W/kltb2FUrJGM3c0tiBG8MOE1QfANNYNdRkPI1/iflM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bQxyOqT/; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A97246BC0
+	for <linux-fsdevel@vger.kernel.org>; Mon,  8 Jun 2026 15:43:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780933408; cv=pass; b=rIWL+ZkYzoL/UoTtAEJW1vP0C7jzRA1rnd//G7JA9S2fmV+LDcLgWt6gulTbN5NID9SzEs6e1bDQcu2IyujfNhOmmu+FuDF0xWlfNOWL3HFf9x8g5EhiHw3l4g3Xc6FiAAEFzq+YvYNN1/kjnZT1AXFQpVlDnmghYUjKf8Qtsjw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780933408; c=relaxed/simple;
+	bh=UQ8d5f84rAAACNaz6QB/fu2R+8Q7kS4Vw3G5+R8HjD8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eOPbutvNcUSdcK8FtgpJVFZSok0VwThAgu8lcBhVXe6xxy54dRQJ5gA7QX1EN2RNFEXWsaQ/mcV+VhDnduMPgHIJ131wXX4kqQ7DOgU+OHdWZ4azLn+AXWQSBrd1lGN9pjSG6BFS85D3a18p08o+fDse6D0fk/NJkj7hqeSNi+U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=F9TI8p6J; arc=pass smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bQxyOqT/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 503EB1F00893;
-	Mon,  8 Jun 2026 15:38:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780933111;
-	bh=i+8PnYD0gabW4Oe0rUJLesGb3GBzLwEDsBFUW101snk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=bQxyOqT/AdkFJIeW2HC/zmb923F9BBOds3pOH3xHRMAOhodoJ6Nnhhru3TkjrN2dl
-	 VVIQzX/3Ausm/7OzU/HtweZ/x2+xUeysI3CwSHsCAwwzHxxEAL1LIb2/3uvgXfwIYd
-	 ZV/buSnjOWk3q43iF0Vn2mQg93Ew38J0RWKcBocDx7H1RhJ9yfnnjNe+TXPZgNZksW
-	 yrFZZpt7HO3X0exOPgiw7vpoBqLkNIXXwt86JAz4fkE/TfriTih+IDMBujPkwuhc2T
-	 HT24REevPf4eBpBeE1DmvJHbTMuY/facWnQtn6n7cnrOokvXBCFTk7YsJtecJVhVzC
-	 +5I0y1tM/OtTQ==
-Message-ID: <fb25c5c3-c3b4-44df-acd6-46040ff1027b@kernel.org>
-Date: Mon, 8 Jun 2026 17:38:26 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="F9TI8p6J"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-68ced08613aso30487a12.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 08 Jun 2026 08:43:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780933405; cv=none;
+        d=google.com; s=arc-20240605;
+        b=LeEkoOmLjk5dvsncmwzF7NxPQxrEsUS6m6AvxDfqNJw0l6/O0MPELdthX6VBPWGPJ1
+         qsdmEw7AOHRgTTtvug6ce4Vy1AvtfXY8qeXdiy1AjX98kwlHnlhL8k1Nc6YxtIlBPtZ6
+         9rrB84O2rxp0Hirgpw3oMc6vAWQp7Qhifz5NzF5kuzzf0ep9kAiNaL3N94HRAtyg1hdm
+         AxGjkGstScG1xlh3rSJ6j9EkEWeONmrIIWana3Ko7cdgYEwi6JkaVsjD2TUWsgMw90gO
+         8cn+T2xsCz+r/pB9TBwj/GKU83Zwh3e3XRbaLl+Muem2vOmrfOzDjGHuwzhJaE5yWl7e
+         diZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ImVZHEvL5DaiMqGQQ7oF61NPY2ecFeN6e1eaZ4yGJGU=;
+        fh=LJYhnMZBax9vtKkYeBGyXKkDLQlvftSy8Rtt4xDkwQg=;
+        b=I4lV/afsjWy5SWQovr0x5TLgNCWgqndsExAKTSi+pUWUu13VIobB+FmU6Q0homoARC
+         WrDKE9dJxE9S+KkEuWnyBLebuRi6QIaAaV4MRfNwepDKS9Fvr2H90SzvdqOpzcXMGhOi
+         n9hGxmxbsjaQlDIuFn3Q6Gd/sEBukQ6xcQpJdbBZa5Poc3Rg50jl61rdYhI+GxRvPBKM
+         H2/YdFByB44RmGR6CJPf3a1CXDQxalijvbL+8kdaGJBe/UsWQDTV5+HxQRcyRwi8/IjB
+         5yzBr8B3JJU265i4nvNc8kv11ap8C+zmNHD865I6cVZh34gJXdZ+vE5GbvlJsCicD2Kb
+         P8NA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1780933405; x=1781538205; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ImVZHEvL5DaiMqGQQ7oF61NPY2ecFeN6e1eaZ4yGJGU=;
+        b=F9TI8p6JqfpHYKZQEXlpelZEK3rtxASiy3UswK0934p3R9QL2xj57SFMec1symiOS5
+         6jhX0uEqK5lg6XvhrFRAsMqJ1fIw+PCWFMitnAIbAJw2wevsNZkXGEx1CO4dNlYL4ZJV
+         3xXSJp8ug2jugDzqeD+gMlqM6oMqqLVzVz+YiqBWQgfDkrmxSOhB6M1biaC7o7rzhzZi
+         36cQRGLlNJPFPHiinfx40SizNKh2EUPE0qHu2tANosmrQVSRdnEWnoLvBF20tcjpkh6z
+         pVcxxPqaKoarOLcX6aIIJhe9JetCAkzz+I6a3DLin2Ub+MMMJ1DeqBguw0PJ9VvoASIg
+         mnPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780933405; x=1781538205;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ImVZHEvL5DaiMqGQQ7oF61NPY2ecFeN6e1eaZ4yGJGU=;
+        b=P72B5uNT94PxHqm0HQk7HJTZxsg5TZsKuAzAyNglKcxnlSpdRxYTlLf7pkixy3/FEk
+         Fwk115h4L3ErMaXf1od4hEvdlNIIm8S1lyrniAmmSyqoO6PCH3JLR+n98FwMIF2IE/Eo
+         4K0pXZEGOPuK8NUvk0wXSc+ZxNkVfawYhfDEN1N1b5Dv8fAwA3N594JSot5iQj+SXJ3x
+         u+mnu/3Df1Z4zHmK7iWfR9Ea/WtZslKsbzJNqNxQddfnMzjdtcW3DvZ2tV/bCC6YihAL
+         F06s7DfSs0lKwnoUAh9DI/34g6cHKzjng9ba7GNcGTbK7s8QEAquo2bTXFKebiJ5lZ+4
+         8uaw==
+X-Forwarded-Encrypted: i=1; AFNElJ9fQzImBMy+z5TwngB6o/WPl9PPQqGooDLzhuPnsEakYiViTewI3odwQyJVyIvnim98JWPFEY8bQ3g+nUfO@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoQPNLPV7bjekgaJ6IZxtSJSiVjwWoLGEVMagnMimr5TQkBkNc
+	AQiQKw5BxtkelzkwG/vtO6XiOzJ0UPu086/s/jYw0hc+BcNbMERDoBFHrWUd+dVH8DqkETUlQy0
+	JomDqFri0pa8t5o4qBBwDkWV7xhbH0OoHtAgH89uJ
+X-Gm-Gg: Acq92OHpf8HpPAqm1UWCwGc5xKT+tZsNTblkIX6CJiZOzQqW+IUsfpQR/WFxUvZ60wD
+	7UuNFWJW66j/NZYPck06EkWc0yLIzvewj4ksnO8MMmwpnmj18LcH0iHtX0Kjms7MINuHx5QArha
+	S69+1eAj1QWGgCAdDJzqUvUGCo4zajX2C1hm3w2g7O6nAsQPOwdck+ovfgk2KsNnA5t7GuQfyzC
+	N6ivSrY5tRrCmsNeFrrf09I07MJ7qLx8hm+Ln+kBAO3empOxF/Tl6juLCB5XNAH4ZotCXs8OztE
+	6XCx7AioggeqtjVs
+X-Received: by 2002:a05:6402:4496:b0:68a:faa8:9564 with SMTP id
+ 4fb4d7f45d1cf-68fe9272c6cmr228481a12.9.1780933405006; Mon, 08 Jun 2026
+ 08:43:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <20260606015729.1837935-1-surenb@google.com> <fb25c5c3-c3b4-44df-acd6-46040ff1027b@kernel.org>
+In-Reply-To: <fb25c5c3-c3b4-44df-acd6-46040ff1027b@kernel.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Mon, 8 Jun 2026 08:43:10 -0700
+X-Gm-Features: AVVi8Cc_t40vlw66hgAT5JXUBBtCVUtxAuOHL_CbRtWc8V6kZ3a7TUKFsTPHnxQ
+Message-ID: <CAJuCfpHbsAC+kw2B5m=TZv1CN7KCxCUVAcEoTKGSz3DvVUc_9A@mail.gmail.com>
 Subject: Re: [PATCH 1/2] fs/proc/task_mmu: change lock_vma_range() to return
  error code
-To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
-Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org,
- willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-References: <20260606015729.1837935-1-surenb@google.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260606015729.1837935-1-surenb@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: akpm@linux-foundation.org, liam@infradead.org, ljs@kernel.org, 
+	vbabka@kernel.org, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
+	pfalcato@suse.de, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/6/26 03:57, Suren Baghdasaryan wrote:
-> To correctly propagate error code from lock_vma_range(), change it to
-> return the error code instead of the boolean. This simplifies error
-> propagation code.
-> 
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> ---
->  fs/proc/task_mmu.c | 16 +++++++++-------
->  1 file changed, 9 insertions(+), 7 deletions(-)
-> 
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index d32408f7cd5e..023422fcee12 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -162,13 +162,13 @@ static void unlock_ctx_vma(struct proc_maps_locking_ctx *lock_ctx)
->  	}
->  }
->  
-> -static inline bool lock_vma_range(struct seq_file *m,
-> -				  struct proc_maps_locking_ctx *lock_ctx)
-> +static inline int lock_vma_range(struct seq_file *m,
-> +				 struct proc_maps_locking_ctx *lock_ctx)
->  {
->  	rcu_read_lock();
->  	reset_lock_ctx(lock_ctx);
->  
-> -	return true;
-> +	return 0;
->  }
->  
->  static inline void unlock_vma_range(struct proc_maps_locking_ctx *lock_ctx)
-> @@ -245,10 +245,10 @@ static inline void unlock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
->  	mmap_read_unlock(lock_ctx->mm);
->  }
->  
-> -static inline bool lock_vma_range(struct seq_file *m,
-> +static inline int lock_vma_range(struct seq_file *m,
->  				  struct proc_maps_locking_ctx *lock_ctx)
->  {
-> -	return lock_ctx_mm(lock_ctx) == 0;
-> +	return lock_ctx_mm(lock_ctx);
->  }
->  
->  static inline void unlock_vma_range(struct proc_maps_locking_ctx *lock_ctx)
-> @@ -311,6 +311,7 @@ static void *m_start(struct seq_file *m, loff_t *ppos)
->  	struct proc_maps_locking_ctx *lock_ctx;
->  	loff_t last_addr = *ppos;
->  	struct mm_struct *mm;
-> +	int err;
->  
->  	/* See m_next(). Zero at the start or after lseek. */
->  	if (last_addr == SENTINEL_VMA_END)
-> @@ -328,11 +329,12 @@ static void *m_start(struct seq_file *m, loff_t *ppos)
->  		return NULL;
->  	}
->  
-> -	if (!lock_vma_range(m, lock_ctx)) {
-> +	err = lock_vma_range(m, lock_ctx);
-> +	if (err) {
->  		mmput(mm);
->  		put_task_struct(priv->task);
->  		priv->task = NULL;
-> -		return ERR_PTR(-EINTR);
-> +		return ERR_PTR(err);
+On Mon, Jun 8, 2026 at 8:38=E2=80=AFAM David Hildenbrand (Arm) <david@kerne=
+l.org> wrote:
+>
+> On 6/6/26 03:57, Suren Baghdasaryan wrote:
+> > To correctly propagate error code from lock_vma_range(), change it to
+> > return the error code instead of the boolean. This simplifies error
+> > propagation code.
+> >
+> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > ---
+> >  fs/proc/task_mmu.c | 16 +++++++++-------
+> >  1 file changed, 9 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> > index d32408f7cd5e..023422fcee12 100644
+> > --- a/fs/proc/task_mmu.c
+> > +++ b/fs/proc/task_mmu.c
+> > @@ -162,13 +162,13 @@ static void unlock_ctx_vma(struct proc_maps_locki=
+ng_ctx *lock_ctx)
+> >       }
+> >  }
+> >
+> > -static inline bool lock_vma_range(struct seq_file *m,
+> > -                               struct proc_maps_locking_ctx *lock_ctx)
+> > +static inline int lock_vma_range(struct seq_file *m,
+> > +                              struct proc_maps_locking_ctx *lock_ctx)
+> >  {
+> >       rcu_read_lock();
+> >       reset_lock_ctx(lock_ctx);
+> >
+> > -     return true;
+> > +     return 0;
+> >  }
+> >
+> >  static inline void unlock_vma_range(struct proc_maps_locking_ctx *lock=
+_ctx)
+> > @@ -245,10 +245,10 @@ static inline void unlock_ctx_mm(struct proc_maps=
+_locking_ctx *lock_ctx)
+> >       mmap_read_unlock(lock_ctx->mm);
+> >  }
+> >
+> > -static inline bool lock_vma_range(struct seq_file *m,
+> > +static inline int lock_vma_range(struct seq_file *m,
+> >                                 struct proc_maps_locking_ctx *lock_ctx)
+> >  {
+> > -     return lock_ctx_mm(lock_ctx) =3D=3D 0;
+> > +     return lock_ctx_mm(lock_ctx);
+> >  }
+> >
+> >  static inline void unlock_vma_range(struct proc_maps_locking_ctx *lock=
+_ctx)
+> > @@ -311,6 +311,7 @@ static void *m_start(struct seq_file *m, loff_t *pp=
+os)
+> >       struct proc_maps_locking_ctx *lock_ctx;
+> >       loff_t last_addr =3D *ppos;
+> >       struct mm_struct *mm;
+> > +     int err;
+> >
+> >       /* See m_next(). Zero at the start or after lseek. */
+> >       if (last_addr =3D=3D SENTINEL_VMA_END)
+> > @@ -328,11 +329,12 @@ static void *m_start(struct seq_file *m, loff_t *=
+ppos)
+> >               return NULL;
+> >       }
+> >
+> > -     if (!lock_vma_range(m, lock_ctx)) {
+> > +     err =3D lock_vma_range(m, lock_ctx);
+> > +     if (err) {
+> >               mmput(mm);
+> >               put_task_struct(priv->task);
+> >               priv->task =3D NULL;
+> > -             return ERR_PTR(-EINTR);
+> > +             return ERR_PTR(err);
+>
+> Looks good: down_read_killable() would also have returned -EINTR.
 
-Looks good: down_read_killable() would also have returned -EINTR.
+Yes. I also use lock_vma_range() in the next patch and this change
+makes the code a bit more cleaner.
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+>
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
--- 
-Cheers,
+Thanks!
 
-David
+>
+> --
+> Cheers,
+>
+> David
