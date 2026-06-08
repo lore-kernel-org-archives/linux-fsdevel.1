@@ -1,133 +1,272 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010060.outbound.protection.outlook.com [52.101.46.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB0BC3B8BA5;
-	Mon,  8 Jun 2026 10:23:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780914231; cv=none; b=nfqZnwGJq5Qbtvd2inHrI98V+BM+6cU6E7TLq2LXAtD5q2xcwLncY8hpg+V8007WXxstA/nCykD2SMoHSL75unl7eZYUn8V5J0ZIid5Q7buHE4gKhptDDCJyieF98KN5a5WGLMA16qFfo7DpiWTgx2MsH/RuXHHDM3wKfhmW+Is=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780914231; c=relaxed/simple;
-	bh=yFroTsxMoyGyLVbYUE4ZAISy4tR84QoNnQ6Pd2QnGiY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PDQpYTGJuZPXNIp1tjkkmWyA5EJvFEhqMX5nbZ+HdJzrLIy4b2+TUPE7lBMbwHilOPwTK7tggcpd4Te28KmRJIToUyuQZVUclCSsiFKPnaD2kiIJkj3znJfZ0/hPFD8l56U9ACrXwWawVghPKF1SMZ1F9KiaUYGX4oqOwEH/ioM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=MNxAD268; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0731F4071CE;
+	Mon,  8 Jun 2026 10:48:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780915709; cv=fail; b=iopYNEh5v1IPtjf30I2BmwUCA2H6mTwvnYEzW8ZVcdRxtKSVI9fvj+pZB2/kpdEQcmmOnC2hMT+hDvGhgpWQG22UK0MHnlrQIUZy+TBuUlenQLIML7mhz95J7BipW+KZ8bJpy3mH9q/jpN92zzz2uwr6XTdSJ4l+qe6hhdkcTXU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780915709; c=relaxed/simple;
+	bh=kW6MCpLNZ+E+c79grj7wyTgZ6lyP35x80zW9HKsR+og=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=qQjQff8YAXwOfWHFGrYUCicr/vi7Ewtgjz8SXSwGoJudS+s0n80Gj5G3q4BOpp630hRwfITqkrtrl6eqb4n7cTRfvstXOJdNhYoE+w71Zr+NX6CY5mmbP2dA0QCBueiNlcMsTUFf1RBRccu58KHiS4C8Q+8fH9oEz7fb/kR0Z5Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=CnJhCLgh; arc=fail smtp.client-ip=52.101.46.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="MNxAD268"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 657JF1CO3711216;
-	Mon, 8 Jun 2026 10:23:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=pp1; bh=Xh9qce66+IJFbnXRatQkRCySdWtsqLisqhjzMZqwu
-	PY=; b=MNxAD268UqhJiTkpGM9EmxBCgIyzkO6x4sYrIcLTHT+9/ZpdQAYD49W+Z
-	JZCgnVqCocXpBlN9xY8LlcFpEqV4mOCSmWSoQhdKHYyXzKcw6wBXIaSyxDULUF0A
-	VuSc4gNdzHS/Tk+l0xOv5EGfg6mfrPNayF2g8eMwxof0QjX3ykwVywtCoaJE4PYV
-	64uRs3qhPLlFjZyuAwp2FweJXtTYC3heg7Hlk2L7UJcNVx3C0z1VRCvL9o3CWjSt
-	GtHFmQH2bcIIKqLLRXfC/e4/7Q5rEoo1DZq/GSJHSprD3G/GZoGR2GMHSEIjQGdh
-	cK7r9yKyPOSpsMiRkZwpg7bkrkMFQ==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4emb23psut-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 08 Jun 2026 10:23:48 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 658AJdNp009127;
-	Mon, 8 Jun 2026 10:23:47 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4emx8vvy90-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 08 Jun 2026 10:23:47 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 658ANhpe57344426
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 8 Jun 2026 10:23:43 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 89A3E2004E;
-	Mon,  8 Jun 2026 10:23:43 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 86C4F20040;
-	Mon,  8 Jun 2026 10:23:41 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.39.26.125])
-	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon,  8 Jun 2026 10:23:41 +0000 (GMT)
-From: Disha Goel <disgoel@linux.ibm.com>
-To: fstests@vger.kernel.org
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-xfs@vger.kernel.org, ritesh.list@gmail.com,
-        ojaswin@linux.ibm.com, djwong@kernel.org,
-        Disha Goel <disgoel@linux.ibm.com>
-Subject: [PATCH v3] common/defrag: skip defrag tests on DAX-enabled filesystems
-Date: Mon,  8 Jun 2026 15:53:28 +0530
-Message-ID: <20260608102328.40916-1-disgoel@linux.ibm.com>
-X-Mailer: git-send-email 2.45.1
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="CnJhCLgh"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y3T8tTxtvqzVHPW383o6FePbGzJGzBD9ix0eIwgUTVn4QFkoyh85u04FJAwkvswEoYjhkTw5fYPZQkzIDZrhAnhM/h/TuzBm087qja6qlCbJ3Nvf0gv/+DmXZ5HYbq00A8TsWci/pGidBydfCdbrBbd5NVDH+giCPfETvMNMne/4QtWIJIme5+ZPVqeZFjhuXErEFbn6hRPm12ZMzEK3L2NGwrDB2/SN8O6pWVn0nivfMp+KMEbUr7pbLbTx7UGocnjqtFfNYUbB/x9SuoaU/tEgNGepOxga6DwXdxIZ0Zs2Vau7Qvs1FBF85ORfNj0VPOwB6StTWrldzFHDaUITwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BGhdsvTr1/zoQ5y2CYs69Cj1p7gAj2/I5gyWczhUvyE=;
+ b=A2vj58rSMrNgS5yaTyBj8yLLXOod+lgqbldhqdxC5GNwyLYhkPUfcB+igZRVzDUdsXxJgAb7aW/ILAt+GyVKOOqGdNBkPK6eJ31t2nR82i5i2MdwNYgfcFKJjErHHzRXFn5Z1SAIsiV/PsJQK1R5YizVnaoDpx3D+ksOO7MPpBHSbCj8DoZaPPfnFZgcdcUR5RoxeJagYflJ7h2gpKeAsPkOdDzDi+A9SRGU3yJdsvKvF5lqmFbIqoexdRhqL0i7BErMjs9tMqg7qx1iJivSJ51avna9dggEBPtI4tFAjNmg+R7isjQMjN5caZpTd9FoQZohAyI43Do0+fFnLRYIPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BGhdsvTr1/zoQ5y2CYs69Cj1p7gAj2/I5gyWczhUvyE=;
+ b=CnJhCLghnBXnVa9qFfpN1qaB5wBC+7KC7b8atAUyN0PTvKQZfVdpvqkntbCmyn+BrozYst0V49NVgmG6lK5QjcrjBqP0JIGq2trh8ZhZr/pjSxU4DNrdaCIKSfRSfQEk6Bd2MDTM5LssUdPUwJFFCmlJNm0JRF/L8GeXl2lSCXqOCpQiDAnFT3VuPoCH00FAv4ZyzOlF/v4P2Hw+bKm/H8jnRj6MKnGyT8NOG4p8xdwW0Sf45zLd0JUx4EYqnc8YySTL2gveOH6jjS29m7AuvEF3l3gh4h9PGWN6jV6fjXDCSxF1oU3FnWPHLvvcrICYeKnOgsjAQr+4mzWkwP/eyw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB2370.namprd12.prod.outlook.com (2603:10b6:207:47::27)
+ by IA0PR12MB9010.namprd12.prod.outlook.com (2603:10b6:208:48e::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.13; Mon, 8 Jun 2026
+ 10:48:24 +0000
+Received: from BL0PR12MB2370.namprd12.prod.outlook.com
+ ([fe80::86cf:c3ec:2cf5:74c8]) by BL0PR12MB2370.namprd12.prod.outlook.com
+ ([fe80::86cf:c3ec:2cf5:74c8%5]) with mapi id 15.21.0092.011; Mon, 8 Jun 2026
+ 10:48:24 +0000
+Date: Mon, 8 Jun 2026 18:48:16 +0800
+From: Richard Cheng <icheng@nvidia.com>
+To: John Groves <john@jagalactic.com>
+Cc: John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, 
+	John Groves <jgroves@micron.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Alison Schofield <alison.schofield@intel.com>, 
+	Ira Weiny <iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V4 8/9] dax: replace exported dax_dev_get() with
+ non-allocating dax_dev_find()
+Message-ID: <aiadcHb-9y-p0GoC@MWDK4CY14F>
+References: <0100019ea3929225-a0f8e6f7-30ae-4f8e-ae6f-19129666c4c3-000000@email.amazonses.com>
+ <20260607193416.94407-1-john@jagalactic.com>
+ <0100019ea3943a9d-3724a539-97c6-46f9-a3bb-c7b9a51d3889-000000@email.amazonses.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0100019ea3943a9d-3724a539-97c6-46f9-a3bb-c7b9a51d3889-000000@email.amazonses.com>
+X-ClientProxiedBy: KUZPR01CA0028.apcprd01.prod.exchangelabs.com
+ (2603:1096:d10:26::13) To BL0PR12MB2370.namprd12.prod.outlook.com
+ (2603:10b6:207:47::27)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=b4uCJNGx c=1 sm=1 tr=0 ts=6a269834 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=iQ6ETzBq9ecOQQE5vZCe:22 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8
- a=2rdxVvfoxuaEPwCrBBkA:9
-X-Proofpoint-ORIG-GUID: 4ii1CnxzA8vtLckAbLZqJ8d3HSKTa5kJ
-X-Proofpoint-GUID: TgcKqz0t2BK30RAAgJdOw7s3tf1xfPZp
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA4MDA5NCBTYWx0ZWRfX2JZd5nHWfkUk
- 73DfNB+TciWzhL1XiPE4LYhvmGFbllidhKgz6iVy6Ias2eHaMmrdEozSCsj1ha5GfgG5zagX0OI
- W6Y6xXQFQlVXhh4pL5gxQXXgNPPJaZcBqAX06cbvsp6VSZCuqo0eQAM6ZyaebBwCYDDtKNkrCA6
- Iu+QCO5TBfMj2DkksF5jHseQX/83pS0uLWFi27JU2uZvhXyLcd4Twgb7EIrIbqF9v+37ju37pE+
- ehhQk8FC6M3P9FMop/sWx/U3AbuoN5W88vezBahWzCit0EZ1IN+fiILZly8624i7vqtLUI5Ezzq
- RUpDfk2ZPcZltzqOICrDkQiy2s0mz8a0FMfEkr1uq+0bJNL8SkJrrn+n3nlKUTmZsOhgn1k8ANF
- CvoRTvIz7im8tQ6ZejZ1lU498TOIrYLm5XOtMdvLsswO3p1Gs4Q0k4ZnC4lQxljzOw0slE+s7vd
- 6roo+OLScZiD4rtZ7Kw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-08_02,2026-06-05_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 bulkscore=0 phishscore=0 priorityscore=1501
- lowpriorityscore=0 adultscore=0 malwarescore=0 impostorscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606080094
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR12MB2370:EE_|IA0PR12MB9010:EE_
+X-MS-Office365-Filtering-Correlation-Id: 97238dcd-1e14-48d9-9522-08dec54b76b7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|18002099003|22082099003|4143699003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	RtLQDdoizQUfJaqq2fXWohFOJinAUmdxyZPzNCYYXsHn7of1V3IOX7ycJUDVREnre74i/dU5qUhRC7gg7MFXTJOclc5hvcZHnh/YD6+9a0lSZPukHmo9+jw6WUbgnSIqROV4CetjnRAv5L4r8X/NeiJPXg+oVCGMsDAijiyxeAPFkdy6uJfwTEdaQoyyZYXCTLUSNmXhM1I+nwV4xyxgAWIi9hPJQQwdHVrL3uLyjxHONx82E0v2/7df0i9t8GInDpAOxHKG9gup0+5DdxQ5GJUJ6T/2Pdz89WuEH9jgyqYaG1U755+GCKn7br9PGAqpPrUyzlOw1IepXMW6b4rTHkL2idBBpfB4cwhr1ReQrbBr9t3b94kcttoAO6j9G9IGg5JalJUo612BMhyhzzRw+hmpxxWO1VO6RdW/R5/jpqQrK+Mghq7m93ocSJCsOvTy7OEz6DDkQaCcYnJAbdPy9GgJtKYevJ5sXmDl303+9k7ooj5ucg5Hhk6bYH2OBw1p8n5au+mCISwloUI0opPY252m0Ey+rrFzzfEG/BpnyoFt1nucyb5y4ZISkhOlQb+tDUP6oMZE4AkOhlJPTYa07eLwL9qQCJiEdDyAYI31Kt7vtRnzTGGsBs2UPx6bzACriJc3b5plANeUdkFEzIyd8Ha0spj2LQkTvSdIg/lx2IHBSbwcI+MtM8Ddjq1gPkzQ
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB2370.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(18002099003)(22082099003)(4143699003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?clp0R2pzTDVZNXZoQzV3dFZxZHBONndsdGYvMld4Y25ORjhUUktEeVhodkVH?=
+ =?utf-8?B?V0IzVFR0UEtsM2JmT3VZMFkxK0laK2Z1b0N6VVZEZXU3eHh2aCt4RWFVNEZt?=
+ =?utf-8?B?QndBYk5yeHgwSTdmY0ZOd2NFbEtyb0ZWanh4OTF3cTZRa0w4WGkvQ3hhcEM3?=
+ =?utf-8?B?TGt5eEE2YXlhWVJNcTh1S3Y4YzNyVjBrV2Y2YTdGNEF0K29Lem5BblZGeXZt?=
+ =?utf-8?B?b3Ria2Q0d3dJck90YVhhdmdWM3NOOGRob1pRZVBmMGw0bjMvOXdyNkhiY2Fr?=
+ =?utf-8?B?aldjSHVmdzdVSlY1NXZweDdMZ3lSMDc1MXhzOW9ZYWg1RGVsYlExZDFidHNR?=
+ =?utf-8?B?N2JLV2RUY2xJSlRyUHQ4OTVZSXdId2ZHbmdsekNFR0pDckU5NzYzZzNpYUdi?=
+ =?utf-8?B?ZjhRRTMwQjVGNUNLcHVEc2l1YlBUNzRyUHA2NGlDZktPTlNFU3lvdS8wWU9R?=
+ =?utf-8?B?L3p6eUNCK2R1ck5kSjkyNWZQQ014b3Z6cmRITGIxSzNPRXJ6eldFZTY2VThV?=
+ =?utf-8?B?Y0t2S3lGNEZHb3lRK3VaV2cvQVVaQ2lNcGR0OEgzd2tlaW5mdkVEd3Y5Wnpq?=
+ =?utf-8?B?WWJtN1B4bkNQbWluWkUzaDZOL1c3T2R1amd6Y0JXcVB3UklwQmdCVFZQWHFz?=
+ =?utf-8?B?VnVqckxvN2U2WFZHUXE2VFNzdzFXZWh6NS9CL3pQQjY2ZjVNdXNVdThWbUZm?=
+ =?utf-8?B?bTUzOGI2MldrbU4xUGUyOWZYd1VJMTBxYlBSYjV4VkRxc0FUQ1V1RDVkZ1VY?=
+ =?utf-8?B?OVVkU0phWHlZcWpyUlVIdTM2bHl0NFZDUytzaHVaRFVnaHRFTnV3bFEwMXpq?=
+ =?utf-8?B?c0JpMkU3bW5aOEFyVGh6OXhRS3FVQTM3OElyM2QwUTh5RExUVkFrWFk0YWcx?=
+ =?utf-8?B?U1JEeWo3b3RERVd6cDNrWGNoSzRnTW9CWXVteXpDYTY2Z29NTTgrYlM1cU15?=
+ =?utf-8?B?R1BINzNHaDQzQTcwQ1VwMkFoUjlCbG1XYjZaMDk5K0g4YnI1ak5tRlVJSHM5?=
+ =?utf-8?B?bGFwZXV5cjJscU1Uclk2aUg4SzlTZGNkNE1aOWdCWko3QUkwZFJSUE9jMjl2?=
+ =?utf-8?B?QUZ5dmNDczMwU01tblE1anFqaVZNSmxORnUxU2N1MVl0U0FGVHdaRDdoSVpW?=
+ =?utf-8?B?R2s1c3o0Z1BQZi9YaWxQYnFXWEV6a2pGdk5YSnFGcDczcnJNRVpKMkQ5RGpZ?=
+ =?utf-8?B?MEg5RDRwQmx4THpHdXJBcXhya040UUllS0FVRlVVcytseHd1MjJNY2NzQnAv?=
+ =?utf-8?B?M1EzODVkTllGY05aaGJ1TGpVZmxVcTNKZGcrc3QyVDROcDZIcG5VTmYvdUhW?=
+ =?utf-8?B?WWJVbXVKVENaazIrdktJRUV6R3JJcnJmcVV5RWFMWHZQTUpaTWhNeGxUQnBw?=
+ =?utf-8?B?Q2N3KzlIdWI3OVRwV2VJanViNWswMlRvZ043ZHZwNm9ZY2VYYTZuaVNUenFG?=
+ =?utf-8?B?cXJUa1hBR0lFelVVaXA0OHZXdHlKR1d5WmxrVEJoTXZ4NkR1d0gwQ2tqNUNS?=
+ =?utf-8?B?cVA3RXJNMFExMFQrdllrWHdmSXVDWE5kcFEvRXFlYTR5b3ZRcDZlQnB0TWMw?=
+ =?utf-8?B?RnpZUWdyUlBBK0toOSs5QUpWWnFOS2wxTEhFckNpTFJCTU1Cc1k0bGFnOVY5?=
+ =?utf-8?B?bjF2ZlJHV0xuN1lwZmRrRTFmaTVlT1VsZ2ZhRHdZMStibXB6RkNMeFdVa0R1?=
+ =?utf-8?B?NGRrY0FBeXVpTkVyVXVhdGZEVWRjK2ZHNk5ZQU5wWjJadVFwRHUzZDdiN1lr?=
+ =?utf-8?B?bkc1c2FzYWRTMnBnQXBqbnBHUHhMdDJrTFg5TXBYNnkxZ3VRUVF1THBsaC9F?=
+ =?utf-8?B?RjFRUmVCTXUrbnFvZTV2VURWRk5IcDJJcXoyZXVFUkVzTndlS3FXanJDY0Jx?=
+ =?utf-8?B?ZGxOQmNRMTZXRkJENEJ5bGFEY1UvNndBd3Mwcno4eVJNODRjSHk2bXFXMXV4?=
+ =?utf-8?B?OFBlYnNSU3NZaHQ0akJxb09kQ1R1MDh4elVFdW83Q3RpbTBRUzZEbllJdVRM?=
+ =?utf-8?B?M3YzbFZMOWMzRHJra3FuNzVLdk14MjN5alFva2N6ZkV1TTBsaDVlZmdkUzFl?=
+ =?utf-8?B?Sko5d2FKdnd4LzREcEI4QUtsZDhZSHdGdjFxcDlMS3VnWkVLWjhiaWsxbFFO?=
+ =?utf-8?B?b0kwUUxXMVhKd0JyUkxtckhnZE44RGtzNCtEcFZ4bVdDOHFJSjN5Zjhta2x5?=
+ =?utf-8?B?MW91Zm0wSGwxU2Y4cmplR1pleEFhc1psVjBMYkcwSWN1NjhlOWJSRitwRW5L?=
+ =?utf-8?B?bjhHc3BvR1Zlb3ZNY0NCbU9vZ011QW5nTWJ5ODZSWDE3bE5yUCtCS3M4aHoz?=
+ =?utf-8?B?N2RtYlB0a3B3RkVNTUZzTUZMTUVkbHMxMEJ4NDNZMk1VSHkydWdaUT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97238dcd-1e14-48d9-9522-08dec54b76b7
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2370.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2026 10:48:24.2211
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4A+u1OyO7F6DLPWri4bL9BAbcE+F5hIAJzP8mXI1PMV+XG9KqB2EmwZx99liUj/QTHlobGJfly4U+YwHFMLwkQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB9010
 
-Online defragmentation is not supported on ext4 DAX-enabled filesystems.
-The ext4 defrag ioctl (EXT4_IOC_MOVE_EXT) returns EOPNOTSUPP when used
-on DAX files.
+On Sun, Jun 07, 2026 at 07:34:21PM +0800, John Groves wrote:
+> From: John Groves <John@Groves.net>
+> 
+> This fix is in response to a Sashiko review, and some subsequent
+> analysis.
+> 
+> dax_dev_get() uses iget5_locked() which creates a new inode if no
+> matching one exists. This is correct for the internal caller
+> (alloc_dax), but dangerous for external callers that look up devices
+> from user-supplied or metadata-supplied dev_t values:
+> 
+> 1. A new inode is created with DAXDEV_ALIVE set but no backing driver,
+>    no ops, and no IDA-allocated minor number.
+> 
+> 2. On teardown, dax_destroy_inode() warns because kill_dax() was never
+>    called, and dax_free_inode() calls ida_free() for a minor that was
+>    never ida_alloc'd -- potentially freeing the minor of a real device.
+> 
+> Add dax_dev_find() which uses ilookup5() for lookup-only semantics:
+> it returns an existing dax_device with an elevated inode reference, or
+> NULL if no device with the given dev_t exists. It never creates inodes.
+> A dax_alive() check under dax_read_lock() guards against returning a
+> device that is concurrently being torn down by kill_dax().
+> 
+> Make dax_dev_get() static again (internal to super.c for alloc_dax),
+> export dax_dev_find() instead, and update the two external callers
+> (famfs_inode.c, famfs.c). Also add the missing CONFIG_DAX=n stub.
+> 
+> About the 'fixes' tag: this removes the export of dax_dev_get(),
+> which was flawed, and replaces is with dax_dev_find(). It feels like
+> the fixes tag makes sense for correcting an ABI error.
+> 
+> Fixes: 2ae624d5a555d ("dax: export dax_dev_get()")
+> 
+> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
+> Signed-off-by: John Groves <john@groves.net>
+> ---
+>  drivers/dax/super.c | 38 ++++++++++++++++++++++++++++++++++++--
+>  include/linux/dax.h |  6 +++++-
+>  2 files changed, 41 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/dax/super.c b/drivers/dax/super.c
+> index 96f778dcde50b..b37ae79c084bb 100644
+> --- a/drivers/dax/super.c
+> +++ b/drivers/dax/super.c
+> @@ -557,7 +557,7 @@ static int dax_set(struct inode *inode, void *data)
+>  	return 0;
+>  }
+>  
+> -struct dax_device *dax_dev_get(dev_t devt)
+> +static struct dax_device *dax_dev_get(dev_t devt)
+>  {
+>  	struct dax_device *dax_dev;
+>  	struct inode *inode;
+> @@ -580,7 +580,41 @@ struct dax_device *dax_dev_get(dev_t devt)
+>  
+>  	return dax_dev;
+>  }
+> -EXPORT_SYMBOL_GPL(dax_dev_get);
+> +
+> +/**
+> + * dax_dev_find - look up an existing dax_device by dev_t
+> + * @devt: the device number to find
+> + *
+> + * Returns a dax_device with an elevated inode reference, or NULL if no
+> + * device with the given dev_t exists. Unlike dax_dev_get(), this never
+> + * allocates a new inode — it is safe for external callers that are looking
+> + * up devices from user-supplied or metadata-supplied dev_t values.
+> + *
+> + * Caller must put_dax() the returned device when done.
+> + */
+> +struct dax_device *dax_dev_find(dev_t devt)
+> +{
+> +	struct dax_device *dax_dev;
+> +	struct inode *inode;
+> +	int id;
+> +
+> +	inode = ilookup5(dax_superblock, hash_32(devt + DAXFS_MAGIC, 31),
+> +			 dax_test, &devt);
+> +	if (!inode)
+> +		return NULL;
+> +
+> +	dax_dev = to_dax_dev(inode);
+> +	id = dax_read_lock();
+> +	if (!dax_alive(dax_dev)) {
+> +		dax_read_unlock(id);
+> +		iput(inode);
+> +		return NULL;
+> +	}
+> +	dax_read_unlock(id);
+> +
+> +	return dax_dev;
+> +}
+> +EXPORT_SYMBOL_GPL(dax_dev_find);
+>
 
-Add an ext4-specific check in _require_defrag() to skip tests when DAX
-is enabled, avoiding false failures on ext4/301-304, ext4/308, and
-generic/018.
+For now I see no in-tree caller of this function, the famfs users you mention doesn't
+exists yet. Cloud the dax_dev_find() addition+export go with the famfs series that
+actually uses it, and this patch just do the dax_dev_get() de-export ?
 
-XFS defrag works with DAX, so this check is ext4-specific.
-
-Suggested-by: Darrick J. Wong <djwong@kernel.org>
-Signed-off-by: Disha Goel <disgoel@linux.ibm.com>
-Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
----
-Changes in v3:
-- Move the DAX check inside the ext4 case statement as
-  suggested by Darrick
-
- common/defrag | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/common/defrag b/common/defrag
-index 055d0d0e..baf05d94 100644
---- a/common/defrag
-+++ b/common/defrag
-@@ -13,6 +13,8 @@ _require_defrag()
-         DEFRAG_PROG="$XFS_FSR_PROG"
- 	;;
-     ext4)
-+        __scratch_uses_fsdax && _notrun "ext4 online defrag not supported with DAX"
-+
- 	testfile="$TEST_DIR/$$-test.defrag"
- 	donorfile="$TEST_DIR/$$-donor.defrag"
- 	bsize=`_get_block_size $TEST_DIR`
--- 
-2.45.1
-
+--Richard
+  
+>  struct dax_device *alloc_dax(void *private, const struct dax_operations *ops)
+>  {
+> diff --git a/include/linux/dax.h b/include/linux/dax.h
+> index fe6c3ded1b50f..29113eb95e72d 100644
+> --- a/include/linux/dax.h
+> +++ b/include/linux/dax.h
+> @@ -54,7 +54,7 @@ struct dax_device *alloc_dax(void *private, const struct dax_operations *ops);
+>  void *dax_holder(struct dax_device *dax_dev);
+>  void put_dax(struct dax_device *dax_dev);
+>  void kill_dax(struct dax_device *dax_dev);
+> -struct dax_device *dax_dev_get(dev_t devt);
+> +struct dax_device *dax_dev_find(dev_t devt);
+>  void dax_write_cache(struct dax_device *dax_dev, bool wc);
+>  bool dax_write_cache_enabled(struct dax_device *dax_dev);
+>  bool dax_synchronous(struct dax_device *dax_dev);
+> @@ -92,6 +92,10 @@ static inline void put_dax(struct dax_device *dax_dev)
+>  static inline void kill_dax(struct dax_device *dax_dev)
+>  {
+>  }
+> +static inline struct dax_device *dax_dev_find(dev_t devt)
+> +{
+> +	return NULL;
+> +}
+>  static inline void dax_write_cache(struct dax_device *dax_dev, bool wc)
+>  {
+>  }
+> -- 
+> 2.53.0
+> 
+> 
+> 
