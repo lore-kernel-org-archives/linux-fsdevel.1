@@ -1,222 +1,182 @@
-Received: from flow-b5-smtp.messagingengine.com (flow-b5-smtp.messagingengine.com [202.12.124.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D333590A9;
-	Mon,  8 Jun 2026 23:06:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.140
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780960005; cv=none; b=m9l0ISEcASAlflaiPMcN0TUu3DXa0DMwa0CQaLwVmcq5l5spjuKXIXO1HpYQPftIMGsDLjlbMHSC7ymhJ6Nw2zZl4pMe+0kMX/466bQWlScrs1leRkQRq08IuUchVPyyQCNNnIqYVP2uCiUTgpfpmt5Y4FEftVrsmQSLFJFWUts=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780960005; c=relaxed/simple;
-	bh=yBxrBI7scw/rrUgNj3qsgsUg5GImppSy4hShJYxsOKQ=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=TtD0/NSQErSncdJ7jXVBwIA9ZGjQyjyx7O3F5sL5IEl5Z1VVEt+u3g8Fy9tvzFLDhak6J3byxR//819hm9QSE+bPT/zh5JhWVbx02hE/GdhtleEBJ34nd/OfF377JjhzNkJWjBQZD2xjNwET+seFDzJuwsBRehDCIDPUUZ2RIhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=LyDNtmsk; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QEH0pQ/1; arc=none smtp.client-ip=202.12.124.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=johnericson.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42EE4283FDD
+	for <linux-fsdevel@vger.kernel.org>; Mon,  8 Jun 2026 23:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780962990; cv=pass; b=lGT5wNpeNV6sry0xrKBhoOkbvNBQd8YR0zLSLsfOEi+XZjeS1mchSIOx0I5onQGukbBWHfo+ycG+/OM4sOB7Tycfv4IeFtL71OagdaEGWduwvPl2NrGgAQPuxaWWPKaeH26wknuKrxrAITdsIVpPoViuGzOzGtbS/qm5tivs+kc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780962990; c=relaxed/simple;
+	bh=pCJQPM6Z3jSNFUm2VZf0AQQhHTRdW7bLx9AdNaalDjA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=r43qetVv8EnhJkX+7WIgIb6LPR3Kh3nsL1XCTs5AWRxlkfZmJyUxxlNYK76yfWvJqimWvywskQlY3AE7xOF+tnu+Ov6MZAJV6rnts+HyziMZ7DpeArvykr1VLK0sgIHDqEx3+eO8gccW6qBnpclq+XfnZaYXUgkN65CxCxPEPUo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hcODLJ4n; arc=pass smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b="LyDNtmsk";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QEH0pQ/1"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailflow.stl.internal (Postfix) with ESMTP id 650A713002F9;
-	Mon,  8 Jun 2026 19:06:42 -0400 (EDT)
-Received: from phl-imap-16 ([10.202.2.88])
-  by phl-compute-05.internal (MEProxy); Mon, 08 Jun 2026 19:06:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1780960002; x=1780967202; bh=rLquViJ1BJjkvxIEZyfcq9Ou395GapTi
-	UI7VA10/Tak=; b=LyDNtmskr02dMGaG40+nQ6JSSiYbncUNfAZ7FVM68h5E+rU5
-	6gj9GkhfxBr/dUCljddn+TvPjP06W8UWSqL/KrIdHevpe7OoUzstv+NAHiAQuSuH
-	Rmlcxn1MWRh1rKHsNSj513XDVYpIFRh0Re+j8Gd31tKv3oe65scLtyudQ2MTw/Xn
-	O+Goi/OZ5BqBSc6p1BOo9NmuD5l6gC5S0EuU6OteqAg4Yus84EkiZGb4I2QadPGp
-	HVV8mjk3LqfVuDqYHjsjevGbqwE5S+n3n7XjtMHjqk7D78F0NyjwUZcNLkt5rOiN
-	U9dygeIwvXxqYWjhBmxwbCfT4uasXv8j6H57/g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1780960002; x=
-	1780967202; bh=rLquViJ1BJjkvxIEZyfcq9Ou395GapTiUI7VA10/Tak=; b=Q
-	EH0pQ/1p0KA0IuCeKMJwAeQYFCldYIkufFy4tG8TLmfBLVkT3958nv48qQdWycfL
-	/onv8UqieEOg5xTlOiEIOi5L7EQLWx3WRki8i2ccUtoeV77R3M3JCKNZjwZhImL9
-	XgnpgzkFNAMzTZBW7TF83maUOgoEUaJ5PfM7S9DDnRDnY9AX+Va12IHF+zjr5sji
-	RqTJJCq2DRe/4IwNHi9grz8mCREYTdzmnLGvQUbJ417PziyMR8D2bOlhdu0/FuZ1
-	s/0ZTeOcCMezLPbpO7cNbWdIIp9b2l6fXr5ln0ESf0P9A5637Ry8zf/nxBx/r6XD
-	chYlzyVVM62jg6hT/BsGA==
-X-ME-Sender: <xms:AEsnavbvsfSPeyfeqJgyRkUJsavFNsBIC4G0QI55KxyH6dT2nQpoUA>
-    <xme:AEsnapMDsXP61PoopAKWHm-uzmdEh1-tS-k9k5eIr5QjH2gpD4TeuTUFYs1GJJml3
-    XEDVPOddJcHPZrw6w-3JIYx90sj0nIevtvf0eHjnZRa4lumnDvpYYdN>
-X-ME-Proxy-Cause: dmFkZTG3M8rrZKU4tEtLU06spritGrGuTfKJVQXIx2FU5uZZPOaKLPmrDThQIuvwoWk4jo
-    cvonQ2H7LlVykVmZdrTtJG0h1QiQ9kYzy3i8jZV8s9GXNKnXPK/DbS5uTXbqOaPvaJbbUp
-    1T/0A5PxUyRHO8mDYHABJQ9Fwc/i5szi3FrdkuHdSIRHMgqxhk9tk3CC1Kx/AvSjRjdLCY
-    37nDeR38bJYMU6pS5aSnx43vwDOXd/v3s5NJP42LGAH1YFuRhFyXvo6P+C2bSV6/m5FQri
-    oiTF5K4o3uO774TQ/2z3MQAjkpoeqqg2skr7CyEFnPwXcrsquyVX9U2gD9s19OYtJ69Opf
-    5bwDYi1R86DaJYRP+VD3bcbUaRU5+AMeNyR6icipOA/1mw+nKkxHviCeEfOJoBMG+29EwR
-    QM6EJ+0IkMJEBfVrKocHcA2DcxDrmMAN+2DPrWm3fgcPWw3tayEZi3u2KbWII1C44X4D67
-    BbSXAq1AAKHTXBZx4SvNGsg5hP0N3I+yzSnyTPYb39Dxsz1c4bidls/W2YgGZr9yNaMCRp
-    OogjDoVNeXBTn1AV3wehnkVDx0fjxkT7gLpGepKUMOdJoSG1G+4sfH4eEV2keVBqtuZq4S
-    HUbSHW6yA8Qgl2bmCdbSn1pkq/0g21wvpo7Lun6zfD570fb3FbxQLT/dTi9g
-X-ME-Proxy: <xmx:AEsnalw2GkBVKFH4dsOqHwhO7VtRJcwqDr8mYqhH8oYxdlMGQn_YvQ>
-    <xmx:AEsnapMU-or6IQ93qWEL17HeQbxw_yx3UTIWbn5bH80TMmvtRSADsg>
-    <xmx:AEsnan0UOJWU84HjrdOEVb3nNdNh3byuSVYmcgg19InzZW_z-x6OIg>
-    <xmx:AEsnahEYYaYlWhyiRNsDk2-V_UweIdAp2FczeeI1qinIwZMlgoLPhQ>
-    <xmx:AksnappV2XjMPgA6aR4BMh__jA1M9d-2rARIx37CuQ1d9WTX-C8NTsHm>
-Feedback-ID: ieb4144f1:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id CF5942CC0083; Mon,  8 Jun 2026 19:06:40 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hcODLJ4n"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-396779b9a7fso41101201fa.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 08 Jun 2026 16:56:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780962986; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Rzog1XBAUvBC+VAyfrk2Wdh+c/OALqdhBr6gNeBXKIk0+PjsM+EFcm2eZM4LE276Mv
+         lZ3KAPgW3a54BNPH8ULIZc3psQzUOTW50sR2snxhx9Qbm7Tyy0uUzK4SrFJGhLe+iC8+
+         VZhAHYTe4602TryfJiKX0VQ2m0ww3pM+uIC+St4BUAAsFeBMNB1lMEx6HKVdBuRx69Ze
+         giv1eqswtdz5UTGEdjNcR+Y3P08G7RM4jyCBTp+HxR7+zQUY/EXqEiGj5h9Cm2+xOjJd
+         nKjvoOVQNLVDJBapBGWWt0SleJlxOj6CFQq+UsVa4pJMpJBFOojcUItF96ZgF4Y97bDX
+         ItKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=e1L+DCYV3sJ/CVVZZLPcy7NP9eE2AhDyBq3m7+98/sw=;
+        fh=B2lfkTjkEdBmRtSGWbIEUTePFolqii7JWBYhFBn8InE=;
+        b=RwwH4IdOiPGYpjzgaEoWoj0JTSr/6t2cup7kYKOrCnFrPNSZkgSOXaQb6ORvcdGgZC
+         ndA1o0HWPsJNArT+nZ9Y8DX+u49ybinZFQxctTSgwsHOt3ZKXPffuk0wIf2x0Wufs7Vo
+         XfiUG6bscZrjA/v1yUbRgvmaGlqU/6Xe3L1971j1QWko3YO9idyJ6yfCgpRU0H2xAeGb
+         OKB6fiDFcimpUGNRHHhoke5xx8pT/zB8PekA4xr1BKnc3tDWFoLim1JbY/Vp5IIXHMv7
+         DappBZh8dryw2WQ4mM6G/FCA2ELut22f7a8IwtypImkYxt3k9MMobnvdaro79SEuRK0m
+         Tt1w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780962986; x=1781567786; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e1L+DCYV3sJ/CVVZZLPcy7NP9eE2AhDyBq3m7+98/sw=;
+        b=hcODLJ4no81cfvDzXcA1A/H7bjPflp4pn4o3Gh4RA4RGYx/PyW9l07cpNzkWS5yNzj
+         GQEdQcO4WnjvbQL7Jn1dcnFIJcvmzPSlIGOCT3Ld7vkBc4q826Wdvk/9RI1RMg46sFZ6
+         ns+bBxd0s2nqsLeSMjZz4qTmApGrWMWwNJ4rxkQLrSxY514VeWDicIn6ZeICDGu9C1Vq
+         fedWR815eCQCzvlQtny8OewDsq9KPaOj7C4K5VYSzF9k+cGs6EmeMPLhvweCp5WOH1jX
+         ntDOgRET90p+wXFOnu8ZDupAaVyYV16uLC7nZPyEmZQlTCAzxW3QufyL3WLe7HnIUwxW
+         QTeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780962986; x=1781567786;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=e1L+DCYV3sJ/CVVZZLPcy7NP9eE2AhDyBq3m7+98/sw=;
+        b=od/a+hN+uomU1sIVFU7J7OkIPJOSEgRHHWyxsfCxOQL7ng7VyYq+JOj9+v3k7YetUM
+         u7W5aCp8jV4BTW6jIr+q3O2LIQE0LAs9pN/hNXaZCt66rrAqqQ6mmAIehjRAvk/myVSM
+         yxYNR23A1z9Af6QWMZOcjmW0qS6I/MIHZUxhWTvqivaIXUvV0qWMfIS+q8rEUPMUY5DD
+         xtfFGtIMMu5mqA2rYlOeFzVkFOYIJVLDLS+/wqtOr6VPbQO6szVcTU1He6Ty2+JIlP6N
+         ekVjIAcGBqRPQqtvhW5nISCRtWqcpPhbaxSDvpQK58TrusGWQbhMRcWyf3sTHNYeWIvH
+         ihzg==
+X-Forwarded-Encrypted: i=1; AFNElJ9xyLTpl+ZhF1e4UcCMgZ3pPcsZqp1R4Wp5y/luMJoMgBiubNDrL8ADOGL8C28LfxFEr/habcbauzLXc/+a@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxp353XL51kPFddbKw4MpVSc2SUV8fn1GZtXpYhGMZ9LEJc+TBA
+	zs2Vys+G87ef5WSBxJAHx8s/dCK/VlSn4+7Fdn9y/e+P3fc3tr8+QydD+fQalY0AdviTkpKYqoK
+	noo9JnEm7r7PoIT5u8tRrVh/2a8kEImqaMg==
+X-Gm-Gg: Acq92OHYZvkw2o5opORWuC0xZAFAcYC/O3awSq8jnF3Qqhe0p4saX66UiSquD5NQXGr
+	OUKxjOgIX/Wq23+VT9FDX1NNgJHOyWNpm1CqVNAIG+8Ix3yOS6MP1qnKFY4idTKnFHKZ39g/1gF
+	tKhQiUS6D/EA+vIulX2jGuvLu359A7kg7TNKsuMnZFwy7zuF0xlI88i/9L7klUZHt7oZnp7Uebx
+	khhH06aA5NdJ0oqnjNLz95l+DJmAlTehgmKHkjKzLlm8K2Ew5xSfyaybQ64fD+deEttFBS8ATCY
+	asi+UEY2h5YIqkmu8g==
+X-Received: by 2002:a2e:b8c5:0:b0:396:72fe:2a33 with SMTP id
+ 38308e7fff4ca-396d0897bc6mr48724191fa.9.1780962986266; Mon, 08 Jun 2026
+ 16:56:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AtGJywdvvpER
-Date: Mon, 08 Jun 2026 19:06:20 -0400
-From: "John Ericson" <mail@johnericson.me>
-To: "Li Chen" <me@linux.beauty>, "Christian Brauner" <brauner@kernel.org>
-Cc: "Kees Cook" <kees@kernel.org>, "Al Viro" <viro@zeniv.linux.org.uk>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- linux-api <linux-api@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
- linux-mm <linux-mm@kvack.org>, linux-arch <linux-arch@vger.kernel.org>,
- linux-doc <linux-doc@vger.kernel.org>,
- linux-kselftest <linux-kselftest@vger.kernel.org>, x86 <x86@kernel.org>,
- "Arnd Bergmann" <arnd@arndb.de>, "Andy Lutomirski" <luto@kernel.org>,
- "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>
-Message-Id: <ce71d6df-6851-4e4b-9603-1d55d8d522b8@app.fastmail.com>
-In-Reply-To: <19e8113d290.893abab26142069.5024234139508454104@linux.beauty>
-References: <20260528095235.2491226-1-me@linux.beauty>
- <20260528-madig-fachrichtung-fehlinformation-61117ba640da@brauner>
- <19e8113d290.893abab26142069.5024234139508454104@linux.beauty>
-Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated executable
- startup
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+References: <20260608154917.2703739-1-charsyam@gmail.com> <20260608154917.2703739-2-charsyam@gmail.com>
+In-Reply-To: <20260608154917.2703739-2-charsyam@gmail.com>
+From: Hyunchul Lee <hyc.lee@gmail.com>
+Date: Tue, 9 Jun 2026 08:56:14 +0900
+X-Gm-Features: AVVi8CdKNt2zwsmRnEoWAp-YkDRctt394KZTFzSWCcjPtQ_7-eFoyquFb0BMoI8
+Message-ID: <CANFS6banysDYOTLBYWQ5-uj39uhAKFb19NMk0unhHbCoy7VG4A@mail.gmail.com>
+Subject: Re: [PATCH v6 1/4] ntfs: reject non-resident records for
+ resident-only attributes
+To: DaeMyung Kang <charsyam@gmail.com>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi all,
-
-I am happy to see this thread appear. I emailed Christian and others ~5 years
-ago about this in this thread[1]; it would be great to see it finally happen!
-
-I very much agree that the new process spawning should be pidfd based. I also
-want to emphasize that the crux of the matter is that code needed to set up the
-initial unscheduled process --- which I do think should be "real state" and
-more than a mere template --- is currently chopped up between clone and exec.
-So the real meat of the implementation would be factoring out a bunch of stuff
-so it can be reused in both the legacy clone+exec and modern code paths.
-
-I'll say a bit more about this "real state" vs "mere template" distinction,
-which is that the latter is effectively some sort of ad-hoc operation batching
-language, and always runs the risk of falling behind what the kernel actually
-supports. The "real state" approach, where we have honest-to-goodness process
-state, just in some partially initialized fashion and thus it's not yet
-scheduled, always supports everything the kernel supports in principle.
-
-Yes, alternative syscalls that specify which "embryonic" process (as opposed to
-always the current active process) need to be created, but that is less bad
-than trying to stuff things into flags etc. for a single existing system call,
-and also one can imagine a world (as described in
-https://catern.com/rsys21.pdf) where the exact "which process?" parameter
-starts getting added to new process modifying machinery by *default*, with a
-sentinel value analogous to `AT_FDCWD` used to mean "the current process" for
-the legacy used-between-fork-and-exec usecase.
-
----
-
-Anyways, years ago, after taking a glance at the relevant code in Linux and
-FreeBSD, I figured that it would be easier for me personally to first implement
-this functionality in FreeBSD, and then, once I had a feel for some of the
-refactoring, take a stab at it in Linux. This is because Linux's feature set,
-especially things like `binfmt_misc`, makes its clone and exec quite a bit more
-complex, and thus the (IMO) necessary heavy refactoring quite a bit more
-extensive too.
-
-I never got around to it in the 5 years, but these days, with LLMs, doing an
-"exploratory refactor" (to get a sketch of a patch that is fodder for discussion
-not yet fit for actual submission) is much easier. So inspired by this thread, I
-took a few hours to do the exploratory FreeBSD refactor in [2]. The man page for
-the new syscalls, [3], might be a good place to start reading. (This, being from
-a FreeBSD patch, describes the change in terms of "proc fds", but the switch to
-Linux's "pidfds" should be self-explanatory. The former after all inspired the
-latter.)
-
-Hope discussion of such a patch isn't too off topic here, but there is an
-interesting thing to note that would also apply to a Linux implementation. It
-took *more* factored out helper functions than I thought. The current count is
-over 15(!) --- there didn't seem to be a way to build both the old and new way
-of doing things with fewer, coarser building blocks. Now, granted, maybe
-someone more familiar with either kernel than me could do a better job, but I
-think it will still be a number of functions. This indicates just how much
-untangling there is to do. And the number will surely be much higher for Linux.
-
-[1]: https://lore.kernel.org/all/f8457e20-c3cc-6e56-96a4-3090d7da0cb6@JohnEricson.me/
-
-[2]: https://github.com/obsidiansystems/freebsd-src/commit/better-proc-spawn
-     239dcdefe6ad244e58d998155b527375e5293ff7 for posterity
-
-[3]: https://raw.githubusercontent.com/obsidiansystems/freebsd-src/refs/heads/better-proc-spawn/lib/libsys/proc_new.2
-
-
-On Sun, May 31, 2026, at 10:47 PM, Li Chen wrote:
-> Hi Christian,
+2026=EB=85=84 6=EC=9B=94 9=EC=9D=BC (=ED=99=94) =EC=98=A4=EC=A0=84 12:49, D=
+aeMyung Kang <charsyam@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
 >
-> Thanks a lot for your great review!
+> The shared lookup-time attribute validator rejects non-resident
+> $FILE_NAME and $VOLUME_NAME records because their formats require
+> resident values and callers handle returned records as resident
+> attributes. Other resident-only attribute types still pass through the
+> generic non-resident mapping-pairs checks.
 >
-> ---- On Thu, 28 May 2026 19:02:53 +0800  Christian Brauner <brauner@kernel.org> wrote ---
-> > On Thu, May 28, 2026 at 05:52:21PM +0800, Li Chen wrote:
-> > > Hi,
-> > >
-> > > This is an early RFC for an idea that is probably still rough in both the
-> > > UAPI and implementation details. Sorry for the rough edges; I am sending
-> > > it now to check whether this direction is worth pursuing and to get
-> > > feedback on the kernel/userspace boundary.
-> >
-> > The idea of having a builder api for exec isn't all that crazy. But it
-> > should simply be built on top of pidfds and thus pidfs itself instead.
-> > It has all the basic infrastructure in place already.
+> That leaves real resident/non-resident union confusion paths. Inode load
+> looks up $STANDARD_INFORMATION and then reads data.resident.value_offset
+> without checking a->non_resident. ntfs_inode_sync_standard_information()
+> does the same when updating the standard information value.
+> ntfs_write_volume_flags() also looks up $VOLUME_INFORMATION and reads
+> data.resident.value_offset directly. $INDEX_ROOT callers in dir.c and
+> index.c depend on the same lookup contract before consuming the resident
+> index root value.
 >
-> Yes, that makes a lot more sense. I was staring too hard at the "hot
-> executable" part and made the cache/template the API, which was probably
-> the wrong thing to expose. Sorry about that.
+> Reject non-resident records for all resident-only attribute types in the
+> shared validator. Keep the existing $FILE_NAME and $VOLUME_NAME behavior,
+> but factor it through a helper and extend it to
+> $STANDARD_INFORMATION, $OBJECT_ID, $VOLUME_INFORMATION, $INDEX_ROOT, and
+> $EA_INFORMATION. For $OBJECT_ID and $EA_INFORMATION this is contract
+> hardening for resident-only formats; this patch only rejects the
+> non-resident form and does not add new resident value validation for
+> those types.
 >
-> > Any implementation
-> > should also allow userspace to implement posix_spawn() on top of it.
->
-> That's so cool, and this is a really useful point. I had not thought about this as
-> something that could sit under posix_spawn(), but that makes the target
-> much clearer. It should be a generic exec/spawn builder first, and the
-> agent use case should just be one user of it.
->
-> > fd = pidfd_open(0, PIDFD_EMPTY /* or better name */)
-> >
-> > pidfd_config(fd, ...) // modeled similar to fsconfig()
->
-> Reusing pidfd_open() with an empty target is nice because it keeps the API close
-> to pidfds, but I wonder if a separate entry point such as
-> pidfd_spawn_open() or pidfd_create() would make the "new process
-> builder" case a bit more explicit? Either way, the configuration side
-> being fsconfig-like makes sense to me.
+> Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
 
-Yeah check out my syscalls [3] on that front. It's important to design the
-workflow / state machine in a good way. Performance/efficiency, security (share
-less state/privileges by default!), and extensibility (where will newer
-concepts, like a new type of namespace, fit in?) are all competing concerns,
-but I think they mostly pull in the same direction. (Only no ambient authority,
-back compat, and extensibility exist in some tension.)
+Looks good to me.
 
-> Thanks again for pointing me in this direction. It helps a lot.
+Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
+
+> ---
+>  fs/ntfs/attrib.c | 18 +++++++++++++++++-
+>  1 file changed, 17 insertions(+), 1 deletion(-)
 >
-> Regards,
-> Li
+> diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
+> index 5e1ad1cd0118..1254fbe7666e 100644
+> --- a/fs/ntfs/attrib.c
+> +++ b/fs/ntfs/attrib.c
+> @@ -596,6 +596,22 @@ static u32 ntfs_resident_attr_min_value_length(const=
+ __le32 type)
+>         }
+>  }
+>
+> +static bool ntfs_attr_type_is_resident_only(const __le32 type)
+> +{
+> +       switch (type) {
+> +       case AT_STANDARD_INFORMATION:
+> +       case AT_FILE_NAME:
+> +       case AT_OBJECT_ID:
+> +       case AT_VOLUME_NAME:
+> +       case AT_VOLUME_INFORMATION:
+> +       case AT_INDEX_ROOT:
+> +       case AT_EA_INFORMATION:
+> +               return true;
+> +       default:
+> +               return false;
+> +       }
+> +}
+> +
+>  static bool ntfs_file_name_attr_value_is_valid(const u8 *value, const u3=
+2 value_length)
+>  {
+>         const struct file_name_attr *fn;
+> @@ -666,7 +682,7 @@ static bool ntfs_attr_value_is_valid(struct ntfs_volu=
+me *vol,
+>         u32 min_len;
+>
+>         if (a->non_resident) {
+> -               if (a->type =3D=3D AT_FILE_NAME || a->type =3D=3D AT_VOLU=
+ME_NAME)
+> +               if (ntfs_attr_type_is_resident_only(a->type))
+>                         goto corrupt;
+>                 if (!ntfs_non_resident_attr_value_is_valid(a))
+>                         goto corrupt;
+> --
+> 2.43.0
+>
 
-Glad you are sold on pidfds, and more broadly, best of luck! You'll be a hero
-to everyone else that has wanted this over the years :)
 
-John
+--=20
+Thanks,
+Hyunchul
