@@ -1,42 +1,43 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A570F38A73C
-	for <linux-fsdevel@vger.kernel.org>; Mon,  8 Jun 2026 21:06:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47E7390223
+	for <linux-fsdevel@vger.kernel.org>; Mon,  8 Jun 2026 21:06:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780952790; cv=none; b=rG4r8OUYRp1qvVROkUhP1RvQ0emrARyJj0x4xITdoWzX5Q4yHaf3P/kMOLKX6NTwKE7o9GFxRiY1p1hN+ESOV1tIo1kcqTf07jwnRynTUmFUQkdssRvP3uf3fMi5Crw8Fo5oUo+o9yHlgDuAu4cV3QJpShgGNlMrUat+VgSWnkw=
+	t=1780952790; cv=none; b=eP2j61HP+D8cooAPVpyqrXJb3lf7sPx30rNvzbmPG+d1S0c6lMhkar1k87xV94DUq1ZfYK4SlI1OyXi+xYOSLwVgkluXhw+MM0o/pSDOycfA5rvlrtwwO1WuKWZpuTTZHLLTUUyqy/cVkjwOx2j6dYM0bejYD7uFPIXwTZxPXLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780952790; c=relaxed/simple;
-	bh=MBO03B/f0Frr2fol0qRFEmyVCDVtfT7VhndCi1a+oWU=;
+	bh=1LjS7l/wPLSIhRfvPAzj+L/s5vlI1jX0sJBRhn4RtJg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TsdYdw7USjt/LuJL4EO2Hc9aBuftVBV5NqhBdRYh6vrmlNGBSPjQNsWjCPs2612uotzyKFkkGmfw9Q1aWyMpcp66yLmj3lg60Gg4zLE4+11fMH4XiNLj5sAgkQCdoglBVPoKubmq6Tpj6sucuWUp10RgrtEY7PNjbqM/tdwvmTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=OMslnKvm; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=PKsuL1E0upP/T/vmldhx3BK73JMGnhOyFbYnLj9TtYx7pgDZvSe3R/sUQobX84CxgJ5nqoOZb1JL4DZiXemljhRV8tGfa4ReVlqYMbgpX54KeaWKpCrw2Te+bMQ2QKdr5432uj/kuVUSkaQwdotEntO1CFmt4yYR355OmjdtjEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=R3UKD6mx; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OMslnKvm"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="R3UKD6mx"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=nIKZ5rJR78Kn2rpf1TUpOelTrfrESbwwBnKGcUB/zAA=; b=OMslnKvmAjDoKlhg6em2dj99WB
-	AJXmAgy+mGNeh2s7JVGXQvRFFCHQFMXXWWYH8sU/FeR/uHsl4L36Q7ZYCIs8g0etBqKBYcC+vx8uC
-	PdwTVUuTCZRIfnKw0HMeTvQFrcYeaXrpiqKE6aepLDP87VqZDY1WLRGdFNTvFNnvDF2sqMRKDYK+J
-	xQMPQzjy539OKdwdHNTRo6U5dH1NI9V9CwRl9QwLhJkff2+uw6tKQ3meIt3ybwSWPRfLnfaVDxgz6
-	um5VWIY3BhkaqpQX3NPuhTVV0EbFLM6k8kvcUGJtrifaxj322jiGDKzLMbCPSkOhVtTAklRh2nE5K
-	lFQWOvVw==;
+	bh=5s4XjAOLGYLp6LndP+lIAzECrIjlhFFVdD772BNrAS8=; b=R3UKD6mxV+D5lq/MadFzucIUA3
+	Cbv3naiUJCSfOffqPrg131P12hFQ3fIMkgcjM1gIKTHNmQ/IQ/gc0RlgO4E9GUNI3WWWjdKx4X/Eb
+	77VYkQUBX/34XYtPGMn7OYJ+zx8cq4Cs1YNPbla07sbp11mzzZ5XMm7xF2e8KmBF5fQCsm1AjNkfm
+	KuYiHw1+o3mI8sYh61oyPHMwDj1KGXlIrsRvjs+Vv6lS1mAP8xn6XrTkRrO7qousVn8UR0sslxSPC
+	PQo+IFUq/xtuXweOcAh2m1GmPNoYdZO2I8FaahyLa3vHoWnSy4yFpYnKrnEg6apQ2b5NGZ+qFRDl5
+	3YIqk3vA==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wWhAq-0000000EQBK-2RU9;
+	id 1wWhAq-0000000EQBa-3xbF;
 	Mon, 08 Jun 2026 21:06:20 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH v2 3/6] ntfs: Use zero_user_segment() in handle_bounds_compressed_page()
-Date: Mon,  8 Jun 2026 22:06:13 +0100
-Message-ID: <20260608210618.3437216-4-willy@infradead.org>
+	linux-mm@kvack.org,
+	Ye Liu <liuye@kylinos.cn>
+Subject: [PATCH v2 5/6] show_page_info: Remove printing of page index
+Date: Mon,  8 Jun 2026 22:06:15 +0100
+Message-ID: <20260608210618.3437216-6-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260608210618.3437216-1-willy@infradead.org>
 References: <20260608210618.3437216-1-willy@infradead.org>
@@ -48,60 +49,28 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This fixes handle_bounds_compressed_page() on highmem memory
-as page_address() does not work on memory which has been kmap_local(),
-only on kmap() memory.
+Pages don't have indexes, folios have indexes.  Just delete it.  This
+script is going to become increasingly barren unless somebody steps up
+to maintain it.
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Cc: Ye Liu <liuye@kylinos.cn>
 ---
- fs/ntfs/compress.c | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+ tools/mm/show_page_info.py | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/fs/ntfs/compress.c b/fs/ntfs/compress.c
-index b279f38636d6..89067fecf5a0 100644
---- a/fs/ntfs/compress.c
-+++ b/fs/ntfs/compress.c
-@@ -108,16 +108,16 @@ static inline void handle_bounds_compressed_page(struct page *page,
- 	loff_t pos = page_offset(page);
+diff --git a/tools/mm/show_page_info.py b/tools/mm/show_page_info.py
+index c46d8ea283d7..69094ef50719 100644
+--- a/tools/mm/show_page_info.py
++++ b/tools/mm/show_page_info.py
+@@ -91,7 +91,6 @@ def show_page_state(page, addr, mm, pid, task):
+             "Page Virtual": hex(page_to_virt(page).value_()),
+             "Page Refcount": page._refcount.counter.value_(),
+             "Page Mapcount": page._mapcount.counter.value_(),
+-            "Page Index": hex(page.__folio_index.value_()),
+             "Page Memcg Data": hex(page.memcg_data.value_()),
+         }
  
- 	if ((pos >= initialized_size) && (initialized_size < i_size)) {
--		u8 *kp = page_address(page);
--		unsigned int kp_ofs;
-+		size_t offset;
- 
- 		ntfs_debug("Zeroing page region outside initialized size.");
--		if (pos >= initialized_size) {
--			clear_page(kp);
--			return;
--		}
--		kp_ofs = initialized_size & ~PAGE_MASK;
--		memset(kp + kp_ofs, 0, PAGE_SIZE - kp_ofs);
-+		if (pos >= initialized_size)
-+			offset = 0;
-+		else
-+			offset = offset_in_page(initialized_size);
-+		zero_user_segment(page, offset, PAGE_SIZE);
-+	} else {
-+		flush_dcache_page(page);
- 	}
- }
- 
-@@ -222,7 +222,6 @@ static int ntfs_decompress(struct page *dest_pages[], int completed_pages[],
- 				 */
- 				handle_bounds_compressed_page(dp, i_size,
- 						initialized_size);
--				flush_dcache_page(dp);
- 				kunmap_local(page_address(dp));
- 				SetPageUptodate(dp);
- 				unlock_page(dp);
-@@ -758,7 +757,6 @@ int ntfs_read_compressed_block(struct folio *folio)
- 				 */
- 				handle_bounds_compressed_page(page, i_size,
- 						initialized_size);
--				flush_dcache_page(page);
- 				kunmap_local(page_address(page));
- 				SetPageUptodate(page);
- 				unlock_page(page);
 -- 
 2.47.3
 
