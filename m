@@ -1,166 +1,357 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26FF426ED3C
-	for <linux-fsdevel@vger.kernel.org>; Mon,  8 Jun 2026 15:49:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C1D2741B5;
+	Mon,  8 Jun 2026 15:52:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780933781; cv=none; b=qYjO5yCX97hUgJHGPQDbP0S15qecmf/40NodRFmmStd3MDfc5XQCfjRda4s5Rpz8Gle6lrRvgcutjVG0exYv7mucCr9qZNKXKTrFv6qlIVz1VQBXv3jK5onVCZDu9ixs84qugAbczHJm27LglYAjcGz0H/wH96HtzS9WxbCEAng=
+	t=1780933947; cv=none; b=CSt89Nn4Q/cbcNUFafTOAmSMJLKNvcX4qUvTFet2SkTkFms9N+ZtE11e1KOjvkGXoKctdIqsrzEwDzTYCyHtpm6j699posIgl4Iy8N71zO8tf3QvDg5RdzWqD4muJ9SvA6R0UrU5zltLQvQPo7qEhLoBtvtOO0fKSvyN807JiBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780933781; c=relaxed/simple;
-	bh=J8uga1NMLeLuTW0Ga/UbrI8RuV+5khdm3fHTSqOApmU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PHHwrXKlUrqaOhJapSCbF6aQ92vMXYo+i9h9NnriQuypI+cwT8GtRopAwWr5HZX9oq5ml6aC9UEPhGRFrnLWhjTjb4NYT/0Wbv6IzayY8vuP3ED4I7oNBfw+VWsJGsXXhbomEVwUGds7vWC4QnYzaJfpmo8Hr4YUKGAVvdUVG0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DWp1+JG9; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780933947; c=relaxed/simple;
+	bh=QGIgmtnCGD4d4EM+4ht/anGEA41fCCJB+Dx5GHbSmHM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JFELnldJzZz04st9Fqtoy6nhI8MBtsgE66ncFsqDCKJzfwFtTU4Qx9j0JzCZSeZSADx1NEADDZjeEmLBcdG16wofoEgcjDWh/sYx9UeGwx/0BFrJdKxa6oj5PZ7HhPIVAn/JuK7iQM3MlhDg1Z6RDJY6IwvcmG3Rf6v4XoSAIIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OS8m7n6h; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DWp1+JG9"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-8424b2502c8so248041b3a.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 08 Jun 2026 08:49:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780933779; x=1781538579; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=62HcDbguGiGWBfESIpGMa4jmu+LyX4+s9ZYxbBD4ZI8=;
-        b=DWp1+JG9DadAw23EvspEMGVjw8B2RHJKKPIPpkq5BKV/mwIT+yX07Yd5K+Hk3OHqHb
-         epFkBL02uxj6p4gcyQyesuNX+KxIYeJJ2n2PhpzBttmwpQwvl78HGVx9ARvKKqj1DM30
-         E6mG2Via4KvixBGkbf5C+9BBg2Nza8MuXxdZQrq+/VURXP3foDUoMBuJlSJyZK8JqO1e
-         soVN+vSW2vI783cTZVdnKg6v/1lTJeBVP2K/5aLeHgCZpfqceGqHHm09hEIvQMAx64Mj
-         BbqFZl72LgHxQMgS0jotkcbA0sRvQUxw7LGK7n6Gei+VOWvKX4EwqTI37BDInDa4ghSd
-         7Egg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780933779; x=1781538579;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=62HcDbguGiGWBfESIpGMa4jmu+LyX4+s9ZYxbBD4ZI8=;
-        b=Jen3DybVMVXjObpd4mQPVys/9e2uTMnikl3MKzxskr8VUw+a8zsX0mCpgk6oA2qfbG
-         IWPxtQUoepi+7HbBd3rv1HOcfV/i/Mw2JPWee6GSJxDZOSrYNU1NevZhrocDyb2pM8En
-         8cmta7J9KE65sjqblKxGxqK0W+k5BHrppIAFtK8DcwQuyEXWps5E47CmfIEWPnlwJ4HD
-         CP57XMaFG1JO5VRJ3uoIxZpyVPEPdmQc8EtGr5TGj7TYytOoPEWsJk9FkAApydJ8Xn/j
-         +I2SdvrQ8VN+cmgyhR0JfGlkchHN99UZCB65VcarbNKQYFNhloF7vMqPPMLdumBuBiHL
-         ulKg==
-X-Forwarded-Encrypted: i=1; AFNElJ8v5OffJKDj/0a0raVw0BpaW199BlrWg/oiigVl0e+uEG5nFR8J+YdqFpjbxwrYDDhDlkkpiUu+HiLwYtbD@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmF5kcVvwavFtoThPUBt2yIygKJAh1nHasRO2gjCyayJELEwwy
-	xKzeufYkJwIG0v26RW1LK+cfoO230HxGKhVlG7ir4uXgljSQSdcOUFG1
-X-Gm-Gg: Acq92OGbTCym/YmQUY96k+81hn325f0D4p9aBY94eQCnX3UuVarikNi+TYpnyBjVimc
-	7E25P0u0dhNhNY2mnDi6FT2aMNo/yVivTbkUXczr6tNenf/UzmNo/fHtU5SGWmJhV6cn2+El7V8
-	7DPT7ntbuC3iO5Z6/Ar3q1jxq/TefXhJ2mP6gYK0eOzXlqwuwbIUZyctkEEU4xUKtRxNtBXSX+3
-	iLyKppgrnIPzvK29i6HxXqUGHbnezXCSqVr3YeJpmf61G6voy4meefmO/GEopJTftLNbxCXAr/8
-	DleUYw264w+F9FeNY/LzOSB9ddceHlQQAs5HJpJW2AXNx2ZqQaPCiDp4ytU8Olh8hI7RcJuEEoa
-	tNACVavzzpDyz99vbwgdJhLnTj/kFfHX9fg1saos24P6XgtZjFNzY8SZZHoNRCYtBvGernOLgqM
-	XLU9qmORggDpYLLRxEjEYBoj2OSCA=
-X-Received: by 2002:a05:6300:67ca:b0:39e:df5e:edc2 with SMTP id adf61e73a8af0-3b4cd17fadamr9344971637.2.1780933779336;
-        Mon, 08 Jun 2026 08:49:39 -0700 (PDT)
-Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85df0a624fsm15937526a12.18.2026.06.08.08.49.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 08:49:39 -0700 (PDT)
-From: DaeMyung Kang <charsyam@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH v6 4/4] ntfs: validate resident index root values on lookup
-Date: Tue,  9 Jun 2026 00:49:17 +0900
-Message-ID: <20260608154917.2703739-5-charsyam@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260608154917.2703739-1-charsyam@gmail.com>
-References: <20260608154917.2703739-1-charsyam@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OS8m7n6h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AF801F00893;
+	Mon,  8 Jun 2026 15:52:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780933946;
+	bh=BBm0zIKsLAEeJUSvIkeG9dorWmBmWw3H05wegj3RHso=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=OS8m7n6h01FrWGbWX5puCFYy8j3ZW4kGuhu/vOJNyT0tS6xydKmghwTgoHS739Nxp
+	 ly5+KYjxl929TSqCRhwvvBIAGWAj64I+GKOA4rzJ2wZAg7s9cZJmp3OPFy0T2Ku/KH
+	 yNfR3BQCniXEXkibrmFeQ6RzQLgQod+xW26dAcOXFoqGb3tG/8WSC8VGwmFdmdb3oq
+	 Dx6kG9vDB2yw+8GrCcGzHZSGHY45MABVe+ODsDKgI79rlSQRpESqegl53RiA2VbOaa
+	 0NfPw8NteKEji4FmRoHCmrHIXxQBwOfxOwVsizVuUbbnlZ6IBbEz8sNoO8NUW9yff3
+	 suRQcDgypLkbw==
+Message-ID: <0d103616-56e5-4a31-abfc-f50f03253588@kernel.org>
+Date: Mon, 8 Jun 2026 17:52:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] fs/proc/task_mmu: read proc/pid/smaps_rollup under
+ per-vma lock
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org,
+ willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+References: <20260606015729.1837935-1-surenb@google.com>
+ <20260606015729.1837935-2-surenb@google.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260606015729.1837935-2-surenb@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Resident $INDEX_ROOT values carry index header fields that callers
-consume after lookup. Some callers already validate parts of the layout
-before walking entries, but those checks are scattered and do not cover
-all root header invariants, such as entries_offset alignment and lower
-bound, index_length, and allocated_size consistency.
+On 6/6/26 03:57, Suren Baghdasaryan wrote:
+> proc/pid/smaps_rollup can be read using the combination of RCU and
+> VMA read locks, similar to proc/pid/{maps|smaps|numa_maps}. RCU is
+> required to safely traverse the VMA tree and VMA lock stabilizes the
+> VMA being processed and the pagetable walk.
+> Note that we have to keep the logic to drop mmap_lock on contention
+> because even when using per-VMA locks we might have to fall back to
+> holding the mmap_lock.
+> 
+> Running Paul's contention benchmark [1] shows considerable improvement
+> both in median and in the worst case latencies:
+> 
+> Execution command: run-proc-vs-map.sh --nsamples 20 --rawdata -- \
+> --busyduration 2 --procfile smaps_rollup
+> 
+> Baseline:
+> 
+>     0.174     0.161     2.553
+>     0.174     0.164     2.663
+>     0.174     0.165     2.664
+>     0.174     0.166     2.679
+>     0.174     0.167     2.691
+>     0.174     0.168     2.704
+>     0.174     0.169     2.729
+>     0.174     0.172     2.741
+>     0.174     0.174     2.745
+>     0.174     0.174     2.755
+>     0.174     0.175     2.790
+>     0.174     0.177     2.809
+>     0.174     0.179     3.096
+>     0.174     0.183     3.144
+>     0.174     0.184     3.158
+>     0.174     0.185     3.175
+>     0.174     0.185     4.568
+>     0.174     0.198     4.821
+>     0.174     0.214     5.143
+>     0.174     0.251     5.220
+> 
+> Patched:
+> 
+>     0.007     0.007     1.952
+>     0.007     0.007     1.955
+>     0.007     0.007     1.955
+>     0.007     0.007     1.955
+>     0.007     0.007     1.957
+>     0.007     0.007     1.969
+>     0.007     0.007     2.065
+>     0.007     0.007     2.075
+>     0.007     0.007     2.146
+>     0.007     0.007     2.195
+>     0.007     0.007     2.223
+>     0.007     0.007     2.259
+>     0.007     0.007     2.488
+>     0.007     0.007     2.562
+>     0.007     0.007     2.599
+>     0.007     0.007     2.697
+>     0.007     0.007     3.030
+>     0.007     0.007     3.075
+>     0.007     0.007     3.145
+>     0.007     0.007     3.225
+> 
+> [1] https://github.com/paulmckrcu/proc-mmap_sem-test
+> 
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> ---
+>  fs/proc/task_mmu.c | 134 ++++++++++++++++++++-------------------------
+>  1 file changed, 59 insertions(+), 75 deletions(-)
+> 
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index 023422fcee12..c2bd9f5bbbcd 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -233,6 +233,16 @@ static inline void reacquire_rcu(struct proc_maps_private *priv)
+>  	vma_iter_set(&priv->iter, priv->lock_ctx.locked_vma->vm_end);
+>  }
+>  
+> +static inline bool is_mmap_lock_contended(struct proc_maps_private *priv)
 
-The resident root resize paths now keep these header fields consistent
-while the value size changes: ntfs_ir_truncate() lowers
-index.allocated_size before shrinking the resident value, and
-ntfs_ir_reparent() grows the resident value before publishing a larger
-root header. Lookup-time validation can therefore cover these invariants
-without tripping over the driver's own resize paths.
+is_mmap_lock_contended() vs. mmap_lock_is_contended() ... really nasty.
 
-Add $INDEX_ROOT to the minimum resident value size table and validate the
-resident index header fields before returning the attribute from lookup.
-Require 8-byte aligned index header fields, a sane entries_offset, an
-index_length within allocated_size, allocated_size within the resident
-value, and enough entry space for at least an index entry header.
+> +{
+> +	struct proc_maps_locking_ctx *lock_ctx = &priv->lock_ctx;
+> +
+> +	if (!lock_ctx->mmap_locked)
+> +		return false;
+> +
+> +	return !!mmap_lock_is_contended(lock_ctx->mm);
 
-The shared validator already rejects non-resident records for
-resident-only attribute types, including $INDEX_ROOT.
+!! is not required anymore, the compiler nowadays knows how to handle booleans
+correctly.
 
-Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
----
- fs/ntfs/attrib.c | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+> +}
+> +
+>  #else /* CONFIG_PER_VMA_LOCK */
+>  
+>  static inline int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+> @@ -268,6 +278,11 @@ static inline bool fallback_to_mmap_lock(struct proc_maps_private *priv,
+>  	return false;
+>  }
+>  
+> +static inline bool is_mmap_lock_contended(struct proc_maps_private *priv)
+> +{
+> +	return !!mmap_lock_is_contended(priv->lock_ctx.mm);
+> +}
+> +
+>  static inline void drop_rcu(struct proc_maps_private *priv) {}
+>  static inline void reacquire_rcu(struct proc_maps_private *priv) {}
+>  
+> @@ -1486,12 +1501,15 @@ static int show_smap(struct seq_file *m, void *v)
+>  static int show_smaps_rollup(struct seq_file *m, void *v)
+>  {
+>  	struct proc_maps_private *priv = m->private;
+> +	struct proc_maps_locking_ctx *lock_ctx = &priv->lock_ctx;
+> +	struct mm_struct *mm = lock_ctx->mm;
+>  	struct mem_size_stats mss = {};
+> -	struct mm_struct *mm = priv->lock_ctx.mm;
+>  	struct vm_area_struct *vma;
+> -	unsigned long vma_start = 0, last_vma_end = 0;
+> +	unsigned long vma_start = 0;
+> +	unsigned long last_vma_end = 0;
+> +	loff_t pos = 0;
+>  	int ret = 0;
+> -	VMA_ITERATOR(vmi, mm, 0);
+> +
+>  
 
-diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
-index 1254fbe7666e..8f10688a17df 100644
---- a/fs/ntfs/attrib.c
-+++ b/fs/ntfs/attrib.c
-@@ -589,6 +589,8 @@ static u32 ntfs_resident_attr_min_value_length(const __le32 type)
- 			sizeof(__le16) * 1;
- 	case AT_VOLUME_INFORMATION:
- 		return sizeof(struct volume_information);
-+	case AT_INDEX_ROOT:
-+		return sizeof(struct index_root);
- 	case AT_EA_INFORMATION:
- 		return sizeof(struct ea_information);
- 	default:
-@@ -632,6 +634,31 @@ static bool ntfs_volume_name_attr_value_is_valid(const u32 value_length)
- 	return value_length <= NTFS_MAX_LABEL_LEN * sizeof(__le16);
- }
- 
-+static bool ntfs_index_root_attr_value_is_valid(const u8 *value, const u32 value_length)
-+{
-+	const struct index_root *ir;
-+	u32 index_size;
-+	u32 entries_offset;
-+	u32 index_length;
-+	u32 allocated_size;
-+
-+	ir = (const struct index_root *)value;
-+	index_size = value_length - offsetof(struct index_root, index);
-+	entries_offset = le32_to_cpu(ir->index.entries_offset);
-+	index_length = le32_to_cpu(ir->index.index_length);
-+	allocated_size = le32_to_cpu(ir->index.allocated_size);
-+
-+	if ((entries_offset | index_length | allocated_size) & 7 ||
-+	    entries_offset < sizeof(struct index_header) ||
-+	    entries_offset > index_length ||
-+	    index_length > allocated_size ||
-+	    allocated_size > index_size ||
-+	    index_length - entries_offset < sizeof(struct index_entry_header))
-+		return false;
-+
-+	return true;
-+}
-+
- struct ntfs_resident_attr_value {
- 	const u8 *data;
- 	u32 len;
-@@ -705,6 +732,10 @@ static bool ntfs_attr_value_is_valid(struct ntfs_volume *vol,
- 		if (!ntfs_volume_name_attr_value_is_valid(value.len))
- 			goto corrupt;
- 		break;
-+	case AT_INDEX_ROOT:
-+		if (!ntfs_index_root_attr_value_is_valid(value.data, value.len))
-+			goto corrupt;
-+		break;
- 	}
- 	return true;
- 
+Is there now a double-empty line? (it's getting late here)
+
+>  	priv->task = get_proc_task(priv->inode);
+>  	if (!priv->task)
+> @@ -1502,89 +1520,55 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+>  		goto out_put_task;
+>  	}
+>  
+> -	ret = lock_ctx_mm(&priv->lock_ctx);
+> +	hold_task_mempolicy(priv);
+> +	ret = lock_vma_range(m, lock_ctx);
+>  	if (ret)
+>  		goto out_put_mm;
+>  
+> -	hold_task_mempolicy(priv);
+> -	vma = vma_next(&vmi);
+> -
+> -	if (unlikely(!vma))
+> +	vma_iter_init(&priv->iter, mm, 0);
+> +	vma = proc_get_vma(m, &pos);
+> +	if (unlikely(!vma) || vma == get_gate_vma(priv->lock_ctx.mm))
+>  		goto empty_set;
+>  
+> +	if (IS_ERR(vma)) {
+> +		ret = PTR_ERR(vma);
+> +		goto out_unlock;
+> +	}
+> +
+>  	vma_start = vma->vm_start;
+> -	do {
+> -		smap_gather_stats(priv, vma, &mss, 0);
+> +	while (vma) {
+> +		if (IS_ERR(vma)) {
+> +			ret = PTR_ERR(vma);
+> +			goto out_unlock;
+> +		}
+> +
+> +		if (vma == get_gate_vma(priv->lock_ctx.mm))
+> +			break;
+> +
+
+Can you refresh my brain why we now have to check for gate VMAs explicitly?
+
+> +		/*
+> +		 * If after retaking mmap_lock, already reported VMA grew or
+> +		 * merged with the next one, then iterate from last_vma_end.
+> +		 */
+> +		smap_gather_stats(priv, vma, &mss,
+> +				  vma->vm_start < last_vma_end ? last_vma_end : 0);
+>  		last_vma_end = vma->vm_end;
+>  
+>  		/*
+>  		 * Release mmap_lock temporarily if someone wants to
+> -		 * access it for write request.
+> +		 * take it for write request.
+>  		 */
+> -		if (mmap_lock_is_contended(mm)) {
+> -			vma_iter_invalidate(&vmi);
+> -			unlock_ctx_mm(&priv->lock_ctx);
+> -			ret = lock_ctx_mm(&priv->lock_ctx);
+> -			if (ret) {
+> -				release_task_mempolicy(priv);
+> +		if (is_mmap_lock_contended(priv)) {
+> +			unlock_vma_range(&priv->lock_ctx);
+> +			ret = lock_vma_range(m, lock_ctx);
+> +			if (ret)
+>  				goto out_put_mm;
+> -			}
+> -
+> -			/*
+> -			 * After dropping the lock, there are four cases to
+> -			 * consider. See the following example for explanation.
+> -			 *
+> -			 *   +------+------+-----------+
+> -			 *   | VMA1 | VMA2 | VMA3      |
+> -			 *   +------+------+-----------+
+> -			 *   |      |      |           |
+> -			 *  4k     8k     16k         400k
+> -			 *
+> -			 * Suppose we drop the lock after reading VMA2 due to
+> -			 * contention, then we get:
+> -			 *
+> -			 *	last_vma_end = 16k
+> -			 *
+> -			 * 1) VMA2 is freed, but VMA3 exists:
+> -			 *
+> -			 *    vma_next(vmi) will return VMA3.
+> -			 *    In this case, just continue from VMA3.
+> -			 *
+> -			 * 2) VMA2 still exists:
+> -			 *
+> -			 *    vma_next(vmi) will return VMA3.
+> -			 *    In this case, just continue from VMA3.
+> -			 *
+> -			 * 3) No more VMAs can be found:
+> -			 *
+> -			 *    vma_next(vmi) will return NULL.
+> -			 *    No more things to do, just break.
+> -			 *
+> -			 * 4) (last_vma_end - 1) is the middle of a vma (VMA'):
+> -			 *
+> -			 *    vma_next(vmi) will return VMA' whose range
+> -			 *    contains last_vma_end.
+> -			 *    Iterate VMA' from last_vma_end.
+> -			 */
+> -			vma = vma_next(&vmi);
+> -			/* Case 3 above */
+> -			if (!vma)
+> -				break;
+> -
+> -			/* Case 1 and 2 above */
+> -			if (vma->vm_start >= last_vma_end) {
+> -				smap_gather_stats(priv, vma, &mss, 0);
+> -				last_vma_end = vma->vm_end;
+> -				continue;
+> -			}
+>  
+> -			/* Case 4 above */
+> -			if (vma->vm_end > last_vma_end) {
+> -				smap_gather_stats(priv, vma, &mss, last_vma_end);
+> -				last_vma_end = vma->vm_end;
+> -			}
+
+That's quite the simplification.
+
+> +			/* Resume from the last position. */
+> +			pos = last_vma_end;
+> +			vma_iter_init(&priv->iter, mm, pos);
+
+I'll leave checking the VMA locking details to VMA locking experts :)
+
 -- 
-2.43.0
+Cheers,
 
+David
