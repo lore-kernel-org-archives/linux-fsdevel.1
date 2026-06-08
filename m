@@ -1,163 +1,106 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87991351C3B
-	for <linux-fsdevel@vger.kernel.org>; Mon,  8 Jun 2026 05:08:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780895299; cv=pass; b=gM4LBgffZ7deDhL/vTZfX5O+/uPdh3v7TR/ZzwJvyd4177ZNzYGkSVatBvaQU6Win7jBg4IgMnq/vazkDNFewzV6RYUoYFCPhO2JpcBGScuPwfptfPXeUNI5GaOmGr3AIKscrmYsAxBbrKAJOl+jAh7PnFQs83kfVm2HnhSQpwY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780895299; c=relaxed/simple;
-	bh=/JCB0ytz7h43gzLuu78Uyq85l2ziK1k/0B1owyqPzDM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qUxqyczrjLDVqX11XLJ4BsM/7IDnaJUF399QlU1Yr650eIJECqP2JVTWMFPK1J2+mxA6peVrgnwdLMwqYI/3o8VG5T9A5GHl7AbPG3+qrp0pSIZJtNXPauJQHAKk6jNsdpERTi4ehNLg6GGqPB/JCTEuRuoxnULroXlctNrZX8s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J4WPLtb8; arc=pass smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A32F1B6D1A
+	for <linux-fsdevel@vger.kernel.org>; Mon,  8 Jun 2026 05:31:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780896706; cv=none; b=XjmzB5r7fK/bvnlmrIJJvD4paIZ75lZB1YwiyIwUsRw4k229swSklKz2c/waONKrG24yZVlapGY92xlkz2pzbmHnd62/zXjl2ZKvJUai10ljte/CULw6oAuRJZLxRvDdSdV3RuSR44kyho/LkkuZymn/sSfpWAXDY72VeIizFUk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780896706; c=relaxed/simple;
+	bh=9ppVgDZ+U7TaJUies9zDuhV2krfxFDCefrzMocA3Pro=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FkiKsqeTntXTDJnYAIN/8/7VH4jJCSy29tR0YND3Vsy1sjxE38hByGmPJMwMn4tedrUPmF5xV6hV6tTSHkTuuuFd5JoEVvFEHVLuW1jy/a8nzv+KneBZDB9lvW0fvk4ZMw9PEfIkulYs5G3zu6M3/3TOiOseUT6XwevjBJaVcKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BfHGR0Vv; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J4WPLtb8"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5aa6863327fso3209814e87.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 07 Jun 2026 22:08:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780895296; cv=none;
-        d=google.com; s=arc-20240605;
-        b=F/K6bRu80ZoclNtdH/0tnP45FGsTrlembvw3sOfT8o4NMII83HW6ea/+PrFm4UlsmE
-         YYRzCcgOF3k/cqjtDI/QO5w6qw/WXwVeS/vTpvXqdvmQbYcI5IH+na3dwMmOaMwfU6z6
-         QsYUmHh8ywoFT3uCwhkjIYxIrzExwL+yh4oUyEOAW1YEsMQ2WB8kFeAMdykSPws6ErBG
-         EUfGdoQlcqHHnEIDyIUEzuRjtoIOSImukPpXVL2+3M2mcg4AgaS2nWg2IJoLNoiJgSMY
-         b6PTIlu9nUYa/RFjMp66guktm97zVmy5Wp6BoIKoM3VpIFrOFQrUW1CYZtnLbX9l3NoO
-         hFqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=t7iXK/pcVu+Tc1kragglkB/zLccWHIE57bsV7KkT/08=;
-        fh=tr4dmskBauWPiox00TadQjBVOG460MdlE0qKzXBcZD8=;
-        b=ZNsnjIz36/0EVh3+e8otEPKtHTsQgxq/sW3dmjI85u0ykmC4BgPGkJTZWDPg+F83+i
-         7u5cYvbB8ghfJVRw/rVrLQSTYOl2icjXi58Bie2MTYFPHLj7+5L7DDJsP/ghrq5R0FA+
-         GJKtEbtu2E+tVnYC+ayaIYTeYI88FaCHM71pHvgcOBvjdI8W2OvF1yUrDGFn0cAm9K9m
-         rgtdZbByyfauAGmTU+xiDpiHzMzmi4z5gjWCJ0H3hVp8Rmw99tzyzwRchvvF4oRus8dU
-         0Svg8XdAl/r8h3hjpzjrY1RKoWLd2YAV/jynrdH5WMmyGjZrJmnR7Q4agQQH5ZMrASVW
-         Arjg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BfHGR0Vv"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-45fd45e596cso1774275f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 07 Jun 2026 22:31:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780895296; x=1781500096; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t7iXK/pcVu+Tc1kragglkB/zLccWHIE57bsV7KkT/08=;
-        b=J4WPLtb8n1MKDG8qxgvWGUtJWUqFfynIiqmWyivtQG5PTrd+JYMa5C1LZpdV3n9gW5
-         G/0+tzPpry258xJxFxR4xIX6BjfTah77OKCNiXiXuY1a/OHIWgfsNRJfAUtM3tf400NF
-         +Z2I/gaYu7wOLKDa1I+TNypnX4XpOGLTkTM7nUsVe1aABCT8LiEkD5/RIjyEbTVvHTi4
-         +U3I0lLP85ChST0I5KOpdH6Mlm03l5o9GbeDIOiDYq9Aw5dImy0FplFjiumKg4aBowgL
-         kaRDZWA9xsoGTAEJqUiz8kXbjnrH0KVfr4TGxssXPmN9Wne925zrV2WorrX42JEQMzsC
-         BH0g==
+        d=gmail.com; s=20251104; t=1780896704; x=1781501504; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9ppVgDZ+U7TaJUies9zDuhV2krfxFDCefrzMocA3Pro=;
+        b=BfHGR0VvynO3NRE4POLJpC3e/XGiQ+nhGiO7Txg2LgNGhg0Q4fhNz3Chxpha+KYv/j
+         ghV92s6w6RbcNmJQGvE6qzg4qENvR0QGnwqDNFGrvuqxt92ogTKFJMT00FnxO0AZENm0
+         w3fMx1t7e1smKHDy/vSFibRTNyprp+SPVb7pgQfDfNjaYHCDCpA+EEd+lM0AvlkSJRTY
+         +lUT348cVvGaTCm4IWNJlLsCGBPrI/9OblwegFQiW26PM/nH3zJ0+L4f42ReYj5zyxEY
+         rpMI47SSvS2JabmM+lPMEjWMIZqup9FyrzPrrVEsrMcQe0FWrpSZ+Ua+tV/NlerZnelA
+         K17Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780895296; x=1781500096;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=t7iXK/pcVu+Tc1kragglkB/zLccWHIE57bsV7KkT/08=;
-        b=m1y6MJ4XAHrOHWwoW2xx6fb9YACdYOTyNWirVNEkPBGHun3BE7yFAxjHfyk+CGyUOL
-         v1OQbGmVMEtP3YVL0e0q8QEtpUv8P3JZ/sbG16Ze2lfgYOqGm8R2VraK6i6KgYRUpAS5
-         zy+rOLdsBGmnXDfXDh7ZbFC9LLLwGZ2kduQJLxAtYikQiNCj6OEZ0W7A4lNwqQIjdIrh
-         q3OQokee8QexytzlmpQllGb0cVwpPKN6GuLFMq5dmgXBxD6pxOorZ3OS46M1PNK14fKP
-         XIAoOqtuonsDqjFoyQL2Df7nqK6ppg1JKuB/zYiRYpthx6xzy8Vpa8URYr0rg8+f7cCN
-         CW6w==
-X-Forwarded-Encrypted: i=1; AFNElJ8EOMVk8YkNB4ene9x8ySgsidmXurTNwGM3gl/2RAhrO0hWq/4TdpWFK7K9wrmI7vEFQWnT0BfY4z8pkcVR@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywi/5IR0YONOhORRcIiXcttq/sTN3R6IERdlpotNBEtoKKVKJId
-	5nV0lbtMxlNbOQxRnAigRxyzf6hubH3HVrdP05jBHaFckaiHYHkn1gORDs+6ycsP4y19anycMjr
-	CIwgZjY1wlLm3nKL0Mja87bj55zOUH/k=
-X-Gm-Gg: Acq92OG+JyxYv3qHkx4i5zBN03J2SfzNEUwM647lKNL2n8bdf1a1L/14v24ZdcrJYwm
-	RDu/kkK7hA6+S72El4SV85+1WpvR66pifYErwFl89b2q8SqBJ/g1KLjQaMaJCao6TR8LPznTQVC
-	ixvQlnwViFj/QmK6MTArQSaPboot43iHFRCEVYJELTMGcQzjNUMpizoFT2ftqMh95WoZ+EcWSNu
-	LQmbC9goHOXKYAlBCtfBZLBN9byvmldOq43DuZty9/Ed1dnrhrNvGc4E2yHFGPbd3OC8dEJyC2k
-	u32OoleV32ikygTFdw==
-X-Received: by 2002:a05:6512:3051:b0:5aa:80b1:6ae0 with SMTP id
- 2adb3069b0e04-5aa87a1325dmr3612364e87.0.1780895295485; Sun, 07 Jun 2026
- 22:08:15 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780896704; x=1781501504;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9ppVgDZ+U7TaJUies9zDuhV2krfxFDCefrzMocA3Pro=;
+        b=Q38WrpCidWyqeWWEeOyqWxesRJme8YaCuZQ+AKA6U7cxN78OAhEIELsrXnTKyuVF+l
+         sZ2gvx2Ipf9MOgMjlKhyL6yz6/AiEiwQhX5onNfhtMDyNipAGWYODgNfTfsgfqB9cyrp
+         a3tc03QHrOHzH+HVpaqFkehRQAPQsxVSw6dYM6iGUJl0Fcquwaq7U6nwq54uZULCuJ2M
+         sOfpadv6KVHC/ew821bPkD7ooy5ZN98KLt7tYUEAkK5Px81+1kmIFK7LKhPNavSckQkA
+         9JOb5ic8xKq6IXsfO3B+Nnw/uzlQdB6bcdyOzpsnuBfdIQOvZnK5+j0axOIDa7S3FkFR
+         t0uw==
+X-Forwarded-Encrypted: i=1; AFNElJ/Qfvq3lY8QVWMUVpOMrieHWsfC9SXYsd2UkOiQGe66SBcdA/hP2ZBs0ZOYL0Ffe2T3S/xCyFaNnIG2IKrB@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDVSmrqnDnFVDK9mArMtwh23CEhlUC48DP6BUaEvkBlJB5oEfG
+	6yo/qtrEuDYAMFpuMOtjIgYtDsPj/XA0SBtqQuRbL9kRZCrVr1ljwGhX
+X-Gm-Gg: Acq92OEY6MFU3LZsHalvNIEwdr3vWWgqf596vcl9JGGFn2NYgR5XStA9Ls3ADT7+Qok
+	U447NIxq2YhlaLk8/1M6qgrltL46L/Pj4wXpy4Hb7wYwXBfr+IAiLY6Hcu6Ijtln5eoOhUfUVv+
+	0V7927o4dw32tmJJOUL+kZTLxFALftTjv6TKp1bWsWAEfGyOyn6A3sxQAR2ekFS684cDNz5FFrm
+	ioEOk+UQzLvY1BpC8Sq8ycSusInsRsJIcSecKawFZUOQ73hjuaEHOX8rSdkAn/K9zLUKvMJq9oI
+	PQpNXw58cFvhFsObVe1LRD4oHLWu3hNpknROziZO9AixOn8WUN/krArmIN0OjD8tyOEkAxuaNSW
+	lrUXkfDs0Rov3QkJKepfXXhaeI0KapGnnwmpsy1eSef9owNTVAf6iqPNmh3OT/COS9ayf1FQ7N/
+	LDEqx9aRA4PZGw3qLcTjmIZds3o/nsE/pIS5cbl/R0lKAOX/J+dVFF/HvTOFWk/OExPmzi0Jvb9
+	OfFoNxozeMAWoSKvxC2MqjyeP63uDMqjqZKYerVW/QUOeKdnOd6GCaZ4CmgUcrAxYVEXy0i1MC8
+	zGO8dJpZdVbmGcsN4jEr
+X-Received: by 2002:adf:f5c5:0:b0:460:18cb:8f9e with SMTP id ffacd0b85a97d-460304fec20mr17569371f8f.12.1780896703405;
+        Sun, 07 Jun 2026 22:31:43 -0700 (PDT)
+Received: from instance-20260604-012959.europe-west1-b.c.project-2c9d95d2-bf4e-4d5a-ac6.internal (250.69.76.34.bc.googleusercontent.com. [34.76.69.250])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2dc577sm49241280f8f.3.2026.06.07.22.31.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 Jun 2026 22:31:43 -0700 (PDT)
+From: David Maximiliano Hermitte <davemadmaxxx@gmail.com>
+To: paul@paul-moore.com
+Cc: jmorris@namei.org,
+	serge@hallyn.com,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	linux-security-module@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	David Maximiliano Hermitte <davemadmaxxx@gmail.com>
+Subject: security_inode_follow_link: KASAN UAF localization report
+Date: Mon,  8 Jun 2026 05:31:25 +0000
+Message-ID: <20260608053125.1088564-1-davemadmaxxx@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260607051723.1499833-1-charsyam@gmail.com> <20260607051723.1499833-5-charsyam@gmail.com>
-In-Reply-To: <20260607051723.1499833-5-charsyam@gmail.com>
-From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Mon, 8 Jun 2026 14:08:02 +0900
-X-Gm-Features: AVVi8Cf_PVF106kV-CVqs9X6xFHLE8vQBT-ntKsylQRhX0lR0nJDMpMu4pVE3Uo
-Message-ID: <CANFS6batLwvN5KY2pLFrvmM-ZLa5+yQKUXP+kTPzJo5CqTebZw@mail.gmail.com>
-Subject: Re: [PATCH v5 4/4] ntfs: validate index root allocated_size on lookup
-To: DaeMyung Kang <charsyam@gmail.com>
-Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Daemyung,
+Hello,
 
-2026=EB=85=84 6=EC=9B=94 7=EC=9D=BC (=EC=9D=BC) =EC=98=A4=ED=9B=84 2:17, Da=
-eMyung Kang <charsyam@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> The resident $INDEX_ROOT validator already checks the index root header
-> fields, but it still does not bound index_length through allocated_size o=
-r
-> ensure allocated_size stays within the resident index area.
->
-> Callers consume index.allocated_size as the resident root capacity.
-> ntfs_ie_add() uses it to decide whether an insertion can be done in place=
-,
-> and ntfs_ie_insert() then updates the root without re-checking the reside=
-nt
-> value boundary.
->
-> Read allocated_size in the resident $INDEX_ROOT validator, require it to =
-be
-> 8-byte aligned, require index_length <=3D allocated_size, and require
-> allocated_size <=3D the resident index area. Valid slack remains allowed.
->
-> Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
-> ---
->  fs/ntfs/attrib.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
-> index cf49eade6b22..49c8f1f3b9dd 100644
-> --- a/fs/ntfs/attrib.c
-> +++ b/fs/ntfs/attrib.c
-> @@ -657,15 +657,19 @@ static bool ntfs_index_root_attr_value_is_valid(con=
-st u8 *value, const u32 value
+I reproduced this issue locally in a QEMU/TCG VM and I can confirm a valid BEFORE signal.
 
-Applying this patch failed.
-It seems that the patch below has not been merged yet.
-https://lore.kernel.org/all/20260530143514.3083601-7-charsyam@gmail.com/
+Summary of the local evidence:
 
->         u32 index_size;
->         u32 entries_offset;
->         u32 index_length;
-> +       u32 allocated_size;
->
->         ir =3D (const struct index_root *)value;
->         index_size =3D value_length - offsetof(struct index_root, index);
->         entries_offset =3D le32_to_cpu(ir->index.entries_offset);
->         index_length =3D le32_to_cpu(ir->index.index_length);
-> +       allocated_size =3D le32_to_cpu(ir->index.allocated_size);
->
-> -       if ((entries_offset | index_length) & 7 ||
-> +       if ((entries_offset | index_length | allocated_size) & 7 ||
->             entries_offset < sizeof(struct index_header) ||
->             entries_offset > index_length ||
-> +           index_length > allocated_size ||
-> +           allocated_size > index_size ||
->             index_length - entries_offset < sizeof(struct index_entry_hea=
-der))
->                 return false;
->
-> --
-> 2.43.0
+- Reproducer started: yes
+- KASAN seen: yes
+- use-after-free seen: yes
+- target function seen: security_inode_follow_link
+- target file seen: security/security.c
+- Call Trace seen: yes
+- RIP seen: yes
+- BEFORE validation: true
 
+At this point I am treating this as a localization report, not as a final patch submission.
 
+The trace points to the security_inode_follow_link / link-follow path. I would prefer not to guess the final fix, since I do not yet have a validated AFTER patch for this issue.
 
---=20
+I can provide the reproducer evidence and retest any proposed patch if helpful.
+
 Thanks,
-Hyunchul
+David
