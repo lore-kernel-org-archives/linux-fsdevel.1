@@ -1,136 +1,168 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF4DE3DDDC4;
-	Mon,  8 Jun 2026 15:32:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBEB3DB32F;
+	Mon,  8 Jun 2026 15:38:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780932770; cv=none; b=Oz4IlM2FQmlM0TRLpGIlo+A5JZPC0QbQ6hQAfQ6WE95fk01k6u8KaqFbCxbw0Pex4ZuNClBZ97kHpq9WyA4EFHtcOdEPRA4KOVZ5W7xeZfu9OovaQacgkGoSdok8iXp8F7cjKVhJydAFKbm4dADjVQt+d0iDNmanH2XOy1JZWyc=
+	t=1780933112; cv=none; b=b3DHR5opC+s7QbOJvymzsP2+VGPjZw0+ZZP04tZdGC+ypHmZsMm87b/8UyPwRjIMxzFlv3pf7pe37Od+/8UEXMATiOEkvAqbq672IH3b5EnAXaYyUyiFLdm2JiKIbrbexpscYZHWOIWq01SX30X7P03LcJCYM0hjQv+QButq4kU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780932770; c=relaxed/simple;
-	bh=2x1TJNv4KL692wYDiKWxcw17UfjfTVPybB5+iFsmBg8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PqFoUae3JPxegVkZIWEOEOedA9TZpnOaKU7b3jIK1pUbJrbLW9dVNU4tMI+4IB3cCF+Yy2H2cqUFFYoxy5HMfLCyjRv+FD0RDfcgDtmekKG0YYR+Sh1jfuF3rp+dLqAv+79mNBpumRtiTjlYmj6gv/O2+8JrQGDgV0/+/EF53ck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=NrlSIk+h; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1780933112; c=relaxed/simple;
+	bh=XKi+0XzP0f1FDe3bf/9f9av1v2AA+IK6ZH+JJaORvUk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=o0hr261X1RwNiET35y+fiW0vatOCe6KNU6flDK+dZRGImJIzUVoV9Qpxe7LGRBDvkBVuS3KEUFlzGSrleAiEisQWFuzgwvdhR+kaPiAl55uvW7X8oZLLFJUzIXvHsid4W/kltb2FUrJGM3c0tiBG8MOE1QfANNYNdRkPI1/iflM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bQxyOqT/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="NrlSIk+h"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6588xM0j3159944;
-	Mon, 8 Jun 2026 15:32:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=SCpPv7
-	JVtlx0M+VEYudc0GKqlb6+J5xmQEMVBPeEAD0=; b=NrlSIk+hGj7UkFgyHF7CVC
-	QAdTpz5tdKmJRS09/9wYu3QVcySUSL+7pcLouwywsGhbd0AjH/mV4Xn2Ls1eSUpz
-	WGBNK/Zdv+J44Rx2aEPxpsRqpszxqO8EKj1pXwQSwEGpqjmNA3ktPqOWBvuDG+wK
-	Z+cwdrQkRrS1ANNvSRcZR8C9659qVU9MxMqLlSL28GuYuUedvcj/Jozsi+X1utWy
-	X7IA9tTFcLpjELxnARQZ5MJWJMcfI4zeE8FjzZ0BK9jzgRoQ5ge/5XGSq5K42BrX
-	CHV83Rah2toY3GPLgOIbLjxEjURrMvk4KVRAm4RanuV9JZmeHq8ruWMhS8sJIj1A
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4em9ye00ec-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 08 Jun 2026 15:32:36 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 658FJhb1003696;
-	Mon, 8 Jun 2026 15:32:36 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4emx8vx1rg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 08 Jun 2026 15:32:36 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 658FWY8F47710472
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 8 Jun 2026 15:32:34 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 318F120040;
-	Mon,  8 Jun 2026 15:32:34 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 991252004B;
-	Mon,  8 Jun 2026 15:32:33 +0000 (GMT)
-Received: from li-276bd24c-2dcc-11b2-a85c-945b6f05615c.ibm.com (unknown [9.87.135.117])
-	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Mon,  8 Jun 2026 15:32:33 +0000 (GMT)
-Date: Mon, 8 Jun 2026 17:32:31 +0200
-From: Jan Polensky <japo@linux.ibm.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: djwong@kernel.org, hch@lst.de, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, regressions@lists.linux.dev,
-        sj1557.seo@samsung.com, yuezhang.mo@sony.com
-Subject: Re: [PATCH] exfat: add swap_activate support
-Message-ID: <aibgj6XWdE2VIPiR@li-276bd24c-2dcc-11b2-a85c-945b6f05615c.ibm.com>
-References: <CAKYAXd80+UfzKaCR9YRK8dAQq9S+kEp_VVwr_p3dj1tEeyqUQA@mail.gmail.com>
- <20260603131950.321858-1-japo@linux.ibm.com>
- <CAKYAXd-mLHaF6VeREroNfUXYYhqLObr=8Lmv9JqVZ7qu5XO0Dw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bQxyOqT/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 503EB1F00893;
+	Mon,  8 Jun 2026 15:38:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780933111;
+	bh=i+8PnYD0gabW4Oe0rUJLesGb3GBzLwEDsBFUW101snk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=bQxyOqT/AdkFJIeW2HC/zmb923F9BBOds3pOH3xHRMAOhodoJ6Nnhhru3TkjrN2dl
+	 VVIQzX/3Ausm/7OzU/HtweZ/x2+xUeysI3CwSHsCAwwzHxxEAL1LIb2/3uvgXfwIYd
+	 ZV/buSnjOWk3q43iF0Vn2mQg93Ew38J0RWKcBocDx7H1RhJ9yfnnjNe+TXPZgNZksW
+	 yrFZZpt7HO3X0exOPgiw7vpoBqLkNIXXwt86JAz4fkE/TfriTih+IDMBujPkwuhc2T
+	 HT24REevPf4eBpBeE1DmvJHbTMuY/facWnQtn6n7cnrOokvXBCFTk7YsJtecJVhVzC
+	 +5I0y1tM/OtTQ==
+Message-ID: <fb25c5c3-c3b4-44df-acd6-46040ff1027b@kernel.org>
+Date: Mon, 8 Jun 2026 17:38:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKYAXd-mLHaF6VeREroNfUXYYhqLObr=8Lmv9JqVZ7qu5XO0Dw@mail.gmail.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA4MDE0NCBTYWx0ZWRfX/ab9J9Ud2s4R
- aBQ3FD2EOWsFzOdh4vr87wGPMTgWcGOFpe17Bv7XUECemwZNvEQuUhrtliF1PLyoyGrL2YYr4n9
- Nv6BJ42QevJvLBKSF3BYWNYgXdaev35oqG8m4kE6bktj1P8a7oDqnwq5O+EyoFJyS3TFww5fCqI
- GF+xzueMNpLkh2MhXEITMfnX8vxA7UNv6I8QN6fVgA8qsImvxTKou4Rv19t5EXHO5WBXMVqgGb4
- fEQqP4T+l2eGHXyMMfDd0wZ1IUXdct2lRD5EymDCQ6V0L22VOPv1FENMZvhAWCsKtG9kxCbMpEP
- xo7hkWQW40jtYjKaj+GRCc0RG5ZRjbHt3Xf9WsRJEIUyXQm1BgVJl0J7IKpD85kZB3N2TlMS3Kh
- OMbqJEwlAnOKEfWbZ2Wtg5mOdknQDz2p+svEy9KIB5jzBmzILfvnsQKpm3W46ZoR6DpUmlY7oKi
- 3d3YyCWvwCAcs30UCsg==
-X-Authority-Analysis: v=2.4 cv=QKhYgALL c=1 sm=1 tr=0 ts=6a26e094 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VwQbUJbxAAAA:8
- a=VnNF1IyMAAAA:8 a=BAQqc3zLvjUhQZapDGMA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: DAYNeHlEW1HnFEN-cIxTQ5QVPWGCfAWM
-X-Proofpoint-ORIG-GUID: DAYNeHlEW1HnFEN-cIxTQ5QVPWGCfAWM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-08_04,2026-06-05_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 bulkscore=0 adultscore=0 phishscore=0
- malwarescore=0 impostorscore=0 suspectscore=0 spamscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606080144
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] fs/proc/task_mmu: change lock_vma_range() to return
+ error code
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org,
+ willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+References: <20260606015729.1837935-1-surenb@google.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260606015729.1837935-1-surenb@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 03, 2026 at 11:34:55PM +0900, Namjae Jeon wrote:
-> On Wed, Jun 3, 2026 at 10:20 PM Jan Polensky <japo@linux.ibm.com> wrote:
-> >
-> > Commit 614f71ca1bdf ("exfat: add iomap buffered I/O support")
-> > converted exfat buffered I/O to iomap, but did not add a
-> > .swap_activate handler to the address_space_operations.
-> >
-> > swapon(2) on an exfat swapfile then fails with EINVAL, which causes
-> > LTP swap tests to fail.
-> >
-> > Add exfat_iomap_swap_activate() and hook it into exfat_aops so exfat
-> > uses iomap_swapfile_activate() for swapfile activation.
-> >
-> > Fixes: 614f71ca1bdf ("exfat: add iomap buffered I/O support")
-> > Closes: https://lore.kernel.org/all/20260603110212.3020276-1-japo@linux.ibm.com/
-> > Signed-off-by: Jan Polensky <japo@linux.ibm.com>
-> Applied it to #dev.
-> Thanks!
+On 6/6/26 03:57, Suren Baghdasaryan wrote:
+> To correctly propagate error code from lock_vma_range(), change it to
+> return the error code instead of the boolean. This simplifies error
+> propagation code.
+> 
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> ---
+>  fs/proc/task_mmu.c | 16 +++++++++-------
+>  1 file changed, 9 insertions(+), 7 deletions(-)
+> 
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index d32408f7cd5e..023422fcee12 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -162,13 +162,13 @@ static void unlock_ctx_vma(struct proc_maps_locking_ctx *lock_ctx)
+>  	}
+>  }
+>  
+> -static inline bool lock_vma_range(struct seq_file *m,
+> -				  struct proc_maps_locking_ctx *lock_ctx)
+> +static inline int lock_vma_range(struct seq_file *m,
+> +				 struct proc_maps_locking_ctx *lock_ctx)
+>  {
+>  	rcu_read_lock();
+>  	reset_lock_ctx(lock_ctx);
+>  
+> -	return true;
+> +	return 0;
+>  }
+>  
+>  static inline void unlock_vma_range(struct proc_maps_locking_ctx *lock_ctx)
+> @@ -245,10 +245,10 @@ static inline void unlock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+>  	mmap_read_unlock(lock_ctx->mm);
+>  }
+>  
+> -static inline bool lock_vma_range(struct seq_file *m,
+> +static inline int lock_vma_range(struct seq_file *m,
+>  				  struct proc_maps_locking_ctx *lock_ctx)
+>  {
+> -	return lock_ctx_mm(lock_ctx) == 0;
+> +	return lock_ctx_mm(lock_ctx);
+>  }
+>  
+>  static inline void unlock_vma_range(struct proc_maps_locking_ctx *lock_ctx)
+> @@ -311,6 +311,7 @@ static void *m_start(struct seq_file *m, loff_t *ppos)
+>  	struct proc_maps_locking_ctx *lock_ctx;
+>  	loff_t last_addr = *ppos;
+>  	struct mm_struct *mm;
+> +	int err;
+>  
+>  	/* See m_next(). Zero at the start or after lseek. */
+>  	if (last_addr == SENTINEL_VMA_END)
+> @@ -328,11 +329,12 @@ static void *m_start(struct seq_file *m, loff_t *ppos)
+>  		return NULL;
+>  	}
+>  
+> -	if (!lock_vma_range(m, lock_ctx)) {
+> +	err = lock_vma_range(m, lock_ctx);
+> +	if (err) {
+>  		mmput(mm);
+>  		put_task_struct(priv->task);
+>  		priv->task = NULL;
+> -		return ERR_PTR(-EINTR);
+> +		return ERR_PTR(err);
 
-Hi Namjae,
+Looks good: down_read_killable() would also have returned -EINTR.
 
-I think one line might have been missed when applying my patch:
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
-    .swap_activate = exfat_iomap_swap_activate,
+-- 
+Cheers,
 
-I checked linux-next (master and next-20260604 / next-20260605),
-and the issue is still present there.
-
-Link:
-https://lore.kernel.org/all/20260603131950.321858-1-japo@linux.ibm.com/
-
-Could you please take a look?
-
-Thanks,
-Jan
+David
