@@ -1,88 +1,87 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920AA37C112
-	for <linux-fsdevel@vger.kernel.org>; Mon,  8 Jun 2026 12:44:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258591EE01A
+	for <linux-fsdevel@vger.kernel.org>; Mon,  8 Jun 2026 12:46:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780922642; cv=none; b=Db8x8XSWLL9qqDLCgkwlyIbvflJt6WywyNYMh7MSqpZk0ZJuvzmubzVlYDgT3K+zUi1vBUBhkHVgEoff+T0awi+KCAA/6S/nRy07AIsthwJm1+j1C6K1LuJOQfaGK4HdnT83/CK7pxMIP3qcAj2iDeCRxVAKDonXWGtPbdXqQEU=
+	t=1780922773; cv=none; b=hItgur1PfhGvMXX/e+kUjz/G4hyDc5qoP35MdTkDx5GluBjH8whJwWnqF8ylCCSpQjWzPiSg3dMpN2LTeaNtn09RymDy0pMj0SO8PHVNgGE78hLmjxZ04DBH223Y/qdex+NyehMhjlX/2F7oK77L0duL3lXkEQAkP38t0cu1FU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780922642; c=relaxed/simple;
-	bh=qTqtkPmXIOKjjU47BNtV/0IKQvlYLCYyY/Lvqpz9i/U=;
+	s=arc-20240116; t=1780922773; c=relaxed/simple;
+	bh=hk09Vs7o138n+cVWtcoYYoGd3uGMrSTdXRBmk7MNyrg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ib4tFiCaHMHDiDSp6+9txYemXGJ9K70LJAkgGJQFaCR2ivk8zSZ2axD7+jc6cUjrMm+PmpLvIAhqa2q98O7Xo60VSD1dxBu2cficmErPkrssLMUUabeZT+WTLxDCl+5dap9/ugIvI2r9v/vjmSoyYj/8iDUFdLEweQsE7V30Wg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0ag0HQHe; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=43kmGD9K; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xPdBchyM; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Dgq6pisN; arc=none smtp.client-ip=195.135.223.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=AdskYKTpr5w+KV+VMrKTyXBT2wXsPzDu4PLGYCE9SppDou0l5nc+FiiMip/fHKTYMMzGOfgRTt660A1ZO2nfpHDLRhhUaktSYqPQCYWbf7C4m7aneZIB4dFl2oos6Hye2toHVKXXEmW+M0jR/gWKvwRkX887LSNE/vbOqZQ4ixo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sxHV603i; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0POWYaje; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Vg49oO6H; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=+v4qY/G0; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0ag0HQHe";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="43kmGD9K";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xPdBchyM";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Dgq6pisN"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sxHV603i";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0POWYaje";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Vg49oO6H";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="+v4qY/G0"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id F160067D1A;
-	Mon,  8 Jun 2026 12:43:58 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 79C7567C1D;
+	Mon,  8 Jun 2026 12:46:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1780922639; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1780922770; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nBhgQm6fIrfRYU5SEVXtgzyrRz7ee7XL3yfC3nqpZJs=;
-	b=0ag0HQHeFgH1PjQyqj2t6CyqcGZ+GpSz1+yxucj5VSJ7M347dWgpzNURHV9GMigZLgd259
-	elvShme21eH+utoQQxBwMEgLAUD7g7N26/aJx8qF2IYmb9sBSI23S88Q0bLF15wGOiAS6Z
-	lqyJ3Ueq90+QHXAuTU51UCVmws4hXx4=
+	bh=hi9jc/EWeA1ZGhidtaSrLbqdF5PCARVWlIlbMdH1zbk=;
+	b=sxHV603iXBqaRQc/+/DccNhrVdsfteGQB3mVFHYeOD3JvUEDJ39QAxnFL87MMkkSA5jhtn
+	oRpHNtGr9aRgtllbZcfAfg2GeuxBJGKNZG19Mi8cpeEwffjGawhGO9AmxyV/SdNM/16SF+
+	p8O55EjWMnqp2mzHYtsFSUyEt+UUwto=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1780922639;
+	s=susede2_ed25519; t=1780922770;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nBhgQm6fIrfRYU5SEVXtgzyrRz7ee7XL3yfC3nqpZJs=;
-	b=43kmGD9KXhQS7EJVGaY87Mak2Ao95JxEp/LCwME0aYE+MC4ViNIehPEpoKXNvveehII5Lg
-	eQDmsqkKZDumdZDA==
+	bh=hi9jc/EWeA1ZGhidtaSrLbqdF5PCARVWlIlbMdH1zbk=;
+	b=0POWYajeqns8VbZ6crddF4rM9ZNQ3VkIQTVz/fGUrNu2T/4IesQPSafa1X/FJKGgM3Fgb2
+	Sswll5afxdwP0dBw==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1780922638; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1780922769; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nBhgQm6fIrfRYU5SEVXtgzyrRz7ee7XL3yfC3nqpZJs=;
-	b=xPdBchyMI1SHJptBC8q9w8xMqT98KUQeNGcgWZ9q/8mXcxpcYxcYYsZ3aksmjR7gIVNfsT
-	NxbP7ugSSDbtk8pBTxIX+B9zTt8WgPSMiPS1YQFKIwDZ53shIXDn0LhaS/RBKGuc8BFbgZ
-	y9t7NuR+16sLMwvES0tWwph7N4TuijU=
+	bh=hi9jc/EWeA1ZGhidtaSrLbqdF5PCARVWlIlbMdH1zbk=;
+	b=Vg49oO6HOkahE2ITEfVYMZjn/SxRQgx8ieuRSxD+WfRaK780oTsfuCLhYDOzd3lAwpqubi
+	aA8h07YxAtVOybmEXkQUBQtD4psVfG33xXl+lgJUzkS3izeLJk9uf1guKd+3V886Y7A02p
+	qSyu96vRJVeTKaG5HrVBsleC/s1+2P0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1780922638;
+	s=susede2_ed25519; t=1780922769;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nBhgQm6fIrfRYU5SEVXtgzyrRz7ee7XL3yfC3nqpZJs=;
-	b=Dgq6pisN5gBJJ8mM9apJkOphkOnBoLUV42Ghwq9h/u35cLGQs90IC1gMF65u0iSwbVh4Mt
-	dr8YlUxTraWO38DQ==
+	bh=hi9jc/EWeA1ZGhidtaSrLbqdF5PCARVWlIlbMdH1zbk=;
+	b=+v4qY/G0wJq/EdarYrCWXyzr4hro3BnQF5VsCM2y8Hp5v876+lil/Qr2nh1/5v2EKehgCB
+	xrV+evV0AddMgqBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E8132779A7;
-	Mon,  8 Jun 2026 12:43:58 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 701D1779A7;
+	Mon,  8 Jun 2026 12:46:09 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id I1WlOA65JmrjTwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 08 Jun 2026 12:43:58 +0000
+	id 3qleG5G5JmpHUgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 08 Jun 2026 12:46:09 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 97213A0923; Mon, 08 Jun 2026 14:43:58 +0200 (CEST)
-Date: Mon, 8 Jun 2026 14:43:58 +0200
+	id 13F82A0923; Mon, 08 Jun 2026 14:46:09 +0200 (CEST)
+Date: Mon, 8 Jun 2026 14:46:09 +0200
 From: Jan Kara <jack@suse.cz>
 To: Al Viro <viro@zeniv.linux.org.uk>
 Cc: linux-fsdevel@vger.kernel.org, 
 	Andreas Hindborg <a.hindborg@kernel.org>, Breno Leitao <leitao@debian.org>, 
 	Linus Torvalds <torvalds@linux-foundation.org>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH v2 18/18] create_default_group(): pass parent's dentry
- instead of config_group
-Message-ID: <jk2vscc7acf35ec5pw5vvlignoocsbzlohaw2dnushhwpran3i@6tzf6ealemmp>
+Subject: Re: [PATCH v2 14/18] kill configfs_drop_dentry()
+Message-ID: <ew4rktt25s2hkvbnsp4tfvbf6r22p3nl53udtngvjnac5zaham@elixg6bjovic>
 References: <20260519070633.2025485-1-viro@zeniv.linux.org.uk>
  <20260603074815.3033766-1-viro@zeniv.linux.org.uk>
- <20260603074815.3033766-22-viro@zeniv.linux.org.uk>
+ <20260603074815.3033766-18-viro@zeniv.linux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -91,7 +90,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260603074815.3033766-22-viro@zeniv.linux.org.uk>
+In-Reply-To: <20260603074815.3033766-18-viro@zeniv.linux.org.uk>
 X-Spam-Flag: NO
 X-Spamd-Result: default: False [-3.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
@@ -112,12 +111,17 @@ X-Spamd-Result: default: False [-3.80 / 50.00];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email,linux.org.uk:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.org.uk:email,suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Level: 
 X-Spam-Score: -3.80
 
-On Wed 03-06-26 08:48:15, Al Viro wrote:
-> the only way parent_group is used there...
+On Wed 03-06-26 08:48:11, Al Viro wrote:
+> Fold into the only remaining user, don't bother with the timestamps
+> of parent - we are going to rmdir it shortly anyway, which will
+> override those.
+> 
+> Fix the locking of inode, while we are at it - updating the link
+> count and timestamps ought to be done with the inode locked.
 > 
 > Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 
@@ -128,52 +132,93 @@ Reviewed-by: Jan Kara <jack@suse.cz>
 								Honza
 
 > ---
->  fs/configfs/dir.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
+>  fs/configfs/configfs_internal.h |  1 -
+>  fs/configfs/dir.c               | 24 +++++++++++++++++++++++-
+>  fs/configfs/inode.c             | 22 ----------------------
+>  3 files changed, 23 insertions(+), 24 deletions(-)
 > 
+> diff --git a/fs/configfs/configfs_internal.h b/fs/configfs/configfs_internal.h
+> index 0b969d0eb8ff..acdeea8e2d69 100644
+> --- a/fs/configfs/configfs_internal.h
+> +++ b/fs/configfs/configfs_internal.h
+> @@ -76,7 +76,6 @@ extern int configfs_make_dirent(struct configfs_dirent *, struct dentry *,
+>  extern int configfs_dirent_is_ready(struct configfs_dirent *);
+>  
+>  extern const unsigned char * configfs_get_name(struct configfs_dirent *sd);
+> -extern void configfs_drop_dentry(struct configfs_dirent *sd, struct dentry *parent);
+>  extern int configfs_setattr(struct mnt_idmap *idmap,
+>  			    struct dentry *dentry, struct iattr *iattr);
+>  
 > diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
-> index 8fc05fe69992..4d82375b0cfd 100644
+> index 479d37b8d806..4a4bad1741cf 100644
 > --- a/fs/configfs/dir.c
 > +++ b/fs/configfs/dir.c
-> @@ -701,14 +701,14 @@ static void detach_groups(struct dentry *dentry)
->   * We could, perhaps, tweak our parent's ->mkdir for a minute and
->   * try using vfs_mkdir.  Just a thought.
->   */
-> -static int create_default_group(struct config_group *parent_group,
-> +static int create_default_group(struct dentry *parent,
->  				struct config_group *group,
->  				struct configfs_fragment *frag)
->  {
->  	int ret;
->  	struct configfs_dirent *sd;
->  	/* We trust the caller holds a reference to parent */
-> -	struct dentry *child, *parent = parent_group->cg_item.ci_dentry;
-> +	struct dentry *child;
+> @@ -581,12 +581,34 @@ static void detach_attrs(struct dentry *dentry)
 >  
->  	if (!group->cg_item.ci_name)
->  		group->cg_item.ci_name = group->cg_item.ci_namebuf;
-> @@ -735,10 +735,11 @@ static int create_default_group(struct config_group *parent_group,
->  static int populate_groups(struct config_group *group,
->  			   struct configfs_fragment *frag)
->  {
-> +	struct dentry *parent = group->cg_item.ci_dentry;
->  	struct config_group *new_group;
->  
->  	list_for_each_entry(new_group, &group->default_groups, group_entry) {
-> -		int ret = create_default_group(group, new_group, frag);
-> +		int ret = create_default_group(parent, new_group, frag);
->  		if (ret)
->  			return ret;
+>  	spin_lock(&configfs_dirent_lock);
+>  	for (sd = next_dirent(parent_sd, NULL); sd; sd = next) {
+> +		struct dentry *child;
+> +
+>  		next = next_dirent(parent_sd, sd);
+>  		if (!(sd->s_type & CONFIGFS_NOT_PINNED))
+>  			continue;
+>  		list_del_init(&sd->s_sibling);
+> +		child = sd->s_dentry;
+> +		if (child) {
+> +			spin_lock(&child->d_lock);
+> +			if (simple_positive(child)) {
+> +				dget_dlock(child);
+> +				__d_drop(child);
+> +				spin_unlock(&child->d_lock);
+> +			} else {
+> +				spin_unlock(&child->d_lock);
+> +				child = NULL;
+> +			}
+> +		}
+>  		spin_unlock(&configfs_dirent_lock);
+> -		configfs_drop_dentry(sd, dentry);
+> +		if (child) {
+> +			struct inode *inode = child->d_inode;
+> +
+> +			inode_lock_nested(inode, I_MUTEX_NONDIR2);
+> +			inode_set_ctime_current(inode);
+> +			drop_nlink(inode);
+> +			inode_unlock(inode);
+> +			dput(child);
+> +		}
+>  		configfs_put(sd);
+>  		spin_lock(&configfs_dirent_lock);
 >  	}
-> @@ -1767,7 +1768,7 @@ int configfs_register_group(struct config_group *parent_group,
->  	parent = parent_group->cg_item.ci_dentry;
->  
->  	inode_lock_nested(d_inode(parent), I_MUTEX_PARENT);
-> -	ret = create_default_group(parent_group, group, frag);
-> +	ret = create_default_group(parent, group, frag);
->  	if (ret)
->  		goto err_out;
->  
+> diff --git a/fs/configfs/inode.c b/fs/configfs/inode.c
+> index bc507b720a01..3c26b6c443be 100644
+> --- a/fs/configfs/inode.c
+> +++ b/fs/configfs/inode.c
+> @@ -195,25 +195,3 @@ const unsigned char * configfs_get_name(struct configfs_dirent *sd)
+>  	}
+>  	return NULL;
+>  }
+> -
+> -
+> -/*
+> - * Unhashes the dentry corresponding to given configfs_dirent
+> - * Called with parent inode's i_mutex held.
+> - */
+> -void configfs_drop_dentry(struct configfs_dirent * sd, struct dentry * parent)
+> -{
+> -	struct dentry * dentry = sd->s_dentry;
+> -
+> -	if (dentry) {
+> -		spin_lock(&dentry->d_lock);
+> -		if (simple_positive(dentry)) {
+> -			dget_dlock(dentry);
+> -			__d_drop(dentry);
+> -			spin_unlock(&dentry->d_lock);
+> -			__simple_unlink(d_inode(parent), dentry);
+> -			dput(dentry);
+> -		} else
+> -			spin_unlock(&dentry->d_lock);
+> -	}
+> -}
 > -- 
 > 2.47.3
 > 
