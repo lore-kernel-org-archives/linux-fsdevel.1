@@ -1,95 +1,52 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104DD3DEADC
-	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 08:46:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4053194AE6
+	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 09:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780994813; cv=none; b=tDd33s5RxPfs1kX9W/GblDKbdYwGXE1xhwZdlqPy6I+d/h+417WtZnLX7282N46Lq2mL24YwdY07+DMuNVQRijWjtRBQ4crGJVckzpWxYnkY1SfrF6EnA7bfOr4HYFdD4FntuWnfrL/FqNgaGcVeJ8ZnrwvtFTDBc2yFd2j/6bA=
+	t=1780995757; cv=none; b=tf7Z8xrcQ9x42Kc/g7oVD7Uu3GTy7XAHItOcQpSzvfxNBVD0LdBAxOqcD4Tyu0SmiOomiNFfDL/t97Hmz//4Y/tpkFCAw8XdUQRwl3nQH+Ti/j8On/Ga+d6h+A7mPHwWCsxiSStYt47CczZnOM+UaJnPCEaTyIt9phwzOfkRm/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780994813; c=relaxed/simple;
-	bh=tlPULvhmDm02D8hVP//ZkWLYQbTCbMQrA7/ANZ+JAsQ=;
+	s=arc-20240116; t=1780995757; c=relaxed/simple;
+	bh=xZTvEBLbxtBpXTz0bEuWvNUwElZ8rLMCRoqfdm7dz/g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BiN6TTuYiHJI2sJwAtJt5uWtQ+ePnJI1I8Lxg32SxFnviun/jbdwShpi99xJs7wDiXLDYFU1XU862LsghXay/8fR7TGu18k6hkmnBZ0YzbAtjqkjMCWTDNUrMwEUw3QivNxvk0iDsnb7q+8jP3lCCuUw086CTxMifi9xKW2uonU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Vx/BEscr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=spO2gcbj; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Vx/BEscr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=spO2gcbj; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=K0Xly4hoCg4Fy5jKLj77eVujXYXkm4qKZm+2aW2SyaA/rEMXMn1SqfrZT6aNpIcc00Xpj1elNf6yR5JHiJz7wRLPbLWlWUnmjabu8y0NYyhQVqQeH0+e241eREw32lvdaMszv6uMC15ikg/MF7R6hFipzziCWoDCoK0s2IblkAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dsLDsInS; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Vx/BEscr";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="spO2gcbj";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Vx/BEscr";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="spO2gcbj"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4801C6A8A5;
-	Tue,  9 Jun 2026 08:46:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1780994810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GSQxH6p+aBDmmgKYN3VNQI6BF8H04zVBQYzVTpTNZQo=;
-	b=Vx/BEscri+0r67xy3avOveRmQ30LzU24dPEtk4qjekhhW9jO6kGIOJyQmLwDG7x25ePCR2
-	Xlaz8xVatdyRqM5Tfoywojl7q8hfbYvbK/V4xCBXi2oum35WHUs+sUA73IFM2FQGMlMDS9
-	CBNOerN+mnmdoXzGGnP0+SurjemtxMQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1780994810;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GSQxH6p+aBDmmgKYN3VNQI6BF8H04zVBQYzVTpTNZQo=;
-	b=spO2gcbj47UyJGxrqj93wVAFhcKrlTrh9cZYY+iwZ3P7HvrM5hIZjhXqrvAaHZxWZhA2vd
-	J365xzS9oAiV3PAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="Vx/BEscr";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=spO2gcbj
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1780994810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GSQxH6p+aBDmmgKYN3VNQI6BF8H04zVBQYzVTpTNZQo=;
-	b=Vx/BEscri+0r67xy3avOveRmQ30LzU24dPEtk4qjekhhW9jO6kGIOJyQmLwDG7x25ePCR2
-	Xlaz8xVatdyRqM5Tfoywojl7q8hfbYvbK/V4xCBXi2oum35WHUs+sUA73IFM2FQGMlMDS9
-	CBNOerN+mnmdoXzGGnP0+SurjemtxMQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1780994810;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GSQxH6p+aBDmmgKYN3VNQI6BF8H04zVBQYzVTpTNZQo=;
-	b=spO2gcbj47UyJGxrqj93wVAFhcKrlTrh9cZYY+iwZ3P7HvrM5hIZjhXqrvAaHZxWZhA2vd
-	J365xzS9oAiV3PAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 373B9779A7;
-	Tue,  9 Jun 2026 08:46:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aXV3DfrSJ2oadgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 09 Jun 2026 08:46:50 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id E0D69A0A90; Tue, 09 Jun 2026 10:46:49 +0200 (CEST)
-Date: Tue, 9 Jun 2026 10:46:49 +0200
-From: Jan Kara <jack@suse.cz>
-To: John Hubbard <jhubbard@nvidia.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@infradead.org>, 
-	Kees Cook <kees@kernel.org>, Cong Wang <xiyou.wangcong@gmail.com>, 
-	Chia-Lin Kao <acelan.kao@canonical.com>, Benjamin LaHaise <bcrl@kvack.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org, 
-	linux-aio@kvack.org, linux-mm@kvack.org, kvm@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 2/2] libfs: drop redundant SB_I_NOEXEC/SB_I_NODEV in
- init_pseudo() callers
-Message-ID: <md6vxgeg4h2cs2p7jfgjy6ybgiysbl7fprulimdcxhhiwsv3le@5zgf6mbprh4w>
-References: <20260604025315.245910-1-jhubbard@nvidia.com>
- <20260604025315.245910-3-jhubbard@nvidia.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dsLDsInS"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=GC+JFhsCFvp9I/Y1vIdUPY4ekT1XSIP7QJ8l6HwbvF0=; b=dsLDsInS9LgdI49BKcSHqGKzP5
+	RUD0cSBudcKScGPIp4griuRcI+vx7ZBC90UCwVLQINp3UPJJeW3UVDvaHup0rAZ+vmozbwhoTt5eN
+	WGruOqfXRt4d+GwJYOn7UHj3aoFbnNsz0+bVvqs3HvEEcz/m8IVzAVW+cBuydAP8G7ZGTTawReOtK
+	8r+Aoi2Z08gpZM0iRcgKPXA+6mqjRLQKDQLy7hMZSd5akZv2iE6oI1OuAbqAL7w9Za4bdShYVsQx9
+	6oRE+UHYhEMD3+o1Q4Y/gU8cpSOA0xusbruF7C2Eksu4GILWR9wG4UuJqcSC7zdyVuhLMoRAXP+fv
+	OG3ge6qw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wWsLw-000000058d3-11W1;
+	Tue, 09 Jun 2026 09:02:32 +0000
+Date: Tue, 9 Jun 2026 02:02:32 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Andy Whitcroft <apw@shadowen.org>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: increasing PAGE_ALLOC_COSTLY_ORDER, was Re: [LSF/MM/BPF TOPIC]
+ Memory fragmentation with large block sizes
+Message-ID: <aifWqFpSkcMU31UO@infradead.org>
+References: <f22caf98-1375-493a-a275-0500ffac3e81@suse.de>
+ <aifAm1rRKF75HVeM@infradead.org>
+ <1225376d-dc29-44a1-add6-0cb14926a538@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -98,146 +55,54 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260604025315.245910-3-jhubbard@nvidia.com>
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[nvidia.com:email,suse.cz:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,infradead.org,gmail.com,canonical.com,kvack.org,linux-foundation.org,redhat.com,linaro.org,amd.com,kernel.dk,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	R_RATELIMIT(0.00)[to_ip_from(RL694s4p1xnhfjnqpxspz5pnt4)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,suse.cz:email,suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 4801C6A8A5
-X-Spam-Score: -2.51
+In-Reply-To: <1225376d-dc29-44a1-add6-0cb14926a538@suse.de>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Wed 03-06-26 19:53:15, John Hubbard wrote:
-> init_pseudo() now sets SB_I_NOEXEC and SB_I_NODEV by default, so the
-> per-caller assignments are redundant. Drop them.
+On Tue, Jun 09, 2026 at 10:39:14AM +0200, Hannes Reinecke wrote:
+> With 32k block sizes the picture changed completely; the 'bump'
+> vanished, and there was only pronounces spike with 0-order pages
+> (about four times the size of the spike with 4k block sizes).
 > 
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
-
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  fs/aio.c               | 1 -
->  fs/anon_inodes.c       | 2 --
->  fs/nsfs.c              | 1 -
->  fs/pidfs.c             | 2 --
->  mm/secretmem.c         | 2 --
->  virt/kvm/guest_memfd.c | 2 --
->  6 files changed, 10 deletions(-)
+> This led me to assume that compaction broke down at 32k block sizes;
+> this assumption was confirmed by Vlastimil Babka who pointed out that
+> there is a maximum order to which page compaction is attempted:
 > 
-> diff --git a/fs/aio.c b/fs/aio.c
-> index 722476560848..f57fa21a2503 100644
-> --- a/fs/aio.c
-> +++ b/fs/aio.c
-> @@ -318,7 +318,6 @@ static int aio_init_fs_context(struct fs_context *fc)
->  	pfc = init_pseudo(fc, AIO_RING_MAGIC);
->  	if (!pfc)
->  		return -ENOMEM;
-> -	fc->s_iflags |= SB_I_NOEXEC;
->  	pfc->ops = &aio_super_operations;
->  	return 0;
->  }
-> diff --git a/fs/anon_inodes.c b/fs/anon_inodes.c
-> index b8381c7fb636..a7b9b948e33d 100644
-> --- a/fs/anon_inodes.c
-> +++ b/fs/anon_inodes.c
-> @@ -86,8 +86,6 @@ static int anon_inodefs_init_fs_context(struct fs_context *fc)
->  	struct pseudo_fs_context *ctx = init_pseudo(fc, ANON_INODE_FS_MAGIC);
->  	if (!ctx)
->  		return -ENOMEM;
-> -	fc->s_iflags |= SB_I_NOEXEC;
-> -	fc->s_iflags |= SB_I_NODEV;
->  	ctx->dops = &anon_inodefs_dentry_operations;
->  	return 0;
->  }
-> diff --git a/fs/nsfs.c b/fs/nsfs.c
-> index 160018c4fb36..c3b6ae76594a 100644
-> --- a/fs/nsfs.c
-> +++ b/fs/nsfs.c
-> @@ -664,7 +664,6 @@ static int nsfs_init_fs_context(struct fs_context *fc)
->  	struct pseudo_fs_context *ctx = init_pseudo(fc, NSFS_MAGIC);
->  	if (!ctx)
->  		return -ENOMEM;
-> -	fc->s_iflags |= SB_I_NOEXEC | SB_I_NODEV;
->  	ctx->s_d_flags |= DCACHE_DONTCACHE;
->  	ctx->ops = &nsfs_ops;
->  	ctx->eops = &nsfs_export_operations;
-> diff --git a/fs/pidfs.c b/fs/pidfs.c
-> index 1cce4f34a051..c363416766f1 100644
-> --- a/fs/pidfs.c
-> +++ b/fs/pidfs.c
-> @@ -1115,8 +1115,6 @@ static int pidfs_init_fs_context(struct fs_context *fc)
->  	if (!ctx)
->  		return -ENOMEM;
->  
-> -	fc->s_iflags |= SB_I_NOEXEC;
-> -	fc->s_iflags |= SB_I_NODEV;
->  	ctx->s_d_flags |= DCACHE_DONTCACHE;
->  	ctx->ops = &pidfs_sops;
->  	ctx->eops = &pidfs_export_operations;
-> diff --git a/mm/secretmem.c b/mm/secretmem.c
-> index 5f57ac4720d3..4877c262cb1f 100644
-> --- a/mm/secretmem.c
-> +++ b/mm/secretmem.c
-> @@ -245,8 +245,6 @@ static int secretmem_init_fs_context(struct fs_context *fc)
->  	if (!ctx)
->  		return -ENOMEM;
->  
-> -	fc->s_iflags |= SB_I_NOEXEC;
-> -	fc->s_iflags |= SB_I_NODEV;
->  	return 0;
->  }
->  
-> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-> index 69c9d6d546b2..80f201035d77 100644
-> --- a/virt/kvm/guest_memfd.c
-> +++ b/virt/kvm/guest_memfd.c
-> @@ -973,8 +973,6 @@ static int kvm_gmem_init_fs_context(struct fs_context *fc)
->  	if (!init_pseudo(fc, GUEST_MEMFD_MAGIC))
->  		return -ENOMEM;
->  
-> -	fc->s_iflags |= SB_I_NOEXEC;
-> -	fc->s_iflags |= SB_I_NODEV;
->  	ctx = fc->fs_private;
->  	ctx->ops = &kvm_gmem_super_operations;
->  
-> -- 
-> 2.54.0
+> include/linux/mmzone.h:
+> /*
+>  * PAGE_ALLOC_COSTLY_ORDER is the order at which allocations are deemed
+>  * costly to service.  That is between allocation orders which should
+>  * coalesce naturally under reasonable reclaim pressure and those which
+>  * will not.
+>  */
+> #define PAGE_ALLOC_COSTLY_ORDER 3
 > 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> and it's main usage is 'order > PAGE_ALLOC_COSTLY_ORDER'.
+> Which ties in directly with what we're seeing.
+
+Yes, we've also seen similar issue with memory allocation beyond
+PAGE_ALLOC_COSTLY_ORDER.  Right now the maximum block size supported
+for XFS is 64k, and there's various workloads for which we'd like to
+make use of that.  Increasing PAGE_ALLOC_COSTLY_ORDER to cover 64k
+allocations would be extremely helpful to make it perform well.
+
+How has PAGE_ALLOC_COSTLY_ORDER been chosen?  And what would it take
+to increase it?
+
+> It will probably make sense to align the maximum block size which we
+> currently support (ie 64k) with this value to ensure that compaction
+> works with larger block sizes. Or maybe even the other way round;
+> tie the maximum block size which we support to PAGE_ALLOC_COSTLY_ORDER.
+> But that would mean to restrict the blocksize to 16k, whereas xfs
+> works happily with 32k. So we might want to raise PAGE_ALLOC_COSTLY_ORDER.
+
+block sizes larger than PAGE_ALLOC_COSTLY_ORDER work, but it doesn't
+perform great.  So I don't think a hard limit would be good.
+
+> Question is, though, how could we measure the impact?
+> This particular value has been in since 2007 (commit 5ad333eb66ff1 'lumpy
+> reclaim V4'), and it might well be that the original
+> reasoning doesn't apply anymore.
+
+I've not even seen much of a reasoning for picking the value in that
+commit.  Or did I miss something?
+
