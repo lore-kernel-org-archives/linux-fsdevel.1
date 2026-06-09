@@ -1,120 +1,132 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE45E3EFFC5
-	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 08:19:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F2A2F2910;
+	Tue,  9 Jun 2026 08:28:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780993147; cv=none; b=rxCDr+UE9FeT1RXCxzVXrOgI64gy15oH1iHLokW8g0inansYwOZ3veTrvSf6DoLtfWdb0aiYSGuJBrXdP3R6D08MMU+VavCdUUyf8x2ldIbb5xb3JWdwMt0JhVI5QYUChHfZ/Gq74sTtvWY5ONM8Q7xYK1vBoqYw9xrqVyiVpx0=
+	t=1780993684; cv=none; b=n/lRewqsGXF/fn7yEYlZPXXX+lBQzGnLd7udND9od/sc0KvBR4IcCN+qlz33qwHfn7N7bVbhgJpYB9+xyIkXAv24OZdOIMmkK1aPBBFbLk/pRiJAHIFdFmpZtupJXPnLmx01CvcTqXlyFDwbmf6grjRDpnN+qQ2h7rrdiRs8iRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780993147; c=relaxed/simple;
-	bh=Qot/PJkxpbE9FxlSLjM1IYuTW1mM4PdPtQlpfM51lxA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Xfb67HbbG7/u9qJhiZFQf03Str6DZ5Ga2uOSDosTO17VIV2YX0doOJws1yD9BjKbnZhgVKUo70Nwp50AXchyodZH+RSlYsYoVkL/W6wEXl7nthd22XER25hEueNC2GNs6PWd7QjHde4IT1vGloMf27yG4F+wAkd+3UCgEyw9Tss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dGyvNdxz; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1780993684; c=relaxed/simple;
+	bh=J7ffoKHHHfwk3VrhGHgz6HIm/QqvAN8OPo/RlTINeZg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M8zdvi76I9nn4GKnVQMqDv4LALqZ36vr/NDnkIZOl2ImMbSoqbvrl3bq5CCtiPDplUzzM4681tE9SBOk2+aVXhXSU9nLPmTh2dgvaEV68e+nFEJ3gTqNev/4sRl0Rm2NlGM+wAtgdssf8HsvyEyKSttv18jK1jEwx5xgxSMGMA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ePD+sA10; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dGyvNdxz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780993145;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aXYfuW0iimSyufRjo4SpIMOrUHwhtivd5e9rju7+Kzw=;
-	b=dGyvNdxz4PE3JETLsCKUi6NzAKGeme3c7gqjYvnFGogazSyKXKkhDXWMnyWC9y/ovUyRMk
-	kZtvCoBpVsSveIIYsQTbO8At0+VjinL8215vSDYQWbDrbTgxAxG6OvxFSIx7MXA1oL0tRF
-	55V5eu2u1YjhN0DLaLHRt3aj3rcl5vM=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-427-PzcKXFnvO62sNE6oo6g3kA-1; Tue,
- 09 Jun 2026 04:17:53 -0400
-X-MC-Unique: PzcKXFnvO62sNE6oo6g3kA-1
-X-Mimecast-MFC-AGG-ID: PzcKXFnvO62sNE6oo6g3kA_1780993072
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 074041955F45;
-	Tue,  9 Jun 2026 08:17:51 +0000 (UTC)
-Received: from warthog.procyon.org.com (unknown [10.44.32.43])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 77B761800370;
-	Tue,  9 Jun 2026 08:17:46 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: Christian Brauner <christian@brauner.io>
-Cc: David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	linux-afs@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Nan Li <tonanli66@gmail.com>,
-	stable@kernel.org,
-	Yuan Tan <yuantan098@gmail.com>,
-	Yifan Wu <yifanwucs@gmail.com>,
-	Juefei Pu <tomapufckgml@gmail.com>,
-	Xin Liu <bird@lzu.edu.cn>,
-	Ren Wei <n05ec@lzu.edu.cn>
-Subject: [PATCH 1/7] afs: handle CB.InitCallBackState3 requests without a server record
-Date: Tue,  9 Jun 2026 09:17:31 +0100
-Message-ID: <20260609081738.770127-2-dhowells@redhat.com>
-In-Reply-To: <20260609081738.770127-1-dhowells@redhat.com>
-References: <20260609081738.770127-1-dhowells@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ePD+sA10"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C36681F00893;
+	Tue,  9 Jun 2026 08:27:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780993682;
+	bh=KUTWvkYgd4SUoz3GQ3EreKamUH7kzM6u+lTKw2+UhB0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ePD+sA10auk+0GlzUNcXqGiA8HKi9Y2JwdUhisxwcywX35moIyMcANbTc/VRTQR51
+	 MFUniUu0p7IYhynxwNLyu9DK2+4bdeMicIOdPck5dsrai7aWkMWZ8Gzqvl14HSbcHy
+	 YE5h+kNNN5zaeYqYUloL6UIVR+QXltPLiXsoeqRd8IxXJvKqRZ8/vC/jZP2nacV6tm
+	 JF7koe1kXEKnDblzzOl1pQvxXc1S1WrIYcWyOVnXhC2qkVLQYeaHU72h3uc885vivn
+	 T2PDleobwrFY4cxvaH2202R6Kv63uQcLtOK9UdL4CUrq1Z8cSLbQJy8vuLu/cH+IjJ
+	 enacxdiPUbdgw==
+Date: Tue, 9 Jun 2026 09:27:56 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, 
+	david@redhat.com, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
+	pfalcato@suse.de, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/2] fs/proc/task_mmu: change lock_vma_range() to return
+ error code
+Message-ID: <aifEZEisSFABmYiW@lucifer>
+References: <20260606015729.1837935-1-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260606015729.1837935-1-surenb@google.com>
 
-From: Nan Li <tonanli66@gmail.com>
+On Fri, Jun 05, 2026 at 06:57:28PM -0700, Suren Baghdasaryan wrote:
+> To correctly propagate error code from lock_vma_range(), change it to
+> return the error code instead of the boolean. This simplifies error
+> propagation code.
+>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
-The cache manager callback path now attaches the server record to an
-incoming call through the rxrpc peer's app data.  That association is
-not guaranteed to exist for every callback request, and most callback
-handlers already tolerate that case.
+Logic LGTM, couple nits below, but:
 
-Make CB.InitCallBackState3 follow the same pattern by checking whether a
-server record was attached before using it.  If the peer is not mapped
-to a server record, trace the request and ignore it, matching the
-existing behaviour for other unmatched callback requests.
+Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
 
-This keeps the callback handler consistent with the rest of the cache
-manager service and avoids depending on peer state that may not be
-available for a given request.
+> ---
+>  fs/proc/task_mmu.c | 16 +++++++++-------
+>  1 file changed, 9 insertions(+), 7 deletions(-)
+>
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index d32408f7cd5e..023422fcee12 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -162,13 +162,13 @@ static void unlock_ctx_vma(struct proc_maps_locking_ctx *lock_ctx)
+>  	}
+>  }
+>
+> -static inline bool lock_vma_range(struct seq_file *m,
+> -				  struct proc_maps_locking_ctx *lock_ctx)
+> +static inline int lock_vma_range(struct seq_file *m,
 
-Fixes: 40e8b52fe8c8 ("afs: Use the per-peer app data provided by rxrpc")
-Cc: stable@kernel.org
-Reported-by: Yuan Tan <yuantan098@gmail.com>
-Reported-by: Yifan Wu <yifanwucs@gmail.com>
-Reported-by: Juefei Pu <tomapufckgml@gmail.com>
-Reported-by: Xin Liu <bird@lzu.edu.cn>
-Signed-off-by: Nan Li <tonanli66@gmail.com>
-Signed-off-by: Ren Wei <n05ec@lzu.edu.cn>
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Marc Dionne <marc.dionne@auristor.com>
-cc: linux-afs@lists.infradead.org
----
- fs/afs/cmservice.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Could drop the unnecessary inline here while we're here.
 
-diff --git a/fs/afs/cmservice.c b/fs/afs/cmservice.c
-index 5540ae1cad59..263c60c811a5 100644
---- a/fs/afs/cmservice.c
-+++ b/fs/afs/cmservice.c
-@@ -364,6 +364,11 @@ static int afs_deliver_cb_init_call_back_state3(struct afs_call *call)
- 	if (!afs_check_call_state(call, AFS_CALL_SV_REPLYING))
- 		return afs_io_error(call, afs_io_error_cm_reply);
- 
-+	if (!call->server) {
-+		trace_afs_cm_no_server_u(call, call->request);
-+		return 0;
-+	}
-+
- 	if (memcmp(call->request, &call->server->_uuid, sizeof(call->server->_uuid)) != 0) {
- 		pr_notice("Callback UUID does not match fileserver UUID\n");
- 		trace_afs_cm_no_server_u(call, call->request);
+> +				 struct proc_maps_locking_ctx *lock_ctx)
+>  {
+>  	rcu_read_lock();
+>  	reset_lock_ctx(lock_ctx);
+>
+> -	return true;
+> +	return 0;
+>  }
+>
+>  static inline void unlock_vma_range(struct proc_maps_locking_ctx *lock_ctx)
+> @@ -245,10 +245,10 @@ static inline void unlock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+>  	mmap_read_unlock(lock_ctx->mm);
+>  }
+>
+> -static inline bool lock_vma_range(struct seq_file *m,
+> +static inline int lock_vma_range(struct seq_file *m,
 
+Same comment as above.
+
+>  				  struct proc_maps_locking_ctx *lock_ctx)
+>  {
+> -	return lock_ctx_mm(lock_ctx) == 0;
+> +	return lock_ctx_mm(lock_ctx);
+>  }
+>
+>  static inline void unlock_vma_range(struct proc_maps_locking_ctx *lock_ctx)
+> @@ -311,6 +311,7 @@ static void *m_start(struct seq_file *m, loff_t *ppos)
+>  	struct proc_maps_locking_ctx *lock_ctx;
+>  	loff_t last_addr = *ppos;
+>  	struct mm_struct *mm;
+> +	int err;
+>
+>  	/* See m_next(). Zero at the start or after lseek. */
+>  	if (last_addr == SENTINEL_VMA_END)
+> @@ -328,11 +329,12 @@ static void *m_start(struct seq_file *m, loff_t *ppos)
+>  		return NULL;
+>  	}
+>
+> -	if (!lock_vma_range(m, lock_ctx)) {
+> +	err = lock_vma_range(m, lock_ctx);
+> +	if (err) {
+>  		mmput(mm);
+>  		put_task_struct(priv->task);
+>  		priv->task = NULL;
+> -		return ERR_PTR(-EINTR);
+> +		return ERR_PTR(err);
+>  	}
+>
+>  	/*
+>
+> base-commit: e178a530a81621a29efbca49b3b78202a18236e4
+> --
+> 2.54.0.1032.g2f8565e1d1-goog
+>
