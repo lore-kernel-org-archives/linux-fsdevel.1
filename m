@@ -1,89 +1,164 @@
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD39242D70
-	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 13:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0902472AF
+	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 13:39:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781011059; cv=none; b=AsK94S8AC8ixYod7dpU8cDO/iSNgQdI7IeKrqWPHsojNIqab/nxnNFpRcwpENF9GEq71CKGd24GQEHfKqNiY9Kt41Ijyw3DllJV7Hf/Bj5GpKE+JplCSL/G1Zil6LCdq1jQY+8ispW6nnWsYSETyRMLtgbSOPvYUesQavIexlBw=
+	t=1781012347; cv=none; b=prpLItTP/vB52nm6qSeTLzcBhvzw3/kH5jRjK9Lw2XULtlz08b9tDIUgurW8iHMgCNmA10iEkS6JpSjZU9r6dZw3ojLOoTblnIzcB87+S5z/YeD4lbUlYJx7hV8/pq1uviblXhujuaYc3YQtVmx7fT8Gq3dX4PwVPx/HVoTLVwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781011059; c=relaxed/simple;
-	bh=PEtr/nYBsyF6LXPViv+Hww+MhlKG6EKj4ZY0X6tbHi4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e0v2BKiolqftcqy7gUILmVSYCqWNwhBZIt6iW2AYmRkO0DTw6fh5s4/bsSMhHmor9niW8Ty2w8d2zPUKayiYRRCSlEUjMiYAbWCvFeBWQkG6i/PBjwZ00hWUu5PEes1WOdNDRKgPgrGbkbPNpNZR/WQwgSs+2x+WwXqdrPHEwjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qzP+LsnB; arc=none smtp.client-ip=95.215.58.186
+	s=arc-20240116; t=1781012347; c=relaxed/simple;
+	bh=Ld0mtuWHZDKcfGoVtJaBqvRcMPaJlO6FFUPg+tsjemA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Lq05vcX0tlPbaDcR8fr+fCKHnbhrTp1GJ4Yu+ADdYKO08CruwT9rmwdOv2YnK9bgkzwJlmyHM2tdlv4Gc612AD50qLCCH+uyTtHJAHUclF8xd2I3QGOqcooNplBqaTZGZcxUAAWOJ+eRF2kPOA+e2v8231GwFKZd63pf8smer+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DHA5pvdG; arc=none smtp.client-ip=91.218.175.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qzP+LsnB"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DHA5pvdG"
+Message-ID: <86575450-1d56-43be-a4fd-6f451e5be4e3@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1781011055;
+	t=1781012343;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CxMQll+O4+monLTew5Xz8Mca5BpahKZtkIXA+xIMBkg=;
-	b=qzP+LsnBgX4txxd4qwDdGOWpue6NIQ2xu4zq3Q53ScsMs68zGHRKaMkY2OjNMz8ldO2oQT
-	av/+QwPfsorh2XYYZ2ykQM//QUQ8V+BIwg7KuNtgsHJz/dqqmY0/sSYeWG3aKqQqNsSxYs
-	F3TbbT+4EU5Ng2I4idh0G+xY574FQgc=
-From: Usama Arif <usama.arif@linux.dev>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Usama Arif <usama.arif@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH v2 2/6] ntfs: Remove use of __folio_index in handle_bounds_compressed_page()
-Date: Tue,  9 Jun 2026 06:17:23 -0700
-Message-ID: <20260609131724.3114804-1-usama.arif@linux.dev>
-In-Reply-To: <20260608210618.3437216-3-willy@infradead.org>
-References: 
+	bh=YJV2I1pYWH8I5eTLLlBTFWiw8BNl9+kPEFYXmmxRFA0=;
+	b=DHA5pvdG52Z8Irgr/MLUCeE3l55DgnRt1kYMY2LtcWTgvjyHXVXQzZmJRQoBDdVBAzJEN4
+	Rqo+Pc3l9/iqRCZMu3i2P2MnJItVE+ySpQCrTGcA4wmxKkIqwdSPoVVHf8MV1e7lKqzy7O
+	z3+XUebaAMcRd6oZZlVWxxJQ1nu+Jgw=
+Date: Tue, 9 Jun 2026 14:38:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] fs/super: skip non-memcg-aware nr_cached_objects in memcg
+ slab shrink
+To: Jan Kara <jack@suse.cz>
+Cc: brauner@kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+ linux-mm@kvack.org, hughd@google.com, boris@bur.io, clm@fb.com,
+ dsterba@suse.com, linux-btrfs@vger.kernel.org, cem@kernel.org,
+ linux-xfs@vger.kernel.org, shakeel.butt@linux.dev, hannes@cmpxchg.org,
+ riel@surriel.com, kernel-team@meta.com
+References: <20260609123047.1948242-1-usama.arif@linux.dev>
+ <5exadtggg276xp5tayiqbbomnms4hjyaopmgu3chfpl2ug56dq@vyhswy2afzmo>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Usama Arif <usama.arif@linux.dev>
+In-Reply-To: <5exadtggg276xp5tayiqbbomnms4hjyaopmgu3chfpl2ug56dq@vyhswy2afzmo>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
-On Mon,  8 Jun 2026 22:06:12 +0100 "Matthew Wilcox (Oracle)" <willy@infradead.org> wrote:
 
-> Nobody is supposed to use page->__folio_index.  Use page_offset()
-> instead, and simplify by working exclusively in loff_t instead of mixing
-> up loff_t and pgoff_t.
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> ---
->  fs/ntfs/compress.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/fs/ntfs/compress.c b/fs/ntfs/compress.c
-> index c904858dff3d..b279f38636d6 100644
-> --- a/fs/ntfs/compress.c
-> +++ b/fs/ntfs/compress.c
-> @@ -105,13 +105,14 @@ void free_compression_buffers(void)
->  static inline void handle_bounds_compressed_page(struct page *page,
->  		const loff_t i_size, const s64 initialized_size)
->  {
-> -	if ((page->__folio_index >= (initialized_size >> PAGE_SHIFT)) &&
-> -			(initialized_size < i_size)) {
-> +	loff_t pos = page_offset(page);
-> +
-> +	if ((pos >= initialized_size) && (initialized_size < i_size)) {
->  		u8 *kp = page_address(page);
->  		unsigned int kp_ofs;
->  
->  		ntfs_debug("Zeroing page region outside initialized size.");
-> -		if (((s64)page->__folio_index << PAGE_SHIFT) >= initialized_size) {
-> +		if (pos >= initialized_size) {
 
-Ah should have raised my comment in patch 3 here.
+On 09/06/2026 13:52, Jan Kara wrote:
+> On Tue 09-06-26 05:30:47, Usama Arif wrote:
+>> The super_block shrinker is registered with SHRINKER_MEMCG_AWARE because its
+>> dentry and inode LRUs are memcg-aware (via list_lru). But the optional
+>> ->nr_cached_objects() hooks that the shrinker also drives are not memcg-aware:
+>> btrfs extent maps and xfs inode reclaim operate on filesystem-global
+>> state, and shmem's unused-huge shrinker walks a per-superblock shrinklist.
+>> None of them filter by sc->memcg.
+>>
+>> The mismatch shows up under memcg-heavy slab reclaim. shrink_slab_memcg()
+>> calls do_shrink_slab() once per (memcg, NUMA node) pair for every memcg
+>> whose bit is set in the per-superblock shrinker bitmap, which on a busy
+>> host means hundreds of calls per reclaim pass. Each scan queues the same
+>> global shrinker work item that's already kicked from the root path.
+>>
+>> Because btrfs/xfs global count is typically non-zero on any in-use filesystem,
+>> the returned total stays positive even if a memcg's own dentry/inode LRUs
+>> are empty. shrink_slab_memcg() therefore never clears the SB shrinker bit
+>> in the memcg bitmap, so subsequent reclaim passes from the same memcg
+>> re-enter super_cache_count() and pay for the global counter walk again.
+>>
+>> Restrict ->nr_cached_objects() to the global shrink path (sc->memcg NULL
+>> or root). The memcg-aware dentry/inode LRUs keep being counted and
+>> scanned per memcg as before; only the global fs-specific hooks are skipped.
+>> The root/global shrink path still drives those hooks; only their
+>> invocation from non-root memcg slab reclaim is removed.
+>>
+>> Signed-off-by: Usama Arif <usama.arif@linux.dev>
+> 
+> To me this makes sense. However I'm bit surprised that XFS inode shrinker
+> (which is what gets counted in nr_cached_objects for XFS) isn't memcg
+> aware. I guess since these inodes are on their way to a relatively quick
+> destruction, nobody really bothered. So I'm fine with the change, just
+> I'd like to make sure XFS folks are aware and don't plan anything in this
+> area.
+> 
 
->  			clear_page(kp);
->  			return;
->  		}
-> -- 
-> 2.47.3
+Thanks for the review!
+
+Yes I am hoping that if there are any objections from xfs or btrfs, it gets
+raised. Have cc'ed the btrfs and xfs maintainers and reviewers.
+
+Thanks!
+Usama
+
+
+> 								Honza
 > 
-> 
+>> ---
+>>  fs/super.c | 19 +++++++++++++++++--
+>>  1 file changed, 17 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/fs/super.c b/fs/super.c
+>> index 378e81efe643..5216c5dbd4c4 100644
+>> --- a/fs/super.c
+>> +++ b/fs/super.c
+>> @@ -24,6 +24,7 @@
+>>  #include <linux/export.h>
+>>  #include <linux/slab.h>
+>>  #include <linux/blkdev.h>
+>> +#include <linux/memcontrol.h>
+>>  #include <linux/mount.h>
+>>  #include <linux/security.h>
+>>  #include <linux/writeback.h>		/* for the emergency remount stuff */
+>> @@ -169,6 +170,19 @@ static void super_wake(struct super_block *sb, unsigned int flag)
+>>  	wake_up_var(&sb->s_flags);
+>>  }
+>>  
+>> +/*
+>> + * The s_op->nr_cached_objects hooks (used for example by btrfs and xfs)
+>> + * operate on filesystem-global state and ignore sc->memcg. Driving them
+>> + * from per-memcg shrink_slab_memcg() invocations only burns CPU walking
+>> + * per-cpu counters and queueing duplicate work: the actual reclaim happens on
+>> + * the global path (kswapd or root direct reclaim) regardless. Restrict them
+>> + * to that path.
+>> + */
+>> +static inline bool super_fs_objects_eligible(struct shrink_control *sc)
+>> +{
+>> +	return !sc->memcg || mem_cgroup_is_root(sc->memcg);
+>> +}
+>> +
+>>  /*
+>>   * One thing we have to be careful of with a per-sb shrinker is that we don't
+>>   * drop the last active reference to the superblock from within the shrinker.
+>> @@ -198,7 +212,7 @@ static unsigned long super_cache_scan(struct shrinker *shrink,
+>>  	if (!super_trylock_shared(sb))
+>>  		return SHRINK_STOP;
+>>  
+>> -	if (sb->s_op->nr_cached_objects)
+>> +	if (sb->s_op->nr_cached_objects && super_fs_objects_eligible(sc))
+>>  		fs_objects = sb->s_op->nr_cached_objects(sb, sc);
+>>  
+>>  	inodes = list_lru_shrink_count(&sb->s_inode_lru, sc);
+>> @@ -259,7 +273,8 @@ static unsigned long super_cache_count(struct shrinker *shrink,
+>>  		return 0;
+>>  	smp_rmb();
+>>  
+>> -	if (sb->s_op && sb->s_op->nr_cached_objects)
+>> +	if (sb->s_op && sb->s_op->nr_cached_objects &&
+>> +	    super_fs_objects_eligible(sc))
+>>  		total_objects = sb->s_op->nr_cached_objects(sb, sc);
+>>  
+>>  	total_objects += list_lru_shrink_count(&sb->s_dentry_lru, sc);
+>> -- 
+>> 2.52.0
+>>
+
