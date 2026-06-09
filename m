@@ -1,185 +1,100 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA42C352C5B;
-	Tue,  9 Jun 2026 14:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB72D359A65
+	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 14:48:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781016232; cv=pass; b=XrlGZIXcQV2EGYqEHCYvPlc6oNkWcZ8YiHwnsY6j19pXQzIdg97xa2z6F0dLn10fBAmG6PD9tyS5hl6dnBnIDsZC8DHqv/FSnSIYLipTi8PICNJsQxXBYqeRIkBuRUaPprQEUkAP57ObV2DjY2RaRWAw79Hiv5zdvTGP123ki08=
+	t=1781016527; cv=pass; b=ONccq+0BA72df6F/vAnS5/M+lnv2RTt7pNzV0rijpEgcHX4DtfnzWLnJI+uGtkZBoJU/V9qxG3AZrYttEgH4S4SobfLUB8Qcws3xGLpRUQHWvG5u9j2eiijd0PLQXToD9ZtLAJoxw8ID5yZJmVRtiWU0I+uD5LDMTc7MT1jvTJI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781016232; c=relaxed/simple;
-	bh=hba8JdKa5DwwyWp0VLcyVqa2151ObpLXyNCan9gFlNs=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=R5u8/04IL0X0f5c5QC3XQ2G6ElsBRhgPJxFcAEnJ+gYcPF8LyvL4M/1afjhtcfKPnJp1JRKfQA4wwbqJhfjo4zspoR0XESdIGOS6dLPa+BtU9iEd1LflgunVGVcnkO+RrH3ueU8SkZBaQV0/YWmS1ds/7liRNId57e22mZxxjmI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=COdwqkDQ; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.beauty
+	s=arc-20240116; t=1781016527; c=relaxed/simple;
+	bh=+a76krTz2XmJx/eLQrkwaJT7VfP5qKUf/8ADCJM/SrI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tx/r5hXR6kYYTXBI5T4r16rSbnaH8V4xIYH+BCbHql65tTqYBN8WIUuz1SHQBnnCAdZXrDLqCDzOOw8PkIHqBEPugLMBf/Gr01p3dQVjqEllWRgXWbGXAdAte/lKXGcHOURZbuq0DsTIaM14KDISI79beki6IUOodY6vqwgH9SI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=rDG4dHT5; arc=pass smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="COdwqkDQ"
-ARC-Seal: i=1; a=rsa-sha256; t=1781016191; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=h7rLtiBgT6JIZSxmJMtvUqc4vDZXEE84xSFHH7+I7DRRoiIxpI6USJd4jeM5QKxTHLBOjRdGlGPZK491r6Ic0mZHo4E6Os5MnWiN1hQAtcqCaRDitY6VvI2f6oz5eb3b9mj4UTqInmHmmH9FyLo9Z/0p24DR0VZIseC0o1dhDWA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1781016191; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=/y9sk2WKJk6IVRAkewpieDuGt24dURWTghxoT+OO5zI=; 
-	b=f9q23nRD9SwH6P0dfQ+zaosNvHpR6OplQgfllXtgS+3kEfwrreImsF/Jw5oxfWk7c+v3pkV1oH1syqog/nU1i9ccZ4I1GbIytyRi6YvbmuDAhDo245bgvuYxw4L4FU3++fOLhMhm6/JQ6zyOrPZnYLAzpv71AKwoFhzJKFwluyk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=linux.beauty;
-	spf=pass  smtp.mailfrom=me@linux.beauty;
-	dmarc=pass header.from=<me@linux.beauty>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1781016191;
-	s=zmail; d=linux.beauty; i=me@linux.beauty;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=/y9sk2WKJk6IVRAkewpieDuGt24dURWTghxoT+OO5zI=;
-	b=COdwqkDQJ9R0ZBvzBwIwlx+nRdcQO9W3BEy4BNPz+VcJ0wKYsAMd0YbHmrS6azhT
-	338RbHqaewKGsSI9be4yoWBCQGRKqjBZG5nbubYRN/04VYI2Y18hEQ5IZt8uHveiPhe
-	CGUwP+qJQjwM8IFoZr8xMCL7e4gyrv2AhDkkmgj0=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1781016184094100.75145563479225; Tue, 9 Jun 2026 07:43:04 -0700 (PDT)
-Date: Tue, 09 Jun 2026 22:43:04 +0800
-From: Li Chen <me@linux.beauty>
-To: "Andy Lutomirski" <luto@kernel.org>
-Cc: "Christian Brauner" <brauner@kernel.org>, "Kees Cook" <kees@kernel.org>,
-	"Alexander Viro" <viro@zeniv.linux.org.uk>,
-	"linux-fsdevel" <linux-fsdevel@vger.kernel.org>,
-	"linux-api" <linux-api@vger.kernel.org>,
-	"linux-kernel" <linux-kernel@vger.kernel.org>,
-	"linux-mm" <linux-mm@kvack.org>,
-	"linux-arch" <linux-arch@vger.kernel.org>,
-	"linux-doc" <linux-doc@vger.kernel.org>,
-	"linux-kselftest" <linux-kselftest@vger.kernel.org>,
-	"x86" <x86@kernel.org>, "Arnd Bergmann" <arnd@arndb.de>,
-	"Thomas Gleixner" <tglx@kernel.org>,
-	"Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-	"Dave Hansen" <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
-	"Jonathan Corbet" <corbet@lwn.net>,
-	"Shuah Khan" <skhan@linuxfoundation.org>
-Message-ID: <19eacd64508.26b92c022125848.262962729296162879@linux.beauty>
-In-Reply-To: <CALCETrWJQpLR4n1cpichBk8=uExSKLWTMGU3BufGdk_WE_p5UA@mail.gmail.com>
-References: <20260528095235.2491226-1-me@linux.beauty> <20260528-madig-fachrichtung-fehlinformation-61117ba640da@brauner> <CALCETrWJQpLR4n1cpichBk8=uExSKLWTMGU3BufGdk_WE_p5UA@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
- executable startup
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="rDG4dHT5"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-5176096116fso61711941cf.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 09 Jun 2026 07:48:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781016524; cv=none;
+        d=google.com; s=arc-20240605;
+        b=IbRIZxTDsDfnnM6bj41eeZAIvF3qmHIN2SDA82jA1XncU2DA8nqnfyr2ibttH4MXM+
+         dRD3Is1NkehnqHA3o9hPXp9FLELHTqpmiojyWIrzzevKnwV+nOaLcciWc1RSaL640PiG
+         vYimXYpFZjOfsIet7Gj7kWb0ZfBgJpsiIvJbAumQBkrQws/dYY/fsza/9mTFXRorUayr
+         /DeMs/dhmq45YIWW6cjlWIbcIkc7LM+Aq2uTYeNXqO6KWqzUAIgxVNjSGk4drQ7+dnhs
+         hhLsvZ9flwVTs8bj5QzZELNGzg+ydj8F1oGlxOLlVgen4U8ZN/RU2c3aIpN6yBenmORl
+         HISQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=+a76krTz2XmJx/eLQrkwaJT7VfP5qKUf/8ADCJM/SrI=;
+        fh=iPfihKWOxLCqkT+/JifrX+opm41S4BV6tHnBWLssuq0=;
+        b=MJ6b+gAia3W/u8ydQPgG7//bouf1x9ScL5Kr+oMYIsMTPg/4kJVOtfr6ffXGYCW4K7
+         0HaDS/tgsnX1Uqc3fSQIB6EqZxI2SyhSbEEDlY0IpxnaGpWS+cn5vsxqaplCZcLtP2FM
+         9GTbqJJxrbTKIunADzQFQ1oiWGFPTkHQP/UuChk5nT6KpGSNBbvyw6xQ4JBrVYMnEprs
+         zIoxwuBVl0T4s3vlJOeCJN0/vEfWFNIob1KeUZWPVb6XbVMMZ1KDJuLEdPOFSzUcJC+x
+         HAWsPbjEfydw+fg1ckV8mYi2SZlcGoAp/TDYLcLCdgqP4IVYE0e1FavTur3F3109TbsT
+         EF+Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1781016524; x=1781621324; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+a76krTz2XmJx/eLQrkwaJT7VfP5qKUf/8ADCJM/SrI=;
+        b=rDG4dHT5AfA2WdvIXAmA7syTkVd21OoP23WLBOYg7dPYDC8V5C5ZPBL70GnqyUaXh+
+         08gR4ysRYOvDgmMQ0ntyEl7RpMsWgn3ooc2wlMbNTHNKQBpyMKt09PgFXdfAf3B0bTV+
+         F7wlq0VmFPMIlRR48k06seV9UkmHhXkVvf95Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781016524; x=1781621324;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+a76krTz2XmJx/eLQrkwaJT7VfP5qKUf/8ADCJM/SrI=;
+        b=WXx13TWL+MxcJsBnkL9GFp6mSh12ilybg8BT++zpfcwb4XzrgzIJSjKsujA9CiTQTU
+         SQSeBr9jiHTDWkpv820/3JbeYq0YJRxpherCcVfH7HX2c03SAyCFoS/fQk79Uj/0GFmp
+         wfoq9zwPZUEpupUHlnlReHotnJBCT9kz5xyG+kos8Q1o+O1VWXHLMi8m//cmysVRbsAl
+         sHHLlmdn2X+qskg1ADYE6MG9CMV8uJuYmby7rIslYEFWy8zK/eNcHbfPu5rxmwrf0Oy5
+         LvvGbR+Pxg/XEydbfx4pKiXsul7W0efDFoytidPYjs7/bXbC+tnWuFRbSoeafwHw6am+
+         q19A==
+X-Gm-Message-State: AOJu0Ywbc69seQICA1o/szu2Eyl/Eyco2n3wpyg8lS+2SdkOCrIOapPG
+	EXd+k59k13RUcTQEA8a/gIcAXaVQLDXAjBzyENVPE1yY8xT+TiXyxsOUrQ+RlaB3TI4mi3mt/eg
+	Fyz/noDJePNHQXYeW500vXYvEdwSL4+ragaaF1Us5xCSAQyUdkiwiTWY=
+X-Gm-Gg: Acq92OFdzuTSKWhNn899SL/NIPmkWA6ljnO4aCHt2qtUt4BIilE3BcFMYtOLhV1+y3n
+	sOuQ0XxPI0PGb7oyLoN8k69LgQYGrNv0txufsp1MccYAQpkF+/9FeLKc1GdDP0hfskQjIYYZ7Wb
+	7FhMEVQhuTfHiyu6gKT4AUhAulTsS+PCQ812dPOuDT0fG975NOERKXcYfiPMXER4TKyeG8p9JF4
+	SWa0kGXigLcgWyNZnwGiKF6u5VkPAcBrDCXfsqF5uMjur+5embz7IR78u3a5yrzMW7hcP0hjdmw
+	PG0dZMRxMoYvGeHE9jzOob6+8DzV05i0VoWc6w7Xk3v8ek5AMwI=
+X-Received: by 2002:ac8:5c83:0:b0:50e:6313:6e13 with SMTP id
+ d75a77b69052e-51795a829femr290022861cf.5.1781016523708; Tue, 09 Jun 2026
+ 07:48:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260607175832.14378-1-mahad.ibrahim.dev@gmail.com>
+In-Reply-To: <20260607175832.14378-1-mahad.ibrahim.dev@gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 9 Jun 2026 16:48:32 +0200
+X-Gm-Features: AVVi8CdZ4js0VeRqh_j68vBF2z35GcygI9fU_Ch7SsQ7zhQ_apUd4JjVOTi5BAs
+Message-ID: <CAJfpegvi+gnwV1+a_QTSvJ46-4_8LGoAsU=xbqE4J4=m5RU6rw@mail.gmail.com>
+Subject: Re: [PATCH] fuse: use min_t() instead of ternary operator
+To: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
 
-Hi Andy,
+On Sun, 7 Jun 2026 at 19:58, Mahad Ibrahim <mahad.ibrahim.dev@gmail.com> wrote:
+>
+> Replace existing ternary operators for finding minimum value with min_t
+> macro to adhere to kernel coding standards and improve readability.
 
- ---- On Tue, 09 Jun 2026 08:01:57 +0800  Andy Lutomirski <luto@kernel.org>=
- wrote ---=20
- > On Thu, May 28, 2026 at 4:05=E2=80=AFAM Christian Brauner <brauner@kerne=
-l.org> wrote:
- > >
- > > On Thu, May 28, 2026 at 05:52:21PM +0800, Li Chen wrote:
- > > > Hi,
- > > >
- > > > This is an early RFC for an idea that is probably still rough in bot=
-h the
- > > > UAPI and implementation details. Sorry for the rough edges; I am sen=
-ding
- > > > it now to check whether this direction is worth pursuing and to get
- > > > feedback on the kernel/userspace boundary.
- > >
- > > The idea of having a builder api for exec isn't all that crazy. But it
- > > should simply be built on top of pidfds and thus pidfs itself instead.
- > > It has all the basic infrastructure in place already. Any implementati=
-on
- > > should also allow userspace to implement posix_spawn() on top of it.
- > >
- > > fd =3D pidfd_open(0, PIDFD_EMPTY /* or better name */)
- > >
- > > pidfd_config(fd, ...) // modeled similar to fsconfig()
- > >
- >=20
- > After contemplating this for a bit... why pidfd?  Doesn't a pidfd
- > refer to an actual process that is, or at least was, running?  This
- > new thing is a process that we are contemplating spawning.  I can
- > imagine that basically all pidfd APIs would be a bit confused by the
- > nonexistence of the process in question.
- >=20
+Doesn't improve readability, on the contrary, it obfuscates the real
+meaning (return error or zero).
 
-Yes, I think that is a real concern.                                       =
-                                                                           =
-                                            =20
-                                                                           =
-     =20
-In my current local WIP I tried to keep that distinction explicit.         =
-                           =20
-pidfd_spawn_open() returns a pidfs-backed builder fd, not a normal pidfd
-referring to a process. The builder fd is allocated as an anonymous pidfs  =
-                                                                           =
-                                                          =20
-file with builder-specific file operations:      =20
-                                                                           =
-                           =20
-    file =3D pidfs_alloc_anon_file("[pidfd_spawn]",                        =
-                             =20
-                                 &pidfd_spawn_builder_fops, builder,     =
-=20
-                                 O_RDWR);                                  =
-                           =20
-                                                 =20
-and the normal pidfd helpers still reject it because it does not use the
-ordinary pidfd file operations:                                            =
-                           =20
-                                                                           =
-                           =20
-    struct pid *pidfd_pid(const struct file *file)
-    {
-        if (file->f_op !=3D &pidfs_file_operations)                        =
-                             =20
-            return ERR_PTR(-EBADF);              =20
-        return file_inode(file)->i_private;                                =
-                                                                           =
-                                                          =20
-    }                                                                      =
-                                                                           =
-                                                          =20
-                                                                           =
-                                                                           =
-                                                          =20
-So the current split is:                                                   =
-                           =20
-                                                                           =
-                           =20
-    builder_fd =3D pidfd_spawn_open(...);       /* builder object */
-    pidfd_config(builder_fd, ...);    =20
-    child_pidfd =3D pidfd_spawn_run(builder_fd, ...); /* real pidfd */
-                                                                           =
-                           =20
-Only the last fd is a normal pidfd for an actual child process. The
-builder fd is only accepted by the builder operations.                     =
-                                                                           =
-                                                          =20
-                                                                           =
-                           =20
-This avoids having to define what waitid(P_PIDFD), pidfd_send_signal(),
-pidfd_getfd(), poll(), etc. mean before the process exists. The downside   =
-                                                                           =
-                                                          =20
-is that it adds a separate open-style entry point and is less uniform than =
-                                                                           =
-                                                          =20
-the pidfd_open(0, PIDFD_EMPTY) spelling Christian sketched.                =
-                                                                           =
-                                                          =20
-                                                                           =
-                                                                           =
-                                                          =20
-If people think there is a better way to represent the pre-spawn builder
-state, or if the preference is to integrate it directly into pidfd_open()
-with an explicit empty/future-pidfd state, I would be happy to discuss
-that.
-
-Regards,
-Li=E2=80=8B
-
+Thanks,
+Miklos
