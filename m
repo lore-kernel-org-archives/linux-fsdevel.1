@@ -1,138 +1,126 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-1-115.ptr.blmpb.com (va-1-115.ptr.blmpb.com [209.127.230.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F5514A4F0
-	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 02:41:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E7A3815D9
+	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 03:52:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780972892; cv=none; b=C3kw5rXACxkq+aZAzpgxYH5NBtUjSkqNudhyWlpapqoA2RDwA1YDzP/sySf/QXcjc2x55rm+ayfD71sClRMhFAfnSEBPFl2995TKYwQIwO+M8P241tTt25RuwqdwlIfLCUdw9TNZd4QasMiLpD2xIv1PDudoE2NatzW1NvePpTo=
+	t=1780977137; cv=none; b=cv/V1WqJteb6Ig8yOE9G+htP3gm2sOAfOaQnFWt0XozsvragpGp7OZpmLFwGiFLoD8FxgUPve3GlMDDFkvaRSBH1/8/a0/Ci9sFXNXZiFk4foQE0bryQy5WH61B60LokplZp45yFgdV+q6Pay5tQgO/mNuOw9zoChFKHLtOeas4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780972892; c=relaxed/simple;
-	bh=KiitXwm4WnvmpEFCt8x3xuXJ7S3tIGBBsWJsnhVjSNk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WhWStIKg8aeeyH+Wkp+51MmNfM145DcI2gpG4fdR11SN+cfnJ4ZPGJJiRKQzXgxEvUDObWQA/GU51JNNAs2rAht+XseyzuUICmNw6PW4qHKRZTQPlRfiICggovoo2uGqpBA1gC8R4AuMoCSZ0AzAcFgDRkBNcHoJiT1wI2DEiL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: b4096ba663ac11f1aa26b74ffac11d73-20260609
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:bb637b6f-be5d-4c39-84b4-d5696ffc9c25,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:5899f74d7f89f202f1a84ecdaf42d886,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|865|898,TC:nil,Content:0|15|50
-	,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,O
-	SA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: b4096ba663ac11f1aa26b74ffac11d73-20260609
-X-User: liuxixin@kylinos.cn
-Received: from [192.168.122.73] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <liuxixin@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 219621544; Tue, 09 Jun 2026 10:41:23 +0800
-From: Xixin Liu <liuxixin@kylinos.cn>
-To: linux-fsdevel@vger.kernel.org
-Cc: almaz.alexandrovich@paragon-software.com, kari.argillander@gmail.com, liuxixin@kylinos.cn
-Subject: [PATCH v1 1/1] ntfs3: fix boundary check in ntfs_dir_count()
-Date: Tue, 9 Jun 2026 10:29:04 +0800
-Message-ID: <9211aa31fd02d45e42b4981497c6572ad8e26144.1780449274.git.liuxixin@kylinos.cn>
-In-Reply-To: <cover.ntfs3-b1-v1.1780449274.git.liuxixin@kylinos.cn>
-References: <cover.ntfs3-b1-v1.1780449274.git.liuxixin@kylinos.cn>
+	s=arc-20240116; t=1780977137; c=relaxed/simple;
+	bh=hdSVW6bl8+h5i6KnjDI3UWtf5kZ5kcQDkOrWk0z4KKs=;
+	h=From:Subject:To:Mime-Version:Date:Content-Type:Cc:Message-Id; b=ju/wkNUgY+nAUGmf6vHwSGjyMKmh4g4ukyzUEEt4GJzNkLyuKne0DQMYAB1EyyyrVvZTNA7/xr3QEblXC+1OW92y7TiKXtRaYZ5RFxh4hqRbaVusNDl7o5CHn457SfC9RykTNgkLiWIVKvWavoVvZNVoFht24AGcR+C1qPLAhos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=b8or/2rz; arc=none smtp.client-ip=209.127.230.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="b8or/2rz"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1780977129; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=3OgIEj2yUui+EzX4hPJghiUVKL6AAFLi2lczr6j1EMo=;
+ b=b8or/2rzrG0eV6jeyCVrs2+RSpr8UPuWjTe6rUTfRwkGaY4LPznbQ9rl4ESK9uUj5ruPcy
+ 0nJosWBPP+YLaXqJ3rWn90rRs18L8DVX/MtzbK2kt7GLAn0hd7W1GSIKYSuWPkP0+H0Bq3
+ PxGvapGe9kpXWxJVpuDZFOtSzGQCUuarc7++8UlhTzsB+RyLle++rpkr15j+1sR2Aboxzg
+ t47mwMrE2Swr4MK+rGP/Xw6EfjMKygGiivm0x7dV0YLAOzvysyznz+cDhaPBLfHfHFLGxE
+ Q59OsOT/tqt6GwLwCXmYAzB889u0TTzMmN+FfUN+PzvPuLi9StZW2ZiMP8Lc1w==
+From: "Jia Zhu" <zhujia.zj@bytedance.com>
+Subject: [PATCH v3 0/2] ext4: avoid tail walks for cached large-folio writes
+To: "Theodore Ts'o" <tytso@mit.edu>, 
+	"Andreas Dilger" <adilger.kernel@dilger.ca>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Date: Tue,  9 Jun 2026 11:52:00 +0800
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailer: ntfs3/send-local.py
+X-Lms-Return-Path: <lba+26a278de7+cb8082+vger.kernel.org+zhujia.zj@bytedance.com>
+Cc: "Matthew Wilcox" <willy@infradead.org>, 
+	"Alexander Viro" <viro@zeniv.linux.org.uk>, 
+	"Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>, 
+	"Baokun Li" <libaokun@linux.alibaba.com>, 
+	"Ojaswin Mujoo" <ojaswin@linux.ibm.com>, 
+	"Ritesh Harjani" <ritesh.list@gmail.com>, 
+	"Zhang Yi" <yi.zhang@huawei.com>, <linux-ext4@vger.kernel.org>, 
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	"Jia Zhu" <zhujia.zj@bytedance.com>
+Message-Id: <20260609035202.90669-1-zhujia.zj@bytedance.com>
+X-Original-From: Jia Zhu <zhujia.zj@bytedance.com>
 
-ntfs_dir_emit() skips index entries whose fname does not fit in e->size,
-but ntfs_dir_count() still accepted them via de_get_fname() alone.
-dir_is_empty() can then disagree with readdir: a malformed directory
-appears empty in ls while rmdir fails with ENOTEMPTY.
+Hi,
 
-Factor the fname/key bounds check into de_fname_fits() and use it from
-ntfs_dir_emit() and de_countable_fname() so count/readdir share the same
-entry acceptance rules.
+This series addresses a buffered-write regression we found during our
+v6.12 -> v6.18 LTS upgrade testing on ext4.
 
-Signed-off-by: Xixin Liu <liuxixin@kylinos.cn>
----
- fs/ntfs3/dir.c | 33 ++++++++++++++++++++++++++-------
- 1 file changed, 26 insertions(+), 7 deletions(-)
+The regression is in the remaining buffer_head path.  A small overwrite
+of an already cached, uptodate large folio still walks every buffer_head
+attached to the folio in both write_begin and write_end.  With order-0
+folios this was bounded by the page size.  After ext4 enabled large
+folios for regular files, the same loops became proportional to the
+folio size.
 
-diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
-index 873d52233003..eda02b46e9ed 100644
---- a/fs/ntfs3/dir.c
-+++ b/fs/ntfs3/dir.c
-@@ -273,6 +273,13 @@ struct inode *dir_search_u(struct inode *dir, const struct cpu_str *uni,
- 	return err == -ENOENT ? NULL : err ? ERR_PTR(err) : inode;
- }
- 
-+
-+static inline bool de_fname_fits(const struct NTFS_DE *e, u32 e_size,
-+				 const struct ATTR_FILE_NAME *fname)
-+{
-+	return sizeof(struct NTFS_DE) + fname_full_size(fname) <= e_size;
-+}
-+
- /*
-  * returns false if 'ctx' if full
-  */
-@@ -305,9 +312,7 @@ static inline bool ntfs_dir_emit(struct ntfs_sb_info *sbi,
- 	if (sbi->options->nohidden && (fname->dup.fa & FILE_ATTRIBUTE_HIDDEN))
- 		return true;
- 
--	if (sizeof(struct NTFS_DE) +
--	    offsetof(struct ATTR_FILE_NAME, name) +
--	    fname->name_len * sizeof(short) > le16_to_cpu(e->size))
-+	if (!de_fname_fits(e, le16_to_cpu(e->size), fname))
- 		return true;
- 
- 	name_len = ntfs_utf16_to_nls(sbi, fname->name, fname->name_len, name,
-@@ -576,6 +581,23 @@ static int ntfs_readdir(struct file *file, struct dir_context *ctx)
- 	return err;
- }
- 
-+
-+/*
-+ * Return fname when @e passes the same checks as ntfs_dir_emit() before
-+ * exposing an entry (valid key, non-DOS, fname fits in e->size).
-+ */
-+static inline const struct ATTR_FILE_NAME *
-+de_countable_fname(const struct NTFS_DE *e, u32 e_size)
-+{
-+	const struct ATTR_FILE_NAME *fname;
-+
-+	fname = de_get_fname(e);
-+	if (!fname || fname->type == FILE_NAME_DOS || !de_fname_fits(e, e_size, fname))
-+		return NULL;
-+
-+	return fname;
-+}
-+
- static int ntfs_dir_count(struct inode *dir, bool *is_empty, size_t *dirs,
- 			  size_t *files)
- {
-@@ -615,13 +637,10 @@ static int ntfs_dir_count(struct inode *dir, bool *is_empty, size_t *dirs,
- 			if (de_is_last(e))
- 				break;
- 
--			fname = de_get_fname(e);
-+			fname = de_countable_fname(e, e_size);
- 			if (!fname)
- 				continue;
- 
--			if (fname->type == FILE_NAME_DOS)
--				continue;
--
- 			if (is_empty) {
- 				*is_empty = false;
- 				if (!dirs && !files)
+I agree that converting ext4 buffered I/O to iomap is the right long-term
+direction, and that would avoid this problem.  This series is meant as a
+small fix for current and LTS kernels that still use the buffer_head path.
+
+Patch 1 follows Willy's suggestion for block_commit_write(): if the folio
+was already uptodate on entry, stop the commit walk once the copied range
+has been processed.
+
+Patch 2 applies the same conservative shape to ext4_block_write_begin().
+It keeps walking from the first buffer, so prefix buffer state handling is
+unchanged, and only skips the suffix for folios that were already
+uptodate on entry.
+
+The workload is from libMicro, which we use in kernel release testing:
+
+  https://github.com/rzezeski/libMicro
+
+The table below includes the v6.12 baseline from the same release
+benchmark.  The v6.12 and v6.18 columns were run with THP=always.  The
+last column is v6.18 with this series applied.  Results are usecs/call,
+lower is better, and the improvement is relative to unpatched v6.18.
+
+case           v6.12    v6.18   v6.18 + series   improvement
+write_u1k      0.609    4.659       0.528           88.7%
+write_u10k     1.408    4.869       0.809           83.4%
+pwrite_u1k     0.609    4.659       0.538           88.5%
+pwrite_u10k    1.399    4.889       0.819           83.2%
+writev_u1k     2.238    5.277       1.179           77.7%
+writev_u10k   11.057    8.029       4.219           47.5%
+
+For the cases that regressed from v6.12 to v6.18 in this test, this
+series brings the v6.18 numbers back below the v6.12 cost.
+
+Previous versions:
+v2:
+  https://lore.kernel.org/r/20260608120131.45146-1-zhujia.zj@bytedance.com
+v1:
+  https://lore.kernel.org/r/20260603134800.25155-1-zhujia.zj@bytedance.com
+
+Changes since v2:
+- simplify the ext4 loop condition as suggested by Jan;
+- add Reviewed-by tags from Jan;
+- add stable Cc tags.
+
+Changes since v1:
+- replace the ext4 seek-to-@from optimization with a conservative tail
+  break that preserves prefix buffer handling;
+- add the block_commit_write() tail break suggested by Willy;
+- add v6.12 and v6.18 benchmark results for the full series.
+
+Jia Zhu (2):
+  fs/buffer: avoid tail commit walk for uptodate folios
+  ext4: avoid tail write_begin walk for uptodate folios
+
+ fs/buffer.c     |  3 +++
+ fs/ext4/inode.c | 11 ++++++-----
+ 2 files changed, 9 insertions(+), 5 deletions(-)
+
 -- 
-2.43.0
-
+2.20.1
