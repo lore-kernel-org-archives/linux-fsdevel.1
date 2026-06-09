@@ -1,117 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534CE3ACEE9
-	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 09:25:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4280371D00
+	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 09:29:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780997145; cv=none; b=DlcNuhdCd6gCHnqE6tFkwl/suHVBB3To5+Dqx6Rk7hmvJY2P7448dLLOfIGwdOEIOulD/flI6dqNshjSuAN68yz5tQoUkHxQWImWvaDkzZxYsMc1CxnZs+NhiQjEWhcECG1EiZaIkpRqCLcf+JZ2ukkY3JylvDzxtDdzceOo/CY=
+	t=1780997376; cv=none; b=QMFwxcx3GUZ/9Io9bkHBoUhiPuR0iWHAR1b/hHTIfHoS+MamPvNlKnGMb6gru6sQ/SxZwmMqKlSokMh7rmnxmaDxsBynW3oHmX2RRIk1wsPZxQtZrtdmTrpCSS0zxAzQAXIfzGk0TOtxaihJg4pgcDJkO7b2sTS5fkRjcucBJSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780997145; c=relaxed/simple;
-	bh=ZyrPVORKuAtZ5DfK0JnZ7+zr6kTn6WvFaVTmVKDBlG4=;
+	s=arc-20240116; t=1780997376; c=relaxed/simple;
+	bh=V2pizV5FL3+v/pUXwob1d22DuXvbRGZ/QZQK4MiVfA8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c1lHOmcmWOO1PeUPZKbqr1+QeCJXCJDPbNiYimRXJSQpJ5DKxN64U71uT+zaqiqWDnG21t1eNStmSVlZjmJCsHMYAvt7O5RerWo+p9xLjnOyuaNr73jxsVVQFjKDJh8fl0MnRoYouiX6aky0Kyqnrh8g3i/anzHljRuuyfedV68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mndy84Y8; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=SxbX1cYyc5fpwJxOiQvIeTlnqUHUVJlTa2+i6WAIfbrLrBED2640Y4j6K7ipuamKOT8F3tjW/ozDh9l53gUpx6BjND7jJlllNUG1MLc8aanddyD2zfEjLYyuAtiwO5tgZVO6mbD0OI5uHrwA2HxFuwckCwpGMZi95Ll9LOdCZjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HGv/7TSF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mndy84Y8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F379D1F00898
-	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 09:25:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HGv/7TSF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2CBC1F00899
+	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 09:29:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780997144;
-	bh=guXMkD/CXZWZz7/ypVkwTi8EGLanAoQU2wk31gOXaEo=;
+	s=k20260515; t=1780997374;
+	bh=0yKUatVn4kkXWaYGNElZeA4eFQRcGLv0dVl4gXBmTUU=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=mndy84Y8lvq0TM5Q6Hlw53iK4X2FN/c48QXuMplImyW3vD4LP/DEmyS9Z716SzGvo
-	 7nRbY1OlGw/B/Uh/v8EAGDA/ZMUUFEOM2MjFvNzrs33adPxgXa2zZIuDlajVM6aUgV
-	 hNoUivf4RRzG9uWYKmaSlW/85pJTkMPLr1IAdM0QHp0cx4aoDj4KPZpZ8Pin4se178
-	 dpbCnPzn29zpqdrlCzXSmkAufn6NmnOtgYDkN1KGbmYeuW5dJMC7K48qjUEuxowllf
-	 SNcJzDce5mda6xrZ7Yuqtgb+RTNxUUVU+nL0jySwaMMPyVVN/JIo6cTjV8yJYj7FnP
-	 oUw7IXiLpdj/A==
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-bef47b1ac01so793706366b.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 09 Jun 2026 02:25:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9ZaoVwescX63fOqxwoXhANk1bu51a+GiET3CF9q6ah9X/l7wnwx2HEFd3HuisrX9xLVR1gX45pJYhUluBG@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxle4QvYZ9c9YY5aYaq9/PV7xLzHvg461f+tioHoUJKG+VGnvp5
-	gztQBlJNONkB9cszneIrZh+aN7tsqBYU8ucDQjttweQVmCTG7FYzrJKb+3EiYxqjHhn8F6zgli1
-	bnWP/lxV44bZ0PnHCpd+krVV8mN7dXuc=
-X-Received: by 2002:a17:907:970d:b0:bae:456f:fbb2 with SMTP id
- a640c23a62f3a-bf37234c821mr989583366b.23.1780997142437; Tue, 09 Jun 2026
- 02:25:42 -0700 (PDT)
+	b=HGv/7TSFLXkv/UDrmr8KL9JsjRwvks3xr7qylPz2QV+fW2anDe1xscw1d9TBpGhEr
+	 MThGVi1PwiDVAq0yJwX9fMLAoNusLPt597I0BSZuy+MmWQhEhHj1VLyqfIn/gPUnSb
+	 T1H3YMh7SW04NhxR5sRw3aNT1Kjl7ko6umhhjU2zZaIIevhyqVZ9Tw2KH3Ga5eKIDB
+	 /4vS6qMHU3pbnwCoQiE09UfG65nqCodMSfuzFSsIxbsUzysoxTfxfS87R95FfGtDGI
+	 x8XtW77PzRqCYF8YaG3/RtyLdbFX0SDflqS+ZhQomICdrOoRLQ1XDTjRHBNO+eDVqi
+	 ldvnlbQK8y3BA==
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-bef8b97655eso995182566b.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 09 Jun 2026 02:29:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8DuA53gkcIz6U+w2iWxUpFnQbjpdAwe6E7Ow8iwUWOXsTdCmuIjJO+nr+UCRMwWOXrAd0BHWqQGdiQU52K@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUd1Lf746EvOf2OHAW1bgmVe8PGgmKscNfew2M3zAhSBP2pmNO
+	bb6XMVr8NThNJl3p9U+idgnv8Tpeqy3OkcS8lDAVYYM9bylwnLYqOQQDp5H05z/1Nzbh1M7Dpqk
+	rmdap9C+O6bbn4OP/WEEXbYoTaGphLwA=
+X-Received: by 2002:a17:907:8d8e:b0:bed:15ff:5fe2 with SMTP id
+ a640c23a62f3a-bf3a8c05094mr764622166b.17.1780997373174; Tue, 09 Jun 2026
+ 02:29:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260608154917.2703739-1-charsyam@gmail.com>
-In-Reply-To: <20260608154917.2703739-1-charsyam@gmail.com>
+References: <CAKYAXd80+UfzKaCR9YRK8dAQq9S+kEp_VVwr_p3dj1tEeyqUQA@mail.gmail.com>
+ <20260603131950.321858-1-japo@linux.ibm.com> <CAKYAXd-mLHaF6VeREroNfUXYYhqLObr=8Lmv9JqVZ7qu5XO0Dw@mail.gmail.com>
+ <aibgj6XWdE2VIPiR@li-276bd24c-2dcc-11b2-a85c-945b6f05615c.ibm.com>
+In-Reply-To: <aibgj6XWdE2VIPiR@li-276bd24c-2dcc-11b2-a85c-945b6f05615c.ibm.com>
 From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 9 Jun 2026 18:25:28 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd9jxzr29a9s0d+40tHpuWzY6xuN8UR8CSQMQFnK+w2+NA@mail.gmail.com>
-X-Gm-Features: AVVi8CeUqV6szHd-7o_GDE4LZ5zr7BD8G02k7_VNE0hIB8YXxFSAIQg3W8MdCww
-Message-ID: <CAKYAXd9jxzr29a9s0d+40tHpuWzY6xuN8UR8CSQMQFnK+w2+NA@mail.gmail.com>
-Subject: Re: [PATCH v6 0/4] ntfs: finish resident attribute lookup validation
-To: DaeMyung Kang <charsyam@gmail.com>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+Date: Tue, 9 Jun 2026 18:29:21 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd8sB-a17A7AtfVm2BzoEU1oKUik1fu4=eeDCTq8T3r9tQ@mail.gmail.com>
+X-Gm-Features: AVVi8CeFUWDyJyP1VKaY8-b928lSrvpleqBk47O2G1CtuvaRUlgm9xcCjiVRR2U
+Message-ID: <CAKYAXd8sB-a17A7AtfVm2BzoEU1oKUik1fu4=eeDCTq8T3r9tQ@mail.gmail.com>
+Subject: Re: [PATCH] exfat: add swap_activate support
+To: Jan Polensky <japo@linux.ibm.com>
+Cc: djwong@kernel.org, hch@lst.de, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, regressions@lists.linux.dev, 
+	sj1557.seo@samsung.com, yuezhang.mo@sony.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 9, 2026 at 12:49=E2=80=AFAM DaeMyung Kang <charsyam@gmail.com> =
-wrote:
+On Tue, Jun 9, 2026 at 12:32=E2=80=AFAM Jan Polensky <japo@linux.ibm.com> w=
+rote:
 >
-> Hi,
+> On Wed, Jun 03, 2026 at 11:34:55PM +0900, Namjae Jeon wrote:
+> > On Wed, Jun 3, 2026 at 10:20=E2=80=AFPM Jan Polensky <japo@linux.ibm.co=
+m> wrote:
+> > >
+> > > Commit 614f71ca1bdf ("exfat: add iomap buffered I/O support")
+> > > converted exfat buffered I/O to iomap, but did not add a
+> > > .swap_activate handler to the address_space_operations.
+> > >
+> > > swapon(2) on an exfat swapfile then fails with EINVAL, which causes
+> > > LTP swap tests to fail.
+> > >
+> > > Add exfat_iomap_swap_activate() and hook it into exfat_aops so exfat
+> > > uses iomap_swapfile_activate() for swapfile activation.
+> > >
+> > > Fixes: 614f71ca1bdf ("exfat: add iomap buffered I/O support")
+> > > Closes: https://lore.kernel.org/all/20260603110212.3020276-1-japo@lin=
+ux.ibm.com/
+> > > Signed-off-by: Jan Polensky <japo@linux.ibm.com>
+> > Applied it to #dev.
+> > Thanks!
 >
-> this is v6 of the remaining NTFS resident attribute lookup validation
-> fixes, rebased onto the current ntfs-next branch from git.kernel.org.
+> Hi Namjae,
 >
-> v5 was generated against the temporary linux-ntfs ntfs-next test branch,
-> where the earlier lookup validation patches and the initial resident
-> $INDEX_ROOT validator were already present. That made the final
-> allocated_size-only patch depend on context that is not present in the
-> official ntfs-next branch.
+> I think one line might have been missed when applying my patch:
 >
-> This version is generated on top of:
+>     .swap_activate =3D exfat_iomap_swap_activate,
 >
->   git://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/ntfs.git
->   branch ntfs-next
->   base: <b3f6cd1d54aa>
+> I checked linux-next (master and next-20260604 / next-20260605),
+> and the issue is still present there.
 >
-> The current official ntfs-next branch already contains the earlier shared
-> attribute-value validator, the volume-name error handling fix, the volume
-> information search-context reinit fix, and the resident $VOLUME_NAME
-> validator. This resend therefore contains only the remaining official-bas=
-e
-> delta:
+> Link:
+> https://lore.kernel.org/all/20260603131950.321858-1-japo@linux.ibm.com/
 >
-> - reject non-resident records for all resident-only attribute types;
-> - fix the $INDEX_ROOT grow and shrink ordering so header capacity never
->   exceeds the resident value visible to lookup-time validation;
-> - add the full resident $INDEX_ROOT lookup validator, including
->   allocated_size checks.
->
-> Changes since v5:
-> - Rebased onto the official git.kernel.org ntfs-next branch instead of
->   the temporary out-of-tree test branch, so the series no longer depends
->   on patches that only existed there.
-> - Patch 4 is now a complete resident $INDEX_ROOT validator. In v5 it was
->   an incremental allocated_size-only change on top of the out-of-tree
->   validator; the resulting validator function is unchanged, but it now
->   stands on its own against ntfs-next.
-> - No functional changes to the other three patches.
->
-> Testing:
-> - Applied this 4-patch series on top of the ntfs-next base above with
->   git am; git diff --check is clean and scripts/checkpatch.pl --strict
->   passes on all four patches.
-> - Built a KASAN kernel (CONFIG_KASAN=3Dy, CONFIG_NTFS_FS=3Dy) and ran it
->   under QEMU against fresh 512 MiB NTFS images: mounted each read-write,
->   created 12 directories and 2160 files, then renamed, removed, cleaned
->   up and unmounted. Repeated three times; no KASAN report, oops or
->   panic, and ntfsfix -n reported each image clean after every run.
->
-> DaeMyung Kang (4):
->   ntfs: reject non-resident records for resident-only attributes
->   ntfs: grow index root value before reparent header update
->   ntfs: update index root allocated size before shrink
->   ntfs: validate resident index root values on lookup
-Applied them to #ntfs-next.
-Thanks!
+> Could you please take a look?
+Sorry about that, my bad. Your patch wasn't being applied properly, so
+I tried to update it manually and made a mistake. Anyway, I have just
+fixed it. Thank you very much for pointing it out!
