@@ -1,108 +1,94 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210A73D1CCA
-	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 21:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E17F40D57F
+	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 22:27:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781041521; cv=none; b=ul96MMl8Z3QBHe+ogKPqdZXvTudzgBOZDk0hTt78EuzRS0FpSYHzAQgT61OI6mS3Qa2Y2Yl1Ait8g4WdT5ImphK39qeV/mie03g9XSLrN4G3kJlsSlnZXRu6IEm/I/ct1hpgAjfEHrm0L7RVHaGrjTuXv7L0WXvL2+GTM6EbSSU=
+	t=1781044026; cv=none; b=qLYqLQ1rez+e4ysAcMEvRWQ+p1FE15W5oS98I5DCNUPcXkO7nI5s321CYtee1TSSacLjm92wxUrydUEwUHYdVSxsCjBsTaX6dMV2NLtSH9NYlC5/RvSrYexqSMykqzD/md1oI1gRnH09TDaXWid3Qg1iPzA7/vQC0Orf6mCWO7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781041521; c=relaxed/simple;
-	bh=yAF5KLeRkn9cZ2ilHNNEXS+YpamdStze0/rD7gJWkQg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=F4oSQ4UxtOvLbsH7IvjRxjrSVxzUntNh1/J4vpNp++K9m7oMKL7zYMOKIARlrXg74Vx8RiSzzyXMYnTMpEMwcJZeJvYIpBJiQgfu9C5YLdvcWloqcPwrxAAV9u5FQc8qJMkkPfEKtpVtS8gE2uspvnzPqhoZxZ3o8j2A6YxgAng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=Hgir1AHg; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="Hgir1AHg"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5aa7a7ad475so6232333e87.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 09 Jun 2026 14:45:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1781041518; x=1781646318; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=yAF5KLeRkn9cZ2ilHNNEXS+YpamdStze0/rD7gJWkQg=;
-        b=Hgir1AHgHlPmbWaogdY5/5iVRsNxhIityihALuZVVpjXZ7NYxjcNdlPyFMEDY+9H/P
-         MxROWNPRP+8nkzKIa6J5mY/RCKH14Vupzd5WQZ1QQWF+LPsiKpM+C1EFwk35aWhJFpkE
-         d5DIU7oGvYyAcmrFP2Svq5wvjVTEvyLmmDh0MJ3ogvRt/Ib2t34TxOXyVSmOKbjSAJ8I
-         NPzk1KTbNIx5OIPd1fTXYwdhopLvvgGYO29QgOu1HsVY4hULIIrmdfOEwFW03qHF5zlm
-         5UyDrf3CiiAo+z3Wlv4zoU4+18Q00GVEJcknK7kvy+P7NZpp+xq/EbPnh8kbqQcf1Ogd
-         mLng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781041518; x=1781646318;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yAF5KLeRkn9cZ2ilHNNEXS+YpamdStze0/rD7gJWkQg=;
-        b=csFIc+VB/VQYawxF9Rl0Wt7qBQmFsqecXjX2q4R4v9ti87kpBF5TrUWZ6mkYWy/hGI
-         kAp4M+hswk6MhbYA32dYDYQoNMN9kJL+IK/IvGrdox7VcvWs0E8mK/vO339GydV2sH2q
-         bFZvM/9lNR6gvEci8i6XAgXSiZRjJentI1TpP+v6NpXhsLtGTlljBW17I+51XPl4kkBo
-         246GA9Kzy0XqIYIxII/P16pW0l39iJmBkgeYacTYlUb7gmpsNw9NtKLOli4Iy0Rh/IjH
-         SbjR2rpDtS4ULxVuZhBdT6cbtGVW9BU2H92CVqEME7zl3M9BAwd7cMgxhopPtvD9oel6
-         6yKw==
-X-Forwarded-Encrypted: i=1; AFNElJ9xpeI5fdyuGf75cUF6/r9Q7rrFH3ZytkOdE+CH8UKwJIMYdkSS745V+FOGjTgqbcu5HmOgZXNaMdTHxqJ/@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSH3QQCs3uERhk8cX/4jTdPHa3Z6eJ/B+t1ItzWA3zAGsasgZh
-	ELQ7jSKK3WjqgVbeq8Ubjd99fTwyHr9du3rxKJoLekhukvOea6/5vvDczBG7M4Eu8t4=
-X-Gm-Gg: Acq92OEG7WLAYzH3hLK+CxpzqsXjGul9Vz4VfCAOw9mYyAiCz4sQ1uoTbIsVrwmpQOu
-	RFW1pawX4VoVwMafmHGaXbN1p6azExFZ//CrK2jQwQTeWlepDMaMEgaGXePjlpQPFPRuoRP2tFp
-	iWsRbipkhAlLUD+D87G2JGzagOV1xh+F4EwiUj1lOphbkpzRQjUfPaHXo74cIlIV1iG3CuHzhOr
-	KWJfbPkQ96ctsqESwUvrcGWNXksZiPLJ5UNsfOfg3jILZ0biIKa1tzLm4BJIsqZk+NBk8iMSqBX
-	GMkUVEvHWxjpDkhCH/MbnacKqEyyE2jsRAxdxGKzy1mw4K8JczrG8TK6nClLtkNfqQe+SYGCc7e
-	iThNcTLomAi3u5WnsHUAA5qLq+XBhJRMh5FBKcOnPK2zbESmNLmE4tbjgbzPluSwN/TkifBCCpw
-	JTGDBJtXVmQUUhF2hHgAC0tGzPSahQ5fGFOEkaH53oO7RBdumKBFcb1m3vlYPEaf06N58XYjVHd
-	D3gphBG2YIfrmIfaW+02MSbQytKmdnGzRAid16dz4BoUtNqQfdmNt8cauaaoOPuin4=
-X-Received: by 2002:a05:6512:685:b0:5a7:468f:1b82 with SMTP id 2adb3069b0e04-5aa87b69dc1mr6791891e87.1.1781041517776;
-        Tue, 09 Jun 2026 14:45:17 -0700 (PDT)
-Received: from [192.168.1.246] (broadband-95-84-186-252.ip.moscow.rt.ru. [95.84.186.252])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa7b990486sm4816210e87.68.2026.06.09.14.45.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 14:45:16 -0700 (PDT)
-Message-ID: <1ea0b6c5708ad7948bb37669e8f508607f17fe6a.camel@dubeyko.com>
-Subject: Re: [PATCH v2] hfs: return -EFSCORRUPTED instead of BUG() in
- hfs_write_inode()
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: David Maximiliano Hermitte <davemadmaxxx@gmail.com>, Jori Koolstra
-	 <jkoolstra@xs4all.nl>
-Cc: djwong@kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
-Date: Tue, 09 Jun 2026 14:45:13 -0700
-In-Reply-To: <20260608042425.1085828-1-davemadmaxxx@gmail.com>
-References: <20260607035339.1015062-1-davemadmaxxx@gmail.com>
-	 <20260608042425.1085828-1-davemadmaxxx@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+	s=arc-20240116; t=1781044026; c=relaxed/simple;
+	bh=kLovsygXZ41YdWzidjZ64FJs81003+GprnfEqKdvo80=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lRaDibTHK++09mXon8yog6WdinhJFOR2Yl0tpyCFIuoXo64MlfFvdAAWRlzXUs3ksIeT1OkHhue4vohRu9GN85HTkJywwpvm6tjqXJxONC95ePQQ4+9yTMLCUeHUR8spSxGGO88eSJZ6/psP3DMwY8VYkH1arzypZqPjzM2tvG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf19.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay06.hostedemail.com (Postfix) with ESMTP id B40EE1C2CAE;
+	Tue,  9 Jun 2026 22:26:58 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf19.hostedemail.com (Postfix) with ESMTPA id 8B34720027;
+	Tue,  9 Jun 2026 22:26:56 +0000 (UTC)
+Date: Tue, 9 Jun 2026 18:26:55 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>, Andreas Hindborg <a.hindborg@kernel.org>, Tyler
+ Hicks <code@tyhicks.com>, Namjae Jeon <linkinjeon@kernel.org>, Andreas
+ Gruenbacher <agruenba@redhat.com>
+Subject: Re: [PATCH 1/6] tracefs: use d_splice_alias() in ->lookup()
+ instances
+Message-ID: <20260609182655.3a907b49@fedora>
+In-Reply-To: <20260606064956.2722874-2-viro@zeniv.linux.org.uk>
+References: <20260606064956.2722874-1-viro@zeniv.linux.org.uk>
+	<20260606064956.2722874-2-viro@zeniv.linux.org.uk>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout02
+X-Rspamd-Queue-Id: 8B34720027
+X-Stat-Signature: 986c83yj5a5dtpwxuhmxcyd3yk8d39s9
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/TuVW8g9P1QCWmmFCSiV8I8u9Ifai5DNg=
+X-HE-Tag: 1781044016-563766
+X-HE-Meta: U2FsdGVkX1/781rMT79nrKWTewcbFdmBThtmmgFvdVm/d8974T7LUkvqSbplu9pt9QP50KnP9Fi+mRzqr1dpy1Ub4EUSjT2RwQveg2lXlMKUsm63KqwbjOtJWLkwnzTM0DmGYsC79ZXJteHyY7ZL2niLxrL0sVc2xMUqF2UB6CQQcLmpIu4Zis0SzKBBhGFNlY3QS6a53cJVvB1p7gQ1MW7yo6UMFS9jwwTEesMbkU6Afquwj8O+2wv19Wya0OKWeQnlMRFkSCRC5W75T5zLpEFwMEDHnIrRnQNNLukUYO4+g+XeS5FcxaeMzWIy5L583corLO8PysPBL3mYJ6NR67m2/ZQdHsSD59g59gl3N+Vi220BhrC20TBv5HO6MKSysKehVAFxbRkI/OCI9jvtD1AtpPO2S3E2HSGO7P9nCy7JErTqILKWPe25bSDT1Zqa
 
-On Mon, 2026-06-08 at 04:24 +0000, David Maximiliano Hermitte wrote:
-> Thank you for the review.
->=20
-> That makes sense. I agree that replacing the BUG() with a silent
-> return is probably not enough if this state indicates serious
-> filesystem corruption.
->=20
-> At this point I would prefer not to slow down the fix by guessing the
-> best HFS/VFS error-handling policy. My main goal was to report and
-> narrow down the reachable BUG() site and provide a minimal tested
-> patch showing that the crash can be avoided.
->=20
-> If someone with more HFS/VFS experience wants to take over the final
-> form of the fix, I would be happy with that. I can also help retest a
-> proposed v3 against the public syzbot reproducer.
->=20
-> Thanks again for taking a look.
+On Sat,  6 Jun 2026 07:49:51 +0100
+Al Viro <viro@zeniv.linux.org.uk> wrote:
 
-If you have corrupted HFS volume, then the issue should be resolved in
-mount logic. I suspect that we discussed this issue multiple times. But
-I still don't see that anybody can finish this work.
+> d_add() is not wrong there (inodes are freshly allocated), but
+> d_splice_alias() is more idiomatic.
+> 
+> Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 
-Thanks,
-Slava.
+This looks fine to me, but I haven't tested it. But anyway:
+
+Acked-by: Steven Rostedt <rostedt@goodmis.org>
+
+-- Steve
+
+> ---
+>  fs/tracefs/event_inode.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/fs/tracefs/event_inode.c b/fs/tracefs/event_inode.c
+> index 26b6453de30e..39c7a34531e8 100644
+> --- a/fs/tracefs/event_inode.c
+> +++ b/fs/tracefs/event_inode.c
+> @@ -389,8 +389,7 @@ static struct dentry *lookup_file(struct eventfs_inode *parent_ei,
+>  	// Files have their parent's ei as their fsdata
+>  	dentry->d_fsdata = get_ei(parent_ei);
+>  
+> -	d_add(dentry, inode);
+> -	return NULL;
+> +	return d_splice_alias(inode, dentry);
+>  };
+>  
+>  /**
+> @@ -420,8 +419,7 @@ static struct dentry *lookup_dir_entry(struct dentry *dentry,
+>  
+>  	dentry->d_fsdata = get_ei(ei);
+>  
+> -	d_add(dentry, inode);
+> -	return NULL;
+> +	return d_splice_alias(inode, dentry);
+>  }
+>  
+>  static inline struct eventfs_inode *init_ei(struct eventfs_inode *ei, const char *name)
+
