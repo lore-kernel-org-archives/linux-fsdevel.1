@@ -1,68 +1,86 @@
-Received: from va-1-111.ptr.blmpb.com (va-1-111.ptr.blmpb.com [209.127.230.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464693BF67E
-	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 03:54:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2801633ADBF
+	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 05:06:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780977257; cv=none; b=hWqqkQq8hsNudlq6bWGfCM0lsl2jk+Pj+qHMqyBuhqZVHNwJoXHBAv/pfW9G6ud11AcZcJRs/XKjgVOstTgQzOos8Jz4LXlWSuNPX5ZZrtmaj8Y+Ns/0E/YX3BO8pkmIKtWSCwkGZoTSuK19WjED1iarksYEtIYw9SkUlqOICmI=
+	t=1780981614; cv=none; b=QEBbIKGFQA83U1BMjuGXL47a+lpalwhNxlx+grIKyclPRqH8WfZZV+Eu1g6kH0hTw5I27vrGJvljJJQzFxeGXt6wSujAo2g8tS6qBXnsZ3bxUFWCwHlYI9kCLyq0vF5z5yfpeqEqhd46hhiaopS80La7iIfzUybJJi6eUS6kMcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780977257; c=relaxed/simple;
-	bh=mvpNFxgw5BGlOhcYlxQ+uaTZqopDimKnKLAb8n4GHt0=;
-	h=Content-Type:To:Cc:Date:Mime-Version:In-Reply-To:From:Subject:
-	 Message-Id:References; b=tWKL4jAepH2MTPN5EDFQySYDt/16s9y4rndtMJ+u3UzcMckJm75xjKQ8xcuEbcncmXDzICPnYvRmuuz27uV7uEonCWSSRQA4rzm4FLIn0vldNIieqIvloxms6lCxRqeQ7IRult5H7oO/czOVyGlMtj9aoJ6XAImsVDVNxXhTwTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=VN+P7Oj6; arc=none smtp.client-ip=209.127.230.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1780981614; c=relaxed/simple;
+	bh=1Sz0u2UAO5peDXeJ5+UPvZk+HnwlVnSIWkuhff2dIus=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fF5lIZL6JJbZJJsvweS25Qiihk8KKCL7PbuY6nTb1EesE8d0WtuMXp+hrI50iA69fcEv+g9/ZKhGDxrN7IpdniZwC5kixcbzx8Qcsd5ZTqOfgf2DeDOYCyTVGXxFkdHHOliWIw4ZIi1Hf7pwcNjNOwUvW2dL6K2Ff/6dXabIfjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i7odLtzK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="VN+P7Oj6"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1780977252; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=uo5KRq4o05V/cFeWp3gjQe2Ro38rU4Ok5QFUlwdMpL4=;
- b=VN+P7Oj6CZSHSm9XIHKHle7jlX2kAOrwpY5q384R7Aol+VmaMTHNzjmmQFZXx51pwNtwb9
- H310Yliqx+Mlzh1fZqv9UmfNP+zg9i3C9mZvdZbPKn7ui2ug9PI9zNqkD59Z7IC3Zgit+Z
- viDci5onMfhmpxkX4+pIMX4ctDgbBrcv1gTqpimiFdiPOXOV+oBIuVonuKEePwjYgl+inD
- 7/nBmIiOtHQC48b3FeGUOqMz8HBMNui8oarw9q8jc69yaj6lv+S7IjqkXiwI799aUUSIsy
- 3J17AaMT0TlicihCsv+Cjpm5JoBjsgCxE2Q4tsfxA+19vC2IJsuBeUoCcZRrhw==
-X-Original-From: Jia Zhu <zhujia.zj@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-To: "Jan Kara" <jack@suse.cz>
-Cc: "Jia Zhu" <zhujia.zj@bytedance.com>, "Theodore Ts'o" <tytso@mit.edu>, 
-	"Andreas Dilger" <adilger.kernel@dilger.ca>, 
-	"Matthew Wilcox" <willy@infradead.org>, 
-	"Alexander Viro" <viro@zeniv.linux.org.uk>, 
-	"Christian Brauner" <brauner@kernel.org>, 
-	"Baokun Li" <libaokun@linux.alibaba.com>, 
-	"Ojaswin Mujoo" <ojaswin@linux.ibm.com>, 
-	"Ritesh Harjani" <ritesh.list@gmail.com>, 
-	"Zhang Yi" <yi.zhang@huawei.com>, <linux-ext4@vger.kernel.org>, 
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Content-Transfer-Encoding: 7bit
-Date: Tue,  9 Jun 2026 11:54:05 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i7odLtzK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC1251F00899
+	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 05:06:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780981611;
+	bh=JSmZZXCHaEGGL/4nRb1w7Q3fqAEMLXnTrHJuHv8jMg4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=i7odLtzKyeWt4OfkJY2Dq5sKMbddv/Fs3b3USqUXnT4DQKHFhIm4SdMfnZqEnf4Mz
+	 jMKu4vswewUyT0JrG7v4sCPtUvsKupUvnim4VsVugriYScyQ6FF75YUrtJK4WSDCXf
+	 43BcNiIX++WNvKZDhEck14yVlpk9pIbTMpO/3x4cQayfwDdi3zzZZofIFu5hUxJbIU
+	 WyTNVAjzLndL1obHdMAYHgDEcG46lqik0+OQHjisi47+y8twlWJroDRFZR32lJifbF
+	 Xj8khn2dXcFc5D21r+jxytYKj13rodwvKHYazlE8dMdq/qSerdzp80jITmPuyqNBjZ
+	 3FNEwLxfFWn/g==
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-bed2b9bfa02so685780566b.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 08 Jun 2026 22:06:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8E/GVFBQ6hEpHyPC7SbreqJ0iRNftBXCueQS2Cg7R1uaFmq9xfK23/HQphsrLZo/J+lhfnWMtv8R2jeljr@vger.kernel.org
+X-Gm-Message-State: AOJu0YyivdrrAXj5OANMyoGsC+fJmiRB04VE4D9aSwpoSvI0Lk9/K9Jg
+	4XzyZ+uFgONFYdLhGh1CYbm+AaHmgjBWVSYcPKe/+8xzxE1e0ZWm7WVts6+N+S2navkmQOB71kh
+	jIgcl6wBXBMob85YEIwgRxlvOYpte9RA=
+X-Received: by 2002:a17:906:dc8b:b0:bec:64c3:9ac0 with SMTP id
+ a640c23a62f3a-bf371e4e3aamr904505366b.14.1780981610177; Mon, 08 Jun 2026
+ 22:06:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-In-Reply-To: <slupx7cfhq4uuk5bd3xnzu7ybnnqghzrseg3xjao6x7tbj75v3@jxv32j4em2cu>
-From: "Jia Zhu" <zhujia.zj@bytedance.com>
-Subject: Re: [PATCH v2 2/2] ext4: avoid tail write_begin walk for uptodate folios
-X-Lms-Return-Path: <lba+26a278e61+d15204+vger.kernel.org+zhujia.zj@bytedance.com>
-Message-Id: <20260609035405.92959-1-zhujia.zj@bytedance.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-References: <20260603134800.25155-1-zhujia.zj@bytedance.com> <20260608120131.45146-1-zhujia.zj@bytedance.com> <20260608120131.45146-3-zhujia.zj@bytedance.com> <slupx7cfhq4uuk5bd3xnzu7ybnnqghzrseg3xjao6x7tbj75v3@jxv32j4em2cu>
+MIME-Version: 1.0
+References: <20260608210618.3437216-1-willy@infradead.org>
+In-Reply-To: <20260608210618.3437216-1-willy@infradead.org>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Tue, 9 Jun 2026 14:06:37 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd-JmegoqrNR-FyLgvBW3qzWK2FYSsNmxTY33Yi_qu3cqg@mail.gmail.com>
+X-Gm-Features: AVVi8Cd3R2E9UIB9ys0n7A5gsqUoAl2XbQeWvqCvfsDFaTDj3QI7vviC7yYslZo
+Message-ID: <CAKYAXd-JmegoqrNR-FyLgvBW3qzWK2FYSsNmxTY33Yi_qu3cqg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] Remove __folio_index again
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 08, 2026 at 04:29:59PM +0200, Jan Kara wrote:
-> You simplify this condition to:
-> 
->   block_start < to || (!folio_uptodate && bh != head)
-> 
-> With this updated feel free to add:
-> 
-> Reviewed-by: Jan Kara <jack@suse.cz>
-
-Thanks Jan.  I've applied this simplification in v3 and added your
-Reviewed-by tag to both patches.
+On Tue, Jun 9, 2026 at 6:06=E2=80=AFAM Matthew Wilcox (Oracle)
+<willy@infradead.org> wrote:
+>
+> I renamed page->index to page->__folio_index a year ago.  That proved to
+> be insufficient to prevent people from using it, so take more extreme
+> measures to make it inaccessible except through struct folio.
+>
+> v2:
+>  - Split patch 1 into patches 1-3
+>  - Remove inversion of the i_size condition
+>  - Use page_offset() instead of page_pgoff()
+>  - Preserve the call to flush_dcache_page() in all circumstances
+>  - Use offset_in_page() instead of open-coding it
+>  - Remove shadowing definition of struct folio in patch 4
+>  - Delete the printing of page->index in show_page_info.py
+>  - Unname the padding where folio stores index instead of trying to
+>    create an unguessable name (Arnd)
+>  - Justify removal of page->share in patch 6
+>
+> Matthew Wilcox (Oracle) (6):
+>   ntfs: Inline zero_partial_compressed_page()
+>   ntfs: Remove use of __folio_index in handle_bounds_compressed_page()
+>   ntfs: Use zero_user_segment() in handle_bounds_compressed_page()
+>   ntfs: Remove references to page->__folio_index
+>   show_page_info: Remove printing of page index
+>   mm: Remove __folio_index
+For ntfs part,
+Acked-by: Namjae Jeon <linkinjeon@kernel.org>
+Thanks!
