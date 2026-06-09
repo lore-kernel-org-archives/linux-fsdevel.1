@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723E93EDAC7
-	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 08:18:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29003EDAD7
+	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 08:18:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780993090; cv=none; b=MOA91evJdEalBqqCd2patMtpk2wv2RW8JfYLhX34AsKqh8z8oBllvufKPsPmZ196zuHGexQQXIwzm6X9BpZZOwroPHt5VboOt9tfk+8gVvt1oUuDXd4BHuDstMdOAOQ8FKwjncphAlussEoHzkTmODjvL4YkNl8yhQfxJ1am5bo=
+	t=1780993097; cv=none; b=E+PsJiQRfrY5MGaibu4Qfffo9XkbFx+gHeuswVhvBSDBfPtgakQ3tfcHPWVa93A1PSzSSBVgJTAyVwuyj3omwS6mDAWWYzd/6plEJou0dwSlDB9WMUdZuEK0TEgVZaSAGtilBCL5hKU+8qv0bhgZzEszJwCaQA4GUleVKvPyMmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780993090; c=relaxed/simple;
-	bh=rEAJILyxD7sMPEejWjVgehmQCWVRSy8KW1d0CkA5HEc=;
+	s=arc-20240116; t=1780993097; c=relaxed/simple;
+	bh=Ku+iUkufAwmtJpETezJUe09aZfxio81saVT3fFwz4ME=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Qz9LTHDy/T2IoAAJC9RS1eS4qDrOkNhRWuAhKaYpvypJyREVt9sghUsU+OdxFQONNSIyvj0+V/GuyiwipYzTdvMWTjidMXNJz6DSnt3b61jH4pfTE6Z24wd6zM7pY/EB9FWOpQGKfsyMA8tkpTUgGgDM6mxn2OrKR13gVvP1asY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZNdo4+qz; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=jILGSSjm0Ou//LMGmcP0Tj2T/kqzgYi7TBP9ObjumQExpKUOF5pdX70sSA7wylv24VvTp4BiZ+n2GVQr1HiS34uvWlBSJ3UWy7hDYFIdqB+yO0spXAc650l4srYSw6owyhkaDECed++rwtHL5jsPr4KeXURRo1tZb0bZNBo7PXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LRKGax6R; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZNdo4+qz"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LRKGax6R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780993088;
+	s=mimecast20190719; t=1780993095;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ad4bOx2SpIIPU8J+eqnXFfIiUmSYQ9scsCpmfgKcDgY=;
-	b=ZNdo4+qzWStDBQfmny1o+3OspABqrgjVxMnMqhb2sMHOk0rdOt5Wmko1EY1jWfa5Vl6xIE
-	1FkJrqQpNe8UQbB84fTT108LPeYa87AlJfHKx8fLpkv6mUmc6sYfp5ddC0Oi+VFz3d9FLZ
-	1XuTXK13temtnMqyqaXNF69YNeZ1xq4=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=GFX3o+6uVpWAIF9G35ytiuiiBM53y5xUy8RADSTHhfg=;
+	b=LRKGax6Rmeq35silETaV6s05gLkCowCAopv1x51u9yjUu4OOBvK5wcGlAX5v7RBKhU6PAW
+	IY48oNfdwHG6gz0B/fJio83LNFH52jmG6JfbTHr+rNBNnaUwemkGb/pMcKTZSkz2dsm0c8
+	7+Ihd2AhONKD5PfGM10pV0a37Fh/qH0=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-362-_7Ec7Hg3Op2gAEubp4p-zw-1; Tue,
- 09 Jun 2026 04:18:04 -0400
-X-MC-Unique: _7Ec7Hg3Op2gAEubp4p-zw-1
-X-Mimecast-MFC-AGG-ID: _7Ec7Hg3Op2gAEubp4p-zw_1780993083
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-571-8FbRHOJ8PIy0DzUDzkZw1A-1; Tue,
+ 09 Jun 2026 04:18:10 -0400
+X-MC-Unique: 8FbRHOJ8PIy0DzUDzkZw1A-1
+X-Mimecast-MFC-AGG-ID: 8FbRHOJ8PIy0DzUDzkZw1A_1780993088
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6D9CE1944F0C;
-	Tue,  9 Jun 2026 08:18:03 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E792A1800BD2;
+	Tue,  9 Jun 2026 08:18:07 +0000 (UTC)
 Received: from warthog.procyon.org.com (unknown [10.44.32.43])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 48F8A19560A2;
-	Tue,  9 Jun 2026 08:18:01 +0000 (UTC)
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 16F7B195410F;
+	Tue,  9 Jun 2026 08:18:04 +0000 (UTC)
 From: David Howells <dhowells@redhat.com>
 To: Christian Brauner <christian@brauner.io>
 Cc: David Howells <dhowells@redhat.com>,
@@ -49,10 +49,10 @@ Cc: David Howells <dhowells@redhat.com>,
 	linux-afs@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Deepakkumar Karn <dkarn@redhat.com>
-Subject: [PATCH 4/7] afs: Remove setting of AS_RELEASE_ALWAYS for symlinks and mountpoints
-Date: Tue,  9 Jun 2026 09:17:34 +0100
-Message-ID: <20260609081738.770127-5-dhowells@redhat.com>
+	Zilin Guan <zilin@seu.edu.cn>
+Subject: [PATCH 5/7] afs: use kvfree() to free memory allocated by kvcalloc()
+Date: Tue,  9 Jun 2026 09:17:35 +0100
+Message-ID: <20260609081738.770127-6-dhowells@redhat.com>
 In-Reply-To: <20260609081738.770127-1-dhowells@redhat.com>
 References: <20260609081738.770127-1-dhowells@redhat.com>
 Precedence: bulk
@@ -62,41 +62,38 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Regular AFS files correctly use afs_file_aops which have release_folio
-set as netfs_release_folio, so AS_RELEASE_ALWAYS is valid for them
-when fscache is enabled (set via afs_vnode_set_cache()).
-Symlinks and mountpoints in AFS use afs_dir_aops, which does not provide
-a release_folio callback. However, afs_apply_status() unconditionally
-calls mapping_set_release_always() for these.
+From: Zilin Guan <zilin@seu.edu.cn>
 
-In such case when memory management code attempts to release folios,
-filemap_release_folio() checks folio_needs_release() which
-returns true due to AS_RELEASE_ALWAYS being set. Since there is no
-release_folio callback, it falls through to try_to_free_buffers(),
-which at present expects buffer_heads to be not null. For symlinks
-and mountpoints without buffer_heads, this causes pointer dereference.
+op->more_files is allocated with kvcalloc() but released via
+afs_put_operation(), which uses kfree() internally. This mismach prevents
+the resource from being released properly and may lead to undefined
+behavior.
 
-Fixes: eae9e78951bb ("afs: Use netfslib for symlinks, allowing them to be cached")
-Signed-off-by: Deepakkumar Karn <dkarn@redhat.com>
+Fix this by using kvfree() to free op->more_files to match its allocation
+method.
+
+Fixes: e49c7b2f6de7 ("afs: Build an abstraction around an "operation" concept")
+Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
 Signed-off-by: David Howells <dhowells@redhat.com>
 cc: Marc Dionne <marc.dionne@auristor.com>
 cc: linux-afs@lists.infradead.org
 ---
- fs/afs/inode.c | 1 -
- 1 file changed, 1 deletion(-)
+ fs/afs/fs_operation.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/afs/inode.c b/fs/afs/inode.c
-index 3f48458694ba..21ac098d03ef 100644
---- a/fs/afs/inode.c
-+++ b/fs/afs/inode.c
-@@ -126,7 +126,6 @@ static int afs_inode_init_from_status(struct afs_operation *op,
- 		}
- 		inode->i_mapping->a_ops	= &afs_symlink_aops;
- 		inode_nohighmem(inode);
--		mapping_set_release_always(inode->i_mapping);
- 		break;
- 	default:
- 		dump_vnode(vnode, op->file[0].vnode != vnode ? op->file[0].vnode : NULL);
+diff --git a/fs/afs/fs_operation.c b/fs/afs/fs_operation.c
+index c0dbbc6d3716..20801b29521d 100644
+--- a/fs/afs/fs_operation.c
++++ b/fs/afs/fs_operation.c
+@@ -348,7 +348,7 @@ int afs_put_operation(struct afs_operation *op)
+ 		for (i = 0; i < op->nr_files - 2; i++)
+ 			if (op->more_files[i].put_vnode)
+ 				iput(&op->more_files[i].vnode->netfs.inode);
+-		kfree(op->more_files);
++		kvfree(op->more_files);
+ 	}
+ 
+ 	if (op->estate) {
 
