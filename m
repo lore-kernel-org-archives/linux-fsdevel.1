@@ -1,197 +1,77 @@
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59DE8EED8;
-	Tue,  9 Jun 2026 01:04:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11DC14A4F0
+	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 02:41:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780967042; cv=none; b=CKSE6Pr1B8yTY/0Urb5NdwRzdIm+m7NiCppicpzkWx3UYphDL9yvlr7UXpCq4ufPt/Pkx5w+E7g8mrmmebVz5OiDV70SfP97foct//5suseU9+LILhTPuLPdapIEHIMQLS2qyJq0AvvgGFp6MO52oSOEdC+e7WDfopb6FpkIaIw=
+	t=1780972889; cv=none; b=bzQxDYXZRKczHNmhkgJRUv/Y0C2aBuBjO2L62dtt2mYEbVWfDp50JJ9iVpXKWVlqiZRQDlqPNR76RcrI8c0tfvfO2/Tilm04VU9wr5NcQP3arrJhv19MU3SM3Zp+V/vWh2Jmtb1TQw6/TpWg4h1EOVn7VAlUhG7WYEvo2RohNn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780967042; c=relaxed/simple;
-	bh=d1zNRbMYD93mzf+O5L+utrI/JLLz9sEalRwWCppvVO0=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=YyqoPbSasqIXps+V493Al/uE5PYe35T4JDRaKjEwhZfpIOvsJH5yDjzFwWWqf5LOHZPRuaZ/vZz9UYQy7W8yU35TFyAf/5nWJoJlqhyUBAKULmsTwX5FxJ5k8oDzX4q+iOwg/h9xVnTBGc7NMVGXdiuxiwAWScieMT9ldbWMlAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=CmQpj3ow; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UHzxCRis; arc=none smtp.client-ip=103.168.172.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="CmQpj3ow";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UHzxCRis"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.phl.internal (Postfix) with ESMTP id 8DC3FEC00C0;
-	Mon,  8 Jun 2026 21:04:00 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Mon, 08 Jun 2026 21:04:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1780967040; x=1781053440; bh=WYR9i7uezYmtcM0nrVMn9y93zwsTGGFlY0S
-	qSGrrz6w=; b=CmQpj3ow07EZNTJimBXzAaZHyFgkuXc9Igjx6kk8nQLPdukn2zn
-	MK3Gqh5LgY5Se1MlJEScopz5e80A8Xv0FzGbgiaX9DdKQG7peHRRetYfs0oQ3r+Z
-	axDcl8ZIzyQd+JbSzVxOBoFTqSXex4PVTUUIkcEUdxPMWu79wYClUZyV+gZJ9TMU
-	CPK8abGvLUZQHWK7zRuZAX/IFgRD4G+sM8zSSctJvD7F42c6DdFT2fOfpHZEPTz+
-	Zp8YLF9fckWdWPr5CtuKV/ZrS0Dbv6n+LKQZr0v3JNpVlrJqYV7sTdfuBhJxE5eD
-	+asL/5OTIRfvqC2Ag9F2oeOCA6tSb9czw0g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1780967040; x=
-	1781053440; bh=WYR9i7uezYmtcM0nrVMn9y93zwsTGGFlY0SqSGrrz6w=; b=U
-	HzxCRisC3gmmBiZZFCYHjwwQHZQ1u+ChT34fchX+ZEGVn1kt+/5SAo0+nUXKN1KZ
-	2ZbVdcTTSDDeCXm8FWYoWbjXdLfyxUWqeEbHAwNhfm9kQlD4++WmBbpP9vgSIKG3
-	7QcNsbavjNGzCKpVg+vb9WtWU1v/166p+11Ue61tm4Uj1UPHGsCYzjrBZ8k75z+n
-	aqF6h3WpREOcnzeU7q9yKxJdYJXHPIlX179dIdHvJ67Qa522bQf5fuLjm4O1Oj97
-	W81spN7bd7gkUF3q86Za97RoEdgD5/pt4pePgV2QtViEWdqhIvTkivx6dPHvJYwQ
-	ZeIoUNF+57fGp4y1CfakA==
-X-ME-Sender: <xms:f2YnamNaFPGePD7ojJdnUKYdALyMi4srNVTH-Hd2W2y57dwDIe-2xA>
-    <xme:f2YnatJ-ld4P7yX94njPi-AinWW9bvMLzuAUhKRF3wv3r1mrf-HpmhPmyfAbOMxVK
-    0HyEfap3wsxYNLAUm-INXeCYwXHPJI32Fjuy9gjhrlYM09t>
-X-ME-Received: <xmr:f2Ynao1tqqRoYsFkIGj0PsWCZPSPNLJ_8UjripCHCXUxKBhRXeY1Ar7YYl516vLJ0XeWHuw2FfAwaRWLskxFxxltoyvqHP4>
-X-ME-Proxy-Cause: dmFkZTGT1ujCFYkbQmlc8SzKxH8O/y8CLjjkqMH/Lp3tVdWKypf1GnVm57lyLt4q4Z0kkr
-    TzCGdF1IvUt8/sKJIujww03ZtNMis/+f3QN2p0mxLeHiVqNYwcLmVEau0clcOJlO/IglfF
-    K+STXSnhHP1YsCgkJLco1oRA5iKrBj6zzaJpw2PpUt/LuPk6VUUSyliTx+Di3PV1N2XGvW
-    BOrKdwn9GVgGKXTLTAgl+A5D18dNjlxtjIiLNy0+MBpg52Q22ULt2ezcHMxZj218P1KheW
-    1xdGm/U4rm8g0bewAAaZa3mCST2UFI/R5lCbAPTI8wBKg33rPhjMYHesFos+ZRkskURKkn
-    pXcF77VqYfI2s9xB0pTt403KGcnbjK28zAmuFI2RLmDvw8bcodJvPtnum27uCz05zm61D1
-    07BWyYsKn3YtyR9v2HhfLYRuY1Fl4tMD/FbUJb/7gjcY8ULLffPw+2KxinGW7OMfjb2CAl
-    v+GwOAXVw0cfQk9DCnW2HR90vhpEugujNOs8j/x6SbP+/Dc4QxE3WwT67LoSBYU63c3v8O
-    bhnMYz0RVB3cLy4yhjx+ACldjsiIFH5xTjk4jvfO/EXoFvrkt0BK/fOiTxMEy4EwIC6u9H
-    NFkCofH8Pize+JEsnwDIu3ls5kWboQtFzbgQ/F7BozGeot6ii7sP89v8NJqA
-X-ME-Proxy: <xmx:f2YnahXZceExONZpGrKAqa2aQ6cuCuqL85J6t_9HTN5xL7lUiTGIsg>
-    <xmx:f2YnaqOPLJMRnIscXbw-B8zLRUTu1cTMjATIXlI6F3LdYKKSjqtHyQ>
-    <xmx:f2Ynak1tLm66eBze79UKQMc0eQQ3-FApv3-qpBhSDWic7ZtcD5ctGA>
-    <xmx:f2YnauTSvvhQsOg7d9cuE3NVwUqFfzdywBCrQM46eRYUjHUOIYIxGQ>
-    <xmx:gGYnavwNWbHdfAQlsa_XMpB51yGkgV78iTmHuXcuK3r889KxlWPgZQjq>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 8 Jun 2026 21:03:56 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	s=arc-20240116; t=1780972889; c=relaxed/simple;
+	bh=QDGHKCIln9B7lDzMBWKe9TaI18kHgQZFGynPH8fRX5s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NayNIh5Ev/wxV/4Lq7Pdv8lsozUX8zwrgL9wR44YCdTmwqWWMh1At53IbEy67LQhZdj6Y1UMCNXtzSfNaRABvLFXjz22x71ToyNFxnwlSN9ad3agBIg3Vep4iBDB1C6O+YufBMAh0L4GkXG1ossG7NESxyeVQLJ6wjdfVC9ki3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: b28a28f663ac11f1aa26b74ffac11d73-20260609
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:689a21ea-9fc5-43c9-b0c7-c524a4268a90,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:9175d5319d67c7b973fb48696eb112ab,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|865|898,TC:nil,Content:0|15|50,EDM:-
+	3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,A
+	V:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: b28a28f663ac11f1aa26b74ffac11d73-20260609
+X-User: liuxixin@kylinos.cn
+Received: from [192.168.122.73] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <liuxixin@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1646461604; Tue, 09 Jun 2026 10:41:20 +0800
+From: Xixin Liu <liuxixin@kylinos.cn>
+To: linux-fsdevel@vger.kernel.org
+Cc: almaz.alexandrovich@paragon-software.com, kari.argillander@gmail.com, liuxixin@kylinos.cn
+Subject: [PATCH v1 0/1] ntfs3: fix boundary check in ntfs_dir_count()
+Date: Tue, 9 Jun 2026 10:29:04 +0800
+Message-ID: <cover.ntfs3-b1-v1.1780449274.git.liuxixin@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Chuck Lever" <cel@kernel.org>
-Cc: "Christian Brauner" <brauner@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Jeff Layton" <jlayton@kernel.org>, "Jan Kara" <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
- "Jori Koolstra" <jkoolstra@xs4all.nl>,
- "Benjamin Coddington" <ben.coddington@hammerspace.com>,
- "Mateusz Guzik" <mjguzik@gmail.com>
-Subject: Re: [PATCH 17/18] nfsd: use vfs_lookup_open() for non-creating open
- requests too.
-In-reply-to: <2f5da5fd-442f-4889-af15-58f9b5d68d71@app.fastmail.com>
-References: <20260601070042.249432-1-neilb@ownmail.net>
-  <20260601070042.249432-18-neilb@ownmail.net>
-  <2f5da5fd-442f-4889-af15-58f9b5d68d71@app.fastmail.com>
-Date: Tue, 09 Jun 2026 11:03:54 +1000
-Message-id: <178096703408.3392745.3772559791386922644@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailer: ntfs3/send-local.py
 
-On Fri, 05 Jun 2026, Chuck Lever wrote:
-> 
-> On Sun, May 31, 2026, at 11:38 PM, NeilBrown wrote:
-> 
-> > @@ -429,45 +438,35 @@ do_open_lookup(struct svc_rqst *rqstp, struct 
-> > nfsd4_compound_state *cstate, stru
-> >  	fh_init(*resfh, NFS4_FHSIZE);
-> >  	open->op_truncate = false;
-> > 
-> > -	status = fh_fill_pre_attrs(current_fh);
-> > -	if (status)
-> > -		goto out;
-> > -	if (open->op_create) {
-> > -		/* FIXME: check session persistence and pnfs flags.
-> > -		 * The nfsv4.1 spec requires the following semantics:
-> > -		 *
-> > -		 * Persistent   | pNFS   | Server REQUIRED | Client Allowed
-> > -		 * Reply Cache  | server |                 |
-> > -		 * -------------+--------+-----------------+--------------------
-> > -		 * no           | no     | EXCLUSIVE4_1    | EXCLUSIVE4_1
-> > -		 *              |        |                 | (SHOULD)
-> > -		 *              |        | and EXCLUSIVE4  | or EXCLUSIVE4
-> > -		 *              |        |                 | (SHOULD NOT)
-> > -		 * no           | yes    | EXCLUSIVE4_1    | EXCLUSIVE4_1
-> > -		 * yes          | no     | GUARDED4        | GUARDED4
-> > -		 * yes          | yes    | GUARDED4        | GUARDED4
-> > -		 */
-> > +	/* FIXME: check session persistence and pnfs flags.
-> > +	 * The nfsv4.1 spec requires the following semantics:
-> > +	 *
-> > +	 * Persistent   | pNFS   | Server REQUIRED | Client Allowed
-> > +	 * Reply Cache  | server |                 |
-> > +	 * -------------+--------+-----------------+--------------------
-> > +	 * no           | no     | EXCLUSIVE4_1    | EXCLUSIVE4_1
-> > +	 *              |        |                 | (SHOULD)
-> > +	 *              |        | and EXCLUSIVE4  | or EXCLUSIVE4
-> > +	 *              |        |                 | (SHOULD NOT)
-> > +	 * no           | yes    | EXCLUSIVE4_1    | EXCLUSIVE4_1
-> > +	 * yes          | no     | GUARDED4        | GUARDED4
-> > +	 * yes          | yes    | GUARDED4        | GUARDED4
-> > +	 */
-> > 
-> > -		current->fs->umask = open->op_umask;
-> > -		status = nfsd4_create_file(rqstp, current_fh, *resfh, open);
-> > -		current->fs->umask = 0;
-> > +	current->fs->umask = open->op_umask;
-> > +	status = nfsd4_open_file(rqstp, current_fh, *resfh, open);
-> > +	current->fs->umask = 0;
-> > +
-> > +	/*
-> > +	 * Following rfc 3530 14.2.16, and rfc 5661 18.16.4
-> > +	 * use the returned bitmask to indicate which attributes
-> > +	 * we used to store the verifier:
-> > +	 */
-> > +	if (open->op_create && status == 0 &&
-> > +	    nfsd4_create_is_exclusive(open->op_createmode))
-> > +		open->op_bmval[1] |= (FATTR4_WORD1_TIME_ACCESS |
-> > +				      FATTR4_WORD1_TIME_MODIFY);
-> > 
-> > -		/*
-> > -		 * Following rfc 3530 14.2.16, and rfc 5661 18.16.4
-> > -		 * use the returned bitmask to indicate which attributes
-> > -		 * we used to store the verifier:
-> > -		 */
-> > -		if (nfsd4_create_is_exclusive(open->op_createmode) && status == 0)
-> > -			open->op_bmval[1] |= (FATTR4_WORD1_TIME_ACCESS |
-> > -						FATTR4_WORD1_TIME_MODIFY);
-> > -	} else {
-> > -		status = nfsd_lookup(rqstp, current_fh,
-> > -				     open->op_fname, open->op_fnamelen, *resfh);
-> > -		/* NFSv4 protocol requires change attributes even though
-> > -		 * no change happened.
-> > -		 */
-> > -		fh_fill_post_noop(current_fh);
-> > -	}
-> >  	if (status)
-> >  		goto out;
-> >  	status = nfsd_check_obj_isreg(*resfh, cstate->minorversion);
-> 
-> Logic bug: Pre-series, the non-create case takes do_open_lookup()'s
-> else branch and succeeds; post-series, do_open_lookup() calls
-> nfsd4_open_file() unconditionally. Every CLAIM_NULL open of an
-> existing file fails with NFS4ERR_EXIST.
+Hi,
 
-yes - that is bad. I think
+This series fixes a directory entry boundary mismatch between
+ntfs_dir_count() and ntfs_dir_emit() in ntfs3.
 
- 	if (!open->op_created &&
--	    createmode == NFS4_CREATE_UNCHECKED) {
-+	    (open->op_create == NFS4_OPEN_NOCREATE ||
-+	     createmode == NFS4_CREATE_UNCHECKED)) {
- 		/* NFSv4 protocol requires change attributes
- 		 * even though no change happened.
- 		 */
+ntfs_dir_emit() skips index entries whose fname does not fit in e->size,
+but ntfs_dir_count() still accepted them via de_get_fname() alone.  A
+malformed $I30 entry can pass count while readdir skips it: ls shows an
+empty directory yet rmdir fails with ENOTEMPTY.
 
-is what I wanted to do.  I've also move the clearing of ATTR_SIZE down
-to where we know we did created the file, so no trunc is needed.
+Factor the shared check into de_fname_fits() and de_countable_fname() so
+dir_is_empty() agrees with readdir.
 
-Thanks a lot for the review.
+Thanks,
+Xixin Liu
 
-NeilBrown
+---
+
+Xixin Liu (1):
+  ntfs3: fix boundary check in ntfs_dir_count()
+
+ fs/ntfs3/dir.c | 33 ++++++++++++++++++++++++++-------
+ 1 file changed, 26 insertions(+), 7 deletions(-)
+
+-- 
+2.43.0
+
