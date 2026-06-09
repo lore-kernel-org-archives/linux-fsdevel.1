@@ -1,190 +1,84 @@
-Received: from flow-a3-smtp.messagingengine.com (flow-a3-smtp.messagingengine.com [103.168.172.138])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5639363C46;
-	Tue,  9 Jun 2026 17:28:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E440481259;
+	Tue,  9 Jun 2026 17:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781026096; cv=none; b=VxtN1aoPIVRzv3r6eqbd2mMR98q56L9CJb9za48JATJNsJf862CcCBtRSYVlM5hBk4AXCnPdlWeYnkr3PD1J/qU/qbaASNvxLODrojmThIdwdX+UEU+rIP0YlJBhmQU9dDkiOUndkch27DCYsrFDOVgxSOBwIK6GGXfl19yAOfk=
+	t=1781027426; cv=none; b=gJuBE4Qrf7Fq99a7SLAInroiY3tafOI+q89fBK7DKXJcwNCdT7gMAWXyHjmdjyqUL5llBhkZZbBvVAZB6mG3i135rNnCVXE27oS05tKhWztG2/EJuUivLAJ6LIb5PFdqpwQFPGrsGHH26rTO71G/ve1Onhr58oPQZnejYHlINR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781026096; c=relaxed/simple;
-	bh=RndYqpsRK1cbF9S8uUn0Zc9Z/6z/z+JG0kopFVxnUJQ=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=HL+QVkcfp+Q4OnDzdva5vboRMHxgYCzuHMqCOttDbqNOeSjxdC8v5iWKfzcPWtLYHzNqikNuGsm62dwpt5UrcF64jhdU4Rz8WvNtiZwUxnOuemf9dMji7QJolodx8DB3o0pLMKgk1gno3fVxjY95rU+lF5wkIAUHzc/Qmhow1Ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=HE3ZkDji; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UH5I0Kp/; arc=none smtp.client-ip=103.168.172.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=johnericson.me
+	s=arc-20240116; t=1781027426; c=relaxed/simple;
+	bh=szuALeMmtswSAm5ZUQxf0VhMw8eSL/O9P3Llp9PZgZ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RZA3R5rs5/IUlybAEVEVfIvByo+RgeaOFooc7xk1NHkQyUAucRm2IW6HkpgUlF3S7GWua8SB/A0iRkXyN3zjgziin2RCDlZzTxhrCz1OMpUEmCpSKb0y5WjNZjgUe5nPv216Q55UMs/sJH2TASh0CrhBRH2/RydFE95yICuToEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=b1ahRbQp; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b="HE3ZkDji";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UH5I0Kp/"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailflow.phl.internal (Postfix) with ESMTP id C2CE513804A9;
-	Tue,  9 Jun 2026 13:28:13 -0400 (EDT)
-Received: from phl-imap-16 ([10.202.2.88])
-  by phl-compute-05.internal (MEProxy); Tue, 09 Jun 2026 13:28:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1781026093; x=1781033293; bh=snmIR5TlwK9lFoo/BHJwgJJSAFxLeac4
-	ICD6l4oUvpg=; b=HE3ZkDji5I5YD9LxdPIcf92Zc+LYhfx40Jg/wbA8GXORicY2
-	QaiWMJvbkKCx7kyflIVHAf0X2IZC2s7Uxc7VoTJOtONJLgNixkFVFvKfVzutf3mX
-	G6lmVW/BGgpmF5Ai19QSPr9U0SGccEI73IDWbUJASZdWYLS2EKdESKF5mQJlYdQt
-	WgAGt3dmqFC2fqC6qGhTb5jJd5gj/GNQnN19p55+qo/mhwNsFkYoas6LUw5GTLJX
-	jCKRA5rdGSwMTbeRIAynA6dk105bfMXz+Jn6ZpEQaZGz4pf/vjvLEQx0LPoFbntc
-	DUuPxnL0x4ZU62vchhzJp438Naua5Lfqn+wg2A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781026093; x=
-	1781033293; bh=snmIR5TlwK9lFoo/BHJwgJJSAFxLeac4ICD6l4oUvpg=; b=U
-	H5I0Kp/D7aH/EguuehCHLLkrYN9Bp+EY5ICsflRQcHHT+hKGuQwmQDakepYBbcD6
-	CXwZ9GTCxQfoaBle1Y3q7rx6jEIXzIAYUr6iPL2KDitv+FibE6k6RVw6nWtlaHss
-	sOVsxbYZ40CLIC0Lag/ykPexVQ6Nudu+RICDqHotOhtHWUKHTCg2ZEDJkSsS4gtF
-	vaOiZlovRO/pBEUwEhZB/kFYW6Oj/1UnrVCK3xrC50c+w4dCtyfOLyWsA5LNKCoT
-	rySdgpTZ+0ceakchtQ2ZiJJDzVMD3KXmCImjonpbbqv7e1O+1fWifjS8AKNNMZJe
-	4g/9+/0rFIw/rN3mkjc8A==
-X-ME-Sender: <xms:K00oajkRORc133r7PC1IBlKXMDjSqvW9vIjnqG_QZbkAQOYotfILsQ>
-    <xme:K00oahpf4FLWEUbd6wOCxg3-u_RCJdbNqACdOD7aR8p36lWn3JPMHHQ58CWH_FVHo
-    3LLoLJvohH3MaOvvmfK4gvIdMgmqZ-vDA4y1Xzq4zN0vAr9xnYTw98d>
-X-ME-Proxy-Cause: dmFkZTFbWbIVgk3oNIIQ+G+AHYlJwWdcELEDDoIiIUBvnYRJd3CsISE3I/JOVyG2d0IybM
-    lj5uQrrQaowMUeTn4kKKsnFzToChT0pwu6ZWOuYIZaTZFJK7mNfbD1w3DbZcQCw8ITSvLG
-    oY/9k9GxCUV7/ZlAa32DEFwc1lP/VEBX786Dt0GHxWvqfvPEnbcxdzQC2RraHKCXyD0c+G
-    QBNYH0rV6FloMMOiwEzsyT/H/C1ZzgFYQZp2hAg7/d8uHURiK6WYeFwyLQ9VyDwHkmVLQM
-    IUqgsriFiBf0fPDUN+cEn2U59ltSXiLLd9IK9k8Y2rbCO86LV+C/AQJFGtHozyB6MGfJRL
-    Y4HFNmgYr28jA2vrdstJgPu3J/ljJskwYqY8g5qRoXRlodCXtOlo+zfmpAwUfMqUT+0Ksb
-    UQzCGN8T164/oXuv+XWsOh3ppLWk3oKF6KnbkCWj1S+hz1UIGg7wt4nauAWLkDncPtNq+r
-    5wvHbtEWlfiN2WuDh9tM+gLZUn21C0mdPOqzgjIpMfftaEDOVhs+L4tpETZ9dA0DHSttkd
-    DCazvhjFTaGTVDY4dE6gGV4VMGv0h+vktmXOPmvTtan8nVuvQ0e8dF2TVjIgG3nYoj0TRc
-    M8dVN9ly4LG6QhDwxgXQJiXin4CiOh/KmiqdBDpGeU7fArNOWRmEEn5rCPJA
-X-ME-Proxy: <xmx:LE0oar9BUiQp_qrgSrScH1M3f-UE7OtajjYJ26_u59UFWO3P90M4Ng>
-    <xmx:LE0oarrfVWp2ygG18KNq77pu68TRdhCVd9V3fNc8BttVQO9k9YD-3A>
-    <xmx:LE0oahiexkHx_MqYM2F7qOj3QDFZgah_DQDHi_-PN5DcK-BK_aswcw>
-    <xmx:LE0oahDxlnOWbriQaaU9aOrsncRT_PUU2vxksIAdCgYbPXnFVrOLqw>
-    <xmx:LU0oak0sJQRlsXUCBkAWIgEKRUMvsHFR_SYwXJpDwlB9AROrqdxW8eLT>
-Feedback-ID: ieb4144f1:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id DC8082CC0083; Tue,  9 Jun 2026 13:28:11 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="b1ahRbQp"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=jrCsj4gn7vi5WO8BmPN7e9LdzveNQRxZdeDb2ikqQ8c=; b=b1ahRbQpgWZaeboUHTlQPeK6QG
+	4C6bX1CjDmyyBL+2vnFNA9juzWdTfpe95sA6bl9DSRjRX8AR2WZX1TqK3QIJzq06zTx65ZB1uerCn
+	rXhIt5aN5/XrR1rCyFXTP/bJaWvM4XuLq31i83tOvBb18FPcl809EzsK3W17mu4JyyHETIh/a2UdZ
+	85TnfU3l3gZRhJOuU+/O7RLKaG2WDbajUlmKXSDgf02Wi2POgV/MnD1YkPH186DDG8C2lq1/pFd5t
+	TzRQijMx49LLlVSXQRm82IUztQRk2CVTaWm+dx+esFY6rY8qLOf0RfRw5en9I5jmeg6jGjLfnGQTL
+	VBFilyCQ==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1wX0ab-0000000EaZi-3BMR;
+	Tue, 09 Jun 2026 17:50:13 +0000
+Date: Tue, 9 Jun 2026 18:50:13 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>,
+	Christoph Hellwig <hch@lst.de>, Damien Le Moal <dlemoal@kernel.org>,
+	Ming Lei <tom.leiming@gmail.com>,
+	linux-block <linux-block@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-btrfs@vger.kernel.org, David Sterba <dsterba@suse.com>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>,
+	Hillf Danton <hdanton@sina.com>
+Subject: Re: [PATCH v4] loop: Fix NULL pointer dereference in lo_rw_aio()
+Message-ID: <20260609175013.GH2636677@ZenIV>
+References: <20260529220600.1226-1-hdanton@sina.com>
+ <b27609f0-59f0-403d-90af-274c55df817e@I-love.SAKURA.ne.jp>
+ <3244d4dd-8254-47c0-9609-b1db53450c7c@I-love.SAKURA.ne.jp>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AtGJywdvvpER
-Date: Tue, 09 Jun 2026 13:27:47 -0400
-From: "John Ericson" <mail@johnericson.me>
-To: "Li Chen" <me@linux.beauty>, "Andy Lutomirski" <luto@kernel.org>
-Cc: "Christian Brauner" <brauner@kernel.org>, "Kees Cook" <kees@kernel.org>,
- "Al Viro" <viro@zeniv.linux.org.uk>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- linux-api <linux-api@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
- linux-mm <linux-mm@kvack.org>, linux-arch <linux-arch@vger.kernel.org>,
- linux-doc <linux-doc@vger.kernel.org>,
- linux-kselftest <linux-kselftest@vger.kernel.org>, x86 <x86@kernel.org>,
- "Arnd Bergmann" <arnd@arndb.de>, "Thomas Gleixner" <tglx@kernel.org>,
- "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>
-Message-Id: <4e049396-377d-48a7-a34c-91318413a876@app.fastmail.com>
-In-Reply-To: <19eacd64508.26b92c022125848.262962729296162879@linux.beauty>
-References: <20260528095235.2491226-1-me@linux.beauty>
- <20260528-madig-fachrichtung-fehlinformation-61117ba640da@brauner>
- <CALCETrWJQpLR4n1cpichBk8=uExSKLWTMGU3BufGdk_WE_p5UA@mail.gmail.com>
- <19eacd64508.26b92c022125848.262962729296162879@linux.beauty>
-Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated executable
- startup
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3244d4dd-8254-47c0-9609-b1db53450c7c@I-love.SAKURA.ne.jp>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
+On Sun, Jun 07, 2026 at 07:54:58PM +0900, Tetsuo Handa wrote:
+> syzbot is reporting NULL pointer dereference in lo_rw_aio() [1][2].
+> An analysis by the Gemini AI collaborator [3] considers that this problem
+> is caused by a timing shift primarily exposed by commit 65565ca5f99b
+> ("block: unify the synchronous bi_end_io callbacks"), along with helper
+> refactorings like commit 92c3737a2473 ("block: add a bio_submit_or_kill
+> helper").
+> 
+> But due to difficulty of reproducing this race, discussion about what is
+> happening and how to fix this problem is stalling. Also, we haven't
+> identified how many filesystems are subjected to this problem.
+> 
+> Therefore, this patch introduces a grace period for flushing pending I/O
+> requests (which should be a good thing from the perspective of defensive
+> programming) so that we won't hit NULL pointer dereference problem, and
+> also emits BUG: message in order to help filesystem developers identify
+> the caller of an I/O request that failed to wait for completion so that
+> filesystem developers can fix such caller to wait for completion.
+> 
+> Note that emitting BUG: message is enabled only if CONFIG_KCOV=y, for
+> this check is a waste of computation resources for almost all users.
 
-
-On Tue, Jun 9, 2026, at 10:43 AM, Li Chen wrote:
-> Hi Andy,
->
-> ---- On Tue, 09 Jun 2026 08:01:57 +0800  Andy Lutomirski <luto@kernel.org> wrote ---
-> > [...]
-> >
-> > After contemplating this for a bit... why pidfd?  Doesn't a pidfd
-> > refer to an actual process that is, or at least was, running?  This
-> > new thing is a process that we are contemplating spawning.  I can
-> > imagine that basically all pidfd APIs would be a bit confused by the
-> > nonexistence of the process in question.
-> >
->
-> Yes, I think that is a real concern.
->
-> In my current local WIP I tried to keep that distinction explicit.
-> pidfd_spawn_open() returns a pidfs-backed builder fd, not a normal pidfd
-> referring to a process. The builder fd is allocated as an anonymous pidfs
-> file with builder-specific file operations:
->
->     file = pidfs_alloc_anon_file("[pidfd_spawn]",
->                                  &pidfd_spawn_builder_fops, builder,
->                                  O_RDWR);
->
-
-What does your builder fd point to, explicitly? For example in my other reply I
-talked about how it was "real" process state. In my FreeBSD patch, for example,
-I found there was already a status for a process "in exec", and I figured that
-was clean to reuse for one of these "embryonic" processes that also hadn't
-started running. I would reckon that Linux probably has some similar notions.
-
-> and the normal pidfd helpers still reject it because it does not use the
-> ordinary pidfd file operations:
->
->     struct pid *pidfd_pid(const struct file *file)
->     {
->         if (file->f_op != &pidfs_file_operations)
->             return ERR_PTR(-EBADF);
->         return file_inode(file)->i_private;
->     }
->
-> So the current split is:
->
->     builder_fd = pidfd_spawn_open(...);       /* builder object */
->     pidfd_config(builder_fd, ...);
->     child_pidfd = pidfd_spawn_run(builder_fd, ...); /* real pidfd */
->
-> Only the last fd is a normal pidfd for an actual child process. The builder
-> fd is only accepted by the builder operations.
->
-> This avoids having to define what waitid(P_PIDFD), pidfd_send_signal(),
-> pidfd_getfd(), poll(), etc. mean before the process exists.
-
-I wouldn't be so sure this is necessary/good. For example, I think it could
-make sense to wait on a process that has yet to be started; one just waits for
-both the process to start and the process to exit. Obviously a blocking syscall
-in the thread that is spawning the process is not useful, but the asynchronous
-poll variation seems fine.
-
-As long as there is real process state here, it shouldn't be too hard to
-implement.
-
-> The downside is that it adds a separate open-style entry point and is less
-> uniform than the pidfd_open(0, PIDFD_EMPTY) spelling Christian sketched.
-
-I do think there is no point having two file descriptors. The file descriptor
-that previously referred to the builder/embryonic process then can refer to the
-real process, right?
-
-> If people think there is a better way to represent the pre-spawn builder
-> state, or if the preference is to integrate it directly into pidfd_open()
-> with an explicit empty/future-pidfd state, I would be happy to discuss that.
-
-Hope the above answers your question? I suppose my ideas lean more on the
-"future" than "empty" side --- there is indeed a thread in the thread group,
-with real VM/namespace/file descriptor etc. state. Moreover, state gets
-initialized before the process is started, so the actual start is a pretty
-lightweight step of just letting the scheduler know the now-ready process can
-be scheduled. The only thing that distinguishes the embryonic process from a
-real one is simply that it isn't running --- i.e. isn't (yet) available to be
-scheduled --- so the pidfds holders are free to poke at its state.
-
-Cheers,
-
-John
+Still breaks xfs/259, same as the version in next-20260605...
