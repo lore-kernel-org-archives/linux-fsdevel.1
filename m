@@ -1,129 +1,93 @@
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1687E328635
-	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 14:11:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781014276; cv=pass; b=Fa2Kz6nxVRRTuO7J0qGv24jHa3Bsni/YVIJGvZpGZy1VK2GkBlDWoVygSWAJAin0riR0Urf27o1Gmbt9LkKJjOIlxsyinm96S23/LC+97lFUqgnGZ9TF7W5rhv4v9qmyLKaIxr009B6HR3n6+4WAYFp9m21uwcDJVl/UYAQGU7c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781014276; c=relaxed/simple;
-	bh=O7/vXOHmBuDEN6iYoEcXZX9SQVUOxuFM9K3LUsWI6j0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZIcn2G9x/RP+cJTydHerC33qcXMZPz583ccjkspcxoe7wOAtyN3kFg1/Mw2yRM/CKZHMVMz1hlPZIlI67E7Z5hc+yOsAgNGPNedA+gXc4rDtvk0ZXhpbGgkLLgHAliRiHzB0eZZEbyUYuTiG2gcX1gZTVixq5qUf4YtOFahV4Ws=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pO6mb/Mj; arc=pass smtp.client-ip=74.125.82.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9323343894
+	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 14:34:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781015691; cv=none; b=Ya0rD/qGVFHFQV714dvxkqHEDSPTYolzYm38hOr/x22hYbyo1BV+juB5YDYmm/ldNMb9S3EzXZWS+bwstJw22QkGnhuoM0U+USnnAzDiiG/LOUCBg6wuO3EA1SBQU4B4KYut35gYVRQULwAJ/l0+1noKt8r1nT45goFVjIn+Khw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781015691; c=relaxed/simple;
+	bh=oWymmpEgWzRNNEf6xrKMqFRkAZ7Ibb8c9FuWX6uFmxI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=US07XX6X/VlgZyk7d1qEydoxBaXsCd9klQp8qMySlDRjGF69Hptimy1g5oZY/blA7D8uCRd73X8lLc3/u8BSEfTjNmd6yhO9Hf1JCnDoXQmmooUuDKf8M/c2v0ZgMdhjGSRh4VVcCbBeG5SZLi7A8v/tSet9Osuma9oQdlP5OOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dnczqqpE; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pO6mb/Mj"
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-304f9bc869aso679094eec.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 09 Jun 2026 07:11:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781014274; cv=none;
-        d=google.com; s=arc-20240605;
-        b=RkCzJfag/ag6700LNpSjxkeMQ9eZmf2YTFTRiaQG00vmxrMu/AHCOvPBDpR1eewCwG
-         V46yWMoEH+KK1t/lwnWowtQT+OYHDtkEdEW9bd2WWtxhVJ8yIdIKJ2LuORKmRI1VTR7b
-         xmnPDtJAIjhrXcBPCamtQE56pN/xgXHfEuxKOgp5+9OgeGuos3QmF2pbv9+T0NuDedg2
-         KBx3qdH6szW+DtnmiIxIfyI3JVaZyOURolN5l2LXVPhLCUC6FYprxR9GVbWRcgERWxfJ
-         cNQi0s4VMyzszdnDXsHDb+US/PcVNHOpFzopkEdWOzlS/K1BJkIFaQdHWSYhJGze5kwb
-         45kA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=nhjDW0OszKJAGtPcPLD3bV8YMBm1E7bkkVTPi52pFmI=;
-        fh=7tdmbwacFtZNau6o+AHC/2Kd08FsuU2McOQe7HQwBR8=;
-        b=JYyyJMdcQZXjWgOjNhoso7LW80WX3p36XdNxMJTp95mepkAT5H3VrCQGq4tTJ//QTR
-         ifnqBRsFDxsYt0geHEFtwDccSTitN7bBJfiqiL6qX9L8wrMWsqdgKeco0g4rQb106SZv
-         9QmCXV97Q+P3SP9fs6tpkoWXH3lLGQmqnFJrGbCZ/GP2FQ6WZsCQI+SilCDo8gapgTl4
-         o63CTn8/zBl85GDcndtUuGolsNWhFZ9vxYYeoz3U4CgVoyxVu5+pBhAkC3puUZgWc+8y
-         HZNHdRelbWK8tD/7CHAK/a/LJ/F4Ldz4aQDh7eAKQZp5eNWjdYIozCPSOP1PbmIX45pP
-         jdXA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781014274; x=1781619074; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nhjDW0OszKJAGtPcPLD3bV8YMBm1E7bkkVTPi52pFmI=;
-        b=pO6mb/MjV7+9Lyoy7qKEe8jyrmAVmp1sVk9ZAQekGJY/qcYqRSPwEAedKazW1YDjAo
-         daWkJzVnMyQBtO7fmggjHQ1cPEQGXHlt3VIr6I1Kj1CO/2HtnymY1aGpvzlRB8OH+ilA
-         890WtpQyksZUJj37x9K37O3XCrrKWsg/O8Y8q+MGEolHuY3O9nF+Mz46OcSl6XEeAyYn
-         PpKFuaWCdq+j/LCZ8xHOrMCCjyi8dyUYIO1ZCC3Qs9hwAGz+a0asgrLpY7oQ6QrXmnr+
-         SzEi2Ndcvrsr6lg0pp6Uccf0k7gE8QI2hRsXCNfmZx5mer8km0ZAI5cl8BunKE5GWZwg
-         VvlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781014274; x=1781619074;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nhjDW0OszKJAGtPcPLD3bV8YMBm1E7bkkVTPi52pFmI=;
-        b=hudXMkyIU11x+yyAK6+/V5bcR/rqkLYu85PdzggMZt1OYrVM9WjTXLHDJcR1UiJa7d
-         fndLqUFy+GIHfx0XRZs5ntER+t2QBMz17CqzRFO+K5k/zXdBmqTXZJFkoA+sTaLOx+sq
-         Y502/H/7/ID7ClmLsIbui5xHz3enlA/6Abn99cBEePc120sZA2MUEUFC20UjYfhR2iei
-         XO7gp81wkEbk7TtrVOPWti+XAk1N7VjRWyYzxR2v6dH/9Yltlm1SZCSQ15M+Qb8h2YvX
-         ESgnj2vpDGufcJOVlXm0A09w51uKsgmiZpMgXmR11a7lSlTks86YLY5xUK9FW+R34EE/
-         /8mQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8yixRiA9QfyFhhyhtzeydqnt94MnlYamGfzDocPXBQ+ft73YqflRUfT8g3rd7PI1c0v7aPeCViGNQEiiEX@vger.kernel.org
-X-Gm-Message-State: AOJu0Yys8P8drx5+5UpE5xm8I0ETui3OYes9RBvltbQ00oN3KlXG1CJU
-	61rUSrqX1jSyW39LJA7+9C241Vq/v5+kdEWQdHMbttVc71Ub+bTFB6Ec/8kwac6p9WCdz9UZxHy
-	olljvA6IHAG4Sk0bIj38ytlAaaGhLgdw=
-X-Gm-Gg: Acq92OGq0uSZQshg3rM0Lj6NyM5jarbaX+eoyhPD6hZNUF9UcKsLRGvszTPmUJbLoaE
-	KzVAtGzB1LKvGaMZ0r5e0Iom9D14WIl9VaYqaF0Y/WLOiQfoYIbQRY2TA6SoW3Wh67faNlsW0fb
-	SMmsTI88INRZzHdzMvgfWepRTnYa60/nSl/Rk5GgIgyVrmPbByuxfP4WjJaXu/tT44IktfHAtc3
-	C0YSrP31+J0P/8erkGTOdh4HA+88YiNyHTNsQ4CWkFGoTam7r3NYbj61NyNwJBV4Al4sNGVNrL6
-	QUM//VqTH8F6MjMEBIffV3kMMzEyYbjMWla/q7nbUE8RY7uv+Bwe1sLqFiVgDEvp3mwcR1iiWs8
-	Y8Q+3VjYqtMoldorrCuUHX6qfZboV2PB3NQ==
-X-Received: by 2002:a05:693c:3749:b0:304:8860:74d6 with SMTP id
- 5a478bee46e88-3077b21ea10mr6213247eec.1.1781014274135; Tue, 09 Jun 2026
- 07:11:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dnczqqpE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=h4bIh5NbfhAERUp7/8LJ4i3CTv6SkjIH+Edzb6aQu9c=; b=dnczqqpEaE1tHQHEWp9Y0Om4fo
+	dtX5XBMI8DrHEgRIH8wsvtz+5FjF0OVS+EQD6Fp+ai7XSPP9dZJKDbEJIKtAZHHtvEn+5Ce11/Hyi
+	TlOoFTe6C7GBSoGV3K6bzzUC9iubFcKq+P+pW0zbc5VMSu7JO6LEZFOPoFb5gGLjpkUTD5ulEdHy3
+	YJOn3yg/pEK3UCiL1xBouFG4SD1sz9/qDmE82ASYFJoZWP5qwyodQDiNcYmcZmSMXmZvhF1iVfVba
+	OrmEGQksDp555/WZ/exocpRJEXUVLeZ9qN4yov8OQyc3qZiiI0LNl1l62ToK57Nn7kBsoeiIRCxZs
+	vnsqbMYA==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wWxXT-0000000FrLz-0Ck9;
+	Tue, 09 Jun 2026 14:34:47 +0000
+Date: Tue, 9 Jun 2026 15:34:46 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Usama Arif <usama.arif@linux.dev>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 2/6] ntfs: Remove use of __folio_index in
+ handle_bounds_compressed_page()
+Message-ID: <aigkhkcXuQx7yfPu@casper.infradead.org>
+References: <20260608210618.3437216-3-willy@infradead.org>
+ <20260609131724.3114804-1-usama.arif@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260604-unique-ref-v17-0-7b4c3d2930b9@kernel.org>
-In-Reply-To: <20260604-unique-ref-v17-0-7b4c3d2930b9@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 9 Jun 2026 16:11:01 +0200
-X-Gm-Features: AVVi8CfNPwpEZxw0N5nqXBfBlOCze0ATuinL6YIsUVP51KJlhLB9xVsEvEDqHhw
-Message-ID: <CANiq72nkYJnztntLzB5jNwi_oRY+V7UMpf6AuKM07aGH9FwPdg@mail.gmail.com>
-Subject: Re: [PATCH v17 00/10] rust: add `Ownable` trait and `Owned` type
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dave Ertman <david.m.ertman@intel.com>, 
-	Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
-	Serge Hallyn <sergeh@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Viresh Kumar <vireshk@kernel.org>, 
-	Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Igor Korotin <igor.korotin@linux.dev>, Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
-	driver-core@lists.linux.dev, Asahi Lina <lina+kernel@asahilina.net>, 
-	Oliver Mangold <oliver.mangold@pm.me>, Viresh Kumar <viresh.kumar@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260609131724.3114804-1-usama.arif@linux.dev>
 
-On Thu, Jun 4, 2026 at 10:13=E2=80=AFPM Andreas Hindborg <a.hindborg@kernel=
-.org> wrote:
->
->       rust: page: update formatting of `use` statements
->       rust: aref: update formatting of use statements
+[Editing your response to patch 3 into here]
 
-Applied these to `rust-next` to get them out of the way already since
-I have another similar one for `str` I am applying too -- thanks!
+On Tue, Jun 09, 2026 at 06:17:23AM -0700, Usama Arif wrote:
+> On Mon,  8 Jun 2026 22:06:12 +0100 "Matthew Wilcox (Oracle)" <willy@infradead.org> wrote:
+> 
+> > Nobody is supposed to use page->__folio_index.  Use page_offset()
+> > instead, and simplify by working exclusively in loff_t instead of mixing
+> > up loff_t and pgoff_t.
+> > 
+> > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> > ---
+> >  fs/ntfs/compress.c | 7 ++++---
+> >  1 file changed, 4 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/fs/ntfs/compress.c b/fs/ntfs/compress.c
+> > index c904858dff3d..b279f38636d6 100644
+> > --- a/fs/ntfs/compress.c
+> > +++ b/fs/ntfs/compress.c
+> > @@ -105,13 +105,14 @@ void free_compression_buffers(void)
+> >  static inline void handle_bounds_compressed_page(struct page *page,
+> >  		const loff_t i_size, const s64 initialized_size)
+> >  {
+> > -	if ((page->__folio_index >= (initialized_size >> PAGE_SHIFT)) &&
+> > -			(initialized_size < i_size)) {
+> > +	loff_t pos = page_offset(page);
+> > +
+> > +	if ((pos >= initialized_size) && (initialized_size < i_size)) {
+> >  		u8 *kp = page_address(page);
+> >  		unsigned int kp_ofs;
+> >  
+> >  		ntfs_debug("Zeroing page region outside initialized size.");
+> > -		if (((s64)page->__folio_index << PAGE_SHIFT) >= initialized_size) {
+> > +		if (pos >= initialized_size) {
+> 
+> Is the else branch over here unreacheable as the outer if statement
+> already had if ((pos >= initialized_size) &&...
 
-    [ Picked from larger series and reworded. - Miguel ]
+Are you saying my transformation is non-equivalent (and I have
+introduced a bug), or are you noting that this is a pre-existing bug?
 
-Cheers,
-Miguel
+If the latter, is the error that the else branch exists, or did the
+author intend to write a different test?
