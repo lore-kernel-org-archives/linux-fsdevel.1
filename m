@@ -1,119 +1,148 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B013CF675
-	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 06:08:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E20D2EAB72;
+	Tue,  9 Jun 2026 07:57:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780985304; cv=none; b=Gzeu4FHao9Ia14KUX6SXv1VuBhbk9D4RirtoCuFYd7oExTqOO5nr/A9Z1bh1af38gf+YqsesvxQkfiGj9lu43V9jq6+Cxz3UN8ejAbSpGyFcV4hzd+05pj9AEqOsfZVRsam2FsM9t6YBCrW5uIcq4TIsHKnryji0yeZQ4DzawqU=
+	t=1780991864; cv=none; b=YOMbm9UvWKAj59ZMlVvuktOJ3AQC0IsfLPRonUutUO+tS/Q6SBhNhkytHwH2IG5RHz8Ui87/0A8RN/QH2yDtV0MjyivNZG6TeMP1Dgd3USquoXhtYEwQkGQp9qQVVrzyyG0UOfoC4OfcGMcKvu5cSMJKlSMeGq5MyXb5NSDx5SE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780985304; c=relaxed/simple;
-	bh=zTpFxujaVIqXrqntYJQiK4/X3IRtxtcHngsZQzceJcA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=jJZpmdgCigkA/xwdcAUaSJD15MkS5AMNYZeG7EFuVRuNMY21JDOIGlUXNLvbH8tNddyZUKN5AB7JztRfxWFUmmNrsZh/w1ZD7RPz6z31R/IG7Lv71RfHpBnt2DbZAw6vUXCGgQ4MTDiklruV3wOWIgkC33O8OyYaSf/FqEyOrBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EkwxrZEP; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1780991864; c=relaxed/simple;
+	bh=hCWhHEhW4r+C3VDTQUYPF5CSAxWluVmdk6lvM6lw1Aw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=F/L1m2U3YZc4kbx7iTePV+mKCGSX0M4cpSPB590TBievCMsdDJeZBEKZHhdLQGoPb1P1zQqz2Nqa06yjg+wiuynhs/vQC/mVoLZAMiM7i51XAEQZqaDNeOecxCCt28ZaEb4EqpZ2zPjgVT3ZC34uiPh/TE+XMGcW7D5lgYmmVf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=rd8uKlHI; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EkwxrZEP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780985302;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lbOz6L7GY6LUh60QQjLA14yLmOVQNSrkAN1JuAX65lY=;
-	b=EkwxrZEP9bBjPM0Iw8kAeLsX38EV2GM7we9ZdOCMZRXX3eWhWwf5CF5EbP1CgI9mnE4T+i
-	sC+ca0DmYbET9Q7bt3a8L8TaszIAdNZdS7Cx28zGpvdXjHHLFTlNR0MD8hvr7LtJqOrEO6
-	pRnfLCASm4aJfysB5ZDOETbnbMGURTI=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-144-CiiFh2z4PQSasqSREsKifg-1; Tue,
- 09 Jun 2026 02:08:18 -0400
-X-MC-Unique: CiiFh2z4PQSasqSREsKifg-1
-X-Mimecast-MFC-AGG-ID: CiiFh2z4PQSasqSREsKifg_1780985295
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0FD03180065C;
-	Tue,  9 Jun 2026 06:08:15 +0000 (UTC)
-Received: from fweimer-oldenburg.csb.redhat.com (unknown [10.44.32.189])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 98CB719560A2;
-	Tue,  9 Jun 2026 06:08:07 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Jann Horn <jannh@google.com>
-Cc: Mateusz Guzik <mjguzik@gmail.com>,  Christian Brauner
- <brauner@kernel.org>,  Li Chen <me@linux.beauty>,  Kees Cook
- <kees@kernel.org>,  Alexander Viro <viro@zeniv.linux.org.uk>,
-  linux-fsdevel@vger.kernel.org,  linux-api@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  linux-mm@kvack.org,
-  linux-arch@vger.kernel.org,  linux-doc@vger.kernel.org,
-  linux-kselftest@vger.kernel.org,  x86@kernel.org,  Arnd Bergmann
- <arnd@arndb.de>,  Andy Lutomirski <luto@kernel.org>,  Thomas Gleixner
- <tglx@kernel.org>,  Ingo Molnar <mingo@redhat.com>,  Borislav Petkov
- <bp@alien8.de>,  Dave Hansen <dave.hansen@linux.intel.com>,  "H. Peter
- Anvin" <hpa@zytor.com>,  Jan Kara <jack@suse.cz>,  Jonathan Corbet
- <corbet@lwn.net>,  Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
- executable startup
-In-Reply-To: <CAG48ez38OEE8ZPLyU6nr9=cYx-hMsdoh5WRrv-GMZGMDKyyOTA@mail.gmail.com>
-	(Jann Horn's message of "Mon, 8 Jun 2026 17:02:06 +0200")
-References: <20260528095235.2491226-1-me@linux.beauty>
-	<vealb52tv5suireenkke4lul2l3wbnaul2rp3ea545ly5wa5ty@yk3aksvp7skt>
-	<CAG48ez38OEE8ZPLyU6nr9=cYx-hMsdoh5WRrv-GMZGMDKyyOTA@mail.gmail.com>
-Date: Tue, 09 Jun 2026 08:08:05 +0200
-Message-ID: <lhubjdk1c1m.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="rd8uKlHI"
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 72DF71D47;
+	Tue,  9 Jun 2026 07:57:35 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=rd8uKlHI;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 653901D11;
+	Tue,  9 Jun 2026 07:57:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1780991851;
+	bh=kf6T+sn805TIIm7DZAp4ubwU3+nDlTwzyy33aVFt690=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=rd8uKlHIMT42M4BQO7pp//GHSZ9O2umeyLWPtbYz8sC2wid86lKcc6H68MBzENbgR
+	 2pCkWFuYE5HWQvNbHiBv25nSctmg/NTl3U87bybT/1v4iLwZdFQSnGs5LvIvPTpuQ/
+	 fgbLjDK7TV49WBZXDcf7j3T9aNoDkGQVjYGV61+Y=
+Received: from [192.168.95.128] (172.30.20.172) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 9 Jun 2026 10:57:30 +0300
+Message-ID: <189e7066-3d41-4629-8e9a-deea011047eb@paragon-software.com>
+Date: Tue, 9 Jun 2026 09:57:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] fs/ntfs3: bound NTFS_DE view.data_off in
+ UpdateRecordData{Root,Allocation}
+To: Michael Bommarito <michael.bommarito@gmail.com>
+CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Pavitra Jha <jhapavitra98@gmail.com>
+References: <20260515163424.1575298-1-michael.bommarito@gmail.com>
+ <20260519095135.1609973-1-michael.bommarito@gmail.com>
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <20260519095135.1609973-1-michael.bommarito@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-* Jann Horn:
+On 5/19/26 11:51, Michael Bommarito wrote:
 
->> Per the above, the primary win would stem from *NOT* messing with mm.
+> In do_action()'s UpdateRecordDataRoot (fslog.c:3489) and
+> UpdateRecordDataAllocation (fslog.c:3697) cases, the memmove
+> destination is `Add2Ptr(e, le16_to_cpu(e->view.data_off))`,
+> where e->view.data_off comes from an on-disk NTFS_DE inside
+> an INDEX_ROOT or INDEX_BUFFER.  Neither case validates
+> view.data_off + dlen against e->size; the existing
+> check_if_index_root / check_if_alloc_index helpers walk the
+> entry chain and validate the entry's offset, but not its
+> internal view fields.
 >
-> As you write below, I think we have that with CLONE_MM? The C function
-> vfork() is kind of a terrible API because of its returns-twice
-> behavior, but I think if process cloning with CLONE_VM|CLONE_VFORK was
-> wrapped by libc in a way similar to clone() (with the child executing
-> a separate handler function), or if it was used in the implementation
-> of some higher-level process-spawning API, it would be a perfectly
-> fine API?
+> The neighbouring read sites (e.g., fs/ntfs3/index.c when
+> iterating view entries) check view.data_off + view.data_size
+> <= e->size.  Apply the same bound at the two memmove sites.
+>
+> Reproduced under UML+KASAN on mainline 8d90b09e6741 via
+> pr_warn-only probe instrumentation: with view.data_off forced
+> to 0xFFFC, the memmove writes 32 bytes past the end of the
+> NTFS_DE.
+>
+> This is similar in shape to Pavitra Jha's 2026-05-02 patch
+> "fs/ntfs3: prevent oob in case UpdateRecordDataRoot"
+> (<20260502105008.21827-1-jhapavitra98@gmail.com>) which
+> proposes calling ntfs3_bad_de_range(); that helper does not
+> exist in mainline.  This patch uses inline checks.
+>
+> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
+> Cc: stable@vger.kernel.org
+> Reported-by: Pavitra Jha <jhapavitra98@gmail.com>
+> Closes: https://lore.kernel.org/ntfs3/20260502105008.21827-1-jhapavitra98@gmail.com/
+> Assisted-by: Claude:claude-opus-4-7
+> Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+> ---
+> v2:
+>    - Add Pavitra Jha's Reported-by trailer and a Closes tag for
+>      the original public report, as requested in review.
+>
+>   fs/ntfs3/fslog.c | 18 ++++++++++++++++++
+>   1 file changed, 18 insertions(+)
+>
+> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+> index acfa18b84401e..127860fd2ab50 100644
+> --- a/fs/ntfs3/fslog.c
+> +++ b/fs/ntfs3/fslog.c
+> @@ -3497,6 +3497,18 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+>   
+>   		e = Add2Ptr(attr, le16_to_cpu(lrh->attr_off));
+>   
+> +		/*
+> +		 * e->view.data_off and dlen come from the on-disk
+> +		 * INDEX_ROOT entry / LRH.  The neighbouring read sites
+> +		 * (e.g. fs/ntfs3/index.c) check that
+> +		 * view.data_off + view.data_size <= e->size; mirror that
+> +		 * bound here so the memmove cannot reach past the entry.
+> +		 */
+> +		if (le16_to_cpu(e->view.data_off) > le16_to_cpu(e->size) ||
+> +		    le16_to_cpu(e->view.data_off) + dlen >
+> +			    le16_to_cpu(e->size))
+> +			goto dirty_vol;
+> +
+>   		memmove(Add2Ptr(e, le16_to_cpu(e->view.data_off)), data, dlen);
+>   
+>   		mi->dirty = true;
+> @@ -3689,6 +3701,12 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+>   			goto dirty_vol;
+>   		}
+>   
+> +		/* See UpdateRecordDataRoot for the rationale. */
+> +		if (le16_to_cpu(e->view.data_off) > le16_to_cpu(e->size) ||
+> +		    le16_to_cpu(e->view.data_off) + dlen >
+> +			    le16_to_cpu(e->size))
+> +			goto dirty_vol;
+> +
+>   		memmove(Add2Ptr(e, le16_to_cpu(e->view.data_off)), data, dlen);
+>   
+>   		a_dirty = true;
 
-No, there is still a problem with SIGTSTP handling because we cannot
-atomically unmask the signal during execve.  We need to unblock SIGTSTP
-before execve in the new process, but this means that it can get
-suspended by SIGTSTP.  Consequently, the execve never happens and the
-original process is stuck in vfork:
+Hello,
 
-  posix_spawn: parent can get stuck in uninterruptible sleep if child
-  receives SIGTSTP early enough
-  <https://inbox.sourceware.org/libc-help/2921668c-773e-465d-9480-0abb6f979=
-bf9@www.fastmail.com/>
+Your patch was applied, thank you.
 
-More on the low-level side, it's difficult to make sure that execve gets
-a consistent snapshot of the environ vector.  Both vfork and execve need
-to be async-signal-safe.  Any locking or memory allocation (except for
-the stack =E2=80=A6) persists in the original process after vfork returns. =
- The
-environ vector can be large, so making a copy on the stack is not ideal.
-It's even harder for getenv/setenv/unsetenv implementations that use
-locking instead of software transactional memory.
-
-In general, I prefer the vfork+execve API over things like posix_spawn
-because eventually, you have dependencies between the syslets, or need
-control flow.  This introduces a lot of complexity.  Conceptually,
-vfork+execve is much simpler, and in many ways quite safe (even mutexes
-work as long as they do not need a correct TID).
-
-Thanks,
-Florian
+Regards,
+Konstantin
 
