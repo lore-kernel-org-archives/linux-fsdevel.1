@@ -1,160 +1,226 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3C33AC0C0
-	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 12:33:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A5F399351
+	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 12:52:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781008432; cv=none; b=Ba9R8gkGrWjyDGWUu2y2On30TJac25QiMytkRBWRhJB9Act2UAea6ZLe0VmOKTZHd61j5XDjpRsAArtBOErEaJcCP24EToXZNyRI3TTCmjACOy0cH1pidaY5raXWe0EFqR/RIBJ3bre8EqOGqRkaELddhYG+LaXUhbzium21jAQ=
+	t=1781009580; cv=none; b=KiOaZGE9+moEdDLRFM6e7oFWEjknBBallFdRMXCN4TjSOe+UxzWOLb5mXKbr5+L0fh1uWfn0RYD9Z4oJ93tyI7xd9Sl85BjCoL8JvUuD/qhVV6mgBDjWnexlf9DjUbQqRNUhtAQB1La6pDiv42qkpcjnTcmBeyyD+kO3qsdW7i8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781008432; c=relaxed/simple;
-	bh=uItYMkbGwUMGus1uTlQfEdNxfjafDF8SG6tMDHg6mFo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NmwvhUeyCmN8t8Yuh5KZpEf3kCd8/6+sDFRsd7PZAqGjdf7kGqRc92F41gp1rKyhdLb4bEFaMwTk1bqliEsiQobe7g24PlOngWjLCOTW0r7i7Tn64OcXTnW7OKT4cCAXDbqLT+VsUvT4UMyn7126CeAiFKIXSYCh2QRqJ/fw5nY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com; spf=pass smtp.mailfrom=trailofbits.com; dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b=jRFfLNBa; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trailofbits.com
+	s=arc-20240116; t=1781009580; c=relaxed/simple;
+	bh=X3FmxBPotfpP0P/Jqyuj35eEnfREEjf5+UxBE/R32iA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FYnd8Lyl5Ad5h30KGgh2I7WGlOw1EoTyggflg+PgRNlkcMl0e3T00+bOHk7ogR/MDt4/Z1jJz4I7TSZy0LzLiot9Tr9ctXi2uoCZvlQpiKLQIu3v22pKkg3i6rryevloqu5yZwwKAOZN+VUJf5iMN5+QLgLHuiQ9tSKWvy5uBA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=D3sxU875; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Lydqrcde; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=E5p0l2vR; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/qcl9yXQ; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b="jRFfLNBa"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490bb83a3f6so45433715e9.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 09 Jun 2026 05:33:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=trailofbits.com; s=google; t=1781008430; x=1781613230; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xAFliuNuGBag3YIZHCuBnS4rEUt7FD0JImbIGYU3nTM=;
-        b=jRFfLNBa42IaMqJxZ3vqahnieNKgT9uSfU6fCMfA+5cxOgkbQ+biXjA5Bj3WK9wdUv
-         IcVizpKwI8Uuw2pTxy6zP4wIgJgtwN6Tv53ZkS9F1bpKf5Dezq2jLp93+Cec66lQASOv
-         TnvHdhfbUeLcEhoG/rzdfv+rubVDgTK3nTtetXPtg4soWZdgHdmaMv/1dm6rpPCApQWO
-         4GWTEAx/kUAbkes0jAqvx18fwZP+mzm/BAiI5t8vBljtRQUjQuqvseKbvlGRdWQcCZgo
-         RZoSDp5FvM8AvL7Yr5ZWSdu9NdvO5A1SB6kfmLv68xRLCpSg0dw0wFKHqpzBhZt65VoT
-         7ESA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781008430; x=1781613230;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=xAFliuNuGBag3YIZHCuBnS4rEUt7FD0JImbIGYU3nTM=;
-        b=C1m/Dm8UkoSac9graGbdKMd3QdJoOkOHcbDXJqz6Z77mNFgXJnHQbw75Jrr4ZsEqk8
-         +x+kAeymzA7Qz9RGEO7njb6j3z7xBpa9AGKNIQ8Dv0jIEfMu2DdRwp2Ux9AQSj6xmSRq
-         96U2/b1YlTDHR1mIvRTCCKHdo4ZBzq6WElubiBUaoyy1Sqwple8/sIsPkZiGrKzVLD71
-         KwJSt3Pk6RMq9joKnrXCuuP7AqiKhXS8ZQTBK5juI4q35kkGn2ePY9IczeaMb1puRcdf
-         h20wgJ2ZmvDKLG0oeQOHZqqyxcuz7RS/Er/dsQNmlJ9UMnxVjBmKC1loy4jl4uf3RQe5
-         nOFA==
-X-Forwarded-Encrypted: i=1; AFNElJ9XT02+8h37Zw8imoUTojyRC3mKuCOjp6G03sVoLdXLNjcZDuWgZ6hNjtt2lC2oh/SH1hMl+HSTZip88Yg9@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZCuSVgVQ/PUJZlsrV0G9dglA82EUlEhuwIO6RnzaD+LUnsLPk
-	z9q40ZnCrajYOwwEleO1xsxYHiFd/z6PpiJYyQeT0vn5a0jYl7Tvk8My+EzzhvuE4nM=
-X-Gm-Gg: Acq92OHeqcUEDm2/ZQhR+AuGxQbq3peJvT6NerTnG+JcVHqQajv8w6DI6W56L6WZCqo
-	HylDJrcgoq1i/u7gF0wXLjRDPMP/0u9dDgf5zIahm0l3+/L8U9CQ/RzIGZCpStYd+j2dZf53zml
-	UPp24MwR4a8o6aUqGE6GFeTpGDYDJgDpS6wp5SIN2xkd0jyFrgKiBeEB0rTf9+s8Izg7mukDNux
-	xCpWIpQmhtvf9TpY6yoFA8prpvnt+KAwgRfRGKWCH4VYW2An1h/WY+iPBAmixx11M1xoOm0b6u+
-	/BogTh2FwGbmcCr1PmeM9hfE1vXI15Hw8MhXTcmWzIkzBw1lnZrp2RGXIbbL9fuXWZxFVITDEUR
-	V24NSYzcYPGoIdQXtusJ6z54H5ofccVBxJUr44jlOsPbjTWsNu3CJ3JrvUX48IODi3PmaKPKtBM
-	QYInIqtm8pwpSIqSYJW9eTY+lzVSo+ZdZd9mBaVvH1Px+La9q/K47CzS5ttd/8utvZK3GqyV0nv
-	wOjVA==
-X-Received: by 2002:a05:600c:4fd1:b0:490:b025:f324 with SMTP id 5b1f17b1804b1-490d723a47bmr33072455e9.32.1781008429729;
-        Tue, 09 Jun 2026 05:33:49 -0700 (PDT)
-Received: from localhost ([46.101.197.76])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4601f2e4b18sm48530516f8f.10.2026.06.09.05.33.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jun 2026 05:33:49 -0700 (PDT)
-From: Dominik 'Disconnect3d' Czarnota <dominik.czarnota@trailofbits.com>
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: Dominik 'Disconnect3d' Czarnota <dominik.czarnota@trailofbits.com>,
-	wooridge <1063373698@qq.com>,
-	yurenwang152@gmail.com,
-	Kees Cook <keescook@chromium.org>,
-	Joel Granados <j.granados@samsung.com>,
-	Petr Mladek <pmladek@suse.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] sysctl: add CAP_SYS_ADMIN check to panic/ctrl-alt-del sysctls
-Date: Tue,  9 Jun 2026 12:33:44 +0000
-Message-ID: <20260609123346.2800585-1-dominik.czarnota@trailofbits.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <2026-04-17-floppy-moldy-vile-squabble-JZOuCI@cyphar.com>
-References: <tencent_4BACE37ED72C80152F8C6A8C585893505A05@qq.com> <2026-04-17-floppy-moldy-vile-squabble-JZOuCI@cyphar.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="D3sxU875";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Lydqrcde";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="E5p0l2vR";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/qcl9yXQ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6F4387599F;
+	Tue,  9 Jun 2026 12:52:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1781009577; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YjVs4XMojEDCZDsneHUjmf+6PVevcMqyxX1dX7ene70=;
+	b=D3sxU875kN70T0k1ZVYP9/E8y2C526A1rckA9z0cLAfzHFl1kIf+w82Oz/0wkqviJaBluv
+	1liRSl1kEmUo1AgPYzvfXbNp3pYN6mA2lOG/qugCxyuDgLMKY9odM8ELxvwVSPpsiw7mqh
+	nc/D+lzSLjAX/vZpkxoqK7h5fLCRAQ0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1781009577;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YjVs4XMojEDCZDsneHUjmf+6PVevcMqyxX1dX7ene70=;
+	b=LydqrcdeYiAka5kpfgjfXTGMot6slWhu4iN1WL/VymRlCSQNY2PQ7UfTg211b34ndFZL6Q
+	zY4Dy4l8Fb4Lx0BQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=E5p0l2vR;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="/qcl9yXQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1781009573; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YjVs4XMojEDCZDsneHUjmf+6PVevcMqyxX1dX7ene70=;
+	b=E5p0l2vRyc4Aamw3PZVZDZMxitZ+J7/tHa+G1PsNtT4tWBTSHyIZCAYADXfyKQCnMwK03J
+	h8XcA7s62eeQCNGURjfIwiravYlhf86bEQXB5WrkyUH4OwlVX4yVrEqx7FsIM4gRbNhcqK
+	WnJE/cldEn/uoMKXeqGksCk3xFgWSEQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1781009573;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YjVs4XMojEDCZDsneHUjmf+6PVevcMqyxX1dX7ene70=;
+	b=/qcl9yXQ05C4n3FIWYXNaPy9IIWptYcXNBNYxuZveZpo7H0K5Tpb6S0sZjVPVtKsdgnSXH
+	iHdeyBLUvHfYc1BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5FF84779A7;
+	Tue,  9 Jun 2026 12:52:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id DaBnF6UMKGoQcAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 09 Jun 2026 12:52:53 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 08919A0A90; Tue, 09 Jun 2026 14:52:53 +0200 (CEST)
+Date: Tue, 9 Jun 2026 14:52:52 +0200
+From: Jan Kara <jack@suse.cz>
+To: Usama Arif <usama.arif@linux.dev>
+Cc: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>, linux-mm@kvack.org, 
+	hughd@google.com, boris@bur.io, clm@fb.com, dsterba@suse.com, 
+	linux-btrfs@vger.kernel.org, cem@kernel.org, linux-xfs@vger.kernel.org, 
+	shakeel.butt@linux.dev, hannes@cmpxchg.org, riel@surriel.com, kernel-team@meta.com
+Subject: Re: [PATCH] fs/super: skip non-memcg-aware nr_cached_objects in
+ memcg slab shrink
+Message-ID: <5exadtggg276xp5tayiqbbomnms4hjyaopmgu3chfpl2ug56dq@vyhswy2afzmo>
+References: <20260609123047.1948242-1-usama.arif@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260609123047.1948242-1-usama.arif@linux.dev>
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 6F4387599F
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-On Sat, Apr 18, 2026 at 05:14:06AM +1000, Aleksa Sarai wrote:=0D
-> More importantly, these kinds of check-permissions-at-write checks are=0D
-> actually quite weak because of setuid binaries -- you can always=0D
-> redirect the output of a setuid binary to a file to bypass these kinds=0D
-> of checks. A very classic example is mempodipper (CVE-2012-0056) but the=
-=0D
-> recent "CrackArmor" bug (in particular CVE-2026-23268) is an even more=0D
-> obvious example. For those reasons, if an attacker can get access to an=0D
-> O_RDWR handle to a sysctl file, you're long since screwed.=0D
->=0D
-> So, in my view this logic was somewhat flawed back then but makes=0D
-> absolutely no sense today and should not be propagated to other sysctls=0D
-> because it just gives a false sense of security.=0D
->=0D
-> I also want to point out that the files you mentioned aren't even the=0D
-> juiciest targets -- kernel.core_pattern gives you free root code=0D
-> execution on the host if you can write to it.=0D
-=0D
-Hi,=0D
-=0D
-I was looking at this in the context of sethostname()/setdomainname(),=0D
-and procfs/sysctl seems inconsistent with the syscall interface there:=0D
-- the syscalls require:=0D
-=0D
-    ns_capable(current->nsproxy->uts_ns->user_ns, CAP_SYS_ADMIN)=0D
-=0D
-- /proc/sys/kernel/hostname and /proc/sys/kernel/domainname mutate the=0D
-  same UTS namespace state, but only go through the generic procfs DAC=0D
-  permission check.=0D
-=0D
-So a process can fail the syscall after dropping effective=0D
-CAP_SYS_ADMIN, but still change the same value through sysctl if DAC=0D
-allows the write.=0D
-=0D
-Is the "false sense of security" argument meant to apply to this direct=0D
-API consistency issue as well? The already-open-fd delegation case is a=0D
-valid concern, but it seems to show that write-time checks are=0D
-incomplete, not that the direct write path should be weaker than the=0D
-syscall path.=0D
-=0D
-To summarize the current situation: no fd delegation or privileged helper
-is needed. A task that passes procfs DAC can mutate UTS state
-(hostname/domainname) directly after dropping CAP_SYS_ADMIN, while the
-syscall path rejects the same operation.
-=0D
-If the already-open fd case is the concern, then the check should happen=0D
-when the file is opened for write, or should use file->f_cred so the=0D
-write is authorized against the opener's credentials. The kernel already=0D
-has examples in this direction: /proc/kcore rejects open without=0D
-CAP_SYS_RAWIO, /proc/<pid>/setgroups rejects open-for-write without=0D
-CAP_SYS_ADMIN in the target user namespace, and file_ns_capable() checks=0D
-the opener's credentials.=0D
-=0D
-If those other files require capabilities, it seems to me that
-kernel.core_pattern should as well. It controls global coredump
-behaviour, including pipe helpers, and a pipe helper runs through the=0D
-usermodehelper path with root credentials and the default usermodehelper=0D
-capability set. Direct writes to this sysctl should therefore require=0D
-CAP_SYS_ADMIN rather than only procfs DAC permissions.=0D
-=0D
-If you agree with this, should I send a patch for hostname/domainname=0D
-that makes its procfs writes (through proc_do_uts_string()) require the=0D
-same ns_capable() check, together with a selftest for this case?=0D
-=0D
-Longer term, I think the sysctl documentation should state the policy=0D
-more explicitly. If writable /proc/sys is not meant to be a security=0D
-boundary, Documentation/admin-guide/sysctl/kernel.rst should say so=0D
-directly, so users know that environments exposing it writable (e.g.=0D
-containers) must treat it as privileged. Then individual entries should=0D
-document the non-obvious details: whether writes rely only on procfs DAC,=0D
-whether an additional capability or opener-credential check is done, and=0D
-whether the knob can have sensitive side effects such as core_pattern's=0D
-pipe helper execution. That would avoid having users infer the intended=0D
-security model from kernel behaviour and scattered examples.=0D
+On Tue 09-06-26 05:30:47, Usama Arif wrote:
+> The super_block shrinker is registered with SHRINKER_MEMCG_AWARE because its
+> dentry and inode LRUs are memcg-aware (via list_lru). But the optional
+> ->nr_cached_objects() hooks that the shrinker also drives are not memcg-aware:
+> btrfs extent maps and xfs inode reclaim operate on filesystem-global
+> state, and shmem's unused-huge shrinker walks a per-superblock shrinklist.
+> None of them filter by sc->memcg.
+> 
+> The mismatch shows up under memcg-heavy slab reclaim. shrink_slab_memcg()
+> calls do_shrink_slab() once per (memcg, NUMA node) pair for every memcg
+> whose bit is set in the per-superblock shrinker bitmap, which on a busy
+> host means hundreds of calls per reclaim pass. Each scan queues the same
+> global shrinker work item that's already kicked from the root path.
+> 
+> Because btrfs/xfs global count is typically non-zero on any in-use filesystem,
+> the returned total stays positive even if a memcg's own dentry/inode LRUs
+> are empty. shrink_slab_memcg() therefore never clears the SB shrinker bit
+> in the memcg bitmap, so subsequent reclaim passes from the same memcg
+> re-enter super_cache_count() and pay for the global counter walk again.
+> 
+> Restrict ->nr_cached_objects() to the global shrink path (sc->memcg NULL
+> or root). The memcg-aware dentry/inode LRUs keep being counted and
+> scanned per memcg as before; only the global fs-specific hooks are skipped.
+> The root/global shrink path still drives those hooks; only their
+> invocation from non-root memcg slab reclaim is removed.
+> 
+> Signed-off-by: Usama Arif <usama.arif@linux.dev>
+
+To me this makes sense. However I'm bit surprised that XFS inode shrinker
+(which is what gets counted in nr_cached_objects for XFS) isn't memcg
+aware. I guess since these inodes are on their way to a relatively quick
+destruction, nobody really bothered. So I'm fine with the change, just
+I'd like to make sure XFS folks are aware and don't plan anything in this
+area.
+
+								Honza
+
+> ---
+>  fs/super.c | 19 +++++++++++++++++--
+>  1 file changed, 17 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/super.c b/fs/super.c
+> index 378e81efe643..5216c5dbd4c4 100644
+> --- a/fs/super.c
+> +++ b/fs/super.c
+> @@ -24,6 +24,7 @@
+>  #include <linux/export.h>
+>  #include <linux/slab.h>
+>  #include <linux/blkdev.h>
+> +#include <linux/memcontrol.h>
+>  #include <linux/mount.h>
+>  #include <linux/security.h>
+>  #include <linux/writeback.h>		/* for the emergency remount stuff */
+> @@ -169,6 +170,19 @@ static void super_wake(struct super_block *sb, unsigned int flag)
+>  	wake_up_var(&sb->s_flags);
+>  }
+>  
+> +/*
+> + * The s_op->nr_cached_objects hooks (used for example by btrfs and xfs)
+> + * operate on filesystem-global state and ignore sc->memcg. Driving them
+> + * from per-memcg shrink_slab_memcg() invocations only burns CPU walking
+> + * per-cpu counters and queueing duplicate work: the actual reclaim happens on
+> + * the global path (kswapd or root direct reclaim) regardless. Restrict them
+> + * to that path.
+> + */
+> +static inline bool super_fs_objects_eligible(struct shrink_control *sc)
+> +{
+> +	return !sc->memcg || mem_cgroup_is_root(sc->memcg);
+> +}
+> +
+>  /*
+>   * One thing we have to be careful of with a per-sb shrinker is that we don't
+>   * drop the last active reference to the superblock from within the shrinker.
+> @@ -198,7 +212,7 @@ static unsigned long super_cache_scan(struct shrinker *shrink,
+>  	if (!super_trylock_shared(sb))
+>  		return SHRINK_STOP;
+>  
+> -	if (sb->s_op->nr_cached_objects)
+> +	if (sb->s_op->nr_cached_objects && super_fs_objects_eligible(sc))
+>  		fs_objects = sb->s_op->nr_cached_objects(sb, sc);
+>  
+>  	inodes = list_lru_shrink_count(&sb->s_inode_lru, sc);
+> @@ -259,7 +273,8 @@ static unsigned long super_cache_count(struct shrinker *shrink,
+>  		return 0;
+>  	smp_rmb();
+>  
+> -	if (sb->s_op && sb->s_op->nr_cached_objects)
+> +	if (sb->s_op && sb->s_op->nr_cached_objects &&
+> +	    super_fs_objects_eligible(sc))
+>  		total_objects = sb->s_op->nr_cached_objects(sb, sc);
+>  
+>  	total_objects += list_lru_shrink_count(&sb->s_dentry_lru, sc);
+> -- 
+> 2.52.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
