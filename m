@@ -1,86 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2801633ADBF
-	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 05:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B013CF675
+	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 06:08:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780981614; cv=none; b=QEBbIKGFQA83U1BMjuGXL47a+lpalwhNxlx+grIKyclPRqH8WfZZV+Eu1g6kH0hTw5I27vrGJvljJJQzFxeGXt6wSujAo2g8tS6qBXnsZ3bxUFWCwHlYI9kCLyq0vF5z5yfpeqEqhd46hhiaopS80La7iIfzUybJJi6eUS6kMcw=
+	t=1780985304; cv=none; b=Gzeu4FHao9Ia14KUX6SXv1VuBhbk9D4RirtoCuFYd7oExTqOO5nr/A9Z1bh1af38gf+YqsesvxQkfiGj9lu43V9jq6+Cxz3UN8ejAbSpGyFcV4hzd+05pj9AEqOsfZVRsam2FsM9t6YBCrW5uIcq4TIsHKnryji0yeZQ4DzawqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780981614; c=relaxed/simple;
-	bh=1Sz0u2UAO5peDXeJ5+UPvZk+HnwlVnSIWkuhff2dIus=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fF5lIZL6JJbZJJsvweS25Qiihk8KKCL7PbuY6nTb1EesE8d0WtuMXp+hrI50iA69fcEv+g9/ZKhGDxrN7IpdniZwC5kixcbzx8Qcsd5ZTqOfgf2DeDOYCyTVGXxFkdHHOliWIw4ZIi1Hf7pwcNjNOwUvW2dL6K2Ff/6dXabIfjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i7odLtzK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780985304; c=relaxed/simple;
+	bh=zTpFxujaVIqXrqntYJQiK4/X3IRtxtcHngsZQzceJcA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=jJZpmdgCigkA/xwdcAUaSJD15MkS5AMNYZeG7EFuVRuNMY21JDOIGlUXNLvbH8tNddyZUKN5AB7JztRfxWFUmmNrsZh/w1ZD7RPz6z31R/IG7Lv71RfHpBnt2DbZAw6vUXCGgQ4MTDiklruV3wOWIgkC33O8OyYaSf/FqEyOrBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EkwxrZEP; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i7odLtzK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC1251F00899
-	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 05:06:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780981611;
-	bh=JSmZZXCHaEGGL/4nRb1w7Q3fqAEMLXnTrHJuHv8jMg4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=i7odLtzKyeWt4OfkJY2Dq5sKMbddv/Fs3b3USqUXnT4DQKHFhIm4SdMfnZqEnf4Mz
-	 jMKu4vswewUyT0JrG7v4sCPtUvsKupUvnim4VsVugriYScyQ6FF75YUrtJK4WSDCXf
-	 43BcNiIX++WNvKZDhEck14yVlpk9pIbTMpO/3x4cQayfwDdi3zzZZofIFu5hUxJbIU
-	 WyTNVAjzLndL1obHdMAYHgDEcG46lqik0+OQHjisi47+y8twlWJroDRFZR32lJifbF
-	 Xj8khn2dXcFc5D21r+jxytYKj13rodwvKHYazlE8dMdq/qSerdzp80jITmPuyqNBjZ
-	 3FNEwLxfFWn/g==
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-bed2b9bfa02so685780566b.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 08 Jun 2026 22:06:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8E/GVFBQ6hEpHyPC7SbreqJ0iRNftBXCueQS2Cg7R1uaFmq9xfK23/HQphsrLZo/J+lhfnWMtv8R2jeljr@vger.kernel.org
-X-Gm-Message-State: AOJu0YyivdrrAXj5OANMyoGsC+fJmiRB04VE4D9aSwpoSvI0Lk9/K9Jg
-	4XzyZ+uFgONFYdLhGh1CYbm+AaHmgjBWVSYcPKe/+8xzxE1e0ZWm7WVts6+N+S2navkmQOB71kh
-	jIgcl6wBXBMob85YEIwgRxlvOYpte9RA=
-X-Received: by 2002:a17:906:dc8b:b0:bec:64c3:9ac0 with SMTP id
- a640c23a62f3a-bf371e4e3aamr904505366b.14.1780981610177; Mon, 08 Jun 2026
- 22:06:50 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EkwxrZEP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780985302;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lbOz6L7GY6LUh60QQjLA14yLmOVQNSrkAN1JuAX65lY=;
+	b=EkwxrZEP9bBjPM0Iw8kAeLsX38EV2GM7we9ZdOCMZRXX3eWhWwf5CF5EbP1CgI9mnE4T+i
+	sC+ca0DmYbET9Q7bt3a8L8TaszIAdNZdS7Cx28zGpvdXjHHLFTlNR0MD8hvr7LtJqOrEO6
+	pRnfLCASm4aJfysB5ZDOETbnbMGURTI=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-144-CiiFh2z4PQSasqSREsKifg-1; Tue,
+ 09 Jun 2026 02:08:18 -0400
+X-MC-Unique: CiiFh2z4PQSasqSREsKifg-1
+X-Mimecast-MFC-AGG-ID: CiiFh2z4PQSasqSREsKifg_1780985295
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0FD03180065C;
+	Tue,  9 Jun 2026 06:08:15 +0000 (UTC)
+Received: from fweimer-oldenburg.csb.redhat.com (unknown [10.44.32.189])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 98CB719560A2;
+	Tue,  9 Jun 2026 06:08:07 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: Jann Horn <jannh@google.com>
+Cc: Mateusz Guzik <mjguzik@gmail.com>,  Christian Brauner
+ <brauner@kernel.org>,  Li Chen <me@linux.beauty>,  Kees Cook
+ <kees@kernel.org>,  Alexander Viro <viro@zeniv.linux.org.uk>,
+  linux-fsdevel@vger.kernel.org,  linux-api@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  linux-mm@kvack.org,
+  linux-arch@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-kselftest@vger.kernel.org,  x86@kernel.org,  Arnd Bergmann
+ <arnd@arndb.de>,  Andy Lutomirski <luto@kernel.org>,  Thomas Gleixner
+ <tglx@kernel.org>,  Ingo Molnar <mingo@redhat.com>,  Borislav Petkov
+ <bp@alien8.de>,  Dave Hansen <dave.hansen@linux.intel.com>,  "H. Peter
+ Anvin" <hpa@zytor.com>,  Jan Kara <jack@suse.cz>,  Jonathan Corbet
+ <corbet@lwn.net>,  Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
+ executable startup
+In-Reply-To: <CAG48ez38OEE8ZPLyU6nr9=cYx-hMsdoh5WRrv-GMZGMDKyyOTA@mail.gmail.com>
+	(Jann Horn's message of "Mon, 8 Jun 2026 17:02:06 +0200")
+References: <20260528095235.2491226-1-me@linux.beauty>
+	<vealb52tv5suireenkke4lul2l3wbnaul2rp3ea545ly5wa5ty@yk3aksvp7skt>
+	<CAG48ez38OEE8ZPLyU6nr9=cYx-hMsdoh5WRrv-GMZGMDKyyOTA@mail.gmail.com>
+Date: Tue, 09 Jun 2026 08:08:05 +0200
+Message-ID: <lhubjdk1c1m.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260608210618.3437216-1-willy@infradead.org>
-In-Reply-To: <20260608210618.3437216-1-willy@infradead.org>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 9 Jun 2026 14:06:37 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-JmegoqrNR-FyLgvBW3qzWK2FYSsNmxTY33Yi_qu3cqg@mail.gmail.com>
-X-Gm-Features: AVVi8Cd3R2E9UIB9ys0n7A5gsqUoAl2XbQeWvqCvfsDFaTDj3QI7vviC7yYslZo
-Message-ID: <CAKYAXd-JmegoqrNR-FyLgvBW3qzWK2FYSsNmxTY33Yi_qu3cqg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] Remove __folio_index again
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Tue, Jun 9, 2026 at 6:06=E2=80=AFAM Matthew Wilcox (Oracle)
-<willy@infradead.org> wrote:
+* Jann Horn:
+
+>> Per the above, the primary win would stem from *NOT* messing with mm.
 >
-> I renamed page->index to page->__folio_index a year ago.  That proved to
-> be insufficient to prevent people from using it, so take more extreme
-> measures to make it inaccessible except through struct folio.
->
-> v2:
->  - Split patch 1 into patches 1-3
->  - Remove inversion of the i_size condition
->  - Use page_offset() instead of page_pgoff()
->  - Preserve the call to flush_dcache_page() in all circumstances
->  - Use offset_in_page() instead of open-coding it
->  - Remove shadowing definition of struct folio in patch 4
->  - Delete the printing of page->index in show_page_info.py
->  - Unname the padding where folio stores index instead of trying to
->    create an unguessable name (Arnd)
->  - Justify removal of page->share in patch 6
->
-> Matthew Wilcox (Oracle) (6):
->   ntfs: Inline zero_partial_compressed_page()
->   ntfs: Remove use of __folio_index in handle_bounds_compressed_page()
->   ntfs: Use zero_user_segment() in handle_bounds_compressed_page()
->   ntfs: Remove references to page->__folio_index
->   show_page_info: Remove printing of page index
->   mm: Remove __folio_index
-For ntfs part,
-Acked-by: Namjae Jeon <linkinjeon@kernel.org>
-Thanks!
+> As you write below, I think we have that with CLONE_MM? The C function
+> vfork() is kind of a terrible API because of its returns-twice
+> behavior, but I think if process cloning with CLONE_VM|CLONE_VFORK was
+> wrapped by libc in a way similar to clone() (with the child executing
+> a separate handler function), or if it was used in the implementation
+> of some higher-level process-spawning API, it would be a perfectly
+> fine API?
+
+No, there is still a problem with SIGTSTP handling because we cannot
+atomically unmask the signal during execve.  We need to unblock SIGTSTP
+before execve in the new process, but this means that it can get
+suspended by SIGTSTP.  Consequently, the execve never happens and the
+original process is stuck in vfork:
+
+  posix_spawn: parent can get stuck in uninterruptible sleep if child
+  receives SIGTSTP early enough
+  <https://inbox.sourceware.org/libc-help/2921668c-773e-465d-9480-0abb6f979=
+bf9@www.fastmail.com/>
+
+More on the low-level side, it's difficult to make sure that execve gets
+a consistent snapshot of the environ vector.  Both vfork and execve need
+to be async-signal-safe.  Any locking or memory allocation (except for
+the stack =E2=80=A6) persists in the original process after vfork returns. =
+ The
+environ vector can be large, so making a copy on the stack is not ideal.
+It's even harder for getenv/setenv/unsetenv implementations that use
+locking instead of software transactional memory.
+
+In general, I prefer the vfork+execve API over things like posix_spawn
+because eventually, you have dependencies between the syslets, or need
+control flow.  This introduces a lot of complexity.  Conceptually,
+vfork+execve is much simpler, and in many ways quite safe (even mutexes
+work as long as they do not need a correct TID).
+
+Thanks,
+Florian
+
