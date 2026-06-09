@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAA0331EBD
-	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 18:43:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D189C331EBD
+	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 18:44:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781030638; cv=none; b=HaEHge4J0o33apcji/avOBxC3k9sYfVn+02DZ2PyiV/Ch8KCoy+Zw+sSGWQFMroJre4h3ajbtV8ifu3mJ05N2+BVRctTBzLuXnMt24NKJgell/eITfJsc6UIvqI3VBX1lmFlMi5Xcas4F2YQLDg0aDDoOn51GwaG76PxBYxgirw=
+	t=1781030658; cv=none; b=Azh0OCjL9a78muC6HELyv5ymAP13ZTL5SODehkD4S6FF8O3DJSXJ2x+6XED9w5irNGHVC4AvfCDY4ZqPZPMPjshhcHo5nXxy0VuopIdNBje4CPK5JRkspFLLSXOHqtkA5jnB3G0XXI6+HANPRDg8Q1NmFJMdhFPtfIxkUZT1KxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781030638; c=relaxed/simple;
-	bh=vzD0kM3Pk5feIJ0vucS1HltDM9CIDvDw0p2qwXdji14=;
+	s=arc-20240116; t=1781030658; c=relaxed/simple;
+	bh=QXx/JwJ4UDGvcJWXd+Ph0qGnK8lKJQC048R27nqTsVM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tdC70quTvJwsP9SDYNDsLPj03qlQLrCEKIKLL8TCD28cPgq2v0+CFU3rOI/8BC8IZoKd64qmAFNiJTgQPNKT2UuPlB93XdG8kUdTT1Z+Ks07t5NvldAr83WJqg7yvUIzzJFfthEx0Z9nUTIfyKjtaIhDRaObLEfBBC8Qx1V+jMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hdZRuRX7; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=dGVKJoCkWdGU0sNB2ycK2UHxCpHgGDTZPsoFwKqlgM7yR/8WLD9+xvG2i4kFaw/kI7ijmYKMnm9AQc/ooqLK+rTKSbwVh2DNS/76Szjt9QADk4+R81SAhNUwk5ko5rduwJ3nO7zIgn9a+Qc67Q6QnjafKwG09aeJZSccPLUkL0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W4+a6Qn5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hdZRuRX7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A84B1F00893;
-	Tue,  9 Jun 2026 18:43:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W4+a6Qn5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D01F81F00893;
+	Tue,  9 Jun 2026 18:44:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781030637;
-	bh=UDdhMXu9kTVIt3wruTdJooHHQbl6lrTqQlfRXfiUst8=;
+	s=k20260515; t=1781030657;
+	bh=DdO7K/3Q6yqx7PMnrUIh0ElJIvTEEPopWOVJJ4fqrRM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=hdZRuRX7DVwIWySSLtdp6y2vC5NLSzZuGYW1Uuc5vdvfxgj4MHQ1XGKPIixDOxvcY
-	 L7WZ0ZvHDk8eEnT2U5QcZTntgqutkmJSwZcX7uS7iI2+Q+3rHg7QGyjN5h7B/MLP/r
-	 ukL/MafBughuUa5kZOZqrV3QdmKH5QaTG0HUvleOZIXoP+URZgOZZ0bby9cbsez0dN
-	 7R0EwPRa1SR2BnXm+symIHhaP53ayU0ccWRprQYy/kzbgP8nAfVINU33XnYC475aX2
-	 W+L0CTWE/EF7PxET5xg1rout6m4fQgp2rQPQcQHY0e4MMDGnm+cRCdD21H/R/QWSqH
-	 Hn6kDpfiPomiQ==
-Message-ID: <508cad64-3b00-4a2c-812b-fee69f2d5f27@kernel.org>
-Date: Tue, 9 Jun 2026 20:43:54 +0200
+	b=W4+a6Qn5/q25XVJO5B349TXUyXFz/oD8IhZNRKMpLwW2eauHMULRepfpTJu5KxHIi
+	 +tU3vLcUXMQP/eRYlrs6tYqiH/GRbg63VdLYZAOnYVV1umDvkRjKbRDgvkxATJykUG
+	 NtHle/rCQrpKFPgU/r8I9LNuVFi2bfSLT7r5XyIN+dkS9rkj49SPJe2RI6iqN40UBr
+	 yvs2OmbQmBowO5nsXrfAG7J2ZSLqck75u1gR2CGmhfGKxHuKv9k+q/ocTfRmBGVUwP
+	 GuNIXjTSlvTwgMXMqC3DgRxdkrsmjqLwLgAfdUR5gqMukC2MzBIPhUvtY/FZrFkNda
+	 S2yj/Cil6jLQQ==
+Message-ID: <ea9efe49-dff5-4347-a7a4-64a1c7947189@kernel.org>
+Date: Tue, 9 Jun 2026 20:44:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,12 +35,13 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/6] mm: Remove __folio_index
+Subject: Re: [PATCH v2 5/6] show_page_info: Remove printing of page index
 To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
  Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ Ye Liu <liuye@kylinos.cn>
 References: <20260608210618.3437216-1-willy@infradead.org>
- <20260608210618.3437216-7-willy@infradead.org>
+ <20260608210618.3437216-6-willy@infradead.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -87,20 +88,18 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260608210618.3437216-7-willy@infradead.org>
+In-Reply-To: <20260608210618.3437216-6-willy@infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 6/8/26 23:06, Matthew Wilcox (Oracle) wrote:
-> People have been abusing the existence of __folio_index.  Since that
-> was too subtle for them, unname it entirely.  Now we can't use it in the
-> FOLIO_MATCH, TABLE_MATCH and ZPDESC_MATCH macros, but that's OK, since
-> we don't care whether these fields alias index or some other field.
-> Also remove page->share since all users have been converted to use
-> folio->share and I'm absolutely certain somebody will start to access
-> folio->index through page->share if it's not removed.
+> Pages don't have indexes, folios have indexes.  Just delete it.  This
+> script is going to become increasingly barren unless somebody steps up
+> to maintain it.
 > 
 > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Cc: Ye Liu <liuye@kylinos.cn>
+> ---
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
