@@ -1,209 +1,628 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860E8391E7B
-	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 09:38:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A7D3AC0CE;
+	Tue,  9 Jun 2026 10:00:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780997913; cv=none; b=RtbwnL1MvIjLXLlLESLO440t21cFit2DHdtLZ8GVuVOlIpP1UclkRP085SbUAiYA+0N1Y2K75AEXBoLbSvhyAWDOw+r7wbrY7bpv4XbkOB6MmfrEeNLU5I8UNb2k+9ZCzRMnMORSFOC07XjzZp49hin9cfB/EZUYegN0TsiWv8k=
+	t=1780999234; cv=none; b=aET78sF6l1cTHnGU61TK+k7C9amkyoA/rOIOJP6QPoCG1gBADw3JF7lW5q+VsKvoNHebe1HohLDS9xibt0xT2VObGcQXnn+WlSFcnjioD3I1SjKdYbNNa1dBTKC2NJzcuGCxERWtJikNysXjMqZEVm78KYbl7iPe8FlpzRmHgvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780997913; c=relaxed/simple;
-	bh=RJPDJmCl4ItJCLSQY3a0MNpFkwlQxuZk+OdI2DtMm3Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=en35qwXBVAr/Ly2TN3hwjG9CIaVWtiRUIRNojI9mB3aunSFVG/vRPbHl0srf0oR0ldykC/oFF137o28j8qFX1We3qg3G/Y02WcFgOdzstkWsOE0OS53Q8bO3on6++IPL5imk4KpEnk0aXgyaGYPlQsHin0bv0FsDqjUzskFNoX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RpU3rkyb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pDGmlFH1; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RpU3rkyb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pDGmlFH1; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1780999234; c=relaxed/simple;
+	bh=7bY8YG9j0QjiE0Or9lngsO2KRpq9pQFHRjPvuZkxcps=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SZiSFGYMUrSxa1bnwC/FI+KAOItL9VaUJHZo2AlDTCldCHA0NURC0U0PYF2sT9aO1OIIdv6r8crkVUPc7meTqHzoqh6kSma06BKdaFZHR5yLrue4zf3KG3rXNIUPPbfoCwFPWU9D5sDeQvmrWNRNoSAMAretXQm7Apt/MVtEh7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NW9pHGbx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RpU3rkyb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pDGmlFH1";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RpU3rkyb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pDGmlFH1"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A4A326A901;
-	Tue,  9 Jun 2026 09:38:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780997909; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Srm7PK7AT6aFPTM2v6yJ9xkkVvxKv/0zAI9E1iz1CtU=;
-	b=RpU3rkybMsMghOlt3HwyUr22B00VNY79+Pq3HaO/+h6Bx+/m3zVc558EWP7TZVEnsKxbYG
-	u+5saTqDMGBnyFDbRru6EON8ql9QfTIzBZCYP5oEjqViKI1AzjQlRRyWdS99PaBaAKji84
-	tbd1Lt6ymPN6dF7/PPdEJYh9+2ktt4Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780997909;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Srm7PK7AT6aFPTM2v6yJ9xkkVvxKv/0zAI9E1iz1CtU=;
-	b=pDGmlFH1FMvV/iCjLi0vK52DoSH7RL697Fp3yAtsGROXYwQF1Qt34Rw0GMjbfJyL/elsyY
-	y2Nk3ATPt+959UCQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RpU3rkyb;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=pDGmlFH1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780997909; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Srm7PK7AT6aFPTM2v6yJ9xkkVvxKv/0zAI9E1iz1CtU=;
-	b=RpU3rkybMsMghOlt3HwyUr22B00VNY79+Pq3HaO/+h6Bx+/m3zVc558EWP7TZVEnsKxbYG
-	u+5saTqDMGBnyFDbRru6EON8ql9QfTIzBZCYP5oEjqViKI1AzjQlRRyWdS99PaBaAKji84
-	tbd1Lt6ymPN6dF7/PPdEJYh9+2ktt4Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780997909;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Srm7PK7AT6aFPTM2v6yJ9xkkVvxKv/0zAI9E1iz1CtU=;
-	b=pDGmlFH1FMvV/iCjLi0vK52DoSH7RL697Fp3yAtsGROXYwQF1Qt34Rw0GMjbfJyL/elsyY
-	y2Nk3ATPt+959UCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2F753779A7;
-	Tue,  9 Jun 2026 09:38:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8vWXBhXfJ2o0KgAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 09 Jun 2026 09:38:29 +0000
-Message-ID: <fac2d527-e861-4f79-8e45-35f8993cc33d@suse.de>
-Date: Tue, 9 Jun 2026 11:38:08 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NW9pHGbx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57C8E1F00893;
+	Tue,  9 Jun 2026 10:00:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780999232;
+	bh=F74k5+na939DfUaKRjYG4me9UF0aTw9WJCXxM9pNAHc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NW9pHGbx8Pi5Ni/xS/pbKjs6FnVfobOPffrSgcCUZpdrk1F/clCaWzTy8bi+YRMb/
+	 ieY9YEuY+dWN4SQZgZbJQNJDQATyVDQezLHnLehQW4bJzp2jj2kTk5O0qrKgc9c+f4
+	 7sc/Csqtitr7i6LB8t6iEpQYjAncssKz7p+UphInANwoFXknBt9hUWh99aeXSPXomH
+	 fbgkqBcAAZKHuj+L9Jqnq7pLI/on5ZJ/DJMBEEJrkybTq3ZdORWfPtmgqZA3V4nxC5
+	 BKE71mXRTNJPfmzFhTjxPHjvjHENJn4UO03B6jqFHupaLR88s82p9bGC3S2pDh/ku0
+	 OWJNZ0lohfIuQ==
+Date: Tue, 9 Jun 2026 11:00:25 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, 
+	david@redhat.com, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
+	pfalcato@suse.de, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 2/2] fs/proc/task_mmu: read proc/pid/smaps_rollup under
+ per-vma lock
+Message-ID: <aifO_rCurVhFRTcl@lucifer>
+References: <20260606015729.1837935-1-surenb@google.com>
+ <20260606015729.1837935-2-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: increasing PAGE_ALLOC_COSTLY_ORDER, was Re: [LSF/MM/BPF TOPIC]
- Memory fragmentation with large block sizes
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Andy Whitcroft <apw@shadowen.org>,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-References: <f22caf98-1375-493a-a275-0500ffac3e81@suse.de>
- <aifAm1rRKF75HVeM@infradead.org>
- <1225376d-dc29-44a1-add6-0cb14926a538@suse.de>
- <aifWqFpSkcMU31UO@infradead.org>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <aifWqFpSkcMU31UO@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: A4A326A901
-X-Spam-Score: -4.51
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260606015729.1837935-2-surenb@google.com>
 
-On 6/9/26 11:02, Christoph Hellwig wrote:
-> On Tue, Jun 09, 2026 at 10:39:14AM +0200, Hannes Reinecke wrote:
->> With 32k block sizes the picture changed completely; the 'bump'
->> vanished, and there was only pronounces spike with 0-order pages
->> (about four times the size of the spike with 4k block sizes).
->>
->> This led me to assume that compaction broke down at 32k block sizes;
->> this assumption was confirmed by Vlastimil Babka who pointed out that
->> there is a maximum order to which page compaction is attempted:
->>
->> include/linux/mmzone.h:
->> /*
->>   * PAGE_ALLOC_COSTLY_ORDER is the order at which allocations are deemed
->>   * costly to service.  That is between allocation orders which should
->>   * coalesce naturally under reasonable reclaim pressure and those which
->>   * will not.
->>   */
->> #define PAGE_ALLOC_COSTLY_ORDER 3
->>
->> and it's main usage is 'order > PAGE_ALLOC_COSTLY_ORDER'.
->> Which ties in directly with what we're seeing.
-> 
-> Yes, we've also seen similar issue with memory allocation beyond
-> PAGE_ALLOC_COSTLY_ORDER.  Right now the maximum block size supported
-> for XFS is 64k, and there's various workloads for which we'd like to
-> make use of that.  Increasing PAGE_ALLOC_COSTLY_ORDER to cover 64k
-> allocations would be extremely helpful to make it perform well.
-> 
-> How has PAGE_ALLOC_COSTLY_ORDER been chosen?  And what would it take
-> to increase it?
-> 
-Not much; it's basically a setting which we can change.
-Measuring the _impact_ of the change would be the tricky thing.
+On Fri, Jun 05, 2026 at 06:57:29PM -0700, Suren Baghdasaryan wrote:
+> proc/pid/smaps_rollup can be read using the combination of RCU and
+> VMA read locks, similar to proc/pid/{maps|smaps|numa_maps}. RCU is
+> required to safely traverse the VMA tree and VMA lock stabilizes the
+> VMA being processed and the pagetable walk.
+> Note that we have to keep the logic to drop mmap_lock on contention
+> because even when using per-VMA locks we might have to fall back to
+> holding the mmap_lock.
+>
+> Running Paul's contention benchmark [1] shows considerable improvement
+> both in median and in the worst case latencies:
+>
+> Execution command: run-proc-vs-map.sh --nsamples 20 --rawdata -- \
+> --busyduration 2 --procfile smaps_rollup
+>
+> Baseline:
+>
+>     0.174     0.161     2.553
+>     0.174     0.164     2.663
+>     0.174     0.165     2.664
+>     0.174     0.166     2.679
+>     0.174     0.167     2.691
+>     0.174     0.168     2.704
+>     0.174     0.169     2.729
+>     0.174     0.172     2.741
+>     0.174     0.174     2.745
+>     0.174     0.174     2.755
+>     0.174     0.175     2.790
+>     0.174     0.177     2.809
+>     0.174     0.179     3.096
+>     0.174     0.183     3.144
+>     0.174     0.184     3.158
+>     0.174     0.185     3.175
+>     0.174     0.185     4.568
+>     0.174     0.198     4.821
+>     0.174     0.214     5.143
+>     0.174     0.251     5.220
+>
+> Patched:
+>
+>     0.007     0.007     1.952
+>     0.007     0.007     1.955
+>     0.007     0.007     1.955
+>     0.007     0.007     1.955
+>     0.007     0.007     1.957
+>     0.007     0.007     1.969
+>     0.007     0.007     2.065
+>     0.007     0.007     2.075
+>     0.007     0.007     2.146
+>     0.007     0.007     2.195
+>     0.007     0.007     2.223
+>     0.007     0.007     2.259
+>     0.007     0.007     2.488
+>     0.007     0.007     2.562
+>     0.007     0.007     2.599
+>     0.007     0.007     2.697
+>     0.007     0.007     3.030
+>     0.007     0.007     3.075
+>     0.007     0.007     3.145
+>     0.007     0.007     3.225
 
->> It will probably make sense to align the maximum block size which we
->> currently support (ie 64k) with this value to ensure that compaction
->> works with larger block sizes. Or maybe even the other way round;
->> tie the maximum block size which we support to PAGE_ALLOC_COSTLY_ORDER.
->> But that would mean to restrict the blocksize to 16k, whereas xfs
->> works happily with 32k. So we might want to raise PAGE_ALLOC_COSTLY_ORDER.
-> 
-> block sizes larger than PAGE_ALLOC_COSTLY_ORDER work, but it doesn't
-> perform great.  So I don't think a hard limit would be good.
-> 
-I was thinking to tie the block size to PAGE_ALLOC_COSTLY_ORDER, and 
-make PAGE_ALLOC_COSTLY_ORDER a Kconfig setting.
-That should give us enough flexibility to test out things.
+Ohhh lovely!
 
-But sure, just making PAGE_ALLOC_COSTLY_ORDER configurable would be
-enough here for now. Until someone comes along wanting to have larger
-block sizes.
+>
+> [1] https://github.com/paulmckrcu/proc-mmap_sem-test
+>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
->> Question is, though, how could we measure the impact?
->> This particular value has been in since 2007 (commit 5ad333eb66ff1 'lumpy
->> reclaim V4'), and it might well be that the original
->> reasoning doesn't apply anymore.
-> 
-> I've not even seen much of a reasoning for picking the value in that
-> commit.  Or did I miss something?
-> 
-I haven't seen anything. It was merged in 2007, and I would suspect
-that with compaction (which went in 2010) most of its reasoning will
-be obsolete anyway.
+Having looked through it carefully the logic looks correct to me, but I
+think we can improve how this is implemented, so attach a patch with my
+suggestions folded up to make life easier!
 
-Cheers,
+> ---
+>  fs/proc/task_mmu.c | 134 ++++++++++++++++++++-------------------------
+>  1 file changed, 59 insertions(+), 75 deletions(-)
+>
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index 023422fcee12..c2bd9f5bbbcd 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -233,6 +233,16 @@ static inline void reacquire_rcu(struct proc_maps_private *priv)
+>  	vma_iter_set(&priv->iter, priv->lock_ctx.locked_vma->vm_end);
+>  }
+>
+> +static inline bool is_mmap_lock_contended(struct proc_maps_private *priv)
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Hmm seems David and I are saying the same things :) but yeah this name being
+very close to mmap_lock_is_contended() is suboptimal.
+
+Also the inline is pointless here and suppresses the compiler unused check which
+isn't helpful.
+
+But in general, given we already have the lock context I think we can do away
+with this altogether, see below.
+
+
+> +{
+> +	struct proc_maps_locking_ctx *lock_ctx = &priv->lock_ctx;
+> +
+> +	if (!lock_ctx->mmap_locked)
+> +		return false;
+> +
+> +	return !!mmap_lock_is_contended(lock_ctx->mm);
+
+As David said, !! is not a necessary incantation any more :)
+
+> +}
+> +
+>  #else /* CONFIG_PER_VMA_LOCK */
+>
+>  static inline int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+> @@ -268,6 +278,11 @@ static inline bool fallback_to_mmap_lock(struct proc_maps_private *priv,
+>  	return false;
+>  }
+>
+> +static inline bool is_mmap_lock_contended(struct proc_maps_private *priv)
+> +{
+> +	return !!mmap_lock_is_contended(priv->lock_ctx.mm);
+
+Similarly. But also as above I don't think we need this.
+
+> +}
+> +
+>  static inline void drop_rcu(struct proc_maps_private *priv) {}
+>  static inline void reacquire_rcu(struct proc_maps_private *priv) {}
+>
+> @@ -1486,12 +1501,15 @@ static int show_smap(struct seq_file *m, void *v)
+>  static int show_smaps_rollup(struct seq_file *m, void *v)
+>  {
+>  	struct proc_maps_private *priv = m->private;
+> +	struct proc_maps_locking_ctx *lock_ctx = &priv->lock_ctx;
+> +	struct mm_struct *mm = lock_ctx->mm;
+>  	struct mem_size_stats mss = {};
+> -	struct mm_struct *mm = priv->lock_ctx.mm;
+>  	struct vm_area_struct *vma;
+> -	unsigned long vma_start = 0, last_vma_end = 0;
+> +	unsigned long vma_start = 0;
+> +	unsigned long last_vma_end = 0;
+
+I mean I kinda prefer these separate but obviously not necessary :P
+
+> +	loff_t pos = 0;
+>  	int ret = 0;
+> -	VMA_ITERATOR(vmi, mm, 0);
+> +
+
+Yeah extra line as David said :)
+
+>
+>  	priv->task = get_proc_task(priv->inode);
+>  	if (!priv->task)
+> @@ -1502,89 +1520,55 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+>  		goto out_put_task;
+>  	}
+>
+> -	ret = lock_ctx_mm(&priv->lock_ctx);
+> +	hold_task_mempolicy(priv);
+> +	ret = lock_vma_range(m, lock_ctx);
+>  	if (ret)
+>  		goto out_put_mm;
+>
+> -	hold_task_mempolicy(priv);
+> -	vma = vma_next(&vmi);
+> -
+> -	if (unlikely(!vma))
+> +	vma_iter_init(&priv->iter, mm, 0);
+> +	vma = proc_get_vma(m, &pos);
+> +	if (unlikely(!vma) || vma == get_gate_vma(priv->lock_ctx.mm))
+>  		goto empty_set;
+
+Is the gate VMA check here necessary? We already check it in the loop.
+
+>
+> +	if (IS_ERR(vma)) {
+> +		ret = PTR_ERR(vma);
+> +		goto out_unlock;
+> +	}
+
+Again this is duplicated.
+
+> +
+>  	vma_start = vma->vm_start;
+
+Could just drop the gate check, and replace this with:
+
+	vma_start = IS_ERR(vma) ? 0 : vma->vm_start;
+
+> -	do {
+> -		smap_gather_stats(priv, vma, &mss, 0);
+> +	while (vma) {
+> +		if (IS_ERR(vma)) {
+> +			ret = PTR_ERR(vma);
+> +			goto out_unlock;
+> +		}
+> +
+> +		if (vma == get_gate_vma(priv->lock_ctx.mm))
+> +			break;
+> +
+> +		/*
+> +		 * If after retaking mmap_lock, already reported VMA grew or
+> +		 * merged with the next one, then iterate from last_vma_end.
+> +		 */
+
+Hmm, but if the already reported VMA grew, vma->vm_start would not be <
+last_vma_end would it?
+
+So surely this is only covering the merge case?
+
+> +		smap_gather_stats(priv, vma, &mss,
+> +				  vma->vm_start < last_vma_end ? last_vma_end : 0);
+
+I don't love how compressed this is.
+
+I also don't love that 0 is taken to be 'start from vma->vm_start' and I
+also don't love that the code in smap_gather_stats() actually special cases
+this...
+
+How about passing last_vma_end and making smap_gather_stats() more sane? In
+the other invocation of smap_gather_stats() we could pass vma->vm_start
+here.
+
+We can then move the comment into smap_gather_stats(). E.g.:
+
+		/* Handles the case of VMA merged since mmap locked drop too. */
+		smap_gather_stats(priv, vma, &mss, last_vma_end);
+
+To make life easier I put all of my suggestions into a patch which I've
+attached :) (though it is untested) let me know what you think.
+
+
+>  		last_vma_end = vma->vm_end;
+>
+>  		/*
+>  		 * Release mmap_lock temporarily if someone wants to
+> -		 * access it for write request.
+> +		 * take it for write request.
+
+I think this is better rewritten to reflect the changes. E.g.:
+
+		/*
+		 * If the VMA lock is not taken, we hold the often contended
+                 * mmap lock. This can be because the arch doesn't support VMA
+                 * locks,or we had to fall back to the mmap lock.
+		 *
+		 * To relieve pressure, check if it is indeed contended, then
+                 * temporarily release it.
+		 */
+
+>  		 */
+> -		if (mmap_lock_is_contended(mm)) {
+> -			vma_iter_invalidate(&vmi);
+> -			unlock_ctx_mm(&priv->lock_ctx);
+> -			ret = lock_ctx_mm(&priv->lock_ctx);
+> -			if (ret) {
+> -				release_task_mempolicy(priv);
+> +		if (is_mmap_lock_contended(priv)) {
+
+We have both mm and lock_ctx already.
+
+So we could instead do:
+
+		if (lock_ctx->mmap_locked && mmap_lock_is_contended(mm)) {
+			...
+
+Right?
+
+> +			unlock_vma_range(&priv->lock_ctx);
+
+OK this confuses me - we're gated on lock_ctx->mmap_locked, so this is exactly
+the same as unlock_ctx_mm(lock_ctx) right?
+
+There's no situation here where the VMA lock would be unlocked.
+
+Surely it'd therefore be clearer to just call unlock_ctx_mm(lock_ctx)
+direct?
+
+> +			ret = lock_vma_range(m, lock_ctx);
+> +			if (ret)
+>  				goto out_put_mm;
+
+
+In the case of VMA locks being supported, but we fell back to mmap locks, this
+seems to just be getting us back to the invariant that the RCU read lock is
+held.
+
+However, it's a bit confusing given we're explicitly checking for the
+mmap_locked case, so I think it's worth a comment explaining that we might have
+fallen back to mmap lock, but could still get the VMA lock on the next VMA.
+
+E.g.:
+
+	/*
+	 * If we are using VMA locks but fell back to an mmap lock, we may
+         * be able to VMA lock the next VMA, so reset the lock and try again.
+	 *
+	 * Otherwise, if the arch doesn't support VMA locks, this simply
+         * retakes the mmap lock.
+	 */
+
+
+> -			}
+> -
+> -			/*
+> -			 * After dropping the lock, there are four cases to
+> -			 * consider. See the following example for explanation.
+> -			 *
+> -			 *   +------+------+-----------+
+> -			 *   | VMA1 | VMA2 | VMA3      |
+> -			 *   +------+------+-----------+
+> -			 *   |      |      |           |
+> -			 *  4k     8k     16k         400k
+> -			 *
+> -			 * Suppose we drop the lock after reading VMA2 due to
+> -			 * contention, then we get:
+> -			 *
+> -			 *	last_vma_end = 16k
+> -			 *
+> -			 * 1) VMA2 is freed, but VMA3 exists:
+> -			 *
+> -			 *    vma_next(vmi) will return VMA3.
+> -			 *    In this case, just continue from VMA3.
+> -			 *
+> -			 * 2) VMA2 still exists:
+> -			 *
+> -			 *    vma_next(vmi) will return VMA3.
+> -			 *    In this case, just continue from VMA3.
+> -			 *
+> -			 * 3) No more VMAs can be found:
+> -			 *
+> -			 *    vma_next(vmi) will return NULL.
+> -			 *    No more things to do, just break.
+> -			 *
+> -			 * 4) (last_vma_end - 1) is the middle of a vma (VMA'):
+> -			 *
+> -			 *    vma_next(vmi) will return VMA' whose range
+> -			 *    contains last_vma_end.
+> -			 *    Iterate VMA' from last_vma_end.
+> -			 */
+> -			vma = vma_next(&vmi);
+> -			/* Case 3 above */
+> -			if (!vma)
+> -				break;
+> -
+> -			/* Case 1 and 2 above */
+> -			if (vma->vm_start >= last_vma_end) {
+> -				smap_gather_stats(priv, vma, &mss, 0);
+> -				last_vma_end = vma->vm_end;
+> -				continue;
+> -			}
+>
+> -			/* Case 4 above */
+> -			if (vma->vm_end > last_vma_end) {
+> -				smap_gather_stats(priv, vma, &mss, last_vma_end);
+> -				last_vma_end = vma->vm_end;
+> -			}
+
+OK so you're rolling all this up into the 'if after retaking mmap_lock'
+bit.
+
+I don't love that we're losing this information, but also it's maybe a
+little more than we need here and it's making
+
+But perhaps could we transfer this into the commit message as a
+later-findable justification?
+
+> +			/* Resume from the last position. */
+> +			pos = last_vma_end;
+> +			vma_iter_init(&priv->iter, mm, pos);
+>  		}
+> -	} for_each_vma(vmi, vma);
+> +		vma = proc_get_vma(m, &pos);
+> +	}
+>
+>  empty_set:
+>  	show_vma_header_prefix(m, vma_start, last_vma_end, 0, 0, 0, 0);
+> @@ -1593,10 +1577,10 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+>
+>  	__show_smap(m, &mss, true);
+>
+> -	release_task_mempolicy(priv);
+> -	unlock_ctx_mm(&priv->lock_ctx);
+> -
+> +out_unlock:
+> +	unlock_vma_range(&priv->lock_ctx);
+>  out_put_mm:
+> +	release_task_mempolicy(priv);
+
+Previously this was done under the mmap lock, now it's not. I don't think
+this should be an issue but just highlighting.
+
+>  	mmput(mm);
+>  out_put_task:
+>  	put_task_struct(priv->task);
+> --
+> 2.54.0.1032.g2f8565e1d1-goog
+>
+
+Cheers, Lorenzo
+
+----8<----
+From d94e7a192242f2cefb10bbfa12495e46c3d4c973 Mon Sep 17 00:00:00 2001
+From: Lorenzo Stoakes <ljs@kernel.org>
+Date: Tue, 9 Jun 2026 10:39:39 +0100
+Subject: [PATCH] ideas
+
+---
+ fs/proc/task_mmu.c | 89 ++++++++++++++++++++++------------------------
+ 1 file changed, 42 insertions(+), 47 deletions(-)
+
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index c2bd9f5bbbcd..16bf3cd8c7c7 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -233,16 +233,6 @@ static inline void reacquire_rcu(struct proc_maps_private *priv)
+ 	vma_iter_set(&priv->iter, priv->lock_ctx.locked_vma->vm_end);
+ }
+
+-static inline bool is_mmap_lock_contended(struct proc_maps_private *priv)
+-{
+-	struct proc_maps_locking_ctx *lock_ctx = &priv->lock_ctx;
+-
+-	if (!lock_ctx->mmap_locked)
+-		return false;
+-
+-	return !!mmap_lock_is_contended(lock_ctx->mm);
+-}
+-
+ #else /* CONFIG_PER_VMA_LOCK */
+
+ static inline int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+@@ -278,11 +268,6 @@ static inline bool fallback_to_mmap_lock(struct proc_maps_private *priv,
+ 	return false;
+ }
+
+-static inline bool is_mmap_lock_contended(struct proc_maps_private *priv)
+-{
+-	return !!mmap_lock_is_contended(priv->lock_ctx.mm);
+-}
+-
+ static inline void drop_rcu(struct proc_maps_private *priv) {}
+ static inline void reacquire_rcu(struct proc_maps_private *priv) {}
+
+@@ -1375,17 +1360,24 @@ get_smaps_shmem_walk_ops(struct proc_maps_private *priv)
+
+ #endif /* CONFIG_PER_VMA_LOCK */
+
+-/*
+- * Gather mem stats from @vma with the indicated beginning
+- * address @start, and keep them in @mss.
++/**
++ * smap_gather_stats() - Gather mem stats from @vma.
++ * @priv: proc maps private state.
++ * @vma: The VMA whoms stats we wish to gather.
++ * @mss: The accumulated stats.
++ * @start: The address from which to start.
+  *
+- * Use vm_start of @vma as the beginning address if @start is 0.
++ * This gathers stats for the whole of the VMA unless the mmap lock was dropped
++ * and we raced a VMA merge, in which case we only gather stats for the
++ * remainder of the merged range.
+  */
+ static void smap_gather_stats(struct proc_maps_private *priv,
+ 			      struct vm_area_struct *vma,
+-			      struct mem_size_stats *mss, unsigned long start)
++			      struct mem_size_stats *mss,
++			      unsigned long start)
+ {
+ 	const struct mm_walk_ops *ops = get_smaps_walk_ops(priv);
++	const bool is_partial = start > vma->vm_start;
+
+ 	/* Invalid start */
+ 	if (start >= vma->vm_end)
+@@ -1408,20 +1400,20 @@ static void smap_gather_stats(struct proc_maps_private *priv,
+ 		 * Unless we know that the shmem object (or the part mapped by
+ 		 * our VMA) has no swapped out pages at all.
+ 		 */
+-		unsigned long shmem_swapped = shmem_swap_usage(vma);
++		const unsigned long shmem_swapped = shmem_swap_usage(vma);
++		const bool shared_or_ro = vma_test(vma, VMA_SHARED_BIT) ||
++			!vma_test(vma, VMA_WRITE_BIT);
+
+-		if (!start && (!shmem_swapped || (vma->vm_flags & VM_SHARED) ||
+-					!(vma->vm_flags & VM_WRITE))) {
++		if (!is_partial && (!shmem_swapped || shared_or_ro))
+ 			mss->swap += shmem_swapped;
+-		} else {
++		else
+ 			ops = get_smaps_shmem_walk_ops(priv);
+-		}
+ 	}
+
+-	if (!start)
+-		walk_page_vma(vma, ops, mss);
+-	else
++	if (is_partial)
+ 		walk_page_range(vma->vm_mm, start, vma->vm_end, ops, mss);
++	else
++		walk_page_vma(vma, ops, mss);
+
+ 	reacquire_rcu(priv);
+ }
+@@ -1476,7 +1468,7 @@ static int show_smap(struct seq_file *m, void *v)
+ 	struct vm_area_struct *vma = v;
+ 	struct mem_size_stats mss = {};
+
+-	smap_gather_stats(priv, vma, &mss, 0);
++	smap_gather_stats(priv, vma, &mss, vma->vm_start);
+
+ 	show_map_vma(m, vma);
+
+@@ -1510,7 +1502,6 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+ 	loff_t pos = 0;
+ 	int ret = 0;
+
+-
+ 	priv->task = get_proc_task(priv->inode);
+ 	if (!priv->task)
+ 		return -ESRCH;
+@@ -1527,15 +1518,10 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+
+ 	vma_iter_init(&priv->iter, mm, 0);
+ 	vma = proc_get_vma(m, &pos);
+-	if (unlikely(!vma) || vma == get_gate_vma(priv->lock_ctx.mm))
++	if (unlikely(!vma))
+ 		goto empty_set;
+
+-	if (IS_ERR(vma)) {
+-		ret = PTR_ERR(vma);
+-		goto out_unlock;
+-	}
+-
+-	vma_start = vma->vm_start;
++	vma_start = IS_ERR(vma) ? 0 : vma->vm_start;
+ 	while (vma) {
+ 		if (IS_ERR(vma)) {
+ 			ret = PTR_ERR(vma);
+@@ -1545,20 +1531,29 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+ 		if (vma == get_gate_vma(priv->lock_ctx.mm))
+ 			break;
+
+-		/*
+-		 * If after retaking mmap_lock, already reported VMA grew or
+-		 * merged with the next one, then iterate from last_vma_end.
+-		 */
+-		smap_gather_stats(priv, vma, &mss,
+-				  vma->vm_start < last_vma_end ? last_vma_end : 0);
++		/* Handles the case of VMA merged since mmap locked drop too. */
++		smap_gather_stats(priv, vma, &mss, last_vma_end);
+ 		last_vma_end = vma->vm_end;
+
+ 		/*
+-		 * Release mmap_lock temporarily if someone wants to
+-		 * take it for write request.
++		 * If the VMA lock is not taken, we hold the often contended
++                 * mmap lock. This can be because the arch doesn't support VMA
++                 * locks,or we had to fall back to the mmap lock.
++		 *
++		 * To relieve pressure, check if it is indeed contended, then
++                 * temporarily release it.
+ 		 */
+-		if (is_mmap_lock_contended(priv)) {
+-			unlock_vma_range(&priv->lock_ctx);
++		if (lock_ctx->mmap_locked && mmap_lock_is_contended(mm)) {
++			unlock_ctx_mm(lock_ctx);
++
++			/*
++			 * If we are using VMA locks but fell back to an mmap
++			 * lock, we may be able to VMA lock the next VMA, so
++			 * reset the lock and try again.
++			 *
++			 * Otherwise, if the arch doesn't support VMA locks,
++			 * this simply retakes the mmap lock.
++			 */
+ 			ret = lock_vma_range(m, lock_ctx);
+ 			if (ret)
+ 				goto out_put_mm;
+--
+2.54.0
