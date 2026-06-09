@@ -1,191 +1,190 @@
-Received: from mxout5.mail.janestreet.com (mxout5.mail.janestreet.com [64.215.233.18])
+Received: from flow-a3-smtp.messagingengine.com (flow-a3-smtp.messagingengine.com [103.168.172.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2644BCABC
-	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 17:15:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=64.215.233.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781025320; cv=fail; b=isDSbh6ThYE76VvtkEf6kXT9NWlJtYS/T97sVes5bClYm80FbrL87rsFOBmwZo/+DmStfnHQ9rZGBxm1V+tOvh3Vho9JPgW8Hefm87DZMkvBZmG9hgH5gR9BMl7CZazelEP8EK129pWIozlgvpiwibB/SYrlPZlrAuq7honHeyE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781025320; c=relaxed/simple;
-	bh=2inTUhdt8YIA2l57282yKhLtyF6GdP0EAnIKVqphNjY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TOu04JlHClz+iN1f7WE32643wE5dpDF63ryKAm4qCtjaGb1FBIsL3jMFkGwkQ3hIchKRDN6Wh6D3+zLuqVObQEPbFT4U7J4P+qSEESwxPYznLBNr5LFyi6wWAGjBPzO1vKMPIHWh74kKnzi+HwjIv8D38AjpcpiFBNvqHbglqJo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=janestreet.com; spf=pass smtp.mailfrom=janestreet.com; dkim=pass (1024-bit key) header.d=janestreet.com header.i=@janestreet.com header.b=14GHb+ju; dkim=pass (2048-bit key) header.d=janestreet.com header.i=@janestreet.com header.b=bxuhayvq; arc=fail smtp.client-ip=64.215.233.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=janestreet.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=janestreet.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5639363C46;
+	Tue,  9 Jun 2026 17:28:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.138
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781026096; cv=none; b=VxtN1aoPIVRzv3r6eqbd2mMR98q56L9CJb9za48JATJNsJf862CcCBtRSYVlM5hBk4AXCnPdlWeYnkr3PD1J/qU/qbaASNvxLODrojmThIdwdX+UEU+rIP0YlJBhmQU9dDkiOUndkch27DCYsrFDOVgxSOBwIK6GGXfl19yAOfk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781026096; c=relaxed/simple;
+	bh=RndYqpsRK1cbF9S8uUn0Zc9Z/6z/z+JG0kopFVxnUJQ=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=HL+QVkcfp+Q4OnDzdva5vboRMHxgYCzuHMqCOttDbqNOeSjxdC8v5iWKfzcPWtLYHzNqikNuGsm62dwpt5UrcF64jhdU4Rz8WvNtiZwUxnOuemf9dMji7QJolodx8DB3o0pLMKgk1gno3fVxjY95rU+lF5wkIAUHzc/Qmhow1Ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=HE3ZkDji; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UH5I0Kp/; arc=none smtp.client-ip=103.168.172.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=johnericson.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=janestreet.com header.i=@janestreet.com header.b="14GHb+ju";
-	dkim=pass (2048-bit key) header.d=janestreet.com header.i=@janestreet.com header.b="bxuhayvq"
-Received: from mail-ed1-f70.google.com ([209.85.208.70])
- 	by mxgoog2.mail.janestreet.com with esmtps (TLS1.3:TLS_AES_128_GCM_SHA256:128)
- 	(Exim 4.99.4)
- 	id 1wX02o-00000008bJa-3he4
- 	for linux-fsdevel@vger.kernel.org;
- 	Tue, 09 Jun 2026 13:15:18 -0400
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-68fa01a8b02so768777a12.1
-         for <linux-fsdevel@vger.kernel.org>; Tue, 09 Jun 2026 10:15:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781025318; cv=none;
-         d=google.com; s=arc-20240605;
-         b=TAeqX6dzAyVWdl+3HZmRXHM4Ig92VDxsyu28h99W18FFSKpdffQ5bNYCczmEYECrJs
-          9tm86gVNN7UpG4ezBeQJx9PPn2LzMTQssZMZMqo9mxTW4hTVndD88Luc/VExDYoYIJ1g
-          lg+PDTIsWN7Evo8aeALpWsEZOyf25cq+KU7NJwUDA3eAxpFr6BslucbYQkTmpf3uiVLr
-          ctt1e9XnnVq4Z4KbAAkFLh2sMXY9gGO4VyCEJ7IMF0v3e9Old8gJ8nS2tIcfbbq/8glF
-          Ct0tKjS8Cli4TjmWIiA7c3Zes4dj+FMsDs0g+BrckF2ai4rLShQVsbCWsrOLv9eydtcP
-          dDQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-         h=content-transfer-encoding:cc:to:subject:message-id:date:from
-          :in-reply-to:references:mime-version:dkim-signature;
-         bh=G+/6fdbcggFvGkAF9hirx6Oyq2sHXWyVk+eenuvWMpU=;
-         fh=0JyYIq+4gzqAWBI6ZyaVGTbcwjaCgxjg45oQ9UfUjso=;
-         b=ii5Ler/IdLUSTX0FvO5qpgzSz6cNXDj/foEWHFrzLXLLb5EqQyDrvpBUDvCNIsWICV
-          mFfK3UEqPiGBdcYc6eKQhoDEKaCZr5TmFpol4jVDfCzAjhZzmUNBgt/RN+RZ9UhzECGn
-          Cyo2/73NARdu40C3NeGxcbMtswFEZ0sb4HxC5EDcZpXpL6cO+tLhHfBtvRjE7JUVqs9A
-          AKajoeVowpXaDp2s7rvDMyyXzS2YhyI0A65C3eoWqqiH9IpA/WrBaDdqAk6rDugVgfjr
-          EDgRIPKNOFkclTkbhla8cg8SoAk35UvlUTgQ3S/I+Dl0VLBDkNRWSOapMbWcBdyGJmFd
-          wf6Q==;
-         darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-         d=janestreet.com; s=google; t=1781025318; x=1781630118; darn=vger.kernel.org;
-         h=content-transfer-encoding:cc:to:subject:message-id:date:from
-          :in-reply-to:references:mime-version:from:to:cc:subject:date
-          :message-id:reply-to;
-         bh=G+/6fdbcggFvGkAF9hirx6Oyq2sHXWyVk+eenuvWMpU=;
-         b=14GHb+ju2esx3Wgg5mmRt5GlrxqrjzQSjDzjgES+bcWzonX1Le6Wjr34/Y9S0yFT+m
-          NHwejsCJoUWIia+KzYYZFkDup3N+2hO+uLUSGtGKAytHhT8bIr2/nAUGDi9kdgFNPtSJ
-          n8siNmQHrCaZFjEJiaNMulUYVPCnZCGoNuXGE=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=janestreet.com;
-  s=waixah; t=1781025318;
-  bh=G+/6fdbcggFvGkAF9hirx6Oyq2sHXWyVk+eenuvWMpU=;
-  h=References:In-Reply-To:From:Date:Subject:To:Cc;
-  b=bxuhayvqwKiq94VNY4I3FizRPKEkAZvNdQ0XgwNLsnK4zKGWG7aDf1nI6Gj/XYzaH
-  txwxQFIK+TUgeT/CqJKeJjx5Zth31vqXejR5X+iiroxlu3PPdtAdYnQTPplv1zGMpu
-  5CoJPG3F00KSZm4LGURzHqgL2uf3/Z7wxn2VtqgNnbVZviaRhaEobvHL41mFnp0aZJ
-  w75apA7w90iSVzJW/CjHQGUGba1/v1cRalC7sJ0sLmIwfTr1aVb8JE6Gy6QXAVcvdv
-  0tEYkM0qV1eDS9jyLoiKMfNGxcxSvlKRiyqfxN1mo8iAygC8m8ACafgAzYpDiAYmiD
-  QxQ2KD7gg8Amg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-         d=1e100.net; s=20251104; t=1781025318; x=1781630118;
-         h=content-transfer-encoding:cc:to:subject:message-id:date:from
-          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-          :to:cc:subject:date:message-id:reply-to;
-         bh=G+/6fdbcggFvGkAF9hirx6Oyq2sHXWyVk+eenuvWMpU=;
-         b=fpWxOm3qSHwKDK07gbTOu5nbvwsHIDEDxX2zZ3TY7yNT/ZXBYiuyQMKmMzwN4j+NaG
-          fwkbq3LXou7Vp8vq7HfXR91VbThffwuhG67J2JozJ2C1W+ah+ocqycFDwFYPWpOBZU/n
-          gkkEovdL1Tub/2Y6yXXoCgRMqKdOeaJP3CSJ7ZHrgjLrW4MfApQC3V4YOseFibs7ylPw
-          YQpWFcrDtT1O/8CJKzarpksIv4+pb73jQ8m+wIsaopxiDQqlcHm7Zbw0hnpZN/Ee57pD
-          hKn/xSnF781u3L2VHIi5L7TqIShhgBgoSaV09+BgH4gFGrmAEvL8aEbp7u7xLqe1YRtO
-          FBAg==
-X-Forwarded-Encrypted: i=1; AFNElJ/0frQTb98kgNmIHVNXeziHYklAElahlTAWdp2ukA36cN+N4hWJik6XRqKCk2d3hYQ3WiEu1pmnZiEuYBas@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGkF2MFlbxkU4cpeH40CQrfgpwLk7JPm7+SlWSCpt/TzMQX9S+
- 	2c1IdVVYz7ogBrgpHeibO36o0RWF9gXBDf0yRPYJ/89AKgY6kHmi8eLsiMTbNPkMipDFmKAk/Gf
- 	9Ip95ur5yMA3/YpLq7OlhsZomCI1R4+baNiKQjd+3fzl/ISU9G2maB1w9BMtunS3zicV6VmPG1A
- 	dO0qWJQ7t+5YIofaRfGijwq6epiXHSzMIv4xmIaXBc
-X-Gm-Gg: Acq92OGJlxgLTpcVRYKlrpwVncsZQfzdUjoO1yDFQQ43QfFdAHTIVH7+oRnohF5n1fR
- 	GR3T0Awh1nl9qIMgHyalzDr6mD7RL8UtSLvJPpQMcB9X+yrs2+b+4Y1dt3Q1Ujom8bAsnJDnf3e
- 	WpEEI/3ix5EtS0pGNOFYn+vBeoGvY1/JDozwn/aaL3df6derNhW56kaSei5XFoNK4pvYQSb762n
- 	ATdGFTw5cawD7Bs
-X-Received: by 2002:a05:6402:524f:b0:68d:b17a:543c with SMTP id 4fb4d7f45d1cf-68ff2186061mr8591393a12.12.1781025317836;
-         Tue, 09 Jun 2026 10:15:17 -0700 (PDT)
-X-Received: by 2002:a05:6402:524f:b0:68d:b17a:543c with SMTP id
-  4fb4d7f45d1cf-68ff2186061mr8591366a12.12.1781025317308; Tue, 09 Jun 2026
-  10:15:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b="HE3ZkDji";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UH5I0Kp/"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.phl.internal (Postfix) with ESMTP id C2CE513804A9;
+	Tue,  9 Jun 2026 13:28:13 -0400 (EDT)
+Received: from phl-imap-16 ([10.202.2.88])
+  by phl-compute-05.internal (MEProxy); Tue, 09 Jun 2026 13:28:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1781026093; x=1781033293; bh=snmIR5TlwK9lFoo/BHJwgJJSAFxLeac4
+	ICD6l4oUvpg=; b=HE3ZkDji5I5YD9LxdPIcf92Zc+LYhfx40Jg/wbA8GXORicY2
+	QaiWMJvbkKCx7kyflIVHAf0X2IZC2s7Uxc7VoTJOtONJLgNixkFVFvKfVzutf3mX
+	G6lmVW/BGgpmF5Ai19QSPr9U0SGccEI73IDWbUJASZdWYLS2EKdESKF5mQJlYdQt
+	WgAGt3dmqFC2fqC6qGhTb5jJd5gj/GNQnN19p55+qo/mhwNsFkYoas6LUw5GTLJX
+	jCKRA5rdGSwMTbeRIAynA6dk105bfMXz+Jn6ZpEQaZGz4pf/vjvLEQx0LPoFbntc
+	DUuPxnL0x4ZU62vchhzJp438Naua5Lfqn+wg2A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781026093; x=
+	1781033293; bh=snmIR5TlwK9lFoo/BHJwgJJSAFxLeac4ICD6l4oUvpg=; b=U
+	H5I0Kp/D7aH/EguuehCHLLkrYN9Bp+EY5ICsflRQcHHT+hKGuQwmQDakepYBbcD6
+	CXwZ9GTCxQfoaBle1Y3q7rx6jEIXzIAYUr6iPL2KDitv+FibE6k6RVw6nWtlaHss
+	sOVsxbYZ40CLIC0Lag/ykPexVQ6Nudu+RICDqHotOhtHWUKHTCg2ZEDJkSsS4gtF
+	vaOiZlovRO/pBEUwEhZB/kFYW6Oj/1UnrVCK3xrC50c+w4dCtyfOLyWsA5LNKCoT
+	rySdgpTZ+0ceakchtQ2ZiJJDzVMD3KXmCImjonpbbqv7e1O+1fWifjS8AKNNMZJe
+	4g/9+/0rFIw/rN3mkjc8A==
+X-ME-Sender: <xms:K00oajkRORc133r7PC1IBlKXMDjSqvW9vIjnqG_QZbkAQOYotfILsQ>
+    <xme:K00oahpf4FLWEUbd6wOCxg3-u_RCJdbNqACdOD7aR8p36lWn3JPMHHQ58CWH_FVHo
+    3LLoLJvohH3MaOvvmfK4gvIdMgmqZ-vDA4y1Xzq4zN0vAr9xnYTw98d>
+X-ME-Proxy-Cause: dmFkZTFbWbIVgk3oNIIQ+G+AHYlJwWdcELEDDoIiIUBvnYRJd3CsISE3I/JOVyG2d0IybM
+    lj5uQrrQaowMUeTn4kKKsnFzToChT0pwu6ZWOuYIZaTZFJK7mNfbD1w3DbZcQCw8ITSvLG
+    oY/9k9GxCUV7/ZlAa32DEFwc1lP/VEBX786Dt0GHxWvqfvPEnbcxdzQC2RraHKCXyD0c+G
+    QBNYH0rV6FloMMOiwEzsyT/H/C1ZzgFYQZp2hAg7/d8uHURiK6WYeFwyLQ9VyDwHkmVLQM
+    IUqgsriFiBf0fPDUN+cEn2U59ltSXiLLd9IK9k8Y2rbCO86LV+C/AQJFGtHozyB6MGfJRL
+    Y4HFNmgYr28jA2vrdstJgPu3J/ljJskwYqY8g5qRoXRlodCXtOlo+zfmpAwUfMqUT+0Ksb
+    UQzCGN8T164/oXuv+XWsOh3ppLWk3oKF6KnbkCWj1S+hz1UIGg7wt4nauAWLkDncPtNq+r
+    5wvHbtEWlfiN2WuDh9tM+gLZUn21C0mdPOqzgjIpMfftaEDOVhs+L4tpETZ9dA0DHSttkd
+    DCazvhjFTaGTVDY4dE6gGV4VMGv0h+vktmXOPmvTtan8nVuvQ0e8dF2TVjIgG3nYoj0TRc
+    M8dVN9ly4LG6QhDwxgXQJiXin4CiOh/KmiqdBDpGeU7fArNOWRmEEn5rCPJA
+X-ME-Proxy: <xmx:LE0oar9BUiQp_qrgSrScH1M3f-UE7OtajjYJ26_u59UFWO3P90M4Ng>
+    <xmx:LE0oarrfVWp2ygG18KNq77pu68TRdhCVd9V3fNc8BttVQO9k9YD-3A>
+    <xmx:LE0oahiexkHx_MqYM2F7qOj3QDFZgah_DQDHi_-PN5DcK-BK_aswcw>
+    <xmx:LE0oahDxlnOWbriQaaU9aOrsncRT_PUU2vxksIAdCgYbPXnFVrOLqw>
+    <xmx:LU0oak0sJQRlsXUCBkAWIgEKRUMvsHFR_SYwXJpDwlB9AROrqdxW8eLT>
+Feedback-ID: ieb4144f1:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id DC8082CC0083; Tue,  9 Jun 2026 13:28:11 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAFN_u7FrgM4Dzie2jjkLwWV8P0dvUG_Wwy3Q9B3-2HnnWiDu8w@mail.gmail.com>
-  <aiLxe-9Sub8cI3Py@bfoster> <aibns0xP6IVVNWh3@bfoster> <CAAH4uRB+Bh9UEVEW8Sb2yM4YhB-Q5UJ6KJJXari3DDF3n3S+-g@mail.gmail.com>
-  <aig9Vm2a_13bPc5G@bfoster>
-In-Reply-To: <aig9Vm2a_13bPc5G@bfoster>
-From: Gregg Leventhal <gleventhal@janestreet.com>
-Date: Tue, 9 Jun 2026 13:14:40 -0400
-X-Gm-Features: AVVi8CccMZBf_W2neiPGuRO8YpErMCyF7o_iyXweU0WZ58K3osa4MMBejEkzuNY
-Message-ID: <CAFN_u7ELBj3YKncm6HA4-QUNyi-a3qPDEYxuLP+skVhm-r87uw@mail.gmail.com>
-Subject: Re: [BUG] iomap/io_uring: O_APPEND async buffered write silently
-  re-appends a data chunk (corruption) on XFS, 6.1.y/6.12.y
-To: Brian Foster <bfoster@redhat.com>
-Cc: Eric Hagberg <ehagberg@janestreet.com>, hch@infradead.org, djwong@kernel.org, 
- 	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- 	io-uring@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-I reproduce it by running 25 ~ concurrent instances of the attached reprodu=
-cer,
-each writing its own file, on an otherwise-idle 15 GB VM:
-
-  DIR=3D$(mktemp -d /tmp/uring.XXXXXX)
-  for i in {1..25}; do
-      ./repro_uring_dup "$DIR/file_$i" 120 48 &
-  done
-...
-*** CORRUPTION DETECTED in /tmp/UmgK/file_17.1 ***
-  bytes kernel said it wrote (sum of CQE results): 53621960
-  actual file size:                                56218824
-  extra (duplicated) bytes:                        2596864
-  first mismatching offset: 6791168 (0x67a000)  page_aligned=3DYES
-    expected u64 848896 but found 524288 (content from byte offset
-4194304 reappeared here)
-  (file kept for inspection)
+X-ThreadId: AtGJywdvvpER
+Date: Tue, 09 Jun 2026 13:27:47 -0400
+From: "John Ericson" <mail@johnericson.me>
+To: "Li Chen" <me@linux.beauty>, "Andy Lutomirski" <luto@kernel.org>
+Cc: "Christian Brauner" <brauner@kernel.org>, "Kees Cook" <kees@kernel.org>,
+ "Al Viro" <viro@zeniv.linux.org.uk>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-api <linux-api@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ linux-mm <linux-mm@kvack.org>, linux-arch <linux-arch@vger.kernel.org>,
+ linux-doc <linux-doc@vger.kernel.org>,
+ linux-kselftest <linux-kselftest@vger.kernel.org>, x86 <x86@kernel.org>,
+ "Arnd Bergmann" <arnd@arndb.de>, "Thomas Gleixner" <tglx@kernel.org>,
+ "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>
+Message-Id: <4e049396-377d-48a7-a34c-91318413a876@app.fastmail.com>
+In-Reply-To: <19eacd64508.26b92c022125848.262962729296162879@linux.beauty>
+References: <20260528095235.2491226-1-me@linux.beauty>
+ <20260528-madig-fachrichtung-fehlinformation-61117ba640da@brauner>
+ <CALCETrWJQpLR4n1cpichBk8=uExSKLWTMGU3BufGdk_WE_p5UA@mail.gmail.com>
+ <19eacd64508.26b92c022125848.262962729296162879@linux.beauty>
+Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated executable
+ startup
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
 
 
-  wait
-
-*** CORRUPTION DETECTED in /tmp/Gznx/file_18.2 ***
-  bytes kernel said it wrote (sum of CQE results): 58112616
-  actual file size:                                60303976
-  extra (duplicated) bytes:                        2191360
-  first mismatching offset: 2191360 (0x217000)  page_aligned=3DYES
-    expected u64 273920 but found 0 (content from byte offset 0 reappeared =
-here)
-  (file kept for inspection)
-
-
-On Tue, Jun 9, 2026 at 12:20=E2=80=AFPM Brian Foster <bfoster@redhat.com> w=
-rote:
+On Tue, Jun 9, 2026, at 10:43 AM, Li Chen wrote:
+> Hi Andy,
 >
-> On Mon, Jun 08, 2026 at 01:17:10PM -0400, Eric Hagberg wrote:
-> > On Mon, Jun 8, 2026 at 12:03=E2=80=AFPM Brian Foster <bfoster@redhat.co=
-m> wrote:
-> > > Another idea that came to mind is to try and just replace the -EAGAIN
-> > > return sequence from the low level iterator with a flag that triggers
-> > > -EAGAIN from the next iter advance. The idea here is to allow the wri=
-te
-> > > to return partial completion (i.e. so no iov_iter revert) without hav=
-ing
-> > > to return an error from the lowest level in the stack. I had claude c=
-ome
-> > > up with a quick patch [1] for reference/experimentation.
-> > >
-> > > This is based on v6.12 stable and compile tested only. It needs more
-> > > review and testing in general but might be worth throwing your
-> > > reproducer at if you can..?
+> ---- On Tue, 09 Jun 2026 08:01:57 +0800  Andy Lutomirski <luto@kernel.org> wrote ---
+> > [...]
 > >
-> > With that patch applied, the reproducer runs clean - no errors - and
-> > gets roughly the same performance (maybe slightly better) as when run
-> > against a 6.18 kernel on the same VM.
+> > After contemplating this for a bit... why pidfd?  Doesn't a pidfd
+> > refer to an actual process that is, or at least was, running?  This
+> > new thing is a process that we are contemplating spawning.  I can
+> > imagine that basically all pidfd APIs would be a bit confused by the
+> > nonexistence of the process in question.
 > >
 >
-> Thanks for testing. I'll look into some more regression testing of this
-> patch and try to clean it up and post it for proper review for stable.
+> Yes, I think that is a real concern.
 >
-> Are you using the reproducer program in your original mail to test? If
-> so, does it require some concurrent memory pressure to reproduce, and
-> are you using anything in particular for that?
+> In my current local WIP I tried to keep that distinction explicit.
+> pidfd_spawn_open() returns a pidfs-backed builder fd, not a normal pidfd
+> referring to a process. The builder fd is allocated as an anonymous pidfs
+> file with builder-specific file operations:
 >
-> That test seems small enough that we could potentially include it in
-> fstests, though I'm still not so sure about the mem pressure part..
-> Since you guys wrote the test, any interest in porting into fstests? If
-> not I can look into it.
+>     file = pidfs_alloc_anon_file("[pidfd_spawn]",
+>                                  &pidfd_spawn_builder_fops, builder,
+>                                  O_RDWR);
 >
-> Brian
+
+What does your builder fd point to, explicitly? For example in my other reply I
+talked about how it was "real" process state. In my FreeBSD patch, for example,
+I found there was already a status for a process "in exec", and I figured that
+was clean to reuse for one of these "embryonic" processes that also hadn't
+started running. I would reckon that Linux probably has some similar notions.
+
+> and the normal pidfd helpers still reject it because it does not use the
+> ordinary pidfd file operations:
 >
-> > Thanks,
-> > -Eric
-> >
+>     struct pid *pidfd_pid(const struct file *file)
+>     {
+>         if (file->f_op != &pidfs_file_operations)
+>             return ERR_PTR(-EBADF);
+>         return file_inode(file)->i_private;
+>     }
 >
+> So the current split is:
+>
+>     builder_fd = pidfd_spawn_open(...);       /* builder object */
+>     pidfd_config(builder_fd, ...);
+>     child_pidfd = pidfd_spawn_run(builder_fd, ...); /* real pidfd */
+>
+> Only the last fd is a normal pidfd for an actual child process. The builder
+> fd is only accepted by the builder operations.
+>
+> This avoids having to define what waitid(P_PIDFD), pidfd_send_signal(),
+> pidfd_getfd(), poll(), etc. mean before the process exists.
+
+I wouldn't be so sure this is necessary/good. For example, I think it could
+make sense to wait on a process that has yet to be started; one just waits for
+both the process to start and the process to exit. Obviously a blocking syscall
+in the thread that is spawning the process is not useful, but the asynchronous
+poll variation seems fine.
+
+As long as there is real process state here, it shouldn't be too hard to
+implement.
+
+> The downside is that it adds a separate open-style entry point and is less
+> uniform than the pidfd_open(0, PIDFD_EMPTY) spelling Christian sketched.
+
+I do think there is no point having two file descriptors. The file descriptor
+that previously referred to the builder/embryonic process then can refer to the
+real process, right?
+
+> If people think there is a better way to represent the pre-spawn builder
+> state, or if the preference is to integrate it directly into pidfd_open()
+> with an explicit empty/future-pidfd state, I would be happy to discuss that.
+
+Hope the above answers your question? I suppose my ideas lean more on the
+"future" than "empty" side --- there is indeed a thread in the thread group,
+with real VM/namespace/file descriptor etc. state. Moreover, state gets
+initialized before the process is started, so the actual start is a pretty
+lightweight step of just letting the scheduler know the now-ready process can
+be scheduled. The only thing that distinguishes the embryonic process from a
+real one is simply that it isn't running --- i.e. isn't (yet) available to be
+scheduled --- so the pidfds holders are free to poke at its state.
+
+Cheers,
+
+John
