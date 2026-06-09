@@ -1,201 +1,93 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27EE82E92BA
-	for <linux-fsdevel@vger.kernel.org>; Mon,  8 Jun 2026 23:58:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780963096; cv=pass; b=Kx7AAmQFFTtJuhoz+PlK7dfwZSC9RJRglKvTJGcMem/QL0uQ+UrT4bXPeFpnOQjGQQ/3syXquBnvGG7btcI5jxMT3kRdWB/xp4fBjaEC7OSNKZjTfSp53laCfgXhf+ZrivNI9XN8qfhGx0gF4HN0rFVbmf13XCzxmxiBR+q61mE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780963096; c=relaxed/simple;
-	bh=liM7/fYMnngobQ8glGNsAiLh778C8+WnIWvqmDpziLk=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBBA735898
+	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 00:02:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780963332; cv=none; b=BAmR1zC5b1hHWvvQvAVa2FlYZLDhcvHVj0ZhAUv4JnIVguqFeHyC81NivVu2j5QqWX0Ngrt1+Qyc2q1BrD3GVYuZsTsVgE2kPyJIc8zxt/zDge17hvMeCxmeuRVbtNPAlfaaWm7VhLIjc+p+N1b1zFYmINNwowFcqgnBQm8NlSM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780963332; c=relaxed/simple;
+	bh=ehhVnUUSPM5W6rCzz2GnQ6HvZZhXRe18DnMeQ/BamFk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uboGik9xOPz96AbiGRHI9iOmnPDOb87qaTPKJmtjFLFIrTvI0QVHRg5syne4O5bDRY2fL/zhg6T43NQMnrkByjccsO6xMz+h6MYJuFfSGV6hJMH0erPJN9hMGUWnzDgNbxtoM7mn3FY96Sft5YIKHS8MhXn4ld6JqAy5bnhBiv4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YUSeSTUP; arc=pass smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=LPLWMDz42zkaxYlDYuof/iQH2gr4uYXpO2BPFZp8hgCFGBRXm1tEWa68cOkWoj9DnaVXwq/jUREZEY5Gxn2TPzNfePXPgZVJ9Pyl2v5+osAjBzUG4+GpgpurL9mhzR1Jf6Bn1wXht+nP4sci7panXjVawA6MxsMDQ9wPM7nPDMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eXuaGwnb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YUSeSTUP"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5aa68d65d24so5281526e87.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 08 Jun 2026 16:58:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780963093; cv=none;
-        d=google.com; s=arc-20240605;
-        b=gEGikp3Q3VIc8UIV7+tFpSdYk+ZvSGbwfIeAgmpADfOjKqBwSIimy+PMandrcglPJe
-         keOZSK4R5pdXunag50OBf/t43Mx4GJGI51Qz9mm//rP1hxHBXQUhLvmjCYrRzIHGRS9e
-         0lAjLWGiPrloPVQ4JHLhQWBUMH8QMvJiwHOMTqcqJmHJlgz1251Js83dFBmCXKGmWtlo
-         6abCVEKI5s7S4UeqL0M6CoS+kTLGrFmgrQuWEHT46icdHCTmWIzlwV8PKn/mszZB8B6U
-         gEVn3v95N/TfoXa2rze67vmZdWzBoCnH8QTr+RTTfTXBq3tCLuVfKE/8gUSoipIvzykC
-         priQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=YgmCjSYgLUsp0ycoeyQeAi9uotP7CKwjvuwDZmC15R0=;
-        fh=KVY7eZ4oZjBgyG+PyEpF+/oLddYTs3qbmEG3yIa1sas=;
-        b=FO5aVR0pEa3OdZZYkbtPJTqBlCGRFN+GveyUanoYYP15cpPv18NUfsGOUALnNtmZbe
-         EFhvSNG/QdJEEvNxCGpLrU1wNqgPsnLxZtFKcMMLno6lLGyiRzHeQKBPgAVdRUPWVsps
-         fzvOxrlIrgLdiQ9alkudHQtsywNtPOPmcqCkTebf+lk/14cTZ5mKklc2XOEaZIPwN9ku
-         LPDmTevoPBFL6IyEFhoPnysdpY0pDjbif+SZl8hBJo3Qg/TKiNYkpJLuqiFgLnExffzl
-         /h8ySCYuM0/CWEz2ajwIgGcx0vHatSEHkPoozrA8kbFdADk+EQgOr2GND5seciaFJj2x
-         7uMQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780963093; x=1781567893; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YgmCjSYgLUsp0ycoeyQeAi9uotP7CKwjvuwDZmC15R0=;
-        b=YUSeSTUPXtFeSWQPRvisp07Vl4/pIhwB5rc3mm6X+Us+7w0yiXl/wEdvo+1IV4kR8K
-         bJrtFJPhMCS93pyvmNVsrz+vdmZW66drKfkyeDkcAemDKfS/dFX8vBLEfxVo5ikmSBi5
-         0xkYHiW6eq3N+iXoxzAASNaVShJBaZ2226KXDhNArZhMUg8iYWs7F3trxRrEI0u85SXG
-         Qucx3LTiUycZA7gfNaXSQ/zorHz5JjopI2Vy/LTSQb8+BHpnj7dtuJ6sHx4bGSxZP18E
-         7OdySKrAb6VP9N9ABUqNLIN8UXMQbxV2pOb4LDVszcLxn4TzrTr9UKktYtDSepgdTZC5
-         JeTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780963093; x=1781567893;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=YgmCjSYgLUsp0ycoeyQeAi9uotP7CKwjvuwDZmC15R0=;
-        b=VC/sm2u0UTNeY4wTEY9TX6NLWN1s054hbh1/lcv1/X8IGS5oZRlCuTuagSWQqCIJ9+
-         WGXMdpAuQwkR1KLL91jwlS/VlYgF65+3ooexeRPbuWrd1jVlqJkPOx/VSY0njkNBg3vz
-         KO4IftiEEOLzDAaZrmczeGNE5R9TH+Q85j+oKZzJ6BM7GppQxkq2biO/ggutc7e3Rk9z
-         67UjOpZxFnGUU8RWw8mv6EiIT+Ns1/d/GGkpuFYR6+zYlpM59XT6FP0k85sa2yj7lLxM
-         CTUTl9yCEY9w09UkK42YEfQGtoXrfB9/5upOVMjzWh6b2AgvdIJX3tANIpbcNmvoPOcr
-         B56g==
-X-Forwarded-Encrypted: i=1; AFNElJ++P6oZoMpaeOz9CRozNOehvR75N7TmMvhNOSQg+UfS1HngLSxi8XhfycKlnT1bg5HoHYhlr/NsxB6vLT0e@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywg6YHns//GuH2GTtcbtHOzLJi/tYSLzHpM20T2MSoxKKzTpddc
-	kvjtC3+ahKYMLfA1dUSwZTWKKJYYgto9//LZwnsgTNHSoZnMYEDCCUY7+hWQQBWNfGXrcJu5foG
-	W4ZFoPhT1pnV70BkFRJO98kpEMXBuX2E=
-X-Gm-Gg: Acq92OEVWaShmF7wa2PPHllXkbCLXWuMx9klLnQRZh88XTdEBDeihAuipMnSJiw97u+
-	XoFmZb7rHbj+Yg3n53/8Kuo/1XE/fRbaMEwlY/nBwSJTCRgQ+LIX+zYIgTUAmONBkf/+wBWtbh/
-	q3DtaSMJQZ/bi7OxOGEuUP7IdsluXbHvex7U0NROLpJOqRnrM46EwMDQY6egYh0jL0X7EA0i4vw
-	EnPdJO+VDh77ul7GTbh/u+oE1/8+/qGoHJlrl+AmKMTnP9BxluNauUTOlHL7pxr2xQ7d8svsdL+
-	cSOGeVmxrl0Md8Gn1Q==
-X-Received: by 2002:a05:6512:3b9a:b0:5aa:6e86:55e5 with SMTP id
- 2adb3069b0e04-5acf6be8927mr26394e87.13.1780963093269; Mon, 08 Jun 2026
- 16:58:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eXuaGwnb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95F3A1F0089C
+	for <linux-fsdevel@vger.kernel.org>; Tue,  9 Jun 2026 00:02:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780963331;
+	bh=woImH2BFt1btrxe26vw/Ytjm9bjqS1jpO9bbmq+ghwc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=eXuaGwnbfl8E6wWfryKLt6weIAT4Z75+aTG0aA09Z+6+P+DvnOGzlfBa7qcSo+qls
+	 CnpTVwlPYgMZb/84L+cL0zl/yqRgJgpiQNZNj3tyKzuJCDEXeuCmBvrTA9Twy/cyVv
+	 13dmIrffNPg2+LY5j4c+OoGNTYA3oTB0OFQtwlO1BU7G5BkI/iPIk/xtxxFdXKpn2f
+	 BYv2cBLQmh3UN/irun0I9IcmsMPa68yUN9BZELLHlZnykCZRfz486h56QvGFPkyGEV
+	 Ks3lNGBKxpBu3lNX5505W24I53sadF6CTOf1KL2Lh9PVyzbofFtHL3rVYiFYyaOfNp
+	 S+kOHw3mOgtxA==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5aa68cf9123so5117756e87.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 08 Jun 2026 17:02:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+IuQsXIsiHblTmEU+PsN5vsBrUKszCTTOykSWh8ocyIIJ5QqXHtEs9KttZ093EUVOB3ytnS/ATgKfEwqJU@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9So+JL1XDUzoYWw28fYBYKL/1MIIJrbG6gzjNDiHgbQK8jThw
+	Xwd3rc1u5rrHS1H6OzCymicYEDRmfAQ+AB7dTlBSMBx89ZnPIrrmSqaTgNFwCMdViW+Ozhkh0nn
+	8uHcFFXDYTpDfZ+9XQrPY6GNgUDoog95hoYlOQLlp
+X-Received: by 2002:a05:6512:401f:b0:5aa:73e6:b6f8 with SMTP id
+ 2adb3069b0e04-5aa87c3b216mr4211255e87.35.1780963330006; Mon, 08 Jun 2026
+ 17:02:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260608154917.2703739-1-charsyam@gmail.com> <20260608154917.2703739-5-charsyam@gmail.com>
-In-Reply-To: <20260608154917.2703739-5-charsyam@gmail.com>
-From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Tue, 9 Jun 2026 08:58:01 +0900
-X-Gm-Features: AVVi8CeHIw5HaAKpdXBCuzD6bnWvEluvbrAMS2ncz-IqZwp52xyoQBrgBr3BUqY
-Message-ID: <CANFS6bY2FV+Bw-dDtnntJ4oyeJvXUBv9fDz7dU39LOO0tEOhBw@mail.gmail.com>
-Subject: Re: [PATCH v6 4/4] ntfs: validate resident index root values on lookup
-To: DaeMyung Kang <charsyam@gmail.com>
-Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <20260528095235.2491226-1-me@linux.beauty> <20260528-madig-fachrichtung-fehlinformation-61117ba640da@brauner>
+In-Reply-To: <20260528-madig-fachrichtung-fehlinformation-61117ba640da@brauner>
+From: Andy Lutomirski <luto@kernel.org>
+Date: Mon, 8 Jun 2026 17:01:57 -0700
+X-Gmail-Original-Message-ID: <CALCETrWJQpLR4n1cpichBk8=uExSKLWTMGU3BufGdk_WE_p5UA@mail.gmail.com>
+X-Gm-Features: AVVi8Ce5fjaYqJFvbRl5NO-VXKi7ykDdQPBWcGcRNHTyLfWlxfmRoC6MkWLNyng
+Message-ID: <CALCETrWJQpLR4n1cpichBk8=uExSKLWTMGU3BufGdk_WE_p5UA@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
+ executable startup
+To: Christian Brauner <brauner@kernel.org>
+Cc: Li Chen <me@linux.beauty>, Kees Cook <kees@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, x86@kernel.org, 
+	Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-2026=EB=85=84 6=EC=9B=94 9=EC=9D=BC (=ED=99=94) =EC=98=A4=EC=A0=84 12:49, D=
-aeMyung Kang <charsyam@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+On Thu, May 28, 2026 at 4:05=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+rg> wrote:
 >
-> Resident $INDEX_ROOT values carry index header fields that callers
-> consume after lookup. Some callers already validate parts of the layout
-> before walking entries, but those checks are scattered and do not cover
-> all root header invariants, such as entries_offset alignment and lower
-> bound, index_length, and allocated_size consistency.
+> On Thu, May 28, 2026 at 05:52:21PM +0800, Li Chen wrote:
+> > Hi,
+> >
+> > This is an early RFC for an idea that is probably still rough in both t=
+he
+> > UAPI and implementation details. Sorry for the rough edges; I am sendin=
+g
+> > it now to check whether this direction is worth pursuing and to get
+> > feedback on the kernel/userspace boundary.
 >
-> The resident root resize paths now keep these header fields consistent
-> while the value size changes: ntfs_ir_truncate() lowers
-> index.allocated_size before shrinking the resident value, and
-> ntfs_ir_reparent() grows the resident value before publishing a larger
-> root header. Lookup-time validation can therefore cover these invariants
-> without tripping over the driver's own resize paths.
+> The idea of having a builder api for exec isn't all that crazy. But it
+> should simply be built on top of pidfds and thus pidfs itself instead.
+> It has all the basic infrastructure in place already. Any implementation
+> should also allow userspace to implement posix_spawn() on top of it.
 >
-> Add $INDEX_ROOT to the minimum resident value size table and validate the
-> resident index header fields before returning the attribute from lookup.
-> Require 8-byte aligned index header fields, a sane entries_offset, an
-> index_length within allocated_size, allocated_size within the resident
-> value, and enough entry space for at least an index entry header.
+> fd =3D pidfd_open(0, PIDFD_EMPTY /* or better name */)
 >
-> The shared validator already rejects non-resident records for
-> resident-only attribute types, including $INDEX_ROOT.
->
-> Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
-
-Looks good to me.
-
-Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
-
-> ---
->  fs/ntfs/attrib.c | 31 +++++++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
->
-> diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
-> index 1254fbe7666e..8f10688a17df 100644
-> --- a/fs/ntfs/attrib.c
-> +++ b/fs/ntfs/attrib.c
-> @@ -589,6 +589,8 @@ static u32 ntfs_resident_attr_min_value_length(const =
-__le32 type)
->                         sizeof(__le16) * 1;
->         case AT_VOLUME_INFORMATION:
->                 return sizeof(struct volume_information);
-> +       case AT_INDEX_ROOT:
-> +               return sizeof(struct index_root);
->         case AT_EA_INFORMATION:
->                 return sizeof(struct ea_information);
->         default:
-> @@ -632,6 +634,31 @@ static bool ntfs_volume_name_attr_value_is_valid(con=
-st u32 value_length)
->         return value_length <=3D NTFS_MAX_LABEL_LEN * sizeof(__le16);
->  }
->
-> +static bool ntfs_index_root_attr_value_is_valid(const u8 *value, const u=
-32 value_length)
-> +{
-> +       const struct index_root *ir;
-> +       u32 index_size;
-> +       u32 entries_offset;
-> +       u32 index_length;
-> +       u32 allocated_size;
-> +
-> +       ir =3D (const struct index_root *)value;
-> +       index_size =3D value_length - offsetof(struct index_root, index);
-> +       entries_offset =3D le32_to_cpu(ir->index.entries_offset);
-> +       index_length =3D le32_to_cpu(ir->index.index_length);
-> +       allocated_size =3D le32_to_cpu(ir->index.allocated_size);
-> +
-> +       if ((entries_offset | index_length | allocated_size) & 7 ||
-> +           entries_offset < sizeof(struct index_header) ||
-> +           entries_offset > index_length ||
-> +           index_length > allocated_size ||
-> +           allocated_size > index_size ||
-> +           index_length - entries_offset < sizeof(struct index_entry_hea=
-der))
-> +               return false;
-> +
-> +       return true;
-> +}
-> +
->  struct ntfs_resident_attr_value {
->         const u8 *data;
->         u32 len;
-> @@ -705,6 +732,10 @@ static bool ntfs_attr_value_is_valid(struct ntfs_vol=
-ume *vol,
->                 if (!ntfs_volume_name_attr_value_is_valid(value.len))
->                         goto corrupt;
->                 break;
-> +       case AT_INDEX_ROOT:
-> +               if (!ntfs_index_root_attr_value_is_valid(value.data, valu=
-e.len))
-> +                       goto corrupt;
-> +               break;
->         }
->         return true;
->
-> --
-> 2.43.0
+> pidfd_config(fd, ...) // modeled similar to fsconfig()
 >
 
-
---=20
-Thanks,
-Hyunchul
+After contemplating this for a bit... why pidfd?  Doesn't a pidfd
+refer to an actual process that is, or at least was, running?  This
+new thing is a process that we are contemplating spawning.  I can
+imagine that basically all pidfd APIs would be a bit confused by the
+nonexistence of the process in question.
