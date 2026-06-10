@@ -1,48 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AD9233921;
-	Wed, 10 Jun 2026 07:28:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B63738E8A6;
+	Wed, 10 Jun 2026 07:31:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781076522; cv=none; b=M3TGiIwef/3Ifr4Bt7VrMucSnDkBnG8ckcnNSj5OSvgP0+Apxu5ah329zKfhBMBM52v1eWyhVPLYrKzqS+iGHMvOxyoY4hjvRVz28Xi26qw1zbeufHBZlzqLoi4C+dZh05BLZfDjzSwzLz7qRzukWsSPS3nFmaqYBAoHybHj9YE=
+	t=1781076688; cv=none; b=leoia5c+xj19dpmph0873dg+7DH1g4eCQCzW7UTl8mPCr3MlcdaX9b6DC7dSMLc3xo8nGuGJep/IgUzAoKkC9W4TuKBlgABII6xS7rZKvngguRuI3Mk4+tEUtTEJkePI5kNrHi9VxBEo3Tw2eqGpShPuH/YeJXyOGAm4N/2Yc+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781076522; c=relaxed/simple;
-	bh=XVzT4dC9J9FFpWrYJ1jidUjuN9wz2V7gqq0wjB+r38s=;
+	s=arc-20240116; t=1781076688; c=relaxed/simple;
+	bh=r35Ug3nuzrb1TZlrRlaJ/byMz2jEo4jsEWfD5ZnFmX4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LUOSeJBZUSZxnvYfJVR0HYtlj7W4K9l17CB18hf3XuzPRkCegJjsLWSb8QiKvmawcaUNXrlO65syW+kzLYOMyQ1Js6229GRgaQJaMRNdp1e3tCTuY7+WWavbHY5cM7Wz9C72PysN3deF80x9KQHCQtEfSreJY6zceU23sFr46ZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fgvSiRD0; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=lwnU4I3mvoFuPkRrlJi7pHP2oOQX5WzPKvjFYUMYEhITuDNJtde2gWhAx937Cu7FstVuztdetVBV0fyo4AOE+JHwcdTPLeSLPMzYudLT8oGvavVvAltAvMzPeq/yGzvOF5h/KgogGSjycZoUD9WtXD2bI5yDOVh1Hw+d1B1oxDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lbV7VSWk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fgvSiRD0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D40D1F00893;
-	Wed, 10 Jun 2026 07:28:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lbV7VSWk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A506B1F00893;
+	Wed, 10 Jun 2026 07:31:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781076521;
-	bh=Ujw8//AhBz2ofNEZXVOO0whE9ziRkQU7WuP9Q2n1nw4=;
+	s=k20260515; t=1781076687;
+	bh=7+ReyeKy6qPFJoiIvw7ddGeZu12JO1u6FzwJci0SAI4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fgvSiRD0nlrWeKZ00ARxxj8+SIeSOssxKo/IteKl5SNNXShxIV9RzZYZjW2fJDF4Y
-	 BRLJiLnad8I+/cgypVTOTIn/c5oxyEme4EK0poeNVEmG9QKE7i/U92Q7yjVt2JPZoo
-	 KKab8o9SdIM2XvpGoVICIQ4XwdgAVtaPGhU54ayQfCnfLlEaW3lPQVBllb9BkmzECO
-	 nE7j1CjEqBtnt3cNbOS7Erz0xZkaANJGk+ly24VtiJa0PCDT3qoW/N+IRr4nTvwqZd
-	 Z5PKSNrIQl7+mm2qzkxCg4AIGhgZkp5e7n9mKFUe2JXKDXK2WgGk0nXZXZ5u3/BshM
-	 PjG2C1OvGIzpg==
-Date: Wed, 10 Jun 2026 09:28:32 +0200
+	b=lbV7VSWkccI7ZRO9Iv6SYeNXyTkgYAx0xfqQuzdnt4x/S3xkZp3lUChofffGKe+90
+	 jBpCu5kPfJ+wz0ZiH/J0mYxpXV4uqpA9cfJmranvi4DnFqgHijQmPTL42Y6nh+Hbn0
+	 OQ2hn9KOTnTByytc563kSd+ZZ1bJ5Jrzy9k32MmzQhOgXOH+va89ctmlPwg6MAz0I6
+	 CcQCZz4TX5UA49P9SRl83YAmrRIf7+WGXXBUi9X82Nk3mXXmo8JA7vZp2CL4qQ/9bS
+	 VFsDpBrjeelefOPZKF84+QoRjQPJziHdWHmMCMARi5s7xdGQNo/oFJwJPfZUWTHnn9
+	 UBxVzGWnOLYVw==
+Date: Wed, 10 Jun 2026 09:31:22 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Andy Lutomirski <luto@kernel.org>
-Cc: Li Chen <me@linux.beauty>, Kees Cook <kees@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-arch@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, x86@kernel.org, 
-	Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
- executable startup
-Message-ID: <20260610-saufen-zerfallen-uncool-5608105e0d8e@brauner>
-References: <20260528095235.2491226-1-me@linux.beauty>
- <20260528-madig-fachrichtung-fehlinformation-61117ba640da@brauner>
- <CALCETrWJQpLR4n1cpichBk8=uExSKLWTMGU3BufGdk_WE_p5UA@mail.gmail.com>
+To: Jan Kara <jack@suse.cz>
+Cc: AnonymeMeow <anonymemeow@gmail.com>, amir73il@gmail.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 0/2] fanotify: lift pidfd reporting restrictions
+Message-ID: <20260610-umkippen-bauformen-fehlpass-d637b7bc0555@brauner>
+References: <20260607003343.425939-1-anonymemeow@gmail.com>
+ <hsqpfvobwt3pf5he6hho653wl2tkwjaszfldqk6itch5uoqccy@jkijxqcm2in5>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -51,38 +43,34 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALCETrWJQpLR4n1cpichBk8=uExSKLWTMGU3BufGdk_WE_p5UA@mail.gmail.com>
+In-Reply-To: <hsqpfvobwt3pf5he6hho653wl2tkwjaszfldqk6itch5uoqccy@jkijxqcm2in5>
 
-On Mon, Jun 08, 2026 at 05:01:57PM -0700, Andy Lutomirski wrote:
-> On Thu, May 28, 2026 at 4:05 AM Christian Brauner <brauner@kernel.org> wrote:
-> >
-> > On Thu, May 28, 2026 at 05:52:21PM +0800, Li Chen wrote:
-> > > Hi,
-> > >
-> > > This is an early RFC for an idea that is probably still rough in both the
-> > > UAPI and implementation details. Sorry for the rough edges; I am sending
-> > > it now to check whether this direction is worth pursuing and to get
-> > > feedback on the kernel/userspace boundary.
-> >
-> > The idea of having a builder api for exec isn't all that crazy. But it
-> > should simply be built on top of pidfds and thus pidfs itself instead.
-> > It has all the basic infrastructure in place already. Any implementation
-> > should also allow userspace to implement posix_spawn() on top of it.
-> >
-> > fd = pidfd_open(0, PIDFD_EMPTY /* or better name */)
-> >
-> > pidfd_config(fd, ...) // modeled similar to fsconfig()
-> >
+On Tue, Jun 09, 2026 at 12:29:05PM +0200, Jan Kara wrote:
+> On Sun 07-06-26 08:33:41, AnonymeMeow wrote:
+> > The pidfd API now supports pidfds for tasks that are not thread group leaders,
+> > but fanotify has not caught up yet. This patch set lifts that restriction and
+> > allows fanotify to report pidfds referring to the event-generating thread.
+> > 
+> > Additionally, this patch set allows fanotify to hand out pidfds for reaped
+> > tasks by registering the event pid with pidfs when pidfd reporting is
+> > requested and dropping the pid_has_task() check before the pidfd_prepare()
+> > call, as suggested by Christian.
+> > 
+> > Link: https://lore.kernel.org/lkml/20260528-schmuckvoll-heilen-garen-be77b4208671@brauner/
+> > Link: https://lore.kernel.org/lkml/20260602-patzt-sturz-segen-f1f305d61b75@brauner/
+> > 
+> > Changes since v4:
+> >  - Add a pidfs_register_pid_gfp() helper function to pass in custom flags.
+> > 
+> > v4: https://lore.kernel.org/lkml/20260603001516.26234-1-anonymemeow@gmail.com/
 > 
-> After contemplating this for a bit... why pidfd?  Doesn't a pidfd
-> refer to an actual process that is, or at least was, running?  This
-> new thing is a process that we are contemplating spawning.  I can
-> imagine that basically all pidfd APIs would be a bit confused by the
-> nonexistence of the process in question.
+> The patches look good to me. Thanks! I'd prefer the change adding gfp
+> argument to pidfs_register_pid() was a separate commit but unless Christian
+> objects I can live with that. I'll wait for Christian's ack for pidfs
 
-I don't think that would be a problem because every api just needs to
-handle ESRCH. Ignoring that for a second: the mount api has a builder fd
-that is later transformed into a pidfd. Which is easily doable here as
-well. My point is that all the infrastructure building blocks already
-exist in pidfs.
+I would also prefer it to be a separate commit but same as you I'm not
+gonna insist. :)
+
+> changes before merging this through my tree.
+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
