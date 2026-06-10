@@ -1,110 +1,110 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507323F20FC
-	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 10:55:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2F53FF8A3
+	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 11:07:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781088952; cv=pass; b=QUSySmuhdSu5Hfjr37oqTZrId+UtuqZAoCxs2nid5QKyMLir3gf7Zk8+jQjHXMBgNijYHpQb6mFzIQgyTkIMcn9MjggHKdapAY+JCJvJmq/aQrbhtr6F+YorFq+A4Cua573QWyuCFUeHAHJb6+S3ySwe2hhl2DE+yFTCKCoXPD4=
+	t=1781089674; cv=pass; b=XJZgOuFy2hT0by4cST5ztBy2QOTMfsfxIqI4mVS1kXXsrAAFCfsA2v4hMXJTQ3WuYsqk8GYDMG89KpH6pBhX4xYjmjdFamf6Qw8hjGxP8bRXyxZCBTrVTFXWQVO8hcDT45E7aTRlKFCqJILN3dEz5lXBYvimC2oTGN0+ltIbWUM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781088952; c=relaxed/simple;
-	bh=balBQhwV1EGCbvl87hsSo2ulvC47dMdAgNuyPlq0C74=;
+	s=arc-20240116; t=1781089674; c=relaxed/simple;
+	bh=8mXpNYNPgECtkzr8AGdyU4Fcoy173GBePp5Ov1p4bmk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hukJABSj5JBL3ScY4XMkc2rRC3uy0qI0WQvRG3OFv3Z2WscPJrggJDqHJb0AJKAMIi1tva986d0BOhoj9OEnUBZ9oTpIEob6IDTnibm1SCujZPi14ByC+vQxwnjt4svNaDauSSEomG+AKtGvta3cORG5avpeda6S3I9Z/O2yASI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bi35xJp2; arc=pass smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=m7BxmDV1Wdvbz45d7ZuacVO3mjdL6vIZ344AEBIT0UlYuELyI2afpSIJzlRCmcptQYm7oFrhIGkNhZLV0J3y35RIy+ZxDT4NfViJLuOMrrKkLYPg/rz0f3bO5WMbKz/KNLf+ub1w2WcL2svGhnCwTsF1IWsd4a7La9STSEfkM6k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=ACKOd3Ml; arc=pass smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bi35xJp2"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-bdb3fd39045so981711166b.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 03:55:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781088948; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="ACKOd3Ml"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8ccf0fa0aacso91529576d6.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 04:07:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781089664; cv=none;
         d=google.com; s=arc-20240605;
-        b=CUQhAG2A7WPobYixH/0sKL3x51ArWalg8oR0I3arJnY9GrmBx+fPckTk44fClIt/6A
-         xcNhh0LCka5ADFf54QNHUOdJ0u7QGcDIICAiKF8VEawtc9swKWrYsaDxsvbj+ew+3StO
-         ucGfzE0g7VCoYR3QLsxYz+Sxw1MWV77/H/YOi6aVN3ZYyA4Juu1UkcebiVFHxoaBBAEr
-         VBQDHXZDnS4tBw2V2H7OiaiJzuNypnWzDQV5ADPADn39OObt6Q2IQQoliNG6/uYlGgB1
-         GCm8qMn0vChXOqMFN6QKBPU994aarYoAE9QA+ylSf3FdQPlqHPTzNfiRhn9hcH/bKJjR
-         A7Sw==
+        b=L4dn0AZ+o4CExCgMhrFrFnEt2bfzYhzxUbIwcQmBWWQLttqJTkVBYhF2E2uyOZkgHb
+         Z4GylKXo3OG9lcax7ctd1rrNRtBKlAXarOu/k5gM6K5k2N31HyYNKcWTDbzURIMF5Hx4
+         hIsW3uEUe2z73uvgtoFyX6b9ci/FWu8EPL3WTWSqqxTOJV3zskKfkMd2e2lCLUstn2ZL
+         i0nVxsulRpt6uMCzbTMS91BzIK7PaxBA8NrMFbATDV1YOLtQorB8KpwPTbBhM55C/vG0
+         hZn5jokrEQl334FRBm9nTmB/I+VvfKivox6A1KxDmAGaR5bYB8wAF8oXzg7zLUnsyqFX
+         M5Pw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=zaMAn+lh6tbK16TDCN4EIvEe4G90xqJy2GOUfUQ3neo=;
-        fh=911YVroLA/3QQ9iVu7qrDecdWr+KjwbZDzbZmll0OwA=;
-        b=fs/U1KB+RgkobcDTXV/YPKnVpnt/olm2crozpjAIKRnVZM7uagjHM/rDX8yA5yOodA
-         MJazZ8GHMTD441vFTZxE7jr1jt2MiqsYvr8ZfCPrYe8hjNuLxgFjXXCWdi7LBw00eypf
-         8mhuVPRBKqyPZyG+wjEt/t6OQSubp6i55OrvcLHBPMxj8TVlZxCl1oKQai2hw1/HBtX3
-         U1OrpR/L3rRrmqvXMZKfszhQL7QqbmjeVsDdBG+k6R/Qv2+W+Gs+TDlx74PziAgGWtij
-         jIKkx0R3gQJnJf3huOD3ItuQBlU3AtlaDIR4KZq8EsNqkyt5Oifr78B8QTrpLDIdTGNo
-         jtWg==;
+        bh=FfooajCCb5qkkr/DDxFEIC/q5Pcqtx/WOj5PoiifL7s=;
+        fh=4tkCQLoTJnYE6+NaFIa6b0zej+sPpsgUXFDsiWKB2NY=;
+        b=XwKtnqHaHXILqgR5r0ri98TxjeavN38xjs1dblf2JKU7oxwsYWLuwmICxmiW/fCm/P
+         U2uwSN9zE+4vObe6WDj7oa2Cdzhqa9GxJWz4fzYW9+rkcEguCH16OrxpjnuD5kigZ8Yp
+         qOrXaPgIfdMJm9Y7OhIVlb2jDPmLvvp/9DzztfCOKhvxx5NWUhd4ScOvS6Hdjo7kyGH9
+         Uwqfx23elShxQdD+pSLULvutxw4tlg8nf6Ybhy4940uEk/koSYQkqzVRRsNBF2I7W5jo
+         xAN3tIWX8wJIYH7ZaNyMtjfnFMN6wQl0D5GQsoTwqiP+16DbVuxWw0XEZL5SWGreeyxc
+         YHHg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781088948; x=1781693748; darn=vger.kernel.org;
+        d=szeredi.hu; s=google; t=1781089664; x=1781694464; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zaMAn+lh6tbK16TDCN4EIvEe4G90xqJy2GOUfUQ3neo=;
-        b=Bi35xJp2nhFy4kZ+yNYaBKew6lXyUxnW9JuMTMYyjScfaEuKSzyDwdUyBB/ACOeEZc
-         8BU7mVEpR+xD6l60eKSVsoWcbSvGb97hbqqPPWqM+rOZ3EORq3KiaYqsdPQ0JgWFGOOV
-         aFklA4pH15PYs3WofzY7fXDyp7n+JTGjroPUWDvvjxa9lcRtlb5jTcN0LssZ/CqO/uXY
-         jPagwmumasHS21Jsniwb3AdW/uvqSpEMBkN2dPlHWob9NtbX7/HngE2GFcsE5zYPvmub
-         DxICEPg5KMiIBVIrKziWj9ql9FQQ/pDaBrNJ9lWq8IbVLMvbhY2Bp6Ji55y0PGRLZcxy
-         EXxg==
+        bh=FfooajCCb5qkkr/DDxFEIC/q5Pcqtx/WOj5PoiifL7s=;
+        b=ACKOd3Mlf89XRqEx0UxaN+kUXEs+rByMZvAbSH9YmFT9Jkvt4bztmEOFWuITa1XySL
+         tR8uH3/f9II6L4QRYECRktobP9AMaiKxLoDlRelg0mSwW3lueTFoEX5axdUw3jZKSNHp
+         JA8dHeq17ITQaoxKyCrs3Ciga9DLNnhi/pvF4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781088948; x=1781693748;
+        d=1e100.net; s=20251104; t=1781089664; x=1781694464;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zaMAn+lh6tbK16TDCN4EIvEe4G90xqJy2GOUfUQ3neo=;
-        b=DZhJQHl5B4VpF2SApgc5gLvUGYG2ffI6HLzafAhGxM4wYQE/+UFa0gTQfNmcriTDuD
-         xeHcgui7yyOgSD45QOle5zIjvcbZeuOAbOQzH/mVRfBvgyBQ592nOraHmdhXZBt9EIeU
-         iJ/ez8T9vyYg3si/9thBJWApFIdXu7YgaFSlTy0dGb9S9Atw0+2sjmRfCxuKrdpT10Wi
-         57hhrgxRs6mWPgRLart2U93pdwCkUoHTTnL9Hxu03+w4m7wlGvgWyBUs3wXwj8W57Fqf
-         bwEOX3sq+Nd70SIeM+O3weMe1DgYZt5gVzZGKALseuZc3a2Yt6FpfI1sf2TP+o8lVP2h
-         D3hw==
-X-Forwarded-Encrypted: i=1; AFNElJ/NYKtyxWXAiPdlsJJt22zLF4fRzSJnvuRhEpvIIGv7KwbygnlZ5CadZUB1+4qLH4zlV2IkEOH8OS5doSm5@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxh2zhPSmeUZai9f6B/odSGQ5+JgCQxrLYekF6ApPZ1YoIgHzEe
-	YgOTm7q1vsFMsjsOvw/tGEdhG1Ty5lLo01bRxYdh3fOZYkRNuylm3jVBPzkPFx3Wzy+Qeb1tKBR
-	N9UYT/i6mNxM5A5VT+5l7751v32PxmRqg0ijB
-X-Gm-Gg: Acq92OEssIEKrbrB+OQI22vUqPAjvEqLAn+AVqeWypQBrmzfk7GFxeSadV1YAt+j8qi
-	A8BGPv640IBTs6RHLJsubFLs7Hm4CzpbXNlpBwbssU+QK1FahWOMtKR3/pwlNrK3HgbhN1O1Z19
-	DpnxWAa/buh1ptgx0cH31y5Xxe4UxJFdFAFP2jJcUoQAtW8RN73693FBst79/OtLsnsEITc4G7/
-	BEWVa3M6nj9B/u14qTDrkFqw4CWS6s2Bej9bioNcQqK3gkBuJsCU59PVnH8DszpMOblLZl/hCzJ
-	8lKrFZXEr22vPxJgB5DN
-X-Received: by 2002:a17:907:7f89:b0:bec:7ab2:9128 with SMTP id
- a640c23a62f3a-bf36fd9c7f4mr1158412666b.8.1781088948284; Wed, 10 Jun 2026
- 03:55:48 -0700 (PDT)
+        bh=FfooajCCb5qkkr/DDxFEIC/q5Pcqtx/WOj5PoiifL7s=;
+        b=YXFzDoYeBi5/rjf5FxKr2sOyIc8q8gSQPe4NsDiKqhSeXjSM07L9KgGxPsLS1qwMgy
+         x2h7r90bLPEgO7HKQai+spuHNi6AavScdwpGfAtXuz5PqOjp4KgOhgtjfj/SToW+0VDo
+         +nM8j7nZvV8vSVGGYH9pZ129TORMtMVvq4HZhzQC45UOsTUYbBNhKc026C2dhCJVCscA
+         RYXJzHdQNbMpzKNrEtchZZSBh3WGM9oqoKnvYqWiKxHOt2gn+6shfsERJWLSjl/l/oi0
+         I0WI52ujwKo8C3CV3vHkSK7MD+x8779gPnzbevWsvfg6N/U+QhkU+yOVld4rc7W46ISy
+         +yeQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/L0N5jDZIugfHVY5Y91h0DCk/NAncID9qPhnaSIPtj1i5zQOzhq48w9UUOKdFqxLs/4tk3gMluOjlQSF2N@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVcgb1EzVYswyEg4XnNMGIHd8BK5oDWNApSGyClAHjWP3ICbD3
+	t2k9vK9WH8/twbjyEe36dU24LZ59E8g4qjpTPiZI3Q9H4z1gFXzDs7We3VbqjlF7jXaxw6H0WfX
+	4Z/LdIfrz6Ixyc9snKmgHBK/GRItzdxHTG2jOJokm9g==
+X-Gm-Gg: Acq92OHDMfn+s6nMaxWosX//wACLnBjCkBwyueaugUeU1Xt7XxQyhggbJagnuSsZfhT
+	6bQcgtHwbpGgcWBJ4JirdOb5GUtSyVZd7ey2rRQM+LqnzXMPAxyRsRPqLUumKsDuLVtOOrIpezq
+	oo9Rlp9iRL+lojM1Ij5B0KD8wZFVi2VyNTfaBWZzdlkClNqEBcNL1FnuHVP65rWODz2hjLDfC92
+	1DFkBlGCIYs/QlslHh2zfsU6NBh0mD4pMEAdM/iKRztFnvr83Gly+7pjzYoBqMrmCcFRRRe3hf8
+	BfLDNE5Jkb6LZzB6ov/+ePB6yrUTAd3OP2z4z+TGEv6EHzvDEYQ=
+X-Received: by 2002:a05:622a:47ce:b0:514:5d67:7a30 with SMTP id
+ d75a77b69052e-51795c74e62mr337766041cf.43.1781089664278; Wed, 10 Jun 2026
+ 04:07:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260606105420.26641-1-technoboy85@gmail.com> <87qzmehpnf.fsf@mail.parknet.co.jp>
-In-Reply-To: <87qzmehpnf.fsf@mail.parknet.co.jp>
-From: Matteo Croce <technoboy85@gmail.com>
-Date: Wed, 10 Jun 2026 12:55:12 +0200
-X-Gm-Features: AVVi8CdGDDOFjwiCJX358CMpDpAbE9uc9xx5WKyBdjfmP3vXEfBPYc4wLk_Aslo
-Message-ID: <CAFnufp3Oc94pVenk7pcbSgOUvnXhZMSXj4+ydW9+Cb2Z7-rHYA@mail.gmail.com>
-Subject: Re: [PATCH v2] fat: stop reading directory entries past the
- end-of-directory marker
-To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-Cc: Timothy Redaelli <tredaelli@redhat.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Matteo Croce <teknoraver@meta.com>
+References: <CAFbF8N7++zopZuEcsKRxBV_sgOGCbzCY0hOyMw1SiGAtuzGhyQ@mail.gmail.com>
+ <CAJfpegsCJnMfn_BzzTK7m9ndCGVsnPit8ZsT0fzAhYoY+yOsKQ@mail.gmail.com>
+ <178035740095.2923901.5908691318688917347@noble.neil.brown.name>
+ <CAJfpegswAZv8OmDAcK-5u8kssAF1vZKe4gdDB2XPErAnoGFSYg@mail.gmail.com>
+ <178056619459.3392745.3091041855723132411@noble.neil.brown.name> <CAJfpeguDUS_3X-AFZD6XCJB1SjVkFGu2aJ+p1BK574Scu-ASdA@mail.gmail.com>
+In-Reply-To: <CAJfpeguDUS_3X-AFZD6XCJB1SjVkFGu2aJ+p1BK574Scu-ASdA@mail.gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 10 Jun 2026 13:07:33 +0200
+X-Gm-Features: AVVi8CcPOrZk3LFY7g50zlOcX2XYfioeMe0IQAA6vK7TOfH2w2RnMqNOAT5Kh5Q
+Message-ID: <CAJfpegt4mAXDFOr47XaYPgeN1LFm_BNC_8SX-2A8kHEztWdNHw@mail.gmail.com>
+Subject: Re: PROBLEM: FUSE_NOTIFY_INVAL_ENTRY leaves stale negative dentry
+ after c9ba789dad15
+To: NeilBrown <neil@brown.name>
+Cc: =?UTF-8?B?0JDRgNGC0LXQvCDQm9Cw0LHQsNC30L7Qsg==?= <123321artyom@gmail.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	regressions@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-Il giorno mer 10 giu 2026 alle ore 08:32 OGAWA Hirofumi
-<hirofumi@mail.parknet.co.jp> ha scritto:
-> Although this doesn't catch all cases, if it found the corruption, maybe
-> we should make FS read-only (fat_fs_error()), and return -EIO error? Is
-> there the reason to allow continue to write?
->
+On Thu, 4 Jun 2026 at 15:59, Miklos Szeredi <miklos@szeredi.hu> wrote:
 
-Makes sense. The most common use case right now is to mount Lenovo
-BIOS update images, which is perfectly fine to have mounted RO anyway.
+> Okay, so this is about making VFS more scalable?  Can't we just leave
+> filesystem code alone in that case?
 
-Regards,
--- 
-Matteo Croce
+Unless there are strong objections I'm going to revert commit
+cab012375122 ("fuse: fix conversion of fuse_reverse_inval_entry() to
+start_removing()") and revert the fuse part of commit c9ba789dad15
+("VFS: introduce start_creating_noperm() and
+start_removing_noperm()").
 
-perl -e 'for($t=0;;$t++){print chr($t*($t>>8|$t>>13)&255)}' |aplay
+Thanks,
+Miklos
