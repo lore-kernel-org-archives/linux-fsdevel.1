@@ -1,216 +1,107 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB475406828
-	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 12:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781094096; cv=none; b=tVlNHXDW+RnyhMMnVTJ6nOtKck0SwsyuVVpvoWLOuwL4exSIG5CAM9iTPX359Upv/qN2gaT0rp3EVm/43CrJhyn71gqyCL5e3Q5lmif0HyAyZN/OJnPGAiOn3fet+QbOFroKyHEXhN74NjpQzaUMP1ISSjGaci7iGwMlQPRwf3Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781094096; c=relaxed/simple;
-	bh=g/27CHyEIiNRnS0O0NLXKzsPjOP4uuuTrbn5/AUOK8g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MfBwEX2cNSWBnPZ09AiirAJnENQ2FMsypGRBTc1o8jRDp2HKysFLmGNRkMlLKqAK+qf5iVeS8sR5p15r1+lrmg3x7NzhsALR9uqRTAthRY0Pj8bTSOMt9k5cPZgPhM40QOmcDFKH/pMfEQhrSI9ziOCD05jl1NaWt7YUzL3WUdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=wePP7sDp; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=tAr1uc40; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=wePP7sDp; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=tAr1uc40; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79DB4406807
+	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 12:22:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781094172; cv=pass; b=d+GyLHeJpWeTPryrATKPkDQ8V7MxpOFuggVjJ5fXQCzgbWQu3VKhLLzsNQDBvRsO4ATabasJyxrY+j96XLOueDZnM7d/vpC+bXYkeZOXtYKCYrECCcgziTmrtvTB37rB7TO6mzblij/dcETZXZT39zA/5iaTZ9UswI+Nr7qnmuQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781094172; c=relaxed/simple;
+	bh=zwTvTQRiuDnTHNrVN5t6ylNbG/tB4D/O7pmKvhbpJn8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=INZ7tTnYOeep0pthCvskMAdw9NIR6uaEyo5Y1GlTGcI4qdYVsZnp5sA10PxvfSOh8scZGgJLlK/Xp6eJmxb698oos2PnDjEqSskynmSdb8nq6lZNKIbJcOunD5kMTQUjfsocpv9ugjxgNGguOwFtt1KtyLTQK1PKJdkwLdEYgu0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=Bg38By5N; arc=pass smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="wePP7sDp";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="tAr1uc40";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="wePP7sDp";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="tAr1uc40"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 08F2175850;
-	Wed, 10 Jun 2026 12:21:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1781094093; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kWWvjNmtZ+WX3B5RY+RX/f6AXKOAy1afQVHBoBubIN4=;
-	b=wePP7sDpsBwMdj8ZkkdSr1QYjElvilOIPoeOy3Ky5HhUEwJbIK0j3Ev6xob/7+UQDmtWUc
-	TowlBXWi6zI7TwTQqqLZwWd1ZfYwiAypIt6Rht7ppY2eNcH0pKvQDB2Uk3aGBN8iRz8TGb
-	EWtnMMBs5HV1Stbm2GIsxjzTOBeDB4I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1781094093;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kWWvjNmtZ+WX3B5RY+RX/f6AXKOAy1afQVHBoBubIN4=;
-	b=tAr1uc40Y/X0IKmELrPp9tNrs+RNaVyI7hryffiIFBgKF1g09JGT80D2vQukhw+7GH68ov
-	HNGQkDlbPQTKj5DQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1781094093; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kWWvjNmtZ+WX3B5RY+RX/f6AXKOAy1afQVHBoBubIN4=;
-	b=wePP7sDpsBwMdj8ZkkdSr1QYjElvilOIPoeOy3Ky5HhUEwJbIK0j3Ev6xob/7+UQDmtWUc
-	TowlBXWi6zI7TwTQqqLZwWd1ZfYwiAypIt6Rht7ppY2eNcH0pKvQDB2Uk3aGBN8iRz8TGb
-	EWtnMMBs5HV1Stbm2GIsxjzTOBeDB4I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1781094093;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kWWvjNmtZ+WX3B5RY+RX/f6AXKOAy1afQVHBoBubIN4=;
-	b=tAr1uc40Y/X0IKmELrPp9tNrs+RNaVyI7hryffiIFBgKF1g09JGT80D2vQukhw+7GH68ov
-	HNGQkDlbPQTKj5DQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E82F4779A7;
-	Wed, 10 Jun 2026 12:21:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1yqqOMxWKWrWZAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 10 Jun 2026 12:21:32 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 81CE1A0A90; Wed, 10 Jun 2026 14:21:32 +0200 (CEST)
-Date: Wed, 10 Jun 2026 14:21:32 +0200
-From: Jan Kara <jack@suse.cz>
-To: Gao Xiang <hsiangkao@linux.alibaba.com>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, Gao Xiang <xiang@kernel.org>, 
-	Song Liu <song@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>
-Subject: Stacking filesystem deadlocks [was Re: Fanotify (hsm or erofs) /
- fuse / nbd / ... + write(mmap) deadlock vector followup]
-Message-ID: <5lz5jq7gzoejbywmh56ayfkdiuqsjd2s5pl5uvlflfxc5lq4rr@thr4hrkw67d2>
-References: <d5f62836-62d1-4b8e-9694-bbab27112e7e@linux.alibaba.com>
- <649fdbbb-64f7-43d9-afd5-a3076e3ec946@linux.alibaba.com>
- <CAOQ4uxj+WAe+99FFi9RfMd5tpSwwP=rSH4dNuJEdhV1wL+5CDA@mail.gmail.com>
- <dff837f6-7480-4984-8728-802ddd78dda4@linux.alibaba.com>
- <CAOQ4uxi7DceKuh6+qGjuQJEFiE=HEFu4dMrc++VXUknRnX26JQ@mail.gmail.com>
- <95371379-97e9-4cb4-8358-ec014b765b74@linux.alibaba.com>
- <CAOQ4uxjh5VYkKLAKxhMsy-ZmrbRrgX4pFgBLFqsDqWMXeiqg3w@mail.gmail.com>
- <ac05da56-eb2a-4862-b887-8081f249d8ce@linux.alibaba.com>
- <CAOQ4uxi0yRavUeztRh-Eb8_HvpfmqkpPbWT9JgQhUn7EKXnryw@mail.gmail.com>
- <e36c9ef5-4cd0-4281-9598-c1bfb8ebfaa0@linux.alibaba.com>
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="Bg38By5N"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-5176a2fd597so55494831cf.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 05:22:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781094170; cv=none;
+        d=google.com; s=arc-20240605;
+        b=UV2fWl5F5okl0qntupsuYpUCaiNa2YzbJryLc7fdkEdLgqgaUQUv/v/kVRsiAKVVIE
+         MNVIKP8r2fyXFmuL8rS3osDD1v5Q2kffa9Em5KeuPjs0Wz69AK9tZqLnb733uBScuKcF
+         zWBl+K8g/PD18MulhT6RlWY5ZL3RUgkBs5vNQ5WJQSVEU0VWECWpAeST31qhKBfg+6oa
+         yMpdhZCEjZ5up/tBdyOPwddPR774mkxGWkyPYnBSJ+7rTAt1Q2Df+yHRnBQxr6EMwiNC
+         vXVqtd1y8VsUVDpdm86JLUgj1zh5z1LP+tM/8Ul4DkRHQFOfDh0m7f4dV4kWJbj3E9F/
+         v9Iw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=zqhfenRJHrw6tZtdmFjoGbNaAzBmEpcWmIpswbZ9dgE=;
+        fh=GZF6VPu0CSvlBKesZFszZaBagTXCe3NKBxIJ22UaXqk=;
+        b=VRPdrRdkLaOrP8utom7egu838sQEdW73JVRzZ5CMS54E0yHyHNF7AR2w8IAe1rUwNH
+         kXkEpgFbO9P0adsYjgOunl5kpVAFpMQE1/gGt5TaeCdCkjL6LUkYqD/GI2GM6semMlRr
+         EWsIEKWp5hLHR8lUkBUkYnPTsliqlKtFW23ugLRSYXjXFnCFUl6M75DXuVXV5zgY7x3+
+         XJl3XdeEIYBo2KG+zp6BGiYdD0wyemAgBSu0b8BCtTEFTPh07XC1DqAht8NvKf08M1bm
+         zfNV7zL6uYfaOLBAfd7LZo1HEhVeJxddsfV6il9D4BZdHclJdmdGK4bFviVgR13jlFCG
+         sjSA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1781094170; x=1781698970; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zqhfenRJHrw6tZtdmFjoGbNaAzBmEpcWmIpswbZ9dgE=;
+        b=Bg38By5Nu9u16/+LgN8VwYilA7ylHDYtALegh391WQtY7fIIKHWSykacesRPpqkfx/
+         pUZFVRK0uC7hHwssNnLZEEQ8ubJTcu82MFaQ82Nb6y/n3C3WSB1lki1DB4xELLYG2x5O
+         0htblUIAoxVbp1O33r9RcWOwqYn9jb3J/AJ68=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781094170; x=1781698970;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zqhfenRJHrw6tZtdmFjoGbNaAzBmEpcWmIpswbZ9dgE=;
+        b=ccduY+u9z9IekAnq8PVGWqIj1ngG+92WCSkGDna9sPlB6fiWsei8VDA7hKCkbqkG3n
+         em9bRJ6cGT9r2FlWR2RNAdXXbaGj4rXmeXCEO1pEtaenZIsuMDjLDs9w/HyfB7aR9KOv
+         ecCdEcUzWpLQQJQ64J3jZxo2w3S6AFkuNexVd5aK1O2xjDPagI6vEjVqnZFzuGiJceOm
+         Zs+MoxXJdAyFtpy68viVDT60p+C28bLsjUyy0GNeerXQvs+rps0TU9zIqDV94wyJFmOC
+         ONWxbPWB59Ax8Jy9Pt0XE2MJRkRoKv7fYLrC8bWkCnpVa9QgXRfDUC/mO4Nc3YsMzvQU
+         DmxA==
+X-Forwarded-Encrypted: i=1; AFNElJ+eDCvohBBUdwCfIS/jCrkPjV+C6yTf7bEPB6rjZueWiZOuF5vurRyywa2ZCQH/IbTbRFRFqat960KJIBqR@vger.kernel.org
+X-Gm-Message-State: AOJu0YyvQQFTpxRDvPiWB4nCdwm5ZY9M02SQhw+7HsMFfOgtUjt6PGTc
+	6pYtxw5pvAyjEzHMuSASedG+1xQvuzSHuI3pQ91Dx8s7hQnvpt1fjO5F/7Tz3Egd2VR+CKMtUIY
+	5I8awanHooSS029Qo1oIT25PAnMBXKncbR3BiIvc4zQ==
+X-Gm-Gg: Acq92OFK7+K5ny/xeqO9Reee8WrLWf2nzA52VDYFDCwsEywPiJL/S6yqAmkgqdTixdN
+	bRFK5EL/qyHU2z6imXmHbX7bxYS0MJs4eO2Ueqq8ApIgBCiaJQ1oA4UliylpnUb+ofFs/I1C9EB
+	qOsnHfl0Q9bhwU1iU76rIsxHap9cCmUyG8695EaBiIe2k0CAJ5y+NcPRLRZt6NdhvkEGFcrS+V6
+	5gxLJsWFaWghvzkzYnYfaIS+YOeibfo1SSvZwx9ZGU5WLAzWTAe7PQ7tzPIuIBSV1qsaIm+7+Un
+	yXo5i8rv6q7JmvJSngZind527iP88jFYQ/uGrpkw4IIMgvzyA/E=
+X-Received: by 2002:a05:622a:1388:b0:516:dcbd:aab9 with SMTP id
+ d75a77b69052e-517959fb37dmr332271721cf.16.1781094170420; Wed, 10 Jun 2026
+ 05:22:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e36c9ef5-4cd0-4281-9598-c1bfb8ebfaa0@linux.alibaba.com>
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,szeredi.hu,gmail.com,suse.cz];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Score: -3.80
+References: <20260519004746.3203156-1-mochs@nvidia.com> <CAJfpegsTsKqq+QQKyBexQFP1=EGd8YiMT=rbaCOPeTBvLsY_JQ@mail.gmail.com>
+ <F3BA075C-8E63-4077-B701-63269703155E@nvidia.com> <CAJfpegsJ+ZQW_WteMypErq31hggYsMMkBOPd0o+vifhAS6dPvQ@mail.gmail.com>
+ <3447B6B6-7D86-4058-ABCF-B093BEB5D391@nvidia.com>
+In-Reply-To: <3447B6B6-7D86-4058-ABCF-B093BEB5D391@nvidia.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 10 Jun 2026 14:22:38 +0200
+X-Gm-Features: AVVi8CcVXj4gxUuROX-jbgt6uRYIDQLJQTdoVkfD0EszQov5tcLIrs147vwAkgU
+Message-ID: <CAJfpegsoZ4eKo0hf_AH4MVSh0b9j0b-UD9kL3uxMLxk+PJZC5Q@mail.gmail.com>
+Subject: Re: [PATCH v3] fuse: back uncached readdir buffers with pages
+To: Matt Ochs <mochs@nvidia.com>
+Cc: Bernd Schubert <bschubert@ddn.com>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"stable@vger.kernel.org" <stable@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi!
+On Fri, 22 May 2026 at 03:32, Matt Ochs <mochs@nvidia.com> wrote:
 
-On Wed 10-06-26 16:17:33, Gao Xiang wrote:
-> Amir just suggested that I posted a long off-list discussion
-> on the list right now, but since it seems to relate to
-> `sb->s_writers.rw_sem` locking design, I am not quite sure
-> how deep I could help generally: But here it goes.
-> 
-> The background is that we have discussed a generic deadlock
-> timing for several months as below:
-> 
-> fsA is a filesystem which supports fsfreeze, such as EXT4/XFS/...
-> 
-> fsB is a filesystem which have some relationship with a
-> userspace daemon (e.g. a filesystem with fanotify HSM hooks /
->   fanotify + EROFS file-backed mounts / a FUSE filesystem or
->   a filesystem backed by a virtual block device)
-> 
-> Thread A                           Thread B                                 Userspace deamon
->  write(fsA_fd, mmap(fsB_fd))
->   file_start_write()
->    (take SB_FREEZE_WRITE read lock)
-> 
->    handle fsB mmap fault read
->     -> notify userspace and wait
-> 
->                                    freeze_super
->                                    (try to take SB_FREEZE_WRITE write lock)
->                                                                             received/handling fsB mmap read request
->                                                                             (do random something...)
->                                                                             write(fsA_fd2)
->                                                                              (take SB_FREEZE_WRITE read lock)
-> The problem timing here is thread A does
-> `write(fsA_fd, mmap(fsB_fd))` => file_start_write() (rwsem read),
-> then hits page fault and wait for userspace deamon to finish
-> the request;
-> 
-> Thread B does fsfreeze on fsA so it is waiting a write lock
-> (sb_wait_write(), rwsem write) and blocked on thread A;
-> 
-> And the userspace deamon is a handler handling page fault,
-> and trying to write to another file (fsA_fd2) on fsA again
-> and blocked on thread B (file_start_write(), rwsem read).
-> 
-> because of the specific locking timing is `R->W->R`, at least
-> the whole workflow won't proceed so the related processes
-> (and fsA above) will be stuck.
+> For the remaining virtiofsd issue, does capping the local READDIR response
+> size in virtiofsd sound like the right direction? READDIR can return less
+> than requested, so treating MAX_BUFFER_SIZE as the maximum chunk to produce
+> seems preferable to rejecting an otherwise valid request.
 
-Thanks a lot for the good summary! It has helped me to look at the problem
-from a bit different angle and I don't think it's actually specific to
-filesystem freezing or fanotify HSM. Consider the following simple setup:
+Right.  The server has every right to return a short count on a
+READDIR request, so capping it at MAX_BUFFER_SIZE is fine.
 
-You have XFS filesystem fsA. On it you have a file imageA and you setup
-loop device loop0 over imageA and mount it as some filesystem fsB. Now you
-do write(imageA_fd, mmap(fsB_fd)) and you get a nice system deadlock (tried
-that and it really works :)). The problem is that write to imageA_fd
-acquires exclusively i_rwsem in imageA, then goes on to fault page on fsB
-which maps to a read from loop0 which maps to a read from imageA and
-xfs_file_read_iter() wants to acquire i_rwsem for imageA again.
-
-I would not consider this a real DoS vector since you generally need
-priviledge to perform such nasty write but still isn't not great the system
-can be deadlocked like this and I think we should fix cases like this.
-
-Arguably, to address this particular case, we could block writes (and
-reads!) to a file that's used as a backing loop device file similarly
-as we do that for swapfiles but here I'm seriously worried of userspace
-regressions. I've seen userspace scripts setting up loop device and *then*
-running mkfs or editing partition table directly on the backing file.
-
-Also with the use of filesystem freezing on fsA, write to any target
-file (not only imageA) in fsA can create such deadlock if the page fault on
-the stacked filesystem ends up wanting to do some modification of imageA.
-So I don't think blocking IO to the loop device backing file will be even a
-complete fix.
-
-I think the underlying reason why that write(imageA_fd, mmap(fsB_fd))
-pattern causes issues is that it essentially creates a loop in the stacked
-filesystem graph which can cause all sorts of lock inversions compared to
-the natural order of taking locks for the stacked filesystems. So can we
-somehow forbid that? Or do we simply not care and if priviledged user does
-something stupid, he gets to reboot the machine? Any other ideas?
-
-								Honza
-
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks,
+Miklos
