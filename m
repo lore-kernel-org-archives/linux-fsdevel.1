@@ -1,168 +1,127 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F823B95FA
-	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 09:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C7D37AA7F
+	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 09:55:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781082861; cv=none; b=cSHbaa0E5geroqGaDKYpeeTM9DgPAI1aNChYDc6DIFjDwuJguY2yXjzyHymAm2q2nZlHB52zJ98MuT48yZFZ5NZZcKowpJWb2YezffzZFaVOYEwENsY0LkDdGCxE3lu0BZilST+x3m18IQc8QoaJPzQIDveqf0LH5WQg01/0v4c=
+	t=1781085346; cv=none; b=ghO4esFUdrKxblRZ1gTwkJUE0hiOfLiQXwGSpqvhPm0sSXifksmcc6G5HsRhSIBFdGi0BxHfkuy1C6gog78JkNmQQUsEuGbVn7TUD1szZiECr3WsX7zrAo1nV34iUaMY5Oa+ZDN1fvqs5H6V1aclZZ8P6r1RY5/sFZ4ZcLliXM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781082861; c=relaxed/simple;
-	bh=CGugeexrzwFixnY7kHmUiTXqUHGFXgLO2rvrrtQJgMI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f3FInXnSZHctPeB1+RZijiKg5i/xYYY3FPaQ7PhWhwlFaWuJHSLM6EmxvN39jjaO8jvgBPhfFVhFXX0/Bq87CEq3GaihPs57I/cdCJwvS4eerjjji8hY/kyf31CNb7V91icRy7fdzf160nhHnbAqtISewwAi45lky6IMpSDbvJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kRtb1cbm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=OzqmzqZQ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kRtb1cbm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=OzqmzqZQ; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1781085346; c=relaxed/simple;
+	bh=RxYtaOzOjvXLhABsTLKT5rUdf2WjHUzZ4ozMxheKOIQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iGDeUFRKkF5Nl62tKs7KM36P5GQZJUV0Z0GUSRPbpaUqPpaHAslOj+hrF1X73ymq8e430lFs6y30h7f4Uk3RF/vOlRTCJGx1IJ3sPGDyYcAv8XfQSPd3iuNeyVMM7dnZdbVPlkP2tc5xnROFFSnorW9lDqjVhXZeTXKXF3jmF+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gehZfH0X; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kRtb1cbm";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="OzqmzqZQ";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kRtb1cbm";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="OzqmzqZQ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7C03A6A893;
-	Wed, 10 Jun 2026 09:14:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1781082858; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dkQRTCNb2n3biDzLuwGkzdBYvUxShFJPgoiLRxg5lFE=;
-	b=kRtb1cbmnFYRB9Z1nudTcy6WlD2arF4inZpVpkyqy+lIsbc4T6AV1AJl39ZSHBKxfX0B1O
-	W7Dw8I2rq7qjlZo1OUVRmycEF8IUdXjBmNHge0J5MBguEDJFuPEs8Vtl1mshCC5PAICF/6
-	Dryfrvyjhd2qOQ0Urf/MvULdLSBB2IU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1781082858;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dkQRTCNb2n3biDzLuwGkzdBYvUxShFJPgoiLRxg5lFE=;
-	b=OzqmzqZQUt40OWzokYI0myHgYY0sYnV0Ck2iRkZckVtgzjFclTU/R9L+coWvvtQJgy9ahC
-	7NxZ8TdBvfOLdADg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=kRtb1cbm;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=OzqmzqZQ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1781082858; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dkQRTCNb2n3biDzLuwGkzdBYvUxShFJPgoiLRxg5lFE=;
-	b=kRtb1cbmnFYRB9Z1nudTcy6WlD2arF4inZpVpkyqy+lIsbc4T6AV1AJl39ZSHBKxfX0B1O
-	W7Dw8I2rq7qjlZo1OUVRmycEF8IUdXjBmNHge0J5MBguEDJFuPEs8Vtl1mshCC5PAICF/6
-	Dryfrvyjhd2qOQ0Urf/MvULdLSBB2IU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1781082858;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dkQRTCNb2n3biDzLuwGkzdBYvUxShFJPgoiLRxg5lFE=;
-	b=OzqmzqZQUt40OWzokYI0myHgYY0sYnV0Ck2iRkZckVtgzjFclTU/R9L+coWvvtQJgy9ahC
-	7NxZ8TdBvfOLdADg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 72809779A7;
-	Wed, 10 Jun 2026 09:14:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1HvsG+oqKWr4KwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 10 Jun 2026 09:14:18 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 0FBC1A0A90; Wed, 10 Jun 2026 11:14:18 +0200 (CEST)
-Date: Wed, 10 Jun 2026 11:14:18 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, AnonymeMeow <anonymemeow@gmail.com>, 
-	amir73il@gmail.com, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/2] fanotify: lift pidfd reporting restrictions
-Message-ID: <em6fgj3mkdyapnpi5yszfj563gwjoehyxxo6mk6cwiyyydkiah@vpunmf3gm5nt>
-References: <20260607003343.425939-1-anonymemeow@gmail.com>
- <hsqpfvobwt3pf5he6hho653wl2tkwjaszfldqk6itch5uoqccy@jkijxqcm2in5>
- <20260610-umkippen-bauformen-fehlpass-d637b7bc0555@brauner>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gehZfH0X"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490b8ac62baso51335235e9.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 02:55:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781085342; x=1781690142; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DXXf5kDNkZaZma579LeFr3+QRDi52FtRCi+F8Ah0BJ0=;
+        b=gehZfH0XlCrjPYGryvmNLnz8gas78t1NCCGVCxYQuXc+ezJVxkJovg3gZ68eoCZhgT
+         w7yc27Z5FV6OxwB0FcPBX2EqHE5OPYPbURPQ7PvMZtE9MCaPKi95MUdpet0KUehGntqc
+         HKRVYuvq7W/adTDWj7WZk+9P4GJHI1tChfCf+Jq9+5a8m4OTJYSviMfYuqiW8Kxn9OQj
+         zL7dYye1N7l2Jd7Gx5fa399/j/FnsYswvqucZIgsSiW/jaK10oDH+iMuO0D6AA3auCEt
+         /IElReue6IxUwWl0P2t/ZHUQ0JIBvBsH4U6b1xso05OWP1ipmWJ6Je8m+oBQpDhf+jbR
+         rK0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781085342; x=1781690142;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=DXXf5kDNkZaZma579LeFr3+QRDi52FtRCi+F8Ah0BJ0=;
+        b=AfofJE4WUwnPgq6QicOLaWIyxPtPDt73SiErXqEfWKxCGnPnDe0uZawpqovkADeQn7
+         sPBWqBkHqR/A4TFhD+mw6H6ntyZiUPFX0f8Y1xMQDqheTECE+FdZgCeUITJSyHOU7KRn
+         C18o6nu3VKpvwrZQNhEu24ozWHsgPE4tfKYNk2Pxh1F4sTEEhS7cg9NCkhp2Z6LoZ8W3
+         YFw1i88fw7rXNYDyf7tQ9TkKNxNVbCIw9+RiThYIn5dfvmEhJJ17Ue7ko5xFYd3i0aS0
+         3H5Nk3bN+XIL97VFuTrmLOVXyKZLbPpM8BeFVtH0TyHOjO3fXBI6qPkIsWCLSPbg31kB
+         nBdw==
+X-Forwarded-Encrypted: i=1; AFNElJ+xCSWhpAxLuiLDPgCcmie3E9yJFkqIeVLSmKZxzIFegb5KDz4xTU+mRF3FKI3PiAEXzBhcI24XFV3x3Kbl@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzjugpuo10l57ZbUMJ9FIXzyENtVbCmivAofFF/rFvCUssfQsn9
+	wrFSoRTm3MUosFR9o6PznPg3WxsyKF49auz0GvYyJvQUhgzDaZ9xZWuZ
+X-Gm-Gg: Acq92OEiQPe3CTNBl9Gmau2tZWFJss0cVhNXEOHNw9zQZRBVBAxJs4LOmZmESCcg/H1
+	pC7YDQ1Trv67g/ZT1ICqFMBE9oO+TK2ExyjjzveHN8YVGUZBH2pJpXS5BgMJTtozolVs7SBfwWS
+	s8YRbclO/QNBx/LHzdanhb8uoqlsDuCew5pdPrDUMqqJb/61mX8b/1wzuQUbxEKUwm7rdV426nx
+	N7m4oIce23ybp5WKDSb2cYv78p53cK7/dLhS4YRWam2ddHXUO0XhyigA5jndUq7dQWC1fIxwx+N
+	dxVLyOwRAnrIPlTQang9bkg9LHDFg92hi1LmEmdo/PM1muPMsMptpzO/YmEEk0WS64FSdGjtF45
+	k9r0GiRdY09HyyH37yQ7MWgB7fqbUjWMppO+WKr6lCoAMxcrQHNOpO9gIs2sNbCP8lIWmEtq9ZV
+	WqldMTiByskmDWU2B+TF86Vi4m2xHKOCVTtWuX1W5V7m4W7WDfQ0IG3Rjp36ddSb05eZ9uWCnUp
+	qyWt8R7Rw==
+X-Received: by 2002:a05:600c:6096:b0:490:c1cb:48f4 with SMTP id 5b1f17b1804b1-490c2d038e8mr309043665e9.12.1781085342059;
+        Wed, 10 Jun 2026 02:55:42 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490be1f69bcsm591850845e9.8.2026.06.10.02.55.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jun 2026 02:55:41 -0700 (PDT)
+Date: Wed, 10 Jun 2026 10:55:40 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, luto@amacapital.net,
+ safinaskar@gmail.com, akpm@linux-foundation.org, axboe@kernel.dk,
+ brauner@kernel.org, david@kernel.org, dhowells@redhat.com,
+ hch@infradead.org, jack@suse.cz, linux-api@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, miklos@szeredi.hu, netdev@vger.kernel.org,
+ patches@lists.linux.dev, pfalcato@suse.de, viro@zeniv.linux.org.uk,
+ willy@infradead.org
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
+ preadv2/pwritev2
+Message-ID: <20260610105540.5901a5be@pumpkin>
+In-Reply-To: <aijxfxXrWLCVqV6-@gondor.apana.org.au>
+References: <CAHk-=wh5bFj1a7eaGp9sixDg3UXu7xUGfU=YJo+ckpGxGAyhXQ@mail.gmail.com>
+	<aijxfxXrWLCVqV6-@gondor.apana.org.au>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260610-umkippen-bauformen-fehlpass-d637b7bc0555@brauner>
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,vger.kernel.org];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.com:email]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 7C03A6A893
-X-Spam-Score: -4.01
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed 10-06-26 09:31:22, Christian Brauner wrote:
-> On Tue, Jun 09, 2026 at 12:29:05PM +0200, Jan Kara wrote:
-> > On Sun 07-06-26 08:33:41, AnonymeMeow wrote:
-> > > The pidfd API now supports pidfds for tasks that are not thread group leaders,
-> > > but fanotify has not caught up yet. This patch set lifts that restriction and
-> > > allows fanotify to report pidfds referring to the event-generating thread.
-> > > 
-> > > Additionally, this patch set allows fanotify to hand out pidfds for reaped
-> > > tasks by registering the event pid with pidfs when pidfd reporting is
-> > > requested and dropping the pid_has_task() check before the pidfd_prepare()
-> > > call, as suggested by Christian.
-> > > 
-> > > Link: https://lore.kernel.org/lkml/20260528-schmuckvoll-heilen-garen-be77b4208671@brauner/
-> > > Link: https://lore.kernel.org/lkml/20260602-patzt-sturz-segen-f1f305d61b75@brauner/
-> > > 
-> > > Changes since v4:
-> > >  - Add a pidfs_register_pid_gfp() helper function to pass in custom flags.
-> > > 
-> > > v4: https://lore.kernel.org/lkml/20260603001516.26234-1-anonymemeow@gmail.com/
+On Wed, 10 Jun 2026 13:09:19 +0800
+Herbert Xu <herbert@gondor.apana.org.au> wrote:
+
+> Linus Torvalds <torvalds@linux-foundation.org> wrote:
+> >
+> > Because I think splice() is a *cool* feature. It was always *clever*.
+> > I just don't think it's worth the pain it has cause.
 > > 
-> > The patches look good to me. Thanks! I'd prefer the change adding gfp
-> > argument to pidfs_register_pid() was a separate commit but unless Christian
-> > objects I can live with that. I'll wait for Christian's ack for pidfs
+> > And it's been around for a long long time, and after more than two
+> > decades it's still most definitely not _widely_ used.  
 > 
-> I would also prefer it to be a separate commit but same as you I'm not
-> gonna insist. :)
-> 
-> > changes before merging this through my tree.
-> 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> A couple of years ago I used tee(2) in dash(1) so that we could
+> avoid reading the input line byte-by-byte which is what every other
+> shell does in order to pass the rest of stdin to the executed
+> command.
 
-Thanks! Merged and pushed out. AnonymeMeow, what's the situation with
-fixing up fanotify20 & fanotify21 LTP tests? Are you working on it please?
-They'll now start failing with linux-next so it would be good to fix that
-up ASAP... Thanks!
+The shell just needs something like MSG_PEEK to do a non-consuming
+read from a pipe.
+(Without the strange behaviour of a second offset.)
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+That would be simple and could have been implemented 40 years ago.
+
+-- David
+
+> 
+> https://git.kernel.org/pub/scm/utils/dash/dash.git/commit/?id=44b15ea09a9ee5872cf477e4ffc6b42ef37d1e46
+> 
+> It's definitely niche but made a huge performance difference to
+> this rather common scenario:
+> 
+> echo 'command
+> ...
+> rest of stdin' | sh
+> 
+> I didn't even know tee(2) prior to this, even though it was added
+> way back.
+> 
+> Thanks,
+
