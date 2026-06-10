@@ -1,110 +1,220 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2F53FF8A3
-	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 11:07:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C213DD843
+	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 11:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781089674; cv=pass; b=XJZgOuFy2hT0by4cST5ztBy2QOTMfsfxIqI4mVS1kXXsrAAFCfsA2v4hMXJTQ3WuYsqk8GYDMG89KpH6pBhX4xYjmjdFamf6Qw8hjGxP8bRXyxZCBTrVTFXWQVO8hcDT45E7aTRlKFCqJILN3dEz5lXBYvimC2oTGN0+ltIbWUM=
+	t=1781090793; cv=pass; b=ap7sWomOJNZJYlUfqNjVaCsc5XoFC5ISHWcaMTiCU6FzlNTqOTjyIRVPjiCjyHIc05LOn33PYYYpfr+iIzfjQ+8/HlbGUY0nTAKIUF5vylJWlOdHTdrDwaW/qVj50Jerof3uQYpQHKVZlYIOu+ErnyF/O+bcWfDnlgnTHzKJs4s=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781089674; c=relaxed/simple;
-	bh=8mXpNYNPgECtkzr8AGdyU4Fcoy173GBePp5Ov1p4bmk=;
+	s=arc-20240116; t=1781090793; c=relaxed/simple;
+	bh=2aaujS1GBFRX6Q5jOjboaRMIxVZnOhhXsuUQ4jqqCOs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m7BxmDV1Wdvbz45d7ZuacVO3mjdL6vIZ344AEBIT0UlYuELyI2afpSIJzlRCmcptQYm7oFrhIGkNhZLV0J3y35RIy+ZxDT4NfViJLuOMrrKkLYPg/rz0f3bO5WMbKz/KNLf+ub1w2WcL2svGhnCwTsF1IWsd4a7La9STSEfkM6k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=ACKOd3Ml; arc=pass smtp.client-ip=209.85.219.49
+	 To:Cc:Content-Type; b=F85FcSniPq8hHiBAbfGbEqUtXLMNBlyg8nu+3sUM25XFozOF9GDvuJ459fTM7xoo0/NVlIVLG68AFuk3pPN8RJgMdDJI8GgvZJVfvhDaNslkK1exnnzpeFE/COLFP8alTye8WFRft2fY+LA27FXnnD6/QFd/+xhdiFnVxhNyg6o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=WKtdXB8j; arc=pass smtp.client-ip=209.85.160.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="ACKOd3Ml"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8ccf0fa0aacso91529576d6.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 04:07:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781089664; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="WKtdXB8j"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-5175b6c4e19so69438871cf.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 04:26:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781090791; cv=none;
         d=google.com; s=arc-20240605;
-        b=L4dn0AZ+o4CExCgMhrFrFnEt2bfzYhzxUbIwcQmBWWQLttqJTkVBYhF2E2uyOZkgHb
-         Z4GylKXo3OG9lcax7ctd1rrNRtBKlAXarOu/k5gM6K5k2N31HyYNKcWTDbzURIMF5Hx4
-         hIsW3uEUe2z73uvgtoFyX6b9ci/FWu8EPL3WTWSqqxTOJV3zskKfkMd2e2lCLUstn2ZL
-         i0nVxsulRpt6uMCzbTMS91BzIK7PaxBA8NrMFbATDV1YOLtQorB8KpwPTbBhM55C/vG0
-         hZn5jokrEQl334FRBm9nTmB/I+VvfKivox6A1KxDmAGaR5bYB8wAF8oXzg7zLUnsyqFX
-         M5Pw==
+        b=V+0VxRbSGOYyOFrfRAhPRgpjXAEoqm3r3udY5kNQjzG3gEVJHP/ESK+4piNTvNpEUb
+         6Ra7fwg/3QDIABA7amNriCyj02tsT58g95J8YuCB7gMWvxeCtBU7rh6NXtONovybXcI1
+         MJnbqcec+vCt8j9VcudITbNtMz6ZJ1dhnhEnc+fY9VjLWD+WfZSKB6ohLhYQIboW2fzZ
+         xfdGEinEzz/x/hbHUOgBVqoMLu2r0BmahszSOC7BwmmdUJNduG7uoJInvLqugvt9dinA
+         rBnJCk3V03YkD6tQo2YvymVmC0NXJlKKCBp3xRmJbLFaFq1GBFFIEdN/dsDqpHmuE8K8
+         bDng==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=FfooajCCb5qkkr/DDxFEIC/q5Pcqtx/WOj5PoiifL7s=;
-        fh=4tkCQLoTJnYE6+NaFIa6b0zej+sPpsgUXFDsiWKB2NY=;
-        b=XwKtnqHaHXILqgR5r0ri98TxjeavN38xjs1dblf2JKU7oxwsYWLuwmICxmiW/fCm/P
-         U2uwSN9zE+4vObe6WDj7oa2Cdzhqa9GxJWz4fzYW9+rkcEguCH16OrxpjnuD5kigZ8Yp
-         qOrXaPgIfdMJm9Y7OhIVlb2jDPmLvvp/9DzztfCOKhvxx5NWUhd4ScOvS6Hdjo7kyGH9
-         Uwqfx23elShxQdD+pSLULvutxw4tlg8nf6Ybhy4940uEk/koSYQkqzVRRsNBF2I7W5jo
-         xAN3tIWX8wJIYH7ZaNyMtjfnFMN6wQl0D5GQsoTwqiP+16DbVuxWw0XEZL5SWGreeyxc
-         YHHg==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=KwpbCI+rGfMKsie1cbjw3OobD3YXJBn7+ixKB5TpcMI=;
+        fh=3sJN2Ux71WugGsmVg/7iPFdb47x1cWAYCQ8LA9BVL2E=;
+        b=KJGFhyWEtDIqDQNB1TkyU+cqcexWrPZxKL6E5hN7WF+r8IqgGsF0Xidwsjykoz+FBr
+         UI+u8gUin3Xk+aNzAF0Ikpyb/J/8wLJrgGH96cdAe8GnxEdnvLCpq5oqIRx/I7/Xfb8c
+         6hMgKY9A5IpUy2+4hMk+lzJCy/fbnp0qca69kMULTOlU/+ieD3A/r1RVTSEdKvqmXm/8
+         7lYZP+A3XjgXaykMVXbPqeYKEGGat7+oBoKhbLkOwRhiYgh0pLxuMpZENT06+CYtBstT
+         L3H8aXL26G1RZR5v8WKhcPGm185vmo+CCvdxrXfjhT5NmrptV4TtHBti0TlnkQ13qtxF
+         270w==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1781089664; x=1781694464; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FfooajCCb5qkkr/DDxFEIC/q5Pcqtx/WOj5PoiifL7s=;
-        b=ACKOd3Mlf89XRqEx0UxaN+kUXEs+rByMZvAbSH9YmFT9Jkvt4bztmEOFWuITa1XySL
-         tR8uH3/f9II6L4QRYECRktobP9AMaiKxLoDlRelg0mSwW3lueTFoEX5axdUw3jZKSNHp
-         JA8dHeq17ITQaoxKyCrs3Ciga9DLNnhi/pvF4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781089664; x=1781694464;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=szeredi.hu; s=google; t=1781090791; x=1781695591; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FfooajCCb5qkkr/DDxFEIC/q5Pcqtx/WOj5PoiifL7s=;
-        b=YXFzDoYeBi5/rjf5FxKr2sOyIc8q8gSQPe4NsDiKqhSeXjSM07L9KgGxPsLS1qwMgy
-         x2h7r90bLPEgO7HKQai+spuHNi6AavScdwpGfAtXuz5PqOjp4KgOhgtjfj/SToW+0VDo
-         +nM8j7nZvV8vSVGGYH9pZ129TORMtMVvq4HZhzQC45UOsTUYbBNhKc026C2dhCJVCscA
-         RYXJzHdQNbMpzKNrEtchZZSBh3WGM9oqoKnvYqWiKxHOt2gn+6shfsERJWLSjl/l/oi0
-         I0WI52ujwKo8C3CV3vHkSK7MD+x8779gPnzbevWsvfg6N/U+QhkU+yOVld4rc7W46ISy
-         +yeQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/L0N5jDZIugfHVY5Y91h0DCk/NAncID9qPhnaSIPtj1i5zQOzhq48w9UUOKdFqxLs/4tk3gMluOjlQSF2N@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVcgb1EzVYswyEg4XnNMGIHd8BK5oDWNApSGyClAHjWP3ICbD3
-	t2k9vK9WH8/twbjyEe36dU24LZ59E8g4qjpTPiZI3Q9H4z1gFXzDs7We3VbqjlF7jXaxw6H0WfX
-	4Z/LdIfrz6Ixyc9snKmgHBK/GRItzdxHTG2jOJokm9g==
-X-Gm-Gg: Acq92OHDMfn+s6nMaxWosX//wACLnBjCkBwyueaugUeU1Xt7XxQyhggbJagnuSsZfhT
-	6bQcgtHwbpGgcWBJ4JirdOb5GUtSyVZd7ey2rRQM+LqnzXMPAxyRsRPqLUumKsDuLVtOOrIpezq
-	oo9Rlp9iRL+lojM1Ij5B0KD8wZFVi2VyNTfaBWZzdlkClNqEBcNL1FnuHVP65rWODz2hjLDfC92
-	1DFkBlGCIYs/QlslHh2zfsU6NBh0mD4pMEAdM/iKRztFnvr83Gly+7pjzYoBqMrmCcFRRRe3hf8
-	BfLDNE5Jkb6LZzB6ov/+ePB6yrUTAd3OP2z4z+TGEv6EHzvDEYQ=
-X-Received: by 2002:a05:622a:47ce:b0:514:5d67:7a30 with SMTP id
- d75a77b69052e-51795c74e62mr337766041cf.43.1781089664278; Wed, 10 Jun 2026
- 04:07:44 -0700 (PDT)
+        bh=KwpbCI+rGfMKsie1cbjw3OobD3YXJBn7+ixKB5TpcMI=;
+        b=WKtdXB8jGww4N4vaXjc23iE//thOwpKiZebGM8NRULuWpKXCg2oaeLKChppes4SvYe
+         K0VfHW4DvVHPdGoJulIZh9WxGkSjs56GqZBL019qzkf0R0dMCOrZQhm8+d5ghMsLb2M8
+         4Kw7G42MJKBQ3sdTx4BcqULRpT+0leVUmBQho=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781090791; x=1781695591;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=KwpbCI+rGfMKsie1cbjw3OobD3YXJBn7+ixKB5TpcMI=;
+        b=IH8MI1S92H+0tpklhKWgEYxVheEX1tLUBc1sw06e3a2Me51MqGnZrnuv2zpp6JhZio
+         UAikcL9BIXUxO/3CtmSc364sB0ULeos+g2DG7d6+G7O/ijXpOlj37CxQt9pLd64/qgHX
+         H5+N4dz8jk/rePOSldfpYjXXpkSFO0qtAWAJuknQzhHBf4IfiIbCqGd+BtVQpnmybIC3
+         KzUEYLM9ElCuHvwhH72fD0FrH85tDGkUvNdiyXjRI88BRTaWXPIcX4ShV/zrBDA3hQxB
+         rq7huNqRMyzdj0YZmKUEOBhmcahKiQ+7a1+vCXNHGEUpYHTiNTJq0jIFwhUBG6dZ3HS8
+         T/Dw==
+X-Forwarded-Encrypted: i=1; AFNElJ+iA02F4loofICqXD2umzF548ouuAn27eK86bkJGqxT98GoXcKkxBYTDLZKpWTksggCrgtN8JQ+vx0S/txe@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1f7XRcjdKPdx6A5q3eUxaM9HQdBpMUcq0C5y1QxX9SxdvaBGt
+	97zJHvz/b0LrBJnto1xjfhlw7GYy7P74CbIfR5IeRfKKWzrF6Kq2G1y01ZbeRa3eVut0hX8ttuO
+	ChZpHFLxlFqi8f1e9Vnegj4JRMfdjLgBTQdMo1gRW1g==
+X-Gm-Gg: Acq92OGH3pZSbEZC5nE+0xrruj/T7s9SR9986sm1pgGsYEN0nvnXQYqsxTrSHRhZEJI
+	0f35iIO4RsMX0Z2YiNBCtd82GVuu+V/bV62NvyAzRFC8bbxwpCcpgrL4OXhYVBuNqrLK1zDfPjr
+	juz29jI2UZcU6oDSyjHl7HvRssj692ymRZ7wdNBPKJS4OyBCq2ekPD8tq7VmMfozPylChY34eH/
+	xkvmlcFGkxCUtQ8rInSmNmMS+2SBQTJQnStRxwqP8W6uafRng/i8nwqjYbc204z1fu8oNo0B6/m
+	TT7B7dNmdMn/qA5tIlwYByojsZCeAGkmWAdBl9qoKnPViNtAthc=
+X-Received: by 2002:ac8:57c2:0:b0:517:5f04:f24c with SMTP id
+ d75a77b69052e-51795c79c8amr367684721cf.39.1781090790667; Wed, 10 Jun 2026
+ 04:26:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAFbF8N7++zopZuEcsKRxBV_sgOGCbzCY0hOyMw1SiGAtuzGhyQ@mail.gmail.com>
- <CAJfpegsCJnMfn_BzzTK7m9ndCGVsnPit8ZsT0fzAhYoY+yOsKQ@mail.gmail.com>
- <178035740095.2923901.5908691318688917347@noble.neil.brown.name>
- <CAJfpegswAZv8OmDAcK-5u8kssAF1vZKe4gdDB2XPErAnoGFSYg@mail.gmail.com>
- <178056619459.3392745.3091041855723132411@noble.neil.brown.name> <CAJfpeguDUS_3X-AFZD6XCJB1SjVkFGu2aJ+p1BK574Scu-ASdA@mail.gmail.com>
-In-Reply-To: <CAJfpeguDUS_3X-AFZD6XCJB1SjVkFGu2aJ+p1BK574Scu-ASdA@mail.gmail.com>
+References: <20260501232735.2610824-1-souvik@amlalabs.com> <CAOQ4uxh6YUJEh75sASqi1gOaQYKpWhftz4to1j8s2Y9Jef-XQg@mail.gmail.com>
+In-Reply-To: <CAOQ4uxh6YUJEh75sASqi1gOaQYKpWhftz4to1j8s2Y9Jef-XQg@mail.gmail.com>
 From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 10 Jun 2026 13:07:33 +0200
-X-Gm-Features: AVVi8CcPOrZk3LFY7g50zlOcX2XYfioeMe0IQAA6vK7TOfH2w2RnMqNOAT5Kh5Q
-Message-ID: <CAJfpegt4mAXDFOr47XaYPgeN1LFm_BNC_8SX-2A8kHEztWdNHw@mail.gmail.com>
-Subject: Re: PROBLEM: FUSE_NOTIFY_INVAL_ENTRY leaves stale negative dentry
- after c9ba789dad15
-To: NeilBrown <neil@brown.name>
-Cc: =?UTF-8?B?0JDRgNGC0LXQvCDQm9Cw0LHQsNC30L7Qsg==?= <123321artyom@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	regressions@lists.linux.dev
+Date: Wed, 10 Jun 2026 13:26:17 +0200
+X-Gm-Features: AVVi8Cc5nyPpov-4yxMA02Z7Wm5x-BSYPxwNQXgevyHJGdk5NCb-4_ru_xxa7-U
+Message-ID: <CAJfpegtnj0wmQ_mJCwJ+UKqzG_LTrUCwhRyc_NAhHj2T9Jr8uA@mail.gmail.com>
+Subject: Re: [PATCH] ovl: use linked upper dentry in copy-up tmpfile
+To: Christian Brauner <brauner@kernel.org>
+Cc: Amir Goldstein <amir73il@gmail.com>, Souvik Banerjee <souvik@amlalabs.com>, 
+	linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 4 Jun 2026 at 15:59, Miklos Szeredi <miklos@szeredi.hu> wrote:
+On Sun, 3 May 2026 at 22:37, Amir Goldstein <amir73il@gmail.com> wrote:
+>
+> On Sat, May 2, 2026 at 1:27=E2=80=AFAM Souvik Banerjee <souvik@amlalabs.c=
+om> wrote:
+> >
+> > ovl_copy_up_tmpfile() stores the disconnected O_TMPFILE dentry as the
+> > overlay's upper dentry reference via ovl_inode_update().  vfs_tmpfile()
+> > allocated this dentry via d_alloc(parentpath->dentry, &slash_name), so
+> > d_name is "/" and d_parent is c->workdir.  Local upper filesystems
+> > (ext4, btrfs, xfs, ...) immediately rename it to "#<inum>" via
+> > d_mark_tmpfile() inside their ->tmpfile() op; FUSE and virtiofs do
+> > not, so both fields stay that way.  Neither identifies the destination
+> > directory and filename where ovl_do_link() actually linked the file.
+> >
+> > When the upper filesystem implements ->d_revalidate() (e.g. FUSE or
+> > virtiofs), ovl_revalidate_real() calls it with the dentry's parent
+> > inode and a snapshot of d_name.  The server tries to look up "/" inside
+> > c->workdir, fails, and overlayfs reports -ESTALE.
+> >
+> > This causes persistent ESTALE errors for any file that was copied up vi=
+a
+> > the tmpfile path, breaking dpkg, apt, and other tools that do
+> > rename-over-existing on overlayfs with a FUSE/virtiofs upper.
+> >
+> > Before commit 6b52243f633e ("ovl: fold copy-up helpers into callers"),
+> > the tmpfile copy-up path used a dedicated helper ovl_link_tmpfile()
+> > that captured the linked destination dentry returned by ovl_do_link():
+> >
+> >     err =3D ovl_do_link(temp, udir, upper);
+> >     ...
+> >     if (!err)
+> >         *newdentry =3D dget(upper);
+> >
+> > and published it via ovl_inode_update(d_inode(c->dentry), newdentry).
+> > The fold inlined ovl_do_link() into ovl_copy_up_tmpfile() but dropped
+> > the dget(upper) capture, and rewrote the publish line as
+> > ovl_inode_update(d_inode(c->dentry), dget(temp)) =E2=80=94 where temp i=
+s the
+> > disconnected O_TMPFILE dentry.
+> >
+> > Fix by keeping a reference to the linked destination dentry after
+> > ovl_do_link() succeeds, and publishing that dentry at the existing
+> > ovl_inode_update() call site.  The non-tmpfile/workdir path continues t=
+o
+> > publish the renamed temporary dentry.
+> >
+> > Reproducer:
+> >   - Mount overlayfs with virtiofs (or a FUSE fs whose server advertises
+> >     FUSE_TMPFILE) as upper
+> >   - Run: dpkg -i <any .deb>
+> >   - Observe: "error installing new file '...': Stale file handle"
+> >
+> > Fixes: 6b52243f633e ("ovl: fold copy-up helpers into callers")
+> > Cc: stable@vger.kernel.org # v4.20+
+> > Signed-off-by: Souvik Banerjee <souvik@amlalabs.com>
+> > ---
+> >  fs/overlayfs/copy_up.c | 12 ++++++++++--
+> >  1 file changed, 10 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/fs/overlayfs/copy_up.c b/fs/overlayfs/copy_up.c
+> > index 13cb60b52bd6..e963701b4c87 100644
+> > --- a/fs/overlayfs/copy_up.c
+> > +++ b/fs/overlayfs/copy_up.c
+> > @@ -853,7 +853,7 @@ static int ovl_copy_up_tmpfile(struct ovl_copy_up_c=
+tx *c)
+> >  {
+> >         struct ovl_fs *ofs =3D OVL_FS(c->dentry->d_sb);
+> >         struct inode *udir =3D d_inode(c->destdir);
+> > -       struct dentry *temp, *upper;
+> > +       struct dentry *temp, *upper, *newdentry =3D NULL;
+> >         struct file *tmpfile;
+> >         int err;
+> >
+> > @@ -889,6 +889,14 @@ static int ovl_copy_up_tmpfile(struct ovl_copy_up_=
+ctx *c)
+> >         err =3D PTR_ERR(upper);
+> >         if (!IS_ERR(upper)) {
+> >                 err =3D ovl_do_link(ofs, temp, udir, upper);
+> > +               if (!err) {
+> > +                       /*
+> > +                        * Record the linked dentry -- not the disconne=
+cted
+> > +                        * O_TMPFILE dentry -- so that ->d_revalidate()=
+ on
+> > +                        * the upper fs sees the real parent/name.
+> > +                        */
+> > +                       newdentry =3D dget(upper);
+> > +               }
+> >                 end_creating(upper);
+> >         }
+> >
+> > @@ -903,7 +911,7 @@ static int ovl_copy_up_tmpfile(struct ovl_copy_up_c=
+tx *c)
+> >
+> >         if (!c->metacopy)
+> >                 ovl_set_upperdata(d_inode(c->dentry));
+> > -       ovl_inode_update(d_inode(c->dentry), dget(temp));
+> > +       ovl_inode_update(d_inode(c->dentry), newdentry);
+> >
+> >  out:
+> >         ovl_end_write(c->dentry);
+> > --
+> > 2.51.1
+> >
+>
+>
+> Hi Souvik,
+>
+> Thank you for the analysis and the fix.
+> Looks correct to me.
+>
+> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+>
+> Christian,
+>
+> Could you pick this up for vfs-fixes?
+> I do not have any other ovl fixes queued up.
 
-> Okay, so this is about making VFS more scalable?  Can't we just leave
-> filesystem code alone in that case?
+Reviewed-by: Miklos Szeredi <mszeredi@redhat.com>
 
-Unless there are strong objections I'm going to revert commit
-cab012375122 ("fuse: fix conversion of fuse_reverse_inval_entry() to
-start_removing()") and revert the fuse part of commit c9ba789dad15
-("VFS: introduce start_creating_noperm() and
-start_removing_noperm()").
+This seems to have slipped through the cracks.
+
+Christian?
 
 Thanks,
 Miklos
