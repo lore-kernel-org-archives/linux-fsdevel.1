@@ -1,142 +1,168 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6683B47DF
-	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 09:09:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F823B95FA
+	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 09:14:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781082590; cv=none; b=ZyNKJXLPPpjjHomVbKm7eJoudxHFXM2mf6uezzLGxnJ7/sqoP/kDCqdQYRlhiRLhA8tCttwrxCimkF2SxsrJZZkU/nr2+JrDEigV4dKjXW8t7k+Vq5D/aSKxUnnU18lxR4hLobYI9etg/76I8fa3v4vWMhM7R7MkiSesDyLou6k=
+	t=1781082861; cv=none; b=cSHbaa0E5geroqGaDKYpeeTM9DgPAI1aNChYDc6DIFjDwuJguY2yXjzyHymAm2q2nZlHB52zJ98MuT48yZFZ5NZZcKowpJWb2YezffzZFaVOYEwENsY0LkDdGCxE3lu0BZilST+x3m18IQc8QoaJPzQIDveqf0LH5WQg01/0v4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781082590; c=relaxed/simple;
-	bh=0WJ4UY+DGzKi6B9P1hXaTZJA18fsGtqUzi10S7pOVG8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KDELfjLSJSrtj2eYW7xv1/ckI+22m+S12MJvOm8Rq8U4lLOqDMr9hu5U3Ouq9o47IAwcqjK/IZTDyi7XU7vkGs4tjvcZlFwSAOBWadlU7LNn+NFHGFX1cCh8IOZjSnBajVJ5XnnQ5abgnsEbmjYjgvkpRhiJrpQwV2TOa8VAbJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j++iP20T; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781082861; c=relaxed/simple;
+	bh=CGugeexrzwFixnY7kHmUiTXqUHGFXgLO2rvrrtQJgMI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f3FInXnSZHctPeB1+RZijiKg5i/xYYY3FPaQ7PhWhwlFaWuJHSLM6EmxvN39jjaO8jvgBPhfFVhFXX0/Bq87CEq3GaihPs57I/cdCJwvS4eerjjji8hY/kyf31CNb7V91icRy7fdzf160nhHnbAqtISewwAi45lky6IMpSDbvJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kRtb1cbm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=OzqmzqZQ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kRtb1cbm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=OzqmzqZQ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j++iP20T"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-490b8ac62baso50936675e9.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 02:09:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781082587; x=1781687387; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iWrkOjjLJH5qDnRo8XgcjVbW4R3sL57sCMCmEUy+meI=;
-        b=j++iP20T/MgTGRTHqwL3SbEFJl/c43ME3gzzR72zVOvzZEhuy56QyjoZHpcwCrE/6h
-         4Rnw6GxHwdX+HNL3vb1CWEJxEQsba73FgOoYo+Toa8fw2cVxJiJFJxcAn3j6jemOzDWG
-         RDj+8mYXXR+82uaPSFFHUP/xRvhyoNlafGvl3gV+YhkwX14Z018BUMDisPtCcHgLEFgV
-         z3bUIH6PMio4/UdazBrt7UidsFrAvsbhUM9tNN56n6r5WqMBEkH740atbR5qcZrmm0vH
-         g3gaH7p5PnMQlDFaHwlfVzKVKB7377TJAF9kpKMXuYqbPG6Gk/1FuM+5ilN+6kLQ/iRk
-         n1cQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781082587; x=1781687387;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=iWrkOjjLJH5qDnRo8XgcjVbW4R3sL57sCMCmEUy+meI=;
-        b=Py3+b+qJw9X109HQ5KBd859JUm49R68w6ZLtrQY6efwc59PxmcHPz1tSTTA9KQvqwD
-         RxP11+qPo64HL+i2mnq4Z61fIdB7roWBE8SR4Lv67qwC0fp2QdgxisgV6ByWwLtumYH0
-         ONQLo2OnZsXmCbZ3cEh9zHqipIFclfpZCAtmKQg5vPzruLzxHTb0wpzviy6TZtZnlx+7
-         FYw6PVyOHiGZ/pzDFzqQlzX69eF9+Zd/cO0djdNQj1bQzyYFbV4XT6bLsDTFYh4Vtxfz
-         6IcPwAECfZkK2V0YYwU39AIrORftaM1GCFlGm1/wVhQ7KYBkXDtNCTN2xqhuhblqUa3w
-         27pw==
-X-Forwarded-Encrypted: i=1; AFNElJ9Dv766pXXvmSdJV5gifACVXrqiOe6/xV2x6VezcsOJaIGW+ftCCNRFb9/8cPb5NJ/sTtMxTgWCIKGPOeXf@vger.kernel.org
-X-Gm-Message-State: AOJu0YytOHq+vw3RtRp+K3loxJlXdDsWmQ9jrBDh9t8SUKmmjOegiVr8
-	Jptfotvvrt55A7WGhkExQahB0REZ2X3Iyy2+xlQRfNrruUggO2lmIMR4
-X-Gm-Gg: Acq92OGQ/ANQs5OStAN2lomGryNDbRg4O36ed1jDPPOZc1zzmqK5z2snaY/CW8VBP4E
-	tU9nDvi2LkgVEVFgTUE1hZgaE+JbxK7+dxCKsJmDRgU9UQXo3AdKpMts0mNjISbDAHn01Pqz83T
-	DP0nFxtcfx/E/66bNVEI4wvh0h0OsvYbxveGi5rWhjc5ykHqOoi1Acvw8RloG55nxPvQi9VcwG1
-	9D0fxddNdXLM+iP4ldOKYsdG04XH4DgYS+zOJRNhT5EzUhPnI2+/vM7wcKOOyRaLwgaHK+ffJkM
-	1VRSExT7ibWTqh7XsIJiOF0LWdX7RkJrktInaSPPa9HQKHx6hFTcjbw9ABThz+fos98s8T64zY0
-	LvjbEAFrJBV6nWjFfWqtNcIYFn6UO1AGo4vbxL80nc4lXMTOhpVrTfS/7oBNsmaC2LU/P5cHp+1
-	PZLRSRI27fWxc7r10Yat1DHE3n09BNUkM/X+keKJNOhmW+mswNzX6Fi+4VOvCZJUDe416VMls=
-X-Received: by 2002:a05:600c:1c29:b0:490:7df7:9190 with SMTP id 5b1f17b1804b1-490c2ceb6f6mr344978125e9.8.1781082586982;
-        Wed, 10 Jun 2026 02:09:46 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3918fcsm630684075e9.3.2026.06.10.02.09.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 02:09:46 -0700 (PDT)
-Date: Wed, 10 Jun 2026 10:09:44 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: Kees Cook <kees@kernel.org>, linux-hardening@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Arnd Bergmann
- <arnd@kernel.org>, John Paul Adrian Glaubitz 
- <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>
-Subject: Re: [PATCH next] fs/hfsplus/xattr: Use memcpy() and strscpy() to
- build xattr_name
-Message-ID: <20260610100944.3c5a5771@pumpkin>
-In-Reply-To: <45e421ab38cfdbddbc0d34970a2db94902ad634b.camel@dubeyko.com>
-References: <20260608095523.2606-39-david.laight.linux@gmail.com>
-	<45e421ab38cfdbddbc0d34970a2db94902ad634b.camel@dubeyko.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kRtb1cbm";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="OzqmzqZQ";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kRtb1cbm";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="OzqmzqZQ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7C03A6A893;
+	Wed, 10 Jun 2026 09:14:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1781082858; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dkQRTCNb2n3biDzLuwGkzdBYvUxShFJPgoiLRxg5lFE=;
+	b=kRtb1cbmnFYRB9Z1nudTcy6WlD2arF4inZpVpkyqy+lIsbc4T6AV1AJl39ZSHBKxfX0B1O
+	W7Dw8I2rq7qjlZo1OUVRmycEF8IUdXjBmNHge0J5MBguEDJFuPEs8Vtl1mshCC5PAICF/6
+	Dryfrvyjhd2qOQ0Urf/MvULdLSBB2IU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1781082858;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dkQRTCNb2n3biDzLuwGkzdBYvUxShFJPgoiLRxg5lFE=;
+	b=OzqmzqZQUt40OWzokYI0myHgYY0sYnV0Ck2iRkZckVtgzjFclTU/R9L+coWvvtQJgy9ahC
+	7NxZ8TdBvfOLdADg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=kRtb1cbm;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=OzqmzqZQ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1781082858; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dkQRTCNb2n3biDzLuwGkzdBYvUxShFJPgoiLRxg5lFE=;
+	b=kRtb1cbmnFYRB9Z1nudTcy6WlD2arF4inZpVpkyqy+lIsbc4T6AV1AJl39ZSHBKxfX0B1O
+	W7Dw8I2rq7qjlZo1OUVRmycEF8IUdXjBmNHge0J5MBguEDJFuPEs8Vtl1mshCC5PAICF/6
+	Dryfrvyjhd2qOQ0Urf/MvULdLSBB2IU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1781082858;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dkQRTCNb2n3biDzLuwGkzdBYvUxShFJPgoiLRxg5lFE=;
+	b=OzqmzqZQUt40OWzokYI0myHgYY0sYnV0Ck2iRkZckVtgzjFclTU/R9L+coWvvtQJgy9ahC
+	7NxZ8TdBvfOLdADg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 72809779A7;
+	Wed, 10 Jun 2026 09:14:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 1HvsG+oqKWr4KwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 10 Jun 2026 09:14:18 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 0FBC1A0A90; Wed, 10 Jun 2026 11:14:18 +0200 (CEST)
+Date: Wed, 10 Jun 2026 11:14:18 +0200
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, AnonymeMeow <anonymemeow@gmail.com>, 
+	amir73il@gmail.com, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 0/2] fanotify: lift pidfd reporting restrictions
+Message-ID: <em6fgj3mkdyapnpi5yszfj563gwjoehyxxo6mk6cwiyyydkiah@vpunmf3gm5nt>
+References: <20260607003343.425939-1-anonymemeow@gmail.com>
+ <hsqpfvobwt3pf5he6hho653wl2tkwjaszfldqk6itch5uoqccy@jkijxqcm2in5>
+ <20260610-umkippen-bauformen-fehlpass-d637b7bc0555@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260610-umkippen-bauformen-fehlpass-d637b7bc0555@brauner>
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,gmail.com,vger.kernel.org];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.com:email]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 7C03A6A893
+X-Spam-Score: -4.01
 
-On Tue, 09 Jun 2026 18:04:46 -0700
-Viacheslav Dubeyko <slava@dubeyko.com> wrote:
+On Wed 10-06-26 09:31:22, Christian Brauner wrote:
+> On Tue, Jun 09, 2026 at 12:29:05PM +0200, Jan Kara wrote:
+> > On Sun 07-06-26 08:33:41, AnonymeMeow wrote:
+> > > The pidfd API now supports pidfds for tasks that are not thread group leaders,
+> > > but fanotify has not caught up yet. This patch set lifts that restriction and
+> > > allows fanotify to report pidfds referring to the event-generating thread.
+> > > 
+> > > Additionally, this patch set allows fanotify to hand out pidfds for reaped
+> > > tasks by registering the event pid with pidfs when pidfd reporting is
+> > > requested and dropping the pid_has_task() check before the pidfd_prepare()
+> > > call, as suggested by Christian.
+> > > 
+> > > Link: https://lore.kernel.org/lkml/20260528-schmuckvoll-heilen-garen-be77b4208671@brauner/
+> > > Link: https://lore.kernel.org/lkml/20260602-patzt-sturz-segen-f1f305d61b75@brauner/
+> > > 
+> > > Changes since v4:
+> > >  - Add a pidfs_register_pid_gfp() helper function to pass in custom flags.
+> > > 
+> > > v4: https://lore.kernel.org/lkml/20260603001516.26234-1-anonymemeow@gmail.com/
+> > 
+> > The patches look good to me. Thanks! I'd prefer the change adding gfp
+> > argument to pidfs_register_pid() was a separate commit but unless Christian
+> > objects I can live with that. I'll wait for Christian's ack for pidfs
+> 
+> I would also prefer it to be a separate commit but same as you I'm not
+> gonna insist. :)
+> 
+> > changes before merging this through my tree.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-> On Mon, 2026-06-08 at 10:55 +0100, david.laight.linux@gmail.com wrote:
-> > From: David Laight <david.laight.linux@gmail.com>
-> >=20
-> > xattr_name is kmalloc()ed at the (assumed) maximal size and then the
-> > prefix
-> > and name concatenated together.
-> > Use memcpy() for the prefix - its length is passed and strscpy() for
-> > the
-> > name to ensure it really doesnt overflow.
-> >=20
-> > Prior to bf29e886b242c the buffers were smaller and on-stack.
-> > (But I cant see the copy in the old code.)
-> > I am also not sure why the buffer isnt created "just long enough". =20
->=20
-> What do you mean by "the buffer isn't created just long enough"? And
-> what is your vision of correct implementation of the logic?
+Thanks! Merged and pushed out. AnonymeMeow, what's the situation with
+fixing up fanotify20 & fanotify21 LTP tests? Are you working on it please?
+They'll now start failing with linux-next so it would be good to fix that
+up ASAP... Thanks!
 
-The old code is:
-> =C2=A0	xattr_name =3D kmalloc(xattr_name_len, GFP_KERNEL);
-> =C2=A0	if (!xattr_name)
-> =C2=A0		return -ENOMEM;
-> 	strcpy(xattr_name, prefix);
-> 	strcpy(xattr_name + prefixlen, name);
-
-It would be more usual to do:
-	size_t name_len =3D strlen(name) + 1;
-	xattr_name =3D kmalloc(prefixlen + name_len);
-	memcpy(xattr_name, prefix, prefixlen)
-	memcpy(xattr_name + prefixlen, name, name_len);
-So that the buffer is allocated the correct size for the strings.
-
-(Not that it really makes much difference whether you do kmalloc(32) or
-kmalloc(1024) for a temporary buffer - both come of a per-cpu list.)
-
-What I couldn't decide, but seems to be inferred from some of fixes,
-was whether a double-terminator was needed.
-(That might just be the attribute value.)
-One of the related functions got fixed to zero fill a buffer in a loop
-because (AFICT) something was reading beyond a '\0' terminator.
-
-This code does seem strange though.
-It seems to add a text prefix here and then the called function does
-string compares to find out which prefix has added and than act
-differently based on the prefix.
-I didn't try to follow things any further.
-
-I also don't know if 'name' itself can be 127 wide characters (before the
-prefix is added)?
-The fixed length buffer isn't long enough if all 127 characters require
-6 bytes to encode.
-
--- David
-
->=20
-> Thanks,
-> Slava.
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
