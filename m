@@ -1,84 +1,184 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D228F30C60C;
-	Wed, 10 Jun 2026 07:49:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8DAB288530
+	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 08:17:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781077784; cv=none; b=mE9fN8mM0M0GBkSLWBvrUgAwJRgbyWM03T9T+dMfUT3E6iY/wYx2LuRgzv51ZIzDSFeUuew3Fxi/QGuOvrZb8xFFCuRDmT9gvIzNXO+Fc5wTufQ6ha1npgnsFdBJHko27+6kYKdw+JbY7hWBrZr53N3Q2yeihhHKtPTita6A31E=
+	t=1781079465; cv=none; b=VLPGwtiQBoveoPeSnkdSbQ24MyXGHiz3V/bPI5zKF4eWj5TxLw00t/e2jDzZNM15RRbRWcyeBdYHkU+310rp4kcKiyT+0ZGU+J7qh1IdY1xAuRNfZliYyPHF0RZqRKoT3anBEfADmflvaismYJlely8gA9J+K2lG0zA6MKaZrws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781077784; c=relaxed/simple;
-	bh=F6K+oiah7hXHCubWnvdVmb9nGvSzcHPPTgr5K8R+ytM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=r88RxmbCi3NLhxV5cQmQcB5soc8i6yy21woUI4pt5jptK1QQByP2mV1gkOA5hFl/rltHwGV+flMfEv03uADNCq+BnGrof9WOxuOGHG03LQ4gFMTLYwlmDFUMzCiiYRDZgw9tU8j+zabT8ie0dbZteu99G2sbg4WBdUC7zQhb4+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q7sc8nY6; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781079465; c=relaxed/simple;
+	bh=e9wSur0GiQahXmadZV/c5KR6uk8cI8Ly2T/wGanJt+4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g9AQHR2e06HlfiCdhlEFUhjGRdDn1i3Ca72M8kRFp2MLBSgV7kF70Hs7qjIGfiDiqlXauFZ7WQQq418eNG6153M1Un4L90VjX/IkWKJaMX5XHdU6uN6GQP6OCfOJ/4/RQ5WlmbXdm15cSZHv+c3lbnDehZnZ0gWv1fM0PKo3Hmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=h7kGg09o; arc=none smtp.client-ip=115.124.30.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q7sc8nY6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCD671F00893;
-	Wed, 10 Jun 2026 07:49:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781077783;
-	bh=fNm41Z4DjBBR1sq0J9THwn8rn1scipr+Fg7Qt+cJEdw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Q7sc8nY6fKx6zAP04D84et4zZ4DwJmHdcAt54CeBs9DoOey5ec90f+S28RADGRia9
-	 GY97ASJlD2BYVN+IWDWUKwghTQNXEutp9JrL7BtvDvHIhjrbQckh4MfDGViJ3T/iDZ
-	 f3vVc5gidcZvFLbZ8G/R7XyxaoUH9HLujF/EqCltRfLYnoPhcgUZv0UEjZL/nk01ZN
-	 //hJ7Zcnlbzvm8ttf9cZKUe98oK34o/KYPmHL9eWfMQuUpGz1jsQPoMULfdObKgWVz
-	 WwVEf7yiDadWHjph3kJZPGmgCEe3gxKXy+uEop0OsHAz6VZoLw56x+xij8VSAyj7p+
-	 T/7LfTLsZn0Ww==
-From: Christian Brauner <brauner@kernel.org>
-To: Miklos Szeredi <miklos@szeredi.hu>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Li Wang <liwang@kylinos.cn>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Bernd Schubert <bernd@bsbernd.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-unionfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] backing-file: fix backing_file_open() kerneldoc parameter
-Date: Wed, 10 Jun 2026 09:49:35 +0200
-Message-ID: <20260610-rederei-leibhaftig-amten-197492a94472@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260528104208.395757-1-liwang@kylinos.cn>
-References: <20260528104208.395757-1-liwang@kylinos.cn>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="h7kGg09o"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1781079455; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=NvLb5tLKBpV/t6c6tnZ04ySoXMUHtz0wr3py0vqetoM=;
+	b=h7kGg09o8mFDhKD/8nkZvhLuFT/G1UkBt+xPTs2KF8aua6VxljkXJBrZJDfrZHNli4IrWJKcKvMkv78+AUZwDCufgH61IJjerKj1RAiLOhOtQHx2Jmv6CLpvaCC+0RYit/IaZiwjBaBYYcnKDnVSchBDtOo8Q1zODcos9jL0rIA=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R261e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0X4a3mdk_1781079453;
+Received: from 30.221.130.225(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X4a3mdk_1781079453 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 10 Jun 2026 16:17:34 +0800
+Message-ID: <e36c9ef5-4cd0-4281-9598-c1bfb8ebfaa0@linux.alibaba.com>
+Date: Wed, 10 Jun 2026 16:17:33 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1174; i=brauner@kernel.org; h=from:subject:message-id; bh=F6K+oiah7hXHCubWnvdVmb9nGvSzcHPPTgr5K8R+ytM=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRpiguKubxakSWVc96uks9SfXGi5hTJH7c0Ftyc5j1nx 9M30aHRHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABPhq2H4H7wo80Ax84NHIsc8 5UNnLd7Au6Fa8Ki/YOqGyMZH29N7wxn+cFUvYmpP/acocrdS9u6pjzdd3XfcuNj21L6qU4AtKG8 ODwA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Fanotify (hsm or erofs) / fuse / nbd / ... + write(mmap) deadlock
+ vector followup
+To: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, Miklos Szeredi
+ <miklos@szeredi.hu>, Gao Xiang <xiang@kernel.org>, Song Liu
+ <song@kernel.org>, Amir Goldstein <amir73il@gmail.com>,
+ Jan Kara <jack@suse.cz>
+References: <271c1c26-f170-462b-8a7f-686530fdd449@linux.alibaba.com>
+ <53d0e50a-faa9-49e4-a8f5-d4d37bcba0c6@linux.alibaba.com>
+ <CAOQ4uxh-kmoO03yCPaFnWcMjeOgqUi_19cGg4qdeY86ccz9ZyA@mail.gmail.com>
+ <f0adaed4-1412-4722-8bdd-53f5e3823209@linux.alibaba.com>
+ <CAOQ4uxj7gP=qpUvVbMbxbf6LdrYLeB4dX=vkUfOpi1ZfU0542Q@mail.gmail.com>
+ <CAJfpeguXSh3-_3cbpzS-s4+Bq+7MVwazD+3P-diG=Qq70E2qrQ@mail.gmail.com>
+ <d5f62836-62d1-4b8e-9694-bbab27112e7e@linux.alibaba.com>
+ <649fdbbb-64f7-43d9-afd5-a3076e3ec946@linux.alibaba.com>
+ <CAOQ4uxj+WAe+99FFi9RfMd5tpSwwP=rSH4dNuJEdhV1wL+5CDA@mail.gmail.com>
+ <dff837f6-7480-4984-8728-802ddd78dda4@linux.alibaba.com>
+ <CAOQ4uxi7DceKuh6+qGjuQJEFiE=HEFu4dMrc++VXUknRnX26JQ@mail.gmail.com>
+ <95371379-97e9-4cb4-8358-ec014b765b74@linux.alibaba.com>
+ <CAOQ4uxjh5VYkKLAKxhMsy-ZmrbRrgX4pFgBLFqsDqWMXeiqg3w@mail.gmail.com>
+ <ac05da56-eb2a-4862-b887-8081f249d8ce@linux.alibaba.com>
+ <CAOQ4uxi0yRavUeztRh-Eb8_HvpfmqkpPbWT9JgQhUn7EKXnryw@mail.gmail.com>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <CAOQ4uxi0yRavUeztRh-Eb8_HvpfmqkpPbWT9JgQhUn7EKXnryw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 28 May 2026 18:42:08 +0800, Li Wang wrote:
-> The kerneldoc for backing_file_open() documented a @user_path argument,
-> but the function takes const struct file *user_file. The user
-> path is derived as &user_file->f_path.
-> 
-> Update the @-tag to @user_file and adjust the description accordingly.
-> Also fix the "reuqested" typo to 'requested' in the old comment.
-> 
-> [...]
+Hi all,
 
-Applied to the vfs-7.2.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.2.misc branch should appear in linux-next soon.
+Amir just suggested that I posted a long off-list discussion
+on the list right now, but since it seems to relate to
+`sb->s_writers.rw_sem` locking design, I am not quite sure
+how deep I could help generally: But here it goes.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+The background is that we have discussed a generic deadlock
+timing for several months as below:
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+fsA is a filesystem which supports fsfreeze, such as EXT4/XFS/...
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+fsB is a filesystem which have some relationship with a
+userspace daemon (e.g. a filesystem with fanotify HSM hooks /
+   fanotify + EROFS file-backed mounts / a FUSE filesystem or
+   a filesystem backed by a virtual block device)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.2.misc
+Thread A                           Thread B                                 Userspace deamon
+  write(fsA_fd, mmap(fsB_fd))
+   file_start_write()
+    (take SB_FREEZE_WRITE read lock)
 
-[1/1] backing-file: fix backing_file_open() kerneldoc parameter
-      https://git.kernel.org/vfs/vfs/c/aa5c4fe3ba0c
+    handle fsB mmap fault read
+     -> notify userspace and wait
+
+                                    freeze_super
+                                    (try to take SB_FREEZE_WRITE write lock)
+                                                                             received/handling fsB mmap read request
+                                                                             (do random something...)
+                                                                             write(fsA_fd2)
+                                                                              (take SB_FREEZE_WRITE read lock)
+The problem timing here is thread A does
+`write(fsA_fd, mmap(fsB_fd))` => file_start_write() (rwsem read),
+then hits page fault and wait for userspace deamon to finish
+the request;
+
+Thread B does fsfreeze on fsA so it is waiting a write lock
+(sb_wait_write(), rwsem write) and blocked on thread A;
+
+And the userspace deamon is a handler handling page fault,
+and trying to write to another file (fsA_fd2) on fsA again
+and blocked on thread B (file_start_write(), rwsem read).
+
+because of the specific locking timing is `R->W->R`, at least
+the whole workflow won't proceed so the related processes
+(and fsA above) will be stuck.
+
+
+Since the issue is complex, I can only give my own thought
+from the perspective of fanotify+EROFS use cases on this:
+
+  - fsfreeze is typically unneeded, especially on typical
+    cloud + container environment;
+
+  - Also we could isolate the image backing file into another
+    totally different local filesystem so that
+    "write(fd, mmap(),..)" + fsfreeze won't be a practical
+    issue.
+
+  - In the worst case, user programs can be killed to recover
+    the system, and fanotify already supports this way, so
+    it shouldn't be too harmful;
+
+  - this vector impacts all userspace approaches.
+
+
+I also gave my own preliminary idea at LSF to Jan and Amir
+(just for reference):
+
+diff --git a/fs/super.c b/fs/super.c
+index 378e81efe643..2897d3572e9e 100644
+--- a/fs/super.c
++++ b/fs/super.c
+@@ -2069,6 +2069,7 @@ static inline bool may_unfreeze(struct super_block *sb, enum freeze_holder who,
+   */
+  int freeze_super(struct super_block *sb, enum freeze_holder who, const void *freeze_owner)
+  {
++    bool retried;
+      int ret;
+
+      if (!super_lock_excl(sb)) {
+@@ -2111,7 +2112,15 @@ int freeze_super(struct super_block *sb, enum freeze_holder who, const void *fre
+      sb->s_writers.frozen = SB_FREEZE_WRITE;
+      /* Release s_umount to preserve sb_start_write -> s_umount ordering */
+      super_unlock_excl(sb);
+-    sb_wait_write(sb, SB_FREEZE_WRITE);
++    while (ret = sb_wait_write_timeout(sb, SB_FREEZE_WRITE)) {
++        if (retried) {
++            sb->s_writers.frozen = SB_UNFROZEN;
++            sb_freeze_unlock(sb, SB_FREEZE_FS);
++            deactivate_locked_super(sb);
++            return ret;
++        }
++        retried = true;
++    }
+      __super_lock_excl(sb);
+
+      /* Now we go and block page faults... */
+
+It was simply to add a new sb_wait_write_timeout()
+interface so that the writer (freeze_super) can be woken
+up even when the locking order is already (R->W->R),
+allowing the W (freeze_super) to be woken and the (R->R)
+to be merged.
+
+I wonder if this is a practical way since it allows
+"write(fd, mmap(),..)" and workable for all approaches.
+However, the main issue at least in my opinion is that
+percpu_rwsem doesn't have percpu_down_write_timeout()
+(but as for rwsem since down_write_killable() exists, I
+think down_write_timeout() should be doable at least),
+and I tried to vibe-code a version but have no idea if
+it performs well.
+
+
+Amir and other people may have other better ideas for
+further discussion, but as Amir suggested, I've written
+this...
+
+Thanks,
+Gao Xiang
