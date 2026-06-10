@@ -1,127 +1,110 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C7D37AA7F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 09:55:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781085346; cv=none; b=ghO4esFUdrKxblRZ1gTwkJUE0hiOfLiQXwGSpqvhPm0sSXifksmcc6G5HsRhSIBFdGi0BxHfkuy1C6gog78JkNmQQUsEuGbVn7TUD1szZiECr3WsX7zrAo1nV34iUaMY5Oa+ZDN1fvqs5H6V1aclZZ8P6r1RY5/sFZ4ZcLliXM0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781085346; c=relaxed/simple;
-	bh=RxYtaOzOjvXLhABsTLKT5rUdf2WjHUzZ4ozMxheKOIQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iGDeUFRKkF5Nl62tKs7KM36P5GQZJUV0Z0GUSRPbpaUqPpaHAslOj+hrF1X73ymq8e430lFs6y30h7f4Uk3RF/vOlRTCJGx1IJ3sPGDyYcAv8XfQSPd3iuNeyVMM7dnZdbVPlkP2tc5xnROFFSnorW9lDqjVhXZeTXKXF3jmF+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gehZfH0X; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507323F20FC
+	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 10:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781088952; cv=pass; b=QUSySmuhdSu5Hfjr37oqTZrId+UtuqZAoCxs2nid5QKyMLir3gf7Zk8+jQjHXMBgNijYHpQb6mFzIQgyTkIMcn9MjggHKdapAY+JCJvJmq/aQrbhtr6F+YorFq+A4Cua573QWyuCFUeHAHJb6+S3ySwe2hhl2DE+yFTCKCoXPD4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781088952; c=relaxed/simple;
+	bh=balBQhwV1EGCbvl87hsSo2ulvC47dMdAgNuyPlq0C74=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hukJABSj5JBL3ScY4XMkc2rRC3uy0qI0WQvRG3OFv3Z2WscPJrggJDqHJb0AJKAMIi1tva986d0BOhoj9OEnUBZ9oTpIEob6IDTnibm1SCujZPi14ByC+vQxwnjt4svNaDauSSEomG+AKtGvta3cORG5avpeda6S3I9Z/O2yASI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bi35xJp2; arc=pass smtp.client-ip=209.85.218.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gehZfH0X"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490b8ac62baso51335235e9.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 02:55:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bi35xJp2"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-bdb3fd39045so981711166b.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 03:55:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781088948; cv=none;
+        d=google.com; s=arc-20240605;
+        b=CUQhAG2A7WPobYixH/0sKL3x51ArWalg8oR0I3arJnY9GrmBx+fPckTk44fClIt/6A
+         xcNhh0LCka5ADFf54QNHUOdJ0u7QGcDIICAiKF8VEawtc9swKWrYsaDxsvbj+ew+3StO
+         ucGfzE0g7VCoYR3QLsxYz+Sxw1MWV77/H/YOi6aVN3ZYyA4Juu1UkcebiVFHxoaBBAEr
+         VBQDHXZDnS4tBw2V2H7OiaiJzuNypnWzDQV5ADPADn39OObt6Q2IQQoliNG6/uYlGgB1
+         GCm8qMn0vChXOqMFN6QKBPU994aarYoAE9QA+ylSf3FdQPlqHPTzNfiRhn9hcH/bKJjR
+         A7Sw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=zaMAn+lh6tbK16TDCN4EIvEe4G90xqJy2GOUfUQ3neo=;
+        fh=911YVroLA/3QQ9iVu7qrDecdWr+KjwbZDzbZmll0OwA=;
+        b=fs/U1KB+RgkobcDTXV/YPKnVpnt/olm2crozpjAIKRnVZM7uagjHM/rDX8yA5yOodA
+         MJazZ8GHMTD441vFTZxE7jr1jt2MiqsYvr8ZfCPrYe8hjNuLxgFjXXCWdi7LBw00eypf
+         8mhuVPRBKqyPZyG+wjEt/t6OQSubp6i55OrvcLHBPMxj8TVlZxCl1oKQai2hw1/HBtX3
+         U1OrpR/L3rRrmqvXMZKfszhQL7QqbmjeVsDdBG+k6R/Qv2+W+Gs+TDlx74PziAgGWtij
+         jIKkx0R3gQJnJf3huOD3ItuQBlU3AtlaDIR4KZq8EsNqkyt5Oifr78B8QTrpLDIdTGNo
+         jtWg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781085342; x=1781690142; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DXXf5kDNkZaZma579LeFr3+QRDi52FtRCi+F8Ah0BJ0=;
-        b=gehZfH0XlCrjPYGryvmNLnz8gas78t1NCCGVCxYQuXc+ezJVxkJovg3gZ68eoCZhgT
-         w7yc27Z5FV6OxwB0FcPBX2EqHE5OPYPbURPQ7PvMZtE9MCaPKi95MUdpet0KUehGntqc
-         HKRVYuvq7W/adTDWj7WZk+9P4GJHI1tChfCf+Jq9+5a8m4OTJYSviMfYuqiW8Kxn9OQj
-         zL7dYye1N7l2Jd7Gx5fa399/j/FnsYswvqucZIgsSiW/jaK10oDH+iMuO0D6AA3auCEt
-         /IElReue6IxUwWl0P2t/ZHUQ0JIBvBsH4U6b1xso05OWP1ipmWJ6Je8m+oBQpDhf+jbR
-         rK0A==
+        d=gmail.com; s=20251104; t=1781088948; x=1781693748; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zaMAn+lh6tbK16TDCN4EIvEe4G90xqJy2GOUfUQ3neo=;
+        b=Bi35xJp2nhFy4kZ+yNYaBKew6lXyUxnW9JuMTMYyjScfaEuKSzyDwdUyBB/ACOeEZc
+         8BU7mVEpR+xD6l60eKSVsoWcbSvGb97hbqqPPWqM+rOZ3EORq3KiaYqsdPQ0JgWFGOOV
+         aFklA4pH15PYs3WofzY7fXDyp7n+JTGjroPUWDvvjxa9lcRtlb5jTcN0LssZ/CqO/uXY
+         jPagwmumasHS21Jsniwb3AdW/uvqSpEMBkN2dPlHWob9NtbX7/HngE2GFcsE5zYPvmub
+         DxICEPg5KMiIBVIrKziWj9ql9FQQ/pDaBrNJ9lWq8IbVLMvbhY2Bp6Ji55y0PGRLZcxy
+         EXxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781085342; x=1781690142;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=DXXf5kDNkZaZma579LeFr3+QRDi52FtRCi+F8Ah0BJ0=;
-        b=AfofJE4WUwnPgq6QicOLaWIyxPtPDt73SiErXqEfWKxCGnPnDe0uZawpqovkADeQn7
-         sPBWqBkHqR/A4TFhD+mw6H6ntyZiUPFX0f8Y1xMQDqheTECE+FdZgCeUITJSyHOU7KRn
-         C18o6nu3VKpvwrZQNhEu24ozWHsgPE4tfKYNk2Pxh1F4sTEEhS7cg9NCkhp2Z6LoZ8W3
-         YFw1i88fw7rXNYDyf7tQ9TkKNxNVbCIw9+RiThYIn5dfvmEhJJ17Ue7ko5xFYd3i0aS0
-         3H5Nk3bN+XIL97VFuTrmLOVXyKZLbPpM8BeFVtH0TyHOjO3fXBI6qPkIsWCLSPbg31kB
-         nBdw==
-X-Forwarded-Encrypted: i=1; AFNElJ+xCSWhpAxLuiLDPgCcmie3E9yJFkqIeVLSmKZxzIFegb5KDz4xTU+mRF3FKI3PiAEXzBhcI24XFV3x3Kbl@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzjugpuo10l57ZbUMJ9FIXzyENtVbCmivAofFF/rFvCUssfQsn9
-	wrFSoRTm3MUosFR9o6PznPg3WxsyKF49auz0GvYyJvQUhgzDaZ9xZWuZ
-X-Gm-Gg: Acq92OEiQPe3CTNBl9Gmau2tZWFJss0cVhNXEOHNw9zQZRBVBAxJs4LOmZmESCcg/H1
-	pC7YDQ1Trv67g/ZT1ICqFMBE9oO+TK2ExyjjzveHN8YVGUZBH2pJpXS5BgMJTtozolVs7SBfwWS
-	s8YRbclO/QNBx/LHzdanhb8uoqlsDuCew5pdPrDUMqqJb/61mX8b/1wzuQUbxEKUwm7rdV426nx
-	N7m4oIce23ybp5WKDSb2cYv78p53cK7/dLhS4YRWam2ddHXUO0XhyigA5jndUq7dQWC1fIxwx+N
-	dxVLyOwRAnrIPlTQang9bkg9LHDFg92hi1LmEmdo/PM1muPMsMptpzO/YmEEk0WS64FSdGjtF45
-	k9r0GiRdY09HyyH37yQ7MWgB7fqbUjWMppO+WKr6lCoAMxcrQHNOpO9gIs2sNbCP8lIWmEtq9ZV
-	WqldMTiByskmDWU2B+TF86Vi4m2xHKOCVTtWuX1W5V7m4W7WDfQ0IG3Rjp36ddSb05eZ9uWCnUp
-	qyWt8R7Rw==
-X-Received: by 2002:a05:600c:6096:b0:490:c1cb:48f4 with SMTP id 5b1f17b1804b1-490c2d038e8mr309043665e9.12.1781085342059;
-        Wed, 10 Jun 2026 02:55:42 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490be1f69bcsm591850845e9.8.2026.06.10.02.55.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 02:55:41 -0700 (PDT)
-Date: Wed, 10 Jun 2026 10:55:40 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, luto@amacapital.net,
- safinaskar@gmail.com, akpm@linux-foundation.org, axboe@kernel.dk,
- brauner@kernel.org, david@kernel.org, dhowells@redhat.com,
- hch@infradead.org, jack@suse.cz, linux-api@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, miklos@szeredi.hu, netdev@vger.kernel.org,
- patches@lists.linux.dev, pfalcato@suse.de, viro@zeniv.linux.org.uk,
- willy@infradead.org
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
- preadv2/pwritev2
-Message-ID: <20260610105540.5901a5be@pumpkin>
-In-Reply-To: <aijxfxXrWLCVqV6-@gondor.apana.org.au>
-References: <CAHk-=wh5bFj1a7eaGp9sixDg3UXu7xUGfU=YJo+ckpGxGAyhXQ@mail.gmail.com>
-	<aijxfxXrWLCVqV6-@gondor.apana.org.au>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        d=1e100.net; s=20251104; t=1781088948; x=1781693748;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zaMAn+lh6tbK16TDCN4EIvEe4G90xqJy2GOUfUQ3neo=;
+        b=DZhJQHl5B4VpF2SApgc5gLvUGYG2ffI6HLzafAhGxM4wYQE/+UFa0gTQfNmcriTDuD
+         xeHcgui7yyOgSD45QOle5zIjvcbZeuOAbOQzH/mVRfBvgyBQ592nOraHmdhXZBt9EIeU
+         iJ/ez8T9vyYg3si/9thBJWApFIdXu7YgaFSlTy0dGb9S9Atw0+2sjmRfCxuKrdpT10Wi
+         57hhrgxRs6mWPgRLart2U93pdwCkUoHTTnL9Hxu03+w4m7wlGvgWyBUs3wXwj8W57Fqf
+         bwEOX3sq+Nd70SIeM+O3weMe1DgYZt5gVzZGKALseuZc3a2Yt6FpfI1sf2TP+o8lVP2h
+         D3hw==
+X-Forwarded-Encrypted: i=1; AFNElJ/NYKtyxWXAiPdlsJJt22zLF4fRzSJnvuRhEpvIIGv7KwbygnlZ5CadZUB1+4qLH4zlV2IkEOH8OS5doSm5@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxh2zhPSmeUZai9f6B/odSGQ5+JgCQxrLYekF6ApPZ1YoIgHzEe
+	YgOTm7q1vsFMsjsOvw/tGEdhG1Ty5lLo01bRxYdh3fOZYkRNuylm3jVBPzkPFx3Wzy+Qeb1tKBR
+	N9UYT/i6mNxM5A5VT+5l7751v32PxmRqg0ijB
+X-Gm-Gg: Acq92OEssIEKrbrB+OQI22vUqPAjvEqLAn+AVqeWypQBrmzfk7GFxeSadV1YAt+j8qi
+	A8BGPv640IBTs6RHLJsubFLs7Hm4CzpbXNlpBwbssU+QK1FahWOMtKR3/pwlNrK3HgbhN1O1Z19
+	DpnxWAa/buh1ptgx0cH31y5Xxe4UxJFdFAFP2jJcUoQAtW8RN73693FBst79/OtLsnsEITc4G7/
+	BEWVa3M6nj9B/u14qTDrkFqw4CWS6s2Bej9bioNcQqK3gkBuJsCU59PVnH8DszpMOblLZl/hCzJ
+	8lKrFZXEr22vPxJgB5DN
+X-Received: by 2002:a17:907:7f89:b0:bec:7ab2:9128 with SMTP id
+ a640c23a62f3a-bf36fd9c7f4mr1158412666b.8.1781088948284; Wed, 10 Jun 2026
+ 03:55:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260606105420.26641-1-technoboy85@gmail.com> <87qzmehpnf.fsf@mail.parknet.co.jp>
+In-Reply-To: <87qzmehpnf.fsf@mail.parknet.co.jp>
+From: Matteo Croce <technoboy85@gmail.com>
+Date: Wed, 10 Jun 2026 12:55:12 +0200
+X-Gm-Features: AVVi8CdGDDOFjwiCJX358CMpDpAbE9uc9xx5WKyBdjfmP3vXEfBPYc4wLk_Aslo
+Message-ID: <CAFnufp3Oc94pVenk7pcbSgOUvnXhZMSXj4+ydW9+Cb2Z7-rHYA@mail.gmail.com>
+Subject: Re: [PATCH v2] fat: stop reading directory entries past the
+ end-of-directory marker
+To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Cc: Timothy Redaelli <tredaelli@redhat.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Matteo Croce <teknoraver@meta.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 10 Jun 2026 13:09:19 +0800
-Herbert Xu <herbert@gondor.apana.org.au> wrote:
+Il giorno mer 10 giu 2026 alle ore 08:32 OGAWA Hirofumi
+<hirofumi@mail.parknet.co.jp> ha scritto:
+> Although this doesn't catch all cases, if it found the corruption, maybe
+> we should make FS read-only (fat_fs_error()), and return -EIO error? Is
+> there the reason to allow continue to write?
+>
 
-> Linus Torvalds <torvalds@linux-foundation.org> wrote:
-> >
-> > Because I think splice() is a *cool* feature. It was always *clever*.
-> > I just don't think it's worth the pain it has cause.
-> > 
-> > And it's been around for a long long time, and after more than two
-> > decades it's still most definitely not _widely_ used.  
-> 
-> A couple of years ago I used tee(2) in dash(1) so that we could
-> avoid reading the input line byte-by-byte which is what every other
-> shell does in order to pass the rest of stdin to the executed
-> command.
+Makes sense. The most common use case right now is to mount Lenovo
+BIOS update images, which is perfectly fine to have mounted RO anyway.
 
-The shell just needs something like MSG_PEEK to do a non-consuming
-read from a pipe.
-(Without the strange behaviour of a second offset.)
+Regards,
+-- 
+Matteo Croce
 
-That would be simple and could have been implemented 40 years ago.
-
--- David
-
-> 
-> https://git.kernel.org/pub/scm/utils/dash/dash.git/commit/?id=44b15ea09a9ee5872cf477e4ffc6b42ef37d1e46
-> 
-> It's definitely niche but made a huge performance difference to
-> this rather common scenario:
-> 
-> echo 'command
-> ...
-> rest of stdin' | sh
-> 
-> I didn't even know tee(2) prior to this, even though it was added
-> way back.
-> 
-> Thanks,
-
+perl -e 'for($t=0;;$t++){print chr($t*($t>>8|$t>>13)&255)}' |aplay
