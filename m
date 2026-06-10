@@ -1,61 +1,61 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90ECA3DA5B6
-	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 13:37:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3F523F888F
+	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 13:54:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781098642; cv=none; b=qZfnpmB0Qf8voYFQl2TDC2r2sk3CbvGF4+dStg+tNobhG9VgeLJyg2l5ivKvlbpfCCFJDqwlKZfJd0BJMGoQrnnHEdU1Mk7zEeVD2v8q9rwaVQ8CDawoSvAuGzhan/GE/KBNmou6WIqmFKSDrhA4UgP7a7An+2cdHl6QNuJ60Zs=
+	t=1781099683; cv=none; b=hky08ZmdQkyK7c0+YQJw7qTO+8aSs355vCkmitaovXzIhUbv0sB2V3r3foaz48L9oWMi/We5vwRovYJJplZEwkSlTJsZC5wWyz6vvN0wGQvPvZQOZujPPc+raFHKlkucQ8SzH8nGMB6Newa+fQxJpQHYetraZQ4N0Bc9BixV3oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781098642; c=relaxed/simple;
-	bh=MZe7fVWYI52TMx64RXHXnMVqqQJFh0G4QoSu4aR/3Ro=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BVPv3wqKasxtxrfsv3e7E7taEwIKilwEU2Rel2mL5qoEr0hs7Q4pR4LsQENk7Si4I5vXa6LtHrCh4ydhPFBulZA55mpoODaZ/4PTGSPvsBF0to0NUrV1Uwbr7I2ffkROeCjEGQum1nZzW/7HD2k8OphFHWgmCq3hYIJ1E2bzGic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OfP1v3zt; arc=none smtp.client-ip=209.85.216.47
+	s=arc-20240116; t=1781099683; c=relaxed/simple;
+	bh=+OvxpUxb/yc2KRXdpihsQYmyjKxndoJZmAJSFt8DJKA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CZ2nr4n044vgXXgurJNm67PZedAPmr9yAV+/X2Dmp7P/axvZqgurMLDSjrri3sMAFcGbauNPqMi5DYClQSFtvPDyuMIM0Zvw2gVxjmDtGJN4uGsMmhvwr2+NrX8UmyZYRVeXM0hWtLCKqCMblNQzBiJHCf447Qx6Iu1FZC4gcZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CIC6YYG2; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OfP1v3zt"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-36d630c0e35so7315605a91.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 06:37:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CIC6YYG2"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2c0c3546924so45335025ad.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 06:54:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781098637; x=1781703437; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781099682; x=1781704482; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=90h3yfMHqb42RZxN8blv91V7/w7mF3MH29nWpUNYRUA=;
-        b=OfP1v3ztnWNSEQu5c3cx1bic82IELcbahhv1T6l+rBkOFTL4ylSr1P1x/treHaNxAM
-         OjxPX5VbNovE2eER1UTHKDLdffcoBKdJ1j8rGaVorthJAOwaTUMpZZteZz1y3QxfONt4
-         EcOV8uQADWnDzgmsxL806XC7cF67W4Xh88gXZ+O/00hlOszHfut6i9uyIugTUoUa1k0a
-         oBkqsx5MqEscRzvpdE63o3mio/UlA4fGMap5FCVezC2BnaONV1Om2pBNGRgx14wr7YV5
-         GyC1KwaeIKD6Zp5egYFrwtlTAHR4c3PmjxvZyWaF1lwwFDVYQcd77cNLr6DkHqWyHSXs
-         OLfw==
+        bh=8kUJSh7m2tD1ctWZqelvlULB2Kc9ck8NW3F7cgB3hxc=;
+        b=CIC6YYG2y6VNdBRPaOHldmBv0PwXwvc+c4fNkerHn1BfAwMfAhzqdmfrx5Rf/ut567
+         V08dds99Q+Bjg92E5s44nyweIoC5Dxi+Zv/pOcvqqo9ZCZYCz2hYALoWdYV0i8S6WSMa
+         MTuqoD4WXW7vSlA232+p/+Xjbp8sxJHDhy0ErLkXAcwIQN0a+P9pyxNMrj9ZkkJ5t11X
+         DW7eC9tnAvnBSacOpAmC6usPI4th6l7laEDEng253snAuWIkpgio38zkBIN9R8LM99cJ
+         dSj2Lfch8tNdizwmMVRxJMORfppO4EIGMHck9KtAuFK/8aJ2dzyZ9tZHtDFppUB5yx6D
+         4GrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781098637; x=1781703437;
+        d=1e100.net; s=20251104; t=1781099682; x=1781704482;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=90h3yfMHqb42RZxN8blv91V7/w7mF3MH29nWpUNYRUA=;
-        b=YYx7iOELFtiMuu6h7Ux5MJD0bJ3UDqc1dcr6x80vEF0YtBWSiVG9IGp0llCHYH6rxf
-         nhXrp5nsJrt5ENmrr1l8aD9fHv2BmSEUCcPQJ0ooXlbAkxS6/cHblBJzlkgwMMRSwWOJ
-         UeNry831dzbV0QQgyXw0upYQNvw66KOgstGCVaoGUSrqE46gUukQPEz/QOQ7FSUKdkf1
-         QJDrJKhhVWJHeiq/jts2Qz9G1xuZhzp3NIH5+OJMPa75gRwOl2A+a7x9HrNpiT0Qdinl
-         HL6akZ4n21R37++KFoXePGGa5ZkTOx2DN0MZZZekLvIN/H5gQFw73TRMTBQLz+35LOrs
-         2xwQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/1Sl53rs43MZR+BC12hzrYQiDROjDIH9CNZ7VEgiCL3YWv8yrjmj3T8smY5F4izEQ6EShfER1BocyKry50@vger.kernel.org
-X-Gm-Message-State: AOJu0YxcHw4cBS+s2c9x2GnU4YlC+U5yyuyfVRV21UmC9jm8cE7hwEy6
-	E3G7K7y6JlHan3YvvdkvGPjuAjQ1MT2/DEyry6+IuKvjkNdel9m9DBB3
-X-Gm-Gg: Acq92OFhsqu6bDFyu0fZ9MaGubhbpFZv29fg5udo5h4ud4DWio6KjbUX0fqI8Osgr0A
-	mrrM5xv1xXvof3x6mD42aeufAcDOfLesrYSwwugiFlEnu0HffP9yg0qOFEpzI9DeKXFtu37XsG6
-	iuNEpPg/qPP7LuXgEUeJawmADDeL0gk39+vhMl5ZbE1GcZh36wFckACDhBDgPhUVGrNlgWY+L4b
-	Bc88EeRLRkldA+7MlFW772iSb2YrG0AL54w8l5zOjyXN2xgrgxrCUvobhYR5VJq1KfFuMBpYjy+
-	4P09wkEJ+IlDPoVf/KMJtAxeYvi6wx5p6yzo/vDva6qAYId1EevsoUf29VY4OIM39fVayYJuxFU
-	kR5Dw0C/Q0kNavqvu0ewm5e1R52ejk5vpfX6fmrGnRoIQQWKYHgOOUra0N+4q1Bqbb29wf4pENA
-	sxzTKy+fyeJFoiHKwZWv37ddhgC9BO2hw1b4tAiV6xAzBP5B7N4Dq1oHkILw==
-X-Received: by 2002:a17:903:248:b0:2c1:564b:4f49 with SMTP id d9443c01a7336-2c1e7b35a10mr283910915ad.6.1781098636645;
-        Wed, 10 Jun 2026 06:37:16 -0700 (PDT)
+        bh=8kUJSh7m2tD1ctWZqelvlULB2Kc9ck8NW3F7cgB3hxc=;
+        b=JvBvw9wf/RQWtl6R0lfERU5ikJ9hPPE5yUiZ4vfjpdZN2fYKWRXTX39SaEYSo4r/g5
+         oNgVVo47ZRjQXEjrLiJVoNHyCH14OxCGIqzPkuu5hlVN6PXnHoivW+iIq3B8OQ2LErvH
+         vnSBs2A76Ngv+9iA+MvuUDlIDjTr2MM93YDo15AW4M6ljy2zX+9mN1QSABHlL6xMcN3V
+         8gbyi9HIX8eFL7nHx0b6pXDKt7s/TYYeVo4y+QuFv2U8U2d+OwU2qyy9DJOO8O5f/Dc7
+         OF48mKvrOoXObwPp0Fv5Pe/hhFU9kLjbTLILkEcc8XDR5d6YUzwflOkmJUUnAaPtHrDM
+         Hl/g==
+X-Forwarded-Encrypted: i=1; AFNElJ+ABuS6oNUcA/VRP6x3VkfFqZr0ndWpm5lfiS5ZDSWnueTX6kTAjEkoggY2yyH5WThYPN6/ydp2GChg4Ba6@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxlxl+WsxH+52kM0TYPTY+ppzN+abr+o4rICu/8M0GoO02nnmDq
+	1c9H+QmqWSw0TLkRtbPnuXFD6GFdTijQc3d/INfsOl3i7gEtLbpGoa9IXSXyuSRtK1aWaA==
+X-Gm-Gg: Acq92OE+azP6yXu3Wa5whrIvMB/9JRuttCLnZJAmo07FE8QbIp9LAwcaeTgh3NDWDa7
+	BN8FTPK3J292QnQiOfiN6rO7XH32ChdHj2S+V5uMlVbX5tm1ZnQ3wir9kKH4oZd0EGKFAlWf56S
+	wjREPiUNc5ldo/vhk+q3NFR7nXgEkRjxtexk/8ILRtUOuSkztZMNyM6XfNOsDzY8rVZQ3uDzlpF
+	OGrpGi6jzG23ur/kFoP2z3tpH+Em9Egy+bP7yWl+QD+VBlx2mjfK9vS7p4v9QhAPuINYITgOk9y
+	Cb7+RowH/ZsCed7qtN4pqw7EKY++tL+dTUsA5Q/nom3cKlJ82NriID3JC0YszRQcaAXqq2HwCBB
+	LeUORvQ79s/aElyyBcvPOw46fkF7nMgeTFCe8WW2ieJ+ziCkLwZrobJRjcKiBDX5sXTpaGptl5f
+	lZCvf1sXZAkafSStPlDFzMAmrlOeCToCsgqxtnIKkN+fBzqXk=
+X-Received: by 2002:a17:903:2b04:b0:2c0:aef8:23eb with SMTP id d9443c01a7336-2c1e881ff85mr260240815ad.25.1781099682040;
+        Wed, 10 Jun 2026 06:54:42 -0700 (PDT)
 Received: from localhost.localdomain ([47.100.192.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f890b2sm248130815ad.26.2026.06.10.06.37.14
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164fa213asm261413945ad.35.2026.06.10.06.54.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 06:37:16 -0700 (PDT)
+        Wed, 10 Jun 2026 06:54:41 -0700 (PDT)
 From: Yang Wen <anmuxixixi@gmail.com>
 To: linkinjeon@kernel.org,
 	sj1557.seo@samsung.com
@@ -63,9 +63,9 @@ Cc: yuezhang.mo@sony.com,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Yang Wen <anmuxixixi@gmail.com>
-Subject: [PATCH 0/2] reduce directory scans during file creation
-Date: Wed, 10 Jun 2026 21:36:56 +0800
-Message-Id: <20260610133658.196180-1-anmuxixixi@gmail.com>
+Subject: [PATCH 1/2] exfat: reuse valid negative dentries for file creation
+Date: Wed, 10 Jun 2026 21:54:23 +0800
+Message-Id: <20260610135423.202730-1-anmuxixixi@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -75,39 +75,47 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Creating files in a large exfat directory may require repeated linear
-directory scans.
+exfat does not generate FAT-style 8.3 aliases, so LOOKUP_CREATE does not
+need to unconditionally invalidate negative dentries.
 
-First, a negative dentry obtained by an existence check is currently
-invalidated for LOOKUP_CREATE.  The subsequent create operation therefore
-looks up the same name again, even though exfat does not generate FAT-style
-8.3 aliases.
+Use the parent i_version check instead, avoiding a redundant directory
+scan when an existence check is followed by file creation.  Keep
+LOOKUP_RENAME_TARGET unchanged.
 
-Second, after an empty-entry hint is used successfully, the remaining
-contiguous empty entries are not retained for the next create operation.
-This can cause subsequent operations to rediscover available directory
-space.
+Signed-off-by: Yang Wen <anmuxixixi@gmail.com>
+---
+ fs/exfat/namei.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-This series makes the following changes:
-
-  1. Reuse a valid negative dentry for LOOKUP_CREATE when the parent
-     directory version has not changed.
-  2. Advance and preserve the empty-entry hint after directory entries
-     have been allocated.
-
-In a test creating 20,000 files with random names and sizes between 1 KiB
-and 4 KiB in one directory, the elapsed time changed as follows:
-
-  Before: 3879 seconds
-  After:  3050 seconds
-
-Yang Wen (2):
-  exfat: reuse valid negative dentries for file creation
-  preserve the next empty-entry hint after allocation
-
- fs/exfat/namei.c | 56 ++++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 47 insertions(+), 9 deletions(-)
-
+diff --git a/fs/exfat/namei.c b/fs/exfat/namei.c
+index b7d5e44ad38e..fe26fbf6a0f2 100644
+--- a/fs/exfat/namei.c
++++ b/fs/exfat/namei.c
+@@ -24,12 +24,9 @@ static inline void exfat_d_version_set(struct dentry *dentry,
+ }
+ 
+ /*
+- * If new entry was created in the parent, it could create the 8.3 alias (the
+- * shortname of logname).  So, the parent may have the negative-dentry which
+- * matches the created 8.3 alias.
+- *
+- * If it happened, the negative dentry isn't actually negative anymore.  So,
+- * drop it.
++ * exFAT has no FAT-style 8.3 alias entries. A negative dentry can therefore
++ * be reused for creation as long as the parent directory version did not
++ * change since the lookup that created it.
+  */
+ static int exfat_d_revalidate(struct inode *dir, const struct qstr *name,
+ 			      struct dentry *dentry, unsigned int flags)
+@@ -54,7 +51,7 @@ static int exfat_d_revalidate(struct inode *dir, const struct qstr *name,
+ 	 * Drop the negative dentry, in order to make sure to use the case
+ 	 * sensitive name which is specified by user if this is for creation.
+ 	 */
+-	if (flags & (LOOKUP_CREATE | LOOKUP_RENAME_TARGET))
++	if (flags & LOOKUP_RENAME_TARGET)
+ 		return 0;
+ 
+ 	return inode_eq_iversion(dir, exfat_d_version(dentry));
 -- 
 2.34.1
 
