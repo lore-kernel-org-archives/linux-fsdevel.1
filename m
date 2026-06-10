@@ -1,123 +1,189 @@
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921751C84BC;
-	Wed, 10 Jun 2026 22:44:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781131479; cv=none; b=hWzv05ieuBYE8OygdkYGjnSJdG86fS9CdiB5bo8sF/RgM90LHQPMUPH9dThkeATGbWfg87M3PvGKv5eJITx/mIJKlTK/7q/F9NGehysZWXwSE/s0/xY1pYC/dmRZtraj6Nn+a9JxX5esL8dRZPdMpzvwQH1HxXKefk8U4hMz9u8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781131479; c=relaxed/simple;
-	bh=yMLLgWOLJTDZNBCNSM2edglktVvSMzVCIPjZgrgU21I=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=ph6hNvb8TtJdZ3VrQKdPp2oUQnYD1cHxVGD56+D5ORrcJyy8L/4KuGZb5pfh7phc4GVUTuA8dZPP8QLdK7O6bh+45e+hrHjZOQNgPZYAjCjp6Anaenm8U5QqQkf2SDSWxRUHc1LepHpOtqAzeP81DGvmSsfjc99cWNA70OjVbLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=LaWsitAF; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QlZaJQ3f; arc=none smtp.client-ip=103.168.172.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F5A40D592
+	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 22:59:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781132363; cv=pass; b=uLtgP6q4m2tzXr21cnOgj2g1nhulXGKDvGChzLQqiMfYSU9ugOzQEmp3hnTJcFrAGehYnmrY++WhSaOyFBS+1wY8cmx0GzPT3IzlqlMcThtzhJaGYW3FPeMIKoAPXmGT+YisUhqnXE1+q0sSN2rBk85rPR6d05ubYUUwh2NwVFU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781132363; c=relaxed/simple;
+	bh=oEzIwJCTEGfUPAMEdjx97uQ6KkcVMIzM//6ziaFjsoE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BqtJW4ZyOZ+KVtoIilTwHHbPw+FMRoS9SYdIdOlN2+80am3jZ9B5/50YdwKeqKYJShmGptY3YelfVU8Q0nXi6vYrj4j1nTnEu1uSHDEoanjAmoHRgjOnYjk2iqGlRMKVYe3QHaQBykM7xl9i/79qdlRbYHTQud0hksONBLQk07w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qEn4tIWy; arc=pass smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="LaWsitAF";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QlZaJQ3f"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id D5D0C14000F1;
-	Wed, 10 Jun 2026 18:44:36 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Wed, 10 Jun 2026 18:44:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1781131476; x=1781217876; bh=Zr8idB+Vx/4vqVugYp1ZxeHzsUwPnfBtMi2
-	S8n8/ZpQ=; b=LaWsitAFmWG/uaLMLnBBAueFr7bBk8V6FsLzD29Z4aiwfL7yPq3
-	ahczL1zwTLcSXwsxlwEcNu7njGFSirYNPrSeJpCY8dm+VRya0ZobrzJYNDi1A8IK
-	mzEZwHIc001856Wu4VH3WzIETOxQJVeXea4Fa/C80lmFVVGdbpjGUNWl6egOos7s
-	jctDzeNKXxdlBuxhBqtG44bksaN2f1PgeLlNzIwhps2cOzDrf5p7t1/NVJlhBlVh
-	UMHu3W7ohFO8PEAe1xRM3a/UpUXiM3NBTFHFgjmhNq7sJ1VJ53Yi//Hj/4OmUR5p
-	ctZOwsWMtn8EpGGLJUzUaKz5vsvKIwutxKA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781131476; x=
-	1781217876; bh=Zr8idB+Vx/4vqVugYp1ZxeHzsUwPnfBtMi2S8n8/ZpQ=; b=Q
-	lZaJQ3fDn666ASv1C6fjvjRn3EZCAfv8mr3ZN0QdpuPNkK04GSxv62brgn7Slx2p
-	wcVDJ0lEHlbB2Iq/C9r0gUACY/CW77pjUoSckqB7B4phBXfSbaLjz3d0l3cdXW63
-	DnoSg5KmM2qgezE8CpTcZjPr8R0I0Hb1EuDCllMKhWEJLZRHbhpWjTiXJS86XDqY
-	jIUu0nrr0vuN6QkCsgfhLgKXKEH5evyela1P2b0TUUOsxl9QI1nVZvPQaF4cibrs
-	gQxYSZ+k6a9vBSjZzDKyCbJ4lPZrHy2VyVdXfYldOBHQD4au3ynCx5i11Ar49liE
-	HLkxg0T1dJyw7vcmAMPgQ==
-X-ME-Sender: <xms:1Ogpam2Qz_XDsV1mFj6qet0CP-mJUlsAgQrsgS89S_IALv3JaZIcdQ>
-    <xme:1OgpaiDGmtObx49erAhdZuBcisCLbCg2WVa9qxNt1wyvWhFFo_tovjELhDVK5vQYC
-    iT8z-HZx1EA8Pm2CdcUGQHK6pOGIaUqh8BK2oZVkEAxGKvpEQ>
-X-ME-Received: <xmr:1OgpaqdjoOIy9zrCIA2SWwA6__pKs8yDxJnCicVzbyyoxyvXCIrAQ5LAJddmQZsK6Bj7z5x0J-fnXeFSepwqOhqYCXlS0Vo>
-X-ME-Proxy-Cause: dmFkZTFJn4NQ2kGNDLSgbNrVispyctOY720tX6xlgK3mt3dlSkgau7pftpB72ht8MomSUL
-    ttr7VU2c8WaybP/g983mUuWZ0udjP9+NRoylRdlrbbOFYHb0qaCpvDd+JCU6t2kqhFGeqB
-    7jZdaYvOyVovLZrXphRaBfMJH1wQh5HxtTQLQcb/aIbU+cG1BWL2aTGRZrL2X3M8aMIDCe
-    5Y3rPNtxw4KoEh7Hdb/fJNQ96ioFPTHPE8uLW5PZ6QkJVJdmBf+8xnfmdJ7ZVa5WdnlCoU
-    rLSWzNtyaG+Hfr0GRaILu6k15PDIrSCqEGyMGxTMzhEEB9JxS1TUbpLG1qx2UWT6N49DkK
-    r4Y/SXj7GF2VWUwtoch04bQNkYnrltzKMns4c/xmq/HO2K6l3d1MSEvpYLRrIRZoIm5yuu
-    jy+ucDXmJTDQFL8ViRV20k7gaQsfcMNUWHGHTLOHXWDa8FppnTAaxn0hviziLeLte9ZWjc
-    myvpLnn6YxfAKxuqjd2oPvOEdnHwRjNYZ6Sa8uRXJZ7BAdUW8dhI82RD3kGYtwlmaKt39A
-    vKM+NYGxHqinMFXJTG8BsaWaSYY6XBDJyhDnoi9hvLTEVanCNhKmWKr4pSTCC4KeE6fq4P
-    lqqOIXgMQra/OjPTUyNvfzlKpBHBSldXfkE8bEhuJoVVYp3hnxu7znMNUFrQ
-X-ME-Proxy: <xmx:1Ogpan65Nz8n7S6RieHmGGCshaDi8bkjnA1W7tJZQ3jn8Nb6_Da98g>
-    <xmx:1OgpalWJTIiHQXXf8NnKdfuVJDpQo6Un6fzHeEXvzPxXabUpb5YdFg>
-    <xmx:1Ogpau5GQgAeXeW14rB0FkrxlSCopKN_QNSFHkynEEHySXrha9nC9A>
-    <xmx:1OgpaorWz9VF7yQZEx0cSLn54KumTrAmINqzcEFz9ULUTmPKPCIzCg>
-    <xmx:1Ogparq0184oZBW6rPO13nJ2560FEnXs9D4_NPlJoQfDiGfSgow2Vr3u>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 10 Jun 2026 18:44:34 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qEn4tIWy"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-bed2b9bfa02so988601566b.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 15:59:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781132360; cv=none;
+        d=google.com; s=arc-20240605;
+        b=TjYBcDI8vJyEIaNNjeQTijHTfVxqBWRqWor8/lrU31VtA+CrSagf5pvNhLwk/4JDhK
+         vHxBIBScRewhyAXDDjJF7WH6K4zEv9DSmfGJa+16T6HDNtpmPOqLAmRyDKZi6uR6PwGh
+         m20bNVbLpmkzfurL8vdHdcEqMHAXRCIu3dCMKDvnvS5BsZVl1Bj+93FTmmNUCaRrcY03
+         5X6LLilYC5W3NoeWN/RZ3QQHAOsZaWw9yTHvd358V/HfbZmNQdwV57rv0QjefG6WO/XA
+         Qk4tfDeM0W+XpHqKSvJXNnKrM/YzFscej7dh+M41qz06wjWv5lMFAVvgNtNEzvYDWoyK
+         N5Rw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=oEzIwJCTEGfUPAMEdjx97uQ6KkcVMIzM//6ziaFjsoE=;
+        fh=dyUlh9Xxs2HAP2U+JANj7Tf2aCjJf/l7WPsX+YQzjQ0=;
+        b=LEadxiFkERKb+B0iIMS+HU66vGZNHyFqFVy7awYhKu5wS87OOQLqreFduC3lnhOiPO
+         r0kI82dWu6NlkhvrEHYu0yPmTkosxx+YWjqgewKFdEQCQ/L76NQPv+zikymj07ENR/if
+         vzF23dkwmKk8iTUY+zCNajaCPFe1mdIJobsvWX6n3G1pX2Ow5YFnQgOhxUNK6EOU6dbr
+         w+jtR3Chowq8dTbtkosUN+ThPYGjgK9rZX29vcQPee3mt3U2fmwVT4CvwBOLIxtA9UGj
+         soyBGRKNq/iAEM4O1nytOU/QQJpNBaUbF+fwZyhILd4HmdLsUy0lf36WJghFNx+Naxx4
+         8Lag==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781132360; x=1781737160; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oEzIwJCTEGfUPAMEdjx97uQ6KkcVMIzM//6ziaFjsoE=;
+        b=qEn4tIWyzGrvjUgvO574u6bAFB8n1Bu79d+gI2oyFcZSTG2PxL2qFkS7fainrrfrV8
+         JBMIOmi08eKO7E1Aj9XPkaMb/2J2V2mSI7ole22hdtrek8TO+kg6IQXol5thJJGLcXMe
+         TvO4cEC9g7XMzDu8Gbw6Hh4RTK6UDyqZgmnbe9NiDrFgl0sQHcsJgFHeiKnJjdk481Pa
+         w4sUsM1k/OBPwW1b8N0SWLEtBrHQN5WlmEpsaRUJglIosxsDBsE1YWDA5Rex2p+aGKkL
+         kFPkBD5MrcWH4toiaQBJb1V1kvARUTSG8MKzUg5hBPmu5IGHxgP6iZ423hIxmHohe/Ax
+         vulg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781132360; x=1781737160;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=oEzIwJCTEGfUPAMEdjx97uQ6KkcVMIzM//6ziaFjsoE=;
+        b=YA9cRrycsBmseqhHlE/gKPre7HuvjrMQ2Pj2WRWXakKI6Om4LRzCI9oz4bGYw5xV5E
+         DcP6FKHf0KuejAM0O546NXxbv5TEQ6sMBZ1pYlyYKSlknKWs78TEoyt9XZXabj0CMZiE
+         SVJOCAcZLzSQy0fAy9RLmOZmO0ky0bTjNSfrTo8Hb5/2Wv9A2zS6Dua47TlrOAytSCM9
+         PcQT99jiXOV7wYqWN+JfoO3k1VIW4miQyVxU+eznJgbT1VIuE1UISw0gUr8P54oCV37p
+         ohezkzWm5CN/a9citvPfWHJvZlKaeq0EGSFGt/81qV+aHFq4ncy5zSp2FBJ42dZ79Tq1
+         XRmg==
+X-Forwarded-Encrypted: i=1; AFNElJ/ObFLG/CzAdeOeE1hmm54J6ksAio31corYSYofMkno1uhIkon0nFRzKfHyzN/LxdC2M0vN3wTe2/iXAsBA@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHRXKF3QQ7xI27TlJftNM+GQPRpZZClWOhU4sDjI+1Q37QWSEr
+	+c1Md4ow6LveNqh9MVzNovamj7Ll4OGmaB1zxB5owe7D4kMQcJhVWrtVKvLCQ0AaXMBxIogVStZ
+	MMRy3SOB9pd5J9oNDMPMDhK5YTcteNZ8=
+X-Gm-Gg: Acq92OHGUodNqncVvQ0r1B/iMgPK0/PtA+RzFBn6MUI+Q1UDHPtrSL+frvyjfzpjSb/
+	SCKXoT/YEyyQIhGY/9ZTCoBbxVkEdw086qJLoW4JEZa+4LG3a0gXS+sGaB4F2jcXxiLPDhwMEnL
+	jF320gYt0I6r1W1LNwkfJH0uC8z5bGIqn9l0K7+jB43CdGjVDm+o4U3D35Gxgd1p8sljdB+dU8U
+	Y974isxVcFyJXxNCWe5MLIsUfkiWY8lYXGR1leQX+RGFws6n62AmsEtx2O5sy0lKwkgOewgUxyv
+	HWn9RdIf8kjQejOeiYAtJw0tfSOKYPWXVeTImNsWvRyVRIROVQ==
+X-Received: by 2002:a17:906:6a1c:b0:bf1:ac1d:94b0 with SMTP id
+ a640c23a62f3a-bf373eec601mr1347239866b.35.1781132359944; Wed, 10 Jun 2026
+ 15:59:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Miklos Szeredi" <miklos@szeredi.hu>
-Cc: =?utf-8?b?0JDRgNGC0LXQvCDQm9Cw0LHQsNC30L7Qsg==?= <123321artyom@gmail.com>,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- regressions@lists.linux.dev
-Subject: Re: PROBLEM: FUSE_NOTIFY_INVAL_ENTRY leaves stale negative dentry
- after c9ba789dad15
-In-reply-to:
- <CAJfpegt4mAXDFOr47XaYPgeN1LFm_BNC_8SX-2A8kHEztWdNHw@mail.gmail.com>
-References:
- <CAFbF8N7++zopZuEcsKRxBV_sgOGCbzCY0hOyMw1SiGAtuzGhyQ@mail.gmail.com>
-  <CAJfpegsCJnMfn_BzzTK7m9ndCGVsnPit8ZsT0fzAhYoY+yOsKQ@mail.gmail.com>
-  <178035740095.2923901.5908691318688917347@noble.neil.brown.name>
-  <CAJfpegswAZv8OmDAcK-5u8kssAF1vZKe4gdDB2XPErAnoGFSYg@mail.gmail.com>
-  <178056619459.3392745.3091041855723132411@noble.neil.brown.name>
-  <CAJfpeguDUS_3X-AFZD6XCJB1SjVkFGu2aJ+p1BK574Scu-ASdA@mail.gmail.com>
-  <CAJfpegt4mAXDFOr47XaYPgeN1LFm_BNC_8SX-2A8kHEztWdNHw@mail.gmail.com>
-Date: Thu, 11 Jun 2026 08:44:31 +1000
-Message-id: <178113147143.2249772.1308183110159200568@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+References: <20260528095235.2491226-1-me@linux.beauty> <vealb52tv5suireenkke4lul2l3wbnaul2rp3ea545ly5wa5ty@yk3aksvp7skt>
+ <CAG48ez38OEE8ZPLyU6nr9=cYx-hMsdoh5WRrv-GMZGMDKyyOTA@mail.gmail.com>
+In-Reply-To: <CAG48ez38OEE8ZPLyU6nr9=cYx-hMsdoh5WRrv-GMZGMDKyyOTA@mail.gmail.com>
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Thu, 11 Jun 2026 00:59:08 +0200
+X-Gm-Features: AVVi8CdthNiQaFys6OtVKdO_jwR53Q5mhKecw8_q9iDf4OCUN-Dc5Jgmeo3bc0c
+Message-ID: <CAGudoHHq-AKfWwRXuVbmz0B3PPK=Z7gW=HeUYOe_8k4fvPJFHA@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
+ executable startup
+To: Jann Horn <jannh@google.com>
+Cc: Christian Brauner <brauner@kernel.org>, Li Chen <me@linux.beauty>, Kees Cook <kees@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, x86@kernel.org, 
+	Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 10 Jun 2026, Miklos Szeredi wrote:
-> On Thu, 4 Jun 2026 at 15:59, Miklos Szeredi <miklos@szeredi.hu> wrote:
-> 
-> > Okay, so this is about making VFS more scalable?  Can't we just leave
-> > filesystem code alone in that case?
-> 
-> Unless there are strong objections I'm going to revert commit
-> cab012375122 ("fuse: fix conversion of fuse_reverse_inval_entry() to
-> start_removing()") and revert the fuse part of commit c9ba789dad15
-> ("VFS: introduce start_creating_noperm() and
-> start_removing_noperm()").
+On Mon, Jun 8, 2026 at 5:02=E2=80=AFPM Jann Horn <jannh@google.com> wrote:
+>
+> On Thu, May 28, 2026 at 2:55=E2=80=AFPM Mateusz Guzik <mjguzik@gmail.com>=
+ wrote:
+> > This problem is dear to my heart and I have been pondering it on and of=
+f
+> > for some time now. The entire fork + exec idiom is terrible and needs t=
+o
+> > be retired.
+>
+> It seems to me like vfork+exec is a decent UAPI building block, on
+> which you can build nice-looking userspace APIs, though I agree that
+> this is not an ideal direct interface for application code.
+>
+> > Additionally there is a known problem where transiently copied file
+> > descriptors on fork + exec cause a headache in multithreaded programs
+> > doing something like this in parallel. I only did cursory reading, it
+> > seems your patchset keeps the same problem in place.
+>
+> I think we almost have UAPI that would let you avoid this issue?
+> You can use clone() with CLONE_FILES, then unshare the FD table with
+> close_range(3, UINT_MAX, CLOSE_RANGE_UNSHARE). That is not currently
+> implemented to be atomic with stuff that happens on other threads, but
+> if we changed that, and it doesn't provide a good way to carry some
+> FDs across, but it feels to me like this could be fixed with a variant
+> of close_range() that removes O_CLOEXEC FDs except ones listed in an
+> array.
 
-I think that is a good idea at this stage.  Hopefully I'll come back and
-revisit this in another cycle.
+Suppose you want to exec a binary with the following fd set:
+0 is /dev/null
+1 is fd 1023 in your process
+2 is fd 1023 in your process
 
-Thanks,
-NeilBrown
+You have tons of other fds and you don't want any of them anywhere near thi=
+s.
 
+Clean interface from my standpoint would avoid any unnecessary
+overhead and would allow you to clearly specify what do you want.
 
-> 
-> Thanks,
-> Miklos
-> 
+In this case whatever the interface it should provide the ability to
+map 1023 to 1 and 2 in the child. With the current syscall set you get
+refs taken on these on clone, then you have to manually dup2 these
+which is separate syscalls with extra atomics on top. A fast & elegant
+solution would allow you to tell the kernel directly where to install
+the 2 files.
 
+Also note in practical terms userspace likes to closefrom/close_range
+anyway to get rid of unwanted fds which happen to not have the cloexec
+bit which is yet another syscall to invoke on the way to exec. A
+better interface would instantly avoid the problem by not copying the
+unwanted fds if not asked. For viability for use as foundation to
+build posix_spawn over it such copying would have to be supported of
+course.
+
+>
+> > There are numerous impactful ways to speed up execs both in terms of
+> > single-threaded cost and their multicore scalability, most of which
+> > would be immediately usable by all programs without an opt-in. imo thes=
+e
+> > needs to be exhausted before something like a "template" can be
+> > considered.
+>
+> (I think probably a large part of this would be stuff that happens in
+> userspace, like dynamic linking.)
+
+I have not investigated userspace, even putting specific APIs aside
+the kernel has *a lot* of avoidable overhead.
+
+>
+> > Per the above, the primary win would stem from *NOT* messing with mm.
+>
+> As you write below, I think we have that with CLONE_MM? The C function
+> vfork() is kind of a terrible API because of its returns-twice
+> behavior, but I think if process cloning with CLONE_VM|CLONE_VFORK was
+> wrapped by libc in a way similar to clone() (with the child executing
+> a separate handler function), or if it was used in the implementation
+> of some higher-level process-spawning API, it would be a perfectly
+> fine API?
+>
+> Or am I misunderstanding what you mean by "messing with mm"?
+>
+
+I was not aware of this functionality, let's assume it indeed works.
+You still have the file issue described above.
