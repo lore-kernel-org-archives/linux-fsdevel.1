@@ -1,181 +1,158 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13170213E89
-	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 01:04:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781053494; cv=none; b=hNUVNQs8sffmQsfPiq1UrOuryKfR8E+TC1sjUZxI/tWX1nb60xyCwBCg8Tkk8nHskmrfblk2QqaeU1sCl/V4GyH/46RMwCDGI2Kl6lck/XLbNu6eL4Qb8bs204Y7U9yK/A1Y55lFTJoWkv38snZDUjG1amEIvr/JR6Lh0v0Bc1Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781053494; c=relaxed/simple;
-	bh=BgouVNDaMkUocleo1nUzgz4x0HgWmDSLRPJA2tZ6RAA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=G835w5Zp+ORKUsupGnvSx/MY2wNbSPUjgTDOkCjTnnXT8fLD6qPdh1Uoc9TxLbg1r8HHWSGQwYyKBnaxRQ8ZVP/QVSTwmBrJZ3QwS8aLSvJt98YfqlllkhUs/HCqqryAFrUcpJBNDn8BEC7nZ9K+Vys4mNCyL/L9rseZR8K3U1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=OpBsK6sl; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2CA2DF6EA
+	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 03:25:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781061936; cv=pass; b=QcZJa+7Q24nnGWTOGIFRkMl+2WbpPgTbKbxqp7BD1rSZu8y1x+36FrvD4PKwGQB3KsbH4XWcYpiTX6LAhLdamEeYqmWRmZBEKrC1c2HgGHX0kugrt3skWcRXRYOrqcx6pBaA3sU08L1mHiVRZeG6OImCy970G20OWfWESnAPEmU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781061936; c=relaxed/simple;
+	bh=bLTA2n16r0+5ngF72dQlvuuIu9xn7HaM9bU+TkfJqR8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MzDg/LcD4Ww+joxPi0lBTTjG4VSF7Yg4zUQ0LSvU3juv3OppsoCkUgIqAro4IYhLgi6oxbU2yD4Kw0tz9DG2p/EGSz6S14xt4P530iKhC99+FllaF1+MsH0IgkJyUDv0hXcWzNcw5JX34uW45mrWVkqHFwo83XVXD4xJ4OpGVZs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h/8VXO8x; arc=pass smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="OpBsK6sl"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-396bed274b9so54329911fa.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 09 Jun 2026 18:04:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h/8VXO8x"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490af320e2aso67967335e9.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 09 Jun 2026 20:25:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781061933; cv=none;
+        d=google.com; s=arc-20240605;
+        b=bufzEu9bMhOGrjzGVQuD7JEcrZThYVy+FpO7NfHyg6yNPPWY/fuKK2xi6h+9phUq3Z
+         GjuPirE8dUqojYwVyzgYoUQpJB9OcQamLRraawT4o1+AmXQhyNnuxRNJTSEzF4YMeQl7
+         DHGSVxDOt4RD3oHAA3yKxuzlJUyIT7mIHPOF55kLY3vnScvazdg6FzpzudBQDFCFBF8N
+         DfSn9tK/9CxX7fEsufvRN94hFb2UqH5OMVEJUj6VnE+abOxHh4XCHhx/h5qfMyDu1T95
+         A7bqAsBdnVcPkqz62D90lG7mqbsvkaFtNL0BpGnC3KoRhwJaVfcvPPVXERkLk1NrVWKz
+         oNjA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=zPt5I5nOTT9SNhJRE98M0BUywO9yu2msM1Dsa0Tt5oY=;
+        fh=zp5z0ED8w12vxLEQLIbKZYv/tdMdHOll/WwKK5TMdM4=;
+        b=Zp9YK6MQ+DV+tyL9n0KDhm5b/1h/laS4yd1ARGZuzZJrz9mx8kWTRu3SAeiUuxJj13
+         Trkot2mVQ8byBhGbA6dRjknQ3r0AvFBW2KVR9fOtm/Q9Wjo+mmqhgaSbJF4Vxa4Oq86X
+         ZzHJ6PWbrvbdK5LvrS0tASiI3DY5kY4/tnsMUGrDH2s796+CPZep7XfbHuQ83jtSXHmM
+         6YbzBxpmQnTK5oqQcwvN+NVYycRxeYGKbuLoN8gP5XD5LXRVHGstfbBQuGmj1cRV0HK/
+         Tw2+z0odfRTKxX6fYcu6nR1rDvUwOzJy4JrDZH1qjpOrAi5uZmkV879E2f+6aqlJSLza
+         ujvw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1781053491; x=1781658291; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=3+IHp2l2rrkkQsrMXx/C+M6l/022rECrJz/KtdXmcpQ=;
-        b=OpBsK6sllyNkGqKRBfe4snDCkwvgWNNmmjknzfUGHs9KaUxPVjF9hckXGIf0OhYP9A
-         UaSy3d6UiqtuaskdwxT5WK2Wz4gSCUfTCUiludAJyBD6pIlylyHXM5mFDyV04CFfWJF3
-         WX3Xns8gpbWl+XDEDklQXRN6bvaiZink8eXTCEgQxAo4S5wOyiLI6SbfMcmXQZP70ssy
-         g4Q/2yOkjx68lPa4peMvIM4I/wa9k/oOE/+uQRZ+xoJgB7qxkU669r6luy2O0LJodNzy
-         xpqZ94e1bUIAILuG+QCrcujFPQbxyDyyP+Cmekm3gL1L+zXBz6Dzue+hFIFmRv6qSHEg
-         zwSA==
+        d=gmail.com; s=20251104; t=1781061933; x=1781666733; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zPt5I5nOTT9SNhJRE98M0BUywO9yu2msM1Dsa0Tt5oY=;
+        b=h/8VXO8xPkWtp/8Uj7uEBEzd0flkYaM+5EsdXMZJMQVyFn9pkpuShbbz26vYKVZeO8
+         mrxCf140NMB+b6k1X9KWOBZqSiAOHP6E0KO+NzVzMKbfB8oyVOlondDFR7JSYI1xpxqy
+         sZIlk+HH+1U/2dICQsLrnkyuT8YU7YVl85stzNmsIFy3WmtzGcHpFN/sDCH4nBI43Gjr
+         sF4CAS/mc0reQfTStC5JChgGg9/d+ocKREc6z0YpqcEq5QrnNLh5OcpSse+purzDiYS/
+         x2V9OxGP10Q4jBgHC+hgZpSTFE/vijzGTF+sfDa2/q46s3kiqHY2joF+StYc/Jc83yOl
+         DVFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781053491; x=1781658291;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3+IHp2l2rrkkQsrMXx/C+M6l/022rECrJz/KtdXmcpQ=;
-        b=Y2D6kN7qFCAiurrGpKMjTj3MQFbCiKTPCfLTn9IwmIzt/eqzSo9P22HWkv7CWKHWvs
-         j8C5un6kkPyLwt4rIDpQGsp2lvaumz4Xtdy/Y26yYSOizPGl3RHXRmwnDP1pGyejaCt/
-         Gwaf2kNOYiQKD9bBFR2XgWZMlQtQJIpRi1f9uErwkcXypCA95OGi5XAG8BIwVkxYDl5T
-         kJAEcS/mAjobOWCqWzpQSbPr8CObOA8CsrHeW/CB0oNtyw4JdnImE6IL1eLL6KOTbFQW
-         0EZx66y2OfTIjovVvH0/DSrdXJlqXeUFdQBOe+ptFg732ZYnv32y1Tlbl8vR13tYY88B
-         UX9Q==
-X-Forwarded-Encrypted: i=1; AFNElJ+r7ITgmjoRo1SncIuDfHzVJaEkGKwEEBEUzjgz5QvJxJuxfsalxJD9nxk5TTjYzS7zT7MfKBco0mD641Bf@vger.kernel.org
-X-Gm-Message-State: AOJu0YyK58O+NuA6EndL2tXPmqSkcPyliWSt54kGVm5IVzrNnJRpkp9l
-	hYgozj3Fj8lBQtuFyeA7C7VjWIP+HHdsTX1HV3KXcD5S9eeft0G1yiKhRwv4C5EJdeM=
-X-Gm-Gg: Acq92OEPC50sFwUc0VWaYjIuyhHlHTbxa56mungu0U8dHpbOkAiC6X9w+vAm+z1P2I+
-	vWyJtlM9oKE6xkkNeTPpW8mI4WlI4/0BJlWIcroDq0DKh189flobNeJTEqUyOZ2xoOAb/Lrlzyj
-	RxP2rzniTm+t3SPXvUGtpItPr6JNA9ZScTaaSV1L0m11NFTwXlNio+l71s+oHzD5oxung/lDXkd
-	lJTQqtfUfarIXG43HI4/s0dyFmVQuXv2P7JyEtd30mKGFJ883uB2Qpiz9uQgGVvj4VB0lzLpwcG
-	P9HNGmC6dRcI4DbQW+fvChwIqtZlepeAY8yt3MFiYrY6dU9AO6jcxuyHn14T0Ipi3KDLcEYq1X2
-	ZKiRXV2/zt/l+l4nYKtOUd5tbBwU3YhkI5IcqCnO0HJv1bccViu3c6yFzlNC0xrjm8epMZtR1T+
-	95bPMbVUJ+USmHj9P1BEetCKV1oixiIw/1W09wALuKKLMWzYLqnhgSgeKEpY4X8miiYipB4j45l
-	IoXMEDwlJAR94LMaW/tI/uIz3EMM1GhMH/GulHkGIjuX9gmbQMyF92cJqVMQyuZz2krch4jt9IH
-	Cw==
-X-Received: by 2002:a05:6512:108c:b0:5aa:6f5d:ee0b with SMTP id 2adb3069b0e04-5aa87b8b34cmr6193269e87.2.1781053490709;
-        Tue, 09 Jun 2026 18:04:50 -0700 (PDT)
-Received: from [192.168.1.246] (broadband-95-84-186-252.ip.moscow.rt.ru. [95.84.186.252])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa7b97ac3fsm5007983e87.42.2026.06.09.18.04.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 18:04:49 -0700 (PDT)
-Message-ID: <45e421ab38cfdbddbc0d34970a2db94902ad634b.camel@dubeyko.com>
-Subject: Re: [PATCH next] fs/hfsplus/xattr: Use memcpy() and strscpy() to
- build xattr_name
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: david.laight.linux@gmail.com, Kees Cook <kees@kernel.org>, 
-	linux-hardening@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Cc: Arnd Bergmann <arnd@kernel.org>, John Paul Adrian Glaubitz
-	 <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>
-Date: Tue, 09 Jun 2026 18:04:46 -0700
-In-Reply-To: <20260608095523.2606-39-david.laight.linux@gmail.com>
-References: <20260608095523.2606-39-david.laight.linux@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+        d=1e100.net; s=20251104; t=1781061933; x=1781666733;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=zPt5I5nOTT9SNhJRE98M0BUywO9yu2msM1Dsa0Tt5oY=;
+        b=BgNzjahgzFsQl2Tul6S+WXk6TqwyRBT1nkJW3UFNHI8TrW8WNDpk3xoFt5dGjJYXc4
+         lLbSckUypfD7KhGb5hiX9Id5p92+jOaorZ9OBRH0qPkNa+BhodlAx2PyWtH+9Dv85MUB
+         q/Tgjzs9NMEcAr3TRRZgVJafxHdp5oMJ3mC7SsQ4zFPxGAUo7lRZUpYD402yHxBR86v7
+         J/h+Dz10VoxG8kglx+CKtkoAKbT0W7W58M0VXKErBuNGErxrK6XGtoAqrzjv2m30p7Xa
+         3J2cWgjBHX4lql+Yqpwo/Dacp1aehvSqahFhYN2DQ61FvnSAFA1p8SJthhS7+NOErZKq
+         j/3Q==
+X-Forwarded-Encrypted: i=1; AFNElJ/iNCxgFngfAg5rd3XyuW+E9PP9Yp69Mnm/Yt8ZiaVmzGD2oGq5kroNVWHNAm//8E90oF5gyUTLbeQdr1eV@vger.kernel.org
+X-Gm-Message-State: AOJu0YziscHYqW0g6DhcAPCHirTgoRSi4ooAse7kEmx9SREyK05pZCEd
+	3tvLz5scTENkutxP1JAAByCl4/k32uyYIYzno7VK4VxnBWMJ2BnUTS2Adz9UtebTowHcjyFhCx3
+	XOuCFTlA9fZPGMWAddLI9UKvko1TzdRs=
+X-Gm-Gg: Acq92OHeRmlIJEUT6ILIzIxd9Ozow0rRoJnZt6rlbrpf88kVHAuPwYEUF1ERePpHS4c
+	HvAXQr7SrZJd43Nh6K3VQ/34bKPsf4GaUJIu2RzggqLMMNY+r8lE1B6bb9Xk8PfZtOozva/s3cf
+	90FyG/9ERsZ8qVcAqyi+HhSDvSPTtcKIGXcveh4+oN18r9ThmvProVmewEci/QEVkBYzZ4gS/TJ
+	4iKo/QiygBSNijPt9/b+xOb9CJsptBR29LUzVMqnJz5MG2ZyZu6xRgnbZeHHXlpruF1Uo87u1A2
+	gnXVCKu6HuhFb6ybJchfFzfDu7471EOCruts5k4v370UUZTSDg2fU3iRL7mQnkRfv3zi0v7p/rQ
+	ZpJNgnx5H
+X-Received: by 2002:a05:600c:c493:b0:490:ae52:499c with SMTP id
+ 5b1f17b1804b1-490c25f1ab6mr393052765e9.21.1781061933272; Tue, 09 Jun 2026
+ 20:25:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260610003717.1720575.7a414fc8c0ea.fuse-notify-prune-count-wrap@trailofbits.com>
+In-Reply-To: <20260610003717.1720575.7a414fc8c0ea.fuse-notify-prune-count-wrap@trailofbits.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Tue, 9 Jun 2026 20:25:21 -0700
+X-Gm-Features: AVVi8CfRPeeOu2dsd9aqrIIj60y--USHNaIrr5n67yP-THOc9yTjY2P-ZtwBuE4
+Message-ID: <CAJnrk1bkXSmUp88KAMZvK3rnvN7ijAXMVev+dHCpodpo2GAxig@mail.gmail.com>
+Subject: Re: [PATCH v2] fuse: avoid 32-bit prune notification count wrap
+To: Samuel Moelius <sam.moelius@trailofbits.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, stable@vger.kernel.org, 
+	"open list:FUSE: FILESYSTEM IN USERSPACE" <linux-fsdevel@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2026-06-08 at 10:55 +0100, david.laight.linux@gmail.com wrote:
-> From: David Laight <david.laight.linux@gmail.com>
->=20
-> xattr_name is kmalloc()ed at the (assumed) maximal size and then the
-> prefix
-> and name concatenated together.
-> Use memcpy() for the prefix - its length is passed and strscpy() for
-> the
-> name to ensure it really doesnt overflow.
->=20
-> Prior to bf29e886b242c the buffers were smaller and on-stack.
-> (But I cant see the copy in the old code.)
-> I am also not sure why the buffer isnt created "just long enough".
+On Tue, Jun 9, 2026 at 5:38=E2=80=AFPM Samuel Moelius
+<sam.moelius@trailofbits.com> wrote:
+>
+> FUSE_NOTIFY_PRUNE validates the nodeid payload length with:
+>
+>     size - sizeof(outarg) !=3D outarg.count * sizeof(u64)
+>
+> On 32-bit kernels, size_t is also 32 bits, so the daemon-controlled
+> count multiplication can wrap.  A prune notification with count
+> 0x20000000 and no nodeid payload passes the check, enters the copy
+> loop, and asks the device copy path to read nodeids that are not
+> present in the userspace write buffer.  In QEMU this reaches the
+> fuse_copy_fill() BUG_ON(!err) path.
+>
+> Validate the payload length with array_size() instead.  That accepts
+> exactly the same valid messages, but avoids wrapping arithmetic before
+> the copy loop consumes the count.
+>
+> Assisted-by: Codex:gpt-5.5-cyber-preview
+> Fixes: 3f29d59e92a9 ("fuse: add prune notification")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Samuel Moelius <sam.moelius@trailofbits.com>
+> ---
+> Changes in v2:
+>   - Use array_size macro
+>
+>  fs/fuse/dev.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index c105aaf9ff5d..0c6d1855003e 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -2081,7 +2081,7 @@ static int fuse_notify_prune(struct fuse_conn *fc, =
+unsigned int size,
+>         if (err)
+>                 return err;
+>
+> -       if (size - sizeof(outarg) !=3D outarg.count * sizeof(u64))
+> +       if (size - sizeof(outarg) !=3D array_size(outarg.count, sizeof(u6=
+4)))
+>                 return -EINVAL;
+>
+>         for (; outarg.count; outarg.count -=3D num) {
+> --
+> 2.43.0
+>
 
-What do you mean by "the buffer isn't created just long enough"? And
-what is your vision of correct implementation of the logic?
+LGTM. A heads-up: in Miklos's current fuse tree [1], the notify logic
+was moved over to a new fs/fuse/notify.c file, so I think you'll
+probably need to rebase this onto for-next and resubmit against
+notify.c. But this current patch looks great for backporting to
+stable.
+
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
 
 Thanks,
-Slava.
+Joanne
 
->=20
-> Signed-off-by: David Laight <david.laight.linux@gmail.com>
-> ---
-> This is one of a group of patches that remove potentially unbounded
-> strcpy() calls.
->=20
-> They are mostly replaced by strscpy() or, when strlen() has just been
-> called, with memcpy() (usually including the '\0').
->=20
-> Calls with copy string literals into arrays are left unchanged.
-> They are safe and easily detected as such.
->=20
-> The changes were made by getting the compiler to detect the calls and
-> then fixing the code by hand.
->=20
-> Note that all the changes are only compile tested.
->=20
-> Some Makefiles were changed to allow files to contain strcpy().
-> As well as 'difficult to fix' files, this included 'show' functions
-> as they really need to use sysfs_emit() or seq_printf().
->=20
-> All the patches are being sent individually to avoid very long cc
-> lists.
-> Apologies for the terse commit messages and likely unexpected tags.
-> (There are about 100 patches in total.)
->=20
-> =C2=A0fs/hfsplus/xattr.c | 12 ++++++------
-> =C2=A01 file changed, 6 insertions(+), 6 deletions(-)
->=20
-> diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
-> index 452a1f9becb2..0b3dd48c28c9 100644
-> --- a/fs/hfsplus/xattr.c
-> +++ b/fs/hfsplus/xattr.c
-> @@ -550,8 +550,8 @@ int hfsplus_setxattr(struct inode *inode, const
-> char *name,
-> =C2=A0	xattr_name =3D kmalloc(xattr_name_len, GFP_KERNEL);
-> =C2=A0	if (!xattr_name)
-> =C2=A0		return -ENOMEM;
-> -	strcpy(xattr_name, prefix);
-> -	strcpy(xattr_name + prefixlen, name);
-> +	memcpy(xattr_name, prefix, prefixlen);
-> +	strscpy(xattr_name + prefixlen, name, xattr_name_len -
-> prefixlen);
-> =C2=A0	res =3D __hfsplus_setxattr(inode, xattr_name, value, size,
-> flags);
-> =C2=A0	kfree(xattr_name);
-> =C2=A0
-> @@ -698,6 +698,7 @@ ssize_t hfsplus_getxattr(struct inode *inode,
-> const char *name,
-> =C2=A0			 void *value, size_t size,
-> =C2=A0			 const char *prefix, size_t prefixlen)
-> =C2=A0{
-> +	size_t xattr_name_len =3D NLS_MAX_CHARSET_SIZE *
-> HFSPLUS_ATTR_MAX_STRLEN + 1;
-> =C2=A0	int res;
-> =C2=A0	char *xattr_name;
-> =C2=A0
-> @@ -705,13 +706,12 @@ ssize_t hfsplus_getxattr(struct inode *inode,
-> const char *name,
-> =C2=A0		inode->i_ino, name ? name : NULL,
-> =C2=A0		prefix ? prefix : NULL);
-> =C2=A0
-> -	xattr_name =3D kmalloc(NLS_MAX_CHARSET_SIZE *
-> HFSPLUS_ATTR_MAX_STRLEN + 1,
-> -			=C2=A0=C2=A0=C2=A0=C2=A0 GFP_KERNEL);
-> +	xattr_name =3D kmalloc(xattr_name_len, GFP_KERNEL);
-> =C2=A0	if (!xattr_name)
-> =C2=A0		return -ENOMEM;
-> =C2=A0
-> -	strcpy(xattr_name, prefix);
-> -	strcpy(xattr_name + prefixlen, name);
-> +	memcpy(xattr_name, prefix, prefixlen);
-> +	strscpy(xattr_name + prefixlen, name, xattr_name_len -
-> prefixlen);
-> =C2=A0
-> =C2=A0	res =3D __hfsplus_getxattr(inode, xattr_name, value, size);
-> =C2=A0	kfree(xattr_name);
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git/log/?=
+h=3Dfor-next
