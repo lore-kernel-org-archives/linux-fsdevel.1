@@ -1,145 +1,172 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0055F407CE1
-	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 12:42:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781095361; cv=pass; b=p9lquI/l9e4ZTzfR35RE6wtV7YWSTSnWJe7RHGN2dPrpcWpGcJVsFgoouKa4iVYuFKe4dqmqQRICd6zyn6t4HvXjMPuQpURZ9eW1V62ZiteqpPZbRQeBWBfFaM9AXfap/U1pd3qScDf4PJZqnTY8/l/hf9h5RDgUMa5gLlEqnj0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781095361; c=relaxed/simple;
-	bh=+pW/nsoW7Cj2culB83pPpy6kKRbTsBuToHyYs/boxkw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cFy6CUoh5CoSYA2YTp8yujK2eVsjmlFX82acOlqZ928P96E4wT8gz6x/p/FtS99+Sg1F/pQxrjw/5VDMeNCuYFrU8Ok4O332xjzCQ+NcZ90dCTxAJfvdRF+RzGqxhF6pgO285DRxlewVcpKIOO+PEpu/pb1idJpBUaRMgF+ulFQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=fTSFilQj; arc=pass smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F3F405C50
+	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 13:18:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.118
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781097495; cv=none; b=BfEP4iJt3GiRSNIp2zyiKt2VVlYEcG7P8uioxlUGAfy38u/J8qO6ItK8oReJZlk2Rvdp9XC/2y4VT6Mu+XTyItwoSUdZScQZAsFZZ6n3ZGcmQL9ceiwiXnDSnZq0ln9WGaHYFS+9CoDedV78hSfRedmN+b6FPDZy6BMfYWlzH+o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781097495; c=relaxed/simple;
+	bh=ujxIaLnlVIvCadkNke4HMhO5zez3kwvI70DtiBU+Pys=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rI890tiUWw2uKtp1MunCPQii3A3vBNeKpH7jPx6yr64HJysz3AKGPsk/8WSsa1ZIhDN2X0c4uN6F9Eit0OkvaVAtCTab+cjPlWpXe/QUeqAWYOqas1HDvBe35lOf7j4CHTLecpVzuSAQD8YWLHwWudV7cgnLytQG9DZcqY4M/no=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=TBQL4ylJ; arc=none smtp.client-ip=115.124.30.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="fTSFilQj"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5aa7bf3d512so6498977e87.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 05:42:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781095358; cv=none;
-        d=google.com; s=arc-20240605;
-        b=EDvX7wWunQDClnuS349974QR4P7vL7BeI6R8/AvYGlYTBOCgDgrLYvrmABPuYNUdCd
-         63f/GCFI/S8IarnPjjEGulpZMbUdGwfftFUm3LuQnYO2/on+3Kv9uu1DyHbDbL2cHjbq
-         agnl+j1P2iZbbSoY19VUzbs/qItquKkxnNlozeWoz9g/uCqMqxZx50RyLJs1WY4bGiex
-         E0eZWAwuDt0HdZ3g2InjGF8q7AJ/nvZ+IrJenYDTMPBUEL5zBqFpwQvTI1bJZla4nj8y
-         21ojQ9bBNOwAVYaTvst4t9bdZXa0qIaC2ZtCZ3mSXLRdBsJxUumH11ScJi5Y2Z9kelNx
-         veyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=mDJkHhDfbR5B0ByqxT9qzv83+c9UizfDkoKu8GlqWyE=;
-        fh=m6WLBw+Xd1JFqS9WByUoXZypPt3qBOjCoRMEEYk4h6w=;
-        b=WF5YVr0/nzAKZBgxX3wJdJQGTA4lOgxpHFJP8gFSI4WaVy2Gdqy+kRsIr1MblTpcLb
-         xEq7r9QmKA5wbbdfg+BNHEIqD8pQogafJ/9DhTpNSjtEVWpzkIoIAs9GWR1eg9Kz8jTM
-         R4QDZfSCcJIaOx+eQDhjyqWnQG2+eLwOQEhLsqQQ+J/9KAat1U7+Bh/X+r7+FYuJTCiS
-         ArMYuXb+mIgmL+WfL6/uGq07JD71oWJKIVlTYCQKSuOPLz+VFpUmUuleBpcUVdXcEs/7
-         d3l8YpAH7keqpeA7oQWg4OAUJvBNA8PKZ8KGSFminTdgmIPyPMgy7cuHqIyVvF0F1Uwz
-         kpIw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1781095358; x=1781700158; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mDJkHhDfbR5B0ByqxT9qzv83+c9UizfDkoKu8GlqWyE=;
-        b=fTSFilQjDyi25mr1Nnh3Y4Eh6VAjK6xlWKbX9gYMz4yG3CnrPiZIF9OXFsP3bMeBM5
-         doR1Huba/Ow4RHEiO/UtLJwFRmGHCPi5s+IzqhkvgzreU0S1sKGLUW5GrjKxY1VCTuPg
-         43tIgbuI7aGTPLXiGYNCvAjbOqs0Q0bsCEijIU/TZNbftDcsCRUlWOpYMQVELV6SG/x/
-         M4xiREFZ5HmfaglnV+6UNN9XE9DaAb07ccMr7g9pQaoj+sCOVReNH5avM8FafrK6ai8A
-         yeHv626/n0SkC3iN2Qa7H4gDUwRTZlznG/MsrCbqiimZEhdD+3LDSlZ5jf6i6TxbjO6S
-         6+IQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781095358; x=1781700158;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mDJkHhDfbR5B0ByqxT9qzv83+c9UizfDkoKu8GlqWyE=;
-        b=ZXK3dIC3Evf/BlO2RDPJxUuNfaObPzzUl1R+e91t+ZTJ4Ev6KifrKcu5o/YlAuTOda
-         XsAFBu3lXfA5es3vQRj8uPllieH+VO0HIJ9hlHeu7rmrZ9VIRuMFia4k48eDW9PFtzMF
-         fDI06A+SdPGO2tLn7ZOaMHPgQYc91KHahv3KyBQ7zPEMoHLT1zWygx7LbXbzNERODZe8
-         Xfwg1EhvC7e6csvd07iK4uL7foHXYy2eK8/Kx+ajmpXylVsL4duzmTDCW/oX/TFhJu9r
-         Vxo231HmvEJFJiGV+pg4PTfGd/VKzMQT7R1wmqEIWEd2PrWBKEx/hRomWBMsjz85HVvV
-         BLuw==
-X-Forwarded-Encrypted: i=1; AFNElJ9oY61gD7UpI7VDS0zmyebr7RkU22+n+i79OSkwtjUt2IlGYEZvv/zlRwANrVJS/9OGZVSbuF1TWAyLUCsX@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8fNW3vNsauCfdOjtm1orDcBG7aEP0ZuEZXxb/z/97rmY7mtZJ
-	nAdXpdg48NQzTr0/reHMLltk7pkpM+hg1Syz06XM/4K9bb0kTuLQlrLClv9IsY5Iat5GPlAWefD
-	pBBJBFCqJD3gBpRVd2QJXiHZygrv/JbKeJiOa9Li9Eg==
-X-Gm-Gg: Acq92OHMikaLlriZD4jJymXvJKThFNbOzfNSxsU0hFzcnONd3j38C4EN3bYMV0lbf8C
-	Kna4NDWAti0pFyxsB8plFhQveaxEA6fid08MflEGWjnQEEi1fmffmAF51UL7aWSqYQ/dlp5J52m
-	K1l7zkCmIgFosYweNENbjx1hXjvsc6+QdpxlOzxyns23kRdvhegOJPs0v+1NKoFqnj/mieJmpBi
-	nMJdbdnGeCJ7QuExqh+5vpYtgT1fB6ScPvB2Edh37Uy2ta6eT527fAMqSkFQs7gAzjWcwQMsJUO
-	r8fA50Wr13i5dDdWPGp0pbKYERuGS3r3lGVqLflvAv/TNtwf0yY=
-X-Received: by 2002:a05:6512:3b22:b0:5aa:8822:b875 with SMTP id
- 2adb3069b0e04-5aa8822b8abmr7700453e87.47.1781095358166; Wed, 10 Jun 2026
- 05:42:38 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="TBQL4ylJ"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1781097485; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=A/HoLO1vkb28BfXkSR6vswnuPkF0Ts/nxZYlD2WzISg=;
+	b=TBQL4ylJKbSvsQpfBUvDD+0E8h3QulXEEdla6Yj7SEKZyo7UZ+HaRf9bcdl1MnB0qHDWN/4fgId2jUc66k/Xsz2OewGyrT/t2Bt1ZCstTPjYc49dvMdY3BRHapt4MoP32g/m7n0EkmWHFS1Y9if1Al8CGNqVJsstSjwtqnC8psU=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0X4aj9G2_1781097484;
+Received: from 30.120.66.214(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X4aj9G2_1781097484 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 10 Jun 2026 21:18:04 +0800
+Message-ID: <64f23c85-2a83-42e4-ba09-c815dcb7c98c@linux.alibaba.com>
+Date: Wed, 10 Jun 2026 21:18:03 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260508134541.282073-1-marco.crivellari@suse.com>
- <20260508134541.282073-6-marco.crivellari@suse.com> <CAJfpegvW1yoVEfzbArHye4KmDgOuqeVHNhahR6Q25cvB-hHfmw@mail.gmail.com>
-In-Reply-To: <CAJfpegvW1yoVEfzbArHye4KmDgOuqeVHNhahR6Q25cvB-hHfmw@mail.gmail.com>
-From: Marco Crivellari <marco.crivellari@suse.com>
-Date: Wed, 10 Jun 2026 14:42:27 +0200
-X-Gm-Features: AVVi8CfoRHjPMIzcjKp5oGkBjjPzkUXsg3dhQ766nBa_pJbwcvRf_LkjXjqXb4M
-Message-ID: <CAAofZF4ryNQnXKy+GyXdu8icnGUFKOj4gM6htDYpMjiU_CjwCw@mail.gmail.com>
-Subject: Re: [RFC PATCH 5/6] fuse: dax: Move long delayed work on system_dfl_long_wq
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-kernel@vger.kernel.org, Tejun Heo <tj@kernel.org>, 
-	Lai Jiangshan <jiangshanlai@gmail.com>, Frederic Weisbecker <frederic@kernel.org>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Michal Hocko <mhocko@suse.com>, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: Stacking filesystem deadlocks [was Re: Fanotify (hsm or erofs) /
+ fuse / nbd / ... + write(mmap) deadlock vector followup]
+To: Jan Kara <jack@suse.cz>
+Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
+ Gao Xiang <xiang@kernel.org>, Song Liu <song@kernel.org>,
+ Amir Goldstein <amir73il@gmail.com>
+References: <d5f62836-62d1-4b8e-9694-bbab27112e7e@linux.alibaba.com>
+ <649fdbbb-64f7-43d9-afd5-a3076e3ec946@linux.alibaba.com>
+ <CAOQ4uxj+WAe+99FFi9RfMd5tpSwwP=rSH4dNuJEdhV1wL+5CDA@mail.gmail.com>
+ <dff837f6-7480-4984-8728-802ddd78dda4@linux.alibaba.com>
+ <CAOQ4uxi7DceKuh6+qGjuQJEFiE=HEFu4dMrc++VXUknRnX26JQ@mail.gmail.com>
+ <95371379-97e9-4cb4-8358-ec014b765b74@linux.alibaba.com>
+ <CAOQ4uxjh5VYkKLAKxhMsy-ZmrbRrgX4pFgBLFqsDqWMXeiqg3w@mail.gmail.com>
+ <ac05da56-eb2a-4862-b887-8081f249d8ce@linux.alibaba.com>
+ <CAOQ4uxi0yRavUeztRh-Eb8_HvpfmqkpPbWT9JgQhUn7EKXnryw@mail.gmail.com>
+ <e36c9ef5-4cd0-4281-9598-c1bfb8ebfaa0@linux.alibaba.com>
+ <5lz5jq7gzoejbywmh56ayfkdiuqsjd2s5pl5uvlflfxc5lq4rr@thr4hrkw67d2>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <5lz5jq7gzoejbywmh56ayfkdiuqsjd2s5pl5uvlflfxc5lq4rr@thr4hrkw67d2>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 10, 2026 at 2:17=E2=80=AFPM Miklos Szeredi <miklos@szeredi.hu> =
-wrote:
->
-> On Fri, 8 May 2026 at 15:45, Marco Crivellari <marco.crivellari@suse.com>=
- wrote:
-> >
-> > Currently the code enqueue work items using {queue|mod}_delayed_work(),
-> > using system_long_wq. This workqueue should be used when long works are
-> > expected and it is a per-cpu workqueue.
-> >
-> > The function(s) end up calling __queue_delayed_work(), which set a glob=
-al
-> > timer that could fire anywhere, enqueuing the work where the timer fire=
-d.
-> >
-> > Unbound works could benefit from scheduler task placement, to optimize
-> > performance and power consumption. Long work shouldn't stick to a singl=
-e
-> > CPU.
-> >
-> > Recently, a new unbound workqueue specific for long running work has
-> > been added:
-> >
-> >     c116737e972e ("workqueue: Add system_dfl_long_wq for long unbound w=
-orks")
-> >
-> > Since the workqueue work doesn't rely on per-cpu variables, there is no
-> > obvious reason that justify the use of a per-cpu workqueue. So change
-> > system_long_wq with system_dfl_long_wq so that the work may benefit fro=
-m
-> > scheduler task placement.
-> >
-> > Cc: Miklos Szeredi <miklos@szeredi.hu>
-> > Cc: linux-fsdevel@vger.kernel.org
-> > Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
->
-> Applied, thanks.
->
-> Miklos
+Hi Jan,
 
-Many thanks!
+On 2026/6/10 20:21, Jan Kara wrote:
+> Hi!
+> 
+> On Wed 10-06-26 16:17:33, Gao Xiang wrote:
+>> Amir just suggested that I posted a long off-list discussion
+>> on the list right now, but since it seems to relate to
+>> `sb->s_writers.rw_sem` locking design, I am not quite sure
+>> how deep I could help generally: But here it goes.
+>>
+>> The background is that we have discussed a generic deadlock
+>> timing for several months as below:
+>>
+>> fsA is a filesystem which supports fsfreeze, such as EXT4/XFS/...
+>>
+>> fsB is a filesystem which have some relationship with a
+>> userspace daemon (e.g. a filesystem with fanotify HSM hooks /
+>>    fanotify + EROFS file-backed mounts / a FUSE filesystem or
+>>    a filesystem backed by a virtual block device)
+>>
+>> Thread A                           Thread B                                 Userspace deamon
+>>   write(fsA_fd, mmap(fsB_fd))
+>>    file_start_write()
+>>     (take SB_FREEZE_WRITE read lock)
+>>
+>>     handle fsB mmap fault read
+>>      -> notify userspace and wait
+>>
+>>                                     freeze_super
+>>                                     (try to take SB_FREEZE_WRITE write lock)
+>>                                                                              received/handling fsB mmap read request
+>>                                                                              (do random something...)
+>>                                                                              write(fsA_fd2)
+>>                                                                               (take SB_FREEZE_WRITE read lock)
+>> The problem timing here is thread A does
+>> `write(fsA_fd, mmap(fsB_fd))` => file_start_write() (rwsem read),
+>> then hits page fault and wait for userspace deamon to finish
+>> the request;
+>>
+>> Thread B does fsfreeze on fsA so it is waiting a write lock
+>> (sb_wait_write(), rwsem write) and blocked on thread A;
+>>
+>> And the userspace deamon is a handler handling page fault,
+>> and trying to write to another file (fsA_fd2) on fsA again
+>> and blocked on thread B (file_start_write(), rwsem read).
+>>
+>> because of the specific locking timing is `R->W->R`, at least
+>> the whole workflow won't proceed so the related processes
+>> (and fsA above) will be stuck.
+> 
+> Thanks a lot for the good summary! It has helped me to look at the problem
+> from a bit different angle and I don't think it's actually specific to
+> filesystem freezing or fanotify HSM. Consider the following simple setup:
+> 
+> You have XFS filesystem fsA. On it you have a file imageA and you setup
+> loop device loop0 over imageA and mount it as some filesystem fsB. Now you
+> do write(imageA_fd, mmap(fsB_fd)) and you get a nice system deadlock (tried
+> that and it really works :)). The problem is that write to imageA_fd
+> acquires exclusively i_rwsem in imageA, then goes on to fault page on fsB
+> which maps to a read from loop0 which maps to a read from imageA and
+> xfs_file_read_iter() wants to acquire i_rwsem for imageA again.
 
---=20
+Ah, great catch, but mainly because XFS takes i_rwsem read lock
+on read paths LOL.
 
-Marco Crivellari
+Yes, yet this deadlock sounds more like a fixed flow/pattern, which
+is somewhat slightly different than fsfreeze issue since fanotify
+needs racy between threads (causing RWR order casually and cause
+Linux rwsem model deadlock) and may not need stacking filesystems.
 
-SUSE Labs
+I'm not sure how this deadlock can be avoided easily since it's
+a deterministic single-thread timing, but as you said, at least it
+needs privilege (like fanotify which needs privilege too).
+
+btw, I remembered Miklos once mentioned some i_rwsem deadlock cases
+too, maybe i_rwsem could cause some generic issue.
+
+> 
+> I would not consider this a real DoS vector since you generally need
+> priviledge to perform such nasty write but still isn't not great the system
+> can be deadlocked like this and I think we should fix cases like this.
+> 
+> Arguably, to address this particular case, we could block writes (and
+> reads!) to a file that's used as a backing loop device file similarly
+> as we do that for swapfiles but here I'm seriously worried of userspace
+> regressions. I've seen userspace scripts setting up loop device and *then*
+> running mkfs or editing partition table directly on the backing file.
+
+but I think erofs file-backed mounts can just simply block write to
+the backing file to avoid this: I don't think support this is useful,
+but yes, it's also priviledged...
+
+Thanks,
+Gao Xiang
+
+> 
+> Also with the use of filesystem freezing on fsA, write to any target
+> file (not only imageA) in fsA can create such deadlock if the page fault on
+> the stacked filesystem ends up wanting to do some modification of imageA.
+> So I don't think blocking IO to the loop device backing file will be even a
+> complete fix.
+> 
+> I think the underlying reason why that write(imageA_fd, mmap(fsB_fd))
+> pattern causes issues is that it essentially creates a loop in the stacked
+> filesystem graph which can cause all sorts of lock inversions compared to
+> the natural order of taking locks for the stacked filesystems. So can we
+> somehow forbid that? Or do we simply not care and if priviledged user does
+> something stupid, he gets to reboot the machine? Any other ideas?
+> 
+> 								Honza
+> 
+
