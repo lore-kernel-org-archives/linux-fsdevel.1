@@ -1,214 +1,567 @@
-Received: from out30-97.freemail.mail.aliyun.com (out30-97.freemail.mail.aliyun.com [115.124.30.97])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3817381B10;
-	Wed, 10 Jun 2026 06:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.97
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2C737472F;
+	Wed, 10 Jun 2026 07:05:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781074568; cv=none; b=HIPpeupgSTQEVDgRvQsPRJrnON1epPhsR7vQtiPZloOYK8h0rnJMNujW0qPF662+N6Xnmls1+tU9m/fjIU/gZzWsiW0KfV9EdiMoLgA4AjN80CP2xOoARsY2aiXE5h8bDmIkLLFDFIBWxcrZtXSpaZ668x9s75C4znxpSfHTOGI=
+	t=1781075141; cv=none; b=IhiEpcbYQBeXymUxJDxW+55o5ZPoDTAviIEST1eSgQYZ3Q2R6JO2ovwzHwuZR5+3I91ZXcjFeT3yZqTml1E9HiQ4ZQ+iw0dxLaLd+swIsSsoztBQh9UDwxh2UmwetYBb37TLjaNZtxvTlnoBl3/aSvC4nBo8pYbFqAySEI2JplM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781074568; c=relaxed/simple;
-	bh=rRDfpSzw3X6enhuhpGqG6t8VOaobODgmutXYPZvFcJg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BIV4QqlhujrT17+c8450TMq2cE90pC2cpniEEr7pom0515Rh8MqJSQ5cA6UmOD2dlj3Do9et2YkHhxfpPA810P5sU732tPuhUj4SBtX3DfTwuUhOjV6644JZ1DJzARhTaIEtvjzAYE2cck0hRV1NAD9MjoqIs0Kaonli9NjV4cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=aNQ7PbRk; arc=none smtp.client-ip=115.124.30.97
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1781075141; c=relaxed/simple;
+	bh=/Zx7EYZn3kYcExewx8C69iXYi8IMyXloDbyNTV7gPOk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IRHYWMG8o3RatZBDz21qC4zc0DUBT7XSVdWsTeFvbPUaZl7sMBQdwcIN2sKNE2gk/Yelf1vcSac5K+Ij4mNTFu8GP6GP+favlzxacUiNQ0uCLri5oHnH+kqUKgpn+SOcNiVpPImMlnKGr8JCzvmcgzw958irflu6bgQYeZBuoxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eS77paJX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="aNQ7PbRk"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1781074556; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=tHKZXlYHzQiuz4CuXIVUBayRBgQEvDJmST6DE9mf+8g=;
-	b=aNQ7PbRkZItFf11r6vye/H8dRDn2Z6ZAjuVVWvn0YNKanggFZPXafrhDoQui5jX0eHL87te9FysI5HQa/o/wTuo4pGFqDZdwSkh4X9Fmze5auj2q9kC249IitnczyEeadQwx8k3Dv6Ayl1JqDryyulYUiVOs5hAajrIAlZLwxGU=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R961e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=17;SR=0;TI=SMTPD_---0X4ZbVxy_1781074555;
-Received: from 30.221.130.225(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X4ZbVxy_1781074555 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 10 Jun 2026 14:55:56 +0800
-Message-ID: <e4aa171b-ac0f-4cd1-8605-91a3f82a4faf@linux.alibaba.com>
-Date: Wed, 10 Jun 2026 14:55:54 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eS77paJX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 252871F00893;
+	Wed, 10 Jun 2026 07:05:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781075139;
+	bh=F6mN/g5BT5iHzCmQaxkco8KHpTiQWAtdgD7vgOhTo8A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=eS77paJX+kjsQpdW8p0Kf9F6thV2td8zsgOmce1O4jsc/FDlNYyZjJtnvuTp1cJ4s
+	 PYWtWUQ2EkfQblAUA3kousIhmCHO4gLDwWS9kH07iwboGRgAAworpvCkB+zQ+i6ewg
+	 VhyNqW7a51iIYTDmMGVKRScAPq8L5KxpUUIYAw3hmxJzrdX1iXx21LL4ZQym7xR3gf
+	 /0p8gEEpZTKnE3MO3muAw4ozO9HYjvDb5lfLW0XEwMoWcjaM/xZRnrOkBR8oPSNXq4
+	 CU/crwsQpMEjr/8O14D+U1HcAwJFmuPmPw9vrTDF2xAfdPaLMNVGQYWpSoPTfewipA
+	 PiZcAsc/9LOJw==
+Date: Wed, 10 Jun 2026 08:05:32 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, 
+	david@redhat.com, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
+	pfalcato@suse.de, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH 2/2] fs/proc/task_mmu: read proc/pid/smaps_rollup under
+ per-vma lock
+Message-ID: <aikLCwuzqBetvDrf@lucifer>
+References: <20260606015729.1837935-1-surenb@google.com>
+ <20260606015729.1837935-2-surenb@google.com>
+ <aifO_rCurVhFRTcl@lucifer>
+ <CAJuCfpFOpvNmV4aHnk3Vi0Jg4vF4Cmsm86h2vODZ84FVLXt9yw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 7/8] erofs: open via dedicated fs bdev helpers
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Carlos Maiolino <cem@kernel.org>,
- linux-xfs@vger.kernel.org, Chris Mason <clm@fb.com>,
- David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org,
- Theodore Ts'o <tytso@mit.edu>, linux-ext4@vger.kernel.org,
- Gao Xiang <xiang@kernel.org>, linux-erofs@lists.ozlabs.org,
- Christoph Hellwig <hch@lst.de>, Jan Kara <jack@suse.cz>
-References: <20260602-work-super-bdev_holder_global-v1-0-bb0fd82f3861@kernel.org>
- <20260602-work-super-bdev_holder_global-v1-7-bb0fd82f3861@kernel.org>
- <7c5bfcf0-36a3-4cc6-bf31-6af4fc901c37@linux.alibaba.com>
- <20260603-nieder-ausdehnen-siebdruck-aa96f40ebec6@brauner>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <20260603-nieder-ausdehnen-siebdruck-aa96f40ebec6@brauner>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJuCfpFOpvNmV4aHnk3Vi0Jg4vF4Cmsm86h2vODZ84FVLXt9yw@mail.gmail.com>
 
-Hi Christian,
+On Tue, Jun 09, 2026 at 10:11:03AM -0700, Suren Baghdasaryan wrote:
+> On Tue, Jun 9, 2026 at 3:00 AM Lorenzo Stoakes <ljs@kernel.org> wrote:
+> >
+> > On Fri, Jun 05, 2026 at 06:57:29PM -0700, Suren Baghdasaryan wrote:
+> > > proc/pid/smaps_rollup can be read using the combination of RCU and
+> > > VMA read locks, similar to proc/pid/{maps|smaps|numa_maps}. RCU is
+> > > required to safely traverse the VMA tree and VMA lock stabilizes the
+> > > VMA being processed and the pagetable walk.
+> > > Note that we have to keep the logic to drop mmap_lock on contention
+> > > because even when using per-VMA locks we might have to fall back to
+> > > holding the mmap_lock.
+> > >
+> > > Running Paul's contention benchmark [1] shows considerable improvement
+> > > both in median and in the worst case latencies:
+> > >
+> > > Execution command: run-proc-vs-map.sh --nsamples 20 --rawdata -- \
+> > > --busyduration 2 --procfile smaps_rollup
+> > >
+> > > Baseline:
+> > >
+> > >     0.174     0.161     2.553
+> > >     0.174     0.164     2.663
+> > >     0.174     0.165     2.664
+> > >     0.174     0.166     2.679
+> > >     0.174     0.167     2.691
+> > >     0.174     0.168     2.704
+> > >     0.174     0.169     2.729
+> > >     0.174     0.172     2.741
+> > >     0.174     0.174     2.745
+> > >     0.174     0.174     2.755
+> > >     0.174     0.175     2.790
+> > >     0.174     0.177     2.809
+> > >     0.174     0.179     3.096
+> > >     0.174     0.183     3.144
+> > >     0.174     0.184     3.158
+> > >     0.174     0.185     3.175
+> > >     0.174     0.185     4.568
+> > >     0.174     0.198     4.821
+> > >     0.174     0.214     5.143
+> > >     0.174     0.251     5.220
+> > >
+> > > Patched:
+> > >
+> > >     0.007     0.007     1.952
+> > >     0.007     0.007     1.955
+> > >     0.007     0.007     1.955
+> > >     0.007     0.007     1.955
+> > >     0.007     0.007     1.957
+> > >     0.007     0.007     1.969
+> > >     0.007     0.007     2.065
+> > >     0.007     0.007     2.075
+> > >     0.007     0.007     2.146
+> > >     0.007     0.007     2.195
+> > >     0.007     0.007     2.223
+> > >     0.007     0.007     2.259
+> > >     0.007     0.007     2.488
+> > >     0.007     0.007     2.562
+> > >     0.007     0.007     2.599
+> > >     0.007     0.007     2.697
+> > >     0.007     0.007     3.030
+> > >     0.007     0.007     3.075
+> > >     0.007     0.007     3.145
+> > >     0.007     0.007     3.225
+> >
+> > Ohhh lovely!
+> >
+> > >
+> > > [1] https://github.com/paulmckrcu/proc-mmap_sem-test
+> > >
+> > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> >
+> > Having looked through it carefully the logic looks correct to me, but I
+> > think we can improve how this is implemented, so attach a patch with my
+> > suggestions folded up to make life easier!
+> >
+> > > ---
+> > >  fs/proc/task_mmu.c | 134 ++++++++++++++++++++-------------------------
+> > >  1 file changed, 59 insertions(+), 75 deletions(-)
+> > >
+> > > diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> > > index 023422fcee12..c2bd9f5bbbcd 100644
+> > > --- a/fs/proc/task_mmu.c
+> > > +++ b/fs/proc/task_mmu.c
+> > > @@ -233,6 +233,16 @@ static inline void reacquire_rcu(struct proc_maps_private *priv)
+> > >       vma_iter_set(&priv->iter, priv->lock_ctx.locked_vma->vm_end);
+> > >  }
+> > >
+> > > +static inline bool is_mmap_lock_contended(struct proc_maps_private *priv)
+> >
+> > Hmm seems David and I are saying the same things :) but yeah this name being
+> > very close to mmap_lock_is_contended() is suboptimal.
+> >
+> > Also the inline is pointless here and suppresses the compiler unused check which
+> > isn't helpful.
+>
+> Ack.
+>
+> >
+> > But in general, given we already have the lock context I think we can do away
+> > with this altogether, see below.
+> >
+> >
+> > > +{
+> > > +     struct proc_maps_locking_ctx *lock_ctx = &priv->lock_ctx;
+> > > +
+> > > +     if (!lock_ctx->mmap_locked)
+> > > +             return false;
+> > > +
+> > > +     return !!mmap_lock_is_contended(lock_ctx->mm);
+> >
+> > As David said, !! is not a necessary incantation any more :)
+>
+> Ack.
+>
+> >
+> > > +}
+> > > +
+> > >  #else /* CONFIG_PER_VMA_LOCK */
+> > >
+> > >  static inline int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+> > > @@ -268,6 +278,11 @@ static inline bool fallback_to_mmap_lock(struct proc_maps_private *priv,
+> > >       return false;
+> > >  }
+> > >
+> > > +static inline bool is_mmap_lock_contended(struct proc_maps_private *priv)
+> > > +{
+> > > +     return !!mmap_lock_is_contended(priv->lock_ctx.mm);
+> >
+> > Similarly. But also as above I don't think we need this.
+>
+> Sadly, for now we do (see my later comment).
+>
+> >
+> > > +}
+> > > +
+> > >  static inline void drop_rcu(struct proc_maps_private *priv) {}
+> > >  static inline void reacquire_rcu(struct proc_maps_private *priv) {}
+> > >
+> > > @@ -1486,12 +1501,15 @@ static int show_smap(struct seq_file *m, void *v)
+> > >  static int show_smaps_rollup(struct seq_file *m, void *v)
+> > >  {
+> > >       struct proc_maps_private *priv = m->private;
+> > > +     struct proc_maps_locking_ctx *lock_ctx = &priv->lock_ctx;
+> > > +     struct mm_struct *mm = lock_ctx->mm;
+> > >       struct mem_size_stats mss = {};
+> > > -     struct mm_struct *mm = priv->lock_ctx.mm;
+> > >       struct vm_area_struct *vma;
+> > > -     unsigned long vma_start = 0, last_vma_end = 0;
+> > > +     unsigned long vma_start = 0;
+> > > +     unsigned long last_vma_end = 0;
+> >
+> > I mean I kinda prefer these separate but obviously not necessary :P
+>
+> It looked nicer I think :)
 
-On 2026/6/3 21:42, Christian Brauner wrote:
->> May I ask if it's an urgent 7.2 work? If not, I could
-> 
-> No no, it's way too late for that this cycle.
-> 
->> make a preparation patch for the upcoming 7.2 cycle
->> to handle erofs_map_dev() failure here so you don't
->> need to bother with this in this patchset.
-> 
-> Sounds good. I take it you can just do this yourself without me.
-> 
->> I will seek more time to resolve the recent todos
-> 
-> Thanks!
-> 
->> yet always intercepted by other unrelated stuffs.
-> 
-> :)
+Yeah tbh I think you're right
 
-I removed .shutdown() and .remove_bdev() implementations since I
-think it doesn't quite seem necessary for immutable fses, but
-would like to know your thoughts too, my overall own comments are
-documented in the commit message below:
+>
+> >
+> > > +     loff_t pos = 0;
+> > >       int ret = 0;
+> > > -     VMA_ITERATOR(vmi, mm, 0);
+> > > +
+> >
+> > Yeah extra line as David said :)
+>
+> Ack.
+>
+> >
+> > >
+> > >       priv->task = get_proc_task(priv->inode);
+> > >       if (!priv->task)
+> > > @@ -1502,89 +1520,55 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+> > >               goto out_put_task;
+> > >       }
+> > >
+> > > -     ret = lock_ctx_mm(&priv->lock_ctx);
+> > > +     hold_task_mempolicy(priv);
+> > > +     ret = lock_vma_range(m, lock_ctx);
+> > >       if (ret)
+> > >               goto out_put_mm;
+> > >
+> > > -     hold_task_mempolicy(priv);
+> > > -     vma = vma_next(&vmi);
+> > > -
+> > > -     if (unlikely(!vma))
+> > > +     vma_iter_init(&priv->iter, mm, 0);
+> > > +     vma = proc_get_vma(m, &pos);
+> > > +     if (unlikely(!vma) || vma == get_gate_vma(priv->lock_ctx.mm))
+> > >               goto empty_set;
+> >
+> > Is the gate VMA check here necessary? We already check it in the loop.
+>
+> We need it to avoid resetting vma_start, which is being reported even
+> when no normal VMAs are present.
 
+Well previously smap_gather_stats() would just be a no-op for a gate VMA, as it
+has:
 
- From 933f6c6f2e704116d9a15815c880196bec7b9ee3 Mon Sep 17 00:00:00 2001
-From: Christian Brauner <brauner@kernel.org>
-Date: Tue, 2 Jun 2026 12:10:13 +0200
-Subject: [PATCH] erofs: open via dedicated fs bdev helpers
+	if (vma == get_gate_vma(priv->lock_ctx.mm))
+		return;
 
-Route opens through fs_bdev_file_open_by_path() so each external device
-is registered against the correct superblock, and convert the matching
-releases.
+Not sure if you'd have VMAs past that (is that even possible?) but in that case
+we would have set vma_start previously.
 
-Gao Xiang: I think typical immutable filesystems don't need .shutdown()
-and .remove_bdev() for the following reasons:
+>
+> >
+> > >
+> > > +     if (IS_ERR(vma)) {
+> > > +             ret = PTR_ERR(vma);
+> > > +             goto out_unlock;
+> > > +     }
+> >
+> > Again this is duplicated.
+> >
+> > > +
+> > >       vma_start = vma->vm_start;
+> >
+> > Could just drop the gate check, and replace this with:
+> >
+> >         vma_start = IS_ERR(vma) ? 0 : vma->vm_start;
+>
+> Yeah, that would work. I don't have a strong preference but avoiding
+> the loop on error seemed cleaner to me. Will change.
+>
+> >
+> > > -     do {
+> > > -             smap_gather_stats(priv, vma, &mss, 0);
+> > > +     while (vma) {
+> > > +             if (IS_ERR(vma)) {
+> > > +                     ret = PTR_ERR(vma);
+> > > +                     goto out_unlock;
+> > > +             }
+> > > +
+> > > +             if (vma == get_gate_vma(priv->lock_ctx.mm))
+> > > +                     break;
+> > > +
+> > > +             /*
+> > > +              * If after retaking mmap_lock, already reported VMA grew or
+> > > +              * merged with the next one, then iterate from last_vma_end.
+> > > +              */
+> >
+> > Hmm, but if the already reported VMA grew, vma->vm_start would not be <
+> > last_vma_end would it?
+>
+> The scenario is: we reported the VMA before it grew, we set
+> last_vma_end to its vm_end then dropped the lock. Later after VMA grew
+> we searched past the last_vma_end and found the same VMA because now
+> it spans past last_vma_end. In this case vma->vm_start will be less
+> than last_vma_end and I think this would happen either if the VMA grew
+> or got merged with its upper neighbor.
 
-  - blk_mark_disk_dead() sets GD_DEAD in advance of fs_bdev_mark_dead()
-    so that the following bios will fail immediately; block_device
-    references are still valid so it seems overkill to handle dead
-    blockdevs in the deep filesystem I/O submission path.
+OK yeah, I was thinking in terms of 2 adjacent VMAs, but in that case a 'grow'
+is a merge, so it's either merge or grew into unmapped space.
 
-  - Immutable filesystems like EROFS don't have write paths and journals,
-    so they don't need to block writes (i.e., new dirty pages), metadata
-    changes, and abort journals.
+>
+> >
+> > So surely this is only covering the merge case?
+> >
+> > > +             smap_gather_stats(priv, vma, &mss,
+> > > +                               vma->vm_start < last_vma_end ? last_vma_end : 0);
+> >
+> > I don't love how compressed this is.
+> >
+> > I also don't love that 0 is taken to be 'start from vma->vm_start' and I
+> > also don't love that the code in smap_gather_stats() actually special cases
+> > this...
+> >
+> > How about passing last_vma_end and making smap_gather_stats() more sane? In
+> > the other invocation of smap_gather_stats() we could pass vma->vm_start
+> > here.
+> >
+> > We can then move the comment into smap_gather_stats(). E.g.:
+> >
+> >                 /* Handles the case of VMA merged since mmap locked drop too. */
+> >                 smap_gather_stats(priv, vma, &mss, last_vma_end);
+> >
+> > To make life easier I put all of my suggestions into a patch which I've
+> > attached :) (though it is untested) let me know what you think.
+>
+> I was trying to minimize changes to the current logic but that would
+> be cleaner. I think it would be better to make this logical change as
+> a separate prerequisite patch. If you agree then I'll do that in my
+> next version.
 
-  - The comment above loop_change_fd() documents a valid read-only use
-    case we need to support anyway, but it calls disk_force_media_change()
-    which will call fs_bdev_mark_dead() later: we don't want loop_change_fd()
-    shutdowns the active filesystems and return -EIO unconditionally.
+Yeah makes sense, thanks!
 
-Currently I think the default behavior (shrink_dcache_sb + evict_inodes)
-in fs_bdev_mark_dead() is enough for immutable filesystems, tried to
-document in the commit here for later reference.
+>
+> >
+> >
+> > >               last_vma_end = vma->vm_end;
+> > >
+> > >               /*
+> > >                * Release mmap_lock temporarily if someone wants to
+> > > -              * access it for write request.
+> > > +              * take it for write request.
+> >
+> > I think this is better rewritten to reflect the changes. E.g.:
+> >
+> >                 /*
+> >                  * If the VMA lock is not taken, we hold the often contended
+> >                  * mmap lock. This can be because the arch doesn't support VMA
+> >                  * locks,or we had to fall back to the mmap lock.
+>
+> I intend to postpone this patchset until after Dave's patchset lands
+> into mm-unstable, so this "arch doesn't support VMA locks" part will
+> not be there, but othereise SGTM.
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-Signed-off-by: Gao Xiang <hsiangkao@linux.alibaba.com>
----
-  fs/erofs/super.c | 35 +++++++++++++++++++++++------------
-  1 file changed, 23 insertions(+), 12 deletions(-)
+Yeah that'd be neater, be good to eliminate all the !CONFIG_PER_VMA_LOCK stuff.
 
-diff --git a/fs/erofs/super.c b/fs/erofs/super.c
-index 802add6652fd..def9cbfbc9d8 100644
---- a/fs/erofs/super.c
-+++ b/fs/erofs/super.c
-@@ -153,8 +153,8 @@ static int erofs_init_device(struct erofs_buf *buf, struct super_block *sb,
-  	} else if (!sbi->devs->flatdev) {
-  		file = erofs_is_fileio_mode(sbi) ?
-  				filp_open(dif->path, O_RDONLY | O_LARGEFILE, 0) :
--				bdev_file_open_by_path(dif->path,
--						BLK_OPEN_READ, sb->s_type, NULL);
-+				fs_bdev_file_open_by_path(dif->path,
-+						BLK_OPEN_READ, sb->s_type, sb);
-  		if (IS_ERR(file)) {
-  			if (file == ERR_PTR(-ENOTBLK))
-  				return -EINVAL;
-@@ -843,11 +843,16 @@ static int erofs_fc_reconfigure(struct fs_context *fc)
+>
+> >                  *
+> >                  * To relieve pressure, check if it is indeed contended, then
+> >                  * temporarily release it.
+> >                  */
+> >
+> > >                */
+> > > -             if (mmap_lock_is_contended(mm)) {
+> > > -                     vma_iter_invalidate(&vmi);
+> > > -                     unlock_ctx_mm(&priv->lock_ctx);
+> > > -                     ret = lock_ctx_mm(&priv->lock_ctx);
+> > > -                     if (ret) {
+> > > -                             release_task_mempolicy(priv);
+> > > +             if (is_mmap_lock_contended(priv)) {
+> >
+> > We have both mm and lock_ctx already.
+> >
+> > So we could instead do:
+> >
+> >                 if (lock_ctx->mmap_locked && mmap_lock_is_contended(mm)) {
+> >                         ...
+> >
+> > Right?
+>
+> Unfortunately not. If you look at the struct proc_maps_locking_ctx
+> definition, mmap_locked will not be there if CONFIG_PER_VMA_LOCK=n.
 
-  static int erofs_release_device_info(int id, void *ptr, void *data)
-  {
-+	struct super_block *sb = data;
-  	struct erofs_device_info *dif = ptr;
+Ugh. We probably shouldn't have bothered making that conditional :>)
 
-  	fs_put_dax(dif->dax_dev, NULL);
--	if (dif->file)
--		fput(dif->file);
-+	if (dif->file) {
-+		if (S_ISBLK(file_inode(dif->file)->i_mode))
-+			fs_bdev_file_release(dif->file, sb);
-+		else
-+			fput(dif->file);
-+	}
-  	erofs_fscache_unregister_cookie(dif->fscache);
-  	dif->fscache = NULL;
-  	kfree(dif->path);
-@@ -855,18 +860,19 @@ static int erofs_release_device_info(int id, void *ptr, void *data)
-  	return 0;
-  }
+> That's why I have to introduce versions of is_mmap_lock_contended()
+> for both CONFIG_PER_VMA_LOCK and !CONFIG_PER_VMA_LOCK configs. And
+> that's why I'm leaning towards waiting for Dave's cleanup to be posted
+> which will eliminate CONFIG_PER_VMA_LOCK. It will clean up many other
+> similar helpers in this file.
 
--static void erofs_free_dev_context(struct erofs_dev_context *devs)
-+static void erofs_free_dev_context(struct erofs_dev_context *devs,
-+				   struct super_block *sb)
-  {
-  	if (!devs)
-  		return;
--	idr_for_each(&devs->tree, &erofs_release_device_info, NULL);
-+	idr_for_each(&devs->tree, &erofs_release_device_info, sb);
-  	idr_destroy(&devs->tree);
-  	kfree(devs);
-  }
+Yeah that simplifies everything.
 
--static void erofs_sb_free(struct erofs_sb_info *sbi)
-+static void erofs_sb_free(struct erofs_sb_info *sbi, struct super_block *sb)
-  {
--	erofs_free_dev_context(sbi->devs);
-+	erofs_free_dev_context(sbi->devs, sb);
-  	kfree(sbi->fsid);
-  	kfree_sensitive(sbi->domain_id);
-  	if (sbi->dif0.file)
-@@ -879,8 +885,13 @@ static void erofs_fc_free(struct fs_context *fc)
-  {
-  	struct erofs_sb_info *sbi = fc->s_fs_info;
+>
+> I just realized I did not CC Dave to this series before, so adding him now.
+>
+> >
+> > > +                     unlock_vma_range(&priv->lock_ctx);
+> >
+> > OK this confuses me - we're gated on lock_ctx->mmap_locked, so this is exactly
+> > the same as unlock_ctx_mm(lock_ctx) right?
+> >
+> > There's no situation here where the VMA lock would be unlocked.
+> >
+> > Surely it'd therefore be clearer to just call unlock_ctx_mm(lock_ctx)
+> > direct?
+>
+> Technically yes but one thing I forgot to do here is to remove the
+> lock_ctx_mm()/unlock_ctx_mm() helpers because after this change there
+> are no direct users for them.
 
--	if (sbi) /* free here if an error occurs before transferring to sb */
--		erofs_sb_free(sbi);
-+	/*
-+	 * Freed here only if an error occurs before the sb is set up; at that
-+	 * point no block-backed device has been claimed (that happens in
-+	 * fill_super), so the NULL sb never reaches fs_bdev_file_release().
-+	 */
-+	if (sbi)
-+		erofs_sb_free(sbi, NULL);
-  }
+OK, but we do need to make this situation clear as otherwise it's
+confusing. Maybe just move to calling unlock_vma_range() unlock_range() or
+something?
 
-  static const struct fs_context_operations erofs_context_ops = {
-@@ -936,7 +947,7 @@ static void erofs_kill_sb(struct super_block *sb)
-  	erofs_drop_internal_inodes(sbi);
-  	fs_put_dax(sbi->dif0.dax_dev, NULL);
-  	erofs_fscache_unregister_fs(sb);
--	erofs_sb_free(sbi);
-+	erofs_sb_free(sbi, sb);
-  	sb->s_fs_info = NULL;
-  }
+>
+> >
+> > > +                     ret = lock_vma_range(m, lock_ctx);
+> > > +                     if (ret)
+> > >                               goto out_put_mm;
+> >
+> >
+> > In the case of VMA locks being supported, but we fell back to mmap locks, this
+> > seems to just be getting us back to the invariant that the RCU read lock is
+> > held.
+> >
+> > However, it's a bit confusing given we're explicitly checking for the
+> > mmap_locked case, so I think it's worth a comment explaining that we might have
+> > fallen back to mmap lock, but could still get the VMA lock on the next VMA.
+> >
+> > E.g.:
+> >
+> >         /*
+> >          * If we are using VMA locks but fell back to an mmap lock, we may
+> >          * be able to VMA lock the next VMA, so reset the lock and try again.
+> >          *
+> >          * Otherwise, if the arch doesn't support VMA locks, this simply
+> >          * retakes the mmap lock.
+> >          */
+>
+> Yeah, I can see now that this case is quite confusing and needs more
+> comments. Will do in the next rev.
 
-@@ -948,7 +959,7 @@ static void erofs_put_super(struct super_block *sb)
-  	erofs_shrinker_unregister(sb);
-  	erofs_xattr_prefixes_cleanup(sb);
-  	erofs_drop_internal_inodes(sbi);
--	erofs_free_dev_context(sbi->devs);
-+	erofs_free_dev_context(sbi->devs, sb);
-  	sbi->devs = NULL;
-  	erofs_fscache_unregister_fs(sb);
-  }
---
-2.43.5
+Thanks
 
+>
+> >
+> >
+> > > -                     }
+> > > -
+> > > -                     /*
+> > > -                      * After dropping the lock, there are four cases to
+> > > -                      * consider. See the following example for explanation.
+> > > -                      *
+> > > -                      *   +------+------+-----------+
+> > > -                      *   | VMA1 | VMA2 | VMA3      |
+> > > -                      *   +------+------+-----------+
+> > > -                      *   |      |      |           |
+> > > -                      *  4k     8k     16k         400k
+> > > -                      *
+> > > -                      * Suppose we drop the lock after reading VMA2 due to
+> > > -                      * contention, then we get:
+> > > -                      *
+> > > -                      *      last_vma_end = 16k
+> > > -                      *
+> > > -                      * 1) VMA2 is freed, but VMA3 exists:
+> > > -                      *
+> > > -                      *    vma_next(vmi) will return VMA3.
+> > > -                      *    In this case, just continue from VMA3.
+> > > -                      *
+> > > -                      * 2) VMA2 still exists:
+> > > -                      *
+> > > -                      *    vma_next(vmi) will return VMA3.
+> > > -                      *    In this case, just continue from VMA3.
+> > > -                      *
+> > > -                      * 3) No more VMAs can be found:
+> > > -                      *
+> > > -                      *    vma_next(vmi) will return NULL.
+> > > -                      *    No more things to do, just break.
+> > > -                      *
+> > > -                      * 4) (last_vma_end - 1) is the middle of a vma (VMA'):
+> > > -                      *
+> > > -                      *    vma_next(vmi) will return VMA' whose range
+> > > -                      *    contains last_vma_end.
+> > > -                      *    Iterate VMA' from last_vma_end.
+> > > -                      */
+> > > -                     vma = vma_next(&vmi);
+> > > -                     /* Case 3 above */
+> > > -                     if (!vma)
+> > > -                             break;
+> > > -
+> > > -                     /* Case 1 and 2 above */
+> > > -                     if (vma->vm_start >= last_vma_end) {
+> > > -                             smap_gather_stats(priv, vma, &mss, 0);
+> > > -                             last_vma_end = vma->vm_end;
+> > > -                             continue;
+> > > -                     }
+> > >
+> > > -                     /* Case 4 above */
+> > > -                     if (vma->vm_end > last_vma_end) {
+> > > -                             smap_gather_stats(priv, vma, &mss, last_vma_end);
+> > > -                             last_vma_end = vma->vm_end;
+> > > -                     }
+> >
+> > OK so you're rolling all this up into the 'if after retaking mmap_lock'
+> > bit.
+>
+> Yep, because Cases 1-3 and quite natural. Case 4 is the only "special"
+> case here IMO, so we handle it separately with separate comments
+> added.
 
+Yeah.
+
+>
+> >
+> > I don't love that we're losing this information, but also it's maybe a
+> > little more than we need here and it's making
+> >
+> > But perhaps could we transfer this into the commit message as a
+> > later-findable justification?
+>
+> Sure, that I can do.
+
+Thanks!
+
+>
+> >
+> > > +                     /* Resume from the last position. */
+> > > +                     pos = last_vma_end;
+> > > +                     vma_iter_init(&priv->iter, mm, pos);
+> > >               }
+> > > -     } for_each_vma(vmi, vma);
+> > > +             vma = proc_get_vma(m, &pos);
+> > > +     }
+> > >
+> > >  empty_set:
+> > >       show_vma_header_prefix(m, vma_start, last_vma_end, 0, 0, 0, 0);
+> > > @@ -1593,10 +1577,10 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+> > >
+> > >       __show_smap(m, &mss, true);
+> > >
+> > > -     release_task_mempolicy(priv);
+> > > -     unlock_ctx_mm(&priv->lock_ctx);
+> > > -
+> > > +out_unlock:
+> > > +     unlock_vma_range(&priv->lock_ctx);
+> > >  out_put_mm:
+> > > +     release_task_mempolicy(priv);
+> >
+> > Previously this was done under the mmap lock, now it's not. I don't think
+> > this should be an issue but just highlighting.
+>
+> Yeah, I looked into that but found no evidence that it's a problem. If
+> anyone knows otherwise please let me know.
+>
+> Thanks for the review, Lorenzo! Much appreciated.
+
+No problem! Thanks for the patch :)
+
+Cheers, Lorenzo
