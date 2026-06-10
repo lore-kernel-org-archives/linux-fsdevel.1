@@ -1,152 +1,281 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A68841B360;
-	Wed, 10 Jun 2026 15:02:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781103724; cv=none; b=rIU6NMuVCjTzmtwnJgMH+i87jg2tt75ldqTFOq/FUEvhO6M6GyuObcGJA/UzzQACguCMnep6lqW+kvMaoWcdOqPm7bfj3mL413RWuuRA/7FWDiAmOH+cXcUVv+wihPCWXQX0SNbe9UUv7N7hntBMCEkkTMwAWbPQ9r7hix93tIo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781103724; c=relaxed/simple;
-	bh=2NAR6Hhxj8b0YM51APAGnZ8eJEN/AQwxZsbmb71mL/8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z0oe0iHqcGZ0HaU5O2L4Ee44W6tnbvg2kdPw9FAzOboh5LLbdc2ciNHgbEMczF7aWTvlXZnPTw1FwV58LUV4PFdD3JT1Z84YzF1LiqyHtLPHS1GMmBPHy7o9E3vaiNzeddVoZRyJn3POPzWK774FG9yBdUxoMb+jPwBamPLSMXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bLp7gKfV; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2851D4279EA
+	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 15:40:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781106042; cv=pass; b=TAEBKgdifFxGvJ25qtWOPFE08jnvlCQkrzssw5GQExjaEKPiQAukT7xDrLSWgYjVI/A2CI4dcYqvSCuFxcysKJ45L4criwWrBFigLrEgwTzjmC39GuCDXTcmBfQXzT9/rqPk8FxSbDMlbFNSJEgzWvXYcB2h8URJ4pFvcVL/Ugo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781106042; c=relaxed/simple;
+	bh=rC4YhqZ1FS4bvpolaqRjIrIBJbr7OL7uGZULlrbKMEs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rlImtYjFhRwlpgn4kAO7E1u3f9sn83Qmv/7jVC+D0QLISiFad7adZkCufrVFogCpDer/tHnJxYlNWM/i6H2HG0Jsb0bPtHCYhnyhRZHlfgNm+eyc44Ob8wGxZRPYcnTytp5a7LsXh5NvsuJ4OEfA8u1naaO8VVw7TgHOeP5VAHQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dxZFTtJ1; arc=pass smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bLp7gKfV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93DBD1F00893;
-	Wed, 10 Jun 2026 15:01:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781103722;
-	bh=vBNtytDEfxL/pz+YWvvBjkIv0STW5xtFZ5ArtldVzng=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=bLp7gKfVv/9idt34PBmdyss+uSKw2MKefryQrQaKGYAWWA+NaBBePteRGwjhZTf5D
-	 56Mjj1k7nqRj3m6j999DvmlcY2YW/yRGz34KW67UpK9ml1Ved+Fx+AVqNeFDjhdqn6
-	 nTTWZJSgJ8ffEQuZn5w2yUciiDNPvcTqvhv1e4AiKwtqdEBWwbbv9t3lJTenYuLYfX
-	 NZD5uPEmEPBeTGslQ3YItaQ1YVezpSEj8Z9lpr3hhDhx6EsoaF5Zfvb/jqmWWr6jqv
-	 woj3Vwb/dYXbBhm8tVzjrcyuZzQSU2YzUlKBrzg7EL0Iobu+0AVyZw5hSBXARpzIyc
-	 yt+zhN82B1EeA==
-Message-ID: <d05e51a6-428a-420e-b6ba-54f94d029f1e@kernel.org>
-Date: Wed, 10 Jun 2026 17:01:57 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dxZFTtJ1"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-bed4f2f0898so885656066b.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 08:40:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781106039; cv=none;
+        d=google.com; s=arc-20240605;
+        b=V6+gjYqOE1WNLSYCsXvxzIK8OfV8GePnldJoiNEct9TXr7CWdLmayCAB+CHfDUH1r4
+         P2/lPQfpyK/HrG57HuA45ehXdS20/yzrwUKGIUc/FppmR8NNxAxyvS7aOnu+KioUJ/Kv
+         SvWMG5fl01qHh+S4hfCJupJaqdTAn6cEbAXzSspRse8qs8d6nqSs56RljZ4jDfPHWI/E
+         qg+hEugimFVMmZmBh1ZoepJA0K4FOC/LxteeO+viO1djJKzCMUAhusrnE0jVgWzZRsG8
+         FeqDwZhDw4zRV5JgAUbLjr4Xy0YFD2DkdId++IV1I1p8bKXMqJvmNiqrqHS+CPcHz8D3
+         Ur/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=fOQ0ND7SPD41GK5XEhJ0IWZPloWUkgRYLsXMm+gmAJE=;
+        fh=Hk2WIU9Dv9ChjSl1F3v4vO+vNYW6i0Q7PRKA8QnFUnA=;
+        b=HdxYA4N0jNccRgliT+/ZLwxynzTDRON7pFjBKCsrWGEhOFVixLnzpAmLJyBR3uovWw
+         npgENggzBzqjV3imrSe/xUuBFqdiMDXG0FefvRoQzFcXHLeJ4azfq/1hIR8olB7W9xmQ
+         3c2E1jEcrOX1f1S1HcmP19MI4zw5z9YkbCP9vPIgoPH63zqCkthkAbdaOFQC9y/uVPba
+         0s9zHt88Kj1FV2wRds190AEacG8cEX91JJ8/IWWgt91voNFLia+qJ/lX0sTTldCfy8vR
+         Xl+ZHhmI23f44u60kPfaVdzYS00U7oFN3FT/tGOEug7+3nTnhn2IF/Ym9SQWvz0e9nqo
+         B/zg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781106039; x=1781710839; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fOQ0ND7SPD41GK5XEhJ0IWZPloWUkgRYLsXMm+gmAJE=;
+        b=dxZFTtJ1c6pmSuu+OfApZOCA6vhLm+gjmNzqDUWmWJDL/oloPyJ1Vi2pG/aavEWZ0j
+         ex57JdD9vRILCM39ozZCfWQGKUCB4lwHAKHXND/G/bTeKD+75gIuflhY0/Cc4Huxwlda
+         AbIcjNZmwIXGbFyxbChGetFFwe5SODkTJUdOkG/86zTuDdkbbbGlGQ8b8nDklHjhNTxG
+         9z1CaAO6+qR1xfjT2HyHTinzd1B1leISJJ/4y+qLx5UrL76C2YExcGNnBoESxNuFu1Gi
+         mM9b9G2bcEowULaC0sDzCkCOKx5HKmwe8EEtiFs48UAtw9/oDV7IEc746TAlTQm8fW+d
+         sunQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781106039; x=1781710839;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=fOQ0ND7SPD41GK5XEhJ0IWZPloWUkgRYLsXMm+gmAJE=;
+        b=Mt8ICEOAyoWdqHRSyB3lg49Nzn2Hb4eSfyTvGnLzYNN+fkEOoXqiPr9Y6rAXaVkNlN
+         DAhgcWCgC2J4D7rwuZfxa5ig9ZM4p3chymzUdmIcnn+cn97us+lo0K3+NoR6FynZiHLe
+         ziQm1bCwoULbdkEfn79DMIXRziTyYU+Ii6yCbw+j0mAu9AeiQfTg4F4JIuXrLEVELqxT
+         5zUVfCnCf0kjcnYzs3vTJzJFoQTgdz9JLn4jIrj1E6c+gN5tmW+J3Jsc0QFDpTh0rj7J
+         vZ3hE8pjh8hpmnwCn4n0RoJVawOuwXVAM/6BeHwP9mjvvCl7TZB+H5NoePhPDtIb7Ii9
+         SmdA==
+X-Forwarded-Encrypted: i=1; AFNElJ97SPNmnth9cQFagWdiwi07ObJcXMm46SIWS59a4aDcnLd+6syK2YXrmHGreC2zWcA/sX5pLzjnHO8qTccM@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVNDXWo17GgktQ9OQoYnG3ClhVYdvt8si8bUFcL+SOn3Y9CZbp
+	1uGeZoHQzSWHLIw1vnYTAsWOw8B3J2FIyNpphw02paG44ZNshJrq6VjRDbbUxOfKRsMwt1YjiDl
+	RhnisNT8rodIkvjRQy9tAxi7jd2GcTWs=
+X-Gm-Gg: Acq92OH97drLAVUkDg4NeT+X/xSiBMPxuGUaC/onDqdzXrVWJF0nMFgLMVAXEuVSsWn
+	WOGOFhOou0XG95vmTNPp0Laq9q9FjEIE+BA15fQ1W3RTaadWTK/ea3pOn7PbuB4m6h1xsuumH6h
+	s86zq4F3fSY1AAOAv6Ak33g9Rl9tTtU470RttFsc4IceWGQGbo7zZ3AmozovAt84FiZ3MiJa9b9
+	LnIcSlA5iBd6xjlkUSoYqEPYIbkpepWgN2nQgE1r82BFsw8vVzJKzK/FGLoqCkeJXqlJzimDd24
+	8W/u7xOhWSyekgEW+nPf+GiPFf/AdTdDd00KKMuO+4ko4+dhHhZ3K1Vxh2a8Okc=
+X-Received: by 2002:a17:906:c112:b0:bee:d554:f332 with SMTP id
+ a640c23a62f3a-bf9372cf747mr431129566b.16.1781106039216; Wed, 10 Jun 2026
+ 08:40:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] fs/proc/task_mmu: read proc/pid/smaps_rollup under
- per-vma lock
-To: Suren Baghdasaryan <surenb@google.com>, Lorenzo Stoakes <ljs@kernel.org>
-Cc: akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org,
- willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Dave Hansen <dave.hansen@intel.com>
-References: <20260606015729.1837935-1-surenb@google.com>
- <20260606015729.1837935-2-surenb@google.com> <aifO_rCurVhFRTcl@lucifer>
- <CAJuCfpFOpvNmV4aHnk3Vi0Jg4vF4Cmsm86h2vODZ84FVLXt9yw@mail.gmail.com>
- <aikLCwuzqBetvDrf@lucifer>
- <CAJuCfpHX5zoaD9XxDGbpXHs5U_8OrRyRuk=Nx8CjDb5qMNy0jA@mail.gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <CAJuCfpHX5zoaD9XxDGbpXHs5U_8OrRyRuk=Nx8CjDb5qMNy0jA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <d5f62836-62d1-4b8e-9694-bbab27112e7e@linux.alibaba.com>
+ <649fdbbb-64f7-43d9-afd5-a3076e3ec946@linux.alibaba.com> <CAOQ4uxj+WAe+99FFi9RfMd5tpSwwP=rSH4dNuJEdhV1wL+5CDA@mail.gmail.com>
+ <dff837f6-7480-4984-8728-802ddd78dda4@linux.alibaba.com> <CAOQ4uxi7DceKuh6+qGjuQJEFiE=HEFu4dMrc++VXUknRnX26JQ@mail.gmail.com>
+ <95371379-97e9-4cb4-8358-ec014b765b74@linux.alibaba.com> <CAOQ4uxjh5VYkKLAKxhMsy-ZmrbRrgX4pFgBLFqsDqWMXeiqg3w@mail.gmail.com>
+ <ac05da56-eb2a-4862-b887-8081f249d8ce@linux.alibaba.com> <CAOQ4uxi0yRavUeztRh-Eb8_HvpfmqkpPbWT9JgQhUn7EKXnryw@mail.gmail.com>
+ <e36c9ef5-4cd0-4281-9598-c1bfb8ebfaa0@linux.alibaba.com> <5lz5jq7gzoejbywmh56ayfkdiuqsjd2s5pl5uvlflfxc5lq4rr@thr4hrkw67d2>
+ <64f23c85-2a83-42e4-ba09-c815dcb7c98c@linux.alibaba.com>
+In-Reply-To: <64f23c85-2a83-42e4-ba09-c815dcb7c98c@linux.alibaba.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Wed, 10 Jun 2026 17:40:27 +0200
+X-Gm-Features: AVVi8CeGo_2B2ZyW7eFj7bphdGwcX5LyBNio_i5Wab7H0AIqV-UpfXnRu6dRYxM
+Message-ID: <CAOQ4uxiaYCt-kkLk=UHML-9bVxqin=5mEAB+uFPVGR7Hq6ppDg@mail.gmail.com>
+Subject: Re: Stacking filesystem deadlocks [was Re: Fanotify (hsm or erofs) /
+ fuse / nbd / ... + write(mmap) deadlock vector followup]
+To: Gao Xiang <hsiangkao@linux.alibaba.com>
+Cc: Jan Kara <jack@suse.cz>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, Christian Brauner <brauner@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Gao Xiang <xiang@kernel.org>, Song Liu <song@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/10/26 16:56, Suren Baghdasaryan wrote:
-> On Wed, Jun 10, 2026 at 12:05 AM Lorenzo Stoakes <ljs@kernel.org> wrote:
->>
->> On Tue, Jun 09, 2026 at 10:11:03AM -0700, Suren Baghdasaryan wrote:
->>>
->>> Ack.
->>>
->>>
->>> Ack.
->>>
->>>
->>> Sadly, for now we do (see my later comment).
->>>
->>>
->>> It looked nicer I think :)
->>
->> Yeah tbh I think you're right
->>
->>>
->>>
->>> Ack.
->>>
->>>
->>> We need it to avoid resetting vma_start, which is being reported even
->>> when no normal VMAs are present.
->>
->> Well previously smap_gather_stats() would just be a no-op for a gate VMA, as it
->> has:
->>
->>         if (vma == get_gate_vma(priv->lock_ctx.mm))
->>                 return;
->>
->> Not sure if you'd have VMAs past that (is that even possible?) but in that case
->> we would have set vma_start previously.
-> 
-> I should explain this case in more detail. proc_get_vma() returns a
-> gate VMA once it finds no more VMAs. So, in this case if VMA tree is
-> empty, the first call to proc_get_vma() will return gate VMA. Now, the
-> original code was using vma_next() and would return NULL when the VMA
-> tree is empty and in that case it would bail out early here:
-> https://elixir.bootlin.com/linux/v7.1-rc7/source/fs/proc/task_mmu.c#L1423.
-> I need to use proc_get_vma() instead of vma_next() because it works
-> under RCU. So, the new code matches the previous behavior, but the
-> condition is different. I'll see if I can resolve this in a nicer way
-> but that's the gist of it.
+On Wed, Jun 10, 2026 at 3:18=E2=80=AFPM Gao Xiang <hsiangkao@linux.alibaba.=
+com> wrote:
+>
+> Hi Jan,
+>
+> On 2026/6/10 20:21, Jan Kara wrote:
+> > Hi!
+> >
+> > On Wed 10-06-26 16:17:33, Gao Xiang wrote:
+> >> Amir just suggested that I posted a long off-list discussion
+> >> on the list right now, but since it seems to relate to
+> >> `sb->s_writers.rw_sem` locking design, I am not quite sure
+> >> how deep I could help generally: But here it goes.
+> >>
+> >> The background is that we have discussed a generic deadlock
+> >> timing for several months as below:
+> >>
+> >> fsA is a filesystem which supports fsfreeze, such as EXT4/XFS/...
+> >>
+> >> fsB is a filesystem which have some relationship with a
+> >> userspace daemon (e.g. a filesystem with fanotify HSM hooks /
+> >>    fanotify + EROFS file-backed mounts / a FUSE filesystem or
+> >>    a filesystem backed by a virtual block device)
+> >>
+> >> Thread A                           Thread B                           =
+      Userspace deamon
+> >>   write(fsA_fd, mmap(fsB_fd))
+> >>    file_start_write()
+> >>     (take SB_FREEZE_WRITE read lock)
+> >>
+> >>     handle fsB mmap fault read
+> >>      -> notify userspace and wait
+> >>
+> >>                                     freeze_super
+> >>                                     (try to take SB_FREEZE_WRITE write=
+ lock)
+> >>                                                                       =
+       received/handling fsB mmap read request
+> >>                                                                       =
+       (do random something...)
+> >>                                                                       =
+       write(fsA_fd2)
+> >>                                                                       =
+        (take SB_FREEZE_WRITE read lock)
+> >> The problem timing here is thread A does
+> >> `write(fsA_fd, mmap(fsB_fd))` =3D> file_start_write() (rwsem read),
+> >> then hits page fault and wait for userspace deamon to finish
+> >> the request;
+> >>
+> >> Thread B does fsfreeze on fsA so it is waiting a write lock
+> >> (sb_wait_write(), rwsem write) and blocked on thread A;
+> >>
+> >> And the userspace deamon is a handler handling page fault,
+> >> and trying to write to another file (fsA_fd2) on fsA again
+> >> and blocked on thread B (file_start_write(), rwsem read).
+> >>
+> >> because of the specific locking timing is `R->W->R`, at least
+> >> the whole workflow won't proceed so the related processes
+> >> (and fsA above) will be stuck.
+> >
+> > Thanks a lot for the good summary! It has helped me to look at the prob=
+lem
+> > from a bit different angle and I don't think it's actually specific to
+> > filesystem freezing or fanotify HSM. Consider the following simple setu=
+p:
+> >
+> > You have XFS filesystem fsA. On it you have a file imageA and you setup
+> > loop device loop0 over imageA and mount it as some filesystem fsB. Now =
+you
+> > do write(imageA_fd, mmap(fsB_fd)) and you get a nice system deadlock (t=
+ried
+> > that and it really works :)). The problem is that write to imageA_fd
+> > acquires exclusively i_rwsem in imageA, then goes on to fault page on f=
+sB
+> > which maps to a read from loop0 which maps to a read from imageA and
+> > xfs_file_read_iter() wants to acquire i_rwsem for imageA again.
+>
+> Ah, great catch, but mainly because XFS takes i_rwsem read lock
+> on read paths LOL.
+>
+> Yes, yet this deadlock sounds more like a fixed flow/pattern, which
+> is somewhat slightly different than fsfreeze issue since fanotify
+> needs racy between threads (causing RWR order casually and cause
+> Linux rwsem model deadlock) and may not need stacking filesystems.
+>
+> I'm not sure how this deadlock can be avoided easily since it's
+> a deterministic single-thread timing, but as you said, at least it
+> needs privilege (like fanotify which needs privilege too).
+>
+> btw, I remembered Miklos once mentioned some i_rwsem deadlock cases
+> too, maybe i_rwsem could cause some generic issue.
+>
+> >
+> > I would not consider this a real DoS vector since you generally need
+> > priviledge to perform such nasty write but still isn't not great the sy=
+stem
+> > can be deadlocked like this and I think we should fix cases like this.
+> >
+> > Arguably, to address this particular case, we could block writes (and
+> > reads!) to a file that's used as a backing loop device file similarly
+> > as we do that for swapfiles but here I'm seriously worried of userspace
+> > regressions. I've seen userspace scripts setting up loop device and *th=
+en*
+> > running mkfs or editing partition table directly on the backing file.
+>
+> but I think erofs file-backed mounts can just simply block write to
+> the backing file to avoid this: I don't think support this is useful,
+> but yes, it's also priviledged...
 
-I guess some well-named helper that encapsulates the check would already help.
-But maybe the whole logic can be overhauled.
+Block write to backing file? Didn't you want to use pre-content events
+to fill the backing file lazily? How will you fill it without writing to it=
+?
 
--- 
-Cheers,
+> >
+> > Also with the use of filesystem freezing on fsA, write to any target
+> > file (not only imageA) in fsA can create such deadlock if the page faul=
+t on
+> > the stacked filesystem ends up wanting to do some modification of image=
+A.
+> > So I don't think blocking IO to the loop device backing file will be ev=
+en a
+> > complete fix.
+> >
+> > I think the underlying reason why that write(imageA_fd, mmap(fsB_fd))
+> > pattern causes issues is that it essentially creates a loop in the stac=
+ked
+> > filesystem graph which can cause all sorts of lock inversions compared =
+to
+> > the natural order of taking locks for the stacked filesystems. So can w=
+e
+> > somehow forbid that? Or do we simply not care and if priviledged user d=
+oes
+> > something stupid, he gets to reboot the machine? Any other ideas?
 
-David
+Very unbacked idea, but something along the lines of:
+
+/*
+ * sb_{start,end}_write() scope an "sb write transaction"
+ */
+
+@@ -1283,6 +1283,8 @@ struct task_struct {
+        /* Journalling filesystem info: */
+        void                            *journal_info;
+
++       /* Stacked filesystem write transactions: */
++       struct super_block
+*sb_write_stack[SB_WRITE_MAX_STACK_DEPTH];
++       int                                         sb_write_stack_depth;
++
+        /* Stacked block device info: */
+        struct bio_list                 *bio_list;
+
+I don't know what a decent value of SB_WRITE_MAX_STACK_DEPTH
+would be but its not the same as FILESYSTEM_MAX_STACK_DEPTH,
+because loop/nbd/backing device also contributes to sb_write_stack_depth.
+
+The rule is that sb_start_write(sb) pushes the sb to the tx stack
+after checking no loops in the stack.
+
+In the common non-stacked case, there are no checks so the push/pop
+should be quite cheap compared to the sb_writers locks.
+
+For the read side I hope that we do not need to track "read transactions"
+in the stack and that it is enough to check the write stack in page faults =
+and
+stacked reads in loop/nbd/backing.
+
+Note that the unscoped kiocb_start_write() in aio/uring will need to be
+extended so that the write transaction scope will cover the io submission
+to cover the page faults in input buffers.
+
+I have no idea about the feasibility of this and how much of the holes
+this actually closes but if looking at the narrow use case of pre-content
+events it might just be enough.
+
+Thanks,
+Amir.
