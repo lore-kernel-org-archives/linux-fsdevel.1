@@ -1,72 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A89538F649;
-	Wed, 10 Jun 2026 07:24:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AD9233921;
+	Wed, 10 Jun 2026 07:28:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781076285; cv=none; b=eziLmpJM8YwY2Vov/UlBIFisSs541DjtOSS4VAjSi6omBySxk05JHrjavIpJZAmbwKt5Tn3pJwRFcjqu1smOTdyrGvcoOg3YgnttmBd4at9lhcbuTL6MT8qmRw1Ciqr3HcRDDgIoeh8ryRYv+/gz1L1XnGI62N6+Zas3k7fpkxo=
+	t=1781076522; cv=none; b=M3TGiIwef/3Ifr4Bt7VrMucSnDkBnG8ckcnNSj5OSvgP0+Apxu5ah329zKfhBMBM52v1eWyhVPLYrKzqS+iGHMvOxyoY4hjvRVz28Xi26qw1zbeufHBZlzqLoi4C+dZh05BLZfDjzSwzLz7qRzukWsSPS3nFmaqYBAoHybHj9YE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781076285; c=relaxed/simple;
-	bh=9bty3HZuoVMZ5u5b/x+NaOuDsNbcsnhZK+zS6GDNjAQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BgE2f5PH4Rr3ua17rwkaAUZXW/PZDfzIBPw8TQ/4E6b85brnR3gztwLd5Qcn8q3Sfg9EcfM77Cx5rlrZv4ZcmfrrhyDsMH+vE/rkLDFSDzcWDlauKqW9ntCGIMmf88VN2Fctsjpl/8SKEHccAu+K/UHpd5U94LRFzt8DFLzTi1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SH1/wVyn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781076522; c=relaxed/simple;
+	bh=XVzT4dC9J9FFpWrYJ1jidUjuN9wz2V7gqq0wjB+r38s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LUOSeJBZUSZxnvYfJVR0HYtlj7W4K9l17CB18hf3XuzPRkCegJjsLWSb8QiKvmawcaUNXrlO65syW+kzLYOMyQ1Js6229GRgaQJaMRNdp1e3tCTuY7+WWavbHY5cM7Wz9C72PysN3deF80x9KQHCQtEfSreJY6zceU23sFr46ZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fgvSiRD0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SH1/wVyn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3890E1F00893;
-	Wed, 10 Jun 2026 07:24:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fgvSiRD0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D40D1F00893;
+	Wed, 10 Jun 2026 07:28:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781076283;
-	bh=R2ez+RC6RwaA/slWb5T1nPdaQdgueSdJoX8AxwtxUTc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=SH1/wVynbSTuxYweWh+aGagEgsCeR5BNe5ZkaahAk2tw9nsu9u5fxMv3gcdm0PGjB
-	 x7rH/aydsk4DgkNQWsy2O/pJEz7Ww8nbqalCS2QosG/f1E6/yPz4MD/vgZXbWU4G6p
-	 oG+HfvO/+1FgvAHN8Jci1nno8GrlB2gNJaI74Yglmt4EEC83POLyQ/ZyJUaZXJ/0PP
-	 0V28x1Wxg16Twyi2Jw+SuX11EKzrg7yL3oikXqgEAInPcJCvl8J+6Jsb64rkKEsxg6
-	 dR0Qsv6CZp8r2BBOID+Nz4XLtag+s6027je9on3+tevxbG64paYPf7pFGjatdTbKFk
-	 lFilQ5toNujrw==
+	s=k20260515; t=1781076521;
+	bh=Ujw8//AhBz2ofNEZXVOO0whE9ziRkQU7WuP9Q2n1nw4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fgvSiRD0nlrWeKZ00ARxxj8+SIeSOssxKo/IteKl5SNNXShxIV9RzZYZjW2fJDF4Y
+	 BRLJiLnad8I+/cgypVTOTIn/c5oxyEme4EK0poeNVEmG9QKE7i/U92Q7yjVt2JPZoo
+	 KKab8o9SdIM2XvpGoVICIQ4XwdgAVtaPGhU54ayQfCnfLlEaW3lPQVBllb9BkmzECO
+	 nE7j1CjEqBtnt3cNbOS7Erz0xZkaANJGk+ly24VtiJa0PCDT3qoW/N+IRr4nTvwqZd
+	 Z5PKSNrIQl7+mm2qzkxCg4AIGhgZkp5e7n9mKFUe2JXKDXK2WgGk0nXZXZ5u3/BshM
+	 PjG2C1OvGIzpg==
+Date: Wed, 10 Jun 2026 09:28:32 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: djwong@kernel.org,
-	Christoph Hellwig <hch@lst.de>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] iomap: pass the correct len to fserror_report_io in __iomap_write_begin
-Date: Wed, 10 Jun 2026 09:24:36 +0200
-Message-ID: <20260610-fanpost-abfuhr-perspektive-7fc7719434d5@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260610050642.1906695-1-hch@lst.de>
-References: <20260610050642.1906695-1-hch@lst.de>
+To: Andy Lutomirski <luto@kernel.org>
+Cc: Li Chen <me@linux.beauty>, Kees Cook <kees@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-arch@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, x86@kernel.org, 
+	Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
+ executable startup
+Message-ID: <20260610-saufen-zerfallen-uncool-5608105e0d8e@brauner>
+References: <20260528095235.2491226-1-me@linux.beauty>
+ <20260528-madig-fachrichtung-fehlinformation-61117ba640da@brauner>
+ <CALCETrWJQpLR4n1cpichBk8=uExSKLWTMGU3BufGdk_WE_p5UA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=956; i=brauner@kernel.org; h=from:subject:message-id; bh=9bty3HZuoVMZ5u5b/x+NaOuDsNbcsnhZK+zS6GDNjAQ=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRpCpq+yF5Um/xh9d6YeIadjydO2bNhCl91zPWzbgZP3 WdKumtf6ChlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZhIuhsjw8H1fRFcF4JO59mw n/h2utvIUVhxzzPpb5cFPi8UFYplPsDw3+3HLe/V94N6ArUnc7jx5YVePqZbue+Q3ZSNH3l7kx9 /4QAA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALCETrWJQpLR4n1cpichBk8=uExSKLWTMGU3BufGdk_WE_p5UA@mail.gmail.com>
 
-On Wed, 10 Jun 2026 07:06:42 +0200, Christoph Hellwig wrote:
-> len is size of the (larger) write request, plen is the range for which
-> the read failed here.
+On Mon, Jun 08, 2026 at 05:01:57PM -0700, Andy Lutomirski wrote:
+> On Thu, May 28, 2026 at 4:05 AM Christian Brauner <brauner@kernel.org> wrote:
+> >
+> > On Thu, May 28, 2026 at 05:52:21PM +0800, Li Chen wrote:
+> > > Hi,
+> > >
+> > > This is an early RFC for an idea that is probably still rough in both the
+> > > UAPI and implementation details. Sorry for the rough edges; I am sending
+> > > it now to check whether this direction is worth pursuing and to get
+> > > feedback on the kernel/userspace boundary.
+> >
+> > The idea of having a builder api for exec isn't all that crazy. But it
+> > should simply be built on top of pidfds and thus pidfs itself instead.
+> > It has all the basic infrastructure in place already. Any implementation
+> > should also allow userspace to implement posix_spawn() on top of it.
+> >
+> > fd = pidfd_open(0, PIDFD_EMPTY /* or better name */)
+> >
+> > pidfd_config(fd, ...) // modeled similar to fsconfig()
+> >
+> 
+> After contemplating this for a bit... why pidfd?  Doesn't a pidfd
+> refer to an actual process that is, or at least was, running?  This
+> new thing is a process that we are contemplating spawning.  I can
+> imagine that basically all pidfd APIs would be a bit confused by the
+> nonexistence of the process in question.
 
-Applied to the vfs-7.2.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.2.misc branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.2.misc
-
-[1/1] iomap: pass the correct len to fserror_report_io in __iomap_write_begin
-      https://git.kernel.org/vfs/vfs/c/de654d66ff30
+I don't think that would be a problem because every api just needs to
+handle ESRCH. Ignoring that for a second: the mount api has a builder fd
+that is later transformed into a pidfd. Which is easily doable here as
+well. My point is that all the infrastructure building blocks already
+exist in pidfs.
