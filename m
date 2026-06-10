@@ -1,172 +1,111 @@
-Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F3F405C50
-	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 13:18:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.118
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781097495; cv=none; b=BfEP4iJt3GiRSNIp2zyiKt2VVlYEcG7P8uioxlUGAfy38u/J8qO6ItK8oReJZlk2Rvdp9XC/2y4VT6Mu+XTyItwoSUdZScQZAsFZZ6n3ZGcmQL9ceiwiXnDSnZq0ln9WGaHYFS+9CoDedV78hSfRedmN+b6FPDZy6BMfYWlzH+o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781097495; c=relaxed/simple;
-	bh=ujxIaLnlVIvCadkNke4HMhO5zez3kwvI70DtiBU+Pys=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rI890tiUWw2uKtp1MunCPQii3A3vBNeKpH7jPx6yr64HJysz3AKGPsk/8WSsa1ZIhDN2X0c4uN6F9Eit0OkvaVAtCTab+cjPlWpXe/QUeqAWYOqas1HDvBe35lOf7j4CHTLecpVzuSAQD8YWLHwWudV7cgnLytQG9DZcqY4M/no=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=TBQL4ylJ; arc=none smtp.client-ip=115.124.30.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DB9409611
+	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 13:29:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781098157; cv=pass; b=fjH2HOwEdctNn6ycN4maWwfzG6E7/dC+wWf6io/cYHYgW6A7LaW3GwVR5CCwEWQpIACYBXpl7p4nnv2nqxz4oqYuC8l8FrGkxYKKEsHb1S+Ja0VlIC2qe6w6qVkDmhiGecGqHYxfodBJrnuEJJzobzp6BpCCZR3cRwZFDQ21QfU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781098157; c=relaxed/simple;
+	bh=J+malEbfLZAyYmT+MJed3IJxO0vMsPQ6ALHa3I8w1qg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JZRE3yK5FvU1CuVZY609uPbiKHYRjJVb+pCXCIixUu1h8YzeaWeikZXVR+SrK4h8GJvdZ/m5c9pU84clP6ktAh6/gJgqTu/Nzmnc5MJKoluQLEgMp7+TO6QEm2vY+uJVSz5IuiHUeGt05EuqE6/phQ5ddpiztwciHNui+Ll2abM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=gfd57eXn; arc=pass smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="TBQL4ylJ"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1781097485; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=A/HoLO1vkb28BfXkSR6vswnuPkF0Ts/nxZYlD2WzISg=;
-	b=TBQL4ylJKbSvsQpfBUvDD+0E8h3QulXEEdla6Yj7SEKZyo7UZ+HaRf9bcdl1MnB0qHDWN/4fgId2jUc66k/Xsz2OewGyrT/t2Bt1ZCstTPjYc49dvMdY3BRHapt4MoP32g/m7n0EkmWHFS1Y9if1Al8CGNqVJsstSjwtqnC8psU=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0X4aj9G2_1781097484;
-Received: from 30.120.66.214(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X4aj9G2_1781097484 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 10 Jun 2026 21:18:04 +0800
-Message-ID: <64f23c85-2a83-42e4-ba09-c815dcb7c98c@linux.alibaba.com>
-Date: Wed, 10 Jun 2026 21:18:03 +0800
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="gfd57eXn"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-51780bbc560so58075371cf.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 06:29:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781098154; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kS+5e23Js83KcrhUPwoEj08wp+VPXxDoRttMWjR20zZwMEGU1wRwJ7oexQQHjQ2bt3
+         CiRa1hcR/sr0fcnWN6JwucPzKNBq+Bqx/FVUD/UuuAe0CL4Gr+Sy60/RAtOklJo8l87F
+         kZA+SD8A0Hm4FVyHOewp/QubY1GO62Hr+3ma/Dfuvz/OyfqNGIbiKGuqoVS8ICWc7kOD
+         2ARmOk0cgb9aUBBnbdBqTp2ZGLoBLkGVqeJqEUb0XqvTCCWR7r0Tn0kCl4m+DosjiiNL
+         KujDZhrBB/PIRXBjyrZwKY0UJDHTRVVo0fkVTHKyVkPTmm4dQPkAEGW0QWvioJCDACNG
+         sVJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=SNLqVn9ZS781YXdAhD6QvOOrHfuXhzpRyQc3CU+ZXkE=;
+        fh=ukApuRBb2Ff+ncFfCEsj9PE5s4Q3ks/Z2tJBAwawBhU=;
+        b=ZtaROemMUmWX38SrfiBVmjgS2dYQ3bwb+g6NPEwRfywriSZ1VcEFp4ASF5kKr63YlJ
+         tBoulSEKom/29QAsXrGQ3PNSkkxZWsb3qbak2qegHP6qjA18bvwSC3vus3XQwZKPaJSs
+         yZiQDtHd8IxlfTEZ2Y+2Z4ny2lhWg0nz3hariwuutpGb2xj6d4/rF4FPU38POj0sb90l
+         xl0Olm9FN5oLEvc45N7cBc/ExYQNJmaKaB0ZSABBGeKnScqZ+F5qpoCAFIKHV5tztRmP
+         2JyWZkA8zBEt+A3l/1q5WJ700lyLx2l9pAXcbJQFWPYhwRn5ZkBYON5eSURtfWoLPUlS
+         yGIA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1781098154; x=1781702954; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=SNLqVn9ZS781YXdAhD6QvOOrHfuXhzpRyQc3CU+ZXkE=;
+        b=gfd57eXnY1gniELOOhYlrG34QKl7KOFRSl/Um5he+Mok1vV80mi82CENnrTwp613n9
+         K4VRvOFLt7VrDxOCXhzRVI6M41RAuEDT4BskhFeyRIRcuZw/+5QF2gfy5EQO66Z8Nkik
+         AVEmvqppfm8YQibcpwKGDTUULz1CyJb3v7qtY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781098154; x=1781702954;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SNLqVn9ZS781YXdAhD6QvOOrHfuXhzpRyQc3CU+ZXkE=;
+        b=qqHXUcoV3OWm27JPHhmXzB118mEseYg54tbdgCavZDQLdGNGLhWx/A4/BdAytX9C6X
+         tSxnHdxNFahwZKp9pfdpbWAWfHnlYQefnel4tCwxRgXCXZhNH4bpvTOn58+j0J20Fzdg
+         kkUAfCn/e0cIORI+ofyzRSy/CwyVHe/rl5KdscsWc4BzJhx/0N2b8Yf6RizksoGktAJe
+         5VUM/jqFZE3BVTq9NwTWKLB6EhZLDxRLijc0a/hWE3388TmzJEdEKNk2PCrqL8OEUBxb
+         k/k3P9K39aq79ScdXo4A3f5/n7mmVr7Q99cZBzZLleV7ZrTlSlvDRLMGSyiFWdHkliJD
+         qTVg==
+X-Forwarded-Encrypted: i=1; AFNElJ/2LxYfTNVRwgOf6Ig2sH39pkWkxEOQ/68QRrW3ysgn5qJ1T4YuClImexBkkKvsIvjhepiBMYidWJk5GjRt@vger.kernel.org
+X-Gm-Message-State: AOJu0YztwKAlU4QfhN8wQno1mc/wLkpxaDYlLLzH/xzf25YNWKLLCiVq
+	jQ+ZMu6TGfHHPxFf0zqjbYJFv1MLKPl/7HCUBVFf/iruWpKekrlIB6GK52RhrZifDGiZ/N4DqGy
+	Ux8OMz7KLckZLxxPcKG6ugIw7GnWFugdeqwLKXI+nxA==
+X-Gm-Gg: Acq92OEOku0WA/lnBU8oX1tFLAVmoaB2qIVzqvPHca8XxtORgUG9bApuwo82f5CD9sq
+	ZNPP0mVege9aLo1PK59IyHrgYv39sTWUTLGRhisG+VWO0Oby74MMma/zjVs2eeDvPP2thGAr4MV
+	hCrQtylADU/MmqF8TAEAmagCV3vwzVg0eIA/TpGEea4OLcoJp+Bqw01k53PsAVnBEnqwg4vK1zD
+	J93B0pNTa46WszE9R6p+TkgFEmQQQnmCByjNW5geQStno8uYgjWueYgdDek3KJULTUKDxBN9WvO
+	pWL17ENxVQI/nfi4PEMFseF9EjKLeFeV9NjZprhr1QgMOkr+0vss/PUAas8ZBw==
+X-Received: by 2002:a05:622a:244:b0:50b:3249:828f with SMTP id
+ d75a77b69052e-5179888bf1dmr247350811cf.28.1781098154423; Wed, 10 Jun 2026
+ 06:29:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Stacking filesystem deadlocks [was Re: Fanotify (hsm or erofs) /
- fuse / nbd / ... + write(mmap) deadlock vector followup]
-To: Jan Kara <jack@suse.cz>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- Gao Xiang <xiang@kernel.org>, Song Liu <song@kernel.org>,
- Amir Goldstein <amir73il@gmail.com>
-References: <d5f62836-62d1-4b8e-9694-bbab27112e7e@linux.alibaba.com>
- <649fdbbb-64f7-43d9-afd5-a3076e3ec946@linux.alibaba.com>
- <CAOQ4uxj+WAe+99FFi9RfMd5tpSwwP=rSH4dNuJEdhV1wL+5CDA@mail.gmail.com>
- <dff837f6-7480-4984-8728-802ddd78dda4@linux.alibaba.com>
- <CAOQ4uxi7DceKuh6+qGjuQJEFiE=HEFu4dMrc++VXUknRnX26JQ@mail.gmail.com>
- <95371379-97e9-4cb4-8358-ec014b765b74@linux.alibaba.com>
- <CAOQ4uxjh5VYkKLAKxhMsy-ZmrbRrgX4pFgBLFqsDqWMXeiqg3w@mail.gmail.com>
- <ac05da56-eb2a-4862-b887-8081f249d8ce@linux.alibaba.com>
- <CAOQ4uxi0yRavUeztRh-Eb8_HvpfmqkpPbWT9JgQhUn7EKXnryw@mail.gmail.com>
- <e36c9ef5-4cd0-4281-9598-c1bfb8ebfaa0@linux.alibaba.com>
- <5lz5jq7gzoejbywmh56ayfkdiuqsjd2s5pl5uvlflfxc5lq4rr@thr4hrkw67d2>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <5lz5jq7gzoejbywmh56ayfkdiuqsjd2s5pl5uvlflfxc5lq4rr@thr4hrkw67d2>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260522083805.569007-1-liwang@kylinos.cn>
+In-Reply-To: <20260522083805.569007-1-liwang@kylinos.cn>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 10 Jun 2026 15:29:03 +0200
+X-Gm-Features: AVVi8Cdu8c8832XfxiTEKSnJxkEiZTaVZWUYQgmqg0KDSHzu84GS5Gq2hYrkWNA
+Message-ID: <CAJfpegsn446b3VCbR8jYUBpX_o4qbF1PqivkkERtTSzzKxFncA@mail.gmail.com>
+Subject: Re: [PATCH] fuse: use READ_ONCE in fuse_chan_num_background()
+To: Li Wang <liwang@kylinos.cn>
+Cc: Joanne Koong <joannelkoong@gmail.com>, Bernd Schubert <bernd@bsbernd.com>, 
+	Amir Goldstein <amir73il@gmail.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Jan,
+On Fri, 22 May 2026 at 10:38, Li Wang <liwang@kylinos.cn> wrote:
+>
+> fuse_chan_num_background() is called without holding fch->bg_lock (for
+> example from fuse_writepages() to compare against fc->congestion_threshold),
+> while fch->num_background is updated under bg_lock in dev.c and dev_uring.c.
+> This is the same locked-write/lockless-read pattern already used for
+> max_background in fuse_chan_max_background().
+>
+> Use READ_ONCE() on the read side so that:
+>
+> - The compiler does not cache or coalesce loads of a value that may change
+>   concurrently on another CPU.
+> - Prevent KCSAN from reporting an unexpected race.
+>
+> Signed-off-by: Li Wang <liwang@kylinos.cn>
 
-On 2026/6/10 20:21, Jan Kara wrote:
-> Hi!
-> 
-> On Wed 10-06-26 16:17:33, Gao Xiang wrote:
->> Amir just suggested that I posted a long off-list discussion
->> on the list right now, but since it seems to relate to
->> `sb->s_writers.rw_sem` locking design, I am not quite sure
->> how deep I could help generally: But here it goes.
->>
->> The background is that we have discussed a generic deadlock
->> timing for several months as below:
->>
->> fsA is a filesystem which supports fsfreeze, such as EXT4/XFS/...
->>
->> fsB is a filesystem which have some relationship with a
->> userspace daemon (e.g. a filesystem with fanotify HSM hooks /
->>    fanotify + EROFS file-backed mounts / a FUSE filesystem or
->>    a filesystem backed by a virtual block device)
->>
->> Thread A                           Thread B                                 Userspace deamon
->>   write(fsA_fd, mmap(fsB_fd))
->>    file_start_write()
->>     (take SB_FREEZE_WRITE read lock)
->>
->>     handle fsB mmap fault read
->>      -> notify userspace and wait
->>
->>                                     freeze_super
->>                                     (try to take SB_FREEZE_WRITE write lock)
->>                                                                              received/handling fsB mmap read request
->>                                                                              (do random something...)
->>                                                                              write(fsA_fd2)
->>                                                                               (take SB_FREEZE_WRITE read lock)
->> The problem timing here is thread A does
->> `write(fsA_fd, mmap(fsB_fd))` => file_start_write() (rwsem read),
->> then hits page fault and wait for userspace deamon to finish
->> the request;
->>
->> Thread B does fsfreeze on fsA so it is waiting a write lock
->> (sb_wait_write(), rwsem write) and blocked on thread A;
->>
->> And the userspace deamon is a handler handling page fault,
->> and trying to write to another file (fsA_fd2) on fsA again
->> and blocked on thread B (file_start_write(), rwsem read).
->>
->> because of the specific locking timing is `R->W->R`, at least
->> the whole workflow won't proceed so the related processes
->> (and fsA above) will be stuck.
-> 
-> Thanks a lot for the good summary! It has helped me to look at the problem
-> from a bit different angle and I don't think it's actually specific to
-> filesystem freezing or fanotify HSM. Consider the following simple setup:
-> 
-> You have XFS filesystem fsA. On it you have a file imageA and you setup
-> loop device loop0 over imageA and mount it as some filesystem fsB. Now you
-> do write(imageA_fd, mmap(fsB_fd)) and you get a nice system deadlock (tried
-> that and it really works :)). The problem is that write to imageA_fd
-> acquires exclusively i_rwsem in imageA, then goes on to fault page on fsB
-> which maps to a read from loop0 which maps to a read from imageA and
-> xfs_file_read_iter() wants to acquire i_rwsem for imageA again.
+Applied, thanks.
 
-Ah, great catch, but mainly because XFS takes i_rwsem read lock
-on read paths LOL.
-
-Yes, yet this deadlock sounds more like a fixed flow/pattern, which
-is somewhat slightly different than fsfreeze issue since fanotify
-needs racy between threads (causing RWR order casually and cause
-Linux rwsem model deadlock) and may not need stacking filesystems.
-
-I'm not sure how this deadlock can be avoided easily since it's
-a deterministic single-thread timing, but as you said, at least it
-needs privilege (like fanotify which needs privilege too).
-
-btw, I remembered Miklos once mentioned some i_rwsem deadlock cases
-too, maybe i_rwsem could cause some generic issue.
-
-> 
-> I would not consider this a real DoS vector since you generally need
-> priviledge to perform such nasty write but still isn't not great the system
-> can be deadlocked like this and I think we should fix cases like this.
-> 
-> Arguably, to address this particular case, we could block writes (and
-> reads!) to a file that's used as a backing loop device file similarly
-> as we do that for swapfiles but here I'm seriously worried of userspace
-> regressions. I've seen userspace scripts setting up loop device and *then*
-> running mkfs or editing partition table directly on the backing file.
-
-but I think erofs file-backed mounts can just simply block write to
-the backing file to avoid this: I don't think support this is useful,
-but yes, it's also priviledged...
-
-Thanks,
-Gao Xiang
-
-> 
-> Also with the use of filesystem freezing on fsA, write to any target
-> file (not only imageA) in fsA can create such deadlock if the page fault on
-> the stacked filesystem ends up wanting to do some modification of imageA.
-> So I don't think blocking IO to the loop device backing file will be even a
-> complete fix.
-> 
-> I think the underlying reason why that write(imageA_fd, mmap(fsB_fd))
-> pattern causes issues is that it essentially creates a loop in the stacked
-> filesystem graph which can cause all sorts of lock inversions compared to
-> the natural order of taking locks for the stacked filesystems. So can we
-> somehow forbid that? Or do we simply not care and if priviledged user does
-> something stupid, he gets to reboot the machine? Any other ideas?
-> 
-> 								Honza
-> 
-
+Miklos
