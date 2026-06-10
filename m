@@ -1,220 +1,122 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C213DD843
-	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 11:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBAA9406812
+	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 12:17:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781090793; cv=pass; b=ap7sWomOJNZJYlUfqNjVaCsc5XoFC5ISHWcaMTiCU6FzlNTqOTjyIRVPjiCjyHIc05LOn33PYYYpfr+iIzfjQ+8/HlbGUY0nTAKIUF5vylJWlOdHTdrDwaW/qVj50Jerof3uQYpQHKVZlYIOu+ErnyF/O+bcWfDnlgnTHzKJs4s=
+	t=1781093856; cv=pass; b=khdNu6XYRYivb13Uia+QEb5Gt2bk3PxS0noSY5MkeajzEVRHFYrS56isDP8EahC5aS85nf8aO7Ox/twCGBohtTiYJkT8zDlg0N1T5Mhp8bWEb44lUlDONuIkZA8BUXrp1Gi6xWAicEX63eCaWOi1t3BlLF+8eb241RJvqI7RXlE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781090793; c=relaxed/simple;
-	bh=2aaujS1GBFRX6Q5jOjboaRMIxVZnOhhXsuUQ4jqqCOs=;
+	s=arc-20240116; t=1781093856; c=relaxed/simple;
+	bh=5RXa72RxiBocK8wJRrHBfb5aY4Pa1btrGqfifqrfK8g=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=F85FcSniPq8hHiBAbfGbEqUtXLMNBlyg8nu+3sUM25XFozOF9GDvuJ459fTM7xoo0/NVlIVLG68AFuk3pPN8RJgMdDJI8GgvZJVfvhDaNslkK1exnnzpeFE/COLFP8alTye8WFRft2fY+LA27FXnnD6/QFd/+xhdiFnVxhNyg6o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=WKtdXB8j; arc=pass smtp.client-ip=209.85.160.181
+	 To:Cc:Content-Type; b=tvoFcyxgb0LwXQj44F5IhFy/z0zPoMUWfK6ZDklwEwPYCHQgJsagVV9Y65528JV/ZHRylq76xPoMtENdkKyUXKbEu4YiPNIt/kQQ/ILsZeXn5vDFsFiPaB8JIHB3LauEU6gsdSl6vwfCNU5/BfanYbvCih/KFwXBQtnGCl/EjfQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=Sb8tvjLr; arc=pass smtp.client-ip=209.85.160.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="WKtdXB8j"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-5175b6c4e19so69438871cf.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 04:26:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781090791; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="Sb8tvjLr"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-5174a3a025aso67488401cf.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 05:17:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781093854; cv=none;
         d=google.com; s=arc-20240605;
-        b=V+0VxRbSGOYyOFrfRAhPRgpjXAEoqm3r3udY5kNQjzG3gEVJHP/ESK+4piNTvNpEUb
-         6Ra7fwg/3QDIABA7amNriCyj02tsT58g95J8YuCB7gMWvxeCtBU7rh6NXtONovybXcI1
-         MJnbqcec+vCt8j9VcudITbNtMz6ZJ1dhnhEnc+fY9VjLWD+WfZSKB6ohLhYQIboW2fzZ
-         xfdGEinEzz/x/hbHUOgBVqoMLu2r0BmahszSOC7BwmmdUJNduG7uoJInvLqugvt9dinA
-         rBnJCk3V03YkD6tQo2YvymVmC0NXJlKKCBp3xRmJbLFaFq1GBFFIEdN/dsDqpHmuE8K8
-         bDng==
+        b=OrZVHw0QvF6HxYg2lsUoCjRMO066gj+7+kzokET/mS855fgcnUxvknY/uJMswwLhap
+         rpxmmSpz06YTdNogilgIYDIVgCXqUkp1uS5CNhSnGVRaADQUHH4XekDOCpn1W8pKtbz5
+         /A69M1GDMx1DUzLNtYj1VdAz/ht2kNeJiUS8OJF2mO3Bx6/Om4lBbp77d4ZKEFg10SJm
+         vKsL8ldPXGKX9V/v+hHyGwR3b0+7z+yeNmpnwVXgvGUBk2KTsHx/BLXyK0PvpA8D9MzB
+         4MxRq4Zvjwh3hQha2xkefkRtdmE2Ypo4UUoQhqjJ4ouU9bap+K0G5gzeY+ry8oKmbEXm
+         MAMw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KwpbCI+rGfMKsie1cbjw3OobD3YXJBn7+ixKB5TpcMI=;
-        fh=3sJN2Ux71WugGsmVg/7iPFdb47x1cWAYCQ8LA9BVL2E=;
-        b=KJGFhyWEtDIqDQNB1TkyU+cqcexWrPZxKL6E5hN7WF+r8IqgGsF0Xidwsjykoz+FBr
-         UI+u8gUin3Xk+aNzAF0Ikpyb/J/8wLJrgGH96cdAe8GnxEdnvLCpq5oqIRx/I7/Xfb8c
-         6hMgKY9A5IpUy2+4hMk+lzJCy/fbnp0qca69kMULTOlU/+ieD3A/r1RVTSEdKvqmXm/8
-         7lYZP+A3XjgXaykMVXbPqeYKEGGat7+oBoKhbLkOwRhiYgh0pLxuMpZENT06+CYtBstT
-         L3H8aXL26G1RZR5v8WKhcPGm185vmo+CCvdxrXfjhT5NmrptV4TtHBti0TlnkQ13qtxF
-         270w==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=TT7vUxed9V2k0b9o6+nhZGw5j5GO8hrCvm+8/mVl/es=;
+        fh=PGI8exPzzZ73V/kd/UXzVCsMo6O1U8IQAkIW2/r8SG0=;
+        b=XGj6U+IzThku9sQCjWKgo1r3kwJAuAeBYIK1uwbC7UqQJWYLjTdwWHE2fDobjKETnW
+         8sHUXMWlWP0qeh27fUXanMG2DtU2Sl+J5bTmnPcSQASVE79gL24/UnM3jGI0mYRvMPM+
+         NoKSvmjLwrao8TBmSptaHcFIr33bB+ABWw+Dn9d4DW/OQcf1b2Cs6WwVWFV1skjhW4OB
+         zGnH+j+1Z0Dm3Wml5K79HTrMhjfWGKstQ1MaqpikMomVy/t/ToxEWPiMFeC0wzvv8Xzv
+         StGOOKkBI9THoXkikrg7ZZqcUIW8f8TTmJKSerAn1Aw6mhk46FRg4jJnrE4/hD4ouRBx
+         ygaQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1781090791; x=1781695591; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KwpbCI+rGfMKsie1cbjw3OobD3YXJBn7+ixKB5TpcMI=;
-        b=WKtdXB8jGww4N4vaXjc23iE//thOwpKiZebGM8NRULuWpKXCg2oaeLKChppes4SvYe
-         K0VfHW4DvVHPdGoJulIZh9WxGkSjs56GqZBL019qzkf0R0dMCOrZQhm8+d5ghMsLb2M8
-         4Kw7G42MJKBQ3sdTx4BcqULRpT+0leVUmBQho=
+        d=szeredi.hu; s=google; t=1781093854; x=1781698654; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=TT7vUxed9V2k0b9o6+nhZGw5j5GO8hrCvm+8/mVl/es=;
+        b=Sb8tvjLrbRI3WamlD0SYTFf3PBvcC8X5UNC7FjiVVLuibysQGpgGunFjcej1L/A2BZ
+         LDFWHRNpZ/b0AvpKHbmvuG12Tw7dFoORp2Ykn4pqqlEm0q0UWbbazaR9h2rzEDbfPtDP
+         dtlQAADFtql6J0uZphHJqGvFWPisvvjMynnFk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781090791; x=1781695591;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=KwpbCI+rGfMKsie1cbjw3OobD3YXJBn7+ixKB5TpcMI=;
-        b=IH8MI1S92H+0tpklhKWgEYxVheEX1tLUBc1sw06e3a2Me51MqGnZrnuv2zpp6JhZio
-         UAikcL9BIXUxO/3CtmSc364sB0ULeos+g2DG7d6+G7O/ijXpOlj37CxQt9pLd64/qgHX
-         H5+N4dz8jk/rePOSldfpYjXXpkSFO0qtAWAJuknQzhHBf4IfiIbCqGd+BtVQpnmybIC3
-         KzUEYLM9ElCuHvwhH72fD0FrH85tDGkUvNdiyXjRI88BRTaWXPIcX4ShV/zrBDA3hQxB
-         rq7huNqRMyzdj0YZmKUEOBhmcahKiQ+7a1+vCXNHGEUpYHTiNTJq0jIFwhUBG6dZ3HS8
-         T/Dw==
-X-Forwarded-Encrypted: i=1; AFNElJ+iA02F4loofICqXD2umzF548ouuAn27eK86bkJGqxT98GoXcKkxBYTDLZKpWTksggCrgtN8JQ+vx0S/txe@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1f7XRcjdKPdx6A5q3eUxaM9HQdBpMUcq0C5y1QxX9SxdvaBGt
-	97zJHvz/b0LrBJnto1xjfhlw7GYy7P74CbIfR5IeRfKKWzrF6Kq2G1y01ZbeRa3eVut0hX8ttuO
-	ChZpHFLxlFqi8f1e9Vnegj4JRMfdjLgBTQdMo1gRW1g==
-X-Gm-Gg: Acq92OGH3pZSbEZC5nE+0xrruj/T7s9SR9986sm1pgGsYEN0nvnXQYqsxTrSHRhZEJI
-	0f35iIO4RsMX0Z2YiNBCtd82GVuu+V/bV62NvyAzRFC8bbxwpCcpgrL4OXhYVBuNqrLK1zDfPjr
-	juz29jI2UZcU6oDSyjHl7HvRssj692ymRZ7wdNBPKJS4OyBCq2ekPD8tq7VmMfozPylChY34eH/
-	xkvmlcFGkxCUtQ8rInSmNmMS+2SBQTJQnStRxwqP8W6uafRng/i8nwqjYbc204z1fu8oNo0B6/m
-	TT7B7dNmdMn/qA5tIlwYByojsZCeAGkmWAdBl9qoKnPViNtAthc=
-X-Received: by 2002:ac8:57c2:0:b0:517:5f04:f24c with SMTP id
- d75a77b69052e-51795c79c8amr367684721cf.39.1781090790667; Wed, 10 Jun 2026
- 04:26:30 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781093854; x=1781698654;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TT7vUxed9V2k0b9o6+nhZGw5j5GO8hrCvm+8/mVl/es=;
+        b=I/YBFFVtq0HYvwBfvZnhb9aN+Lcdf/fnkW2wIjFmkNpgnLDSS8EXRwEjLh01k42V1a
+         XYAU0MKyE/i4uBQklxP8+VIgjkyRrusCNVSBdV+K2RfDt4q6wVdf/qepZsVRNOdrm1VI
+         w05rfKKHbYHXqaeVvm7ZDDjkggMr5nlGtzlEoE0jri78S+mb9AXoQYXqBg6GJ+aVsae6
+         3VD5ML3t+pe7cK5yT508/zNovbwN1L6fFWSL1tvDkdThqrklGtXNrGYfnAp3Q9J5fi1u
+         2BYN9bqFy+k1sxZQrtLZ+wVj3jV1G76prsSkTe2FQ8E8uUaP16H7HCxnj6GtqN/HxVIN
+         mtYA==
+X-Forwarded-Encrypted: i=1; AFNElJ/UKCRKheo2xTa6pIz/JFlTIMHnFOWucyJpureRSNv0Q9lryHtk8rVNOQmH64AJiTa76CVzF0UTMN5nXOPr@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/d5w44hTGe4YTz5h7lBNAH0YlOrCkfLGoKPvQmmIvDl4vfgXG
+	efOW57klE6ZZbhg8HUmq3J+pYFpKUugq6x02KaMUKC8Qnoy62lz71WrYb4JV3KigezQZq5XCqYO
+	n5W08SvurIOUzFbffaFOzP9xNnujT1hqB+1IudHl2Pw==
+X-Gm-Gg: Acq92OEXwxuh28txeNZV9AZ0rhJP1z0X7fwt1U7IeQArYAiH/imH6707MlIgEMX1nzv
+	pPVYARZvxDm4Lj3/BJ8SVDh7pSRy89khW2bpXQVnS5T4hgmcYID9MNhfs+Fl+QrRN15hliHkT4y
+	PoAmRdCsaC5WvJTcI84AxN3hodACeEQTwWiOf0wxist6l6YVebVygrTOVJJEbiBGJ6D5lHl3/LM
+	5MHruE+t5ri/GydTmg0s3rfLPqW0UsV9Zr4y80JGSXcd8cO07o0/BdafqrLITpW8PiDrVYWrhwq
+	LCudUOY9qU30sI5yL+h8xOFUshyJbB/uuar9iRgYqRBrQy+WRIE=
+X-Received: by 2002:a05:622a:4cd:b0:516:d4b1:48e4 with SMTP id
+ d75a77b69052e-51795a7f3dcmr377491571cf.4.1781093853738; Wed, 10 Jun 2026
+ 05:17:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260501232735.2610824-1-souvik@amlalabs.com> <CAOQ4uxh6YUJEh75sASqi1gOaQYKpWhftz4to1j8s2Y9Jef-XQg@mail.gmail.com>
-In-Reply-To: <CAOQ4uxh6YUJEh75sASqi1gOaQYKpWhftz4to1j8s2Y9Jef-XQg@mail.gmail.com>
+References: <20260508134541.282073-1-marco.crivellari@suse.com> <20260508134541.282073-6-marco.crivellari@suse.com>
+In-Reply-To: <20260508134541.282073-6-marco.crivellari@suse.com>
 From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 10 Jun 2026 13:26:17 +0200
-X-Gm-Features: AVVi8Cc5nyPpov-4yxMA02Z7Wm5x-BSYPxwNQXgevyHJGdk5NCb-4_ru_xxa7-U
-Message-ID: <CAJfpegtnj0wmQ_mJCwJ+UKqzG_LTrUCwhRyc_NAhHj2T9Jr8uA@mail.gmail.com>
-Subject: Re: [PATCH] ovl: use linked upper dentry in copy-up tmpfile
-To: Christian Brauner <brauner@kernel.org>
-Cc: Amir Goldstein <amir73il@gmail.com>, Souvik Banerjee <souvik@amlalabs.com>, 
-	linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Date: Wed, 10 Jun 2026 14:17:22 +0200
+X-Gm-Features: AVVi8CdDxJ1TB7_ws3sir1l7bjNCID03QC-QtEthN1DCePRXj6LQP6MsvdjlX9s
+Message-ID: <CAJfpegvW1yoVEfzbArHye4KmDgOuqeVHNhahR6Q25cvB-hHfmw@mail.gmail.com>
+Subject: Re: [RFC PATCH 5/6] fuse: dax: Move long delayed work on system_dfl_long_wq
+To: Marco Crivellari <marco.crivellari@suse.com>
+Cc: linux-kernel@vger.kernel.org, Tejun Heo <tj@kernel.org>, 
+	Lai Jiangshan <jiangshanlai@gmail.com>, Frederic Weisbecker <frederic@kernel.org>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Michal Hocko <mhocko@suse.com>, linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, 3 May 2026 at 22:37, Amir Goldstein <amir73il@gmail.com> wrote:
+On Fri, 8 May 2026 at 15:45, Marco Crivellari <marco.crivellari@suse.com> wrote:
 >
-> On Sat, May 2, 2026 at 1:27=E2=80=AFAM Souvik Banerjee <souvik@amlalabs.c=
-om> wrote:
-> >
-> > ovl_copy_up_tmpfile() stores the disconnected O_TMPFILE dentry as the
-> > overlay's upper dentry reference via ovl_inode_update().  vfs_tmpfile()
-> > allocated this dentry via d_alloc(parentpath->dentry, &slash_name), so
-> > d_name is "/" and d_parent is c->workdir.  Local upper filesystems
-> > (ext4, btrfs, xfs, ...) immediately rename it to "#<inum>" via
-> > d_mark_tmpfile() inside their ->tmpfile() op; FUSE and virtiofs do
-> > not, so both fields stay that way.  Neither identifies the destination
-> > directory and filename where ovl_do_link() actually linked the file.
-> >
-> > When the upper filesystem implements ->d_revalidate() (e.g. FUSE or
-> > virtiofs), ovl_revalidate_real() calls it with the dentry's parent
-> > inode and a snapshot of d_name.  The server tries to look up "/" inside
-> > c->workdir, fails, and overlayfs reports -ESTALE.
-> >
-> > This causes persistent ESTALE errors for any file that was copied up vi=
-a
-> > the tmpfile path, breaking dpkg, apt, and other tools that do
-> > rename-over-existing on overlayfs with a FUSE/virtiofs upper.
-> >
-> > Before commit 6b52243f633e ("ovl: fold copy-up helpers into callers"),
-> > the tmpfile copy-up path used a dedicated helper ovl_link_tmpfile()
-> > that captured the linked destination dentry returned by ovl_do_link():
-> >
-> >     err =3D ovl_do_link(temp, udir, upper);
-> >     ...
-> >     if (!err)
-> >         *newdentry =3D dget(upper);
-> >
-> > and published it via ovl_inode_update(d_inode(c->dentry), newdentry).
-> > The fold inlined ovl_do_link() into ovl_copy_up_tmpfile() but dropped
-> > the dget(upper) capture, and rewrote the publish line as
-> > ovl_inode_update(d_inode(c->dentry), dget(temp)) =E2=80=94 where temp i=
-s the
-> > disconnected O_TMPFILE dentry.
-> >
-> > Fix by keeping a reference to the linked destination dentry after
-> > ovl_do_link() succeeds, and publishing that dentry at the existing
-> > ovl_inode_update() call site.  The non-tmpfile/workdir path continues t=
-o
-> > publish the renamed temporary dentry.
-> >
-> > Reproducer:
-> >   - Mount overlayfs with virtiofs (or a FUSE fs whose server advertises
-> >     FUSE_TMPFILE) as upper
-> >   - Run: dpkg -i <any .deb>
-> >   - Observe: "error installing new file '...': Stale file handle"
-> >
-> > Fixes: 6b52243f633e ("ovl: fold copy-up helpers into callers")
-> > Cc: stable@vger.kernel.org # v4.20+
-> > Signed-off-by: Souvik Banerjee <souvik@amlalabs.com>
-> > ---
-> >  fs/overlayfs/copy_up.c | 12 ++++++++++--
-> >  1 file changed, 10 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/fs/overlayfs/copy_up.c b/fs/overlayfs/copy_up.c
-> > index 13cb60b52bd6..e963701b4c87 100644
-> > --- a/fs/overlayfs/copy_up.c
-> > +++ b/fs/overlayfs/copy_up.c
-> > @@ -853,7 +853,7 @@ static int ovl_copy_up_tmpfile(struct ovl_copy_up_c=
-tx *c)
-> >  {
-> >         struct ovl_fs *ofs =3D OVL_FS(c->dentry->d_sb);
-> >         struct inode *udir =3D d_inode(c->destdir);
-> > -       struct dentry *temp, *upper;
-> > +       struct dentry *temp, *upper, *newdentry =3D NULL;
-> >         struct file *tmpfile;
-> >         int err;
-> >
-> > @@ -889,6 +889,14 @@ static int ovl_copy_up_tmpfile(struct ovl_copy_up_=
-ctx *c)
-> >         err =3D PTR_ERR(upper);
-> >         if (!IS_ERR(upper)) {
-> >                 err =3D ovl_do_link(ofs, temp, udir, upper);
-> > +               if (!err) {
-> > +                       /*
-> > +                        * Record the linked dentry -- not the disconne=
-cted
-> > +                        * O_TMPFILE dentry -- so that ->d_revalidate()=
- on
-> > +                        * the upper fs sees the real parent/name.
-> > +                        */
-> > +                       newdentry =3D dget(upper);
-> > +               }
-> >                 end_creating(upper);
-> >         }
-> >
-> > @@ -903,7 +911,7 @@ static int ovl_copy_up_tmpfile(struct ovl_copy_up_c=
-tx *c)
-> >
-> >         if (!c->metacopy)
-> >                 ovl_set_upperdata(d_inode(c->dentry));
-> > -       ovl_inode_update(d_inode(c->dentry), dget(temp));
-> > +       ovl_inode_update(d_inode(c->dentry), newdentry);
-> >
-> >  out:
-> >         ovl_end_write(c->dentry);
-> > --
-> > 2.51.1
-> >
+> Currently the code enqueue work items using {queue|mod}_delayed_work(),
+> using system_long_wq. This workqueue should be used when long works are
+> expected and it is a per-cpu workqueue.
 >
+> The function(s) end up calling __queue_delayed_work(), which set a global
+> timer that could fire anywhere, enqueuing the work where the timer fired.
 >
-> Hi Souvik,
+> Unbound works could benefit from scheduler task placement, to optimize
+> performance and power consumption. Long work shouldn't stick to a single
+> CPU.
 >
-> Thank you for the analysis and the fix.
-> Looks correct to me.
+> Recently, a new unbound workqueue specific for long running work has
+> been added:
 >
-> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+>     c116737e972e ("workqueue: Add system_dfl_long_wq for long unbound works")
 >
-> Christian,
+> Since the workqueue work doesn't rely on per-cpu variables, there is no
+> obvious reason that justify the use of a per-cpu workqueue. So change
+> system_long_wq with system_dfl_long_wq so that the work may benefit from
+> scheduler task placement.
 >
-> Could you pick this up for vfs-fixes?
-> I do not have any other ovl fixes queued up.
+> Cc: Miklos Szeredi <miklos@szeredi.hu>
+> Cc: linux-fsdevel@vger.kernel.org
+> Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
 
-Reviewed-by: Miklos Szeredi <mszeredi@redhat.com>
+Applied, thanks.
 
-This seems to have slipped through the cracks.
-
-Christian?
-
-Thanks,
 Miklos
