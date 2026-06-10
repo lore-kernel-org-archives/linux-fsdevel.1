@@ -1,49 +1,40 @@
-Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD395343D85;
-	Wed, 10 Jun 2026 05:09:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A562343D85;
+	Wed, 10 Jun 2026 05:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781068180; cv=none; b=eoNHl19jk65qig/o+tVHS+TLLNAj3jGe6g01akfR3zrBAhVXaykPZqycSov6eM4esqiQEVLT6Qu6bJ1wOw6/GjdFDg79tihOsQvWjCWUmHqr8sbNhrYmOLxQNo7bWkG7tRSQWsKAgClagcwQjTB/pc6eZD4Mf/Y+GDpQ1ocPmfs=
+	t=1781068248; cv=none; b=ayuVqt8fneZCL8JJWSbGXyL7FGUChPV7Eegf6VWg88OL6hBsTs6eAmc0o9c4GfU+Dz+BNz8trXPwpQHTa3NHtE3XSybsaAG0cZWhU9PYsyJoDlPG4pKmGmr2DDQ5W/p4+HdPDviARznydzEMdp8PeWBtIyg+VgA/zzNpFhtivwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781068180; c=relaxed/simple;
-	bh=U9uKUooBx4sOnx2QuXms6koNlM4zfz1WGMojOv6/Qcs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=IKxy9v1zS8VPGcogvEgkROvcWkyP4OzS9M/yYv60ou966HmOvpKOEmME3nNWxN5AWm3LXlGeh8T8cIDh89K16KzZ4D37fZAnfy/kep+Ut/5PaYSiYwubQykBmvMcr5FOImx6n9q0YXxKZCxiRQNEfA01EFZmP4VLPTWaJ2ru/6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b=hzp5pVhD; arc=none smtp.client-ip=180.181.231.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+	s=arc-20240116; t=1781068248; c=relaxed/simple;
+	bh=4PUKHrgnUIlcaiICXbtZcHWjq36Ig6zvJMn1SLMmv2A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rks6x4AKJ4ZMB3WMUgeAEWIldxfXrdsLgJZxn/U/m3GBI4MOTvAF/XHKmUwbwiCv8/xqDs2OylNwQGukVFNtmsbwWG7PooiYGXiJW07d8nOXKo1fQ5H6jH8WDO7yYPTTyVccyBzc2NSFe2T8XvlIUgYoWGgmrPWbXo35WewEJr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EkwEEOT1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b="hzp5pVhD"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=gondor.apana.org.au; s=h01; h=In-Reply-To:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:cc:to:subject:message-id:date:from:
-	content-type:references:reply-to;
-	bh=RHcfWFsJiVmAbunXLJMpnVW4BYFuN/HfVIVR+xGLhEI=; b=hzp5pVhDHzkGjEcskk8K5YTF4w
-	THr3gJHBdtRQFFgqjsAsoO6fdixFyGmx122vU0xpz3axRJBjX349/KHDmcO0t8sH4xw+Nn0lt/jY2
-	SCXUJZfn5c4x28vA9gBWC5UStdt2+Xc6Yb2TjcMFlrA/5I6FMTEWn8xqpZJhbkdDPRxN3o2uieafk
-	4J+vNNegmU5IXK2JiB6U1o0OAAZk3SKxDW0MlWQqStNrM2RwBxeKqXqhzj2P+8ZrXakgBxE+jXi+6
-	pKl3Mfd5HH7xMDICRjPQ+ZIGawzxVsCyCGtqfxXuC327udHGQrdV2ws+61CZGoJ8rbu5CP75oRNoR
-	ypNc0+Gg==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.98.2 #2 (Debian))
-	id 1wXBBn-00000004AT4-37fd;
-	Wed, 10 Jun 2026 13:09:20 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Wed, 10 Jun 2026 13:09:19 +0800
-Date: Wed, 10 Jun 2026 13:09:19 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: luto@amacapital.net, safinaskar@gmail.com, akpm@linux-foundation.org,
-	axboe@kernel.dk, brauner@kernel.org, david@kernel.org,
-	dhowells@redhat.com, hch@infradead.org, jack@suse.cz,
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, miklos@szeredi.hu,
-	netdev@vger.kernel.org, patches@lists.linux.dev, pfalcato@suse.de,
-	viro@zeniv.linux.org.uk, willy@infradead.org
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
- preadv2/pwritev2
-Message-ID: <aijxfxXrWLCVqV6-@gondor.apana.org.au>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EkwEEOT1"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id E37841F00893;
+	Wed, 10 Jun 2026 05:10:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781068247;
+	bh=BWigdOf2B4uPaqGV90kwv1VByZEo/YY41xwT1ttMEn0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EkwEEOT1dlUUnDqI/HRK43qKcl9AUsUH8xEORT6y2iYM5g/QQ5PqYVHQ0XQfxKFr2
+	 1hFhQZL8Mg2aR+eQ/15odnNghzcDOCNtRVQXukMlazuKIqhFHiTnGu3b3YgdA/t/9e
+	 5YXVftNfPD5uFlDvpcsg4nMtDiJyi0CvCbjtaz2rfTzpLg9i1sceeEM6pE6P+BzRa4
+	 uX6sHYNFzYC6eKD1ylOAAH+vqjEKlDFjfCzIKlp6rcGnqhCGU3vWPbujblrSErccyV
+	 Q7CxWoJwGHD+tZJZQ5uz677FrEZOBwYTV0/AgPRp9S9slK6rDO0jMjbeWxP1MRWDu/
+	 G9Drq3AqPf1iQ==
+Date: Tue, 9 Jun 2026 22:10:46 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: brauner@kernel.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] iomap: pass the correct len to fserror_report_io in
+ __iomap_write_begin
+Message-ID: <20260610051046.GE6078@frogsfrogsfrogs>
+References: <20260610050642.1906695-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -52,36 +43,40 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wh5bFj1a7eaGp9sixDg3UXu7xUGfU=YJo+ckpGxGAyhXQ@mail.gmail.com>
-X-Newsgroups: apana.lists.os.linux.kernel,apana.lists.os.linux.netdev
+In-Reply-To: <20260610050642.1906695-1-hch@lst.de>
 
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
->
-> Because I think splice() is a *cool* feature. It was always *clever*.
-> I just don't think it's worth the pain it has cause.
+On Wed, Jun 10, 2026 at 07:06:42AM +0200, Christoph Hellwig wrote:
+> len is size of the (larger) write request, plen is the range for which
+> the read failed here.
 > 
-> And it's been around for a long long time, and after more than two
-> decades it's still most definitely not _widely_ used.
+> Fixes: a9d573ee88af ("iomap: report file I/O errors to the VFS")
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-A couple of years ago I used tee(2) in dash(1) so that we could
-avoid reading the input line byte-by-byte which is what every other
-shell does in order to pass the rest of stdin to the executed
-command.
+Sorry about screwing that up.
 
-https://git.kernel.org/pub/scm/utils/dash/dash.git/commit/?id=44b15ea09a9ee5872cf477e4ffc6b42ef37d1e46
+Cc: <stable@vger.kernel.org> # v7.0
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 
-It's definitely niche but made a huge performance difference to
-this rather common scenario:
+--D
 
-echo 'command
-...
-rest of stdin' | sh
-
-I didn't even know tee(2) prior to this, even though it was added
-way back.
-
-Thanks,
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+> ---
+>  fs/iomap/buffered-io.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+> index d7b648421a70..bcf4559e9aa7 100644
+> --- a/fs/iomap/buffered-io.c
+> +++ b/fs/iomap/buffered-io.c
+> @@ -850,7 +850,7 @@ static int __iomap_write_begin(const struct iomap_iter *iter,
+>  			if (status < 0)
+>  				fserror_report_io(iter->inode,
+>  						  FSERR_BUFFERED_READ, pos,
+> -						  len, status, GFP_NOFS);
+> +						  plen, status, GFP_NOFS);
+>  			if (status)
+>  				return status;
+>  		}
+> -- 
+> 2.53.0
+> 
+> 
