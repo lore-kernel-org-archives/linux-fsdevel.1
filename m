@@ -1,73 +1,72 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553EB40D592
-	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 08:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9613164A1
+	for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 08:24:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781079801; cv=none; b=YpvcrA3aZdXupMYDdcVA4mYaBC26m7n9Zytu+ulWvt6PDL84FvUSu+8+s9Zm0Dx4OSL3mFCxbsln2i3ElKF+7s2lnaAK1caoqr3rtL0vhWiVk/NSr7yNa1YTY+OoxNYfXO3TxDhsHCsQS3WAocQTvIOdCKjukLWYWCco0lJWTHg=
+	t=1781079884; cv=none; b=sLWu90ewRuckV7j7WZaC6IrrT5DDBD0xIF/QxKRRGMmj/zmG0pZ+WdVoSfpu7/9KFv2Dx/9BDJ8L3uNSDMfHRoPDU013sk80Dxasa2zbYCgtdw+5BG+ROxuG3KDDOHuLiZw/Qpm1MjvQ6jyHRDJ4LywL6vzBpdbI1a+0kHrl3BM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781079801; c=relaxed/simple;
-	bh=lajdHLmGzJ6pdX86UEP0jatoJWsgRPCbLlvPhculls8=;
+	s=arc-20240116; t=1781079884; c=relaxed/simple;
+	bh=L6SvY8uN1W0Gr2nVIZ2RzyDa5AkptMhiSDkepwtVsl0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eHge+MoR+0orhkUAG/QzgxxEufWNbSvngJTqkE9dAvH8yYYx2TKZkXoxo1Z/BvJGs/b858iT+5U6inIKMLugaQTcMJuOyaKZMg3ueEQNYwXHI2JSJanL1LBVIC3fmeiBW5tBuTqMaT857Zv8E/TbdVeixAhxqI/Pk82zW2IWKlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p57hANoW; arc=none smtp.client-ip=209.85.128.46
+	 Content-Type:Content-Disposition:In-Reply-To; b=i8oC4Af/YWDDsHpe36YQUA0p9icMfqiWvqUxmiLxTw0fI2BZUXLhN1sZOl2KClzQeVKMUfU7iOxxjobhUwiVUM5bE9MkT0ivcLqTee1VEEJJom31UvBU2kmD71jFj0YrfJTwwgUmyQgrRH/2CZ+dYxh/P8zvYDLWgA6BTi30DAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FOI7Xztw; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p57hANoW"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490a76757e5so42198555e9.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 01:23:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FOI7Xztw"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-45ef1629ff4so4474737f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 10 Jun 2026 01:24:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781079799; x=1781684599; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781079882; x=1781684682; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RQ6rVmHZAbMgF/zkjs+bnm+j5nIq8bjUQyfEZeFsfHU=;
-        b=p57hANoWgkZLqkyXMlo5VpVo2xbDZqBn1VQo3yo+eRZn8bonrcu3cFImG5MK7LwINc
-         RgEfp3+Hiy5ElmuDfaCfjeI3n/ybvb2+ytm2n1eKfaBrlSMx+7y7R+qHFViEX+X4tI/n
-         5JHPI3RavIbcJOL00+b/tNWR1jVFASPkI2n+b9p48l94fa70M0+2BiV5l5WJsQYuqO96
-         +qo3N0l9hwA+2cQPHWOmX7hZshx4LE09y4oYfqQ4OfUY//aaC4eIbxsbVZlgF443THJQ
-         nd67Sf/bLvuWMNFISFfSucAzxue+RedkUpIiKtxGhhni6eCSRaooyV6flXu5Z2Q6LHiL
-         w8Bw==
+        bh=UxfrfbUI9GGDqUvaj1onis34PFT9knXsHoMZo2Kt22Y=;
+        b=FOI7XztwLkbIn4obeqau9tGdZcxyB6ga6/Xas2q/wBpsmJeJD8/TwblFdS+nbrHSDO
+         0AQNnDqTJdSjgh7kRLewZebGRFI5WysE9pKv+wymJ3zQtxnHz2yyqP0zLTnflWcoaRi3
+         CeQBiBPmOFLWJWfDnEDW8kdJSsLFjxDvQkYx53UFE0TIsU0XGAAy8J6HurXzOdhCopDU
+         ghn5WPyEGeKmB7RX0wx8QGHKCTE8oNAT4EvFd+3clVQl9Nic3EVzHk+cD0+4z+ViOJPJ
+         91f4Tt6cu2VvBLZ0IbhdPRmBsC03c7xdgbJrHKW57R3Hs6jJ3lglC6qbVx4H5VBsD5IL
+         omJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781079799; x=1781684599;
+        d=1e100.net; s=20251104; t=1781079882; x=1781684682;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RQ6rVmHZAbMgF/zkjs+bnm+j5nIq8bjUQyfEZeFsfHU=;
-        b=nl8UVCUsamqWZdhUIkgnnVjsddoYEXEPY2Ervp/ASE8LdPKtZzGPTqYP8GsedZeMUa
-         Xlqpw0YiInvS8HWa+T5cNkM8ByVM6VTM30FIh6njIg2XED+kZOP46daGPUyuKzhDRB0c
-         +mNPn8TrLry1T4e90ceLnej0U+aNal387/aCzTEUpV2DcKUHEyKHe+m3g0Zx5wLcjrcg
-         /Y3g7ENwUG6Xy2cYACznhbWIPs3uVKiG7Sn851JT+7YpagVc6DwYP6S7fhgQtTm94kZx
-         7iDLxvr/ubqPr2zXbP34+A5mLZmokt5gGXbX9Qvu/LmEqnAJwkJM/SyrEXGyDV6CSoSw
-         TWUA==
-X-Forwarded-Encrypted: i=1; AFNElJ+cbQlm5PFHMZWcxXq6BuVIGELjKJbLFrUBYM2Lh4+H7ypydl17+vG9fC9u1OCV2wNpOxhcAYtrQUy53/Gt@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIVW8t8TfJADORrz384dGiD4bQCvMtm8ZPPEnoF6uKD3gTAicN
-	aCiritgq71UkP717o76c3Eq5XZJ5kCol3k9yIPGjXtUYE2QWSiwLR/RAyiBTdOHk
-X-Gm-Gg: Acq92OGLkDG/g8kXppyU2EHO/bYiK9UrFQaZ1qZA1MzpzaYoHMSuK7Apxxm9nSr8TY1
-	r3xPIIkS+GOTsbqmKFkJE1xE7I86MuNNkb0JO534VB9S1HBZuyanjkKWj0g3412Cov35fajoCdO
-	ph0PvwX8p/17fOkv823muT60af5AlunoAUdbwaZ1vltpzAotet9fbWEg3ysLWWVXMtSp1yUQm/c
-	K9WskCpRFfLa8p7ZtWuRMM2IX3N3MbKaV8/lfCwF2rmrFzCxCt0azLvdSRjn233IRksJ4nw4MSw
-	bH+KTJV4kq0WZuCi65odMMhYEY3lRQZp3EJzX75r+7IuUBRpQVdk1RxJ7CRxGVcB3zsEO9nMomQ
-	xRAWdEUjw7JM2jNsU1Psapgpgw6mj4Q6zhQ8HUbHxfiHB2cUerQKrlx8qQVgbpiaz1Y9Mj4Ciym
-	rtGDfGgbR1a8vlC/NPhhKaVTwGHpjGuoDXZleEO22jL8BF/waBZHSmY8Hce2m6xOUM2t1IyUVzM
-	0RBZHb6OHiG9Ua1rLFBmk8OWEyiK+kHiNEjXCILDy/6
-X-Received: by 2002:a05:600c:620d:b0:48f:e249:4094 with SMTP id 5b1f17b1804b1-490c25fa907mr347359715e9.18.1781079798508;
-        Wed, 10 Jun 2026 01:23:18 -0700 (PDT)
+        bh=UxfrfbUI9GGDqUvaj1onis34PFT9knXsHoMZo2Kt22Y=;
+        b=YkVSi4Us8y5IHdIC/KLpyss57DfTJHytoBDfpmql3RExoQvSWavCuIl8pYbVwiOphD
+         SSU2eZ2Eg3SF2xfqmgubit+fGFDsNw5rQWtzuRYMoiDG90g9KqUWT2saFNhuc8BdmINg
+         qtk2nu458wYhKPw/kyId8SQJbPPq+mPcpNYkRs202THoGD96iCOodA3SjhvwWONozebd
+         F5lcDhfgo/9/3iWERKk/DBk5Q2WoCOaZC8hl/a7IFgNzpiDWj/RwoaJvPK26Oeckc4Mp
+         9FWfK8Klf7i3Zdo8dSrfO9yXlbLQtTww0Nxem4sF+TfD+I+EQY8/e7QodaqfXAFIea65
+         VzaA==
+X-Forwarded-Encrypted: i=1; AFNElJ+7Gza1LHdzUuSd7aNHb0jj75J67IojZCoeCACr81YB8/HlwVVpPrUbnB7FTcmMtovwntPyulAMNHJWZPoe@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyqvtvxif1BeJ6cO+ivFYHxXTj5VbFXDl9thzNvmgNg3RmuHJvA
+	HQKU/TRcehuOsQKyQBYFsoUJav+r5zYOewI0pBvnb8huuZ9xpFdwY23E
+X-Gm-Gg: Acq92OEmhWSko1lLa9JFJSr6b2SsB9jaWSC0eZXsJMRjruuU7Xha+Tbz1oxdy3xiH2p
+	SIWWE+gHdzyTFMmoE4lqk0sKwWPOosmBkoK7lTDcq9cvsnUytCw/C8UM5zi3HDmVbiYly+NkBdG
+	1FpMu4R7fam3VBfudeDYTAtmwb0dzK5MkFNs7qYjBTJoUvUS6IEW0yJrIe7FTAIlgG78b8c8kMf
+	N0rnAABcdyTh/tQatfL2lUfvLzhdvC4ikw/mgjGjICkVvfGUfWz0NJW6zntPlSD5uGhniuqVkFV
+	fjAVidIWfNoecklWjv9zFYTM7Kqm4P1aVk38XxEAcaFNMd2O3U/I48LrhiZzcTcp8mGg8QDyIhr
+	NNXSA/r4oIAWRuSqzVpWCylMms0dnlELJydsL9M6wNOV/zHFa1aNAF43AkVxOvYuJQmLoPtCITt
+	ppOkXsp0ZBPQ/iiBXLFLhFW8IjcF3RDpzyzqt0FC4hFZHNn7gEAqt5uFsybW1gOojCOP4YZL3ZT
+	HS5/zLcLLjjg10ksZwlchwMa4EsfgcndXO/HOfqZGLy
+X-Received: by 2002:a05:600c:a088:b0:48a:5301:bb5c with SMTP id 5b1f17b1804b1-490c25fc129mr372415685e9.16.1781079881432;
+        Wed, 10 Jun 2026 01:24:41 -0700 (PDT)
 Received: from fedora (cpc92878-cmbg18-2-0-cust539.5-4.cable.virginm.net. [86.16.54.28])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3cc0f8sm540427225e9.8.2026.06.10.01.23.17
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f344558sm66583318f8f.18.2026.06.10.01.24.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 01:23:17 -0700 (PDT)
-Date: Wed, 10 Jun 2026 09:23:16 +0100
+        Wed, 10 Jun 2026 01:24:41 -0700 (PDT)
+Date: Wed, 10 Jun 2026 09:24:39 +0100
 From: Vishal Moola <vishal.moola@gmail.com>
 To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	Ye Liu <liuye@kylinos.cn>
-Subject: Re: [PATCH v2 5/6] show_page_info: Remove printing of page index
-Message-ID: <aike9DgWxRIdlmWz@fedora>
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 6/6] mm: Remove __folio_index
+Message-ID: <aikfR2wWke8lSyab@fedora>
 References: <20260608210618.3437216-1-willy@infradead.org>
- <20260608210618.3437216-6-willy@infradead.org>
+ <20260608210618.3437216-7-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -76,14 +75,17 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260608210618.3437216-6-willy@infradead.org>
+In-Reply-To: <20260608210618.3437216-7-willy@infradead.org>
 
-On Mon, Jun 08, 2026 at 10:06:15PM +0100, Matthew Wilcox (Oracle) wrote:
-> Pages don't have indexes, folios have indexes.  Just delete it.  This
-> script is going to become increasingly barren unless somebody steps up
-> to maintain it.
+On Mon, Jun 08, 2026 at 10:06:16PM +0100, Matthew Wilcox (Oracle) wrote:
+> People have been abusing the existence of __folio_index.  Since that
+> was too subtle for them, unname it entirely.  Now we can't use it in the
+> FOLIO_MATCH, TABLE_MATCH and ZPDESC_MATCH macros, but that's OK, since
+> we don't care whether these fields alias index or some other field.
+> Also remove page->share since all users have been converted to use
+> folio->share and I'm absolutely certain somebody will start to access
+> folio->index through page->share if it's not removed.
 > 
 > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Cc: Ye Liu <liuye@kylinos.cn>
 
 Reviewed-by: Vishal Moola <vishal.moola@gmail.com>
