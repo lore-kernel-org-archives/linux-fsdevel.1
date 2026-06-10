@@ -1,74 +1,87 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C888B3644CF;
-	Wed, 10 Jun 2026 05:06:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD395343D85;
+	Wed, 10 Jun 2026 05:09:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781068012; cv=none; b=sW2NCmnbuVO0Nojhq0jS+szE4wluAhpOCsp3aqHudWHpbCHf9rta5b0MEqh2NDPYIOU8YYYl0ZgAYpD3u3Y6mbemnmTenwUXXjPpWNyEJ3PBXGB/FJK4nKNjIqQa6ipxLKb25Pa8ATec7u0KmfI+WnWjwn/Z7RtYl8NTbqomCJQ=
+	t=1781068180; cv=none; b=eoNHl19jk65qig/o+tVHS+TLLNAj3jGe6g01akfR3zrBAhVXaykPZqycSov6eM4esqiQEVLT6Qu6bJ1wOw6/GjdFDg79tihOsQvWjCWUmHqr8sbNhrYmOLxQNo7bWkG7tRSQWsKAgClagcwQjTB/pc6eZD4Mf/Y+GDpQ1ocPmfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781068012; c=relaxed/simple;
-	bh=c8ovQH4aHy9vKB9NqBpiCjK2G6mBcBJh1WABdh00AZs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IuC4ZxU8bI/tteiHYj2FrGZY1JLTH1uYc328xbHAg67QXw0o6X2jloQbrmLWbBkFa7YySX6S3EfuuMiEdjdoDGxRPR4Hbw67X4Xc0DUdl9DkjG9Z7XLHSj6ZG50N4kSqZ+IBbegfHnKOOB0hGuozFAbB1BVD08dEWgSuF3zh7vE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FyHSTQ0f; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1781068180; c=relaxed/simple;
+	bh=U9uKUooBx4sOnx2QuXms6koNlM4zfz1WGMojOv6/Qcs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=IKxy9v1zS8VPGcogvEgkROvcWkyP4OzS9M/yYv60ou966HmOvpKOEmME3nNWxN5AWm3LXlGeh8T8cIDh89K16KzZ4D37fZAnfy/kep+Ut/5PaYSiYwubQykBmvMcr5FOImx6n9q0YXxKZCxiRQNEfA01EFZmP4VLPTWaJ2ru/6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b=hzp5pVhD; arc=none smtp.client-ip=180.181.231.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FyHSTQ0f"
+	dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b="hzp5pVhD"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=qKT7cBZl24itlaRMk0gx2b8KhJCqdbYRIr2TNHxsnvQ=; b=FyHSTQ0fYcOVvMC+TVT57ueGhn
-	Nv9SveejGcmVxAaLtRDzZ1IJVPj+0a/HrMcCw7+HltgGX4JX+sTOVwulwDHdqkeuuXg2L1KqyCw5H
-	6QRQ9k29vMjOdqLbEvjVL6Nk3sx4izhYh7UR/iUVR2xSEWs0t2V47Cw8SNXCA450Xm/HyHVajHirc
-	KP7Fk9PjbzPJRnhZs6BFGgK8D/cdcCW1FbUxYbGSjak+lqGR9xRdR1TNmhLjkDLjx4KnbwVuabmhT
-	3M48EfTrbYU70uWXOzmgPadXdu6GXBnrEWcNBKc2pYqt1jpC4yZx2u2KojeBe2y3Ylh7/M9BtLdxV
-	7LhTe/pg==;
-Received: from 2a02-8389-2341-5b80-decc-1a96-daaa-a2cc.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:decc:1a96:daaa:a2cc] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wXB9K-00000006nvU-46gP;
-	Wed, 10 Jun 2026 05:06:47 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: brauner@kernel.org,
-	djwong@kernel.org
-Cc: linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH] iomap: pass the correct len to fserror_report_io in __iomap_write_begin
-Date: Wed, 10 Jun 2026 07:06:42 +0200
-Message-ID: <20260610050642.1906695-1-hch@lst.de>
-X-Mailer: git-send-email 2.53.0
+	d=gondor.apana.org.au; s=h01; h=In-Reply-To:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:cc:to:subject:message-id:date:from:
+	content-type:references:reply-to;
+	bh=RHcfWFsJiVmAbunXLJMpnVW4BYFuN/HfVIVR+xGLhEI=; b=hzp5pVhDHzkGjEcskk8K5YTF4w
+	THr3gJHBdtRQFFgqjsAsoO6fdixFyGmx122vU0xpz3axRJBjX349/KHDmcO0t8sH4xw+Nn0lt/jY2
+	SCXUJZfn5c4x28vA9gBWC5UStdt2+Xc6Yb2TjcMFlrA/5I6FMTEWn8xqpZJhbkdDPRxN3o2uieafk
+	4J+vNNegmU5IXK2JiB6U1o0OAAZk3SKxDW0MlWQqStNrM2RwBxeKqXqhzj2P+8ZrXakgBxE+jXi+6
+	pKl3Mfd5HH7xMDICRjPQ+ZIGawzxVsCyCGtqfxXuC327udHGQrdV2ws+61CZGoJ8rbu5CP75oRNoR
+	ypNc0+Gg==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.98.2 #2 (Debian))
+	id 1wXBBn-00000004AT4-37fd;
+	Wed, 10 Jun 2026 13:09:20 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Wed, 10 Jun 2026 13:09:19 +0800
+Date: Wed, 10 Jun 2026 13:09:19 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: luto@amacapital.net, safinaskar@gmail.com, akpm@linux-foundation.org,
+	axboe@kernel.dk, brauner@kernel.org, david@kernel.org,
+	dhowells@redhat.com, hch@infradead.org, jack@suse.cz,
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, miklos@szeredi.hu,
+	netdev@vger.kernel.org, patches@lists.linux.dev, pfalcato@suse.de,
+	viro@zeniv.linux.org.uk, willy@infradead.org
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
+ preadv2/pwritev2
+Message-ID: <aijxfxXrWLCVqV6-@gondor.apana.org.au>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wh5bFj1a7eaGp9sixDg3UXu7xUGfU=YJo+ckpGxGAyhXQ@mail.gmail.com>
+X-Newsgroups: apana.lists.os.linux.kernel,apana.lists.os.linux.netdev
 
-len is size of the (larger) write request, plen is the range for which
-the read failed here.
+Linus Torvalds <torvalds@linux-foundation.org> wrote:
+>
+> Because I think splice() is a *cool* feature. It was always *clever*.
+> I just don't think it's worth the pain it has cause.
+> 
+> And it's been around for a long long time, and after more than two
+> decades it's still most definitely not _widely_ used.
 
-Fixes: a9d573ee88af ("iomap: report file I/O errors to the VFS")
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- fs/iomap/buffered-io.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+A couple of years ago I used tee(2) in dash(1) so that we could
+avoid reading the input line byte-by-byte which is what every other
+shell does in order to pass the rest of stdin to the executed
+command.
 
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index d7b648421a70..bcf4559e9aa7 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -850,7 +850,7 @@ static int __iomap_write_begin(const struct iomap_iter *iter,
- 			if (status < 0)
- 				fserror_report_io(iter->inode,
- 						  FSERR_BUFFERED_READ, pos,
--						  len, status, GFP_NOFS);
-+						  plen, status, GFP_NOFS);
- 			if (status)
- 				return status;
- 		}
+https://git.kernel.org/pub/scm/utils/dash/dash.git/commit/?id=44b15ea09a9ee5872cf477e4ffc6b42ef37d1e46
+
+It's definitely niche but made a huge performance difference to
+this rather common scenario:
+
+echo 'command
+...
+rest of stdin' | sh
+
+I didn't even know tee(2) prior to this, even though it was added
+way back.
+
+Thanks,
 -- 
-2.53.0
-
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
