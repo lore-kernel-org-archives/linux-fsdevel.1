@@ -1,167 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181001A9F90;
-	Thu, 11 Jun 2026 04:18:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266A82F0C74;
+	Thu, 11 Jun 2026 05:57:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781151527; cv=none; b=sTLBhES7pDzzmgl9AVaRkeBaSVwbbOvoZ4DmsCE9QRGnhn22o0ImtbMIXE2/EleysMtYaPCOgR00mrOUSj/HdQhgWmFe8zU/4Zd9XgBHyay6QUd6n2E8j3q/68kUghzZG2Kd3UnzqJgjnR4mt/FwUvsp+wagYjxheWtGaT5Swb8=
+	t=1781157472; cv=none; b=bvui2xDC4GSso5wLf1AVkviRbF2NLtcg8ETqpkMYj+XYovu/vsDzLPW9bwfQilv/g9FQ8nFrPIWOQbXHpI1itLCR+uiW+/12HrsB4lPSjlhQ5Th4SaEr1RyAhpwGo5j8XrlFKlqTkBtc+E1V23TptmxBtFb3fCUNaeIkwaXtyrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781151527; c=relaxed/simple;
-	bh=k/N9PzP8urmr7cKC1TYZw0B/99I1ksbcHVIBnW2D0uU=;
+	s=arc-20240116; t=1781157472; c=relaxed/simple;
+	bh=wTVWMr869qNxAZImCrP1/AI/tgL3odwId2Js0rwLe5k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jxE8piKQK/0ysOsqQBK/zLOiCkIebTSUyDUmGavGZ57mYcS9Aymm47A2fgqjejlBJr8LjeuHZSKyFeN6K9NM+WVSL360eH2LCRkFb6jjJi+95c/CTZVoi8Vooxt/CE+mODmPF+6rCkGYsiVeVapfLWmQQFZ67RPmVtDNytlENWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m8699oWT; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m8699oWT"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id A9A461F00893;
-	Thu, 11 Jun 2026 04:18:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781151525;
-	bh=QhsrUDXjPtxdirQnof0Klka8enOpJ1zjgovM2IvdMiM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=m8699oWTTh9PY0Zyz9zOm4tXemk4DHVAKPrjKIEnR8umKrHzogR7hazwnQO4x5T5k
-	 UII2guZ72qfBlZdVTgZVSbhzPuIDgd8otRXfHAlQ258nZ0CRthqUBcuVrPhq4PBsD7
-	 g3O8y5QYdfzi9Ui6YD4EkMhDk/0Y5nJL0Ahq9TXuH/KHmdQYTJSr/IvEnLO5csCoLu
-	 1OM1m/FMKubR6ya/w6xTaBQKDdrLQvV026zc7K3o/asogCrD1Cm11o4aPeHE/PxRKr
-	 fJNdItwdHkHcTxKoKKtSxTvicpUSMoICJiC/k3engPKE9Ed83USLEssg4+wlXe/eP5
-	 t150FzDmcnxoA==
-Date: Wed, 10 Jun 2026 21:18:45 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: david.laight.linux@gmail.com, Kees Cook <kees@kernel.org>,
-	linux-hardening@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>
-Subject: Re: [PATCH next] fs/hfsplus/xattr: Use memcpy() and strscpy() to
- build xattr_name
-Message-ID: <20260611041845.GC6060@frogsfrogsfrogs>
-References: <20260608095523.2606-39-david.laight.linux@gmail.com>
- <2543b22369ec19dae397963fbdf2e7181c7419a8.camel@dubeyko.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=lznlwX3dcrwm2OWaBSJKPQTGyLzv0iv2bB0JooSKqFdf71ga3r+9AkdV2FvkjbrLyMP2YXXZM/fTn6tieYBJwyBlz0c7iWrWlZ7yI6mK4RTBiuw8BtV/Ek/72zO/UcKo6ll6sxljYhQ0rpwIr2TqFXNsrwUOfJl4NmpvCxqrskE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id AD53468B05; Thu, 11 Jun 2026 07:57:44 +0200 (CEST)
+Date: Thu, 11 Jun 2026 07:57:44 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: cem@kernel.org
+Cc: brauner@vger.kernel.org, linux-block@vger.kernel.devel,
+	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-xfs@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
+	Hannes Reinecke <hare@suse.de>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH] iomap: enforce DIO alignment check in iomap
+Message-ID: <20260611055744.GA18538@lst.de>
+References: <20260610145218.141369-1-cem@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2543b22369ec19dae397963fbdf2e7181c7419a8.camel@dubeyko.com>
+In-Reply-To: <20260610145218.141369-1-cem@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Wed, Jun 10, 2026 at 08:50:33PM -0700, Viacheslav Dubeyko wrote:
-> On Mon, 2026-06-08 at 10:55 +0100, david.laight.linux@gmail.com wrote:
-> > From: David Laight <david.laight.linux@gmail.com>
-> > 
-> > xattr_name is kmalloc()ed at the (assumed) maximal size and then the
-> > prefix
-> > and name concatenated together.
-> > Use memcpy() for the prefix - its length is passed and strscpy() for
-> > the
-> > name to ensure it really doesnt overflow.
-> > 
-> > Prior to bf29e886b242c the buffers were smaller and on-stack.
-> > (But I cant see the copy in the old code.)
-> > I am also not sure why the buffer isnt created "just long enough".
-> > 
-> > Signed-off-by: David Laight <david.laight.linux@gmail.com>
-> > ---
-> > This is one of a group of patches that remove potentially unbounded
-> > strcpy() calls.
-> > 
-> > They are mostly replaced by strscpy() or, when strlen() has just been
-> > called, with memcpy() (usually including the '\0').
-> > 
-> > Calls with copy string literals into arrays are left unchanged.
-> > They are safe and easily detected as such.
-> > 
-> > The changes were made by getting the compiler to detect the calls and
-> > then fixing the code by hand.
-> > 
-> > Note that all the changes are only compile tested.
-> > 
-> > Some Makefiles were changed to allow files to contain strcpy().
-> > As well as 'difficult to fix' files, this included 'show' functions
-> > as they really need to use sysfs_emit() or seq_printf().
-> > 
-> > All the patches are being sent individually to avoid very long cc
-> > lists.
-> > Apologies for the terse commit messages and likely unexpected tags.
-> > (There are about 100 patches in total.)
-> > 
-> >  fs/hfsplus/xattr.c | 12 ++++++------
-> >  1 file changed, 6 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
-> > index 452a1f9becb2..0b3dd48c28c9 100644
-> > --- a/fs/hfsplus/xattr.c
-> > +++ b/fs/hfsplus/xattr.c
-> > @@ -550,8 +550,8 @@ int hfsplus_setxattr(struct inode *inode, const
-> > char *name,
-> >  	xattr_name = kmalloc(xattr_name_len, GFP_KERNEL);
-> >  	if (!xattr_name)
-> >  		return -ENOMEM;
-> > -	strcpy(xattr_name, prefix);
-> > -	strcpy(xattr_name + prefixlen, name);
-> > +	memcpy(xattr_name, prefix, prefixlen);
+On Wed, Jun 10, 2026 at 04:52:11PM +0200, cem@kernel.org wrote:
+> From: Carlos Maiolino <cem@kernel.org>
 > 
-> What's the point to mix memcpy and str*() family of methods? What's
-> wrong with str*() method here? Otherwise, if it is wrong to use str*()
-> family of methods, then why is it correct to use for second operation?
+> The DIO alignment check has been lifted from iomap layer to rely on the
+> block layer to enforce proper alignment when issuing direct IO
+> operations. This though, depending on the IO size and buffer address
+> passed to the IO operation may lead to user-visible behavior change.
 > 
-> > +	strscpy(xattr_name + prefixlen, name, xattr_name_len -
-> > prefixlen);
-> 
-> Why strscpy() is better than strncpy()? What is the main argument here?
-> 
-> >  	res = __hfsplus_setxattr(inode, xattr_name, value, size,
-> > flags);
-> >  	kfree(xattr_name);
-> >  
-> > @@ -698,6 +698,7 @@ ssize_t hfsplus_getxattr(struct inode *inode,
-> > const char *name,
-> >  			 void *value, size_t size,
-> >  			 const char *prefix, size_t prefixlen)
-> >  {
-> > +	size_t xattr_name_len = NLS_MAX_CHARSET_SIZE *
-> > HFSPLUS_ATTR_MAX_STRLEN + 1;
-> 
-> Frankly speaking, it looks like a constant that should be declared in
-> hfs_common.h. Even if we would like to declare it here, then it should
-> be const size_t, from my point of view.
-> 
-> >  	int res;
-> >  	char *xattr_name;
-> >  
-> > @@ -705,13 +706,12 @@ ssize_t hfsplus_getxattr(struct inode *inode,
-> > const char *name,
-> >  		inode->i_ino, name ? name : NULL,
-> >  		prefix ? prefix : NULL);
-> >  
-> > -	xattr_name = kmalloc(NLS_MAX_CHARSET_SIZE *
-> > HFSPLUS_ATTR_MAX_STRLEN + 1,
-> > -			     GFP_KERNEL);
-> > +	xattr_name = kmalloc(xattr_name_len, GFP_KERNEL);
-> 
-> Finally, I think kzalloc() should be much better for both cases.
+> This has been caught initially by LTP test diotest4 running on
+> PPC architecture, where the test fails because a read() operation
+> with a supposedly misaligned buffer succeeds instead of an expected
+> -EINVAL.
+> This has no direct relationship with PPC, but seems to do with the
+> IO size crossing page borders or not.
 
-kasprintf()?
+I don't understand the problem here.  Why do we want to insist on a
+failure when we can support it?  I think the test is just broken.
 
---D
+> The problematic behavior is reproducible on x86 by reducing the IO size
+> to something < PAGE_SIZE, so the misaligned read()s will also be accepted
+> by the block layer.
 
-> Thanks,
-> Slava.
-> 
-> >  	if (!xattr_name)
-> >  		return -ENOMEM;
-> >  
-> > -	strcpy(xattr_name, prefix);
-> > -	strcpy(xattr_name + prefixlen, name);
-> > +	memcpy(xattr_name, prefix, prefixlen);
-> > +	strscpy(xattr_name + prefixlen, name, xattr_name_len -
-> > prefixlen);
-> >  
-> >  	res = __hfsplus_getxattr(inode, xattr_name, value, size);
-> >  	kfree(xattr_name);
-> 
+What do you mean with misaligned here?  For a long time the kernel
+supports basically arbitrary low memory alignment for diret I/O,
+just bounded by the device capabilities (typical 4 byte alignment).
+
+The supported memory alignment is reported in the statx
+dio_mem_align.  What does that say compared to the alignment
+expectations in this test?
