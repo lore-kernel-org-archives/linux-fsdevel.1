@@ -1,84 +1,214 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com [209.85.210.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD0E313E24
-	for <linux-fsdevel@vger.kernel.org>; Thu, 11 Jun 2026 20:20:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50073315D3B
+	for <linux-fsdevel@vger.kernel.org>; Thu, 11 Jun 2026 20:24:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781209243; cv=none; b=jrBkM/TRoWhH8rID2448j9UlLQZBaevhi0xWJiNbEm2fA5sT05oLIS9/pN1B7sNXp9bXEBPGvOJG+1H2Bz/R/KbUGSteVOojqo4fbF/SiHcYM7qMjzI7U8IQ4uI/P96fhkrA318ZW03qcSrqzp0fFJxxxTv4mwrrUiUb7qDCVV0=
+	t=1781209451; cv=none; b=cV2un3ywzlg4XygyzRiysLNoQeXDxaB6dIk6+/oMtjx1XaP4Wuzi8CpFg/5Ww7C8cs+tQRATlxugcmszReupjP+Oe2RQKJIjBqyPs4GfXF5uj2cBGtPu0qpw2okJNX2kJugM8AT4E6LKHm0S5X2zasCq7yHitgcyCHm+1KiPZ4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781209243; c=relaxed/simple;
-	bh=IfG67A0Jts04cIyLa6fhWJ/W0y/x9wyazXUwF0PGq4M=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=cE7VhGJZrNMaZ8h9lbIaEzdmOYgOtogL6O3DRDS29kjw0yxYlARWNTLihbuNxAO4UoYMLm/ivmWdTtxoT5iLgcB1mYlBpq8RfxjzEVZiQgOhbgi+6P1l1l5dGpt4x3X2keSs83Hk20OcLCpl7sQmYl+nRHssIFEdNEcMrtPlvAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=RgDw+MVc; arc=none smtp.client-ip=195.121.94.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="RgDw+MVc"
-X-KPN-MessageId: 04558366-65d3-11f1-89f6-00505699b430
-Received: from mta.kpnmail.nl (unknown [10.31.161.188])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 04558366-65d3-11f1-89f6-00505699b430;
-	Thu, 11 Jun 2026 22:20:41 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 044b386a-65d3-11f1-8109-00505699693e;
-	Thu, 11 Jun 2026 22:20:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=7Ov7v2zaUsKQyd+rQc7yHadKIpzutEorLHTRrcpiUAo=;
-	b=RgDw+MVc2Qet1WgQwtwcnUZt759tDJ+oBErf1U5+xxQXgYdSi9SgynxGFHwp88+Bp3hzAHLcSsMew
-	 V8llfjnNJEfIdDC1CFT4WtTuOIf5l0nbga67AWw5CK1Jk3EepHRHVvLTX5ICv6quZeRarmiQGvaVpr
-	 yT6QotuxyIBfZ9aGqMXQM1uG8M6yjdj+pH8BTRB3PTEneTPF+ZeZKIPqnrrf2sVVQSD7vRK26FqTND
-	 97nfbc9QLbuSDyQsTXBnhNKJ3N73jDS7HVQ9imyQTOc+lLeqdfI0Jif21iPvh5pAuqTDHVMzCQMw+1
-	 yAIxXzz0hj4MPZAsoyPGXb7qn57SWvw==
-X-KPN-MID: 33|7XIYT4gxVhC2i/73hxusug8E0GT0kcO29eJp2Bj7UXh4xb7Ln30W17f35CgeKdd
- IjSlghudXmXnd+7EsEXsJJce4g9x5RyrsVcMa8yPOY9w=
-X-CMASSUN: 33|2flxrK3KgCTfwfptdl/FAJyaW4hmG4aJpTZ72iFSgo6mcrufPWXugh29k5gnRxs
- 72ag8Y40U0E6BGk8ufU+Ngg==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh04 (cpxoxapps-mh04.personalcloud.so.kpn.org [10.128.135.210])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 043ffc09-65d3-11f1-94b1-00505699eff2;
-	Thu, 11 Jun 2026 22:20:40 +0200 (CEST)
-Date: Thu, 11 Jun 2026 22:20:40 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>, Steve French <sfrench@samba.org>,
-	Steve French <smfrench@gmail.com>, Al Viro <viro@zeniv.linux.org.uk>,
-	NeilBrown <neil@brown.name>, Jeff Layton <jlayton@kernel.org>,
-	linux-cifs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Message-ID: <987538907.1434294.1781209240897@kpc.webmail.kpnmail.nl>
-In-Reply-To: <7iocwlr7jg2jiyx53q7lxaccrybu6fpv6ch36u64igdmddafdk@3ejeqvr4e7rh>
-References: <20260611145733.43776-1-jkoolstra@xs4all.nl>
- <7iocwlr7jg2jiyx53q7lxaccrybu6fpv6ch36u64igdmddafdk@3ejeqvr4e7rh>
-Subject: Re: [RFC PATCH 0/1] vfs: pass S_IFDIR mode to vfs_prepare_mode()
+	s=arc-20240116; t=1781209451; c=relaxed/simple;
+	bh=+xNeGwemUqzYFPVDgfqnrZWtgLJ4R1DhZ7ACEcpAM7k=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=eTxc1tMoI44nuOYs5zfGgtF2z2lA5kJl4ECGSARjfvLnMGy1g1So8wL7cbC7GYT+B+fzMIzJPfv2YkfQFit1RBgOpreTKpHibJJaVs9dOywdLa3CMiHvDg60U6RmiSTMOysbQrvX42uHK87r81XHUrRPMU0D4QL6v2+SlEkZAfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-7e6e385508bso386778a34.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 11 Jun 2026 13:24:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781209449; x=1781814249;
+        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9grvKRD1snOVoU/w8AWVaOix9sWh6XIsSpdq1MW8cvg=;
+        b=UQSaBNoMyz4yso5OK1/+Bn3QYtnLZQqItxwplow6eWcsnyP30ZCHvu0O2ozsPcZPvD
+         mfKg2aWfNt3h7ucRDNd+i9Ps0tJlTSzmmETXZzec+kbMA+wBYk68ddh65UtXrvoJKJSz
+         YdVu9NRM4KXEbaoz1QbRxkF+kFQ/g15ZF+XKb4LvEmUtclVCW6mzjlaA6eU5+BN4l6R4
+         PL6JKwfxoRcBgBZGLUQC19phHk3gTZNN5SqGpA6b7boj9InXL7yASLgz27h6dOvJVDGN
+         YxPAJ8Ycsg7amPad2qvn2yGyE/H9B6k848TmKa+G67nXhTBQupWX3DiW0UlRUEMyf81G
+         ab7w==
+X-Forwarded-Encrypted: i=1; AFNElJ8/iwEKzdzmYMHM4f/Ftwf1gZnfxOyrLJyAJqa7kOOtZF6NLUIUDf0XWgH7tgQMQg2lDJolfb+TOv7R6LK5@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxi3VFGSNldcfczFzhRNgPoOnHnIec1QtjRgd80t3CsDU697Jeh
+	PFgRiYaWgZenUVz1iYzKpyHPrBZotC5ct4ZQCWOlL9w45F1eRWgSi97MbsnahJuXWtdsulm3L4a
+	0kUTHH1PLxsIapi5gr7NkbdcG60st+PQMitumnnoss1e3RZUIQ7MvMQtXHIE=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+X-Received: by 2002:a05:6820:81c5:b0:69e:3dde:869d with SMTP id
+ 006d021491bc7-69ecae5274emr3358153eaf.23.1781209449321; Thu, 11 Jun 2026
+ 13:24:09 -0700 (PDT)
+Date: Thu, 11 Jun 2026 13:24:09 -0700
+In-Reply-To: <20260611061915.2354307-1-huangsj@hygon.cn>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a2b1969.5d79d3ce.e8697.0000.GAE@google.com>
+Subject: [syzbot ci] Re: mm: split the file's i_mmap tree for NUMA
+From: syzbot ci <syzbot+ci1ee4d53eb174bb4c@syzkaller.appspotmail.com>
+To: acme@kernel.org, adrian.hunter@intel.com, akpm@linux-foundation.org, 
+	alexander.shishkin@linux.intel.com, baohua@kernel.org, 
+	baolin.wang@linux.alibaba.com, brauner@kernel.org, 
+	brian.ruley@gehealthcare.com, corbet@lwn.net, dave.anglin@bell.net, 
+	david@kernel.org, deller@gmx.de, dev.jain@arm.com, dinguyen@kernel.org, 
+	djbw@kernel.org, fangbaoshun@hygon.cn, harry@kernel.org, huangsj@hygon.cn, 
+	irogers@google.com, jack@suse.cz, james.bottomley@hansenpartnership.com, 
+	james.clark@linaro.org, jannh@google.com, jolsa@kernel.org, 
+	lance.yang@linux.dev, liam@infradead.org, linmiaohe@huawei.com, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-parisc@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux@armlinux.org.uk, ljs@kernel.org, mark.rutland@arm.com, 
+	mhiramat@kernel.org, mhocko@suse.com, mingo@redhat.com, mjguzik@gmail.com, 
+	muchun.song@linux.dev, namhyung@kernel.org, nao.horiguchi@gmail.com, 
+	npache@redhat.com, nvdimm@lists.linux.dev, oleg@redhat.com, osalvador@suse.de, 
+	peterz@infradead.org
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Jan,
+syzbot ci has tested the following series
 
-> Op 11-06-2026 17:33 CEST schreef Jan Kara <jack@suse.cz>:
-> 
-> For the filesystems I know this looks sound. Thanks for the cleanup. But
-> this series should then follow with the removal of now-pointless "|
-> S_IFDIR" statements.
-> 
+[v2] mm: split the file's i_mmap tree for NUMA
+https://lore.kernel.org/all/20260611061915.2354307-1-huangsj@hygon.cn
+* [PATCH v2 1/4] mm: use mapping_mapped to simplify the code
+* [PATCH v2 2/4] mm: use get_i_mmap_root to access the file's i_mmap
+* [PATCH v2 3/4] mm/fs: split the file's i_mmap tree
+* [PATCH v2 4/4] docs/mm: update document for split i_mmap tree
 
-Right, perhaps it should. But wouldn't that be too much churn? I know Al can
-really be on the brake sometimes with regards to that. But it isn't a lot of
-effort, so I am fine with it.
+and found the following issue:
+INFO: trying to register non-static key in do_one_initcall
 
-Best,
-Jori.
+Full report is available here:
+https://ci.syzbot.org/series/a9bada61-06e7-40d5-b423-5f2d69a60209
+
+***
+
+INFO: trying to register non-static key in do_one_initcall
+
+tree:      linux-next
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next
+base:      14546c7bef6c1036fc82e36c1a200b0caccd339a
+arch:      amd64
+compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+config:    https://ci.syzbot.org/builds/2f92f704-660a-4108-9172-7e620e10ce46/config
+
+acpi PNP0A08:00: _OSC: platform does not support [PCIeHotplug LTR]
+acpi PNP0A08:00: _OSC: OS now controls [PME AER PCIeCapability]
+PCI host bridge to bus 0000:00
+pci_bus 0000:00: Unknown NUMA node; performance will be reduced
+pci_bus 0000:00: root bus resource [io  0x0000-0x0cf7 window]
+pci_bus 0000:00: root bus resource [io  0x0d00-0xffff window]
+pci_bus 0000:00: root bus resource [mem 0x000a0000-0x000bffff window]
+pci_bus 0000:00: root bus resource [mem 0x80000000-0xafffffff window]
+pci_bus 0000:00: root bus resource [mem 0xc0000000-0xfebfffff window]
+pci_bus 0000:00: root bus resource [mem 0x240000000-0xa3fffffff window]
+pci_bus 0000:00: root bus resource [bus 00-ff]
+pci 0000:00:00.0: [8086:29c0] type 00 class 0x060000 conventional PCI endpoint
+pci 0000:00:01.0: [1234:1111] type 00 class 0x030000 conventional PCI endpoint
+pci 0000:00:01.0: BAR 0 [mem 0xfd000000-0xfdffffff pref]
+pci 0000:00:01.0: BAR 2 [mem 0xfebf0000-0xfebf0fff]
+pci 0000:00:01.0: ROM [mem 0xfebe0000-0xfebeffff pref]
+pci 0000:00:01.0: Video device with shadowed ROM at [mem 0x000c0000-0x000dffff]
+pci 0000:00:02.0: [1af4:1005] type 00 class 0x00ff00 conventional PCI endpoint
+pci 0000:00:02.0: BAR 0 [io  0xc080-0xc09f]
+pci 0000:00:02.0: BAR 1 [mem 0xfebf1000-0xfebf1fff]
+pci 0000:00:02.0: BAR 4 [mem 0xfe000000-0xfe003fff 64bit pref]
+pci 0000:00:03.0: [8086:100e] type 00 class 0x020000 conventional PCI endpoint
+pci 0000:00:03.0: BAR 0 [mem 0xfebc0000-0xfebdffff]
+pci 0000:00:03.0: BAR 1 [io  0xc000-0xc03f]
+pci 0000:00:03.0: ROM [mem 0xfeb80000-0xfebbffff pref]
+pci 0000:00:1f.0: [8086:2918] type 00 class 0x060100 conventional PCI endpoint
+pci 0000:00:1f.0: quirk: [io  0x0600-0x067f] claimed by ICH6 ACPI/GPIO/TCO
+pci 0000:00:1f.2: [8086:2922] type 00 class 0x010601 conventional PCI endpoint
+pci 0000:00:1f.2: BAR 4 [io  0xc0a0-0xc0bf]
+pci 0000:00:1f.2: BAR 5 [mem 0xfebf2000-0xfebf2fff]
+pci 0000:00:1f.3: [8086:2930] type 00 class 0x0c0500 conventional PCI endpoint
+pci 0000:00:1f.3: BAR 4 [io  0x0700-0x073f]
+ACPI: PCI: Interrupt link LNKA configured for IRQ 10
+ACPI: PCI: Interrupt link LNKB configured for IRQ 10
+ACPI: PCI: Interrupt link LNKC configured for IRQ 11
+ACPI: PCI: Interrupt link LNKD configured for IRQ 11
+ACPI: PCI: Interrupt link LNKE configured for IRQ 10
+ACPI: PCI: Interrupt link LNKF configured for IRQ 10
+ACPI: PCI: Interrupt link LNKG configured for IRQ 11
+ACPI: PCI: Interrupt link LNKH configured for IRQ 11
+ACPI: PCI: Interrupt link GSIA configured for IRQ 16
+ACPI: PCI: Interrupt link GSIB configured for IRQ 17
+ACPI: PCI: Interrupt link GSIC configured for IRQ 18
+ACPI: PCI: Interrupt link GSID configured for IRQ 19
+ACPI: PCI: Interrupt link GSIE configured for IRQ 20
+ACPI: PCI: Interrupt link GSIF configured for IRQ 21
+ACPI: PCI: Interrupt link GSIG configured for IRQ 22
+ACPI: PCI: Interrupt link GSIH configured for IRQ 23
+iommu: Default domain type: Translated
+iommu: DMA domain TLB invalidation policy: lazy mode
+INFO: trying to register non-static key.
+The code is fine but needs lockdep annotation, or maybe
+you didn't initialize this object before use?
+turning off the locking correctness validator.
+CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150
+ assign_lock_key+0x133/0x150
+ register_lock_class+0xcc/0x2e0
+ __lock_acquire+0xad/0x2cf0
+ lock_acquire+0x106/0x350
+ down_write+0x96/0x200
+ dma_resv_lockdep+0x39c/0x660
+ do_one_initcall+0x250/0x870
+ do_initcall_level+0x104/0x190
+ do_initcalls+0x59/0xa0
+ kernel_init_freeable+0x2a6/0x3e0
+ kernel_init+0x1d/0x1d0
+ ret_from_fork+0x514/0xb70
+ ret_from_fork_asm+0x1a/0x30
+ </TASK>
+------------[ cut here ]------------
+DEBUG_RWSEMS_WARN_ON(sem->magic != sem): count = 0x1, magic = 0x0, owner = 0xffff888102a95940, curr 0xffff888102a95940, list not empty
+WARNING: kernel/locking/rwsem.c:1405 at up_write+0x1e2/0x410, CPU#0: swapper/0/1
+Modules linked in:
+CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:up_write+0x2b1/0x410
+Code: c0 c0 e6 cc 8b 49 c7 c2 a0 e6 cc 8b 4c 0f 44 d0 48 8b 7c 24 10 48 c7 c6 40 e8 cc 8b 48 8b 54 24 08 48 8b 0c 24 4d 89 f9 41 52 <67> 48 0f b9 3a 48 83 c4 08 e8 21 1f 0d 03 e9 b2 fd ff ff 90 0f 0b
+RSP: 0000:ffffc90000067480 EFLAGS: 00010246
+RAX: ffffffff8bcce6c0 RBX: ffffc900000677d0 RCX: 0000000000000000
+RDX: 0000000000000001 RSI: ffffffff8bcce840 RDI: ffffffff90338290
+RBP: ffffc90000067830 R08: ffff888102a95940 R09: ffff888102a95940
+R10: ffffffff8bcce6c0 R11: fffff5200000cefc R12: ffffc90000067828
+R13: dffffc0000000000 R14: 1ffff9200000cf06 R15: ffff888102a95940
+FS:  0000000000000000(0000) GS:ffff88818dc9e000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffff88823ffff000 CR3: 000000000e74a000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ dma_resv_lockdep+0x3a4/0x660
+ do_one_initcall+0x250/0x870
+ do_initcall_level+0x104/0x190
+ do_initcalls+0x59/0xa0
+ kernel_init_freeable+0x2a6/0x3e0
+ kernel_init+0x1d/0x1d0
+ ret_from_fork+0x514/0xb70
+ ret_from_fork_asm+0x1a/0x30
+ </TASK>
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+
+To test a patch for this bug, please reply with `#syz test`
+(should be on a separate line).
+
+The patch should be attached to the email.
+Note: arguments like custom git repos and branches are not supported.
