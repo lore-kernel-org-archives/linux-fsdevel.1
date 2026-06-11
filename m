@@ -1,135 +1,181 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010022.outbound.protection.outlook.com [40.93.198.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A20C3ACA51
-	for <linux-fsdevel@vger.kernel.org>; Thu, 11 Jun 2026 18:01:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781200911; cv=none; b=lJAYvr5ipoD/G0sPamrHG6qhd+qzkZm+UlDbdg7VlaAFqsYwCSoC9U7xKDq0z/BH56bqiskDzsP924i3mf5Zik7p7p8zfH2sTQx7DvJSB5mHpHKQPgJFlwvAmwR/c3kfzv/r1d8aeTJElnVpFvQ1s7wDYfuIabeWsTHTK60tB/I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781200911; c=relaxed/simple;
-	bh=YJFgl3FW9ptuz8HmUGhbUPk137u1ZPYL3WIVCtBVC48=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EH5po8SuxR5S5SgUQzYuQQkIUjtrBsql0wlDAyGh9NmfL/ZbKswC5ecnfTHJQEoZLh0nNT290OGINFFEBjPo5048kbSHuVbbbJLgPGOx5Z2OoR5/cQWY2VZ/RfqGThcQHIRMSNfCK8mT05FKGU1cP9csCtkGM9hOJZkp9skyYPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FwqLv0A9; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BC02264D3;
+	Thu, 11 Jun 2026 18:10:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.22
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781201407; cv=fail; b=QcW6TgsQQFk3r21c3kCghgFjXJ/wi6z1bG3T4DUuopeckB2mDebqzjMHybYTUy6lz6FN6QDhkkBTEqb7YMWOcA4ybXTgtT58EEHS7Qy6XzppQrUSq/sWL3WgpdEjIMQ5qJFZoV22MYCWARTpPNi1lauiO9PqAwgxPj5Vc7e16FI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781201407; c=relaxed/simple;
+	bh=vXSw4vN74Pz9K2JX04EN68s19cXgDmsr1ioDIAnIK7U=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=aclFtYasHoVXl/E7LRJT89vABAXHW2+d3RY5Ow8jKkvZfZ7dYr5Ak839yGBE1XnUWT1n/9nTpNiKuEY/caNxW4cTQdMETVsllydtTkmcmOTpbAOjRkVmtGiBQL9Sw3G5qlDA3tQ+vVtCJQpymws4EKAiLmopJLEM/axeYBnxP5I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=is6iLTwp; arc=fail smtp.client-ip=40.93.198.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FwqLv0A9"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-45ef6565cfdso76538f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 11 Jun 2026 11:01:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781200907; x=1781805707; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zM95gdCTPVByK90i40t9RusSaC7GIwD3PMg0Thy0V5k=;
-        b=FwqLv0A9H9SWXNKbfZ1xqypKD1IEPvAhcoEF6K+aOfO5mPxJCfY5eNUDRtGl96+VnD
-         1pVhMJBTvK2LFZy0gG8FRxwsN4dyZAXj2WQgzkC/gu9PL0GSuElj6blRYzfN7iAwRxt4
-         MKExqYG27NGsnmcbATrau63JqHM6y6D9kYbk2T4ljSFbSVj4RyCyUMyMAjf3tZoLcdwc
-         yxkpg26VongrRCzU+oSazy1D6WngsncSQ3/7VCLaXty8NYToE0Vm8XrgoupBjRRjxKly
-         uCiwLWf0TNRtaPTBnCo6SNwqD7oJ8FkPr1KDyRx9FrrnlCs3zddF1fOc+mJnfu0bfThH
-         d3Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781200907; x=1781805707;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zM95gdCTPVByK90i40t9RusSaC7GIwD3PMg0Thy0V5k=;
-        b=YOZSoqmChxj2NpgMYEo+nkbeC1iwU8WWmvynccDbeNbcfg++yPEKiQ936cFIQQCv1x
-         Sbiue8TJiqTza9u+JWjnmDe8BYheH339A+lR0SJ0/VWxY08YKPPk5r7AXNfWehTLQoBG
-         KKLSD79NCU/GdlK5anV6U1RB7gy8rXNrvVPTGPYPOPiIje4xtiHopTy6HlqiUoRZlgIQ
-         jhXxs1/PrKkz4KXD/6VOZDs5joE6mML+wbbTRI94RoZ8vNf2+SiBx85mNIg8jnUrrljI
-         TD6E4pCkTBqWegqEZnD0VDCiwDFA5UhCXfuLuuNzAf98mE+qzJSheW+OrRp1/Z6p3lNX
-         Fpvw==
-X-Forwarded-Encrypted: i=1; AFNElJ+p/uiEj22Dhv4NRLpU4jcQ/I3kO9BfNlQNye/ktaVdBkF4VKLwaSiobxV9pTK8wBIkjlSlb8Hv/UUQ9HJE@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFp0YKCzvR3UrLGdZYuqhXrfLLlra56ShAn52N9KBjOOP6InSq
-	6fIq5jqguoNclQXfXx6GOM0yiwKTciViGuxGbVOvro37H9MAlHLLqMSVEZAKANQT
-X-Gm-Gg: Acq92OGyx1WHn80c/qxF7wNYITDz8isKI/TUp03YYsZCQ9IvR77DNQr7/YpVVTfhMAY
-	P3TBCioP5nfytajOaIAgNZ9hEaLJw5rsXGRfvbZstjQLyYND9LLFZFb+ABcIXhTvfvFR2l7tQbE
-	pJ6CeOzgRrM0hwo4kFoqaT+CRU92nPYqFTB51OH+mN7NS4Kppjp6HZmea+YpDsRZro89fKtSklg
-	W+tL2oJX89sb2LEUVqv2YollXyqMv34jZfDKaN0gDXyVV5DV440YXHlk7SAhogwBGtUdsODQKz6
-	XalpkUkCK1joM3RYi82fr5WVZ2PsGtRY/gBiWR/TC800mBb68vzjaSjObWyix45SrP1qcdOl5mw
-	+tlSWkQb3n0YFjgSawbT7b8xhXIY3rSjT8w41tiQL3QVud/Jmj9pKkbuifxstWNd7XGSrVV08tH
-	SkU6TRDNLJ3/bGAWEEb2wOzqKwQL3DfJN8M0ICgNqaQcZ/pXXztA9HL32+O3EhC3uN6rklmBgJ1
-	DVUtt431aWBZ2JnUiCz2fLmP94X1cTaG6Zzx0CrFEc8LOPpDLw4Vgu8dABZhu8FgaTglbsDJMmd
-	Z9NTpfKa9Q==
-X-Received: by 2002:adf:e008:0:10b0:460:e00:121d with SMTP id ffacd0b85a97d-4606758b140mr4570744f8f.14.1781200907285;
-        Thu, 11 Jun 2026 11:01:47 -0700 (PDT)
-Received: from instance-20260604-012959.europe-west1-b.c.project-2c9d95d2-bf4e-4d5a-ac6.internal (250.69.76.34.bc.googleusercontent.com. [34.76.69.250])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606c0c9022sm679159f8f.10.2026.06.11.11.01.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2026 11:01:46 -0700 (PDT)
-From: David Maximiliano Hermitte <davemadmaxxx@gmail.com>
-To: Viacheslav Dubeyko <slava@dubeyko.com>,
-	Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: djwong@kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com,
-	David Maximiliano Hermitte <davemadmaxxx@gmail.com>
-Subject: Re: [PATCH v2] hfs: return -EFSCORRUPTED instead of BUG() in hfs_write_inode()
-Date: Thu, 11 Jun 2026 17:57:53 +0000
-Message-ID: <20260611175753.1410325-1-davemadmaxxx@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="is6iLTwp"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fctoiqi1TJPjWKnW4P2dLF0FyUXJFvmbWuXAYC4pBR35JbEKfH4ChyqhkX+qdQIeH373ds+/Dz/4kM9gzSnUCK/aN/DkpoHiz+c+PyMhvPH4gq3zM2PBVoxVAb4hqkTwz6pteM7x2OC8m56cmt7zFI5hSSEd9IG7CPZBgLoDO0J7wlFnUua0snxCraSqIN0dnD73tBcz1FBNrnQV7qI5kvz8xtO0LdSXmxJwPlfFPyiloA6r4uQ/qjr7+ST0+n49YgGO6iOKCaubzxB+IQY4saw+QhwcQyn844Dqj8hY4x5NgNTz+EJlf/xwBibWbDfxHioxWRqwzBdLVWxf+9sVWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MzgwYZ7PA1b2QYIF0PBowaSOi0awopq+xcNQM9IpjEg=;
+ b=lXzeRHb7FBeYUJJWj9zxXCzgbvgnbkycTjF7riwV7S7JpYU4FMbzl23g/XIlA1WwAmUusqldurIWU9X07+t93iZ3YPw/nW+GIvgnOiNz5v/ghZdgmh+vLhGTT1h4itQ4ct59oqRpr/WsS6Wbtp9fG71Tv5Y98CQWpHdHYLCHOaWJgvEdwPB9Qk8gAc/w2lDkzD/3E5k4kdzgf+/y6qClHpaM8j7Q0q9KxrGSx6SErhG7yMRn+yO9kEP/J3WBdRKIuMPL0lW3QHwJmjus0UUu7bjQKLyFLPmiX9cQ6+wGJBdLBmv03Ft9kNwoCgdtzqVfaTGnyiLg3Ny6vz3mPVFoGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MzgwYZ7PA1b2QYIF0PBowaSOi0awopq+xcNQM9IpjEg=;
+ b=is6iLTwp2hDBJmBjj8JSCpNOrieDb5p/lafbTDwwxhxDGP6UQt/DWphoBN4DX7bQ3Sm5nYvjzF7DaON/iVl5GXEKeqtWse+PahSLj1ViBLiEokkvERgp6Rbk/uO71ryLYR4Jwjr5yEdYy466KRRA/DWIVjwFvFgH2FguVCHX5iA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY8PR12MB7433.namprd12.prod.outlook.com (2603:10b6:930:53::22)
+ by PH0PR12MB7010.namprd12.prod.outlook.com (2603:10b6:510:21c::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.13; Thu, 11 Jun
+ 2026 18:10:02 +0000
+Received: from CY8PR12MB7433.namprd12.prod.outlook.com
+ ([fe80::faae:d638:bdc9:4bf6]) by CY8PR12MB7433.namprd12.prod.outlook.com
+ ([fe80::faae:d638:bdc9:4bf6%3]) with mapi id 15.21.0092.017; Thu, 11 Jun 2026
+ 18:10:02 +0000
+Message-ID: <56fbc3f1-2b26-4d8c-9a1a-42a80f2b6bdf@amd.com>
+Date: Thu, 11 Jun 2026 20:09:54 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V5 6/9] dax/fsdev: fail probe on invalid pgmap offset
+To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
+ Dan Williams <djbw@kernel.org>
+Cc: John Groves <jgroves@micron.com>, Vishal Verma
+ <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
+ Alison Schofield <alison.schofield@intel.com>, Ira Weiny
+ <iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <0100019eb7bcda4b-3f8edae9-d7a4-4bfa-aaea-fcef77fdbbc3-000000@email.amazonses.com>
+ <20260611173225.66002-1-john@jagalactic.com>
+ <0100019eb7be3bc2-972d848b-bc38-4b24-9ee1-f0dd5610355f-000000@email.amazonses.com>
+Content-Language: en-US
+From: "Gupta, Pankaj" <pankaj.gupta@amd.com>
+In-Reply-To: <0100019eb7be3bc2-972d848b-bc38-4b24-9ee1-f0dd5610355f-000000@email.amazonses.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P302CA0036.GBRP302.PROD.OUTLOOK.COM
+ (2603:10a6:600:317::7) To CY8PR12MB7433.namprd12.prod.outlook.com
+ (2603:10b6:930:53::22)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY8PR12MB7433:EE_|PH0PR12MB7010:EE_
+X-MS-Office365-Filtering-Correlation-Id: 011d1019-2cd7-4e10-732b-08dec7e4a81d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|23010399003|18002099003|22082099003|56012099006|4143699003|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	AblhFgLvk6BrW+ARjLAAqPmk6RVYVhiNTeUE/LCl0IH8gI/Vw8sk7T7LfmWsdCBo2VjpOyWZfu1hLGVOaQx58C4UsaLfMQIxFx7LG4b+1GrMhCCFnrNC836U7UKNcSTs6WQsLELCi5iI/+Vn6OTpzfJ2mC3OzooQpvRq/l1vrABaGSveWu9ER+GzIvjJqDauymNGrr1g9BrEtGPmFnv1riOiXTCTn6XZ/Q3XLPiUlwVyLdNNJVvfJx0XNL8m2MB11DdI8KNtIqSMz7qiJ6SMZH5MZ/PokTWUuYYpz2uAlYOV5OMoym2ZRmd1lxCMifXrgZp0EUP36JlRcekysDHPpUWcX4VQubETMckLlfNtO4BRJsxripBZqKuQgj9DWZVBlHQMKA8zV7keAghHDjqfU2GAqL1+wsUtAo/2yonCIKnj5JBcZ7rChiANYK2GlnCdY/HhmLwlH0wRkYO3xhI66O66sz87vRcZjvEi9wZA437sS6KsCBatc+eeSP9IXyOBTux/1cmfp3Of0u2QMHozZ9ENMsflcLAbcxFx/7HfKbiz0MlkcWXm+C8r68UhJdflXZ+MUQhNgckhk80kVg3IEIPPuP+jIrdL5i/k4L8Ll3RsqHvfMlJ6NBMiT4cmmndIIUVshHnS0MAkixd2t6423BrpsyoyiiaoQjhb0Bz/J/r1+5uElUrIO/APkNU/hT1B
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR12MB7433.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(23010399003)(18002099003)(22082099003)(56012099006)(4143699003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?U2Fqa2dwbEV2a1RoVUVuTHdPblpQRGVvR0JzbVg0bk9zYytaNUtpTEkrcjE2?=
+ =?utf-8?B?N0JNbmw4U3p3S05HK01NM0tPR1lKS3UyQWRUdEczd0pqeUJjbjBLQzhNL2V0?=
+ =?utf-8?B?RUxwU2NyUjJZa1p0ZGl4Z1RFUDFPeElGOVlNUUhoOWZZSktnRXcycXRJOHVn?=
+ =?utf-8?B?YUpEeVg0REhMQll6Z1VINmVFanRqazZLZ2hURCsvRlZvdWFaUmNXMTR2YXZh?=
+ =?utf-8?B?SjNpMHFDemZpb3d2M0NIRDBOQWV2QWZrZDBRTDBnSjdvRWVlVXJDNzVnMENB?=
+ =?utf-8?B?T08vekxaM0RoT2ZzWnpOUEtEaStUSG5McHR5STlQN0ZvZzlneXkwV0h2Yy9h?=
+ =?utf-8?B?MTFBMnNjUFVxckpvOEVvaGU2OFpQOWRoTXJhVGRtSHBlZnFZcmVTRk9pSmdo?=
+ =?utf-8?B?LzVOZUJDYm4rK2t4aVhKV0FUajNNTXkwRy9uZlNDVENRcDRoNHB1enlrTll4?=
+ =?utf-8?B?WWprTUNHUEdrdXdmdzZtUVNFNWJ6S0F5ZHUyaldUSmxxdTdtOFQrdGdFUEdX?=
+ =?utf-8?B?cWlMakF5UkdPcG14cW5EYTRUNmoyZlhiUFZadGRnWU5jajNGS0R4TjZKTFF5?=
+ =?utf-8?B?Vy9XM3FhcmpkVHpIOUtkS0d2clE1UjNtd0VUcENISTloYUhmVXpzd0hBNXYr?=
+ =?utf-8?B?bU5sWDhGK1I0QWpta0pRMmQ3Z0hvVWRMd2g2Mm1oSFBISHgvTStzdDYveW93?=
+ =?utf-8?B?QjI3Nm84eFYyaEpuVE5nTGYxMHNKbUt2by9GWVRWbFZtczBwWnplRExqZTU3?=
+ =?utf-8?B?R2pIL2pIQ2hDbjloNCtldzVzMGpLbXhYeVd6aUQ4cEFzdUVOTVJNT2xON3ZJ?=
+ =?utf-8?B?WUs0dUttcjVxczlWSGF6aWl6dzFuZUV4N0ZNTnRiNnlaVFR1Lzl0UjNDVGFh?=
+ =?utf-8?B?TmRZbEovQ2hqZXg5QTExZ005cDhBUnlaTGJOdmNONXJmRFliTnEvQUk0TitZ?=
+ =?utf-8?B?SlVoQWVNdmZLdEgyQ0JSczk4ZkZBYkREZVFad0xuMjlRSWJiNFF4SG9WdlB3?=
+ =?utf-8?B?VWh1eFhtTjFIZnQ4T3o4dENYbGtZd29DTGtCeDAwa0FkSlA3ZVBhdjRac29q?=
+ =?utf-8?B?RlNJOGNnN0h6eXo5VmdQTHF3NUFqRmJ2ZVZPeWNuK2MxK2V1ellya01GTmlv?=
+ =?utf-8?B?dzFhRVk2eEl6Qm9Wd0VBVVk4UXJhS2xBdFBaaWk2anN2am1hZUlEYTdnWDcy?=
+ =?utf-8?B?N2NFOGNaUGdZVkhIb04vL0M3eHM3YnJXc0ZSZ3crTGJ5N3d3c2J5OUdLMzNt?=
+ =?utf-8?B?eEZpVEtUZkV3UGllM1lEa2phZTNGeTFvUzlIVThvRlNXU3QvY1VRa2tCNTA4?=
+ =?utf-8?B?QUxVaXNKLzA0OWMza2xVb2RtRzF0aitWeEN0eG9XZ1B0d3lWSXFRdzdocGtX?=
+ =?utf-8?B?cWRETmVDTzVTdVlBMXlTeS9UVlBmK0ZrNlFGcnNKL290dDBCODJHRXZRSmRM?=
+ =?utf-8?B?L3duK3p3bmVHaE9JQi9jTXZBOFo1ODI4VEEwSDlNdkY1NElDZ2JkeWZOUDNL?=
+ =?utf-8?B?SjUzd1orS242TlR1UUtqYXhUR2JLN3o0enZySGlGR3Q4cVozR3F2OFQyMVJx?=
+ =?utf-8?B?QWxWcm0wSTBpYmRwd2MrNzhPVzh3ZnhMVGkvcmdvbjcrUU1sT3NsNDBseUVF?=
+ =?utf-8?B?RWlhN1Q5ZU9sakdOdEkxQXlaeGNZNzMrcHFzUW9idlB0ZnNLa29CZVF2WUlI?=
+ =?utf-8?B?OGttd1ZQaWY2QUdMTVlKS3FQblBWNzJSZUNSYXZ4Zk9PNXdheDBSODdKeC9u?=
+ =?utf-8?B?ZDNJYk5KZVRPZVcrL2JyK01yU2tObUVGeGFWUEpUWGFOenBLKzRGN1B0SWxD?=
+ =?utf-8?B?Mm5zeFd5M1FReTU2akh3WkpPTmlkOHZtMTVjRm41QnNRaTNvZy9jaE1yY1ow?=
+ =?utf-8?B?VnZJQ3E3c1ljMytLNHBQRTVaVEFsMkFzazdBUU12NDZZZ0Y4bXI1MW9vSUpO?=
+ =?utf-8?B?RHNqcXhLcUhjWHZlSGZEeUlxWjMwd1d4NllhaFdHcENwMlJnVDliajM3Yis4?=
+ =?utf-8?B?djRkNVNHRW9rMXg0T1M4bU9oUk5JWDJUajRDK2pqS0JBUzJkaXhPeElSTVla?=
+ =?utf-8?B?NU1yTWxWL0Y3UGphQzBsZlVlcDJmN2tKbVVsVjNTeWhMOW9DUUxablBvV3VR?=
+ =?utf-8?B?Ym4wT0M2NlAyMDltaDBhRHM4YktDYy9XT2Rta0paQ3hsc21iY3RWbTlsMW54?=
+ =?utf-8?B?YkpnL1JIY1Z3ZDNMSHV6MVhTMmZqano0ajQ1d2krV0F1VVg1L2NIK2NEaHIy?=
+ =?utf-8?B?YUJCT0l4dno0VWJBcnhaUjZqNGhrQ3hyYWlTUjNVeVpzdEVaMHZVZERjMy85?=
+ =?utf-8?B?RHNKeFQ4dlhvMVJ2cnVySWU3MXFYTm9vNVlSNllMZ3JXdzRqK29zdz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 011d1019-2cd7-4e10-732b-08dec7e4a81d
+X-MS-Exchange-CrossTenant-AuthSource: CY8PR12MB7433.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 18:10:02.2667
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fgwo2f1dqFxstDsOKkVrsZPcv5C5HJBiX0rEj5n12Vujsx/hB/seb8V4ttmExL8QOBe77qBiT+UJhxoA+saL1Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7010
 
-Hello Slava, Jori, all,
 
-I wanted to share one additional diagnostic result from our side.
+> From: John Groves <John@Groves.net>
+>
+> Convert the WARN_ON to a fatal error when pgmap_phys > phys. This
+> condition means the remapped region starts after the device's data
+> region, which is an impossible state. Previously the probe continued
+> with data_offset=0, leaving virt_addr silently misaligned. Now probe
+> returns -EINVAL with a diagnostic message.
+>
+> Fixes: 759455848df0b ("dax: Save the kva from memremap")
+>
+> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
+> Signed-off-by: John Groves <john@groves.net>
 
-We are not HFS maintainers, and I do not want to present this as a final patch proposal. We used a small change only as a route-checking experiment, to verify whether the crash ending in hfs_write_inode() / BUG() can be prevented by rejecting corrupt metadata earlier.
+Reviewed-by: Pankaj Gupta <pankaj.gupta@amd.com>
 
-The experimental change was in fs/hfs/btree.c, after reading the HFS B-tree header:
-
-	if (tree->root >= tree->node_count)
-		goto fail_folio;
-	if (tree->leaf_head >= tree->node_count)
-		goto fail_folio;
-	if (tree->leaf_tail >= tree->node_count)
-		goto fail_folio;
-	if (tree->leaf_count && (!tree->leaf_head || !tree->leaf_tail))
-		goto fail_folio;
-	if (tree->depth > tree->node_count)
-		goto fail_folio;
-
-We specifically did not modify:
-
-	fs/hfs/inode.c
-	hfs_write_inode()
-	BUG()
-
-With the same syzbot-style reproducer and the same QEMU setup, we observed:
-
-BEFORE / unpatched:
-	boot_linux_seen=true
-	root_mounted_seen=true
-	repro_started=true
-	VQBIT_HFS_INODE_BUG_SITE_3 line=474 hit
-	kernel_bug_seen=true
-	verdict=BEFORE_BUG_REPRODUCED
-
-AFTER / diagnostic btree validation:
-	boot_linux_seen=true
-	root_mounted_seen=true
-	repro_started=true
-	kernel_bug_seen=false
-	hfs_write_inode_seen=false
-	kasan_seen=false
-	oops_seen=false
-	verdict=REPRO_RAN_NO_KERNEL_BUG_SEEN
-
-So our current interpretation is:
-
-	The BUG in hfs_write_inode() appears to be the crash sink.
-	The corrupt state seems to be accepted earlier.
-	Rejecting inconsistent HFS B-tree header fields before traversal prevents the reproducer from reaching hfs_write_inode::BUG().
-
-Again, this is not intended as a polished HFS fix. It is only evidence from a diagnostic route check. I would appreciate your opinion on whether this direction makes sense, and whether the proper fix should live around HFS B-tree / catalog metadata validation rather than changing the final BUG() in hfs_write_inode().
-
-Best regards,
-David
+> ---
+>   drivers/dax/fsdev.c | 8 ++++++--
+>   1 file changed, 6 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
+> index 07de6bfbbf673..71d2bee1e2805 100644
+> --- a/drivers/dax/fsdev.c
+> +++ b/drivers/dax/fsdev.c
+> @@ -320,8 +320,12 @@ static int fsdev_dax_probe(struct dev_dax *dev_dax)
+>   		u64 phys = dev_dax->ranges[0].range.start;
+>   		u64 pgmap_phys = pgmap[0].range.start;
+>   
+> -		if (!WARN_ON(pgmap_phys > phys))
+> -			data_offset = phys - pgmap_phys;
+> +		if (pgmap_phys > phys) {
+> +			dev_err(dev, "pgmap start %#llx exceeds data start %#llx\n",
+> +				pgmap_phys, phys);
+> +			return -EINVAL;
+> +		}
+> +		data_offset = phys - pgmap_phys;
+>   
+>   		pr_debug("%s: offset detected phys=%llx pgmap_phys=%llx offset=%llx\n",
+>   		       __func__, phys, pgmap_phys, data_offset);
