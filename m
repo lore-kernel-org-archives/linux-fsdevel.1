@@ -1,135 +1,73 @@
-Received: from va-1-114.ptr.blmpb.com (va-1-114.ptr.blmpb.com [209.127.230.114])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7308C3DB303
-	for <linux-fsdevel@vger.kernel.org>; Thu, 11 Jun 2026 12:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.114
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412392F28FC
+	for <linux-fsdevel@vger.kernel.org>; Thu, 11 Jun 2026 12:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781179480; cv=none; b=tRlqSx+Y34Uj+82s7ywvXsaKPBnkLN/zvv5wo5MhT5/wp9fdN8J/7DNzpw+hB5VsbbhPYA3i72mmNfF2uB9NeUCJygYLcibrMB2KE6xY0ia0H4Dmt2bVJ3qYERlrrhxHE5UDh4TxS9/BW45Rgi5hytxHhabmgc6BAKnHHtPHsYQ=
+	t=1781181652; cv=none; b=d2F698GiFeHtHUF9tVDUkR3eafaEbnKmoD+YKKUQoUCUHD8qe/aca0flqzTNKs4uxzwJ+OmK1Yu141cgpzcVZc9rj7qYhLzp58lcvk8qZJF4Ep19PVsV2KTp8cBbZZF1Omcd8IRlBBGbMVbAH2GV+TIY2KfTQiAL2O/WyCasXtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781179480; c=relaxed/simple;
-	bh=uQUF9Xqx89luykxEpk3DwSoDVKAaGgQdsXZa7rBK+6Y=;
-	h=Date:Cc:From:Mime-Version:References:In-Reply-To:Content-Type:To:
-	 Subject:Message-Id; b=cJM6mUriRpaK6JxCdTfKDaNkx/q+j2rkpz/D9e/zXCt7C7WUQC5tVSI5D/J6nR+uxMEjNf6AnRwfp/YAd5GMFVKoPvd8Wzt64bn0tTABXVqYeIvdKUXFPA6+740EMOh4nujYUSSdgC+ZwwxyedHGxHl1UM1X5iU5gkAWYDYS2Qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=OqJFn4e8; arc=none smtp.client-ip=209.127.230.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1781181652; c=relaxed/simple;
+	bh=Q3yqYs5n4T78Xnt40cW0x0b2PeVyGinB9Tm+qnZ6ZIM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hZOAHz0SVo9zzIHKMloLLO8hgGkKYBS3UkS261k9THZId+SD1XHmWIwkUXKvCuqVer+6qhrCSSlE1Zv40HpRyMNoc64Q65GwCwCiCwohSllyQkJK9oQ/GWkbPl3e9hxn29aFta2+6kciC2ZpgHKrdPNkHEmvS/RM7I8XMCgfTe0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=O8TivWA8; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="OqJFn4e8"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1781179473; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=HAqbApc74Vvmxdiwfv58VrOQf84K2/1rA7Lf7R9JEmI=;
- b=OqJFn4e8Iq9UB5tEsj3Uww/KgF3bk7ZlpuMtSJsdVPB405v6uI492a6wuINvd8no+PAsx5
- rjONwDxs7P7lgGamKKpDau7VdtzsaIkYhlDcJTOn12xy1SD02698Z6LkqUu4tefG8R1oAx
- M5DcNxYtDTFo2mAyMQP6LXSuLHmShF1KKd3Ge9jqXMivxkyDrXlCFUdi24CxpEEL7LKdn8
- hg0eXZHCqn4pchZu8yzOmgUqeiNWTEN8jrJlxs122a1Y/xxjOHwblFQRb/MfuAUfMeBz1Q
- LizppIP6rwJ4JpilajZbmaf57Cnt2k8PZfai18eky5tg02PQa6ejKrfMd1pWYg==
-Date: Thu, 11 Jun 2026 20:04:14 +0800
-Content-Transfer-Encoding: quoted-printable
-Cc: <brauner@kernel.org>, <djwong@kernel.org>, <hch@infradead.org>, 
-	<ojaswin@linux.ibm.com>, <dgc@kernel.org>, <linux-xfs@vger.kernel.org>, 
-	<linux-fsdevel@vger.kernel.org>, <linux-ext4@vger.kernel.org>, 
-	<linux-kernel@vger.kernel.org>, <lidiangang@bytedance.com>, 
-	<p.raghav@samsung.com>
-From: "Fengnan" <changfengnan@bytedance.com>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="O8TivWA8"
+Received: from trampoline.thunk.org (pool-173-48-113-189.bstnma.fios.verizon.net [173.48.113.189])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 65BCZTOU008240
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 11 Jun 2026 08:35:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1781181336; bh=IkQOaxYTqMWsoCHCkMFQamLcChR6Ysmsw+2pFuzq+VI=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=O8TivWA86kOJTEy9+3IoUKOhxanB0c6FaFOYOt1444Q+91gad2ten2bh5lBwgEyDn
+	 Q4zs8Irma+pZZIdYddg2cibIuUlKQjpQzEcBtq9MWFWu3tKsUEoUvRUjWvtS9OfI+S
+	 uPy7LXz60JrlAE9BLvosFQVS4pF891Y0npxHszABwVNFU5nZP25QDOjq6cqPSOjxwK
+	 ieGvgBRFDX2DIKaLRg2IdNCU7sffppwZNAJEC0pJ2RXseM2jgtDqx3I5XXuIqZn8kr
+	 JRCMKfuN9OJfA8KujMAM42pwo7844ty4o9UlHmguy2f1VnJyxI903Bda313bjwlmuY
+	 JJz9w5EnRUQbw==
+Received: by trampoline.thunk.org (Postfix, from userid 15806)
+	id 14D212E00D3; Thu, 11 Jun 2026 08:35:29 -0400 (EDT)
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: "Theodore Ts'o" <tytso@mit.edu>, Jan Kara <jack@suse.com>,
+        linux-fsdevel@vger.kernel.org,
+        "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+        Vlastimil Babka <vbabka@kernel.org>, Tal Zussman <tz2294@columbia.edu>,
+        Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v2] jbd2: Remove special jbd2 slabs
+Date: Thu, 11 Jun 2026 08:35:20 -0400
+Message-ID: <178118128403.522716.7095141956919354030.b4-ty@b4>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260528171413.1088143-1-willy@infradead.org>
+References: <20260528171413.1088143-1-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260608073134.95964-1-changfengnan@bytedance.com> <mmbe4kdeqg6zlblhysi27qno22dtkaahv7bzslaqopsg4k3qs7@nofv525nnl6c>
-In-Reply-To: <mmbe4kdeqg6zlblhysi27qno22dtkaahv7bzslaqopsg4k3qs7@nofv525nnl6c>
-Content-Type: text/plain; charset=UTF-8
-X-Lms-Return-Path: <lba+26a2aa44f+b35cc0+vger.kernel.org+changfengnan@bytedance.com>
-User-Agent: Mozilla Thunderbird
-To: "Pankaj Raghav (Samsung)" <pankaj.raghav@linux.dev>
-Subject: Re: [PATCH v4] iomap: add simple read path for small direct I/O
-Message-Id: <94fac0c6-13fe-4d5d-a794-04b43678a295@bytedance.com>
-X-Original-From: Fengnan <changfengnan@bytedance.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-=E5=9C=A8 2026/6/11 17:36, Pankaj Raghav (Samsung) =E5=86=99=E9=81=93:
->> +static ssize_t iomap_dio_simple_read_complete(struct kiocb *iocb,
->> +		struct bio *bio)
->> +{
->> +	struct inode *inode =3D file_inode(iocb->ki_filp);
->> +	ssize_t ret;
->> +
->> +	WRITE_ONCE(iocb->private, NULL);
->> +
->> +	ret =3D iomap_dio_simple_read_finish(iocb, bio,
->> +			blk_status_to_errno(bio->bi_status));
->> +
->> +	inode_dio_end(inode);
->> +	trace_iomap_dio_complete(iocb, ret < 0 ? ret : 0, ret > 0 ? ret : 0);
-> Shouldn't the second parameter here be
-> blk_status_to_errno(bio->bi_status)?
->
-> I think that will be more meaningful for tracing here.
-> trace_iomap_dio_complete(iocb, blk_status_to_errno(bio->bi_status), ret);
-Makes sense. I=E2=80=99ll update it in the next version.
 
->
-> <snip>
->> +	return ret;
->> +}
->> +
->> +	sr->iocb =3D iocb;
->> +	sr->dio_flags =3D dio_flags;
->> +
->> +	bio->bi_iter.bi_sector =3D iomap_sector(&iomi.iomap, iomi.pos);
->> +	bio->bi_ioprio =3D iocb->ki_ioprio;
->> +	bio->bi_private =3D sr;
->> +	bio->bi_end_io =3D iomap_dio_simple_read_end_io;
->> +
->> +	if (dio_flags & IOMAP_DIO_BOUNCE)
->> +		ret =3D bio_iov_iter_bounce(bio, iter, count);
->> +	else
->> +		ret =3D bio_iov_iter_get_pages(bio, iter, alignment - 1);
->> +	if (unlikely(ret))
->> +		goto out_bio_put;
->> +
->> +	if (bio->bi_iter.bi_size !=3D count) {
->> +		iov_iter_revert(iter, bio->bi_iter.bi_size);
->> +		ret =3D -ENOTBLK;
->> +		goto out_bio_release_pages;
->> +	}
->> +
->> +	sr->size =3D bio->bi_iter.bi_size;
->> +
->> +	if ((dio_flags & IOMAP_DIO_USER_BACKED) &&
->> +	    !(dio_flags & IOMAP_DIO_BOUNCE))
->> +		bio_set_pages_dirty(bio);
->> +
->> +	if (iocb->ki_flags & IOCB_NOWAIT)
->> +		bio->bi_opf |=3D REQ_NOWAIT;
->> +	if ((iocb->ki_flags & IOCB_HIPRI) && !wait_for_completion) {
->> +		bio->bi_opf |=3D REQ_POLLED;
->> +		bio_set_polled(bio, iocb);
-> This results in build failure as the following patch removed this call:
-> https://lore.kernel.org/linux-block/20260518062917.506483-1-hch@lst.de/
->
-> I think this call can just be removed as you are setting REQ_POLLED
-> anyway.
-You=E2=80=99re right. I=E2=80=99ll update that in the next version too.
+On Thu, 28 May 2026 18:14:11 +0100, Matthew Wilcox (Oracle) wrote:
+> When jbd2 was originally written, kmalloc() would not guarantee memory
+> alignment for the requested objects.  Since commit 59bb47985c1d in 2019,
+> kmalloc has guaranteed natural alignment for power-of-two allocations.
+> We can now remove the jbd2 special slabs and just use kmalloc() directly.
 
-Thanks.
+Applied, thanks!
 
->
->> +		WRITE_ONCE(iocb->private, bio);
->> +	}
->> +
->> +	if (wait_for_completion) {
->> +		sr->waiter =3D current;
->> +		blk_crypto_submit_bio(bio);
->> +	} else {
->> +		atomic_set(&sr->state, IOMAP_DIO_SIMPLE_SUBMITTING);
->> +		sr->waiter =3D NULL;
->> +		blk_crypto_submit_bio(bio);
->> +		ret =3D -EIOCBQUEUED;
->> +	}
->> +
-> --
-> Pankaj
+[1/1] jbd2: Remove special jbd2 slabs
+      commit: bbe9015f23432bd4f5b8590eb178b3b5b7c29f02
+
+Best regards,
+-- 
+Theodore Ts'o <tytso@mit.edu>
