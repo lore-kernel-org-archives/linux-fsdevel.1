@@ -1,112 +1,135 @@
-Received: from a10-72.smtp-out.amazonses.com (a10-72.smtp-out.amazonses.com [54.240.10.72])
-	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A6C4ADD90;
-	Thu, 11 Jun 2026 17:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.10.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A20C3ACA51
+	for <linux-fsdevel@vger.kernel.org>; Thu, 11 Jun 2026 18:01:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781199191; cv=none; b=cneeR6yQ1YCNkeiurquDYEVdxUNjXu9265wgYCZ/UioNnjXFCffRzLPbArTLa9xihmVo/YFB6n9rYN2zL0APfpMAmxDBvyBljAXoBkX/Ef7SU2G7QR2qH2lvoY/Gkju2gozg++RR9AMM5TqoL8+Unq3vpzB2afAu6gURViZOvKw=
+	t=1781200911; cv=none; b=lJAYvr5ipoD/G0sPamrHG6qhd+qzkZm+UlDbdg7VlaAFqsYwCSoC9U7xKDq0z/BH56bqiskDzsP924i3mf5Zik7p7p8zfH2sTQx7DvJSB5mHpHKQPgJFlwvAmwR/c3kfzv/r1d8aeTJElnVpFvQ1s7wDYfuIabeWsTHTK60tB/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781199191; c=relaxed/simple;
-	bh=AaYCTz/6iQG2YvS9xMZhaM4slgIM3hjr8+Ri5voKetg=;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:In-Reply-To:
-	 References:Message-ID; b=LIsgy21cn5op7q7yfxcS8ALgyZoUZkKKphHbAEZxOQZJXckLolZmZj4w6y3W4OY5tzTBjUHi2NNuKtRnkXVH97R91yEWwIJvPWqpnQWEVDRkSiHPC/JgoKR+T24jtT7MNCOOkHycyE9VD4/TWvOZf6aKzZgypQ/8wOdbaCyWogM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com; spf=pass smtp.mailfrom=amazonses.com; dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b=kcvfBH3J; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=iaiZj5iY; arc=none smtp.client-ip=54.240.10.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.com
+	s=arc-20240116; t=1781200911; c=relaxed/simple;
+	bh=YJFgl3FW9ptuz8HmUGhbUPk137u1ZPYL3WIVCtBVC48=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EH5po8SuxR5S5SgUQzYuQQkIUjtrBsql0wlDAyGh9NmfL/ZbKswC5ecnfTHJQEoZLh0nNT290OGINFFEBjPo5048kbSHuVbbbJLgPGOx5Z2OoR5/cQWY2VZ/RfqGThcQHIRMSNfCK8mT05FKGU1cP9csCtkGM9hOJZkp9skyYPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FwqLv0A9; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b="kcvfBH3J";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="iaiZj5iY"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=o25mqk5iffcfzgc3wo2zjhkohcyjzsoq; d=jagalactic.com; t=1781199185;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id;
-	bh=AaYCTz/6iQG2YvS9xMZhaM4slgIM3hjr8+Ri5voKetg=;
-	b=kcvfBH3JSdjXnxOwsLoACxZ66MIPgR+qz5rDIhw/oooNXfwconrOb5nntOa61J1t
-	uqjp4yeY57srP2ZSi9Qr6AAKiXzPqhnPjC5TSrYJu7JIBdH937Az1+trIjXV/6WoHXJ
-	CbLqFzdfCHGkn1F2rFMB3EdvU5B/0koumNYFIsE4=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1781199185;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id:Feedback-ID;
-	bh=AaYCTz/6iQG2YvS9xMZhaM4slgIM3hjr8+Ri5voKetg=;
-	b=iaiZj5iYVleAfB9QyTFwdK14DFi4Ik4em84+VtWppdzL7lDiiIgW5ZQvqcCVXiBv
-	z6I1VaBYfuxx9hCyCCGeOoBGy/JIbkmQJOa38E6Fp73NEKQbLRy5X7pRWOgpePJPULX
-	aC9xn4Ul2uY/tZfh82sqZH02R2kfcqyofVAxE1wQ=
-Subject: [PATCH V5 9/9] dax: fsdev.c minor formatting cleanup
-From: =?UTF-8?Q?John_Groves?= <john@jagalactic.com>
-To: =?UTF-8?Q?John_Groves?= <John@Groves.net>, 
-	=?UTF-8?Q?Dan_Williams?= <djbw@kernel.org>
-Cc: =?UTF-8?Q?John_Groves?= <jgroves@micron.com>, 
-	=?UTF-8?Q?Vishal_Verma?= <vishal.l.verma@intel.com>, 
-	=?UTF-8?Q?Dave_Jiang?= <dave.jiang@intel.com>, 
-	=?UTF-8?Q?Matthew_Wilcox?= <willy@infradead.org>, 
-	=?UTF-8?Q?Jan_Kara?= <jack@suse.cz>, 
-	=?UTF-8?Q?Alexander_Viro?= <viro@zeniv.linux.org.uk>, 
-	=?UTF-8?Q?Christian_Brauner?= <brauner@kernel.org>, 
-	=?UTF-8?Q?Miklos_Szeredi?= <miklos@szeredi.hu>, 
-	=?UTF-8?Q?Alison_Schofiel?= =?UTF-8?Q?d?= <alison.schofield@intel.com>, 
-	=?UTF-8?Q?Ira_Weiny?= <iweiny@kernel.org>, 
-	=?UTF-8?Q?Jonathan_Cameron?= <jic23@kernel.org>, 
-	=?UTF-8?Q?nvdimm=40lists=2Elinux=2Edev?= <nvdimm@lists.linux.dev>, 
-	=?UTF-8?Q?linux-cxl=40vger=2Ekernel=2Eorg?= <linux-cxl@vger.kernel.org>, 
-	=?UTF-8?Q?linux-kernel=40vger=2Ekernel=2Eorg?= <linux-kernel@vger.kernel.org>, 
-	=?UTF-8?Q?linux-fsdevel=40vger=2Ekernel=2Eorg?= <linux-fsdevel@vger.kernel.org>, 
-	=?UTF-8?Q?John_Groves?= <john@groves.net>
-Date: Thu, 11 Jun 2026 17:33:05 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FwqLv0A9"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-45ef6565cfdso76538f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 11 Jun 2026 11:01:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781200907; x=1781805707; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zM95gdCTPVByK90i40t9RusSaC7GIwD3PMg0Thy0V5k=;
+        b=FwqLv0A9H9SWXNKbfZ1xqypKD1IEPvAhcoEF6K+aOfO5mPxJCfY5eNUDRtGl96+VnD
+         1pVhMJBTvK2LFZy0gG8FRxwsN4dyZAXj2WQgzkC/gu9PL0GSuElj6blRYzfN7iAwRxt4
+         MKExqYG27NGsnmcbATrau63JqHM6y6D9kYbk2T4ljSFbSVj4RyCyUMyMAjf3tZoLcdwc
+         yxkpg26VongrRCzU+oSazy1D6WngsncSQ3/7VCLaXty8NYToE0Vm8XrgoupBjRRjxKly
+         uCiwLWf0TNRtaPTBnCo6SNwqD7oJ8FkPr1KDyRx9FrrnlCs3zddF1fOc+mJnfu0bfThH
+         d3Ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781200907; x=1781805707;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zM95gdCTPVByK90i40t9RusSaC7GIwD3PMg0Thy0V5k=;
+        b=YOZSoqmChxj2NpgMYEo+nkbeC1iwU8WWmvynccDbeNbcfg++yPEKiQ936cFIQQCv1x
+         Sbiue8TJiqTza9u+JWjnmDe8BYheH339A+lR0SJ0/VWxY08YKPPk5r7AXNfWehTLQoBG
+         KKLSD79NCU/GdlK5anV6U1RB7gy8rXNrvVPTGPYPOPiIje4xtiHopTy6HlqiUoRZlgIQ
+         jhXxs1/PrKkz4KXD/6VOZDs5joE6mML+wbbTRI94RoZ8vNf2+SiBx85mNIg8jnUrrljI
+         TD6E4pCkTBqWegqEZnD0VDCiwDFA5UhCXfuLuuNzAf98mE+qzJSheW+OrRp1/Z6p3lNX
+         Fpvw==
+X-Forwarded-Encrypted: i=1; AFNElJ+p/uiEj22Dhv4NRLpU4jcQ/I3kO9BfNlQNye/ktaVdBkF4VKLwaSiobxV9pTK8wBIkjlSlb8Hv/UUQ9HJE@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFp0YKCzvR3UrLGdZYuqhXrfLLlra56ShAn52N9KBjOOP6InSq
+	6fIq5jqguoNclQXfXx6GOM0yiwKTciViGuxGbVOvro37H9MAlHLLqMSVEZAKANQT
+X-Gm-Gg: Acq92OGyx1WHn80c/qxF7wNYITDz8isKI/TUp03YYsZCQ9IvR77DNQr7/YpVVTfhMAY
+	P3TBCioP5nfytajOaIAgNZ9hEaLJw5rsXGRfvbZstjQLyYND9LLFZFb+ABcIXhTvfvFR2l7tQbE
+	pJ6CeOzgRrM0hwo4kFoqaT+CRU92nPYqFTB51OH+mN7NS4Kppjp6HZmea+YpDsRZro89fKtSklg
+	W+tL2oJX89sb2LEUVqv2YollXyqMv34jZfDKaN0gDXyVV5DV440YXHlk7SAhogwBGtUdsODQKz6
+	XalpkUkCK1joM3RYi82fr5WVZ2PsGtRY/gBiWR/TC800mBb68vzjaSjObWyix45SrP1qcdOl5mw
+	+tlSWkQb3n0YFjgSawbT7b8xhXIY3rSjT8w41tiQL3QVud/Jmj9pKkbuifxstWNd7XGSrVV08tH
+	SkU6TRDNLJ3/bGAWEEb2wOzqKwQL3DfJN8M0ICgNqaQcZ/pXXztA9HL32+O3EhC3uN6rklmBgJ1
+	DVUtt431aWBZ2JnUiCz2fLmP94X1cTaG6Zzx0CrFEc8LOPpDLw4Vgu8dABZhu8FgaTglbsDJMmd
+	Z9NTpfKa9Q==
+X-Received: by 2002:adf:e008:0:10b0:460:e00:121d with SMTP id ffacd0b85a97d-4606758b140mr4570744f8f.14.1781200907285;
+        Thu, 11 Jun 2026 11:01:47 -0700 (PDT)
+Received: from instance-20260604-012959.europe-west1-b.c.project-2c9d95d2-bf4e-4d5a-ac6.internal (250.69.76.34.bc.googleusercontent.com. [34.76.69.250])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606c0c9022sm679159f8f.10.2026.06.11.11.01.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2026 11:01:46 -0700 (PDT)
+From: David Maximiliano Hermitte <davemadmaxxx@gmail.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>,
+	Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: djwong@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com,
+	David Maximiliano Hermitte <davemadmaxxx@gmail.com>
+Subject: Re: [PATCH v2] hfs: return -EFSCORRUPTED instead of BUG() in hfs_write_inode()
+Date: Thu, 11 Jun 2026 17:57:53 +0000
+Message-ID: <20260611175753.1410325-1-davemadmaxxx@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: 
- <0100019eb7bcda4b-3f8edae9-d7a4-4bfa-aaea-fcef77fdbbc3-000000@email.amazonses.com>
-References: 
- <0100019eb7bcda4b-3f8edae9-d7a4-4bfa-aaea-fcef77fdbbc3-000000@email.amazonses.com> 
- <20260611173256.66054-1-john@jagalactic.com>
-X-Mailer: Amazon WorkMail
-Thread-Index: AQHc+chbqW0itjZATKqi3fej5L0oyw==
-Thread-Topic: [PATCH V5 9/9] dax: fsdev.c minor formatting cleanup
-X-Wm-Sent-Timestamp: 1781199184
-X-Original-Mailer: git-send-email 2.52.0
-Message-ID: <0100019eb7bea5a5-dbef6b18-a5f3-4623-81f2-bb69b54b53a3-000000@email.amazonses.com>
-Feedback-ID: ::1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
-X-SES-Outgoing: 2026.06.11-54.240.10.72
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: John Groves <John@Groves.net>=0D=0A=0D=0AAddress some comments from=
- Jonathan that were missed in the merged=0D=0Aseries. Fix line wrapping i=
-n fsdev_dax_recovery_write() and=0D=0Afsdev_dax_zero_page_range() signatu=
-res.=0D=0A=0D=0AReviewed-by: Dave Jiang <dave.jiang@intel.com>=0D=0ARevie=
-wed-by: Alison Schofield <alison.schofield@intel.com>=0D=0ASigned-off-by:=
- John Groves <john@groves.net>=0D=0A---=0D=0A drivers/dax/fsdev.c | 15 ++=
-++++++-------=0D=0A 1 file changed, 8 insertions(+), 7 deletions(-)=0D=0A=
-=0D=0Adiff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c=0D=0Aindex 7=
-1d2bee1e2805..7df75728ada89 100644=0D=0A--- a/drivers/dax/fsdev.c=0D=0A++=
-+ b/drivers/dax/fsdev.c=0D=0A@@ -45,8 +45,8 @@ static void fsdev_write_da=
-x(void *addr, struct page *page,=0D=0A }=0D=0A=20=0D=0A static long __fsd=
-ev_dax_direct_access(struct dax_device *dax_dev, pgoff_t pgoff,=0D=0A-=09=
-=09=09long nr_pages, enum dax_access_mode mode, void **kaddr,=0D=0A-=09=09=
-=09unsigned long *pfn)=0D=0A+=09=09long nr_pages, enum dax_access_mode mo=
-de, void **kaddr,=0D=0A+=09=09unsigned long *pfn)=0D=0A {=0D=0A =09struct=
- dev_dax *dev_dax =3D dax_get_private(dax_dev);=0D=0A =09size_t size =3D =
-nr_pages << PAGE_SHIFT;=0D=0A@@ -80,7 +80,8 @@ static int fsdev_dax_zero_=
-page_range(struct dax_device *dax_dev,=0D=0A =09long rc;=0D=0A=20=0D=0A =09=
-WARN_ONCE(nr_pages > 1, "%s: nr_pages > 1\n", __func__);=0D=0A-=09rc =3D =
-__fsdev_dax_direct_access(dax_dev, pgoff, 1, DAX_ACCESS, &kaddr, NULL);=0D=
-=0A+=09rc =3D __fsdev_dax_direct_access(dax_dev, pgoff, 1, DAX_ACCESS,=0D=
-=0A+=09=09=09=09       &kaddr, NULL);=0D=0A =09if (rc < 0)=0D=0A =09=09re=
-turn rc;=0D=0A =09fsdev_write_dax(kaddr, ZERO_PAGE(0), 0, PAGE_SIZE);=0D=0A=
-@@ -88,15 +89,15 @@ static int fsdev_dax_zero_page_range(struct dax_devic=
-e *dax_dev,=0D=0A }=0D=0A=20=0D=0A static long fsdev_dax_direct_access(st=
-ruct dax_device *dax_dev,=0D=0A-=09=09  pgoff_t pgoff, long nr_pages, enu=
-m dax_access_mode mode,=0D=0A-=09=09  void **kaddr, unsigned long *pfn)=0D=
-=0A+=09=09pgoff_t pgoff, long nr_pages, enum dax_access_mode mode,=0D=0A+=
-=09=09void **kaddr, unsigned long *pfn)=0D=0A {=0D=0A =09return __fsdev_d=
-ax_direct_access(dax_dev, pgoff, nr_pages, mode,=0D=0A =09=09=09=09=09 ka=
-ddr, pfn);=0D=0A }=0D=0A=20=0D=0A-static size_t fsdev_dax_recovery_write(=
-struct dax_device *dax_dev, pgoff_t pgoff,=0D=0A-=09=09void *addr, size_t=
- bytes, struct iov_iter *i)=0D=0A+static size_t fsdev_dax_recovery_write(=
-struct dax_device *dax_dev,=0D=0A+=09=09pgoff_t pgoff, void *addr, size_t=
- bytes, struct iov_iter *i)=0D=0A {=0D=0A =09return _copy_from_iter_flush=
-cache(addr, bytes, i);=0D=0A }=0D=0A--=20=0D=0A2.53.0=0D=0A=0D=0A
+Hello Slava, Jori, all,
+
+I wanted to share one additional diagnostic result from our side.
+
+We are not HFS maintainers, and I do not want to present this as a final patch proposal. We used a small change only as a route-checking experiment, to verify whether the crash ending in hfs_write_inode() / BUG() can be prevented by rejecting corrupt metadata earlier.
+
+The experimental change was in fs/hfs/btree.c, after reading the HFS B-tree header:
+
+	if (tree->root >= tree->node_count)
+		goto fail_folio;
+	if (tree->leaf_head >= tree->node_count)
+		goto fail_folio;
+	if (tree->leaf_tail >= tree->node_count)
+		goto fail_folio;
+	if (tree->leaf_count && (!tree->leaf_head || !tree->leaf_tail))
+		goto fail_folio;
+	if (tree->depth > tree->node_count)
+		goto fail_folio;
+
+We specifically did not modify:
+
+	fs/hfs/inode.c
+	hfs_write_inode()
+	BUG()
+
+With the same syzbot-style reproducer and the same QEMU setup, we observed:
+
+BEFORE / unpatched:
+	boot_linux_seen=true
+	root_mounted_seen=true
+	repro_started=true
+	VQBIT_HFS_INODE_BUG_SITE_3 line=474 hit
+	kernel_bug_seen=true
+	verdict=BEFORE_BUG_REPRODUCED
+
+AFTER / diagnostic btree validation:
+	boot_linux_seen=true
+	root_mounted_seen=true
+	repro_started=true
+	kernel_bug_seen=false
+	hfs_write_inode_seen=false
+	kasan_seen=false
+	oops_seen=false
+	verdict=REPRO_RAN_NO_KERNEL_BUG_SEEN
+
+So our current interpretation is:
+
+	The BUG in hfs_write_inode() appears to be the crash sink.
+	The corrupt state seems to be accepted earlier.
+	Rejecting inconsistent HFS B-tree header fields before traversal prevents the reproducer from reaching hfs_write_inode::BUG().
+
+Again, this is not intended as a polished HFS fix. It is only evidence from a diagnostic route check. I would appreciate your opinion on whether this direction makes sense, and whether the proper fix should live around HFS B-tree / catalog metadata validation rather than changing the final BUG() in hfs_write_inode().
+
+Best regards,
+David
