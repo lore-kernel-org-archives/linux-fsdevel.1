@@ -1,34 +1,34 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBDFA481221;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E7B481651;
 	Thu, 11 Jun 2026 17:14:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781198072; cv=none; b=eFjblzPMwLT1l3EH07vJPRBsUK8RcFUkQn04P9E7WgzTgNfdvRiOeVjJEoyO2KujbBVYVVgbCOWT9iRKybflnX0+0I/vCF7T3NuOFnCwviyZsKDgmZEm84uAFeS6Dpmy+wzjnsUPo1lhQNoua3uNeJNjVobgQJRSzb3YUoMYYMU=
+	t=1781198074; cv=none; b=on0SzlUBjl5ZzYbnI+1N5ZRWKoCq2ZM3rJzQ/pQeWgOa71etToN2wXBSAhdpTqYPGQumEFHRccS7X3VWqAaObLgdzFzkvjzvElNoKgopoo3LAhFz7MqEMIj56Nl/eOd52m3gIaFhSe/bADcP1nduKQ2zYRbmZ7/JSCLLWLNqTrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781198072; c=relaxed/simple;
-	bh=fsq7sYqNrg5Xchh2jP1OCYf6iS0uwe7D1hh5mBFcLLM=;
+	s=arc-20240116; t=1781198074; c=relaxed/simple;
+	bh=I+P1GSTYST71v4epIndX0AfwO1/MVGjID9UU8+TRcI8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Cxq0TY/uLVfKB883nu4acYmn+eaJqVhbU8KjnmZ7RKfXkC04rPIFLg6Bgpfqzy2P8556E3+xtRg9/1Q1c6Yue0CDXO5AToAO97xBu/9TEGd5pstLKmPNhpTJcM13Hk6GepkTOjU/CzRyK3wQwlhiOhh9p0owDhgZ2fPuBOMEMec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=NqLwRLOx; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=tBkwDaxUR3b7zrI2SlsDGfGWgv6L+5WgYtGy+4gxV6L7NhKE16f3Qb2ITdyVR4OC51KZN02RDgZ5z29GxcYlD0UGkfirUDVWFohkJ9aPXVHyizrOewIxqU1UxNHYzZ1K0KXjWk/hwQfbFL+5+9BI6noScxvk/t1z9Q8nkWr4k7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=oBGxjT9C; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="NqLwRLOx"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="oBGxjT9C"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=EzvbF5HTZw8rtZp2UxE62P6k3wtQyEZGIlI0Ut85+es=; b=NqLwRLOxhwYJ0kIixBfbUirfJr
-	sTruhEldRI+Yf6DCAgRIC+AiJfB1T6znrDA4dWSQL1VgMyZGhXxmTRHLKEBrMdvi4nsleJoD7fzlN
-	HDVc4Ze/L3emjA094R1oypOH/EFuAqvw5Cr7ZmRDd4tSodz+p/L35qr5jsqEVIS3Hb4XhgD2BGHpo
-	Kp7gYA0I8qN2UEqnFnMDTlMFeiCrnWKNNa7p/FdRnB36deUUTADxiPPfXPjIBQbxkQZqLT7Zy76fE
-	Zi/KZiX0qhJ3CUP/MANUGajgOEO7E2lQfFNeyWAg9ysazZ+mC3qhx8dVCg11ey3Ow7uLlXTSFlEh5
-	ybONb8LQ==;
+	bh=MxJht1/v+tMh9CkAooJgN+z3AWBrmdU8Oh7WKsy29Bw=; b=oBGxjT9CzjTGO3icATLcjH4W27
+	OMCnPArujlVOXEqdjagI5lHfnFsDwf+4/GXk89SKh9+atRFb8BVjzBC55ljshrPY4MvZ7mccWLhvN
+	cnrbQ0SC6NhPK/lf4H+nB7++DqxDQHflS9vPW1JtZK0SjY97ZKlID07Q2wj5IimmDQ0TV1puQSh3w
+	EDHg5j4Q6yG5WXeHoSKRE5MVSAPEu01K164tATk4e2Pa61Ai5K6Fqi8jCWdEy0C9PUVNrMobAwp5i
+	xt/i59Qe7k6avXXLBpQQNLdO0jp0nwWfB8vcPmeVUvRau7zD5LsUBsMIId+ELksn+UBSBxqHd+2Pl
+	oEDrcvLw==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wXiz4-000000070mL-06vw;
-	Thu, 11 Jun 2026 17:14:26 +0000
+	id 1wXiz3-000000070mE-3Pge;
+	Thu, 11 Jun 2026 17:14:25 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-mm@kvack.org
 Cc: Vlastimil Babka <vbabka@suse.cz>,
@@ -39,9 +39,9 @@ Cc: Vlastimil Babka <vbabka@suse.cz>,
 	Jan Kara <jack@suse.cz>,
 	Mateusz Guzik <mjguzik@gmail.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/9] VFS caches: switch from runtime_const() machinery to slab-static.h
-Date: Thu, 11 Jun 2026 18:14:18 +0100
-Message-ID: <20260611171425.1671254-4-viro@zeniv.linux.org.uk>
+Subject: [PATCH v2 2/9] allow static-duration kmem_cache in modules
+Date: Thu, 11 Jun 2026 18:14:17 +0100
+Message-ID: <20260611171425.1671254-3-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260611171425.1671254-1-viro@zeniv.linux.org.uk>
 References: <20260611171309.GN2636677@ZenIV>
@@ -55,176 +55,170 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Four VFS caches are currently playing games with runtime_const() to
-reduce the overhead of pointer traversals - dentry, file, backing_file
-and filename.  All of these kmem_cache instances can be allocated
-statically now, getting rid of runtime_const() games.
+	We need to make sure that instance in a module will get to
+slab_kmem_cache_release() before the module data gets freed.  That's only
+a problem on sysfs setups - otherwise it'll definitely be finished before
+kmem_cache_destroy() returns.
+
+	Note that modules themselves have sysfs-exposed attributes,
+so a similar problem already exists there.  That's dealt with by
+having mod_sysfs_teardown() wait for refcount of module->mkobj.kobj
+reaching zero.  Let's make use of that - have static-duration-in-module
+kmem_cache instances grab a reference to that kobject upon setup and
+drop it in the end of slab_kmem_cache_release().
+
+	Let setup helpers store the kobjetct to be pinned in
+kmem_cache_args->owner (for preallocated; if somebody manually sets it
+for non-preallocated case, it'll be ignored).  That would be
+&THIS_MODULE->mkobj.kobj for a module and NULL in built-in.
+
+	If sysfs is enabled and we are dealing with preallocated instance,
+let create_cache() grab and stash that reference in kmem_cache->owner
+and let slab_kmem_cache_release() drop it instead of freeing kmem_cache
+instance.
 
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/dcache.c                       |  8 +++----
- fs/file_table.c                   | 40 ++++++++++++++-----------------
- fs/namei.c                        | 16 ++++++-------
- include/asm-generic/vmlinux.lds.h |  6 +----
- 4 files changed, 31 insertions(+), 39 deletions(-)
+ include/linux/slab-static.h | 12 ++++++++----
+ include/linux/slab.h        |  4 ++++
+ mm/slab.h                   |  1 +
+ mm/slab_common.c            | 25 ++++++++++++++++++++-----
+ 4 files changed, 33 insertions(+), 9 deletions(-)
 
-diff --git a/fs/dcache.c b/fs/dcache.c
-index 2c61aeea41f4..e2feea82682a 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -32,6 +32,7 @@
- #include <linux/bit_spinlock.h>
- #include <linux/rculist_bl.h>
- #include <linux/list_lru.h>
-+#include <linux/slab-static.h>
- #include "internal.h"
- #include "mount.h"
+diff --git a/include/linux/slab-static.h b/include/linux/slab-static.h
+index 47b2220b4988..16d1564b4a4b 100644
+--- a/include/linux/slab-static.h
++++ b/include/linux/slab-static.h
+@@ -2,10 +2,7 @@
+ #ifndef _LINUX_SLAB_STATIC_H
+ #define _LINUX_SLAB_STATIC_H
  
-@@ -86,8 +87,8 @@ __cacheline_aligned_in_smp DEFINE_SEQLOCK(rename_lock);
- 
- EXPORT_SYMBOL(rename_lock);
- 
--static struct kmem_cache *__dentry_cache __ro_after_init;
--#define dentry_cache runtime_const_ptr(__dentry_cache)
-+static struct kmem_cache_opaque __dentry_cache;
-+#define dentry_cache to_kmem_cache(&__dentry_cache)
- 
- const struct qstr empty_name = QSTR_INIT("", 0);
- EXPORT_SYMBOL(empty_name);
-@@ -3362,10 +3363,9 @@ static void __init dcache_init(void)
- 	 * but it is probably not worth it because of the cache nature
- 	 * of the dcache.
- 	 */
--	__dentry_cache = KMEM_CACHE_USERCOPY(dentry,
-+	KMEM_CACHE_SETUP_USERCOPY(dentry_cache, dentry,
- 		SLAB_RECLAIM_ACCOUNT|SLAB_PANIC|SLAB_ACCOUNT,
- 		d_shortname.string);
--	runtime_const_init(ptr, __dentry_cache);
- 
- 	/* Hash may have been set up in dcache_init_early */
- 	if (!hashdist)
-diff --git a/fs/file_table.c b/fs/file_table.c
-index 16e52e7fc2ac..3844bc9f0e0a 100644
---- a/fs/file_table.c
-+++ b/fs/file_table.c
-@@ -27,11 +27,10 @@
- #include <linux/task_work.h>
- #include <linux/swap.h>
- #include <linux/kmemleak.h>
-+#include <linux/slab-static.h>
- 
- #include <linux/atomic.h>
- 
--#include <asm/runtime-const.h>
+-#ifdef MODULE
+-#error "can't use that in modules"
+-#endif
 -
- #include "internal.h"
++#include <linux/init.h>
+ #include <generated/kmem_cache_size.h>
  
- /* sysctl tunables... */
-@@ -40,10 +39,10 @@ static struct files_stat_struct files_stat = {
+ /* same size and alignment as struct kmem_cache: */
+@@ -13,9 +10,16 @@ struct kmem_cache_opaque {
+ 	unsigned char opaque[KMEM_CACHE_SIZE];
+ } __aligned(KMEM_CACHE_ALIGN);
+ 
++#ifdef MODULE
++#define THIS_MODULE_KOBJ &THIS_MODULE->mkobj.kobj
++#else
++#define THIS_MODULE_KOBJ NULL
++#endif
++
+ #define __KMEM_CACHE_SETUP(cache, name, size, flags, ...)	\
+ 		__kmem_cache_create_args((name), (size),	\
+ 			&(struct kmem_cache_args) {		\
++				.owner = THIS_MODULE_KOBJ,	\
+ 				.preallocated = (cache),	\
+ 				__VA_ARGS__}, (flags))
+ 
+diff --git a/include/linux/slab.h b/include/linux/slab.h
+index f63657d3cf81..c95ad771ece2 100644
+--- a/include/linux/slab.h
++++ b/include/linux/slab.h
+@@ -62,6 +62,7 @@ enum _slab_flag_bits {
+ #if defined(CONFIG_SLAB_OBJ_EXT) && defined(CONFIG_64BIT)
+ 	_SLAB_OBJ_EXT_IN_OBJ,
+ #endif
++	_SLAB_PREALLOCATED,
+ 	_SLAB_FLAGS_LAST_BIT
  };
  
- /* SLAB cache for file structures */
--static struct kmem_cache *__filp_cache __ro_after_init;
--#define filp_cache runtime_const_ptr(__filp_cache)
--static struct kmem_cache *__bfilp_cache __ro_after_init;
--#define bfilp_cache runtime_const_ptr(__bfilp_cache)
-+static struct kmem_cache_opaque file_cache;
-+static struct kmem_cache_opaque backing_file_cache;
-+#define filp_cache to_kmem_cache(&file_cache)
-+#define bfilp_cache to_kmem_cache(&backing_file_cache)
+@@ -248,6 +249,8 @@ enum _slab_flag_bits {
+ #define SLAB_OBJ_EXT_IN_OBJ	__SLAB_FLAG_UNUSED
+ #endif
  
- static struct percpu_counter nr_files __cacheline_aligned_in_smp;
- 
-@@ -629,22 +628,19 @@ void fput_close(struct file *file)
- 
- void __init files_init(void)
- {
--	struct kmem_cache_args args = {
--		.use_freeptr_offset = true,
--		.freeptr_offset = offsetof(struct file, f_freeptr),
--	};
--
--	__filp_cache = kmem_cache_create("filp", sizeof(struct file), &args,
--				SLAB_HWCACHE_ALIGN | SLAB_PANIC |
--				SLAB_ACCOUNT | SLAB_TYPESAFE_BY_RCU);
--	runtime_const_init(ptr, __filp_cache);
--
--	args.freeptr_offset = offsetof(struct backing_file, bf_freeptr);
--	__bfilp_cache = kmem_cache_create("bfilp", sizeof(struct backing_file),
--				&args, SLAB_HWCACHE_ALIGN | SLAB_PANIC |
--				SLAB_ACCOUNT | SLAB_TYPESAFE_BY_RCU);
--	runtime_const_init(ptr, __bfilp_cache);
--
-+	__KMEM_CACHE_SETUP(filp_cache, "filp", sizeof(struct file),
-+			   SLAB_HWCACHE_ALIGN | SLAB_PANIC |
-+			   SLAB_ACCOUNT | SLAB_TYPESAFE_BY_RCU,
-+			   .use_freeptr_offset = true,
-+			   .freeptr_offset = offsetof(struct file,
-+						      f_freeptr));
++#define SLAB_PREALLOCATED	__SLAB_FLAG_BIT(_SLAB_PREALLOCATED)
 +
-+	__KMEM_CACHE_SETUP(bfilp_cache, "bfilp", sizeof(struct backing_file),
-+			   SLAB_HWCACHE_ALIGN | SLAB_PANIC |
-+			   SLAB_ACCOUNT | SLAB_TYPESAFE_BY_RCU,
-+			   .use_freeptr_offset = true,
-+			   .freeptr_offset = offsetof(struct backing_file,
-+						      bf_freeptr));
- 	percpu_counter_init(&nr_files, 0, GFP_KERNEL);
- }
+ /*
+  * ZERO_SIZE_PTR will be returned for zero sized kmalloc requests.
+  *
+@@ -379,6 +382,7 @@ struct kmem_cache_args {
+ 	 */
+ 	unsigned int sheaf_capacity;
+ 	struct kmem_cache *preallocated;
++	struct kobject *owner;
+ };
  
-diff --git a/fs/namei.c b/fs/namei.c
-index c7fac83c9a85..7dd7edfa3a02 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -40,8 +40,7 @@
- #include <linux/bitops.h>
- #include <linux/init_task.h>
- #include <linux/uaccess.h>
+ struct kmem_cache *__kmem_cache_create_args(const char *name,
+diff --git a/mm/slab.h b/mm/slab.h
+index bf2f87acf5e3..8b1db0d03226 100644
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -219,6 +219,7 @@ struct kmem_cache {
+ 	struct list_head list;		/* List of slab caches */
+ #ifdef CONFIG_SYSFS
+ 	struct kobject kobj;		/* For sysfs */
++	struct kobject *owner;		/* keep that pinned while alive */
+ #endif
+ #ifdef CONFIG_SLAB_FREELIST_HARDENED
+ 	unsigned long random;
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index 57de41c7f1aa..2567c1c19847 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -182,13 +182,10 @@ bool slab_args_unmergeable(struct kmem_cache_args *args, slab_flags_t flags)
+ 	if (args->ctor)
+ 		return true;
+ 
+-	if (args->preallocated)
+-		return true;
 -
--#include <asm/runtime-const.h>
-+#include <linux/slab-static.h>
+ 	if (IS_ENABLED(CONFIG_HARDENED_USERCOPY) && args->usersize)
+ 		return true;
  
- #include "internal.h"
- #include "mount.h"
-@@ -126,15 +125,16 @@
-  */
+-	if (flags & SLAB_NEVER_MERGE)
++	if (flags & (SLAB_PREALLOCATED | SLAB_NEVER_MERGE))
+ 		return true;
  
- /* SLAB cache for struct filename instances */
--static struct kmem_cache *__names_cache __ro_after_init;
--#define names_cache	runtime_const_ptr(__names_cache)
-+static struct kmem_cache_opaque __names_cache;
-+#define names_cache	to_kmem_cache(&__names_cache)
+ 	return false;
+@@ -258,6 +255,12 @@ static struct kmem_cache *create_cache(const char *name,
+ 			kmem_cache_free(kmem_cache, s);
+ 		return ERR_PTR(err);
+ 	}
++#ifdef CONFIG_SYSFS
++	if (flags & SLAB_PREALLOCATED) {
++		s->owner = args->owner;
++		kobject_get(s->owner);
++	}
++#endif
+ 	s->refcount = 1;
+ 	list_add(&s->list, &slab_caches);
+ 	return s;
+@@ -366,6 +369,12 @@ struct kmem_cache *__kmem_cache_create_args(const char *name,
+ 		    object_size - args->usersize < args->useroffset))
+ 		args->usersize = args->useroffset = 0;
  
- void __init filename_init(void)
++	if (args->preallocated) {
++		flags |= SLAB_PREALLOCATED;
++		if (args->owner)
++			flags |= SLAB_NO_MERGE;
++	}
++
+ 	s = __kmem_cache_alias(name, object_size, flags, args);
+ 	if (s)
+ 		goto out_unlock;
+@@ -521,7 +530,13 @@ void slab_kmem_cache_release(struct kmem_cache *s)
  {
--	__names_cache = kmem_cache_create_usercopy("names_cache", sizeof(struct filename), 0,
--			 SLAB_HWCACHE_ALIGN|SLAB_PANIC, offsetof(struct filename, iname),
--			 EMBEDDED_NAME_MAX, NULL);
--	runtime_const_init(ptr, __names_cache);
-+	kmem_cache_setup_usercopy(names_cache, "names_cache",
-+				  sizeof(struct filename), 0,
-+				  SLAB_HWCACHE_ALIGN|SLAB_PANIC,
-+				  offsetof(struct filename, iname),
-+				  EMBEDDED_NAME_MAX, NULL);
+ 	__kmem_cache_release(s);
+ 	kfree_const(s->name);
+-	kmem_cache_free(kmem_cache, s);
++	if (!(s->flags & SLAB_PREALLOCATED)) {
++		kmem_cache_free(kmem_cache, s);
++		return;
++	}
++#ifdef CONFIG_SYSFS
++	kobject_put(s->owner);
++#endif
  }
  
- static inline struct filename *alloc_filename(void)
-diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-index 60c8c22fd3e4..4719269086c7 100644
---- a/include/asm-generic/vmlinux.lds.h
-+++ b/include/asm-generic/vmlinux.lds.h
-@@ -966,11 +966,7 @@
- 
- #define RUNTIME_CONST_VARIABLES						\
- 		RUNTIME_CONST(shift, d_hash_shift)			\
--		RUNTIME_CONST(ptr, dentry_hashtable)			\
--		RUNTIME_CONST(ptr, __dentry_cache)			\
--		RUNTIME_CONST(ptr, __names_cache)			\
--		RUNTIME_CONST(ptr, __filp_cache)			\
--		RUNTIME_CONST(ptr, __bfilp_cache)
-+		RUNTIME_CONST(ptr, dentry_hashtable)
- 
- /* Alignment must be consistent with (kunit_suite *) in include/kunit/test.h */
- #define KUNIT_TABLE()							\
+ void kmem_cache_destroy(struct kmem_cache *s)
 -- 
 2.47.3
 
