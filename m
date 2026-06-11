@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80DDE1E7660;
-	Thu, 11 Jun 2026 01:13:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F0E1A3166;
+	Thu, 11 Jun 2026 01:13:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781140389; cv=none; b=XHmxiRcrKu7AmnK95VQHu1E/dsjBQ84JisgSrY3ZvjBwLnhtwXzXvk/jNeUt94E2ORJ9brsnCvtDwR1J7f+clEln+vpnSGahmbrROWm1N4aVzzM47yV+eUtaoJzbtMMRigJml3Hyk4lYtDCBqB7KCs75cyCVSSG6XIAkuuhBaw0=
+	t=1781140404; cv=none; b=PoN0zU667jDJgOfBcbZ2TEWDdcbr7BYKrcWhDGCDtSdSUjPPk1xUyVRS4FjIx8lxXHUHDSFhSvVakBR4+4H5Jo//qrcVlMnCsQA5F8S+vxwqcZhW/g2zVSQDgS3oV0T35G5NCq7W/qw6iKiPizVqgZBO6fv/noyrFm+BnZS//BA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781140389; c=relaxed/simple;
-	bh=q+GXB4YFU+Ves/ohGBjn85csHrcElJ5/of3CrCQxcIs=;
+	s=arc-20240116; t=1781140404; c=relaxed/simple;
+	bh=gd8wDR9v6cnB8VzIFp0lzMRpBN0Z3IdiSBdLtFeeWek=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oed1DIfA7ZE0xGNh8Glvqz/dgNPaqY9ywvrT0U/XY0H1higOtAaNq1OxcXK2yDjqnATjmKsc/FUlH514tEFLeUr7/q72R95dJyuNKaSeyKpUWqIUVnMHMryOQSM9eUFX6mGTqLGs8/w3Zi/VNVk9eXGZNdH92ArrWfzcgCs2Q9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=drOi5VaD; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=RM4gGMd4YYqjephqihBLO3WehWYaLPRrgizu++XM1tOpRjQhuWzZt86uZWl+3zu0vy4YGWJcU5B85/jMex7PXaLPAI06/u8qUoVHH2Qv/rxYigMfGqDYun8mO+dhSF0srRuaz5iN6luIsLEyn/z+t5XVaYgBRF03GZsORLyPqJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MFAKsSSt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="drOi5VaD"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 208051F00893;
-	Thu, 11 Jun 2026 01:13:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MFAKsSSt"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 9EF9F1F00893;
+	Thu, 11 Jun 2026 01:13:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781140388;
-	bh=uXzoepltqwTzkdpIX75akA/7kBGMYxHMevN6xEBL0zQ=;
+	s=k20260515; t=1781140403;
+	bh=gSv9Pr8q/0JAfHzT/mySCm8uHyYxHXTJqvtNqeIRK+g=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References;
-	b=drOi5VaD7gf7FvdDRCLNz3jIhMULnr2ATG+pOKBmX1KWmOOSs01sX2emH9zDyd7UJ
-	 QgUOJUEOjesxnD0cb46l2q2LvgGYGKmnFBaJTZugJkEdVWoE5dLOzqZm2FvLBduiis
-	 KUI5j0x/rcymU5I3Ro6gOfDJEXPHspw8FhoU+n+sJE3nPZ0O3xlBzlrdBMrFmp6j7k
-	 cJbJ81GYsaWaGDCcxmnK/HL7FiegLMF6cbZ6vKuZHSatWtEFBJkLTFI/OAIuY4iETJ
-	 ao4E6LvokLPlGa2+JXnBZPK4CI3FQ3gQ/AUsNFKYHRrwFjUl8MX8YyCeAh+mvxdWXk
-	 gTbnSNgd5Z9vg==
-Date: Wed, 10 Jun 2026 18:13:07 -0700
-Subject: [PATCH 3/7] mount_service: call the new fsmount ms_flags helpers in
- the right order
+	b=MFAKsSStGi6zfN1EIOO6kASGDpe4Dzo4ffd+aHE/m6cssofdpZ4AFSUS4r4WTt+Cx
+	 WvVEtfrj1X79k2mAXHTPB5e5Gizmf3O/pc4RrqfFQYyzHO44Ff6krkuN+dHl6SmD27
+	 XCk7FzM2qXuDfudwQO+fA2S7LFnmyLd0W/FViTlXanclL/r8uD7KeiZEG/DS/EBLVc
+	 +ChjDturGUNB/bEWFEqHZlNApb04gsRxrtuEInpIDB/YvlcJ+zlXv6E3bTgDCICSPG
+	 0EXRFUUm5noixVwyJMCubAneSCrCEfDfE0jVAFSJ+ZrzguaZrHFBrlAy5Fzk7Rwd2F
+	 ob5HBSStNB1fA==
+Date: Wed, 10 Jun 2026 18:13:23 -0700
+Subject: [PATCH 4/7] mountservice: improve checking of protocol version
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, bernd@bsbernd.com
 Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Message-ID: <178114032626.139936.458879206064194950.stgit@frogsfrogsfrogs>
+Message-ID: <178114032644.139936.6490958742797698670.stgit@frogsfrogsfrogs>
 In-Reply-To: <178114032546.139936.4052263259025005657.stgit@frogsfrogsfrogs>
 References: <178114032546.139936.4052263259025005657.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -46,69 +45,65 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-Codex noticed a discrepancy between the new fsmount code that Bernd
-wrote and my port of the even newer mount service code to use the
-helpers that Bernd wrote.  Specifically, set_fsconfig_ms_flags only
-clears bits from MS_FLAGS if there's no corresponding MOUNT_ATTR_ flag,
-whereas ms_flags_to_mount_attrs always clears them.
+Codex complains that the protocol checking here is too stringent.  For
+example, if the mount helper advertises min=1,max=2 but libfuse inside
+the container is older and only supports protocol version 1, the second
+check results in service mount failure when we could just use v1.
 
-In other words, set_fsconfig_ms_flags MUST be called before
-ms_flags_to_mount_attrs or we can lose the 'ro' option.  Fix this.
+Fix this by requiring that maxver >= minver, and then looking for a lack
+of overlap between what libfuse supports and what the helper advertised.
 
-Fixes: 7211953256526f ("mount_service: use the fsmount API helpers from mount_fsmount.c")
+Fixes: 5d8b9a39a1cb3e ("mount_service: add systemd socket service mounting helper")
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- lib/mount_fsmount.c  |    2 ++
- util/mount_service.c |    5 ++---
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ lib/fuse_service.c |   25 +++++++++++++++++++------
+ 1 file changed, 19 insertions(+), 6 deletions(-)
 
 
-diff --git a/lib/mount_fsmount.c b/lib/mount_fsmount.c
-index 83768f0b8d193b..89f5b1a112a9b7 100644
---- a/lib/mount_fsmount.c
-+++ b/lib/mount_fsmount.c
-@@ -35,6 +35,7 @@
- #define MOUNT_ATTR_NOSYMFOLLOW  0x00200000
- #endif
+diff --git a/lib/fuse_service.c b/lib/fuse_service.c
+index 61d1cdf3f1eb86..7fd10211dbeab4 100644
+--- a/lib/fuse_service.c
++++ b/lib/fuse_service.c
+@@ -449,6 +449,7 @@ static int negotiate_hello(struct fuse_service *sf)
+ 		.p.magic = htonl(FUSE_SERVICE_HELLO_REPLY),
+ 		.version = htons(FUSE_SERVICE_PROTO),
+ 	};
++	uint16_t minver, maxver;
+ 	uint32_t flags;
+ 	ssize_t size;
  
-+/* Must be called after set_fsconfig_ms_flags */
- unsigned long ms_flags_to_mount_attrs(unsigned long ms_flags,
- 				      unsigned int *mount_attrs)
- {
-@@ -93,6 +94,7 @@ void log_fsconfig_kmsg(int fd)
- 	errno = err;
- }
+@@ -471,15 +472,27 @@ static int negotiate_hello(struct fuse_service *sf)
+ 		return -EBADMSG;
+ 	}
  
-+/* Must be called before ms_flags_to_mount_attrs */
- int set_fsconfig_ms_flags(int fsfd, unsigned long *ms_flags)
- {
- 	unsigned long flags = *ms_flags;
-diff --git a/util/mount_service.c b/util/mount_service.c
-index 360a78bab3bd3d..9890d6cbf028cf 100644
---- a/util/mount_service.c
-+++ b/util/mount_service.c
-@@ -1410,14 +1410,12 @@ static int mount_service_fsopen_mount(struct mount_service *mo,
- 				      const struct stat *stbuf)
- {
- 	char tmp[64];
--	unsigned long ms_flags;
-+	unsigned long ms_flags = ntohl(oc->ms_flags);
- 	unsigned int attr_flags;
- 	int mfd;
- 	int error;
- 	int ret;
+-	if (ntohs(hello.min_version) < FUSE_SERVICE_MIN_PROTO) {
+-		fuse_log(FUSE_LOG_ERR, "fuse: unsupported min service protocol version %u\n",
+-			ntohs(hello.min_version));
++	minver = ntohs(hello.min_version);
++	maxver = ntohs(hello.max_version);
++
++	if (minver > maxver) {
++		fuse_log(FUSE_LOG_ERR,
++"fuse: min service protocol version %u must be less than max %u\n",
++			 minver, maxver);
++		return -EOPNOTSUPP;
++	}
++
++	if (maxver < FUSE_SERVICE_MIN_PROTO) {
++		fuse_log(FUSE_LOG_ERR,
++"fuse: max service protocol version %u too old to support version %u\n",
++			 maxver, FUSE_SERVICE_MIN_PROTO);
+ 		return -EOPNOTSUPP;
+ 	}
  
--	ms_flags = ms_flags_to_mount_attrs(ntohl(oc->ms_flags), &attr_flags);
--
- 	ret = set_fsconfig_ms_flags(mo->fsopenfd, &ms_flags);
- 	if (ret) {
- 		error = errno;
-@@ -1429,6 +1427,7 @@ static int mount_service_fsopen_mount(struct mount_service *mo,
- 	 * or string flags!  Return a magic code so the caller will fall back
- 	 * to regular mount(2).
- 	 */
-+	ms_flags = ms_flags_to_mount_attrs(ms_flags, &attr_flags);
- 	if (ms_flags)
- 		return FUSE_MOUNT_FALLBACK_NEEDED;
+-	if (ntohs(hello.max_version) > FUSE_SERVICE_MAX_PROTO) {
+-		fuse_log(FUSE_LOG_ERR, "fuse: unsupported max service protocol version %u\n",
+-			ntohs(hello.min_version));
++	if (minver > FUSE_SERVICE_MAX_PROTO) {
++		fuse_log(FUSE_LOG_ERR,
++"fuse: min service protocol version %u too new to support version %u\n",
++			 minver, FUSE_SERVICE_MAX_PROTO);
+ 		return -EOPNOTSUPP;
+ 	}
  
 
