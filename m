@@ -1,245 +1,122 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013003.outbound.protection.outlook.com [40.93.196.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7632A3FC5B5;
-	Thu, 11 Jun 2026 13:06:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0504071EB
+	for <linux-fsdevel@vger.kernel.org>; Thu, 11 Jun 2026 13:16:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.175
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781183200; cv=fail; b=VlIip9SzCJcudYuIlvAImaurUKvDrsmU+YxTdX85Q87oRl/oUsRovMkRpwrnH3GDfK3Run880hLvvpZBnQN7vHGbWb6y9qEkSLTANfMytO4P5jlR2IlaTkLUzCVSN0OcDllMtbeR8bUUQVhlxH6WuUHCDYUAvaTkQfPtaQwPYIE=
+	t=1781183779; cv=pass; b=di1nrU4q6zPNI3/gRY840/cmoTT5OdUpGTrtfJqry61IYvWERVUDCyBbUcd/CHVy8OLKZCD9PkKpMB5Ep4HCRodULQWZKhH9YczWLmnL/kyaphAPRbo4lUD8Yd0eNasROb5F2MgsVvo5yzIJQ8wOUJK6b1Zx6EIC/WTtIJat0F4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781183200; c=relaxed/simple;
-	bh=olfQQbnpeg9ecdFmCw/S72RrvERIKQlUL1h11e1/Nr4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=UrLbY4tx4LhWTOP4dOZDVXI7wBA+98Ag3kRdxY6aZbMKfWbOvQFEFywBxWwFDbKK1T1gK+95lXDb00GHtnWGpZzurEh7dAN/dGeC2ttdKsDIPSN7Ke4PUEtQTUr1Ocpj5TBr2kMl4TDAyb8a5E0M1Z4jCiFj+7QgEpHj8oYBhFQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=C7R6SEqQ; arc=fail smtp.client-ip=40.93.196.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1781183779; c=relaxed/simple;
+	bh=rpvjpPicNn+zjhi3M9Ew9PwUMSc/xxAGxgGF22F/Ffk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MpEoAmX1D9bPT/9xneuQL/l1czWWMm9V/m5tAVguZO5qug9VoE96E7kvojZ3O8rdjr51sY0jWZq/V91xoMsi2ql+m8ep7HaHph0NNK5kSHONFZILC/N50+qTST/uRQV/uNZnx9o4Z62B+lN1W92dfPU+dhwrfrN4ebLyPrJIuQQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=LurOrSRa; arc=pass smtp.client-ip=74.125.82.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="C7R6SEqQ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VzKxTuz3263gAt3RIakGEU9waq62NhBkCEowuxE9wMd7Qd8vE38Aww+zM9RKGYep+yh7loTt1uoS0ckjmlEKOrK97ZSS+esUbmA9sP12SW57CEySWnkgMA4U/Cp4Q7ihJlSSRhiwsikkIxdZZ5/JbvIVWPduoDKsuk1wDDQmuRx/aLY3u1d5ozEAJGfDyuyruKDnVj6INX79SpcN7X0zf8AB3r/uW56fPQCZfahJOonhhndqh6GEvsFZpg24xVsiB/y9i/FcHtPz+TbnEOizQrREk2mp/tGmUDuyN9e4vNWAhC9Wj/n4ZIn5g3O626peklfZ6l5xDHvSuRX2NZl3Yw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yfXGCChRs+6Xzto4NU/K/MuGcsi8nsi0kpDBsa/xHpU=;
- b=gYwSNC3BBNj3mPcPL/5Nq5fo8NdmH2P0aQLgZ/QXCi+Ie0OYPsqBV8pmMVWISDI7uFEIWVUkbTeWwa/XL6AMnK6N21rjMH/NGRRfSJZp89QiGx/z7paeBdwVNKukNQEWvv81GOdTRS+Kd67H/reHFsZhGlOhW75TjKAPVZH9QlT4RWabEHTH7OrPfOfRIeuY9ud37DqVMHfuwdB+lUGwIYgQervOF2NrL21+mBBndVUWJ+ScwEIcju9SLTPtjpIqgm06x4GkqsMFYSIriIqAEJnlzeVrI9gahc9GZPgDqtgEp1t3K9WWIfExJIQI1ToOCuhImU873mQ2vlDwtcHcjw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yfXGCChRs+6Xzto4NU/K/MuGcsi8nsi0kpDBsa/xHpU=;
- b=C7R6SEqQlFkbBjyFWek6pHkievTpTLwbglB2D2Gz5u5gdDKjoZQW6dBBfCbupaPlcKSDjCzaONaO7gRsNAEOUghgltUUVgA8BJIdxgu2RA3V+FNz0FiBjHPl78FBkTU6Qk3vcctKXUTLScuX7y67tlK10tKjIwr1EDq/tfTjD4I=
-Received: from MW4PR03CA0276.namprd03.prod.outlook.com (2603:10b6:303:b5::11)
- by IA0PR12MB8253.namprd12.prod.outlook.com (2603:10b6:208:402::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.18; Thu, 11 Jun
- 2026 13:06:33 +0000
-Received: from SJ5PEPF000001CE.namprd05.prod.outlook.com
- (2603:10b6:303:b5:cafe::1a) by MW4PR03CA0276.outlook.office365.com
- (2603:10b6:303:b5::11) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.113.11 via Frontend Transport; Thu,
- 11 Jun 2026 13:06:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- SJ5PEPF000001CE.mail.protection.outlook.com (10.167.242.38) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.113.7 via Frontend Transport; Thu, 11 Jun 2026 13:06:32 +0000
-Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Thu, 11 Jun
- 2026 08:06:32 -0500
-Received: from [127.0.1.1] (10.180.168.240) by satlexmb09.amd.com
- (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Thu, 11 Jun
- 2026 06:06:23 -0700
-From: Shivank Garg <shivankg@amd.com>
-Date: Thu, 11 Jun 2026 13:05:10 +0000
-Subject: [PATCH RFC 3/3] KVM: selftests: exercise guest_memfd folio
- migration
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="LurOrSRa"
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-30807ba471bso1390848eec.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 11 Jun 2026 06:16:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781183774; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dR5CYWclBQeC0+3+lZvkfXkRaxymwOyR7Q16AA3EiplyiILw19gxIjO/2tysKpxolq
+         xAltvMdLZigEEw8Z4fClDQu92JhA2Wwrw1j+WYjv2ONV5OTnriF5vidOoluE1Cl6I5ZV
+         eUR0yk8SR3MrTzL+LS9MNbDYr6upgKOZVKc+nthgYItbqxiyo4tqqfkX3Ie+XthTCupg
+         JDzNq7AbAMjn3qMIJa/LuFvwOB6LwhK+m/8tCTxWsIdZ+BN9YuZxc7xjmt0J8vniT4l0
+         l5cPh1IyEsWeITQ48gw0ANPKqwLyEBzj/1ypqObuTf8DwsuqZdGFi2IwKeVH/TRN8zlH
+         BxkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=XHeZCLcFc/mQIagjY8mWKZ+oOET+8XYWGzngWYDKVfw=;
+        fh=zlfVpRN1Kom160mfPfJTeRujH34ofbs3FA/OS56li2c=;
+        b=H++JF88skw+SwS8MDcK6faopGqRii6UsXLj9q3yWJaiL3fquG1EGv6o2ycmWJoLfKa
+         8uUj1LYxretVRwQ+O6N7dQbLZDOLJ5QC9SPokW2IGlZeU40ws3iI32GZXFfV1g6lu/iS
+         v9MAtRE7T2AZi6dYKBe+6+RfPSrJL4Or3g17HzKSAXFocxRO0oJmPos1pNBgThVVIN3K
+         ad4xrZREJ1YMOi3h4DuOZMaHfRF7BMyAtvCFfwP84oHxW4idQnFE3RsJa6LPoesFFwnt
+         KZYs7kugluuPpZJj7fpFd6NiJ86CcI7gPbEOMjkMAqhZCrUKoVYcT5UcifLrBkgeQLHE
+         lCnw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1781183774; x=1781788574; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=XHeZCLcFc/mQIagjY8mWKZ+oOET+8XYWGzngWYDKVfw=;
+        b=LurOrSRaT9YA+qp3zCfM+fXhgdf09iaxLY6DOBGDkNQagmdnJi1HPhXqezVRzwqq98
+         fRJrNVhLMGd01ceiOdqc/o2GVxoVlsbCkp7MUEhQg7R9qsrp/0GMBqTqN8PKHyC19jP+
+         WexGhzeQHVfJhmhEU+W65WlBK9QDD525NB52s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781183774; x=1781788574;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XHeZCLcFc/mQIagjY8mWKZ+oOET+8XYWGzngWYDKVfw=;
+        b=TvM9gzp1gR+be8MGXGoMAxNBQ7hK+AOX2lFwXMcGQVNJodPy5ywoK+40DXbLg/h2l9
+         mMTdQ7qvMj/1yTlIwPL9JGaPlPSLexeqjNhvNT65b93NHSP8kFINec+zYWHoOoOTOSS+
+         v6egxw0g4nGz+9VDbOeDf1MCF+bvNDj0osP2gPq1svH8ZD6t9/PestZvcPuedE1zSTSM
+         dcKLs0u0FJB41TgOsj+HyvDd/N+fBarJIX4xoyBqILGuf3qYE6wMjqgES6lI/hHXHQ7a
+         xDklUSUJA2qr1ih/xzw9yzaLTcAq5w2MntZ3bch7p/towx2FaNPnad0R93wPHB03AnoQ
+         aZWw==
+X-Forwarded-Encrypted: i=1; AFNElJ9jr3QIhJXEhGiF4v/eiXlHXvr5+r+qyeLlbliHcg627EWewbS0WVHwK2m+UK29hv89cIGDZhf043aFePsx@vger.kernel.org
+X-Gm-Message-State: AOJu0YwboP3l2jqq9NAETMDsnMIgWA57FFoIXkWndPFQXHqBUNnAA8Fp
+	cJ/+DiKYaqtwIRjOJ+Gaskd4XJdwLKZqvPH8PL3X7ON70eGsPBZdU3+RBhG0sbsE+a/YmBaVXbj
+	XEXmOxiDCVvmfCPAmQzwx0ap7jhwrZuGtI9fE8TomcA==
+X-Gm-Gg: Acq92OEFUwMGKANmolJJfjm3jzcAVqY9IfQCfzPmIS4BT3xARp3xsS9nxRz2SbLmVs0
+	2ppPGgovfJnpHg6d9H1DFogAUNBRTrPUxz9cQBhIIgYIYZCy3KngoP8bFIzJzFqx8IITCIeENzU
+	Dc/0oONoafWZ14hfY0GuPmNMhUVdB/P7hibo4G5BSMHIxeC1kKueA5Xn17MmqKyQsmf/nHBRRtq
+	kGUBtUueabZU9ApfsxQ9gtG9wnTEMnh9r0drNv5IWl6aGoPFZn8CdGvv3GsSdCoeJXIsr/XBUGp
+	JWhJOgBbVf6Rc3FUp0lGxkMMIEsz8iJw+R9zp4y6IwzSpn0pmGHCex41OKwpeA==
+X-Received: by 2002:a05:7300:b90b:b0:2c1:6676:5ebd with SMTP id
+ 5a478bee46e88-308047f2d97mr2134685eec.10.1781183774392; Thu, 11 Jun 2026
+ 06:16:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260611-shivank-gmem-migrate-v1-3-2d266bfc6f95@amd.com>
-References: <20260611-shivank-gmem-migrate-v1-0-2d266bfc6f95@amd.com>
-In-Reply-To: <20260611-shivank-gmem-migrate-v1-0-2d266bfc6f95@amd.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka
-	<vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
-	<mhocko@suse.com>, Brendan Jackman <jackmanb@google.com>, Johannes Weiner
-	<hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, David Hildenbrand
-	<david@kernel.org>, Matthew Brost <matthew.brost@intel.com>, Joshua Hahn
-	<joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park
-	<byungchul@sk.com>, Gregory Price <gourry@gourry.net>, Ying Huang
-	<ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, "Paolo
- Bonzini" <pbonzini@redhat.com>, Shuah Khan <shuah@kernel.org>, Chao Peng
-	<chao.p.peng@linux.intel.com>, Nikunj A Dadhania <nikunj@amd.com>, Ira Weiny
-	<ira.weiny@intel.com>, Michael Roth <michael.roth@amd.com>, Pankaj Gupta
-	<pankaj.gupta@amd.com>, Ackerley Tng <ackerleytng@google.com>, Fuad Tabba
-	<tabba@google.com>, Sean Christopherson <seanjc@google.com>, Vishal Annapurve
-	<vannapurve@google.com>, Nikita Kalyazin <nikita.kalyazin@linux.dev>, Patrick
- Roy <patrick.roy@linux.dev>, Pratik Sampat <prsampat@amd.com>, Ashish Kalra
-	<Ashish.Kalra@amd.com>
-CC: <linux-fsdevel@vger.kernel.org>, <linux-coco@lists.linux.dev>,
-	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, Shivank Garg <shivankg@amd.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1781183157; l=3950;
- i=shivankg@amd.com; s=20260518; h=from:subject:message-id;
- bh=olfQQbnpeg9ecdFmCw/S72RrvERIKQlUL1h11e1/Nr4=;
- b=gCRHu2UP0v6tDLOup1gOXGbI2VE6k9oe02ImNCzdI4rhQe/MxeZrk70mgsBHgkjLhExbw0Q3O
- pUcb1/scYcVCaoNzwOYiOTJKxwIicEIMoOV1zcM0fGxkvR2Q2y2DRWP
-X-Developer-Key: i=shivankg@amd.com; a=ed25519;
- pk=2l2QGTeXuGkZTtfmx0nPQU8iFZfjYmX/ymMojitevx4=
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb09.amd.com
- (10.181.42.218)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001CE:EE_|IA0PR12MB8253:EE_
-X-MS-Office365-Filtering-Correlation-Id: c80cc666-b88d-4af9-84ac-08dec7ba42a7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|82310400026|23010399003|36860700016|1800799024|921020|56012099006|11063799006|6133799003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	ndx+OFsZQrE1uyHd2iaXYZHTEngD8o9JqrQSu4ZYnfjmaC9juzeWR1AEMbvWUmaqKbj3C4Oa/HZcNLOaQk4lWpFfG5cWcJ7o1OPqWUpZiZ7wuCO9qdZR7zY5a2ploxlyPpUoyOwydJG4Tmva7w9tIr8llZe4ak9Vp47DRIRR+SOHt1dzD8HAKfqBACqbIbuP541W/1Yip6+rautgv6EH+vPDeJ+sAe6UcBkYgZXNIgNVHaTXwe12oGZ7z+4x3aE3mk0g5UvuvsWlAfxuKiawS8UWXov7tVc36/0dXK3J4Kmr09vnwYm2SQgSi+oURq4TJhIRxIUdFQOIU0Sbzv4yLPHbgaETlbbVtZTV9B3RxmYRGZ7W+u6+PMSd95Ft4nNxj2L3rlajxONb6KHqs6unNxW5YmnYhHWxER2AomRowTkw+2ocGh9b/6YVa1UdNgiynhbXQ483rP1Snp/kvCXu5Dop5V04CU6DZ144Xxk1QLUX6mNpDwKQvxMxf/HH7k7ms5u4MYuyZRn/9IQM28FMHZOKRVMvA7czgHgrUhsdjOdQQqbLZf6nE7urG/kpJSbuLTrON8aE8zThbezUw8Act0Yn9zIQFWICmPWhym77zg6E4F9ADRd4UUfobaiLgMG9AoFtsYFLXK58IZd1If2NQ3ednPHmiEYVRoZqsDRHzG7sN2oyR4iA5MTOx2T7vosyrbdHjj74IQaMTD1uwYJTxGDj6TgE6Cwp31JyOwufYW1ctQjAVqGkqI+qXppxvYFGqjJV+X+WvPODi4NIW1VNkg==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(23010399003)(36860700016)(1800799024)(921020)(56012099006)(11063799006)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	UuEo3rDAGfl127U0x2hIeO6XV418a27jKMa7i+Pp7QT2REp2bjhBQBIx3w9veDn2r404vCZcxF9Nc3mD/Tfq5bq9dLNiqnNeRwUkxIMLargqJuq3EvzbmMpUbzcLyAqbEAZwpLdgsQ7vGF7klWk8IQf0zf2MPw3H2J5a61hdc2vZT+j8EE7eRxOsoJN2JvOs1ePmt9d6BaNk+U2XPMtv2dwO4ZJ+vr6c8wb2vkSlMG9s4mIpxL13ocwYTDkCKoAOzOvyrF+oETLSxjFChsQZqNcffm+z2m9frIphYZ/oHXfWz97c7MshK1wB7pAkCef0xTwIOSySACfH9KENcwaL4JRMdBn03iXYQvlHUij6ilqhnwRUUL5e1klx/FVRlGUrmqs+Szx6wyMPSVpK+yfJ4RGjswab9xdPV06fxJvlBwUjbRalB/oSc8w4qNulS8ee
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 13:06:32.8220
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c80cc666-b88d-4af9-84ac-08dec7ba42a7
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF000001CE.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8253
+References: <20260526152021.891412-1-mochs@nvidia.com>
+In-Reply-To: <20260526152021.891412-1-mochs@nvidia.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Thu, 11 Jun 2026 15:16:01 +0200
+X-Gm-Features: AVVi8CcXMSOXQHHyt5_Is6rWepSACZHd-9SlsjjwxhuHNCsbLA3hfeHrP9neohs
+Message-ID: <CAJfpegvSrDgTajqWxkgRCkwxNoR6f4NU9cvKvcpThVDX-jmh-w@mail.gmail.com>
+Subject: Re: [PATCH v4] fuse: back uncached readdir buffers with pages
+To: "Matthew R. Ochs" <mochs@nvidia.com>
+Cc: Bernd Schubert <bschubert@ddn.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Add a migration test to guest_memfd_test, run for the
-MMAP | INIT_SHARED configuration on systems with at least two NUMA
-nodes (skipped otherwise).
+On Tue, 26 May 2026 at 17:20, Matthew R. Ochs <mochs@nvidia.com> wrote:
+>
+> Commit dabb90391028 ("fuse: increase readdir buffer size") changed
+> fuse_readdir_uncached() to size its temporary buffer from ctx->count.
+> This is useful for overlayfs and other in-kernel callers that use
+> INT_MAX to indicate an unlimited directory read.
+>
+> The larger buffer is currently supplied as a kvec output argument. For
+> virtiofs, kvec arguments are copied through req->argbuf, which is
+> allocated with kmalloc(..., GFP_ATOMIC). A large uncached readdir buffer
+> can therefore require a multi-megabyte contiguous atomic allocation
+> before the request is queued.
+>
+> Avoid the large bounce-buffer allocation by backing uncached readdir
+> output with pages and setting out_pages. Transports such as virtiofs can
+> then pass the pages as scatter-gather entries instead of copying the
+> output through argbuf.
+>
+> Map the pages with vm_map_ram() only while parsing the returned dirents.
+> The existing parser can then continue to use a linear kernel mapping.
+>
+> Fixes: dabb90391028 ("fuse: increase readdir buffer size")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Matthew R. Ochs <mochs@nvidia.com>
 
-Migrate every folio from node 0 to node 1 with move_pages(2) and
-check both the resulting node and the data. Migrate them back and
-re-check the data.
+Applied with cleanups.  Please verify:
 
-Signed-off-by: Shivank Garg <shivankg@amd.com>
----
- tools/testing/selftests/kvm/guest_memfd_test.c | 77 ++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
+https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git/commit/?h=for-next&id=2fcb1dd15faba5657b825cc5d54423251c70e79a
 
-diff --git a/tools/testing/selftests/kvm/guest_memfd_test.c b/tools/testing/selftests/kvm/guest_memfd_test.c
-index 832ef4dfb99faa4411af847d21eb426c34342434..04931d3add46cb117fe5b093ed48f838cb124542 100644
---- a/tools/testing/selftests/kvm/guest_memfd_test.c
-+++ b/tools/testing/selftests/kvm/guest_memfd_test.c
-@@ -76,6 +76,82 @@ static void test_mmap_supported(int fd, size_t total_size)
- 	kvm_munmap(mem, total_size);
- }
- 
-+/*
-+ * Each page is filled with a distinct byte (its index). Check every byte that
-+ * data is intact after migration.
-+ */
-+static void verify_page(const char *page, int page_idx, size_t size,
-+			const char *when)
-+{
-+	char expected = (char)(page_idx & 0xff);
-+	size_t off;
-+
-+	for (off = 0; off < size; off++)
-+		TEST_ASSERT(page[off] == expected,
-+			    "Page %d corrupted at offset %zu %s", page_idx, off, when);
-+}
-+
-+static void test_migrate_folio(int fd, size_t total_size)
-+{
-+	const unsigned long nodemask_0 = 1; /* nid: 0 */
-+	unsigned long maxnode = BITS_PER_TYPE(nodemask_0);
-+	int page_count = total_size / page_size;
-+	void **addr;
-+	int *status, *nodes;
-+	char *mem;
-+	int i;
-+
-+	if (!is_multi_numa_node_system())
-+		return;
-+
-+	mem = kvm_mmap(total_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd);
-+
-+	addr = calloc(page_count, sizeof(*addr));
-+	status = calloc(page_count, sizeof(*status));
-+	nodes = calloc(page_count, sizeof(*nodes));
-+	TEST_ASSERT(addr && status && nodes, "Failed to allocate page arrays");
-+
-+	/* Allocate all folios on node 0 and fill each with a known pattern. */
-+	kvm_mbind(mem, total_size, MPOL_BIND, &nodemask_0, maxnode, 0);
-+	for (i = 0; i < page_count; i++) {
-+		memset(mem + i * page_size, (char)(i & 0xff), page_size);
-+		addr[i] = mem + i * page_size;
-+	}
-+
-+	kvm_move_pages(0, page_count, addr, NULL, status, 0);
-+	for (i = 0; i < page_count; i++)
-+		TEST_ASSERT(status[i] == 0, "Page %d should be on node 0", i);
-+
-+	/* Migrate node 0 -> 1, then check both the location and the data. */
-+	for (i = 0; i < page_count; i++)
-+		nodes[i] = 1;
-+	kvm_move_pages(0, page_count, addr, nodes, status, MPOL_MF_MOVE);
-+
-+	kvm_move_pages(0, page_count, addr, NULL, status, 0);
-+	for (i = 0; i < page_count; i++)
-+		TEST_ASSERT(status[i] == 1,
-+			    "Page %d should be on node 1 after migration", i);
-+	for (i = 0; i < page_count; i++)
-+		verify_page(mem + i * page_size, i, page_size, "after migration");
-+
-+	/* Migrate back node 1 -> 0, then re-check the location and the data. */
-+	for (i = 0; i < page_count; i++)
-+		nodes[i] = 0;
-+	kvm_move_pages(0, page_count, addr, nodes, status, MPOL_MF_MOVE);
-+
-+	kvm_move_pages(0, page_count, addr, NULL, status, 0);
-+	for (i = 0; i < page_count; i++)
-+		TEST_ASSERT(status[i] == 0,
-+			    "Page %d should be on node 0 after round-trip", i);
-+	for (i = 0; i < page_count; i++)
-+		verify_page(mem + i * page_size, i, page_size, "after round-trip");
-+
-+	free(addr);
-+	free(status);
-+	free(nodes);
-+	kvm_munmap(mem, total_size);
-+}
-+
- static void test_mbind(int fd, size_t total_size)
- {
- 	const unsigned long nodemask_0 = 1; /* nid: 0 */
-@@ -434,6 +510,7 @@ static void __test_guest_memfd(struct kvm_vm *vm, u64 flags)
- 			gmem_test(fault_overflow, vm, flags);
- 			gmem_test(numa_allocation, vm, flags);
- 			__gmem_test(collapse, vm, flags, pmd_size);
-+			gmem_test(migrate_folio, vm, flags);
- 		} else {
- 			gmem_test(fault_private, vm, flags);
- 		}
-
--- 
-2.43.0
-
+Thanks,
+Miklos
