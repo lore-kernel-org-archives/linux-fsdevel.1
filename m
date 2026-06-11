@@ -1,181 +1,240 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010022.outbound.protection.outlook.com [40.93.198.22])
+Received: from flow-a6-smtp.messagingengine.com (flow-a6-smtp.messagingengine.com [103.168.172.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BC02264D3;
-	Thu, 11 Jun 2026 18:10:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781201407; cv=fail; b=QcW6TgsQQFk3r21c3kCghgFjXJ/wi6z1bG3T4DUuopeckB2mDebqzjMHybYTUy6lz6FN6QDhkkBTEqb7YMWOcA4ybXTgtT58EEHS7Qy6XzppQrUSq/sWL3WgpdEjIMQ5qJFZoV22MYCWARTpPNi1lauiO9PqAwgxPj5Vc7e16FI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781201407; c=relaxed/simple;
-	bh=vXSw4vN74Pz9K2JX04EN68s19cXgDmsr1ioDIAnIK7U=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=aclFtYasHoVXl/E7LRJT89vABAXHW2+d3RY5Ow8jKkvZfZ7dYr5Ak839yGBE1XnUWT1n/9nTpNiKuEY/caNxW4cTQdMETVsllydtTkmcmOTpbAOjRkVmtGiBQL9Sw3G5qlDA3tQ+vVtCJQpymws4EKAiLmopJLEM/axeYBnxP5I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=is6iLTwp; arc=fail smtp.client-ip=40.93.198.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF53638333B;
+	Thu, 11 Jun 2026 18:55:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.141
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781204131; cv=none; b=NYPArHM7xJjC3wZ5DeoZdKc7KCnOZu2WYdQ9fEqdTIN1NRYYqIwcShxO6EQlKRg5WSVs5dTjzdXfGYmK9f/08ZjWrB+BVY0ASDYe2dqeGDbCeEbcWyMy7Rlw5FradKUWsQ9lJWBmg+rB/Xigojx8GCwFx86G9Wj2oBrnaQzm9Qs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781204131; c=relaxed/simple;
+	bh=hPOHqYG+iRF3Ic0VkRMBbLpS+z9IKrHddDy3pi2hdIc=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=oyLWxKrD8K3xv2yOeJcMIQzsqZZtGfak581TXN5XCmX8y05DmfX0DDOb09WBbrOZxRJ2WFufJ6cj7XUom3BLhTz9zSjHGUf20hledZqs2nhN056p4a9DyNszzMsEaBWaCVKIae01iXo05DYRAcPwAVOn6yoHkFSIGn7ltehsdcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=lqoDUw/k; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=SxhnnWMs; arc=none smtp.client-ip=103.168.172.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=johnericson.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="is6iLTwp"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fctoiqi1TJPjWKnW4P2dLF0FyUXJFvmbWuXAYC4pBR35JbEKfH4ChyqhkX+qdQIeH373ds+/Dz/4kM9gzSnUCK/aN/DkpoHiz+c+PyMhvPH4gq3zM2PBVoxVAb4hqkTwz6pteM7x2OC8m56cmt7zFI5hSSEd9IG7CPZBgLoDO0J7wlFnUua0snxCraSqIN0dnD73tBcz1FBNrnQV7qI5kvz8xtO0LdSXmxJwPlfFPyiloA6r4uQ/qjr7+ST0+n49YgGO6iOKCaubzxB+IQY4saw+QhwcQyn844Dqj8hY4x5NgNTz+EJlf/xwBibWbDfxHioxWRqwzBdLVWxf+9sVWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MzgwYZ7PA1b2QYIF0PBowaSOi0awopq+xcNQM9IpjEg=;
- b=lXzeRHb7FBeYUJJWj9zxXCzgbvgnbkycTjF7riwV7S7JpYU4FMbzl23g/XIlA1WwAmUusqldurIWU9X07+t93iZ3YPw/nW+GIvgnOiNz5v/ghZdgmh+vLhGTT1h4itQ4ct59oqRpr/WsS6Wbtp9fG71Tv5Y98CQWpHdHYLCHOaWJgvEdwPB9Qk8gAc/w2lDkzD/3E5k4kdzgf+/y6qClHpaM8j7Q0q9KxrGSx6SErhG7yMRn+yO9kEP/J3WBdRKIuMPL0lW3QHwJmjus0UUu7bjQKLyFLPmiX9cQ6+wGJBdLBmv03Ft9kNwoCgdtzqVfaTGnyiLg3Ny6vz3mPVFoGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MzgwYZ7PA1b2QYIF0PBowaSOi0awopq+xcNQM9IpjEg=;
- b=is6iLTwp2hDBJmBjj8JSCpNOrieDb5p/lafbTDwwxhxDGP6UQt/DWphoBN4DX7bQ3Sm5nYvjzF7DaON/iVl5GXEKeqtWse+PahSLj1ViBLiEokkvERgp6Rbk/uO71ryLYR4Jwjr5yEdYy466KRRA/DWIVjwFvFgH2FguVCHX5iA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY8PR12MB7433.namprd12.prod.outlook.com (2603:10b6:930:53::22)
- by PH0PR12MB7010.namprd12.prod.outlook.com (2603:10b6:510:21c::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.13; Thu, 11 Jun
- 2026 18:10:02 +0000
-Received: from CY8PR12MB7433.namprd12.prod.outlook.com
- ([fe80::faae:d638:bdc9:4bf6]) by CY8PR12MB7433.namprd12.prod.outlook.com
- ([fe80::faae:d638:bdc9:4bf6%3]) with mapi id 15.21.0092.017; Thu, 11 Jun 2026
- 18:10:02 +0000
-Message-ID: <56fbc3f1-2b26-4d8c-9a1a-42a80f2b6bdf@amd.com>
-Date: Thu, 11 Jun 2026 20:09:54 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V5 6/9] dax/fsdev: fail probe on invalid pgmap offset
-To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
- Dan Williams <djbw@kernel.org>
-Cc: John Groves <jgroves@micron.com>, Vishal Verma
- <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- Alison Schofield <alison.schofield@intel.com>, Ira Weiny
- <iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <0100019eb7bcda4b-3f8edae9-d7a4-4bfa-aaea-fcef77fdbbc3-000000@email.amazonses.com>
- <20260611173225.66002-1-john@jagalactic.com>
- <0100019eb7be3bc2-972d848b-bc38-4b24-9ee1-f0dd5610355f-000000@email.amazonses.com>
-Content-Language: en-US
-From: "Gupta, Pankaj" <pankaj.gupta@amd.com>
-In-Reply-To: <0100019eb7be3bc2-972d848b-bc38-4b24-9ee1-f0dd5610355f-000000@email.amazonses.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P302CA0036.GBRP302.PROD.OUTLOOK.COM
- (2603:10a6:600:317::7) To CY8PR12MB7433.namprd12.prod.outlook.com
- (2603:10b6:930:53::22)
+	dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b="lqoDUw/k";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="SxhnnWMs"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.phl.internal (Postfix) with ESMTP id 1652F1380100;
+	Thu, 11 Jun 2026 14:55:29 -0400 (EDT)
+Received: from phl-imap-16 ([10.202.2.88])
+  by phl-compute-05.internal (MEProxy); Thu, 11 Jun 2026 14:55:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1781204129; x=1781211329; bh=hPOHqYG+iRF3Ic0VkRMBbLpS+z9IKrHd
+	dDy3pi2hdIc=; b=lqoDUw/kVA743bATY9h3WK1dphY3DTGWmWqfS7rSB5GSVn1J
+	as9WBsb+A9PKES5gRpl1K43ImpkJByEQ+OAGA8jgvTajebY1O93d+Ltmq8xdbZmr
+	UpjrbAZH15xpPstw++7hFOY+AQmRLZsb2gRNFyC6VpRAlni/E62ZfUjR+2Y7ilDV
+	5dalJkSjuO6iJHSs2PFitbvp8GbWY+Y4zFxsBDVzhzH13FnV4hN4gX3XoXsGEpU5
+	VX6YHz30fcubjL8dS4nRv3IXpnfilOnuPUp8p3r0TTr6X+SeYW3CB5Ye/Y8JCFpK
+	jE+5fg0CFoxi4Y/BBElq4gToBlMwJqp/uqu9MA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781204129; x=
+	1781211329; bh=hPOHqYG+iRF3Ic0VkRMBbLpS+z9IKrHddDy3pi2hdIc=; b=S
+	xhnnWMsEUraepm0he9orZCyxPfx/X2RF4T9x70S85+8jra4FIRU9EW5non7HfVsM
+	Ci2TSpRE8DCnorJZZDCFAJnPbE74cU40UqUFdxQG06Ca0gf4YOU1CcSzAl7STslr
+	hkiKH7TApmoVk+z9PZs+yoayKHgiTZtULPsVqW6Rrfak38XDnPycDho5FKzQBef1
+	CY6QNcMEThwJpZ3k8dCfdqYEOgLqhPFyaSw/8plKCDA4ADs1atRjXiHektoDVGfc
+	fFn8T2+BwlXB/s0NPeOq0qQ16jw7OASdZDZeHmvZZ39x54Pz2OrB2tDyBB1+NgYc
+	5/H2msE/XBzMbGzzvKNHA==
+X-ME-Sender: <xms:oAQralqwuh0eouA59R3_QIwyLFBttjzOXYhOIDERLdIbdk93hF5puA>
+    <xme:oAQraifGdN2-ZAHIe6oNEDRfSEnR6WUhOwyGtPPn4ubpqD8tEdnDMeWgLTUy6Ii6x
+    5vzuFyYmFZ2RIu87ORhcAz6vnLAsYx-tpUTNEZVfRt127tc0NsvnK0>
+X-ME-Proxy-Cause: dmFkZTFYpPOn7LI4ucgrxMRuvUt0Pp7TpsmWzC1UMf5Uv3HNtfQ/V0DF7oE2QhImNcQ7/n
+    hX3+SBSdsUULValjF705kUffDlbULeLEuQLe9sEh2MjAhjTTmycdP5MBvhnGe8dzZvyNon
+    El9MmMNYiTmjnLQ2tcVKntlKTVipyiBsZrqxOGT4HbGXTm+q5nJv2ou/btyVBYEM9hCWwC
+    5GGP97dtjAoQTfqjBznaZdB0rggqqROmubcwr/kzdeAmz621tqJGsS7RdmLEwmGJYTNNOO
+    USKMjLfMmFc65L14V1RzajGF3g6WHSe5i+BYmpu3hA0CfgzgP+VZ8oTuBT+38JRx/yxzgs
+    umnpTqvcNAd1NFNCHjofpW8OHDuMUHWjxpEVBjSNmRctxv64ki/DUB9+G7ogl7t9K3QVjK
+    Ow2Y0fYcjWb7JTEpo/PoDYWzEvTk9XEek3xh+BpzUH00rvEY2PWP7ywJRQTdPoMcVAn7Gn
+    r7cDKLJ65+s64x2Q942+XWGD/zOI1+7LvCGFjOH2uWfyZd0Fv7Ymr+gzCBsMoAv2xkL3T0
+    CqD6YGWIlZSwWzrToYEFEdrCnD2xjZeUFFAtwMMKqgh8H1xdIFhWYk77oCQivDvMMOaL+9
+    Tq0tCHKmG0ElxEfp2Q75UzEXsV7cS5F72NZyHP1i3LMypy67FGfWMnYliP7A
+X-ME-Proxy: <xmx:oAQraroOprWSkLgJ-7djeMHTInI52a640Gjt5LslcKa87iD22lOadQ>
+    <xmx:oAQraoatsZC0BtBctCPgAsy7fxQT3f9fqffQoMXyvPniBkKKuuh1bA>
+    <xmx:oAQralHhcfx828vfIPwoTAB7RPq0-Rlkt4Jh2VvoK2hJ4cYJKq3hrQ>
+    <xmx:oAQramZmlr4zGPtWbXjA0WPzKylSB7mfQzF7M44bZW6o1b9B_bhaGA>
+    <xmx:oQQrarNSduaBJQ-qynqxxgQ-ZwyRh49OZambtOBojf-3vpyXdpA0tC_O>
+Feedback-ID: ieb4144f1:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 0C7D62CC0086; Thu, 11 Jun 2026 14:55:28 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY8PR12MB7433:EE_|PH0PR12MB7010:EE_
-X-MS-Office365-Filtering-Correlation-Id: 011d1019-2cd7-4e10-732b-08dec7e4a81d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|23010399003|18002099003|22082099003|56012099006|4143699003|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	AblhFgLvk6BrW+ARjLAAqPmk6RVYVhiNTeUE/LCl0IH8gI/Vw8sk7T7LfmWsdCBo2VjpOyWZfu1hLGVOaQx58C4UsaLfMQIxFx7LG4b+1GrMhCCFnrNC836U7UKNcSTs6WQsLELCi5iI/+Vn6OTpzfJ2mC3OzooQpvRq/l1vrABaGSveWu9ER+GzIvjJqDauymNGrr1g9BrEtGPmFnv1riOiXTCTn6XZ/Q3XLPiUlwVyLdNNJVvfJx0XNL8m2MB11DdI8KNtIqSMz7qiJ6SMZH5MZ/PokTWUuYYpz2uAlYOV5OMoym2ZRmd1lxCMifXrgZp0EUP36JlRcekysDHPpUWcX4VQubETMckLlfNtO4BRJsxripBZqKuQgj9DWZVBlHQMKA8zV7keAghHDjqfU2GAqL1+wsUtAo/2yonCIKnj5JBcZ7rChiANYK2GlnCdY/HhmLwlH0wRkYO3xhI66O66sz87vRcZjvEi9wZA437sS6KsCBatc+eeSP9IXyOBTux/1cmfp3Of0u2QMHozZ9ENMsflcLAbcxFx/7HfKbiz0MlkcWXm+C8r68UhJdflXZ+MUQhNgckhk80kVg3IEIPPuP+jIrdL5i/k4L8Ll3RsqHvfMlJ6NBMiT4cmmndIIUVshHnS0MAkixd2t6423BrpsyoyiiaoQjhb0Bz/J/r1+5uElUrIO/APkNU/hT1B
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR12MB7433.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(23010399003)(18002099003)(22082099003)(56012099006)(4143699003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?U2Fqa2dwbEV2a1RoVUVuTHdPblpQRGVvR0JzbVg0bk9zYytaNUtpTEkrcjE2?=
- =?utf-8?B?N0JNbmw4U3p3S05HK01NM0tPR1lKS3UyQWRUdEczd0pqeUJjbjBLQzhNL2V0?=
- =?utf-8?B?RUxwU2NyUjJZa1p0ZGl4Z1RFUDFPeElGOVlNUUhoOWZZSktnRXcycXRJOHVn?=
- =?utf-8?B?YUpEeVg0REhMQll6Z1VINmVFanRqazZLZ2hURCsvRlZvdWFaUmNXMTR2YXZh?=
- =?utf-8?B?SjNpMHFDemZpb3d2M0NIRDBOQWV2QWZrZDBRTDBnSjdvRWVlVXJDNzVnMENB?=
- =?utf-8?B?T08vekxaM0RoT2ZzWnpOUEtEaStUSG5McHR5STlQN0ZvZzlneXkwV0h2Yy9h?=
- =?utf-8?B?MTFBMnNjUFVxckpvOEVvaGU2OFpQOWRoTXJhVGRtSHBlZnFZcmVTRk9pSmdo?=
- =?utf-8?B?LzVOZUJDYm4rK2t4aVhKV0FUajNNTXkwRy9uZlNDVENRcDRoNHB1enlrTll4?=
- =?utf-8?B?WWprTUNHUEdrdXdmdzZtUVNFNWJ6S0F5ZHUyaldUSmxxdTdtOFQrdGdFUEdX?=
- =?utf-8?B?cWlMakF5UkdPcG14cW5EYTRUNmoyZlhiUFZadGRnWU5jajNGS0R4TjZKTFF5?=
- =?utf-8?B?Vy9XM3FhcmpkVHpIOUtkS0d2clE1UjNtd0VUcENISTloYUhmVXpzd0hBNXYr?=
- =?utf-8?B?bU5sWDhGK1I0QWpta0pRMmQ3Z0hvVWRMd2g2Mm1oSFBISHgvTStzdDYveW93?=
- =?utf-8?B?QjI3Nm84eFYyaEpuVE5nTGYxMHNKbUt2by9GWVRWbFZtczBwWnplRExqZTU3?=
- =?utf-8?B?R2pIL2pIQ2hDbjloNCtldzVzMGpLbXhYeVd6aUQ4cEFzdUVOTVJNT2xON3ZJ?=
- =?utf-8?B?WUs0dUttcjVxczlWSGF6aWl6dzFuZUV4N0ZNTnRiNnlaVFR1Lzl0UjNDVGFh?=
- =?utf-8?B?TmRZbEovQ2hqZXg5QTExZ005cDhBUnlaTGJOdmNONXJmRFliTnEvQUk0TitZ?=
- =?utf-8?B?SlVoQWVNdmZLdEgyQ0JSczk4ZkZBYkREZVFad0xuMjlRSWJiNFF4SG9WdlB3?=
- =?utf-8?B?VWh1eFhtTjFIZnQ4T3o4dENYbGtZd29DTGtCeDAwa0FkSlA3ZVBhdjRac29q?=
- =?utf-8?B?RlNJOGNnN0h6eXo5VmdQTHF3NUFqRmJ2ZVZPeWNuK2MxK2V1ellya01GTmlv?=
- =?utf-8?B?dzFhRVk2eEl6Qm9Wd0VBVVk4UXJhS2xBdFBaaWk2anN2am1hZUlEYTdnWDcy?=
- =?utf-8?B?N2NFOGNaUGdZVkhIb04vL0M3eHM3YnJXc0ZSZ3crTGJ5N3d3c2J5OUdLMzNt?=
- =?utf-8?B?eEZpVEtUZkV3UGllM1lEa2phZTNGeTFvUzlIVThvRlNXU3QvY1VRa2tCNTA4?=
- =?utf-8?B?QUxVaXNKLzA0OWMza2xVb2RtRzF0aitWeEN0eG9XZ1B0d3lWSXFRdzdocGtX?=
- =?utf-8?B?cWRETmVDTzVTdVlBMXlTeS9UVlBmK0ZrNlFGcnNKL290dDBCODJHRXZRSmRM?=
- =?utf-8?B?L3duK3p3bmVHaE9JQi9jTXZBOFo1ODI4VEEwSDlNdkY1NElDZ2JkeWZOUDNL?=
- =?utf-8?B?SjUzd1orS242TlR1UUtqYXhUR2JLN3o0enZySGlGR3Q4cVozR3F2OFQyMVJx?=
- =?utf-8?B?QWxWcm0wSTBpYmRwd2MrNzhPVzh3ZnhMVGkvcmdvbjcrUU1sT3NsNDBseUVF?=
- =?utf-8?B?RWlhN1Q5ZU9sakdOdEkxQXlaeGNZNzMrcHFzUW9idlB0ZnNLa29CZVF2WUlI?=
- =?utf-8?B?OGttd1ZQaWY2QUdMTVlKS3FQblBWNzJSZUNSYXZ4Zk9PNXdheDBSODdKeC9u?=
- =?utf-8?B?ZDNJYk5KZVRPZVcrL2JyK01yU2tObUVGeGFWUEpUWGFOenBLKzRGN1B0SWxD?=
- =?utf-8?B?Mm5zeFd5M1FReTU2akh3WkpPTmlkOHZtMTVjRm41QnNRaTNvZy9jaE1yY1ow?=
- =?utf-8?B?VnZJQ3E3c1ljMytLNHBQRTVaVEFsMkFzazdBUU12NDZZZ0Y4bXI1MW9vSUpO?=
- =?utf-8?B?RHNqcXhLcUhjWHZlSGZEeUlxWjMwd1d4NllhaFdHcENwMlJnVDliajM3Yis4?=
- =?utf-8?B?djRkNVNHRW9rMXg0T1M4bU9oUk5JWDJUajRDK2pqS0JBUzJkaXhPeElSTVla?=
- =?utf-8?B?NU1yTWxWL0Y3UGphQzBsZlVlcDJmN2tKbVVsVjNTeWhMOW9DUUxablBvV3VR?=
- =?utf-8?B?Ym4wT0M2NlAyMDltaDBhRHM4YktDYy9XT2Rta0paQ3hsc21iY3RWbTlsMW54?=
- =?utf-8?B?YkpnL1JIY1Z3ZDNMSHV6MVhTMmZqano0ajQ1d2krV0F1VVg1L2NIK2NEaHIy?=
- =?utf-8?B?YUJCT0l4dno0VWJBcnhaUjZqNGhrQ3hyYWlTUjNVeVpzdEVaMHZVZERjMy85?=
- =?utf-8?B?RHNKeFQ4dlhvMVJ2cnVySWU3MXFYTm9vNVlSNllMZ3JXdzRqK29zdz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 011d1019-2cd7-4e10-732b-08dec7e4a81d
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR12MB7433.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 18:10:02.2667
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fgwo2f1dqFxstDsOKkVrsZPcv5C5HJBiX0rEj5n12Vujsx/hB/seb8V4ttmExL8QOBe77qBiT+UJhxoA+saL1Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7010
+X-ThreadId: AtGJywdvvpER
+Date: Thu, 11 Jun 2026 14:53:10 -0400
+From: "John Ericson" <mail@johnericson.me>
+To: "Mateusz Guzik" <mjguzik@gmail.com>, "Li Chen" <me@linux.beauty>
+Cc: "Andy Lutomirski" <luto@kernel.org>,
+ "Christian Brauner" <brauner@kernel.org>, "Kees Cook" <kees@kernel.org>,
+ "Al Viro" <viro@zeniv.linux.org.uk>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-api <linux-api@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ linux-mm <linux-mm@kvack.org>, linux-arch <linux-arch@vger.kernel.org>,
+ linux-doc <linux-doc@vger.kernel.org>,
+ linux-kselftest <linux-kselftest@vger.kernel.org>, x86 <x86@kernel.org>,
+ "Arnd Bergmann" <arnd@arndb.de>, "Thomas Gleixner" <tglx@kernel.org>,
+ "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>
+Message-Id: <9033ff42-9ee7-4b93-9570-a5adcd16e826@app.fastmail.com>
+In-Reply-To: 
+ <hd3i6pxxohsjesyid7nhuic6ppp6nyoxxpwa4mny6riqvpyqec@mylfprni2yaw>
+References: <20260528095235.2491226-1-me@linux.beauty>
+ <20260528-madig-fachrichtung-fehlinformation-61117ba640da@brauner>
+ <CALCETrWJQpLR4n1cpichBk8=uExSKLWTMGU3BufGdk_WE_p5UA@mail.gmail.com>
+ <19eacd64508.26b92c022125848.262962729296162879@linux.beauty>
+ <4e049396-377d-48a7-a34c-91318413a876@app.fastmail.com>
+ <19eb181fdd4.6d028f442844776.3737831021032223216@linux.beauty>
+ <hd3i6pxxohsjesyid7nhuic6ppp6nyoxxpwa4mny6riqvpyqec@mylfprni2yaw>
+Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated executable
+ startup
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
+On Wed, Jun 10, 2026, at 7:40 PM, Mateusz Guzik wrote:
+> [...]
+>
+> As I tried to explain in my previous e-mail this approach does not cut
+> it because of NUMA.
+>
+> Suppose you have a machine with 2 nodes. The parent-to-be is running
+> on node 0 and the child is intended to exec something on node 1.
+>
+> When the parent-to-be allocates and populates stuff, it takes place with
+> memory backed by node 0. If you allocate task_struct, the file table and
+> other frequently used (and modified!) objs in this way, you are
+> guaranteeing performance loss due to interconnect traffic to access it.
+>
+> Trying to add plumbing so that all allocations respect numa placement is
+> probably too cumbersome.
 
-> From: John Groves <John@Groves.net>
->
-> Convert the WARN_ON to a fatal error when pgmap_phys > phys. This
-> condition means the remapped region starts after the device's data
-> region, which is an impossible state. Previously the probe continued
-> with data_offset=0, leaving virt_addr silently misaligned. Now probe
-> returns -EINVAL with a diagnostic message.
->
-> Fixes: 759455848df0b ("dax: Save the kva from memremap")
->
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
-> Signed-off-by: John Groves <john@groves.net>
+Are we sure that last part is true?
 
-Reviewed-by: Pankaj Gupta <pankaj.gupta@amd.com>
+Let's also assume when this stuff was initially implemented, we didn't
+have it. If the basic thrust of this work is to replace functions that
+previously only worked on the current thread with those that worked on
+either arbitrary (not yet started) threads or the current thread, would
+that not prepare us for slowly migrating the allocation choice to
+reflect the node of the target task (new parameter) rather than the node
+of the current task over time?
 
-> ---
->   drivers/dax/fsdev.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
+(This assumes the task is pre-placed on a node before it is actually run
+there, and that pre-placement happens as early in the allocation process
+as possible, so subsequent allocations can read off the
+partially-initialized task's node.)
+
+"Slowly migrating" is good here! It doesn't need to be the fastest thing
+out of the gate, but if this new proper spawning API gets popular as I
+think it would, and there is a clear path to optimizing it per the
+above, then I am confident that over the years it will happen.
+
+> The primary example for that is looking up the binary to exec in the
+> first place.
 >
-> diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
-> index 07de6bfbbf673..71d2bee1e2805 100644
-> --- a/drivers/dax/fsdev.c
-> +++ b/drivers/dax/fsdev.c
-> @@ -320,8 +320,12 @@ static int fsdev_dax_probe(struct dev_dax *dev_dax)
->   		u64 phys = dev_dax->ranges[0].range.start;
->   		u64 pgmap_phys = pgmap[0].range.start;
->   
-> -		if (!WARN_ON(pgmap_phys > phys))
-> -			data_offset = phys - pgmap_phys;
-> +		if (pgmap_phys > phys) {
-> +			dev_err(dev, "pgmap start %#llx exceeds data start %#llx\n",
-> +				pgmap_phys, phys);
-> +			return -EINVAL;
-> +		}
-> +		data_offset = phys - pgmap_phys;
->   
->   		pr_debug("%s: offset detected phys=%llx pgmap_phys=%llx offset=%llx\n",
->   		       __func__, phys, pgmap_phys, data_offset);
+> userspace likes to pass paths which don't exist, meaning checking for
+> the binary before any hard work is a useful optimization. Suppose the
+> binary to be executed is in a container bound with a taskset using
+> node 1 and the content of the fs part of the container is currently
+> fully uncached.
+>
+> When you perform the lookup on node 0, you are populating a bunch of
+> metadata (inode, dentry) using memory from that domain. But the intended
+> user will only execute on node 1, again resulting in a performance loss.
+>
+> In order to not do it you would need to convince VFS to allocate memory
+> elsewhere.
+
+One thing I don't get about this is that isn't the cost doing a bunch of
+work searching the PATH for the directories where the executable
+*doesn't* exist? In the case of something like a shell that is going to
+spawn a lot of processes, I would think it is *good* to keep all that
+PATH crawling VFS filling to be on the shell's node, rather than the
+child processes' nodes.
+
+It is only the executable itself, the final step of the VFS crawl, that
+should be loaded into the other NUMA nodes. Insofar as (unless I am
+missing something) creating the process means finding the inode for the
+executable but not loading those pages, aren't we OK here? Only when the
+new process is actually scheduled and run must the ELF be paged into
+memory, and then that will happen on the correct node.
+
+> So I stand by my previous claim that ultimately a pristine child has to
+> be created (like in this patch), but which also has to do the work on
+> its own.
+
+I have not been a kernel dev, so my apologies if I am missing things.
+But in conclusion for me, the FS and other resource access patterns of
+*creating a process* vs *that process itself running* do not seem
+necessarily coincident to me. What you are describing as for sure a
+problem might possibly be a *good thing*, if they are in fact quite
+different.
+
+> Suppose there is no explicit placement requested anywhere. Even in that
+> case there are legitimate workloads which will eventually be forced to
+> exec stuff on another node. Even these have a better chance retaining
+> full locality if the child process does all the work.
+>
+> Per my previous message I don't see a clean interface to do it.
+> something quasi-posix_spawn is probably the least bad way out, it will
+> also allow userspace to easily wrap the new thing with posix_spawn
+> itself.
+>
+> Also note there is another issue with the fd-based approach: the fd will
+> get inherited on fork and will hang out in the child afterwards unless
+> explicitly closed. Suppose you have a multithreaded program which likes
+> to both fork(+no exec) and fork+exec. With the fd-based approach you
+> have no means of stopping another thread from grabbing your state thanks
+> to unix defaulting to copying everything. There was an attempt to fix
+> this aspect with O_CLOFORK, but this got rejected.
+
+I would think we don't need to worry about clone/fork very much, right?
+I think the premise of your emails, and just about everyone else's in
+this thread too, is that we agree fork+exec is bad, and the problem of
+unnecessarily sharing resources is inherent to fork. Furthermore, I
+think we all agree that while `O_CLOEXEC` and `O_CLOFORK` may help, both
+are unsatisfying solutions because they are opt-out not opt-in, and
+global to the parent process / preexec state (respectively) rather than
+local to the specific fork / exec in question.
+
+pidfds encounter these problems no more than any other
+file-descriptor-based UAPI, right? And I don't think it is good to blame
+any such file-descriptor-based UAPI when fork/exec are at fault.
+
+Maybe during the transition, when some things use fork and some things
+use this new API, stuff will be awkward, but I would rather that just be
+an incentive to complete the transition away from fork, not a reason to
+second-guess the plan.
+
+Once the transition is complete, and everyone is diligently assembling
+their child processes from scratch as is proposed, `O_CLOEXEC` and
+`O_CLOFORK` are both unneeded, and oversharing privileges will be much
+less common simply because "lazy coding"/"minimal typing" will only
+share what is needed --- anything else is more code/keystrokes!
+
+> Whatever exactly happens, NUMA is a sad fact of computing and needs to
+> be accounted for. The approach as proposed not only does not do it, but
+> it actively hinders such deployments.
+
+Despite everything I said, I want to be clear that I do agree that NUMA
+performance should be accounted for. Even if the first version isn't as
+great as it could be on that metric, there should be a clear plan for
+how future work can conclusively address it.
+
+Cheers,
+
+John
