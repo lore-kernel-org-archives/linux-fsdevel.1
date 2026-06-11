@@ -1,120 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0EA376BE8;
-	Thu, 11 Jun 2026 10:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781172328; cv=none; b=sv4+7C2BZirDi/tIeLiHcyfcbQ+gez5Rmn/GzBtrdF+DPEjUecuIfc2HNSsv2YoaRahiSs9jN9zGVbTHhkDNw7Qh+ZvWoLYgYSXwPd+kajzj5Gn96YSb27ScmVJrUScJU4D9X0uC/3lYKR0bgKa1xZh4NuuB2wB6cV/N7/3teO4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781172328; c=relaxed/simple;
-	bh=slkSgqvlvaokGL2aQqREVszt5Yca5ISJw/S6ugNEyBc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BRO94av/s3gwBE7Tki+pfCtp+iKjVjy5Y92Y5p7mOl9ci4LWhldYO2VNlN+fPFcdtIgv4k7ETMXQTYSwaeMxhV51c3uKcsDd0COGI646wHz2zM8YiKfUzfs3RL/9Q0WX8Xx/SXttlFF4vBQTj2pYgqsMz0Uv8QLGHWYR5Lj656E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PH6lPKSu; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3346331EA0
+	for <linux-fsdevel@vger.kernel.org>; Thu, 11 Jun 2026 10:22:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781173363; cv=pass; b=dFu6U0zqaOLNfKJ0pN1H3ldUP3b2IcjKHg1kznxcpehsb5if44MxPIvUmuxegTrGx7I2b23vVB6pS0oiU5GKYKVmLX+FxJDSFwql2TaMneJ5rMFov4dl+5kYe1gDPLePUcKPlHTBDyZlfRzVpuqn1mu0ziupbgI9tPKvNZv8+8U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781173363; c=relaxed/simple;
+	bh=9rd5ao9UX+dRdCRfac+Al0jz3HeZixBGrRexHervq2A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oK7jSPGyvO3Deg00v7rzaDUJNqAMcWgN6vlTw9GNUNEHVf+8LkUsAKe/iQvCy1X/+4/iW5Zo8KvMkVpvkt0eyBAoSKcyP99VY/k470ioNXRN/h+37tCDzSSNcliaRkc68uK/zTAnyLEOdduH7FtduFwKcSuBbD2V0zZoiuVZqeM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=OTF8zohF; arc=pass smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PH6lPKSu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 505791F00893;
-	Thu, 11 Jun 2026 10:05:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781172327;
-	bh=G1wrc7bULXcsUx3is2pOZWD0oQ3p8AYlULlCrIY/zqE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PH6lPKSuwE9w0QX3PbCxw3gca69PTX76fniZ7oOlqJp8H/rIbvZg/xKmzRFXZcBWx
-	 MF+4eC68fSehCu2M9nVR+DZW98ucpnO1nKI3+W5czuC3N5pFdqoegRtfQojYqu1kpB
-	 8S3lN8dmFQvwqxNyG0gCtZJwcbYJAuCr5E20KzIiPyQIBUkwoBuehWqrj1koYuoVUq
-	 TYr4qDFogrD7FVS+VooUO2MBeTvcNxLFpx5huWkVfAHNEEJzcmRErca/E/kaLagrJo
-	 vZUEIR2owfZ46jH7CW/N8nuoYO/o/gFP4xVaPR/raYhCsy5mXe6aHdGGvimhpt+r8o
-	 xgvFYDnu8cN/g==
-Date: Thu, 11 Jun 2026 12:05:22 +0200
-From: Carlos Maiolino <cem@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: brauner@kernel.org, linux-block@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH] iomap: enforce DIO alignment check in iomap
-Message-ID: <aiqBvF93P4NjfaDR@nidhogg.toxiclabs.cc>
-References: <20260610145218.141369-1-cem@kernel.org>
- <20260611055744.GA18538@lst.de>
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="OTF8zohF"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-5174a3a025aso79486481cf.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 11 Jun 2026 03:22:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781173361; cv=none;
+        d=google.com; s=arc-20240605;
+        b=HOz19ZkwsOUUDm8I9K7l41uHQicp52Wchy6EvRxmm99LHtq3jf/ur4cJDFQTPitqwG
+         kVAAFsoqXJu5NiAeD1aJ37+Usg0ySCr5DiuuiBD6Ah6TVHeajZklzKJdaUEXOIVBK37n
+         azjUuYqQbnrTyu93PwIbNpy1Sn8jznVtYso89OK5iEllMAw5mp+3jGlKdDi9Lw5evYYa
+         lY+I+gL5x+USljNJ8RFPsZECYvi4vYjToNznprIzZnDohKwAY4VWRCrb+cET5tHya05W
+         Rw61POf9R9gx+TskBbHb0HM+rpuhGbt22d81JxokxARbW5iIvcKi+WbiuhddBbNHw4jx
+         BgYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ZdX0Q5Dj/m/HuXrzpkAdoJ/jZuUveaL90+L63Y1EBAI=;
+        fh=qk5NJgyHGLicmKpzsSm4RS0JF72t7p83a/+2j1qBGLE=;
+        b=L3GJ7A9FPlA5+m4N1mcPYPU2jnjWkdGgTvmd1p6PU/JaUq3ya/VpCeWMlNJV9nDQpC
+         hucqc5riHRWkBaCgPdp+xLjDj7r3G9mI6okop2tG92gDgWAfKJMNvjPtssZilITqyJmR
+         UYTFbA9wcqGCm8iUUP8YlUtc0bCv0UpjsRnTbNZxJWSzFPmbbMi7+Ps/jLMIUYKGHjJK
+         2hWXdLHEUYiZBg+c6trmDceP/iGqwIdXq/+2/twZm1y/3iCRLc+tThHT0ph33gGkWi3y
+         4ZhAo6Hu+c/Wpgm6WkrSY8iajb+Pi6MeHSukEt5/1dTeWoSfEUVV574K+lf2MKppf9UH
+         HD6A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1781173361; x=1781778161; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZdX0Q5Dj/m/HuXrzpkAdoJ/jZuUveaL90+L63Y1EBAI=;
+        b=OTF8zohFsJVlZr6ws2Abv0gTeJmK0zD7MmfaID1jzVc/USrBTCewyyhj9GT4vtpY4O
+         ms7AwaPUfikslTgpPiVC2X4ryQ50/H2jLhsJT3Qli/YtcvctDl9pGrXN6zQf2mjXUVbo
+         Am7v6zhUFq5ZbahxSMvpaBA/ObD1f4kwGdXkM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781173361; x=1781778161;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZdX0Q5Dj/m/HuXrzpkAdoJ/jZuUveaL90+L63Y1EBAI=;
+        b=btOB/VV6h50kVGSX+6u9XtQO7sbfYjilxjRw1cphFdhWNoL0ivQuA43vxSm8rf8wLI
+         59VnhBj3zByunkSZYGrhBQeC2NtirS7Xj1QowdeATtlMiz8oLGn4F5DWGbgm2zhWs0LC
+         vw3pABIJ1hCh9Qjp5RD/YW3xpsvvqTB4EOkdVkyFibzfp1CZL6F5ZVDLSpaUqmsNZc8B
+         +G4MpQF26PStdExxTjpUKBuPeYhr3QAJqIzKZGbb1s4qblZjNM0cOv6+w4dU00A0fDej
+         FCcSm53LJ9FxOpphp6EMf4ty+jACqtVrTgjPKnOO98CYtw4qd0QVEKSTaWbnHiGUZ9ge
+         0LRQ==
+X-Forwarded-Encrypted: i=1; AFNElJ89Zmcx9ACMjj8sH2YA8iTAZRdrJ2S5j9Obpm32SD8SFt7SQiT8rqZ1P8zQ8WENN0mq/9fR7AXEfK2+2qcu@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqGBYhFn8SiihYm76NGX9yXCuxqg4ECLM0TKZUH1R5mp+vIBN/
+	nQn9kR5fx6gWAWS8fZV3FDtywGy3lhzz3luw+0vMrMdAM3TOdS2/I2T+REgGF2B2Vb5MpOQJC3L
+	gSzD1m3b75FOeSf7jrRIC0pPgmnBg6++lmVfYKXNzIA==
+X-Gm-Gg: Acq92OHNFibHotM2zAPF5NxvoDzsVcHN9g2J+NLWY7ou3UpQgst+K8R0rHV4WfMh/JU
+	7kHOUzYPxhZl7QfjA2W+fX4d98ajL03WQeKjh1QnwlqUcS/f//7LroQvgErmXfPvAHJi4lHv3R6
+	Sl/1a+4t2ea3VJujopKvzFsrkyQrdW71ncCPy+fq9tmDEqGU6qySiOwQ94++1DgPIUr/lFJfx+8
+	F1NOJZtuk1lkgyhivh4r5EZkV8HzgrNZl4ey/rWt1iJ4WByb1+sN1CI5sXzyuMpYUicKShkTSQK
+	ifX1oonbGYMezBEZN5+kGh4cfvuee+Engn5KgKLlwiGdSbfKKD0=
+X-Received: by 2002:ac8:7d55:0:b0:517:8aed:1498 with SMTP id
+ d75a77b69052e-517edd196demr32813551cf.16.1781173360617; Thu, 11 Jun 2026
+ 03:22:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260611055744.GA18538@lst.de>
+References: <20260408-wip-cuse-leak-fix-v1-0-1c028d575e97@redhat.com> <20260408-wip-cuse-leak-fix-v1-1-1c028d575e97@redhat.com>
+In-Reply-To: <20260408-wip-cuse-leak-fix-v1-1-1c028d575e97@redhat.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Thu, 11 Jun 2026 12:22:29 +0200
+X-Gm-Features: AVVi8CdMAm9XTPu_tz3eNH4Gr6oH6gYH_KlQ1VbfnPRDcGzO9UeXR4dc-afKowg
+Message-ID: <CAJfpegtWTNEDcDds5X_jsXc_wKWtuW5oZqXQnrTrzW0rw8fa7Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] fuse: fix device node leak in cuse_process_init_reply()
+To: aruiz@redhat.com
+Cc: Shuah Khan <shuah@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jun 11, 2026 at 07:57:44AM +0200, Christoph Hellwig wrote:
-> On Wed, Jun 10, 2026 at 04:52:11PM +0200, cem@kernel.org wrote:
-> > From: Carlos Maiolino <cem@kernel.org>
-> > 
-> > The DIO alignment check has been lifted from iomap layer to rely on the
-> > block layer to enforce proper alignment when issuing direct IO
-> > operations. This though, depending on the IO size and buffer address
-> > passed to the IO operation may lead to user-visible behavior change.
-> > 
-> > This has been caught initially by LTP test diotest4 running on
-> > PPC architecture, where the test fails because a read() operation
-> > with a supposedly misaligned buffer succeeds instead of an expected
-> > -EINVAL.
-> > This has no direct relationship with PPC, but seems to do with the
-> > IO size crossing page borders or not.
-> 
-> I don't understand the problem here.  Why do we want to insist on a
-> failure when we can support it?  I think the test is just broken.
+On Wed, 8 Apr 2026 at 17:23, Alberto Ruiz via B4 Relay
+<devnull+aruiz.redhat.com@kernel.org> wrote:
+>
+> From: Alberto Ruiz <aruiz@redhat.com>
+>
+> If device_add() succeeds during CUSE initialization but a subsequent
+> step (cdev_alloc() or cdev_add()) fails, the error path calls
+> put_device() without first calling device_del().  This leaks the
+> devtmpfs entry created by device_add(), leaving a stale /dev/<name>
+> node that persists until reboot.
+>
+> Since the cuse_conn is never linked into cuse_conntbl on the failure
+> path, cuse_channel_release() sees cc->dev == NULL and skips
+> device_unregister(), so no other code path cleans up the node.
+>
+> This has several consequences:
+>
+>  - The device name is permanently poisoned: any subsequent attempt to
+>    create a CUSE device with the same name hits the stale sysfs entry,
+>    device_add() fails, and the new device is aborted.
+>
+>  - The collision manifests as ENODEV returned to userspace with no
+>    dmesg diagnostic, making it very difficult to debug.
+>
+>  - The failure is self-perpetuating: once a name is leaked, all future
+>    attempts with that name fail identically.
+>
+> Fix this by introducing an err_dev label that calls device_del() to
+> undo device_add() before falling through to err_unlock.  The existing
+> err_unlock path from a device_add() failure correctly skips device_del()
+> since the device was never added.
+>
+> Signed-off-by: Alberto Ruiz <aruiz@redhat.com>
 
-The problem I see here from my POV is this changed the behavior expected
-from the syscalls when the passed in buffer is misaligned as the read()
-(in the test) succeeds when the passed in buffer does not match the
-alignment requirements (see below).
+Applied, thanks.
 
-I am pretty happy in declaring this a test bug, but I thought it would be
-worth starting a discussion about the sudden/unexpected behavior change.
-Not to mention now different filesystems will have different alignment
-requirements which seems at least "weird" to me. I mean, now suddenly
-iomap-based filesystems have a more relaxed alignment constraint than
-for example btrfs.
-
-> 
-> > The problematic behavior is reproducible on x86 by reducing the IO size
-> > to something < PAGE_SIZE, so the misaligned read()s will also be accepted
-> > by the block layer.
-> 
-> What do you mean with misaligned here?  For a long time the kernel
-> supports basically arbitrary low memory alignment for diret I/O,
-> just bounded by the device capabilities (typical 4 byte alignment).
-
-The test sends to read() a buffer misplaced by 1 byte (see below) which
-doesn't match the system's alignment constraints at least from the user
-passed buffer perspective.
-I've been assuming it should match device's dma_alignment constraints.
-The typical 4 byte alignment indeed is the requirement from my PPC
-machine, but not for my x86:
-
-> 
-> The supported memory alignment is reported in the statx
-> dio_mem_align.  What does that say compared to the alignment
-> expectations in this test?
-
-From my x86:
-dio_mem_align: 512
-dio_offset_align: 512
-
-From PPC:
-dio_mem_align: 4
-dio_offset_align: 512
-
-But this does not explain how the following call would succeed in either
-case (below one taken from PPC):
-
-openat(dirfd=AT_FDCWD, pathname="testdata-4.135256", flags=O_RDWR|O_DIRECT) = 3
-_llseek(fd=3, offset=4096, result=[4096], whence=SEEK_SET) = 0
-read(arg1=0x3, arg2=0x1003af80001, arg3=0x1000) = 0x1000
-
-The passed in address 0x1003af80001 is one byte misaligned and shouldn't
-(at least in theory) ever be accepted no? Or am I missing something
-else?
-
+Miklos
