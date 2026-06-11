@@ -1,205 +1,120 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A440B42983C;
-	Thu, 11 Jun 2026 17:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781198073; cv=none; b=HTGZclO2sOzW/uAErregcch2JLf5cS8jCw+iaID7EtsQoHhr1q82tVhGIhqbX0k7xTU2RyHLx8XpTf2xhgJBtPRkAPwS+e6ryaFIT2EQJyDyZypNJW0kRpQOmzRwAyyb0tL9Fx53EO2a+Z8yHQ8YgqKaxrDH/rT2bhvGorz/wJc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781198073; c=relaxed/simple;
-	bh=rQq6kElaR00sQlN0H5+3k0LCzLLxSJiBnA+f0/BSdmA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eezaE4G8DbFXq4sNt7Q0EHKrRBRxnUJiNnW7hMFdBxaLRHbfMe8NrpDxWOziqOHg82zSSAT5hT1S2md799REOxbqZWau99SdlDIIS+CHN25JxS8im+x05IjznpNygcu3vOlSWENibHUPozfbBz1iVB+p/QrYTP4/X60nvf7Xy18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=RAp/YriU; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB9841C2EF
+	for <linux-fsdevel@vger.kernel.org>; Thu, 11 Jun 2026 17:26:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781198774; cv=pass; b=Csn+4qKAcJNXYbFAS/l8WQIsZPAz8zqWAU3MzvEwfDNdJNJZY8ffSxiEP13Qc21UxPFW3PDteLdAb2Eegq0ZHC1IHUjRbr3XY+sDgwOp02Ac0ajZlUGWr2I/y+HpP1PCqqnhxLU0EE/LYIQrxezez43dLsmWuLN/Xe2jgReyA4Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781198774; c=relaxed/simple;
+	bh=5B+bH+DXqXDn3cGw1hPdVqrNtnhREmSz2LrL9KD0zIc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I6q9yB52NDTZhHThqGlsSX4pf7Gib+60VYDoCNjOi86t/4PLbwQsJb0n6s462RKeA1AB9srH+mptThz22ZHP36mNojWbELWmXOaJWx7o1ObwNMSrn0oTjZI7/GcdJmjvVYHiVnDU3o5NSUhdrxpD+qko17mTZtjYsZ6mVswq3Rw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oahDsLEo; arc=pass smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="RAp/YriU"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=cXwsc3pUPuy9tdbeh5fqPCJ0B/8K72avIUsW4AewIh8=; b=RAp/YriUSB1I3QFnHLYDDA+fPg
-	6Jc7Q0OsVpBqgY/CXrTkXpYIicVA7A4Eaz7L6luYvaHeVG1wtoqXswISFNfhnYi4sUXVOZCiJVhAK
-	8iuUiLjQuLlEUVStDep2rDsKZq2f6hwgjyK70tB1LcmXOIWe0Y+/Qw1yxj1Hzkb8G3FCEDrKwLGrD
-	HWsBtzB83VrqSxfWxfvwgzwe1D0UPqY1AqLpRCfMHVcHBkBrvX4GPYSuyUTh1zj3k7/9JbFRMUhhR
-	kK6lPT7WQcYMtu95kbcwXFVUE5I5ySwjOJ9YJQdxvNcvsHNCQpXQaIYsmc8J1n91SBx98sWQMLlfF
-	VApM+pfA==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wXiz3-000000070lt-0M82;
-	Thu, 11 Jun 2026 17:14:25 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: linux-mm@kvack.org
-Cc: Vlastimil Babka <vbabka@suse.cz>,
-	Harry Yoo <harry.yoo@oracle.com>,
-	linux-fsdevel@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/9] kmem_cache instances with static storage duration
-Date: Thu, 11 Jun 2026 18:14:15 +0100
-Message-ID: <20260611171425.1671254-1-viro@zeniv.linux.org.uk>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260611171309.GN2636677@ZenIV>
-References: <20260611171309.GN2636677@ZenIV>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oahDsLEo"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-68cec9f4c6cso149744a12.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 11 Jun 2026 10:26:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781198764; cv=none;
+        d=google.com; s=arc-20240605;
+        b=SBvk4kCoHmdtNbTsoWpMctSvhTucAbnYCT5bkm2PFxzKWu3p58ToYx9/RlXT5fMgjB
+         pNZQlFy3pjagvmXG8bL8Zi6TTL/yGpdmu0WOPf9AuVg/NKh1A5mx+XolKiyhq0eBrHMx
+         mh9WJ9IklEznnn3GXaz9xTtw8RFi3/wTouvA6fbf714y2ehpWAb/HbPwnY9fvjl/e6qw
+         fp8ymgBc4loxA6D8e/varmzeon0nyLO0QWyoJByWAwEyqFpEzvRlcml5K79eEFzwM+Bh
+         m0Bzuc4LbeEyhX7jwtlf5NFeasPMaZ3Ph3xprl3goe6bOMnd7QsqkcTh5Z77LMbVKc5R
+         26Kg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=5B+bH+DXqXDn3cGw1hPdVqrNtnhREmSz2LrL9KD0zIc=;
+        fh=CoxKu29wWQtK/wRN4fSk8Pu94SSKTJyDWtvz5ZQf830=;
+        b=MIjt1mtK0ClZQdW3L1xlHpbemg+Nr5w8M1i/pA7+M9hWtmjbMJ8BGSAvGfk2asHKIZ
+         093v/LWFt2deEcQ2W3NtUmToL6SzqYu5+cAaNrAJgDfxW0mqvCcnYoaNfPxknxPQPZA/
+         LFN5y9pb2WaFBxGiR9ENRy+znsOV01oRbVRf3KTzqceVU+Gd/R09OgbxnegEhO3j2hCz
+         cOPecCT85yvQ8aXSdm4YxlVGHV9V3s0RSb76Z0fHgQuLVNNfvAWZbGf+od0qfCbVhlJb
+         fgn2D3gn2BN4g6V8e9cHPvnB0v2DC1Gw4lieCQaFC3lqm6BCvkIBhqFJqBKEM5ImQdvY
+         bTFA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781198764; x=1781803564; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5B+bH+DXqXDn3cGw1hPdVqrNtnhREmSz2LrL9KD0zIc=;
+        b=oahDsLEo6OU4MdXshXIZaaXP2eR2ShMCgNG/ulecc4ak9hIeC63SnHvTB5Jkn2D+pN
+         nSzPZrntqOBdIj6yyT5lgqmiCVyPL1VXb6NOjSGeu+abeQsC8BRg4LJ4wfp/EsCyuxRS
+         fFn3Ee8Ls2LDNbjYnAmmk17uB8uGlvK+7iM8gjYXsM4lo0CIFlBKtJrHjlwAoOFcJTIF
+         +jh9VkHiRL1sipD5LvcblK+Tlmr89xYIrutlDu53M0StKgwRCKYRYdVQ5V0Heyk/sM2t
+         5D2e+PBYs61sR3k7xPaQ5f5+AtV9B1Z9n5zQvA1VwuahdIz/sMt/HJVrN6iMN6J7TcBQ
+         z6Mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781198764; x=1781803564;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5B+bH+DXqXDn3cGw1hPdVqrNtnhREmSz2LrL9KD0zIc=;
+        b=d4lQ3F6WUCpm+9nUHEKepBUtXmxNqt4VEu4GtSXuN8ULmqCnue8cTTYLclXpXXJhLM
+         4pLqS/qetdAyc1YmzawEziQfIfqIBTZkU3rmlvP64kmPMf8xqKk/5QLJUyCMyXLlRSs0
+         EprhswHLvtku+cigP2tGGahjOIUTrHNI9eB/4tbknqN80O5+C8vcs2b4xz10l49dGmbi
+         LXNf71noJPjcBm9QWzu3cmPtqmx0UVj1/QvQwDqe8yvBXRnspEl71Q1VI5Y2QqVXxaSd
+         CxREvbf47UAqIQU8HxclfE55rgoBq5bpejK8ZpggYZhsFoRIKG80aVnALoMw5sU6cZgD
+         Jiow==
+X-Forwarded-Encrypted: i=1; AFNElJ9LFVXIO4v6GN/xpT1/7L/7+U8enNGkuB2KrB3/OFTeE0nvaFA4mkX5GLutZGUmFMIeydesf4rsb6CIdu14@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqMReseE3vd9On0+TtprRFSirnOwWIa/xD7bNju++guqqI39uA
+	4mCPd8SOYDzfuW8Hi6JPtkSVHv0IyPbh1xKoHiAZvOu7Ub43zJYoxG/VQzG5237aDEpq7XFlgL4
+	5ogiYdjhGtllDDLSkpVcm7CvAJGnBk98=
+X-Gm-Gg: Acq92OF6ngLvfLGdurTcNqk7Wx7wnVztfdXe4iLzS9D/GJMmryUfxIUYKlsOdr4G470
+	beX8sWVyqUXOkqPdPH9BXHOpA5WrwJD1WbUL2yGyfA83ZzoyRTLBnCGvV5Tieir06MsO7DAZOL+
+	lqRLiPmtkFOyjb5sJq2D2vB0DqVikL2d1LthtB7iJc7Rzz9KJMzJuSukmTcu+43mbdZ9lNrvpy3
+	caADFNsPUmmI/r2PBRmMPzZJs4BUEDmkzzia3uQzehTEwZCDji3IIoH2Lsv8w2X+djc4+f9cdb7
+	bs9gplSmwRWXUrqqS0PsM858f/i1lZrZo3qg0ym8yw==
+X-Received: by 2002:a05:6402:2b93:b0:691:ad29:ea20 with SMTP id
+ 4fb4d7f45d1cf-6930e2b71fcmr1948306a12.14.1781198764050; Thu, 11 Jun 2026
+ 10:26:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Al Viro <viro@ftp.linux.org.uk>
+References: <20260402104407.11495-1-liwang@kylinos.cn> <CAJfpegs8v6a9D1zWsNY7pX_Zx1wgjGvoEFS6hkk+qE2iDQptZw@mail.gmail.com>
+In-Reply-To: <CAJfpegs8v6a9D1zWsNY7pX_Zx1wgjGvoEFS6hkk+qE2iDQptZw@mail.gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 11 Jun 2026 13:25:50 -0400
+X-Gm-Features: AVVi8Cd6zdOVZpbHEWQyWnBShqshMgnprxexMPewUECxtADluKfoRYeJ9YdUNLI
+Message-ID: <CAJSP0QWURGD_XCaLCTfFPg84rCbDAHMecfzTpo6Nw3Jp_2gB_A@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] virtiofs: hiprio FORGET robustness and no-reply
+ request completion
+To: German Maglione <gmaglione@redhat.com>
+Cc: Li Wang <liwang@kylinos.cn>, Vivek Goyal <vgoyal@redhat.com>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Changes since v1:
-	* milder restrictions on mergability (non-modular static cache
-can be used as alias for later dynamic ones)
-	* consolidated conversions into fewer commits
-	* rebased to 7.1-rc6.
-Branch lives in
-git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git #work.kmem_cache_static
-individual patches in followups.
+On Thu, Jun 11, 2026 at 5:34=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu> =
+wrote:
+>
+> On Thu, 2 Apr 2026 at 12:45, Li Wang <liwang@kylinos.cn> wrote:
+> >
+> > This series fixes virtiofs completion for FUSE requests that do not use=
+ a
+> > reply descriptor, tightens hiprio FORGET handling when virtqueue submis=
+sion
+> > fails transiently, and prevents the hiprio worker from stalling when on=
+e
+> > FORGET must be dropped after an unrecoverable error.
+>
+> Can someone from the virtiofs team please review this?
 
-Please, review.
+German: Are you available to review this? I am can review patches as a
+fallback but would prefer for you to handle them most of the time
+since I haven't been actively involved in virtiofs for some time.
 
-        kmem_cache_create() and friends create new instances of
-struct kmem_cache and return pointers to those.  Quite a few things in
-core kernel are allocated from such caches; each allocation involves
-dereferencing an assign-once pointer and for sufficiently hot ones that
-dereferencing does show in profiles.
-
-        There had been patches floating around switching some of those
-to runtime_const infrastructure.  Unfortunately, it's arch-specific
-and most of the architectures lack it.
-
-        There's an alternative approach applicable at least to the caches
-that are never destroyed, which covers a lot of them.  No matter what,
-runtime_const for pointers is not going to be faster than plain &,
-so if we had struct kmem_cache instances with static storage duration, we
-would be at least no worse off than we are with runtime_const variants.
-
-        There are obstacles to doing that, but they turn out to be easy
-to deal with.
-
-1) as it is, struct kmem_cache is opaque for anything outside of a few
-files in mm/*; that avoids serious headache with header dependencies,
-etc., and it's not something we want to lose.  Solution: struct
-kmem_cache_opaque, with the size and alignment identical to struct
-kmem_cache.  Calculation of size and alignment can be done via the same
-mechanism we use for asm-offsets.h and rq-offsets.h, with build-time
-check for mismatches.  With that done, we get an opaque type defined in
-linux/slab-static.h that can be used for declaring those caches.
-In linux/slab.h we add a forward declaration of kmem_cache_opaque +
-helper (to_kmem_cache()) converting a pointer to kmem_cache_opaque
-into pointer to kmem_cache.
-
-2) real constructor of kmem_cache needs to be taught to deal with
-preallocated instances.  That turns out to be easy - we already pass an
-obscene amount of optional arguments via struct kmem_cache_args, so we
-can stash the pointer to preallocated instance in there.  Changes in
-mm/slab_common.c are very minor - we should not merge preallocated caches
-with anything already created, use the instance passed to us instead of
-allocating a new one and we should not free them.  That's it.
-
-	A set of helpers parallel to kmem_cache_create() and friends
-(kmem_cache_setup(), etc.) is provided in the same linux/slab-static.h;
-generally, conversion affects only a few lines.
-
-	Note that slab-static.h is needed only in places that create
-such instances; all users need only slab.h (and they can be modular,
-unlike runtime_const-based approach).
-
-
-	That covers the instances that never get destroyed.  Quite a few
-fall into that category, but there's a major exception - anything in
-modules must be destroyed before the module gets removed.  Note that
-unlike runtime_constant-based approach, cache _uses_ in a module are
-fine - if kmem_cache_opaque instance is exported, its address is available
-to modules without any problems.  It's caches _created_ in a module
-that offer an extra twist.
-
-	Teaching kmem_cache_destroy() to skip actual freeing of given
-kmem_cache instance is trivial; the problem is that kmem_cache_destroy()
-may overlap with sysfs access to attributes of that cache.  In that
-case kmem_cache_destroy() may return before the instance gets freed -
-freeing (from slab_kmem_cache_release()) happens when the refcount of
-embedded kobject drops to zero.  That's fine, since all references
-to data structures in module's memory are already gone by the time
-kmem_cache_destroy() returns.  That, however, relies upon the struct
-kmem_cache itself not being in module's memory; getting it unmapped
-before slab_kmem_cache_release() has run needs to be avoided.
-
-	It's not hard to deal with, though.  We need to make sure that
-instance in a module will get to slab_kmem_cache_release() before the
-module data gets freed.  That's only a problem on sysfs setups -
-otherwise it'll definitely be finished before kmem_cache_destroy()
-returns.
-
-	Note that modules themselves have sysfs-exposed attributes,
-so a similar problem already exists there.  That's dealt with by
-having mod_sysfs_teardown() wait for refcount of module->mkobj.kobj
-reaching zero.  Let's make use of that - have static-duration-in-module
-kmem_cache instances grab a reference to that kobject upon setup and
-drop it in the end of slab_kmem_cache_release().
-
-	Let setup helpers store the kobject to be pinned in
-kmem_cache_args->owner (for preallocated; if somebody manually sets it
-for non-preallocated case, it'll be ignored).  That would be
-&THIS_MODULE->mkobj.kobj for a module and NULL in built-in.
-
-	If sysfs is enabled and we are dealing with preallocated instance,
-let create_cache() grab and stash that reference in kmem_cache->owner
-and let slab_kmem_cache_release() drop it instead of freeing kmem_cache
-instance.
-
-
-	Costs:
-* a bit (SLAB_PREALLOCATED) is stolen from slab_flags_t
-* such caches can't be merged with anything preexisting (obviously)
-and subsequent cache creations can't merge with static-in-module
-ones.  If you want them more mergable, don't use that technics.
-* you can't do kmem_cache_setup()/kmem_cache_destroy()/kmem_cache_setup()
-on the same instance.  Just don't do that.
-
-Al Viro (9):
-  static kmem_cache instances for core caches
-  allow static-duration kmem_cache in modules
-  VFS caches: switch from runtime_const() machinery to slab-static.h
-  make inode_cache statically allocated
-  make mnt_cache statically allocated
-  make bh_cachep statically allocated
-  make seq_file_cache statically allocated
-  make thread component caches (fs_cachep, files_cachep, etc.)
-    statically allocated
-  make ufs_inode_cache statically allocated
-
- Kbuild                            | 14 ++++++-
- fs/buffer.c                       |  6 ++-
- fs/dcache.c                       |  8 ++--
- fs/file_table.c                   | 40 ++++++++----------
- fs/inode.c                        |  6 ++-
- fs/namei.c                        | 16 +++----
- fs/namespace.c                    |  6 ++-
- fs/seq_file.c                     |  6 ++-
- fs/ufs/super.c                    |  9 ++--
- include/asm-generic/vmlinux.lds.h |  6 +--
- include/linux/fdtable.h           |  3 +-
- include/linux/fs_struct.h         |  3 +-
- include/linux/signal.h            |  3 +-
- include/linux/slab-static.h       | 69 +++++++++++++++++++++++++++++++
- include/linux/slab.h              | 11 +++++
- kernel/fork.c                     | 37 ++++++++++-------
- mm/kmem_cache_size.c              | 20 +++++++++
- mm/slab.h                         |  1 +
- mm/slab_common.c                  | 49 ++++++++++++++--------
- mm/slub.c                         |  7 ++++
- 20 files changed, 231 insertions(+), 89 deletions(-)
- create mode 100644 include/linux/slab-static.h
- create mode 100644 mm/kmem_cache_size.c
-
--- 
-2.47.3
-
+Thanks,
+Stefan
