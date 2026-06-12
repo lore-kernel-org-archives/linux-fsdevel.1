@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CF129B8D0;
-	Fri, 12 Jun 2026 15:15:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EBC92BE7D1;
+	Fri, 12 Jun 2026 15:15:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781277316; cv=none; b=PrKeLAsIuTgCkUezlvNLeOZPpBWDOJ5kQmZC1sTQu+XJrIl+BR7Cs5c6R8RvPtAVfo0olzfeoFtXYJMo4IWArlNrLqG1AuWSA7I8oNy9vxMULdZMXeUop6IBXSX0fEio/De+DrxL0Ahx9hNphpI9EdIQmJs/u8aYBLoWGkzwtN0=
+	t=1781277333; cv=none; b=IFKwnpiQGRpShO84HfR+2UItoEE9KT8palRLCiRx3s7stGpdRxwppiSpNKXfjp6kWuzEItfTUwfM4umazWpuJmEiR5R6s9Xj5xyLfTirb+4dKjiGWY2Gc5v67Svt40Ly+XKJhpWJM92pv6WgmRjom6Hw4rMuqdOhhdwodYlHfr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781277316; c=relaxed/simple;
-	bh=S/PDVhjm0Y1G0ygaHVqwvYFj0MDLnUMZeI3PvqDp+iI=;
+	s=arc-20240116; t=1781277333; c=relaxed/simple;
+	bh=EvuLtigPmhILkRuqoreQhrXjImoBs8NZjrFsV7fG1A8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cO3AK3de804HaDz4Hmq3IPfRIdmwvyhz7RITal8zfYczDS/J4CgFFuicU1zX4MD9dK6CQXcYxjQ4dtkVgisCYxqPuZw3tJe373JJIvbtnrNnna4WGVaPSccFwfyPyQsQ3xEKlVhN4hOE2Wo3nM/chZN0caHNMszgUR3X+7sFyI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jmhboyrB; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=nMuN9bWqQfpXnKhIjC/OIARZX4m1jKEtZEXpfBU/+9ouX9ea6CvNezGq6++KlQPBahIqLaEfKiEyS/MpeqLUxF6j3uJrEEduuHfJjVpnyBEXWng+EyVM9LQ54BxR9/1VixVzeWC19nJ3lL6nhutUfjYrnqWlibEqOPtvXwtR4qQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kjHunoIS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jmhboyrB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8A721F000E9;
-	Fri, 12 Jun 2026 15:15:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kjHunoIS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECB071F000E9;
+	Fri, 12 Jun 2026 15:15:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781277315;
-	bh=U4WivknHZjr2FaVBkqbqC2a3zJmdUvHAS3GKkWWby24=;
+	s=k20260515; t=1781277332;
+	bh=F4mnnN53ZvIK3onb5gKLgMudzEMvJsGHHuXkPmw+27Y=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=jmhboyrBQ7MMc7pYiNtG9RRVIgNHIjXME/0dAgOeQu8v6gHErTZptpXVNw6FFLdDD
-	 fMOioJ2zfgdtidAC42kpNP56iib8Jyst4I1hgOHgoMYK84DvUr29Ax4MbmYO056DSm
-	 TVQvCHuAjc3iPYOodKt19icKrWbsekTg8S4ggNM1BSWTHmr7qJjmXl9u6eJct0WAX3
-	 hm/cg6unxOkT/5MWwT00D8hfzjCRK+X+wVcd9qMusrtlGtj5s1L9+N3jpzQWlVrfMk
-	 g+drggpAFO5JWdn0v4lHpdKHt5CiLLlGO8l5+5XKh0TFLxt9z0BlrbmjUDCrifdtUL
-	 yIca/ANGZ7eYQ==
+	b=kjHunoISAKpmPuvLmjK6I1J/QooSr2mvBbxzceHDJuAp35fRErrS11x6by+vns13l
+	 dq4YQ39bsWbJJNPU1fqvdLVZ5OSSojGf2BNnJWAS4kO9Y3owFo75TfkjEnET+1AKgZ
+	 KXlLtmxT6l3fuRtkIwNrc4fzAXmqivYwMSDaN4GcFWMdJdZx5sWDTc6aMg8JVoYYeq
+	 XXiiSAcHcfuUY2ECpgjzMBPTiPBeqjAjsEjCLpvQ2xaJVP0SuF180nYekN6F++V7q/
+	 9rMViUdoR+e5vSl4sYFmXBDnGcVcXnWtmWlBpjiVd2IRo5wbE1yT7QwWntXeHQ6YV5
+	 Lf6jEEMRCybSw==
 From: Christian Brauner <brauner@kernel.org>
 To: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [GIT PULL 12/16 for v7.2] vfs eventpoll
-Date: Fri, 12 Jun 2026 17:15:09 +0200
-Message-ID: <20260612-vfs-eventpoll-v72-07f66407ee78@brauner>
+Subject: [GIT PULL 13/16 for v7.2] vfs iomap
+Date: Fri, 12 Jun 2026 17:15:26 +0200
+Message-ID: <20260612-vfs-iomap-v72-3c93b1aa4390@brauner>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260612-vfs-v72-20facee87e19@brauner>
 References: <20260612-vfs-v72-20facee87e19@brauner>
@@ -43,7 +43,7 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6910; i=brauner@kernel.org; h=from:subject:message-id; bh=S/PDVhjm0Y1G0ygaHVqwvYFj0MDLnUMZeI3PvqDp+iI=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTpKNW1x78/oa8qX3395Id9JTUZsSubWqS7kpesZFJ8W sTI1/K7o5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCKaFxgZllb/c0hadUVZ/PeC eC4PpbLDrF7mpSp3BZbbZDDlrK98wchw+8K9wrlt1YrcOz9deJG5rqxqly1fTlmScvyVo3LX7Vf yAgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6252; i=brauner@kernel.org; h=from:subject:message-id; bh=EvuLtigPmhILkRuqoreQhrXjImoBs8NZjrFsV7fG1A8=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTpKE1IjOZ4zcT6i+94xI/V/NWGrQ+qCpSFXiwKrc7tO TaF7XFDRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwEQE9jD8Yj6w9byR2f0nLz9f ytnrufD+nYXTu89YV01zmPr08M9GxwhGhgWCq3Zkrbt/u0l4OUeg8Iw7nY/z3vfnhbr68PTM+ti SwggA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
@@ -51,81 +51,39 @@ Hey Linus,
 
 /* Summary */
 
-This contains the eventpoll changes for this cycle:
+This contains the iomap changes for this cycle:
 
-* eventpoll clarity refactor
+* Add the vfs infrastructure required to implement fs-verity support
+  for XFS with a post-EOF merkle tree: fsverity generates and stores a
+  zero-block hash, and iomap learns to verify data on buffered reads,
+  to handle fsverity during writeback via the new IOMAP_F_FSVERITY
+  flag, and to write fsverity metadata through iomap_fsverity_write().
 
-  The recent eventpoll UAF fixes (a6dc643c6931 and follow-ups) rode on
-  invariants in fs/eventpoll.c that were nowhere documented and had to
-  be reverse-engineered from the code: the lifetime relationships
-  between struct eventpoll, struct epitem, and struct file, the three
-  removal paths coordinating via epi_fget() pins and ep->mtx, the
-  ovflist sentinel-encoded scan state machine, the POLLFREE
-  release/acquire handshake, and the loop / path check globals
-  serialized by epnested_mutex. The fixes were correct but the next
-  person to touch this code would hit the same learning curve.
+* Skip the memset of the iomap in iomap_iter() once the iteration is
+  done. In high-IOPS scenarios (4k randread NVMe polling via io_uring)
+  the pointless memset wasted memory write bandwidth; this improves
+  IOPS by about 5% on ext4 and xfs.
 
-  This series codifies those invariants in source and tightens the
-  surrounding structure. No functional changes intended:
+* Add balance_dirty_pages_ratelimited() to iomap_zero_iter(), aligning
+  it with iomap_write_iter(). This prepares for the exFAT iomap
+  conversion where zeroing beyond valid_size can trigger large-scale
+  zeroing operations that caused memory pressure without throttling.
 
-  - Documentation: a top-of-file overview with field-protection
-    tables for struct eventpoll and struct epitem, a section
-    gathering the loop-check / path-check globals next to their
-    declarations, labelled comments on the two sides of the POLLFREE
-    handshake, refreshed comments on epi_fget() and ep_remove_file(),
-    and a docblock on ep_clear_and_put() that names its two-pass
-    structure as load-bearing.
+* Remove the over-strict inline data boundary check. If a filesystem
+  provides a valid inline_data pointer and length there is no reason
+  to require that inline data must not cross a page boundary.
 
-  - Mechanical renames: ep_refcount_dec_and_test() -> ep_put() to
-    pair with ep_get(), attach_epitem() -> ep_attach_file() for
-    ep_remove_file() symmetry, the unused depth argument dropped from
-    epoll_mutex_lock(), and the CONFIG_KCMP block relocated next to
-    CONFIG_COMPAT so the hot-path code is contiguous.
+* Don't make REQ_POLLED imply REQ_NOWAIT, matching the earlier
+  equivalent block layer fix: there are valid cases to poll for I/O
+  completion without REQ_NOWAIT, and REQ_NOWAIT for file system writes
+  is currently not supported as writes aren't idempotent.
 
-  - Helper extraction: ep_insert() splits into ep_alloc_epitem() and
-    ep_register_epitem(), ep_clear_and_put()'s two passes become
-    ep_drain_pollwaits() and ep_drain_tree() so the ordering
-    invariant is enforced by the call sequence rather than
-    convention, the per-event delivery loop body becomes
-    ep_deliver_event(), and the ep->mtx + epnested_mutex acquisition
-    dance lifts out of do_epoll_ctl() into ep_ctl_lock() /
-    ep_ctl_unlock().
-
-  - Sentinel and predicate cleanup: the EP_UNACTIVE_PTR overload is
-    hidden behind named helpers (ep_is_scanning, epi_on_ovflist,
-    ...), epi->next is renamed to epi->ovflist_next, and the boolean
-    predicates return bool.
-
-  - The per-CTL_ADD scratch state (tfile_check_list, path_count[],
-    inserting_into) moves from file-scope globals into a
-    stack-allocated struct ep_ctl_ctx plumbed through the loop / path
-    check chain.
-
-  Two follow-up fixes are included: missing kernel-doc for the new
-  @ctx parameters, and restoring the EP_UNACTIVE_PTR sentinel for
-  ctx->tfile_check_list - replacing it with NULL termination broke
-  ep_remove_file()'s "never listed" check for the list tail, causing
-  a syzbot-reported use-after-free.
-
-* io_uring related epoll cleanups
-
-  One of the nastier things about epoll is how it allows nesting
-  contexts inside each other, leading to the necessity of loop
-  detection and the issues that have come with that. There is no
-  reason to support nesting on the io_uring side, so contain the
-  damage and disallow nested contexts from there: eventpoll gains a
-  file based control interface and struct epoll_filefd is renamed to
-  epoll_key. The io_uring side proper goes on top of this through the
-  block tree.
-
-* Fix epoll_wait() reporting false negatives
-
-  ep_events_available() checks ep->rdllist and ep_is_scanning()
-  without a lock and can race with a concurrent scan such that
-  neither check sees the events, causing epoll_wait() with a zero
-  timeout to wrongly report no events even though events are
-  available. A sequence lock closes the race and a reproducer is
-  added to the eventpoll selftests.
+* Introduce IOMAP_F_ZERO_TAIL for filesystems that maintain a separate
+  valid data length (exFAT, NTFS). For a write starting at or beyond
+  valid_size, __iomap_write_begin() now zeroes only the tail portion
+  of the block while preserving valid data before it, instead of
+  leaving stale data in the page cache. The flag is also added to the
+  iomap trace event strings.
 
 /* Testing */
 
@@ -144,66 +102,112 @@ No known conflicts.
 Merge conflicts with other trees
 ================================
 
+The exfat tree carries the same "iomap: introduce IOMAP_F_ZERO_TAIL
+flag" patch as this tree as a dependency for the exFAT iomap
+conversion, so the merge gets a conflict in include/linux/iomap.h
+together with the IOMAP_F_FSVERITY additions from this tree. Reported
+in [1]. It can be resolved as follows:
+
+[1]: https://lore.kernel.org/linux-next/aiKrepiU3-L6KRqJ@sirena.org.uk
+
+diff --combined include/linux/iomap.h
+index cea6bbc97b6ef,3582ed1fe2361..0000000000000
+--- a/include/linux/iomap.h
++++ b/include/linux/iomap.h
+@@@ -91,6 -91,14 +91,14 @@@ struct vm_fault
+  #endif /* CONFIG_BLK_DEV_INTEGRITY */
+  #define IOMAP_F_ZERO_TAIL	(1U << 10)
+
++ /*
++  * Indicates reads and writes of fsverity metadata.
++  *
++  * Fsverity metadata is stored after the regular file data and thus beyond
++  * i_size.
++  */
++ #define IOMAP_F_FSVERITY	(1U << 11)
++
+  /*
+   * Flag reserved for file system specific usage
+   */
+@@@ -345,6 -353,9 +353,9 @@@ static inline bool iomap_want_unshare_i
+  ssize_t iomap_file_buffered_write(struct kiocb *iocb, struct iov_iter *from,
+  		const struct iomap_ops *ops,
+  		const struct iomap_write_ops *write_ops, void *private);
++ int iomap_fsverity_write(struct file *file, loff_t pos, size_t length,
++ 		const void *buf, const struct iomap_ops *ops,
++ 		const struct iomap_write_ops *write_ops);
+  void iomap_read_folio(const struct iomap_ops *ops,
+  		struct iomap_read_folio_ctx *ctx, void *private);
+  void iomap_readahead(const struct iomap_ops *ops,
+@@@ -421,6 -432,7 +432,7 @@@ struct iomap_ioend
+  	loff_t			io_offset;	/* offset in the file */
+  	sector_t		io_sector;	/* start sector of ioend */
+  	void			*io_private;	/* file system private data */
++ 	struct fsverity_info	*io_vi;		/* fsverity info */
+  	struct bio		io_bio;		/* MUST BE LAST! */
+  };
+
+@@@ -495,6 -507,7 +507,7 @@@ struct iomap_read_folio_ctx
+  	struct readahead_control *rac;
+  	void			*read_ctx;
+  	loff_t			read_ctx_file_offset;
++ 	struct fsverity_info	*vi;
+  };
+
 The following changes since commit 254f49634ee16a731174d2ae34bc50bd5f45e731:
 
   Linux 7.1-rc1 (2026-04-26 14:19:00 -0700)
 
 are available in the Git repository at:
 
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.2-rc1.eventpoll
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.2-rc1.iomap
 
-for you to fetch changes up to a1e9718b406bc4e6d0c63c7b999d06febbdc4091:
+for you to fetch changes up to b7bae6880e8de2a5f693c18d87ad5cc26f157eb2:
 
-  eventpoll: restore EP_UNACTIVE_PTR sentinel for ctx->tfile_check_list (2026-06-04 13:53:50 +0200)
+  iomap: Add IOMAP_F_ZERO_TAIL flag to trace event strings (2026-06-05 13:36:42 +0200)
 
 ----------------------------------------------------------------
-vfs-7.2-rc1.eventpoll
+vfs-7.2-rc1.iomap
 
-Please consider pulling these changes from the signed vfs-7.2-rc1.eventpoll tag.
+Please consider pulling these changes from the signed vfs-7.2-rc1.iomap tag.
 
 Thanks!
 Christian
 
 ----------------------------------------------------------------
-Christian Brauner (20):
-      eventpoll: expand top-of-file overview / locking doc
-      eventpoll: document loop-check / path-check globals
-      eventpoll: clarify POLLFREE handshake comments
-      eventpoll: refresh epi_fget() / ep_remove_file() comments
-      eventpoll: document ep_clear_and_put() two-pass pattern
-      eventpoll: rename ep_refcount_dec_and_test() to ep_put()
-      eventpoll: drop unused depth argument from epoll_mutex_lock()
-      eventpoll: rename attach_epitem() to ep_attach_file()
-      eventpoll: relocate KCMP helpers near compat syscalls
-      eventpoll: split ep_insert() into alloc + register stages
-      eventpoll: split ep_clear_and_put() into drain helpers
-      eventpoll: extract ep_deliver_event() from ep_send_events()
-      eventpoll: extract lock dance from do_epoll_ctl() into ep_ctl_lock()
-      eventpoll: wrap EP_UNACTIVE_PTR in typed sentinel helpers
-      eventpoll: rename epi->next and txlist for clarity
-      eventpoll: use bool for predicate helpers
-      eventpoll: hoist CTL_ADD scratch state into struct ep_ctl_ctx
-      Merge patch series "eventpoll: clarity refactor"
-      Merge patch series "io_uring related epoll cleanups"
-      Merge patch series "eventpoll: Fix epoll_wait() report false negative"
+Andrey Albershteyn (4):
+      fsverity: generate and store zero-block hash
+      iomap: introduce IOMAP_F_FSVERITY and teach writeback to handle fsverity
+      iomap: teach iomap to read files with fsverity
+      iomap: introduce iomap_fsverity_write() for writing fsverity metadata
 
-Jens Axboe (4):
-      eventpoll: pass struct epoll_filefd through ep_find() and ep_insert()
-      eventpoll: export is_file_epoll()
-      eventpoll: add file based control interface
-      eventpoll: rename struct epoll_filefd to epoll_key
+Chi Zhiling (1):
+      iomap: add dirty page control to iomap_zero_iter
 
-Nam Cao (2):
-      selftests/eventpoll: Add test for multiple waiters
-      eventpoll: Fix epoll_wait() report false negative
+Christian Brauner (1):
+      Merge patch series "vfs infrastructure for fs-verity support for XFS with post EOF merkle tree"
 
-Randy Dunlap (1):
-      eventpoll: add missing kernel-doc for @ctx function parameters
+Christoph Hellwig (1):
+      iomap: don't make REQ_POLLED imply REQ_NOWAIT
 
-Zhan Wei (1):
-      eventpoll: restore EP_UNACTIVE_PTR sentinel for ctx->tfile_check_list
+Fengnan Chang (1):
+      iomap: avoid memset iomap when iter is done
 
- fs/eventpoll.c                                     | 1275 +++++++++++++-------
- include/linux/eventpoll.h                          |    8 +
- .../filesystems/epoll/epoll_wakeup_test.c          |   45 +
- 3 files changed, 886 insertions(+), 442 deletions(-)
+Namjae Jeon (3):
+      iomap: remove over-strict inline data boundary check
+      iomap: introduce IOMAP_F_ZERO_TAIL flag
+      iomap: Add IOMAP_F_ZERO_TAIL flag to trace event strings
+
+ fs/iomap/buffered-io.c       | 116 ++++++++++++++++++++++++++++++++++++++-----
+ fs/iomap/direct-io.c         |   5 +-
+ fs/iomap/ioend.c             |   1 +
+ fs/iomap/iter.c              |  12 ++---
+ fs/iomap/trace.h             |   4 +-
+ fs/verity/fsverity_private.h |   3 ++
+ fs/verity/measure.c          |   4 +-
+ fs/verity/open.c             |   3 ++
+ fs/verity/pagecache.c        |  22 ++++++++
+ include/linux/bio.h          |  14 ------
+ include/linux/fsverity.h     |   8 +++
+ include/linux/iomap.h        |  27 ++++++----
+ 12 files changed, 170 insertions(+), 49 deletions(-)
