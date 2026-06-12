@@ -1,144 +1,71 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE8B3939D3
-	for <linux-fsdevel@vger.kernel.org>; Fri, 12 Jun 2026 12:10:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D962E370D5A;
+	Fri, 12 Jun 2026 12:19:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781266255; cv=none; b=K58qH3dXwf6riXgznLW/PMlMjmHu/IgIeu3odhKjSuewGB3xEzL3t04BmrYyPaKGQICZTlOPOUw8b9IPa1iTL8WXXQHrgbeuf64jzBndLTjPz7YEYRmVhoszWwdNT/ItKRDPk2vQQ/63tkCQffJJMDtInsg4nWeg/bu/3oHlq68=
+	t=1781266746; cv=none; b=nEYomwO3rqcCMVpAcCdGcGfMRdxctO01n4eUS1Acv1hWEP/ajL2AigVFl+F7cCGU8HgwD7iDutz5FROg/1EQ5JmMejizwlp2R67eVAvr8YuY5Sz6mf/DY97dUHQ8MXO+1wU++QGz9Ru7a3ij0oo+q6Q4UJPCF6OKxO6435o0TsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781266255; c=relaxed/simple;
-	bh=HZ9Ks0XPk0YTR1RMBY9S7/jI8tTrBBoWbjsfOfflUkk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=R65BUbmwM5x43pYoXWx58VQHnpZlUJGPUN23HneLFiRkw9pDy8kMF1vfoVrDg2p3RIzpbTWDadLiXtiLL3gPnPtSeLBCHS1kW44JHTuTMOaY8Sbfs9qGNLFWhqADFWxP3Xd5hke8RL7JlMRCIDmvJBvSgrU7uAwcTRLr76xM4Zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TUf2NX/d; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1781266746; c=relaxed/simple;
+	bh=1l0rFnrX25bcDADvh/n7RyDXM2YgvNap+9EAAx8Lnek=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VyoHAv+F1JvxawQ9YTF79fLKKaW5jUvQURYOTmFNif5j/NDfMzj4PBmnoKA/shPUrrURLceTZEjIx05iUZ2w1ecKE1EJKMtRXhCN5NEdZic1sYMwItXVQA56fDe1yDQkb76wtkSMOSQaKU4yuAdZdgk9xstvktNKQlZMTC9cEfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gsDTO58D; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TUf2NX/d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781266253;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=bAG/aaleL+KGNyeyu+ILijGdPmXoI66HYof8HAvsvrY=;
-	b=TUf2NX/dH0A2qlAmsVR3POew2TeyrpedRB57yNnrAKObnVYKU7Rp/PkHYdhAKADbIN05Yd
-	vMrJ5ySFJSYKYGquasO0zYdlrWzry9GEdof88S2SuR2FEdSoeZXyjHr6ZI3Embc8QScHFM
-	L8uYAxpeYDbDd/68M8/pnAV8p0IE3AA=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-5-3v5IX6EUPKqTgzN8ju9jJw-1; Fri,
- 12 Jun 2026 08:10:50 -0400
-X-MC-Unique: 3v5IX6EUPKqTgzN8ju9jJw-1
-X-Mimecast-MFC-AGG-ID: 3v5IX6EUPKqTgzN8ju9jJw_1781266249
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2CFA21800A7B;
-	Fri, 12 Jun 2026 12:10:49 +0000 (UTC)
-Received: from bfoster.redhat.com (unknown [10.22.80.93])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4E1E33008B34;
-	Fri, 12 Jun 2026 12:10:48 +0000 (UTC)
-From: Brian Foster <bfoster@redhat.com>
-To: stable@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	Gregg Leventhal <gleventhal@janestreet.com>,
-	Eric Hagberg <ehagberg@janestreet.com>
-Subject: [PATCH 6.12.y] iomap: don't revert iov_iter on partially completed buffered writes
-Date: Fri, 12 Jun 2026 08:10:47 -0400
-Message-ID: <20260612121047.397754-1-bfoster@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gsDTO58D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97C3A1F00A3A;
+	Fri, 12 Jun 2026 12:19:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781266745;
+	bh=vYtOrK4Dq5zpikk3Pl2z6fn8G44xM4GUjAwqmUordCw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=gsDTO58DU87H5WHkJ9FoT+wX00LrkGXxk9DoEaAyu/VRjyDm+BV+EURNQfgLQmeAQ
+	 dwNJfjTAFztIf4sbCFgmovQP7WSseN5HOBRA9qg2qaI05MORk7ZnCmm2VTaCJnuu1m
+	 bzof0i3eByH3T2eBLmnv9KI6F7ygHzrV13C53j+2MRsDIcMKvGSSAG0EZit9DKmMdn
+	 e3rVSF8TGrTQVT+1yG6P4LsaErI7doknqKPS4kbHMBD9m7QFr74SIdPd+9xbO96ozi
+	 623Ncg0KemwHgPAhmUXy/BYegOumfTuOzR5FOdWveO1CHVSLi1n2J9MwioTavVbrAU
+	 2OKiVTtY1v04w==
+Date: Fri, 12 Jun 2026 14:19:00 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Jan Kara <jack@suse.cz>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Steve French <sfrench@samba.org>, 
+	Steve French <smfrench@gmail.com>, Al Viro <viro@zeniv.linux.org.uk>, NeilBrown <neil@brown.name>, 
+	Jeff Layton <jlayton@kernel.org>, linux-cifs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 0/1] vfs: pass S_IFDIR mode to vfs_prepare_mode()
+Message-ID: <20260612-sturz-infizieren-heckscheibe-76f3ed250ea8@brauner>
+References: <20260611145733.43776-1-jkoolstra@xs4all.nl>
+ <7iocwlr7jg2jiyx53q7lxaccrybu6fpv6ch36u64igdmddafdk@3ejeqvr4e7rh>
+ <987538907.1434294.1781209240897@kpc.webmail.kpnmail.nl>
+ <vt6zmgnwz3n5jc3opm5i3bckkocfmzcysrbivbin52nudayus5@5stfgorwnob7>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <vt6zmgnwz3n5jc3opm5i3bckkocfmzcysrbivbin52nudayus5@5stfgorwnob7>
 
-Gregg reports that the iomap retry behavior for nonblocking (nowait)
-append writes is broken. The problem occurs when an append write is
-first submitted in non-blocking mode (i.e. via io_uring), partially
-completes before hitting -EAGAIN, and then is resubmitted from
-blocking context.
+On Fri, Jun 12, 2026 at 12:33:53PM +0200, Jan Kara wrote:
+> On Thu 11-06-26 22:20:40, Jori Koolstra wrote:
+> > Hi Jan,
+> > 
+> > > Op 11-06-2026 17:33 CEST schreef Jan Kara <jack@suse.cz>:
+> > > 
+> > > For the filesystems I know this looks sound. Thanks for the cleanup. But
+> > > this series should then follow with the removal of now-pointless "|
+> > > S_IFDIR" statements.
+> > > 
+> > 
+> > Right, perhaps it should. But wouldn't that be too much churn? I know Al can
+> > really be on the brake sometimes with regards to that. But it isn't a lot of
+> > effort, so I am fine with it.
+> 
+> I agree it will be more churn but leaving the now-pointless | S_IFDIR in
+> the filesystems is confusing for code readers which isn't good either. So
+> at least for filesystems I maintain I would like that cleanup to be done.
 
-The specific problem is that at least one iteration of the loop in
-iomap_write_iter() completes in non-blocking context and thus has
-bumped i_size. The next iteration hits -EAGAIN, reverts the iov_iter
-and returns. io_uring retries the entire append write from blocking
-context, but since i_size has already been increased, the data that
-was partially written on the first attempt is rewritten at the new
-i_size. This is essentially an intra-write data corruption since the
-data written to the file does not reflect the write from userspace.
-
-This problem is already fixed on master as of commit 1a1a3b574b97
-("iomap: advance the iter directly on buffered writes"). That commit
-was primarily intended to clean up iomap iter state tracking, but it
-also happened to remove the iov_iter revert and thus accidentally
-fix this problem as well. Without the revert, iomap will commit
-partial progress internally and loop once more before it more than
-likely hits -EAGAIN and returns partial progress consistent with the
-inode updates. This means the blocking retry from io_uring will pick
-up where the first attempt left off at the current i_size and
-perform the remainder of the write correctly.
-
-Cc: <stable@vger.kernel.org>
-Fixes: 18e419f6e80a ("iomap: Return -EAGAIN from iomap_write_iter()")
-Reported-by: Gregg Leventhal <gleventhal@janestreet.com>
-Reported-by: Eric Hagberg <ehagberg@janestreet.com>
-Signed-off-by: Brian Foster <bfoster@redhat.com>
----
-
-Hi all,
-
-This relates to the discussion here[1]. Refer to the link for further
-details and the custom reproducer. Since this is a stable-only patch,
-I'd like to see at least one ack if possible from an iomap developer.
-
-Note that this patch introduces an extra iomap iteration in the write
-iter path before an -EAGAIN will return, but I went this route because
-this is current upstream behavior and I didn't want to introduce novel
-behavior in -stable, as trivial as it might be. This was initially
-developed as a custom/selective backport of 1a1a3b574b97, but as it
-turns out this is also effectively a revert of commit 18e419f6e80a. So
-FWIW, this is somewhat historical behavior as well.
-
-I plan to float a patch upstream to fix that loop wart soon. That would
-seem overkill to fix in stable to me, but if it does prove necessary we
-can revisit something like the custom version posted in [1] as a
-stable-worthy variant. I'd just prefer to only do that if/after that
-change proves acceptable upstream.
-
-Finally, note that I'm not intimately familiar with -stable process so
-I'm just sending a 6.12.y version here. Earlier branches can either also
-include this, revert 18e419f6e80a directly, or I can post targeted
-patches if needed. Thoughts, reviews, flames appreciated.
-
-Brian
-
-[1] https://lore.kernel.org/linux-fsdevel/CAFN_u7FrgM4Dzie2jjkLwWV8P0dvUG_Wwy3Q9B3-2HnnWiDu8w@mail.gmail.com/
-
- fs/iomap/buffered-io.c | 4 ----
- 1 file changed, 4 deletions(-)
-
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index 0178292c1864..5f885286b2f4 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -1037,10 +1037,6 @@ static loff_t iomap_write_iter(struct iomap_iter *iter, struct iov_iter *i)
- 		}
- 	} while (iov_iter_count(i) && length);
- 
--	if (status == -EAGAIN) {
--		iov_iter_revert(i, total_written);
--		return -EAGAIN;
--	}
- 	return total_written ? total_written : status;
- }
- 
--- 
-2.54.0
-
+Jan is (as usual) right.
