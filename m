@@ -1,77 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C34A38D401;
-	Fri, 12 Jun 2026 12:27:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817BA3EEAEB;
+	Fri, 12 Jun 2026 13:23:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781267221; cv=none; b=L4AxJJnUkZ+Ux2LoLkfdTz1Lu/bb8UphmTs0eiA7hNJGdQMxF2z0M6u1mXZmMYuedTbqE/4F5BUL7c3nKsA6cFJYdxIeq10vy6MbZn+nPByV7FRSo2A0JHqdTP37jUgJronKilhpNCaIjdCfDc+YGQY6fJUtvE0sK64EQ5N0etY=
+	t=1781270624; cv=none; b=jutnBgo/nzxodid9PQFw2mCnR1XPHL9047cuunvbqSBPGXJvIT2QOJs7J2xn0acbKS0I2Rf381Itj5MpBXqq81nZtUXSHlgir8mgz1s34S9wAVFeFGTtd1tUE6C0yZSfWVHXapBh7gApkmtqzra8YtvsJUnMAG/ex0WviRbp+Ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781267221; c=relaxed/simple;
-	bh=aRC3JJXESXZKeSSBw7RplMp1BkyIkFyuJDOxYsM8XvM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ot7HmPswFj4jlq6rEThtr9RstcROXBtrPqDXqW2zS/9NmRLyWisQisRUWnx6/MgOU6gqt20WBf+OPtLfI1q+XkJrcLNoPlK2CQCYJk5oG22udpAcRGdZVVvWVfaaPWR6IHTMhhIzX5zDaWjWThq/jpgg9xr4YW5psdLQLlfpESU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OzCPYYBl; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781270624; c=relaxed/simple;
+	bh=BxRUG9yCparzdVEFNUqMGYsgRIhB/MMDsOFELKdEY5s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JZikm1nv8bNMJ1UKwvxm9ZLlyK1KmFbnp6/YSehDqLJSmUaKj627Ory8wy+qhHkGkMTGi3a/q7M2wh3FFseW3MIalCAu+5eapIW65Ew1yUmgiG21zW8CefcJvKhedfKjhb9ETrDzs6DikD1EUEd6Dk5ighRU5l4KS6FDbRDSt1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RWBSe3uU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OzCPYYBl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3A111F000E9;
-	Fri, 12 Jun 2026 12:26:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RWBSe3uU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA7DF1F000E9;
+	Fri, 12 Jun 2026 13:23:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781267220;
-	bh=OM7iP170cSRyHK7jAhCzzj1Cm0vV8KdLCpu9RATcPRo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=OzCPYYBl1bSIkRJm/HUTLaol9KwmmNZKpR9tnwP/cDD3T5i/tT7Zyomz262Ui+dMW
-	 KGPl0Vu8NjoVIHYzC1mopFLNd4cb0LctqgbaQRwiHZI3jkfy9edDHJ8lc99dNJas3W
-	 tXW5C29ES0hbTaKshDZqHk9gHX1nvR08ApA8SjAXQ2BmQyvmj+fKeO+JYTaERdzfIS
-	 4sMQ8aPGTzAo+hdP/KNln/bkKSSQoS4yzuMYx1WfccmrA2q6oaKYzKhJtvHRhh6iZw
-	 yUEpXc9UticbOmds2/Yf18ON7bESdYVgZXZxUaDYMb5MyUqAgJL5j2Fz+PXBKbobi6
-	 sglvIGGqAhKOw==
-From: Christian Brauner <brauner@kernel.org>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	viro@zeniv.linux.org.uk,
-	jack@suse.cz,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	adobriyan@gmail.com,
-	cuiyunhui@bytedance.com
-Subject: Re: [PATCH] fs: fix ups and tidy ups to /proc/filesystems caching
-Date: Fri, 12 Jun 2026 14:26:53 +0200
-Message-ID: <20260612-abgleichen-mickrig-couch-7bd1b5a1e634@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260610143954.34185-1-mjguzik@gmail.com>
-References: <20260610143954.34185-1-mjguzik@gmail.com>
+	s=k20260515; t=1781270623;
+	bh=Q1S8kYZanYqjeMjwN9+vX2OdI/tveSbKG5tSQXbtX3Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RWBSe3uUTYDEnYDY6VMRpKsIV02r4tVXyXvdQlFjfnzn2UZTmpMziQyG/Pf6zr8ah
+	 G9EK21TGC1CPNPWAVv4S/PjOW6cyznrGCkrEMHbkPj26M7o04lYHhCYqOUX38yODmN
+	 gLIzuJwOANFr7dXKxhxOtFHhisXef9a1n64ltmdhTEENzR9anDF97YsHliSJttEVra
+	 z5yo9FY0AKI4EjWa/ZU+CwPDqw0VGZRwW1+g6/dflG3ktYyUyOVkBq9ZICYRGI8e6U
+	 ma1bchx6cRYkbEk9O2C8CHiDWhsPO15n7Y6mhbqflH0jh+OaU43rcDv8jD+gNrzRXo
+	 v+hdrpt8CzEWw==
+Date: Fri, 12 Jun 2026 15:23:37 +0200
+From: Carlos Maiolino <cem@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, brauner@kernel.org, 
+	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, Hannes Reinecke <hare@suse.de>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH] iomap: enforce DIO alignment check in iomap
+Message-ID: <aiwIGv4xWH-bfDfT@nidhogg.toxiclabs.cc>
+References: <20260610145218.141369-1-cem@kernel.org>
+ <20260611055744.GA18538@lst.de>
+ <aiqBvF93P4NjfaDR@nidhogg.toxiclabs.cc>
+ <aiqwy5DfHI79KXuZ@kbusch-mbp>
+ <20260611133833.GA14645@lst.de>
+ <airX6BmMQ14Rvjcb@nidhogg.toxiclabs.cc>
+ <20260612052831.GA9010@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1048; i=brauner@kernel.org; h=from:subject:message-id; bh=aRC3JJXESXZKeSSBw7RplMp1BkyIkFyuJDOxYsM8XvM=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRp/+br3nX6evWBd2z+tnZzGgw7Z3w+Vnbo/rkfUy/3y 7tXsUzN7ChlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjIBhWG/4kf3A1vLHNwdZP6 27TBo+ux18P1U4OkcnhexspODXhfsZDhn0GpMuc7V+Ydc7IYDjeGy6hJFDt869/52Nbjxb4r6Tf 38AEA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260612052831.GA9010@lst.de>
 
-On Wed, 10 Jun 2026 16:39:54 +0200, Mateusz Guzik wrote:
-> - add missing unlocks in some corner cases
-> - whitespace touch ups
-> - s/smp_store_release/rcu_assign_pointer/ [nop, the macro expands to the same thing]
-> - mark file_systems_string as __read_mostly
+On Fri, Jun 12, 2026 at 07:28:31AM +0200, Christoph Hellwig wrote:
+> On Thu, Jun 11, 2026 at 05:47:07PM +0200, Carlos Maiolino wrote:
+> > On Thu, Jun 11, 2026 at 03:38:33PM +0200, Christoph Hellwig wrote:
+> > > On Thu, Jun 11, 2026 at 06:57:47AM -0600, Keith Busch wrote:
+> > > > It's entirely possible a device supports byte aligned addresses. The
+> > > > block layer just doesn't let a driver report that. So either it really
+> > > > was successful because you found a bug that skips the alignment checks,
+> > > > or your device silently corrupted your payload.
+> > 
+> > I tried this on different hardware, I find it hard to say all those
+> > devices were corrupting the payload.
+> 
+> I think in the other thread we agreed that we are currently missing
+> the alignment check for fast-path bios not hitting the splitting code,
+> so maybe that is something you see.  Additionally we're missing the
+> checks for purely bio based drivers not calling the splitting helper
+> at all, but I don't think that applies here.
+> 
+> > > > Anyway, my earlier suggestion should work. Ming thinks it may go to far,
+> > > > though, in not taking the optimization when it was possible. So here's
+> > > > an alternative suggestion that should get things working as expected:
+> > > 
+> > > The fix below looks like it is addressing a real bug.  I'm not sure if
+> > > Carlos is hitting it, but we were missing the alignment checks for
+> > > single-bvec fast path bios so far indeed.
+> > 
+> > You left context out so I'm assuming by the fix you meant Keith's patch.
+> 
+> Yes.
 
-Applied to the vfs-7.2.procfs branch of the vfs/vfs.git tree.
-Patches in the vfs-7.2.procfs branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.2.procfs
-
-[1/1] fs: fix ups and tidy ups to /proc/filesystems caching
-      https://git.kernel.org/vfs/vfs/c/cf30ceccfaec
+The fix indeed seems to fix the behavior I'm seeing. Keith could you Cc
+me if you end up sending an official version?
