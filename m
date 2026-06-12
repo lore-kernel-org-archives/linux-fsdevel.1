@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8ED32572F;
-	Fri, 12 Jun 2026 15:11:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B50635E93C;
+	Fri, 12 Jun 2026 15:11:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781277099; cv=none; b=R/wnGda9OoF8L9ek4oev1nKNHEQhefNXAe4tCaVaaa6wOfRwRE7VAw361BwT0qB6Jgh3y2uazT+QOjAb7+Z41XZ7EoQ5omj06UX5HpLrHRmMrQCdcjXsPWts9zOdkQPBN5Y94twOjXxP+LoVVUGDI3/843m8iBGg+uQ/Y6vwT/g=
+	t=1781277119; cv=none; b=GZUX3esnu3+O4rzeF3kxJOAbXJ6lqQOt1WIT4wsWDIArw1HNSp/zqjUTZ37txQAry2+8Wuq60tMY03fnFiYOJEVFXyepv+CpBKA5MzpkQAvXXb44pvR2SiPXKfXDh3ir5ICgGZmg/kcHhsU+A6LodQAGJVSe29iUiWBTIjoCRwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781277099; c=relaxed/simple;
-	bh=Rh8ATzT+HiXY29qBzQCPjzEeXmS0oSdBhl80LRg0z4s=;
+	s=arc-20240116; t=1781277119; c=relaxed/simple;
+	bh=Ki3CJQiipXo8nU85yh5hTa/rmsRaVHA1d2qt6Ne4/bI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PKuLIcLLRpleEHN+iBeVqFA2OyjxIH1txywA4FB1tJyRNOTX5R23K5j5X6oAS4ZREz8BGN5sZPXH83Hrms8vSl2at1pmg/gRD0WWNRoqP0dlv+3g8PtBLgirs0L+TKWk6WigfQTh3SzQA7dNONjSA/knbFUT56hK/2UlDcN583g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dMkTGGMi; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=Kfv5R+zvrY4ux7XgpkYwzdxSwMczPtte+mVjfTkeXLj2JjnOpaVzF+QdNpoFkWGTFp6I8hsNFml2KOGuINzvzbt8hcRc0qWu/SivEvKEdBoun/X1IeOL270mSU49uibFIKvO/Le32Nvn3cczbeq35J+lslTSNkJnHDxOSCyv+H8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h32q2jgI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dMkTGGMi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF3F61F000E9;
-	Fri, 12 Jun 2026 15:11:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h32q2jgI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAA2A1F000E9;
+	Fri, 12 Jun 2026 15:11:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781277098;
-	bh=J6KZAVQ5vF6bxVzPg3JfUaHJF5T/ihsBEKEGBmXUilg=;
+	s=k20260515; t=1781277118;
+	bh=kqJoOOuKz7p1UAsfKwRHUgib9fSQ4s//TGZm/lCjg/s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=dMkTGGMimBjA21XCnA2vF72BkfP5EmLFDQXfX2Rf5kdVsd3PV4FG70GctOpW/qVxZ
-	 qOXihOrCBUviUGyOAL9LI80WQvCPVrv7n41JwfUPzr7KPp1P61T+CzySF1K70VeGkb
-	 CxAhGlT1qKwtc/MD18uRMEjWQ2gfslc4yLbBp1sLphHEZl3/027ghsnY6VeA4b4vpa
-	 n0zdE6lmd58Vx1Ve/zEsP1defS/TkHWOtm/0/gfEIBVq4ynoWIevm9Iv1F0a7YYgH4
-	 oAwHZqA6SckMdIvZsLoksxM0HTTcZ5We+JYsEBXIfkLMekZKzCLH/N2Ll6rnZm2eAO
-	 lS5XhcstYgntg==
+	b=h32q2jgIGaU1ZliShWw0p20FnDGZz9/uq8m05a4uCYD+SASHpAUdeMQzEdSXn0XJP
+	 4coLFn3Tv9zTa8V64K8flwfRPlc+tezT1INGA6Ztp3rxhFxj8tSZUVYIDw1EciEtO0
+	 BDYT6gExMOnPyzaSl7Npwbv7l1HCZkfk+7KKSc57lkmR9rTMaaXuXCFn45bCBhH0DS
+	 Su6qVzkk8eSxIn/ddcj4dIvyb5qZxX0GuBrRLy94JSdCBUy+R92mibXhLr+F1v4hxI
+	 Q39wRFP+W3dmN8FdMNcQQWt1rRsizAArO8yPv3uuq9H7tkSaFwteePq7B/4bsstFxM
+	 j7elpmvg75Bag==
 From: Christian Brauner <brauner@kernel.org>
 To: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [GIT PULL 01/16 for v7.2] vfs kfunc
-Date: Fri, 12 Jun 2026 17:11:28 +0200
-Message-ID: <20260612-vfs-kfunc-v72-64b151bcd92c@brauner>
+Subject: [GIT PULL 02/16 for v7.2] vfs exportfs
+Date: Fri, 12 Jun 2026 17:11:49 +0200
+Message-ID: <20260612-vfs-exportfs-v72-75b4494c2b8a@brauner>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260612-vfs-v72-20facee87e19@brauner>
 References: <20260612-vfs-v72-20facee87e19@brauner>
@@ -43,7 +43,7 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1758; i=brauner@kernel.org; h=from:subject:message-id; bh=Rh8ATzT+HiXY29qBzQCPjzEeXmS0oSdBhl80LRg0z4s=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTpKC4qvXstZ7aRTKkwr7Xc44l2yzMnJ//2m3xtzUqHn b8+Mr791VHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCR76cY/nD1MT286PWP5a3R 92rF1AZRzx/PQua4ftvPb/mGd0G+FT/D/xQnucmcm363BbU2tdaZFv5dJZ9iaqOkJ/LdIORLxeG /PAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2639; i=brauner@kernel.org; h=from:subject:message-id; bh=Ki3CJQiipXo8nU85yh5hTa/rmsRaVHA1d2qt6Ne4/bI=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTpKO5QcX05Y/snp/uP7t6VrUri7WJgMFxzP//eEgFNi Y1XlvwI7ChlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjImUJGhv3TxeruPw4tvlry q+6XmHjBgbgFanc7ls9ozNo5YdamenWG/17Jfg0i5d+s9nyNqr4Y+1n6vOKsIAa12NWvY3/bpfg fYgYA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
@@ -51,15 +51,17 @@ Hey Linus,
 
 /* Summary */
 
-This contains a fix for the bpf filesystem kfuncs.
+This cleans up the exportfs support for block-style layouts that
+provide direct block device access: the operations for layout-based
+block device access are split out of struct export_operations into a
+separate header, ->commit_blocks() no longer takes a struct iattr
+argument, and the way support for layout-based block device access is
+detected is reworked. nfsd's blocklayout code also stops honoring
+loca_time_modify. This is preparation for supporting export of more
+than a single device per file system.
 
-The bpf_set_dentry_xattr() and bpf_remove_dentry_xattr() kfuncs locked
-the inode of the supplied dentry without checking whether the dentry is
-negative. Passing a negative dentry (e.g., from security_inode_create)
-caused a NULL pointer dereference. Negative dentries now fail with
-EINVAL. The WARN_ON(!inode) in the bpf xattr permission helpers is
-dropped as well since it could be triggered the same way, amounting to
-a denial of service on systems with panic_on_warn enabled.
+Note that the nfsd tree is based on a merge of this branch so these
+changes may also reach you through the nfsd pull request.
 
 /* Testing */
 
@@ -84,23 +86,38 @@ The following changes since commit 254f49634ee16a731174d2ae34bc50bd5f45e731:
 
 are available in the Git repository at:
 
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.2-rc1.kfunc
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.2-rc1.exportfs
 
-for you to fetch changes up to 07410646f6ff1d23222f105ccab778957d401bbe:
+for you to fetch changes up to 79e33ddc62c03cce6c29f0792454e1d618228acf:
 
-  bpf: fix crash in bpf_[set|remove]_dentry_xattr for negative dentries (2026-05-11 11:23:00 +0200)
+  Merge patch series "cleanup block-style layouts exports" (2026-05-11 11:11:55 +0200)
 
 ----------------------------------------------------------------
-vfs-7.2-rc1.kfunc
+vfs-7.2-rc1.exportfs
 
-Please consider pulling these changes from the signed vfs-7.2-rc1.kfunc tag.
+Please consider pulling these changes from the signed vfs-7.2-rc1.exportfs tag.
 
 Thanks!
 Christian
 
 ----------------------------------------------------------------
-Matt Bobrowski (1):
-      bpf: fix crash in bpf_[set|remove]_dentry_xattr for negative dentries
+Christian Brauner (1):
+      Merge patch series "cleanup block-style layouts exports"
 
- fs/bpf_fs_kfuncs.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+Christoph Hellwig (4):
+      nfsd/blocklayout: always ignore loca_time_modify
+      exportfs: split out the ops for layout-based block device access
+      exportfs: don't pass struct iattr to ->commit_blocks
+      exportfs,nfsd: rework checking for layout-based block device access support
+
+ MAINTAINERS                    |  2 +-
+ fs/nfsd/blocklayout.c          | 37 ++++++++----------
+ fs/nfsd/export.c               |  3 +-
+ fs/nfsd/nfs4layouts.c          | 29 ++++----------
+ fs/xfs/xfs_export.c            |  4 +-
+ fs/xfs/xfs_pnfs.c              | 44 +++++++++++++++------
+ fs/xfs/xfs_pnfs.h              | 11 +++---
+ include/linux/exportfs.h       | 25 ++++--------
+ include/linux/exportfs_block.h | 88 ++++++++++++++++++++++++++++++++++++++++++
+ 9 files changed, 162 insertions(+), 81 deletions(-)
+ create mode 100644 include/linux/exportfs_block.h
