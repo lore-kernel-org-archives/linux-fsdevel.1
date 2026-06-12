@@ -1,71 +1,71 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35B03D8901
-	for <linux-fsdevel@vger.kernel.org>; Fri, 12 Jun 2026 07:34:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB383DD866
+	for <linux-fsdevel@vger.kernel.org>; Fri, 12 Jun 2026 07:34:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781249655; cv=none; b=NyHTtJvUdN3NLGQPCBYRgQq/2PbT7DIi+pI48Y/rMVYzf0grc7hG21sC6qqcmNz65FtyIzA1B9dUBrKj88fhduPk7KzbfweVqN5cMazVIXLC+iXzsQrR7hw68Gl4V5a4+NvFDeM/NveoN1n9TvQoOdeW3Fiw2bWQw45ZFPvZA8A=
+	t=1781249661; cv=none; b=NT8mY4JkGEbv81UntZBlFrxYFEcrRjHc3JdwJ7hsRbrbSvCsMgVb1MaIKu2jQmNdHe1XjGT9Yw6lDrOH3Mt+tzjI1rdrxL2oQcFIR9Zg5NJA8VHBn5xCLms1s5/fer8PWCpaqBBUpRTw4YO358c/95v2ULa5IhjcUYu1U+SMKd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781249655; c=relaxed/simple;
-	bh=lMfBXZOx888HNjdVaIr6sm8yKaI4cZMkgmXwGpia8QU=;
+	s=arc-20240116; t=1781249661; c=relaxed/simple;
+	bh=mt+JmKw3sU5g8dP87l80+wAa37YGSjw/oUi59DYrpr8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ieyTXN+PgiiQmRhyQoj7xC+zvBD6a/7lFBcrciofVJp/KnKxovr5dx2TKbTvHftf90gbqpejnjPdWwYPlSO11rNNvE81yzSVQwBBz7q88lHIUuJrba3X7SaNwAdYL1x45vYCqt44AH+SqwHphHhZx62R9KSdAmLGQ2XzMTgpRRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sg0KO2Ji; arc=none smtp.client-ip=209.85.210.173
+	 MIME-Version:Content-Type; b=tjc6UGH0tqif5Xt8UvF/BIbAHy9C7f89UbrJKN9cG3RnZVicNn4frXUewi5ORw8AEIplYrkn61wsMjtTdISzzKr/B/giIktBzZTy3KWrtXnxyc68DobX7yO7DDkz4plaVpSZmjV2O2PTYFzuyBqHpsEyF9SUsh9SvosEa83m45k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MZ7/Ueig; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sg0KO2Ji"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-842273a2c4dso507437b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 12 Jun 2026 00:34:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MZ7/Ueig"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-842358aaf36so301726b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 12 Jun 2026 00:34:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781249653; x=1781854453; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781249658; x=1781854458; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6tTyv3XOa7wuRYA2g9WoqmFMU9/UlG5ArXQRxsfOyAU=;
-        b=Sg0KO2Jix3/nzY7bquH2veN1G16oGTkesC0M+/Jx9z5owTQoS0133RXSWvDbm4Uk+T
-         4cLxtx+w0Yrg6mqhv/HJLDlGEDdkGMzexmoffVc5/kaK7wphIT6b8ZhyyEdbVp+pKRf8
-         s2RJQyHL9MD5qd5nRQn6OK8kPWBMLH9wrzrkI7pKUmaAV1yb7gfNL57gbmqNY1+hMZ1p
-         PqHKhcYN4p9iNH9/kdlRKU0qBos+2A/pizHTNPiC6ZSpnz2z+hhEWyvZkay7A713bi0r
-         tdGmpymCR+DHv1vgQOzmWnrtbDF8hoJ0LHze/+Pfj12sQZBhEK2sNkZekxP/1GzrDagd
-         YqKQ==
+        bh=05bT4hFs2JyxZMQsak70tJ/pABYR3hkaKhUdW0lLXv0=;
+        b=MZ7/UeigfwvO//6WvchKTf7/4O28WOYGTQ51eW+07Uz4RIOW9Z5hPXxuug4JohzOvl
+         vSxpdekNO5j/ePEDBj8E7fynIuveUfsICCusom4HgHWkIOBXMZ0RO+97EpdM+mRPpD8z
+         1NV6CRQuuq4fb0nmVEd3/YJtnxmyzrcy+A+glHHGUg1ukd2kMMD2Yd3wmUFjUz9jqFiG
+         /TBYEdLSAKsY/moW8vBo4ma4k/74MPhMn3EevUQRpED2/y3aDZTKoNZJNBv3ujrHCTeF
+         KyP0wlpJ5bpzw2D2DSmdpNrkt/wLt53+BoDdpT2B3p85v5gposK8y/3U2hzXEMMgNUeO
+         MG/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781249653; x=1781854453;
+        d=1e100.net; s=20251104; t=1781249658; x=1781854458;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=6tTyv3XOa7wuRYA2g9WoqmFMU9/UlG5ArXQRxsfOyAU=;
-        b=PTdhYxi6749gu4JupaogA3pN0h6sHO3m1ryM/0aXrY/SspZnS5OZz6iu0Kxr+dZSgg
-         z0+ZMhJaGBebaapEwhoAqb1xCoxnZviTW7HLOwNBWFQcUBF7/0Fm1rpMgg4Ia6crwov8
-         nSdRikanYsOFU/Dwol40lQG4gpKR10RZxl7zF2Q4RXFjaoCJjZwHKepK5uIaqWQk0dm+
-         gYwdKVs4uQ4DvVoRuIGXD3CiQ1iHLiHmMP+Ztlszy6a/fAEuUJppUd/3HGm9CakBufKB
-         hqWbJhhBWWYT+hDKNe6ZGam13hFXpTv7ij9QzqWM534oE2/Xp2TfhMMCbqde1hAKtnW9
-         ovcA==
-X-Forwarded-Encrypted: i=1; AFNElJ8GIdy7ioqAAcHoRjz3ZEAT6Kbfay32wB1NUsVQGXNrTFMhYXQjKFOohFRj8EhBgknfCTnau7FvFM20nP00@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFCdwYZdTL/uXxDmA1F0kMZRJ0H9DgrmVahQY8vF40pDFn55Bs
-	y05ozJ0iBH0dzOV2oGtWsjmknjQv9PADY6GFjJYNTGO6sOWZV40jDGS14ITeqw==
-X-Gm-Gg: Acq92OGL7fm/jWD6lBli9JB2ECQGb0bJuOO+PeP0lCDUuPLPphaQ7dR4/j211va+UQX
-	PLeZbEU0oBdmrAghOltVIfHQnDK6jA20SEzuvUZi3mI76Fvw/GUS/8lazPj9afDhsR/bztAOSvp
-	PVqaQts1iCD4gzuihOGtMOXnATKgzeQj0v17OKTfJthOuw331hvspEpicV3Fs4ORhd85ctfqESw
-	0hImYoLMHTUyRyAWSUNLp4yPImUYXUC4pTdJgWGD6xMRYWauw6qCiXEWvyx/gMUIlTZuHpHHKXh
-	IBXSEhNogaZlhFSJ6wwxvClahQ8YbO72iO0hymw8YohQDuL+632X0NH2ubBR/NRv6rYo6M4xJSb
-	RSiJQNuJYpEd+KCC4t2Nc+ROBvrmG6q/AvOX8BsREMIbSqtjkFbNVZ+BlJJ+sT88izDp/1G36+j
-	EJ4XfPxo0RXNp2MexlVFbQZnh9LmeqDOBFhGCEqnbd
-X-Received: by 2002:a05:6a00:2447:b0:842:3801:47b with SMTP id d2e1a72fcca58-8434cc0d5e9mr1930312b3a.18.1781249653065;
-        Fri, 12 Jun 2026 00:34:13 -0700 (PDT)
+        bh=05bT4hFs2JyxZMQsak70tJ/pABYR3hkaKhUdW0lLXv0=;
+        b=iwiAzm85Oligq+FKtiW8JsqhZYuHIv9It7PjjeTy5GDsRIwjV5yZj6RBSpYcRp1lkF
+         +jV6z/yv8Z4mvZeYzs6kaE9Iovybxyh1Hj+E651392K+WFqa/UOehX9U4JWiitqomGTg
+         PZX33VFySRnceFi5tWLJipOE3WWcJxD5g7zEXl+g1BLiMmVSaHNP5CDD0XD2NijZNsCm
+         T33/mvjnWIIAuFjn1ADFRYr8BsduWNC3TL1QfC6GGG2X6Fv/UcdKYCAbMOMa5GvAxGps
+         ZffTaBn9BHMpfgb8DaYeC4Aaab2B9cpGWWn8DGaWysjmLox4cFEmfZwTiVIqeCZWxmKj
+         EFRA==
+X-Forwarded-Encrypted: i=1; AFNElJ9rsplfHpG5+TOmIl59W5ZEfOscnV86ItLPGSwtU4ksh4IZd0VsOh3I9WLY7oWaOvua608SFL+cYq4kcg/9@vger.kernel.org
+X-Gm-Message-State: AOJu0YylSM2iKxhDdCQn6wznu8iSe4MG5BKWzxNA1MDgF+LSKMvbxi8L
+	yQYwgrnXHcVzs5yjb9+izP3Io/8+/cZqzn0hoaWW+O8N6rvRiLlVMz6t
+X-Gm-Gg: Acq92OGnX2mDCorbtepLTvqE6F+Wlh0ZG+mgQRgQYIpoCZd8aOp7kb+bcWnIrM4Hd8T
+	RhUKX2ACqq2H2c26xG9XrseEJuJcK6bCo4haIE1nNmwARLkS4b7Pz/JJj//DjyLLnwQyPtwVFZp
+	Z3Yy2H0oIllnJKy0VkOquR8lAVIAblBDrq4Qr3i7LS4yA6Na1uHFtRwENJZxVgd4AcYefhW53jr
+	fEdb/d6UEj0As/mM6ryFulVNK3v800sohqJQSlXWq/46aLCwyWVbnoG8+BS7C4RcQv9JY+Sy2IO
+	49gZOrVv6a0KCSKbWf1iW62dBMyt6Lom6JNMpYsGeYAoIqs+rIZE9WoER/T39EM4WHju+gtOQN2
+	v0L47FFehrVoety710u7rmYPoMzU0N/tVa0cefEwZCG62yV8z0ZI1jaILeF+pn7G8HjK6Agasos
+	Ann16j1nJjFj1manMD/IMC+2XxQIxlJg==
+X-Received: by 2002:a05:6a00:2351:b0:842:5712:c2c2 with SMTP id d2e1a72fcca58-8434ce5eaf1mr1917706b3a.41.1781249658470;
+        Fri, 12 Jun 2026 00:34:18 -0700 (PDT)
 Received: from hyunchul-PC02.lge.net ([27.122.242.71])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434b05d7d7sm1374014b3a.60.2026.06.12.00.34.10
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434b05d7d7sm1374014b3a.60.2026.06.12.00.34.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 00:34:12 -0700 (PDT)
+        Fri, 12 Jun 2026 00:34:17 -0700 (PDT)
 From: Hyunchul Lee <hyc.lee@gmail.com>
 To: Namjae Jeon <linkinjeon@kernel.org>
 Cc: Hyunchul Lee <hyc.lee@gmail.com>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/7] ntfs: support following Windows native symlink with absolute paths
-Date: Fri, 12 Jun 2026 16:33:33 +0900
-Message-ID: <20260612-topic-symlink-v1-3-cc1ebf9528e1@gmail.com>
+Subject: [PATCH 4/7] ntfs: add native_symlink mount option
+Date: Fri, 12 Jun 2026 16:33:34 +0900
+Message-ID: <20260612-topic-symlink-v1-4-cc1ebf9528e1@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260612-topic-symlink-v1-0-cc1ebf9528e1@gmail.com>
 References: <20260612-topic-symlink-v1-0-cc1ebf9528e1@gmail.com>
@@ -77,395 +77,170 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=11667; i=hyc.lee@gmail.com;
- h=from:subject:message-id; bh=lMfBXZOx888HNjdVaIr6sm8yKaI4cZMkgmXwGpia8QU=;
- b=owEBbQKS/ZANAwAKATTyMPr3jkjTAcsmYgBqK7XujM7quaNjH3H183H8wqSN+2++471THiRic
- +Yn4efBfBaJAjMEAAEKAB0WIQTVhSnMU3bjbW4eb2I08jD6945I0wUCaiu17gAKCRA08jD6945I
- 0yUKD/9ypKpW7x8dfqhXk3zKyeJBbxRlrr5Hey1Qo/Vyd0U3tiR0YHn5v6JWQx0x3MCQr4AoL6C
- CPTAbxJhSdFgRHKutTEAO/jfxi0a25mW+Zwca+svj/l2OFARxUIJP88/f8wZhCCUifQKFhGpon9
- G7SNJIJyVLSQ1Y0YnQ4tXwYZel0a+6NsNIC4C6kyw4rFfa5YvjFAv7nj7FND2MhnMrHziqpTZMk
- DHunQNfCYQWxWuvEiJxb2JpMTE3hvtdB6fGcrWhg36uBS7Ho9c+VU/Ee4Mp/6AfoqUfpu47pq7D
- Vk5cwbifRLWxQ66M0dc5NgK1mS4efUQ95deuDD2LbsNulZGgZVAwCNm0H0bBgVB1nUnYcVXqF0O
- agwDUxAvCgMGefTx+kj6XfapXj/nUBzTiw9lskw/4JBFrgXa/bpwgNlVyjXWfzzOxtFIAyLwU9w
- zR7O1DCDzqsIC7gvTgST5pqsuloHLA6Ndwrqg5l2+YO80c8cusTrEwVMFNweXxvoq8cKpFW4MhR
- OvbLepik6Lj2O+/9D4/YkMUkBzSIfMjkDrZwRkhR9+Wv40x21RJ8PpGYG+hsdRxoy1l47SEsi6A
- J9yHGAKGSgpkzVa/YtBmB3Q1Nm0oZvQ0XFspBFZuYvQH2HSl1kz1RCrSPwFSc2dPB/60178qw9J 8oWnPnsYGI7m/kw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4601; i=hyc.lee@gmail.com;
+ h=from:subject:message-id; bh=mt+JmKw3sU5g8dP87l80+wAa37YGSjw/oUi59DYrpr8=;
+ b=owEBbQKS/ZANAwAKATTyMPr3jkjTAcsmYgBqK7Xv2sFPhw7lw2GRyG68xeoix1lc1D2ebo0zu
+ Ifns+3Fl1qJAjMEAAEKAB0WIQTVhSnMU3bjbW4eb2I08jD6945I0wUCaiu17wAKCRA08jD6945I
+ 0xIUD/42zol6hlk+KavHduTynLmfpP3SpKjQ6KLK4nHbJXzvFsFVJP39OFYJrERZoEUf503vGZU
+ Hzki1j6dTj5j05GV84Blljo8qBTsH1zCnAJSR6LXX4Au8qRLtgd2kGRKeZCM6RM7Kv63ZhuRYic
+ y9hTVLEEgMIBu4WcQRnHIH63PQ5PeH+r3qPWC47IPaHETIs0W890N1amGzhpdyH2/RuSnMIamlF
+ tZZPJop13rPRnrv9y2yQFHLelw/lWLOnPSRoOgiqZqLeWK6SzQYlO1zEUVvPyxgnl/QAHhJoJhq
+ 8j65KBCTBGzU5Awp76rUgq2zjCFTwU5HifQ/hC8i9rW1F+95AsK9/gQdlytEN0BbIG2NiB3dRGn
+ dslKHJe2gtl6vC//PeVg/dv1sG/3y//ab0f3GDnse6B8wEFZFoBTMF9KaaBRnDnCyDYPlQPF4ya
+ SDxQEG0itR3NrOcoZGo0WjZpEYX0++GTgKNXKxggXZmwI8CitKLkXgtWDGw7PWGw6zQILDYBlKL
+ ORfNyjrwGmM4P+Xi2/XSFg8v6AH/izEXZsgLeSZG72sR8aCz7wu5k1igPHOqF5Cdx6wHjJ9Fyyx
+ 60ze+9KRzoHOpRVsIFejR1mR346XiikcxSsLGzE/4E/23dU769l4yV02aRaTD/urK7klXsdE58/ rMhUZLiPQVIMpFg==
 X-Developer-Key: i=hyc.lee@gmail.com; a=openpgp; fpr=D58529CC5376E36D6E1E6F6234F230FAF78E48D3
 Content-Transfer-Encoding: 8bit
 
-Extend reparse-point handling beyond relative symlinks so NTFS can
-expose the Windows absolute forms used by non-relative symbolic links
-and junctions.
-* Store the reparse tag and symlink flags in the inode.
-* Validate junction payloads, and parse targets from substitute_name.
-* Add function to rewrite supported Windows absolute path into Linux
-  path relative to the mounted NTFS volume.
+Because bind-mounted subtrees of the volume may resolve to unexpected
+locations, change converting junctions and non-relative symbolic links
+into paths relative to the NTFS volume to be allowed only if the
+native_symlink=rel mount option is specified.
+
+Add the native_symlink=<value> mount option to configure how absolute
+symbolic links and mount points (junctions) are handled.
+The option accepts "raw" or "rel", with "raw" being the default.
+
+Under "raw", the absolute target path (ni->target) is returned as-is
+without translation. Under "rel", ntfs_translate_junction() is called
+to rewrite the absolute path as a relative path anchored at the volume
+root.
 
 Signed-off-by: Hyunchul Lee <hyc.lee@gmail.com>
 ---
- fs/ntfs/file.c    |  22 ++++++-
- fs/ntfs/inode.c   |   2 +
- fs/ntfs/inode.h   |   2 +
- fs/ntfs/layout.h  |   8 +++
- fs/ntfs/reparse.c | 182 +++++++++++++++++++++++++++++++++++++++++++++++++-----
- fs/ntfs/reparse.h |   2 +
- 6 files changed, 202 insertions(+), 16 deletions(-)
+ fs/ntfs/file.c   | 14 ++++++++------
+ fs/ntfs/inode.c  |  4 ++++
+ fs/ntfs/super.c  | 19 +++++++++++++++++++
+ fs/ntfs/volume.h |  3 +++
+ 4 files changed, 34 insertions(+), 6 deletions(-)
 
 diff --git a/fs/ntfs/file.c b/fs/ntfs/file.c
-index 264cf8404385..6b0dfc56577b 100644
+index 6b0dfc56577b..6a7b638e523d 100644
 --- a/fs/ntfs/file.c
 +++ b/fs/ntfs/file.c
-@@ -675,10 +675,28 @@ static int ntfs_fiemap(struct inode *inode, struct fiemap_extent_info *fieinfo,
- static const char *ntfs_get_link(struct dentry *dentry, struct inode *inode,
- 		struct delayed_call *done)
- {
--	if (!NTFS_I(inode)->target)
-+	struct ntfs_inode *ni = NTFS_I(inode);
-+	char *target;
-+	int err;
-+
-+	if (!dentry)
-+		return ERR_PTR(-ECHILD);
-+
-+	if (!ni->target)
- 		return ERR_PTR(-EINVAL);
+@@ -22,6 +22,7 @@
+ #include "ea.h"
+ #include "iomap.h"
+ #include "bitmap.h"
++#include "volume.h"
  
--	return NTFS_I(inode)->target;
-+	if (ni->reparse_tag == IO_REPARSE_TAG_MOUNT_POINT ||
-+	    (ni->reparse_tag == IO_REPARSE_TAG_SYMLINK &&
-+	     !(ni->reparse_flags & cpu_to_le32(SYMLINK_FLAG_RELATIVE)))) {
-+		err = ntfs_translate_symlink_path(dentry, ni->target, &target);
-+		if (err < 0)
-+			return ERR_PTR(err);
-+
-+		set_delayed_call(done, kfree_link, target);
-+		return target;
-+	}
-+
-+	return ni->target;
- }
+ #include <linux/filelock.h>
  
- static ssize_t ntfs_file_splice_read(struct file *in, loff_t *ppos,
-diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
-index 8894f33b46ca..07ca799a8f9a 100644
---- a/fs/ntfs/inode.c
-+++ b/fs/ntfs/inode.c
-@@ -488,6 +488,8 @@ void __ntfs_init_inode(struct super_block *sb, struct ntfs_inode *ni)
- 	ni->flags = 0;
- 	ni->mft_lcn[0] = LCN_RL_NOT_MAPPED;
- 	ni->mft_lcn_count = 0;
-+	ni->reparse_tag = 0;
-+	ni->reparse_flags = 0;
- 	ni->target = NULL;
- 	ni->i_dealloc_clusters = 0;
- }
-diff --git a/fs/ntfs/inode.h b/fs/ntfs/inode.h
-index 67942b97fac6..9aacd5787ffe 100644
---- a/fs/ntfs/inode.h
-+++ b/fs/ntfs/inode.h
-@@ -142,6 +142,8 @@ struct ntfs_inode {
- 		struct ntfs_inode *base_ntfs_ino;
- 	} ext;
- 	unsigned int i_dealloc_clusters;
-+	__le32 reparse_tag;
-+	__le32 reparse_flags;
- 	char *target;
- };
- 
-diff --git a/fs/ntfs/layout.h b/fs/ntfs/layout.h
-index 94af6efa04af..9438fd9b668e 100644
---- a/fs/ntfs/layout.h
-+++ b/fs/ntfs/layout.h
-@@ -2289,6 +2289,14 @@ struct reparse_point {
- 	u8 reparse_data[];
- } __packed;
- 
-+struct mount_point_reparse_data {
-+	__le16 substitute_name_offset;
-+	__le16 substitute_name_length;
-+	__le16 print_name_offset;
-+	__le16 print_name_length;
-+	__le16 path_buffer[];
-+} __packed;
-+
- struct symlink_reparse_data {
- 	__le16 substitute_name_offset;
- 	__le16 substitute_name_length;
-diff --git a/fs/ntfs/reparse.c b/fs/ntfs/reparse.c
-index 4cc37f1c9c90..fb8c42a27699 100644
---- a/fs/ntfs/reparse.c
-+++ b/fs/ntfs/reparse.c
-@@ -128,6 +128,29 @@ static bool valid_reparse_data(struct ntfs_inode *ni,
- 		const struct reparse_point *reparse_attr, size_t size)
- {
- 	switch (reparse_attr->reparse_tag) {
-+	case IO_REPARSE_TAG_MOUNT_POINT:
-+	{
-+		struct mount_point_reparse_data *data;
-+		size_t data_offs;
-+
-+		if (!valid_reparse_buffer(ni, reparse_attr, size, sizeof(*data)))
-+			return false;
-+
-+		data = (struct mount_point_reparse_data *)reparse_attr->reparse_data;
-+		data_offs = offsetof(struct reparse_point, reparse_data) +
-+			offsetof(struct mount_point_reparse_data, path_buffer);
-+
-+		if (!reparse_name_is_valid(size,
-+					   data_offs +
-+					   le16_to_cpu(data->substitute_name_offset),
-+					   le16_to_cpu(data->substitute_name_length)) ||
-+		    !reparse_name_is_valid(size,
-+					   data_offs +
-+					   le16_to_cpu(data->print_name_offset),
-+					   le16_to_cpu(data->print_name_length)))
-+			return false;
-+		break;
-+	}
- 	case IO_REPARSE_TAG_SYMLINK:
- 	{
- 		struct symlink_reparse_data *data;
-@@ -176,16 +199,22 @@ static bool valid_reparse_data(struct ntfs_inode *ni,
- 		if (le16_to_cpu(reparse_attr->reparse_data_length) ||
- 		    !(ni->flags & FILE_ATTRIBUTE_RECALL_ON_OPEN))
- 			return false;
-+		break;
-+	default:
-+		if (!valid_reparse_buffer(ni, reparse_attr, size, 0))
-+			return false;
-+		break;
+@@ -688,12 +689,13 @@ static const char *ntfs_get_link(struct dentry *dentry, struct inode *inode,
+ 	if (ni->reparse_tag == IO_REPARSE_TAG_MOUNT_POINT ||
+ 	    (ni->reparse_tag == IO_REPARSE_TAG_SYMLINK &&
+ 	     !(ni->reparse_flags & cpu_to_le32(SYMLINK_FLAG_RELATIVE)))) {
+-		err = ntfs_translate_symlink_path(dentry, ni->target, &target);
+-		if (err < 0)
+-			return ERR_PTR(err);
+-
+-		set_delayed_call(done, kfree_link, target);
+-		return target;
++		if (NVolNativeSymlinkRel(ni->vol)) {
++			err = ntfs_translate_symlink_path(dentry, ni->target, &target);
++			if (err < 0)
++				return ERR_PTR(err);
++			set_delayed_call(done, kfree_link, target);
++			return target;
++		}
  	}
  
- 	return true;
- }
+ 	return ni->target;
+diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
+index 07ca799a8f9a..76595f2e30ff 100644
+--- a/fs/ntfs/inode.c
++++ b/fs/ntfs/inode.c
+@@ -2378,6 +2378,10 @@ int ntfs_show_options(struct seq_file *sf, struct dentry *root)
+ 		seq_puts(sf, ",discard");
+ 	if (NVolDisableSparse(vol))
+ 		seq_puts(sf, ",disable_sparse");
++	if (NVolNativeSymlinkRel(vol))
++		seq_puts(sf, ",native_symlink=rel");
++	else
++		seq_puts(sf, ",native_symlink=raw");
+ 	if (vol->sb->s_flags & SB_POSIXACL)
+ 		seq_puts(sf, ",acl");
+ 	return 0;
+diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
+index ca882e946a22..e032a247455c 100644
+--- a/fs/ntfs/super.c
++++ b/fs/ntfs/super.c
+@@ -43,6 +43,17 @@ static const struct constant_table ntfs_param_enums[] = {
+ 	{}
+ };
  
--static unsigned int ntfs_reparse_tag_mode(struct reparse_point *reparse_attr)
-+static unsigned int ntfs_reparse_tag_mode(__le32 reparse_tag)
- {
- 	unsigned int mode = 0;
++enum {
++	NATIVE_SYMLINK_RAW,
++	NATIVE_SYMLINK_REL,
++};
++
++static const struct constant_table ntfs_native_symlink_enums[] = {
++	{ "raw",		NATIVE_SYMLINK_RAW },
++	{ "rel",		NATIVE_SYMLINK_REL },
++	{}
++};
++
+ enum {
+ 	Opt_uid,
+ 	Opt_gid,
+@@ -66,6 +77,7 @@ enum {
+ 	Opt_acl,
+ 	Opt_discard,
+ 	Opt_nocase,
++	Opt_native_symlink,
+ };
  
--	switch (reparse_attr->reparse_tag) {
-+	switch (reparse_tag) {
-+	case IO_REPARSE_TAG_MOUNT_POINT:
- 	case IO_REPARSE_TAG_SYMLINK:
- 	case IO_REPARSE_TAG_LX_SYMLINK:
- 		mode = S_IFLNK;
-@@ -215,17 +244,33 @@ unsigned int ntfs_make_symlink(struct ntfs_inode *ni)
- 	int err;
- 	unsigned int lth;
- 	struct reparse_point *reparse_attr;
--	struct wsl_link_reparse_data *wsl_link_data;
- 	unsigned int mode = 0;
+ static const struct fs_parameter_spec ntfs_parameters[] = {
+@@ -91,6 +103,7 @@ static const struct fs_parameter_spec ntfs_parameters[] = {
+ 	fsparam_flag("discard",			Opt_discard),
+ 	fsparam_flag("sparse",			Opt_sparse),
+ 	fsparam_flag("nocase",			Opt_nocase),
++	fsparam_enum("native_symlink",		Opt_native_symlink, ntfs_native_symlink_enums),
+ 	{}
+ };
  
- 	kvfree(ni->target);
- 	ni->target = NULL;
-+	ni->reparse_tag = 0;
-+	ni->reparse_flags = 0;
- 
- 	reparse_attr = ntfs_attr_readall(ni, AT_REPARSE_POINT, NULL, 0,
- 					 &attr_size);
- 	if (reparse_attr && attr_size &&
- 	    valid_reparse_data(ni, reparse_attr, attr_size)) {
-+		err = -EINVAL;
-+
- 		switch (reparse_attr->reparse_tag) {
-+		case IO_REPARSE_TAG_MOUNT_POINT:
-+		{
-+			struct mount_point_reparse_data *data =
-+				(struct mount_point_reparse_data *)reparse_attr->reparse_data;
-+			const __le16 *name = (const __le16 *)((u8 *)data->path_buffer +
-+					      le16_to_cpu(data->substitute_name_offset));
-+
-+			err = ntfs_reparse_target_to_nls(ni->vol,
-+							 name,
-+							 le16_to_cpu(data->substitute_name_length),
-+							 &ni->target);
-+			break;
-+		}
- 		case IO_REPARSE_TAG_SYMLINK:
- 		{
- 			struct symlink_reparse_data *data =
-@@ -233,33 +278,38 @@ unsigned int ntfs_make_symlink(struct ntfs_inode *ni)
- 			const __le16 *name = (const __le16 *)((u8 *)data->path_buffer +
- 							le16_to_cpu(data->substitute_name_offset));
- 
--			mode = ntfs_reparse_tag_mode(reparse_attr);
--			if (!(data->flags & cpu_to_le32(SYMLINK_FLAG_RELATIVE)))
--				break;
--
--			err = ntfs_reparse_target_to_nls(ni->vol, name,
-+			err = ntfs_reparse_target_to_nls(ni->vol,
-+							 name,
- 							 le16_to_cpu(data->substitute_name_length),
- 							 &ni->target);
--			if (err < 0)
--				mode = 0;
-+			if (!err)
-+				ni->reparse_flags = data->flags;
- 			break;
- 		}
- 		case IO_REPARSE_TAG_LX_SYMLINK:
--			wsl_link_data =
-+		{
-+			struct wsl_link_reparse_data *wsl_link_data =
- 				(struct wsl_link_reparse_data *)reparse_attr->reparse_data;
-+
- 			if (wsl_link_data->type == cpu_to_le32(2)) {
- 				lth = le16_to_cpu(reparse_attr->reparse_data_length) -
--						  sizeof(wsl_link_data->type);
-+					  sizeof(wsl_link_data->type);
- 				ni->target = kvzalloc(lth + 1, GFP_NOFS);
- 				if (ni->target) {
- 					memcpy(ni->target, wsl_link_data->link, lth);
- 					ni->target[lth] = 0;
--					mode = ntfs_reparse_tag_mode(reparse_attr);
-+					err = 0;
- 				}
- 			}
- 			break;
-+		}
- 		default:
--			mode = ntfs_reparse_tag_mode(reparse_attr);
-+			err = 0;
-+		}
-+
-+		if (!err) {
-+			mode = ntfs_reparse_tag_mode(reparse_attr->reparse_tag);
-+			ni->reparse_tag = reparse_attr->reparse_tag;
- 		}
- 	} else
- 		ni->flags &= ~FILE_ATTR_REPARSE_POINT;
-@@ -286,6 +336,7 @@ unsigned int ntfs_reparse_tag_dt_types(struct ntfs_volume *vol, unsigned long mr
- 
- 	if (reparse_attr && attr_size) {
- 		switch (reparse_attr->reparse_tag) {
-+		case IO_REPARSE_TAG_MOUNT_POINT:
- 		case IO_REPARSE_TAG_SYMLINK:
- 		case IO_REPARSE_TAG_LX_SYMLINK:
- 			dt_type = DT_LNK;
-@@ -311,6 +362,109 @@ unsigned int ntfs_reparse_tag_dt_types(struct ntfs_volume *vol, unsigned long mr
- 	return dt_type;
- }
- 
-+/*
-+ * ntfs_translate_symlink_path
-+ *
-+ * @dentry: dentry of the symlink/junction being resolved
-+ * @target: NUL-terminated NLS target string with '\\' already normalized to '/'
-+ * @translated: out parameter, set to a newly kmalloc'd relative path on success
-+ *
-+ * Windows junctions (IO_REPARSE_TAG_MOUNT_POINT) and non-relative symlinks
-+ * (IO_REPARSE_TAG_SYMLINK without SYMLINK_FLAG_RELATIVE) store substitute
-+ * names such as "/??/C:/foo", "//?/C:/foo", "/foo", or "C:/foo". Linux
-+ * cannot continue pathname lookup from those syntaxes, so rewrite them as a
-+ * path relative to the symlink's containing directory on this NTFS volume,
-+ * anchored at the volume root via "../".
-+ *
-+ * Note: bind-mounted subtrees of the volume may resolve to unexpected
-+ * locations because the computed "../" depth is relative to the NTFS volume
-+ * root, not the bind-mounted subtree root.
-+ *
-+ * Return: 0 on success with *translated set to a newly allocated string the
-+ * caller must kfree(); negative errno on failure.
-+ */
-+int ntfs_translate_symlink_path(struct dentry *dentry, const char *target,
-+				char **translated)
-+{
-+	char *buf, *link_path, *out, *p;
-+	const char *path, *tail;
-+	unsigned int up_levels = 0;
-+	size_t tail_len, out_len;
-+	int err;
-+
-+	if (!dentry || !target || !translated)
-+		return -EINVAL;
-+
-+	path = target;
-+	/* reject UNC path. */
-+	if (path[0] == '/' && path[1] == '/' &&
-+	    !(path[2] == '?' && path[3] == '/'))
-+		return -EOPNOTSUPP;
-+
-+	/* target starts with "/??/" or "//?/"? */
-+	if ((path[0] == '/' && path[1] == '?' && path[2] == '?' && path[3] == '/') ||
-+	    (path[0] == '/' && path[1] == '/' && path[2] == '?' && path[3] == '/'))
-+		path += 4;
-+
-+	/* target must start with a drive character or '/'. */
-+	if (((path[0] >= 'A' && path[0] <= 'Z') ||
-+	     (path[0] >= 'a' && path[0] <= 'z')) && path[1] == ':') {
-+		if (path[2] && path[2] != '/')
-+			return -EOPNOTSUPP;
-+		tail = path + 2;
-+		if (*tail == '/')
-+			tail++;
-+	} else if (*path == '/') {
-+		tail = path + 1;
-+	} else {
-+		return -EOPNOTSUPP;
-+	}
-+
-+	tail_len = strlen(tail);
-+
-+	buf = kmalloc(PATH_MAX, GFP_NOFS);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	link_path = dentry_path_raw(dentry, buf, PATH_MAX);
-+	if (IS_ERR(link_path)) {
-+		err = PTR_ERR(link_path);
-+		goto out;
-+	}
-+
-+	/* count '/' after the leading slash. */
-+	for (p = link_path + 1; *p; p++)
-+		if (*p == '/')
-+			up_levels++;
-+
-+	/* build "./" + ("../" * up_levels) + tail. */
-+	out_len = 2 + up_levels * 3 + tail_len;
-+	if (out_len >= PATH_MAX) {
-+		err = -ENAMETOOLONG;
-+		goto out;
-+	}
-+
-+	out = kmalloc(out_len + 1, GFP_NOFS);
-+	if (!out) {
-+		err = -ENOMEM;
-+		goto out;
-+	}
-+
-+	memcpy(out, "./", 2);
-+	p = out + 2;
-+	while (up_levels--) {
-+		memcpy(p, "../", 3);
-+		p += 3;
-+	}
-+	memcpy(p, tail, tail_len + 1);
-+
-+	*translated = out;
-+	err = 0;
-+out:
-+	kfree(buf);
-+	return err;
-+}
-+
- /*
-  * Set the index for new reparse data
+@@ -215,6 +228,12 @@ static int ntfs_parse_param(struct fs_context *fc, struct fs_parameter *param)
+ 		else
+ 			NVolClearDisableSparse(vol);
+ 		break;
++	case Opt_native_symlink:
++		if (result.uint_32 == NATIVE_SYMLINK_REL)
++			NVolSetNativeSymlinkRel(vol);
++		else
++			NVolClearNativeSymlinkRel(vol);
++		break;
+ 	case Opt_sparse:
+ 		break;
+ 	default:
+diff --git a/fs/ntfs/volume.h b/fs/ntfs/volume.h
+index 3348394dbc0d..55298689a7bb 100644
+--- a/fs/ntfs/volume.h
++++ b/fs/ntfs/volume.h
+@@ -177,6 +177,7 @@ struct ntfs_volume {
+  *
+  * NV_Discard			Issue discard/TRIM commands for freed clusters.
+  * NV_DisableSparse		Disable creation of sparse regions.
++ * NV_NativeSymlinkRel		Translate absolute Windows reparse targets (native_symlink=rel).
   */
-diff --git a/fs/ntfs/reparse.h b/fs/ntfs/reparse.h
-index 28da40257f2a..ed7b93c359c1 100644
---- a/fs/ntfs/reparse.h
-+++ b/fs/ntfs/reparse.h
-@@ -11,6 +11,8 @@ extern __le16 reparse_index_name[];
+ enum {
+ 	NV_Errors,
+@@ -194,6 +195,7 @@ enum {
+ 	NV_CheckWindowsNames,
+ 	NV_Discard,
+ 	NV_DisableSparse,
++	NV_NativeSymlinkRel,
+ };
  
- unsigned int ntfs_make_symlink(struct ntfs_inode *ni);
- unsigned int ntfs_reparse_tag_dt_types(struct ntfs_volume *vol, unsigned long mref);
-+int ntfs_translate_symlink_path(struct dentry *dentry, const char *target,
-+				char **translated);
- int ntfs_reparse_set_wsl_symlink(struct ntfs_inode *ni,
- 			const __le16 *target, int target_len);
- int ntfs_reparse_set_wsl_not_symlink(struct ntfs_inode *ni, mode_t mode);
+ /*
+@@ -230,6 +232,7 @@ DEFINE_NVOL_BIT_OPS(HideDotFiles)
+ DEFINE_NVOL_BIT_OPS(CheckWindowsNames)
+ DEFINE_NVOL_BIT_OPS(Discard)
+ DEFINE_NVOL_BIT_OPS(DisableSparse)
++DEFINE_NVOL_BIT_OPS(NativeSymlinkRel)
+ 
+ static inline void ntfs_inc_free_clusters(struct ntfs_volume *vol, s64 nr)
+ {
 
 -- 
 2.43.0
