@@ -1,69 +1,60 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B80A3A6EE5
-	for <linux-fsdevel@vger.kernel.org>; Fri, 12 Jun 2026 09:52:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23A637C0F6
+	for <linux-fsdevel@vger.kernel.org>; Fri, 12 Jun 2026 10:11:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781257928; cv=none; b=pEzYvi9vX9KsfRdQBlk9nTX4P2jthf5tsMtGTncaTDqykVEYyVDws4BPxsAA6OUy8SrPsAAClWzRDzirbqBJXHmxD+5/kSwtSNKNd+WqMm4jXxKTVgwbr/ykoJqbgLrwXOu8QbxcI/7JU02/8mNNdl+A46XWezawL80EZ6cpZNU=
+	t=1781259071; cv=none; b=FO2RATKawUcbW+Y2oJEJJRJepasG5tRhshehEgB0sqWciCJOSQz6s04VQG1IaY8bAjchRgSZzWxZl3QA0YtAd3UmlFaDWxo4iDLuZsIiIb5S/DI3y8ngwLhoPkeczJjTMbkxD/NS238bc1o0Y3LudXChQ3JzdSAD22qtUrmDnBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781257928; c=relaxed/simple;
-	bh=y+kS0aNdzD5ZpzcjqEPKSOo2duiccnf2Ix68VL4rx0k=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ixmmg8XV/8EpZbqTPfFL+G2iwzsaQyE8NKygPiFiG5Usgnwg7Zf9PazYTrMa0Y26mPkhKQ+c2oFDePUWMUYsFrGXSBKSnyg+gBNtW53GoTUGEd7IAd917IArbmaLUc+XyXgzHMurvpCFoUBeEpf5seFJErzb+ptjlx2Zde9a8k8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=VT/F4UsW; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=VT/F4UsW; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1781259071; c=relaxed/simple;
+	bh=BbsZrou20noZ1eCteTU+al1EUZ4Kgg/aMc/ruF0xQ9E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KlNKKm/sFL59pO+5I0CCLt2FhCIlOxQsft3mYGYlTCsqiLT5mU8GUKhgHYtBKB60lrJhSHKgnejKR6ToaL2Wj4ZMI9nbia9Y5RCIrtOZRWMo/Qa7wfd6+OO1hPmfpku71TVXHBt8Itr9eT7XpeWAbXJYzF41Hn+a05QtoO5izz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=guKyFSl+; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="VT/F4UsW";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="VT/F4UsW"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A2CF575EC1;
-	Fri, 12 Jun 2026 09:51:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1781257907; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="guKyFSl+"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1781259067;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gcKH3Yj/IJOBAb8+VdEPWWnNTruafb27vPLl2XbF1G0=;
-	b=VT/F4UsW03qSjLCH7oFDT+tgmHbNC2tCyHJdv1VV4YNYyR9jWBDmJ9rskXhrsvGWaM/690
-	vGMPGOJLmKtGBbAgAHts2zYli3vR2/DxWAJHxnZY9cR8mcBj3Pvw5+Ir0TpDxcx2UBtAKW
-	dB7DdJd7Xxtfae543UTG1lID7dKmR2o=
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1781257907; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gcKH3Yj/IJOBAb8+VdEPWWnNTruafb27vPLl2XbF1G0=;
-	b=VT/F4UsW03qSjLCH7oFDT+tgmHbNC2tCyHJdv1VV4YNYyR9jWBDmJ9rskXhrsvGWaM/690
-	vGMPGOJLmKtGBbAgAHts2zYli3vR2/DxWAJHxnZY9cR8mcBj3Pvw5+Ir0TpDxcx2UBtAKW
-	dB7DdJd7Xxtfae543UTG1lID7dKmR2o=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A4EC4779A7;
-	Fri, 12 Jun 2026 09:51:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GOKvFLHWK2r+FgAAD6G6ig
-	(envelope-from <wqu@suse.com>); Fri, 12 Jun 2026 09:51:45 +0000
-From: Qu Wenruo <wqu@suse.com>
-To: linux-btrfs@vger.kernel.org,
-	linux-block@vger.kernel.org,
+	bh=RzS/kGsf92jGqEw0Cpbkdc2ZLCTfp0DBUP+QupYpFLE=;
+	b=guKyFSl+UfdPsiPAbmsBFksClDnPER66iuQB/0VZpZJUYxSrmZUSvQkFzz3h2a3Lx8j05t
+	Mg/rTo7oVaCNm32etcLTuHF0fUxBA0+XD/Wkq8RGVtxTCIO1nMAbACU0bzNJoxSQ93GPca
+	qOT4RlCNTcqwnOuHkVESEpSONHkhYO0=
+From: Usama Arif <usama.arif@linux.dev>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: Usama Arif <usama.arif@linux.dev>,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org
-Subject: [PATCH v3 3/4] iomap: reject NOWAIT and BOUNCE direct IOs
-Date: Fri, 12 Jun 2026 19:21:14 +0930
-Message-ID: <3d739b6dc37e34ca2a2a3780d12d0288a4060d57.1781253428.git.wqu@suse.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <cover.1781253428.git.wqu@suse.com>
-References: <cover.1781253428.git.wqu@suse.com>
+	linux-doc@vger.kernel.org,
+	sudeep.holla@kernel.org,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	etienne.carriere@st.com,
+	peng.fan@oss.nxp.com,
+	michal.simek@amd.com,
+	dan.carpenter@linaro.org,
+	d-gole@ti.com,
+	jonathan.cameron@huawei.com,
+	elif.topuz@arm.com,
+	lukasz.luba@arm.com,
+	philip.radford@arm.com,
+	brauner@kernel.org,
+	souvik.chakravarty@arm.com
+Subject: Re: [PATCH v3 01/24] firmware: arm_scmi: Add new SCMIv4.0 error codes definitions
+Date: Fri, 12 Jun 2026 03:10:59 -0700
+Message-ID: <20260612101100.186627-1-usama.arif@linux.dev>
+In-Reply-To: <20260329163337.637393-2-cristian.marussi@arm.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -71,58 +62,45 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.com:mid];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Level: 
+X-Migadu-Flow: FLOW_OUT
 
-If a direct IO requires bounced pages for stable buffer, it will always
-allocate memory, and both bio_iov_iter_bounce_write() and
-bio_iov_iter_bounce_read() are allocating pages using GFP_KERNEL, which
-can sleep and break NOWAIT requirement.
+On Sun, 29 Mar 2026 17:33:12 +0100 Cristian Marussi <cristian.marussi@arm.com> wrote:
 
-So we need to reject such NOWAIT and BOUNCE direct IO in
-iomap_dio_bio_iter().
+> SCMIv4.0 introduces a couple of new possible protocol error codes: add
+> the needed definitions and mappings to Linux error values.
+> 
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> ---
+>  drivers/firmware/arm_scmi/common.h | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
+> index 7c35c95fddba..44af2018e21d 100644
+> --- a/drivers/firmware/arm_scmi/common.h
+> +++ b/drivers/firmware/arm_scmi/common.h
+> @@ -45,6 +45,8 @@ enum scmi_error_codes {
+>  	SCMI_ERR_GENERIC = -8,	/* Generic Error */
+>  	SCMI_ERR_HARDWARE = -9,	/* Hardware Error */
+>  	SCMI_ERR_PROTOCOL = -10,/* Protocol Error */
+> +	SCMI_ERR_IN_USE = -11,  /* In Use Error */
+> +	SCMI_ERR_PARTIAL = -12, /* Partial Error */
+>  };
+>  
+>  static const int scmi_linux_errmap[] = {
+> @@ -60,6 +62,8 @@ static const int scmi_linux_errmap[] = {
+>  	-EIO,			/* SCMI_ERR_GENERIC */
+>  	-EREMOTEIO,		/* SCMI_ERR_HARDWARE */
+>  	-EPROTO,		/* SCMI_ERR_PROTOCOL */
+> +	-EPERM,			/* SCMI_ERR_IN_USE */
 
-Signed-off-by: Qu Wenruo <wqu@suse.com>
----
- fs/iomap/direct-io.c | 4 ++++
- 1 file changed, 4 insertions(+)
+"In use" reads like a resource-state failure, where -EBUSY would normally be expected.
+-EPERM suggests an authorization failure,  which is already represented by SCMI_ERR_ACCESS.
 
-diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-index b36ee619cdcd..d1601122f0b5 100644
---- a/fs/iomap/direct-io.c
-+++ b/fs/iomap/direct-io.c
-@@ -412,6 +412,10 @@ static int iomap_dio_bio_iter(struct iomap_iter *iter, struct iomap_dio *dio)
- 	unsigned int alignment;
- 	ssize_t ret = 0;
- 
-+	/* Bounced direct IO will need to allocate memory, breaking NOWAIT flag. */
-+	if (unlikely(iter->flags & IOMAP_NOWAIT && dio->flags & IOMAP_DIO_BOUNCE))
-+		return -EAGAIN;
-+
- 	/*
- 	 * File systems that write out of place and always allocate new blocks
- 	 * need each bio to be block aligned as that's the unit of allocation.
--- 
-2.54.0
-
+> +	-EINVAL,		/* SCMI_ERR_PARTIAL */
+>  };
+>  
+>  static inline int scmi_to_linux_errno(int errno)
+> -- 
+> 2.53.0
+> 
+> 
