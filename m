@@ -1,31 +1,31 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C3493CFF6A;
-	Fri, 12 Jun 2026 22:40:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6E973DDDAE;
+	Fri, 12 Jun 2026 22:40:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781304002; cv=none; b=K2IkFmNvoswF8OgJWI1INd4c3lQ+vKZQWwtNmKvAsgJS2ziJEl9GVyasp8MtDAspvEF1Hz7Fca6ObmpYCgVr8IAscbO/7QK17+4lyzS5uzMBWCVoyEdVv8nNdiz4l087lCR0cONZ1U/MM8JK7N33mE0oGv+8cjuXciLZVF/oTwc=
+	t=1781304006; cv=none; b=nf8mVcdYN8EgyZRNgU4ULyE1G63qjs69g0ypArPHoj+da7iwlTJn1JBy3Uj/wdffQyfrgjWC2Cv6OqYkmKPQabEYp0V5YkXAPjepBWqY+lQDrFYPrScO1vR473YmaBNkrHTekhwPmjy0g1o0GXr5MokJvLDsUdyccgk43CHf2vM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781304002; c=relaxed/simple;
-	bh=9VbIKzjq1ZVFU4ssBMLXHnU61OK41Cjft/BUYsvCpn0=;
+	s=arc-20240116; t=1781304006; c=relaxed/simple;
+	bh=bDitOSq5AHIZBCroRnMHjGAoaQrisRFnimOScaPMkdU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kMFumyIKnIjrESkZPq7K5XzgAp7jLw4UhQ0MgbDamqtuJpVBT5jNrezzoKaCrdLYewpITLlDw3pIo7eU3N6yDG2x0OfZZUP33f8FbXcrsjKc5pEoXsh7w3WVs7EYw7254w8KP9JE2wT44WtcyoIxqccHNLzG5hcDTN/dEePhP1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=bMUhblLH; arc=none smtp.client-ip=217.140.110.172
+	 MIME-Version; b=EI9fk9vtbrjJp19Gm45kYcyBq/cTbuRN2yTZd0DZrmhjBxyHQp4M1pV+mel+v27Jk189XIz+N/RAQUVBLzzu2lw7wlpPimu9gwq3UK2AyAj+E3H3Hkopeox/M3qTMwKXFeO155sP1hB/Y9uGneJKLYX9luNm5uhkhcQCn24HDtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ubN8dCLv; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="bMUhblLH"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ubN8dCLv"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 41A783543;
-	Fri, 12 Jun 2026 15:39:55 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5A6854A09;
+	Fri, 12 Jun 2026 15:39:59 -0700 (PDT)
 Received: from pluto.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E3FB13FB7F;
-	Fri, 12 Jun 2026 15:39:55 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 598E13FB7F;
+	Fri, 12 Jun 2026 15:40:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1781304000; bh=9VbIKzjq1ZVFU4ssBMLXHnU61OK41Cjft/BUYsvCpn0=;
+	t=1781304004; bh=bDitOSq5AHIZBCroRnMHjGAoaQrisRFnimOScaPMkdU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bMUhblLHGWnXGyUUWmriFzchq0ra2BAVIec9NzgGo4VbmlU8VYcuoX0cuq8okD7uX
-	 +zzt460RU07DiJzPzyrj7IU7+JKNdY4udMdRKsijV3ZCNoq0s9gu/8wtL9v7DvsWxq
-	 b6RAT8atV35QJJZZde8S0fOh37JCKLj/oVV2/i/Q=
+	b=ubN8dCLvxlrzvXzNQRtLRVsZnQaiqqLootZMFcbfixqazcLglcuQI4g7a4upUJ15b
+	 B/ae8O/EBrnm7Fcg+OyVybDGGJ80s7GGxkggFlX9F5L+kGkmMZ4PBGk411Ecsg/vfd
+	 K1DMoHqfhVlLPVACiSkRX91CF3OR+zbpmIlMo690=
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -51,12 +51,10 @@ Cc: sudeep.holla@kernel.org,
 	puranjay@kernel.org,
 	usama.arif@linux.dev,
 	kernel-team@meta.com,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v4 20/31] fs/stlmfs: Document ARM SCMI Telemetry filesystem
-Date: Fri, 12 Jun 2026 23:37:50 +0100
-Message-ID: <20260612223802.1337232-21-cristian.marussi@arm.com>
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [PATCH v4 21/31] firmware: arm_scmi: stlmfs: Add basic mount options
+Date: Fri, 12 Jun 2026 23:37:51 +0100
+Message-ID: <20260612223802.1337232-22-cristian.marussi@arm.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260612223802.1337232-1-cristian.marussi@arm.com>
 References: <20260612223802.1337232-1-cristian.marussi@arm.com>
@@ -68,238 +66,238 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Introduce initial ARM SCMI Telemetry filesystem documentation.
+Add mount options to choose different uid/gid/umask for all the created
+files; reject handling changes to these options while remounting.
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
 Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 ---
-v3 --> v4
- - refactored mount description
-v2 --> v3
- - changed tstamp_exp to tstamp_rate
----
- Documentation/filesystems/stlmfs.rst | 210 +++++++++++++++++++++++++++
- 1 file changed, 210 insertions(+)
- create mode 100644 Documentation/filesystems/stlmfs.rst
+ .../firmware/arm_scmi/scmi_system_telemetry.c | 146 +++++++++++++++++-
+ 1 file changed, 143 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/filesystems/stlmfs.rst b/Documentation/filesystems/stlmfs.rst
-new file mode 100644
-index 000000000000..123e0e68e041
---- /dev/null
-+++ b/Documentation/filesystems/stlmfs.rst
-@@ -0,0 +1,210 @@
-+.. SPDX-License-Identifier: GPL-2.0
+diff --git a/drivers/firmware/arm_scmi/scmi_system_telemetry.c b/drivers/firmware/arm_scmi/scmi_system_telemetry.c
+index 567585dfb036..f4d284335ac0 100644
+--- a/drivers/firmware/arm_scmi/scmi_system_telemetry.c
++++ b/drivers/firmware/arm_scmi/scmi_system_telemetry.c
+@@ -34,6 +34,32 @@
+ #define MAX_AVAILABLE_INTERV_CHAR_LENGTH	25
+ #define MAX_BULK_LINE_CHAR_LENGTH		64
+ 
++enum {
++	Opt_uid,
++	Opt_gid,
++	Opt_umask,
++};
 +
-+=============================================
-+STLMFS - Arm SCMI Telemetry Pseudo Filesystem
-+=============================================
++static const struct fs_parameter_spec stlmfs_param_spec[] = {
++	fsparam_uid("uid", Opt_uid),
++	fsparam_gid("gid", Opt_gid),
++	fsparam_u32oct("umask", Opt_umask),
++	{}
++};
 +
-+.. contents::
++struct stlmfs_fs_context {
++	unsigned int opts;
++	kuid_t uid;
++	kgid_t gid;
++	umode_t umask;
++};
 +
-+Overview
-+========
++struct stlmfs_sb_info {
++	kuid_t uid;
++	kgid_t gid;
++	umode_t umask;
++};
 +
-+ARM SCMI is a System and Configuration Management protocol, based on a
-+client-server model, that defines a number of messages that allows a
-+client/agent like Linux to discover, configure and make use of services
-+provided by the server/platform firmware.
+ static struct kmem_cache *stlmfs_inode_cachep;
+ 
+ static DEFINE_MUTEX(stlmfs_mtx);
+@@ -202,10 +228,12 @@ static struct inode *stlmfs_get_inode(struct super_block *sb, umode_t mode)
+ 	struct inode *inode = new_inode(sb);
+ 
+ 	if (inode) {
++		struct stlmfs_sb_info *sbi = sb->s_fs_info;
 +
-+SCMI v4.0 introduced support for System Telemetry, through which an agent
-+can dynamically enumerate configure and collect Telemetry Data Events (DE)
-+exposed by the platform.
+ 		inode->i_ino = get_next_ino();
+-		inode->i_uid = GLOBAL_ROOT_UID;
+-		inode->i_gid = GLOBAL_ROOT_GID;
+-		inode->i_mode = mode & ~SCMI_TLM_DEFAULT_UMASK;
++		inode->i_uid = sbi->uid;
++		inode->i_gid = sbi->gid;
++		inode->i_mode = mode & ~sbi->umask;
+ 		simple_inode_init_ts(inode);
+ 	}
+ 
+@@ -1282,10 +1310,25 @@ static void stlmfs_free_inode(struct inode *inode)
+ 	kmem_cache_free(stlmfs_inode_cachep, tlmi);
+ }
+ 
++static int stlmfs_show_options(struct seq_file *seq, struct dentry *root)
++{
++	struct stlmfs_sb_info *sbi = root->d_sb->s_fs_info;
 +
-+This filesystem, in turn, exposes to userspace the set of discovered DEs
-+allowing for their configuration and retrieval.
++	if (!uid_eq(sbi->uid, GLOBAL_ROOT_UID))
++		seq_printf(seq, ",uid=%u", from_kuid_munged(&init_user_ns, sbi->uid));
++	if (!gid_eq(sbi->gid, GLOBAL_ROOT_GID))
++		seq_printf(seq, ",gid=%u", from_kgid_munged(&init_user_ns, sbi->gid));
++	if (sbi->umask != SCMI_TLM_DEFAULT_UMASK)
++		seq_printf(seq, ",umask=%04u", sbi->umask);
 +
-+Rationale
-+=========
++	return 0;
++}
 +
-+**Why not using SysFS/KernFS or DebugFS ?**
+ static const struct super_operations tlm_sops = {
+ 	.statfs = simple_statfs,
+ 	.alloc_inode = stlmfs_alloc_inode,
+ 	.free_inode = stlmfs_free_inode,
++	.show_options = stlmfs_show_options,
+ };
+ 
+ static struct dentry *stlmfs_create_root_dentry(struct super_block *sb)
+@@ -1366,10 +1409,26 @@ static int scmi_telemetry_instance_register(struct super_block *sb,
+ 
+ static int stlmfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ {
++	struct stlmfs_fs_context *ctx;
+ 	struct scmi_tlm_instance *ti;
+ 	struct dentry *root_dentry;
+ 	int ret;
+ 
++	/* Bail out if already initialized */
++	if (sb->s_fs_info)
++		return 0;
 +
-+The provided userspace interface aims to satisfy 2 main concurrent
-+requirements:
++	struct stlmfs_sb_info *sbi __free(kfree) =
++		kzalloc(sizeof(*sbi), GFP_KERNEL);
++	if (!sbi)
++		return -ENOMEM;
 +
-+ - expose an FS-based human-readable interface that can be used to
-+   discover, configure and access Telemetry data directly easily also from
-+   the shell without any special tool
++	ctx = fc->fs_private;
++	sbi->uid = ctx->uid;
++	sbi->gid = ctx->gid;
++	sbi->umask = ctx->umask;
 +
-+ - allow also alternative machine-friendly, more-performant, binary
-+   interfaces that can be used by custom tools without the overhead of
-+   multiple accesses through the VFS layers and the hassle of navigating
-+   vast filesystem tree structures
++	sb->s_fs_info = sbi;
+ 	sb->s_magic = TLM_FS_MAGIC;
+ 	sb->s_blocksize = PAGE_SIZE;
+ 	sb->s_blocksize_bits = PAGE_SHIFT;
+@@ -1379,6 +1438,7 @@ static int stlmfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	if (IS_ERR(root_dentry))
+ 		return PTR_ERR(root_dentry);
+ 
++	retain_and_null_ptr(sbi);
+ 	sb->s_root = root_dentry;
+ 
+ 	mutex_lock(&stlmfs_mtx);
+@@ -1396,17 +1456,93 @@ static int stlmfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	return 0;
+ }
+ 
++static void stlmfs_free(struct fs_context *fc)
++{
++	struct stlmfs_fs_context *ctx;
 +
-+All of the above is meant to be available on production systems, not
-+simply as a tool for development or testing, so debugFS is NOT an option
-+here.
++	ctx = fc->fs_private;
 +
-+An initial design based on SysFS and chardev/ioctl based interfaces was
-+dropped in favour of this full-fledged filesystem implementation since:
++	kfree(ctx);
++}
 +
-+- SysFS is a standard way to expose device related properties using a few
-+  common helpers built on kernfs; this means, though, that unfortunately in
-+  our scenario we would have to generate a dummy simple device for each
-+  discovered DE.
-+  This by itself seems an abuse of the SysFS framework, but even ignoring
-+  this, the sheer number of potentially discoverable DEs (in the order of
-+  tens of thousands easily) would have led to the creation of a sensibly
-+  vast number of dummy DE devices.
+ static int stlmfs_get_tree(struct fs_context *fc)
+ {
+ 	return get_tree_single(fc, stlmfs_fill_super);
+ }
+ 
++static int stlmfs_parse_param(struct fs_context *fc, struct fs_parameter *param)
++{
++	struct stlmfs_fs_context *ctx;
++	struct fs_parse_result result;
++	int opt;
 +
-+- SysFS usage itself has its well-known constraints and best practices,
-+  like the one-file/one-value rule, that hardly cope with SCMI Telemetry
-+  needs.
++	opt = fs_parse(fc, stlmfs_param_spec, param, &result);
++	if (opt < 0)
++		return opt;
 +
-+- The need to implement more complex file operations (ioctls/mmap) in
-+  order to support the alternative binary interfaces does not fit with
-+  SysFS/kernFS facilities.
++	ctx = fc->fs_private;
 +
-+- Given the nature of the Telemetry protocol, the hybrid approach with
-+  chardev/ioctl was itself problematic: on one side being upper-limited
-+  in the number of chardev potentially created by the minor numbers
-+  availability, on the other side the hassle of having to maintain a
-+  completely different interface on the side of a FS based one.
++	switch (opt) {
++	case Opt_uid:
++		if (!kuid_has_mapping(fc->user_ns, result.uid))
++			return invalfc(fc, "Invalid uid");
++		ctx->uid = result.uid;
++		ctx->opts |= BIT(Opt_uid);
++		break;
++	case Opt_gid:
++		if (!kgid_has_mapping(fc->user_ns, result.gid))
++			return invalfc(fc, "Invalid gid");
++		ctx->gid = result.gid;
++		ctx->opts |= BIT(Opt_gid);
++		break;
++	case Opt_umask:
++		ctx->umask = result.uint_32 & 07777;
++		ctx->opts |= BIT(Opt_umask);
++		break;
++	default:
++		return -ENOPARAM;
++	}
 +
-+Design
-+======
++	return 0;
++}
 +
-+STLMFS is a pseudo filesystem used to expose ARM SCMI Telemetry data
-+discovered dynamically at run-time via SCMI.
++static int stlmfs_reconfigure(struct fs_context *fc)
++{
++	struct stlmfs_fs_context *ctx = fc->fs_private;
 +
-+Inodes are all dynamically created at mount-time from a dedicated
-+kmem_cache based on the gathered available SCMI Telemetry information.
++	sync_filesystem(fc->root->d_sb);
 +
-+Since inodes represent the discovered Telemetry entities, which in turn are
-+statically defined at the platform level and immutable throughout the same
-+session (boot), allocated inodes are freed only at unmount-time and the
-+user is not allowed to delete or create any kind of file within the STLMFS
-+filesystem after mount has completed.
++	if (ctx->opts & BIT(Opt_uid))
++		return invalfc(fc, "uid cannot be changed on remount");
++	if (ctx->opts & BIT(Opt_gid))
++		return invalfc(fc, "gid cannot be changed on remount");
++	if (ctx->opts & BIT(Opt_umask))
++		return invalfc(fc, "umask cannot be changed on remount");
 +
-+A single instance of STLMFS is created at the filesystem level, using
-+get_tree_single(), given that the same SCMI backend entities will be
-+involved no matter how many times you mount it.
++	return 0;
++}
 +
-+STLMFS configurations gets appplied by issuing the related SCMI commands to
-+the backend SCMI platform server: for such reason any configuration applied
-+by this FS interface will survive the unmount or the unload of the module, but
-+not a reboot.
+ static const struct fs_context_operations stlmfs_fc_ops = {
+ 	.get_tree = stlmfs_get_tree,
++	.parse_param = stlmfs_parse_param,
++	.free = stlmfs_free,
++	.reconfigure = stlmfs_reconfigure,
+ };
+ 
+ static int stlmfs_init_fs_context(struct fs_context *fc)
+ {
++	struct stlmfs_fs_context *ctx;
 +
-+Mountpoints
-+===========
++	ctx = kzalloc_obj(*ctx);
++	if (!ctx)
++		return -ENOMEM;
 +
-+A pre-defined mountpoint is available at::
++	/* defaults */
++	ctx->uid = GLOBAL_ROOT_UID;
++	ctx->gid = GLOBAL_ROOT_GID;
++	ctx->umask = SCMI_TLM_DEFAULT_UMASK;
 +
-+	/sys/fs/arm_telemetry/
++	fc->fs_private = ctx;
+ 	fc->ops = &stlmfs_fc_ops;
+ 
+ 	return 0;
+@@ -1414,11 +1550,15 @@ static int stlmfs_init_fs_context(struct fs_context *fc)
+ 
+ static void stlmfs_kill_sb(struct super_block *sb)
+ {
++	struct stlmfs_sb_info *sbi = sb->s_fs_info;
 +
-+The filesystem can be typically mounted with::
+ 	mutex_lock(&stlmfs_mtx);
+ 	stlmfs_sb = NULL;
+ 	mutex_unlock(&stlmfs_mtx);
+ 
+ 	kill_anon_super(sb);
 +
-+	mount -t stlmfs none /sys/fs/arm_telemetry
-+
-+It does NOT support namespaces (no FS_USERNS_MOUNT) since it would NOT make
-+sense to allow this FS to be mounted inside a container.
-+
-+All files are created world readable and, where needed for configuration,
-+owner writable.
-+
-+Usage
-+=====
-+
-+.. Note::
-+	See Documentation/ABI/testing/stlmfs for a detailed description of
-+	this ABI.
-+
-+Once mounted the FS will proceed to create a top subdirectory for each of the
-+discovered SCMI Telemetry instances named as 'tlm_<N>' under which it will
-+create the following directory structure::
-+
-+	/sys/fs/arm_telemetry/tlm_0/
-+	|-- all_des_enable
-+	|-- all_des_tstamp_enable
-+	|-- available_update_intervals_ms
-+	|-- current_update_interval_ms
-+	|-- de_implementation_version
-+	|-- des/
-+	|   |-- ...
-+	|   |-- ...
-+	|   `-- ...
-+	|-- des_bulk_read
-+	|-- des_single_sample_read
-+	|-- groups
-+	|   |-- ...
-+	|   |-- ...
-+	|   `-- ...
-+	|-- intervals_discrete
-+	|-- reset
-+	|-- tlm_enable
-+	`-- version
-+
-+Each subdirectory is defined as follows.
-+
-+des/
-+----
-+A subtree containing in turn one subdirectory for each discovered DE and
-+named by Data Event ID in hexadecimal form as in::
-+
-+	|-- des
-+	|   |-- 0x00000000
-+	|   |-- 0x00000016
-+	|   |-- 0x00001010
-+	|   |-- 0x0000A000
-+	|   |-- 0x0000A001
-+	|   |-- 0x0000A002
-+	|   |-- 0x0000A005
-+	|   |-- ..........
-+	|   |-- ..........
-+	|   |-- 0x0000A007
-+	|   |-- 0x0000A008
-+	|   |-- 0x0000A00A
-+	|   |-- 0x0000A00B
-+	|   |-- 0x0000A00C
-+	|   `-- 0x0000A010
-+
-+where each dedicated DE subdirectory in turn will contain files used to
-+describe some DE characteristics, configure it, or read its current data
-+value as in::
-+
-+	tlm_0/des/0xA001/
-+	|-- compo_instance_id
-+	|-- compo_type
-+	|-- enable
-+	|-- instance_id
-+	|-- name
-+	|-- persistent
-+	|-- tstamp_enable
-+	|-- tstamp_rate
-+	|-- type
-+	|-- unit
-+	|-- unit_exp
-+	`-- value
-+
-+groups/
-+-------
-+
-+An optional subtree containing in turn one subdirectory for each discovered
-+Group and named by Group ID as in::
-+
-+	|-- groups
-+	|   |-- 0
-+	|   |-- ..
-+	|   `-- 1
-+
-+where each dedicated GROUP subdirectory in turn will contain files used to
-+describe some Group characteristics, configure it, or read its current data
-+values, as in::
-+
-+	scmi_tlm_0/groups/0/
-+	|-- available_update_intervals_ms
-+	|-- composing_des
-+	|-- current_update_interval_ms
-+	|-- des_bulk_read
-+	|-- des_single_sample_read
-+	|-- enable
-+	|-- intervals_discrete
-+	`-- tstamp_enable
-+
++	kfree(sbi);
+ }
+ 
+ static struct file_system_type scmi_telemetry_fs = {
 -- 
 2.54.0
 
