@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EBC92BE7D1;
-	Fri, 12 Jun 2026 15:15:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09996234964;
+	Fri, 12 Jun 2026 15:15:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781277333; cv=none; b=IFKwnpiQGRpShO84HfR+2UItoEE9KT8palRLCiRx3s7stGpdRxwppiSpNKXfjp6kWuzEItfTUwfM4umazWpuJmEiR5R6s9Xj5xyLfTirb+4dKjiGWY2Gc5v67Svt40Ly+XKJhpWJM92pv6WgmRjom6Hw4rMuqdOhhdwodYlHfr4=
+	t=1781277351; cv=none; b=NK6AAqx13JKcs/kOyuwPaS7O+foUa2eqfNkXVCjfskCOalx7G1SJ4ZXxypA7Wpdj6EGT/T6x0t4UICCQfSK0v3v2U2qB6UsNnnEPYDggvy6rif34g43aH7gJtV06Lzu+E5sCvwz4uUziRYDjCUCKbhrJvoHQU8N8ngDqF8HrPjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781277333; c=relaxed/simple;
-	bh=EvuLtigPmhILkRuqoreQhrXjImoBs8NZjrFsV7fG1A8=;
+	s=arc-20240116; t=1781277351; c=relaxed/simple;
+	bh=wzWXOkFSR2t9T1O4eg3Ux6g0kfK3w7UGpvQsKMXHW9w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nMuN9bWqQfpXnKhIjC/OIARZX4m1jKEtZEXpfBU/+9ouX9ea6CvNezGq6++KlQPBahIqLaEfKiEyS/MpeqLUxF6j3uJrEEduuHfJjVpnyBEXWng+EyVM9LQ54BxR9/1VixVzeWC19nJ3lL6nhutUfjYrnqWlibEqOPtvXwtR4qQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kjHunoIS; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=mL2lY2/s13tFGdzQCqCmHhR4pkKKJogrBhMsKtcYNmINVF3+kxaDpM1anGDnbMkWkBRJ4Gf6r1zVjXMKDXWWFLkbeHk0A8sQRhxsENDhAVTbdt0WZAibHpUEdgewUflPLBrkOINnYiqj6iFSH8yrZ/aKlfz5VQnSkm21HNXtOC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fEFUEDzU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kjHunoIS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECB071F000E9;
-	Fri, 12 Jun 2026 15:15:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fEFUEDzU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 770991F000E9;
+	Fri, 12 Jun 2026 15:15:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781277332;
-	bh=F4mnnN53ZvIK3onb5gKLgMudzEMvJsGHHuXkPmw+27Y=;
+	s=k20260515; t=1781277349;
+	bh=5PW5vawg5xpswVnbiOyTSU4giBBasMb+anWjy4krkSY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=kjHunoISAKpmPuvLmjK6I1J/QooSr2mvBbxzceHDJuAp35fRErrS11x6by+vns13l
-	 dq4YQ39bsWbJJNPU1fqvdLVZ5OSSojGf2BNnJWAS4kO9Y3owFo75TfkjEnET+1AKgZ
-	 KXlLtmxT6l3fuRtkIwNrc4fzAXmqivYwMSDaN4GcFWMdJdZx5sWDTc6aMg8JVoYYeq
-	 XXiiSAcHcfuUY2ECpgjzMBPTiPBeqjAjsEjCLpvQ2xaJVP0SuF180nYekN6F++V7q/
-	 9rMViUdoR+e5vSl4sYFmXBDnGcVcXnWtmWlBpjiVd2IRo5wbE1yT7QwWntXeHQ6YV5
-	 Lf6jEEMRCybSw==
+	b=fEFUEDzUmfKT8xH/wu3X3yPmaAXijph7jISES9oSXx8wmqelyTfN/2KY/qBNElY4t
+	 rMauK5h7bFK/7u6WjXZoaMOs/XRNoiF6kyXmTBnp6cmNqY7T5K/vXHXU5NmSTuBSkT
+	 W+H706uulpOfiD3VjcEkGFse7GGyYuG2n/cCDkzF8SFc5eSqB6HN/tPD+vcYGOP7HY
+	 pSyMrCCs4F80xl4saPKQhgGYptNcpLgy0gCp0MdaQmD6vZycVREE1ZHiHjrc3bMp45
+	 J1wDuvSxA3Uv5lc1eX9U2fN3lc9NFi2TM/9Tv9Ew3EER02lqJPnBmvkW4qEFa1kha2
+	 Ac5hsyVFg9GWg==
 From: Christian Brauner <brauner@kernel.org>
 To: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [GIT PULL 13/16 for v7.2] vfs iomap
-Date: Fri, 12 Jun 2026 17:15:26 +0200
-Message-ID: <20260612-vfs-iomap-v72-3c93b1aa4390@brauner>
+Subject: [GIT PULL 14/16 for v7.2] vfs xattr
+Date: Fri, 12 Jun 2026 17:15:43 +0200
+Message-ID: <20260612-vfs-xattr-v72-765acd2e67cc@brauner>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260612-vfs-v72-20facee87e19@brauner>
 References: <20260612-vfs-v72-20facee87e19@brauner>
@@ -43,7 +43,7 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6252; i=brauner@kernel.org; h=from:subject:message-id; bh=EvuLtigPmhILkRuqoreQhrXjImoBs8NZjrFsV7fG1A8=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTpKE1IjOZ4zcT6i+94xI/V/NWGrQ+qCpSFXiwKrc7tO TaF7XFDRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwEQE9jD8Yj6w9byR2f0nLz9f ytnrufD+nYXTu89YV01zmPr08M9GxwhGhgWCq3Zkrbt/u0l4OUeg8Iw7nY/z3vfnhbr68PTM+ti SwggA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5156; i=brauner@kernel.org; h=from:subject:message-id; bh=wzWXOkFSR2t9T1O4eg3Ux6g0kfK3w7UGpvQsKMXHW9w=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTpKC2wnHHO7NLNbVc4ejQ2rXNkubjreN/MY6wxrH8eC c1f9srfsKOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAiGyMZ/mf0rHuWzmqx3mPz 7s4pJxl6V5puvT9dbeYM44wChk3LS5oY/ineKmS+uu+x+Yo/H4QfBHxN2D35iqz6zb9Le2XXBF1 sLeADAA==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
@@ -51,39 +51,30 @@ Hey Linus,
 
 /* Summary */
 
-This contains the iomap changes for this cycle:
+This reworks the simple xattr api to make it more efficient and easier
+to use for all consumers.
 
-* Add the vfs infrastructure required to implement fs-verity support
-  for XFS with a post-EOF merkle tree: fsverity generates and stores a
-  zero-block hash, and iomap learns to verify data on buffered reads,
-  to handle fsverity during writeback via the new IOMAP_F_FSVERITY
-  flag, and to write fsverity metadata through iomap_fsverity_write().
+The simple_xattr hash table moves from the inode into a per-superblock
+cache, removing the per-inode overhead for the common case of few or
+no xattrs. The interface now passes struct simple_xattrs ** so lazy
+allocation is handled internally instead of by every caller, kernfs
+xattr operations on kernfs nodes shared between multiple superblocks
+are properly serialized, and tmpfs constructs "security.foo" xattr
+names with kasprintf() instead of kmalloc() plus two memcpy()s.
 
-* Skip the memset of the iomap in iomap_iter() once the iteration is
-  done. In high-IOPS scenarios (4k randread NVMe polling via io_uring)
-  the pointless memset wasted memory write bandwidth; this improves
-  IOPS by about 5% on ext4 and xfs.
+A follow-up fix links kernfs nodes to their parent before the LSM init
+hook runs: with the per-sb cache kernfs_xattr_set() computes the cache
+via kernfs_root(kn), which faulted on a freshly allocated node when
+selinux_kernfs_init_security() called into it - reproducible as a NULL
+pointer dereference on the first cgroup mkdir on SELinux-enabled
+systems.
 
-* Add balance_dirty_pages_ratelimited() to iomap_zero_iter(), aligning
-  it with iomap_write_iter(). This prepares for the exFAT iomap
-  conversion where zeroing beyond valid_size can trigger large-scale
-  zeroing operations that caused memory pressure without throttling.
-
-* Remove the over-strict inline data boundary check. If a filesystem
-  provides a valid inline_data pointer and length there is no reason
-  to require that inline data must not cross a page boundary.
-
-* Don't make REQ_POLLED imply REQ_NOWAIT, matching the earlier
-  equivalent block layer fix: there are valid cases to poll for I/O
-  completion without REQ_NOWAIT, and REQ_NOWAIT for file system writes
-  is currently not supported as writes aren't idempotent.
-
-* Introduce IOMAP_F_ZERO_TAIL for filesystems that maintain a separate
-  valid data length (exFAT, NTFS). For a write starting at or beyond
-  valid_size, __iomap_write_begin() now zeroes only the tail portion
-  of the block while preserving valid data before it, instead of
-  leaving stale data in the page cache. The flag is also added to the
-  iomap trace event strings.
+On top of this bpffs gains support for trusted.* and security.* xattrs
+so that user space and BPF LSM programs can attach metadata - for
+example a content hash or a security label - to pinned objects and
+directories and inspect it uniformly like on other filesystems. The
+store is in-memory and non-persistent, living only for the lifetime of
+the mount like everything else in bpffs.
 
 /* Testing */
 
@@ -102,57 +93,50 @@ No known conflicts.
 Merge conflicts with other trees
 ================================
 
-The exfat tree carries the same "iomap: introduce IOMAP_F_ZERO_TAIL
-flag" patch as this tree as a dependency for the exFAT iomap
-conversion, so the merge gets a conflict in include/linux/iomap.h
-together with the IOMAP_F_FSVERITY additions from this tree. Reported
-in [1]. It can be resolved as follows:
+This has merge conflicts with the bpf-next tree in kernel/bpf/inode.c
+between commit 9722955b54307 ("bpf: Add simple xattr support to
+bpffs") from this tree and commit b93c55b4932dd ("bpf: fix UAF by
+restoring RCU-delayed inode freeing in bpffs") from the bpf-next tree,
+and in include/linux/bpf.h. Reported in [1] and [2]; Daniel confirmed
+the resolution in [3]. They can be resolved as follows:
 
-[1]: https://lore.kernel.org/linux-next/aiKrepiU3-L6KRqJ@sirena.org.uk
+[1]: https://lore.kernel.org/linux-next/aiF2rsdpUb5LuhmZ@sirena.org.uk
+[2]: https://lore.kernel.org/linux-next/aiamrLm8DnCP6dbw@sirena.org.uk
+[3]: https://lore.kernel.org/linux-next/8906796e-0542-46d2-bb92-9e49642d86dc@iogearbox.net
 
-diff --combined include/linux/iomap.h
-index cea6bbc97b6ef,3582ed1fe2361..0000000000000
---- a/include/linux/iomap.h
-+++ b/include/linux/iomap.h
-@@@ -91,6 -91,14 +91,14 @@@ struct vm_fault
-  #endif /* CONFIG_BLK_DEV_INTEGRITY */
-  #define IOMAP_F_ZERO_TAIL	(1U << 10)
+diff --cc kernel/bpf/inode.c
+index c3f79b5a2f8c0,188c774a469ca..0000000000000
+--- a/kernel/bpf/inode.c
++++ b/kernel/bpf/inode.c
+@@@ -842,9 -768,12 +842,13 @@@ static void bpf_destroy_inode(struct in
+
+  	if (!bpf_inode_type(inode, &type))
+  		bpf_any_put(inode->i_private, type);
+ +	simple_xattrs_free(&opts->xa_cache, &bi->xattrs, NULL);
+  }
 
 + /*
-+  * Indicates reads and writes of fsverity metadata.
-+  *
-+  * Fsverity metadata is stored after the regular file data and thus beyond
-+  * i_size.
++  * Called after RCU grace period - safe to free inode and anything
++  *  that might be accessed by RCU pathwalk (inode fields, i_link).
 +  */
-+ #define IOMAP_F_FSVERITY	(1U << 11)
-+
-  /*
-   * Flag reserved for file system specific usage
-   */
-@@@ -345,6 -353,9 +353,9 @@@ static inline bool iomap_want_unshare_i
-  ssize_t iomap_file_buffered_write(struct kiocb *iocb, struct iov_iter *from,
-  		const struct iomap_ops *ops,
-  		const struct iomap_write_ops *write_ops, void *private);
-+ int iomap_fsverity_write(struct file *file, loff_t pos, size_t length,
-+ 		const void *buf, const struct iomap_ops *ops,
-+ 		const struct iomap_write_ops *write_ops);
-  void iomap_read_folio(const struct iomap_ops *ops,
-  		struct iomap_read_folio_ctx *ctx, void *private);
-  void iomap_readahead(const struct iomap_ops *ops,
-@@@ -421,6 -432,7 +432,7 @@@ struct iomap_ioend
-  	loff_t			io_offset;	/* offset in the file */
-  	sector_t		io_sector;	/* start sector of ioend */
-  	void			*io_private;	/* file system private data */
-+ 	struct fsverity_info	*io_vi;		/* fsverity info */
-  	struct bio		io_bio;		/* MUST BE LAST! */
-  };
+  static void bpf_free_inode(struct inode *inode)
+  {
+  	if (S_ISLNK(inode->i_mode))
 
-@@@ -495,6 -507,7 +507,7 @@@ struct iomap_read_folio_ctx
-  	struct readahead_control *rac;
-  	void			*read_ctx;
-  	loff_t			read_ctx_file_offset;
-+ 	struct fsverity_info	*vi;
-  };
+diff --cc include/linux/bpf.h
+index 64efc3fdb7163,62bba7a4876f5..0000000000000
+--- a/include/linux/bpf.h
++++ b/include/linux/bpf.h
+@@@ -31,7 -32,8 +32,9 @@@
+  #include <linux/static_call.h>
+  #include <linux/memcontrol.h>
+  #include <linux/cfi.h>
++ #include <linux/key.h>
++ #include <linux/ftrace.h>
+ +#include <linux/xattr.h>
+  #include <asm/rqspinlock.h>
+
+  struct bpf_verifier_env;
 
 The following changes since commit 254f49634ee16a731174d2ae34bc50bd5f45e731:
 
@@ -160,54 +144,46 @@ The following changes since commit 254f49634ee16a731174d2ae34bc50bd5f45e731:
 
 are available in the Git repository at:
 
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.2-rc1.iomap
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.2-rc1.xattr
 
-for you to fetch changes up to b7bae6880e8de2a5f693c18d87ad5cc26f157eb2:
+for you to fetch changes up to 9722955b54307e9070994f2382ec06af3d7405e0:
 
-  iomap: Add IOMAP_F_ZERO_TAIL flag to trace event strings (2026-06-05 13:36:42 +0200)
+  bpf: Add simple xattr support to bpffs (2026-06-06 15:22:44 +0200)
 
 ----------------------------------------------------------------
-vfs-7.2-rc1.iomap
+vfs-7.2-rc1.xattr
 
-Please consider pulling these changes from the signed vfs-7.2-rc1.iomap tag.
+Please consider pulling these changes from the signed vfs-7.2-rc1.xattr tag.
 
 Thanks!
 Christian
 
 ----------------------------------------------------------------
-Andrey Albershteyn (4):
-      fsverity: generate and store zero-block hash
-      iomap: introduce IOMAP_F_FSVERITY and teach writeback to handle fsverity
-      iomap: teach iomap to read files with fsverity
-      iomap: introduce iomap_fsverity_write() for writing fsverity metadata
+Christian Brauner (2):
+      Merge patch series "Rework simple xattrs"
+      kernfs: link kn to its parent before the LSM init hook
 
-Chi Zhiling (1):
-      iomap: add dirty page control to iomap_zero_iter
+Daniel Borkmann (1):
+      bpf: Add simple xattr support to bpffs
 
-Christian Brauner (1):
-      Merge patch series "vfs infrastructure for fs-verity support for XFS with post EOF merkle tree"
+Miklos Szeredi (4):
+      kernfs: fix xattr race condition with multiple superblocks
+      tmpfs: simplify constructing "security.foo" xattr names
+      simple_xattr: change interface to pass struct simple_xattrs **
+      simpe_xattr: use per-sb cache
 
-Christoph Hellwig (1):
-      iomap: don't make REQ_POLLED imply REQ_NOWAIT
-
-Fengnan Chang (1):
-      iomap: avoid memset iomap when iter is done
-
-Namjae Jeon (3):
-      iomap: remove over-strict inline data boundary check
-      iomap: introduce IOMAP_F_ZERO_TAIL flag
-      iomap: Add IOMAP_F_ZERO_TAIL flag to trace event strings
-
- fs/iomap/buffered-io.c       | 116 ++++++++++++++++++++++++++++++++++++++-----
- fs/iomap/direct-io.c         |   5 +-
- fs/iomap/ioend.c             |   1 +
- fs/iomap/iter.c              |  12 ++---
- fs/iomap/trace.h             |   4 +-
- fs/verity/fsverity_private.h |   3 ++
- fs/verity/measure.c          |   4 +-
- fs/verity/open.c             |   3 ++
- fs/verity/pagecache.c        |  22 ++++++++
- include/linux/bio.h          |  14 ------
- include/linux/fsverity.h     |   8 +++
- include/linux/iomap.h        |  27 ++++++----
- 12 files changed, 170 insertions(+), 49 deletions(-)
+ fs/kernfs/dir.c             |  22 ++--
+ fs/kernfs/file.c            |  13 +--
+ fs/kernfs/inode.c           |  36 +++---
+ fs/kernfs/kernfs-internal.h |  24 +++-
+ fs/kernfs/mount.c           |   2 +-
+ fs/pidfs.c                  |  45 ++-----
+ fs/xattr.c                  | 278 ++++++++++++++++++++++++++------------------
+ include/linux/bpf.h         |   3 +
+ include/linux/kernfs.h      |  11 +-
+ include/linux/shmem_fs.h    |   3 +-
+ include/linux/xattr.h       |  39 ++++---
+ kernel/bpf/inode.c          | 256 +++++++++++++++++++++++++++++++++++++---
+ mm/shmem.c                  |  50 +++-----
+ net/socket.c                |  30 ++---
+ 14 files changed, 526 insertions(+), 286 deletions(-)
