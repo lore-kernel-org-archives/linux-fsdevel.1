@@ -1,74 +1,75 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E505C3264FD
-	for <linux-fsdevel@vger.kernel.org>; Fri, 12 Jun 2026 04:11:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6530438F25C
+	for <linux-fsdevel@vger.kernel.org>; Fri, 12 Jun 2026 04:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781237520; cv=none; b=HCQvoReOHjCH9YBErxPUz9leakyuxS/vooFbIxbhpnirzGJXaVG5mSLscOJLSZovK3GHwal9fWwvsHNuHhw9sCgVEdBh6neM/WB8vpJRY0DCJ3LLItk2Vwcs/EtD477OY0YGrrh0naOBDtwVNfobkAPa60u0i7TxsnLHyhTahdA=
+	t=1781237673; cv=none; b=WZJou2krlFDnUYjKK0A87nSNZTvKKChbbJEWL0SX/lppuwyk/6VCx8y5CvAP2qJPzlBmjemRFKZF/ROg05SKu5WlcZl3sidlVyd7sszZZOypiwsbeda22LtYTvUeEVNKgaPKlJOt0YKBmv6bDBf11r3HsX98ZfmRKvoEf3McLdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781237520; c=relaxed/simple;
-	bh=tR2NHBeYxTJ5KTgGKkLKUgPceMFBiVd7vW6YwlE4AU8=;
+	s=arc-20240116; t=1781237673; c=relaxed/simple;
+	bh=PjhCrdXWJabW012Ua1edPjXkfGNGhKm2yozMm/lPqpA=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=oVOkzNpcQz69tn0Ysjvinyi8OE0yAiHM4a9CNTVnvzr1I/ivHpKjZmLeD9Lk8RaxSkE+8Mcg/GZ9Nvbf3QkW2pi8P6eygjRH3padCYTTupfGcbTf2jKyv09uChh/UnpP3bQ4oJSMJgJY3xTEi4LevcEdCUF97Fvl+ISrJhVdokk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=MPSKtrRt; arc=none smtp.client-ip=209.85.208.172
+	 Content-Type:MIME-Version; b=g03n1lCZ97NgdDoj3fpqKsB/GdPPxsgcNPoi8G8wpySMzxm8lajZ/yhOAQad/V5GPRQeEuQgst8ZrAASi98RGzRiYYBDEPkzSup8Sz7gjZzmH1AgNylDk+MJWF378teAI3IqGr/w4eRkrl1CotVdlafV0hySzv0raWIzKO4FlGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=oeRHGsCa; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="MPSKtrRt"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-39657d28132so4080671fa.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 11 Jun 2026 21:11:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="oeRHGsCa"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5aa66893e9fso164962e87.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 11 Jun 2026 21:14:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1781237517; x=1781842317; darn=vger.kernel.org;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1781237671; x=1781842471; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=qsEq1GwYRO/8ktlYy2x50g/LNlw/hqftiFLLg7QAnOs=;
-        b=MPSKtrRtUJ8h5DxsN0sfRgauZsScZaE48ZNO31gxvx6lzjl5JWp3/inCXX77Ch6lAx
-         Kph8mpBmqQTgMOJe92L8Dm9XKr7Ih+r96aVB0DrbSkEYAhNK6+WcPc7TRTXadwwLaARc
-         o9cdZd1W6EtIVMNi5Mm5Gtk4HsN+Pokp1ECVhSZuqlEplmryzYs1rJbMAMpt+SISQiIa
-         Z1CtBc0wIPSWN0y9PSVoffCRFo1w1mLSchKwiWLTDYnVtRkwt9puQQnyvD/xU+lF/deF
-         GH1tHkvTZjzuDnr89HF2zPpGL0G4jyI4/1Cz4MMs7ftpkFPKKxHgUytSbiJL0tgzBPNz
-         2AGQ==
+        bh=xNeGUEt4eUHsOpLT1IXxTwBhy2+nBKi5ET9yUpqdWI0=;
+        b=oeRHGsCavlJ56vtyNiXRwax7GCcvPTVVGsdsngydFwsl/0DmDgtnyQOHUcijqOARqE
+         rjN6AAS/JjtcjIRKFAjk77jEKfxUl0LYARO2UdTBkqKVf9FDrd5rqbKVijikL0oY5sTC
+         JSHT+nReUQMH5a6TkGRrcEnAsxTh/dJWz7TLsHlT8nsCU94fBbxZQS/t8QwZRjQPM9Hh
+         MXwqmOZzwPc0T9j+5QyVKmGkUX4Uh3F0V48JYAZEZNVpodT8jW4yQE7hztUxRmtIRiWt
+         5rffI8vt2dOAkgeUhDpUyksRE6glbGIYGhoKBC9GCF1BmjOm4kgp7N1Kaq+7jhnHSgdY
+         e+mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781237517; x=1781842317;
+        d=1e100.net; s=20251104; t=1781237671; x=1781842471;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qsEq1GwYRO/8ktlYy2x50g/LNlw/hqftiFLLg7QAnOs=;
-        b=irm4JZGmzjmeidS1ifwTi4o1oa5QfFGjYeJRKsYXlwu9T7ILxe57yZGUXww7SFZgSU
-         Emh/WgRJ5Na/brI+kMFRQk1Dj8c0EPdlFvR3kZrEFjQdiBs4KD0nFBGeuI63BlcePoXM
-         GkNxqYZQvm1iXb62kUzr8YUz4KywqJSdDwfUVpjdvEIlmMF5ry54JEXOOozfyp3ncWQf
-         +3nwoivQgM414sCzWsfptXGBPJhMtdjWrsIDsZ6e2faqurb0sqwce+VLMnC1E8ouxd9X
-         gK/waKtO10sK1Dq4M7lI3IWrhM7/uos2L4y2mda03y1HWPGfJMGSfjmGB0OyrvVdhq0d
-         +Omw==
-X-Forwarded-Encrypted: i=1; AFNElJ/r2q0fFEF3W+G7Fp8B+q/sTEPMm0WJQhLP3DxDiXS6LzxABdmWN66+uuKjwZTggVDWQ+xT5tjYCgpy1gpC@vger.kernel.org
-X-Gm-Message-State: AOJu0YymmKm3UJn46sZmSEhi+C93qLXv8k+dx1M7bxDDSCpo+utVNNQE
-	feYCzbFp3/hulzV1TUjWa0DSAmckFBXnlpassElCBvgP/WBlh7V1RRogZQJsC13cAqo=
-X-Gm-Gg: Acq92OFo5444jtpGSjG9cYC/5UKKiCM3qZrfc6Uc7b1fD+QoJf/c3hKUvU5kvFLw205
-	Am1s9A2zXeY8I3pXvHXGvku9z9q7SMNWGAK7WjDxgYZjLbrhqGH6uoooNZuHko6lkZYjUzlg61e
-	iLtq7D+3FZAVqNtM5PcLANEfYFvIVvfptnOvW1ZdcLvbvf0nOck8EGVIiCxzFRFP6vCjbyRVk71
-	QZfT+j3+NnJ7GIf9SGQN/Jp3H6Srr59DbTl1OhZf+OwpORLUPpAMeuFlHMih5t6akflz99xTS5c
-	RcQeCbxF1tyc9pyd+irRA5fhvjeDhPcp8ja9BIGT7fMzawBcYsxNAzDX6/rA6OfSF7cm1zvyGmC
-	UP6voRNC/pkRNixjV7UFkl8idA1v5ZqxQ5MjMx1Efsdldaa/iLlY+zKqs5P+NGYn6+pf4mvglMR
-	xTSsdM8JHIK83sLxUXMJobw5N1JnLfj6ysRWioIvx/tZ6GhtUBKc/ViJhBRDyXy3JYbsXi5MNWt
-	SgPI0nxHN3Os9qA+fO1KlknuqslM9I2ESFlyMAJm1CK4+BjLATXdRCf
-X-Received: by 2002:a05:6512:4801:b0:5aa:4aa4:29f3 with SMTP id 2adb3069b0e04-5ad2db5ddeemr245473e87.28.1781237517130;
-        Thu, 11 Jun 2026 21:11:57 -0700 (PDT)
+        bh=xNeGUEt4eUHsOpLT1IXxTwBhy2+nBKi5ET9yUpqdWI0=;
+        b=qLoW77BkhfXL69veHmT+WEO+RWwQy/6odVT3McDQ0FxhxbhXp33BofUZUiKWXvOnFu
+         PwCWOJf9HD7lStwvm67KdYB+oxFwcoCVIygarKLH08AS2t0cFz/csamgIC+NbJjTwMCQ
+         dCboX01KK6IL9IKTFHaUzYQQ2ApjQ5fXdhdMGDkA6IvhHh1oCXx6fo0eRs9+ng0dfWjx
+         1Fkb9zN8pl2vqf7LRDgCZLGQPbZacyHWsD/esjRNR0oWY9kGoca6+AEotLCJnDYuul3+
+         l/t/MtWsQtlqQKgI5Qd/gpj4uh08f6TRdc+QN5pby2xq6zwQ7R1UdmvnV7BnbTCDRwLF
+         xCPA==
+X-Forwarded-Encrypted: i=1; AFNElJ99/PLmT5Bvr10KCrnqMOiK+jJof53k6+jq5ALgnj6/A8FW2V1zTmsmCigTwzuTVU/C7L+38OZ07M122F/r@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz41uUtH4jhG27D1wEqaGh/hZhRgxUS4nuADsP8etWWeNwYMJjF
+	aXayq6GW3npD+0W554O3UuGXpEvXVG4CaO3DUK7ZGEMeAZKEO7MpEBMFGjdwZohA5tee/oMeDaw
+	3+YfkvIuPvg==
+X-Gm-Gg: Acq92OEbx0TtrrC4fW3l2N/nU8NyIpZs3tQS9j94NfCn13KtCaIDXY7GW8TYSQ9Y4yP
+	/nFofI60pWC7y0kmkQ3mHQexPvWbccXUP0NoF+uHWKw5ZqOxzoTpjoHG2q3pU6zLVDAm+iHgstm
+	VGy5X+kHS/PakVcfGE2YLgSgzXxuFHvodsmGrnl3UkEIjMYMs+9CUZfj+pRWi4C8F70jTIfXSvM
+	SDot3bodE4KmAJeGUqbRHQO5UPbtJPxa+c54KgJNHi8HEurLROruB1/C1bBqolyFZZ5uhbNaspL
+	68E2pAsiZ5UalDJnenLbgmh9eTau3vKPpyzk0lIwZk288rU43kwEmR6WiGncHEwOurT1FNo0sY+
+	rTwqYs3ArzYSOQ1aqo2cderw3NnJR0FYtlUvETqCLmLtWIdntVeTsXpDI7SC/8euTB4RLg2IVAp
+	kR7LZn7Osso6dMS3cTW4insuhUzYydLS18j6oF8xp++YpUfjy7gCEK1+OdpUvJes4g+a8z6Q/eb
+	cAakjRGd+2n1HxBf49m/mvG3g1MRXdTU1g/rz0JP+lYEh7jkX6B3DyQ
+X-Received: by 2002:a05:6512:1553:20b0:5aa:6a3b:3cc3 with SMTP id 2adb3069b0e04-5ad2db25009mr249276e87.6.1781237670635;
+        Thu, 11 Jun 2026 21:14:30 -0700 (PDT)
 Received: from [192.168.1.246] (broadband-95-84-186-252.ip.moscow.rt.ru. [95.84.186.252])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5ad2e1b421bsm167350e87.73.2026.06.11.21.11.55
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5ad2e1b4869sm169252e87.75.2026.06.11.21.14.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2026 21:11:56 -0700 (PDT)
-Message-ID: <04c1bff937f903a43820ae4c916b6ea919944869.camel@dubeyko.com>
-Subject: Re: [PATCH] hfsplus: validate thread record before delete key
- rebuild
+        Thu, 11 Jun 2026 21:14:30 -0700 (PDT)
+Message-ID: <49224b901ab27115c85605cb01706119687a36a8.camel@dubeyko.com>
+Subject: Re: [PATCH] hfsplus: terminate xattr names before listing them
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: Kyle Zeng <kylebot@openai.com>, linux-fsdevel@vger.kernel.org
 Cc: Yangtao Li <frank.li@vivo.com>, John Paul Adrian Glaubitz
-	 <glaubitz@physik.fu-berlin.de>, outbounddisclosures@openai.com
-Date: Thu, 11 Jun 2026 21:11:54 -0700
-In-Reply-To: <20260611212633.5058-1-kylebot@openai.com>
-References: <20260611212633.5058-1-kylebot@openai.com>
+	 <glaubitz@physik.fu-berlin.de>, outbounddisclosures@openai.com, 
+	stable@vger.kernel.org
+Date: Thu, 11 Jun 2026 21:14:26 -0700
+In-Reply-To: <20260611212710.5134-1-kylebot@openai.com>
+References: <20260611212710.5134-1-kylebot@openai.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.60.1 (by Flathub.org) 
@@ -79,100 +80,50 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Thu, 2026-06-11 at 14:26 -0700, Kyle Zeng wrote:
-> hfsplus_delete_cat() is called with str =3D=3D NULL when the last open
-> reference to an unlinked HFS+ hardlink backing inode is closed. In
-> that
-> case, the function finds the catalog thread by CNID and rebuilds the
-> catalog key from thread.nodeName.
+On Thu, 2026-06-11 at 14:27 -0700, Kyle Zeng wrote:
+> hfsplus_uni2asc_xattr_str() returns the converted byte count but does
+> not
+> append a trailing NUL. hfsplus_listxattr() then passes the reusable
+> conversion buffer to string helpers such as can_list(), name_len(),
+> and
+> copy_name().
 >=20
-> That reconstruction path reads thread.nodeName.length directly from
-> the
-> catalog B-tree into fd.search_key and then copies length * 2 bytes
-> into
-> fd.search_key->cat.name.unicode. It does not first check that the
-> found
-> record is a thread record, that the record size matches the thread
-> name
-> length, or that the name length fits in the fixed HFS+ catalog key
-> buffer.
+> If a shorter converted xattr name follows a longer one, stale bytes
+> after
+> the new byte count can make strscpy() fail with -E2BIG. The caller
+> adds
+> copy_name()'s return value to the running output offset, so a
+> negative
+> return can move the next write before the listxattr buffer.
 >=20
-> A corrupted image can therefore provide an oversized thread name
-> length
-> and make hfs_bnode_read() write past the catalog search-key
-> allocation.
+> Explicitly terminate the converted name at the returned byte count
+> before
+> treating it as a C string.
 >=20
-> Read the CNID record through hfsplus_brec_read_cat(), reject non-
-> thread
-> records, and explicitly bound nodeName.length before building the
-> delete
-> key from the validated thread name.
->=20
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Fixes: 127e5f5ae51ef ("hfsplus: rework functionality of getting,
+> setting and deleting of extended attributes")
+> Cc: stable@vger.kernel.org
 > Assisted-by: Codex:gpt-5.5
 > Signed-off-by: Kyle Zeng <kylebot@openai.com>
 > ---
-> =C2=A0fs/hfsplus/catalog.c | 32 ++++++++++++++++++++------------
-> =C2=A01 file changed, 20 insertions(+), 12 deletions(-)
+> =C2=A0fs/hfsplus/xattr.c | 1 +
+> =C2=A01 file changed, 1 insertion(+)
 >=20
-> diff --git a/fs/hfsplus/catalog.c b/fs/hfsplus/catalog.c
-> index 3f0cc1b1bb58..000000000000 100644
-> --- a/fs/hfsplus/catalog.c
-> +++ b/fs/hfsplus/catalog.c
-> @@ -351,23 +351,31 @@ int hfsplus_delete_cat(u32 cnid, struct inode
-> *dir, const struct qstr *str)
-> =C2=A0		goto out;
+> diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
+> index 452a1f9becb2..35fcbc397b62 100644
+> --- a/fs/hfsplus/xattr.c
+> +++ b/fs/hfsplus/xattr.c
+> @@ -870,6 +870,7 @@ ssize_t hfsplus_listxattr(struct dentry *dentry,
+> char *buffer, size_t size)
+> =C2=A0			res =3D -EIO;
+> =C2=A0			goto end_listxattr;
+> =C2=A0		}
+> +		strbuf[xattr_name_len] =3D '\0';
 > =C2=A0
-> =C2=A0	if (!str) {
-> -		int len;
-> +		hfsplus_cat_entry entry =3D {0};
-> +		u16 thread_type;
-> =C2=A0
-> =C2=A0		hfsplus_cat_build_key_with_cnid(sb, fd.search_key,
-> cnid);
-> -		err =3D hfs_brec_find(&fd, hfs_find_rec_by_key);
-> +		err =3D hfsplus_brec_read_cat(&fd, &entry);
-> =C2=A0		if (err)
-> =C2=A0			goto out;
-> =C2=A0
-> -		off =3D fd.entryoffset +
-> -			offsetof(struct hfsplus_cat_thread,
-> nodeName);
-> -		fd.search_key->cat.parent =3D cpu_to_be32(dir->i_ino);
-> -		hfs_bnode_read(fd.bnode,
-> -			&fd.search_key->cat.name.length, off, 2);
-> -		len =3D be16_to_cpu(fd.search_key->cat.name.length) *
-> 2;
-> -		hfs_bnode_read(fd.bnode,
-> -			&fd.search_key->cat.name.unicode,
-> -			off + 2, len);
-> -		fd.search_key->key_len =3D cpu_to_be16(6 + len);
-> +		thread_type =3D be16_to_cpu(entry.type);
-> +		if (thread_type !=3D HFSPLUS_FOLDER_THREAD &&
-> +		=C2=A0=C2=A0=C2=A0 thread_type !=3D HFSPLUS_FILE_THREAD) {
-> +			pr_err("found bad thread record in
-> catalog\n");
-> +			err =3D -EIO;
-> +			goto out;
-> +		}
-> +
-> +		if (be16_to_cpu(entry.thread.nodeName.length) >
-> +		=C2=A0=C2=A0=C2=A0 HFSPLUS_MAX_STRLEN) {
-> +			pr_err("catalog name length corrupted\n");
-> +			err =3D -EIO;
-> +			goto out;
-> +		}
-> +
-> +		hfsplus_cat_build_key_uni(fd.search_key, dir->i_ino,
-> +					=C2=A0 &entry.thread.nodeName);
-> =C2=A0	} else {
-> =C2=A0		err =3D hfsplus_cat_build_key(sb, fd.search_key, dir-
-> >i_ino, str);
-> =C2=A0		if (unlikely(err))
+> =C2=A0		if (!buffer || !size) {
+> =C2=A0			if (can_list(strbuf))
 
-Have you run xfstests for this patch? Sorry, I am in personal trip
-right now and I cannot test your patch until the end of June. Please,
-ping me around that time.
+Have you run xfstsests for the patch?
 
 Thanks,
 Slava.
