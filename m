@@ -1,88 +1,120 @@
-Received: from mailgw1.hygon.cn (unknown [101.204.27.37])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A21EB34CFDA;
-	Fri, 12 Jun 2026 06:04:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.204.27.37
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 453CF2FE066;
+	Fri, 12 Jun 2026 06:40:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781244267; cv=none; b=hXUNU02OGsEqksUSwHiHelrXXpjcNVtiza4UfW1XxEqrHDd2V+r5ornz7hqz39OzUIX4hFSNj7Y5NWeOnJgrMLq2PvsxqZ4sxocsomB2higFSyM1g1Jf41MBdtpHy2K36W04WkW1Emx4m85NFIfB10XqC+94+/pTILifSCWeObM=
+	t=1781246402; cv=none; b=BGZoPu2BqHNmtrNNSPJtmYFDlXwGge/zGZmawZZ3WzqfFEtvuZDZlhNaUucknlgGK7kDgzA10ShS8jB/IErE0q4NabDmFzFbPe9iZc8kKgZokGIPb/iM3+4QgyATOAPBVSftYqNMDtJ8WyTRZolgGTrr5260aHNzQ6JkV66sOQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781244267; c=relaxed/simple;
-	bh=JR4/NPp6xduf8TZbLaNbp0R8f75Pk6UDMh5YcyCee6Q=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WPolrlc0R35qhFk2Qx9rKvuTkVvLqevtkYsCihRtBIV6x/xEIraWeSc+mWzVfcTCNkXj8XyM+lGmEU93r3wMHvK/TC2ossG9TK5J3Jm/EIEMEBVfBC0wtGbMnqssZQB9vLSyl6J9BkuXMPs99/fOTkGFER9B66iUPy4rSzg0ufI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn; spf=pass smtp.mailfrom=hygon.cn; arc=none smtp.client-ip=101.204.27.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
-Received: from maildlp1.hygon.cn (unknown [127.0.0.1])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4gc89067rlz1dd8B;
-	Fri, 12 Jun 2026 14:04:04 +0800 (CST)
-Received: from maildlp1.hygon.cn (unknown [172.23.18.60])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4gc88x6nQCz1dd8B;
-	Fri, 12 Jun 2026 14:04:01 +0800 (CST)
-Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
-	by maildlp1.hygon.cn (Postfix) with ESMTPS id 777DC7896;
-	Fri, 12 Jun 2026 14:03:43 +0800 (CST)
-Received: from hsj-2U-Workstation (172.19.20.61) by cncheex04.Hygon.cn
- (172.23.18.114) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Fri, 12 Jun
- 2026 14:03:57 +0800
-Date: Fri, 12 Jun 2026 14:03:55 +0800
-From: Huang Shijie <huangsj@hygon.cn>
-To: Lorenzo Stoakes <ljs@kernel.org>
-CC: <akpm@linux-foundation.org>, <viro@zeniv.linux.org.uk>,
-	<brauner@kernel.org>, <jack@suse.cz>, <muchun.song@linux.dev>,
-	<osalvador@suse.de>, <david@kernel.org>, <surenb@google.com>,
-	<mjguzik@gmail.com>, <liam@infradead.org>, <vbabka@kernel.org>,
-	<shakeel.butt@linux.dev>, <rppt@kernel.org>, <mhocko@suse.com>,
-	<corbet@lwn.net>, <skhan@linuxfoundation.org>, <linux@armlinux.org.uk>,
-	<dinguyen@kernel.org>, <schuster.simon@siemens-energy.com>,
-	<James.Bottomley@hansenpartnership.com>, <deller@gmx.de>, <djbw@kernel.org>,
-	<willy@infradead.org>, <peterz@infradead.org>, <mingo@redhat.com>,
-	<acme@kernel.org>, <namhyung@kernel.org>, <mark.rutland@arm.com>,
-	<alexander.shishkin@linux.intel.com>, <jolsa@kernel.org>,
-	<irogers@google.com>, <adrian.hunter@intel.com>, <james.clark@linaro.org>,
-	<mhiramat@kernel.org>, <oleg@redhat.com>, <ziy@nvidia.com>,
-	<baolin.wang@linux.alibaba.com>, <npache@redhat.com>, <ryan.roberts@arm.com>,
-	<dev.jain@arm.com>, <baohua@kernel.org>, <lance.yang@linux.dev>,
-	<linmiaohe@huawei.com>, <nao.horiguchi@gmail.com>, <jannh@google.com>,
-	<pfalcato@suse.de>, <riel@surriel.com>, <harry@kernel.org>,
-	<will@kernel.org>, <brian.ruley@gehealthcare.com>,
-	<rmk+kernel@armlinux.org.uk>, <dave.anglin@bell.net>, <linux-mm@kvack.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-parisc@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <nvdimm@lists.linux.dev>,
-	<linux-perf-users@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
-	<zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>, <yingzhiwei@hygon.cn>
-Subject: Re: [PATCH v2 1/4] mm: use mapping_mapped to simplify the code
-Message-ID: <aiuhS4iyBxx6Kcag@hsj-2U-Workstation>
-References: <20260611061915.2354307-1-huangsj@hygon.cn>
- <20260611061915.2354307-2-huangsj@hygon.cn>
- <airZn524Ip8VsWra@lucifer>
+	s=arc-20240116; t=1781246402; c=relaxed/simple;
+	bh=/FMZmzisIYrYqAZV9o1QLgrZANzLbObETDZTDmiK4/A=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=XTXYw/OJyl7ketsNncH20w2J2xFwUFEk/YCMp8zBPls+RYfm8Emec3WHhT3M7EEcPS77vsxyW9o/t+4BRDzLKoDDXJwVNA1IjwZri52hr2xELr6F9bTEjuZn30DAUzMHpFDZZctOp4xaD/NqU+suUII45tD+QTZ5sQ6/wE1XVmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IWZgBnkZ; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IWZgBnkZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CA731C2BCB4;
+	Fri, 12 Jun 2026 06:40:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1781246401;
+	bh=/FMZmzisIYrYqAZV9o1QLgrZANzLbObETDZTDmiK4/A=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=IWZgBnkZ1D6Xuvh8XvVBzO7sNvPkkDb3IP0ahh3kHasiPw3ahynFHBXjnQob//rey
+	 axnYS07sIAzZJtSgjS6oUqFXyoL+Vz2pQQVyXuYDMxm10/LMFvEm/mgS7ZxOqgZaBQ
+	 s67fY3IPN5YRxxwSXuirT52l1A3EX/c37UWM0VO4T8YXDO/5n7XIFDE7sf2DW2BYLy
+	 KQ7weQLgmCeKbfDX70r7KZiX6rCK4U9cZemFLxfClC31mTWnZi6IasJ4HJ/AOqEXpB
+	 u+BbLSOp+Nhuoen5NTJkq3KI+I7nZ9aTI6+eMsop2c5uerPY8tvrwhskLk9dCZJJOo
+	 9DxdoscJoUf1w==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CBA9CD98D5;
+	Fri, 12 Jun 2026 06:40:01 +0000 (UTC)
+From: Bryam Vargas via B4 Relay <devnull+hexlabsecurity.proton.me@kernel.org>
+Date: Fri, 12 Jun 2026 01:40:01 -0500
+Subject: [PATCH] udf: validate sparing table length as an entry count, not
+ a byte count
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <airZn524Ip8VsWra@lucifer>
-X-ClientProxiedBy: cncheex06.Hygon.cn (172.23.18.116) To cncheex04.Hygon.cn
- (172.23.18.114)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260612-b4-disp-91780c4e-v1-1-f15112ff6882@proton.me>
+X-B4-Tracking: v=1; b=H4sIAMCpK2oC/x3MQQqAIBBA0avErBtQMa2uEi00x5qNhUIE0t2Tl
+ m/xf4VCmanA3FXIdHPhMzXIvoPtcGkn5NAMSigjjFToNQYuF07SjmLThNEPylltwhQitOzKFPn
+ 5l8v6vh+CZBI9YgAAAA==
+To: Jan Kara <jack@suse.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781246400; l=1995;
+ i=hexlabsecurity@proton.me; s=proton; h=from:subject:message-id;
+ bh=zBe8mptXEujMyjU6qf+RIqq+0ZlZo1cMKaiqend5j20=;
+ b=WeqmhVEN3wupw9o9mRFUUMvTq3vhpzEk39WiJnCSMVuHt7PGWYysDe+ok4w5S2ZGiQHdevz6s
+ Jlj5N0Ea7tYBvy/QaKuPdBwTgdtD4u7TLZcYIYQXvZBAEs+PoZt2Jwc
+X-Developer-Key: i=hexlabsecurity@proton.me; a=ed25519;
+ pk=dmppBMZNLLoPzxHi9l8tZDzEZUunPbgsYqIZYXeUrL0=
+X-Endpoint-Received: by B4 Relay for hexlabsecurity@proton.me/proton with
+ auth_id=814
+X-Original-From: Bryam Vargas <hexlabsecurity@proton.me>
+Reply-To: hexlabsecurity@proton.me
 
-Hi Lorenzo & Pedro,
-On Thu, Jun 11, 2026 at 04:52:54PM +0100, Lorenzo Stoakes wrote:
-> On Thu, Jun 11, 2026 at 02:18:57PM +0800, Huang Shijie wrote:
-> > Use mapping_mapped() to simplify the code, make
-> > the code tidy and clean.
-> >
-> > Signed-off-by: Huang Shijie <huangsj@hygon.cn>
-> 
-> Yeah as Pedro said this one could just be sent separately, and I in fact
-> suggest you do that :) So:
-> 
-Thank you Pedro and Lorenzo.
-I can send a separate patch later.
+From: Bryam Vargas <hexlabsecurity@proton.me>
 
-Thanks
-Huang Shijie
+udf_load_sparable_map() accepts a sparing table when
+
+	sizeof(*st) + le16_to_cpu(st->reallocationTableLen) > sb->s_blocksize
+
+is false, i.e. it treats reallocationTableLen as a number of BYTES that
+must fit in the block.  But the table is walked as an array of 8-byte
+sparingEntry elements:
+
+	for (i = 0; i < le16_to_cpu(st->reallocationTableLen); i++) {
+		struct sparingEntry *entry = &st->mapEntry[i];
+		... entry->origLocation ...
+	}
+
+in udf_get_pblock_spar15() and udf_relocate_blocks().  A
+reallocationTableLen of N therefore passes the check whenever
+sizeof(*st) + N <= blocksize, yet the consumers index
+sizeof(*st) + N * sizeof(struct sparingEntry) bytes -- up to ~8x the
+block.  On a crafted UDF image this is an out-of-bounds read in
+udf_get_pblock_spar15(); udf_relocate_blocks() additionally feeds the
+same length to udf_update_tag(), whose crc_itu_t() reads far past the
+block, and its memmove() through st->mapEntry[] is an out-of-bounds
+write.
+
+Validate reallocationTableLen as the entry count it is, with
+struct_size().
+
+Fixes: 1df2ae31c724 ("udf: Fortify loading of sparing table")
+Cc: stable@vger.kernel.org
+Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
+---
+ fs/udf/super.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/fs/udf/super.c b/fs/udf/super.c
+index cad2e15d633b..d75bfc733975 100644
+--- a/fs/udf/super.c
++++ b/fs/udf/super.c
+@@ -1418,7 +1418,8 @@ static int udf_load_sparable_map(struct super_block *sb,
+ 		if (ident != 0 ||
+ 		    strncmp(st->sparingIdent.ident, UDF_ID_SPARING,
+ 			    strlen(UDF_ID_SPARING)) ||
+-		    sizeof(*st) + le16_to_cpu(st->reallocationTableLen) >
++		    struct_size(st, mapEntry,
++				le16_to_cpu(st->reallocationTableLen)) >
+ 							sb->s_blocksize) {
+ 			brelse(bh);
+ 			continue;
+
+---
+base-commit: 8e65320d91cdc3b241d4b94855c88459b91abf66
+change-id: 20260612-b4-disp-91780c4e-fb52a746d9df
+
+Best regards,
+-- 
+Bryam Vargas <hexlabsecurity@proton.me>
+
 
