@@ -1,86 +1,92 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817BA3EEAEB;
-	Fri, 12 Jun 2026 13:23:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935D7392C2E
+	for <linux-fsdevel@vger.kernel.org>; Fri, 12 Jun 2026 13:36:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781270624; cv=none; b=jutnBgo/nzxodid9PQFw2mCnR1XPHL9047cuunvbqSBPGXJvIT2QOJs7J2xn0acbKS0I2Rf381Itj5MpBXqq81nZtUXSHlgir8mgz1s34S9wAVFeFGTtd1tUE6C0yZSfWVHXapBh7gApkmtqzra8YtvsJUnMAG/ex0WviRbp+Ng=
+	t=1781271376; cv=none; b=Z8OpHigfFynyWbw0LZLhXFEgl5q3m6BfMxxasZq3ZYeIoyQhZyAt4KfkQyABk6AtwuR2aNImxmnd/hb4tAiRiD5Lc3wBGG62r2wJ+kGc4QdRzNnJfFdXVzXFCk9P9Eu++FY1CTx8eZ8oV7/bJseCAyTbAcRz9tB0QrdvBspX/H8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781270624; c=relaxed/simple;
-	bh=BxRUG9yCparzdVEFNUqMGYsgRIhB/MMDsOFELKdEY5s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JZikm1nv8bNMJ1UKwvxm9ZLlyK1KmFbnp6/YSehDqLJSmUaKj627Ory8wy+qhHkGkMTGi3a/q7M2wh3FFseW3MIalCAu+5eapIW65Ew1yUmgiG21zW8CefcJvKhedfKjhb9ETrDzs6DikD1EUEd6Dk5ighRU5l4KS6FDbRDSt1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RWBSe3uU; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781271376; c=relaxed/simple;
+	bh=BdbZnS205RBIWlBrb7HcRuKuX9yU1AEJplEp7V1xyyI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MOpfVABXAXky3I9a8xj7b7rOsAPCu5vXYo8OegFl7gezaeFVetRsIGwbVzTVrpHQNYSV85nwO2v42BZcbXQZoiTLrvd7Vpe62HDxCIOrixyW0G8xqaQa+1zMg4pvtZUGkIs+l2C90MN8FxyuQecQu0zTPkYMSM2OcLyai1rY+3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RMWDn9nk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RWBSe3uU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA7DF1F000E9;
-	Fri, 12 Jun 2026 13:23:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RMWDn9nk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 531FC1F000E9
+	for <linux-fsdevel@vger.kernel.org>; Fri, 12 Jun 2026 13:36:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781270623;
-	bh=Q1S8kYZanYqjeMjwN9+vX2OdI/tveSbKG5tSQXbtX3Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RWBSe3uUTYDEnYDY6VMRpKsIV02r4tVXyXvdQlFjfnzn2UZTmpMziQyG/Pf6zr8ah
-	 G9EK21TGC1CPNPWAVv4S/PjOW6cyznrGCkrEMHbkPj26M7o04lYHhCYqOUX38yODmN
-	 gLIzuJwOANFr7dXKxhxOtFHhisXef9a1n64ltmdhTEENzR9anDF97YsHliSJttEVra
-	 z5yo9FY0AKI4EjWa/ZU+CwPDqw0VGZRwW1+g6/dflG3ktYyUyOVkBq9ZICYRGI8e6U
-	 ma1bchx6cRYkbEk9O2C8CHiDWhsPO15n7Y6mhbqflH0jh+OaU43rcDv8jD+gNrzRXo
-	 v+hdrpt8CzEWw==
-Date: Fri, 12 Jun 2026 15:23:37 +0200
-From: Carlos Maiolino <cem@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, brauner@kernel.org, 
-	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, Hannes Reinecke <hare@suse.de>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH] iomap: enforce DIO alignment check in iomap
-Message-ID: <aiwIGv4xWH-bfDfT@nidhogg.toxiclabs.cc>
-References: <20260610145218.141369-1-cem@kernel.org>
- <20260611055744.GA18538@lst.de>
- <aiqBvF93P4NjfaDR@nidhogg.toxiclabs.cc>
- <aiqwy5DfHI79KXuZ@kbusch-mbp>
- <20260611133833.GA14645@lst.de>
- <airX6BmMQ14Rvjcb@nidhogg.toxiclabs.cc>
- <20260612052831.GA9010@lst.de>
+	s=k20260515; t=1781271375;
+	bh=fM/yoIZKpCHbxUi9J8huif8P2cZaSw2v6mr2mrAiSUE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=RMWDn9nkLqGeU8qu1Wd38Uk1L8AQx8YGjubTwoYaMC/pK9mfII/x7lXftSdkDqclo
+	 HpM3F56UTPIjEnj0gaQBQTM+1WgOv6N8YfIW4dUJd6ToWQ7YUMuHPtSvnH+KsIumV/
+	 DMNffMLw2Lak7RmXALG5TVQn7/cYFpe/A32XEJvie4V8DBSwXOQWTdNQ9BftvhYbUl
+	 lK5+66Euag8dbMV6vlKfDC6Npx7uhf0jJMOQYXNemYE0TBoSOqOEi7rn38FMJto+3J
+	 tsYrqA//yfBfwjVoqQ32gcfjRbctPB8inxy1zHhHhwjfznqD9FShsdcKKnaq31hFjS
+	 im/5OidT1AZFg==
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-7e1c3f47d78so10788797b3.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 12 Jun 2026 06:36:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9UpFaIXFXQ7yNanJ9AXb22mOD/J0RiyBq6eoZR4IH72ZtUdvZjhqfHHi0lvtEjBpWZ6vAxzCKk8aRN4Bq2@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0K74ubatWuUrSLt4n1tcJBqmEBd4nqme4rFpVeuywt33a+PA5
+	QPnVOIPWlHkawWsrR279iYKxjhENLxABI9qQdj7YfLG2/KNTVpZpeKINPM+ERdmf69ugruutBnC
+	W1G0sWX7cGz6p/9pmGJruwf0tW+GnGtI=
+X-Received: by 2002:a05:690c:ecc:b0:7ba:f3a8:7a87 with SMTP id
+ 00721157ae682-7f7b901ae69mr26690477b3.40.1781271374759; Fri, 12 Jun 2026
+ 06:36:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260612052831.GA9010@lst.de>
+References: <20260610135423.202730-1-anmuxixixi@gmail.com>
+In-Reply-To: <20260610135423.202730-1-anmuxixixi@gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Fri, 12 Jun 2026 22:36:00 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd_fLQqb8JnkzeKoBwJ822AcGa72WeQ07XQRDoiCdOHixA@mail.gmail.com>
+X-Gm-Features: AVVi8CeiZ1UnBniQQevPdYI2a9xKu_iVSc2HlpgWjrFTLdvtjckUQiYyrdg0d8w
+Message-ID: <CAKYAXd_fLQqb8JnkzeKoBwJ822AcGa72WeQ07XQRDoiCdOHixA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] exfat: reuse valid negative dentries for file creation
+To: Yang Wen <anmuxixixi@gmail.com>
+Cc: sj1557.seo@samsung.com, yuezhang.mo@sony.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jun 12, 2026 at 07:28:31AM +0200, Christoph Hellwig wrote:
-> On Thu, Jun 11, 2026 at 05:47:07PM +0200, Carlos Maiolino wrote:
-> > On Thu, Jun 11, 2026 at 03:38:33PM +0200, Christoph Hellwig wrote:
-> > > On Thu, Jun 11, 2026 at 06:57:47AM -0600, Keith Busch wrote:
-> > > > It's entirely possible a device supports byte aligned addresses. The
-> > > > block layer just doesn't let a driver report that. So either it really
-> > > > was successful because you found a bug that skips the alignment checks,
-> > > > or your device silently corrupted your payload.
-> > 
-> > I tried this on different hardware, I find it hard to say all those
-> > devices were corrupting the payload.
-> 
-> I think in the other thread we agreed that we are currently missing
-> the alignment check for fast-path bios not hitting the splitting code,
-> so maybe that is something you see.  Additionally we're missing the
-> checks for purely bio based drivers not calling the splitting helper
-> at all, but I don't think that applies here.
-> 
-> > > > Anyway, my earlier suggestion should work. Ming thinks it may go to far,
-> > > > though, in not taking the optimization when it was possible. So here's
-> > > > an alternative suggestion that should get things working as expected:
-> > > 
-> > > The fix below looks like it is addressing a real bug.  I'm not sure if
-> > > Carlos is hitting it, but we were missing the alignment checks for
-> > > single-bvec fast path bios so far indeed.
-> > 
-> > You left context out so I'm assuming by the fix you meant Keith's patch.
-> 
-> Yes.
+> diff --git a/fs/exfat/namei.c b/fs/exfat/namei.c
+> index b7d5e44ad38e..fe26fbf6a0f2 100644
+> --- a/fs/exfat/namei.c
+> +++ b/fs/exfat/namei.c
+> @@ -24,12 +24,9 @@ static inline void exfat_d_version_set(struct dentry *dentry,
+>  }
+>
+>  /*
+> - * If new entry was created in the parent, it could create the 8.3 alias (the
+> - * shortname of logname).  So, the parent may have the negative-dentry which
+> - * matches the created 8.3 alias.
+> - *
+> - * If it happened, the negative dentry isn't actually negative anymore.  So,
+> - * drop it.
+> + * exFAT has no FAT-style 8.3 alias entries. A negative dentry can therefore
+> + * be reused for creation as long as the parent directory version did not
+> + * change since the lookup that created it.
+>   */
+>  static int exfat_d_revalidate(struct inode *dir, const struct qstr *name,
+>                               struct dentry *dentry, unsigned int flags)
+> @@ -54,7 +51,7 @@ static int exfat_d_revalidate(struct inode *dir, const struct qstr *name,
+>          * Drop the negative dentry, in order to make sure to use the case
+>          * sensitive name which is specified by user if this is for creation.
+>          */
+> -       if (flags & (LOOKUP_CREATE | LOOKUP_RENAME_TARGET))
+> +       if (flags & LOOKUP_RENAME_TARGET)
+Removing LOOKUP_CREATE breaks case-preserving creation.
 
-The fix indeed seems to fix the behavior I'm seeing. Keith could you Cc
-me if you end up sending an official version?
+    $ stat foo 2>/dev/null || true
+    $ touch FOO
+    $ ls
+    foo
+
+The cached negative dentry for "foo" is reused for "FOO". I think only
+the obsolete 8.3 alias comment should be updated, while keeping the
+LOOKUP_CREATE check.
