@@ -1,183 +1,102 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4424E347505
-	for <linux-fsdevel@vger.kernel.org>; Fri, 12 Jun 2026 10:50:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256B81F5842
+	for <linux-fsdevel@vger.kernel.org>; Fri, 12 Jun 2026 10:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781261455; cv=none; b=LA8ahc5NtcjDcjH5paa914dlWPneJXFw+8G2W/BVopv8ovvmsr1KEBQbwPZxh1HEBzVICjmBoNoNBjKPkBuwi3nsU0XT+gb3fP+Q1Bu1UZFC84ZRKwkwRpaMqLclukmTwwTlyT3jytLWwHM3PoxV6hddgR+1PnCoLVUS13NZnbA=
+	t=1781261929; cv=none; b=bJojgT3F4OHUU/gqlf+2eZbJ2OFUpL/qU8CjiL3wJPiGMnygmxm8r/1/utKQNr6zhR12mSRCdDSMTJiAi1hXqAE0YhGOJPjCt3zCnrGg6OipqCIwynCrl1Pgnfhr79bdqm1vKk0FHAGFSf08Nd1mG9eOLHcbiqALoy4gLNiLcsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781261455; c=relaxed/simple;
-	bh=peCkeTeq6YhiATAmlWLQ0ZorEu132I57JlTHHZavqvc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kGtwdUyXpBGrhSt/pjCjPqE5aCPiF3ZDv/3//ziipOzb8Kejd3fGaUEg/zX/Oi3adby8r3KIgJhLJVhWonNKN6p7Zg2jKKPsRivI+z/MyGqKxArPaLX/sQO3bf38OQjRBVo0TXkNMtF1fqD2pm0EyhGX0k00bTITlbGpBZxNi3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ic4ihajP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=afHAKkL4; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ic4ihajP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=afHAKkL4; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1781261929; c=relaxed/simple;
+	bh=QV70zug7pUsuHJm/j+4dKuiEaiBdOZpK58/NCc1YEzM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=thurNLlu/v8TVLUATTELG1kXOPMYBNfUhyFCT8kT6ASz114jPlbJGMBPW2FX6tmq7NFk6zGw9SXrNnWqfx3rQ5zbCsrwduiiiomkj5sVHvLsTdF4rpZad7WqSKrutKWxAx6ATUr79Vu5gzOt/xjGPC6iE/CFpuSHCgDjae6iKu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=gXEFMQ+x; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=e6fkZjkq; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ic4ihajP";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="afHAKkL4";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ic4ihajP";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="afHAKkL4"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7A528765DD;
-	Fri, 12 Jun 2026 10:50:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1781261452; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=adKl1uuNS0qC0pRfF9ZlrempdpJ1NBm/6W7s3a2+pZY=;
-	b=ic4ihajPNq/lbLlsoV9jLdG4Ql2OYTigg3X8QIDy2VQ12Qgh7eZR0rCSCw9ojOEViIkZbO
-	dsrnKG3fR4Yr7SIYStYX6wmXzTw7qdAFAhyjk2TEMDb6F048Pws9K4nWqSkYRuIQYE86dQ
-	dKxPhmMqpLebbreuLQjU3nkVFQvffFc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1781261452;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=adKl1uuNS0qC0pRfF9ZlrempdpJ1NBm/6W7s3a2+pZY=;
-	b=afHAKkL4J+9RQUl9eO1cfNbw08pahbI6Hei0/BiJ5d69UJuPDmaybm03fJxEhVovf4t9AE
-	UgSMpXwJ5M4QqeDw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1781261452; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=adKl1uuNS0qC0pRfF9ZlrempdpJ1NBm/6W7s3a2+pZY=;
-	b=ic4ihajPNq/lbLlsoV9jLdG4Ql2OYTigg3X8QIDy2VQ12Qgh7eZR0rCSCw9ojOEViIkZbO
-	dsrnKG3fR4Yr7SIYStYX6wmXzTw7qdAFAhyjk2TEMDb6F048Pws9K4nWqSkYRuIQYE86dQ
-	dKxPhmMqpLebbreuLQjU3nkVFQvffFc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1781261452;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=adKl1uuNS0qC0pRfF9ZlrempdpJ1NBm/6W7s3a2+pZY=;
-	b=afHAKkL4J+9RQUl9eO1cfNbw08pahbI6Hei0/BiJ5d69UJuPDmaybm03fJxEhVovf4t9AE
-	UgSMpXwJ5M4QqeDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 70EEE779A7;
-	Fri, 12 Jun 2026 10:50:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id WJCLG4zkK2p1UAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 12 Jun 2026 10:50:52 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 1820EA0EB4; Fri, 12 Jun 2026 12:50:48 +0200 (CEST)
-Date: Fri, 12 Jun 2026 12:50:48 +0200
-From: Jan Kara <jack@suse.cz>
-To: hexlabsecurity@proton.me
-Cc: Jan Kara <jack@suse.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] udf: validate sparing table length as an entry count,
- not a byte count
-Message-ID: <wudlwpcg7gldrzgrab7sjcp3tiex436snwp3tgiwzenskszmmh@kar23ttnlsz7>
-References: <20260612-b4-disp-91780c4e-v1-1-f15112ff6882@proton.me>
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="gXEFMQ+x";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="e6fkZjkq"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id 4B69E1D000E3;
+	Fri, 12 Jun 2026 06:58:47 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Fri, 12 Jun 2026 06:58:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1781261927;
+	 x=1781348327; bh=9uyrq9L6Fone56GQvPSX4+qRMkkQPO1Z0wLQFPb+fe0=; b=
+	gXEFMQ+xlfeELskDWh9QCCmfs/5BYtaxFQiLmw5r1/ghnc02fQwmwGfpLI0Rri3r
+	QOYG+E4iDyV1wAbY1t9hRXAEUysd7VqMqnauUAgoxMJHNjc/fnPCvvJJ69PAEZR5
+	/i9SdSODIKAUW+ikoltkVCst0ihlkkM2qXhIC5GsJclsSHW7KUuzbMWLUlhX7tWG
+	Jd4Ul3ZSosW5rajd64oQP65cCkqE1Hqo8n+tAW+UusKO5Oddwzt//eaN6bq3hO3m
+	UrMyrnbDXTS36k1ZqLbWGbLHe3LZ5QKeg3c4Uia71UgZlwUSm82IUACxdPFr+pv2
+	5P4NYBGgbCbuoh6vyOwyoA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781261927; x=
+	1781348327; bh=9uyrq9L6Fone56GQvPSX4+qRMkkQPO1Z0wLQFPb+fe0=; b=e
+	6fkZjkqq165NBjgel5wdOxpoWv+tbVKETb7AoDWA1HUsvcQjYS7317NQ9HM4/Rx3
+	mqLJAyThy9edt4zQY3A0fBRN+qTsg0A9Fa14N7tYx7zZf1O0pXa5ICwrMVaHUkF5
+	PUdSR2PtSzQQDWLwuGOwP3C0hVlzTo5uw31yNL0UQJ0snTGgmgaJIQYO3JcC7IaL
+	keMe2E8wO5WOQ/QwRadkC4PLpN18y0Xn+QpZW38pGGMksyNOSFKkHGLyrVCJ3bkm
+	S6p8thjKNU3TFllCVqCCBi3/v1z90JX7gkayRpZD0qlOdVw9g+1DYTCxIKuEn5TB
+	IlujUZszSz+2kdDEFllzw==
+X-ME-Sender: <xms:ZuYrakavxWUHIbjV3Tr4OgfnFwp7wmQLrT7ac9JaT4PIBGqdNk20Lw>
+    <xme:ZuYranII9yHsx0CYWS2oUGYMl6wTLXKlLrF0d1eLewqIykTvNXnaysMRdEs5exv3S
+    8tlzcdQHtLsdtRuzotLaAGW8i0aLmG0GN8WrnsrOIqd4U-AIHUw>
+X-ME-Received: <xmr:ZuYraiCAPnfQdpx7eDTwClFOuJ7Idp38byvHRHrojnjmZIpx0qoRrEVx-x_4C6-oMVIDre6pPafQcHUFurD9RcpfhzagX8Ft00lC9VTRlK7Fjr5r-g>
+X-ME-Proxy-Cause: dmFkZTERrdIpjGQNgIG/OGWz1D9bVoz5V8zWLwtO867Cs6ZH6AMFdMopiIej0jD67aczkQ
+    0aZyT705H1QUkOLV4E5X6tItQSEmnP42ID1YRn0jz2vu9FjqbnfMHdaL23/3Oiy2OndmaK
+    9kCKLxsQMlOmbgA4Qc+YNn6/NIFh+UIGjJmcXTxITpzQ9uEpzg4r7EzSitFtKCWXrgmEBn
+    EwfdaYaoQggGndSuzJI3Hg82Sdx1+0B+RSeVXMmws6kMfUoRQcyShp8ndlX+QQs570NqY5
+    1J4mC2EDpagqGprfjqk8tuDqTicyU0ftYW9wz2e0U9kJxmgbOfueDaktvI9ymLoUmbWHpQ
+    N4+nmXLSlCm6LMFU6MaOzKyQutybQRTOJvBYM8ligKUapNhvODTRY9tGFCu1D13GXiypUB
+    Dsyy7q2MOWfVgmZyalutbjgdbRMTQ9z1KDVRtL8IUxzKRDUEXR+6giJ0RoUtgkR62O0htL
+    XoLGKvlmdi/l0DtZp9d1az9PYJN4swr9WjPfmwnisc9OqoZyHoDMcSq94+r09FODg6Ip4c
+    Jd3KPoYl8Ja8iFrjvZgEEi1KYMn6EyydTGPAQmsCRYYDY0D5kqTLL14An0Q4MvXHyXl+yk
+    vKPuOydtr+EPeK6IMovagNez0e6IQsXqy0Rja39w2w1bWnkwbL4DKyLH4KvA
+X-ME-Proxy: <xmx:ZuYrasrOytSMg7H54Mf6OjKAJDan2oodRv96eBg7CKemcJUb4YH_MQ>
+    <xmx:ZuYratiRLgwSZaRzOUEXri1EGNvW_4-gScoIvThm9FJ5I6wv0TLpjA>
+    <xmx:ZuYrapDpKi0Mwj5FCkd_2gX9his-KsPJJ5VevVK0D_AT3cvbHQmwnQ>
+    <xmx:ZuYraiHgxmdT0KJCsxLW7tMl3qkZaxWuHq4vK8rUJ0YY_8SU5-TROw>
+    <xmx:Z-Yrat6h1nGwNblBnveWnR9HyhSBb6DAa22KbcJkli5LweLG8-H8x8NJ>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 12 Jun 2026 06:58:46 -0400 (EDT)
+Message-ID: <90a8094f-29d1-42a0-8c87-f8cc567c4e0e@bsbernd.com>
+Date: Fri, 12 Jun 2026 12:58:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260612-b4-disp-91780c4e-v1-1-f15112ff6882@proton.me>
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL] libfuse: more random fixes for fuse service containers
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org
+References: <178114032924.140224.9298472352650513008.stg-ugh@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <178114032924.140224.9298472352650513008.stg-ugh@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri 12-06-26 01:40:01, Bryam Vargas via B4 Relay wrote:
-> From: Bryam Vargas <hexlabsecurity@proton.me>
-> 
-> udf_load_sparable_map() accepts a sparing table when
-> 
-> 	sizeof(*st) + le16_to_cpu(st->reallocationTableLen) > sb->s_blocksize
-> 
-> is false, i.e. it treats reallocationTableLen as a number of BYTES that
-> must fit in the block.  But the table is walked as an array of 8-byte
-> sparingEntry elements:
-> 
-> 	for (i = 0; i < le16_to_cpu(st->reallocationTableLen); i++) {
-> 		struct sparingEntry *entry = &st->mapEntry[i];
-> 		... entry->origLocation ...
-> 	}
-> 
-> in udf_get_pblock_spar15() and udf_relocate_blocks().  A
-> reallocationTableLen of N therefore passes the check whenever
-> sizeof(*st) + N <= blocksize, yet the consumers index
-> sizeof(*st) + N * sizeof(struct sparingEntry) bytes -- up to ~8x the
-> block.  On a crafted UDF image this is an out-of-bounds read in
-> udf_get_pblock_spar15(); udf_relocate_blocks() additionally feeds the
-> same length to udf_update_tag(), whose crc_itu_t() reads far past the
-> block, and its memmove() through st->mapEntry[] is an out-of-bounds
-> write.
-> 
-> Validate reallocationTableLen as the entry count it is, with
-> struct_size().
-> 
-> Fixes: 1df2ae31c724 ("udf: Fortify loading of sparing table")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
 
-Good catch. Thanks for the fix. I've added the patch to my tree.
 
-								Honza
+On 6/11/26 03:14, Darrick J. Wong wrote:
+> Hi Bernd,
+> 
+> Please pull this branch with changes for libfuse.
+> 
+> As usual, I did a test-merge with the main upstream branch as of a few
+> minutes ago, and didn't see any conflicts.  Please let me know if you
+> encounter any problems.
 
-> ---
->  fs/udf/super.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/udf/super.c b/fs/udf/super.c
-> index cad2e15d633b..d75bfc733975 100644
-> --- a/fs/udf/super.c
-> +++ b/fs/udf/super.c
-> @@ -1418,7 +1418,8 @@ static int udf_load_sparable_map(struct super_block *sb,
->  		if (ident != 0 ||
->  		    strncmp(st->sparingIdent.ident, UDF_ID_SPARING,
->  			    strlen(UDF_ID_SPARING)) ||
-> -		    sizeof(*st) + le16_to_cpu(st->reallocationTableLen) >
-> +		    struct_size(st, mapEntry,
-> +				le16_to_cpu(st->reallocationTableLen)) >
->  							sb->s_blocksize) {
->  			brelse(bh);
->  			continue;
-> 
-> ---
-> base-commit: 8e65320d91cdc3b241d4b94855c88459b91abf66
-> change-id: 20260612-b4-disp-91780c4e-fb52a746d9df
-> 
-> Best regards,
-> -- 
-> Bryam Vargas <hexlabsecurity@proton.me>
-> 
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thank your for all the fixes, LGTM and passed tests - merged.
+
