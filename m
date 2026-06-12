@@ -1,188 +1,144 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4BA395D9F
-	for <linux-fsdevel@vger.kernel.org>; Fri, 12 Jun 2026 11:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE8B3939D3
+	for <linux-fsdevel@vger.kernel.org>; Fri, 12 Jun 2026 12:10:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781264511; cv=none; b=gYSsRieuH6WgNG6zlXc4MdEXvvH6sfOeX9gJiwzLFp62aMGilv8z0s8sIltcidzibumrHxwHTOI7NBtzV8M74gl4shxwxbkcOStpmFBKwBx9VJOXRth3E9R/1CcS7zuqbrHC4BFVCs6wv2/1EKNd3kysU/NfNVpEcyw+8KtEn/M=
+	t=1781266255; cv=none; b=K58qH3dXwf6riXgznLW/PMlMjmHu/IgIeu3odhKjSuewGB3xEzL3t04BmrYyPaKGQICZTlOPOUw8b9IPa1iTL8WXXQHrgbeuf64jzBndLTjPz7YEYRmVhoszWwdNT/ItKRDPk2vQQ/63tkCQffJJMDtInsg4nWeg/bu/3oHlq68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781264511; c=relaxed/simple;
-	bh=+rG8SrvnWW/MtZB9zFZZbf/x0BqNI/d2otEsc+WKIpI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=crZuh7LSGqq8mXMueBiJ1KTaqPU/HLoQ+oaLiLJVBYBgNc0sSDBf12CR13VbQrGS8KFF4IR3UA1B2LOrBEqAz5J/2xDjkpEeDmnw35f97VwMTFUKQs4Em5d9+pV7lhInQZcVQjEzAmww2QXjq/rLZrBJ9086KhL+S4Xo/uPFc7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=HlR7KN4F; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=oC6VH3X6; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=HlR7KN4F; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=oC6VH3X6; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1781266255; c=relaxed/simple;
+	bh=HZ9Ks0XPk0YTR1RMBY9S7/jI8tTrBBoWbjsfOfflUkk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=R65BUbmwM5x43pYoXWx58VQHnpZlUJGPUN23HneLFiRkw9pDy8kMF1vfoVrDg2p3RIzpbTWDadLiXtiLL3gPnPtSeLBCHS1kW44JHTuTMOaY8Sbfs9qGNLFWhqADFWxP3Xd5hke8RL7JlMRCIDmvJBvSgrU7uAwcTRLr76xM4Zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TUf2NX/d; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="HlR7KN4F";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="oC6VH3X6";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="HlR7KN4F";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="oC6VH3X6"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TUf2NX/d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1781266253;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=bAG/aaleL+KGNyeyu+ILijGdPmXoI66HYof8HAvsvrY=;
+	b=TUf2NX/dH0A2qlAmsVR3POew2TeyrpedRB57yNnrAKObnVYKU7Rp/PkHYdhAKADbIN05Yd
+	vMrJ5ySFJSYKYGquasO0zYdlrWzry9GEdof88S2SuR2FEdSoeZXyjHr6ZI3Embc8QScHFM
+	L8uYAxpeYDbDd/68M8/pnAV8p0IE3AA=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-5-3v5IX6EUPKqTgzN8ju9jJw-1; Fri,
+ 12 Jun 2026 08:10:50 -0400
+X-MC-Unique: 3v5IX6EUPKqTgzN8ju9jJw-1
+X-Mimecast-MFC-AGG-ID: 3v5IX6EUPKqTgzN8ju9jJw_1781266249
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 51CDC6C03C;
-	Fri, 12 Jun 2026 11:41:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1781264508; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g0YbFP2IjNEOUPGaG6UG3au0+Y0QOxb8ZhAgQOzlXWQ=;
-	b=HlR7KN4FxRAaQ7RO8ZBeAwUn3mofQXnryn/zRujkKO+xU2Puja/3qKl7gnl85qzGhlXP2E
-	fEHrBx9H94Ku5DQp4MYpuvSnvCwp6ufo4OW9J6X3fUm5lUI4BzFbqbxr2vnMyRDnaron34
-	WKg+GJLVLm+uLdQMdUjPAkt5fgmKA5o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1781264508;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g0YbFP2IjNEOUPGaG6UG3au0+Y0QOxb8ZhAgQOzlXWQ=;
-	b=oC6VH3X6LCNSmn04B4PQYwIef3Sk9dH0TsS5MvjjlLZRDahfjeYot0NbOrNDN7LZBBMwxl
-	y2SkHTNjrUZ3TuBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1781264508; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g0YbFP2IjNEOUPGaG6UG3au0+Y0QOxb8ZhAgQOzlXWQ=;
-	b=HlR7KN4FxRAaQ7RO8ZBeAwUn3mofQXnryn/zRujkKO+xU2Puja/3qKl7gnl85qzGhlXP2E
-	fEHrBx9H94Ku5DQp4MYpuvSnvCwp6ufo4OW9J6X3fUm5lUI4BzFbqbxr2vnMyRDnaron34
-	WKg+GJLVLm+uLdQMdUjPAkt5fgmKA5o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1781264508;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g0YbFP2IjNEOUPGaG6UG3au0+Y0QOxb8ZhAgQOzlXWQ=;
-	b=oC6VH3X6LCNSmn04B4PQYwIef3Sk9dH0TsS5MvjjlLZRDahfjeYot0NbOrNDN7LZBBMwxl
-	y2SkHTNjrUZ3TuBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 48CAC779A7;
-	Fri, 12 Jun 2026 11:41:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id h1O9EXzwK2prAgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 12 Jun 2026 11:41:48 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id E0365A0EB4; Fri, 12 Jun 2026 13:41:39 +0200 (CEST)
-Date: Fri, 12 Jun 2026 13:41:39 +0200
-From: Jan Kara <jack@suse.cz>
-To: hexlabsecurity@proton.me
-Cc: Jan Kara <jack@suse.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] udf: validate VAT header length against the VAT inode
- size
-Message-ID: <bhobgvj6tntmyvkerfa4siowfttrq6b4lelqq2tuoeiksddkul@fvi3aitmgric>
-References: <20260612-b4-disp-9a2317ee-v1-1-fefef5736154@proton.me>
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2CFA21800A7B;
+	Fri, 12 Jun 2026 12:10:49 +0000 (UTC)
+Received: from bfoster.redhat.com (unknown [10.22.80.93])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4E1E33008B34;
+	Fri, 12 Jun 2026 12:10:48 +0000 (UTC)
+From: Brian Foster <bfoster@redhat.com>
+To: stable@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	Gregg Leventhal <gleventhal@janestreet.com>,
+	Eric Hagberg <ehagberg@janestreet.com>
+Subject: [PATCH 6.12.y] iomap: don't revert iov_iter on partially completed buffered writes
+Date: Fri, 12 Jun 2026 08:10:47 -0400
+Message-ID: <20260612121047.397754-1-bfoster@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260612-b4-disp-9a2317ee-v1-1-fefef5736154@proton.me>
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Fri 12-06-26 02:53:31, Bryam Vargas via B4 Relay wrote:
-> From: Bryam Vargas <hexlabsecurity@proton.me>
-> 
-> udf_load_vat() takes the virtual partition's start offset straight from
-> the on-disk VAT 2.0 header without checking it against the VAT inode
-> size:
-> 
-> 	map->s_type_specific.s_virtual.s_start_offset =
-> 		le16_to_cpu(vat20->lengthHeader);
-> 	map->s_type_specific.s_virtual.s_num_entries =
-> 		(sbi->s_vat_inode->i_size -
-> 			map->s_type_specific.s_virtual.s_start_offset) >> 2;
-> 
-> lengthHeader is a fully attacker-controlled 16-bit value.  If it exceeds
-> the VAT inode size, the s_num_entries subtraction underflows to a huge
-> count, which defeats the "block > s_num_entries" bound in
-> udf_get_pblock_virt15(); and on the ICB-inline path that function reads
-> 
-> 	((__le32 *)(iinfo->i_data + s_start_offset))[block]
-> 
-> so a large s_start_offset indexes past the inode's in-ICB data.  Mounting
-> a crafted UDF image with a virtual (VAT) partition then triggers an
-> out-of-bounds read.
-> 
-> Reject a VAT whose header length does not leave room for at least one
-> entry within the VAT inode.
-> 
-> Fixes: fa5e08156335 ("udf: Handle VAT packed inside inode properly")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
+Gregg reports that the iomap retry behavior for nonblocking (nowait)
+append writes is broken. The problem occurs when an append write is
+first submitted in non-blocking mode (i.e. via io_uring), partially
+completes before hitting -EAGAIN, and then is resubmitted from
+blocking context.
 
-Thanks. I've added the patch to my tree. I'll just note that we need a
-similar check for older format of VAT handled in that function as well.
-I'll add that.
+The specific problem is that at least one iteration of the loop in
+iomap_write_iter() completes in non-blocking context and thus has
+bumped i_size. The next iteration hits -EAGAIN, reverts the iov_iter
+and returns. io_uring retries the entire append write from blocking
+context, but since i_size has already been increased, the data that
+was partially written on the first attempt is rewritten at the new
+i_size. This is essentially an intra-write data corruption since the
+data written to the file does not reflect the write from userspace.
 
-								Honza
+This problem is already fixed on master as of commit 1a1a3b574b97
+("iomap: advance the iter directly on buffered writes"). That commit
+was primarily intended to clean up iomap iter state tracking, but it
+also happened to remove the iov_iter revert and thus accidentally
+fix this problem as well. Without the revert, iomap will commit
+partial progress internally and loop once more before it more than
+likely hits -EAGAIN and returns partial progress consistent with the
+inode updates. This means the blocking retry from io_uring will pick
+up where the first attempt left off at the current i_size and
+perform the remainder of the write correctly.
 
-> ---
->  fs/udf/super.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/fs/udf/super.c b/fs/udf/super.c
-> index cad2e15d633b..561eace476ab 100644
-> --- a/fs/udf/super.c
-> +++ b/fs/udf/super.c
-> @@ -1263,6 +1263,14 @@ static int udf_load_vat(struct super_block *sb, int p_index, int type1_index)
->  
->  		map->s_type_specific.s_virtual.s_start_offset =
->  			le16_to_cpu(vat20->lengthHeader);
-> +		if (map->s_type_specific.s_virtual.s_start_offset +
-> +		    sizeof(__le32) > sbi->s_vat_inode->i_size) {
-> +			udf_err(sb, "Corrupted VAT header length %u (VAT inode size %lld)\n",
-> +				map->s_type_specific.s_virtual.s_start_offset,
-> +				sbi->s_vat_inode->i_size);
-> +			brelse(bh);
-> +			return -EFSCORRUPTED;
-> +		}
->  		map->s_type_specific.s_virtual.s_num_entries =
->  			(sbi->s_vat_inode->i_size -
->  				map->s_type_specific.s_virtual.
-> 
-> ---
-> base-commit: 8e65320d91cdc3b241d4b94855c88459b91abf66
-> change-id: 20260612-b4-disp-9a2317ee-0042af154672
-> 
-> Best regards,
-> -- 
-> Bryam Vargas <hexlabsecurity@proton.me>
-> 
-> 
+Cc: <stable@vger.kernel.org>
+Fixes: 18e419f6e80a ("iomap: Return -EAGAIN from iomap_write_iter()")
+Reported-by: Gregg Leventhal <gleventhal@janestreet.com>
+Reported-by: Eric Hagberg <ehagberg@janestreet.com>
+Signed-off-by: Brian Foster <bfoster@redhat.com>
+---
+
+Hi all,
+
+This relates to the discussion here[1]. Refer to the link for further
+details and the custom reproducer. Since this is a stable-only patch,
+I'd like to see at least one ack if possible from an iomap developer.
+
+Note that this patch introduces an extra iomap iteration in the write
+iter path before an -EAGAIN will return, but I went this route because
+this is current upstream behavior and I didn't want to introduce novel
+behavior in -stable, as trivial as it might be. This was initially
+developed as a custom/selective backport of 1a1a3b574b97, but as it
+turns out this is also effectively a revert of commit 18e419f6e80a. So
+FWIW, this is somewhat historical behavior as well.
+
+I plan to float a patch upstream to fix that loop wart soon. That would
+seem overkill to fix in stable to me, but if it does prove necessary we
+can revisit something like the custom version posted in [1] as a
+stable-worthy variant. I'd just prefer to only do that if/after that
+change proves acceptable upstream.
+
+Finally, note that I'm not intimately familiar with -stable process so
+I'm just sending a 6.12.y version here. Earlier branches can either also
+include this, revert 18e419f6e80a directly, or I can post targeted
+patches if needed. Thoughts, reviews, flames appreciated.
+
+Brian
+
+[1] https://lore.kernel.org/linux-fsdevel/CAFN_u7FrgM4Dzie2jjkLwWV8P0dvUG_Wwy3Q9B3-2HnnWiDu8w@mail.gmail.com/
+
+ fs/iomap/buffered-io.c | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+index 0178292c1864..5f885286b2f4 100644
+--- a/fs/iomap/buffered-io.c
++++ b/fs/iomap/buffered-io.c
+@@ -1037,10 +1037,6 @@ static loff_t iomap_write_iter(struct iomap_iter *iter, struct iov_iter *i)
+ 		}
+ 	} while (iov_iter_count(i) && length);
+ 
+-	if (status == -EAGAIN) {
+-		iov_iter_revert(i, total_written);
+-		return -EAGAIN;
+-	}
+ 	return total_written ? total_written : status;
+ }
+ 
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.54.0
+
