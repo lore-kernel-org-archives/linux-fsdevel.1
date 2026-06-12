@@ -1,71 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D962E370D5A;
-	Fri, 12 Jun 2026 12:19:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C34A38D401;
+	Fri, 12 Jun 2026 12:27:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781266746; cv=none; b=nEYomwO3rqcCMVpAcCdGcGfMRdxctO01n4eUS1Acv1hWEP/ajL2AigVFl+F7cCGU8HgwD7iDutz5FROg/1EQ5JmMejizwlp2R67eVAvr8YuY5Sz6mf/DY97dUHQ8MXO+1wU++QGz9Ru7a3ij0oo+q6Q4UJPCF6OKxO6435o0TsU=
+	t=1781267221; cv=none; b=L4AxJJnUkZ+Ux2LoLkfdTz1Lu/bb8UphmTs0eiA7hNJGdQMxF2z0M6u1mXZmMYuedTbqE/4F5BUL7c3nKsA6cFJYdxIeq10vy6MbZn+nPByV7FRSo2A0JHqdTP37jUgJronKilhpNCaIjdCfDc+YGQY6fJUtvE0sK64EQ5N0etY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781266746; c=relaxed/simple;
-	bh=1l0rFnrX25bcDADvh/n7RyDXM2YgvNap+9EAAx8Lnek=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VyoHAv+F1JvxawQ9YTF79fLKKaW5jUvQURYOTmFNif5j/NDfMzj4PBmnoKA/shPUrrURLceTZEjIx05iUZ2w1ecKE1EJKMtRXhCN5NEdZic1sYMwItXVQA56fDe1yDQkb76wtkSMOSQaKU4yuAdZdgk9xstvktNKQlZMTC9cEfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gsDTO58D; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781267221; c=relaxed/simple;
+	bh=aRC3JJXESXZKeSSBw7RplMp1BkyIkFyuJDOxYsM8XvM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ot7HmPswFj4jlq6rEThtr9RstcROXBtrPqDXqW2zS/9NmRLyWisQisRUWnx6/MgOU6gqt20WBf+OPtLfI1q+XkJrcLNoPlK2CQCYJk5oG22udpAcRGdZVVvWVfaaPWR6IHTMhhIzX5zDaWjWThq/jpgg9xr4YW5psdLQLlfpESU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OzCPYYBl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gsDTO58D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97C3A1F00A3A;
-	Fri, 12 Jun 2026 12:19:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OzCPYYBl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3A111F000E9;
+	Fri, 12 Jun 2026 12:26:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781266745;
-	bh=vYtOrK4Dq5zpikk3Pl2z6fn8G44xM4GUjAwqmUordCw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gsDTO58DU87H5WHkJ9FoT+wX00LrkGXxk9DoEaAyu/VRjyDm+BV+EURNQfgLQmeAQ
-	 dwNJfjTAFztIf4sbCFgmovQP7WSseN5HOBRA9qg2qaI05MORk7ZnCmm2VTaCJnuu1m
-	 bzof0i3eByH3T2eBLmnv9KI6F7ygHzrV13C53j+2MRsDIcMKvGSSAG0EZit9DKmMdn
-	 e3rVSF8TGrTQVT+1yG6P4LsaErI7doknqKPS4kbHMBD9m7QFr74SIdPd+9xbO96ozi
-	 623Ncg0KemwHgPAhmUXy/BYegOumfTuOzR5FOdWveO1CHVSLi1n2J9MwioTavVbrAU
-	 2OKiVTtY1v04w==
-Date: Fri, 12 Jun 2026 14:19:00 +0200
+	s=k20260515; t=1781267220;
+	bh=OM7iP170cSRyHK7jAhCzzj1Cm0vV8KdLCpu9RATcPRo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=OzCPYYBl1bSIkRJm/HUTLaol9KwmmNZKpR9tnwP/cDD3T5i/tT7Zyomz262Ui+dMW
+	 KGPl0Vu8NjoVIHYzC1mopFLNd4cb0LctqgbaQRwiHZI3jkfy9edDHJ8lc99dNJas3W
+	 tXW5C29ES0hbTaKshDZqHk9gHX1nvR08ApA8SjAXQ2BmQyvmj+fKeO+JYTaERdzfIS
+	 4sMQ8aPGTzAo+hdP/KNln/bkKSSQoS4yzuMYx1WfccmrA2q6oaKYzKhJtvHRhh6iZw
+	 yUEpXc9UticbOmds2/Yf18ON7bESdYVgZXZxUaDYMb5MyUqAgJL5j2Fz+PXBKbobi6
+	 sglvIGGqAhKOw==
 From: Christian Brauner <brauner@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Steve French <sfrench@samba.org>, 
-	Steve French <smfrench@gmail.com>, Al Viro <viro@zeniv.linux.org.uk>, NeilBrown <neil@brown.name>, 
-	Jeff Layton <jlayton@kernel.org>, linux-cifs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/1] vfs: pass S_IFDIR mode to vfs_prepare_mode()
-Message-ID: <20260612-sturz-infizieren-heckscheibe-76f3ed250ea8@brauner>
-References: <20260611145733.43776-1-jkoolstra@xs4all.nl>
- <7iocwlr7jg2jiyx53q7lxaccrybu6fpv6ch36u64igdmddafdk@3ejeqvr4e7rh>
- <987538907.1434294.1781209240897@kpc.webmail.kpnmail.nl>
- <vt6zmgnwz3n5jc3opm5i3bckkocfmzcysrbivbin52nudayus5@5stfgorwnob7>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	viro@zeniv.linux.org.uk,
+	jack@suse.cz,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	adobriyan@gmail.com,
+	cuiyunhui@bytedance.com
+Subject: Re: [PATCH] fs: fix ups and tidy ups to /proc/filesystems caching
+Date: Fri, 12 Jun 2026 14:26:53 +0200
+Message-ID: <20260612-abgleichen-mickrig-couch-7bd1b5a1e634@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260610143954.34185-1-mjguzik@gmail.com>
+References: <20260610143954.34185-1-mjguzik@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <vt6zmgnwz3n5jc3opm5i3bckkocfmzcysrbivbin52nudayus5@5stfgorwnob7>
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1048; i=brauner@kernel.org; h=from:subject:message-id; bh=aRC3JJXESXZKeSSBw7RplMp1BkyIkFyuJDOxYsM8XvM=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRp/+br3nX6evWBd2z+tnZzGgw7Z3w+Vnbo/rkfUy/3y 7tXsUzN7ChlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjIBhWG/4kf3A1vLHNwdZP6 27TBo+ux18P1U4OkcnhexspODXhfsZDhn0GpMuc7V+Ydc7IYDjeGy6hJFDt869/52Nbjxb4r6Tf 38AEA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jun 12, 2026 at 12:33:53PM +0200, Jan Kara wrote:
-> On Thu 11-06-26 22:20:40, Jori Koolstra wrote:
-> > Hi Jan,
-> > 
-> > > Op 11-06-2026 17:33 CEST schreef Jan Kara <jack@suse.cz>:
-> > > 
-> > > For the filesystems I know this looks sound. Thanks for the cleanup. But
-> > > this series should then follow with the removal of now-pointless "|
-> > > S_IFDIR" statements.
-> > > 
-> > 
-> > Right, perhaps it should. But wouldn't that be too much churn? I know Al can
-> > really be on the brake sometimes with regards to that. But it isn't a lot of
-> > effort, so I am fine with it.
-> 
-> I agree it will be more churn but leaving the now-pointless | S_IFDIR in
-> the filesystems is confusing for code readers which isn't good either. So
-> at least for filesystems I maintain I would like that cleanup to be done.
+On Wed, 10 Jun 2026 16:39:54 +0200, Mateusz Guzik wrote:
+> - add missing unlocks in some corner cases
+> - whitespace touch ups
+> - s/smp_store_release/rcu_assign_pointer/ [nop, the macro expands to the same thing]
+> - mark file_systems_string as __read_mostly
 
-Jan is (as usual) right.
+Applied to the vfs-7.2.procfs branch of the vfs/vfs.git tree.
+Patches in the vfs-7.2.procfs branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.2.procfs
+
+[1/1] fs: fix ups and tidy ups to /proc/filesystems caching
+      https://git.kernel.org/vfs/vfs/c/cf30ceccfaec
