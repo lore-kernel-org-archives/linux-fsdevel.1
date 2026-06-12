@@ -1,431 +1,177 @@
-Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19343E556D
-	for <linux-fsdevel@vger.kernel.org>; Fri, 12 Jun 2026 16:29:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781281746; cv=pass; b=tRjousN2ym0w0XEeHkysA6c5iNvPpQkjkiensj6zfRbi4V+eTKs/DW08ENlaNHy2IxSgFB5b9cBua4las/KGo+pXAkLPTlZXjdchVaThDn/rPTODYXfOw5JTmEMR6CPpjvgX95ekH8rwheKR6QQ7ocNex9f9KFXryt+/2MTlq4M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781281746; c=relaxed/simple;
-	bh=J02zotRkrX9JehJDexnl9sY1KFm208BizczUeCcggp4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i2gtOSpedOf/G1cg72smDYieCnZZdTw3vEQVoWgdSoLRLciegVWkCx2/6hIfsixebCjQbsPjIUWiFYZAR9jxYjlpa6nm39sMZaxOgCauZzutYF9z+Y875oftDHwkv6wPZK/GzrxgUL5Jkwrr6GI8jW0cg/4K4pX3enn6kkT/Fck=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=goJ/NZz5; arc=pass smtp.client-ip=74.125.224.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45BE218EB1;
+	Fri, 12 Jun 2026 17:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781285961; cv=none; b=KhoJuZ1P6qzU5m580+Jo483cIuVmsrAX+R3L5/2+8OJGVQaYw7GM92UW9ePd4jjg09fCykHvELYuctRB1jjOQC0GbpTp2OiFagUzAcZlTOjlmxiJZmnOvlNpwKyAnskEQvjVApc0K/MSH37mhSX/56oPuszcZz8rZc38Pq2mvf0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781285961; c=relaxed/simple;
+	bh=GcOQ1BfJCrdgO/Qxw1eoi9krlAY2ASEk2WTmZb3kce0=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=KRhSDbWtEtm3TrelYlJTd1mVN1UG6DwUFnRuN0e1Wff00WNBKZ1g4PAGgvGsxdc6GqGHyLkheFDEQ54b6c6bacNyIW/u1z9ptcT56gAGsfC+fWcXkLjSfcn/vswkXheMvJpMi4ekm1k+2Ghb58PutNls63HbBO8LKpwT4wMq+To=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Bfp9qZmT; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="goJ/NZz5"
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-66044692319so165213d50.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 12 Jun 2026 09:29:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781281744; cv=none;
-        d=google.com; s=arc-20240605;
-        b=AZwCyGotyo+/a5xbTWSHS4q4mzpTe5lDS3d/fcmLRXzVQsf/U9P/vkRnbCUPu6r2OY
-         InIh8E0VSaJqBY94/HzKEKLGcNvg2uBLavYciHP5Q81W2Xj4q8ihx85MStXGyHyWlzsS
-         iPtFv58D90x+OXOlL2T/Dj8ridd0UjbFpzK1si0fxInMVxUPHX7t4Vbh7pJkVtOFZe4h
-         CS3R8wkeHxhaU2QHQTpbqsOtmhYlAxkEQH2IajSzPmvP490rRNSZiO99RKmHJQ+UpfCH
-         R9b701iq5dpIFyvhU7lUFp+W99j74MY6rulyqfqY2SYfxtLr78dsdZj3fR/pn2TlLdTq
-         uwyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=1HKjuu9o9sHKnCxEU2rDP2kxmsCm3m4lpiiTHjvScRU=;
-        fh=k7UpFR9xCYTc1UKv9uqF0rrFXwewyDjyvoMhl44oYAo=;
-        b=YXcRBkZDbD6t8LCTGXuQ39XoBpJlSjOWXADp08RAegjUzWDTC1rFeJjLm3riJBilqk
-         Iji07Vuyii9oBIaJ4fZQrVKcH5wMSbXOLiFMzB4AiKz2lg9UB7gkX36cRI19u6tkOuRY
-         YBxEkFde94L82Scvx5rOqOEY9/i1bWm9G0IDirdNnrlRSqGQdWoI5u/9UT4VLehFjwx4
-         8GlPFCHrRjX4tM6lGOFX4RfvQmjKYcBPWDSWYU3APkxV0HnRGWDn3lacjEpUKpyFF1ZG
-         KALfOjmk2o2zOq/Fxnk3cAlFdlOikAPCrNr/ya5fQjQNoiZq6Ujl0CwcM4KFm27JJ/S3
-         L+rg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781281744; x=1781886544; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1HKjuu9o9sHKnCxEU2rDP2kxmsCm3m4lpiiTHjvScRU=;
-        b=goJ/NZz5UfMMFDm1/IhN1uShup4mcK3bVZgkq+CHee0a04cZTSthlwY2etTbW95JUd
-         hz48yFRP+BTnj/kLbrcztzbzunE9bA/NvO1YWYqzkYXhYDwrgs2ji7dLM8Of+ih4bzHd
-         QgbdogzeQOdL1Mw8Hc541PwOUJIaLH/1gE6CrX7n4Yk/+dQ+MTn2Xmak/3pKHQ/oymQx
-         bF9PwL3qfY//j7pjkXFUocFofOhMva/KqJj0TVyaQW4lD0TP7KLsHcuilhWRoyAyVDa7
-         i4FhRJ3Q3m65HgREk3nVo0w0fOMOpkIazdEq0PRH+Kncr05YWg2maWD4jGnnDJ5e/UJW
-         iOGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781281744; x=1781886544;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1HKjuu9o9sHKnCxEU2rDP2kxmsCm3m4lpiiTHjvScRU=;
-        b=TEXqecm8/2wRkaI+6whLeWhGdQZWSMuLNoUrK8wewuiV1RaGhGu3gZSweqFxtSZlpA
-         aV+3LNzWgyVRXMuh0Zd+A2FTYzh1RBXC8C2Kur5OQqr5SJ8whVlxmtdRULs22KNtjxzm
-         +55TB2dXggEgEdvWQCo0X7ucinESeXREiBLpw41XURNtUNNLqdDzKqqmPbAltHDoFOHZ
-         ijrtA0PambdatYz4DcCxtNNaUPbPGR9GldyzkdPrBgSS8f9WGMP2mFR3or5yqvkIMD6u
-         wJ+O6AaSGb5+BfzBzTgcNomfckIXYezP6YS2Q5hpuvdVVmHpY2dFHK63Ydud/qN9hVP2
-         LWrw==
-X-Forwarded-Encrypted: i=1; AFNElJ89C423TbiWOtRTAbJ8Vd+pJMyE+DgLEWoJojnMDMu7DWktyrS1DiCmbaUJwugK6tgmri71g5c59i2xgvpT@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPDN0gJudejtqB9xFlhhI2jNi1SI9XNLveJbeXFTGhMRYGJRo3
-	5kRci8gEHbeTrVR87k1Wo38sXoB4YpqXWoxQE282DeXhO2jOWbH2H1aiWWtwWtLtFHSNj8Ymnd0
-	b0uS3Wh29/skPOe0Ui9Z8S/FdNP+0mpE=
-X-Gm-Gg: Acq92OEfrp5WHXxaJxWtc2dg9bMoWTvJWYDHBff5SLBMKYmq8C5Zr9scCgP+1CLDImH
-	ctHcdhVv3IXkoi2v16VWscWNyNFDSaHuJuomIVjHWheJRO26AzmJZbhbo47XkFtadJaGzZIyBYv
-	hzmKENBgVoJzsX/nepgpD5/woQWF5UJ2y5wFqGemRqtksKAunE2TNKjhutiwpQIx5gcTTB/ZX6T
-	qZIHdfQ20PhjZnKUIuysyXrbKS9LteNlo7w1/2O2FgSGJxXC2RefjqfrUcbOKQWA9kbCgUhQMwN
-	pmsdd661
-X-Received: by 2002:a05:690e:14ca:b0:65e:5342:514f with SMTP id
- 956f58d0204a3-662783bccefmr2013587d50.6.1781281743518; Fri, 12 Jun 2026
- 09:29:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="Bfp9qZmT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1781285943; x=1781890743; i=markus.elfring@web.de;
+	bh=zHEy9j+ImtU6O38k+TlpUursi38ekE+uSX8COFEaDn4=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
+	 Subject:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=Bfp9qZmTjrImdV1kBnx1nB6AYxiXekj2WODAWpJqMtN/Rj/ERCX2XeYmoJUeMSdt
+	 qXOJX9jTlk7Gfm0/5olBG/1pmZOGJJf/wIRGsZzq72dKToGMm/LsB+LSFxUqMYec8
+	 BM+l3B8nB/xw43+wtzG/0i7uN8OAQo2QG2OB48h1M0Pq5WG/w0IjvO1jfqvW9eJkM
+	 ODQJK1rfNHATf+VrIa7MIgiCcUkosr/YD8/KPeYlthtipxjpCTrBuAPeIjp5zZWAH
+	 eJJBy9jTXtqEkj+rz6OTA3IFD4C9IrrVzWYiyLtZ4cPK+tFKdPZJUOwwHm9GDEA15
+	 05KFCCdCVe72mDfFIA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from client.hidden.invalid by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MTfkf-1wdq5C2ezN-00Wzdt; Fri, 12
+ Jun 2026 19:39:03 +0200
+Message-ID: <6e9c0200-9539-49e2-b667-eeb2b4906d45@web.de>
+Date: Fri, 12 Jun 2026 19:39:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260612-topic-symlink-v1-0-cc1ebf9528e1@gmail.com> <20260612-topic-symlink-v1-6-cc1ebf9528e1@gmail.com>
-In-Reply-To: <20260612-topic-symlink-v1-6-cc1ebf9528e1@gmail.com>
-From: CharSyam <charsyam@gmail.com>
-Date: Sat, 13 Jun 2026 01:28:52 +0900
-X-Gm-Features: AVVi8CeadFzpx8IWHftVIj-4cWDCVnfOmvrePf5cMam6jZ3G2oEE43bhB9l-XA0
-Message-ID: <CAMrLSE7z7GieT8zHi7LeYg=Hme=x2uS04dq7LHV8R=ZNHzZFzw@mail.gmail.com>
-Subject: Re: [PATCH 6/7] ntfs: support creating Windows native symlinks
-To: Hyunchul Lee <hyc.lee@gmail.com>
-Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Content-Language: en-GB, de-DE
+To: linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+ Bharath SM <bharathsm@microsoft.com>, Paulo Alcantara <pc@manguebit.org>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Shyam Prasad N <sprasad@microsoft.com>, Steve French <sfrench@samba.org>,
+ Tom Talpey <tom@talpey.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+ David Howells <dhowells@redhat.com>
+From: Markus Elfring <Markus.Elfring@web.de>
+Subject: [PATCH] smb: client: Simplify conditional compilation in
+ __cifs_do_create()
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:kwUxKYWDZfnJVDE6Y/mtt6UUvy1AAK061xGl9srdQIOavb6kiyO
+ F6lPqWflw91gfwXiuSuKXufBJcbGl21ZGakCFVedo7wMY4z3BI1A1O6Z47xFP+tYLdAqfL0
+ W9DONSFAImDaN0wvT9veP0MZ0gop+GfyR3dX0m9647/IsNebZOxj/cgBboI1cL0w/JTTUQk
+ LHBqxIXkGqjXq40CeJL/A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:wJ/l/f+oONQ=;CnTwiggq8IcGwQNzAaVXbnjdYd/
+ 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
 
-Hi, Hyunchul.
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Fri, 12 Jun 2026 19:24:14 +0200
 
-+       err =3D ntfs_set_ntfs_reparse_data(ni, (char *)reparse,
-total_reparse_len);
-+       if (!err) {
-+               for (i =3D 0; i < target_len; i++) {
-+                       if (norm_name[i] =3D=3D '\\')
-+                               norm_name[i] =3D '/';
-+               }
-+               ni->target =3D norm_name;
-+               norm_name =3D NULL;
-+       }
-+
+Move an opening curly bracket behind the preprocessor directive =E2=80=9C#=
+endif=E2=80=9D
+so that an =E2=80=9C#else=E2=80=9D branch can be omitted.
 
-This leaves newly-created native absolute symlinks inconsistent with the
-same inode after remount. For `ln -s C:/foo`, readlink returns `C:/foo`
-immediately after creation, but after remount it returns `./foo` in
-`native_symlink=3Drel` and `/??/C:/foo` in `native_symlink=3Draw`.
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ fs/smb/client/dir.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-The create path only updates `ni->target`; it does not populate
-`ni->reparse_tag`/`ni->reparse_flags`, so `ntfs_get_link()` cannot apply
-the absolute native symlink handling until the inode is reloaded from disk.
+diff --git a/fs/smb/client/dir.c b/fs/smb/client/dir.c
+index 88a4a1787ff0..1e747e8c51e5 100644
+=2D-- a/fs/smb/client/dir.c
++++ b/fs/smb/client/dir.c
+@@ -432,10 +432,9 @@ static int __cifs_do_create(struct inode *dir, struct=
+ dentry *direntry,
+ 	if (tcon->unix_ext)
+ 		rc =3D cifs_get_inode_info_unix(&newinode, full_path, dir->i_sb,
+ 					      xid);
+-	else {
+-#else
+-	{
++	else
+ #endif /* CONFIG_CIFS_ALLOW_INSECURE_LEGACY */
++	{
+ 		/* TODO: Add support for calling POSIX query info here, but passing in =
+fid */
+ 		rc =3D cifs_get_inode_info(&newinode, full_path, buf, dir->i_sb, xid, f=
+id);
+ 		if (newinode) {
+=2D-=20
+2.54.0
 
-+ /* Determine if target is absolute (starts with drive letter like C:) */
-+ is_absolute =3D (target_len > 1 && target[1] =3D=3D ':');
-
-This treats `C:foo` as an absolute Windows path, but that form is
-drive-relative and should remain a relative symlink target. In QEMU,
-`ln -s C:foo` works before remount, but after remount readlink fails in
-`native_symlink=3Drel` and raw mode exposes `/??/C:foo`.
-
-Please only classify drive-letter targets as absolute when the colon is
-followed by a path separator, e.g. `C:/foo` or `C:\foo`.
-
-Thanks.
-DaeMyung.
-
-2026=EB=85=84 6=EC=9B=94 12=EC=9D=BC (=EA=B8=88) =EC=98=A4=ED=9B=84 4:41, H=
-yunchul Lee <hyc.lee@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> And introduce the symlink=3D<value> mount option to configure how symboli=
-c
-> links are created. The option accepts "wsl" or "native", with "wsl"
-> being the default.
->
-> Signed-off-by: Hyunchul Lee <hyc.lee@gmail.com>
-> ---
->  fs/ntfs/inode.c   |   4 ++
->  fs/ntfs/namei.c   |   5 ++-
->  fs/ntfs/reparse.c | 124 ++++++++++++++++++++++++++++++++++++++++++++++++=
-++++++
->  fs/ntfs/reparse.h |   2 +
->  fs/ntfs/super.c   |  19 +++++++++
->  fs/ntfs/volume.h  |   2 +
->  6 files changed, 155 insertions(+), 1 deletion(-)
->
-> diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
-> index 76595f2e30ff..c2715521e562 100644
-> --- a/fs/ntfs/inode.c
-> +++ b/fs/ntfs/inode.c
-> @@ -2382,6 +2382,10 @@ int ntfs_show_options(struct seq_file *sf, struct =
-dentry *root)
->                 seq_puts(sf, ",native_symlink=3Drel");
->         else
->                 seq_puts(sf, ",native_symlink=3Draw");
-> +       if (NVolSymlinkNative(vol))
-> +               seq_puts(sf, ",symlink=3Dnative");
-> +       else
-> +               seq_puts(sf, ",symlink=3Dwsl");
->         if (vol->sb->s_flags & SB_POSIXACL)
->                 seq_puts(sf, ",acl");
->         return 0;
-> diff --git a/fs/ntfs/namei.c b/fs/ntfs/namei.c
-> index 88c0b05dde3b..78c159519f9c 100644
-> --- a/fs/ntfs/namei.c
-> +++ b/fs/ntfs/namei.c
-> @@ -608,7 +608,10 @@ static struct ntfs_inode *__ntfs_create(struct mnt_i=
-dmap *idmap, struct inode *d
->                         goto err_out;
->
->                 if (S_ISLNK(mode)) {
-> -                       err =3D ntfs_reparse_set_wsl_symlink(ni, target, =
-target_len);
-> +                       if (NVolSymlinkNative(vol))
-> +                               err =3D ntfs_reparse_set_native_symlink(n=
-i, target, target_len);
-> +                       else
-> +                               err =3D ntfs_reparse_set_wsl_symlink(ni, =
-target, target_len);
->                         if (!err)
->                                 rollback_reparse =3D true;
->                 } else if (S_ISBLK(mode) || S_ISCHR(mode) || S_ISSOCK(mod=
-e) ||
-> diff --git a/fs/ntfs/reparse.c b/fs/ntfs/reparse.c
-> index eb1e4424e50d..f5b2a853bea1 100644
-> --- a/fs/ntfs/reparse.c
-> +++ b/fs/ntfs/reparse.c
-> @@ -786,6 +786,130 @@ int ntfs_reparse_set_wsl_symlink(struct ntfs_inode =
-*ni,
->         return err;
->  }
->
-> +int ntfs_reparse_set_native_symlink(struct ntfs_inode *ni,
-> +                                   const char *target, int target_len)
-> +{
-> +       int err =3D 0;
-> +       bool is_absolute;
-> +       char *norm_name =3D NULL;
-> +       char *sub_name =3D NULL;
-> +       char *prt_name =3D NULL;
-> +       __le16 *sub_name_utf16 =3D NULL;
-> +       __le16 *prt_name_utf16 =3D NULL;
-> +       int sub_len, prt_len;
-> +       int total_data_len, total_reparse_len;
-> +       struct reparse_point *reparse =3D NULL;
-> +       struct symlink_reparse_data *data;
-> +       int i;
-> +
-> +       /* Determine if target is absolute (starts with drive letter like=
- C:) */
-> +       is_absolute =3D (target_len > 1 && target[1] =3D=3D ':');
-> +
-> +       /* Normalize and prepare NLS paths */
-> +       norm_name =3D kstrdup(target, GFP_NOFS);
-> +       if (!norm_name)
-> +               return -ENOMEM;
-> +
-> +       /* Replace '/' with '\' */
-> +       for (i =3D 0; i < target_len; i++) {
-> +               if (norm_name[i] =3D=3D '/')
-> +                       norm_name[i] =3D '\\';
-> +       }
-> +
-> +       if (is_absolute) {
-> +               prt_name =3D kstrdup(norm_name, GFP_NOFS);
-> +               if (!prt_name) {
-> +                       err =3D -ENOMEM;
-> +                       goto out;
-> +               }
-> +               /* Prepend '\??\' to Substitutename */
-> +               sub_name =3D kmalloc(target_len + 5, GFP_NOFS);
-> +               if (!sub_name) {
-> +                       err =3D -ENOMEM;
-> +                       goto out;
-> +               }
-> +               strscpy(sub_name, "\\??\\", target_len + 5);
-> +               strcat(sub_name, norm_name);
-> +       } else {
-> +               /* For relative symlinks (including absolute paths withou=
-t drive letters),
-> +                * SubstituteName and PrintName are identical.
-> +                */
-> +               prt_name =3D kstrdup(norm_name, GFP_NOFS);
-> +               sub_name =3D kstrdup(norm_name, GFP_NOFS);
-> +               if (!prt_name || !sub_name) {
-> +                       err =3D -ENOMEM;
-> +                       goto out;
-> +               }
-> +       }
-> +
-> +       /* Convert NLS paths to UTF-16 */
-> +       sub_len =3D ntfs_nlstoucs(ni->vol, sub_name, strlen(sub_name),
-> +                               &sub_name_utf16, PATH_MAX);
-> +       if (sub_len < 0) {
-> +               err =3D sub_len;
-> +               goto out;
-> +       }
-> +
-> +       prt_len =3D ntfs_nlstoucs(ni->vol, prt_name, strlen(prt_name),
-> +                               &prt_name_utf16, PATH_MAX);
-> +       if (prt_len < 0) {
-> +               err =3D prt_len;
-> +               goto out;
-> +       }
-> +
-> +       /* Check for buffer size limits */
-> +       total_data_len =3D sizeof(struct symlink_reparse_data) +
-> +               (sub_len + prt_len) * sizeof(__le16);
-> +       if (total_data_len > 16384) { /* 16KB max reparse tag size */
-> +               err =3D -EFBIG;
-> +               goto out;
-> +       }
-> +
-> +       total_reparse_len =3D sizeof(struct reparse_point) + total_data_l=
-en;
-> +       reparse =3D kvzalloc(total_reparse_len, GFP_NOFS);
-> +       if (!reparse) {
-> +               err =3D -ENOMEM;
-> +               goto out;
-> +       }
-> +
-> +       /* Pack fields in reparse buffer */
-> +       reparse->reparse_tag =3D IO_REPARSE_TAG_SYMLINK;
-> +       reparse->reparse_data_length =3D cpu_to_le16(total_data_len);
-> +       reparse->reserved =3D 0;
-> +
-> +       data =3D (struct symlink_reparse_data *)reparse->reparse_data;
-> +       data->substitute_name_offset =3D 0;
-> +       data->substitute_name_length =3D cpu_to_le16(sub_len * sizeof(__l=
-e16));
-> +       data->print_name_offset =3D data->substitute_name_length;
-> +       data->print_name_length =3D cpu_to_le16(prt_len * sizeof(__le16))=
-;
-> +       data->flags =3D cpu_to_le32(is_absolute ? 0 : SYMLINK_FLAG_RELATI=
-VE);
-> +
-> +       /* Copy names to path_buffer */
-> +       memcpy(data->path_buffer, sub_name_utf16, sub_len * sizeof(__le16=
-));
-> +       memcpy(data->path_buffer + sub_len, prt_name_utf16, prt_len * siz=
-eof(__le16));
-> +
-> +       err =3D ntfs_set_ntfs_reparse_data(ni, (char *)reparse, total_rep=
-arse_len);
-> +       if (!err) {
-> +               for (i =3D 0; i < target_len; i++) {
-> +                       if (norm_name[i] =3D=3D '\\')
-> +                               norm_name[i] =3D '/';
-> +               }
-> +               ni->target =3D norm_name;
-> +               norm_name =3D NULL;
-> +       }
-> +
-> +out:
-> +       kfree(norm_name);
-> +       kfree(sub_name);
-> +       kfree(prt_name);
-> +       if (sub_name_utf16)
-> +               kvfree(sub_name_utf16);
-> +       if (prt_name_utf16)
-> +               kvfree(prt_name_utf16);
-> +       kvfree(reparse);
-> +       return err;
-> +}
-> +
->  /*
->   * Set reparse data for a WSL special file other than a symlink
->   * (socket, fifo, character or block device)
-> diff --git a/fs/ntfs/reparse.h b/fs/ntfs/reparse.h
-> index e36557f29677..c11a5bb7e6a5 100644
-> --- a/fs/ntfs/reparse.h
-> +++ b/fs/ntfs/reparse.h
-> @@ -15,6 +15,8 @@ int ntfs_translate_symlink_path(struct dentry *dentry, =
-const char *target,
->                                 char **translated);
->  int ntfs_reparse_set_wsl_symlink(struct ntfs_inode *ni,
->                                  const char *target, int target_len);
-> +int ntfs_reparse_set_native_symlink(struct ntfs_inode *ni,
-> +                                   const char *symname, int symlen);
->  int ntfs_reparse_set_wsl_not_symlink(struct ntfs_inode *ni, mode_t mode)=
-;
->  int ntfs_delete_reparse_index(struct ntfs_inode *ni);
->  int ntfs_remove_ntfs_reparse_data(struct ntfs_inode *ni);
-> diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
-> index e032a247455c..8abe7bee4c0d 100644
-> --- a/fs/ntfs/super.c
-> +++ b/fs/ntfs/super.c
-> @@ -54,6 +54,17 @@ static const struct constant_table ntfs_native_symlink=
-_enums[] =3D {
->         {}
->  };
->
-> +enum {
-> +       SYMLINK_WSL,
-> +       SYMLINK_NATIVE,
-> +};
-> +
-> +static const struct constant_table ntfs_symlink_enums[] =3D {
-> +       { "wsl",                SYMLINK_WSL },
-> +       { "native",             SYMLINK_NATIVE },
-> +       {}
-> +};
-> +
->  enum {
->         Opt_uid,
->         Opt_gid,
-> @@ -78,6 +89,7 @@ enum {
->         Opt_discard,
->         Opt_nocase,
->         Opt_native_symlink,
-> +       Opt_symlink,
->  };
->
->  static const struct fs_parameter_spec ntfs_parameters[] =3D {
-> @@ -104,6 +116,7 @@ static const struct fs_parameter_spec ntfs_parameters=
-[] =3D {
->         fsparam_flag("sparse",                  Opt_sparse),
->         fsparam_flag("nocase",                  Opt_nocase),
->         fsparam_enum("native_symlink",          Opt_native_symlink, ntfs_=
-native_symlink_enums),
-> +       fsparam_enum("symlink",                 Opt_symlink, ntfs_symlink=
-_enums),
->         {}
->  };
->
-> @@ -234,6 +247,12 @@ static int ntfs_parse_param(struct fs_context *fc, s=
-truct fs_parameter *param)
->                 else
->                         NVolClearNativeSymlinkRel(vol);
->                 break;
-> +       case Opt_symlink:
-> +               if (result.uint_32 =3D=3D SYMLINK_NATIVE)
-> +                       NVolSetSymlinkNative(vol);
-> +               else
-> +                       NVolClearSymlinkNative(vol);
-> +               break;
->         case Opt_sparse:
->                 break;
->         default:
-> diff --git a/fs/ntfs/volume.h b/fs/ntfs/volume.h
-> index 55298689a7bb..65fd3908af26 100644
-> --- a/fs/ntfs/volume.h
-> +++ b/fs/ntfs/volume.h
-> @@ -196,6 +196,7 @@ enum {
->         NV_Discard,
->         NV_DisableSparse,
->         NV_NativeSymlinkRel,
-> +       NV_SymlinkNative,
->  };
->
->  /*
-> @@ -233,6 +234,7 @@ DEFINE_NVOL_BIT_OPS(CheckWindowsNames)
->  DEFINE_NVOL_BIT_OPS(Discard)
->  DEFINE_NVOL_BIT_OPS(DisableSparse)
->  DEFINE_NVOL_BIT_OPS(NativeSymlinkRel)
-> +DEFINE_NVOL_BIT_OPS(SymlinkNative)
->
->  static inline void ntfs_inc_free_clusters(struct ntfs_volume *vol, s64 n=
-r)
->  {
->
-> --
-> 2.43.0
->
->
