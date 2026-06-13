@@ -1,234 +1,125 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7033D33D4F8
-	for <linux-fsdevel@vger.kernel.org>; Sat, 13 Jun 2026 05:47:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3F2211A09
+	for <linux-fsdevel@vger.kernel.org>; Sat, 13 Jun 2026 07:06:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781329632; cv=none; b=Y2PtY+hzhOfr4E+Uec+/bfgaTGCL0Yum38O7vy92+Vnnqk6zRZ/8i49EGn9QspbFob5WRjd22Zw6DKrZFaOQ9sMKycXtTWgfya3eSc+KNg1dQJlI2+H7+LDuDTeABMPPp6eQu+aZEOzeB1M3C5lwsPfTQDQ4m/qcSAUOUVhOCME=
+	t=1781334382; cv=none; b=sLXtHhufYWUOy3BXbWjJ9Odp4tBZkEr4SxWIflBGlX7DL/P48LllRqh/wocw+DUeYfTtQXfOzDc5chEn2ccnzGIAGUGdI5nrt6PkTHxdVNH24tLWUAaWzKMltLVpEUxLs579JkqgRS3uz9QXWxBLpwE8nj8VnVQFhPgb2WN3c4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781329632; c=relaxed/simple;
-	bh=AOjEqPKCQrqTGh0pF1cuCKakr5rY3HnUPP7+WPrhGqU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EdXIyzRT6uiDZTp7W0QygXRXMofKm64skRlJ1dDUjFq5XbpGBgxBIrFePGObqYOIxLGq+Bzzh7SXz9c/es3hvCwLtw9c+Kd0lHGY+XlvAiuvzhbeLImJ2qqOkUptwQlpZRJFqktrYG4Fk+I1QWiKbCNXQ7zC5MMQLDtVSu6VaD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZWnrGuCC; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781334382; c=relaxed/simple;
+	bh=VoJSs4PDNmKJhjbLsydMo57sAVHn3TTHvx6cPZXkaYU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Xp2ILOUkkRm08/52aJv5S3RffOlSw+h+0fFRQwK0i7YTUBPh4glA440muFT+h4RP9kk36BRM6bSAHTsg/0msg9VCLssGhF7RbP3T89RNK11bOT+AIvO0zfOiyBk4ADSfIPMZg4x3ugaFxMXW9RPB/7JpnRwfOr/BEj8LchX5vFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sbVKK8zI; arc=none smtp.client-ip=91.218.175.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZWnrGuCC"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c8573e75425so646109a12.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 12 Jun 2026 22:47:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781329631; x=1781934431; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dwnshp7zR4sNT8SWmjVGKqVi8Bk3S1osxU+32NV0AD0=;
-        b=ZWnrGuCCXCVoFfYZSflYjDgh33nWHm8aQZeqGtm8P3oPGrVANu5/+HRsFIaNo+sLIl
-         PvgieRIC8Opc7YtAh7m/oSCuQ99Ol8fZKdiSd1cQ5c4++M/xoewrW/Lncjezi83o7pho
-         LnLhljXGHP+wDSDGCZOcfvf0gF2eRM9bxxbU4/o0jB3P+JpcyepuptcMWoEz3JrC5F/C
-         b3WU8+5eIL8BHmyPEmrXfcwwzhGzdXdm9ObxjVm880AhjBk9TUQRwPVuae8Pn46ARpCs
-         WR5s64s/knEWpCMAfZSSul0XT80dwNhmleQ5BNz+KreDwlW84QieK1eSOFdMxzSIf5fF
-         GdrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781329631; x=1781934431;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dwnshp7zR4sNT8SWmjVGKqVi8Bk3S1osxU+32NV0AD0=;
-        b=UYns8/K6yLorOx6Qk0gc1YrszUaC6K88DW57Jo2jbE7wO6uvmo7wIhW4zg+EgmUb3x
-         jdoXuStjcXQxjmWWNNR3sPU1jUT+RQzoYiAPFboEOPn/xikPNcPbn9WXizfazaRkry0w
-         pDzlqVJCzfgcT0CouzrvxxxN7b3FHM7fgdl4M/G7sxoJIo37EkJJvzTJfsnGDH7NDX3o
-         rQ2wCd20RugB3aeg7OFCvBWkmYX6p6gaPuXaxxjyC6QKnebTS5xFsmHBv6g7hqK51IdR
-         HHEy4z1b3OqB3RsDqwaf5PnLgSTtAKmPtSYRf10foNTcvS0V5FxnZYtbZviI2cnLsRJX
-         tUTQ==
-X-Gm-Message-State: AOJu0Yy92eNOlCWWrafQj5azFU2ZaA9K85pW6g/GSV37Ly8usI9sC2hc
-	IZ07x/+NxJbMxIyBkj7eIecCLLXax8SsaLdrrz2MP4CbqJGD8A/McWTh
-X-Gm-Gg: Acq92OGrVfO+edDTBFTZXOiAOOI/EDEc3f8PY7WW9UWj74Kyekt/tSoSk6Rr66d3ys6
-	wYQgtUFKekJWIWUkp3SgD9GCj3j4j/lA3shqf9WkpTRDGfCTfDFQDU5FM7ndBHylUelfhmY4mr8
-	q70Gkv1LJ7ktYuCqE0ILem2yYLQAGy6D2RlUCinKA8W5EXvb+yZJ4dZc3/c1lUFWC4KVv5pwspr
-	jIzp7atfPrRFaVfLMfZhkph1UekKkN9gRBvsD7+kcmucsSsMwkQ9WEEuxlAEKWdXjVhxIaw3w3d
-	AAQY/IWTdH5YW0ygNAMl6f1wLaMOoyTWA2LJL24ItH7rBm5rg/MSkZhb+h+unA3sGbM8ANfzG7D
-	Obj9Q3zCVh1wH5EEZBEFwkd1kf6RE9cSu8pobaelRNfZ1Q82y3CgTC0X+fMS6oakjVAsOIjB+iO
-	1Zvm/e48s0det7zpSPGwktjVhh7EF4XQOuzk6Pjm0S
-X-Received: by 2002:a05:6a00:4fcf:b0:842:5711:9a2f with SMTP id d2e1a72fcca58-8434cf4f362mr6533389b3a.36.1781329630530;
-        Fri, 12 Jun 2026 22:47:10 -0700 (PDT)
-Received: from gmail.com (vps-787f8425.vps.ovh.us. [2604:2dc0:202:300::17a])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434acffd04sm3898597b3a.26.2026.06.12.22.47.07
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 12 Jun 2026 22:47:09 -0700 (PDT)
-From: Yue Sun <samsun1006219@gmail.com>
-To: slava@dubeyko.com,
-	glaubitz@physik.fu-berlin.de,
-	frank.li@vivo.com
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sam Sun <samsun1006219@gmail.com>
-Subject: [PATCH v3] hfs: avoid deadlock in hfs_mdb_commit()
-Date: Sat, 13 Jun 2026 13:47:02 +0800
-Message-ID: <20260613054702.54437-1-samsun1006219@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260529103428.99099-1-samsun1006219@gmail.com>
-References: <20260529103428.99099-1-samsun1006219@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sbVKK8zI"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1781334378;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pF1QptbT4ANn9dIzeaKLaJnMG/TsByf/t+R0Qjd78m0=;
+	b=sbVKK8zIzOChSg5o22XKRCzvqn9ogGWt+uRgS7n7cGELmP4UVSHuxv546SKLCTu72hnLJx
+	BdFQGAUCzrbf7mCfdmcX6+EWjYoMGuI1Eu2zr20m2G8J05zf15Q/5MGvAmaU8VbEB1M8Ix
+	l4+fDxaTOXTLgZuqNSpnaKB45S7FJw8=
+From: Lance Yang <lance.yang@linux.dev>
+To: usama.arif@linux.dev,
+	willy@infradead.org
+Cc: akpm@linux-foundation.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	Lance Yang <lance.yang@linux.dev>
+Subject: Re: [PATCH v2 2/6] ntfs: Remove use of __folio_index in handle_bounds_compressed_page()
+Date: Sat, 13 Jun 2026 15:06:01 +0800
+Message-Id: <20260613070601.90382-1-lance.yang@linux.dev>
+In-Reply-To: <fda62f90-2c8c-48ec-88ae-310bb5adaa37@linux.dev>
+References: <fda62f90-2c8c-48ec-88ae-310bb5adaa37@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-From: Sam Sun <samsun1006219@gmail.com>
 
-hfs_mdb_commit() currently uses the primary MDB buffer lock as a broad
-commit lock. It keeps HFS_SB(sb)->mdb_bh locked while it may also write
-the alternate MDB and the volume bitmap.
+On Tue, Jun 09, 2026 at 04:55:03PM +0100, Usama Arif wrote:
+[...]
+>> 
+>> Are you saying my transformation is non-equivalent (and I have
+>> introduced a bug), or are you noting that this is a pre-existing bug?
+>> 
+>> If the latter, is the error that the else branch exists, or did the
+>> author intend to write a different test?
+>
+>The transformation is non-equivalent.
 
-This can deadlock. A corrupted image can set drVBMSt so that the bitmap
-block maps to the same buffer_head as the primary MDB. The bitmap
-writeback path then calls lock_buffer() on the same buffer_head while
-mdb_bh is already locked by hfs_mdb_commit(). A similar locking problem
-can also happen on valid images when hfs_mdb_commit() performs I/O while
-mdb_bh remains locked.
+Right. Let me try to make one case easier to see.
 
-Do not use mdb_bh as the HFS commit serialization lock. Add an HFS-level
-mdb_lock and take it around hfs_mdb_commit() callers. Then keep mdb_bh
-locked only while updating the primary MDB buffer and marking it dirty.
+Assume:
 
-The catalog/extents fork records and sizes are fields in the primary MDB,
-so update them in the primary MDB write section, not in the alternate MDB
-section. The alternate MDB sync and bitmap writeback then run after
-mdb_bh has been unlocked.
+  PAGE_SIZE             = 4096
+  page->__folio_index   = 2
+  pos                   = 8192
+  initialized_size      = 9000
+  i_size                = 12000
 
-HFS_FLG_ALT_MDB_DIRTY is set together with HFS_FLG_MDB_DIRTY when the
-catalog or extents overflow files grow, so the primary MDB fork records
-are refreshed before the alternate MDB copies the primary MDB contents.
+Before the patch, the relevant code was:
 
-Reported-by: Sam Sun <samsun1006219@gmail.com>
-Closes: https://lore.kernel.org/all/CAEkJfYMB47v1yOWHB8q2dc8kf=uj-rLO=+yMyudwPguJ8Kd3jA@mail.gmail.com/
-Suggested-by: Viacheslav Dubeyko <slava@dubeyko.com>
-Signed-off-by: Sam Sun <samsun1006219@gmail.com>
----
-Changes in v3:
-- Follow Viacheslav's suggestion to move hfs_inode_write_fork() into
-  the primary MDB write section.
-- Rework the fix as MDB commit locking instead of corrupted-layout
-  validation.
-- Add mdb_lock to serialize HFS MDB commits.
-- Keep mdb_bh locked only while updating the primary MDB buffer.
-- Leave alternate MDB sync and bitmap writeback outside the mdb_bh lock.
+	if ((page->__folio_index >= (initialized_size >> PAGE_SHIFT)) &&
+			(initialized_size < i_size)) {
+[...]
 
-Changes in v2:
-- Added a commit-time guard before locking volume bitmap buffer_heads.
-- Replaced the v1 bitmap byte-range check with a simple drVBMSt check.
-- Reused the existing bitmap writeback size calculation.
+		if (((s64)page->__folio_index << PAGE_SHIFT) >= initialized_size) {
+			clear_page(kp);
+			return;
+		}
+		kp_ofs = initialized_size & ~PAGE_MASK;
+		memset(kp + kp_ofs, 0, PAGE_SIZE - kp_ofs);
+	}
 
-v1:
-- Initial mount-time check rejecting volume bitmap/MDB aliasing.
+For this page, the outer check was true:
 
- fs/hfs/hfs_fs.h |  1 +
- fs/hfs/mdb.c    | 15 ++++++++-------
- fs/hfs/super.c  |  9 +++++++++
- 3 files changed, 18 insertions(+), 7 deletions(-)
+  page->__folio_index >= (initialized_size >> PAGE_SHIFT)
+  2 >= (9000 >> 12)
+  2 >= 2
 
-diff --git a/fs/hfs/hfs_fs.h b/fs/hfs/hfs_fs.h
-index ac0e83f77a0f..00651f42ba38 100644
---- a/fs/hfs/hfs_fs.h
-+++ b/fs/hfs/hfs_fs.h
-@@ -66,6 +66,7 @@ struct hfs_inode_info {
-  * The HFS-specific part of a Linux (struct super_block)
-  */
- struct hfs_sb_info {
-+	struct mutex mdb_lock;			/* MDB operations lock */
- 	struct buffer_head *mdb_bh;		/* The hfs_buffer
- 						   holding the real
- 						   superblock (aka VIB
-diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
-index a97cea35ca2e..c2f4bda6fd00 100644
---- a/fs/hfs/mdb.c
-+++ b/fs/hfs/mdb.c
-@@ -291,8 +291,9 @@ void hfs_mdb_commit(struct super_block *sb)
- 	if (sb_rdonly(sb))
- 		return;
- 
--	lock_buffer(HFS_SB(sb)->mdb_bh);
- 	if (test_and_clear_bit(HFS_FLG_MDB_DIRTY, &HFS_SB(sb)->flags)) {
-+		lock_buffer(HFS_SB(sb)->mdb_bh);
-+
- 		/* These parameters may have been modified, so write them back */
- 		mdb->drLsMod = hfs_mtime();
- 		mdb->drFreeBks = cpu_to_be16(HFS_SB(sb)->free_ablocks);
-@@ -305,8 +306,14 @@ void hfs_mdb_commit(struct super_block *sb)
- 		mdb->drDirCnt =
- 			cpu_to_be32((u32)atomic64_read(&HFS_SB(sb)->folder_count));
- 
-+		hfs_inode_write_fork(HFS_SB(sb)->ext_tree->inode, mdb->drXTExtRec,
-+				     &mdb->drXTFlSize, NULL);
-+		hfs_inode_write_fork(HFS_SB(sb)->cat_tree->inode, mdb->drCTExtRec,
-+				     &mdb->drCTFlSize, NULL);
-+
- 		/* write MDB to disk */
- 		mark_buffer_dirty(HFS_SB(sb)->mdb_bh);
-+		unlock_buffer(HFS_SB(sb)->mdb_bh);
- 	}
- 
- 	/* write the backup MDB, not returning until it is written.
-@@ -314,11 +321,6 @@ void hfs_mdb_commit(struct super_block *sb)
- 	 * files grow. */
- 	if (test_and_clear_bit(HFS_FLG_ALT_MDB_DIRTY, &HFS_SB(sb)->flags) &&
- 	    HFS_SB(sb)->alt_mdb) {
--		hfs_inode_write_fork(HFS_SB(sb)->ext_tree->inode, mdb->drXTExtRec,
--				     &mdb->drXTFlSize, NULL);
--		hfs_inode_write_fork(HFS_SB(sb)->cat_tree->inode, mdb->drCTExtRec,
--				     &mdb->drCTFlSize, NULL);
--
- 		lock_buffer(HFS_SB(sb)->alt_mdb_bh);
- 		memcpy(HFS_SB(sb)->alt_mdb, HFS_SB(sb)->mdb, HFS_SECTOR_SIZE);
- 		HFS_SB(sb)->alt_mdb->drAtrb |= cpu_to_be16(HFS_SB_ATTRIB_UNMNT);
-@@ -360,7 +362,6 @@ void hfs_mdb_commit(struct super_block *sb)
- 			size -= len;
- 		}
- 	}
--	unlock_buffer(HFS_SB(sb)->mdb_bh);
- }
- 
- void hfs_mdb_close(struct super_block *sb)
-diff --git a/fs/hfs/super.c b/fs/hfs/super.c
-index a4f2a2bfa6d3..06ab904b3a42 100644
---- a/fs/hfs/super.c
-+++ b/fs/hfs/super.c
-@@ -35,7 +35,11 @@ MODULE_LICENSE("GPL");
- static int hfs_sync_fs(struct super_block *sb, int wait)
- {
- 	is_hfs_cnid_counts_valid(sb);
-+
-+	mutex_lock(&HFS_SB(sb)->mdb_lock);
- 	hfs_mdb_commit(sb);
-+	mutex_unlock(&HFS_SB(sb)->mdb_lock);
-+
- 	return 0;
- }
- 
-@@ -68,7 +72,9 @@ static void flush_mdb(struct work_struct *work)
- 
- 	is_hfs_cnid_counts_valid(sb);
- 
-+	mutex_lock(&sbi->mdb_lock);
- 	hfs_mdb_commit(sb);
-+	mutex_unlock(&sbi->mdb_lock);
- }
- 
- void hfs_mark_mdb_dirty(struct super_block *sb)
-@@ -339,9 +345,12 @@ static int hfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	sb->s_op = &hfs_super_operations;
- 	sb->s_xattr = hfs_xattr_handlers;
- 	sb->s_flags |= SB_NODIRATIME;
-+	mutex_init(&sbi->mdb_lock);
- 	mutex_init(&sbi->bitmap_lock);
- 
-+	mutex_lock(&sbi->mdb_lock);
- 	res = hfs_mdb_get(sb);
-+	mutex_unlock(&sbi->mdb_lock);
- 	if (res) {
- 		if (!silent)
- 			pr_warn("can't find a HFS filesystem on dev %s\n",
+and initialized_size < i_size was also true:
+
+  initialized_size < i_size
+  9000 < 12000
+
+but the inner check was false:
+
+  ((s64)page->__folio_index << PAGE_SHIFT) >= initialized_size
+  (2 << 12) >= 9000
+  8192 >= 9000
+
+So the old code reached the tail-zeroing case:
+
+  kp_ofs = 9000 & ~PAGE_MASK = 808
+
+and zeroed page offset 808..4095, i.e. file offset 9000..12287.
+
+After this patch, the outer check became:
+
+loff_t pos = page_offset(page);
+
+if ((pos >= initialized_size) && (initialized_size < i_size)) 
+
+For the same page:
+
+  pos >= initialized_size
+  8192 >= 9000
+
+so the first half of the outer check is false, and the block is skipped
+entirely.
+
+Cheers, Lance
