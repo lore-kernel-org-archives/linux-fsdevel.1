@@ -1,78 +1,96 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1767E1AAE28
-	for <linux-fsdevel@vger.kernel.org>; Sat, 13 Jun 2026 04:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B4A314D34;
+	Sat, 13 Jun 2026 05:09:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781324270; cv=none; b=oAOwQkqo2IGkM36Nku7ImM4FBBPFpzj60ZpB24Un7ca1skXkUzWoSps+4ko353r6jS/871OUrat+0gbfIJkC+b82rIG0S5tWdHy3BataD9gkWETz0lAWEGfm2k2oT27d90uvKH/n2IBxFpCc68B15TEZqTjy6zZKElLfd/MoCoQ=
+	t=1781327399; cv=none; b=M5p3mbVGesiayzfKuMICL5ZrT6FrypgP1GgtxWjOIiNZUWpjv/zbzurrXCRhlzEobkvAq9/z+/ZVsLrs5fTJW7df98slR+jfae9La2OtQgXlDz0xXSwb5+oXconuxoD1/NadKFDVD9pst7IYFT55JGNN1uzfDEnUaymf/iRNwfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781324270; c=relaxed/simple;
-	bh=oZKGiGlPYCg8I+ID3TpyrCLGRnGdcxdWBfokegTJqo4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ec2v2BQ/dPBquneBhn0QWPRN08fWou9qWMe0OkqLpOGrAxBQpG+IGYYDFjNRaYJAk9Y3wMH9rVHFGAair9t9E94K3BmbdnfjGBSkOE6SFOjiZTKAHEtcL/DzjXT1j/gi/QSxLwysi6/rEM2TX6CTeGMtj6Kl9gAjV6wrTOG6pZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xJza6x1T; arc=none smtp.client-ip=91.218.175.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1781327399; c=relaxed/simple;
+	bh=KZqzhXpLuUiZO+jd6YhFthJurVT4/GGa/2WSPqEKLuU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=k4wAtGgFun94covufV0ANQ+p8mhQP/xz5IvHMWhmvTEdyfuoq8ObWuzfXncbYnjXU8BcaHL4ZuX6Gp6LCfzfD4YVsvfGBwWndD8svd3tl6dCntJXwOvCX5NH5gh7XeuPqNTbGqe0dKCsYa9uhvZallZh43P1U2iN7vkdtt3XRXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=is2Egeu6; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xJza6x1T"
-Message-ID: <661b47de-af1a-488f-a691-82df7add1f49@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1781324266;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lcQKZ3Zx433YnbmCCBs9ea4yshxodmQHfHdKd6s7mwY=;
-	b=xJza6x1T5OLJx+L4ldxhJ8F/UUA3Cmze9+E8XxRLhbAltPSM7Lg3gqn1gccCAvQ0KTXj6v
-	eTvbvyWlk7mXNOH1AA1jhha5L7nIh2ELAYX8PUJ31Nbzume6UXYMTxplNl/YyYkx2htjZD
-	rdqoS/ucZjITP2QQHjZvtoZockmzkZM=
-Date: Sat, 13 Jun 2026 12:16:38 +0800
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="is2Egeu6"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=XQVmtnuRTUVgN+XDKa4kk4jqSyJyiqHHhlvxjk0X6XI=; b=is2Egeu6/E0Y59HwEGUchJIXbu
+	vvsTtdmBZVMK9LVkHzW5SRn8tRwn8haNo97Vx6NZxgxFEEPJVVOPdliXHTN9GexiGDWV/mqmXTcA8
+	vTfgF1nIfWZKBhfV5HkbwQ6FjA3hvM0e0PDElW34aUCUUTN+ozI8zgzNjOUP6Lb/LqJUxuoc/xZP4
+	j5XSX6SpMJjb8qlFtUdEq3mKuQhl7xoBTAm5BV08AzyNvC8aX13uRur90nerQGGkzCCQNHMpk1UTN
+	DUgSVtPIJpFiFqEU2bgsuvMk2CEw/NOUHFF5PORb/YmV3ERUzaGFz9D7j+DtVtdMwiNs+xBPPjOuu
+	tbCUcFWg==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1wYGcy-00000003aTH-3jDL;
+	Sat, 13 Jun 2026 05:09:52 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: linux-mm@kvack.org
+Cc: Vlastimil Babka <vbabka@suse.cz>,
+	Harry Yoo <harry.yoo@oracle.com>,
+	linux-fsdevel@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Mateusz Guzik <mjguzik@gmail.com>,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH v3 07/10] make bh_cachep statically allocated
+Date: Sat, 13 Jun 2026 06:09:48 +0100
+Message-ID: <20260613050951.855141-8-viro@zeniv.linux.org.uk>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260613050951.855141-1-viro@zeniv.linux.org.uk>
+References: <20260611171425.1671254-1-viro@zeniv.linux.org.uk>
+ <20260613050951.855141-1-viro@zeniv.linux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 5/6] show_page_info: Remove printing of page index
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org
-References: <20260608210618.3437216-1-willy@infradead.org>
- <20260608210618.3437216-6-willy@infradead.org>
- <20a5a752-3ed6-4fde-96c9-e8369b15524c@linux.dev>
- <ainCu2HZTTdP4skd@casper.infradead.org>
- <11cc4dca-7841-4897-8665-e27d7555f246@linux.dev>
- <aizL_QrL4dNWMJ8Y@casper.infradead.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ye Liu <ye.liu@linux.dev>
-In-Reply-To: <aizL_QrL4dNWMJ8Y@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+---
+ fs/buffer.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-
-在 2026/6/13 11:18, Matthew Wilcox 写道:
-> On Sat, Jun 13, 2026 at 11:02:06AM +0800, Ye Liu wrote:
->> 在 2026/6/11 04:02, Matthew Wilcox 写道:
->>> Thanks, but could you explain why you don't just call dump_page()?
->>> It's more comprehensive and will continue to be maintained.
->>
->> This script is based on the drgn tool, but the drgn tool does not
->> have a dump_page helper. What kind of method do you mean by      
->> directly calling it?                                             
-> 
-> void dump_page(const struct page *page, const char *reason)
-> 
-> in mm/debug.c
-
-I’m aware of this kernel function, but could you please clarify
-how to call it from a user program?               
-Or how to achieve the direct call you mentioned?
-
+diff --git a/fs/buffer.c b/fs/buffer.c
+index b0b3792b1496..e834f7091f51 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -51,6 +51,7 @@
+ #include <linux/fscrypt.h>
+ #include <linux/fsverity.h>
+ #include <linux/sched/isolation.h>
++#include <linux/slab-static.h>
+ 
+ #include "internal.h"
+ 
+@@ -2906,7 +2907,8 @@ EXPORT_SYMBOL(try_to_free_buffers);
+ /*
+  * Buffer-head allocation
+  */
+-static struct kmem_cache *bh_cachep __ro_after_init;
++static struct kmem_cache_opaque bh_cache;
++#define bh_cachep to_kmem_cache(&bh_cache)
+ 
+ /*
+  * Once the number of bh's in the machine exceeds this level, we start
+@@ -3065,7 +3067,7 @@ void __init buffer_init(void)
+ 	unsigned long nrpages;
+ 	int ret;
+ 
+-	bh_cachep = KMEM_CACHE(buffer_head,
++	KMEM_CACHE_SETUP(bh_cachep, buffer_head,
+ 				SLAB_RECLAIM_ACCOUNT|SLAB_PANIC);
+ 	/*
+ 	 * Limit the bh occupancy to 10% of ZONE_NORMAL
 -- 
-Thanks,
-Ye Liu
+2.47.3
 
