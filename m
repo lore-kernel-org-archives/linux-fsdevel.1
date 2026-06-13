@@ -1,33 +1,33 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1471A37F011;
-	Sat, 13 Jun 2026 05:09:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0B6368958;
+	Sat, 13 Jun 2026 05:09:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781327401; cv=none; b=CmPcaJYmYt1Z92InIjTSae1dSSkEYutypQ9xScegdYn4YFnN5YoeGMo7z/VHkBPSkHNPC/HA/loFagzmxqa8GRS3M/8UUrQ0FmQWVDDn31nCnVr9jq86fR5YwUaBVT1zQX+628WJqcbqO4vv+i4HFEy3Fo5Eu9rVlf866cnkTQs=
+	t=1781327401; cv=none; b=OJJ1Km0PHG4FKp+NEY2ZiZ4aoCY5clFFAN5iAA8mGwT0t78Lh/ZquyDlosJA393ENanKQJzXD2ZU7f1T4/yUpuFTO0Wsh+I3LktHrMuk0pjatHCgQyUIt/xuzZeLnYUu3Pn8zdgS9tlCiBjx1ZTfCXH/n5YPVsY4YEA/xuvXVtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1781327401; c=relaxed/simple;
-	bh=iWGtuh7JjQqrtyc0lfzLPHywxbj0DKzoSSxXIEG81fE=;
+	bh=JfAEM3aUjV9uUMWZEiRcOGIAaKHG0E8Tz/cn04M7Nk4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BJiF/sFl+Hvo6+D3M0OyDScev6Xwem6kGuMqam7e8PNy8+m5651mBr76zOQjnSVxwbC4qWck2EK6KUsM8fBPOiBcbEEDSderwsMdVQH7EIXPdSI2RE0zC5daGA0bIuukyBDYrk/epftNTon/hXBDwVqO7cHwbPbmcKwdGZaxVsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=dyHeeylu; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=ZTNT/DFsqFjefgFTexQay2i/A5K68D/vylWPK7gObHIBy57OhJXyvqGG+n/MrQQ5BSztq9QMOkFnd9YMj6BVDBRDpQQMws80PKoRwGUi0gdItt5GOVayjQ1jHcMIq13xj1cKw9n5cDxHQ2UB2nEu81H6wVTs1QqiA1ek4ACSL1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=Nos2WlW4; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="dyHeeylu"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="Nos2WlW4"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=XtXmcCiq3eJia7JzFxANPEPogqTgQiMYpvOYfxZs+RI=; b=dyHeeyluUZy0tNF1xDjbs0cye7
-	QUcXMQZKt43B3au7afpBnDPKDBhntdCElDqVDjY9EJQgqkojGccgFEKSF/HAeGzL7IL9UiSae5SkO
-	F2CAOSLyLjsg/amwKum+/sSSreXBmAVZf5xM6T7xydiEEWGuUKCqusP80B+3xdQTIegxxtEklg4cg
-	kX70DJ1Hl4m86ch4m88Oh3VMfDgTZW75wmlXoPeV6YVlTO9eNpVtvqb9rvFumP/ZCyUQBzvJ8Sp7f
-	3Vr289ENtvgX7U8OnsiY48SG+fbD580ulV80A/V/yssae8KDpSSxZ3bxI0qq3A5tjOmAVw5zHDutr
-	NaedRhgg==;
+	bh=MZHJrCjRIjmtPr++aWYgFPkpaIkTjbAk/NLmMP37eM0=; b=Nos2WlW4avhTR8+u6YCwvP8d+s
+	oR4tk0eASVMFp1JK9z90AsQc9iVzAv8lJ5g6Oq3V0cswhjNaSsW9udD7a0LaIfU79kijFMTINaMEw
+	zzhY/WUIgnBhvlQgiIVZqOoJayPotZl3XKxvKhMKSlIuQWf2fMe0wR0jnBdUFSsrpmkHYzYVJfRAI
+	26CVSNTzEp4CASoQ1Zvj8vEFN8HewtZCSjEwHJnFUHdfUwgApdM88Cw4bjYogzaQ1m1CP/0zlSkqc
+	cEi6Cdfuy0iAVYXFU44xyp59MDfZ1D+yM8lO0WInLgTOuZDlW34XCmuoZyv2pdoeEz/LCddifL12j
+	IF5WbyQg==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wYGcz-00000003aTZ-2SiR;
+	id 1wYGcz-00000003aTL-02av;
 	Sat, 13 Jun 2026 05:09:53 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-mm@kvack.org
@@ -39,9 +39,9 @@ Cc: Vlastimil Babka <vbabka@suse.cz>,
 	Jan Kara <jack@suse.cz>,
 	Mateusz Guzik <mjguzik@gmail.com>,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v3 10/10] make ufs_inode_cache statically allocated
-Date: Sat, 13 Jun 2026 06:09:51 +0100
-Message-ID: <20260613050951.855141-11-viro@zeniv.linux.org.uk>
+Subject: [RFC PATCH v3 08/10] make seq_file_cache statically allocated
+Date: Sat, 13 Jun 2026 06:09:49 +0100
+Message-ID: <20260613050951.855141-9-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260613050951.855141-1-viro@zeniv.linux.org.uk>
 References: <20260611171425.1671254-1-viro@zeniv.linux.org.uk>
@@ -55,53 +55,37 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-A modular example I used for testing...
-
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/ufs/super.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ fs/seq_file.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/fs/ufs/super.c b/fs/ufs/super.c
-index c4831a8b9b3f..72053bc9c8dc 100644
---- a/fs/ufs/super.c
-+++ b/fs/ufs/super.c
-@@ -90,6 +90,7 @@
- #include <linux/log2.h>
- #include <linux/seq_file.h>
- #include <linux/iversion.h>
+diff --git a/fs/seq_file.c b/fs/seq_file.c
+index 4745db2a34d1..7cb40ae83f9b 100644
+--- a/fs/seq_file.c
++++ b/fs/seq_file.c
+@@ -20,11 +20,13 @@
+ #include <linux/printk.h>
+ #include <linux/string_helpers.h>
+ #include <linux/uio.h>
 +#include <linux/slab-static.h>
  
- #include "ufs_fs.h"
- #include "ufs.h"
-@@ -1353,7 +1354,8 @@ static int ufs_statfs(struct dentry *dentry, struct kstatfs *buf)
- 	return 0;
- }
+ #include <linux/uaccess.h>
+ #include <asm/page.h>
  
--static struct kmem_cache * ufs_inode_cachep;
-+static struct kmem_cache_opaque ufs_inode_cache;
-+#define ufs_inode_cachep to_kmem_cache(&ufs_inode_cache)
+-static struct kmem_cache *seq_file_cache __ro_after_init;
++static struct kmem_cache_opaque __seq_file_cache;
++#define seq_file_cache to_kmem_cache(&__seq_file_cache)
  
- static struct inode *ufs_alloc_inode(struct super_block *sb)
+ static void seq_set_overflow(struct seq_file *m)
  {
-@@ -1383,16 +1385,13 @@ static void init_once(void *foo)
+@@ -1140,5 +1142,5 @@ EXPORT_SYMBOL(seq_hlist_next_percpu);
  
- static int __init init_inodecache(void)
+ void __init seq_file_init(void)
  {
--	ufs_inode_cachep = kmem_cache_create_usercopy("ufs_inode_cache",
-+	return kmem_cache_setup_usercopy(ufs_inode_cachep, "ufs_inode_cache",
- 				sizeof(struct ufs_inode_info), 0,
- 				(SLAB_RECLAIM_ACCOUNT | SLAB_ACCOUNT),
- 				offsetof(struct ufs_inode_info, i_u1.i_symlink),
- 				sizeof_field(struct ufs_inode_info,
- 					i_u1.i_symlink),
- 				init_once);
--	if (ufs_inode_cachep == NULL)
--		return -ENOMEM;
--	return 0;
+-	seq_file_cache = KMEM_CACHE(seq_file, SLAB_ACCOUNT|SLAB_PANIC);
++	KMEM_CACHE_SETUP(seq_file_cache, seq_file, SLAB_ACCOUNT|SLAB_PANIC);
  }
- 
- static void destroy_inodecache(void)
 -- 
 2.47.3
 
