@@ -1,41 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A8234753A
-	for <linux-fsdevel@vger.kernel.org>; Sat, 13 Jun 2026 11:14:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2707834753A
+	for <linux-fsdevel@vger.kernel.org>; Sat, 13 Jun 2026 11:14:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781349288; cv=none; b=FGPyXQFqkeZbjKSWvYJGOGz+pe/ZfgMbtvBxQNwAXRWPlZOiXJkxTJfjVdztOhUPuex7DpoU7ypJW3FjQNTpfE4u+u46GJdtprbvpPrn5qU5FuQqGpboZqK4euioBVnUxtbiT+Mo+jLXH04pscxvkRMsmNAWEgrKOIeLppGe4tQ=
+	t=1781349290; cv=none; b=ALRXwmJlZwUtlfVNqzX7TnmTO0SSjZdXnDS+9eDfe+dRI1a13Ck0AIIa1yLOJR8lC0AVDDZq9fbEeihUnGiFydJ7Ae1HRXC96W7ET8Wtz6ewkji4XFS8k2MLnR//jAd+zhuckByztanRvR7fKibj3n6Qxe4DVrVJk6Wu1pJmeug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781349288; c=relaxed/simple;
-	bh=UH36hddvdR0zyHsISvkN5/F3WlZiemoASK3GB9aErqw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iLkY71+k5b6LkbpIxn+NB4duP0pOCdWbrSsX2LL/L3u52S2F97uZ0J+dkv6FWN+OXYzoDYvVoxPgmHYHa+SwmUvRsU3jbg8+IgP9zVSrACev1eaZNJanpNEp7ZpWuqM3/TwESPjx3zrlQmwo7kangPDzY9pip3sHihxxJzssCOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sw6GVLzx; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781349290; c=relaxed/simple;
+	bh=buiDjEjJTNCbwBH38wTQ+0mHiWWmJv5dfe8MCzMXTyY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OS9JT3H9wuLlivpu2Y8+zPp4Y6X2t+FIrN82rRLjPI2V8XLxlB/q4g54VyBeXH96fmMMR40qfij8CfJmbqWMgZpGS7uRXiUcuqC5vaUqWxMnSEZmyUEGj/yEIRV1gQ4OrZ2GzArpsNk1iaWYqDR5cFpcM+jxu6Ol7qQcduPcJ10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z3XL1fyh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sw6GVLzx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B66B1F000E9;
-	Sat, 13 Jun 2026 11:14:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z3XL1fyh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4300B1F00A3A;
+	Sat, 13 Jun 2026 11:14:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781349286;
-	bh=RP6aowk3kWOKY3IKdbIH/MdxPMRZ1g9CatphPpQNHL4=;
-	h=From:To:Cc:Subject:Date;
-	b=Sw6GVLzxcedzMFXJJhd7e/5JUAsYai57CMeHZqyufopRatJxbe0nXKIOKOAd/dwvs
-	 OHWxZ9ss2bdcj3XpGOlEAH2UrWVFd0hcF3G4TByQBICjA70pVj5cOqrOnHFruv7Y5P
-	 3RAT3aCfeGwPFkUoyyd9ENM3tf57KrYxni2b03DznXRcFDnkwYlcl3YTpL39O3zfeh
-	 v07JxhIivIN/oyBrtS7Liuh/oinwwaHVuk6NLP3GpJTCCqyxKSpi2fjJFzq8oBpPQe
-	 qxGfIa+5XGiQ+mJY5WAkzT47upFeAtF6zZCL6NfwioN5WyU/1+DLI7yodnMjDetH7I
-	 BHO96VMLmpo5g==
+	s=k20260515; t=1781349288;
+	bh=rAbvIUWiFDMirl0Us4mmXPOFTeBDDg/l/sWK35AjUMY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Z3XL1fyhrftVFOLPF84Df+TTb73VAzcQvlCy01QFpNnNLR+lrQy3Wp3ANOp7bGdBc
+	 SNfiIoLHPFP7Z5nIf9ngsTVNRUx1jlViV5CPl8ZwctmYskVewSN5OD8KEYti8BxQp/
+	 EJTRlNMX5ImixUfWTASm241+ePdMSM13FArgc9oCj/fS+9JOdl9ezSyof4Y5JOWtDC
+	 BauN0oWNazApx5hpcA7CtcHr6a1ynu6VdxIjhXwvRHDhBpAuN15HD6VLpWuihbDD0E
+	 cidzlg2yrkOJOWoTPCaDoW3aW0vYqRwSSe2F2d8vsjPxkV9om6pe2DMI4WIBx64u2P
+	 KKVkGj/tHu9JQ==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christian Brauner <brauner@kernel.org>
 Cc: Jan Kara <jack@suse.cz>,
 	Andreas Hindborg <a.hindborg@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [RFC PATCH 0/8] namespace-aware configfs
-Date: Sat, 13 Jun 2026 13:14:29 +0200
-Message-ID: <20260613111437.101763-1-hare@kernel.org>
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 1/8] fs/configfs: rework configfs_is_root()
+Date: Sat, 13 Jun 2026 13:14:30 +0200
+Message-ID: <20260613111437.101763-2-hare@kernel.org>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260613111437.101763-1-hare@kernel.org>
+References: <20260613111437.101763-1-hare@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -44,70 +47,31 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hey all,
+From: Hannes Reinecke <hare@suse.de>
 
-during discussions at LSF/MM I thought it would be quite helpful
-to make configfs namespace aware, such that one could do:
+configfs_is_root() should not check for static structures, but
+use the information in the structure itself.
 
-unshare --mnt
-mount -t configfs none /sys/kernel/config
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ fs/configfs/mount.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-and get a new instance of configfs. This will allow to have distinct
-configurations for each namespace.
-This is particularly helpful if you want to run eg nvmet in a container;
-with this patchset each container can have its own configuration, and
-one can simulate a multi-node nvmet cluster using containers.
-
-How it works:
-The configfs 'root' entries are stored in 'configfs_super_info' which
-is stored in an xarray using the namespace ID as the index.
-A configfs subsystem can be converted to be namespace aware by implementing
-the new subsyste callbacks 'fill_subsystem()' and 'clear_subsystem', which
-are responsible for populating the subsystem structure.
-Upon registration via 'register_subsystem()' the subsystem is put in a
-linked list within 'configfs_super_info'. So when mount() is called from
-a different namespace this list is traversed, and new subsystems are created
-in the new namespace using the callbacks.
-
-Open Issues:
-- I've added a new function 'mnt_clone_direct()' to clone the vfsmount
-  entry (the original code just did a simple_pin_fs()). Not sure if
-  that's correct. Christian?
-- The current cloning mechanism is not really a hierarchy, but rather
-  always using the default namespace to find registered subsystems.
-  Meaning you can only call 'register_subsystem()' for the default
-  namespace. But then one shouldn't call modprobe in a container, so
-  that's okay I guess.
-- The original content of the configfs remains visible even from
-  within the container, and the new 'mount' will just overlay that.
-  Ideally I would have the container start off with an empty
-  /sys/kernel/config to avoid configuration issues. But again I've
-  no idea how to do that (or if it's even possible).
-
-Otherwise, as usual, commands and reviews are welcome.
-
-Hannes Reinecke (8):
-  fs/configfs: rework configfs_is_root()
-  fs/configfs: dynamically allocate super_info
-  fs/configfs: separate out configfs_{link,unlink}_root()
-  fs/namespace: implement mnt_clone_direct()
-  fs/configfs: add superblock as attribute to configfs_pin_fs()
-  fs/configfs: add 'fill_subsystem' and 'clear_subsystem' callbacks
-  fs/configfs: switch to get_tree_keyed()
-  nvmet: make configfs setup namespace aware
-
- drivers/nvme/target/configfs.c  | 183 ++++++++++++++++++++++-----
- drivers/nvme/target/core.c      |  35 +++---
- drivers/nvme/target/discovery.c | 101 +++++++++++----
- drivers/nvme/target/nvmet.h     |  13 +-
- fs/configfs/configfs_internal.h |  21 +++-
- fs/configfs/dir.c               | 167 +++++++++++++++++++-----
- fs/configfs/mount.c             | 216 +++++++++++++++++++++++++++-----
- fs/namespace.c                  |  11 ++
- include/linux/configfs.h        |   7 ++
- include/linux/mount.h           |   1 +
- 11 files changed, 615 insertions(+), 144 deletions(-)
-
+diff --git a/fs/configfs/mount.c b/fs/configfs/mount.c
+index 4929f3431189..e5c01d5e4d2d 100644
+--- a/fs/configfs/mount.c
++++ b/fs/configfs/mount.c
+@@ -49,7 +49,9 @@ static struct config_group configfs_root_group = {
+ 
+ int configfs_is_root(struct config_item *item)
+ {
+-	return item == &configfs_root_group.cg_item;
++	struct configfs_dirent *sd =
++		item->ci_dentry->d_fsdata;
++	return sd->s_type == CONFIGFS_ROOT;
+ }
+ 
+ static struct configfs_dirent configfs_root = {
 -- 
 2.51.0
 
