@@ -1,119 +1,76 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758F4358D00
-	for <linux-fsdevel@vger.kernel.org>; Sat, 13 Jun 2026 15:57:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44992BD0B
+	for <linux-fsdevel@vger.kernel.org>; Sat, 13 Jun 2026 16:15:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781366242; cv=none; b=iXUG2hTzbeb7EjM3VXUH6Yq2Hvc6mnam03Qy4idcrLwOvSjQ36Cx1WWtSnipceKDIX3SimTpY9ee5kS9YVviOMh9Nrw2KVbx3NgJ6vLuqs/riS3jYOxnf3MtWPhMG8ADQ1lVcv22YyCLAZBXRNTiMmYCeVV+QqlSNOy1OrJrHF8=
+	t=1781367342; cv=none; b=Sk/kxLx3htAg6iKzxjTTy85w5LblO7pu/rha6ISUXQCKWvBJSsVTTKSFgrrdTuk+4zAK6nHz0PqCA0UOpbU+lMZuoJGzCi55uJuDOxgJXza/oECQGN4hN+gYEPsjbpQ/6XJ13uBcqbmYI/DQ9q3EmB5AtHEvzVoAwcouGvLUT6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781366242; c=relaxed/simple;
-	bh=A6EogKgHjPqxJGDoOhmOpnHbpKqQXEoQYwG82srC3PU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=W/LhJckPmc3Kr12KCu3sIA66lug6RYJE/z86DD1PHJuQN49iWmrhaQFRBhY33NaL0iwAYdW8WQOKxGXiZNgorLgcpaiAfdAJzSjODABxI3rM/duYEJWzNpG7zpqkxTdnWlmDF7uPExrnS6G/N0hlQNYQHy4LK5iHnqLWvX9HSog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=giTr33i5; arc=none smtp.client-ip=91.218.175.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1781367342; c=relaxed/simple;
+	bh=tIcNE8IgBuSZcM5Ws6JuVq47MAnkqV+zi3LY1aRzvkg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=up7Kn+Q3Eh+HWTTnfb2TlkzZL5lzhwZPzR8vaOgFhzwZpnAslpUqRBV6ilZQ9+nxi7OgN/lcnDYdeV2D4FZZ5AX0C/jog6RySaqTnokKq4YssMhYnj7/sXctMreh9HTegm3CaUSw7I95M+RpVSROYJn0CyadqGd4ElR8SpwA/VA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NxCGY0uv; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="giTr33i5"
-Message-ID: <3626b4c0-319b-4944-b7ff-704ab146fd1e@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1781366227;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kE0oeEtUJG66qm/U92HQCINAXsdcehQKkqnC/jbf8Tg=;
-	b=giTr33i5UL68RXMestQ7k0qhojn0znSLAbcI8b+5lEkdTMM8PXWCVio9gTXmnSsGAopmdE
-	3KSM2QJ/8YCaSCWBZp2QWvHnaQvkP+qRKy4IMBvnbu1diVDPfY+YegELUYINsQIv0TcDlU
-	vpcZ2pHbm45TWe373RF9WFxBL3KmRAU=
-Date: Sat, 13 Jun 2026 23:56:50 +0800
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NxCGY0uv"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=JFSLvO6lacXDS1M4MjlvSD3QCJFp6gqwb5JykZl1KsU=; b=NxCGY0uvjFzYhSjwQECIASiSA7
+	Qpk5qinecD5gVkrLZLtQGNry9rQ/Y7gb3xnypGXHETOo8lipL5YMo+zhwA58AAZ7bQjQIyXCDXPw1
+	1HvKForhY89Lbdgpo3M0obRyUobmObSJq0G7vkrjtu9/Exz3KIMyRmjdhGBG6wTnLCRd+F1FvA/BY
+	IpVEmmoofWHCRVrzXYmzOiEfqqtAZibNgQ2ygAR6r6hDhnWwLL2+3+dsrOcIEXsWSoM0D/+GbvWRP
+	swPIrWnqOSrGth2D0Ns8JCKjLuNwI8D3rmzIK2TBrAlkldTtV4SQY8QubgarreBQfXUIg5j2YHy9A
+	CG1n4sZw==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wYR16-00000005jo2-1uBj;
+	Sat, 13 Jun 2026 16:15:28 +0000
+Date: Sat, 13 Jun 2026 17:15:28 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Ye Liu <ye.liu@linux.dev>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 5/6] show_page_info: Remove printing of page index
+Message-ID: <ai2CIGzlCeqbOz5o@casper.infradead.org>
+References: <20260608210618.3437216-1-willy@infradead.org>
+ <20260608210618.3437216-6-willy@infradead.org>
+ <20a5a752-3ed6-4fde-96c9-e8369b15524c@linux.dev>
+ <ainCu2HZTTdP4skd@casper.infradead.org>
+ <11cc4dca-7841-4897-8665-e27d7555f246@linux.dev>
+ <aizL_QrL4dNWMJ8Y@casper.infradead.org>
+ <661b47de-af1a-488f-a691-82df7add1f49@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [RFC PATCH v5 0/2] sysctl: add CTLTBL_ENTRY_XXX() macros for
- ctl_table initialization
-To: Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1774463505.git.wen.yang@linux.dev>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Wen Yang <wen.yang@linux.dev>
-In-Reply-To: <cover.1774463505.git.wen.yang@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <661b47de-af1a-488f-a691-82df7add1f49@linux.dev>
 
-Hi Kees, H jioel,
+On Sat, Jun 13, 2026 at 12:16:38PM +0800, Ye Liu wrote:
+> 在 2026/6/13 11:18, Matthew Wilcox 写道:
+> > On Sat, Jun 13, 2026 at 11:02:06AM +0800, Ye Liu wrote:
+> >> 在 2026/6/11 04:02, Matthew Wilcox 写道:
+> >>> Thanks, but could you explain why you don't just call dump_page()?
+> >>> It's more comprehensive and will continue to be maintained.
+> >>
+> >> This script is based on the drgn tool, but the drgn tool does not
+> >> have a dump_page helper. What kind of method do you mean by      
+> >> directly calling it?                                             
+> > 
+> > void dump_page(const struct page *page, const char *reason)
+> > 
+> > in mm/debug.c
+> 
+> I’m aware of this kernel function, but could you please clarify
+> how to call it from a user program?               
+> Or how to achieve the direct call you mentioned?
 
-Gentle ping on this series. Please let me know if there are any
-concerns or if further changes are needed.
-
-The series is available at:
-https://lore.kernel.org/all/x5stdwwsfp2h22zyexn5ycbxnkyc4ioxscninxsa6q7lf6djqr@jkuppwwqubkp/
-
-Thanks for your time,
-Wen
-
-
-On 3/26/26 02:39, wen.yang@linux.dev wrote:
-> From: Wen Yang <wen.yang@linux.dev>
-> 
-> Historically, changes to how struct ctl_table entries are initialized
-> (e.g. removing the child field, const-qualifying ctl_table) required
-> touching hundreds of files across all subsystems.  Such series require
-> the attention of many maintainers, sometimes need to be pulled into
-> mainline in a special way, and create lots of unnecessary churn.  With
-> CTLTBL_ENTRY_XXX(), future structural changes to struct ctl_table need
-> only update the macro definitions.
-> 
-> Conversion of existing call sites will proceed incrementally from
-> kernel/sysctl.c outward, rather than as a treewide sweep.
-> 
-> This series:
->   1. Introduces the CTLTBL_ENTRY_XXX() macros in include/linux/sysctl.h,
->      using _Generic() for automatic proc_handler selection, auto
->      address-of, auto maxlen via sizeof(), and compile-time validation.
->      Supported types: int, unsigned int, long, unsigned long, bool, u8.
->   2. Converts kernel/sysctl-test.c as a demonstration, adding a
->      parameterized KUnit test covering all macro variants (V, VM, VMR,
->      VN, VNM, VNMH) across int, u8, bool, and char[] types.
-> 
-> Based on discussion and suggestions from:
-> [1] https://sysctl-dev-rtd.readthedocs.io/en/latest/notes/ctltable_entry_macro.html
-> [2] https://lore.kernel.org/all/psot4oeauxi3yyj2w4ajm3tfgtcsvao4rhv5sgd5s6ymmjgojk@p3vrj3qluban/
-> 
-> ---
-> Changes in v5:
->    - Extend __CTL_AUTO_HANDLER to support bool and u8
->    - Replace individual test functions with a single parameterized KUnit
->      test (KUNIT_CASE_PARAM) covering all variants and types
->    - Use struct ctl_table as the expected-value container in the param
->      struct, eliminating custom expected_* fields
-> 
-> Changes in v4:
->    - Fix Wpointer-type-mismatch warnings detected by lkp:
->      https://lore.kernel.org/oe-kbuild-all/202603050724.SZxrEyyu-lkp@intel.com/
-> 
-> Changes in v3:
->    - Replace the unique macro with "capital letter approach"
->    - Reduce the name further
->    https://lore.kernel.org/all/rn4rsazh7kxf5byq65vw2phyqgzvwm3scczu3l5h2r4aqit2r6@znlpb24z2zuo/
-> 
-> Changes in v2:
->    - Add lvalue check, handler type check, etc.
->    https://lore.kernel.org/all/xptwb3uwbzposd4xf7khj52ifv4tchcjdgllhv7aabi6d7wgef@2msurl564v53/
-> 
-> 
-> Wen Yang (2):
->    sysctl: introduce CTLTBL_ENTRY_XXX() helper macros
->    sysctl: convert kernel/sysctl-test.c to use CTLTBL_ENTRY_XXX()
-> 
->   include/linux/sysctl.h | 307 +++++++++++++++++++++++++++++++++++++++++
->   kernel/sysctl-test.c   | 237 ++++++++++++++++++-------------
->   kernel/sysctl.c        |   2 +
->   3 files changed, 447 insertions(+), 99 deletions(-)
-> 
+https://drgn.readthedocs.io/en/latest/release_highlights/0.0.28.html
