@@ -1,76 +1,72 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB4638C401
-	for <linux-fsdevel@vger.kernel.org>; Sat, 13 Jun 2026 13:14:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F29482DA76A
+	for <linux-fsdevel@vger.kernel.org>; Sat, 13 Jun 2026 13:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781356490; cv=none; b=maFPxQ/rqsry3xT0MRmlNSExVHhRVrrFmCnbcU2NdQ7lZLvScJr+KMWAkGxUFfwg4k909HkW5+MNzzxpbsoWQgoXxRmNw2K8OolUDcaOkWRX+X4+IDGoCkm6YKKMM3QIlFLRVv6UmKfLirRUJXT+/SrLLW/3Vl+lOHcKMdtMqfc=
+	t=1781357958; cv=none; b=NTRjiLLaxeqKRwsKn7/1bQFCiBM3ed5vR6V4sPWOQ37JC7mnwYodDUzUMU5ghkyNKUJtS9T8/ThFXsJsKzdaiB5dZaRRNPDGobjNwbU7za+LqxJg1fU19HXgtfjqSLqpv/8tJA52OIA32g58nRaZmgMdpIcPyWKLhTwbY2V6/tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781356490; c=relaxed/simple;
-	bh=BeapHXvAGCRWREW0J6P3NdbEyUaOKIF7hszp9gyT/dw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=JI4to3gB1tFf9Tr7Mtu0uGWNK3jq1rxYTQAw24GJnZ4pMk7UZEYBByUahN4LPPG2p+tUjHKF3sd/0mtXFiTfB28j6NlMgoeFgi5HFuXjRqshgcgNYVDHU4nhK8TA8/XpRXLlVVM9R+6O168GQSf+oUP5qDxAzKzbDVbeVtops+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q/iC/L3g; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1781357958; c=relaxed/simple;
+	bh=45f2aYykaZtRFf3Yi6Mzl9GWxjlfftlOZmdcBhmlkmQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WFDxmnG8zskbw4Y3CBmc8B0cEHDJBAvClKc50oWRWf/B54aFt5lt+is8Z15tt6k3G1XhIb55Pg0JoZGdnEPR5vCY/wk3DsXTufnL6/6dqA8k9wLRKZn65GxRdNOI5HTyrKNMlbNV4yDoztPdmGTFvpSMJ/N10h/nXj/B2rGMcv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E0FJV1P0; arc=none smtp.client-ip=209.85.216.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q/iC/L3g"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2c0c2d8b95bso14899135ad.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 13 Jun 2026 06:14:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E0FJV1P0"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-36baeec21dcso1303049a91.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 13 Jun 2026 06:39:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781356488; x=1781961288; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BeapHXvAGCRWREW0J6P3NdbEyUaOKIF7hszp9gyT/dw=;
-        b=q/iC/L3gu8RyZ1zIw4i7WAah8wrecpn4PeTcnJ1zjkwbiLaq1jtHaokqtl0fMxTHKQ
-         oeGRC8xszONCNYa2WY8ySomF62hRLEtYytM+gufg27rU0LiyrAT0tbtN9gmYr3zk7fCY
-         VukKKToY567vgYyCk7Rml46UWgeQ/TLP06NZoBFzBCfEIG8542ZrZtuOjKEcNVyUCqtl
-         HxiSaIfS+APoV4y0Hjmre6SZoxlBdELDfYpqB4zHv2WEtj+iMu6Dfn5Tw5Cu0pSxLMVn
-         Y+llFM2kEuVWgFL4NTrsh+X0JHWi8g1sBsnosM/fO5ZttbOs//DU2BtYLtGKCuPjLESp
-         Srmg==
+        d=gmail.com; s=20251104; t=1781357955; x=1781962755; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=z2iww8sRzZ9iwSa8F1tzoGIT1WxXrjehKzFUA5XyvmA=;
+        b=E0FJV1P0DvOewx7d7hSOpmUIw1DXYf+8yNqCM41bjJ0da6OA+7dJtejtHcxgOuLdhQ
+         Y8vFJXMRtium4CdCdvxWnpqjBJMsp7Tijs0EbdwTrXXCN9pq5DAsaT/S8a+rztm0IPH4
+         H6+jOImoQRROWRYWhzMRnKmrouPsjKV8vIW2oyFNSpSabG2HVgCwu/EEpuwnnLP72xWa
+         xorsaqbcYJgUsZ88tljgxFfAcWd1QHQWr9dbVu75b6FFVF4uEecZjEwFqH6V/f/PjOSr
+         nJ0m+nbVuuXkc7gZhxYL46Cc78dlZg8Ntv3rIXPavwMeyvpSs2MxQ9GGZpr5nxz9dB+X
+         sihg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781356488; x=1781961288;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=BeapHXvAGCRWREW0J6P3NdbEyUaOKIF7hszp9gyT/dw=;
-        b=rpT4GZmGJxygT8WVnjj+BCX17J3QDdnTjgytVyyh73IPqAlTsaBa1hJ0ZoSjQyroY0
-         7vVxgCdbulnBhKpVcOFug2kwGQU2v1mbNedbNQkUG3dG/9sDtQwCL5HfFqZzocDG1FfW
-         wurMPUH818eKrQ8x8L1GPizd2kukm+2866b8lmcuJZzih3ZLHKxk602mKrH5JksZf2N4
-         5hBTG2QirMxJgKxswp4MoqLvSxqO9syAko8LPye0TDcfGcJ7oKK2db7Ql8L3n43oErod
-         lxY+1mARpkAStf8yFHsqshyZHn6JIYLU0Tm/Hh90K7PBsNhY9d713/lb37byGf7hxng4
-         zjlA==
-X-Forwarded-Encrypted: i=1; AFNElJ8oJEGzhbZmDNjIdRyHOGhGiWjHw346spBzhijbzNP5xczkb9TLXRdwsVHwVCyhBBK1Xrk/6zXBDVvGBXFv@vger.kernel.org
-X-Gm-Message-State: AOJu0YywFB8JKkMX1DvqtZAo2Z6vRwj9/hroCid2giBNjo3FpQKrJONT
-	2NKndSIRnA+xAJe/GFUJZ01AnvWW24UznbExntWf+yVkxlYFxFxWxYO6
-X-Gm-Gg: Acq92OH+h4u25u14+jbRbk293t594keBzeypxhuBWhvOG0deRA4Kd3Z079nLRbfCrrI
-	3ZMIwU+XXzAhMSe+LWbNlLtnA4UdWpCPV8Wc00ZLB37jy1RcuHfc8oxuAIWJHLfQIoOL1mw+UHb
-	IyzAi0Z4fQrMNTdElgdF1+5TVb5PkVpKTSC4oZaft4KX5bGUSznyrGW9k0V4OLDv9KEBjlkhUuZ
-	UAIoP2MaTX/8tAu/bAAOjef5wBElbzImDADiNAQUEI5hNjOFGSn2EfMJNDY59X8YvtLsMKVANPA
-	zD9NfglVlrRQ9yace7MCR1d1aUJJkNqFpcnfJGjCQKtyUSYp3fgweDTdSYztfds+YQAlXiGMX4G
-	m/vZSmC2+OQpogzFWaq/Hv3FNnKIKX5Km2NzUxmg9u9NYm0iryint8fxmw2zvGm55fUe8Z0lUFL
-	9OfpW8Kzzmn+xnetDsjR6jVYA9BcRdB0Q9jYdh
-X-Received: by 2002:a17:903:2f4c:b0:2c0:a373:89bf with SMTP id d9443c01a7336-2c6641caa55mr42529465ad.1.1781356488542;
-        Sat, 13 Jun 2026 06:14:48 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781357955; x=1781962755;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z2iww8sRzZ9iwSa8F1tzoGIT1WxXrjehKzFUA5XyvmA=;
+        b=F9cycVvUHJC/z8E2crknMfRKAQ0B8IWz3RgUE9Qrmru3TClZKUABu5mSHbJuUytBet
+         Q2BuQNUDJf+5PYK3POeg5NHQfR67Mi2F3QMigFH/YwTB0csB5hLp0yaFOA0pqfxjTc6i
+         rK9+lHKTxhmNt8kbjy6Cq1jBWrrja8yd+LC/GxGSrxeK1HgWEWrNc7+UKrhqP996G8St
+         wlZ0AEBod3cCdcsaRVjkt5E+041hA0TSSCntQXzOkBSRmiZeDoLYfxhs4DHKCp8YNfb7
+         Z731RTCWJZY7JATMJbfLU9UWc95xR6kLqhBdWMR5QRhIsP2mpCssrC6zctMl1tw10JIg
+         Pwxg==
+X-Forwarded-Encrypted: i=1; AFNElJ9K0aRMOfB50Bql03zSFWtETcSqs4YlbHkZxw10QX9xF1wb5F9aJVPDGGbRlewjXGNtO5nKV6iOnrA9rS62@vger.kernel.org
+X-Gm-Message-State: AOJu0YwH0zAoHlfpuywslPCumRewX1AGDS6TzoGvcE1lFQ1qSI0y4EJr
+	cwsAxmIAvJlX1eqdKBWYbMPf+49cD+FMeLZdmBpU2dsi0xy0cG/jcIW2
+X-Gm-Gg: Acq92OE2yVy8JWcfBhuIAoBVgMeAp7h5kiV9BIOkE7fKBFydV3Uuf5b5WKWoyB5p1Yd
+	ABSab7aUn/q38scRiHzqQjed9DVDWinHJrvHh9YFitnrO3672ZcxFHInTunD+Di4CoytqVAlo4s
+	kOi+PKGiCTbEMh/RvdJ+7M5RcB4OrzCGsPl4q1KSIr8m0eVcMwM2oBfeYDOGkjRTqeBMblX1aup
+	oEifrBvYuDySTKiNr6eRxR3FSdYpKt5FEe2i/9bQKW4Jr2e8HPo9bsNE6FuWXTNvBSXS93Ninzq
+	tZf1ZgAFodusII1yKBMm/JkO7ylwESCbMzDJeToFDwtO0a+2SckWpdLJg54F4V+2+ydVUX/9hgh
+	ZwLR2+2IsPULZ6f5K80NMQR0yLecyFb12cItht3C6yxS3Z8HqysNbWV3mh+Z6LDNv+8FEvBtmhg
+	FaXrny0wltHF32kXkDvHF75hSpYZyQJ5JM2tNq
+X-Received: by 2002:a17:903:2bcb:b0:2bc:8f9a:3642 with SMTP id d9443c01a7336-2c4114a22d3mr82149245ad.16.1781357955070;
+        Sat, 13 Jun 2026 06:39:15 -0700 (PDT)
 Received: from localhost.localdomain ([47.100.192.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c433844a70sm47483305ad.84.2026.06.13.06.14.45
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c4328a44e4sm53471515ad.48.2026.06.13.06.39.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jun 2026 06:14:48 -0700 (PDT)
+        Sat, 13 Jun 2026 06:39:14 -0700 (PDT)
 From: Yang Wen <anmuxixixi@gmail.com>
-To: linkinjeon@kernel.org
-Cc: anmuxixixi@gmail.com,
+To: linkinjeon@kernel.org,
+	sj1557.seo@samsung.com
+Cc: yuezhang.mo@sony.com,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	sj1557.seo@samsung.com,
-	yuezhang.mo@sony.com
-Subject: Re: [PATCH 2/2] preserve the next empty-entry hint after allocation
-Date: Sat, 13 Jun 2026 21:14:29 +0800
-Message-Id: <20260613131429.229260-1-anmuxixixi@gmail.com>
+	Yang Wen <anmuxixixi@gmail.com>
+Subject: [PATCH v2 0/1] exfat: reduce directory scans during file creation
+Date: Sat, 13 Jun 2026 21:38:56 +0800
+Message-Id: <20260613133856.238740-1-anmuxixixi@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <CAKYAXd8ajKbH1xonEKdRTAg=MHS81qRp6v1B_0A8R=0Uet38Zw@mail.gmail.com>
-References: <CAKYAXd8ajKbH1xonEKdRTAg=MHS81qRp6v1B_0A8R=0Uet38Zw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -79,10 +75,33 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-> The empty-entry hint is only an optimization, so failure to advance
-> the hint should not make file creation fail with -EIO.
-> Could you make exfat_cache_next_empty_entry() return void and simply
-> skip caching the hint if exfat_chain_advance() fails?
-Yes, that makes sense. I will update it in v2.
+Creating files in a large exfat directory may require repeated linear
+directory scans.
 
-Thanks for the review.
+After an empty-entry hint is used successfully, the remaining
+contiguous empty entries are not retained for the next create operation.
+This can cause subsequent operations to rediscover available directory
+space.
+
+In a test creating 20,000 files with random names and sizes between 1 KiB
+and 4 KiB in one directory, the elapsed time changed as follows:
+
+  Before: 3879 seconds
+  After:  3050 seconds
+
+---
+
+Changes since v1:
+- Drop the LOOKUP_CREATE negative dentry change.
+- Make exfat_cache_next_empty_entry() return void and skip caching if
+  exfat_chain_advance() fails.
+
+Yang Wen (1):
+  exfat: preserve the next empty-entry hint after allocation
+
+ fs/exfat/namei.c | 39 +++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 37 insertions(+), 2 deletions(-)
+
+-- 
+2.34.1
+
