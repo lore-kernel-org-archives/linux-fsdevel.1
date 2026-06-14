@@ -1,71 +1,71 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A57F37FF5E
-	for <linux-fsdevel@vger.kernel.org>; Sun, 14 Jun 2026 23:51:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D0437F00A
+	for <linux-fsdevel@vger.kernel.org>; Sun, 14 Jun 2026 23:51:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781481070; cv=none; b=jggEVLjtW51hbXhNKROVCNGSknNxQJYJUeei0kqxHSAOTe193fF1/0MnHyBAjX4hEC1m/ILQKJeeecviQA46ISsJvJN4ynNfzaWxCnquM/LPyAnBNfUdfQ2BwOvWEF/K9pS+ydtqSaHqhdrg4I/y0PSLUEtoBHQjmM4oqNEP32M=
+	t=1781481073; cv=none; b=PCd7vbR1UoZXXdmNol2h31Ib/HROGgHUwHmqnerM0v/b1SFw7c318WMy/ylbVPHI+jkYHmxc4VSz9xdjJIM0ZKGD9awdoIgZHsHDxSfrYQKDMBUT/12joDS2WQZg3vMEcbfoXHyaO012NEU0cP0TVZAL6BcCo+OdHi5/Cve8wCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781481070; c=relaxed/simple;
-	bh=mt+JmKw3sU5g8dP87l80+wAa37YGSjw/oUi59DYrpr8=;
+	s=arc-20240116; t=1781481073; c=relaxed/simple;
+	bh=WZYUF72Xkerj0D//LCComnJLpWN2NH28Ez6pSUiLuJo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EnRFLJaPLP1kR2OctpbN3rZqI0h9zxfhpTZDjxfn5vMfAsg7yyglfJKJqPRilUTJAk4T0RhWxudJ8TFgn0+JnSJaCapcS/LhUNF5APNb10EIQZaM6Uf/+sNbjHY7L43xANoFnAUEX6Pi1+7rdic4BUs0utuTmDq44zPWostokp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lDzvOJHm; arc=none smtp.client-ip=209.85.215.181
+	 MIME-Version:Content-Type; b=qZrVfMzCZBppd1QZXC4hXvboOQdk+2xOjdy6Eotoa/DmJaCPXM4qtXQ5VShYgqTI1bhRZJoVo3uhjqpQyAs+BsYiYaIeu5mATY1UdloNjfLqvRXeH4HjABZyYzIAs0eYHF56aXD2RQwGMaBjFDH5PJeoWMrG+KnL6bSjEdpxcKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C8X0CabZ; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lDzvOJHm"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c855599a77aso1208507a12.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 14 Jun 2026 16:51:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C8X0CabZ"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2bf20f6be6bso19900105ad.3
+        for <linux-fsdevel@vger.kernel.org>; Sun, 14 Jun 2026 16:51:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781481068; x=1782085868; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781481071; x=1782085871; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=05bT4hFs2JyxZMQsak70tJ/pABYR3hkaKhUdW0lLXv0=;
-        b=lDzvOJHm5jOVipe/uWV2PvSSlUv1IBMd7UE1/l6d7VG/ZuAovOGdcXsgna29NUiKJF
-         PanMyl5yUdMGOifZfU9S/xk6Nu5N1pGpuf5I7/F7w6Bis2XcvTVM/X9vzqGC9pA7dZul
-         jJOmtCWtJmZiPdmUkuugej8f8Q68Q0HvYEHXE3LfN1z1UY5ILegJ3cddgVg6tB7WkiUG
-         etfOBcRbySjwrnv0pzKFNx9GejR/WwjtNV1oM+Y2xQViBFQCFauRT/XJbBJlx/UzVNHP
-         7hsIv1oqGOBLqUQlFeqq+W/Js1WYHsm2jCZCw1kMpJjBrvvfzAtGdhVuphpm8F5aGMiz
-         kUTg==
+        bh=0bcM0BEHZZySzT7ywKGxmQCcb3j01ofeeqLISk4RkOg=;
+        b=C8X0CabZaWma7DFtfKpqoXmk7hIyTi9rXr8ZNa5A2fvIuhkydM/q4K7yvXktSGmRNu
+         qmx5kRqBp7DLSFSPSstmhK2Km3HtEcaQ9nplK8CG6hJJ48qRuKXmSUUXoC7qxhfNeMr2
+         ASd00vRcv+/WwCPOHmOyRy24Y/XfSRLT3jn9hN3W9DHlg8JtBlb7BFvMMVE8SOt7OY9+
+         Rr6vqFqPIORuCdlwLyYxJauVEYzUMxu2SOfy1qzpnoWFuTkm8Gjy91WCMrC8XFDmsgEu
+         MVKNLuCO0R1AHl65SdeOIpc3dX2OYVvC1Ljjdo9a5RUPkJJ/f7VNVwLTzzyxeemTlwbf
+         PuIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781481068; x=1782085868;
+        d=1e100.net; s=20251104; t=1781481071; x=1782085871;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=05bT4hFs2JyxZMQsak70tJ/pABYR3hkaKhUdW0lLXv0=;
-        b=S8kHI8ulH52ICQ5xO2Iw0f3jtlT6/mSW19S7oPf8Ta3M0DZ83zKtkQW73JwzgHUidg
-         3bl2FVGkyRO8okcE2aLDHxbuq+qH1TvfY1z0bEj9SI7n3i+YidxG1+2dUQUC2Ab8uQox
-         MvD+xDw7UtFn6pQc1m9gwws58epW/dhB19ue5CIkKixd8W/Rx5XXLkWGORJjXaHWrgd7
-         yVBThp7bpUQW+b95ygCLTPpQpeP5kQOIUGPnxAsYFln6rcEEZzbKVHWlEg/ytdNk54Ky
-         Vn2xXN95qWG8yZFi9iMyrwVCmdooIpz1px6pDryP+1OBPbqOtchA5qDzQe9zuHXV3d6i
-         y8xQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+DDsH8q96mjS+GEKXo38HJCgomrvZ4R41zRM5CB7YtFxD4gVYJVATtWcJt3o3CFcOYfhterHicgSJK2jeu@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZ6+yYNm9pnpvQPhMZLIcEfjG2Fuk1Kw6B1FdJrI4aLz/idFwx
-	yNDdBn5+6M6qnq3H6H/s98pEUCXZMAE1T8CnoEBp0gFCbVCEP13S+v4V
-X-Gm-Gg: Acq92OFcZLKGiGXRy0dkFGvYUMy0PrnpUuao8MjMOJ8BPRDWun6iYoMITiTZXGY0u4/
-	jYKGfn08TMUJp/pihp/NXvHTqte388qf2pJan3yBpfPc24cP2o6QuDFebDRUxZ/zc260d1GzHf2
-	lEkeXK0AkecYc8Iq+X47BHVEgs8QGD2oO3tOifQMw9H3fRBIgT1rTOE1MvDRlYUOHv6JTHTUM/F
-	p2SP7WW1tVe+tUf0qAbJlXJMWW6WIvamgmH9JQMvRj15LYnxmGX45mL+DNaSE44m+31FYUt8uyp
-	CKZ7/x3jiQDK56+7d5UBvdKs3e0fxrrdbTojVcRuw4+th1kULO9QdLmZiXSDompoYBAl82rXJUQ
-	29OP1z7GncCPYvBPfp7TIMF5WmMgeY6mH1tq0Skbz6WKZ+bgP2RC6i+u5nY/5ZrDvzwT9NlJ4XK
-	4R1Qqh69vWHeImjInMVNqwi+6O7bviOZMrglNJ8zV7
-X-Received: by 2002:a17:902:ced2:b0:2bd:7684:34b0 with SMTP id d9443c01a7336-2c4105092a4mr135483695ad.15.1781481067803;
-        Sun, 14 Jun 2026 16:51:07 -0700 (PDT)
+        bh=0bcM0BEHZZySzT7ywKGxmQCcb3j01ofeeqLISk4RkOg=;
+        b=Ym2DMH98BvbtcCRUGKN9Pj1zUdFpq0sW+yDXuAf757FCdkwH5XzXTxyhOaRkmwzW80
+         UNRXIQL2IX+0kY9A3o1xW3quWOXPu9Xs+zf9kTS2d8GRKWjjYDeaK8iDR0N9gVlQqLvb
+         B4segie35Cpnv6pcqY1MlW49S6nPPt4FPo77aC+4usCIzu1drA6LOhT7++CePgvKAugr
+         lCI1u88ZYAffhJxdyk5Z43YYSszL0xG7OWi98ZYjb1LUZCpRXg41MuQmlbK/+Ht+iWAJ
+         6SHw4g/tNOL5xHvUVTSoCM+tGHniRTceRgUENSTdFS4moXmu8aPUxdckfKjoh+rJAWEh
+         ZiwQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9bfCWyLpTuD99bId6Lr+tQLFolo4+xfcpvtNVroJAjJqlF8VW3hm7UC0zHJP5ONUDa+YsiqIC5HPLvv2vB@vger.kernel.org
+X-Gm-Message-State: AOJu0YxaD5xiJOWKK0WNBWbMVRbmGLR2Z5mhk7ujDxXx6pXPUxiDDHqL
+	syiiqcJwhlvf3fLrq4dUW1m6+cKROxCJhyLNDB8wCNNxm4zO6tfl61lX
+X-Gm-Gg: Acq92OFdtP0yV4lo+eZ+8X9CwAomMte1xm73nSB+UQVLPPK+GOystutQpoTG/1/ZYLq
+	2mt2/liYUBCkZa0rZ7izotWVmx3zX9c6sfIBGFbnEJFAuJ2CxM/d4dAIi5dcQtrUEr+Uld+zmZq
+	Vbj3ZqJq7OPp58adk6t5T3EseRQLjN4MqNg97q8IdjLAAEIlNa8LgrIFVRCPiKetmIpLkdhoJaK
+	kuTPicgMwcv2rf21kF6fDinsCMonWhORWKWIjuXrUTFusLjZl6C118UR5LawErGYm/PvYiR3roW
+	PIi2OR/rz6UUP3DapMa1NqbTWMwKTtt/2Vr76RfPfS/JlM8YDeVTW5e6lPvHRvw+aXuHb1sekG8
+	e4cvtCQfWI3seFGs/vwKuPhKdbKX9OeAWCBEO+nR+JrMNdXtdD40Uz/gWbbF4fofyp9RJsZMjE0
+	LknGUiEc9LISm65LQQM0CvCZNrZ1jCWn4QRDd+2lh8
+X-Received: by 2002:a17:903:2cf:b0:2c1:6715:a4ea with SMTP id d9443c01a7336-2c411f73a6emr128630215ad.30.1781481071438;
+        Sun, 14 Jun 2026 16:51:11 -0700 (PDT)
 Received: from hyunchul-PC02.lge.net ([27.122.242.71])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c4327ac72asm86651425ad.38.2026.06.14.16.51.04
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c4327ac72asm86651425ad.38.2026.06.14.16.51.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jun 2026 16:51:07 -0700 (PDT)
+        Sun, 14 Jun 2026 16:51:10 -0700 (PDT)
 From: Hyunchul Lee <hyc.lee@gmail.com>
 To: Namjae Jeon <linkinjeon@kernel.org>
 Cc: Hyunchul Lee <hyc.lee@gmail.com>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/7] ntfs: add native_symlink mount option
-Date: Mon, 15 Jun 2026 08:49:55 +0900
-Message-ID: <20260615-topic-symlink-v2-4-648a769d01f8@gmail.com>
+Subject: [PATCH v2 5/7] ntfs: clean up target name conversion for WSL symlinks
+Date: Mon, 15 Jun 2026 08:49:56 +0900
+Message-ID: <20260615-topic-symlink-v2-5-648a769d01f8@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260615-topic-symlink-v2-0-648a769d01f8@gmail.com>
 References: <20260615-topic-symlink-v2-0-648a769d01f8@gmail.com>
@@ -77,170 +77,173 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4601; i=hyc.lee@gmail.com;
- h=from:subject:message-id; bh=mt+JmKw3sU5g8dP87l80+wAa37YGSjw/oUi59DYrpr8=;
- b=owEBbQKS/ZANAwAKATTyMPr3jkjTAcsmYgBqLz3QB4AHH85nsuHlPX/lCaNWKKf4MvDp37jmq
- VseaoqECKKJAjMEAAEKAB0WIQTVhSnMU3bjbW4eb2I08jD6945I0wUCai890AAKCRA08jD6945I
- 01vBEACdzotiZflWsnagGlI4hlrBzGZuZnsIogMoijwyeIQpVIMzDyFPOfJmY0xWjxprDfXkZcB
- qP8Zh35NdT+4yoS1tvIpLE0n3HENjbw/5awcvl0gHBvlhSH/sQkchjLSk5uNwLALM05g32kSJZ0
- Mp/dH38dBk4qO1R7mbzb2qZzpLvd8UcoC3GFfABdmCmJiszsVjwqtc9QX5dU2azf0LGUWi3SOUM
- bfSOGPA+mw720eQ22Z72I+GKBZPfb8Or2yWeQ1t7i8V8k/OG2PUdb675id+Fh6tO4OAP8gte5wX
- 3pegjYb9cDcRqHb1kbFExo7W8RtBTHfgiwHcpHjJMAXg71luzE5f2zB9K6wLfUg117I0mfOCLBB
- lF4ETWNA2PWk2GUldhMCAxnGVKZs/ZQNOrTUR/XSNJWMY+5reS1AJ0rgOH9EK+52GNUk79tJOxC
- 3nuhMxeVeglBrl3sgvJoQvbeO+dqAW5iloRfCUUzTdPZPhRSvDOyAK1nZkojWrL+cxnmOQOnlED
- PwnL8LiApOyKu+GU7iHGT427ZAglYaHN55kdm2K8nVaPoANpjGuP85Hf3C4aNt5ryKg8VZkB07N
- fkwmY2U1FwZojOwjrWSASuQoS0oB1YwREgQqSRbf6cRGQR996Oo6Yec6r4eG74a57ZTf2HWdo2p DkkqgR3aWJJsYNQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5071; i=hyc.lee@gmail.com;
+ h=from:subject:message-id; bh=WZYUF72Xkerj0D//LCComnJLpWN2NH28Ez6pSUiLuJo=;
+ b=owEBbQKS/ZANAwAKATTyMPr3jkjTAcsmYgBqLz3QKYxN74swdA01gJsHbQo/IsrTQ+JSwbFEJ
+ 7pirUWGMfuJAjMEAAEKAB0WIQTVhSnMU3bjbW4eb2I08jD6945I0wUCai890AAKCRA08jD6945I
+ 03LPD/4hMNTfGWmXwnA+iz5VelVHdR0Pxsu/ViDSXblMtLwEqcUqBcBhn5RVkXRf78zCePf7+Ic
+ GoaKnrgHeRpO2zDcQN8rOT7HQw9tR8SyLRw0E96GOkeHsmv/QnQUMpS+8zQ054mNcCORhzLYiKM
+ H13tG5Q/SlTZ5LWby3hnSv/CJ8X4NCfWcWk3A8DsrAHsy8mXyr9ns8dBvzrk8hgR1vhuqlw3S/+
+ hoHhszKRVvVR8ezuzVhELfuUITdyPwH6wzPOTalKDCbyCgQQq9EyC5JlTKEVLnrEnPxlWv+tcPq
+ 0Rs1+2JWGWAEM4asGUYIWTJPo6bVYSrVYcJ1P+3ZPoiU7894NZF1bJxxfBI9VTzz/HMnAU/d1iZ
+ A6w2xyL7sEKd1D1LL7/vJhMEgrzn9OHcavWAEzJSX50IwfOv5cOtOXtVOpC1/FBGR/4uF9wgA5l
+ RS19KVWCmFHfDsuqGEIiYN3HltIfrP4D2YiO9rQdk8sXOdiScEw59PuBRFlDH3CG+5INGlNROdW
+ tavUcjtOIznvPpUiQfSyI5wrXgR8n1rjw+0izkRe2moVmImliXHmTi41w+Fzs6mORY0kzeLaDLk
+ 5evgMO4JuxFqipEJYMUr5U1gnPwzAFhRQg5xWNx+PFMWbSCWivkkhiuCr5iqjJ8PBBjbIMGPiXc 99WeGk3w7jq0gdQ==
 X-Developer-Key: i=hyc.lee@gmail.com; a=openpgp; fpr=D58529CC5376E36D6E1E6F6234F230FAF78E48D3
 Content-Transfer-Encoding: 8bit
 
-Because bind-mounted subtrees of the volume may resolve to unexpected
-locations, change converting junctions and non-relative symbolic links
-into paths relative to the NTFS volume to be allowed only if the
-native_symlink=rel mount option is specified.
+WSL symlink target names are stored as narrow NLS/UTF-8 strings on
+disk. Converting the target name to Unicode in ntfs_symlink and
+converting it back to NLS in ntfs_reparse_set_wsl_symlink is
+redundant.
 
-Add the native_symlink=<value> mount option to configure how absolute
-symbolic links and mount points (junctions) are handled.
-The option accepts "raw" or "rel", with "raw" being the default.
-
-Under "raw", the absolute target path (ni->target) is returned as-is
-without translation. Under "rel", ntfs_translate_junction() is called
-to rewrite the absolute path as a relative path anchored at the volume
-root.
+Remove this conversion and pass the symname directly to the reparse
+data setter.
 
 Signed-off-by: Hyunchul Lee <hyc.lee@gmail.com>
 ---
- fs/ntfs/file.c   | 14 ++++++++------
- fs/ntfs/inode.c  |  4 ++++
- fs/ntfs/super.c  | 19 +++++++++++++++++++
- fs/ntfs/volume.h |  3 +++
- 4 files changed, 34 insertions(+), 6 deletions(-)
+ fs/ntfs/namei.c   | 17 ++---------------
+ fs/ntfs/reparse.c | 56 +++++++++++++++++++++++++++----------------------------
+ fs/ntfs/reparse.h |  2 +-
+ 3 files changed, 30 insertions(+), 45 deletions(-)
 
-diff --git a/fs/ntfs/file.c b/fs/ntfs/file.c
-index 6b0dfc56577b..6a7b638e523d 100644
---- a/fs/ntfs/file.c
-+++ b/fs/ntfs/file.c
-@@ -22,6 +22,7 @@
- #include "ea.h"
- #include "iomap.h"
- #include "bitmap.h"
-+#include "volume.h"
+diff --git a/fs/ntfs/namei.c b/fs/ntfs/namei.c
+index 9c1c36acfad2..88c0b05dde3b 100644
+--- a/fs/ntfs/namei.c
++++ b/fs/ntfs/namei.c
+@@ -394,7 +394,7 @@ static int ntfs_sd_add_everyone(struct ntfs_inode *ni)
  
- #include <linux/filelock.h>
+ static struct ntfs_inode *__ntfs_create(struct mnt_idmap *idmap, struct inode *dir,
+ 		__le16 *name, u8 name_len, mode_t mode, dev_t dev,
+-		__le16 *target, int target_len)
++		const char *target, int target_len)
+ {
+ 	struct ntfs_inode *dir_ni = NTFS_I(dir);
+ 	struct ntfs_volume *vol = dir_ni->vol;
+@@ -1409,9 +1409,7 @@ static int ntfs_symlink(struct mnt_idmap *idmap, struct inode *dir,
+ 	int err = 0;
+ 	struct ntfs_inode *ni;
+ 	__le16 *usrc;
+-	__le16 *utarget;
+ 	int usrc_len;
+-	int utarget_len;
+ 	int symlen = strlen(symname);
  
-@@ -688,12 +689,13 @@ static const char *ntfs_get_link(struct dentry *dentry, struct inode *inode,
- 	if (ni->reparse_tag == IO_REPARSE_TAG_MOUNT_POINT ||
- 	    (ni->reparse_tag == IO_REPARSE_TAG_SYMLINK &&
- 	     !(ni->reparse_flags & cpu_to_le32(SYMLINK_FLAG_RELATIVE)))) {
--		err = ntfs_translate_symlink_path(dentry, ni->target, &target);
--		if (err < 0)
--			return ERR_PTR(err);
--
--		set_delayed_call(done, kfree_link, target);
--		return target;
-+		if (NVolNativeSymlinkRel(ni->vol)) {
-+			err = ntfs_translate_symlink_path(dentry, ni->target, &target);
-+			if (err < 0)
-+				return ERR_PTR(err);
-+			set_delayed_call(done, kfree_link, target);
-+			return target;
-+		}
+ 	if (NVolShutdown(vol))
+@@ -1432,23 +1430,12 @@ static int ntfs_symlink(struct mnt_idmap *idmap, struct inode *dir,
+ 		goto out;
  	}
  
- 	return ni->target;
-diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
-index 07ca799a8f9a..76595f2e30ff 100644
---- a/fs/ntfs/inode.c
-+++ b/fs/ntfs/inode.c
-@@ -2378,6 +2378,10 @@ int ntfs_show_options(struct seq_file *sf, struct dentry *root)
- 		seq_puts(sf, ",discard");
- 	if (NVolDisableSparse(vol))
- 		seq_puts(sf, ",disable_sparse");
-+	if (NVolNativeSymlinkRel(vol))
-+		seq_puts(sf, ",native_symlink=rel");
-+	else
-+		seq_puts(sf, ",native_symlink=raw");
- 	if (vol->sb->s_flags & SB_POSIXACL)
- 		seq_puts(sf, ",acl");
- 	return 0;
-diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
-index ca882e946a22..e032a247455c 100644
---- a/fs/ntfs/super.c
-+++ b/fs/ntfs/super.c
-@@ -43,6 +43,17 @@ static const struct constant_table ntfs_param_enums[] = {
- 	{}
- };
+-	utarget_len = ntfs_nlstoucs(vol, symname, symlen, &utarget,
+-				    PATH_MAX);
+-	if (utarget_len < 0) {
+-		if (utarget_len != -ENAMETOOLONG)
+-			ntfs_error(sb, "Failed to convert target name to Unicode.");
+-		err =  -ENOMEM;
+-		kmem_cache_free(ntfs_name_cache, usrc);
+-		goto out;
+-	}
+-
+ 	if (!(vol->vol_flags & VOLUME_IS_DIRTY))
+ 		ntfs_set_volume_flags(vol, VOLUME_IS_DIRTY);
  
-+enum {
-+	NATIVE_SYMLINK_RAW,
-+	NATIVE_SYMLINK_REL,
-+};
-+
-+static const struct constant_table ntfs_native_symlink_enums[] = {
-+	{ "raw",		NATIVE_SYMLINK_RAW },
-+	{ "rel",		NATIVE_SYMLINK_REL },
-+	{}
-+};
-+
- enum {
- 	Opt_uid,
- 	Opt_gid,
-@@ -66,6 +77,7 @@ enum {
- 	Opt_acl,
- 	Opt_discard,
- 	Opt_nocase,
-+	Opt_native_symlink,
- };
- 
- static const struct fs_parameter_spec ntfs_parameters[] = {
-@@ -91,6 +103,7 @@ static const struct fs_parameter_spec ntfs_parameters[] = {
- 	fsparam_flag("discard",			Opt_discard),
- 	fsparam_flag("sparse",			Opt_sparse),
- 	fsparam_flag("nocase",			Opt_nocase),
-+	fsparam_enum("native_symlink",		Opt_native_symlink, ntfs_native_symlink_enums),
- 	{}
- };
- 
-@@ -215,6 +228,12 @@ static int ntfs_parse_param(struct fs_context *fc, struct fs_parameter *param)
- 		else
- 			NVolClearDisableSparse(vol);
- 		break;
-+	case Opt_native_symlink:
-+		if (result.uint_32 == NATIVE_SYMLINK_REL)
-+			NVolSetNativeSymlinkRel(vol);
-+		else
-+			NVolClearNativeSymlinkRel(vol);
-+		break;
- 	case Opt_sparse:
- 		break;
- 	default:
-diff --git a/fs/ntfs/volume.h b/fs/ntfs/volume.h
-index 3348394dbc0d..55298689a7bb 100644
---- a/fs/ntfs/volume.h
-+++ b/fs/ntfs/volume.h
-@@ -177,6 +177,7 @@ struct ntfs_volume {
-  *
-  * NV_Discard			Issue discard/TRIM commands for freed clusters.
-  * NV_DisableSparse		Disable creation of sparse regions.
-+ * NV_NativeSymlinkRel		Translate absolute Windows reparse targets (native_symlink=rel).
+ 	ni = __ntfs_create(idmap, dir, usrc, usrc_len, S_IFLNK | 0777, 0,
+-			utarget, utarget_len);
++			   symname, symlen);
+ 	kmem_cache_free(ntfs_name_cache, usrc);
+-	kvfree(utarget);
+ 	if (IS_ERR(ni)) {
+ 		err = PTR_ERR(ni);
+ 		goto out;
+diff --git a/fs/ntfs/reparse.c b/fs/ntfs/reparse.c
+index 33e5a4198e9b..91ae0c75e275 100644
+--- a/fs/ntfs/reparse.c
++++ b/fs/ntfs/reparse.c
+@@ -753,43 +753,41 @@ static int ntfs_set_ntfs_reparse_data(struct ntfs_inode *ni, char *value, size_t
+  * Set reparse data for a WSL type symlink
   */
- enum {
- 	NV_Errors,
-@@ -194,6 +195,7 @@ enum {
- 	NV_CheckWindowsNames,
- 	NV_Discard,
- 	NV_DisableSparse,
-+	NV_NativeSymlinkRel,
- };
- 
- /*
-@@ -230,6 +232,7 @@ DEFINE_NVOL_BIT_OPS(HideDotFiles)
- DEFINE_NVOL_BIT_OPS(CheckWindowsNames)
- DEFINE_NVOL_BIT_OPS(Discard)
- DEFINE_NVOL_BIT_OPS(DisableSparse)
-+DEFINE_NVOL_BIT_OPS(NativeSymlinkRel)
- 
- static inline void ntfs_inc_free_clusters(struct ntfs_volume *vol, s64 nr)
+ int ntfs_reparse_set_wsl_symlink(struct ntfs_inode *ni,
+-		const __le16 *target, int target_len)
++				 const char *target, int target_len)
  {
+ 	int err = 0;
+-	int len;
+ 	int reparse_len;
+-	unsigned char *utarget = NULL;
+ 	struct reparse_point *reparse;
+ 	struct wsl_link_reparse_data *data;
+ 
+-	len = ntfs_ucstonls(ni->vol, target, target_len, &utarget, 0);
+-	if (len <= 0)
+-		return -EINVAL;
+-
+-	reparse_len = sizeof(struct reparse_point) + sizeof(data->type) + len;
++	reparse_len = sizeof(struct reparse_point) + sizeof(data->type) +
++		target_len;
+ 	reparse = kvzalloc(reparse_len, GFP_NOFS);
+-	if (!reparse) {
+-		err = -ENOMEM;
+-		kfree(utarget);
+-	} else {
+-		data = (struct wsl_link_reparse_data *)reparse->reparse_data;
+-		reparse->reparse_tag = IO_REPARSE_TAG_LX_SYMLINK;
+-		reparse->reparse_data_length =
+-			cpu_to_le16(sizeof(data->type) + len);
+-		reparse->reserved = 0;
+-		data->type = cpu_to_le32(2);
+-		memcpy(data->link, utarget, len);
+-		err = ntfs_set_ntfs_reparse_data(ni,
+-				(char *)reparse, reparse_len);
++	if (!reparse)
++		return -ENOMEM;
++
++	ni->target = kstrdup(target, GFP_NOFS);
++	if (!ni->target) {
+ 		kvfree(reparse);
+-		if (!err) {
+-			ni->target = utarget;
+-			ni->reparse_tag = IO_REPARSE_TAG_LX_SYMLINK;
+-			ni->reparse_flags = 0;
+-		} else {
+-			kfree(utarget);
+-			ni->target = NULL;
+-		}
++		return -ENOMEM;
++	}
++
++	data = (struct wsl_link_reparse_data *)reparse->reparse_data;
++	reparse->reparse_tag = IO_REPARSE_TAG_LX_SYMLINK;
++	reparse->reparse_data_length =
++		cpu_to_le16(sizeof(data->type) + target_len);
++	reparse->reserved = 0;
++	data->type = cpu_to_le32(2);
++	memcpy(data->link, target, target_len);
++	err = ntfs_set_ntfs_reparse_data(ni,
++					 (char *)reparse, reparse_len);
++	kvfree(reparse);
++	if (err) {
++		kfree(ni->target);
++		ni->target = NULL;
++	} else {
++		ni->reparse_tag = IO_REPARSE_TAG_LX_SYMLINK;
++		ni->reparse_flags = 0;
+ 	}
+ 	return err;
+ }
+diff --git a/fs/ntfs/reparse.h b/fs/ntfs/reparse.h
+index ed7b93c359c1..e36557f29677 100644
+--- a/fs/ntfs/reparse.h
++++ b/fs/ntfs/reparse.h
+@@ -14,7 +14,7 @@ unsigned int ntfs_reparse_tag_dt_types(struct ntfs_volume *vol, unsigned long mr
+ int ntfs_translate_symlink_path(struct dentry *dentry, const char *target,
+ 				char **translated);
+ int ntfs_reparse_set_wsl_symlink(struct ntfs_inode *ni,
+-			const __le16 *target, int target_len);
++				 const char *target, int target_len);
+ int ntfs_reparse_set_wsl_not_symlink(struct ntfs_inode *ni, mode_t mode);
+ int ntfs_delete_reparse_index(struct ntfs_inode *ni);
+ int ntfs_remove_ntfs_reparse_data(struct ntfs_inode *ni);
 
 -- 
 2.43.0
