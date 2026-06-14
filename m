@@ -1,117 +1,264 @@
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4532840D576
-	for <linux-fsdevel@vger.kernel.org>; Sun, 14 Jun 2026 09:41:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2593A6405
+	for <linux-fsdevel@vger.kernel.org>; Sun, 14 Jun 2026 16:43:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781430087; cv=none; b=X0p+WdoZ9hwPq0TaXt3pojDysNKRVp0He9qvHDvgL3lniQhUTtcWGd63wRgZyvtUKznlqYJF+gtyl834qc1Sx6PxVZIOuDiNs2CVbJwpcXvQrrOcXfAmizomXNH/k5mGYyJgGt6uxSBeNCmNHjadyA1eMDL8hPrOY20qee/q7h4=
+	t=1781455432; cv=none; b=qiI/wJLTDgUOjMxr/UZ8fpntSYd1LtmF3itbuuviExHJSqLDs0qiiXoyWU5NHNBQkOpQcEcvWYpqubYaexeLq10cSAk1UJ8HNeuKhstmHHWj0NA9eFm4ovRh0P2xnvGB8fAeoG/VIlqbX+qv5bWBfnRiBgzI5VBzhjRyG+aykYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781430087; c=relaxed/simple;
-	bh=htRbPhnmI0Q7zbPGHmmpYE56eD5t0fPvtymFYGdYU6s=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
-	 Content-Type:References; b=mpWd4Ea2/L7N6nED5zVMI4iGpZd4KFhvQNcGLY7u8isDq0BsbvFJJa/0j7RFFiF8nctSk9ibZuO6LVBukprVwian85eIhM8GHcCxgPLfi6drLUbK24BxHq99yCe3zXECsBzirnAGki7yQLgmOqX4PguOYsPqAyNVuS/ceGQUTmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=ACpzmtzP; arc=none smtp.client-ip=203.254.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1781455432; c=relaxed/simple;
+	bh=km1W7U+y9Ng4jOCxpIW/K1afgAibTW4HQPMrC+bkFN8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gtmR+zesr2+Zi5qpdINUSFV8rHHLKGdsNc3NeW7JMsi5zJHbJvGdrcKfLWi8XwROR/Jhh5BHSOYjlnkSrHedYGaD3NWJf6aq+64jN4B43EgsDphqP+ilX1Vh/hK/2XZUuk24LUmM/XzPafoun9QsTouUBSTvvZmRkWp/cWp201k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=b96Lwntx; arc=none smtp.client-ip=195.121.94.167
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="ACpzmtzP"
-Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20260614094117epoutp0482f795b8fb050e6bda6ffb20f268144e~46TePukL52388123881epoutp048
-	for <linux-fsdevel@vger.kernel.org>; Sun, 14 Jun 2026 09:41:17 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20260614094117epoutp0482f795b8fb050e6bda6ffb20f268144e~46TePukL52388123881epoutp048
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1781430077;
-	bh=c10yNbrFXneieObebopqp/M64tMqvfZfGb2DL9uARpU=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=ACpzmtzPo6vx5D8oo0J1Rsen72nmsVDCM/fg2P3+uVpqmpTsd08JZw9pRQzmu0nY4
-	 QigRZL8mTcayAd9LEK4rAinqOEPMul1gMVUXWnSf6RO2oXM7j6eq77L3rhjNZEETBe
-	 j9wfQikFQaFD3n88CWgPv94Iz7CJU3oMKAk67yvM=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
-	epcas1p3.samsung.com (KnoxPortal) with ESMTPS id
-	20260614094116epcas1p3e4df91a880840d7890a32249c04094dd~46TdXuXo40905809058epcas1p3q;
-	Sun, 14 Jun 2026 09:41:16 +0000 (GMT)
-Received: from epcas1p1.samsung.com (unknown [182.195.38.119]) by
-	epsnrtp02.localdomain (Postfix) with ESMTP id 4gdSth275lz2SSKX; Sun, 14 Jun
-	2026 09:41:16 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20260614094114epcas1p1c29a2c017e9791fd43aeda4327663d7a~46Tb3Mc0e2304723047epcas1p18;
-	Sun, 14 Jun 2026 09:41:14 +0000 (GMT)
-Received: from W11PB11713 (unknown [10.91.160.69]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20260614094114epsmtip234d9e533518cdc49407ae4a83304adee~46TbyT6vY0889608896epsmtip2Y;
-	Sun, 14 Jun 2026 09:41:14 +0000 (GMT)
-From: "Sungjong Seo" <sj1557.seo@samsung.com>
-To: "'Yang Wen'" <anmuxixixi@gmail.com>, <linkinjeon@kernel.org>
-Cc: <yuezhang.mo@sony.com>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <cpgs@samsung.com>,
-	<sj1557.seo@samsung.com>, <sjdev.seo@gmail.com>
-In-Reply-To: <20260613133856.238740-1-anmuxixixi@gmail.com>
-Subject: RE: [PATCH v2 0/1] exfat: reduce directory scans during file
- creation
-Date: Sun, 14 Jun 2026 18:41:14 +0900
-Message-ID: <000001dcfbe1$f1341d10$d39c5730$@samsung.com>
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="b96Lwntx"
+X-KPN-MessageId: 351f984e-6810-11f1-96a9-005056abbe64
+Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 351f984e-6810-11f1-96a9-005056abbe64;
+	Sun, 14 Jun 2026 18:43:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=mime-version:message-id:date:subject:to:from;
+	bh=GDfdmk4HRdD7z3HTVym00t4g0fElZV8nmJg8DrpS4o8=;
+	b=b96LwntxIPr4P3B0BQstWdTPie5/nPrrbHh2AgWd58QMRXsiCOZkcuYue/39yj/kSve1qlD9Ym5VV
+	 muVjI1BCNObNvXVI2Cz/RWtP02NY3FaUsSeLrfCTQfWKlg4R7tNyrsx/uhWoy2rgBrOr0CPZvEhFsu
+	 NzQZ1ZH9rKq6VjNtcMeKIpYXmSpMqF/NwFlMeK/IjynvcrzuJiy36JweKeomNy/DBWULUyYGt/RkgM
+	 k3bP0NUNvK0Xu9twFVXetWkAFv8I6qMG9nD8UyoiJ3Wg8M5E+EXC1qFh8H9dxyNeSeRjIqer2ZhA8K
+	 3VL1kdZn41P0xGfHiebZ2dLZz52ciIg==
+X-KPN-MID: 33|uq+/h00MHg1beF6Pw3GC19tsRVDu0CAZK6z3j5A6hrIHYagnIrNgoxqDqfou2Dt
+ UD+lTKvArLSTty/hOSyrtEZ4WK8VqDw7fOnvum1igg+Q=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|l+tLzA+s2hKxX77MviKdWEkkMEOXTwJ7Iz7B9/ykezqikGzNtmXLg8H+JIWCeuh
+ DXGMHLZSG91U0SvgJKyMRwA==
+Received: from daedalus.home (unknown [178.230.193.94])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 34e5cddf-6810-11f1-8011-005056ab7447;
+	Sun, 14 Jun 2026 18:43:44 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	NeilBrown <neil@brown.name>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jori Koolstra <jkoolstra@xs4all.nl>
+Subject: [PATCH 03/12] vfs: prepare vfs_creat|mkdir_no_perm for reuse in lookup_open()
+Date: Sun, 14 Jun 2026 18:44:29 +0200
+Message-ID: <20260614164438.2980769-4-jkoolstra@xs4all.nl>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260614164438.2980769-1-jkoolstra@xs4all.nl>
+References: <20260614164438.2980769-1-jkoolstra@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQGbhcuwXyd99kU9K9PfQeBinsaqrQKSFDtBtqwjvUA=
-Content-Language: ko
-X-CMS-MailID: 20260614094114epcas1p1c29a2c017e9791fd43aeda4327663d7a
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 101P
-X-CPGSPASS: Y
-cpgsPolicy: CPGSC10-711,N
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260613133917epcas1p183cb2d5b2c82fa1651a96364cd8efda8
-References: <CGME20260613133917epcas1p183cb2d5b2c82fa1651a96364cd8efda8@epcas1p1.samsung.com>
-	<20260613133856.238740-1-anmuxixixi@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-> Creating files in a large exfat directory may require repeated linear
-> directory scans.
-> 
-> After an empty-entry hint is used successfully, the remaining contiguous
-> empty entries are not retained for the next create operation.
-> This can cause subsequent operations to rediscover available directory
-> space.
-> 
-> In a test creating 20,000 files with random names and sizes between 1 KiB
-> and 4 KiB in one directory, the elapsed time changed as follows:
-> 
->   Before: 3879 seconds
->   After:  3050 seconds
-Hello, Yang Wen,
+To implement O_CREAT|O_DIRECTORY we will have to repeat some of the
+logic that is now in vfs_mkdir() (e.g. do error checks in the same
+order). Separate this out in vfs_mkdir_no_perm(), which does all the
+non-permission related work of vfs_mkdir(). Permission checking for the
+lookup_open() path is timed differently because we may just be doing an
+open and no create. Similar considerations give rise to
+vfs_create_no_perm().
 
-As Namjae reviewed, we intentionally drop the dentry in LOOKUP_CREATE to
-maintain the case of newly created filenames. Therefore, when creating
-a new file, a brute-force search of the entire directory is required,
-and the hint value is naturally updated during this process.
+Moving the fsnotify_* calls also allows us to deal with this in one
+place for each type of operation. This does mean that we also need
+to move the fsnotify_* calls into atomic_open() for the atomic open
+case, but this actually reduces duplicate code in open_last_lookups()
+and dentry_create().
 
-For this reason, I believe this current patch will not improve performance
-and is an unnecessary operation. Is there any performance gain with the
-current patch, excluding the dropped part?
+Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+---
+ fs/namei.c | 105 ++++++++++++++++++++++++++++++++++-------------------
+ 1 file changed, 68 insertions(+), 37 deletions(-)
 
-> 
-> ---
-> 
-> Changes since v1:
-> - Drop the LOOKUP_CREATE negative dentry change.
-> - Make exfat_cache_next_empty_entry() return void and skip caching if
->   exfat_chain_advance() fails.
-> 
-> Yang Wen (1):
->   exfat: preserve the next empty-entry hint after allocation
-> 
->  fs/exfat/namei.c | 39 +++++++++++++++++++++++++++++++++++++--
->  1 file changed, 37 insertions(+), 2 deletions(-)
-> 
-> --
-> 2.34.1
-
+diff --git a/fs/namei.c b/fs/namei.c
+index f169d1123b17..6bf1ded26377 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -4171,6 +4171,24 @@ static inline umode_t vfs_prepare_mode(struct mnt_idmap *idmap,
+ 	return mode;
+ }
+ 
++static inline
++int vfs_create_no_perm(struct mnt_idmap *idmap, struct dentry *dentry,
++		       umode_t mode, struct delegated_inode *di)
++{
++	struct inode *dir = d_inode(dentry->d_parent);
++	int error;
++
++	error = try_break_deleg(dir, di);
++	if (error)
++		return error;
++
++	error = dir->i_op->create(idmap, dir, dentry, mode, true);
++	if (!error)
++		fsnotify_create(dir, dentry);
++
++	return error;
++}
++
+ /**
+  * vfs_create - create new file
+  * @idmap:	idmap of the mount the inode was found from
+@@ -4203,13 +4221,8 @@ int vfs_create(struct mnt_idmap *idmap, struct dentry *dentry, umode_t mode,
+ 	error = security_inode_create(dir, dentry, mode);
+ 	if (error)
+ 		return error;
+-	error = try_break_deleg(dir, di);
+-	if (error)
+-		return error;
+-	error = dir->i_op->create(idmap, dir, dentry, mode, true);
+-	if (!error)
+-		fsnotify_create(dir, dentry);
+-	return error;
++
++	return vfs_create_no_perm(idmap, dentry, mode, di);
+ }
+ EXPORT_SYMBOL(vfs_create);
+ 
+@@ -4386,10 +4399,17 @@ static struct dentry *atomic_open(const struct path *path, struct dentry *dentry
+ 				error = -ENOENT;
+ 		}
+ 	}
++
+ 	if (error) {
+ 		dput(dentry);
+ 		dentry = ERR_PTR(error);
++	} else {
++		if (file->f_mode & FMODE_CREATED)
++			fsnotify_create(dir, dentry);
++		if (file->f_mode & FMODE_OPENED)
++			fsnotify_open(file);
+ 	}
++
+ 	return dentry;
+ }
+ 
+@@ -4522,6 +4542,8 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+ 						mode, open_flag & O_EXCL);
+ 		if (error)
+ 			goto out_dput;
++
++		fsnotify_create(dir_inode, dentry);
+ 	}
+ 
+ 	return dentry;
+@@ -4610,13 +4632,9 @@ static const char *open_last_lookups(struct nameidata *nd,
+ 		inode_lock(dir->d_inode);
+ 	else
+ 		inode_lock_shared(dir->d_inode);
++
+ 	dentry = lookup_open(nd, file, op, got_write, &delegated_inode);
+-	if (!IS_ERR(dentry)) {
+-		if (file->f_mode & FMODE_CREATED)
+-			fsnotify_create(dir->d_inode, dentry);
+-		if (file->f_mode & FMODE_OPENED)
+-			fsnotify_open(file);
+-	}
++
+ 	if (open_flag & O_CREAT)
+ 		inode_unlock(dir->d_inode);
+ 	else
+@@ -5061,13 +5079,6 @@ struct file *dentry_create(struct path *path, int flags, umode_t mode,
+ 		if (unlikely(create_error) && error == -ENOENT)
+ 			error = create_error;
+ 
+-		if (!error) {
+-			if (file->f_mode & FMODE_CREATED)
+-				fsnotify_create(dir->d_inode, dentry);
+-			if (file->f_mode & FMODE_OPENED)
+-				fsnotify_open(file);
+-		}
+-
+ 		path->dentry = dentry;
+ 
+ 	} else {
+@@ -5219,6 +5230,39 @@ SYSCALL_DEFINE3(mknod, const char __user *, filename, umode_t, mode, unsigned, d
+ 	return filename_mknodat(AT_FDCWD, name, mode, dev);
+ }
+ 
++static inline
++struct dentry *vfs_mkdir_no_perm(struct mnt_idmap *idmap, struct inode *dir,
++				 struct dentry *dentry, umode_t mode,
++				 struct delegated_inode *di)
++{
++	int error;
++	struct dentry *de;
++	unsigned max_links = dir->i_sb->s_max_links;
++
++	error = -EMLINK;
++	if (max_links && dir->i_nlink >= max_links)
++		goto err;
++
++	error = try_break_deleg(dir, di);
++	if (error)
++		goto err;
++
++	de = dir->i_op->mkdir(idmap, dir, dentry, mode);
++	if (IS_ERR(de)) {
++		error = PTR_ERR(de);
++		goto err;
++	}
++	if (de) {
++		dput(dentry);
++		dentry = de;
++	}
++	fsnotify_mkdir(dir, dentry);
++	return dentry;
++
++err:
++	return ERR_PTR(error);
++}
++
+ /**
+  * vfs_mkdir - create directory returning correct dentry if possible
+  * @idmap:		idmap of the mount the inode was found from
+@@ -5246,7 +5290,6 @@ struct dentry *vfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
+ 			 struct delegated_inode *delegated_inode)
+ {
+ 	int error;
+-	unsigned max_links = dir->i_sb->s_max_links;
+ 	struct dentry *de;
+ 
+ 	error = may_create_dentry(idmap, dir, dentry);
+@@ -5262,24 +5305,12 @@ struct dentry *vfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
+ 	if (error)
+ 		goto err;
+ 
+-	error = -EMLINK;
+-	if (max_links && dir->i_nlink >= max_links)
+-		goto err;
+-
+-	error = try_break_deleg(dir, delegated_inode);
+-	if (error)
+-		goto err;
+-
+-	de = dir->i_op->mkdir(idmap, dir, dentry, mode);
+-	error = PTR_ERR(de);
+-	if (IS_ERR(de))
++	de = vfs_mkdir_no_perm(idmap, dir, dentry, mode, delegated_inode);
++	if (IS_ERR(de)) {
++		error = PTR_ERR(de);
+ 		goto err;
+-	if (de) {
+-		dput(dentry);
+-		dentry = de;
+ 	}
+-	fsnotify_mkdir(dir, dentry);
+-	return dentry;
++	return de;
+ 
+ err:
+ 	end_creating(dentry);
+-- 
+2.54.0
 
