@@ -1,78 +1,63 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59FF9238D54
-	for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 02:36:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A86E2D97AA;
+	Mon, 15 Jun 2026 03:45:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781490987; cv=none; b=hh5pZV84oWg98g3ySkC4WeVZUUzU6x6kWenFiRu08TQxXA+GDIAImPkybVclU0Hz8F4MjJOvHWtiM58bs4aP2zc6oP3spFdhTAK4Ky76bbMocXN7Yy0kX3uZyFTFra2Bgq6BGM7LhqckFWakIA0h8DYv+0Q6baukir1u8jQuijY=
+	t=1781495118; cv=none; b=VRmxkW8cVmo3ztYR0Si4pkThnyKMeWIbSnezXe+EpBotATQk8jTs9o1H6BL+EPrXh7Enq0RJAsZV6QHQKH8Rn7dve6TjbvOzRMKOWBNBNbFeYt7TvDfsa9jg+VvL7Y2R0/jP++DHmLR/cmQwhkDAeEU4gLLaT1XdZ6hUHgVDRpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781490987; c=relaxed/simple;
-	bh=L/HrQeHYHUyfI2NnBxAh06HbodmSrDkcHbKkNpKkPx0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NyJFUQTt4D/nVUjDrtnywvZFnNQNqbQlrENa7o5GHgOqIUg0N+kvB7EKsQPmaNB1RlAy6V7TqwSyHRISRH5Npp/WylW34eQfl8Nj+8vfqA0ANvJb+pMdE4uDj1cacJAPdbI5CVN8lGOaLsYIS71YmoqLHAhxs2m2kjvIdRQpOyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=VLAyNAoR; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1781495118; c=relaxed/simple;
+	bh=8w6HjOr27dmAwO+Skcrmbr4/NnLpdw3es1EKt0BY5c4=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Lr3U1F/aznAgRCaqhZ1FypNf3diDvQYN1rNL36jECggideeKnZpbQCUhVxV36xPVjOJ3WMDeQWME8udC+Z/q9PxoCWi/16Yo8rr9qqvioUYD3dV+iwzwGCcam7XZ50DEzPcmwsW0qNjrCZOZ0MVXvOWTYd7nM0D7tWlPh+CG0ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bjwLw0bv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="VLAyNAoR"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=I5QCFZfmBpSyEAU6mlKpvNOiFrVqxfzRtkJsLhCyKko=; b=VLAyNAoR2GkoL44M/cJguFrb/A
-	2krYBx5OyHQ4UNxJaOzwpAwMu1hAU/sQ9Z3jO+04Ol0DZwYq9IJiksAXQ0h2sew2An07l7qMt1ilJ
-	UqBBZC98vipj8+4U2gg8m0b8gvjW2748cmviroKvX5Zik/FZfWkOfa9pbWkfEwNtAy+TDqQ7c+jxA
-	CYNlrpGwqBb1RJW/JLfV6KrPrSYb7tTLtEA3/GeWAfRcw3pkDnT/GiBFg3YNQ7KfnIsgkuTlqI4KM
-	iPhMilsPSDLLXPkb+YhKuauJ/qDgwipRG0SFKYM0RjbP0eMPWE+E+Bl217m/SP8/AL/uy4HMbekXq
-	GKg6gXjA==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wYxBV-000000090uF-27IX;
-	Mon, 15 Jun 2026 02:36:22 +0000
-Date: Mon, 15 Jun 2026 03:36:21 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Jan Kara <jack@suse.com>, linux-fsdevel@vger.kernel.org,
-	Eric Sandeen <sandeen@redhat.com>
-Subject: [git pull] old udf fix
-Message-ID: <20260615023621.GA2142293@ZenIV>
-References: <20260211201845.GN3183987@ZenIV>
- <n7blo2z6tk25p2pkjk53ifm2p2nejodngojrnmgdcr2bqpv3m4@up4qbcufnfii>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bjwLw0bv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5DC11F000E9;
+	Mon, 15 Jun 2026 03:45:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781495115;
+	bh=3TfrLIQYpOCMm5XhQJlVkS8d2wIh4BuOEeP1CTbRquk=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=bjwLw0bvRo2oD8D7Ac+Fx0F/5GEV9VWCbhMYdCk62cTRyBw/pmJd0jufePxEmGLGK
+	 tbWiA70gJGjvGed3xbswJBl/z5Bxq8hXLo1Tuu8cgDbCtDg2RewtEimHuPiJYMROK+
+	 xqUtrfIjGH1LtuZVQvpcXsVJTr14v5FYkSJkuAu2CMj/UMrtkUf6DyXrBN6MuHu0JO
+	 1mNCgNEJ7d+XuoEUdiF04PeQzKMlLEiDoHt4w4BuHgPtfldZ/5RaqT6SlubF8QW5s1
+	 f1UpDmRMDztlXmhWE149Da2oTSZPQvZF48CpnpYnTMemvRFC90G3jkoJ4NiD3b7IXU
+	 iMEmXC/vEwbVg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 93A603A566D6;
+	Mon, 15 Jun 2026 03:45:12 +0000 (UTC)
+Subject: Re: [GIT PULL 01/16 for v7.2] vfs kfunc
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20260612-vfs-kfunc-v72-64b151bcd92c@brauner>
+References: <20260612-vfs-v72-20facee87e19@brauner> <20260612-vfs-kfunc-v72-64b151bcd92c@brauner>
+X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20260612-vfs-kfunc-v72-64b151bcd92c@brauner>
+X-PR-Tracked-Remote: git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.2-rc1.kfunc
+X-PR-Tracked-Commit-Id: 07410646f6ff1d23222f105ccab778957d401bbe
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: d2cb5e633c6e8f2fb9af57e72fb05899952b1e3c
+Message-Id: <178149511101.2410512.9767610814067979327.pr-tracker-bot@kernel.org>
+Date: Mon, 15 Jun 2026 03:45:11 +0000
+To: Christian Brauner <brauner@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <n7blo2z6tk25p2pkjk53ifm2p2nejodngojrnmgdcr2bqpv3m4@up4qbcufnfii>
-Sender: Al Viro <viro@ftp.linux.org.uk>
 
-[just noticed that udf fix had been sitting in #fixes since February;
-still applicable, Jan's Acked-by applied, very belated pull request
-follows]
+The pull request you sent on Fri, 12 Jun 2026 17:11:28 +0200:
 
-The following changes since commit 2005aabe94eaab8608879d98afb901bc99bc3a31:
+> git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.2-rc1.kfunc
 
-  functionfs: use spinlock for FFS_DEACTIVATED/FFS_CLOSING transitions (2026-02-05 13:53:12 -0500)
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/d2cb5e633c6e8f2fb9af57e72fb05899952b1e3c
 
-are available in the Git repository at:
+Thank you!
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git tags/pull-fixes
-
-for you to fetch changes up to 462bdd08fbdf41db223c6117d907c8fd68d666ea:
-
-  udf: fix nls leak on udf_fill_super() failure (2026-06-14 22:29:21 -0400)
-
-----------------------------------------------------------------
-old udf fix that had fallen through the cracks...
-
-Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
-
-----------------------------------------------------------------
-Al Viro (1):
-      udf: fix nls leak on udf_fill_super() failure
-
- fs/udf/super.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
