@@ -1,46 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B012DA756;
-	Mon, 15 Jun 2026 03:45:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B5B2DCC05;
+	Mon, 15 Jun 2026 03:45:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781495119; cv=none; b=UJ9kW2q/rsxQ8A6wuKizZBvXPDISzyWzLgjFwP4jdO7rkqVXNuFLqps9dF/G+8nK+GQBmE4PT5vX6+WQZ8LlT+zT21zcMBjS4yWQEFZv8EHvDhGkCyuWr3w6pGjFbYP0Bh+g2hbRU7yudt2BLC865waiXUATj5NcNZdPxfLNClg=
+	t=1781495119; cv=none; b=EIREyp9/ZT6VIbifKJoaCaHjERP+T3o3dBP4ye5PGHMyTHVXr4EMWZGFjh3O872SC8wJwZ23JKNZ/FOGsymR6uA4F1ES9IzON3rWuwGlCeHm1CTQNXqTPHNzDqkIUVZNBIqFIP+XxrKQzLARW6znhBKE1oAmcANi/0YEZqBQfCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1781495119; c=relaxed/simple;
-	bh=dx/9zhlASjHKW972+jLRodczmMpiBlDtdGkH/09dMpU=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=fz8Sm1jfRM3M2F4Op0/vvZQec8T3uOcPfhfJbJrWv+h9ngEt7QWD2v9KoBdixIk25KmPT1ZOZOKt65HFpU3BiIcOQRmP0gXiG92DXsdpBALSf5h7yd44DGmjxQNnzDz2AslaRPWieMNRIKi4cK05xEI2WfqeyMENaVgUDHEomPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HxAl3HC8; arc=none smtp.client-ip=100.103.45.18
+	bh=pJTBmcIZSlZAaph2p52SbbNQWgtob26PfkiKmoByv5A=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=aNXlV/1xZmaUdQxwc26v1GpV9rKQelbyarkT3BcI6pq3vtj1kQIQ0TxhOy0xJg1Hf7WwQE2yUcv0lhw5TgVnlSfLA2h1+1rWPZyyKAk3oBBZmFjmQHm5YmmHjHob/7LYDd4XM3FNReWcO1MNJ2LQ5vZUKXJZYaat2+k3rwSmGoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eYzlg9mv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HxAl3HC8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D1A31F00A3A;
-	Mon, 15 Jun 2026 03:45:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eYzlg9mv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4F2B1F000E9;
+	Mon, 15 Jun 2026 03:45:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781495117;
-	bh=lbjV45N0eoWr4fauJolKqtt2wRU/Bf72dTf5LNWvD+w=;
+	s=k20260515; t=1781495118;
+	bh=zRdr1ec/X4o7e6OGOUr/iqUi1Mr6Vn3FErc2s2eLpoI=;
 	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=HxAl3HC8ylq+FKtTWyVbHRqXcfZu6qSA5/qP2SMDuJgEptZ8FosDIuzGhdou9X/9b
-	 kFpcbkXMZI9eWjyUYMQ5j0VQZlsHGCIXAuxwuMVnwr2XLwvYlGPLRBvQl6PJqFxbAE
-	 FWGbj1wcrGPWFnFQgQTYzr94vv8jterAKTPiPcTsAaNbJaQL78DyfT+62YPO0IZW/L
-	 51aRvO8DFTztwUwPkozXOdWw4i6ZLwn3pSbNIEOpXW0gWGH4LfYL3EAg5JMEGYU68H
-	 d9dmmSk9rKCk9igvG6LOh/C6OCAf2aEDTyCSGvmN1FVAxamCcIEOdPJN/jN8LO05dQ
-	 Z8CFF8hB1GUaA==
+	b=eYzlg9mved5lJnNZ+5q2rVhPByE/LYrFQpDztOpBBaUz84jBnsSCfnnlVx8mlalQE
+	 JGLTLcACaTqrtMMjtT79ZbJeb9sHoRtGRWjzuynNhxQJvPbjWv2r71niUudu5HL7IU
+	 XQ5EAQPQt5VztMwZBwndpcFX9PD8JGMOmwYFV2fTM8CNqOqEsc4ss42oFIYN21SnfV
+	 ZZt4JIyNixEzGq6ji2pIDodqyX2mAgqoWz6GNwyjKpvYMGcindpD6L/fpYi44hjZq0
+	 kZZHVds7rbLQ3mFHONndZWfuF9aoP9v8RMy4pddovliRD2V1Rh+UHjw51VquxUS4Ir
+	 DhLR/PlQkoBkg==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 1985F3A566D6;
-	Mon, 15 Jun 2026 03:45:14 +0000 (UTC)
-Subject: Re: [GIT PULL 02/16 for v7.2] vfs exportfs
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 939B23A566D6;
+	Mon, 15 Jun 2026 03:45:15 +0000 (UTC)
+Subject: Re: [GIT PULL 03/16 for v7.2] vfs inode
 From: pr-tracker-bot@kernel.org
-In-Reply-To: <20260612-vfs-exportfs-v72-75b4494c2b8a@brauner>
-References: <20260612-vfs-v72-20facee87e19@brauner> <20260612-vfs-exportfs-v72-75b4494c2b8a@brauner>
+In-Reply-To: <20260612-vfs-inode-v72-dde1140216e4@brauner>
+References: <20260612-vfs-v72-20facee87e19@brauner> <20260612-vfs-inode-v72-dde1140216e4@brauner>
 X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20260612-vfs-exportfs-v72-75b4494c2b8a@brauner>
-X-PR-Tracked-Remote: git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.2-rc1.exportfs
-X-PR-Tracked-Commit-Id: 79e33ddc62c03cce6c29f0792454e1d618228acf
+X-PR-Tracked-Message-Id: <20260612-vfs-inode-v72-dde1140216e4@brauner>
+X-PR-Tracked-Remote: git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.2-rc1.inode
+X-PR-Tracked-Commit-Id: 5b451b76c85c8309d2e02caa467b38f5999c986f
 X-PR-Merge-Tree: torvalds/linux.git
 X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 4d23bdc4988efc22904c78ca36ebeef5deb950db
-Message-Id: <178149511273.2410512.15360696161524532947.pr-tracker-bot@kernel.org>
-Date: Mon, 15 Jun 2026 03:45:12 +0000
+X-PR-Merge-Commit-Id: fac863c887a05d7c3091c5eccf30c89c2116ae11
+Message-Id: <178149511423.2410512.15931730429412309316.pr-tracker-bot@kernel.org>
+Date: Mon, 15 Jun 2026 03:45:14 +0000
 To: Christian Brauner <brauner@kernel.org>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>, Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
@@ -49,12 +49,12 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 
-The pull request you sent on Fri, 12 Jun 2026 17:11:49 +0200:
+The pull request you sent on Fri, 12 Jun 2026 17:12:09 +0200:
 
-> git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.2-rc1.exportfs
+> git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.2-rc1.inode
 
 has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/4d23bdc4988efc22904c78ca36ebeef5deb950db
+https://git.kernel.org/torvalds/c/fac863c887a05d7c3091c5eccf30c89c2116ae11
 
 Thank you!
 
