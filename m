@@ -1,173 +1,146 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469AB3F1AD5
-	for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 13:12:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781529125; cv=pass; b=G5jBoPBKthmTHWzAkXt/zWeaFvxPh8EsR7R7QERAh+QzpGAoQTc7CNn0LVap4zksLWBkCBNJJO0az6X0Q3G/7s6oRfyrMlkKnY9aYekf86Odv8EWgN6Qz4rkpTqvmML76qZ8jY8W1xFNDRY6qtlzWvhAYqD0yNrL6PCKhO23WpQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781529125; c=relaxed/simple;
-	bh=kKNBiJvc+rzdgShKrG5gbJxYUuppXn+sgk4q2LkXCxM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tr63AfuOtkGZ+c4vejZk2PPgCDkYxSYFKcPJGtrSNK1xnnhiwJBmX7wFDlH8I/+fEOdFbAdp7LLUXbs0maKwm6WNG2snXuiErfH2p6nL5rzQaxIHivS47NogJaPAOG/c78ZxSJNMNzhz84faCnFnzottXTifRMavBIwrWRGnYXc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HHYjxo+A; arc=pass smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HHYjxo+A"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-45efb698ef2so1702111f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 06:12:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781529123; cv=none;
-        d=google.com; s=arc-20240605;
-        b=lC/vfiP3WsnCNRMaYLq7b+kOQ1m1AUezzQZIiIdFSmUkLUS7uaNekKXp4HoipY6+9r
-         57aUQoRjxLPYW5M04nmSX6h+X59nKt4R+V/UCnLPnBkAJz4xm6va7S2qUzfELShRgW9s
-         1T8mFQM4iSbksGQzuGEft3JEunWKXcixkbvh5c/07a1U7Hiclgd3ywt70vOnb8wF2YMH
-         hU9HVzNrh6yTmy40+4uhELbTgJMvsQKzSi4+zXw843oV/LG+JBku7dqoH8MRwFemvlbu
-         vb5YpvMlcKaU7VQ+MyHOBLYp6m0+BAa4mHRq0STMw/xCgGFg6O3MWbV/1UHve0QsUZhF
-         qKyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=kKNBiJvc+rzdgShKrG5gbJxYUuppXn+sgk4q2LkXCxM=;
-        fh=eVEcYUQWhkts6yOrqahHQvavch/67vWFP8I2osggYNs=;
-        b=cj5RQkb0vSt/dGdKP+8vIzBlOq1zyUWoJBkjiwetczP+XWA/kv96OGQJfS2spq3xoY
-         Fn7CSwympbLOiKGiZrIXud+ejwMjC/hEYzI73d2BSaGkzVjrTfEVJ0jx8eRDk2pImN7x
-         J9QCKWqDXeGlJsBv1sioTc+JhI5NIVzLhjL1SBOOTXtQ/gP/91OOqhM6e85UbHzvREvV
-         RrJMH8jqBv08qCxGcHlFMFvmeZ/Z9VlWlZP/h9ep2oHWkTxoxaIB1MFILKAqiue1Hs+U
-         CLeV+4IJVZN5AKCsn9f+rd6ELDGX26UWteAiJpoBcBTz0b1K4SdeBlHQpFja4avNqsBg
-         gjDw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781529123; x=1782133923; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kKNBiJvc+rzdgShKrG5gbJxYUuppXn+sgk4q2LkXCxM=;
-        b=HHYjxo+ABMf4k75UFo2LHf9OhCUH4tcliJ9GS5gTe078dGmMRE4sxyCu594yeTvhvi
-         zE7gNU30USct+EsLW59ZrkfrwzgTQOUZyXDVDr6XPpKSjsnL3gLsQxS7FJW9uzC9qd8S
-         gOVVi44SCZ2/AkfNVgkr6WxuDs48KCFTdGvdf5KFHaHojnTw1V0bvECSlxi/CGl1oObD
-         k/6Z+Aa09LJSivg1CJTF63aYbfQa7LoGwZMQGUN2lDtCryVfpYD4kVcMBdobRFrzuUGQ
-         ksQhXy4RhHVImqzxsiKmZMD+HAleczHZf42jVW7GbqrCrv80rJyUKjSKrB0/gJCm/vme
-         EWmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781529123; x=1782133923;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=kKNBiJvc+rzdgShKrG5gbJxYUuppXn+sgk4q2LkXCxM=;
-        b=JC6iBAymnrUcjL+7z/XXA1NxATNePXVOdFT9I9nqBe8tHmJRMm9MlfXCOgb8JXme03
-         AYWPPuskiIcZadT/dVf6WbaG8Lin1bxp9TaAsPgx2Omsbf3TL053b/yB6TuCDq4xliW8
-         2nm+kEGMPGdl0hGkKiSSSI9Prg7Cylz27q6nvRde7kzdSsKwef5fVxK0rbTWo+pLVWW4
-         epoIcDRH3fNRIqAXa1YUR6hLi1xK4Jp3v/PJpTdb9Me3u7QyyxrL3e6yn2LNyH2BkmZz
-         D/9kKGTgxnm667S7IixX5VmQQUNekfiALqz2UvX35d4m2t/FYUaHXo51aO57ok+FcBst
-         rZ/g==
-X-Forwarded-Encrypted: i=1; AFNElJ9HOnwPSnW/1zkclThoYkjpzt7CtFW0l3nHqyLUaX3biLTd+GFdq42aMDFisI1uYibHH8m4ZM/0qrJ2jwVf@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywev50qD7ENQc632LFcBfJ2LuvQRtvRuvhAcVr2NYo2Tvzc9JSU
-	xiXZ+xTkpniUievmnuCxnpqSSeQbQSEJwxFmNb1Q3OZXMFA/qhQE5mn/ycc2tleluIs5AC5jQJ/
-	5Id2FqC7HlTbOfv+OHXgzrknxS3GcqJo=
-X-Gm-Gg: Acq92OFQQvhtW1uQbgDe0op4UT1HHm+YlOoopZgoS1/BPwKn2BpxO40L2izedbbZSul
-	ehBTnf19KTpRJoST+hfkJapG63DTf84HvNnwDwqNCdSpJxtZBEc1koKZITWcO3r4Zzpjqwsbif+
-	aX040hqXw/Bjvqu353+4nZTRq/RM68MDbO2Snj3MfIf8TLMIOv+BCISyt8HxB94UsZyNj376ENP
-	P072msbCXr16A0+V9WMbNCiHwQVgm7BaIKF0Jr8+R3ousANR+HvDCBlAEXyMA9URVnagtSVClMf
-	pZGjEgGMB0okz0fK+AexQ7UpmJPurPCsfT5AmWIwVAHKmqtlMkGsPb1ce7A//mU+Kd4=
-X-Received: by 2002:a05:6000:1842:b0:45e:eec6:500c with SMTP id
- ffacd0b85a97d-46074b8a1a8mr14546144f8f.39.1781529122279; Mon, 15 Jun 2026
- 06:12:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43DB3F1ACA;
+	Mon, 15 Jun 2026 13:13:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781529200; cv=none; b=r4jUkcYr61sz68+RETUrwFHptbIJ8TRJKEm0fbWgiBL6+do3vSesFohZXK7ZxKFV+L0kAUFXI4zYegDo4XCz/BM+nJcTqXpjxYHo4X1f9ZaN96iIeKIoOvR+JloNwZVYtTIVZiTraGbmDeWFk2R6gVwivAIZB+7/KNHuiLgZLbI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781529200; c=relaxed/simple;
+	bh=JV5pPp6Ka8g+FtRyhYZAk+cFACXv8FmBu4KaMmweoIg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JaJWu+yi5ZIYVWXK33YzjMLMWSTl79fJ/nGtefPTF3Aoc/v/RrakitobcVnyDBjcixkAmkCUOJkRJzyn8Am3NwX5bGBZhKd9JNwiXvzRA8v7XSneVEmtZMm/4N4yjdjYTAwkaJSWz4lECuvwsQwFKp8GHSc4cQnEL1wbChdltTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf18.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id E56F11409A6;
+	Mon, 15 Jun 2026 13:13:09 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf18.hostedemail.com (Postfix) with ESMTPA id DA26F2F;
+	Mon, 15 Jun 2026 13:13:05 +0000 (UTC)
+Date: Mon, 15 Jun 2026 08:13:04 -0500
+From: John Groves <John@groves.net>
+To: Richard Cheng <icheng@nvidia.com>
+Cc: John Groves <john@jagalactic.com>, Dan Williams <djbw@kernel.org>, 
+	John Groves <jgroves@micron.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Alison Schofield <alison.schofield@intel.com>, 
+	Ira Weiny <iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V5 2/9] dax/fsdev: fix multi-range offset in
+ memory_failure handler
+Message-ID: <ai_2FPTYQZGh8wRT@groves.net>
+References: <0100019eb7bcda4b-3f8edae9-d7a4-4bfa-aaea-fcef77fdbbc3-000000@email.amazonses.com>
+ <20260611173152.65905-1-john@jagalactic.com>
+ <0100019eb7bda506-6ba24207-b1c0-4eeb-9b04-61940cf3f80c-000000@email.amazonses.com>
+ <ait3Bg68J-NfOKhZ@MWDK4CY14F>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260531010107.1953702-1-safinaskar@gmail.com>
- <20260601-enthusiasmus-canceln-anlehnen-0e62317a9784@brauner>
- <CAHk-=wifX_rrDjRGnDnOqE-usptAukuXKrmuPuVDP5bOCBWzGQ@mail.gmail.com>
- <20260601173325.GH2636677@ZenIV> <83f05c55-efba-4bf5-abfe-d2ab0819e904@packett.cool>
-In-Reply-To: <83f05c55-efba-4bf5-abfe-d2ab0819e904@packett.cool>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 15 Jun 2026 09:11:49 -0400
-X-Gm-Features: AVVi8CeKgoUdgzfGyE3gGhvo39veJuptxa85IFXCJ5UZu0W-8unFPPqkk0CT60c
-Message-ID: <CAJnrk1Y9egYizkx1H9K0cqxSYuB+7vLvQbV7Tf4C5eHFqnnC-A@mail.gmail.com>
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-To: Val Packett <val@packett.cool>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Christian Brauner <brauner@kernel.org>, Askar Safin <safinaskar@gmail.com>, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-api@vger.kernel.org, netdev@vger.kernel.org, 
-	Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>, 
-	Christoph Hellwig <hch@infradead.org>, David Howells <dhowells@redhat.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Pedro Falcato <pfalcato@suse.de>, Miklos Szeredi <miklos@szeredi.hu>, patches@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>, 
-	Steven Rostedt <rostedt@goodmis.org>, fuse-devel <fuse-devel@lists.linux.dev>, 
-	Bernd Schubert <bernd@bsbernd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ait3Bg68J-NfOKhZ@MWDK4CY14F>
+X-Rspamd-Queue-Id: DA26F2F
+X-Stat-Signature: br7gpe7ykxc87cnd5zdzixzizgipowo1
+X-Rspamd-Server: rspamout07
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX190jmeGDiYtKH58RT+LXLFFeuhh4HjMp70=
+X-HE-Tag: 1781529185-789936
+X-HE-Meta: U2FsdGVkX188rpa2CmzJAY4dvaB8jkWkTYzEWLBg9f+m8UElArWHcq4cODM6EPVa6MnsDXqC+u35sfg4cdMyQnGSxc8VGzvf5lcrSKVHyxKKOj1/aPpjX345lfq3zaNCo2Y1T7m19mMZtzq/NnNHW85t9AWLOFEX894vIoO0uwG3S+KES034SZVA1xMOym5x5biW4FgQePDPJ40eUGKQNf9mQDN8vwKM9+ItHqFOhUL4Fpdvv5NIO2Qo9JGXfHtf3Ry4CHYKC55xrkmh9EN6fvHjcGvgkJl2uMTdnKBo9gzaEQi8SbEfOu55Tiz3PpS+zIhHuEEfSBzH9ty3wvH/PPkFYk8qqqzWXTYcgKKuW4E1sqeYdtRNWT5EKFr+lUr15mhl7HhKON4newnbjcUHflN1kr+MR9RwcTndfLTeJ5k=
 
-On Mon, Jun 15, 2026 at 2:25=E2=80=AFAM Val Packett <val@packett.cool> wrot=
-e:
->
-> Hi,
->
-> On 6/1/26 2:33 PM, Al Viro wrote:
-> > On Mon, Jun 01, 2026 at 10:17:23AM -0700, Linus Torvalds wrote:
-> >
-> >> TLDR: maybe we could ghet rid of "f_op->splice_read". *That* would be
-> >> a big simplification.
-> > FUSE might be interesting - fuse_dev_splice_read() and its ilk.
-> > Communications between the kernel and fuse server at least used to
-> > seriously want that, so that would be one place to look for unhappy
-> > userland...
->
-> speaking of fuse_dev_splice=E2=80=A6=E2=80=A6_write actually, this series=
- has broken
-> xdg-document-portal!
->
-> https://github.com/flatpak/xdg-desktop-portal/issues/2026
->
-> Specifically what happens is that the EINVAL is returned due to oh.len
-> !=3D nbytes:
->
-> fuse_dev_do_write: oh.len 16400 !=3D nbytes 15526
->
-> (where 16400 =3D=3D 16384 (read len) + 16, 15526 =3D=3D 15510 (file len) =
-+ 16)
->
-> After reverting the series, there is no error because oh.len
-> becomes 15526 too.
+On 26/06/12 11:08AM, Richard Cheng wrote:
+> On Thu, Jun 11, 2026 at 05:31:59PM +0800, John Groves wrote:
+> > From: John Groves <John@Groves.net>
+> > 
+> > Fix memory_failure offset calculation for multi-range devices. The old code
+> > subtracted ranges[0].range.start from the faulting PFN's physical address,
+> > which produces an incorrect (inflated) logical offset when the PFN falls in
+> > ranges[1] or beyond due to physical gaps between ranges. Add
+> > fsdev_pfn_to_offset() to walk the range list and compute the correct
+> > device-linear byte offset.
+> > 
+> > Walk the pagemap's own range array (pgmap->ranges[]) rather than
+> > dev_dax->ranges[]. The pgmap copy is the immutable snapshot populated at
+> > probe and is never mutated afterwards, whereas dev_dax->ranges[] can be
+> > krealloc()'d by a concurrent sysfs mapping_store() (under dax_region_rwsem,
+> > which this ->memory_failure callback does not hold). For dynamic devices the
+> > two arrays are identical, so the reported offset is unchanged for the
+> > multi-range case this targets.
+> > 
+> > Fixes: d5406bd458b0a ("dax: add fsdev.c driver for fs-dax on character dax")
+> > 
+> > Suggested-by: Richard Cheng <icheng@nvidia.com>
+> > Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> > Reviewed-by: Alison Schofield <alison.schofield@intel.com>
+> > Signed-off-by: John Groves <john@groves.net>
+> > ---
+> >  drivers/dax/fsdev.c | 17 ++++++++++++++++-
+> >  1 file changed, 16 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
+> > index 188b2526bee45..2c5de3d80a618 100644
+> > --- a/drivers/dax/fsdev.c
+> > +++ b/drivers/dax/fsdev.c
+> > @@ -135,11 +135,26 @@ static void fsdev_clear_ops(void *data)
+> >   * The core mm code in free_zone_device_folio() handles the wake_up_var()
+> >   * directly for this memory type.
+> >   */
+> > +static u64 fsdev_pfn_to_offset(struct dev_pagemap *pgmap, unsigned long pfn)
+> > +{
+> > +	phys_addr_t phys = PFN_PHYS(pfn);
+> > +	u64 offset = 0;
+> > +
+> > +	for (int i = 0; i < pgmap->nr_range; i++) {
+> > +		struct range *range = &pgmap->ranges[i];
+> > +
+> > +		if (phys >= range->start && phys <= range->end)
+> > +			return offset + (phys - range->start);
+> > +		offset += range_len(range);
+> > +	}
+> > +	return -1ULL;
+> > +}
+> > +
+> >  static int fsdev_pagemap_memory_failure(struct dev_pagemap *pgmap,
+> >  		unsigned long pfn, unsigned long nr_pages, int mf_flags)
+> >  {
+> >  	struct dev_dax *dev_dax = pgmap->owner;
+> > -	u64 offset = PFN_PHYS(pfn) - dev_dax->ranges[0].range.start;
+> > +	u64 offset = fsdev_pfn_to_offset(pgmap, pfn);
+> 
+> Hi John,
+> 
+> I think this regresses static devices. pgmap->ranges[0].start can sit
+> data_offset below it on a static device, so the new offset = old + data_offset,
+> and XFS poisons the wrong blocks.
+> 
+> The gap walk only helps dynamic devices where data_offset ==0 . Maybe walking pgmap->ranges and
+> substract the probe's data_offset.
+> 
+> --Richard
 
-I think this is because of how libfuse handles eof / short reads. When
-it detects a short read, it fixes up the header length after the
-header was already vmspliced to the pipe because it assumes vmsplice
-mapped the header's page into the pipe by reference. It assumes that
-modifying the header length in place gets then reflected in what the
-pipe later splices out.
+Ugh, right.
 
-The logic for this happens in fuse_send_data_iov() [1]:
-a) sets out->len =3D headerlen (16) + len (16384) =3D 16400 in the
-stack-allocated fuse_out_header
-b) vmsplices the header to the pipe
-c) splices the backing file to the pipe. if this hits EOF, it'll get
-back 15510 instead of 16384
-d) detects the short read [2], fixes up the stack out->len =3D 16 + 15510 =
-=3D 15526
-e) splices the pipe to /dev/fuse
+Subtracting the data_offset would require newly stashing it somewhere the
+->memory_failure callback could reach.
 
-After this patch, step b) is a straight copy which means step d)'s
-fixup doesn't modify what's in the pipe. This could be fixed up in
-libfuse to not depend on modify-after-vmsplice, but I don't think this
-helps for applications using already-released libfuse versions. I
-think this patch needs to be reverted.
+So I'm reverting to walking dev_dax->ranges[] -- the maybe-race there is the
+same one the pre-existing single-range code already had.
+
+I'd like to land this series before going too much farther down the suspected
+pre-existing issues rabbit hole :D
+
+Note: the current version of this patch (switching to pgmap->ranges) might 
+have been a bit much for keeping Dave and Alison's RB tags - but I'm 
+reverting back to what they reviewed for V6.
 
 Thanks,
-Joanne
+John
 
-[1] https://github.com/libfuse/libfuse/blob/master/lib/fuse_lowlevel.c#L846
-[2] https://github.com/libfuse/libfuse/blob/master/lib/fuse_lowlevel.c#L956
+<snip>
 
->
->
-> Thanks,
-> ~val
->
