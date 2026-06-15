@@ -1,121 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69AA3B6C15;
-	Mon, 15 Jun 2026 20:43:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B283911DD
+	for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 21:43:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781556235; cv=none; b=NVYzndRpDTaoz9vcooCKe2/hkseNP4lBg6+NYml9JZ16hQacJJubnmeX8DkChVuZXJQsR79bbDbKDO4QKt2gwV5Vqgd0UPG4fvklYE2HYyS9N2Fe7YIql3Q4DuVcab9WD4LJ3tepy4/UAZ8oe1J7jX2etk0Bbj1sW8zCxDQb+XY=
+	t=1781559793; cv=none; b=pBFSUnR69OfnaHre6ZkfopODD7YTXVPi39mlgjqcnCSPfYx8IKscDHA9GqndevZHA7eGhRUasVZX0oehOD9OYMGrR46yhR4uBv1ArF8zebz+3S8nDXdrDZ5Qk40Bic8uVDyjOlcwQz1zWTFKDG3BVXSrmX32gYacWq62ASLlO9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781556235; c=relaxed/simple;
-	bh=faFwjoN0gn80v9QqMuh2mJ76DSKcg+KCmO8Za4zFEdQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iKakvP9p2OqT+bg94Kp5TeZfslm9ijLi9heIgQf7ThynyjkZv6MXWzKLSojUbYKFM8Ilev6eKNh12J8jESpr3iqwZHOxZCWJM4U9YbpVQuH8FauWtGifhU9Rc6kAl7tS1NWD8A5e6E32s0rfgvbJ8QtmTCvVqixaC3iCFMr8ZsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S9nA0vhD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781559793; c=relaxed/simple;
+	bh=Pd5Sl5AzbTXa6b5twhmEGn5bGEIv3/Sb3U2ADM9N3Ow=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=CVDjM48fPxR0CQNuk+lCE9GN2PUMWVa11v8ytubCir+iH/194jK3Df22SADbJ8yQ3v/qoZTdanDdFIb6iwWqm8XBqgN7KFWnMqGftEqcODLAjIfsMowx8sjTB3Xabcb6fnmvm+gqhdUSH97jZ8x2KDPsdDWS2N+R/TNks7H8lWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=asmf0tCX; arc=none smtp.client-ip=195.121.94.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S9nA0vhD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 492711F000E9;
-	Mon, 15 Jun 2026 20:43:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781556234;
-	bh=pAr0CezAnYbjsc5uzKsTNhtjW8ESmPALnRPgKDluIbA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=S9nA0vhDxdupgcHbwB2JLHzDQ2Foz/U+lEYay6SGXpc21k+gF9cSVbZFiGnLkDmyH
-	 seRBOTTaN92A9/6ZDT6eDYu1wKhuDVok+mjhODT/ijI2tCNs38MRiJKw7xsVwWvLh5
-	 6pW1z7ECVQBZKSADO9xjN/WqSSNb5gFeEgj1jj1xm742D+xJCkFc3sjeShnHg6dwDo
-	 4sDxJLMnlENN71pyGTYkOTR9LiCcPUOuOPo9U3E3F9xR2xTRHNZuqosI0KepEKYVH5
-	 B40niaAFhxysltgzI9N0LDzy489Y4Kdnle4jwCcK00OFBYSPnF1ysU/0lcq0j9OfQD
-	 Rft/70AOqbmmw==
-Message-ID: <1996618c-a6ab-497f-9c4e-33468e7802d4@kernel.org>
-Date: Mon, 15 Jun 2026 22:43:51 +0200
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="asmf0tCX"
+X-KPN-MessageId: 2f143246-6903-11f1-beab-005056992ed3
+Received: from mta.kpnmail.nl (unknown [10.31.161.189])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 2f143246-6903-11f1-beab-005056992ed3;
+	Mon, 15 Jun 2026 23:43:02 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 2f132e56-6903-11f1-b5d6-0050569981f5;
+	Mon, 15 Jun 2026 23:43:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=DSCLhqtg8yDsV4guDYrCxhWCyf30kEWOPtpSgHo5VhA=;
+	b=asmf0tCXYjDMEtPq9XoXJcS8wTaJ9YBsbdkZtzsr3IRqS6YZmWKBgVfZv5ymIbROtRHYh/a1qLXeZ
+	 ES1MUtQFY4nHpKo7ANzQ8RnmJYoabkx3voCt6AZneP1Md69zCKGZN27rAFi3koz77P725Rc3KL2ywO
+	 N9yy+gx1I0JH1aMiEFZyfpfF5ccE878z64Kwm1KnAWjTal3Lb7+eD9XFML2LtXISuZGSK0x/+959Oh
+	 Xhg5yl7lszB4y/Af6q2rO6sJffelcNKArt0RF+7lEPSOsHCouQkv8xIBhDbLnEnTS4oblCq9e4rnmq
+	 2GmkeOw0AVRi57Jzjomf/WegooNrJmw==
+X-KPN-MID: 33|t1FEEscCGf3xSeKblJw44ZcyvX0nxy8paq8KRTC2fmfuzqEB/z7WSGga3l/UKMP
+ qJuideIvjr5KbqwrHbpaN1gNOsReWKjBcF8icrht+sN4=
+X-CMASSUN: 33|Ge3DvZ22tlCZ/jKrY+INnqi93GZ8Dchw17P/uyFN8anWnHlBdSgqt3WZbW4IElB
+ LoHyfWsKk2JoJ42BShfq0uQ==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh03 (cpxoxapps-mh03.personalcloud.so.kpn.org [10.128.135.209])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 2f078835-6903-11f1-b8d7-005056995d6c;
+	Mon, 15 Jun 2026 23:43:02 +0200 (CEST)
+Date: Mon, 15 Jun 2026 23:43:01 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Al Viro <viro@zeniv.linux.org.uk>, NeilBrown <neil@brown.name>,
+	Paul Moore <paul@paul-moore.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	"audit@vger.kernel.org" <audit@vger.kernel.org>
+Message-ID: <526417482.1849950.1781559782000@kpc.webmail.kpnmail.nl>
+In-Reply-To: <20260614164438.2980769-5-jkoolstra@xs4all.nl>
+References: <20260614164438.2980769-1-jkoolstra@xs4all.nl>
+ <20260614164438.2980769-5-jkoolstra@xs4all.nl>
+Subject: Re: [PATCH 04/12] fs/namei.c: lookup_open(): move
+ audit_inode_child() up
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/19] parisc: define DPS root partition type UUID
-To: Helge Deller <deller@gmx.de>,
- James Bottomley <James.Bottomley@HansenPartnership.com>,
- Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-parisc@vger.kernel.org
-References: <20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org>
- <20260615-discoverable-root_partitions-v1-8-39c78fac42e2@kernel.org>
- <0158c89cffd76c621607f66d1889ccc084754729.camel@HansenPartnership.com>
- <0290e66b-1da2-4706-ab28-2d47f164df08@gmx.de>
-From: Vincent Mailhol <mailhol@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=mailhol@kernel.org; keydata=
- xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
- JFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbEBrZXJuZWwub3JnPsKZBBMWCgBBFiEE7Y9wBXTm
- fyDldOjiq1/riG27mcIFAmdfB/kCGwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcC
- F4AACgkQq1/riG27mcKBHgEAygbvORJOfMHGlq5lQhZkDnaUXbpZhxirxkAHwTypHr4A/joI
- 2wLjgTCm5I2Z3zB8hqJu+OeFPXZFWGTuk0e2wT4JzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrb
- YZzu0JG5w8gxE6EtQe6LmxKMqP6EyR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDl
- dOjiq1/riG27mcIFAmceMvMCGwwFCQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8V
- zsZwr/S44HCzcz5+jkxnVVQ5LZ4BANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
-In-Reply-To: <0290e66b-1da2-4706-ab28-2d47f164df08@gmx.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-On 15/06/2026 at 22:27, Helge Deller wrote:
-> On 6/15/26 22:02, James Bottomley wrote:
->> On Mon, 2026-06-15 at 18:09 +0200, Vincent Mailhol wrote:
->>> DPS [1] assigns GPT partition type UUIDs to operating system
->>> partitions. Root partitions use architecture-specific type UUIDs so
->>> the OS can discover the intended root filesystem without relying on a
->>> root=  cmdline option.
->>>
->>> Define DPS_ROOT_PARTITION_TYPE_UUID in asm/dps_root.h for parisc and
->>> select ARCH_HAS_DPS_ROOT_PARTITION_TYPE_UUID.
+
+> Op 14-06-2026 18:44 CEST schreef Jori Koolstra <jkoolstra@xs4all.nl>:
 > 
-> Vincent, first of all thank you for at least trying to including parisc
-> (and other
-> niche Linux ports) in the specification! (whatever the outcome is!)
-
-You are welcome. My personal interest is only x86_64 at the moment, but
-at least I tried to make it useful to the broader community!
-
->>> [1] The Discoverable Partitions Specification (DPS)
->>> Link:
->>> https://uapi-group.org/specifications/specs/
->>> discoverable_partitions_specification/
->>
->> How are you planning to make this work for parisc?  Some systems have a
->> PALO boot partition (fdisk type 0xf0) but the more modern way is to
->> place palo inside a hidden ext4 inode in /boot.  The way parisc IODC
->> works is very similar to the way MSDOS boots with the palo location
->> table in the first block so I theorize that would probably work for gpt
->> partitions as well ... I'm just not sure anyone has tested it.
->>
->> However, to get this to work with PALO for auto discovery, you'd need
->> palo patches to recognize the DPS UUID and no-one seems to have
->> submitted anything to palo for this.
+>  
+> In the mknod(2) path of calling vfs_create() we call audit_inode_child()
+> before permission checks in may_create_dentry() (but after path-based
+> LSM check). Copy this behaviour to lookup_open() and move
+> audit_inode_child() to may_o_create().
 > 
-> Maybe it's not necessary that palo does this job?
-> palo could stay as is and load kernel and the initrd.
-> Then the kernel (or the scripts in initrd) could try to find the root
-> partition on it's own (and handle GPT discs).
+> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> ---
+>  fs/namei.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> I even once started porting grub to parisc (which is currently on hold
-> because I'm busy with other stuff). If I ever finish it, having such a
-> mechanism/constant already in place is IMHO beneficial.
+> diff --git a/fs/namei.c b/fs/namei.c
+> index 6bf1ded26377..a4a8cdbb48e2 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -4345,6 +4345,8 @@ static int may_o_create(struct mnt_idmap *idmap,
+>  	if (error)
+>  		return error;
+>  
+> +	audit_inode_child(dir->dentry->d_inode, dentry, AUDIT_TYPE_CHILD_CREATE);
+> +
+>  	if (!fsuidgid_has_mapping(dir->dentry->d_sb, idmap))
+>  		return -EOVERFLOW;
+>  
+> @@ -4532,7 +4534,6 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+>  			goto out_dput;
+>  
+>  		file->f_mode |= FMODE_CREATED;
+> -		audit_inode_child(dir_inode, dentry, AUDIT_TYPE_CHILD_CREATE);
+>  		if (!dir_inode->i_op->create) {
+>  			error = -EACCES;
+>  			goto out_dput;
+> -- 
+> 2.54.0
 
-You can see my answer to Alexander on the cover letter. This was an
-oversight. parisc does not have CONFIG_EFI to begin with, so the feature
-is just dead code there.
+CC, audit@vger.kernel.org
 
-I will remove parisc (and all other architectures which do not have a
-CONFIG_EFI) in v2. If someone wants to implement EFI support those
-architectures, only then, we can revisit this DPS topic for these
-architectures.
+Went too quick with this one... audit_inode_child() probably shouldn't be called
+if we are in the lookup case. So there isn't really a way to do this exactly
+symmetrical to the vfs_create()/vfs_mkdir() paths.
 
+But certainly the current implementation is also wrong. In the atomic_open case
+audit_inode_child() is called only once (in the final fsnotify call in
+open_last_lookups()), but in the regular ->create case audit_inode_child() is
+called twice.
 
-Yours sincerely,
-Vincent Mailhol
-
+What behavior is actually wanted here?
