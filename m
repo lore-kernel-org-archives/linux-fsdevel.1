@@ -1,234 +1,114 @@
-Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020090.outbound.protection.outlook.com [52.101.196.90])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335014028F4;
-	Mon, 15 Jun 2026 15:22:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.90
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781536936; cv=fail; b=GvTGqa4yQJuQ5Dr1waNBF9cAdMaeb2aJ8Ca+gB2q3rnMAzH7U/Up27AoZzPQ9lFAHLnHioYddlhwE26B6DEbkfrP76yR5xDums/D79Pn9UlQo2ySTuVw3j2NIiotYJyYZMf1ExYJhNW/6SCu7nKi8HNlfRiS8Zb4Q2Tqj5XE0Qo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781536936; c=relaxed/simple;
-	bh=5lkaCTU0McswHGuigaCbfp4za386DUNOuWtbUZBAFi0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=bk4srL6S+bIOzfdqKijEdeAVnxlvtCGO1NnagHrmx7BCurLJpO4AODe7uUPm3qHztpwQ/MOrFwxHY0FYrRmLTCTvBEzHinFrGEm3Qw83MMQB7qhQTqn68YGZawtHnL1uQDTfCfFbEZHV5ycqrJ7lINqS+9wFkouWtXfDOPdmGXM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.196.90
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sej8Il35a6qcQ1G1InKgRuhreuFJ2S89kuDtfZgUxO0v5j4vjGCHjcnhjTjPLcSeKx1uTGTWfUE7xxaC80bHj4k7Bpx20qXvSjXf4lhNtnX0ryzu6whvQyeRIMG8dHJV2GXlUk2tTnWGzgoQnLmmRtj6Hn1hjGf/9Pdh8d6pRfNIRt24CA4A4QP7aD6xrwOP9gPAcSv6wG1Jp1fOwlZa119wCTCPeVjsbu8SipxVJJmJ1uq9UuVdzK+k4Sj2Hzx2h98bjvwV5tmoxBrSolmD9uDFqytyLuYNP8hpNxHbmAGA4U9xLUv6wTS/gTPEEThgmQIh87cOoT+usEXQatbc2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
- bh=ncvcZTgIGK77eePxGMFdvqM6QnkflC9bpfJlVvwj7To=;
- b=Q1zKFby549YtrqhaFDDN4iWVlPRVlXcglLQyspfKjnm2RcoPvNN2XLIfeaHW9HLyFleYifW1MktveebMSiQwLqwPZWNjNaYa4aPMpHcNz5zUopxYgSnwUwiYtRHoU7NPz3z2oCo86Z0iTFc4PlarvJi9PCtelGwzEvTgCcU4gtV6WPzdyyC6r5VnqgG4hURhZgwlR3e2MqQjUZBYbGsz/yceSZ6ITgwwsflZrIcTtr+D2pa8UrFWMjdUXkwfxULSZ4gmZvhkQed8NNLPfQaF3a0JSxQwIxgWPGTtSwFDcw8JnMtfMCr1RAIGKKvuEGqa9wtu+lrWhVWGBbHAI7GiMQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:183::5)
- by LO2P123MB7004.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:32b::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Mon, 15 Jun
- 2026 15:22:10 +0000
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230]) by CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230%4]) with mapi id 15.21.0113.015; Mon, 15 Jun 2026
- 15:22:10 +0000
-Date: Mon, 15 Jun 2026 11:22:08 -0400
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: paul@paul-moore.com
-Cc: tsbogend@alpha.franken.de, paul@paul-moore.com, jmorris@namei.org, 
-	serge@hallyn.com, mingo@redhat.com, juri.lelli@redhat.com, 
-	vincent.guittot@linaro.org, stephen.smalley.work@gmail.com, casey@schaufler-ca.com, 
-	longman@redhat.com, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, 
-	chenridong@huaweicloud.com, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com, 
-	omosnace@redhat.com, kees@kernel.org, neelx@suse.com, sean@ashe.io, 
-	chjohnst@gmail.com, steve@abita.co, mproche@gmail.com, nick.lange@gmail.com, 
-	cgroups@vger.kernel.org, linux-mips@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] security: Expand task_setscheduler LSM hook to
- include CPU affinity mask
-Message-ID: <exlgb3dg2kwxgna6gx2qixexvwjjul7z2ya7npal2gz4jjtr7m@h4oxgd74gsbp>
-References: <20260526142838.774711-1-atomlin@atomlin.com>
- <20260527085221.GQ3126523@noisy.programming.kicks-ass.net>
- <bgjagepcfb7gz6jawatu6kpfmecw46gwg5cvb6r7dl3dn7bt4l@rtymdaslx7ef>
- <20260527155404.GV3126523@noisy.programming.kicks-ass.net>
- <ov33cu2wosubbfufcmfyoinfatecskjgmkvqyit33komlcla2d@2qgj45724bql>
- <20260527195858.GC3493090@noisy.programming.kicks-ass.net>
- <6hqq5oxvlcpmjvyns42dy2vtfvvixy7q4xyyjrrn46jrvsx5ar@gkmjsteqlpzd>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6hqq5oxvlcpmjvyns42dy2vtfvvixy7q4xyyjrrn46jrvsx5ar@gkmjsteqlpzd>
-X-ClientProxiedBy: LO4P265CA0292.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:38f::18) To CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:183::5)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BADE404BE1;
+	Mon, 15 Jun 2026 15:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781537616; cv=none; b=WuLo0OUaVcyhd0pktdlA4pbJ/j030QniIzmXlQfWBkWzOPAxg36vwa/r8Pr99nYM9DGXrTxfnUVYJUWXDScnbEWqkB9rA+Sn21HaQWBIS6jS8FRDJNA4booKt1Obb7XO8gKxrzXHuHB/JPycy43pbCnzCdsI7wEb+P9QxHTQC7Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781537616; c=relaxed/simple;
+	bh=YAVz9xyKeCfQVLFkJDAW/DH8m5ZtB02pAE2V1nOU/ws=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TRu+4dwfsbtSF54fWQyjk0hnbpD8toGnSojM6/U02C2wbMqaVRftndkcJDUclOo+mms8oTwgsLQrvwgVY8j8i9LoZ15YQRBbNqEY2ypJJHxW+hnBR7OV86LwnrHdGO2PvSBOF46S7MveZmWfq7vE5fZbPcYxB87AhjC7byv288A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QHYPomsn; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QHYPomsn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC4F21F00A3A;
+	Mon, 15 Jun 2026 15:33:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781537615;
+	bh=YR8d1sU68vjg6nO93UgPSiFfS13ANOnhT9n1aPx9rjw=;
+	h=From:Subject:Date:To:Cc;
+	b=QHYPomsnvmrgCoa2DmS6X03Iac2YhKUwVLqUM1U1HRdMdo/vacbta6P3f9qZ9YgE3
+	 FiBk0zcga3AYUkJflGcPfVREO8mjHcerH3dG+pzyXPTxw+R861Z02vNFIAAa0HVIzc
+	 3QbnR0Ra5pa2gCuLDNbBsFGAsUj4lZVWFCG9S6Gpxnyj74e36ZptB509jJ15z3zMEE
+	 0DLB/ifoNUPgxr6SiW+xfi7QaiHxwFRn4+LUa44G49s5KvJ2uQgyoF4BfSI8+iXcKy
+	 DdeYZX39/N6hVuU59qSMikL2Eu23FCNfNPJObYxcpAKS23dfaWxUiMcdN4IB677TFJ
+	 Kzx+9QyuS/W1A==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH 0/2] Support overlayfs in the idmapped mount tests
+Date: Mon, 15 Jun 2026 17:33:28 +0200
+Message-Id: <20260615-overlay-idmapped-vfstest-v1-0-c6b3b2228092@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB6607:EE_|LO2P123MB7004:EE_
-X-MS-Office365-Filtering-Correlation-Id: 41d3da7d-df1f-4b21-2ef2-08decaf1de8f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|7416014|18002099003|22082099003|6133799003|5023799004|3023799007|4143699003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	GaUzuwQ9YHgiFgUDUs7jC+UwSAkLPlMB4us7VzWGffOSKaktWtuOJXUkgRLsfNvOdjbqGt3QqgzSxqWW/eI8+c+IrW0m7QxunGUD/mDTjjpe6DmHSwLFfFGLfvshw99njGoDIsL2HiDitCWz3iYTCzht5omZlZSuOrP6ekpkOySvsDXHpN6xVRYxj9bJadSq5r9NtF35Nh9/aTy/8P2gyMGPCOoYwDOA1g3VemPJ12syP3Sjo9qr2O8jX2DhJntzn+q32Sw/RX/Yyy0btrIq5/O/ysnfjtgeb/ouD8fTqtqLKsH8Cwr+n1UfCnuxB5wGAN/Sj6w8jeSJPFJ4eaYFjY0L1M9jzkWrLGURxLWR7nTHuH81KZOPLXWhIDi/gkS5X4+aoKsmjuOGPFpn9zEEQhbCdMTz+U2JTctCInsXOWOmtF9pLCti79nh/gze8s8k65BTTgbRHz9BAR1UxhsZKSuzRYS+mjZg7odqtuIDM3JFPNbuaFyG/ZnBKHZv/mTj5Vw73LCEis7F9dFCx2O3tH1UKqD3nHGCVPzo0GKtii/YayGelC/Sx7CnlymYuKxAJLAgSc9Dv1yswpI0sPST/fViexmJl3tCJxOj3bxrSr89aKdVIQEgjkoWaHrktetR0YI9QZtRhTm/fu/XBqsq6Em1/xCO1f3PZNbaUui+GO/CjZr/Nia/G/ZkKv4e19lnb4SpPv8Zh0E0eFEWDObLTg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(7416014)(18002099003)(22082099003)(6133799003)(5023799004)(3023799007)(4143699003)(56012099006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SG9hV25HRnc3Mk8ySlFHSkpiQ09TNHg2aWFPNWJGYUNUWkFqNWVSUzJDZ0Nm?=
- =?utf-8?B?OFZMaCtUSExCRm5sb0FXMTVtTkdFVWlCZmhZVHZtcHVMb2pQbjk3dlcxZ2N3?=
- =?utf-8?B?YS9lU21zSlhuYnhkT25SVWk5Y29nZFZmdzVRMUQzZ0NQYk1kSm1qM1hSVjE5?=
- =?utf-8?B?KytCS0FZa0FuY0VRK1pHdGJ5U3hpN0FWUXUrb1RyN0ViU3U0b2JFNERTQVpB?=
- =?utf-8?B?dzE1Vnh0WVFCdkxXMVhLbm1xb2c2VXpzOEdWMlVyRFZYWGlkblJIQlJackV6?=
- =?utf-8?B?NzVmNDhrZDV0TlA1OWduZUtVbmcza2ExMTV3b0hNN0dqWUFKRUtqZzZTZ1dS?=
- =?utf-8?B?YU1XMks5ZWxEZ1o5MW02Y09JNXZWYU1xMDFmMXhkMi94Vzlwc1JXUkhGc1BW?=
- =?utf-8?B?dHV3Tm5PKzBDQ2k3MHZLU0hWUzhsNXRaSTNYT3BRUFJlUnhleUxXbFJPakZx?=
- =?utf-8?B?RWtzTDBoa2k2OVNhalRYbDltYSsvSEhlakZNT0NBV0lCZlBLNUs0b0hQWDE2?=
- =?utf-8?B?aTQ4STllRHY5T0QxMDZKZXF5NDdlbFhabmFvaFRwaDN6TWdmWXFJZFl2OGxM?=
- =?utf-8?B?WWt0QUY4dTN3S3ZVaEZzcnhtWE44UlMzaHNJREVjM0w1ZURrVzBDdlgxM2E2?=
- =?utf-8?B?Y2s1VGdKRG9vbmtvQWJBQmtIOFAwZnYwTk04ejdNc1RNUHBlclpQeHJUS0RX?=
- =?utf-8?B?RURFWDVqVEdwTFBiMmpjd053M2R2aGFZcjZnS2FPQkFOWlJTMUZ6Qys0S3Ri?=
- =?utf-8?B?bnhoOG9GZVhXM29GQi9qWkpGUzI3Q2FwZENnQXowbzV4dWpUQm1YWXB2aHJr?=
- =?utf-8?B?MFJaaHJXU2FVQWwxWXBWK1RSWEtONFVoRDNWMW1TQUZmRE5HT0FoSlplOGtI?=
- =?utf-8?B?OWNtZDZBWW5nMTdnZnQxT2lQU05yZHJ5UTVzS1NFbmQrQllJTTRpK1BYK2xG?=
- =?utf-8?B?VzJQL3Z1b3NwTk1VSmZrV2srbW1sQ2FkQ1lYblp2RFpzL1Z6NEZUM0ZZYUZn?=
- =?utf-8?B?WnFOenZac3lpN1JTSC8vZ0g2eTB6dkVwYm83R2wzTWxIK3JuVktHb2lpUHcv?=
- =?utf-8?B?b2ttNDM3YW5kdFMwOXlDdjNtSTBrQ3ozaTRVOTkvems1eG1veU9UT0tadmhI?=
- =?utf-8?B?QzFDQ3Rtc3NyVjVnbEhBamQ4d0lXVHBuQ092ekl1dGtjNHJjVGZPRitndGV5?=
- =?utf-8?B?SmwrcFRrSUlMMUZhbHZSUlFRRVE3ajBvVXExZjdCMTF6cFMrVnREakVleEw0?=
- =?utf-8?B?eFZDR1pHS3FUcVFvRVNrc2IyeGg3WndzaVJLTjBHTlZHY3Myb1BUZEJ6M2t1?=
- =?utf-8?B?WWd1RTEzZGc2RTZJR0JqYjl2dG56QkxkZWxYdXdFdXlHS0hqMm1aVytGU0No?=
- =?utf-8?B?UEhxakR5YUxqWEVka0xhODZjN2F3eUNIL1VFKzRtQzJSV2pmMXhscFFzeVI5?=
- =?utf-8?B?M2t1R2Q5cDRSZ1BhWklpUUFNS2FHMzNTQ0paUnRoQk5yTElvY3kyYU9XeXRR?=
- =?utf-8?B?bUVqdDZnUDlXY3lOenVWVERZQkFxZ21vdmJ1VjNFeTZGc0FZN1A5Qm82OEFx?=
- =?utf-8?B?QXNXZkNlaXg2dzgyZUJETHlmMWp4M2JxWkx0RTBPREE2QnR6OXM1T3FmS1Ni?=
- =?utf-8?B?ZzNZb3NBdklpNUJWdjZBVG1ocHZqd2NWUUVYdlhQMzB0Z1llMmVQOUdqWkd2?=
- =?utf-8?B?enVNVk5pSUNWZ3R5K3VnOVlGbkpNWFJvZStUUHBaTy9LMWJvZEwwdHpRbm9K?=
- =?utf-8?B?RUczN3dXalRGN0dOZ1llUTZkTXE2elplQUc1WTdJUFZpYVFVKzNyU21nTWQw?=
- =?utf-8?B?aiswNHNIRldlMVllcnBLMFcxT05Pa1ozWWVra3BFbzlxMEptOXRqZ1FMdnQ5?=
- =?utf-8?B?UjhrdElUWVZJWDEzWGJzRk8yY2Jnd0xmdU1VQllabTlFYUlxaGgvcis3TWNN?=
- =?utf-8?B?T2RENlNjSWJ4REg2OEhGcU1TMCtIdmdSQjk1OGZXcWJBbzd5L0RBU3owZ1Qv?=
- =?utf-8?B?aHNleWxkcEZ6WGxQbzduTDlzNlNhMUMrK2c0MFFGd3pmVm56ZXFidnFkWGtG?=
- =?utf-8?B?Y2dMbGprQ2pHTmU0ekM4T1pwSlg3b3pmaE5wWFFLUnZRaDZrMi8vMDR6Z29s?=
- =?utf-8?B?QW5KSUhQUHk2S1pHdTRGRVB6WjV3MWIwQVFRYWU2Z092eXF6QVAzZmVtakJi?=
- =?utf-8?B?dzFJWEhQZ0hUL0E3UUIvNkpFUkVmQ1RIcC95UGwzUUUrQTlaZUZJbFZVSm9a?=
- =?utf-8?B?RGJCQzNycjNROHJQeEE5WUxEaTFQOU9GSzExVFZ6YVVCQURXaWEyU2g2cnUw?=
- =?utf-8?Q?tecn6hfKZacSeYFFK0?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 41d3da7d-df1f-4b21-2ef2-08decaf1de8f
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2026 15:22:10.5829
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 19ohcmb8MNOsYQE/hGHPCtSppMFIXPQ7vFnUOlwoIuLY/43Ad8/REnmAEYtmVi8yr3enkuC0D9miqE0yw0rBAg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P123MB7004
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEgbMGoC/yWMQQ7CIBQFr9L8tSQUlRivYlxAeViMQsOnTU3Tu
+ wu6nMl7sxEjBzBdu40ylsAhxQr9oaNhNPEBEVxlUlJpqfuzSAvyy3yqfptpghOL5wIuwiqt3FF
+ eToChep8yfFh/6dv9zzzbJ4bSem1hDUPYbOIwNuVTFhFroX3/AgQ5AxiXAAAA
+X-Change-ID: 20260615-overlay-idmapped-vfstest-b262d3084eea
+To: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
+ Zorro Lang <zlang@kernel.org>
+Cc: linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ fstests@vger.kernel.org, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.16-dev-f5839
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2655; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=YAVz9xyKeCfQVLFkJDAW/DH8m5ZtB02pAE2V1nOU/ws=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQZSPua+AoujK/3Xs4stSa35MhE8VC/32eWn95lGr8ju
+ c9g84y6jlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgImITWb4n8mUf9gh9aNgaNqq
+ GCdPlTfB+46Wtv1N0fyz7FtZk1BYDCPDfb7379dz2K1Oqz5oybNoz0OHzbNjG3wUGKbXKk5uapn
+ PBAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Wed, May 27, 2026 at 09:19:11PM -0400, Aaron Tomlin wrote:
-> On Wed, May 27, 2026 at 09:58:58PM +0200, Peter Zijlstra wrote:
-> > On Wed, May 27, 2026 at 01:41:52PM -0400, Aaron Tomlin wrote:
-> > 
-> > > > > The actual use case here is multi-tenant workload isolation and visibility.
-> > > > > Passing the evaluated cpumask to the BPF LSM allows operators to write a
-> > > > > simple eBPF program to detect spatial boundary overlaps (e.g., logging an
-> > > > > event if a requested mask intersects with platform-reserved cores).
-> > 
-> > Why isn't cgroups good enough to enforce this? If you create a cgroup
-> > hierarchy per tenant, and constrain them using the cpuset controller,
-> > they should not be able to escape, rendering this event impossible.
-> 
-> Hi Peter,
-> 
-> You raise a very fair point. The cpuset cgroup controller is indeed the
-> kernel's primary vehicle for spatial enforcement, and under normal
-> circumstances, it successfully prevents a tenant from escaping their
-> designated cores.
-> 
-> The cpuset controller does govern resource limits, but does not audit
-> intent. When __sched_setaffinity() is invoked, the kernel compares the
-> requested in_mask against the task's allowed cpuset. If there is only a
-> partial intersection, the kernel silently truncates the requested mask to
-> fit the cpuset, without raising any alarm.
-> 
-> The BPF LSM hook, conversely, receives the raw, untruncated in_mask,
-> affording operators the visibility to detect, audit, and even reject these
-> violations of intent before the kernel silently sanitises the input.
-> 
-> This patch does not seek to replace the cpuset controller, but rather to
-> complement it by providing auditing capabilities.
-> 
-> > > We are not creating a bespoke BPF hook here; rather, we are rectifying a
-> > > historical blind spot within the API. The existing LSM hook is invoked
-> > > during sched_setaffinity(), yet it presently receives only the task_struct
-> > > pointer. Consequently, the security module is essentially asked, "Should
-> > > Process A be permitted to alter Process B's affinity?" without being
-> > > informed of the proposed affinity itself. Providing in_mask simply
-> > > furnishes the existing hook with the requisite payload to make an informed
-> > > decision.
-> > 
-> > It occurs to me that this same argument would require to also pass in
-> > the new sched_attr, no? That way the LSM can inspect the new policy
-> > before it becomes effective.
-> 
-> I agree, the underlying logic does indeed extend perfectly to sched_attr.
-> 
-> Presently, the LSM is equally oblivious as to whether a process is
-> requesting a benign transition to SCHED_BATCH, or attempting to escalate
-> its privileges by requesting a real-time policy such as SCHED_FIFO with
-> maximum priority. Just as with the CPU mask, providing the sched_attr
-> payload would rectify this parallel blind spot, allowing BPF policies to
-> inspect and mediate scheduling attributes before they become effective.
-> 
-> If you are amenable, I should be more than happy to expand the scope of the
-> forthcoming patch to include this. Alternatively, we could address the
-> sched_attr expansion in a separate, subsequent patch. Personally, I would
-> favour the latter approach, but please do let me know your preference.
-> 
-> I very much look forward to hearing Paul's thoughts on whether this aligns
-> with the broader LSM vision.
+This change is required to make the series in [1] which makes idmapped
+overlayfs mounts work compatible with the idmapped mount test suite.
 
-Hi Paul,
+The vfstest idmapped mount tests behind generic/633, generic/696 and
+generic/697 fail on overlayfs for two reasons that are specific to
+overlayfs and unrelated to idmapped mount semantics:
 
-I am writing to politely follow up on the discussion above regarding the
-proposed enhancement to the sched_setaffinity LSM hook.
+  - They create a whiteout device, mknod(S_IFCHR, makedev(0, 0)), as a
+    fixture -- it is the only character device an unprivileged caller may
+    create, being exempt from the CAP_MKNOD check. overlayfs reserves a
+    0:0 character device as its on-disk whiteout marker, so ovl_mknod()
+    returns -EPERM and the fixture cannot be created.
 
-As you will see from the thread, Peter Zijlstra and I have discussed the
-architectural justification for this change. While the cpuset cgroup
-controller effectively handles spatial enforcement, it silently truncates
-requested affinity masks. Passing the raw in_mask to the LSM hook enables
-security modules (such as the BPF LSM) to audit and mediate the actual
-intent of the request before the kernel sanitises the input, a capability
-that cgroups inherently lack.
+  - openat_tmpfile_supported() probes O_TMPFILE on the idmapped mount as
+    the test's fsuid, which that mount does not map. On overlayfs the
+    backing tmpfile then ends up owned by an unmapped id, overlayfs opens
+    it with O_NOATIME, and may_open() returns -EPERM, so the probe
+    wrongly concludes O_TMPFILE is unsupported and the tmpfile sub-tests
+    are skipped.
 
-Furthermore, Peter rightly observed that this reasoning extends naturally
-to sched_attr. Presently, the LSM cannot inspect whether a process is
-requesting a benign scheduling policy or attempting to escalate to a
-real-time priority. I am entirely amenable to addressing this parallel
-blind spot, preferably in a subsequent patch.
+Patch 1 fixes the probe: O_TMPFILE support is a property of the
+filesystem, not of the idmapped mount or the caller's mapping, so it
+probes info->t_dir1_fd (the base mount, which the caller owns) just like
+the non-idmapped setgid tests already do. This is a general correctness
+fix and a no-op on every other filesystem.
 
-Before I proceed any further, I would be most grateful for your perspective
-as the Security sub-system maintainer. Do you feel this expansion is
-acceptable?
+Patch 2 adds an is_overlayfs() helper and skips the whiteout-device
+fixtures (and the checks that depend on them) on overlayfs, which
+genuinely cannot create them; the makedev(5, 1) "creation must fail"
+probes keep running.
 
-As a brief administrative aside, please note that Thomas Bogendoerfer has
-already queued the MIPS-specific changes related to this work into the
-mips-next tree [1][2].
+With both patches generic/633, generic/696 and generic/697 pass on an
+idmapped overlayfs mount with no change on any other filesystem; tested
+on overlayfs and tmpfs.
 
-I look forward to hearing your thoughts.
+The underlying overlayfs O_NOATIME behaviour that turns an unmapped-fsuid
+O_TMPFILE into -EPERM is being addressed separately on the kernel side;
+these test changes are independent of it.
 
-[1]: https://lore.kernel.org/lkml/psb6pxogv2dlknps4p3sh6rt2h7xuuxkoif6ock5vxfz2jimec@txa6iy65crtb/
-[2]: https://git.kernel.org/pub/scm/linux/kernel/git/mips/linux.git/commit/?id=98e37db4a34d3af3fb2f4648295c25b5e40b20e3
+Link:
+https://patch.msgid.link/20260615-work-idmapped-overlayfs-v1-0-7381632aa402@kernel.org [1]
 
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Christian Brauner (2):
+      src/vfs: probe O_TMPFILE support on the base mount in the idmapped tests
+      src/vfs: skip whiteout-device fixtures on overlayfs
 
-Kind regards,
--- 
-Aaron Tomlin
+ src/vfs/idmapped-mounts.c | 166 ++++++++++++++++++++++++----------------------
+ src/vfs/utils.c           |   5 ++
+ src/vfs/utils.h           |   1 +
+ 3 files changed, 93 insertions(+), 79 deletions(-)
+---
+base-commit: ffc8bad17e5b2f56e48dbac43f7c5ae8ac368fe5
+change-id: 20260615-overlay-idmapped-vfstest-b262d3084eea
+
