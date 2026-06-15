@@ -1,112 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2893F44D3;
-	Mon, 15 Jun 2026 13:20:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A2A3F410A;
+	Mon, 15 Jun 2026 13:22:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781529636; cv=none; b=kHtTGzaV7a5Vw499RYkCoaYiyCVUA55cxvocWBKYYQRsukBiCth93jB0OjqNOhxEKZTpUScdH+zAj78kFwtAfe4TB2/lCnb7T1BFVLHcECF6JWrkIZ6pSznF+aJmGEkqf/3MthbcHT7SEg9nV64l4NNE/Dfl4An0647cN3deY5U=
+	t=1781529761; cv=none; b=eC3nBsPAl/JamjDUdVXC5aZ5Cdj3yGpSLNImTXK8e9l706Y6Cb/Ea/5lwDizTrDjQjEnnAGhU9OW9AnLRXsZGCTLX6+9Iivv4WALmxO6q02NhXyNG1gHvYj24Y4ESj3HIOHjtHDaR2+uV6IQNxRh52ExWvFFvXvR6cH2PRgjsyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781529636; c=relaxed/simple;
-	bh=bcGOBZH4TiD3PGlipX298RqL/DmGAjPRcuIuHeRMMDI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=IhxtK6U8hmavKuZAZLsfoov6VldlvedEu5QGGgYuu18jID64ejYW133piUvVj/x5BanzN/a66Vyt5fvL4LhrYtTEMK2hyb046wq9/5HQ1IKPjCwYMIbt7fR1bvn9NE4YCpjQaxAbDfedLSoasbLc/qTXUvj/HgbEy2pf8rm6Zgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EgDY3dBb; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EgDY3dBb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C7AC1F000E9;
-	Mon, 15 Jun 2026 13:20:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781529634;
-	bh=SSos3q3LJk16U7nMl/MDeNjnRNoZ+aeDlq2eqBV/c+o=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=EgDY3dBbR1Ox+vOQuI5pvK8eclKWDmXMxvUDUZzrYylXGChtmqmSR+q9P3botdQ37
-	 E5GEMKHASZYNWC7GSQVaik3DI7TFv8kcH67IuoKj7qoaGXoZm/U/OMCm+uP5W1luWc
-	 r5JrwkZnchjnUvT8qHiub4g+eTUbuBMyXroYqD0tdK/ApKP0O/dJjC1mNw+AZ7/dKF
-	 s6bOhmxeTiG8wxjnRL2ze6jzDt1ifCWUCr2aX/hfilhqmv+H5JmUox0L5JMBdbFt2C
-	 FofUcPVJJyclZ8uluNH1xZz1fVOjLEkgyoJ7WblAGpR3eBSld3fb4n2TWd2z0ss8UH
-	 RCOgVy6ffdZRA==
-From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 15 Jun 2026 15:19:59 +0200
-Subject: [PATCH 10/10] ovl: document security.capability idmapping on the
- xattr forward paths
+	s=arc-20240116; t=1781529761; c=relaxed/simple;
+	bh=e2qlcvauBAi4XtzeZV5u2HFUaH2GDZ6VqDjdYQ/giz8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IsVk7iUFuudaK+HANcouVAUZcv74UYH9QtfbuuV7GpPveEXRg2YcVYh4RroqzGHCKoUlv9Qi24qwhscBXcqZ5wLPQhviqDPWAbnI1Y8klHSJvmVOTnbginFP5KJ/7tBpALV0O7rpz9YcjftyKboS/RBtXIbPlsgxyBsH9uT6yUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf15.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id C90E3140A0A;
+	Mon, 15 Jun 2026 13:22:37 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf15.hostedemail.com (Postfix) with ESMTPA id D6C521B;
+	Mon, 15 Jun 2026 13:22:33 +0000 (UTC)
+Date: Mon, 15 Jun 2026 08:22:32 -0500
+From: John Groves <John@groves.net>
+To: Richard Cheng <icheng@nvidia.com>
+Cc: John Groves <john@jagalactic.com>, Dan Williams <djbw@kernel.org>, 
+	John Groves <jgroves@micron.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Alison Schofield <alison.schofield@intel.com>, 
+	Ira Weiny <iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V5 7/9] dax: read holder_ops once in
+ dax_holder_notify_failure()
+Message-ID: <ai_70p0O3u3S__gh@groves.net>
+References: <0100019eb7bcda4b-3f8edae9-d7a4-4bfa-aaea-fcef77fdbbc3-000000@email.amazonses.com>
+ <20260611173240.66020-1-john@jagalactic.com>
+ <0100019eb7be595f-5045353d-86b9-49fd-b1ca-fbb40c22d06c-000000@email.amazonses.com>
+ <ait2Lymb4y-Wb2ie@MWDK4CY14F>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260615-work-idmapped-overlayfs-v1-10-7381632aa402@kernel.org>
-References: <20260615-work-idmapped-overlayfs-v1-0-7381632aa402@kernel.org>
-In-Reply-To: <20260615-work-idmapped-overlayfs-v1-0-7381632aa402@kernel.org>
-To: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>
-Cc: linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.16-dev-f5839
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2345; i=brauner@kernel.org;
- h=from:subject:message-id; bh=bcGOBZH4TiD3PGlipX298RqL/DmGAjPRcuIuHeRMMDI=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTp/+GNuyz5bYZYme6l1G2hL8UuBTmeCxY4aGe+3GErw
- +TSp1LPO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACayYSIjw2Tt+czbZqyzeC2d
- tkrWbc5lR0/xV6x/WLmKbzzMZatPamb4XzX5q1nhpcsG3G83P5mdGH7SLPDA8a2fbaSE61offXJ
- kYQYA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ait2Lymb4y-Wb2ie@MWDK4CY14F>
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: D6C521B
+X-Stat-Signature: wi4m6dat41b8azege1in4ra9iexqebu5
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX19TFhvmT3BAejXjJoTuyXfYam/BZhUdxSY=
+X-HE-Tag: 1781529753-543104
+X-HE-Meta: U2FsdGVkX183+gFmPlX0UJGoOj4EB+fyIojJtMwSlLOmbwsxRaUn2+UYb73LuIm7J02Hs/CICiWQgz1i5uwrGBiDCBVhulYHYDJAq9eHOiSBzlwvgbKbH40H3CdO+gFd14HN03/Lfv8KDVDBBKmdqYoR3Gp8ASk2ykAb6e9dGht2NfX7+SMS4dm5AlEl+23d2ECTivvL4e8OKFaFafXKQSCy/Q986daBPYfgTt3b4XQRblrsT1K2gc45S2gam2b9hb+JlshQcwWdx5aZN01nQ8GowfViST++oid1PSBrdPyKz1He6AFJJ4TjJ1IfyXWXGiPhMuYYIDXCIeD6dd8cNQrmNedtzPgH24kRRzWA2olRB4CvcLKguvrXjuPtcJwn3yqdFt7a3nC2CMYMtcsIMg==
 
-Now that an overlay mount can itself be idmapped, every id exposed at
-the overlay-inode boundary is mapped through the overlay mount idmap.
-security.capability is the one id-bearing xattr that overlayfs does not
-translate in its own boundary code: the embedded rootid of a v3 fscap
-is instead mapped by the capability LSM inside vfs_getxattr() and
-vfs_setxattr().
+On 26/06/12 11:02AM, Richard Cheng wrote:
+> On Thu, Jun 11, 2026 at 05:32:45PM +0800, John Groves wrote:
+> > From: John Groves <John@Groves.net>
+> > 
+> > dax_holder_notify_failure() reads dax_dev->holder_ops twice without
+> > READ_ONCE() -- once for the NULL check and once for the indirect
+> > notify_failure() call. A concurrent fs_put_dax() or kill_dax() can clear
+> > holder_ops between the two reads, so the check can observe a non-NULL
+> > pointer while the call dereferences NULL.
+> > 
+> 
+> Hello John,
+> 
+> Thanks for this.
+> 
+> Reviewed-by: Richard Cheng <icheng@nvidia.com>
+> 
+> Small message nit, kill_dax() isn't a racing clearer.
 
-It still composes correctly only because the xattr read and write
-forwards go through the security-aware vfs_getxattr() / vfs_setxattr()
-rather than the raw __vfs_*xattr() variants: commoncap maps the rootid
-through the layer idmap at the overlay-to-real forward, while the
-overlay mount idmap is applied by the outer vfs_getxattr() at the
-syscall boundary, mirroring the layer-then-mount composition used by
-ovl_getattr().
+Right -- kill_dax() clears holder_ops only after synchronize_srcu(), so it
+can't race a reader under dax_read_lock(). Reworded the commit message and
+the code comment for V6 to name only fs_put_dax().
 
-The raw __vfs_*xattr() variants skip the security hooks and would
-silently drop the rootid mapping. Comment both forwards - the read in
-ovl_xattr_get() and the write in ovl_do_setxattr() - so they are not
-converted to them by accident.
+> Plus I think this only fix holder_ops double-fetch, the fs_put_dax()
+> race issue is separate and pre-existing.
 
-No functional change.
+Yes, intentionally -- this patch is just the reader-side double-fetch. The
+fs_put_dax() race is the separate, pre-existing one handled by the next
+patch in the series ("dax: fix holder_ops race in fs_put_dax()").
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/overlayfs/overlayfs.h | 1 +
- fs/overlayfs/xattrs.c    | 1 +
- 2 files changed, 2 insertions(+)
+> 
+> Best regards,
+> Richard Cheng.
 
-diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
-index b75df37f70ac..e0d8c6152e9f 100644
---- a/fs/overlayfs/overlayfs.h
-+++ b/fs/overlayfs/overlayfs.h
-@@ -320,6 +320,7 @@ static inline int ovl_do_setxattr(struct ovl_fs *ofs, struct dentry *dentry,
- 				  const char *name, const void *value,
- 				  size_t size, int flags)
- {
-+	/* Use vfs_setxattr(), not __vfs_setxattr(): it idmaps the security.capability rootid. */
- 	int err = vfs_setxattr(ovl_upper_mnt_idmap(ofs), dentry, name,
- 			       value, size, flags);
- 
-diff --git a/fs/overlayfs/xattrs.c b/fs/overlayfs/xattrs.c
-index aa95855c7023..811c94d2d9e9 100644
---- a/fs/overlayfs/xattrs.c
-+++ b/fs/overlayfs/xattrs.c
-@@ -84,6 +84,7 @@ static int ovl_xattr_get(struct dentry *dentry, struct inode *inode, const char
- 	struct path realpath;
- 
- 	ovl_i_path_real(inode, &realpath);
-+	/* Use vfs_getxattr(), not __vfs_getxattr(): it idmaps the security.capability rootid. */
- 	with_ovl_creds(dentry->d_sb)
- 		return vfs_getxattr(mnt_idmap(realpath.mnt), realpath.dentry, name, value, size);
- }
+Thanks,
+John
 
--- 
-2.47.3
-
+<snip>
