@@ -1,60 +1,61 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824823128B6;
-	Mon, 15 Jun 2026 03:45:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F3752F8EA7
+	for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 03:45:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781495139; cv=none; b=B3qPRebP/BPlSdFFTI/kcCt5yRK7PWxLeS/ZH8Sq49ZSVjlBkjcqKf3ieg+P9NsMJnew5LSGO0SXZBiDghl2H6XLJcCZX8S30ixRc8dFExLCGDgHISAHTYw6PZFkhdGTnXaQS/Jy8QJNnH0PTUbM5c8FG2MEn9u1WNaOPoTAkFg=
+	t=1781495141; cv=none; b=dF0Sx/DtMZOB2rW+q3od3InACr3MdHu0LojR2DSDAxmZm0Mki0s3iSUbi9Q5hlQDf0qvcDmanTeTUFDg+AYIrVCt0SEdc4zUWZb8YY8nFLzdUPEkLjbRaJouJBpjUzAxsOghlXQFzRliI0OK4Wu+eNPCNEnjowTxOy4s+tL+css=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781495139; c=relaxed/simple;
-	bh=l/u5+q5uXjiRzp5qd7lVdemc70jZDJqorvmJ+QXfyWI=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=kki7vqqxd7HblurzSv2V47lxN2E5Yg6nx6qvbhW2/yrX6tD3Jg1A6C8SKSWnUk1xkqCLX068LoMqaI5ezKaxKCVNWGd/dqFG11S9oF+9zmnBI8Q0/LyE56fP9C1f+Vp5F9nseBH/+I5PPzrbp0OzVEes2F+NaHqFKvh3Zg5M60E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=djbXEJVF; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781495141; c=relaxed/simple;
+	bh=NqbFPZASh3qVnRpQc97W5ZTu9dUhjsWicOyBct++MhU=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=sUg4WqIIzoLNxYGyc4p3IrTPUh2VFmNlDUTcbZ10X51Gac0RnlsvIhyJQ8LMW1knHVjn/HYhJ/j4vBVKv2LSn0OjduDJyefHxtq3LXjFjg23AaXHK269umlgw9rAB0srkCEBqONSUd3W/Wo+WPDtUPRoxOGs1k03uJJGncJSA+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AYujEiR0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="djbXEJVF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69FC21F000E9;
-	Mon, 15 Jun 2026 03:45:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AYujEiR0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4F681F000E9;
+	Mon, 15 Jun 2026 03:45:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781495138;
-	bh=ZJ1yRH+2YzTqAxGb1MadmmxWQq1eD+5SRmmSYWLT8+M=;
+	s=k20260515; t=1781495139;
+	bh=DTeLIXPX5pcmEpNDtVMUF6itBgamYigCchUe6Q2ij5U=;
 	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=djbXEJVFlPCn3muCSXZcYVxlkqF3WfnGC1+TrY13pKGwxvXBALnvzXXFI6UcH+UVA
-	 mdlYyn4DsdvPBt9aecMcdbBp6pQoze71UOB6XDZv06bAsmHVucMqC3nZ8pnmAYrAG6
-	 Zsk3N7XKDJLjjp2hB3T5TWjOTfjz6jKayYoy8+ecxTHnlwQBTwu4b7OlMZ8DWus/Ho
-	 pk2w/R59yJ2IU4hJZf60Symdfd/vkJVOi2zvkhaDgIyGCBoOBiqXIum4pCZ82NmeCb
-	 /AQmrsA4Hxnlp0os4qhJCvtKdkyvwedejV0b5XMEGiZYpEl+WzBh7ljJ0kAgivy0bx
-	 l3zM8aFaj1qeQ==
+	b=AYujEiR0yf7dc4qqNB+IjUhq8VClXxP1kBgOMVYxXyWSCTuNVKr9KNKtc9grugJM/
+	 CE7x7zSg1hJFok+GiCxMixaXdkvO7rCpMmAgXMv40BE5w8T+TRSJYo3YMK2fNr4g62
+	 qrG+TOeZdIFiTxhTNhM9UQFI6fIDkdwX0U6woNKxQbxykqAopUdONbCoCFMDdCPcHn
+	 p8Lhc7GX4O8DL3RYjmxep8ZqRZaW65dOMPQ8rct8J2FMJKWl5j/H8dVhYW400jIbQD
+	 r4e0KyJKCE1PM/EQk6x8OIJfNPyCF+HarD40MiFC6HH31TsORHCz2RIWWiUFPA5Ars
+	 dMfbEP0/dz7bg==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 197B03A566D6;
-	Mon, 15 Jun 2026 03:45:35 +0000 (UTC)
-Subject: Re: [GIT PULL 16/16 for v7.2] vfs procfs
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 93ADC3A566D6;
+	Mon, 15 Jun 2026 03:45:36 +0000 (UTC)
+Subject: Re: [git pull] vfs: dcache work
 From: pr-tracker-bot@kernel.org
-In-Reply-To: <20260612-vfs-procfs-v72-15e0a3b7e3d2@brauner>
-References: <20260612-vfs-v72-20facee87e19@brauner> <20260612-vfs-procfs-v72-15e0a3b7e3d2@brauner>
+In-Reply-To: <20260614223103.GP2636677@ZenIV>
+References: <20260505055412.1261144-1-viro@zeniv.linux.org.uk>
+ <20260605050910.1306432-1-viro@zeniv.linux.org.uk> <20260614223103.GP2636677@ZenIV>
 X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20260612-vfs-procfs-v72-15e0a3b7e3d2@brauner>
-X-PR-Tracked-Remote: git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.2-rc1.procfs
-X-PR-Tracked-Commit-Id: cf30ceccfaec3d2549ff60f7c915625f12dd3a93
+X-PR-Tracked-Message-Id: <20260614223103.GP2636677@ZenIV>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git tags/pull-dcache
+X-PR-Tracked-Commit-Id: 3df5153c5f123d6018c82a24341ccd99c79d64a0
 X-PR-Merge-Tree: torvalds/linux.git
 X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 79169a1624253363fed3e9a447b77e50bb226206
-Message-Id: <178149513374.2410512.15376774306336034786.pr-tracker-bot@kernel.org>
-Date: Mon, 15 Jun 2026 03:45:33 +0000
-To: Christian Brauner <brauner@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+X-PR-Merge-Commit-Id: e8a56d6fc828bb569fa2dd33c3e6eb16a165b097
+Message-Id: <178149513523.2410512.12670692748332995583.pr-tracker-bot@kernel.org>
+Date: Mon, 15 Jun 2026 03:45:35 +0000
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 
-The pull request you sent on Fri, 12 Jun 2026 17:16:18 +0200:
+The pull request you sent on Sun, 14 Jun 2026 23:31:03 +0100:
 
-> git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.2-rc1.procfs
+> git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git tags/pull-dcache
 
 has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/79169a1624253363fed3e9a447b77e50bb226206
+https://git.kernel.org/torvalds/c/e8a56d6fc828bb569fa2dd33c3e6eb16a165b097
 
 Thank you!
 
