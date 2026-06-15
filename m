@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99ED30D406;
-	Mon, 15 Jun 2026 18:30:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B0037997E;
+	Mon, 15 Jun 2026 18:35:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781548248; cv=none; b=LMSJxgsn5vYjcQZLlqJMp2dCt3MHexo0zE5WkwbTwFPeXBRk61IEypclYfeMENH+aIBGXcnWjcwZ9+t8rIDp1FCnRZG4/q5MLM3QKST0kfEEptURaGMm1CKxb4B0qhPUxYIdPjxf3FmnW23AkfoNA+pmvzYMxBl1CCvb4paAzRk=
+	t=1781548533; cv=none; b=WPa6+QlaqzxEJAyYUUc1jBHzpQCKgdoaub40vArj4gHN3t8XUPkJLaL3anlyQptgGK+KAP0xC7k4BGzwv97f5oMcQLWAPMvpO8vNveL1sG6skB7w1djDhStZ66ym/dcVumIP4bKOO1k1xYwbyY1Jd9JzAWOuxArMVJ2e3BVr5+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781548248; c=relaxed/simple;
-	bh=pxQwzcJlcWnEDPGhp6rYbip82v234/yHkMHOg47dTWU=;
+	s=arc-20240116; t=1781548533; c=relaxed/simple;
+	bh=2h3R1KaG6R0309+dcpm2CGuj1MxQ+ME+WvA5c8KJVg8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kUfOor/pxI0FzoZZY5KyuuVPpizDYqJkVgQnrNlg/nVjuqrYKOTKCnrTgcTV13R+Weozkm5FaOPkNVg5q2048HIqfibSEvQygsYaVWkuo6Aeo8AaOwPZ9NBtYDrOEJPGEmHm8GpIZKHQG/uK9fbahgy/DOLWUz5CuYuBBE4muaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k4SHta/B; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=dWn3srSRNCZ2zMlPS8EKYpr1zGbE26Iyh5zoT9WkAT8b0ppY33fIyFlJt9gfnruwgmF9EXFaDI0xlJ/jh7tbSjT4S90l4XB6DcIHi90PkZtEXD2VFRJ6fmud69p0AVjRZ4c1LhtF34S855+oiSH7KsUkjFMusBf/exO9hN+9dKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jlAQG2xW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k4SHta/B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EB051F000E9;
-	Mon, 15 Jun 2026 18:30:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jlAQG2xW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0454D1F000E9;
+	Mon, 15 Jun 2026 18:35:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781548247;
-	bh=5MEuihEHUG8jPWIs1KOkwtZJwTHjAJf8Y63agBr60OI=;
+	s=k20260515; t=1781548532;
+	bh=hzUbXfgg1+bBubgu8gN+hwknySP5HOytcelW2HhsCuA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=k4SHta/BN4P+7V74eW0MmMMzlqtqnrXT0Gsbh6Nhp0VOwYxab9pF04tz4ZQL/MBsn
-	 SMhgGhwip2LeFofAMIBs66wlPK478uWLih57GiC+qFoLG48NNWmtsiea4Mb47lEdjL
-	 krT/GtMiQIQMoPHjzxuyVFbAYHv8sf2nX1BUIx576cvKnEPYx7w8u1KqhhFiveuLAK
-	 CY9THeOSQLTtFSTB1sadZJWy7xhcXn2Ag3RA+LC2HBEhpPM5XassxK2kNZP7aELp3F
-	 PV1byUCpL7cUDATNi4jvlqY8igfyj55/eydhfP4Mk5Qz2jIN9euH0B+Piu6e0Dngzq
-	 Loz7d/qD2J04A==
-Message-ID: <dba6a4a4-09e4-42b3-a7fc-1886a05d1299@kernel.org>
-Date: Mon, 15 Jun 2026 20:30:36 +0200
+	b=jlAQG2xWMZDdf/TzVptw6qaxuKXJK92zOL3nTKtS7cwaic2k+bAq+ARNG9AezSHH8
+	 IS2fSOS9S07JnquBqBhgmdo1FGtmTkV03sgRuB22ATBYrEUyqqpgrtp0fJtk8HPhKm
+	 ulaxvPNAnX2dXPwAwr5kpilaGWvIcjWK0OHquB/CUSlk0p48wTWjRmQ+86zfYQDoCm
+	 Xluit6eChkKE3LPRx7VyEw/d81L+RRLbRF9jTEfjOBTKi6jkh0TPFTM7b5CFMX1Z13
+	 DDysW8JKdDtafNe5Ay8+LAeF94jqSNCVoSw63n3Wa7CQBIuWYFQ5vYM4PEvYd4rw1J
+	 FPUWgIJy6t6mA==
+Message-ID: <1f74f3b9-fda5-40e1-9170-5861ebac9ca8@kernel.org>
+Date: Mon, 15 Jun 2026 20:35:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,11 +35,10 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 0/3] KVM: guest_memfd: folio migration for
+Subject: Re: [PATCH RFC 2/3] KVM: guest_memfd: support folio migration for
  non-confidential VMs
-To: Alexandru Elisei <alexandru.elisei@arm.com>,
- Shivank Garg <shivankg@amd.com>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+To: Shivank Garg <shivankg@amd.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
  Andrew Morton <akpm@linux-foundation.org>,
  Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
  Michal Hocko <mhocko@suse.com>, Brendan Jackman <jackmanb@google.com>,
@@ -57,12 +56,12 @@ Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
  Vishal Annapurve <vannapurve@google.com>,
  Nikita Kalyazin <nikita.kalyazin@linux.dev>,
  Patrick Roy <patrick.roy@linux.dev>, Pratik Sampat <prsampat@amd.com>,
- Ashish Kalra <Ashish.Kalra@amd.com>, linux-fsdevel@vger.kernel.org,
- linux-coco@lists.linux.dev, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+ Ashish Kalra <Ashish.Kalra@amd.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-coco@lists.linux.dev,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
  linux-kselftest@vger.kernel.org
 References: <20260611-shivank-gmem-migrate-v1-0-2d266bfc6f95@amd.com>
- <ai_XK__RTXMCEcCG@raptor>
+ <20260611-shivank-gmem-migrate-v1-2-2d266bfc6f95@amd.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -109,43 +108,116 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <ai_XK__RTXMCEcCG@raptor>
+In-Reply-To: <20260611-shivank-gmem-migrate-v1-2-2d266bfc6f95@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 6/15/26 12:43, Alexandru Elisei wrote:
-> Hi,
+On 6/11/26 15:05, Shivank Garg wrote:
+> guest_memfd folios are currently marked unmmovable, so the kernel
+> cannot perform NUMA-balancing, memory compaction, etc.
+> This is unavoidable for confidential VMs (SEV-SNP, TDX),
+> since memory is encrypted and copying it need firmware assistance.
+> However, for non-cofidential VMs (like firecracker), we can migrate
+> the folios.
 > 
-> On Thu, Jun 11, 2026 at 01:05:07PM +0000, Shivank Garg wrote:
->> guest_memfd folios are currently marked unmovable, so the kernel cannot
->> perform NUMA-balancing, memory compaction, etc. This is unavoidable for
->> confidential VMs (SEV-SNP, TDX), since memory is encrypted and copying it
->> needs firmware assistance. However, for non-confidential VMs (like
->> Firecracker), we can migrate the folios.
->>
->> This series enables folio migration for non-confidential guest_memfd and
->> also lays the groundwork for migrating confidential guest_memfd later.
->> Once firmware-assisted copying support is available, those VMs can be
->> made movable, the confidential folio content can be copied separately,
->> and the destination folio marked with FOLIO_CONTENT_COPIED so
->> __migrate_folio() skips the host-side folio_mc_copy().
+> Mark non-confidential VMs as movable and implement
+> kvm_gmem_migrate_folio() using filemap_migrate_folio().
 > 
-> I always thought that one of the nice things about using guest_memfd as a
-> memory backend, as opposed to host userspace mappings, is that the host
-> cannot unmap VM memory because of KSM, automatic NUMA balancing, hugepage
-> collapse, compaction, etc, acting on the host userspace mapping of the
-> VM memory, and outside of the VMM's or KVM's control.
+> This lays the ground work for migrating cofidential guest_memfd
+> later. Once the firmware-assisted copying support is available,
+> those VMs can be made movable. The confidential folio content can
+> be copied separately, and the destination folio can be marked with
+> FOLIO_CONTENT_COPIED so __migrate_folio() skips the host-side
+> folio_mc_copy().
+> 
+> Signed-off-by: Shivank Garg <shivankg@amd.com>
+> ---
+>  virt/kvm/guest_memfd.c | 50 +++++++++++++++++++++++++++++++++++++++++++++-----
+>  1 file changed, 45 insertions(+), 5 deletions(-)
+> 
+> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+> index 806a42f0e031a1c7729f53c786316d2502532553..e4470106fc7792f328bce5275419683328c8b4ab 100644
+> --- a/virt/kvm/guest_memfd.c
+> +++ b/virt/kvm/guest_memfd.c
+> @@ -487,13 +487,45 @@ static struct file_operations kvm_gmem_fops = {
+>  	.fallocate	= kvm_gmem_fallocate,
+>  };
+>  
+> +#ifdef CONFIG_MIGRATION
+>  static int kvm_gmem_migrate_folio(struct address_space *mapping,
+>  				  struct folio *dst, struct folio *src,
+>  				  enum migrate_mode mode)
+>  {
+> -	WARN_ON_ONCE(1);
+> -	return -EINVAL;
+> +	struct inode *inode = mapping->host;
+> +	pgoff_t start, end;
+> +	int ret;
+> +
+> +	if (!filemap_invalidate_trylock_shared(mapping))
+> +		return -EAGAIN;
+> +
+> +	start = src->index;
+> +	end = start + folio_nr_pages(src);
+> +
+> +	kvm_gmem_invalidate_begin(inode, start, end);
+> +
+> +	/*
+> +	 * For non-confidential guest_memfd the folio is host-readable,
+> +	 * so filemap_migrate_folio() can copy the contents itself via
+> +	 * folio_mc_copy().
+> +	 *
+> +	 * This is also the hook point for confidential VMs (SEV-SNP, TDX) once
+> +	 * they are made movable: the host cannot copy encrypted/private memory,
+> +	 * so a firmware-assisted copy would run here.
+> +	 * Idea: https://lore.kernel.org/r/20260428155043.39251-8-shivankg@amd.com
+> +	 * Mark the @dst->migrate_info field with FOLIO_CONTENT_COPIED, so
+> +	 * __migrate_folio() skip folio_mc_copy() for confidential VMs.
+> +	 */
+> +	ret = filemap_migrate_folio(mapping, dst, src, mode);
+> +
+> +	kvm_gmem_invalidate_end(inode, start, end);
+> +
+> +	filemap_invalidate_unlock_shared(mapping);
+> +	return ret;
+>  }
+> +#else
+> +#define kvm_gmem_migrate_folio NULL
+> +#endif
+>  
+>  static int kvm_gmem_error_folio(struct address_space *mapping, struct folio *folio)
+>  {
+> @@ -592,9 +624,17 @@ static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags)
+>  	inode->i_size = size;
+>  	mapping_set_gfp_mask(inode->i_mapping, GFP_HIGHUSER);
+>  	mapping_set_inaccessible(inode->i_mapping);
+> -	mapping_set_unmovable(inode->i_mapping);
+> -	/* Unmovable mappings are supposed to be marked unevictable as well. */
+> -	WARN_ON_ONCE(!mapping_unevictable(inode->i_mapping));
+> +
+> +	/*
+> +	 * Confidential VMs (SEV-SNP, TDX) bind encryption to the physical
+> +	 * address and require firmware assisted copy, so their folios cannot
+> +	 * be migrated yet.
+> +	 */
+> +	if (kvm_arch_has_private_mem(kvm)) {
+> +		mapping_set_unmovable(inode->i_mapping);
+> +		/* Unmovable mappings are supposed to be marked unevictable as well. */
+> +		WARN_ON_ONCE(!mapping_unevictable(inode->i_mapping));
 
-Yeah, but it doesn't play nice with THPs / large folios. So if you want to run
-something else on a hypervisor than just confidential VMs, you definitely want
-guest_memfd to be as nice to the system.
+We would still want our movable mappings to be flagged unevictable.
 
-That is, support page migration if nothing speaks against it.
+> +	}
+>
 
-Now, if something speaks against it, for sure we can just leave the pages be
-unmovable.
+As discussed, for guest_memfd instances that support page migration, we would
+want to also allocate the pages in for guest_memfd as GFP_HIGHUSER_MOVABLE.
 
-Fortunately, the patch is rather trivial.
+That is, handle the mapping_set_gfp_mask() call as well.
+
+It will unlock access to areas reserved for movable allocations (CMA/
+ZONE_MOVABLE) and properly let the page allocator group pages by mobility
+(MOVABLE vs. UNMOVABLE vs. RECLAIMABLE).
 
 -- 
 Cheers,
