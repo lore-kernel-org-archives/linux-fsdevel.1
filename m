@@ -1,112 +1,193 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4B0B184524;
-	Mon, 15 Jun 2026 11:04:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7707E3E3153;
+	Mon, 15 Jun 2026 11:08:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781521469; cv=none; b=SpzBLKOFFL8HVS7cPus7dojM14quOaZbziBIp/o/bWuYtqey1ry7O9WLAQBxyDBYeVDpAm+XlNbuOvMN/DRqHZRljQfgKtOJaUf3cd/OnFE8p2UC7mPouIKe18JkRDXm6NtyAwu2ApivTX2k9tVA9TMcAYCMsS23VvmlAp0mi84=
+	t=1781521725; cv=none; b=mw3xCPEwstcRIkQxNC2V1NiNEMqiw3JpbVcy4m4PGq9Qh/gLCe4lK8FgQr9zAgo82Z3oaArr1MLHcoqKC9YFIiuvGWxZllX1Nj1vhLF7mEGSFrp92pjhc7wrRdw+43aQNYqQI1hpmMxglAPNM7xgUwqpzb33x/kmRiy9FARI40s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781521469; c=relaxed/simple;
-	bh=G5bCUMpAj7XkCblIAeX+67lQJO0pVJ0HsMawKtJgxQU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZSx/smY0+Y1tyYeWXFoGI5XRlHEgoh6+nZIx8Qa4N2XUENBBuzhsibUidKLSlLw1xioMe8dMibI6I9dM3XFU+MJZPDeFyqxcUJNjF2/Pti8s1Oh3cvbFFwfxhvXP9zitqM2/xt0Dul/rf8Fm4OWn/KgnXGFNCJp3mqwFRzwH4Fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ITcrxen1; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1781521725; c=relaxed/simple;
+	bh=AwQzJQpsaP7tyCRGQNL9d45B9fFpF3LslZUYnBEO6io=;
+	h=Subject:From:To:CC:References:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=Zj621og5AIU/cox0z41A8O2VqfCRZhBytc3fA8oIYHp1k0FyPlV4JpJSpJvcWSoK4iYrUCwNdq+B0yDq4v0Skqs6zsA3cNGouHNPYvULuwXQFf4//1zduYulFRKp6Khp30mNhLYVkPpl5mLiCZIq+bMCUn5c98zMnqVowPPZ3+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=uNgEEBHw; arc=none smtp.client-ip=113.46.200.224
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ITcrxen1"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4303E328D;
-	Mon, 15 Jun 2026 04:04:22 -0700 (PDT)
-Received: from raptor (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E54C13F915;
-	Mon, 15 Jun 2026 04:04:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1781521467; bh=G5bCUMpAj7XkCblIAeX+67lQJO0pVJ0HsMawKtJgxQU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ITcrxen1FUILXt0yTvFGlM97RCokdSUG6KreIW5VnfKj1yUsv5nAXAUCQjVOZEyus
-	 1bxtVRPtXhyGGGbSLmKSdOfzkBrck+oXlbdN9jdKXe1uibx4w6l3zzqX0H/xXyhSXE
-	 z3BP5/FQv9K7Ctbm7B/qLe39ZaH6N64JsRAQb/a8=
-Date: Mon, 15 Jun 2026 12:04:15 +0100
-From: Alexandru Elisei <alexandru.elisei@arm.com>
-To: Shivank Garg <shivankg@amd.com>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Brendan Jackman <jackmanb@google.com>,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	David Hildenbrand <david@kernel.org>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Gregory Price <gourry@gourry.net>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, Shuah Khan <shuah@kernel.org>,
-	Chao Peng <chao.p.peng@linux.intel.com>,
-	Nikunj A Dadhania <nikunj@amd.com>, Ira Weiny <ira.weiny@intel.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Pankaj Gupta <pankaj.gupta@amd.com>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Vishal Annapurve <vannapurve@google.com>,
-	Nikita Kalyazin <nikita.kalyazin@linux.dev>,
-	Patrick Roy <patrick.roy@linux.dev>,
-	Pratik Sampat <prsampat@amd.com>,
-	Ashish Kalra <Ashish.Kalra@amd.com>, linux-fsdevel@vger.kernel.org,
-	linux-coco@lists.linux.dev, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC 0/3] KVM: guest_memfd: folio migration for
- non-confidential VMs
-Message-ID: <ai_aczmeH2IA6JaB@raptor>
-References: <20260611-shivank-gmem-migrate-v1-0-2d266bfc6f95@amd.com>
- <ai_XK__RTXMCEcCG@raptor>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="uNgEEBHw"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Rq1nRJtbxbHOTjiOD+zf9k9sE8HEWBCiGNjnv2fju7I=;
+	b=uNgEEBHwP934S1njTuxsk1AF5pDhv0jJYbVXWDIr1q7RaZFrUAJIF/vbGIPfUwFG/SK+kB7Px
+	Lut7DS8eyJ0pQQGWmRUm3jxXXAIhtd985bdbWEf/9NXoscr8ZEH2C0r13Ixqk9swz6UgmP2okMX
+	Gf1rMrQNc7dUWHX/rZUulfM=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4gf6bs1J1tz1cyPS;
+	Mon, 15 Jun 2026 19:00:41 +0800 (CST)
+Received: from kwepemk500005.china.huawei.com (unknown [7.202.194.90])
+	by mail.maildlp.com (Postfix) with ESMTPS id 4D27640572;
+	Mon, 15 Jun 2026 19:08:37 +0800 (CST)
+Received: from [10.174.178.46] (10.174.178.46) by
+ kwepemk500005.china.huawei.com (7.202.194.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 15 Jun 2026 19:08:36 +0800
+Subject: Re: [PATCH] fuse: virtiofs: fix illegal inode address access in
+ fuse_release_end
+From: Zhihao Cheng <chengzhihao1@huawei.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+CC: <miklos@szeredi.hu>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <yangerkun@huawei.com>,
+	<yi.zhang@huawei.com>, fuse-devel <fuse-devel@lists.linux.dev>
+References: <20260514124102.2703313-1-chengzhihao1@huawei.com>
+ <20260515210719.GD9568@frogsfrogsfrogs>
+ <953d1dc7-f1a4-88a8-1db4-0902b902055f@huawei.com>
+Message-ID: <da9772f5-d20c-0efe-2fb8-74f14e8d490b@huawei.com>
+Date: Mon, 15 Jun 2026 19:08:35 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ai_XK__RTXMCEcCG@raptor>
+In-Reply-To: <953d1dc7-f1a4-88a8-1db4-0902b902055f@huawei.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemk500005.china.huawei.com (7.202.194.90)
 
-Hi,
+在 2026/5/16 11:20, Zhihao Cheng 写道:
+> 在 2026/5/16 5:07, Darrick J. Wong 写道:
+>> [add fuse-devel]
+>>
 
-On Mon, Jun 15, 2026 at 11:43:14AM +0100, Alexandru Elisei wrote:
-> Hi,
+friendly ping
+>> On Thu, May 14, 2026 at 08:41:02PM +0800, Zhihao Cheng wrote:
+>>> When a submount (e.g. virtiofs with fc->auto_submounts=true) is umounted
+>>> while an async RELEASE request is still pending, an illegal inode 
+>>> address
+>>> accessing occurs in fuse_release_end()->iput().
+>>>
+>>> Trigger process:
+>>>   1. virtiofs has a submount; user opens and closes a file under it
+>>>   2. Close calls fuse_file_put() with sync=false, sending RELEASE
+>>>      asynchronously
+>>>   3. fuse_release_end() is scheduled to run later via igrab() holding
+>>>      inode ref
+>>>   4. File is freed, mount/dentry refcounts are released
+>>>   5. User umounts the submount; fuse connection detects remaining
+>>>      superblock and does NOT flush the connection's requests
+>>>   6. generic_shutdown_super() destroys the superblock and poisons busy
+>>>      inodes' inode->i_sb = VFS_PTR_POISON
+>>>   7. Later, fuse_request_end() calls fuse_release_end() which does
+>>>      iput(inode)
+>>>   8. iput() accesses inode->i_sb->s_op at the poisoned address, crash!
+>>>
+>>> There are two solutions to fix it:
+>>>   Solution A: Hold path reference in fuse_file_put, and put path
+>>>   synchronously, which could reintroduce the issue fixed by commit
+>>>   5a18ec176c934 ("fuse: fix hang of single threaded fuseblk 
+>>> filesystem").
+>>>
+>>>   Solution B (chosen): Use synchronous RELEASE for auto_submounts (which
+>>>   is only supported by virtiofs). The virtiofsd(fuse daemon) and 
+>>> virtiofs
+>>>   won't work together under one same kernel instance, so the problem 
+>>> fixed
+>>>   by commit 26e5c67deb2e ("fuse: fix livelock in synchronous file put 
+>>> from
+>>>   fuseblk workers") won't be brought back in virtiofs.
+>>
+>> Does the weird AIO "kernel breaks if you close the fd before all the IOs
+>> complete" behavior happen on virtiofsd?
+>>
 > 
-> On Thu, Jun 11, 2026 at 01:05:07PM +0000, Shivank Garg wrote:
-> > guest_memfd folios are currently marked unmovable, so the kernel cannot
-> > perform NUMA-balancing, memory compaction, etc. This is unavoidable for
-> > confidential VMs (SEV-SNP, TDX), since memory is encrypted and copying it
-> > needs firmware assistance. However, for non-confidential VMs (like
-> > Firecracker), we can migrate the folios.
-> > 
-> > This series enables folio migration for non-confidential guest_memfd and
-> > also lays the groundwork for migrating confidential guest_memfd later.
-> > Once firmware-assisted copying support is available, those VMs can be
-> > made movable, the confidential folio content can be copied separately,
-> > and the destination folio marked with FOLIO_CONTENT_COPIED so
-> > __migrate_folio() skips the host-side folio_mc_copy().
+> Hi Darrick,
+> IMHO, the problem fixed by commit 26e5c67deb2e1f42a9("fuse: fix livelock 
+> in synchronous file put from fuseblk workers") happens as following 
+> process:
+>     fuse user              fuse daemon
+> fd = open(file)
+> io_submit_one
+>   req->ki_filp = fget(iocb->aio_fildes)
+> close(fd) // file->f_ref = 1, file won't be released
+>                          process FUSE_WRITE req
+>                          write(/dev/fuse, reply)
+>                           fuse_request_end
+>                            fuse_aio_complete_req
+>                             aio_complete_rw
+>                              fput(iocb->ki_filp)
+>                               task_work_add
+>                           task_work_run
+>                            __fput
+>                             fuse_release
+>                              __fuse_simple_request
+>                               request_wait_answer
 > 
-> I always thought that one of the nice things about using guest_memfd as a
-> memory backend, as opposed to host userspace mappings, is that the host
-> cannot unmap VM memory because of KSM, automatic NUMA balancing, hugepage
-> collapse, compaction, etc, acting on the host userspace mapping of the
-> VM memory, and outside of the VMM's or KVM's control.
+> For viriofs, the user(virtiofs) runs in kernel A(guest), the 
+> daemon(virtiofsd) runs kernel B(host), and the fuse_request_end is 
+> called by virtio_fs_requests_done_work -> virtio_fs_complete_req_work -> 
+> virtio_fs_request_complete, which is under the kworker context(kernel A, 
+> guest), so it won't block the daemon thread(kernel B, host).
 > 
-> I think it would be useful to preserve this behaviour, even in the absence
-> of confidential VMs (i.e, guest_memfd file descriptor created with
-> GUEST_MEMFD_FLAG_MMAP).
+>> --D
+>>
+>>>
+>>> Fetch a reproducer in 
+>>> https://bugzilla.kernel.org/show_bug.cgi?id=221519.
+>>>
+>>> Fixes: 26e5c67deb2e ("fuse: fix livelock in synchronous file put from 
+>>> fuseblk workers")
+>>> Signed-off-by: Zhihao Cheng <chengzhihao1@huawei.com>
+>>> ---
+>>>   fs/fuse/file.c | 19 +++++++++++++------
+>>>   1 file changed, 13 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+>>> index c59452d60b8d..a6192b96d861 100644
+>>> --- a/fs/fuse/file.c
+>>> +++ b/fs/fuse/file.c
+>>> @@ -375,13 +375,20 @@ void fuse_file_release(struct inode *inode, 
+>>> struct fuse_file *ff,
+>>>        * synchronous RELEASE is allowed (and desirable) in this case
+>>>        * because the server can be trusted not to screw up.
+>>>        *
+>>> -     * Always use the asynchronous file put because the current thread
+>>> -     * might be the fuse server.  This can happen if a process 
+>>> starts some
+>>> -     * aio and closes the fd before the aio completes.  Since aio 
+>>> takes its
+>>> -     * own ref to the file, the IO completion has to drop the ref, 
+>>> which is
+>>> -     * how the fuse server can end up closing its clients' files.
+>>> +     * For auto_submounts (e.g. virtiofs), always use synchronous
+>>> +     * release to avoid illegal inode address access when umount
+>>> +     * happens before async release completes. The async release
+>>> +     * holds inode reference via igrab(), but umount can shutdown
+>>> +     * superblock and poison inode->i_sb before release ends,
+>>> +     * causing crash in fuse_release_end()->iput(). Otherwise,
+>>> +     * always use the asynchronous file put because the current
+>>> +     * thread might be the fuse server. This can happen if a
+>>> +     * process starts some aio and closes the fd before the aio
+>>> +     * completes. Since aio takes its own ref to the file, the IO
+>>> +     * completion has to drop the ref, which is how the fuse server
+>>> +     * can end up closing its clients' files.
+>>>        */
+>>> -    fuse_file_put(ff, false);
+>>> +    fuse_file_put(ff, ff->fm->fc->auto_submounts);
+>>>   }
+>>>   void fuse_release_common(struct file *file, bool isdir)
+>>> -- 
+>>> 2.52.0
+>>>
+>>
+>> .
+>>
+> 
+> 
+> 
+> .
 
-Just to be clear, I was thinking that it might be useful for both
-behaviours to exist (migratable and non-migratable) for non-confidential
-VMs, and allow KVM or userspace to decide which they prefer for a
-guest_memfd.
-
-Thanks,
-Alex
