@@ -1,67 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389DA2F3C0A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 03:45:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942083B0AD1
+	for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 06:25:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781495144; cv=none; b=d8ubqN11gwOtn4aLY96L2CtA50uuiP1cOAoJDOocBdO4YBdrUl24UvoGFUSlam3iSNn8G+hfQeiEl7S40DqLUFY1lvVXyA34M7lyzW5rJw81B2d56zRfmy+36EBXPIpdEF8eYqsAAGU30gStcCkOYYsHAXHVhWFY0F/odEun75U=
+	t=1781504728; cv=none; b=R4XSS+BqfaZ4D+qbjNlSb2ge9JsImohpgCDa7b7FVygTjhW//jHcOVOZMER/ZuTKM96UQStBM+9xpaEbbb0BQTcZXFMYFYGfOux4LL7fcBskGytqnFufpg/iDNWMYbYw2GH6BSHKcvdM+u3Oe5xV2gNHRdBwE9iSdHn5+LGuriQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781495144; c=relaxed/simple;
-	bh=F4/IH2MhMdEjUSge6Ea7srD2Z1f4iqpttsrwy3Wg1lA=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Loc1mWWp3HxF28HpsQtulvbgSh952pZEDRBUWwKmwIRoM2cV3MLeO6AtEjYqtxZZtGqf/HgYgzwvXuirPTSJnTtcg1l/+T2r3Pzviv/aDZXlcwikQntjl2zLiA/Jb1yDGSHCgT/JtNK6ffzBdo6KGKZoN99SXQXxjYks6M+9flg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CrDt3l04; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781504728; c=relaxed/simple;
+	bh=eMpF6TIlf6+lXcDXCRWJ1GSlKGnokAF6Mi84MZza0gc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DUr6LJdV6KKXogqyEQypboJujpllf61K8PUh/hL30IVVW1tZTKH9xoLElSZebtPjKd7IBlCZC76VuDyNu++wu/I6Lg/cmIyI9AqpqJcWm3tx3R530SRffHwukrHJiZlgSjINQeE8AYCD9cWD6mm2pxz5wdAIAdHaA/qqKbBbIX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=ircNaqFJ; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CrDt3l04"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E445F1F00A3A;
-	Mon, 15 Jun 2026 03:45:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781495142;
-	bh=w7UmYijoH69U9ZLwS6WO6IVCo1rA+HeOBpqTPzDy77M=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=CrDt3l04kh8xu1nm1vvNZ+g7nTF8A4uR6bK5TOadAQZC9llSVWAp3jSWKu6Hh9pgy
-	 qCBjPF5LtA4Ye36ir+Ac81BbLB0h0Kf758ulva1yugDxX9jXM8kThfYP6N6T9QtNqW
-	 QihK30PhJKalJu3iSSX6ZIAAzbuU/Unei5zs4PcCJIjx+20t76j8UNOP4BhlSMdnX6
-	 8bUZWhkxN6bK7ANiBqs7mSx0yCdx+kXfPrGTAu46TqvjElD3TTRDp6vOr3HS0n8c/5
-	 k2H/VVfZW8/kFLmsNukBY+J+eiOC0yWmylEM0f94X5gOJB0uwceQgohz9VeEwWXHun
-	 QXqjLvgNkHMxA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 93B4B3A566D6;
-	Mon, 15 Jun 2026 03:45:39 +0000 (UTC)
-Subject: Re: [git pull] configfs cleanups and fixes (with tag on correct branch
- now)
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20260614224400.GT2636677@ZenIV>
-References: <20260519070633.2025485-1-viro@zeniv.linux.org.uk>
- <20260603074815.3033766-1-viro@zeniv.linux.org.uk>
- <20260614223625.GR2636677@ZenIV>
- <20260614223951.GS2636677@ZenIV> <20260614224400.GT2636677@ZenIV>
-X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20260614224400.GT2636677@ZenIV>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git tags/pull-configfs-fixed
-X-PR-Tracked-Commit-Id: d53ac61b6120fa596d758ff6e22b5dcb6db21ce8
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: de02909ae81aa4fda213d16915adb5e1b088a7db
-Message-Id: <178149513829.2410512.294347582100935655.pr-tracker-bot@kernel.org>
-Date: Mon, 15 Jun 2026 03:45:38 +0000
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andreas Hindborg <a.hindborg@kernel.org>, Breno Leitao <leitao@debian.org>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="ircNaqFJ"
+Message-ID: <83f05c55-efba-4bf5-abfe-d2ab0819e904@packett.cool>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
+	s=key1; t=1781504714;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dIagr78v8+wu8I0zN50DJ/gAtpHtsl0YE4lvqsZn4bE=;
+	b=ircNaqFJIqIbLoIQAsKyoXo4rpXEoQiRy6zyFmI9hK3HrAfkw05xW4pZqyr/gEPP8FmgQe
+	YCMXXOF0Ojr6Ke64K6mJnYe9JlDM5n9QaPTquf4RxnS2VJebzilW8irZlVAq2ZBbu8tU3H
+	Ym5nnlp7yvHYcIa6UVoQguJIN6I828BXaZ6Oa3MyWDm++G633gd71/V0K0NJtv18Wf3rcc
+	TGhtZ7HAjNfT3f/melWV8TK5yeAV4SGF18G26grrndY/UhwmBAr77wIkgpV/3r4qCrE+rr
+	yyIzP94mT15QER7XOLBnD39ifvW2hpCx+GHe19vIvRAPUfC7zO4rmCN5XEqkKQ==
+Date: Mon, 15 Jun 2026 03:25:04 -0300
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
+ preadv2/pwritev2
+To: Al Viro <viro@zeniv.linux.org.uk>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Christian Brauner <brauner@kernel.org>, Askar Safin
+ <safinaskar@gmail.com>, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-api@vger.kernel.org, netdev@vger.kernel.org,
+ Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@infradead.org>, David Howells <dhowells@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
+ Miklos Szeredi <miklos@szeredi.hu>, patches@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>,
+ Steven Rostedt <rostedt@goodmis.org>, Joanne Koong <joannelkoong@gmail.com>,
+ fuse-devel <fuse-devel@lists.linux.dev>
+References: <20260531010107.1953702-1-safinaskar@gmail.com>
+ <20260601-enthusiasmus-canceln-anlehnen-0e62317a9784@brauner>
+ <CAHk-=wifX_rrDjRGnDnOqE-usptAukuXKrmuPuVDP5bOCBWzGQ@mail.gmail.com>
+ <20260601173325.GH2636677@ZenIV>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Val Packett <val@packett.cool>
+In-Reply-To: <20260601173325.GH2636677@ZenIV>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-The pull request you sent on Sun, 14 Jun 2026 23:44:00 +0100:
+Hi,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git tags/pull-configfs-fixed
+On 6/1/26 2:33 PM, Al Viro wrote:
+> On Mon, Jun 01, 2026 at 10:17:23AM -0700, Linus Torvalds wrote:
+>
+>> TLDR: maybe we could ghet rid of "f_op->splice_read". *That* would be
+>> a big simplification.
+> FUSE might be interesting - fuse_dev_splice_read() and its ilk.
+> Communications between the kernel and fuse server at least used to
+> seriously want that, so that would be one place to look for unhappy
+> userland...
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/de02909ae81aa4fda213d16915adb5e1b088a7db
+speaking of fuse_dev_splice……_write actually, this series has broken 
+xdg-document-portal!
 
-Thank you!
+https://github.com/flatpak/xdg-desktop-portal/issues/2026
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Specifically what happens is that the EINVAL is returned due to oh.len 
+!= nbytes:
+
+fuse_dev_do_write: oh.len 16400 != nbytes 15526
+
+(where 16400 == 16384 (read len) + 16, 15526 == 15510 (file len) + 16)
+
+After reverting the series, there is no error because oh.len 
+becomes 15526 too.
+
+
+Thanks,
+~val
+
