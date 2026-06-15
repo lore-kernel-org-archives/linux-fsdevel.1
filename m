@@ -1,87 +1,41 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67A235C183
-	for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 13:29:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48583ED135;
+	Mon, 15 Jun 2026 13:30:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781530182; cv=none; b=guFluZ42TpBDkrhJgeUoaNnG5Q3fkD1ygVMB2GKqDEsJoENbnVc3FkxUgdtNBp6X7RnEmNgtRCIcpP5ctTRobBZsJ3yjUbbEZCe/maHCGehXDeUJfbnYn8Nb/Buym0G1aB1PUH/20vjd6AlIGPsgU45CpPsVmPxIDc2jnGoWMGw=
+	t=1781530239; cv=none; b=YJtd5QSRDpvZSI8EpWrmh1yJvYQ83o/X3ruPm89DMsn5w1M0J2RTv1lmtgQPQxYlQnNlX98bSR+Kdiio+TjdZoTmB6fzIbRDnJhkXchbRfIdwu/MbzyfEUALWL95liFY7Aoo5MpDQof1qbe7BEO0rbfJx53mSr49ucZ/n6FBHrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781530182; c=relaxed/simple;
-	bh=Z5WEcTbnw8dJFQALBDyGdbb8qPes1CMPzIDC3IEn7EQ=;
+	s=arc-20240116; t=1781530239; c=relaxed/simple;
+	bh=LGXIGJ4csUc8dv0WB+8wcc6u6scVHT1P3P0HRWfNx4o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bmXi5AQbuJpiDUf8Gayx1CTLYuAyGojFfMnZzkHhCKHyh1Nm8QY232wg9bdHDjgxNAgirmFDj6bS5VnxbJg+BDYsd/oz1Sk3kOFm3VR1GSopU/PtVusEMp5jv8Btu0NMzVN0sCOT+nIgZfAIoju7e4W/+5+rFTn5kkUG1iyTQlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=naDyi8Lp; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=WaLzVvls; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=naDyi8Lp; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=WaLzVvls; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="naDyi8Lp";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="WaLzVvls";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="naDyi8Lp";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="WaLzVvls"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BC2346BE34;
-	Mon, 15 Jun 2026 13:29:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1781530178; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AKzzaIUk6q+RoR55mBvAuMO81At1sdvUsJ55ZSemqt0=;
-	b=naDyi8LpBkykzyfrTm+hvF0VoKuM30HcDkj0sDTYAOnSu43vXbva7H0LXFdf1v3WS4ICue
-	1nLquzqMyVqsH33wDGIlOr2tMAWc+9bU/kOEb179/GYeAHA94J7KLqHEhIuuOFghuuAtNl
-	QSq++4xdfE32Tfe9VG5N+yMU1oHyQ9s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1781530178;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AKzzaIUk6q+RoR55mBvAuMO81At1sdvUsJ55ZSemqt0=;
-	b=WaLzVvlseN/TyIFDfxKdtsJCJYMlSiKn/MXGUMQwoeoME6s2X8i/qbFdLULSgjbwgzY/4K
-	Mx3UXWUd2Y/JGiAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=naDyi8Lp;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=WaLzVvls
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1781530178; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AKzzaIUk6q+RoR55mBvAuMO81At1sdvUsJ55ZSemqt0=;
-	b=naDyi8LpBkykzyfrTm+hvF0VoKuM30HcDkj0sDTYAOnSu43vXbva7H0LXFdf1v3WS4ICue
-	1nLquzqMyVqsH33wDGIlOr2tMAWc+9bU/kOEb179/GYeAHA94J7KLqHEhIuuOFghuuAtNl
-	QSq++4xdfE32Tfe9VG5N+yMU1oHyQ9s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1781530178;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AKzzaIUk6q+RoR55mBvAuMO81At1sdvUsJ55ZSemqt0=;
-	b=WaLzVvlseN/TyIFDfxKdtsJCJYMlSiKn/MXGUMQwoeoME6s2X8i/qbFdLULSgjbwgzY/4K
-	Mx3UXWUd2Y/JGiAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B2235779AC;
-	Mon, 15 Jun 2026 13:29:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id si94K0L+L2rYMQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 15 Jun 2026 13:29:38 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 4B4E0A12D2; Mon, 15 Jun 2026 15:29:38 +0200 (CEST)
-Date: Mon, 15 Jun 2026 15:29:38 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH 1/2] fs: refuse O_TMPFILE creation with an unmapped fsuid
- or fsgid
-Message-ID: <mql62afhd3dsdz3xguzqvuukye3oyz42yhcbkwb544xtg5sn5i@vstfaw4irqlt>
-References: <20260615-work-idmapped-tmpfile-v1-0-754a94d81f83@kernel.org>
- <20260615-work-idmapped-tmpfile-v1-1-754a94d81f83@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=bADUlQ6ozkutBZPF9R9B2gt7xIzmujQi7OtOD3fW7FMZ53bKOnear2pY6MhBbT2ZJQuQ7wbtcyCyGlqfpr7psBwImS55egfQwEMrDNIR3w4aOQqb3Bk0hhsVpSSxfwmtF61Ng8vzB0U8KIMipfRQA99esGAU3IiFfp+cIsfBJ3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf18.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay06.hostedemail.com (Postfix) with ESMTP id 47D551C443A;
+	Mon, 15 Jun 2026 13:23:32 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf18.hostedemail.com (Postfix) with ESMTPA id 553C031;
+	Mon, 15 Jun 2026 13:23:28 +0000 (UTC)
+Date: Mon, 15 Jun 2026 08:23:27 -0500
+From: John Groves <John@groves.net>
+To: "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Cc: John Groves <john@jagalactic.com>, Dan Williams <djbw@kernel.org>, 
+	John Groves <jgroves@micron.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Alison Schofield <alison.schofield@intel.com>, 
+	Ira Weiny <iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V5 6/9] dax/fsdev: fail probe on invalid pgmap offset
+Message-ID: <ai_8vtqO6FYQfAFH@groves.net>
+References: <0100019eb7bcda4b-3f8edae9-d7a4-4bfa-aaea-fcef77fdbbc3-000000@email.amazonses.com>
+ <20260611173225.66002-1-john@jagalactic.com>
+ <0100019eb7be3bc2-972d848b-bc38-4b24-9ee1-f0dd5610355f-000000@email.amazonses.com>
+ <56fbc3f1-2b26-4d8c-9a1a-42a80f2b6bdf@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -90,93 +44,35 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260615-work-idmapped-tmpfile-v1-1-754a94d81f83@kernel.org>
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: BC2346BE34
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim,suse.com:email];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+In-Reply-To: <56fbc3f1-2b26-4d8c-9a1a-42a80f2b6bdf@amd.com>
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: 553C031
+X-Stat-Signature: w1kyk6ubz3birz9y8rfbk9rpt693jy6u
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX19QLsiYH2e+TW39m2EZyprxRtIXXUlxX6A=
+X-HE-Tag: 1781529808-14454
+X-HE-Meta: U2FsdGVkX1/8qb6Dcc7pqizPHOtCdYa2fVR8ijoQ0j8EQ70kuTjeQLlO2fZtjjg+mlWFTD5fJgbUbzCOJYJl/Ujjuoxnk2GpwOjyKOEmedqmeuh21MkLlqCodm2gNUosnAoQ9gmougrxSdtBRTQ+lQ3p/C9Qa+2+ygwzAIi9lJk6ViRVV9t3Yo1yBSGKx5RQWmFVtjK+tUq4vAKNJX1olaA5GKsGmaKiWUfpGZEm9rAX+WgJA5gI9UXbMqXvNMzhg2m3BRFbTIfJV0bG3xaflF/r/uzzAS38rSTCsX2WrzoJYFLsJmHTBUmuM7r5nlRF+mONAgOzQ4bl5JGeRcuu342Z0G8d6gO7LN5iBBjLm18I8AonRduKZSSM0cDYQiZayPGG/9mt1KmgEU7k0gLwin3+8ejVOCeGshhE1KHVV7w=
 
-On Mon 15-06-26 14:52:18, Christian Brauner wrote:
-> vfs_tmpfile() never checked that the caller's fsuid and fsgid map into
-> the filesystem.  On an idmapped mount whose idmapping does not cover the
-> caller's fs{u,g}id, the ->tmpfile() instance initializes the new inode
-> through inode_init_owner(), where mapped_fsuid()/mapped_fsgid() return
-> INVALID_UID/INVALID_GID, and the tmpfile ends up owned by (uid_t)-1.
+On 26/06/11 08:09PM, Gupta, Pankaj wrote:
 > 
-> Every other creation path already refuses this: may_o_create() (O_CREAT)
-> and may_create_dentry() (mkdir, mknod, symlink, link) bail out with
-> -EOVERFLOW via fsuidgid_has_mapping() precisely so that an object cannot
-> be created with an owner the filesystem cannot represent.  An O_TMPFILE
-> is no exception: it is created I_LINKABLE and linkat(2) can splice it
-> into the namespace afterwards, so the same guarantee must hold.
+> > From: John Groves <John@Groves.net>
+> > 
+> > Convert the WARN_ON to a fatal error when pgmap_phys > phys. This
+> > condition means the remapped region starts after the device's data
+> > region, which is an impossible state. Previously the probe continued
+> > with data_offset=0, leaving virt_addr silently misaligned. Now probe
+> > returns -EINVAL with a diagnostic message.
+> > 
+> > Fixes: 759455848df0b ("dax: Save the kva from memremap")
+> > 
+> > Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> > Reviewed-by: Alison Schofield <alison.schofield@intel.com>
+> > Signed-off-by: John Groves <john@groves.net>
 > 
-> Add the missing fsuidgid_has_mapping() check to vfs_tmpfile().  On a
-> non-idmapped mount the caller's fs{u,g}id always map in the superblock's
-> user namespace, so this is a no-op there and only takes effect on an
-> idmapped mount that does not map the caller.  It applies to every
-> filesystem that sets FS_ALLOW_IDMAP and implements ->tmpfile() (tmpfs,
-> ext4, btrfs, xfs, f2fs, ...), and to overlayfs, whose upper-layer
-> tmpfile creation funnels through vfs_tmpfile() via backing_tmpfile_open().
-> 
-> Fixes: 8e5389132ab4 ("fs: introduce fsuidgid_has_mapping() helper")
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> Reviewed-by: Pankaj Gupta <pankaj.gupta@amd.com>
 
-Good catch! Feel free to add:
+Thank you!
+John
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+<snip>
 
-								Honza
-
-> ---
->  fs/namei.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/fs/namei.c b/fs/namei.c
-> index c7fac83c9a85..c11fdd196b41 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -4735,6 +4735,10 @@ int vfs_tmpfile(struct mnt_idmap *idmap,
->  	int error;
->  	int open_flag = file->f_flags;
->  
-> +	/* A tmpfile is I_LINKABLE, so guard its owner like may_o_create(). */
-> +	if (!fsuidgid_has_mapping(dir->i_sb, idmap))
-> +		return -EOVERFLOW;
-> +
->  	/* we want directory to be writable */
->  	error = inode_permission(idmap, dir, MAY_WRITE | MAY_EXEC);
->  	if (error)
-> 
-> -- 
-> 2.47.3
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
