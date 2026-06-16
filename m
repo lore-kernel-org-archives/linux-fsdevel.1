@@ -1,72 +1,73 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A683D7D78
-	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 05:55:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04313C1970
+	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 06:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781589302; cv=none; b=pKoHhkOTjqlawu7FrmKpoNm5T0Nc5X7/I5kl+VXaWL0W56oYOXsJeHMD3glT89B9qAg7e2pgKZ29utpeQlwg0NJUI3Gk7imznQH480r9QK0VKurPQdinaIREXVRDQmOat4berrYmpL3/8+kZ02Ftq2GfFctsyVTdaUDjqctqpR8=
+	t=1781590721; cv=none; b=LoDYNRC0DJueZwEyJxYmHme7AZSfhHaax6RnaQpW1ZOWjly9mdGAtBXERzYKOTMN50UtOn7lU3HYvS6VhpTe3EHHEVLH5vUfSZqsH5B/OSZToAEgeV23Ve91GXSZXvZSSe/BqN6nWaUzdZkjNn9QncUGiR/gKQC6kea2nSmoIqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781589302; c=relaxed/simple;
-	bh=bUF0WWM/m3OaIUFsDDSwWLaisMG6lHQGDTvC/M/rkrk=;
-	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=dCl/cR+R0IvWEfBh/Qa454uy529oH7f0iEjyDNr3T62ygE3z3Xqn7qXfdRY4/+iNwqUlCANE6WoTGvGPREqWdBYp6mulZhpNI2wlNnGm5qaABqSiVVo93xVs48RwZ5yBduoNPnpXrCos3NYpg7DoIj4QnYe0vJDwaxxLxVBzUC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=XPgMjkKU; arc=none smtp.client-ip=209.85.208.177
+	s=arc-20240116; t=1781590721; c=relaxed/simple;
+	bh=AxUlvz0jKM/mTPX63rOzUbcs9rJUpmquvwyE17UGtaQ=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=SyXBaRzypAs+7kbdTGDTsPmigfbvLHIhfYDfIjjJqX0s5YSgcNvmtfMHifBWhRkqnDta70rP0uOdibusthhD349fQwitYReUTcXu6xS1ds0hk//Vfk0U+vfU0YJvgjBqAXUA+kfSxjV2tnhqAa5cSdmTMUqa3L8nITxx8MWWNcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=hv2r2u1R; arc=none smtp.client-ip=209.85.167.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="XPgMjkKU"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-3967738c801so35248681fa.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 22:55:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="hv2r2u1R"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5aa5f11deb2so4707381e87.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 23:18:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1781589299; x=1782194099; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt:date:cc
-         :to:from:subject:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AqgXefFuOd3LpRQqkqqqOZeyN+jGArCTQFfTEtCT6Rs=;
-        b=XPgMjkKU1IpIOfZL78Du1QJKWtgSlT1Nhi/mNDT7s+tMKqwSgZXHzI32kCLhDwpRWk
-         JS2Pw5LRDT9d8ByZn+N6dGnAwFqRTPY/U1WNjESTAiovGH1tHhGjNFPllehGFFNDpHmo
-         5B0aFO4hMSUEfB3iWZ85GlWLm0djtuMvldkuZWY1j37LpSlxjXX4B9NKgzlrzP+HwCRV
-         iNSVq4CN+37lKPQ1wYqCDCdg4WJidJL5OSIuO+3Ge3ZclariEoyzXBQlY8LiqnFmOBdB
-         +Ju5YRcHB6R2iG5OxR+suGp4C/x0Yi/Di5qO9y6JyIRNGQvrTDJA6g/ChiJMKcwwcBjw
-         gHvw==
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1781590717; x=1782195517; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=dbtzrA9lzbQ25gtyd1mUa09G2mp8hWm3XJb/VcbI/4I=;
+        b=hv2r2u1RRqebVVF7hGW9CmsH5I4qRSKQJuzpAN5civyWRAcQ3iQarCZT59NjMeYsf+
+         vo1gKqF+sN5qw8FiIBV5Pecfk1ysbjpagQR+WLdWerhehnXBimEf2n40fR28xOvoIh7m
+         TqKu+j4OfnM808Du0LA/AZFGUgc3afDRZcP1gy8uNbs7vAa2RY13HLm3wKLSb3BGdQnw
+         BNYltmT0Svc5E1EsCdH1GHTYZdgcTjFmpVd6htLOgIomQeO1A7B31K1p5mjDVJZ7Fg3e
+         nMSL1AMiq5KIYVxHhJi23S8fFGGIyShOzb9DE7HQpI7LPUR+sleifKXrvr1IOAIXDOmG
+         Wf0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781589299; x=1782194099;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt:date:cc
-         :to:from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AqgXefFuOd3LpRQqkqqqOZeyN+jGArCTQFfTEtCT6Rs=;
-        b=F9pHj+SxIFTCnmRKhJcxEDBahHTljIuCK2gvYGHKH4/AzrStVpu+0MndV5ZD8q3jw4
-         gr9RcnqSblUuT1b2mPSbTpWykPCMYymqaOtPz5qxnI1Z+E657QZFUgA0woJCQpPqCNaz
-         nXISgp2c8L2C4vll97DilD3+f4PUbzus8meuLab66u0F3Hl/kQdx4dHo5Nt3O0GIk9RG
-         RznQCl/IVztXbyExUtuNvh46Q84R3Yq3uhwwBrZafkr435hnY4cJEEJoHMKwlEYnQBEn
-         B2mXPTb9TCZwDCy4LXWbZYf++CBzt5dagtOM338vZW+ln3ESOEYObCFO0U0XYK/MpUXP
-         Mdew==
-X-Forwarded-Encrypted: i=1; AFNElJ9Y2RIbevk1y1U4Yh/kaLML8ZWF9N56C7ajrFVMua7NOQt4SeRpDGRLmFHYmQFK9pNTPKOFQhbfDabKwjKB@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+Ss/0Ap/uGbD482WRJg54oN2FhExbQzcyZUojPgn+f2KS9JVj
-	Autimo12vAAExhLi13ZPUVyvN0nzqEEqyKMoQKNItKwtrBdyzXRuSgqqEDB24YW8JhE=
-X-Gm-Gg: Acq92OHkuzGhYAgs59XyubIIbzdwp5ykKZvNG2kNpzinN06Um2RUW2VlvcsmBW6q5N4
-	U816gG4UcaRjUKz1Ezc6QJMaXu3733TVOkdmxdN+QNXw+03GVMRSXSd+c731eA6hItQMIsQxLQb
-	oNm5V/G5BcrwAd2A909a5F+BRcJG+F5yiGgIrJ4QXyZ7EYWY3t4lz5bk9vj6BZjSvCF4iL2kkun
-	ASH2AbW7RvpGne1ErmFN7XloMcHtK6bpXSYMeWiCkXcAf/3ecYyHkY2IPlL1Dtek7CR6famRni5
-	ub8m8TbJzWNjlEWskIj73kdTYExMTETPpP2cIgQ5E4dJoRCdSQIzDL/KwLKvZxKzrcMdJnEe7Xf
-	iRP028NT9UBShKUIy5oSuDEkJkfrHcfI4GlEN7te3Na405VKzSewtno+QcGdvjCY9ys6dnsCo1O
-	ZYVLM1dw5zQPlkvGt0xl75TGKqGY/ZfLHaNqz7uCi/x7l1M2rvCvs/ovcOehYUCW7fTyrihifwL
-	ppD66slhveSFOJkREuY
-X-Received: by 2002:a2e:a80e:0:b0:396:6bd5:a9c7 with SMTP id 38308e7fff4ca-3995c85103dmr5860411fa.19.1781589299019;
-        Mon, 15 Jun 2026 22:54:59 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781590717; x=1782195517;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dbtzrA9lzbQ25gtyd1mUa09G2mp8hWm3XJb/VcbI/4I=;
+        b=J5qD9rkEo9qQzmUq4EMZ4F6RBbiC4LiCegm8dwEXLUIH9GIdnb1ypl4LDy91orEM+l
+         HtgGLZABss7SzGn8waMf3gAhYHx4cCAqba3ma2iXLXnoHmr+q7qmXumrQ1Cb8EdV2wK4
+         XYk6sKbvBq5dA3gR3KhdOn4rPypqG9cD6lQw8bef2kCoqlal3xgL0xfCLCpEYL9DJD+o
+         Voz+UDv8jZ44OuQaj6NU8dmO97gZDrAEJ1KgGrWWwV1r/kA3br5HZpI31PQVtzkYlNHW
+         3xgKdRztwyfkwDmPHmp5+XEHLI/qgU39cEGW7tTDHpse1xpjRA2S79k4OBF0eW3zjnOY
+         PtQg==
+X-Gm-Message-State: AOJu0YzSukUuX9lnX/bp5fdhRiWdNTM1qNsh2y2lp4HLciNawUz/Am4d
+	SjmXRzA9kh1yPytR3iz3PPhP1XIDdXLXAnIyx0RMjq1vGP8yKBiZbYOhg2D6cxE4SbA=
+X-Gm-Gg: Acq92OGnckwi+BRUAqu811XcgWUHzOlN9yNna2AUK+Yc9vw9KFQKQ2RgnR3af01blRy
+	ddHeM+hmdb72XNEeRFuXl7cQiM0TOYq/47BzUGDDflnArnhrco9xNUXB/z9z6q0XEcr9eG28H7n
+	31Pvsj2mvcIJtyOOtCiqJiXjy6l+mBpvKSHXtKNno5rkI+xEaJtw7QZXzYch9ILIivtLAw4bVWg
+	+t7DNNgxGYIdemRE63CcunRHnaDGZHRVIye6fD4c6E5zcCCJKBGAu6CUEHRE5+uv1ty1OIeupRy
+	mHXIxafQ6vXEyyWL7kBMUQs1c7gF8WWGODsN4iYe/G31oVvTZcZg1ox50vJU3tonsz4ZaYsoPal
+	IKG9940Iik2ms5pT0ymfRSvwUZFUYJUjtlPVNWBBqjOHf/+4zES2elKG9keeH4otpv0uZXz37wq
+	UO5BWWQGx50i5PDRgxOd1gtKo8lLvJ2ojiKbdgOSVHA2lk7sOybufjraHYnyyOk12cpXqCsC5+E
+	8vH/bVeQw==
+X-Received: by 2002:ac2:54a3:0:b0:5aa:7880:5246 with SMTP id 2adb3069b0e04-5ad427a8fc5mr574471e87.31.1781590716631;
+        Mon, 15 Jun 2026 23:18:36 -0700 (PDT)
 Received: from [192.168.3.148] ([31.23.24.48])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3995c1918a1sm4087581fa.19.2026.06.15.22.54.57
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5ad4090e632sm611496e87.8.2026.06.15.23.18.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 22:54:58 -0700 (PDT)
-Message-ID: <6865b4242f6352ef0b2b40a9cf7a85d12464279e.camel@dubeyko.com>
-Subject: [GIT PULL] nilfs2 changes for 7.2-rc1
+        Mon, 15 Jun 2026 23:18:36 -0700 (PDT)
+Message-ID: <87ee43f4be0098fe843a70702c41f405b7580755.camel@dubeyko.com>
+Subject: Re: [PATCH v3] hfs: avoid deadlock in hfs_mdb_commit()
 From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: torvalds@linux-foundation.org
-Cc: linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, konishi.ryusuke@gmail.com,
- kartikey406@gmail.com, 	shuangpeng.kernel@gmail.com,
- zenghongling@kylinos.cn, Slava.Dubeyko@ibm.com
-Date: Mon, 15 Jun 2026 22:54:56 -0700
+To: Yue Sun <samsun1006219@gmail.com>, glaubitz@physik.fu-berlin.de, 
+	frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Mon, 15 Jun 2026 23:18:33 -0700
+In-Reply-To: <20260613054702.54437-1-samsun1006219@gmail.com>
+References: <20260529103428.99099-1-samsun1006219@gmail.com>
+	 <20260613054702.54437-1-samsun1006219@gmail.com>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -121,72 +122,203 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Hello Linus,
+On Sat, 2026-06-13 at 13:47 +0800, Yue Sun wrote:
+> From: Sam Sun <samsun1006219@gmail.com>
+>=20
+> hfs_mdb_commit() currently uses the primary MDB buffer lock as a
+> broad
+> commit lock. It keeps HFS_SB(sb)->mdb_bh locked while it may also
+> write
+> the alternate MDB and the volume bitmap.
+>=20
+> This can deadlock. A corrupted image can set drVBMSt so that the
+> bitmap
+> block maps to the same buffer_head as the primary MDB. The bitmap
+> writeback path then calls lock_buffer() on the same buffer_head while
+> mdb_bh is already locked by hfs_mdb_commit(). A similar locking
+> problem
+> can also happen on valid images when hfs_mdb_commit() performs I/O
+> while
+> mdb_bh remains locked.
+>=20
+> Do not use mdb_bh as the HFS commit serialization lock. Add an HFS-
+> level
+> mdb_lock and take it around hfs_mdb_commit() callers. Then keep
+> mdb_bh
+> locked only while updating the primary MDB buffer and marking it
+> dirty.
+>=20
+> The catalog/extents fork records and sizes are fields in the primary
+> MDB,
+> so update them in the primary MDB write section, not in the alternate
+> MDB
+> section. The alternate MDB sync and bitmap writeback then run after
+> mdb_bh has been unlocked.
+>=20
+> HFS_FLG_ALT_MDB_DIRTY is set together with HFS_FLG_MDB_DIRTY when the
+> catalog or extents overflow files grow, so the primary MDB fork
+> records
+> are refreshed before the alternate MDB copies the primary MDB
+> contents.
+>=20
+> Reported-by: Sam Sun <samsun1006219@gmail.com>
+> Closes:
+> https://lore.kernel.org/all/CAEkJfYMB47v1yOWHB8q2dc8kf=3Duj-rLO=3D+yMyudw=
+PguJ8Kd3jA@mail.gmail.com/
+> Suggested-by: Viacheslav Dubeyko <slava@dubeyko.com>
+> Signed-off-by: Sam Sun <samsun1006219@gmail.com>
+> ---
+> Changes in v3:
+> - Follow Viacheslav's suggestion to move hfs_inode_write_fork() into
+> =C2=A0 the primary MDB write section.
+> - Rework the fix as MDB commit locking instead of corrupted-layout
+> =C2=A0 validation.
+> - Add mdb_lock to serialize HFS MDB commits.
+> - Keep mdb_bh locked only while updating the primary MDB buffer.
+> - Leave alternate MDB sync and bitmap writeback outside the mdb_bh
+> lock.
+>=20
+> Changes in v2:
+> - Added a commit-time guard before locking volume bitmap
+> buffer_heads.
+> - Replaced the v1 bitmap byte-range check with a simple drVBMSt
+> check.
+> - Reused the existing bitmap writeback size calculation.
+>=20
+> v1:
+> - Initial mount-time check rejecting volume bitmap/MDB aliasing.
+>=20
+> =C2=A0fs/hfs/hfs_fs.h |=C2=A0 1 +
+> =C2=A0fs/hfs/mdb.c=C2=A0=C2=A0=C2=A0 | 15 ++++++++-------
+> =C2=A0fs/hfs/super.c=C2=A0 |=C2=A0 9 +++++++++
+> =C2=A03 files changed, 18 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/fs/hfs/hfs_fs.h b/fs/hfs/hfs_fs.h
+> index ac0e83f77a0f..00651f42ba38 100644
+> --- a/fs/hfs/hfs_fs.h
+> +++ b/fs/hfs/hfs_fs.h
+> @@ -66,6 +66,7 @@ struct hfs_inode_info {
+> =C2=A0 * The HFS-specific part of a Linux (struct super_block)
+> =C2=A0 */
+> =C2=A0struct hfs_sb_info {
+> +	struct mutex mdb_lock;			/* MDB operations
+> lock */
+> =C2=A0	struct buffer_head *mdb_bh;		/* The hfs_buffer
+> =C2=A0						=C2=A0=C2=A0 holding the real
+> =C2=A0						=C2=A0=C2=A0 superblock (aka
+> VIB
+> diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
+> index a97cea35ca2e..c2f4bda6fd00 100644
+> --- a/fs/hfs/mdb.c
+> +++ b/fs/hfs/mdb.c
+> @@ -291,8 +291,9 @@ void hfs_mdb_commit(struct super_block *sb)
+> =C2=A0	if (sb_rdonly(sb))
+> =C2=A0		return;
+> =C2=A0
+> -	lock_buffer(HFS_SB(sb)->mdb_bh);
+> =C2=A0	if (test_and_clear_bit(HFS_FLG_MDB_DIRTY, &HFS_SB(sb)-
+> >flags)) {
+> +		lock_buffer(HFS_SB(sb)->mdb_bh);
+> +
+> =C2=A0		/* These parameters may have been modified, so write
+> them back */
+> =C2=A0		mdb->drLsMod =3D hfs_mtime();
+> =C2=A0		mdb->drFreeBks =3D cpu_to_be16(HFS_SB(sb)-
+> >free_ablocks);
+> @@ -305,8 +306,14 @@ void hfs_mdb_commit(struct super_block *sb)
+> =C2=A0		mdb->drDirCnt =3D
+> =C2=A0			cpu_to_be32((u32)atomic64_read(&HFS_SB(sb)-
+> >folder_count));
+> =C2=A0
+> +		hfs_inode_write_fork(HFS_SB(sb)->ext_tree->inode,
+> mdb->drXTExtRec,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 &mdb->drXTFlSize, NULL);
+> +		hfs_inode_write_fork(HFS_SB(sb)->cat_tree->inode,
+> mdb->drCTExtRec,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 &mdb->drCTFlSize, NULL);
+> +
+> =C2=A0		/* write MDB to disk */
+> =C2=A0		mark_buffer_dirty(HFS_SB(sb)->mdb_bh);
+> +		unlock_buffer(HFS_SB(sb)->mdb_bh);
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	/* write the backup MDB, not returning until it is written.
+> @@ -314,11 +321,6 @@ void hfs_mdb_commit(struct super_block *sb)
+> =C2=A0	 * files grow. */
+> =C2=A0	if (test_and_clear_bit(HFS_FLG_ALT_MDB_DIRTY, &HFS_SB(sb)-
+> >flags) &&
+> =C2=A0	=C2=A0=C2=A0=C2=A0 HFS_SB(sb)->alt_mdb) {
+> -		hfs_inode_write_fork(HFS_SB(sb)->ext_tree->inode,
+> mdb->drXTExtRec,
+> -				=C2=A0=C2=A0=C2=A0=C2=A0 &mdb->drXTFlSize, NULL);
+> -		hfs_inode_write_fork(HFS_SB(sb)->cat_tree->inode,
+> mdb->drCTExtRec,
+> -				=C2=A0=C2=A0=C2=A0=C2=A0 &mdb->drCTFlSize, NULL);
+> -
+> =C2=A0		lock_buffer(HFS_SB(sb)->alt_mdb_bh);
+> =C2=A0		memcpy(HFS_SB(sb)->alt_mdb, HFS_SB(sb)->mdb,
+> HFS_SECTOR_SIZE);
+> =C2=A0		HFS_SB(sb)->alt_mdb->drAtrb |=3D
+> cpu_to_be16(HFS_SB_ATTRIB_UNMNT);
+> @@ -360,7 +362,6 @@ void hfs_mdb_commit(struct super_block *sb)
+> =C2=A0			size -=3D len;
+> =C2=A0		}
+> =C2=A0	}
+> -	unlock_buffer(HFS_SB(sb)->mdb_bh);
+> =C2=A0}
+> =C2=A0
+> =C2=A0void hfs_mdb_close(struct super_block *sb)
+> diff --git a/fs/hfs/super.c b/fs/hfs/super.c
+> index a4f2a2bfa6d3..06ab904b3a42 100644
+> --- a/fs/hfs/super.c
+> +++ b/fs/hfs/super.c
+> @@ -35,7 +35,11 @@ MODULE_LICENSE("GPL");
+> =C2=A0static int hfs_sync_fs(struct super_block *sb, int wait)
+> =C2=A0{
+> =C2=A0	is_hfs_cnid_counts_valid(sb);
 
-This pull request contains fixes of syzbot reported issue and
-various small fixes in NILFS2 functionality.
+I think that is_hfs_cnid_counts_valid() is better to check under lock.
 
-Deepanshu Kartikey has fixed syzbot reported issue of a hung
-task in nilfs_transaction_begin(). The root cause is that
-user-supplied segment numbers are not validated before
-nilfs_clean_segments() begins doing work; the range check on
-each segnum is performed deep inside the call chain by
-nilfs_sufile_updatev(), which emits a nilfs_warn() per invalid entry
-while still holding the segctor lock and the sufile mi_sem.
-Fix it by validating the contents of kbufs[4] in nilfs_clean_segments()
-immediately after acquiring ns_segctor_sem via
-nilfs_transaction_lock().
+> +
+> +	mutex_lock(&HFS_SB(sb)->mdb_lock);
+> =C2=A0	hfs_mdb_commit(sb);
+> +	mutex_unlock(&HFS_SB(sb)->mdb_lock);
+> +
+> =C2=A0	return 0;
+> =C2=A0}
+> =C2=A0
+> @@ -68,7 +72,9 @@ static void flush_mdb(struct work_struct *work)
+> =C2=A0
+> =C2=A0	is_hfs_cnid_counts_valid(sb);
+> =C2=A0
+> +	mutex_lock(&sbi->mdb_lock);
+> =C2=A0	hfs_mdb_commit(sb);
+> +	mutex_unlock(&sbi->mdb_lock);
+> =C2=A0}
+> =C2=A0
+> =C2=A0void hfs_mark_mdb_dirty(struct super_block *sb)
+> @@ -339,9 +345,12 @@ static int hfs_fill_super(struct super_block
+> *sb, struct fs_context *fc)
+> =C2=A0	sb->s_op =3D &hfs_super_operations;
+> =C2=A0	sb->s_xattr =3D hfs_xattr_handlers;
+> =C2=A0	sb->s_flags |=3D SB_NODIRATIME;
+> +	mutex_init(&sbi->mdb_lock);
+> =C2=A0	mutex_init(&sbi->bitmap_lock);
+> =C2=A0
+> +	mutex_lock(&sbi->mdb_lock);
+> =C2=A0	res =3D hfs_mdb_get(sb);
+> +	mutex_unlock(&sbi->mdb_lock);
+> =C2=A0	if (res) {
+> =C2=A0		if (!silent)
+> =C2=A0			pr_warn("can't find a HFS filesystem on dev
+> %s\n",
 
-Hongling Zeng has fixed a smatch warning in nilfs_mkdir() warn.
-The patch corrects a semantic issue related to the use of the ERR_PTR
-macro that arose from a recent VFS change.
+I think we cannot completely eliminate the potential deadlock or race
+condition until introduction of copy of MDB record in memory but not
+accessing it in buffer head. Because, hfs_mdb_commit() uses the primary
+MDB record's values during alternative MDB record and volume bitmap
+processing. The fix looks much cleaner now. But we need to add more
+functionality if we really would like to eliminate the issue.
 
-Shuangpeng Bai has fixed a backing_dev_info reference leak.
-The setup_bdev_super() already initializes sb->s_bdev and takes a
-reference on the block device backing_dev_info when assigning sb-
->s_bdi.
-nilfs_fill_super() takes another reference to the same
-backing_dev_info and stores it in sb->s_bdi again. The extra
-reference is not paired with a matching bdi_put(), since
-generic_shutdown_super() releases sb->s_bdi only once.
-Drop the redundant bdi_get() in nilfs_fill_super(). The single
-reference taken by setup_bdev_super() is enough and is released
-during superblock shutdown.
-
-The following changes since commit
-254f49634ee16a731174d2ae34bc50bd5f45e731:
-
-  Linux 7.1-rc1 (2026-04-26 14:19:00 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/vdubeyko/nilfs2.git
-tags/nilfs2-v7.2-tag1
-
-for you to fetch changes up to
-e5925f33e4fa9ee313d481557607adce8e30ed2e:
-
-  nilfs2: Fix return in nilfs_mkdir (2026-05-20 11:20:56 -0700)
-
-----------------------------------------------------------------
-nilfs2 updates for v7.2
-
-- nilfs2: Fix return in nilfs_mkdir
-- nilfs2: fix backing_dev_info reference leak
-- nilfs2: reject CLEAN_SEGMENTS ioctl with out-of-range segment numbers
-
-----------------------------------------------------------------
-Deepanshu Kartikey (1):
-      nilfs2: reject CLEAN_SEGMENTS ioctl with out-of-range segment
-numbers
-
-Hongling Zeng (1):
-      nilfs2: Fix return in nilfs_mkdir
-
-Shuangpeng Bai (1):
-      nilfs2: fix backing_dev_info reference leak
-
- fs/nilfs2/namei.c   |  2 +-
- fs/nilfs2/segment.c | 22 ++++++++++++++++++++++
- fs/nilfs2/super.c   |  2 --
- 3 files changed, 23 insertions(+), 3 deletions(-)
+Thanks,
+Slava.
