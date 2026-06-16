@@ -1,121 +1,81 @@
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585EE3D88F6
-	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 18:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522A32C0261;
+	Tue, 16 Jun 2026 18:48:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781634107; cv=none; b=clAYLx1r4xnKO1GY9NVPvoxg3391BvYRblLqXndinLIXvsHsMpye5npL+GBiV3LP5HPhKDVI1ygv/BlW9lFQroN+XfClPkODPQZ2cY9HLPCGF4/iGIbTYDfqgYhLPcGer0dHtwMN4yBu+m7Vpnp+JTEgJFW48JPRF6YnvEOGY5Y=
+	t=1781635698; cv=none; b=ZwVJ7sl3oWaeBQsLqEQh+BC0lSyXIEevoG9cYHQyq+jWc6hL4eAFx9N0ELPXfnv1CKnrH8jXzYv/3O+gQKzN1Ih1mLwnSKd+jbjJjKVv763UPV/2iOpyr0h0XySYxn6jJa82QsQrSYWgqq/11vYsK/hqmbjthvzIBal/KgCb24E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781634107; c=relaxed/simple;
-	bh=SxNEQVHlL+X6WZ0hhR4b1e77s8jZTxTxCiuYSwEKtp4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:MIME-Version:
-	 Content-Type:References; b=DKGe5fVRQa9LIil5vPLneWxJ+JTbwHgfy+wd54BMLmttkH05eaBf0WO9lqhm/Ws7UTErK3r2ZhZbZrwGpwLyvGG20oCO5NLnw3EO1vk4QBXrf44h+FQkLDMCgSGagFLBZbNg19H2zLMe0w1LLgGilAwLklgwqDvF1v5YGLLX+Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=jEiO6XOP; arc=none smtp.client-ip=203.254.224.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1781635698; c=relaxed/simple;
+	bh=GiNFy7dQXeYvjClhAV+AHb0daCA+Am+nsxaNpxW00wc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=usAZYpGmepoimm6HbrnOUGUO6WLBJPMqsTJmh4Pi35BbcrxAlZ+FHLyTQc9QTXGp7evqstSQ2MDuyn8Wfl8w+O9exUmoT8+Od+ewayGuK4KHVfWWGCnjU7V0EHN/uM5artlfsrrTMW17H85Hf+zcHYBHeBPD6AcanoU3hqNrTjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CnlVf9DH; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="jEiO6XOP"
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20260616181244epoutp03ae20a71bd8f630ec8f1897393a2c5f5f~5okmcEQ551608516085epoutp03r
-	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 18:12:44 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20260616181244epoutp03ae20a71bd8f630ec8f1897393a2c5f5f~5okmcEQ551608516085epoutp03r
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1781633564;
-	bh=ZFLgbjU9mfb8WUFvy1TB4gsK01M7Iew9VMASYlS26po=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jEiO6XOPO5NF8pfrT/6kAHjKuQ8/rVBhkhMZeDttj9M+02Nj9uyhhvrDp2Zb3aqyK
-	 SncP5Gc0eazQ8bECibhena8pFRnUt+nISt/yxdX4UfdXFugVKlIQPOiQkE7Y+aEpqW
-	 ZTBRx9Yn5VXHhdnFe/G/b2NQa/KDIGMHajV7lY3w=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
-	20260616181243epcas5p2ff4a0a632c8867441b7a1c9621dbc245~5oklmR_JX1264812648epcas5p28;
-	Tue, 16 Jun 2026 18:12:43 +0000 (GMT)
-Received: from epcas5p1.samsung.com (unknown [182.195.38.86]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4gfw7t5lmnz6B9m4; Tue, 16 Jun
-	2026 18:12:42 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20260616181242epcas5p28887b4de29580d5fc74448f2b0d45a1d~5okkLozMT2846528465epcas5p2X;
-	Tue, 16 Jun 2026 18:12:42 +0000 (GMT)
-Received: from localhost.localdomain (unknown [107.99.41.245]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20260616181240epsmtip1569397d46b09d5dd4e9c4e384f319534~5okiXvP4o0265502655epsmtip1J;
-	Tue, 16 Jun 2026 18:12:40 +0000 (GMT)
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: brauner@kernel.org, hch@lst.de, djwong@kernel.org, dgc@kernel.org,
-	jack@suse.cz, cem@kernel.org, axboe@kernel.dk, kbusch@kernel.org,
-	ritesh.list@gmail.com
-Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-block@vger.kernel.org, gost.dev@samsung.com, Kanchan Joshi
-	<joshi.k@samsung.com>
-Subject: [PATCH v3 1/6] fs: add generic write-stream management ioctl
-Date: Tue, 16 Jun 2026 23:35:50 +0530
-Message-Id: <20260616180555.33338-2-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260616180555.33338-1-joshi.k@samsung.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CnlVf9DH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=z9OG7K87BoFvZjDcA9yWcWHa12S87h7aKhKwnJ2yb0E=; b=CnlVf9DHztA04KJnmyK2gfrmNi
+	FqyDHroSxRdXs5mzB8YD0+4Ekyu17y5gjOVGwUkwELv4XAJ4JbEkOeIN5kweKXzYHQWfsHTjqDJKi
+	CkQrGUYOZCY25vjWlVhe/jEIzfrQw/CCmUUXyK5KvMvA7kOl0KUF5n+tBWSUtBOYYYNMe75LL0+b5
+	9Jf+fQ7YLXenEgB0fX2QDUDwttJSgnIV3Bhhs2/05z/tFIG0UbiPyab31byadrCRc49IaO64gkTWp
+	91z4pL1FfR0goS1QI0rnYww/BAGCTe+BNq3gMtVhTA4KE7Lcp2BSkPjue6Y2uPVPeuitUa5vnfolw
+	uAgehXDA==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wZYpa-0000000BIG1-3UJq;
+	Tue, 16 Jun 2026 18:48:14 +0000
+Date: Tue, 16 Jun 2026 19:48:14 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Nikolay Amiantov <ab@fmap.me>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.sourceforge.net,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>, fuse-devel@lists.linux.dev
+Subject: Re: [fuse-devel] Debugging a stale kernel cache during file growth
+Message-ID: <ajGabryrn7A2VUAq@casper.infradead.org>
+References: <898a4e10-6193-4671-b3b1-7c7bc562a671@fmap.me>
+ <CAOQ4uxjoS-PvnZ2poh0bx0C6ocTYwuEpfV0q5md15SjS620OMg@mail.gmail.com>
+ <CAJfpegvxF7F+XKFKokSH4eOgCA0V2RNm6B54MS9nr9wG=U66OA@mail.gmail.com>
+ <59ab54f6-680e-456e-91f4-0a26889844ef@fmap.me>
+ <aeFuarTL7xBbut0F@casper.infradead.org>
+ <CAJfpegtAeyMRENdneJkJrMKu8Uwnyk9LYBThjvTrFjHmPr6O_g@mail.gmail.com>
+ <9fe5ff50-4c1c-49ee-a8c2-4cacc3c6781d@fmap.me>
+ <CAJfpegum=LJTCGqMUfLHehQE19kgdZbE2eXS_002fdpX_sd6jw@mail.gmail.com>
+ <D4988E64-C9AB-404C-AA95-E5F4725BB646@fmap.me>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20260616181242epcas5p28887b4de29580d5fc74448f2b0d45a1d
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260616181242epcas5p28887b4de29580d5fc74448f2b0d45a1d
-References: <20260616180555.33338-1-joshi.k@samsung.com>
-	<CGME20260616181242epcas5p28887b4de29580d5fc74448f2b0d45a1d@epcas5p2.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <D4988E64-C9AB-404C-AA95-E5F4725BB646@fmap.me>
 
-Wire up the userspace interface for write stream management via a new
-vfs ioctl 'FS_IOC_WRITE_STEAM'.
-Application communictes the intended operation using the 'op_flags'
-field of the passed 'struct fs_write_stream'.
-Valid flags are:
-FS_WRITE_STREAM_OP_GET_MAX: Returns the number of available streams.
-FS_WRITE_STREAM_OP_SET: Assign a specific stream value to the file.
-FS_WRITE_STREAM_OP_GET: Query what stream value is set on the file.
+On Wed, Jun 17, 2026 at 02:00:04AM +0800, Nikolay Amiantov wrote:
+> > +++ b/mm/filemap.c
+> > @@ -2856,6 +2856,14 @@ ssize_t filemap_read(struct kiocb *iocb, struct
+> > iov_iter *iter,
+> > 
+> >                          copied = copy_folio_to_iter(folio, offset, bytes, iter);
+> > 
+> > +                       /*
+> > +                        * Has the folio been truncated?  In that case we could
+> > +                        * have been copying stale info (including zeroes after
+> > +                        * EOF) for a distributed fs.
+> > +                        */
+> > +                       if (folio->mapping != mapping)
+> > +                               break;
+> > +
+> >                          already_read += copied;
+> >                          iocb->ki_pos += copied;
+> >                          last_pos = iocb->ki_pos;
+> 
+> I may be missing something, but doesn't this still leave a brief race window when i_size is already updated, but the mapping is not yet invalidated? It's invalidated by invalidate_inode_pages2, correct?
 
-Application should query the available streams by using
-FS_WRITE_STREAM_OP_GET_MAX first.
-If returned value is N, valid stream values for the file are 0 to N.
-Stream value 0 implies that no stream is set on the file.
-Setting a larger value than available streams is rejected.
-
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
----
- include/uapi/linux/fs.h | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-index 13f71202845e..9e87271e610b 100644
---- a/include/uapi/linux/fs.h
-+++ b/include/uapi/linux/fs.h
-@@ -338,6 +338,20 @@ struct file_attr {
- /* Get logical block metadata capability details */
- #define FS_IOC_GETLBMD_CAP		_IOWR(0x15, 2, struct logical_block_metadata_cap)
- 
-+struct fs_write_stream {
-+	__u32		op_flags;	/* IN: operation flags */
-+	union {
-+		__u32		stream_id;	/* IN/OUT:  stream value to assign/guery */
-+		__u32		max_streams;	/* OUT: max streams values supported */
-+	};
-+	__u64		rsvd;
-+};
-+
-+#define FS_WRITE_STREAM_OP_GET_MAX		(1 << 0)
-+#define FS_WRITE_STREAM_OP_GET			(1 << 1)
-+#define FS_WRITE_STREAM_OP_SET			(1 << 2)
-+
-+#define FS_IOC_WRITE_STREAM		_IOWR('f', 135, struct fs_write_stream)
- /*
-  * Inode flags (FS_IOC_GETFLAGS / FS_IOC_SETFLAGS)
-  *
--- 
-2.25.1
-
+The patches you posted earlier in the thread invalidated the page cache
+before setting i_size?
