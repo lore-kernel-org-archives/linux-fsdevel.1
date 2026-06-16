@@ -1,153 +1,119 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78952282F2C
-	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 20:05:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C14637CD59
+	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 20:47:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781640331; cv=none; b=Iu5pqxU73YSZTX6pv9m6/SBGyXf9xk7nqT0tjLKt7heZ9+ZymMHZPqegH55lO5iFwLww/0g2AJMPov058WYTV9TBJuFoo7cQEAlAnihvZEkidSYgNShMTxowGv8jit0W6OKMI54FrPMnxsfz1wb6ypKlUE1I68Er+M+A1Vzj+Yk=
+	t=1781642827; cv=none; b=l2/q99VpKRYPchnxiBtm6I0uUDss8NGXmJcMYh6EoIal8uIHLcYr14ZsWbfTxfhxsN8dI+H/fhlFlIay4rPmfcGrU1qE2iI71KsS0FxZSVD9aHZm/kAXYfwt3pCc2WeplywJQH5h90z90KxJ7Od4ELGymESWesHdYMMZMZdByEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781640331; c=relaxed/simple;
-	bh=4BmOp7isfHANQ8ijXBq1+6ImYbZeD+NvIUCYVagGHJg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=h3H1FNEMQ3e2x1THo8vcZtGWyKWgQjTrBNo4Z1SowEBlwLlRLOFjuEWHwVtxNK6dk/MExbF6LGofZOI618OuJLGQrjgv7zAW/0oaawNB5gZnIbGY/nngrpGktzWSLQvshBppU1aPpRz8EEkiirXTrQ+PIXLY0cT9eo2bHZDFGb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VEODnDyy; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781642827; c=relaxed/simple;
+	bh=55ubhwgPFP/ggX+sEQoWYZsZ9CMeijE8qXL6+9SVM4U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QU9XMrV440WZRFAXI9ysK+EGouDCHEMuIw51xktsQ4HSttbC6oBozN65F0zbjxlVMKbDhq9DPqYmnbf5KT2THvaIgUmuLmFyIsZzBbmj6nZI/1ZCAR7UzUv2CK+9mDYTKnBgn7uxZu7oTk8Q+MDXPskZyKwNHv7SY3E8h64/8so=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=Py9mUpUd; arc=none smtp.client-ip=209.85.160.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VEODnDyy"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490ac10e337so33783955e9.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 13:05:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="Py9mUpUd"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-43d3427401fso3592270fac.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 13:47:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781640328; x=1782245128; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LNw2t8LP5ojoxPDmcRWaKhHWz4MkqZ+bxfoJSWy6tHI=;
-        b=VEODnDyyhknneBpRWgxlTSvYTYx5srS84355nv4t6cQUKjlKGFxzbMad/GNigPLDhN
-         Gzx55brBaf4DhbicR+jOtm2Ljod5WIVVaYGxdzVwq7QafopkrHcHBHG8lc14lw2Ql7Mi
-         Xljl31rUXhwkfgOQLJXOMXBSqi/uGMkQFZx4F8eWcaS3fzM38FMpMXT1hDxyTV1wXFrC
-         IJTzSKzjiRJtaGvd8ikJhy25LkctkNUb9hWGa2vDHd/n0or7Ho0CLTdP1nCh81tXIzqu
-         k92AA44SxTNRHvSXYtexYp6HfJKMS7qqZPIP3Wq2OibXFoCDCXWtVJJALKDXRv5H3/3K
-         bSpg==
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1781642823; x=1782247623; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=N3bsbmxS4GadL4Z4bToRsBD+Gi0dvukUshOqKGVXCG8=;
+        b=Py9mUpUdWt5vXOQMHpSDFKNdc07dV8zSmKyrmmqNUKFTu/VSDcSGSFT/b2qqNsW69W
+         SNSwSPbiHJsW7x7URUBqDzziXp+n1NzryTK6BcpA4Rp1Nra3/rgmAqE1ch2zhzeu30wP
+         e1wZ/1W1k+2sVKyjipQ8CzHQw2tNo2TI0UXy5fhdoeYEJPL9fckaT7oF38Oax4pwssJK
+         0MUYJxjS5vtn2bFYV+tidJ0pp8MVx6j2bH6L5OgHnqOA5K9+Brdd+NsaYlPCCw2f4h8W
+         ODsQ5gbidbn8t2I5yA/Zgp1SMqBzcNCcFo72ar7wJ6jooOBG+XkY527bxxeVUQFJ9PNA
+         B29Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781640328; x=1782245128;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LNw2t8LP5ojoxPDmcRWaKhHWz4MkqZ+bxfoJSWy6tHI=;
-        b=Rj2/6xJe2wMBoSVHWWJ6gn3riB33vCMcTdX/kkb4oOgoLaeH4VSW04GU33c1HYiwzn
-         ufNqC7rBrOmknJO0OaengR05wkz9L+bD3wBiONLDenPj3uJNX/yusmn9HzbR1hUSMn2Q
-         313zIsxBy5zNrT0YdCBLi6MMOINLPXu+RgJsI7HC+x5pR2hcTMM7ilCn4L/0qzmMK2kp
-         NbNrrzTGtQ5ZAR4We7cKRLpbVuEw/Xt2zXs3CAKo7kSig7wrrL5p0hYhwsd3JsBIl4bj
-         2o20MT5RumzmfshUVDoXPrHoscOfcbTSrSTZbTUL4mknzWGGCKhKW3Cz+mLhPjzFLNT3
-         ktVQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/IQdSloT+PEF1vERI7CIvhKptHcPIZ4zCZD259dXHAWANdhkMiu+CiX7IH/UCxHVkRPj6J6ccittZcq/4g@vger.kernel.org
-X-Gm-Message-State: AOJu0YynJUAH9izRtR0k51QVejhqEfK+xwVqf68djddvS3aXd9TXRCR1
-	5r0+z7CHhmMOXx8xN1b8aGx/tRZMv5ZbrbyLIUaV1Mb021FhDi/X3aR3
-X-Gm-Gg: Acq92OGmKBYcXtxaz88U2yMzDWZmulqXSFGf1NWQLm6gaYcMch36rC7cPO54VbIQJpk
-	CgAzIq2otcZRfrQ7UeJGzuef9BCsO/Pl3q+xGBuEXjULDuYr+CiHOf1L3HHSM9Y6Wp+TKA99n6L
-	tRZKwoxJP+6G0t3H6I6iznpqbLTbt1TSS39SfXlDnLxV1/9lfvl7zgNkwubNQYVxz8Zc8sBxFYZ
-	0RY6fVxAqbUHoaCKzw6BG0qj6ILQrYWbsuHGf/kB0pI3OZm49Rs5EssPe/LDF5CVbKHlHBfnS6i
-	Pw8eJB5ci9Z/SFJtxoMs0B5s3yTyrS31UwvVHA22Wt2tj0p400zm3ZHy7CdhYREYCDhMs4lJ3mV
-	5iTNbifbH3SHJzYIOc9J25D+qtQBsH7oe3lEV/0fXvt3wVl/HglyUCUl/SLCu21oIXCH/kCJwva
-	y7NkUbRq0DSpUrQQn1kif5Mz8nd/bOGEIorYQTY7g6hOLoSDm6AuKV0s8Xpe6/
-X-Received: by 2002:a05:600c:a104:b0:490:b642:ce31 with SMTP id 5b1f17b1804b1-492333bac42mr13452535e9.2.1781640327797;
-        Tue, 16 Jun 2026 13:05:27 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4922fa96f0esm111413835e9.12.2026.06.16.13.05.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 13:05:27 -0700 (PDT)
-Date: Tue, 16 Jun 2026 21:05:25 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: jkoolstra@xs4all.nl, brauner@kernel.org, broonie@kernel.org,
- cyphar@cyphar.com, linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] vfs: uapi: retire octal and hex numbers in favor of (1
- << n) for O_ flags
-Message-ID: <20260616210525.1458974d@pumpkin>
-In-Reply-To: <20260616102250.3652779-1-geert+renesas@glider.be>
-References: <20260604222405.5382-1-jkoolstra@xs4all.nl>
-	<20260616102250.3652779-1-geert+renesas@glider.be>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        d=1e100.net; s=20251104; t=1781642823; x=1782247623;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N3bsbmxS4GadL4Z4bToRsBD+Gi0dvukUshOqKGVXCG8=;
+        b=cM6cZNxS3NN/KyHOCmI+woykzBoPI9P+qwG46N9dyCXlBUyduzieUny/PLMJrF2zdb
+         HPwCN7eYUla5X1l5YgyjUuRWQvVzcE1GYOg0CsJI9parc2PDGSVON7OI3m6Tv4xZD6vI
+         FvYQodm5s+TuAJKkgNH6GBY/9BUGusppPLZHHyVFbLWalkL2XneQTDEgtzg6sS8t33XY
+         ThYTQOsivcu5v9X0qS5Fgw4gJu782rJRXM5XoBYuTelnf3yKVKltN8jHXOt2760budeC
+         w5N1Vx/QWwvrQykdjArQR1H3pzym5bcT5wiwr+x9/KQzH0ijJezF4hIbcnS5ft6uJjNB
+         7UnA==
+X-Forwarded-Encrypted: i=1; AFNElJ8YHK9z2PSEuC/7F8Jbc8w3r2C5LLHCXTJpELLVdzXqz/Um7YHykGto7rOWIIsV5fRR2nlQ4hbTH8PQmJxi@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmuUIkjntufg768F0CqSZdbZadAJywhIGiwgaC9iayTVP3UUon
+	6ElMCiOZXbA0gF9MWaaTbYWYJGG9O5N/qE+l4dsDm8boh3mzjRAK8Vd0mpEmjEJGE8M=
+X-Gm-Gg: Acq92OF5I+HMarVLtqDzatODFbo7ftGnHc7NmQnYkA24FIVZdofl0ZkLtqJeex5rtrx
+	DBI4AqeI6p7mlHjpgu0GbZNBs6cUjJ2lh72Fa0/LUi2B3zxA3TSujZI1cAou2bx5UHe5oZ5cx3J
+	Fm499K459p4dJhiloONK1KFnVst34cILjsYpgX1S3e2y+s0pJ87mURwX2wYTskhj4S8FLFl9+j0
+	5T1ky4r8X9AbEhDrqd71TKY50SuPmSzXFkD9fYMnO26GHlElWLY4bSykLnUKP0sBrwLgpPQsZZy
+	i5XCZN+kYNgD6dr+MGSg0JXnFi6PLCEce+2ZFP5luNZiDF0rDY5eE/AP0Y2AkPfkpVD7gQTsmMP
+	5VH7g8ThkBW2WG3dWtCVRe4R9qH3hbD9ysYUhVjzZON6DvWryBC7MlBDMnb5QHy8vAp5gXuSbkc
+	Nd29P1X6AEalOx/Q7Da1fEPTpOkAJFagI+L3a1Dfa5Ay/OTwOrvlCogpu8yUCXtmdzLAQPlKL+r
+	nQvLEyqdA==
+X-Received: by 2002:a05:6871:538a:b0:442:175:cea7 with SMTP id 586e51a60fabf-4469010a70amr626699fac.1.1781642823167;
+        Tue, 16 Jun 2026 13:47:03 -0700 (PDT)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-443090386basm2851306fac.17.2026.06.16.13.47.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Jun 2026 13:47:02 -0700 (PDT)
+Message-ID: <910230d8-6a14-4d56-9520-169bd379f3d2@kernel.dk>
+Date: Tue, 16 Jun 2026 14:47:00 -0600
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net v2 1/2] iov_iter: export iov_iter_restore
+To: Octavian Purdila <tavip@google.com>, netdev@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Arseniy Krasnov <avkrasnov@salutedevices.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ Jakub Kicinski <kuba@kernel.org>, Jason Wang <jasowang@redhat.com>,
+ kvm@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, virtualization@lists.linux.dev,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+References: <20260613000953.467473-1-tavip@google.com>
+ <20260613000953.467473-2-tavip@google.com>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20260613000953.467473-2-tavip@google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Tue, 16 Jun 2026 12:22:50 +0200
-Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+On 6/12/26 6:09 PM, Octavian Purdila wrote:
+> Export iov_iter_restore so that it can be used by modules.
+> 
+> This is needed by the virtio vsock transport (which can be built as a
+> module) to restore the msg_iter state when transmission fails.
+> 
+> Signed-off-by: Octavian Purdila <tavip@google.com>
+> ---
+>  lib/iov_iter.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+> index 243662af1af73..067e745f9ef53 100644
+> --- a/lib/iov_iter.c
+> +++ b/lib/iov_iter.c
+> @@ -1491,6 +1491,7 @@ void iov_iter_restore(struct iov_iter *i, struct iov_iter_state *state)
+>  		i->__iov -= state->nr_segs - i->nr_segs;
+>  	i->nr_segs = state->nr_segs;
+>  }
+> +EXPORT_SYMBOL(iov_iter_restore);
 
-> 	Hi Jori,
-> 
-> > A recent build failure[1] exposed the diffculty of working with the
-> > current octal and hex definitions of O_ flags when trying to find a gap
-> > for a new flag. This difficulty is compounded by the fact that O_ flags
-> > may have architectural specific values.
-> > 
-> > Replace the hex/octal #defines, which are hard to parse when looking for
-> > free bits, with explicit bit shifts like (1 << 11). Also, add comments
-> > that identify which architectures redefine some of the seemingly free
-> > ("cursed") bits in uapi/asm-generic/fcntl.h. These should not be used to
-> > define new O_ flags (for now, at least).
-> > 
-> > The translastion was done with Claude Opus 4.8, and verified with a
-> > (non-AI) gawk script. The accounting of which architectures claim
-> > which bit-gaps in uapi/asm-generic/fcntl.h is also done by hand.
-> > 
-> > [1]: https://lore.kernel.org/all/agruPPybCx8q2XcJ@sirena.org.uk/
-> > 
-> > Assisted-by: Claude:Opus 4.8
-> > Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>  
-> 
-> Thanks for your patch, which is now commit 0da79c259ad0554b ("vfs:
-> uapi: retire octal and hex numbers in favor of (1 << n) for O_
-> flags").
-> 
-> > --- a/include/uapi/asm-generic/fcntl.h
-> > +++ b/include/uapi/asm-generic/fcntl.h
-> > @@ -15,51 +15,55 @@
-> >   * When introducing new O_* bits, please check its uniqueness in fcntl_init().
-> >   */
-> > 
-> > -#define O_ACCMODE	00000003
-> > -#define O_RDONLY	00000000
-> > -#define O_WRONLY	00000001
-> > -#define O_RDWR		00000002
-> > +#define O_ACCMODE	3
-> > +#define O_RDONLY	0
-> > +#define O_WRONLY	(1 << 0)
-> > +#define O_RDWR		(1 << 1)  
+I don't have a problem exporting this to modules, but any new export
+should be _GPL. So please change it to that.
 
-I'm not 100% that changing these uapi constants might not generate compile
-error for userspace that has duplicate definitions that are currently fine
-because the definitions exactly match.
-
-	David
-
-> 
-> And suddenly all these constants became signed? Can't that cause subtle
-> issues, especially for uapi headers?
-> 
-> 	#define O_ACCMODE	3U
-> 	#define O_RDONLY	0
-> 	#define O_WRONLY	(1U << 0)
-> 	#define O_RDWR		(1U << 1)
-> 
-> Gr{oetje,eeting}s,
-> 
-> 						Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
-> 							    -- Linus Torvalds
-> 
-
+-- 
+Jens Axboe
