@@ -1,457 +1,144 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4678938E8A1
-	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 14:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469683C09E2
+	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 14:50:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781620982; cv=none; b=oSzCM1DQpFUoWm9LewCldhaSdZ6/Vr1IG+zeq4i3OlX77AqhyyalPy8AXxLn1rIMg2E0fAQ+PGJWROT45UwBRBMk04n29hlWLihTGgiRKv2rY/G3vqh+peDth4UtxWFaPueRehmUBlU1V+Itw/7PrlTYo81z9JJJ0SONNqI+osk=
+	t=1781621417; cv=none; b=hte0ncMeMZXvtKEyX2b7FdiNNx4H5B24wztSEWQ1wXkKY9Q0ZuSoyLiIj/dt2YNn9PKu6YDjSNaF5RmgAHBFxPbv8qV9nGeCILRSa6miV/yN+foyWD2CBekNPD1B5FxSPIuOspGzhizBcwR1jvprIuF53w4t6fv7YXCn0aBWVr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781620982; c=relaxed/simple;
-	bh=UO2cf/vcRfd6f3/zPA63x7kOglgITkEcAb83yWx9GGw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kO8ebhbusbD3bLz8L7Nu6zYVkYncQY/EM3dLCdgiAK+Kx3O17mXEu047I+bSPMq1WY+PgGENKIJHwAbyjx9Nt8m23D5fwA/h8/Ml8ix0vcMIcS7Frw7bLeN1kkD1Umu21V7Fyn80Ta2CQMp+8iVNbKQkcGTsQDZc/+Yhg69hPis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rPZqp7dw; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781621417; c=relaxed/simple;
+	bh=BBtSjGcebtyP/J62sgW6cmqmnPgGPP5+1UUDQu7d5BQ=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=XfUWUVazVi2Q42HQuaQ4RZ90VenJ0BnZV/soChLbtK+QMUYly3lBdrnDzoYjqTbb1S7iTmQo80obJixGP55fRLLme/QsNfgVaQsrmvZkEd/wJuFR6CdYfG6rTbBzeagcB9SLackHIPmnwOJRVrLGff8hlJFdJcVOlAcAW0ZY2XI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=MnkiMMJn; arc=none smtp.client-ip=195.121.94.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rPZqp7dw"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c8857a27041so1487973a12.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 07:43:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="MnkiMMJn"
+X-KPN-MessageId: aa5f1a3d-6992-11f1-89f8-00505699b430
+Received: from mta.kpnmail.nl (unknown [10.31.161.189])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id aa5f1a3d-6992-11f1-89f8-00505699b430;
+	Tue, 16 Jun 2026 16:50:06 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id aa5dc17d-6992-11f1-ae48-0050569981f5;
+	Tue, 16 Jun 2026 16:50:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781620979; x=1782225779; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KjBawOyebB81mT4/Hcbtr1B4pfgxRoA78QHt88CUN9E=;
-        b=rPZqp7dwo+izBNi2shcbW114qL/Op0u7k6niarMsCqgyPzNJ6yof0sAeT/hVQnnC5N
-         Mr0XZ3quEOd2n1/gY8PH7o12ZIcl4iVKIqCKIN9IrArgkDLkvRoaWIUFpvfHR9Z969Kh
-         UMWH5Z+w8WJ7uWnZZaKbRFTvjzgpgjGqyo/1+83hDOn7HWD3wu/Y0V3KhQUkv16/+AIW
-         fCgUYuqP+1EKlFsyhhJxK3hTv7NTxoGuLiqOdIavzxvyaWzokq5JSRT+oSebwWwpd772
-         8qJc/kh8R2Jv+p5lMpUPfJI02C4cp9drQesNB9mozh/lNh+m2Ap5rruPMYthB9slilOQ
-         LfoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781620979; x=1782225779;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KjBawOyebB81mT4/Hcbtr1B4pfgxRoA78QHt88CUN9E=;
-        b=A15HazX6yd3KTc7IHtm8cBmzikn+VB2rMA6Bwm+hlQK4NBTniwb2sb175oxObHqsVV
-         HZxZdAK69YBLwhSAnbYqiLi5Tlp//6ZKbkpP/+nMXRWOSbQXB9KKh040crUcNaeShbnw
-         VH4ZVBdgu3PKAdfJtA2zrmUKN93iTEqnnacyfyofnWsDk+9pjcxOJy0DUCnSYdTWyTvy
-         M85uSXGmoApvrkOky+pAB0P1JHGICgkY6zBhCGG9j/Ry8aFFNAQ3NVt7gVweRnJAWxN0
-         O6sAtAKZdh+BB6aK0WJ/vitkLrjvNqWdGpDY4pRajd+c8y7aDMPw16lUxgPjgQ+cGwi7
-         WDEw==
-X-Forwarded-Encrypted: i=1; AFNElJ+tFtJUJSFeStn7L8LvWTM05cEBzCmHOghdm7OjVuJhjQ+vK5NEJL5MHrjmIxDcsEjAPkQ/024w6rhZdz2N@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyvq/NRYdzTb1G/KIZfnYfTBPCvGMJE+FiWIn6EAJiU7v85EH+V
-	UH6q38+wmslqSbx1H3dyhE8I6P1vV/Hlhfb+xg9FS7dhP+c7NOTRs3KK
-X-Gm-Gg: Acq92OHrKWcOGChg82mVmKeDr9ffvNL3ZyYsWxmlftOPaKNiwmRcZLIlYOWHhc/KEOZ
-	Uurn+qC3lsGR5Bo0FXhZklr+mkaBcYFpFtcTwIEGCk2vifApdpFIQIU6bsFVsdfkSRfd/T6f9RZ
-	HPchw4LVNIHCN+yfODDCmw/FOWYmU9aV4EWATl4j/NuPsdw8YHIMMIHRQF3/u01jj4SfniGziZX
-	wQDbANTDN16HTEe5VGIwMEmch0cHrYIKc9BqJ3oFnfoFooUJzxYjk9CallFGzUutAE4JMatvXl3
-	mEBP72FIb2tnE6ncKeGeH1ueJ0MekKRFdSjSv5sqmzBjPt8Q8epZRK49Nltg7mqfFZcH1NusqE5
-	kPSpBPx2ANANDo4MG3Wx5x57ox/PXftXocRTCCFPEQmIyv6sF7gjSDh0PShb5Xlw+Zt3u1sPZob
-	NQ1/Wjh3N5lsnTbjs53hdW1mUh/QufnOdMQ2oAg4JuIjeY5b2HUH2mMxvCbXZPRSR0nyfMsPlnH
-	Q==
-X-Received: by 2002:a17:903:2351:b0:2c0:c3ac:4af3 with SMTP id d9443c01a7336-2c66416ac4amr172199005ad.15.1781620979415;
-        Tue, 16 Jun 2026 07:42:59 -0700 (PDT)
-Received: from ?IPV6:240e:390:a92:e6d1:ed78:8bd4:5db9:c767? ([240e:390:a92:e6d1:ed78:8bd4:5db9:c767])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c432c8becesm141095445ad.56.2026.06.16.07.42.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jun 2026 07:42:59 -0700 (PDT)
-Message-ID: <6b0ddd3b-0b9e-4c18-aac7-2de278b26d10@gmail.com>
-Date: Tue, 16 Jun 2026 22:42:51 +0800
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=ma0GaFtXuJWq1Qr5mzmCFMElXBGDhzCawp7JuPPTNeU=;
+	b=MnkiMMJnYg9aaHM4jZ8ISo2DLum512dALRUNWhRxiHKAA8cSdKihnUnpUvcAh0S/r3lahPbnlJGr0
+	 8/aSLxU9v0df9pHWpzZ2q76d0C+lF9y2+SBQ5+FOjtc/5DeXWwlWurMxY3kam6w+9fJ2JSo8PVHfSk
+	 6iV4fIv0dTcT2LX+QerEUk7r1zXzsPYBWrEcj0ylaroMTd35tOQaJCuR4JDy6ddI2CDcy2ThVV92L4
+	 /guFQSTySggfot492J19rWwTSpIKaw0FgP8QXft44evjY0qj/aBEB6o29AJpHqZhK2HW7QG4e9cNTV
+	 V0ii6SayYPbB/d038HXKI2lB9rgFhGw==
+X-KPN-MID: 33|Qgi34RFIW2+KxsIpCNUy7omm4gOfqR0cnWHydssFjis8+1lNnQ+T+M8xidiRYJv
+ P1wy8Qdt0mrLuN1UwzJgI6OPdntl8isjt+Sbvwo2fTt8=
+X-CMASSUN: 33|/CQ8ZWo43E3Wyt0AXEPbXCorT4h/VGQYTGiTCmHfwhXpOcEkpZ29vA0O8hXBdg7
+ OhFvqb8NbOeMaWHN/c+uVyg==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh06 (cpxoxapps-mh06.personalcloud.so.kpn.org [10.128.135.212])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id aa4cf9e7-6992-11f1-8edb-00505699eff2;
+	Tue, 16 Jun 2026 16:50:06 +0200 (CEST)
+Date: Tue, 16 Jun 2026 16:50:06 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: brauner@kernel.org, broonie@kernel.org, cyphar@cyphar.com,
+	linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk,
+	linux-kernel@vger.kernel.org
+Message-ID: <255283964.1967141.1781621406847@kpc.webmail.kpnmail.nl>
+In-Reply-To: <20260616102250.3652779-1-geert+renesas@glider.be>
+References: <20260604222405.5382-1-jkoolstra@xs4all.nl>
+ <20260616102250.3652779-1-geert+renesas@glider.be>
+Subject: Re: [PATCH] vfs: uapi: retire octal and hex numbers in favor of (1
+ << n) for O_ flags
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/23] ext4: implement buffered write path using iomap
-To: Jan Kara <jack@suse.cz>, Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
- libaokun@linux.alibaba.com, ojaswin@linux.ibm.com, ritesh.list@gmail.com,
- djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
- yangerkun@huawei.com, yukuai@fnnas.com
-References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
- <20260511072344.191271-9-yi.zhang@huaweicloud.com>
- <xuxrr3ls4gttesznypeplbawvnxwa4mqcbt7fkpdtdn3cfcfrv@paiigv322v3n>
-Content-Language: en-US
-From: Zhang Yi <yizhang089@gmail.com>
-In-Reply-To: <xuxrr3ls4gttesznypeplbawvnxwa4mqcbt7fkpdtdn3cfcfrv@paiigv322v3n>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-On 6/16/2026 6:45 PM, Jan Kara wrote:
-> On Mon 11-05-26 15:23:28, Zhang Yi wrote:
->> From: Zhang Yi <yi.zhang@huawei.com>
->>
->> Introduce two new iomap_ops instances for ext4 buffered writes:
->>
->>   - ext4_iomap_buffered_da_write_ops: for delayed allocation mode, using
->>     ext4_da_map_blocks() to map delalloc extents.
->>   - ext4_iomap_buffered_write_ops: for non-delayed allocation mode, using
->>     ext4_iomap_get_blocks() to directly allocate blocks.
->>
->> Also add ext4_iomap_valid() for the iomap infrastructure to check extent
->> validity.
->>
->> Key changes and considerations:
->>
->>   - Unwritten extents for new blocks (dioread_nolock always on)
->>     Since data=ordered mode is not used to prevent stale data exposure in
->>     the non-delayed allocation path, new blocks are always allocated as
->>     unwritten extents.
->>
->>   - Short write and write failure handling
->>     a. Delalloc path: On short write or failure, the stale delalloc range
->>        must be dropped and its space reservation released. Otherwise, a
->>        clean folio may cover leftover delalloc extents, causing
->>        inaccurate space reservation accounting.
->>     b. Non-delalloc path: No cleanup of allocated blocks is needed on
->>        short write.
->>
->>   - Lock ordering reversal
->>     The folio lock and transaction start ordering is reversed compared to
->>     the buffer_head buffered write path. To handle this, the journal
->>     handle must be stopped in iomap_begin() callbacks. The lock ordering
->>     documentation in super.c has been updated accordingly.
->>
->> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+Dag Geert,
+
+> Op 16-06-2026 12:22 CEST schreef Geert Uytterhoeven <geert+renesas@glider.be>:
 > 
-> Looks good to me - besides the IOMAP_F_NEW bugs Ojaswin found. One
-> observation I have here is that since the old indirect block based on-disk
-> format doesn't support unwritten extents we can never transition it to the
-> iomap scheme used here. So we'll have to figure out some way to avoid
-> maintaining two (actually three if we count data=journal) buffered write /
-> writeback paths in the long term. But let's address that once things settle
-> for the common paths.
+>  
+> Hi Jori,
 > 
-> 								Honza
+> > A recent build failure[1] exposed the diffculty of working with the
+> > current octal and hex definitions of O_ flags when trying to find a gap
+> > for a new flag. This difficulty is compounded by the fact that O_ flags
+> > may have architectural specific values.
+> > 
+> > Replace the hex/octal #defines, which are hard to parse when looking for
+> > free bits, with explicit bit shifts like (1 << 11). Also, add comments
+> > that identify which architectures redefine some of the seemingly free
+> > ("cursed") bits in uapi/asm-generic/fcntl.h. These should not be used to
+> > define new O_ flags (for now, at least).
+> > 
+> > The translastion was done with Claude Opus 4.8, and verified with a
+> > (non-AI) gawk script. The accounting of which architectures claim
+> > which bit-gaps in uapi/asm-generic/fcntl.h is also done by hand.
+> > 
+> > [1]: https://lore.kernel.org/all/agruPPybCx8q2XcJ@sirena.org.uk/
+> > 
+> > Assisted-by: Claude:Opus 4.8
+> > Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> 
+> Thanks for your patch, which is now commit 0da79c259ad0554b ("vfs:
+> uapi: retire octal and hex numbers in favor of (1 << n) for O_
+> flags").
+> 
+> > --- a/include/uapi/asm-generic/fcntl.h
+> > +++ b/include/uapi/asm-generic/fcntl.h
+> > @@ -15,51 +15,55 @@
+> >   * When introducing new O_* bits, please check its uniqueness in fcntl_init().
+> >   */
+> > 
+> > -#define O_ACCMODE	00000003
+> > -#define O_RDONLY	00000000
+> > -#define O_WRONLY	00000001
+> > -#define O_RDWR		00000002
+> > +#define O_ACCMODE	3
+> > +#define O_RDONLY	0
+> > +#define O_WRONLY	(1 << 0)
+> > +#define O_RDWR		(1 << 1)
+> 
+> And suddenly all these constants became signed? Can't that cause subtle
+> issues, especially for uapi headers?
 
-Yes, I agree. In the future, we need to convert the buffered I/O path
-to iomap as much as possible to reduce maintenance costs. For the ext3
-filesystem, which does not support unwritten extents, I haven't given
-much thought to a conversion plan at the moment. Perhaps we could
-implement it through the "delay map" we discussed earlier in v2. After
-this patch set is finished, we can take a closer look at the solution.
-:-)
+Isn't 00000003 already singed? I am by no means a C language expert, but what
+I can find in the C99 standard is:
 
-Best Regards,
-Yi.
+    The type of an integer constant is the first of the corresponding list in which
+    its value can be represented.
+
+and for octal and hex constants this list starts with "int"
 
 > 
->> ---
->>   fs/ext4/ext4.h  |   4 ++
->>   fs/ext4/file.c  |  20 +++++-
->>   fs/ext4/inode.c | 165 +++++++++++++++++++++++++++++++++++++++++++++++-
->>   fs/ext4/super.c |  10 ++-
->>   4 files changed, 192 insertions(+), 7 deletions(-)
->>
->> diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
->> index 1e27d73d7427..4832e7f7db82 100644
->> --- a/fs/ext4/ext4.h
->> +++ b/fs/ext4/ext4.h
->> @@ -3057,6 +3057,7 @@ int ext4_walk_page_buffers(handle_t *handle,
->>   int do_journal_get_write_access(handle_t *handle, struct inode *inode,
->>   				struct buffer_head *bh);
->>   void ext4_set_inode_mapping_order(struct inode *inode);
->> +int ext4_nonda_switch(struct super_block *sb);
->>   #define FALL_BACK_TO_NONDELALLOC 1
->>   #define CONVERT_INLINE_DATA	 2
->>   
->> @@ -3926,6 +3927,9 @@ static inline void ext4_clear_io_unwritten_flag(ext4_io_end_t *io_end)
->>   
->>   extern const struct iomap_ops ext4_iomap_ops;
->>   extern const struct iomap_ops ext4_iomap_report_ops;
->> +extern const struct iomap_ops ext4_iomap_buffered_write_ops;
->> +extern const struct iomap_ops ext4_iomap_buffered_da_write_ops;
->> +extern const struct iomap_write_ops ext4_iomap_write_ops;
->>   
->>   static inline int ext4_buffer_uptodate(struct buffer_head *bh)
->>   {
->> diff --git a/fs/ext4/file.c b/fs/ext4/file.c
->> index eb1a323962b1..7f9bfbbc4a4e 100644
->> --- a/fs/ext4/file.c
->> +++ b/fs/ext4/file.c
->> @@ -299,6 +299,21 @@ static ssize_t ext4_write_checks(struct kiocb *iocb, struct iov_iter *from)
->>   	return count;
->>   }
->>   
->> +static ssize_t ext4_iomap_buffered_write(struct kiocb *iocb,
->> +					 struct iov_iter *from)
->> +{
->> +	struct inode *inode = file_inode(iocb->ki_filp);
->> +	const struct iomap_ops *iomap_ops;
->> +
->> +	if (test_opt(inode->i_sb, DELALLOC) && !ext4_nonda_switch(inode->i_sb))
->> +		iomap_ops = &ext4_iomap_buffered_da_write_ops;
->> +	else
->> +		iomap_ops = &ext4_iomap_buffered_write_ops;
->> +
->> +	return iomap_file_buffered_write(iocb, from, iomap_ops,
->> +					 &ext4_iomap_write_ops, NULL);
->> +}
->> +
->>   static ssize_t ext4_buffered_write_iter(struct kiocb *iocb,
->>   					struct iov_iter *from)
->>   {
->> @@ -313,7 +328,10 @@ static ssize_t ext4_buffered_write_iter(struct kiocb *iocb,
->>   	if (ret <= 0)
->>   		goto out;
->>   
->> -	ret = generic_perform_write(iocb, from);
->> +	if (ext4_inode_buffered_iomap(inode))
->> +		ret = ext4_iomap_buffered_write(iocb, from);
->> +	else
->> +		ret = generic_perform_write(iocb, from);
->>   
->>   out:
->>   	inode_unlock(inode);
->> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
->> index 39577a6b65b9..1ae7d3f4a1c8 100644
->> --- a/fs/ext4/inode.c
->> +++ b/fs/ext4/inode.c
->> @@ -3097,7 +3097,7 @@ static int ext4_dax_writepages(struct address_space *mapping,
->>   	return ret;
->>   }
->>   
->> -static int ext4_nonda_switch(struct super_block *sb)
->> +int ext4_nonda_switch(struct super_block *sb)
->>   {
->>   	s64 free_clusters, dirty_clusters;
->>   	struct ext4_sb_info *sbi = EXT4_SB(sb);
->> @@ -3467,6 +3467,15 @@ static bool ext4_inode_datasync_dirty(struct inode *inode)
->>   	return inode_state_read_once(inode) & I_DIRTY_DATASYNC;
->>   }
->>   
->> +static bool ext4_iomap_valid(struct inode *inode, const struct iomap *iomap)
->> +{
->> +	return iomap->validity_cookie == READ_ONCE(EXT4_I(inode)->i_es_seq);
->> +}
->> +
->> +const struct iomap_write_ops ext4_iomap_write_ops = {
->> +	.iomap_valid = ext4_iomap_valid,
->> +};
->> +
->>   static void ext4_set_iomap(struct inode *inode, struct iomap *iomap,
->>   			   struct ext4_map_blocks *map, loff_t offset,
->>   			   loff_t length, unsigned int flags)
->> @@ -3501,6 +3510,8 @@ static void ext4_set_iomap(struct inode *inode, struct iomap *iomap,
->>   	    !ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS))
->>   		iomap->flags |= IOMAP_F_MERGED;
->>   
->> +	iomap->validity_cookie = map->m_seq;
->> +
->>   	/*
->>   	 * Flags passed to ext4_map_blocks() for direct I/O writes can result
->>   	 * in m_flags having both EXT4_MAP_MAPPED and EXT4_MAP_UNWRITTEN bits
->> @@ -3908,8 +3919,12 @@ const struct iomap_ops ext4_iomap_report_ops = {
->>   	.iomap_begin = ext4_iomap_begin_report,
->>   };
->>   
->> +/* Map blocks */
->> +typedef int (ext4_get_blocks_t)(struct inode *, struct ext4_map_blocks *);
->> +
->>   static int ext4_iomap_map_blocks(struct inode *inode, loff_t offset,
->> -		loff_t length, struct ext4_map_blocks *map)
->> +		loff_t length, ext4_get_blocks_t get_blocks,
->> +		struct ext4_map_blocks *map)
->>   {
->>   	u8 blkbits = inode->i_blkbits;
->>   
->> @@ -3921,6 +3936,9 @@ static int ext4_iomap_map_blocks(struct inode *inode, loff_t offset,
->>   	map->m_len = min_t(loff_t, (offset + length - 1) >> blkbits,
->>   			   EXT4_MAX_LOGICAL_BLOCK) - map->m_lblk + 1;
->>   
->> +	if (get_blocks)
->> +		return get_blocks(inode, map);
->> +
->>   	return ext4_map_blocks(NULL, inode, map, 0);
->>   }
->>   
->> @@ -3938,7 +3956,7 @@ static int ext4_iomap_buffered_read_begin(struct inode *inode, loff_t offset,
->>   	if (WARN_ON_ONCE(ext4_has_inline_data(inode)))
->>   		return -ERANGE;
->>   
->> -	ret = ext4_iomap_map_blocks(inode, offset, length, &map);
->> +	ret = ext4_iomap_map_blocks(inode, offset, length, NULL, &map);
->>   	if (ret < 0)
->>   		return ret;
->>   
->> @@ -3946,6 +3964,147 @@ static int ext4_iomap_buffered_read_begin(struct inode *inode, loff_t offset,
->>   	return 0;
->>   }
->>   
->> +static int ext4_iomap_get_blocks(struct inode *inode,
->> +				 struct ext4_map_blocks *map)
->> +{
->> +	loff_t i_size = i_size_read(inode);
->> +	handle_t *handle;
->> +	int ret;
->> +
->> +	/*
->> +	 * Check if the blocks have already been allocated, this could
->> +	 * avoid initiating a new journal transaction and return the
->> +	 * mapping information directly.
->> +	 */
->> +	if ((map->m_lblk + map->m_len) <=
->> +	    round_up(i_size, i_blocksize(inode)) >> inode->i_blkbits) {
->> +		ret = ext4_map_blocks(NULL, inode, map, 0);
->> +		if (ret < 0)
->> +			return ret;
->> +		if (map->m_flags & (EXT4_MAP_MAPPED | EXT4_MAP_UNWRITTEN |
->> +				    EXT4_MAP_DELAYED))
->> +			return 0;
->> +	}
->> +
->> +	handle = ext4_journal_start(inode, EXT4_HT_MAP_BLOCKS,
->> +			ext4_chunk_trans_blocks(inode, map->m_len));
->> +	if (IS_ERR(handle))
->> +		return PTR_ERR(handle);
->> +
->> +	ret = ext4_map_blocks(handle, inode, map,
->> +			      EXT4_GET_BLOCKS_CREATE_UNWRIT_EXT);
->> +	/*
->> +	 * Stop handle here following the lock ordering of the folio lock
->> +	 * and the transaction start.
->> +	 */
->> +	ext4_journal_stop(handle);
->> +
->> +	return ret;
->> +}
->> +
->> +static int ext4_iomap_buffered_do_write_begin(struct inode *inode,
->> +		loff_t offset, loff_t length, unsigned int flags,
->> +		struct iomap *iomap, struct iomap *srcmap, bool delalloc)
->> +{
->> +	int ret, retries = 0;
->> +	struct ext4_map_blocks map;
->> +	ext4_get_blocks_t *get_blocks;
->> +
->> +	ret = ext4_emergency_state(inode->i_sb);
->> +	if (unlikely(ret))
->> +		return ret;
->> +
->> +	/* Inline data and non-extent are not supported. */
->> +	if (WARN_ON_ONCE(ext4_has_inline_data(inode)))
->> +		return -ERANGE;
->> +	if (WARN_ON_ONCE(!ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS)))
->> +		return -EINVAL;
->> +	if (WARN_ON_ONCE(!(flags & IOMAP_WRITE)))
->> +		return -EINVAL;
->> +
->> +	if (delalloc)
->> +		get_blocks = ext4_da_map_blocks;
->> +	else
->> +		get_blocks = ext4_iomap_get_blocks;
->> +retry:
->> +	ret = ext4_iomap_map_blocks(inode, offset, length, get_blocks, &map);
->> +	if (ret == -ENOSPC && ext4_should_retry_alloc(inode->i_sb, &retries))
->> +		goto retry;
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	ext4_set_iomap(inode, iomap, &map, offset, length, flags);
->> +	return 0;
->> +}
->> +
->> +static int ext4_iomap_buffered_write_begin(struct inode *inode,
->> +		loff_t offset, loff_t length, unsigned int flags,
->> +		struct iomap *iomap, struct iomap *srcmap)
->> +{
->> +	return ext4_iomap_buffered_do_write_begin(inode, offset, length, flags,
->> +						  iomap, srcmap, false);
->> +}
->> +
->> +static int ext4_iomap_buffered_da_write_begin(struct inode *inode,
->> +		loff_t offset, loff_t length, unsigned int flags,
->> +		struct iomap *iomap, struct iomap *srcmap)
->> +{
->> +	return ext4_iomap_buffered_do_write_begin(inode, offset, length, flags,
->> +						  iomap, srcmap, true);
->> +}
->> +
->> +/*
->> + * On write failure, drop the stale delayed allocation range and release
->> + * its reserved space for both start and end blocks. Otherwise, we may
->> + * leave a range of delayed extents covered by a clean folio, which can
->> + * result in inaccurate space reservation accounting.
->> + */
->> +static void ext4_iomap_punch_delalloc(struct inode *inode, loff_t offset,
->> +				     loff_t length, struct iomap *iomap)
->> +{
->> +	down_write(&EXT4_I(inode)->i_data_sem);
->> +	ext4_es_remove_extent(inode, offset >> inode->i_blkbits,
->> +			DIV_ROUND_UP_ULL(length, EXT4_BLOCK_SIZE(inode->i_sb)));
->> +	up_write(&EXT4_I(inode)->i_data_sem);
->> +}
->> +
->> +static int ext4_iomap_buffered_da_write_end(struct inode *inode, loff_t offset,
->> +					    loff_t length, ssize_t written,
->> +					    unsigned int flags,
->> +					    struct iomap *iomap)
->> +{
->> +	loff_t start_byte, end_byte;
->> +
->> +	/* If we didn't reserve the blocks, we're not allowed to punch them. */
->> +	if (iomap->type != IOMAP_DELALLOC || !(iomap->flags & IOMAP_F_NEW))
->> +		return 0;
->> +
->> +	/* Nothing to do if we've written the entire delalloc extent */
->> +	start_byte = iomap_last_written_block(inode, offset, written);
->> +	end_byte = round_up(offset + length, i_blocksize(inode));
->> +	if (start_byte >= end_byte)
->> +		return 0;
->> +
->> +	filemap_invalidate_lock(inode->i_mapping);
->> +	iomap_write_delalloc_release(inode, start_byte, end_byte, flags,
->> +				     iomap, ext4_iomap_punch_delalloc);
->> +	filemap_invalidate_unlock(inode->i_mapping);
->> +	return 0;
->> +}
->> +
->> +/*
->> + * Since we always allocate unwritten extents, there is no need for
->> + * iomap_end to clean up allocated blocks on a short write.
->> + */
->> +const struct iomap_ops ext4_iomap_buffered_write_ops = {
->> +	.iomap_begin = ext4_iomap_buffered_write_begin,
->> +};
->> +
->> +const struct iomap_ops ext4_iomap_buffered_da_write_ops = {
->> +	.iomap_begin = ext4_iomap_buffered_da_write_begin,
->> +	.iomap_end = ext4_iomap_buffered_da_write_end,
->> +};
->> +
->>   const struct iomap_ops ext4_iomap_buffered_read_ops = {
->>   	.iomap_begin = ext4_iomap_buffered_read_begin,
->>   };
->> diff --git a/fs/ext4/super.c b/fs/ext4/super.c
->> index 6a77db4d3124..9bc294b769db 100644
->> --- a/fs/ext4/super.c
->> +++ b/fs/ext4/super.c
->> @@ -104,9 +104,13 @@ static const struct fs_parameter_spec ext4_param_specs[];
->>    *   -> page lock -> i_data_sem (rw)
->>    *
->>    * buffered write path:
->> - * sb_start_write -> i_mutex -> mmap_lock
->> - * sb_start_write -> i_mutex -> transaction start -> page lock ->
->> - *   i_data_sem (rw)
->> + * sb_start_write -> i_rwsem (w) -> mmap_lock
->> + * - buffer_head path:
->> + *   sb_start_write -> i_rwsem (w) -> transaction start -> folio lock ->
->> + *     i_data_sem (rw)
->> + * - iomap path:
->> + *   sb_start_write -> i_rwsem (w) -> transaction start -> i_data_sem (rw)
->> + *   sb_start_write -> i_rwsem (w) -> folio lock (not under an active handle)
->>    *
->>    * truncate:
->>    * sb_start_write -> i_mutex -> invalidate_lock (w) -> i_mmap_rwsem (w) ->
->> -- 
->> 2.52.0
->>
+> 	#define O_ACCMODE	3U
+> 	#define O_RDONLY	0
+> 	#define O_WRONLY	(1U << 0)
+> 	#define O_RDWR		(1U << 1)
+> 
+> Gr{oetje,eeting}s,
+> 
+> 						Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+> 							    -- Linus Torvalds
 
+Groet,
+Jori.
