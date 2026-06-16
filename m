@@ -1,81 +1,153 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522A32C0261;
-	Tue, 16 Jun 2026 18:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78952282F2C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 20:05:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781635698; cv=none; b=ZwVJ7sl3oWaeBQsLqEQh+BC0lSyXIEevoG9cYHQyq+jWc6hL4eAFx9N0ELPXfnv1CKnrH8jXzYv/3O+gQKzN1Ih1mLwnSKd+jbjJjKVv763UPV/2iOpyr0h0XySYxn6jJa82QsQrSYWgqq/11vYsK/hqmbjthvzIBal/KgCb24E=
+	t=1781640331; cv=none; b=Iu5pqxU73YSZTX6pv9m6/SBGyXf9xk7nqT0tjLKt7heZ9+ZymMHZPqegH55lO5iFwLww/0g2AJMPov058WYTV9TBJuFoo7cQEAlAnihvZEkidSYgNShMTxowGv8jit0W6OKMI54FrPMnxsfz1wb6ypKlUE1I68Er+M+A1Vzj+Yk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781635698; c=relaxed/simple;
-	bh=GiNFy7dQXeYvjClhAV+AHb0daCA+Am+nsxaNpxW00wc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=usAZYpGmepoimm6HbrnOUGUO6WLBJPMqsTJmh4Pi35BbcrxAlZ+FHLyTQc9QTXGp7evqstSQ2MDuyn8Wfl8w+O9exUmoT8+Od+ewayGuK4KHVfWWGCnjU7V0EHN/uM5artlfsrrTMW17H85Hf+zcHYBHeBPD6AcanoU3hqNrTjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CnlVf9DH; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1781640331; c=relaxed/simple;
+	bh=4BmOp7isfHANQ8ijXBq1+6ImYbZeD+NvIUCYVagGHJg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=h3H1FNEMQ3e2x1THo8vcZtGWyKWgQjTrBNo4Z1SowEBlwLlRLOFjuEWHwVtxNK6dk/MExbF6LGofZOI618OuJLGQrjgv7zAW/0oaawNB5gZnIbGY/nngrpGktzWSLQvshBppU1aPpRz8EEkiirXTrQ+PIXLY0cT9eo2bHZDFGb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VEODnDyy; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CnlVf9DH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=z9OG7K87BoFvZjDcA9yWcWHa12S87h7aKhKwnJ2yb0E=; b=CnlVf9DHztA04KJnmyK2gfrmNi
-	FqyDHroSxRdXs5mzB8YD0+4Ekyu17y5gjOVGwUkwELv4XAJ4JbEkOeIN5kweKXzYHQWfsHTjqDJKi
-	CkQrGUYOZCY25vjWlVhe/jEIzfrQw/CCmUUXyK5KvMvA7kOl0KUF5n+tBWSUtBOYYYNMe75LL0+b5
-	9Jf+fQ7YLXenEgB0fX2QDUDwttJSgnIV3Bhhs2/05z/tFIG0UbiPyab31byadrCRc49IaO64gkTWp
-	91z4pL1FfR0goS1QI0rnYww/BAGCTe+BNq3gMtVhTA4KE7Lcp2BSkPjue6Y2uPVPeuitUa5vnfolw
-	uAgehXDA==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wZYpa-0000000BIG1-3UJq;
-	Tue, 16 Jun 2026 18:48:14 +0000
-Date: Tue, 16 Jun 2026 19:48:14 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Nikolay Amiantov <ab@fmap.me>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.sourceforge.net,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>, fuse-devel@lists.linux.dev
-Subject: Re: [fuse-devel] Debugging a stale kernel cache during file growth
-Message-ID: <ajGabryrn7A2VUAq@casper.infradead.org>
-References: <898a4e10-6193-4671-b3b1-7c7bc562a671@fmap.me>
- <CAOQ4uxjoS-PvnZ2poh0bx0C6ocTYwuEpfV0q5md15SjS620OMg@mail.gmail.com>
- <CAJfpegvxF7F+XKFKokSH4eOgCA0V2RNm6B54MS9nr9wG=U66OA@mail.gmail.com>
- <59ab54f6-680e-456e-91f4-0a26889844ef@fmap.me>
- <aeFuarTL7xBbut0F@casper.infradead.org>
- <CAJfpegtAeyMRENdneJkJrMKu8Uwnyk9LYBThjvTrFjHmPr6O_g@mail.gmail.com>
- <9fe5ff50-4c1c-49ee-a8c2-4cacc3c6781d@fmap.me>
- <CAJfpegum=LJTCGqMUfLHehQE19kgdZbE2eXS_002fdpX_sd6jw@mail.gmail.com>
- <D4988E64-C9AB-404C-AA95-E5F4725BB646@fmap.me>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VEODnDyy"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490ac10e337so33783955e9.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 13:05:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781640328; x=1782245128; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LNw2t8LP5ojoxPDmcRWaKhHWz4MkqZ+bxfoJSWy6tHI=;
+        b=VEODnDyyhknneBpRWgxlTSvYTYx5srS84355nv4t6cQUKjlKGFxzbMad/GNigPLDhN
+         Gzx55brBaf4DhbicR+jOtm2Ljod5WIVVaYGxdzVwq7QafopkrHcHBHG8lc14lw2Ql7Mi
+         Xljl31rUXhwkfgOQLJXOMXBSqi/uGMkQFZx4F8eWcaS3fzM38FMpMXT1hDxyTV1wXFrC
+         IJTzSKzjiRJtaGvd8ikJhy25LkctkNUb9hWGa2vDHd/n0or7Ho0CLTdP1nCh81tXIzqu
+         k92AA44SxTNRHvSXYtexYp6HfJKMS7qqZPIP3Wq2OibXFoCDCXWtVJJALKDXRv5H3/3K
+         bSpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781640328; x=1782245128;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=LNw2t8LP5ojoxPDmcRWaKhHWz4MkqZ+bxfoJSWy6tHI=;
+        b=Rj2/6xJe2wMBoSVHWWJ6gn3riB33vCMcTdX/kkb4oOgoLaeH4VSW04GU33c1HYiwzn
+         ufNqC7rBrOmknJO0OaengR05wkz9L+bD3wBiONLDenPj3uJNX/yusmn9HzbR1hUSMn2Q
+         313zIsxBy5zNrT0YdCBLi6MMOINLPXu+RgJsI7HC+x5pR2hcTMM7ilCn4L/0qzmMK2kp
+         NbNrrzTGtQ5ZAR4We7cKRLpbVuEw/Xt2zXs3CAKo7kSig7wrrL5p0hYhwsd3JsBIl4bj
+         2o20MT5RumzmfshUVDoXPrHoscOfcbTSrSTZbTUL4mknzWGGCKhKW3Cz+mLhPjzFLNT3
+         ktVQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/IQdSloT+PEF1vERI7CIvhKptHcPIZ4zCZD259dXHAWANdhkMiu+CiX7IH/UCxHVkRPj6J6ccittZcq/4g@vger.kernel.org
+X-Gm-Message-State: AOJu0YynJUAH9izRtR0k51QVejhqEfK+xwVqf68djddvS3aXd9TXRCR1
+	5r0+z7CHhmMOXx8xN1b8aGx/tRZMv5ZbrbyLIUaV1Mb021FhDi/X3aR3
+X-Gm-Gg: Acq92OGmKBYcXtxaz88U2yMzDWZmulqXSFGf1NWQLm6gaYcMch36rC7cPO54VbIQJpk
+	CgAzIq2otcZRfrQ7UeJGzuef9BCsO/Pl3q+xGBuEXjULDuYr+CiHOf1L3HHSM9Y6Wp+TKA99n6L
+	tRZKwoxJP+6G0t3H6I6iznpqbLTbt1TSS39SfXlDnLxV1/9lfvl7zgNkwubNQYVxz8Zc8sBxFYZ
+	0RY6fVxAqbUHoaCKzw6BG0qj6ILQrYWbsuHGf/kB0pI3OZm49Rs5EssPe/LDF5CVbKHlHBfnS6i
+	Pw8eJB5ci9Z/SFJtxoMs0B5s3yTyrS31UwvVHA22Wt2tj0p400zm3ZHy7CdhYREYCDhMs4lJ3mV
+	5iTNbifbH3SHJzYIOc9J25D+qtQBsH7oe3lEV/0fXvt3wVl/HglyUCUl/SLCu21oIXCH/kCJwva
+	y7NkUbRq0DSpUrQQn1kif5Mz8nd/bOGEIorYQTY7g6hOLoSDm6AuKV0s8Xpe6/
+X-Received: by 2002:a05:600c:a104:b0:490:b642:ce31 with SMTP id 5b1f17b1804b1-492333bac42mr13452535e9.2.1781640327797;
+        Tue, 16 Jun 2026 13:05:27 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4922fa96f0esm111413835e9.12.2026.06.16.13.05.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2026 13:05:27 -0700 (PDT)
+Date: Tue, 16 Jun 2026 21:05:25 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: jkoolstra@xs4all.nl, brauner@kernel.org, broonie@kernel.org,
+ cyphar@cyphar.com, linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] vfs: uapi: retire octal and hex numbers in favor of (1
+ << n) for O_ flags
+Message-ID: <20260616210525.1458974d@pumpkin>
+In-Reply-To: <20260616102250.3652779-1-geert+renesas@glider.be>
+References: <20260604222405.5382-1-jkoolstra@xs4all.nl>
+	<20260616102250.3652779-1-geert+renesas@glider.be>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <D4988E64-C9AB-404C-AA95-E5F4725BB646@fmap.me>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 17, 2026 at 02:00:04AM +0800, Nikolay Amiantov wrote:
-> > +++ b/mm/filemap.c
-> > @@ -2856,6 +2856,14 @@ ssize_t filemap_read(struct kiocb *iocb, struct
-> > iov_iter *iter,
-> > 
-> >                          copied = copy_folio_to_iter(folio, offset, bytes, iter);
-> > 
-> > +                       /*
-> > +                        * Has the folio been truncated?  In that case we could
-> > +                        * have been copying stale info (including zeroes after
-> > +                        * EOF) for a distributed fs.
-> > +                        */
-> > +                       if (folio->mapping != mapping)
-> > +                               break;
-> > +
-> >                          already_read += copied;
-> >                          iocb->ki_pos += copied;
-> >                          last_pos = iocb->ki_pos;
+On Tue, 16 Jun 2026 12:22:50 +0200
+Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+
+> 	Hi Jori,
 > 
-> I may be missing something, but doesn't this still leave a brief race window when i_size is already updated, but the mapping is not yet invalidated? It's invalidated by invalidate_inode_pages2, correct?
+> > A recent build failure[1] exposed the diffculty of working with the
+> > current octal and hex definitions of O_ flags when trying to find a gap
+> > for a new flag. This difficulty is compounded by the fact that O_ flags
+> > may have architectural specific values.
+> > 
+> > Replace the hex/octal #defines, which are hard to parse when looking for
+> > free bits, with explicit bit shifts like (1 << 11). Also, add comments
+> > that identify which architectures redefine some of the seemingly free
+> > ("cursed") bits in uapi/asm-generic/fcntl.h. These should not be used to
+> > define new O_ flags (for now, at least).
+> > 
+> > The translastion was done with Claude Opus 4.8, and verified with a
+> > (non-AI) gawk script. The accounting of which architectures claim
+> > which bit-gaps in uapi/asm-generic/fcntl.h is also done by hand.
+> > 
+> > [1]: https://lore.kernel.org/all/agruPPybCx8q2XcJ@sirena.org.uk/
+> > 
+> > Assisted-by: Claude:Opus 4.8
+> > Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>  
+> 
+> Thanks for your patch, which is now commit 0da79c259ad0554b ("vfs:
+> uapi: retire octal and hex numbers in favor of (1 << n) for O_
+> flags").
+> 
+> > --- a/include/uapi/asm-generic/fcntl.h
+> > +++ b/include/uapi/asm-generic/fcntl.h
+> > @@ -15,51 +15,55 @@
+> >   * When introducing new O_* bits, please check its uniqueness in fcntl_init().
+> >   */
+> > 
+> > -#define O_ACCMODE	00000003
+> > -#define O_RDONLY	00000000
+> > -#define O_WRONLY	00000001
+> > -#define O_RDWR		00000002
+> > +#define O_ACCMODE	3
+> > +#define O_RDONLY	0
+> > +#define O_WRONLY	(1 << 0)
+> > +#define O_RDWR		(1 << 1)  
 
-The patches you posted earlier in the thread invalidated the page cache
-before setting i_size?
+I'm not 100% that changing these uapi constants might not generate compile
+error for userspace that has duplicate definitions that are currently fine
+because the definitions exactly match.
+
+	David
+
+> 
+> And suddenly all these constants became signed? Can't that cause subtle
+> issues, especially for uapi headers?
+> 
+> 	#define O_ACCMODE	3U
+> 	#define O_RDONLY	0
+> 	#define O_WRONLY	(1U << 0)
+> 	#define O_RDWR		(1U << 1)
+> 
+> Gr{oetje,eeting}s,
+> 
+> 						Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+> 							    -- Linus Torvalds
+> 
+
