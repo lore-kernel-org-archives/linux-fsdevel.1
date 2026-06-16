@@ -1,250 +1,178 @@
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA1642981C;
-	Tue, 16 Jun 2026 10:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781607589; cv=none; b=UoxJmTJyDPgKrjNHOF7+JWakCaP3+AKJY6K88c169JlH2xK9CVBb4lQh4Kh2paq5Q7hLW4bUJdIfCJDrJAMGO9XjDuHcbsn0wqFbqpbYSqAO7wEtiCsvnfRud7WrcPkycRTQ/713emkFpp3K+YlKmlpTAzeUqzpNwfT+vzGGyo0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781607589; c=relaxed/simple;
-	bh=YE7247dljL6Zkjk7NmaGXHMM8RpVrxUhGuMCVY8yPDk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ha9gDtpOI0WVP6OobQ77CsgWYEKbKCHPxpPcQC9uYnJf6mF8iu4aFzvZV7L2Z2j3jpWPfx/JCO1hfIHECwgCDCskHW+6ZBmTD1xtefJXwDpjVjX+pfszrei+TkwEnWbTuitJZEQUVUNyLjq34OF061oYamf4ZYdunm32Bapb3yA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=r4B+skvy; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=/CgdbIWW; arc=none smtp.client-ip=210.171.160.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3988428838
+	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 11:07:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781608026; cv=pass; b=MZIM8LhyBYSiDQBlcJ58T7AvEikMtx+VuPcuDEwhELHFKH+DjbiQDeHg2lQzTwOTTegPx0EsBYRReK5rRkotm37Jstjl13JlSRcU54Hvw66dCQmoHQmDBUCtog3+vp6nw6N1lMJeyfgPeO+GdX+JRjAwxoLcTu41uCJ33+iljXA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781608026; c=relaxed/simple;
+	bh=UKgvFqDQMLtLEF6PZjpH7+zKeHvR6wY1BelpszDmhso=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eLZ1y844JLkHbc0hn03BsWihI5aVvNq6YBzLh8NoPqsW+VAcRe9Tk0qMf97Ny3093obqsfKtaMD4IbJEP1ISfRgVNgeifYz1pYM9SoHXGokp0cswIFlpLrDkv1C3qn4ps7do1QbI6+Ipg8n2prApb7lpkEfSlmhnvIKaIFtAcBc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bT6P2SvC; arc=pass smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="r4B+skvy";
-	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="/CgdbIWW"
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id 8C8D526F7662;
-	Tue, 16 Jun 2026 19:59:37 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1781607577;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7pI5baVHQ66eEV5f5Ud+HcIzBUVIdedKNXY7A8xvaxY=;
-	b=r4B+skvyfjqhwbA0fwwfjfFW0YRQrEhobVJ5NnTX3CbG+xLPOpx+3SGP59Mq2D///eb6HZ
-	s96w6Xsfb2r/XpQbIIxPh4Oi0GSJ5Wbkffs/iM0M/XYfh01RhRb2vXkxaGOFaVwC3n/gKB
-	adjBu+7ZVhhxqJUDcpyymhy8ITnj18w+C7iAuxfnq2gD3YpcULQVr55AHTKb/Q/WVj7ZJD
-	lY+etoS2/9junro18yOx/BIW63Gm1qkBlSVqE9zLJHxvuw+xdsu7RJjp++zbh9at1lPJhP
-	EuPL20BHXhnHDtUER3VTXQEG130AMgOTC4FtbRselNwyAkCU/frQpfzHrDaYKQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1781607577;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7pI5baVHQ66eEV5f5Ud+HcIzBUVIdedKNXY7A8xvaxY=;
-	b=/CgdbIWW8dqGeLmiJic6K7Pyb25gKSnq00UHAXYPe4RwuDR67rO9itF2bkYPxoEPXTZ58c
-	4mi/k1C4r9t9a2CA==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 1A8F5E00743;
-	Tue, 16 Jun 2026 19:59:37 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id 0962E2200085; Tue, 16 Jun 2026 19:59:37 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Matteo Croce <technoboy85@gmail.com>, Timothy Redaelli
- <tredaelli@redhat.com>,  linux-fsdevel@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  Matteo Croce <teknoraver@meta.com>
-Subject: Re: [PATCH v3] fat: stop reading directory entries past the
- end-of-directory marker
-In-Reply-To: <20260613172816.18034-1-technoboy85@gmail.com>
-References: <20260613172816.18034-1-technoboy85@gmail.com>
-Date: Tue, 16 Jun 2026 19:59:37 +0900
-Message-ID: <878q8e699i.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bT6P2SvC"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-691c5776f95so8610876a12.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 04:07:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781608023; cv=none;
+        d=google.com; s=arc-20240605;
+        b=imnrvLRseq3W608Lr2k3OqlC7+8WSZP054R52MfOQo/LbQRSqwXBv56E1qCnMwR9AL
+         sRsIO6Ghj8INhYTBXCclBCR38i+SFrfmqBQKOJggJ8HauPSEiFodKL1/y3QiurT7y8pJ
+         dW2oUf2PqyPjFg9f7GF6U+FscHXisOZtOuw6WvvtvdSzGtjorx6Eru5jINTMrHYJ7Bv4
+         vbiiJUCFJ6fw11JoSAC0TwJ58Mb9uAGRo2WmeZ1Bcqgq7uS88ajqnaTKTmvnELA+cGLy
+         NsH8dVJV4MjP09Li90OSryw71oT0djLOhYEfM8rCsQ5OoUFwRWyfdtBD5ZpKtSqE5B5p
+         o/QA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=20q/BGHO10i85mG1oAr9AYp71NMXEjLfTQeksDW/K5s=;
+        fh=G247raRK+0I6KG5FVHKn+vkbxmjSAHmAFk9LsBQFGFY=;
+        b=ENOO0tQuvz1tk5BRiKTV4fNVQp2uCjSlniQxBpKNGQTAvcylq6JWz1s0oQKIqL2ViB
+         XPRKfawlETBwyv5xY+2sTqLmTikT8SMKO/iNwiZjPQcUuvJBzfo9CYxgHq0FArmtd/JS
+         9u+vgXLWwGOjVD6mXHgdkfJHWtGslRdQTcWXSc2E5rmFEAeaslgvG+I+MYul3q3scB+2
+         gGx9PqNpCiN288XbSK2kWAmzskIx9dVZRcIyrbrHjNN3TXyvP6moWLz+Vaj0qw2qeYD4
+         EKzH443bwPxJazdqeR5on/YTgtTEmNecXYsxGnZBQBw1cr4ayc+CFoKLnliMH48r7eR5
+         XehA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781608023; x=1782212823; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=20q/BGHO10i85mG1oAr9AYp71NMXEjLfTQeksDW/K5s=;
+        b=bT6P2SvCuWCSnxU2jr9ONR07+ZW4h5RmiblDXplFY3XBA8j6B0UjZB2Tt1JBonehag
+         tWFdKGK9XSCghyXW4aU4aaAfNKa7AzC9bKdGr8rtXpm3Ve4Nk8rsvR68ASa2nY2QKBAF
+         rKYR+vI1bkM6vQExAOR9xRf+MvtLNXJVeow5gCBw3SW2lfWnGUgm7KXxCxCQOaaaaZ+F
+         LDOUHva1577CMryB62Gl9DX65Uis0ck2nbEDGjIuWuXer+Vfm7gV4igK29CVIzvaO6/g
+         Yjlk+6I5/pnsC6o1qXZGNJijtn/ldfXM0AoX61vK/eX/wDkE5/bbqC3M+wczVZI6fclc
+         45bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781608023; x=1782212823;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=20q/BGHO10i85mG1oAr9AYp71NMXEjLfTQeksDW/K5s=;
+        b=K8xs9YbmKXnojqD7xEOmVzahAx9h+cDRhZQ/dv7cUc/HX/tyLpeyIYLjTd06prS2oR
+         /nR1t29XQMkZ/y+FfdiOCA98DatNdizhxUYSBpCGIjiSkb8zqtbvZv6MaeNVGJ5jLbfZ
+         zD5jFP4wjyYklQonW5nnrGAX1ByQHbirOeDqO1hjCJTE+atZNFsWqOcGdsGouWix4Lgy
+         FuD5vxykbsJ3Tns/jBjk8ZKa/IFLNMk6EXsQMkWQ5rCkKEWflXcXphuSq8Iesm5oVUul
+         vXAu/uV982EyOGkVykFqhEDPQOtqWqGrvfKde0PU/D+UyldNrer1U38kBtLvek/q3nnz
+         ZWng==
+X-Forwarded-Encrypted: i=1; AFNElJ9L08hUeliFzQaKEcecVYhJkOIVCcvq4FduDo/tSlZSTvV49X4fMm39VGyWdLzpRimABxuDFYBaCVQPZoAP@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZkzXTAIR6M3TmBS2qE2iASjhSW10hd01PjYPaOkakJ9EehpkQ
+	2VilU4NNqnhYUH4LO70eGQhKpehbxQltQPDFbnne7/gFQX3rUEU7hJC5jFFIjeEqKGdhMIZ/1CO
+	YhM2cgz+cXyHQLSRbNn7v3Zwg7gOTC1c=
+X-Gm-Gg: Acq92OErqt3r73dgjBR/MeM5qdcKaKrNdu8hf10t8GUrVqc5OzwxBLjYkME5mKLdQRG
+	Zq59bsk1zm9+sgFprXaaebnYYnbTrl9++61EdPqHZ+39kbEH60zT3S1wF274b69X3neZxHkeQdY
+	0oBIy0GuZm2ZrZSP7EDR1LZu9A80jf6tHmcAowtlhGZlk4PirD0v6u3jm/IXoDVE/6J07CV+Ul6
+	5/3f5oS++Gbc4rtxHJWR5PnfmD1CotgftvJUVfD2a2ZiPQ3WBoXGdCRMOjikU1aahuF7m9HmxyC
+	/I265NujJAP0CqrZU4Ke1Ddd6aLLGIE53XY3SWPnkA==
+X-Received: by 2002:a05:6402:548b:b0:674:40c3:f047 with SMTP id
+ 4fb4d7f45d1cf-69378a13834mr7848637a12.12.1781608023195; Tue, 16 Jun 2026
+ 04:07:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20260529031918.7361-1-russ.fellows@gmail.com> <20260616014419.7913-1-russ.fellows@gmail.com>
+ <20260616014419.7913-2-russ.fellows@gmail.com>
+In-Reply-To: <20260616014419.7913-2-russ.fellows@gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Tue, 16 Jun 2026 13:06:50 +0200
+X-Gm-Features: AVVi8CeB0X6EyzK00L2fugoUV9YOSNlq4homkq5QHUNDaYttuIbu1Ks3xO3WC3c
+Message-ID: <CAOQ4uxiMEG+wMot+hcL48AoT_FFri=+RimQ2JbLA0Pi77pvzKw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] fuse: preserve FOPEN_PARALLEL_DIRECT_WRITES for
+ passthrough opens
+To: Russ Fellows <russ.fellows@gmail.com>
+Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Russ Fellows <rfellows@xlrait.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Matteo Croce <technoboy85@gmail.com> writes:
-
-> The FAT specification[1] (FAT Directory Structure -> "DIR_Name[0]") states:
+On Tue, Jun 16, 2026 at 3:44=E2=80=AFAM Russ Fellows <russ.fellows@gmail.co=
+m> wrote:
 >
->     If DIR_Name[0] == 0x00, then the directory entry is free (same as for
->     0xE5), and there are no allocated directory entries after this one
->     (all of the DIR_Name[0] bytes in all of the entries after this one
->     are also set to 0).
+> From: Russ Fellows <rfellows@xlrait.dev>
 >
->     The special 0 value, rather than the 0xE5 value, indicates to FAT
->     file system driver code that the rest of the entries in this
->     directory do not need to be examined because they are all free.
+> fuse_file_io_open() currently strips FOPEN_PARALLEL_DIRECT_WRITES wheneve=
+r FOPEN_DIRECT_IO is absent. That rule is correct for the regular direct-IO=
+ path, but it is too strict for passthrough opens.
 >
-> Linux did not honour this. fat_get_entry() kept advancing past the 0x00
-> terminator; if the trailing on-disk slots were not zero-filled (buggy
-> formatters, read-only media written by other operating systems, on-disk
-> corruption) the driver surfaced arbitrary bytes as real directory
-> entries. On a typical affected image, `ls /mnt` returns ~150 bogus
-> entries with random binary names, multi-gigabyte sizes, dates ranging
-> from 1980 to 2106, and a flood of -EIO from stat().
+> Passthrough I/O already bypasses the page cache through the backing file,=
+ so it does not need FOPEN_DIRECT_IO to preserve direct-I/O semantics. Clea=
+ring the parallel-write flag for passthrough opens causes the kernel to dro=
+p the server's request for parallel direct writes before the passthrough wr=
+ite path ever sees it.
 >
-> Earlier attempts (v1..v3, see [2][3][4]) added `de->name[0] == 0` guards
-> at each call site. As Hirofumi pointed out on v3, those guards reject
-> the entry but fat_get_entry() has already advanced *pos past it; the
-> next readdir() resumes after the marker and walks straight back into
-> the garbage. His suggestion was to centralise the check.
+> Keep FOPEN_PARALLEL_DIRECT_WRITES for opens that also carry FOPEN_PASSTHR=
+OUGH, and continue to clear it for non-passthrough opens that lack FOPEN_DI=
+RECT_IO.
 >
-> This patch:
+> This is a prerequisite for passthrough write parallelism: without it, the=
+ subsequent shared-lock path never activates.
 >
->   * Adds fat_get_entry_eod(), a small wrapper around fat_get_entry()
->     that returns -1 when name[0] == 0 and seeks *pos to dir->i_size.
->     Per spec every slot after the 0x00 marker is also zero, so jumping
->     to the end of the directory is correct: subsequent reads return -1
->     from fat_bmap() without re-fetching trailing zero slots, and
->     callers persisting *pos across invocations (notably readdir's
->     ctx->pos) keep reporting end-of-directory on re-entry.
->
->   * Converts the read/search paths to use the new wrapper:
->       fat_parse_long(), fat_search_long(), __fat_readdir(),
->       and fat_get_short_entry() -- the last covers
->       fat_get_dotdot_entry(), fat_dir_empty(), fat_subdirs(),
->       fat_scan(), and fat_scan_logstart() transitively.
->
->   * Leaves fat_add_entries() and __fat_remove_entries() on raw
->     fat_get_entry(): the write paths legitimately need to operate on
->     free/zero slots. fat_add_entries() additionally detects an
->     allocated entry past a 0x00 marker (the spec violation that
->     produces the garbage) and treats it as filesystem corruption:
->     fat_fs_error_ratelimit() is called -- which honours the configured
->     errors= mount option (panic / remount-ro / continue) -- and the
->     operation returns -EIO so we don't write fresh entries into an
->     already-corrupt directory.
->
-> [1] https://download.microsoft.com/download/1/6/1/161ba512-40e2-4cc9-843a-923143f3456c/fatgen103.doc
-> [2] https://lore.kernel.org/lkml/20181207013410.7050-1-mcroce@redhat.com/
-> [3] https://lore.kernel.org/lkml/20181216231510.26854-1-mcroce@redhat.com/
-> [4] https://lore.kernel.org/lkml/20190201001408.7453-1-mcroce@redhat.com/
->
-> Reported-by: Timothy Redaelli <tredaelli@redhat.com>
-> Suggested-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-> Signed-off-by: Matteo Croce <teknoraver@meta.com>
-
-There are some strange behavior though (e.g. seek after name[0] == 0,
-then readdir()), the strange should only be on already a corrupted image.
-
-Well, if we found a serious issue with this, there is possibility to
-revert later though. Looks good for me.
-
-Acked-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-
+> Signed-off-by: Russ Fellows <rfellows@xlrait.dev>
 > ---
->  fs/fat/dir.c | 41 +++++++++++++++++++++++++++++++++++++----
->  1 file changed, 37 insertions(+), 4 deletions(-)
+>  fs/fuse/iomode.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 >
-> diff --git a/fs/fat/dir.c b/fs/fat/dir.c
-> index 4f6f42f33613..c7d0bc5de697 100644
-> --- a/fs/fat/dir.c
-> +++ b/fs/fat/dir.c
-> @@ -130,6 +130,28 @@ static inline int fat_get_entry(struct inode *dir, loff_t *pos,
->  	return fat__get_entry(dir, pos, bh, de);
->  }
->  
-> +/*
-> + * Like fat_get_entry(), but honour the FAT end-of-directory marker:
-> + * a dirent whose first name byte is NUL terminates iteration per the
-> + * spec, which also guarantees that every following slot is zeroed.
-> + * Skip straight to the end of the directory so the next call returns
-> + * -1 from fat_bmap() without re-reading the trailing zero slots, and
-> + * so callers that persist *pos across invocations (e.g. readdir's
-> + * ctx->pos) keep reporting EOD.
-> + */
-> +static int fat_get_entry_eod(struct inode *dir, loff_t *pos,
-> +			     struct buffer_head **bh,
-> +			     struct msdos_dir_entry **de)
-> +{
-> +	int err = fat_get_entry(dir, pos, bh, de);
-> +
-> +	if (err == 0 && (*de)->name[0] == 0) {
-> +		*pos = dir->i_size;
-> +		return -1;
-> +	}
-> +	return err;
-> +}
-> +
->  /*
->   * Convert Unicode 16 to UTF-8, translated Unicode, or ASCII.
->   * If uni_xlate is enabled and we can't get a 1:1 conversion, use a
-> @@ -327,7 +349,7 @@ static int fat_parse_long(struct inode *dir, loff_t *pos,
->  
->  		if (ds->id & 0x40)
->  			(*unicode)[offset + 13] = 0;
-> -		if (fat_get_entry(dir, pos, bh, de) < 0)
-> +		if (fat_get_entry_eod(dir, pos, bh, de) < 0)
->  			return PARSE_EOF;
->  		if (slot == 0)
->  			break;
-> @@ -489,7 +511,7 @@ int fat_search_long(struct inode *inode, const unsigned char *name,
->  
->  	err = -ENOENT;
->  	while (1) {
-> -		if (fat_get_entry(inode, &cpos, &bh, &de) == -1)
-> +		if (fat_get_entry_eod(inode, &cpos, &bh, &de) == -1)
->  			goto end_of_dir;
->  parse_record:
->  		nr_slots = 0;
-> @@ -601,7 +623,7 @@ static int __fat_readdir(struct inode *inode, struct file *file,
->  
->  	bh = NULL;
->  get_new:
-> -	if (fat_get_entry(inode, &cpos, &bh, &de) == -1)
-> +	if (fat_get_entry_eod(inode, &cpos, &bh, &de) == -1)
->  		goto end_of_dir;
->  parse_record:
->  	nr_slots = 0;
-> @@ -885,7 +907,7 @@ static int fat_get_short_entry(struct inode *dir, loff_t *pos,
->  			       struct buffer_head **bh,
->  			       struct msdos_dir_entry **de)
->  {
-> -	while (fat_get_entry(dir, pos, bh, de) >= 0) {
-> +	while (fat_get_entry_eod(dir, pos, bh, de) >= 0) {
->  		/* free entry or long name entry or volume label */
->  		if (!IS_FREE((*de)->name) && !((*de)->attr & ATTR_VOLUME))
->  			return 0;
-> @@ -1302,6 +1324,7 @@ int fat_add_entries(struct inode *dir, void *slots, int nr_slots,
->  	struct msdos_dir_entry *de;
->  	int err, free_slots, i, nr_bhs;
->  	loff_t pos;
-> +	bool saw_eod;
->  
->  	sinfo->nr_slots = nr_slots;
->  
-> @@ -1310,12 +1333,15 @@ int fat_add_entries(struct inode *dir, void *slots, int nr_slots,
->  	bh = prev = NULL;
->  	pos = 0;
->  	err = -ENOSPC;
-> +	saw_eod = false;
->  	while (fat_get_entry(dir, &pos, &bh, &de) > -1) {
->  		/* check the maximum size of directory */
->  		if (pos >= FAT_MAX_DIR_SIZE)
->  			goto error;
->  
->  		if (IS_FREE(de->name)) {
-> +			if (de->name[0] == 0)
-> +				saw_eod = true;
->  			if (prev != bh) {
->  				get_bh(bh);
->  				bhs[nr_bhs] = prev = bh;
-> @@ -1325,6 +1351,13 @@ int fat_add_entries(struct inode *dir, void *slots, int nr_slots,
->  			if (free_slots == nr_slots)
->  				goto found;
->  		} else {
-> +			if (saw_eod) {
-> +				fat_fs_error_ratelimit(sb,
-> +					"allocated dir entry found after end-of-directory marker (i_pos %lld)",
-> +					MSDOS_I(dir)->i_pos);
-> +				err = -EIO;
-> +				goto error;
-> +			}
->  			for (i = 0; i < nr_bhs; i++)
->  				brelse(bhs[i]);
->  			prev = NULL;
+> diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
+> index c99e285f3..0301a48d8 100644
+> --- a/fs/fuse/iomode.c
+> +++ b/fs/fuse/iomode.c
+> @@ -216,9 +216,12 @@ int fuse_file_io_open(struct file *file, struct inod=
+e *inode)
+>                 goto fail;
+>
+>         /*
+> -        * FOPEN_PARALLEL_DIRECT_WRITES requires FOPEN_DIRECT_IO.
+> +        * FOPEN_PARALLEL_DIRECT_WRITES requires FOPEN_DIRECT_IO, except =
+for
+> +        * passthrough opens which bypass the page cache regardless and d=
+o not
+> +        * need FOPEN_DIRECT_IO to guarantee direct I/O semantics.
 
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+That's a very round about way to say FOPEN_PARALLEL_DIRECT_WRITES requires
+open in either direct_io or passthrough mode, but an even better way
+of saying this:
+
+#define FOPEN_IOMODE(oflags) ((oflags & (FOPEN_DIRECT_IO | FOPEN_PASSTHROUG=
+H))
+#define FOPEN_IOMODE_IS_CACHED(oflags) (FOPEN_IOMODE(oflags) =3D=3D 0)
+#define FOPEN_IOMODE_IS_DIRECT(oflags) (FOPEN_IOMODE(oflags) & FOPEN_DIRECT=
+_IO)
+#define FOPEN_IOMODE_IS_PASSTHRPUGH(oflags) (FOPEN_IOMODE(oflags) =3D=3D
+FOPEN_PASSTHROUGH)
+
+>          */
+> -       if (!(ff->open_flags & FOPEN_DIRECT_IO))
+> +       if (!(ff->open_flags & FOPEN_DIRECT_IO) &&
+> +           !(ff->open_flags & FOPEN_PASSTHROUGH))
+
+         /* FOPEN_PARALLEL_DIRECT_WRITES is not supported with cached iomod=
+e */
+          if (FOPEN_IOMODE_IS_CACHED(ff->open_flags))
+                  ff->open_flags &=3D ~FOPEN_PARALLEL_DIRECT_WRITES;
+
+...
+        if (FOPEN_IOMODE_IS_DIRECT(ff->open_flags))
+                return 0;
+
+        if (FOPEN_IOMODE_IS_PASSTHROUGH(ff->open_flags))
+                err =3D fuse_file_passthrough_open(inode, file);
+        else
+                err =3D fuse_file_cached_io_open(inode, ff);
+
+or some variation of this which makes those modes and comments easier
+to understand.
+
+Thanks,
+Amir.
