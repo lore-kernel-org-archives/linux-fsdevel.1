@@ -1,150 +1,141 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72DDD33F383
-	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 01:15:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A64237BE7A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 01:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781572527; cv=none; b=qLKhlHDtlK0wdEcF2NJuHntnEaSyMYv64bMUk4lQape8uspdmRW2ochOc0AmjMK3BeMWMmw0C2znpPlXr3XN7G3aQJgxzcHKBR2KcxFF2c9kTkeu3x3PGoMMygJ3mqFkxh9fhm9Iir95xntB1ahDOsS1M/OvBJ+KvwbKE+tR+YY=
+	t=1781574268; cv=none; b=jdLm3T2FTyfUag3ZlghlR5SR7Lpj2uCq9ODeiKPVsmlxwCQZNFG0JN/xSuRKT4c8JLHJ+gaqfk7Aid/eKlTqa2i0TGp6u+5m6IvvW1z4FXO2GFlx9DuEsFNw6qRRQJknNvC+5n3QQAT8gHOVaciqpLHjmtmiANSzXDydwwYl5Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781572527; c=relaxed/simple;
-	bh=qSWoZgNw3PpVwHOk9/H/f2RnG3uRakwqaf1M/1PGtU8=;
+	s=arc-20240116; t=1781574268; c=relaxed/simple;
+	bh=ElPvESyHtIZBIZzEQ3wF/X7fQxATAJZSTHXuF5lmzSI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=G75odQ7rRWpw3CyKpgJKo0X8rqrI8oQnS3Mo6RvqSW+5WrJgn3rwC7Bu2LA2Iv/aURa4cwbm0FS1edjHV6Xaeha9VDgJDyhuicAauM6zvH2lRl7mPkg0QeDxviY/eUU9/D4MgckUXCREtlE3CogWApdnmw106bKVKuoUpM4h1P0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gY4GfdU+; arc=none smtp.client-ip=209.85.128.54
+	 MIME-Version; b=Bv02nM12EIBnI391vuAxdhBEWx+z1S7GNfh20mm5kqun8jJUeR2G72FPiQFnAUHiq9TICXAKvXB/IKBNNerkZhQCtoWVdRO78k00eSak7rnX17I9Cf/5JcHTKPFC6bDZN/XN0Ur3MMnaRr09u1yMVUCnqgBtFH4Vwg4xyL7f/i4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EtiKZM6Z; arc=none smtp.client-ip=209.85.161.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gY4GfdU+"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-490acbb0f89so25523685e9.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 18:15:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EtiKZM6Z"
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-69d7aa0ac14so2816600eaf.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 18:44:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781572524; x=1782177324; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781574266; x=1782179066; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=53973eSawR2ZjjRuPt5kDFsVlZ1YHqdNePsF+6+pfeM=;
-        b=gY4GfdU+fnf2fpkgHqn+YKSNu2S3tZpA4UYKriInFnsJ2ouxdKifTLZo+v2WRUVzVv
-         l6ChYa8hy8b32sF5eihbKfCnq9ej6soPiI1VfrgCx+wpMYPIBffRw/IkkVHkATe3HfsF
-         7biBiYvPB+QDdCV8fAVbNNMOmm/duLs125U/h8rlc6UfLQgKO7ZT2w/t3oj7W9TyGV8V
-         vugqEIAZUEiatJwF+z+uscmYoEMGGTOvmbPQql1VT3ooCsni4RN3lUOxSjoOF1G0uWrJ
-         44gD0UQ2SK5QUqE/od+j4iKtbzcAsww1GLqoTJT63nhUr97UfLH7pq8pzb8H0U3ls0bJ
-         Cg6w==
+        bh=Xi5sYG6uyveDGeVU6XwSoMZ8X3XrDX41q4nmlIH5grs=;
+        b=EtiKZM6ZpW87OoiVjN4ILPvxGR3DDScYL0Ni1kgH7/2pxkLkIAChpMbD0Ltei8Irp0
+         i7ujsGhiI0U3JupzlTfVxgEiwjH8HXxVJzd/uUXa4V72mU7VSH72aVgXcYSHvm2U9CC9
+         MKqKPq/SEhoWTYosLr6dtRYfBJQEseBG6SbPLYXDBGxb8p7iDUFarXzyt+EpJrzCLgAx
+         FHXPqb+u6EbEwVKlwk7AT6fuxJd3kUjvydz8oFJDTZHNH5tmhijMi+EkkZNRlvKy6YWN
+         X/J4gyjHpyj0j3p9qG1Uusvhjmh5BqTEd3qrxI19uCdcStDpzuFlWv/bNUCUNalz6uCw
+         NgKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781572524; x=1782177324;
+        d=1e100.net; s=20251104; t=1781574266; x=1782179066;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=53973eSawR2ZjjRuPt5kDFsVlZ1YHqdNePsF+6+pfeM=;
-        b=MjN3Y4Ls4WK9ZEWg2hkQQ56JX8pDlilyuKqr2EKETYxeBRbTDcr0h5T1vLUKYQR2dl
-         IoTAIJqUHiJ8AsS9PYkziLO+RCWkPC8g9KSpxcv4IRBiHyFNKngQl+6fwa5tNKIkG1uS
-         PHior5G4QkJVh7XE3IEkAJDzKlpH9dcZ6FOrlBNa4kDJoImK9gJ5zJ6KNkqfYz7SmMG2
-         P75A9dDOHU8LpZVWkGMbNdOHmsNxVHtLrmz8ChYUEmeELYglXvB4+c+j/uVEnS73xrhQ
-         Wh/gjDDfydPnJ2/rI2ovdof+RoUawNLj1Wb3JBozwo1jw9KMAzQqekfc+K4S/vwJCtIS
-         BLjQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+qHnjGCsOHuenpyO+JSuBjiaAtIVm1l8UnJsww7IkgB81vCQ95gBHmS/laHoC3s4L7SAz2GkVn7bjGlZyB@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFyVxzW0WV2shfU3OVUe8fXEGI6G9DFHbPJGizHCIT3M6AJif7
-	4axFu6wAT+rBc3UmWWYfIL4u1MIzBiuy209WYFgVJiauc9vz94xfCYfW
-X-Gm-Gg: Acq92OE/qiiPLGS9DMCyTRgVJfxm4y0vRqjJST446To16ISG2fyY1X84Vly1lhfdozf
-	S1W+QeA5w4973PO/O5MBcQ2Vqk8Ee2WclDifYOasywyg/rJlaEQy+U6TJmvc21Fc5rSFabafDh+
-	E+lkO1H76b9dt1MMGN18qQLdqe+E5OoZk/+HlUiqnAU6rI7cTq2iTE9VKGZmLtagemo5p9ByOBV
-	eVv2xA4+/gEgtbWXl7wEt1TrpRaZ8tl8KswdCn+1w3qCe7gpy8X4VMXxyRXfcEGaDlwVhFRtYU4
-	3FvHL2FjNclsZVOQCnZUuNOmhNLuQCukg5RGfPlqjQLpC3OVKW5Hp8WbupoIasE4fD3W6CWQwUa
-	jN5Uj6ZezW4oYtU6bQz7Gt+CrgajLRa8mG+D5k/GZ46MKGZ51itUGuCs55DRkRzqLbcXc23T4RO
-	vjdltBcvREBnFMAxkbCWg=
-X-Received: by 2002:a7b:cd0b:0:b0:490:b2c9:e284 with SMTP id 5b1f17b1804b1-49220143bc6mr120782165e9.30.1781572523711;
-        Mon, 15 Jun 2026 18:15:23 -0700 (PDT)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4922fa47da9sm43123095e9.5.2026.06.15.18.15.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Jun 2026 18:15:21 -0700 (PDT)
-From: Askar Safin <safinaskar@gmail.com>
-To: joannelkoong@gmail.com
-Cc: akpm@linux-foundation.org,
-	axboe@kernel.dk,
-	bernd@bsbernd.com,
-	brauner@kernel.org,
-	david@kernel.org,
-	dhowells@redhat.com,
-	fuse-devel@lists.linux.dev,
-	hch@infradead.org,
-	jack@suse.cz,
-	linux-api@vger.kernel.org,
+        bh=Xi5sYG6uyveDGeVU6XwSoMZ8X3XrDX41q4nmlIH5grs=;
+        b=A9PmJ1wU6RbYRJtu/V9idOMUtN30DufHGsZ+TaKqR0+pTLzFXLNWLZh2pXkuB0v2Hc
+         CHvqXhNSEEnnoPVQ0LZmn6UCA3OWz6eokxyHSf1OApCGINZ786V4gVch6RkmfhrnF6Bo
+         /vUpjlKRuFZllChyrlyeye+1WrXHEzGmXHcNntguPDGE5TyGavUGwkcsfRutjSsoB9qT
+         jAv0M5rkYd01Z+EmxAvIWm0wUbCwXaXGCFXjdsdZkvSppLobShAFhQGkKnJvV5zZMTco
+         x4AhWGg0Hy3yK61B1bIUc+RDYKdmOx6eP5eOt/+ChlgrAmQ7CPxE8mZUixDW/ti24j3z
+         3Ygw==
+X-Forwarded-Encrypted: i=1; AFNElJ+5ko8lKTw8urH+z++a2NGI4Wcn2jPmtgSOTsmC5Wh2RA48FhIkhhc5nu5r+DyxH9rzgycmSoXUAFT6ENic@vger.kernel.org
+X-Gm-Message-State: AOJu0YxG48mRC3Kfrpl0V+jamBYjlguMSbSGESgfbmgn9qEn5vIdf6yF
+	9wE+kntOfut3+WqGgTzL+kQWUXOnNpEvlmR04pRWDN8heZt1hkS96Lph
+X-Gm-Gg: Acq92OGqpI3OBHKyJd+NNa1cex+zgMfO7ts4+/aNmF/pXfuiS23KIP/skashgpWfIkT
+	XfJLp51IW1h3Pb6vt5XghrQ+xmwNJP4DqscE/yIFtn5Hh3U65Q8BVz2BWqxpJYWHDrceUbXEr0r
+	mu0+KoUNdY4+n4ISOKGuvaIkTfgn2wqjQaKHb/SIK3rm1/9dEdHEbMJziP8HHwRUSqhrpnQTMei
+	XGgNOOTrQ1Myrqy0cKL1vw58CgLYmBN1C8EFGDaaQLXJemysEhiU9YVjdtB2ahEq6V6/iX/6Jr1
+	0tDChXuwxvhsOkOLsRerfvWaFlCM+kPz/FsU2teHE5NumasO/Eu69Hf5dDeNRtrybtPp5zCmcL6
+	8udWMxOuaatCg1ApDoraa+KbOd963UoG73+wfaYoJzLEVCKBKaxAYS4gXziw+X7QoJDVvW8ZbnP
+	//mk4KHsEuvXtZPWjR8BVpCbO+bRGWSO5TheRs9XHcaR2ZEnqmgL75hYDEKjSNhIa5JqyDKEXip
+	nghqzBuJBbi3i7XxRWzLOmsKOfWurVCk4hXVOQsybmIbZbT2pFAo0o=
+X-Received: by 2002:a05:6820:4deb:b0:69d:fee4:2381 with SMTP id 006d021491bc7-6a0a40ef256mr1280037eaf.55.1781574266486;
+        Mon, 15 Jun 2026 18:44:26 -0700 (PDT)
+Received: from rdf-gcp2.us-central1-b.c.storage-xlrait-66065.internal (163.80.112.136.bc.googleusercontent.com. [136.112.80.163])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69f00b41ed1sm4093011eaf.0.2026.06.15.18.44.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2026 18:44:25 -0700 (PDT)
+From: Russ Fellows <russ.fellows@gmail.com>
+To: miklos@szeredi.hu
+Cc: fuse-devel@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	miklos@szeredi.hu,
-	netdev@vger.kernel.org,
-	patches@lists.linux.dev,
-	pfalcato@suse.de,
-	rostedt@goodmis.org,
-	safinaskar@gmail.com,
-	torvalds@linux-foundation.org,
-	val@packett.cool,
-	viro@zeniv.linux.org.uk,
-	willy@infradead.org
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-Date: Tue, 16 Jun 2026 04:15:09 +0300
-Message-ID: <20260616011516.4039110-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <CAJnrk1Y9egYizkx1H9K0cqxSYuB+7vLvQbV7Tf4C5eHFqnnC-A@mail.gmail.com>
-References: <CAJnrk1Y9egYizkx1H9K0cqxSYuB+7vLvQbV7Tf4C5eHFqnnC-A@mail.gmail.com>
+	amir73il@gmail.com,
+	Russ Fellows <rfellows@xlrait.dev>
+Subject: [PATCH v2 0/2] fuse: fix passthrough parallel direct writes with a minimal series
+Date: Tue, 16 Jun 2026 01:44:17 +0000
+Message-ID: <20260616014419.7913-1-russ.fellows@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260529031918.7361-1-russ.fellows@gmail.com>
+References: <20260529031918.7361-1-russ.fellows@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Joanne Koong <joannelkoong@gmail.com>:
-> > speaking of fuse_dev_splice……_write actually, this series has broken
-> > xdg-document-portal!
-> >
-> > https://github.com/flatpak/xdg-desktop-portal/issues/2026
-> >
-> > Specifically what happens is that the EINVAL is returned due to oh.len
-> > != nbytes:
-> >
-> > fuse_dev_do_write: oh.len 16400 != nbytes 15526
-> >
-> > (where 16400 == 16384 (read len) + 16, 15526 == 15510 (file len) + 16)
-> >
-> > After reverting the series, there is no error because oh.len
-> > becomes 15526 too.
-> 
-> I think this is because of how libfuse handles eof / short reads. When
-> it detects a short read, it fixes up the header length after the
-> header was already vmspliced to the pipe because it assumes vmsplice
-> mapped the header's page into the pipe by reference. It assumes that
-> modifying the header length in place gets then reflected in what the
-> pipe later splices out.
-> 
-> The logic for this happens in fuse_send_data_iov() [1]:
-> a) sets out->len = headerlen (16) + len (16384) = 16400 in the
-> stack-allocated fuse_out_header
-> b) vmsplices the header to the pipe
-> c) splices the backing file to the pipe. if this hits EOF, it'll get
-> back 15510 instead of 16384
-> d) detects the short read [2], fixes up the stack out->len = 16 + 15510 = 15526
-> e) splices the pipe to /dev/fuse
-> 
-> After this patch, step b) is a straight copy which means step d)'s
-> fixup doesn't modify what's in the pipe. This could be fixed up in
-> libfuse to not depend on modify-after-vmsplice, but I don't think this
-> helps for applications using already-released libfuse versions. I
-> think this patch needs to be reverted.
-> 
-> Thanks,
-> Joanne
-> 
-> [1] https://github.com/libfuse/libfuse/blob/master/lib/fuse_lowlevel.c#L846
-> [2] https://github.com/libfuse/libfuse/blob/master/lib/fuse_lowlevel.c#L956
+From: Russ Fellows <rfellows@xlrait.dev>
 
-Uh, this is very unfortunate. But I still want to remove vmsplice.
-Maybe we can somehow save my patchsets? For example, let's return EINVAL
-for this particular combination (writable pipe + SPLICE_F_NONBLOCK).
+This series contains the current minimal submit-ready fix for passthrough write
+parallelism.
+
+The first patch preserves FOPEN_PARALLEL_DIRECT_WRITES for passthrough opens.
+Without that, fuse_file_io_open() strips the flag before passthrough writes see
+it, so the kernel never reaches the shared-lock path.
+
+The second patch keeps the lock decision local to passthrough.c and allows
+shared inode locking only for safe direct overwrite writes. Append writes,
+buffered writes, and writes that may extend EOF remain serialized.
+
+This intentionally replaces the older broader patch direction. The current
+minimal series does not export fuse_dio_lock()/fuse_dio_unlock() from file.c,
+does not add declarations to fuse_i.h, and does not include the separate
+iocachectr/fi->lock cleanup work.
+
+Regarding fuse_passthrough_end_write() safety: the shared lock is only taken
+for within-EOF direct overwrites, where i_size does not change. In that case
+fuse_passthrough_end_write() -> fuse_write_update_attr() only updates mtime/
+ctime, which is safe under a shared inode lock. Past-EOF writes still take
+the exclusive lock, so i_size updates are always serialized correctly.
+
+Validated on kernel 6.17.13-p4min with fio 4K random direct writes on a FUSE
+passthrough mount backed by XFS on a RAM-backed null_blk device:
+
+  numjobs | FUSE IOPS
+  --------|----------
+        1 |   481,837
+        2 |   931,883
+        4 | 1,533,058
+        8 | 1,730,477
+
+Raw XFS on the same device at numjobs=8: 1,693,406 IOPS.
+
+Changes since v1:
+  - Removed use of fuse_dio_lock()/fuse_dio_unlock() from file.c; the lock
+    decision is now self-contained in passthrough.c using inode_lock_shared()
+    and inode_unlock_shared() directly.
+  - Added explicit IOCB_DIRECT check: parallel locking is only allowed for
+    direct I/O, preventing accidental shared locking on buffered writes.
+  - Added explicit IOCB_APPEND check: append writes always serialize.
+  - Added explicit past-EOF check: writes that extend i_size always serialize.
+  - Removed all symbol exports from file.c (fuse_dio_lock, fuse_dio_unlock).
+  - Removed all declarations added to fuse_i.h.
+  - Split into two patches: iomode.c flag preservation as a prerequisite
+    (patch 1) and passthrough.c locking logic as the main change (patch 2).
+
+Russ Fellows (2):
+  fuse: preserve FOPEN_PARALLEL_DIRECT_WRITES for passthrough opens
+  fuse: allow parallel direct writes in passthrough write_iter
+
+ fs/fuse/iomode.c      |  7 +++++--
+ fs/fuse/passthrough.c | 46 ++++++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 49 insertions(+), 4 deletions(-)
 
 -- 
-Askar Safin
+2.51.0
