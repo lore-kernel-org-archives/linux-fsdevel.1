@@ -1,131 +1,284 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37C035AC3B
-	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 14:22:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781619735; cv=none; b=ayjoEb0E0QY5W08XG1wihmyhVlVEKjlQSbq1nohhitakUY+NhKwy/E8FD1e5uFNTDbous3c13pj9mjnBPEUWqB83B/RK/PBptBMV1uMfmEeAvOy9TPG3ycxrs3sPzfcByfivlCywy9l82sRubYgEgIDNLIET9CPDgdJHESb2SH8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781619735; c=relaxed/simple;
-	bh=CA5nnvkspGUyTEG8HxXRVVazyc5v2cKfqM0DPMwJ6Iw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tS1gX2vZSv1g40S3PPPc6opxFOmbza6IpjRQIg6vSHFT0r2Sg0XiXomVmXrS/qzSqoaslTekb500RSJYDj4GkNMT9oXgFlHnjp96lkcZUdcwzBpJyvS0ATq48ROFGwczWrs0XxmO/7lx/zcdfCykbQ+GuudZju6zrJqi2Jyf1rE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=srcRDnwH; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55DDE32B118
+	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 14:23:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781619805; cv=pass; b=hIBs+fiWYN0Ui7Q0Tf1BK8k5vCUU3HGV9/CgbJH6UmbM0Vo75yfIRHSUSwY2jT0n90qJi7fR/286auolbd3FmbUOobrftCkp4cyP9K3ukJShzOg6DLoA2wpYTCRNYvd97/kLXAs9ztuCmUj77JgoItjY5kAIZFw8/807/5uhM10=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781619805; c=relaxed/simple;
+	bh=fzr9lDlARqBgoOUrRCuEssIpApn3qPTWlKJ6EQG7dFM=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=VAJZHd6mJFTEg0kCOsHJyzoFgUnWMyYjjCSIrmrlQdDhhxZX6BMZ/aRA4n5YblA1X65CS/6X+ZUTA1laAhZ9MFMANndqkXj89OHv6tDlF987U+gf3j9BZF8jUlz0GZkv7utpixAlnYS6ZJtgkKtY8wxfbzmJPnEBEpHKTr8Qj5M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=jxTOY7yw; arc=pass smtp.client-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="srcRDnwH"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490ace40f4bso43686825e9.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 07:22:13 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="jxTOY7yw"
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-91562bf6c12so542180385a.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 07:23:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781619802; cv=none;
+        d=google.com; s=arc-20240605;
+        b=etBM5ZGDvIHoD5nMiFR3p8Y+TyRDwZJa6gZ008Id2Wxjz1qWZYsBYwJrAyxDwkVszN
+         KcS29PFkDThcWW2HpJJt8K0vxQqUR7oeEREH9YJ/nQ9Fc2hsIiwxXdx4d4wn6x4P+WQ1
+         VGYwLConUFB6A3ZlXX6jZrMO83L74Rsoaceh4bvPFIoG++5LQ7tgf2ZHvLw4vNkXSgd/
+         HAw6H0deHsOYFyn8wMwA9NHLHN8QjWSq2oBsF//OqTO4pYTIX3kLayWy5gnYuHi0FkrT
+         llXMAMF0InSH3FVrSqAGNliNxPCBwd0Az8d+oFW/FO/qPRuxut39bG9X00emEzJcXGTw
+         KDnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=MIq6a2DO3PE+G10OnlmjuAsTYc88sw31FWk5LO5QiDQ=;
+        fh=hOGuD80wO0yS+iUkbbCj9dbmg+6pGU7AqRAALSIstSI=;
+        b=PfmCThmDvzcSxLE4qDN6019aXLpVBqzVW4j4ECEXlkSxDcqQzvudyeSE9rw99e2Daz
+         6R8e2tnhjT16khHfp/yMeIuOy2Ln55twCT4c+wTZz5dCDeefIqrm9ZGuYQIz6kOJAbga
+         x0ocfVH1Us77WS6MxuxlOop2EdWnAOKmQAOehrIYLACx5/Xm9fTTWycoygLE2drPvfpj
+         KJ1QkGMYO4i0gMIqoL+qaPOyjgAGhm5XbGM2X78Xi4fBbtOPmdpBX7mp6ZXcJJXlAshc
+         x67h616K9PewcsOpkqA5ySGctkDpjor4YpgznmCg/BYl5j9yFXcbcyckV7A2wcg0GJFQ
+         9HZA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781619732; x=1782224532; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=hlgJdoH4I+7g281+Nqd5PThHYlDh2fBtSR189+cjOCE=;
-        b=srcRDnwHagNIDelp/dm360BkJC4+dNV59gqeTl1AAIIviuS3XRUu4JQ3xkeHejlNWb
-         IJ1B2yAF/s5XDUjoIlx6CCCSYY4N1N083X7NpJqb/8fAYybeF6m1EYvawVdzTEDXfSUs
-         d1xKj0asBeHYcU1ls1SgHEJBEEvKCR6B4h7GViYpniOuqY4sVkjHDxAodu9Fuap2+sTA
-         GdH9f6WwBkUC44HNlnhkOOS0rNmHnT/vI1Y51rXfgLi7RmwOmxmxrT052lHXX9cI706C
-         Ihs3DEdqXlNlNvm8lFyqU7edMrzfz+nc4w2iZKOqBohbV1y56aSJkqhKM+85xyOwSit5
-         sImw==
+        d=szeredi.hu; s=google; t=1781619802; x=1782224602; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=MIq6a2DO3PE+G10OnlmjuAsTYc88sw31FWk5LO5QiDQ=;
+        b=jxTOY7ywVt3bWboEAqgXp9MRdD/O46kzXJoVD58vTfaREu0+rSRnzNG519nVdSKtV7
+         9Sa1kVioL/L8ofw3qPZdQ/WlXhBkztvzI9VQ0Z6uiwUGlcxRQHZ4ywXippCkqKzzix6V
+         ivVVUEx0Fpo1uZwvG8YRvj0dwXsbvo/5kSOi4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781619732; x=1782224532;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hlgJdoH4I+7g281+Nqd5PThHYlDh2fBtSR189+cjOCE=;
-        b=AyTqOXxeoOxlcZrbPVt1/1/2Utaw3xSk3wF95huCUk90qeNUJc5eZ6S+6YxD9m3l8n
-         CNX6xzCOeigHjHw/qrDQyHW169lywBqeyA7wrtD47iAVQfy7PddMgCwGysAkaV015hMR
-         3AO/ejYJt1rny8tVhO9B7KqPznB9KVHoEAG7tsfWRFTMeJd0vVQhyuu6Q8isni9oZehT
-         K7Z6blC2e7/d9jOFIaIVUs6ekCRRLTvKHu9RNFEXPjtLf8rlPTI3GIRKLbjMfUAwN9h4
-         YycV5yLufUKnPktl5Q96ZtvpnALu7XTfcOzrqM3ACMHj4nLOpsm7/gmQfv5PC5Jku0s7
-         EN4g==
-X-Forwarded-Encrypted: i=1; AFNElJ/IGlzMnveXz/rgIfjBtQMNR9/qbc5H8DvqyYN0Rwdn5FkujZkg5kPXc6XZuUMIPsXnI/c7Ujg+lhS2SJCl@vger.kernel.org
-X-Gm-Message-State: AOJu0YykHM8PttsKbbVfsaKJAIcsCsF6TqPmtRoL2za6+MPKVgZLU0SG
-	dEUXktbdxPzM3J9//JN212iLSgLxrHPEvBMQmUDe2vCcYNjkF+gTp4CG
-X-Gm-Gg: Acq92OHDeT/MmSre4PiY8O2r63qUI08nDEdI/TjWeVorU+lQnInnOLwJa0CsRoAoGLR
-	J51Pgxim46ew3+6DapTkNTZMNM08FEqMkwo0aLnKjJdRLD8EJiOFCEj1GijgyMwJmkQG18XWhx2
-	vU9g1H8UKpPF9enGojWga+uzFSzcJpMmvm0NiLjwA8W+RTkVmgX1Msa6mqTQScNQSsGObPfnqDB
-	A5jAnoorFlwx2zzCNjM0D42KANMo+JJdFRPh0MREnrnc5P/gCwpv54jckpNxRI07AUzhLAWanBy
-	aCxTwlVbaNLfxk9LOdJztBaRkPwYMPuKa/kzPkQk7d32xOj+GHbE45LaTLD3McBih0tZSfKUJ+9
-	KcheOsbgar9xFlH1NZxtFmgtOLF6LWS4pAxRzxupTn9iFlDsjNZ3SoXJ8hYVUnYbabDqerUErip
-	DxRirZXqCwMF2KuRpmdfevHeB0Eb4eEY/WCzbQSUW4Bn12FlrN8BHdl881qhqncdLhwDHzUPu2I
-	eRUk2WmvClFiyHI8hU=
-X-Received: by 2002:a05:600c:2d0c:b0:490:58ef:cea7 with SMTP id 5b1f17b1804b1-492200dce50mr128613795e9.22.1781619731860;
-        Tue, 16 Jun 2026 07:22:11 -0700 (PDT)
-Received: from [10.128.10.215] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2ce361sm43051695f8f.31.2026.06.16.07.22.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jun 2026 07:22:11 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <b3c2fecb-0aa3-4ab0-b7a1-c8b9985e028b@gmail.com>
-Date: Tue, 16 Jun 2026 15:22:10 +0100
+        d=1e100.net; s=20251104; t=1781619802; x=1782224602;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MIq6a2DO3PE+G10OnlmjuAsTYc88sw31FWk5LO5QiDQ=;
+        b=jzDxU0QTzHYjtZ3bneWjZZAQnPGuXA4c9ktJ/HOi06pDy06oAFIvYGK9uToDnZyrvy
+         +7SAm2kscWKGgZLavXNaGcVpcHsikMgBfu07kraua0CFPJGNpQWelMuOAZoImF1fnA6z
+         uwSYa9i0FFLbomZGG/6ZvoAJDPGXwzrCSNHjUjx5601Zd9a3rJnHkB3yXJkbYgP9TfEv
+         bJ/ped//vK3DZZNDJJdK9XPFTw2/sOD9ds6GA+VMOGD9aWout88CwpJRMdsYitelzbk7
+         98A8DRi3mEGtccpS/GeD+a+j8JRxje3yaDeLcr/vidPpqr/QnG2rabai/g1pLg1ZNTVm
+         smXg==
+X-Gm-Message-State: AOJu0YwAFOSiUxm0+qdEuHDrqtgEgnTWQsb068/njh58LRVinLqRwT5v
+	/PNo1G9bPK30dIDFEYsY3/aPukZiLDzBA23v2NzqYSoZP7Qnp1qFBV2V69xsflFV0CvA9e1DTnc
+	C2OAlcMo1oFpF8efRQrqxYuG1Kp3JHvc9X9IslZTtPg==
+X-Gm-Gg: Acq92OF7Etf8AAp3dHfmC/fEbA9LrqVP71sl72i+Yg7lgYl6Foyt/kQg/SpFOH1HuE1
+	uPOT8z9yA7KCmwJpUt7byo5wNxiYkErcDannC5eol78IJIYuoKEskdrgSCm+lJhji86X4Qf+DqV
+	qTnSunT11A6O4biFeQQN6lh7HLa6dOlpVYu6srfG4Ct7ECW6kNRGb5EMOuFDRWTiBtwajDhDEPs
+	pzGgxoFlwUpS6axINGW5obuWPk90Rqm75SbtDYrNEYrun//Vde7QRlc6V0bStqvtzDSzOkG1xWS
+	yoPpY1iGG2eUGoMKLF9oATNXP/l+NSvkgDXflA==
+X-Received: by 2002:a05:620a:458b:b0:915:8f76:8029 with SMTP id
+ af79cd13be357-9161bf6c39emr2784387385a.44.1781619802196; Tue, 16 Jun 2026
+ 07:23:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Ironic visualization in menuconfig for NTFS_FS vs NTFS3_FS
-To: Xi Ruoyao <xry111@xry111.site>, linux-kbuild@vger.kernel.org
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Hyunchul Lee <hyc.lee@gmail.com>, Mingcong Bai <jeffbai@aosc.io>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <cbe95c15d2760f6fce8eaf207c969ce8fd3703aa.camel@xry111.site>
-Content-Language: en-US
-From: Julian Braha <julianbraha@gmail.com>
-In-Reply-To: <cbe95c15d2760f6fce8eaf207c969ce8fd3703aa.camel@xry111.site>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 16 Jun 2026 16:23:10 +0200
+X-Gm-Features: AVVi8Cd0AIeavaRflbghiON-bTSlFxcP2divx-eLpYAEhK8HTWW3Md02x4TkOqw
+Message-ID: <CAJfpegtvWRiFQWzr9eXN5gr6cAwwR_wqqRy4K-nyvg3B7u-vrw@mail.gmail.com>
+Subject: [GIT PULL] fuse update for 7.2
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org, fuse-devel <fuse-devel@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Xi,
+Hi Linus,
 
-On 6/16/26 10:24, Xi Ruoyao wrote:
-> Hi,
-> 
-> In the Kconfig for NTFS3 we now have:
-> 
-> config NTFS3_FS
->     tristate "NTFS Read-Write file system support"
->     depends on !NTFS_FS || m
-> 
-> It basically means some sort of conflict between NTFS_FS and NTFS3_FS. 
-> But then menuconfig is apparently puzzled to believe NTFS3_FS "depends
-> on" NTFS_FS, and put NTFS3_FS as a subentry of NTFS_FS:
-> 
->   │ │    <M> NTFS file system support                                     │ │  
->   │ │    [ ]   NTFS debugging support (NEW)                               │ │  
->   │ │    [ ]   NTFS POSIX Access Control Lists (NEW)                      │ │  
->   │ │    <M>   NTFS Read-Write file system support                        │ │  
->   │ │    [ ]     64 bits per NTFS clusters                                │ │  
->   │ │    [*]     activate support of external compressions lzx/xpress     │ │  
->   │ │    [ ]     NTFS POSIX Access Control Lists                          │  
+Please pull from:
 
-This looks like a bug in menuconfig's behavior, as from
-Documentation/kbuild/kconfig-language.rst:
-"If a menu entry somehow depends on the previous entry, it can be made a
-submenu of it."
+git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git
+tags/fuse-update-7.2
 
-And since Kconfig treats 'source' similarly to C's '#include' (the text
-of the file effectively just gets copy-pasted in), it's like the config
-options in fs/ntfs3/Kconfig immediately follow the options in
-fs/ntfs/Kconfig since the sources are back-to-back.
+- Fix lots of bugs, most from the late 6.x era, but some going back to 2.6.x
 
-You can test this by simply adding some other, unrelated config option
-between the two 'source' entries that doesn't depend on NTFS_FS or
-!NTFS_FS.
+- Add subsystems (io-uring, passthrough) and respective maintainers
+(Bernd, Joanne and Amir)
 
-So, anyway, it seems to be simply ignoring the '!', and just treating it
-as a dependency.
-And you can test this by removing that dependency on !NTFS_FS, which
-causes menuconfig to stop rendering it as part of the menu.
+- Separate transport and fs layers (Miklos)
 
-I think your workaround is okay (there are other similar 'NO_' config
-options in the kernel), but it would be better to fix this menuconfig
-bug.
+- Don't block on cat /dev/fuse (Joanne)
 
-- Julian Braha
+- Perform some refactoring in fuse-uring (Joanne)
+
+- Don't use bounce-buffer for READDIR reply in virtio-fs (Matthew R. Ochs)
+
+- Clean up documentation (Randy)
+
+- Improve tracing (Amir)
+
+- Extend page cache invalidation after DIO (Cheng Ding)
+
+- Invalidate readdir cache on epoch change (Jun Wu)
+
+- Misc cleanups
+
+Thanks,
+Miklos
+
+---
+Alberto Ruiz (1):
+      fuse: fix device node leak in cuse_process_init_reply()
+
+Amir Goldstein (1):
+      fuse: add fuse_request_sent tracepoint
+
+Bernd Schubert (3):
+      fuse-uring: Avoid use-after-free in fuse_uring_async_stop_queues
+      fuse-uring: Avoid queue->stopped races and set/read that value under lock
+      fuse-uring: make a fuse_req on SQE commit only findable after memcpy
+
+Cheng Ding (1):
+      fuse: invalidate page cache after DIO and async DIO writes
+
+Chris Mason (3):
+      fuse-uring: fix EFAULT clobber in fuse_uring_commit
+      fuse-uring: fix data races on ring->ready
+      fuse-uring: end fuse_req on io-uring cancel task work
+
+GuoHan Zhao (1):
+      fuse: use current creds for backing files
+
+Ji'an Zhou (1):
+      fuse: clear intr_entry in fuse_resend and fuse_remove_pending_req
+
+Joanne Koong (17):
+      fuse: don't block in fuse_get_dev() for non-sync_init case
+      fuse: re-lock request before replacing page cache folio
+      fuse: re-lock request before returning from fuse_ref_folio()
+      fuse-uring: fix race between registration and connection abortion
+      fuse-uring: check connection abort during ring creation
+      fuse-uring: fix moving cancelled entry to ent_in_userspace list
+      fuse-uring: remove request-less entries from ent_w_req_queue to
+fix NULL deref
+      fuse: fix io-uring background queue dispatch on request completion
+      fuse: remove redundant buffer size checks for interrupt and
+forget requests
+      fuse: remove stray newline in fuse_dev_do_read()
+      fuse: clean up interrupt reading
+      fuse-uring: separate next request fetching from sending logic
+      fuse-uring: refactor io-uring header copying to ring
+      fuse-uring: refactor io-uring header copying from ring
+      fuse-uring: use enum types for header copying
+      fuse-uring: refactor setting up copy state for payload copying
+      fuse-uring: use named constants for io-uring iovec indices
+
+Jun Wu (1):
+      fuse: invalidate readdir cache on epoch bump
+
+Konrad Sztyber (1):
+      fuse: reduce attributes invalidated on directory change
+
+Li Wang (3):
+      fuse: drop redundant err assignment in fuse_create_open()
+      fuse: drop redundant check in fuse_sync_bucket_alloc()
+      fuse: use READ_ONCE in fuse_chan_num_background()
+
+Marco Crivellari (1):
+      fuse: dax: Move long delayed work on system_dfl_long_wq
+
+Matthew R. Ochs (1):
+      fuse: back uncached readdir buffers with pages
+
+Miklos Szeredi (36):
+      virtiofs: fix UAF on submount umount
+      Revert "fuse: fix conversion of fuse_reverse_inval_entry() to
+start_removing()"
+      fuse: do not use start_removing_noperm()
+      fuse: move request timeout code to a new source file
+      fuse: add struct fuse_chan
+      fuse: move fuse_iqueue to fuse_chan
+      fuse: move fuse_dev and fuse_pqueue to dev.c
+      fuse: move 'devices' member from fuse_conn to fuse_chan
+      fuse: move background queuing related members to fuse_chan
+      fuse: move request blocking related members to fuse_chan
+      fuse: move io_uring related members to fuse_chan
+      fuse: move interrupt related members to fuse_chan
+      fuse: split off fch->lock from fc->lock
+      fuse: add back pointer from fuse_chan to fuse_conn
+      fuse: move request timeout to fuse_chan
+      fuse: move struct fuse_req and related to fuse_dev_i.h
+      fuse: don't access transport layer structs directly from the fs layer
+      fuse: move forget related struct and helpers
+      fuse: move fuse_dev_waitq to dev.c
+      fuse: remove #include "fuse_i.h" from "dev_uring_i.h"
+      fuse: remove #include "fuse_i.h" from "req_timeout.c"
+      fuse: abort related layering cleanup
+      fuse: split off fuse_args and related definitions into a separate header
+      fuse: remove fm arg of args->end callback
+      fuse: change req->fm to req->chan
+      fuse: split out filesystem part of request sending
+      fuse: change fud->fc to fud->chan
+      fuse: create poll.c
+      fuse: create notify.c
+      fuse: set params in fuse_chan_set_initialized()
+      fuse: remove fuse_mutex protection from fuse_dev_ioctl_sync_init()
+      fuse: change ring->fc to ring->chan
+      fuse: remove #include "fuse_i.h" from dev.c and dev_uring.c
+      fuse: alloc pqueue before installing fch in fuse_dev
+      fuse: simplify fuse_dev_ioctl_clone()
+      fuse: expand MAINTAINERS with subsystem info, update mailing list
+
+Randy Dunlap (3):
+      fuse-uring: drop kernel-doc notation for a comment
+      fuse: fuse_dev_i.h: clean up kernel-doc warnings
+      fuse: fuse_i.h: clean up kernel-doc comments
+
+Samuel Moelius (1):
+      fuse: avoid 32-bit prune notification count wrap
+
+Thorsten Blum (1):
+      fuse: use QSTR() instead of QSTR_INIT() in fuse_get_dentry
+
+Tim Bird (1):
+      fuse: Add SPDX ID lines to some files
+
+William Theesfeld (1):
+      fuse: convert page array allocation to kcalloc()
+
+Yung-Tse Cheng (1):
+      virtio-fs: avoid double-free on failed queue setup
+
+Zhang Tianci (1):
+      fuse: set ff->flock only on success
+
+Zhenghang Xiao (1):
+      fuse-uring: clear ent->fuse_req in commit_fetch error path
+
+---
+ MAINTAINERS              |   26 +-
+ fs/fuse/Makefile         |    3 +-
+ fs/fuse/acl.c            |    4 +-
+ fs/fuse/args.h           |   65 +++
+ fs/fuse/backing.c        |    3 +-
+ fs/fuse/control.c        |   20 +-
+ fs/fuse/cuse.c           |   32 +-
+ fs/fuse/dax.c            |    2 +-
+ fs/fuse/dev.c            | 1361 ++++++++++++++++++----------------------------
+ fs/fuse/dev.h            |  110 ++++
+ fs/fuse/dev_uring.c      |  491 ++++++++++-------
+ fs/fuse/dev_uring_i.h    |   47 +-
+ fs/fuse/dir.c            |   52 +-
+ fs/fuse/file.c           |  220 +++-----
+ fs/fuse/fuse_dev_i.h     |  351 +++++++++++-
+ fs/fuse/fuse_i.h         |  872 ++++++++++-------------------
+ fs/fuse/fuse_trace.h     |   26 +-
+ fs/fuse/inode.c          |  270 ++-------
+ fs/fuse/notify.c         |  434 +++++++++++++++
+ fs/fuse/poll.c           |  141 +++++
+ fs/fuse/readdir.c        |   94 +++-
+ fs/fuse/req.c            |   99 ++++
+ fs/fuse/req_timeout.c    |  148 +++++
+ fs/fuse/sysctl.c         |    1 +
+ fs/fuse/sysctl.h         |    9 +
+ fs/fuse/virtio_fs.c      |   23 +-
+ fs/fuse/xattr.c          |    4 +-
+ fs/internal.h            |    1 -
+ include/linux/fs/super.h |    2 +
+ 29 files changed, 2776 insertions(+), 2135 deletions(-)
+ create mode 100644 fs/fuse/args.h
+ create mode 100644 fs/fuse/dev.h
+ create mode 100644 fs/fuse/notify.c
+ create mode 100644 fs/fuse/poll.c
+ create mode 100644 fs/fuse/req.c
+ create mode 100644 fs/fuse/req_timeout.c
+ create mode 100644 fs/fuse/sysctl.h
