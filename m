@@ -1,119 +1,114 @@
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C14637CD59
-	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 20:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D31B35F197;
+	Tue, 16 Jun 2026 20:47:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781642827; cv=none; b=l2/q99VpKRYPchnxiBtm6I0uUDss8NGXmJcMYh6EoIal8uIHLcYr14ZsWbfTxfhxsN8dI+H/fhlFlIay4rPmfcGrU1qE2iI71KsS0FxZSVD9aHZm/kAXYfwt3pCc2WeplywJQH5h90z90KxJ7Od4ELGymESWesHdYMMZMZdByEI=
+	t=1781642868; cv=none; b=old0ysisw52ZfznLfroEgSFpgQ8NpLntpD587bzK97oyw8Lhw8GKgtOMcrnhiB8H5UNlXjK7WQmQq22lPGF0rLfOZgLsvoaLVi2mFdUJJUKLKf56QmGGEX/3mcNRrc8GZ4NMc73VOkzdBcbfEZEVVMqBsusP1I/38XM64Jc8cLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781642827; c=relaxed/simple;
-	bh=55ubhwgPFP/ggX+sEQoWYZsZ9CMeijE8qXL6+9SVM4U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QU9XMrV440WZRFAXI9ysK+EGouDCHEMuIw51xktsQ4HSttbC6oBozN65F0zbjxlVMKbDhq9DPqYmnbf5KT2THvaIgUmuLmFyIsZzBbmj6nZI/1ZCAR7UzUv2CK+9mDYTKnBgn7uxZu7oTk8Q+MDXPskZyKwNHv7SY3E8h64/8so=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=Py9mUpUd; arc=none smtp.client-ip=209.85.160.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1781642868; c=relaxed/simple;
+	bh=fa7Y3qx6gblR451C+xwmA06qp8aBTIQpJLG39CEKCZA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IkZTP4B3YF1fRDJWJvedAlvwRyu99WzCPqU8WK5aZSd7x36O8eU1Dao2hsfBYKn8vKwztbKf2apbTliWyJfU+tfZyxx4vNEe5JF/cAgWzgfP2jxcGtIRUzirXviFjbhFA+w60Oa5GyT+LPFGkR/e+I+jo1NqjhC1UoSZAOs4mGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshtriplett.org; spf=pass smtp.mailfrom=joshtriplett.org; dkim=pass (2048-bit key) header.d=joshtriplett.org header.i=@joshtriplett.org header.b=NvU2MT3U; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kJiR7r/+; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshtriplett.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=joshtriplett.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="Py9mUpUd"
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-43d3427401fso3592270fac.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 13:47:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1781642823; x=1782247623; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=N3bsbmxS4GadL4Z4bToRsBD+Gi0dvukUshOqKGVXCG8=;
-        b=Py9mUpUdWt5vXOQMHpSDFKNdc07dV8zSmKyrmmqNUKFTu/VSDcSGSFT/b2qqNsW69W
-         SNSwSPbiHJsW7x7URUBqDzziXp+n1NzryTK6BcpA4Rp1Nra3/rgmAqE1ch2zhzeu30wP
-         e1wZ/1W1k+2sVKyjipQ8CzHQw2tNo2TI0UXy5fhdoeYEJPL9fckaT7oF38Oax4pwssJK
-         0MUYJxjS5vtn2bFYV+tidJ0pp8MVx6j2bH6L5OgHnqOA5K9+Brdd+NsaYlPCCw2f4h8W
-         ODsQ5gbidbn8t2I5yA/Zgp1SMqBzcNCcFo72ar7wJ6jooOBG+XkY527bxxeVUQFJ9PNA
-         B29Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781642823; x=1782247623;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=N3bsbmxS4GadL4Z4bToRsBD+Gi0dvukUshOqKGVXCG8=;
-        b=cM6cZNxS3NN/KyHOCmI+woykzBoPI9P+qwG46N9dyCXlBUyduzieUny/PLMJrF2zdb
-         HPwCN7eYUla5X1l5YgyjUuRWQvVzcE1GYOg0CsJI9parc2PDGSVON7OI3m6Tv4xZD6vI
-         FvYQodm5s+TuAJKkgNH6GBY/9BUGusppPLZHHyVFbLWalkL2XneQTDEgtzg6sS8t33XY
-         ThYTQOsivcu5v9X0qS5Fgw4gJu782rJRXM5XoBYuTelnf3yKVKltN8jHXOt2760budeC
-         w5N1Vx/QWwvrQykdjArQR1H3pzym5bcT5wiwr+x9/KQzH0ijJezF4hIbcnS5ft6uJjNB
-         7UnA==
-X-Forwarded-Encrypted: i=1; AFNElJ8YHK9z2PSEuC/7F8Jbc8w3r2C5LLHCXTJpELLVdzXqz/Um7YHykGto7rOWIIsV5fRR2nlQ4hbTH8PQmJxi@vger.kernel.org
-X-Gm-Message-State: AOJu0YxmuUIkjntufg768F0CqSZdbZadAJywhIGiwgaC9iayTVP3UUon
-	6ElMCiOZXbA0gF9MWaaTbYWYJGG9O5N/qE+l4dsDm8boh3mzjRAK8Vd0mpEmjEJGE8M=
-X-Gm-Gg: Acq92OF5I+HMarVLtqDzatODFbo7ftGnHc7NmQnYkA24FIVZdofl0ZkLtqJeex5rtrx
-	DBI4AqeI6p7mlHjpgu0GbZNBs6cUjJ2lh72Fa0/LUi2B3zxA3TSujZI1cAou2bx5UHe5oZ5cx3J
-	Fm499K459p4dJhiloONK1KFnVst34cILjsYpgX1S3e2y+s0pJ87mURwX2wYTskhj4S8FLFl9+j0
-	5T1ky4r8X9AbEhDrqd71TKY50SuPmSzXFkD9fYMnO26GHlElWLY4bSykLnUKP0sBrwLgpPQsZZy
-	i5XCZN+kYNgD6dr+MGSg0JXnFi6PLCEce+2ZFP5luNZiDF0rDY5eE/AP0Y2AkPfkpVD7gQTsmMP
-	5VH7g8ThkBW2WG3dWtCVRe4R9qH3hbD9ysYUhVjzZON6DvWryBC7MlBDMnb5QHy8vAp5gXuSbkc
-	Nd29P1X6AEalOx/Q7Da1fEPTpOkAJFagI+L3a1Dfa5Ay/OTwOrvlCogpu8yUCXtmdzLAQPlKL+r
-	nQvLEyqdA==
-X-Received: by 2002:a05:6871:538a:b0:442:175:cea7 with SMTP id 586e51a60fabf-4469010a70amr626699fac.1.1781642823167;
-        Tue, 16 Jun 2026 13:47:03 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-443090386basm2851306fac.17.2026.06.16.13.47.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jun 2026 13:47:02 -0700 (PDT)
-Message-ID: <910230d8-6a14-4d56-9520-169bd379f3d2@kernel.dk>
-Date: Tue, 16 Jun 2026 14:47:00 -0600
+	dkim=pass (2048-bit key) header.d=joshtriplett.org header.i=@joshtriplett.org header.b="NvU2MT3U";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kJiR7r/+"
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfout.stl.internal (Postfix) with ESMTP id 3E3F11D00045;
+	Tue, 16 Jun 2026 16:47:45 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-12.internal (MEProxy); Tue, 16 Jun 2026 16:47:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	joshtriplett.org; h=cc:cc:content-type:content-type:date:date
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1781642865;
+	 x=1781729265; bh=fa7Y3qx6gblR451C+xwmA06qp8aBTIQpJLG39CEKCZA=; b=
+	NvU2MT3UMdzRuW3e0CLzmi4tt+7s5v3E+B+KSQvNeAYKsj/BPBIA+t/fJ/5f8sy3
+	okYvG51r6LhXw0ElImBGpaAirrsRZfgorv34V/BSLbGPNmKlRhAYm5JA/mojXjMG
+	/VLCcZrajrue+z9b3jEbm7APOQ7C7bJYWYkWMxQITegUUImSFmnkQQIVhKQcG9Jz
+	Xgseo1mLklOgJoNf43FkEY4nwIYtjHmuOqn77QvDNAXxy+8vRStB/nmADlZ1/l79
+	0aHx2qKJmQEJqh6AdNzWE0DTZ0HG4KbQcGrFAq+Rni+92xqrI4xzPpUuy/q4CUZV
+	LsFEX55mN1n+i+VAXnPzbQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1781642865; x=1781729265; bh=fa7Y3qx6gblR451C+xwmA06qp8aBTIQpJLG
+	39CEKCZA=; b=kJiR7r/+KpxVNHRyx/xX8JukmSxkSvjLisQR2PxWBlCcr0p+TpZ
+	hQtjEoYqO1u+ASZfvXqZfm9dIlAuN/orVfpnsoifYJjAfU/GtZXVTAjvrT89cmge
+	NoywETGDbDP67cRpAB100TB3aPBSBZE701WEIBvsRR1f40u+waxZ0NoC3EH745f1
+	is8o9V1/SsQ9+/orZQuo0FIrEYqdGH3dlX6uP5gb1jO+AUq/hjVCsmW4wuDtXGGm
+	sml2KZJmlkcPNf1az931ZIpm2lwvkq8S541ywDfeeaIgDIYtAcO2SBxg4vXt5e7A
+	hK0xjifDzbw0/NmgfWAOj7N7B1szyXD9ITA==
+X-ME-Sender: <xms:cLYxaiVS2VEGkPnvPaxHVVic5171kqh55MUckedxPuIy7_DziC_xcA>
+    <xme:cLYxao9MpnDsXCPOWQaSx61QKnu0L_0TOAj7mIT8D9HSwulE2rgWm7HyPICFBCZy6
+    Tv86Zo5XBdgq4zQr2NFFjgqEzP01NFafVt7iG5biFC0B0znPCaqmg>
+X-ME-Received: <xmr:cLYxasiyMaJWK-dvJ2aFCFciSzjzO8CKg9RCoIePy9Y62E3spc0MFgPWhg>
+X-ME-Proxy-Cause: dmFkZTGkKVs8VRXq2x/QRQMoEoqcUcoTUcJT+jdduJpS5EJcJJXm/nxwKzJKHI52Cuet39
+    ltx4/+ev+PouJ6vAj02W4UN7E4pWTZwvPXyMOaFSnxulyM7UnhBwYdnec2rFITtr8ZjYO0
+    5nTTMPyA6Tklaho60LobCf3cqxlCG6VnmqO0TB96TitMGTlXjg4IcNaH9p6HUZouBU8ID0
+    CPHg6O8+QOtsmCdPO3ZlJIkScsA0P/ee5Z11Y3w4N48tPeSyI1Z8T3LpJeNQ1r5xYn+PMi
+    2t7T0vNzvVHaOOOcde9rxfurw/o9aiFvVj2L2vI0VZ7ixKGtS++b8a7zu2eyb9cF8yQoGH
+    gSQtqDTMvISmMkOIm8kHgUE1vnL951h2ONS5PAc8g7GBVidoEEtz2veqy2WRLIEMoqvbIB
+    vECD6qTEWNk0RIPbLyiQc2WnWRjQ6HJTWGMq3EAiqRRUVcHvYhjhNMhZnkmkuITWW9kZUB
+    58aU9oHSyJDVs52MpWdfERKPOLs7iOP3LxPObRLx8J6+GbmyVjf5w/kQfaV8+wWQ4nJ4GV
+    MfgiMv/L7I8J0cespzn/2xFu0oBuhq5AEkiDleDsitradTYtBHq6Co5F1gzeB4yMbGZXnw
+    hbBxveE4CQXw3eBJ+zIyg3dEkxTJEcmDlNA/8zoZbQ/slgnpkNPd79w7RMgA
+X-ME-Proxy: <xmx:cLYxakfzjxHFNiP-wvKJRerJAoYt4xRp4KLsL3IcX0rNZEXQGyL3sg>
+    <xmx:cLYxalJkezpXIqdEJkwveaipFZ5-0klQkUe0ZlTPHC0hOg7LWE2n2w>
+    <xmx:cLYxahnW7Y2LuI6TJAv69FUaUpg7gmvSBm-_8mVRhFPaTf4ZkMBjpA>
+    <xmx:cLYxatcOjopzmnwbybUR23odF4w8aL1xY1Oh663mBaO0xEwHIXquFw>
+    <xmx:cbYxav1Xb87qQ5eh8EQkjDNMT-ucWbrVJt5CkpO0pMBwu3yEmmiuIDNg>
+Feedback-ID: i83e94755:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 16 Jun 2026 16:47:42 -0400 (EDT)
+Date: Tue, 16 Jun 2026 13:47:42 -0700
+From: Josh Triplett <josh@joshtriplett.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Shuah Khan <shuah@kernel.org>, Mateusz Guzik <mjguzik@gmail.com>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, shakeel.butt@linux.dev,
+	jlayton@kernel.org, oleg@redhat.com, axboe@kernel.dk,
+	kernel-team@meta.com
+Subject: Re: [PATCH v3 0/2] fs/pipe: reduce pipe->mutex contention by
+ pre-allocating outside the lock
+Message-ID: <ajG2bmhu6j9UWvh4@localhost>
+References: <20260524-fix_pipe-v3-0-bb4a75d23a90@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v2 1/2] iov_iter: export iov_iter_restore
-To: Octavian Purdila <tavip@google.com>, netdev@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
- Andrew Morton <akpm@linux-foundation.org>,
- Arseniy Krasnov <avkrasnov@salutedevices.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
- Jakub Kicinski <kuba@kernel.org>, Jason Wang <jasowang@redhat.com>,
- kvm@vger.kernel.org, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, virtualization@lists.linux.dev,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-References: <20260613000953.467473-1-tavip@google.com>
- <20260613000953.467473-2-tavip@google.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20260613000953.467473-2-tavip@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260524-fix_pipe-v3-0-bb4a75d23a90@debian.org>
 
-On 6/12/26 6:09 PM, Octavian Purdila wrote:
-> Export iov_iter_restore so that it can be used by modules.
-> 
-> This is needed by the virtio vsock transport (which can be built as a
-> module) to restore the msg_iter state when transmission fails.
-> 
-> Signed-off-by: Octavian Purdila <tavip@google.com>
-> ---
->  lib/iov_iter.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-> index 243662af1af73..067e745f9ef53 100644
-> --- a/lib/iov_iter.c
-> +++ b/lib/iov_iter.c
-> @@ -1491,6 +1491,7 @@ void iov_iter_restore(struct iov_iter *i, struct iov_iter_state *state)
->  		i->__iov -= state->nr_segs - i->nr_segs;
->  	i->nr_segs = state->nr_segs;
->  }
-> +EXPORT_SYMBOL(iov_iter_restore);
+On Sun, May 24, 2026 at 07:44:57AM -0700, Breno Leitao wrote:
+> This series pre-allocates pages outside pipe->mutex in
+> anon_pipe_write(): for writes that span more than one full page, up
+> to PIPE_PREALLOC_MAX (8) pages are allocated via a per-page
+> alloc_page() loop before the mutex is taken. anon_pipe_get_page()
+> then drains the prealloc array first, falls back to the per-pipe
+> tmp_page[] cache, and only enters the allocator under the mutex for
+> the leftover pages (writes larger than PIPE_PREALLOC_MAX, single-page
+> writes that skip prealloc, or shortfalls when the prealloc loop
+> fails). Leftover prealloc pages are recycled into tmp_page[] before
+> unlock and any remainder is put_page()'d after unlock, keeping the
+> allocator out of the critical section on both sides.
+[...]
+> I also vibe-coded a microbenchmark to validate the change. It sweeps
+> writers x readers over {1,2,5} x {1,5,10} with 64KB writes against a
+> 1 MB pipe and prints throughput + latency percentiles per config.
 
-I don't have a problem exporting this to modules, but any new export
-should be _GPL. So please change it to that.
-
--- 
-Jens Axboe
+How do the numbers compare with 1-byte writes/reads? (It's fine if
+they're not *faster*, just want to make sure they don't get any
+*worse*. This case comes up a lot with pipes used for synchronization or
+event reporting, such as with make.)
