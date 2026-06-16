@@ -1,75 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.155.198.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D163C363C73;
-	Tue, 16 Jun 2026 14:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4186743E484;
+	Tue, 16 Jun 2026 15:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.155.198.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781621999; cv=none; b=GDAxHn/4HsBO351YJbsgxeNWiZESuZxRM6X57d0jkxcukmIyDysHVnkBB+KvGoX3NdBYXhpIyFR0jGs2M+Xr6SuWxfSbj1SKvTHabfRr2XOh3QhMboCzSZXfOtPc6NrLn0wr9SsChKPnBntxfjRtVXuvY+1Tu6IFiSXBj8GwAC8=
+	t=1781623166; cv=none; b=aPkUq6FjYchraCcMwZYY4XeNJigOGwIrUHT6Wc+LqJ4H0P7zQNzu0ELhPsrum6q3tjeTs988dNYHYLLB2WsLQZAieisTuax0sZrzQrUrqPiGQ/q3Yz4IghBZ9oAlPKiFunzjSRnDTMUNievDVyGvHTYwZtAf46ERF4R4e0OaZ5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781621999; c=relaxed/simple;
-	bh=cVOQmGZhaywNgUpe1waAeohcJcxkKV6VYrn8lHFxGHs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s+MftEAROCRCafggdA/BaEiK9s90IPe9FUGsZD1x61r6XxuQ8tTQCJ33eOOg1vBgGenhQ3yafjPpPBFxtsJN26x+D5TWdHd3n3DxCl0w1O4X4c4V29Hm7ZYD8A/Vtky3GUL/ehWpMcE9NlJqN2SdwPGwC2nD2lLVOfeRx821e8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jA2q0c4E; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781623166; c=relaxed/simple;
+	bh=IyuOPwnmSb/fVTCH/e1N0mn2W7SKPp8fj8S+qLFAPk4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OvTh2/yRmiEDUKEqz/O74kosmT9jCJBqlG5gxBfLqbWytARu70CG/7ybqA1eS875G7nyQujExhmjarjtsOf2OnODfLI8CnbiraAEIaaYe01GTMiGgFBeDFDVZeUBqTASEzgI3xPG5kPJ+piLtmkgukhoYJCFFT4TJJTDMfjIM70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=tzgoBjDa; arc=none smtp.client-ip=35.155.198.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jA2q0c4E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D5AC1F000E9;
-	Tue, 16 Jun 2026 14:59:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781621998;
-	bh=54nrZd56QlDOLjrnGUMxikC0RJz3adz3i0y4la/F30Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jA2q0c4Ee6LVq3wsrXzEp9N7Su9CbMmoI6RP4rBSzy7r8wEReuDOvyko1gR0PEBZq
-	 bg9x1Q83U6bfJVi8MI1KRXQHZSlLKfTldHay7P4JnrGnDygtoE8Uyr1SZXXq6iopy+
-	 1uiksflRJgCiH46ewjX97OHYoJUczZNbraNTb5w472Yzug6sY9EulbLUSfhDKPqy2P
-	 fXQQ0U37sAQtSAUQVyf1H6jtse9vqf7bUdWGz5uvC+yB+YxD4JAWUp9yh5ga+TP8bC
-	 P3YC8LvGv2tE0gC7aIeruXedVTLx5LPurEO7KW1M1oaYJSRkYmGAKiLdMI2ZflI/gv
-	 Ek4hr9EandhYQ==
-Date: Tue, 16 Jun 2026 16:59:53 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Carlos Maiolino <cem@kernel.org>, linux-xfs@vger.kernel.org, 
-	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org, 
-	Theodore Ts'o <tytso@mit.edu>, linux-ext4@vger.kernel.org, Gao Xiang <xiang@kernel.org>, 
-	linux-erofs@lists.ozlabs.org
-Subject: Re: [PATCH RFC 2/8] fs: add a global device to super block hash table
-Message-ID: <20260616-fragil-duktus-nachverfolgen-60f54584c206@brauner>
-References: <20260602-work-super-bdev_holder_global-v1-0-bb0fd82f3861@kernel.org>
- <20260602-work-super-bdev_holder_global-v1-2-bb0fd82f3861@kernel.org>
- <20260616123443.GA21024@lst.de>
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="tzgoBjDa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1781623165; x=1813159165;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tT9ViwbeGZOmHpTUMJe4+1N7IXhmgG+37I0SsksN/z0=;
+  b=tzgoBjDaLJsh6gyc3vOK2xQ/XJbkKjAONWtTHYHTjYQ2QXJgjBTDtCDD
+   sVwjA2Ovo3GFQCUDeXY8hU9TJ/WhajsFJJRni/1BIufQh7mQ4gSs89aG7
+   RmAB/8fZhq0t2FbdD7+HkQxFlFF1ML+jgVz7a4R8YDnFxTr4YE6gXoVBs
+   9aQ76j6FHflYDy8k8+MsSfLXBkVIgfpC44T6e10AfTmBALJfgPveifRk4
+   f7ME3616FrGFVVbkwDq9F2ygEWqrEoH0sbu5q57YoSoe/mFRIP5jC1k+l
+   SK6BHSpNuU4v6XHvGPeg6wF7dReaiOJ1kAkWT87/35lIjgbklm32BA55l
+   w==;
+X-CSE-ConnectionGUID: G0EU5j04RqGWcfC39FMyUA==
+X-CSE-MsgGUID: 0q2HeqPqRLSwa8yrfFJlRw==
+X-IronPort-AV: E=Sophos;i="6.24,208,1774310400"; 
+   d="scan'208";a="21753083"
+Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
+  by internal-pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 15:19:24 +0000
+Received: from EX19MTAUWC002.ant.amazon.com [205.251.233.111:10731]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.63.253:2525] with esmtp (Farcaster)
+ id 75061158-3cff-453b-9b7f-4c209f66b456; Tue, 16 Jun 2026 15:19:24 +0000 (UTC)
+X-Farcaster-Flow-ID: 75061158-3cff-453b-9b7f-4c209f66b456
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
+ Tue, 16 Jun 2026 15:19:24 +0000
+Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
+ Tue, 16 Jun 2026 15:19:23 +0000
+From: Jimmy Zuber <jamz@amazon.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+CC: <fuse-devel@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-api@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Shuah Khan
+	<shuah@kernel.org>, <linux-kselftest@vger.kernel.org>
+Subject: [PATCH 0/2] fuse: allow FUSE_SYNCFS for privileged userspace servers
+Date: Tue, 16 Jun 2026 15:19:07 +0000
+Message-ID: <20260616151909.916667-1-jamz@amazon.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260616123443.GA21024@lst.de>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D042UWB004.ant.amazon.com (10.13.139.150) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-On Tue, Jun 16, 2026 at 02:34:43PM +0200, Christoph Hellwig wrote:
-> On Tue, Jun 02, 2026 at 12:10:08PM +0200, Christian Brauner wrote:
-> > fs_holder_ops recovers the owning superblock from bdev->bd_holder, which
-> > forces the holder to be exactly one superblock and prevents several
-> > superblocks from sharing one block device. That's what erofs is doing.
-> > 
-> > Introduce a global dev_t-keyed rhltable mapping each block device to the
-> > superblock(s) using it. The holder argument becomes purely the block
-> > layer's exclusivity token (a superblock, or a file_system_type for
-> > shared devices) and is no longer needed by the fs specific callbacks.
-> 
-> Err, no.  block devices need to have a specific owner.  If erofs wants
-> to share a device between superblock it needs to come up with an entity
-> that owns the block devices which is not a superblock.
+FUSE_SYNCFS (propagating syncfs()/sync() to the server) is currently
+enabled only for virtiofs and fuseblk, since an untrusted server can stall
+sync().  But any FUSE filesystem may buffer data in the server that should
+reach storage on sync(); the only thing that should gate it is whether the
+mount was set up with host privilege.  This series lets a plain /dev/fuse
+server opt in via a new FUSE_HAS_SYNCFS INIT flag, honored only for mounts
+owned by the initial user namespace.  Patch 1 has the full rationale and
+the security argument.
 
-It already did.
+  Patch 1: the kernel change (UAPI flag + gating in process_init_reply()).
+  Patch 2: a selftest that speaks the raw FUSE protocol over /dev/fuse, so
+           it can withhold the flag and directly observe whether the
+           FUSE_SYNCFS opcode is forwarded -- covering the privileged,
+           opt-out, and unprivileged-userns cases.
 
-> IMHO sharing devices between superblocks is a bad idea, but that ship
-> has sailed, but please keep it contained inside of erofs.
+A matching libfuse change (FUSE_CAP_SYNCFS negotiation) will be sent to the
+libfuse project once the UAPI flag here is settled.
 
-We need a simple device number to superblock mapping anyway and that can
-simply be centralized in the vfs. And it can work with anon device
-numbers and block device numbers uniformly.
+Testing: built and booted under QEMU (x86_64).  The selftest passes all
+three cases.  A separate end-to-end check on a FUSE_WRITEBACK_CACHE mount
+confirmed the point of the change: after write() the server had received 0
+bytes (data dirty in the page cache), and after syncfs() it received the
+full buffered payload followed by FUSE_SYNCFS -- i.e. syncfs() flushes
+cached data to the server on a privileged mount.
+
+Jimmy Zuber (2):
+  fuse: allow FUSE_SYNCFS for privileged userspace servers
+  selftests/fuse: add test for FUSE_HAS_SYNCFS privilege gating
+
+ fs/fuse/inode.c                               |  16 +
+ include/uapi/linux/fuse.h                     |  11 +-
+ .../selftests/filesystems/fuse/.gitignore     |   1 +
+ .../selftests/filesystems/fuse/Makefile       |   2 +-
+ .../selftests/filesystems/fuse/test_syncfs.c  | 318 ++++++++++++++++++
+ 5 files changed, 346 insertions(+), 2 deletions(-)
+ create mode 100644 tools/testing/selftests/filesystems/fuse/test_syncfs.c
+
+
+base-commit: 7d87a5a284bb34edb3f4e7e312ef403b3385a7b7
+-- 
+2.50.1
+
