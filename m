@@ -1,101 +1,75 @@
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC853BFAEA;
-	Tue, 16 Jun 2026 14:54:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D163C363C73;
+	Tue, 16 Jun 2026 14:59:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781621693; cv=none; b=Vj8Ia/1rKquVsQj126ROdKq5XVTXQX3Ne042kE2qBXHBOgVdAT2Si6EAN7JAUxq/C97+S2oM6L/82UevgvHCRVbla9xXVyT3cSYdy0cCOK4GuaqN5+svfpWLBvy9JNxA8WXUbO40TlqwMbf4h/1DjDbtHuUTgUDX1OoN7LFE9A8=
+	t=1781621999; cv=none; b=GDAxHn/4HsBO351YJbsgxeNWiZESuZxRM6X57d0jkxcukmIyDysHVnkBB+KvGoX3NdBYXhpIyFR0jGs2M+Xr6SuWxfSbj1SKvTHabfRr2XOh3QhMboCzSZXfOtPc6NrLn0wr9SsChKPnBntxfjRtVXuvY+1Tu6IFiSXBj8GwAC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781621693; c=relaxed/simple;
-	bh=VjfeqXAniXGqPvbJ2MEBY91CQUvsbeEp8zUrFaZwn9Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=td5BR919xqXeoSoG75WglQ/nE78+XIHFGQFrEK7a0twqIxt7asFcHrz9g9kgDBFU+ltGUb33vxzXC8jqFCLCLZIoJueBG7Pat9GXraWAEsaJUn2y4weDwK2tPIB0vMtFcDr29TtzGklxdeOy0iXbuKmzN/lq1MrmR+kOy8qleNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=u2mTijuf; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=xqgelXa6; arc=none smtp.client-ip=210.171.160.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	s=arc-20240116; t=1781621999; c=relaxed/simple;
+	bh=cVOQmGZhaywNgUpe1waAeohcJcxkKV6VYrn8lHFxGHs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s+MftEAROCRCafggdA/BaEiK9s90IPe9FUGsZD1x61r6XxuQ8tTQCJ33eOOg1vBgGenhQ3yafjPpPBFxtsJN26x+D5TWdHd3n3DxCl0w1O4X4c4V29Hm7ZYD8A/Vtky3GUL/ehWpMcE9NlJqN2SdwPGwC2nD2lLVOfeRx821e8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jA2q0c4E; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="u2mTijuf";
-	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="xqgelXa6"
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id 1035426F7662;
-	Tue, 16 Jun 2026 23:54:48 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1781621688;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hbn6Im4A4xUSzYNKCZmmUfjg0NuEYnIRJ7B6o+ryiCs=;
-	b=u2mTijufUHlyC63hSIlkzooOZOVCK+Q1uQw8ZEikHAi3iLOuT+VtvHr9uye2zx9VoxfjhP
-	tZdwWtE7OZR2xwkEDqxHnurq1nLPzMG9RxxnKC2cdec5ehAtj7Dps1GIg8nENq2dCsiFm5
-	u7EFa12MfwU3wthmsZD6lopIKOJNkZUWhUF7Ch+Ym0BNalJmHIo4mI4bnd1In2XjOFSpKD
-	odEgYFW3jcfcRlH1CFM5cwvBovYPta8eU7z/kI+0kCOM/39K8gSAhX3YR364n6d5iWfQvq
-	28vAEK82awGV5raqS8r38yYU5guv560sImYvCq3DmoWLjN9MtpG6Hc/V2k3HbA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1781621688;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hbn6Im4A4xUSzYNKCZmmUfjg0NuEYnIRJ7B6o+ryiCs=;
-	b=xqgelXa6OVwJ3SuWa7CWJ7LS21spbi2BemG82n3NZ/oLqXTD202GfhE6lFVL/cYYGQ/znV
-	KhWrS61MqKXQb5DA==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 8DDDFE0007B;
-	Tue, 16 Jun 2026 23:54:47 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id 825E82200085; Tue, 16 Jun 2026 23:54:47 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Matteo Croce <technoboy85@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,  Timothy Redaelli
- <tredaelli@redhat.com>,  linux-fsdevel@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  Matteo Croce <teknoraver@meta.com>
-Subject: Re: [PATCH v3] fat: stop reading directory entries past the
- end-of-directory marker
-In-Reply-To: <878q8e699i.fsf@mail.parknet.co.jp>
-References: <20260613172816.18034-1-technoboy85@gmail.com>
-	<878q8e699i.fsf@mail.parknet.co.jp>
-Date: Tue, 16 Jun 2026 23:54:47 +0900
-Message-ID: <871pe65ydk.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jA2q0c4E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D5AC1F000E9;
+	Tue, 16 Jun 2026 14:59:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781621998;
+	bh=54nrZd56QlDOLjrnGUMxikC0RJz3adz3i0y4la/F30Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jA2q0c4Ee6LVq3wsrXzEp9N7Su9CbMmoI6RP4rBSzy7r8wEReuDOvyko1gR0PEBZq
+	 bg9x1Q83U6bfJVi8MI1KRXQHZSlLKfTldHay7P4JnrGnDygtoE8Uyr1SZXXq6iopy+
+	 1uiksflRJgCiH46ewjX97OHYoJUczZNbraNTb5w472Yzug6sY9EulbLUSfhDKPqy2P
+	 fXQQ0U37sAQtSAUQVyf1H6jtse9vqf7bUdWGz5uvC+yB+YxD4JAWUp9yh5ga+TP8bC
+	 P3YC8LvGv2tE0gC7aIeruXedVTLx5LPurEO7KW1M1oaYJSRkYmGAKiLdMI2ZflI/gv
+	 Ek4hr9EandhYQ==
+Date: Tue, 16 Jun 2026 16:59:53 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, Carlos Maiolino <cem@kernel.org>, linux-xfs@vger.kernel.org, 
+	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org, 
+	Theodore Ts'o <tytso@mit.edu>, linux-ext4@vger.kernel.org, Gao Xiang <xiang@kernel.org>, 
+	linux-erofs@lists.ozlabs.org
+Subject: Re: [PATCH RFC 2/8] fs: add a global device to super block hash table
+Message-ID: <20260616-fragil-duktus-nachverfolgen-60f54584c206@brauner>
+References: <20260602-work-super-bdev_holder_global-v1-0-bb0fd82f3861@kernel.org>
+ <20260602-work-super-bdev_holder_global-v1-2-bb0fd82f3861@kernel.org>
+ <20260616123443.GA21024@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260616123443.GA21024@lst.de>
 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp> writes:
+On Tue, Jun 16, 2026 at 02:34:43PM +0200, Christoph Hellwig wrote:
+> On Tue, Jun 02, 2026 at 12:10:08PM +0200, Christian Brauner wrote:
+> > fs_holder_ops recovers the owning superblock from bdev->bd_holder, which
+> > forces the holder to be exactly one superblock and prevents several
+> > superblocks from sharing one block device. That's what erofs is doing.
+> > 
+> > Introduce a global dev_t-keyed rhltable mapping each block device to the
+> > superblock(s) using it. The holder argument becomes purely the block
+> > layer's exclusivity token (a superblock, or a file_system_type for
+> > shared devices) and is no longer needed by the fs specific callbacks.
+> 
+> Err, no.  block devices need to have a specific owner.  If erofs wants
+> to share a device between superblock it needs to come up with an entity
+> that owns the block devices which is not a superblock.
 
->
-> There are some strange behavior though (e.g. seek after name[0] == 0,
-> then readdir()), the strange should only be on already a corrupted image.
->
-> Well, if we found a serious issue with this, there is possibility to
-> revert later though. Looks good for me.
->
-> Acked-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
->
+It already did.
 
-[...]
+> IMHO sharing devices between superblocks is a bad idea, but that ship
+> has sailed, but please keep it contained inside of erofs.
 
->> +static int fat_get_entry_eod(struct inode *dir, loff_t *pos,
->> +			     struct buffer_head **bh,
->> +			     struct msdos_dir_entry **de)
->> +{
->> +	int err = fat_get_entry(dir, pos, bh, de);
->> +
->> +	if (err == 0 && (*de)->name[0] == 0) {
->> +		*pos = dir->i_size;
-
-I re-reviewed this part. Since here is failure case, so we have to
-release *bh, isn't it?
-
-		brelse(*bh);
-                *bh = NULL;
-
->> +		return -1;
->> +	}
->> +	return err;
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+We need a simple device number to superblock mapping anyway and that can
+simply be centralized in the vfs. And it can work with anon device
+numbers and block device numbers uniformly.
