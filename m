@@ -1,108 +1,135 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6B72BE026;
-	Tue, 16 Jun 2026 13:31:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6CFF311C07;
+	Tue, 16 Jun 2026 13:57:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781616701; cv=none; b=QYbckgngqoMfq06UrU/awt20DW4RTPOzSkUqPx/UY1jTkhzCJOMrXZ8m/lIPujSH+K+83s0iCqWMygQqTdFe9DhUbCgvKK4ICXs6TqjdWCi5jRb5qUL63eQ9xpb26RjdUq2xxGCy6Kmz2il8sYE9pdCgWXB6/Jna0RhggIm0Wjg=
+	t=1781618247; cv=none; b=RJyGwbEs6DO9lpROSh+POJgFYk3gUpaJBArjKUxg1kTQOj2R71FOiGJpLlyVQKKWJA6HGdShr+WVODQcNtOD4LX5P0t76NmXDYxWzDmURbl3l4kbLEtWl+Ee9UzIG26CyUI5R5JQaQ3vJKHxcYdf/vAMWmFnt1t54u+nk0AeEVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781616701; c=relaxed/simple;
-	bh=BTsFxLJimawtoe7HwSUkU6BfYRMpE+5vTHPsq/M0BwI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=GHuhLZATe+g4fCRa8w93m78FW0RVIwB46qYFNyO8vJKlqrs+pmo+oV1TfPsFrudmeJa0eTwp5sOrBrt2CZ+7wWSLzeRdnHa0VEF1yw8mJWaliEOsUAQzP+RfMD0gISlIWaE2nagJHwIjpnA6DMkPmhsr4UA26uXnCtHb3VBFes0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SHQrRDJf; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1781618247; c=relaxed/simple;
+	bh=dEv4TOGSS8IHr9PQkQWz+S0T+jy2Jk3mRCS2j6YJ/Us=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DD2stm8hshMKxfTA97euFKtIg0swRxQdvtdT+lb2k8ndzbUr6tHgCZjQdbNoYSn988U+SuZgBehUVZnfiiMmiSTFo4E8cUX+1RM9NaCYFZa7Pl5h0qvwUxi2GNMsFokmu2HSxAz3OPM+ti0NSLpMRLxUweiWbXbhngd8J2wXPqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o2PnEnYx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SHQrRDJf"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
-	:Content-ID:Content-Description:References;
-	bh=li/q7nG5OrUyFHVdKJCEGvzSB4i/lEH7jxizLG5hQkc=; b=SHQrRDJfcDwVYGoZNoTaXlHlkh
-	M+D+ZAY1tWe2WQKByW66Ag86ZaP9wcu3/YD1NgP1M0HM8PKV/89xThVV5TdP7Xim1so+FS0hBfcUQ
-	ixDzNh4aUg6zjJPWxenOzYPeXnf0EFgl3R3EmTk+bLPQH6m9p1VSKCqZZmCALZk2q3QAPazfUf6P6
-	cxKNNcq6QHZ+iWr9nkFLDA4HhyyZW3uGNf2Vycng3Ki/93fAfkbDGsJbYpK/9d1S706dBuOm4brf/
-	t65K4XnoSfzDRPhENXdYrv4jDgnEoNlYziZb3ByR3SuR4MM9iHNAgrkDVPrUv8mXt+xGXm2Dz5+AY
-	lbA/Te8A==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wZTtE-0000000FqUR-1WKL;
-	Tue, 16 Jun 2026 13:31:40 +0000
-Date: Tue, 16 Jun 2026 06:31:40 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Pankaj Raghav <p.raghav@samsung.com>
-Cc: linux-xfs@vger.kernel.org, bfoster@redhat.com, lukas@herbolt.com,
-	"Darrick J . Wong" <djwong@kernel.org>, dgc@kernel.org,
-	gost.dev@samsung.com, pankaj.raghav@linux.dev, andres@anarazel.de,
-	kundan.kumar@samsung.com, cem@kernel.org,
-	Zhang Yi <yi.zhang@huawei.com>, linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH v6 3/3] xfs: add support for FALLOC_FL_WRITE_ZEROES
-Message-ID: <ajFQPANpajmFuKpi@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o2PnEnYx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40D6F1F000E9;
+	Tue, 16 Jun 2026 13:57:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781618246;
+	bh=2HQDPl4Fge9D8LBQD7QCKGIXM2QN58OYRKHRC0rBkGU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=o2PnEnYxJOrqBmCTljOBgmtEqnsmtt4iSTaJauqZ6cxnQ+mR+iXvcyycJR1kFvcCe
+	 yWUyoeAwVH4s8tQiUkJCdHppm3BEkHIAYGBXKDK+Hc4qWA8olKjWoGLXQxnq4PcQtW
+	 rP6FZaoqCE/Fi8EeG9QlgoFJndtCWvd1CfTRCL2Kumkaxi6ZhYDy7upSrUZCpbFs1c
+	 WWmBs/k495pgDYgSPRlL82RAGWDEmEWKxobGoZqVROdWYlhx3mv61s4bx/kkuzdaKF
+	 sCbqTj2qfBjiaxGGrTPVZIBdv0jG4izkN/6lviMsMkM52YxSA7t+LjS6/DxzGY16yX
+	 EG2wVnsWfHqFA==
+Message-ID: <bdfdbd6b-81e0-49e3-a02f-2dc75727a71b@kernel.org>
+Date: Tue, 16 Jun 2026 15:57:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260611114029.176200-4-p.raghav@samsung.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 0/5] Add buffered write-through support to iomap &
+ xfs
+To: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ djwong@kernel.org, john.g.garry@oracle.com, willy@infradead.org, hch@lst.de,
+ ritesh.list@gmail.com, jack@suse.cz, Luis Chamberlain <mcgrof@kernel.org>,
+ dgc@kernel.org, tytso@mit.edu, p.raghav@samsung.com, andres@anarazel.de,
+ brauner@kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ pankaj.raghav@linux.dev, Daniel Gomez <da.gomez@samsung.com>
+References: <cover.1775658795.git.ojaswin@linux.ibm.com>
+ <d5d99db2-9d34-4caf-bcc8-c4a3af561901@kernel.org>
+ <agQPtTx2EXHr10Nn@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+ <ah24DlQobLjjDTGt@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+Content-Language: en-US
+From: Daniel Gomez <da.gomez@kernel.org>
+In-Reply-To: <ah24DlQobLjjDTGt@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-[API questions for Zhang and -fsdevel/ -api below)
-
-> +	unsigned int		blksize = i_blocksize(inode);
-> +	loff_t			offset_aligned = round_down(offset, blksize);
-
-I think this actually needs to found up instead of rounding down.
-
-> +	/*
-> +	 * Zero the tail of the old EOF block and any space up to the new
-> +	 * offset.
-> +	 * In the usual truncate path, xfs_falloc_setsize takes care of
-> +	 * zeroing those blocks.
-> +	 */
-> +	if (offset_aligned > old_size) {
-> +		trace_xfs_zero_eof(ip, old_size, offset_aligned - old_size);
-> +		error = xfs_zero_range(ip, old_size, offset_aligned - old_size,
-> +				NULL, &did_zero);
-> +		if (error)
-> +			return error;
-> +	}
-
-... then this will properly zero from the old i_size to the first block
-boundary after the old size.
-
-> +	error = xfs_alloc_file_space(ip, offset, len,
-> +			XFS_ALLOC_FILE_SPACE_WRITE_ZEROES);
-
-... and here we need to pass offset_aligned instead of offset and
-a new calculated len based on the last block boundary, and then
-zero again after that.  That is assuming FALLOC_FL_WRITE_ZEROES
-allows unaligned ranges for file systems.  The block code doesn't,
-but I can't quite follow the ext4 code if it does or not, and there
-is no mention of FALLOC_FL_WRITE_ZEROES even in the latest man-pages
-tree.
-
-Maybe we also want xfstests that try unaligned FALLOC_FL_WRITE_ZEROES
-and make sure no existing data before the range is lost and the
-entire range is zeroed?
-
-
-> +	if (error)
-> +		return error;
+On 01/06/2026 18.49, Ojaswin Mujoo wrote:
+> On Wed, May 13, 2026 at 11:14:21AM +0530, Ojaswin Mujoo wrote:
+>> On Mon, May 04, 2026 at 09:54:49AM +0200, Daniel Gomez wrote:
+>>> On 08/04/2026 20.45, Ojaswin Mujoo wrote:
+> diff --git a/ltp/fsx.c b/ltp/fsx.c
+> index 720bca83..1c76634b 100644
+> --- a/ltp/fsx.c
+> +++ b/ltp/fsx.c
+> @@ -2077,16 +2077,34 @@ test_dontcache_io(void)
+>         return 1;
+>  }
+> 
+> +/*
+> + * Use a temporary file to test RWF_WRITETHROUGH so as to not modify the
+> + * original. This is so that fsx expected contents and the actual contents
+> + * of the original file don't go out of sync
+> + */
+>  int
+>  test_writethrough_io(void)
+>  {
+>         char buf[4096];
+> +       char tmpname[PATH_MAX];
+> +       int tmp_fd;
+>         struct iovec iov = { .iov_base = buf, .iov_len = sizeof(buf) };
+>         int ret, e;
+> 
+> +       snprintf(tmpname, sizeof(tmpname), "%s.fsx.XXXXXX", fname);
 > +
-> +	/*
-> +	 * xfs_falloc_setsize() would re-zero the written extents via
-> +	 * iomap_zero_range(). Use xfs_setfilesize() instead.
-> +	 * Update in-core i_size first as xfs_setfilesize() clamps the on-disk
-> +	 * size to it.
-> +	 */
-> +	if (new_size > i_size_read(inode))
-> +		i_size_write(inode, new_size);
+> +       tmp_fd = mkstemp(tmpname);
+> +       if (fd < 0) {
+> +               perror("test_writethrough_io: mkstemp() failed\n");
+> +               exit(132);
+> +       }
+> +
+>         memset(buf, '\0', sizeof(buf));
+> -       ret = pwritev2(fd, &iov, 1, 0, RWF_WRITETHROUGH);
+> +       ret = pwritev2(tmp_fd, &iov, 1, 0, RWF_WRITETHROUGH);
+>         e = ret < 0 ? errno : 0;
+> +
+> +       close(tmp_fd);
+> +
+>         if (e == EOPNOTSUPP) {
+>                 if (!quiet)
+>                         fprintf(stderr,
+> 
 
-I think Sashiko is right that we need a pagecache_isize_extended and
-filemap_write_and_wait_range calls here.
 
+I think this is missing:
+
+@@ -2158,12 +2175,6 @@ test_writethrough_io(void)
+                return 0;
+        }
+
+-       if (ftruncate(fd, file_size) != 0) {
+-               perror("test_writethrough_io: failed to ftruncate to 0\n");
+-               exit(132);
+-       }
+-
+-
+
+The fix works for me after a stress loop test on generic/457.
+
+> 
+> Im unable to replicate the 415 failure, but this one is strange because it
+> doesn't involve any writethrough IO. In you previous runs have you seen
+> this be flaky?
+
+I couldn't confirm back then, so I think we can ignore it. Also, unrelated.
+
+> 
+> Admittedly, I've not yet started thorough testing since this is in early
+> RFC and the design is still getting finalized but I appriciate the help
+> in testing this.
+
+
+No problem. IMHO, testing makes a design more robust, once the path is
+agreed on. That said, do you think the path needs changing? Reading LWN
+and the patch series threads, I don't see any blocker. You can cc me for
+the next iteration and I'll follow up with more testing.
