@@ -1,481 +1,250 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C951B439012
-	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 10:45:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA1642981C;
+	Tue, 16 Jun 2026 10:59:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781606733; cv=none; b=JRvcw0AJJX7ep/nE8WK6LLhUgS8RSbyX1EvYW6YxaRKSuzUxD10zboUcqGhe5jdSQmU4GBsIU79tTICTmuw6mWWksvMfDXBqKprYXc8K+HhX4qAYNFjD+kVyjy3cAz5QmLjuvX+LwMhfYG5o76O5rGSw6ODccyxYhTiTokNqb3Y=
+	t=1781607589; cv=none; b=UoxJmTJyDPgKrjNHOF7+JWakCaP3+AKJY6K88c169JlH2xK9CVBb4lQh4Kh2paq5Q7hLW4bUJdIfCJDrJAMGO9XjDuHcbsn0wqFbqpbYSqAO7wEtiCsvnfRud7WrcPkycRTQ/713emkFpp3K+YlKmlpTAzeUqzpNwfT+vzGGyo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781606733; c=relaxed/simple;
-	bh=PjvLtE7yBDxchaZZjfZkKkfdnvwW9EeMzqeFMNwCRM0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b8Dfi1PxmHP+Hk/sqs5FAOYWqorEZLAXp9PPazgA0CqSNcWkD4rtzKcBHhbfNHKma319wbk8Rqk4UIX0dMrdHtdNKXjZhxYn+f5pStyFJklygSFF5QZkBipG1bA/UrE3936JVMr2LkevwVPqEpyL+d/GXMOe9GgId6gj1tvxUR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kYH9+CY5; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=qBb7XB/6; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kYH9+CY5; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=qBb7XB/6; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1781607589; c=relaxed/simple;
+	bh=YE7247dljL6Zkjk7NmaGXHMM8RpVrxUhGuMCVY8yPDk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ha9gDtpOI0WVP6OobQ77CsgWYEKbKCHPxpPcQC9uYnJf6mF8iu4aFzvZV7L2Z2j3jpWPfx/JCO1hfIHECwgCDCskHW+6ZBmTD1xtefJXwDpjVjX+pfszrei+TkwEnWbTuitJZEQUVUNyLjq34OF061oYamf4ZYdunm32Bapb3yA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=r4B+skvy; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=/CgdbIWW; arc=none smtp.client-ip=210.171.160.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kYH9+CY5";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="qBb7XB/6";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kYH9+CY5";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="qBb7XB/6"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BF6546CB16;
-	Tue, 16 Jun 2026 10:45:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1781606710; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="r4B+skvy";
+	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="/CgdbIWW"
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id 8C8D526F7662;
+	Tue, 16 Jun 2026 19:59:37 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114; t=1781607577;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v12DPE/7540TmxEf/4Gwxa0YLaXPwLzO5Hi1TNrnHuE=;
-	b=kYH9+CY5g3qXgrWGqOYe06K+jL2lIUB1aq5g3rAKLelZCYa22h3jceqgHO8raKbgjDuDaG
-	50BhUl+STw+g568FyslTEguMQHu0oYZJKaeKD+lXQbnt7xNc4L1x9FJsJEqWxyvSwG1Ggi
-	v3GLRyu5RgAxK3p/9veq9wNWiwy9H3Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1781606710;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	bh=7pI5baVHQ66eEV5f5Ud+HcIzBUVIdedKNXY7A8xvaxY=;
+	b=r4B+skvyfjqhwbA0fwwfjfFW0YRQrEhobVJ5NnTX3CbG+xLPOpx+3SGP59Mq2D///eb6HZ
+	s96w6Xsfb2r/XpQbIIxPh4Oi0GSJ5Wbkffs/iM0M/XYfh01RhRb2vXkxaGOFaVwC3n/gKB
+	adjBu+7ZVhhxqJUDcpyymhy8ITnj18w+C7iAuxfnq2gD3YpcULQVr55AHTKb/Q/WVj7ZJD
+	lY+etoS2/9junro18yOx/BIW63Gm1qkBlSVqE9zLJHxvuw+xdsu7RJjp++zbh9at1lPJhP
+	EuPL20BHXhnHDtUER3VTXQEG130AMgOTC4FtbRselNwyAkCU/frQpfzHrDaYKQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114-ed25519; t=1781607577;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v12DPE/7540TmxEf/4Gwxa0YLaXPwLzO5Hi1TNrnHuE=;
-	b=qBb7XB/6BLn02Sxh8WrsJxhUyhdaDfp5BwIiVAnU5YEu56D6szVF7QsVG9LPnqhiLJB4hQ
-	5Pcu3UE2BCG27hAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1781606710; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v12DPE/7540TmxEf/4Gwxa0YLaXPwLzO5Hi1TNrnHuE=;
-	b=kYH9+CY5g3qXgrWGqOYe06K+jL2lIUB1aq5g3rAKLelZCYa22h3jceqgHO8raKbgjDuDaG
-	50BhUl+STw+g568FyslTEguMQHu0oYZJKaeKD+lXQbnt7xNc4L1x9FJsJEqWxyvSwG1Ggi
-	v3GLRyu5RgAxK3p/9veq9wNWiwy9H3Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1781606710;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v12DPE/7540TmxEf/4Gwxa0YLaXPwLzO5Hi1TNrnHuE=;
-	b=qBb7XB/6BLn02Sxh8WrsJxhUyhdaDfp5BwIiVAnU5YEu56D6szVF7QsVG9LPnqhiLJB4hQ
-	5Pcu3UE2BCG27hAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B3C39779AB;
-	Tue, 16 Jun 2026 10:45:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1/LcKzYpMWoqBwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 16 Jun 2026 10:45:10 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 616C7A12D3; Tue, 16 Jun 2026 12:45:06 +0200 (CEST)
-Date: Tue, 16 Jun 2026 12:45:06 +0200
-From: Jan Kara <jack@suse.cz>
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca, 
-	libaokun@linux.alibaba.com, jack@suse.cz, ojaswin@linux.ibm.com, ritesh.list@gmail.com, 
-	djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com, yizhang089@gmail.com, 
-	yangerkun@huawei.com, yukuai@fnnas.com
-Subject: Re: [PATCH v4 08/23] ext4: implement buffered write path using iomap
-Message-ID: <xuxrr3ls4gttesznypeplbawvnxwa4mqcbt7fkpdtdn3cfcfrv@paiigv322v3n>
-References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
- <20260511072344.191271-9-yi.zhang@huaweicloud.com>
+	bh=7pI5baVHQ66eEV5f5Ud+HcIzBUVIdedKNXY7A8xvaxY=;
+	b=/CgdbIWW8dqGeLmiJic6K7Pyb25gKSnq00UHAXYPe4RwuDR67rO9itF2bkYPxoEPXTZ58c
+	4mi/k1C4r9t9a2CA==
+Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 1A8F5E00743;
+	Tue, 16 Jun 2026 19:59:37 +0900 (JST)
+Received: by devron.myhome.or.jp (Postfix, from userid 1000)
+	id 0962E2200085; Tue, 16 Jun 2026 19:59:37 +0900 (JST)
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Matteo Croce <technoboy85@gmail.com>, Timothy Redaelli
+ <tredaelli@redhat.com>,  linux-fsdevel@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  Matteo Croce <teknoraver@meta.com>
+Subject: Re: [PATCH v3] fat: stop reading directory entries past the
+ end-of-directory marker
+In-Reply-To: <20260613172816.18034-1-technoboy85@gmail.com>
+References: <20260613172816.18034-1-technoboy85@gmail.com>
+Date: Tue, 16 Jun 2026 19:59:37 +0900
+Message-ID: <878q8e699i.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260511072344.191271-9-yi.zhang@huaweicloud.com>
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,mit.edu,dilger.ca,linux.alibaba.com,suse.cz,linux.ibm.com,gmail.com,kernel.org,infradead.org,huawei.com,fnnas.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Score: -2.30
+Content-Type: text/plain
 
-On Mon 11-05-26 15:23:28, Zhang Yi wrote:
-> From: Zhang Yi <yi.zhang@huawei.com>
-> 
-> Introduce two new iomap_ops instances for ext4 buffered writes:
-> 
->  - ext4_iomap_buffered_da_write_ops: for delayed allocation mode, using
->    ext4_da_map_blocks() to map delalloc extents.
->  - ext4_iomap_buffered_write_ops: for non-delayed allocation mode, using
->    ext4_iomap_get_blocks() to directly allocate blocks.
-> 
-> Also add ext4_iomap_valid() for the iomap infrastructure to check extent
-> validity.
-> 
-> Key changes and considerations:
-> 
->  - Unwritten extents for new blocks (dioread_nolock always on)
->    Since data=ordered mode is not used to prevent stale data exposure in
->    the non-delayed allocation path, new blocks are always allocated as
->    unwritten extents.
-> 
->  - Short write and write failure handling
->    a. Delalloc path: On short write or failure, the stale delalloc range
->       must be dropped and its space reservation released. Otherwise, a
->       clean folio may cover leftover delalloc extents, causing
->       inaccurate space reservation accounting.
->    b. Non-delalloc path: No cleanup of allocated blocks is needed on
->       short write.
-> 
->  - Lock ordering reversal
->    The folio lock and transaction start ordering is reversed compared to
->    the buffer_head buffered write path. To handle this, the journal
->    handle must be stopped in iomap_begin() callbacks. The lock ordering
->    documentation in super.c has been updated accordingly.
-> 
-> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+Matteo Croce <technoboy85@gmail.com> writes:
 
-Looks good to me - besides the IOMAP_F_NEW bugs Ojaswin found. One
-observation I have here is that since the old indirect block based on-disk
-format doesn't support unwritten extents we can never transition it to the
-iomap scheme used here. So we'll have to figure out some way to avoid
-maintaining two (actually three if we count data=journal) buffered write /
-writeback paths in the long term. But let's address that once things settle
-for the common paths.
+> The FAT specification[1] (FAT Directory Structure -> "DIR_Name[0]") states:
+>
+>     If DIR_Name[0] == 0x00, then the directory entry is free (same as for
+>     0xE5), and there are no allocated directory entries after this one
+>     (all of the DIR_Name[0] bytes in all of the entries after this one
+>     are also set to 0).
+>
+>     The special 0 value, rather than the 0xE5 value, indicates to FAT
+>     file system driver code that the rest of the entries in this
+>     directory do not need to be examined because they are all free.
+>
+> Linux did not honour this. fat_get_entry() kept advancing past the 0x00
+> terminator; if the trailing on-disk slots were not zero-filled (buggy
+> formatters, read-only media written by other operating systems, on-disk
+> corruption) the driver surfaced arbitrary bytes as real directory
+> entries. On a typical affected image, `ls /mnt` returns ~150 bogus
+> entries with random binary names, multi-gigabyte sizes, dates ranging
+> from 1980 to 2106, and a flood of -EIO from stat().
+>
+> Earlier attempts (v1..v3, see [2][3][4]) added `de->name[0] == 0` guards
+> at each call site. As Hirofumi pointed out on v3, those guards reject
+> the entry but fat_get_entry() has already advanced *pos past it; the
+> next readdir() resumes after the marker and walks straight back into
+> the garbage. His suggestion was to centralise the check.
+>
+> This patch:
+>
+>   * Adds fat_get_entry_eod(), a small wrapper around fat_get_entry()
+>     that returns -1 when name[0] == 0 and seeks *pos to dir->i_size.
+>     Per spec every slot after the 0x00 marker is also zero, so jumping
+>     to the end of the directory is correct: subsequent reads return -1
+>     from fat_bmap() without re-fetching trailing zero slots, and
+>     callers persisting *pos across invocations (notably readdir's
+>     ctx->pos) keep reporting end-of-directory on re-entry.
+>
+>   * Converts the read/search paths to use the new wrapper:
+>       fat_parse_long(), fat_search_long(), __fat_readdir(),
+>       and fat_get_short_entry() -- the last covers
+>       fat_get_dotdot_entry(), fat_dir_empty(), fat_subdirs(),
+>       fat_scan(), and fat_scan_logstart() transitively.
+>
+>   * Leaves fat_add_entries() and __fat_remove_entries() on raw
+>     fat_get_entry(): the write paths legitimately need to operate on
+>     free/zero slots. fat_add_entries() additionally detects an
+>     allocated entry past a 0x00 marker (the spec violation that
+>     produces the garbage) and treats it as filesystem corruption:
+>     fat_fs_error_ratelimit() is called -- which honours the configured
+>     errors= mount option (panic / remount-ro / continue) -- and the
+>     operation returns -EIO so we don't write fresh entries into an
+>     already-corrupt directory.
+>
+> [1] https://download.microsoft.com/download/1/6/1/161ba512-40e2-4cc9-843a-923143f3456c/fatgen103.doc
+> [2] https://lore.kernel.org/lkml/20181207013410.7050-1-mcroce@redhat.com/
+> [3] https://lore.kernel.org/lkml/20181216231510.26854-1-mcroce@redhat.com/
+> [4] https://lore.kernel.org/lkml/20190201001408.7453-1-mcroce@redhat.com/
+>
+> Reported-by: Timothy Redaelli <tredaelli@redhat.com>
+> Suggested-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+> Signed-off-by: Matteo Croce <teknoraver@meta.com>
 
-								Honza
+There are some strange behavior though (e.g. seek after name[0] == 0,
+then readdir()), the strange should only be on already a corrupted image.
+
+Well, if we found a serious issue with this, there is possibility to
+revert later though. Looks good for me.
+
+Acked-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
 
 > ---
->  fs/ext4/ext4.h  |   4 ++
->  fs/ext4/file.c  |  20 +++++-
->  fs/ext4/inode.c | 165 +++++++++++++++++++++++++++++++++++++++++++++++-
->  fs/ext4/super.c |  10 ++-
->  4 files changed, 192 insertions(+), 7 deletions(-)
-> 
-> diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-> index 1e27d73d7427..4832e7f7db82 100644
-> --- a/fs/ext4/ext4.h
-> +++ b/fs/ext4/ext4.h
-> @@ -3057,6 +3057,7 @@ int ext4_walk_page_buffers(handle_t *handle,
->  int do_journal_get_write_access(handle_t *handle, struct inode *inode,
->  				struct buffer_head *bh);
->  void ext4_set_inode_mapping_order(struct inode *inode);
-> +int ext4_nonda_switch(struct super_block *sb);
->  #define FALL_BACK_TO_NONDELALLOC 1
->  #define CONVERT_INLINE_DATA	 2
->  
-> @@ -3926,6 +3927,9 @@ static inline void ext4_clear_io_unwritten_flag(ext4_io_end_t *io_end)
->  
->  extern const struct iomap_ops ext4_iomap_ops;
->  extern const struct iomap_ops ext4_iomap_report_ops;
-> +extern const struct iomap_ops ext4_iomap_buffered_write_ops;
-> +extern const struct iomap_ops ext4_iomap_buffered_da_write_ops;
-> +extern const struct iomap_write_ops ext4_iomap_write_ops;
->  
->  static inline int ext4_buffer_uptodate(struct buffer_head *bh)
->  {
-> diff --git a/fs/ext4/file.c b/fs/ext4/file.c
-> index eb1a323962b1..7f9bfbbc4a4e 100644
-> --- a/fs/ext4/file.c
-> +++ b/fs/ext4/file.c
-> @@ -299,6 +299,21 @@ static ssize_t ext4_write_checks(struct kiocb *iocb, struct iov_iter *from)
->  	return count;
+>  fs/fat/dir.c | 41 +++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 37 insertions(+), 4 deletions(-)
+>
+> diff --git a/fs/fat/dir.c b/fs/fat/dir.c
+> index 4f6f42f33613..c7d0bc5de697 100644
+> --- a/fs/fat/dir.c
+> +++ b/fs/fat/dir.c
+> @@ -130,6 +130,28 @@ static inline int fat_get_entry(struct inode *dir, loff_t *pos,
+>  	return fat__get_entry(dir, pos, bh, de);
 >  }
 >  
-> +static ssize_t ext4_iomap_buffered_write(struct kiocb *iocb,
-> +					 struct iov_iter *from)
+> +/*
+> + * Like fat_get_entry(), but honour the FAT end-of-directory marker:
+> + * a dirent whose first name byte is NUL terminates iteration per the
+> + * spec, which also guarantees that every following slot is zeroed.
+> + * Skip straight to the end of the directory so the next call returns
+> + * -1 from fat_bmap() without re-reading the trailing zero slots, and
+> + * so callers that persist *pos across invocations (e.g. readdir's
+> + * ctx->pos) keep reporting EOD.
+> + */
+> +static int fat_get_entry_eod(struct inode *dir, loff_t *pos,
+> +			     struct buffer_head **bh,
+> +			     struct msdos_dir_entry **de)
 > +{
-> +	struct inode *inode = file_inode(iocb->ki_filp);
-> +	const struct iomap_ops *iomap_ops;
+> +	int err = fat_get_entry(dir, pos, bh, de);
 > +
-> +	if (test_opt(inode->i_sb, DELALLOC) && !ext4_nonda_switch(inode->i_sb))
-> +		iomap_ops = &ext4_iomap_buffered_da_write_ops;
-> +	else
-> +		iomap_ops = &ext4_iomap_buffered_write_ops;
-> +
-> +	return iomap_file_buffered_write(iocb, from, iomap_ops,
-> +					 &ext4_iomap_write_ops, NULL);
-> +}
-> +
->  static ssize_t ext4_buffered_write_iter(struct kiocb *iocb,
->  					struct iov_iter *from)
->  {
-> @@ -313,7 +328,10 @@ static ssize_t ext4_buffered_write_iter(struct kiocb *iocb,
->  	if (ret <= 0)
->  		goto out;
->  
-> -	ret = generic_perform_write(iocb, from);
-> +	if (ext4_inode_buffered_iomap(inode))
-> +		ret = ext4_iomap_buffered_write(iocb, from);
-> +	else
-> +		ret = generic_perform_write(iocb, from);
->  
->  out:
->  	inode_unlock(inode);
-> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-> index 39577a6b65b9..1ae7d3f4a1c8 100644
-> --- a/fs/ext4/inode.c
-> +++ b/fs/ext4/inode.c
-> @@ -3097,7 +3097,7 @@ static int ext4_dax_writepages(struct address_space *mapping,
->  	return ret;
->  }
->  
-> -static int ext4_nonda_switch(struct super_block *sb)
-> +int ext4_nonda_switch(struct super_block *sb)
->  {
->  	s64 free_clusters, dirty_clusters;
->  	struct ext4_sb_info *sbi = EXT4_SB(sb);
-> @@ -3467,6 +3467,15 @@ static bool ext4_inode_datasync_dirty(struct inode *inode)
->  	return inode_state_read_once(inode) & I_DIRTY_DATASYNC;
->  }
->  
-> +static bool ext4_iomap_valid(struct inode *inode, const struct iomap *iomap)
-> +{
-> +	return iomap->validity_cookie == READ_ONCE(EXT4_I(inode)->i_es_seq);
-> +}
-> +
-> +const struct iomap_write_ops ext4_iomap_write_ops = {
-> +	.iomap_valid = ext4_iomap_valid,
-> +};
-> +
->  static void ext4_set_iomap(struct inode *inode, struct iomap *iomap,
->  			   struct ext4_map_blocks *map, loff_t offset,
->  			   loff_t length, unsigned int flags)
-> @@ -3501,6 +3510,8 @@ static void ext4_set_iomap(struct inode *inode, struct iomap *iomap,
->  	    !ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS))
->  		iomap->flags |= IOMAP_F_MERGED;
->  
-> +	iomap->validity_cookie = map->m_seq;
-> +
->  	/*
->  	 * Flags passed to ext4_map_blocks() for direct I/O writes can result
->  	 * in m_flags having both EXT4_MAP_MAPPED and EXT4_MAP_UNWRITTEN bits
-> @@ -3908,8 +3919,12 @@ const struct iomap_ops ext4_iomap_report_ops = {
->  	.iomap_begin = ext4_iomap_begin_report,
->  };
->  
-> +/* Map blocks */
-> +typedef int (ext4_get_blocks_t)(struct inode *, struct ext4_map_blocks *);
-> +
->  static int ext4_iomap_map_blocks(struct inode *inode, loff_t offset,
-> -		loff_t length, struct ext4_map_blocks *map)
-> +		loff_t length, ext4_get_blocks_t get_blocks,
-> +		struct ext4_map_blocks *map)
->  {
->  	u8 blkbits = inode->i_blkbits;
->  
-> @@ -3921,6 +3936,9 @@ static int ext4_iomap_map_blocks(struct inode *inode, loff_t offset,
->  	map->m_len = min_t(loff_t, (offset + length - 1) >> blkbits,
->  			   EXT4_MAX_LOGICAL_BLOCK) - map->m_lblk + 1;
->  
-> +	if (get_blocks)
-> +		return get_blocks(inode, map);
-> +
->  	return ext4_map_blocks(NULL, inode, map, 0);
->  }
->  
-> @@ -3938,7 +3956,7 @@ static int ext4_iomap_buffered_read_begin(struct inode *inode, loff_t offset,
->  	if (WARN_ON_ONCE(ext4_has_inline_data(inode)))
->  		return -ERANGE;
->  
-> -	ret = ext4_iomap_map_blocks(inode, offset, length, &map);
-> +	ret = ext4_iomap_map_blocks(inode, offset, length, NULL, &map);
->  	if (ret < 0)
->  		return ret;
->  
-> @@ -3946,6 +3964,147 @@ static int ext4_iomap_buffered_read_begin(struct inode *inode, loff_t offset,
->  	return 0;
->  }
->  
-> +static int ext4_iomap_get_blocks(struct inode *inode,
-> +				 struct ext4_map_blocks *map)
-> +{
-> +	loff_t i_size = i_size_read(inode);
-> +	handle_t *handle;
-> +	int ret;
-> +
-> +	/*
-> +	 * Check if the blocks have already been allocated, this could
-> +	 * avoid initiating a new journal transaction and return the
-> +	 * mapping information directly.
-> +	 */
-> +	if ((map->m_lblk + map->m_len) <=
-> +	    round_up(i_size, i_blocksize(inode)) >> inode->i_blkbits) {
-> +		ret = ext4_map_blocks(NULL, inode, map, 0);
-> +		if (ret < 0)
-> +			return ret;
-> +		if (map->m_flags & (EXT4_MAP_MAPPED | EXT4_MAP_UNWRITTEN |
-> +				    EXT4_MAP_DELAYED))
-> +			return 0;
+> +	if (err == 0 && (*de)->name[0] == 0) {
+> +		*pos = dir->i_size;
+> +		return -1;
 > +	}
-> +
-> +	handle = ext4_journal_start(inode, EXT4_HT_MAP_BLOCKS,
-> +			ext4_chunk_trans_blocks(inode, map->m_len));
-> +	if (IS_ERR(handle))
-> +		return PTR_ERR(handle);
-> +
-> +	ret = ext4_map_blocks(handle, inode, map,
-> +			      EXT4_GET_BLOCKS_CREATE_UNWRIT_EXT);
-> +	/*
-> +	 * Stop handle here following the lock ordering of the folio lock
-> +	 * and the transaction start.
-> +	 */
-> +	ext4_journal_stop(handle);
-> +
-> +	return ret;
+> +	return err;
 > +}
 > +
-> +static int ext4_iomap_buffered_do_write_begin(struct inode *inode,
-> +		loff_t offset, loff_t length, unsigned int flags,
-> +		struct iomap *iomap, struct iomap *srcmap, bool delalloc)
-> +{
-> +	int ret, retries = 0;
-> +	struct ext4_map_blocks map;
-> +	ext4_get_blocks_t *get_blocks;
-> +
-> +	ret = ext4_emergency_state(inode->i_sb);
-> +	if (unlikely(ret))
-> +		return ret;
-> +
-> +	/* Inline data and non-extent are not supported. */
-> +	if (WARN_ON_ONCE(ext4_has_inline_data(inode)))
-> +		return -ERANGE;
-> +	if (WARN_ON_ONCE(!ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS)))
-> +		return -EINVAL;
-> +	if (WARN_ON_ONCE(!(flags & IOMAP_WRITE)))
-> +		return -EINVAL;
-> +
-> +	if (delalloc)
-> +		get_blocks = ext4_da_map_blocks;
-> +	else
-> +		get_blocks = ext4_iomap_get_blocks;
-> +retry:
-> +	ret = ext4_iomap_map_blocks(inode, offset, length, get_blocks, &map);
-> +	if (ret == -ENOSPC && ext4_should_retry_alloc(inode->i_sb, &retries))
-> +		goto retry;
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ext4_set_iomap(inode, iomap, &map, offset, length, flags);
-> +	return 0;
-> +}
-> +
-> +static int ext4_iomap_buffered_write_begin(struct inode *inode,
-> +		loff_t offset, loff_t length, unsigned int flags,
-> +		struct iomap *iomap, struct iomap *srcmap)
-> +{
-> +	return ext4_iomap_buffered_do_write_begin(inode, offset, length, flags,
-> +						  iomap, srcmap, false);
-> +}
-> +
-> +static int ext4_iomap_buffered_da_write_begin(struct inode *inode,
-> +		loff_t offset, loff_t length, unsigned int flags,
-> +		struct iomap *iomap, struct iomap *srcmap)
-> +{
-> +	return ext4_iomap_buffered_do_write_begin(inode, offset, length, flags,
-> +						  iomap, srcmap, true);
-> +}
-> +
-> +/*
-> + * On write failure, drop the stale delayed allocation range and release
-> + * its reserved space for both start and end blocks. Otherwise, we may
-> + * leave a range of delayed extents covered by a clean folio, which can
-> + * result in inaccurate space reservation accounting.
-> + */
-> +static void ext4_iomap_punch_delalloc(struct inode *inode, loff_t offset,
-> +				     loff_t length, struct iomap *iomap)
-> +{
-> +	down_write(&EXT4_I(inode)->i_data_sem);
-> +	ext4_es_remove_extent(inode, offset >> inode->i_blkbits,
-> +			DIV_ROUND_UP_ULL(length, EXT4_BLOCK_SIZE(inode->i_sb)));
-> +	up_write(&EXT4_I(inode)->i_data_sem);
-> +}
-> +
-> +static int ext4_iomap_buffered_da_write_end(struct inode *inode, loff_t offset,
-> +					    loff_t length, ssize_t written,
-> +					    unsigned int flags,
-> +					    struct iomap *iomap)
-> +{
-> +	loff_t start_byte, end_byte;
-> +
-> +	/* If we didn't reserve the blocks, we're not allowed to punch them. */
-> +	if (iomap->type != IOMAP_DELALLOC || !(iomap->flags & IOMAP_F_NEW))
-> +		return 0;
-> +
-> +	/* Nothing to do if we've written the entire delalloc extent */
-> +	start_byte = iomap_last_written_block(inode, offset, written);
-> +	end_byte = round_up(offset + length, i_blocksize(inode));
-> +	if (start_byte >= end_byte)
-> +		return 0;
-> +
-> +	filemap_invalidate_lock(inode->i_mapping);
-> +	iomap_write_delalloc_release(inode, start_byte, end_byte, flags,
-> +				     iomap, ext4_iomap_punch_delalloc);
-> +	filemap_invalidate_unlock(inode->i_mapping);
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Since we always allocate unwritten extents, there is no need for
-> + * iomap_end to clean up allocated blocks on a short write.
-> + */
-> +const struct iomap_ops ext4_iomap_buffered_write_ops = {
-> +	.iomap_begin = ext4_iomap_buffered_write_begin,
-> +};
-> +
-> +const struct iomap_ops ext4_iomap_buffered_da_write_ops = {
-> +	.iomap_begin = ext4_iomap_buffered_da_write_begin,
-> +	.iomap_end = ext4_iomap_buffered_da_write_end,
-> +};
-> +
->  const struct iomap_ops ext4_iomap_buffered_read_ops = {
->  	.iomap_begin = ext4_iomap_buffered_read_begin,
->  };
-> diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-> index 6a77db4d3124..9bc294b769db 100644
-> --- a/fs/ext4/super.c
-> +++ b/fs/ext4/super.c
-> @@ -104,9 +104,13 @@ static const struct fs_parameter_spec ext4_param_specs[];
->   *   -> page lock -> i_data_sem (rw)
->   *
->   * buffered write path:
-> - * sb_start_write -> i_mutex -> mmap_lock
-> - * sb_start_write -> i_mutex -> transaction start -> page lock ->
-> - *   i_data_sem (rw)
-> + * sb_start_write -> i_rwsem (w) -> mmap_lock
-> + * - buffer_head path:
-> + *   sb_start_write -> i_rwsem (w) -> transaction start -> folio lock ->
-> + *     i_data_sem (rw)
-> + * - iomap path:
-> + *   sb_start_write -> i_rwsem (w) -> transaction start -> i_data_sem (rw)
-> + *   sb_start_write -> i_rwsem (w) -> folio lock (not under an active handle)
->   *
->   * truncate:
->   * sb_start_write -> i_mutex -> invalidate_lock (w) -> i_mmap_rwsem (w) ->
-> -- 
-> 2.52.0
-> 
+>  /*
+>   * Convert Unicode 16 to UTF-8, translated Unicode, or ASCII.
+>   * If uni_xlate is enabled and we can't get a 1:1 conversion, use a
+> @@ -327,7 +349,7 @@ static int fat_parse_long(struct inode *dir, loff_t *pos,
+>  
+>  		if (ds->id & 0x40)
+>  			(*unicode)[offset + 13] = 0;
+> -		if (fat_get_entry(dir, pos, bh, de) < 0)
+> +		if (fat_get_entry_eod(dir, pos, bh, de) < 0)
+>  			return PARSE_EOF;
+>  		if (slot == 0)
+>  			break;
+> @@ -489,7 +511,7 @@ int fat_search_long(struct inode *inode, const unsigned char *name,
+>  
+>  	err = -ENOENT;
+>  	while (1) {
+> -		if (fat_get_entry(inode, &cpos, &bh, &de) == -1)
+> +		if (fat_get_entry_eod(inode, &cpos, &bh, &de) == -1)
+>  			goto end_of_dir;
+>  parse_record:
+>  		nr_slots = 0;
+> @@ -601,7 +623,7 @@ static int __fat_readdir(struct inode *inode, struct file *file,
+>  
+>  	bh = NULL;
+>  get_new:
+> -	if (fat_get_entry(inode, &cpos, &bh, &de) == -1)
+> +	if (fat_get_entry_eod(inode, &cpos, &bh, &de) == -1)
+>  		goto end_of_dir;
+>  parse_record:
+>  	nr_slots = 0;
+> @@ -885,7 +907,7 @@ static int fat_get_short_entry(struct inode *dir, loff_t *pos,
+>  			       struct buffer_head **bh,
+>  			       struct msdos_dir_entry **de)
+>  {
+> -	while (fat_get_entry(dir, pos, bh, de) >= 0) {
+> +	while (fat_get_entry_eod(dir, pos, bh, de) >= 0) {
+>  		/* free entry or long name entry or volume label */
+>  		if (!IS_FREE((*de)->name) && !((*de)->attr & ATTR_VOLUME))
+>  			return 0;
+> @@ -1302,6 +1324,7 @@ int fat_add_entries(struct inode *dir, void *slots, int nr_slots,
+>  	struct msdos_dir_entry *de;
+>  	int err, free_slots, i, nr_bhs;
+>  	loff_t pos;
+> +	bool saw_eod;
+>  
+>  	sinfo->nr_slots = nr_slots;
+>  
+> @@ -1310,12 +1333,15 @@ int fat_add_entries(struct inode *dir, void *slots, int nr_slots,
+>  	bh = prev = NULL;
+>  	pos = 0;
+>  	err = -ENOSPC;
+> +	saw_eod = false;
+>  	while (fat_get_entry(dir, &pos, &bh, &de) > -1) {
+>  		/* check the maximum size of directory */
+>  		if (pos >= FAT_MAX_DIR_SIZE)
+>  			goto error;
+>  
+>  		if (IS_FREE(de->name)) {
+> +			if (de->name[0] == 0)
+> +				saw_eod = true;
+>  			if (prev != bh) {
+>  				get_bh(bh);
+>  				bhs[nr_bhs] = prev = bh;
+> @@ -1325,6 +1351,13 @@ int fat_add_entries(struct inode *dir, void *slots, int nr_slots,
+>  			if (free_slots == nr_slots)
+>  				goto found;
+>  		} else {
+> +			if (saw_eod) {
+> +				fat_fs_error_ratelimit(sb,
+> +					"allocated dir entry found after end-of-directory marker (i_pos %lld)",
+> +					MSDOS_I(dir)->i_pos);
+> +				err = -EIO;
+> +				goto error;
+> +			}
+>  			for (i = 0; i < nr_bhs; i++)
+>  				brelse(bhs[i]);
+>  			prev = NULL;
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
