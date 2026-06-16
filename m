@@ -1,75 +1,79 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3873C819A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 06:29:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D61643DC87A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 06:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781591398; cv=none; b=bSVbxo8w0QuZ57WYv5rrJa0vf383zIg1e98TX0t/SNtCPKgE3pGXi5OWfRmKNx0Ohm+7ZQ+p45cAf9xYiesLwpK03xZWGohr7ihczdvAwoQt90J/SxKWyqjbsOIBWZWZrnv3fIIKM6QBgDfkdrXRkMFqU1NoZPo9jHf01nOjP/4=
+	t=1781591597; cv=none; b=gH7C0bz8eOO8FnuWC4Qzxyc3ZBtTHfjqug/yRrm3SpurqHQ9ulTvqgfi9ABn5uGfoCn9OxIutq9x9yVoaWewbWqnJFzmablyD7PhchLDxJ3drFRsYhN2N6sOUJD6bN9FnbXbBUzhtsD7uvLsIyrP6HZ45lCOUhNqOqirlQfIh/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781591398; c=relaxed/simple;
-	bh=TuKCO9Z8rLOfM3+Y/aSGz3TWIKItqY+YcHNrrNF4E1E=;
+	s=arc-20240116; t=1781591597; c=relaxed/simple;
+	bh=Ly1Qk435IxkfEda4W8MYRy9yxk0g8XFd+/9qwNlkoFE=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=oVGEU8ZUdSeCWjNAyTi14YKGf2cuBN1HI1UOuy8su/gWdSTT7un5MutHX9GQ2zXyJ8gQEPRJ65uaWtIsURoz3mTGJaY7ahRpd5fclIbPD1Cc9brpozWH/DsMzRjjRt0cd4ShUeOV5lsgii0lJpCvpTcC49Yh52G+28sUHnqs1U0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=S07r59mv; arc=none smtp.client-ip=209.85.167.47
+	 Content-Type:MIME-Version; b=Zb8AH8KobMwSRhuxEZebjVY+36PFL5XfE1n1tdvWBj3koSjkYjGBBRMnGDF5Dtp4orVmzoFPmvGb+F6cjjmi0Xo9f+HDCj9WKunLQLTtfyzwF1/mNZ+RMxSefC74TV2yuoEV5JgYiQlGNLS3zSMUzPyrrDaIKaQIY2ctjEseJg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=HSjS0ygJ; arc=none smtp.client-ip=209.85.167.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="S07r59mv"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5aa5e0d57e5so3026437e87.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 23:29:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="HSjS0ygJ"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5aa5f11deb2so4721385e87.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 23:33:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1781591395; x=1782196195; darn=vger.kernel.org;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1781591594; x=1782196394; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=mtHcjiL4wZ/ZXdW87t46y0DbqcjZ87COPUcQd6kBkwU=;
-        b=S07r59mvP0yqsV0OG6AkMFfml/3vGUMNw0oEbHwyMKRvxSj5pMWn4MQcI3yX8wNOL8
-         fKFoTMOIR//qtY8r50koqboCxSUeP82tsgVW1BU5dvyiwBaq1NrH6ss7r6X8I+vMeiEw
-         8wADBTMZTl9OgNZNT5AfnfsTczeTCITquGXMFhVVlXTaRrtjn0GarMCHqTMXObdhvf+a
-         UB6BWtCfSSKcyffU608e4esgqpqxFtG450eCfXbdvZGpwmkHt+89FfObQtlDqOFxTpvX
-         fbwG0tr3XdsSRwYmIIMSsHpUMoQ10MJgLt6rPPJMMykGP9756MNTfNY8q0Ed0bfx5CIy
-         hCjQ==
+        bh=c3qmQUhSpMXt5iO1CpMCJnf1Ep7kmPs8a01Bf2lLn2g=;
+        b=HSjS0ygJ6pSTIoAgRoQzicB22VrKgRq/nSrt14N8sWcyXZQmlpnaJoeD5pBUBbtdPP
+         7SOxB3X9FdAhlbGVuk1vSeKwHC+C0o/PGOUYVvREMKf6XvV5W8XG7TwJY8mChfM+IYwY
+         8uv8KFwuGqc8H8Cp9mFFNKA7OKKLAk0XyAH64OY9gAW8jXSqoKH1+gl462IU4d9R3yNi
+         QhsvVwiac6b5/hYZdbt0OxWc3n5k/BgGzUcKjvlXrn17bl0AxaENv0eDII+AQRnGe3T8
+         AzGnOI41VINFfdfgO7R22o8V6N4GXKMPj1m+JZwS914M9D7TArohGlkXzNg5IxrGkVEg
+         vp8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781591395; x=1782196195;
+        d=1e100.net; s=20251104; t=1781591594; x=1782196394;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mtHcjiL4wZ/ZXdW87t46y0DbqcjZ87COPUcQd6kBkwU=;
-        b=sTnayyfewdAuXFT38aSw9o8Fl4qHnO+4JM0vTVVmEF3x7rOaJpt+rkjQ+De0hI8qcM
-         1kYDRVZ3pvPpNfJuJWqPAxsRV1gI/oFAOUPf6/Dz6DJ7IlVjkzMF6JhKSlOlHXcQQY3+
-         15ZEDj/lI4tiHmmjJbcPEF26A/sadxp3Oyo8grFi190Zrp0x7ldH51HqsDk7Dfv9NgMe
-         +BWNfHii+zbrxUFqYZnt5NhuNLyYgBjcTPdttI45HUDT6uJMR9FS9IYYby/C8nkX+R4l
-         TbMKYUc8Ayg48uCS+l6JWHMdUEQ4G2zF26QKu1JuxqFjsqEFGcSYhLZc3K9P2vwHlaTU
-         tTGg==
-X-Forwarded-Encrypted: i=1; AFNElJ8UgsxXPMJJCrFVo0W69yfh2On3V20KPvtWPmQiiq6dG28IKJfWKHZUO/8Jt8ugFceRa8GfIX5X9z4PyYOH@vger.kernel.org
-X-Gm-Message-State: AOJu0YxY+zLDzZ3hThqvWpZ3SGW50TXfACP93MEqk5mKSaYJeIQS48Qi
-	LvmdBQ7+uW+73Q2HBw+xopxc5gbtmO7uhHEf2p6dL1rr/ehQqOLcqX8RVjmDyp9IeO0=
-X-Gm-Gg: Acq92OEDnYvP7MrsmwyHJsUpzWKLC0uCjESHfnGc2fAMWHmSUbE9Ze1iL7a1RIhyA6k
-	a5+C8OobwlGIxS2GGh7bD5lCcUxzG8kzNkWiFAKFb0gOgnD3Eb5HiTkpCGqYDLSFw68s+/yKj1X
-	vrqQNzXfLSPICROHAem4qyG3kp+Bv0xgCNZgWQeWVUY7dvlAkER0vujLGaqnSJST86w1ETBWcXy
-	ZconbgONMMjZJf2e+MGHmjQ4mEN4neuHWkyJXwLvxdqhKXDS1ZaJgK/YP/ao3vx/LYCtTY+CDhE
-	8L79PPnDFSMvn8GXErMNYuULBY2/j31gzDeCrjxB7UDDr9YmP/scq8XqLFJpxJiCXWMpNKbgI/E
-	sDahx4eh+01aO7UaVstm5QiCX1RZa/ToCffpvpIEkCCcAAvR5Ay8lSJ7inNUDccn2vLhIdz0xLc
-	62PnBowDQKckRbNYz4Yf4bSyF8Ywcn6giQ+4J3SODtGpp9GCtcZSTGAJOHH/7B4WI4bkT37tL3T
-	FztIVO0Bw==
-X-Received: by 2002:a05:6512:1595:b0:5aa:6a5c:be4e with SMTP id 2adb3069b0e04-5ad2db37a06mr4645488e87.12.1781591395069;
-        Mon, 15 Jun 2026 23:29:55 -0700 (PDT)
+        bh=c3qmQUhSpMXt5iO1CpMCJnf1Ep7kmPs8a01Bf2lLn2g=;
+        b=FSvRXUb36Or70bY/zxoXm4j8Dqy7H7WRV8Jr8IcUynZisb6ArrW953rlWNXTUvwNBd
+         O8CGC+4iU6uSmruWXUP6ulBzZHNVyrXzxcn6FSdpSEyw4zk7cqcTVYUUXwf307k4rtDP
+         BehH6s3lW5M7nAiihWXsQNvN2vE016PhiPQwocSdoybUqEY0NNEtXCO1A829t4/1qqdz
+         rw+aflt3TXSfbAkZvgvrBX8DCR5Fbu/V54aU7shke5w43tS+MnFvl5hmikGXBpqFGABy
+         hfl3yK57maJXhZx23JV2itwg9U5NtXRZE3eIPY4xBZT/ccQeXRUiM1Y3eFkOK1pAcIwD
+         ZNUg==
+X-Forwarded-Encrypted: i=1; AFNElJ86F7O8QVMeBo3coDAzVbxYRPnpRn7c1StlHYCtx0qPhXQhqISfsRSJygrEmhicg2sWWKZvSMZdVrcjUw7b@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXjCSbu7OWSUscqAhJsZSsQyvcI0KjBchmbOvpZuQkCdGWvWD4
+	XvJ2UQd5o9vWJV4QgXUCFZfzURP9f51nrfn/dde9tKEM0EQkidn1Ot/vX6S7+umYRXA=
+X-Gm-Gg: Acq92OET0tGLJRX3+cyaPxN+Bh2xcEEzzUL89MKVI8hVXpT+BXBnuw6aLJeFuCDCNc+
+	CwPEXvhx3fMQKDIsyTQzGBCmw8NNOj4ZRlupvm+Jl2sT76Jlmy2En/lqHy/ZpHnFE+BTqgbTL6V
+	Mk/vpFb/XNSePxl2cEChl5GNG+lgQ7d+65hWrPaZ/qnw4cUadehoV0iR8uQebSLqMaH/6kvMloM
+	qdWeI5dk1uit91AksUHBVaq8hy0aKTm/W67xo6CgPiYG0sfZZ8KFNqJWwBqcaOIYbbRYAyPDbHx
+	kuE+pMua3jb6mybs1nJPQV2rLscs8Ru30l97n+jbBluwkvNsS1khmoyRBqeP1pzzEIWLfL6Wm4N
+	aKSWuQPLBP+EYJNzGwuHhHUkeE52S26SnP1dYhkJlj12s+aVFp3iLagwpuXJ85ccn3GVjNVAdoo
+	DEYeTWc+FFQXQ5sGfTRBYKImLrBdVonnf6PbpnCsKXCR91AuCEWbiwLxMEVr1MFuFQVzpsSF5ps
+	TrpKwGTsg==
+X-Received: by 2002:a05:6512:40c3:b0:5aa:728f:24ec with SMTP id 2adb3069b0e04-5ad427615f2mr557735e87.3.1781591593560;
+        Mon, 15 Jun 2026 23:33:13 -0700 (PDT)
 Received: from [192.168.3.148] ([31.23.24.48])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5ad2e161f52sm3237267e87.6.2026.06.15.23.29.52
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5ad2e1a7328sm3250855e87.45.2026.06.15.23.33.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 23:29:54 -0700 (PDT)
-Message-ID: <52bae72d5ca54eed5b4f2218fca124e5bbb0747a.camel@dubeyko.com>
-Subject: Re: HFS syzbot BUG: test patch validating metadata before
- hfs_write_inode()
+        Mon, 15 Jun 2026 23:33:12 -0700 (PDT)
+Message-ID: <ba59fcb77c31c1848d4a7f52e87829711b747567.camel@dubeyko.com>
+Subject: Re: [PATCH next] fs/hfsplus/xattr: Use memcpy() and strscpy() to
+ build xattr_name
 From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: David Maximiliano Hermitte <davemadmaxxx@gmail.com>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li
-	 <frank.li@vivo.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Mon, 15 Jun 2026 23:29:50 -0700
-In-Reply-To: <20260612162043.1524591-1-davemadmaxxx@gmail.com>
-References: <20260612162043.1524591-1-davemadmaxxx@gmail.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: david.laight.linux@gmail.com, Kees Cook <kees@kernel.org>, 
+	linux-hardening@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>, John Paul
+ Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li
+ <frank.li@vivo.com>
+Date: Mon, 15 Jun 2026 23:33:09 -0700
+In-Reply-To: <20260611041845.GC6060@frogsfrogsfrogs>
+References: <20260608095523.2606-39-david.laight.linux@gmail.com>
+	 <2543b22369ec19dae397963fbdf2e7181c7419a8.camel@dubeyko.com>
+	 <20260611041845.GC6060@frogsfrogsfrogs>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -124,109 +128,123 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Hi David,
+On Wed, 2026-06-10 at 21:18 -0700, Darrick J. Wong wrote:
+> On Wed, Jun 10, 2026 at 08:50:33PM -0700, Viacheslav Dubeyko wrote:
+> > On Mon, 2026-06-08 at 10:55 +0100,
+> > david.laight.linux@gmail.com=C2=A0wrote:
+> > > From: David Laight <david.laight.linux@gmail.com>
+> > >=20
+> > > xattr_name is kmalloc()ed at the (assumed) maximal size and then
+> > > the
+> > > prefix
+> > > and name concatenated together.
+> > > Use memcpy() for the prefix - its length is passed and strscpy()
+> > > for
+> > > the
+> > > name to ensure it really doesnt overflow.
+> > >=20
+> > > Prior to bf29e886b242c the buffers were smaller and on-stack.
+> > > (But I cant see the copy in the old code.)
+> > > I am also not sure why the buffer isnt created "just long
+> > > enough".
+> > >=20
+> > > Signed-off-by: David Laight <david.laight.linux@gmail.com>
+> > > ---
+> > > This is one of a group of patches that remove potentially
+> > > unbounded
+> > > strcpy() calls.
+> > >=20
+> > > They are mostly replaced by strscpy() or, when strlen() has just
+> > > been
+> > > called, with memcpy() (usually including the '\0').
+> > >=20
+> > > Calls with copy string literals into arrays are left unchanged.
+> > > They are safe and easily detected as such.
+> > >=20
+> > > The changes were made by getting the compiler to detect the calls
+> > > and
+> > > then fixing the code by hand.
+> > >=20
+> > > Note that all the changes are only compile tested.
+> > >=20
+> > > Some Makefiles were changed to allow files to contain strcpy().
+> > > As well as 'difficult to fix' files, this included 'show'
+> > > functions
+> > > as they really need to use sysfs_emit() or seq_printf().
+> > >=20
+> > > All the patches are being sent individually to avoid very long cc
+> > > lists.
+> > > Apologies for the terse commit messages and likely unexpected
+> > > tags.
+> > > (There are about 100 patches in total.)
+> > >=20
+> > > =C2=A0fs/hfsplus/xattr.c | 12 ++++++------
+> > > =C2=A01 file changed, 6 insertions(+), 6 deletions(-)
+> > >=20
+> > > diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
+> > > index 452a1f9becb2..0b3dd48c28c9 100644
+> > > --- a/fs/hfsplus/xattr.c
+> > > +++ b/fs/hfsplus/xattr.c
+> > > @@ -550,8 +550,8 @@ int hfsplus_setxattr(struct inode *inode,
+> > > const
+> > > char *name,
+> > > =C2=A0	xattr_name =3D kmalloc(xattr_name_len, GFP_KERNEL);
+> > > =C2=A0	if (!xattr_name)
+> > > =C2=A0		return -ENOMEM;
+> > > -	strcpy(xattr_name, prefix);
+> > > -	strcpy(xattr_name + prefixlen, name);
+> > > +	memcpy(xattr_name, prefix, prefixlen);
+> >=20
+> > What's the point to mix memcpy and str*() family of methods? What's
+> > wrong with str*() method here? Otherwise, if it is wrong to use
+> > str*()
+> > family of methods, then why is it correct to use for second
+> > operation?
+> >=20
+> > > +	strscpy(xattr_name + prefixlen, name, xattr_name_len -
+> > > prefixlen);
+> >=20
+> > Why strscpy() is better than strncpy()? What is the main argument
+> > here?
+> >=20
+> > > =C2=A0	res =3D __hfsplus_setxattr(inode, xattr_name, value, size,
+> > > flags);
+> > > =C2=A0	kfree(xattr_name);
+> > > =C2=A0
+> > > @@ -698,6 +698,7 @@ ssize_t hfsplus_getxattr(struct inode *inode,
+> > > const char *name,
+> > > =C2=A0			 void *value, size_t size,
+> > > =C2=A0			 const char *prefix, size_t prefixlen)
+> > > =C2=A0{
+> > > +	size_t xattr_name_len =3D NLS_MAX_CHARSET_SIZE *
+> > > HFSPLUS_ATTR_MAX_STRLEN + 1;
+> >=20
+> > Frankly speaking, it looks like a constant that should be declared
+> > in
+> > hfs_common.h. Even if we would like to declare it here, then it
+> > should
+> > be const size_t, from my point of view.
+> >=20
+> > > =C2=A0	int res;
+> > > =C2=A0	char *xattr_name;
+> > > =C2=A0
+> > > @@ -705,13 +706,12 @@ ssize_t hfsplus_getxattr(struct inode
+> > > *inode,
+> > > const char *name,
+> > > =C2=A0		inode->i_ino, name ? name : NULL,
+> > > =C2=A0		prefix ? prefix : NULL);
+> > > =C2=A0
+> > > -	xattr_name =3D kmalloc(NLS_MAX_CHARSET_SIZE *
+> > > HFSPLUS_ATTR_MAX_STRLEN + 1,
+> > > -			=C2=A0=C2=A0=C2=A0=C2=A0 GFP_KERNEL);
+> > > +	xattr_name =3D kmalloc(xattr_name_len, GFP_KERNEL);
+> >=20
+> > Finally, I think kzalloc() should be much better for both cases.
+>=20
+> kasprintf()?
+> >=20
 
-On Fri, 2026-06-12 at 16:20 +0000, David Maximiliano Hermitte wrote:
-> Hi Slava,
->=20
-> I followed the direction you pointed out and tested a small HFS
-> validation patch for the syzbot crash path.
->=20
-> This is not intended as a final upstream patch yet. I am sending it
-> as a test patch to demonstrate the crash direction and to ask whether
-> this is the right validation point. If the direction is correct, I
-> would appreciate guidance on the preferred upstream placement and
-> syntax before a formal submission.
->=20
-> My understanding is that the BUG() in hfs_write_inode() is the
-> endpoint, not the root cause. This test patch keeps hfs_write_inode()
-> intact and rejects corrupted HFS metadata earlier in hfs_read_inode()
-> and hfs_brec_read().
->=20
-> Local QEMU result:
->=20
-> BEFORE_UNPATCHED:
-> - repro_started=3Dtrue
-> - kernel_bug_seen=3Dtrue
-> - verdict=3DBEFORE_BUG_REPRODUCED
->=20
-> AFTER_V04_PATCHED:
-> - repro_started=3Dtrue
-> - clean_hfs_rejects=3D50
-> - kernel_bug=3DFalse
-> - oops=3DFalse
-> - kasan=3DFalse
-> - hfs_write_inode=3DFalse
-> - verdict=3DAFTER_REPRO_RAN_NO_BUG_SEEN
->=20
-> checkpatch.pl --strict:
-> - 0 errors, 0 warnings
->=20
-> The test patch is included below inline. Full QEMU serial logs are
-> available if useful.
->=20
-> Please let me know whether this validation direction matches what you
-> expect, or whether the fix should be placed differently.
->=20
-
-Sorry, I am in personal trip right now. And I have not much time and
-capabilities for deep review and discussion. I am going to be back to
-normal routine around June 26th. I hope our discussion and fix can wait
-two weeks. :) Could you please ping me and revive the discussion around
-that time?
+It sounds much better than suggested fix.
 
 Thanks,
 Slava.
-
-> Best regards,
-> David
->=20
-> --- test patch follows ---
->=20
-> diff --git a/fs/hfs/bfind.c b/fs/hfs/bfind.c
-> index d56e47b..5f56cab 100644
-> --- a/fs/hfs/bfind.c
-> +++ b/fs/hfs/bfind.c
-> @@ -174,8 +174,10 @@ int hfs_brec_read(struct hfs_find_data *fd, void
-> *rec, u32 rec_len)
-> =C2=A0	res =3D hfs_brec_find(fd);
-> =C2=A0	if (res)
-> =C2=A0		return res;
-> +	if (fd->entryoffset < 0 || fd->entrylength <=3D 0)
-> +		return -EFSCORRUPTED;
-> =C2=A0	if (fd->entrylength > rec_len)
-> -		return -EINVAL;
-> +		return -EFSCORRUPTED;
-> =C2=A0	hfs_bnode_read(fd->bnode, rec, fd->entryoffset, fd-
-> >entrylength);
-> =C2=A0	return 0;
-> =C2=A0}
-> diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
-> index 878535d..beefb47 100644
-> --- a/fs/hfs/inode.c
-> +++ b/fs/hfs/inode.c
-> @@ -369,6 +369,8 @@ static int hfs_read_inode(struct inode *inode,
-> void *data)
-> =C2=A0	rec =3D idata->rec;
-> =C2=A0	switch (rec->type) {
-> =C2=A0	case HFS_CDR_FIL:
-> +		if (be32_to_cpu(rec->file.FlNum) <
-> HFS_FIRSTUSER_CNID)
-> +			return -EFSCORRUPTED;
-> =C2=A0		if (!HFS_IS_RSRC(inode)) {
-> =C2=A0			hfs_inode_read_fork(inode, rec->file.ExtRec,
-> rec->file.LgLen,
-> =C2=A0					=C2=A0=C2=A0=C2=A0 rec->file.PyLen,
-> be16_to_cpu(rec->file.ClpSize));
-> @@ -390,6 +392,9 @@ static int hfs_read_inode(struct inode *inode,
-> void *data)
-> =C2=A0		inode->i_mapping->a_ops =3D &hfs_aops;
-> =C2=A0		break;
-> =C2=A0	case HFS_CDR_DIR:
-> +		if (be32_to_cpu(rec->dir.DirID) < HFS_FIRSTUSER_CNID
-> &&
-> +		=C2=A0=C2=A0=C2=A0 be32_to_cpu(rec->dir.DirID) !=3D HFS_ROOT_CNID)
-> +			return -EFSCORRUPTED;
-> =C2=A0		inode->i_ino =3D be32_to_cpu(rec->dir.DirID);
-> =C2=A0		inode->i_size =3D be16_to_cpu(rec->dir.Val) + 2;
-> =C2=A0		HFS_I(inode)->fs_blocks =3D 0;
