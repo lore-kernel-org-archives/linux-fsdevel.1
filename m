@@ -1,174 +1,226 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4B2348C7C
-	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 09:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD66421EF5
+	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 09:36:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781602416; cv=none; b=N2XDtZ3D1ch+6f8CoQN8TFgAGAiqEeSN2VAQD8rQ0m47AOgsk3z1PAQPQbICkCPlhavrMlO8XYKX9P5LM43S2eQuH83pmMhzJiHf85A6/syyRtPco9HlG0QZ2wVt0GD46bR1GwvvmRo+5DzFUop9pM+dgiWq0l5rSp5RhrGAKy4=
+	t=1781602600; cv=none; b=mO9Wrs5bEugKFB7En35M1/JOcDYIJjYMRTjTrii7O6js+KpCKBqNAjbVpVsBg2dqOY1RLUG9PwnCCuZWv862zwhkiCgHSVYOanEEzeeuXJZUnNQ/ILx3uJZ3yduWjLIUL9GBmM7C/yHJT5lJfZTe//494git3yyYtThZtvTYsik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781602416; c=relaxed/simple;
-	bh=LqUwHfownaAZgjZQpxT2KTZ00weB3nhDLGzrcL3wGf0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bqN3SFdzM8OP7IgmOR5VTIfL7UpPes4Jb20nC15ziFeXiwblqqnb8B4iLkN9iTzpg55rt+sq6hIe+Euf+EYiSE6PiKJfvCwPDgIaa+01MDOAX/hPxtY8NF1kuGfXqW40DHHNvb3oZQPPEwZO2QAY8Huy9lqgSV49azLZLotwrPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wCVYuNuJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3XpC7v7c; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wCVYuNuJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3XpC7v7c; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1781602600; c=relaxed/simple;
+	bh=PSbkvenPKBGJGnKcaPquPBICUzfQsNK1RXm6+oZS5r4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YDBrC1vquNGqFiNSlvRlOLz1O2Xri+X7BMnenQMs/oCfv78jEfZtUe9cWvDYc2alhIFi9M7VN4vKreI8tOkzLPaojOtq6vfez/5G6ZIj4+lDFxZ9R1W5F0KbGS218V5mkNri9s30DdaiofsC8CHTZubnQ6g+KwUj3/b6i2Wshzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cX/S/SCI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pratbqcP; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cX/S/SCI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pratbqcP; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wCVYuNuJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3XpC7v7c";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wCVYuNuJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3XpC7v7c"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cX/S/SCI";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pratbqcP";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cX/S/SCI";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pratbqcP"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 432C475828;
-	Tue, 16 Jun 2026 09:33:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781602413; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 513C96CA96;
+	Tue, 16 Jun 2026 09:36:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1781602592; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FyO7OsbniWN38MX5WhioDZA54+rT91knG5i5jAars/Q=;
-	b=wCVYuNuJuYHQ0YlDlXnSg8bBwggnrGlor1LUBfVfmNuG290WC6Yz1VWXDLP9hIHMJdWVW6
-	FxppCcwQwH09u603omSnL5wnqm/pno1rizixxRBs7vxbuyuTHhZxJhFMOVcT4/Br3tU1jx
-	pHdoz2ju5S+SemIuKBVq9IoNHcuHu8M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781602413;
+	bh=FKXOPgkTCEku3Y3W+R4Ytz+xhr4vhbVdQhO9wJpwQ9k=;
+	b=cX/S/SCIjQr2qnlrHUMRoAGBrWgNNij34tiZinhh2b3IDheeNZNWDecglo7DjdxYC95cIZ
+	hErRfiVUDlveZcZp00hE01yR2q9qnF/trA8GF7Hj2k6iDOZtnupfjA2gRKDhiXA7dmtrvH
+	Erp/dkKxj7tl/5mUnaPxbprLrna+LO8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1781602592;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FyO7OsbniWN38MX5WhioDZA54+rT91knG5i5jAars/Q=;
-	b=3XpC7v7cow0Gxc62vqFUTZLiuv63gqiFEp92OSkTESVf2KkObfwuD0pPqAl4tzNjRk4LJk
-	tbY0v9/GxV/lGNCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wCVYuNuJ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3XpC7v7c
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781602413; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	bh=FKXOPgkTCEku3Y3W+R4Ytz+xhr4vhbVdQhO9wJpwQ9k=;
+	b=pratbqcPLSpOccocUIMk/8jYa/ukeB6H7Bq8iyvKu0eJOabAqeg/cB/p8vwfeGOfeYEpmE
+	U9nyw0SisPBqE0CQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1781602592; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FyO7OsbniWN38MX5WhioDZA54+rT91knG5i5jAars/Q=;
-	b=wCVYuNuJuYHQ0YlDlXnSg8bBwggnrGlor1LUBfVfmNuG290WC6Yz1VWXDLP9hIHMJdWVW6
-	FxppCcwQwH09u603omSnL5wnqm/pno1rizixxRBs7vxbuyuTHhZxJhFMOVcT4/Br3tU1jx
-	pHdoz2ju5S+SemIuKBVq9IoNHcuHu8M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781602413;
+	bh=FKXOPgkTCEku3Y3W+R4Ytz+xhr4vhbVdQhO9wJpwQ9k=;
+	b=cX/S/SCIjQr2qnlrHUMRoAGBrWgNNij34tiZinhh2b3IDheeNZNWDecglo7DjdxYC95cIZ
+	hErRfiVUDlveZcZp00hE01yR2q9qnF/trA8GF7Hj2k6iDOZtnupfjA2gRKDhiXA7dmtrvH
+	Erp/dkKxj7tl/5mUnaPxbprLrna+LO8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1781602592;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FyO7OsbniWN38MX5WhioDZA54+rT91knG5i5jAars/Q=;
-	b=3XpC7v7cow0Gxc62vqFUTZLiuv63gqiFEp92OSkTESVf2KkObfwuD0pPqAl4tzNjRk4LJk
-	tbY0v9/GxV/lGNCQ==
+	bh=FKXOPgkTCEku3Y3W+R4Ytz+xhr4vhbVdQhO9wJpwQ9k=;
+	b=pratbqcPLSpOccocUIMk/8jYa/ukeB6H7Bq8iyvKu0eJOabAqeg/cB/p8vwfeGOfeYEpmE
+	U9nyw0SisPBqE0CQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2D20E779A8;
-	Tue, 16 Jun 2026 09:33:33 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 41130779A8;
+	Tue, 16 Jun 2026 09:36:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7BOECm0YMWopPQAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 16 Jun 2026 09:33:33 +0000
-Message-ID: <182988c8-575b-479e-a87c-37493dd70023@suse.de>
-Date: Tue, 16 Jun 2026 11:33:32 +0200
+	id q6DeDyAZMWoqQAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 16 Jun 2026 09:36:32 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id D82FAA12D3; Tue, 16 Jun 2026 11:36:27 +0200 (CEST)
+Date: Tue, 16 Jun 2026 11:36:27 +0200
+From: Jan Kara <jack@suse.cz>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca, 
+	libaokun@linux.alibaba.com, jack@suse.cz, ojaswin@linux.ibm.com, ritesh.list@gmail.com, 
+	djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com, yizhang089@gmail.com, 
+	yangerkun@huawei.com, yukuai@fnnas.com
+Subject: Re: [PATCH v4 03/23] ext4: simplify error handling in ext4_setattr()
+Message-ID: <o4y5u6dnub7aswxpjagiomrxy27lflqsvquvglq7wzwhabtuq3@eu4p2yjrunq4>
+References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
+ <20260511072344.191271-4-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/8] nvmet: make configfs setup namespace aware
-To: Maurizio Lombardi <mlombard@arkamax.eu>, Hannes Reinecke
- <hare@kernel.org>, Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Andreas Hindborg <a.hindborg@kernel.org>,
- linux-fsdevel@vger.kernel.org, linux-nvme@lists.infradead.org
-References: <20260613111437.101763-1-hare@kernel.org>
- <20260613111437.101763-9-hare@kernel.org>
- <DJACVCF5YTMZ.3TWM3MQYJCMA@arkamax.eu>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <DJACVCF5YTMZ.3TWM3MQYJCMA@arkamax.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 432C475828
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260511072344.191271-4-yi.zhang@huaweicloud.com>
 X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00];
+X-Spamd-Result: default: False [-2.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MID_RHS_NOT_FQDN(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_COUNT_TWO(0.00)[2];
+	FREEMAIL_CC(0.00)[vger.kernel.org,mit.edu,dilger.ca,linux.alibaba.com,suse.cz,linux.ibm.com,gmail.com,kernel.org,infradead.org,huawei.com,fnnas.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.com:email,huawei.com:email]
+X-Spam-Level: 
+X-Spam-Score: -2.30
 
-On 6/16/26 11:11, Maurizio Lombardi wrote:
-> On Sat Jun 13, 2026 at 1:14 PM CEST, Hannes Reinecke wrote:
->> Implement 'fill_subsystem' and 'clear_subsystem' callbacks to make
->> nvmet configfs namespace aware.
->>
->> +static int nvmet_add_port_list(u64 ns_id, struct nvmet_port *p)
->> +{
->> +	struct list_head *port_list;
->> +
->> +	mutex_lock(&nvmet_ports_mutex);
->> +	port_list = idr_find(&nvmet_ports_idr, ns_id);
->> +	if (!port_list) {
->> +		int err;
->> +
->> +		port_list = kzalloc_obj(*port_list);
->> +		if (!port_list)
->> +			return -ENOMEM;
->> +		INIT_LIST_HEAD(port_list);
->> +		err = idr_alloc(&nvmet_ports_idr, port_list,
->> +				ns_id, ns_id + 1, GFP_KERNEL);
->> +		if (err < 0) {
->> +			kfree(port_list);
->> +			return err;
->> +		}
->> +		WARN_ON(err != ns_id);
->> +	}
->> +	list_add(&p->global_entry, port_list);
->> +	mutex_unlock(&nvmet_ports_mutex);
->> +	return 0;
->> +}
+On Mon 11-05-26 15:23:23, Zhang Yi wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
 > 
-> Just a minor thing that I noticed: the error paths leave the mutex
-> locked.
+> Refactor the error handling in ext4_setattr() for better clarity:
 > 
-Oh. And so they do. Thanks for pointing it out.
-(Sashiko already told me, but nevertheless :-)
+>  - Return directly on ext4_break_layouts() failure.
+>  - Propagate ext4_truncate() errors using the existing error variable
+>    and jump to the common 'err_out' label.
+>  - Propagate posix_acl_chmod() errors also through the error variable,
+>    as it theoretically does not return a non-fatal error.
+> 
+> With these changes, every error path either returns immediately or jumps
+> to err_out. Consequently, the "if (!error)" condition guarding
+> setattr_copy() and mark_inode_dirty() becomes unreachable for error
+> cases. Remove this redundant check and the unused rc variable can be
+> removed as well.
+> 
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 
-Cheers,
+Looks good. Feel free to add:
 
-Hannes
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  fs/ext4/inode.c | 32 +++++++++++++++-----------------
+>  1 file changed, 15 insertions(+), 17 deletions(-)
+> 
+> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+> index 35e958f89bd5..b1ef706987c3 100644
+> --- a/fs/ext4/inode.c
+> +++ b/fs/ext4/inode.c
+> @@ -5989,7 +5989,7 @@ int ext4_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  		 struct iattr *attr)
+>  {
+>  	struct inode *inode = d_inode(dentry);
+> -	int error, rc = 0;
+> +	int error;
+>  	int orphan = 0;
+>  	const unsigned int ia_valid = attr->ia_valid;
+>  	bool inc_ivers = true;
+> @@ -6102,10 +6102,10 @@ int ext4_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  
+>  		filemap_invalidate_lock(inode->i_mapping);
+>  
+> -		rc = ext4_break_layouts(inode);
+> -		if (rc) {
+> +		error = ext4_break_layouts(inode);
+> +		if (error) {
+>  			filemap_invalidate_unlock(inode->i_mapping);
+> -			goto err_out;
+> +			return error;
+>  		}
+>  
+>  		if (attr->ia_size > oldsize)
+> @@ -6117,15 +6117,19 @@ int ext4_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  		}
+>  
+>  		filemap_invalidate_unlock(inode->i_mapping);
+> +		if (error)
+> +			goto err_out;
+>  	}
+>  
+> -	if (!error) {
+> -		if (inc_ivers)
+> -			inode_inc_iversion(inode);
+> -		setattr_copy(idmap, inode, attr);
+> -		mark_inode_dirty(inode);
+> -	}
+> +	if (inc_ivers)
+> +		inode_inc_iversion(inode);
+> +	setattr_copy(idmap, inode, attr);
+> +	mark_inode_dirty(inode);
+>  
+> +	if (ia_valid & ATTR_MODE)
+> +		error = posix_acl_chmod(idmap, dentry, inode->i_mode);
+> +
+> +err_out:
+>  	/*
+>  	 * If the call to ext4_truncate failed to get a transaction handle at
+>  	 * all, we need to clean up the in-core orphan list manually.
+> @@ -6133,14 +6137,8 @@ int ext4_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  	if (orphan && inode->i_nlink)
+>  		ext4_orphan_del(NULL, inode);
+>  
+> -	if (!error && (ia_valid & ATTR_MODE))
+> -		rc = posix_acl_chmod(idmap, dentry, inode->i_mode);
+> -
+> -err_out:
+> -	if  (error)
+> +	if (error)
+>  		ext4_std_error(inode->i_sb, error);
+> -	if (!error)
+> -		error = rc;
+>  	return error;
+>  }
+>  
+> -- 
+> 2.52.0
+> 
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
