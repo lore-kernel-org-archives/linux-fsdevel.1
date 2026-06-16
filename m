@@ -1,112 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3109936A373
-	for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 23:57:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2230DF59;
+	Tue, 16 Jun 2026 00:09:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781567876; cv=none; b=cVi6Zc4k1QMHx/9RC/oBNJ6E8JeCPQ70yLmwpXE9MXXEgw1z8/wJgwf1yTBRoluBcRdOfBs0w8K3xxn1RqHlhguA1W8xvbMBMjyyVge4aizydxhdYcsMKqQaB1HJHdRB75W1xGvA68CHcQB2ctP9uKLFu9Cbq7QI6QQyXWMlims=
+	t=1781568599; cv=none; b=LwGdSdkjF5vXZcLjNM55x7xkPX0piUnp5e/2qkrvzmHVFUsHbMB9LPXHkc5ofsvQfVTtl9TC6C5eegK3cbkJUq8/p6RW/yO/hsx186J8hHfI5GjQzq3aaL1jofezdApds/aWY+63JJuFXWtjyaEI5DV26bX8ql/UOgO4+0YqLck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781567876; c=relaxed/simple;
-	bh=D5VpS27PIz7llIDWmXxfKoUtWbXk7xJ41hj8JSsNxpI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e/vwHaNP5o7hYzCG7ufnSSGOqrumV6rmeOVwkiSptTL7HEpqrl7dzs7NP5fFH+ESccokU0EGzZLIPjhtXjw0WlNhzy4AYtYp1GBay967qYbaa8s9eDc2hhUi1zHAP4Dz72Z5smbVvO7h6w0DpDsSNRdEdNPRonicJPmi3q+dtU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fgcJCd/J; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781568599; c=relaxed/simple;
+	bh=t/kM7j8d0foldHsRhUKT2g6+r5v47tS8hckV+My2S7c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nwOle6mnTgWg7/EpW+5ihTsTCscLVzrGJ7hpNU7pFxUiWEbzKdHmlqgCftOGbXXOMJMM3EbyWKAHDre5jjDZZZTYBWza4Km2/Lt1JFswba05XiTkChcoQptWavH00zp7Fls/bAEKgIfJvbsHF59WBzvHqdHRzFIwRTT8O0o5j4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RNkAedHA; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fgcJCd/J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E22981F000E9
-	for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 23:57:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781567874;
-	bh=3JEnIeafamhxprnHxKLmCF5h1bsCs+JDEZ3KZbgZ7yQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=fgcJCd/JZ2SGnVPx0unL0ZiyaGbRnY5tzChzphrwUSvM5/MjHjRmlGxD0OLF7vyHI
-	 ldhvqXme4a1eocSWNh51Gm5FnWVhgXNqE6bZOv00My9tNbZNGvnlY5F4kYVV11g50z
-	 yzB4GyArozn+DdvmkNnrSlkCm4bQYfVWpQ5Am72WA2VXMPCfrte5y8e+9F2UL5oZFe
-	 nLlL816LM+J5ybMeCguneDEosadt7Hom/3Eyq56Pdh7LhvsK0O0FuR9WHNQ2KvPSB7
-	 N2Az1XWY0iiSSAY7qTMConGQ0OQDVicEv4uuFX/5hqnQMBIWh2zhPsn3KTn8TrBFtN
-	 BKZMXu10qNBiQ==
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-bec449d0af2so468637366b.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 16:57:54 -0700 (PDT)
-X-Gm-Message-State: AOJu0YzV4ss36hIKVloTgag+vSkwuCE6splbvzFUJ+IT7UOJDaQLykfA
-	TRNEYHErb1uarrTEPzxLSPHvUf00zftCIPSYVoHRSn271DTrqfgK2lCBAkSglmTwoEtTqNCDxj2
-	efhA2qMP+3NYjT8E9LiNSYIBILjHzbgs=
-X-Received: by 2002:a17:907:1987:b0:bea:3ebb:19d2 with SMTP id
- a640c23a62f3a-bff4c6f9410mr590163766b.25.1781567873696; Mon, 15 Jun 2026
- 16:57:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RNkAedHA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781568598; x=1813104598;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=t/kM7j8d0foldHsRhUKT2g6+r5v47tS8hckV+My2S7c=;
+  b=RNkAedHAXpN2Sx0+8nFLXatYI3FZUwtXb5YkRCwvjq9/Td8a2QQFJRHP
+   517P25fehRQNAqzxcWgxyH7pC/omoU3FZ0ra5fKC1gltq8a2OUc6MvNPx
+   XJJAZXZna+292bx9Frxr9vobo9bjJPNpXS0Bb1T0+yNw0RZfsgAe3e0Aa
+   alllcykGi0Va9kGJJyTTBNsv8qd/BXTRXQe58/+soFZ5p6iwKACxOT73l
+   uKEY+XuRPvVBXBwJJ7WsWuzFSew6v/0wKQxCIsBYMlaL9ublVigKZ2lEZ
+   S7bhgCk5U2LjXWaC5EV0BCUoyd1+psCp6yfoANWsjFBDcYWvVwU0VAx/d
+   Q==;
+X-CSE-ConnectionGUID: DxSgR9sjQFO9ugdA5i3tew==
+X-CSE-MsgGUID: YhYtxBa7Ri+GXq8SHlJQqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="104992973"
+X-IronPort-AV: E=Sophos;i="6.24,207,1774335600"; 
+   d="scan'208";a="104992973"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 17:09:56 -0700
+X-CSE-ConnectionGUID: uf8FQ6zNT++z6n9n/jceZw==
+X-CSE-MsgGUID: 6aN6azQ4S8SjD3Yhv78Pgg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,207,1774335600"; 
+   d="scan'208";a="285727422"
+Received: from bradocaj-mobl.ger.corp.intel.com (HELO [10.125.111.24]) ([10.125.111.24])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 17:09:55 -0700
+Message-ID: <096515b9-26fd-4835-b713-0112025b9d27@intel.com>
+Date: Mon, 15 Jun 2026 17:09:55 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260615-topic-symlink-v2-0-648a769d01f8@gmail.com>
-In-Reply-To: <20260615-topic-symlink-v2-0-648a769d01f8@gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 16 Jun 2026 08:57:41 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd8w=_w1mhO+b6n+tFjQQgUXW_8i-YFrNrQKKNtgobZ-bQ@mail.gmail.com>
-X-Gm-Features: AVVi8Cemv0GJlI5NQHb4xr9lOJ-kzl5KMKrZ77bbhPoMxTkufgV9R358q_BmdQk
-Message-ID: <CAKYAXd8w=_w1mhO+b6n+tFjQQgUXW_8i-YFrNrQKKNtgobZ-bQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] ntfs: Support Windows native symbolic links
-To: Hyunchul Lee <hyc.lee@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 12/19] x86: define DPS root partition type UUIDs
+To: Vincent Mailhol <mailhol@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Davidlohr Bueso <dave@stgolabs.net>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>
+Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org
+References: <20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org>
+ <20260615-discoverable-root_partitions-v1-12-39c78fac42e2@kernel.org>
+ <03be57ae-0e41-4b8a-adc5-bdd85ccce951@intel.com>
+ <ea71a433-fdcc-429d-adce-14e9fb726957@kernel.org>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <ea71a433-fdcc-429d-adce-14e9fb726957@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 15, 2026 at 8:50=E2=80=AFAM Hyunchul Lee <hyc.lee@gmail.com> wr=
-ote:
->
-> This patch series adds support for Windows native symbolic links and
-> introduces mount options to configure how symbolic links are resolved
-> and created.
->
-> Currently, the NTFS driver creates WSL-compatible symbolic links and
-> has limited support for native Windows symbolic links. This series
-> addresses these limitations.
->
-> 1. Following/Resolving Symlinks & Junctions:
->   - Add support for parsing and following Windows native symbolic links.
->   - Introduce the "native_symlink=3Draw|rel" mount option to configure
->     absolute target resolution.
->
-> 2. Creating Symlinks:
->   - Introduce the "symlink=3Dwsl|native" mount option to choose the
->     creation behavior of symlinks. Under "native", Windows native
->     symbolic links are created by converting the target path to UTF-16
->     Windows format.
->
-> 3. Fixes & Cleanups:
->   - Fix an issue where the size of symbolic links is reported as 0.
->   - Clean up target name conversion for WSL symlinks by avoiding
->     redundant conversion.
->
-> 4. Documentation:
->   - Document the newly introduced mount options in ntfs.rst.
->
-> Changes since v1:
-> - Add a boundary check to verify that reparse point attribute size is
->   at least the size of the `reparse_point`.
-> - Fix target inode fields (`reparse_tag`, `reparse_flags`) not being
->   updated `ntfs_reparse_set_wsl_symlink()`,
->   `ntfs_reparse_set_wsl_not_symlink()`, and
->   `ntfs_set_ntfs_reparse_data()`.
-> - Improve absolute path validation in `ntfs_reparse_set_native_symlink()`
->   by ensuring that absolute paths actually start with a valid drive
->   letter and a path separator.
-> - Optimize memory allocations in `ntfs_reparse_set_native_symlink()` by
->   sharing the same buffer for print name and substitute name in the
->   relative symlink path.
->
-> Signed-off-by: Hyunchul Lee <hyc.lee@gmail.com>
-> ---
-> Hyunchul Lee (7):
->       ntfs: fix incorrect size of symbolic link
->       ntfs: support following Windows native symlink with relative paths
->       ntfs: support following Windows native symlink with absolute paths
->       ntfs: add native_symlink mount option
->       ntfs: clean up target name conversion for WSL symlinks
->       ntfs: support creating Windows native symlinks
->       docs/fs/ntfs: add mount options to support Windows native symbolic =
-links
-Applied them to #ntfs-next.
-Thanks!
+On 6/15/26 13:19, Vincent Mailhol wrote:
+...
+> That said, your points make sense to me, and I would be supportive to
+> allow a search for a secondary UUID as a kernel extension. If we do
+> so, I think the only constraint should be to make sure that we check
+> for the exact match first (e.g. check x86_64 type before x86_32 type).
+> 
+> Would that make sense?
+
+Yep, that makes sense to me.
+
+>> 2. Should the UUIDs be defined in arch code or generic code?
+> 
+> I think that you convinced me to put it in generic code.
+> 
+>> 3. Kconfig or #ifdefs?
+> 
+> I would say Kconfig. If we go for the exact match only, that would be:
+> 
+>   CONFIG_DPS_ROOT_PARTITION_TYPE_UUID
+> 
+> If we allow more as an extension, that would become:
+> 
+>   - CONFIG_DPS_ROOT_PARTITION_TYPE_UUID for the exact match
+>   - CONFIG_DPS_ROOT_PARTITION_TYPE_UUID_SECONDARY for the compatible
+>     one.
+> 
+> The drawback is that some entries will be in both:
+> 
+>   config DPS_ROOT_PARTITION_TYPE_UUID
+>   	string
+>   	  default "4f68bce3-e8cd-4db1-96e7-fbcaf984b709" if X86_64
+>   	  default "44479540-f297-41b2-9af7-d131d5f0458a" if X86
+> 
+>   config DPS_ROOT_PARTITION_TYPE_UUID_SECONDARY
+>   	string
+>   	  default "44479540-f297-41b2-9af7-d131d5f0458a" if X86_64 && COMPAT_32
+> 
+> And I don't think we need more than two.
+
+That's not ideal, but it's also a completely static thing that will get
+written very, very rarely.
+
+> A bonus question: should those Kconfig entries be hidden? I prefer the
+> hidden option because it doesn't add that much code and I thought this
+> was not worth bothering the user with one more menuconfig question.
+> But I would be happy to change if people this this is worth an
+> menuconfig entry.
+
+Yeah, it should be hidden. Anybody that wants to change it for whatever
+reason can edit the .config file or hack Kconfig.
