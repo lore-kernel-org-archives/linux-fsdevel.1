@@ -1,249 +1,178 @@
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99237477E36;
-	Tue, 16 Jun 2026 17:19:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781630352; cv=none; b=UlVcyV22KVor/rfh3icRZVHoEHgIn/pDKw3BESJo+0dxaVG7mOFtEtxL2KzwIVJYdnSJEACaBhi3Powdx1CcS6fpFVPWEACh1K4COHPdgjqFe9Sh6sN3KSMWnCc1WjBsFj/S4M4gpKROsUpa1sUwmry64awP1l9twZ4cl2uEv+g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781630352; c=relaxed/simple;
-	bh=AkKPx2yXOf+yRJAOA0i7tCW6FNDGa/rHfBJeJn2A7bE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=i3jpU2yNuYbEZE5jmceht9dnkgUT8XPQad6t66eA0ixpDTbYGVhTxDKGzfAVazW/0AclKKbskIn8UlL4l1rBzSEI6AohfJDQkNYSV+49jjH5+s4EedtiTuiMCDoxbeXMoZy96L5SWf8YY1cumtNuQiY5V/1wMnul8VJ90GQd5gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=NngHtZFh; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=Ab6b6YlI; arc=none smtp.client-ip=210.171.160.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F413D525E
+	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 18:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781633402; cv=pass; b=E2CRdtShuc1PVd8D4URNoCTInsTcHUCHIrjosEkrqYdLtSGyrHUddwV3xD1AjOQYlt9fPmPkehsZkctXhvYkOBX3lP87gg/YQVuo6XDZq5MDm8+iipsuwFomvqV2OWCUgtWAHlgfT2bmGcX4sdK/y3g1RrUk6rzlo5WJ6lDEJBA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781633402; c=relaxed/simple;
+	bh=hbZ7AtqKeATB2r4kr93uGgpM+Y/zj6+leroFxw5uOv8=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mARvxXTcT0/GAooakcWVe8PfJvarksBQaFEjlToPED4AelVkwNmr7hqGU4GdsG4/dxRh2EJTpw/XB4MEIEVtOUT9ztp5qUSMCei4IzVieW4j92cSQOksk/xA6wXzdi0lRusKhuLOYNflpfSmRfWO/o3x4IAvjSMeDobwo4/3wFY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JXYp3gXJ; arc=pass smtp.client-ip=74.125.82.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="NngHtZFh";
-	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="Ab6b6YlI"
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id B036526F768E;
-	Wed, 17 Jun 2026 02:19:07 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1781630347;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XRdr7p703XLF9CUN79pxvEpHGa46lmrj3ItZwZIgYRo=;
-	b=NngHtZFhzm2eLBU0MK/BdbnQ2XoGEH6Jd9XlXCmSZ6PPf5y98QmbDMBmzjxmrjBPFY2qon
-	8w1EX40uQ3oYYYInE62ED8MeRbmf5hbuKYyYuuHOtGC5zqAvEe8IOUu71glrKm3JzxvLwS
-	EzfKMNGo4Z6zEUE1V3b2J7SaX89ZcZfHtV868XAIzTvPbGb6iw76Z0JQ38ouDD5pvvhDzx
-	R0V0GoyyU0V7yxan+hrkE0g4LPZbDa19/l4GflzvI34dmHVBttkm+CFI+2PYdgIoYEUhya
-	N5nMq7sXbg3qgEK1ygUQXhvnP0ADoiKnrkWA9lBgLnDVBWD9BHxHXXWY0SgMXw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1781630347;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XRdr7p703XLF9CUN79pxvEpHGa46lmrj3ItZwZIgYRo=;
-	b=Ab6b6YlIjyanwrsHl/EeMrrWwe9yphqz811FiVrcS8Q4vB2qLfAbTM1q98zFqD8L4pNlbB
-	0/THUVcv2rh9BWAw==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 3F825E003B8;
-	Wed, 17 Jun 2026 02:19:07 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id 24EB922000BF; Wed, 17 Jun 2026 02:19:07 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Matteo Croce <technoboy85@gmail.com>, Timothy Redaelli
- <tredaelli@redhat.com>,  linux-fsdevel@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  Matteo Croce <teknoraver@meta.com>
-Subject: Re: [PATCH v4] fat: stop reading directory entries past the
- end-of-directory marker
-In-Reply-To: <20260616163346.32603-1-technoboy85@gmail.com>
-References: <20260616163346.32603-1-technoboy85@gmail.com>
-Date: Wed, 17 Jun 2026 02:19:07 +0900
-Message-ID: <87mrwu4d4k.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JXYp3gXJ"
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-1370417c01cso6355293c88.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 11:10:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781633400; cv=none;
+        d=google.com; s=arc-20240605;
+        b=gH4wDlSLW06/tv9tA2JE7YIPAcuBp1/IxfGojcN/wdg0E0MlHFLBXRBuVStXPwrxFo
+         mqmWl6XcniXMY7VPHlm/1H6I5rtWV4nIVrnm0AZBf83CQyGuBwTs1LW1nyez41SSQV9u
+         TlFkIdl4SNuMFi4WAR13oWkOA1sUN+sgOxVWF8E+o95rTXd4FmRIKgIzZMa23/h6SUWu
+         p/KUFQ8Mxptr+Ll734RLq4x/nXmTzxY5KuGLVKRNrpNcZ712AN14Qmo3d1TnH9/5O3oh
+         dBi/HnAG6DPDxGzOAIxiwpXsBpqp922PpzTJsFYPgqiOWgJ1d6FYTZ3uGQTnUKajsqav
+         daLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=o82nbH8071ZDGLm0iYK2gdlkX600tsvrzfNh6VLN4Fo=;
+        fh=1SHnpPhcXsxujA0ifPb99FHOMNPNwzlrum7KxLMq/L4=;
+        b=M6stnUzfFeXgrGbOvjkVBU6jWxZWRfTjWzKLZ/JODodeJfnlvbTDfZoNX5OVoomXqp
+         TJZzTH2OlRtNKTtTfDVi+185xydyCuQ7MC/R0O2ujt4KhoLKPzPaLc3gVaKHzpMWrHoI
+         IswA0G6FNtABVp6soVEaJQv+y+tqTvulXBXww5yPmFQeL/XTMAl/K/e2HRkXQ+yXU0K7
+         HJryjbR+3fU+uQK3cg1aaSPXP7xnyG0Pf435oSZ6FXeBMxKnNI+Vyb3wIuTUVz2G+Azm
+         5G+htqTzM8tt2OgNZq2dWyevF7LJIX4FbBKPqlif6FNIPziXSwRmTpmGbRz1FWmBBeny
+         iWPA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1781633400; x=1782238200; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=o82nbH8071ZDGLm0iYK2gdlkX600tsvrzfNh6VLN4Fo=;
+        b=JXYp3gXJ7pMeF9WaAOYYO6gSbS5mjDcaZxz/wPa+8kEWDLwRfwwM6/7YMe2P9Bahyn
+         QWCBOe0P47hudynegfdEKLzfJzJ50p5G9IZzB/TTy8x9k1JR1j7Z6u/j+ICZSpnlxamK
+         KwEMdQVsm6CrQVJ9s6SsKMxpPqN8ci892isftjagSgFrlTT+bZ3nzDqyC3alo0ibbE7N
+         5Jp5Rzf/kg2KLIWQnSE/R36/vK1J1yPYiSZXIno0NkMP96yH2uT6W0kq5HyLw1RAOs1+
+         qwKMzNSkS6pv0v8wqU5fidqR5I1KRaGca9PsyMp/PMygj2YDYxrvI6xwT9ugbtMif/+t
+         gbdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781633400; x=1782238200;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=o82nbH8071ZDGLm0iYK2gdlkX600tsvrzfNh6VLN4Fo=;
+        b=q4GT350c/zL1oLGk1aegR53DAzfd/tJEyM05I/zXcFKpO+P4VtVBsA/IYsYs6kG0mT
+         tP6faHjEat1eK/+ajwwY9ycLkCjjZCpwkikk6cXz6RZRWXIgQSpPoVlGDFYitJIscy5I
+         gYmtSuunlgWMbipvi0hGz+99GFEjVMNA8tGobncBzH+G0q7UndlMNM3tdW2vO2l2da/E
+         Y8uJndpNZxtKH0ryXNHJuvWNZKOXQGZcDJhcSMCW75m8N2GrtSkXcXlfCX/5jERYoo+e
+         huvr2Ulq2bXp7yQmPRA7ptftjmePN+mEw1Oatxk/gnTCqJZo9YvYaXoOhgzfXAlBgJK3
+         yxiQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/LFr1NBKGYES/UvfwBkHyvphSkjvlZvPVO5piXO7e5myEZMFXe9QGHe+m0OLn92ASA68ounHmquCQJSonq@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMwyJF7yfJCq6nfhDGL2fjC8BB6CoIX4tNHhKua9lalWyrLXcn
+	uQMVR19l2RfDImvkmcu63owCT5hkwQQYwVCT9IACyw0z+ZZBgvjMIfWCwmDiLeZEtSLI7UflWBw
+	RyIBtBvsyQc/bew9cNFLZTFxYINzqrA7wr0bMTEGJ
+X-Gm-Gg: Acq92OEpggTClWNFjolj+HyUcmL2mtV5iRsh7AYDrCbLKbJYxxSFGkoBHLEMFPSye8H
+	WD8Ywch7tCnoxpGmyC+i5XPN3bW4WxQ6ft8uvCnIU574p4kfTWHynUEbBX9/pQRFszdZlFhFvet
+	rWVJ/1MXH9t+O0KL0ElwUqnmzutBDNwrVqsr/jjaXNCAbBdhkxlEz7eV3/x++ra2dnaS5jw6wgH
+	M+Bg+0qmWXpclfLHqi/y1Kmk/voX+P/VmyJr8+NhCxnyk+KSg9fHham/kr8iFdAedN1Mth6YUuq
+	b6P0fDDIsRu+Ti4MvpKWv0ZuaZck5rrL/EKBOUlggYhWBr6SklMtODz5FOiTvKx3c9Pp/2exdu8
+	rKLWK
+X-Received: by 2002:a05:7022:622:b0:137:9399:fc59 with SMTP id
+ a92af1059eb24-1398f69626amr23221c88.21.1781633399141; Tue, 16 Jun 2026
+ 11:09:59 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 16 Jun 2026 11:09:58 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 16 Jun 2026 11:09:58 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <1e77f24d-315a-4f68-a109-2f4520343c0c@kernel.org>
+References: <20260611-shivank-gmem-migrate-v1-0-2d266bfc6f95@amd.com>
+ <ai_XK__RTXMCEcCG@raptor> <ai_aczmeH2IA6JaB@raptor> <ajA4z_Wkb93cTW4m@google.com>
+ <1e77f24d-315a-4f68-a109-2f4520343c0c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Date: Tue, 16 Jun 2026 11:09:58 -0700
+X-Gm-Features: AVVi8Cfci2aZVOJMaXs8XbxR0646nJUtiwZFbcmm9wi2jMlpzFimiOSyoy_glyY
+Message-ID: <CAEvNRgFQLEsKanKrj=ePHoShiY2cgQgxtGs_2CJcZHP=JOjidg@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/3] KVM: guest_memfd: folio migration for
+ non-confidential VMs
+To: "David Hildenbrand (Arm)" <david@kernel.org>, Sean Christopherson <seanjc@google.com>, 
+	Alexandru Elisei <alexandru.elisei@arm.com>
+Cc: Shivank Garg <shivankg@amd.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+	Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+	Chao Peng <chao.p.peng@linux.intel.com>, Nikunj A Dadhania <nikunj@amd.com>, 
+	Ira Weiny <ira.weiny@intel.com>, Michael Roth <michael.roth@amd.com>, 
+	Pankaj Gupta <pankaj.gupta@amd.com>, Fuad Tabba <tabba@google.com>, 
+	Vishal Annapurve <vannapurve@google.com>, Nikita Kalyazin <nikita.kalyazin@linux.dev>, 
+	Patrick Roy <patrick.roy@linux.dev>, Pratik Sampat <prsampat@amd.com>, 
+	Ashish Kalra <Ashish.Kalra@amd.com>, linux-fsdevel@vger.kernel.org, 
+	linux-coco@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Matteo Croce <technoboy85@gmail.com> writes:
+"David Hildenbrand (Arm)" <david@kernel.org> writes:
 
-> The FAT specification[1] (FAT Directory Structure -> "DIR_Name[0]") states:
+> On 6/15/26 19:39, Sean Christopherson wrote:
+>> On Mon, Jun 15, 2026, Alexandru Elisei wrote:
+>>> Hi,
+>>>
+>>> On Mon, Jun 15, 2026 at 11:43:14AM +0100, Alexandru Elisei wrote:
+>>>> Hi,
+>>>>
+>>>>
+>>>> I always thought that one of the nice things about using guest_memfd as a
+>>>> memory backend, as opposed to host userspace mappings, is that the host
+>>>> cannot unmap VM memory because of KSM, automatic NUMA balancing, hugepage
+>>>> collapse, compaction, etc, acting on the host userspace mapping of the
+>>>> VM memory, and outside of the VMM's or KVM's control.
+>>
+>> +1000.  It's not just "nice to have", it's a core design principle of guest_memfd.
 >
->     If DIR_Name[0] == 0x00, then the directory entry is free (same as for
->     0xE5), and there are no allocated directory entries after this one
->     (all of the DIR_Name[0] bytes in all of the entries after this one
->     are also set to 0).
+> Right, and I raised in the guest_memfd call also the rough idea of Alexandru's
+> use case of having non-movable guest_memfd pages such that we can support use
+> cases where we can hopefully guarantee that a stage-2 mapping will not just
+> randomly go away.
 >
->     The special 0 value, rather than the 0xE5 value, indicates to FAT
->     file system driver code that the rest of the entries in this
->     directory do not need to be examined because they are all free.
->
-> Linux did not honour this. fat_get_entry() kept advancing past the 0x00
-> terminator; if the trailing on-disk slots were not zero-filled (buggy
-> formatters, read-only media written by other operating systems, on-disk
-> corruption) the driver surfaced arbitrary bytes as real directory
-> entries. On a typical affected image, `ls /mnt` returns ~150 bogus
-> entries with random binary names, multi-gigabyte sizes, dates ranging
-> from 1980 to 2106, and a flood of -EIO from stat().
->
-> Earlier attempts (v1..v3, see [2][3][4]) added `de->name[0] == 0` guards
-> at each call site. As Hirofumi pointed out on v3, those guards reject
-> the entry but fat_get_entry() has already advanced *pos past it; the
-> next readdir() resumes after the marker and walks straight back into
-> the garbage. His suggestion was to centralise the check.
->
-> This patch:
->
->   * Adds fat_get_entry_eod(), a small wrapper around fat_get_entry()
->     that returns -1 when name[0] == 0 and seeks *pos to dir->i_size.
->     Per spec every slot after the 0x00 marker is also zero, so jumping
->     to the end of the directory is correct: subsequent reads return -1
->     from fat_bmap() without re-fetching trailing zero slots, and
->     callers persisting *pos across invocations (notably readdir's
->     ctx->pos) keep reporting end-of-directory on re-entry.
->
->   * Converts the read/search paths to use the new wrapper:
->       fat_parse_long(), fat_search_long(), __fat_readdir(),
->       and fat_get_short_entry() -- the last covers
->       fat_get_dotdot_entry(), fat_dir_empty(), fat_subdirs(),
->       fat_scan(), and fat_scan_logstart() transitively.
->
->   * Leaves fat_add_entries() and __fat_remove_entries() on raw
->     fat_get_entry(): the write paths legitimately need to operate on
->     free/zero slots. fat_add_entries() additionally detects an
->     allocated entry past a 0x00 marker (the spec violation that
->     produces the garbage) and treats it as filesystem corruption:
->     fat_fs_error_ratelimit() is called -- which honours the configured
->     errors= mount option (panic / remount-ro / continue) -- and the
->     operation returns -EIO so we don't write fresh entries into an
->     already-corrupt directory.
->
-> [1] https://download.microsoft.com/download/1/6/1/161ba512-40e2-4cc9-843a-923143f3456c/fatgen103.doc
-> [2] https://lore.kernel.org/lkml/20181207013410.7050-1-mcroce@redhat.com/
-> [3] https://lore.kernel.org/lkml/20181216231510.26854-1-mcroce@redhat.com/
-> [4] https://lore.kernel.org/lkml/20190201001408.7453-1-mcroce@redhat.com/
->
-> Reported-by: Timothy Redaelli <tredaelli@redhat.com>
-> Suggested-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-> Signed-off-by: Matteo Croce <teknoraver@meta.com>
+>>
+>>>> I think it would be useful to preserve this behaviour, even in the absence
+>>>> of confidential VMs (i.e, guest_memfd file descriptor created with
+>>>> GUEST_MEMFD_FLAG_MMAP).
+>>>
+>>> Just to be clear, I was thinking that it might be useful for both
+>>> behaviours to exist (migratable and non-migratable) for non-confidential
+>>> VMs, and allow KVM or userspace to decide which they prefer for a
+>>> guest_memfd.
 
-Thanks.
+More concretely, are y'all pointing towards a
+GUEST_MEMFD_FLAG_MIGRATABLE, which will set .migrate =
+kvm_gmem_migrate_folio, and for now, error out for CoCo VMs?
 
-Acked-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-
-> ---
->  fs/fat/dir.c | 44 ++++++++++++++++++++++++++++++++++++++++----
->  1 file changed, 40 insertions(+), 4 deletions(-)
+>>
+>> For the purposes of this discussion, we should separate the physical act of
+>> migrating pages from the features that trigger migration.  As I said in last week's
+>> guest-memfd call, I am a-ok with supporting page migration as a mechanism, but I
+>> am dead set against supporting NUMA balancing, KSM, LRU-based swap/reclaim, and
+>> anything else that goes against the goal of guest-first memory.
 >
-> diff --git a/fs/fat/dir.c b/fs/fat/dir.c
-> index 4f6f42f33613..c6cca5d00ffd 100644
-> --- a/fs/fat/dir.c
-> +++ b/fs/fat/dir.c
-> @@ -130,6 +130,31 @@ static inline int fat_get_entry(struct inode *dir, loff_t *pos,
->  	return fat__get_entry(dir, pos, bh, de);
->  }
->  
-> +/*
-> + * Like fat_get_entry(), but honour the FAT end-of-directory marker:
-> + * a dirent whose first name byte is NUL terminates iteration per the
-> + * spec, which also guarantees that every following slot is zeroed.
-> + * Skip straight to the end of the directory so the next call returns
-> + * -1 from fat_bmap() without re-reading the trailing zero slots, and
-> + * so callers that persist *pos across invocations (e.g. readdir's
-> + * ctx->pos) keep reporting EOD.  Release *bh and set it to NULL to
-> + * match fat_get_entry()'s contract that *bh is NULL on the -1 return.
-> + */
-> +static int fat_get_entry_eod(struct inode *dir, loff_t *pos,
-> +			     struct buffer_head **bh,
-> +			     struct msdos_dir_entry **de)
-> +{
-> +	int err = fat_get_entry(dir, pos, bh, de);
-> +
-> +	if (err == 0 && (*de)->name[0] == 0) {
-> +		brelse(*bh);
-> +		*bh = NULL;
-> +		*pos = dir->i_size;
-> +		return -1;
-> +	}
-> +	return err;
-> +}
-> +
->  /*
->   * Convert Unicode 16 to UTF-8, translated Unicode, or ASCII.
->   * If uni_xlate is enabled and we can't get a 1:1 conversion, use a
-> @@ -327,7 +352,7 @@ static int fat_parse_long(struct inode *dir, loff_t *pos,
->  
->  		if (ds->id & 0x40)
->  			(*unicode)[offset + 13] = 0;
-> -		if (fat_get_entry(dir, pos, bh, de) < 0)
-> +		if (fat_get_entry_eod(dir, pos, bh, de) < 0)
->  			return PARSE_EOF;
->  		if (slot == 0)
->  			break;
-> @@ -489,7 +514,7 @@ int fat_search_long(struct inode *inode, const unsigned char *name,
->  
->  	err = -ENOENT;
->  	while (1) {
-> -		if (fat_get_entry(inode, &cpos, &bh, &de) == -1)
-> +		if (fat_get_entry_eod(inode, &cpos, &bh, &de) == -1)
->  			goto end_of_dir;
->  parse_record:
->  		nr_slots = 0;
-> @@ -601,7 +626,7 @@ static int __fat_readdir(struct inode *inode, struct file *file,
->  
->  	bh = NULL;
->  get_new:
-> -	if (fat_get_entry(inode, &cpos, &bh, &de) == -1)
-> +	if (fat_get_entry_eod(inode, &cpos, &bh, &de) == -1)
->  		goto end_of_dir;
->  parse_record:
->  	nr_slots = 0;
-> @@ -885,7 +910,7 @@ static int fat_get_short_entry(struct inode *dir, loff_t *pos,
->  			       struct buffer_head **bh,
->  			       struct msdos_dir_entry **de)
->  {
-> -	while (fat_get_entry(dir, pos, bh, de) >= 0) {
-> +	while (fat_get_entry_eod(dir, pos, bh, de) >= 0) {
->  		/* free entry or long name entry or volume label */
->  		if (!IS_FREE((*de)->name) && !((*de)->attr & ATTR_VOLUME))
->  			return 0;
-> @@ -1302,6 +1327,7 @@ int fat_add_entries(struct inode *dir, void *slots, int nr_slots,
->  	struct msdos_dir_entry *de;
->  	int err, free_slots, i, nr_bhs;
->  	loff_t pos;
-> +	bool saw_eod;
->  
->  	sinfo->nr_slots = nr_slots;
->  
-> @@ -1310,12 +1336,15 @@ int fat_add_entries(struct inode *dir, void *slots, int nr_slots,
->  	bh = prev = NULL;
->  	pos = 0;
->  	err = -ENOSPC;
-> +	saw_eod = false;
->  	while (fat_get_entry(dir, &pos, &bh, &de) > -1) {
->  		/* check the maximum size of directory */
->  		if (pos >= FAT_MAX_DIR_SIZE)
->  			goto error;
->  
->  		if (IS_FREE(de->name)) {
-> +			if (de->name[0] == 0)
-> +				saw_eod = true;
->  			if (prev != bh) {
->  				get_bh(bh);
->  				bhs[nr_bhs] = prev = bh;
-> @@ -1325,6 +1354,13 @@ int fat_add_entries(struct inode *dir, void *slots, int nr_slots,
->  			if (free_slots == nr_slots)
->  				goto found;
->  		} else {
-> +			if (saw_eod) {
-> +				fat_fs_error_ratelimit(sb,
-> +					"allocated dir entry found after end-of-directory marker (i_pos %lld)",
-> +					MSDOS_I(dir)->i_pos);
-> +				err = -EIO;
-> +				goto error;
-> +			}
->  			for (i = 0; i < nr_bhs; i++)
->  				brelse(bhs[i]);
->  			prev = NULL;
+> Right. Page migration for supporting ZONE_MOVABLE/CMA, compaction, memory
+> offlining, virtio-mem and possibly some collapse mechanism if we were to support
+> THP of some sorts in guest_memfd would are all reasonable.
+>
 
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Background question: how would virtio-mem use migration in the host/guest_memfd?
+
+> As soon as we mix in access/lru semantics, we're going into the wrong direction.
+>
+> Fortunately KSM is anon-only and not even worth a rant here :)
+>
+>
+>
+> --
+> Cheers,
+>
+> David
