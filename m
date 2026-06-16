@@ -1,73 +1,76 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04313C1970
-	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 06:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F2A3CF673
+	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 06:24:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781590721; cv=none; b=LoDYNRC0DJueZwEyJxYmHme7AZSfhHaax6RnaQpW1ZOWjly9mdGAtBXERzYKOTMN50UtOn7lU3HYvS6VhpTe3EHHEVLH5vUfSZqsH5B/OSZToAEgeV23Ve91GXSZXvZSSe/BqN6nWaUzdZkjNn9QncUGiR/gKQC6kea2nSmoIqo=
+	t=1781591085; cv=none; b=Ov5JdYvaiL+O1utRUsn/qIVKrS0zxNjaSVEBI3uHSXN+QxKLwQbjJ5EmSh3dMFj2UiF99JWeMLFxIF/t14Hz8t0xjrNfGW3/Dt2c4hjm1SXnYe8C89BsEoeKf/xCsbU+MFJUQecL6TuHCiSytqno5O+arAJeNRVBZDf6X6+HO/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781590721; c=relaxed/simple;
-	bh=AxUlvz0jKM/mTPX63rOzUbcs9rJUpmquvwyE17UGtaQ=;
+	s=arc-20240116; t=1781591085; c=relaxed/simple;
+	bh=PMJLpWjz8+gRn98msAHPzTKow1sIbZiAFiZizoCFHIE=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=SyXBaRzypAs+7kbdTGDTsPmigfbvLHIhfYDfIjjJqX0s5YSgcNvmtfMHifBWhRkqnDta70rP0uOdibusthhD349fQwitYReUTcXu6xS1ds0hk//Vfk0U+vfU0YJvgjBqAXUA+kfSxjV2tnhqAa5cSdmTMUqa3L8nITxx8MWWNcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=hv2r2u1R; arc=none smtp.client-ip=209.85.167.45
+	 Content-Type:MIME-Version; b=rMkCNGm6vCLNLuDJZjmTphm1DvAZPgAi+h9m3fQ/EnPmcpXvkuwnt7G5p29qBHfBVkDzgZKNA4oeU0tAowFltYkFDUAzsxmVAjH48rSb1zYrwjpUElW8lqtHvWlZXp1rQxTflcZ37GTXrdDQ2hw1R70CtHRQonTqJ+l+UAy5XZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=u2QOAHW8; arc=none smtp.client-ip=209.85.208.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="hv2r2u1R"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5aa5f11deb2so4707381e87.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 23:18:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="u2QOAHW8"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-399389dae7fso27891151fa.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 23:24:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1781590717; x=1782195517; darn=vger.kernel.org;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1781591082; x=1782195882; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=dbtzrA9lzbQ25gtyd1mUa09G2mp8hWm3XJb/VcbI/4I=;
-        b=hv2r2u1RRqebVVF7hGW9CmsH5I4qRSKQJuzpAN5civyWRAcQ3iQarCZT59NjMeYsf+
-         vo1gKqF+sN5qw8FiIBV5Pecfk1ysbjpagQR+WLdWerhehnXBimEf2n40fR28xOvoIh7m
-         TqKu+j4OfnM808Du0LA/AZFGUgc3afDRZcP1gy8uNbs7vAa2RY13HLm3wKLSb3BGdQnw
-         BNYltmT0Svc5E1EsCdH1GHTYZdgcTjFmpVd6htLOgIomQeO1A7B31K1p5mjDVJZ7Fg3e
-         nMSL1AMiq5KIYVxHhJi23S8fFGGIyShOzb9DE7HQpI7LPUR+sleifKXrvr1IOAIXDOmG
-         Wf0A==
+        bh=PMJLpWjz8+gRn98msAHPzTKow1sIbZiAFiZizoCFHIE=;
+        b=u2QOAHW821lIsAMOO2ySM0l04+fkQp5mKavGNuSzYVmakMnGH22R452142pnNQzse8
+         LQVTvtfzN2+5ghVUnixQMvOJdXSiPfTn0J+XsmCxcJXXkvg0YbYFP+me/uEeFqZPNjpY
+         PaYt9HGCPWif+vsYLjvtkDfBZRXkkIZArcaltjJoOVvU89sDCzViMKmnzgirsnA5GuUE
+         Wrry98tfMYFv043SRaRBfrM1TOuPZ1hBwparovtbNWrGlXiSKr5ZojS9ISbhhKCOaKPL
+         H13vVJtE2tWPaw3N3ViuKN8JMVWr+iMj1MQSzmVtviwIeLfFsYOgDg0LMX5fqPVS7dIa
+         JcMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781590717; x=1782195517;
+        d=1e100.net; s=20251104; t=1781591082; x=1782195882;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dbtzrA9lzbQ25gtyd1mUa09G2mp8hWm3XJb/VcbI/4I=;
-        b=J5qD9rkEo9qQzmUq4EMZ4F6RBbiC4LiCegm8dwEXLUIH9GIdnb1ypl4LDy91orEM+l
-         HtgGLZABss7SzGn8waMf3gAhYHx4cCAqba3ma2iXLXnoHmr+q7qmXumrQ1Cb8EdV2wK4
-         XYk6sKbvBq5dA3gR3KhdOn4rPypqG9cD6lQw8bef2kCoqlal3xgL0xfCLCpEYL9DJD+o
-         Voz+UDv8jZ44OuQaj6NU8dmO97gZDrAEJ1KgGrWWwV1r/kA3br5HZpI31PQVtzkYlNHW
-         3xgKdRztwyfkwDmPHmp5+XEHLI/qgU39cEGW7tTDHpse1xpjRA2S79k4OBF0eW3zjnOY
-         PtQg==
-X-Gm-Message-State: AOJu0YzSukUuX9lnX/bp5fdhRiWdNTM1qNsh2y2lp4HLciNawUz/Am4d
-	SjmXRzA9kh1yPytR3iz3PPhP1XIDdXLXAnIyx0RMjq1vGP8yKBiZbYOhg2D6cxE4SbA=
-X-Gm-Gg: Acq92OGnckwi+BRUAqu811XcgWUHzOlN9yNna2AUK+Yc9vw9KFQKQ2RgnR3af01blRy
-	ddHeM+hmdb72XNEeRFuXl7cQiM0TOYq/47BzUGDDflnArnhrco9xNUXB/z9z6q0XEcr9eG28H7n
-	31Pvsj2mvcIJtyOOtCiqJiXjy6l+mBpvKSHXtKNno5rkI+xEaJtw7QZXzYch9ILIivtLAw4bVWg
-	+t7DNNgxGYIdemRE63CcunRHnaDGZHRVIye6fD4c6E5zcCCJKBGAu6CUEHRE5+uv1ty1OIeupRy
-	mHXIxafQ6vXEyyWL7kBMUQs1c7gF8WWGODsN4iYe/G31oVvTZcZg1ox50vJU3tonsz4ZaYsoPal
-	IKG9940Iik2ms5pT0ymfRSvwUZFUYJUjtlPVNWBBqjOHf/+4zES2elKG9keeH4otpv0uZXz37wq
-	UO5BWWQGx50i5PDRgxOd1gtKo8lLvJ2ojiKbdgOSVHA2lk7sOybufjraHYnyyOk12cpXqCsC5+E
-	8vH/bVeQw==
-X-Received: by 2002:ac2:54a3:0:b0:5aa:7880:5246 with SMTP id 2adb3069b0e04-5ad427a8fc5mr574471e87.31.1781590716631;
-        Mon, 15 Jun 2026 23:18:36 -0700 (PDT)
+        bh=PMJLpWjz8+gRn98msAHPzTKow1sIbZiAFiZizoCFHIE=;
+        b=G2F5KQRXlUmHfHqyThu2Sp7fVrZsdJTwKXJrqsCAn0rEZsWeZQsH5EAelnVeWmPLJ2
+         P6uVYK/T2dDvUB1P/r6myQYHM9SYe53j/QaGFKyxWh56yEyqa0AzNpOmdWRQ/6hIyZYz
+         BFVHY3l11LjrhsodCN5M+eQz8bGNTTgJNJi+YIq1JuS1YmFGyNQE3lqwnI1AROK7glyI
+         YaxZ3D3LA2AtlFgw9dMOLVGsK1MOxfSENlKAEb20+Ks3VyZBHJBlEMmqyOSYC4Mu5WlP
+         tvOlipKsPMy6mSFVZw2bEEen0GrbXSCyslxcNOvDctV0EiWPhBluaPBjkdi9eQkC8kEN
+         EQhA==
+X-Gm-Message-State: AOJu0YwLVx0DrkOEb9MCq98sLA0E47ZshvFZtBNGRg+bxs7y5tQKkw9z
+	D/S/K3fkEGDVBrLq7WX2mO0856kfvcTB+zIgWzk3iaTXA9t/t8Fvt3hi77OSEPokFE4=
+X-Gm-Gg: Acq92OGXYWcWmXOD98c2eZ0EVWpsqf5d1CoQ9JHdZ4JkrN38Lw5gYASPRvffcNgc1yF
+	nqTc1DQPhB2QVG6seEBh6bt6YMva+uQFfYnVcHnhvnAGvKuBNbyAghsESgMMhcwzz99GLNHobDS
+	sgvlAH7K1nmV9i9/ApKRQCR9k02QgK6zr8eRj6NQtiyWP31KsSY4GX1CIjTl0uo0ctLiBYGSZYl
+	cQGtJEYAXQZu1qFJ/Od/oqdIqSGdd0yzHotfkA1WOk9iBVL1NoZ6afmN0Zm5hsDE8OIG6gNMRtJ
+	0dIRMsgT/55N62rzHOVuz7unDpfPECN+pKQtMGEn5X/f1WSdlFWfPDLQdGb3M+bqHIUuRD4wVMX
+	YnaOO3TS5DtUXbBQgmVnFkFfU9fM//rge9ig3SnL1w1gpr7ZB8XpFiiuvh2DdoBNQoNVNhJoS9B
+	ZJk3dsXg2evHTCs4tGC/eoymZj9tRkGxPB1o/w/jaD7VvR2oALzOboWf9bYssZMUMmFtXiw6IdJ
+	ntVfa4VKQ==
+X-Received: by 2002:a2e:be0a:0:b0:38b:dd55:b71 with SMTP id 38308e7fff4ca-3995c559452mr6289251fa.20.1781591082209;
+        Mon, 15 Jun 2026 23:24:42 -0700 (PDT)
 Received: from [192.168.3.148] ([31.23.24.48])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5ad4090e632sm611496e87.8.2026.06.15.23.18.35
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3995c191cd8sm4470191fa.20.2026.06.15.23.24.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 23:18:36 -0700 (PDT)
-Message-ID: <87ee43f4be0098fe843a70702c41f405b7580755.camel@dubeyko.com>
-Subject: Re: [PATCH v3] hfs: avoid deadlock in hfs_mdb_commit()
+        Mon, 15 Jun 2026 23:24:41 -0700 (PDT)
+Message-ID: <a6220ce5bf7f546c77123934974a0f94f19a6711.camel@dubeyko.com>
+Subject: Re: [PATCH] hfsplus: validate thread record before delete key
+ rebuild
 From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Yue Sun <samsun1006219@gmail.com>, glaubitz@physik.fu-berlin.de, 
-	frank.li@vivo.com
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Mon, 15 Jun 2026 23:18:33 -0700
-In-Reply-To: <20260613054702.54437-1-samsun1006219@gmail.com>
-References: <20260529103428.99099-1-samsun1006219@gmail.com>
-	 <20260613054702.54437-1-samsun1006219@gmail.com>
+To: Kyle Zeng <kylebot@openai.com>
+Cc: linux-fsdevel@vger.kernel.org, Yangtao Li <frank.li@vivo.com>, John Paul
+ Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ outbounddisclosures@openai.com
+Date: Mon, 15 Jun 2026 23:24:40 -0700
+In-Reply-To: <CAC7i46-j-5QgBcv2Bm64NUz+T5nkTBhiRmh=a7i0_hd2x099Tg@mail.gmail.com>
+References: <20260611212633.5058-1-kylebot@openai.com>
+	 <04c1bff937f903a43820ae4c916b6ea919944869.camel@dubeyko.com>
+	 <CAC7i46-j-5QgBcv2Bm64NUz+T5nkTBhiRmh=a7i0_hd2x099Tg@mail.gmail.com>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -113,7 +116,7 @@ Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  nf8SP+uxkTTDKcPHOa5rYRaeNj7T/NClRSd4z6aV3F6pKEJnEGvv/DFMXtSHlbylhyiGKN2Amd0b4
  9jg+DW85oNN7q2UYzYuPwkHsFFq5iyF1QggiwYYTpoVXsw
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -122,203 +125,102 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Sat, 2026-06-13 at 13:47 +0800, Yue Sun wrote:
-> From: Sam Sun <samsun1006219@gmail.com>
->=20
-> hfs_mdb_commit() currently uses the primary MDB buffer lock as a
-> broad
-> commit lock. It keeps HFS_SB(sb)->mdb_bh locked while it may also
-> write
-> the alternate MDB and the volume bitmap.
->=20
-> This can deadlock. A corrupted image can set drVBMSt so that the
-> bitmap
-> block maps to the same buffer_head as the primary MDB. The bitmap
-> writeback path then calls lock_buffer() on the same buffer_head while
-> mdb_bh is already locked by hfs_mdb_commit(). A similar locking
-> problem
-> can also happen on valid images when hfs_mdb_commit() performs I/O
-> while
-> mdb_bh remains locked.
->=20
-> Do not use mdb_bh as the HFS commit serialization lock. Add an HFS-
-> level
-> mdb_lock and take it around hfs_mdb_commit() callers. Then keep
-> mdb_bh
-> locked only while updating the primary MDB buffer and marking it
-> dirty.
->=20
-> The catalog/extents fork records and sizes are fields in the primary
-> MDB,
-> so update them in the primary MDB write section, not in the alternate
-> MDB
-> section. The alternate MDB sync and bitmap writeback then run after
-> mdb_bh has been unlocked.
->=20
-> HFS_FLG_ALT_MDB_DIRTY is set together with HFS_FLG_MDB_DIRTY when the
-> catalog or extents overflow files grow, so the primary MDB fork
-> records
-> are refreshed before the alternate MDB copies the primary MDB
-> contents.
->=20
-> Reported-by: Sam Sun <samsun1006219@gmail.com>
-> Closes:
-> https://lore.kernel.org/all/CAEkJfYMB47v1yOWHB8q2dc8kf=3Duj-rLO=3D+yMyudw=
-PguJ8Kd3jA@mail.gmail.com/
-> Suggested-by: Viacheslav Dubeyko <slava@dubeyko.com>
-> Signed-off-by: Sam Sun <samsun1006219@gmail.com>
-> ---
-> Changes in v3:
-> - Follow Viacheslav's suggestion to move hfs_inode_write_fork() into
-> =C2=A0 the primary MDB write section.
-> - Rework the fix as MDB commit locking instead of corrupted-layout
-> =C2=A0 validation.
-> - Add mdb_lock to serialize HFS MDB commits.
-> - Keep mdb_bh locked only while updating the primary MDB buffer.
-> - Leave alternate MDB sync and bitmap writeback outside the mdb_bh
-> lock.
->=20
-> Changes in v2:
-> - Added a commit-time guard before locking volume bitmap
-> buffer_heads.
-> - Replaced the v1 bitmap byte-range check with a simple drVBMSt
-> check.
-> - Reused the existing bitmap writeback size calculation.
->=20
-> v1:
-> - Initial mount-time check rejecting volume bitmap/MDB aliasing.
->=20
-> =C2=A0fs/hfs/hfs_fs.h |=C2=A0 1 +
-> =C2=A0fs/hfs/mdb.c=C2=A0=C2=A0=C2=A0 | 15 ++++++++-------
-> =C2=A0fs/hfs/super.c=C2=A0 |=C2=A0 9 +++++++++
-> =C2=A03 files changed, 18 insertions(+), 7 deletions(-)
->=20
-> diff --git a/fs/hfs/hfs_fs.h b/fs/hfs/hfs_fs.h
-> index ac0e83f77a0f..00651f42ba38 100644
-> --- a/fs/hfs/hfs_fs.h
-> +++ b/fs/hfs/hfs_fs.h
-> @@ -66,6 +66,7 @@ struct hfs_inode_info {
-> =C2=A0 * The HFS-specific part of a Linux (struct super_block)
-> =C2=A0 */
-> =C2=A0struct hfs_sb_info {
-> +	struct mutex mdb_lock;			/* MDB operations
-> lock */
-> =C2=A0	struct buffer_head *mdb_bh;		/* The hfs_buffer
-> =C2=A0						=C2=A0=C2=A0 holding the real
-> =C2=A0						=C2=A0=C2=A0 superblock (aka
-> VIB
-> diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
-> index a97cea35ca2e..c2f4bda6fd00 100644
-> --- a/fs/hfs/mdb.c
-> +++ b/fs/hfs/mdb.c
-> @@ -291,8 +291,9 @@ void hfs_mdb_commit(struct super_block *sb)
-> =C2=A0	if (sb_rdonly(sb))
-> =C2=A0		return;
-> =C2=A0
-> -	lock_buffer(HFS_SB(sb)->mdb_bh);
-> =C2=A0	if (test_and_clear_bit(HFS_FLG_MDB_DIRTY, &HFS_SB(sb)-
-> >flags)) {
-> +		lock_buffer(HFS_SB(sb)->mdb_bh);
-> +
-> =C2=A0		/* These parameters may have been modified, so write
-> them back */
-> =C2=A0		mdb->drLsMod =3D hfs_mtime();
-> =C2=A0		mdb->drFreeBks =3D cpu_to_be16(HFS_SB(sb)-
-> >free_ablocks);
-> @@ -305,8 +306,14 @@ void hfs_mdb_commit(struct super_block *sb)
-> =C2=A0		mdb->drDirCnt =3D
-> =C2=A0			cpu_to_be32((u32)atomic64_read(&HFS_SB(sb)-
-> >folder_count));
-> =C2=A0
-> +		hfs_inode_write_fork(HFS_SB(sb)->ext_tree->inode,
-> mdb->drXTExtRec,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0 &mdb->drXTFlSize, NULL);
-> +		hfs_inode_write_fork(HFS_SB(sb)->cat_tree->inode,
-> mdb->drCTExtRec,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0 &mdb->drCTFlSize, NULL);
-> +
-> =C2=A0		/* write MDB to disk */
-> =C2=A0		mark_buffer_dirty(HFS_SB(sb)->mdb_bh);
-> +		unlock_buffer(HFS_SB(sb)->mdb_bh);
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	/* write the backup MDB, not returning until it is written.
-> @@ -314,11 +321,6 @@ void hfs_mdb_commit(struct super_block *sb)
-> =C2=A0	 * files grow. */
-> =C2=A0	if (test_and_clear_bit(HFS_FLG_ALT_MDB_DIRTY, &HFS_SB(sb)-
-> >flags) &&
-> =C2=A0	=C2=A0=C2=A0=C2=A0 HFS_SB(sb)->alt_mdb) {
-> -		hfs_inode_write_fork(HFS_SB(sb)->ext_tree->inode,
-> mdb->drXTExtRec,
-> -				=C2=A0=C2=A0=C2=A0=C2=A0 &mdb->drXTFlSize, NULL);
-> -		hfs_inode_write_fork(HFS_SB(sb)->cat_tree->inode,
-> mdb->drCTExtRec,
-> -				=C2=A0=C2=A0=C2=A0=C2=A0 &mdb->drCTFlSize, NULL);
-> -
-> =C2=A0		lock_buffer(HFS_SB(sb)->alt_mdb_bh);
-> =C2=A0		memcpy(HFS_SB(sb)->alt_mdb, HFS_SB(sb)->mdb,
-> HFS_SECTOR_SIZE);
-> =C2=A0		HFS_SB(sb)->alt_mdb->drAtrb |=3D
-> cpu_to_be16(HFS_SB_ATTRIB_UNMNT);
-> @@ -360,7 +362,6 @@ void hfs_mdb_commit(struct super_block *sb)
-> =C2=A0			size -=3D len;
-> =C2=A0		}
-> =C2=A0	}
-> -	unlock_buffer(HFS_SB(sb)->mdb_bh);
-> =C2=A0}
-> =C2=A0
-> =C2=A0void hfs_mdb_close(struct super_block *sb)
-> diff --git a/fs/hfs/super.c b/fs/hfs/super.c
-> index a4f2a2bfa6d3..06ab904b3a42 100644
-> --- a/fs/hfs/super.c
-> +++ b/fs/hfs/super.c
-> @@ -35,7 +35,11 @@ MODULE_LICENSE("GPL");
-> =C2=A0static int hfs_sync_fs(struct super_block *sb, int wait)
-> =C2=A0{
-> =C2=A0	is_hfs_cnid_counts_valid(sb);
+T24gRnJpLCAyMDI2LTA2LTEyIGF0IDE2OjA4IC0wNzAwLCBLeWxlIFplbmcgd3JvdGU6Cj4gSGkg
+VmlhY2hlc2xhdiwKPiAKPiBJIHByZXBhcmVkIGEgeGZzdGVzdHMgZW52aXJvbm1lbnQgYW5kIHRy
+aWVkIHRvIHRlc3QgdGhlIHBhdGNoZXMuCj4gQnV0IHVuZm9ydHVuYXRlbHksIGR1ZSB0byBteSBs
+YWIgZW52aXJvbm1lbnQgY29uc3RyYWludHMsIEkgY291bGQgbm90Cj4gZnVsbHkgZmluaXNoIHRo
+ZSB0ZXN0czogc29tZSB0ZXN0cyBlcnJvcmVkIG91dCBldmVuIHdpdGhvdXQgdGhlCj4gcGF0Y2hl
+cyBkdWUgdG8gZW52aXJvbm1lbnQgY29uc3RyYWludHMuCj4gSSB0aGluayB5b3Ugd2lsbCBzdGls
+bCBiZSB0aGUgYmVzdCBwZXJzb24gdG8gcGVyZm9ybSB0aGUgdGVzdC4gSSdsbAo+IHBpbmcgeW91
+IGFyb3VuZCBlbmQgb2YgSnVuZS4KPiAKCkN1cnJlbnRseSwgSEZTKyBoYXMgYXJvdW5kIDE1IC0g
+MTcgeGZzdGVzdHMgZmFpbHVyZXMuIElmIHlvdSBjYW4gc2VlCmFyb3VuZCB0aGUgc2FtZSBudW1i
+ZXIgb2YgaXNzdWVzIHdpdGhvdXQgeW91ciBwYXRjaGVzLCB0aGVuIHlvdSBhcmUKZ29vZCBpZiB5
+b3VyIHBhdGNoZXMgd2lsbCBub3QgaW5jcmVhc2UgdGhlIG51bWJlciBvZiBmYWlsZWQgeGZlc3Rl
+c3RzLgpBbnl3YXksIEknbGwgYmUgYmFjayBpbiB0d28gd2Vla3MgYW5kIEkgd2lsbCBiZSBhYmxl
+IHRvIHRlc3QgeW91cgpwYXRjaGVzIGluIG1vcmUgcmVsaWFibGUgZW52aXJvbm1lbnQuIFNvcnJ5
+LCBJIGhhdmUgcHJldHR5IG5vIHRpbWUgYW5kCmNhcGFiaWxpdGllcyB0byBydW4geGZzdGVzdHMg
+ZHVyaW5nIG15IHRyaXAuIEFuZCBub3QgdmVyeSBtdWNoIHRpbWUgZm9yCnRoZSByZXZpZXcgdG9v
+LiA6KQoKVGhhbmtzLApTbGF2YS4KCj4gCj4gT24gVGh1LCBKdW4gMTEsIDIwMjYgYXQgOToxMeKA
+r1BNIFZpYWNoZXNsYXYgRHViZXlrbwo+IDxzbGF2YUBkdWJleWtvLmNvbT4gd3JvdGU6Cj4gPiAK
+PiA+IE9uIFRodSwgMjAyNi0wNi0xMSBhdCAxNDoyNiAtMDcwMCwgS3lsZSBaZW5nIHdyb3RlOgo+
+ID4gPiBoZnNwbHVzX2RlbGV0ZV9jYXQoKSBpcyBjYWxsZWQgd2l0aCBzdHIgPT0gTlVMTCB3aGVu
+IHRoZSBsYXN0Cj4gPiA+IG9wZW4KPiA+ID4gcmVmZXJlbmNlIHRvIGFuIHVubGlua2VkIEhGUysg
+aGFyZGxpbmsgYmFja2luZyBpbm9kZSBpcyBjbG9zZWQuCj4gPiA+IEluCj4gPiA+IHRoYXQKPiA+
+ID4gY2FzZSwgdGhlIGZ1bmN0aW9uIGZpbmRzIHRoZSBjYXRhbG9nIHRocmVhZCBieSBDTklEIGFu
+ZCByZWJ1aWxkcwo+ID4gPiB0aGUKPiA+ID4gY2F0YWxvZyBrZXkgZnJvbSB0aHJlYWQubm9kZU5h
+bWUuCj4gPiA+IAo+ID4gPiBUaGF0IHJlY29uc3RydWN0aW9uIHBhdGggcmVhZHMgdGhyZWFkLm5v
+ZGVOYW1lLmxlbmd0aCBkaXJlY3RseQo+ID4gPiBmcm9tCj4gPiA+IHRoZQo+ID4gPiBjYXRhbG9n
+IEItdHJlZSBpbnRvIGZkLnNlYXJjaF9rZXkgYW5kIHRoZW4gY29waWVzIGxlbmd0aCAqIDIKPiA+
+ID4gYnl0ZXMKPiA+ID4gaW50bwo+ID4gPiBmZC5zZWFyY2hfa2V5LT5jYXQubmFtZS51bmljb2Rl
+LiBJdCBkb2VzIG5vdCBmaXJzdCBjaGVjayB0aGF0IHRoZQo+ID4gPiBmb3VuZAo+ID4gPiByZWNv
+cmQgaXMgYSB0aHJlYWQgcmVjb3JkLCB0aGF0IHRoZSByZWNvcmQgc2l6ZSBtYXRjaGVzIHRoZQo+
+ID4gPiB0aHJlYWQKPiA+ID4gbmFtZQo+ID4gPiBsZW5ndGgsIG9yIHRoYXQgdGhlIG5hbWUgbGVu
+Z3RoIGZpdHMgaW4gdGhlIGZpeGVkIEhGUysgY2F0YWxvZwo+ID4gPiBrZXkKPiA+ID4gYnVmZmVy
+Lgo+ID4gPiAKPiA+ID4gQSBjb3JydXB0ZWQgaW1hZ2UgY2FuIHRoZXJlZm9yZSBwcm92aWRlIGFu
+IG92ZXJzaXplZCB0aHJlYWQgbmFtZQo+ID4gPiBsZW5ndGgKPiA+ID4gYW5kIG1ha2UgaGZzX2Ju
+b2RlX3JlYWQoKSB3cml0ZSBwYXN0IHRoZSBjYXRhbG9nIHNlYXJjaC1rZXkKPiA+ID4gYWxsb2Nh
+dGlvbi4KPiA+ID4gCj4gPiA+IFJlYWQgdGhlIENOSUQgcmVjb3JkIHRocm91Z2ggaGZzcGx1c19i
+cmVjX3JlYWRfY2F0KCksIHJlamVjdCBub24tCj4gPiA+IHRocmVhZAo+ID4gPiByZWNvcmRzLCBh
+bmQgZXhwbGljaXRseSBib3VuZCBub2RlTmFtZS5sZW5ndGggYmVmb3JlIGJ1aWxkaW5nIHRoZQo+
+ID4gPiBkZWxldGUKPiA+ID4ga2V5IGZyb20gdGhlIHZhbGlkYXRlZCB0aHJlYWQgbmFtZS4KPiA+
+ID4gCj4gPiA+IEZpeGVzOiAxZGExNzdlNGMzZjQgKCJMaW51eC0yLjYuMTItcmMyIikKPiA+ID4g
+QXNzaXN0ZWQtYnk6IENvZGV4OmdwdC01LjUKPiA+ID4gU2lnbmVkLW9mZi1ieTogS3lsZSBaZW5n
+IDxreWxlYm90QG9wZW5haS5jb20+Cj4gPiA+IC0tLQo+ID4gPiDCoGZzL2hmc3BsdXMvY2F0YWxv
+Zy5jIHwgMzIgKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0KPiA+ID4gwqAxIGZpbGUg
+Y2hhbmdlZCwgMjAgaW5zZXJ0aW9ucygrKSwgMTIgZGVsZXRpb25zKC0pCj4gPiA+IAo+ID4gPiBk
+aWZmIC0tZ2l0IGEvZnMvaGZzcGx1cy9jYXRhbG9nLmMgYi9mcy9oZnNwbHVzL2NhdGFsb2cuYwo+
+ID4gPiBpbmRleCAzZjBjYzFiMWJiNTguLjAwMDAwMDAwMDAwMCAxMDA2NDQKPiA+ID4gLS0tIGEv
+ZnMvaGZzcGx1cy9jYXRhbG9nLmMKPiA+ID4gKysrIGIvZnMvaGZzcGx1cy9jYXRhbG9nLmMKPiA+
+ID4gQEAgLTM1MSwyMyArMzUxLDMxIEBAIGludCBoZnNwbHVzX2RlbGV0ZV9jYXQodTMyIGNuaWQs
+IHN0cnVjdAo+ID4gPiBpbm9kZQo+ID4gPiAqZGlyLCBjb25zdCBzdHJ1Y3QgcXN0ciAqc3RyKQo+
+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBnb3RvIG91dDsKPiA+ID4gCj4gPiA+IMKg
+wqDCoMKgwqAgaWYgKCFzdHIpIHsKPiA+ID4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpbnQg
+bGVuOwo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGhmc3BsdXNfY2F0X2VudHJ5IGVu
+dHJ5ID0gezB9Owo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHUxNiB0aHJlYWRfdHlw
+ZTsKPiA+ID4gCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGhmc3BsdXNfY2F0X2J1
+aWxkX2tleV93aXRoX2NuaWQoc2IsIGZkLnNlYXJjaF9rZXksCj4gPiA+IGNuaWQpOwo+ID4gPiAt
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGVyciA9IGhmc19icmVjX2ZpbmQoJmZkLCBoZnNfZmlu
+ZF9yZWNfYnlfa2V5KTsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBlcnIgPSBoZnNw
+bHVzX2JyZWNfcmVhZF9jYXQoJmZkLCAmZW50cnkpOwo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBpZiAoZXJyKQo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgZ290byBvdXQ7Cj4gPiA+IAo+ID4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IG9mZiA9IGZkLmVudHJ5b2Zmc2V0ICsKPiA+ID4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgb2Zmc2V0b2Yoc3RydWN0IGhmc3BsdXNfY2F0X3RocmVhZCwKPiA+ID4g
+bm9kZU5hbWUpOwo+ID4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZkLnNlYXJjaF9rZXkt
+PmNhdC5wYXJlbnQgPSBjcHVfdG9fYmUzMihkaXItCj4gPiA+ID5pX2lubyk7Cj4gPiA+IC3CoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgaGZzX2Jub2RlX3JlYWQoZmQuYm5vZGUsCj4gPiA+IC3CoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICZmZC5zZWFyY2hfa2V5LT5jYXQu
+bmFtZS5sZW5ndGgsIG9mZiwgMik7Cj4gPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbGVu
+ID0gYmUxNl90b19jcHUoZmQuc2VhcmNoX2tleS0+Y2F0Lm5hbWUubGVuZ3RoKSAqCj4gPiA+IDI7
+Cj4gPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaGZzX2Jub2RlX3JlYWQoZmQuYm5vZGUs
+Cj4gPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICZmZC5zZWFy
+Y2hfa2V5LT5jYXQubmFtZS51bmljb2RlLAo+ID4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBvZmYgKyAyLCBsZW4pOwo+ID4gPiAtwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIGZkLnNlYXJjaF9rZXktPmtleV9sZW4gPSBjcHVfdG9fYmUxNig2ICsgbGVuKTsKPiA+
+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB0aHJlYWRfdHlwZSA9IGJlMTZfdG9fY3B1KGVu
+dHJ5LnR5cGUpOwo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmICh0aHJlYWRfdHlw
+ZSAhPSBIRlNQTFVTX0ZPTERFUl9USFJFQUQgJiYKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIHRocmVhZF90eXBlICE9IEhGU1BMVVNfRklMRV9USFJFQUQpIHsKPiA+ID4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcHJfZXJyKCJmb3VuZCBi
+YWQgdGhyZWFkIHJlY29yZCBpbgo+ID4gPiBjYXRhbG9nXG4iKTsKPiA+ID4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZXJyID0gLUVJTzsKPiA+ID4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBvdXQ7Cj4gPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgfQo+ID4gPiArCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgaWYgKGJlMTZfdG9fY3B1KGVudHJ5LnRocmVhZC5ub2RlTmFtZS5sZW5ndGgpID4KPiA+ID4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIEhGU1BMVVNfTUFYX1NUUkxFTikgewo+
+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwcl9lcnIoImNh
+dGFsb2cgbmFtZSBsZW5ndGggY29ycnVwdGVkXG4iKTsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZXJyID0gLUVJTzsKPiA+ID4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBvdXQ7Cj4gPiA+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgfQo+ID4gPiArCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaGZz
+cGx1c19jYXRfYnVpbGRfa2V5X3VuaShmZC5zZWFyY2hfa2V5LCBkaXItCj4gPiA+ID5pX2lubywK
+PiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJmVudHJ5LnRocmVhZC5ub2RlTmFtZSk7Cj4gPiA+
+IMKgwqDCoMKgwqAgfSBlbHNlIHsKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZXJy
+ID0gaGZzcGx1c19jYXRfYnVpbGRfa2V5KHNiLCBmZC5zZWFyY2hfa2V5LCBkaXItCj4gPiA+ID4g
+aV9pbm8sIHN0cik7Cj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmICh1bmxpa2Vs
+eShlcnIpKQo+ID4gCj4gPiBIYXZlIHlvdSBydW4geGZzdGVzdHMgZm9yIHRoaXMgcGF0Y2g/IFNv
+cnJ5LCBJIGFtIGluIHBlcnNvbmFsIHRyaXAKPiA+IHJpZ2h0IG5vdyBhbmQgSSBjYW5ub3QgdGVz
+dCB5b3VyIHBhdGNoIHVudGlsIHRoZSBlbmQgb2YgSnVuZS4KPiA+IFBsZWFzZSwKPiA+IHBpbmcg
+bWUgYXJvdW5kIHRoYXQgdGltZS4KPiA+IAo+ID4gVGhhbmtzLAo+ID4gU2xhdmEuCg==
 
-I think that is_hfs_cnid_counts_valid() is better to check under lock.
-
-> +
-> +	mutex_lock(&HFS_SB(sb)->mdb_lock);
-> =C2=A0	hfs_mdb_commit(sb);
-> +	mutex_unlock(&HFS_SB(sb)->mdb_lock);
-> +
-> =C2=A0	return 0;
-> =C2=A0}
-> =C2=A0
-> @@ -68,7 +72,9 @@ static void flush_mdb(struct work_struct *work)
-> =C2=A0
-> =C2=A0	is_hfs_cnid_counts_valid(sb);
-> =C2=A0
-> +	mutex_lock(&sbi->mdb_lock);
-> =C2=A0	hfs_mdb_commit(sb);
-> +	mutex_unlock(&sbi->mdb_lock);
-> =C2=A0}
-> =C2=A0
-> =C2=A0void hfs_mark_mdb_dirty(struct super_block *sb)
-> @@ -339,9 +345,12 @@ static int hfs_fill_super(struct super_block
-> *sb, struct fs_context *fc)
-> =C2=A0	sb->s_op =3D &hfs_super_operations;
-> =C2=A0	sb->s_xattr =3D hfs_xattr_handlers;
-> =C2=A0	sb->s_flags |=3D SB_NODIRATIME;
-> +	mutex_init(&sbi->mdb_lock);
-> =C2=A0	mutex_init(&sbi->bitmap_lock);
-> =C2=A0
-> +	mutex_lock(&sbi->mdb_lock);
-> =C2=A0	res =3D hfs_mdb_get(sb);
-> +	mutex_unlock(&sbi->mdb_lock);
-> =C2=A0	if (res) {
-> =C2=A0		if (!silent)
-> =C2=A0			pr_warn("can't find a HFS filesystem on dev
-> %s\n",
-
-I think we cannot completely eliminate the potential deadlock or race
-condition until introduction of copy of MDB record in memory but not
-accessing it in buffer head. Because, hfs_mdb_commit() uses the primary
-MDB record's values during alternative MDB record and volume bitmap
-processing. The fix looks much cleaner now. But we need to add more
-functionality if we really would like to eliminate the issue.
-
-Thanks,
-Slava.
