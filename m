@@ -1,142 +1,85 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from arkamax.eu (128-116-240-228.dyn.eolo.it [128.116.240.228])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A2D40BCA5
-	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 08:13:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4898E42189F
+	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 09:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.116.240.228
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781597594; cv=none; b=qdn/2F8i294WxhI4Sti3LxySet3S1NyFK2K06X4p+WpVVAdyPZgAyqmBTZLYA/8rcKCqddY5N5Yv0DxdZezO1L8EGsVU0rlNDagu615tWySLyClLXsJ3f8k95DERbGGVQOQofaT1ohzhjJWiHKUxbjq/Oi8DFwuCHZW1fxQhllM=
+	t=1781601081; cv=none; b=Z6n58B+bvXp2yJGPcCUPd29WduwYBdIQCZOUp936NgY/gR7wi4+SSbJ58IVE35JlOpn/EefuS0NIRomfsZEo4j+UYFAzImGv0a9c13FDf3VLcaEswcwyLCNvvsvBs2tWwiOLTRFGQC4FT7U4L4hqw8nKYNQkfZ36dLR6Wjn6Ueg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781597594; c=relaxed/simple;
-	bh=zcYlI6BOH27Zqh+GlLfj050W5csemhmRX2lQcvXKXco=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fD0307/XH7O5mgV79G3gMKab241TEIZoUyWQ4AYt56DyZ9hzoCtsj7A4n6ln10CRyl9zEmJz8v3yY0va3qMD6JflRri0yk6YbKwYfdV0V8fF1/SjoIFSMxLMU7cpSI8TX3epUbSzjKiEtyYKFBIVexcCnVOk5SWjlQ+rSVXMzeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=f/WkpLdr; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=f/WkpLdr; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1781601081; c=relaxed/simple;
+	bh=ocDPj1kcf3YrV5ATMrHOQMx5TUbcUx3qP3WFu5fA9bc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=qTrSBrk4CmMS3FGbgEkbvH/z8H9Iz4OpSHxfDGf6gnKhdUq/KffKlITMh4PQEQvqNlSY6L1bGGD6nKCRmFXi5DT4fgLJAKDcjwBckVzYpYm1OKtF142i2oqdcki6UYTW2NkwxYZ6U+zvClAt5sqOdJ0LvvKHZTq+d6+v24OQ0ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=arkamax.eu; spf=pass smtp.mailfrom=arkamax.eu; dkim=pass (2048-bit key) header.d=arkamax.eu header.i=@arkamax.eu header.b=HXKnt0Jl; arc=none smtp.client-ip=128.116.240.228
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=arkamax.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arkamax.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="f/WkpLdr";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="f/WkpLdr"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 843736CAA1;
-	Tue, 16 Jun 2026 08:13:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1781597583; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oHkl7eB5Q33d+KIXaR6NtZXizd+J+fXxtJicsuSOa/U=;
-	b=f/WkpLdrAv2Ya5OHyMHsAcxsn5BhLG6dErAXEBzXz6nS+ynPHryxEvoykZSWkUMP1Z6v0w
-	n5LIP3MgQiAtF111/enowu9UwQohDMnXKOHvcQMqhpPIGQnQF8qNxCez6JmDMcAGtdaATN
-	rUlgVfiGwQt8NSl+xSYE7KbfVLB63O0=
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b="f/WkpLdr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1781597583; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oHkl7eB5Q33d+KIXaR6NtZXizd+J+fXxtJicsuSOa/U=;
-	b=f/WkpLdrAv2Ya5OHyMHsAcxsn5BhLG6dErAXEBzXz6nS+ynPHryxEvoykZSWkUMP1Z6v0w
-	n5LIP3MgQiAtF111/enowu9UwQohDMnXKOHvcQMqhpPIGQnQF8qNxCez6JmDMcAGtdaATN
-	rUlgVfiGwQt8NSl+xSYE7KbfVLB63O0=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 817A8779A8;
-	Tue, 16 Jun 2026 08:13:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id IMwgDI0FMWrWawAAD6G6ig
-	(envelope-from <wqu@suse.com>); Tue, 16 Jun 2026 08:13:01 +0000
-From: Qu Wenruo <wqu@suse.com>
-To: linux-btrfs@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org
-Subject: [PATCH v4 2/3] block: respect iov_iter::nofault flag in bio_iov_iter_bounce_write()
-Date: Tue, 16 Jun 2026 17:42:36 +0930
-Message-ID: <9c165a314022b61566eb247852eb773ca6c70889.1781597506.git.wqu@suse.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <cover.1781597506.git.wqu@suse.com>
-References: <cover.1781597506.git.wqu@suse.com>
+	dkim=pass (2048-bit key) header.d=arkamax.eu header.i=@arkamax.eu header.b="HXKnt0Jl"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=mail1; bh=ocDPj1kcf3YrV5
+	ATMrHOQMx5TUbcUx3qP3WFu5fA9bc=; h=in-reply-to:references:to:from:
+	subject:cc:date; d=arkamax.eu; b=HXKnt0JlzGd2Zivhsk1PlnyDGhsX+w7Ty+/bZ
+	VrpRa7jm7Hg58Kog6Kn/cUEQhgPeWs+fIQB5u7IX5ykTrFLOFvB5BKXWv9jteaVOfPtzqL
+	TJ+3gBbJ0H7tRJYFXbevldbSY9ryFqUYeQIV5jBFAfX5gUzE24PyFaAMei4AXO1JSCVtFT
+	fzmyQVOj5dOlH3+7+xe4Zmumshc9p4DMzPhEjacFT5Ly3yNlxb5yo1Rotgp1xWNkbJ7E98
+	6+mGcbDv3TVs0pP1toBy+yToA8TukUqJfWJP6qHHfaQ8HlzpzuYwsKybMCZPyxlleb50Dx
+	LsIX2ivs8Kht48pGEBP1ahlFQ==
+Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
+	by arkamax.eu (OpenSMTPD) with ESMTPSA id 3a45603a (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Tue, 16 Jun 2026 11:11:09 +0200 (CEST)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 843736CAA1
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim,suse.com:email,suse.com:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	DKIM_TRACE(0.00)[suse.com:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 16 Jun 2026 11:11:09 +0200
+Message-Id: <DJACVCF5YTMZ.3TWM3MQYJCMA@arkamax.eu>
+Cc: "Jan Kara" <jack@suse.cz>, "Andreas Hindborg" <a.hindborg@kernel.org>,
+ <linux-fsdevel@vger.kernel.org>, <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH 8/8] nvmet: make configfs setup namespace aware
+From: "Maurizio Lombardi" <mlombard@arkamax.eu>
+To: "Hannes Reinecke" <hare@kernel.org>, "Christian Brauner"
+ <brauner@kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260613111437.101763-1-hare@kernel.org>
+ <20260613111437.101763-9-hare@kernel.org>
+In-Reply-To: <20260613111437.101763-9-hare@kernel.org>
 
-For the incoming usage of IOMAP_DIO_BOUNCE in btrfs, btrfs has set
-iov_iter::nofault to prevent deadlock when a page fault is needed to
-read out the buffer.
+On Sat Jun 13, 2026 at 1:14 PM CEST, Hannes Reinecke wrote:
+> Implement 'fill_subsystem' and 'clear_subsystem' callbacks to make
+> nvmet configfs namespace aware.
+>
+> +static int nvmet_add_port_list(u64 ns_id, struct nvmet_port *p)
+> +{
+> +	struct list_head *port_list;
+> +
+> +	mutex_lock(&nvmet_ports_mutex);
+> +	port_list =3D idr_find(&nvmet_ports_idr, ns_id);
+> +	if (!port_list) {
+> +		int err;
+> +
+> +		port_list =3D kzalloc_obj(*port_list);
+> +		if (!port_list)
+> +			return -ENOMEM;
+> +		INIT_LIST_HEAD(port_list);
+> +		err =3D idr_alloc(&nvmet_ports_idr, port_list,
+> +				ns_id, ns_id + 1, GFP_KERNEL);
+> +		if (err < 0) {
+> +			kfree(port_list);
+> +			return err;
+> +		}
+> +		WARN_ON(err !=3D ns_id);
+> +	}
+> +	list_add(&p->global_entry, port_list);
+> +	mutex_unlock(&nvmet_ports_mutex);
+> +	return 0;
+> +}
 
-However bio_iov_iter_bounce_write() doesn't respect iov_iter::nofault
-flag, and just call a plain copy_from_iter() so it can still trigger
-page fault and cause deadlock in btrfs.
+Just a minor thing that I noticed: the error paths leave the mutex
+locked.
 
-Fix it by utilizing copy_folio_from_iter_atomic() if nofault flag is
-set, otherwise use copy_folio_from_iter().
-
-Signed-off-by: Qu Wenruo <wqu@suse.com>
----
- block/bio.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/block/bio.c b/block/bio.c
-index d2fdfcb016c1..7fd7c35f9a28 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -1335,7 +1335,11 @@ static int bio_iov_iter_bounce_write(struct bio *bio, struct iov_iter *iter,
- 			break;
- 		bio_add_folio_nofail(bio, folio, this_len, 0);
- 
--		copied = copy_from_iter(folio_address(folio), this_len, iter);
-+		if (iter->nofault)
-+			copied = copy_folio_from_iter_atomic(folio, 0, this_len,
-+							     iter);
-+		else
-+			copied = copy_folio_from_iter(folio, 0, this_len, iter);
- 		if (copied < this_len) {
- 			/*
- 			 * Need to revert the iov iter for all bytes we have
--- 
-2.54.0
+Maurizio
 
