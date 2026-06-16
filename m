@@ -1,76 +1,75 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F2A3CF673
-	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 06:24:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3873C819A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 06:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781591085; cv=none; b=Ov5JdYvaiL+O1utRUsn/qIVKrS0zxNjaSVEBI3uHSXN+QxKLwQbjJ5EmSh3dMFj2UiF99JWeMLFxIF/t14Hz8t0xjrNfGW3/Dt2c4hjm1SXnYe8C89BsEoeKf/xCsbU+MFJUQecL6TuHCiSytqno5O+arAJeNRVBZDf6X6+HO/U=
+	t=1781591398; cv=none; b=bSVbxo8w0QuZ57WYv5rrJa0vf383zIg1e98TX0t/SNtCPKgE3pGXi5OWfRmKNx0Ohm+7ZQ+p45cAf9xYiesLwpK03xZWGohr7ihczdvAwoQt90J/SxKWyqjbsOIBWZWZrnv3fIIKM6QBgDfkdrXRkMFqU1NoZPo9jHf01nOjP/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781591085; c=relaxed/simple;
-	bh=PMJLpWjz8+gRn98msAHPzTKow1sIbZiAFiZizoCFHIE=;
+	s=arc-20240116; t=1781591398; c=relaxed/simple;
+	bh=TuKCO9Z8rLOfM3+Y/aSGz3TWIKItqY+YcHNrrNF4E1E=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rMkCNGm6vCLNLuDJZjmTphm1DvAZPgAi+h9m3fQ/EnPmcpXvkuwnt7G5p29qBHfBVkDzgZKNA4oeU0tAowFltYkFDUAzsxmVAjH48rSb1zYrwjpUElW8lqtHvWlZXp1rQxTflcZ37GTXrdDQ2hw1R70CtHRQonTqJ+l+UAy5XZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=u2QOAHW8; arc=none smtp.client-ip=209.85.208.172
+	 Content-Type:MIME-Version; b=oVGEU8ZUdSeCWjNAyTi14YKGf2cuBN1HI1UOuy8su/gWdSTT7un5MutHX9GQ2zXyJ8gQEPRJ65uaWtIsURoz3mTGJaY7ahRpd5fclIbPD1Cc9brpozWH/DsMzRjjRt0cd4ShUeOV5lsgii0lJpCvpTcC49Yh52G+28sUHnqs1U0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=S07r59mv; arc=none smtp.client-ip=209.85.167.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="u2QOAHW8"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-399389dae7fso27891151fa.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 23:24:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="S07r59mv"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5aa5e0d57e5so3026437e87.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 15 Jun 2026 23:29:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1781591082; x=1782195882; darn=vger.kernel.org;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1781591395; x=1782196195; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=PMJLpWjz8+gRn98msAHPzTKow1sIbZiAFiZizoCFHIE=;
-        b=u2QOAHW821lIsAMOO2ySM0l04+fkQp5mKavGNuSzYVmakMnGH22R452142pnNQzse8
-         LQVTvtfzN2+5ghVUnixQMvOJdXSiPfTn0J+XsmCxcJXXkvg0YbYFP+me/uEeFqZPNjpY
-         PaYt9HGCPWif+vsYLjvtkDfBZRXkkIZArcaltjJoOVvU89sDCzViMKmnzgirsnA5GuUE
-         Wrry98tfMYFv043SRaRBfrM1TOuPZ1hBwparovtbNWrGlXiSKr5ZojS9ISbhhKCOaKPL
-         H13vVJtE2tWPaw3N3ViuKN8JMVWr+iMj1MQSzmVtviwIeLfFsYOgDg0LMX5fqPVS7dIa
-         JcMQ==
+        bh=mtHcjiL4wZ/ZXdW87t46y0DbqcjZ87COPUcQd6kBkwU=;
+        b=S07r59mvP0yqsV0OG6AkMFfml/3vGUMNw0oEbHwyMKRvxSj5pMWn4MQcI3yX8wNOL8
+         fKFoTMOIR//qtY8r50koqboCxSUeP82tsgVW1BU5dvyiwBaq1NrH6ss7r6X8I+vMeiEw
+         8wADBTMZTl9OgNZNT5AfnfsTczeTCITquGXMFhVVlXTaRrtjn0GarMCHqTMXObdhvf+a
+         UB6BWtCfSSKcyffU608e4esgqpqxFtG450eCfXbdvZGpwmkHt+89FfObQtlDqOFxTpvX
+         fbwG0tr3XdsSRwYmIIMSsHpUMoQ10MJgLt6rPPJMMykGP9756MNTfNY8q0Ed0bfx5CIy
+         hCjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781591082; x=1782195882;
+        d=1e100.net; s=20251104; t=1781591395; x=1782196195;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PMJLpWjz8+gRn98msAHPzTKow1sIbZiAFiZizoCFHIE=;
-        b=G2F5KQRXlUmHfHqyThu2Sp7fVrZsdJTwKXJrqsCAn0rEZsWeZQsH5EAelnVeWmPLJ2
-         P6uVYK/T2dDvUB1P/r6myQYHM9SYe53j/QaGFKyxWh56yEyqa0AzNpOmdWRQ/6hIyZYz
-         BFVHY3l11LjrhsodCN5M+eQz8bGNTTgJNJi+YIq1JuS1YmFGyNQE3lqwnI1AROK7glyI
-         YaxZ3D3LA2AtlFgw9dMOLVGsK1MOxfSENlKAEb20+Ks3VyZBHJBlEMmqyOSYC4Mu5WlP
-         tvOlipKsPMy6mSFVZw2bEEen0GrbXSCyslxcNOvDctV0EiWPhBluaPBjkdi9eQkC8kEN
-         EQhA==
-X-Gm-Message-State: AOJu0YwLVx0DrkOEb9MCq98sLA0E47ZshvFZtBNGRg+bxs7y5tQKkw9z
-	D/S/K3fkEGDVBrLq7WX2mO0856kfvcTB+zIgWzk3iaTXA9t/t8Fvt3hi77OSEPokFE4=
-X-Gm-Gg: Acq92OGXYWcWmXOD98c2eZ0EVWpsqf5d1CoQ9JHdZ4JkrN38Lw5gYASPRvffcNgc1yF
-	nqTc1DQPhB2QVG6seEBh6bt6YMva+uQFfYnVcHnhvnAGvKuBNbyAghsESgMMhcwzz99GLNHobDS
-	sgvlAH7K1nmV9i9/ApKRQCR9k02QgK6zr8eRj6NQtiyWP31KsSY4GX1CIjTl0uo0ctLiBYGSZYl
-	cQGtJEYAXQZu1qFJ/Od/oqdIqSGdd0yzHotfkA1WOk9iBVL1NoZ6afmN0Zm5hsDE8OIG6gNMRtJ
-	0dIRMsgT/55N62rzHOVuz7unDpfPECN+pKQtMGEn5X/f1WSdlFWfPDLQdGb3M+bqHIUuRD4wVMX
-	YnaOO3TS5DtUXbBQgmVnFkFfU9fM//rge9ig3SnL1w1gpr7ZB8XpFiiuvh2DdoBNQoNVNhJoS9B
-	ZJk3dsXg2evHTCs4tGC/eoymZj9tRkGxPB1o/w/jaD7VvR2oALzOboWf9bYssZMUMmFtXiw6IdJ
-	ntVfa4VKQ==
-X-Received: by 2002:a2e:be0a:0:b0:38b:dd55:b71 with SMTP id 38308e7fff4ca-3995c559452mr6289251fa.20.1781591082209;
-        Mon, 15 Jun 2026 23:24:42 -0700 (PDT)
+        bh=mtHcjiL4wZ/ZXdW87t46y0DbqcjZ87COPUcQd6kBkwU=;
+        b=sTnayyfewdAuXFT38aSw9o8Fl4qHnO+4JM0vTVVmEF3x7rOaJpt+rkjQ+De0hI8qcM
+         1kYDRVZ3pvPpNfJuJWqPAxsRV1gI/oFAOUPf6/Dz6DJ7IlVjkzMF6JhKSlOlHXcQQY3+
+         15ZEDj/lI4tiHmmjJbcPEF26A/sadxp3Oyo8grFi190Zrp0x7ldH51HqsDk7Dfv9NgMe
+         +BWNfHii+zbrxUFqYZnt5NhuNLyYgBjcTPdttI45HUDT6uJMR9FS9IYYby/C8nkX+R4l
+         TbMKYUc8Ayg48uCS+l6JWHMdUEQ4G2zF26QKu1JuxqFjsqEFGcSYhLZc3K9P2vwHlaTU
+         tTGg==
+X-Forwarded-Encrypted: i=1; AFNElJ8UgsxXPMJJCrFVo0W69yfh2On3V20KPvtWPmQiiq6dG28IKJfWKHZUO/8Jt8ugFceRa8GfIX5X9z4PyYOH@vger.kernel.org
+X-Gm-Message-State: AOJu0YxY+zLDzZ3hThqvWpZ3SGW50TXfACP93MEqk5mKSaYJeIQS48Qi
+	LvmdBQ7+uW+73Q2HBw+xopxc5gbtmO7uhHEf2p6dL1rr/ehQqOLcqX8RVjmDyp9IeO0=
+X-Gm-Gg: Acq92OEDnYvP7MrsmwyHJsUpzWKLC0uCjESHfnGc2fAMWHmSUbE9Ze1iL7a1RIhyA6k
+	a5+C8OobwlGIxS2GGh7bD5lCcUxzG8kzNkWiFAKFb0gOgnD3Eb5HiTkpCGqYDLSFw68s+/yKj1X
+	vrqQNzXfLSPICROHAem4qyG3kp+Bv0xgCNZgWQeWVUY7dvlAkER0vujLGaqnSJST86w1ETBWcXy
+	ZconbgONMMjZJf2e+MGHmjQ4mEN4neuHWkyJXwLvxdqhKXDS1ZaJgK/YP/ao3vx/LYCtTY+CDhE
+	8L79PPnDFSMvn8GXErMNYuULBY2/j31gzDeCrjxB7UDDr9YmP/scq8XqLFJpxJiCXWMpNKbgI/E
+	sDahx4eh+01aO7UaVstm5QiCX1RZa/ToCffpvpIEkCCcAAvR5Ay8lSJ7inNUDccn2vLhIdz0xLc
+	62PnBowDQKckRbNYz4Yf4bSyF8Ywcn6giQ+4J3SODtGpp9GCtcZSTGAJOHH/7B4WI4bkT37tL3T
+	FztIVO0Bw==
+X-Received: by 2002:a05:6512:1595:b0:5aa:6a5c:be4e with SMTP id 2adb3069b0e04-5ad2db37a06mr4645488e87.12.1781591395069;
+        Mon, 15 Jun 2026 23:29:55 -0700 (PDT)
 Received: from [192.168.3.148] ([31.23.24.48])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3995c191cd8sm4470191fa.20.2026.06.15.23.24.41
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5ad2e161f52sm3237267e87.6.2026.06.15.23.29.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 23:24:41 -0700 (PDT)
-Message-ID: <a6220ce5bf7f546c77123934974a0f94f19a6711.camel@dubeyko.com>
-Subject: Re: [PATCH] hfsplus: validate thread record before delete key
- rebuild
+        Mon, 15 Jun 2026 23:29:54 -0700 (PDT)
+Message-ID: <52bae72d5ca54eed5b4f2218fca124e5bbb0747a.camel@dubeyko.com>
+Subject: Re: HFS syzbot BUG: test patch validating metadata before
+ hfs_write_inode()
 From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Kyle Zeng <kylebot@openai.com>
-Cc: linux-fsdevel@vger.kernel.org, Yangtao Li <frank.li@vivo.com>, John Paul
- Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- outbounddisclosures@openai.com
-Date: Mon, 15 Jun 2026 23:24:40 -0700
-In-Reply-To: <CAC7i46-j-5QgBcv2Bm64NUz+T5nkTBhiRmh=a7i0_hd2x099Tg@mail.gmail.com>
-References: <20260611212633.5058-1-kylebot@openai.com>
-	 <04c1bff937f903a43820ae4c916b6ea919944869.camel@dubeyko.com>
-	 <CAC7i46-j-5QgBcv2Bm64NUz+T5nkTBhiRmh=a7i0_hd2x099Tg@mail.gmail.com>
+To: David Maximiliano Hermitte <davemadmaxxx@gmail.com>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li
+	 <frank.li@vivo.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Mon, 15 Jun 2026 23:29:50 -0700
+In-Reply-To: <20260612162043.1524591-1-davemadmaxxx@gmail.com>
+References: <20260612162043.1524591-1-davemadmaxxx@gmail.com>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -116,7 +115,7 @@ Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  nf8SP+uxkTTDKcPHOa5rYRaeNj7T/NClRSd4z6aV3F6pKEJnEGvv/DFMXtSHlbylhyiGKN2Amd0b4
  9jg+DW85oNN7q2UYzYuPwkHsFFq5iyF1QggiwYYTpoVXsw
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -125,102 +124,109 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-T24gRnJpLCAyMDI2LTA2LTEyIGF0IDE2OjA4IC0wNzAwLCBLeWxlIFplbmcgd3JvdGU6Cj4gSGkg
-VmlhY2hlc2xhdiwKPiAKPiBJIHByZXBhcmVkIGEgeGZzdGVzdHMgZW52aXJvbm1lbnQgYW5kIHRy
-aWVkIHRvIHRlc3QgdGhlIHBhdGNoZXMuCj4gQnV0IHVuZm9ydHVuYXRlbHksIGR1ZSB0byBteSBs
-YWIgZW52aXJvbm1lbnQgY29uc3RyYWludHMsIEkgY291bGQgbm90Cj4gZnVsbHkgZmluaXNoIHRo
-ZSB0ZXN0czogc29tZSB0ZXN0cyBlcnJvcmVkIG91dCBldmVuIHdpdGhvdXQgdGhlCj4gcGF0Y2hl
-cyBkdWUgdG8gZW52aXJvbm1lbnQgY29uc3RyYWludHMuCj4gSSB0aGluayB5b3Ugd2lsbCBzdGls
-bCBiZSB0aGUgYmVzdCBwZXJzb24gdG8gcGVyZm9ybSB0aGUgdGVzdC4gSSdsbAo+IHBpbmcgeW91
-IGFyb3VuZCBlbmQgb2YgSnVuZS4KPiAKCkN1cnJlbnRseSwgSEZTKyBoYXMgYXJvdW5kIDE1IC0g
-MTcgeGZzdGVzdHMgZmFpbHVyZXMuIElmIHlvdSBjYW4gc2VlCmFyb3VuZCB0aGUgc2FtZSBudW1i
-ZXIgb2YgaXNzdWVzIHdpdGhvdXQgeW91ciBwYXRjaGVzLCB0aGVuIHlvdSBhcmUKZ29vZCBpZiB5
-b3VyIHBhdGNoZXMgd2lsbCBub3QgaW5jcmVhc2UgdGhlIG51bWJlciBvZiBmYWlsZWQgeGZlc3Rl
-c3RzLgpBbnl3YXksIEknbGwgYmUgYmFjayBpbiB0d28gd2Vla3MgYW5kIEkgd2lsbCBiZSBhYmxl
-IHRvIHRlc3QgeW91cgpwYXRjaGVzIGluIG1vcmUgcmVsaWFibGUgZW52aXJvbm1lbnQuIFNvcnJ5
-LCBJIGhhdmUgcHJldHR5IG5vIHRpbWUgYW5kCmNhcGFiaWxpdGllcyB0byBydW4geGZzdGVzdHMg
-ZHVyaW5nIG15IHRyaXAuIEFuZCBub3QgdmVyeSBtdWNoIHRpbWUgZm9yCnRoZSByZXZpZXcgdG9v
-LiA6KQoKVGhhbmtzLApTbGF2YS4KCj4gCj4gT24gVGh1LCBKdW4gMTEsIDIwMjYgYXQgOToxMeKA
-r1BNIFZpYWNoZXNsYXYgRHViZXlrbwo+IDxzbGF2YUBkdWJleWtvLmNvbT4gd3JvdGU6Cj4gPiAK
-PiA+IE9uIFRodSwgMjAyNi0wNi0xMSBhdCAxNDoyNiAtMDcwMCwgS3lsZSBaZW5nIHdyb3RlOgo+
-ID4gPiBoZnNwbHVzX2RlbGV0ZV9jYXQoKSBpcyBjYWxsZWQgd2l0aCBzdHIgPT0gTlVMTCB3aGVu
-IHRoZSBsYXN0Cj4gPiA+IG9wZW4KPiA+ID4gcmVmZXJlbmNlIHRvIGFuIHVubGlua2VkIEhGUysg
-aGFyZGxpbmsgYmFja2luZyBpbm9kZSBpcyBjbG9zZWQuCj4gPiA+IEluCj4gPiA+IHRoYXQKPiA+
-ID4gY2FzZSwgdGhlIGZ1bmN0aW9uIGZpbmRzIHRoZSBjYXRhbG9nIHRocmVhZCBieSBDTklEIGFu
-ZCByZWJ1aWxkcwo+ID4gPiB0aGUKPiA+ID4gY2F0YWxvZyBrZXkgZnJvbSB0aHJlYWQubm9kZU5h
-bWUuCj4gPiA+IAo+ID4gPiBUaGF0IHJlY29uc3RydWN0aW9uIHBhdGggcmVhZHMgdGhyZWFkLm5v
-ZGVOYW1lLmxlbmd0aCBkaXJlY3RseQo+ID4gPiBmcm9tCj4gPiA+IHRoZQo+ID4gPiBjYXRhbG9n
-IEItdHJlZSBpbnRvIGZkLnNlYXJjaF9rZXkgYW5kIHRoZW4gY29waWVzIGxlbmd0aCAqIDIKPiA+
-ID4gYnl0ZXMKPiA+ID4gaW50bwo+ID4gPiBmZC5zZWFyY2hfa2V5LT5jYXQubmFtZS51bmljb2Rl
-LiBJdCBkb2VzIG5vdCBmaXJzdCBjaGVjayB0aGF0IHRoZQo+ID4gPiBmb3VuZAo+ID4gPiByZWNv
-cmQgaXMgYSB0aHJlYWQgcmVjb3JkLCB0aGF0IHRoZSByZWNvcmQgc2l6ZSBtYXRjaGVzIHRoZQo+
-ID4gPiB0aHJlYWQKPiA+ID4gbmFtZQo+ID4gPiBsZW5ndGgsIG9yIHRoYXQgdGhlIG5hbWUgbGVu
-Z3RoIGZpdHMgaW4gdGhlIGZpeGVkIEhGUysgY2F0YWxvZwo+ID4gPiBrZXkKPiA+ID4gYnVmZmVy
-Lgo+ID4gPiAKPiA+ID4gQSBjb3JydXB0ZWQgaW1hZ2UgY2FuIHRoZXJlZm9yZSBwcm92aWRlIGFu
-IG92ZXJzaXplZCB0aHJlYWQgbmFtZQo+ID4gPiBsZW5ndGgKPiA+ID4gYW5kIG1ha2UgaGZzX2Ju
-b2RlX3JlYWQoKSB3cml0ZSBwYXN0IHRoZSBjYXRhbG9nIHNlYXJjaC1rZXkKPiA+ID4gYWxsb2Nh
-dGlvbi4KPiA+ID4gCj4gPiA+IFJlYWQgdGhlIENOSUQgcmVjb3JkIHRocm91Z2ggaGZzcGx1c19i
-cmVjX3JlYWRfY2F0KCksIHJlamVjdCBub24tCj4gPiA+IHRocmVhZAo+ID4gPiByZWNvcmRzLCBh
-bmQgZXhwbGljaXRseSBib3VuZCBub2RlTmFtZS5sZW5ndGggYmVmb3JlIGJ1aWxkaW5nIHRoZQo+
-ID4gPiBkZWxldGUKPiA+ID4ga2V5IGZyb20gdGhlIHZhbGlkYXRlZCB0aHJlYWQgbmFtZS4KPiA+
-ID4gCj4gPiA+IEZpeGVzOiAxZGExNzdlNGMzZjQgKCJMaW51eC0yLjYuMTItcmMyIikKPiA+ID4g
-QXNzaXN0ZWQtYnk6IENvZGV4OmdwdC01LjUKPiA+ID4gU2lnbmVkLW9mZi1ieTogS3lsZSBaZW5n
-IDxreWxlYm90QG9wZW5haS5jb20+Cj4gPiA+IC0tLQo+ID4gPiDCoGZzL2hmc3BsdXMvY2F0YWxv
-Zy5jIHwgMzIgKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0KPiA+ID4gwqAxIGZpbGUg
-Y2hhbmdlZCwgMjAgaW5zZXJ0aW9ucygrKSwgMTIgZGVsZXRpb25zKC0pCj4gPiA+IAo+ID4gPiBk
-aWZmIC0tZ2l0IGEvZnMvaGZzcGx1cy9jYXRhbG9nLmMgYi9mcy9oZnNwbHVzL2NhdGFsb2cuYwo+
-ID4gPiBpbmRleCAzZjBjYzFiMWJiNTguLjAwMDAwMDAwMDAwMCAxMDA2NDQKPiA+ID4gLS0tIGEv
-ZnMvaGZzcGx1cy9jYXRhbG9nLmMKPiA+ID4gKysrIGIvZnMvaGZzcGx1cy9jYXRhbG9nLmMKPiA+
-ID4gQEAgLTM1MSwyMyArMzUxLDMxIEBAIGludCBoZnNwbHVzX2RlbGV0ZV9jYXQodTMyIGNuaWQs
-IHN0cnVjdAo+ID4gPiBpbm9kZQo+ID4gPiAqZGlyLCBjb25zdCBzdHJ1Y3QgcXN0ciAqc3RyKQo+
-ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBnb3RvIG91dDsKPiA+ID4gCj4gPiA+IMKg
-wqDCoMKgwqAgaWYgKCFzdHIpIHsKPiA+ID4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpbnQg
-bGVuOwo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGhmc3BsdXNfY2F0X2VudHJ5IGVu
-dHJ5ID0gezB9Owo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHUxNiB0aHJlYWRfdHlw
-ZTsKPiA+ID4gCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGhmc3BsdXNfY2F0X2J1
-aWxkX2tleV93aXRoX2NuaWQoc2IsIGZkLnNlYXJjaF9rZXksCj4gPiA+IGNuaWQpOwo+ID4gPiAt
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGVyciA9IGhmc19icmVjX2ZpbmQoJmZkLCBoZnNfZmlu
-ZF9yZWNfYnlfa2V5KTsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBlcnIgPSBoZnNw
-bHVzX2JyZWNfcmVhZF9jYXQoJmZkLCAmZW50cnkpOwo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBpZiAoZXJyKQo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgZ290byBvdXQ7Cj4gPiA+IAo+ID4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IG9mZiA9IGZkLmVudHJ5b2Zmc2V0ICsKPiA+ID4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgb2Zmc2V0b2Yoc3RydWN0IGhmc3BsdXNfY2F0X3RocmVhZCwKPiA+ID4g
-bm9kZU5hbWUpOwo+ID4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZkLnNlYXJjaF9rZXkt
-PmNhdC5wYXJlbnQgPSBjcHVfdG9fYmUzMihkaXItCj4gPiA+ID5pX2lubyk7Cj4gPiA+IC3CoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgaGZzX2Jub2RlX3JlYWQoZmQuYm5vZGUsCj4gPiA+IC3CoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICZmZC5zZWFyY2hfa2V5LT5jYXQu
-bmFtZS5sZW5ndGgsIG9mZiwgMik7Cj4gPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbGVu
-ID0gYmUxNl90b19jcHUoZmQuc2VhcmNoX2tleS0+Y2F0Lm5hbWUubGVuZ3RoKSAqCj4gPiA+IDI7
-Cj4gPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaGZzX2Jub2RlX3JlYWQoZmQuYm5vZGUs
-Cj4gPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICZmZC5zZWFy
-Y2hfa2V5LT5jYXQubmFtZS51bmljb2RlLAo+ID4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCBvZmYgKyAyLCBsZW4pOwo+ID4gPiAtwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIGZkLnNlYXJjaF9rZXktPmtleV9sZW4gPSBjcHVfdG9fYmUxNig2ICsgbGVuKTsKPiA+
-ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB0aHJlYWRfdHlwZSA9IGJlMTZfdG9fY3B1KGVu
-dHJ5LnR5cGUpOwo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmICh0aHJlYWRfdHlw
-ZSAhPSBIRlNQTFVTX0ZPTERFUl9USFJFQUQgJiYKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIHRocmVhZF90eXBlICE9IEhGU1BMVVNfRklMRV9USFJFQUQpIHsKPiA+ID4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcHJfZXJyKCJmb3VuZCBi
-YWQgdGhyZWFkIHJlY29yZCBpbgo+ID4gPiBjYXRhbG9nXG4iKTsKPiA+ID4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZXJyID0gLUVJTzsKPiA+ID4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBvdXQ7Cj4gPiA+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgfQo+ID4gPiArCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgaWYgKGJlMTZfdG9fY3B1KGVudHJ5LnRocmVhZC5ub2RlTmFtZS5sZW5ndGgpID4KPiA+ID4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIEhGU1BMVVNfTUFYX1NUUkxFTikgewo+
-ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwcl9lcnIoImNh
-dGFsb2cgbmFtZSBsZW5ndGggY29ycnVwdGVkXG4iKTsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZXJyID0gLUVJTzsKPiA+ID4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBvdXQ7Cj4gPiA+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgfQo+ID4gPiArCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaGZz
-cGx1c19jYXRfYnVpbGRfa2V5X3VuaShmZC5zZWFyY2hfa2V5LCBkaXItCj4gPiA+ID5pX2lubywK
-PiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJmVudHJ5LnRocmVhZC5ub2RlTmFtZSk7Cj4gPiA+
-IMKgwqDCoMKgwqAgfSBlbHNlIHsKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZXJy
-ID0gaGZzcGx1c19jYXRfYnVpbGRfa2V5KHNiLCBmZC5zZWFyY2hfa2V5LCBkaXItCj4gPiA+ID4g
-aV9pbm8sIHN0cik7Cj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmICh1bmxpa2Vs
-eShlcnIpKQo+ID4gCj4gPiBIYXZlIHlvdSBydW4geGZzdGVzdHMgZm9yIHRoaXMgcGF0Y2g/IFNv
-cnJ5LCBJIGFtIGluIHBlcnNvbmFsIHRyaXAKPiA+IHJpZ2h0IG5vdyBhbmQgSSBjYW5ub3QgdGVz
-dCB5b3VyIHBhdGNoIHVudGlsIHRoZSBlbmQgb2YgSnVuZS4KPiA+IFBsZWFzZSwKPiA+IHBpbmcg
-bWUgYXJvdW5kIHRoYXQgdGltZS4KPiA+IAo+ID4gVGhhbmtzLAo+ID4gU2xhdmEuCg==
+Hi David,
 
+On Fri, 2026-06-12 at 16:20 +0000, David Maximiliano Hermitte wrote:
+> Hi Slava,
+>=20
+> I followed the direction you pointed out and tested a small HFS
+> validation patch for the syzbot crash path.
+>=20
+> This is not intended as a final upstream patch yet. I am sending it
+> as a test patch to demonstrate the crash direction and to ask whether
+> this is the right validation point. If the direction is correct, I
+> would appreciate guidance on the preferred upstream placement and
+> syntax before a formal submission.
+>=20
+> My understanding is that the BUG() in hfs_write_inode() is the
+> endpoint, not the root cause. This test patch keeps hfs_write_inode()
+> intact and rejects corrupted HFS metadata earlier in hfs_read_inode()
+> and hfs_brec_read().
+>=20
+> Local QEMU result:
+>=20
+> BEFORE_UNPATCHED:
+> - repro_started=3Dtrue
+> - kernel_bug_seen=3Dtrue
+> - verdict=3DBEFORE_BUG_REPRODUCED
+>=20
+> AFTER_V04_PATCHED:
+> - repro_started=3Dtrue
+> - clean_hfs_rejects=3D50
+> - kernel_bug=3DFalse
+> - oops=3DFalse
+> - kasan=3DFalse
+> - hfs_write_inode=3DFalse
+> - verdict=3DAFTER_REPRO_RAN_NO_BUG_SEEN
+>=20
+> checkpatch.pl --strict:
+> - 0 errors, 0 warnings
+>=20
+> The test patch is included below inline. Full QEMU serial logs are
+> available if useful.
+>=20
+> Please let me know whether this validation direction matches what you
+> expect, or whether the fix should be placed differently.
+>=20
+
+Sorry, I am in personal trip right now. And I have not much time and
+capabilities for deep review and discussion. I am going to be back to
+normal routine around June 26th. I hope our discussion and fix can wait
+two weeks. :) Could you please ping me and revive the discussion around
+that time?
+
+Thanks,
+Slava.
+
+> Best regards,
+> David
+>=20
+> --- test patch follows ---
+>=20
+> diff --git a/fs/hfs/bfind.c b/fs/hfs/bfind.c
+> index d56e47b..5f56cab 100644
+> --- a/fs/hfs/bfind.c
+> +++ b/fs/hfs/bfind.c
+> @@ -174,8 +174,10 @@ int hfs_brec_read(struct hfs_find_data *fd, void
+> *rec, u32 rec_len)
+> =C2=A0	res =3D hfs_brec_find(fd);
+> =C2=A0	if (res)
+> =C2=A0		return res;
+> +	if (fd->entryoffset < 0 || fd->entrylength <=3D 0)
+> +		return -EFSCORRUPTED;
+> =C2=A0	if (fd->entrylength > rec_len)
+> -		return -EINVAL;
+> +		return -EFSCORRUPTED;
+> =C2=A0	hfs_bnode_read(fd->bnode, rec, fd->entryoffset, fd-
+> >entrylength);
+> =C2=A0	return 0;
+> =C2=A0}
+> diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
+> index 878535d..beefb47 100644
+> --- a/fs/hfs/inode.c
+> +++ b/fs/hfs/inode.c
+> @@ -369,6 +369,8 @@ static int hfs_read_inode(struct inode *inode,
+> void *data)
+> =C2=A0	rec =3D idata->rec;
+> =C2=A0	switch (rec->type) {
+> =C2=A0	case HFS_CDR_FIL:
+> +		if (be32_to_cpu(rec->file.FlNum) <
+> HFS_FIRSTUSER_CNID)
+> +			return -EFSCORRUPTED;
+> =C2=A0		if (!HFS_IS_RSRC(inode)) {
+> =C2=A0			hfs_inode_read_fork(inode, rec->file.ExtRec,
+> rec->file.LgLen,
+> =C2=A0					=C2=A0=C2=A0=C2=A0 rec->file.PyLen,
+> be16_to_cpu(rec->file.ClpSize));
+> @@ -390,6 +392,9 @@ static int hfs_read_inode(struct inode *inode,
+> void *data)
+> =C2=A0		inode->i_mapping->a_ops =3D &hfs_aops;
+> =C2=A0		break;
+> =C2=A0	case HFS_CDR_DIR:
+> +		if (be32_to_cpu(rec->dir.DirID) < HFS_FIRSTUSER_CNID
+> &&
+> +		=C2=A0=C2=A0=C2=A0 be32_to_cpu(rec->dir.DirID) !=3D HFS_ROOT_CNID)
+> +			return -EFSCORRUPTED;
+> =C2=A0		inode->i_ino =3D be32_to_cpu(rec->dir.DirID);
+> =C2=A0		inode->i_size =3D be16_to_cpu(rec->dir.Val) + 2;
+> =C2=A0		HFS_I(inode)->fs_blocks =3D 0;
