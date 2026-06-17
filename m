@@ -1,166 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D17243B71D1;
-	Wed, 17 Jun 2026 20:56:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600A23783B0
+	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 21:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781729776; cv=none; b=TKEycs9WspM1qFGxQ8Dww2ckoKTtC9xcIME80Zw3UYefeMNqHdi0a3yyUul8vdVoF8zEx0kwLt4Ouejlj1MfslwLsJ7Ae5viB0ESkK+o/AoQMx71qUfBkHhCC725tpOYcEZ9Gt3+24g9hh7O+p3lThUYZxEVvjpPUGUjdWg+UsY=
+	t=1781733466; cv=none; b=B7q5j05scmIE+eY15YAGdUs5xKPG2iqFEfjZzwo22Enz2dS1BwDOliOFmRhdLV1FY17fmlz7yC+/cxuj9p9HGTbgvLuVVxqAvcjEbbD/xcdk309SVfbptnsb9aXJW7pV4bshE0XYrf1vznFCcNAHmASGfm1k5jkdtTk44X6GAV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781729776; c=relaxed/simple;
-	bh=GUdIrNEWqIai7CCIg0CZjwnmvqMUo8fANAFyMnvTmo4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z7LXtRr6leDLz5XmsJ16ng7HWs9/lsxWNNfEmrSne0JF31TatkOT2qb+A+Fvyw0kvJHI47lmoMqIn2WMCy+uPVwbahhGs9zkdbkF+Smy7HMKwN7vp9f9ICQcSslViLYbFzjGzuU+TQoifr+a5UX7R1aOyIjJQ/1TAaBvN9QieuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C+JgIxG8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781733466; c=relaxed/simple;
+	bh=F2oBa7aj08WRmmdx4CITKCkwSJgoUL1aqkWZdc1NHdY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=csUH8fy2T5LaZYN7dJsAW/H20YAzvFD2mmb2WCDwy9x7O+TIWYN868CxtIAvEvnKep9oIIWoy6Asv12bEv0VJ5Lq2zU8EjxIKY/pOPrxzqV16CxqXV2QyZX81J9pht2OW9drZ/SCNZJfiLYzhteUkHgV/3Fch6MMvcH3sOLZRmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NsD3svu3; arc=none smtp.client-ip=209.85.219.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C+JgIxG8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 093671F000E9;
-	Wed, 17 Jun 2026 20:56:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781729774;
-	bh=A1dicipAfT1NcihzDB7nuXRVGuGocmFyEPV9zA3acUw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=C+JgIxG8rwASDaFmpA6Zh29sHsXjVxomoiRH3OhPa889meEEW3u5FNT+dBtjSW/hw
-	 D6sNaxoXruVEdJRs2TCBxuP28EcnIXSc5VAkaakRwBoxec3mO22QwXPEm1o8g68Ynd
-	 8T8I2IgLVzXJB6nmke5oXdYS2A9totgcEQtmZtRlGO3HONE15zQQ/88bLpmm74eGQi
-	 DWjnBfcuUlDaTgEjHaexYiGs3ETfD/34gnzgEP8hZqrBB2wyy4XzJUiGfxVPSxD1H2
-	 c194yBAZig9SafF4ckJpaak40F8YXNFSE9LJCbVAb2fsNOLIPxGH8mSNw03gXnsF9u
-	 w4PgjTaHOYmEg==
-Message-ID: <01cc3ac9-c89e-491c-86ed-4c4c90809075@kernel.org>
-Date: Wed, 17 Jun 2026 22:56:00 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NsD3svu3"
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-8dd17d7308bso325606d6.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 14:57:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781733464; x=1782338264; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PVwNjFuEyUh+SBAQwHYwKAtynKLgHX4Q8K2y3LWjGNc=;
+        b=NsD3svu3TlVUgA7qRgHdO6ElogDzBcTsYfblAWxVyFYUVG4imYIR5ojMjpg4uD3Pwn
+         Wp4dkD6vASIP/FgQl2Jkpr9wUnsNfOKVp+QjqgB0lnj2Dzx98O87Z4r3odePAJX2pv+n
+         NBLnWWmFkX4Xyf6RWGOWhUkqpgbEIgIz2KBCOIshMj2mW/x6R7p3eCmoN6wGJU29ndUF
+         KTNYj3hii1WmaMXcU4xfPrUqnH6PNMnOyy8NRGbehacXpkQxWUcN+bFtbj4touku7P+G
+         4fpGkDuwLKIwgpXKMLaKYe5PDCusuuBz0F83/aa9xp4tn71YqAvNKOS263AY1wqMqJC7
+         WwLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781733464; x=1782338264;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PVwNjFuEyUh+SBAQwHYwKAtynKLgHX4Q8K2y3LWjGNc=;
+        b=BzbTbdhhi/71W8sQJcptynQ0JlyOfKIavmbaTMrao5SSzUfcLC1rN1d31e00+ZkgA9
+         WDu6H5uALzRFpdsrUv6VLd6hns+OhCJJm2i7AwAOpJuIeaUk2eHvGpwBAihwMNmBzQYY
+         NTmJnCgTO2VFblLLyVAJL1pA9YV0YNa0jeTr9Ex+nfIKBebny/5eQRtN6GOrK5D26/5y
+         LjnrW6qSFEyjDo5+cgTNutHlcPfM2OBUmETcL2Um3CJDXK7ipWGDoq9yKFpd3rS+h6Gm
+         2Wf9cXSI8OdzL3gkJ9TrakdVckueJ1GlZ2yoa4jaaIE6BYfqvOs75MLEwL9KA2pMlbrC
+         XwRQ==
+X-Gm-Message-State: AOJu0Ywgicc5ewgz8vJ4CU9QRYh7uc5LJd1KcVLpjV8i8j4WghyQ0Gmz
+	5RvbE/WrVWYwjpMCdQQthwddPLY6kF5qli3tF8kBhpElCxII7DAsusoLtk99o9SQ7ug=
+X-Gm-Gg: AfdE7clXEYzsz7k6fpWnssyoKW2ArU/CFwBouacIDlJAyFEcoNUogsIPL41+NhLuurW
+	Y7v64e/2mzLHGUIvb6YgHEvn7uYUk4aBaDgmsNjQrSSy4XeERac3lS13tuV30MaGkqF9t24QUZB
+	O1jKFEUR08A0n8PPCPAlZtRmkrHj4svb9V4LYSyqF4x638Qbb78upTiDpoqNSGjQ8bInUMm8G7W
+	/ruXTwzc8wJRDmQNcOqfZieaxDcZy6sBq0DhakdoZhEBXQpgl0rXYILxks1mVwTF0am+BTX2FGQ
+	ehbbamRQ5M9yMhuWr0GJ10ByDWaaAdsXVo6ixFcH39F6nZMjUrHtJejB6pkjvDJfpiSSjCCwZ6L
+	KPCHNM0fuNfbQNh11Xst186+aOyP57zSNaWLfUQKFeORfpJV8kpEOMhXHV6BA9zQhhRVTZwrxrJ
+	k2KEPUuRlcvAyOue3VUTTeHozipEnbCGpfSPVazOWeClpPhWO/B3lVbQKOebCmqaQTVPKwFt5a2
+	N1D4RKFkwyEaVrMEN0li11Xrk5tdm19
+X-Received: by 2002:a05:6214:187:b0:8ce:a033:eef9 with SMTP id 6a1803df08f44-8db5ca19211mr80317266d6.26.1781733464294;
+        Wed, 17 Jun 2026 14:57:44 -0700 (PDT)
+Received: from server0.tail6e7dd.ts.net (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8dcf3cf5552sm4252196d6.39.2026.06.17.14.57.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jun 2026 14:57:43 -0700 (PDT)
+From: Michael Bommarito <michael.bommarito@gmail.com>
+To: Jan Kara <jack@suse.cz>,
+	Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] minix: avoid overflow in bitmap block count calculation
+Date: Wed, 17 Jun 2026 17:57:40 -0400
+Message-ID: <20260617215740.1116778-1-michael.bommarito@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/19] init: discoverable root partitions, a.k.a. an
- omittable "root=" cmdline option
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>,
- linux-alpha@vger.kernel.org, Vineet Gupta <vgupta@kernel.org>,
- linux-snps-arc@lists.infradead.org, Russell King <linux@armlinux.org.uk>,
- linux-arm-kernel@lists.infradead.org,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- loongarch@lists.linux.dev, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- linux-mips@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, linuxppc-dev@lists.ozlabs.org,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>, linux-s390@vger.kernel.org,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-References: <20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org>
- <20260617-irritation-rollen-wirst-7d636cbfec92@brauner>
-From: Vincent Mailhol <mailhol@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=mailhol@kernel.org; keydata=
- xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
- JFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbEBrZXJuZWwub3JnPsKZBBMWCgBBFiEE7Y9wBXTm
- fyDldOjiq1/riG27mcIFAmdfB/kCGwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcC
- F4AACgkQq1/riG27mcKBHgEAygbvORJOfMHGlq5lQhZkDnaUXbpZhxirxkAHwTypHr4A/joI
- 2wLjgTCm5I2Z3zB8hqJu+OeFPXZFWGTuk0e2wT4JzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrb
- YZzu0JG5w8gxE6EtQe6LmxKMqP6EyR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDl
- dOjiq1/riG27mcIFAmceMvMCGwwFCQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8V
- zsZwr/S44HCzcz5+jkxnVVQ5LZ4BANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
-In-Reply-To: <20260617-irritation-rollen-wirst-7d636cbfec92@brauner>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 17/06/2026 at 14:41, Christian Brauner wrote:
-> On Mon, Jun 15, 2026 at 06:08:56PM +0200, Vincent Mailhol wrote:
->> DPS [1] defines GPT partition type UUIDs for OS partitions and
->> attributes that control whether such partitions should be
->> automatically discovered. The specification states that:
->>
->>   The OS can discover and mount the necessary file systems with a
->>   non-existent or incomplete /etc/fstab file and without the root=
->>   kernel command line option.
->>
->> DPS is already implemented in systemd-gpt-auto-generator [2], which,
->> when embedded in an initrd, indeed allows automatic detection of the
->> root filesystem through its partition type UUID.
->>
->> This series adds this discovery feature directly into the kernel so
->> that people who are not using systemd or not using an initrd can still
->> benefit from it. The implementation follows the same model as
->> systemd-gpt-auto-generator:
-> 
-> I happen to co-maintain the DPS. It is userspace policy and complex
-> userspace policy at that and does not belong into the kernel.
-> 
-> This also implements a really tiny portion of the spec. It deals with a
-> lot more complex concepts such as automatic partitioning during
-> installation, verity, LUKS, containers. This is really not intended for
-> the kernel at all. I mean, it's great that this spec is being used but I
-> do not want this in the kernel just for the sake of auto-discovery.
+minix_check_superblock() uses minix_blocks_needed() to verify that the
+on-disk imap and zmap block counts are large enough for the advertised
+inode and zone counts.
 
-The implementation of a tiny portion is voluntary. If I can draw a
-parallel, it would be the same as saying that the root= cmdline option
-is a tiny portion of what an fstab can do.
+The helper currently performs DIV_ROUND_UP() in unsigned int arithmetic.
+A Minix v3 image can set s_ninodes or s_zones near UINT_MAX so the
+addition inside DIV_ROUND_UP() wraps to zero. That makes a zero imap/zmap
+block count look valid, after which minix_fill_super() can dereference
+s_imap[0] or s_zmap[0] even though no bitmap buffers were allocated.
 
-Yes it does not manage the LUKS, containers and so on, the same way it
-is not possible to directly boot those things directly from the kernel.
+Impact: mounting a crafted Minix v3 image whose s_ninodes or s_zones is
+near UINT_MAX makes minix_check_superblock() accept a zero bitmap-block
+count and minix_fill_super() dereference s_imap[0]/s_zmap[0], panicking
+the kernel.
 
-So, I don't think this conflicts with the actual userland
-implementations, the same way you can add root= to your command line and
-still have an initrd next to it.
+Calculate the required bitmap block count with 64-bit arithmetic. Return it
+as unsigned long to match the superblock fields and local comparison.
 
-I did not intend to write this as a replacement but just as a complement
-to fill the gap of kernel with no initrd.
+Fixes: 8c97a6ddc956 ("minix: Add required sanity checking to minix_check_superblock()")
+Assisted-by: Codex:gpt-5-5-xhigh
+Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+---
+Testing: integer overflow (no sanitizer); the oracle is the downstream
+NULL/ZERO_SIZE_PTR dereference crash.
 
-> The DPS is completely generic and can be implemented by tooling other
-> than systemd (util-linux implements it and so does refind iirc). I think
-> not wanting to use or build alternative userspace tooling for this is a
-> really weak argument for pushing this into the kernel.
+Reproduction (UML mount, same crafted image, before/after): a Minix v3
+image is crafted with s_ninodes near UINT_MAX so DIV_ROUND_UP(s_ninodes,
+blocksize * 8) wraps to zero, then mounted from /dev/ubda by a one-line
+init.
+  stock:   RIP: minix_fill_super+0x3f6/0x5c3 ; Kernel panic - not syncing:
+           Kernel mode fault at addr 0x10 (ZERO_SIZE_PTR deref of
+           s_imap[0]); UML exit code 134.
+  patched: "MINIX-fs: file system does not have enough imap blocks
+           allocated. Refusing to mount." / "bad superblock"; mount
+           fails cleanly, no crash.
+A KUnit case additionally asserts minix_blocks_needed() no longer wraps
+for near-UINT_MAX inputs; both run on stock and patched.
 
-Well, I might explain to you where I come from. Time to time, I mess up
-my configuration. When this issue is in a userland config file (e.g. bad
-fstab), the recovery is always easy.
+Conditions: CONFIG_MINIX_FS=y and an attacker-supplied Minix image is
+mounted (CAP_SYS_ADMIN in the mounting namespace, or a removable-media
+automount path). v3 only: s_ninodes/s_zones are 32-bit; the v1/v2 16-bit
+fields cannot reach the wrap.
 
-But when I mess up the bootloader firmware configuration (e.g. grub,
-u-boot, edk2), the fix is always painful. I have to fight with a shell
-with which I am not familiar with to figure out what the correct
-configuration is.
+Mitigations: do not mount untrusted Minix images; most distributions do
+not enable CONFIG_MINIX_FS. No sysctl toggle.
 
-And an initrd would help but:
+Harness (init script, crafted image, KUnit) available on request.
 
- - it is still one more file to look for pass as a parameter
- - on some machine I do not have one anyway
+ fs/minix/minix.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-I think it would have been very neet to have a method to boot a kernel
-with zero config (understand here: no cmdline, no initrd) and I find out
-that DPS could achieve that if just a tiny part of it were implemented
-in the kernel.
-
-For example, in edk2, I would be able to just browse the disk from the
-"Boot from file" menu and select a kernel. Currently it panics because
-no configuration is attached. With DPS, we could have it boot linux from
-that menu. All in a graphical interface, with just up/down arrows and
-one enter keypress.
-
-And this is my motivation. This non LUKS root read-only part of the DPS
-is the only piece which makes sense for me in the kernel. Not that I
-don't *want* to implement it in userland, but just that it doesn't
-achieve what would be helpful to me (and I guess others).
-
-I thought I wouldn't be the only one in the world to see value in that
-this is why I posted it.
-
-
-Yours sincerely,
-Vincent Mailhol
+diff --git a/fs/minix/minix.h b/fs/minix/minix.h
+index f2025c9b58252..8dc83f80bd768 100644
+--- a/fs/minix/minix.h
++++ b/fs/minix/minix.h
+@@ -95,9 +95,10 @@ static inline struct minix_inode_info *minix_i(struct inode *inode)
+ 	return container_of(inode, struct minix_inode_info, vfs_inode);
+ }
+ 
+-static inline unsigned minix_blocks_needed(unsigned bits, unsigned blocksize)
++static inline unsigned long minix_blocks_needed(unsigned long bits,
++						unsigned int blocksize)
+ {
+-	return DIV_ROUND_UP(bits, blocksize * 8);
++	return DIV_ROUND_UP_ULL(bits, blocksize * 8);
+ }
+ 
+ #if defined(CONFIG_MINIX_FS_NATIVE_ENDIAN) && \
+-- 
+2.53.0
 
