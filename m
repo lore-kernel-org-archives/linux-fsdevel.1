@@ -1,77 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046143BCD31;
-	Wed, 17 Jun 2026 13:22:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E163F54C9;
+	Wed, 17 Jun 2026 13:24:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781702549; cv=none; b=BgZHxi1J/2MYsrxPKsTF8QCJS+qqgW+0ap0OI5fhgxNMYxMMhge1iu3Upr2alE5SfzzVNWPRa+RsD716VvyLo+kQSgNaiJ6UDLh5PN8CWD6e1autTa+3hnBQlkD1NHI3ZlaS0TOPoJtK7lxvXLTDt8sDikZ3R8uRBQHH1WWwWYQ=
+	t=1781702677; cv=none; b=T4RcQw2u0xF0JhdvMfwjZoywFqHkBbnkkoBkU+PKpx/s6S0XkTYGAznYZ86jtEuT+aE00/NYfmp+nEaz0hM50WKYJkXxojA2PAw85qLwmchGadQjC+xsqCzVnn9WJHl2KMvVGXIFvg+7C3nhzXrNSBIf+8IrARDXMoxDhcO9lXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781702549; c=relaxed/simple;
-	bh=2l+Wx1vgZnMvuLLZF695Kf9yHqIqlLEZVIyAT0+TDPQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=hqDSbCPMCW5m1gZMUjk3PaVbB1J57gIxnObff/i/tHw0dntSkjkgVxN9u8Hl5yLwwAcOr896SBb30UCq81gvV/UUS+rEtgoB8WKA79wiK6961mTwi/DqGD2eNmWUbb0OAO4xfVi9ozkqbadkZbw1ZA1YP1jsoXsue8FTt+dNXqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CO2Sv6j3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781702677; c=relaxed/simple;
+	bh=CUgoKR2Wc5cxQPYEOOnKz/0q/FvF40o5TROEsPHQXSM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JK5qScwS9SblaSS6A6IUALqwNDZdkgXY5hBzWk+/jOFdNsBUpEDzweAvZ4sjwFfayx4LYGrlj1tkFGR3QZcbPFvKS8efubpOcQQ2+mafP4jxbVycSTzJs33KTS6xUmNdtHcgXUbTL3jIkQcBG8KtdOGZw5nwi0Ofs9dNJlwid6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m9veR9t+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CO2Sv6j3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 011E91F000E9;
-	Wed, 17 Jun 2026 13:22:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m9veR9t+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AA4A1F00A3A;
+	Wed, 17 Jun 2026 13:24:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781702548;
-	bh=jjE1ZgEQ7JK8ooIDdfvIp9yidTMTkSuCid79afKW4HA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=CO2Sv6j3D1MvkjY+AfuWFS/W0s2AxAFVNZXibTGHyLViBO2kHoDIOCLB20Fm/7AiG
-	 gr4wr8Fee4yWuKlpV+X/vEE+cT9lFSOn2lInt/vGAVzQrHjKX1H5C1DXVsmVkkcbYz
-	 oaRQfn1yCCA/Z4OTS0VhZnJKia4yytKDsl7lcc/VXe660cHNBY4gWRNtwG7yDYd6Hn
-	 SfPDJDOihKHgKizKEvkwVpFarcsGlQXEImYph2z8EwWbRgqkqEbWTcZCJ7ZYiukoZ9
-	 Ec9mmznt+9SC0IgDNzBCFW935dyfq+hdTgr95wrhNt6P282awuYrsjOyvICz3c3NDx
-	 0SDW96A97CSmw==
+	s=k20260515; t=1781702676;
+	bh=EZO1mohog/fU8uSiK9F/3p5WWQpe8vkDRi43VoSm4gY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=m9veR9t+S9hWRq+Yg0R9S1Be36Q/9ZBk+FxaXe1mLu/Kqmr0/yV96nED2ZLvMT+4N
+	 Y23pPyGRv9vA+1EJDOeLB6l3UV/3jOTOK9ln44oLT5RdFZ2D4jO1VDezIieGxqF/jf
+	 QI9Y2qhBXB/NdSRJ+3fyFsLJr2orJDyKVzzTjDDiX8GIy19TyWoIlwpEy5CSmtjqI4
+	 FIWWqkXC0enbRFCeoP55I86XNYedSuSC0jUy5IPHgN1cw1UUxAQEIHtbtEEyiZ733l
+	 r8GDkiX9xdUYqKpnO0/3G2XWb16PvykA87Nlpfg8nKJvMwACFZJEoJlIu+GYMU23Nl
+	 C0npAMjuxNjTA==
+Date: Wed, 17 Jun 2026 15:24:31 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: miklos@szeredi.hu, amir73il@gmail.com, 
- Souvik Banerjee <souvik@amlalabs.com>
-Cc: linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-In-Reply-To: <20260501232735.2610824-1-souvik@amlalabs.com>
-References: <20260501232735.2610824-1-souvik@amlalabs.com>
-Subject: Re: [PATCH] ovl: use linked upper dentry in copy-up tmpfile
-Message-Id: <178170254157.660235.877558308523952750.b4-ty@b4>
-Date: Wed, 17 Jun 2026 15:22:21 +0200
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Jan Kara <jack@suse.cz>, Jeff Layton <jlayton@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Arnd Bergmann <arnd@arndb.de>, 
+	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	"open list:GENERIC INCLUDE/ASM HEADER FILES" <linux-arch@vger.kernel.org>
+Subject: Re: [PATCH] vfs: missing inode operation should return a consistent
+ error code
+Message-ID: <20260617-asphalt-hochachtung-federn-23e94198aa4a@brauner>
+References: <20260531104947.6142-1-jkoolstra@xs4all.nl>
+ <c5e32b78aeaa833d18d9b7a566358a6f71d09f23.camel@kernel.org>
+ <xdknvjlda7wxwo35toe357nnyaydsllv5g65ogzsomxqgm7jfu@qwtugpoy2rcw>
+ <2002074169.107129.1780331273724@kpc.webmail.kpnmail.nl>
+ <m5fqzr2ny4zb36u6zhmrrxgl36ycsxvlqnzf5idvsq4lxpfh3i@g276qtqgfv3f>
+ <1512332516.1435503.1781209872436@kpc.webmail.kpnmail.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev-4090c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=873; i=brauner@kernel.org;
- h=from:subject:message-id; bh=2l+Wx1vgZnMvuLLZF695Kf9yHqIqlLEZVIyAT0+TDPQ=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQZzZ/EabtpGTdDsjXTwt0sLPe/Nt4+y5yqdZlZZuKly
- +szLnzk6ihlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZiIARMjw5t7BxWyriidjch1
- vNPH6bLGfFnKnldTLixh2nLZOtrTKYmR4cmipQ4ndxRP/v3rYsiab28FHWaqu9zLcz6QYhbKvfD
- OPx4A
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1512332516.1435503.1781209872436@kpc.webmail.kpnmail.nl>
 
-On Fri, 01 May 2026 23:27:35 +0000, Souvik Banerjee wrote:
-> ovl: use linked upper dentry in copy-up tmpfile
+On Thu, Jun 11, 2026 at 10:31:12PM +0200, Jori Koolstra wrote:
+> @Christian, since you suggested equalizing the error codes for missing
+> inode ops, what is your opinion?
+> 
+> > Op 01-06-2026 18:50 CEST schreef Jan Kara <jack@suse.cz>:
+> > 
+> > We certainly can (and sometimes do) modify the returned errors. It is
+> > always just a balancing act between the benefit of the change and chances
+> > somebody will get broken by it. In this case I don't quite see the
+> > benefit, not that I'd be too worried about the a regression but there's
+> > always the chance...
+> > 
+> > 								Honza
+> 
+> No, I get that, and maybe you are right. I feel in this case it would be
+> really odd if this breaks anyone's application. It would mean you are
+> rigorously testing for receiving specific error codes, without handling
+> a general error case. That just seems odd, especially since some of these
+> error codes are not even listed as a possibility for missing ops (like EACCES).
+> I would say we change this and revert if anyone complains. I believe that was
+> also Christian's view in another thread, but I may be mistaken.
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
-
-[1/1] ovl: use linked upper dentry in copy-up tmpfile
-      https://git.kernel.org/vfs/vfs/c/8726161b595e
-
+It's a general stance, yes. I think trying to make the things we
+maintain more consistent is worth risking someone reporting a
+regression.
