@@ -1,149 +1,209 @@
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A3D39937B
-	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 06:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2504F3AFCFA;
+	Wed, 17 Jun 2026 07:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781678215; cv=none; b=emoZ/ZceK13HefFp2bOHYcOYLFTxRalwN5AKCRoSqdhX1ljDcgz8XbfUyrKiGGTMnFQwDfdWh6CzeluHRJ4VDroJIMiaXcCR9buBPPgtvsbzr2QRXT3g85U1xiqwNc43PUfW7UuAfJ05H6yDNa42rPoGiFcor4Mh0BFZrvPZkS8=
+	t=1781680212; cv=none; b=jJk734fS6sBwnQmWjgYOLOjDx114q4kM9Cn8fuyuDGthxsKyTF1mHjKodsg5PR3cztysI82h9VJdeGe9ZaTMZQuCq+cW27Nz0jW+6MolwhWHPX0+0/+0QjZKpCszWPZwrRN/ZZNPyReERjmsgRzv8V9uTFBHOquQJY14GL6txfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781678215; c=relaxed/simple;
-	bh=YhG5rRPQEXKLsDpwfSe5x+/w7DHVMABOos3kgYchCxk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tjya8qeYmqEalJKGKDMquAxHiWZOHe71PwMzcGpLq1WXz6DxqrYVO/ghNzx61KQtRrUmr7IqThG/A7pz6SCWF9ehMwhOELzrjs16vR9MD9oHcrMe+lVApsEJJljV7KA/DGgebjoEnLD3a4trDIkCxFMHSOi3IXwE018nR0ZzbSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-59b074ec7ceso2505322e0c.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 23:36:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781678213; x=1782283013;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LVyPbuY3vmImepQSZpAyv681Vu6cq1jbpl9gx5kv5Yw=;
-        b=YiACJNRm8zVM4pRmz/EA3NHmJYcYvE3IU2HAZRZ9IOEAAiMInThnnwx5qFPtnfss+m
-         1PUnPrTPiE0upVvzWmGJdE6C55yvuzNov1Hs3Eod3Lb3+ATRg2I5DLkvyC2n5lXsxqjL
-         D6p+x2fRzHderw5tLenV3Szg8wBRtYlI+I/aS577n8VQ5H8W7YN8hhzxQm8/XaWtb1Bx
-         E73p5Nv7qalRRlOWJC9VsEh4c2NuTmeet2CataO40Q4WL8CNrVmww0DUVIM68he+kyKs
-         tSkcsky6TLMmzFwW0RrJYnrBrwUjrxiDUyFtuZsR8ZrEjkHwL8wqZTXxyLlwmJTC9NLG
-         qfIw==
-X-Forwarded-Encrypted: i=1; AFNElJ9hY6Adph/T/MQwhkZEyMdD5hiSKNvqiykvAOkkMrzbOWqzf9WCtuOsLPWiI6cK2psjXzgdbuS+d3rQtWYY@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCJ7rw3ULFT39g/UQBnbSW8A4p5zw5vD76uKBN2levdKr87BNE
-	88/fWGUzSoJLaYPm4U1MlGuKQbrnentzkjUQnpssQI7VrjBGox9/rga780BeOw0k
-X-Gm-Gg: Acq92OGATTGEiiaFPMVko3Cie4yIq6cjGz/R5vqa4oeBHRC1bgsr8bnxd8Szfl+xIB/
-	GHPjMA89QXD1NuCZdj6ir4NHbmmun0Upfcf6NOVy5E75/+tNDdaHnk6/SWpxPcC5kWIpLHCldl4
-	aW7SYPtoKZa/1gmljY8TPjyB6wyXl4pLgZ7/dD/MZvWCudd4QWrA2DmZB6CJjku3QSNHqKxpGKP
-	jjuS5XNkHmIbr+24tDuZA4iJx54YjXxXJVe4muf9O4eNyf8DDVwaObJPNqVm2eHMyYm44HzxHAR
-	uO9C4oqQXzxeG8VTshHY5O1kebmApfMSWOeZJDlOP8UaQ2I5bpkTV/gM7dCMQoUHzlZRo/v8+O9
-	m+mlf72/aKLUWIWxXrGom78G0wEKlCmsIG1fAvlpzSwIYEj2njG1pcB3L3kwyAwd1/Rs/f1jIW8
-	grKx52IkuiXqNpcda6wmY2tiK0CxajNC1otlTisYoJZZ0SP6BX0zy4jjuIGYwU
-X-Received: by 2002:a05:6122:54a:b0:5a0:5805:c8ba with SMTP id 71dfb90a1353d-5bbc0d23109mr681391e0c.11.1781678211535;
-        Tue, 16 Jun 2026 23:36:51 -0700 (PDT)
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5bb901b8a45sm7767938e0c.15.2026.06.16.23.36.51
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jun 2026 23:36:51 -0700 (PDT)
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-6c3154fa46dso2615529137.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 23:36:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8mmXV6X5wlETE7osMPIejaXPYbbUTdGc8Dgpdf1zkEmui7bpQ8I/I8jxPok4qp/scBT3aqGPD8h9NFYHCY@vger.kernel.org
-X-Received: by 2002:a05:6102:3ec9:b0:6c3:1bcd:31dd with SMTP id
- ada2fe7eead31-7245d31051emr1322860137.6.1781678210864; Tue, 16 Jun 2026
- 23:36:50 -0700 (PDT)
+	s=arc-20240116; t=1781680212; c=relaxed/simple;
+	bh=1AMQmOsvxPKRYIGTtu+NydFMrlv18fduDf+oecr+L7g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ph5wtfl+AfunwFF2ZFjI0kJoL/NorUhuomC45AemChOOV6MhzD3rthdkCtZltmAvB8X0HvJQW2QSeNJXMNikBS8pz/CB1Bu99v9i9M8olpXnqyxBr0l9QxQd5JuHqgt4nzxSGmJyJ8RkwJc134zfhdKbqENrvdH6hAAmFpSayTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Fgn61NTz; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Fgn61NTz"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65GLn4Rr2895326;
+	Wed, 17 Jun 2026 07:09:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=XYe48FXtGS7x+UkZI1CFOAhBXOK6xA
+	ri4I08muqQyk0=; b=Fgn61NTz6UUL7y3O0pToliAEkaK+Tawvq9A+fnWT7HjxiO
+	rX9MyNOzpRh0Pz1j9RUyheov4WluyBTMf4yxOyckmpiX90ISUyQQYx/j+KBFdSKC
+	GU8/zmtcYWiDxwjtyxJi5QVf/jXK50AqaE8nsvQG78UV01riwXukz97SR7/aGS/S
+	q698Q2yHMCyk1L2mOVeHOynymPpKl98igr+DLQOqUj2WNtCEj0z0hXTD4YOAVyL4
+	54fAVn5rDleGOjIkeCRTxa/NFmkzBmB2ISUKHCYkXMdzw8kReNUgUo9oebIXwsJD
+	mnGzdGKsQcDVIP0L9dkIEtxiAS1FVgvH7tQHxeOQ==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4euequ1p3n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 17 Jun 2026 07:09:39 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65H74d7S032425;
+	Wed, 17 Jun 2026 07:09:38 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4eudvaa06y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 17 Jun 2026 07:09:38 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65H79bFs49414440
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 17 Jun 2026 07:09:37 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1233020040;
+	Wed, 17 Jun 2026 07:09:37 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AED1620043;
+	Wed, 17 Jun 2026 07:09:31 +0000 (GMT)
+Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.39.28.216])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Wed, 17 Jun 2026 07:09:31 +0000 (GMT)
+Date: Wed, 17 Jun 2026 12:39:28 +0530
+From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+To: Daniel Gomez <da.gomez@kernel.org>
+Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        djwong@kernel.org, john.g.garry@oracle.com, willy@infradead.org,
+        hch@lst.de, ritesh.list@gmail.com, jack@suse.cz,
+        Luis Chamberlain <mcgrof@kernel.org>, dgc@kernel.org, tytso@mit.edu,
+        p.raghav@samsung.com, andres@anarazel.de, brauner@kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        pankaj.raghav@linux.dev, Daniel Gomez <da.gomez@samsung.com>
+Subject: Re: [RFC PATCH v2 0/5] Add buffered write-through support to iomap &
+ xfs
+Message-ID: <ajJIKK-pNudXtpMS@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+References: <cover.1775658795.git.ojaswin@linux.ibm.com>
+ <d5d99db2-9d34-4caf-bcc8-c4a3af561901@kernel.org>
+ <agQPtTx2EXHr10Nn@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+ <ah24DlQobLjjDTGt@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+ <bdfdbd6b-81e0-49e3-a02f-2dc75727a71b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260604222405.5382-1-jkoolstra@xs4all.nl> <20260616102250.3652779-1-geert+renesas@glider.be>
- <255283964.1967141.1781621406847@kpc.webmail.kpnmail.nl>
-In-Reply-To: <255283964.1967141.1781621406847@kpc.webmail.kpnmail.nl>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 17 Jun 2026 08:36:39 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWxBPDrE3OLytZjfgHOpkdT=pHYx_V9CWZstUgk+RXE8w@mail.gmail.com>
-X-Gm-Features: AVVi8CfsQt4DmyYXsifpVFVTVZzCk_BYWpz-taODbOLF8rmJ9F0-ttpXj--aRgc
-Message-ID: <CAMuHMdWxBPDrE3OLytZjfgHOpkdT=pHYx_V9CWZstUgk+RXE8w@mail.gmail.com>
-Subject: Re: [PATCH] vfs: uapi: retire octal and hex numbers in favor of (1 <<
- n) for O_ flags
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: brauner@kernel.org, broonie@kernel.org, cyphar@cyphar.com, 
-	linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bdfdbd6b-81e0-49e3-a02f-2dc75727a71b@kernel.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE3MDA2MiBTYWx0ZWRfX/7m7W/uw9PI1
+ OVmW8NGg0/6VrzlRHWamFIww74OfS1DqI47YRP4npQ4VC8KWo+NNoPXx3XSWVltqbOwK5IY12hp
+ 12oijk52KC/4cn0497JXiAJLE7HA5R4=
+X-Proofpoint-ORIG-GUID: FTv06Lx3gRkmq5lUbvea8RPEfx3p8Qen
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE3MDA2MiBTYWx0ZWRfX49nhjzbA6mOJ
+ o7wu2aMC+fQoDiGqfeEx5JBByLXcve3v8I++zv5fLxZ+MEWyTmkp1N2NL/gEKpe0+BW4bsrS1/e
+ /zGdhkOcMU6K1ehuyyh3MINKjEt7o/9Jpifs9M2U8bY7w2l5ZQgcjACJGw8jvV4BEqx/gaZ7KaA
+ cKAP/PPvwArZq965Wlsead16iVzqsjQUmOx/hxjjv6LiNVJH9HiqNhDgMDyZ5tsFGu9prNFKUvx
+ 1+8HwsAglwjQYacHQC/lZwT63x5IBpB0HoWZxDjxofVIGjO+wrJofwm59fBKUEn+Yu4btyS4my8
+ ZbaMgRIHPbQJYWxpeRVRdtkPO2h6hXqMTFUWTKBSE0rRR8w5xYfnYslWJhVGMM3aRjj8Zy3Tu9T
+ Qm/0p0TKRszc/AnVMxEZ+d6qiBRM2A0IY4PNaddoa8U5fTgtf8zn46qj9z9U7JBQ+DvmpK0GuD8
+ NkrQfhIk577on62TPjA==
+X-Proofpoint-GUID: IFVLhdqCq6mqL5VWJ-Ne6GKnwYBxvYdT
+X-Authority-Analysis: v=2.4 cv=L9gtheT8 c=1 sm=1 tr=0 ts=6a324834 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=kj9zAlcOel0A:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=zrfNUkBl4axGHCdo8dAA:9
+ a=CjuIK1q_8ugA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-16_05,2026-06-16_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0 malwarescore=0 clxscore=1015 adultscore=0
+ phishscore=0 lowpriorityscore=0 suspectscore=0 priorityscore=1501 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606170062
 
-Hoi Jori,
+On Tue, Jun 16, 2026 at 03:57:21PM +0200, Daniel Gomez wrote:
+> On 01/06/2026 18.49, Ojaswin Mujoo wrote:
+> > On Wed, May 13, 2026 at 11:14:21AM +0530, Ojaswin Mujoo wrote:
+> >> On Mon, May 04, 2026 at 09:54:49AM +0200, Daniel Gomez wrote:
+> >>> On 08/04/2026 20.45, Ojaswin Mujoo wrote:
+> > diff --git a/ltp/fsx.c b/ltp/fsx.c
+> > index 720bca83..1c76634b 100644
+> > --- a/ltp/fsx.c
+> > +++ b/ltp/fsx.c
+> > @@ -2077,16 +2077,34 @@ test_dontcache_io(void)
+> >         return 1;
+> >  }
+> > 
+> > +/*
+> > + * Use a temporary file to test RWF_WRITETHROUGH so as to not modify the
+> > + * original. This is so that fsx expected contents and the actual contents
+> > + * of the original file don't go out of sync
+> > + */
+> >  int
+> >  test_writethrough_io(void)
+> >  {
+> >         char buf[4096];
+> > +       char tmpname[PATH_MAX];
+> > +       int tmp_fd;
+> >         struct iovec iov = { .iov_base = buf, .iov_len = sizeof(buf) };
+> >         int ret, e;
+> > 
+> > +       snprintf(tmpname, sizeof(tmpname), "%s.fsx.XXXXXX", fname);
+> > +
+> > +       tmp_fd = mkstemp(tmpname);
+> > +       if (fd < 0) {
+> > +               perror("test_writethrough_io: mkstemp() failed\n");
+> > +               exit(132);
+> > +       }
+> > +
+> >         memset(buf, '\0', sizeof(buf));
+> > -       ret = pwritev2(fd, &iov, 1, 0, RWF_WRITETHROUGH);
+> > +       ret = pwritev2(tmp_fd, &iov, 1, 0, RWF_WRITETHROUGH);
+> >         e = ret < 0 ? errno : 0;
+> > +
+> > +       close(tmp_fd);
+> > +
+> >         if (e == EOPNOTSUPP) {
+> >                 if (!quiet)
+> >                         fprintf(stderr,
+> > 
+> 
+> 
+> I think this is missing:
+> 
+> @@ -2158,12 +2175,6 @@ test_writethrough_io(void)
+>                 return 0;
+>         }
+> 
+> -       if (ftruncate(fd, file_size) != 0) {
+> -               perror("test_writethrough_io: failed to ftruncate to 0\n");
+> -               exit(132);
+> -       }
+> -
+> -
+> 
+> The fix works for me after a stress loop test on generic/457.
 
-On Tue, 16 Jun 2026 at 16:51, Jori Koolstra <jkoolstra@xs4all.nl> wrote:
-> > Op 16-06-2026 12:22 CEST schreef Geert Uytterhoeven <geert+renesas@glider.be>:
-> > > A recent build failure[1] exposed the diffculty of working with the
-> > > current octal and hex definitions of O_ flags when trying to find a gap
-> > > for a new flag. This difficulty is compounded by the fact that O_ flags
-> > > may have architectural specific values.
-> > >
-> > > Replace the hex/octal #defines, which are hard to parse when looking for
-> > > free bits, with explicit bit shifts like (1 << 11). Also, add comments
-> > > that identify which architectures redefine some of the seemingly free
-> > > ("cursed") bits in uapi/asm-generic/fcntl.h. These should not be used to
-> > > define new O_ flags (for now, at least).
-> > >
-> > > The translastion was done with Claude Opus 4.8, and verified with a
-> > > (non-AI) gawk script. The accounting of which architectures claim
-> > > which bit-gaps in uapi/asm-generic/fcntl.h is also done by hand.
-> > >
-> > > [1]: https://lore.kernel.org/all/agruPPybCx8q2XcJ@sirena.org.uk/
-> > >
-> > > Assisted-by: Claude:Opus 4.8
-> > > Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
-> >
-> > Thanks for your patch, which is now commit 0da79c259ad0554b ("vfs:
-> > uapi: retire octal and hex numbers in favor of (1 << n) for O_
-> > flags").
-> >
-> > > --- a/include/uapi/asm-generic/fcntl.h
-> > > +++ b/include/uapi/asm-generic/fcntl.h
-> > > @@ -15,51 +15,55 @@
-> > >   * When introducing new O_* bits, please check its uniqueness in fcntl_init().
-> > >   */
-> > >
-> > > -#define O_ACCMODE  00000003
-> > > -#define O_RDONLY   00000000
-> > > -#define O_WRONLY   00000001
-> > > -#define O_RDWR             00000002
-> > > +#define O_ACCMODE  3
-> > > +#define O_RDONLY   0
-> > > +#define O_WRONLY   (1 << 0)
-> > > +#define O_RDWR             (1 << 1)
-> >
-> > And suddenly all these constants became signed? Can't that cause subtle
-> > issues, especially for uapi headers?
->
-> Isn't 00000003 already singed? I am by no means a C language expert, but what
-> I can find in the C99 standard is:
->
->     The type of an integer constant is the first of the corresponding list in which
->     its value can be represented.
->
-> and for octal and hex constants this list starts with "int"
+Awesome! and yes since we use a different file now, we can remove the
+ftruncate() call.
 
-Sorry, I indeed misremembered[1] that hexadecimal and octal constants
-are always unsigned.  Instead, they are only unsigned if they no longer
-fit in the corresponding signed type.
+> 
+> > 
+> > Im unable to replicate the 415 failure, but this one is strange because it
+> > doesn't involve any writethrough IO. In you previous runs have you seen
+> > this be flaky?
+> 
+> I couldn't confirm back then, so I think we can ignore it. Also, unrelated.
 
-So "(1 << n)" has the same signedness as the old octal constants,
-unless n is 31 (shifting into the sign bit), or n > 31 (needs an
-ULL-suffix for 64-bit).  But your patch has no such cases.
+Okay.
 
-[1] https://lore.kernel.org/all/CAHk-=wgcv_YewP0rgwR1+gj3YF-7Jz8WPVzDgndx0DVMVKzV=Q@mail.gmail.com
+> 
+> > 
+> > Admittedly, I've not yet started thorough testing since this is in early
+> > RFC and the design is still getting finalized but I appriciate the help
+> > in testing this.
+> 
+> 
+> No problem. IMHO, testing makes a design more robust, once the path is
+> agreed on. That said, do you think the path needs changing? Reading LWN
+> and the patch series threads, I don't see any blocker. You can cc me for
+> the next iteration and I'll follow up with more testing.
 
-Gr{oetje,eeting}s,
+Yes definitely and really appreciate your help in testing this. As for
+the design, the current design suffer when many writers are writing to
+the same file, because the inode lock critical section is increased. So
+I'm trying out a few optimizations that will lead to some non-trivial
+design changes (like deferring the IO to outside the inode lock). 
 
-                        Geert
+I'm in process of preparing and benchmarking the new design and would
+hopefully post it soon. I'll keep you in loop, thanks.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Regards,
+ojaswin
