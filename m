@@ -1,90 +1,54 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FB4C44B662
-	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 14:45:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4E934EF04;
+	Wed, 17 Jun 2026 14:48:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781707508; cv=none; b=Ooi/OTUmbu/Nd3/R6fVOXpx4KEyf6gKVSXx9KBJOv+ugRj8xO/KniXUCgbvojvkkeInfvPPYwKR6C+ppfZ+0+5SfPGmIhy7bfvVSvFEo2eTfRhoX4G2yShurLGSOL8DrbM7SGqNH6FKOO5VOrWCehq+OgOKeXS/tG2cTK1bc40o=
+	t=1781707687; cv=none; b=qvdPhm8zBluuSD32gkjNzulCyRlX7JfMYycwAlnkqDOns0pWyT5ORyRlB9WKms1ovZJaqKKqcxNPJj+qdNio7yxWmjsevdy/qW9bUDCHZ8Mds5vHARFB8SqYi0KClCzvA+8s0OVfhTOy9192HclWgdXa0f9I5q29R2YOAlCB0U8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781707508; c=relaxed/simple;
-	bh=Wjebvt+/HMDVq6NvMreZPnc/Hpe/ljpU0C7lL3f/kAU=;
+	s=arc-20240116; t=1781707687; c=relaxed/simple;
+	bh=fraDCFpCNdnLQ7SLiZ8SABAXtFxLKG3+ETxK8/+uCpU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DDn0IhMFlXXG/uJYGVn9IFr6r8OGYdUQBm6t6+0n6S1Ndr/bjGZ3UaJLOb4OQUBrN/X+iO7nBJiOvHKRFjWUXY9gG/EAPlfxyiMw9JgiY/7vOKKSlKIUn5+qXWg7IS4F29dn9sSc71vV37XWzBx6ywo2clGzIR0oXXLk+iyTDYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sA99UH9E; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+9RctsNO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sA99UH9E; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+9RctsNO; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=GeKYyW+FWfXFA4iaAmPM1hD7xHq/N6lVrPY6n1QIc/XraWSWUIQx9QvlP2gBm4WYBOCqnCpRVYRBOyuGo7Sfsg6AoSqccmpv5a4aWlv55dmOR4Hte3CgqvOtI4uvo05C1Izg/bio+sGB1VP3Zur868a4Z9eH7kOMgCDy7k4wNF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=I9njDkJL; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sA99UH9E";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+9RctsNO";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sA99UH9E";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+9RctsNO"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4E22D6C188;
-	Wed, 17 Jun 2026 14:45:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781707505; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iXEQBvVn+HV2ICUcFECMY5al1JyFoCvmK1kLXmm+dUk=;
-	b=sA99UH9EfIZuQ3XzOl0+ILdUMrUyw+I+sOzLKSgr72NpaOAqx0ZsNCxZjP1LmdrqVbCLgO
-	DmqQMRJWqRhLPEwgs/Xje6XXIr9JAA+NE/JY0wkwVOfECSkI9vL2LTQCJHti6ZK/BrmwGO
-	Y+jXkZw0uxRhghIT4zW3qdohp7eA/Uc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781707505;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iXEQBvVn+HV2ICUcFECMY5al1JyFoCvmK1kLXmm+dUk=;
-	b=+9RctsNO9Sbh+MpI9cMTvruyJRzfNHkFpmBxw3R31ky3FQNO9313vKJB9K3A+zn4rEHQQf
-	GYf//d55Qx+9fVAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781707505; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iXEQBvVn+HV2ICUcFECMY5al1JyFoCvmK1kLXmm+dUk=;
-	b=sA99UH9EfIZuQ3XzOl0+ILdUMrUyw+I+sOzLKSgr72NpaOAqx0ZsNCxZjP1LmdrqVbCLgO
-	DmqQMRJWqRhLPEwgs/Xje6XXIr9JAA+NE/JY0wkwVOfECSkI9vL2LTQCJHti6ZK/BrmwGO
-	Y+jXkZw0uxRhghIT4zW3qdohp7eA/Uc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781707505;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iXEQBvVn+HV2ICUcFECMY5al1JyFoCvmK1kLXmm+dUk=;
-	b=+9RctsNO9Sbh+MpI9cMTvruyJRzfNHkFpmBxw3R31ky3FQNO9313vKJB9K3A+zn4rEHQQf
-	GYf//d55Qx+9fVAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A554D779A8;
-	Wed, 17 Jun 2026 14:45:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Pq/uJPCyMmqWMAAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Wed, 17 Jun 2026 14:45:04 +0000
-Date: Wed, 17 Jun 2026 15:44:57 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Jan Kara <jack@suse.cz>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Jeff Layton <jlayton@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, 
-	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	"open list:GENERIC INCLUDE/ASM HEADER FILES" <linux-arch@vger.kernel.org>
-Subject: Re: [PATCH] vfs: missing inode operation should return a consistent
- error code
-Message-ID: <ajKve--rL2tg7n2j@pedro-suse>
-References: <20260531104947.6142-1-jkoolstra@xs4all.nl>
- <c5e32b78aeaa833d18d9b7a566358a6f71d09f23.camel@kernel.org>
- <xdknvjlda7wxwo35toe357nnyaydsllv5g65ogzsomxqgm7jfu@qwtugpoy2rcw>
- <2002074169.107129.1780331273724@kpc.webmail.kpnmail.nl>
- <m5fqzr2ny4zb36u6zhmrrxgl36ycsxvlqnzf5idvsq4lxpfh3i@g276qtqgfv3f>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="I9njDkJL"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=eX7KkuDxepjmifdV31o/TN/TiveAkb0W5UKYG7tQpHA=; b=I9njDkJL1ME3e/LbnV//CsWmZA
+	LGVmoak6Q/3IaCKXSwEd0vMfvm+p+jaSIB3ytnoPLPPtK6Vqfp6nxDuFvMzEanUpRevpTzOkBD/2F
+	sULiEUFIvhSA/tWOAYA3GG3zrwZgs0a9lZ8FHNREBvH0r5Q7IQbAh1kgFLMwjD653LJqEsFfIjjwS
+	9AINfku0nCwkHJPpyGL/XrkjZW9TF6nbOqOJAc7BVgwyV8X+dPhFiJu734ybdt24HPCMcGEsWNWCD
+	mAi2hRf3hRJPNXV9/iJpaPtFMFn20mBhzl2p6VOMiTcy6wgOTKrc21ucSsebtJq1Y9gfceUjlj5ht
+	TdcVHQEA==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wZrYW-00Eh02-1r;
+	Wed, 17 Jun 2026 14:47:52 +0000
+Date: Wed, 17 Jun 2026 07:47:46 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Mateusz Guzik <mjguzik@gmail.com>, 
+	Josh Triplett <josh@joshtriplett.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Shuah Khan <shuah@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	shakeel.butt@linux.dev, jlayton@kernel.org, axboe@kernel.dk, kernel-team@meta.com
+Subject: Re: [PATCH v3 0/2] fs/pipe: reduce pipe->mutex contention by
+ pre-allocating outside the lock
+Message-ID: <ajKy5ghjlgyN4tFv@gmail.com>
+References: <20260524-fix_pipe-v3-0-bb4a75d23a90@debian.org>
+ <ajG2bmhu6j9UWvh4@localhost>
+ <ajJgWBCFYwz9OIo3@redhat.com>
+ <ajJ1Xi1p9UhQvILi@gmail.com>
+ <CAGudoHEyDz-Tbj=CZFK5XMLuLyE8B17NumdFVLf6MTTekFgRRA@mail.gmail.com>
+ <ajKxJM5k9U5L05AF@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -93,126 +57,29 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <m5fqzr2ny4zb36u6zhmrrxgl36ycsxvlqnzf5idvsq4lxpfh3i@g276qtqgfv3f>
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[xs4all.nl];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[xs4all.nl,kernel.org,zeniv.linux.org.uk,arndb.de,vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[opengroup.org:url,suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Score: -3.80
+In-Reply-To: <ajKxJM5k9U5L05AF@redhat.com>
+X-Debian-User: leitao
 
-On Mon, Jun 01, 2026 at 06:50:10PM +0200, Jan Kara wrote:
-> On Mon 01-06-26 18:27:53, Jori Koolstra wrote:
-> > 
-> > > Op 01-06-2026 17:58 CEST schreef Jan Kara <jack@suse.cz>:
-> > > 
-> > >  
-> > > On Sun 31-05-26 10:08:47, Jeff Layton wrote:
-> > > > 
-> > > > This seems ill-advised. The problem is that most of this behavior has
-> > > > been well established for years, and not all userland software (and
-> > > > even some internal callers like nfsd), will react well when you go
-> > > > changing behavior like this.
-> > > > 
-> > > > As a case in point, the POSIX spec doesn't list EOPNOTSUPP as a valid
-> > > > error return for open():
-> > > > 
-> > > >    https://pubs.opengroup.org/onlinepubs/9690949399/functions/open.html
-> > > > 
-> > > > The manpage for open() says only:
-> > > > 
-> > > >        EOPNOTSUPP
-> > > >               The filesystem containing pathname does not support O_TMPFILE.
-> > > > 
-> > > > What is the poor userland developer to make of this when open() starts
-> > > > returning EOPNOTSUPP without O_TMPFILE being specified?
-> > > 
-> > > So I wouldn't care as much about POSIX, we largely ignore it anyway in the
-> > > kernel. But I tend to agree that changing the error code we returned for
-> > > several decades just for the sake of "cleanliness" isn't IMHO a good enough
-> > > reason to risk breaking userspace or causing confusion.
-> > > 
-> > > 								Honza
-> > > -- 
-> > > Jan Kara <jack@suse.com>
-> > > SUSE Labs, CR
-> > 
-> > For what its worth, the EACCES return value for not having a create()
-> > call on the fs is also not specified in the open() man page. For mkdir,
-> > EPERM IS specified.
+Hello Mateusz,
+
+On Wed, Jun 17, 2026 at 04:37:24PM +0200, Oleg Nesterov wrote:
+> On 06/17, Mateusz Guzik wrote:
+> >
+> > There are trivial touch ups which can be done by adding a bunch of
+> > predicts and inlining kill_fasync if someone can be bothered.
 > 
-> Yep, as I said we don't really follow POSIX closely. And it goes way
-> further than just error code :)
+> I was thinking about another change, see below. It assumes that in the
+> likely case another writer won't steal the pages from ->tmp_page[]
+> before we take pipe->mutex.
 
-Not trying to excessively necro here (just seen this thread), but I'll
-have to interject here: POSIX very much lets you return whatever error codes
-you want. Quoting directly from POSIX.1-2024 (System Interfaces, 2.3 Error Numbers)
+Do you think we could eventually eliminate the tmp_page[] array and
+consolidate everything into the prealloc pages? That would unify the two
+page pools currently used in the pipe write path.
 
-> Implementations may support additional errors not included in this list,
-> may generate errors included in this list under circumstances other than
-> those described here, or may contain extensions or limitations that prevent
-> some errors from occurring.
+When I examined this previously, it appeared non-trivial but potentially
+feasible.
 
-and also:
-> Implementations may generate error numbers listed here under circumstances
-> other than those described [...]
-> Implementations shall not generate a different error number from one
-> required by this volume of POSIX.1-2024 for an error condition described
-> in this volume of POSIX.1-2024, but may generate additional errors unless
-> explicitly disallowed for a particular function.
+What is your view on it?
 
-which pretty much give you the freedom to do whatever you want (and that's how
-I've seen other people language-lawyer this as well).
-
-So, yes, while it is true that the kernel sometimes treats POSIX as merely a
-suggestion, in this case we're strictly adhering :)
-
-
-> 
-> > But in general, can we never add new error codes to any syscall? Are
-> > there user programs that do neatly check for each specified error code in
-> > the man page, but that do not implement a fallback at all? I mean, I am
-> > not unsympathetic to the arguments that you and Jeff make, but such a
-> > user program would be odd.
-> 
-> We certainly can (and sometimes do) modify the returned errors. It is
-> always just a balancing act between the benefit of the change and chances
-> somebody will get broken by it. In this case I don't quite see the
-> benefit, not that I'd be too worried about the a regression but there's
-> always the chance...
-> 
-
-FWIW my opinion here would be that changing the error number doesn't _really_
-matter. Filesystems with missing ops are generally already outliers in "sane
-filesystems semantics ", and it's unlikely that someone is doing something like
-
-if (unlink(path) < 0 && errno == EPERM) {
-	printf("path is bad since you can't unlink it!!!\n");
-}
-
-particularly as most of these error numbers are actually impossible to
-distinguish (I don't have permissions on the filesystem, or does the
-filesystem not implement this op?).
-
-
--- 
-Pedro
+Thanks,
+--breno
