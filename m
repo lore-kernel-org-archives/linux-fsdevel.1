@@ -1,163 +1,96 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1675227B94
-	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 11:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781697585; cv=pass; b=fHQrPrz5DEidUZooLYalQnAE0DwTMQKhaMT+X8JVKJcP/tjk68JrWTNfelb/RNOfkoRABUVFVvmxKrC7kkcJktkx0xGV2gWBjs1Zqj0BFYj2LfsOHHWPdcz7kPrO2ggNlLvrNublzRv1QrKyYUvf+trOkBUOWl3A6HZzJKs/KSo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781697585; c=relaxed/simple;
-	bh=8akt/BMqI4Kjv8lSIjzIFUGEQibAxUf+a29pOQsWUmY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=h3QxOvXKu5G7HpAfeP0UerPQGt/xtpQwzTzm8eFtZ6qGeEudfj+/tRwmfDz6qT+uJKKO+u1EXfCd/g9lwhwW7drMl4GFB7/91xSIiWqELnbv6uscmsRrAzwFJSet/H2ufWeenXj302v6DWT9IEHsP19vOJAMW2kj05AalfnLhVE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qqWfKrxl; arc=pass smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C63BA1CAA68;
+	Wed, 17 Jun 2026 12:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781700129; cv=none; b=KD5Iye3XJNVDDHr5xdDpjhpT+RY16oaSlBr8GTHMZeDYOCX31ySDxF1niCe2kFcxxokG4N3Ky6UUvwtj5OefrpvRdzNurE3WHGcOKNRsrLJqZKgtkWA+oFCorgve90/CowcgnQF8JTq4dHdQHVbeW+0ffPFWzN+XidsUdxwgwO8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781700129; c=relaxed/simple;
+	bh=sv9bDDMyUOTluObut285uOPrMWsldCYsk9y2aD3AE+Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HkBMVBwxtn4HuUBUOqcweDvrDlMK0dSq/UjGb3tZF16rGwiCG9l/JzxqwvOoIdFu4Y44Qtb7LU+kWlckLmAM8bMqSnhILHMzy2Lmj7Btr+wB6bXZpnp97GhK+v4PvS4iH+xxF9aS6Xa3l9RxveaoJ6C7dyw1lbxzKE0G3Pjhjxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Im0bG8Am; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qqWfKrxl"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6954810cfefso1270326a12.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 04:59:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781697582; cv=none;
-        d=google.com; s=arc-20240605;
-        b=aNGFTcgIcBlgLj8pbfcIjPElQAfbeR8iDhU1hdBdDwztA5rOcEximPYpPHR+mi0PtS
-         sHv1I1plmgBUcCXESqJM3uOBZFJrpRUaTHAqxlAR9JAErLGV/MyERY7TZ/Sfcg0qaGlu
-         HOuHg7w+pUEGJOXJTbVWRtrofxX2//44ws7TEXhroBkgBEevGWjMmtd2qpUiYMT41res
-         LV5MzGMWuT1fIVihuxIAHmoJumxdQMHN3913c7NLiHvlHm9SNlxlL5TCJuFHI/Q7jI8S
-         9yS2pBNIssYUAqZ73Dmygo60Zi2p43exL+YBzRf2BJznJnee2Gk+LfnJ5c6F4jAbK56Q
-         esbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=WSRlCu2GkIH7ZB817+Hh/HHTjCSZH03SYLagMC/Q7yw=;
-        fh=VrifAmtlGd4NEjOXJ4K+ikbmAwFq2YZXmHki6wGBSO4=;
-        b=PFt308mjlvOEI4kpqQRhcBUGpeI4vbEzRlQZtze/Ue8gVC/qad8GAfxl/W0RsQxuyZ
-         RyRKrfnmsImoG+M6jbJTD7r/0FeCwZZvsc1NkeG5VePLM6c6g5HVJBzI7gJUYLRxbdOe
-         OQdDMXbjXj79Ae8tl/wS0GofvwNaSwU16pePWsz0RkmIYH66vLANzko7K1WlHFnAybbE
-         3u1HIlSK8gqPcpUf2a4tpOve7G0Q/ny1xSHMWMPBxsvm953jrP2Fz5XTjmiyPhbKZgYA
-         e9R6LYc2+zr9BMv7CLvIezVVSCCM5ckE6VFpLN8JrmNoihn8a7yArINXUSI5v7mCQ3Sh
-         mIgg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781697582; x=1782302382; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WSRlCu2GkIH7ZB817+Hh/HHTjCSZH03SYLagMC/Q7yw=;
-        b=qqWfKrxldPapGQY4bno7uv7ozsRcBDfdhOVuf2w4Rncvj0OS3HruiTTSz4YeRrHETe
-         yzW++4lmgHXfTWcSt6yosJ0BVh1/UosXBXrpsFNh/Cg7BZdYCY9ajHnEYlV/88J43RzP
-         Eu4KFW3T5h1SCX0BbVsDZC3+qQUtwjktNbGTtV9JXvqGUR8IAzOtpk7mzPk7jx9EIF/V
-         sLc1xIsMTrlPr4Gw/ON9yvK98K2BEcvdEwIjfBZXUeKtzFvftjJuFTrBFC6cwL+8wLJY
-         AlPD8UtLEPTNteJom4pqGxv844kvhsR+BoEnNN9fCVtM4z99wnr3y5s+PKgFCveg1FYa
-         984w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781697582; x=1782302382;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=WSRlCu2GkIH7ZB817+Hh/HHTjCSZH03SYLagMC/Q7yw=;
-        b=d345a6kwY1T+YdMUfhzdE3J0pO+rnFCIgrxMG6LzNjvTw8kzcY9vgc2cshL42Swklx
-         +jt1XM9/ghSvmPVSP3zqt7FoFIwK9uc31uFLCwv/eQC6SUkM7tPb9dvLsuTvMjKBtT/w
-         7OPkNciDzdi5jE/shlrOv++nNZQpy3G0DitSTNSewkCz1cqUjVvImX3paMeJpZC8WHEe
-         pYHttAr6rOkworDgs4fwydjOgzHj8IEcfnRyXXDwWbqqMWjQWKmQ7xpE8/3YxFt96vux
-         jzfZ8U48SX0fpLFNB09AHikld/epOf19LCqNlNJ97Pl2uzYLnIsD0gBTx/jwgdnKQGyn
-         rJ+w==
-X-Forwarded-Encrypted: i=1; AFNElJ/L9BKVr166EUx1XiM45m4zD8epaZE/rEBLHBG0qAv5OEYt2JFlqNNoQgL+OZpLz4NnuJAOroa7pwjTNWw1@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEIbuCxJRJZKjz1jAkRNyZQBc6MfBYaF5YTZtC0hA92zMPg/NG
-	Eo5kuRTYzEHhq/VpnhVjtZR3vaqofzRVRmNKlNiHB2R86Tzob6aXQcM66PnybFqoeM6e1WcR6P1
-	dcTl6V0aeA1AGjP3EyFff7og9RxfwjbQ=
-X-Gm-Gg: Acq92OGg0w+4IEt7e1TX9yYSEaAjgvD5213/pwSLl/mHShnFUM2A1rr+ypnr5ZkGFlb
-	eAmI2RKIoZpDcO3fsl4PT1XvipIbQCtkdehAr6OBE7Z3J2cXd0mlKEjX8Nbm72dOLWNeOlX5jRd
-	/fq3YzJlzNpQSOUefwOjn/312Pqt1SS9MPN0+ylMjq5stB2J8agwj1Agu6XzNxVwiWUgMRHvHdu
-	mQ1ajb5apuncEwtBQytFwr88Y/AUntf/y2VaFEXc23nOVqbTubGp1fNda8erDRJxMus8lJ14aWW
-	zO7qlUF4vqBxhXJLEhYTb5PEJzA=
-X-Received: by 2002:a17:907:b18:b0:bfa:320c:b93b with SMTP id
- a640c23a62f3a-c05a6bd9a6amr154958866b.25.1781697581767; Wed, 17 Jun 2026
- 04:59:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Im0bG8Am"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 643E41F000E9;
+	Wed, 17 Jun 2026 12:41:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781700128;
+	bh=shMcTxpz7Iae4CMErv9/x2nY1BGPOVWbdpSfFAc09vY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Im0bG8AmD3bgsJUqZdYGdopEe5rvENwOqhRGA6LfcbikFOn2YUPQXBJWxsK3aAa3F
+	 IKOG49MBRGBJ1Mar6LZ2Kju1FxOKtyMrE//+MnE4N9/Z71fGW3gauigkbzrv2V1kZP
+	 1FNp162R2Z9QvBsI+njynVaaI0fNfgYS5ai3uG8OmNg5itH6o2+k7segaCwH+SbOb5
+	 zOcIdHYuAFv7ORTp8+4nDfybUyv7DTPv3xm7a9kUQ+vj1V5p2XZfw7CYh7IqwWcWUs
+	 ypezZIGEaKxUJ1MkpzhGlNdEe4jZuo9Q/Bc1arqIHR5rd7H/I68vBRL6fPgiqclkJT
+	 0u72NIrlwde9g==
+Date: Wed, 17 Jun 2026 14:41:54 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Vincent Mailhol <mailhol@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Richard Henderson <richard.henderson@linaro.org>, Matt Turner <mattst88@gmail.com>, 
+	Magnus Lindholm <linmag7@gmail.com>, linux-alpha@vger.kernel.org, Vineet Gupta <vgupta@kernel.org>, 
+	linux-snps-arc@lists.infradead.org, Russell King <linux@armlinux.org.uk>, 
+	linux-arm-kernel@lists.infradead.org, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, 
+	WANG Xuerui <kernel@xen0n.name>, loongarch@lists.linux.dev, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	linuxppc-dev@lists.ozlabs.org, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	linux-riscv@lists.infradead.org, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	linux-s390@vger.kernel.org, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 00/19] init: discoverable root partitions, a.k.a. an
+ omittable "root=" cmdline option
+Message-ID: <20260617-irritation-rollen-wirst-7d636cbfec92@brauner>
+References: <20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260524-fix_pipe-v3-0-bb4a75d23a90@debian.org>
- <ajG2bmhu6j9UWvh4@localhost> <ajJgWBCFYwz9OIo3@redhat.com> <ajJ1Xi1p9UhQvILi@gmail.com>
-In-Reply-To: <ajJ1Xi1p9UhQvILi@gmail.com>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Wed, 17 Jun 2026 13:59:29 +0200
-X-Gm-Features: AVVi8Cd0aWE-N2CJqRiE84I13EFNt0mxlHrGNQ-K93V_evKOBFVmX_CosDS-2DY
-Message-ID: <CAGudoHEyDz-Tbj=CZFK5XMLuLyE8B17NumdFVLf6MTTekFgRRA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] fs/pipe: reduce pipe->mutex contention by
- pre-allocating outside the lock
-To: Breno Leitao <leitao@debian.org>
-Cc: Oleg Nesterov <oleg@redhat.com>, Josh Triplett <josh@joshtriplett.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Shuah Khan <shuah@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	shakeel.butt@linux.dev, jlayton@kernel.org, axboe@kernel.dk, 
-	kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org>
 
-On Wed, Jun 17, 2026 at 12:24=E2=80=AFPM Breno Leitao <leitao@debian.org> w=
-rote:
->
-> On Wed, Jun 17, 2026 at 10:52:40AM +0200, Oleg Nesterov wrote:
-> > On 06/16, Josh Triplett wrote:
-> > >
-> > > On Sun, May 24, 2026 at 07:44:57AM -0700, Breno Leitao wrote:
-> > > > This series pre-allocates pages outside pipe->mutex in
-> > > > anon_pipe_write(): for writes that span more than one full page, up
-> > > > to PIPE_PREALLOC_MAX (8) pages are allocated via a per-page
-> > > > alloc_page() loop before the mutex is taken. anon_pipe_get_page()
-> > > > then drains the prealloc array first, falls back to the per-pipe
-> > > > tmp_page[] cache, and only enters the allocator under the mutex for
-> > > > the leftover pages (writes larger than PIPE_PREALLOC_MAX, single-pa=
-ge
-> > > > writes that skip prealloc, or shortfalls when the prealloc loop
-> > > > fails). Leftover prealloc pages are recycled into tmp_page[] before
-> > > > unlock and any remainder is put_page()'d after unlock, keeping the
-> > > > allocator out of the critical section on both sides.
-> > > [...]
-> > > > I also vibe-coded a microbenchmark to validate the change. It sweep=
-s
-> > > > writers x readers over {1,2,5} x {1,5,10} with 64KB writes against =
-a
-> > > > 1 MB pipe and prints throughput + latency percentiles per config.
-> > >
-> > > How do the numbers compare with 1-byte writes/reads? (It's fine if
-> > > they're not *faster*, just want to make sure they don't get any
-> > > *worse*. This case comes up a lot with pipes used for synchronization=
- or
-> > > event reporting, such as with make.)
-> >
-> > Note the "for writes that span more than one full page" above. Pre-allo=
-cate
-> > does nothing if total_len <=3D PAGE_SIZE.
->
-> Exactly.
->
->
-> The pre-allocation only triggers for multi-page writes:
->
-> anon_pipe_get_page_prealloc() returns immediately when total_len <=3D PAG=
-E_SIZE,
-> so a 1-byte (or any sub-page) write never enters the new path.
->
-> anon_pipe_get_page() then falls through to the existing tmp_page/alloc_pa=
-ge
-> logic exactly as before; the only added cost is one length check and a NU=
-LL
-> prealloc pop, both trivially predicted.
->
-> Measured it to _just be sure_, 1-byte ping-pong (perf bench sched pipe -s=
- 1):
->
->     baseline:  2.674 usecs/op
->     patched:   2.710 usecs/op   (+1.3%, within run-to-run noise)
->
-> --breno
+On Mon, Jun 15, 2026 at 06:08:56PM +0200, Vincent Mailhol wrote:
+> DPS [1] defines GPT partition type UUIDs for OS partitions and
+> attributes that control whether such partitions should be
+> automatically discovered. The specification states that:
+> 
+>   The OS can discover and mount the necessary file systems with a
+>   non-existent or incomplete /etc/fstab file and without the root=
+>   kernel command line option.
+> 
+> DPS is already implemented in systemd-gpt-auto-generator [2], which,
+> when embedded in an initrd, indeed allows automatic detection of the
+> root filesystem through its partition type UUID.
+> 
+> This series adds this discovery feature directly into the kernel so
+> that people who are not using systemd or not using an initrd can still
+> benefit from it. The implementation follows the same model as
+> systemd-gpt-auto-generator:
 
-There are trivial touch ups which can be done by adding a bunch of
-predicts and inlining kill_fasync if someone can be bothered.
+I happen to co-maintain the DPS. It is userspace policy and complex
+userspace policy at that and does not belong into the kernel.
+
+This also implements a really tiny portion of the spec. It deals with a
+lot more complex concepts such as automatic partitioning during
+installation, verity, LUKS, containers. This is really not intended for
+the kernel at all. I mean, it's great that this spec is being used but I
+do not want this in the kernel just for the sake of auto-discovery.
+
+The DPS is completely generic and can be implemented by tooling other
+than systemd (util-linux implements it and so does refind iirc). I think
+not wanting to use or build alternative userspace tooling for this is a
+really weak argument for pushing this into the kernel.
