@@ -1,96 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C63BA1CAA68;
-	Wed, 17 Jun 2026 12:42:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B873F9F3A
+	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 12:46:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781700129; cv=none; b=KD5Iye3XJNVDDHr5xdDpjhpT+RY16oaSlBr8GTHMZeDYOCX31ySDxF1niCe2kFcxxokG4N3Ky6UUvwtj5OefrpvRdzNurE3WHGcOKNRsrLJqZKgtkWA+oFCorgve90/CowcgnQF8JTq4dHdQHVbeW+0ffPFWzN+XidsUdxwgwO8=
+	t=1781700367; cv=none; b=CjLzhQo9gSk/EbZagzBdkYLx5gdfIeipZSsIwxTwO0iWYZ72rS7UlkZLg7+Kr6EVqtU32JdSepcZ15lWV8yZf0FNNOMZfdwr3xmyUltWR3NThz0ZMVqQvmbuQAf2BV3ToDnePCZUmkRdYZRo3iUg8O4R8jey6a4n32KUKxvLknY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781700129; c=relaxed/simple;
-	bh=sv9bDDMyUOTluObut285uOPrMWsldCYsk9y2aD3AE+Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HkBMVBwxtn4HuUBUOqcweDvrDlMK0dSq/UjGb3tZF16rGwiCG9l/JzxqwvOoIdFu4Y44Qtb7LU+kWlckLmAM8bMqSnhILHMzy2Lmj7Btr+wB6bXZpnp97GhK+v4PvS4iH+xxF9aS6Xa3l9RxveaoJ6C7dyw1lbxzKE0G3Pjhjxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Im0bG8Am; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781700367; c=relaxed/simple;
+	bh=TiMswPYt6nOKbx89h7zeDaQw5BwgrhWFjYT2bi+gMaA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Y0rV5rThOK/cCUb/nnaNr9cQz8uUan9ft/dUK+cdY20VJ7frkysPEHjxmocqzLAr3W2KqiNqFln8dUKtKyqDEoWjK7z4fyz0fyWZAb6Doo4y7VqCzF3fj7pstSXvW8C6Qys3FeXOFxsXipdKatoJVvFFVdZbl+cK479wgyNgkcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Jv09Py2i; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aEkVkCnj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k/VUKwPW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WY5tz4vW; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Im0bG8Am"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 643E41F000E9;
-	Wed, 17 Jun 2026 12:41:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781700128;
-	bh=shMcTxpz7Iae4CMErv9/x2nY1BGPOVWbdpSfFAc09vY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Im0bG8AmD3bgsJUqZdYGdopEe5rvENwOqhRGA6LfcbikFOn2YUPQXBJWxsK3aAa3F
-	 IKOG49MBRGBJ1Mar6LZ2Kju1FxOKtyMrE//+MnE4N9/Z71fGW3gauigkbzrv2V1kZP
-	 1FNp162R2Z9QvBsI+njynVaaI0fNfgYS5ai3uG8OmNg5itH6o2+k7segaCwH+SbOb5
-	 zOcIdHYuAFv7ORTp8+4nDfybUyv7DTPv3xm7a9kUQ+vj1V5p2XZfw7CYh7IqwWcWUs
-	 ypezZIGEaKxUJ1MkpzhGlNdEe4jZuo9Q/Bc1arqIHR5rd7H/I68vBRL6fPgiqclkJT
-	 0u72NIrlwde9g==
-Date: Wed, 17 Jun 2026 14:41:54 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Vincent Mailhol <mailhol@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
-	linux-block@vger.kernel.org, linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Richard Henderson <richard.henderson@linaro.org>, Matt Turner <mattst88@gmail.com>, 
-	Magnus Lindholm <linmag7@gmail.com>, linux-alpha@vger.kernel.org, Vineet Gupta <vgupta@kernel.org>, 
-	linux-snps-arc@lists.infradead.org, Russell King <linux@armlinux.org.uk>, 
-	linux-arm-kernel@lists.infradead.org, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, 
-	WANG Xuerui <kernel@xen0n.name>, loongarch@lists.linux.dev, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	linuxppc-dev@lists.ozlabs.org, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	linux-riscv@lists.infradead.org, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	linux-s390@vger.kernel.org, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 00/19] init: discoverable root partitions, a.k.a. an
- omittable "root=" cmdline option
-Message-ID: <20260617-irritation-rollen-wirst-7d636cbfec92@brauner>
-References: <20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Jv09Py2i";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aEkVkCnj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k/VUKwPW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WY5tz4vW"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 852BE6BEC3;
+	Wed, 17 Jun 2026 12:46:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781700364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yPkQ/yIWhjAOyWHfeggDy5vBSX85zdFQn5a1lVKAJ4Q=;
+	b=Jv09Py2ibb2p76U7tmPO6+JKSHL7SQZmzF3SYhArTiW2XhZ+M8JagE4d7TJkER4UQBpext
+	H8rESEB1Wyeur86OrTn1p5z4wNgD4u5mOcDiWY2ODdlXI0cldBwIjCCzKqLehUlpd9LjEv
+	A1GQVcfT7ASW+/4gdoJOAXhXpgLppn4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781700364;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yPkQ/yIWhjAOyWHfeggDy5vBSX85zdFQn5a1lVKAJ4Q=;
+	b=aEkVkCnjmONgIOrsz+7RFhY4T3LNrFHSzXDNmFiH0Ay0zzNKlycPeYARg/kk6jGc5MjHnW
+	xK8FX+3CQ2mKfWAg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="k/VUKwPW";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=WY5tz4vW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781700363; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yPkQ/yIWhjAOyWHfeggDy5vBSX85zdFQn5a1lVKAJ4Q=;
+	b=k/VUKwPWFCsBWCFJ7R8I6LF+OBDgI9fX4Lp5oFPo+igv6wYOpjqTI/7lEdoGjvEgUghnm1
+	55dY7Ax7ODe+ZN2ft7c4GVdpdiULSnwwngiOVm25dctotN8Rsennvxkk2dsr4oBUWwqxoe
+	t+wCv9Fz5Tjl0+yp9NFVVhRN0eZM3cY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781700363;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yPkQ/yIWhjAOyWHfeggDy5vBSX85zdFQn5a1lVKAJ4Q=;
+	b=WY5tz4vWM2UUy382LmDPSIyD7BWC+Vl4UH5Tb4Z4Gx/JES/mL9O89QA33bxJrakiZkLifu
+	gQ5nIb437qZ9xuBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 64C0F779A8;
+	Wed, 17 Jun 2026 12:46:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id cB8JGAuXMmqaNQAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 17 Jun 2026 12:46:03 +0000
+Message-ID: <51b505e7-ee2c-486b-b93f-3b5175f55899@suse.de>
+Date: Wed, 17 Jun 2026 14:46:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 7/8] fs/configfs: switch to get_tree_keyed()
+To: Christian Brauner <brauner@kernel.org>, Hannes Reinecke <hare@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Andreas Hindborg <a.hindborg@kernel.org>,
+ linux-fsdevel@vger.kernel.org, linux-nvme@lists.infradead.org
+References: <20260613111437.101763-1-hare@kernel.org>
+ <20260613111437.101763-8-hare@kernel.org>
+ <20260617-unsanft-vorurteil-neigt-8a4e50cd677c@brauner>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260617-unsanft-vorurteil-neigt-8a4e50cd677c@brauner>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 852BE6BEC3
+X-Spam-Score: -4.51
 
-On Mon, Jun 15, 2026 at 06:08:56PM +0200, Vincent Mailhol wrote:
-> DPS [1] defines GPT partition type UUIDs for OS partitions and
-> attributes that control whether such partitions should be
-> automatically discovered. The specification states that:
+On 6/17/26 13:51, Christian Brauner wrote:
+> On Sat, Jun 13, 2026 at 01:14:36PM +0200, Hannes Reinecke wrote:
+>> Switch to get_tree_keyed() to instatiate a new superblock whenever
+>> the mount namespace changed.
+>>
+>> Signed-off-by: Hannes Reinecke <hare@kernel.org>
+>> ---
 > 
->   The OS can discover and mount the necessary file systems with a
->   non-existent or incomplete /etc/fstab file and without the root=
->   kernel command line option.
+> So I wonder what keying superblock creation to the mount namespace
+> really gets you. Imho keying the superblock by namespace only makes
+> sense if the whole filesystem is tied to a namespace. For example, the
+> mqueue filesystem is semantically tied to ipc namespaces so tying the
+> creation of a new mqueue superblock to the ipc namespace makes sense.
 > 
-> DPS is already implemented in systemd-gpt-auto-generator [2], which,
-> when embedded in an initrd, indeed allows automatic detection of the
-> root filesystem through its partition type UUID.
+> But configs isn't semantically tied to the mount namespace at all. It
+> encompasses a bunch of different subsystems that might themselves be
+> semantically tied to different namespaces. The specific example you care
+> about is nvme tied to network namespaces. But there might be other
+> things that tie to other namespaces.
 > 
-> This series adds this discovery feature directly into the kernel so
-> that people who are not using systemd or not using an initrd can still
-> benefit from it. The implementation follows the same model as
-> systemd-gpt-auto-generator:
+> So even if you tie it to the mount namespace you presumably still need
+> to filter what subsystems a specific configfs instance will display to
+> each accessing task based on the namespaces of the accessing task?
 
-I happen to co-maintain the DPS. It is userspace policy and complex
-userspace policy at that and does not belong into the kernel.
+Actually, I'm only interested in the namespace ID, as I'm using that
+to lookup the corresponding 'configfs_super_info' structure from the
+xarray.
+I _thought_ keying it off the mount namespace might be the 'done' thing,
+as otherwise I might presume future use-cases. But turns out that
+the mount namespace is pretty much an internal thing, and really
+unwieldy to use.
+So I can easily switch over to the net namespace, and let other users
+to fix thing up if it doesn't work for them.
 
-This also implements a really tiny portion of the spec. It deals with a
-lot more complex concepts such as automatic partitioning during
-installation, verity, LUKS, containers. This is really not intended for
-the kernel at all. I mean, it's great that this spec is being used but I
-do not want this in the kernel just for the sake of auto-discovery.
+Okay, I'll switch over to the network namespace here.
+That certainly keeps sashiko happy if nothing else :-)
 
-The DPS is completely generic and can be implemented by tooling other
-than systemd (util-linux implements it and so does refind iirc). I think
-not wanting to use or build alternative userspace tooling for this is a
-really weak argument for pushing this into the kernel.
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
