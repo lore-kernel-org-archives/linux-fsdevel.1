@@ -1,195 +1,174 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10FBB481FA0
-	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 15:01:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A20548A2C4;
+	Wed, 17 Jun 2026 15:25:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781708481; cv=none; b=F0o3EE/8pHToO+xxdQCuoohbG1/h23WASYeELNnXMu7eoeG7mgjp9yg0Rcb/bbz31htf7OVjTGbDpegS1ClWqpLj2Nszyoa6PKNXYBwIS9s2QzLkgqW2lm5neyWv4n1d5JpLq/2Ur3mRf+w/CZjniiIajPTMEHddAZsReJf/h1E=
+	t=1781709910; cv=none; b=Ol3H6DMQBIzipLr7i+VF7uZ16G6md9GeqLMug82uAXJCgdOGTcjUa0Vf6KiI726wvqMprhINH64TMsjORqvOfL09KVYRbMJC3JTxgsQB0AyblLnpnSbddAtmA05YUJyoSa3ctljnyhXL1f02OoOQFaCdhtd8U1xt8tF8DUMaVb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781708481; c=relaxed/simple;
-	bh=YaSASRB9dU6jXbCdjBgZMN5jcBYBy7PMMgiLbOMoWAM=;
+	s=arc-20240116; t=1781709910; c=relaxed/simple;
+	bh=RJFjxPk7I35PG8LfQaqktHWLww4hlfU+HZ5u9tL4K6k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kP34t4NBs9OwCml4Y7F0VHlEE7IfqaeEX5ZYeOBwuM9N+Qzl4v2Dt9qNDYFZ+s6SjAde7kGy9wtVL0xJIlQhgC0BHCz4etpUeU24o3pUV6kws7SFj+vU5PAxYmNS/BEZjEmpJRo+Lv3isjsF3yCiegPZf7xPuY2gANZekJdyHLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CSHLLEie; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ekcmBl3Kyd/sIrJDtXmrlSPnufODb4I3QSXEIhfe98z06b3ylCmcPUFl3Mk5KvaZ1rpfGYl9sVwANQxvCm9e8PzIuZPf8oZReoxBkNWHEctx+dcQ/Kn9ofXq1AhIumMZdegD8ZjairBHaJ5XPAmOg4esU1YCl2HkZMf9J4fkE7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oamYieFj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CSHLLEie"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-4619990ca5fso2282691f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 08:01:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781708475; x=1782313275; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gCmDWiw9X1Y88wXQqZoofqmRWSjRadgeJlYOOJoaDF0=;
-        b=CSHLLEie/csnBa8EEzlFQ2eD/htltLkrWYoyjdbtHtpDhX+2JsaQdPFBEKJ+m7IHMI
-         om2EuxluHHUD/5kHA4IwP53ystWyMyqr7EN1I4HB5cKZBoOL34bsbdaR9Jm1dYoIOjA0
-         rE0rr7feeQ2cq/6NZVzQUan1lhDLgIJX36l3KP6ck86ot0VCam65vxDr7WM1p8Rq+kn2
-         kRtlg6HQaKrYaVNLyy++SVpyzKzLdbIvXC4su0tJNCqC5WpuEnKiem4ybo0Z3tBUUj+v
-         A7J7GWFqhzWWdy9GVmdGzZSDyc2s6bdZNb0lCO6W/9aTnGMo1wHw3jfXh5hAOiq8vkve
-         bIqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781708475; x=1782313275;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gCmDWiw9X1Y88wXQqZoofqmRWSjRadgeJlYOOJoaDF0=;
-        b=jljYgCLq4lhJx7bb2M/72qlxMsmCiWEnVZ3Hij+cUSoSue8L4mm2d1LCh7PvxtMq1+
-         FQGQ5Hs/VLBnuMz1Veqougbh0J3hzXuHkoBxVs+SDA/p6mzdVkJ/qfK8WdbReeqY2sTu
-         EV7sPKxo0SRtipzIg8VHLwTwfVZzjDJvnoYHAfechvSc1JrPLXdF/tYb4vOcGV7kSeq0
-         Uj1hSQVU0hza6kLZAO0jk3p+ebvf+Z7LygNdxejed+pB0nRlkpB3NzsER8ldtoMZmj7b
-         lAJh5gnVKM/5WSeKyVTM5HcY4AAQE2itD8rw1prPFwa0Ca+P8sHbcLxyhOeOUxXfb569
-         RBSQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+Bd77VnXxbxhWaq/nPB24t/fed3GKctbSqv5JbzszeEDifjoHIvmWBCfJ0RIY3MhuJAE8TQXg8lK06M8kT@vger.kernel.org
-X-Gm-Message-State: AOJu0YwdUUF7qf5o9X2+49Z5UIioupTJgXCVQvlJ/1iw4DzwmY+y8Asv
-	Z0Hu0fYhEY7X3rBEwEUrGBZxPI11nHxicFxyAhijEEOSTJLxk6ULnrbk
-X-Gm-Gg: Acq92OH3cdj1+JI0WhPNMMQg6nLFACw2Ut0u432hD/yEWxd9plhxzhZB99rFkshnSx2
-	R2NSW3sHzZE1jS6D1bRHy/td9RoFqaWKvPFXjKRQWxwBB4V3ryi9JD1IZhFx8XDLx1IV28IzDoB
-	w9fJlrGw8G4zQirOLK0nHaIsKTUEZldawoQqAVqEjU1JDUtS2N/IpW6zrTm/mDYVoLc4TmYNsKU
-	6oGuwCcZRJQYSFzRHkwsi8eapFSrmQPnOPjMG55CSIKvsoVSEVpc6xbyBYW2nC0hgSPaTLt6g1G
-	XwdqJtTfb9ZmS+3p7uugEA4knrn0st3Bby9ITTAIB5c/wjC73PgoZ4+qmXMtFKpvOqhOrpcqzhB
-	Jkn48d4IZOGAXgn/WHdJu9PeTaFCzXejnUnamxpKUoPawRozG+7A87huA0z+FNPnBQj10qdzEMu
-	X7tysSxITidtiGfN0OAFhD9IuqmR4VzS9iTrTqDS7/ILNzePj41YrKzm+ueg==
-X-Received: by 2002:a05:600c:80c1:b0:490:6e12:542d with SMTP id 5b1f17b1804b1-492333e2f1bmr64631955e9.19.1781708474437;
-        Wed, 17 Jun 2026 08:01:14 -0700 (PDT)
-Received: from f (cst-prg-84-90.cust.vodafone.cz. [46.135.84.90])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923756ff5csm9036615e9.0.2026.06.17.08.01.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 08:01:13 -0700 (PDT)
-Date: Wed, 17 Jun 2026 17:01:04 +0200
-From: Mateusz Guzik <mjguzik@gmail.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: Oleg Nesterov <oleg@redhat.com>, Josh Triplett <josh@joshtriplett.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Shuah Khan <shuah@kernel.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, shakeel.butt@linux.dev, jlayton@kernel.org, axboe@kernel.dk, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v3 0/2] fs/pipe: reduce pipe->mutex contention by
- pre-allocating outside the lock
-Message-ID: <rlios6fzl4xc2p57aurth2bpt2iflskf6crabqi4u45f6mejbm@ekxu5ua6wa5c>
-References: <20260524-fix_pipe-v3-0-bb4a75d23a90@debian.org>
- <ajG2bmhu6j9UWvh4@localhost>
- <ajJgWBCFYwz9OIo3@redhat.com>
- <ajJ1Xi1p9UhQvILi@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oamYieFj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52B181F00A3A;
+	Wed, 17 Jun 2026 15:25:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781709906;
+	bh=nhoYS2ZfzGPqTLbpoet3XG0hWvTI1xCb3oBan4vyhY8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=oamYieFj/kNzXvHuZt7qgH4SLNyfQfo5Re2zherszfcy8DwdFRGtO+/7LeHIIPfxd
+	 /8jS5JOwEET2tVPRJJv5CRxRiUvoqIn5INTNjYSxHPoQCJEDX+22ntH+0tYNMoXdSA
+	 eUd00ShDNfudLZBfwCKVfxCVvjJZYt15EQA7Xtpaz07l6Id0g6cH7kAu67tVXoqWTH
+	 U8JylWoiPRf4nz9k7PtfLam35a3YPMlDbvzuvZ0S1QA0dYaChyKTKlJIlXh6NXAzt9
+	 sNMF+mR9JMAqYIZN4Ckkl51ef7dX0vILWJfAYpN2td5dtqXKcFG5wJTiY+lTHfFmI1
+	 HvicvvBYAh0/g==
+Date: Wed, 17 Jun 2026 17:25:01 +0200
+From: Joel Granados <joel.granados@kernel.org>
+To: Wen Yang <wen.yang@linux.dev>
+Cc: Kees Cook <kees@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v5 0/2] sysctl: add CTLTBL_ENTRY_XXX() macros for
+ ctl_table initialization
+Message-ID: <57fctybn2i7fapt7mo466rou7pu2qfudhkqfmd22y2yu72uilh@zpaewmnbjqbo>
+References: <cover.1774463505.git.wen.yang@linux.dev>
+ <3626b4c0-319b-4944-b7ff-704ab146fd1e@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lfvlmlziax3fdm5i"
 Content-Disposition: inline
-In-Reply-To: <ajJ1Xi1p9UhQvILi@gmail.com>
+In-Reply-To: <3626b4c0-319b-4944-b7ff-704ab146fd1e@linux.dev>
 
-On Wed, Jun 17, 2026 at 03:23:54AM -0700, Breno Leitao wrote:
-> Measured it to _just be sure_, 1-byte ping-pong (perf bench sched pipe -s 1):
-> 
->     baseline:  2.674 usecs/op
->     patched:   2.710 usecs/op   (+1.3%, within run-to-run noise)
-> 
 
-Can you try this:
+--lfvlmlziax3fdm5i
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/fs/fcntl.c b/fs/fcntl.c
-index c158f082f1da..012d9d87f827 100644
---- a/fs/fcntl.c
-+++ b/fs/fcntl.c
-@@ -1118,11 +1118,14 @@ int fasync_helper(int fd, struct file * filp, int on, struct fasync_struct **fap
- 
- EXPORT_SYMBOL(fasync_helper);
- 
--/*
-- * rcu_read_lock() is held
-- */
--static void kill_fasync_rcu(struct fasync_struct *fa, int sig, int band)
-+void __kill_fasync(struct fasync_struct **fp, int sig, int band)
- {
-+	struct fasync_struct *fa;
-+
-+	guard(rcu)();
-+
-+	fa = rcu_dereference(*fp);
-+
- 	while (fa) {
- 		struct fown_struct *fown;
- 		unsigned long flags;
-@@ -1148,19 +1151,7 @@ static void kill_fasync_rcu(struct fasync_struct *fa, int sig, int band)
- 		fa = rcu_dereference(fa->fa_next);
- 	}
- }
--
--void kill_fasync(struct fasync_struct **fp, int sig, int band)
--{
--	/* First a quick test without locking: usually
--	 * the list is empty.
--	 */
--	if (*fp) {
--		rcu_read_lock();
--		kill_fasync_rcu(rcu_dereference(*fp), sig, band);
--		rcu_read_unlock();
--	}
--}
--EXPORT_SYMBOL(kill_fasync);
-+EXPORT_SYMBOL(__kill_fasync);
- 
- static int __init fcntl_init(void)
- {
-diff --git a/fs/pipe.c b/fs/pipe.c
-index 429b0714ec57..bea4e92bf0a8 100644
---- a/fs/pipe.c
-+++ b/fs/pipe.c
-@@ -426,7 +426,7 @@ anon_pipe_read(struct kiocb *iocb, struct iov_iter *to)
- 			}
- 
- 			error = pipe_buf_confirm(pipe, buf);
--			if (error) {
-+			if (unlikely(error)) {
- 				if (!ret)
- 					ret = error;
- 				break;
-@@ -541,7 +541,7 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *from)
- 	 * the same time, we could set up lockdep annotations for that, but
- 	 * since we don't actually need that, it's simpler to just bail here.
- 	 */
--	if (pipe_has_watch_queue(pipe))
-+	if (unlikely(pipe_has_watch_queue(pipe)))
- 		return -EXDEV;
- 
- 	/* Null write succeeds. */
-@@ -552,7 +552,7 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *from)
- 
- 	mutex_lock(&pipe->mutex);
- 
--	if (!pipe->readers) {
-+	if (unlikely(!pipe->readers)) {
- 		if ((iocb->ki_flags & IOCB_NOSIGNAL) == 0)
- 			send_sig(SIGPIPE, current, 0);
- 		ret = -EPIPE;
-@@ -593,7 +593,7 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *from)
- 	}
- 
- 	for (;;) {
--		if (!pipe->readers) {
-+		if (unlikely(!pipe->readers)) {
- 			if ((iocb->ki_flags & IOCB_NOSIGNAL) == 0)
- 				send_sig(SIGPIPE, current, 0);
- 			if (!ret)
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index d10897b3a1e3..6f86d1fe7589 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -1383,7 +1383,12 @@ extern struct fasync_struct *fasync_alloc(void);
- extern void fasync_free(struct fasync_struct *);
- 
- /* can be called from interrupts */
--extern void kill_fasync(struct fasync_struct **, int, int);
-+void __kill_fasync(struct fasync_struct **fp, int sig, int band);
-+static inline void kill_fasync(struct fasync_struct **fp, int sig, int band)
-+{
-+	if (unlikely(*fp))
-+		__kill_fasync(fp, sig, band);
-+}
- 
- extern void __f_setown(struct file *filp, struct pid *, enum pid_type, int force);
- extern int f_setown(struct file *filp, int who, int force);
+Hey Wen
+
+Sorry for not getting back to you sooner.
+
+IMO, this is approach is the way to go to bring back the control of the
+sysctl variables into the sysctl subsys files. Would like to get another
+set of eyes on it before committing to it though.
+
+I think it has not gotten too much attention because it does not touch
+any other subsystem. Would you consider adding one subsys to the series?
+Something like implementing it for the users in arch/ or fs/ or
+drivers/.
+
+Also, this might be a signal to park this temporarily and let it simmer
+until more ppl are annoyed at making changes to the sysctl API.
+
+Best
+
+On Sat, Jun 13, 2026 at 11:56:50PM +0800, Wen Yang wrote:
+> Hi Kees, H jioel,
+>=20
+> Gentle ping on this series. Please let me know if there are any
+> concerns or if further changes are needed.
+>=20
+> The series is available at:
+> https://lore.kernel.org/all/x5stdwwsfp2h22zyexn5ycbxnkyc4ioxscninxsa6q7lf=
+6djqr@jkuppwwqubkp/
+>=20
+> Thanks for your time,
+> Wen
+>=20
+>=20
+> On 3/26/26 02:39, wen.yang@linux.dev wrote:
+> > From: Wen Yang <wen.yang@linux.dev>
+> >=20
+> > Historically, changes to how struct ctl_table entries are initialized
+> > (e.g. removing the child field, const-qualifying ctl_table) required
+> > touching hundreds of files across all subsystems.  Such series require
+> > the attention of many maintainers, sometimes need to be pulled into
+> > mainline in a special way, and create lots of unnecessary churn.  With
+> > CTLTBL_ENTRY_XXX(), future structural changes to struct ctl_table need
+> > only update the macro definitions.
+> >=20
+> > Conversion of existing call sites will proceed incrementally from
+> > kernel/sysctl.c outward, rather than as a treewide sweep.
+> >=20
+> > This series:
+> >   1. Introduces the CTLTBL_ENTRY_XXX() macros in include/linux/sysctl.h,
+> >      using _Generic() for automatic proc_handler selection, auto
+> >      address-of, auto maxlen via sizeof(), and compile-time validation.
+> >      Supported types: int, unsigned int, long, unsigned long, bool, u8.
+> >   2. Converts kernel/sysctl-test.c as a demonstration, adding a
+> >      parameterized KUnit test covering all macro variants (V, VM, VMR,
+> >      VN, VNM, VNMH) across int, u8, bool, and char[] types.
+> >=20
+> > Based on discussion and suggestions from:
+> > [1] https://sysctl-dev-rtd.readthedocs.io/en/latest/notes/ctltable_entr=
+y_macro.html
+> > [2] https://lore.kernel.org/all/psot4oeauxi3yyj2w4ajm3tfgtcsvao4rhv5sgd=
+5s6ymmjgojk@p3vrj3qluban/
+> >=20
+> > ---
+> > Changes in v5:
+> >    - Extend __CTL_AUTO_HANDLER to support bool and u8
+> >    - Replace individual test functions with a single parameterized KUnit
+> >      test (KUNIT_CASE_PARAM) covering all variants and types
+> >    - Use struct ctl_table as the expected-value container in the param
+> >      struct, eliminating custom expected_* fields
+> >=20
+> > Changes in v4:
+> >    - Fix Wpointer-type-mismatch warnings detected by lkp:
+> >      https://lore.kernel.org/oe-kbuild-all/202603050724.SZxrEyyu-lkp@in=
+tel.com/
+> >=20
+> > Changes in v3:
+> >    - Replace the unique macro with "capital letter approach"
+> >    - Reduce the name further
+> >    https://lore.kernel.org/all/rn4rsazh7kxf5byq65vw2phyqgzvwm3scczu3l5h=
+2r4aqit2r6@znlpb24z2zuo/
+> >=20
+> > Changes in v2:
+> >    - Add lvalue check, handler type check, etc.
+> >    https://lore.kernel.org/all/xptwb3uwbzposd4xf7khj52ifv4tchcjdgllhv7a=
+abi6d7wgef@2msurl564v53/
+> >=20
+> >=20
+> > Wen Yang (2):
+> >    sysctl: introduce CTLTBL_ENTRY_XXX() helper macros
+> >    sysctl: convert kernel/sysctl-test.c to use CTLTBL_ENTRY_XXX()
+> >=20
+> >   include/linux/sysctl.h | 307 +++++++++++++++++++++++++++++++++++++++++
+> >   kernel/sysctl-test.c   | 237 ++++++++++++++++++-------------
+> >   kernel/sysctl.c        |   2 +
+> >   3 files changed, 447 insertions(+), 99 deletions(-)
+> >=20
+
+--=20
+
+Joel Granados
+
+--lfvlmlziax3fdm5i
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmoyvEwACgkQupfNUreW
+QU+4fwv+Ld+1XJPiF/j44uCWGeKYjh/aPBpEmkuPWPuoP1Kd+5A0caVL5RZAUh2a
+QkmYyErmSEpOVW8ETtXq9RX2Jfp6cnovncQVv6OVPi/KVqpIuodPWP6L2Tixr2kw
+rcnU4rDUR/KWK5LOZ56CMBo8tlA7NL7lKdYtPHqjAPs5exrqE+AzBATs28Th+jPs
+j5i/yEk3fYC9JpwLqc3b+H5l4Hhh7n3hr0KJwH0OPKlY0la2uUyXt3J+t9bhPSq8
+ayPIaHuxX4kxMaOJdvlX45iGLda0apybjRnM5E3u3LayWUQJ6j5dM7dKMolwfMlE
+bZ8Xhf3O3JedQ4/GCRnE2Jp/I8yefZphRfOU85xx0KC/o8nMcZYrYPsMfs1xte5d
+yVCHh8BVwV6o+pzPTdf6wU8dnnPHm4ZfUeCWcLZ1nCcaeXlcFVLLoJZgwPySTY7L
+E4uuhfUTpMsnQbAwdtBHxYKvuO1FmTZ9w4lCOXicRwK8X8b8Pk218jDskYBb0IFS
+02Z38c5j
+=99EU
+-----END PGP SIGNATURE-----
+
+--lfvlmlziax3fdm5i--
