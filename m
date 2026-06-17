@@ -1,153 +1,69 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3946230C153
-	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 11:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA91217D6
+	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 11:51:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781696677; cv=none; b=pI04afkT3UZ2BLtGpYoE7d7P3gzMv/xaMCV+e/sQdFSNgzM1iSDhXjr2+gfv7G668jUtMg31CSiw3aj4Alhdj45aG6AVXz4qXP6iwrD7itrJwoHbF5SIjBCYy1Jl/MiKzxuiWUNWSvRhoT9ZnQ0T4aQOJEP/pkrck/mFoYynFQg=
+	t=1781697113; cv=none; b=R2BFF3lJghWvvwJ0z9Knac+IOjHYAtUzFrXX+/MX8KySXm3KzSrXRE37SxFpK2zh454kzrGuruMCrPqSb6Y/1gyfM9gvGl17yGpeQ13vw3Bkt4j/nvO8EfzVJoFKzARM4RB/NNBVu7GVYq0RHwhXOLlEIT1dhBedg96QtPG/HoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781696677; c=relaxed/simple;
-	bh=kh9PKbqQ5DGO2kEnkyTmbCPvs/LSpJwWHq0gYO5XFeg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jM11rZFVJlHVTkBW8HoisUdK/SD2D4FPaQQBbxRkKfY2oWn3Cqkd/Z9Aaffap49IZuu22XV43D4TJgJi9J3M1Ttr4refFK7bSOO7D/TNgIU5Svu3Q5ZD89ziUN4Vmr8fII76MY+/1U+SuboqC1rq4Wl1+udY1eZ4dbfoKSIMrbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=w2yQJ1Bu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=E2ZRbe94; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=w2yQJ1Bu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=E2ZRbe94; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1781697113; c=relaxed/simple;
+	bh=K3Vfon7Ki8TNrVNRfvLQgsdn3/RQE7YLfU8eGcmZglU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=egiGnKbPGE4vj1jk79Eh1e6jtSdbT/SZPvBCI/EaSCxHQHW0i3/0989zMJY88yZ+U88podlWusg+X4r0NV7oILHv22VI2ne/OmUcvTVCiDKuEnRrI/vDpJ/qn1jv6EKyAVaNjeXNE6AHIShabwD1+Io0qItBv3y4IwGdF4u8Obg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mf1B+y26; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="w2yQJ1Bu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="E2ZRbe94";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="w2yQJ1Bu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="E2ZRbe94"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6982F6B54A;
-	Wed, 17 Jun 2026 11:44:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781696674; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WacAquq6gO/KhKHWdg4ZVYk8gtuSntZ9gSFvjcBPkS4=;
-	b=w2yQJ1BuY2PY6rN0V0HArggIDXDlqjK+qnDmMYq2F6TBIChN8lee3VCiWudO+op5jfOHBl
-	9m9Ei27gNx/9rPMpwptr/IkwmFm09L2hUqcZ5AKjV2JWN/SosjGyQnmbpRkh/ayTKXGiQ9
-	ToMVeWSa7686S+TfHvzzmitNNOfPeZY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781696674;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WacAquq6gO/KhKHWdg4ZVYk8gtuSntZ9gSFvjcBPkS4=;
-	b=E2ZRbe94P2C/OWlpe5Bztjq05DIVF2tYLBHDCMGEk9KVjTGIflqhquvEbnc21pOYlw5adZ
-	qPPuk7FAYVgKlNCw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=w2yQJ1Bu;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=E2ZRbe94
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781696674; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WacAquq6gO/KhKHWdg4ZVYk8gtuSntZ9gSFvjcBPkS4=;
-	b=w2yQJ1BuY2PY6rN0V0HArggIDXDlqjK+qnDmMYq2F6TBIChN8lee3VCiWudO+op5jfOHBl
-	9m9Ei27gNx/9rPMpwptr/IkwmFm09L2hUqcZ5AKjV2JWN/SosjGyQnmbpRkh/ayTKXGiQ9
-	ToMVeWSa7686S+TfHvzzmitNNOfPeZY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781696674;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WacAquq6gO/KhKHWdg4ZVYk8gtuSntZ9gSFvjcBPkS4=;
-	b=E2ZRbe94P2C/OWlpe5Bztjq05DIVF2tYLBHDCMGEk9KVjTGIflqhquvEbnc21pOYlw5adZ
-	qPPuk7FAYVgKlNCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3A5D0779AB;
-	Wed, 17 Jun 2026 11:44:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oYIfDaKIMmqLcwAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 17 Jun 2026 11:44:34 +0000
-Message-ID: <e11f4194-049a-4c84-b1fd-59611ba8cb44@suse.de>
-Date: Wed, 17 Jun 2026 13:44:33 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mf1B+y26"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 291671F000E9;
+	Wed, 17 Jun 2026 11:51:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781697112;
+	bh=tYZSspCnlcWtdxovtmqEqCygbTvVVNxg9U8mlLNO2SA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Mf1B+y26Q9JqpDF/hmHwuD9HbGOkMow/sPiNIhiX5BkTZuiiSLXD4FkVJAFB3wcwA
+	 R930hfvxFdRJ0tMy5fYID8TMf1S7iCQot/3MzO+D4BnQjZJwH3Xxppxy6J4F2WlBkj
+	 R5G7loMhX6b7YclN5f1OcgRo6ClsYab10/Vwh840FNQefrcq7Jbb4cXPnhA1jQntr4
+	 Veu7vvq/aoTC928cDuj8WTBcE9VborZkvtsKOxCkJJgZGibvcU/Zvi+KpKrpQLJo2n
+	 U7q8fdUXbQ87eoE/iTIvZ8fwk6euuoGefUt55aCGMEzj8jxAWi1lccX3yHCKDZtnv1
+	 wRvQzYkAZmeVQ==
+Date: Wed, 17 Jun 2026 13:51:48 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 7/8] fs/configfs: switch to get_tree_keyed()
+Message-ID: <20260617-unsanft-vorurteil-neigt-8a4e50cd677c@brauner>
+References: <20260613111437.101763-1-hare@kernel.org>
+ <20260613111437.101763-8-hare@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/8] nvmet: make configfs setup namespace aware
-To: Christian Brauner <brauner@kernel.org>, Hannes Reinecke <hare@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Andreas Hindborg <a.hindborg@kernel.org>,
- linux-fsdevel@vger.kernel.org, linux-nvme@lists.infradead.org
-References: <20260613111437.101763-1-hare@kernel.org>
- <20260613111437.101763-9-hare@kernel.org>
- <20260617-kaufpreis-zugang-raven-4b0129e8462f@brauner>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260617-kaufpreis-zugang-raven-4b0129e8462f@brauner>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 6982F6B54A
-X-Spam-Score: -4.51
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260613111437.101763-8-hare@kernel.org>
 
-On 6/17/26 13:17, Christian Brauner wrote:
-> On Sat, Jun 13, 2026 at 01:14:37PM +0200, Hannes Reinecke wrote:
->> Implement 'fill_subsystem' and 'clear_subsystem' callbacks to make
->> nvmet configfs namespace aware.
->>
->> Signed-off-by: Hannes Reinecke <hare@kernel.org>
->> ---
+On Sat, Jun 13, 2026 at 01:14:36PM +0200, Hannes Reinecke wrote:
+> Switch to get_tree_keyed() to instatiate a new superblock whenever
+> the mount namespace changed.
 > 
-> What tree is this all based on? I can't apply it at all which makes this
-> kind of change rather difficult to review meaningfully..
+> Signed-off-by: Hannes Reinecke <hare@kernel.org>
+> ---
 
-As per recommendation from Andreas Hindborg it's based on top of
-Al Viros configfs cleanups.
+So I wonder what keying superblock creation to the mount namespace
+really gets you. Imho keying the superblock by namespace only makes
+sense if the whole filesystem is tied to a namespace. For example, the
+mqueue filesystem is semantically tied to ipc namespaces so tying the
+creation of a new mqueue superblock to the ipc namespace makes sense.
 
-I'll rebase it to current linux HEAD.
+But configs isn't semantically tied to the mount namespace at all. It
+encompasses a bunch of different subsystems that might themselves be
+semantically tied to different namespaces. The specific example you care
+about is nvme tied to network namespaces. But there might be other
+things that tie to other namespaces.
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+So even if you tie it to the mount namespace you presumably still need
+to filter what subsystems a specific configfs instance will display to
+each accessing task based on the namespaces of the accessing task?
