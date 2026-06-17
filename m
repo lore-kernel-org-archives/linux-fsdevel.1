@@ -1,44 +1,44 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF05367B79;
-	Wed, 17 Jun 2026 17:26:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B4833D4FB;
+	Wed, 17 Jun 2026 17:26:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781717198; cv=none; b=Xxh5DpUvs6vLPgej0CdinG0HDABsFvS7bSIdMgIEyV7HZMlVKkacjpI3bRQX3Ue8rNO/DELyhXKFjj4mZv5ld7sJk4Q6rq8rbDbAjeWCDLoEr7lDNRj850+fokfpRzVrvzbnF3F0cZjBP5x454oPxWsk9QgBCUL3J8iNCQaXPLE=
+	t=1781717202; cv=none; b=e0fYKbN8Yo4madlUJp2kQl0AEYikSnm2s0oYmGzeo/DUTIKdG2dJ7sm4H/FR32xcO4IBl1+PXyuRdPnOiLzPf0gtwkix6S6sQxG7QSqi5WyLSIl7fVzP1Nz5wMZqDhZc9Jwg6XAk+iKG/NYDO1YeAbj3NMY9cQ3KowbJlHkCF1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781717198; c=relaxed/simple;
-	bh=tFo87Sb/bT/LV9C7SNvFVmq8k87LV+RuDj/biyBykkc=;
+	s=arc-20240116; t=1781717202; c=relaxed/simple;
+	bh=eCFRow9n25AJg7FrcfzhgwygPDuVEP6VDBNyyqmR5sU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y7MmsVOQYq4RdN65qSnl4z171M0rvYHNgJC9Rb7VUe8FkRPVtEx+OYhkjsKYrfZyCjrfcg7N0lmhLSKWyi7sgB3kVMu86AuOkTKrryX5YIKnIyoucrzT0urxn9yTeVjDUDdA608RmEktjI4M0tC/4IDP8Hom1pgJvkMPd8Osu/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=MQvsvO6d; arc=none smtp.client-ip=205.220.165.32
+	 MIME-Version; b=tF4CmoJcQGNSLViEnqyP4Bk+WvB+1aSWsMBGHKsmgWxS6cFDFuCAEGmSpXtZrtb0UiXkBS9OmoVh97XW20RnROQloW0SVkaM/MAqHoRmgAZE1uPqqhWKeEo3Q8CaIcwZIUa2ShAYLkP0/zW7aUj25X2n3X0h58/Hj0pp2NUnC18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=DHT4wvRH; arc=none smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="MQvsvO6d"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="DHT4wvRH"
 Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65HEsR2u2367890;
-	Wed, 17 Jun 2026 17:26:12 GMT
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65HEsWed2367981;
+	Wed, 17 Jun 2026 17:26:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2025-04-25; bh=bJqO5
-	j89RevMNiZ+aQEzjbYrz/l5E1nZ80jmdhRo+NA=; b=MQvsvO6dGAlctPle1MySc
-	PV2G+uHUAF9VPsDq312QWrLkHZeNygZEivhTE+10lWufGcCvf/jG7gMmF0R+mOjg
-	xS1QATS+iW/nR0hQ2ptdk7k6SDFAVnHClwQ749jnZWsBuhOjIv97+GQZz+glDb9r
-	dt8qXoU+iNKTz0sFCQQ9atQNXpXA45lZ00nIOO9G8O0cJif60SCVlJ+Z1PS0X0fT
-	5TSqAQSfgl6HCi7Qkce5Mkb+n6m60zmJLi2YqWGu44VSUvs6plVgX23Mq1U8xhhZ
-	eHbjN+cmculbXSz42ZQ0WfJgTP9RSjp9AIP311Yl2vX8NHNWsNe2pV3CGNKLyc2+
-	g==
+	:mime-version:references:subject:to; s=corp-2025-04-25; bh=T0b31
+	SaJavgiXnLsuRPpNulQ6VPeUt582qsp2XUNt2A=; b=DHT4wvRHKkxrUlFB2xrMM
+	QVPuYSYQId3bWieYe2QwfiDdaVdKLnrog2zHlXAmIXvtUOWcNMSdfbajWXbqDWvU
+	d6wP9KaBhKoMXbpQAG+eLkm5Vlo+PzXmkAcukCWucOahen53YVjGuEpdPQ5LFRX5
+	3R9dKX5FG6ybGhiwNIYJJ4weFUHSfMZHwIle/AYSX6BUidpWzLpUCkfTsg58m1Su
+	p+0+JJ7wRnogQhPvHkxDg5lw+62KJF+Wo5KtzG41LGBXiqevuVXMWmFMkdfm9X0S
+	kEboK09YGXKaLX3N19FR3l3Ldbu2KWELFUuwtxdlPE30US/C34DVhm9wxA1o5iJW
+	w==
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4eueg31c41-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4eueg31c46-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 17 Jun 2026 17:26:12 +0000 (GMT)
+	Wed, 17 Jun 2026 17:26:16 +0000 (GMT)
 Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 65HHNVP0003778;
-	Wed, 17 Jun 2026 17:26:11 GMT
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 65HHNVP2003778;
+	Wed, 17 Jun 2026 17:26:15 GMT
 Received: from brm-x62-16.us.oracle.com (brm-x62-16.us.oracle.com [10.80.150.37])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4eudvc0wgy-8;
-	Wed, 17 Jun 2026 17:26:11 +0000 (GMT)
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4eudvc0wgy-9;
+	Wed, 17 Jun 2026 17:26:15 +0000 (GMT)
 From: Jane Chu <jane.chu@oracle.com>
 To: akpm@linux-foundation.org
 Cc: willy@infradead.org, jack@suse.cz, viro@zeniv.linux.org.uk,
@@ -48,9 +48,9 @@ Cc: willy@infradead.org, jack@suse.cz, viro@zeniv.linux.org.uk,
         rppt@kernel.org, peterx@redhat.com, corbet@lwn.net,
         linux-doc@vger.kernel.org, linux-mm@kvack.org,
         linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 07/11] hugetlb: replace filemap_lock_hugetlb_folio with filemap_lock_folio
-Date: Wed, 17 Jun 2026 11:25:28 -0600
-Message-ID: <20260617172534.1740152-8-jane.chu@oracle.com>
+Subject: [PATCH v2 08/11] hugetlb: make hugetlb_add_to_page_cache() to take PAGE_SIZE granularity index
+Date: Wed, 17 Jun 2026 11:25:29 -0600
+Message-ID: <20260617172534.1740152-9-jane.chu@oracle.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20260617172534.1740152-1-jane.chu@oracle.com>
 References: <20260617172534.1740152-1-jane.chu@oracle.com>
@@ -68,105 +68,177 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
  phishscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0
  lowpriorityscore=0 adultscore=0 spamscore=0 classifier=spam adjust=0
  reason=mlx scancount=1 engine=8.19.0-2606150000 definitions=main-2606170167
-X-Authority-Analysis: v=2.4 cv=I8VVgtgg c=1 sm=1 tr=0 ts=6a32d8b4 b=1 cx=c_pps
+X-Authority-Analysis: v=2.4 cv=I8VVgtgg c=1 sm=1 tr=0 ts=6a32d8b8 b=1 cx=c_pps
  a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
  a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=7Gl3-_t3PgB9XO-mQDs3:22 a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8
- a=FRHgpwYkufxqq0dH4jgA:9 a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22
- cc=ntf awl=host:12312
-X-Proofpoint-GUID: j23aEEVfp7e5rJ6HrmdclfWpIL4KwnkK
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE3MDE2OCBTYWx0ZWRfX3x0t1wV30z5R
- Lj9AFYRoMKgo+U1nr7n7g0b1HcjdnorYBd/DilCQuNw1xwaTS/eQE3K5p3aKl0QxfqO4p4aGiV6
- E18io8rwrhek+dnaGEAKbWknReZwHZwexIfhwusQDF40+p2ROUiClk8nqN/OGlCZg1aFkC+jIRf
- yjzOeEb6KqEZXebgNQm+rc+A2bW1VGjvF+h6V6kYlx6dLOuFevgs1F06nTbrJ+0ai4DwZq7YgsJ
- kecMWB6BsMa41/VwMKqEeie/gwV7HBHNFsLxzslU0PelS+jNWz+XWn/yhLw+Tkoc1lP9kWxjKXf
- yqrz6SJT4btFkZlbPegfwoeI29/TRCI5GhJgPjsRCF8QAB8xeIY1x1WzmBrARcAW6xBK82ERMDI
- TeST/T/OXpJ5RH8TNUsfgqSo99OqB9wWzHJ8nyXpLeHBDxADocYn/ZkK/UUgAeRHxYd6Yyuhztx
- 9qaYO6CN3jHY0qqEbqCz3KgNgawH8SNcVZtFCtTQ=
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE3MDE2OCBTYWx0ZWRfX6cR4pX/6SkdK
- bzWdPkpbFGxGWP8d0yBNDNMZ7FKqXKMjvlC//OfHl5Hutm4MN0reMR5A+neXEPS258IYQ8MjUx8
- koHHsbcm0C7Unvo9BjwPiKu6sjTeGuyjr02mOlptn3EQgBUQMI8r
-X-Proofpoint-ORIG-GUID: j23aEEVfp7e5rJ6HrmdclfWpIL4KwnkK
+ a=7Gl3-_t3PgB9XO-mQDs3:22 a=yPCof4ZbAAAA:8 a=6hqxnK0FYYJkgnx9CnEA:9
+ a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf awl=host:12312
+X-Proofpoint-GUID: c6fJcCKQPcH4ykaQHO81XkY-RL7sM08D
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE3MDE2OCBTYWx0ZWRfX4YV2MEW3kFCl
+ X9uiFQ5e7AJpE56y2TdmL8weakmf60nGsdkEu2N/cMyRWTPhWwJC4ja9He3WgHPMR2NgA+WY0vs
+ GTCNfCylWnWm2japP+xlb2Anaj3588k/+v8oRO8gWkD4hKWfXgFXxktUD/VVuVUNsCPhziywj26
+ 7K9MlBvCNI4BoxKpgrpbXfvWeUk6rszXPCs3hAYef4DVcnE15EiSYXD0mFzqLNpvkfY6RdS73xr
+ oh6PgT9pIBzpwy+XvE6E3ijyLUr0KgWNsTpZnf+U/s+9dOhgBKIyjon8ypKyvj1t2ZVCp9RdJ7L
+ X5X9wRlAfVqtCuSMINKPlX+B6fzk7F3Bg6axZBZznjVdC/4ow3ATvr120vsWbna/bAOA5eYFBhx
+ Tkaq4rD8TI1coVHNQbjzUS1NY9dm/+UQ3AUuRMTDX5puhOii9kAQOahEAqHHJ5np0KAJQ40/YQA
+ wOltet/jsx9JSJEdcNYek/vGgTnITd/XBaJH3tI8=
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE3MDE2OCBTYWx0ZWRfX1uuRuX/y+705
+ VNvakMN+FKoDwh0FChBgzjL6YTJFDJdjKbyl+ytlqZXkiH5/eYlrDSg2OqdLH5acKgAMY91Vlpy
+ WLiQnecVAGz8mtChsd39e9L0ihSndw3dxXYNndCVwvGrfw1mdQ2M
+X-Proofpoint-ORIG-GUID: c6fJcCKQPcH4ykaQHO81XkY-RL7sM08D
 
-The problem with filemap_lock_hugetlb_folio() is redundancy, replace
-it with the generic filemap_lock_folio().
+hugetlb_add_to_page_cache() is partly a wrapper of the generic
+__filemap_add_folio() that takes in PAGE_SIZE granularity index,
+hence make it consistent by taking PAGE_SIZE granularity index
+as well.
 
-Suggested-by: David Hildenbrand <david@kernel.org>
 Signed-off-by: Jane Chu <jane.chu@oracle.com>
 ---
- fs/hugetlbfs/inode.c    |  3 +--
- include/linux/hugetlb.h | 12 ------------
- mm/hugetlb.c            |  4 ++--
- 3 files changed, 3 insertions(+), 16 deletions(-)
+ fs/hugetlbfs/inode.c | 13 ++++++++-----
+ mm/hugetlb.c         | 18 +++++++++---------
+ mm/memfd.c           |  2 +-
+ 3 files changed, 18 insertions(+), 15 deletions(-)
 
 diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
-index 02cb265a580e..6c883478f7e7 100644
+index 6c883478f7e7..0b49a79efb08 100644
 --- a/fs/hugetlbfs/inode.c
 +++ b/fs/hugetlbfs/inode.c
-@@ -518,10 +518,9 @@ static void hugetlbfs_zero_partial_page(struct hstate *h,
- 					loff_t start,
- 					loff_t end)
- {
--	pgoff_t idx = start >> huge_page_shift(h);
- 	struct folio *folio;
+@@ -599,7 +599,7 @@ static long hugetlbfs_fallocate(struct file *file, int mode, loff_t offset,
+ 	struct mm_struct *mm = current->mm;
+ 	loff_t hpage_size = huge_page_size(h);
+ 	unsigned long hpage_shift = huge_page_shift(h);
+-	pgoff_t start, index, end;
++	pgoff_t start, idx, end;
+ 	int error;
+ 	u32 hash;
  
--	folio = filemap_lock_hugetlb_folio(h, mapping, idx);
-+	folio = filemap_lock_folio(mapping, start);
- 	if (IS_ERR(folio))
- 		return;
+@@ -639,7 +639,9 @@ static long hugetlbfs_fallocate(struct file *file, int mode, loff_t offset,
+ 	vm_flags_init(&pseudo_vma, VM_HUGETLB | VM_MAYSHARE | VM_SHARED);
+ 	pseudo_vma.vm_file = file;
  
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index cae5cdd3ea00..e78d0f706681 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -824,12 +824,6 @@ static inline unsigned int blocks_per_huge_page(struct hstate *h)
- 	return huge_page_size(h) / 512;
- }
+-	for (index = start; index < end; index++) {
++	for (idx = start; idx < end; idx++) {
++		pgoff_t index = idx << huge_page_order(h);
++
+ 		/*
+ 		 * This is supposed to be the vaddr where the page is being
+ 		 * faulted in, but we have no vaddr here.
+@@ -659,14 +661,14 @@ static long hugetlbfs_fallocate(struct file *file, int mode, loff_t offset,
+ 		}
  
--static inline struct folio *filemap_lock_hugetlb_folio(struct hstate *h,
--				struct address_space *mapping, pgoff_t idx)
--{
--	return filemap_lock_folio(mapping, idx << huge_page_order(h));
--}
--
- #include <asm/hugetlb.h>
+ 		/* addr is the offset within the file (zero based) */
+-		addr = index * hpage_size;
++		addr = idx * hpage_size;
  
- #ifndef is_hugepage_only_range
-@@ -1096,12 +1090,6 @@ static inline struct hugepage_subpool *hugetlb_folio_subpool(struct folio *folio
- 	return NULL;
- }
+ 		/* mutex taken here, fault path and hole punch */
+-		hash = hugetlb_fault_mutex_hash(mapping, index << huge_page_order(h));
++		hash = hugetlb_fault_mutex_hash(mapping, index);
+ 		mutex_lock(&hugetlb_fault_mutex_table[hash]);
  
--static inline struct folio *filemap_lock_hugetlb_folio(struct hstate *h,
--				struct address_space *mapping, pgoff_t idx)
--{
--	return NULL;
--}
--
- static inline int isolate_or_dissolve_huge_folio(struct folio *folio,
- 						struct list_head *list)
- {
+ 		/* See if already present in mapping to avoid alloc/free */
+-		folio = filemap_get_folio(mapping, index << huge_page_order(h));
++		folio = filemap_get_folio(mapping, index);
+ 		if (!IS_ERR(folio)) {
+ 			folio_put(folio);
+ 			mutex_unlock(&hugetlb_fault_mutex_table[hash]);
+@@ -690,6 +692,7 @@ static long hugetlbfs_fallocate(struct file *file, int mode, loff_t offset,
+ 		folio_zero_user(folio, addr);
+ 		__folio_mark_uptodate(folio);
+ 		error = hugetlb_add_to_page_cache(folio, mapping, index);
++
+ 		if (unlikely(error)) {
+ 			restore_reserve_on_error(h, &pseudo_vma, addr, folio);
+ 			folio_put(folio);
 diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index ecd1d1322fda..5484e78fe72e 100644
+index 5484e78fe72e..b41e7b8df094 100644
 --- a/mm/hugetlb.c
 +++ b/mm/hugetlb.c
-@@ -5715,7 +5715,7 @@ static vm_fault_t hugetlb_no_page(struct address_space *mapping,
- 	 * before we get page_table_lock.
- 	 */
- 	new_folio = false;
--	folio = filemap_lock_hugetlb_folio(h, mapping, idx);
-+	folio = filemap_lock_folio(mapping, vmf->pgoff);
- 	if (IS_ERR(folio)) {
- 		size = i_size_read(mapping->host) >> PAGE_SHIFT;
- 		if (vmf->pgoff >= size)
+@@ -5621,15 +5621,14 @@ bool hugetlbfs_pagecache_present(struct hstate *h,
+ }
+ 
+ int hugetlb_add_to_page_cache(struct folio *folio, struct address_space *mapping,
+-			   pgoff_t idx)
++			   pgoff_t index)
+ {
+ 	struct inode *inode = mapping->host;
+ 	struct hstate *h = hstate_inode(inode);
+ 	int err;
+ 
+-	idx <<= huge_page_order(h);
+ 	__folio_set_locked(folio);
+-	err = __filemap_add_folio(mapping, folio, idx, GFP_KERNEL, NULL);
++	err = __filemap_add_folio(mapping, folio, index, GFP_KERNEL, NULL);
+ 
+ 	if (unlikely(err)) {
+ 		__folio_clear_locked(folio);
+@@ -5696,7 +5695,6 @@ static vm_fault_t hugetlb_no_page(struct address_space *mapping,
+ 	struct folio *folio;
+ 	unsigned long size;
+ 	pte_t new_pte;
+-	pgoff_t idx = vmf->pgoff >> huge_page_order(h);
+ 
+ 	/*
+ 	 * Currently, we are forced to kill the process in the event the
+@@ -5779,7 +5777,8 @@ static vm_fault_t hugetlb_no_page(struct address_space *mapping,
+ 		new_folio = true;
+ 
+ 		if (vma->vm_flags & VM_MAYSHARE) {
+-			int err = hugetlb_add_to_page_cache(folio, mapping, idx);
++			int err = hugetlb_add_to_page_cache(folio, mapping, vmf->pgoff);
++
+ 			if (err) {
+ 				/*
+ 				 * err can't be -EEXIST which implies someone
+@@ -6170,7 +6169,8 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
+ 	bool wp_enabled = (flags & MFILL_ATOMIC_WP);
+ 	struct hstate *h = hstate_vma(dst_vma);
+ 	struct address_space *mapping = dst_vma->vm_file->f_mapping;
+-	pgoff_t idx = vma_hugecache_offset(h, dst_vma, dst_addr);
++	pgoff_t index = linear_page_index(dst_vma, dst_addr);
++
+ 	unsigned long size = huge_page_size(h);
+ 	int vm_shared = dst_vma->vm_flags & VM_SHARED;
+ 	pte_t _dst_pte;
 @@ -6201,7 +6201,7 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
  
  	if (is_continue) {
  		ret = -EFAULT;
--		folio = filemap_lock_hugetlb_folio(h, mapping, idx);
-+		folio = filemap_lock_folio(mapping, idx << huge_page_order(h));
+-		folio = filemap_lock_folio(mapping, idx << huge_page_order(h));
++		folio = filemap_lock_folio(mapping, index);
  		if (IS_ERR(folio))
  			goto out;
  		folio_in_pagecache = true;
+@@ -6297,7 +6297,7 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
+ 	/* Add shared, newly allocated pages to the page cache. */
+ 	if (vm_shared && !is_continue) {
+ 		ret = -EFAULT;
+-		if (idx >= (i_size_read(mapping->host) >> huge_page_shift(h)))
++		if (index >= (i_size_read(mapping->host) >> PAGE_SHIFT))
+ 			goto out_release_nounlock;
+ 
+ 		/*
+@@ -6306,7 +6306,7 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
+ 		 * hugetlb_fault_mutex_table that here must be hold by
+ 		 * the caller.
+ 		 */
+-		ret = hugetlb_add_to_page_cache(folio, mapping, idx);
++		ret = hugetlb_add_to_page_cache(folio, mapping, index);
+ 		if (ret)
+ 			goto out_release_nounlock;
+ 		folio_in_pagecache = true;
+diff --git a/mm/memfd.c b/mm/memfd.c
+index b0ec0b12b98d..0b5e8f111b39 100644
+--- a/mm/memfd.c
++++ b/mm/memfd.c
+@@ -122,7 +122,7 @@ struct folio *memfd_alloc_folio(struct file *memfd, pgoff_t index)
+ 
+ 			err = hugetlb_add_to_page_cache(folio,
+ 							memfd->f_mapping,
+-							idx);
++							index);
+ 
+ 			mutex_unlock(&hugetlb_fault_mutex_table[hash]);
+ 
 -- 
 2.43.5
 
