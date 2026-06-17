@@ -1,209 +1,225 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2504F3AFCFA;
-	Wed, 17 Jun 2026 07:10:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3810E38398F;
+	Wed, 17 Jun 2026 08:14:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781680212; cv=none; b=jJk734fS6sBwnQmWjgYOLOjDx114q4kM9Cn8fuyuDGthxsKyTF1mHjKodsg5PR3cztysI82h9VJdeGe9ZaTMZQuCq+cW27Nz0jW+6MolwhWHPX0+0/+0QjZKpCszWPZwrRN/ZZNPyReERjmsgRzv8V9uTFBHOquQJY14GL6txfg=
+	t=1781684100; cv=none; b=JM3FpMzvpLsxk0brXO6vbrh6/XuicLaYZpgkha2B3EPz1Wiwoeh+Ms0BHfcHDbZBaNJBw+iwpye7iOkGUbHCREb0/0zUrLcChGRlUJaQ6h/5yZJNuOaiypcmGNtFaYQFQfwkyyaVNvRhyjN6oTLjHe2qZu6BBF3R5DTvuSIA4LI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781680212; c=relaxed/simple;
-	bh=1AMQmOsvxPKRYIGTtu+NydFMrlv18fduDf+oecr+L7g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ph5wtfl+AfunwFF2ZFjI0kJoL/NorUhuomC45AemChOOV6MhzD3rthdkCtZltmAvB8X0HvJQW2QSeNJXMNikBS8pz/CB1Bu99v9i9M8olpXnqyxBr0l9QxQd5JuHqgt4nzxSGmJyJ8RkwJc134zfhdKbqENrvdH6hAAmFpSayTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Fgn61NTz; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Fgn61NTz"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65GLn4Rr2895326;
-	Wed, 17 Jun 2026 07:09:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=XYe48FXtGS7x+UkZI1CFOAhBXOK6xA
-	ri4I08muqQyk0=; b=Fgn61NTz6UUL7y3O0pToliAEkaK+Tawvq9A+fnWT7HjxiO
-	rX9MyNOzpRh0Pz1j9RUyheov4WluyBTMf4yxOyckmpiX90ISUyQQYx/j+KBFdSKC
-	GU8/zmtcYWiDxwjtyxJi5QVf/jXK50AqaE8nsvQG78UV01riwXukz97SR7/aGS/S
-	q698Q2yHMCyk1L2mOVeHOynymPpKl98igr+DLQOqUj2WNtCEj0z0hXTD4YOAVyL4
-	54fAVn5rDleGOjIkeCRTxa/NFmkzBmB2ISUKHCYkXMdzw8kReNUgUo9oebIXwsJD
-	mnGzdGKsQcDVIP0L9dkIEtxiAS1FVgvH7tQHxeOQ==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4euequ1p3n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Jun 2026 07:09:39 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65H74d7S032425;
-	Wed, 17 Jun 2026 07:09:38 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4eudvaa06y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Jun 2026 07:09:38 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65H79bFs49414440
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 17 Jun 2026 07:09:37 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1233020040;
-	Wed, 17 Jun 2026 07:09:37 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AED1620043;
-	Wed, 17 Jun 2026 07:09:31 +0000 (GMT)
-Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.39.28.216])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Wed, 17 Jun 2026 07:09:31 +0000 (GMT)
-Date: Wed, 17 Jun 2026 12:39:28 +0530
-From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-To: Daniel Gomez <da.gomez@kernel.org>
-Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        djwong@kernel.org, john.g.garry@oracle.com, willy@infradead.org,
-        hch@lst.de, ritesh.list@gmail.com, jack@suse.cz,
-        Luis Chamberlain <mcgrof@kernel.org>, dgc@kernel.org, tytso@mit.edu,
-        p.raghav@samsung.com, andres@anarazel.de, brauner@kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        pankaj.raghav@linux.dev, Daniel Gomez <da.gomez@samsung.com>
-Subject: Re: [RFC PATCH v2 0/5] Add buffered write-through support to iomap &
- xfs
-Message-ID: <ajJIKK-pNudXtpMS@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
-References: <cover.1775658795.git.ojaswin@linux.ibm.com>
- <d5d99db2-9d34-4caf-bcc8-c4a3af561901@kernel.org>
- <agQPtTx2EXHr10Nn@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
- <ah24DlQobLjjDTGt@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
- <bdfdbd6b-81e0-49e3-a02f-2dc75727a71b@kernel.org>
+	s=arc-20240116; t=1781684100; c=relaxed/simple;
+	bh=gHLr0yUQWXCjc6ij5t2yGMlyJqcpS5UENXMyyRYlIQ4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cH7LNl3BFXiWbdAEvtrnu19pbtaRb8IPWwKoM+QG+/uSoXvZ4L42DcbZZrUQM+FGDCBQMHtIJJfoDS8bSf6qN4hdtSyPNHvHF41bMVU/Sb8lwi0nKzyZxbR0e6nRDpd5EpDcf/NfaWKtjkUSyV9v0Pf4CmZE/S/3KF4NPrmeCY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.198])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4ggGpt5dYvzYQttf;
+	Wed, 17 Jun 2026 16:14:14 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id 0291E406D0;
+	Wed, 17 Jun 2026 16:14:45 +0800 (CST)
+Received: from [10.174.178.253] (unknown [10.174.178.253])
+	by APP1 (Coremail) with SMTP id cCh0CgAHCj9wVzJqaCFnCA--.15010S3;
+	Wed, 17 Jun 2026 16:14:42 +0800 (CST)
+Message-ID: <16cccb83-cdad-4113-8182-e8ea9e3049a2@huaweicloud.com>
+Date: Wed, 17 Jun 2026 16:14:40 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bdfdbd6b-81e0-49e3-a02f-2dc75727a71b@kernel.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE3MDA2MiBTYWx0ZWRfX/7m7W/uw9PI1
- OVmW8NGg0/6VrzlRHWamFIww74OfS1DqI47YRP4npQ4VC8KWo+NNoPXx3XSWVltqbOwK5IY12hp
- 12oijk52KC/4cn0497JXiAJLE7HA5R4=
-X-Proofpoint-ORIG-GUID: FTv06Lx3gRkmq5lUbvea8RPEfx3p8Qen
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE3MDA2MiBTYWx0ZWRfX49nhjzbA6mOJ
- o7wu2aMC+fQoDiGqfeEx5JBByLXcve3v8I++zv5fLxZ+MEWyTmkp1N2NL/gEKpe0+BW4bsrS1/e
- /zGdhkOcMU6K1ehuyyh3MINKjEt7o/9Jpifs9M2U8bY7w2l5ZQgcjACJGw8jvV4BEqx/gaZ7KaA
- cKAP/PPvwArZq965Wlsead16iVzqsjQUmOx/hxjjv6LiNVJH9HiqNhDgMDyZ5tsFGu9prNFKUvx
- 1+8HwsAglwjQYacHQC/lZwT63x5IBpB0HoWZxDjxofVIGjO+wrJofwm59fBKUEn+Yu4btyS4my8
- ZbaMgRIHPbQJYWxpeRVRdtkPO2h6hXqMTFUWTKBSE0rRR8w5xYfnYslWJhVGMM3aRjj8Zy3Tu9T
- Qm/0p0TKRszc/AnVMxEZ+d6qiBRM2A0IY4PNaddoa8U5fTgtf8zn46qj9z9U7JBQ+DvmpK0GuD8
- NkrQfhIk577on62TPjA==
-X-Proofpoint-GUID: IFVLhdqCq6mqL5VWJ-Ne6GKnwYBxvYdT
-X-Authority-Analysis: v=2.4 cv=L9gtheT8 c=1 sm=1 tr=0 ts=6a324834 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=kj9zAlcOel0A:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=zrfNUkBl4axGHCdo8dAA:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-16_05,2026-06-16_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0 malwarescore=0 clxscore=1015 adultscore=0
- phishscore=0 lowpriorityscore=0 suspectscore=0 priorityscore=1501 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606170062
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 14/23] ext4: implement partial block zero range path
+ using iomap
+To: Jan Kara <jack@suse.cz>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
+ libaokun@linux.alibaba.com, ojaswin@linux.ibm.com, ritesh.list@gmail.com,
+ djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
+ yizhang089@gmail.com, yangerkun@huawei.com, yukuai@fnnas.com,
+ Brian Foster <bfoster@redhat.com>
+References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
+ <20260511072344.191271-15-yi.zhang@huaweicloud.com>
+ <c2q54d6u724xctkzwm6x7sbmg5cpvcackfz3toc47qts6iaj77@ci2czn4fqjik>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <c2q54d6u724xctkzwm6x7sbmg5cpvcackfz3toc47qts6iaj77@ci2czn4fqjik>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:cCh0CgAHCj9wVzJqaCFnCA--.15010S3
+X-Coremail-Antispam: 1UD129KBjvJXoW3GFWDZFykuw4fJw18tFWrKrg_yoWxJFWUpF
+	WkKF15Kr4kXryxuw4fJrZ2qr1Yy3s3tr47WryfGr1Yv3s09FyxKFW7KayF9F1UJw4xGr12
+	vF4jvry7GF1DAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
+	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1
+	aFAJUUUUU==
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-On Tue, Jun 16, 2026 at 03:57:21PM +0200, Daniel Gomez wrote:
-> On 01/06/2026 18.49, Ojaswin Mujoo wrote:
-> > On Wed, May 13, 2026 at 11:14:21AM +0530, Ojaswin Mujoo wrote:
-> >> On Mon, May 04, 2026 at 09:54:49AM +0200, Daniel Gomez wrote:
-> >>> On 08/04/2026 20.45, Ojaswin Mujoo wrote:
-> > diff --git a/ltp/fsx.c b/ltp/fsx.c
-> > index 720bca83..1c76634b 100644
-> > --- a/ltp/fsx.c
-> > +++ b/ltp/fsx.c
-> > @@ -2077,16 +2077,34 @@ test_dontcache_io(void)
-> >         return 1;
-> >  }
-> > 
-> > +/*
-> > + * Use a temporary file to test RWF_WRITETHROUGH so as to not modify the
-> > + * original. This is so that fsx expected contents and the actual contents
-> > + * of the original file don't go out of sync
-> > + */
-> >  int
-> >  test_writethrough_io(void)
-> >  {
-> >         char buf[4096];
-> > +       char tmpname[PATH_MAX];
-> > +       int tmp_fd;
-> >         struct iovec iov = { .iov_base = buf, .iov_len = sizeof(buf) };
-> >         int ret, e;
-> > 
-> > +       snprintf(tmpname, sizeof(tmpname), "%s.fsx.XXXXXX", fname);
-> > +
-> > +       tmp_fd = mkstemp(tmpname);
-> > +       if (fd < 0) {
-> > +               perror("test_writethrough_io: mkstemp() failed\n");
-> > +               exit(132);
-> > +       }
-> > +
-> >         memset(buf, '\0', sizeof(buf));
-> > -       ret = pwritev2(fd, &iov, 1, 0, RWF_WRITETHROUGH);
-> > +       ret = pwritev2(tmp_fd, &iov, 1, 0, RWF_WRITETHROUGH);
-> >         e = ret < 0 ? errno : 0;
-> > +
-> > +       close(tmp_fd);
-> > +
-> >         if (e == EOPNOTSUPP) {
-> >                 if (!quiet)
-> >                         fprintf(stderr,
-> > 
+On 6/16/2026 8:28 PM, Jan Kara wrote:
+> On Mon 11-05-26 15:23:34, Zhang Yi wrote:
+>> From: Zhang Yi <yi.zhang@huawei.com>
+>>
+>> Introduce a new iomap_ops instance, ext4_iomap_zero_ops, along with
+>> ext4_iomap_block_zero_range() to implement block zeroing via the iomap
+>> infrastructure for ext4.
+>>
+>> ext4_iomap_block_zero_range() calls iomap_zero_range() with
+>> ext4_iomap_zero_begin() as the callback. The callback locates and zeros
+>> out either a mapped partial block or a dirty, unwritten partial block.
+>>
+>> Important constraints:
+>>
+>> Zeroing out under an active journal handle can cause deadlock, because
+>> the order of acquiring the folio lock and starting a handle is
+>> inconsistent with the iomap writeback path.
+>>
+>> Therefore, ext4_iomap_block_zero_range():
+>> - Must NOT be called under an active handle.
+>> - Cannot rely on data=ordered mode to ensure zeroed data persistence
+>>   before updating i_disksize (for the cases of post-EOF append write,
+>>   post-EOF fallocate, and truncate up). In subsequent patches, we will
+>>   address this by synchronizing commit I/O but doesn't waiting for
+>>   completion, and updating i_disksize to i_size only after the zeroed
+>>   data has been written back.
+>>
+>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+>> ---
+>>  fs/ext4/inode.c | 92 +++++++++++++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 92 insertions(+)
+>>
+>> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+>> index c6fe42d012fc..e0dae2501292 100644
+>> --- a/fs/ext4/inode.c
+>> +++ b/fs/ext4/inode.c
+>> @@ -4101,6 +4101,51 @@ static int ext4_iomap_buffered_da_write_end(struct inode *inode, loff_t offset,
+>>  	return 0;
+>>  }
+>>  
+>> +static int ext4_iomap_zero_begin(struct inode *inode,
+>> +		loff_t offset, loff_t length, unsigned int flags,
+>> +		struct iomap *iomap, struct iomap *srcmap)
+>> +{
+>> +	struct iomap_iter *iter = container_of(iomap, struct iomap_iter, iomap);
 > 
+> This looks like a layering violation to me. I don't think you can safely
+> assume the iomap you're passed is a part of iomap_iter...
 > 
-> I think this is missing:
+>> +	struct ext4_map_blocks map;
+>> +	u8 blkbits = inode->i_blkbits;
+>> +	unsigned int iomap_flags = 0;
+>> +	int ret;
+>> +
+>> +	ret = ext4_emergency_state(inode->i_sb);
+>> +	if (unlikely(ret))
+>> +		return ret;
+>> +
+>> +	if (WARN_ON_ONCE(!(flags & IOMAP_ZERO)))
+>> +		return -EINVAL;
+>> +
+>> +	ret = ext4_iomap_map_blocks(inode, offset, length, NULL, &map);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	/*
+>> +	 * Look up dirty folios for unwritten mappings within EOF. Providing
+>> +	 * this bypasses the flush iomap uses to trigger extent conversion
+>> +	 * when unwritten mappings have dirty pagecache in need of zeroing.
+>> +	 */
+>> +	if (map.m_flags & EXT4_MAP_UNWRITTEN) {
+>> +		loff_t start = ((loff_t)map.m_lblk) << blkbits;
+>> +		loff_t end = ((loff_t)map.m_lblk + map.m_len) << blkbits;
+>> +
+>> +		iomap_fill_dirty_folios(iter, &start, end, &iomap_flags);
+>> +		if ((start >> blkbits) < map.m_lblk + map.m_len)
+>> +			map.m_len = (start >> blkbits) - map.m_lblk;
+>> +	}
 > 
-> @@ -2158,12 +2175,6 @@ test_writethrough_io(void)
->                 return 0;
->         }
-> 
-> -       if (ftruncate(fd, file_size) != 0) {
-> -               perror("test_writethrough_io: failed to ftruncate to 0\n");
-> -               exit(132);
-> -       }
-> -
-> -
-> 
-> The fix works for me after a stress loop test on generic/457.
+> ... and you need access to iter only for this which seems to be really a
+> hack that's trying to outsmart the iomap code. I have to admit I don't
+> fully understand what you are trying to achieve here. Are you trying to
+> avoid flushing of the range that will be zeroed out?
 
-Awesome! and yes since we use a different file now, we can remove the
-ftruncate() call.
+This logic is copied from the XFS and iomap infrastructure. Its primary
+purpose is to optimize the zeroing operations on dirty written extents.
+It was introduced by Brian in [1].
+
+The history as I understand it: originally, the iomap infrastructure
+could not zero dirty unwritten extents during zero range processing,
+which led to stale data exposure. XFS had to flush dirty ranges itself
+before zeroing — a workaround that was not generic.
+
+In c5c810b94cf ("iomap: fix handling of dirty folios over unwritten
+extents"), Brian added an unconditional flush in the iomap
+infrastructure, ensuring that by the time zeroing runs the extent has
+already been converted to written so the zero can proceed correctly.
+However, this flush was too heavy and introduced noticeable performance
+overhead.
+
+This was then optimized in 7d9b474ee4cc3 ("iomap: make zero range flush
+conditional on unwritten mappings"), which restricts flushing to only
+dirty pagecache over unwritten or hole mappings.
+
+Brian later proposed a different approach: rather than relying on flush
+to convert the extent type, find dirty folios ahead of the zero range
+and zero the dirty unwritten extents directly. In [1] he added this
+lookup logic. The filesystem now supplies a folio batch (a collection of
+dirty folios) via the iomap begin callback, and zero range iterates over
+these dirty folios to perform zeroing. Clean regions not covered by the
+batch are simply skipped. This entirely eliminates the need to flush.
+
+[1] https://lore.kernel.org/linux-xfs/20251003134642.604736-1-bfoster@redhat.com/
+
+If I understand correctly, the current approach is a compromise, and
+Brian is still working on this. Perhaps ext4 and XFS could work together
+on improvements in the future?
 
 > 
-> > 
-> > Im unable to replicate the 415 failure, but this one is strange because it
-> > doesn't involve any writethrough IO. In you previous runs have you seen
-> > this be flaky?
+>> +	ret = iomap_zero_range(inode, from, length, did_zero,
+>> +			       &ext4_iomap_zero_ops, &ext4_iomap_write_ops,
+>> +			       NULL);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	/*
+>> +	 * TODO: The iomap does not distinguish between different types of
+>> +	 * zeroing and always sets zero_written if a zeroing operation is
+>> +	 * performed, which may result in unnecessary order operations.
+>> +	 */
 > 
-> I couldn't confirm back then, so I think we can ignore it. Also, unrelated.
+> Is this still true after your fix to did_zero handling?
 
-Okay.
+Yeah. Currently, iomap_zero_range() can only report whether a zeroing
+operation has occurred through did_zero parameter, but it cannot
+distinguish whether the zeroed range is a written extent that already
+exists on disk. That is, even if the zeroing is performed on a delalloc
+extent, did_zero will still return true.
+
+Thanks,
+Yi.
 
 > 
-> > 
-> > Admittedly, I've not yet started thorough testing since this is in early
-> > RFC and the design is still getting finalized but I appriciate the help
-> > in testing this.
+>> +	if (did_zero && zero_written)
+>> +		*zero_written = *did_zero;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>  /*
+>>   * Zeros out a mapping of length 'length' starting from file offset
+>>   * 'from'.  The range to be zero'd must be contained with in one block.
 > 
-> 
-> No problem. IMHO, testing makes a design more robust, once the path is
-> agreed on. That said, do you think the path needs changing? Reading LWN
-> and the patch series threads, I don't see any blocker. You can cc me for
-> the next iteration and I'll follow up with more testing.
+> 								Honza
 
-Yes definitely and really appreciate your help in testing this. As for
-the design, the current design suffer when many writers are writing to
-the same file, because the inode lock critical section is increased. So
-I'm trying out a few optimizations that will lead to some non-trivial
-design changes (like deferring the IO to outside the inode lock). 
-
-I'm in process of preparing and benchmarking the new design and would
-hopefully post it soon. I'll keep you in loop, thanks.
-
-Regards,
-ojaswin
