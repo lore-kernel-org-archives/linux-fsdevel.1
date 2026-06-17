@@ -1,152 +1,224 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C683033DE;
-	Wed, 17 Jun 2026 17:27:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAD333FE02
+	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 17:33:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781717262; cv=none; b=fs0hLGh+EJXSEz4YffUwFEQItjHy5vo7R23K9IOIe0Rw3PAdJ0G6B9Ks7UU/l0uhIos0P8V0xeigBNEdJbdx+2C6DIBmwgjIzrH6goQb58050AVnDdCaJxJ9bNE7HW4VEe9YlKBy3oDVP9Z6jzIAQ9ZHlX9K22bCW0gGfiNKm+k=
+	t=1781717609; cv=none; b=mItLTHdXiaqbFu1AnAiXfhVVZwE5SJ3nA43m0sZv2XfcToE55zqM38bmNmNcV+dj7vBTRULOy4c6MJea0kszQQQvqb25Ph03psyJsQJQJC1COXoQ9W7CfZ7IMAscRki7NpCaRTD/pul6FG6cS1JiBq1Ib9NHZPMMqZaAdhZM7t4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781717262; c=relaxed/simple;
-	bh=Yy95E/nFvLqIM411F3AtlmedWwmD46czselFYjCS0Vc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kST9AfltwKXTn3eQUqL0dtTZowqfq27d/NpIWJzz/YQDZ9bAaKUjcLA+QbwN9+HlR6fLuLO3tlAJzBbAYOuFMirEc/jaJgRJacToQLoU4JOjxyeykAWO3MikR3O6QsZ9PhC8Fpb95wjhYXGcOhBiWEu+lWfhFOyvqepJ81nV36Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=TkfPSTuX; arc=none smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1781717609; c=relaxed/simple;
+	bh=h89ETQZvBw2kNr99iUQvYv29u38Ukq8M+V8sY4yd9JA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jIpzczf/vtwFVpD07UrS5SzRPiDLHwaMo7legCUFEYCkN5Y3OtSblkzOViPorWK0o3i4PCYVkAopepBDyJJ0w5fE5bHIG4LZ+Hq0uLSu0GAilcW0UqObW69hOk8wQsA1Ee42/6SlDsidWG25sxo8W/Brus0QulzxNaUx/vQ13Tk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=tJOKru/V; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=oaYsEz2O; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=fimltUbF; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=hau50+/i; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="TkfPSTuX"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65HEpTrX2364580;
-	Wed, 17 Jun 2026 17:26:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2025-04-25; bh=QzgVr
-	wBLp8IJXktshUBMWJeuGythVYw1ADhUnzQfp+I=; b=TkfPSTuXbDp6jHJr3ZM8V
-	V2T5jmX/NTroedg/cWYptuRyE+mWJvMwHoMx+0Xal1CN4jiNcX+X1obw+tlFNk0s
-	t/xDAC2HpqotcnJpq69rA6O86iQl9w2YE0XZxHjNIA5bNlIgGppGZ25J+p9bmBsy
-	9TQA3n1qbObwqr1HKmpm4bzEsCShuEvCYRnh8QMrA1wvNzsVxqj+lu5jL5sU3/Ag
-	pOIi6S/PmJpydRA8VxYdHp/6gCGFrMBuBlAOPLGRQBICAl5/UEldFh83vFxZ1bTR
-	NTAsneqjfttwwDZ0mz80PD3nq9ZfgaPaVf1aq+f/WE2/rpltd4GOUjngnHKQFPSC
-	g==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4euegm1bbd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 17 Jun 2026 17:26:23 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 65HHNVP7003778;
-	Wed, 17 Jun 2026 17:26:22 GMT
-Received: from brm-x62-16.us.oracle.com (brm-x62-16.us.oracle.com [10.80.150.37])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4eudvc0wgy-11;
-	Wed, 17 Jun 2026 17:26:22 +0000 (GMT)
-From: Jane Chu <jane.chu@oracle.com>
-To: akpm@linux-foundation.org
-Cc: willy@infradead.org, jack@suse.cz, viro@zeniv.linux.org.uk,
-        brauner@kernel.org, muchun.song@linux.dev, osalvador@suse.de,
-        david@kernel.org, hughd@google.com, baolin.wang@linux.alibaba.com,
-        linmiaohe@huawei.com, nao.horiguchi@gmail.com, lorenzo@kernel.org,
-        rppt@kernel.org, peterx@redhat.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 10/11] hugetlb: drop vma_hugecache_offset() in favor of linear_page_index()
-Date: Wed, 17 Jun 2026 11:25:31 -0600
-Message-ID: <20260617172534.1740152-11-jane.chu@oracle.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20260617172534.1740152-1-jane.chu@oracle.com>
-References: <20260617172534.1740152-1-jane.chu@oracle.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tJOKru/V";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="oaYsEz2O";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="fimltUbF";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="hau50+/i"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E33706C30F;
+	Wed, 17 Jun 2026 17:33:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1781717606; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FFO8j0NeMGyL2grHLlFtQIT6uKWu7PcEuhycY778oFY=;
+	b=tJOKru/Vwxy1/WIXVlm5ijQakkNAvW5Xx1HoZy/f7pR5noVu0LVKKG4LvdJjXRdXVO7FdX
+	uXW/ggrAZQlY2JmKecpbxplCgTTL4mEFrfVOx6XH7LncBi+9ZMNyN04DxpBmRT3mg2rDQa
+	vJg4jzV+4rr6aTllO3dLaBaiFaf/u4U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1781717606;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FFO8j0NeMGyL2grHLlFtQIT6uKWu7PcEuhycY778oFY=;
+	b=oaYsEz2OBZqv0E3Vn04jwrwFL0TVf/SEitnxrcS8oMJ3+l8bYw9jg4VtYT3Dm8F0NeVNd3
+	PQWcW8C64Pq0p5BQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=fimltUbF;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="hau50+/i"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1781717605; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FFO8j0NeMGyL2grHLlFtQIT6uKWu7PcEuhycY778oFY=;
+	b=fimltUbFgr7My4W24+vFaGaZw7dqE575LtMPpAeSyPH7DpyvH3FBBCNSkS7fmr4MLgIVZ5
+	5r9hWkgo4c8sFggFq41JRDa0KNw8lQsS8Wi0QGFgwKM56N0fRktGCxauLJIVi/0mu6l1dC
+	tnEjV8h3+kxb83BcZ6R8yRXHLIbxLjQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1781717605;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FFO8j0NeMGyL2grHLlFtQIT6uKWu7PcEuhycY778oFY=;
+	b=hau50+/itBYgjU5ZvyQybNVrMpLlHmfKFKiqf1ay/Qb5VsxjU5OrcldKUBFJSvBLbSBAPp
+	u/tsiMc9tPSjrOCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D0616779A8;
+	Wed, 17 Jun 2026 17:33:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Ykk6MmXaMmq3WAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 17 Jun 2026 17:33:25 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 725E8A0EC0; Wed, 17 Jun 2026 19:33:21 +0200 (CEST)
+Date: Wed, 17 Jun 2026 19:33:21 +0200
+From: Jan Kara <jack@suse.cz>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Gao Xiang <hsiangkao@linux.alibaba.com>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, Christian Brauner <brauner@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Gao Xiang <xiang@kernel.org>, Song Liu <song@kernel.org>
+Subject: Re: Stacking filesystem deadlocks [was Re: Fanotify (hsm or erofs) /
+ fuse / nbd / ... + write(mmap) deadlock vector followup]
+Message-ID: <xycqm3qrhjg3uplpmozwo7nterl5tnuarghowmh3h3mv3thh6u@apagf4kqlkg6>
+References: <95371379-97e9-4cb4-8358-ec014b765b74@linux.alibaba.com>
+ <CAOQ4uxjh5VYkKLAKxhMsy-ZmrbRrgX4pFgBLFqsDqWMXeiqg3w@mail.gmail.com>
+ <ac05da56-eb2a-4862-b887-8081f249d8ce@linux.alibaba.com>
+ <CAOQ4uxi0yRavUeztRh-Eb8_HvpfmqkpPbWT9JgQhUn7EKXnryw@mail.gmail.com>
+ <e36c9ef5-4cd0-4281-9598-c1bfb8ebfaa0@linux.alibaba.com>
+ <5lz5jq7gzoejbywmh56ayfkdiuqsjd2s5pl5uvlflfxc5lq4rr@thr4hrkw67d2>
+ <64f23c85-2a83-42e4-ba09-c815dcb7c98c@linux.alibaba.com>
+ <CAOQ4uxiaYCt-kkLk=UHML-9bVxqin=5mEAB+uFPVGR7Hq6ppDg@mail.gmail.com>
+ <yguigvx3sapcemq2oudlc6lmiwmxr27zx572oyqocbvefnpt3s@z3oj2pzgdjuj>
+ <CAOQ4uxi2Mx4ZB48DhQJWOvt6UBur3LnrkttgRjo72U4+Cu81iQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-17_02,2026-06-17_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- phishscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0
- lowpriorityscore=0 adultscore=0 spamscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.19.0-2606150000 definitions=main-2606170167
-X-Proofpoint-GUID: _2XpTPAb0pPOlVVX2vqjml7rVmYBfAkf
-X-Proofpoint-ORIG-GUID: _2XpTPAb0pPOlVVX2vqjml7rVmYBfAkf
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE3MDE2OCBTYWx0ZWRfXwYhGeHbVeG0J
- ViHY/88UQDIzz9RfW+U/aJSDz6gNMoMp6kgvt+KTfVfpZVTtW8zHWVbr4fwnSXhBkShiaKOhT0u
- es5prhNVrNdGTeRlwgDlaNp9PcJ6XfrYN3Za+ucQWk8wCbbK7iCpVw2IilHPB83fBck3P2lxeur
- JCMaOb0vc0wEW+GgWSRTMdPcZjpl4BQNCd2YLO0w3uvmI+tS3ss+GzS+y1H/wDxh4FM+NHaZRxY
- rlL/No4TG/lq1cTzcnHCX0WaTbizkMJS1VcwPcRKXVkbzWY23Pam7AQA2qpNOfxPPyNc6k2fUvA
- yPwZ44mc6kvntLrguE3OX4nff/1sDk9KmdPD1hAF89Tg7hVYBupf8aFEt4M9MXht7XghpRAussc
- Hp4z33GTV4UPPUWd1SfCF2eq1FD5dxiuSlT+g8SZ3UN5099gRoyRT2ui7i7g6gToVtlg20lvZ/E
- W4/BrahvJNTFbtv2Hz8eRUzQjdSnuYYR8bxrGa3A=
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE3MDE2OCBTYWx0ZWRfXwxKHnVXHdZyI
- tLYXcyjS+uOD1UgGTcVjmKSlmowo4S+P9wtPWWJ61zn5rKya4e1EEVSxM15hbdgI+oBoyJdih8Q
- pYANUuF9FbcDeGmluYe1kxhbbd9+pxYP4lnHaCRDopPp2jLvPlDH
-X-Authority-Analysis: v=2.4 cv=G4Ys1dk5 c=1 sm=1 tr=0 ts=6a32d8bf b=1 cx=c_pps
- a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
- a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=o5oIOnhZENCTenyL_yNV:22 a=yPCof4ZbAAAA:8 a=g8M0rzeWxNo8AqK0pVkA:9
- a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf awl=host:12312
+In-Reply-To: <CAOQ4uxi2Mx4ZB48DhQJWOvt6UBur3LnrkttgRjo72U4+Cu81iQ@mail.gmail.com>
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.cz:email,suse.cz:dkim]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: E33706C30F
+X-Spam-Score: -4.01
 
-vma_hugecache_offset() converts a hugetlb VMA address into a mapping
-offset in hugepage units. While the helper is small, its name is not very
-clear, and the resulting code is harder to follow than using the common MM
-helper directly.
+On Thu 11-06-26 17:25:56, Amir Goldstein wrote:
+> On Thu, Jun 11, 2026 at 1:32 PM Jan Kara <jack@suse.cz> wrote:
+> > > The rule is that sb_start_write(sb) pushes the sb to the tx stack
+> > > after checking no loops in the stack.
+> > >
+> > > In the common non-stacked case, there are no checks so the push/pop
+> > > should be quite cheap compared to the sb_writers locks.
+> > >
+> > > For the read side I hope that we do not need to track "read transactions"
+> > > in the stack and that it is enough to check the write stack in page faults and
+> > > stacked reads in loop/nbd/backing.
+> >
+> > That's another problem. Reads can create deadlocks as well. If you do
+> > read(imageA_fd, mmap(fsB_fd)) in the setup I've outlined in my previous
+> > email on XFS, you are holding i_rwsem for read for imageA and then doing a
+> > write fault to fsB which translates to a read from imageA which needs
+> > shared i_rwsem for imageA again. If you are lucky, this can pass but if
+> > someone tries to acquire imageA's i_rwsem for write inbetween (and blocks),
+> > your second shared i_rwsem acquisition will block and you have a deadlock.
+> 
+> Yeh we could introduce sb_read(sb) scopes but that would be a bit nasty.
+> The two-fds syscalls (e.g. sendfile()) makes this scoping even more challenging.
 
-Use linear_page_index() instead, with an explicit conversion from
-PAGE_SIZE units to hugepage units at each call site, and remove
-vma_hugecache_offset().
+Well, for stuff like sendfile() or splice we take care not to entangle the
+read and write parts:
+  while there's data:
+    read into pipe
+    write from pipe
 
-Signed-off-by: Jane Chu <jane.chu@oracle.com>
----
- mm/hugetlb.c | 21 +++++++--------------
- 1 file changed, 7 insertions(+), 14 deletions(-)
+So these shouldn't be a problem.
 
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index b41e7b8df094..a677ea774143 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -1001,17 +1001,6 @@ static long region_count(struct resv_map *resv, long f, long t)
- 	return chg;
- }
- 
--/*
-- * Convert the address within this vma to the page offset within
-- * the mapping, huge page units here.
-- */
--static pgoff_t vma_hugecache_offset(struct hstate *h,
--			struct vm_area_struct *vma, unsigned long address)
--{
--	return ((address - vma->vm_start) >> huge_page_shift(h)) +
--			(vma->vm_pgoff >> huge_page_order(h));
--}
--
- /*
-  * Flags for MAP_PRIVATE reservations.  These are stored in the bottom
-  * bits of the reservation map pointer, which are always clear due to
-@@ -2437,7 +2426,9 @@ static long __vma_reservation_common(struct hstate *h,
- 	if (!resv)
- 		return 1;
- 
--	idx = vma_hugecache_offset(h, vma, addr);
-+	idx = linear_page_index(vma, addr);
-+	idx >>= huge_page_order(h);
-+
- 	switch (mode) {
- 	case VMA_NEEDS_RESV:
- 		ret = region_chg(resv, idx, idx + 1, &dummy_out_regions_needed);
-@@ -4693,8 +4684,10 @@ static void hugetlb_vm_op_close(struct vm_area_struct *vma)
- 	if (!resv || !is_vma_resv_set(vma, HPAGE_RESV_OWNER))
- 		return;
- 
--	start = vma_hugecache_offset(h, vma, vma->vm_start);
--	end = vma_hugecache_offset(h, vma, vma->vm_end);
-+	start = linear_page_index(vma, vma->vm_start);
-+	start >>= huge_page_order(h);
-+	end = linear_page_index(vma, vma->vm_end);
-+	end >>= huge_page_order(h);
- 
- 	reserve = (end - start) - region_count(resv, start, end);
- 	hugetlb_cgroup_uncharge_counter(resv, start, end);
+> > > Note that the unscoped kiocb_start_write() in aio/uring will need to be
+> > > extended so that the write transaction scope will cover the io submission
+> > > to cover the page faults in input buffers.
+> > >
+> > > I have no idea about the feasibility of this and how much of the holes
+> > > this actually closes but if looking at the narrow use case of pre-content
+> > > events it might just be enough.
+> >
+> > What looks like the most feasible approach to me is to record in struct
+> > task we are doing a read/write syscall for fsA
+> 
+> read/write_iter could be nested within stacked fs, so we really need a stack
+> of transactions, but this one could be [FILESYSTEM_MAX_STACK_DEPTH]
+> 
+> > and in the page fault
+> > handler once we have the VMA we can check that fsB isn't fsA's ancestor in
+> > the "filesystem dependency graph". Making the check cheap enough should be
+> > doable (we could for example do the loop check traversal only if the
+> > stacking depth of fsB is higher than that of fsA, caching the stacking
+> > depth in the superblock, which would deal with 99.99% cases) but maintaining
+> > the dependency graph will take some work...
+> 
+> My crystal ball tells me we are probably not going to do that :-/
+
+Yeah, it won't be *that* complex and for stuff like reliable system
+hibernation we would need that as well but so far it looks like too much
+effort for too little gain...
+
+> But if we did, it would have been nice to validate that LOOP_CHANGE_FD
+> does not set the backing file of loopA to a file on fsB ;)
+> 
+> If we only wanted to protect the case of pre-content events in erofs
+> backing file (readonly), is there any solution that you see which is less
+> complicated?
+
+Two ideas:
+1) erofs on mmap could issue events to download the all mapped content into
+the underlying image.
+
+2) Just ignore the problem since I don't think it's really a practical
+one. I mean userspace would have to issue a write to fs carrying
+erofs image with buffer mmaped from the mounted erofs. If you have sane
+access policies, apps on erofs shouldn't have write access to the
+underlying filesystem carrying the image. And unpriviledged apps cannot
+trigger freezing of underlying filesystem.
+
+								Honza
 -- 
-2.43.5
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
