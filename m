@@ -1,189 +1,206 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2EF73FB7C7
-	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 12:55:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E39D03FB067;
+	Wed, 17 Jun 2026 12:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781700954; cv=none; b=LYPEyTLkNuCFDWGUvMVA/Z576Hi2U5zzooY+0uV7EY1MF7L//iH33/wpddnw88bu23ab1kjIs65GcHkR6Shk/LEMb63CEoBHNT/TGK2ThNzrUVpMFfsez/6eUUUgZytxqNrmQr/twGcVcWGu/dxTCWr9DvypCD9Mug4imJcKB68=
+	t=1781701100; cv=none; b=ZkwzOpYWV7h/mh5z5wm93VlxBGlqZ4uDrR/8vDzLY65jZ6WSqhrl4GodawikgxclZv+IjXH+KEEzfI6v3xa67o4EmYt7VmvMOcBCF5SEHp9q24QjNPick4XlUHvmx0Cr7bf0NyiPl9G3CcDlTW6JNNXLW2lmHg4ihpASllxblO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781700954; c=relaxed/simple;
-	bh=MDWdZz1ZcgR/JnVyt/p3mlli/IjTCVL6ShE5WQ857A4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SIJhFCzveGD3oELRai+wFCu5q7+hWXvfG2qkNxcS4CHYxssA76UwOYXSi/FeWjo5L0YkBwuldtSxOCxtv+45T+KIKrXIJLC+qMrxBU5HsSwAVAx1CtoveYOUvcFLFsK205MebwPCllsz79t/bo4OfU2FPQkXGkHKugEJNRzAYgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bu+JCcZX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/uOtvmlT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bu+JCcZX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/uOtvmlT; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1781701100; c=relaxed/simple;
+	bh=g2Cvu2SbLot4Ugox82nxLY269fwBYG4brxVVXKrxo48=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VQ1BfXEEWe1R9s8ODAkfrH2JwizJQKcffbjcOUd1swLlQy4+1SWDCUPMvLzKCCAzbhbLzudd41g77rdfwYpM9XsG67tj+aaDNNLwWNC2b8QVyo3shILQktCtGvDUgMkeUi7xsVhQ5gofqbXgHZNLMWPekFRbBIHjOekuQMuiDc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G3VQzose; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bu+JCcZX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/uOtvmlT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bu+JCcZX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/uOtvmlT"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 09EE06BF29;
-	Wed, 17 Jun 2026 12:55:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781700949; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T0IPMxQjEM0ise3eP9qz3leAuvdCJtxWB+waiiHm1JQ=;
-	b=bu+JCcZXlfTy/YDLUVMMvTVwrM/xMhqh82rsqzyy4Z/PsoxZt9fPpHKUuOjrARrrZVsSnW
-	YefDZehDSKiIH5HaCLuusXvIh304YDC4cJHAZ/XoaFr40JPkiyxmtDm5rZmznvIcqUNmec
-	lOM0IjFuoh1EuJhko/q3PO+4SkGsWTM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781700949;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T0IPMxQjEM0ise3eP9qz3leAuvdCJtxWB+waiiHm1JQ=;
-	b=/uOtvmlTvHfSFVPYF2K28WBM2a9L3V0qArVzoCQywaYZdJBRvmAzemRR02oSBlNajZ1LZ+
-	KnbK13LMFIWpAUAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bu+JCcZX;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/uOtvmlT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781700949; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T0IPMxQjEM0ise3eP9qz3leAuvdCJtxWB+waiiHm1JQ=;
-	b=bu+JCcZXlfTy/YDLUVMMvTVwrM/xMhqh82rsqzyy4Z/PsoxZt9fPpHKUuOjrARrrZVsSnW
-	YefDZehDSKiIH5HaCLuusXvIh304YDC4cJHAZ/XoaFr40JPkiyxmtDm5rZmznvIcqUNmec
-	lOM0IjFuoh1EuJhko/q3PO+4SkGsWTM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781700949;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T0IPMxQjEM0ise3eP9qz3leAuvdCJtxWB+waiiHm1JQ=;
-	b=/uOtvmlTvHfSFVPYF2K28WBM2a9L3V0qArVzoCQywaYZdJBRvmAzemRR02oSBlNajZ1LZ+
-	KnbK13LMFIWpAUAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E8CBB779A8;
-	Wed, 17 Jun 2026 12:55:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id tNdoOFSZMmrqPwAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 17 Jun 2026 12:55:48 +0000
-Message-ID: <3e320672-6444-4adf-b0ca-78946dfff496@suse.de>
-Date: Wed, 17 Jun 2026 14:55:48 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G3VQzose"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4472D1F000E9;
+	Wed, 17 Jun 2026 12:58:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781701097;
+	bh=6kkhjZjL73iL5SGgm49lqvbOfAh7vnr1veqEvER01Nk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=G3VQzoseBcEc4ZqnjUIl5dazPAdmqv7vocvgDItW4EH/fCUZCK1d3yK4zzLroA2gb
+	 pUOaT9bhTD3u970CxoWgLfxnyqCF4Y37VhygB0LU1Gfs+JmtJ+DASl6HnJtvongAWB
+	 ehFYqG5mGezcnrDiU/QJNNylFoHvhuMhhChrUW9aKp9z0rZLHO8VsQlaKa7OhNMrDD
+	 S7CLqoLojp6bvkRavTBq6arKO6F8UhAY+hkxtSBMgAnZpn7niR+gl0TTKQSbL328Yn
+	 gKRlBAqhpEojrnPsRtGea5Vs7SuYNGUe1MicyGQaNPKGTsvvj1n50OVDLhotYEhb2P
+	 LVJL/M4K0GSvw==
+Date: Wed, 17 Jun 2026 14:58:09 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	arm-scmi@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	sudeep.holla@kernel.org, james.quinlan@broadcom.com, f.fainelli@gmail.com, 
+	vincent.guittot@linaro.org, etienne.carriere@st.com, peng.fan@oss.nxp.com, 
+	michal.simek@amd.com, d-gole@ti.com, jic23@kernel.org, elif.topuz@arm.com, 
+	lukasz.luba@arm.com, philip.radford@arm.com, souvik.chakravarty@arm.com, 
+	leitao@kernel.org, kas@kernel.org, puranjay@kernel.org, usama.arif@linux.dev, 
+	kernel-team@meta.com
+Subject: Re: [PATCH v4 00/31] Introduce SCMI Telemetry FS support
+Message-ID: <20260617-waten-allabendlich-zueinander-93d4b1367b8c@brauner>
+References: <20260612223802.1337232-1-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/8] namespace-aware configfs
-To: Christian Brauner <brauner@kernel.org>, Hannes Reinecke <hare@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Andreas Hindborg <a.hindborg@kernel.org>,
- linux-fsdevel@vger.kernel.org, linux-nvme@lists.infradead.org
-References: <20260613111437.101763-1-hare@kernel.org>
- <20260617-unsterblich-fortziehen-quietschen-f52ea8f40d9a@brauner>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260617-unsterblich-fortziehen-quietschen-f52ea8f40d9a@brauner>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 09EE06BF29
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email,suse.de:mid]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260612223802.1337232-1-cristian.marussi@arm.com>
 
-On 6/17/26 13:58, Christian Brauner wrote:
->> Open Issues:
->> - I've added a new function 'mnt_clone_direct()' to clone the vfsmount
->>    entry (the original code just did a simple_pin_fs()). Not sure if
->>    that's correct. Christian?
+On Fri, Jun 12, 2026 at 11:37:30PM +0100, Cristian Marussi wrote:
+> Hi all,
 > 
-> I think we can put that issue aside for a second as there are a few
-> bigger design questions.
+> --------------------------------------------------------------------------------
+> [TLDR Summary]
+> This series introduces a new SCMI driver which uses a new Telemetry FS to expose
+> and configure SCMI Telemetry Data Events retrieved from the platform SCMI FW
+> at runtime. The patches carrying the new STLMFS Filesystem support are tagged
+> with 'stlmfs'.
+> --------------------------------------------------------------------------------
 > 
->> - The current cloning mechanism is not really a hierarchy, but rather
->>    always using the default namespace to find registered subsystems.
->>    Meaning you can only call 'register_subsystem()' for the default
->>    namespace. But then one shouldn't call modprobe in a container, so
->>    that's okay I guess.
+> the upcoming SCMI v4.0 specification [0] introduces a new SCMI protocol
+> dedicated to System Telemetry.
 > 
-> I'm not sure I follow what this is trying to say, sorry.
+> In a nutshell, the SCMI Telemetry protocol allows an agent to discover at
+> runtime the set of Telemetry Data Events (DEs) available on a specific
+> platform and provides the means to configure the set of DEs that a user is
+> interested into, while reading them back using the collection method that
+> is deeemed more suitable for the usecase at hand. (...amongst the various
+> possible collection methods allowed by SCMI specification)
 > 
- >> - The original content of the configfs remains visible even from>> 
-  within the container, and the new 'mount' will just overlay that.
+> Without delving into the gory details of the whole SCMI Telemetry protocol
+> let's just say that the SCMI platform/server firmware advertises a number
+> of Telemetry Data Events, each one identified by a 32bit unique ID, and an
+> SCMI agent/client, like Linux, can discover them and read back at will the
+> associated data value in a number of ways.
+> Data collection is mainly intended to happen on demand via shared memory
+> areas exposed by the platform firmware, discovered dynamically via SCMI
+> Telemetry and accessed by Linux on-demand, but some DE can also be reported
+> via SCMI Notifications asynchronous messages or via direct dedicated
+> FastChannels (another kind of SCMI memory based access): all of this
+> underlying mechanism is anyway hidden to the user since it is mediated by
+> the kernel driver which will return the proper data value when queried.
 > 
-> I again fail to understand what precisely this means.
+> Anyway, the set of well-known architected DE IDs defined by the spec is
+> limited to a dozen IDs, which means that the vast majority of DE IDs are
+> customizable per-platform: as a consequence, though, the same ID, say
+> '0x1234', could represent completely different things on different systems.
 > 
-The configuration in /sys/kernel/config will remain accessible from
-the original namespace, but after an 'unshare' call /sys/kernel/config
-will start off empty as a different 'instance' of the filesystem is
-presented.
+> Precise definitions and semantic of such custom Data Event IDs are out of
+> the scope of the SCMI Telemetry specification and of this implementation:
+> they are supposed to be provided using some kind of JSON-like description
+> file that will have to be consumed by a userspace tool which would be
+> finally in charge of making sense of the set of available DEs.
+> 
+> IOW, in turn, this means that even though the DEs enumerated via SCMI come
+> with some sort of topological and qualitative description provided by the
+> protocol (like unit of measurements, name, topology info etc), kernel-wise
+> we CANNOT be completely sure of "what is what" without being fed-back some
+> sort of information about the DEs by the afore mentioned userspace tool.
+> 
+> For these reasons, currently this series does NOT attempt to register any
+> of these DEs with any of the usual in-kernel subsystems (like HWMON, IIO,
+> PERF etc), simply because we cannot be sure which DE is suitable, or even
+> desirable, for a given subsystem. This also means there are NO in-kernel
+> users of these Telemetry data events as of now.
+> 
+> So, while we do not exclude, for the future, to feed/register some of the
+> discovered DEs to/with some of the above mentioned Kernel subsystems, as
+> of now we have ONLY modeled a custom userspace API to make SCMI Telemetry
+> available to userspace tools.
+> 
+> In deciding which kind of interface to expose SCMI Telemetry data to a
+> user, this new SCMI Telemetry driver aims at satisfying 2 main reqs:
+> 
+>  - exposing an FS-based human-readable interface that can be used to
+>    discover, configure and access our Telemetry data directly also from
+>    the shell without special tools
+> 
+>  - exposing alternative machine-friendly, more-performant, binary
+>    interfaces that can be used to avoid the overhead of multiple accesses
+>    to the VFS and that can be more suitable to access with custom tools
+> 
+> In the initial RFC posted a few months ago [1], the above was achieved
+> with a combination of a SysFS interface, for the human-readable side of
+> the story, and a classic chardev/ioctl for the plain binary access.
+> 
+> Since V1, instead, we moved away from this combined approach, especially
+> away from SysFS, for the following reason:
+> 
+>  1. "Abusing SysFS": SysFS is a handy way to expose device related
+>       properties in a common way, using a few common helpers built on
+>       kernfs; this means, though, that unfortunately in our scenario I had
+>       to generate a dummy simple device for EACH SCMI Telemetry DataEvent
+>       that I got to discover at runtime and attach to them, all of the
+>       properties I need.
+>       This by itself seemed to me abusing the SysFS framework, but, even
+>       ignoring this, the impact on the system when we have to deal with
+>       hundreds or tens of thousands of DEs is sensible.
+>       In some test scenario I ended with 50k DE devices and half-a-millon
+>       related property files ... O_o
+> 
+>  2. "SysFS constraints": SysFS usage itself has its well-known constraints
+>       and best practices, like the one-file/one-value rule, and due to the
+>       fact that any virtual file with a complex structure or handling logic
+>       is frowned upon, you can forget about IOCTLs and mmap'ing to provide
+>       a more performant interface within SysFs, which is the reason why,
+>       in the previous RFC, there was an additional alternative chardev
+>       interface.
+>       These latter limitations around the implementation of files with a
+>       more complex semantic (i.e. with a broader set of file_operations)
+>       derive from the underlying KernFS support, so KernFS is equally not
+>       suitable as a building block for our implementation.
+> 
+>  2. "Chardev limitations": Given the nature of the protocol, the hybrid
+>       approach employing character devices was itself problematic: first
+>       of all because there is an upper limit on the number of chardev we
+>       can create, dictated by the range of available minor numbers, and
+>       then because the fact itself to have to maintain 2 completely
+>       different interfaces (FS + chardev) is painful.
+> 
+> As a final remark, please NOTE THAT all of this is supposed to be available
+> in production systems across a number of heterogeneous platforms: for these
+> reasons the easy choice, debugFS, is NOT an option here.
+> 
+> Due to the above reasoning, since V1 we opted for a new approach with the
+> proposed interfaces now based on a full fledged, unified, virtual pseudo
+> filesystem implemented from scratch, so that we can:
+> 
+>  - expose all the DEs property we like as before with SysFS, but without
+>    any of the constraint imposed by the usage of SysFs or kernfs.
+> 
+>  - easily expose additional alternative views of the same set of DEs
+>    using symlinking capabilities (e.g. alternative topological view)
+> 
+>  - additionally expose a few alternative and more performant interfaces
+>    by embedding in that same FS, a few special virtual files:
+> 
+>    + 'control': to issue IOCTLs for quicker discovery and on-demand access
+>    		to data
+>    + 'pipe' [TBD]: to provide a stream of events using a virtual
+>    		   infinite-style file
+>    + 'raw_<N>' [TBD]: to provide direct memory mapped access to the raw
+>    		      SCMI Telemetry data from userspace
 
->>    Ideally I would have the container start off with an empty
->>    /sys/kernel/config to avoid configuration issues. But again I've
->>    no idea how to do that (or if it's even possible).
-> 
-> Shouldn't be a problem to implement this. Just means more work.
-> 
-> So the rough concept in my head would be that configfs is a
-> multi-instance filesystem that remembers the namespaces it was mounted
-> similar to how kernfs allows to be tagged with namespaces. It then only
-> shows/allows registration of subsystems that match the relevant
-> namespace tags.
-> 
-Correct. That was my intention.
+A filsystem driver for telemetry like this is really misguided. I think
+shell access is really not an argument for adding a filesystem into the
+kernel like this. That's just not appropriate justification to push
+thousand and thousands of lines of code into the kernel.
 
-> The challenge I see is that configfs shows subsystems that may be tied
-> to different namespaces.
+You're building completely new infrastructure. The format is whatever it
+is. If you stream it somehow just add a binary that userspace can use to
+consume or translate it. If you need a filesystem interface for
+convenience build it via FUSE on top of whatever streams that data and
+get it ouf of the kernels way.
 
-if with 'namespaces' you mean 'namespace types' then yes. However,
-I _think_ we might get away with just considering the network namespace
-for now.
-Multi-namespace type support will not only be challenging to implement,
-but also I don't have a good use-case for them. The only use-case I have
-so far is for NVMe target, and that is primarily tied to the network
-namespace (if we ignore FC and loopback for the moment).
-So I'd be perfectly happy if we restrict ourselves to network namespaces.
+You also buy into all kinds of really wonky properties. If you split it
+over multiple files you can never get a snapshot of data that is
+consistent if it's across multiple files.
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Telemetry over a filesystem is just not a great idea. If you did it via
+sysfs I really wouldn't care because all because the infrastructure
+already exists and I couldn't be bothered if this grew yet another wart
+but as a separate massive hand-rolled pseudofs, no I'm not seeing it.
