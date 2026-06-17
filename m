@@ -1,123 +1,112 @@
-Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E6B1940B0
-	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 11:36:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B093E9F93
+	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 11:42:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781696197; cv=none; b=F46p1ichGCvT1JY4XxypHbNhYuEZdl9EFf8MX+fc7tVQ1HfFsGrOVnTrbY7cWaGqmxf+hxkSrzWIaHbbAsUoicT18/K0ySdF1JWUMesUk2Idfw53gddfZVT4iHOYRBZfpDxGUdlNbrupjxfzLnzVruC5qw6u7+zEdjNsQNx/QY8=
+	t=1781696580; cv=none; b=f6hSLfuJ9RR/pomkjwQufPw3KTsCapNqyoBy+N6N+rvzsnwasEzg3+7gEUIe6HzwAzdWdZwaG0sIFV/ynPwSvfYkkAoP5pPau1tQSmtaB3azA40jnAFRsyHd/GTPZfG4RrtulenGuArSvlrpEfelk+KmqxQPvgbboONH0IhvNrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781696197; c=relaxed/simple;
-	bh=rOcDjKNM7agwOLTLfbY1xAQ9bt9q2fdtORORxk4X9p0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Gvw5na6TacpkKG5PRQYPNd1rROaK3OMK0/sZNR95J2FLorgwUH+slaNjfWb/BPNZcpFBbT7Lx7t82L7vHBdcaxD/0VEUdaTcjw7kQnK/ZRhXEWxXuMNNbM7TJgxKJ29I7qrMRSCjV3O4XE3wqCQk78V87azD3WiRU3lysYBpj+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DO0PL1lz; arc=none smtp.client-ip=209.85.208.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1781696580; c=relaxed/simple;
+	bh=IGwM/eBfzi3jxrzplcOShTe+PJAIsBp8WpPaiCkQvGM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XxQvf6/MGjoqfrkAoYCz/sd+aySdDEgXWLxKrlQd8EGQpERe09sXUcD21fpd9YXTrRPRb4DHGoha/SaC7jI8v7/s0nm/9FvjRCzn4uJphLNFAdDsRWt6IXyqPx26I0W85Pay32g18KKbMXSRhfcBaHifHQHZ5xmySvNVPyiafaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ion8rDhg; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DO0PL1lz"
-Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-693de2ea19bso963149a12.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 04:36:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781696193; x=1782300993; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UYicJoYFI4w4qF8sCnn+jRXzXN1/GRmTZzaGc7Ox2u4=;
-        b=DO0PL1lz29qKPDyulPg8ifez7mjDclhJ1lmjNppxCX8OOS/xe8hvN1/XIWXHklL92+
-         asFHBAnT3gg97rxzzYW2ejWRkLpCJzpks6rhZVsQExYfsGOyzGby37HsAsWmx0HYU9W0
-         cEEDJIRqd9ybX0myXUevPrxqy4bt5RNU7LW1xsgVrGKCZwMZjDKU50PziLZfsTpjsrYd
-         mINieITCXsvsjwsleB8Bmtiuf51VrdH/VyMW+hgqOf2hRS5MDsSvqKYN3SxTnb7+Ec6w
-         FAQwf5rzp8gRPutt8WH3laCVwbanmd/imcEXAaD4aip6e3BKj4MrW6pB4M6IgjGimmkw
-         Ib+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781696193; x=1782300993;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UYicJoYFI4w4qF8sCnn+jRXzXN1/GRmTZzaGc7Ox2u4=;
-        b=W3J6MrKXnmoaUR3nhkBEYPmTOsQEC/++vFFH82TQAcyzAJ8Vb0+LY3UY+U2743LYqa
-         Xj0wk5yO/tarbfKSfX5P72rj9ziZ2Lh6EmWe6fDN909cDQSi/0P1mjXloH11B6TbHJbn
-         /wHUCpAP0sR+7RPWQfkPgMhs5Pe2/z9YFk48MoyC81F3zXJ4gJrLuWUtQ8WBs0tCWASt
-         9QO/4kSdnKwfFgBke3N7blNmFUnUyeHcs2tlFbsG33n6N4ShflyOV3gy7iHfUQPKbpUn
-         pQ8CPWepnpLWYmGz2oUi4riVRh9erQRW1Ls6UK2sxigmmkOZNh6EdwP+1rAvYYqeak7R
-         Bz1g==
-X-Forwarded-Encrypted: i=1; AFNElJ+o9qVyhWoNXCHaogZm5GuAfw3Os/fVofxi6EmCGopJ9/QddFHX08ULnW/GDYyUu+d3+xXPfxa75nIxad9V@vger.kernel.org
-X-Gm-Message-State: AOJu0YxM3MZKAW/B6TJm3lQtT0Ij6Js/QlwBcAiOkx7d11Gvg7/FiEU6
-	+mzR3JwOnpJLYEzXmHd4JsPuex0/eEY8UjCLhqQtRTAK4l3k2kwdK4b5mIsyRkEtpPxP+iLGzH1
-	lDa8VWVKYKG+O3P/JYQ==
-X-Received: from edea23.prod.google.com ([2002:a05:6402:a197:b0:695:72e1:a5a0])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a50:cbc1:0:b0:68f:9fd9:435a with SMTP id 4fb4d7f45d1cf-69554cac360mr960260a12.17.1781696192851;
- Wed, 17 Jun 2026 04:36:32 -0700 (PDT)
-Date: Wed, 17 Jun 2026 11:36:31 +0000
-In-Reply-To: <20260604-unique-ref-v17-5-7b4c3d2930b9@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ion8rDhg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1781696578;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=VN9WNHTA1ZjmNHefd5fG67Hik0Y72dU4DcgNv+nHzjM=;
+	b=Ion8rDhgoorsQdngvZV+z0BDxag7VWibR7maEsP1HW2ZEW5EE+t7oKOxRO0CmO6mETU/1X
+	keIqVuVsQ3dzLD1ZCzOskKrpHWamtw6+YK+GYbjQTCS0Jasywkm9gB/2BZzxFSPqL1CnE4
+	Hwk0hnfpVoeByhIlN9du/Kw1WRvRIRk=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-564-ImLf3wXcMfuynWNEtOIWKg-1; Wed,
+ 17 Jun 2026 07:42:55 -0400
+X-MC-Unique: ImLf3wXcMfuynWNEtOIWKg-1
+X-Mimecast-MFC-AGG-ID: ImLf3wXcMfuynWNEtOIWKg_1781696574
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 63CE219540DE;
+	Wed, 17 Jun 2026 11:42:54 +0000 (UTC)
+Received: from bfoster.redhat.com (unknown [10.22.89.36])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D9CC71955BC2;
+	Wed, 17 Jun 2026 11:42:53 +0000 (UTC)
+From: Brian Foster <bfoster@redhat.com>
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-xfs@vger.kernel.org
+Subject: [PATCH] iomap: always return status from iomap_write_iter
+Date: Wed, 17 Jun 2026 07:42:53 -0400
+Message-ID: <20260617114253.635751-1-bfoster@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260604-unique-ref-v17-0-7b4c3d2930b9@kernel.org> <20260604-unique-ref-v17-5-7b4c3d2930b9@kernel.org>
-Message-ID: <ajKGv5ioLSassmND@google.com>
-Subject: Re: [PATCH v17 05/10] rust: page: convert to `Ownable`
-From: Alice Ryhl <aliceryhl@google.com>
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dave Ertman <david.m.ertman@intel.com>, 
-	Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
-	Serge Hallyn <sergeh@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Viresh Kumar <vireshk@kernel.org>, 
-	Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	"Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=" <kwilczynski@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Igor Korotin <igor.korotin@linux.dev>, 
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-pm@vger.kernel.org, 
-	linux-pci@vger.kernel.org, driver-core@lists.linux.dev, 
-	Asahi Lina <lina+kernel@asahilina.net>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Thu, Jun 04, 2026 at 10:11:17PM +0200, Andreas Hindborg wrote:
-> From: Asahi Lina <lina@asahilina.net>
-> 
-> This allows Page references to be returned as borrowed references,
-> without necessarily owning the struct page.
-> 
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> [ Andreas: Fix formatting and add a safety comment. ]
-> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
-> ---
->  rust/kernel/page.rs | 38 +++++++++++++++++++++++++-------------
->  1 file changed, 25 insertions(+), 13 deletions(-)
-> 
-> diff --git a/rust/kernel/page.rs b/rust/kernel/page.rs
-> index 3bdcee0e16a8..844c75e54134 100644
-> --- a/rust/kernel/page.rs
-> +++ b/rust/kernel/page.rs
-> @@ -10,6 +10,11 @@
->      bindings,
->      error::code::*,
->      error::Result,
-> +    types::{
-> +        Opaque,
-> +        Ownable,
-> +        Owned, //
-> +    },
->      uaccess::UserSliceReader, //
->  };
->  use core::{
-> @@ -105,7 +110,7 @@ pub const fn page_align(addr: usize) -> Option<usize> {
->  ///
->  /// [`VBox`]: kernel::alloc::VBox
->  /// [`Vmalloc`]: kernel::alloc::allocator::Vmalloc
-> -pub struct BorrowedPage<'a>(ManuallyDrop<Page>, PhantomData<&'a Page>);
-> +pub struct BorrowedPage<'a>(ManuallyDrop<NonNull<Page>>, PhantomData<&'a Page>);
+iomap_write_iter() returns either an error code or 0 if partial
+progress has been made. The error sanitization was required in the
+past because the return value was used by iomap_iter() to determine
+how much progress was made, and thus what to pass to ->iomap_end()
+and how much to advance the iter.
 
-BorrowedPage<'a> is no longer needed because it's just &Page.
+Now that iter handlers advance the iter incrementally and progress
+is separate from return status, this is no longer needed.
+iomap_iter() infers partial progress directly from the iter state
+and similarly, iomap_file_buffered_write() uses iter.pos to
+determine whether to return a short write or an error code.
 
-Alice
+This also eliminates a minor quirk in the write iteration where if
+an error interrupts a partial write, we'd have to loop back into
+iomap_write_iter() once more and run into the error a second time
+before iomap terminates the operation and returns the error. With
+the error code returned directly and separate from write progress,
+we can complete the operation and return from iomap_iter()
+immediately.
+
+Signed-off-by: Brian Foster <bfoster@redhat.com>
+---
+ fs/iomap/buffered-io.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+index 8d4806dc46d4..fb1f60130cd0 100644
+--- a/fs/iomap/buffered-io.c
++++ b/fs/iomap/buffered-io.c
+@@ -1156,7 +1156,6 @@ static bool iomap_write_end(struct iomap_iter *iter, size_t len, size_t copied,
+ static int iomap_write_iter(struct iomap_iter *iter, struct iov_iter *i,
+ 		const struct iomap_write_ops *write_ops)
+ {
+-	ssize_t total_written = 0;
+ 	int status = 0;
+ 	struct address_space *mapping = iter->inode->i_mapping;
+ 	size_t chunk = mapping_max_folio_size(mapping);
+@@ -1252,12 +1251,11 @@ static int iomap_write_iter(struct iomap_iter *iter, struct iov_iter *i,
+ 				goto retry;
+ 			}
+ 		} else {
+-			total_written += written;
+ 			iomap_iter_advance(iter, written);
+ 		}
+ 	} while (iov_iter_count(i) && iomap_length(iter));
+ 
+-	return total_written ? 0 : status;
++	return status;
+ }
+ 
+ ssize_t
+-- 
+2.54.0
+
