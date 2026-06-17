@@ -1,169 +1,173 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BEBC2C0F69
-	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 13:47:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781704074; cv=pass; b=EtkpEv6/shcV1JxIypz8UBDZtVxbXaVyTTYiXq0AFHDyy9AlektnAzy59T0Y/TH5nopHWhr9Ds2OrMbckDdS+th2tJde/rQB9Lb+y4I0btVIoE65kHkjO1bUUeSRxTuWy5oyUHKXsLAQokAVVnBmJt74a4FC4QA3BEUjwjSvFs0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781704074; c=relaxed/simple;
-	bh=nM8r/px9H7v/tHYNgNd0qH7K7eDqiE8FyYEm7qDudTY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NtDqO8B9WhvqkD0TZznxuQafopoS0F4A2jiY1yQEzebylla1qQjz2guHAJn+N02rkUJfR5ln9x9zlEfapXZwVDmx0UmKu0f8O5L/q006fGlf1IpHEQreG+GU2rO1AgAauUZcLoZWIMWQP0V5NHOrh4jhQq+fIZekdkZrINdQeWg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=atpeuxCQ; arc=pass smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FB630DD2A;
+	Wed, 17 Jun 2026 13:53:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781704436; cv=none; b=Bz+vNdXAPH9AnlIb80YoKO/NaradZfqnOSSoETSVr8rTmU/NK/in6vSStF+5X8//E1CbWHUFkz+jOeuFN4Y3ahgcnic2dYjxNjkgW3UIS8A+MxL2stpRrTKYGXDMM3E8h4nrTIBMx6wugL1hkNncYkm/5sjlBInM9tjUemRuofg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781704436; c=relaxed/simple;
+	bh=zhiyo3I4lnsfuBisfCoJPx76lFPu28y1Vtp6C7z0hmE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XiiPjOu1jsh+pF+ZTtCYQ0jGYegBB4GbqvALmRkWqeZuR9tN3RSgvANE2aveQuwCOKKwfTwZmxEtLtIctFuWXY6sU1NQ4LikWwzkeAX4PiHKGEb6gen74BtSnexHfMp4Zg7f77cOHXAfe4f9h9zH6e23go4qfEF5dehELx2vzVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GbHPGPt7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="atpeuxCQ"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-68c76fb8009so8112381a12.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 06:47:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781704069; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WTeRAs2RWcAnF9RrieO+Q++XslptZfNiWCaQ30Rspb1A9cvixYkiPk4xJniEEt99pO
-         tuEHXIix4u6mvPzZ+Czqbe8PR+uSdPk1yzgdHnNPXUtejo+fYuszOCXQglweivGYijHA
-         2ZEiOxNX1UZmRJCMX2tkUjyMZ+OAlvLfjJQKQx5+XzB4WTV4fMEgtSzM/S6SNWucwKxg
-         k9TgnQy7bLfLWEkks6NDXtSJV+1R/NL5F4+mKChFreW/u4NDCzEKqkJRUH6ZYmWkUKVf
-         pdQNbL00B6CMjg68uWy2ysdY1EeX6a58eQje6BAzq+OOqixzauU6TzNelH78fa6ODAEY
-         RIog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ILDtdQoYcmNGPD56O0qnXW+XsYYGZpRpGru6zWmT3R0=;
-        fh=eMMdlSItTjHi9EZ3n6Qxr3B95RJ38q9o08MVPc1rFhY=;
-        b=FADCTseeWggaO4v/u/KnpNZJPVFAywd5y7uOZxwaOBLnP1b7JzaLWvfBJ5x0jFDwtr
-         WpHPHDM3Bno6bEBlv2QIsbLjUYPs4HO9Xi7iTL6b1qZYc9LZ93Q8WqgfdSpzWxdmKtfH
-         Zovab7KS1IgYT8HuEOaidZnWQJLO5eKHzmm7/bp/ohWs0Zvo6Cq4SiNVwKybIR6bBZVC
-         p8hor9BD65GG7HGdP1G6OAWzTvQiTeEZCy6yJgB2X3TOxfHrn0ckMuArwjNlzlzRaIb7
-         ltD5vImwf87mGPY7Gm77awfpJGAb+Hpk7Scz8aLusIn0hyCq4KcyHa2JWmSTxzx7OfNs
-         OfFw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781704069; x=1782308869; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ILDtdQoYcmNGPD56O0qnXW+XsYYGZpRpGru6zWmT3R0=;
-        b=atpeuxCQ++cnee2bpmNPqpU8IUSeCFPsnGNOUkgPUvFoDc6/igyTAbewzLdAERiGnM
-         vb6z+iAdBOGiPQZYNto4I9L8c0q+mJu5n21GpZptxB2UPnsMiqZyaHsPO/I3wOlf7Fe3
-         u/qgQF5jTmBT0T3IxlTx6e1pzX7Esry6aiC2jA5zh+6C18NeHRVa/XqF9NaCdGcNzD7U
-         IrP+SM0Vd5m1a0FbmXl/06mBXKpLF9lzxxXvuNT8hMpMRTR6TIHE+bGXdzqNFeRGQIHF
-         B5ud5kh5EADyX9Fhcj6m9j1hFy294CJCQ9qRsTjdhvAljBwd5QnZmqI2cJK0i0tQXTUO
-         BIpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781704069; x=1782308869;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ILDtdQoYcmNGPD56O0qnXW+XsYYGZpRpGru6zWmT3R0=;
-        b=rMWdovVaNNZ2PPXaipwRpZD7s1qMbhQwf9eBbz9hx1mkV3Kj+h5pjZ7yTj7CYn64PV
-         ztoF+FOzdGznqLiruLZokEX1aWkQONxa0kJWBjCFoW3zME9+wirKuA9LI9jHGQv2Kt0L
-         tNvytpiENc7gkZvT5yTlrrODUMMzQ+oyqkBpSGqoGJ9n1MQ2S7FjJL49SWHvw1vgvOuf
-         YAQ96bgF/a8eiKsna2Sun5byrhzIrpciD/IBk9D6T3RX/2x/U0Ek7yhmF3FUaGue8P1Q
-         /n0qq1Kopj4OpGpYnmICeeViYV111dodCzhwTk0OtAwJf2Mj9S7hF7t3Ec6Egly4V0Tf
-         jStQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9sNApr0Zr7LePV6dMQQKSYoe8Y+JjvwvvT6/SrtImMM+GiFZ/iWYLuXxsWuBzuqln8GE1Xtmjw/kyx5Pm3@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyu9Acx4WnTCGrldAUdKyLzD9nss9Hu8+IL2gk3g+crFTVJgoS3
-	euSkWX7imX2TG3ZlNE7A3WxkkTrwO6wH8dxh5dBWA8/c771wBNojTUHWlUyXqjCxs7zSv7MmxEn
-	LtyswBto97S8WSbMpr2k4TCNaQuTlm3Y=
-X-Gm-Gg: Acq92OHzIRaCwYfu0CTithU78q26McjxpwInFix2P5ShWOxLb/p9podTVU8cedsvXcB
-	qFyfSzMVxg+gN4+dim/OQTpJG7jr3NQ3kthbvg5AoT08WTMbd2l+Dg6qu22FWcZZgajLhNkkxSg
-	PJ4x+bNMWMXd4bTYzJHTdWjfJei1HpIfW87fYrroDXdQOfSlUm3hlx5TYbZtFob8KMjonV0UKKy
-	E9oIy/ByrdN8dTCivb+io+U0sMuf55NRdw+RxZQjFUFqHG015Mi1qQ5Md8HfLVC0DkacnfNLoTD
-	Q/Xgdm+g8ALwdnfGONkRnKGn5t+qWTA=
-X-Received: by 2002:a17:907:3f0e:b0:bf1:8145:c300 with SMTP id
- a640c23a62f3a-c05d2182a42mr204224766b.3.1781704068936; Wed, 17 Jun 2026
- 06:47:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GbHPGPt7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33E311F000E9;
+	Wed, 17 Jun 2026 13:53:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781704435;
+	bh=/hRzRcazcgW6UzRMoZOpE2oQpA4bv1K6thJ9xBlKqaI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=GbHPGPt7QBOO3IZKdFSPplDPlNfvpOOVuo4grFmU8zqbdkrxSFMNxe6V/uZmXD6h0
+	 45q/quLEO02Fm8Hp6f5Yp7MMAvBXrE8jm6lmmHBDT9Tipq+dsXPFRM7JOMLmtzWft+
+	 BgZzc7a12aAn+2oGTjdRbHVXkQRn5BVyLDRYSHaO5OP2uklxKWx7XIenuWnKRq4XNb
+	 OLJt9gUwBQ1vTlbh0zioBh280s3YqtY9uEGkJPOb8YBnUBA4YwmH4HlhjxOjVN0Pem
+	 SAIzaN86MykxasONdwUE64BUmas+5l7gCO6AqiAXRYH2F5mkOEwZEd6PEGMqRXTqYK
+	 lAb2Zyuu3OrTQ==
+Date: Wed, 17 Jun 2026 15:53:48 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Song Liu <song@kernel.org>
+Cc: linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	selinux@vger.kernel.org, apparmor@lists.ubuntu.com, paul@paul-moore.com, 
+	jmorris@namei.org, serge@hallyn.com, viro@zeniv.linux.org.uk, jack@suse.cz, 
+	john.johansen@canonical.com, stephen.smalley.work@gmail.com, omosnace@redhat.com, 
+	mic@digikod.net, gnoack@google.com, takedakn@nttdata.co.jp, 
+	penguin-kernel@i-love.sakura.ne.jp, herton@canonical.com, kernel-team@meta.com
+Subject: Re: [PATCH v5 7/8] vfs: Replace
+ security_sb_mount/security_move_mount with granular hooks
+Message-ID: <20260617-laufbahn-eifrig-charmant-a48f357a0c52@brauner>
+References: <20260528182607.3150386-1-song@kernel.org>
+ <20260528182607.3150386-8-song@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260615-work-idmapped-overlayfs-v1-0-7381632aa402@kernel.org> <20260615-work-idmapped-overlayfs-v1-3-7381632aa402@kernel.org>
-In-Reply-To: <20260615-work-idmapped-overlayfs-v1-3-7381632aa402@kernel.org>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 17 Jun 2026 15:47:37 +0200
-X-Gm-Features: AVVi8CcEconpeqhBOyuB-_I5gU5arq4VBIDYPQCkGUDoShE8kWT7dvLar1E8_TU
-Message-ID: <CAOQ4uxiK_GruYMcqekrf+iF1a2y=VksFw71XOW=Gsf3GV0kAgg@mail.gmail.com>
-Subject: Re: [PATCH 03/10] ovl: handle idmapped mounts in ovl_setattr()
-To: Christian Brauner <brauner@kernel.org>, Joanne Koong <joannelkoong@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-unionfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260528182607.3150386-8-song@kernel.org>
 
-On Mon, Jun 15, 2026 at 3:20=E2=80=AFPM Christian Brauner <brauner@kernel.o=
-rg> wrote:
->
-> Pass the mount's struct mnt_idmap to setattr_prepare() so that the
-> permission checks for a chown/chmod performed through an idmapped
-> overlay mount are evaluated in the mount's id space.
->
-> The ownership requested in @attr is expressed relative to the overlay
-> mount idmap.  Before forwarding the change to the upper layer via
-> ovl_do_notify_change() - whose notify_change() applies the upper layer
-> idmap in turn - rebase ia_vfsuid/ia_vfsgid into the overlay's own id
-> space, i.e. the same space as the overlay inode's i_{u,g}id established
-> by ovl_copyattr().  Without this rebase the upper layer would interpret
-> the caller's mount-relative id as an upper-relative one and store the
-> wrong owner on disk, or reject it with -EOVERFLOW.
->
-> from_vfsuid() returns INVALID_UID for an id that the overlay mount
-> idmap does not map; that invalid id is carried faithfully into the
-> forwarded iattr and rejected by the upper notify_change() via
-> vfsuid_has_fsmapping(), so no bogus owner can be written.
->
-> No functional change until FS_ALLOW_IDMAP is set on ovl_fs_type; until
-> then the overlay mount idmap is &nop_mnt_idmap and from_vfsuid() is the
-> identity.
->
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+On Thu, May 28, 2026 at 11:26:06AM -0700, Song Liu wrote:
+> Replace the monolithic security_sb_mount() call in path_mount() and
+> security_move_mount() in vfs_move_mount() with the new granular mount
+> hooks:
+> 
+> - do_loopback(): call security_mount_bind()
+> - do_new_mount(): call security_mount_new()
+> - do_remount(): call security_mount_remount()
+> - do_reconfigure_mnt(): call security_mount_reconfigure()
+> - do_move_mount_old(): call security_mount_move()
+> - do_change_type(): call security_mount_change_type()
+> - vfs_move_mount(): replace security_move_mount() with
+>   security_mount_move()
+> 
+> The new hooks are called at the individual operation level with
+> appropriate context (resolved paths, fs_context), rather than at
+> the top of path_mount() with raw string arguments.
+> 
+> Code generated with the assistance of Claude, reviewed by human.
+> 
+> Reviewed-by: Stephen Smalley <stephen.smalley.work@gmail.com>
+> Tested-by: Stephen Smalley <stephen.smalley.work@gmail.com> # for selinux only
+> Signed-off-by: Song Liu <song@kernel.org>
 > ---
->  fs/overlayfs/inode.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/fs/overlayfs/inode.c b/fs/overlayfs/inode.c
-> index f59db57dfd55..33734ca971e1 100644
-> --- a/fs/overlayfs/inode.c
-> +++ b/fs/overlayfs/inode.c
-> @@ -26,10 +26,18 @@ int ovl_setattr(struct mnt_idmap *idmap, struct dentr=
-y *dentry,
->         bool full_copy_up =3D false;
->         struct dentry *upperdentry;
->
-> -       err =3D setattr_prepare(&nop_mnt_idmap, dentry, attr);
-> +       err =3D setattr_prepare(idmap, dentry, attr);
->         if (err)
->                 return err;
->
-> +       /* Rebase ownership from the mount idmap into overlay id space. *=
-/
-> +       if (attr->ia_valid & ATTR_UID)
-> +               attr->ia_vfsuid =3D VFSUIDT_INIT(from_vfsuid(idmap,
-> +                               i_user_ns(d_inode(dentry)), attr->ia_vfsu=
-id));
-> +       if (attr->ia_valid & ATTR_GID)
-> +               attr->ia_vfsgid =3D VFSGIDT_INIT(from_vfsgid(idmap,
-> +                               i_user_ns(d_inode(dentry)), attr->ia_vfsg=
-id));
+>  fs/namespace.c | 41 ++++++++++++++++++++++++++++++-----------
+>  1 file changed, 30 insertions(+), 11 deletions(-)
+> 
+> diff --git a/fs/namespace.c b/fs/namespace.c
+> index fe919abd2f01..43f22c5e2bf4 100644
+> --- a/fs/namespace.c
+> +++ b/fs/namespace.c
+> @@ -2888,6 +2888,10 @@ static int do_change_type(const struct path *path, int ms_flags)
+>  	if (!type)
+>  		return -EINVAL;
+>  
+> +	err = security_mount_change_type(path, ms_flags);
+> +	if (err)
+> +		return err;
 > +
->         if (attr->ia_valid & ATTR_SIZE) {
->                 /* Truncate should trigger data copy up as well */
->                 full_copy_up =3D true;
->
+>  	guard(namespace_excl)();
+>  
+>  	err = may_change_propagation(mnt);
+> @@ -3006,6 +3010,10 @@ static int do_loopback(const struct path *path, const char *old_name,
+>  	if (err)
+>  		return err;
+>  
+> +	err = security_mount_bind(&old_path, path, recurse);
+> +	if (err)
+> +		return err;
 
-Won't insist on this as part of your work, but would be nice to
-take Joanne's patch [1] first and make this change in backing_inode_setattr=
-()
+This again is racy as it is called outside of the namespace semaphore:
 
-In any case, Joanne, watch out!
-Fuse already has FS_ALLOW_IDMAP, so your passthrough inode
-series must take this into account - now you have the template here ;)
+        err = security_mount_bind(&old_path, path, recurse);
+        if (err)
+                return err;
 
-Thanks,
-Amir.
+        if (mnt_ns_loop(old_path.dentry))
+                return -EINVAL;
 
-[1] https://lore.kernel.org/fuse-devel/20260516004004.1455526-19-joannelkoo=
-ng@gmail.com/
+        LOCK_MOUNT(mp, path);
+        if (IS_ERR(mp.parent))
+                return PTR_ERR(mp.parent);
+
+After LOCK_MOUNT @path might point to a completely different mount then
+the one you performed your security checks on.
+
+> +
+>  	if (mnt_ns_loop(old_path.dentry))
+>  		return -EINVAL;
+>  
+> @@ -3328,7 +3336,8 @@ static void mnt_warn_timestamp_expiry(const struct path *mountpoint,
+>   * superblock it refers to.  This is triggered by specifying MS_REMOUNT|MS_BIND
+>   * to mount(2).
+>   */
+> -static int do_reconfigure_mnt(const struct path *path, unsigned int mnt_flags)
+> +static int do_reconfigure_mnt(const struct path *path, unsigned int mnt_flags,
+> +			      unsigned long flags)
+>  {
+>  	struct super_block *sb = path->mnt->mnt_sb;
+>  	struct mount *mnt = real_mount(path->mnt);
+> @@ -3343,6 +3352,10 @@ static int do_reconfigure_mnt(const struct path *path, unsigned int mnt_flags)
+>  	if (!can_change_locked_flags(mnt, mnt_flags))
+>  		return -EPERM;
+>  
+> +	ret = security_mount_reconfigure(path, mnt_flags, flags);
+> +	if (ret)
+> +		return ret;
+> +
+>  	/*
+>  	 * We're only checking whether the superblock is read-only not
+>  	 * changing it, so only take down_read(&sb->s_umount).
+> @@ -3366,7 +3379,7 @@ static int do_reconfigure_mnt(const struct path *path, unsigned int mnt_flags)
+>   * on it - tough luck.
+>   */
+>  static int do_remount(const struct path *path, int sb_flags,
+> -		      int mnt_flags, void *data)
+> +		      int mnt_flags, void *data, unsigned long flags)
+>  {
+>  	int err;
+>  	struct super_block *sb = path->mnt->mnt_sb;
+> @@ -3393,6 +3406,9 @@ static int do_remount(const struct path *path, int sb_flags,
+>  	fc->oldapi = true;
+>  
+>  	err = parse_monolithic_mount_data(fc, data);
+> +	if (!err)
+> +		err = security_mount_remount(fc, path, mnt_flags, flags,
+> +					    data);
+>  	if (!err) {
+>  		down_write(&sb->s_umount);
+>  		err = -EPERM;
+> @@ -3708,6 +3724,10 @@ static int do_move_mount_old(const struct path *path, const char *old_name)
+>  	if (err)
+>  		return err;
+>  
+> +	err = security_mount_move(&old_path, path);
+> +	if (err)
+> +		return err;
+
+Placement of this hook suffers from the same issue as the bind mount
+hook. Here it's worse because the security layer isn't even informed
+about MOVE_MOUNT_BENEATH which completely alters the mount relationship.
