@@ -1,169 +1,143 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F423F5BF0
-	for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 23:13:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781651613; cv=none; b=Uwv8lPXl5HMFMtnUOWSOQqvhSBI5asG5FV4CG7A0DHoW4H1ncr2CX3cgnCvXDCotsYOo9GwPwtfT+q6lqUaLwzg6wZTh5vzBhdSJdcrFXkNZZduaauD9hiAq/QV2PLaiJhYvexalvBsO1nhyI2cmPQ28pR5bYcmk/4Y3HY+O0LY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781651613; c=relaxed/simple;
-	bh=lkS+KHBqJXeYGJHdOSlajz6hbM4WTk5DhH53EzMx/6Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gv6VTw7S3d+Hag2/BOjDb1B69HC+TUQZpjXzcJrU4z6n5I6cUP6vUfBzUvfWz0oTbtSonQ2qPmDu8G1rjQem9hvSlEqo3R9+qADL1VlZRrvZcFn71qF5ke8618LYHvFkO1iUySy7L7DBBR72M7i7qdDEHMJHnxr8+liUPRcFSCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NNnWIQkR; arc=none smtp.client-ip=209.85.210.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163A317D6
+	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 00:06:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781654775; cv=pass; b=HQbejItfIV4DiUMcTR5ow1OYMXImNA3cBGKV9vAKQYaslF8RbyHLAZXo8MoghADUKdipUDhUAOQJNHa3p83S62bd2pfLLTlGAM1NnrJFdk0ep3cS47GMQhDyMLE3E+dsvCW7ubDBPD026mvCu/ocuYayw3WVZAe+3Ys9EZSuYzU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781654775; c=relaxed/simple;
+	bh=fkrCmopnIb13ipuEWVakk/KrAFvH7xz7xKtU4zl9YnE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BAb0ML36Jn+8ri2Vk7FDSLi5px8lxqCN5aPKHgn4s5PT6JXVooCttRHSmorBtQ7NG9uvBSGeKfn08UA90UVbef/6o34GEEAN0QvOUNuEpoKNjzpmHQDDaMLnvU7L94LGJI+FgawLYW9Ypd8mXvOjr3Tdkl/U0nryrNUjEUXDdvA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VyKfVvUQ; arc=pass smtp.client-ip=74.125.82.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NNnWIQkR"
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7e6cfdc8382so3906288a34.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 16:13:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VyKfVvUQ"
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-30bc871ecdfso666140eec.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 16 Jun 2026 17:06:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781654773; cv=none;
+        d=google.com; s=arc-20240605;
+        b=bt8KN/0DNw6Jq3o1MLBko2CULmX0l3eCv5G+NyhTVs6DpmxNYFkgCwBkSwUpY0gdiJ
+         tTRU/KfH5IDu+SqEXi/6LC1FoprY5O5yNPcwrxyuTU5ehU++JBO1PmMP3JmPWnMMy47G
+         m7bwCQohuhBP3YbfXb0D776/aQwED8S1MPZ3nqLEu/noQKgj1ikIH8mFl6HPwJP81e3H
+         gNDJXrbUteNFh/Cqy0t4SeOG2q0Y7hp3KYB+7xYVZq3WPaZcy5KYFsQSHbiWOTjeKQVH
+         RvqJHShzct2THMFVkZxHNT+3oN7ivO8XazSOm1fpQ3eHmAUhULAKmO3RzaxpqGZxPck1
+         1DTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=zN2+45z8RuYVOYkmuHkDGfc4Yz20/+fHvo1TnYpToEo=;
+        fh=08zpg0MrMnKnlE8yaGBa08HMNGWsqIYmuqqpETtGNdg=;
+        b=LwlcqpeofS9k8qyDpCW9natkXDLow7IBT5tWS5i++zo2OLyJNPvwJYka7+3MavFPuf
+         bgJH0tnidcn3kMvepcgafX6dPFRD3KnhX3+iH9vx1KZoWGbY1ANquSRnNfCkfVauyGFM
+         1K5zR+4X01Pw/9vTmBZEIHLuXDoSIoBWej3+MktAHcLQvHSl6/n8sqseryEqosU1uVgj
+         s/MKeAT1jIhb3ohb7IQmOhpPWWcGL2bviGbC6G8AvpZrjUxlmr1nyA58uRuHSzOTMXcZ
+         R47/7iqN21HDxGMhJ+qFWLt982Bmhqk1socynd9t+wQRhzThNBtMJYTV1GqakIC2Rc3W
+         FZgw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781651610; x=1782256410; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=google.com; s=20251104; t=1781654773; x=1782259573; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=84DiwMXLdEq4yqPEouNIMtm8S6/TgLWUF9alM51937s=;
-        b=NNnWIQkRrtGaD2RqE1DhXlNbxcO+qallXnOBUZktB8HgHPC9axHpo6/I4hKL1P5Pad
-         v6SGSPdZRj8E2tL1oawurmZqExgq6oRoOzqLMPiHO3sEJA8GiEoRZyzj5TcgPpGULqpd
-         cDuSDRKiEeX5hy2rKNk5PFQt4btLLgCtnoP9sI+fQWTnCm8y97x8zAxUWmec48DCwNv+
-         3F2cy90ythcMX/R+TAjIMpz+CCjcLzAK64JsJDTkHgEtGq8RanXTMbAKUzPwsQtg+XCk
-         a1+jUdxahy7ABT6jfHTbPhZMSgOfhoq4gZVqBaCjAocS4nuC3D6cd6HoIyOt36Utsrvo
-         dacQ==
+        bh=zN2+45z8RuYVOYkmuHkDGfc4Yz20/+fHvo1TnYpToEo=;
+        b=VyKfVvUQXBCvLPemoQfZAR1bpev/sXFbiYLvZNnkHW2QBnUmfUW5+EnR4H82tLJ5mQ
+         fbIQrNhDToKOI5DMRmP4+w7EMro+mYGuAIjLLKP9Lzn3BfdQXT8za5DyMs30k5w653om
+         XFNNEfczuDqsfD5hbSGTrtsSYddnbJUa4K7C4jvMEM8XSaE+n2lJ2mgjTlg98ILI/z76
+         5t/97QXRzCQrAYGq/eN2YsAu909DuCkIu8zcIYY7nQBlK3P3EbeJa+Rby+lsQstVqhGe
+         s/lv8vyKhwQXfYlfGqAo27FN2SyY3wnxyRwRJJSeHt0qUK6RDEP9lV/IulWvAMzMpe4T
+         B7sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781651610; x=1782256410;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1781654773; x=1782259573;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=84DiwMXLdEq4yqPEouNIMtm8S6/TgLWUF9alM51937s=;
-        b=KXEPdbpXwBCpKExmK2EvJeuUAZWeH3VAcKRypmOzfN7RXMa5PIAqtodC+f0bKnhgC6
-         FcawNDZUvVO2RDtBB3mqXSOXmH0JaQ4tydrVryUYjz8c+N1EBU46qWWELYEXZESh7Vn5
-         Mk1hKnJ9AtghoGFeYre804aIiiP50RANScZilBDdPl0ssBbaNA8Cg/0fPGcjicRGEDGV
-         40ZJn4Tl9UTcK8nkwhas5VWLgjnd8Ts7Q4hKAh+6OlkVEr1NNAhA+WZcOqGj7KdBqL+o
-         D59wcGqr+X6F6nfZNutPgCOLbFw79rtOTH58JxUlukBXSpnI8pnF7we2bCsPot0UhmFc
-         bE3A==
-X-Forwarded-Encrypted: i=1; AFNElJ/ptK3l5/6L7BL1vcz81LPLSMHkGuaz+Mf2Ix4UIUSLif0rSXxKXncNH0yXNwROlS6aYy6ekH1p8io2K8Y0@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYc8PZ8yqMIRhp+OWeHwq547HqQwxqKfQP2iiu2YKs0rC4yDjq
-	plFKRxSI+F6tq8NRt0JSR4lyxArlJTAnzgdRpXUY7W+OWksuEAd7qmNnfKafqQ==
-X-Gm-Gg: Acq92OH260QrhlfPVrY6o3EsrbJ1MjLmmQXwluNKApgCczG4PgkB8VyIb2B+bX//tdl
-	3wFZYfiXBVAo8uD+hhuBLjlDhVSJINNbyQN5J6lUAOMD64Vx9KRb2L2fxi7d228h+i4Q/gfmv9g
-	4kHsO2InuCNgSY8j02yjUULk1mh/PM9Qgk5657LayTZOnLIwjmGBd0QakFIS3PIlNZA6tfThY06
-	hY3P37kxDOQRWAplS6lVwvAOjHX3ahT5m3BFbl+tJuu5TLJJquVwdxSRmJKTgILNHmQAPmzXafM
-	JbS79nTNTqQQ+1A9AJ17fJuOUqItiz7RSp+yyZ5F047OViNkD22Hs6Sg1C1aKvzO0RaYqK8lonN
-	wHAzgIK/vHyq4tbfw8wOqUaU7WgHQWLE/NlPDJ36iMaUB1v07bSh8+Cmpsv9psO+uZ81DXD9FPL
-	f5XAEXn0c5Fk5BZzUDMeneYQ2R0cqkpq25DPUFc41xWbwcnzLknQ9I4yJkfKWG9dsokAR3p25Tx
-	lGQp8a3OC/Vg78NfT5qlbkUtRWJ0ZFfjuK919x8Wm5awnnC9yxOgL8=
-X-Received: by 2002:a05:6830:6ae5:b0:7e6:f2ef:e231 with SMTP id 46e09a7af769-7e90b2ae089mr1702940a34.2.1781651610294;
-        Tue, 16 Jun 2026 16:13:30 -0700 (PDT)
-Received: from rdf-gcp2.us-central1-b.c.storage-xlrait-66065.internal (163.80.112.136.bc.googleusercontent.com. [136.112.80.163])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e79f5a1b86sm7530924a34.5.2026.06.16.16.13.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 16:13:29 -0700 (PDT)
-From: Russ Fellows <russ.fellows@gmail.com>
-To: miklos@szeredi.hu,
-	fuse-devel@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Amir Goldstein <amir73il@gmail.com>,
-	Russ Fellows <russ.fellows@gmail.com>
-Subject: [PATCH v3 1/2] fuse: preserve FOPEN_PARALLEL_DIRECT_WRITES for passthrough opens
-Date: Tue, 16 Jun 2026 23:13:21 +0000
-Message-ID: <20260616231325.16788-2-russ.fellows@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260616231325.16788-1-russ.fellows@gmail.com>
-References: <20260616231325.16788-1-russ.fellows@gmail.com>
+        bh=zN2+45z8RuYVOYkmuHkDGfc4Yz20/+fHvo1TnYpToEo=;
+        b=QOTFfuFNFqhi/FUEfvIUs4SmWM8caxFbhv8RSnQALGa/PyB74AFAawFkq7LASJ/lQV
+         wqht0pHsS67SKRCrdfXlzmMe3YYWlTYl8DLkEGSFoD378jVtjpnM6+Jpeqm06eGWuRj/
+         +0FHFsw3myZA0Px0NN1IyuHE3pm0x+67ltR0fRSmsWyVnBUpqKUgXSxP59N7Ric5tYMa
+         uJiAZDWDXuGsfZezmXNsERnL1LAqLu2Di16hj4Gc+DLi7fnrka6js1h8XOC0O9zBQrqm
+         rceOCELV0X5qOMl6HfVpHL1nDidZnAOxLWqlE1FjnagSjdGJQzT1Q9GwnK8V/SrdWRAm
+         koeQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+6kGUIYdck1ivSiHvvnobG0m+m2CGBS5q8UdK3Qmvi9xmS1Sjsz8erBKWmNKNMwa4egQ7REvCJgy9ksSA2@vger.kernel.org
+X-Gm-Message-State: AOJu0YwdaNQREAgUPKIsjWd5kCIqRrwkrdZ/NX9hbg2sxo9t4gUdtfE8
+	smoYHPg24frQNKc/pqcSAOz+hn9FcbNmqSV3kgRxsdHcJ/PBfeWPQiDc67PXAMgYTFiZWAQJoqN
+	gK+r+BxxnhnJPL8625WIShuC/w99Yy5sfBeKv6vl1
+X-Gm-Gg: AfdE7ckiqdvGtmdeWQPW891izQkKsUfWZYUtQ7rQBu5pGUw+bjiwOJZqgcqFt31rByR
+	Jhf44LhD6XZaHy6mUigf88UHPN9zkBOzzkdD6sJGbJnXoR0oxQ0b6kj4ezYid5lPZZS358hEYUL
+	7PGTSdbyZ7zHq+4QuLxisS4CNLtqRkNPdnk0USd0O0XQAtyhpSJIhgc1y4H6be+/d/tsMvfnoS1
+	98cAnFJ96KkyNLbqOG0WFMhH/aB/QNcT6BiGGZH2nqgI19Sj7rlo9wuIvxcdU4bbwZmi8K/jy1Y
+	EE6vs4RWpZqbqefS1xSExuACDm9IQrLcNuMiCfE1JPKJBXu1LuZEZFpMgFGXlOmjojrGqTfHHSd
+	CVW+N/pyA2l5urJEG3N7bQYRzhb5M3dKRMo9gJ2E8eQDW/l1J
+X-Received: by 2002:a05:7300:6917:b0:2e0:1f09:d924 with SMTP id
+ 5a478bee46e88-30bc992c59cmr985150eec.5.1781654772212; Tue, 16 Jun 2026
+ 17:06:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260616143020.3458085-1-jkoolstra@xs4all.nl> <20260616143020.3458085-2-jkoolstra@xs4all.nl>
+In-Reply-To: <20260616143020.3458085-2-jkoolstra@xs4all.nl>
+From: Kuniyuki Iwashima <kuniyu@google.com>
+Date: Tue, 16 Jun 2026 17:06:01 -0700
+X-Gm-Features: AVVi8Cce5oIkQ6o0SM96_tTZrEuKWAAnxCW1BPbsireeIZuVvbRqCN_usM_TBAY
+Message-ID: <CAAVpQUDqPsRXdsW31prBCDart-LGsF2EmFVN31gB3Nx6WPT2kA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] net: af_unix: Useful handling of LSM denials on SCM_RIGHTS
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: brauner@kernel.org, cyphar@cyphar.com, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Willem de Bruijn <willemb@google.com>, linux-fsdevel@vger.kernel.org, 
+	Jeff Layton <jlayton@kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	"open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>, 
+	"open list:GENERIC INCLUDE/ASM HEADER FILES" <linux-arch@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-fuse_file_io_open() clears FOPEN_PARALLEL_DIRECT_WRITES for any open
-that lacks FOPEN_DIRECT_IO.  That rule is too strict for passthrough
-opens, which already bypass the page cache through the backing file
-and do not need FOPEN_DIRECT_IO to guarantee direct-I/O semantics.
-Clearing the flag before the passthrough write path sees it prevents
-the kernel from ever taking the shared-lock path for passthrough writes.
+On Tue, Jun 16, 2026 at 7:29=E2=80=AFAM Jori Koolstra <jkoolstra@xs4all.nl>=
+ wrote:
+>
+> Right now if some LSM such as Smack denies an AF_UNIX socket peer to
+> receive an SCM_RIGHTS fd, the SCM_RIGHTS fd array will be cut short at
+> that point, and MSG_CTRUNC is set on return of recvmsg(). This is
+> highly problematic behaviour, because it leaves the receiver
+> wondering what happened. As per man page MSG_CTRUNC is supposed to
+> indicate that the control buffer was sized too short, but suddenly
+> a permission error might result in the exact same flag being set.
+> Moreover, the receiver has no chance to determine how many fds got
+> originally sent and how many were suppressed.[1]
+>
+> Add a SO_RIGHTS_NOTRUNC option to UNIX sockets to enable more useful
+> handling of LSM denials when receiving SCM_RIGHTS messages: instead of
+> truncating the message at the first blocked fd, keep every fd slot
+> and store the LSM errno in the blocked slot.
+>
+> [1]: https://github.com/uapi-group/kernel-features#useful-handling-of-lsm=
+-denials-on-scm_rights
+>
+> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> ---
+>  fs/file.c                         | 48 ++++++++++++++++++++-----------
+>  include/linux/file.h              |  2 ++
+>  include/net/af_unix.h             |  1 +
 
-Introduce FOPEN_IOMODE helper macros to classify the effective I/O mode
-of an open file:
+net-next is closed during the merge window, so please repost after that.
 
-  FOPEN_IOMODE_IS_CACHED(oflags)      - page-cache I/O (neither flag)
-  FOPEN_IOMODE_IS_DIRECT(oflags)      - DIRECT_IO is set
-  FOPEN_IOMODE_IS_PASSTHROUGH(oflags) - PASSTHROUGH only (no DIRECT_IO)
+a few comments: please
 
-Use FOPEN_IOMODE_IS_CACHED to express the PARALLEL_DIRECT_WRITES guard
-cleanly: the flag is only suppressed for cached iomode, not for passthrough
-or direct-IO mode.
+* add cover letter
+* separate fs/ and net/ changes
+* do not touch tools/testing/selftest/Makefile
+* use kselftest_harness.h and system()
+* check other local rules (reverse xmas tree order, etc) in
+Documentation/process/maintainer-netdev.rst
 
-This is a prerequisite for passthrough write parallelism; without it the
-shared-lock path in the subsequent patch never activates.
-
-Signed-off-by: Russ Fellows <russ.fellows@gmail.com>
 ---
- fs/fuse/iomode.c | 30 +++++++++++++++++++++++++++---
- 1 file changed, 27 insertions(+), 3 deletions(-)
-
-diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
-index c99e285f3..46e60b04c 100644
---- a/fs/fuse/iomode.c
-+++ b/fs/fuse/iomode.c
-@@ -165,6 +165,23 @@ static void fuse_file_uncached_io_release(struct fuse_file *ff,
- 	(FOPEN_PASSTHROUGH | FOPEN_DIRECT_IO | FOPEN_PARALLEL_DIRECT_WRITES | \
- 	 FOPEN_NOFLUSH)
- 
-+/*
-+ * Helpers to classify the effective I/O mode of an open file.
-+ *
-+ * FOPEN_IOMODE()         - extract the mode-relevant bits
-+ * FOPEN_IOMODE_IS_CACHED - neither DIRECT_IO nor PASSTHROUGH: page-cache I/O
-+ * FOPEN_IOMODE_IS_DIRECT - DIRECT_IO is set (may also have PASSTHROUGH)
-+ * FOPEN_IOMODE_IS_PASSTHROUGH - PASSTHROUGH only, without DIRECT_IO
-+ */
-+#define FOPEN_IOMODE(oflags) \
-+	((oflags) & (FOPEN_DIRECT_IO | FOPEN_PASSTHROUGH))
-+#define FOPEN_IOMODE_IS_CACHED(oflags) \
-+	(FOPEN_IOMODE(oflags) == 0)
-+#define FOPEN_IOMODE_IS_DIRECT(oflags) \
-+	(FOPEN_IOMODE(oflags) & FOPEN_DIRECT_IO)
-+#define FOPEN_IOMODE_IS_PASSTHROUGH(oflags) \
-+	(FOPEN_IOMODE(oflags) == FOPEN_PASSTHROUGH)
-+
- static int fuse_file_passthrough_open(struct inode *inode, struct file *file)
- {
- 	struct fuse_file *ff = file->private_data;
-@@ -216,9 +233,11 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
- 		goto fail;
- 
- 	/*
--	 * FOPEN_PARALLEL_DIRECT_WRITES requires FOPEN_DIRECT_IO.
-+	 * FOPEN_PARALLEL_DIRECT_WRITES is not supported with cached iomode.
-+	 * Passthrough and direct-IO both bypass the page cache, so both are
-+	 * eligible to enable parallel direct writes.
- 	 */
--	if (!(ff->open_flags & FOPEN_DIRECT_IO))
-+	if (FOPEN_IOMODE_IS_CACHED(ff->open_flags))
- 		ff->open_flags &= ~FOPEN_PARALLEL_DIRECT_WRITES;
- 
- 	/*
-@@ -228,8 +247,13 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
- 	 * Note that if user opens a file open with O_DIRECT, but server did
- 	 * not specify FOPEN_DIRECT_IO, a later fcntl() could remove O_DIRECT,
- 	 * so we put the inode in caching mode to prevent parallel dio.
-+	 *
-+	 * Pure direct-IO (DIRECT_IO without PASSTHROUGH) needs no page-cache
-+	 * iomode machinery — return early.  When DIRECT_IO and PASSTHROUGH are
-+	 * both set, write_iter uses the direct-IO path but the backing file
-+	 * still needs to be opened below.
- 	 */
--	if ((ff->open_flags & FOPEN_DIRECT_IO) &&
-+	if (FOPEN_IOMODE_IS_DIRECT(ff->open_flags) &&
- 	    !(ff->open_flags & FOPEN_PASSTHROUGH))
- 		return 0;
- 
--- 
-2.51.0
-
+pw-bot: cr
