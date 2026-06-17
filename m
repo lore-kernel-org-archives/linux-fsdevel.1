@@ -1,81 +1,136 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E667A3783B0;
-	Wed, 17 Jun 2026 22:28:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9F9233927
+	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 23:32:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781735302; cv=none; b=GvJDfX33jq3mmAfbvxdoY2Gks8vOkJkGorH2MXWehqOANx1scU1jOh12YXmu9LC+CaYptjGt/ZZz3xAXn51q5SEIFnzsBOKJ5F6Bfp+s7LKAfSsmSxthC/VjsJynYi4g/Yd4yF0kHkWQa4cgbHovpdvJoCla9i7MIKiW55U9jC4=
+	t=1781739175; cv=none; b=XXGZPdU12ixHZvakC71ndcppXtlcQ7VhkUX8FviUdanURqoyAZv/bfog0h2EaAqDr5rTqDe6RmHog8CX0kle1SplxaXtT+bh5dvvPCqvLm3VTDKsLbsf0jRvIffevYWAYSEZvLHK+9lnChw9aHRN1UItsagIA0y8NOnKnWbnvZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781735302; c=relaxed/simple;
-	bh=tLbPu8C8b6r5OOHOvBiknQU5eGDzef/mN/LRiilAois=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VhwrPUcs6dGjV6Z/Oy8FVbjXep2G2H3ZsYDOQHjM7x+3XvFJLkjFd/+C11ksKi7TWtd0wTt9hwiPeRTbh/uCwkXrTNHvhhDmwDWCA3J+CZDkn/qfQ74gJxz0XhGqHLPT9IhDlwfAuWPVqDJr047zt1vzSEAeWJvPdbmhW9O5Neo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hcURVoml; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1781739175; c=relaxed/simple;
+	bh=kS9xwUjLnldgYcHIEAQ18+QI4EbGJkRHWK84iFkq9sA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=B46qTKbfA3JX6L4u/njxwGKGkZdjyWX8/pe5Nvz5gRAgcEDRThOYKdINwdtpXDP98B2oStwoKwmruWI7nYZDTaZ+K0osZYKgJwCrVBsHn3TRsCwUWwrBLRUJlubXm/2uf096emN+4ewJx0D46YomnIaqKTk0/LY/Uy5KssvgZiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=ZVZKxZ8N; arc=none smtp.client-ip=67.231.145.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hcURVoml"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=KNYyO6SgPKl4C9MF3+RAjBkHpwVrxYNEfsKvOvBWLNg=; b=hcURVomlWT5nqRNu4mssXwPiRF
-	7ktKlqqLah/ESrsnAO6TOGb+NLOJLeg9107bAxjEw9M9V3sAlzaUcCiLUt9apxycXIeiKiPih4gqR
-	E2mufM5NaHDNLe8jEaU6Ts7ttO3cLylYfAZPi7Varz/WNutEv8s+8yBmeP0cPk0Kw4eYYvik0rd6Y
-	RN9uSE61LUWHgRolMlUq/PO7+H4PurkY+ph7z/Xx842H8s48zJPs3mjU79lXW20E7Prs+cNTufO/w
-	M4iDrprAndP9FvtTAFa9WZH9hBCX5oFdkS4wI1BDKX/NkpulEn0vhuVKEmqsmg7ftB/h8n3Cbc8Pl
-	RmuqUqmA==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wZyju-0000000DNrv-0BST;
-	Wed, 17 Jun 2026 22:28:06 +0000
-Date: Wed, 17 Jun 2026 23:28:05 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Jane Chu <jane.chu@oracle.com>
-Cc: akpm@linux-foundation.org, jack@suse.cz, viro@zeniv.linux.org.uk,
-	brauner@kernel.org, muchun.song@linux.dev, osalvador@suse.de,
-	david@kernel.org, hughd@google.com, baolin.wang@linux.alibaba.com,
-	linmiaohe@huawei.com, nao.horiguchi@gmail.com, lorenzo@kernel.org,
-	rppt@kernel.org, peterx@redhat.com, corbet@lwn.net,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 05/11] hugetlb: Convert the vmf->pgoff to PAGE_SIZE
- granularity
-Message-ID: <ajMfdQf-Fspwmstr@casper.infradead.org>
-References: <20260617172534.1740152-1-jane.chu@oracle.com>
- <20260617172534.1740152-6-jane.chu@oracle.com>
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="ZVZKxZ8N"
+Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65HK0hqj830246
+	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 16:32:53 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2025-q2; bh=EjPlW8pUvzxKAdHJAI
+	GBSE6xXQLodHaqRM8KkH/e/Zc=; b=ZVZKxZ8NOEcu/WBakF25kY6MyjK+dYzxLM
+	ZOYdS8ddNraSrQWS28WgUPVCBOIOOoqm24qUipi5QwZWI2D0n7BMgdQDs0avrfmK
+	k29uQTv2sUOk/XyT6D5bF7zzxnmCx6WmxCiYgMmEBuponyGJdeV5TUFEDSYqczNM
+	pdgw/NWwRNwB6K0/rJm/ZhjLly6Tct/z8c2NDikSIrppWi2wjbHjduRrJmIZntzV
+	usVo+0WnI+DxlQ69XP9P82FrzcEc8ZrvfR/BrXgNsUA2sFhREfFr0h8cXGWwlh2A
+	CnkWKdC7SEncH30lmj1qrPNMpz9nS72L7ikd5VYNtOUTofpLIxOA==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4euegcr6xu-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 16:32:53 -0700 (PDT)
+Received: from twshared5319.01.snb2.facebook.com (2620:10d:c085:208::f) by
+ mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.41; Wed, 17 Jun 2026 23:32:52 +0000
+Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
+	id D98EB23517B59; Wed, 17 Jun 2026 16:32:35 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-block@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
+CC: <dm-devel@lists.linux.dev>, <hch@lst.de>, <axboe@kernel.dk>,
+        <brauner@kernel.org>, <djwong@kernel.org>, <viro@zeniv.linux.org.uk>,
+        Keith
+ Busch <kbusch@kernel.org>
+Subject: [PATCH 0/1] direct-io: validate user space vectors during extraction
+Date: Wed, 17 Jun 2026 16:32:34 -0700
+Message-ID: <20260617233235.1016063-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260617172534.1740152-6-jane.chu@oracle.com>
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE3MDIyNSBTYWx0ZWRfXxBvPQf89tQG0
+ 10kNpuAsDVOhoyrulyCHNjOR61NQuZVirXM+uVq+szswjlbpnJft7E5a/CfkDWjyqiDAJYlzAFW
+ FmrBw1dw+sYVivZMHD2mvFvfPqnKGvwJRNkTbPazpU4Q5SSELVXMDgemGCebMIVczEttiYCbAqY
+ G6Ur8YqpS9HRsiVzczmr2y1dFhL4QjFsG5wWXQ1r18RDxQMWSnqyV8e4ARAFXvWWuJdPIlmBYjd
+ mJFwN6e7m1GQBRfDrlU1crxJ29gJo2OCWaeqUOBGvRVdf8odpaba9gLkG66D/X/ILR7vXLh3EjM
+ xNM2pvFxFOhYLOzD0TXPiWF/tWGdwlWhxdQPg51efZXScXLhx4GxmrYwU+P0R7PtcTRFk1v7VWM
+ rrh8eEDzLvwBcqNWdRHfBXG7xwuLLyMSnZtsQ4LPkDM4BtNLUC8oKov5e5+pvdFAIV+atm25GM6
+ zZzF7ur6j5n4Um+/U4Q==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE3MDIyNSBTYWx0ZWRfX8UQG8ysH3JQG
+ fiVvFigXT91FuPft1jo8YVYEQ4C2C3ZAgaP7u6yits4dutWXHxXh6Iq8fRoFkxL5GGU+VF/uixh
+ bwXeBN2mKQeQfiRo362mCu8GR8xXdQs=
+X-Authority-Analysis: v=2.4 cv=WYE8rUhX c=1 sm=1 tr=0 ts=6a332ea5 cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
+ a=crHB47gyY4rKiduisYu9:22 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=VabnemYjAAAA:8
+ a=_iIL0Scklw7mknrBnAYA:9 a=gKebqoRLp9LExxC7YDUY:22
+X-Proofpoint-ORIG-GUID: nbQaWUzR_bjZ2hn7ySYfmbOneJRm_8oO
+X-Proofpoint-GUID: nbQaWUzR_bjZ2hn7ySYfmbOneJRm_8oO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-17_02,2026-06-17_03,2025-10-01_01
 
-On Wed, Jun 17, 2026 at 11:25:26AM -0600, Jane Chu wrote:
-> +++ b/mm/hugetlb.c
-> @@ -5654,6 +5654,8 @@ static inline vm_fault_t hugetlb_handle_userfault(struct vm_fault *vmf,
->  						  unsigned long reason)
->  {
->  	u32 hash;
-> +	struct hstate *h = hstate_vma(vmf->vma);
-> +	pgoff_t idx = vmf->pgoff >> huge_page_order(h);
+From: Keith Busch <kbusch@kernel.org>
 
-If we do manage to make mapping_min_folio_nrpages() return the right
-answer for hugetlbfs (see earlier comment), then we can avoid this by doing:
+This addresses the misaligned direct-io problem behind various threads:
 
-+++ b/mm/hugetlb.c
-@@ -5936,7 +5936,7 @@ u32 hugetlb_fault_mutex_hash(struct address_space *mapping, pgoff_t idx)
-        u32 hash;
+ https://lore.kernel.org/linux-xfs/20260610145218.141369-1-cem@kernel.org=
+/
+ https://lore.kernel.org/all/CAC_j7i1R7oy+nRhxEjCTba=3DDUgn02w9X+p94DCu0a=
+Hv5+5tKnQ@mail.gmail.com/
+ https://lore.kernel.org/linux-block/ai7rnH20IYeSmY8s@gallifrey/
+ https://lore.kernel.org/linux-block/20260616154009.2123183-1-kbusch@meta=
+.com/
 
-        key[0] = (unsigned long) mapping;
--       key[1] = idx;
-+       key[1] = idx >> mapping_min_folio_order(mapping);
+The various tested fixes are correct as far as they go, but they treat th=
+e
+symptom: they only matter because an invalid bio reaches those drivers in=
+ the
+first place.
 
-        hash = jhash2((u32 *)&key, sizeof(key)/(sizeof(u32)), 0);
+The reason it reaches them is an assumption I made when I removed
+direct-io alignment checks in 5ff3f74e145a ("block: simplify direct io
+validity check") and 7eac331869575 ("iomap: simplify direct io validity
+check"): every bio is eventually split to the device limits, and the
+upper layers cope with resulting errors once the bio has formed. Both
+were optimistic assumptions. Drivers with their own ->submit_bio may
+never pass through blk_mq_submit_bio()'s split, so the check never runs
+for them, and as numerous threads showed, the consumers don't uniformly
+handle this condition.
 
-although I wonder if we still need the fault mutex array, given that we
-now have mapping->invalidate_lock?
+This patch stops the invalid bio at the source instead. It validates the
+buffer's alignment against the alignment limits when the bio is built
+from the iov_iter. The check is folded into the bvec extraction that
+already walks the vectors, so it adds only a comparison on a path that
+is pinning direct-io pages anyway. Misalignment is now uniformly
+rejected with EINVAL before submission for every direct-io submission
+path.
+
+With this in place, the dm side changes under discussion are no longer
+required to fix the bugs: the affected targets simply never see the
+invalid bio. The tested patches remain reasonable as defense-in-depth if
+desired, but they are not strictly necessary after this.
+
+Keith Busch (1):
+  block: validate user space vectors during extraction
+
+ block/bio.c          | 19 ++++++++++++++++---
+ block/blk-map.c      |  2 +-
+ block/fops.c         |  3 ++-
+ fs/iomap/direct-io.c |  3 ++-
+ include/linux/bio.h  |  2 +-
+ include/linux/uio.h  |  3 ++-
+ lib/iov_iter.c       |  9 ++++++++-
+ 7 files changed, 32 insertions(+), 9 deletions(-)
+
+--=20
+2.52.0
 
