@@ -1,87 +1,287 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B09E41B36E;
-	Wed, 17 Jun 2026 13:21:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250B5406828
+	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 13:22:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781702486; cv=none; b=Qi4kNVTTUUTvKUJmXOtUApQqCrqrbwDp2x/VWkmFLDLnbRjMki/2YPJ5duRBSo0Clfou2UybpQpXAICkFJaAap1Rqz7+/8BQ8WE83VyX5meNlKhYWpupX4QPUbVSa6cCv001q3lPdH3LjDe+YURN1t/ExOecqb8VmmL3LJaGmm4=
+	t=1781702539; cv=none; b=Ma9mJuXWhyyqa2k5MNpIpzOVOHCqQfBaCDYzsMfmFYcNtPFAtSMt5clSY8Xk5xEKgLZIEv6i+XVEN46JmLADtWPWdwMztADrVatkTwPp9o4K9X5gb/A0BYke5mPTomD6gNVQPoZ1f89ICyxlfjt0/yYPA9+hn66ND/jvqscvTbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781702486; c=relaxed/simple;
-	bh=m314LpSljxffpgIL67NbEa1HaZsA07ZUvVbY27TmbzE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FTU+mSFpdW71dBuLpDpgE5wams4o3R9cRvZK0WCrC7MyHwwT0jMtCvATWKWLdqk1kla4XSIv74O9uKbgB+VjDfgxECuLHztTHMNJ7NlxnmUVwYVRLqvpzsm13L3rVy7kBMizMoFeXiYu08t7y3KDrS9rXIuwzrt5BR01XXqhPNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PK8fh41u; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781702539; c=relaxed/simple;
+	bh=cl9Zq1MYYIwqx/qUH20r2SBwJINs5XA50B3Ivl1XHi0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cjeMepw/zVi8Gog6CXS+qC/4IbZ2MaZWdalNq6z6RTgQW0bilk6YmNKF5gJB49vFX5jM2o6v90sloLpjBorgg/O38Zns6+j18RmcTxEjarq8XLC0+exNkQScp5tAMJBZLL90Bry6N+KCmXa47z7x4W3B0dSFziF4TWbXoc6g4Nk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PZkO5XRe; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PK8fh41u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B515D1F000E9;
-	Wed, 17 Jun 2026 13:21:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781702484;
-	bh=KatzPeqYH1K3FNjb9zFLVXyQM8JD6zV1FG1wHzHJlNc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=PK8fh41uTl1EooOCfOmezFCxp10oM7AMfTJ6xjXZaHVtRzUi1GyzU+ACxwQDEQNRO
-	 V7W06D/K8in1k67oL19pWAbaDad+Bjt2ZjFjDsYW0bYC0BaSkbNmpg7Fi754pfwO2n
-	 KCilfVjIEXQ3fBKkIUo9Jqf5zBMK7Tq9rCI+76YwiZYzYLUFhW7njZ/NsTFrW15c/t
-	 kmr9GTCQedrXzfaq+y+AYN0UniXsGciOgN3uGN70W9rHL/NyC4EaoVHVJFufqx4ZN7
-	 9ow3tcOTQOX1kcogIUaA2XVRVeWQWbbKuVJFwZFfMKuqLFfVdP/McvZKFKrBVkO6g/
-	 7hYjjHyHlGasA==
-From: Christian Brauner <brauner@kernel.org>
-To: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Alexey Dobriyan <adobriyan@gmail.com>,
-	Jan Kara <jack@suse.cz>,
-	Wei Yang <albinwyang@tencent.com>,
-	Zijie Wang <wangzijie1@honor.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v2] proc: only bump parent nlink when registering directories
-Date: Wed, 17 Jun 2026 15:21:17 +0200
-Message-ID: <20260617-zeitig-umlagen-ortseinfahrt-1389d7457b0f@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260613211005.921692-1-kwilczynski@kernel.org>
-References: <20260613211005.921692-1-kwilczynski@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PZkO5XRe"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2c6ab886da6so9892665ad.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 06:22:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781702536; x=1782307336; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VEWyYTJkFHrNJL0Tf6CUABwXAes876mCeFHO3nb8fr4=;
+        b=PZkO5XReUhIo+uFKC1BWc5C2HRdyRHskFUkKqTM/yVU5QcBQKUqIkFvjqmXE6sQES6
+         2AimmAsdbiLSl7l5KuAuXiJ6w+IaY9uxwB+18d8fO29yGzUYCSJPi2gmXw2jpcK2meKM
+         Oi+CVqSoAHJ7M/i87DmdPqNv1aKFuqH/TYJ6Mf/d/TjQHb2Xv0MSprl9IvHMcFFqmOlS
+         Q+yMvxCgU/PgDEchCk8NLnYKm79qDJznoKbHh4ew/2FebJVMo7bOul9CXREzKaiZKXrx
+         G76vIkbjRexxeHgGMLnC/3sQnwS9Jkm8q1bXCVPYz2Blymg1Lqpa/t9rOI7CIrMCusHE
+         yMzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781702536; x=1782307336;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VEWyYTJkFHrNJL0Tf6CUABwXAes876mCeFHO3nb8fr4=;
+        b=Y4NIaIeIlqLkajsD5qgrkioMwy+92XqRE8Z7q5IoGlOQNbDb+WA498T1PKPBQYmFIN
+         1q8XiZjO4zrGHWFQWY7xcVcn79CDwCVNeo4xRasl6V7LE7Te07wS0GkHNyp/xarKZpXH
+         hZPJ+nj503tvJG0faDsV3ORvKtUXdEv1Qpr0t8LrjIaa29yUKf3J56gxIa0ayUIYoy98
+         Cej1PcGeD+yBx6j7ugaNCv4YylOnwnr+kbyLS3qHZoTruZM0lKPHRnNzhXGQJ+6IpPUC
+         ilYz4hYLTSqypBT7GfFnJAsSLlgoKT9USz5wzK+T7ubpMxsFj2yAv2zc21OTWHQg0yiO
+         LoeA==
+X-Forwarded-Encrypted: i=1; AFNElJ+cD6ZYN8nsEKP74Z7wzmLATp4+csUVaNNCWpnlmB4rplyo+02QCTrT565MmVOoQ1FMVChXyi9UTdnGs8XG@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDHkulqMzbHeiCp1WaE9gVgVlrv5P6y/GYssypRi/Zx7lkvi3x
+	fLoqpngyt2iSzOhXyAPh7HOMtACs0cp0Zb14UQgt1V+/Dqa79cS1iB+v
+X-Gm-Gg: AfdE7clWuXkwsQZyr/BYaaqqS9y0MznxkJMm3uRJoBd3/5Yt869HJNFgX7jaw1bRlkm
+	zWsiNyb6quL9eN27xHLNuLR9N527CICB4OnLvTrGSU+hGbMcav09FZVsalP9aArGu2gRYf+iPSw
+	Lu/EVRlXSvmbbdXh/GzJNq0G/JfkHMnBuzl5/ujrTUGaPl3bjigs9tzgRO8iec0moF1jlPs5gm+
+	MMai1WgSu7rbMnLXnQv0cFIO10kntedZ+im/MpzM35sgK8K0aUsdAf76SyCrBeMX8SKpezU3xlJ
+	L3PTNUBn0OGeLSdKBx0lW4yU4aQYU6Q+BgA6KNOt9rylVEymy3NUZIPQsYeA5jZfyLqQcxuFi5K
+	sMfPuUl4jONHCK619fAVsFBnweNr+gdvIbryfFZJycdSL/Mv9txsldZtVm4xcMBHow3LLQdn70l
+	weQp84+cGL2yEGC1pxXxparjUjxfefwF8RIecRkOmO+QBrVa55jmUuOlMGrVoOimQ=
+X-Received: by 2002:a17:903:19ed:b0:2c2:50c7:58a4 with SMTP id d9443c01a7336-2c6bc223ee0mr37937805ad.22.1781702536299;
+        Wed, 17 Jun 2026 06:22:16 -0700 (PDT)
+Received: from ?IPV6:240e:390:a92:e6d1:ed78:8bd4:5db9:c767? ([240e:390:a92:e6d1:ed78:8bd4:5db9:c767])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c4327acca5sm149502475ad.51.2026.06.17.06.22.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Jun 2026 06:22:15 -0700 (PDT)
+Message-ID: <22315c1e-d13f-440c-b944-138ce4b7caa0@gmail.com>
+Date: Wed, 17 Jun 2026 21:22:10 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1505; i=brauner@kernel.org; h=from:subject:message-id; bh=m314LpSljxffpgIL67NbEa1HaZsA07ZUvVbY27TmbzE=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQZzfdXWlLvcT7xx3OzN2sfW2jeuOenaDD3y23RDOvWP Q32TkuzO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACayeCIjQ1e2v41IZ9N63cZo yU+qT3+GxyRsa2aXrNy2VymZPcBMmeF/SrmD9vKtgWcemn/8k/VCdj77jjLVpX1WyZzBTd/7oic xAgA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 14/23] ext4: implement partial block zero range path
+ using iomap
+To: Brian Foster <bfoster@redhat.com>, Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: Jan Kara <jack@suse.cz>, linux-ext4@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, tytso@mit.edu,
+ adilger.kernel@dilger.ca, libaokun@linux.alibaba.com, ojaswin@linux.ibm.com,
+ ritesh.list@gmail.com, djwong@kernel.org, hch@infradead.org,
+ yi.zhang@huawei.com, yangerkun@huawei.com, yukuai@fnnas.com
+References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
+ <20260511072344.191271-15-yi.zhang@huaweicloud.com>
+ <c2q54d6u724xctkzwm6x7sbmg5cpvcackfz3toc47qts6iaj77@ci2czn4fqjik>
+ <16cccb83-cdad-4113-8182-e8ea9e3049a2@huaweicloud.com>
+ <ajJ9b91fTbM6qApg@bfoster>
+Content-Language: en-US
+From: Zhang Yi <yizhang089@gmail.com>
+In-Reply-To: <ajJ9b91fTbM6qApg@bfoster>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On Sat, 13 Jun 2026 21:10:05 +0000, Krzysztof Wilczyński wrote:
-> proc_register() increments the parent directory's link count for every
-> entry it registers, while remove_proc_entry() and remove_proc_subtree()
-> decrement it only when the removed entry is a directory.  Regular files
-> thus inflate the parent's count while they exist, and leak one link
-> permanently on every create and remove cycle.
+On 6/17/2026 6:56 PM, Brian Foster wrote:
+> On Wed, Jun 17, 2026 at 04:14:40PM +0800, Zhang Yi wrote:
+>> On 6/16/2026 8:28 PM, Jan Kara wrote:
+>>> On Mon 11-05-26 15:23:34, Zhang Yi wrote:
+>>>> From: Zhang Yi <yi.zhang@huawei.com>
+>>>>
+>>>> Introduce a new iomap_ops instance, ext4_iomap_zero_ops, along with
+>>>> ext4_iomap_block_zero_range() to implement block zeroing via the iomap
+>>>> infrastructure for ext4.
+>>>>
+>>>> ext4_iomap_block_zero_range() calls iomap_zero_range() with
+>>>> ext4_iomap_zero_begin() as the callback. The callback locates and zeros
+>>>> out either a mapped partial block or a dirty, unwritten partial block.
+>>>>
+>>>> Important constraints:
+>>>>
+>>>> Zeroing out under an active journal handle can cause deadlock, because
+>>>> the order of acquiring the folio lock and starting a handle is
+>>>> inconsistent with the iomap writeback path.
+>>>>
+>>>> Therefore, ext4_iomap_block_zero_range():
+>>>> - Must NOT be called under an active handle.
+>>>> - Cannot rely on data=ordered mode to ensure zeroed data persistence
+>>>>    before updating i_disksize (for the cases of post-EOF append write,
+>>>>    post-EOF fallocate, and truncate up). In subsequent patches, we will
+>>>>    address this by synchronizing commit I/O but doesn't waiting for
+>>>>    completion, and updating i_disksize to i_size only after the zeroed
+>>>>    data has been written back.
+>>>>
+>>>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+>>>> ---
+>>>>   fs/ext4/inode.c | 92 +++++++++++++++++++++++++++++++++++++++++++++++++
+>>>>   1 file changed, 92 insertions(+)
+>>>>
+>>>> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+>>>> index c6fe42d012fc..e0dae2501292 100644
+>>>> --- a/fs/ext4/inode.c
+>>>> +++ b/fs/ext4/inode.c
+>>>> @@ -4101,6 +4101,51 @@ static int ext4_iomap_buffered_da_write_end(struct inode *inode, loff_t offset,
+>>>>   	return 0;
+>>>>   }
+>>>>   
+>>>> +static int ext4_iomap_zero_begin(struct inode *inode,
+>>>> +		loff_t offset, loff_t length, unsigned int flags,
+>>>> +		struct iomap *iomap, struct iomap *srcmap)
+>>>> +{
+>>>> +	struct iomap_iter *iter = container_of(iomap, struct iomap_iter, iomap);
+>>>
+>>> This looks like a layering violation to me. I don't think you can safely
+>>> assume the iomap you're passed is a part of iomap_iter...
+>>>
+>>>> +	struct ext4_map_blocks map;
+>>>> +	u8 blkbits = inode->i_blkbits;
+>>>> +	unsigned int iomap_flags = 0;
+>>>> +	int ret;
+>>>> +
+>>>> +	ret = ext4_emergency_state(inode->i_sb);
+>>>> +	if (unlikely(ret))
+>>>> +		return ret;
+>>>> +
+>>>> +	if (WARN_ON_ONCE(!(flags & IOMAP_ZERO)))
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	ret = ext4_iomap_map_blocks(inode, offset, length, NULL, &map);
+>>>> +	if (ret < 0)
+>>>> +		return ret;
+>>>> +
+>>>> +	/*
+>>>> +	 * Look up dirty folios for unwritten mappings within EOF. Providing
+>>>> +	 * this bypasses the flush iomap uses to trigger extent conversion
+>>>> +	 * when unwritten mappings have dirty pagecache in need of zeroing.
+>>>> +	 */
+>>>> +	if (map.m_flags & EXT4_MAP_UNWRITTEN) {
+>>>> +		loff_t start = ((loff_t)map.m_lblk) << blkbits;
+>>>> +		loff_t end = ((loff_t)map.m_lblk + map.m_len) << blkbits;
+>>>> +
+>>>> +		iomap_fill_dirty_folios(iter, &start, end, &iomap_flags);
+>>>> +		if ((start >> blkbits) < map.m_lblk + map.m_len)
+>>>> +			map.m_len = (start >> blkbits) - map.m_lblk;
+>>>> +	}
+>>>
+>>> ... and you need access to iter only for this which seems to be really a
+>>> hack that's trying to outsmart the iomap code. I have to admit I don't
+>>> fully understand what you are trying to achieve here. Are you trying to
+>>> avoid flushing of the range that will be zeroed out?
+>>
+>> This logic is copied from the XFS and iomap infrastructure. Its primary
+>> purpose is to optimize the zeroing operations on dirty written extents.
+>> It was introduced by Brian in [1].
+>>
+>> The history as I understand it: originally, the iomap infrastructure
+>> could not zero dirty unwritten extents during zero range processing,
+>> which led to stale data exposure. XFS had to flush dirty ranges itself
+>> before zeroing — a workaround that was not generic.
+>>
+>> In c5c810b94cf ("iomap: fix handling of dirty folios over unwritten
+>> extents"), Brian added an unconditional flush in the iomap
+>> infrastructure, ensuring that by the time zeroing runs the extent has
+>> already been converted to written so the zero can proceed correctly.
+>> However, this flush was too heavy and introduced noticeable performance
+>> overhead.
+>>
+>> This was then optimized in 7d9b474ee4cc3 ("iomap: make zero range flush
+>> conditional on unwritten mappings"), which restricts flushing to only
+>> dirty pagecache over unwritten or hole mappings.
+>>
+>> Brian later proposed a different approach: rather than relying on flush
+>> to convert the extent type, find dirty folios ahead of the zero range
+>> and zero the dirty unwritten extents directly. In [1] he added this
+>> lookup logic. The filesystem now supplies a folio batch (a collection of
+>> dirty folios) via the iomap begin callback, and zero range iterates over
+>> these dirty folios to perform zeroing. Clean regions not covered by the
+>> batch are simply skipped. This entirely eliminates the need to flush.
+>>
+>> [1] https://lore.kernel.org/linux-xfs/20251003134642.604736-1-bfoster@redhat.com/
+>>
+>> If I understand correctly, the current approach is a compromise, and
+>> Brian is still working on this. Perhaps ext4 and XFS could work together
+>> on improvements in the future?
+>>
 > 
-> For example, /proc/bus/pci/00 with twenty-two device files and no
-> subdirectories reports nlink 24 instead of 2, and SR-IOV VF enable
-> and disable cycles, each creating and removing the VF config space
-> entries under /proc/bus/pci/<bus>, inflate the link count of that
-> directory without bound.
+> I think that about covers it!
 > 
-> [...]
+> I do agree wrt to the iomap_iter thing in that it doesn't seem like the
+> most elegant thing. I considered that a bit of a roadblock when first
+> hacking on the batch stuff, but IIRC somebody pointed out that there was
+> precedent already so I didn't think too hard about it after that. Indeed
+> if you poke around, other filesystems use a similar pattern to access
+> iter->private for whatever private context is carried around.
+> 
+> FWIW, one of the longer term thoughts for the dirty folio stuff was to
+> eventually lift it out of the callback and just have iomap do it for the
+> fs. That would eliminate this particular pattern and probably clean
+> things up a bit, but there were also some other caveats with that that
+> aren't top of mind atm (IIRC, things like dealing with map trimming,
+> etc., but I haven't had a chance to think about it in a while).
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+Thanks for the additional information. This looks like a promising
+direction. The usage on the ext4 side is relatively simple at the
+moment, so the main concern is whether this would cause any issues for
+XFS and other filesystems. This can be investigated later when time
+permits — it's not urgent at this point.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+> 
+> Also note that this isn't necessarily a hard requirement. It's an
+> optional optimization. iomap will flush and retry in the dirty
+> pagecache+unwritten extent case if the fs hasn't otherwised provided
+> folios to make sure it zeroes properly, it's just that performance of
+> that may or may not be acceptable for your use case.
+> 
+> Brian
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+Yes, we will try to adopt the folio batch approach as much as possible,
+hoping to reduce unnecessary performance overhead through it.
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+Thanks,
+Yi.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
+> 
+>>>
+>>>> +	ret = iomap_zero_range(inode, from, length, did_zero,
+>>>> +			       &ext4_iomap_zero_ops, &ext4_iomap_write_ops,
+>>>> +			       NULL);
+>>>> +	if (ret)
+>>>> +		return ret;
+>>>> +
+>>>> +	/*
+>>>> +	 * TODO: The iomap does not distinguish between different types of
+>>>> +	 * zeroing and always sets zero_written if a zeroing operation is
+>>>> +	 * performed, which may result in unnecessary order operations.
+>>>> +	 */
+>>>
+>>> Is this still true after your fix to did_zero handling?
+>>
+>> Yeah. Currently, iomap_zero_range() can only report whether a zeroing
+>> operation has occurred through did_zero parameter, but it cannot
+>> distinguish whether the zeroed range is a written extent that already
+>> exists on disk. That is, even if the zeroing is performed on a delalloc
+>> extent, did_zero will still return true.
+>>
+>> Thanks,
+>> Yi.
+>>
+>>>
+>>>> +	if (did_zero && zero_written)
+>>>> +		*zero_written = *did_zero;
+>>>> +
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>>   /*
+>>>>    * Zeros out a mapping of length 'length' starting from file offset
+>>>>    * 'from'.  The range to be zero'd must be contained with in one block.
+>>>
+>>> 								Honza
+>>
+> 
 
-[1/1] proc: only bump parent nlink when registering directories
-      https://git.kernel.org/vfs/vfs/c/552864f6ac8f
