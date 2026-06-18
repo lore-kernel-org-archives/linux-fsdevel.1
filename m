@@ -1,302 +1,179 @@
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E90736C0D6
-	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 23:34:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F08539FD9;
+	Thu, 18 Jun 2026 01:43:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781739243; cv=none; b=q/QMPmM8vd7B7JadbNxk08cK9irTGAwZILc7lxErm3qwYKgWMm3wvd6TOKiJXVIHc7L8Re7udwwG9hVfObaR5Rf/npyqueDS645JlLTDvu+5ByR1lZ3OZ2cO3NP5wq+6Lotxt8qZ60fKkeUTHc2G1p9uR/Lud9iBXRtrmq/3VIg=
+	t=1781746996; cv=none; b=nMN0ogYbOovw7mOVoqO+tWEP5Ic4QQFWSElxh4DpHuPe1VuYnM43hRpSSGnRy2wlENfdKRILtjW8GWqwnOHYidAFUK6CwjxYIxOF6G+q/Xye6UkmamdcK3wA7f3iS0Qf+7ELseGlQra429db6MBp01SWpGyk4u5J5BL4FNzQ15E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781739243; c=relaxed/simple;
-	bh=bYGJHmHFIdg/vZp+bBJZjvaSuFW3cm1oJyzL7R50C2w=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Gb/teJ4AWkzQsqO7C1f15v6kNwXriWaCKKf1mWg3xdvpMLeMGMDIV0B+PS96mTGymzpDfzPWy2xmWK0BiPKMsG/yh31EUz2QH9MGO9O7IPRc+voL0YLCzzCnebpPMQTpK/KURGzXToKIWZonL+5WCGOSTkTYIx7ICwFzbkEKnWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=dFL2otj5; arc=none smtp.client-ip=67.231.145.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="dFL2otj5"
-Received: from pps.filterd (m0528007.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65HK0vT9981659
-	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 16:34:01 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=M8oj17OkIUhfmg6VbN8ApgSdYh1H4y5vkkOv0aGYNNU=; b=dFL2otj5cPi/
-	cFzux+jvpGhB9xcXMoAy4jOlTY9E3ohTXgZ7fzCVnSiBeYmFhzlHnq77alP64aab
-	L5hyUk1VxPNLQPXxO/B+IYcY5SMvw3WGcttOTqOEE/EaVlMnB/E7e9qC7ddQSmOq
-	QHlQwmN6yfHzWWB0HS0+TeJTz2dbonCPe6nmmGICVWsJXUu4DcyzY4Nu5J23n4PQ
-	tPpTk+0Mm7Vj7wK4BbkT3u3i4hTC3c3Tis8vk8ZRolj1eJPgAzBsKSnMp1+Tmfaw
-	g1dyW5K45f0BCyKOb2v3/TpekvefZuFS+nOKHiZbONbyTvBWW86GnUATo8cthTWC
-	VG8tJZ4EDQ==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4euegcr67j-4
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 16:34:00 -0700 (PDT)
-Received: from twshared25719.01.snb2.facebook.com (2620:10d:c0a8:1b::2d) by
- mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.41; Wed, 17 Jun 2026 23:33:57 +0000
-Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id E030723517B5B; Wed, 17 Jun 2026 16:32:35 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-block@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-CC: <dm-devel@lists.linux.dev>, <hch@lst.de>, <axboe@kernel.dk>,
-        <brauner@kernel.org>, <djwong@kernel.org>, <viro@zeniv.linux.org.uk>,
-        Keith
- Busch <kbusch@kernel.org>, <stable@vger.kernel.org>
-Subject: [PATCH 1/1] block: validate user space vectors during extraction
-Date: Wed, 17 Jun 2026 16:32:35 -0700
-Message-ID: <20260617233235.1016063-2-kbusch@meta.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260617233235.1016063-1-kbusch@meta.com>
-References: <20260617233235.1016063-1-kbusch@meta.com>
+	s=arc-20240116; t=1781746996; c=relaxed/simple;
+	bh=CnE+tHift91NW7KVcz4F90uocoWIyRwmZf0x46qY59I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RKi0f+Cly0pDIWMWtKO/zW8k5FAfof70D96jbAqplWfSU4pmIl+0pFKOsfDp3I4R6xnl9TiqvOiEfWqKC3ZjMMsvSeIEDq5EwZPvjEMOfhLY/i0+/8wlmL+2yeE0vfA9sFh2IMTrUI8gSOWhA6UdI7brEUoJNy0Gkkie6eTxutw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.198])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4ggk4B1WBFzKHMZm;
+	Thu, 18 Jun 2026 09:42:18 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id 738A740583;
+	Thu, 18 Jun 2026 09:43:07 +0800 (CST)
+Received: from [10.174.178.253] (unknown [10.174.178.253])
+	by APP1 (Coremail) with SMTP id cCh0CgA3OT4pTTNqwnq+CA--.30640S3;
+	Thu, 18 Jun 2026 09:43:07 +0800 (CST)
+Message-ID: <cf4b41a7-a1ee-42d8-aafc-f8ddc6687a49@huaweicloud.com>
+Date: Thu, 18 Jun 2026 09:43:05 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: WqtK1Ma9GfaQ5VHnaSWuEcoR6LcxdKBt
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE3MDIyNSBTYWx0ZWRfX/x5nDb8wkwRx
- 25+JikdOtaP5FURT38Gb5SAwo+0bbiijoyckmkin3h4/3lVlOLxaAL7AB6VFS7h2lid+YSj2O0T
- eBw7HBjQH1+OBikeCTcamjrreLJ1saI=
-X-Authority-Analysis: v=2.4 cv=NpXhtcdJ c=1 sm=1 tr=0 ts=6a332ee8 cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
- a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=4h92JMTCafKA-fb_NiOh:22 a=VwQbUJbxAAAA:8 a=MFjv_cZ18IANV4BSG9cA:9
-X-Proofpoint-ORIG-GUID: WqtK1Ma9GfaQ5VHnaSWuEcoR6LcxdKBt
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE3MDIyNSBTYWx0ZWRfX6lJBZi3/EkLw
- gnuse+UzJ9TitwaZmlIt0iLufnnLvAvmTsQpfyh2q/mvFWM7nU3gpNz45rfnAux3yPPi/2tR7ae
- AB+WXcN1EirO8QZQyZ2BhrBSYiUzLlkD6zCjPifUj5My9eqZQRaUvsj/d9GuJQ9SEo4jIKOWyws
- nrWmLbmFzZcs337/Zdl4Mse97b/xfeeITDYdO0JYIe9ncUOtY0eDFzUPae5J0xP3x2osTBRCHZp
- bWzOW7/b89ZITPfkbfq9HdWRNmxJiCbbu0JJ8Rs8RUzgj1ce9KBqtCD23jSQmBHgvZqddx4TKCs
- ygKklGJj9SxOCxu9L1Szz6v/vfTF0QOJJw/yOh15lXEh6U1KdOrZnNrcai/2FIkjjbyZYoNJ/SI
- uj+QdhmRRiWKCvaursOq1JmfcuuZs01x76IOUA+SUvqa1VsURz/Kofb5llBpYC6Q0gF97V8v/uc
- KvLAWaMUCNLXpUQyLoQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-17_02,2026-06-17_03,2025-10-01_01
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 06/23] ext4: pass out extent seq counter when mapping
+ da blocks
+To: Jan Kara <jack@suse.cz>, Zhang Yi <yizhang089@gmail.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
+ libaokun@linux.alibaba.com, ojaswin@linux.ibm.com, ritesh.list@gmail.com,
+ djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
+ yangerkun@huawei.com, yukuai@fnnas.com
+References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
+ <20260511072344.191271-7-yi.zhang@huaweicloud.com>
+ <ghe4izo4od2b4fcgmiayopkaombyjjopao266sseuqim72t5sj@h2meez5lalsl>
+ <58ee3009-8a0e-4657-a473-475ea998316e@gmail.com>
+ <xt3zkmgktl7wpbwt4de76wh4q576fkmytw6udeojmj4goi6ul6@np4zgi2zinkg>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <xt3zkmgktl7wpbwt4de76wh4q576fkmytw6udeojmj4goi6ul6@np4zgi2zinkg>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:cCh0CgA3OT4pTTNqwnq+CA--.30640S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxZFy3uF43Kw43AF4UAw43Jrb_yoWrAw43pa
+	90kF15KrsxZ348uF4xtF1xXr1F9a1UKrW7Wr43Xw1FgF90kFySgF47WF12kFy8Kr4xJr10
+	qF4jkryxur1FyrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
+	ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1
+	7KsUUUUUU==
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-From: Keith Busch <kbusch@kernel.org>
+On 6/18/2026 4:29 AM, Jan Kara wrote:
+> On Tue 16-06-26 20:37:00, Zhang Yi wrote:
+>> On 6/16/2026 6:04 PM, Jan Kara wrote:
+>>> On Mon 11-05-26 15:23:26, Zhang Yi wrote:
+>>>> From: Zhang Yi <yi.zhang@huawei.com>
+>>>>
+>>>> The iomap buffered write path does not hold any locks between querying
+>>>> inode extent mapping information and performing buffered writes. It
+>>>> relies on the sequence counter saved in the inode to detect stale
+>>>> mappings.
+>>>
+>>> Now that I'm looking at it again, I've got a bit confused here. Buffered
+>>> write path is holding i_rwsem between mapping blocks and using them so
+>>> there shouldn't be races.  Perhaps you mean buffered *writeback* path? But
+>>> then ext4_da_map_blocks() should not ever get called in the writeback path
+>>> because it is allocating delayed blocks... So this change looks unnecessary
+>>> to me now. Am I missing something?
+>>>
+>>> 								Honza
+>>>
+>>
+>> Hi Jan,
+>>
+>> Thanks for coming back to this series. Sorry for the inaccurate
+>> description in the commit message. However, this change is still needed.
+>>
+>> As mentioned in the comment before the ->iomap_valid() callback in
+>> iomap_write_begin(), consider the following scenario — a buffered write
+>> to a dirty unwritten extent, with this concurrent race:
+>>
+>>   Buffer write (holds i_rwsem)    Writeback (no i_rwsem)
+>>   ext4_da_map_blocks()
+>>     // ext4_es_lookup_extent()
+>>     // finds UNWRITTEN extent
+>>   ext4_set_iomap()
+>>     // type = IOMAP_UNWRITTEN
+>>     // validity_cookie = m_seq
+>>                                   ext4_iomap_writepages()
+>>                                     // writeback for unwritten extent
+>>                                     // ext4_convert_unwritten_extents()
+>>                                     // extent tree: UNWRITTEN → WRITTEN
+>>                                     // advancing i_es_seq
+>>   __iomap_write_begin()
+>>     // ext4_iomap_valid(): cookie != i_es_seq
+>>     // iomap invalidated, re-maps
+>>     // gets type = IOMAP_MAPPED (WRITTEN)
+>>     // iomap_block_needs_zeroing(): FALSE
+>>
+>> Without passing out m_seq, the stale IOMAP_UNWRITTEN type from the iomap
+>> would cause __iomap_write_begin()->iomap_block_needs_zeroing() to zero
+>> out blocks that have already been written, corrupting data on partial
+>> writes.
+> 
+> Ah, right, thanks for explanation. So please update the description to
+> explicitely mention that iomap doesn't hold folio lock between mapping the
+> extent and copying data and thus can race with writeback modifying the
+> extent type. Thanks!
+> 
+> 								Honza
 
-The blk-mq based drivers have every incoming bio validated by an
-unconditional __bio_split_to_limits() call, which rejects any segment
-that does not meet the queue's dma_alignment with BLK_STS_INVAL, so they
-only see viable requests. A bio-based driver, though, receives a bio
-whose memory alignment has not been checked.
+Sure, thanks for pointing this out.
 
-Misalignment is possible for vectors supplied from user space direct-io.
-When a stacking driver forwards a misaligned bio to a member device,
-that member may reject it with BLK_STS_INVAL if the lower level attempts
-to split the bio to the queue limits. The stacker tends to mishandle the
-error: dm-raid1 may degrade an otherwise healthy array.
+Cheers,
+Yi.
 
-Alternatively, some lower level bio based block drivers never attempt to
-split their bio and assume the one received is viable. If it's
-unaligned, block devices like brd and pmem may corrupt their data as
-they have a strong dependency on sector size aligned bvecs.
-
-Validate the source against the device's dma_alignment where the bio is
-built from the iov_iter, rejecting misaligned I/O with -EINVAL before it
-is submitted. This is done opportunistically in a path that already pins
-the pages, so no additional io vector walking is needed.
-
-The required alignment is supplied by the callers as vec_align_mask
-(bdev_dma_alignment()); passthrough and the bounce path pass 0 as they
-have no such requirement. If a vector is misaligned while building the
-bio, any pages already pinned into that bio are released before
-returning.
-
-Cc: stable@vger.kernel.org
-Fixes: 5ff3f74e145a ("block: simplify direct io validity check")
-Fixes: 7eac33186957 ("iomap: simplify direct io validity check")
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- block/bio.c          | 19 ++++++++++++++++---
- block/blk-map.c      |  2 +-
- block/fops.c         |  3 ++-
- fs/iomap/direct-io.c |  3 ++-
- include/linux/bio.h  |  2 +-
- include/linux/uio.h  |  3 ++-
- lib/iov_iter.c       |  9 ++++++++-
- 7 files changed, 32 insertions(+), 9 deletions(-)
-
-diff --git a/block/bio.c b/block/bio.c
-index f2a5f4d0a9672..1bd7da889e069 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -1242,7 +1242,7 @@ static int bio_iov_iter_align_down(struct bio *bio,=
- struct iov_iter *iter,
-  * is returned only if 0 pages could be pinned.
-  */
- int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
--			   unsigned len_align_mask)
-+			   unsigned len_align_mask, unsigned vec_align_mask)
- {
- 	iov_iter_extraction_t flags =3D 0;
-=20
-@@ -1251,6 +1251,11 @@ int bio_iov_iter_get_pages(struct bio *bio, struct=
- iov_iter *iter,
-=20
- 	if (iov_iter_is_bvec(iter)) {
- 		bio_iov_bvec_set(bio, iter);
-+
-+		if (mp_bvec_iter_offset(bio->bi_io_vec, bio->bi_iter) &
-+							vec_align_mask)
-+			return -EINVAL;
-+
- 		iov_iter_advance(iter, bio->bi_iter.bi_size);
- 		return 0;
- 	}
-@@ -1265,8 +1270,16 @@ int bio_iov_iter_get_pages(struct bio *bio, struct=
- iov_iter *iter,
-=20
- 		ret =3D iov_iter_extract_bvecs(iter, bio->bi_io_vec,
- 				BIO_MAX_SIZE - bio->bi_iter.bi_size,
--				&bio->bi_vcnt, bio->bi_max_vecs, flags);
-+				&bio->bi_vcnt, bio->bi_max_vecs,
-+				vec_align_mask, flags);
- 		if (ret <=3D 0) {
-+			if (ret =3D=3D -EINVAL) {
-+				bio_release_pages(bio, false);
-+				bio_clear_flag(bio, BIO_PAGE_PINNED);
-+				bio->bi_iter.bi_size =3D 0;
-+				bio->bi_vcnt =3D 0;
-+				return ret;
-+			}
- 			if (!bio->bi_vcnt)
- 				return ret;
- 			break;
-@@ -1377,7 +1390,7 @@ static int bio_iov_iter_bounce_read(struct bio *bio=
-, struct iov_iter *iter,
- 		ssize_t ret;
-=20
- 		ret =3D iov_iter_extract_bvecs(iter, bio->bi_io_vec + 1, len,
--				&bio->bi_vcnt, bio->bi_max_vecs - 1, 0);
-+				&bio->bi_vcnt, bio->bi_max_vecs - 1, 0, 0);
- 		if (ret <=3D 0) {
- 			if (!bio->bi_vcnt) {
- 				folio_put(folio);
-diff --git a/block/blk-map.c b/block/blk-map.c
-index 768549f19f97e..c9535efe1a913 100644
---- a/block/blk-map.c
-+++ b/block/blk-map.c
-@@ -274,7 +274,7 @@ static int bio_map_user_iov(struct request *rq, struc=
-t iov_iter *iter,
- 	 * No alignment requirements on our part to support arbitrary
- 	 * passthrough commands.
- 	 */
--	ret =3D bio_iov_iter_get_pages(bio, iter, 0);
-+	ret =3D bio_iov_iter_get_pages(bio, iter, 0, 0);
- 	if (ret)
- 		goto out_put;
- 	ret =3D blk_rq_append_bio(rq, bio);
-diff --git a/block/fops.c b/block/fops.c
-index 15783a6180dec..928ba9be170cd 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -47,7 +47,8 @@ static inline int blkdev_iov_iter_get_pages(struct bio =
-*bio,
- 		struct iov_iter *iter, struct block_device *bdev)
- {
- 	return bio_iov_iter_get_pages(bio, iter,
--			bdev_logical_block_size(bdev) - 1);
-+			bdev_logical_block_size(bdev) - 1,
-+			bdev_dma_alignment(bdev));
- }
-=20
- #define DIO_INLINE_BIO_VECS 4
-diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-index b485e3b191daf..645a4e9cd25f9 100644
---- a/fs/iomap/direct-io.c
-+++ b/fs/iomap/direct-io.c
-@@ -358,7 +358,8 @@ static ssize_t iomap_dio_bio_iter_one(struct iomap_it=
-er *iter,
- 				iomap_max_bio_size(&iter->iomap), alignment);
- 	else
- 		ret =3D bio_iov_iter_get_pages(bio, dio->submit.iter,
--					     alignment - 1);
-+					     alignment - 1,
-+					     bdev_dma_alignment(bio->bi_bdev));
- 	if (unlikely(ret))
- 		goto out_put_bio;
- 	ret =3D bio->bi_iter.bi_size;
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index 8f33f717b14f5..13be7edb524fc 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -477,7 +477,7 @@ int bdev_rw_virt(struct block_device *bdev, sector_t =
-sector, void *data,
- 		size_t len, enum req_op op);
-=20
- int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
--		unsigned len_align_mask);
-+		unsigned len_align_mask, unsigned vec_align_mask);
-=20
- void bio_iov_bvec_set(struct bio *bio, const struct iov_iter *iter);
- void __bio_release_pages(struct bio *bio, bool mark_dirty);
-diff --git a/include/linux/uio.h b/include/linux/uio.h
-index a9bc5b3067e32..be8b2625b376a 100644
---- a/include/linux/uio.h
-+++ b/include/linux/uio.h
-@@ -391,7 +391,8 @@ ssize_t iov_iter_extract_pages(struct iov_iter *i, st=
-ruct page ***pages,
- 			       size_t *offset0);
- ssize_t iov_iter_extract_bvecs(struct iov_iter *iter, struct bio_vec *bv=
-,
- 		size_t max_size, unsigned short *nr_vecs,
--		unsigned short max_vecs, iov_iter_extraction_t extraction_flags);
-+		unsigned short max_vecs, unsigned align_mask,
-+		iov_iter_extraction_t extraction_flags);
-=20
- /**
-  * iov_iter_extract_will_pin - Indicate how pages from the iterator will=
- be retained
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 273919b161617..ccd5b49f6b78d 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -1886,6 +1886,8 @@ static unsigned int get_contig_folio_len(struct pag=
-e **pages,
-  * @max_size:	maximum size to extract from @iter
-  * @nr_vecs:	number of vectors in @bv (on in and output)
-  * @max_vecs:	maximum vectors in @bv, including those filled before call=
-ing
-+ * @align_mask:	reject with -EINVAL if the source address or length is n=
-ot
-+ *		aligned to this mask
-  * @extraction_flags: flags to qualify request
-  *
-  * Like iov_iter_extract_pages(), but returns physically contiguous rang=
-es
-@@ -1897,14 +1899,19 @@ static unsigned int get_contig_folio_len(struct p=
-age **pages,
-  */
- ssize_t iov_iter_extract_bvecs(struct iov_iter *iter, struct bio_vec *bv=
-,
- 		size_t max_size, unsigned short *nr_vecs,
--		unsigned short max_vecs, iov_iter_extraction_t extraction_flags)
-+		unsigned short max_vecs, unsigned align_mask,
-+		iov_iter_extraction_t extraction_flags)
- {
-+	unsigned long start =3D (unsigned long)iter_iov_addr(iter);
- 	unsigned short entries_left =3D max_vecs - *nr_vecs;
- 	unsigned short nr_pages, i =3D 0;
- 	size_t left, offset, len;
- 	struct page **pages;
- 	ssize_t size;
-=20
-+	if ((start | iter_iov_len(iter)) & align_mask)
-+		return -EINVAL;
-+
- 	/*
- 	 * Move page array up in the allocated memory for the bio vecs as far a=
-s
- 	 * possible so that we can start filling biovecs from the beginning
---=20
-2.52.0
+> 
+>>
+>> Thanks,
+>> Yi
+>>
+>>>>
+>>>> Commit 07c440e8da8f ("ext4: pass out extent seq counter when mapping
+>>>> blocks") added the m_seq field to ext4_map_blocks to pass out extent
+>>>> sequence numbers, but it missed two callsites within
+>>>> ext4_da_map_blocks(). These callsites are on the delayed allocation
+>>>> path, which is also used in the iomap buffered write path. Pass out the
+>>>> sequence counter to ensure stale mappings can be detected.
+>>>>
+>>>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+>>>> Reviewed-by: Jan Kara <jack@suse.cz>
+>>>> ---
+>>>>   fs/ext4/inode.c | 4 ++--
+>>>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+>>>> index 6c4d9137b279..39577a6b65b9 100644
+>>>> --- a/fs/ext4/inode.c
+>>>> +++ b/fs/ext4/inode.c
+>>>> @@ -1929,7 +1929,7 @@ static int ext4_da_map_blocks(struct inode *inode, struct ext4_map_blocks *map)
+>>>>   	ext4_check_map_extents_env(inode);
+>>>>   	/* Lookup extent status tree firstly */
+>>>> -	if (ext4_es_lookup_extent(inode, map->m_lblk, NULL, &es, NULL)) {
+>>>> +	if (ext4_es_lookup_extent(inode, map->m_lblk, NULL, &es, &map->m_seq)) {
+>>>>   		map->m_len = min_t(unsigned int, map->m_len,
+>>>>   				   es.es_len - (map->m_lblk - es.es_lblk));
+>>>> @@ -1982,7 +1982,7 @@ static int ext4_da_map_blocks(struct inode *inode, struct ext4_map_blocks *map)
+>>>>   	 * is held in write mode, before inserting a new da entry in
+>>>>   	 * the extent status tree.
+>>>>   	 */
+>>>> -	if (ext4_es_lookup_extent(inode, map->m_lblk, NULL, &es, NULL)) {
+>>>> +	if (ext4_es_lookup_extent(inode, map->m_lblk, NULL, &es, &map->m_seq)) {
+>>>>   		map->m_len = min_t(unsigned int, map->m_len,
+>>>>   				   es.es_len - (map->m_lblk - es.es_lblk));
+>>>> -- 
+>>>> 2.52.0
+>>>>
+>>
 
