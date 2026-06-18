@@ -1,127 +1,157 @@
-Received: from out01.mta.xmission.com (out01.mta.xmission.com [166.70.13.231])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B9322F388;
-	Thu, 18 Jun 2026 06:24:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.70.13.231
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781763863; cv=none; b=FN490JIPsr9XZLQG/ABZIrkuQGwsd6lLtfR4MEIpKWapNp7Qt7K8eSleCCurdXEDAem7GbBn9hUxLfoGksjt9R7b9ZU9OFrZJi7KlZ/rKF2WYk+RwmN9gf7XJ+0sRiKxCa9dm6Ime/8IKabiUXJ3nEaCnt2OoTDNbC0SxRZsH6I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781763863; c=relaxed/simple;
-	bh=t54MeqHUPYhrOSafz/tHUAIX5VsY2HuU53W5vyxoid8=;
-	h=From:To:Cc:In-Reply-To:References:Date:Message-ID:MIME-Version:
-	 Content-Type:Subject; b=RgyXaDhyd+gJlv9Ei0yAhfxx2bWnO6LdhT4spxD4Xvp2o2L0sJHTMHcR1fS4jLNh/GvW9u45BL3i4FUTn0gAaBJmWmv+A4I+8f6nrkH5mtqQQQPSaA0aEyNZUgYUfp2in6WNLq1p7U2RZz3JsGVf2u0InwDPu6wJ1rp9TFSjZRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xmission.com; spf=pass smtp.mailfrom=xmission.com; dkim=pass (1024-bit key) header.d=xmission.com header.i=@xmission.com header.b=pEyuhzRm; arc=none smtp.client-ip=166.70.13.231
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xmission.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xmission.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BADF31ED7D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 06:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781764470; cv=pass; b=qFfrBSj00/qBImLrGBHOa9wxRR7FGm6ENJWfAY328dgT/iRZes/w0gQnmatAp56tjLhoBiSPI5uG/+FwH2mQ1WA7yJ+WCTyY7bYNXO8CEh2PKxvmL79fHZW2VYuFvjmsnzfIYKdtTWphX8A8Z29Y6+zmwQ56F5OA89lLUmo4o7A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781764470; c=relaxed/simple;
+	bh=3Oo8NBVlLWLPAiABDvAMPw2Gh1H7ACmqAdcOnRERYcA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JcHxRixwyq857pr4H+sFTpNg2r5yFLBFQ3Nhr40Y4U7pNCia1uDWS1O+ls10TDafwuq+RaLB9gA6paKilSzxYlWnfcC5Ap24iAojoBPD3RICk5xvOXhgesQ3q2P0wAkRLhmUSyuAP5RZvMezTJZm1IByDrsKo2YHsgyFP1D3KD8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CUsKF5G9; arc=pass smtp.client-ip=209.85.210.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xmission.com header.i=@xmission.com header.b="pEyuhzRm"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=simple/simple; d=xmission.com;
-	 s=xmission; h=Subject:Content-Type:MIME-Version:Message-ID:Date:References:
-	In-Reply-To:Cc:To:From:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=t54MeqHUPYhrOSafz/tHUAIX5VsY2HuU53W5vyxoid8=; b=pEyuhzRmQTz+GUUhEKkXMnM9j5
-	XXeIT9ngrhd0SqI1ZcwBc6JdQ69PY7PZ/3icv+nJhMBVVvJ0i8zCY8aCySSEyl55TX9dTh+Eut0en
-	mB0mb5RM1+y0Jdt21KKCYJEA235ZHam0BhBNIK4R5BBqYIV6BRy9+puCZj4IMjYjldWc=;
-Received: from in02.mta.xmission.com ([166.70.13.52]:54906)
-	by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1wa5KG-006itu-91; Wed, 17 Jun 2026 23:30:04 -0600
-Received: from ip72-198-198-28.om.om.cox.net ([72.198.198.28]:41524 helo=email.froward.int.ebiederm.org.xmission.com)
-	by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1wa5KF-004eoV-GR; Wed, 17 Jun 2026 23:30:03 -0600
-From: "Eric W. Biederman" <ebiederm@xmission.com>
-To: Xin Zhao <jackzxcui1989@163.com>
-Cc: viro@zeniv.linux.org.uk,  brauner@kernel.org,  jack@suse.cz,
-  jlayton@kernel.org,  chuck.lever@oracle.com,  alex.aring@gmail.com,
-  arnd@arndb.de,  keescook@chromium.org,  mcgrof@kernel.org,
-  j.granados@samsung.com,  allen.lkml@gmail.com,
-  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org,
-  linux-arch@vger.kernel.org
-In-Reply-To: <20260618030700.2511668-1-jackzxcui1989@163.com> (Xin Zhao's
-	message of "Thu, 18 Jun 2026 11:07:00 +0800")
-References: <20260618030700.2511668-1-jackzxcui1989@163.com>
-Date: Thu, 18 Jun 2026 00:29:57 -0500
-Message-ID: <87zf0se7qi.fsf@email.froward.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CUsKF5G9"
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7e701435806so493684a34.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 17 Jun 2026 23:34:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781764468; cv=none;
+        d=google.com; s=arc-20240605;
+        b=O8KXQv0jbasThRMnN/EpEvSwz3jVXkZ5dMA/mdszBBHas2YMOZPm5Lkp0FxKvRbQtE
+         sQXcrLHsyoVRwE2Fnwd+3G18pKqIh/fNKtHxQifV/zKA8K+any+h8RURNLxRBAA2TYG+
+         Kk1QJsCPV3v/W6yfVqC6swPM6RYnaf/htInIO5mAQxsSuN18HO+OKC2AmT/dsVkVZZZN
+         unyUPEaqDaVTAdFo2BwqsMEg3rpMH6l1VEfSo2r2BbKwug/6iW3/hpTob9D7mwn4yzR2
+         rlqTq1jTlc26pwAUUfiq79WYBdKCxQZatBX8zrcUKdSDnLUT6Z9RarDmlW/3m2QzG88B
+         MUuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=3Oo8NBVlLWLPAiABDvAMPw2Gh1H7ACmqAdcOnRERYcA=;
+        fh=sA80Ob23v9dO89uv+RHVyK+FymbhcMPHHbVD3gtbLZ0=;
+        b=VibNVUkyeuVKjI8OIoCf9dhubFfLbvyKn83BwXmWcltvLpFFTnRf2EWk57sv+Um+Xl
+         1UKyTHpcTen1c103ve9xHhviPMqcGj+NqwVudGZGekMEXMgw9oZXIIIqMeYWg4fUdPUf
+         0ZeVcNi+jZiq70sTqCYBmBfSKlA12O+TBGdgMWahihd0CLA8TCmw2CfZVWiHc3MgTLUe
+         ksCUWpHavZ/dUsK1pfYjkVCMcUdPULmLlcpmJAKYY2i/6jCZ8xO8HNLZ18S+Fj+xdb9h
+         QjuqHq89esfmZZ+N8lYYoRdsH95E1N1qQURs3MDDJl6MyjQwbgHxF94cBP6hF58DQ4/5
+         famg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781764468; x=1782369268; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3Oo8NBVlLWLPAiABDvAMPw2Gh1H7ACmqAdcOnRERYcA=;
+        b=CUsKF5G9oxQ61j1d6rsf70C4V+CwzfyiYvwAeL7GvJIC7AbqTHLHcKrFrSuqEAV2QA
+         pzLF5bqljizbBWys6o8ZhgwJf0RJDM7jP3f8kZoLpYGbee7Gt2XcAmZRDLMlg79qdelJ
+         uzna51+fErCL+0y6TBoDa++Ujd4tjKdHjmygqFxYzjaqFC0j6+nR+zuxGnINsMlAvIDB
+         owbPXox3hQuPUyUM7JLSnsNAxiCfR5GF0/ojif5kaHmYQz6SArEeg+bQd016pBcQoDy1
+         L5pblt0ttzAUyKFnUmUtTKE8bBKbtfj8xjYZ0RX/98iMtUW8y7hFawh8TJoPxft5ew46
+         /lFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781764468; x=1782369268;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3Oo8NBVlLWLPAiABDvAMPw2Gh1H7ACmqAdcOnRERYcA=;
+        b=tAWxPT4Fi/juBO3MgT+edc7RYaSzH8IAN1bMy/9NRPjQiB5Ar/0jfIjztYr9/7raht
+         9uk0WhSqvddX9Twh3ORpvITgLFQ3BHWXYcq3FsaJMtNpWJbv6xIMZa/1mEbTCmWAanRb
+         p5jPyy1p+hhpLLwXf7vQi5CS4CpwSy7doQseA0+N6G3jJQJu87cbhl3T8L9ockymEfrZ
+         TU4HYAmv2T/vfWqoTfil6VfYacOeOFzXmdlDAw1o+uUfrs+fx1SUfpVRZ/rwWm6V2xFR
+         LMTveMCxfpRNIbTalshtoFcj/xWloV6cp7HrSCCrju37EELRSN8UYpEyu1GXX6odIwzb
+         5EFA==
+X-Forwarded-Encrypted: i=1; AFNElJ9FVrIfxmjQh5b2Q3PtfeHIxo43pGc5+dIxllOZ3j9F9ujF/Y6ufIldy4k6UJ2I0nD45F9MztYZhpt6KJ02@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJvxLRoYBEPoK0Ih7NzfOgteA3KBokAUtEvZhUSx54ZhRxATF1
+	lpQImTeqOIbIFEtFA4L4ZGH846Sc5fTziYbMaf8C4lmZfgUtBVzc+KnKowQeeIi4FynRKsuUg52
+	sSxrCcYJF9TKr5tza3fc0nKB87YX7+OOnjlECn0k=
+X-Gm-Gg: Acq92OEUTdErLdlX01YIJ6x+FehR+eIvonUxFyLg71Bi9bpp8/046fkdxM4V7NwAZPQ
+	pvprI3+3kkGz766AAVg2oZ+ibiZghKPtryyD/JPPMVxo6iv65e59OrBiq5U0HAnThaDnhjncLJ3
+	uH2BUo23nGKRaGfIIjUZtpLkP4Us/45bwpPi2mcbdPINM9CM6NtAxkv+3+3o/wZnXsSly64Voyr
+	l9n8o42fP1aGFlXyjF8J9Fm042qpmG2o5nvW97EMeUexQvhmsInJjKHXW3YjrpRjkr3P/Y=
+X-Received: by 2002:a05:6830:6d50:b0:7dc:2f4f:17b4 with SMTP id
+ 46e09a7af769-7e90b3dd22emr6348498a34.21.1781764468073; Wed, 17 Jun 2026
+ 23:34:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1wa5KF-004eoV-GR;;;mid=<87zf0se7qi.fsf@email.froward.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=72.198.198.28;;;frm=ebiederm@xmission.com;;;spf=pass
-X-XM-AID: U2FsdGVkX1/yZfePfs7NEwStx/dsBnYnG891qiE7A3Q=
-X-Spam-Level: 
-X-Spam-Report: 
-	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	*  0.1 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-	*      [score: 0.4035]
-	*  0.7 XMSubLong Long Subject
-	*  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-	* -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-	*      [sa05 1397; Body=1 Fuz1=1 Fuz2=1]
-	*  0.4 FVGT_m_MULTI_ODD Contains multiple odd letter combinations
-	*  0.0 T_TooManySym_01 4+ unique symbols in subject
-X-Spam-DCC: XMission; sa05 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ;Xin Zhao <jackzxcui1989@163.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 312 ms - load_scoreonly_sql: 0.05 (0.0%),
-	signal_user_changed: 10 (3.2%), b_tie_ro: 9 (2.8%), parse: 0.73 (0.2%),
-	 extract_message_metadata: 2.6 (0.8%), get_uri_detail_list: 0.95
-	(0.3%), tests_pri_-2000: 2.8 (0.9%), tests_pri_-1000: 1.98 (0.6%),
-	tests_pri_-950: 1.02 (0.3%), tests_pri_-900: 0.80 (0.3%),
-	tests_pri_-90: 57 (18.1%), check_bayes: 55 (17.8%), b_tokenize: 5
-	(1.6%), b_tok_get_all: 7 (2.3%), b_comp_prob: 1.96 (0.6%),
-	b_tok_touch_all: 38 (12.3%), b_finish: 0.69 (0.2%), tests_pri_0: 219
-	(70.0%), check_dkim_signature: 0.44 (0.1%), check_dkim_adsp: 2.3
-	(0.7%), poll_dns_idle: 0.66 (0.2%), tests_pri_10: 1.75 (0.6%),
-	tests_pri_500: 9 (3.0%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH] coredump/fcntl: Add FD_CLOBCOR flag to close fd before
- dumping core
-X-SA-Exim-Connect-IP: 166.70.13.52
-X-SA-Exim-Rcpt-To: linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, allen.lkml@gmail.com, j.granados@samsung.com, mcgrof@kernel.org, keescook@chromium.org, arnd@arndb.de, alex.aring@gmail.com, chuck.lever@oracle.com, jlayton@kernel.org, jack@suse.cz, brauner@kernel.org, viro@zeniv.linux.org.uk, jackzxcui1989@163.com
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-SA-Exim-Scanned: No (on out01.mta.xmission.com); SAEximRunCond expanded to false
+References: <20260531010107.1953702-1-safinaskar@gmail.com>
+ <20260601-enthusiasmus-canceln-anlehnen-0e62317a9784@brauner>
+ <CAHk-=wifX_rrDjRGnDnOqE-usptAukuXKrmuPuVDP5bOCBWzGQ@mail.gmail.com>
+ <20260601173325.GH2636677@ZenIV> <83f05c55-efba-4bf5-abfe-d2ab0819e904@packett.cool>
+ <CAJnrk1Y9egYizkx1H9K0cqxSYuB+7vLvQbV7Tf4C5eHFqnnC-A@mail.gmail.com>
+ <20260617-attest-gewechselt-tragik-7ed473860051@brauner> <CANaxB-zK5q=Xw6UZTmeFtXsDZjUsPkFk=p485m-wtNTBnf4hgg@mail.gmail.com>
+In-Reply-To: <CANaxB-zK5q=Xw6UZTmeFtXsDZjUsPkFk=p485m-wtNTBnf4hgg@mail.gmail.com>
+From: Andrei Vagin <avagin@gmail.com>
+Date: Wed, 17 Jun 2026 23:34:16 -0700
+X-Gm-Features: AVVi8CdkTtlsRp3whjFCRdKN_CHwplubM07nLp2T3ItfxHiU3lLc-EI912kwpts
+Message-ID: <CANaxB-xVCP5HSUNwphFrKPdW0Qh1pA33A6npac60WArkZMFt7w@mail.gmail.com>
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+To: Christian Brauner <brauner@kernel.org>
+Cc: Joanne Koong <joannelkoong@gmail.com>, Val Packett <val@packett.cool>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Askar Safin <safinaskar@gmail.com>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-api@vger.kernel.org, netdev@vger.kernel.org, 
+	Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@infradead.org>, David Howells <dhowells@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Pedro Falcato <pfalcato@suse.de>, Miklos Szeredi <miklos@szeredi.hu>, patches@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>, 
+	Steven Rostedt <rostedt@goodmis.org>, fuse-devel <fuse-devel@lists.linux.dev>, 
+	Bernd Schubert <bernd@bsbernd.com>, Aleksandr Mikhalitsyn <alexander@mihalicyn.com>, 
+	"criu@lists.linux.dev" <criu@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Xin Zhao <jackzxcui1989@163.com> writes:
+On Wed, Jun 17, 2026 at 12:57=E2=80=AFPM Andrei Vagin <avagin@gmail.com> wr=
+ote:
+>
+> On Wed, Jun 17, 2026 at 4:08=E2=80=AFAM Christian Brauner <brauner@kernel=
+.org> wrote:
+> >
+> > > After this patch, step b) is a straight copy which means step d)'s
+> > > fixup doesn't modify what's in the pipe. This could be fixed up in
+> > > libfuse to not depend on modify-after-vmsplice, but I don't think thi=
+s
+> > > helps for applications using already-released libfuse versions. I
+> > > think this patch needs to be reverted.
+> >
+> > Note, nothing was merged. I deliberately kept in -next though for a lon=
+g
+> > time to see how quickly we'd see regressions.
+>
+> The bait worked. CRIU wins a prize in this lottery.
+>
+> The CRIU fifo test fails with this change. The problem is that vmsplice
+> with SPLICE_F_NONBLOCK to a fifo file descriptor fails with -EOPNOTSUPP.
 
-> A coredump typically takes some time to complete. If we happen to hold a
-> write lock with flock just before triggering the coredump, that write lock
-> will not be released during the entire coredump process. As a result,
-> other processes attempting to acquire the same write lock may experience
-> significant delays.
+Actually, this change introduces a performance and functional
+regression for CRIU.
 
-You are talking about giant processes writing to slow backing store?
+Here is a brief overview of how CRIU currently dumps memory pages:
 
-I suspect you would be better off quickly writing the coredump to a pipe,
-and then writing it to disk.
+CRIU injects a parasite code blob into the target process's address
+space. The parasite invokes vmsplice() with the SPLICE_F_GIFT flag to
+pin physical pages directly inside a pipe without copying them. The main
+CRIU process then takes over from outside the target context, calling
+splice() on the other end of the pipe to stream the data directly into
+checkpoint image files or a remote network socket.
 
-Unless your machine is badly balanced that should take perhaps a second.
+I ran a simple test that creates an anonymous mapping and touches every
+page within it:
+Without this patch, CRIU takes 9 seconds to dump the test process.
+With this patch, It takes 18 seconds...
 
-That said I don't see why you need elaborate machinery to do something
-about these file descriptors.  Unless I am mistaken no file descriptors
-are placed into a coredump.  In which case it should be possible to just
-call exit_files early.
+Plus, it obviously introduces some memory overhead.
 
-> To address this, we introduce the F_[GET|SET]FD_EX fcntl operation and the
-> FD_CLOBCOR flag, allowing coredump_wait() to release any file descriptors
-> marked with FD_CLOBCOR. We can also assign the FD_CLOBCOR flag to specific
-> shared memory segments, preventing the coredump from including shared
-> memory that we are not interested in, thereby reducing both the coredump
-> duration and the size of the core file.
+If these changes are merged, we will need to completely rework the
+memory dumping mechanism in CRIU. Using vmsplice() in this proposed form
+no longer makes any sense for our architecture...
 
-Please look at vma_dump_size.  There are plenty of ways already to
-skip dumping a memory area.  Using file backed shared memory,
-and madvise(MADV_DONTDUMP) are two easy ones that already exist.
-
-My point is that there are cleaner ways to solve your problem than
-the solutions you have proposed.
-
-Eric
+Thanks,
+Andrei
