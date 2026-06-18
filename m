@@ -1,135 +1,100 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773883F8229
-	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 13:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781788023; cv=pass; b=e2YZZN1IzcW113E5tVJXdow8pbjvdOffXCykLzB8fqLAVvdWIEqhPO+tfKV5+Fs4LiD1TGPTJsc6O7YTzWSHh72Xp1Xgrdncy1c3TZ6oOj1Lxx4W5SaqWqEtqwxGKEKRKHgfjofGHORdTkxaWIp5usOojt3rIhwBAFsIvQuLQsU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781788023; c=relaxed/simple;
-	bh=xLDEczlFg03N7NCLGvlcEdzsmuKKaWL0tH9EnNveSys=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jJ7FYHpHHcnv5gRcMkI56YLt4fiZEzmcTQaSW4/cs7G/Jh6A/nJGlxZrHXjt03nCcBCZQHFJkskv4Hc3dNOZ0ojm+RS1YSQOCI+ZkEeUC8oGQq7FUOcaBC0jz7cU2WwygROsaWyO3yD4vUPsErG/oWGTioXraeNl1yaS1tKy4kk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TtMY2Ngd; arc=pass smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723F88F49;
+	Thu, 18 Jun 2026 13:17:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781788658; cv=none; b=PDBz6Bqulq5Rc+6IhBWTU/xqZKd+NQ/SsRQMkZkpCNmNsyQ/sMWitKhhLg5wbO29pGs/EyOa5qGFVg8AYtZcoo6/LD8h6CPMAinOFmM+hMerfm72zK0bNQbO9mtqTotLXzFE8O42I7j8izlj5qxsLhFCYt+JiTsmSNP0MGWhrKo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781788658; c=relaxed/simple;
+	bh=7lvUVxJQgs9T1NCRLLxwh4ARAP8CzLsEZiKAGOX/lzM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=klla90WqQuikTW9q/LxyV6Bd27zoNOcvz8SF7pDDE5Q0R9Enu7kXpLGvB7B8urrqyfQVfuUJJrOFgnb025VLs0n1tg2Da0HmHJo+P5hmnjGOckERPLQegJzwODUKP1AOaUsqA4TJPq6scvwxCvJf6W+BcQPZmQ4tPCL9bUPo4FY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lsh9OVVw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TtMY2Ngd"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490b64c8311so7986205e9.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 06:07:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781788021; cv=none;
-        d=google.com; s=arc-20240605;
-        b=eNwl0g0Dd3vIO0cXFBc/wv60oxS9SA0/gBzcClx3/QAOPZCAH5C0fkUUC3iasbsQG9
-         /+KtOAYtSWJpf+/pX/76nexqU9RJ223zlrXpIGIaoMQntNqbxS53086UhqLx852ea9q5
-         yMRHiOdAxIZFMCP42urYDH8tV7IwNGHSCQBLF6LCsqRzQQhubpr4qpMezjpxn8DlblbP
-         W9Ez6pPq0fMsaLPW8A1ZacMIZSZbl8/Lcto7Eo10NKXH0fgCh40nfCm97riJIhHnPBs2
-         9KNThHSTd2GnXMnxTOV1AK55xWSjSSzid+jemFeS6g4A2wiRafaiLcXTbgbSr708wykl
-         y2Xw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=xLDEczlFg03N7NCLGvlcEdzsmuKKaWL0tH9EnNveSys=;
-        fh=k9GgfTQEA52Szz/aS5sqFdQjXyQrmjCkeBW9ue52xf0=;
-        b=NzBOzl2tUQdtAWzB8Dn8rgHRfSoioaM/EW0A1IQ5xyVKjGfVWwrivIufaU+68P0emm
-         iY+2NhQZ7/c5BkkJIep+dKjO7/lGhfLJjytL0rjgcHvPtdVaQWG72E+EbBQ8CoafE7Cq
-         vEbPx79uPSCQazmFycOovYebsyUfXI0xAJijjuLkl/YnWyd9vz4tQXpTusZpWCvipocU
-         NZmrMB60/fdTseRlt3x+EsJK7SxCYUa7frSgXEfeJIWKzDB31hBZZToILPz2DRUlxl+U
-         mPYELWtcuoRLvwatvVSne8KQLWdCxN8eoVyV9uZloBodm9Y5SYiIiWQIqR93EQ7j0gq3
-         HnjA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781788021; x=1782392821; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xLDEczlFg03N7NCLGvlcEdzsmuKKaWL0tH9EnNveSys=;
-        b=TtMY2Ngdb1sGxR7NWU5wrnWHaPWlwbhatx3KIrmFxc40lldg3ynkDML56ZrDvKKRoN
-         2M1cw3lKMqP7w0oPa7tFW9XafJoGkS7SqitZOh32VYodI7J0d7MhWGhjV/PHpwRU4eox
-         fvgh4U1JQWCAitWzxKPf2A9WlQ1bHXJWZU82FTjMhZsRf1AiNAXKk3c2JB7IVVWjChhn
-         YqpFF8TcftE2Vr+EnBOnCClrwT1G3nWb516PHZQ/ShHakueJEeTQAnJdVmFXTcH8Ti9X
-         ZI1N9HHI9BqGnUVd50Zh8E2AFufI6uBpAA/rn3Yz+dHVLzSdbRpnN2hT65cE5PaN99cW
-         e6aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781788021; x=1782392821;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=xLDEczlFg03N7NCLGvlcEdzsmuKKaWL0tH9EnNveSys=;
-        b=Vcw1gXgL9pDAhNi8H3kx2PUw4hhcP++eASMA1VKVz7QC1RM+gixbv0/x26uoN87XXT
-         RiY5HUhgrbjmqkGaTxpYduvEoNGfB2yGC8BvyVTowzF9kQROfTzJdvYU/7zTNuFQFr5n
-         55cZnQ5gXq4DZOGb8LUI6114en3GiS+bfZLW5miS32kDd3aZ7QJK2Vc14MXsUSN8E4QY
-         HIbeu0+DRxBWO3i31BcKq4iuGDs1jIdCzYLh1LxvZtLhgu9BuKgxjWVN0+Sq94afsiAr
-         H7M3V7FdY/IHIw4wIFqq895/8T9zssHuKfJuFx3XAyfDirsZK59vj2w3gXQv7gdzNVzE
-         oh+A==
-X-Forwarded-Encrypted: i=1; AFNElJ+Fvq3YsijpVJPLIaeaS5BMfwTs9Ce+evYnUER/YUHcOWZTzHbu29xSubqBCGsyO0eHJViTzu4PcvEykupm@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSwr9FrxpCl/MaASskQTN7k0lMOO4aZB8qWfQ3sVI6oV8M3JSv
-	5v+G7ObZDjFN8XTTtio3rTytQDfbGFHXGWJ9QemMO25rbrvTTVXROLDrKG5aV6PmYYWykzxFneB
-	B4ylxYDjc6XBFu4Y2ZkNAiNlCK45cjfHp9IqwYpzq
-X-Gm-Gg: AfdE7cm81ZAHChWu4ioe+tPo1UK8D+7cAPp31W/4OeuJWW8fHPDp1ACSE1zlALKaPBd
-	5kunBn94dOsmcbw2iNnf4vFJH/GyRpomf+L5XqZLqekbcPY5yFq8LRPulIH80gKR8H7SwAJWqKU
-	avfGtubhUWdDCEPcxFIb3cSO66dzrpuMKT683N1EBLC6sSBZkQJqh25RprKPx0uZqDD5dtwFW4e
-	Mo/sBQU391icMHwNrR06C/NYIm0JBpyp+5PiLnlMIHylnxQL/o9dBVoGH6dEUQ/9vnducqhwc58
-	N6DFVb/jkbOoOPHCDZ13qp2z5x098NjvaI1zKYJA8JN4Njm+zCkbH15Yp34XhMakXMTLlw==
-X-Received: by 2002:a05:600c:4c09:b0:490:b355:9c8c with SMTP id
- 5b1f17b1804b1-492333ca42bmr96135075e9.23.1781788019918; Thu, 18 Jun 2026
- 06:06:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lsh9OVVw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A527A1F000E9;
+	Thu, 18 Jun 2026 13:17:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781788657;
+	bh=jpPKPCapCqBNEJwlVjxbOvVvWYzXbHXZeR9b6lZQkF8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Lsh9OVVwU538PN+8v4cAH5Rts8f9CsCeYUjOjksuOLzFWz3+Om4ASpg6IibKTwQNA
+	 8SGTaGbaKFOxEBSSd5uBBmSdVFS+47fH0aWu/bgRESiddQvd0B/NL1PC8EwqX6HxHi
+	 vqT6SIlP9IDGsKiaVVBfztU+hHplMlTC/u2WhUQMvxAe/sNq0g6WXf4U12/P/UDhr2
+	 vtvkmmQhcCU+IcAxYD1phKAtroB6iyrRc8p2yhjbQpD3n2RpXRWSfvDQVG1gOhd8Uw
+	 IIYuRvEC7wqE8O//9QVYl+9qJKZKhgZUX40oveBSHaZ1alkty4p4q0uPZUejXaORgo
+	 kgUpdQG9dyj8Q==
+Date: Thu, 18 Jun 2026 07:17:35 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, dm-devel@lists.linux.dev,
+	axboe@kernel.dk, brauner@kernel.org, djwong@kernel.org,
+	viro@zeniv.linux.org.uk, stable@vger.kernel.org
+Subject: Re: [PATCH 1/1] block: validate user space vectors during extraction
+Message-ID: <ajPv7yOoYsR5O6kf@kbusch-mbp>
+References: <20260617233235.1016063-1-kbusch@meta.com>
+ <20260617233235.1016063-2-kbusch@meta.com>
+ <20260618102627.GA23200@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260618095952.3687099-1-phasta@kernel.org> <20260618095952.3687099-2-phasta@kernel.org>
- <15e81f5bf354cbe3cde765526762e4ebb3ef6970.camel@mailbox.org>
- <ajPa4_U_gcxr8SKO@google.com> <81c530248789f79da265da772a6f248a0d524eed.camel@mailbox.org>
-In-Reply-To: <81c530248789f79da265da772a6f248a0d524eed.camel@mailbox.org>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Thu, 18 Jun 2026 15:06:47 +0200
-X-Gm-Features: AVVi8CeK2MScB-t7m9DsXQaFm4-l0PDopN55uoi7q9D_cmJhkYOY8sxrgmKJWI0
-Message-ID: <CAH5fLghB3Q-Mc4YzVMX3nGVSTzfh=jqFzsLMcXqXLTiVcgxhKg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] rust: sync: Add abstraction for synchronize_rcu()
-To: phasta@kernel.org
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Lyude Paul <lyude@redhat.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Frederic Weisbecker <frederic@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
-	Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Lai Jiangshan <jiangshanlai@gmail.com>, 
-	Zqiang <qiang.zhang@linux.dev>, Christian Schrefl <chrisi.schrefl@gmail.com>, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, rcu@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260618102627.GA23200@lst.de>
 
-On Thu, Jun 18, 2026 at 2:47=E2=80=AFPM Philipp Stanner <phasta@mailbox.org=
-> wrote:
->
-> On Thu, 2026-06-18 at 11:47 +0000, Alice Ryhl wrote:
-> > On Thu, Jun 18, 2026 at 01:40:05PM +0200, Philipp Stanner wrote:
-> > > Moreover, this would be an opportunity to change the naming conventio=
-n
-> > > to rcu::synchronize()
-> > >
-> > > But since Boqun & Alice are pushing for rcu::RcuKBox for the reason
-> > > that it seems desirable to explicitly highlight that that's a special
-> > > Box, I guess we should be consistent with that and also have "rcu" in
-> > > the name here.
-> >
-> > I prefer the naming of synchronize_rcu() here.
->
-> We might be tempted to at least call it rcu_synchronize(), though. It's
-> also RcuKBox, not KBoxRcu.
->
-> But I don't have hard emotions on that topic.
+On Thu, Jun 18, 2026 at 12:26:27PM +0200, Christoph Hellwig wrote:
+> On Wed, Jun 17, 2026 at 04:32:35PM -0700, Keith Busch wrote:
+> > @@ -1251,6 +1251,11 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
+> >  
+> >  	if (iov_iter_is_bvec(iter)) {
+> >  		bio_iov_bvec_set(bio, iter);
+> > +
+> > +		if (mp_bvec_iter_offset(bio->bi_io_vec, bio->bi_iter) &
+> > +							vec_align_mask)
+> > +			return -EINVAL;
+> 
+> Can you add a comment here?  Especially as the bvec iter doesn't actually
+> require all individual bvecs to be aligned and I'm not entirely sure this
+> handles all case - writing down the rules might help a bit with that.
 
-I don't think we should change the C name without quite good reasons.
+The rationale is that the only iter_bvec users come from io_uring
+registered buffers, which are virtually contiguous. Subsequent IO
+referencing it provides only an offset and a length, so the only
+possible unlaignment could bne the first offset (we've already verified
+the total length earlier). Every subsequent vector must be page aligned
+at a minimum, which is the largest possible dma alignment the block
+layer allows, so we don't need to check the rest.
+ 
+> >  		ret = iov_iter_extract_bvecs(iter, bio->bi_io_vec,
+> >  				BIO_MAX_SIZE - bio->bi_iter.bi_size,
+> > -				&bio->bi_vcnt, bio->bi_max_vecs, flags);
+> > +				&bio->bi_vcnt, bio->bi_max_vecs,
+> > +				vec_align_mask, flags);
+> >  		if (ret <= 0) {
+> > +			if (ret == -EINVAL) {
+> > +				bio_release_pages(bio, false);
+> > +				bio_clear_flag(bio, BIO_PAGE_PINNED);
+> > +				bio->bi_iter.bi_size = 0;
+> > +				bio->bi_vcnt = 0;
+> > +				return ret;
+> > +			}
+> 
+> Do we need all this cleanups beyoned the bio_release_pages()?  Most
+> callers just free the bio, so should not care about it, and the error
+> handling in __blkdev_direct_IO that calls bio_endio looks buggy for
+> other reasons..
 
-Alice
+Yeah, it's exactly for the __blkdev_direct_IO() error handling, though I
+think clearing either the PINNED flag or bi_vcnt is sufficient after
+bio_release_pages(). The rest is just resetting the bio to the initial
+state since I didn't want to return both an error and something that
+looks like a partially constructed bio, even if no one currently cares.
+
+But since you mention it, __blkdev_direct_IO's handling does look wrong,
+so maybe I can clean that up first.
