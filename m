@@ -1,193 +1,146 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25ED9332916
-	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 22:51:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781823065; cv=pass; b=k03Zs+rn/8gp29mDvi5UUJgLNm4qL4Rs3m/zkOgeJ3I/wnSXHnhPm+ofUXOhJ6+ZefH8s0L3Z1icbOAKO/AxFdVnJCwl4DC+xKpOCapzFra5WR/u7PUCa+gp8s2ff7AES3/EgbvVxnfZ64/XaXwuv0eKVYXWpE4hsJxDeYqKByY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781823065; c=relaxed/simple;
-	bh=EMYr1F+PpGtSmTpfHsTm52f8sshX1D1zHOemelGKRHw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rUXJJgsPih11ph87fySmrAUT1E8V6ySWjpLLSQKdh7MjP+U/kkb9z5BPu3jSKK2176BNY7ZgGls9AkmIEH51QbYpg0zvhM+xFolH9rNwYrEfnpduRlYa2/KDOr3/0/f4qjCp0rsiJOI+B8n1+D7tF+xnjzcTfFdWqq9b1SWR7S4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CZ2E6C7p; arc=pass smtp.client-ip=209.85.222.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C67054652;
+	Thu, 18 Jun 2026 23:18:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781824682; cv=none; b=aWrIX5waiBK9FKJcKNzDtjseQCDrMKe9670G0Z76YatcOS0Zh+w9AJtI6KV/2YO4THWCXU9B2ygwTiSVF/GWPdxL48y91GrqfDnD4lq1WgO6DFrTR4Yavbkjss9u8VCbJKS8h81I414aUNEtvbyhh5CtqHruZ6BaYQfpHHPiwRQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781824682; c=relaxed/simple;
+	bh=AQ9aN/avZH+dC3EJ/xi73ddT75IimODO/c4Su8oqChc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Np08rV65wxabtMF8PBEh3Dq+f0i/O7XKYMjunVf2YwHUHqCe4bmogLj9Y5NwgLuv8SHtKVrj6Tr2/D1Ky2ogx2aA9hQZ2HLlz+5nOBlhgyZc/fVQdGsH15wp7X3mKNQR5xTRP5GS/Co5Qwba9RQuU/3+ROeLugw61Db/NANSEP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rd10Zra7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CZ2E6C7p"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-91563abd6a9so83665785a.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 15:51:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781823063; cv=none;
-        d=google.com; s=arc-20240605;
-        b=aJpCeIk3mc/IusarCo8UP/mFAynYhOwSNYt+ctXEWKAt3PuC0Olca00agc25UhDsyE
-         YSvOudyfk+N5fkEO7cvByCT+GNWtfxEy0poS/sHS8EgrMPq7pM61TH/eZXlPeHRvIiPv
-         fMCdEM84qsft4Qk3cSMas9Ox30EwDpPMNoqVw9zOoJ5wBCczNl9vw6rk3/WJ2kkTuM16
-         gorG/zHGYaXGfcRgYTyDiUazOqG8DCV1lHyKu0usnxIWwkhqcNdF8ZWKukbRQ1X1Jq2H
-         xzHZK4Mj1OfQVhQwqfb48Rswn4402iMWhFOOOwSsErF57mq0BZJ7UmY76yodnpQKY76S
-         3UhA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=SMwuGs+SqkOWXXKsNFJ9sJZ3Linv0hyo9Jf2noGou30=;
-        fh=KHEF6jriy7h+dntsx4q7YGHpRdtu4N5qCjMsbEYGdXw=;
-        b=TYEC5/6bDklejOgeOrj7pNf/4A+UnVVeD5lTnvTIp1YUrav5lRePgPhYh6b5/OsJqi
-         x3XiDVNwxgP0GAwH/oixe1uZE0QAyrPKhjMyvPPqhDeNQecoJv11vyWIz7qcu/KpZZfU
-         NvdFhdDa/gaICvL4hwcz7yhBDkrOpbELmFAuZOeBOMlUvBVc589cZVtnSYwCsHVGhS25
-         zGHOqgOHYpAmISeKLs0zctZuJQVLhk32hKkk6HDyQNxrHKhd2UDqCAF9YKbDtxZTihhX
-         JPEi2wNTWukRpxo17fU6VvKA/Wj5RlY+tlfW7Ja0a5YYI9bSEBo3tNruNm4YPY/BPnOr
-         b6gQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781823063; x=1782427863; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SMwuGs+SqkOWXXKsNFJ9sJZ3Linv0hyo9Jf2noGou30=;
-        b=CZ2E6C7prhTojmgoHGdNe7OileXPbl3IdhXRahO17zU0p7sydgNazhp1YHE4kV/6eg
-         /iLvrxYKEmWLRXuKoolRzvba4DUUKfRHLyiBgYpuqOcdWtg82BbySEy4qLx6HhHXP7dS
-         PthIZYz4hSquO4gFZ3URQSYFja1vdkH+gSP3b9b2UHQAe+pCO5lsOGswbMvzZJQaVr3J
-         LMfxXi93vOcsvLFfsN8zLILywVKhEiv9aH7ub2Wr26pPk6HXp1A+vN3Q1qU+OaSnl3td
-         B+79jtylayY9plF1MJRE+jSxSw56SZl4UEYadYOtdVYwiErhIjX8wLS2AjK/RQ+xbQeP
-         KzBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781823063; x=1782427863;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=SMwuGs+SqkOWXXKsNFJ9sJZ3Linv0hyo9Jf2noGou30=;
-        b=NINChjq9DOmfUHp+rKpdNKWsOYJd7FrhA0jGm5BjI1dLM3XWbiVkDGHZn5Zbjaoeoq
-         VY9s3PrkMXBzKhM5bNvSB5E327RWOYryEX0ANmXt8CqB/htIg1Z71gNzQ9ZxzWs6UFBp
-         PblleyyI1qdGKpo9LPic5nP20x/C6y/71f/UkQV5J6SHWtNR5D72tVb3rS6e2ox3/3mz
-         QPnKb9/b0kzipCJ5b3I4kAysJkbS+A1BrP+n30z7H1+mRq9BHvNqccJrkqWIVDsbxDZV
-         9f+Osp7f4L6Ov6OLJfVh2EzP6tHs2sGl8y3r8woRDAbZ35QAhl4hlDSzq+NaldsuJexO
-         fI/Q==
-X-Forwarded-Encrypted: i=1; AFNElJ+uY8pPODgxoASJeuIkpZsclPK61vvrh1L7742RoLrQSJPtlU5lblS11sX0fasc/0IDPe3gkkvRkIZtdFj9@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzd2IwbDonDnRhYduTgz8caaoQI8Sfdbm4vrB/Rgu54f7n9K+M2
-	h8yGid6eE74qV+RJdRTjVbOM33uTdmCpAW4lKzLbR9dUF30xYKyhY69A3+qSDrRygyS1OQ7M6hd
-	XkBiOBJm0EephwtZQBhCq2Oy6bz+cGac=
-X-Gm-Gg: AfdE7clexS5fpk2Hxj49Hkoz36HZupDm+kJT27JAOdh/CRvKMVGTI43BqYRJJldSgL3
-	l1o8S0D0C30PT/j4L0Kj97/LfKsuuZSfN9W/K3790FHLNa+C4+OA+jc/GU+vf0JMtBFt0ObtAwP
-	wfJ6OBPn/yv6rH80wLbRdGtW2lZ3keOLG3n9dBNemSMuFN9SGQuhHzohvBTHkDcmtZvDEy8a54S
-	eH+wT/UdTbmo1FualBHCAntrr8FyVT3RFdRs2Nykvam+KxXq3j3HV0vyPxWVGTFe7Q3YlZ80MrJ
-	TyT5ZBxRk6R0zvSxFga2Scvf5ho=
-X-Received: by 2002:a05:620a:19a7:b0:915:6504:2a11 with SMTP id
- af79cd13be357-9208d2f42f5mr171322285a.44.1781823063019; Thu, 18 Jun 2026
- 15:51:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rd10Zra7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 094B61F00A3A;
+	Thu, 18 Jun 2026 23:18:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781824681;
+	bh=hg+xs+/jSzmt7asxD6BemBLz25eZ0+EDLv5XtrFMhDg=;
+	h=From:To:Cc:Subject:Date;
+	b=Rd10Zra7TESGH13gOVI51QwkVLcD0xfxZDx2R6ZzFTKMCSS30+kpIX8NlHNUPK588
+	 jsip9TshBD1zXSzqveChzWXeEAFCAX0VLW4KDafrz+yutYZhd80rEA53l3qI5BJrj+
+	 u+2FwAsO9XI2f1VVcHSFQSQrYl7qWe9dbme3QjSXL2qySIE5gr1QvLuaPIC2ux4KbY
+	 QJ4BCW0Vo5ghsTZqDUPFSyKT3eNvpRv4nWw6rOD0npCHqP4989zMQX6RyQmceMd/MY
+	 bEGRSnfSNYD+tALQSlmM8X/zwRaKr4I6jmwVgpNQ2gks7uNIPOMw39rISeA06L5hcP
+	 npUq7fNDizlEg==
+From: Eric Biggers <ebiggers@kernel.org>
+To: linux-fscrypt@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Eric Biggers <ebiggers@kernel.org>
+Subject: [PATCH] fscrypt: Remove FSCRYPT_MODE_MAX
+Date: Thu, 18 Jun 2026 16:14:04 -0700
+Message-ID: <20260618231404.132829-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260618203411.73917-2-dwindsor@gmail.com> <e9ec622a8a49be299cbbfd459e2fc10693bcd65c6dbf00c9e2645281564e5579@mail.kernel.org>
-In-Reply-To: <e9ec622a8a49be299cbbfd459e2fc10693bcd65c6dbf00c9e2645281564e5579@mail.kernel.org>
-From: David Windsor <dwindsor@gmail.com>
-Date: Thu, 18 Jun 2026 18:50:50 -0400
-X-Gm-Features: AVVi8Ceqq7GMU3vGf90S537LLM-Tkad05xeAgBh-3i_pTCiFmecE5-lsBfct2HY
-Message-ID: <CAEXv5_hDJyZ=nY6JaSL=17Mtw+e_m1doj=KReWSNmgo6ULFKpA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v3 1/2] bpf: add bpf_init_inode_xattr kfunc for
- atomic inode labeling
-To: bot+bpf-ci@kernel.org
-Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, ast@kernel.org, 
-	daniel@iogearbox.net, john.fastabend@gmail.com, andrii@kernel.org, 
-	eddyz87@gmail.com, memxor@gmail.com, martin.lau@linux.dev, song@kernel.org, 
-	yonghong.song@linux.dev, jolsa@kernel.org, emil@etsalapatis.com, 
-	kpsingh@kernel.org, mattbobrowski@google.com, paul@paul-moore.com, 
-	jmorris@namei.org, serge@hallyn.com, zohar@linux.ibm.com, 
-	roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, 
-	stephen.smalley.work@gmail.com, omosnace@redhat.com, casey@schaufler-ca.com, 
-	shuah@kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, selinux@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, martin.lau@kernel.org, clm@meta.com, 
-	ihor.solodrai@linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 18, 2026 at 5:22=E2=80=AFPM <bot+bpf-ci@kernel.org> wrote:
->
-> [ ... ]
-> >
-> > +struct xattr_ctx {
-> > +     struct xattr *xattrs;
-> > +     int *xattr_count;
-> > +};
-> > +
->
-> Paul Moore suggested in v2 renaming this to 'struct lsm_xattrs' to avoid
-> overloading the term 'ctx' in the LSM space. The struct was renamed from
-> 'lsm_xattr_ctx' to 'xattr_ctx' in v3, but 'ctx' is still in the name. Was
-> there a reason to keep 'ctx' in the name, or would renaming to 'lsm_xattr=
-s'
-> as Paul suggested be preferable?
->
+Now that the arrays of per-mode keys in struct fscrypt_master_key have
+been replaced by a linked list, the definition of FSCRYPT_MODE_MAX
+doesn't do anything useful.  (Previously it was used to size these
+arrays.)  Remove it.
 
-Indeed he did; I mistakenly inverted his original request.
+Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+---
+ fs/crypto/fscrypt_private.h        | 3 ---
+ fs/crypto/keysetup.c               | 5 -----
+ include/uapi/linux/fscrypt.h       | 1 -
+ tools/include/uapi/linux/fscrypt.h | 1 -
+ 4 files changed, 10 deletions(-)
 
-Will send a fix for this, as well as converting GFP_KERNEL to GFP_NOFS
-in the allocation in __bpf_init_inode_xattr.
+diff --git a/fs/crypto/fscrypt_private.h b/fs/crypto/fscrypt_private.h
+index 0053b5c45412..45307f7fa540 100644
+--- a/fs/crypto/fscrypt_private.h
++++ b/fs/crypto/fscrypt_private.h
+@@ -64,13 +64,10 @@
+ 	 CRYPTO_ALG_KERN_DRIVER_ONLY)
+ 
+ #define FSCRYPT_CONTEXT_V1	1
+ #define FSCRYPT_CONTEXT_V2	2
+ 
+-/* Keep this in sync with include/uapi/linux/fscrypt.h */
+-#define FSCRYPT_MODE_MAX	FSCRYPT_MODE_AES_256_HCTR2
+-
+ struct fscrypt_context_v1 {
+ 	u8 version; /* FSCRYPT_CONTEXT_V1 */
+ 	u8 contents_encryption_mode;
+ 	u8 filenames_encryption_mode;
+ 	u8 flags;
+diff --git a/fs/crypto/keysetup.c b/fs/crypto/keysetup.c
+index 281b5a8b0bcd..cfd348e2252e 100644
+--- a/fs/crypto/keysetup.c
++++ b/fs/crypto/keysetup.c
+@@ -81,12 +81,10 @@ static DEFINE_MUTEX(fscrypt_mode_key_setup_mutex);
+ 
+ static struct fscrypt_mode *
+ select_encryption_mode(const union fscrypt_policy *policy,
+ 		       const struct inode *inode)
+ {
+-	BUILD_BUG_ON(ARRAY_SIZE(fscrypt_modes) != FSCRYPT_MODE_MAX + 1);
+-
+ 	if (S_ISREG(inode->i_mode))
+ 		return &fscrypt_modes[fscrypt_policy_contents_mode(policy)];
+ 
+ 	if (S_ISDIR(inode->i_mode) || S_ISLNK(inode->i_mode))
+ 		return &fscrypt_modes[fscrypt_policy_fnames_mode(policy)];
+@@ -227,13 +225,10 @@ static int setup_per_mode_enc_key(struct fscrypt_inode_info *ci,
+ 	u8 hkdf_info[sizeof(mode_num) + sizeof(sb->s_uuid)];
+ 	unsigned int hkdf_infolen = 0;
+ 	bool use_hw_wrapped_key = false;
+ 	int err;
+ 
+-	if (WARN_ON_ONCE(mode_num > FSCRYPT_MODE_MAX))
+-		return -EINVAL;
+-
+ 	if (mk->mk_secret.is_hw_wrapped && S_ISREG(inode->i_mode)) {
+ 		/* Using a hardware-wrapped key for file contents encryption */
+ 		if (!fscrypt_using_inline_encryption(ci)) {
+ 			if (sb->s_flags & SB_INLINECRYPT)
+ 				fscrypt_warn(ci->ci_inode,
+diff --git a/include/uapi/linux/fscrypt.h b/include/uapi/linux/fscrypt.h
+index 3aff99f2696a..84507280b3ea 100644
+--- a/include/uapi/linux/fscrypt.h
++++ b/include/uapi/linux/fscrypt.h
+@@ -28,11 +28,10 @@
+ #define FSCRYPT_MODE_AES_128_CTS		6
+ #define FSCRYPT_MODE_SM4_XTS			7
+ #define FSCRYPT_MODE_SM4_CTS			8
+ #define FSCRYPT_MODE_ADIANTUM			9
+ #define FSCRYPT_MODE_AES_256_HCTR2		10
+-/* If adding a mode number > 10, update FSCRYPT_MODE_MAX in fscrypt_private.h */
+ 
+ /*
+  * Legacy policy version; ad-hoc KDF and no key verification.
+  * For new encrypted directories, use fscrypt_policy_v2 instead.
+  *
+diff --git a/tools/include/uapi/linux/fscrypt.h b/tools/include/uapi/linux/fscrypt.h
+index 3aff99f2696a..84507280b3ea 100644
+--- a/tools/include/uapi/linux/fscrypt.h
++++ b/tools/include/uapi/linux/fscrypt.h
+@@ -28,11 +28,10 @@
+ #define FSCRYPT_MODE_AES_128_CTS		6
+ #define FSCRYPT_MODE_SM4_XTS			7
+ #define FSCRYPT_MODE_SM4_CTS			8
+ #define FSCRYPT_MODE_ADIANTUM			9
+ #define FSCRYPT_MODE_AES_256_HCTR2		10
+-/* If adding a mode number > 10, update FSCRYPT_MODE_MAX in fscrypt_private.h */
+ 
+ /*
+  * Legacy policy version; ad-hoc KDF and no key verification.
+  * For new encrypted directories, use fscrypt_policy_v2 instead.
+  *
 
+base-commit: 83f1454877cc292b88baf13c829c16ce6937d120
+prerequisite-patch-id: 319d2891e88c7df1ebb5ebf434d18b68f770399f
+prerequisite-patch-id: 5330c9e4b65644baae81bd177a46be6223d2b494
+prerequisite-patch-id: f6157c86deab0ff5ec953ae3ed6b0e84f37741bf
+-- 
+2.54.0
 
-> >  /* Default (no) options for the capable function */
-> >  #define CAP_OPT_NONE 0x0
-> >  /* If capable should audit the security request */
->
-> [ ... ]
->
-> > diff --git a/kernel/bpf/bpf_lsm.c b/kernel/bpf/bpf_lsm.c
-> > index 564071a92d7d..86a8e188b900 100644
-> > --- a/kernel/bpf/bpf_lsm.c
-> > +++ b/kernel/bpf/bpf_lsm.c
-> > @@ -113,6 +113,9 @@ void bpf_lsm_find_cgroup_shim(const struct bpf_prog=
- *prog,
-> >  }
-> >  #endif
-> >
-> > +BTF_ID_LIST_SINGLE(bpf_lsm_inode_init_security_btf_ids, func,
-> > +                bpf_lsm_inode_init_security)
-> > +
-> >  int bpf_lsm_verify_prog(struct bpf_verifier_log *vlog,
-> >                       const struct bpf_prog *prog)
-> >  {
-> > @@ -137,6 +140,12 @@ int bpf_lsm_verify_prog(struct bpf_verifier_log *v=
-log,
-> >               return -EINVAL;
-> >       }
-> >
-> > +     /* bpf reserves a fixed number of xattr slots for itself.
-> > +      * Set the attach limit so the trampoline rejects excess attaches=
-.
-> > +      */
->
-> This isn't a bug, but a subsystem pattern flags this as potentially
-> concerning: the BPF subsystem comment-style rule for files under kernel/b=
-pf/
-> requires multi-line comments to have the opening /* on its own line, with
-> comment text starting on the next line. The preferred form would be:
->
->         /*
->          * bpf reserves a fixed number of xattr slots for itself.
->          * Set the attach limit so the trampoline rejects excess attaches=
-.
->          */
->
-> > +     if (btf_id =3D=3D bpf_lsm_inode_init_security_btf_ids[0])
-> > +             prog->aux->attach_limit =3D BPF_LSM_INODE_INIT_XATTRS;
-> > +
-> >       return 0;
-> >  }
-> >
->
-> [ ... ]
->
->
-> ---
-> AI reviewed your patch. Please fix the bug or email reply why it's not a =
-bug.
-> See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/READM=
-E.md
->
-> CI run summary: https://github.com/kernel-patches/bpf/actions/runs/277886=
-16397
