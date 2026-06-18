@@ -1,53 +1,46 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8594521C173;
-	Thu, 18 Jun 2026 04:59:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2651614A4F0;
+	Thu, 18 Jun 2026 05:38:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781758761; cv=none; b=gPE+28VhNdaOOkNMH3Cc9z8YgEFtWJNY9NIB3U23FuHYsB7B/y11A7mhPNr8J2AxEj6X6Y/okixcFgiT8EkPuM7FqHRZtK/GPjTfwsjm7CFOkLAr4rO7GcEcj/6hauQE2hOlhUpeoxvNUVnnkHulVfDSyw4tYgOeXj6ksor6uEA=
+	t=1781761138; cv=none; b=lH72tbdpRgOiiDuDDRmuKjIvABlGLXc9g8jOSkbd14b6Bt+7rdHPe/xnr1i8/Db3Ie7k/JOtjTj8ciSaXaHL7Epnz0FjBJ0GLUzRcHqkFVs0HWLX2QuOr84+tB4wmphnLXzFgCi4ARsCMr5ys6Crpwp1V5VYXdwnj3Tw0P2xx+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781758761; c=relaxed/simple;
-	bh=l17WgQ7AsGkpJigcDyq2QvAAZTh5j3gqP5yT5vxy2+U=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nVQQvNlc4he/zSwFo7fP4gBX6BkFSUZTH3Xut0dotZqWfUjJ2tqy+FjaxxBt6s9mdqYrWKacGLNf7ME/aGchOS+2X0+LTU0CCPRxnbiK6cLLtquRYjZc/Qn8a2khtLl8X39BHnEgTK7h6Pc3mtggyu1C/c4HmLJGVAfFMw9xitQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=jNPQI1LL; arc=none smtp.client-ip=117.135.210.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1781761138; c=relaxed/simple;
+	bh=IkbVrwSXsN+LvCQbZHgrWhSk0jDjOlOVX5PZneGM/CI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WwKSxUW5jYB98UxrUS519Q7262+Pbjlc1Q0h5z0xGgIDULxd5Shwr0dLiwxQfQon1Ct/rEL76+IUMtZCNsLSvngHwQew39wZTUA0t4/8J+4/DQcW5EhqCH+i8goQbV6JNT9OGJ/BlnM/QLinqBiF8yTb4tF5Xt3KXBpuxHKBYtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Il5uT2Zy; arc=none smtp.client-ip=54.207.19.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="jNPQI1LL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=9n
-	NlFIow0miyPGBGlXbBiq+8qkgIzBP5tjkVMbh8LqQ=; b=jNPQI1LLsB2cZpIje1
-	skVpTmxF8pynlqbDTgYfeXd5UVJce5DfBH89TwpbRdS3qUpeDe87IsaQQz/4k/hm
-	OS4rytro5Y1LSlWepJ1NEsfrp+U8qvja5FV5BKsSyF2GZi7dFlJfb/b2/qDG7rld
-	1sATExy30Z4uFv/OWXF78Pwj0=
-Received: from zhaoxin-MS-7E12.. (unknown [])
-	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wC3NIn4ejNqQpKZEQ--.4567S2;
-	Thu, 18 Jun 2026 12:58:33 +0800 (CST)
-From: Xin Zhao <jackzxcui1989@163.com>
-To: viro@zeniv.linux.org.uk
-Cc: alex.aring@gmail.com,
-	allen.lkml@gmail.com,
-	arnd@arndb.de,
-	brauner@kernel.org,
-	chuck.lever@oracle.com,
-	ebiederm@xmission.com,
-	j.granados@samsung.com,
-	jack@suse.cz,
-	jackzxcui1989@163.com,
-	jlayton@kernel.org,
-	keescook@chromium.org,
-	linux-arch@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mcgrof@kernel.org
-Subject: Re: [PATCH] coredump/fcntl: Add FD_CLOBCOR flag to close fd before dumping core
-Date: Thu, 18 Jun 2026 12:58:32 +0800
-Message-Id: <20260618045832.2575377-1-jackzxcui1989@163.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260618043054.GY2636677@ZenIV>
-References: <20260618043054.GY2636677@ZenIV>
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Il5uT2Zy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1781761119;
+	bh=Jfjicr/Uq6rXbROf/o9dsOjgPOIpx39JW65GVsjEOEM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=Il5uT2ZyZ2T70GqmhtkQ0nzjrc3G9BMh85+yap6+eA9KpFXCAKVBu5PAYq4apG4ko
+	 zf3jy194S/zGgfX4+S8SpGrokXdP+Lijb/tvScYCbiE0HrRYfPYAEiJ9YkC9sHFGJr
+	 Q40HCSMonc7cQGt/i0N7EMDqZfeHFXsSPvTK4wWk=
+X-QQ-mid: esmtpsz16t1781761104t36f65629
+X-QQ-Originating-IP: QGumPhGBLA4UrIrRdFdheu4Zip1xZw4KbM6pb6SvPBM=
+Received: from uos-PC ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 18 Jun 2026 13:38:23 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 9772218393939188370
+EX-QQ-RecipientCnt: 5
+From: Morduan Zang <zhangdandan@uniontech.com>
+To: brauner@kernel.org
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	djwong@kernel.org,
+	Morduan Zang <zhangdandan@uniontech.com>
+Subject: [PATCH] iomap: guard io_size EOF trim against concurrent truncate underflow
+Date: Thu, 18 Jun 2026 13:38:20 +0800
+Message-ID: <863D407CB3ECEB04+20260618053820.506635-1-zhangdandan@uniontech.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -55,72 +48,76 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wC3NIn4ejNqQpKZEQ--.4567S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7WF18GF13uFWDJFWUXF1rtFb_yoW8Zr47pF
-	WYgwnrKF4UtryxKr97Aw40yr1ayw1aqry5ur93X34rArn8Zr1fKr95Gw47uFn8urWfuFn0
-	vFWjv3sruFZ8ZFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRJKs8UUUUU=
-X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/xtbC5xpETmozevoNmQAA36
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: MCg5+ArSTX6coVIP43qz2U0EKxT1jP4fk/AIzb429zJLAhsHB53oOFHx
+	qUaq9yes93BiknZ3fhRyAF9rFV/2IqFBjTmb+ea+C7m9JPavgbxJXRiJlaz1BGY9NqmG6ej
+	tkRbQB8387BHdwffv+P9MsSoGi7xH8gd97BA7HWsRlTIfhdPpE+I59TBRUfjdIX82SujiUR
+	z/v3UZ6tBzS7tW5EqUIWQwdbhvGnV3SENe4okfrNVPw+nQ6HqND/0APT4b7SJWxjCQ4gaSN
+	M1VMcvlqJUb1j5qcCrOWBNzuUrHMkM7upgs5YrKVIUiz7kJMhE2If8bfJWFWgkef7iQsC5w
+	9TE1mqslX2qTFtwxf192tS9pHhzHbuhO5mBELrUAIPFjJI4KsgKNj6QXs02ljk4LDl0Bs1M
+	ka2Uk+3VEZl5Z5aqcRZ19UdvzazbS2woXlfCIMD35n1QgcIumERvnReB0PeLkznTKsm++i8
+	KBKpAZHvsIzJ3SRjvmtK3R2Mb4uXyIf3fyZ6IxVdbYp/nBluy+v1u8gpPVXKY88GrNEASS/
+	idrW/e8yeE7OpnGDgIIMRgzZpOEWbMGM6GeXsd0ZPXtiR8XPnQXexe791mnfBMaa8hMBJN4
+	5bSZsJKroydI0xl4u57Z4wa1Okebye8zo8UNz2HHa98zRZbiNzKDlOcnf6R0MII0d101OPg
+	Nr2h1gNiWY8+F1w1IGNTjcqkDHuArFtXeYuAkcXEftbMJoq/lXuoZ6TylJ7f6L1GLY9TgdY
+	ctu4NND7BKWEzZ9Rmq6KY7zgfKZrZ+o3kB9dAxNifet4NKb7yQZ+MNKO+rl4fvQfgJd/9TK
+	3KAUgQMzJg/3/EojkOzoFrB3C0T1dTAS7jSfTixE1ufadXxNUB51hL2iipyKOR5o0Ulo5/h
+	L+4mYu3q24snF8zDHqHmp0TT/o6t3+uWSDDyKnb8SKStH7n2/bHRaK7N0ChEvoPNfebWn7Q
+	gQB7VH3yx1f8YzFNCLjwQaz75J+/aN1lZtWXh1pPh8DTKhJ5a0F4ZBlqPyhSxYcT4xCSFxt
+	hjtXO+T03TUTjLOpUn0bx9dhIT/iXULkSh2z9X2w==
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+X-QQ-RECHKSPAM: 0
 
-On Thu, 18 Jun 2026 05:30:54 +0100 Al Viro <viro@zeniv.linux.org.uk> wrote:
+iomap: fix zero padding data issue in concurrent append writes
+changed ioend accounting so that io_size tracks only valid data
+within EOF.  This trims io_size when a writeback range extends
+past end_pos:
 
-> No.  Leaving aside the unasked-for overhead for every process on every system,
-> whether they are interested in this "feature" or not, this
-> 
-> > +static struct fdtable *close_files_before_core(struct files_struct *files)
-> > +{
-> > +	/*
-> > +	 * It is safe to dereference the fd table without RCU or
-> > +	 * ->file_lock because this is the last reference to the
-> > +	 * files structure.
-> > +	 */
-> > +	struct fdtable *fdt = rcu_dereference_raw(files->fdt);
-> > +	unsigned int i, j = 0;
-> > +
-> > +	for (;;) {
-> > +		unsigned long set;
-> > +
-> > +		i = j * BITS_PER_LONG;
-> > +		if (i >= fdt->max_fds)
-> > +			break;
-> > +		set = fdt->open_fds[j++];
-> > +		while (set) {
-> > +			if (set & 1 && close_before_core(i, files)) {
-> > +				struct file *file = fdt->fd[i];
-> > +
-> > +				if (file) {
-> > +					filp_close(file, files);
-> > +					cond_resched();
-> > +				}
-> > +			}
-> > +			i++;
-> > +			set >>= 1;
-> > +		}
-> > +	}
-> 
-> is just plain wrong.  You are leaving references in that descriptor table,
-> whether you've closed them or not.  It *can't* be right - no matter what
-> you do after having called that, you will either leak file references
-> for ones that were not closed or eat double-free for ones that were.
-> 
-> Have you actually tested that patch?
+    ioend->io_size += map_len;
+	if (ioend->io_offset + ioend->io_size > end_pos)
+            ioend->io_size = end_pos - ioend->io_offset;
 
-Thank you for your response. I developed and tested this feature in 6.1.158,
-but I made this serious mistake when porting it to linux-next. I should have
-retained the xchg operation that was still present in 6.1.158 to retrieve
-fdt->fd[i].
+However, ioend can be created before a concurrent truncate shrinks
+the file.  In that case, end_pos can move below ioend->io_offset
+before the trim happens.  The subtraction then becomes negative, but
+the result is stored in size_t io_size, causing an unsigned wrap to
+a huge value.
 
+A wrapped io_size can mislead append detection and corrupt
+completion-time size handling, since filesystem end_io paths consume
+io_size for decisions such as on-disk EOF updates and unwritten/COW
+completion ranges.
 
-> Note that above is _not_ "fix that thing and I'll have no objections";
-> I think the benefits of that API are nowhere near worth inflicting the
-> cost on everyone.
+Fix this by clamping io_size to zero when EOF has moved to or before
+the ioend start offset.  This preserves the original intent of trimming
+io_size to valid in-EOF data while avoiding the underflow.
 
-I see.
-The overhead introduced by this patch comes from the additional memory
-allocation for the bitmap during process initialization, as well as the
-extra traversal time during coredump_wait(). I need to think of ways to
-achieve this with minimal cost, and then you can take another look at it.
+Fixes: 51d20d1dacbe ("iomap: fix zero padding data issue in concurrent append writes")
+Signed-off-by: Morduan Zang <zhangdandan@uniontech.com>
+---
+ fs/iomap/ioend.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-Thanks
-Xin Zhao
+diff --git a/fs/iomap/ioend.c b/fs/iomap/ioend.c
+index acf3cf98b23a..0c391a66db6f 100644
+--- a/fs/iomap/ioend.c
++++ b/fs/iomap/ioend.c
+@@ -297,8 +297,12 @@ ssize_t iomap_add_to_ioend(struct iomap_writepage_ctx *wpc, struct folio *folio,
+ 	 * appending writes.
+ 	 */
+ 	ioend->io_size += map_len;
+-	if (ioend->io_offset + ioend->io_size > end_pos)
+-		ioend->io_size = end_pos - ioend->io_offset;
++	if (ioend->io_offset + ioend->io_size > end_pos) {
++		if (end_pos > ioend->io_offset)
++			ioend->io_size = end_pos - ioend->io_offset;
++		else
++			ioend->io_size = 0;
++	}
+ 
+ 	wbc_account_cgroup_owner(wpc->wbc, folio, map_len);
+ 	return map_len;
+-- 
+2.50.1
 
