@@ -1,97 +1,128 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55FC93750CB;
-	Thu, 18 Jun 2026 10:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF77F3F0759
+	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 10:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781778394; cv=none; b=DjbnPaLNKlEYodWIcAH3xQ9sMWBuHDv9Ufh/Igd6PTz4hvhTK4T2f8zIdkBzyCfKi+I6f3U3QzvoUvbx7aD+e+ZJpTY5Qx8dICXH4ZLtAcbcYzaqsikY23SFQ85KzwyCIJ+eRfBCOWefRZn0OkzYPdC7xrgN8JtXxbZD2HgpSKU=
+	t=1781780220; cv=none; b=RHd9cL027+ikGfMFWpxvVdXSL1gzSMRPZXZKxh0Q47NFArEq3jhnbwAKv4lXg0qBwW1GmFgMC5gy5Pkd+YNHdpwOI2NdV1N/mVxhVP5J86C1bBYBGQ/OGiPqFYr0rTFrz4HK5NIR2WQjiU5mHJrHjtg3AA4KeeZDV63/s/ZOBmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781778394; c=relaxed/simple;
-	bh=QAXjP5J/sFCMInq4Fej3S6aSdguM9eBOQ61FbMRR4s0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qi3rra8sMgRoV2FRVnCxVO8noOsAP+6Z46ClQ0mogT+mhsFW4UZtnLlD1bHuO4+1rD+d6gYJ+J6JkqavOJN6ugMr0OpF9WymYQCCteM3+hkEV+EnoRXh8tabF3E+ocCZ7Rr6z/v+8BV2k6yFd3YL/B/CSfBbFvpZkf4YiWslJnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 8508A68C7B; Thu, 18 Jun 2026 12:26:27 +0200 (CEST)
-Date: Thu, 18 Jun 2026 12:26:27 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@meta.com>
-Cc: linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	dm-devel@lists.linux.dev, hch@lst.de, axboe@kernel.dk,
-	brauner@kernel.org, djwong@kernel.org, viro@zeniv.linux.org.uk,
-	Keith Busch <kbusch@kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH 1/1] block: validate user space vectors during
- extraction
-Message-ID: <20260618102627.GA23200@lst.de>
-References: <20260617233235.1016063-1-kbusch@meta.com> <20260617233235.1016063-2-kbusch@meta.com>
+	s=arc-20240116; t=1781780220; c=relaxed/simple;
+	bh=qQdotgGscA6opjcuxC4Up5QVUCY1vyFuwJmwatHokyc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FB5NVunLKFpYhYIGN9+ChlEDTqxgP3iLzKYFbiWu6Pou0WcHVY5dQmcIivb2422Ub94otD8Ds9XQJ4swuwzFTERfWZKBVAWGTGw8zfI+qOkuGP0Tw3XSpKWWcVBg6ugcTjEGjlwULbYXYb4Yp041N6y67tw9qdfstVjSBD+uWH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KausSAjq; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KausSAjq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16EFE1F00A3A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 10:56:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781780216;
+	bh=2E/2JIqLB4ksBgWPBo43Ny8WcobpWESfD8u96j+vkuE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=KausSAjq/gG/n4m9EVaAp11Z/mDN7wDR+FlCTHVF+V5rcL+dtACUywY0Co3uZzKg+
+	 gLB9yfTtjkk5Gjz7Vkd5/SCS7wcwcyLuvZhVopSVRyJXWhsfrC6CM8sxLv5+f106ng
+	 qDcociUXofs++ILwCnPwIVADpqAw+6lJrvBDr/qjDgF7PiIrOK97mESwUmy3uUPDB6
+	 PgDkPCK/89iv/LEEkQIy2W0LyH72Vvr7dggW4d0BT4kKxRWTD0f2dGSTJJpN3yG0kO
+	 4GD+XQZadeP3ucXBc0yzdFeHVlvsaBFDMsP1C9gcr33kyC8dOzhrcgXV6VrLC65bR3
+	 wm8hwJD1A7AjQ==
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-91ae31bbaa9so85952285a.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 03:56:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+a9DLIjTVB4BQ7+XHiOxHZmIOG2RCTcGcOFWC6gxVB3fhGsZrN3rNBtdFTiVIoNfFM3UVYhqi07ZUDpdQ8@vger.kernel.org
+X-Gm-Message-State: AOJu0YwfhhSRbKEli7zF59eQSYXHPTKTMaP1vyt4uaoh44lmmGmUA+ft
+	MPKYyksFBwx5BdaRCzs6CNeViNqrVmS0Nufk0ybeC2b5G9D15y41zHSOpErq/A3/vxnMyx+f+7h
+	2prwaGdWMMDqBuSHEHxRb11NMxA8v4ko=
+X-Received: by 2002:a05:620a:1a12:b0:914:cf92:46fb with SMTP id
+ af79cd13be357-91dbc52c23cmr1206914385a.32.1781780215358; Thu, 18 Jun 2026
+ 03:56:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260617233235.1016063-2-kbusch@meta.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+References: <20260528182607.3150386-1-song@kernel.org> <20260528182607.3150386-8-song@kernel.org>
+ <20260617-laufbahn-eifrig-charmant-a48f357a0c52@brauner>
+In-Reply-To: <20260617-laufbahn-eifrig-charmant-a48f357a0c52@brauner>
+From: Song Liu <song@kernel.org>
+Date: Thu, 18 Jun 2026 18:56:42 +0800
+X-Gmail-Original-Message-ID: <CAPhsuW7Wn8GYrsrRhEFXQH5buaP+pdTKc0UV8Mn0B3OnNN-44g@mail.gmail.com>
+X-Gm-Features: AVVi8CdMwwBeVWKbgimKMTZIhDQrcn_xHhSmY9XN-Dvu7Mu1bTcCjMCtFLlmpHo
+Message-ID: <CAPhsuW7Wn8GYrsrRhEFXQH5buaP+pdTKc0UV8Mn0B3OnNN-44g@mail.gmail.com>
+Subject: Re: [PATCH v5 7/8] vfs: Replace security_sb_mount/security_move_mount
+ with granular hooks
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	selinux@vger.kernel.org, apparmor@lists.ubuntu.com, paul@paul-moore.com, 
+	jmorris@namei.org, serge@hallyn.com, viro@zeniv.linux.org.uk, jack@suse.cz, 
+	john.johansen@canonical.com, stephen.smalley.work@gmail.com, 
+	omosnace@redhat.com, mic@digikod.net, gnoack@google.com, 
+	takedakn@nttdata.co.jp, penguin-kernel@i-love.sakura.ne.jp, 
+	herton@canonical.com, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 17, 2026 at 04:32:35PM -0700, Keith Busch wrote:
-> @@ -1242,7 +1242,7 @@ static int bio_iov_iter_align_down(struct bio *bio, struct iov_iter *iter,
->   * is returned only if 0 pages could be pinned.
->   */
->  int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
-> -			   unsigned len_align_mask)
-> +			   unsigned len_align_mask, unsigned vec_align_mask)
+On Wed, Jun 17, 2026 at 9:53=E2=80=AFPM Christian Brauner <brauner@kernel.o=
+rg> wrote:
+>
+> On Thu, May 28, 2026 at 11:26:06AM -0700, Song Liu wrote:
+[...]
+> >
+> > +     err =3D security_mount_bind(&old_path, path, recurse);
+> > +     if (err)
+> > +             return err;
+>
+> This again is racy as it is called outside of the namespace semaphore:
+>
+>         err =3D security_mount_bind(&old_path, path, recurse);
+>         if (err)
+>                 return err;
+>
+>         if (mnt_ns_loop(old_path.dentry))
+>                 return -EINVAL;
+>
+>         LOCK_MOUNT(mp, path);
+>         if (IS_ERR(mp.parent))
+>                 return PTR_ERR(mp.parent);
+>
+> After LOCK_MOUNT @path might point to a completely different mount then
+> the one you performed your security checks on.
 
-vec_align_mask needs to be documented in the kernel doc.  And I find
-the vec_align_mask name a bit confusing.  This is all about the physical
-address (really the dma address, but the page aligned offset map 1:1),
-so maybe phys_align_mask or dma_align_mask might be better names?
+I thought we agreed at LSF/MM/BPF 2026 to add the LSM hooks
+before taking namespace semaphore, so that it is possible for LSMs
+to defend against DoS attacks on namespace semaphore? Did I
+miss/misunderstand something?
 
-Also wouldn't it be more natural to pass the start alignment requirement
-before the length alignment paramter?
+> > +
+> >       if (mnt_ns_loop(old_path.dentry))
+> >               return -EINVAL;
+> >
+[...]
+> >
+> >       err =3D parse_monolithic_mount_data(fc, data);
+> > +     if (!err)
+> > +             err =3D security_mount_remount(fc, path, mnt_flags, flags=
+,
+> > +                                         data);
+> >       if (!err) {
+> >               down_write(&sb->s_umount);
+> >               err =3D -EPERM;
+> > @@ -3708,6 +3724,10 @@ static int do_move_mount_old(const struct path *=
+path, const char *old_name)
+> >       if (err)
+> >               return err;
+> >
+> > +     err =3D security_mount_move(&old_path, path);
+> > +     if (err)
+> > +             return err;
+>
+> Placement of this hook suffers from the same issue as the bind mount
+> hook. Here it's worse because the security layer isn't even informed
+> about MOVE_MOUNT_BENEATH which completely alters the mount relationship.
 
-> @@ -1251,6 +1251,11 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
->  
->  	if (iov_iter_is_bvec(iter)) {
->  		bio_iov_bvec_set(bio, iter);
-> +
-> +		if (mp_bvec_iter_offset(bio->bi_io_vec, bio->bi_iter) &
-> +							vec_align_mask)
-> +			return -EINVAL;
+Current hook security_move_mount doesn't handle
+MOVE_MOUNT_BENEATH. But we can add mflags to security_mount_move().
+Do we need anything other than mflags?
 
-Can you add a comment here?  Especially as the bvec iter doesn't actually
-require all individual bvecs to be aligned and I'm not entirely sure this
-handles all case - writing down the rules might help a bit with that.
-
->  		ret = iov_iter_extract_bvecs(iter, bio->bi_io_vec,
->  				BIO_MAX_SIZE - bio->bi_iter.bi_size,
-> -				&bio->bi_vcnt, bio->bi_max_vecs, flags);
-> +				&bio->bi_vcnt, bio->bi_max_vecs,
-> +				vec_align_mask, flags);
->  		if (ret <= 0) {
-> +			if (ret == -EINVAL) {
-> +				bio_release_pages(bio, false);
-> +				bio_clear_flag(bio, BIO_PAGE_PINNED);
-> +				bio->bi_iter.bi_size = 0;
-> +				bio->bi_vcnt = 0;
-> +				return ret;
-> +			}
-
-Do we need all this cleanups beyoned the bio_release_pages()?  Most
-callers just free the bio, so should not care about it, and the error
-handling in __blkdev_direct_IO that calls bio_endio looks buggy for
-other reasons..
-
-> + * @align_mask:	reject with -EINVAL if the source address or length is not
-> + *		aligned to this mask
-
-Maybe use the same paramater name as on the bio side here?
-
-And not for this patch, but this makes me wonder if we should handle the
-len alignment in iov_iter_extract_bvecs as well, as that should simplify
-it quite a bit.
-
+Thanks,
+Song
