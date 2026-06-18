@@ -1,178 +1,276 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.aminvakil.com (mail.aminvakil.com [178.63.189.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EBF2318B85
-	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 16:07:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1AD62F7EE2;
+	Thu, 18 Jun 2026 16:12:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.189.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781798880; cv=none; b=KX0YuVa/3Vvoq2PJi/8TRslqxaKQdQHOcYbvmTtsdEohJ577NYaU2tyUjuE4j1Rp9k8zxn/sIY6g+tXHFKO5b7PDhOWcC+MK+RmCpi0I1ZKkQbwiRD0RR+tRVz7p2qU+YtI/XUD3AWzbg2qIa2U/XACjzu6+0Zr1p9FPErJCSiU=
+	t=1781799170; cv=none; b=p19QVGJ3OaV6kUzfq5e2nGpeS+Tp7Oh+elThP6K0eThXaxYau0iLGtFF+lNf+06rlroeLYMNYTPpZWO3aVbvMVlVMYpGo+/VYdh+zA6teyIDZgpn3Ala5LI5HkNptJg9mGC5Nnv1AyPxT3TxildKQg3abeZf/iJRV8ouO7xq3YM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781798880; c=relaxed/simple;
-	bh=F4xx3GYCkcSsw4ssbt2o/0xtqWS3M7R9/Yh3BsWjfr4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LUdCINX069h2crU+clLMMVjZb4DhIDJFBppGxWKA14c596oaPQ3jclpz52nbByIz5689++cSmiZHQCqmfvy7DSnZZ5rjOUBtIbjqQK+sEq/ARIGw1lxSlHEQt+DLt/mC0yKURk6+zETi/z6JG43q0+7iv30WjDBr55/KhdrTiSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DiPuAgok; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=a1wuA5vC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DiPuAgok; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=a1wuA5vC; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1781799170; c=relaxed/simple;
+	bh=S0IAk1DvDyMwW6lSY7DOa0JZc8Vid6UkotMRRlYbhes=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ge685eXVKh3AzP8mDirOdEZRfIEzZUW3UlNjbZbKYU0973Ot5iqIRD2c/mM/4z81HK80Oi7pGglgkT0mKtCxwgVKpFxtUMl/7eMwvYlFbpx8oEQt7MhHladMuGIQIJxR75jKIc9Z6CGpm3AkLkFRtIyK2SQnhmVUT22nudpE42M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aminvakil.com; spf=pass smtp.mailfrom=aminvakil.com; dkim=pass (2048-bit key) header.d=aminvakil.com header.i=@aminvakil.com header.b=CZzFndWj; arc=none smtp.client-ip=178.63.189.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aminvakil.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aminvakil.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DiPuAgok";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="a1wuA5vC";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DiPuAgok";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="a1wuA5vC"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id ABAAB75FAB;
-	Thu, 18 Jun 2026 16:07:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781798876; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PvLpkOhIioRSqS74QL2FqmjfAdCdF4mTGjCDuBBhsmI=;
-	b=DiPuAgok1jnaWMWawvecwPoC8KZp1wyXzDLysxbtVxi5ZQF9t1lGP13JJ+IoVmfp+FNib7
-	sUrvrmaM3jZZGFJfvWpLmObTvnccwm85d1Q+mCjpa8f4YTcv3A9EEG9IiAYn+n4LQpjnET
-	l8/nFr7XZiv8X+JCLNn4zI3SvWsZTa0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781798876;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PvLpkOhIioRSqS74QL2FqmjfAdCdF4mTGjCDuBBhsmI=;
-	b=a1wuA5vCeF42aE1af5bXdrS5OkkFavmfi5s4Y2eCVTfIqOhtzwSwmdVsdr6nZXeHQwjYjg
-	So++bXL9MsPc3LAg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DiPuAgok;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=a1wuA5vC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781798876; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PvLpkOhIioRSqS74QL2FqmjfAdCdF4mTGjCDuBBhsmI=;
-	b=DiPuAgok1jnaWMWawvecwPoC8KZp1wyXzDLysxbtVxi5ZQF9t1lGP13JJ+IoVmfp+FNib7
-	sUrvrmaM3jZZGFJfvWpLmObTvnccwm85d1Q+mCjpa8f4YTcv3A9EEG9IiAYn+n4LQpjnET
-	l8/nFr7XZiv8X+JCLNn4zI3SvWsZTa0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781798876;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PvLpkOhIioRSqS74QL2FqmjfAdCdF4mTGjCDuBBhsmI=;
-	b=a1wuA5vCeF42aE1af5bXdrS5OkkFavmfi5s4Y2eCVTfIqOhtzwSwmdVsdr6nZXeHQwjYjg
-	So++bXL9MsPc3LAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9AFE3779A8;
-	Thu, 18 Jun 2026 16:07:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gRcPItsXNGplfwAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Thu, 18 Jun 2026 16:07:55 +0000
-Date: Thu, 18 Jun 2026 17:07:53 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Xin Zhao <jackzxcui1989@163.com>
-Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
-	jlayton@kernel.org, chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de, 
-	ebiederm@xmission.com, keescook@chromium.org, mcgrof@kernel.org, j.granados@samsung.com, 
-	allen.lkml@gmail.com, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org
-Subject: Re: [PATCH v2] coredump: exit_files() in coredump_wait() if
- MMF_DUMP_MAPPED_SHARED is not set
-Message-ID: <ajQXNRT5PnBgh48M@pedro-suse>
-References: <20260618150301.3226517-1-jackzxcui1989@163.com>
+	dkim=pass (2048-bit key) header.d=aminvakil.com header.i=@aminvakil.com header.b="CZzFndWj"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2DFA3452B7;
+	Thu, 18 Jun 2026 19:42:41 +0330 (+0330)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aminvakil.com;
+	s=dkim; t=1781799164;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-language:in-reply-to:references:autocrypt;
+	bh=S0IAk1DvDyMwW6lSY7DOa0JZc8Vid6UkotMRRlYbhes=;
+	b=CZzFndWjNIiJjMiGHZupKEmIFR5MGTnOyRXq2tnXZRF62FZhYl6mYGuxjfo90DQ/EvVKj9
+	ldhgzHQzZm3Zhub8gPSn6tLPC5gVBBRpMiHrK4ReEUO0Bzsl4VV+KTrMLNB5ulSdou0BV/
+	iL1q5kwledjEFKPeqiyKjj1U0XdvN8+pU60VjHuDpSTwyN3Py8sUV1BMM+xMJfsqvQPZ7X
+	BHGHpYVHWybGc9KNKAyUGenDl7gAPlVzw8Vda6Cu3fG2AdCsh7TRutE1QDmcoV+Jye6csn
+	Nn29OI7p1ebaShzR671Fta3kB/FVfun0cXHmiuyqRX+HraEmRE+LmP7EiNBH7Q==
+Message-ID: <e5d05ae5-3b3c-48ad-8f91-c8461a77ff75@aminvakil.com>
+Date: Thu, 18 Jun 2026 19:42:40 +0330
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260618150301.3226517-1-jackzxcui1989@163.com>
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[163.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[163.com,gmail.com];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,oracle.com,gmail.com,arndb.de,xmission.com,chromium.org,samsung.com,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: ABAAB75FAB
-X-Spam-Score: -2.51
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] selftests: proc: include fcntl.h in proc-pidns
+To: Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>
+Cc: Aleksa Sarai <cyphar@cyphar.com>, Christian Brauner <brauner@kernel.org>,
+ linux-kselftest@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260618151444.124739-1-info@aminvakil.com>
+ <16ef9ff1-4c98-4c89-aefa-734a9e775df2@linuxfoundation.org>
+Content-Language: en-US
+From: Amin Vakil <info@aminvakil.com>
+Autocrypt: addr=info@aminvakil.com; keydata=
+ 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
+ +78sXChAfE9n44i0gJHzV8BhCsQG4+k=
+In-Reply-To: <16ef9ff1-4c98-4c89-aefa-734a9e775df2@linuxfoundation.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------x0IdzTE0AzDe0BXqOsohYA00"
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Thu, Jun 18, 2026 at 11:03:01PM +0800, Xin Zhao wrote:
-> A coredump typically takes some time to complete. If we happen to hold a
-> write lock with flock just before triggering the coredump, that write lock
-> will not be released during the entire coredump process. As a result,
-> other processes attempting to acquire the same write lock may experience
-> significant delays.
-> 
-> To address this, call exit_files() in the end of coredump_wait(), if
-> MMF_DUMP_MAPPED_SHARED is not set.
-> 
-> Signed-off-by: Xin Zhao <jackzxcui1989@163.com>
-> ---
-> 
-> Change in v2:
-> - Get rid of the implement of adding new fcntl API, the issue does not
->   worth inflicting the cost on everyone,
->   as suggested by Al Viro.
-> - Call exit_files() in coredump_wait(),
->   as suggested by Eric W. Biederman.
->   Add MMF_DUMP_MAPPED_SHARED mm_flags_test() check to filter cases that
->   need to dump file-backed shared memory.
-> 
-> v1:
-> - Link to v1: https://lore.kernel.org/all/20260618030700.2511668-1-jackzxcui1989@163.com/
-> ---
->  fs/coredump.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/fs/coredump.c b/fs/coredump.c
-> index bb6fdb1f4..e20baf44f 100644
-> --- a/fs/coredump.c
-> +++ b/fs/coredump.c
-> @@ -548,6 +548,9 @@ static int coredump_wait(int exit_code, struct core_state *core_state)
->  		}
->  	}
->  
-> +	if (!mm_flags_test(MMF_DUMP_MAPPED_SHARED, tsk->mm))
-> +		exit_files(tsk);
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------x0IdzTE0AzDe0BXqOsohYA00
+Content-Type: multipart/mixed; boundary="------------NbcpKa0FHxkGESYFGI5KWHj9";
+ protected-headers="v1"; hp="clear"
+Message-ID: <e5d05ae5-3b3c-48ad-8f91-c8461a77ff75@aminvakil.com>
+Date: Thu, 18 Jun 2026 19:42:40 +0330
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] selftests: proc: include fcntl.h in proc-pidns
+To: Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>
+Cc: Aleksa Sarai <cyphar@cyphar.com>, Christian Brauner <brauner@kernel.org>,
+ linux-kselftest@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260618151444.124739-1-info@aminvakil.com>
+ <16ef9ff1-4c98-4c89-aefa-734a9e775df2@linuxfoundation.org>
+Content-Language: en-US
+From: Amin Vakil <info@aminvakil.com>
+Autocrypt: addr=info@aminvakil.com; keydata=
+ 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
+ +78sXChAfE9n44i0gJHzV8BhCsQG4+k=
+In-Reply-To: <16ef9ff1-4c98-4c89-aefa-734a9e775df2@linuxfoundation.org>
 
-Memory mapped files keep their own separate references to the files
-(in struct vm_area_struct::vm_file), so there is no need to attempt to
-work around this. Unless I'm misunderstanding what you're attempting
-to work around.
+--------------NbcpKa0FHxkGESYFGI5KWHj9
+Content-Type: multipart/mixed; boundary="------------xxU0v8M4BOyN0UvPh1OaSBJq"
 
+--------------xxU0v8M4BOyN0UvPh1OaSBJq
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
--- 
-Pedro
+T24gNi8xOC8yNiA2OjU0IFBNLCBTaHVhaCBLaGFuIHdyb3RlOg0KPiBPbiA2LzE4LzI2IDA5
+OjE0LCBBbWluIFZha2lsIHdyb3RlOg0KPj4gcHJvYy1waWRucy5jIHVzZXMgb3BlbigpIGFu
+ZCBPXyogZmxhZ3MsIGJ1dCBkb2VzIG5vdCBpbmNsdWRlDQo+PiA8ZmNudGwuaD4uIFRoaXMg
+YnJlYWtzIHRoZSBwcm9jIHNlbGZ0ZXN0cyBidWlsZCB3aXRoIGVycm9ycyBzdWNoIGFzOg0K
+Pj4NCj4+IMKgwqAgZXJyb3I6IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1bmN0aW9uICdv
+cGVuJw0KPj4gwqDCoCBlcnJvcjogJ09fV1JPTkxZJyB1bmRlY2xhcmVkDQo+PiDCoMKgIGVy
+cm9yOiAnT19DUkVBVCcgdW5kZWNsYXJlZA0KPj4gwqDCoCBlcnJvcjogJ09fUkRPTkxZJyB1
+bmRlY2xhcmVkDQo+Pg0KPj4gSW5jbHVkZSA8ZmNudGwuaD4gdG8gcHJvdmlkZSB0aGUgZGVj
+bGFyYXRpb24gYW5kIGZsYWcgZGVmaW5pdGlvbnMuDQo+IA0KPiBEaWQgeW91IGluc3RhbGwg
+aGVhZGVycyBiZWZvcmUgY29tcGlsaW5nIHRoZSB0ZXN0Pw0KDQpTb3JyeSwgbm8gSSBoYWRu
+J3QuDQoNCkJ1dCBzZWVtcyBsaWtlIHByb2JsZW0gaXMgc3RpbGwgcmVsZXZhbnQgYWZ0ZXIg
+bWFrZSBoZWFkZXJzLCBJJ3ZlIHRlc3RlZCANCm5vdyB3aXRoIHRoZXNlIGNvbW1hbmRzOg0K
+DQptYWtlIC1DIHRvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzIFRBUkdFVFM9cHJvYyBjbGVhbg0K
+bWFrZSBoZWFkZXJzDQptYWtlIC1DIHRvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzIFRBUkdFVFM9
+cHJvYw0KICAgQ0MgICAgICAgcHJvYy1waWRucw0KcHJvYy1waWRucy5jOiBJbiBmdW5jdGlv
+biDigJh0b3VjaOKAmToNCnByb2MtcGlkbnMuYzozNDoxODogZXJyb3I6IGltcGxpY2l0IGRl
+Y2xhcmF0aW9uIG9mIGZ1bmN0aW9uIOKAmG9wZW7igJk7IGRpZCANCnlvdSBtZWFuIOKAmHBv
+cGVu4oCZPyBbLVdpbXBsaWNpdC1mdW5jdGlvbi1kZWNsYXJhdGlvbl0NCiAgICAzNCB8ICAg
+ICAgICAgaW50IGZkID0gb3BlbihwYXRoLCBPX1dST05MWXxPX0NSRUFUfE9fQ0xPRVhFQywg
+MDY0NCk7DQogICAgICAgfCAgICAgICAgICAgICAgICAgIF5+fn4NCiAgICAgICB8ICAgICAg
+ICAgICAgICAgICAgcG9wZW4NCnByb2MtcGlkbnMuYzozNDoyOTogZXJyb3I6IOKAmE9fV1JP
+TkxZ4oCZIHVuZGVjbGFyZWQgKGZpcnN0IHVzZSBpbiB0aGlzIA0KZnVuY3Rpb24pDQogICAg
+MzQgfCAgICAgICAgIGludCBmZCA9IG9wZW4ocGF0aCwgT19XUk9OTFl8T19DUkVBVHxPX0NM
+T0VYRUMsIDA2NDQpOw0KICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+
+fn5+fn5+DQpwcm9jLXBpZG5zLmM6MzQ6Mjk6IG5vdGU6IGVhY2ggdW5kZWNsYXJlZCBpZGVu
+dGlmaWVyIGlzIHJlcG9ydGVkIG9ubHkgDQpvbmNlIGZvciBlYWNoIGZ1bmN0aW9uIGl0IGFw
+cGVhcnMgaW4NCnByb2MtcGlkbnMuYzozNDozODogZXJyb3I6IOKAmE9fQ1JFQVTigJkgdW5k
+ZWNsYXJlZCAoZmlyc3QgdXNlIGluIHRoaXMgZnVuY3Rpb24pDQogICAgMzQgfCAgICAgICAg
+IGludCBmZCA9IG9wZW4ocGF0aCwgT19XUk9OTFl8T19DUkVBVHxPX0NMT0VYRUMsIDA2NDQp
+Ow0KICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+
+fn4NCnByb2MtcGlkbnMuYzogSW4gZnVuY3Rpb24g4oCYbnNfc2V0dXDigJk6DQpwcm9jLXBp
+ZG5zLmM6NDk6NTQ6IGVycm9yOiDigJhPX1JET05MWeKAmSB1bmRlY2xhcmVkIChmaXJzdCB1
+c2UgaW4gdGhpcyANCmZ1bmN0aW9uKTsgZGlkIHlvdSBtZWFuIOKAmE1TX1JET05MWeKAmT8N
+CiAgICA0OSB8ICAgICAgICAgc2VsZi0+aG9zdF9tbnRucyA9IG9wZW4oIi9wcm9jL3NlbGYv
+bnMvbW50IiwgDQpPX1JET05MWXxPX0NMT0VYRUMpOw0KICAgICAgIHwgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fg0KICAg
+ICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBNU19SRE9OTFkNCg0KQWZ0ZXIgYXBwbHlpbmcgdGhlIHBhdGNoIEkndmUgc2VudCwg
+ZXJyb3IgaXMgZ29uZS4NCg0KTXkgZW52aXJvbm1lbnQgaWYgcmVsZXZhbnQ6DQokIGdjYyAt
+LXZlcnNpb24NCmdjYyAoR0NDKSAxNi4xLjEgMjAyNjA0MzANCiQgbWFrZSAtLXZlcnNpb24N
+CkdOVSBNYWtlIDQuNC4xDQpCdWlsdCBmb3IgeDg2XzY0LXBjLWxpbnV4LWdudQ0KJCBsZGQg
+LS12ZXJzaW9uDQpsZGQgKEdOVSBsaWJjKSAyLjQzDQokIGdldGNvbmYgR05VX0xJQkNfVkVS
+U0lPTg0KZ2xpYmMgMi40Mw0KPiANCj4+DQo+PiBGaXhlczogNTU1NGQ4MjBmNzFjICgic2Vs
+ZnRlc3RzL3Byb2M6IGFkZCB0ZXN0cyBmb3IgbmV3IHBpZG5zIEFQSXMiKQ0KPj4gVGVzdGVk
+IHdpdGg6DQo+PiDCoMKgIG1ha2UgLUMgdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMgVEFSR0VU
+Uz1wcm9jDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogQW1pbiBWYWtpbCA8aW5mb0BhbWludmFr
+aWwuY29tPg0KPj4gLS0tDQo+PiDCoCB0b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9wcm9jL3By
+b2MtcGlkbnMuYyB8IDEgKw0KPj4gwqAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
+DQo+Pg0KPj4gZGlmZiAtLWdpdCBhL3Rvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL3Byb2MvcHJv
+Yy1waWRucy5jIGIvdG9vbHMvIA0KPj4gdGVzdGluZy9zZWxmdGVzdHMvcHJvYy9wcm9jLXBp
+ZG5zLmMNCj4+IGluZGV4IDI1YjlhMjkzM2M0NS4uNmY3YzEwZmU5N2IzIDEwMDY0NA0KPj4g
+LS0tIGEvdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvcHJvYy9wcm9jLXBpZG5zLmMNCj4+ICsr
+KyBiL3Rvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL3Byb2MvcHJvYy1waWRucy5jDQo+PiBAQCAt
+Niw2ICs2LDcgQEANCj4+IMKgICNpbmNsdWRlIDxhc3NlcnQuaD4NCj4+IMKgICNpbmNsdWRl
+IDxlcnJuby5oPg0KPj4gKyNpbmNsdWRlIDxmY250bC5oPg0KPj4gwqAgI2luY2x1ZGUgPHNj
+aGVkLmg+DQo+PiDCoCAjaW5jbHVkZSA8c3RkYm9vbC5oPg0KPj4gwqAgI2luY2x1ZGUgPHN0
+ZGxpYi5oPg0KPiANCj4gdGhhbmtzLA0KPiAtLSBTaHVhaA0KDQo=
+--------------xxU0v8M4BOyN0UvPh1OaSBJq
+Content-Type: application/pgp-keys; name="OpenPGP_0x1EFC1864E9D9E56B.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x1EFC1864E9D9E56B.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsDNBGDcQdQBDADCwSezvQSyNvL8EGhgR7rXMMnxfj/746TAFcAnMI5rtOs6yAQP
+XbCc3rv9Vph8myG6ZGu+G1q9SEIHQviYVTkgBUW7xY062KHgohbk3OhsUbnmCtmM
+OsQMgVT9Z7nT8tIQT/RrFchVK4zcnYvhUM0HNQclS5skueVTwrEYh3JVITPtsPeC
+eTua1uVrUNeCOfRcH+nab2ydlMSw7NMTCqvmxG2PSz0EEFqhFT4jnGw27V4nPzAv
+La3M/IysLE/Jp3hMKIURsEKosuCQ6UB8OEWEA6fvKGJRYecqzWZAcKeFZTxHndrJ
+R5Gc0qayUdpoal0pYrFpxzv4tqT1yprcnYF3dKl5IpqyaxpfkL3EQAHSKuRLov+x
+XXamNa8EBM3Uak/ixi45F0yQhaCqtf6PwwsMMuTQ2EwqBTZVqQCMquLyLwDzJl6c
+6rh/eji2Oldp+pUIV27o/rb2aHMpfmZyoMs6kMLz72kyHHdsSeyAtz1suWFhh+Mh
+4YAzbdRCCgRrfVEAEQEAAc0fQW1pbiBWYWtpbCA8aW5mb0BhbWludmFraWwuY29t
+PsLBFAQTAQgAPhYhBIRqwASF5Vxv9LyfUx78GGTp2eVrBQJg3EHUAhsDBQkSzAMA
+BQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEB78GGTp2eVr1ocL/RNFJ7YF+jV/
+JtXCcL3k3C4qyUrOeO1Lw5X3hIfUXqjGG2ut9D331U3IsHllfEPFowukg1cQUOhl
++2M45He4FCtSr53PGXhvXjfF1XQzHPpSRdDbdly3nUR2L8BE+VLu4WCgB6dBiMnU
+3NdXa1XWmoxCdG1Ly/R1ev4UAMLFHsMsIVL+HfddytXHKAltGqAb9OAEOHpbGJNx
+HORl0E2BCNtK5I/Qh6uw066koEgPbahE9rpldL9Ec6pl3HyrxPpjFImTVNK9Xh36
+bbuz+pwF2v2jvc4oFZHx6LdMoxDdH9vjC2a5Boa77a9PWY3c0lz27RlixCGWyQjm
+QTeVdJNYlY0tcgEZlKZrbypr6UGXqTMZeHvpz0XJCM5UI34ebPZVAPMFEOsJRAIA
+qM+02xwAhBXws09IKPIVPypEzbD5BDV2qbs0qg/vYtipyzmAJOWVeYuCJmYYg3cy
+34Kmpa9q2t43HvWtD7Mor6n2G0CnXh0NoGiPpad4DyQvwphhFON6Wc7AzQRg3EHU
+AQwAvJ9DDw5MC5IY/9KaWspX4ahk1vfsNs3k2fXeY/UUgaZsGQWdkb/GanyiSBrG
+wUu91Ala6YcVsg6gMO5gzryRemmOTgHn3ycMJB8jmu7EYxCC4DSoxSCWXumbLfna
+QwZPh+Ic9i3sw5g4cFMRTMKr4Zt2jUQULtu825mc8V0Hb5c41B2yQAXTQ09+M5C1
+UPhzzGt6oHqqO+6Pg2dUwi276UW79OCV3qEpesUwrgq5xrTC32jJG4cO7uFmYBZR
+BVY4KI7r8E3WWia42IRSZ2wEfaAqF7kTeOakmP8ZxX9qpV8v7MLjZIhhqXjAWKtU
+DqiktLRQJtsoUvteeeQEIbYL7M/6bzF5BtIylqxmGxcrSC+MOr7AvqRYfntEqkhh
+lWdjNR0yx4Dd9IItpdkTjBwN6iBWDCdlh/I36HkpAj51gOCXvEelqr3wKQMToyH5
+IrysJuOUR3wuaLHXfeHHBHaIWsDwaBADLVNOT7LWqe4d/gRaB69eqaAPSInJQRJo
+c5tjABEBAAHCwPwEGAEIACYWIQSEasAEheVcb/S8n1Me/Bhk6dnlawUCYNxB1AIb
+DAUJEswDAAAKCRAe/Bhk6dnlaww5DACArVoYcgMyBTl4s7C3MBXTNh9MA5jjQtkL
+3Bv9wR1+UusORuhY2cn7MseJpaMvfDGS7pfJRJY+w4l51TGs2lSSUntdZ1g7a684
+i5mQ0KLaJ4cvoekvKmdkh0knQmnkZnu8wxtgbLdCkbSr1QKtRb5DiV2ctYLiLkqw
+BvLh4RUNTNr1chFEuO/3QcETbpKvgKFR9KPlEPp0l71dm5I7oBy9sEJ2KPtiykFC
+GF2UzFqDHubfHrjFAtyZYkuNg1fGJhNJkICrUYK3WUawq3KIumHDL/ZEoBvMvnlO
+trki8HKHg+G6hTt0axoC/4fV9fhqUfMcahOLSrt9TwaJT+baIznyzP6eRXjhG/E+
+UtCe4qkmevDf1Uu9Q22oaQsC1qU6K2Iy/xp6QbdQfjtohu5HXPBX80MHAYKrRSHk
+fUFH4grn6l0fkYvREs7Jdp7Oq0Je5wP6mj7v0sQ9ShjqFH12Zd59EenqNIr5OoYY
++78sXChAfE9n44i0gJHzV8BhCsQG4+k=3D
+=3DGHsk
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------xxU0v8M4BOyN0UvPh1OaSBJq--
+
+--------------NbcpKa0FHxkGESYFGI5KWHj9--
+
+--------------x0IdzTE0AzDe0BXqOsohYA00
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsD5BAABCAAjFiEEhGrABIXlXG/0vJ9THvwYZOnZ5WsFAmo0GPgFAwAAAAAACgkQHvwYZOnZ5WsE
+2wv+M+X+dpPvkSEeizIFHZ3swvVTXMp5nbBHpPmNBgvSxDJD5OgWlSVwThSu1wwFHEb8Z18XxEKA
+tqtjXk0YMSa+e+xgpLe8inEhP0E4hXKjWcthbr6uhng45BgmA/sJjAzuvKPvCDnxwHyw1A3Ruue2
+pWY0AUPjw2lhCQb4YUsXrWmuBwBSCyGusOxuU85f9vXodqC1Mqzx9hjDCRt7FpmQ0ihE+fPwteKr
+62jfqr1JKuHcWR3fkOMe9IxPiQt5EGwyIeuG8JJPWeRsqUP8n6O3827rY+O0Ifu7a/FSpLYAPpa4
+CdlbXxR6nWU3H/SMtG6QWB6BPDi0qv9JuCawXJrbih+SBdfOW2cKTC3kvgtSmeRbkyPv00+fGrDV
+ISLZ2zG1GBtjBMA3cmp2tLxa11dh33c3BaIxy9ErQ2Ss2fLH/feh+x19M/90nntbLn4sNLSFyq4M
+sQZuLjUeKbH/wIz0hf6VgeWrdlWqU9llj5bm1oWFBoCx9I7+83lMrzhOGMMw
+=vESB
+-----END PGP SIGNATURE-----
+
+--------------x0IdzTE0AzDe0BXqOsohYA00--
