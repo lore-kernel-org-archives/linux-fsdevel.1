@@ -1,121 +1,269 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E6C12566D3;
-	Thu, 18 Jun 2026 06:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06CE83AE1A9;
+	Thu, 18 Jun 2026 06:57:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781765369; cv=none; b=dA56OJmfLZbsx9G0gXC9md/zRBzivMqRKxo+et+kb7lYVBsTOmJ0z0QE6MKAbxdJiNzL5owVrEkgvo9K4SObDrd25KBBdEZYw2NUFAbIj+dEtM2ZAG9DttqPX3+seELiLHr/cIqo2/aNnDf4zajNxrdLo9csBpPUzKSShqV5MOE=
+	t=1781765857; cv=none; b=RtrRl+zMYZmuhkf96Qa0S+CzBk8oPw5nSN8GjWPhBMCSBKb2lA69ALqNOVK5ikg0HSDHkvcUEuWODuYJ8f4h0AxTssHzMnrnq+Sb2OVdE3aQIizaKi6uKJQUcwS9LObNJXjGVy85DhGaEKbKyqXFzLRJ2mivQ9J1Xsn8KAZ+F5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781765369; c=relaxed/simple;
-	bh=gsJf9Jm5coSQi6PJtpTH8ZO3WjpGXpEMR3yZ9eqzbPA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=BsaKFsOy6r7rcpUp6FXtNHCZLolvgOHjfYp0OW5Uf/mNZXvaD9GUu+bmuSpnizqx1NBdbiZUHd31esdHWDbuhQ08UhqCyIGfOCtGRDS2LhLlIuWwQ8icXXgVJ9BIzROzJDMCw4cUcHqa/OLnb8f9J0Ls+TiDB9oIRe1k0F+G+1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=iu1d7Nxn; arc=none smtp.client-ip=117.135.210.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1781765857; c=relaxed/simple;
+	bh=T95rqFu+DT+TUdfBv/DWbmWSVHBMh/4YtoIs2609LJY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fiWGTkxMIe78Mg6hYUnuNL61nyL6RLqtmZdQ0XIyZsbVchHzCzSGjYj3GEmkB0iqrjycy6UVbAX9zwg264PkoZgxnSe29Hk4fh8w4teT/5ZOikAt4VZH1ekLdsZh7YyXrPlePXqeeBw1KYxkj4LbTIt12stXoSqipY6MTrv+ZhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eGh6OfDd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="iu1d7Nxn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Pg
-	0B+9qKQMRhvj5J2hGwz0RIESiJqMrSgNuCqkEtBvA=; b=iu1d7NxnpDvAaAdTKU
-	s1dRqVQ9ovgm3up+le1IpR39ERKRZycqYMFgWQWs0jxFNng3Ij/W9dGu0l0IDkhh
-	/vu507XLg3M7fwLN9rRaxIjLbmfj1HqpUFqHYeacnkRqA+IS+oWBcIKUl48khWFh
-	tUkJKAg5BJYBI2QsBnnF5/knA=
-Received: from zhaoxin-MS-7E12.. (unknown [])
-	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wD3XynGlDNq3B6NEA--.57322S2;
-	Thu, 18 Jun 2026 14:48:40 +0800 (CST)
-From: Xin Zhao <jackzxcui1989@163.com>
-To: ebiederm@xmission.com
-Cc: alex.aring@gmail.com,
-	allen.lkml@gmail.com,
-	arnd@arndb.de,
-	brauner@kernel.org,
-	chuck.lever@oracle.com,
-	j.granados@samsung.com,
-	jack@suse.cz,
-	jackzxcui1989@163.com,
-	jlayton@kernel.org,
-	keescook@chromium.org,
-	linux-arch@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mcgrof@kernel.org,
-	viro@zeniv.linux.org.uk
-Subject: Re: [PATCH] coredump/fcntl: Add FD_CLOBCOR flag to close fd before dumping core
-Date: Thu, 18 Jun 2026 14:48:38 +0800
-Message-Id: <20260618064838.2636840-1-jackzxcui1989@163.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <87zf0se7qi.fsf@email.froward.int.ebiederm.org>
-References: <87zf0se7qi.fsf@email.froward.int.ebiederm.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eGh6OfDd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15E121F000E9;
+	Thu, 18 Jun 2026 06:57:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781765855;
+	bh=4QISqTlwrmx57R2z3haZedBPlmiB7VEKsHOvy4BFwTE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=eGh6OfDdeAXOLgF2Ac3D3Tq0vZRc+WPlfEIDqNHivYmPvMdBGAvlLqV/xZjwUnKpK
+	 1nGggmBZGvz44BbIP/4ngFFJesmirFSbdbNCZqe17A8Eyv8c+Jzpt0RunGwzC7jg8a
+	 pjjQhZ47uhwuGe7tWUymAM4zVtFU8ZFfZImT7gKRbFE3v0CcHFpAadSgbhSSchQYZd
+	 +dgzLzwZPqk/szVdVFpVgdoz2QL6dv96YznoguTElL0ng+3Y2AT8Jg7nSj7HAiZpw4
+	 dYIpyah1F1myZyZr/MtmIOEgvzvpmLZiAtJv9OBrRSwTU/a7lJPO2VbOB4ZVEba2I4
+	 XJTGMXAp4xd7A==
+Date: Thu, 18 Jun 2026 08:56:39 +0200
+From: Joel Granados <joel.granados@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, Kees Cook <kees@kernel.org>, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] sysctl: add Returns: kernel-doc for all functions
+Message-ID: <nsc2ufwzf2jfw67jm2qwyqt3qnrfl52z32kvnmbetvzpmswxk6@wxgh3cmbfqqc>
+References: <20260509055658.1089994-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3XynGlDNq3B6NEA--.57322S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxGF43JF4kCF48Kw4UWF4kJFb_yoW5XrW8pa
-	y5Ka40ya1kKrs7ta97Z3W8A3WFg3yrGFsrXrnxury5Cws8u3WSyF1fKa15ta47JwsYyayY
-	qFy7tasrWryYvFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRE388UUUUU=
-X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/xtbCwAi+yGozlMhQmwAA3w
-
-On Thu, 18 Jun 2026 00:29:57 -0500 "Eric W. Biederman" <ebiederm@xmission.com> wrote:
-
-> > A coredump typically takes some time to complete. If we happen to hold a
-> > write lock with flock just before triggering the coredump, that write lock
-> > will not be released during the entire coredump process. As a result,
-> > other processes attempting to acquire the same write lock may experience
-> > significant delays.
-> 
-> You are talking about giant processes writing to slow backing store?
-> 
-> I suspect you would be better off quickly writing the coredump to a pipe,
-> and then writing it to disk.
-> 
-> Unless your machine is badly balanced that should take perhaps a second.
-> 
-> That said I don't see why you need elaborate machinery to do something
-> about these file descriptors.  Unless I am mistaken no file descriptors
-> are placed into a coredump.  In which case it should be possible to just
-> call exit_files early.
-
-Thank you for your suggestion. Are you suggesting modifying the coredump
-path to a location like /tmp and then copying the files from /tmp to the
-final storage location? That would indeed be faster, but our tasks
-sometimes consume a considerable amount of memory, and the dump time might
-still be significant even when using a pipe. For our higher-level code,
-even 100 ms might be a bit too long. Additionally, while directly calling
-exit_files() in coredump_wait can cover most scenarios, if the
-coredump_filter includes (bit 3) file-backed shared memory, it may not be
-appropriate to release all files.
-
-I actually prefer to dynamically create the bitmap for determining
-close_before_core on demand. If the task hasn't set this attribute, then
-we wouldn't create the bitmap, which would also save time on memory
-allocation when this feature is not used.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mf3cidjwsxjd64hu"
+Content-Disposition: inline
+In-Reply-To: <20260509055658.1089994-1-rdunlap@infradead.org>
 
 
-> > To address this, we introduce the F_[GET|SET]FD_EX fcntl operation and the
-> > FD_CLOBCOR flag, allowing coredump_wait() to release any file descriptors
-> > marked with FD_CLOBCOR. We can also assign the FD_CLOBCOR flag to specific
-> > shared memory segments, preventing the coredump from including shared
-> > memory that we are not interested in, thereby reducing both the coredump
-> > duration and the size of the core file.
-> 
-> Please look at vma_dump_size.  There are plenty of ways already to
-> skip dumping a memory area.  Using file backed shared memory,
-> and madvise(MADV_DONTDUMP) are two easy ones that already exist.
-> 
-> My point is that there are cleaner ways to solve your problem than
-> the solutions you have proposed.
+--mf3cidjwsxjd64hu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This requirement can indeed be addressed with the MADV_DONTDUMP you
-mentioned, thank you for your suggestion. But what troubles me is the
-scenario mentioned above.
+On Fri, May 08, 2026 at 10:56:58PM -0700, Randy Dunlap wrote:
+> Fix kernel-doc warnings in kernel/sysctl.c by adding Returns:
+> clauses for them.
+The commit message reads funny. I just removed the "clauses for them".
 
-Thanks
-Xin Zhao
+Added this to sysctl-testing
 
+thx.
+
+>=20
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> Cc: Joel Granados <joel.granados@kernel.org>
+> Cc: Kees Cook <kees@kernel.org>
+> Cc: linux-fsdevel@vger.kernel.org
+>=20
+>  kernel/sysctl.c |   45 +++++++++++++++++++++++++--------------------
+>  1 file changed, 25 insertions(+), 20 deletions(-)
+>=20
+> --- linux-next-20260508.orig/kernel/sysctl.c
+> +++ linux-next-20260508/kernel/sysctl.c
+> @@ -148,7 +148,7 @@ static void warn_sysctl_write(const stru
+>   * @ppos: file position
+>   * @table: the sysctl table
+>   *
+> - * Returns true if the first position is non-zero and the sysctl_writes_=
+strict
+> + * Returns: true if the first position is non-zero and the sysctl_writes=
+_strict
+>   * mode indicates this is not allowed for numeric input types. String pr=
+oc
+>   * handlers can ignore the return value.
+>   */
+> @@ -184,7 +184,7 @@ static bool proc_first_pos_non_zero_igno
+>   * and a newline '\n' is added. It is truncated if the buffer is
+>   * not large enough.
+>   *
+> - * Returns 0 on success.
+> + * Returns: %0 on success.
+>   */
+>  int proc_dostring(const struct ctl_table *table, int dir,
+>  		  void *buffer, size_t *lenp, loff_t *ppos)
+> @@ -225,11 +225,14 @@ static void proc_skip_char(char **buf, s
+>   * @base: the base to use
+>   * @res: where the parsed integer will be stored
+>   *
+> - * In case of success 0 is returned and @res will contain the parsed int=
+eger,
+> - * @endp will hold any trailing characters.
+>   * This function will fail the parse on overflow. If there wasn't an ove=
+rflow
+>   * the function will defer the decision what characters count as invalid=
+ to the
+>   * caller.
+> + *
+> + * Returns:
+> + * * %0 on success and @res will contain the parsed integer,
+> + *   @endp will hold any trailing characters.
+> + * * %-ERANGE on overflow.
+>   */
+>  static int strtoul_lenient(const char *cp, char **endp, unsigned int bas=
+e,
+>  			   unsigned long *res)
+> @@ -263,10 +266,12 @@ static int strtoul_lenient(const char *c
+>   * @perm_tr_len: size of the perm_tr vector
+>   * @tr: pointer to store the trailer character
+>   *
+> - * In case of success %0 is returned and @buf and @size are updated with
+> - * the amount of bytes read. If @tr is non-NULL and a trailing
+> - * character exists (size is non-zero after returning from this
+> - * function), @tr is updated with the trailing character.
+> + * Returns:
+> + * * %0 on success and @buf and @size are updated with
+> + *   the amount of bytes read. If @tr is non-NULL and a trailing
+> + *   character exists (size is non-zero after returning from this
+> + *   function), @tr is updated with the trailing character.
+> + * * %-EINVAL on failure.
+>   */
+>  static int proc_get_long(char **buf, size_t *size,
+>  			  unsigned long *val, bool *neg,
+> @@ -365,7 +370,7 @@ static void proc_put_char(void **buf, si
+>   * not NULL. Check that the values are less than UINT_MAX to avoid
+>   * having to support wrap around from userspace.
+>   *
+> - * returns 0 on success.
+> + * Returns: %0 on success.
+>   */
+>  int proc_uint_u2k_conv_uop(const ulong *u_ptr, uint *k_ptr,
+>  			   ulong (*u_ptr_op)(const ulong))
+> @@ -386,7 +391,7 @@ int proc_uint_u2k_conv_uop(const ulong *
+>   *
+>   * Uses READ_ONCE to assign value to u_ptr.
+>   *
+> - * returns 0 on success.
+> + * Returns: %0 on success.
+>   */
+>  int proc_uint_k2u_conv(ulong *u_ptr, const uint *k_ptr)
+>  {
+> @@ -409,7 +414,7 @@ int proc_uint_k2u_conv(ulong *u_ptr, con
+>   * When direction is kernel to user, then the u_ptr is modified.
+>   * When direction is user to kernel, then the k_ptr is modified.
+>   *
+> - * Returns 0 on success
+> + * Returns: %0 on success
+>   */
+>  int proc_uint_conv(ulong *u_ptr, uint *k_ptr, int dir,
+>  		   const struct ctl_table *tbl, bool k_ptr_range_check,
+> @@ -774,7 +779,7 @@ static int do_proc_douintvec(const struc
+>   * values from/to the user buffer, treated as an ASCII string. Negative
+>   * strings are not allowed.
+>   *
+> - * Returns 0 on success
+> + * Returns: %0 on success
+>   */
+>  int proc_douintvec_conv(const struct ctl_table *table, int dir, void *bu=
+ffer,
+>  			size_t *lenp, loff_t *ppos,
+> @@ -798,7 +803,7 @@ int proc_douintvec_conv(const struct ctl
+>   * table->data must point to a bool variable and table->maxlen must
+>   * be sizeof(bool).
+>   *
+> - * Returns 0 on success.
+> + * Returns: %0 on success.
+>   */
+>  int proc_dobool(const struct ctl_table *table, int dir, void *buffer,
+>  		size_t *lenp, loff_t *ppos)
+> @@ -835,7 +840,7 @@ int proc_dobool(const struct ctl_table *
+>   * Reads/writes up to table->maxlen/sizeof(unsigned int) integer
+>   * values from/to the user buffer, treated as an ASCII string.
+>   *
+> - * Returns 0 on success.
+> + * Returns: %0 on success.
+>   */
+>  int proc_dointvec(const struct ctl_table *table, int dir, void *buffer,
+>  		  size_t *lenp, loff_t *ppos)
+> @@ -854,7 +859,7 @@ int proc_dointvec(const struct ctl_table
+>   * Reads/writes up to table->maxlen/sizeof(unsigned int) unsigned integer
+>   * values from/to the user buffer, treated as an ASCII string.
+>   *
+> - * Returns 0 on success.
+> + * Returns: %0 on success.
+>   */
+>  int proc_douintvec(const struct ctl_table *table, int dir, void *buffer,
+>  		size_t *lenp, loff_t *ppos)
+> @@ -877,7 +882,7 @@ int proc_douintvec(const struct ctl_tabl
+>   * This routine will ensure the values are within the range specified by
+>   * table->extra1 (min) and table->extra2 (max).
+>   *
+> - * Returns 0 on success or -EINVAL when the range check fails and
+> + * Returns: %0 on success or -EINVAL when the range check fails and
+>   * SYSCTL_USER_TO_KERN(dir) =3D=3D true
+>   */
+>  int proc_dointvec_minmax(const struct ctl_table *table, int dir,
+> @@ -904,7 +909,7 @@ int proc_dointvec_minmax(const struct ct
+>   * (max). And Check that the values are less than UINT_MAX to avoid havi=
+ng to
+>   * support wrap around uses from userspace.
+>   *
+> - * Returns 0 on success or -ERANGE when range check failes and
+> + * Returns: %0 on success or -ERANGE when range check failes and
+>   * SYSCTL_USER_TO_KERN(dir) =3D=3D true
+>   */
+>  int proc_douintvec_minmax(const struct ctl_table *table, int dir,
+> @@ -929,7 +934,7 @@ int proc_douintvec_minmax(const struct c
+>   * This routine will ensure the values are within the range specified by
+>   * table->extra1 (min) and table->extra2 (max).
+>   *
+> - * Returns 0 on success or an error on SYSCTL_USER_TO_KERN(dir) =3D=3D t=
+rue
+> + * Returns: %0 on success or an error on SYSCTL_USER_TO_KERN(dir) =3D=3D=
+ true
+>   * and the range check fails.
+>   */
+>  int proc_dou8vec_minmax(const struct ctl_table *table, int dir,
+> @@ -1061,7 +1066,7 @@ int proc_doulongvec_minmax_conv(const st
+>   * This routine will ensure the values are within the range specified by
+>   * table->extra1 (min) and table->extra2 (max).
+>   *
+> - * Returns 0 on success.
+> + * Returns: %0 on success.
+>   */
+>  int proc_doulongvec_minmax(const struct ctl_table *table, int dir,
+>  			   void *buffer, size_t *lenp, loff_t *ppos)
+> @@ -1108,7 +1113,7 @@ int proc_dointvec_conv(const struct ctl_
+>   * large bitmaps may be represented in a compact manner. Writing into
+>   * the file will clear the bitmap then update it with the given input.
+>   *
+> - * Returns 0 on success.
+> + * Returns: %0 on success.
+>   */
+>  int proc_do_large_bitmap(const struct ctl_table *table, int dir,
+>  			 void *buffer, size_t *lenp, loff_t *ppos)
+
+--=20
+
+Joel Granados
+
+--mf3cidjwsxjd64hu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmozlp0ACgkQupfNUreW
+QU/m/gv8DM0OSuxmMew1L5yewnnzjHJ6nzERKGFLTB/nncVkIkYdXHBPDJ2PHUVx
+9NuaRLBESC95hhCtgSzE7uWraoPVZPgM1Ud01LmWM0Ghc2juVxen4joGRFUhPBN4
+TdGLuUfimYdb9NUsAVQH/FDxi4veTsoMB8jFvahsYxfnufibBCHoS5nYF7KFMB56
+3UCJpbyab8v5jnWdPIEa98fut3Lz4GH8MiEBGo1SxMb8JWv3har9ObbJzD8Hdv76
+nIIFRVW+unm/NXrMRDJD8Kp3nMXzN6rnWVhq0u5lemjPQT9LfDMZo2qjU/NgtJRk
+K7ChO+E3R8TbOmDg0OL5J8g/zG8h8xRXuVYlabLAPXoB+WSD8dJW1A8WYoUN6gg3
+NbfmKkoHbnszDNghcIj42RQnOv74ebMtOcMSUpJwZjPGgcVTdG5cXktIC6s774Xt
+ETUCpWZa7FNxiCKO6H2sRISnzjdSKn8jlWAJt/+VN4+yEsneUufpezeJZDx8Hd32
+AJPaHI8o
+=GQbT
+-----END PGP SIGNATURE-----
+
+--mf3cidjwsxjd64hu--
