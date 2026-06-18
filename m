@@ -1,123 +1,127 @@
-Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+Received: from out01.mta.xmission.com (out01.mta.xmission.com [166.70.13.231])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2651614A4F0;
-	Thu, 18 Jun 2026 05:38:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B9322F388;
+	Thu, 18 Jun 2026 06:24:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.70.13.231
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781761138; cv=none; b=lH72tbdpRgOiiDuDDRmuKjIvABlGLXc9g8jOSkbd14b6Bt+7rdHPe/xnr1i8/Db3Ie7k/JOtjTj8ciSaXaHL7Epnz0FjBJ0GLUzRcHqkFVs0HWLX2QuOr84+tB4wmphnLXzFgCi4ARsCMr5ys6Crpwp1V5VYXdwnj3Tw0P2xx+8=
+	t=1781763863; cv=none; b=FN490JIPsr9XZLQG/ABZIrkuQGwsd6lLtfR4MEIpKWapNp7Qt7K8eSleCCurdXEDAem7GbBn9hUxLfoGksjt9R7b9ZU9OFrZJi7KlZ/rKF2WYk+RwmN9gf7XJ+0sRiKxCa9dm6Ime/8IKabiUXJ3nEaCnt2OoTDNbC0SxRZsH6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781761138; c=relaxed/simple;
-	bh=IkbVrwSXsN+LvCQbZHgrWhSk0jDjOlOVX5PZneGM/CI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WwKSxUW5jYB98UxrUS519Q7262+Pbjlc1Q0h5z0xGgIDULxd5Shwr0dLiwxQfQon1Ct/rEL76+IUMtZCNsLSvngHwQew39wZTUA0t4/8J+4/DQcW5EhqCH+i8goQbV6JNT9OGJ/BlnM/QLinqBiF8yTb4tF5Xt3KXBpuxHKBYtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Il5uT2Zy; arc=none smtp.client-ip=54.207.19.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1781763863; c=relaxed/simple;
+	bh=t54MeqHUPYhrOSafz/tHUAIX5VsY2HuU53W5vyxoid8=;
+	h=From:To:Cc:In-Reply-To:References:Date:Message-ID:MIME-Version:
+	 Content-Type:Subject; b=RgyXaDhyd+gJlv9Ei0yAhfxx2bWnO6LdhT4spxD4Xvp2o2L0sJHTMHcR1fS4jLNh/GvW9u45BL3i4FUTn0gAaBJmWmv+A4I+8f6nrkH5mtqQQQPSaA0aEyNZUgYUfp2in6WNLq1p7U2RZz3JsGVf2u0InwDPu6wJ1rp9TFSjZRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xmission.com; spf=pass smtp.mailfrom=xmission.com; dkim=pass (1024-bit key) header.d=xmission.com header.i=@xmission.com header.b=pEyuhzRm; arc=none smtp.client-ip=166.70.13.231
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xmission.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xmission.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Il5uT2Zy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1781761119;
-	bh=Jfjicr/Uq6rXbROf/o9dsOjgPOIpx39JW65GVsjEOEM=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=Il5uT2ZyZ2T70GqmhtkQ0nzjrc3G9BMh85+yap6+eA9KpFXCAKVBu5PAYq4apG4ko
-	 zf3jy194S/zGgfX4+S8SpGrokXdP+Lijb/tvScYCbiE0HrRYfPYAEiJ9YkC9sHFGJr
-	 Q40HCSMonc7cQGt/i0N7EMDqZfeHFXsSPvTK4wWk=
-X-QQ-mid: esmtpsz16t1781761104t36f65629
-X-QQ-Originating-IP: QGumPhGBLA4UrIrRdFdheu4Zip1xZw4KbM6pb6SvPBM=
-Received: from uos-PC ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 18 Jun 2026 13:38:23 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 9772218393939188370
-EX-QQ-RecipientCnt: 5
-From: Morduan Zang <zhangdandan@uniontech.com>
-To: brauner@kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	djwong@kernel.org,
-	Morduan Zang <zhangdandan@uniontech.com>
-Subject: [PATCH] iomap: guard io_size EOF trim against concurrent truncate underflow
-Date: Thu, 18 Jun 2026 13:38:20 +0800
-Message-ID: <863D407CB3ECEB04+20260618053820.506635-1-zhangdandan@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (1024-bit key) header.d=xmission.com header.i=@xmission.com header.b="pEyuhzRm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=simple/simple; d=xmission.com;
+	 s=xmission; h=Subject:Content-Type:MIME-Version:Message-ID:Date:References:
+	In-Reply-To:Cc:To:From:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=t54MeqHUPYhrOSafz/tHUAIX5VsY2HuU53W5vyxoid8=; b=pEyuhzRmQTz+GUUhEKkXMnM9j5
+	XXeIT9ngrhd0SqI1ZcwBc6JdQ69PY7PZ/3icv+nJhMBVVvJ0i8zCY8aCySSEyl55TX9dTh+Eut0en
+	mB0mb5RM1+y0Jdt21KKCYJEA235ZHam0BhBNIK4R5BBqYIV6BRy9+puCZj4IMjYjldWc=;
+Received: from in02.mta.xmission.com ([166.70.13.52]:54906)
+	by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <ebiederm@xmission.com>)
+	id 1wa5KG-006itu-91; Wed, 17 Jun 2026 23:30:04 -0600
+Received: from ip72-198-198-28.om.om.cox.net ([72.198.198.28]:41524 helo=email.froward.int.ebiederm.org.xmission.com)
+	by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <ebiederm@xmission.com>)
+	id 1wa5KF-004eoV-GR; Wed, 17 Jun 2026 23:30:03 -0600
+From: "Eric W. Biederman" <ebiederm@xmission.com>
+To: Xin Zhao <jackzxcui1989@163.com>
+Cc: viro@zeniv.linux.org.uk,  brauner@kernel.org,  jack@suse.cz,
+  jlayton@kernel.org,  chuck.lever@oracle.com,  alex.aring@gmail.com,
+  arnd@arndb.de,  keescook@chromium.org,  mcgrof@kernel.org,
+  j.granados@samsung.com,  allen.lkml@gmail.com,
+  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-arch@vger.kernel.org
+In-Reply-To: <20260618030700.2511668-1-jackzxcui1989@163.com> (Xin Zhao's
+	message of "Thu, 18 Jun 2026 11:07:00 +0800")
+References: <20260618030700.2511668-1-jackzxcui1989@163.com>
+Date: Thu, 18 Jun 2026 00:29:57 -0500
+Message-ID: <87zf0se7qi.fsf@email.froward.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: MCg5+ArSTX6coVIP43qz2U0EKxT1jP4fk/AIzb429zJLAhsHB53oOFHx
-	qUaq9yes93BiknZ3fhRyAF9rFV/2IqFBjTmb+ea+C7m9JPavgbxJXRiJlaz1BGY9NqmG6ej
-	tkRbQB8387BHdwffv+P9MsSoGi7xH8gd97BA7HWsRlTIfhdPpE+I59TBRUfjdIX82SujiUR
-	z/v3UZ6tBzS7tW5EqUIWQwdbhvGnV3SENe4okfrNVPw+nQ6HqND/0APT4b7SJWxjCQ4gaSN
-	M1VMcvlqJUb1j5qcCrOWBNzuUrHMkM7upgs5YrKVIUiz7kJMhE2If8bfJWFWgkef7iQsC5w
-	9TE1mqslX2qTFtwxf192tS9pHhzHbuhO5mBELrUAIPFjJI4KsgKNj6QXs02ljk4LDl0Bs1M
-	ka2Uk+3VEZl5Z5aqcRZ19UdvzazbS2woXlfCIMD35n1QgcIumERvnReB0PeLkznTKsm++i8
-	KBKpAZHvsIzJ3SRjvmtK3R2Mb4uXyIf3fyZ6IxVdbYp/nBluy+v1u8gpPVXKY88GrNEASS/
-	idrW/e8yeE7OpnGDgIIMRgzZpOEWbMGM6GeXsd0ZPXtiR8XPnQXexe791mnfBMaa8hMBJN4
-	5bSZsJKroydI0xl4u57Z4wa1Okebye8zo8UNz2HHa98zRZbiNzKDlOcnf6R0MII0d101OPg
-	Nr2h1gNiWY8+F1w1IGNTjcqkDHuArFtXeYuAkcXEftbMJoq/lXuoZ6TylJ7f6L1GLY9TgdY
-	ctu4NND7BKWEzZ9Rmq6KY7zgfKZrZ+o3kB9dAxNifet4NKb7yQZ+MNKO+rl4fvQfgJd/9TK
-	3KAUgQMzJg/3/EojkOzoFrB3C0T1dTAS7jSfTixE1ufadXxNUB51hL2iipyKOR5o0Ulo5/h
-	L+4mYu3q24snF8zDHqHmp0TT/o6t3+uWSDDyKnb8SKStH7n2/bHRaK7N0ChEvoPNfebWn7Q
-	gQB7VH3yx1f8YzFNCLjwQaz75J+/aN1lZtWXh1pPh8DTKhJ5a0F4ZBlqPyhSxYcT4xCSFxt
-	hjtXO+T03TUTjLOpUn0bx9dhIT/iXULkSh2z9X2w==
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain
+X-XM-SPF: eid=1wa5KF-004eoV-GR;;;mid=<87zf0se7qi.fsf@email.froward.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=72.198.198.28;;;frm=ebiederm@xmission.com;;;spf=pass
+X-XM-AID: U2FsdGVkX1/yZfePfs7NEwStx/dsBnYnG891qiE7A3Q=
+X-Spam-Level: 
+X-Spam-Report: 
+	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	*  0.1 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+	*      [score: 0.4035]
+	*  0.7 XMSubLong Long Subject
+	*  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+	* -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+	*      [sa05 1397; Body=1 Fuz1=1 Fuz2=1]
+	*  0.4 FVGT_m_MULTI_ODD Contains multiple odd letter combinations
+	*  0.0 T_TooManySym_01 4+ unique symbols in subject
+X-Spam-DCC: XMission; sa05 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: ;Xin Zhao <jackzxcui1989@163.com>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 312 ms - load_scoreonly_sql: 0.05 (0.0%),
+	signal_user_changed: 10 (3.2%), b_tie_ro: 9 (2.8%), parse: 0.73 (0.2%),
+	 extract_message_metadata: 2.6 (0.8%), get_uri_detail_list: 0.95
+	(0.3%), tests_pri_-2000: 2.8 (0.9%), tests_pri_-1000: 1.98 (0.6%),
+	tests_pri_-950: 1.02 (0.3%), tests_pri_-900: 0.80 (0.3%),
+	tests_pri_-90: 57 (18.1%), check_bayes: 55 (17.8%), b_tokenize: 5
+	(1.6%), b_tok_get_all: 7 (2.3%), b_comp_prob: 1.96 (0.6%),
+	b_tok_touch_all: 38 (12.3%), b_finish: 0.69 (0.2%), tests_pri_0: 219
+	(70.0%), check_dkim_signature: 0.44 (0.1%), check_dkim_adsp: 2.3
+	(0.7%), poll_dns_idle: 0.66 (0.2%), tests_pri_10: 1.75 (0.6%),
+	tests_pri_500: 9 (3.0%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH] coredump/fcntl: Add FD_CLOBCOR flag to close fd before
+ dumping core
+X-SA-Exim-Connect-IP: 166.70.13.52
+X-SA-Exim-Rcpt-To: linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, allen.lkml@gmail.com, j.granados@samsung.com, mcgrof@kernel.org, keescook@chromium.org, arnd@arndb.de, alex.aring@gmail.com, chuck.lever@oracle.com, jlayton@kernel.org, jack@suse.cz, brauner@kernel.org, viro@zeniv.linux.org.uk, jackzxcui1989@163.com
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-SA-Exim-Scanned: No (on out01.mta.xmission.com); SAEximRunCond expanded to false
 
-iomap: fix zero padding data issue in concurrent append writes
-changed ioend accounting so that io_size tracks only valid data
-within EOF.  This trims io_size when a writeback range extends
-past end_pos:
+Xin Zhao <jackzxcui1989@163.com> writes:
 
-    ioend->io_size += map_len;
-	if (ioend->io_offset + ioend->io_size > end_pos)
-            ioend->io_size = end_pos - ioend->io_offset;
+> A coredump typically takes some time to complete. If we happen to hold a
+> write lock with flock just before triggering the coredump, that write lock
+> will not be released during the entire coredump process. As a result,
+> other processes attempting to acquire the same write lock may experience
+> significant delays.
 
-However, ioend can be created before a concurrent truncate shrinks
-the file.  In that case, end_pos can move below ioend->io_offset
-before the trim happens.  The subtraction then becomes negative, but
-the result is stored in size_t io_size, causing an unsigned wrap to
-a huge value.
+You are talking about giant processes writing to slow backing store?
 
-A wrapped io_size can mislead append detection and corrupt
-completion-time size handling, since filesystem end_io paths consume
-io_size for decisions such as on-disk EOF updates and unwritten/COW
-completion ranges.
+I suspect you would be better off quickly writing the coredump to a pipe,
+and then writing it to disk.
 
-Fix this by clamping io_size to zero when EOF has moved to or before
-the ioend start offset.  This preserves the original intent of trimming
-io_size to valid in-EOF data while avoiding the underflow.
+Unless your machine is badly balanced that should take perhaps a second.
 
-Fixes: 51d20d1dacbe ("iomap: fix zero padding data issue in concurrent append writes")
-Signed-off-by: Morduan Zang <zhangdandan@uniontech.com>
----
- fs/iomap/ioend.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+That said I don't see why you need elaborate machinery to do something
+about these file descriptors.  Unless I am mistaken no file descriptors
+are placed into a coredump.  In which case it should be possible to just
+call exit_files early.
 
-diff --git a/fs/iomap/ioend.c b/fs/iomap/ioend.c
-index acf3cf98b23a..0c391a66db6f 100644
---- a/fs/iomap/ioend.c
-+++ b/fs/iomap/ioend.c
-@@ -297,8 +297,12 @@ ssize_t iomap_add_to_ioend(struct iomap_writepage_ctx *wpc, struct folio *folio,
- 	 * appending writes.
- 	 */
- 	ioend->io_size += map_len;
--	if (ioend->io_offset + ioend->io_size > end_pos)
--		ioend->io_size = end_pos - ioend->io_offset;
-+	if (ioend->io_offset + ioend->io_size > end_pos) {
-+		if (end_pos > ioend->io_offset)
-+			ioend->io_size = end_pos - ioend->io_offset;
-+		else
-+			ioend->io_size = 0;
-+	}
- 
- 	wbc_account_cgroup_owner(wpc->wbc, folio, map_len);
- 	return map_len;
--- 
-2.50.1
+> To address this, we introduce the F_[GET|SET]FD_EX fcntl operation and the
+> FD_CLOBCOR flag, allowing coredump_wait() to release any file descriptors
+> marked with FD_CLOBCOR. We can also assign the FD_CLOBCOR flag to specific
+> shared memory segments, preventing the coredump from including shared
+> memory that we are not interested in, thereby reducing both the coredump
+> duration and the size of the core file.
 
+Please look at vma_dump_size.  There are plenty of ways already to
+skip dumping a memory area.  Using file backed shared memory,
+and madvise(MADV_DONTDUMP) are two easy ones that already exist.
+
+My point is that there are cleaner ways to solve your problem than
+the solutions you have proposed.
+
+Eric
