@@ -1,92 +1,82 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mail.aminvakil.com (mail.aminvakil.com [178.63.189.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C98A3EBF37
-	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 15:08:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CA9280A56;
+	Thu, 18 Jun 2026 15:14:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.189.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781795329; cv=none; b=DsOkwwGLAQWBLPrMv4ldOm+8UqrBDERiKLTA1nej5oBudKScZY8HMzpJRZ6OC16nIW1zSQwIfncauP0JVa42jdkjtQL0I669+l3b7vBwURaLW2e3KNTeUElKKH1iwJJnK9fQoSlpZDed/3+on7O10RzMRbs/71pyJXe5OTie1jc=
+	t=1781795692; cv=none; b=sxn+veD12eURkgTgk8b+uJlR5SzTESl8cxaUJ8lLMYXje7+YHnrk7OaPXC6JMDlxz3KCPLTqvVGpxG3h0A4kSgN6k8PuUIjONB/lvkje9ta2ammRekacyB9+X+Kli1v5yf2Tx1eG+xZqSMjxRSFoL4ADcLPtwJ/hL2xWhWMWi4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781795329; c=relaxed/simple;
-	bh=j7I8UJyT8BSwhSdv2GNvZCH1V+p1+5vWgg8tDCbksBo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=flIEteJtZl/okW5nBeYUKBKYwmMUFBMKMKtIaMBZqwNU7tjtvR8z1ir90fqoB99nshDZI34ttDvWMDmAV8+UyCdv9Jf8pT6CLXCMZgPOIBApoerdEqCFXc8bk8znwW7R6NZtaaw08FszXvqbq7H/rXYsdeknalKIaibsZNT8Lik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gCxJ+moA; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1781795692; c=relaxed/simple;
+	bh=68WYQSNGzWZ9bv8eg58C3+nLY1wwGS6zXyF9la0Yizo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o45KT2x8pn1qfJrolNWdtQ6n1O2xhFLfs4tFjzXBkxQ3VHc+LPPF0vN5SiegTl3mFBK6rhysN35YKU7DSsZqLbxz37LMIgEegUAY/sQaWqaGkbdY21i7aMYalZZQoWU8TE1QwyKzAHhV016ji4baVMYVPQank3KL8Gn5ddhR20U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aminvakil.com; spf=pass smtp.mailfrom=aminvakil.com; dkim=pass (2048-bit key) header.d=aminvakil.com header.i=@aminvakil.com header.b=c5hMi2qz; arc=none smtp.client-ip=178.63.189.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aminvakil.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aminvakil.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gCxJ+moA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781795327;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Z8aF624OO+5Kg4cHSW/V1/aSmMHUP2alsVyLwZskSKw=;
-	b=gCxJ+moAGI2UTFEqO2ch4v3apHW187USYodwRDJunnsc45+oRZ/n8yONO/QgAbHZOcf9HZ
-	a/67msczvlJdDw3Lt8dPd2SSPKzNVsUo42sUBkY+FU/fh21V1WR7ZlrH1WJkQ0ycIoNBfk
-	ZZEHcDY/qXYGASpHyBB+8Jjh8hCVK/w=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-479-FgaREIEkMr6PdaBPsL_jJg-1; Thu,
- 18 Jun 2026 11:08:41 -0400
-X-MC-Unique: FgaREIEkMr6PdaBPsL_jJg-1
-X-Mimecast-MFC-AGG-ID: FgaREIEkMr6PdaBPsL_jJg_1781795320
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 851EA1935312;
-	Thu, 18 Jun 2026 15:08:40 +0000 (UTC)
-Received: from fedora (unknown [10.44.34.12])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 59D511800664;
-	Thu, 18 Jun 2026 15:08:38 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Thu, 18 Jun 2026 17:08:40 +0200 (CEST)
-Date: Thu, 18 Jun 2026 17:08:37 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: David Howells <dhowells@redhat.com>
-Cc: Christian Brauner <christian@brauner.io>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Li RongQing <lirongqing@baidu.com>
-Subject: Re: [PATCH v2 14/17] afs: Remove erroneous seq |= 1 in volume lookup
- loop
-Message-ID: <ajQJ9S0D5OG8H3Xr@redhat.com>
-References: <ajOrcnnqTp6210YC@redhat.com>
- <20260618074903.2374756-1-dhowells@redhat.com>
- <20260618074903.2374756-15-dhowells@redhat.com>
- <2478530.1781790791@warthog.procyon.org.uk>
+	dkim=pass (2048-bit key) header.d=aminvakil.com header.i=@aminvakil.com header.b="c5hMi2qz"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 92DC045280;
+	Thu, 18 Jun 2026 18:44:47 +0330 (+0330)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aminvakil.com;
+	s=dkim; t=1781795689; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=bOdFmT6w0v/0/PfhGgMSeh5hplKkoyzjYVv0hd0ZReY=;
+	b=c5hMi2qzEnkDihaekRbrR9Snx1iGkUHo3eSBaBo7IR10K/j8muhhqVIaZr0wxyu+NpNmuu
+	tJ9Q0ft1cj4RjDkgSuFVzLmtQleOZdjhay/jXxNiTnZjnvQlJDkP8vFYlfmUpVRO3Wa9XK
+	a9gX+SF3wVXd2zGFIwigjWGVI0aDDVYH32h0Nl2lnEtRQ5J8mQlswLq1K4F7AilAKGu2QW
+	TDCNrRvOcsuCaFrlwyMaiGnAMj0ecF+Vx+s4wQg3JSu1abO350cQzAVwJIB5H/zYGvHZTT
+	MMMhuD1yPcyRPLK2qAHfpyg2EEQGihMpmg0w11iPIbhk9f2auK9quJtfymnIlg==
+From: Amin Vakil <info@aminvakil.com>
+To: Shuah Khan <shuah@kernel.org>
+Cc: Aleksa Sarai <cyphar@cyphar.com>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-kselftest@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Amin Vakil <info@aminvakil.com>
+Subject: [PATCH] selftests: proc: include fcntl.h in proc-pidns
+Date: Thu, 18 Jun 2026 18:44:44 +0330
+Message-ID: <20260618151444.124739-1-info@aminvakil.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2478530.1781790791@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 06/18, David Howells wrote:
->
-> Oleg Nesterov <oleg@redhat.com> wrote:
->
-> > > --- a/fs/afs/internal.h
-> > > +++ b/fs/afs/internal.h
-> > > @@ -750,8 +750,6 @@ static inline void afs_vnode_set_cache(struct afs_vnode *vnode,
-> > >  {
-> > >  #ifdef CONFIG_AFS_FSCACHE
-> > >  	vnode->netfs.cache = cookie;
-> > > -	if (cookie)
-> > > -		mapping_set_release_always(vnode->netfs.inode.i_mapping);
-> > >  #endif
-> >
-> > This change looks unrelated...
->
-> If I remove that bit, can I add your R-b?
+proc-pidns.c uses open() and O_* flags, but does not include
+<fcntl.h>. This breaks the proc selftests build with errors such as:
 
-Yes, thank you!
+  error: implicit declaration of function 'open'
+  error: 'O_WRONLY' undeclared
+  error: 'O_CREAT' undeclared
+  error: 'O_RDONLY' undeclared
 
-Oleg.
+Include <fcntl.h> to provide the declaration and flag definitions.
+
+Fixes: 5554d820f71c ("selftests/proc: add tests for new pidns APIs")
+Tested with:
+  make -C tools/testing/selftests TARGETS=proc
+
+Signed-off-by: Amin Vakil <info@aminvakil.com>
+---
+ tools/testing/selftests/proc/proc-pidns.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/tools/testing/selftests/proc/proc-pidns.c b/tools/testing/selftests/proc/proc-pidns.c
+index 25b9a2933c45..6f7c10fe97b3 100644
+--- a/tools/testing/selftests/proc/proc-pidns.c
++++ b/tools/testing/selftests/proc/proc-pidns.c
+@@ -6,6 +6,7 @@
+ 
+ #include <assert.h>
+ #include <errno.h>
++#include <fcntl.h>
+ #include <sched.h>
+ #include <stdbool.h>
+ #include <stdlib.h>
+-- 
+2.54.0
 
