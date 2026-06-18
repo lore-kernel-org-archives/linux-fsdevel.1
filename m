@@ -1,57 +1,58 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43062F260C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 15:52:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83BE6287268
+	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 15:52:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781797940; cv=none; b=OZL7lCA5HVTVqwzJZrFTAG+IcgXIrgyWNNwZxrVCbp9q5uGpqb8cwSXnPl3GvbGdGslvry37FK6lChZd1H3CGy3sVtGABnG1o5EsQplBMSyPM4VPSBM0U8Ateoc4pj/jod+bXOlFJ5pScud/rvudi0RMZasB1wndNkQ7k/zJPOQ=
+	t=1781797944; cv=none; b=BKgbshMWGpQjb06sBuRJvLhb/w6B6bWr+FVZlckx0AxXk1tterec9BSQFCkk/RrthJAfcV/f9rssfVbo5AfD8bcQcdUkiy8gYjQ3+nWH4WSNmBWmTAYZ23574Y8JGVlBr0QV8XPAew//m+0cbtGArtYWtLaE4+9wTFly2KuxvN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781797940; c=relaxed/simple;
-	bh=BzAy9vOlIl1GkEbdmZ/Yvd0aG0LXsNqv7b45yxqnrto=;
+	s=arc-20240116; t=1781797944; c=relaxed/simple;
+	bh=Ku+iUkufAwmtJpETezJUe09aZfxio81saVT3fFwz4ME=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PmZVBWghb+N7tEFzwd5yZd8cwZFQXTtxNrEtK4nBDnUH5iqvOsRnIUIe+wwU22UguwP1ikFsQYKQelvRYIcHQtNjcmlRPjTJhdW/g7TrvI/6mkiPLjHNUPsmyPxTmaiHgN3IqTTGur16nJlylQ6c0pLk+wyqAiyHw1yDr0Sw1+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BX9NzUQP; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=B1TyCRYTjZBDnTNHrPzoDide5Qrpk47zQqXzKgbWUjYW8pma2bqM6A1/scXTX1Lx3L7q7zod73c6OqHiHQX7/T5WyKu41iEkpgVJUBm/13ETVjYVVzM7pJg5Fr1/HGH8K11hORPpR/6oHrSKhUCJnrWTh0Ljz+Ph+TKE8iDCCg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MH/z6maD; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BX9NzUQP"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MH/z6maD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781797937;
+	s=mimecast20190719; t=1781797942;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=WT83b6gXE3N1B9YG199zJ4htShGRe10XfT/ZY1w3/Wo=;
-	b=BX9NzUQPhvrGTbxlShWMp1Wf4WAW7U1iUrVnTT7zCRNFj/KyBBC13LH+6D+51qVb4WPUyd
-	Vwkib028510YqHxcvce+rwWz0QL79ZkWFaBXhYcygvaVN9LAfQItrUFCvnDYQ3Co3UrXYJ
-	wOHgxYg4M+/lJM0UddGaII9Lr3UkSeE=
+	bh=GFX3o+6uVpWAIF9G35ytiuiiBM53y5xUy8RADSTHhfg=;
+	b=MH/z6maD1bYFVymxYDxYJig5mv+PGq2Jh9jAtYxhO5nRYkgi6oWpg8R1bhg+ww6CJnXTcb
+	32X619rPkHEdQ7v2wTCqV5Z5l/f2sc47MftWS01ox4TiMzME67MIttCuBy6iEITElDk49j
+	o6DfA7thPc0tzhmRSfukF/HDyVF/IHU=
 Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-407-Ah3mmNyXO0mlF0YQpIOkZA-1; Thu,
- 18 Jun 2026 11:52:14 -0400
-X-MC-Unique: Ah3mmNyXO0mlF0YQpIOkZA-1
-X-Mimecast-MFC-AGG-ID: Ah3mmNyXO0mlF0YQpIOkZA_1781797933
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-647-Ut9Jv4wGOaG0ycUq8Sk58g-1; Thu,
+ 18 Jun 2026 11:52:19 -0400
+X-MC-Unique: Ut9Jv4wGOaG0ycUq8Sk58g-1
+X-Mimecast-MFC-AGG-ID: Ut9Jv4wGOaG0ycUq8Sk58g_1781797938
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4E21F195609E;
-	Thu, 18 Jun 2026 15:52:13 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2ECB81956044;
+	Thu, 18 Jun 2026 15:52:17 +0000 (UTC)
 Received: from warthog.procyon.org.com (unknown [10.44.50.44])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5632C1956045;
-	Thu, 18 Jun 2026 15:52:10 +0000 (UTC)
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E548A36917;
+	Thu, 18 Jun 2026 15:52:14 +0000 (UTC)
 From: David Howells <dhowells@redhat.com>
 To: Christian Brauner <christian@brauner.io>
 Cc: David Howells <dhowells@redhat.com>,
 	Marc Dionne <marc.dionne@auristor.com>,
 	linux-afs@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 06/20] afs: Fix directory inode initialisation order
-Date: Thu, 18 Jun 2026 16:51:25 +0100
-Message-ID: <20260618155141.2513212-7-dhowells@redhat.com>
+	linux-kernel@vger.kernel.org,
+	Zilin Guan <zilin@seu.edu.cn>
+Subject: [PATCH v3 07/20] afs: use kvfree() to free memory allocated by kvcalloc()
+Date: Thu, 18 Jun 2026 16:51:26 +0100
+Message-ID: <20260618155141.2513212-8-dhowells@redhat.com>
 In-Reply-To: <20260618155141.2513212-1-dhowells@redhat.com>
 References: <20260618155141.2513212-1-dhowells@redhat.com>
 Precedence: bulk
@@ -61,50 +62,38 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-Fix afs_inode_init_from_status() to call afs_set_netfs_context() before the
-switch to do file type-specific initialisation because local directory
-changes don't get uploaded to the server, only stored in the cache.
+From: Zilin Guan <zilin@seu.edu.cn>
 
-This requires that the file size be set before, so move that up too.
+op->more_files is allocated with kvcalloc() but released via
+afs_put_operation(), which uses kfree() internally. This mismach prevents
+the resource from being released properly and may lead to undefined
+behavior.
 
-Without this, NETFS_ICTX_SINGLE_NO_UPLOAD as set on directories gets
-clobbered.
+Fix this by using kvfree() to free op->more_files to match its allocation
+method.
 
-Closes: https://sashiko.dev/#/patchset/20260618074903.2374756-1-dhowells%40redhat.com
+Fixes: e49c7b2f6de7 ("afs: Build an abstraction around an "operation" concept")
+Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
 Signed-off-by: David Howells <dhowells@redhat.com>
 cc: Marc Dionne <marc.dionne@auristor.com>
 cc: linux-afs@lists.infradead.org
-Fixes: 6dd80936618c ("afs: Use netfslib for directories")
 ---
- fs/afs/inode.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ fs/afs/fs_operation.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/afs/inode.c b/fs/afs/inode.c
-index 54ac6ec21daf..51c28f148845 100644
---- a/fs/afs/inode.c
-+++ b/fs/afs/inode.c
-@@ -93,6 +93,10 @@ static int afs_inode_init_from_status(struct afs_operation *op,
- 	inode->i_gid = make_kgid(&init_user_ns, status->group);
- 	set_nlink(&vnode->netfs.inode, status->nlink);
- 
-+	i_size_write(inode, status->size);
-+	inode_set_bytes(inode, status->size);
-+	afs_set_netfs_context(vnode, status->type == AFS_FTYPE_FILE);
-+
- 	switch (status->type) {
- 	case AFS_FTYPE_FILE:
- 		inode->i_mode	= S_IFREG | (status->mode & S_IALLUGO);
-@@ -133,10 +137,6 @@ static int afs_inode_init_from_status(struct afs_operation *op,
- 		return afs_protocol_error(NULL, afs_eproto_file_type);
+diff --git a/fs/afs/fs_operation.c b/fs/afs/fs_operation.c
+index c0dbbc6d3716..20801b29521d 100644
+--- a/fs/afs/fs_operation.c
++++ b/fs/afs/fs_operation.c
+@@ -348,7 +348,7 @@ int afs_put_operation(struct afs_operation *op)
+ 		for (i = 0; i < op->nr_files - 2; i++)
+ 			if (op->more_files[i].put_vnode)
+ 				iput(&op->more_files[i].vnode->netfs.inode);
+-		kfree(op->more_files);
++		kvfree(op->more_files);
  	}
  
--	i_size_write(inode, status->size);
--	inode_set_bytes(inode, status->size);
--	afs_set_netfs_context(vnode, status->type == AFS_FTYPE_FILE);
--
- 	vnode->invalid_before	= status->data_version;
- 	trace_afs_set_dv(vnode, status->data_version);
- 	inode_set_iversion_raw(&vnode->netfs.inode, status->data_version);
+ 	if (op->estate) {
 
