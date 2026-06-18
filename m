@@ -1,105 +1,92 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88012F9DA1;
-	Thu, 18 Jun 2026 15:03:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C98A3EBF37
+	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 15:08:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781795029; cv=none; b=pLz4drxwcdCrPbTjbl6l6vt8syfdPhe6daOcc0e92o9U6Ws8LOefUw/nvdPfN9XwAqbdwnDCA/Mn1tHU4EQ6h4J+A0uIArnK7nMjS/B4n9MeAegdawScATcGOyOlP52tSTse109Lwa0rC+y2DHhO/lCyAavd2vY4V4UrMCO0A7I=
+	t=1781795329; cv=none; b=DsOkwwGLAQWBLPrMv4ldOm+8UqrBDERiKLTA1nej5oBudKScZY8HMzpJRZ6OC16nIW1zSQwIfncauP0JVa42jdkjtQL0I669+l3b7vBwURaLW2e3KNTeUElKKH1iwJJnK9fQoSlpZDed/3+on7O10RzMRbs/71pyJXe5OTie1jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781795029; c=relaxed/simple;
-	bh=APeMQH5xEJCrl02dISFMU5+v7f13IW3k5C2NhCb4cMI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mqR1k3nSR92OGzoAbsnZ+bUcKYB+ky7Wci+NFlPiRL5l7TN0acdDBoBZQsL7uqOTnPU8wIyMAKJv8kairT3e5KEoHzkwcLev4eBhbJOMzMHAYgDyBgRSk9xaYr4dHcYgmFnMySjAjWY9ct0Sb/WHFB555R9DywGWWQXNYh2w+ss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=j7iQMN9J; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1781795329; c=relaxed/simple;
+	bh=j7I8UJyT8BSwhSdv2GNvZCH1V+p1+5vWgg8tDCbksBo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=flIEteJtZl/okW5nBeYUKBKYwmMUFBMKMKtIaMBZqwNU7tjtvR8z1ir90fqoB99nshDZI34ttDvWMDmAV8+UyCdv9Jf8pT6CLXCMZgPOIBApoerdEqCFXc8bk8znwW7R6NZtaaw08FszXvqbq7H/rXYsdeknalKIaibsZNT8Lik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gCxJ+moA; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="j7iQMN9J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=OW
-	Nf8yNj4gcBNSfOXMcAvRS4ar1KbFJjyp7/7sfOE6U=; b=j7iQMN9JDovbYtKwl0
-	+bcqoU+f1McJ5eXlcVk+Ynkme9uM3k2WL5hfXSS6G28jew6YC2uw2jWaqCebCsqs
-	JESYcDdmYomc2jUgyqEEyI5GH0vOjXB7ubEhPipphIjU+GJms5OPP6eNjn70KU9T
-	aLe65JDy4GBZeNefPjwm35i5Q=
-Received: from zhaoxin-MS-7E12.. (unknown [])
-	by gzsmtp1 (Coremail) with SMTP id PCgvCgDH8WamCDRqY3cICg--.20323S2;
-	Thu, 18 Jun 2026 23:03:04 +0800 (CST)
-From: Xin Zhao <jackzxcui1989@163.com>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	jlayton@kernel.org,
-	chuck.lever@oracle.com,
-	alex.aring@gmail.com,
-	arnd@arndb.de,
-	ebiederm@xmission.com,
-	keescook@chromium.org,
-	mcgrof@kernel.org,
-	j.granados@samsung.com,
-	allen.lkml@gmail.com
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	Xin Zhao <jackzxcui1989@163.com>
-Subject: [PATCH v2] coredump: exit_files() in coredump_wait() if MMF_DUMP_MAPPED_SHARED is not set
-Date: Thu, 18 Jun 2026 23:03:01 +0800
-Message-Id: <20260618150301.3226517-1-jackzxcui1989@163.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gCxJ+moA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1781795327;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Z8aF624OO+5Kg4cHSW/V1/aSmMHUP2alsVyLwZskSKw=;
+	b=gCxJ+moAGI2UTFEqO2ch4v3apHW187USYodwRDJunnsc45+oRZ/n8yONO/QgAbHZOcf9HZ
+	a/67msczvlJdDw3Lt8dPd2SSPKzNVsUo42sUBkY+FU/fh21V1WR7ZlrH1WJkQ0ycIoNBfk
+	ZZEHcDY/qXYGASpHyBB+8Jjh8hCVK/w=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-479-FgaREIEkMr6PdaBPsL_jJg-1; Thu,
+ 18 Jun 2026 11:08:41 -0400
+X-MC-Unique: FgaREIEkMr6PdaBPsL_jJg-1
+X-Mimecast-MFC-AGG-ID: FgaREIEkMr6PdaBPsL_jJg_1781795320
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 851EA1935312;
+	Thu, 18 Jun 2026 15:08:40 +0000 (UTC)
+Received: from fedora (unknown [10.44.34.12])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 59D511800664;
+	Thu, 18 Jun 2026 15:08:38 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Thu, 18 Jun 2026 17:08:40 +0200 (CEST)
+Date: Thu, 18 Jun 2026 17:08:37 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: David Howells <dhowells@redhat.com>
+Cc: Christian Brauner <christian@brauner.io>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Li RongQing <lirongqing@baidu.com>
+Subject: Re: [PATCH v2 14/17] afs: Remove erroneous seq |= 1 in volume lookup
+ loop
+Message-ID: <ajQJ9S0D5OG8H3Xr@redhat.com>
+References: <ajOrcnnqTp6210YC@redhat.com>
+ <20260618074903.2374756-1-dhowells@redhat.com>
+ <20260618074903.2374756-15-dhowells@redhat.com>
+ <2478530.1781790791@warthog.procyon.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PCgvCgDH8WamCDRqY3cICg--.20323S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7trW3Zr1fXFyUKr1DurWrAFb_yoW8Jw4fpa
-	1kGa4IkF1jkay2yF4xJ3WfAr1rXw45Jry7ur1Iqw43AF43Aas3AFn0q3W3twnrXrWvkFsa
-	y3W5t3yDCFy2yFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRZXorUUUUU=
-X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/xtbCvwrT3Wo0CKoJrQAA3j
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2478530.1781790791@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-A coredump typically takes some time to complete. If we happen to hold a
-write lock with flock just before triggering the coredump, that write lock
-will not be released during the entire coredump process. As a result,
-other processes attempting to acquire the same write lock may experience
-significant delays.
+On 06/18, David Howells wrote:
+>
+> Oleg Nesterov <oleg@redhat.com> wrote:
+>
+> > > --- a/fs/afs/internal.h
+> > > +++ b/fs/afs/internal.h
+> > > @@ -750,8 +750,6 @@ static inline void afs_vnode_set_cache(struct afs_vnode *vnode,
+> > >  {
+> > >  #ifdef CONFIG_AFS_FSCACHE
+> > >  	vnode->netfs.cache = cookie;
+> > > -	if (cookie)
+> > > -		mapping_set_release_always(vnode->netfs.inode.i_mapping);
+> > >  #endif
+> >
+> > This change looks unrelated...
+>
+> If I remove that bit, can I add your R-b?
 
-To address this, call exit_files() in the end of coredump_wait(), if
-MMF_DUMP_MAPPED_SHARED is not set.
+Yes, thank you!
 
-Signed-off-by: Xin Zhao <jackzxcui1989@163.com>
----
-
-Change in v2:
-- Get rid of the implement of adding new fcntl API, the issue does not
-  worth inflicting the cost on everyone,
-  as suggested by Al Viro.
-- Call exit_files() in coredump_wait(),
-  as suggested by Eric W. Biederman.
-  Add MMF_DUMP_MAPPED_SHARED mm_flags_test() check to filter cases that
-  need to dump file-backed shared memory.
-
-v1:
-- Link to v1: https://lore.kernel.org/all/20260618030700.2511668-1-jackzxcui1989@163.com/
----
- fs/coredump.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/fs/coredump.c b/fs/coredump.c
-index bb6fdb1f4..e20baf44f 100644
---- a/fs/coredump.c
-+++ b/fs/coredump.c
-@@ -548,6 +548,9 @@ static int coredump_wait(int exit_code, struct core_state *core_state)
- 		}
- 	}
- 
-+	if (!mm_flags_test(MMF_DUMP_MAPPED_SHARED, tsk->mm))
-+		exit_files(tsk);
-+
- 	return core_waiters;
- }
- 
--- 
-2.34.1
+Oleg.
 
