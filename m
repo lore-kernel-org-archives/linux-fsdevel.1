@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82FB52F7EFE
-	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 15:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F360A2EFD95
+	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 15:52:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781797923; cv=none; b=ltty4dCrPMETXOpa7RdhSnit1gLrPNeV+x1QcMXlCWNNmw/w3tyKNXAOzsxXyaztA1cAhVckkg82r2U9JpnUjXmbjuyZtv5DHVfuWbCf0o+TWoJZykPrByk+Kx8P8aCrsvv5Lvl50kIn+KYrwg3K0xLGNLE//4dlWWhE0O25YT4=
+	t=1781797930; cv=none; b=qY9w+9/t+C8vJGUMPLsw/R4Ui1NisFt05KlmqHYiVqb3I/YxQwSHsfNLtlUXQTruCQRadleII008Zf7AIN/X/ie8l8tfvUPEYkIxgUgTI60Nk2ZoB6iJuEkt+N3j5cwECn72LmoasGxC2QoAQZ88PMpT1FHFVbyJ8FArLNJYED0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781797923; c=relaxed/simple;
-	bh=5RJ6eiIgrQbHS3f0m3cyvgeCO0KVe9moitLn3vgds+U=;
+	s=arc-20240116; t=1781797930; c=relaxed/simple;
+	bh=zD16fMf0ZMJoNAbDkUkjkvBtlSpglsJNvNSt8JU7lxs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h60g3PQ4MgP0fyRqPy5FFjQ+9Z+KfxoOBol4HqqkAkAp8E3OYwp9rIwZ9q8eOl88OLDm8M6Vj9x5eT9XbVOTpQhsQyeVX9jZUfVtFFzN6Zuvvhs0xspWwqkBUgychLuV7oDNuna2Z+1QbDu0fPCJ0YUp16QT0Je+0VKkrtJxSMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hWfIwAgM; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=RBb+MydCznAJyJaoSIZwpjRt/DzWmH5KECXCRPHa7xOmydN8qCdotRffWm8C2CoEZ8ORe3OKtWjZ88l9Z7KkNlErbvNtE1fXqdyLQEgmCOds4RlFD1xorLPlyLiZGu7Ijy2AnFUzbvzYhrjkU/mEe2hbWSoxmKMnx1S08B2ZMEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=B/UXhSHs; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hWfIwAgM"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="B/UXhSHs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781797921;
+	s=mimecast20190719; t=1781797927;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dAsVS8agY9JmTA40Ge2IgO0QMtWkhH47Q/93WbUEoqc=;
-	b=hWfIwAgM/puLYtpGUdFqGo2e3oIK0AmHwM5qDiJGZSojZpaBJHEZc1N0WY+Z1wzZ8GyV7A
-	5nlJ1G7Y0Xgbn0nme6Y12nC7OSsWZSXQIumMoUToF9pkPWq2JsCDJxg26pz0xXyhEkvsoA
-	2cnaf9LnvQjy5DibW5iXxL6jQTqsn/s=
+	bh=FfHVYwJjeckBljNNeVdi/xVk7ybji0LvQllDM/zHzBw=;
+	b=B/UXhSHsAoMaHueRnw5Wyllz72CxkNDRyByPnelYNhQi0ieSm9wQ/ZHuyRdxacx/wB2vEQ
+	aowcEjnNgEIw+Vcoq+YyqUYhRGtZwkwJexFUALWtD2ge6POLY7fDAx2oneq8UlIKzRKdwD
+	USmOSWmisF6gL8XsuN+1AwOsUlbxmK8=
 Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-679-pnaZwZNHO1mA_cESVa3QSQ-1; Thu,
- 18 Jun 2026 11:51:58 -0400
-X-MC-Unique: pnaZwZNHO1mA_cESVa3QSQ-1
-X-Mimecast-MFC-AGG-ID: pnaZwZNHO1mA_cESVa3QSQ_1781797917
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-262-w1m1GuJdP_61FAdfGaPBaA-1; Thu,
+ 18 Jun 2026 11:52:03 -0400
+X-MC-Unique: w1m1GuJdP_61FAdfGaPBaA-1
+X-Mimecast-MFC-AGG-ID: w1m1GuJdP_61FAdfGaPBaA_1781797922
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EB3B7195604C;
-	Thu, 18 Jun 2026 15:51:56 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B755B1956057;
+	Thu, 18 Jun 2026 15:52:01 +0000 (UTC)
 Received: from warthog.procyon.org.com (unknown [10.44.50.44])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5E9553000232;
-	Thu, 18 Jun 2026 15:51:54 +0000 (UTC)
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8FD073000232;
+	Thu, 18 Jun 2026 15:51:58 +0000 (UTC)
 From: David Howells <dhowells@redhat.com>
 To: Christian Brauner <christian@brauner.io>
 Cc: David Howells <dhowells@redhat.com>,
@@ -49,10 +49,11 @@ Cc: David Howells <dhowells@redhat.com>,
 	linux-afs@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Dan Carpenter <error27@gmail.com>
-Subject: [PATCH v3 02/20] afs: Fix error code in afs_extract_vl_addrs()
-Date: Thu, 18 Jun 2026 16:51:21 +0100
-Message-ID: <20260618155141.2513212-3-dhowells@redhat.com>
+	Matvey Kovalev <matvey.kovalev@ispras.ru>,
+	stable@vger.kernel.org
+Subject: [PATCH v3 03/20] afs: fix NULL pointer dereference in afs_get_tree()
+Date: Thu, 18 Jun 2026 16:51:22 +0100
+Message-ID: <20260618155141.2513212-4-dhowells@redhat.com>
 In-Reply-To: <20260618155141.2513212-1-dhowells@redhat.com>
 References: <20260618155141.2513212-1-dhowells@redhat.com>
 Precedence: bulk
@@ -64,47 +65,58 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-From: Dan Carpenter <error27@gmail.com>
+From: Matvey Kovalev <matvey.kovalev@ispras.ru>
 
-The error codes on these paths are only set on the first iteration
-through the loop.  Set the correct error code on every iteration.
+afs_alloc_sbi() uses kzalloc for memory allocation. And, if
+ctx->dyn_root is not null, as->cell and as->volume are null.
+In trace_afs_get_tree() they are dereferenced.
 
-Fixes: 0a5143f2f89c ("afs: Implement VL server rotation")
-Signed-off-by: Dan Carpenter <error27@gmail.com>
+KASAN error message:
+
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+CPU: 2 PID: 18478 Comm: syz-executor.7 Not tainted 5.10.246-syzkaller #0
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.12.0-1
+04/01/2014
+RIP: 0010:perf_trace_afs_get_tree+0x1d9/0x550
+include/trace/events/afs.h:1365
+
+Call Trace:
+trace_afs_get_tree include/trace/events/afs.h:1365 [inline]
+afs_get_tree+0x922/0x1350 fs/afs/super.c:599
+vfs_get_tree+0x8e/0x300 fs/super.c:1572
+do_new_mount fs/namespace.c:3011 [inline]
+path_mount+0x14a5/0x2220 fs/namespace.c:3341
+do_mount fs/namespace.c:3354 [inline]
+__do_sys_mount fs/namespace.c:3562 [inline]
+__se_sys_mount fs/namespace.c:3539 [inline]
+__x64_sys_mount+0x283/0x300 fs/namespace.c:3539
+ do_syscall_64+0x33/0x50 arch/x86/entry/common.c:46
+entry_SYSCALL_64_after_hwframe+0x67/0xd1
+
+Found by Linux Verification Center (linuxtesting.org) with Syzkaller.
+
+Fixes: 80548b03991f5 ("afs: Add more tracepoints")
+Cc: stable@vger.kernel.org
+Signed-off-by: Matvey Kovalev <matvey.kovalev@ispras.ru>
 Signed-off-by: David Howells <dhowells@redhat.com>
 cc: Marc Dionne <marc.dionne@auristor.com>
 cc: linux-afs@lists.infradead.org
 ---
- fs/afs/vl_list.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ fs/afs/super.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/fs/afs/vl_list.c b/fs/afs/vl_list.c
-index 3e4966915ea4..003889cf0f18 100644
---- a/fs/afs/vl_list.c
-+++ b/fs/afs/vl_list.c
-@@ -92,7 +92,7 @@ static struct afs_addr_list *afs_extract_vl_addrs(struct afs_net *net,
- {
- 	struct afs_addr_list *alist;
- 	const u8 *b = *_b;
--	int ret = -EINVAL;
-+	int ret;
+diff --git a/fs/afs/super.c b/fs/afs/super.c
+index 942f3e9800d7..dec091e569c4 100644
+--- a/fs/afs/super.c
++++ b/fs/afs/super.c
+@@ -587,7 +587,8 @@ static int afs_get_tree(struct fs_context *fc)
+ 	}
  
- 	alist = afs_alloc_addrlist(nr_addrs);
- 	if (!alist)
-@@ -110,6 +110,7 @@ static struct afs_addr_list *afs_extract_vl_addrs(struct afs_net *net,
- 		case DNS_ADDRESS_IS_IPV4:
- 			if (end - b < 4) {
- 				_leave(" = -EINVAL [short inet]");
-+				ret = -EINVAL;
- 				goto error;
- 			}
- 			memcpy(x, b, 4);
-@@ -122,6 +123,7 @@ static struct afs_addr_list *afs_extract_vl_addrs(struct afs_net *net,
- 		case DNS_ADDRESS_IS_IPV6:
- 			if (end - b < 16) {
- 				_leave(" = -EINVAL [short inet6]");
-+				ret = -EINVAL;
- 				goto error;
- 			}
- 			memcpy(x, b, 16);
+ 	fc->root = dget(sb->s_root);
+-	trace_afs_get_tree(as->cell, as->volume);
++	if (!ctx->dyn_root)
++		trace_afs_get_tree(as->cell, as->volume);
+ 	_leave(" = 0 [%p]", sb);
+ 	return 0;
+ 
 
