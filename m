@@ -1,288 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B0B3D88FB
-	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 08:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781769656; cv=fail; b=AXvztu5iHaPp7Zn62kmzqwWSW1djZl5BAnNO3gX12SUpfWUhjxEbSbegzWHKuuaS14tlDstZOc3Us+TUsWGKlu0yKexMiOWevS4urBnw3nN4PjiBWxkW7EtJbWVvKKGngEpN+33PiPhTflxfPVR6sTMgdP7KxMdxLSJ9v7rX5O4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781769656; c=relaxed/simple;
-	bh=XpsrF2vSt1ytzHoQwacw9Oz60JvelzxcTocnPuvNtg0=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=h2JkHikEtzG+iRr03VjNeYQl5u/1/Hi/o8OZXXQgTggiSIAvIkdf5TdBN8dcu5GDVHUP7O90nFfMGuN5+c0DRHGi1tVi/GMlTCyvrHiLirWIBiweBhSMmos/nwQRtjO3KhMq3naMyBT4NXcrbAP6BwcScw/VaVr7rJqU7V4XB1U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EKgGBy9d; arc=fail smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7838938F654
+	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 08:19:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781770756; cv=none; b=oGRiXb03RQ+Ya8HBpIh0rvd2/U7MSLSG6tItZ5y0qMK2SYGDkhDYZZpZ/RORcuRm19SCA8sqUa3WhwAD66ckEASkemsif+V6w9EIG3Pz80cDl+SvGTR5UO2bdP1H5+PINQJMOkTYJOwjmqVhCWEcNfL/sX67RZ9MqL3/2v0s9dY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781770756; c=relaxed/simple;
+	bh=NM0M/Ov11BuLYFvgAhPIa8H0+J7ylb7vIuaBlSeCAQk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CWJCyZm1Vo3kBtrYbSqjo9GQeO4YRswM7MCqgQICYY6yCdQbCRsUoPczTI22AlSAigOyFrG1EYicKQjMXpqqATIt7jjUnYEOuOCAWQpGOpG0pCCmxLwEO5fWHM9/33xN0qBa9Ip1oX+2sJ4j8UmZLs1EVEjPiTyarQZYbHVSbNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=v//W7HzY; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EKgGBy9d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781769654; x=1813305654;
-  h=date:from:to:cc:subject:message-id:
-   content-transfer-encoding:mime-version;
-  bh=XpsrF2vSt1ytzHoQwacw9Oz60JvelzxcTocnPuvNtg0=;
-  b=EKgGBy9dGh4ngb6AjQom98CrLyzCM3gg4GePmovDB5M+onTLJKxvI1wC
-   SfxZrsSAAJZrfeu20zpQWiX51FFOX4YJyK9S9JtJ16rAR9zJzpWLAC3Ld
-   Vm6L+2rPhT2pE2P7VG2NEBDCnioQDOQBjZbvo7CvVDYAqTCBQ12hL6MEb
-   zWxhURNn36xzgwgQ9xH5g0PN0IuZIVe7mISQx52xTWx0RFeicxGrO0/qI
-   A1lgh8kDhX/0nijayj/Km0avORhxZ/rokyn1P+vlBwqZ8CrQOdB5wcVcc
-   flKy6RPrXZzo2MpwSknWUyRyLaDayx4PG+G1sOecKUupAcOlyT51a7fQT
-   Q==;
-X-CSE-ConnectionGUID: ON9ecIjpTaWKX2/8mLTLZw==
-X-CSE-MsgGUID: JAJO1aR1Sdm6KcueI8SQsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="108142204"
-X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
-   d="scan'208";a="108142204"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2026 01:00:54 -0700
-X-CSE-ConnectionGUID: Xt+yO0fXSpu177hON6DUeQ==
-X-CSE-MsgGUID: 8Cr3tHQPSv6quig9c96p7w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
-   d="scan'208";a="243938711"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2026 01:00:54 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 18 Jun 2026 01:00:53 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Thu, 18 Jun 2026 01:00:53 -0700
-Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.5) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 18 Jun 2026 01:00:52 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=F68bam2BF9ZLWhRKa3oaDW1aKFoDT+pRqy3BD/U0JPQAD4e8kZXM4em40SCtbt8EjS0LIO4C/epjiSkmd8o7pVDT42C5x/tq9nXLY0oOL2WbFqjKIWs2ES5QeavhUNVUa4SRki3chQFUGAVNVuDJOCus/GzJM4eVkaxumJ9oiK8KtcJxiTkiNRDLDejmLPUdFnbRy8klD1uKT/Lzhys5IMzXz/pIuJ0ZtB1KU/khkD+L7VETtgS+yuh15wsdnqKJtsDJJVOVUPbeDwAOm+q2plqB5XNQMDR/e6xIft74GIHLE+NvFLRJZ0JDx6bbYHMN6nLbhMkHRs5WhGW0LKHb3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bWLwesj1+Swx0X+E8cGeMPjGExEznvA92M/rFIZHH2M=;
- b=wJR9JvBtcmM1RlfjHqyq4gwKo+iPNptkbFCEZzc0XvI25g54ayIuBKXCAZuF3yNgoFLICyYsMaiPbK9lRM2OtFZgroTeA4p/tLDh5AB9T2xxdG+Y/bRRwP1BPb9mW6ikKslIf6pg8eN3nluqBxf0T5ZA1VlRba22UYFHB7pCQZHvIbAQapaXl1Db8IU960TtQVZ/W29iFofESxjMLy+sOr/u/ygzWkEXcLosJyHSL/DKY9ib1Z0YUqEqO6s84Lms/ZL5PO4QhLUIMfy6/NwsP96zr5UW04riotvBD6ksBjBLg4k1SDthVr/Q33/EiHhoq8GXh9sQfJ069x2WGT+L/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5832.namprd11.prod.outlook.com (2603:10b6:510:141::7)
- by MW3PR11MB4634.namprd11.prod.outlook.com (2603:10b6:303:54::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Thu, 18 Jun
- 2026 08:00:49 +0000
-Received: from PH0PR11MB5832.namprd11.prod.outlook.com
- ([fe80::106e:78dd:4c96:d707]) by PH0PR11MB5832.namprd11.prod.outlook.com
- ([fe80::106e:78dd:4c96:d707%5]) with mapi id 15.21.0113.015; Thu, 18 Jun 2026
- 08:00:49 +0000
-Date: Thu, 18 Jun 2026 16:00:42 +0800
-From: kernel test robot <oliver.sang@intel.com>
-To: Frederick Mayle <fmayle@google.com>
-CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, Andrew Morton
-	<akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>, Kalesh Singh
-	<kaleshsingh@google.com>, David Hildenbrand <david@kernel.org>, "Lorenzo
- Stoakes" <ljs@kernel.org>, Matthew Wilcox <willy@infradead.org>, "Suren
- Baghdasaryan" <surenb@google.com>, <linux-fsdevel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <oliver.sang@intel.com>
-Subject: [linux-next:master] [mm]  7b32f64bc5:
- pts.svt-av1.Preset13.Bosphorus4K.frames_per_second 45.8% regression
-Message-ID: <202606181547.617a6967-lkp@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-User-Agent: s-nail v14.9.25
-X-ClientProxiedBy: TP0P295CA0057.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:910:3::16) To PH0PR11MB5832.namprd11.prod.outlook.com
- (2603:10b6:510:141::7)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="v//W7HzY"
+Date: Thu, 18 Jun 2026 10:18:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1781770749;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qTxrs3IohyTqrlr69ZClYgsVznrNRnmnSJTLpRksUoY=;
+	b=v//W7HzYxKV8IZYOyMHblstMWE51VJhcxH+QCG+vqEhEJOcaWFzcji+RFSIML9X4qc2rG6
+	A91KGoCgdjojVRvPtwIl8g6sShryLKb8HVxkLm2fdXyJ7xHZ78HoDFpE6LCx0RESXbL26P
+	NQRMsTnc2i3CBzFBJzZN20fK+JMj7UM=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Pankaj Raghav (Samsung)" <pankaj.raghav@linux.dev>
+To: Zhang Yi <yi.zhang@huaweicloud.com>, hch@lst.de
+Cc: Christoph Hellwig <hch@infradead.org>, 
+	Pankaj Raghav <p.raghav@samsung.com>, linux-xfs@vger.kernel.org, bfoster@redhat.com, lukas@herbolt.com, 
+	"Darrick J . Wong" <djwong@kernel.org>, dgc@kernel.org, gost.dev@samsung.com, andres@anarazel.de, 
+	kundan.kumar@samsung.com, cem@kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH v6 3/3] xfs: add support for FALLOC_FL_WRITE_ZEROES
+Message-ID: <6l3n2w2b7qoz2g3kfu3xsdjhlzq6m4ocs6ptq2esq27wxrb5ve@5gqv4ei4gi4b>
+References: <20260611114029.176200-4-p.raghav@samsung.com>
+ <ajFQPANpajmFuKpi@infradead.org>
+ <kn5dyqdxmsydibpfcurgpom5vwqtwinrz27oenh4pekks6ybdj@wyi4zkh7mogy>
+ <557b2e5c-7c65-48de-87a9-6fba21eca99f@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5832:EE_|MW3PR11MB4634:EE_
-X-MS-Office365-Filtering-Correlation-Id: 73d0885d-7e58-4c79-4536-08decd0fb614
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|23010399003|366016|56012099006|11063799006|6133799003|18002099003|3023799007;
-X-Microsoft-Antispam-Message-Info: ufOaINgWNzZ+NRpTrB1+hvEIuJSlGR+9yBI14sjBecz9D5uqMyjRAd1TnFnSyO1SfHZ5EfmzeIbvE+VYlV2mQqzMPdCFtd5+rAkLMbi/CVrlqqKTw8J1ofMUM9BbtPSuj9lJB6swYy209HDyTEplR4hYVjAhfr6n1ATeKEirHARSC0m02vfmz6hkKvFkOMIpHtbD/czum4yh8BxAGEVPyVifFe4rJ0wLZbEMf6hXUCf0ThGvmmTdta3XkBgm9CAv0cSSr8cLHwJkuqKSI5mvbVmEPNrHAwuPX4T4L3HGOox10mFhYUcDN6bmwRNUF/Z5uOOaqJkOWE8e1eDeG87MhBXyttWYlNV7SMAOHKIL/9dnhi+2xSqekoNHsRugC+semwxEmfwxCzkBW0q7MYGV1IbIvNcBhTUoN1XdXVkME9n3bEANOXxvt0Ko8XMpKvb5BEjcHT9ws3Rv/Xo8neyFhtuaG8Z2PIBXjRCjVRExmhEn0U50ZwKZZGWHS6OgOCfUaQJ7vhBGMbp8XIWxwyaHapBDjHzWkMAhmSG5c/bWKDN/et3Dz5mTX2uudt+Z8zRXtN5KSzFEoOv2mQ/u6zy+cJYGCObj8rW0P7fJgnkMMUF2nmkOyu0BFukR0yGiYDSO1E+Jx3vLphmt/xYYtwvaJlNVZ3wbcfeHRuRSIt2WWgbiebRbOO3JmpfBTIU4GvVaedjptgMkl2Qy7zSU1FGYFQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5832.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(23010399003)(366016)(56012099006)(11063799006)(6133799003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?3QQTuXWymK/UqkjhT/m3jiZj6kA00W9YT7aIfTIOpZY9KLnhILzL0iHefe?=
- =?iso-8859-1?Q?OZIYKbCrkQ7CUNxhsCEBEXwHG71gIlhgvtx5LKbJRlLhAvUbqYc6bW6+Pv?=
- =?iso-8859-1?Q?U4PkwmHdjVKou0o/aKkshc3vrrdCpwadXJP03t+IW9H+9y+fVCGxG62Kai?=
- =?iso-8859-1?Q?nehYfjE+xGoMtFDQ3wLoG1vBfOCH2HjPdlYmSiwVebhOPreNczJpY6Ub3o?=
- =?iso-8859-1?Q?flKUnIg8xwwR3KBWuzINGjXPieKBo+KzBy+aDJzvXcJAlvIJdykQcMemXp?=
- =?iso-8859-1?Q?9WoAkcLhv6smv+scfWR7axFfIVcd95owkF+0PM53bO7brFL9g/6wwc2NPR?=
- =?iso-8859-1?Q?EqebgUPyNmL5SwQ21SetpW/yVJqRIec/6uGBJFYtUrHM9YhiF1Bn56/1/Y?=
- =?iso-8859-1?Q?/bvWpzC8D2W70XQPuJ8U8BTp8cCpw9hybLjIHtZgbkt1ndBbACgC42Pvft?=
- =?iso-8859-1?Q?gJh5YQMYLyArKb7/ODS8fIddP8XgKZxzIlAS9DGfTiRb4N8DPRmrwUJ5xt?=
- =?iso-8859-1?Q?LBouxXf9lkpA71ZgcqyarfwETQ+pNBK0Mf/sV9DWHFS7tgW669eIg9tgaE?=
- =?iso-8859-1?Q?cx6KZJt3H32/2U6oKrq93xweCjwGhpdD5xMx7ny0hOROJ9MC5iJWsWkde5?=
- =?iso-8859-1?Q?CP+Q7jlRN8YrmKG7pxIKVCwa49Xz+hRg45Q059InXETO+eRuCE3puZGpU7?=
- =?iso-8859-1?Q?7TNpStDrSGmvjMli1gv9PxNpD3Dotde2pBh+3tr3I8fyogPgEhEVSmlDm2?=
- =?iso-8859-1?Q?k0Pkbgs0pmlbRXVwNvjoXewzFRzGYe0PBzPdLHECkURzwI2YAWHocsSGho?=
- =?iso-8859-1?Q?38vSQy/K/smB5qAcPa3b35PIbw+8J2CTk4btWhJLiTBxwMgMOlJV9tmXaS?=
- =?iso-8859-1?Q?XVM/c8rjgjKcvp4BjZrJwCP1KEvX0QxuFq9pVLQJkhCtDHB7pUL2KfRXR3?=
- =?iso-8859-1?Q?tQHUpYnww2HTUfq0FqJ4YECKXV4o7qIg45YXLIWu54Vw2AJ00n9JRTBk7y?=
- =?iso-8859-1?Q?KPu/ixyzJUxQ4mdEhBtrZZq98RHLRr9jYpwrTCZUuXWO8Gmi8mGjoahbIU?=
- =?iso-8859-1?Q?NEOLbO6nmulR0iQzQjneBv60DKHyzhkgZ6kBay6PyUQIK5NatDEf9YaBsy?=
- =?iso-8859-1?Q?C8V0AArN/808captCJ6u9l3gYqX6NuolNz3ZhHLiSvrNdzikY0sr52N00x?=
- =?iso-8859-1?Q?8ohyvHXFO007ejwuAEKjOzptRlLGgM4v+F7z1SZe1CZP/wrevilNCcf5bd?=
- =?iso-8859-1?Q?ST3MGD0rCJDaWB3RHy78suCKqfdMZbxv1W7TtjpMUc/FeLCsQ3i0p23iHv?=
- =?iso-8859-1?Q?ETzRxD7TMDaLnrT773ue4p6oFRuUYAgGQwdABEOCHKHEOi8bO5MIe4Mt/O?=
- =?iso-8859-1?Q?ggm3IKX1puQMtHhF0zTzuM6gmskVVHy0MxPGAveEBa7rudJ3hV5bAO+cmB?=
- =?iso-8859-1?Q?HhAozOtHdUi0omLPfMQDSkmGX//45y7FqwV1xliSTtJBPQJuyaMjzJFxp0?=
- =?iso-8859-1?Q?jIm1lKF7U8FxssdSWVBO/0AfTj8UfGRxW6ogMq671dmA5cUE7XB0QrrT6b?=
- =?iso-8859-1?Q?Biidk547Zu3mnL5S9V8icONi5xhOknwH0+JZ0WskJuZgrGOwBtFSYLpXR9?=
- =?iso-8859-1?Q?RPpkOMWN477SlcPE93UepKogXTzJJDH0cOYaIw3/TYapNxsibkzlYtG4Jl?=
- =?iso-8859-1?Q?2It8lb7o/QHETlijzGRWw8oQyC3YV+yvHYtMkzZskss6HefrLoX3pBY25Y?=
- =?iso-8859-1?Q?8Vm3rT+w1/4/Z2O06NhtZlC6gx8psLuS6rJ0X3WJX2arnZmfMaykTApYvM?=
- =?iso-8859-1?Q?AkqjQ6JYdQ=3D=3D?=
-X-Exchange-RoutingPolicyChecked: hh2+sEo0jwE5zEaLOmtEVuXcDMEO9174tkm+whl0EiPe/9CZoSy6jPU3bTPG9gwxAfRrz8g72UdK2+gBZtbnQe0F1z2rzS5wHcP/hvQtYx7XiPHDAMCByZrktQWIrjQ1BABoOpkFoyvjUOhVoyIBdj+jBsGtmldylfvPm4SQgrktcXb7jSaSw/BQjdO8vKYh5fkYskHn45rw3LoNq2Ar5VRwf4ihqRN9lsRwIHKJTvXRo7N3HZgN0iR8G9dRo8t4omMnkLaSRtvnmUWIYDhOUSgSLzaaCQJ3wFt53mkuk0tTEKw50Eq27rqPWS+0dsdz6QNHeddOgXDbKqCV4NBNcA==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 73d0885d-7e58-4c79-4536-08decd0fb614
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5832.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2026 08:00:49.7128
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oCvnffrfMJWQP7G9hlLUyOUX45r4RzAILTKG9SXAhphjs7tJrXvmNdqIIOepr0OTuKE+Yq8/FYIxMqEL9vC+2w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4634
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <557b2e5c-7c65-48de-87a9-6fba21eca99f@huaweicloud.com>
+X-Migadu-Flow: FLOW_OUT
 
+On Thu, Jun 18, 2026 at 11:22:45AM +0800, Zhang Yi wrote:
+> On 6/17/2026 5:44 PM, Pankaj Raghav (Samsung) wrote:
+> > On Tue, Jun 16, 2026 at 06:31:40AM -0700, Christoph Hellwig wrote:
+> >> [API questions for Zhang and -fsdevel/ -api below)
+> >>
+> >>> +	unsigned int		blksize = i_blocksize(inode);
+> >>> +	loff_t			offset_aligned = round_down(offset, blksize);
+> >>
+> >> I think this actually needs to found up instead of rounding down.
+> >>
+> >>> +	/*
+> >>> +	 * Zero the tail of the old EOF block and any space up to the new
+> >>> +	 * offset.
+> >>> +	 * In the usual truncate path, xfs_falloc_setsize takes care of
+> >>> +	 * zeroing those blocks.
+> >>> +	 */
+> >>> +	if (offset_aligned > old_size) {
+> >>> +		trace_xfs_zero_eof(ip, old_size, offset_aligned - old_size);
+> >>> +		error = xfs_zero_range(ip, old_size, offset_aligned - old_size,
+> >>> +				NULL, &did_zero);
+> >>> +		if (error)
+> >>> +			return error;
+> >>> +	}
+> >>
+> >> ... then this will properly zero from the old i_size to the first block
+> >> boundary after the old size.
+> > 
+> > Hmm, right now we do this:
+> > 
+> > |----------|----------|----------|
+> >     ^      ^     ^    ^
+> >     |      |     |    |
+> >  old_size  |   offset |
+> >            |          |
+> > 	off_rd       off_ru
+> > 
+> > At the moment, we zero out old_size to off_rd and pass offset to
+> > xfs_alloc_file_space. xfs_alloc_file_space rounds down the offset to off_rd.
+> > 
+> > What you are proposing is to zero out old_size to off_ru, and pass
+> > off_ru to xfs_alloc_file_space. I don't exactly understand the
+> > difference.
+> 
+> IMO, FALLOC_FL_WRITE_ZEROES should handle the unaligned cases, if the
+> 'offset' and 'end' are not block-size aligned, then:
+> 
+> 1) if the two blocks straddling the boundaries have not yet been allocated,
+>    or allocated as unwritten, we should round outward the allocation range
+>    and zero out all allocated blocks, including those two boundary blocks.
+> 2) if the blocks at the boundaries are already in the written state â€” which
+>    can occur when we call FALLOC_FL_WRITE_ZEROES within the file size. We
+>    should be careful here: we should only zero the ranges [offset, offset_ru)
+>    and [end_rd, end) for the boundary blocks, leaving the already-written
+>    portions of the boundary blocks intact.
+> 
+> Thoughs?
 
+Ok, this makes sense to me.
 
-Hello,
+@Christoph, now I understood your reply about rounding up and rounding
+down.
 
-kernel test robot noticed a 45.8% regression of pts.svt-av1.Preset13.Bosphorus4K.frames_per_second on:
+So, I could do xfs_zero_range(offset, offset_ru)[1] and xfs_zero_range(end_rd, end).
+(offset_ru, end_rd) will be using the accelerated XFS_BMAPI_ZERO to 
+zero out the extents. 
 
+I also need to add pagecache_isize_extended and filemap_write_and_wait_range
+to persist the xfs_zero_range calls before we call setfilesize.
 
-commit: 7b32f64bc512b40b268776c5ac4d354b325b3197 ("mm: limit filemap_fault readahead to VMA boundaries")
-https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git master
+xfs_zero_range should take care of the boundary blocks so that we don't
+overwrite any data or zeroing out the unallocated or unwritten blocks as
+pointed out in 1 and 2.
 
-[still regression on linux-next/master ec039126b7fac4e3af35ebccaa7c6f9b6875ba81]
+Let me know what you think. I am also wondering how fsx did not trigger
+the boundary block edge case where the current impl might zero out user
+data in the boundary blocks.
 
-testcase: pts
-config: x86_64-rhel-9.4
-compiler: gcc-14
-test machine: 256 threads 2 sockets Intel(R) Xeon(R) 6767P  CPU @ 2.4GHz (Granite Rapids) with 256G memory
-parameters:
-
-	test: svt-av1-2.11.1
-	option_a: 1
-	option_b: Bosphorus 4K
-	cpufreq_governor: performance
-
-
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <oliver.sang@intel.com>
-| Closes: https://lore.kernel.org/oe-lkp/202606181547.617a6967-lkp@intel.com
-
-
-Details are as below:
--------------------------------------------------------------------------------------------------->
-
-
-The kernel config and materials to reproduce are available at:
-https://download.01.org/0day-ci/archive/20260618/202606181547.617a6967-lkp@intel.com
-
-=========================================================================================
-compiler/cpufreq_governor/kconfig/option_a/option_b/rootfs/tbox_group/test/testcase:
-  gcc-14/performance/x86_64-rhel-9.4/1/Bosphorus 4K/debian-12-x86_64-phoronix/lkp-gnr-2sp3/svt-av1-2.11.1/pts
-
-commit: 
-  0b20c36c11 ("mm/madvise: reject invalid process_madvise() advice for zero-length vectors")
-  7b32f64bc5 ("mm: limit filemap_fault readahead to VMA boundaries")
-
-0b20c36c118d2122 7b32f64bc512b40b268776c5ac4 
----------------- --------------------------- 
-         %stddev     %change         %stddev
-             \          |                \  
-    169.95 ±  6%     -45.8%      92.15 ± 10%  pts.svt-av1.Preset13.Bosphorus4K.frames_per_second
-    220.57 ±  3%    +870.9%       2141        pts.time.major_page_faults
-   5898121            -3.7%    5682645        pts.time.maximum_resident_set_size
-   1408522            -1.3%    1390537        pts.time.minor_page_faults
-    370.43 ±  3%     -12.1%     325.57 ±  6%  pts.time.percent_of_cpu_this_job_got
-    645228 ±  2%      +7.6%     694407 ±  3%  pts.time.voluntary_context_switches
-    162542 ±  7%     +22.4%     198946 ±  8%  sched_debug.cpu.avg_idle.stddev
-    274573 ±  3%      -9.3%     249101 ±  3%  vmstat.io.bi
- 6.779e+09 ±  3%     +11.3%  7.545e+09 ±  4%  cpuidle..time
-   7639156 ±  3%     +10.5%    8439210 ±  3%  cpuidle..usage
-      3.73 ± 39%      -2.2        1.52 ± 52%  perf-profile.calltrace.cycles-pp.pv_native_safe_halt.acpi_safe_halt.acpi_idle_do_entry.acpi_idle_enter.cpuidle_enter_state
-      0.65 ± 87%      +1.8        2.47 ± 60%  perf-profile.children.cycles-pp.link_path_walk
-      0.24 ± 46%     -80.9%       0.05 ±143%  perf-sched.sch_delay.avg.ms.perf_trace_sched_switch.do_wait.kernel_wait4.do_syscall_64.entry_SYSCALL_64_after_hwframe
-      0.65 ± 18%     -33.7%       0.43 ± 17%  perf-sched.wait_and_delay.avg.ms.perf_trace_sched_switch.do_wait.kernel_wait4.do_syscall_64.entry_SYSCALL_64_after_hwframe
-      0.02 ±  7%      +0.0        0.06 ±  8%  mpstat.cpu.all.iowait%
-      1.08 ±  4%      -0.2        0.93 ±  6%  mpstat.cpu.all.usr%
-     22.00 ±  2%     +14.3%      25.14 ±  2%  mpstat.max_utilization.seconds
-     10.00 ±  3%     -40.5%       5.94 ±  2%  mpstat.max_utilization_pct
-   5916248            +6.9%    6324576        meminfo.Active
-   3659476 ±  2%     +11.4%    4078190 ±  2%  meminfo.Active(anon)
-    760816 ±  3%     +16.9%     889730 ±  3%  meminfo.AnonHugePages
-   2263661 ±  4%     +18.5%    2682180 ±  3%  meminfo.AnonPages
-   6611024           +11.9%    7400589 ±  2%  meminfo.Committed_AS
-  11386404            +5.1%   11964152        meminfo.Memused
-     21554            +5.6%      22770 ±  2%  meminfo.PageTables
-    916081 ±  2%     +11.4%    1020691 ±  2%  proc-vmstat.nr_active_anon
-    567129 ±  3%     +18.4%     671694 ±  3%  proc-vmstat.nr_anon_pages
-    370.88 ±  3%     +17.2%     434.57 ±  3%  proc-vmstat.nr_anon_transparent_hugepages
-     48477            +1.6%      49272        proc-vmstat.nr_kernel_stack
-      5399            +5.4%       5691 ±  2%  proc-vmstat.nr_page_table_pages
-    916081 ±  2%     +11.4%    1020691 ±  2%  proc-vmstat.nr_zone_active_anon
-   4614742            -1.5%    4547741        proc-vmstat.pgalloc_normal
-   1667517            -1.0%    1650517        proc-vmstat.pgfault
-   2150014            -2.9%    2087812        proc-vmstat.pgfree
-    224.57 ±  3%    +862.1%       2160        proc-vmstat.pgmajfault
-      1021            -7.2%     948.14        proc-vmstat.thp_fault_alloc
- 2.679e+09 ±  3%      -7.5%  2.477e+09 ±  2%  perf-stat.i.branch-instructions
-      0.80            +0.1        0.86        perf-stat.i.branch-miss-rate%
-  27722463 ±  3%      -8.0%   25498433 ±  2%  perf-stat.i.branch-misses
-  47056892 ±  6%     -11.2%   41804370 ±  6%  perf-stat.i.cache-misses
-    397.43 ±  3%      -7.4%     368.14 ±  2%  perf-stat.i.cpu-migrations
-      0.03 ±  4%      +0.0        0.03 ±  4%  perf-stat.i.dTLB-load-miss-rate%
-   3146082 ±  5%     -13.9%    2707716 ±  5%  perf-stat.i.dTLB-load-misses
-   1739613 ±  5%     -12.5%    1521663 ±  4%  perf-stat.i.dTLB-store-misses
-      9.97 ±  5%    +712.5%      81.01 ±  3%  perf-stat.i.major-faults
-     40.27 ±  4%      -8.2%      36.99 ±  3%  perf-stat.i.metric.M/sec
-     58347 ±  4%     -11.5%      51627 ±  3%  perf-stat.i.minor-faults
-     63.09 ±  6%      -5.8       57.29 ±  8%  perf-stat.i.node-load-miss-rate%
-   6474191 ±  5%     -14.1%    5560267 ±  5%  perf-stat.i.node-loads
-     58356 ±  4%     -11.4%      51708 ±  3%  perf-stat.i.page-faults
-      0.98            -0.0        0.96        perf-stat.overall.branch-miss-rate%
-    435.13 ±  3%     +10.0%     478.43 ±  4%  perf-stat.overall.cycles-between-cache-misses
-      0.06 ±  2%      -0.0        0.06 ±  4%  perf-stat.overall.dTLB-load-miss-rate%
-      0.08 ±  2%      -0.0        0.07 ±  2%  perf-stat.overall.dTLB-store-miss-rate%
- 2.646e+09 ±  3%      -8.7%  2.415e+09 ±  2%  perf-stat.ps.branch-instructions
-  25808992 ±  3%     -10.2%   23188954 ±  2%  perf-stat.ps.branch-misses
-  45057464 ±  5%     -14.4%   38574053 ±  6%  perf-stat.ps.cache-misses
- 1.428e+08 ±  3%      -9.7%  1.289e+08 ±  2%  perf-stat.ps.cache-references
-    367.11 ±  2%      -7.4%     339.78 ±  2%  perf-stat.ps.cpu-migrations
-   2972584 ±  5%     -17.3%    2458144 ±  5%  perf-stat.ps.dTLB-load-misses
- 4.801e+09 ±  3%      -9.2%  4.359e+09 ±  2%  perf-stat.ps.dTLB-loads
-   1715051 ±  5%     -14.7%    1462728 ±  4%  perf-stat.ps.dTLB-store-misses
- 2.193e+09 ±  3%      -9.2%  1.992e+09 ±  2%  perf-stat.ps.dTLB-stores
-  2.06e+10 ±  3%      -9.2%  1.871e+10 ±  2%  perf-stat.ps.instructions
-      8.54 ±  4%    +768.3%      74.19 ±  2%  perf-stat.ps.major-faults
-     59802 ±  3%     -11.0%      53218 ±  3%  perf-stat.ps.minor-faults
-   6145046 ±  4%     -17.9%    5046537 ±  4%  perf-stat.ps.node-loads
-     59810 ±  3%     -10.9%      53292 ±  3%  perf-stat.ps.page-faults
-
-
-
-
-Disclaimer:
-Results have been estimated based on internal Intel analysis and are provided
-for informational purposes only. Any difference in system hardware or software
-design or configuration may affect actual performance.
-
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+[1] if old_size < offset, then xfs_zero_range(old_size, offset_ru)) 
+--
+Pankaj
