@@ -1,101 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568713C5DD4;
-	Thu, 18 Jun 2026 10:23:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F75395ADD;
+	Thu, 18 Jun 2026 10:26:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781778214; cv=none; b=ogHRwg9xf1Ll2iULRunPKuS4xWw0Pol/jc6HLrgZcAxixUqEO/pPQMBJW+AETdhGoA5gvgimIHgiWgJMWeI0ceNNciy+NMtkgrDXZfFfV+Ci1EgLGazHb4s8oW6shz7aYWPq8+nWNE4KvLG7U3hAky3Orv7iWhsRVsbhs+HmYSI=
+	t=1781778387; cv=none; b=PY2mnmcdH2WcpaT4BQ4Twe6KwQPMFU3lBjoR0aObtNp3btN7GjUgJsvYZzdmmGtJJRzSEzjfex6+H7b8ZPG+orhlY1sEHA6wqwRhZB7+MCIYCf4DvdIo1EWn18LThX1IuJRmK/xj5Mp9AZIoeBI2pSXwDHfpLvS0/E3sQUjdxqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781778214; c=relaxed/simple;
-	bh=/5xlT4UPANLHWLwtUNkZonoJrCOL+q5aqrVw4zGGdDQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X9cyh10aA/wCg4hz5WgHJC1txjKk717hSbCFv+0bctnN8QuX5rnOY3BmwGzNd7pQxqVflIhlQ8xDzT249OVac7otOkx9MuiLLV90v0rI6t/RcmL0oiY/VdFrZu1qB7O1PzIJcKL0FcYKKCpkAy+G8POd/DMxyh9rg/gH8GNoomU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=McT9Gq9J; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="McT9Gq9J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781778205; x=1813314205;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/5xlT4UPANLHWLwtUNkZonoJrCOL+q5aqrVw4zGGdDQ=;
-  b=McT9Gq9J2gBRmF2mF381PjQwqByTGS/v/I1tLI8vKOuvqBV2gB48teRq
-   00yR+RleWo+8AyGV8a6+E5FhkoLU+64DGJs5J8p7AUFC5exLUwd/3iwEI
-   9MGRiuMDGvmxnFL5gDaU2PfCYubKDwp/tYvrb3zw1+r/+l+nnZ5N+h+B9
-   NjdyEIMdHtnGoHijvv0zl2RNwDWttDrs2lhqDvEVd4Ekxsd9V97cqn237
-   Prd/qJSVmmL32hlFbDU2QZPg4DM16gCX6nLEI9QbHGQ7Pyi7P+/xEBrLs
-   1gH3wunF8DS2AP0ZHfDcPF9gBGFbvVrw/WvrF9XPAs8eQHKUxT6Knroyj
-   Q==;
-X-CSE-ConnectionGUID: fIe6ghr9T82CJ8Mf7ShWdg==
-X-CSE-MsgGUID: bO10jSlsQoy0q4MlMu9QvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="70126179"
-X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
-   d="scan'208";a="70126179"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2026 03:23:23 -0700
-X-CSE-ConnectionGUID: qktiaX03RSe2frDZIQqsdQ==
-X-CSE-MsgGUID: RIQa1sPlSCOSPSwNz523kg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
-   d="scan'208";a="245396666"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 18 Jun 2026 03:23:20 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wa9u2-000000005Vd-314y;
-	Thu, 18 Jun 2026 10:23:18 +0000
-Date: Thu, 18 Jun 2026 12:22:51 +0200
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dm-devel@lists.linux.dev, hch@lst.de, axboe@kernel.dk,
-	brauner@kernel.org, djwong@kernel.org, viro@zeniv.linux.org.uk,
-	Keith Busch <kbusch@kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH 1/1] block: validate user space vectors during extraction
-Message-ID: <202606181254.ohF2ZO9K-lkp@intel.com>
-References: <20260617233235.1016063-2-kbusch@meta.com>
+	s=arc-20240116; t=1781778387; c=relaxed/simple;
+	bh=LcOEICqj+UPKe0K9jPnu41OS3Khr0nTZMdknKHL4Jq8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cHl7Ed9T4yyZ84i8QR0pwZ2sExswAm1tzWOJzAWPFbJAMSbDV3ih0j6g1lJhTbzkikGOGj+75FFRy05APk0CT8lJuR6EYNYAD2Nol9PBlpRL6v60qeQTHhklUaTt/2HIkT8BT0Y6fYGXfMf92lSr93X4mnKRUVHGE0PHeJksuO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.177])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4ggxgm57VSzKHMWT;
+	Thu, 18 Jun 2026 18:25:24 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id 8C57D4058F;
+	Thu, 18 Jun 2026 18:26:14 +0800 (CST)
+Received: from [10.174.178.253] (unknown [10.174.178.253])
+	by APP1 (Coremail) with SMTP id cCh0CgA3OT7ExzNqzkfqCA--.37094S3;
+	Thu, 18 Jun 2026 18:26:14 +0800 (CST)
+Message-ID: <58578df9-9004-4693-85b0-cf0533399643@huaweicloud.com>
+Date: Thu, 18 Jun 2026 18:26:12 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260617233235.1016063-2-kbusch@meta.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/3] xfs: add support for FALLOC_FL_WRITE_ZEROES
+To: Christoph Hellwig <hch@infradead.org>
+Cc: "Pankaj Raghav (Samsung)" <pankaj.raghav@linux.dev>,
+ Pankaj Raghav <p.raghav@samsung.com>, linux-xfs@vger.kernel.org,
+ bfoster@redhat.com, lukas@herbolt.com, "Darrick J . Wong"
+ <djwong@kernel.org>, dgc@kernel.org, gost.dev@samsung.com,
+ andres@anarazel.de, kundan.kumar@samsung.com, cem@kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+References: <20260611114029.176200-4-p.raghav@samsung.com>
+ <ajFQPANpajmFuKpi@infradead.org>
+ <kn5dyqdxmsydibpfcurgpom5vwqtwinrz27oenh4pekks6ybdj@wyi4zkh7mogy>
+ <557b2e5c-7c65-48de-87a9-6fba21eca99f@huaweicloud.com>
+ <ajOzZv7407w_hodk@infradead.org>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <ajOzZv7407w_hodk@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:cCh0CgA3OT7ExzNqzkfqCA--.37094S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7ArW5Cr1rZrWrWrW3JFW3trb_yoW8Gw4Dpr
+	ZxK3WrtFs7K347WF97Za1Igw18A3yfWa98urn8Wr4UA398XF1fGw4qgrWqgFWUuw18Za4F
+	qF4YyFy8Z3ZrZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
+	wI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
+	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUF1
+	v3UUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-Hi Keith,
+On 6/18/2026 4:59 PM, Christoph Hellwig wrote:
+> On Thu, Jun 18, 2026 at 11:22:45AM +0800, Zhang Yi wrote:
+>> 1) if the two blocks straddling the boundaries have not yet been allocated,
+>>    or allocated as unwritten, we should round outward the allocation range
+>>    and zero out all allocated blocks, including those two boundary blocks.
+>> 2) if the blocks at the boundaries are already in the written state — which
+>>    can occur when we call FALLOC_FL_WRITE_ZEROES within the file size. We
+>>    should be careful here: we should only zero the ranges [offset, offset_ru)
+>>    and [end_rd, end) for the boundary blocks, leaving the already-written
+>>    portions of the boundary blocks intact.
+>>
+>> Thoughs?
+> 
+> Yes.
+> 
+>> Regarding the second point, the current ext4 implementation has an issue —
+>> it zeroes out the entire boundary blocks. I overlooked this previously, and
+>> I appreciate you pointing it out.
+> 
+> Which means we're missing test coverage for this as well..
+> 
 
-kernel test robot noticed the following build warnings:
+Ha, I just re-checked the ext4 implementation and found that scenario 2 is
+actually fine, Sorry I misread the code earlier. Fortunately, no data
+corruption occurred. :-)
 
-[auto build test WARNING on axboe/for-next]
-[also build test WARNING on brauner-vfs/vfs.all akpm-mm/mm-nonmm-unstable linus/master v7.1 next-20260616]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The real issue is in scenario 1, where the boundary blocks are not correctly
+converted to written-type extents.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/block-validate-user-space-vectors-during-extraction/20260618-073522
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260617233235.1016063-2-kbusch%40meta.com
-patch subject: [PATCH 1/1] block: validate user space vectors during extraction
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260618/202606181254.ohF2ZO9K-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260618/202606181254.ohF2ZO9K-lkp@intel.com/reproduce)
+As for testing the unaligned case, I also agree that we should explicitly add
+a dedicated test for it. Relying on existing fsstress and fsx is not reliable
+enough in this regard.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606181254.ohF2ZO9K-lkp@intel.com/
+Thanks,
+Yi.
 
-All warnings (new ones prefixed by >>):
 
->> Warning: block/bio.c:1245 function parameter 'vec_align_mask' not described in 'bio_iov_iter_get_pages'
->> Warning: block/bio.c:1245 function parameter 'vec_align_mask' not described in 'bio_iov_iter_get_pages'
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
