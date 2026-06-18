@@ -1,147 +1,178 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D2133AD82
-	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 16:03:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781798640; cv=pass; b=qmqLzIRg/+8LvLuRdm688MjHAWluYns/zvNhckddnfafrmd1qbtkJ9+FthHeS1aXRlm0GT2ZjbXZfe4UKcxpiTVrWZDhklYehfwbs86bj67R7PbYgdz1o/VtXOlbNjB65QVa/67lMUj4T/JhE0rU/pgNQM/JL+qJs/PNn1lthg4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781798640; c=relaxed/simple;
-	bh=JxajIuFFPzIDIlNu/ZZSYfy3SGLhW6O+Tar5hg7rAW0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Twq68EGqFrWVHYZJIeV/wgsUeeuFNJXnWBSC/a+/TqfM+bSMRQkQzwpHCRQzb/e58DN/dgvxAsGHSsnCpXV7yjoYn4IAXuk5U70bFSxenKtux92j6e34/iXBv54FXzD0hB5Ar0EDtjF7E2wZb/RvTxYN5FqbXmIOwkG8S+6FPZY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MG6+tCQ3; arc=pass smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EBF2318B85
+	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 16:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781798880; cv=none; b=KX0YuVa/3Vvoq2PJi/8TRslqxaKQdQHOcYbvmTtsdEohJ577NYaU2tyUjuE4j1Rp9k8zxn/sIY6g+tXHFKO5b7PDhOWcC+MK+RmCpi0I1ZKkQbwiRD0RR+tRVz7p2qU+YtI/XUD3AWzbg2qIa2U/XACjzu6+0Zr1p9FPErJCSiU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781798880; c=relaxed/simple;
+	bh=F4xx3GYCkcSsw4ssbt2o/0xtqWS3M7R9/Yh3BsWjfr4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LUdCINX069h2crU+clLMMVjZb4DhIDJFBppGxWKA14c596oaPQ3jclpz52nbByIz5689++cSmiZHQCqmfvy7DSnZZ5rjOUBtIbjqQK+sEq/ARIGw1lxSlHEQt+DLt/mC0yKURk6+zETi/z6JG43q0+7iv30WjDBr55/KhdrTiSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DiPuAgok; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=a1wuA5vC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DiPuAgok; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=a1wuA5vC; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MG6+tCQ3"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-695469b574eso11924a12.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 09:03:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781798638; cv=none;
-        d=google.com; s=arc-20260327;
-        b=nB9ZV7EnkNrpCU7V/11bPhP9oXm76OMN3+7/0hlMfsVkYuJZSY30aSLNtnNmOoPGx3
-         ZYU+WhKm88LLtSO8kwbLgj4MEUKxsEvIzL7gxJPSb3Qxc92pxAW48tHfOr2kxIxDako6
-         ydqDZitAlD+DOdq7/+wVzBMVQ3ocXMzw0/84e8NrIG1qCSVAtsfOb2u54MULfO0TzjFs
-         H+bCnSpsOAL7lt4tnYGwPkC5Ir73xWM2a3LhupgVsuXUu4jpxpZB+rB4ukaAykeAJxm8
-         Fgm8UAQtb+tUAfCkjymi6AQZZmD+5g/x8r4orbfdS8LSj2NxQUJDyAfBjWLsh7v6W8pp
-         psIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=JxajIuFFPzIDIlNu/ZZSYfy3SGLhW6O+Tar5hg7rAW0=;
-        fh=tF7LHA0/gZDn8JyE0Yjsy5t8Hf5yLh7JtMTnV3fOovg=;
-        b=gNQR49+bsCSn84HtLW1j2HpgrpEtKL+/BZLRkF7PE7AYJ5XB3d2lzccgDmq/PWMiA1
-         g80kqKlgmZJWDnUVGjCT/O5mCOziWSd2s6IR3a/kTfGunp7DXfikYPHqWsVED+a/iapu
-         RO8n3GzZXf7uFjOujpxtvj1mf19dtHZJNRHvNm8LUz8J3lqWJAqcHv6J0MKGOruRHODo
-         fLrlSlqYS9klzoUAhZvoqWFjcAriGAiqLckFiBWRw6nYNdNvfoQXqNJfEl7aeuHyI0vs
-         JKnQxUcsT1Zn5lvVPPru4EHK+Tu1Zzae4Z5Gx/wpJ1qjMuLgKjrpHE7s5kKJ8543isIs
-         hJJg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781798638; x=1782403438; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=JxajIuFFPzIDIlNu/ZZSYfy3SGLhW6O+Tar5hg7rAW0=;
-        b=MG6+tCQ3Vc9EWVydi+JhN6FhsrMN6MLCCVym6f+WcKnnsWpv6u34tIVSpT0BgpawBi
-         70j4dOIxpZLpdp1gsYytvjntjFEAG2txgqhT5T6kiaOhZK9wbZjwyompY0iq/b+g/+Ns
-         KS2x5NHQkxybNRmlEmC7I0B8bFXOtndznHIQE5iw7ryQD7dinLAmR6rOMY9sCUbdo4uP
-         QJOuUz0eiKNm42YBw9AwQHy2sJd5Nw3J1whaXVeWfu/jkKoB74lfnTgr7KTL0kci2WP9
-         +8+pL+JbI2HHp+e71p6RkWfIHocq67BVHjZSjXgeTya/Jgest0SuM6io9CarMvlBmQuF
-         PMeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781798638; x=1782403438;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JxajIuFFPzIDIlNu/ZZSYfy3SGLhW6O+Tar5hg7rAW0=;
-        b=H0phE5ZsizQ8jot9xPQ9flaQH6F8QUYgEFe+4cZ3LGa86cPQ1kESnO4+7sQA0DcNvI
-         a7mRrhVcmgAdiKAkm1cVmkQvSZSy73pCXJxKlVH8bTuiR6j+Di7DIBUaGd4MtPU8+MM4
-         n4NR5hOvuQiE6Nxlc7cALdR7vCqMU8zLR6TFrMVqCRNipfOWPKEO94aI0jXyPuBd5GWx
-         0Wngm8VPBhgamZNwTWdm4UQ1T4HxKUnrBJ/vINmzfrleM5f6xS9iHBUPGKcTiLm9xnWn
-         nlbX0Tih8G9JPOXs5W4u9m1dEKiyzF4EXaZC3EFK3kHPY4UfpbTjrt0GN6jtQhvGm2XX
-         +l+A==
-X-Forwarded-Encrypted: i=1; AFNElJ/076taltfvvAxRCoAjgdlADlTP8E/dqTNbXBpCilNdaWpX5Wl4U5Lvk8Hlgf9gKmhipPXyW3UGdDklDL40@vger.kernel.org
-X-Gm-Message-State: AOJu0YyM7wFNezeXFoMJ4lPzAwi1n/v8HYnVRm3oz+K+84+WXa/Vqs3w
-	tnfS08fWzC4RfVQGcitclkZYQngni/tFFRoNOWXyPrTlTI1F9NKd61d5vrNZzMLfRQz5Gnm+U0A
-	riOSjGKAIh8H5ae0OfiBzXlf0tQxuxklsAXPe6XqH6fUozHUdvqo5K4F0t5Q=
-X-Gm-Gg: AfdE7cn9he+eiG3nZ4jjtSScreeaBtsdhGbRJXuY/8HqdcrGGljRFbxs3xJtDoH+oXL
-	Ynx65+7wLSQwJ+mw8xTeeLSRVCnFDECwf0wFfepJVYbLz0cMZx8UDuKZdnwOkgcx2eewhSlKI4m
-	dYCy7CEWwK/UNXD+ADUDZgClkYA5hmxv5/0q9aGRDMQeFFKjl1nSNqXklVlibeoYkufOROmfP7N
-	s0xY2snAjJpYkkc21tn0WFzTiykulhzPI+8XjnXr2WleqvBKiVx/H/tibRR2MW2eq/1PZSjFKMi
-	boSn3eXKbhfzM7ccPDqsBXFC
-X-Received: by 2002:a05:6402:a506:10b0:693:17e4:c6b0 with SMTP id
- 4fb4d7f45d1cf-695d04870aamr34694a12.9.1781798636936; Thu, 18 Jun 2026
- 09:03:56 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DiPuAgok";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="a1wuA5vC";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DiPuAgok";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="a1wuA5vC"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id ABAAB75FAB;
+	Thu, 18 Jun 2026 16:07:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781798876; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PvLpkOhIioRSqS74QL2FqmjfAdCdF4mTGjCDuBBhsmI=;
+	b=DiPuAgok1jnaWMWawvecwPoC8KZp1wyXzDLysxbtVxi5ZQF9t1lGP13JJ+IoVmfp+FNib7
+	sUrvrmaM3jZZGFJfvWpLmObTvnccwm85d1Q+mCjpa8f4YTcv3A9EEG9IiAYn+n4LQpjnET
+	l8/nFr7XZiv8X+JCLNn4zI3SvWsZTa0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781798876;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PvLpkOhIioRSqS74QL2FqmjfAdCdF4mTGjCDuBBhsmI=;
+	b=a1wuA5vCeF42aE1af5bXdrS5OkkFavmfi5s4Y2eCVTfIqOhtzwSwmdVsdr6nZXeHQwjYjg
+	So++bXL9MsPc3LAg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DiPuAgok;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=a1wuA5vC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781798876; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PvLpkOhIioRSqS74QL2FqmjfAdCdF4mTGjCDuBBhsmI=;
+	b=DiPuAgok1jnaWMWawvecwPoC8KZp1wyXzDLysxbtVxi5ZQF9t1lGP13JJ+IoVmfp+FNib7
+	sUrvrmaM3jZZGFJfvWpLmObTvnccwm85d1Q+mCjpa8f4YTcv3A9EEG9IiAYn+n4LQpjnET
+	l8/nFr7XZiv8X+JCLNn4zI3SvWsZTa0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781798876;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PvLpkOhIioRSqS74QL2FqmjfAdCdF4mTGjCDuBBhsmI=;
+	b=a1wuA5vCeF42aE1af5bXdrS5OkkFavmfi5s4Y2eCVTfIqOhtzwSwmdVsdr6nZXeHQwjYjg
+	So++bXL9MsPc3LAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9AFE3779A8;
+	Thu, 18 Jun 2026 16:07:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id gRcPItsXNGplfwAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Thu, 18 Jun 2026 16:07:55 +0000
+Date: Thu, 18 Jun 2026 17:07:53 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Xin Zhao <jackzxcui1989@163.com>
+Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
+	jlayton@kernel.org, chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de, 
+	ebiederm@xmission.com, keescook@chromium.org, mcgrof@kernel.org, j.granados@samsung.com, 
+	allen.lkml@gmail.com, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org
+Subject: Re: [PATCH v2] coredump: exit_files() in coredump_wait() if
+ MMF_DUMP_MAPPED_SHARED is not set
+Message-ID: <ajQXNRT5PnBgh48M@pedro-suse>
+References: <20260618150301.3226517-1-jackzxcui1989@163.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <202606181547.617a6967-lkp@intel.com> <6z2rqmo7b6m2rdhqurspwya25ps4dj7lctdygnmq3rn4xt6h3i@57kiiy72epgd>
- <ajP_-zqVPtbzvc9j@lucifer>
-In-Reply-To: <ajP_-zqVPtbzvc9j@lucifer>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 18 Jun 2026 16:03:43 +0000
-X-Gm-Features: AVVi8CfU26Kn6wJARZ7W52yMNTl8DSKc66QrvdqWWlF5NJUNYk-ssIW_WadDCkU
-Message-ID: <CAJuCfpFed0GuMk+dE-Xn0w45Mn1Spds-pc2BE__FUoWm6+R7_w@mail.gmail.com>
-Subject: Re: [linux-next:master] [mm] 7b32f64bc5: pts.svt-av1.Preset13.Bosphorus4K.frames_per_second
- 45.8% regression
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, kernel test robot <oliver.sang@intel.com>, 
-	Frederick Mayle <fmayle@google.com>, oe-lkp@lists.linux.dev, lkp@intel.com, 
-	Andrew Morton <akpm@linux-foundation.org>, Kalesh Singh <kaleshsingh@google.com>, 
-	David Hildenbrand <david@kernel.org>, Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260618150301.3226517-1-jackzxcui1989@163.com>
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[163.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[163.com,gmail.com];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,oracle.com,gmail.com,arndb.de,xmission.com,chromium.org,samsung.com,vger.kernel.org];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: ABAAB75FAB
+X-Spam-Score: -2.51
 
-On Thu, Jun 18, 2026 at 2:30=E2=80=AFPM Lorenzo Stoakes <ljs@kernel.org> wr=
-ote:
->
-> On Thu, Jun 18, 2026 at 11:30:47AM +0200, Jan Kara wrote:
-> > On Thu 18-06-26 16:00:42, kernel test robot wrote:
-> > > Hello,
-> > >
-> > > kernel test robot noticed a 45.8% regression of pts.svt-av1.Preset13.=
-Bosphorus4K.frames_per_second on:
-> >
-> > This one looks serious enough and real. It would be good to figure out =
-what
-> > happens in this benchmark that it benefits from the readahead across VM=
-A
-> > boundaries so much...
->
-> I think a revert first no? This seems pretty huge for something that isn'=
-t key
-> to the kernel, then a new attempt can be tried with this issue addressed
-> perhaps?
+On Thu, Jun 18, 2026 at 11:03:01PM +0800, Xin Zhao wrote:
+> A coredump typically takes some time to complete. If we happen to hold a
+> write lock with flock just before triggering the coredump, that write lock
+> will not be released during the entire coredump process. As a result,
+> other processes attempting to acquire the same write lock may experience
+> significant delays.
+> 
+> To address this, call exit_files() in the end of coredump_wait(), if
+> MMF_DUMP_MAPPED_SHARED is not set.
+> 
+> Signed-off-by: Xin Zhao <jackzxcui1989@163.com>
+> ---
+> 
+> Change in v2:
+> - Get rid of the implement of adding new fcntl API, the issue does not
+>   worth inflicting the cost on everyone,
+>   as suggested by Al Viro.
+> - Call exit_files() in coredump_wait(),
+>   as suggested by Eric W. Biederman.
+>   Add MMF_DUMP_MAPPED_SHARED mm_flags_test() check to filter cases that
+>   need to dump file-backed shared memory.
+> 
+> v1:
+> - Link to v1: https://lore.kernel.org/all/20260618030700.2511668-1-jackzxcui1989@163.com/
+> ---
+>  fs/coredump.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/fs/coredump.c b/fs/coredump.c
+> index bb6fdb1f4..e20baf44f 100644
+> --- a/fs/coredump.c
+> +++ b/fs/coredump.c
+> @@ -548,6 +548,9 @@ static int coredump_wait(int exit_code, struct core_state *core_state)
+>  		}
+>  	}
+>  
+> +	if (!mm_flags_test(MMF_DUMP_MAPPED_SHARED, tsk->mm))
+> +		exit_files(tsk);
 
-A quick search yields: "The
-pts.svt-av1.Preset13.Bosphorus4K.frames_per_second is a benchmarking
-metric from the Phoronix Test Suite that measures how many frames per
-second a CPU can encode using the open-source SVT-AV1 video encoder."
+Memory mapped files keep their own separate references to the files
+(in struct vm_area_struct::vm_file), so there is no need to attempt to
+work around this. Unless I'm misunderstanding what you're attempting
+to work around.
 
-If this is a video encoding benchmark I would expect it to explicitly
-prefetch the data from the disk before measuring the encoding speed.
-If limiting readahead caused this regression, I suspect the benchmark
-doesn't explicitly prefetch the data...
 
->
-> I seem to recall objecting to this in the past, had a look around and saw=
- [0]
-> which has some discussion I think specifically on the VMA boundaries thin=
-g.
->
-> [0]:https://lore.kernel.org/linux-mm/CAC_TJvfG8GcwG_2w1o6GOTZS8tfEx2h9A91=
-qsenYfYsX8Te=3DBg@mail.gmail.com/
->
-> (Sorry to be naggy buuut :) - I see there wasn't maintainer [Matthew] sig=
-noff on
-> this, we should really be in the habit of _requiring_ that for merge).
->
-> Thanks, Lorenzo
+-- 
+Pedro
