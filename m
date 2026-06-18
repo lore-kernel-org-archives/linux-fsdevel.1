@@ -1,131 +1,101 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E0081ACD
-	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 10:12:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568713C5DD4;
+	Thu, 18 Jun 2026 10:23:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781777586; cv=none; b=cZi6I7crOKhIr1cIPj9clzkcTLJMrpCLpCFSSBIwxxa9+BQFEQv03kstxg6XPANsS1cHTWyaMVXuMmAl7hlD2WVHqaA2KWePInSgbzLBMI02R82qcv1Xz9PVlVCRB7KeHiNQlL6W75DSoS7JcMxuRcHLMQafJ3Gv9s7krb8I6A4=
+	t=1781778214; cv=none; b=ogHRwg9xf1Ll2iULRunPKuS4xWw0Pol/jc6HLrgZcAxixUqEO/pPQMBJW+AETdhGoA5gvgimIHgiWgJMWeI0ceNNciy+NMtkgrDXZfFfV+Ci1EgLGazHb4s8oW6shz7aYWPq8+nWNE4KvLG7U3hAky3Orv7iWhsRVsbhs+HmYSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781777586; c=relaxed/simple;
-	bh=Sydr13YG+LkxSxLb+VuMhlfM2ZmKIZRGOQOOc2KpBoQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=D67uUnP8wo1hz8OjHbe2MQe9yg0+4Mlm14JF1F3yobRg9w0IewBwAAQlW4AK8LhmRbg6PDYrHXwsy4mVOuYYki336JD/ukzsXqOtqdTLWUM38hMwZ1u0H/renmtWtjuKfpkrsifon1ITD3vLQsL5V8tZ5L/yhP/VSx9Qybz39eM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YmoJAynZ; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=JU7PgXEQ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1781778214; c=relaxed/simple;
+	bh=/5xlT4UPANLHWLwtUNkZonoJrCOL+q5aqrVw4zGGdDQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X9cyh10aA/wCg4hz5WgHJC1txjKk717hSbCFv+0bctnN8QuX5rnOY3BmwGzNd7pQxqVflIhlQ8xDzT249OVac7otOkx9MuiLLV90v0rI6t/RcmL0oiY/VdFrZu1qB7O1PzIJcKL0FcYKKCpkAy+G8POd/DMxyh9rg/gH8GNoomU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=McT9Gq9J; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YmoJAynZ";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="JU7PgXEQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781777577;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UfQC3jb/IcagHhe/VvLJeUD93AwtwhorZYSoiCqw/vw=;
-	b=YmoJAynZb3N/3XSVIysM1Cric0kXGlvX6ofpBIX/JjEKX47ksk/w5e/bFLp9tcRBI19tOG
-	8LbvkchS5ZPYsPtCnJOJLr4ADAqF3iIeBa2+JZE6vo/EU0IZfRy1obYBlaOCEeKIgUyed0
-	JtJvP3WnK6I2fKN9isaVIpLFvwGpAOM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-580-hWFLosG4O26urfcyNxfyPg-1; Thu, 18 Jun 2026 06:12:56 -0400
-X-MC-Unique: hWFLosG4O26urfcyNxfyPg-1
-X-Mimecast-MFC-AGG-ID: hWFLosG4O26urfcyNxfyPg_1781777575
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-490b9cd54f3so4647335e9.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 03:12:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1781777575; x=1782382375; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UfQC3jb/IcagHhe/VvLJeUD93AwtwhorZYSoiCqw/vw=;
-        b=JU7PgXEQ6wrjpSwX7zc9I7/74IAXdNkzaFbWiO8CSDIQfcPEIY8ftNuiKznfHR9dp4
-         C92w5AEP+8T6xREW+x1JP6/8DRG3ivF/X/ApIzP3TFn9Noh21EJi0ZMF6skhfYVlIGLm
-         4rAczC1friBs6TQHgfd84onOWAL0Vqm2RUlnwXyWTPM8H0mBEeyrgerY/1Ef3557jAky
-         9uqJURszRo/oIO072iTIhJvYWUQQiiFqYtzfA8xD7s5yRRxeITTKd6VPjZksAG+rhna0
-         sArdkWA2X+zDlJkAdvE0THMART64doB9/x6VTKSdk2Rw6upfiLGWNcY3R4JJ2Sv7N/BQ
-         lAhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781777575; x=1782382375;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=UfQC3jb/IcagHhe/VvLJeUD93AwtwhorZYSoiCqw/vw=;
-        b=m+uUL8cKfFkH1545XcY69o1c9nzDAq9K91I6mN8zHzoH1S5rDOMYpfYAIVmc2pXSsU
-         0z4nfJdYjVtKd02Awg4lnMdJbSNqRla7epfvDj9/Llt4HDYcH2wb2bx93VKVvbanMrzP
-         qaLPrROrgT97+PiFAXKTYRqR20WzNbucHOITk3HvMqrpfsThemA+If6oJqOlKSxi7W0W
-         EkPz8dvoHzvpckEhjkXKLmSE/Ga0jQjuto35bNKqmfH1m5Vht3hrXSbOBeibtnK//cb7
-         lRe4v3xBsWcNJqIVj7evtawQ6PY1N7H6yMIOoBljHdoDKeAAClzclYefdyWVuoOUWbnW
-         Y5Gg==
-X-Forwarded-Encrypted: i=1; AFNElJ9hnCvw6z3BM9B0j8Pru5l6HWcxAiBk8GGxjUZBIj9WDC3W1fiLjHCO/Tla7l2RC0cY7w9vDLj8so6VClwe@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMRr5fJLMk1U302c1Pr1Wy3mbRifJiYaAjiyPwZ2iGG4C+2nm0
-	nMEQE2bpxxvFDbuNvsLbvibUEYAtmQ4yyeMbX51QlhG6+B9joi1zr218OoA38D2fFT6H2GtwFqT
-	cnVJME/gXsPA+X1RxI6ym4MqteTGEymssojPQKYQW7gYJqUbY4mGscgSZz0iLWKdC9WQ=
-X-Gm-Gg: AfdE7cmpnlXRpPd2hew5BrNCkc0cArjd+iP3G2aiCaoWq4msZDheIVy1Y7QWs2IkOUR
-	tfTHgHcjYIv/fYSeXOFXIJD24ERgAt4Z1e/CIsxaqt3wxYPiE+2kPiYxIqcnHHc6gb8OLXl9V5y
-	CSRrL7i18QY2zHHQS3rGKx/trBH5Ya7FsnvKZdcRf+78fgcaP0qotUydHSt+ql8KbPJxZuXx/Yk
-	ICndRP6+DHNpFakuOflP6dnQNMkTDH0EJzJKXo3NM8ZaK6s0RjVSLOqp6/o3VP+IKt0P79SygZg
-	OtDlO68xXS1wUom3lW8tRPxofWUYHwREPfwqug9fqg/VhjaovcNVStPLPjRe/OQsHy3BzIhDqg5
-	ZQ7ibsip6IVjGyTdnsCzjQfuhuoDacfDasB8oFgvbDTE=
-X-Received: by 2002:a05:600c:83cf:b0:492:2e1c:1d19 with SMTP id 5b1f17b1804b1-49238225f8bmr45515335e9.31.1781777575348;
-        Thu, 18 Jun 2026 03:12:55 -0700 (PDT)
-X-Received: by 2002:a05:600c:83cf:b0:492:2e1c:1d19 with SMTP id 5b1f17b1804b1-49238225f8bmr45515005e9.31.1781777574985;
-        Thu, 18 Jun 2026 03:12:54 -0700 (PDT)
-Received: from 192.168.1.130 (cm-93-156-201-22.telecable.es. [93.156.201.22])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49230a96d14sm216388815e9.12.2026.06.18.03.12.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 03:12:54 -0700 (PDT)
-From: German Maglione <gmaglione@redhat.com>
-Date: Thu, 18 Jun 2026 12:11:54 +0200
-Subject: [PATCH 2/2] generic/633: add _require_acls for tcore_acls() ACL
- dependency
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="McT9Gq9J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781778205; x=1813314205;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/5xlT4UPANLHWLwtUNkZonoJrCOL+q5aqrVw4zGGdDQ=;
+  b=McT9Gq9J2gBRmF2mF381PjQwqByTGS/v/I1tLI8vKOuvqBV2gB48teRq
+   00yR+RleWo+8AyGV8a6+E5FhkoLU+64DGJs5J8p7AUFC5exLUwd/3iwEI
+   9MGRiuMDGvmxnFL5gDaU2PfCYubKDwp/tYvrb3zw1+r/+l+nnZ5N+h+B9
+   NjdyEIMdHtnGoHijvv0zl2RNwDWttDrs2lhqDvEVd4Ekxsd9V97cqn237
+   Prd/qJSVmmL32hlFbDU2QZPg4DM16gCX6nLEI9QbHGQ7Pyi7P+/xEBrLs
+   1gH3wunF8DS2AP0ZHfDcPF9gBGFbvVrw/WvrF9XPAs8eQHKUxT6Knroyj
+   Q==;
+X-CSE-ConnectionGUID: fIe6ghr9T82CJ8Mf7ShWdg==
+X-CSE-MsgGUID: bO10jSlsQoy0q4MlMu9QvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="70126179"
+X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
+   d="scan'208";a="70126179"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2026 03:23:23 -0700
+X-CSE-ConnectionGUID: qktiaX03RSe2frDZIQqsdQ==
+X-CSE-MsgGUID: RIQa1sPlSCOSPSwNz523kg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
+   d="scan'208";a="245396666"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 18 Jun 2026 03:23:20 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wa9u2-000000005Vd-314y;
+	Thu, 18 Jun 2026 10:23:18 +0000
+Date: Thu, 18 Jun 2026 12:22:51 +0200
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dm-devel@lists.linux.dev, hch@lst.de, axboe@kernel.dk,
+	brauner@kernel.org, djwong@kernel.org, viro@zeniv.linux.org.uk,
+	Keith Busch <kbusch@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH 1/1] block: validate user space vectors during extraction
+Message-ID: <202606181254.ohF2ZO9K-lkp@intel.com>
+References: <20260617233235.1016063-2-kbusch@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260618-xfstests-tcore-acls-fixes-v1-2-45a1aec1d99d@redhat.com>
-References: <20260618-xfstests-tcore-acls-fixes-v1-0-45a1aec1d99d@redhat.com>
-In-Reply-To: <20260618-xfstests-tcore-acls-fixes-v1-0-45a1aec1d99d@redhat.com>
-To: fstests@vger.kernel.org
-Cc: German Maglione <gmaglione@redhat.com>, brauner@kernel.org, 
- linux-fsdevel@vger.kernel.org, zlang@kernel.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1781777571; l=683;
- i=gmaglione@redhat.com; s=20260618; h=from:subject:message-id;
- bh=Sydr13YG+LkxSxLb+VuMhlfM2ZmKIZRGOQOOc2KpBoQ=;
- b=9m7U4QL2Dq0hpstvEpBvhq+iw3qnU71AL/fKsHUlU64ciQaOMdi/CjYBb/uQog0Fg3G5FkTj5
- 5tQMvDf0GHbBC9yo13Gn3wUTNactXxe2HAP/MMD2uOswkcf2U7HWTs1
-X-Developer-Key: i=gmaglione@redhat.com; a=ed25519;
- pk=EgoGsSGnVamWcruH9kiHxwzZf0dPTHHxIjd1Gigd+yo=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260617233235.1016063-2-kbusch@meta.com>
 
-generic/633 runs --test-core which includes tcore_acls(). Without
-_require_acls, the test fails instead of being skipped on filesystems
-that lack ACL support.
+Hi Keith,
 
-Signed-off-by: German Maglione <gmaglione@redhat.com>
----
- tests/generic/633 | 1 +
- 1 file changed, 1 insertion(+)
+kernel test robot noticed the following build warnings:
 
-diff --git a/tests/generic/633 b/tests/generic/633
-index d75d4dc860d3b78e5fe11b538e3aba4e9ab477e1..90d24f099bc732d5db209f8d014ddaeb042985b2 100755
---- a/tests/generic/633
-+++ b/tests/generic/633
-@@ -14,6 +14,7 @@ _begin_fstest auto quick atime attr cap idmapped io_uring mount perms rw unlink
- 
- _require_test
- _require_chown
-+_require_acls
- 
- echo "Silence is golden"
- 
+[auto build test WARNING on axboe/for-next]
+[also build test WARNING on brauner-vfs/vfs.all akpm-mm/mm-nonmm-unstable linus/master v7.1 next-20260616]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
--- 
-2.49.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/block-validate-user-space-vectors-during-extraction/20260618-073522
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260617233235.1016063-2-kbusch%40meta.com
+patch subject: [PATCH 1/1] block: validate user space vectors during extraction
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260618/202606181254.ohF2ZO9K-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260618/202606181254.ohF2ZO9K-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606181254.ohF2ZO9K-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: block/bio.c:1245 function parameter 'vec_align_mask' not described in 'bio_iov_iter_get_pages'
+>> Warning: block/bio.c:1245 function parameter 'vec_align_mask' not described in 'bio_iov_iter_get_pages'
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
