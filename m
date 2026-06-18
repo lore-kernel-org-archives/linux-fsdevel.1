@@ -1,108 +1,97 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F75395ADD;
-	Thu, 18 Jun 2026 10:26:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55FC93750CB;
+	Thu, 18 Jun 2026 10:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781778387; cv=none; b=PY2mnmcdH2WcpaT4BQ4Twe6KwQPMFU3lBjoR0aObtNp3btN7GjUgJsvYZzdmmGtJJRzSEzjfex6+H7b8ZPG+orhlY1sEHA6wqwRhZB7+MCIYCf4DvdIo1EWn18LThX1IuJRmK/xj5Mp9AZIoeBI2pSXwDHfpLvS0/E3sQUjdxqg=
+	t=1781778394; cv=none; b=DjbnPaLNKlEYodWIcAH3xQ9sMWBuHDv9Ufh/Igd6PTz4hvhTK4T2f8zIdkBzyCfKi+I6f3U3QzvoUvbx7aD+e+ZJpTY5Qx8dICXH4ZLtAcbcYzaqsikY23SFQ85KzwyCIJ+eRfBCOWefRZn0OkzYPdC7xrgN8JtXxbZD2HgpSKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781778387; c=relaxed/simple;
-	bh=LcOEICqj+UPKe0K9jPnu41OS3Khr0nTZMdknKHL4Jq8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cHl7Ed9T4yyZ84i8QR0pwZ2sExswAm1tzWOJzAWPFbJAMSbDV3ih0j6g1lJhTbzkikGOGj+75FFRy05APk0CT8lJuR6EYNYAD2Nol9PBlpRL6v60qeQTHhklUaTt/2HIkT8BT0Y6fYGXfMf92lSr93X4mnKRUVHGE0PHeJksuO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4ggxgm57VSzKHMWT;
-	Thu, 18 Jun 2026 18:25:24 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id 8C57D4058F;
-	Thu, 18 Jun 2026 18:26:14 +0800 (CST)
-Received: from [10.174.178.253] (unknown [10.174.178.253])
-	by APP1 (Coremail) with SMTP id cCh0CgA3OT7ExzNqzkfqCA--.37094S3;
-	Thu, 18 Jun 2026 18:26:14 +0800 (CST)
-Message-ID: <58578df9-9004-4693-85b0-cf0533399643@huaweicloud.com>
-Date: Thu, 18 Jun 2026 18:26:12 +0800
+	s=arc-20240116; t=1781778394; c=relaxed/simple;
+	bh=QAXjP5J/sFCMInq4Fej3S6aSdguM9eBOQ61FbMRR4s0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qi3rra8sMgRoV2FRVnCxVO8noOsAP+6Z46ClQ0mogT+mhsFW4UZtnLlD1bHuO4+1rD+d6gYJ+J6JkqavOJN6ugMr0OpF9WymYQCCteM3+hkEV+EnoRXh8tabF3E+ocCZ7Rr6z/v+8BV2k6yFd3YL/B/CSfBbFvpZkf4YiWslJnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 8508A68C7B; Thu, 18 Jun 2026 12:26:27 +0200 (CEST)
+Date: Thu, 18 Jun 2026 12:26:27 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	dm-devel@lists.linux.dev, hch@lst.de, axboe@kernel.dk,
+	brauner@kernel.org, djwong@kernel.org, viro@zeniv.linux.org.uk,
+	Keith Busch <kbusch@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH 1/1] block: validate user space vectors during
+ extraction
+Message-ID: <20260618102627.GA23200@lst.de>
+References: <20260617233235.1016063-1-kbusch@meta.com> <20260617233235.1016063-2-kbusch@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/3] xfs: add support for FALLOC_FL_WRITE_ZEROES
-To: Christoph Hellwig <hch@infradead.org>
-Cc: "Pankaj Raghav (Samsung)" <pankaj.raghav@linux.dev>,
- Pankaj Raghav <p.raghav@samsung.com>, linux-xfs@vger.kernel.org,
- bfoster@redhat.com, lukas@herbolt.com, "Darrick J . Wong"
- <djwong@kernel.org>, dgc@kernel.org, gost.dev@samsung.com,
- andres@anarazel.de, kundan.kumar@samsung.com, cem@kernel.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-References: <20260611114029.176200-4-p.raghav@samsung.com>
- <ajFQPANpajmFuKpi@infradead.org>
- <kn5dyqdxmsydibpfcurgpom5vwqtwinrz27oenh4pekks6ybdj@wyi4zkh7mogy>
- <557b2e5c-7c65-48de-87a9-6fba21eca99f@huaweicloud.com>
- <ajOzZv7407w_hodk@infradead.org>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <ajOzZv7407w_hodk@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:cCh0CgA3OT7ExzNqzkfqCA--.37094S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7ArW5Cr1rZrWrWrW3JFW3trb_yoW8Gw4Dpr
-	ZxK3WrtFs7K347WF97Za1Igw18A3yfWa98urn8Wr4UA398XF1fGw4qgrWqgFWUuw18Za4F
-	qF4YyFy8Z3ZrZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
-	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
-	wI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
-	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
-	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
-	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
-	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUF1
-	v3UUUUU
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260617233235.1016063-2-kbusch@meta.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On 6/18/2026 4:59 PM, Christoph Hellwig wrote:
-> On Thu, Jun 18, 2026 at 11:22:45AM +0800, Zhang Yi wrote:
->> 1) if the two blocks straddling the boundaries have not yet been allocated,
->>    or allocated as unwritten, we should round outward the allocation range
->>    and zero out all allocated blocks, including those two boundary blocks.
->> 2) if the blocks at the boundaries are already in the written state — which
->>    can occur when we call FALLOC_FL_WRITE_ZEROES within the file size. We
->>    should be careful here: we should only zero the ranges [offset, offset_ru)
->>    and [end_rd, end) for the boundary blocks, leaving the already-written
->>    portions of the boundary blocks intact.
->>
->> Thoughs?
-> 
-> Yes.
-> 
->> Regarding the second point, the current ext4 implementation has an issue —
->> it zeroes out the entire boundary blocks. I overlooked this previously, and
->> I appreciate you pointing it out.
-> 
-> Which means we're missing test coverage for this as well..
-> 
+On Wed, Jun 17, 2026 at 04:32:35PM -0700, Keith Busch wrote:
+> @@ -1242,7 +1242,7 @@ static int bio_iov_iter_align_down(struct bio *bio, struct iov_iter *iter,
+>   * is returned only if 0 pages could be pinned.
+>   */
+>  int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
+> -			   unsigned len_align_mask)
+> +			   unsigned len_align_mask, unsigned vec_align_mask)
 
-Ha, I just re-checked the ext4 implementation and found that scenario 2 is
-actually fine, Sorry I misread the code earlier. Fortunately, no data
-corruption occurred. :-)
+vec_align_mask needs to be documented in the kernel doc.  And I find
+the vec_align_mask name a bit confusing.  This is all about the physical
+address (really the dma address, but the page aligned offset map 1:1),
+so maybe phys_align_mask or dma_align_mask might be better names?
 
-The real issue is in scenario 1, where the boundary blocks are not correctly
-converted to written-type extents.
+Also wouldn't it be more natural to pass the start alignment requirement
+before the length alignment paramter?
 
-As for testing the unaligned case, I also agree that we should explicitly add
-a dedicated test for it. Relying on existing fsstress and fsx is not reliable
-enough in this regard.
+> @@ -1251,6 +1251,11 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
+>  
+>  	if (iov_iter_is_bvec(iter)) {
+>  		bio_iov_bvec_set(bio, iter);
+> +
+> +		if (mp_bvec_iter_offset(bio->bi_io_vec, bio->bi_iter) &
+> +							vec_align_mask)
+> +			return -EINVAL;
 
-Thanks,
-Yi.
+Can you add a comment here?  Especially as the bvec iter doesn't actually
+require all individual bvecs to be aligned and I'm not entirely sure this
+handles all case - writing down the rules might help a bit with that.
 
+>  		ret = iov_iter_extract_bvecs(iter, bio->bi_io_vec,
+>  				BIO_MAX_SIZE - bio->bi_iter.bi_size,
+> -				&bio->bi_vcnt, bio->bi_max_vecs, flags);
+> +				&bio->bi_vcnt, bio->bi_max_vecs,
+> +				vec_align_mask, flags);
+>  		if (ret <= 0) {
+> +			if (ret == -EINVAL) {
+> +				bio_release_pages(bio, false);
+> +				bio_clear_flag(bio, BIO_PAGE_PINNED);
+> +				bio->bi_iter.bi_size = 0;
+> +				bio->bi_vcnt = 0;
+> +				return ret;
+> +			}
+
+Do we need all this cleanups beyoned the bio_release_pages()?  Most
+callers just free the bio, so should not care about it, and the error
+handling in __blkdev_direct_IO that calls bio_endio looks buggy for
+other reasons..
+
+> + * @align_mask:	reject with -EINVAL if the source address or length is not
+> + *		aligned to this mask
+
+Maybe use the same paramater name as on the bio side here?
+
+And not for this patch, but this makes me wonder if we should handle the
+len alignment in iov_iter_extract_bvecs as well, as that should simplify
+it quite a bit.
 
