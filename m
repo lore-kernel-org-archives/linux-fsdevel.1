@@ -1,162 +1,208 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D3E2F745C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 16:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781801536; cv=pass; b=fjUwEYhc47FY/9AAV8jWmVAYxebGED2hGB2lnQ9aP4hFdmk28WTArXDSfMZRUG9k4TRimn5QSaiSQb9CrDEo2NRI5QvSlJo4j3jzJBZZRHgiWqvuBNT0pyIJhPOVLyYUePNlrK9+7QEyjxzR/dBfj1AmcXhA+hyL4gc1rHBlxcc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781801536; c=relaxed/simple;
-	bh=hMi7aZTxm3jxivWjZ700YzVjKsVqCe2blnMBeZ/az7U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bbfJzDPUCQHVMLZ0jpAgLK+TGbJHoTs/QVzDFp+jKcIwpja2D0eMSWNxOqAUcOMFheRd/N06Wwn9xnm9CT5f1oAn1V2AxGtu1fhRnJSQosmpsMwL8swVds0jbV/SZKgaCfQreaqjGYMWMZz0Ld84FJLML0X9n/w75/DQ+Tbbto8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=j1oifKG9; arc=pass smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0769D348C6E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 17:04:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781802295; cv=none; b=STb9r/ZH4UGo11bgV3PpLqpacPKs8+Z0Y61MQjZ1Lpda/aokw+EfdUMjXsI7P/3hMIT5Ruk0XVTPQr6az7NM1PmXxv0aKyX2cubAX7zVBvrvEwYkLqGeZM8vkCo80QeMiG3na8Fif5JVRDybADVrZ6BPmioRF36jWr3QhJPfaGM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781802295; c=relaxed/simple;
+	bh=ylqouAEifbmXQFC1TeUzLkmMyFrCkNCnOiplDZTJX/w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IPWhHGKDoa7+Hzyec8szPyLF7v05s6kEtqI93M3PWS+Z4xK12K7yOhjfnXdpWyB1fk5rrXXBOgRulAOzkyJTc6erN1ODNtTLKUnjWuEusTI1ujPEP4s6ApNep5cJEav7iQTVuWY63Jt0wYqD7bmzm3dXgZrEL+rPNykvTUJ8e50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=MaWMxVaj; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/mzRymC6; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=MaWMxVaj; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/mzRymC6; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="j1oifKG9"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-5175d339e8bso1881cf.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 09:52:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781801533; cv=none;
-        d=google.com; s=arc-20260327;
-        b=AQWEb3dPmJ4JD6tmlY/2OzyOXfUhxPaadsg+gEVOQX5xVuM1bTOnDU4GYoC/fzhlHd
-         Fn3Or5xLptY2g6rU6/BIOS1AsF31Nu3fSq5FEL3xLckEx7nR7C/qOZ5hRRHXv935fncI
-         i8Uj75/30a7nisEzTXqgcVeGbcCVvN5mVxHtGregAYu0z+U1+fAtT8xGRir1vap0g+5p
-         DazCnZlMO7pRyGUszp5zkhtH14HyhIjWoAhQKLTev5y1feBiMqRHw4UK/yV/MzXU0Dn2
-         tZonIDMfYJd9va/Dylmu9Riix+kI2ty69HPHIi8qSZ5+Xe36sPJuunMnJqLlCPzFccqr
-         Gp3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=hMi7aZTxm3jxivWjZ700YzVjKsVqCe2blnMBeZ/az7U=;
-        fh=10Hbn9+SR9dkuiIIqt2apuzjzbU41GcadD6sg4qmSxs=;
-        b=hLKwQOzFJgcWsLoB8a1dYevHMurkkHU73yoeLhCpNRL1Q0HFOIRU/JSZP0uNmecxJc
-         Nwnojyhh3j7uutjaDAZxZKljJTe98T1CxSGdkUA4zWxdzZ07xx0Oy8LFGn7wf0o+myCk
-         5DFNoxFhy2b1ak4s2zYq+4/XAlCKOX9sbNLFkenjd9BmHPEbMu3PNCafJ4XYlL9cWHJm
-         850JVFc53V9fXmhZ3CuRInnfs16/ufHB6/dpmuA8Po4XCo03pWX0HZNzpe7JXEhW/VP2
-         N1+kAqS8gepobar3sNEXrE953rbd+21m8BFB9WRyUoxmPjMKztg0nDY3731ZjZhiXd9z
-         8RHw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781801533; x=1782406333; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hMi7aZTxm3jxivWjZ700YzVjKsVqCe2blnMBeZ/az7U=;
-        b=j1oifKG9QC5hpKrfFPD6bUTv4CoOhJyenLZzAq0hT8D3HmEAki7KOb7VnbCFlyUeEy
-         YYbbOvjufRaeiVGYY2E3IxZur43klb/Ju1EOZamx53Djji48LoOuUEW9RKvEq6g+I/tT
-         5qY4AwxQWAoxSQ1UXXWGeP6c7vQNriW9qOgOvKKH41gGYhTZKT8AyO7RvZwvf8EE2xD6
-         qwtCalRq2djywerEilqLOC3U1V7DRMztkzubQcccuvVcWRbv1X7OrUTLZlLss3aBGwU3
-         N40doGHrdMNKqUsAEo7xIAQuD1w2L1AhaccJdd0+cwmDuRLwKGHtA25lj4jTo76xRXD/
-         w0SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781801533; x=1782406333;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hMi7aZTxm3jxivWjZ700YzVjKsVqCe2blnMBeZ/az7U=;
-        b=lZzmobhTraoo/FEKn1CnWY4zWTydOYKILjxG+15XMaaygXW8SftRI850eJffKEzf2g
-         oqfx0iZ8HLSYoiBEIuA+nvetS0tDCH5+Q7qc24hEwGo8Yk0F8tH6bY9JQjLwklSO2Lqt
-         4C2uV35AeUkQdCloetQo/OzeULhYoJf+75XBgX3h8Rit2jbERQtjdKIyydWl1ryVv6+Z
-         Nm0xTIT06jsc42TNLWhz3pV670m3/GNlIY3D6vzAcQBtgZCkfHKrxsiRKZvXjQ/DVp4y
-         byXl50nFNCBzMfdYH11S9qwKz8Hs/g6sHqNcuu/MRpGQxKesPEXfiC6EoBeARlLm4R2Q
-         vjNA==
-X-Forwarded-Encrypted: i=1; AFNElJ+s3SMnobavZyuxmo716VQ3P7KCXlucROls2PmvtaK50cDAHY+UNzUDu0R9QExjmRELKHvUtv8YXjKISHPk@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhSkYyk7Ds6nJHdSb/swEFul3iijYVZEUmSZOAQVMNQ3JAYg9J
-	sQi6qK3gKJUfNm3heH8WVdLWSe5km4Z6Q+OmVo/yHpZTrmr6hn6SLzho/hf+M4LEkGWW+IVKNxR
-	ZlluPhUZn0jXRJzpBFrL4H39p04qcduorNQZSZZoT
-X-Gm-Gg: AfdE7cni6F7eMzTuH8bzTduNO3IcWiMZ61KFpcH+IQ2DB/LRgI+zvprhR8E6xozN4v9
-	lGTdhjNrYOCRR+m9YCkriiK3HhrgmVkkBbogPztekDteo39g9I9+1ugfDPlOuk8+ytndg46Ctv/
-	iJX9852xcUDb8zJlH6lhl7zYVFpWrZeh58cGwlDW1PJrNepuuthtfotyJNJwslELJVCcCEqPjRJ
-	5dmWLmOyFVxOeTp+HyGBc/QyBGnAixZNNs+Xxgk0lmVpUJdrWg2Ae27W7vzhVZSYnL8uKAVxFzj
-	1zPO14tCj5MPcICyHrDwa6w9rw==
-X-Received: by 2002:a05:622a:2cb:b0:516:4f62:85ed with SMTP id
- d75a77b69052e-519c67370aemr11157381cf.18.1781801524859; Thu, 18 Jun 2026
- 09:52:04 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="MaWMxVaj";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/mzRymC6";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="MaWMxVaj";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/mzRymC6"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3568675EA9;
+	Thu, 18 Jun 2026 17:04:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1781802291; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qc1yOiecTR15B4cPIIBnuy8hTfr8/7VbQTJZphQlU8M=;
+	b=MaWMxVajctpo+e03XvkpMc1KsblkLrkuvVYXgwJJnKeTY9h+4TpTLQel6SMPT3Iyz9EjUa
+	Vh3KDeNHuLpdrjqoPsjjWWC8NgBzKz0o2Fib+I0lxUebFbFl1SmrbtXp5SwcOXLXw75+SJ
+	uaCxzhxoNOIh+VJWQwlme0FlgujGg9k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1781802291;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qc1yOiecTR15B4cPIIBnuy8hTfr8/7VbQTJZphQlU8M=;
+	b=/mzRymC6CuqoPn33ez3AINVbNHDpZcfz23XpkTgetQYwR9Y3Ci3/aXK/gWaC+NZHrtGJWG
+	4xlNNzeKi3wedHDQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1781802291; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qc1yOiecTR15B4cPIIBnuy8hTfr8/7VbQTJZphQlU8M=;
+	b=MaWMxVajctpo+e03XvkpMc1KsblkLrkuvVYXgwJJnKeTY9h+4TpTLQel6SMPT3Iyz9EjUa
+	Vh3KDeNHuLpdrjqoPsjjWWC8NgBzKz0o2Fib+I0lxUebFbFl1SmrbtXp5SwcOXLXw75+SJ
+	uaCxzhxoNOIh+VJWQwlme0FlgujGg9k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1781802291;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qc1yOiecTR15B4cPIIBnuy8hTfr8/7VbQTJZphQlU8M=;
+	b=/mzRymC6CuqoPn33ez3AINVbNHDpZcfz23XpkTgetQYwR9Y3Ci3/aXK/gWaC+NZHrtGJWG
+	4xlNNzeKi3wedHDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 14C58779A8;
+	Thu, 18 Jun 2026 17:04:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id itwMBTMlNGpDNwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 18 Jun 2026 17:04:51 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 47F41A12D7; Thu, 18 Jun 2026 19:04:50 +0200 (CEST)
+Date: Thu, 18 Jun 2026 19:04:50 +0200
+From: Jan Kara <jack@suse.cz>
+To: Michael Bommarito <michael.bommarito@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] minix: avoid overflow in bitmap block count
+ calculation
+Message-ID: <ibmq7hygpgsyyjbdhhah5sv7lpcoh3zlkyp7fw6aeacwrfnwgo@7yf3puqhzxfn>
+References: <20260618143922.3066874-1-michael.bommarito@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <202606181547.617a6967-lkp@intel.com> <6z2rqmo7b6m2rdhqurspwya25ps4dj7lctdygnmq3rn4xt6h3i@57kiiy72epgd>
- <ajP_-zqVPtbzvc9j@lucifer> <CAJuCfpFed0GuMk+dE-Xn0w45Mn1Spds-pc2BE__FUoWm6+R7_w@mail.gmail.com>
- <ajQbXthzbr9xgUIM@pedro-suse>
-In-Reply-To: <ajQbXthzbr9xgUIM@pedro-suse>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 18 Jun 2026 09:51:53 -0700
-X-Gm-Features: AVVi8CdV8JSYSx61wMIbmgLKcoU5jz7qQB1U1gJgsDUd3AobdGi4EL9lK9NNRxM
-Message-ID: <CAJuCfpH_Fp=J-m-kVZ3VVmqH0cAfNX6CQKWt3XmAJq1Rp9sFwQ@mail.gmail.com>
-Subject: Re: [linux-next:master] [mm] 7b32f64bc5: pts.svt-av1.Preset13.Bosphorus4K.frames_per_second
- 45.8% regression
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>, 
-	kernel test robot <oliver.sang@intel.com>, Frederick Mayle <fmayle@google.com>, oe-lkp@lists.linux.dev, 
-	lkp@intel.com, Andrew Morton <akpm@linux-foundation.org>, 
-	Kalesh Singh <kaleshsingh@google.com>, David Hildenbrand <david@kernel.org>, 
-	Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260618143922.3066874-1-michael.bommarito@gmail.com>
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_RCPT(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Level: 
 
-On Thu, Jun 18, 2026 at 9:32=E2=80=AFAM Pedro Falcato <pfalcato@suse.de> wr=
-ote:
->
-> On Thu, Jun 18, 2026 at 04:03:43PM +0000, Suren Baghdasaryan wrote:
-> > On Thu, Jun 18, 2026 at 2:30=E2=80=AFPM Lorenzo Stoakes <ljs@kernel.org=
-> wrote:
-> > >
-> > > On Thu, Jun 18, 2026 at 11:30:47AM +0200, Jan Kara wrote:
-> > > > On Thu 18-06-26 16:00:42, kernel test robot wrote:
-> > > > > Hello,
-> > > > >
-> > > > > kernel test robot noticed a 45.8% regression of pts.svt-av1.Prese=
-t13.Bosphorus4K.frames_per_second on:
-> > > >
-> > > > This one looks serious enough and real. It would be good to figure =
-out what
-> > > > happens in this benchmark that it benefits from the readahead acros=
-s VMA
-> > > > boundaries so much...
-> > >
-> > > I think a revert first no? This seems pretty huge for something that =
-isn't key
-> > > to the kernel, then a new attempt can be tried with this issue addres=
-sed
-> > > perhaps?
-> >
-> > A quick search yields: "The
-> > pts.svt-av1.Preset13.Bosphorus4K.frames_per_second is a benchmarking
-> > metric from the Phoronix Test Suite that measures how many frames per
-> > second a CPU can encode using the open-source SVT-AV1 video encoder."
-> >
-> > If this is a video encoding benchmark I would expect it to explicitly
-> > prefetch the data from the disk before measuring the encoding speed.
-> > If limiting readahead caused this regression, I suspect the benchmark
-> > doesn't explicitly prefetch the data...
->
-> Well, commonly video data doesn't actually fit in memory :)
->
-> A quick look at the code (I think it's https://gitlab.com/AOMediaCodec/SV=
-T-AV1/-/blob/master/Source/App/app_process_cmd.c#L821)
-> suggests it is progressively mapping the file data for a given frame
-> (or frames?). So the old behavior would result in page faults for a given
-> frame starting readahead for the next few frames. This looks reasonable.
+On Thu 18-06-26 10:39:22, Michael Bommarito wrote:
+> minix_check_superblock() uses minix_blocks_needed() to verify that the
+> on-disk imap and zmap block counts are large enough for the advertised
+> inode and zone counts.
+> 
+> The helper currently performs DIV_ROUND_UP() in unsigned int arithmetic.
+> A Minix v3 image can set s_ninodes or s_zones near UINT_MAX so the
+> addition inside DIV_ROUND_UP() wraps to zero. That makes a zero imap/zmap
+> block count look valid, after which minix_fill_super() can dereference
+> s_imap[0] or s_zmap[0] even though no bitmap buffers were allocated.
+> 
+> Impact: mounting a crafted Minix v3 image whose s_ninodes or s_zones is
+> near UINT_MAX makes minix_check_superblock() accept a zero bitmap-block
+> count and minix_fill_super() dereference s_imap[0]/s_zmap[0], panicking
+> the kernel.
+> 
+> The divisor is the bitmap capacity in bits, blocksize * 8, which is
+> always a power of two: minix_fill_super() obtains the block size through
+> sb_set_blocksize(), and blk_validate_block_size() rejects any size that
+> is not a power of two. Use DIV_ROUND_UP_POW2(), which divides before
+> adding the round-up term and so cannot overflow for a power-of-two
+> divisor.
+> 
+> Fixes: 8c97a6ddc956 ("minix: Add required sanity checking to minix_check_superblock()")
+> Assisted-by: Claude:claude-opus-4-8
+> Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
 
-Yeah, looks like it's mapping one frame at a time and even that is
-done with 3 mmap calls - it maps luma_read_size and then 2
-chroma_read_size chunks which are consequitive and could have been
-mapped with one syscall. Seems very inefficient but I guess it's
-legit.
+Looks good. Feel free to add:
 
->
-> FWIW I suspected this was a really weird case regarding mprotect or
-> something, and I'm happy it isn't; but at least I had a suggestion for th=
-at -
-> for this, maybe dropping the change (for now?) is the best course of acti=
-on.
->
-> --
-> Pedro
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+
+> ---
+> Changes in v2:
+> - Use DIV_ROUND_UP_POW2() instead of widening the helper to 64-bit
+>   arithmetic (DIV_ROUND_UP_ULL, v1). The divisor blocksize * 8 is always
+>   a power of two, so this is the more obvious fix and keeps the helper's
+>   original types, per Jan Kara's review.
+> 
+> Link to v1: https://lore.kernel.org/all/20260617215740.1116778-1-michael.bommarito@gmail.com/
+> 
+> Testing: integer overflow (no sanitizer); the oracle is the downstream
+> NULL/ZERO_SIZE_PTR dereference crash.
+> 
+> Reproduction (UML mount, same crafted image, before/after): a Minix v3
+> image is crafted with s_ninodes near UINT_MAX so DIV_ROUND_UP(s_ninodes,
+> blocksize * 8) wraps to zero, then mounted from /dev/ubda by a one-line
+> init.
+>   stock:   RIP: minix_fill_super+0x3f6/0x5c3 ; Kernel panic - not syncing:
+>            Kernel mode fault at addr 0x10 (ZERO_SIZE_PTR deref of
+>            s_imap[0]); UML exit code 134.
+>   patched: "MINIX-fs: file system does not have enough imap blocks
+>            allocated. Refusing to mount." / "bad superblock"; mount
+>            fails cleanly, no crash.
+> 
+> Conditions: CONFIG_MINIX_FS=y and an attacker-supplied Minix image is
+> mounted (CAP_SYS_ADMIN in the mounting namespace, or a removable-media
+> automount path). v3 only: s_ninodes/s_zones are 32-bit; the v1/v2 16-bit
+> fields cannot reach the wrap.
+> 
+> Mitigations: do not mount untrusted Minix images; most distributions do
+> not enable CONFIG_MINIX_FS. No sysctl toggle.
+> 
+> Harness (init script, crafted image, KUnit) available on request.
+> 
+>  fs/minix/minix.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/minix/minix.h b/fs/minix/minix.h
+> index f2025c9b58252..9e52d4302f0d2 100644
+> --- a/fs/minix/minix.h
+> +++ b/fs/minix/minix.h
+> @@ -97,7 +97,7 @@ static inline struct minix_inode_info *minix_i(struct inode *inode)
+>  
+>  static inline unsigned minix_blocks_needed(unsigned bits, unsigned blocksize)
+>  {
+> -	return DIV_ROUND_UP(bits, blocksize * 8);
+> +	return DIV_ROUND_UP_POW2(bits, blocksize * 8);
+>  }
+>  
+>  #if defined(CONFIG_MINIX_FS_NATIVE_ENDIAN) && \
+> -- 
+> 2.53.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
