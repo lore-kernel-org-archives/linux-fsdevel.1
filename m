@@ -1,63 +1,63 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F64A36C9D0
-	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 18:20:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF53B3769FC
+	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 18:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781806841; cv=none; b=X4TLfGnh89Tme0o1eGNjm5jdEDWPtpCRCD8/jCC6fYBUPZFwtDEKzTUh/nrqG1i9q/NclDOLhY+t0/XTeW/b0spGEI6eVxztar1Z6GYETBZCgvpOTRl57hjrtsruou/2xd7UfsgyoeAhkX2fXOSFk/eL9RSJ6wLJkF7KYE4c3yo=
+	t=1781807058; cv=none; b=FoV3OXeezNRPQ/vpzUR5cJ8t+cgZJj7FKHUH8qtv7XRsSLrHSq3xSCCJd23mBvFe05POYVW2sAfilpwsiOPKSt/hnBW7AY9jP4S020WPXnmqeRlZUu8jk+Yo076z76HLlUuvVLF+vZRjLKod3BW+KW7JxlxN5T6otEsVaShLwMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781806841; c=relaxed/simple;
-	bh=lmAls8g6TYWNiaABx/R8EHu8Nnn5uWDl1XOyYBPHlEY=;
+	s=arc-20240116; t=1781807058; c=relaxed/simple;
+	bh=zHZHrJPqR/72k8j/7zs76hmEVzjIOpHLv/LDru9J2Ns=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZuAQV1CAwF6VYR5n73TykblGOkBo+ZQjmfL+OLq/6ddzqF39DRmnno7bdbN7oZvAhKPFFfamVh6ZQpxTJblgK533PCMSs70nKtvjNc/E4FOZqMIv/DJ0HU9dQUAiV2YiX83ImG7pm2fLpi6Yzgyf3F3/yyKmsKOqiFCf9AeDvc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zd3P9Lml; arc=none smtp.client-ip=209.85.216.52
+	 Content-Type:Content-Disposition:In-Reply-To; b=PzKZ9gVwU/YLpmkBNyYSOguWDGbVyi83m4/5N/TYDbCvldJGN3ykXh3bmN4o2J88Yevc+PChJmk6jCAIj7eFd73p2j4Ise7ru9uWlZHTYm7JojvTi087QE8ftUqzvAQYQfY3WA6KNcwiKlZjLZmEQqPze3VK8QoEOZfXvkOIEOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dDB0/qkF; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zd3P9Lml"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-36d8b644473so1020864a91.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 11:20:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dDB0/qkF"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-8424b00710aso880423b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 11:24:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781806837; x=1782411637; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781807057; x=1782411857; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lmAls8g6TYWNiaABx/R8EHu8Nnn5uWDl1XOyYBPHlEY=;
-        b=Zd3P9LmlCJ3UAL1PQbhcEV6ghxr2eyxhvKJ6nkuGoS8zpkgwwAz+EXez5ngHOvG78P
-         zaDRH8jQWU1DD1+QgYOYLpPl2zWNw2AAT638LAolJpV9+pzqW1MZRaiwziHqJ+nBTaxO
-         qNJBfKVJCPkWGmxlEzjvhXBGcDIiQDP9RmlDq3mqvPFlyYGjDysGZ9QOOlO1sooyU2Mt
-         p8ZKVvrQZQW7NwR2XVxqrD4FSoeflSH2xKQW9GsPYQm2kl01jAzwCzI/Lm4g3aptuBkL
-         QLX6fbNwmh1kloHTN1WK6f9jcYRMbMXZHIyp/A8e0KpVWMUk9ENc+fWdM5yRE2CWwVpM
-         JHrA==
+        bh=zHZHrJPqR/72k8j/7zs76hmEVzjIOpHLv/LDru9J2Ns=;
+        b=dDB0/qkFO3XZZHSqt5o9++S1aExX8Rnmeeoiu/Pjcv9sz0KC2gNi3y5ZoJDvQGylTO
+         fBbXLaIYYYLk/QuT8mhwi2RDPzgYJIodzaUarDNOwh/w4KouVjjs3Oskc/AVIgkLCnJ0
+         jxlilf2jE3zoyWVTD6GZNCDBOWi8ZPZrauMxwzcZjIl+OjSSHRFfE8cInWfUnyn3x0ek
+         9c3+MtgPzyh6ouP4i6dPtQC/klZewD2t/lW0HlrHALGgKStzCYTIVT29c1YgKnBafldZ
+         /ThDOPefZLJtzyk5D8Dx0FtS+iiX6Bp7W4M4p8g3aK2sg6wIrwYrB9zZfpq94fAh8A+/
+         Am3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781806838; x=1782411638;
+        d=1e100.net; s=20251104; t=1781807057; x=1782411857;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lmAls8g6TYWNiaABx/R8EHu8Nnn5uWDl1XOyYBPHlEY=;
-        b=QjBcfN67XVh0mTux3fqF8LxsrVLKOQ/7a0MuGSi+stdCXPfpBwIR1EnubsTquDuRsD
-         ZmnJoHXwz5ssSB1hOV73jTTNEdjDVsYj4uNP2ct3uoUh29gZi5ILPre4f9p9avjn7wi7
-         LjFXfv9rp9FJ1TTCW0qfwG6driUFEFfrR/I1zgRCZ7XGHND4dkrM1P+VUzJTgtkYDLgL
-         qCWXSNPYrR56kEKTHfHg+jrHX/nRL6Zh/pi4mL45JyOXN1dGNhPXdp+ONuZpRApKbNPu
-         YMq7+j2FPdFavl4YcNEdhjhbEtxBoIdHhPyMmhPFsVt4lzA5z5ovlbu/SmZ6iuYkhCgk
-         HNwA==
-X-Forwarded-Encrypted: i=1; AFNElJ8JbPOPPrcfo2jo8XK1edSKg1hKrP3tDJjihfvDcBZ0RzYsfBD++NI4/8ebz3+h/bwH21U53iuJrmENCHfv@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzz0G0qJB00DPkueO/Z5zlecm6Tm9abxKeL1XnBIfLYL4xAUVbB
-	gd8PVF0ot4I3+CSX9dK92PQhb2/2Pjximjdf1hV+p+SuzpmKSNTfLfkH
-X-Gm-Gg: AfdE7cmqbXwtokzttcvRC0LOMMDqsNCocthWhmBg+86M/WIOvSslMtzqMZYDMYYKhK2
-	v01ijgKTtwUgj79GyciM84Eva/J7lVKhq9J9jQ7IVIW1epCHySZDuvcv6wMULY4npaZDtb7Bl6q
-	+Sgsc8gvKrkIzNYgsO0mtl/n2WUlMXecwtUlRjwKDrUgG5aen/xb0oTRPeItWqDPebb+wXOS1ps
-	GIJcuWrYSc5JrKlSoH98M+/M4WRt52yWJogq13IwzoSN8hruKO8FJ2I6JNReN1k47RLstwZhAEN
-	D53jzuv8UtLP3glJFSzt1GSm2ci9xG+VTWtmybi56MMhALawDnqDPcY5nmdtcsGpCTQ7cdWbxBW
-	SNXtwjKiqCfnTAZOjCjA6Ys75cAnc9fYSJN9SmL4Mcx5R9pNEAyaSBkTGGh+SyIXEOVLugdNNR9
-	doR0eTQfrfNQ==
-X-Received: by 2002:a17:90b:3ece:b0:36d:635b:85a0 with SMTP id 98e67ed59e1d1-37d15fbff00mr568255a91.3.1781806837595;
-        Thu, 18 Jun 2026 11:20:37 -0700 (PDT)
+        bh=zHZHrJPqR/72k8j/7zs76hmEVzjIOpHLv/LDru9J2Ns=;
+        b=n8eY2LCoodXQfhRmoHhdjh/ybwsTwj6DIMHxI4zccaRi7ZjhPgQWXLHSW/GCM/c7YP
+         2L8pjo+gTA36YgsHdyLUXN2CpmDoRMAl2CrnXJZxBcZlhNSBMhNjGusuGHPvk7vqqxHB
+         QCTy5dGyJuo+Hsp3Nrvzx8xBfkEhBW8K2htQfo02NMK73y6+kbQyMyIQ326cADpOvUqz
+         p9CKUUnW96vmXgADENJmUgWP4T/1KnY0QQ+EJSj0vCmJ9ucUkrrteM8BGP1VxcW41N0a
+         EevV3f3ll1hIvIhiw3IKtZP5365eBBlemibN2rTGsN44Pb/MTlaQX6cjedFSxlcqV7Ej
+         ZckA==
+X-Forwarded-Encrypted: i=1; AFNElJ8APWoIBX4aeW5y4OajAOXyUQCue5zBAipCh2PXsV3mY5eaQjeXxPSC4ctLsc0QEfGXU4j6XJKCV4IuemYs@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz65xyetHERS4H8mZDm4rGYAJbziXjXgmHgnrMFlN/7t0vKGqdb
+	NJ+5QtKJ7gqe6eRb1vDjFlUoTwdIAPt1k3IMxttATFNRhOBV/gvdJyK3
+X-Gm-Gg: AfdE7cme6eBjYZk1v9CQVIEP2cKpgg2Jsz7LAQXwlXwX0x71hK/0L7hKjH0Fc3+agXF
+	v7i1ZqGkeoWXnMn41jS+JVBprwkcbpLWJPYMfm5Ox+DiNrBdMXGdcMDolo0xr/L2AzQGdXaz2eo
+	vB3kY7jg5ARm7g7eD1GWmDrTee67tLAp3y+Vy3CC7gD8IOepRdK0GG7TWSjPZ/1jioM9A9FoWmt
+	sdcZhwxgtXQCom/1btdeTJTgZCjExrKZSOwrsx0WXaUc+Pel1z9oHdECzwGVoUH2n4noD1nRhVC
+	3DnN1ftcLMc/K+HEVF1SVe8Mgc+NdA5BxvbA6Mf5elFjCzHycaAChKM8+sXXHGD1Qme3UPPPFuq
+	63EA7k2zljEH5MBGJdNzGgE9hCOMx29zip6RqetfI/aXA1T6MzArvu8NN2/UJ9r5J+opzt0LGVc
+	NQkGRuEBRLdQ==
+X-Received: by 2002:a05:6a00:339a:b0:842:6004:3fda with SMTP id d2e1a72fcca58-8455087b4c3mr43350b3a.25.1781807057093;
+        Thu, 18 Jun 2026 11:24:17 -0700 (PDT)
 Received: from john-p8 ([98.97.43.82])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37d1558b599sm341702a91.7.2026.06.18.11.20.36
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434ac9c474sm18790640b3a.2.2026.06.18.11.24.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 11:20:36 -0700 (PDT)
-Date: Thu, 18 Jun 2026 11:20:34 -0700
+        Thu, 18 Jun 2026 11:24:16 -0700 (PDT)
+Date: Thu, 18 Jun 2026 11:24:14 -0700
 From: John Fastabend <john.fastabend@gmail.com>
 To: Christian Brauner <brauner@kernel.org>
 Cc: "David S. Miller" <davem@davemloft.net>, 
@@ -71,11 +71,11 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
 	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, 
 	Jiri Olsa <jolsa@kernel.org>
-Subject: Re: [PATCH 1/2] fs: Add bpf_sock_read_xattr() kfunc to read socket
- xattrs
-Message-ID: <ajQ0p4ernwLzxkhu@john-p8>
+Subject: Re: [PATCH 2/2] selftests/bpf: Add test for bpf_sock_read_xattr()
+ kfunc
+Message-ID: <ajQ3to7T3eFOpB7q@john-p8>
 References: <20260617-work-bpf-sock-xattr-v1-0-a1276f7c9da3@kernel.org>
- <20260617-work-bpf-sock-xattr-v1-1-a1276f7c9da3@kernel.org>
+ <20260617-work-bpf-sock-xattr-v1-2-a1276f7c9da3@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -84,29 +84,14 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20260617-work-bpf-sock-xattr-v1-1-a1276f7c9da3@kernel.org>
+In-Reply-To: <20260617-work-bpf-sock-xattr-v1-2-a1276f7c9da3@kernel.org>
 
-On Wed, Jun 17, 2026 at 01:18:27PM +0200, Christian Brauner wrote:
->In c8db08110cbe ("Merge tag 'vfs-7.1-rc1.xattr' of git://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs")
->we added support for extended attributes for sockets. This comes in two
->flavors: sockfs and non-sockfs/filesystem sockets. Filesystem sockets
->are actual filesystem objects so reading xattrs must use dedicated fs
->helpers such as bpf_get_dentry_xattr() and bpf_get_file_xattr(). Those
->are inherently sleeping operations. Sockfs sockets on the other hand
->don't need to use sleeping operations as the underlying data structure
->is lockless. In addition, retrieval of sockfs extended attributes often
->happens from LSM hooks that only provide struct socket and it's
->completely nonsensical to grab a reference to a file, then force a
->sleeping operation to retrieve the xattr and drop the reference. We know
->that the sockfs file cannot go away while the LSM hook runs.
-
-[...]
-
+On Wed, Jun 17, 2026 at 01:18:28PM +0200, Christian Brauner wrote:
+>Add a selftest that loads the kfunc in sleepable and non-sleepable
+>lsm/socket_connect programs and checks that a value set via fsetxattr()
+>on a socket is read back.
 >
->Link: https://github.com/systemd/systemd/pull/40559 [1]
 >Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 >---
-
-Nice this will simplify some of our socket tracking.
 
 Reviewed-by: John Fastabend <john.fastabend@gmail.com>
