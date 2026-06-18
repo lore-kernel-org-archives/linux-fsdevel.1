@@ -1,135 +1,91 @@
-Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7838938F654
-	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 08:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F3931E833
+	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 08:25:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781770756; cv=none; b=oGRiXb03RQ+Ya8HBpIh0rvd2/U7MSLSG6tItZ5y0qMK2SYGDkhDYZZpZ/RORcuRm19SCA8sqUa3WhwAD66ckEASkemsif+V6w9EIG3Pz80cDl+SvGTR5UO2bdP1H5+PINQJMOkTYJOwjmqVhCWEcNfL/sX67RZ9MqL3/2v0s9dY=
+	t=1781771134; cv=none; b=pk2RwcrpAt2WNyD52bbGLD5WIC+cgyhWf2z7HrDww27bPub+R7GnLOdrT+LXf23Fh/xuwk/SHuby65HG0eFjtIodR8czEVjKrzkZyWvDGD/ChX869awra3iHK6QHbwr4tfAs8PWkqMDGdTqSeeFjjjf61W+a4WeeoXIekYNZivc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781770756; c=relaxed/simple;
-	bh=NM0M/Ov11BuLYFvgAhPIa8H0+J7ylb7vIuaBlSeCAQk=;
+	s=arc-20240116; t=1781771134; c=relaxed/simple;
+	bh=pASZZ7B833YGm+asL1SNnKgvxsc1BX7Y3o4xZIlH8xY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CWJCyZm1Vo3kBtrYbSqjo9GQeO4YRswM7MCqgQICYY6yCdQbCRsUoPczTI22AlSAigOyFrG1EYicKQjMXpqqATIt7jjUnYEOuOCAWQpGOpG0pCCmxLwEO5fWHM9/33xN0qBa9Ip1oX+2sJ4j8UmZLs1EVEjPiTyarQZYbHVSbNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=v//W7HzY; arc=none smtp.client-ip=91.218.175.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=sbnJ2AB2K4N61N+qq0+TW4dsaM4TgfYvV2d+/hA6AfO+y3l8SMfCYAUQNbyZQqpa2+gPuVgsVkbZYjChWiAnnzHSns11hHlAGb7AsagEJ9HarwB4xARhETQDiWYO5CDUHlQRgT8xHFR57zttMDCE4fTul8+vpgqtJHYVN3BNU0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Om7pqqSL; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="v//W7HzY"
-Date: Thu, 18 Jun 2026 10:18:49 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1781770749;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Om7pqqSL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1781771131;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qTxrs3IohyTqrlr69ZClYgsVznrNRnmnSJTLpRksUoY=;
-	b=v//W7HzYxKV8IZYOyMHblstMWE51VJhcxH+QCG+vqEhEJOcaWFzcji+RFSIML9X4qc2rG6
-	A91KGoCgdjojVRvPtwIl8g6sShryLKb8HVxkLm2fdXyJ7xHZ78HoDFpE6LCx0RESXbL26P
-	NQRMsTnc2i3CBzFBJzZN20fK+JMj7UM=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Pankaj Raghav (Samsung)" <pankaj.raghav@linux.dev>
-To: Zhang Yi <yi.zhang@huaweicloud.com>, hch@lst.de
-Cc: Christoph Hellwig <hch@infradead.org>, 
-	Pankaj Raghav <p.raghav@samsung.com>, linux-xfs@vger.kernel.org, bfoster@redhat.com, lukas@herbolt.com, 
-	"Darrick J . Wong" <djwong@kernel.org>, dgc@kernel.org, gost.dev@samsung.com, andres@anarazel.de, 
-	kundan.kumar@samsung.com, cem@kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH v6 3/3] xfs: add support for FALLOC_FL_WRITE_ZEROES
-Message-ID: <6l3n2w2b7qoz2g3kfu3xsdjhlzq6m4ocs6ptq2esq27wxrb5ve@5gqv4ei4gi4b>
-References: <20260611114029.176200-4-p.raghav@samsung.com>
- <ajFQPANpajmFuKpi@infradead.org>
- <kn5dyqdxmsydibpfcurgpom5vwqtwinrz27oenh4pekks6ybdj@wyi4zkh7mogy>
- <557b2e5c-7c65-48de-87a9-6fba21eca99f@huaweicloud.com>
+	bh=UaIdtv/k8YonAekwP3ZkiC9mnAAV7eLn1tWSwgT6cqc=;
+	b=Om7pqqSLNSUHxOoTljhzIQb3epsYLC+ZSZZxRAhC/usTPRieeFKjrVFzZs0CPH47EkrM5S
+	V3DpzAgdfXoDOIk+bHXsRulwTWs7JOqkCLeZH/gX98PNxkLt0eVEbz7uUxlgsE8qCT8x8f
+	YodtLyjRrL1Xl9ctMeVqGRWjTUk4wso=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-562-wxI8sF_8ORyw6EKqpDzS8Q-1; Thu,
+ 18 Jun 2026 04:25:27 -0400
+X-MC-Unique: wxI8sF_8ORyw6EKqpDzS8Q-1
+X-Mimecast-MFC-AGG-ID: wxI8sF_8ORyw6EKqpDzS8Q_1781771126
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 225121800D9C;
+	Thu, 18 Jun 2026 08:25:26 +0000 (UTC)
+Received: from fedora (unknown [10.44.34.12])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 6F0E21956086;
+	Thu, 18 Jun 2026 08:25:23 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Thu, 18 Jun 2026 10:25:26 +0200 (CEST)
+Date: Thu, 18 Jun 2026 10:25:22 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: David Howells <dhowells@redhat.com>
+Cc: Christian Brauner <christian@brauner.io>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Li RongQing <lirongqing@baidu.com>
+Subject: Re: [PATCH v2 14/17] afs: Remove erroneous seq |= 1 in volume lookup
+ loop
+Message-ID: <ajOrcnnqTp6210YC@redhat.com>
+References: <20260618074903.2374756-1-dhowells@redhat.com>
+ <20260618074903.2374756-15-dhowells@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <557b2e5c-7c65-48de-87a9-6fba21eca99f@huaweicloud.com>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20260618074903.2374756-15-dhowells@redhat.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Thu, Jun 18, 2026 at 11:22:45AM +0800, Zhang Yi wrote:
-> On 6/17/2026 5:44 PM, Pankaj Raghav (Samsung) wrote:
-> > On Tue, Jun 16, 2026 at 06:31:40AM -0700, Christoph Hellwig wrote:
-> >> [API questions for Zhang and -fsdevel/ -api below)
-> >>
-> >>> +	unsigned int		blksize = i_blocksize(inode);
-> >>> +	loff_t			offset_aligned = round_down(offset, blksize);
-> >>
-> >> I think this actually needs to found up instead of rounding down.
-> >>
-> >>> +	/*
-> >>> +	 * Zero the tail of the old EOF block and any space up to the new
-> >>> +	 * offset.
-> >>> +	 * In the usual truncate path, xfs_falloc_setsize takes care of
-> >>> +	 * zeroing those blocks.
-> >>> +	 */
-> >>> +	if (offset_aligned > old_size) {
-> >>> +		trace_xfs_zero_eof(ip, old_size, offset_aligned - old_size);
-> >>> +		error = xfs_zero_range(ip, old_size, offset_aligned - old_size,
-> >>> +				NULL, &did_zero);
-> >>> +		if (error)
-> >>> +			return error;
-> >>> +	}
-> >>
-> >> ... then this will properly zero from the old i_size to the first block
-> >> boundary after the old size.
-> > 
-> > Hmm, right now we do this:
-> > 
-> > |----------|----------|----------|
-> >     ^      ^     ^    ^
-> >     |      |     |    |
-> >  old_size  |   offset |
-> >            |          |
-> > 	off_rd       off_ru
-> > 
-> > At the moment, we zero out old_size to off_rd and pass offset to
-> > xfs_alloc_file_space. xfs_alloc_file_space rounds down the offset to off_rd.
-> > 
-> > What you are proposing is to zero out old_size to off_ru, and pass
-> > off_ru to xfs_alloc_file_space. I don't exactly understand the
-> > difference.
-> 
-> IMO, FALLOC_FL_WRITE_ZEROES should handle the unaligned cases, if the
-> 'offset' and 'end' are not block-size aligned, then:
-> 
-> 1) if the two blocks straddling the boundaries have not yet been allocated,
->    or allocated as unwritten, we should round outward the allocation range
->    and zero out all allocated blocks, including those two boundary blocks.
-> 2) if the blocks at the boundaries are already in the written state — which
->    can occur when we call FALLOC_FL_WRITE_ZEROES within the file size. We
->    should be careful here: we should only zero the ranges [offset, offset_ru)
->    and [end_rd, end) for the boundary blocks, leaving the already-written
->    portions of the boundary blocks intact.
-> 
-> Thoughs?
+On 06/18, David Howells wrote:
+>
+> This is an addendum to the patch to remove the erroneous seq |= 1 in volume
+> lookup loop.
+>
+> Switch to using scoped_seqlock_read() as suggested by Oleg Nesterov[1].
 
-Ok, this makes sense to me.
+Thanks, but
 
-@Christoph, now I understood your reply about rounding up and rounding
-down.
+> --- a/fs/afs/internal.h
+> +++ b/fs/afs/internal.h
+> @@ -750,8 +750,6 @@ static inline void afs_vnode_set_cache(struct afs_vnode *vnode,
+>  {
+>  #ifdef CONFIG_AFS_FSCACHE
+>  	vnode->netfs.cache = cookie;
+> -	if (cookie)
+> -		mapping_set_release_always(vnode->netfs.inode.i_mapping);
+>  #endif
 
-So, I could do xfs_zero_range(offset, offset_ru)[1] and xfs_zero_range(end_rd, end).
-(offset_ru, end_rd) will be using the accelerated XFS_BMAPI_ZERO to 
-zero out the extents. 
+This change looks unrelated...
 
-I also need to add pagecache_isize_extended and filemap_write_and_wait_range
-to persist the xfs_zero_range calls before we call setfilesize.
+Oleg.
 
-xfs_zero_range should take care of the boundary blocks so that we don't
-overwrite any data or zeroing out the unallocated or unwritten blocks as
-pointed out in 1 and 2.
-
-Let me know what you think. I am also wondering how fsx did not trigger
-the boundary block edge case where the current impl might zero out user
-data in the boundary blocks.
-
-[1] if old_size < offset, then xfs_zero_range(old_size, offset_ru)) 
---
-Pankaj
