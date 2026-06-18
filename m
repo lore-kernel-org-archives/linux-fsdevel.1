@@ -1,307 +1,111 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835C434F49F
-	for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 20:34:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5E5343D8F;
+	Thu, 18 Jun 2026 21:00:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781814862; cv=none; b=jZvJT9Poflt0HUCHh1Y57JvawwwH6wixUBEFJVE2XKBMsE8MvNtVKVmFgjG+RhQQJ/lpc1tBJpcB5DK2NqainkIS3vYD2ZpINiDYlTSQRGxeXnWF3ISLSrQyrT8sortFPwJfY607cryI+0hgDfw4PBXUMexhVCpFI5bMlUvmWsI=
+	t=1781816407; cv=none; b=szxeyurRE/uLQ66zaUmkQMbML8mTuJkqmqmCbpIGwHX6/i2YSL+OpZxstgksDJpsv6u4m01JFRYWd3orh7W6IT6zFGQfXafO9IdZJ1pwMJtBTima+0p0Ry2mpw67JIJbTtqg4G04VBwGp82uOhahNf7FMxpA5gADqBmnHkCFC24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781814862; c=relaxed/simple;
-	bh=r4h8PrTc14+Jb9KVCjREjZqooDGZDEoHV/lbqWozPiI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KbIKWYz+qDc4lsox2K7I4BgZCooP2hvscbXRTP6sfXNtUel3JqenVFPXLdGfM4W+bkSbtJh8GXnRTe4E3hrOfL6bMLLu2pUp152tGkMxMTLUmNBa8jj8Cm51k8NWwTHZSdkT+44LnL/WBWQfPJBj/Ht5mrOdKKGijkdtQ7wRJBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h8eWgbdY; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781816407; c=relaxed/simple;
+	bh=Qki7vY9EQlMoHYS/Uhv7gzc/4uP9HP0GFtjhdY1sXm0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=og0ETI7MFLiL9xC3BxjwVDy4CH8Jj5NuxGX1Xl79Agepb8KSB/YtGPlz3hvv2PISJSC06ug91p2oKSUZ96nQ/s68wGFxCdC6sdveW/0joVMHRV8oq80e8whiXSNKfOzisp4+gQv9QJ1JoC9MXvp+WQKIm+T6lsqpBp+pCB66xw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=KJ2kxOZ0; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h8eWgbdY"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-519e7faecf1so1021711cf.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 18 Jun 2026 13:34:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781814858; x=1782419658; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6RMN0VH8IUwxnA/+jZ+RRwIijY8+Uf8ufr9lR4CaAaM=;
-        b=h8eWgbdYfhT2dD7tpv5RKpSig598hqCPw+srqbVABP75cvdSdnl7WtCxvemAWxJ5tI
-         96eDRhNGgHwxfFkEYuKgEAfGw6yWD0Y65KWH0vl1Ttn+1V3LaKhDt7HCm51KW0bFl2TI
-         MhkH9GfrgbMVjoynjBC5YRP3kRk/DZtRm1JxDtWkELlz5QRLY4u/k05x/utxY/uPAi9y
-         Qw4lEb8FDfDcXdZoyOFlb6mFa094pBXiDAMfxLu0EGuOOzt3IxWa4GG6FIiqbSyY0v43
-         nnZRdnEE0eSxI79FWcEV2+q6FYPmw86L5AEsHKeC3K+8RwV+Ibx8GDQLHgppsydbzivB
-         rpkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781814858; x=1782419658;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6RMN0VH8IUwxnA/+jZ+RRwIijY8+Uf8ufr9lR4CaAaM=;
-        b=OrOzEYPmCixUARjdWYEXV8CZrpUp/eO6QVc94mHxQoG6J3qv5Ar94t+LsHWZbKHyzm
-         3XsuDdFSa8fWSVOJkViwQEHr4SIsZKOyLtjSU/8vIx+aqRbjF5GnfpppV26IUhKNe5nW
-         hfQjxtg8vuPM3AEqDORSwRp24Tbh55yUyYKiJJfeWXLQo4cOAJUL+3yQcYej4pF++a/y
-         mVxuLsPO+B+F+tOz7FNOtMBCISQvFTwrhS9rmfCafqk0Fl//7/5gk04uGAWoUdCXsT9W
-         RnN1j65uTGDKR3NfdGD9al4vVH4FUxNfgBOjp/W4GYnr3dpqixtrfbUoM6h9oFgXfQE1
-         rlZw==
-X-Forwarded-Encrypted: i=1; AFNElJ/Jh8M0SP9WeRJ4Iu8ldLr+EhfHkzz+4UgKgoYt7kmz9sGrIoCVhSULkRZrK0bVSMEzT3oxCgTpskGLAIOQ@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWyIs3jXfFpOpFKPtjnBUS6XjqJx3xltjAdFUbGYRuHXVCKFeY
-	VYZg+mHGJhnewnXHBIRgFLQyvh8zu9Q0m8egkfLUSEb0Y7kBt0TmvZQr
-X-Gm-Gg: AfdE7clf8XYF2F3E7cszIgLOeXTqmRaeGZrAoZouxAzTNBr8NO2JSwvAeMJYE3e42uS
-	1SoLJp9dvUx0ZTvr2MO+O0vQAgU4nXdMxOPXH3PbjRP01whfSSzkXr2VX/OGN+8HSxHO3ieo8Cr
-	D/FNLL4Z/JlIDBw1Ys2mO2TfBjDQYMFZkT3PgO3HD58K2U0dNqrt2jMIsVBRDzpHaPgYAG3Ry2m
-	EGB3a4W7JvSEwtEKqNWhoQ+suZ+gijinqn+xOm42JkpCLUBbXwnYRViHB3vBFvAJ+KohUQv0+2z
-	rTi6OtfomnxLCwCfged062HXQV0Qm3G/PNCKSi4fWqLm6jX6nPp9FM6oYz6tngkNuOxitha5vjr
-	PEerN0vr5qs+a3J/WAfa7fSSKDtxbEAjQFUJeMl33ws0aaz/Yb4vuLOn/f7WzJSEcicEXiL1EKO
-	+7fDtq9fcR6B9Guxf7EsqOk1EZ/Ym0jhIN/1wuE6lAQ4J48ZieM5os+Ui6tj1C6G/8iy5Ir1QaE
-	OxosZ0+RtpTh/i7VT2lhmGg5Q==
-X-Received: by 2002:a05:622a:14:b0:516:e249:e30f with SMTP id d75a77b69052e-519e4c94b36mr11943751cf.42.1781814858266;
-        Thu, 18 Jun 2026 13:34:18 -0700 (PDT)
-Received: from battery.lan (pool-138-88-31-60.washdc.fios.verizon.net. [138.88.31.60])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8de5e12d1c3sm2176166d6.10.2026.06.18.13.34.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 13:34:17 -0700 (PDT)
-From: David Windsor <dwindsor@gmail.com>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	ast@kernel.org,
-	daniel@iogearbox.net,
-	john.fastabend@gmail.com,
-	andrii@kernel.org,
-	eddyz87@gmail.com,
-	memxor@gmail.com,
-	martin.lau@linux.dev,
-	song@kernel.org,
-	yonghong.song@linux.dev,
-	jolsa@kernel.org,
-	emil@etsalapatis.com,
-	kpsingh@kernel.org,
-	mattbobrowski@google.com,
-	paul@paul-moore.com,
-	jmorris@namei.org,
-	serge@hallyn.com,
-	zohar@linux.ibm.com,
-	roberto.sassu@huawei.com,
-	dmitry.kasatkin@gmail.com,
-	eric.snowberg@oracle.com,
-	stephen.smalley.work@gmail.com,
-	omosnace@redhat.com,
-	casey@schaufler-ca.com,
-	shuah@kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	bpf@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	selinux@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	David Windsor <dwindsor@gmail.com>
-Subject: [PATCH bpf-next v3 2/2] selftests/bpf: add tests for bpf_init_inode_xattr kfunc
-Date: Thu, 18 Jun 2026 16:34:11 -0400
-Message-ID: <20260618203411.73917-3-dwindsor@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260618203411.73917-1-dwindsor@gmail.com>
-References: <20260618203411.73917-1-dwindsor@gmail.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="KJ2kxOZ0"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=GREhmPjVWYMgQw8GowbxTpmvX1B6gDhBpWW7jAOVqAk=; b=KJ2kxOZ0W7v7t++8QidtvuLkJh
+	BKwCpyHQmJWfNKeDSFWRydEA1ghzXqkVATIQSDFGDo4E8o3kiRiv6oYnFNBMftP3KDXqSU2U1uGaL
+	DvGGtd1G9ddpgadKwPnZgWxhiDES1Om/U0GMXxZUWp8YY49o6xqBBNTGBIDyhwflqW6nDVak743dB
+	1vn0Y/aZoF5Tx/a7dIi3eJKMMk0Bm/woxTI6AT0uUzdyf9okp47j6YAEW+cOjNrST80ApQnGRq62s
+	kAFZ6QEPgL0fhZVuTeOyTXhbW8PAFNxQ78rmtOb4iTa863kwVXIQ3v4xGNYePm/4SZg/Zuje2LnbH
+	sly0vBaA==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.4 #2 (Red Hat Linux))
+	id 1waJq5-00000006miR-1iLQ;
+	Thu, 18 Jun 2026 20:59:53 +0000
+Date: Thu, 18 Jun 2026 21:59:53 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Jann Horn <jannh@google.com>
+Cc: Thomas Gleixner <tglx@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	syzbot <syzbot+000c800a02097aaa10ed@syzkaller.appspotmail.com>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	kernel list <linux-kernel@vger.kernel.org>,
+	syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+	Jeff Layton <jlayton@kernel.org>
+Subject: Re: rt_spin_unlock order of operations [was: Re: [syzbot] [fs?]
+ KASAN: slab-use-after-free Read in shrink_dcache_tree]
+Message-ID: <20260618205953.GZ2636677@ZenIV>
+References: <6a32d492.9a9be2da.cfe8.0001.GAE@google.com>
+ <CAG48ez3-wQDwoQrOaKz3WTOU=n_cku0jcnxaC+wxBqdMHmiYMw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAG48ez3-wQDwoQrOaKz3WTOU=n_cku0jcnxaC+wxBqdMHmiYMw@mail.gmail.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Test bpf atomic inode xattr labeling in inode_init_security.
+On Thu, Jun 18, 2026 at 08:44:32PM +0200, Jann Horn wrote:
+> I think this is more of a bug in RT spinlocks than a VFS bug, though
+> it's a bit murky.
+> 
+> rt_spin_unlock() looks like this:
+> 
+> void __sched rt_spin_unlock(spinlock_t *lock) __releases(RCU)
+> {
+>         spin_release(&lock->dep_map, _RET_IP_);
+>         migrate_enable();
+>         rcu_read_unlock();
+> 
+>         if (unlikely(!rt_mutex_cmpxchg_release(&lock->lock, current, NULL)))
+>                 rt_mutex_slowunlock(&lock->lock);
+> }
+> 
+> Note how the RCU read-side critical section and the protection against
+> migration end *before* the lock is actually released, which means this
+> can UAF if the RCU read-side critical section implied by the spinlock
+> is the only thing keeping the lock alive. While non-RT spinlocks do
+> this the other way around (do_raw_spin_unlock() before
+> preempt_enable()):
+> 
+> static inline void __raw_spin_unlock(raw_spinlock_t *lock)
+>         __releases(lock)
+> {
+>         spin_release(&lock->dep_map, _RET_IP_);
+>         do_raw_spin_unlock(lock);
+>         preempt_enable();
+> }
+> 
+> https://docs.kernel.org/next/RCU/whatisRCU.html guarantees that
+> spinlock APIs imply RCU, and
+> https://docs.kernel.org/locking/mutex-design.html says: "This is in
+> contrast with spin_unlock() [...], which APIs can be used to guarantee
+> that the memory is not touched by the lock implementation after
+> spin_unlock()/completion_done() releases the lock.".
+> Neither of these explicitly guarantees that the RCU read-side critical
+> section (and the protection against migration?) should still hold
+> while the lock is being dropped, but I think that would fit best with
+> the explicit guarantees?
 
-Signed-off-by: David Windsor <dwindsor@gmail.com>
----
- tools/testing/selftests/bpf/bpf_kfuncs.h      |   5 +
- .../selftests/bpf/prog_tests/fs_kfuncs.c      | 105 +++++++++++++++++-
- .../bpf/progs/test_init_inode_xattr.c         |  31 ++++++
- 3 files changed, 140 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/bpf/progs/test_init_inode_xattr.c
+I'm trying to recall if PREEMPT_RT had been enabled in the last round of
+UAF in that area back in early April...
 
-diff --git a/tools/testing/selftests/bpf/bpf_kfuncs.h b/tools/testing/selftests/bpf/bpf_kfuncs.h
-index ae71e9b69051..69d3641ee2d8 100644
---- a/tools/testing/selftests/bpf/bpf_kfuncs.h
-+++ b/tools/testing/selftests/bpf/bpf_kfuncs.h
-@@ -92,4 +92,9 @@ extern int bpf_set_dentry_xattr(struct dentry *dentry, const char *name__str,
- 				const struct bpf_dynptr *value_p, int flags) __ksym __weak;
- extern int bpf_remove_dentry_xattr(struct dentry *dentry, const char *name__str) __ksym __weak;
- 
-+struct xattr_ctx;
-+extern int bpf_init_inode_xattr(struct xattr_ctx *xattr_ctx,
-+				const char *name__str,
-+				const struct bpf_dynptr *value_p) __ksym __weak;
-+
- #endif
-diff --git a/tools/testing/selftests/bpf/prog_tests/fs_kfuncs.c b/tools/testing/selftests/bpf/prog_tests/fs_kfuncs.c
-index 43a26ec69a8e..0898898fb125 100644
---- a/tools/testing/selftests/bpf/prog_tests/fs_kfuncs.c
-+++ b/tools/testing/selftests/bpf/prog_tests/fs_kfuncs.c
-@@ -9,9 +9,10 @@
- #include <test_progs.h>
- #include "test_get_xattr.skel.h"
- #include "test_set_remove_xattr.skel.h"
-+#include "test_init_inode_xattr.skel.h"
- #include "test_fsverity.skel.h"
- 
--static const char testfile[] = "/tmp/test_progs_fs_kfuncs";
-+static const char testfile[] = "/tmp/labelme";
- 
- static void test_get_xattr(const char *name, const char *value, bool allow_access)
- {
-@@ -268,6 +269,102 @@ static void test_fsverity(void)
- 	remove(testfile);
- }
- 
-+static void test_init_inode_xattr(void)
-+{
-+	struct test_init_inode_xattr *skel = NULL;
-+	int fd = -1, err;
-+	char value_out[64];
-+	const char *testfile_new = "/tmp/test_progs_fs_kfuncs_new";
-+
-+	skel = test_init_inode_xattr__open_and_load();
-+	if (!ASSERT_OK_PTR(skel, "test_init_inode_xattr__open_and_load"))
-+		return;
-+
-+	skel->bss->monitored_pid = getpid();
-+	err = test_init_inode_xattr__attach(skel);
-+	if (!ASSERT_OK(err, "test_init_inode_xattr__attach"))
-+		goto out;
-+
-+	/* Trigger inode_init_security */
-+	fd = open(testfile_new, O_CREAT | O_RDWR, 0644);
-+	if (!ASSERT_GE(fd, 0, "create_file"))
-+		goto out;
-+
-+	ASSERT_EQ(skel->data->init_result, 0, "init_result");
-+
-+	/* initxattrs prepends "security." to the name. */
-+	err = getxattr(testfile_new, "security.bpf.test_label", value_out,
-+		       sizeof(value_out));
-+	if (err < 0 && errno == ENODATA) {
-+		printf("%s:SKIP:filesystem did not apply LSM xattrs\n",
-+		       __func__);
-+		test__skip();
-+		goto out;
-+	}
-+	if (!ASSERT_GE(err, 0, "getxattr"))
-+		goto out;
-+
-+	ASSERT_EQ(err, (int)sizeof(skel->data->xattr_value), "xattr_size");
-+	ASSERT_EQ(strncmp(value_out, "unconfined_u:object_r:user_home_t:s0",
-+			  sizeof("unconfined_u:object_r:user_home_t:s0")), 0,
-+		  "xattr_value");
-+
-+out:
-+	close(fd);
-+	test_init_inode_xattr__destroy(skel);
-+	remove(testfile_new);
-+}
-+
-+/* Keep in sync with BPF_LSM_INODE_INIT_XATTRS in include/linux/bpf_lsm.h. */
-+#define INIT_INODE_XATTR_MAX 4
-+
-+/* At most INIT_INODE_XATTR_MAX programs can attach to inode_init_security. */
-+static void test_init_inode_xattr_attach_cap(void)
-+{
-+	struct test_init_inode_xattr *skel[INIT_INODE_XATTR_MAX + 1] = {};
-+	struct bpf_link *link[INIT_INODE_XATTR_MAX + 1] = {};
-+	struct bpf_link *extra = NULL;
-+	int i, err;
-+
-+	/* Fill all available xattr slots */
-+	for (i = 0; i < INIT_INODE_XATTR_MAX; i++) {
-+		skel[i] = test_init_inode_xattr__open_and_load();
-+		if (!ASSERT_OK_PTR(skel[i], "open_and_load"))
-+			goto out;
-+
-+		link[i] = bpf_program__attach_lsm(skel[i]->progs.test_init_inode_xattr);
-+		if (!ASSERT_OK_PTR(link[i], "attach_within_cap"))
-+			goto out;
-+	}
-+
-+	skel[INIT_INODE_XATTR_MAX] = test_init_inode_xattr__open_and_load();
-+	if (!ASSERT_OK_PTR(skel[INIT_INODE_XATTR_MAX], "open_and_load_extra"))
-+		goto out;
-+
-+	/* New additions fail with -E2BIG */
-+	extra = bpf_program__attach_lsm(skel[INIT_INODE_XATTR_MAX]->progs.test_init_inode_xattr);
-+	err = -errno;
-+	if (!ASSERT_ERR_PTR(extra, "attach_over_cap_should_fail")) {
-+		bpf_link__destroy(extra);
-+		goto out;
-+	}
-+	ASSERT_EQ(err, -E2BIG, "attach_over_cap_errno");
-+
-+	bpf_link__destroy(link[0]);
-+	link[0] = NULL; /* avoid double free in cleanup */
-+
-+	/* Freeing a slot lets the extra program attach */
-+	extra = bpf_program__attach_lsm(skel[INIT_INODE_XATTR_MAX]->progs.test_init_inode_xattr);
-+	ASSERT_OK_PTR(extra, "attach_after_detach");
-+
-+out:
-+	bpf_link__destroy(extra);
-+	for (i = 0; i <= INIT_INODE_XATTR_MAX; i++) {
-+		bpf_link__destroy(link[i]);
-+		test_init_inode_xattr__destroy(skel[i]);
-+	}
-+}
-+
- void test_fs_kfuncs(void)
- {
- 	/* Matches xattr_names in progs/test_get_xattr.c */
-@@ -286,6 +383,12 @@ void test_fs_kfuncs(void)
- 	if (test__start_subtest("set_remove_xattr"))
- 		test_set_remove_xattr();
- 
-+	if (test__start_subtest("init_inode_xattr"))
-+		test_init_inode_xattr();
-+
-+	if (test__start_subtest("init_inode_xattr_attach_cap"))
-+		test_init_inode_xattr_attach_cap();
-+
- 	if (test__start_subtest("fsverity"))
- 		test_fsverity();
- }
-diff --git a/tools/testing/selftests/bpf/progs/test_init_inode_xattr.c b/tools/testing/selftests/bpf/progs/test_init_inode_xattr.c
-new file mode 100644
-index 000000000000..6f0e8b02ff88
---- /dev/null
-+++ b/tools/testing/selftests/bpf/progs/test_init_inode_xattr.c
-@@ -0,0 +1,31 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright (c) 2026 Cisco Systems, Inc. */
-+
-+#include "vmlinux.h"
-+#include <bpf/bpf_tracing.h>
-+#include "bpf_kfuncs.h"
-+
-+char _license[] SEC("license") = "GPL";
-+
-+__u32 monitored_pid;
-+int init_result = -1;
-+
-+static const char xattr_name[] = "bpf.test_label";
-+char xattr_value[] = "unconfined_u:object_r:user_home_t:s0";
-+
-+SEC("lsm.s/inode_init_security")
-+int BPF_PROG(test_init_inode_xattr, struct inode *inode, struct inode *dir,
-+	     const struct qstr *qstr, struct xattr_ctx *xattr_ctx)
-+{
-+	struct bpf_dynptr value_ptr;
-+	__u32 pid;
-+
-+	pid = bpf_get_current_pid_tgid() >> 32;
-+	if (pid != monitored_pid)
-+		return 0;
-+
-+	bpf_dynptr_from_mem(xattr_value, sizeof(xattr_value), 0, &value_ptr);
-+	init_result = bpf_init_inode_xattr(xattr_ctx, xattr_name, &value_ptr);
-+
-+	return 0;
-+}
--- 
-2.53.0
-
+As far as I'm concerned, we *do* need to keep RCU read-side critical area
+all the way until the end of spin_unlock(); it very well might be the
+only thing to prevent freeing the sucker under us.
