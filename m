@@ -1,276 +1,63 @@
-Received: from mail.aminvakil.com (mail.aminvakil.com [178.63.189.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1AD62F7EE2;
-	Thu, 18 Jun 2026 16:12:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.189.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0672773DE;
+	Thu, 18 Jun 2026 16:15:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781799170; cv=none; b=p19QVGJ3OaV6kUzfq5e2nGpeS+Tp7Oh+elThP6K0eThXaxYau0iLGtFF+lNf+06rlroeLYMNYTPpZWO3aVbvMVlVMYpGo+/VYdh+zA6teyIDZgpn3Ala5LI5HkNptJg9mGC5Nnv1AyPxT3TxildKQg3abeZf/iJRV8ouO7xq3YM=
+	t=1781799337; cv=none; b=fDv+fTzVh6hYIUclzjUHXbI8TiIQWB4wJtwIPM0HY2NVq8ejzWsRSD07ZKr5thyQAP9EttJfQvQpGGNDjt/LMc1iiW76YIcg5i2j7A2clg39XjGLs+mQGWmc1Bl7e3jm5fUh0TA5bDQLxM0r6Srj34pR7tcD+XpJz2J709Qbc4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781799170; c=relaxed/simple;
-	bh=S0IAk1DvDyMwW6lSY7DOa0JZc8Vid6UkotMRRlYbhes=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ge685eXVKh3AzP8mDirOdEZRfIEzZUW3UlNjbZbKYU0973Ot5iqIRD2c/mM/4z81HK80Oi7pGglgkT0mKtCxwgVKpFxtUMl/7eMwvYlFbpx8oEQt7MhHladMuGIQIJxR75jKIc9Z6CGpm3AkLkFRtIyK2SQnhmVUT22nudpE42M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aminvakil.com; spf=pass smtp.mailfrom=aminvakil.com; dkim=pass (2048-bit key) header.d=aminvakil.com header.i=@aminvakil.com header.b=CZzFndWj; arc=none smtp.client-ip=178.63.189.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aminvakil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aminvakil.com
+	s=arc-20240116; t=1781799337; c=relaxed/simple;
+	bh=WUun8voudBOyQk6nSZcv/uJROxDcWBN4W4sp4ebqy90=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Si0Wzh5cxMoJyQVSxFn0tLb4XQSgUvteVwexF4PK0NC0HGl/11vS83JSIXyxJZ0uPc1yLpFU5YkVmh0vGH0CA9loZmUc1XxWcEIWKKVcuIZpw/AeyPZ/Pc1Az3z/E7hpYlEWwSn6BWUzfBNMq8+OeDFqx9mYzzix+cBf+/mT1dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hMWp8x+7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aminvakil.com header.i=@aminvakil.com header.b="CZzFndWj"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2DFA3452B7;
-	Thu, 18 Jun 2026 19:42:41 +0330 (+0330)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aminvakil.com;
-	s=dkim; t=1781799164;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-language:in-reply-to:references:autocrypt;
-	bh=S0IAk1DvDyMwW6lSY7DOa0JZc8Vid6UkotMRRlYbhes=;
-	b=CZzFndWjNIiJjMiGHZupKEmIFR5MGTnOyRXq2tnXZRF62FZhYl6mYGuxjfo90DQ/EvVKj9
-	ldhgzHQzZm3Zhub8gPSn6tLPC5gVBBRpMiHrK4ReEUO0Bzsl4VV+KTrMLNB5ulSdou0BV/
-	iL1q5kwledjEFKPeqiyKjj1U0XdvN8+pU60VjHuDpSTwyN3Py8sUV1BMM+xMJfsqvQPZ7X
-	BHGHpYVHWybGc9KNKAyUGenDl7gAPlVzw8Vda6Cu3fG2AdCsh7TRutE1QDmcoV+Jye6csn
-	Nn29OI7p1ebaShzR671Fta3kB/FVfun0cXHmiuyqRX+HraEmRE+LmP7EiNBH7Q==
-Message-ID: <e5d05ae5-3b3c-48ad-8f91-c8461a77ff75@aminvakil.com>
-Date: Thu, 18 Jun 2026 19:42:40 +0330
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hMWp8x+7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C1691F000E9;
+	Thu, 18 Jun 2026 16:15:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781799336;
+	bh=9j33WgUIVj/BMTm0ggt7s6Sb37luHltq8YVoDC5W6zE=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=hMWp8x+75xlSe9iThwg9uarlsKQNPGTmhj2z2caQnVsVMysOupDs5lCsH39co21n2
+	 zGqaCSxRjdFKCV1KifiwULhvW1Dx7PXg5prmL43wy0t/5g0IZT0AdiaWTZSDrgCuXO
+	 s699EATZrmvitOw4+bRh008kixgQIazuw5/h9hAZIkM1frTlmMMOHBJ6k4yNtjzFqB
+	 pxdm80dkll4FWDEQjonHXPjOU+Dv+lCR5D/UFTfqocwJvFH7fl6PTxpXvnN5EkjG3n
+	 GiwBJb3uPvgUlLZfje/Nb0nNbhFOLMYpghVG2z59zs7CMbUc8VwbKns7EKxxOlDk2c
+	 37w8MjoouVGpA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D0BF83A566DF;
+	Thu, 18 Jun 2026 16:15:30 +0000 (UTC)
+Subject: Re: [GIT PULL] fuse update for 7.2
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAJfpegtvWRiFQWzr9eXN5gr6cAwwR_wqqRy4K-nyvg3B7u-vrw@mail.gmail.com>
+References: <CAJfpegtvWRiFQWzr9eXN5gr6cAwwR_wqqRy4K-nyvg3B7u-vrw@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAJfpegtvWRiFQWzr9eXN5gr6cAwwR_wqqRy4K-nyvg3B7u-vrw@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git tags/fuse-update-7.2
+X-PR-Tracked-Commit-Id: 7d87a5a284bb34edb3f4e7e312ef403b3385a7b7
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 6edc20078ad0b05ab2dc2693965d373628d65f80
+Message-Id: <178179932940.2966375.6927709133467172073.pr-tracker-bot@kernel.org>
+Date: Thu, 18 Jun 2026 16:15:29 +0000
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-fsdevel@vger.kernel.org, fuse-devel <fuse-devel@lists.linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] selftests: proc: include fcntl.h in proc-pidns
-To: Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>
-Cc: Aleksa Sarai <cyphar@cyphar.com>, Christian Brauner <brauner@kernel.org>,
- linux-kselftest@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260618151444.124739-1-info@aminvakil.com>
- <16ef9ff1-4c98-4c89-aefa-734a9e775df2@linuxfoundation.org>
-Content-Language: en-US
-From: Amin Vakil <info@aminvakil.com>
-Autocrypt: addr=info@aminvakil.com; keydata=
- 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
- +78sXChAfE9n44i0gJHzV8BhCsQG4+k=
-In-Reply-To: <16ef9ff1-4c98-4c89-aefa-734a9e775df2@linuxfoundation.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------x0IdzTE0AzDe0BXqOsohYA00"
-X-Last-TLS-Session-Version: TLSv1.3
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------x0IdzTE0AzDe0BXqOsohYA00
-Content-Type: multipart/mixed; boundary="------------NbcpKa0FHxkGESYFGI5KWHj9";
- protected-headers="v1"; hp="clear"
-Message-ID: <e5d05ae5-3b3c-48ad-8f91-c8461a77ff75@aminvakil.com>
-Date: Thu, 18 Jun 2026 19:42:40 +0330
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] selftests: proc: include fcntl.h in proc-pidns
-To: Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>
-Cc: Aleksa Sarai <cyphar@cyphar.com>, Christian Brauner <brauner@kernel.org>,
- linux-kselftest@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260618151444.124739-1-info@aminvakil.com>
- <16ef9ff1-4c98-4c89-aefa-734a9e775df2@linuxfoundation.org>
-Content-Language: en-US
-From: Amin Vakil <info@aminvakil.com>
-Autocrypt: addr=info@aminvakil.com; keydata=
- xsDNBGDcQdQBDADCwSezvQSyNvL8EGhgR7rXMMnxfj/746TAFcAnMI5rtOs6yAQPXbCc3rv9
- Vph8myG6ZGu+G1q9SEIHQviYVTkgBUW7xY062KHgohbk3OhsUbnmCtmMOsQMgVT9Z7nT8tIQ
- T/RrFchVK4zcnYvhUM0HNQclS5skueVTwrEYh3JVITPtsPeCeTua1uVrUNeCOfRcH+nab2yd
- lMSw7NMTCqvmxG2PSz0EEFqhFT4jnGw27V4nPzAvLa3M/IysLE/Jp3hMKIURsEKosuCQ6UB8
- OEWEA6fvKGJRYecqzWZAcKeFZTxHndrJR5Gc0qayUdpoal0pYrFpxzv4tqT1yprcnYF3dKl5
- IpqyaxpfkL3EQAHSKuRLov+xXXamNa8EBM3Uak/ixi45F0yQhaCqtf6PwwsMMuTQ2EwqBTZV
- qQCMquLyLwDzJl6c6rh/eji2Oldp+pUIV27o/rb2aHMpfmZyoMs6kMLz72kyHHdsSeyAtz1s
- uWFhh+Mh4YAzbdRCCgRrfVEAEQEAAc0fQW1pbiBWYWtpbCA8aW5mb0BhbWludmFraWwuY29t
- PsLBFAQTAQgAPhYhBIRqwASF5Vxv9LyfUx78GGTp2eVrBQJg3EHUAhsDBQkSzAMABQsJCAcC
- BhUKCQgLAgQWAgMBAh4BAheAAAoJEB78GGTp2eVr1ocL/RNFJ7YF+jV/JtXCcL3k3C4qyUrO
- eO1Lw5X3hIfUXqjGG2ut9D331U3IsHllfEPFowukg1cQUOhl+2M45He4FCtSr53PGXhvXjfF
- 1XQzHPpSRdDbdly3nUR2L8BE+VLu4WCgB6dBiMnU3NdXa1XWmoxCdG1Ly/R1ev4UAMLFHsMs
- IVL+HfddytXHKAltGqAb9OAEOHpbGJNxHORl0E2BCNtK5I/Qh6uw066koEgPbahE9rpldL9E
- c6pl3HyrxPpjFImTVNK9Xh36bbuz+pwF2v2jvc4oFZHx6LdMoxDdH9vjC2a5Boa77a9PWY3c
- 0lz27RlixCGWyQjmQTeVdJNYlY0tcgEZlKZrbypr6UGXqTMZeHvpz0XJCM5UI34ebPZVAPMF
- EOsJRAIAqM+02xwAhBXws09IKPIVPypEzbD5BDV2qbs0qg/vYtipyzmAJOWVeYuCJmYYg3cy
- 34Kmpa9q2t43HvWtD7Mor6n2G0CnXh0NoGiPpad4DyQvwphhFON6Wc7AzQRg3EHUAQwAvJ9D
- Dw5MC5IY/9KaWspX4ahk1vfsNs3k2fXeY/UUgaZsGQWdkb/GanyiSBrGwUu91Ala6YcVsg6g
- MO5gzryRemmOTgHn3ycMJB8jmu7EYxCC4DSoxSCWXumbLfnaQwZPh+Ic9i3sw5g4cFMRTMKr
- 4Zt2jUQULtu825mc8V0Hb5c41B2yQAXTQ09+M5C1UPhzzGt6oHqqO+6Pg2dUwi276UW79OCV
- 3qEpesUwrgq5xrTC32jJG4cO7uFmYBZRBVY4KI7r8E3WWia42IRSZ2wEfaAqF7kTeOakmP8Z
- xX9qpV8v7MLjZIhhqXjAWKtUDqiktLRQJtsoUvteeeQEIbYL7M/6bzF5BtIylqxmGxcrSC+M
- Or7AvqRYfntEqkhhlWdjNR0yx4Dd9IItpdkTjBwN6iBWDCdlh/I36HkpAj51gOCXvEelqr3w
- KQMToyH5IrysJuOUR3wuaLHXfeHHBHaIWsDwaBADLVNOT7LWqe4d/gRaB69eqaAPSInJQRJo
- c5tjABEBAAHCwPwEGAEIACYWIQSEasAEheVcb/S8n1Me/Bhk6dnlawUCYNxB1AIbDAUJEswD
- AAAKCRAe/Bhk6dnlaww5DACArVoYcgMyBTl4s7C3MBXTNh9MA5jjQtkL3Bv9wR1+UusORuhY
- 2cn7MseJpaMvfDGS7pfJRJY+w4l51TGs2lSSUntdZ1g7a684i5mQ0KLaJ4cvoekvKmdkh0kn
- QmnkZnu8wxtgbLdCkbSr1QKtRb5DiV2ctYLiLkqwBvLh4RUNTNr1chFEuO/3QcETbpKvgKFR
- 9KPlEPp0l71dm5I7oBy9sEJ2KPtiykFCGF2UzFqDHubfHrjFAtyZYkuNg1fGJhNJkICrUYK3
- WUawq3KIumHDL/ZEoBvMvnlOtrki8HKHg+G6hTt0axoC/4fV9fhqUfMcahOLSrt9TwaJT+ba
- IznyzP6eRXjhG/E+UtCe4qkmevDf1Uu9Q22oaQsC1qU6K2Iy/xp6QbdQfjtohu5HXPBX80MH
- AYKrRSHkfUFH4grn6l0fkYvREs7Jdp7Oq0Je5wP6mj7v0sQ9ShjqFH12Zd59EenqNIr5OoYY
- +78sXChAfE9n44i0gJHzV8BhCsQG4+k=
-In-Reply-To: <16ef9ff1-4c98-4c89-aefa-734a9e775df2@linuxfoundation.org>
+The pull request you sent on Tue, 16 Jun 2026 16:23:10 +0200:
 
---------------NbcpKa0FHxkGESYFGI5KWHj9
-Content-Type: multipart/mixed; boundary="------------xxU0v8M4BOyN0UvPh1OaSBJq"
+> git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git tags/fuse-update-7.2
 
---------------xxU0v8M4BOyN0UvPh1OaSBJq
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/6edc20078ad0b05ab2dc2693965d373628d65f80
 
-T24gNi8xOC8yNiA2OjU0IFBNLCBTaHVhaCBLaGFuIHdyb3RlOg0KPiBPbiA2LzE4LzI2IDA5
-OjE0LCBBbWluIFZha2lsIHdyb3RlOg0KPj4gcHJvYy1waWRucy5jIHVzZXMgb3BlbigpIGFu
-ZCBPXyogZmxhZ3MsIGJ1dCBkb2VzIG5vdCBpbmNsdWRlDQo+PiA8ZmNudGwuaD4uIFRoaXMg
-YnJlYWtzIHRoZSBwcm9jIHNlbGZ0ZXN0cyBidWlsZCB3aXRoIGVycm9ycyBzdWNoIGFzOg0K
-Pj4NCj4+IMKgwqAgZXJyb3I6IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1bmN0aW9uICdv
-cGVuJw0KPj4gwqDCoCBlcnJvcjogJ09fV1JPTkxZJyB1bmRlY2xhcmVkDQo+PiDCoMKgIGVy
-cm9yOiAnT19DUkVBVCcgdW5kZWNsYXJlZA0KPj4gwqDCoCBlcnJvcjogJ09fUkRPTkxZJyB1
-bmRlY2xhcmVkDQo+Pg0KPj4gSW5jbHVkZSA8ZmNudGwuaD4gdG8gcHJvdmlkZSB0aGUgZGVj
-bGFyYXRpb24gYW5kIGZsYWcgZGVmaW5pdGlvbnMuDQo+IA0KPiBEaWQgeW91IGluc3RhbGwg
-aGVhZGVycyBiZWZvcmUgY29tcGlsaW5nIHRoZSB0ZXN0Pw0KDQpTb3JyeSwgbm8gSSBoYWRu
-J3QuDQoNCkJ1dCBzZWVtcyBsaWtlIHByb2JsZW0gaXMgc3RpbGwgcmVsZXZhbnQgYWZ0ZXIg
-bWFrZSBoZWFkZXJzLCBJJ3ZlIHRlc3RlZCANCm5vdyB3aXRoIHRoZXNlIGNvbW1hbmRzOg0K
-DQptYWtlIC1DIHRvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzIFRBUkdFVFM9cHJvYyBjbGVhbg0K
-bWFrZSBoZWFkZXJzDQptYWtlIC1DIHRvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzIFRBUkdFVFM9
-cHJvYw0KICAgQ0MgICAgICAgcHJvYy1waWRucw0KcHJvYy1waWRucy5jOiBJbiBmdW5jdGlv
-biDigJh0b3VjaOKAmToNCnByb2MtcGlkbnMuYzozNDoxODogZXJyb3I6IGltcGxpY2l0IGRl
-Y2xhcmF0aW9uIG9mIGZ1bmN0aW9uIOKAmG9wZW7igJk7IGRpZCANCnlvdSBtZWFuIOKAmHBv
-cGVu4oCZPyBbLVdpbXBsaWNpdC1mdW5jdGlvbi1kZWNsYXJhdGlvbl0NCiAgICAzNCB8ICAg
-ICAgICAgaW50IGZkID0gb3BlbihwYXRoLCBPX1dST05MWXxPX0NSRUFUfE9fQ0xPRVhFQywg
-MDY0NCk7DQogICAgICAgfCAgICAgICAgICAgICAgICAgIF5+fn4NCiAgICAgICB8ICAgICAg
-ICAgICAgICAgICAgcG9wZW4NCnByb2MtcGlkbnMuYzozNDoyOTogZXJyb3I6IOKAmE9fV1JP
-TkxZ4oCZIHVuZGVjbGFyZWQgKGZpcnN0IHVzZSBpbiB0aGlzIA0KZnVuY3Rpb24pDQogICAg
-MzQgfCAgICAgICAgIGludCBmZCA9IG9wZW4ocGF0aCwgT19XUk9OTFl8T19DUkVBVHxPX0NM
-T0VYRUMsIDA2NDQpOw0KICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+
-fn5+fn5+DQpwcm9jLXBpZG5zLmM6MzQ6Mjk6IG5vdGU6IGVhY2ggdW5kZWNsYXJlZCBpZGVu
-dGlmaWVyIGlzIHJlcG9ydGVkIG9ubHkgDQpvbmNlIGZvciBlYWNoIGZ1bmN0aW9uIGl0IGFw
-cGVhcnMgaW4NCnByb2MtcGlkbnMuYzozNDozODogZXJyb3I6IOKAmE9fQ1JFQVTigJkgdW5k
-ZWNsYXJlZCAoZmlyc3QgdXNlIGluIHRoaXMgZnVuY3Rpb24pDQogICAgMzQgfCAgICAgICAg
-IGludCBmZCA9IG9wZW4ocGF0aCwgT19XUk9OTFl8T19DUkVBVHxPX0NMT0VYRUMsIDA2NDQp
-Ow0KICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+
-fn4NCnByb2MtcGlkbnMuYzogSW4gZnVuY3Rpb24g4oCYbnNfc2V0dXDigJk6DQpwcm9jLXBp
-ZG5zLmM6NDk6NTQ6IGVycm9yOiDigJhPX1JET05MWeKAmSB1bmRlY2xhcmVkIChmaXJzdCB1
-c2UgaW4gdGhpcyANCmZ1bmN0aW9uKTsgZGlkIHlvdSBtZWFuIOKAmE1TX1JET05MWeKAmT8N
-CiAgICA0OSB8ICAgICAgICAgc2VsZi0+aG9zdF9tbnRucyA9IG9wZW4oIi9wcm9jL3NlbGYv
-bnMvbW50IiwgDQpPX1JET05MWXxPX0NMT0VYRUMpOw0KICAgICAgIHwgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fg0KICAg
-ICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICBNU19SRE9OTFkNCg0KQWZ0ZXIgYXBwbHlpbmcgdGhlIHBhdGNoIEkndmUgc2VudCwg
-ZXJyb3IgaXMgZ29uZS4NCg0KTXkgZW52aXJvbm1lbnQgaWYgcmVsZXZhbnQ6DQokIGdjYyAt
-LXZlcnNpb24NCmdjYyAoR0NDKSAxNi4xLjEgMjAyNjA0MzANCiQgbWFrZSAtLXZlcnNpb24N
-CkdOVSBNYWtlIDQuNC4xDQpCdWlsdCBmb3IgeDg2XzY0LXBjLWxpbnV4LWdudQ0KJCBsZGQg
-LS12ZXJzaW9uDQpsZGQgKEdOVSBsaWJjKSAyLjQzDQokIGdldGNvbmYgR05VX0xJQkNfVkVS
-U0lPTg0KZ2xpYmMgMi40Mw0KPiANCj4+DQo+PiBGaXhlczogNTU1NGQ4MjBmNzFjICgic2Vs
-ZnRlc3RzL3Byb2M6IGFkZCB0ZXN0cyBmb3IgbmV3IHBpZG5zIEFQSXMiKQ0KPj4gVGVzdGVk
-IHdpdGg6DQo+PiDCoMKgIG1ha2UgLUMgdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMgVEFSR0VU
-Uz1wcm9jDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogQW1pbiBWYWtpbCA8aW5mb0BhbWludmFr
-aWwuY29tPg0KPj4gLS0tDQo+PiDCoCB0b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9wcm9jL3By
-b2MtcGlkbnMuYyB8IDEgKw0KPj4gwqAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
-DQo+Pg0KPj4gZGlmZiAtLWdpdCBhL3Rvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL3Byb2MvcHJv
-Yy1waWRucy5jIGIvdG9vbHMvIA0KPj4gdGVzdGluZy9zZWxmdGVzdHMvcHJvYy9wcm9jLXBp
-ZG5zLmMNCj4+IGluZGV4IDI1YjlhMjkzM2M0NS4uNmY3YzEwZmU5N2IzIDEwMDY0NA0KPj4g
-LS0tIGEvdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvcHJvYy9wcm9jLXBpZG5zLmMNCj4+ICsr
-KyBiL3Rvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL3Byb2MvcHJvYy1waWRucy5jDQo+PiBAQCAt
-Niw2ICs2LDcgQEANCj4+IMKgICNpbmNsdWRlIDxhc3NlcnQuaD4NCj4+IMKgICNpbmNsdWRl
-IDxlcnJuby5oPg0KPj4gKyNpbmNsdWRlIDxmY250bC5oPg0KPj4gwqAgI2luY2x1ZGUgPHNj
-aGVkLmg+DQo+PiDCoCAjaW5jbHVkZSA8c3RkYm9vbC5oPg0KPj4gwqAgI2luY2x1ZGUgPHN0
-ZGxpYi5oPg0KPiANCj4gdGhhbmtzLA0KPiAtLSBTaHVhaA0KDQo=
---------------xxU0v8M4BOyN0UvPh1OaSBJq
-Content-Type: application/pgp-keys; name="OpenPGP_0x1EFC1864E9D9E56B.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x1EFC1864E9D9E56B.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+Thank you!
 
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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
-+78sXChAfE9n44i0gJHzV8BhCsQG4+k=3D
-=3DGHsk
------END PGP PUBLIC KEY BLOCK-----
-
---------------xxU0v8M4BOyN0UvPh1OaSBJq--
-
---------------NbcpKa0FHxkGESYFGI5KWHj9--
-
---------------x0IdzTE0AzDe0BXqOsohYA00
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wsD5BAABCAAjFiEEhGrABIXlXG/0vJ9THvwYZOnZ5WsFAmo0GPgFAwAAAAAACgkQHvwYZOnZ5WsE
-2wv+M+X+dpPvkSEeizIFHZ3swvVTXMp5nbBHpPmNBgvSxDJD5OgWlSVwThSu1wwFHEb8Z18XxEKA
-tqtjXk0YMSa+e+xgpLe8inEhP0E4hXKjWcthbr6uhng45BgmA/sJjAzuvKPvCDnxwHyw1A3Ruue2
-pWY0AUPjw2lhCQb4YUsXrWmuBwBSCyGusOxuU85f9vXodqC1Mqzx9hjDCRt7FpmQ0ihE+fPwteKr
-62jfqr1JKuHcWR3fkOMe9IxPiQt5EGwyIeuG8JJPWeRsqUP8n6O3827rY+O0Ifu7a/FSpLYAPpa4
-CdlbXxR6nWU3H/SMtG6QWB6BPDi0qv9JuCawXJrbih+SBdfOW2cKTC3kvgtSmeRbkyPv00+fGrDV
-ISLZ2zG1GBtjBMA3cmp2tLxa11dh33c3BaIxy9ErQ2Ss2fLH/feh+x19M/90nntbLn4sNLSFyq4M
-sQZuLjUeKbH/wIz0hf6VgeWrdlWqU9llj5bm1oWFBoCx9I7+83lMrzhOGMMw
-=vESB
------END PGP SIGNATURE-----
-
---------------x0IdzTE0AzDe0BXqOsohYA00--
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
