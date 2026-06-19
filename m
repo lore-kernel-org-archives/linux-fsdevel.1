@@ -1,504 +1,112 @@
-Received: from pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.35.192.45])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A33283B4E9A;
-	Fri, 19 Jun 2026 17:04:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.35.192.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5691A3BE174;
+	Fri, 19 Jun 2026 17:07:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781888662; cv=none; b=O559e3EYM/1IhC9U4TRpKYIlWroyHIsNTgIE4aTBJODqtySBrnZ2+kmnaVn61wPomaLyCMsL9kGqEQwZ0UXJRGw/Fq6dqF2Zh6R6UJM14sG/OwwUI5bhdSu672v9sz25MWcRS8BnQOwBWOmcQQSB1U9vkGyd8Emu+P9ZofqvlKg=
+	t=1781888857; cv=none; b=VJkj9d5dKqF4zERkEkfQECahXjkQIpCEew34hsFIeqvOKFL/bGHnimrXxeqjn2H4aH8NbB5QEz6QGl48niN7sF5KWHwFRBzjyoswCWrOvVQek5DBLtj0eXqSDLnWXhM6/uZifhC466o/+AFentLuRLDb3HukIfRw04qmztimL7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781888662; c=relaxed/simple;
-	bh=2/47kzTHLy9MYbv3ZYricazBitgO64xHa7Gj4hs/OBw=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fQhoBns7WNecwVyHWHvsiwc1hVZnShaoGSAkUCCVzT6hLXKf+79GCoSlJ7FaGw6lnMIrL5XNQZpZp4CZG+z9wunHulkuHovI+Fg6cVEmwGCfz0aK98zIb7gZRG9dfGMsfaCEjxi0Siqn4/OlK4Gu1xiB/lYZTxwqUOBQ8uy0qbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=Jwj8uEQN; arc=none smtp.client-ip=52.35.192.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1781888857; c=relaxed/simple;
+	bh=bPFRyA8q12gfSlPlyamiQLzbMU9I0FS1UPZUp6TlbIk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VzlXj0X+17/YRoRUeE1fbpi+EkzFStsUUYHhu3hAgTQq2d7Px5IC8ydx32oDTccLxeEhJbccOe9pA3OTZCyj/zWLRvVfEhUguqSr3bh1O4BaXRDVvu+XwloMC3yhs0xWg5lB3MiGrKi9RrWZTSPGIhf9UsIvxJXXjtVdX03bY0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=brkFo1gg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="Jwj8uEQN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1781888660; x=1813424660;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=unS1UaSPPzvbJss9rxsLDzbatl+s6dSfyxpJQPb+hUc=;
-  b=Jwj8uEQNL7ExrZq1Hgf0Llvx7uSnjhegNxVe+MrfxGcgaIhvqzyvYvtW
-   A5krNky2n8o0qzipiA6Bde+xIYzh8OwqMfnoAz8eWi3YLuwmsHTJz+SiP
-   YP7twhaxnpajS9M1qXXJFcVQsr6OuggyuOqxS6gSU5HOsEv0tMj1zZl8D
-   BfF1X3aVnrDV6W1WyVl9jhWeDifSxyzQft1D5vsFg7YaCc+4JzhSIJgKw
-   j9eog14sG8N09yb4ioT/3/OyjUeb9fhjkEl3pzOWSQhThe98L3EA/8KSZ
-   I2sJ/nJ03AG34Wh0/uXBRnkJPjxbwcuc57S8eAMsyZ5dKq0b/76ZKop1l
-   g==;
-X-CSE-ConnectionGUID: ywNQMNejRTWz0IUh2DZh1w==
-X-CSE-MsgGUID: 6FdOBDhcRcahcrVlUFG7vQ==
-X-IronPort-AV: E=Sophos;i="6.24,213,1774310400"; 
-   d="scan'208";a="21880305"
-Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
-  by internal-pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2026 17:04:20 +0000
-Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:12557]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.13.145:2525] with esmtp (Farcaster)
- id bfd89d5f-c834-4de2-8d46-69a6c359b8e4; Fri, 19 Jun 2026 17:04:19 +0000 (UTC)
-X-Farcaster-Flow-ID: bfd89d5f-c834-4de2-8d46-69a6c359b8e4
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Fri, 19 Jun 2026 17:04:19 +0000
-Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
- by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
- Fri, 19 Jun 2026 17:04:18 +0000
-From: Jimmy Zuber <jamz@amazon.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-CC: <fuse-devel@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-api@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Shuah Khan
-	<shuah@kernel.org>, <linux-kselftest@vger.kernel.org>
-Subject: [PATCH v2 2/2] selftests/fuse: add test for FUSE_HAS_SYNCFS privilege gating
-Date: Fri, 19 Jun 2026 17:02:51 +0000
-Message-ID: <20260619170251.1154562-3-jamz@amazon.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260619170251.1154562-1-jamz@amazon.com>
-References: <20260616151909.916667-1-jamz@amazon.com>
- <20260619170251.1154562-1-jamz@amazon.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="brkFo1gg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90E131F000E9;
+	Fri, 19 Jun 2026 17:07:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781888856;
+	bh=aeuB26U0brIWccqtcDGehQkxyCwlFMLLMddYu0942Iw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=brkFo1ggwWjEhDRsLhYJemXNMQkQUusqJmybB7qBNJ4XDdafvDSJQKrUxjm7GFIvF
+	 tbjbdOhaMOjEc7KzbMFOKfJkEwRbp9IgRt+j0TLFlcACCSahsJsC1TKGj/LLQTHWma
+	 ERYxbv7aIel7FiBSISmkvZhd/h2/Bvvf/pvy7Yww5kPmq5CyTThIcM+KOkyqFwz5mZ
+	 ZjQdyvNSThJcniisREZm6Iu7/AbIXR5cGATSV4hJ+KQ8ZVmowIAUNKZBcYfXQEMEKm
+	 /H2RKK1IiyM12fU7/tQDhVcOasb2rVyqmltwOvmyHiueChRLjggZrNkmLCkRQiMFVZ
+	 GPlll8wVbh2bA==
+Date: Fri, 19 Jun 2026 18:07:30 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Frederick Mayle <fmayle@google.com>, Kalesh Singh <kaleshsingh@google.com>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	Suren Baghdasaryan <surenb@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>
+Subject: Re: [PATCH mm-hotfixses] Revert "mm: limit filemap_fault readahead
+ to VMA boundaries"
+Message-ID: <ajV0TbwEyaKMzoa6@lucifer>
+References: <20260619112852.104213-1-ljs@kernel.org>
+ <20260619093711.d0d37c9920b3a16394c356a6@linux-foundation.org>
+ <ajVz1nhMn2JwucMY@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D037UWB004.ant.amazon.com (10.13.138.84) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ajVz1nhMn2JwucMY@casper.infradead.org>
 
-Add a selftest that talks the raw FUSE protocol over /dev/fuse (rather
-than via libfuse, which negotiates INIT internally) so it can both choose
-whether to advertise FUSE_HAS_SYNCFS and directly observe whether a
-FUSE_SYNCFS opcode is forwarded by the kernel.
++cc Suren, Pedro, David - I messed up the cc on this patch.
 
-Four cases are covered:
+On Fri, Jun 19, 2026 at 05:52:38PM +0100, Matthew Wilcox wrote:
+> On Fri, Jun 19, 2026 at 09:37:11AM -0700, Andrew Morton wrote:
+> > On Fri, 19 Jun 2026 12:28:51 +0100 Lorenzo Stoakes <ljs@kernel.org> wrote:
+> >
+> > > This reverts commit 7b32f64bc512b40b268776c5ac4d354b325b3197.
+> > >
+> > > This patch caused a significant performance regression, so revert it, and
+> > > we can determine whether the approach is sensible or not moving forwards,
+> > > and if so how to avoid this.
+> > >
+> > > There was a merge conflict with commit de97ae6222c1 ("mm/readahead: no
+> > > PG_readahead on EOF"), care was taken to ensure that the revert retained the
+> > > behaviour of this patch and cleanly reverts commit 7b32f64bc512 ("mm: limit
+> > > filemap_fault readahead to VMA boundaries") only.
+> >
+> > I'm a little conflicted here.
+> >
+> > 7b32f64bc512 avoided readahead of "file pages outside the mapped
+> > region", which is clearly desirable (arguably a bug fix?) and we care
 
-  T1: host-root mount, server sets FUSE_HAS_SYNCFS
-      -> FUSE_SYNCFS must reach the server.
-  T2: host-root mount, server does not opt in
-      -> FUSE_SYNCFS must not be sent (back-compat).
-  T3: server opts in but opened /dev/fuse without CAP_SYS_ADMIN while still
-      in the initial user namespace
-      -> FUSE_SYNCFS must be withheld.  This is the case that distinguishes
-         gating on the server's privilege from gating on the mount's user
-         namespace.
-  T4: unprivileged user-namespace mount, server sets FUSE_HAS_SYNCFS
-      -> FUSE_SYNCFS must be withheld.
+I wouldn't say it's a bug fix? The kernel has always done this with no reported
+bugs.
 
-T4 requires CONFIG_USER_NS and the ability to create an unprivileged
-user-namespace mount; it is skipped otherwise.
+> > about performance of executable mappings.  Whereas it isn't clear that
+> > we care about whatever the heck that test case was doing.
+> >
+> > IOW, the revert might make the kernel worse, overall.
+> >
+> > If someone plans to get down and analyse that test case then come up
+> > with a new version of 7b32f64bc512 then OK.  Is there such a person?
+> >
+> > I'll park the revert in mm-unstable for now, but would prefer not to
+> > rush it in until we better understand what's going on with that test
+> > case and what can be done to address it.
 
-Signed-off-by: Jimmy Zuber <jamz@amazon.com>
-Assisted-by: Claude:claude-opus-4-8 [Claude-Code]
----
- .../selftests/filesystems/fuse/.gitignore     |   1 +
- .../selftests/filesystems/fuse/Makefile       |   2 +-
- .../selftests/filesystems/fuse/test_syncfs.c  | 370 ++++++++++++++++++
- 3 files changed, 372 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/filesystems/fuse/test_syncfs.c
+As Willy points out [0], we've identified that it's a real usecase that we're
+regressing.
 
-diff --git a/tools/testing/selftests/filesystems/fuse/.gitignore b/tools/testing/selftests/filesystems/fuse/.gitignore
-index 3e72e742d08e..4e92f363c74a 100644
---- a/tools/testing/selftests/filesystems/fuse/.gitignore
-+++ b/tools/testing/selftests/filesystems/fuse/.gitignore
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
- fuse_mnt
- fusectl_test
-+test_syncfs
-diff --git a/tools/testing/selftests/filesystems/fuse/Makefile b/tools/testing/selftests/filesystems/fuse/Makefile
-index 612aad69a93a..cbba01635226 100644
---- a/tools/testing/selftests/filesystems/fuse/Makefile
-+++ b/tools/testing/selftests/filesystems/fuse/Makefile
-@@ -2,7 +2,7 @@
- 
- CFLAGS += -Wall -O2 -g $(KHDR_INCLUDES)
- 
--TEST_GEN_PROGS := fusectl_test
-+TEST_GEN_PROGS := fusectl_test test_syncfs
- TEST_GEN_FILES := fuse_mnt
- 
- include ../../lib.mk
-diff --git a/tools/testing/selftests/filesystems/fuse/test_syncfs.c b/tools/testing/selftests/filesystems/fuse/test_syncfs.c
-new file mode 100644
-index 000000000000..90fb3478554a
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/fuse/test_syncfs.c
-@@ -0,0 +1,370 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Test that FUSE_SYNCFS is propagated to a userspace server only when the
-+ * server opts in with FUSE_HAS_SYNCFS *and* opened /dev/fuse with
-+ * CAP_SYS_ADMIN in the initial user namespace.
-+ *
-+ * Unlike the libfuse-based selftests, this talks the raw FUSE wire protocol
-+ * over /dev/fuse so it can (a) choose whether to advertise FUSE_HAS_SYNCFS in
-+ * the INIT reply and (b) observe directly whether a FUSE_SYNCFS opcode arrives.
-+ */
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <poll.h>
-+#include <sched.h>
-+#include <signal.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <sys/eventfd.h>
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+#include <sys/syscall.h>
-+#include <sys/types.h>
-+#include <sys/uio.h>
-+#include <sys/wait.h>
-+#include <linux/capability.h>
-+#include <linux/fuse.h>
-+
-+#include "../../kselftest.h"
-+
-+#define FUSE_ROOT_ID 1
-+
-+/*
-+ * Add or drop CAP_SYS_ADMIN in the effective set via raw capget/capset
-+ * (avoids a libcap dependency).  Used to construct a server that opens
-+ * /dev/fuse without the privilege FUSE_HAS_SYNCFS requires.
-+ */
-+static int set_sysadmin(int on)
-+{
-+	struct __user_cap_header_struct hdr = {
-+		.version = _LINUX_CAPABILITY_VERSION_3,
-+		.pid = 0,
-+	};
-+	struct __user_cap_data_struct data[_LINUX_CAPABILITY_U32S_3] = {};
-+	unsigned int idx = CAP_SYS_ADMIN >> 5;
-+	__u32 bit = 1U << (CAP_SYS_ADMIN & 31);
-+
-+	if (syscall(SYS_capget, &hdr, data))
-+		return -1;
-+	if (on)
-+		data[idx].effective |= bit;
-+	else
-+		data[idx].effective &= ~bit;
-+	return syscall(SYS_capset, &hdr, data);
-+}
-+
-+/*
-+ * eventfd the server child writes once when it receives FUSE_SYNCFS; the
-+ * parent poll()s it to observe (or rule out) propagation.
-+ */
-+static int syncfs_evfd;
-+
-+static void reply(int fd, uint64_t unique, int error, void *data, size_t len)
-+{
-+	struct fuse_out_header oh = {
-+		.len = sizeof(oh) + len,
-+		.error = error,
-+		.unique = unique,
-+	};
-+	struct iovec iov[2] = {
-+		{ &oh, sizeof(oh) },
-+		{ data, len },
-+	};
-+
-+	if (writev(fd, iov, data ? 2 : 1) < 0)
-+		ksft_print_msg("server writev failed: %s\n", strerror(errno));
-+}
-+
-+static void fill_attr(struct fuse_attr *a, uint64_t ino, uint32_t mode,
-+		      uint32_t nlink)
-+{
-+	memset(a, 0, sizeof(*a));
-+	a->ino = ino;
-+	a->mode = mode;
-+	a->nlink = nlink;
-+	a->blksize = 4096;
-+}
-+
-+/*
-+ * Minimal FUSE server.  Advertises FUSE_HAS_SYNCFS in its INIT reply iff
-+ * @advertise is set.  Signals syncfs_evfd when a FUSE_SYNCFS opcode arrives.
-+ */
-+#define SERVER_MAX_WRITE 65536
-+static void run_server(int fd, int advertise)
-+{
-+	/*
-+	 * The kernel rejects reads (EINVAL) whose buffer is smaller than
-+	 * max_write + header, so size generously for the max_write we
-+	 * advertise in the INIT reply below.
-+	 */
-+	static char buf[SERVER_MAX_WRITE + 4096];
-+
-+	for (;;) {
-+		ssize_t n = read(fd, buf, sizeof(buf));
-+		struct fuse_in_header *ih = (void *)buf;
-+
-+		if (n < 0) {
-+			if (errno == EINTR || errno == EAGAIN)
-+				continue;
-+			return;		/* device closed on unmount/abort */
-+		}
-+		if (n < (ssize_t)sizeof(*ih))
-+			continue;
-+
-+		switch (ih->opcode) {
-+		case FUSE_INIT: {
-+			struct fuse_init_in *in = (void *)(ih + 1);
-+			struct fuse_init_out out = {0};
-+			uint64_t flags = FUSE_INIT_EXT;
-+
-+			out.major = FUSE_KERNEL_VERSION;
-+			out.minor = FUSE_KERNEL_MINOR_VERSION;
-+			out.max_readahead = in->max_readahead;
-+			out.max_write = SERVER_MAX_WRITE;
-+			out.max_background = 16;
-+			out.congestion_threshold = 12;
-+			if (advertise)
-+				flags |= FUSE_HAS_SYNCFS;
-+			out.flags = flags;
-+			out.flags2 = flags >> 32;
-+			reply(fd, ih->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_GETATTR: {
-+			struct fuse_attr_out out = {0};
-+
-+			fill_attr(&out.attr, FUSE_ROOT_ID, S_IFDIR | 0755, 2);
-+			reply(fd, ih->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_SYNCFS: {
-+			uint64_t one = 1;
-+
-+			if (write(syncfs_evfd, &one, sizeof(one)) < 0)
-+				ksft_print_msg("server eventfd write failed: %s\n",
-+					       strerror(errno));
-+			reply(fd, ih->unique, 0, NULL, 0);
-+			break;
-+		}
-+		default:
-+			/*
-+			 * Anything else (e.g. OPENDIR from opening the mount
-+			 * root) is not needed to drive this test; -ENOSYS lets
-+			 * the kernel proceed.
-+			 */
-+			reply(fd, ih->unique, -ENOSYS, NULL, 0);
-+			break;
-+		}
-+	}
-+}
-+
-+/*
-+ * Mount a fuse fs backed by a forked server, issue syncfs(), and report
-+ * whether the server observed FUSE_SYNCFS.  Returns 0 on success, -1 if the
-+ * environment could not support the test (caller should skip).
-+ *
-+ * If @unpriv_open is set, /dev/fuse is opened with CAP_SYS_ADMIN dropped
-+ * (regained only for the mount() syscall), so the device opener -- the
-+ * server principal FUSE_HAS_SYNCFS is gated on -- lacks the privilege even
-+ * though it remains in the initial user namespace.
-+ */
-+static int do_mount_and_syncfs(const char *mnt, int advertise, int unpriv_open,
-+			       int *seen)
-+{
-+	struct pollfd pfd = { .events = POLLIN };
-+	char opts[256];
-+	int fd, mfd = -1, i;
-+	pid_t pid;
-+
-+	syncfs_evfd = eventfd(0, EFD_CLOEXEC);
-+	if (syncfs_evfd < 0)
-+		return -1;
-+
-+	if (unpriv_open && set_sysadmin(0))
-+		goto out_evfd;
-+	fd = open("/dev/fuse", O_RDWR);
-+	if (unpriv_open && set_sysadmin(1)) {
-+		if (fd >= 0)
-+			close(fd);
-+		goto out_evfd;
-+	}
-+	if (fd < 0)
-+		goto out_evfd;
-+
-+	mkdir(mnt, 0755);
-+	snprintf(opts, sizeof(opts),
-+		 "fd=%d,rootmode=40000,user_id=%d,group_id=%d",
-+		 fd, getuid(), getgid());
-+
-+	if (mount("fuse", mnt, "fuse", 0, opts) < 0)
-+		goto out_fd;
-+
-+	pid = fork();
-+	if (pid < 0)
-+		goto out_umount;
-+	if (pid == 0) {
-+		run_server(fd, advertise);
-+		_exit(0);
-+	}
-+
-+	/*
-+	 * The parent does not service the fuse fd; the child does.  Close our
-+	 * copy so the kernel sees a single server, and so that if the child
-+	 * dies the connection aborts instead of hanging us forever.
-+	 */
-+	close(fd);
-+
-+	/*
-+	 * mount() returns before the server has answered FUSE_INIT, so the
-+	 * first open() can race and fail with ENOTCONN; retry until the
-+	 * handshake settles.
-+	 */
-+	for (i = 0; i < 1000; i++) {
-+		mfd = open(mnt, O_RDONLY | O_DIRECTORY);
-+		if (mfd >= 0)
-+			break;
-+		usleep(1000);
-+	}
-+	if (mfd >= 0) {
-+		syncfs(mfd);
-+		close(mfd);
-+	}
-+
-+	/*
-+	 * No waiting is needed: the server writes syncfs_evfd before it replies
-+	 * to FUSE_SYNCFS, and that reply is what unblocks the synchronous
-+	 * syncfs() above.  So once syncfs() has returned, the eventfd is already
-+	 * signalled if the opcode was propagated, and will never be otherwise.
-+	 * poll() with a zero timeout therefore decides both cases immediately.
-+	 */
-+	pfd.fd = syncfs_evfd;
-+	*seen = poll(&pfd, 1, 0) > 0 && (pfd.revents & POLLIN);
-+
-+	kill(pid, SIGKILL);
-+	waitpid(pid, NULL, 0);
-+	umount2(mnt, MNT_DETACH);
-+	close(syncfs_evfd);
-+	return 0;
-+
-+out_umount:
-+	umount2(mnt, MNT_DETACH);
-+out_fd:
-+	close(fd);
-+out_evfd:
-+	close(syncfs_evfd);
-+	return -1;
-+}
-+
-+/* T4: same as above but the mount is created inside a new user namespace. */
-+static int run_in_userns(const char *mnt, int advertise, int *seen)
-+{
-+	uid_t uid = getuid();
-+	gid_t gid = getgid();
-+	char map[64];
-+	int f;
-+
-+	if (unshare(CLONE_NEWUSER | CLONE_NEWNS) < 0)
-+		return -1;	/* unprivileged userns mounts unavailable */
-+
-+	f = open("/proc/self/setgroups", O_WRONLY);
-+	if (f >= 0) {
-+		dprintf(f, "deny");
-+		close(f);
-+	}
-+	snprintf(map, sizeof(map), "0 %d 1", uid);
-+	f = open("/proc/self/uid_map", O_WRONLY);
-+	if (f < 0 || dprintf(f, "%s", map) < 0)
-+		return -1;
-+	close(f);
-+	snprintf(map, sizeof(map), "0 %d 1", gid);
-+	f = open("/proc/self/gid_map", O_WRONLY);
-+	if (f < 0 || dprintf(f, "%s", map) < 0)
-+		return -1;
-+	close(f);
-+
-+	/* Need a mount namespace where we can mount fuse unprivileged. */
-+	if (mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL) < 0)
-+		return -1;
-+
-+	return do_mount_and_syncfs(mnt, advertise, 0, seen);
-+}
-+
-+int main(void)
-+{
-+	char mnt[] = "/tmp/fuse_syncfs_XXXXXX";
-+	int seen, ret;
-+
-+	ksft_print_header();
-+	ksft_set_plan(4);
-+
-+	/* Hard watchdog: never let a stuck syncfs hang the test runner. */
-+	signal(SIGALRM, SIG_DFL);
-+	alarm(60);
-+
-+	if (geteuid() != 0)
-+		ksft_exit_skip("test requires root to mount fuse\n");
-+
-+	if (!mkdtemp(mnt))
-+		ksft_exit_fail_msg("mkdtemp failed\n");
-+
-+	/* T1: host-root mount, server opts in -> syncfs must reach server. */
-+	ret = do_mount_and_syncfs(mnt, 1, 0, &seen);
-+	if (ret < 0)
-+		ksft_test_result_skip("T1: could not mount fuse\n");
-+	else
-+		ksft_test_result(seen,
-+				 "T1 host-root + FUSE_HAS_SYNCFS: server receives FUSE_SYNCFS\n");
-+
-+	/* T2: host-root mount, server does NOT opt in -> no FUSE_SYNCFS. */
-+	ret = do_mount_and_syncfs(mnt, 0, 0, &seen);
-+	if (ret < 0)
-+		ksft_test_result_skip("T2: could not mount fuse\n");
-+	else
-+		ksft_test_result(!seen,
-+				 "T2 host-root, no opt-in: server does NOT receive FUSE_SYNCFS\n");
-+
-+	/*
-+	 * T3: server opts in but opened /dev/fuse without CAP_SYS_ADMIN while
-+	 * still in the initial user namespace -> kernel must withhold
-+	 * FUSE_SYNCFS.  This is the case that distinguishes gating on the
-+	 * server's privilege from gating on the mount's user namespace.
-+	 */
-+	ret = do_mount_and_syncfs(mnt, 1, 1, &seen);
-+	if (ret < 0)
-+		ksft_test_result_skip("T3: could not mount fuse unprivileged\n");
-+	else
-+		ksft_test_result(!seen,
-+				 "T3 init_userns, opener lacks CAP_SYS_ADMIN: FUSE_SYNCFS withheld\n");
-+
-+	/*
-+	 * T4: unprivileged userns mount, server opts in -> kernel must still
-+	 * withhold FUSE_SYNCFS.  Run in a child since it unshares namespaces.
-+	 */
-+	{
-+		pid_t p = fork();
-+
-+		if (p == 0) {
-+			int s = 0;
-+			int r = run_in_userns(mnt, 1, &s);
-+
-+			_exit(r < 0 ? 2 : (s ? 1 : 0));
-+		} else {
-+			int status;
-+
-+			waitpid(p, &status, 0);
-+			if (!WIFEXITED(status))
-+				ksft_test_result_error("T4: child crashed\n");
-+			else if (WEXITSTATUS(status) == 2)
-+				ksft_test_result_skip("T4: userns fuse mount unavailable\n");
-+			else
-+				ksft_test_result(WEXITSTATUS(status) == 0,
-+						 "T4 unpriv userns + opt-in: FUSE_SYNCFS withheld\n");
-+		}
-+	}
-+
-+	rmdir(mnt);
-+	ksft_finished();
-+}
--- 
-2.50.1
+There's likely others too in the real world.
 
+This approach has also not been without debate in the past (see [1]), I think
+this patch slipped under the radar on that front a bit.
+
+So yeah, this does not to be reverted, and as a hotfix sooner rather than later.
+
+>
+> Suren did that work.
+> https://lore.kernel.org/linux-mm/CAJuCfpH_Fp=J-m-kVZ3VVmqH0cAfNX6CQKWt3XmAJq1Rp9sFwQ@mail.gmail.com/
+
+Thanks for highlighting that Willy (copied -> [0]).
+
+Overall, if a patch causes a major regression in a core mm subsystem, people can
+wait a cycle to re-evaluate.
+
+Thanks, Lorenzo
+
+[0]:https://lore.kernel.org/linux-mm/CAJuCfpH_Fp=J-m-kVZ3VVmqH0cAfNX6CQKWt3XmAJq1Rp9sFwQ@mail.gmail.com/
+[1]:https://lore.kernel.org/linux-mm/CAC_TJvfG8GcwG_2w1o6GOTZS8tfEx2h9A91qsenYfYsX8Te=Bg@mail.gmail.com/
