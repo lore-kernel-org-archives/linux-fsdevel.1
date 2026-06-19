@@ -1,102 +1,131 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3B73655CB
-	for <linux-fsdevel@vger.kernel.org>; Fri, 19 Jun 2026 09:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D76DC35A3A9;
+	Fri, 19 Jun 2026 09:38:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781861787; cv=none; b=OEU1bFUSoVc51Nufxvj56pcYMo7IEuZnEHITDnNA2NUe0iHY3es3DJjmMzggYdvwvaXjgSlguPJVvErmRmMvXkETKRLhSs61SBRY5YOiGAsNH7suaVzKhCJZCDEyLljuXAKRkpcYn09BtX7VDTOXccny5WyS8rpJT3hBuDR+QOQ=
+	t=1781861900; cv=none; b=c5povAerG5EPsYoxtThr6yTsJeQkXN7DfgpnSQvwRYDwlUDfZhvpe61jQ8uaG6mccPUl0ndTNWC1OZX+vxLmv/LZvTIEnaOuLtgX3/jwg5bkC1qrFmZAmaxB6D6i3F00+MOzsu+YGmB2k0gcSBah257DLZhuKRRXJn9W6RzDAag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781861787; c=relaxed/simple;
-	bh=dLw0jP0T+p6J/04ZcK5m7P0N4MPtuz997gX9m+ifT/c=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=KK9tQ+MY81w4zKfCmpF4SumnsDt6Y4SgzkA5P//9hK5FPXG4ZvAUVS1wx06O4dQ5bjcBhPtf2wW+Gv/Z6SvPj5IQMExD+9XDolRPz59yVg/LBtV7+tyuSXupW1QPlQJPJO4dwemWWDoWB6+oC8wxSGegcN2qmCJ8nimeNUmlcew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=IEHX9pRe; arc=none smtp.client-ip=195.121.94.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1781861900; c=relaxed/simple;
+	bh=xC3wcnUeClOSfRW2eqNi5KvQoM1t2WCujkSlzbe2wj0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=VtwIgR+W8ztc6oEDBRowq0q86wWyHH8jxiC2HMyS4eXS/zzgUFXZ/AJXv4PsLNCnn059y4MgqBOu1TWbQJXKSp51LDVVflkoNFfgYVhXJLK9pINvo4O+f4tKMFbKC5/No7eEg3ORzPP+rWX3jfVvBrmCIRmO6ALKr/oD+eatTmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cNn/sSgD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="IEHX9pRe"
-X-KPN-MessageId: 52a15775-6bc2-11f1-a59f-005056994fde
-Received: from mta.kpnmail.nl (unknown [10.31.161.190])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 52a15775-6bc2-11f1-a59f-005056994fde;
-	Fri, 19 Jun 2026 11:36:17 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 52a04fe6-6bc2-11f1-b2ea-0050569977a2;
-	Fri, 19 Jun 2026 11:36:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=KibVJ5LuoBcA/qEB56SUrJpOMsCf0W74wuOLa9cal7E=;
-	b=IEHX9pReCJRwByBHukYn2+Nw19h38uP5mzOxEimPCbDEIASAxDKITG1DG9jKMR3sYzli2oR/FeOy6
-	 BDy2d6MJE2rtX5emQjMIsUIn4iZ1QXXrwD1uIyuCHNAnTq1TjEjOpEGgqBxS6XUmPVkEi/dK3sGUVx
-	 YBW+g4OziPdhiLEws6Ul1KYjkVCxjZqr9HrqnPGDWNgA0K4czimp9APDocdzISxvxeDS4cBdCXZ7lk
-	 NLigZ7g2kJ1IVZCZfThEKHiki10tYhXERg2760IRhBPf1eINK1F73UJE+JoV6++8GWENiPvC4x+KtV
-	 54IsMHRN/mPdvFtHH4beMf5UqPEnsvA==
-X-KPN-MID: 33|JxvJALUcdjQuozS6QUv8MKSn3MffWTZsbaBeNfPx2XLCgjTgZspzdweK1BP9TSn
- AaMr6I0Lg4VLunN3cY/SUMk4S42WxYg8e6+gf/j/7H9A=
-X-CMASSUN: 33|u8rXP72L1Y3OsrsCi3RQxJIm7HFGyRfcPuu7ac2yQ3Qo2h8cVv21LOnoZmFq72B
- iZOW6sgh9SsdMLmsiKD/P8Q==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh05 (cpxoxapps-mh05.personalcloud.so.kpn.org [10.128.135.211])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 5290dc5c-6bc2-11f1-8edb-00505699eff2;
-	Fri, 19 Jun 2026 11:36:17 +0200 (CEST)
-Date: Fri, 19 Jun 2026 11:36:17 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>, Hans de Goede <hans@hansg.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Message-ID: <2123052165.2290469.1781861777821@kpc.webmail.kpnmail.nl>
-In-Reply-To: <ai8M2PK5vH7FPj3d@casper.infradead.org>
-References: <20260614191040.3007723-1-jkoolstra@xs4all.nl>
- <198160170.1699942.1781464305401@kpc.webmail.kpnmail.nl>
- <ai8M2PK5vH7FPj3d@casper.infradead.org>
-Subject: Re: MAINTAINERS: take over vboxsf from Hans de Goede
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cNn/sSgD"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 75FE8C2BCB4;
+	Fri, 19 Jun 2026 09:38:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1781861900;
+	bh=xC3wcnUeClOSfRW2eqNi5KvQoM1t2WCujkSlzbe2wj0=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=cNn/sSgDg2DAqiOkO5zwjsKajKsvEPw407i+H1F1HCd+TtheUgw9FBLpbdCFw0f0b
+	 cEAoX1ULeNUBOjQ9TKtQgnCYqF9WGYwADlbrn7SpcL9xh524hRNMa0xfEawlTHa0cE
+	 jwhz1zoGh4Agzu7nFBWD/yhuDPxdsMX3Nqnb5RwQzHLLRXdhHHsaeK21lJcpCwZBl4
+	 xKRoLrEltaYqNBPl3oTtUdEsOPCw/29RWOAATLOABNUSsKgnE+6x608wlG5oRYMUZW
+	 6DAHjo0jS/1ygbwb2TjXb9IQJPHnH641dmUcIku88cFOkv98yOcax5Rij+9yXkOZ+8
+	 q/tQHuSpmpFZw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 539A2CD98F6;
+	Fri, 19 Jun 2026 09:38:20 +0000 (UTC)
+From: Bryam Vargas via B4 Relay <devnull+hexlabsecurity.proton.me@kernel.org>
+Date: Fri, 19 Jun 2026 04:38:20 -0500
+Subject: [PATCH] orangefs: keep the readdir entry size 64-bit in
+ fill_from_part()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Message-Id: <20260619-b4-disp-50d2bd59-v1-1-ce332969b4a2@proton.me>
+X-B4-Tracking: v=1; b=H4sIAAsONWoC/x3MMQqAMAxA0atIZgNprEq9ijhYGzWLSgsiFO9uc
+ XzD/xmSRJUEQ5Uhyq1Jz6PA1BUs+3xsghqKgYk76oxDbzFourClwD60DsmtwtyT9Y2Bkl1RVn3
+ +5Ti97wcDJit8YgAAAA==
+To: Mike Marshall <hubcap@omnibond.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devel@lists.orangefs.org, Martin Brandenburg <martin@omnibond.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781861899; l=2502;
+ i=hexlabsecurity@proton.me; s=proton; h=from:subject:message-id;
+ bh=RJ8UcS4zpbSFRnrWNSWSdbFKTQ2rtT8iK4yUjj8cqng=;
+ b=Vdm6WMjY5JkW7U1XmXeabtMn+i+ZG/DE8OgOh6bSSj+l2snqflHnXtFDsDObEVebkLyoOG92g
+ n6C2/ZaUyTzBi5xnEKayytXhj+zr3GYPBd+327c36A5l2woGi+KRL8U
+X-Developer-Key: i=hexlabsecurity@proton.me; a=ed25519;
+ pk=dmppBMZNLLoPzxHi9l8tZDzEZUunPbgsYqIZYXeUrL0=
+X-Endpoint-Received: by B4 Relay for hexlabsecurity@proton.me/proton with
+ auth_id=814
+X-Original-From: Bryam Vargas <hexlabsecurity@proton.me>
+Reply-To: hexlabsecurity@proton.me
+
+From: Bryam Vargas <hexlabsecurity@proton.me>
+
+fill_from_part() computes the size of a directory entry in size_t but
+stores it in a __u32. An entry length near U32_MAX wraps it to a small
+value, bypasses the bounds check, and is then used to index the entry,
+reading far past the directory part -- an out-of-bounds read that oopses
+the kernel.
+
+Compute the size as a u64 so it cannot truncate; the bounds check then
+rejects the entry. The trailer is supplied by the userspace client.
+
+Fixes: 480e3e532e31 ("orangefs: support very large directories")
+Cc: stable@vger.kernel.org
+Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
+---
+Reproduced with an in-kernel module that runs the fill_from_part() loop over
+a crafted trailer; the only difference between arms is the size width:
+
+  A (__u32, len 0xfffffffb): page-fault oops at fill_from_part+0x126
+    (KASAN shadow load for s[*len], ~4 GiB out).
+  B (u64, this patch): the bounds check rejects the entry, no OOB.
+  C (small len): unchanged, entry emitted.
+
+Same result under userspace ASan. Tested on a KASAN build at v7.1-rc7.
+
+checkpatch keeps "sizeof *len" to match the rest of the function.
+
+Severity depends on the trust boundary on the userspace client: a remote or
+compromised server driving the length is a remote DoS; a trusted client
+makes it a local robustness fix. No write, no info leak.
+---
+ fs/orangefs/dir.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/fs/orangefs/dir.c b/fs/orangefs/dir.c
+index 6e2ebc8b9867..115b2c2f5269 100644
+--- a/fs/orangefs/dir.c
++++ b/fs/orangefs/dir.c
+@@ -191,7 +191,8 @@ static int fill_from_part(struct orangefs_dir_part *part,
+ {
+ 	const int offset = sizeof(struct orangefs_readdir_response_s);
+ 	struct orangefs_khandle *khandle;
+-	__u32 *len, padlen;
++	__u32 *len;
++	u64 padlen;
+ 	loff_t i;
+ 	char *s;
+ 	i = ctx->pos & ~PART_MASK;
+@@ -215,8 +216,8 @@ static int fill_from_part(struct orangefs_dir_part *part,
+ 		 * len is the size of the string itself.  padlen is the
+ 		 * total size of the encoded string.
+ 		 */
+-		padlen = (sizeof *len + *len + 1) +
+-		    (8 - (sizeof *len + *len + 1)%8)%8;
++		padlen = (u64)sizeof *len + *len + 1;
++		padlen += (8 - padlen % 8) % 8;
+ 		if (part->len < i + padlen + sizeof *khandle)
+ 			goto next;
+ 		s = (void *)part + offset + i + sizeof *len;
+
+---
+base-commit: 4549871118cf616eecdd2d939f78e3b9e1dddc48
+change-id: 20260619-b4-disp-50d2bd59-09fe22704b31
+
+Best regards,
+-- 
+bryamzxz <hexlabsecurity@proton.me>
 
 
-> Op 14-06-2026 22:19 CEST schreef Matthew Wilcox <willy@infradead.org>:
-> 
->  
-> On Sun, Jun 14, 2026 at 09:11:45PM +0200, Jori Koolstra wrote:
-> > > Op 14-06-2026 21:10 CEST schreef Jori Koolstra <jkoolstra@xs4all.nl>:
-> > > I have no major plans for vboxsf, but I do want to support passing
-> > > physical addresses to the host; the communication protocol seems to
-> > > allow for it and it would mean we can get rid of some kmap calls.
-> 
-> I would love that.  I looked at doing it when I did e300830fcc40
-> (convert to writepages), but it was a little beyond me.  I really didn't
-> want to try to do it without having a way to test it.
-
-I have a Windows and Linux box with VBox installed, and I have created a
-simple Alpine bootstrapper on which to run basic tests within VBox. I use
-the vboxsf to move the host compiled modules to the guest (the driver and
-vboxsf itself). I still have to think a bit if there is any reasonable
-automated way to run tests on the guest side. xfstests probably aren't 
-very suitable here, because we don't control how VBox itself responds to
-incoming requests. But maybe it has some sub-collection that will run. I
-have to look into that.
-
-> 
-> Any chance you could also add large folio support?  I don't think it
-> should be much extra work once you've done physical address support.
-
-Yes, I'll look into that as well. If I have any memory related questions
-can I ask you?
-
-Thanks!
-Jori.
