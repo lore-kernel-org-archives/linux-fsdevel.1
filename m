@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E1F360ECF;
-	Fri, 19 Jun 2026 08:36:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B853B36212C;
+	Fri, 19 Jun 2026 08:37:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781858218; cv=none; b=ZR5Jjq+OQfmu/Fs9rEG8qitFQiDVLM9jFmd86q66uVq5l7HmX3wNpbk6cUalEdO6+lhrhwyS9fch27CqufTipdKHWiKD3xqwioNfdstkUUIaZkSFTqQZCpVSucrnKiLeaTTG0nGnxMv/ZRNRZEIksdxEAYvCzRhl65FWEUBMxeE=
+	t=1781858222; cv=none; b=rFk8p0oxbd73st/aRIqwV4AjXx36JTTbwAhzKFE3bzkdnzCT5jnXPxYU5BcmG64JpmJPNlHazjNrfQjOZsEsisgaUgfwZNHMCJ1v1p+kU66UR5Tca0rdOup1Axu2PCwaK8vVEa8hOwiSu1s488Hgi7XUSgY0DxhVIj/PeN+GK7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781858218; c=relaxed/simple;
-	bh=x/lkKxnWNx5vlg9mMMxrPpXIp2TvAlPX0X2PtavnSBw=;
+	s=arc-20240116; t=1781858222; c=relaxed/simple;
+	bh=FzEEIjUxm55PKaknLr6Bmlg50Bz3aCKPyPpBLBQMq5A=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Xk8DtoCtOw8MDiwOCjElV4qYyEpA+ARRPEoRs/aLsgq5qZjp89PP3PzzZVeTGcZce6giUvZHqJh1cz3nbRdQSfEsJznwomoN7M5Z9XzKdfjjwUzkPBXp56xOqhS/CAsj4xfUh+cIIGtV6gr72+IY+WJFtj6Jw6cnTPrHLFJr6UI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eQ/Ne6LU; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=hN1oIkVY4TgThwZmxs/Pds6Kzq82KyxEsgGwo+zuOBCJS9qe8QdhJltzDhNO2cmfQryGOBZ7RqH25hBf+7gb74OV2DJPxOGWDqaQtHiCr1dCVg79F7FKBqpOHjgGNv0XOpuxXxr/1nU0p4R24q+SzLUuWfT7xtX9UXmMjf2enQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QuehCDYJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eQ/Ne6LU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC3051F00A3A;
-	Fri, 19 Jun 2026 08:36:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QuehCDYJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02EB61F000E9;
+	Fri, 19 Jun 2026 08:36:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781858217;
-	bh=NRM2XanEsEOH6sv6WnVoUBS9VSMhSgfj9QMZzijjZOE=;
+	s=k20260515; t=1781858220;
+	bh=V5BVr74E1BaegjqLu/ClSJb0wS+FK3ACznVFFHeOTcU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=eQ/Ne6LU6IgiqI4z47tGBrdqO8Y4J/ckzpFP40M3sEGLH8nCQ5tSXMFI9egxQMqRq
-	 FcVYIEzTMTXYewYdrWoXI3UvlYa+uQ/tgv0VXUPev0SFF9NrppG5cd07Qx1uA5sCNg
-	 +kAiYnIfUNd16WELGx8OSHF2LI7wv9PjoSZha7dJx50cixrvhvV95eg6PL5SKFHgK9
-	 z6lu846YwLynKNgQSf5gBhF0wORc4hTLQ5uPYvwoPPez2CyMPOuGiNAIalLDayrl9a
-	 DojfRr4XByiRTexeF7RUTME95T9R2YklO5WgiSqV6V92uOxRGg4LpL7U0C0U9vMF63
-	 0ZYlOIqGJU5Cw==
+	b=QuehCDYJ6mc2hkJEgPrbyfUkyDG8HgVF710Ovl7l1v7GoVfFxrdkPAGApEJFnyNfm
+	 WbTTyrQa/G3PYwg59upN8C07swHZcb3Q5I49yZry2R/lj9Koc3sxnflnbJT6xn12uv
+	 xVBFFBBVIrd+usfyKPYsBhvoAdHAZiaxGnZBSOQFdRvS15LKii8gqojO7rIZJVYk2V
+	 nE0DHRPUzJYRoDJzRO6DqlU6t+RwxoC9VxAmCORn1L363URs65lWB4qpFiI0CAsUcx
+	 oZE9MEFZ8jL+VIFtHXszbOAEloaV+l6+dIk0dAggLJ16gCt2rOvCyJPkoD5mVWYlM5
+	 1LYTFGAFHB4Rg==
 From: hare@kernel.org
-Date: Fri, 19 Jun 2026 10:36:41 +0200
-Subject: [PATCH RFC v2 01/12] fs/configfs: rework configfs_is_root()
+Date: Fri, 19 Jun 2026 10:36:42 +0200
+Subject: [PATCH RFC v2 02/12] fs/configfs: dynamically allocate super_info
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260619-configfs-ns-v2-1-82fd7094b8dc@kernel.org>
+Message-Id: <20260619-configfs-ns-v2-2-82fd7094b8dc@kernel.org>
 References: <20260619-configfs-ns-v2-0-82fd7094b8dc@kernel.org>
 In-Reply-To: <20260619-configfs-ns-v2-0-82fd7094b8dc@kernel.org>
 To: Andreas Hindborg <a.hindborg@kernel.org>, 
@@ -49,60 +49,422 @@ Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  linux-nvme@lists.infradead.org, Hannes Reinecke <hare@kernel.org>, 
  Hannes Reinecke <hare@suse.de>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1781858211; l=1703;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781858211; l=12430;
  i=hare@kernel.org; s=20260619; h=from:subject:message-id;
- bh=ZAltGWZlaXO+9VOilwaR6hdI8pojrV/IucS1y5gTbtY=;
- b=WbjJFZOw00P6X5hbtGF5L//h9H6OdbfJ42ANnIltcKNNfMIMKIG4cqrAfqq4RQFUzJy5VXN69
- zdDEssk4MWQAF1xh8ABV2gBLzxFlQyzM/ny1Ue6N9KnU8lnm3KdM9jh
+ bh=ukwPQsO+DiDmd9LIWg81/EnCEPdVWP7yklda3ly3LDs=;
+ b=AO2pOdPT4Yp0YfDMHRXIY03+5oaujgiWEQKr9ol1c57aaRYUq7MBVNCzbT5LSoe9ObzVeX7cG
+ MPpi1+m/WAQBzJzHzckncxBjnUKGLfNgomV+8U9XRTdW8kC7Q5lu94j
 X-Developer-Key: i=hare@kernel.org; a=ed25519;
  pk=iekPF4ZZFva3sutm7d1ryPNR1G/WFfUgHaDB423JXho=
 
 From: Hannes Reinecke <hare@suse.de>
 
-In preparation for making configfs namespace-aware rework
-configfs_is_root() to not rely on static structures but
-rather use the information in the structures themselves.
+Define 'struct configfs_super_info' to hold all required structures
+and allocate the filesystem contents dynamically.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- fs/configfs/configfs_internal.h | 2 +-
- fs/configfs/mount.c             | 9 +++++++--
- 2 files changed, 8 insertions(+), 3 deletions(-)
+ fs/configfs/configfs_internal.h |  13 ++++
+ fs/configfs/dir.c               |  42 +++++++-----
+ fs/configfs/mount.c             | 148 ++++++++++++++++++++++++++++++----------
+ include/linux/configfs.h        |   1 +
+ 4 files changed, 152 insertions(+), 52 deletions(-)
 
 diff --git a/fs/configfs/configfs_internal.h b/fs/configfs/configfs_internal.h
-index acdeea8e2d69ac9d621e1a42b039719811c31757..6261e1f3ec201a58a5d46b08dfbced8c2a44d82b 100644
+index 6261e1f3ec201a58a5d46b08dfbced8c2a44d82b..94b9e306709150e7a123c46bb359077c6dc917ad 100644
 --- a/fs/configfs/configfs_internal.h
 +++ b/fs/configfs/configfs_internal.h
-@@ -63,7 +63,7 @@ extern spinlock_t configfs_dirent_lock;
- 
- extern struct kmem_cache *configfs_dir_cachep;
- 
--extern int configfs_is_root(struct config_item *item);
-+extern bool configfs_is_root(struct config_item *item);
- 
- extern struct inode * configfs_new_inode(umode_t mode, struct configfs_dirent *, struct super_block *);
- extern struct inode *configfs_create(struct dentry *, umode_t mode);
-diff --git a/fs/configfs/mount.c b/fs/configfs/mount.c
-index 4929f343118946eaa55a539db4192e9c6621a8dc..88da7b428e52f2f4ab139ad3907101f685d617b1 100644
---- a/fs/configfs/mount.c
-+++ b/fs/configfs/mount.c
-@@ -47,9 +47,14 @@ static struct config_group configfs_root_group = {
- 	},
+@@ -44,6 +44,17 @@ struct configfs_dirent {
+ 	struct configfs_fragment *s_frag;
  };
  
--int configfs_is_root(struct config_item *item)
-+bool configfs_is_root(struct config_item *item)
- {
--	return item == &configfs_root_group.cg_item;
-+	struct configfs_dirent *sd;
++struct configfs_super_info {
++	struct configfs_dirent root;
++	struct config_group group;
++	struct list_head subsys_list;
++	struct mutex subsys_mutex;
++	struct vfsmount *mnt;
++	int mnt_count;
++	struct net *net_ns;
++	refcount_t ref;
++};
 +
-+	if (!item->ci_dentry)
-+		return false;
-+	sd = item->ci_dentry->d_fsdata;
-+	return !!(sd->s_type & CONFIGFS_ROOT);
+ #define CONFIGFS_ROOT		0x0001
+ #define CONFIGFS_DIR		0x0002
+ #define CONFIGFS_ITEM_ATTR	0x0004
+@@ -81,6 +92,8 @@ extern int configfs_setattr(struct mnt_idmap *idmap,
+ 
+ extern struct dentry *configfs_pin_fs(void);
+ extern void configfs_release_fs(void);
++extern struct configfs_super_info *configfs_get_super_info(struct net *net_ns);
++extern void configfs_put_super_info(struct configfs_super_info *info);
+ 
+ extern const struct file_operations configfs_dir_operations;
+ extern const struct file_operations configfs_file_operations;
+diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
+index 3c88f13f1ca2e9f0ee61ab5003356c070f2c05be..2cd64c13538699683487b0669e8950f5c7bedd54 100644
+--- a/fs/configfs/dir.c
++++ b/fs/configfs/dir.c
+@@ -34,14 +34,6 @@
+  */
+ DEFINE_SPINLOCK(configfs_dirent_lock);
+ 
+-/*
+- * All of link_obj/unlink_obj/link_group/unlink_group require that
+- * subsys->su_mutex is held.
+- * But parent configfs_subsystem is NULL when config_item is root.
+- * Use this mutex when config_item is root.
+- */
+-static DEFINE_MUTEX(configfs_subsystem_mutex);
+-
+ static void configfs_d_iput(struct dentry * dentry,
+ 			    struct inode * inode)
+ {
+@@ -1871,20 +1863,27 @@ EXPORT_SYMBOL(configfs_unregister_default_group);
+ 
+ int configfs_register_subsystem(struct configfs_subsystem *subsys)
+ {
+-	int err;
++	struct configfs_super_info *info = configfs_get_super_info(0);
+ 	struct config_group *group = &subsys->su_group;
+ 	struct dentry *dentry;
+ 	struct dentry *root;
+ 	struct configfs_dirent *sd;
+ 	struct configfs_fragment *frag;
++	int err;
++
++	if (IS_ERR(info))
++		return PTR_ERR(info);
+ 
+ 	frag = new_fragment();
+-	if (!frag)
++	if (!frag) {
++		configfs_put_super_info(info);
+ 		return -ENOMEM;
++	}
+ 
+ 	root = configfs_pin_fs();
+ 	if (IS_ERR(root)) {
+ 		put_fragment(frag);
++		configfs_put_super_info(info);
+ 		return PTR_ERR(root);
+ 	}
+ 
+@@ -1892,9 +1891,9 @@ int configfs_register_subsystem(struct configfs_subsystem *subsys)
+ 		group->cg_item.ci_name = group->cg_item.ci_namebuf;
+ 
+ 	sd = root->d_fsdata;
+-	mutex_lock(&configfs_subsystem_mutex);
++	mutex_lock(&info->subsys_mutex);
+ 	link_group(to_config_group(sd->s_element), group);
+-	mutex_unlock(&configfs_subsystem_mutex);
++	mutex_unlock(&info->subsys_mutex);
+ 
+ 	inode_lock_nested(d_inode(root), I_MUTEX_PARENT);
+ 
+@@ -1921,26 +1920,34 @@ int configfs_register_subsystem(struct configfs_subsystem *subsys)
+ 	inode_unlock(d_inode(root));
+ 
+ 	if (err) {
+-		mutex_lock(&configfs_subsystem_mutex);
++		mutex_lock(&info->subsys_mutex);
+ 		unlink_group(group);
+-		mutex_unlock(&configfs_subsystem_mutex);
++		mutex_unlock(&info->subsys_mutex);
+ 		configfs_release_fs();
+ 	}
+ 	put_fragment(frag);
+-
++	configfs_put_super_info(info);
+ 	return err;
  }
  
- static struct configfs_dirent configfs_root = {
+ void configfs_unregister_subsystem(struct configfs_subsystem *subsys)
+ {
++	struct configfs_super_info *info = configfs_get_super_info(0);
+ 	struct config_group *group = &subsys->su_group;
+ 	struct dentry *dentry = dget(group->cg_item.ci_dentry);
+ 	struct dentry *root = dentry->d_sb->s_root;
+ 	struct configfs_dirent *sd = dentry->d_fsdata;
+ 	struct configfs_fragment *frag = sd->s_frag;
+ 
++	if (WARN_ON(IS_ERR(info))) {
++		dput(dentry);
++		return;
++	}
++
+ 	if (dentry->d_parent != root) {
+ 		pr_err("Tried to unregister non-subsystem!\n");
++		dput(dentry);
++		configfs_put_super_info(info);
+ 		return;
+ 	}
+ 
+@@ -1970,10 +1977,11 @@ void configfs_unregister_subsystem(struct configfs_subsystem *subsys)
+ 
+ 	dput(dentry);
+ 
+-	mutex_lock(&configfs_subsystem_mutex);
++	mutex_lock(&info->subsys_mutex);
+ 	unlink_group(group);
+-	mutex_unlock(&configfs_subsystem_mutex);
++	mutex_unlock(&info->subsys_mutex);
+ 	configfs_release_fs();
++	configfs_put_super_info(info);
+ }
+ 
+ EXPORT_SYMBOL(configfs_register_subsystem);
+diff --git a/fs/configfs/mount.c b/fs/configfs/mount.c
+index 88da7b428e52f2f4ab139ad3907101f685d617b1..067bb1099a52ca2216d1b2881429a3fd1811c706 100644
+--- a/fs/configfs/mount.c
++++ b/fs/configfs/mount.c
+@@ -22,10 +22,18 @@
+ /* Random magic number */
+ #define CONFIGFS_MAGIC 0x62656570
+ 
+-static struct vfsmount *configfs_mount = NULL;
+ struct kmem_cache *configfs_dir_cachep;
+-static int configfs_mnt_count = 0;
++static DEFINE_XARRAY(configfs_super_xa);
++static struct configfs_super_info *configfs_root;
+ 
++static u64 configfs_ns_id(struct net *net_ns)
++{
++	struct ns_common *ns = net_ns ? to_ns_common(net_ns) : NULL;
++
++	if (!ns || net_ns == &init_net)
++		return 0;
++	return ns->ns_id;
++}
+ 
+ static void configfs_free_inode(struct inode *inode)
+ {
+@@ -40,13 +48,6 @@ static const struct super_operations configfs_ops = {
+ 	.free_inode	= configfs_free_inode,
+ };
+ 
+-static struct config_group configfs_root_group = {
+-	.cg_item = {
+-		.ci_namebuf	= "root",
+-		.ci_name	= configfs_root_group.cg_item.ci_namebuf,
+-	},
+-};
+-
+ bool configfs_is_root(struct config_item *item)
+ {
+ 	struct configfs_dirent *sd;
+@@ -57,19 +58,76 @@ bool configfs_is_root(struct config_item *item)
+ 	return !!(sd->s_type & CONFIGFS_ROOT);
+ }
+ 
+-static struct configfs_dirent configfs_root = {
+-	.s_sibling	= LIST_HEAD_INIT(configfs_root.s_sibling),
+-	.s_children	= LIST_HEAD_INIT(configfs_root.s_children),
+-	.s_element	= &configfs_root_group.cg_item,
+-	.s_type		= CONFIGFS_ROOT,
+-	.s_iattr	= NULL,
+-};
++static void configfs_fill_super_info(struct configfs_super_info *info)
++{
++	INIT_LIST_HEAD(&info->root.s_sibling);
++	INIT_LIST_HEAD(&info->root.s_children);
++	info->root.s_type = CONFIGFS_ROOT;
++	info->root.s_element = &info->group.cg_item;
++	strscpy(info->group.cg_item.ci_namebuf, "root", 4);
++	info->group.cg_item.ci_name = info->group.cg_item.ci_namebuf;
++	config_group_init(&info->group);
++	INIT_LIST_HEAD(&info->subsys_list);
++	mutex_init(&info->subsys_mutex);
++	refcount_set(&info->ref, 1);
++	info->mnt_count = 0;
++}
++
++struct configfs_super_info *configfs_get_super_info(struct net *net_ns)
++{
++	struct configfs_super_info *info;
++	u64 ns_id = configfs_ns_id(net_ns);
++	int err;
++
++	xa_lock(&configfs_super_xa);
++	info = xa_load(&configfs_super_xa, ns_id);
++	if (info) {
++		if (!refcount_inc_not_zero((&info->ref)))
++			info = ERR_PTR(-EBUSY);
++		xa_unlock(&configfs_super_xa);
++		return info;
++	}
++	info = kzalloc_obj(*info);
++	if (!info) {
++		xa_unlock(&configfs_super_xa);
++		return ERR_PTR(-ENOMEM);
++	}
++
++	info->net_ns = get_net(net_ns);
++	configfs_fill_super_info(info);
++	err = __xa_insert(&configfs_super_xa, ns_id,
++			  info, GFP_KERNEL);
++	xa_unlock(&configfs_super_xa);
++	if (err < 0) {
++		put_net(info->net_ns);
++		kfree(info);
++		return ERR_PTR(err);
++	}
++	return info;
++}
++
++void configfs_put_super_info(struct configfs_super_info *info)
++{
++	u64 ns_id = configfs_ns_id(info->net_ns);
++
++	xa_lock(&configfs_super_xa);
++	if (!refcount_dec_and_test(&info->ref)) {
++		xa_unlock(&configfs_super_xa);
++		return;
++	}
++	__xa_erase(&configfs_super_xa, ns_id);
++	xa_unlock(&configfs_super_xa);
++	put_net(info->net_ns);
++	kfree(info);
++}
+ 
+ static int configfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ {
++	struct configfs_super_info *info = configfs_get_super_info(&init_net);
+ 	struct inode *inode;
+ 	struct dentry *root;
+ 
++	sb->s_fs_info = info;
+ 	sb->s_blocksize = PAGE_SIZE;
+ 	sb->s_blocksize_bits = PAGE_SHIFT;
+ 	sb->s_magic = CONFIGFS_MAGIC;
+@@ -77,25 +135,25 @@ static int configfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	sb->s_time_gran = 1;
+ 
+ 	inode = configfs_new_inode(S_IFDIR | S_IRWXU | S_IRUGO | S_IXUGO,
+-				   &configfs_root, sb);
+-	if (inode) {
+-		inode->i_op = &configfs_root_inode_operations;
+-		inode->i_fop = &configfs_dir_operations;
+-		/* directory inodes start off with i_nlink == 2 (for "." entry) */
+-		inc_nlink(inode);
+-	} else {
++				   &info->root, sb);
++	if (IS_ERR(inode)) {
+ 		pr_debug("could not get root inode\n");
+-		return -ENOMEM;
++		configfs_put_super_info(info);
++		return PTR_ERR(inode);
+ 	}
++	inode->i_op = &configfs_root_inode_operations;
++	inode->i_fop = &configfs_dir_operations;
++	/* directory inodes start off with i_nlink == 2 (for "." entry) */
++	inc_nlink(inode);
+ 
+ 	root = d_make_root(inode);
+ 	if (!root) {
+ 		pr_debug("%s: could not get root dentry!\n",__func__);
++		configfs_put_super_info(info);
+ 		return -ENOMEM;
+ 	}
+-	config_group_init(&configfs_root_group);
+-	configfs_root_group.cg_item.ci_dentry = root;
+-	root->d_fsdata = &configfs_root;
++	info->group.cg_item.ci_dentry = root;
++	root->d_fsdata = &info->root;
+ 	sb->s_root = root;
+ 	set_default_d_op(sb, &configfs_dentry_ops); /* the rest get that */
+ 	sb->s_d_flags |= DCACHE_DONTCACHE;
+@@ -117,24 +175,33 @@ static int configfs_init_fs_context(struct fs_context *fc)
+ 	return 0;
+ }
+ 
++static void configfs_kill_sb(struct super_block *sb)
++{
++	struct configfs_super_info *info = sb->s_fs_info;
++
++	kill_anon_super(sb);
++	configfs_put_super_info(info);
++	sb->s_fs_info = NULL;
++}
++
+ static struct file_system_type configfs_fs_type = {
+ 	.owner		= THIS_MODULE,
+ 	.name		= "configfs",
+ 	.init_fs_context = configfs_init_fs_context,
+-	.kill_sb	= kill_anon_super,
++	.kill_sb	= configfs_kill_sb,
+ };
+ MODULE_ALIAS_FS("configfs");
+ 
+ struct dentry *configfs_pin_fs(void)
+ {
+-	int err = simple_pin_fs(&configfs_fs_type, &configfs_mount,
+-			     &configfs_mnt_count);
+-	return err ? ERR_PTR(err) : configfs_mount->mnt_root;
++	int err = simple_pin_fs(&configfs_fs_type, &configfs_root->mnt,
++			     &configfs_root->mnt_count);
++	return err ? ERR_PTR(err) : configfs_root->mnt->mnt_root;
+ }
+ 
+ void configfs_release_fs(void)
+ {
+-	simple_release_fs(&configfs_mount, &configfs_mnt_count);
++	simple_release_fs(&configfs_root->mnt, &configfs_root->mnt_count);
+ }
+ 
+ 
+@@ -148,18 +215,27 @@ static int __init configfs_init(void)
+ 	if (!configfs_dir_cachep)
+ 		goto out;
+ 
++	configfs_root = configfs_get_super_info(&init_net);
++	if (IS_ERR(configfs_root)) {
++		err = PTR_ERR(configfs_root);
++		goto out2;
++	}
++
+ 	err = sysfs_create_mount_point(kernel_kobj, "config");
+ 	if (err)
+-		goto out2;
++		goto out3;
+ 
+ 	err = register_filesystem(&configfs_fs_type);
+ 	if (err)
+-		goto out3;
++		goto out4;
+ 
+ 	return 0;
+-out3:
++out4:
+ 	pr_err("Unable to register filesystem!\n");
+ 	sysfs_remove_mount_point(kernel_kobj, "config");
++out3:
++	configfs_put_super_info(configfs_root);
++	configfs_root = NULL;
+ out2:
+ 	kmem_cache_destroy(configfs_dir_cachep);
+ 	configfs_dir_cachep = NULL;
+@@ -171,6 +247,8 @@ static void __exit configfs_exit(void)
+ {
+ 	unregister_filesystem(&configfs_fs_type);
+ 	sysfs_remove_mount_point(kernel_kobj, "config");
++	configfs_put_super_info(configfs_root);
++	configfs_root = NULL;
+ 	kmem_cache_destroy(configfs_dir_cachep);
+ 	configfs_dir_cachep = NULL;
+ }
+diff --git a/include/linux/configfs.h b/include/linux/configfs.h
+index ef65c75beeaad87d33a18e86ac47bf2994705f2e..19165e36da810c75500bb584702ae3a594c3510d 100644
+--- a/include/linux/configfs.h
++++ b/include/linux/configfs.h
+@@ -24,6 +24,7 @@
+ #include <linux/list.h>   /* struct list_head */
+ #include <linux/kref.h>   /* struct kref */
+ #include <linux/mutex.h>  /* struct mutex */
++#include <net/net_namespace.h> /* struct net */
+ 
+ #define CONFIGFS_ITEM_NAME_LEN	20
+ 
 
 -- 
 2.51.0
