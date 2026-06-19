@@ -1,85 +1,100 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9FF337B87;
-	Fri, 19 Jun 2026 16:52:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7973B38B4;
+	Fri, 19 Jun 2026 16:56:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781887964; cv=none; b=tGNso3sGR1273SPPeAK7e+ld0RkkCEkfHysu6n2u3fbVT85gJ/E5YuKDO21Fj4Ukg+8YvkWmZAR+cXneYjJIojBOlW04am3HQQXRxnpqjBTl2D+prjjLpzJDo75UV2iX50S150ZRfx5ZcHw4W5t0tKKM/UXxAGvBc24glsjepoM=
+	t=1781888182; cv=none; b=MdCbQ9lOe9Ltze0Kkl7lGXDmozbslxJhHiv7NXCJZgS8mNqXMHNegtUwSXaxFO2TVzI3B85dHLS64MZaeLZKprPp4xn6u5T/jo2rObtUp3zo/zusBKV5UBw4t0FTzhtpn41KbQ4XwS9Hdta1qySfFztgcpbbM4zS8VHk6GtLP9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781887964; c=relaxed/simple;
-	bh=U4YX01M1Qvb+x7KKhotL7yRAw/tQDX5+XxUpv4EuMe8=;
+	s=arc-20240116; t=1781888182; c=relaxed/simple;
+	bh=ikxZrrHtTEwRwlSyKa2TSoeJ3Jvgpjp6HfvvF3KoJj4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B2HRcyw/i7Cj0ju5LxvjPT+wS119hUYumPDbl72o9xtDfEOAA8AcErjc0mPZYXl7FnHyXgp5uB3pJWWrua5HEgi9Q9uNzYfHPxJ46WalR+YuGFQGUNRMRpxKaUAwDKFfBryHSTRYsolaXaGYWxPgyNaz5FTRY+6BY+qgkJkzLhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bKyc/pzZ; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=LF8NK1/supuYydlwLZervtUQaqZugPokkJR45eQc9pjGa8ygiuxM1xl5TrwkwFjErfJ/kZs/JxAdjL5I5u29Aa3VMOOAidoD2EEx01WMrTotK/w0gcMfUwH02hLj1EVnPQUYVYCPwkSxn8jSwIuqsFh++JcLadWMCbEwB55+0LA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Shn1glci; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bKyc/pzZ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=hdjDLGlryqVwr0moNe7lsmTyx0ASJxTqJKFc2ZfLjBI=; b=bKyc/pzZ1YVWuPzbPNCigqj8rD
-	HraegruLXZEFA9MPV8LE89PEgKV2ec0lmFdrVcbMNJU1fQ+D5NL8HUSq7ZUKMFp5Gsw+LTVX/Y7Bn
-	Q5h+Imphw1ewkt6tAJiKicvNaw2m3nrFyLbdId5T2VEZNz2VWUZNY1KkP+fHYmQzZRAvUvqkq+iFe
-	6R3tffdj1WxbVIODYT8SzGM0/ZHT3dQ1myFpjRMnybvhozyQNmUNe6w1tZRmuS6OjynMaGs0LtQUC
-	cmmQRxr9HAzMUhHuyxBjabwewGlOYqcaLL6r08/KXhXXy8K1cYQoEMBM/pVBNMQVdg6kn+ANm9u+h
-	FT25tpfw==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wacSM-0000000GYZF-3Kyr;
-	Fri, 19 Jun 2026 16:52:38 +0000
-Date: Fri, 19 Jun 2026 17:52:38 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, Frederick Mayle <fmayle@google.com>,
-	Kalesh Singh <kaleshsingh@google.com>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH mm-hotfixses] Revert "mm: limit filemap_fault readahead
- to VMA boundaries"
-Message-ID: <ajVz1nhMn2JwucMY@casper.infradead.org>
-References: <20260619112852.104213-1-ljs@kernel.org>
- <20260619093711.d0d37c9920b3a16394c356a6@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Shn1glci"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5F0B1F000E9;
+	Fri, 19 Jun 2026 16:56:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781888181;
+	bh=9Pc+roecy0N9fcSZhZ72+qSw1o+IjhE+4/qpcF1Vmgk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Shn1glcirGu1wXLyw5SX0iBWhoHUNgPUYmU8oRgEF5R3UfunAR/3yR1wGLaOhqZl6
+	 MpE/n+QWAPWVxdK3LJ8/X2j33uGDZ0TvVuTjBkn7bpSkSlyuSrMWvO9ep3WkVTOO05
+	 mbhAU6MeJya50Kd3/vda+WFYnkAzPRZywQm3HkKzDDozrePtQdjbXWwifpBJuDTJeD
+	 6wh1fWSUDSDkVniWShwwXXFI74T7qKkPY8t422Qa6eciuECvWYLv0KFqR04t4BbFPL
+	 UQj8fLdwGxzyj9eiyahw7qYBlKUc/U8Bz+AvhujKQxITT/mvPTlAYM4cvpW45DlAjg
+	 Ra8kcktUx+xLg==
+Date: Fri, 19 Jun 2026 09:54:48 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org,
+	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, hch@lst.de,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-btrfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
+	djwong@kernel.org
+Subject: Re: [PATCH v10 03/22] ovl: use core fsverity ensure info interface
+Message-ID: <20260619165448.GB3223@sol>
+References: <20260520123722.405752-1-aalbersh@kernel.org>
+ <20260520123722.405752-4-aalbersh@kernel.org>
+ <20260520190719.GB3424023@google.com>
+ <CAOQ4uxh_hfiSwMw8ABhhrz7GguZWjHEiBmvb3eq16Wfqw0+ZrQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260619093711.d0d37c9920b3a16394c356a6@linux-foundation.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOQ4uxh_hfiSwMw8ABhhrz7GguZWjHEiBmvb3eq16Wfqw0+ZrQ@mail.gmail.com>
 
-On Fri, Jun 19, 2026 at 09:37:11AM -0700, Andrew Morton wrote:
-> On Fri, 19 Jun 2026 12:28:51 +0100 Lorenzo Stoakes <ljs@kernel.org> wrote:
+On Fri, Jun 19, 2026 at 09:28:31AM +0200, Amir Goldstein wrote:
+> On Wed, May 20, 2026 at 9:07 PM Eric Biggers <ebiggers@kernel.org> wrote:
+> >
+> > On Wed, May 20, 2026 at 02:37:01PM +0200, Andrey Albershteyn wrote:
+> > > fsverity now exposes fsverity_ensure_verity_info() which could be used
+> > > instead of opening file to ensure that fsverity info is loaded and
+> > > attached to inode.
+> > >
+> > > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> > > Acked-by: Amir Goldstein <amir73il@gmail.com>
+> > > ---
+> > >  fs/overlayfs/util.c | 14 +++-----------
+> > >  1 file changed, 3 insertions(+), 11 deletions(-)
+> >
+> > Reviewed-by: Eric Biggers <ebiggers@kernel.org>
+> >
+> > I'm still confused by the new implementation of fsverity_active() that
+> > got introduced by "fsverity: use a hashtable to find the fsverity_info",
+> > though.  I should have caught this during review of that commit.  For
+> > one its comment is outdated, but also the memory barrier seems to be
+> > specific to the fsverity_get_info() caller and probably should be moved
+> > to there.  Anyway, that's not directly related to this patch.
 > 
-> > This reverts commit 7b32f64bc512b40b268776c5ac4d354b325b3197.
-> > 
-> > This patch caused a significant performance regression, so revert it, and
-> > we can determine whether the approach is sensible or not moving forwards,
-> > and if so how to avoid this.
-> > 
-> > There was a merge conflict with commit de97ae6222c1 ("mm/readahead: no
-> > PG_readahead on EOF"), care was taken to ensure that the revert retained the
-> > behaviour of this patch and cleanly reverts commit 7b32f64bc512 ("mm: limit
-> > filemap_fault readahead to VMA boundaries") only.
+> Eric, Andrey,
 > 
-> I'm a little conflicted here.
+> Did you see the Sashiko review for this patch and others in this series?
 > 
-> 7b32f64bc512 avoided readahead of "file pages outside the mapped
-> region", which is clearly desirable (arguably a bug fix?) and we care
-> about performance of executable mappings.  Whereas it isn't clear that
-> we care about whatever the heck that test case was doing.
+> https://sashiko.dev/#/patchset/20260520123722.405752-1-aalbersh%40kernel.org
 > 
-> IOW, the revert might make the kernel worse, overall.
+> It annotated some review comments as high and critical.
+> For this patch it is about interaction with fscrypt.
 > 
-> If someone plans to get down and analyse that test case then come up
-> with a new version of 7b32f64bc512 then OK.  Is there such a person?
-> 
-> I'll park the revert in mm-unstable for now, but would prefer not to
-> rush it in until we better understand what's going on with that test
-> case and what can be done to address it.
+> Please take a look and say if this is concerning or false positive.
 
-Suren did that work.
-https://lore.kernel.org/linux-mm/CAJuCfpH_Fp=J-m-kVZ3VVmqH0cAfNX6CQKWt3XmAJq1Rp9sFwQ@mail.gmail.com/
+Yes, this patch is broken and should be dropped.  I need to remember to
+look at the Sashiko reviews for other people's patches and not just
+trust that the submitter will.  Fortunately this one wasn't applied yet.
+
+I pointed out the HIGHMEM performance bug in
+"fsverity: generate and store zero-block hash" earlier
+(https://lore.kernel.org/linux-fsdevel/20260401222717.GH2466@quark/).  I
+assume it was decided that no one will care about the combination of XFS
+&& fsverity && HIGHMEM.  But the XFS folks should double-check that.
+
+Andrey, could you check the Sashiko reviews for the other patches too?
+
+- Eric
