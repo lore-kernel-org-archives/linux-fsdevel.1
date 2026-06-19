@@ -1,71 +1,91 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.68.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9BE3B47DE;
-	Fri, 19 Jun 2026 15:47:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 858C13BF684;
+	Fri, 19 Jun 2026 16:33:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.68.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781884080; cv=none; b=Q+8mIXPMo2KCqQdm7lZ9n9in+OrcidXKU4lXukewfVoILUPhABWKZVTWesEde9XoKjLDGhtP5f4Objd8UV4Vj0A63DdL/SHfexda7iwygzBRGFOLknwfqgCR+0wvDNVMCPR4Z3uyQ/isW344UklFJ7Iw6UhJ3aCImz48A6av2C4=
+	t=1781886832; cv=none; b=amfTKDOtoih5EwCQb9v1eNeNDJdeej4K6M4IhTxgf/UU89QiqSY62hxVv/NCgmkkCGY0iJJrbA5ymQvQ6l0q5PPSdjynQstOy/Ukab07XkMxOZTmEKlWl0X0YrV8zJB3X0zSWuzVSWBnNY2yS2N+yV+4akg9bRYVXNC/GLzhBEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781884080; c=relaxed/simple;
-	bh=E227lTxq5JSYWdYq25US8IiuZR5IqPbX0vsSl71AmvI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VWAK9aCsI8XXGqFlLqghdTbRV2GFwgQzZ4wMwdBPU7dTKOp22qykXQ8Up83QYNf0Z7FaXoJVo4zGJIpdhcfJNonZ7IyP0WONQeZp6YEVZh3EJQyGw2Vm/4a2+jEyQ6U/Oxc04fBjWfopNnv7v0CxvFdc2ms9U1uqu9cszD14WZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=emnBCoxh; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1781886832; c=relaxed/simple;
+	bh=nsYDrZsp+vTvJMJIN2MK7K49oYAN0yKaEKNmvUHt4MA=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=K+ZfRJiMrMV9ZU09azTYLzwkHVtLbjMcLpf/gYvOcMbBqiZ1QMsozAn+J4DgSATC6TCuE1x5CMNgW+6uluxhUhALiAQCI+8JU7qzrdzyyYWtM0p1cOGavAnGCvEONuXvUn8jXDfAXYeeIb5oHD8fAhi3RUclxkWqQMaZvXYdw7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=LXjRT5L+; arc=none smtp.client-ip=44.246.68.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="emnBCoxh"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=qfKo2wspR7EV2HHC2+9uw3pSPIolUFG6rWkQIpzJlOs=; b=emnBCoxh4LtDZ70xdQKJ8Hlrdk
-	Uq0jDdn+bFsf4zJPljL+uLVGPwNuGAPbXL5UKeGvQLWiFugRwCxYcI967LvulUqgFoDvhaKTvwayb
-	KlkWEqqc9kx7Hj0B4vr7TW1EUAAtOnsRVQCYTuT8KB3AqzgvssMUAksOv7OzFfTffZoan/OsgnP7m
-	hy1QgR0ua1HrxAealyxuHCYaThzdBZ9mKPwoPmBCNa6LvI2lzPvOt1wvAovuYBapdhjbSn0heHSg8
-	vQSlzf4DLhFpEkirgOqiJQh0soLOAEIgDvKr5on62VYi8U2w6yx3OphQBY2BJ5HjyHwNzHhgHkz93
-	RfKZRlBw==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wabRj-0000000GTP5-12YG;
-	Fri, 19 Jun 2026 15:47:55 +0000
-Date: Fri, 19 Jun 2026 16:47:55 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Frederick Mayle <fmayle@google.com>,
-	Kalesh Singh <kaleshsingh@google.com>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH mm-hotfixses] Revert "mm: limit filemap_fault readahead
- to VMA boundaries"
-Message-ID: <ajVkq52q4VFsOkmb@casper.infradead.org>
-References: <20260619112852.104213-1-ljs@kernel.org>
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="LXjRT5L+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1781886831; x=1813422831;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=eTy2HClp4WtsxdcO75RB9LPq5/NgSBBoO+lN2r4o+9o=;
+  b=LXjRT5L+AAK+eTc1ygIJ0oIxpftrMOiqk2P36vUuKkqd65Om8eQ1/KMW
+   mTDNyD6AesTOtwIW3BjwtsgAStDpN+v1VBT5xjg47a7AnJzLgw517gGcj
+   ViuO7NJHnShqq8M/qYX5qMWtj4Irz0m53bNjc02Ow7IXdgG49jkGPoZsm
+   MaIbm0T9aCsLHDL7tKW6oz/xlG31HqvAB/iBz2vjWP2AYrOzzh6KeHZR9
+   Ohem3admgMIpqNiO5GR/bRx4oSz+LdU+XmpxW8DtbaljnOMG3qzq14kxc
+   kU3iHHMDyOGjUjJMbBOpT4orMn+5nHZYPHuw5m+TCI/3AWykyK/tLNg+k
+   Q==;
+X-CSE-ConnectionGUID: Xy+2LSxBR9uNhExcDqWGHA==
+X-CSE-MsgGUID: JkEu7JaxQv6rpds8WdiU1g==
+X-IronPort-AV: E=Sophos;i="6.24,213,1774310400"; 
+   d="scan'208";a="22119099"
+Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
+  by internal-pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2026 16:33:51 +0000
+Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.104:7419]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.63.253:2525] with esmtp (Farcaster)
+ id 9b85b132-0966-4946-ba69-c66757288e4d; Fri, 19 Jun 2026 16:33:50 +0000 (UTC)
+X-Farcaster-Flow-ID: 9b85b132-0966-4946-ba69-c66757288e4d
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
+ Fri, 19 Jun 2026 16:33:50 +0000
+Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
+ Fri, 19 Jun 2026 16:33:49 +0000
+From: Jimmy Zuber <jamz@amazon.com>
+To: <miklos@szeredi.hu>
+CC: <fuse-devel@lists.linux.dev>, <jamz@amazon.com>,
+	<linux-api@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<shuah@kernel.org>
+Subject: Re: [PATCH 1/2] fuse: allow FUSE_SYNCFS for privileged userspace servers
+Date: Fri, 19 Jun 2026 16:33:37 +0000
+Message-ID: <20260619163337.1138220-1-jamz@amazon.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <CAJfpeguaa4U6Tsxh5opeaLeYQQxP6MQsRMu_JATJwwgj=OBt3Q@mail.gmail.com>
+References: <CAJfpeguaa4U6Tsxh5opeaLeYQQxP6MQsRMu_JATJwwgj=OBt3Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260619112852.104213-1-ljs@kernel.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D041UWA003.ant.amazon.com (10.13.139.105) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-On Fri, Jun 19, 2026 at 12:28:51PM +0100, Lorenzo Stoakes wrote:
-> This reverts commit 7b32f64bc512b40b268776c5ac4d354b325b3197.
-> 
-> This patch caused a significant performance regression, so revert it, and
-> we can determine whether the approach is sensible or not moving forwards,
-> and if so how to avoid this.
-> 
-> There was a merge conflict with commit de97ae6222c1 ("mm/readahead: no
-> PG_readahead on EOF"), care was taken to ensure that the revert retained the
-> behaviour of this patch and cleanly reverts commit 7b32f64bc512 ("mm: limit
-> filemap_fault readahead to VMA boundaries") only.
-> 
-> Fixes: 7b32f64bc512 ("mm: limit filemap_fault readahead to VMA boundaries")
-> Reported-by: kernel test robot <oliver.sang@intel.com>
-> Closes: https://lore.kernel.org/oe-lkp/202606181547.617a6967-lkp@intel.com
-> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+On Mon, 16 Jun 2026, Miklos Szeredi <miklos@szeredi.hu> wrote:
+> Sounds really easy to trick: start the server in the initial user ns,
+> then clone the mounter with a new user/mount namespace.   The
+> init_user_ns test will pass happily, since the server is running in
+> the initial namespace.
 
-Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Ah, the intention was to limit sync to sufficiently privileged FUSE
+setups.  I missed that the initial user namespace is not equivalent to
+elevated permissions.  I am thinking instead it would make sense to
+assert that the opener of /dev/fuse has CAP_SYS_ADMIN in the initial
+user namespace.  They could then hand off the fd to a less privileged
+server, but that is the prerogative of that privileged user, so I think
+it satisfies the spirit of the DoS prevention requirement.
+
+I will follow up shortly with a new version.
+
+Thank you!
+
+Jimmy
