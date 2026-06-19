@@ -1,79 +1,102 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7B633342C
-	for <linux-fsdevel@vger.kernel.org>; Fri, 19 Jun 2026 09:28:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3B73655CB
+	for <linux-fsdevel@vger.kernel.org>; Fri, 19 Jun 2026 09:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781861300; cv=none; b=Z+rVjh2DKwAmNur8pEzOFhdlZL5eBZnS0df2pfOoQhxizWFc9TJuzvp6Xo0HedP4jLTICBCPUBl2yEgte8QaxS8SJJyWfCLeaRolbozDpepe4jbKKnFum5SVQTW9n03fQAoNYsYHHPGdd0NBrvE+Noa6t2TSkkAy7y3tBbCrzqo=
+	t=1781861787; cv=none; b=OEU1bFUSoVc51Nufxvj56pcYMo7IEuZnEHITDnNA2NUe0iHY3es3DJjmMzggYdvwvaXjgSlguPJVvErmRmMvXkETKRLhSs61SBRY5YOiGAsNH7suaVzKhCJZCDEyLljuXAKRkpcYn09BtX7VDTOXccny5WyS8rpJT3hBuDR+QOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781861300; c=relaxed/simple;
-	bh=aeLBXKnV2dHXNfm+oFvFCWE5y69u5H2m9bWusIKuNyI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MKny8IbpEN6k+kQy6FL1ZiTg99qmYQltZwvOtD3w9+LX7TY03gc3iC21sW2c+kjKl7xAGwbiu9la9HjpiDf478XdLMrAt12L2DwTZrYuuePVDzHeFjuB3voemmJZ+uAsqAsY3Vhi9hEmAQcJdHFsGWKaHdU2uKslWBFvbS5KgNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=XZU6WLbw; arc=none smtp.client-ip=195.121.94.185
+	s=arc-20240116; t=1781861787; c=relaxed/simple;
+	bh=dLw0jP0T+p6J/04ZcK5m7P0N4MPtuz997gX9m+ifT/c=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=KK9tQ+MY81w4zKfCmpF4SumnsDt6Y4SgzkA5P//9hK5FPXG4ZvAUVS1wx06O4dQ5bjcBhPtf2wW+Gv/Z6SvPj5IQMExD+9XDolRPz59yVg/LBtV7+tyuSXupW1QPlQJPJO4dwemWWDoWB6+oC8wxSGegcN2qmCJ8nimeNUmlcew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=IEHX9pRe; arc=none smtp.client-ip=195.121.94.184
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="XZU6WLbw"
-X-KPN-MessageId: 2f1ce0ea-6bc1-11f1-9e8e-005056999439
-Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="IEHX9pRe"
+X-KPN-MessageId: 52a15775-6bc2-11f1-a59f-005056994fde
+Received: from mta.kpnmail.nl (unknown [10.31.161.190])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 2f1ce0ea-6bc1-11f1-9e8e-005056999439;
-	Fri, 19 Jun 2026 11:28:08 +0200 (CEST)
+	id 52a15775-6bc2-11f1-a59f-005056994fde;
+	Fri, 19 Jun 2026 11:36:17 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 52a04fe6-6bc2-11f1-b2ea-0050569977a2;
+	Fri, 19 Jun 2026 11:36:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:message-id:subject:to:from:date;
-	bh=aeLBXKnV2dHXNfm+oFvFCWE5y69u5H2m9bWusIKuNyI=;
-	b=XZU6WLbw8lJ38aYybsNQNpHmce0u2i2Y7c/ZgyP4Lh+4LSZPkGqbpY69Q1Uk29otJUwDq13tcNJJE
-	 sag+fNsJVzlnWYyx51mPjTfkUHX3IAWHIQXx7/+onMl4tl36maMbcmr0P4UZqJ5oycbsGgofozo5ol
-	 QdTI5F4dZ7h7mQAEbnGTEpCH0u/guJWb57YD+vl6IMu6bWUMJDCzOW0754zizQFU+TfYn9S2n/YueS
-	 YFuzsjxSKPSlLRAsu9TgiWwyALbU4YFNmeQK5tfvaS9WQy8WMLt/nPT3qVy9mkx5joWgbDgitxNnrA
-	 szrX1NuyqwtygmsCP5uQyZagxSsTtUw==
-X-KPN-MID: 33|BFW0bJINivO0i0fARjBt5oRLZcB0s/Xbuw3LRw6KBzsHrHLO3X5IRMxeWaD0gTb
- HElwz10/WDqa9rdsh4Uu1hZ6OH6wtooJaEPURUi8Xpuc=
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=KibVJ5LuoBcA/qEB56SUrJpOMsCf0W74wuOLa9cal7E=;
+	b=IEHX9pReCJRwByBHukYn2+Nw19h38uP5mzOxEimPCbDEIASAxDKITG1DG9jKMR3sYzli2oR/FeOy6
+	 BDy2d6MJE2rtX5emQjMIsUIn4iZ1QXXrwD1uIyuCHNAnTq1TjEjOpEGgqBxS6XUmPVkEi/dK3sGUVx
+	 YBW+g4OziPdhiLEws6Ul1KYjkVCxjZqr9HrqnPGDWNgA0K4czimp9APDocdzISxvxeDS4cBdCXZ7lk
+	 NLigZ7g2kJ1IVZCZfThEKHiki10tYhXERg2760IRhBPf1eINK1F73UJE+JoV6++8GWENiPvC4x+KtV
+	 54IsMHRN/mPdvFtHH4beMf5UqPEnsvA==
+X-KPN-MID: 33|JxvJALUcdjQuozS6QUv8MKSn3MffWTZsbaBeNfPx2XLCgjTgZspzdweK1BP9TSn
+ AaMr6I0Lg4VLunN3cY/SUMk4S42WxYg8e6+gf/j/7H9A=
+X-CMASSUN: 33|u8rXP72L1Y3OsrsCi3RQxJIm7HFGyRfcPuu7ac2yQ3Qo2h8cVv21LOnoZmFq72B
+ iZOW6sgh9SsdMLmsiKD/P8Q==
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|nrd8wH7fjuRagB2/qwTSGw1LpZL0/iPtBg+rBf2m83kXtVLhgfyRoL+Onr/Np5Q
- knx+62RrT7opJsvA47N2SRg==
-Received: from localhost (unknown [178.226.150.234])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 2ef976b5-6bc1-11f1-806a-005056998788;
-	Fri, 19 Jun 2026 11:28:08 +0200 (CEST)
-Date: Fri, 19 Jun 2026 11:28:03 +0200
+Received: from cpxoxapps-mh05 (cpxoxapps-mh05.personalcloud.so.kpn.org [10.128.135.211])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 5290dc5c-6bc2-11f1-8edb-00505699eff2;
+	Fri, 19 Jun 2026 11:36:17 +0200 (CEST)
+Date: Fri, 19 Jun 2026 11:36:17 +0200 (CEST)
 From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Christian Brauner <christian@brauner.io>, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] efs: Remove EFS
-Message-ID: <ajUIMvi5Nyjp6t2v@lt-jori.localdomain>
-Mail-Followup-To: Jori Koolstra <jkoolstra@xs4all.nl>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Christian Brauner <christian@brauner.io>, 
-	linux-fsdevel@vger.kernel.org
-References: <20260618211822.3599089-1-willy@infradead.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>, Hans de Goede <hans@hansg.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Message-ID: <2123052165.2290469.1781861777821@kpc.webmail.kpnmail.nl>
+In-Reply-To: <ai8M2PK5vH7FPj3d@casper.infradead.org>
+References: <20260614191040.3007723-1-jkoolstra@xs4all.nl>
+ <198160170.1699942.1781464305401@kpc.webmail.kpnmail.nl>
+ <ai8M2PK5vH7FPj3d@casper.infradead.org>
+Subject: Re: MAINTAINERS: take over vboxsf from Hans de Goede
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260618211822.3599089-1-willy@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-This seems like a good idea. A couple of thoughts: should this maybe be
-CC-ed to Linus? He has in the past been critical of removing old
-filesystems. There is also something arbitrary about removing efs, but
-not minix for instance. It would be great if we had some more objective
-criteria for removal. I have also been thinking whether there is some
-use to keep at least one old simple filesystem maintained and up to date
-with modern API. It could function as a reference.
 
-But to come back to the removal; we cannot know if there are users until
-we remove support. So if we don't want to keep efs around indefinitely,
-there is not really an alternative to just removing it. If it turns out
-(very unlikely) that there are users that absolutely need it to be in the
-kernel, then we can always move it back in. This would be work, but
-recognizing that this chance is *very* small, it seems like a good
-proposition.
+> Op 14-06-2026 22:19 CEST schreef Matthew Wilcox <willy@infradead.org>:
+> 
+>  
+> On Sun, Jun 14, 2026 at 09:11:45PM +0200, Jori Koolstra wrote:
+> > > Op 14-06-2026 21:10 CEST schreef Jori Koolstra <jkoolstra@xs4all.nl>:
+> > > I have no major plans for vboxsf, but I do want to support passing
+> > > physical addresses to the host; the communication protocol seems to
+> > > allow for it and it would mean we can get rid of some kmap calls.
+> 
+> I would love that.  I looked at doing it when I did e300830fcc40
+> (convert to writepages), but it was a little beyond me.  I really didn't
+> want to try to do it without having a way to test it.
 
-Acked-by: Jori Koolstra <jkoolstra@xs4all.nl>
+I have a Windows and Linux box with VBox installed, and I have created a
+simple Alpine bootstrapper on which to run basic tests within VBox. I use
+the vboxsf to move the host compiled modules to the guest (the driver and
+vboxsf itself). I still have to think a bit if there is any reasonable
+automated way to run tests on the guest side. xfstests probably aren't 
+very suitable here, because we don't control how VBox itself responds to
+incoming requests. But maybe it has some sub-collection that will run. I
+have to look into that.
+
+> 
+> Any chance you could also add large folio support?  I don't think it
+> should be much extra work once you've done physical address support.
+
+Yes, I'll look into that as well. If I have any memory related questions
+can I ask you?
+
+Thanks!
+Jori.
