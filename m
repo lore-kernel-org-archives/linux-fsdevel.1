@@ -1,41 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5055B313E2B;
-	Fri, 19 Jun 2026 07:29:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE74330B11;
+	Fri, 19 Jun 2026 07:33:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781854190; cv=none; b=RkvT/Y8pe8J+7YGlOXucat9PWse4XbiL/Fg8wTAEu2k8GoGjtPhE0TuUHVA7DJlcLbUbMSRWixSlOUAj4A98xsnUdn5p3gLf1M9UJFHw2/dydXVp+ibeqci7MDMooRChX+uZkXF/1jMAe9ZDD4XAm51a1ltuKLUzoIE8DQqBPZM=
+	t=1781854398; cv=none; b=iLWCvkm62UjUIEavnd3OP6CgCV7Kw8pEWFQ2TDbnQ2Uh6ki1Ke8CinxV9dGSOCRM+EZ5tFHFl1oGXnqx1wEHFnsDKxmbhtD47wnoKCggVUvGZjdPdfjDlxOhJVIH3x5jA5OQWP4vhs8K4QTJyVTAx7PGJnY5HentXG/qObTrIA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781854190; c=relaxed/simple;
-	bh=dPIFenbQNEtTVzVU1Fpx0mLvCZOoSUW3jYgdAQ4d6yc=;
+	s=arc-20240116; t=1781854398; c=relaxed/simple;
+	bh=Nvf7s8qbyRw1/uBAH2ygZOoJrU0YdQnG2F5alFm27S4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Voy1BAQkHTaZuR1ag2gAn+2a3TMzmZ7ido6t1sBPfHM0n31TvvtG8Z7kf/y5zJBHhm3y5wnQU2egJpC/dU5FTH0y+55gK4ygjZOQNUJArI5M1mKYAsySJy2ejjhPiMkG7cpje5zBSBHcVcXcgiWNNNkW5SfS7aX0pPBMk+A4zto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HmzCOGgZ; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=V4x3NY1/kbvv6e+PkrEYxWGlWSQQEfXD4PQ7rEAGbu6n3nlJ+wNZY6LOKUA13PoU3bU1CNpTQk0qiZ9eESIasUbnVGIiEjgyxe6s/JO0j1bxe3iyegP5Ad3mdys3XHPXOkgFE0+6JdOMA8NY6fjVH8FgzpHeI6XESKdb5DGsKBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ivQAmwpD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HmzCOGgZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F0A81F00A3D;
-	Fri, 19 Jun 2026 07:29:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ivQAmwpD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC1E81F000E9;
+	Fri, 19 Jun 2026 07:33:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781854188;
-	bh=l00GP2OkLJvssMhCRBJTMHBdONgVgoHnuX1vhYkVEi4=;
+	s=k20260515; t=1781854396;
+	bh=JEjKWcpKusf3mWokJMCyl0kIQo1AvcxUADv+81h3wBk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HmzCOGgZhrIO0iecFCvSx26M5X5UhBIT8CHNEQ0nhveOWUh/SWY/xua1payvS891m
-	 a0RziI6kh3aYikO4j8kcwFkWNz7whB0uFoHomhByt2fZ+KYlX9j9RCD/RDAYWSHPRO
-	 BkFA9wlky5SA0wJgOMYWGl+SgQeH/0BrDTrguV9k4nvGI1eKcpJJmRPDgKiKh/OaqH
-	 1GvrYKiQndyHSH4rZVXfU6kd+11On+N0Kw/1f6mYrg0l34RMRh4OkP0oC2tIu1YCL+
-	 EewZcazb1mbBBgRevWLuWc3DtjTNXKfCSEtfRBzT/EmfGj5BNc55ppDuY5KJRrlQ74
-	 H2NeyfW3SDj+g==
-Date: Fri, 19 Jun 2026 09:29:44 +0200
+	b=ivQAmwpDStodbILtDQcSdWE5n6H48+QOB8qU/Zpr8jtnNfkLjdsbPpH67pe9T29Ea
+	 u3k/jM/ZCCopf2+1k349UMZzdWqjnH/bJhLLDFMBRSbIsK23kqXnTGw+JDVqzReIE2
+	 lZDTO9oChET1iacapQLC9EaUAv2mjNVp1VxH/GssXc0PS+t2GW7qYUHK5qhO1XXTYZ
+	 54buvXACgU2qgp+Nwty4mS7SW3TSDAbwAovxAF6VO7EhK5+cGuxto4SzmHkhDYEju/
+	 Dll2416ShNp3qlNi+TrHhEJ05+6/Km2+lbddFACbvLdLQ3HSf8H25JMMYVzKdnLsYj
+	 tOHom28NBtm1A==
+Date: Fri, 19 Jun 2026 09:33:12 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Andreas Gruenbacher <agruenba@redhat.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] file: add fd_except cleanup class
-Message-ID: <20260619-rangliste-umfunktionieren-missrede-ab77d1551436@brauner>
-References: <20260607164136.2948550-1-agruenba@redhat.com>
- <20260617-marge-gelehnt-fernreise-758645450688@brauner>
- <CAHc6FU6QucixT5jkatPpawaCT4O4JO2kXSeSejb-qQEeUTnzVA@mail.gmail.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-unionfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>
+Subject: Re: [PATCH 00/10] ovl: support idmapped overlay mounts
+Message-ID: <20260619-unsozial-ordnen-vorstadt-cdedd690b947@brauner>
+References: <20260615-work-idmapped-overlayfs-v1-0-7381632aa402@kernel.org>
+ <CAOQ4uxin8B4SbPjnNL-hUWX4EP3V=8jCO=ENt8SQ2D7wcCsdLg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -45,58 +44,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHc6FU6QucixT5jkatPpawaCT4O4JO2kXSeSejb-qQEeUTnzVA@mail.gmail.com>
+In-Reply-To: <CAOQ4uxin8B4SbPjnNL-hUWX4EP3V=8jCO=ENt8SQ2D7wcCsdLg@mail.gmail.com>
 
-On Wed, Jun 17, 2026 at 04:50:00PM +0200, Andreas Gruenbacher wrote:
-> Christian,
-> 
-> On Wed, Jun 17, 2026 at 3:41 PM Christian Brauner <brauner@kernel.org> wrote:
-> > On Sun, Jun 07, 2026 at 06:41:34PM +0200, Andreas Gruenbacher wrote:
-> > > CLASS(fd_except, f)(fd, mask) allows to specify whether to accept or reject
-> > > O_PATH file descriptors by passing a mode value of 0 or FMODE_PATH rather than
-> > > using a specific cleanup class for each case (CLASS(fd, f)(fd) or CLASS(fd_raw,
-> > > f)(fd)).
+On Wed, Jun 17, 2026 at 03:56:57PM +0200, Amir Goldstein wrote:
+> On Mon, Jun 15, 2026 at 3:20 PM Christian Brauner <brauner@kernel.org> wrote:
 > >
-> > My main objection to such patches continues to be that it keeps watering
-> > down the meaning of O_PATH if it continues being usable for performing
-> > ever more actions including write-like operations like setting extended
-> > attributes.
+> > I've been asked about this feature multiple times and had actually
+> > implemented it right when I did the initial idmapped layer support.
+> > So here's a new version of this series.
+> >
+> > This series lets the merged overlayfs mount itself be idmapped via
+> > mount_setattr(MOUNT_ATTR_IDMAP), in addition to the already supported
+> > idmapped lower and upper layers.  It allows the same overlay tree to
+> > be exposed under a different ownership view, e.g. a container seeing
+> > the merged tree as 0:0 regardless of the on-disk or per-layer ids.
+> >
+> > Overlayfs already normalizes every underlying id through the relevant
+> > layer idmap when it copies attributes into the overlay inode
+> > (ovl_copyattr()), so the overlay inode's i_{u,g}id are "overlay-final"
+> > ids.  The overlay mount idmap O composes on top of that pivot:
+> >
+> >     caller view  <--O-->  overlay-final id  <--layer idmap-->  on-disk
+> >
+> > O is applied at the overlay-inode boundary only - permission, getattr,
+> > setattr, the ACL owner checks and inode_init_owner() - while the
+> > underlying layers keep being accessed with the mounter's credentials
+> > through their own, possibly idmapped, mounts.  The mount idmap thus
+> > only changes how the caller sees the overlay inode and never widens
+> > the mounter's access to the layers: the second, mounter-credential
+> > check in ovl_permission() against the real inode stays on the layer
+> > idmap.
+> >
+> > Most paths need no change because the VFS applies O to the overlay
+> > inode before overlayfs runs (sticky/rename/unlink/create gating) or
+> > after it returns at the syscall boundary (the POSIX ACL get/set
+> > translation).  Overlayfs only acts where it bypasses the generic path:
+> > getattr (it stats the real path), the setattr forward to the upper
+> > (the requested id is rebased from O into overlay-final space before
+> > being handed down), inode_init_owner() on create/tmpfile, and its own
+> > owner checks in ovl_set_acl().
+> >
+> > FS_ALLOW_IDMAP is set last, once every operation honors O, so there is
+> > no bisection point where the mount is idmappable but an operation
+> > still ignores the idmapping.
+> >
+> > Note that fstests will be broken by this temporarily as they rely on the
+> > ability to create whiteouts for unprivileged device node creation. That
+> > can be adjusted.
+> >
+> > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> > ---
 > 
-> I see where you're going, but let me argue that extended attributes
-> are different from file data. For example, the
-> "system.posix_acl_access" and "system.posix_acl_default" attributes
-> are about file permissions. They are an extension of the classical
-> file mode permission bits which are accessed via stat*() and chmod*(),
-> operations which accept O_PATH file descriptors today.
+> Apart from the minor comments on the test, the entire series looks good to me,
+> so you may add:
+> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
 > 
-> The "security.selinux" attribute is in a similar category as
-> "system.posix_acl_access" and "system.posix_acl_default".
+> The problem is that my review can only assert that your changes make sense.
 > 
-> The "trusted.*" namespace is proctected by CAP_SYS_ADMIN, so it's
-> obviously also not about file data like information.
+> I am not even close to being able to prove that this is risk free.
 > 
-> The "user.*" namespace may appear different because access is guarded
-> by the file permissions. In that sense, you could say that setting
-> "user.*" attributes is a bit more like writing to the file. It's still
-> only arbitrary information attached to the inode itself, though. For
-> example, operations on "user.*" attributes affect the ctime (when
-> changing), but never the atime or mtime.
+> This is the first time that we will have a combination of
+> FS_ALLOW_IDMAP | FS_USERNS_MOUNT with fs which is a proxy to
+> another fs, which to me sounds like Vulnerability Scanners heaven.
 > 
-> Also, you're clearly aware that the same operations are possible via
-> "/proc/self/fd/<num>" today, just in a messy way. The exception are
+> Could we maybe ask our friends in Anthropic to unleash Claude Mythos
+> on this work to try to beat the AI kiddies to it before we merge this work?
 
-Yes, very aware and I hate it. I wish we had upgrade masks but that's
-is very very hairy work. :)
+I would be happy if they did.
 
-> environments that don't make /proc available. It seems fairly bizarre
-> to me to make O_PATH file descriptors available to environments
-> restricted in that way in the first place. And that's the only case in
-> which processes would effectively gain new abilities.
-> 
-> By the way, I forgot to mention previously that this patch set is
-> related to the following change:
-> 
-> 5daeb41a6fc9 ("fchmodat2: add support for AT_EMPTY_PATH")
+> Sorry for my lack of faith in human kind ;)
 
-Yeah, I did merge that because of fchown*() parity. Let me sit on it for
-a few days to mull it over.
+I will take this personally and I will seek in-person revenge in
+September.
