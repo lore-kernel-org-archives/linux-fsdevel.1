@@ -1,78 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D179B372EC5;
-	Fri, 19 Jun 2026 12:54:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CBA638D419;
+	Fri, 19 Jun 2026 12:58:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781873655; cv=none; b=V/1OZXMOG+onipYMx2GEtlAXTB98dsba1wpjhtipEqadHUrfMMYgQjTCPXo6AKhXEdLFwaldctJ+4axSsMk0xnu/lTXPBzT/vT3gIAmxXX0WCBizXpX8y+gXFjd1VyPmSvUrDl3j9tWSw34KsIZ9sSzusEGxfDItDeXF9bV7asE=
+	t=1781873937; cv=none; b=VhcYpwv3V+nDkwc2bVlYo+C1YdCkPW4wnDZQmx1i2M8rTmwO7BV8T4SrAjmSfzWB11j8ssSPoshdX2SpaK0+ytOkBoLGajBRZuXnoTlEaoaijkVspUVTsujid/xuJpbyPBwwpgE4OJUe4jA6Uw1ov1S2FI4yA0i6Z12eD63JtzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781873655; c=relaxed/simple;
-	bh=6JhNIEZzTHh40bheDe+TgBeMeGfZQt50qY7sOk2N2Ec=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=RGy1zXYDyJvvYJNy3G07vvS444WTMSSjmsOWot7OrSWMUJGY0XLfe+ixDxIk0j1RQsPe98FCu9sr7XBuuvuQdinWu80u+8Dpel9BkDRpNCVld8ybJ9M1rn54r9o2TL1iKjiMie1IzRMGXtlX0tGxVLUAwzxjjt1YoCMELHxS3FA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GMraqG0g; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781873937; c=relaxed/simple;
+	bh=fc5aoZP7eIkRLqNRisFV62d/fWTQWLLVZYeLkaEWyX4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sz9tFT7KHkiIaQ3D4hgL1Ch9DCuC9g3frqTJqzR3tNi1AhhVBaQ1RgL0tDEUmhlKsR5hp6yGW+7bze6rrlRAm+YwvX38QBvKe/Wv+wScagD+L9x+2o6X/NvPM4NOCoWRGvOhNRiKWuwtoHS+E1lR5oio2PjjpyiF2MkfgrroS38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Dexk4e6h; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=mZgTvm7j; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GMraqG0g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 586881F000E9;
-	Fri, 19 Jun 2026 12:54:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781873654;
-	bh=iigVIumOE/+LyOQvQLQ3U3eWiMZFZzqgLlVc0QECKmo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=GMraqG0gPFMy4Lq9NPy2DncZOdc1pwEGXm7PIaamGTMIAErOf6tvwLbeBrSZx8JCP
-	 IBtJRV6q95PNqHQMRihX3Sx1SY17M+L5drOi0bwGPKrxzThLv56Pnw5Bu975+Mv5RR
-	 xvAotaTvchmy4Jf8G7HvwmVrdFw7spEMBRAyfwOOaOwxZeEanRjfb/MEkkZKYCqtsd
-	 RoJWHJUWQnXKTaUPoOrDT3iLhIbLkhqdSzJ/ycodmZa4eacKKk/nnmDY85FqcYQaOU
-	 Exg8TtTjbisxzcmyck17Yoico8aFJiwvEfkBy2eVHJ2pLTZ48qwoDcn9lJWbZxDmDF
-	 Gi+/RI6jA4yyQ==
-From: Christian Brauner <brauner@kernel.org>
-To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
- Matteo Croce <technoboy85@gmail.com>
-Cc: Timothy Redaelli <tredaelli@redhat.com>, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Matteo Croce <teknoraver@meta.com>
-In-Reply-To: <20260616163346.32603-1-technoboy85@gmail.com>
-References: <20260616163346.32603-1-technoboy85@gmail.com>
-Subject: Re: [PATCH v4] fat: stop reading directory entries past the
- end-of-directory marker
-Message-Id: <178187364779.344699.3474880356215898745.b4-ty@b4>
-Date: Fri, 19 Jun 2026 14:54:07 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Dexk4e6h";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="mZgTvm7j"
+Date: Fri, 19 Jun 2026 14:58:50 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1781873932;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fc5aoZP7eIkRLqNRisFV62d/fWTQWLLVZYeLkaEWyX4=;
+	b=Dexk4e6hg2eKGKLnV/oVAMAAI76IdnhcFfInhmcRAH6qV5PoP7+PZ/YAnYEzW1MzANqACx
+	k09WFJzVnSawU5KQTytVypDuKMmMMAtJvXkBrQaMLHQWEy55TmQ7FDtHV39BSYpo6zXQhJ
+	4Me5179VRaqPb9+H32UfYRjYU0qUkKpsKw9W00sNJXIiJ3c6f8BdC/SkWJe6ofyGDvd7WL
+	BwoxfUrUtOKGJ0rud0h+nEcxUXoVt/WgjUvqJRUyFJQjVMoYL3siOYcJeFBU9Rizdv7WIR
+	4QQbu9BNErSca0ZYZ6tKpzOy+se2/J/9oVpx6DakVZb9JzS5FcTc127Z+h0Vnw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1781873932;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fc5aoZP7eIkRLqNRisFV62d/fWTQWLLVZYeLkaEWyX4=;
+	b=mZgTvm7jD3Z2NAcxmxmDVerTEEjxf5yKGJh1YGtcQBdIlU8beFsgsp7lYFwlCl0NvKT8Ii
+	nim87aROr8+evpCw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, Jann Horn <jannh@google.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	syzbot <syzbot+000c800a02097aaa10ed@syzkaller.appspotmail.com>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	kernel list <linux-kernel@vger.kernel.org>,
+	syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+	Jeff Layton <jlayton@kernel.org>
+Subject: Re: [PATCH V2] locking/rt: Fix the incorrect RCU protection in
+ rt_spin_unlock()
+Message-ID: <20260619125850.ngovjcHG@linutronix.de>
+References: <6a32d492.9a9be2da.cfe8.0001.GAE@google.com>
+ <CAG48ez3-wQDwoQrOaKz3WTOU=n_cku0jcnxaC+wxBqdMHmiYMw@mail.gmail.com>
+ <20260618205953.GZ2636677@ZenIV>
+ <20260618210332.GA2636677@ZenIV>
+ <87wlvvcwqt.ffs@fw13>
+ <20260619083916.UMjUHmaq@linutronix.de>
+ <87mrwqd7eu.ffs@fw13>
+ <87jyrud75z.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev-aeb64
-X-Developer-Signature: v=1; a=openpgp-sha256; l=912; i=brauner@kernel.org;
- h=from:subject:message-id; bh=6JhNIEZzTHh40bheDe+TgBeMeGfZQt50qY7sOk2N2Ec=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSZWn+9IJ13eG8Hs1GRdpKSSE3LyvexB0NV+JyMdpen8
- V156i/UUcrCIMbFICumyOLQbhIut5ynYrNRpgbMHFYmkCEMXJwCMJEZcxn+Cpw+6Kz5Rbdzjvua
- H7GHch1NtjG/Udv+nvvavLuzL4RURjL897lRq2Iy68V9ja2/3vQ6WJi5njiYdrWii8u9IOlEmTA
- 3NwA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <87jyrud75z.ffs@fw13>
 
-On Tue, 16 Jun 2026 18:33:46 +0200, Matteo Croce wrote:
-> fat: stop reading directory entries past the end-of-directory marker
+On 2026-06-19 14:52:08 [+0200], Thomas Gleixner wrote:
+> rt_spin_unlock() releases the RCU protection before unlocking the
+> lock. That opens the door for the following UAF scenario:
+=E2=80=A6
+> Fixes: 0f383b6dc96e ("locking/spinlock: Provide RT variant")
+> Reported-by: syzbot+000c800a02097aaa10ed@syzkaller.appspotmail.com
+> Decoded-by: Jann Horn <jannh@google.com>
+> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+> Cc: stable@vger.kernel.org
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
-
-[1/1] fat: stop reading directory entries past the end-of-directory marker
-      https://git.kernel.org/vfs/vfs/c/3beb1d0da420
-
+Sebastian
