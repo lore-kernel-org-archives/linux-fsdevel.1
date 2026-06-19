@@ -1,145 +1,118 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4AD81F1932
-	for <linux-fsdevel@vger.kernel.org>; Fri, 19 Jun 2026 11:58:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF64537F730
+	for <linux-fsdevel@vger.kernel.org>; Fri, 19 Jun 2026 12:00:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781870294; cv=none; b=E2kxoUOx0yyzxsZEwaGuwJiFyOsZLVA4a42gB+hQaVCKBmMkec8trPPEVHSt7hQivQPBlEFctppg/hIo0dRlIJDG8bJ5Qpry/9UtNSjDCtXwro/VpyTtnb1Z1ybZWgij6gfy6wzZKcJvwHu6RA4CNTUramHbNYIaWEUPi1m/KTU=
+	t=1781870432; cv=none; b=Gh7Hz6mQFfcf4Zxj+haCWMgkBPk6DHDzbsfEnhKb5QcZwVWeNgMCVtK6Bgf2t6wX3zjs6rwF+OIkmDGXdKW/PiKQgiYVN6vLylXGfFarxo0shVZFJrEWRcwQLLQg/4+YjhmH2Mr+O8kCPa8n9ga3+CXJGQMsCb5q9f118BRy1n8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781870294; c=relaxed/simple;
-	bh=Cpes2frEqf2OQ7depjrYTkeG7fOB4l6pR/5npJRQBbU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m0OocLXT+H6577VXx/D2puuNzPIEoR7sRqVLJQjaC8JaEeSClIYU/rs3LWIwPBra6/agis20iXfLJpXu/6hEPtBRToilVa+uU4CbJJ4JBiUnntdCKQRfPflP/ei5k8H4ZxE+P/sVdv7QLWn3K02mHHsZFARdxJhbm/r6IgI+Fmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xcG3Mp0c; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JtD485uw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XZ0i9o1H; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Jm3/gCzH; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1781870432; c=relaxed/simple;
+	bh=Vg5wHxwQRmjxfOpg6Q/n/wEes06PZcgmmFj4ceOkcY0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hYhnhy6ej1FPDCVU5AcwFgTgYi77qxFaGOGJQ3jLejwcYTMPDAP2XwNGnsI9yikBixfAOdB0sAFOZm/+v9teAZ/yrDuQJ8ij5phw93vdgmBcA1CkSn5wRb2csEo6/CHDcMiE7BToAlGDlJ/yRK62GPwo5OSy5q0UUz7UOoL0sw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qR7vq6O3; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xcG3Mp0c";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JtD485uw";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XZ0i9o1H";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jm3/gCzH"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DB811760DC;
-	Fri, 19 Jun 2026 11:58:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781870291; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wOTWgH3E4efc1DupZXjdNhTQSV74w9qLI0tTsa0YRXM=;
-	b=xcG3Mp0chCVY3q97c2+ASVvMLOv2ytxXf5DiYRpiCCeP0vByIZuRBQk4S1Le8SsO4j9WHg
-	ZlC8Imrh4AG8o/0Te8lzHu/1zGLxRczeVj7ubpc3bwrqkuWV7X3FnKg4OJ7yvSMlfvxBEg
-	HUDIigaKtTZmZOuBjNG6/OaIL7FRB+A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781870291;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wOTWgH3E4efc1DupZXjdNhTQSV74w9qLI0tTsa0YRXM=;
-	b=JtD485uw0ODNLUc+pAK1o0gU/G9U+50Ja5ITBvVHV/WW1EgIw4wJwZM7feAC3a9mhR0zSp
-	I1TpWbMK9BNMMDDQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XZ0i9o1H;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="Jm3/gCzH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781870289; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wOTWgH3E4efc1DupZXjdNhTQSV74w9qLI0tTsa0YRXM=;
-	b=XZ0i9o1H6UuMo4I/zn7EcsBePI9wPDcCAIwJnosYZD1FFOGwdJGxlj/Ik7oUDWvgVKQenf
-	8EZbSvAQOMuWj/8UnLyzGrsoylCYyU/s+U0y9qRECr1dFyTQGE4kbVegAlQwKpHIo+xIRo
-	jWYjmlcx1Whd4iuzpyp86/QYEvT5eeU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781870289;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wOTWgH3E4efc1DupZXjdNhTQSV74w9qLI0tTsa0YRXM=;
-	b=Jm3/gCzHE0tCe1rhtXeHiX5IcIkL9Nr5YtH19aZgD4qySbwBNlizfNpdzht03A/wbrPDGz
-	EaMRX8UBFpGb2/CA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 38890779A8;
-	Fri, 19 Jun 2026 11:58:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id koXVCdEuNWp3BwAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Fri, 19 Jun 2026 11:58:09 +0000
-Date: Fri, 19 Jun 2026 12:58:07 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Frederick Mayle <fmayle@google.com>, Kalesh Singh <kaleshsingh@google.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH mm-hotfixses] Revert "mm: limit filemap_fault readahead
- to VMA boundaries"
-Message-ID: <ajUuprlNICagBYHB@pedro-suse.lan>
-References: <20260619112852.104213-1-ljs@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qR7vq6O3"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490bc6a7958so23741745e9.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 19 Jun 2026 05:00:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781870429; x=1782475229; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+LdvO0oEjrFRjPZX/mnbADsvNWAvZHhQoS7JQpSrd/U=;
+        b=qR7vq6O3Yi+Fy7A8PgU//m+ADU5YUhcyGWBsMWjZ+lIgtnCWS7x4GJ/34HCdvadG0L
+         tOWloF/2JjD1X075XRxZ87zn093zWg9kuGX68xUdE+v8PBx+Gg2aRXgI6rkot0aVYnwg
+         hLkt3qTpM/DGyM+51Grsg0RkUplKhfKgJoBSlkW+2CfsTBlddNeKirMc7NP664wQORSA
+         2BR8T5XzNZALIn+xWvREC12hctz63A6NtoSY3gZbtqfLuEJ9uu45a2CvTQ5q3wk2YShj
+         B4MuAQhDHV4xhss0UYeCO/tQtl7Itv+yghM+4roXJGpr4QqGgPLzfN4M7BXscGVtiaaf
+         sB0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781870429; x=1782475229;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+LdvO0oEjrFRjPZX/mnbADsvNWAvZHhQoS7JQpSrd/U=;
+        b=r4degIUU3mf1oJIDj64RqzlRxbONmETKdiyNHPWqyXC97r+D5T2fk53QvSkbHe7tF1
+         AxPEbMkIEiw8evarTwjNMqDMCgFyweEFU+bPTk50+zrI5vFESSa4oEnTA2Y9ggHTGM2/
+         6SQTXx6/a5nBqUdLVo6Eq7w6RT8nkcl1KINY1+WkRc20qotzUMmdpii4Yh1hzGwqJFln
+         M2la2VlzyOxUrV0lYmcWXbE+tANGHeDwSFVuL4qGDpY7qMaN3BhjcRzXFnzEK9GchgbF
+         e8MBpScKLAX4CqZF4PPKTChtvfW4Mw8q8MdY2LckzFi2LYgA32NNNzM0cbBkfsdobbdu
+         Z+/A==
+X-Forwarded-Encrypted: i=1; AFNElJ8wNne+KO1oVhc2ULnDcPcBWQwaDIAc9264fQdjPbolkjdAaUO8G6mQyORc4Cy9RCXKkjQWPk53xBGYkbqk@vger.kernel.org
+X-Gm-Message-State: AOJu0YygMpcQUNULTma4CwauZ6wdkuR+Og7GznN1FGizdYSqlA8MduXq
+	sVh/jhH3pMn7Ls65i4aLBQ+Kppe70iUqKniSqycLFJULhyP7ImK1gZA=
+X-Gm-Gg: AfdE7cnd+OX8vHEwIEvMC+HUjNFoTbllcWhGEJTswSiGN5X3s/AsP2JikmSwBPXtIlo
+	sCOpVVqOKySDSq99wZ/OP0fk6I9KmSEtbTO/ZouwTJ+0jkkveRsWNVmCeJVdXfE953yxRIsqLBU
+	lLUCM4eCd7o1/guzZCN7237gnFE3EBp+nPw3ovJbJX9qwP2kDGmAXv/+afeHMoK+r3xsqZlHl1v
+	CoVk1c2J7HWHrIg6lMgd4ehOj911Nqt+3DKxm4PTinkvwSrfxr9bPbZo4W+UuOMiTMbmhBJ/c25
+	qkjnN/AnvRxUuZcJQn7PSAWS/L16TVPX3YGRteO6TO/kMmQ76es6wluMyHpatIdS4mn5i+ou/bU
+	LRqgKcna0yajC+yOXk3toBfY1RiFs7a1mk46WYRl/tuhcGUyNuucMi/YdbA==
+X-Received: by 2002:a05:600c:2d89:b0:490:7df7:9190 with SMTP id 5b1f17b1804b1-49240a09f97mr23365025e9.8.1781870428832;
+        Fri, 19 Jun 2026 05:00:28 -0700 (PDT)
+Received: from debian.. ([2001:41d0:303:db6b::])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923fc47720sm102995695e9.0.2026.06.19.05.00.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jun 2026 05:00:27 -0700 (PDT)
+From: Tristan Madani <tristmd@gmail.com>
+To: miklos@szeredi.hu
+Cc: amir73il@gmail.com,
+	linux-fsdevel@vger.kernel.org,
+	stable@vger.kernel.org,
+	tristan@talencesecurity.com
+Subject: [PATCH] fuse: check fi is not NULL before calling fuse_passthrough_release()
+Date: Fri, 19 Jun 2026 12:00:26 +0000
+Message-ID: <20260619120026.2630196-1-tristmd@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260619112852.104213-1-ljs@kernel.org>
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: DB811760DC
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:dkim,pedro-suse.lan:mid];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jun 19, 2026 at 12:28:51PM +0100, Lorenzo Stoakes wrote:
-> This reverts commit 7b32f64bc512b40b268776c5ac4d354b325b3197.
-> 
-> This patch caused a significant performance regression, so revert it, and
-> we can determine whether the approach is sensible or not moving forwards,
-> and if so how to avoid this.
-> 
-> There was a merge conflict with commit de97ae6222c1 ("mm/readahead: no
-> PG_readahead on EOF"), care was taken to ensure that the revert retained the
-> behaviour of this patch and cleanly reverts commit 7b32f64bc512 ("mm: limit
-> filemap_fault readahead to VMA boundaries") only.
-> 
-> Fixes: 7b32f64bc512 ("mm: limit filemap_fault readahead to VMA boundaries")
-> Reported-by: kernel test robot <oliver.sang@intel.com>
-> Closes: https://lore.kernel.org/oe-lkp/202606181547.617a6967-lkp@intel.com
-> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+From: Tristan Madani <tristan@talencesecurity.com>
 
-Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+fuse_create_open() calls fuse_sync_release() with a NULL fuse_inode
+when fuse_iget() fails. This propagates to fuse_prepare_release(),
+which passes the NULL fi to fuse_inode_backing() via the
+fuse_passthrough_release() call, resulting in a NULL pointer
+dereference.
 
+The existing comment in fuse_prepare_release() documents that the
+inode can be NULL on the error path of fuse_create_open(), and the
+fi->lock access below is already guarded with if (likely(fi)), but
+the passthrough release path added by commit 4a90451bbc7f ("fuse:
+implement open in passthrough mode") was not given the same
+protection.
+
+Add the missing NULL check for fi before calling
+fuse_passthrough_release().
+
+Found by syzkaller.
+
+Fixes: 4a90451bbc7f ("fuse: implement open in passthrough mode")
+Cc: stable@vger.kernel.org
+Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
+---
+ fs/fuse/file.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index c59452d60b8d..9b368eab159c 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -313,7 +313,7 @@ static void fuse_prepare_release(struct fuse_inode *fi, struct fuse_file *ff,
+ 	struct fuse_conn *fc = ff->fm->fc;
+ 	struct fuse_release_args *ra = &ff->args->release_args;
+ 
+-	if (fuse_file_passthrough(ff))
++	if (fi && fuse_file_passthrough(ff))
+ 		fuse_passthrough_release(ff, fuse_inode_backing(fi));
+ 
+ 	/* Inode is NULL on error path of fuse_create_open() */
 -- 
-Pedro
+2.47.3
+
