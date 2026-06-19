@@ -1,39 +1,40 @@
 Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [185.125.25.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3422430677D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FDA2DC32C
 	for <linux-fsdevel@vger.kernel.org>; Fri, 19 Jun 2026 14:59:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781881160; cv=none; b=JJ16qDwtpWRoHz3qpV0VeuSCNbnwLcTU2uJU1RD8JbZgqgZZodaSONqrGabVwQjEoChRS+pbVrswLgKG1BZYEiKmaQBHAbZxyapMnNRk7D3YU6pnOFG9N/378vZs1QZ0tAQiwUrD97QNPZcx84Gpy5M2rlt5LNwH6lhufPK2rEI=
+	t=1781881160; cv=none; b=kfnR24CKLKbHUY/RqcNXMi1GBbk77tvQUvReo/tZoyIi78TLSJWJDMkPYm3BviP/2Dq3DJMNtdh75PcS5DbQtVpsobwU5rnH/UER65jjERJWQtY4p/QGqXKWrabfLOyMMCLVM1FLCRqTHGluxG1WASuQd5aVx2rqxPZ53U98Myw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1781881160; c=relaxed/simple;
-	bh=Nd7aoGI2jIJg0XJ97WeErtzBQ/wpsd2N/ztLqDcliLY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CtCFMcNFUZa/9R482695+b8DECZUsiRVP8wesoaMywUN6HiTD3TeG/ia1sFlBpQzuQc2UinhMs0ezdnQBQzDMpMQoTRjg/crKiAW/M5cebmdrxVlnePFrMuSlQZ5dM77Mv18LciaQ+xm6XfvwObGXc4eLgj+E2hc7uKgHlXuU5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=0leil.net; spf=pass smtp.mailfrom=0leil.net; dkim=pass (2048-bit key) header.d=0leil.net header.i=@0leil.net header.b=PJUnuDx+; arc=none smtp.client-ip=185.125.25.10
+	bh=C4DPjZRWPUMXX3xECIA8+kcIUFCzquihhDLXlumQIS8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=itgd9Y29anSQ1QwTLgz/UZX4ExdCGSTlujJ1uyYMRlaYMEX/HMOhcEOVBxEMnxfKqgw5Xkh1g0H1oNnMY9iZ5BjIE12TlKW2rzxjo8pN3x5qQoJ1x5jnIis0I77PmwFsVWMLDpAE3xzbB+9aPalajDuRHbJwtbk6cPPwmZ3jSwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=0leil.net; spf=pass smtp.mailfrom=0leil.net; dkim=pass (2048-bit key) header.d=0leil.net header.i=@0leil.net header.b=nsJMKOx8; arc=none smtp.client-ip=185.125.25.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=0leil.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0leil.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=0leil.net header.i=@0leil.net header.b="PJUnuDx+"
-Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4ghgjG5skNzBfj;
-	Fri, 19 Jun 2026 16:59:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=0leil.net;
-	s=20231125; t=1781881154;
-	bh=U/IXRrLPUtA+9Gxy6cPTSupEJOAX/u+UMvxce3+F2c4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=PJUnuDx+RYL2iPVwuvOdC5BfcBOVaC+EKyxSRGHOLNZvhByaHpv3iH3mkWesfKEok
-	 0Ta3FIvQdXIc1z9/R+tdi2LZ8PR9OFQDpJ4QddyKVxk2cp65kC8/eK0WoGv5kVpJns
-	 hzec+QNAM7W0bKh9yJ1PbDiaVDD3BKCkRwvWntB9c025tKu7y842RyKBekc+rTgvBZ
-	 oeo4nDF3rAG6KH4U0PvGalRYYTMR2pdEAoC1u6VE3YWGAsHyoyCxMtxZUkW6gz4eJP
-	 IaqtTdiAT2w1V7ZA3PJfHK5jl7VToLxxFnCNlIGpzlfjY0hsQ/6dn/n5E1oBWKVQeU
-	 m3bsksnhzighw==
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4ghgjF5C36zrfH;
+	dkim=pass (2048-bit key) header.d=0leil.net header.i=@0leil.net header.b="nsJMKOx8"
+Received: from smtp-4-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:7:10::a6b])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4ghgjF1fBqzBKX;
 	Fri, 19 Jun 2026 16:59:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=0leil.net;
+	s=20231125; t=1781881152;
+	bh=q4pLR8MGAZ8d9SmRRP76vD76u+1xaZltcCBwaFGE/2w=;
+	h=From:Subject:Date:To:Cc:From;
+	b=nsJMKOx8Z1w0QYVP6wjFyw3dKLPGb+kiHzpY7AZYcvYAwA+TYDlgps+Gp7bcQo1YA
+	 lVjx9EG6iSQ/YxpbP9CIIgTjFqtjxmMy3vvxRyfdTcaOi+cEBIRO/kVvLsx/IXGI0i
+	 KtbJaqSK6LeAvMkNYqbgehukIMNucZM6SnmU+ub0/Lm8dzVMMS8djZWZPgdiP18ffZ
+	 2qcKgUeXTkD3DcS8KIgpvGOc53Uq2bbysjbDyGD0EvdqrxWSekww3u19zilE6akhGS
+	 4dgLj+HMb5DkREkA103scsi9cLKU7jT2iSpTT142Sg12qfjmhG9Chld0wmRRJC90sj
+	 DC1dkFoPF9Pww==
+Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4ghgjB391lzsBb;
+	Fri, 19 Jun 2026 16:59:10 +0200 (CEST)
 From: Quentin Schulz <foss+kernel@0leil.net>
-Date: Fri, 19 Jun 2026 16:58:42 +0200
-Subject: [PATCH 6.12.y 2/7] eventpoll: split __ep_remove()
+Subject: [PATCH 6.12.y 0/7] eventpoll: backport
+ a6dc643c69311677c574a0f17a3f4d66a5f3744b
+Date: Fri, 19 Jun 2026 16:58:40 +0200
+Message-Id: <20260619-6-12-cve-2026-46242-v1-0-e15a6de43c11@cherry.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -41,10 +42,11 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260619-6-12-cve-2026-46242-v1-2-e15a6de43c11@cherry.de>
-References: <20260619-6-12-cve-2026-46242-v1-0-e15a6de43c11@cherry.de>
-In-Reply-To: <20260619-6-12-cve-2026-46242-v1-0-e15a6de43c11@cherry.de>
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMQQ6CQAwAv0J6toQWqNGvGA9Qu1gPaHaVaAh/Z
+ 8HjTDIzQ7LoluBczBBt8uTPMQMdCtB7Nw6GfssMXLFUQicUJEadDDeDjXDD2NdqIeixrTuCXL6
+ iBf/u1wtISVz+4Pr36dM/TN/bEpZlBbeyVXV/AAAA
+X-Change-ID: 20260619-6-12-cve-2026-46242-b3ceffc753a1
 To: Alexander Viro <viro@zeniv.linux.org.uk>, 
  Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
  Davidlohr Bueso <dave@stgolabs.net>, 
@@ -53,85 +55,95 @@ To: Alexander Viro <viro@zeniv.linux.org.uk>,
  Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  stable@vger.kernel.org, Quentin Schulz <quentin.schulz@cherry.de>, 
- Linus Torvalds <torvalds@linux-foundation.org>
+ Linus Torvalds <torvalds@linux-foundation.org>, 
+ Jaeyoung Chung <jjy600901@snu.ac.kr>
 X-Mailer: b4 0.15-dev-47773
 X-Infomaniak-Routing: alpha
 
-From: Christian Brauner <brauner@kernel.org>
+Backport a6dc643c6931 ("eventpoll: fix ep_remove struct eventpoll /
+struct file UAF") to 6.12.y. So the patch applies cleanly, commit
+86e87059e6d1 ("eventpoll: move epi_fget() up"), commit 0bade234723e
+("eventpoll: rename ep_remove_safe() back to ep_remove()"), commit
+0feaf644f718 ("eventpoll: drop vestigial __ prefix from
+ep_remove_{file,epi}()"), commit e9e5cd40d7c4 ("eventpoll: kill
+__ep_remove()"), commit 0f7bdfd41300 ("eventpoll: split __ep_remove()")
+and commit 3d9fd0abc94d ("eventpoll: use hlist_is_singular_node() in
+__ep_remove()") are also backported.
 
-[ Upstream commit 0f7bdfd413000985de09fc39eb9efa1e091a3ce0 ]
+Note that backport of commit 86e87059e6d1 ("eventpoll: move epi_fget()
+up") conflicted due to missing commit 90ee6ed776c0 ("fs: port files to
+file_ref") and its dependent commit 08ef26ea9ab3 ("fs: add file_ref").
+The original commit is simply moving a function earlier in the file, so
+we do the same even if the content of the function is actually slightly
+different. I opted for this instead of backporting the other two commits
+because they look a bit more involved than I would like to for stable.
+They also do not apply cleanly so I drew the line before those two
+"dependencies" and didn't add them to the list of backported patches in
+this series.
 
-Split __ep_remove() to delineate file removal from epoll item removal.
+Note that backport of 0bade234723e ("eventpoll: rename ep_remove_safe()
+back to ep_remove()") is not necessary (e.g. 6.18.y doesn't have it), it
+just makes git-range-diff even smaller so I thought it was nice to add
+it. Maybe it'll make future backports easier too /me shrugs.
 
-Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-Link: https://patch.msgid.link/20260423-work-epoll-uaf-v1-2-2470f9eec0f5@kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-Stable-dep-of: a6dc643c6931 ("eventpoll: fix ep_remove struct eventpoll / struct file UAF")
+The changes between 3d9fd0abc94d^..a6dc643c6931 (commit log excluded)
+and this series is (according to git-range-diff):
+
+"""
+      ## fs/eventpoll.c ##
+     @@ fs/eventpoll.c: static void ep_free(struct eventpoll *ep)
+    @@ fs/eventpoll.c: static void ep_free(struct eventpoll *ep)
+     +  struct file *file;
+     +
+     +  file = epi->ffd.file;
+    -+  if (!file_ref_get(&file->f_ref))
+    ++  if (!atomic_long_inc_not_zero(&file->f_count))
+     +          file = NULL;
+     +  return file;
+     +}
+    @@ fs/eventpoll.c: static __poll_t __ep_eventpoll_poll(struct file *file, poll_tabl
+     -  struct file *file;
+     -
+     -  file = epi->ffd.file;
+    --  if (!file_ref_get(&file->f_ref))
+    +-  if (!atomic_long_inc_not_zero(&file->f_count))
+     -          file = NULL;
+     -  return file;
+     -}
+"""
+
+in patch 6.
+
+Note that this series cleanly applies to v6.6.y as well but fails to
+build with the following error:
+
+/home/qschulz/work/upstream/linux/fs/eventpoll.c: In function ‘ep_remove’:
+/home/qschulz/work/upstream/linux/fs/eventpoll.c:804:16: error: cleanup argument not a function
+  804 |         struct file *file __free(fput) = NULL;
+      |                ^~~~
+make[4]: *** [/home/qschulz/work/upstream/linux/scripts/Makefile.build:243: fs/eventpoll.o] Error 1
+make[4]: *** Waiting for unfinished jobs....
+
+hence why I made this series 6.12.y-specific.
+
 Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
 ---
- fs/eventpoll.c | 27 +++++++++++++++++++++++----
- 1 file changed, 23 insertions(+), 4 deletions(-)
+Christian Brauner (7):
+      eventpoll: use hlist_is_singular_node() in __ep_remove()
+      eventpoll: split __ep_remove()
+      eventpoll: kill __ep_remove()
+      eventpoll: drop vestigial __ prefix from ep_remove_{file,epi}()
+      eventpoll: rename ep_remove_safe() back to ep_remove()
+      eventpoll: move epi_fget() up
+      eventpoll: fix ep_remove struct eventpoll / struct file UAF
 
-diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-index 8f9dc2f4891ff..1cba4ae4a076b 100644
---- a/fs/eventpoll.c
-+++ b/fs/eventpoll.c
-@@ -797,6 +797,9 @@ static void ep_free(struct eventpoll *ep)
- 	kfree_rcu(ep, rcu);
- }
- 
-+static void __ep_remove_file(struct eventpoll *ep, struct epitem *epi, struct file *file);
-+static bool __ep_remove_epi(struct eventpoll *ep, struct epitem *epi);
-+
- /*
-  * Removes a "struct epitem" from the eventpoll RB tree and deallocates
-  * all the associated resources. Must be called with "mtx" held.
-@@ -808,8 +811,6 @@ static void ep_free(struct eventpoll *ep)
- static bool __ep_remove(struct eventpoll *ep, struct epitem *epi, bool force)
- {
- 	struct file *file = epi->ffd.file;
--	struct epitems_head *to_free;
--	struct hlist_head *head;
- 
- 	lockdep_assert_irqs_enabled();
- 
-@@ -825,8 +826,21 @@ static bool __ep_remove(struct eventpoll *ep, struct epitem *epi, bool force)
- 		return false;
- 	}
- 
--	to_free = NULL;
--	head = file->f_ep;
-+	__ep_remove_file(ep, epi, file);
-+	return __ep_remove_epi(ep, epi);
-+}
-+
-+/*
-+ * Called with &file->f_lock held,
-+ * returns with it released
-+ */
-+static void __ep_remove_file(struct eventpoll *ep, struct epitem *epi, struct file *file)
-+{
-+	struct epitems_head *to_free = NULL;
-+	struct hlist_head *head = file->f_ep;
-+
-+	lockdep_assert_held(&ep->mtx);
-+
- 	if (hlist_is_singular_node(&epi->fllink, head)) {
- 		/* See eventpoll_release() for details. */
- 		WRITE_ONCE(file->f_ep, NULL);
-@@ -840,6 +854,11 @@ static bool __ep_remove(struct eventpoll *ep, struct epitem *epi, bool force)
- 	hlist_del_rcu(&epi->fllink);
- 	spin_unlock(&file->f_lock);
- 	free_ephead(to_free);
-+}
-+
-+static bool __ep_remove_epi(struct eventpoll *ep, struct epitem *epi)
-+{
-+	lockdep_assert_held(&ep->mtx);
- 
- 	rb_erase_cached(&epi->rbn, &ep->rbr);
- 
+ fs/eventpoll.c | 142 ++++++++++++++++++++++++++++++++-------------------------
+ 1 file changed, 79 insertions(+), 63 deletions(-)
+---
+base-commit: 0b8f247169e487eff2d4c2dd531bc43f7efda2cb
+change-id: 20260619-6-12-cve-2026-46242-b3ceffc753a1
 
--- 
-2.54.0
+Best regards,
+--  
+Quentin Schulz <quentin.schulz@cherry.de>
 
