@@ -1,101 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E681D326928;
-	Fri, 19 Jun 2026 11:11:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF1A437B03E;
+	Fri, 19 Jun 2026 11:28:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781867498; cv=none; b=qg3AgKvXmo+sKoKZF5aPnwpI+9hez79zonRoRj3OkdXlMlOtemmYOnO1zQB+pelYBWD9N5Lcpg7Z5825tKxI9gFVDjAPEVB9xQIceMIYz/ivTfG91uauIvl6HoZsd/hq9tkZX5Y8OlRDaVlGsa7NNkEqHlV18izfBebqdYXWcak=
+	t=1781868518; cv=none; b=ilovJ/CfPjVEqYeoFuw/ZLgTy+2AY4dtCG8BSkqOSBHJAN1RHD6W1zEH4E2/h6MQTig0LdDEnzpK9P4sV5xW1+7lpxClNO5x25C8tfWLNxwel00Khbom3QF43bdf5sIPKyiGvCzNlOjj9dpDVbS/bMPLAvpW1MKVc+yuahU5LAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781867498; c=relaxed/simple;
-	bh=iJOKcZvygsqgxm7muAKd+76uHoZFFY5TClZKa0FpZrc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BwdYlpCVQ4z8ea+vJH5dqJ/11R/XWvVrgVGpBcZgS6oo4C4mXvrX+p8u3uB16Fr53bRMxOyFZE9ilFT5y3eF4GHm4vdIVC/LwiCyffs2+s2Bayu77h3I09Ofpr3unJ/I4cZptNC5LHkQpGYi+LEtM3txdcJU+OtgqlWOsZdu2XY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i02R1fLG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781868518; c=relaxed/simple;
+	bh=wG8vqSZRlfADMw19ZyBJUL9fV/W959NkPCp0oBJpaGY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=AUi4KNep6DdqSURa24Co7/sPicy4Cy/++OZj6ErFyJW4bRU6gLLW+g3JtxcWWUymhhHVxTMjG9NvHT/5wJ6wR3c6FbY9BWkDb5wqybC7VuQ3E6wCVug8czIbV24TUeHdzyx7NgMRVJHPoTC9BJbofjR0cM0Z3e3c3ONYWHYNNeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Bq1J5b+6; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i02R1fLG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E08641F000E9;
-	Fri, 19 Jun 2026 11:11:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781867497;
-	bh=iJOKcZvygsqgxm7muAKd+76uHoZFFY5TClZKa0FpZrc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=i02R1fLGWodVSipWVNcr/NHtzTLSPn4Vwoo5KZnlFsrozVruc5I1skirY/Hh6Yc9L
-	 8R+b7OuoNsli3otBv8hqVAmkK/Df76UWA2/NwJ9UnxH77HoXlL2rx8gGZhzHsF38mZ
-	 MirD6gCLvbH0teVyfEPwjZvLGN1q9I7kMqQC6MebmoI21QQSVKyAlHvx8JJ12KW0W0
-	 Tx+Uo3E+Q/kLwCjBHoqk2IJ7f9vdtFfVFGcKRUNXhHJ7QcRnGz3gbukp8xjcoVKEte
-	 MJegk+tCRGtXs1nfC9l0Mx3DQAcJnT14ZrOoVUzxT0FVbx11etk/prYlwB+dtlrhbU
-	 47iIEXXmJfNJA==
-Date: Fri, 19 Jun 2026 12:11:31 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: Suren Baghdasaryan <surenb@google.com>, Jan Kara <jack@suse.cz>, 
-	kernel test robot <oliver.sang@intel.com>, Frederick Mayle <fmayle@google.com>, oe-lkp@lists.linux.dev, 
-	lkp@intel.com, Andrew Morton <akpm@linux-foundation.org>, 
-	Kalesh Singh <kaleshsingh@google.com>, David Hildenbrand <david@kernel.org>, 
-	Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [linux-next:master] [mm] 7b32f64bc5:
- pts.svt-av1.Preset13.Bosphorus4K.frames_per_second 45.8% regression
-Message-ID: <ajUj2adtJakEG0ZO@lucifer>
-References: <202606181547.617a6967-lkp@intel.com>
- <6z2rqmo7b6m2rdhqurspwya25ps4dj7lctdygnmq3rn4xt6h3i@57kiiy72epgd>
- <ajP_-zqVPtbzvc9j@lucifer>
- <CAJuCfpFed0GuMk+dE-Xn0w45Mn1Spds-pc2BE__FUoWm6+R7_w@mail.gmail.com>
- <ajQbXthzbr9xgUIM@pedro-suse>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Bq1J5b+6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=dF
+	FX1HkXHLgluOIZ1FYNUEJLqZLrQvqoPtt5ncKjmX0=; b=Bq1J5b+6+H18kgN2Ng
+	NC9KkVd1SOW2IIywduRzrSPHJkEyfeEiBAmI7n4yUshKgcrqDAjvPlxs5txpE7/V
+	MVNFYGwhazJRDRQy+PfR5qxp2MiGzK5g1cs9MXLk/prRLvOmgnGL7QLpPyPPgt9M
+	pE1FPWRBAepH1C9rae/jM7+5Y=
+Received: from zhaoxin-MS-7E12.. (unknown [])
+	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wD3NKOmJzVqVoGHEg--.21031S2;
+	Fri, 19 Jun 2026 19:27:36 +0800 (CST)
+From: Xin Zhao <jackzxcui1989@163.com>
+To: brauner@kernel.org
+Cc: alex.aring@gmail.com,
+	allen.lkml@gmail.com,
+	arnd@arndb.de,
+	chuck.lever@oracle.com,
+	ebiederm@xmission.com,
+	j.granados@samsung.com,
+	jack@suse.cz,
+	jackzxcui1989@163.com,
+	jlayton@kernel.org,
+	keescook@chromium.org,
+	linux-arch@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mcgrof@kernel.org,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH] coredump/fcntl: Add FD_CLOBCOR flag to close fd before dumping core
+Date: Fri, 19 Jun 2026 19:27:34 +0800
+Message-Id: <20260619112734.3918607-1-jackzxcui1989@163.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260619-hiervon-kopfsache-rechen-efbdf4463544@brauner>
+References: <20260619-hiervon-kopfsache-rechen-efbdf4463544@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ajQbXthzbr9xgUIM@pedro-suse>
+X-CM-TRANSID:_____wD3NKOmJzVqVoGHEg--.21031S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tFyUWF1DWF15KFyDuw4rZrb_yoW8KFWDpa
+	98Ka4IyF4DKFZ7AFs7J3W8Ja4rG34rJr47ur9xu34DA3ZxuF13XFW3tFW5t3Z8Cr4kK3yF
+	qFWjq34Uu343taDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0JU79NsUUUUU=
+X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/xtbCvwnb5Wo1J6nOCAAA3f
 
-On Thu, Jun 18, 2026 at 05:32:31PM +0100, Pedro Falcato wrote:
-> On Thu, Jun 18, 2026 at 04:03:43PM +0000, Suren Baghdasaryan wrote:
-> > On Thu, Jun 18, 2026 at 2:30 PM Lorenzo Stoakes <ljs@kernel.org> wrote:
-> > >
-> > > On Thu, Jun 18, 2026 at 11:30:47AM +0200, Jan Kara wrote:
-> > > > On Thu 18-06-26 16:00:42, kernel test robot wrote:
-> > > > > Hello,
-> > > > >
-> > > > > kernel test robot noticed a 45.8% regression of pts.svt-av1.Preset13.Bosphorus4K.frames_per_second on:
-> > > >
-> > > > This one looks serious enough and real. It would be good to figure out what
-> > > > happens in this benchmark that it benefits from the readahead across VMA
-> > > > boundaries so much...
-> > >
-> > > I think a revert first no? This seems pretty huge for something that isn't key
-> > > to the kernel, then a new attempt can be tried with this issue addressed
-> > > perhaps?
-> >
-> > A quick search yields: "The
-> > pts.svt-av1.Preset13.Bosphorus4K.frames_per_second is a benchmarking
-> > metric from the Phoronix Test Suite that measures how many frames per
-> > second a CPU can encode using the open-source SVT-AV1 video encoder."
-> >
-> > If this is a video encoding benchmark I would expect it to explicitly
-> > prefetch the data from the disk before measuring the encoding speed.
-> > If limiting readahead caused this regression, I suspect the benchmark
-> > doesn't explicitly prefetch the data...
->
-> Well, commonly video data doesn't actually fit in memory :)
->
-> A quick look at the code (I think it's https://gitlab.com/AOMediaCodec/SVT-AV1/-/blob/master/Source/App/app_process_cmd.c#L821)
-> suggests it is progressively mapping the file data for a given frame
-> (or frames?). So the old behavior would result in page faults for a given
-> frame starting readahead for the next few frames. This looks reasonable.
->
-> FWIW I suspected this was a really weird case regarding mprotect or
-> something, and I'm happy it isn't; but at least I had a suggestion for that -
-> for this, maybe dropping the change (for now?) is the best course of action.
+On Fri, 19 Jun 2026 09:23:30 +0200 Christian Brauner <brauner@kernel.org> wrote:
 
-Am sending a revert.
+> On Thu, Jun 18, 2026 at 11:07:00AM +0800, Xin Zhao wrote:
+> > A coredump typically takes some time to complete. If we happen to hold a
+> > write lock with flock just before triggering the coredump, that write lock
+> > will not be released during the entire coredump process. As a result,
+> > other processes attempting to acquire the same write lock may experience
+> > significant delays.
+> > 
+> > To address this, we introduce the F_[GET|SET]FD_EX fcntl operation and the
+> > FD_CLOBCOR flag, allowing coredump_wait() to release any file descriptors
+> > marked with FD_CLOBCOR. We can also assign the FD_CLOBCOR flag to specific
+> > shared memory segments, preventing the coredump from including shared
+> > memory that we are not interested in, thereby reducing both the coredump
+> > duration and the size of the core file.
+> > 
+> > We actually considered using signals that generate coredumps to perform
+> > the actions we wanted in user space. However, since other threads within
+> > the process are not frozen when handling these signals, indiscriminately
+> > closing an fd can lead to concurrency issues. For example, if the thread
+> > that triggered the coredump closes the fd in the signal handler while
+> > other threads are using the resources associated with that fd, it could
+> > cause secondary corruption of the coredump state.
+> > 
+> > Signed-off-by: Xin Zhao <jackzxcui1989@163.com>
+> > ---
+> 
+> Eew, NAK. No way we're doing this.
+> I can see a point in filtering memory that one isn't interested in but
+> that has to be built on top of the coredump socket protoctol by
+> extending it.
 
->
-> --
-> Pedro
+Thank you for your suggestion. Now, besides knowing about MADV_DONTDUMP to
+filter out uninteresting memory, I also learned about the new method you
+mentioned: the coredump socket protocol.
 
-Thanks, Lorenzo
+In addition to the need to filter out uninteresting memory during a core
+dump, what I really hope to address is the issue of the flock lock being
+held for a long time during the core dump process. I have completely
+given up on adding a new fcntl interface to solve this problem. In the v2
+version I sent, I called exit_files in coredump_wait to address this
+issue. Please let me know if you have any comments on my v2 version.
+Link: https://lore.kernel.org/lkml/20260619003900.3546571-1-jackzxcui1989@163.com/
+
+Thanks
+Xin Zhao
+
