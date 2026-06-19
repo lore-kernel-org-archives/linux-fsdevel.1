@@ -1,40 +1,39 @@
-Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [185.125.25.10])
+Received: from smtp-bc0b.mail.infomaniak.ch (smtp-bc0b.mail.infomaniak.ch [45.157.188.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FDA2DC32C
-	for <linux-fsdevel@vger.kernel.org>; Fri, 19 Jun 2026 14:59:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42EDD3AA50B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 19 Jun 2026 14:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781881160; cv=none; b=kfnR24CKLKbHUY/RqcNXMi1GBbk77tvQUvReo/tZoyIi78TLSJWJDMkPYm3BviP/2Dq3DJMNtdh75PcS5DbQtVpsobwU5rnH/UER65jjERJWQtY4p/QGqXKWrabfLOyMMCLVM1FLCRqTHGluxG1WASuQd5aVx2rqxPZ53U98Myw=
+	t=1781881161; cv=none; b=AWk0ngasxnyCTuGghlhc0+G1yxLS2VfbT2qEZFOoPVvZUu9pcpu8W9dmH5C1QVfL0qN/ehKw/sz0BckWJNAQ8yt8hhSY4CY2LB+WvRT1V3W+5akI9/2cbg7ALKsCjzPcGOaFsaMloZUQ8Nbo7WlL/ZWzlS02Pi4h4QX43SlFeYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781881160; c=relaxed/simple;
-	bh=C4DPjZRWPUMXX3xECIA8+kcIUFCzquihhDLXlumQIS8=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=itgd9Y29anSQ1QwTLgz/UZX4ExdCGSTlujJ1uyYMRlaYMEX/HMOhcEOVBxEMnxfKqgw5Xkh1g0H1oNnMY9iZ5BjIE12TlKW2rzxjo8pN3x5qQoJ1x5jnIis0I77PmwFsVWMLDpAE3xzbB+9aPalajDuRHbJwtbk6cPPwmZ3jSwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=0leil.net; spf=pass smtp.mailfrom=0leil.net; dkim=pass (2048-bit key) header.d=0leil.net header.i=@0leil.net header.b=nsJMKOx8; arc=none smtp.client-ip=185.125.25.10
+	s=arc-20240116; t=1781881161; c=relaxed/simple;
+	bh=7xLsm9+GuD+ArEMSFPBN3QvywSaUNLAE3xk01dLL37I=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=R8V7oWWe8Oc746gcBN2FQ3zIzQHoR0vQCb1c0di9giCIxHdvG0cR2AcWngMAZ9daMFWthQd+o+3SsCo/sKfN0bPd0t3iyl6g3tfzK/nUMgNFdGzLvX3h8IIu+UDhbCUj/K5KTtrj4R7FL+7RosAfYgCDe8BKuFmXhbWu8cpDIuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=0leil.net; spf=pass smtp.mailfrom=0leil.net; dkim=pass (2048-bit key) header.d=0leil.net header.i=@0leil.net header.b=luRpEn9s; arc=none smtp.client-ip=45.157.188.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=0leil.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0leil.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=0leil.net header.i=@0leil.net header.b="nsJMKOx8"
-Received: from smtp-4-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:7:10::a6b])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4ghgjF1fBqzBKX;
-	Fri, 19 Jun 2026 16:59:13 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=0leil.net header.i=@0leil.net header.b="luRpEn9s"
+Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4ghgjH4TfXzKXc;
+	Fri, 19 Jun 2026 16:59:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=0leil.net;
-	s=20231125; t=1781881152;
-	bh=q4pLR8MGAZ8d9SmRRP76vD76u+1xaZltcCBwaFGE/2w=;
-	h=From:Subject:Date:To:Cc:From;
-	b=nsJMKOx8Z1w0QYVP6wjFyw3dKLPGb+kiHzpY7AZYcvYAwA+TYDlgps+Gp7bcQo1YA
-	 lVjx9EG6iSQ/YxpbP9CIIgTjFqtjxmMy3vvxRyfdTcaOi+cEBIRO/kVvLsx/IXGI0i
-	 KtbJaqSK6LeAvMkNYqbgehukIMNucZM6SnmU+ub0/Lm8dzVMMS8djZWZPgdiP18ffZ
-	 2qcKgUeXTkD3DcS8KIgpvGOc53Uq2bbysjbDyGD0EvdqrxWSekww3u19zilE6akhGS
-	 4dgLj+HMb5DkREkA103scsi9cLKU7jT2iSpTT142Sg12qfjmhG9Chld0wmRRJC90sj
-	 DC1dkFoPF9Pww==
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4ghgjB391lzsBb;
-	Fri, 19 Jun 2026 16:59:10 +0200 (CEST)
+	s=20231125; t=1781881155;
+	bh=ysxwfeYwNd5Kpj7JVpBssNtkt3y+xhrpB9VC8FO4w+k=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=luRpEn9sSJnMP3L1heBEy7xHNEQYa9QBxdIqyQdM6AccRSryh+mMZ/1pGX/q1WT2Q
+	 Gz6ng3YciGj+zzkK9motxxqjdbqNw9O9438bF4T43E9Z81zZ2vl9Dhrmit6IKtZFki
+	 4vG16N58xlbGfW/frbAhWN4LYPCpszQWnJHYUdBMlVy1B7aYsC6C3QiISSzgbIkTAH
+	 tDdAoyxhFjmpqhH9RR4Qf6EduUrykc75neobDZ7BkWAQ/5cZK8tOJ7T+pc2ZZ0fSqB
+	 WgXsQsTf1+wQt+2bJxg3/YUzGPqIMdB/ibcCofPaxYQFqQhimybYcjMmJZ+cJsIFa+
+	 SCdKai5TMigkw==
+Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4ghgjG3dN5ztqr;
+	Fri, 19 Jun 2026 16:59:14 +0200 (CEST)
 From: Quentin Schulz <foss+kernel@0leil.net>
-Subject: [PATCH 6.12.y 0/7] eventpoll: backport
- a6dc643c69311677c574a0f17a3f4d66a5f3744b
-Date: Fri, 19 Jun 2026 16:58:40 +0200
-Message-Id: <20260619-6-12-cve-2026-46242-v1-0-e15a6de43c11@cherry.de>
+Date: Fri, 19 Jun 2026 16:58:43 +0200
+Subject: [PATCH 6.12.y 3/7] eventpoll: kill __ep_remove()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -42,11 +41,10 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMQQ6CQAwAv0J6toQWqNGvGA9Qu1gPaHaVaAh/Z
- 8HjTDIzQ7LoluBczBBt8uTPMQMdCtB7Nw6GfssMXLFUQicUJEadDDeDjXDD2NdqIeixrTuCXL6
- iBf/u1wtISVz+4Pr36dM/TN/bEpZlBbeyVXV/AAAA
-X-Change-ID: 20260619-6-12-cve-2026-46242-b3ceffc753a1
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260619-6-12-cve-2026-46242-v1-3-e15a6de43c11@cherry.de>
+References: <20260619-6-12-cve-2026-46242-v1-0-e15a6de43c11@cherry.de>
+In-Reply-To: <20260619-6-12-cve-2026-46242-v1-0-e15a6de43c11@cherry.de>
 To: Alexander Viro <viro@zeniv.linux.org.uk>, 
  Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
  Davidlohr Bueso <dave@stgolabs.net>, 
@@ -54,96 +52,135 @@ To: Alexander Viro <viro@zeniv.linux.org.uk>,
  Soheil Hassas Yeganeh <soheil@google.com>, 
  Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, Quentin Schulz <quentin.schulz@cherry.de>, 
- Linus Torvalds <torvalds@linux-foundation.org>, 
- Jaeyoung Chung <jjy600901@snu.ac.kr>
+ stable@vger.kernel.org, Quentin Schulz <quentin.schulz@cherry.de>
 X-Mailer: b4 0.15-dev-47773
 X-Infomaniak-Routing: alpha
 
-Backport a6dc643c6931 ("eventpoll: fix ep_remove struct eventpoll /
-struct file UAF") to 6.12.y. So the patch applies cleanly, commit
-86e87059e6d1 ("eventpoll: move epi_fget() up"), commit 0bade234723e
-("eventpoll: rename ep_remove_safe() back to ep_remove()"), commit
-0feaf644f718 ("eventpoll: drop vestigial __ prefix from
-ep_remove_{file,epi}()"), commit e9e5cd40d7c4 ("eventpoll: kill
-__ep_remove()"), commit 0f7bdfd41300 ("eventpoll: split __ep_remove()")
-and commit 3d9fd0abc94d ("eventpoll: use hlist_is_singular_node() in
-__ep_remove()") are also backported.
+From: Christian Brauner <brauner@kernel.org>
 
-Note that backport of commit 86e87059e6d1 ("eventpoll: move epi_fget()
-up") conflicted due to missing commit 90ee6ed776c0 ("fs: port files to
-file_ref") and its dependent commit 08ef26ea9ab3 ("fs: add file_ref").
-The original commit is simply moving a function earlier in the file, so
-we do the same even if the content of the function is actually slightly
-different. I opted for this instead of backporting the other two commits
-because they look a bit more involved than I would like to for stable.
-They also do not apply cleanly so I drew the line before those two
-"dependencies" and didn't add them to the list of backported patches in
-this series.
+[ Upstream commit e9e5cd40d7c403e19f21d0f7b8b8ba3a76b58330 ]
 
-Note that backport of 0bade234723e ("eventpoll: rename ep_remove_safe()
-back to ep_remove()") is not necessary (e.g. 6.18.y doesn't have it), it
-just makes git-range-diff even smaller so I thought it was nice to add
-it. Maybe it'll make future backports easier too /me shrugs.
+Remove the boolean conditional in __ep_remove() and restructure the code
+so the check for racing with eventpoll_release_file() are only done in
+the ep_remove_safe() path where they belong.
 
-The changes between 3d9fd0abc94d^..a6dc643c6931 (commit log excluded)
-and this series is (according to git-range-diff):
-
-"""
-      ## fs/eventpoll.c ##
-     @@ fs/eventpoll.c: static void ep_free(struct eventpoll *ep)
-    @@ fs/eventpoll.c: static void ep_free(struct eventpoll *ep)
-     +  struct file *file;
-     +
-     +  file = epi->ffd.file;
-    -+  if (!file_ref_get(&file->f_ref))
-    ++  if (!atomic_long_inc_not_zero(&file->f_count))
-     +          file = NULL;
-     +  return file;
-     +}
-    @@ fs/eventpoll.c: static __poll_t __ep_eventpoll_poll(struct file *file, poll_tabl
-     -  struct file *file;
-     -
-     -  file = epi->ffd.file;
-    --  if (!file_ref_get(&file->f_ref))
-    +-  if (!atomic_long_inc_not_zero(&file->f_count))
-     -          file = NULL;
-     -  return file;
-     -}
-"""
-
-in patch 6.
-
-Note that this series cleanly applies to v6.6.y as well but fails to
-build with the following error:
-
-/home/qschulz/work/upstream/linux/fs/eventpoll.c: In function ‘ep_remove’:
-/home/qschulz/work/upstream/linux/fs/eventpoll.c:804:16: error: cleanup argument not a function
-  804 |         struct file *file __free(fput) = NULL;
-      |                ^~~~
-make[4]: *** [/home/qschulz/work/upstream/linux/scripts/Makefile.build:243: fs/eventpoll.o] Error 1
-make[4]: *** Waiting for unfinished jobs....
-
-hence why I made this series 6.12.y-specific.
-
+Link: https://patch.msgid.link/20260423-work-epoll-uaf-v1-3-2470f9eec0f5@kernel.org
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Stable-dep-of: a6dc643c6931 ("eventpoll: fix ep_remove struct eventpoll / struct file UAF")
 Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
 ---
-Christian Brauner (7):
-      eventpoll: use hlist_is_singular_node() in __ep_remove()
-      eventpoll: split __ep_remove()
-      eventpoll: kill __ep_remove()
-      eventpoll: drop vestigial __ prefix from ep_remove_{file,epi}()
-      eventpoll: rename ep_remove_safe() back to ep_remove()
-      eventpoll: move epi_fget() up
-      eventpoll: fix ep_remove struct eventpoll / struct file UAF
+ fs/eventpoll.c | 67 ++++++++++++++++++++++++++--------------------------------
+ 1 file changed, 30 insertions(+), 37 deletions(-)
 
- fs/eventpoll.c | 142 ++++++++++++++++++++++++++++++++-------------------------
- 1 file changed, 79 insertions(+), 63 deletions(-)
----
-base-commit: 0b8f247169e487eff2d4c2dd531bc43f7efda2cb
-change-id: 20260619-6-12-cve-2026-46242-b3ceffc753a1
+diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+index 1cba4ae4a076b..3ac8a26c3522f 100644
+--- a/fs/eventpoll.c
++++ b/fs/eventpoll.c
+@@ -797,49 +797,18 @@ static void ep_free(struct eventpoll *ep)
+ 	kfree_rcu(ep, rcu);
+ }
+ 
+-static void __ep_remove_file(struct eventpoll *ep, struct epitem *epi, struct file *file);
+-static bool __ep_remove_epi(struct eventpoll *ep, struct epitem *epi);
+-
+-/*
+- * Removes a "struct epitem" from the eventpoll RB tree and deallocates
+- * all the associated resources. Must be called with "mtx" held.
+- * If the dying flag is set, do the removal only if force is true.
+- * This prevents ep_clear_and_put() from dropping all the ep references
+- * while running concurrently with eventpoll_release_file().
+- * Returns true if the eventpoll can be disposed.
+- */
+-static bool __ep_remove(struct eventpoll *ep, struct epitem *epi, bool force)
+-{
+-	struct file *file = epi->ffd.file;
+-
+-	lockdep_assert_irqs_enabled();
+-
+-	/*
+-	 * Removes poll wait queue hooks.
+-	 */
+-	ep_unregister_pollwait(ep, epi);
+-
+-	/* Remove the current item from the list of epoll hooks */
+-	spin_lock(&file->f_lock);
+-	if (epi->dying && !force) {
+-		spin_unlock(&file->f_lock);
+-		return false;
+-	}
+-
+-	__ep_remove_file(ep, epi, file);
+-	return __ep_remove_epi(ep, epi);
+-}
+-
+ /*
+  * Called with &file->f_lock held,
+  * returns with it released
+  */
+-static void __ep_remove_file(struct eventpoll *ep, struct epitem *epi, struct file *file)
++static void __ep_remove_file(struct eventpoll *ep, struct epitem *epi,
++			     struct file *file)
+ {
+ 	struct epitems_head *to_free = NULL;
+ 	struct hlist_head *head = file->f_ep;
+ 
+ 	lockdep_assert_held(&ep->mtx);
++	lockdep_assert_held(&file->f_lock);
+ 
+ 	if (hlist_is_singular_node(&epi->fllink, head)) {
+ 		/* See eventpoll_release() for details. */
+@@ -886,7 +855,25 @@ static bool __ep_remove_epi(struct eventpoll *ep, struct epitem *epi)
+  */
+ static void ep_remove_safe(struct eventpoll *ep, struct epitem *epi)
+ {
+-	if (__ep_remove(ep, epi, false))
++	struct file *file = epi->ffd.file;
++
++	lockdep_assert_irqs_enabled();
++	lockdep_assert_held(&ep->mtx);
++
++	ep_unregister_pollwait(ep, epi);
++
++	/* sync with eventpoll_release_file() */
++	if (unlikely(READ_ONCE(epi->dying)))
++		return;
++
++	spin_lock(&file->f_lock);
++	if (epi->dying) {
++		spin_unlock(&file->f_lock);
++		return;
++	}
++	__ep_remove_file(ep, epi, file);
++
++	if (__ep_remove_epi(ep, epi))
+ 		WARN_ON_ONCE(ep_refcount_dec_and_test(ep));
+ }
+ 
+@@ -1118,7 +1105,7 @@ void eventpoll_release_file(struct file *file)
+ 	spin_lock(&file->f_lock);
+ 	if (file->f_ep && file->f_ep->first) {
+ 		epi = hlist_entry(file->f_ep->first, struct epitem, fllink);
+-		epi->dying = true;
++		WRITE_ONCE(epi->dying, true);
+ 		spin_unlock(&file->f_lock);
+ 
+ 		/*
+@@ -1127,7 +1114,13 @@ void eventpoll_release_file(struct file *file)
+ 		 */
+ 		ep = epi->ep;
+ 		mutex_lock(&ep->mtx);
+-		dispose = __ep_remove(ep, epi, true);
++
++		ep_unregister_pollwait(ep, epi);
++
++		spin_lock(&file->f_lock);
++		__ep_remove_file(ep, epi, file);
++		dispose = __ep_remove_epi(ep, epi);
++
+ 		mutex_unlock(&ep->mtx);
+ 
+ 		if (dispose && ep_refcount_dec_and_test(ep))
 
-Best regards,
---  
-Quentin Schulz <quentin.schulz@cherry.de>
+-- 
+2.54.0
 
