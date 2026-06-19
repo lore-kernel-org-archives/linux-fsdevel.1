@@ -1,131 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D76DC35A3A9;
-	Fri, 19 Jun 2026 09:38:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC82936EAA2
+	for <linux-fsdevel@vger.kernel.org>; Fri, 19 Jun 2026 10:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781861900; cv=none; b=c5povAerG5EPsYoxtThr6yTsJeQkXN7DfgpnSQvwRYDwlUDfZhvpe61jQ8uaG6mccPUl0ndTNWC1OZX+vxLmv/LZvTIEnaOuLtgX3/jwg5bkC1qrFmZAmaxB6D6i3F00+MOzsu+YGmB2k0gcSBah257DLZhuKRRXJn9W6RzDAag=
+	t=1781863614; cv=none; b=cdDlyQ8hq4ZrmLwE2N24y187gDlLGReq/26by3PodmbW0YMPbYrHPffwC4CvsINR2kU0uvG3GNTnVSd7rftXf8bESx+ejrnjoB8lp/SjAJamGUtCO6AoOrEZaVh1sX4GUIFk7/XiftD+zMr4Tp0ynwAge0+ol6BMPSano8yonJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781861900; c=relaxed/simple;
-	bh=xC3wcnUeClOSfRW2eqNi5KvQoM1t2WCujkSlzbe2wj0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=VtwIgR+W8ztc6oEDBRowq0q86wWyHH8jxiC2HMyS4eXS/zzgUFXZ/AJXv4PsLNCnn059y4MgqBOu1TWbQJXKSp51LDVVflkoNFfgYVhXJLK9pINvo4O+f4tKMFbKC5/No7eEg3ORzPP+rWX3jfVvBrmCIRmO6ALKr/oD+eatTmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cNn/sSgD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1781863614; c=relaxed/simple;
+	bh=cbFUlrFvBn4xxrrvwpXVbJDJvLV8XCZZwP+zlynmBIQ=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jjyp1K7kM0B9+ppMwX0XhZLuLJ0PY7YNNGvWlzmerfVaHi8R1rGPdpEDcSCnJ6/UjgSwJRNGPZ9cLfmByfvG89ix3OvS1eRRHfWlHwAErUUJhH7ojJbzrhLQZI6nr+2sRXN6X83JRfqihe9vvhc2d7TgWD+VbuxhTPJ3naacJgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PbQ3kB26; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2yR6OnBC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PbQ3kB26; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2yR6OnBC; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cNn/sSgD"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 75FE8C2BCB4;
-	Fri, 19 Jun 2026 09:38:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1781861900;
-	bh=xC3wcnUeClOSfRW2eqNi5KvQoM1t2WCujkSlzbe2wj0=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=cNn/sSgDg2DAqiOkO5zwjsKajKsvEPw407i+H1F1HCd+TtheUgw9FBLpbdCFw0f0b
-	 cEAoX1ULeNUBOjQ9TKtQgnCYqF9WGYwADlbrn7SpcL9xh524hRNMa0xfEawlTHa0cE
-	 jwhz1zoGh4Agzu7nFBWD/yhuDPxdsMX3Nqnb5RwQzHLLRXdhHHsaeK21lJcpCwZBl4
-	 xKRoLrEltaYqNBPl3oTtUdEsOPCw/29RWOAATLOABNUSsKgnE+6x608wlG5oRYMUZW
-	 6DAHjo0jS/1ygbwb2TjXb9IQJPHnH641dmUcIku88cFOkv98yOcax5Rij+9yXkOZ+8
-	 q/tQHuSpmpFZw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 539A2CD98F6;
-	Fri, 19 Jun 2026 09:38:20 +0000 (UTC)
-From: Bryam Vargas via B4 Relay <devnull+hexlabsecurity.proton.me@kernel.org>
-Date: Fri, 19 Jun 2026 04:38:20 -0500
-Subject: [PATCH] orangefs: keep the readdir entry size 64-bit in
- fill_from_part()
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PbQ3kB26";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2yR6OnBC";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PbQ3kB26";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2yR6OnBC"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1D1DF760B5;
+	Fri, 19 Jun 2026 10:06:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781863608; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8RnDf1fvXLzrEOjsqU+rTWPIujettJ5D7GMcaGB4wko=;
+	b=PbQ3kB2633CN1UsX1y2KkiQd6mG0Q0v5uN+gGBIjHSYZ1eXaVdChQu8GhICme7+dbxQtKn
+	ubYLfPGKqUzNEA3tgmWNIyOFz4z7vm/vOsJeGPocnj1Oe/fqlod8pas/iRb3haMDZDt9Mc
+	L6ghVEDynaTmZKC6acDKjM9QtHofE1M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781863608;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8RnDf1fvXLzrEOjsqU+rTWPIujettJ5D7GMcaGB4wko=;
+	b=2yR6OnBCDDqpw4z9wyV+JCRd1qaczwrjdJXhKTbQw3vzc35gSEVCinqBKanNGoDU7mhN6R
+	4DZH9b6HMFdAgvAw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=PbQ3kB26;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=2yR6OnBC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781863608; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8RnDf1fvXLzrEOjsqU+rTWPIujettJ5D7GMcaGB4wko=;
+	b=PbQ3kB2633CN1UsX1y2KkiQd6mG0Q0v5uN+gGBIjHSYZ1eXaVdChQu8GhICme7+dbxQtKn
+	ubYLfPGKqUzNEA3tgmWNIyOFz4z7vm/vOsJeGPocnj1Oe/fqlod8pas/iRb3haMDZDt9Mc
+	L6ghVEDynaTmZKC6acDKjM9QtHofE1M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781863608;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8RnDf1fvXLzrEOjsqU+rTWPIujettJ5D7GMcaGB4wko=;
+	b=2yR6OnBCDDqpw4z9wyV+JCRd1qaczwrjdJXhKTbQw3vzc35gSEVCinqBKanNGoDU7mhN6R
+	4DZH9b6HMFdAgvAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BA29D779A8;
+	Fri, 19 Jun 2026 10:06:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id F73fKbcUNWrWGAAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Fri, 19 Jun 2026 10:06:47 +0000
+Date: Fri, 19 Jun 2026 11:06:46 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Jori Koolstra <jkoolstra@xs4all.nl>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Christian Brauner <christian@brauner.io>, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] efs: Remove EFS
+Message-ID: <ajUSQ30oi-fyh0NH@pedro-suse.lan>
+References: <20260618211822.3599089-1-willy@infradead.org>
+ <ajUIMvi5Nyjp6t2v@lt-jori.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260619-b4-disp-50d2bd59-v1-1-ce332969b4a2@proton.me>
-X-B4-Tracking: v=1; b=H4sIAAsONWoC/x3MMQqAMAxA0atIZgNprEq9ijhYGzWLSgsiFO9uc
- XzD/xmSRJUEQ5Uhyq1Jz6PA1BUs+3xsghqKgYk76oxDbzFourClwD60DsmtwtyT9Y2Bkl1RVn3
- +5Ti97wcDJit8YgAAAA==
-To: Mike Marshall <hubcap@omnibond.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devel@lists.orangefs.org, Martin Brandenburg <martin@omnibond.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1781861899; l=2502;
- i=hexlabsecurity@proton.me; s=proton; h=from:subject:message-id;
- bh=RJ8UcS4zpbSFRnrWNSWSdbFKTQ2rtT8iK4yUjj8cqng=;
- b=Vdm6WMjY5JkW7U1XmXeabtMn+i+ZG/DE8OgOh6bSSj+l2snqflHnXtFDsDObEVebkLyoOG92g
- n6C2/ZaUyTzBi5xnEKayytXhj+zr3GYPBd+327c36A5l2woGi+KRL8U
-X-Developer-Key: i=hexlabsecurity@proton.me; a=ed25519;
- pk=dmppBMZNLLoPzxHi9l8tZDzEZUunPbgsYqIZYXeUrL0=
-X-Endpoint-Received: by B4 Relay for hexlabsecurity@proton.me/proton with
- auth_id=814
-X-Original-From: Bryam Vargas <hexlabsecurity@proton.me>
-Reply-To: hexlabsecurity@proton.me
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ajUIMvi5Nyjp6t2v@lt-jori.localdomain>
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.50 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.19)[-0.967];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_ENVRCPT(0.00)[xs4all.nl];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[xs4all.nl,infradead.org,brauner.io,vger.kernel.org];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 1D1DF760B5
+X-Spam-Score: -4.50
 
-From: Bryam Vargas <hexlabsecurity@proton.me>
+On Fri, Jun 19, 2026 at 11:28:03AM +0200, Jori Koolstra wrote:
+> This seems like a good idea. A couple of thoughts: should this maybe be
+> CC-ed to Linus? He has in the past been critical of removing old
+> filesystems. There is also something arbitrary about removing efs, but
+> not minix for instance. It would be great if we had some more objective
 
-fill_from_part() computes the size of a directory entry in size_t but
-stores it in a __u32. An entry length near U32_MAX wraps it to a small
-value, bypasses the bounds check, and is then used to index the entry,
-reading far past the directory part -- an out-of-bounds read that oopses
-the kernel.
+I'm fairly sure minix is staying for the same reason alpha is staying[1]. I
+don't think it's productive to unearth that particular debate at this
+moment.
 
-Compute the size as a u64 so it cannot truncate; the bounds check then
-rejects the entry. The trailer is supplied by the userspace client.
+> criteria for removal. I have also been thinking whether there is some
+> use to keep at least one old simple filesystem maintained and up to date
+> with modern API. It could function as a reference.
 
-Fixes: 480e3e532e31 ("orangefs: support very large directories")
-Cc: stable@vger.kernel.org
-Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
----
-Reproduced with an in-kernel module that runs the fill_from_part() loop over
-a crafted trailer; the only difference between arms is the size width:
+We already have one - it's fs/ext2.
+(modern API? maybe not so much. still has buffer heads, uses mpage, etc.
+alas.)
 
-  A (__u32, len 0xfffffffb): page-fault oops at fill_from_part+0x126
-    (KASAN shadow load for s[*len], ~4 GiB out).
-  B (u64, this patch): the bounds check rejects the entry, no OOB.
-  C (small len): unchanged, entry emitted.
-
-Same result under userspace ASan. Tested on a KASAN build at v7.1-rc7.
-
-checkpatch keeps "sizeof *len" to match the rest of the function.
-
-Severity depends on the trust boundary on the userspace client: a remote or
-compromised server driving the length is a remote DoS; a trusted client
-makes it a local robustness fix. No write, no info leak.
----
- fs/orangefs/dir.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/fs/orangefs/dir.c b/fs/orangefs/dir.c
-index 6e2ebc8b9867..115b2c2f5269 100644
---- a/fs/orangefs/dir.c
-+++ b/fs/orangefs/dir.c
-@@ -191,7 +191,8 @@ static int fill_from_part(struct orangefs_dir_part *part,
- {
- 	const int offset = sizeof(struct orangefs_readdir_response_s);
- 	struct orangefs_khandle *khandle;
--	__u32 *len, padlen;
-+	__u32 *len;
-+	u64 padlen;
- 	loff_t i;
- 	char *s;
- 	i = ctx->pos & ~PART_MASK;
-@@ -215,8 +216,8 @@ static int fill_from_part(struct orangefs_dir_part *part,
- 		 * len is the size of the string itself.  padlen is the
- 		 * total size of the encoded string.
- 		 */
--		padlen = (sizeof *len + *len + 1) +
--		    (8 - (sizeof *len + *len + 1)%8)%8;
-+		padlen = (u64)sizeof *len + *len + 1;
-+		padlen += (8 - padlen % 8) % 8;
- 		if (part->len < i + padlen + sizeof *khandle)
- 			goto next;
- 		s = (void *)part + offset + i + sizeof *len;
-
----
-base-commit: 4549871118cf616eecdd2d939f78e3b9e1dddc48
-change-id: 20260619-b4-disp-50d2bd59-09fe22704b31
-
-Best regards,
+[1] or that our old simple reference filesystem is ext2 and not e.g fat[2] :)
+[2] i may or may not feel sick after suggesting that
 -- 
-bryamzxz <hexlabsecurity@proton.me>
-
-
+Pedro
