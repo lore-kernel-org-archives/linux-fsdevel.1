@@ -1,121 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD4626E70E
-	for <linux-fsdevel@vger.kernel.org>; Fri, 19 Jun 2026 07:27:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781854045; cv=none; b=Yfr8i0a4NGFSqRSbOgxsymjj03CqIJbWRIzl6DjiPTj1gzvPoyX/xlj7AmuVCF/7dK0wKsQDXF3nYMBRtAELneRh634k90E9GBv2hec9BrpYF2Bo9dV+xrAkDZcrBpi0MEmdIpc/pURYMXgDXh6K9BhxsAwcxQgy147NmH/p+AQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781854045; c=relaxed/simple;
-	bh=WziwIkkTen1yQCUtxtUU5b/vgzRFZGnW8KXf5bOIgAk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cZgYcyl1N15IzwryacrrrA8Q3f5hc/gt2Ne3nECcfUJAOrWyMdx3CYLYF2NmfSN4ER4gFt1VDTyseeYK5R1cKR6LrxRQuBEtjNEqFHKqrsnZBAEL726sduFVGmdnDSf+uyoUIpzJCaBq95KBbrUxbG9j2gMWkeTpim6RYP608Tk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F3Kl6kAa; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB8D31E842
+	for <linux-fsdevel@vger.kernel.org>; Fri, 19 Jun 2026 07:28:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781854127; cv=pass; b=i/U1VUof/R+BFxF9HuJueMB+e8dM/v1UnsK1bgbDlV/XkojbHYsPgl5/xzfmo+rVJuMzKdiBwQRCtRNzHTHtuZ6gQehOLCRcx4QC+jmBbQ3XCYCP6q63J+9jzHZMI//BflGaBtaYbMeEhm2dHnUP2eQM3zHvT32q0a6b7XL7ROc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781854127; c=relaxed/simple;
+	bh=PLjuf5U1Ldp+lKMspivltGTyqfvutQwDbWwFfF6CvPI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SQSEMr2QZw3D9xiTJO0BgARTeL9oYOaReRFJeNz8mG9dERfHfBL2eE+PJ3OEnek4lNpMVjh9wdgKbMh4+epi1X7pgzdN5KXQwGgMwzKXbrNQiQCl2nDUSPMp83Mbg8POsT90Q+s8lUQgmfMectezZEl4aV1dS6/S1KddTT+k2Yg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EKTQcXfm; arc=pass smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F3Kl6kAa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F30AD1F000E9;
-	Fri, 19 Jun 2026 07:27:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781854043;
-	bh=ffCdX735c/X/fS6mcU0lzfMnVJJiMp8qf0E4D1Jrt3c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=F3Kl6kAarmUjT2RFid6FDkI6ugo1VIX2b8YfGeerXP0mQY5UiFiFa8HkqpLl5DF4d
-	 8rmeUb/axEDGdUsw6qTrzlvk01/CShOsq2UulfR5foDKE7Yi9orzdVoW71qmjbe2/5
-	 dhC7dtVaD9m/H7d+QGadC42iqXbpGsKbxcdcT4aQqw+p4xGK+9VOri3FUoWgPXzWuR
-	 rD6v91yuMg5VZ7EC2xw3KkxS4s8r2bBas1yRAU/Ws9DeNXachTK5W5jGb57fv/AbnK
-	 f5YzJo4J78gH6Q1FBqBLLxDI0ASE2inldjrvdtM5T9tpPKQnln2atnfAuENi2yKDAW
-	 T4N5Sq+gc/PYA==
-Date: Fri, 19 Jun 2026 09:27:19 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Amir Goldstein <amir73il@gmail.com>, 
-	Gao Xiang <hsiangkao@linux.alibaba.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Gao Xiang <xiang@kernel.org>, Song Liu <song@kernel.org>
-Subject: Re: Stacking filesystem deadlocks [was Re: Fanotify (hsm or erofs) /
- fuse / nbd / ... + write(mmap) deadlock vector followup]
-Message-ID: <20260619-geldgeber-boten-aufhielt-9f5f16b4e04f@brauner>
-References: <CAOQ4uxjh5VYkKLAKxhMsy-ZmrbRrgX4pFgBLFqsDqWMXeiqg3w@mail.gmail.com>
- <ac05da56-eb2a-4862-b887-8081f249d8ce@linux.alibaba.com>
- <CAOQ4uxi0yRavUeztRh-Eb8_HvpfmqkpPbWT9JgQhUn7EKXnryw@mail.gmail.com>
- <e36c9ef5-4cd0-4281-9598-c1bfb8ebfaa0@linux.alibaba.com>
- <5lz5jq7gzoejbywmh56ayfkdiuqsjd2s5pl5uvlflfxc5lq4rr@thr4hrkw67d2>
- <64f23c85-2a83-42e4-ba09-c815dcb7c98c@linux.alibaba.com>
- <CAOQ4uxiaYCt-kkLk=UHML-9bVxqin=5mEAB+uFPVGR7Hq6ppDg@mail.gmail.com>
- <yguigvx3sapcemq2oudlc6lmiwmxr27zx572oyqocbvefnpt3s@z3oj2pzgdjuj>
- <CAOQ4uxi2Mx4ZB48DhQJWOvt6UBur3LnrkttgRjo72U4+Cu81iQ@mail.gmail.com>
- <xycqm3qrhjg3uplpmozwo7nterl5tnuarghowmh3h3mv3thh6u@apagf4kqlkg6>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EKTQcXfm"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-695427c153fso2478253a12.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 19 Jun 2026 00:28:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781854123; cv=none;
+        d=google.com; s=arc-20240605;
+        b=UX7pVOjHtYTnbX5ZAdLWQ4k1QA8KfJEHb6cHgnozlao1m2Pec01vjubWC5kjwxMlop
+         Auc89x/AZ3xRdRaz67CHf9ZJ9wyabiInSFpbWil08lvIrGSA2HdQxnT5xaeN5LLEdD+M
+         ITR9ePmiExAY0J5z+J6RSGu0NqWTkFKVVesCZw2BKq6+sU/+PTOztbFq7hqcamjydZ9t
+         m7sxuMY9sAqKJ54yilUtI01Zzbq9TBJ0/ap1J4gcwHUxR+Oq17EPEdKoFr2Bg+hwGrRd
+         GWg6eeC5yfYp/rjzzqA6LOlF3b3Tom85rinqK681+eITfVJJ6mZESY+FvnNwl2o4rDkx
+         rSAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cXsAttpCRAfo1jUwXpOflkS7AbE4OJcRHMhxuP67MIc=;
+        fh=e3vf2w3vNY8g1sz4yBHy6JSAtjquh0i05aLDSI20jCM=;
+        b=RPvQzfGNpozcCCIHTWbvaBiqFGMDxh2JdYor7YcRghttp1Ml4MLK7rqjH1mQHm2FWT
+         ZAxw4Kp/I8Yl2uMeue9fBX+gUZlBD+mVjw2p79ZLcOMhN4PUBt5z69Ztp6EuGsETFChx
+         k1ReeU4c44k03xzTJz2CFxvrICTjKtnu5/K4l7DHiR0enG+MxpCwiMvIlWYTKpPtCVC4
+         Pw+SsF4rvyb52RAfC46YVuN3Azg274oNTdmZ6QxO0ji74mQiRcUtcIFcCxBu5DGl0t9h
+         ANtm6hbINpoizYWeIse7SyxgW6q3q4RStIO5npvvSFOLW27DxcyDDzL/G7t1Bt4CS3mW
+         0T4w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781854123; x=1782458923; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cXsAttpCRAfo1jUwXpOflkS7AbE4OJcRHMhxuP67MIc=;
+        b=EKTQcXfmTpSi/O7oXABloqzK4/JL++I7lANtSI92FSwbPSaHSyI+Ly8uLgGGwc1czJ
+         YtYQI1UH6Uizdt0GwLZqdw2hO65NG7CfVB0eP71OayhIh1bgU1DaOg15/9a9kMa2zgBW
+         zdQNfNRTcXpnOjFC0pWD2Qy8AAunFSt5GVlRmax9ecbpzBv06uE4YFJ4+8celdU/Mj1B
+         MGNL1NDGi6M4Os0QZhfGMRwpocG1MmdFdOgNugrBvNpnHeADOFto20dQ5EA6cQgJtC5/
+         S6OL7JKPrJ0cmvFh1esu4XnUeP+wn0wTEaOxYUfcyAwVCO0NjXfBZnXTUOLQKFc0fC2I
+         AXOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781854123; x=1782458923;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cXsAttpCRAfo1jUwXpOflkS7AbE4OJcRHMhxuP67MIc=;
+        b=CzfuFKcIJEKz/uc33QiGdI2zWnAqtgKen/5jYFDSBkiRI8hGhA5bV/ZQiPKj+g4rbs
+         mQijknwogtaNXDmkX9d2okl/HRXNc5cxCC2jPnJcnL2T7Ui6Zpvy6w8odWUV+25sqaEb
+         5zViAuxLU5UJJDvnIszPMCL29STDfnUYkQjE+1QmmziTfvkUEiiG4BMxpPb23V7qyXYU
+         HJYfp4HRNlBWZt3ytJYCfLsBFc2SC+1INHnmxpw2iiAvuKWETbLAWoMkr1+TPR5KHptB
+         IiWP6oKaE7k3FXRwjY09I1yuGgH84AliwhLfZzPyEZHEOTwld5fzDMDUc9G2m2bQR5eC
+         fmVg==
+X-Forwarded-Encrypted: i=1; AFNElJ81U/C2j0jpqAGstnZPPUY5sTSYILmwbi9iccCZfN4bJrQV1mreGjxVwX/+bHels+/UGE+r/bEefVpKu1NI@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywfm1EryPHILqJZPZOHqJHPjX7CcSL7q2aFTVO2fsxmMURpemse
+	6z4OIup4L6zWKa2Sb5Gsy1qZukru+z2pX8tfCd7L5rHrs5ASsKlo0CuNizYzjnK4FUDKeXwmxAC
+	6H+rllNJ9LzBK35hlKKVEsqxQq0NiJ9QulWwsOVs=
+X-Gm-Gg: AfdE7cliWOXFkJyqSog2eobaDGWbH17xGFP+ol08kGqgnkPVeQHgKQjM0sldL+cmv69
+	s+fjJRQlYbW4lA35yZMMgCGZm9T4yr2fzbcybgAYbmsBuoX5M1yWiw1I3DTN7ze9jhZuFcBPqH7
+	DMFCPQX3FiLf7XoBUmua+7DAiwLN4A0V9qG5h7UqizQ8ELsAbzREvDyMSP3IH+CkgAWdjHNpcin
+	sVqm6e4QKBToiaqCi2qDTVYvk7HefVa8oz+IQGAI4GS2sOitjdxT7JqboCC2iRDLonamKI4C7dH
+	n7YfOu0yNZhdYPrnZyGraZKs8+iQYFaBon2Ie1aUyQ==
+X-Received: by 2002:a05:6402:5107:b0:695:572a:7ab5 with SMTP id
+ 4fb4d7f45d1cf-69711e00675mr1216968a12.19.1781854123208; Fri, 19 Jun 2026
+ 00:28:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <xycqm3qrhjg3uplpmozwo7nterl5tnuarghowmh3h3mv3thh6u@apagf4kqlkg6>
+References: <20260520123722.405752-1-aalbersh@kernel.org> <20260520123722.405752-4-aalbersh@kernel.org>
+ <20260520190719.GB3424023@google.com>
+In-Reply-To: <20260520190719.GB3424023@google.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 19 Jun 2026 09:28:31 +0200
+X-Gm-Features: AVVi8CcyPPKNjODd0CeG8qbXXsZeOsRanxA9PmKFMYeTLACw7w0uBX2gqOCDc0w
+Message-ID: <CAOQ4uxh_hfiSwMw8ABhhrz7GguZWjHEiBmvb3eq16Wfqw0+ZrQ@mail.gmail.com>
+Subject: Re: [PATCH v10 03/22] ovl: use core fsverity ensure info interface
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, 
+	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, hch@lst.de, 
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	linux-btrfs@vger.kernel.org, linux-unionfs@vger.kernel.org, djwong@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 17, 2026 at 07:33:21PM +0200, Jan Kara wrote:
-> On Thu 11-06-26 17:25:56, Amir Goldstein wrote:
-> > On Thu, Jun 11, 2026 at 1:32 PM Jan Kara <jack@suse.cz> wrote:
-> > > > The rule is that sb_start_write(sb) pushes the sb to the tx stack
-> > > > after checking no loops in the stack.
-> > > >
-> > > > In the common non-stacked case, there are no checks so the push/pop
-> > > > should be quite cheap compared to the sb_writers locks.
-> > > >
-> > > > For the read side I hope that we do not need to track "read transactions"
-> > > > in the stack and that it is enough to check the write stack in page faults and
-> > > > stacked reads in loop/nbd/backing.
-> > >
-> > > That's another problem. Reads can create deadlocks as well. If you do
-> > > read(imageA_fd, mmap(fsB_fd)) in the setup I've outlined in my previous
-> > > email on XFS, you are holding i_rwsem for read for imageA and then doing a
-> > > write fault to fsB which translates to a read from imageA which needs
-> > > shared i_rwsem for imageA again. If you are lucky, this can pass but if
-> > > someone tries to acquire imageA's i_rwsem for write inbetween (and blocks),
-> > > your second shared i_rwsem acquisition will block and you have a deadlock.
-> > 
-> > Yeh we could introduce sb_read(sb) scopes but that would be a bit nasty.
-> > The two-fds syscalls (e.g. sendfile()) makes this scoping even more challenging.
-> 
-> Well, for stuff like sendfile() or splice we take care not to entangle the
-> read and write parts:
->   while there's data:
->     read into pipe
->     write from pipe
-> 
-> So these shouldn't be a problem.
-> 
-> > > > Note that the unscoped kiocb_start_write() in aio/uring will need to be
-> > > > extended so that the write transaction scope will cover the io submission
-> > > > to cover the page faults in input buffers.
-> > > >
-> > > > I have no idea about the feasibility of this and how much of the holes
-> > > > this actually closes but if looking at the narrow use case of pre-content
-> > > > events it might just be enough.
-> > >
-> > > What looks like the most feasible approach to me is to record in struct
-> > > task we are doing a read/write syscall for fsA
-> > 
-> > read/write_iter could be nested within stacked fs, so we really need a stack
-> > of transactions, but this one could be [FILESYSTEM_MAX_STACK_DEPTH]
-> > 
-> > > and in the page fault
-> > > handler once we have the VMA we can check that fsB isn't fsA's ancestor in
-> > > the "filesystem dependency graph". Making the check cheap enough should be
-> > > doable (we could for example do the loop check traversal only if the
-> > > stacking depth of fsB is higher than that of fsA, caching the stacking
-> > > depth in the superblock, which would deal with 99.99% cases) but maintaining
-> > > the dependency graph will take some work...
-> > 
-> > My crystal ball tells me we are probably not going to do that :-/
-> 
-> Yeah, it won't be *that* complex and for stuff like reliable system
-> hibernation we would need that as well but so far it looks like too much
-> effort for too little gain...
+On Wed, May 20, 2026 at 9:07=E2=80=AFPM Eric Biggers <ebiggers@kernel.org> =
+wrote:
+>
+> On Wed, May 20, 2026 at 02:37:01PM +0200, Andrey Albershteyn wrote:
+> > fsverity now exposes fsverity_ensure_verity_info() which could be used
+> > instead of opening file to ensure that fsverity info is loaded and
+> > attached to inode.
+> >
+> > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> > Acked-by: Amir Goldstein <amir73il@gmail.com>
+> > ---
+> >  fs/overlayfs/util.c | 14 +++-----------
+> >  1 file changed, 3 insertions(+), 11 deletions(-)
+>
+> Reviewed-by: Eric Biggers <ebiggers@kernel.org>
+>
+> I'm still confused by the new implementation of fsverity_active() that
+> got introduced by "fsverity: use a hashtable to find the fsverity_info",
+> though.  I should have caught this during review of that commit.  For
+> one its comment is outdated, but also the memory barrier seems to be
+> specific to the fsverity_get_info() caller and probably should be moved
+> to there.  Anyway, that's not directly related to this patch.
 
-I think we should see the code first, before dismissing it. A reliably
-system is almost always better imho and maybe it isn't even that
-difficult to do.
+Eric, Andrey,
+
+Did you see the Sashiko review for this patch and others in this series?
+
+https://sashiko.dev/#/patchset/20260520123722.405752-1-aalbersh%40kernel.or=
+g
+
+It annotated some review comments as high and critical.
+For this patch it is about interaction with fscrypt.
+
+Please take a look and say if this is concerning or false positive.
+
+Thanks,
+Amir.
