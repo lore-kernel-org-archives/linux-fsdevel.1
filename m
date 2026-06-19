@@ -1,74 +1,75 @@
-Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A349733F8B2;
-	Fri, 19 Jun 2026 08:15:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95E13590A9;
+	Fri, 19 Jun 2026 08:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781856917; cv=none; b=Vi8VlKlKM6AcsXFtikoGiddNolBmHRhkBowE4hvzIWGbU+7D6v5WEhpEvsymjOOsUG+Tm1wsCXhnWenL4O9ROXbqKUsFgup9zCrzgFhnc8Y2nIQ7V5pu26N0I2XBQIncQOh08HXHwdDsOb/MpxRp04k+FTDZMJ405d01/vo5Ifs=
+	t=1781857267; cv=none; b=U3/qseMEE/JVpUjLfLOIr62fJQYSZC6AG2XdhEvVczdzsnxZWNfb2aDVhCIUdmE8KUi1osfkgljLVbB0eHhGHoY8a/wq8to7s2FqLyQ0VFH9o6SYuNvAX6DLpq4eQ426YhUMsjoCzhWekD+TRtViW8MnigPbPPDC+USh2uXLFbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781856917; c=relaxed/simple;
-	bh=TJ/5N3qcXoJ8MWSXQuOomI9KXw8NWOruAShKtcam2Qc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eV5zlbYbagqYiU/4ZgVB5Fw627b6imgGeFjWTfMgh1Vmxg6LVQEMUwx8yqV3ZLkyWcoqeqFRIDK8X+PUlD7C1kHpSYFO4/uXrjXDDfa7IYB5CPphq1ItSLtNuypEewADfUVQEzM7O8jNttrCL252llUOFJb7cm51peKNxMd3W2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=gBmOSTpv; arc=none smtp.client-ip=115.124.30.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1781857267; c=relaxed/simple;
+	bh=MMYZ7Tv90XOOpkYGuLomRVP91ZwvEzQNGXTLycz+e5A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KBY7ZvINtIP4ydr/Ze/6zd34wuzwll7YCVjuYVzQz1YeknvQWJIe4730LlwqGxDcWwP1aJ1Oz3EKQmSWhijHXwH5OF6trNvLGSIfsYVbtTjzmGoVsAcrj6sdCfzk0LQALFToWGnPoTzbYRRH0ZxHgPSsP0Z+j5aVmaboxn3HUXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0R3Y0OV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="gBmOSTpv"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1781856912; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=H09kVhZKvVnGT/8zcbwbAdfiVXItBYmg1/F6osgjWjA=;
-	b=gBmOSTpvxv2GrMbo1l6bqE7cUADSr7/hNGJ8olj97hmd/qEVC3FRGFfBpC2RkT6WJ8QuOJRc6r58+2rg8es04K+z+Ewu+WItGL71qOSC8YJ08l2DFvYhO2te4brVBKm4vV95q3MSqLMakCeVAaNt5CYp3ypKPOxXaUCvpXJWLWQ=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R451e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0X59ET.U_1781856911;
-Received: from 30.120.66.214(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X59ET.U_1781856911 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 19 Jun 2026 16:15:11 +0800
-Message-ID: <e2f45d1c-c4ad-482e-8a3c-8072209eec1b@linux.alibaba.com>
-Date: Fri, 19 Jun 2026 16:15:10 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0R3Y0OV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 533911F000E9;
+	Fri, 19 Jun 2026 08:21:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781857266;
+	bh=vS719iN1YtvGS4K63HdJhaUr09/hQHxjoBcGi+JpFxw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=S0R3Y0OVdmT4XSTqIWt4kargo5qOx+eHLYYzcg1rqQHupfNwIWK3Nw9mgI2NWkcbx
+	 nS4mSq5MCNUEVZ9KX/ApstH+k5Gj8RFkYuqo2gpDjXGVdwH3mUtGkDCuHFi9647maE
+	 mclrQsmtgXMCCVZmNP5+9o3rAgk+M2mqv79NZmquXxCBLJ9bpfPB+2FCGgLtrLb4Tr
+	 uZxA6bASejHabaUyknqZmQwXTiU00Q0zWrxi2mbfSrMYbOTTaeWAEyi7zJSiM+AXGJ
+	 R8KjsXT00TMoUUeyqAWCIgbg6Rxu00UcQ/YGEN+kTQ7WsdzYkLWqKIyncDhCiufd3G
+	 3h7FI9i/LIPQQ==
+Date: Fri, 19 Jun 2026 10:21:03 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: German Maglione <gmaglione@redhat.com>
+Cc: fstests@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	zlang@kernel.org
+Subject: Re: [PATCH 0/2] vfstest: fix tcore_acls() cleanup bug and missing
+ _require_acls
+Message-ID: <20260619-urgestein-ankam-bespannt-bd1b58edd2a8@brauner>
+References: <20260618-xfstests-tcore-acls-fixes-v1-0-45a1aec1d99d@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] iomap: submit read bio after each extent
-To: Christoph Hellwig <hch@lst.de>, Christian Brauner <brauner@kernel.org>,
- "Darrick J. Wong" <djwong@kernel.org>
-Cc: Kelu Ye <yekelu1@huawei.com>, Yifan Zhao <zhaoyifan28@huawei.com>,
- Ritesh Harjani <ritesh.list@gmail.com>, Joanne Koong
- <joannelkoong@gmail.com>, linux-erofs@lists.ozlabs.org,
- linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20260619050105.439956-1-hch@lst.de>
- <20260619050105.439956-2-hch@lst.de>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <20260619050105.439956-2-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260618-xfstests-tcore-acls-fixes-v1-0-45a1aec1d99d@redhat.com>
 
-
-
-On 2026/6/19 13:00, Christoph Hellwig wrote:
-> Currently the iomap buffered read path tries to build up read context
-> (i.e. bios for the typical block based case) over multiple iomaps as
-> long as the sector matches.  This does not take into account files
-> that can map to multiple different devices.  While this could be fixed
-> by a bdev check in iomap_bio_read_folio_range, the building up of I/O
-> over iomaps actually was a problem for the not yet merged ext2 iomap
-> port, as that does want to send out I/O at the end of an indirect
-> block mapped range.
+On Thu, Jun 18, 2026 at 12:11:52PM +0200, German Maglione wrote:
+> Hi,
 > 
-> So instead of adding more checks move over to a model where a bio
-> only spans a single iomap.  File systems can still create iomap
-> that span more than an extent if they want to build larger I/O.
+> Running xfstests over virtiofs I hit failures in generic/633, 644,
+> 645, 656 and 696. Two issues in tcore_acls():
 > 
-> Reported-by: Kelu Ye <yekelu1@huawei.com>
-> Reported-by: Yifan Zhao <zhaoyifan28@huawei.com>
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> 1) sys_umount2() only runs on the success path. When setfacl fails,
+>    the mount is left behind and every test after that fails with
+>    EEXIST.
+> 
+> 2) generic/633 doesn't declare _require_acls, so it fails instead
+>    of being skipped on filesystems without ACL support.
+> 
+> Signed-off-by: German Maglione <gmaglione@redhat.com>
+> ---
+> German Maglione (2):
+>       vfstest: move sys_umount2() to cleanup path in tcore_acls()
+>       generic/633: add _require_acls for tcore_acls() ACL dependency
+> 
+>  src/vfs/idmapped-mounts.c | 5 ++---
+>  tests/generic/633         | 1 +
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+> ---
+> base-commit: cac9fe2b8dc3e6dbc0c2383b9e3b4d3c1b9e7dd0
+> change-id: 20260618-xfstests-tcore-acls-fixes-6d15a696f652
 
-Reviewed-by: Gao Xiang <hsiangkao@linux.alibaba.com>
-
-Thanks,
-Gao Xiang
+Thanks!
+Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org>
