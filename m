@@ -1,51 +1,39 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25CB531F996;
-	Fri, 19 Jun 2026 05:01:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3DB1C862D;
+	Fri, 19 Jun 2026 05:12:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781845278; cv=none; b=d7/xs2hibqWikMOEWdWn4kqNR7CTZxou1BRbb3dNbd4s6jCqulrMwi34ltrdJZjiipCjulRaOsj0GvG66RTveypBgcO6Vus9RPDLkecq+1j05sUNT96GNNSRcDd2GM8z7BPyo6T51fx9Yl7iUnjOZ9nB9zHPrjMZrKE5nqVHsK8=
+	t=1781845948; cv=none; b=YB8QmYxRS5Ru4VHPHAtpD6qSuiIaL1sq8mt6BcULg7fVSXwkcroxtFwkx2qsTSRSro4PNog8pJhNRPphWgga1jNq1dkIeNkci5g3xotfEtSXsVUFK/fRHboe4zzB0uoYMDVxVIYKkE79Ba7spDd6oXuMbkA+wbCwPoC41oo/Vdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781845278; c=relaxed/simple;
-	bh=KIKu48UlLh/Zhxw9hg/hDrFH3sSAkBWXyiLt0vjFmR0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=INcaOwyIqPo2rskxOYSkxPDb6+LWmj4hF5liwN+i6/mk5XuGHWG+Ewn4undHqDoctclZr40LIxjQDFwoxmtu10TyFABJokxA7io0JQi4XeKAEHNTHHk6cacsSNBd0bu8+WPF1EWvykHyHPrDo3YojUy/4tl+KPXfJRYBcr7ldL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=zVbODfNP; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1781845948; c=relaxed/simple;
+	bh=RVcNG2MygTD8imRDyXIhjolFwbi4HfvkuycDzJQOp/E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SdUr2TsaJUbouGdqcfHeors/yXzEBef0jWyEUvgvfPo9obaaBQfwOQjrx/6hMeLR1oPTm8q9RCH2VyOxxcmE8h+1TD1My7MJ5k5BnzyAhMgIvi1uKoK3DM8O+a2jKLiQTqzT3NcV30Jzx/K7cBzBbPXtpeVtT3Ge+/vaVTfZYkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jITgX4un; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="zVbODfNP"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=OGz8ag5/wPHrsxPlGRkhiL5M14tr2RNW2uLLU3X9sLY=; b=zVbODfNPcB82udYs6SGhVOPonS
-	iy3ICX4rlT1nD2AXfEi79J1BgjNpAltwUMHb4KB57n4D+IE9nh0NrnA7YOJqD9eV1HFFchH1bD90i
-	AwKbXoXz1vbUoxI2WBcFT5dXe4dfsgVHBzEQvAhTU8W30+Q9HfFAcK0FoVG24syxa9D3yb+kEVXVs
-	aRIiubdqe1EyYRjYPhOYgbEVMgq3LmCPNjthNGBfbQ1gZq/vCtUcLcdd3Xp3uInlxr2h2eBHYW194
-	fDgZ0ASICIDRoPfwSl9OEDditGYcbLdvA225VIa2rR3OD1G8LMcg6bNHorejSc+M05mq9oPrM/5/A
-	0TJfowrQ==;
-Received: from 2a02-8389-2341-5b80-decc-1a96-daaa-a2cc.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:decc:1a96:daaa:a2cc] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1waRLv-00000001ziK-0OkJ;
-	Fri, 19 Jun 2026 05:01:15 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>
-Cc: Kelu Ye <yekelu1@huawei.com>,
-	Yifan Zhao <zhaoyifan28@huawei.com>,
-	Ritesh Harjani <ritesh.list@gmail.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	linux-erofs@lists.ozlabs.org,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH] iomap: submit read bio after each extent
-Date: Fri, 19 Jun 2026 07:00:53 +0200
-Message-ID: <20260619050105.439956-2-hch@lst.de>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260619050105.439956-1-hch@lst.de>
-References: <20260619050105.439956-1-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jITgX4un"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72D161F000E9;
+	Fri, 19 Jun 2026 05:12:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781845946;
+	bh=rqTQoq17YZTaOUHBaqZGUDrKN1ugZvGwuK8pCcEVFc4=;
+	h=From:To:Cc:Subject:Date;
+	b=jITgX4ung7nDZb/MMIVAha58FxjsLQxpE/A41+NKn2Hy1ykT46Tq0X0sFgpD6GBRm
+	 MqCQ2mzwnJ0dNYDCf++D+j8+QPS7jhdQNsk2zL1OFt9Ijn/VjLch2RtpCeMS8R3ueu
+	 aGUS9I0JRCvIGIg08+3FD+Li0tFP2TdaPm98jeio3okKucLvv6c4gt0cmi027g6gql
+	 /k36gGJhkLJrHmHgnTgmjHVNTaUvgzy0h2xtrBWOZSffxcgU45LTXAdXrk1YPexiQt
+	 x3DxLdbjZdHS7WtiXZj0P9zu9AOpZGJe5SNpjGa4jSNwt1LyrdVmqa+OykSA1Z1hc7
+	 oUNl3epaE50Jg==
+From: Eric Biggers <ebiggers@kernel.org>
+To: linux-fscrypt@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Eric Biggers <ebiggers@kernel.org>
+Subject: [PATCH] fscrypt: Remove workaround for bug in gcc 7 and earlier
+Date: Thu, 18 Jun 2026 22:10:08 -0700
+Message-ID: <20260619051008.51223-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -53,79 +41,60 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Currently the iomap buffered read path tries to build up read context
-(i.e. bios for the typical block based case) over multiple iomaps as
-long as the sector matches.  This does not take into account files
-that can map to multiple different devices.  While this could be fixed
-by a bdev check in iomap_bio_read_folio_range, the building up of I/O
-over iomaps actually was a problem for the not yet merged ext2 iomap
-port, as that does want to send out I/O at the end of an indirect
-block mapped range.
+Since the kernel's minimum gcc version is now 8.1, the workaround for a
+strange gcc bug in fscrypt_ioctl_set_policy() is no longer needed.
 
-So instead of adding more checks move over to a model where a bio
-only spans a single iomap.  File systems can still create iomap
-that span more than an extent if they want to build larger I/O.
-
-Reported-by: Kelu Ye <yekelu1@huawei.com>
-Reported-by: Yifan Zhao <zhaoyifan28@huawei.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Eric Biggers <ebiggers@kernel.org>
 ---
- fs/iomap/buffered-io.c | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
+ fs/crypto/policy.c | 17 ++---------------
+ 1 file changed, 2 insertions(+), 15 deletions(-)
 
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index 8d4806dc46d4..7449cfd995d5 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -524,6 +524,14 @@ static void iomap_read_end(struct folio *folio, size_t bytes_submitted)
- 	}
- }
- 
-+static void iomap_read_submit(struct iomap_iter *iter,
-+		struct iomap_read_folio_ctx *ctx)
-+{
-+	if (ctx->read_ctx && ctx->ops->submit_read)
-+		ctx->ops->submit_read(iter, ctx);
-+	ctx->read_ctx = NULL;
-+}
-+
- static int iomap_read_folio_iter(struct iomap_iter *iter,
- 		struct iomap_read_folio_ctx *ctx, size_t *bytes_submitted)
+diff --git a/fs/crypto/policy.c b/fs/crypto/policy.c
+index 9915e39362db..f40fb5924e75 100644
+--- a/fs/crypto/policy.c
++++ b/fs/crypto/policy.c
+@@ -505,36 +505,23 @@ static int set_encryption_policy(struct inode *inode,
+ int fscrypt_ioctl_set_policy(struct file *filp, const void __user *arg)
  {
-@@ -642,12 +650,11 @@ void iomap_read_folio(const struct iomap_ops *ops,
- 		fsverity_readahead(ctx->vi, folio->index,
- 				   folio_nr_pages(folio));
+ 	union fscrypt_policy policy;
+ 	union fscrypt_policy existing_policy;
+ 	struct inode *inode = file_inode(filp);
+-	u8 version;
+ 	int size;
+ 	int ret;
  
--	while ((ret = iomap_iter(&iter, ops)) > 0)
-+	while ((ret = iomap_iter(&iter, ops)) > 0) {
- 		iter.status = iomap_read_folio_iter(&iter, ctx,
- 				&bytes_submitted);
--
--	if (ctx->read_ctx && ctx->ops->submit_read)
--		ctx->ops->submit_read(&iter, ctx);
-+		iomap_read_submit(&iter, ctx);
-+	}
+ 	if (get_user(policy.version, (const u8 __user *)arg))
+ 		return -EFAULT;
  
- 	if (ctx->cur_folio)
- 		iomap_read_end(ctx->cur_folio, bytes_submitted);
-@@ -718,12 +725,11 @@ void iomap_readahead(const struct iomap_ops *ops,
- 		fsverity_readahead(ctx->vi, readahead_index(rac),
- 				readahead_count(rac));
+ 	size = fscrypt_policy_size(&policy);
+ 	if (size <= 0)
+ 		return -EINVAL;
  
--	while (iomap_iter(&iter, ops) > 0)
-+	while (iomap_iter(&iter, ops) > 0) {
- 		iter.status = iomap_readahead_iter(&iter, ctx,
- 					&cur_bytes_submitted);
--
--	if (ctx->read_ctx && ctx->ops->submit_read)
--		ctx->ops->submit_read(&iter, ctx);
-+		iomap_read_submit(&iter, ctx);
-+	}
+-	/*
+-	 * We should just copy the remaining 'size - 1' bytes here, but a
+-	 * bizarre bug in gcc 7 and earlier (fixed by gcc r255731) causes gcc to
+-	 * think that size can be 0 here (despite the check above!) *and* that
+-	 * it's a compile-time constant.  Thus it would think copy_from_user()
+-	 * is passed compile-time constant ULONG_MAX, causing the compile-time
+-	 * buffer overflow check to fail, breaking the build. This only occurred
+-	 * when building an i386 kernel with -Os and branch profiling enabled.
+-	 *
+-	 * Work around it by just copying the first byte again...
+-	 */
+-	version = policy.version;
+-	if (copy_from_user(&policy, arg, size))
++	if (copy_from_user((u8 *)&policy + 1, (const u8 __user *)arg + 1,
++			   size - 1))
+ 		return -EFAULT;
+-	policy.version = version;
  
- 	if (ctx->cur_folio)
- 		iomap_read_end(ctx->cur_folio, cur_bytes_submitted);
+ 	if (!inode_owner_or_capable(&nop_mnt_idmap, inode))
+ 		return -EACCES;
+ 
+ 	ret = mnt_want_write_file(filp);
+
+base-commit: 83f1454877cc292b88baf13c829c16ce6937d120
 -- 
-2.53.0
+2.54.0
 
