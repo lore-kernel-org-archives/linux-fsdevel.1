@@ -1,141 +1,109 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC01C3750BE;
-	Sat, 20 Jun 2026 06:25:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C9C40D596;
+	Sat, 20 Jun 2026 06:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781936756; cv=none; b=MVeG8isNQ18SKiu8dHFM0Wllp3KWRRJbAT3jF853RFnLL9UEoqQnRcTxrGm1cyiql6xa7YYtT6NWlkQ6CtOhCXUrLAn2USmxcLFS1eXrKQzOv6X/Ecmtu155EA5upcgCqphCMkGQdmq8dSns8LJ0E1au8B8aFAMY7xfgnhqvWqs=
+	t=1781937858; cv=none; b=YFwUQSVCUFwpHyvcEekavARxIETWO55VGAlwndz7tZGd0zhjmS6WTdG1+Ofk1oH0motXRxP/TTQsZAf8ZZrqqygirJlR+mwxDVPolx0ofrr3aIC3Xcapc6wbU6VdwCQope9reirnu1RwksjkHl+jkKi8mDXDHtQukrBZBJmePVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781936756; c=relaxed/simple;
-	bh=UqXjzrCUF1bPzxEq5ikGxBioYdY1aVWmFLF1ylksSXI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jx+UEm5/CKXEIpamqZQMnYD3fK1K39OHEa7Na4mgZhi3mB1TRkSFbekXKOWaeOpXJpxv7aV43A+grsif5kNsEP7AvQ/08L7/kxTQeAClVRVLhIIiYM2afPl6ZsIf1ykXvxJm0FwDFDLa6yXEhDi/oUZQIIGo1LHJBf+AgDJf7/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=kPpS26K+; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1781937858; c=relaxed/simple;
+	bh=wQTYhhE8a9s7ndr0zQR9Epk9kAMxY7p/Caj9gijm3Ds=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mLslL/VOj3mgQXQ9Vh/HJbgbaQ5ebGqG55lPz2qt88w4Vz+iMXAwv7PkGe8Cn29LzcLjVyf48buFSTQ32QdM3FTKglXtoEfMksRUb0dVKdWHeO8rRfyTJJFD4w2WxzenKGf9VoV2tFc3tsKV+4pSZr03xaD+BcIhM0x3jc5fAhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=q8kXmyRl; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="kPpS26K+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=78
-	yxgcB9WIpsNzqGXaqF02HCLrwEpdIWxi+Ft8/BnzY=; b=kPpS26K+t6y/4jTr13
-	yaSwri4fHHjCHuIaxRIcMkmXI8+U5U1p0XfEuFzcS8aiSOR+/oIrtgBtcQVpOBoE
-	cUiaXEx0a80eAis6ualadoCS0RzMHG99C+WWlBoMeosxm1kBVXMqNe5xZptDwcSo
-	2XS6FHaAyuqxT/W1USbAxC4kY=
-Received: from czl-ubuntu-pc.. (unknown [])
-	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wBHTsswMjZq5+F0Eg--.19463S4;
-	Sat, 20 Jun 2026 14:24:52 +0800 (CST)
-From: Chi Zhiling <chizhiling@163.com>
-To: linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Chi Zhiling <chizhiling@kylinos.cn>
-Subject: [PATCH 2/2] mm/filemap: reduce unnecessary xarray lookups in filemap_get_folios_contig()
-Date: Sat, 20 Jun 2026 14:24:46 +0800
-Message-ID: <20260620062446.351475-3-chizhiling@163.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260620062446.351475-1-chizhiling@163.com>
-References: <20260620062446.351475-1-chizhiling@163.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="q8kXmyRl"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=uB+WfniLsQwQod3pn/9E/Z+ouIvQUvMJYyoKsrz4oWI=; b=q8kXmyRlb8fem7Z99KUvzunE5e
+	UMXqLJBFGfHTH5CASTagPxu6QNoJ95JqjgNxQkUr56ouInfgZxPRraMeKFA6wsMyinvUgdQJp1o7w
+	uimYNsmYncQ2kaQEl9i7qBUJxhfa07VtNI8MisDBrGZSSHaI8YbvyEzhczK69HETTj2+8z9bFfyIu
+	ybKV5RLCTTjF6/vH4Czbl50246tSeXNizuYNuOIC/msWQcz02s2goPZO7FgRXdTcjFCshS3DRP0by
+	vkG4eo2rmPTL/e1lTiLsCZdEPlBe2ELEBTcvsXFrSQBp7nulnck8fsnB2aigb+fCk6zFFDkxhLwFR
+	r3hz7rmQ==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.4 #2 (Red Hat Linux))
+	id 1wapQy-00000000yds-14Ov;
+	Sat, 20 Jun 2026 06:44:04 +0000
+Date: Sat, 20 Jun 2026 07:44:04 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Jann Horn <jannh@google.com>, Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	syzbot <syzbot+000c800a02097aaa10ed@syzkaller.appspotmail.com>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	kernel list <linux-kernel@vger.kernel.org>,
+	syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+	Jeff Layton <jlayton@kernel.org>
+Subject: Re: [PATCH V2] locking/rt: Fix the incorrect RCU protection in
+ rt_spin_unlock()
+Message-ID: <20260620064404.GE2636677@ZenIV>
+References: <6a32d492.9a9be2da.cfe8.0001.GAE@google.com>
+ <CAG48ez3-wQDwoQrOaKz3WTOU=n_cku0jcnxaC+wxBqdMHmiYMw@mail.gmail.com>
+ <20260618205953.GZ2636677@ZenIV>
+ <20260618210332.GA2636677@ZenIV>
+ <87wlvvcwqt.ffs@fw13>
+ <20260619083916.UMjUHmaq@linutronix.de>
+ <87mrwqd7eu.ffs@fw13>
+ <87jyrud75z.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wBHTsswMjZq5+F0Eg--.19463S4
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ur1ktw17Cw4kAr48KFy5twb_yoW8uF18pF
-	4aga4kurWxGF17Cr13A3WrC3WFk3sYqa15GFWxG3WSvFn0yFn0kr17K3W5J398Zr95JF1x
-	Xa18J348WF1UJa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jDtxfUUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC3BTBX2o2MjTWNgAA3s
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87jyrud75z.ffs@fw13>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-From: Chi Zhiling <chizhiling@kylinos.cn>
+On Fri, Jun 19, 2026 at 02:52:08PM +0200, Thomas Gleixner wrote:
+> rt_spin_unlock() releases the RCU protection before unlocking the
+> lock. That opens the door for the following UAF scenario:
+> 
+>  T1					T2
+>  spin_lock(&p->lock);		rcu_read_lock();
+>  invalidate(p);			p = rcu_dereference(ptr);
+>  rcu_assign_pointer(ptr, NULL);	if (!p) return;
+>  spin_unlock(&p->lock);		spin_lock(&p->lock)
+>  				   lock(&lock->lock);
+> 				   rcu_read_lock();
+>  kfree_rcu(p);			rcu_read_unlock();
+> 				....
+> 				spin_unlock(&p->lock)
+> 				  rcu_read_unlock(); // Ends grace period
+>  rcu_do_batch()
+>    kfree(p);
+> 			    UAF ->	  rt_mutex_cmpxchg_release(&lock->lock...)
+> 
+> Regular spinlocks keep preemption disabled accross the unlock operation,
+> which provides full RCU protection, but the RT substitution fails to
+> resemble that. Same applies for the rwlock substitution.
+> 
+> Move the rcu_read_unlock() invocation past the unlock operations to match
+> the non-RT semantics. This makes it asymmetric vs. rt_xxx_lock(), but
+> that's harmless as the caller needs to hold RCU read lock across the lock
+> operation. The migrate_enable() call stays before the unlock operation
+> because there is no per CPU operation in the unlock path which would
+> require migration to be kept disabled.
+> 
+> Fixes: 0f383b6dc96e ("locking/spinlock: Provide RT variant")
+> Reported-by: syzbot+000c800a02097aaa10ed@syzkaller.appspotmail.com
+> Decoded-by: Jann Horn <jannh@google.com>
+> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+> Cc: stable@vger.kernel.org
 
-Apply the same optimization used in filemap_get_read_batch() by moving
-the boundary check from the loop condition to before xas_next(),
-avoiding an unnecessary xarray lookup and reducing branches in the fast
-path.
+Looks sane.
 
-Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
----
- mm/filemap.c | 29 ++++++++++++++---------------
- 1 file changed, 14 insertions(+), 15 deletions(-)
+ACKed-by: Al Viro <viro@zeniv.linux.org.uk>
 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 199c835c68bf..4ee591bc7e71 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -2270,10 +2270,11 @@ unsigned filemap_get_folios_contig(struct address_space *mapping,
- 	unsigned long nr;
- 	struct folio *folio;
- 
--	rcu_read_lock();
-+	if (*start > end)
-+		return 0;
- 
--	for (folio = xas_load(&xas); folio && xas.xa_index <= end;
--			folio = xas_next(&xas)) {
-+	rcu_read_lock();
-+	for (folio = xas_load(&xas); folio; folio = xas_next(&xas)) {
- 		if (xas_retry(&xas, folio))
- 			continue;
- 		/*
-@@ -2281,11 +2282,11 @@ unsigned filemap_get_folios_contig(struct address_space *mapping,
- 		 * No current caller is looking for DAX entries.
- 		 */
- 		if (xa_is_value(folio))
--			goto update_start;
-+			break;
- 
- 		/* If we landed in the middle of a THP, continue at its end. */
- 		if (xa_is_sibling(folio))
--			goto update_start;
-+			break;
- 
- 		if (!folio_try_get(folio))
- 			goto retry;
-@@ -2293,29 +2294,27 @@ unsigned filemap_get_folios_contig(struct address_space *mapping,
- 		if (unlikely(folio != xas_reload(&xas)))
- 			goto put_folio;
- 
--		if (!folio_batch_add(fbatch, folio)) {
--			*start = folio_next_index(folio);
--			goto out;
--		}
-+		if (!folio_batch_add(fbatch, folio))
-+			break;
-+
- 		xas_advance(&xas, folio_next_index(folio) - 1);
-+		if (xas.xa_index >= end)
-+			break;
- 		continue;
-+
- put_folio:
- 		folio_put(folio);
--
- retry:
- 		xas_reset(&xas);
- 	}
-+	rcu_read_unlock();
- 
--update_start:
- 	nr = folio_batch_count(fbatch);
--
- 	if (nr) {
- 		folio = fbatch->folios[nr - 1];
- 		*start = folio_next_index(folio);
- 	}
--out:
--	rcu_read_unlock();
--	return folio_batch_count(fbatch);
-+	return nr;
- }
- EXPORT_SYMBOL(filemap_get_folios_contig);
- 
--- 
-2.43.0
-
+If RT folks see no subtle problems with that, it ought to go into mainline ASAP.
