@@ -1,122 +1,74 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D6CF349CE7;
-	Sat, 20 Jun 2026 09:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82B13921FB;
+	Sat, 20 Jun 2026 21:45:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781948586; cv=none; b=GJSpEcdCPCm2jy+y3z2MeDE6sFx8g25MsbSTdC9rlJS+DrRc0nXb31Y4vBiQM1SwgM79684K9t5cSHav2gfwDDnrnnVvVzuN0diynpy7nT+HRHlibfzoJPp0OxPz0R0OQW7lvJ16gerx3cD3z0w54slBvKHt9u4SxECDwHsw5Dg=
+	t=1781991951; cv=none; b=DEa3AQ03+3xzneDfLx578KguNUo4gvS2U2uI2EDX8pB4uEm0iVIhltCU4coV5L/HLxflNLzxb1Fk8nqWzntgEYOXtumleVJ8fTKiVcd9of5oRtCawX/1IsqpVUlpaFYb3X9VX0oMDB0n/Nv9Yzi9vw9RiwI0ccKHDVBEuzSqz9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781948586; c=relaxed/simple;
-	bh=BDY6LnHyfiSqNxly7JKFxMIFRGnGAm2SZHM2bQbD3GQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PKWCaBR0KWLcvjo5aHXrwtqtT4V7m3R3En2tybBm0JtA9VMc7N0BpoqHUMDesKZ2rTrYzZkPGdjM5nPdLu5GZL2ksmR7bDuynkp5JVJeqsJc0mboIqSfuQBwsg5VZyb3FcFEZZbOWdRGKNUJAuL45gKEZZPZcS6T4a4KFO6jCvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 65K9gLR5084017;
-	Sat, 20 Jun 2026 18:42:21 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from [192.168.1.6] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 65K9gLdB084014
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Sat, 20 Jun 2026 18:42:21 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <ebceac56-6a65-4918-b47c-1fb87aa66989@I-love.SAKURA.ne.jp>
-Date: Sat, 20 Jun 2026 18:42:20 +0900
+	s=arc-20240116; t=1781991951; c=relaxed/simple;
+	bh=rphwMtfZjMmupFJOJjYB0AGTUDwhzza5yMdZTQAHrvk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=C/2LBCVrKLS/ASli5gMOkLbou29hoR7sCUGZtG48JTL4CNNi2JceKNMc/9+H+LTThF77xZvpeZB0PFMleFrEisva78ejBD4PyFgfDK7pt/6gxOfU2Ercf55sckx0iZ552zBgxdZjfz+I+HTW+GpR0nmJ0RClspmqXkgEt+D3F2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NJ36Ofa1; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NJ36Ofa1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B67A1F000E9;
+	Sat, 20 Jun 2026 21:45:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781991949;
+	bh=rphwMtfZjMmupFJOJjYB0AGTUDwhzza5yMdZTQAHrvk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=NJ36Ofa1NSKmyS+MmTYE01luQhxXqVX+kKw1nOkolYxW//pw9EYpK4tdN16H7yL4g
+	 z36Mfp7TSXI5NW3vtGJYvsI6pzrsa52r2+hFi7z8VLc1mLP1Qb279soVns/G6YUg2U
+	 wYnCseS7+cK7QfHE9BHzCxd/XGWFG81WpjV/7ICKSaHG07KNMY76yaiQ+D5X+FfucA
+	 rUC1jWLggVPJC84mGSL3+in/KRMOcOjaySgxtdIjRrG4BNmmzUuz6/bVA8gWqQgoUI
+	 eK0ORreT0j67tWmcQcYha7Ox+cjnodnbHjmYkzERy81L7KQJTTIou8IY8CtJjL9yCX
+	 takVxGC9hn9/A==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Jann Horn
+ <jannh@google.com>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar
+ <mingo@redhat.com>, Will Deacon <will@kernel.org>, Boqun Feng
+ <boqun@kernel.org>, Waiman Long <longman@redhat.com>, Clark Williams
+ <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, syzbot
+ <syzbot+000c800a02097aaa10ed@syzkaller.appspotmail.com>, Christian Brauner
+ <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel
+ <linux-fsdevel@vger.kernel.org>, kernel list
+ <linux-kernel@vger.kernel.org>, syzkaller-bugs
+ <syzkaller-bugs@googlegroups.com>, Jeff Layton <jlayton@kernel.org>
+Subject: Re: [PATCH V2] locking/rt: Fix the incorrect RCU protection in
+ rt_spin_unlock()
+In-Reply-To: <20260620064404.GE2636677@ZenIV>
+References: <6a32d492.9a9be2da.cfe8.0001.GAE@google.com>
+ <CAG48ez3-wQDwoQrOaKz3WTOU=n_cku0jcnxaC+wxBqdMHmiYMw@mail.gmail.com>
+ <20260618205953.GZ2636677@ZenIV> <20260618210332.GA2636677@ZenIV>
+ <87wlvvcwqt.ffs@fw13> <20260619083916.UMjUHmaq@linutronix.de>
+ <87mrwqd7eu.ffs@fw13> <87jyrud75z.ffs@fw13>
+ <20260620064404.GE2636677@ZenIV>
+Date: Sat, 20 Jun 2026 23:45:46 +0200
+Message-ID: <87v7bcnawl.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] loop: Fix NULL pointer dereference in lo_rw_aio()
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>,
-        Christoph Hellwig <hch@lst.de>, Damien Le Moal <dlemoal@kernel.org>,
-        Ming Lei <tom.leiming@gmail.com>,
-        linux-block <linux-block@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-btrfs@vger.kernel.org, David Sterba <dsterba@suse.com>,
-        linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-        Hillf Danton <hdanton@sina.com>
-References: <20260529220600.1226-1-hdanton@sina.com>
- <b27609f0-59f0-403d-90af-274c55df817e@I-love.SAKURA.ne.jp>
- <3244d4dd-8254-47c0-9609-b1db53450c7c@I-love.SAKURA.ne.jp>
- <20260609175013.GH2636677@ZenIV>
- <9f8b5ab0-efbc-4cf3-a1f8-b43377416946@I-love.SAKURA.ne.jp>
- <a9254bf0-fc7a-4b2e-a62f-064e71016fb6@I-love.SAKURA.ne.jp>
- <20260620073939.GF2636677@ZenIV>
-Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <20260620073939.GF2636677@ZenIV>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Virus-Status: clean
-X-Anti-Virus-Server: fsav203.rs.sakura.ne.jp
+Content-Type: text/plain
 
-On 2026/06/20 16:39, Al Viro wrote:
-> On Fri, Jun 19, 2026 at 11:33:11PM +0900, Tetsuo Handa wrote:
->> Sending this commit to linux.git will be the fastest way to identify who is issuing
->> I/O requests too late. Therefore, I want to get a conclusion on xfs/259 breakage.
->> Al, can you get the same result?
-> 
-> Not a peep in the logs, breakage still there (with cherry-picked fb1d5846e99c8aa4ce
-> and CONFIG_KCOV enabled, that is).
+On Sat, Jun 20 2026 at 07:44, Al Viro wrote:
+> On Fri, Jun 19, 2026 at 02:52:08PM +0200, Thomas Gleixner wrote:
+>> Fixes: 0f383b6dc96e ("locking/spinlock: Provide RT variant")
+>> Reported-by: syzbot+000c800a02097aaa10ed@syzkaller.appspotmail.com
+>> Decoded-by: Jann Horn <jannh@google.com>
+>> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+>> Cc: stable@vger.kernel.org
+>
+> Looks sane.
+>
+> ACKed-by: Al Viro <viro@zeniv.linux.org.uk>
+>
+> If RT folks see no subtle problems with that, it ought to go into mainline ASAP.
 
-Please test with debug printk() patch shown below. What messages do you get?
-
---------------------------------------------------------------------------------
-diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-index c3b607a3ddc4..7408f314a1fa 100644
---- a/drivers/block/loop.c
-+++ b/drivers/block/loop.c
-@@ -1763,6 +1763,8 @@ static void lo_release(struct gendisk *disk)
- 	mutex_unlock(&lo->lo_mutex);
- 
- 	if (need_clear) {
-+		printk("Flush: task=%s[%d] dev=loop%d state=%d\n",
-+		       current->comm, current->pid, lo->lo_number, lo->lo_state);
- 		/*
- 		 * Temporarily release disk->open_mutex in order to flush pending I/O
- 		 * requests before clearing the backing device.
-@@ -1813,6 +1815,8 @@ static void lo_release(struct gendisk *disk)
- 		mutex_lock(&lo->lo_disk->open_mutex);
- 		if (WARN_ON(data_race(READ_ONCE(lo->lo_state)) != Lo_rundown))
- 			return;
-+		printk("Teardown: task=%s[%d] dev=loop%d state=%d\n",
-+		       current->comm, current->pid, lo->lo_number, lo->lo_state);
- 		__loop_clr_fd(lo);
- 	}
- }
-diff --git a/fs/namespace.c b/fs/namespace.c
-index 09ab7fc72f86..9710460fb449 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -1893,6 +1893,8 @@ static int do_umount(struct mount *mnt, int flags)
- 		 */
- 		lock_mount_hash();
- 		if (!list_empty(&mnt->mnt_mounts) || mnt_get_count(mnt) != 2) {
-+			printk("%s: task=%s[%d] !list_empty(&mnt->mnt_mounts)=%d mnt_get_count(mnt)=%d\n", __func__,
-+			       current->comm, current->pid, !list_empty(&mnt->mnt_mounts), mnt_get_count(mnt));
- 			unlock_mount_hash();
- 			return -EBUSY;
- 		}
-@@ -1960,6 +1962,9 @@ static int do_umount(struct mount *mnt, int flags)
- 		if (!propagate_mount_busy(mnt, 2)) {
- 			umount_tree(mnt, UMOUNT_PROPAGATE|UMOUNT_SYNC);
- 			retval = 0;
-+		} else {
-+			printk("%s: task=%s[%d] propagate_mount_busy()!=0\n", __func__,
-+			       current->comm, current->pid);
- 		}
- 	}
- out:
---------------------------------------------------------------------------------
-
-
+I'll queue it up tomorrow and send it Linus wards ASAP.
