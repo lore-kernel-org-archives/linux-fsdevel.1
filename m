@@ -1,204 +1,232 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+Received: from mail-oi1-f207.google.com (mail-oi1-f207.google.com [209.85.167.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E872080C1
-	for <linux-fsdevel@vger.kernel.org>; Sat, 20 Jun 2026 03:20:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305D61DE3B7
+	for <linux-fsdevel@vger.kernel.org>; Sat, 20 Jun 2026 03:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781925644; cv=none; b=gL8luoUsZFw1EyBvEMbSvgbO/xWufG7qvz2X3SpmK48Du46O/zME8v0IT+Xc5yU6h7Fq2LCkWG66RdiP2dIHcm1ZBZ+7sA3sJv7+hffk/w2kie+NlE0LXZ68i4jAMTP4AlpAsvB4a64CNB/sTfaYEO/F9R9aJpLUSEHbAWnNbLk=
+	t=1781927905; cv=none; b=lJep4pZMDS61lxt1dS7TDuI0ny9y4NWANXZm0BX01zK7j+eQRCVUaTqYIcogTruibqzmUopUp7UbrrzYqFocTb93HBi82MLFoYvWPGPCHNs8GaYPSFTmSL6Zdza5kRMfc6i0qMg3tcVBUKY9jVKJw54dhp8tNcVV9a5Ov2SmzJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781925644; c=relaxed/simple;
-	bh=BBwuWlfyu6CpmJmaqQ7OqRxdrmBAG4TceRywkJvwz4g=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=jOf4Wh0ouaFCbtHOb7Cdi4QJxhJGr7rUW6OodilLDtM1eIC3HuZnGI2bVBfQfylW4uNBpb9gJRSznCMeaSxWcqdO+MluGgHzenXoLLrbxvxHHUoHwuGzi5qppT0s/ke/qprXcpwJ0ocLKYd/504cLoKvsKhTiNnqJFM5aLrngeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xfmq/JWu; arc=none smtp.client-ip=209.85.160.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xfmq/JWu"
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-440f9c48b85so2280103fac.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 19 Jun 2026 20:20:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781925642; x=1782530442; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+gQJghkrz5Uwqrbb7kMScA7hnholHzLSlGz8SYwIGNg=;
-        b=Xfmq/JWu8RgMml2H+X96O7Wra0CrJfKC2VMDzA9CaPrw3nVnIXVSaxIICXMEskZ0Xz
-         FPh88uISvkVkc6jYlrXx+otqiBeLiDoUq727DepPulBk15I8UuwnGTcpzlGvaRdYCgst
-         6WPR7TUT85mlBtli8ZnhNVyoKmSnA8QaQaLl/rcjShvbWI6V0nM39/8OqvfWMM9uDQaa
-         uEffoUrSll4tBL8Ec/mIuyU3feM44SGJreTzNFRP2cdb9i2IH6ZX47YeV9XAbvfyKfiy
-         MhVFVl3hEQ2i48WC4F1gway6jHVCG4a6gLmZCo8D5B+qtCymlGf5zEMYK9qrUkG9taek
-         jNqg==
+	s=arc-20240116; t=1781927905; c=relaxed/simple;
+	bh=w/o4GUqyi22JOEhD3xk1ID5cF3W0qmYJDL1+khheyGo=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=jowPTu7Q1x6EXWeYC4oX6UznrCzYrOUwGiTX9+DZ7gMTRx6WbJm7ICy0gpj0wJkUK4P4gy59iMm03aRAlNYt0QiPbXrNAG6g5PfYVA1ABorWC1KryiTBvGCpROHxYxBCutdZ6e1eHMt+RJmC4p/hS9+Phl7a1zMOi1OOw4rcDD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f207.google.com with SMTP id 5614622812f47-48576b535b6so2920793b6e.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 19 Jun 2026 20:58:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781925642; x=1782530442;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+        d=1e100.net; s=20251104; t=1781927903; x=1782532703;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=+gQJghkrz5Uwqrbb7kMScA7hnholHzLSlGz8SYwIGNg=;
-        b=MkEVJ0/4+UaBIG3XUvLZaBYLdvrd1d+GkBndY9I2qnjUhpMCT6wO0hQydsJFy7Bs31
-         fq0pu7FZSTdvmDkj7vEYUDEp9wmxdi+6sscwmjxO5f5blT0Bkashga5ohcR4Ae7Tvlai
-         J5MFwmSLLz7or+O5yqvMOJv7VOcWuObgpIqiLdmQH4qNivnocWnKyg71rzSrGyT2wZpP
-         PpsH4lsZqZibuPevqPyPUV+bugiGwrlWRRljAvj6CWSLlHKmPEW6GXfABnZtRJeyRNnb
-         BIEQ6wMmYhT0ZZjlpqNGpc50fBfxFGDgSv8q8TVq6z6l+rTc8oliUZTFOBAdryLrFK1y
-         2CNw==
-X-Forwarded-Encrypted: i=1; AFNElJ+O/ubmznH0C9BvvH8gSFqxDqNjnwkTx4048A6OuZgL5hX0uEbTIDO1uph48Hqi+ELeE0ZtM9ny/oET1Ess@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYXSMcWXcAuafR+NhnDPD87mplS9y/B9CzF5fifCxBtFdX7ExK
-	GalSkzV6N6OzrZEcrXtsp0dMpvj+4W4unGZkO5Va4zdGl0D9AtMMNyTK
-X-Gm-Gg: AfdE7ck32CfPW0/v5hUX2zzqvH+vyOqIDRvsHlwV5UlzW5J4h7fVD7PRnhhd56g6ueZ
-	lXsBtaDYwQWc99UNbdx6TCHOJ/GyKoBJKEiqQX8K4wqr3i6+GXo3GEMTPhhRQbzXADYsk8j0o7Y
-	Heb+DwsWmpUItqijPPdNsU89n/ALtHMflMmJe6TKoIcAjZufj4g2wA8Lb/VSucXTgn6sw4Lwr+g
-	vwbki90W+5o7h4JsuOFf6ctHcYtIkHIfwUSNRkiR/CXUU/xZuOEvPk372hUYQf0N352pSFdPuRh
-	Sziyg+pCyYI4RGkgInIOsRTZ0hu/gfiNTfrY8rP8hXR0A03gqQxV0cmRsVXXxWVLbi6EEhrF3wE
-	KMI9xod24RW7ZzPKkFsTA/9sLhzUfoWZKB6WG/LgmuCjlwaIcPOMIUxOP+MjAI3jWPlOo6HlJHW
-	2uMysLxJ7rD2dxkFfCfHYdCDNHwMIG3jsEW51r071hnpbvzC1OKeXfYp+v3l7L8kwcnwbEICzCF
-	qJO+Wg=
-X-Received: by 2002:a05:6870:ac86:b0:439:b99e:4414 with SMTP id 586e51a60fabf-4470a6fa4famr3750999fac.6.1781925642205;
-        Fri, 19 Jun 2026 20:20:42 -0700 (PDT)
-Received: from localhost ([2a03:2880:10ff:58::])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4472f04236fsm1099930fac.14.2026.06.19.20.20.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Jun 2026 20:20:41 -0700 (PDT)
+        bh=Lo1BGMAuxmegwNBn3SWnedPduG928rlaMvwjWR8I/rc=;
+        b=OPRrn7GNyR5nmYs9NfwAQg0FLsiF4TKu2rM+vwyeKSpnCg9gFlc0opbglJTWUWnlrG
+         eswZD1wgYjIr5FLOtHMznoOVeGQ605hKu8rg0tNVDNDKWzVSskJtWpePp4fdNie7kM0m
+         4oM5t8SqFXOQ6FQrKPYSQEnkDSERiCLnvCloRMHDyBv/kupvGmkLIkNXAfRQCao9qiwP
+         fPet7lHrjqzAzegGAFIp7nvoMPIYtgX0AYMWi2CUmULjpgKyl1qC0efn6JeNMWE128Vp
+         7xTZ7vINTLPv7N2WJcUng3+onFNL8bcveBpZWxJ8ge/mr0ZGDfK3GU6F9H7/SekRoqb1
+         963g==
+X-Forwarded-Encrypted: i=1; AFNElJ9Wk9YvcdRb37HN2CeJ0hAR/EG8+ln/She/pw32KYJT9z3fk6GMhJnvkGPxoFvHNHn6XzuoB8wjnRrTkDVL@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmMk8kC2IxMsykN4KbYx7mPoAlyltTKIOM30to4PamCzNPpZH2
+	q8O5NFkLO5z/4aPUYLFwakjs5IFkfktknN7X7vRwyUhz3kBYb/KRTfN0f5JSMe1fhF/1S6umoAs
+	ZDecwLX9lm+8q4Ewm97UY9pqLFc520o3LAucluVlnLElgmNMeb6cYyFAB8DM=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 19 Jun 2026 20:20:40 -0700
-Message-Id: <DJDJX62AS415.2BVILN08QK149@gmail.com>
-Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
- "Simon Horman" <horms@kernel.org>, "Kuniyuki Iwashima" <kuniyu@google.com>,
- "Willem de Bruijn" <willemb@google.com>, <linux-fsdevel@vger.kernel.org>,
- <netdev@vger.kernel.org>, <bpf@vger.kernel.org>, "Andrii Nakryiko"
- <andrii@kernel.org>, "Martin KaFai Lau" <martin.lau@linux.dev>, "Eduard
- Zingerman" <eddyz87@gmail.com>, "Kumar Kartikeya Dwivedi"
- <memxor@gmail.com>, "Song Liu" <song@kernel.org>, "Yonghong Song"
- <yonghong.song@linux.dev>, "Jiri Olsa" <jolsa@kernel.org>
-Subject: Re: [PATCH 1/2] fs: Add bpf_sock_read_xattr() kfunc to read socket
- xattrs
-From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
-To: "Christian Brauner" <brauner@kernel.org>, "David S. Miller"
- <davem@davemloft.net>, "Eric Dumazet" <edumazet@google.com>, "Jakub
- Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>, "Alexei
- Starovoitov" <ast@kernel.org>, "Daniel Borkmann" <daniel@iogearbox.net>
-X-Mailer: aerc
-References: <20260617-work-bpf-sock-xattr-v1-0-a1276f7c9da3@kernel.org>
- <20260617-work-bpf-sock-xattr-v1-1-a1276f7c9da3@kernel.org>
-In-Reply-To: <20260617-work-bpf-sock-xattr-v1-1-a1276f7c9da3@kernel.org>
+MIME-Version: 1.0
+X-Received: by 2002:a05:6808:1a29:b0:47b:bd7b:10d0 with SMTP id
+ 5614622812f47-4896aa24c4fmr5106313b6e.13.1781927903317; Fri, 19 Jun 2026
+ 20:58:23 -0700 (PDT)
+Date: Fri, 19 Jun 2026 20:58:23 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a360fdf.871e809a.2d6dda.0001.GAE@google.com>
+Subject: [syzbot] [fs?] [mm?] INFO: rcu detected stall in dentry_kill
+From: syzbot <syzbot+0635dc2e2c3c21a6aa04@syzkaller.appspotmail.com>
+To: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, netdev@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed Jun 17, 2026 at 4:18 AM PDT, Christian Brauner wrote:
-> In c8db08110cbe ("Merge tag 'vfs-7.1-rc1.xattr' of git://git.kernel.org/p=
-ub/scm/linux/kernel/git/vfs/vfs")
-> we added support for extended attributes for sockets. This comes in two
-> flavors: sockfs and non-sockfs/filesystem sockets. Filesystem sockets
-> are actual filesystem objects so reading xattrs must use dedicated fs
-> helpers such as bpf_get_dentry_xattr() and bpf_get_file_xattr(). Those
-> are inherently sleeping operations. Sockfs sockets on the other hand
-> don't need to use sleeping operations as the underlying data structure
-> is lockless. In addition, retrieval of sockfs extended attributes often
-> happens from LSM hooks that only provide struct socket and it's
-> completely nonsensical to grab a reference to a file, then force a
-> sleeping operation to retrieve the xattr and drop the reference. We know
-> that the sockfs file cannot go away while the LSM hook runs.
->
-> This series adds a bpf_sock_read_xattr() kfunc that, given a struct
-> socket, reads a user.* extended attribute from the socket's sockfs inode
-> into a bpf_dynptr. Together with fsetxattr() from userspace this lets a
-> process label a socket with a user.* xattr and have a BPF LSM program
-> retrieve that label locklessly. The kfunc mirrors the existing
-> bpf_cgroup_read_xattr(), including the restriction to the user.*
-> namespace.
->
-> systemd uses user.* xattrs on sockets to implement socket rate limiting
-> and to tag sockets for other purposes [1] such as implementing a varlink
-> registry. There is currently no efficient way for a BPF program to read
-> those labels back. The new helper allows a listening socket marked with
-> an extended attribute to be read back during bind/connect and then act
-> on the connect()ing socket. Extended attributes make it possible to
-> allow an unprivileged user manager such as systemd --user to mark
-> sockets from userspace and then rediscover them or implement policies.
->
-> The kfunc is registered KF_RCU and only for BPF LSM programs. A struct
-> socket is only guaranteed to live in sockfs when an LSM socket hook hands
-> it out, which is what keeps SOCK_INODE() valid. Sockets that embed struct
-> socket outside sockfs (tun, tap) are only reachable from tracing programs
-> and are excluded by the registration. (Btw, for consistency it would
-> be nice to force allocation of struct socket from sockfs instead of
-> simply embedding it in e.g., struct tun_file which makes the SOCKFS_I()
-> pattern a hazard - at least outside of sockfs functions.)
->
-> The read never sleeps and takes no lock. For sockfs the value lives in
-> the inode's in-memory xattr store and simple_xattr_get() resolves it
-> with an RCU-protected rhashtable lookup, taking neither the inode lock
-> nor any xattr lock. The kfunc is therefore usable from both sleepable
-> and non-sleepable LSM hooks.
->
-> Link: https://github.com/systemd/systemd/pull/40559 [1]
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->  fs/bpf_fs_kfuncs.c  | 37 +++++++++++++++++++++++++++++++++++++
->  include/linux/net.h |  1 +
->  net/socket.c        | 25 +++++++++++++++++++++++++
->  3 files changed, 63 insertions(+)
->
-> diff --git a/fs/bpf_fs_kfuncs.c b/fs/bpf_fs_kfuncs.c
-> index 11841c3d4260..85fc9519d1ff 100644
-> --- a/fs/bpf_fs_kfuncs.c
-> +++ b/fs/bpf_fs_kfuncs.c
-> @@ -11,6 +11,7 @@
->  #include <linux/file.h>
->  #include <linux/kernfs.h>
->  #include <linux/mm.h>
-> +#include <linux/net.h>
->  #include <linux/xattr.h>
-> =20
->  __bpf_kfunc_start_defs();
-> @@ -359,6 +360,39 @@ __bpf_kfunc int bpf_cgroup_read_xattr(struct cgroup =
-*cgroup, const char *name__s
->  }
->  #endif /* CONFIG_CGROUPS */
-> =20
-> +#ifdef CONFIG_NET
-> +/**
-> + * bpf_sock_read_xattr - read xattr of a socket's inode in sockfs
-> + * @sock: socket to get xattr from
-> + * @name__str: name of the xattr
-> + * @value_p: output buffer of the xattr value
-> + *
-> + * Get xattr *name__str* of *sock* and store the output in *value_p*.
-> + *
-> + * For security reasons, only *name__str* with prefix "user." is allowed=
-.
-> + *
-> + * Return: length of the xattr value on success, a negative value on err=
-or.
-> + */
-> +__bpf_kfunc int bpf_sock_read_xattr(struct socket *sock, const char *nam=
-e__str,
-> +				    struct bpf_dynptr *value_p)
-> +{
-> +	struct bpf_dynptr_kern *value_ptr =3D (struct bpf_dynptr_kern *)value_p=
-;
-> +	u32 value_len;
-> +	void *value;
-> +
-> +	/* Only allow reading "user.*" xattrs */
-> +	if (strncmp(name__str, XATTR_USER_PREFIX, XATTR_USER_PREFIX_LEN))
-> +		return -EPERM;
-> +
-> +	value_len =3D __bpf_dynptr_size(value_ptr);
-> +	value =3D __bpf_dynptr_data_rw(value_ptr, value_len);
-> +	if (!value)
-> +		return -EINVAL;
-> +
-> +	return sock_read_xattr(sock, name__str, value, value_len);
-> +}
-> +#endif /* CONFIG_NET */
+Hello,
 
-lgtm.
-How do you want to route it? Thought vfs tree for the next merge window?
-If so
-Acked-by: Alexei Starovoitov <ast@kernel.org>
+syzbot found the following issue on:
+
+HEAD commit:    b85966adbf5d Merge tag 'net-next-7.2' of git://git.kernel...
+git tree:       net-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=15ffe3a1580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=9a9f723a32776544
+dashboard link: https://syzkaller.appspot.com/bug?extid=0635dc2e2c3c21a6aa04
+compiler:       Debian clang version 22.1.6 (++20260514074242+fc4aad7b5db3-1~exp1~20260514074407.73), Debian LLD 22.1.6
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1192ccfe580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10dec2ae580000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/d65306d96573/disk-b85966ad.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/ef43139aab0e/vmlinux-b85966ad.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/26d4d1ab67c3/bzImage-b85966ad.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+0635dc2e2c3c21a6aa04@syzkaller.appspotmail.com
+
+rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
+rcu: 	0-...!: (1 GPs behind) idle=8aec/1/0x4000000000000000 softirq=15232/15238 fqs=0
+rcu: 	(detected by 1, t=10502 jiffies, g=12001, q=779 ncpus=2)
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 UID: 0 PID: 5691 Comm: udevd Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/09/2026
+RIP: 0010:lock_release+0x2d3/0x3c0 kernel/locking/lockdep.c:5893
+Code: 65 c7 05 2c 91 98 11 00 00 00 00 eb b5 e8 45 d1 05 0a f7 c3 00 02 00 00 74 b9 65 48 8b 05 45 4c 98 11 48 3b 44 24 28 75 44 fb <48> 83 c4 30 5b 41 5c 41 5d 41 5e 41 5f 5d c3 cc cc cc cc cc 48 8d
+RSP: 0018:ffffc90000007c98 EFLAGS: 00000046
+RAX: 2f357cb7f4202a00 RBX: ffff88803147f2a8 RCX: 0000000000010002
+RDX: 0000000000010000 RSI: ffffffff8c291100 RDI: ffffffff8c2910c0
+RBP: dffffc0000000000 R08: 0000000000000003 R09: 0000000000000004
+R10: dffffc0000000000 R11: fffff52000000f90 R12: ffff8880611c6000
+R13: ffffffff89b61a3a R14: ffff88803147f2c0 R15: ffff88803147f300
+FS:  0000000000000000(0000) GS:ffff88812527c000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000564961a89a38 CR3: 000000000e746000 CR4: 00000000003526f0
+Call Trace:
+ <IRQ>
+ __raw_spin_unlock include/linux/spinlock_api_smp.h:167 [inline]
+ _raw_spin_unlock+0x16/0x50 kernel/locking/spinlock.c:190
+ spin_unlock include/linux/spinlock.h:390 [inline]
+ advance_sched+0x99a/0xc80 net/sched/sch_taprio.c:988
+ __run_hrtimer kernel/time/hrtimer.c:2032 [inline]
+ __hrtimer_run_queues+0x3bc/0xa10 kernel/time/hrtimer.c:2096
+ hrtimer_interrupt+0x448/0x910 kernel/time/hrtimer.c:2215
+ local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1051 [inline]
+ __sysvec_apic_timer_interrupt+0x102/0x430 arch/x86/kernel/apic/apic.c:1068
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa1/0xc0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:__unwind_start+0x514/0x660 arch/x86/kernel/unwind_orc.c:-1
+Code: 10 42 80 3c 28 00 4c 8d 7b 38 74 08 4c 89 ff e8 12 7a ba 00 48 8b 44 24 08 49 39 07 0f 87 b6 fb ff ff 48 89 df e8 cc d0 ff ff <48> 8b 04 24 42 0f b6 04 28 84 c0 75 11 83 3b 00 4c 89 f1 0f 85 5b
+RSP: 0018:ffffc9000432f590 EFLAGS: 00000282
+RAX: 00000000f218b401 RBX: ffffc9000432f5e8 RCX: 0000000080000001
+RDX: ffffc9000432f601 RSI: ffffffff8c291100 RDI: ffff888034f03e00
+RBP: 1ffff92000865ebf R08: ffffc9000432f5d8 R09: 0000000000000000
+R10: ffffc9000432f638 R11: fffff52000865ec9 R12: 1ffff92000865ebe
+R13: dffffc0000000000 R14: ffffc9000432f5f8 R15: ffffc9000432f620
+ unwind_start arch/x86/include/asm/unwind.h:64 [inline]
+ arch_stack_walk+0xe3/0x150 arch/x86/kernel/stacktrace.c:24
+ stack_trace_save+0xa9/0x100 kernel/stacktrace.c:122
+ kasan_save_stack+0x3e/0x60 mm/kasan/common.c:57
+ kasan_record_aux_stack+0xbd/0xd0 mm/kasan/generic.c:556
+ __call_rcu_common kernel/rcu/tree.c:3159 [inline]
+ call_rcu+0xee/0x8b0 kernel/rcu/tree.c:3279
+ __destroy_inode+0x2a1/0x630 fs/inode.c:365
+ destroy_inode fs/inode.c:388 [inline]
+ evict+0x8d4/0xb50 fs/inode.c:852
+ dentry_kill+0x1b9/0x880 fs/dcache.c:826
+ finish_dput+0x1a/0x260 fs/dcache.c:1001
+ __fput+0x675/0xa50 fs/file_table.c:520
+ task_work_run+0x1d9/0x270 kernel/task_work.c:233
+ exit_task_work include/linux/task_work.h:40 [inline]
+ do_exit+0x73a/0x2360 kernel/exit.c:1004
+ do_group_exit+0x22d/0x2f0 kernel/exit.c:1147
+ __do_sys_exit_group kernel/exit.c:1158 [inline]
+ __se_sys_exit_group kernel/exit.c:1156 [inline]
+ __x64_sys_exit_group+0x3f/0x40 kernel/exit.c:1156
+ x64_sys_call+0x221a/0x2240 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fbd5bcf16c5
+Code: Unable to access opcode bytes at 0x7fbd5bcf169b.
+RSP: 002b:00007ffe420f4688 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 0000564961aa4f80 RCX: 00007fbd5bcf16c5
+RDX: 00000000000000e7 RSI: fffffffffffffe68 RDI: 0000000000000000
+RBP: 0000564961a80910 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007ffe420f46d0 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+rcu: rcu_preempt kthread starved for 10502 jiffies! g12001 f0x0 RCU_GP_WAIT_FQS(5) ->state=0x0 ->cpu=1
+rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
+rcu: RCU grace-period kthread stack dump:
+task:rcu_preempt     state:R  running task     stack:28040 pid:16    tgid:16    ppid:2      task_flags:0x208040 flags:0x00080000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5504 [inline]
+ __schedule+0x17d9/0x56c0 kernel/sched/core.c:7228
+ __schedule_loop kernel/sched/core.c:7307 [inline]
+ schedule+0x164/0x360 kernel/sched/core.c:7322
+ schedule_timeout+0x152/0x2c0 kernel/time/sleep_timeout.c:99
+ rcu_gp_fqs_loop+0x30c/0x11f0 kernel/rcu/tree.c:2123
+ rcu_gp_kthread+0x9e/0x2b0 kernel/rcu/tree.c:2325
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+rcu: Stack dump where RCU GP kthread last ran:
+CPU: 1 UID: 0 PID: 5689 Comm: udevd Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/09/2026
+RIP: 0010:csd_lock_wait kernel/smp.c:342 [inline]
+RIP: 0010:smp_call_function_many_cond+0x10b0/0x14b0 kernel/smp.c:892
+Code: c0 75 73 41 8b 1e 89 de 83 e6 01 31 ff e8 98 02 0c 00 83 e3 01 48 bb 00 00 00 00 00 fc ff df 75 07 e8 44 fe 0b 00 eb 37 f3 90 <41> 0f b6 04 1c 84 c0 75 10 41 f7 06 01 00 00 00 74 1e e8 29 fe 0b
+RSP: 0000:ffffc9000430f840 EFLAGS: 00000293
+RAX: ffffffff81b9f7f7 RBX: dffffc0000000000 RCX: ffff88807f020000
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: ffffc9000430f970 R08: ffffffff903116f7 R09: 1ffffffff20622de
+R10: dffffc0000000000 R11: fffffbfff20622df R12: 1ffff110170c85c5
+R13: ffff8880b873c2c8 R14: ffff8880b8642e28 R15: 0000000000000000
+FS:  00007fbd5c388880(0000) GS:ffff88812537c000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000564961a89a38 CR3: 0000000044280000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ on_each_cpu_cond_mask+0x3f/0x80 kernel/smp.c:1057
+ __flush_tlb_multi arch/x86/include/asm/paravirt.h:46 [inline]
+ flush_tlb_multi arch/x86/mm/tlb.c:1361 [inline]
+ flush_tlb_mm_range+0x5c4/0x1090 arch/x86/mm/tlb.c:1451
+ flush_tlb_page arch/x86/include/asm/tlbflush.h:345 [inline]
+ ptep_clear_flush+0x120/0x170 mm/pgtable-generic.c:104
+ wp_page_copy mm/memory.c:3941 [inline]
+ do_wp_page+0x3d52/0x4c70 mm/memory.c:4336
+ handle_pte_fault mm/memory.c:6443 [inline]
+ __handle_mm_fault mm/memory.c:6565 [inline]
+ handle_mm_fault+0x1490/0x3080 mm/memory.c:6734
+ do_user_addr_fault+0xa4d/0x1340 arch/x86/mm/fault.c:1339
+ handle_page_fault arch/x86/mm/fault.c:1479 [inline]
+ exc_page_fault+0x6a/0xc0 arch/x86/mm/fault.c:1532
+ asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:595
+RIP: 0033:0x7fbd5c3ada9a
+Code: 5b 5d c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 53 48 85 ff 74 2f 48 8b 47 08 48 39 c7 74 21 48 8b 1f 48 39 df 74 19 48 89 18 <48> 89 43 08 e8 8d d9 ff ff 48 89 d8 5b c3 0f 1f 84 00 00 00 00 00
+RSP: 002b:00007ffe420f4620 EFLAGS: 00010202
+RAX: 0000564961a8a0b0 RBX: 0000564961a89a30 RCX: 0000000000000000
+RDX: 0000564961a95430 RSI: 0000564961a91f60 RDI: 0000564961a8f4e0
+RBP: 0000564961a8f4e0 R08: 0000564961a91f70 R09: 0000000000000003
+R10: 0000000000000000 R11: 0000000000000297 R12: 0000564958c24588
+R13: 00007ffe420f46d0 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
