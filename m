@@ -1,111 +1,81 @@
-Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D516E22425B
-	for <linux-fsdevel@vger.kernel.org>; Sun, 21 Jun 2026 21:23:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782077022; cv=pass; b=NgjLNEIdpemqDDyea9Dusmc2PxPe3R3kcehV58kPdr6iwVlH11tywPdVA/H2I0G7FYebrEOpbU6EdBXIc0U2eifr2vu/9hah8i1NcZKcnn1QshrGoBq4fTP5jihKXeO5Cbst26kM+y2QJiEv9miAXRJ7VhSR8igkZnvIjNNneFo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782077022; c=relaxed/simple;
-	bh=tHgZr3gyiZh13iPSlNqTtP25vEOOVH6Nr5jP2OWgNBo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fU3wjtUzECapljcz9pdm2NpAfE9y2uYLiTzyMYuR8v45EDdGPKE/MXjqEJZ1ercxRTkeU4KtM93ZO5Ilq54g521MA1Pq9A0QgFSa/ZwIcP/tQQyOFOoes2ZicwNLYkhJZMVihWZM2p7xjlqVmUPX36mlxFEjP70KnHhZCsXgnAg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qb3bwpCO; arc=pass smtp.client-ip=74.125.224.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BAA3491D0
+	for <linux-fsdevel@vger.kernel.org>; Sun, 21 Jun 2026 21:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782078264; cv=none; b=HJmMs/xZQjwflng2fHAjV0fqP28U3joYXZVGY/+w4dOqIgQVFiRMba2LI/5oUmPq92rUEWFioXyTs+3Kk83GLcgQdmUJ/FXYRUdx/6z+zylrDnDLrPCih4Q7Ea1dplpfkx8v13iCr61Al8YToHas4Z+KAEs8MGSXBhXLmuopLmM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782078264; c=relaxed/simple;
+	bh=a3Y9fGncPiH+11KQGUNiEU4fOR1zyfKZhNYrbxv7b6c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c+4krAhYHsG9Sr0sUdT2f41x1UTWNG0+KFlT6fi26AB65hvs3iG99fpt/rW/xBBA2eOOwOmTuBaIV5TjSYvw/eGCBCTZIgggLjzJMdcvtGyb2VH3w/3VwkATHNq+nkJJhvsmwEzW+ps2eviH38igwZHEIeqeeqmNyhOEBU7Ce14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nbJslNAQ; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qb3bwpCO"
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-662ccb916c5so3815282d50.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 21 Jun 2026 14:23:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782077020; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WV/v3QeV3Qgs08oCDNpTyFhk01/Js+VnYlmx+1eELsAXi/JDrXfn4GCL9/52Su4VCq
-         0E1m64S9y4UW+oTm7vPLkZc6NBWOKGAi6QhMnVSVvsOU/2v7/eA+6ughhnaIl9S5ItTo
-         sD7YLM+OLBEZoXveS9/zXdaBkAX67ehXhQcHuYcEY96tspLai2de2rqRjzr9nj/DTcj+
-         +HFCSFikSUFC+Aa6UdPQQwGhuu9wMKeoZcMB2gQCORAJ+QclWvX3kMR9LczXjS+h+Ufy
-         MQUVqMVtMWkg5AJxiUICYyMd6sIPkE3/13Q4n08d9yhu6g/S7u1c/LDhHB+ROO4PEngW
-         oZ6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=tHgZr3gyiZh13iPSlNqTtP25vEOOVH6Nr5jP2OWgNBo=;
-        fh=6I/qKjuafGXDEFeDuOtjcrrNF8UUtEPxJ35BnoKV/Xk=;
-        b=X0A+39h2HngdvZ9lrPR79x8U1BrJCsRVDupsNvShXIsjJTKzdu1szRM3mx9GgjD69W
-         pOQUGybtDa27zfS2teDOch7shVUTEx+3wbtCuoKMm5X5T4w//scj8xBsV/GAD+IdwN4q
-         /K4zubVNf9zq7IrkmCVTVLqAr1FzZhz5BD4wg+rLOWp3DVu88yZ2L/xFnw0eYqLpqNCI
-         d4owzFgKoFVZ0z7ybrzYgb2x0Jz54FHw8yr3Jxwnvt1ooNtpFGByEE789NFr2X8zfrrZ
-         ahQPcQ21YiY0SB/s9EIRn3ptpbZ/jXCGvkvBO1LMVLwlBroJ729rLDfYzKi8HX85Vtoi
-         GhYQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782077020; x=1782681820; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tHgZr3gyiZh13iPSlNqTtP25vEOOVH6Nr5jP2OWgNBo=;
-        b=Qb3bwpCOLuyFR92w+QbfA5dsOvsf51wBQR5AHPljEuMisG9BuLsIKzEXsrArtyvy/y
-         FPv3Hfpo9PGsZyY00mEsQOXXvyoxbIgmYEahUGtvIXvkwAxfbVMBZwH4pPSJ5AOh4Jtm
-         pUNaA2IujJZb/nBZw5fdj4hcbsCo0USxpZ859j9efz6HRPbQ78DwlbIKVt9USmwNB6di
-         jQ929T1UIBFQyw1vCQ7vaWcA35hHMJKeOHRbPOGOoshnXZswy2d1sfPWAvu+Q6iJSl0K
-         9WN0/9B0AUZS/pG0pbDT8WSdU7ONqPAe7X9gkj8BIK7cvyWkCiaSGUd0lF7PikxxbR2j
-         9n/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782077020; x=1782681820;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=tHgZr3gyiZh13iPSlNqTtP25vEOOVH6Nr5jP2OWgNBo=;
-        b=FPikFfabGREO62m4Vm8NfkpLSh1bSi8Fs/vhKw54ls8v9GyqyK/m2ThDZQrJ96/FGK
-         CaAuVCdk0WLhOC+C9ahiVTiHU6QObUrhMp+px0Hd7JRsXphHDwh4qLCLVe8QSRH59NVe
-         vOif/pTwPUacwybtFE59Yy21cpO/RMHCQTRsi6ehXqh/uDUNSB78mXGZXSKhZDpx51qr
-         e3AxFaSdthIuPB/F4aWNVypvzDyXDnM8ng7h48l04tZzpnENQ/oRlQSQeKO7TPYJneU6
-         yylbI6G5JoeavBkXlYYpTQ2b9BIODDjKMrCFDvo0cRwUB5zB9XZx5+pNuuu49LsxghYf
-         9BQA==
-X-Forwarded-Encrypted: i=1; AHgh+Rrvn5R5SNBegyVjrB66a94tw2chRiNmlayyadQR5UCZbAgkXdDwg6axDYeOobVG+d2jtbAd6LEcnyzbeSMb@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjsctOLKIbbWSIjmHMxWx2wM7vB7TKMWpuICeULu+jBBeazGRt
-	ZNeJ3rhtVNa+qr7viOEJ8qvurtm0iKEEtzkQZfYt/2JbYmXwx38QEzchjVLtowj24H/I3UmbjaJ
-	TZdhTCEwhZPAXChQ3bPHTUVtJmTyXOyg=
-X-Gm-Gg: AfdE7clPzqXYW51PEaym34IFC8BSeLE8L7a0Ux24YzXF4qO4gfMNT25Fuc3ogvEQYPP
-	8pd9RMhv46tykJ4y9PsoE6ZhSKmDslU97Ggn4U0prF9jAD8wJ86AOxYAvYeFGq69oG/kHFV7dsb
-	byBHlnVbaxfkaIWVU1BO0gVlJRGcinkzbQot04e+zzTwFd1f1/671UpKRgRAtGxhm7p8mvFDtbO
-	f1OFOckcTWggqdSsnKlbNe9B5qfcObFDkJGo0FPCcw0bEmUI/cnZnZ700FWKGMmgGO51w==
-X-Received: by 2002:a05:690e:bc6:b0:662:fcfb:9279 with SMTP id
- 956f58d0204a3-662fcfb9ac8mr11998389d50.53.1782077019827; Sun, 21 Jun 2026
- 14:23:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nbJslNAQ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=SWo0RjmJDDbvJTRUukB3UUi5L/yCguEQGEs2iuo1NaE=; b=nbJslNAQcvU+pCzNHbifYCA0vt
+	Bv6oifgBK8CF/MyEn4haJEVn3mBmskWhliRd1IJp11NHY49RVsNXLRW5yzjwfIR7pt9gKGWETm0Iv
+	Ojn3/qv5bS/0yxrQ0RXh0N9pqJlqk8XnbRsV5cplnSPuEkWbXvfjDBLHgKr65OgMzfjkJ41/n5KjB
+	AChWQbe/JaLMlm2eblscdR6E5BWdgMaCyC5UvP0PzmmzdOF+5ZD5InMpL2WGVCtgkEZSjdxIQDsj1
+	LkywKOKb3XroFXjF0IOPhXdQ0mhiDZaWeloMfDOY1+THm0Ff0+Z+IyXntrc5pJ2R9UlA5V/B8F5VX
+	v9R6uQoA==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wbPxk-000000032s1-13SF;
+	Sun, 21 Jun 2026 21:44:20 +0000
+Date: Sun, 21 Jun 2026 22:44:20 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Pedro Falcato <pfalcato@suse.de>,
+	Christian Brauner <christian@brauner.io>,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] efs: Remove EFS
+Message-ID: <ajhbNJcT8qgqKD70@casper.infradead.org>
+References: <20260618211822.3599089-1-willy@infradead.org>
+ <ajUIMvi5Nyjp6t2v@lt-jori.localdomain>
+ <ajUSQ30oi-fyh0NH@pedro-suse.lan>
+ <2099505714.2289513.1781864378114@kpc.webmail.kpnmail.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAKqfh0HhN4zzV2=WJwC4ejRQup7Q3L6MkUegC9Bc0xFmzK+Msg@mail.gmail.com>
- <aiOXiumEOIPOQm93@casper.infradead.org> <CAKqfh0GNMAnNVvTu-aydHWywR4w-+E+FBtHEV_TCXxzvh6F4uA@mail.gmail.com>
- <20260606042112.GA6060@frogsfrogsfrogs> <20260610-chaoten-ringen-bauer-516e17aff523@brauner>
- <CAKqfh0GqLNmui=BU1Xw7Xk0StWGueq=k5KN9uN0v6Y-DMWAwYg@mail.gmail.com> <ajhT-rHpo-r1k-Li@casper.infradead.org>
-In-Reply-To: <ajhT-rHpo-r1k-Li@casper.infradead.org>
-From: Maxwell Doose <m32285159@gmail.com>
-Date: Sun, 21 Jun 2026 16:23:27 -0500
-X-Gm-Features: AVVi8Ccx14EBDPjbpmV9W3u_C5SuSznVcE9sC64C0-5-A1KX9amQ3wnI3s8R1T8
-Message-ID: <CAKqfh0HveK3+JeZ+kpbR_rRAftQivMEZ9Vz8h1gsNuiFjcJU0g@mail.gmail.com>
-Subject: Re: [RFC] Maintainership of the EFS filesystem
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
-	open list <linux-kernel@vger.kernel.org>, Jan Kara <jack@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2099505714.2289513.1781864378114@kpc.webmail.kpnmail.nl>
 
-On Sun, Jun 21, 2026 at 4:13=E2=80=AFPM Matthew Wilcox <willy@infradead.org=
-> wrote:
->
-> On Sun, Jun 21, 2026 at 03:50:07PM -0500, Maxwell Doose wrote:
-> > Well it seems that the general consensus is to remove it and at this
-> > point, I agree (I suppose I was a bit ignorant :( ). Should we send
-> > the patch now or give it some time?
->
-> https://lore.kernel.org/linux-fsdevel/20260618211822.3599089-1-willy@infr=
-adead.org/
+On Fri, Jun 19, 2026 at 12:19:38PM +0200, Jori Koolstra wrote:
+> I wasn't around back then, but why was ReiserFS removed? I'm just curious about
 
-I see. Well then I ought to go back to iio and do what I do best.
+You can read the discussion:
+https://lore.kernel.org/linux-fsdevel/YhIwUEpymVzmytdp@casper.infradead.org/
+
+> to what degree the arguments used back then apply to all kinda-maintained-but-not-really
+> filesystems. jfs is totally unmaintained, despite its MAINTAINERS file entry. And
+
+What?  Dave absolutely does maintain it.  Commit 1d51b370a0f8 for
+example.
+
+> David has said multiple times he would rather get rid of it.
+
+Rather get rid of it ... than what?
+
+> > We already have one - it's fs/ext2.
+> > (modern API? maybe not so much. still has buffer heads, uses mpage, etc.
+> > alas.)
+> 
+> When I wrote this I was also thinking about ext2, but it is significantly
+> more code. Still, I think you're right. I have a special attachment to fs/minix
+> because it was the first kernel code that I studied in detail :)
+
+We've had extensive discussions before about converting, eg, ext2 to
+iomap.  Maybe now ext4 has been started, there's finally enough examples
+to get ext2 done.  If you're interested in contributing, that would be a
+great project.
