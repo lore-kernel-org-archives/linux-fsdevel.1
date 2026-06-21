@@ -1,91 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9929027F18B;
-	Sun, 21 Jun 2026 15:56:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F77267B05
+	for <linux-fsdevel@vger.kernel.org>; Sun, 21 Jun 2026 20:32:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782057393; cv=none; b=SBmk3NyVdQz1GSiD6p1Ftc0QjdCzKK+Iw4JDZoDuV0VeL7tcDl8wp+j168lf+x47wlCOHaRwsbLYbIMRSQvPYeObMzBaorrSQuXCrFXE3NUsTVKzHKTA1K9WynomP2GW6ugE8t/DsenPT/Z5wgBYJREwPfUtO9zPpxO5NQmx5dA=
+	t=1782073957; cv=none; b=U48GJhg/y/OCheCv/GJcgxbdXNVz19qBC1+bhtvDvkLG2CkqsD+oL/qquXgzu6TBkrly4f2jtJ96c9wm8HtIMfbDGGwNI4fVXlTl32ZViTBspVC8Tkh4adUpinZMYpXV/ImhFl3loaoXBGZQUZBcxSE15e+SblzuQtJAs/ZLzGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782057393; c=relaxed/simple;
-	bh=2RBglxdyeDhl1xH+kLN/AlmaGlMh64L1wjldXFsdx1Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GPbNq3LleiC4WB5BRrHvmZFcv4Zib9LAdZq3kpCorg7hRwn/ZFJU1NRqs5WsQzanxalHDlqjgImKTlFzJGid86Ud5AQkTmHmwWaPF2o7NliFNuLw0gEj6SwoDS538c97xhU5gBF9qmURDm++fq+YVw7BQH23N00+PEKjz3m31Rc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=okGct+pN; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="okGct+pN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D89231F000E9;
-	Sun, 21 Jun 2026 15:56:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782057390;
-	bh=RTZTAwQLyygIOE3RvuFHtfjxbf9xe54p22A5gPa68lk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=okGct+pNy6NRNH2NpFCIjXh2k5SUxu0ak8mcBH9gqNSwVvM4oDQ9GfcMExAiyNn8I
-	 BtSnlTpvcoEV3m4OiIvzz7oFg28eJZ0qKn+JVWe5BcCmK6QkAFhhDRzO2Xt1ZNZjDA
-	 HI5ltfBvrWrQghUM7Zq5/F4bLvaSEbtD1Kgc4GlQ8TYvnAE5YUs/ZWsPdOxMFY9w5D
-	 Rk3yQ0MipA+QcAr7ZF+LqXrAvR11tFLOqD6hgAJU67p2yBJ+3h01V5L6HJyqk3PgPN
-	 LEqcpUAeWzXzfoSiBx7AdcgejY21m1OBb7pzNy79870A0ivaanRNrsWlYeZ3bmUXqo
-	 A8Mgi6MCZgTgQ==
-Date: Sun, 21 Jun 2026 23:56:25 +0800
-From: Zorro Lang <zlang@kernel.org>
-To: German Maglione <gmaglione@redhat.com>
-Cc: fstests@vger.kernel.org, brauner@kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/2] vfstest: move sys_umount2() to cleanup path in
- tcore_acls()
-Message-ID: <ajgJYwuiwxnqcJIE@zlang-mailbox>
-Mail-Followup-To: German Maglione <gmaglione@redhat.com>, 
-	fstests@vger.kernel.org, brauner@kernel.org, linux-fsdevel@vger.kernel.org
-References: <20260618-xfstests-tcore-acls-fixes-v1-0-45a1aec1d99d@redhat.com>
- <20260618-xfstests-tcore-acls-fixes-v1-1-45a1aec1d99d@redhat.com>
+	s=arc-20240116; t=1782073957; c=relaxed/simple;
+	bh=Hw69wbeZQtazzZK6eBvSmcGo0jz+NMjKkG2fe+qniU0=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=delGkP36ijAlQ9kluWmb3uDPrPK6GwwqL54u6xXzMK3hIak7+6UoPfzBXgT15FZgwp4msc0lMxtGGoSRYZmDjKhdgaz/Ai/YDliuBC215K9qV+TXn5siAv6AINgCu3NTP0Db0hWTGq6qYd3zvQSi0uy88tir1i8SjFFDI9pvruA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-48c752d574cso1787124b6e.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 21 Jun 2026 13:32:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782073955; x=1782678755;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ucTFDAkCLZhHMP386YHGec37X+4vBW0FDYWwm9Tz/f4=;
+        b=bUoy2REdmZxUtQQwIxFfPebyBvGaNysPI0hLu6dS7Wrt8tVOxI1aO9e/liD6vnTM1e
+         FeUML65OUDjwKEjVil+XC6jS/CT5H0qwjEXgUJ8gBgq6gEFyi5+uEshBTAkz+zJ/qaak
+         2HmhzG3TdaSNbLyqnMFuV1GJ9DUKlyFnNBgIMgee72M5XnlnlLmp7rK7jsJw8xkYuOrP
+         DtSFqsJ25BRE2uTksEQHkKtlaRZSI7y5jmRVFLdn1BXzmCK7H05e03eFZr6d8/WdLiXN
+         XhthZYYdDhEFQQWv0cnxNCEuCNTF6vzpEZsR+YkK65mEsPqCBriAMip/FuQByZ8DafLl
+         01uA==
+X-Forwarded-Encrypted: i=1; AFNElJ9Hh28D1vYjX9tRYEyd+/fZQU8jobmkkIwNqIM+GyJT9/QHCVkZ1yMwGZURFAt6MpXvdrbhc1/QCQ8PXuUq@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDQBYZZ1pHKF946M1OEECFsRhVYxhKNP9vM5hEWy+rZmEy12jl
+	OUNCtipL5cnNec6qTptjoUhwv6b6Y/PtrfA1nPHmefLbmv1opvsfVG4Unbs8CXyEGBeqTvEfsRX
+	E+70dS39xrr2+lLSITFa1eSg+YbVj08/PmqP6s5cDmlRh0qstohpRDgGxtrg=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260618-xfstests-tcore-acls-fixes-v1-1-45a1aec1d99d@redhat.com>
+X-Received: by 2002:a05:6808:15a4:b0:486:503a:ce99 with SMTP id
+ 5614622812f47-48ac065c46emr6096770b6e.27.1782073955116; Sun, 21 Jun 2026
+ 13:32:35 -0700 (PDT)
+Date: Sun, 21 Jun 2026 13:32:35 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a384a63.8c9cf54e.2346b6.0003.GAE@google.com>
+Subject: [syzbot] Monthly exfat report (Jun 2026)
+From: syzbot <syzbot+list1edbc6edc9dd4a12b997@syzkaller.appspotmail.com>
+To: linkinjeon@kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, sj1557.seo@samsung.com, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jun 18, 2026 at 12:11:53PM +0200, German Maglione wrote:
-> sys_umount2() in tcore_acls() only runs on the success path. If setfacl
-> fails (e.g. no ACL support), the mount on DIR2 is left behind and
-> test_cleanup() can't remove T_DIR1. This causes every subsequent test
-> to fail with EEXIST on mkdirat(T_DIR1).
-> 
-> Move sys_umount2() into the out: block so it always runs.
-> 
-> Signed-off-by: German Maglione <gmaglione@redhat.com>
-> ---
+Hello exfat maintainers/developers,
 
-Makes sense to me, thanks for fixing it.
+This is a 31-day syzbot report for the exfat subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/exfat
 
-Reviewed-by: Zorro Lang <zlang@kernel.org>
+During the period, 0 new issues were detected and 0 were fixed.
+In total, 6 issues are still open and 43 have already been fixed.
+There are also 3 low-priority issues.
 
->  src/vfs/idmapped-mounts.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/src/vfs/idmapped-mounts.c b/src/vfs/idmapped-mounts.c
-> index ed9992f975c14b57c5d6d1634ca011b015b78bcb..d0630f5931ade713a99f5dec1cbe24bdaa75d35d 100644
-> --- a/src/vfs/idmapped-mounts.c
-> +++ b/src/vfs/idmapped-mounts.c
-> @@ -240,12 +240,11 @@ int tcore_acls(const struct vfstest_info *info)
->  		goto out;
->  	}
->  
-> -	snprintf(t_buf, sizeof(t_buf), "%s/" T_DIR1 "/" DIR2, info->t_mountpoint);
-> -	sys_umount2(t_buf, MNT_DETACH);
-> -
->  	fret = 0;
->  	log_debug("Ran test");
->  out:
-> +	snprintf(t_buf, sizeof(t_buf), "%s/" T_DIR1 "/" DIR2, info->t_mountpoint);
-> +	sys_umount2(t_buf, MNT_DETACH);
->  	safe_close(attr.userns_fd);
->  	safe_close(dir1_fd);
->  	safe_close(open_tree_fd);
-> 
-> -- 
-> 2.49.0
-> 
+Some of the still happening issues:
+
+Ref Crashes Repro Title
+<1> 3062    Yes   possible deadlock in filemap_fault
+                  https://syzkaller.appspot.com/bug?extid=7736960b837908f3a81d
+<2> 14      Yes   INFO: task hung in generic_file_write_iter (4)
+                  https://syzkaller.appspot.com/bug?extid=9dd2144719bb071036a4
+<3> 31      Yes   WARNING in fanotify_handle_event (2)
+                  https://syzkaller.appspot.com/bug?extid=318aab2cf26bb7d40228
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
