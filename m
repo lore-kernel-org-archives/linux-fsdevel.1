@@ -1,220 +1,121 @@
-Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8577E2517AC
-	for <linux-fsdevel@vger.kernel.org>; Sun, 21 Jun 2026 08:16:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782029771; cv=pass; b=Lm16bt/Ig/umnwsvs2Rbzj+bUXHrNoJr0Upr+j1UotGc8HMBrr8Dt1x46ouYiUCf7FoClq0j44hUKqQL2xzraj0RzxOeLGlX8PLHFzjz9ryux/uXeg4Lg3XgilYyyyf/aOSOgX4LU5mHSGg6fTpsK0j3ojrv3H3Y0vg3g/EQq3c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782029771; c=relaxed/simple;
-	bh=V7GOH5C4+1DTcmNxi1wdCRV0V1K1Gn/8pkL9PttbCHc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nHXBGVHsChFY7lHyGd7CQXDjlFCKtpFdFTmhtXEqVI0NNYBCJ2KZLmNWK5HXm3VTXQlTM8AfXtDvNQgvwCwQtYoeoP/4xtphlMUJl0gtemktET56XjKyKIvnEUIYM3LSKBGGbEGRMtfh4VdS7OvAmp8pYuIT7UyXosnrLlwn0hQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aHepuZ5k; arc=pass smtp.client-ip=74.125.224.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB791DED63
+	for <linux-fsdevel@vger.kernel.org>; Sun, 21 Jun 2026 09:08:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782032929; cv=none; b=oF/6DeVQU7PkcwIa37CB7h25HoVUS5oinLS9W1CWdAViBlkG4p4o9qoAjgBQXcjLK3We2z3FhV/3cPZ5O0uQQ79kffh5MNtTu/gsqOdL8lCNfLnZjituxHDSXQF5+v1xCBX7Kjfl6rtOc7LSRIeyJDnKeIVCPCG6YbnowdlRbIY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782032929; c=relaxed/simple;
+	bh=D8EWIrYF4rIXIYGHAgKszsKKj22NQDodwP8iPittV24=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NKWBhwxcU455jp83yKszRDeyIHvPYXEG+S5yfZFh202EnEdy/FTf5IBXDR/Zi0qL6LVAWkohHdIBVmpJo9CeNdJ8Yvr/m3jV6mtS6nP42ahm/2Bc5ODIc9SFJmOLeRIf+SMT0Kd8P+J0fQ2vDXNHBCxsoHnl3XATnco84b5cY88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QEXD/Hlu; arc=none smtp.client-ip=209.85.215.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aHepuZ5k"
-Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-663271f8694so378983d50.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 21 Jun 2026 01:16:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782029769; cv=none;
-        d=google.com; s=arc-20240605;
-        b=jI3Zn3fwYoheSitK8f/I8gW0GfUm5hqf8qfiRaC8jjhoYRQ2cKxIUizOn3yrNz3jyp
-         Am5pQQbB09blVKizRVTCjt5SmMgm7haeNsF0H8UcEG7JxIdYZK9R5DH1Df5SXfsTjqme
-         ojTqMxpsYOTfP41bcE+6ns9FaRLsD/jtbFvEmaLo+l4jIH6Vh/dR6QpzIAGrLm+t4UTf
-         9W6sRkfwJJCHw+rdwIKyTxf5iNe9oaSt/M7ZbVJMKY6sDj4jvHVfh61pE818bZqexABt
-         zdhW99NdUdyJHIzafdbzIxOm5ZvBa+uEcdDXTE4RVWJ2wdZ8/mEMy6ycNy+Mqyr83lrX
-         0FTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=SC2+17GkjZ69cx9PrkeOnmndcAz/zR/Mdyod+HkB8jI=;
-        fh=4HyRQ7rRgivcul5oyfujo0zrQwX8E0uYoX1fig+OFco=;
-        b=ZngIMfxSm8KFajxIHpsl4z2Uo1aFzx5LbmzVAsA/Q9eqetT+HlfCaWqF2igYYDHCH4
-         JdRtgYSFyvpl8Wso6xhQkb/vkKwmhWVJS/P/VSqwJfjIlPRltEJV+GJMs2vsJGBWFbil
-         OCsl5PzPLEMYin409ImX0MBl5bZqe1Upni1DllXT7dheNF6FR1kgfOBCVEYmdy/8z0V0
-         3yowfNKYLdzoj+2D+YtRKtM+xmEuQT8qoCtvU/QPtgmsKiue0GNCdt8xq9NazEx98FGQ
-         vBE0FYK3j2KIGy6UQt660BJs7sqZCAAT1c93PznCsu7o6deDeXn2p8P72mbzi0Hacjc2
-         r8FQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QEXD/Hlu"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c8ce8f2e235so347415a12.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 21 Jun 2026 02:08:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782029769; x=1782634569; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SC2+17GkjZ69cx9PrkeOnmndcAz/zR/Mdyod+HkB8jI=;
-        b=aHepuZ5kvxq05tSU/Ku2BZF15U3cItkQlYSNNzETtj03pgSDbYhl7MCCCH2OABTaqC
-         XBJaj9w6EVzq6xoUyeqmqk2Toj54GIWNUGmN/ZtqW7P8kHlfVj4tOTrN7v6CN47+KhPr
-         abDwtyZAGsQqI+SVkk/X5sblXGv2YRAPE1W3P/IKOidF2PzZfrmzmT0S+ijUS/ghT7CC
-         PGeyl4AHoxyAuQEl6UlB66vpd5hDbC5hOuOJAnZbTgUZw2vQQCFWe/a2sUjBPELuIYDK
-         lf9dPsftruXRSlf1QYdtz9DYSv+/4QNtoFI+VxUDhNVhUYd6RpoH/ynxwPMqTqoizJwU
-         zYCg==
+        d=gmail.com; s=20251104; t=1782032927; x=1782637727; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8cB+3aTUJcGslDy+LtIPcuzpD/+janxw7ACEaFGEINk=;
+        b=QEXD/Hlu7JWRmkQLc1jxkoQgEHxKqa52mJf2XXJJdfX6XEimhCLNLzy2L2I/qUWibr
+         ujbXctIlJ1EII/t8D4lYsVWWZHySC1n2N8+m25NQd0iycbIwtdYebNF14hjrWPqwNrKy
+         8Dw4Pq++eCfKJL/4CGliQ8HCEKlXgobFAilc5MbrqRKtY+7uSZrSZh88Z7gTfiA/FtOm
+         Vl6H6/CBPIwoMOLNR36iBtYF7M9IDvlUUwIjZrMGHzeomyLDIAsNyDMIq1GNQHju6OnS
+         M7Pa1QLVe7h8f60A+f745x9BG9DLYdbCV7/VYwdGT86y4YtT5JK0V1+eObkgajevg7ff
+         wTxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782029769; x=1782634569;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=SC2+17GkjZ69cx9PrkeOnmndcAz/zR/Mdyod+HkB8jI=;
-        b=o/cfOdh7zopFuhb6MNjiS4DYUmL11Jkz7Nzjf/0fM51xnhgipgTms8yaju9PddVAL2
-         t8BRSmKdGCPTW0RdJK6SnIqgDYFKeU8ksUBUPfx5H3OUvfemdz6FGUQnL3/mo+G7NAsI
-         RU0iaQrJItRKATCN3Vz/n5RrZzDQQj21/TEN3FUB7Kb/Bpk6qOEQ/YiOAz0Nz7exwFJ3
-         ppl/CCd4IrIiLl0/jxAqJuPDs0xncLCepfI1KXCpjjGPsVwOFroz1C38Wf9LTr06Wq25
-         wqJwd2VMcgC1c7TtxwWCtWtVNmQx29zDh8AhIoTSqauEpCj8/GVgKdBINUk1FEA6j4pj
-         nzIA==
-X-Gm-Message-State: AOJu0YwmilnG//2kAtfRNGJ8gW6IqQGMcoqv24yTGqptu1cYjNgiLZw1
-	QRa0JY/0n+SJYWzg7I185rS5sgSWHSLtpmceo4ayuZANIS+LwpsAGzbK2vt3i4lRvoo4zGIZw5Q
-	XPgT2UNNiZgPMwCRJSL2CSkiV1D7NcIA=
-X-Gm-Gg: AfdE7ckAmJSKBUmw0F0eBwx76tfnpMT2eBb+50NupGu2bLlJ93DSc/2aYsZfncdiCQa
-	iuUGv/pE5JrnOo9R9IPPxkfijwBUIsbxOCFI/w5cGNMsmSrFrZv05r0gkHnPehOA1qWo1XvkBSd
-	bcz6kxld+WBzgbyb9ZPZOymrst4/eh52xHox+bP4v06pi3qjfK5Qj7kJxqe1gFFiJ+d/GUSJOm+
-	DoR0PUhZiEMI64sgf/kXvNsfFapp9Mm3wvYmzg3CU3mXi+lHjI9J71d5VGe+/NrzGSY0kHgN9GU
-	fXXI9dy5TZSTc30KCEwIVbBKQhnw3x9p7PAKXY9BEGJYLmxRy65ytn9tqCDnoQ==
-X-Received: by 2002:a05:690e:b87:b0:651:b938:188b with SMTP id
- 956f58d0204a3-662ffcec93amr9144541d50.24.1782029769493; Sun, 21 Jun 2026
- 01:16:09 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782032927; x=1782637727;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8cB+3aTUJcGslDy+LtIPcuzpD/+janxw7ACEaFGEINk=;
+        b=DLmBicO+LCCFh8842UXUEVf8QvjCE7ORIqihlGXEvlbVfth+Lbxd+Ld6utdjQJus1w
+         AonWyuB+TsokfoSK3WRreQXKmadTrTdVrh38ax0C/UlVUWYXrRXEzf/Di5mQrZbKdcZw
+         zY4n/IvjiMm0t5b2rD35fZ5jkZjjhrEjEIzuaGI9YjeVmrkDqn+9Z5Rq+tg3VblM/zUQ
+         19DIOkiSajBe9odBRxMG7QPGn/hw245WiCPcan0ah9YxLEKaH8N4VgMoOjj0431xxdwi
+         YOXxJT9FaMTqD12M5Y9mvCq2rEmf3uT1xVJswT65nTlIkaeqk4s0MzXGpcsVxyHgBf4W
+         QGmQ==
+X-Gm-Message-State: AOJu0YxRHjb6TXbluR8NkaPg6Yvrx3ATMa9nPly2a+qzsK07iHALGhat
+	4TBEXoLJnPDvq2SbJPOY92rGFAuGUfvCSMD6F+RrDDg3Kulj0hCJ7tOt
+X-Gm-Gg: AfdE7clTWqFL3swB5wxJf3fRnWSpqj+E8AeBIvZ8hK16CN9iordrAGuOc0MIRvZhAHw
+	iafb0BLWJVPZuVzA7s+uzrFpa21YfkduuEmQi7TX0q3fe9HrCLgwTvwQFXlRE3VYhOwy7CKmXZO
+	YijhNYzuLVJGol2hxCkBRB38iqw99BPdVn15hKCERBAcTSA/FxFfenNSFJKCeTu+I6kX1OauJOt
+	CElpmMddvJDWVLSV/oJ/ngd7I4izxQYTqsXInhCu9FaH8ph2qa2JwuXot0sFMCHgC23U/H8kDfY
+	e0mk2d7Fm7U7rYg1Z1ElQgJcRSEn67neHmMzCCo4lrEQRIyzhVchVsgm9KQjuYAWpXYhWYDMJdJ
+	9QCEXhqStnNjUna6kGxRdI8b0wftIfPo8TCEpIEfQyrw5YvnZGtjDBb2ZBM5OjFEzTfriknXwFf
+	0HDepDaAAMN2QeUJNgMqpFAtl5P6hWUV4t1mQ7CsXAGmSjA3K5O/92qA==
+X-Received: by 2002:a05:6a00:94f3:b0:82a:6461:6d15 with SMTP id d2e1a72fcca58-845508eba43mr11499481b3a.46.1782032927379;
+        Sun, 21 Jun 2026 02:08:47 -0700 (PDT)
+Received: from DESKTOP-P6LTFAM.localdomain ([152.57.224.13])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84564da67a1sm4624633b3a.27.2026.06.21.02.08.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Jun 2026 02:08:46 -0700 (PDT)
+From: Sainath Manda <sainathmanda777@gmail.com>
+To: slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sainath Manda <sainathmanda777@gmail.com>,
+	syzbot+f83fa2cf571bd7650422@syzkaller.appspotmail.com
+Subject: [PATCH] hfsplus: fix duplicate bnode creation in hfs_bnode_create
+Date: Sun, 21 Jun 2026 14:34:48 +0530
+Message-Id: <20260621090448.13108-1-sainathmanda777@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260529131242.89876-1-kartikey406@gmail.com>
-In-Reply-To: <20260529131242.89876-1-kartikey406@gmail.com>
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-Date: Sun, 21 Jun 2026 13:45:57 +0530
-X-Gm-Features: AVVi8Cdiq2G_AX7XITiCC0IRk63_uoLegTs-RUgojpMXeVhGATANChA5FTtwWeM
-Message-ID: <CADhLXY6NYbjE9FS3fVmQQC-0b_HcmUh0QzX4=LRUVP-T9PV0dQ@mail.gmail.com>
-Subject: Re: [PATCH v3] eventpoll: fix use-after-free in clear_tfile_check_list()
-To: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzbot+69a3d7738ad3aa175caf@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 29, 2026 at 6:42=E2=80=AFPM Deepanshu Kartikey
-<kartikey406@gmail.com> wrote:
->
-> syzbot reports a slab-use-after-free read in clear_tfile_check_list()
-> during EPOLL_CTL_ADD when ep_insert() takes an error path that calls
-> ep_remove() before do_epoll_ctl_file() drains ctx->tfile_check_list.
->
-> ep_remove_file() decides whether to kmem_cache_free() a struct
-> epitems_head by testing v->next =3D=3D NULL, on the convention that NULL
-> means "this head is not linked on any check list". list_file() pushes
-> a head onto ctx->tfile_check_list by storing the previous list head
-> into head->next; when the list is empty that store is NULL, so the
-> head that ends up at the tail of the check list also has next =3D=3D NULL=
-.
-> ep_remove_file() then misreads the tail as "not linked" and frees it.
-> clear_tfile_check_list() later walks the list and dereferences
-> head->next on the freed object:
->
->   BUG: KASAN: slab-use-after-free in
->        clear_tfile_check_list+0x114/0x380 fs/eventpoll.c:2443
->   Allocated by task 5985:
->     ep_attach_file fs/eventpoll.c:1751 [inline]
->     ep_register_epitem fs/eventpoll.c:1833 [inline]
->     ep_insert+0x512/0x1820 fs/eventpoll.c:1876
->   Freed by task 5985:
->     ep_remove+0x155/0x2a0 fs/eventpoll.c:1135
->     ep_insert+0x1372/0x1820
->
-> Terminate ctx->tfile_check_list with EP_UNACTIVE_PTR (the existing
-> non-NULL sentinel used elsewhere in this file for inactive list
-> slots) so that next =3D=3D NULL unambiguously means "not on any check
-> list". list_file() stores the sentinel when the list is empty,
-> reverse_path_check() and clear_tfile_check_list() stop the walk on
-> the sentinel, and do_epoll_ctl_file() seeds ctx->tfile_check_list
-> with it. The guard in ep_remove_file() then correctly refuses to
-> free a head while it remains on the check list.
->
-> Reported-by: syzbot+69a3d7738ad3aa175caf@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D69a3d7738ad3aa175caf
-> Link: https://lore.kernel.org/all/20260523091107.61880-1-kartikey406@gmai=
-l.com/T/ [v1]
-> Link: https://lore.kernel.org/all/20260529042507.87593-1-kartikey406@gmai=
-l.com/T/ [v2]
-> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
-> ---
-> v3: Drop the (struct epitems_head *) casts on EP_UNACTIVE_PTR.
->     void * converts implicitly to typed pointers in C; the casts
->     were noise.
-> v2: Reuse the existing EP_UNACTIVE_PTR sentinel instead of adding a
->     new EP_TFILE_LIST_END define, per review feedback.
-> ---
->  fs/eventpoll.c | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
->
-> diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-> index a569e98d4a99..1756c5f489a0 100644
-> --- a/fs/eventpoll.c
-> +++ b/fs/eventpoll.c
-> @@ -472,7 +472,13 @@ static void list_file(struct file *file, struct ep_c=
-tl_ctx *ctx)
->
->         head =3D container_of(file->f_ep, struct epitems_head, epitems);
->         if (!head->next) {
-> -               head->next =3D ctx->tfile_check_list;
-> +               /*
-> +                * Terminate the check list with EP_UNACTIVE_PTR (non-NUL=
-L)
-> +                * so that head->next =3D=3D NULL unambiguously means "no=
-t on
-> +                * any check list". ep_remove_file() relies on that
-> +                * invariant to decide whether the head is safe to free.
-> +                */
-> +               head->next =3D ctx->tfile_check_list ? : EP_UNACTIVE_PTR;
->                 ctx->tfile_check_list =3D head;
->         }
->  }
-> @@ -1685,7 +1691,7 @@ static int reverse_path_check(struct ep_ctl_ctx *ct=
-x)
->  {
->         struct epitems_head *p;
->
-> -       for (p =3D ctx->tfile_check_list; p; p =3D p->next) {
-> +       for (p =3D ctx->tfile_check_list; p !=3D EP_UNACTIVE_PTR; p =3D p=
-->next) {
->                 int error;
->                 path_count_init(ctx);
->                 rcu_read_lock();
-> @@ -2438,11 +2444,12 @@ static int ep_loop_check(struct ep_ctl_ctx *ctx, =
-struct eventpoll *ep,
->  static void clear_tfile_check_list(struct ep_ctl_ctx *ctx)
->  {
->         rcu_read_lock();
-> -       while (ctx->tfile_check_list) {
-> +       while (ctx->tfile_check_list !=3D EP_UNACTIVE_PTR) {
->                 struct epitems_head *head =3D ctx->tfile_check_list;
->                 ctx->tfile_check_list =3D head->next;
->                 unlist_file(head);
->         }
-> +       ctx->tfile_check_list =3D EP_UNACTIVE_PTR;
->         rcu_read_unlock();
->  }
->
-> @@ -2601,7 +2608,7 @@ int do_epoll_ctl_file(struct file *f, int op, struc=
-t epoll_key *tf,
->         int full_check;
->         struct eventpoll *ep;
->         struct epitem *epi;
-> -       struct ep_ctl_ctx ctx =3D { };
-> +       struct ep_ctl_ctx ctx =3D { .tfile_check_list =3D EP_UNACTIVE_PTR=
- };
->
->         /* The target file descriptor must support poll */
->         if (!file_can_poll(tf->file))
-> --
-> 2.43.0
->
+Syzbot reported a WARNING in hfsplus_bnode_create. A maliciously crafted
+HFS+ image can request the creation of a duplicate bnode (e.g., bnode 0)
+that is mathematically within the tree->node_count bounds, but has
+already been hashed in memory. This bypasses initial boundary checks and
+triggers a WARN_ON(1) upon a duplicate hash collision.
 
-Hi Christian,
+This patch adds a clean state check in hfs_bnode_create. If a requested
+node is already hashed, the driver now safely rejects the operation
+with -EEXIST instead of tripping the kernel warning.
 
-Gentle reminder on this patch. Please let me know if anything else
-needed from my side
+Reported-by: syzbot+f83fa2cf571bd7650422@syzkaller.appspotmail.com
+Signed-off-by: Sainath Manda sainathmanda777@gmail.com
+---
+ fs/hfsplus/bnode.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-Thanks
+diff --git a/fs/hfsplus/bnode.c b/fs/hfsplus/bnode.c
+index f8b5a8ae5..5946baad2 100644
+--- a/fs/hfsplus/bnode.c
++++ b/fs/hfsplus/bnode.c
+@@ -626,12 +626,18 @@ struct hfs_bnode *hfs_bnode_create(struct hfs_btree *tree, u32 num)
+ 	struct page **pagep;
+ 	int i;
+ 
++	if (num >= tree->node_count) {
++		pr_err("hfsplus: attempted to create invalid bnode %u (max %u)\n",
++		       num, tree->node_count);
++		return ERR_PTR(-EINVAL);
++	}
++
+ 	spin_lock(&tree->hash_lock);
+ 	node = hfs_bnode_findhash(tree, num);
+ 	spin_unlock(&tree->hash_lock);
+ 	if (node) {
+-		pr_crit("new node %u already hashed?\n", num);
+-		WARN_ON(1);
++		pr_err("hfsplus: attempted to create already hashed bnode %u\n",
++		       num);
+ 		return ERR_PTR(-EEXIST);
+ 	}
+ 	node = __hfs_bnode_create(tree, num);
+-- 
+2.34.1
 
-Deepanshu
