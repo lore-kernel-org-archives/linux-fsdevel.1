@@ -1,237 +1,76 @@
-Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD7A33F8CA
-	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 17:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.139.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF4533F59E;
+	Mon, 22 Jun 2026 17:11:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782148057; cv=none; b=i0aHueyOcmQQHpU0Ly5iqZkYuivDfV+evqVIZawouaxpkvb6E2qzf3moWrSJ7+DSxj9LVzap8DCEFvFmQdx/zZ5OOPqicbF0ZI+n83E8IqjqUze5QRiP7CVsI3QMjjUWtxSBDtSSgCvGsne4vb1vvmcelfb6j66nUY7xJcw7ZgA=
+	t=1782148288; cv=none; b=fe4XVznKPEh0kb716XFdPe/6MOnh82U5T91ghEoCzCr5k1+JZ1xBZsnEOGTnK4PbU2pKHxDkYZTIOMYBtcDmT+EzJGU3erd15bKVjy5lKTUDnzU0kIRJ8kDzgf+f0ZUDBy4N0cDDhNaeOwo4JY3RThlZSOVErD2NT104UPckC2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782148057; c=relaxed/simple;
-	bh=YPns9BMqruoPxxfbzv9I+MeJ+qdUDzUn5e+bYYe7QOs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ekNCjZOfns0KMpDNDFqswi7NDuFIsogLMcWm4EnBXql6JKjk1ypV1FvA/+7k10bb4u96RCXH1hFfbAxExvmWaeZwSeLXTlkIvOYa/k4OQPa+FSoxAsTOZRVOXwZsWDgXmypxsT8Cn6GqEplLRBwbK+j7ixzmLFyFN9+GB+FLxy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=OgqViIyl; arc=none smtp.client-ip=148.163.139.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	s=arc-20240116; t=1782148288; c=relaxed/simple;
+	bh=PO9bH7as9Lfckat71NFCHlf43Tg26onzj9hIRC6mQvU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i4ZmJIW1s8I92ZnnpjX/N0YWQLTXzAUPhEf9RXkTm386Omx2SSGy/FcPKV58615bo5Bcg4iMi0V5N1UqWsfBtIuhkB0ubTG8SI8NBDDqX5PpJTwqJD1y1/FYkqN0TgS8+t2pKiqVtVBGy5Yq4ibYuinufhYKjOyQwCL7gnU7JVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=erB7xUSe; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="OgqViIyl"
-Received: from pps.filterd (m0167076.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65MGjGBV2295651
-	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 12:45:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=xdMm
-	a0yFZmweYohmNWNZydRh/c/N/8MYIz6Kz390Uw8=; b=OgqViIylG77wjYnZddWf
-	88YfH8KC/P+mTnqfevI0Too4wjycZ3p6FDhKIuH4gSeU6WIqYUin9SIwCTR6PaKZ
-	045ca89rm3XjdDbD88fhES2ssfW6qKxDwQin7jbln+eDXhZkvt3rzuDRgmWjHMRt
-	bXYHTOkWmIAFxgnpV4zpM7IRvRFLSqvlRe9rO0LhHgRiw57Lo6kU9bc2l1P547kk
-	e9qbhjV/IUmE4cBLJp0ph0MjvifIWO9Cbl1cu3blssXdXcGOmioJG41eIAP7Lg8m
-	yUF+mqa00i0REXrcqjro2yGFuw1WO8p8bDvLjCkeQhbdW59jQV35RatkKdld/Er1
-	Cw==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4ey8pk82u3-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 12:45:28 -0400 (EDT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-517d766e05aso1911281cf.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 09:45:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782146728; x=1782751528;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xdMma0yFZmweYohmNWNZydRh/c/N/8MYIz6Kz390Uw8=;
-        b=iPe9gHA0P9utE0zMmbrceyaU4v29WpniT2p7xJ0ZfxBIJvUyDHXATS7gC5WWDxYx12
-         PcS3eGp/stkNu6dzwQRTo8lBy/YteDA1zM48BATHqk1fmjrbYNTcp1rSK82+5aXrMLZr
-         dYMdNFsZbQTBGc7rHgkZ3AFnWrnJ6qeNUKC/pJAuw7fH6uRT/41qzz6Ap+e+/uYiVdvv
-         1nEy6p/FtmDoJU5UpgEVOLMeUAYVMqCGhr9MeGPu2mnZz8sYjZas8gsEEuKhQuXjHEKs
-         MnUPcD8dwEnlcpYiYC05ppZdSsDScBGBWfNmICjvq9zC6F1ymmFJzjXQHxmSovdvH8gI
-         zqoA==
-X-Forwarded-Encrypted: i=1; AFNElJ+pG1/iMwwjXQ6m5/4c02eq0tpRdoIvH7An9j3Tgsenl0Go+wzwFquh+aKSvGPD7lTzNO2Zhr5SwTums2Bb@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDBlO4VBqy6DTJo1SRXy60G12pRqe5tvNH6iPc8jJ2mQpHwzr1
-	xyI8OGS7Lkw2UOo3jgLScBRyxDfzvIUO0MZhDacJ1RPI6fCWS7OCnmfcQfQL+MVi+YEX8gmqcAb
-	LdrDbAJxi/sHv15ZAd3BHZFl2N+Fw4tRj1PEOM4jAqBbyZi4elXYHFdjMGKipruo=
-X-Gm-Gg: AfdE7cmXodQqro926E1sSnH1+DGz7I1RfVA0zSx32dyQHQ/5jRB+ABSWSvAdDfp0zd6
-	+EJh3UkUQeZUZWq5ko2xz4Upp8SSgrQ1bdV7e0jVzKZywKrMI8ND8C0PdC0zCwYi2QzL1twp6TZ
-	viQJYVHxOrG3YaDKk3NLZ7irUG3Nn6h5bQ5BbBBvYncpuJc2JvtaEyyKnB8mQ0XCwBJB/Nyso1H
-	SOJTF9ciz+xgTmesdEwz+ZWPs2hPCX3qJknhh+5xQ39t0IIwqx9asKJA1LSlg081WBl4OhpGOIo
-	k343kkpA4JzdfPRvVoCXKPrN86Yt0xeagfBugyyxY4O2YuRi0hW0PL14Gy3MDMVjzGsq9dbWHgi
-	DYTgNH3+kASx5EDF8FffwiLtnaXCb
-X-Received: by 2002:ac8:5703:0:b0:516:ed2c:9c75 with SMTP id d75a77b69052e-51a51a9be7bmr4274341cf.16.1782146727940;
-        Mon, 22 Jun 2026 09:45:27 -0700 (PDT)
-X-Received: by 2002:ac8:5703:0:b0:516:ed2c:9c75 with SMTP id d75a77b69052e-51a51a9be7bmr4273601cf.16.1782146727437;
-        Mon, 22 Jun 2026 09:45:27 -0700 (PDT)
-Received: from [10.206.129.146] ([129.236.229.236])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51a515ccdbbsm2022461cf.11.2026.06.22.09.45.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jun 2026 09:45:26 -0700 (PDT)
-Message-ID: <cc58a101-6d09-4e42-b99d-673271934c29@columbia.edu>
-Date: Mon, 22 Jun 2026 12:45:25 -0400
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="erB7xUSe"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=6Ob4n515gwjUACWmJ3PEmGOd7nhYBm2e6boWfItYT/o=; b=erB7xUSeC1VU5j7O3O4Dd9QPaI
+	+Q3OSYWIPxsxt/C9U1wyrVC3FWoIzshmgw5dy5Brh2q9nPsbxaEFYoOMnjoN4UyeGQ3NsR8ZGdl6q
+	Y7HX4WrENJjfKbcTznAl++DBjHOV7Omzl5/k/gu/K3xt20MIr2g+oqR9qLLo1FjoxG9XPX8D76Vxs
+	jLwhTzEILHFWDtobbQZOib1/ybqikxLSbhobg4ZmZxlijjbaIo/8B/CGOoasm+v3cSErUpKRtPxO6
+	KzNNPDnEEcxowK6CtNxZXpEP0GWk3liMGeAg8sB+9++YIvhgCg/ar7ldMaSfniFpyJ+kIHqeItjlH
+	ydu+JrNw==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wbiB8-00000004bnx-22CY;
+	Mon, 22 Jun 2026 17:11:22 +0000
+Date: Mon, 22 Jun 2026 18:11:22 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	Frederick Mayle <fmayle@google.com>,
+	Kalesh Singh <kaleshsingh@google.com>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, David Hildenbrand <david@kernel.org>
+Subject: Re: [PATCH mm-hotfixses] Revert "mm: limit filemap_fault readahead
+ to VMA boundaries"
+Message-ID: <ajlsum91zeh-oRz6@casper.infradead.org>
+References: <ajV0TbwEyaKMzoa6@lucifer>
+ <ajV49Fyogfa6aIjy@pedro-suse>
+ <CAJuCfpGdxsPDbxOwQFdY+Xt7mZGFvoKWmed6FteTongvFgjgww@mail.gmail.com>
+ <ajWAYBXHJniJAO4u@casper.infradead.org>
+ <CAJuCfpHF1qtpHZQzLmLi7xz06OWgBfduHqBHF_-0Vkx7OtBmcw@mail.gmail.com>
+ <ajWXEn7gECvgG7F5@pedro-suse.lan>
+ <CAJuCfpFfr_SQ4ZDFojOkDKWbO2dKdL3pUPA06B2ZC-usUnYRgA@mail.gmail.com>
+ <7ftrqtta2bw2xxtrzelrs46t7khr7tf2vmh2ur2mhdphtymlsr@rqbd3pfjxdp7>
+ <ajk-NMghY50F6Sli@lucifer>
+ <20260622095855.50e4276e331cb2d01db7183a@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/4] block: add task-context bio completion
- infrastructure
-To: Jan Kara <jack@suse.cz>
-Cc: Christoph Hellwig <hch@infradead.org>, Jens Axboe <axboe@kernel.dk>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Christian Brauner <brauner@kernel.org>,
-        "Darrick J. Wong"
- <djwong@kernel.org>,
-        Carlos Maiolino <cem@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Dave Chinner <dgc@kernel.org>, Bart Van Assche <bvanassche@acm.org>,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, Gao Xiang <xiang@kernel.org>
-References: <20260514-blk-dontcache-v6-0-782e2fa7477b@columbia.edu>
- <20260514-blk-dontcache-v6-1-782e2fa7477b@columbia.edu>
- <agq2KRd8RkP1TAf5@infradead.org>
- <ea1fa305-3ba2-4cfd-b7cb-86875032a300@columbia.edu>
- <ahPbaSEoNA755Nt3@infradead.org>
- <f1b8eeb6-2397-4f48-a21a-a023eb0c80ab@columbia.edu>
- <rkb5oei6cx2erbyininczz6ukbnquqheexhu7tznn5rslkkdn7@b4kpdyhdwdb6>
- <ahbq0RdUyLIPiItB@infradead.org>
- <80cb53f3-e7e5-4f96-bacc-f9fb7661d976@columbia.edu>
- <cuyklvhnt37xwk3jlr2iyyxxkzvt4bsf5iqv2gag4ixdicnbk2@rfqgjlclwesz>
- <4jtsjd2sbsn2w7fzfwb7wwowz72r4kc6345ckkkcjoxjbbwjwn@rkl44x3o3sgy>
-Content-Language: en-US
-From: Tal Zussman <tz2294@columbia.edu>
-In-Reply-To: <4jtsjd2sbsn2w7fzfwb7wwowz72r4kc6345ckkkcjoxjbbwjwn@rkl44x3o3sgy>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIyMDE2NCBTYWx0ZWRfX0FJr3TTpSfnl
- aR7dzhTjYyf+nNYtP/ER0+Ft+4jFCuJKWQTzGhZaOsWgwipKNc/FfcKthRPksw8pvJUGRXhZ3mL
- etlL50wxWCE2VlQ/Sd+rY57Sa++kIxSC7beRnHmSlsESsi2kFfzX+K7cFhyf3/tDUV0cWneA/RB
- MRSz8LUTlik6e6EEq7NuimmAm2tBdY1XpvrRX4DXDZ7BW0VapLSdWLpRv3qVQPbFr40/9GF3f1+
- kyeOj8gph/9mXZSszGsxjeAUEp3O2/YoHIFVqamWPlF70PO44Z4/+OhHqP2nMWyKJgUeYO9VFsi
- MD4dmEz5U93SuN1PcBGaRNAzrzkaMttxt50Y7qKjZVrkNp9ogUwwWzbyx21PSn+PPGMVYIoSX9f
- l7xWstZtdSrneofDm+fcje7BH/FIxHMHJcPUePIGBqj+CRVaaSrvFsCacpfylHWDg8KYUG+OOw3
- 24UToTnUuecfTTZ3seg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIyMDE2NCBTYWx0ZWRfX9e6IhEdjyfH2
- uDmhkq4UbqMmF94Y0NNuxP9EsuLqyyq/boKHJnLuRNlhGKI3cyO89qdOe4X3txCbxoYcc/IkQeV
- eAlWyFrIkeAjyVPrxCKkeraUHifmoPJJiVAy+rZsQN6A0Ues34Bv
-X-Proofpoint-GUID: Ng_dhkT3RoZ3uyCCBRaekZEyzMQa_KBC
-X-Authority-Analysis: v=2.4 cv=Fvc1OWrq c=1 sm=1 tr=0 ts=6a3966a8 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=Ne+/oOzQhjyqTAlfBCchDA==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=x7bEGLp0ZPQA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=Qm0qsxP7aFY2tkT6R2MF:22
- a=xMg8OGkpyC76Z8KfPXcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-ORIG-GUID: Ng_dhkT3RoZ3uyCCBRaekZEyzMQa_KBC
-X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11825
- signatures=596817
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=10 impostorscore=10 suspectscore=0 phishscore=0
- adultscore=0 lowpriorityscore=10 clxscore=1015 priorityscore=1501 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606220164
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260622095855.50e4276e331cb2d01db7183a@linux-foundation.org>
 
-On 6/18/26 10:26 AM, Jan Kara wrote:
-> On Mon 01-06-26 13:04:41, Jan Kara wrote:
->> On Fri 29-05-26 16:46:15, Tal Zussman wrote:
->> > On 5/27/26 9:00 AM, Christoph Hellwig wrote:
->> > > On Wed, May 27, 2026 at 11:42:28AM +0200, Jan Kara wrote:
->> > >> > I ran some experiments with fio on both XFS and a raw block device. Five
->> > >> > iterations each for 60s. Results below.
->> > >> > 
->> > >> > TLDR: Removing the delay doesn't significantly decrease user-visible
->> > >> > latency or otherwise improve performance, but does significantly reduce
->> > >> > throughput and increase context switches in some workloads (e.g. C).
->> > >> > I think it makes sense to leave the delay as-is. Thoughts?
->> > >> 
->> > >> Thanks for the test! One question below:
->> > > 
->> > > Thanks from me as well!
->> > > 
->> > >> 
->> > >> > Results:
->> > >> > 
->> > >> > Workloads (all `uncached=1`):
->> > >> >   A: rw=write     bs=128k iodepth=1   ioengine=pvsync2     # XFS
->> > >> >   B: rw=write     bs=128k iodepth=128 ioengine=io_uring    # XFS
->> > >> >   C: rw=randwrite bs=4k   iodepth=32  ioengine=io_uring    # XFS
->> > >> >   D: rw=rw 50/50  bs=64k  iodepth=32  ioengine=io_uring    # XFS
->> > >> >   E: rw=write     bs=128k iodepth=128 ioengine=io_uring    # raw /dev/nvmeXn1
->> > >> >   F: rw=write     bs=128k iodepth=128 numjobs=4
->> > >> >      + vm.dirty_bytes=64MB, vm.dirty_background_bytes=32MB # XFS
->> > >> > 
->> > >> > Mean ± stddev across 5 iterations:
->> > >> > 
->> > >> >     metric                     delay=1           delay=0     delta
->> > >> >     --------------------------------------------------------------
->> > >> > 
->> > >> >   A seq 128k qd1
->> > >> >     BW (MB/s)                4333 ± 27         4374 ± 34     +0.9%
->> > >> >     p99   (us)              36.2 ± 0.8        35.8 ± 0.4     -1.1%
->> > >> >     p999  (us)               3260 ± 75         3228 ± 29     -1.0%
->> > >> >     ctx-switches          184 k ± 59 k     3.68 M ± 65 k    +1903%
->> > >> >     cs / io                0.09 ± 0.03       1.86 ± 0.03    +1888%
->> > >> >     avg bios/run            80.4 ± 0.6         1.1 ± 0.0    -98.7%
->> > >> 
->> > >> So 1 jiffie delay is (with default HZ=1000) 1ms. That means for this load
->> > >> the completion latency should be at least 1000us but your results show p99
->> > >> latency of 36. What am I missing?
->> > > 
->> > > Yes, this looks a bit odd.  Unless there's multiple threads submitting
->> > > and somehow the completions get batched this should complete one
->> > > bio at a time and be the worst case for the delay scheme.
->> > 
->> > Sorry, I should've clarified - the latency here is the userspace-visible
->> > I/O completion latency (i.e. fio's clat value).
->> > 
->> > I ran again and traced to get the actual time from __bio_complete_in_task()
->> > to calling ->bi_end_io(). The results match the 1 jiffie delay now:
->> > 
->> >   metric                  delay=1  delay=0
->> > 
->> >   A seq 128k qd1
->> >     fio clat p99             38us     36us
->> >     bio cb p50             1.23ms    2.5us
->> >     bio cb p99             4.13ms   1.44ms
->> >     bio cb p999            5.01ms   2.63ms
->> 
->> So I'm clearly missing something fundamental as I don't see how can fio
->> reported IO completion time be lower than the end_io callback latency...
->> Ahh, it is the strange meaning of clat in fio in combination with sync
->> engine where clat means: "how long after the syscall has returned the data
->> is ready". Which for sync engine is immediately so the clat number is
->> meaningless. I think reporting 'lat' numbers from fio would make more
->> sense but whatever.
->> 
->> The bio cb latency indeed looks like what I'd roughly expect now. And
->> notice how the median latency of IO completion is 1.23ms in delay=1 case
->> and your throughput isn't abbysmal only because writes end up accumulating
->> in the page cache and writeback infrastructure ends up submitting a lot of
->> writeback IOs in parallel (you have ~80 bios to complete per run which
->> amortizes the latency to decent level).
->> 
->> However if you'd have IO that were to use BIO_COMPLETE_IN_TASK
->> infrastructure which doesn't have so many IOs in flight (like direct IO
->> with lower queue depth which has to do extent conversion on completion),
->> you would very much see the latency hit on your throughput as well. In the
->> extreme case of qd=1 direct IO you'd reduce the throughput to ~4MB/s.
->> 
->> Now I'm not saying the delay is bad - it is a tradeoff with clear wins in
->> CPU overhead your benchmarks are showing. I just wanted to point out
->> there's also the cost side which your benchmarks don't show very clearly.
->> So we might need to keep some stats showing how many IO completions we are
->> offloading per second on each CPU and switch to delaying the work only once
->> it crosses a threshold like 1000000/HZ per second or so (so we at most
->> double the IO latency by delaying the end_io callback).
+On Mon, Jun 22, 2026 at 09:58:55AM -0700, Andrew Morton wrote:
+> > > much as I personally find restricting mmap readahead to a VMA a sensible
+> > > thing to do). We just need to figure out how to improve the Android
+> > > usecase.
 > 
-> Any progress here? The patchset looks really promising so I'd love to have
-> it completed :)
-> 
-Sorry for the delay - got caught up with some other work and had to set this
-aside for a couple weeks, but haven't forgotten about this. Planning to pick
-it back up some time this week.
+> Would a helpful heuristic be to do what 7b32f64bc512 is doing, but only
+> if PROT_EXEC?
 
-Thanks,
-Tal
+I was wondering the same thing.  But I think it's right to back this out
+for now and try that after -rc1 so it gets some time soaking and
+bot-teesting.
 
