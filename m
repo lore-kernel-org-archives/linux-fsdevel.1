@@ -1,76 +1,176 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF4533F59E;
-	Mon, 22 Jun 2026 17:11:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782148288; cv=none; b=fe4XVznKPEh0kb716XFdPe/6MOnh82U5T91ghEoCzCr5k1+JZ1xBZsnEOGTnK4PbU2pKHxDkYZTIOMYBtcDmT+EzJGU3erd15bKVjy5lKTUDnzU0kIRJ8kDzgf+f0ZUDBy4N0cDDhNaeOwo4JY3RThlZSOVErD2NT104UPckC2I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782148288; c=relaxed/simple;
-	bh=PO9bH7as9Lfckat71NFCHlf43Tg26onzj9hIRC6mQvU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i4ZmJIW1s8I92ZnnpjX/N0YWQLTXzAUPhEf9RXkTm386Omx2SSGy/FcPKV58615bo5Bcg4iMi0V5N1UqWsfBtIuhkB0ubTG8SI8NBDDqX5PpJTwqJD1y1/FYkqN0TgS8+t2pKiqVtVBGy5Yq4ibYuinufhYKjOyQwCL7gnU7JVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=erB7xUSe; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F30135A53
+	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 17:15:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782148530; cv=pass; b=NsGW/OzRiyj9HtcjvyoVlnWpY1FAj5IamSXrKS69l/eshfMOYZjn/eqhmKsUsz+FgGWev2dWiRhWV/sQzF9ii/bGvzqYo7avtyGUnWoEIFwtJiTtlOx+FS8CJdovswBB8vfPJ4is+w149nXXBsNkFJYvXIK1X9MVv8khciiIs0E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782148530; c=relaxed/simple;
+	bh=jsOJdEA7JTwepZ4HyFdpCTUsNbIqQicD8iian1/afmI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MbNSbFbASq0BplG86XF4e1EtWBoE6OnlGGnI2BoqLJ0D99oUERmWYBk3g9O0xBMYVQnx9WjTYmfc9JYePrWG6NdXLNMvuHSs3vDfotc9NoR36KOsB3o0blGIV+YQyb/UD/lSm3uYy5MtEDZRepkxAjqfngGreh375Nk06+Fiidc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qNe1LjQx; arc=pass smtp.client-ip=209.85.167.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="erB7xUSe"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=6Ob4n515gwjUACWmJ3PEmGOd7nhYBm2e6boWfItYT/o=; b=erB7xUSeC1VU5j7O3O4Dd9QPaI
-	+Q3OSYWIPxsxt/C9U1wyrVC3FWoIzshmgw5dy5Brh2q9nPsbxaEFYoOMnjoN4UyeGQ3NsR8ZGdl6q
-	Y7HX4WrENJjfKbcTznAl++DBjHOV7Omzl5/k/gu/K3xt20MIr2g+oqR9qLLo1FjoxG9XPX8D76Vxs
-	jLwhTzEILHFWDtobbQZOib1/ybqikxLSbhobg4ZmZxlijjbaIo/8B/CGOoasm+v3cSErUpKRtPxO6
-	KzNNPDnEEcxowK6CtNxZXpEP0GWk3liMGeAg8sB+9++YIvhgCg/ar7ldMaSfniFpyJ+kIHqeItjlH
-	ydu+JrNw==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wbiB8-00000004bnx-22CY;
-	Mon, 22 Jun 2026 17:11:22 +0000
-Date: Mon, 22 Jun 2026 18:11:22 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	Frederick Mayle <fmayle@google.com>,
-	Kalesh Singh <kaleshsingh@google.com>,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, David Hildenbrand <david@kernel.org>
-Subject: Re: [PATCH mm-hotfixses] Revert "mm: limit filemap_fault readahead
- to VMA boundaries"
-Message-ID: <ajlsum91zeh-oRz6@casper.infradead.org>
-References: <ajV0TbwEyaKMzoa6@lucifer>
- <ajV49Fyogfa6aIjy@pedro-suse>
- <CAJuCfpGdxsPDbxOwQFdY+Xt7mZGFvoKWmed6FteTongvFgjgww@mail.gmail.com>
- <ajWAYBXHJniJAO4u@casper.infradead.org>
- <CAJuCfpHF1qtpHZQzLmLi7xz06OWgBfduHqBHF_-0Vkx7OtBmcw@mail.gmail.com>
- <ajWXEn7gECvgG7F5@pedro-suse.lan>
- <CAJuCfpFfr_SQ4ZDFojOkDKWbO2dKdL3pUPA06B2ZC-usUnYRgA@mail.gmail.com>
- <7ftrqtta2bw2xxtrzelrs46t7khr7tf2vmh2ur2mhdphtymlsr@rqbd3pfjxdp7>
- <ajk-NMghY50F6Sli@lucifer>
- <20260622095855.50e4276e331cb2d01db7183a@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qNe1LjQx"
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-48751bd4abeso1692916b6e.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 10:15:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782148528; cv=none;
+        d=google.com; s=arc-20240605;
+        b=UFcL6t6aU2uNzLITsM3HrDIeFZXvwiiuCHLqmab+hwsaOiDjROqAjG4CCfda2PGeQ8
+         Z/bz7Dy6/GV725BZlphG09Wyw0kJyhlH0ajHmCxpK72EGGIs1t+8IvfXNHVbaWOEjsZD
+         kh+P5nSpsk25FApP4+/M5u2gw/41ggXW96IqxUIvPa1ThRc1nEm2T1peWGp8q0+Q8CTK
+         lbqHKvbRJBxG9SkGyJyXdQFyW0HBp3qgyuHn7wjDB2U5gfilj1H4ausOpIveMX+XfWO4
+         H4sMDfpTu78w0xiGqv4OIlMSOaLk/3Czc++ktINj4MgVdeXwcS1CrWJTkgPzFopNNgBv
+         cR+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=t5y3USGnElGMdKgxAn2V/X+lCqw7tv4tGIpnPXtqDPM=;
+        fh=Vzap5ycBRrc65gFemyw5JuNgr4S2F7ZjhprTrpm7/r8=;
+        b=OWG2K7jiSJXVEzWh3V4lpZ7bs5ZvVTNIju4BcwPgVSrax0ul1mcrxkQ5RScHLZC9wy
+         vfTL27HoGwyuH2YKoBgUx3uwKjDzT1nyVzrzVb/PY1xAusA60t1VyPHGqAHoCGeI1WeJ
+         VIeDYxSzplKZuDM94yCdvVXqoFpY1eNpYs1g8TVHUsQTgjWfTQ825Kow1yRidS2WJBjl
+         y3oaf7wSvE9tmovrsx4oo/CJnQ0ANnvcgQ5tYwk75RQ5nc1rp0ZehjSCLhpS4gZWwDx8
+         iFjy0wes4o80A8i7JelpCk5Z44H3SEJSiNvp2b7kkBt9qgVv+exWdDMdur96rK/W6REz
+         Qzuw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782148528; x=1782753328; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t5y3USGnElGMdKgxAn2V/X+lCqw7tv4tGIpnPXtqDPM=;
+        b=qNe1LjQx7nztNMKfVohqoIkxDI6p12YgwuVYGjdwCexhEQq4GRX6509F2WEfeRPh9H
+         mUB7gSrrOMSQS9MPfrohD9zV+L+dhrW0nekG9zQtD7QMO3l4rU3fTNg9kWvLMqviH4eG
+         sh+CsJkL3v2PNRuqIuy2j9XeDIwLe3145HIqGFgYN8/EiVZiUm2rvO9DRNYvnPkuyDf0
+         EeKrpfiQnpz+aKInC6EnCLJTQMt+mLRE7oKv4qGl1i3yik1xVAZU7mVc5IrBIICiiN4T
+         +K+wyrJG+ZV/J3z1QC0bWKES3prdh3XI9aNC7zN9MciLQjseP80O+PdqnkNPdiRDxa/O
+         cWHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782148528; x=1782753328;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=t5y3USGnElGMdKgxAn2V/X+lCqw7tv4tGIpnPXtqDPM=;
+        b=h70nAmuwyj947PHpBmKEDVtfs9zJLyFoEJUWo0+x28eRA4Jkb3Lykf9iw+8v6qgjwZ
+         R6W4Lx4l+KYiTf8cxH8HoG1R8Qg/nn2ovjtCM8o62lMqUp7o5kTH6Brls+PwXVgwRdD1
+         p5qVZp0f40mn4KYZRRga0Z6hngDmLG552mieYLG7y/8Mhe1YICA1KuAD27kg3wyR4ENn
+         DEmni2YvnpI7xFUYuvRvebUDuiP+YNflg6UC1zg4AaDRRHAMzT8XFraYmV69jjufxUi7
+         DF4EPkaoCZIYRsXiKBVXBsNQ1JtJmn3nhwfXMxPRgxRpEx0LAoWk8XRah+W1hB/sMWYM
+         wl8w==
+X-Forwarded-Encrypted: i=1; AFNElJ+IUrB/hCUPE15g3nV9wKlM2fGzIp4V3B4j5zAdUU+HgV9EEI3/wHNJbxfSOJuQTz4FOOP8MOs9pJvJMC6p@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPS0F5u9HSgvGRqtlYs0rthLJTuSgBNxBoHyAeImbD86qWlDy7
+	+ETYjf54AHOy/hpA5veMdaRNsLuzQ/VkJ6+59ZV6nucZcCgcoOQ0Ql0we9EDu4RheYhKtHPXj8u
+	6bhuys8hVHAUaNZjtjcnKGkz8s5+li80=
+X-Gm-Gg: AfdE7cnFGsDr2j5IvmLpO+V3dn5UlFd66Oq1ODyh1/bR8HK41/VII06xl3PTnh40Orx
+	wmdEYqAYG5A1iQ1Ixen4zfpIZsWA36PqvepQ+QBKlpXt/qyg8/gDBJ0xMMiIlEW0BF2doYtO8yy
+	FfiZNJH1YO5HUqtI89q2NHhLNSn64sam81xB4iVDfInRrU6cARtuF1rzBH7tahihwdCWiYsa0bx
+	OfWXIUAKwR7zxvshrOV2BRx0W0px5eaf2dt+qL+bV/Zb5zKsvTIY9xWY+DxiMIBLgAc27HCk0VM
+	7kzJVwAuKIgAb+G0PPaXfjPEvvyC
+X-Received: by 2002:a05:6808:3442:b0:48a:c065:6fc9 with SMTP id
+ 5614622812f47-48ac06594fbmr9330170b6e.40.1782148528126; Mon, 22 Jun 2026
+ 10:15:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260622095855.50e4276e331cb2d01db7183a@linux-foundation.org>
+References: <20260622043934.179879-1-farid.m.zakaria@gmail.com> <sfv7zc6jboy2oxv7zuyofysas4ncbzenwsuzveiyduisfr6i7q@mx23er7uxdbg>
+In-Reply-To: <sfv7zc6jboy2oxv7zuyofysas4ncbzenwsuzveiyduisfr6i7q@mx23er7uxdbg>
+From: Farid Zakaria <farid.m.zakaria@gmail.com>
+Date: Mon, 22 Jun 2026 10:15:16 -0700
+X-Gm-Features: AVVi8Cc5PMYcnmdUaPpm4OauvSyD0_Ly6wyUiTL5YPonWZg26gteXmXywIU7NwI
+Message-ID: <CACCo2jkDuwy5w_yhX8833m+s-rY736pk8xtKjxg3_y_7BCOHeg@mail.gmail.com>
+Subject: Re: [PATCH 0/2] fs: support $ORIGIN in ELF interpreter paths
+To: Jan Kara <jack@suse.cz>
+Cc: kees@kernel.org, brauner@kernel.org, viro@zeniv.linux.org.uk, 
+	shuah@kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 22, 2026 at 09:58:55AM -0700, Andrew Morton wrote:
-> > > much as I personally find restricting mmap readahead to a VMA a sensible
-> > > thing to do). We just need to figure out how to improve the Android
-> > > usecase.
-> 
-> Would a helpful heuristic be to do what 7b32f64bc512 is doing, but only
-> if PROT_EXEC?
+On Mon, Jun 22, 2026 at 3:40=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
+>
+> On Sun 21-06-26 21:39:32, Farid Zakaria wrote:
+> > Currently, standard ELF and ELF FDPIC loaders require a fixed, absolute
+> > path to the dynamic linker/interpreter (specified via PT_INTERP). This
+> > creates significant inflexibility for relocatable dynamic interpreters,
+> > where binaries are packaged independent of global system paths.
+> >
+> > The primary goal of this patch series is to support relocatable binarie=
+s
+> > in Nix, where packages are stored in a read-only store (typically /nix/=
+store).
+> > Allowing the ELF interpreter path to be resolved dynamically relative t=
+o
+> > the binary's location via $ORIGIN enables Nix packages to be relocated
+> > without needing patchelf or wrapper scripts.
+> >
+> > For details on the design and motivation for this in Nix, see:
+> > https://fzakaria.com/2026/06/21/nix-needs-relocatable-binaries
+> >
+> > This series introduces support for resolving the $ORIGIN placeholder in
+> > the ELF interpreter path, bringing the kernel's binary loading behavior
+> > in line with user-space dynamic linker origin resolution.
+>
+> Thanks for the patches! Before dwelving into implementation details we
+> need to discuss whether something like this even belongs to the kernel.
+> Frankly to me this looks rather arbitrary and tied to the particular way
+> you've decided to setup your package management system. In particular the
+> usual answer for situations like these is to use namespaces which you
+> discount in your blog with: "If you are using tools like Bazel or Buck2
+> they likely already employ their own sandboxing via namespacing for build=
+s.
+> Integrating Nix into these ecosystems becomes incredibly impractical
+> because we run into nested user namespace and mount restrictions."
+>
+> I don't know enough details to really judge but it seems to me like you a=
+re
+> trying to workaround a mess in userspace with kernel changes.
+>
+> Anyway I'm pretty sure Christian will have more educated answer than me b=
+ut
+> I just wanted to express my skepticism about this approach and that perha=
+ps
+> you wait for feedback from him before spending more time on these patches=
+.
+>
+>                                                                 Honza
+> --
+> Jan Kara <jack@suse.com>
+> SUSE Labs, CR
 
-I was wondering the same thing.  But I think it's right to back this out
-for now and try that after -rc1 so it gets some time soaking and
-bot-teesting.
+Thank you for taking the time to look at my patch.
+I'm new to contributing to Linux mailing list so receiving feedback
+and responses is welcoming :)
 
+Having put forward the patch, I'm clearly biased toward thinking this
+support should exist in the kernel.
+If I had to think to strengthen my argument would be that the kernel
+should not be imposing how the interpreter is found on userland.
+Finding the interpreter relative to the binary would be useful for
+package deployment scenarios similar to app-bundles beyond systems
+like Nix -- which is the originating reason why $ORIGIN exists in the
+dynamic linker.
+
+To me, the gap is that prior to systems like Nix, the idea of wanting
+your dynamic linker to be part of your app bundle was not necessary
+but Nix models the dependency chain down to the loader. Such
+functionality would be even more correct for these other bundled
+solutions as well, making them portable across userspace glibc
+versions for instance.
+
+I see Jori Koolstra mentioned that Sashiko found feedback on the
+implementation.
+Is it worthwhile to amend the patch now or should I wait to hear back
+on whether such a contribution would be accepted?
+
+Jori:
+I'm not 100% clear on your question but the LLM assisted with some
+code generation and brainstorming.
