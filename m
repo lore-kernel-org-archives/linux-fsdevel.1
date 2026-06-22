@@ -1,322 +1,163 @@
-Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
+Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020135.outbound.protection.outlook.com [52.101.195.135])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC35E33B6D6
-	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 17:43:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782150193; cv=none; b=jMuoICCYsGDzvM9vsZDy1DpoOBg17qfd6p7yubeDXaCaMvVeQp0VwTT+ukNG+Tp/ISGyzCtoE50FFhUjHCIagLzMCVJEs/KYJuSWBWfSCVO7jxTuzoH5I+it6eHam5y1sby6jzHXnzN7EssVrrP81XJkj+r55qKl89nWUfXXQcY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782150193; c=relaxed/simple;
-	bh=i6XyfTKS0OC3DtGc4HnKa+aEtXtud1PYnmp4y37/BnI=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=o5MWht3BxtSSoLU739E2HC1oh4ZnLVpKHzgw7v0KPiNTvBk+Mlq6MRF6a8AIrqJdidVXSGUHzABayQsRFUOA7QVpqIT88zLVa5fN/JuL0adfRqg/vYSrC74IK8+qFFAR6fRYannXaUcpGnAAOTwARamUQ8ehQv+I92mp3au6U6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=p/PNwBfP; arc=none smtp.client-ip=67.231.153.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C361DF75B;
+	Mon, 22 Jun 2026 17:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.135
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782150414; cv=fail; b=ZeZrwa2UZyzXW42OCiLyVE+B0zRuxvSXVQBJFqnpVm3vaB1KXfCXKqX96f5W5o/SvZ6oXYp/YqQo/1UtA/nFb0mCBRJCQcxK+cdbyC93TYcPYcHWFbnYQpHo/3zd0YEKn8hz9BhRSVUvma4r+8lTItdj/LoWDKRWkgQ2I3Yt1U0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782150414; c=relaxed/simple;
+	bh=9Aggjln5ExEbrE/R+n5XjMDcDF5cjTxRFZ1yNdZD3/Q=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=MZhxeZrnQYByrsjrkaxri5q9/J5+CCSZo/ObBOKL5DHIMSwI9NAODeJhRE7Ru5FjwKOH1+Klu94ObdMM7RDSh6e3AcqbVhpn/XbAPXG5orFD2zDi2dQXiHzcBzxeaXh/4ipdj50bHlPn1TwHLBcR6xGN40xI9vWihlkPqBhq8To=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=j1+40ehX; arc=fail smtp.client-ip=52.101.195.135
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="p/PNwBfP"
-Received: from pps.filterd (m0528004.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65MHVU5B2357964
-	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 10:43:10 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=eHPTl4shIvkRyyHdVGqO++Nc71dmiBDeeS+bTk7Mqww=; b=p/PNwBfPMf/s
-	PKuTuAlMQ0OjWgur5CgHB8b8NMPahCJ1pdP8gZ7SEgOrCOgCOCmKSvV4Vi1uatm3
-	XJPfE8ucx9jEOvOXHcRLSRL6IHYnMMuSEb7bfA2giJytRyM/VUaGqcl+Q65iSBDs
-	y4oV5ASHaWRByGJdTB9UPxSOeSPJbFB+2X2u1OgbK+MrXJMQ1lMbDLunDPYOsAaw
-	g0vlrR/Zkaljw/aFa8dhpJD7bPeUdNkjq6i9ey4a89WpOZw3Ae85HQ5u+yvdsYEP
-	ZFRDDsFyVIwo2h4Jbn054JOCVncFgixh0dwC2Sjowc11TP8CZ6mxIQj3/rYF8QXe
-	skoT04RqAQ==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4excgdrh08-14
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 10:43:10 -0700 (PDT)
-Received: from twshared4973.01.snb2.facebook.com (2620:10d:c085:108::150d) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.41; Mon, 22 Jun 2026 17:43:02 +0000
-Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id 290C323A15DE8; Mon, 22 Jun 2026 10:42:47 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-block@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-CC: <dm-devel@lists.linux.dev>, <hch@lst.de>, <axboe@kernel.dk>,
-        <brauner@kernel.org>, <djwong@kernel.org>, <viro@zeniv.linux.org.uk>,
-        Keith
- Busch <kbusch@kernel.org>, <stable@vger.kernel.org>
-Subject: [PATCHv2 6/6] block: validate user space vectors during extraction
-Date: Mon, 22 Jun 2026 10:42:41 -0700
-Message-ID: <20260622174241.2299563-7-kbusch@meta.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260622174241.2299563-1-kbusch@meta.com>
-References: <20260622174241.2299563-1-kbusch@meta.com>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="j1+40ehX"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y2UJczmjs/TH5C64l5DcmloqkbdkzzwW/z4OlVkRhnp6FYlGCBi1KZH+dz/ByBJJ2WlpdwXAJvpVDqAR7FEUSKfKX6U3/rFL42mXd35JH1auhXZ4/RgjrFhLjT6xGq8wt6H1RfJ6vxBr5OUr3h+tcvqo6rx3nYAHxm2rTqnnbHjdJ0GdYKXlVDp89MVt8EJwvkIfOnKoAjBPJ65oelE+bEmRLu1VaPVbNYyZGKTRAtPuPcqtol1Wr+akjYKCzo4mM3IHyjVwhOXoof7G8wxtzMlNwkwLnA2bRfEydu7wVBkx5SkhcknCYphQoq45J30nx9jh7bMViPsV5bIwHNr56w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c+YNyqmW0vzwHITWKGJJx+eUYa8X7GNy+8UG9b9/Sgk=;
+ b=MI32pyOYO7MQUdsp0qj9EqLrZuypQi3IZDVHy4LVJ/thw0/NEQ7sWV6YrqsahgpHCghMiyPg8d0TQHfSJFMjKaG6DJTe1A57lGaNVPwByOgS7S7twsqfQjj00gQKnlizbRZWQKPEbbOOgrCbqeoEAVsaynb9g17vFByUVm4Bx8YAkvj6ECm6JxWaNvV0fanOe/UnQKJje3L8erffmCMgjYGK8AsZbPWyOCEEABAUhtF+TBA5VJH2O5KXQKCRm5pZNQFayRP4bViyOQ+N731uymQhets9dG1OmFEjUSWHloFIOR0+JkePMB07AcEHdahUYGArO5xNRvpEWMN6ZUpDrg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c+YNyqmW0vzwHITWKGJJx+eUYa8X7GNy+8UG9b9/Sgk=;
+ b=j1+40ehX/XhWhM1geoJQDRSXxuQWyWziRo90GmUwJSMHlpyfPqdnVtJVFl9O82TDuW/eB2wBm9YBqeZrxowz3zuYoJQT4XrLXWLcH0BuWcxaPeSVd5kELmU/zQfPqE1lRVBMSe/ixrs4t86F0IcnJkz+ehfY4LhHQw+09ToaUgI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO0P265MB5525.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:274::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Mon, 22 Jun
+ 2026 17:46:49 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0139.018; Mon, 22 Jun 2026
+ 17:46:49 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 22 Jun 2026 18:46:48 +0100
+Message-Id: <DJFRLFDNGQDS.AZYO7F05C9A4@garyguo.net>
+Cc: <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-fsdevel@vger.kernel.org>, <rcu@vger.kernel.org>
+Subject: Re: [PATCH v2 1/3] rust: sync: Add abstraction for
+ synchronize_rcu()
+From: "Gary Guo" <gary@garyguo.net>
+To: "Philipp Stanner" <phasta@kernel.org>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
+ "Daniel Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
+ <tamird@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Alexander Viro"
+ <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>, "Jan
+ Kara" <jack@suse.cz>, "Lyude Paul" <lyude@redhat.com>, "Paul E. McKenney"
+ <paulmck@kernel.org>, "Frederic Weisbecker" <frederic@kernel.org>, "Neeraj
+ Upadhyay" <neeraj.upadhyay@kernel.org>, "Joel Fernandes"
+ <joelagnelf@nvidia.com>, "Josh Triplett" <josh@joshtriplett.org>,
+ "Uladzislau Rezki" <urezki@gmail.com>, "Steven Rostedt"
+ <rostedt@goodmis.org>, "Mathieu Desnoyers"
+ <mathieu.desnoyers@efficios.com>, "Lai Jiangshan" <jiangshanlai@gmail.com>,
+ "Zqiang" <qiang.zhang@linux.dev>, "Christian Schrefl"
+ <chrisi.schrefl@gmail.com>
+X-Mailer: aerc 0.21.0
+References: <20260622173250.411377-2-phasta@kernel.org>
+ <20260622173250.411377-3-phasta@kernel.org>
+In-Reply-To: <20260622173250.411377-3-phasta@kernel.org>
+X-ClientProxiedBy: LO4P265CA0081.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2bd::9) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIyMDE3MyBTYWx0ZWRfX7mu/HtqJ1rHK
- kMFQabG6kmGWVj3f2E7Jb+AH5RuniEHp4mo++lR8JKmX1FG6OU+RRNmAOyfDoMzwjzI/iybLSxB
- QcxvfxgZDaf1xiMKb5EgySyiOJOeHN0=
-X-Proofpoint-ORIG-GUID: 4-D1mQK3GEGPg8DxKcUI_5QEIkRqjoO6
-X-Proofpoint-GUID: 4-D1mQK3GEGPg8DxKcUI_5QEIkRqjoO6
-X-Authority-Analysis: v=2.4 cv=GK841ONK c=1 sm=1 tr=0 ts=6a39742e cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=GbPsI2Ihf5RTnMjR_gZv:22 a=VwQbUJbxAAAA:8 a=sJVWJGQxNneOVQlFS3cA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIyMDE3MyBTYWx0ZWRfX50eKlfANRKKy
- fFrwllAqtcBoq1qxSkubBMUGtTYB6U7fVFzHDNDBw3Rq+Dsj4tPQaVdTiKuujbMOm2IlVgvvCmD
- sDNy3j1lqGa0ACnQ++0FIC6AdptsQUoMORtbcT41xoYe7VXX1ZOJzk+5w0SA8eOyeTkegTP8JRu
- 63rrmuP8E5kTXHe8da/UtIj032PCYTJv+eqKtPatX06RFSBA16+Irh10vZdagBsmyDNPC5ezhXZ
- xuGCZNnhw+WvrdGJzT3Qf4hqd7qTGR0j7Cb0g29lNZ5DyjUevNZewWJM7XzEGLJsQW4ruRPGDd9
- A3NvsGkOdZWHQqVBDKK+dOIz4m9Mo+joMSPmI9M38NqRiY/iLWMrEn97aZlyATw4tasW4vqPxS1
- YOHRaJ1GYCAllf0jh2oobBYu7RWtgCEsqg4Ker85VEoinluKZ5M+SHKFe+tsNx9ZSWq7dcwIZz8
- m6XtRU18n6vKfxOBbHg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-22_03,2026-06-22_01,2025-10-01_01
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO0P265MB5525:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8a01a4d2-acbc-444c-529e-08ded0863c86
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|7416014|23010399003|376014|10070799003|921020|4143699003|18002099003|22082099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	bwbYwfjwMS39yRReKsIdEAB+BZoamNQJOa9WUR7fIG8PteZjQ8Gv7+3Ozf1zu5wOxqSB2KHaEjkAf3NSZTChYieqofGHkyP2onC9MxIS0lP02KHlTDivxvAN7IA1KQjg50gyXHB3kzUzufYJyJJ6+aSBgoB5Jp+zJnYwU6IOh6IaeqLZn89WJ0Hh0LIcKLdlwbgHuCjlYujc+busgiv5bkQR6JdX3JmOpfcpxd4ng8pDXjFSi2af7jJ6rGyXtE/ySCqbzT0Nz6W5fzvcRWVhyWeeZwjy2tAr0I4RpLf5fnFU1gw+VlS0bL2RmsrS/51zIscE7KcF+TrF0jiFNtRjgbXlCNvc0zLMZN6CNPUEuz5oG0Aoq2QD8h4iOu70mvFLOkmAGqwqlNASCX2qu77xt/6bkxkRghXHwaNpdyYLEAEFuJbgTwJVVX4onilo8V9g6plXyYlerTMUbRXmsutO/KrzW8dA/qb0tBbM7JjLDU5/QcXrcZYnfNxkS3c7RLu2//XHqcu4XSAhykmjlXkKxCnk3y9lJXAZUuMSeM1Ol/uIC7Al4hOOQLCiM45JRZTeyQi29WmjcdvqHXVEbadJMKJjBEKhWfTK3/X6gg0DLe2dEUuYr7ZWSm1/U8MKPhzztXPstYvSI5552XsbU2Ua9kzz+0bAUp2ej7sbCEbkg4TgwArwFCV8eBNVLqb4wMqBKyqipQ9Iy72dEXzIhmCCIw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(23010399003)(376014)(10070799003)(921020)(4143699003)(18002099003)(22082099003)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Nkg4U1BFSS94d0g2Wi9qY0JDRGpmQ01DTGlNMmFqaHpnUmRIc0M4c2VBdTNN?=
+ =?utf-8?B?dHhBakdhZTBoa0wrQlJJVStRYVVkdjlrRTJiUE9hYk9JNGhmd3AxRitST2NO?=
+ =?utf-8?B?dTQwTVBuV3plYlkrV3ROcno0dVk3dVpSVmZWQk1weHVCUjdJRFh4ejlFSmQ3?=
+ =?utf-8?B?WFBSVjJlYkUxUzVEd2NWQ2M4MVBNMXV1b2VmMHF3YjU3T1MxU1ZFeE9xdmxY?=
+ =?utf-8?B?amo1OWl5SzYySk5SVGgvZ0I0dWwvOHg5eGtGKytDQk5kdzJORWthRUNMZTMv?=
+ =?utf-8?B?ZkV4amtrblhpYmRuM1RZakZlRS84YUR5T3IzdHhnWXJKWmtpRHk3RnNlT2Y1?=
+ =?utf-8?B?MUVFa0l3clFaNXdUbmRaWW9ldXJ3UXVqVEp2R3RLZ2w1STFicDVOUVZ3UHJa?=
+ =?utf-8?B?TnhNRU84UDdWd1dsQ1lJVEFNVjVQc1ZKSFRsTVMwb3dPZ05FV2Z0MlhLWWRr?=
+ =?utf-8?B?N3hMSmNyRnpwSlZkbm9YUjFXYW9VRDN4d1IrdjUxRVVCQlg3S1R2MmJiQno5?=
+ =?utf-8?B?MlBmbkt3djlac3c2eE5JOEJlUXRKcHpZdFlPVzZxZHR3dXJGMzQ4cVhWVXZj?=
+ =?utf-8?B?TFhmbEkrNWZ2N0h4WFpXcWJPQmpvT2NNSFVyMEtXMWV0QTA2RkpwVngrQys2?=
+ =?utf-8?B?cHZjTDZvSzl6d1RSUUZveUJDQitydk9YaHJYQ3VzaGVtWEFaR014YXdSckRI?=
+ =?utf-8?B?VUo1eEx3Y29wS1loaGxvbyszNmJ6bTlQMUZMTUkzd0ZlNE5qWjZLNjlPbU4z?=
+ =?utf-8?B?ZXo2VlByd0EyaGdrTGJUWnV0bHQxc01LWGhNRlhzRFB4S042czF4Vkc0QS9R?=
+ =?utf-8?B?ZDFGNzliYkhFS2c2QkhWSDdPNGhxM2xpdlBJcWtQWXRCSkhHa05ucytSYVBL?=
+ =?utf-8?B?aVRoWHEzdkpHdzhYb1BVREdTMktTMUhjN0hybVVCUEplWm9IWVJaSlZIUlJG?=
+ =?utf-8?B?OVJPbFBYb0dvNUU2WCsyUFg2dHUrY0Z3R29ZZEN4dkdxL2dDc2dHSXVycjl0?=
+ =?utf-8?B?Z1BjaG1yMkJmVVFvYXh4YjRtTlQzbmVWV1AySmdTQTBTaEtCbXBNNk14OGQr?=
+ =?utf-8?B?b01xQXMwT1AzT0RZSE5sQ3hKL0JRbTNidC9JbzJ6ZlVTVDU1YmhPRHdxUVVU?=
+ =?utf-8?B?WHlaQ0xDNXZDeTdKTjFpOHFHYVRKVnFqdFd4Vjc2M1lCNWc1SVNNbXZFa0JM?=
+ =?utf-8?B?M1ZzdUJTR0hYcjBKbER4VjV2am5Oci9YMm1PQ1JiVTE3d25qQXIrUDIyUnFT?=
+ =?utf-8?B?UThzcDRaMUFSRFdZNTljN0xPMmM5NHQzRXJzNXdQcndweG0rVlJLZ2FjMVhV?=
+ =?utf-8?B?OWl2RlZ6N1czMFA1YU5aMDBIRG14dXlseDZNRkkrZGVQdXRtOFRqRlJpQmFv?=
+ =?utf-8?B?eWVsMzg1VzEyQURaQU9DVmcydlpwVUVBbW9adXlONVdIdmxHYkVjL1JMTGl3?=
+ =?utf-8?B?dUtBOUdYZjNCSkhTTzBaRkI0UXo2SVkvckNqMHhtL3BhTCtqaGR5VElwNzBh?=
+ =?utf-8?B?a1NXSDJRVFd4dkFjSUVmY3BlQVo0cnhXV2ZPM0tPcUQybXdpNkhZRWJjT0Vv?=
+ =?utf-8?B?QmVRaXlMNFlVR28vSUxKdnRBVVJhODY1ZjBIUVlTMmgzemZyYVhEOXVaejEr?=
+ =?utf-8?B?cVNib2k0ems3MldWQm53YWo0MzBKMlNlSXNnVk5JOUEvL1U0OEpoRXVBSUl6?=
+ =?utf-8?B?QU9xZDlHM3VLUTA5Q0hhWG9BUkZzTHVraVR5MmhuK0h0a3g5UGZ3WGN5b21I?=
+ =?utf-8?B?T1JEY3VrMnFkTUJGbDBqcnJYVUNlRXlxNzlNWW96aUpTZUZtQ21UM04zSlE2?=
+ =?utf-8?B?YVpja2I2czNTZVhKWXpFck8wSmxITWg1eDc5L0toMTgycmVldzJ0M3BkYzRC?=
+ =?utf-8?B?MERsWkNNNFA1bWdTKy9TZXBGWUhDNEdTZ0JuellYbFBOWVZHMERkc0lQZVpX?=
+ =?utf-8?B?TkhsU2xnb1hpTzBNRGFZV3loeGpBeENNRlZtZlZ2K1lKK1NpbStsMEZkZDFF?=
+ =?utf-8?B?bmVrWmFVcFpWY2YzWVVoeElud3dJWGVDeUZFSmtGR0ptNk1ER3V1WkswdCt0?=
+ =?utf-8?B?QUdCNmllWHB1a01ZMGV1eithVzhwclRGSm9OdUJIRnppQUo5NXZEeGUvRklN?=
+ =?utf-8?B?TTRaUXdGWVNVK0IyRjhDS3loRUJ6Vm1tc1VaWXhLMTlUZURveWlGL0J2Ny81?=
+ =?utf-8?B?S0wycXN6dk84V2NQbUdweVFxS0ZqRFg5d0ZHdjZXOExzQ1lIRTZJczFGL21X?=
+ =?utf-8?B?T3REd3BJdEFKTTl2eThGMTJRa0pZRHE1YTFkZHh5TE5jWEt3VDdtQnp6Mm5h?=
+ =?utf-8?B?M1dVUWlOZDFPMFUyZTE0ZmtzOTFNWXo4cnowSTJhcGhhMHhEU0Rydz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a01a4d2-acbc-444c-529e-08ded0863c86
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2026 17:46:49.3923
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qGiAsn0CSMzOn9r2CxEsCrbmAa8Jb07RRBIhTGCsIfQKtBapK0dxiXv1mLvr4XT0p/oZnLWcTXAhR9vN7+OSkg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB5525
 
-From: Keith Busch <kbusch@kernel.org>
+On Mon Jun 22, 2026 at 6:32 PM BST, Philipp Stanner wrote:
+> synchronize_rcu() is a frequently used C function which is always safe
+> to be called.
+>=20
+> Add a safe abstraction for synchronize_rcu().
+>=20
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
 
-The bio-based drivers don't necessarily check the alignment split, and
-stacking block drivers don't always handle a misalignment detected after
-submitting the bio. Validate user vectors against the device's
-dma_alignment as the bio is built from the iov_iter, rejecting
-misaligned early with -EINVAL.
+Reviewed-by: Gary Guo <gary@garyguo.net>
 
-Cc: stable@vger.kernel.org
-Fixes: 5ff3f74e145a ("block: simplify direct io validity check")
-Fixes: 7eac33186957 ("iomap: simplify direct io validity check")
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- block/bio.c          | 50 +++++++++++++++++++++++++++++++++++++++++---
- block/blk-map.c      |  2 +-
- block/fops.c         |  1 +
- fs/iomap/direct-io.c |  1 +
- include/linux/bio.h  |  2 +-
- include/linux/uio.h  |  3 ++-
- lib/iov_iter.c       |  9 +++++++-
- 7 files changed, 61 insertions(+), 7 deletions(-)
-
-diff --git a/block/bio.c b/block/bio.c
-index f2a5f4d0a9672..4360149d4eba2 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -1220,10 +1220,39 @@ static int bio_iov_iter_align_down(struct bio *bi=
-o, struct iov_iter *iter,
- 	return 0;
- }
-=20
-+#ifdef CONFIG_DEBUG_KERNEL
-+static inline bool bio_iov_bvec_aligned(const struct bio *bio,
-+					unsigned mem_align_mask)
-+{
-+	struct bvec_iter iter;
-+	struct bio_vec bv;
-+
-+	for_each_mp_bvec(bv, bio->bi_io_vec, iter, bio->bi_iter)
-+		if ((bv.bv_offset | bv.bv_len) & mem_align_mask)
-+			return false;
-+	return true;
-+}
-+#else
-+static inline bool bio_iov_bvec_aligned(const struct bio *bio,
-+					unsigned mem_align_mask)
-+{
-+	/*
-+	 * The vectors are owned and laid out by the caller; we only forward
-+	 * them. Most callers are already aligned, but io_uring can place a
-+	 * user chosen offset through a registered buffer, where only the first
-+	 * vector may be unaligned.
-+	 */
-+	return !(mp_bvec_iter_offset(bio->bi_io_vec, bio->bi_iter) &
-+							mem_align_mask);
-+}
-+#endif
-+
- /**
-  * bio_iov_iter_get_pages - add user or kernel pages to a bio
-  * @bio: bio to add pages to
-  * @iter: iov iterator describing the region to be added
-+ * @mem_align_mask: the mask the source address and length must be align=
-ed to,
-+ *	0 for no requirement
-  * @len_align_mask: the mask to align the total size to, 0 for any lengt=
-h
-  *
-  * This takes either an iterator pointing to user memory, or one pointin=
-g to
-@@ -1242,7 +1271,7 @@ static int bio_iov_iter_align_down(struct bio *bio,=
- struct iov_iter *iter,
-  * is returned only if 0 pages could be pinned.
-  */
- int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
--			   unsigned len_align_mask)
-+			   unsigned mem_align_mask, unsigned len_align_mask)
- {
- 	iov_iter_extraction_t flags =3D 0;
-=20
-@@ -1251,6 +1280,10 @@ int bio_iov_iter_get_pages(struct bio *bio, struct=
- iov_iter *iter,
-=20
- 	if (iov_iter_is_bvec(iter)) {
- 		bio_iov_bvec_set(bio, iter);
-+
-+		if (!bio_iov_bvec_aligned(bio, mem_align_mask))
-+			return -EINVAL;
-+
- 		iov_iter_advance(iter, bio->bi_iter.bi_size);
- 		return 0;
- 	}
-@@ -1265,8 +1298,19 @@ int bio_iov_iter_get_pages(struct bio *bio, struct=
- iov_iter *iter,
-=20
- 		ret =3D iov_iter_extract_bvecs(iter, bio->bi_io_vec,
- 				BIO_MAX_SIZE - bio->bi_iter.bi_size,
--				&bio->bi_vcnt, bio->bi_max_vecs, flags);
-+				&bio->bi_vcnt, bio->bi_max_vecs,
-+				mem_align_mask, flags);
- 		if (ret <=3D 0) {
-+			/*
-+			 * A misaligned vector fails the whole I/O.  Release any
-+			 * pages pinned by earlier iterations before returning
-+			 * since this bio won't be submitted to release them.
-+			 */
-+			if (ret =3D=3D -EINVAL) {
-+				bio_release_pages(bio, false);
-+				bio_clear_flag(bio, BIO_PAGE_PINNED);
-+				bio->bi_vcnt =3D 0;
-+			}
- 			if (!bio->bi_vcnt)
- 				return ret;
- 			break;
-@@ -1377,7 +1421,7 @@ static int bio_iov_iter_bounce_read(struct bio *bio=
-, struct iov_iter *iter,
- 		ssize_t ret;
-=20
- 		ret =3D iov_iter_extract_bvecs(iter, bio->bi_io_vec + 1, len,
--				&bio->bi_vcnt, bio->bi_max_vecs - 1, 0);
-+				&bio->bi_vcnt, bio->bi_max_vecs - 1, 0, 0);
- 		if (ret <=3D 0) {
- 			if (!bio->bi_vcnt) {
- 				folio_put(folio);
-diff --git a/block/blk-map.c b/block/blk-map.c
-index 768549f19f97e..c9535efe1a913 100644
---- a/block/blk-map.c
-+++ b/block/blk-map.c
-@@ -274,7 +274,7 @@ static int bio_map_user_iov(struct request *rq, struc=
-t iov_iter *iter,
- 	 * No alignment requirements on our part to support arbitrary
- 	 * passthrough commands.
- 	 */
--	ret =3D bio_iov_iter_get_pages(bio, iter, 0);
-+	ret =3D bio_iov_iter_get_pages(bio, iter, 0, 0);
- 	if (ret)
- 		goto out_put;
- 	ret =3D blk_rq_append_bio(rq, bio);
-diff --git a/block/fops.c b/block/fops.c
-index b5c320da28123..84eeabd97e1f0 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -47,6 +47,7 @@ static inline int blkdev_iov_iter_get_pages(struct bio =
-*bio,
- 		struct iov_iter *iter, struct block_device *bdev)
- {
- 	return bio_iov_iter_get_pages(bio, iter,
-+			bdev_dma_alignment(bdev),
- 			bdev_logical_block_size(bdev) - 1);
- }
-=20
-diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-index b485e3b191daf..ff458aa12ae29 100644
---- a/fs/iomap/direct-io.c
-+++ b/fs/iomap/direct-io.c
-@@ -358,6 +358,7 @@ static ssize_t iomap_dio_bio_iter_one(struct iomap_it=
-er *iter,
- 				iomap_max_bio_size(&iter->iomap), alignment);
- 	else
- 		ret =3D bio_iov_iter_get_pages(bio, dio->submit.iter,
-+					     bdev_dma_alignment(bio->bi_bdev),
- 					     alignment - 1);
- 	if (unlikely(ret))
- 		goto out_put_bio;
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index 8f33f717b14f5..ce34ea49ef358 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -477,7 +477,7 @@ int bdev_rw_virt(struct block_device *bdev, sector_t =
-sector, void *data,
- 		size_t len, enum req_op op);
-=20
- int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
--		unsigned len_align_mask);
-+		unsigned mem_align_mask, unsigned len_align_mask);
-=20
- void bio_iov_bvec_set(struct bio *bio, const struct iov_iter *iter);
- void __bio_release_pages(struct bio *bio, bool mark_dirty);
-diff --git a/include/linux/uio.h b/include/linux/uio.h
-index a9bc5b3067e32..653dee76c0b33 100644
---- a/include/linux/uio.h
-+++ b/include/linux/uio.h
-@@ -391,7 +391,8 @@ ssize_t iov_iter_extract_pages(struct iov_iter *i, st=
-ruct page ***pages,
- 			       size_t *offset0);
- ssize_t iov_iter_extract_bvecs(struct iov_iter *iter, struct bio_vec *bv=
-,
- 		size_t max_size, unsigned short *nr_vecs,
--		unsigned short max_vecs, iov_iter_extraction_t extraction_flags);
-+		unsigned short max_vecs, unsigned mem_align_mask,
-+		iov_iter_extraction_t extraction_flags);
-=20
- /**
-  * iov_iter_extract_will_pin - Indicate how pages from the iterator will=
- be retained
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 273919b161617..8d5ca3e38522a 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -1886,6 +1886,8 @@ static unsigned int get_contig_folio_len(struct pag=
-e **pages,
-  * @max_size:	maximum size to extract from @iter
-  * @nr_vecs:	number of vectors in @bv (on in and output)
-  * @max_vecs:	maximum vectors in @bv, including those filled before call=
-ing
-+ * @mem_align_mask:	reject with -EINVAL if the source address or length =
-is not
-+ *		aligned to this mask
-  * @extraction_flags: flags to qualify request
-  *
-  * Like iov_iter_extract_pages(), but returns physically contiguous rang=
-es
-@@ -1897,14 +1899,19 @@ static unsigned int get_contig_folio_len(struct p=
-age **pages,
-  */
- ssize_t iov_iter_extract_bvecs(struct iov_iter *iter, struct bio_vec *bv=
-,
- 		size_t max_size, unsigned short *nr_vecs,
--		unsigned short max_vecs, iov_iter_extraction_t extraction_flags)
-+		unsigned short max_vecs, unsigned mem_align_mask,
-+		iov_iter_extraction_t extraction_flags)
- {
-+	unsigned long start =3D (unsigned long)iter_iov_addr(iter);
- 	unsigned short entries_left =3D max_vecs - *nr_vecs;
- 	unsigned short nr_pages, i =3D 0;
- 	size_t left, offset, len;
- 	struct page **pages;
- 	ssize_t size;
-=20
-+	if ((start | iter_iov_len(iter)) & mem_align_mask)
-+		return -EINVAL;
-+
- 	/*
- 	 * Move page array up in the allocated memory for the bio vecs as far a=
-s
- 	 * possible so that we can start filling biovecs from the beginning
---=20
-2.52.0
+> ---
+>  rust/kernel/sync/rcu.rs | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 
