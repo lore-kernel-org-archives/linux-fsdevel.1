@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37542D97B5
-	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 11:45:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993B525B0B2
+	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 12:01:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782128744; cv=none; b=nPrh6ftIPiqVp2zciyWhIzXAZy5WDhd659nvTRwpOcQ/oPFbVmdtLVEQK2pGWdh74beEZLGdMwLhyX7uKuKnSy/YuuQ4rkvHLkSU1vd+Xjcnoe1Edxtt+r30x42MK1ujt1mytGlx0bWtuVEs90vamC00soJJ7Hdtk5mtHqCJ0O8=
+	t=1782129664; cv=none; b=CoJWs/7O6ZwQPIpBHbci1F7Gav71yntRdJnu01YyZ59wyUbNohmxfuVa0bDFU2t3ig1wz+LqTPeYfSdBk81n14NoQtALbLN1qWMDOr0q4WgUkiC7bmW8bqi0n2YEWVm6+y/B3VzcGO9quCqH4+3GOB4HMlAlgPltRWVoK7iOgWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782128744; c=relaxed/simple;
-	bh=1cnMT5cebLhdHrbu/fKzRonQUwYI+skWWUucF6FcpuU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f4fXu5XWaYdeSNEyh5MHlbgtI9m91zCdulPmSm7s92aORgDB8t4f9RVhsH/wZRD2d/gvyk1FkzZFh7P8oEcouAg9Vw5kltoxjmZcKv/8qvu0sY3wZlMB1dMEfNUgB8BRpdl4w1URphxP+2NpfDWWnfRciC/lspHWhVbEW2NWGwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yy+7bd7w; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782129664; c=relaxed/simple;
+	bh=3ODw7hQqeASvVrhSF05NIoeIQp0IWU6TntcTJOwYzUI=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=UHdSxKphyHDccTQjMIkY8AkkRrRs/fzY2qZEeMZydzCa2uxXS0uX7FfTDKwpwkwhjzxy0Amywvcd5MQCwy/PCAsuIeQFM9AABZH2jV65rbeoOo1Pvq4VniCysPQrVcR6q70xIYo23CkIfAepWoNVh6I4zEeUZIrIcd/lOn1kdeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fp5uGzNY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yy+7bd7w"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C156D1F000E9;
-	Mon, 22 Jun 2026 11:45:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fp5uGzNY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D30401F000E9;
+	Mon, 22 Jun 2026 12:00:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782128742;
-	bh=9JBsCDSqStclSYNDRHkOppan6Uc/0g5zBLrT/zyXuAc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Yy+7bd7wWK11Akz64zjyb9ETsTQsEDXkuUsN6tcHwpwvYCMhDbHlrqwp1+bwrkKYq
-	 9KSylJf5mnx+Y4V7oJ6C1tWzsOeTt89DV14ERJ7HehMvWf1x9Hng4jYsiYa8Ti9UjY
-	 ZIuD5GfqcJBgqy+od90T0l2BwSc530EHDZvnfe5KIUvZHtpWX6tGecSYSTFAY9iszE
-	 tIq+nduxxxT2Kq9hdisGg+S0BiSc6rAxsoIEsEj+VXmjcQqaFdKYpdH4tD9dwm1dLP
-	 B/C1OAjBp+zksOnIFZBdV15EVBVXr/mqBKhCnemobrsyKy4TW5jNjyqxujKxUdJie9
-	 PZCbkX4fvk4ag==
-Message-ID: <93e9c643-f6fb-4377-ac5a-d91e203ad1a6@kernel.org>
-Date: Mon, 22 Jun 2026 13:45:38 +0200
+	s=k20260515; t=1782129663;
+	bh=Hb+xK1K2v16uboBzyh3TzN4n8wpgYjwMIIEfcewwUJg=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To;
+	b=fp5uGzNY7paUzv00kCFpF+NxNCdwOOIxnW9qL4vct2NCpHuFSbM4tyq5o7aFNuUQx
+	 3zM0af3z5joZrCn43s/96UJEyoSljgjaBMixwLm80KN2an3jg6+yLy/1grrDAxpCSu
+	 Y5d0FiaMiFc824QPjb7SAIXhSFLzUTrVoN5WvBTGSjbYeFtoo5iWBqJfGc1/OvSBJU
+	 Tt8v/3aA8QRU9dwStjFgV9Y0rciWhcf19Rzn7vQcHTw2MJR7C6gj6Eb+1LFaMSW0w5
+	 QGR4uId+6WhxK9cT4M/OBKlNslhd/mAevTq6qAk69nIIjtQ3q0HEpWnVKl1qAZLAXP
+	 jFiHPDTzlQ7Jw==
+Message-ID: <a6f2b88a-3a99-44c3-ac49-b8d9027d483d@kernel.org>
+Date: Mon, 22 Jun 2026 14:00:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -36,13 +36,14 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] fs/proc: fix KPF_KSM reported for all anonymous pages
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 To: Jinjiang Tu <tujinjiang@huawei.com>, akpm@linux-foundation.org,
  ziy@nvidia.com, luizcap@redhat.com, willy@infradead.org,
  linmiaohe@huawei.com, svetly.todorov@memverge.com, xu.xin16@zte.com.cn,
  chengming.zhou@linux.dev, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
 Cc: wangkefeng.wang@huawei.com, sunnanyong@huawei.com
 References: <20260622091539.836531-1-tujinjiang@huawei.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+ <93e9c643-f6fb-4377-ac5a-d91e203ad1a6@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -88,68 +89,77 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260622091539.836531-1-tujinjiang@huawei.com>
+In-Reply-To: <93e9c643-f6fb-4377-ac5a-d91e203ad1a6@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 6/22/26 11:15, Jinjiang Tu wrote:
-> Reading /proc/kpageflags for any anonymous page returns KPF_KSM set, even
-> when KSM is not in use. As a result, tools misclassify all anonymous pages
-> as KSM merged.
+On 6/22/26 13:45, David Hildenbrand (Arm) wrote:
+> On 6/22/26 11:15, Jinjiang Tu wrote:
+>> Reading /proc/kpageflags for any anonymous page returns KPF_KSM set, even
+>> when KSM is not in use. As a result, tools misclassify all anonymous pages
+>> as KSM merged.
+>>
+>> In stable_page_flags(), if the page is anonymous, then use (mapping &
+>> FOLIO_MAPPING_KSM) check to identify if the anonymous page is KSM page.
+>> However, FOLIO_MAPPING_KSM is FOLIO_MAPPING_ANON | FOLIO_MAPPING_ANON_KSM,
+>> (mapping & FOLIO_MAPPING_KSM) check returns true for all nonymous pages.
+>>
+>> To fix it, use FOLIO_MAPPING_ANON_KSM instead.
+>>
+>> Fixes: dee3d0bef2b0 ("proc: rewrite stable_page_flags()")
 > 
-> In stable_page_flags(), if the page is anonymous, then use (mapping &
-> FOLIO_MAPPING_KSM) check to identify if the anonymous page is KSM page.
-> However, FOLIO_MAPPING_KSM is FOLIO_MAPPING_ANON | FOLIO_MAPPING_ANON_KSM,
-> (mapping & FOLIO_MAPPING_KSM) check returns true for all nonymous pages.
+> Right,
 > 
-> To fix it, use FOLIO_MAPPING_ANON_KSM instead.
+> #define PAGE_MAPPING_KSM       (PAGE_MAPPING_ANON | PAGE_MAPPING_ANON_KSM)
 > 
-> Fixes: dee3d0bef2b0 ("proc: rewrite stable_page_flags()")
-
-Right,
-
-#define PAGE_MAPPING_KSM       (PAGE_MAPPING_ANON | PAGE_MAPPING_ANON_KSM)
-
-Which we later renamed to FOLIO_MAPPING_KSM.
-
-
-Before switching to manual flag checks, PageKsm() translated to folio_test_ksm()
-that checked whether the values actually matched:
-
-((unsigned long)folio->mapping & PAGE_MAPPING_FLAGS) == PAGE_MAPPING_KSM;
-
-
-This only affects /proc/kpageflags (well, and hwpoison inject on a weird testing
-interface), so it's not really that relevant for real workloads (debugging and
-testing).
-
-So not sure whether we should CC:stable. Likely not.
-
-> Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
-> ---
->  fs/proc/page.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Which we later renamed to FOLIO_MAPPING_KSM.
 > 
-> diff --git a/fs/proc/page.c b/fs/proc/page.c
-> index f9b2c2c906cd..cef8ded97610 100644
-> --- a/fs/proc/page.c
-> +++ b/fs/proc/page.c
-> @@ -173,7 +173,7 @@ u64 stable_page_flags(const struct page *page)
->  		u |= 1 << KPF_MMAP;
->  	if (is_anon) {
->  		u |= 1 << KPF_ANON;
-> -		if (mapping & FOLIO_MAPPING_KSM)
-> +		if (mapping & FOLIO_MAPPING_ANON_KSM)
+> 
+> Before switching to manual flag checks, PageKsm() translated to folio_test_ksm()
+> that checked whether the values actually matched:
+> 
+> ((unsigned long)folio->mapping & PAGE_MAPPING_FLAGS) == PAGE_MAPPING_KSM;
+> 
+> 
+> This only affects /proc/kpageflags (well, and hwpoison inject on a weird testing
+> interface), so it's not really that relevant for real workloads (debugging and
+> testing).
+> 
+> So not sure whether we should CC:stable. Likely not.
+> 
+>> Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
+>> ---
+>>  fs/proc/page.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/fs/proc/page.c b/fs/proc/page.c
+>> index f9b2c2c906cd..cef8ded97610 100644
+>> --- a/fs/proc/page.c
+>> +++ b/fs/proc/page.c
+>> @@ -173,7 +173,7 @@ u64 stable_page_flags(const struct page *page)
+>>  		u |= 1 << KPF_MMAP;
+>>  	if (is_anon) {
+>>  		u |= 1 << KPF_ANON;
+>> -		if (mapping & FOLIO_MAPPING_KSM)
+>> +		if (mapping & FOLIO_MAPPING_ANON_KSM)
+> 
+> 
+> Wonder whether we should just do
+> 
+> 		if ((mapping & FOLIO_MAPPING_FLAGS) == FOLIO_MAPPING_KSM)
+> 
+> To match what we have in folio_test_ksm.
+> 
+> (although I doubt we would reuse this flag for other purposes, likely
+> it's more future proof to check it like that)
+> 
 
+And just to mention: given that this function now operates on folio+page
+snapshot now, I think we could even stop doing this manual folio->mapping dance
+here and just use folio_test_anon() + folio_test_ksm(), as the values cannot
+change concurrently.
 
-Wonder whether we should just do
-
-		if ((mapping & FOLIO_MAPPING_FLAGS) == FOLIO_MAPPING_KSM)
-
-To match what we have in folio_test_ksm.
-
-(although I doubt we would reuse this flag for other purposes, likely
-it's more future proof to check it like that)
+But that should rather be a separate cleanup (and needs double-checking).
 
 -- 
 Cheers,
