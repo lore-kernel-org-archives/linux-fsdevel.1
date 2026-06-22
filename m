@@ -1,147 +1,107 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDC22DC78C
-	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 21:51:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782165112; cv=pass; b=cfx17+aBUASKKIEadiz7N8fRss0ipO/HpxmFPsmDlraU7RMrimR1y7wHDAYDb8rLoZ9VNDxr+PFxHqBPAr780k4uzFfcGaC/W5vMyTQqAHqS/tAZbKoGMnhZd4NpjTBX4hxz3MxDL2MvK82f2/qRvPvAyDauhfwqG21Vpn9FnqU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782165112; c=relaxed/simple;
-	bh=FpmQubblAsQpoxOUF1z2VQCYrco/qUz7f/N3cTh1srM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ogwma267f3TEbKoyOOYZR8r3jUdmmLg8MSfR8NWW+0IhYZyTPUdARJ3l42LMos11iisPuZ7w9HJM9fYFQEisOR3gBXU7aE6v8/l0dfmXkevpitQHHweZkrnf/lVpNXejC73GIGPmNAOIvVoO+3Ynds9kXQ1qrQ2P4pL+1OPYAWE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cv82m+W2; arc=pass smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34AB1369D65
+	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 22:28:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782167298; cv=none; b=E4kLyo8rce8KEH02OwvXc4OMSVrLcaCkIJvHHopqieoO48h2QHEuO+WW0ud+kFC/cDKDMMQRetpVGAj0rzAPh23YYH4Iqlmy405Zrc74P6gEUH+Rx5JURHbFtOrN/s7MRfPDA5d3kTdc2LzMu7UZ+ZsgRawPi8IipfjHZ2siYbo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782167298; c=relaxed/simple;
+	bh=SihlRBBTVD9/sumreJgofJm7EYPORk4CoiN8TCjcnAY=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=MFpRnD8fLcKoP+bGv8+5bgdSyd6S3DmdAbA8XqmCJXCrLPfW5unWmv+nAqiuJ+Dx87DKNK01AF5WuWGT4V2qOUjU4DcIcvMRlVUf3CuwBoRmn+CLONaUX/AYJaGeLDwoeQuP+vItZmT/3oS3Iz+M+K8s3WGKbV7D90bCxDOXj+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tavip.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GHV7hX84; arc=none smtp.client-ip=209.85.215.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tavip.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cv82m+W2"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4624c1409c9so3610273f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 14:51:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782165109; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JxwLz7WO+Fu0WfMH1RKJaQTsGrr4FEQV3jRTE4rKRd1PK3NqyG3BqQWRvsGFnq2p9z
-         lNUFc4kTZn8zIyfxKfm/VfJViAFoLQb0fHoOtVON+fpcuQRI+wTPhF4kReyZxQDyPkkj
-         FW1PU8+BcCQSxRxPUWmjKqotMDt0+JpDicpauI3I91xkvTXWFX75hsNn9Q1LsLjrTK55
-         D3Kubu0AZkaqBN1wFP57ACsEyfPQJfFUkqrzajk0JKB2MXb9dS/mZhhYrdjHNafQQpZd
-         edZub1PN43dwK1YrnibKMxqrFSgBqX0+1x0pF4/IQhX97YVyO+bPsE/wElHMw1uUueii
-         tHSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=xjEUxqC8qO1qlPJz0zZDAHSSpl23PeHKm/vTJBwS5AQ=;
-        fh=6vxItvfL5caB6E9AYm+WnBGyxaa9NrTlWKhcz/I+1gI=;
-        b=lNghxSlHCVeS/1epKBUle4EKGlzubQHY+xr20+d3JfXHv2p8Ar5IcXp90k8i8MAVs+
-         0VfescgrSh36+bF1aJ+roR7DbxVqA9Ywf2tIQDKve7sDuYHn/NqEXZ6WvSZxvkRvKOYn
-         jR/a6mj3zzQ3JdO0LNAv5A9Tle87Sg7VHrZqO7wcajrSqp3063th7N332eDbfc3d+Riy
-         cS8YN5o/jHVb0QR/K+g4ntVG3S7xJ8/9cDHwOJzj52fF8QjWQod2gRxSPHVnbLKUcpcE
-         ru/wI3nBUqUJC9BvbCYNheQbg1w+HYWoMOoclGzu+vx8vXHB9wz8OO7xq+Mzbc5IBalX
-         rs0Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GHV7hX84"
+Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c896349fe5cso6717970a12.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 15:28:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782165109; x=1782769909; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xjEUxqC8qO1qlPJz0zZDAHSSpl23PeHKm/vTJBwS5AQ=;
-        b=cv82m+W2uCvu1e8WbUbpgxrwU8cMGO4yzCec491jN77039Apc2iRdB7yyUB7aSXehr
-         RHrWVqrrW9M5TLTdeUeB1ysLnPsfFtL5j8iBoBgCEQywG/Enovv24ExVNHJSsuW/7VFt
-         wgzsYbtDR0S0Fy+u27THSEOnVUWhOCb1KD9cPOAlhguoGMrtacS0lpxjxbTmpjDrSipr
-         wq3CdSwCopnIGZiZE5rNhnjr4E9GyPxjWSa4MGwvt7GVCGd250g1KOGhcm8GP78fRg62
-         qPwRxfKTynujuU9kVZzzCQOSZX/TOuoRKvwJiAxf/jwR9JiewU3iiV+HdNT6JDq3jb+Z
-         tD2A==
+        d=google.com; s=20251104; t=1782167296; x=1782772096; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=fVIN0Q4+496+/EZ2BPsuqq3VkPJBQAckK67gmjBeUzE=;
+        b=GHV7hX84p7i39M/dJzX+Uufo6fjpaodtB9Cxt49JgOWcoh5TMOEG2K4UGbdxQzlBQZ
+         75ncEQ8rC08+PJhFBssca3d9GSOZyYnDn0WUai9jTcbUn7K1uz+FCwIw+eNWdqtXN/dN
+         mLjxPtJ11qzfshtPkKVtBLNwzsi5JEcDl8gvdzMh/JyfSfEwuWM2IuRkYrCMKVCKbaLE
+         uP93Vl0IA1UEpQJnlUCFQm4zkewGvchZG1lbJHy0kU76f5dlvuOgOpeNNOFW7wNyb7Ld
+         7Wuc/cxMDv1r/MC0f8IV9b03alLSURxwhKsgs3WFRta07hCL2+nrzXrgkAgR487vmoVZ
+         iOpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782165109; x=1782769909;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=xjEUxqC8qO1qlPJz0zZDAHSSpl23PeHKm/vTJBwS5AQ=;
-        b=p5VR5L+BmeM5RmdShVhAMfb8BPDTngepRrmUW4L2SGOXdupkBQGiWnwxq3F6WcSwmA
-         4A84HRIHi7qcKciG7YywhuJPrebpqRSxlnupKl4yMykuj2ggM61r06oC7pGEMYjzjEAY
-         87N5ihoLhQekq+c1wASrH6oJv7I4Lbn1IRQzb6Hnij9wjIZEpbCEplDKzwg7Xe/zot7X
-         T5pRJNSgUdHBDhzfrf+GrEsGB1R0O+81zq8g2YZEZIhT9KRYljG+tXsYZ/fve1/qvY9V
-         IaWZNNuVRhNX76H+2oJxZ9Au+YF5VYjl8UpuaVLb8fBu8lfsSPBo12kEeVZ69Gfvj9ck
-         mKnw==
-X-Forwarded-Encrypted: i=1; AFNElJ/U5qGbHFc7xQMI5gnNy5amiE2p+HAWoGFskC7qXBB1eR4cQAdaWF35/oS/BnTkeMZe0dYB9hOyY39IABlm@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXxjJyjJW2OLbe1HHwBOhO/FcrwgWyaRLd3vmyvtBWNg+2Ur9l
-	tgIPEIQJPGFY+XzWx1TdPP0JkeqSJ0p2gEYNV+THWI1docgJ4pO95CVlUdMg7s4eI/pqd7N/kxK
-	deUN6ENOPbX3dJpiuRWZEdFlfJY6E+bQ=
-X-Gm-Gg: AfdE7cnkoHgpABQUAY75syxaBVEDF4Q/wx1hE9GI2NxeOicVk7bmgM0V2Qg1i0OBUcb
-	B4a4mmuSKw7G9NuDoaPbzWAPxOTlXvzZhK5VdGoC+R/PybRu6mKBeLtcrvUB4/OtM2Gd+p9Xcxp
-	sP8K1BaxfCG03qGxEYTkQZbXqKTDOoGn7EWWQWLLOdr2434MsuC9baPQMjew9tH8dwD4X1jP1xU
-	2x1Mrfx7tNMsMOgg/vYQd/hc8jhF+QiyfvLbW+xph6KfqjdvOHYN+Gs3U978IPr/gv+TtA3Gms2
-	++prKIE9vic2jFp6ZGn/aBmNN68mmQ65aTRea8MF+8DRX1fZvG6M
-X-Received: by 2002:a05:600c:3f14:b0:490:b446:fb8 with SMTP id
- 5b1f17b1804b1-4924908ac6cmr166056525e9.11.1782165109012; Mon, 22 Jun 2026
- 14:51:49 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782167296; x=1782772096;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fVIN0Q4+496+/EZ2BPsuqq3VkPJBQAckK67gmjBeUzE=;
+        b=NzJFk7PDanPiBV5kEoNs16G1sA1VWAh1fQl/qxIULzrgTs4kIGw4r0HtK8VpORkmBr
+         NbS2SF2PqZm2gJi5yOBJ/q0vRrCsegN/KvkukkFiQQrjBabrM29tvFJMMTtBYGgtlAUh
+         rk+JLurRVz7ayuXIfAUyYK3Ln+Wj8Iv6wtR0SprzjbIOV6w/3UfwGCcl5yi2lEYNSuwL
+         MPPCfmMnRXUuWlIvkB5nMDqwZnXUPI8ZXzNT9JZkySh949PxqOZmpPBOBmpJiXcJq6/k
+         gUdv0AKadu9LtAPAtEnqmIsfYMGmlI4hGQVXOmQpu2Jrzqj8GcNW9ABKnIisN+/iQ/Br
+         IZmg==
+X-Forwarded-Encrypted: i=1; AFNElJ89CUFCSF2o3at4vDf6U0TC/N+WC6YEWseNvfhftFIxlbLV9bsTy+l+3TvRvMJzJ1Sj48+iBGK7XD89fdsm@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEZqQkXgUGrmLcJIKsRtK/HWYQ9j0k33N2u8ugBHiU+jwoFcOu
+	BlwQaL8BEHbeXBowPTFEyE3pZwb/hCkFg/4+/6HM0I/h5lhXcMxPddEI0MbBKNOAGSmhNemVy52
+	2ag==
+X-Received: from pfmb6.prod.google.com ([2002:a05:6a00:1146:b0:842:8ec2:ef16])
+ (user=tavip job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:4004:b0:845:4c76:e46a
+ with SMTP id d2e1a72fcca58-845952108a1mr266932b3a.3.1782167296263; Mon, 22
+ Jun 2026 15:28:16 -0700 (PDT)
+Date: Mon, 22 Jun 2026 22:27:55 +0000
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260619050105.439956-1-hch@lst.de> <20260619050105.439956-2-hch@lst.de>
-In-Reply-To: <20260619050105.439956-2-hch@lst.de>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 22 Jun 2026 14:51:36 -0700
-X-Gm-Features: AVVi8CevIgfNYxQYNyFNPu8nm9hh_BhFChXmfrfRf0pPdEn4KUuqrVDih803y8Q
-Message-ID: <CAJnrk1ad7Wxr9CB4P1=VZPUS_BRmHTTmRVXVgRjM628iFCZh0w@mail.gmail.com>
-Subject: Re: [PATCH] iomap: submit read bio after each extent
-To: Christoph Hellwig <hch@lst.de>
-Cc: Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, Kelu Ye <yekelu1@huawei.com>, 
-	Yifan Zhao <zhaoyifan28@huawei.com>, Ritesh Harjani <ritesh.list@gmail.com>, 
-	linux-erofs@lists.ozlabs.org, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.55.0.rc0.799.gd6f94ed593-goog
+Message-ID: <20260622222757.2130402-1-tavip@google.com>
+Subject: [PATCH net v3 0/2] vsock/virtio: fix msg_iter desync on transmission failure
+From: Octavian Purdila <tavip@google.com>
+To: netdev@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>, 
+	Arseniy Krasnov <avkrasnov@salutedevices.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, 
+	"=?UTF-8?q?Eugenio=20P=C3=A9rez?=" <eperezma@redhat.com>, Jakub Kicinski <kuba@kernel.org>, Jason Wang <jasowang@redhat.com>, 
+	kvm@vger.kernel.org, linux-block@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, 
+	virtualization@lists.linux.dev, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Jens Axboe <axboe@kernel.dk>, Octavian Purdila <tavip@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 18, 2026 at 10:01=E2=80=AFPM Christoph Hellwig <hch@lst.de> wro=
-te:
->
-> Currently the iomap buffered read path tries to build up read context
-> (i.e. bios for the typical block based case) over multiple iomaps as
-> long as the sector matches.  This does not take into account files
-> that can map to multiple different devices.  While this could be fixed
-> by a bdev check in iomap_bio_read_folio_range, the building up of I/O
-> over iomaps actually was a problem for the not yet merged ext2 iomap
-> port, as that does want to send out I/O at the end of an indirect
-> block mapped range.
->
-> So instead of adding more checks move over to a model where a bio
-> only spans a single iomap.  File systems can still create iomap
-> that span more than an extent if they want to build larger I/O.
->
-> Reported-by: Kelu Ye <yekelu1@huawei.com>
-> Reported-by: Yifan Zhao <zhaoyifan28@huawei.com>
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  fs/iomap/buffered-io.c | 22 ++++++++++++++--------
->  1 file changed, 14 insertions(+), 8 deletions(-)
->
-> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> index 8d4806dc46d4..7449cfd995d5 100644
-> --- a/fs/iomap/buffered-io.c
-> +++ b/fs/iomap/buffered-io.c
-> @@ -524,6 +524,14 @@ static void iomap_read_end(struct folio *folio, size=
-_t bytes_submitted)
->         }
->  }
->
-> +static void iomap_read_submit(struct iomap_iter *iter,
-> +               struct iomap_read_folio_ctx *ctx)
-> +{
-> +       if (ctx->read_ctx && ctx->ops->submit_read)
-> +               ctx->ops->submit_read(iter, ctx);
-> +       ctx->read_ctx =3D NULL;
+This series fixes a msg_iter desync issue in the virtio vsock transport
+that can lead to warnings and eventual -ENOMEM under specific failure
+scenarios (e.g. partial GUP failure during MSG_ZEROCOPY transmission).
 
-Does it make sense to move this line to the bio submit_read callback
-instead of unconditionally clearing it here? If we clear it here, I
-think this makes read_ctx only able to hold per-mapping state instead
-of also being able to hold persistent state across mappings. fuse
-currently uses read_ctx to hold per-request state (though this patch
-wouldn't break anything since fuse only ever returns one mapping
-covering the whole request).
+To fix this, we need to restore the msg_iter state on transmission failure.
+However, since virtio vsock transport can be built as a module, we first
+need to export iov_iter_restore.
 
-Thanks,
-Joanne
+Patch 1 exports iov_iter_restore.
+Patch 2 implements the msg_iter restoration in virtio vsock.
+
+Changes in v3:
+- Use EXPORT_SYMBOL_GPL (Jens)
+
+Changes in v2:
+- Use iov_iter_savestate()/iov_iter_restore() (Stefano)
+- Use a single restore point (Stefano)
+- Reverse xmas tree (Stefano)
+- Added comments in the code (Stefano)
+
+v2: https://lore.kernel.org/all/20260613000953.467473-1-tavip@google.com/
+v1: https://lore.kernel.org/all/20260609004809.1285028-1-tavip@google.com/
+
+Octavian Purdila (2):
+  iov_iter: export iov_iter_restore
+  vsock/virtio: restore msg_iter on transmission failure
+
+ lib/iov_iter.c                          |  1 +
+ net/vmw_vsock/virtio_transport_common.c | 13 +++++++++++++
+ 2 files changed, 14 insertions(+)
+
+-- 
+2.55.0.rc0.799.gd6f94ed593-goog
+
