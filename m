@@ -1,89 +1,58 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571C13A05C4
-	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 09:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D52A3A1E7E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 09:54:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782121509; cv=none; b=iEfDduxoqcWhq0Vmqi9SDiZw9G5N+ZjnITFc8M0U5uVk2n89geLWwvU90mZ+H73ASpdAJdHWJAc4TT8lpWLLM8lMFjBhjnxan4FF13JAWiTBep+1zrlC6eNUfCKAalpsBYwuu6S9ajnpzVH5PYPSpNnhryT5+U9W5b4IN6jhCWw=
+	t=1782122061; cv=none; b=AneeE6IAc934/rtTnjSSf74Cf/fT+XPvyhAo6U1PllrayAwQ0fgDH6kn6yh74xN+8L9D5Wna5tRmokR6ijkC3zUvljnJNzewxbDOL90Tzj92k0wNLeX7rr0Q8O+GxdT+K1TUPkV8B3QcsnwO6pwUuPZW8KaeehnwmXLzBcNn3bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782121509; c=relaxed/simple;
-	bh=zjjtBa53PJ/D9RGfSxEde79Db7Oj8b5OJICqQSHlqW8=;
+	s=arc-20240116; t=1782122061; c=relaxed/simple;
+	bh=6dZ4zYdErrEzfiYdiDusqu5liRpk/yR1ucrJzKf7SNU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lnw0/0fijFniNSYngAa1J8O+SI09jNUAm1bxeskW/FHtpJJaBnv6TlWeTKUkj9ud2cwZ050tKrmH0QGhi3F36a69IFVXiq4xi0q1w64K4L4UhIMlJUauHMbZ1rBalaeh3PDS3vEVJnROAaEG0t93MDQfLa2GFDmigHsRFC1wFI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=07fja9HP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=9XY7ja74; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=MOop4gpu; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7oEoYWGq; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=HbnwCyNdW2CbkRE8YSWfBeGa4dLyANLedbXEmx9OBV7nQG4eIQ0ohx0nhXEOYXZFKUSIUre3Nh4CfRfU73xnUtZHB2zW8eBO26Bk9DZc0Hnjlh5HGgk4lY3sLZmQaRgM+2SLKmGvQzeQRndV5iBCiK5SaszwAKs0S69JPbGYv7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=pA7DnmgH; arc=none smtp.client-ip=195.121.94.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="07fja9HP";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="9XY7ja74";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="MOop4gpu";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7oEoYWGq"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 411AD75C77;
-	Mon, 22 Jun 2026 09:45:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782121504; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=awkGMLcNQTXeoZYS3WSSrFuhu9UYarp2Pp+iMwFqadQ=;
-	b=07fja9HPTM9mrOeQ9kTjjZDpnykpKOVj2QGbffa2CkoCM2ZB1HokGz9okyUKeZzadJiW4o
-	Mkxbm+HrsFadSfZu4HHP5CXExQW28qGD9lNwcnlQFtMIY8YBIVXcwSJ+1y3bcs+Wxv+sLy
-	S3FO8An8KzUrF/fTxvPNa0VjahDJrDQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782121504;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=awkGMLcNQTXeoZYS3WSSrFuhu9UYarp2Pp+iMwFqadQ=;
-	b=9XY7ja74QqMm2l2oUaeWaUOIVYpUhMefDP2PUO5nXRYPxfjpGvK2p7rvcJ23v2HdNa+EuL
-	ePxOhdM31pwzbIDg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=MOop4gpu;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=7oEoYWGq
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782121503; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=awkGMLcNQTXeoZYS3WSSrFuhu9UYarp2Pp+iMwFqadQ=;
-	b=MOop4gpuAEmAdUk2XT1F0kBCviZXTkmFbodDR+hzYA1agCt2L0oqcVUtsm0UDhYNR4d/+W
-	kmMyAZzX8jX4uIe2RXGyRBQLlwFqG6qunCXyprlAg7/pcwRN0uWdLZQWyj7JJReWeLa9vu
-	GHwqP8gnrzlBrR+ZhvqHNVXNqcdXQmQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782121503;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=awkGMLcNQTXeoZYS3WSSrFuhu9UYarp2Pp+iMwFqadQ=;
-	b=7oEoYWGqzLPNkxotKFWQtvkIrjJTNMjiCPrPQzrvJRa1eFXeja11YfC6CUPAXMb/gdBgI4
-	FmhUFOKSvBSmVyAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 390B3779A8;
-	Mon, 22 Jun 2026 09:45:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GRTsDR8EOWrfRgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 22 Jun 2026 09:45:03 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id D5086A12DE; Mon, 22 Jun 2026 11:45:02 +0200 (CEST)
-Date: Mon, 22 Jun 2026 11:45:02 +0200
-From: Jan Kara <jack@suse.cz>
-To: Chi Zhiling <chizhiling@163.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
-	Chi Zhiling <chizhiling@kylinos.cn>
-Subject: Re: [PATCH 2/2] mm/filemap: reduce unnecessary xarray lookups in
- filemap_get_folios_contig()
-Message-ID: <wznnhy6lnmwiwb6yay3rnuq23ougftzkxlckdne2ujrfi57g24@ylpkr7snc6ho>
-References: <20260620062446.351475-1-chizhiling@163.com>
- <20260620062446.351475-3-chizhiling@163.com>
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="pA7DnmgH"
+X-KPN-MessageId: 2adeddfa-6e20-11f1-861a-005056aba152
+Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 2adeddfa-6e20-11f1-861a-005056aba152;
+	Mon, 22 Jun 2026 11:53:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:message-id:subject:to:from:date;
+	bh=WYB+eqZtyTPDHDqFA/TVCR7NlWihAxG6DNjwFRFTBik=;
+	b=pA7DnmgH6rlhfUQCpXYlI79jxsfH4rimPjNAm+HZgGflODLNdTkaX4xurSyY7FZUd2CZSvlA/3qYW
+	 VGHME4+tuQ4ybG9E2W8pUC2QQScYL5igOxw9uUq0uYsZ+6OWKYGJ46ApOk5j/H7/BV3EPWAJQAEL6n
+	 QiZ9DQr7F5xDg2nMlo81D7JLEjcUqTLnuAEJVj9p+5aoS9m9gIhrABljmG1dj38h89zUS0Qc4ZbWXF
+	 Q3J/A5HGgZntfdXdrMZx4Qn638DNnd0bVMOMF0fOJfT8/Int4tt5xCrlQS9zxtxEWpS1BSBCGG0d6y
+	 d7UaoDTawtYAZ6BNhOn3/1y1owRkGhw==
+X-KPN-MID: 33|s6Wv9LN1ctw9HwwAkq60iXR8T4RFFzsoMvf18EvtivVebnxoErdXWyg+mBfQNzt
+ JcB8gBRLVydk7A7QQppsb/kKHvLRMPEAu/QaKHmnyFOs=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|o3S6nZtqmTOz249rQvIuKjiBhadAu4toWXmgwvxawbt1t7IkATPkQ3/os34uKRa
+ X/uqlDigkjeOjG0/uek/mvQ==
+Received: from localhost (142-169-144-85.ftth.glasoperator.nl [85.144.169.142])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 2a610af9-6e20-11f1-a997-005056abf0db;
+	Mon, 22 Jun 2026 11:53:06 +0200 (CEST)
+Date: Mon, 22 Jun 2026 11:53:04 +0200
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Farid Zakaria <farid.m.zakaria@gmail.com>
+Cc: kees@kernel.org, brauner@kernel.org, viro@zeniv.linux.org.uk, 
+	jack@suse.cz, shuah@kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] fs: support $ORIGIN in ELF interpreter paths
+Message-ID: <ajkEA0yqLhRjlJT_@lt-jori.localdomain>
+Mail-Followup-To: Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Farid Zakaria <farid.m.zakaria@gmail.com>, kees@kernel.org, brauner@kernel.org, viro@zeniv.linux.org.uk, 
+	jack@suse.cz, shuah@kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260622043934.179879-1-farid.m.zakaria@gmail.com>
+ <20260622043934.179879-2-farid.m.zakaria@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -92,138 +61,182 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260620062446.351475-3-chizhiling@163.com>
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 411AD75C77
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[163.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[163.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim,suse.com:email,kylinos.cn:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+In-Reply-To: <20260622043934.179879-2-farid.m.zakaria@gmail.com>
 
-On Sat 20-06-26 14:24:46, Chi Zhiling wrote:
-> From: Chi Zhiling <chizhiling@kylinos.cn>
+Hi Farid,
+
+On Sun, Jun 21, 2026 at 09:39:33PM -0700, Farid Zakaria wrote:
+> Currently, standard ELF and ELF FDPIC loaders expect a fixed path to the
+> dynamic linker/interpreter (PT_INTERP). However, for systems utilizing
+> relocatable dynamic interpreters (such as Nix/store-based environments),
+> hardcoding this path is inflexible and breaks binary portability.
 > 
-> Apply the same optimization used in filemap_get_read_batch() by moving
-> the boundary check from the loop condition to before xas_next(),
-> avoiding an unnecessary xarray lookup and reducing branches in the fast
-> path.
+> Introduce support for resolving the $ORIGIN placeholder in the ELF
+> interpreter path. This maps the dynamic linker relative to the path
+> of the binary being executed, matching user-space origin resolution.
 > 
-> Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
+> To avoid code duplication, implement a shared 'resolve_elf_interpreter()'
+> helper in the VFS exec layer. For safety, limit detection strictly to
+> the prefix string "$ORIGIN" to prevent complex parsing exploits.
+> 
+> Assisted-by: Antigravity:Gemini-Pro
 
-Nice. Feel free to add:
+This isn't a requirement from the community or anything, but I always
+find it useful if I see an Assisted-by tag to know what assistence was
+actually delivered by an LLM. Otherwise we might as well add
+assisted-by tags for any editor.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Talking about LLMs, your patch has some issues flagged by Sashiko[1].
+Please take a look.
 
-								Honza
 
+> Signed-off-by: Farid Zakaria <farid.m.zakaria@gmail.com>
 > ---
->  mm/filemap.c | 29 ++++++++++++++---------------
->  1 file changed, 14 insertions(+), 15 deletions(-)
+>  fs/binfmt_elf.c         | 11 +++++++++--
+>  fs/binfmt_elf_fdpic.c   | 15 +++++++++++++--
+>  fs/exec.c               | 42 +++++++++++++++++++++++++++++++++++++++++
+>  include/linux/binfmts.h |  2 ++
+>  4 files changed, 66 insertions(+), 4 deletions(-)
 > 
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index 199c835c68bf..4ee591bc7e71 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -2270,10 +2270,11 @@ unsigned filemap_get_folios_contig(struct address_space *mapping,
->  	unsigned long nr;
->  	struct folio *folio;
+> diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
+> index 16a56b6b3..af11f96ae 100644
+> --- a/fs/binfmt_elf.c
+> +++ b/fs/binfmt_elf.c
+> @@ -872,7 +872,7 @@ static int load_elf_binary(struct linux_binprm *bprm)
 >  
-> -	rcu_read_lock();
-> +	if (*start > end)
-> +		return 0;
+>  	elf_ppnt = elf_phdata;
+>  	for (i = 0; i < elf_ex->e_phnum; i++, elf_ppnt++) {
+> -		char *elf_interpreter;
+> +		char *elf_interpreter, *resolved_interp;
 >  
-> -	for (folio = xas_load(&xas); folio && xas.xa_index <= end;
-> -			folio = xas_next(&xas)) {
-> +	rcu_read_lock();
-> +	for (folio = xas_load(&xas); folio; folio = xas_next(&xas)) {
->  		if (xas_retry(&xas, folio))
->  			continue;
->  		/*
-> @@ -2281,11 +2282,11 @@ unsigned filemap_get_folios_contig(struct address_space *mapping,
->  		 * No current caller is looking for DAX entries.
->  		 */
->  		if (xa_is_value(folio))
-> -			goto update_start;
-> +			break;
+>  		if (elf_ppnt->p_type == PT_GNU_PROPERTY) {
+>  			elf_property_phdata = elf_ppnt;
+> @@ -904,8 +904,15 @@ static int load_elf_binary(struct linux_binprm *bprm)
+>  		if (elf_interpreter[elf_ppnt->p_filesz - 1] != '\0')
+>  			goto out_free_interp;
 >  
->  		/* If we landed in the middle of a THP, continue at its end. */
->  		if (xa_is_sibling(folio))
-> -			goto update_start;
-> +			break;
->  
->  		if (!folio_try_get(folio))
->  			goto retry;
-> @@ -2293,29 +2294,27 @@ unsigned filemap_get_folios_contig(struct address_space *mapping,
->  		if (unlikely(folio != xas_reload(&xas)))
->  			goto put_folio;
->  
-> -		if (!folio_batch_add(fbatch, folio)) {
-> -			*start = folio_next_index(folio);
-> -			goto out;
-> -		}
-> +		if (!folio_batch_add(fbatch, folio))
-> +			break;
+> -		interpreter = open_exec(elf_interpreter);
+> +		resolved_interp = resolve_elf_interpreter(bprm, elf_interpreter);
+>  		kfree(elf_interpreter);
+> +		if (IS_ERR(resolved_interp)) {
+> +			retval = PTR_ERR(resolved_interp);
+> +			goto out_free_ph;
+> +		}
 > +
->  		xas_advance(&xas, folio_next_index(folio) - 1);
-> +		if (xas.xa_index >= end)
-> +			break;
->  		continue;
+> +		interpreter = open_exec(resolved_interp);
+> +		kfree(resolved_interp);
+>  		retval = PTR_ERR(interpreter);
+>  		if (IS_ERR(interpreter))
+>  			goto out_free_ph;
+> diff --git a/fs/binfmt_elf_fdpic.c b/fs/binfmt_elf_fdpic.c
+> index 7e3108489..e85727d71 100644
+> --- a/fs/binfmt_elf_fdpic.c
+> +++ b/fs/binfmt_elf_fdpic.c
+> @@ -230,7 +230,9 @@ static int load_elf_fdpic_binary(struct linux_binprm *bprm)
+>  
+>  	for (i = 0; i < exec_params.hdr.e_phnum; i++, phdr++) {
+>  		switch (phdr->p_type) {
+> -		case PT_INTERP:
+> +		case PT_INTERP: {
+> +			char *resolved_interp;
 > +
->  put_folio:
->  		folio_put(folio);
-> -
->  retry:
->  		xas_reset(&xas);
->  	}
-> +	rcu_read_unlock();
+>  			retval = -ENOMEM;
+>  			if (phdr->p_filesz > PATH_MAX)
+>  				goto error;
+> @@ -259,7 +261,15 @@ static int load_elf_fdpic_binary(struct linux_binprm *bprm)
+>  			kdebug("Using ELF interpreter %s", interpreter_name);
 >  
-> -update_start:
->  	nr = folio_batch_count(fbatch);
-> -
->  	if (nr) {
->  		folio = fbatch->folios[nr - 1];
->  		*start = folio_next_index(folio);
->  	}
-> -out:
-> -	rcu_read_unlock();
-> -	return folio_batch_count(fbatch);
-> +	return nr;
->  }
->  EXPORT_SYMBOL(filemap_get_folios_contig);
+>  			/* replace the program with the interpreter */
+> -			interpreter = open_exec(interpreter_name);
+> +			resolved_interp = resolve_elf_interpreter(bprm, interpreter_name);
+> +			kfree(interpreter_name);
+> +			if (IS_ERR(resolved_interp)) {
+> +				retval = PTR_ERR(resolved_interp);
+> +				goto error;
+> +			}
+> +
+> +			interpreter = open_exec(resolved_interp);
+> +			kfree(resolved_interp);
+>  			retval = PTR_ERR(interpreter);
+>  			if (IS_ERR(interpreter)) {
+>  				interpreter = NULL;
+> @@ -284,6 +294,7 @@ static int load_elf_fdpic_binary(struct linux_binprm *bprm)
 >  
+>  			interp_params.hdr = *((struct elfhdr *) bprm->buf);
+>  			break;
+> +		}
+>  
+>  		case PT_LOAD:
+>  #ifdef CONFIG_MMU
+> diff --git a/fs/exec.c b/fs/exec.c
+> index b92fe7db1..0978ae613 100644
+> --- a/fs/exec.c
+> +++ b/fs/exec.c
+> @@ -2024,6 +2024,48 @@ static int __init init_fs_exec_sysctls(void)
+>  fs_initcall(init_fs_exec_sysctls);
+>  #endif /* CONFIG_SYSCTL */
+>  
+> +char *resolve_elf_interpreter(struct linux_binprm *bprm, const char *elf_interpreter)
+> +{
+> +	char *pathbuf, *path, *slash, *resolved;
+> +
+> +	if (strncmp(elf_interpreter, "$ORIGIN", 7) != 0) {
+> +		char *ret = kstrdup(elf_interpreter, GFP_KERNEL);
+> +
+> +		return ret ? ret : ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	pathbuf = kmalloc(PATH_MAX, GFP_KERNEL);
+> +	if (!pathbuf)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	path = file_path(bprm->file, pathbuf, PATH_MAX);
+> +	if (IS_ERR(path)) {
+> +		kfree(pathbuf);
+> +		return (char *)path;
+> +	}
+> +
+> +	slash = strrchr(path, '/');
+> +	if (slash) {
+> +		if (slash == path)
+> +			*(slash + 1) = '\0';
+> +		else
+> +			*slash = '\0';
+> +	} else {
+> +		kfree(pathbuf);
+> +		char *ret = kstrdup(elf_interpreter, GFP_KERNEL);
+> +
+> +		return ret ? ret : ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	resolved = kasprintf(GFP_KERNEL, "%s%s", path, elf_interpreter + 7);
+> +	kfree(pathbuf);
+> +	if (!resolved)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	return resolved;
+> +}
+> +EXPORT_SYMBOL(resolve_elf_interpreter);
+> +
+>  #ifdef CONFIG_EXEC_KUNIT_TEST
+>  #include "tests/exec_kunit.c"
+>  #endif
+> diff --git a/include/linux/binfmts.h b/include/linux/binfmts.h
+> index 2c77e383e..17419cd3d 100644
+> --- a/include/linux/binfmts.h
+> +++ b/include/linux/binfmts.h
+> @@ -150,4 +150,6 @@ extern ssize_t read_code(struct file *, unsigned long, loff_t, size_t);
+>  int kernel_execve(const char *filename,
+>  		  const char *const *argv, const char *const *envp);
+>  
+> +char *resolve_elf_interpreter(struct linux_binprm *bprm, const char *elf_interpreter);
+> +
+>  #endif /* _LINUX_BINFMTS_H */
 > -- 
-> 2.43.0
+> 2.51.2
 > 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+
+Thanks,
+Jori.
+
+[1]: https://sashiko.dev/#/patchset/20260622043934.179879-1-farid.m.zakaria%40gmail.com
