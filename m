@@ -1,89 +1,40 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8AF53546E4;
-	Mon, 22 Jun 2026 04:07:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 137B83502A5
+	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 04:33:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782101229; cv=none; b=HwIBfGlQ3YeFGgRAdZvLMgNEnx1EJbPO+8Y2AoKYCg/MbYDZY9UXBBYMPxrCqsvFExZdNVJ/zolupaLBrOUSNdw5dmUoC7FsbIdYsl27bRuaoWjCXvOzY8z1DuEXxbdPwmpiBLWrvIyH+DPSpdifMYJ/GfU+vQElrvYlcJlWyL8=
+	t=1782102798; cv=none; b=UgpkxvCDCsC1v/hbXIlqs2kXW5oWtt1WaRzonQqHUu3ez3oE8taLWzS1dAS7bIGkr7DeNWRcQgFjE4DUSlb9H2/Z01yGYjvj8uu+NrY/dEyahdUtrVBMiQFHHg8HUpty/k5IhJIBSnlosaFZORTM+kXNwtI6NVsEEdW7Ze4sEcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782101229; c=relaxed/simple;
-	bh=m2LLV+BA5spGIUzLab9tWQ1i0a9h7daxqjgqeVb30rU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e8FswySvW4fe2WigvJDq2yhOKA+D/xf4CLlcvWwkHwq27QzV0MxpLyiobP0eLRRzl3JKS/st5Fj10yF8G+itSastOV8AjTUVePaoWtauHeYpCXBhHI1tX9rXve9dzVsDk2O3VAXJFFIPa5iRbnoaTDyskOwbrbzRV7txlkjh1no=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=RKNYTOPI; arc=none smtp.client-ip=91.218.175.181
+	s=arc-20240116; t=1782102798; c=relaxed/simple;
+	bh=6DEtv6yb5D3pU4W3a42V7jIWtD557aOuwYlsmACNTn8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dPprEpmG/JdDOlpNTwiR28gF5DQXuSnxP/RIMYXldLza5yNr6KT0dKwwzDG2xmQxMhrdO+uJYPJJcHxwNaMz6WuYd3x4z5J+bbtr7maFbaChmHJW7F9HicP0J2Witd5SVmOrLBIZRSSslXRjKbG7hTStIRn21DSxKloV3X3lvdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=J73Tuhvo; arc=none smtp.client-ip=95.215.58.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="RKNYTOPI"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="J73Tuhvo"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782101224;
+	t=1782102785;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vFaoYZTJfRDH9hDuVHVBgZkR1flChQcp5jR5STw0K2M=;
-	b=RKNYTOPII31SLlFemAcWqWE/TeS/HQJl7crveXc7GdzZz5I+TjbXRbbkZaQSvN3TmVtVYT
-	nSSDvsZk7jNyt6B/E4YmD4cYyLjd5RE2oOf/Hiy1FZ2NcIRHyitOaBZNUaYo6dvHseOLCi
-	TzRgynUCXY7wguiC8GKfv0LXaYiHBGc=
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=LqeobtkxZIczjC3bBaAr9HImKF/rei2wNFng7Y5jhs0=;
+	b=J73TuhvoABT/umMjUMDoOw/XnTyXYEE5/YjP1mgTcrUguIUwP17QV3gx3fICXFV9IPGuNB
+	tZniVKISrXoWEXYV+KKrhC2+YlbDYPB0T6LWAbBlw2qU+LtOv0o88xSgFb/zG5YKx/xmhz
+	q1Jlnb4JdnpR/gCl4Scnv2bdG58HPUU=
 From: Kaitao Cheng <kaitao.cheng@linux.dev>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Tejun Heo <tj@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Paul Moore <paul@paul-moore.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: David Howells <dhowells@redhat.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	linux-block@vger.kernel.org,
+	Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	linux-ntfs-dev@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org,
-	audit@vger.kernel.org,
-	bpf@vger.kernel.org,
-	netdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-perf-users@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	kexec@lists.infradead.org,
-	live-patching@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	rcu@vger.kernel.org,
-	sched-ext@lists.linux.dev,
-	linux-mm@kvack.org,
-	virtualization@lists.linux.dev,
-	damon@lists.linux.dev,
-	llvm@lists.linux.dev,
 	Kaitao Cheng <chengkaitao@kylinos.cn>
-Subject: [PATCH v3 2/7] llist: Add mutable iterator variants
-Date: Mon, 22 Jun 2026 12:05:32 +0800
-Message-ID: <20260622040533.29824-3-kaitao.cheng@linux.dev>
-In-Reply-To: <20260622040533.29824-1-kaitao.cheng@linux.dev>
-References: <20260622040533.29824-1-kaitao.cheng@linux.dev>
+Subject: [PATCH v3 6/7] initramfs: Use mutable list iterator
+Date: Mon, 22 Jun 2026 12:32:10 +0800
+Message-ID: <20260622043210.32069-1-kaitao.cheng@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -95,150 +46,35 @@ X-Migadu-Flow: FLOW_OUT
 
 From: Kaitao Cheng <chengkaitao@kylinos.cn>
 
-llist_for_each_safe() and llist_for_each_entry_safe() require callers to
-provide a temporary cursor even when the cursor is only needed by the
-iterator itself.  This makes call sites noisier than necessary for the
-common case where the loop body may remove the current entry but does
-not otherwise inspect the saved next pointer.
+The safe list iterator in dir_utime() requires a temporary cursor even
+though the loop body only deletes and frees the current entry.  The
+mutable iterator keeps the same removal-safe traversal semantics while
+hiding the internal cursor from the call site.
 
-Add llist_for_each_mutable() and llist_for_each_entry_mutable() variants
-that support both forms.  Callers may omit the temporary cursor and let
-the helper create an internal unique cursor, or keep passing an explicit
-cursor when the loop needs to inspect or reset it.
-
-Keep the existing safe helpers as compatibility wrappers so current users
-continue to build unchanged while new code can use the shorter mutable
-form.
+Switch dir_utime() to list_for_each_entry_mutable() and drop the unused
+temporary cursor variable.  No functional change is intended.
 
 Signed-off-by: Kaitao Cheng <chengkaitao@kylinos.cn>
 ---
- include/linux/llist.h | 81 ++++++++++++++++++++++++++++++++++---------
- 1 file changed, 65 insertions(+), 16 deletions(-)
+ init/initramfs.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/llist.h b/include/linux/llist.h
-index 8846b7709669..1c6f12411d5e 100644
---- a/include/linux/llist.h
-+++ b/include/linux/llist.h
-@@ -49,6 +49,7 @@
-  */
+diff --git a/init/initramfs.c b/init/initramfs.c
+index 20a18fcda48e..e226d7eb1257 100644
+--- a/init/initramfs.c
++++ b/init/initramfs.c
+@@ -167,8 +167,9 @@ static void __init dir_add(const char *name, size_t nlen, time64_t mtime)
  
- #include <linux/atomic.h>
-+#include <linux/args.h>
- #include <linux/container_of.h>
- #include <linux/stddef.h>
- #include <linux/types.h>
-@@ -143,12 +144,33 @@ static inline bool llist_on_list(const struct llist_node *node)
- #define llist_for_each(pos, node)			\
- 	for ((pos) = (node); pos; (pos) = (pos)->next)
- 
-+/*
-+ * llist_for_each_safe is an old interface, use llist_for_each_mutable instead.
-+ */
-+#define llist_for_each_safe(pos, n, node)			\
-+	for ((pos) = (node); (pos) && ((n) = (pos)->next, true); (pos) = (n))
+ static void __init dir_utime(void)
+ {
+-	struct dir_entry *de, *tmp;
+-	list_for_each_entry_safe(de, tmp, &dir_list, list) {
++	struct dir_entry *de;
 +
-+#define __llist_for_each_mutable_internal(pos, tmp, node)		\
-+	for (typeof(pos) tmp = ((pos) = (node)) ? (pos)->next : NULL;	\
-+	     (pos);							\
-+	     (pos) = tmp, tmp = (pos) ? (pos)->next : NULL)
-+
-+#define __llist_for_each_mutable1(pos, node)				\
-+	__llist_for_each_mutable_internal(pos, __UNIQUE_ID(next), node)
-+
-+#define __llist_for_each_mutable2(pos, next, node)			\
-+	llist_for_each_safe(pos, next, node)
-+
- /**
-- * llist_for_each_safe - iterate over some deleted entries of a lock-less list
-- *			 safe against removal of list entry
-+ * llist_for_each_mutable - iterate over some deleted entries of a lock-less list
-+ *			    safe against removal of list entry
-  * @pos:	the &struct llist_node to use as a loop cursor
-- * @n:		another &struct llist_node to use as temporary storage
-- * @node:	the first entry of deleted list entries
-+ * @...:	either (node) or (next, node)
-+ *
-+ * next:	another &struct llist_node to use as optional temporary storage.
-+ *		The temporary cursor is internal unless explicitly supplied by
-+ *		the caller.
-+ * node:	the first entry of deleted list entries
-  *
-  * In general, some entries of the lock-less list can be traversed
-  * safely only after being deleted from list, so start with an entry
-@@ -159,8 +181,9 @@ static inline bool llist_on_list(const struct llist_node *node)
-  * you want to traverse from the oldest to the newest, you must
-  * reverse the order by yourself before traversing.
-  */
--#define llist_for_each_safe(pos, n, node)			\
--	for ((pos) = (node); (pos) && ((n) = (pos)->next, true); (pos) = (n))
-+#define llist_for_each_mutable(pos, ...)				\
-+	CONCATENATE(__llist_for_each_mutable, COUNT_ARGS(__VA_ARGS__))	\
-+		(pos, __VA_ARGS__)
- 
- /**
-  * llist_for_each_entry - iterate over some deleted entries of lock-less list of given type
-@@ -182,13 +205,41 @@ static inline bool llist_on_list(const struct llist_node *node)
- 	     member_address_is_nonnull(pos, member);			\
- 	     (pos) = llist_entry((pos)->member.next, typeof(*(pos)), member))
- 
-+/*
-+ * llist_for_each_entry_safe is an old interface, use llist_for_each_entry_mutable instead.
-+ */
-+#define llist_for_each_entry_safe(pos, n, node, member)			       \
-+	for (pos = llist_entry((node), typeof(*pos), member);		       \
-+	     member_address_is_nonnull(pos, member) &&			       \
-+	        (n = llist_entry(pos->member.next, typeof(*n), member), true); \
-+	     pos = n)
-+
-+#define __llist_for_each_entry_mutable_internal(pos, tmp, node, member)	\
-+	for (typeof(pos) tmp = ((pos) = llist_entry((node), typeof(*pos), member), \
-+		member_address_is_nonnull(pos, member) ?			\
-+		llist_entry((pos)->member.next, typeof(*pos), member) : NULL);	\
-+	     member_address_is_nonnull(pos, member);				\
-+	     (pos) = tmp, tmp = member_address_is_nonnull(pos, member) ?	\
-+		llist_entry((pos)->member.next, typeof(*pos), member) : NULL)
-+
-+#define __llist_for_each_entry_mutable2(pos, node, member)			\
-+	__llist_for_each_entry_mutable_internal(pos, __UNIQUE_ID(next), node, member)
-+
-+#define __llist_for_each_entry_mutable3(pos, next, node, member)		\
-+	llist_for_each_entry_safe(pos, next, node, member)
-+
- /**
-- * llist_for_each_entry_safe - iterate over some deleted entries of lock-less list of given type
-- *			       safe against removal of list entry
-+ * llist_for_each_entry_mutable - iterate over some deleted entries of
-+ *				  lock-less list of given type safe against
-+ *				  removal of list entry
-  * @pos:	the type * to use as a loop cursor.
-- * @n:		another type * to use as temporary storage
-- * @node:	the first entry of deleted list entries.
-- * @member:	the name of the llist_node with the struct.
-+ * @...:	either (node, member) or (next, node, member)
-+ *
-+ * next:	another type * to use as optional temporary storage. The
-+ *		temporary cursor is internal unless explicitly supplied by the
-+ *		caller.
-+ * node:	the first entry of deleted list entries.
-+ * member:	the name of the llist_node with the struct.
-  *
-  * In general, some entries of the lock-less list can be traversed
-  * safely only after being removed from list, so start with an entry
-@@ -199,11 +250,9 @@ static inline bool llist_on_list(const struct llist_node *node)
-  * you want to traverse from the oldest to the newest, you must
-  * reverse the order by yourself before traversing.
-  */
--#define llist_for_each_entry_safe(pos, n, node, member)			       \
--	for (pos = llist_entry((node), typeof(*pos), member);		       \
--	     member_address_is_nonnull(pos, member) &&			       \
--	        (n = llist_entry(pos->member.next, typeof(*n), member), true); \
--	     pos = n)
-+#define llist_for_each_entry_mutable(pos, ...)				\
-+	CONCATENATE(__llist_for_each_entry_mutable,			\
-+		COUNT_ARGS(__VA_ARGS__))(pos, __VA_ARGS__)
- 
- /**
-  * llist_empty - tests whether a lock-less list is empty
++	list_for_each_entry_mutable(de, &dir_list, list) {
+ 		list_del(&de->list);
+ 		do_utime(de->name, de->mtime);
+ 		kfree(de);
 -- 
 2.43.0
 
