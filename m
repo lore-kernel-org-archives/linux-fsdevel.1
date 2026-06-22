@@ -1,107 +1,62 @@
-Received: from mail-244107.protonmail.ch (mail-244107.protonmail.ch [109.224.244.107])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B503403E4;
-	Mon, 22 Jun 2026 17:37:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D719F340A76;
+	Mon, 22 Jun 2026 17:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782149830; cv=none; b=G/CtuUbMCPX29Dl5FcTuiy0bJ57yV2KXV99U2jF3TtrSh0sJOYm59OBT0+4xMmGxAynuly4W4FAfwfuOJfTWv9NckCzwtAr0uoBrS5ndNLTTzzLI7MQlm4y5j2/k9ubJT0yO1We04Gz+5pErwUQpbYuYl/lKEqUxQtOraIfwt/k=
+	t=1782150046; cv=none; b=Dnwc3NN+tsfu5CrcgjZzrHiLKSNVGdP/+zKa6YRn3NolOJTninGu9z5arQCu9sp1XNv7I7FHfW12vM11GHkP6ogxbHzhULmtXBYZet84UemHlheUqgR/FOXzQb4pDwydupOgMUk3jpz58wIP/r/fIMLNeT83GcUx7G1yN2JsdzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782149830; c=relaxed/simple;
-	bh=4ltsw82Pt1YDANpneJ1yijvoWJCitYDFaHVz307d9xs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ElQqXEhMLsshK3NGVeae05ExASoOmKiroqRyFgCaHlT9w0tagqcbzEjGpkezMFzu75X0mIlNOG9Sk+lhwehLJgCKZQzL5UMdKIt2OA+5QMCdpbtvcaMB5cDELxNrF/KjTfhHTY36UzsysiW5bCbnJZEDFQlpm5LjAasedPT4PW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (2048-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=J9o1o25V; arc=none smtp.client-ip=109.224.244.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=onurozkan.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
+	s=arc-20240116; t=1782150046; c=relaxed/simple;
+	bh=JUSeqM1bQeVojq6ynLcv6oYJuATUJQTlI++PhCgIHeE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s3u/aZstE0nFDx2D6OJwt7YLKiD83ciETj3kuDb3OxWqDOsgVmdPMhAhXmqj2Az2JE1N0KesNbNmPds4XEm3kThz98r7jQ6EhupYCYD9yvz4FeFNBLMQDT6mtkOcfodABA5fOeCqInHE+iebgkKBGJHEMAT7zqxtZ78bcjzH+GM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FFOh0vOy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="J9o1o25V"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
-	s=protonmail; t=1782149818; x=1782409018;
-	bh=u8MdlkzvcCfAjnAo8dHkVy8AZAP7IufjjrnBhUqu0w0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:From:To:
-	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=J9o1o25VLxpBir90HfJOIeMnHFq8kO94EnpOfavqElBMfeiHtyaD1vKtCVEPns2cF
-	 9/t/VXhdBf4B3rPhf5D5BNVJhserCCyyHfxjwBdMjQL6OjA5cJ3ry15UTh6uwBfiou
-	 k6XwXHedEra9KFb1ODbogayX8ZcskcFmZ8VDWhmTyszedeubzKmP9Beq5ZISZ5q+2m
-	 rltuOT6ehD07uH214FpmQ6bgwPTQQRTmgjHFia4QNzmYajFE5Vgrb467zVHdt0VF9+
-	 K0aeF69djyU+rDC/wx5mMBdlGiAEWyAbKWGolOfS6CtUGqFEUHSsZHcfRBV/TQysbY
-	 4ayAD5/9E81iA==
-X-Pm-Submission-Id: 4gkb3k5MJKz1DFTD
-From: =?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
-To: Philipp Stanner <phasta@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Lyude Paul <lyude@redhat.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>,
-	Christian Schrefl <chrisi.schrefl@gmail.com>,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	rcu@vger.kernel.org,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
-Subject: Re: [PATCH v2 0/3] Add and use abstraction for synchronize_rcu()
-Date: Mon, 22 Jun 2026 20:36:44 +0300
-Message-ID: <20260622173649.19858-1-work@onurozkan.dev>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20260622173250.411377-2-phasta@kernel.org>
-References: <20260622173250.411377-2-phasta@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FFOh0vOy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F7E11F000E9;
+	Mon, 22 Jun 2026 17:40:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782150045;
+	bh=JUSeqM1bQeVojq6ynLcv6oYJuATUJQTlI++PhCgIHeE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=FFOh0vOy/lEk9odvSia/cvS78CcrHU13GhIU0QrPqX54/lEZKEYq8WCnoXjIRdtL5
+	 QprfGLQ/ZButtZ2HGqp0s1CjyPhr2+52KNxawgWzZ37a0bej/MkwsAZOr68gPDCwRz
+	 boSxBdsxaZJ2p6behZTFltXtAmxpNuM/5XZO9FJCFBi0b8kzatctnT7zICdJxfLzFS
+	 5vUY85oGwqrjdTv9wOmi6VYYkPozQ6/ZVEjUpPgMSr4gwxheiCsvLcexW5vSOojB9A
+	 YyP3/1YzOUU/ml7ugZk+z/hP6ihGX8A8Y0Bk8NDrQEHFXtVZ5Bkr+4PGSO//W9lvhX
+	 Cmjr1hL8pknZg==
+Date: Mon, 22 Jun 2026 11:40:43 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, dm-devel@lists.linux.dev,
+	axboe@kernel.dk, brauner@kernel.org, djwong@kernel.org,
+	viro@zeniv.linux.org.uk, stable@vger.kernel.org
+Subject: Re: [PATCH 1/1] block: validate user space vectors during extraction
+Message-ID: <ajlzm1V7Cr-T-A4f@kbusch-mbp>
+References: <20260617233235.1016063-1-kbusch@meta.com>
+ <20260617233235.1016063-2-kbusch@meta.com>
+ <20260618102627.GA23200@lst.de>
+ <ajPv7yOoYsR5O6kf@kbusch-mbp>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ajPv7yOoYsR5O6kf@kbusch-mbp>
 
-On Mon, 22 Jun 2026 19:32:48 +0200=0D
-Philipp Stanner <phasta@kernel.org> wrote:=0D
-=0D
-> Changes since v1:=0D
->   - Vertically format imports. (Onur)=0D
->   - Make the new function #[inline]. (Alice)=0D
->   - Add Alice's R-b.=0D
-> =0D
-> Philipp Stanner (3):=0D
->   rust: sync: Add abstraction for synchronize_rcu()=0D
->   rust: revocable: Use safe synchronize_rcu() abstraction=0D
->   rust: sync: Use safe synchronize_rcu() abstraction in poll=0D
-> =0D
->  rust/kernel/revocable.rs |  9 ++++++---=0D
->  rust/kernel/sync/poll.rs | 10 ++++++----=0D
->  rust/kernel/sync/rcu.rs  |  9 +++++++++=0D
->  3 files changed, 21 insertions(+), 7 deletions(-)=0D
-> =0D
-> =0D
-> base-commit: 43a393185e33e573a374c1d4f7ddf6481484ef8d=0D
-> -- =0D
-> 2.54.0=0D
-> =0D
-=0D
-For the whole series:=0D
-=0D
-Reviewed-by: Onur =C3=96zkan <work@onurozkan.dev>=0D
-=0D
+On Thu, Jun 18, 2026 at 07:17:35AM -0600, Keith Busch wrote:
+>
+> But since you mention it, __blkdev_direct_IO's handling does look wrong,
+> so maybe I can clean that up first.
+
+After careful reviewing, I think __blkdev_direct_IO() is mostly correct
+in what it's doing. It looks weird, but appears to be well optimized for
+the common case such that making it look more readable would produce
+less efficient execution code. So I'm not going to touch it, but there is
+a bug here with metadata mapping error handling that I'm going to
+propose in the next version.
