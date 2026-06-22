@@ -1,489 +1,177 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5C436C0CA
-	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 12:36:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADFAE3B3886
+	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 13:35:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782131776; cv=none; b=s7PQqCDbGXNJLEbIDW4NtV2c8TPJu3tketGvJmlQBLsMEHhauBBCBfIX3dJ8NnVWwiou6bimi0INpTdPZtE+qOMU6cJM2h7tHb1qlAZVC/Mn0vmHfMFtqQsjPY29wF160JgnjLB+J1cOdLSd6g4J2NiSiGfgATqZLCARtRaCLfw=
+	t=1782135358; cv=none; b=D0iL4hodw9Xmk58Wxz8G19QauKlJrckTKHY0ONIhGJ6QtMzivBLB2QNAWffyRyNJCs4HmOLKgDJi03aKP9k06oRai0rlzLx0fQuVhJrtz5cl5YUiNlT4Xg/mb5uaTaqmiAOB6FP+lbIUGu6NHRUhuvy5zKCldJoo79IbhhN/mzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782131776; c=relaxed/simple;
-	bh=qpFfNufTltMsfP2kvz/WUrjlJnHsjFzZYPBymw0wZ6s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PvcbxGcVJEwXnabNXcQxSDD5P6ph6BOjx+ACDBGyhXPXbGOcr1cTM/ECt6iI4LRYzViHzGOTZZR6PBDBkleQLW3Q3tOUd/pRnJQ2+ksR1FJW0vS92yMi6sKOo4Y1PtmMoMGufilF/WVw4196p7VKTtV2t9uCdgCGw3L6XiZPqqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X3IsLo01; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782135358; c=relaxed/simple;
+	bh=SBvpZlbgi6NWzmSj4Dr0aKTGqCZG+pQtHmST1nh4zYg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g9vrje5nUrjYRzwVT4uriaD7qGD2aco8Ft4gIbyuetkbbWGp/5iRZ9uVBvpDnVFgje/HE2hFZ5MsRViXQdWepeW+wz0u/bgKJGAWlYF2h7eVOD24CXOdsjfTJkb7yViuzk5inTnFbqW/AKCcHHRkhTuT9uSx11ldJqEvuGeETUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=c3IjOeoA; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pTObOnwz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=aCK/J0Dg; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=R9Y2ILYW; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X3IsLo01"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-842338c18e0so2952267b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 05:36:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782131773; x=1782736573; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dAicUiWmcxtWfFrz7xHY4q4KbcHywjjPpdLMeuIT8f8=;
-        b=X3IsLo01KXH2tXrEsbmpA1dXxpcEXIskiLzYNlKw0gaPk/s1M5otkLpH18Xp5lH2ah
-         lHzg+5U0lhRLFWSE1tA0N9ffZtTLQPiMxfrIngLTJ9e94lAhOGpjEdZyXf50tqOD9Smq
-         lgo+1z6NBSX0nO0Mr+sUvnGj6ShTgzwGX17C4WKDME3PtY8fy95S3h5Lk3SUt3MzCGL9
-         oEue+woO/oAIvruByNwGMFnSGOmOPVdnqT022TSK2zCnLzQQ/xIl59bbkHEU/wXO2obN
-         RWx+yOor8WTPdZUrYeGg/8GoRpcT6gyp868wLoRwwXmUWvp6rkzEAcsyOu5EaToRJDn9
-         CzDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782131773; x=1782736573;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dAicUiWmcxtWfFrz7xHY4q4KbcHywjjPpdLMeuIT8f8=;
-        b=QOPGYCxC+5zOU46NZ5Bi2tw75yLeYFeLd/Uu9mQaj/ecdlcpSsrCE4gsMuwPHj+BKd
-         SKy23dH2tDiOimEcJbA0D83aAdBf6donjao0XB6/CfW6E9/okZN1cq673BJHwh5vBk3a
-         wg5Gqu2zqXyLs9CHBKTKI052eRC0iSt5MGaLQyfCJSxqYIItUKJPxPeTIY8HVDETYfi7
-         GRo0lmkfQ+YXGJ9RGwC/3emvnwLEO71t2ZcvAO7s0wKugaJo9/97/7RgTKiZhzUF6dpu
-         Esmc5IdpkgfigFH2t4wqDUcRM1ILWHTgewL54EqdeT6EymLyjnyD0hnx0bFTF6w5fgCv
-         p7sA==
-X-Forwarded-Encrypted: i=1; AFNElJ8X5kdiLdyTuDKDT7rShMjc1tg74uHGYJuMMjQomxkDtGqOY7TSHVHw2d7FnCZprtZ4l3aUiFQy7lXLQqGT@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/nAiEBzVQrRxzQqAx6oRxgXF5fR8/5DsbzR2XjAK3AXOAhxlW
-	s7OUd21EX/hX1XopBi47YM+RzFrMtpPVcVuPwUfsnedP3BEBPv4DbSE32EFhXz7lr00=
-X-Gm-Gg: AfdE7ckruGFzLDSJTDoEVvqsftIsN/Go3oLgVKZ1HoTIFM0Do++5nJ6UCAT/PKS5f3Z
-	xSImjoK0MLENRr0vfWqSg+bbGB9EPRmX+zbHO0FKIXxr63wSldN+FZAaFMIU35yMhwwOPf+8RZp
-	Ns3dPVl4JJqg2Nwd2+HmRMl7ro/Qaf31s9hoOI5igGpYwOjvwsFMtRctUdpvs5gOiTz7nkmAvZj
-	5o7XPCKuYgtmtzTc4uzPnIcMSN10NxWDvbAPJAXWBXP9Tgl/J5Qm3dQUnwHTjxNpGm7RcWq9vGq
-	gbK3tWq0jvCiWheGDU8vD6TS3rwK+kPIT4wyo6IRMrC3Xcs5iAsEeh8K8VLL+jCRvBxdPz+Cn+A
-	EbFTW3X7kbAd8EFIQmOnEZXYzIcYQIfzQTwA3+h7+zMI0o7+edbXl2azyfP4PI5bTqxmrJZE6Dm
-	zshnDjuaVrJxca+OJcJ5h06T+QtkhZ7wgY
-X-Received: by 2002:a05:6a00:a204:b0:845:3912:dd4d with SMTP id d2e1a72fcca58-84550887f12mr15243755b3a.31.1782131772804;
-        Mon, 22 Jun 2026 05:36:12 -0700 (PDT)
-Received: from [100.125.248.95] ([124.70.231.46])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84564d8dddbsm7557367b3a.19.2026.06.22.05.36.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jun 2026 05:36:11 -0700 (PDT)
-Message-ID: <b0781809-4759-4e12-be17-71555b764f48@gmail.com>
-Date: Mon, 22 Jun 2026 20:36:02 +0800
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="c3IjOeoA";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pTObOnwz";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="aCK/J0Dg";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="R9Y2ILYW"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D277275CC2;
+	Mon, 22 Jun 2026 13:35:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1782135355; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=klHx9ZWC+iv1arsVCPKl7bjBSJ7l+Dg5khZq7zu+UWs=;
+	b=c3IjOeoAiqHBStIClfAkdBrQ81syPvT60HMpyaCi8OCJO7SRqMspy88/oqPJPyNe7FfpJD
+	Kb6/2PAOfqTrF1WFj63A+c200oC1vNbyoGP/aOf84FEAjzbXYcNWWIoB9QXhwdLGbmP+67
+	2pMzcebI1Nmju9mSahIYbkamOn9F28g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1782135355;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=klHx9ZWC+iv1arsVCPKl7bjBSJ7l+Dg5khZq7zu+UWs=;
+	b=pTObOnwzJKLeZNkaE+dbeKEhi3V/oOUzjBkVEYEasSKXX+RDKXM2xiqCox86wO155vzeHo
+	Qw/Jz1E2aTjZBUDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1782135353; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=klHx9ZWC+iv1arsVCPKl7bjBSJ7l+Dg5khZq7zu+UWs=;
+	b=aCK/J0DgzlDu0PkQWF53wPRQemLRiciaQEpCAYcnBmb35l5RhbllXz5eReXSW22M/N5M4S
+	oDu93z93H60JJ5oSkB0p19x7Iq28s9Q8uJB3nKqu+RGmDFDrWIRWVtOs+Z5m25wrm+YlNT
+	JeHcCHymlwqZ+raJ0kFyj6V9N/yY00A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1782135353;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=klHx9ZWC+iv1arsVCPKl7bjBSJ7l+Dg5khZq7zu+UWs=;
+	b=R9Y2ILYW4cwgfwgw0UOJGwlHo6W4aIaPAQKOAYw8Ww+Rf6CRGBYsJiIi/EmVu2qXEVFP0u
+	pHijboeLS4BrhHCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C6698779A8;
+	Mon, 22 Jun 2026 13:35:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rn1tMDk6OWqbLAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 22 Jun 2026 13:35:53 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 5C7D7A093E; Mon, 22 Jun 2026 15:35:53 +0200 (CEST)
+Date: Mon, 22 Jun 2026 15:35:53 +0200
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>, 
+	Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Carlos Maiolino <cem@kernel.org>, linux-xfs@vger.kernel.org, Chris Mason <clm@fb.com>, 
+	David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>, 
+	linux-ext4@vger.kernel.org, Gao Xiang <xiang@kernel.org>, linux-erofs@lists.ozlabs.org
+Subject: Re: [PATCH RFC v2 01/18] xfs: fix the error unwind in
+ xfs_open_devices()
+Message-ID: <mz2myo6clekydj7y7vyro3ebzi43irhmzcueypgjv43ra7rcp7@tsgf3enlgvrm>
+References: <20260616-work-super-bdev_holder_global-v2-0-7df6b864028e@kernel.org>
+ <20260616-work-super-bdev_holder_global-v2-1-7df6b864028e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 09/23] ext4: implement writeback path using iomap
-To: Jan Kara <jack@suse.cz>, Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
- libaokun@linux.alibaba.com, ojaswin@linux.ibm.com, ritesh.list@gmail.com,
- djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
- yangerkun@huawei.com, yukuai@fnnas.com
-References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
- <20260511072344.191271-10-yi.zhang@huaweicloud.com>
- <jxlc26s4ez5mug27innhntsubeddyishy7wlz6nv6dfugvz7c3@ztgmhhe2333m>
-Content-Language: en-US
-From: Zhang Yi <yizhang089@gmail.com>
-In-Reply-To: <jxlc26s4ez5mug27innhntsubeddyishy7wlz6nv6dfugvz7c3@ztgmhhe2333m>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260616-work-super-bdev_holder_global-v2-1-7df6b864028e@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
 
-On 6/16/2026 7:47 PM, Jan Kara wrote:
-> On Mon 11-05-26 15:23:29, Zhang Yi wrote:
->> From: Zhang Yi <yi.zhang@huawei.com>
->>
->> Add the iomap writeback path for ext4 buffered I/O. This introduces:
->>
->>   - ext4_iomap_writepages(): the main writeback entry point.
->>   - ext4_writeback_ops: a new iomap_writeback_ops instance to handle
->>     block mapping and I/O submission.
->>   - A new end I/O worker for converting unwritten extents, updating file
->>     size, and handling DATA_ERR_ABORT after I/O completion.
->>
->> Core implementation details:
->>
->>   - ->writeback_range() callback
->>     Calls ext4_iomap_map_writeback_range() to query the longest range of
->>     existing mapped extents. For performance, when a block range is not
->>     yet allocated, it allocates based on the writeback length and delalloc
->>     extent length, rather than allocating for a single folio at a time.
->>     The folio is then added to an iomap_ioend instance.
->>
->>   - ->writeback_submit() callback
->>     Registers ext4_iomap_end_bio() as the end bio callback. This callback
->>     schedules a worker to handle:
->>     - Unwritten extent conversion.
->>     - i_disksize update after data is written back.
->>     - Journal abort on writeback I/O failure.
->>
->> Key changes and considerations:
->>
->> - Append write and unwritten extents
->>    Since data=ordered mode is not used to prevent stale data exposure
->>    during append writebacks, new blocks are always allocated as unwritten
->>    extents (i.e. always enable dioread_nolock), and i_disksize update is
->>    postponed until I/O completion. Additionally, the deadlock that the
->>    reserve handle was expected to resolve does not occur anymore.
->>    Therefore, the end I/O worker can start a normal journal handle
->>    instead of a reserve handle when converting unwritten extents.
->>
->> - Lock ordering
->>    The ->writeback_range() callback runs under the folio lock, requiring
->>    the journal handle to be started under that same lock. This reverses
->>    the order compared to the buffer_head writeback path. The lock ordering
->>    documentation in super.c has been updated accordingly.
->>
->> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->> ---
->>   fs/ext4/ext4.h        |   4 +
->>   fs/ext4/inode.c       | 208 +++++++++++++++++++++++++++++++++++++++++-
->>   fs/ext4/page-io.c     | 126 +++++++++++++++++++++++++
->>   fs/ext4/super.c       |   7 +-
->>   fs/iomap/ioend.c      |   3 +-
->>   include/linux/iomap.h |   1 +
->>   6 files changed, 346 insertions(+), 3 deletions(-)
->>
->> diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
->> index 4832e7f7db82..078feda47e36 100644
->> --- a/fs/ext4/ext4.h
->> +++ b/fs/ext4/ext4.h
->> @@ -1173,6 +1173,8 @@ struct ext4_inode_info {
->>   	 */
->>   	struct list_head i_rsv_conversion_list;
->>   	struct work_struct i_rsv_conversion_work;
->> +	struct list_head i_iomap_ioend_list;
->> +	struct work_struct i_iomap_ioend_work;
+On Tue 16-06-26 16:08:17, Christian Brauner wrote:
+> Since the rt and log block devices are closed in xfs_free_buftarg() the
+> buftarg owns the device file. The error unwind does not respect that:
+> when the log buftarg allocation fails, out_free_rtdev_targ frees the rt
+> buftarg - releasing rtdev_file - and then falls through to
+> out_close_rtdev and releases it a second time.
 > 
-> Ugh, this adds 48 bytes to ext4 inode. That's pretty heavy. Cannot we reuse
-> i_rsv_conversion_list / work for this? For each inode only one of them
-> should be used AFAICS.
-
-Thanks for your suggestion. I think we should be able to reuse
-i_rsv_conversion_list / work. We can choose the corresponding
-initialization function for i_rsv_conversion_work based on the buffered
-write path at initialization time, and then reinitialize the work
-handler when changing the path via the ioctl that sets the journal
-flag. That should be sufficient.
-
+> The unwind also leaves mp->m_rtdev_targp and mp->m_ddev_targp pointing
+> to the freed buftargs. The failed mount continues into
+> deactivate_locked_super() -> xfs_kill_sb() -> xfs_mount_free(), which
+> frees them again.
 > 
->> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
->> index 1ae7d3f4a1c8..a80195bd6f20 100644
->> --- a/fs/ext4/inode.c
->> +++ b/fs/ext4/inode.c
->> @@ -44,6 +44,7 @@
->>   #include <linux/iversion.h>
->>   
->>   #include "ext4_jbd2.h"
->> +#include "ext4_extents.h"
->>   #include "xattr.h"
->>   #include "acl.h"
->>   #include "truncate.h"
->> @@ -4120,10 +4121,215 @@ static void ext4_iomap_readahead(struct readahead_control *rac)
->>   	iomap_bio_readahead(rac, &ext4_iomap_buffered_read_ops);
->>   }
->>   
->> +static int ext4_iomap_map_one_extent(struct inode *inode,
->> +				     struct ext4_map_blocks *map)
->> +{
->> +	struct extent_status es;
->> +	handle_t *handle = NULL;
->> +	int credits, map_flags;
->> +	int retval;
->> +
->> +	credits = ext4_chunk_trans_blocks(inode, map->m_len);
->> +	handle = ext4_journal_start(inode, EXT4_HT_WRITE_PAGE, credits);
->> +	if (IS_ERR(handle))
->> +		return PTR_ERR(handle);
->> +
->> +	map->m_flags = 0;
->> +	/*
->> +	 * It is necessary to look up extent and map blocks under i_data_sem
->> +	 * in write mode, otherwise, the delalloc extent may become stale
->> +	 * during concurrent truncate operations.
->> +	 */
->> +	ext4_fc_track_inode(handle, inode);
->> +	down_write(&EXT4_I(inode)->i_data_sem);
->> +	if (ext4_es_lookup_extent(inode, map->m_lblk, NULL, &es, &map->m_seq)) {
->> +		retval = es.es_len - (map->m_lblk - es.es_lblk);
->> +		map->m_len = min_t(unsigned int, retval, map->m_len);
->> +
->> +		if (ext4_es_is_delayed(&es)) {
->> +			map->m_flags |= EXT4_MAP_DELAYED;
->> +			trace_ext4_da_write_pages_extent(inode, map);
->> +			/*
->> +			 * Call ext4_map_create_blocks() to allocate any
->> +			 * delayed allocation blocks. It is possible that
->> +			 * we're going to need more metadata blocks, however
->> +			 * we must not fail because we're in writeback and
->> +			 * there is nothing we can do so it might result in
->> +			 * data loss. So use reserved blocks to allocate
->> +			 * metadata if possible.
->> +			 */
->> +			map_flags = EXT4_GET_BLOCKS_CREATE_UNWRIT_EXT |
->> +				    EXT4_GET_BLOCKS_METADATA_NOFAIL |
->> +				    EXT4_EX_NOCACHE;
->> +
->> +			retval = ext4_map_create_blocks(handle, inode, map,
->> +							map_flags);
->> +			if (retval > 0)
->> +				ext4_fc_track_range(handle, inode, map->m_lblk,
->> +						map->m_lblk + map->m_len - 1);
->> +			goto out;
->> +		} else if (unlikely(ext4_es_is_hole(&es)))
->> +			goto out;
->> +
->> +		/* Found written or unwritten extent. */
->> +		map->m_pblk = ext4_es_pblock(&es) + map->m_lblk - es.es_lblk;
->> +		map->m_flags = ext4_es_is_written(&es) ?
->> +			       EXT4_MAP_MAPPED : EXT4_MAP_UNWRITTEN;
->> +		goto out;
->> +	}
->> +
->> +	retval = ext4_map_query_blocks(handle, inode, map, EXT4_EX_NOCACHE);
->> +out:
->> +	up_write(&EXT4_I(inode)->i_data_sem);
->> +	ext4_journal_stop(handle);
->> +	return retval < 0 ? retval : 0;
->> +}
->> +
->> +static int ext4_iomap_map_writeback_range(struct iomap_writepage_ctx *wpc,
->> +					  loff_t offset, unsigned int dirty_len)
->> +{
->> +	struct inode *inode = wpc->inode;
->> +	struct super_block *sb = inode->i_sb;
->> +	struct journal_s *journal = EXT4_SB(sb)->s_journal;
->> +	struct ext4_map_blocks map;
->> +	unsigned int blkbits = inode->i_blkbits;
->> +	unsigned int index = offset >> blkbits;
->> +	unsigned int blk_end, blk_len;
->> +	int ret;
->> +
->> +	ret = ext4_emergency_state(sb);
->> +	if (unlikely(ret))
->> +		return ret;
->> +
->> +	/* Check validity of the cached writeback mapping. */
->> +	if (offset >= wpc->iomap.offset &&
->> +	    offset < wpc->iomap.offset + wpc->iomap.length &&
->> +	    ext4_iomap_valid(inode, &wpc->iomap))
->> +		return 0;
->> +
->> +	blk_len = dirty_len >> blkbits;
->> +	blk_end = min_t(unsigned int, (wpc->wbc->range_end >> blkbits),
->> +				      (UINT_MAX - 1));
->> +	if (blk_end > index + blk_len)
->> +		blk_len = blk_end - index + 1;
->> +
->> +retry:
->> +	map.m_lblk = index;
->> +	map.m_len = min_t(unsigned int, MAX_WRITEPAGES_EXTENT_LEN, blk_len);
->> +	ret = ext4_map_blocks(NULL, inode, &map,
->> +			      EXT4_GET_BLOCKS_IO_SUBMIT | EXT4_EX_NOCACHE);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	/*
->> +	 * The map is not a delalloc extent, it must either be a hole
->> +	 * or an extent which have already been allocated.
->> +	 */
->> +	if (!(map.m_flags & EXT4_MAP_DELAYED))
->> +		goto out;
->> +
->> +	/* Map one delalloc extent. */
->> +	ret = ext4_iomap_map_one_extent(inode, &map);
+> Clear the buftarg pointers once the unwind freed them and clear
+> rtdev_file once the rt buftarg owns it, so nothing is released twice.
 > 
-> So it looks somewhat strange that here we call ext4_map_blocks() (which
-> consults extent status tree and then possibly on-disk extent tree) and then
-> we call ext4_iomap_map_one_extent() which manipulates with the extent
-> status tree and possibly extent tree as well. Is all this complexity to
-> avoid starting a jbd2 handle unless really needed? If yes, is that really
-> worth it? Given iomap code caches the extent we'd start the transaction
-> only once per mapped extent which shouldn't be that bad?
+> Reachable when a buftarg allocation fails after the data buftarg was
+> set up: an I/O error in sync_blockdev() or an allocation failure in
+> xfs_init_buftarg() while mounting with external rt and log devices.
 > 
-> If you have some benchmark showing this is really worth it,
+> Fixes: 41233576e9a4 ("xfs: close the RT and log block devices in xfs_free_buftarg")
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Thanks for your suggestion. I think we should be able to reuse
-i_rsv_conversion_list / work. We can choose the corresponding
-initialization function for i_rsv_conversion_work based on the buffered
-write path at initialization time, and then reinitialize the work
-handler when changing the path via the ioctl that sets the journal
-flag. That should be sufficient.
+Looks good to me. As a small nit I'd probably do rtdev_file = NULL just
+after we've successfully allocated m_rtdev_targp but that's really minor.
+Feel free to add:
 
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-There are actually two reasons for this. First, we want to avoid
-starting a journal handle in overwrite scenarios. Second, we want to
-be able to query the extent locklessly without holding i_data_sem in
-overwrite cases as well (note that ext4_es_lookup_extent() in
-ext4_iomap_map_one_extent() is called with i_data_sem held).
+								Honza
 
-I ran a set of benchmark tests in my VM, performing the following FIO
-overwrite test on a 500GB ramdisk:
-
-$fio -filename=/test_dir/foo -direct=0 -iodepth=8 -fsync=0 -rw=write \
-            -numjobs=1 -bs=4k -ioengine=io_uring -size=20G -uncached=1 \
-            -runtime=30 --ramp_time=5s -time_based -norandommap=0 \
-            -fallocate=none -overwrite=1 \
-            -group_reportin -name=test --output=/tmp/log
-
-The results are as follows:
-
-a: on a non-fragmented file
-A: on a fragmented file [1]
-b: no background metadata pressure
-B: with background metadata pressure [2]
-
-      buffer_head | iomap pre-map w/o journal | iomap directly map
-a+b:    680                 691                   690
-a+B:    560                 568                   567
-A+b:    637                 633                   579
-A+B:    540                 571                   495
-
-[1] The file is pre-fragmented such that each block occupies a separate
-     extent.
-[2] A background fsstress process is running (only contains metadata
-     ops):
-     taskset -c 2 fsstress -c -d /test_dir -l 0 -n 1000 -f clonerange=0 \
-             -f copyrange=0 -f awrite=0 -f aread=0 -f dread=0 \
-             -f dwrite=0 -f mread=0 -f mwrite=0 -f readv=0 -f write=0 \
-             -f writev=0 -f read=0 -f sync=0 -f afsync=0 -f fsync=0
-
-As can be seen, for large contiguous files, the performance impact is
-minimal. However, in heavily fragmented scenarios or under other
-metadata pressure, pre-querying the mapping brings noticeable gains.
-However, this is testing the most extreme case — I'm not sure about
-the real-world impact, so I don't have a strong preference either way.
-But I suppose faster is better, at least not slower than the old
-buffer_head path. :)
-
-> then I'd
-> probably prefer coming up with an ext4_get_blocks flag which tells it to
-> start a transaction on its own if we need to allocate blocks... That would
-> be much simpler than opencoding all this.
-
-Additionally, there is a key point here. The reason I open-coded
-ext4_iomap_map_writeback_range() is that we must ensure extent query
-and allocation are performed atomically under i_data_sem. Otherwise,
-concurrent truncate could lead to quota leaks.
-
-Specifically, consider the following scenario: we call
-ext4_map_blocks() to allocate blocks. Suppose there is a delalloc
-extent covering blocks [0,3). While writeback is submitting block 0, a
-concurrent truncate(block 1) occurs:
-
-wb                         truncate
-ext4_es_lookup_extent()    ext4_truncate_down()
-   //get [0,3)
-                             truncate_inode_pages_range()
-                                //clear page 1&2
-                             ext4_truncate()
-                              down_write(i_data_sem)
-                               ext4_es_remove_extent()
-                                //drop extent [1,3)
-                                //i_reserved_data_blocks: 3->1
-                               up_write(i_data_sem)
-down_write(i_data_sem)
-ext4_map_create_blocks()
-   //alloc 3 blocks
-  ext4_es_insert_extent()
-   //only reclaim 1 block，stale 2 blocks
-up_write(i_data_sem)
-
-Therefore, If we don't open-coding this part, we would need to
-significantly rework ext4_map_blocks(), which might have a larger
-impact at this point. What do you think?
-
+> ---
+>  fs/xfs/xfs_super.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
->> +	if (ret < 0) {
->> +		if (ext4_emergency_state(sb))
->> +			return ret;
->> +
->> +		/*
->> +		 * Retry transient ENOSPC errors, if
->> +		 * ext4_count_free_blocks() is non-zero, a commit
->> +		 * should free up blocks.
->> +		 */
->> +		if (ret == -ENOSPC && journal && ext4_count_free_clusters(sb)) {
->> +			jbd2_journal_force_commit_nested(journal);
->> +			goto retry;
->> +		}
->> +
->> +		ext4_msg(sb, KERN_CRIT,
->> +			 "Delayed block allocation failed for inode %llu at logical offset %llu with max blocks %u with error %d",
->> +			 inode->i_ino, (unsigned long long)map.m_lblk,
->> +			 (unsigned int)map.m_len, -ret);
->> +		ext4_msg(sb, KERN_CRIT,
->> +			 "This should not happen!! Data will be lost\n");
->> +		if (ret == -ENOSPC)
->> +			ext4_print_free_blocks(inode);
->> +		return ret;
->> +	}
->> +out:
->> +	ext4_set_iomap(inode, &wpc->iomap, &map, offset, dirty_len, 0);
->> +	return 0;
->> +}
->> +
+> diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
+> index eac7f9503805..8531d526fc44 100644
+> --- a/fs/xfs/xfs_super.c
+> +++ b/fs/xfs/xfs_super.c
+> @@ -534,8 +534,11 @@ xfs_open_devices(
+>   out_free_rtdev_targ:
+>  	if (mp->m_rtdev_targp)
+>  		xfs_free_buftarg(mp->m_rtdev_targp);
+> +	mp->m_rtdev_targp = NULL;
+> +	rtdev_file = NULL;	/* released by xfs_free_buftarg() */
+>   out_free_ddev_targ:
+>  	xfs_free_buftarg(mp->m_ddev_targp);
+> +	mp->m_ddev_targp = NULL;
+>   out_close_rtdev:
+>  	 if (rtdev_file)
+>  		bdev_fput(rtdev_file);
 > 
-> ...
+> -- 
+> 2.47.3
 > 
->> +void ext4_iomap_end_bio(struct bio *bio)
->> +{
->> +	struct iomap_ioend *ioend = iomap_ioend_from_bio(bio);
->> +	struct inode *inode = ioend->io_inode;
->> +	struct ext4_inode_info *ei = EXT4_I(inode);
->> +	struct ext4_sb_info *sbi = EXT4_SB(inode->i_sb);
->> +	unsigned long flags;
->> +
->> +	/* Needs to convert unwritten extents or update the i_disksize. */
->> +	if ((ioend->io_flags & IOMAP_IOEND_UNWRITTEN) ||
->> +	    ioend->io_offset + ioend->io_size > READ_ONCE(ei->i_disksize))
->> +		goto defer;
->> +
->> +	/* Needs to abort the journal on data_err=abort.  */
->> +	if (unlikely(ioend->io_bio.bi_status))
->> +		goto defer;
->> +
->> +	iomap_finish_ioend(ioend, 0);
->> +	return;
->> +defer:
->> +	spin_lock_irqsave(&ei->i_completed_io_lock, flags);
->> +	if (list_empty(&ei->i_iomap_ioend_list))
->> +		queue_work(sbi->rsv_conversion_wq, &ei->i_iomap_ioend_work);
->> +	list_add_tail(&ioend->io_list, &ei->i_iomap_ioend_list);
->> +	spin_unlock_irqrestore(&ei->i_completed_io_lock, flags);
->> +}
-> 
-> For now, I'd prefer to do what XFS does and offload everything. Then you
-> don't have to export iomap_finish_ioend() (which would need to be in a
-> separate patch and acked by iomap maintainers) and the code is more
-> standard. There's a patchset in the works which adds general ioend offloading
-> infrastructure into iomap [1] and when that lands we should get all these
-                       ^^^^^ block layer?
-
-> bells and whistles (even better ones with percpu work queues, batching,
-> etc.) for free.
-> 
-> [1] https://lore.kernel.org/all/20260514-blk-dontcache-v6-0-782e2fa7477b@columbia.edu/
-> 
-> 								Honza
-
-Ha, I've noticed this patchset, so I haven't implemented
-uncached I/O handling for now. As a side note, I have a question:
-if we convert all endio processing to worker threads, IIRC, my
-recollection from previous performance tests is that pure overwrite
-scenarios would see at least a 20% degradation. Is that acceptable?
-
-I understand why uncached I/O might need the entire completion path
-in a worker, but can we complete the I/O in interrupt context for
-pure overwrite and then release the page cache in a worker? Must
-page cache invalidation and I/O completion be synchronous?
-
-The reason I kept ext4_iomap_end_bio() handling I/O completion in
-interrupt context is for overwrite performance. XFS also handles
-overwrites in interrupt context (via ioend_writeback_end_bio()).
-However, ext4 has the data_error=abort mount option — when this mode
-is set and an I/O error occurs, we must abort the journal in a
-worker. Since we cannot predict I/O errors at submission time, we
-can't directly use ioend_writeback_end_bio() and must instead bind
-our own ext4_iomap_end_bio(). At the same time, I want to avoid
-spawning a worker for pure overwrites when no I/O error occurs, so I
-exported iomap_finish_ioend(). What do you think?
-
-Thanks,
-Yi.
-
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
