@@ -1,242 +1,105 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D52A3A1E7E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 09:54:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D72D39E6C6;
+	Mon, 22 Jun 2026 10:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782122061; cv=none; b=AneeE6IAc934/rtTnjSSf74Cf/fT+XPvyhAo6U1PllrayAwQ0fgDH6kn6yh74xN+8L9D5Wna5tRmokR6ijkC3zUvljnJNzewxbDOL90Tzj92k0wNLeX7rr0Q8O+GxdT+K1TUPkV8B3QcsnwO6pwUuPZW8KaeehnwmXLzBcNn3bw=
+	t=1782122576; cv=none; b=alPIIjMDzrgDsUaGFkCyH+ejavjDGIG60Um9M6kmsH+JExU570EG10jcPl+yVZi8Lj0stn3tWEwmX5lHsmasBDDBzqGn6c28QB6XD16g6cNXLn1VWyuBIHqVEypu2GfI4jtrykDGk9vyzbf4UzU47P2ZUwYSzwT9utTxT3CVb1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782122061; c=relaxed/simple;
-	bh=6dZ4zYdErrEzfiYdiDusqu5liRpk/yR1ucrJzKf7SNU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HbnwCyNdW2CbkRE8YSWfBeGa4dLyANLedbXEmx9OBV7nQG4eIQ0ohx0nhXEOYXZFKUSIUre3Nh4CfRfU73xnUtZHB2zW8eBO26Bk9DZc0Hnjlh5HGgk4lY3sLZmQaRgM+2SLKmGvQzeQRndV5iBCiK5SaszwAKs0S69JPbGYv7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=pA7DnmgH; arc=none smtp.client-ip=195.121.94.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1782122576; c=relaxed/simple;
+	bh=dKfybWohSASsPe89t8jIARC8460aGoHyag7Mc6QBxl8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=lE0K6B3BIJHg4b+IPTMl9nb70APU4ZX8B51k2kWN7CS57qHSIDnLGxZBA5cyswHJMqDjEO0SG13BdGwArOVBuA8b7bq9Xck0ulz2m4j+GiraD/mqT5+kJYTXfQ74gY6cIfz5pSVJI27+MPaWhG6Tv+Dgcjq90EJSlOo6RiEo+pM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SG2XRnqq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="pA7DnmgH"
-X-KPN-MessageId: 2adeddfa-6e20-11f1-861a-005056aba152
-Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 2adeddfa-6e20-11f1-861a-005056aba152;
-	Mon, 22 Jun 2026 11:53:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:message-id:subject:to:from:date;
-	bh=WYB+eqZtyTPDHDqFA/TVCR7NlWihAxG6DNjwFRFTBik=;
-	b=pA7DnmgH6rlhfUQCpXYlI79jxsfH4rimPjNAm+HZgGflODLNdTkaX4xurSyY7FZUd2CZSvlA/3qYW
-	 VGHME4+tuQ4ybG9E2W8pUC2QQScYL5igOxw9uUq0uYsZ+6OWKYGJ46ApOk5j/H7/BV3EPWAJQAEL6n
-	 QiZ9DQr7F5xDg2nMlo81D7JLEjcUqTLnuAEJVj9p+5aoS9m9gIhrABljmG1dj38h89zUS0Qc4ZbWXF
-	 Q3J/A5HGgZntfdXdrMZx4Qn638DNnd0bVMOMF0fOJfT8/Int4tt5xCrlQS9zxtxEWpS1BSBCGG0d6y
-	 d7UaoDTawtYAZ6BNhOn3/1y1owRkGhw==
-X-KPN-MID: 33|s6Wv9LN1ctw9HwwAkq60iXR8T4RFFzsoMvf18EvtivVebnxoErdXWyg+mBfQNzt
- JcB8gBRLVydk7A7QQppsb/kKHvLRMPEAu/QaKHmnyFOs=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|o3S6nZtqmTOz249rQvIuKjiBhadAu4toWXmgwvxawbt1t7IkATPkQ3/os34uKRa
- X/uqlDigkjeOjG0/uek/mvQ==
-Received: from localhost (142-169-144-85.ftth.glasoperator.nl [85.144.169.142])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 2a610af9-6e20-11f1-a997-005056abf0db;
-	Mon, 22 Jun 2026 11:53:06 +0200 (CEST)
-Date: Mon, 22 Jun 2026 11:53:04 +0200
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Farid Zakaria <farid.m.zakaria@gmail.com>
-Cc: kees@kernel.org, brauner@kernel.org, viro@zeniv.linux.org.uk, 
-	jack@suse.cz, shuah@kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] fs: support $ORIGIN in ELF interpreter paths
-Message-ID: <ajkEA0yqLhRjlJT_@lt-jori.localdomain>
-Mail-Followup-To: Jori Koolstra <jkoolstra@xs4all.nl>, 
-	Farid Zakaria <farid.m.zakaria@gmail.com>, kees@kernel.org, brauner@kernel.org, viro@zeniv.linux.org.uk, 
-	jack@suse.cz, shuah@kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260622043934.179879-1-farid.m.zakaria@gmail.com>
- <20260622043934.179879-2-farid.m.zakaria@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SG2XRnqq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EE481F000E9;
+	Mon, 22 Jun 2026 10:02:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782122575;
+	bh=mWZmZTPHZ8K22xz/s5/6k7OT/phab6SxzhtQKKn0a68=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=SG2XRnqqvokDNzDx2mq+5l610+XuOv5eMkLiPssVytSN4KqhJFA0TmRSTSLEzUNcp
+	 2fvbI6l+zo3R+g4sFvKdCQ2m2Vw/+nyAXjyYn4FEEoO6KMrFWPHwDMnM23X6QNEsOC
+	 HaNd992VCic3RZjRITPlOpNfbc4WiN5PvDuzC5NXJIV34RnSracu8hga3oc4JRpFgP
+	 TTBdO44HMEnHCbOV6dfaXOjQy5Z3LjQS3a3AnXTVhbIryboMKAURqwPvH92ze43qZf
+	 eEJGiPxfKSWRtWHzjKU+LpqvmGXyeMNsxdix0PS2dpr9YKTqMMpCnHvCpoiBpneG+F
+	 dsj6ezs/xx7hg==
+From: Christian Brauner <brauner@kernel.org>
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Alexei Starovoitov <ast@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ Christian Brauner <brauner@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Simon Horman <horms@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, 
+ Willem de Bruijn <willemb@google.com>, linux-fsdevel@vger.kernel.org, 
+ netdev@vger.kernel.org, bpf@vger.kernel.org, 
+ Andrii Nakryiko <andrii@kernel.org>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, 
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>
+In-Reply-To: <20260617-work-bpf-sock-xattr-v1-0-a1276f7c9da3@kernel.org>
+References: <20260617-work-bpf-sock-xattr-v1-0-a1276f7c9da3@kernel.org>
+Subject: Re: [PATCH 0/2] Add bpf_sock_read_xattr() kfunc to read socket
+ xattrs
+Message-Id: <20260622-giraffe-zahntechnik-gepfercht-f9953c9d4a75@brauner>
+Date: Mon, 22 Jun 2026 12:02:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260622043934.179879-2-farid.m.zakaria@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev-7d9ce
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1939; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=dKfybWohSASsPe89t8jIARC8460aGoHyag7Mc6QBxl8=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRZcnhFzpY161QOS0/5Jzsvf5NRsUuN8tQq3cJ3EdfYq
+ nZXL37aUcrCIMbFICumyOLQbhIut5ynYrNRpgbMHFYmkCEMXJwCMJG9Mgz/HYzsEvy1rGYkdBpd
+ 9OObxqEobtAoYL110/6T9x+9LtJKYfgrKbv+cJJwya0jT3xDJi/Vtd2yYV7GjIN1ry0zXzrsznr
+ CBQA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Hi Farid,
-
-On Sun, Jun 21, 2026 at 09:39:33PM -0700, Farid Zakaria wrote:
-> Currently, standard ELF and ELF FDPIC loaders expect a fixed path to the
-> dynamic linker/interpreter (PT_INTERP). However, for systems utilizing
-> relocatable dynamic interpreters (such as Nix/store-based environments),
-> hardcoding this path is inflexible and breaks binary portability.
+On Wed, 17 Jun 2026 13:18:26 +0200, Christian Brauner wrote:
+> Add bpf_sock_read_xattr() kfunc to read socket xattrs
 > 
-> Introduce support for resolving the $ORIGIN placeholder in the ELF
-> interpreter path. This maps the dynamic linker relative to the path
-> of the binary being executed, matching user-space origin resolution.
+> In c8db08110cbe ("Merge tag 'vfs-7.1-rc1.xattr' of git://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs")
+> we added support for extended attributes for sockets. This comes in two
+> flavors: sockfs and non-sockfs/filesystem sockets. Filesystem sockets
+> are actual filesystem objects so reading xattrs must use dedicated fs
+> helpers such as bpf_get_dentry_xattr() and bpf_get_file_xattr(). Those
+> are inherently sleeping operations. Sockfs sockets on the other hand
+> don't need to use sleeping operations as the underlying data structure
+> is lockless. In addition, retrieval of sockfs extended attributes often
+> happens from LSM hooks that only provide struct socket and it's
+> completely nonsensical to grab a reference to a file, then force a
+> sleeping operation to retrieve the xattr and drop the reference. We know
+> that the sockfs file cannot go away while the LSM hook runs.
 > 
-> To avoid code duplication, implement a shared 'resolve_elf_interpreter()'
-> helper in the VFS exec layer. For safety, limit detection strictly to
-> the prefix string "$ORIGIN" to prevent complex parsing exploits.
-> 
-> Assisted-by: Antigravity:Gemini-Pro
+> [...]
 
-This isn't a requirement from the community or anything, but I always
-find it useful if I see an Assisted-by tag to know what assistence was
-actually delivered by an LLM. Otherwise we might as well add
-assisted-by tags for any editor.
+Applied to the vfs-7.3.kfunc branch of the vfs/vfs.git tree.
+Patches in the vfs-7.3.kfunc branch should appear in linux-next soon.
 
-Talking about LLMs, your patch has some issues flagged by Sashiko[1].
-Please take a look.
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-> Signed-off-by: Farid Zakaria <farid.m.zakaria@gmail.com>
-> ---
->  fs/binfmt_elf.c         | 11 +++++++++--
->  fs/binfmt_elf_fdpic.c   | 15 +++++++++++++--
->  fs/exec.c               | 42 +++++++++++++++++++++++++++++++++++++++++
->  include/linux/binfmts.h |  2 ++
->  4 files changed, 66 insertions(+), 4 deletions(-)
-> 
-> diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
-> index 16a56b6b3..af11f96ae 100644
-> --- a/fs/binfmt_elf.c
-> +++ b/fs/binfmt_elf.c
-> @@ -872,7 +872,7 @@ static int load_elf_binary(struct linux_binprm *bprm)
->  
->  	elf_ppnt = elf_phdata;
->  	for (i = 0; i < elf_ex->e_phnum; i++, elf_ppnt++) {
-> -		char *elf_interpreter;
-> +		char *elf_interpreter, *resolved_interp;
->  
->  		if (elf_ppnt->p_type == PT_GNU_PROPERTY) {
->  			elf_property_phdata = elf_ppnt;
-> @@ -904,8 +904,15 @@ static int load_elf_binary(struct linux_binprm *bprm)
->  		if (elf_interpreter[elf_ppnt->p_filesz - 1] != '\0')
->  			goto out_free_interp;
->  
-> -		interpreter = open_exec(elf_interpreter);
-> +		resolved_interp = resolve_elf_interpreter(bprm, elf_interpreter);
->  		kfree(elf_interpreter);
-> +		if (IS_ERR(resolved_interp)) {
-> +			retval = PTR_ERR(resolved_interp);
-> +			goto out_free_ph;
-> +		}
-> +
-> +		interpreter = open_exec(resolved_interp);
-> +		kfree(resolved_interp);
->  		retval = PTR_ERR(interpreter);
->  		if (IS_ERR(interpreter))
->  			goto out_free_ph;
-> diff --git a/fs/binfmt_elf_fdpic.c b/fs/binfmt_elf_fdpic.c
-> index 7e3108489..e85727d71 100644
-> --- a/fs/binfmt_elf_fdpic.c
-> +++ b/fs/binfmt_elf_fdpic.c
-> @@ -230,7 +230,9 @@ static int load_elf_fdpic_binary(struct linux_binprm *bprm)
->  
->  	for (i = 0; i < exec_params.hdr.e_phnum; i++, phdr++) {
->  		switch (phdr->p_type) {
-> -		case PT_INTERP:
-> +		case PT_INTERP: {
-> +			char *resolved_interp;
-> +
->  			retval = -ENOMEM;
->  			if (phdr->p_filesz > PATH_MAX)
->  				goto error;
-> @@ -259,7 +261,15 @@ static int load_elf_fdpic_binary(struct linux_binprm *bprm)
->  			kdebug("Using ELF interpreter %s", interpreter_name);
->  
->  			/* replace the program with the interpreter */
-> -			interpreter = open_exec(interpreter_name);
-> +			resolved_interp = resolve_elf_interpreter(bprm, interpreter_name);
-> +			kfree(interpreter_name);
-> +			if (IS_ERR(resolved_interp)) {
-> +				retval = PTR_ERR(resolved_interp);
-> +				goto error;
-> +			}
-> +
-> +			interpreter = open_exec(resolved_interp);
-> +			kfree(resolved_interp);
->  			retval = PTR_ERR(interpreter);
->  			if (IS_ERR(interpreter)) {
->  				interpreter = NULL;
-> @@ -284,6 +294,7 @@ static int load_elf_fdpic_binary(struct linux_binprm *bprm)
->  
->  			interp_params.hdr = *((struct elfhdr *) bprm->buf);
->  			break;
-> +		}
->  
->  		case PT_LOAD:
->  #ifdef CONFIG_MMU
-> diff --git a/fs/exec.c b/fs/exec.c
-> index b92fe7db1..0978ae613 100644
-> --- a/fs/exec.c
-> +++ b/fs/exec.c
-> @@ -2024,6 +2024,48 @@ static int __init init_fs_exec_sysctls(void)
->  fs_initcall(init_fs_exec_sysctls);
->  #endif /* CONFIG_SYSCTL */
->  
-> +char *resolve_elf_interpreter(struct linux_binprm *bprm, const char *elf_interpreter)
-> +{
-> +	char *pathbuf, *path, *slash, *resolved;
-> +
-> +	if (strncmp(elf_interpreter, "$ORIGIN", 7) != 0) {
-> +		char *ret = kstrdup(elf_interpreter, GFP_KERNEL);
-> +
-> +		return ret ? ret : ERR_PTR(-ENOMEM);
-> +	}
-> +
-> +	pathbuf = kmalloc(PATH_MAX, GFP_KERNEL);
-> +	if (!pathbuf)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	path = file_path(bprm->file, pathbuf, PATH_MAX);
-> +	if (IS_ERR(path)) {
-> +		kfree(pathbuf);
-> +		return (char *)path;
-> +	}
-> +
-> +	slash = strrchr(path, '/');
-> +	if (slash) {
-> +		if (slash == path)
-> +			*(slash + 1) = '\0';
-> +		else
-> +			*slash = '\0';
-> +	} else {
-> +		kfree(pathbuf);
-> +		char *ret = kstrdup(elf_interpreter, GFP_KERNEL);
-> +
-> +		return ret ? ret : ERR_PTR(-ENOMEM);
-> +	}
-> +
-> +	resolved = kasprintf(GFP_KERNEL, "%s%s", path, elf_interpreter + 7);
-> +	kfree(pathbuf);
-> +	if (!resolved)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	return resolved;
-> +}
-> +EXPORT_SYMBOL(resolve_elf_interpreter);
-> +
->  #ifdef CONFIG_EXEC_KUNIT_TEST
->  #include "tests/exec_kunit.c"
->  #endif
-> diff --git a/include/linux/binfmts.h b/include/linux/binfmts.h
-> index 2c77e383e..17419cd3d 100644
-> --- a/include/linux/binfmts.h
-> +++ b/include/linux/binfmts.h
-> @@ -150,4 +150,6 @@ extern ssize_t read_code(struct file *, unsigned long, loff_t, size_t);
->  int kernel_execve(const char *filename,
->  		  const char *const *argv, const char *const *envp);
->  
-> +char *resolve_elf_interpreter(struct linux_binprm *bprm, const char *elf_interpreter);
-> +
->  #endif /* _LINUX_BINFMTS_H */
-> -- 
-> 2.51.2
-> 
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
-Thanks,
-Jori.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.3.kfunc
 
-[1]: https://sashiko.dev/#/patchset/20260622043934.179879-1-farid.m.zakaria%40gmail.com
+[1/2] fs: Add bpf_sock_read_xattr() kfunc to read socket xattrs
+      https://git.kernel.org/vfs/vfs/c/f80386e3838e
+[2/2] selftests/bpf: Add test for bpf_sock_read_xattr() kfunc
+      https://git.kernel.org/vfs/vfs/c/99a63a6aff40
+
