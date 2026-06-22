@@ -1,166 +1,130 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C613B4E98
-	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 13:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7233B3BF2;
+	Mon, 22 Jun 2026 13:55:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782136221; cv=none; b=ZVZWMeKU+0W/OW13XiEeiMKTWIBLgyzjuYVP6Mq/V3X5e1vlcHlDKrDjPxgz/uiDaQ0637gecwE2hVeyVxTCMj70QCbwMZHozCw6A88rBIEhErbF1x3afDQXLONnIKmJoSPCNpptJxyKk3QGPRbYVaxK9QPYrb3p78qzUCHk9Sw=
+	t=1782136521; cv=none; b=GLqbW8BpGf+X+3KxgMDf/2Ltsa4N5qYAs2TQicMOGjOYW7tM4Xa97DtoBwY9i7Bp3nwCzCtz7AP9WJ2emkI9d5yKRjYGGrQ0mJWUzaseJM8Mvuvze4DkaSVl9RVMy026gfaqS5rXtCttAsxXmhcsLyZtrv5FkhAYx4lWt9LqJHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782136221; c=relaxed/simple;
-	bh=VHT+KBluJOqcRwZEsm+PBsoDoLyAdXax3lQE4PhsvfA=;
+	s=arc-20240116; t=1782136521; c=relaxed/simple;
+	bh=WR8JaOyvOHAgMGRMKwcmZNAzbrMi4mXCubOn7cewWUQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cDBy2OH8jnyyGqtIzGZHLtq0QUW8DFhMh0rpKxQRXni8BbCw81j/MuGQEpSMoDixOlRR8UVxVvNjup/XND27ycUtDaoUWU3I0zS8K5r6qC0RiRPqbEYsieZ/j/8UByEe9D05P9zAc0bAXxBcFUsmiWU2AsXGm83NHvbage9Ipyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sCPFn2d7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6sw3sDYH; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sCPFn2d7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6sw3sDYH; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=PFUIJ45QwyaUzv8RAxshn9/9MDPYFdLfuIumf7OV+wFN4ltl1CAza862AfGdCLLzEcRV2kq6RSFiXNubyYIYuCnQwffEqrWkTjlyDhDGj8l2uhz7sQTTPUt+X9y4evT4o/aI7Lex2FB+WrIq77DOjiuGzHqcEkqHMBbqNtlwy3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eJ6z0MOi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sCPFn2d7";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6sw3sDYH";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sCPFn2d7";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6sw3sDYH"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 96F58704BB;
-	Mon, 22 Jun 2026 13:50:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782136218; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pwdldaccHLqFQeaduzHyGoRmVSJHAn2p6cOpABQhxBg=;
-	b=sCPFn2d70ytK8uM+7am/4lVCEEva5/832BbzPLucrCQbcZbl9sCqMV5LCloY/u+fwJUWdP
-	LAca2z1K/BesNFEHPBLcxVk1BWThf0t9EVogsScb4UGmjjsBPT1H4l6dI5j/Khk2v9XFSv
-	yz/liunQfedntcKIGiSIR7RX5WsIiTo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782136218;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pwdldaccHLqFQeaduzHyGoRmVSJHAn2p6cOpABQhxBg=;
-	b=6sw3sDYHD0rKJ4cuy1fcFkpAZVhKTEnqqZgTXwYApQ5e9qJFAvoXjArJ3IjEF51c053v4h
-	Tm81i5hE95XEHDCw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=sCPFn2d7;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=6sw3sDYH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782136218; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pwdldaccHLqFQeaduzHyGoRmVSJHAn2p6cOpABQhxBg=;
-	b=sCPFn2d70ytK8uM+7am/4lVCEEva5/832BbzPLucrCQbcZbl9sCqMV5LCloY/u+fwJUWdP
-	LAca2z1K/BesNFEHPBLcxVk1BWThf0t9EVogsScb4UGmjjsBPT1H4l6dI5j/Khk2v9XFSv
-	yz/liunQfedntcKIGiSIR7RX5WsIiTo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782136218;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pwdldaccHLqFQeaduzHyGoRmVSJHAn2p6cOpABQhxBg=;
-	b=6sw3sDYHD0rKJ4cuy1fcFkpAZVhKTEnqqZgTXwYApQ5e9qJFAvoXjArJ3IjEF51c053v4h
-	Tm81i5hE95XEHDCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8D44F779A8;
-	Mon, 22 Jun 2026 13:50:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zTB6Ipo9OWpjOgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 22 Jun 2026 13:50:18 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 48C4CA093E; Mon, 22 Jun 2026 15:50:10 +0200 (CEST)
-Date: Mon, 22 Jun 2026 15:50:10 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>, 
-	Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Carlos Maiolino <cem@kernel.org>, linux-xfs@vger.kernel.org, Chris Mason <clm@fb.com>, 
-	David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>, 
-	linux-ext4@vger.kernel.org, Gao Xiang <xiang@kernel.org>, linux-erofs@lists.ozlabs.org
-Subject: Re: [PATCH RFC v2 03/18] super: take lock after last reference count
-Message-ID: <p22dytpj26jz72sqohiqrhkacrc4r5wt7soanows744el5jzqb@3236bcjzmilk>
-References: <20260616-work-super-bdev_holder_global-v2-0-7df6b864028e@kernel.org>
- <20260616-work-super-bdev_holder_global-v2-3-7df6b864028e@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eJ6z0MOi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D39FF1F000E9;
+	Mon, 22 Jun 2026 13:55:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782136520;
+	bh=lSv61ssW4qc4Rb4nc4Phm6/rZ5E/q8Nhnm6lGxqv4Lc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=eJ6z0MOip6YxUE4QsGFzORnLmafH/OnigpV21qukMVYRjfSY7Tsrjc92QtgKm5w4I
+	 3imxnlKh9MwMmv3DxMMiqLKWXDM1/BXGwXmyVv3Zer8gkU1QXWiT9QvM+1ryxggTe0
+	 6E+aPbM6i2QcA4XQew8aC4ekzIRtinhc67pYlJ9Lp1/qqT1JmOYHB22HNMFHStC1PJ
+	 lkZrJb6Dt5cHfxO2BjWOtnubPFQgteMBHeWVUzg4sp5h4F8sCkxHxsUyqVNdTXbqoT
+	 OLM8CXWX6wn0RynGvsgsfobUxn7jMkNeYTAdUhSlN1h8JqnYDPzS17ujkxcs3/+5hJ
+	 v1+pLsnAMIvTw==
+Date: Mon, 22 Jun 2026 14:55:14 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Jan Kara <jack@suse.cz>
+Cc: Suren Baghdasaryan <surenb@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, Matthew Wilcox <willy@infradead.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Frederick Mayle <fmayle@google.com>, 
+	Kalesh Singh <kaleshsingh@google.com>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, David Hildenbrand <david@kernel.org>
+Subject: Re: [PATCH mm-hotfixses] Revert "mm: limit filemap_fault readahead
+ to VMA boundaries"
+Message-ID: <ajk-NMghY50F6Sli@lucifer>
+References: <20260619093711.d0d37c9920b3a16394c356a6@linux-foundation.org>
+ <ajVz1nhMn2JwucMY@casper.infradead.org>
+ <ajV0TbwEyaKMzoa6@lucifer>
+ <ajV49Fyogfa6aIjy@pedro-suse>
+ <CAJuCfpGdxsPDbxOwQFdY+Xt7mZGFvoKWmed6FteTongvFgjgww@mail.gmail.com>
+ <ajWAYBXHJniJAO4u@casper.infradead.org>
+ <CAJuCfpHF1qtpHZQzLmLi7xz06OWgBfduHqBHF_-0Vkx7OtBmcw@mail.gmail.com>
+ <ajWXEn7gECvgG7F5@pedro-suse.lan>
+ <CAJuCfpFfr_SQ4ZDFojOkDKWbO2dKdL3pUPA06B2ZC-usUnYRgA@mail.gmail.com>
+ <7ftrqtta2bw2xxtrzelrs46t7khr7tf2vmh2ur2mhdphtymlsr@rqbd3pfjxdp7>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260616-work-super-bdev_holder_global-v2-3-7df6b864028e@kernel.org>
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:email,suse.cz:dkim,suse.com:email]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 96F58704BB
-X-Spam-Score: -4.01
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7ftrqtta2bw2xxtrzelrs46t7khr7tf2vmh2ur2mhdphtymlsr@rqbd3pfjxdp7>
 
-On Tue 16-06-26 16:08:19, Christian Brauner wrote:
-> __put_super() required the caller to hold sb_lock, so put_super()
-> wrapped it. The per-device superblock table introduced later drops its
-> passive references from contexts that do not hold sb_lock, so make
-> put_super() self-locking: drop the count first and take sb_lock only for
-> the final list_del.
-> 
-> With the count now dropped outside sb_lock a superblock can briefly sit
-> on @super_blocks with s_passive == 0 before it is unlinked, so the list
-> walkers (__iterate_supers(), iterate_supers_type(), user_get_super())
-> switch to refcount_inc_not_zero() and skip it.
-> 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+On Mon, Jun 22, 2026 at 11:26:18AM +0200, Jan Kara wrote:
+> On Fri 19-06-26 12:33:43, Suren Baghdasaryan wrote:
+> > On Fri, Jun 19, 2026 at 12:26 PM Pedro Falcato <pfalcato@suse.de> wrote:
+> > >
+> > > On Fri, Jun 19, 2026 at 10:52:07AM -0700, Suren Baghdasaryan wrote:
+> > > > On Fri, Jun 19, 2026 at 10:46 AM Matthew Wilcox <willy@infradead.org> wrote:
+> > > > >
+> > > > > On Fri, Jun 19, 2026 at 10:43:06AM -0700, Suren Baghdasaryan wrote:
+> > > > > > > Yeah, the mmap usage on SVT-AV1 is a little suspicious, but I guess the
+> > > > > > > pattern may come up time and time again for people doing chunked mmap
+> > > > > > > reads. I think we need to take a closer look at this change.
+> > > > > >
+> > > > > > Frame-by-frame mmapping for a streaming workoad is quite questionable
+> > > > > > IMHO and I don't think we should be optimizing or encouraging such
+> > > > > > usage, but I understand the reasoning for the revert.
+> > > > >
+> > > > > If userspace is properly tuned, it doesn't need automatic readahead
+> > > > > at all; it can disable it and issue manual readaheads.  The point of
+> > > > > automatic readahead is to cope with userspace which is doing stupid
+> > > > > things like calling read() for a single byte at a time.
+> > > > >
+> > > > > Could it have better defaults?  Maybe!  It's worth a try.  But those
+> > > > > attempts need to have a very low bar for reversion when it turns out
+> > > > > they affect other workloads.
+> > > >
+> > > > That what I meant in the last part of my reply :)
+> > > >
+> > > > But in general, I think that benchmark measuring "how many frames per
+> > > > second a CPU can encode" should be revised so it doesn't depend on
+> > > > file prefetching mechanisms. Otherwise it's measuring something else.
+> > >
+> > > To be clear, that's not (necessarily) a benchmark, the code we were
+> > > looking at is their encoder app.
+> >
+> > Ack.
+> >
+> > > (it's also generally not possible to prefetch the whole thing into RAM
+> > > because, well, raw video files are quite large)
+> >
+> > For such streaminig workload I think read() would be more appropriate,
+> > and the change limiting read-ahead by VMA size would not affect it.
+>
+> In fact if you look at that app, it has three different methods of reading
+> the input frames (mmap, normal read, fully buffered file in memory) and one
+> is chosen based on config option. So the benchmark apparently configures
+> the mmap method of accessing the input file.
+>
+> Anyway I agree with you using mmap-frame-by-frame approach for this usecase
+> is kind of odd but not completely insane and it does demostrate people do
+> odd things like this. For others the usecase of Android doing tons of small
+> sparse mmaps into executable might look odd as well :) So this seems to be
+> one of the cases where it's difficult to please everybody with the same
+> behavior and we usually stick to the legacy behavior in cases like that (as
+> much as I personally find restricting mmap readahead to a VMA a sensible
+> thing to do). We just need to figure out how to improve the Android
+> usecase.
 
-Looks good, just one style nit below. Feel free to add:
+Reading the thread, I think we're all in agreement that this is a workload
+that exists and we are regressing it here, thus the revert is the right
+course of action.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Andrew - could we move this to the hotfixes branch please?
 
-> -static void __put_super(struct super_block *s)
-> +void put_super(struct super_block *s)
->  {
->  	if (refcount_dec_and_test(&s->s_passive)) {
-> +
+>
+> 								Honza
+> --
+> Jan Kara <jack@suse.com>
+> SUSE Labs, CR
 
-I'd delete this empty line.
-
-> +		spin_lock(&sb_lock);
->  		list_del_init(&s->s_list);
-> +		spin_unlock(&sb_lock);
-> +
-
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks, Lorenzo
