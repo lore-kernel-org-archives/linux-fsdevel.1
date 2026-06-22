@@ -1,73 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332883B4E8B
-	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 13:57:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2FE3B5820;
+	Mon, 22 Jun 2026 13:58:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782136643; cv=none; b=FQ7YsYEENe33fB9J5Vj1v2UoEK8NGLg32TbfTdwn14kqVF837TKPjzqxy+r9LmNMLg5dR2kq0m61wZ0OPWR6n4655D/aN7UznbqIumKMYw49h3CSYmBYwHEktmAQ5BuIxWbzIP1KA1gemGPGwirB4c09WMxPg33OK0p0POPeSCk=
+	t=1782136734; cv=none; b=KMiOzAbI2v/BoWYdmVk8kZkiF/4hb9TyGrTt37VFsOA0DzZgQa2UMPQEIDy4+56kcb05/q3vrINrvkGQFoYLf9eCKHYfVSmACXyGLl4KeSXQGIcvC6ZfGj4dR6LxWUOO7b2QDEdL/P67TLVvDvmwSexfdMKNthAjHGejwEVyjc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782136643; c=relaxed/simple;
-	bh=YJYx857/ligJKiyltNstXp+pHN+Yb0tH4IXfuY2Yw2Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jIrdSAU2QtSE//FJxGoyqNV061IEXD8LJ+o1ZcIr7FmcQTCHVAAFdo2QVGgoAe695QyrQvbnObUZwm1PQqWN10yvdz35HNsBvHhky0aEqKR2sYlJriH2aodm9bORFt9Sg9b6OhUfwTYCvfeCJRF8oWfH7U2ycn8YjUxWIQZZoDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c8DniQS8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782136734; c=relaxed/simple;
+	bh=EbywcOeBUD/3KDZbFHUyFPmRrJ1Wsf0mAmgqs5EikC0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ta2pQVNnkyd5PvopY21aYNOBCHgMFlGo5CokHAYLGVqWQ05pi1XVGohQcNx7NYHL+v85WbPZnTuV94lEWQtYavGtuZ28ziGwPc/ss4+JFlwXOqIacpRGLcMTNTF5lu2QRqwVtversvcrQatPORRYvgP4FY9HRJDZ922EI7+u5Eo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I5TeNLy/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c8DniQS8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E689F1F00A3F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 13:57:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I5TeNLy/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE9C31F00A3A;
+	Mon, 22 Jun 2026 13:58:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782136641;
-	bh=ED4YTdMDltU6/Rf8lGj834x8J8IK3XC5D7SlSqjR3uE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=c8DniQS8hS3NntUJbaxvYjIDyERsHV+EejjV+3aqYsrd2Lp8VG60riPr7vw7qTIeh
-	 BxP06cksTmyUa5oR6sr8Xe4x4zofZ80kDteYaYsebOB2v/y5fpX9bk0sSIJH1SuPFQ
-	 zABcPpcEkH8uJ/MvOndOCtn3ynIzBNnow1gF6apS1KQT1MoHD5uNNZ9eJeaFw4ZLGq
-	 eI4HmVql5+6WGhpjVWt8Z8k3iFxbbCDQ1lImtnROljXdNVA4IMMR2B34Qk4DDF5Vg5
-	 WGjgu0qwZq2UhfobdzWporVtmdrCmzskg2jHrN3rqjRGa8lbFLcO2mA1zaIhzJxDRG
-	 2vstS3t1VQl2w==
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-697764213d6so3974620a12.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 06:57:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8/yX0f09W/WPMBQ+o3zDt7Id58RW1o7KUWLeFmHOFOgjUJRsNIT7eUB+XlDzDDJlQr2GRFQKW4i69MzRNp@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywm1AQ5f0T5mgf9M44ypkkHSliiYZfv5pwBKUR1fFhsPKeyT/w3
-	vAiiCrTvwv89rrrjVF/0/yCeHMdsUt9/E+14mS7XVyoQAl4uqkR3X5J1/36pvJpQAEXBk3gsPBU
-	ywLiSLSAoBdzI5E12i7SRGTnRrYiLGUk=
-X-Received: by 2002:a17:907:706:b0:c08:586c:84b6 with SMTP id
- a640c23a62f3a-c097ae06c96mr750435866b.7.1782136640641; Mon, 22 Jun 2026
- 06:57:20 -0700 (PDT)
+	s=k20260515; t=1782136733;
+	bh=7wczdpIjeibGp9rK2iPHI7/hKWAclW8NjbOpMC8+8mA=;
+	h=From:Date:Subject:To:Cc;
+	b=I5TeNLy/ap4Mq5ytoF2Uf5RNlWlP+XlUnvwq2TWFoplyWKCNhqh/OOOYpfXbnjzfa
+	 RzrA+tvjsJ9Sj5FkuNOnJdIzTm4L/ndpQzXoWhAAzKU6MbtKtIV+b396SZSgiZUuCA
+	 8/uNBZa/8moPcCsrJNkZ7DnflTLp/qkIvjeOISVAFWEkByASz2rqNDQhZ5jBE6BaJ1
+	 +2cAQOJQKsfxu6wlakVhEFDvkCKy+hiGmlj5umJvGZeyMJSddAhrMAL80bE6e2XglB
+	 YOmYP1CQ5y8pCjOGupWNf7yH3useqz8YrAI5eW1HCF1wIHWWobz6XXLJzpxDAjxpGt
+	 5GK7FBzzvbCew==
+From: Christian Brauner <brauner@kernel.org>
+Date: Mon, 22 Jun 2026 15:58:43 +0200
+Subject: [PATCH] bpf: have bpf_real_inode() take a struct file
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <tencent_C1A744D3BCA8309FE7289C548C6FE6911B07@qq.com>
-In-Reply-To: <tencent_C1A744D3BCA8309FE7289C548C6FE6911B07@qq.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Mon, 22 Jun 2026 22:57:08 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd9U-+nh7PuC0oEsBT+VonhZt03Gp4FQwHz_v=cFcf0kjw@mail.gmail.com>
-X-Gm-Features: AVVi8CfWW0oLCfBYhPntNpFPbLJFn9BqJsfJjkTEKtqmjg0K_Xh7ES-W2J3JYCA
-Message-ID: <CAKYAXd9U-+nh7PuC0oEsBT+VonhZt03Gp4FQwHz_v=cFcf0kjw@mail.gmail.com>
-Subject: Re: [BUG REPORT] ntfs: possible circular locking dependency in ntfs_mft_writepages
-To: yangguikun19 <yangguikun19@qq.com>
-Cc: Lee <hyc.lee@gmail.com>, linux-kernel <linux-kernel@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260622-work-bpf-real_inode-v1-1-4014eb4cbefd@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAJI/OWoC/yWM2Q7CIBBFf6XhWQwFocFfaYyZgcHiQhuoS9L03
+ 6X6eO5yFlYoRyrs2Cws0yuWOKYK7a5hboB0IR59ZSaFNMJIyd9jvnGcAs8E93NMoyfuVK09QhC
+ ArD6nTCF+ftb+9OfyxCu5eVNtC4RCHDMkN2zRA8pMea9RqeDMwUrosAMjlbat7jyKYGXQaMhCM
+ Fawdf0C9Znqe7kAAAA=
+X-Change-ID: 20260622-work-bpf-real_inode-c3202dbaf0ab
+To: bpf@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Amir Goldstein <amir73il@gmail.com>, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+X-Mailer: b4 0.16-dev-490fe
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1717; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=EbywcOeBUD/3KDZbFHUyFPmRrJ1Wsf0mAmgqs5EikC0=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRZ2s9mnX/18d6bpX9kZhRec9pyTu5rrpu9y5Mvgm2OL
+ Aqb3uy+0VHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCR7NkM/7M9T0UXd3kXMU8o
+ FFZZ5md6SIujXEZk9+fs/Ag3/+UG9xn+ik/nOBR8VXdhxOydC95N5JngpmK7aEL4qiv/lu54zXl
+ AiAcA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Mon, Jun 22, 2026 at 3:23=E2=80=AFPM yangguikun19 <yangguikun19@qq.com> =
-wrote:
->
-> Hello,
-Hi,
->
-> syzkaller found a reproducible lockdep warning in the NTFS filesystem on =
-a vanilla Linux 7.1.1 kernel. This is  a possible circular locking dependen=
-cy in ntfs_mft_writepages()/ntfs_write_mft_block() when writing back $MFT r=
-ecords from a crafted NTFS image.
+bpf_real_inode() must be usable from the bprm_check_security, mmap_file
+and file_mprotect hooks for systemd's RestrictFilesystemAccess BPF LSM
+program. It should take a file instead. The kfunc landed this cycle so
+changing the signature is safe.
 
-Please check if the patch below fixes the issue. This patch has
-already been applied to 7.2-rc1, and a stable tag has been added to
-apply it to 7.1.x kernel.
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/f=
-s/ntfs?id=3D76bc14c7097ff678b2b5dbfd4fa33b46897d87ce
+Fixes: 9af8c8a54f6e ("bpf: add bpf_real_inode() kfunc")
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+ fs/bpf_fs_kfuncs.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/fs/bpf_fs_kfuncs.c b/fs/bpf_fs_kfuncs.c
+index 768aca2dc0f0..f941c29d26ef 100644
+--- a/fs/bpf_fs_kfuncs.c
++++ b/fs/bpf_fs_kfuncs.c
+@@ -360,18 +360,18 @@ __bpf_kfunc int bpf_cgroup_read_xattr(struct cgroup *cgroup, const char *name__s
+ #endif /* CONFIG_CGROUPS */
+ 
+ /**
+- * bpf_real_inode - get the real inode backing a dentry
+- * @dentry: dentry to resolve
++ * bpf_real_inode - get the real inode backing a file
++ * @file: file to resolve
+  *
+- * If the dentry is on a union/overlay filesystem, return the underlying, real
++ * If the file is on a union/overlay filesystem, return the underlying, real
+  * inode that hosts the data.  Otherwise return the inode attached to the
+- * dentry itself.
++ * file itself.
+  *
+- * Return: The real inode backing the dentry, or NULL for a negative dentry.
++ * Return: The real inode backing the file, or NULL.
+  */
+-__bpf_kfunc struct inode *bpf_real_inode(struct dentry *dentry)
++__bpf_kfunc struct inode *bpf_real_inode(struct file *file)
+ {
+-	return d_real_inode(dentry);
++	return d_real_inode(file_dentry(file));
+ }
+ 
+ __bpf_kfunc_end_defs();
+
+---
+base-commit: 5b33fc6492a7b7a62359157db0f92f5b6e9af690
+change-id: 20260622-work-bpf-real_inode-c3202dbaf0ab
+
