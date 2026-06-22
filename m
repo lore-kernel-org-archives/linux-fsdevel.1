@@ -1,58 +1,57 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A7236403A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 09:09:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432BB3A48E4
+	for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 09:10:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782119401; cv=none; b=iEqrkqwPW05XHiTHe8uJ9bbaBWiOamuWpgm2cYyuD2sw3HxfR74jJtlxWWk5Art8mwnujrM23NoTgbB1SfL4NRGFwRAAP1/PaEOQ0YfLz59ZISRC2gTEZbIlTR/rm+P0LX+Na+AG7W5Z6YJFZXNV5+jmTPryiB3n57qhdTSImG0=
+	t=1782119404; cv=none; b=t6LpuIoSEi2vX02ecUX+R/4+Ve+s0NPoEhUWv3lXyv7IuWmrnr8qEI+cW61TpF0IiNh68vWVAEs1OxlByZdDTT1pnXl0L5kcjC7AIpbwOxPAoRTclmgpC3eJRJ2UtqAYgm1hrZZNNDleareilufyKpQqIoDxhJpR5hpPwKcUNs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782119401; c=relaxed/simple;
-	bh=GMV1hdmoLC3L6lmOCH7vr6X6rbMxY/dM9l3QrU8iWh0=;
+	s=arc-20240116; t=1782119404; c=relaxed/simple;
+	bh=7HWvW1/Gzg8CtTGgN9Xrd5C+91FhwGE8Ckgq3W/SNmc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pGazlwVXWwosLhhXVXjm+83xXgBD8tBHRvwVUmlVkn3d9lnQyfM2xMRAjIekoz0H0QApv5k2l8XqhwCHPlyp/VYE7l/D6jLX87bgdYiKdFXq//VX60ZhdU1W0qeyYkgKcs8S33+9bWEt8sJRTdWE7EEwwrrzhziYWrAJugcp+hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dj0G2F0h; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=cmWhMqcdZKmkZBtkaYBPunnxifrQtayQk8/7SUypRnfM21jtimKjthd3do5Jq88b71/+5nKkjvieR/KIjmqZC4zFPSiUfLIoK9kvE4CwXTiJZz7azvlwuZHDWP19IBwnv3uZ38968i3xz3AdPjL9gG93ZsuhjN3fwSZetNeOkkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dUgtohiR; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dj0G2F0h"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dUgtohiR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782119399;
+	s=mimecast20190719; t=1782119402;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1d+piwZQ3ibpiXXf29Tyf3HGnNohEDRji+q7FdFyYRo=;
-	b=dj0G2F0hqJ4/MUf9Zkzs7ufetFAZHmaD6Olzv3DEf1bn3HRY62k72KA9+zL1E8339os1pX
-	n6VD29q/pysGU+YZ8KklBzQ2S1bxOQc8VCWfUX6Crc/882bqOvomUXOcaFgeEZhDhCauii
-	pzhaUjj/RViaQzpuxGkviNnbBvSOca4=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+	bh=WpWGh2RkvMERtuFWMD+GKvljNRdbEH4YvY5+n+DOWRw=;
+	b=dUgtohiRiphwL1Do89zKFB8pJRh/EAD/xkKsVH2aaf+424CsetfLKlZqg+IoI3UzHty/MG
+	eKtoY8aZqjrKH+VN8Y2y/NrUkFUKCcm3DBkqZu9iJcAUMF3iNS80Raf7foE282nYR8VUaV
+	UtfCb1OMRSFv6oouHQ0EPZfuXy3Dsk8=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-161-eZLEspJiNPmK1P7QDpDPYw-1; Mon,
- 22 Jun 2026 05:09:57 -0400
-X-MC-Unique: eZLEspJiNPmK1P7QDpDPYw-1
-X-Mimecast-MFC-AGG-ID: eZLEspJiNPmK1P7QDpDPYw_1782119396
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-643-AdCmCHSnP-SToZQCFLrh_w-1; Mon,
+ 22 Jun 2026 05:10:00 -0400
+X-MC-Unique: AdCmCHSnP-SToZQCFLrh_w-1
+X-Mimecast-MFC-AGG-ID: AdCmCHSnP-SToZQCFLrh_w_1782119399
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EC5231955E8F;
-	Mon, 22 Jun 2026 09:09:55 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8A8991955F01;
+	Mon, 22 Jun 2026 09:09:59 +0000 (UTC)
 Received: from warthog.procyon.org.com (unknown [10.44.48.242])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B60621953946;
-	Mon, 22 Jun 2026 09:09:53 +0000 (UTC)
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7845A3691E;
+	Mon, 22 Jun 2026 09:09:57 +0000 (UTC)
 From: David Howells <dhowells@redhat.com>
 To: Christian Brauner <christian@brauner.io>
 Cc: David Howells <dhowells@redhat.com>,
 	Marc Dionne <marc.dionne@auristor.com>,
 	linux-afs@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@kernel.org>
-Subject: [PATCH v4 12/21] afs: Fix reinitialisation of the inode, in particular ->lock_work
-Date: Mon, 22 Jun 2026 10:08:46 +0100
-Message-ID: <20260622090856.2746629-13-dhowells@redhat.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 13/21] afs: Fix callback service message parsers to pass through -EAGAIN
+Date: Mon, 22 Jun 2026 10:08:47 +0100
+Message-ID: <20260622090856.2746629-14-dhowells@redhat.com>
 In-Reply-To: <20260622090856.2746629-1-dhowells@redhat.com>
 References: <20260622090856.2746629-1-dhowells@redhat.com>
 Precedence: bulk
@@ -62,85 +61,44 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-It seems that initalising afs_vnode::lock_work a single time in the slab's
-init function isn't sufficient for work_structs.  This results in the
-DEBUG_OBJECTS debugging stuff producing a warning occasionally when running
-the generic/131 xfstest:
+The AFS filesystem client uses an rxrpc server to listen for callback
+notifications.  Each callback call type handler has a delivery function
+that parses the incoming request stream, and this should return -EAGAIN the
+last packet hasn't yet been seen, but all currently queued received data is
+consumed.  afs_extract_data() does this, but the -EAGAIN return is switched
+to 0 inadvertantly
 
- ODEBUG: activate not available (active state 0) object: 0000000016d8760f object type: work_struct hint: afs_lock_work+0x0/0x220
- WARNING: lib/debugobjects.c:629 at debug_print_object+0x4b/0x90, CPU#3: locktest/7695
- ...
- CPU: 3 UID: 0 PID: 7695 Comm: locktest Tainted: G S                  7.1.0-build3+ #2771 PREEMPT
- ...
- RIP: 0010:debug_print_object+0x65/0x90
- ...
- Call Trace:
-  <TASK>
-  ? __pfx_afs_lock_work+0x10/0x10
-  debug_object_activate+0x122/0x170
-  insert_work+0x25/0x60
-  __queue_work+0x2e0/0x340
-  queue_delayed_work_on+0x48/0x70
-  afs_fl_release_private+0x57/0x70
-  locks_release_private+0x5c/0xa0
-  locks_free_lock+0xe/0x20
-  posix_lock_inode+0x55f/0x5b0
-  locks_lock_inode_wait+0x81/0x140
-  ? file_write_and_wait_range+0x50/0x70
-  afs_lock+0xcd/0x110
-  fcntl_setlk+0x10d/0x260
-  do_fcntl+0x24e/0x5b0
-  __do_sys_fcntl+0x6a/0x90
-  do_syscall_64+0x11e/0x310
-  entry_SYSCALL_64_after_hwframe+0x71/0x79
+Fix callback service message parsers to pass through -EAGAIN
 
-Fix this by reinitialising ->lock_work after allocating an inode.
-
-Also, flush ->lock_work when the inode is being evicted to make sure it's
-not still running.
-
-Fixes: e8d6c554126b ("AFS: implement file locking")
+Fixes: d001648ec7cf ("rxrpc: Don't expose skbs to in-kernel users [ver #2]")
+Closes: https://sashiko.dev/#/patchset/20260609081738.770127-1-dhowells%40redhat.com
 Signed-off-by: David Howells <dhowells@redhat.com>
 cc: Marc Dionne <marc.dionne@auristor.com>
-cc: Thomas Gleixner <tglx@kernel.org>
 cc: linux-afs@lists.infradead.org
 ---
- fs/afs/inode.c | 1 +
- fs/afs/super.c | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ fs/afs/cmservice.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/fs/afs/inode.c b/fs/afs/inode.c
-index 51c28f148845..14f39a9bea6c 100644
---- a/fs/afs/inode.c
-+++ b/fs/afs/inode.c
-@@ -680,6 +680,7 @@ void afs_evict_inode(struct inode *inode)
- 		inode->i_mapping->a_ops->writepages(inode->i_mapping, &wbc);
- 	}
+diff --git a/fs/afs/cmservice.c b/fs/afs/cmservice.c
+index 263c60c811a5..db394f101fc6 100644
+--- a/fs/afs/cmservice.c
++++ b/fs/afs/cmservice.c
+@@ -334,7 +334,6 @@ static int afs_deliver_cb_init_call_back_state3(struct afs_call *call)
+ 		ret = afs_extract_data(call, false);
+ 		switch (ret) {
+ 		case 0:		break;
+-		case -EAGAIN:	return 0;
+ 		default:	return ret;
+ 		}
  
-+	flush_delayed_work(&vnode->lock_work);
- 	netfs_wait_for_outstanding_io(inode);
- 	truncate_inode_pages_final(&inode->i_data);
- 	netfs_free_folioq_buffer(vnode->directory);
-diff --git a/fs/afs/super.c b/fs/afs/super.c
-index dec091e569c4..82bb713825a0 100644
---- a/fs/afs/super.c
-+++ b/fs/afs/super.c
-@@ -660,7 +660,6 @@ static void afs_i_init_once(void *_vnode)
- 	INIT_LIST_HEAD(&vnode->wb_keys);
- 	INIT_LIST_HEAD(&vnode->pending_locks);
- 	INIT_LIST_HEAD(&vnode->granted_locks);
--	INIT_DELAYED_WORK(&vnode->lock_work, afs_lock_work);
- 	INIT_LIST_HEAD(&vnode->cb_mmap_link);
- 	seqlock_init(&vnode->cb_lock);
- }
-@@ -694,6 +693,7 @@ static struct inode *afs_alloc_inode(struct super_block *sb)
+@@ -456,7 +455,6 @@ static int afs_deliver_cb_probe_uuid(struct afs_call *call)
+ 		ret = afs_extract_data(call, false);
+ 		switch (ret) {
+ 		case 0:		break;
+-		case -EAGAIN:	return 0;
+ 		default:	return ret;
+ 		}
  
- 	init_rwsem(&vnode->rmdir_lock);
- 	INIT_WORK(&vnode->cb_work, afs_invalidate_mmap_work);
-+	INIT_DELAYED_WORK(&vnode->lock_work, afs_lock_work);
- 
- 	_leave(" = %p", &vnode->netfs.inode);
- 	return &vnode->netfs.inode;
 
