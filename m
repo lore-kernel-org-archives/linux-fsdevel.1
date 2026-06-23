@@ -1,174 +1,148 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF963CF20E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 08:56:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0BB235AC24;
+	Tue, 23 Jun 2026 09:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782204988; cv=none; b=PK/a9iNYNoehgHiNT5TGwEwvA9NQyQMymvkOjGgNsuSiI1pM3Q3jDbWzkkh4Tsvvt3lsgUlW5DGK5PeSN1b4hlPPZ3hdulXpkDU1tjewTHk+rfXVmThfqAIR6A63QhpDRFXDJAlPNWXEfm7BuV82UVh0akH8rTTjVytEyWgIncs=
+	t=1782206163; cv=none; b=LwLTW5NRvFPv2mmKpm/Tt7p6Gzjgjdt/eyBX1G48oKEAwLrLMbjuUu3/RATBg+4v/VotybMwD0S5+el4G0TCIwl3i4jPFjDO5MeT3XtCg0RFGXLGtijSo81pjKCci3RtR/HvWwtqmbg5MoPAGLhtWm8BocecpQ9JuhIYneqJIY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782204988; c=relaxed/simple;
-	bh=j48XOqJXqdBy0t6+5bMRFjEtYFPZ1a1t8zNhjhq0jAo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gcrDLp1GjJFd1w3RML9CZ3KoHyU8zXVsem694csuj+/2bo3Iz2InHRnlUaLfhW+ZwiEYI53At9+Szr9bECwOl6rpFDOQCd5pwyTnTWGF98kQ8MmMNQO441CfKTpbQBV9cL+sief7w7/UZw6IpQV8s+5W7fByQ43kMvoOST+Hs+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jhRSUjLS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/R2XyAJ2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jhRSUjLS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/R2XyAJ2; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1782206163; c=relaxed/simple;
+	bh=2fGGWS0P4+GqP7BDsbXG+4M0kJfHb/Qy81cW24j0Es8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WStoYP+HVIL5DgkQxjF3CBd0feURgNAUS/j82POpTmFQCm1hZ4f7V0THLbBOPFB4vLWduc0sW+gEpvih2XyBV9t5J91a1yZz7AtnzVmkfEBnaAeH1RJUltpJk5Sq354CqDQ2kyc/44hg1S77AP6WVayuQF0c3xzVrD93pV3WasI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VNaKgmFm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jhRSUjLS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/R2XyAJ2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jhRSUjLS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/R2XyAJ2"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 359A575D0A;
-	Tue, 23 Jun 2026 08:56:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782204984; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=98JU/eaXzv4ypgm1+tqmYP6YjnYiWrEb4y3aPJfCIvQ=;
-	b=jhRSUjLSpT/Vd3QyMd9TiFUrmwrMmGv23HWnHILSNlB3vfPP+Dq8+OB0uM8Zpme1g3CvB4
-	LGBzAs8EC8nTYWS3jpBZejcA4suIiOd3zeA+227ca3S+97xpCAmoNSYv0CPHF6lDRoKm1l
-	77wDELrZALYKHHfZiM7xAJL6UY34GYo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782204984;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=98JU/eaXzv4ypgm1+tqmYP6YjnYiWrEb4y3aPJfCIvQ=;
-	b=/R2XyAJ2ZBwrSTygCV1fYX+tk12GzE5H6g9xFqQA3EzNzTzAFYKOGMoPnc40IFdarSyVeU
-	j534ivrpuxGJTBCg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=jhRSUjLS;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/R2XyAJ2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782204984; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=98JU/eaXzv4ypgm1+tqmYP6YjnYiWrEb4y3aPJfCIvQ=;
-	b=jhRSUjLSpT/Vd3QyMd9TiFUrmwrMmGv23HWnHILSNlB3vfPP+Dq8+OB0uM8Zpme1g3CvB4
-	LGBzAs8EC8nTYWS3jpBZejcA4suIiOd3zeA+227ca3S+97xpCAmoNSYv0CPHF6lDRoKm1l
-	77wDELrZALYKHHfZiM7xAJL6UY34GYo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782204984;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=98JU/eaXzv4ypgm1+tqmYP6YjnYiWrEb4y3aPJfCIvQ=;
-	b=/R2XyAJ2ZBwrSTygCV1fYX+tk12GzE5H6g9xFqQA3EzNzTzAFYKOGMoPnc40IFdarSyVeU
-	j534ivrpuxGJTBCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 20B86779A8;
-	Tue, 23 Jun 2026 08:56:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id RpFLBDZKOmoCZgAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Tue, 23 Jun 2026 08:56:22 +0000
-Date: Tue, 23 Jun 2026 09:56:20 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Philipp Stanner <phasta@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Lyude Paul <lyude@redhat.com>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, 
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>, 
-	Josh Triplett <josh@joshtriplett.org>, Uladzislau Rezki <urezki@gmail.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>, 
-	Christian Schrefl <chrisi.schrefl@gmail.com>, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, rcu@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] rust: sync: Add abstraction for synchronize_rcu()
-Message-ID: <ajpJmjTST-Hoxutb@pedro-suse.lan>
-References: <20260622173250.411377-2-phasta@kernel.org>
- <20260622173250.411377-3-phasta@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VNaKgmFm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A17431F000E9;
+	Tue, 23 Jun 2026 09:15:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782206161;
+	bh=dwJksdIzMwz2uxNEIudYReLSHRnKiNyII3cysFwTREY=;
+	h=From:Subject:Date:To:Cc;
+	b=VNaKgmFmznQyoeBulK2m9ac4kiPLoAR5JPsaxOdisC7FWIf3vYYbj6lRKounZbT6U
+	 /+6LumlFCNSd5GgF4g2EZ1H02pFT2iHEqAIlv40GpnhseIE11drxjSvcc3DZoNdxNW
+	 SQOXGkj8Ws376UM43KATbYphopYWFowsCK/safTm8l0SSMVI3O81QxJnwmzRqa0It1
+	 B/CXZ5GgxmthzDbx3NcFYPIqwz5JY86m0eDgG3B5mnqmMolIyftsuL1aBv79O/PUYy
+	 m2t5nvXsjDW3sLav1I+bO1iDLSsHk+fqHto9IomYNlKWfsFRfzTyrN4EwdiwPnEURL
+	 YN/xyKjcTrMvg==
+From: Hannes Reinecke <hare@kernel.org>
+Subject: [PATCH RFC v3 00/12] namespace-aware configfs
+Date: Tue, 23 Jun 2026 11:15:45 +0200
+Message-Id: <20260623-configfs-ns-v3-0-841c100fd5dd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260622173250.411377-3-phasta@kernel.org>
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 359A575D0A
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,protonmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[33];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,collabora.com,nvidia.com,onurozkan.dev,zeniv.linux.org.uk,suse.cz,redhat.com,joshtriplett.org,gmail.com,goodmis.org,efficios.com,linux.dev,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLzijfi9nboexiud4o8afph5gt)];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMFOOmoC/22NQQrCMBREr1L+2khMa5q6EgQP4Fa6MMlP+qkkk
+ khRSu9uyFqYzZthZlbImAgznJoVEi6UKYYC7a4BMz2CR0a2MAguJJeHgZkYHHmXWchMH/tO6Vb
+ KIiiNV0JHn7p2h9v1AmMxJ8rvmL71YRE1+ju2CMaZEs72fOi0suY8Ywr43MfkYdy27QcOPuYBr
+ AAAAA==
+X-Change-ID: 20260619-configfs-ns-b5748b366366
+To: Andreas Hindborg <a.hindborg@kernel.org>, 
+ Breno Leitao <leitao@debian.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-nvme@lists.infradead.org, Hannes Reinecke <hare@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782206158; l=3779;
+ i=hare@kernel.org; s=20260619; h=from:subject:message-id;
+ bh=2fGGWS0P4+GqP7BDsbXG+4M0kJfHb/Qy81cW24j0Es8=;
+ b=7NedXzaZugWH2oJPuKLHBA6vecxoG9Jg3H+7rVkhZp6LR3ZBzVif3pMuzDOsvpBbVamfRC7Xa
+ hcCBwWaKnaPCaxTGLqZV94tb4GYUJxtlIOVPabw481xAhY3Qrt7BaFJ
+X-Developer-Key: i=hare@kernel.org; a=ed25519;
+ pk=iekPF4ZZFva3sutm7d1ryPNR1G/WFfUgHaDB423JXho=
 
-On Mon, Jun 22, 2026 at 07:32:49PM +0200, Philipp Stanner wrote:
-> synchronize_rcu() is a frequently used C function which is always safe
-> to be called.
-> 
-> Add a safe abstraction for synchronize_rcu().
-> 
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> ---
->  rust/kernel/sync/rcu.rs | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/rust/kernel/sync/rcu.rs b/rust/kernel/sync/rcu.rs
-> index a32bef6e490b..0d438ef31766 100644
-> --- a/rust/kernel/sync/rcu.rs
-> +++ b/rust/kernel/sync/rcu.rs
-> @@ -50,3 +50,12 @@ fn drop(&mut self) {
->  pub fn read_lock() -> Guard {
->      Guard::new()
->  }
-> +
-> +/// Wait for one RCU grace period.
-> +///
-> +/// You typically do this to wait for everyone holding a [`Guard`].
-> +#[inline]
-> +pub fn synchronize_rcu() {
-> +    // SAFETY: `synchronize_rcu()` is always safe to be called. It just waits for a grace period.
+Hey all,
 
-Commething randomly here (I know as much rust as the next not-knowing-rust-guy, sadly),
-but synchronize_rcu() is not always safe to be called. You cannot call it if
-you have the rcu read lock, or cannot sleep for any reason. I don't know if
-you can encode these in the rust type system though.
+during discussions at LSF/MM I thought it would be quite helpful
+to make configfs namespace aware, such that one could do:
 
+unshare --mnt
+mount -t configfs none /sys/kernel/config
+
+and get a new instance of configfs. This will allow to have distinct
+configurations for each namespace.
+This is particularly helpful if you want to run eg nvmet in a container;
+with this patchset each container can have its own configuration, and
+one can simulate a multi-node nvmet cluster using containers.
+
+How it works:
+The configfs 'root' entries are stored in 'configfs_super_info', which
+can be looked up from an xarray using the (network) namespace ID as the index.
+A configfs subsystem can be converted to be namespace aware by implementing
+the new subsyste callbacks 'fill_subsystem()' and 'clear_subsystem', which
+are responsible for populating the subsystem structure.
+Upon registration via 'register_subsystem()' the subsystem is put in a
+linked list within 'configfs_super_info'. So when mount() is called from
+a different namespace this list is traversed, and new subsystems are created
+in the new namespace using the callbacks.
+
+Open Issues:
+- I've added a new function 'mnt_clone_direct()' to clone the vfsmount
+  entry (the original code just did a simple_pin_fs()). Not sure if
+  that's correct. Christian?
+- Ideally I would love to make the whole thing work without having
+  to mount a new configfs instance from within the container.
+  Again, not sure if that's possible.
+- I've decided to base it off the net namespace (and not any namespace).
+  That makes implementation easier, but requires the various subsystems
+  to actually _use_ the network namespace.
+  The current use-case (nvmet) does that, so it works for me :-)
+
+Otherwise, as usual, commands and reviews are welcome.
+
+Changes to the original submission:
+- Changed to use 'net' namespace instead of 'mnt' namespace
+- Smaller fixes as suggested by sashiko.
+
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+---
+Changes in v3:
+- Split off nvmet patches
+- kbuild robot fixes
+- Simplify namespace selection
+- Link to v2: https://lore.kernel.org/r/20260619-configfs-ns-v2-0-82fd7094b8dc@kernel.org
+
+---
+Hannes Reinecke (12):
+      fs/configfs: rework configfs_is_root()
+      fs/configfs: dynamically allocate super_info
+      fs/configfs: separate out configfs_{link,unlink}_root()
+      fs/configfs: add superblock as attribute to configfs_pin_fs()
+      fs/configfs: add 'fill_subsystem' and 'clear_subsystem' callbacks
+      fs/namespace: implement mnt_clone_direct()
+      fs/configfs: switch to get_tree_keyed()
+      fs/configfs: open-code simple_pin_fs()
+      nvmet: make discovery subsystem dynamic
+      nvmet: per net-namespace port list
+      nvmet: make configfs setup namespace aware
+      nvmet: enable transports for net namespaces
+
+ drivers/nvme/target/configfs.c  | 206 +++++++++++++++++++++++++++------
+ drivers/nvme/target/core.c      |  36 +++---
+ drivers/nvme/target/discovery.c |  91 +++++++++++----
+ drivers/nvme/target/loop.c      |   4 +
+ drivers/nvme/target/nvmet.h     |  15 ++-
+ drivers/nvme/target/rdma.c      |   6 +-
+ drivers/nvme/target/tcp.c       |   6 +-
+ fs/configfs/configfs_internal.h |  23 +++-
+ fs/configfs/dir.c               | 188 +++++++++++++++++++++++++-----
+ fs/configfs/mount.c             | 248 +++++++++++++++++++++++++++++++++-------
+ fs/namespace.c                  |  11 ++
+ include/linux/configfs.h        |   8 ++
+ include/linux/mount.h           |   1 +
+ 13 files changed, 682 insertions(+), 161 deletions(-)
+---
+base-commit: 66affa37cfac0aec061cc4bcf4a065b0c52f7e19
+change-id: 20260619-configfs-ns-b5748b366366
+
+Best regards,
 -- 
-Pedro
+Hannes Reinecke <hare@kernel.org>
+
