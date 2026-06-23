@@ -1,278 +1,108 @@
-Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.43])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A013D16F0
-	for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 10:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.163.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB5A3D1CCA;
+	Tue, 23 Jun 2026 11:04:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782212107; cv=none; b=ueKWPpMVIvC8OCunw/SqloG9QwONYfPBQYVYFAd+0fE/3xF8uG9Z3YIOZvgRIQulMZclmlhL5sv+Y1wBw/v8chZMSSQnoW30SsIFvyB5SeqE25ymiKDBNkiI+gO5t+2nmcbomr1hoGqqN6ZOwU5HTSevNcoGw/PV06VqqfpBxWM=
+	t=1782212652; cv=none; b=Tc+8EYcQDwF2qilHdZ+IjhU3sI2O6CWcEnkpnACepICKSSbi0Ef58rSxTQEfLymYiFgTh8FX5dUKQ2kS501Rxz2f09le47Y2o5q9HGUBTuk17+KXj7MbVC3mdrFxJfiyxkTYxDsSaHgzSQFDxeo4+NyYUEmrsZ2ATCfr94z8ILU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782212107; c=relaxed/simple;
-	bh=bMEc4ZxhUS2bVl59/37uOC2f1N4i45hDolt8+EURqbM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=psee6SxrlVmJ3m43tuEO32yQkWMEz60KZjWpnM+CyaCppGq7OCBQeeWiR78/FMl8THz0z292yYLQqBnv3TkaDEUxeJwuEhDZ7qH3no58RxilEiQY43xbqSqa7RinohBiX5NM4xujj72M3vJygDkZabv8c6s7P7KQ8P/IvJUkGPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=mwgiGPDg; arc=none smtp.client-ip=43.163.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1782212652; c=relaxed/simple;
+	bh=TkGRx6cKET5CaXEEJ9SPtLz5Ws0gbttQWauWzqhGA2Q=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=iPdGfjIU6VkEywxYoEiz+1Kp9kbCqBOxC7WjvrJiEcdmHsQVoXfgO6sy1s0pWH6wgsr9dDNWvYJUhPrLXm2lnZejxB9c+rMUIWz7Y0XdAPiXKPqQATVFT2xjvElmusgTt96CdisXgLEfQxRXRqQOXL4J40pH2nqnbBUMkD5uZ1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ODlmXOmc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="mwgiGPDg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1782212095; bh=4q88+ttZMviWZpntI44EOp6qd5JvFg5Bi7R2f2PE/as=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=mwgiGPDgEyICWYsAjjQ2IFXcPh64q/rnAkz9W60L4x9IEBiNsvHooZaj+m1AI0ic4
-	 DLv6lqycCj3mP1S0Zi7LCh6SzZ/Cg96HtzwY5GlRaqF7Z6FV3+YV6xyQpdQWg+ZALV
-	 sBku/OqHWaiXDbTxmhvMx1hnHNMdYPxYUeG66Vcc=
-Received: from [192.168.3.157] ([115.156.144.140])
-	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
-	id DB30CEEF; Tue, 23 Jun 2026 18:54:51 +0800
-X-QQ-mid: xmsmtpt1782212091tn5pm9rfd
-Message-ID: <tencent_222F50A4CB8E790B93AB90E5109DE13E1A09@qq.com>
-X-QQ-XMAILINFO: OKOirRU4nj6hMqiv/M7N7uFPSUU+cUH9KafDvKjAUKlgZ/b860U6gUDxBB+MhG
-	 V1b989M8wuAge71fRcW+pMYJgmrduR7t73knpWxcCaV/VtDg4qNJV9s0WyECUcSJPlNhY81wJhqu
-	 +cB1ziQb3pWXyfiCHN4trXzZ69/9poI3JZmSKyyH6I3emdJPz6XpzmvI7SKiUDSAr3btNxYJqZkE
-	 lHpEjdYROVZ1gQx4jSe2QBbRIkLWaaqS7WZyM8gwl/PQ15OLGa/m17rEvXWApOwaLLAJrX1JN6oJ
-	 oOkM6FCvdrMqa2/d3slO2X2p3xIBmTI3uKCtU4RgSyLOfYBm9mS5p9r0uFtOEuRvlIaqqxyiwWaV
-	 luD+ujQisVcfjTR3rCyeXFlRwqeWvvGtOdTeAzsT14jbOve2bAPSQZv5J/R3MMpVbdh15FfTlMQO
-	 opXIF8Bt2YsxbumHN8M7pQdvHkrafX4pe+MfzmHRor20tYChUhWHzc4TC7odjuIG3SWp1crwfdPg
-	 AEl9yLXKR/yzKAJeSMwnHgJKpGqNzX3pX6tIb2N76NAOHZQhkSIwn8JwJmIbOF7Qv24vu+CkIl5W
-	 4kcslfQ5uvcb/5e6s9FW2JuD1F6k25OKxDZq424lYnANNaWmzQxKreXCqGmnf63QR9J3FtrtCcy1
-	 J6brugBsWZ1xDjk9UmBAdi5x/rogr+30zFGNnICT8DBYW61KS249/nlHoZi7Kq0LBtc6gesYaYHS
-	 cp2ktfOSQrW+dRoCMUbYWmCn0SswbiUH6oIiYqTzAONEF6hIgMW9iaU3kOWc+V0mbwGuJ4YRjYhS
-	 5GCYszNpwE7XpHZUGnu6/pvsHu8BDIELeb8iwmpSYGTOzPTTtOFntyesl+P27KCyphowN4lpGh8v
-	 A/QC7thBlqWknwwnNppkGvj3zt0h0fcjgtebR16e3XWCwZZau4LEU11jbldnJHTo+mcYSvvdU2+o
-	 KHJTNFRxbDWCJnUe4xvL6G8/wvE9Hi2eRf3OAk9d6GGAILRY4RWwUppubsHeXvf8HxwMkX336OOL
-	 vgeYnRhsQhZsUnuFrlT3sv0KtdByCIPpHZ3zPweQRxl6OPOccqgVbTzYolDfhhhImj1zgjvRyJxD
-	 Y0yvbDj+j5ciqtq50EaTx6YuRj/w==
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
-X-OQ-MSGID: <ce01e205-4129-4c97-8b2a-ab129cebf5e3@qq.com>
-Date: Tue, 23 Jun 2026 18:54:50 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ODlmXOmc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6EAD1F000E9;
+	Tue, 23 Jun 2026 11:04:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782212650;
+	bh=OSYgSga/i+pSM8InQLThNq0tTer63q61mB7clX4esxY=;
+	h=Date:From:Subject:Cc:To:References:In-Reply-To;
+	b=ODlmXOmcLsMg84jq24n5cRL2vMLDwD3yImpQ1uOu0E9fUR1EJw551k/RsKiYA908G
+	 YcDcp6LOUNa1sDt1FYXRPlz+KTUrDxdr6vy85USvHV+xyw/LrBoQbK+B9ZVlUIerrz
+	 fCP+JR5J22FlhVqNsUuoVqay/sqzxXO5Ju3Qujcf488pMn+uOiRfw5k1h5ao62kM4V
+	 pV39Jiarx1wqMpFBzPjIwUXOt+tF0fU+n5Hb4XOJSgI6W61f86ZpXVBEYSMKx3farg
+	 1L2chTBXVCedQJ5v9MDmLFxr1AsmdY3qLHsXR282j0NvKwvfS2/X+gJh91d7TroeeN
+	 EC9KLmttHFQlQ==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/11] hugetlb: Convert the vmf->pgoff to PAGE_SIZE
- granularity
-To: Jane Chu <jane.chu@oracle.com>, akpm@linux-foundation.org
-Cc: willy@infradead.org, jack@suse.cz, viro@zeniv.linux.org.uk,
- brauner@kernel.org, muchun.song@linux.dev, osalvador@suse.de,
- david@kernel.org, hughd@google.com, baolin.wang@linux.alibaba.com,
- linmiaohe@huawei.com, nao.horiguchi@gmail.com, lorenzo@kernel.org,
- rppt@kernel.org, peterx@redhat.com, corbet@lwn.net,
- linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-References: <20260617172534.1740152-1-jane.chu@oracle.com>
- <20260617172534.1740152-6-jane.chu@oracle.com>
-From: XIAO WU <xiaowu.417@qq.com>
-In-Reply-To: <20260617172534.1740152-6-jane.chu@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 23 Jun 2026 13:04:03 +0200
+Message-Id: <DJGDNLFBZNI8.QMS435A1U37R@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v2 1/3] rust: sync: Add abstraction for
+ synchronize_rcu()
+Cc: <phasta@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
+ <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
+ <tamird@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Alexander Viro"
+ <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>, "Jan
+ Kara" <jack@suse.cz>, "Lyude Paul" <lyude@redhat.com>, "Paul E. McKenney"
+ <paulmck@kernel.org>, "Frederic Weisbecker" <frederic@kernel.org>, "Neeraj
+ Upadhyay" <neeraj.upadhyay@kernel.org>, "Joel Fernandes"
+ <joelagnelf@nvidia.com>, "Josh Triplett" <josh@joshtriplett.org>,
+ "Uladzislau Rezki" <urezki@gmail.com>, "Steven Rostedt"
+ <rostedt@goodmis.org>, "Mathieu Desnoyers"
+ <mathieu.desnoyers@efficios.com>, "Lai Jiangshan" <jiangshanlai@gmail.com>,
+ "Zqiang" <qiang.zhang@linux.dev>, "Christian Schrefl"
+ <chrisi.schrefl@gmail.com>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <rcu@vger.kernel.org>
+To: "Philipp Stanner" <phasta@mailbox.org>
+References: <20260622173250.411377-2-phasta@kernel.org>
+ <20260622173250.411377-3-phasta@kernel.org>
+ <DJFSV0OS9NEG.G9W8K1OHQ8D5@kernel.org>
+ <cf185852a6a28287012154c1ba3823614498177e.camel@mailbox.org>
+In-Reply-To: <cf185852a6a28287012154c1ba3823614498177e.camel@mailbox.org>
 
-Hi Jane,
+On Tue Jun 23, 2026 at 8:09 AM CEST, Philipp Stanner wrote:
+> The reason I wrote "typically" is because my mind had the potential
+> future use-case of ours prefetched where we might have to do a
+> synchronize_rcu() to wait for a C backend to be done with something,
+> where no one really holds a Rust `Guard` (though of course the read
+> lock).
 
-Thanks for this series — the conversion to PAGE-granularity indexing is a
-nice cleanup.
+In that case I'd just say "read side critical section" and then mention the
+rcu::Guard type as one way to end up in such.
 
-I came across a Sashiko AI review of this patch series, which flagged
-several issues, one of which I was able to confirm triggers a real kernel
-crash:
+In comparison with other synchronization primitives, RCU is a global mechan=
+ism,
+so only talking about the rcu::Guard specifically might indeed be misleadin=
+g.
 
-https://sashiko.dev/#/patchset/20260617172534.1740152-1-jane.chu@oracle.com
+>> Also, while it's implicit, it might still be worth to explicitly call ou=
+t that
+>> this means concurrently held Guard objects (concurrent read side critica=
+l
+>> sections), i.e. subsequent read side critical sections may still run
+>> concurrently.
+>
+> That's quite generic RCU knowledge IMO. I'm not sure to what degree one
+> wants to document RCU in general at this new function here, vs just the
+> Rust API.
 
- > +++ b/mm/hugetlb.c
- > @@ -5952,8 +5955,7 @@ vm_fault_t hugetlb_fault(struct mm_struct *mm, 
-struct vm_area_struct *vma,
- >          .address = address & huge_page_mask(h),
- >          .real_address = address,
- >          .flags = flags,
- > -        .pgoff = vma_hugecache_offset(h, vma,
- > -                address & huge_page_mask(h)),
- > +        .pgoff = linear_page_index(vma, address),
+One or two precise sentences should be enough; no need to document RCU in
+general.
 
-This change sets vmf.pgoff to linear_page_index(vma, address), but
-`address` here is the raw unaligned fault address, not the huge-page-aligned
-address.  Previously, vma_hugecache_offset() used `address & 
-huge_page_mask(h)`
-which produced a huge-page-aligned index.
+> Rewording the documentation is fine by me, but since we're in a nitty
+> domain here I would then ask you to provide a few draft sentences that
+> would satisfy your basic requirements.
 
-When a page fault occurs at a non-huge-page-aligned address within a hugetlb
-mapping (e.g., vm_start + 0x1000 for a 2MB page), the resulting pgoff is not
-a multiple of pages_per_huge_page (512 for 2MB).  This unaligned index
-propagates through:
+Should be as simple as adding "in progress", e.g. considering the above:
 
-   hugetlb_fault() → hugetlb_no_page() → hugetlb_add_to_page_cache()
-   → __filemap_add_folio()
-
-where this assertion fires (mm/filemap.c:862):
-
-   VM_BUG_ON_FOLIO(index & (folio_nr_pages(folio) - 1), folio);
-
-With CONFIG_DEBUG_VM=y, this becomes a BUG() and panics the kernel.
-
-I was able to reproduce this in a QEMU VM.  The fix should be trivial:
-pass the aligned address to linear_page_index().
-
-=== Reproduction ===
-
-Kernel: 7.1.0-rc5-g7ba451f8a24f #1 SMP PREEMPT_DYNAMIC x86_64
-Config: CONFIG_HUGETLBFS=y, CONFIG_DEBUG_VM=y, CONFIG_KASAN=y
-
-Trigger: mmap a hugetlbfs file, then access an address at offset 0x1000
-(one 4K page) into the mapping, which is unaligned relative to the 2MB
-huge page boundary.
-
-=== Full PoC ===
-
-Compile with: gcc -o poc poc.c -static
-
-#define _GNU_SOURCE
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/mman.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/syscall.h>
-#include <fcntl.h>
-#include <errno.h>
-
-#ifndef MAP_HUGETLB
-#define MAP_HUGETLB 0x40000
-#endif
-#ifndef MAP_HUGE_SHIFT
-#define MAP_HUGE_SHIFT 26
-#endif
-
-/*
-  * Bug: hugetlb_fault() sets vmf.pgoff = linear_page_index(vma, address)
-  * using the raw unaligned fault address.  This unaligned pgoff reaches
-  * __filemap_add_folio() which VM_BUG_ON_FOLIO's on it.
-  */
-
-static long get_hugepage_size(void)
-{
-     FILE *f;
-     char line[256];
-     long size = 2 * 1024 * 1024;
-
-     f = fopen("/proc/meminfo", "r");
-     if (!f)
-         return size;
-     while (fgets(line, sizeof(line), f)) {
-         if (sscanf(line, "Hugepagesize: %ld kB", &size) == 1)
-             size *= 1024;
-     }
-     fclose(f);
-     return size;
-}
-
-int main(void)
-{
-     void *addr;
-     size_t hpage_size;
-     const char *hugetlbfs_path = "/mnt/huge/testfile";
-     int fd;
-     int ret;
-
-     hpage_size = get_hugepage_size();
-     printf("[+] Huge page size: %zu bytes\n", hpage_size);
-
-     /* Mount hugetlbfs */
-     mkdir("/mnt/huge", 0755);
-     ret = syscall(__NR_mount, "hugetlbfs", "/mnt/huge", "hugetlbfs", 0, 
-NULL);
-     if (ret < 0 && errno != EBUSY && errno != ENOENT)
-         perror("mount hugetlbfs");
-
-     /* Reserve 1 huge page */
-     {
-         FILE *f = fopen("/proc/sys/vm/nr_hugepages", "w");
-         if (f) { fprintf(f, "1"); fclose(f); }
-     }
-
-     /* Create hugetlbfs file and mmap it */
-     fd = open(hugetlbfs_path, O_CREAT | O_RDWR, 0644);
-     if (fd < 0) {
-         perror("open hugetlbfs");
-         printf("[!] Trying anonymous MAP_HUGETLB\n");
-         addr = mmap(NULL, hpage_size, PROT_READ | PROT_WRITE,
-                 MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB, -1, 0);
-         if (addr == MAP_FAILED) {
-             perror("mmap MAP_HUGETLB");
-             return 1;
-         }
-     } else {
-         ftruncate(fd, hpage_size);
-         addr = mmap(NULL, hpage_size, PROT_READ | PROT_WRITE,
-                 MAP_SHARED, fd, 0);
-         close(fd);
-         if (addr == MAP_FAILED) {
-             perror("mmap hugetlbfs file");
-             return 1;
-         }
-     }
-     printf("[+] Mapping at %p\n", addr);
-
-     /*
-      * Trigger: access address at offset 0x1000 into the huge page.
-      * vm_start is huge-page-aligned, but vm_start + 0x1000 is not.
-      * hugetlb_fault() sets vmf.pgoff = linear_page_index(vma, address)
-      * with the unaligned address, producing an unaligned pgoff.
-      */
-     printf("[+] Triggering fault at unaligned offset (%p + 
-0x1000)...\n", addr);
-     fflush(stdout);
-     volatile char *trigger = (volatile char *)addr + 0x1000;
-     *trigger = 0x41;
-
-     printf("[+] Survived: value = 0x%02x\n", *trigger);
-     return 0;
-}
-
-=== Crash Log ===
-
-Linux syzkaller 7.1.0-rc5-g7ba451f8a24f #1 SMP PREEMPT_DYNAMIC x86_64
-
-[  527.288433][ T9873] page dumped because: VM_BUG_ON_FOLIO(index & 
-(folio_nr_pages(folio) - 1))
-[  527.300642][ T9873] kernel BUG at mm/filemap.c:862!
-[  527.301090][ T9873] Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
-[  527.301640][ T9873] CPU: 0 UID: 0 PID: 9873 Comm: poc Not tainted
-[  527.303803][ T9873] RIP: 0010:__filemap_add_folio+0xf39/0x1200
-[  527.311913][ T9873] Call Trace:
-[  527.312345][ T9873]  <TASK>
-[  527.312676][ T9873]  hugetlb_add_to_page_cache+0xe3/0x240
-[  527.313414][ T9873]  hugetlb_no_page+0x1301/0x21b0
-[  527.314402][ T9873]  hugetlb_fault+0x531/0x1570
-[  527.315259][ T9873]  handle_mm_fault+0x970/0xaf0
-[  527.316565][ T9873]  do_user_addr_fault+0x60b/0x14c0
-[  527.317434][ T9873]  asm_exc_page_fault+0x26/0x30
-[  527.318733][ T9873] RIP: 0033:0x401fa2
-[  527.326921][ T9873]  <TASK>
-[  527.327245][ T9873] RIP: 0010:__filemap_add_folio+0xf39/0x1200
-[  527.335300][ T9873] Kernel panic - not syncing: Fatal exception
-
-The Sashiko review also flagged a few other pre-existing issues in
-this series that I haven't verified yet:
-
-1. [Critical] remove_inode_hugepages() in patch 9: passing folio->index
-    (base-page index) to hugetlb_unmap_file_folio() which multiplies by
-    pages_per_huge_page(h), effectively squaring the offset and causing
-    the interval tree search to miss VMAs (potential UAF).
-
-2. [High] hugetlbfs_zero_partial_page() in patch 7: Usama already
-    pointed out the start >> PAGE_SHIFT question — `start` is a byte
-    offset but filemap_lock_folio() expects a page index.
-
-3. [Critical] filemap_get_pages() in patch 4: the `if (is_hugetlbfs)
-    goto done` path returns 0 with an empty batch, which could cause
-    filemap_read() to loop forever when reading a hole in a hugetlbfs
-    file.
-
-Thanks,
-Xiao
-
-
+	This waits for all RCU read-side critical sections already in progress,
+	including those established by an [`rcu::Guard`].
+=09
+	This does not prevent new read-side critical sections from starting;
+	those may begin and run while this call blocks.
