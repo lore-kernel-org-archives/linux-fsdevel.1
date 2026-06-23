@@ -1,128 +1,70 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8751367B8A;
-	Tue, 23 Jun 2026 09:49:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3451033F361;
+	Tue, 23 Jun 2026 09:56:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782208153; cv=none; b=r9kRGV5ZauvFFFiRlNDSAFnltv2hkUGUJYTr7O3gXNnLi1ZBSHKHaWhX+n0lbXJGCXGHYa+HEJCof3WOsotW0IUfX0QXNiK5VUpqRjQWzP1XMS7f9hAaA8xwiZ+DISwRSmH1dcGNJpCTboKx/yLOtbjqDTklG09QoVoBgE/ngtU=
+	t=1782208621; cv=none; b=qRuq/5qMinhf7QGTHQrWzHn7ahCRcERb9NXkOmhp+wZDt1iMNfzwyEyQBiRLo9YqlP00aOFlalGxFUj00rs2fTJQTIlm0mBPkk+SS8t73tW2hflLEZmWdIJ9W8Ruidy0TcjEdBui17svWs647b06h1f7I687LBz8VcjSGEZktuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782208153; c=relaxed/simple;
-	bh=myHlpcVxrje/4LogYH81Ir3neHlcOUHx7Cq5HKiPvoo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=R+A7Qcn3MnbfLc+PP1/zxIN5Gsd+P3CdVx2VhRevxxfwupWOnxQI06VIhrF7fmUMAf22OpYBXSHuT9619jYwNYdcSsXf/CcUNxWkAkozIdLGPK9s5GWiASJ2W89xKp8rCbp4OKdi3vL47QYQaQvqFksOEoX99Qf20KuQBGrN9kE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=yplXKjHQ; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="yplXKjHQ"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gl0dT19JHz9v0J;
-	Tue, 23 Jun 2026 11:49:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1782208141; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=myHlpcVxrje/4LogYH81Ir3neHlcOUHx7Cq5HKiPvoo=;
-	b=yplXKjHQ2VZwlE7gs0Cme6obvZk+1MOY0dMydr0mkUYtKJIUYXMW2q0C2DY9VCZ0FbrDjq
-	CBXUolVF13Grpx7cAhNCF4KwLJe/Y4+yf4Jf22d9rbvlQw06rZ6BJI1dHY5WTh5dznsPUc
-	WMTN/gRipuQb/cw90+Evmk9DrdMneJl9uGC69Ar5ccLiwWUZN25EY6l61H8ovritF+szoz
-	O+UPhPouCIyYF5tUr44JqNZ6urmQBN8g2cOh/+GnFk5YkcKe5vUuJ6VGxB9scwk5kUoj/+
-	Oe/FVJTnI7BIjAM0zepFouwbUO+0hZtIMmpxuzM1s0vcTmwi0IcEoEwVeZYUXQ==
-Message-ID: <908762cb7fd90df1df70eda28363a0015c404527.camel@mailbox.org>
-Subject: Re: [PATCH v2 1/3] rust: sync: Add abstraction for synchronize_rcu()
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Pedro Falcato <pfalcato@suse.de>, Philipp Stanner <phasta@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo
-	 <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron	
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
- Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross	 <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- Daniel Almeida	 <daniel.almeida@collabora.com>, Tamir Duberstein
- <tamird@kernel.org>,  Alexandre Courbot <acourbot@nvidia.com>, Onur
- =?ISO-8859-1?Q?=D6zkan?= <work@onurozkan.dev>, Alexander Viro	
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
-	 <jack@suse.cz>, Lyude Paul <lyude@redhat.com>, "Paul E. McKenney"	
- <paulmck@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, Neeraj
- Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes
- <joelagnelf@nvidia.com>, Josh Triplett	 <josh@joshtriplett.org>, Uladzislau
- Rezki <urezki@gmail.com>, Steven Rostedt	 <rostedt@goodmis.org>, Mathieu
- Desnoyers <mathieu.desnoyers@efficios.com>,  Lai Jiangshan
- <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>, Christian Schrefl
-	 <chrisi.schrefl@gmail.com>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- rcu@vger.kernel.org
-Date: Tue, 23 Jun 2026 11:48:50 +0200
-In-Reply-To: <ajpJmjTST-Hoxutb@pedro-suse.lan>
-References: <20260622173250.411377-2-phasta@kernel.org>
-	 <20260622173250.411377-3-phasta@kernel.org>
-	 <ajpJmjTST-Hoxutb@pedro-suse.lan>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1782208621; c=relaxed/simple;
+	bh=yG4yXRaZ3kft6oknPdvtgINUD4v3PqTns8m7+GPGKCc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=I1NkZTgItDPCb8gXzyj4Y6YwUt0qglSEF1NqwMHtPz6z4TgMLA7u6Ve9b+/6xuDwFwTAVGNshCHK+CrNZI3K9L76hgAZeiim0s3Gml38sfUcNV5lG0rPAUkAmo1AOIBDYqcoOrlP6vuHsvKJ7NMhxZiLY26rrCR7K8ddLCIGsGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: dbd692386ee911f1aa26b74ffac11d73-20260623
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:d7523a35-4669-4746-a931-191c1311e91b,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:e7bac3a,CLOUDID:21992dfea4215b877f41caa6ae3c6d5c,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|83|102|123|136|850|865|898,TC:nil,
+	Content:0|15|50,EDM:5,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:
+	nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: dbd692386ee911f1aa26b74ffac11d73-20260623
+X-User: luoliang@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <luoliang@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 889360935; Tue, 23 Jun 2026 17:56:51 +0800
+From: luoliang@kylinos.cn
+To: Shuah Khan <shuah@kernel.org>
+Cc: Liang Luo <luoliang@kylinos.cn>,
+	Christian Brauner <brauner@kernel.org>,
+	"Eric W . Biederman" <ebiederm@xmission.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	linux-kselftest@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] selftests/nsfs: fix wrong error check of NS_GET_USERNS result
+Date: Tue, 23 Jun 2026 17:56:48 +0800
+Message-Id: <20260623095648.440638-1-luoliang@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260618070805.144324-1-luoliang@kylinos.cn>
+References: <20260618070805.144324-1-luoliang@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: f00e168481f30d97e01
-X-MBO-RS-META: gr93mh3f3t88hakhgorj5p61kskyjdbu
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2026-06-23 at 09:56 +0100, Pedro Falcato wrote:
-> On Mon, Jun 22, 2026 at 07:32:49PM +0200, Philipp Stanner wrote:
-> > synchronize_rcu() is a frequently used C function which is always safe
-> > to be called.
-> >=20
-> > Add a safe abstraction for synchronize_rcu().
-> >=20
-> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> > ---
-> > =C2=A0rust/kernel/sync/rcu.rs | 9 +++++++++
-> > =C2=A01 file changed, 9 insertions(+)
-> >=20
-> > diff --git a/rust/kernel/sync/rcu.rs b/rust/kernel/sync/rcu.rs
-> > index a32bef6e490b..0d438ef31766 100644
-> > --- a/rust/kernel/sync/rcu.rs
-> > +++ b/rust/kernel/sync/rcu.rs
-> > @@ -50,3 +50,12 @@ fn drop(&mut self) {
-> > =C2=A0pub fn read_lock() -> Guard {
-> > =C2=A0=C2=A0=C2=A0=C2=A0 Guard::new()
-> > =C2=A0}
-> > +
-> > +/// Wait for one RCU grace period.
-> > +///
-> > +/// You typically do this to wait for everyone holding a [`Guard`].
-> > +#[inline]
-> > +pub fn synchronize_rcu() {
-> > +=C2=A0=C2=A0=C2=A0 // SAFETY: `synchronize_rcu()` is always safe to be=
- called. It just waits for a grace period.
->=20
-> Commething randomly here (I know as much rust as the next not-knowing-rus=
-t-guy, sadly),
-> but synchronize_rcu() is not always safe to be called. You cannot call it=
- if
-> you have the rcu read lock, or cannot sleep for any reason. I don't know =
-if
-> you can encode these in the rust type system though.
+From: Liang Luo <luoliang@kylinos.cn>
 
-Preventing illegal actions in atomic context seems very difficult to
-achieve in Rust and AFAIK the only viable path forward currently is to
-have klint check for rule violations. Gary is working on that.
+Adding Christian Brauner and linux-fsdevel to Cc. Running
+get_maintainer.pl on the parent directory
+tools/testing/selftests/filesystems/ surfaces additional frequent
+contributors that the per-file invocation did not.
 
-But it would be interesting to know more about how in general Rust's
-unsafe comments are related to problems beyond UAF issues, and to what
-degree we want to document context requirements.
+Original patch:
+https://lore.kernel.org/all/20260618070805.144324-1-luoliang@kylinos.cn/
 
-C documents functions like synchronize_rcu() in much detail, but its
-documentation trusts on the readers general familiarity with RCU,
-assuming no one would come up with the idea of calling
-synchronize_rcu() in an atomic context.
-
-
-P.
+Thanks,
+Liang
