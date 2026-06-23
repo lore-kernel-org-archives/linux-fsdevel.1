@@ -1,107 +1,139 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7957E390229
-	for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 09:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE38370AFB;
+	Tue, 23 Jun 2026 09:32:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782206274; cv=none; b=BB79NgzWKjyhE3dwiKR9zkpj1aaTHH7jSsF0OGIRd0qJr55nYjE5xk1ntYR0DQ1mYTb3v3ecxoSQqG1m1WWrMwAKSlDI2Yh0qaF5BNp92nrbgsmXcO9893KWN7Q+xSIRj3+ToxKTyim8/aPDLztlRiZi0M7HMFZXmiUTEbrxiDQ=
+	t=1782207155; cv=none; b=ikpm49DSffntQJOU/vo9Ir+1BjlCCfOxRxBq57M+9QdKBKhXK2g7zaaba50GXMq5RXA63BIOirpLqe4pyx8YpXwrkz4ytJ8lnIky5WnmHVxHnERcb+jfjQHFqbbo5Zfaqrw5I+ht+U79xOuY9Jrg85rXK4VEgupHu+Bc1q9TAfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782206274; c=relaxed/simple;
-	bh=68hqvJRe0b0G8mC8GBU0tbaHmNk5LagitKGKWUfOFVg=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=Cp1W33N0IjqPT3e0OARnX3vbFo5H1zsvdcAQ9JEhXkiq82kLlsmqKdPWJzKIT+xmN+6VoG+F8RDnPBDaemnDr3s9KeFjiFUx/1wROuYPdmkohSs3longeWVeswwF5csP/msRp7Mv/wHOVMryJx3vLHaGnEGYXsCayIApYCGqfiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=H0awtLiZ; arc=none smtp.client-ip=195.121.94.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1782207155; c=relaxed/simple;
+	bh=STm7jH09D99Mjllu9NSRKcTd9KuDTMiKMLWylsZX04M=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=V+7t8sBSFYhZ82vIuvFhXKUoJyyfzvK5UcJLr9i7mD9bDiFEDn6vAIumvQ493+iffQZSnwDxLrPkEH7UR11ekzxCPi1x3qse5JFcanvTlhTdqno4eP2Ibir3m4SD9i3z5cjnJiDN9OzdoBXNwZbKdg/ataM04o9jmrapGK1ip9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EwzP4J2V; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="H0awtLiZ"
-X-KPN-MessageId: 63eea311-6ee4-11f1-8f53-005056992ed3
-Received: from mta.kpnmail.nl (unknown [10.31.161.190])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 63eea311-6ee4-11f1-8f53-005056992ed3;
-	Tue, 23 Jun 2026 11:17:43 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 63ed8ec0-6ee4-11f1-b2ed-0050569977a2;
-	Tue, 23 Jun 2026 11:17:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=wcUPaRqlRuUtwva/YFxmTc7tSvauu8oppHHa/H7jJWA=;
-	b=H0awtLiZSYmzMJxbaFru1NnIceCsnzHFGhF10Wk7iBdJ69Kt5tHt00Ny1yIdPikFOX7XAgU2qrD1y
-	 OEpgJs/iTJxfzURcCWjog8Q/9x5G/FedPoz+wlgNZ4wxVCA8vAxZJniQHoGpQMUAj99I5hAIk4QUho
-	 YRu3C3FvldfMq7ZbKP2kSGkzA84Wsnn90xQaWDg/nZkpUlo5YOEmwSv8u0B6LKuuRqvIg2OOpYcuBf
-	 03nQUaJiDWGw3Lh4oj0IHkrnzEiLOLbH1UeK5vaa3bheHNQSImpZ7rtJyipqxyVuCHcDrYeKokhsQG
-	 h6aqE2ZzHLUoDp8e6/S0K1ixnSZ1CdA==
-X-KPN-MID: 33|9DQ9ReohFStdv9edvBGFmOl+Ylv70PWBDn7vZS7Fa7cpq+U93jI8beo+w4qRkx7
- hXtVhtFJdi6OWXEssX5F/QsGkwneKjyb2SVj8iD3qIwY=
-X-CMASSUN: 33|ZyDavGSdrfaIFESWo3RmtZjR/fIJQ37vR1iHqAcLRfFK7thKeXqyV6oPm6afgHG
- 9IsNezCnf09D13ytdgY2CHQ==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh06 (cpxoxapps-mh06.personalcloud.so.kpn.org [10.128.135.212])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 63da174b-6ee4-11f1-8edb-00505699eff2;
-	Tue, 23 Jun 2026 11:17:43 +0200 (CEST)
-Date: Tue, 23 Jun 2026 11:17:43 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Pedro Falcato <pfalcato@suse.de>,
-	Christian Brauner <christian@brauner.io>,
-	linux-fsdevel@vger.kernel.org
-Message-ID: <1496529843.2699114.1782206263200@kpc.webmail.kpnmail.nl>
-In-Reply-To: <ajhbNJcT8qgqKD70@casper.infradead.org>
-References: <20260618211822.3599089-1-willy@infradead.org>
- <ajUIMvi5Nyjp6t2v@lt-jori.localdomain> <ajUSQ30oi-fyh0NH@pedro-suse.lan>
- <2099505714.2289513.1781864378114@kpc.webmail.kpnmail.nl>
- <ajhbNJcT8qgqKD70@casper.infradead.org>
-Subject: Re: [PATCH] efs: Remove EFS
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EwzP4J2V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C66C71F00A3D;
+	Tue, 23 Jun 2026 09:32:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782207154;
+	bh=vps8ys9ng9ec0/LH06KpU4OGpxNPWI6t7qEIv2BmAz0=;
+	h=From:Date:Subject:To:Cc;
+	b=EwzP4J2VhTJJxu0jrHViuMQw/RtMATu9PsPDfT+O8F5/rgPJZ9AVwYNbTjH0/YZEJ
+	 A2VCVu1pq9BxRb858xRE/YHZ7UI6zFY9y3H3ohJSFziIu/UPtfVlvSZB2X6EgCXKHZ
+	 XbU6bz1rn6tpuMFxdFjDtmzv2tzb2Ya41ZDj/We7J+RQnlMdL8dgU97p7QQitq5Sv0
+	 vkAU4PR4Pdifrw15x1MCNGjXB1EO3zQWIjP8hFZgO/bBfkQAG+PlxMy+8N5+llXZvi
+	 VnGMtJdEfuaZtJVKWO4ASkOXVDpCH7Rf5twciFdw3rBriuFxUOyCbHqxJyihGpC03g
+	 T8zPWnrjJAong==
+From: Christian Brauner <brauner@kernel.org>
+Date: Tue, 23 Jun 2026 11:32:27 +0200
+Subject: [PATCH v2] bpf: have bpf_real_data_inode() take a struct file
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Message-Id: <20260623-work-bpf-real_inode-v2-1-8e8b57dd25f7@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAKpSOmoC/32O0W7DIAxFf6XiuVRAEiL61P+YqskG07C2UJks2
+ 1Tl3xe69z0e+/r4PkUlTlTFcfcUTEuqqeQNzH4n/AT5QjKFjYVRxiprjPwqfJX4iJIJbu8pl0D
+ Sd9s6IEQFKLbLB1NM3y/r2/mP6yd+kJ+bqiUQKklkyH5qozvUmfgwYNdFb3tnYMQRrOkGp4cxo
+ IrOxAEtOYjWqWaYUp0L/7yKL7p9+r/joqWWvdI9Ye+RYjhdiTPdDoUv4ryu6y9yC/8PCwEAAA=
+ =
+X-Change-ID: 20260622-work-bpf-real_inode-c3202dbaf0ab
+To: bpf@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Amir Goldstein <amir73il@gmail.com>, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+X-Mailer: b4 0.16-dev-9f537
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3523; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=STm7jH09D99Mjllu9NSRKcTd9KuDTMiKMLWylsZX04M=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRZBW3gkKvN/3SpYeF5tfwE3j+K9dG2ksvqbDb5lqvIb
+ UmbVfqno5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCIRzYwM60q16nXsxD+/urNS
+ WOnbBkupC84xfXMn8IYv4OVeOuHfNEaGnyfUui9lP/UumvVWuSNX2j7F/vXDzq/TEgxXfJxeXpX
+ OAAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
+bpf_real_data_inode() must be usable from the bprm_check_security,
+mmap_file and file_mprotect hooks for systemd's RestrictFilesystemAccess
+BPF LSM program, so have it take a struct file instead of a dentry.
 
-> Op 21-06-2026 23:44 CEST schreef Matthew Wilcox <willy@infradead.org>:
-> 
-> > to what degree the arguments used back then apply to all kinda-maintained-but-not-really
-> > filesystems. jfs is totally unmaintained, despite its MAINTAINERS file entry. And
-> 
-> What?  Dave absolutely does maintain it.  Commit 1d51b370a0f8 for
-> example.
-> 
+Amir Goldstein <amir73il@gmail.com> suggests:
 
-You're right, I was way too strong in my wording, and I didn't bother to check.
-Sorry about that. I just remember trying to merge 2 syzbot fixes for jfs and it
-was a frustrating experience to get them merged or rejected. Then again, looking
-back at it those were exactly the type of fs corruptions the fs community has
-de-prioritized.
+  While doing so, rename it from bpf_real_inode() to
+  bpf_real_data_inode(). For a regular file on a union/overlay
+  filesystem it resolves to the underlying inode that hosts the data,
+  but for a non-regular file it returns the overlay inode. The new name
+  makes the "inode hosting the data" intent explicit and avoids the
+  ambiguity of "the real inode backing a file". Document the
+  non-regular-file behavior in the kfunc too.
 
-> 
-> > > We already have one - it's fs/ext2.
-> > > (modern API? maybe not so much. still has buffer heads, uses mpage, etc.
-> > > alas.)
-> > 
-> > When I wrote this I was also thinking about ext2, but it is significantly
-> > more code. Still, I think you're right. I have a special attachment to fs/minix
-> > because it was the first kernel code that I studied in detail :)
-> 
-> We've had extensive discussions before about converting, eg, ext2 to
-> iomap.  Maybe now ext4 has been started, there's finally enough examples
-> to get ext2 done.  If you're interested in contributing, that would be a
-> great project.
+Both the signature change and the rename are safe because the kfunc
+landed this cycle and has no released users.
 
-I am definitely interested to get my hands dirty with iomap. I do remember skimming
-through the iomap docs, which I found then to be not very helpful, so some examples
-would likely be useful. I just saw someone may be willing to do the conversion for
-minix too.
+Fixes: 9af8c8a54f6e ("bpf: add bpf_real_inode() kfunc")
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Changes in v2:
+- Rename bpf_real_inode() -> bpf_real_data_inode() (Amir); the new name
+  makes the "inode hosting the data" intent explicit.
+- Document that the kfunc returns the overlay inode for non-regular files.
+- Link to v1: https://patch.msgid.link/20260622-work-bpf-real_inode-v1-1-4014eb4cbefd@kernel.org
+---
+ fs/bpf_fs_kfuncs.c | 23 ++++++++++++++---------
+ 1 file changed, 14 insertions(+), 9 deletions(-)
 
-That being said, I first want to try to finish O_CREAT|O_DIRECTORY and some other
-vfs stuff I've been working on. Also, going to OSS Korea, Recipes, and Plumbers
-(maybe give a short talk there), so it's a busy couple on months :)
+diff --git a/fs/bpf_fs_kfuncs.c b/fs/bpf_fs_kfuncs.c
+index 768aca2dc0f0..f1863a891db6 100644
+--- a/fs/bpf_fs_kfuncs.c
++++ b/fs/bpf_fs_kfuncs.c
+@@ -360,18 +360,23 @@ __bpf_kfunc int bpf_cgroup_read_xattr(struct cgroup *cgroup, const char *name__s
+ #endif /* CONFIG_CGROUPS */
+ 
+ /**
+- * bpf_real_inode - get the real inode backing a dentry
+- * @dentry: dentry to resolve
++ * bpf_real_data_inode - get the real inode hosting a file's data
++ * @file: file to resolve
+  *
+- * If the dentry is on a union/overlay filesystem, return the underlying, real
+- * inode that hosts the data.  Otherwise return the inode attached to the
+- * dentry itself.
++ * Resolve @file to the inode that hosts its data. For a regular file on a
++ * union/overlay filesystem this is the underlying (upper or lower) inode that
++ * stores the data, not the overlay inode.
+  *
+- * Return: The real inode backing the dentry, or NULL for a negative dentry.
++ * Data resolution only applies to regular files. For a non-regular file (e.g.
++ * a device node, fifo or socket) on a union/overlay filesystem the overlay
++ * inode itself is returned; for any file on a non-union filesystem the inode
++ * attached to @file is returned.
++ *
++ * Return: The inode hosting @file's data, or NULL.
+  */
+-__bpf_kfunc struct inode *bpf_real_inode(struct dentry *dentry)
++__bpf_kfunc struct inode *bpf_real_data_inode(struct file *file)
+ {
+-	return d_real_inode(dentry);
++	return d_real_inode(file_dentry(file));
+ }
+ 
+ __bpf_kfunc_end_defs();
+@@ -384,7 +389,7 @@ BTF_ID_FLAGS(func, bpf_get_dentry_xattr, KF_SLEEPABLE)
+ BTF_ID_FLAGS(func, bpf_get_file_xattr, KF_SLEEPABLE)
+ BTF_ID_FLAGS(func, bpf_set_dentry_xattr, KF_SLEEPABLE)
+ BTF_ID_FLAGS(func, bpf_remove_dentry_xattr, KF_SLEEPABLE)
+-BTF_ID_FLAGS(func, bpf_real_inode, KF_SLEEPABLE | KF_RET_NULL)
++BTF_ID_FLAGS(func, bpf_real_data_inode, KF_SLEEPABLE | KF_RET_NULL)
+ BTF_KFUNCS_END(bpf_fs_kfunc_set_ids)
+ 
+ static int bpf_fs_kfuncs_filter(const struct bpf_prog *prog, u32 kfunc_id)
+
+---
+base-commit: 5b33fc6492a7b7a62359157db0f92f5b6e9af690
+change-id: 20260622-work-bpf-real_inode-c3202dbaf0ab
+
