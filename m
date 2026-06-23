@@ -1,74 +1,97 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D55735F5E3
-	for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 09:38:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1BB83CD8D4
+	for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 09:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782207491; cv=none; b=oazhsvkMdRdGU59qRrpv2DSxK156dA/eKfmGQgcRTmFuJB9OA0/IWm/mfBiYI/lKAltAuP2JhJ3lmU5eFDsYQhOHqQGcNOYYkIBzasosdFhprjoMTjGcT4kdl3Opml/AKwfcFxaDFRUv070RGLRT/riXgKWaG0j5Gu/37Xc7LyA=
+	t=1782207766; cv=none; b=d2MPTc8sF7BG6TiK43vinMhAS+EK/1/WcDYHZ33qWGWQxyldJF7eOXOOQsLR1zDm646BhqNUj95oMcwwKqzpljCZBmNm1CbjnTraSJ/NNHQqDxr2jXPmfMhonS9ePzt9hlUiY09edj7fc62q3tgxNAmX5gConcNqcTgYVwxbrpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782207491; c=relaxed/simple;
-	bh=0LH2Wk96XCyQ9QPmB3zJdq3TVqhmoWH8uSvEK9uSjdA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CTvopIiTqYEO2Dmz9RP0vaBCRD0cAzZCmKgdgQMpqQoyksCbnHjvn8TjF0OSOaF3ndxXABFdvxYdLT3dqeLOkfzBmw9vqLvkJnFSkG47kVYfY4f7pYO+uRICTVsEZYGVGXg+37F07f+EXmgx6fX9w0yiXMUaTF/rGzitvlObMdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tJBg1hfO; arc=none smtp.client-ip=209.85.214.169
+	s=arc-20240116; t=1782207766; c=relaxed/simple;
+	bh=B8aiSRXgNzNgIcTsqvlM+jiX5YYMrahhBOPApOswCwI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=HUdWYfNaGBLL0/SIr0DOlh40/GrGbCD60d3PSmAS61DdzyJRPqkwf0kUWlI0Q3M8g3Ts32vZfSLuttuLu3Q4gUehugpuTZCp7cKmAP5OsfkDTtMsMv9g3+ncI2uJtNZ7Jws/rlJ7EApC5ptK3gWzvLj9D2qtVH+DM5eMfu5D7T4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YGHMw40j; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tJBg1hfO"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2bf20f6be6bso36050795ad.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 02:38:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YGHMw40j"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49249072f03so16358775e9.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 02:42:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782207490; x=1782812290; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WNVcLnkL3WxXcfZi/S6Z0bWfgjPDQAPL7NsbQXzozmw=;
-        b=tJBg1hfORfazvw5I7UhaNG3MffF9CrY9a0PCJk+rIeKsKyiGlwuU7co9I1IcAybDRu
-         psjMlL+ARoATOQ3CxNP+6WLWi/vsPOzRq1zQHK3mFnrzSvsm4MmYAAI4ZxSe7rmfVm/A
-         zNT7RhMkUR3TqnVrpvESvGdrpRHCDaCarHfUZzHEw5uefRf8GwfjCUlJCLNf1ns0oJiL
-         rZiuKIMLUpjNajdjOK7awW/G26Q2HqPWDX1RmiCvalmIfLbcwNqqWVBcJs/LzdePQzhE
-         PMYvnrf4pfQB5pA1pgbkJHPZaI620hxteTpbzBxO3rzWY6YpSG06XQLL4aK/gK5AD/y9
-         HR6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782207490; x=1782812290;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782207763; x=1782812563; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WNVcLnkL3WxXcfZi/S6Z0bWfgjPDQAPL7NsbQXzozmw=;
-        b=crpZsvNAL/AFSF4dFwIoFByE8ZmRlBwoapmWQigJj589UaG2Nbf+Uo1ChF3l/ux7lP
-         +m2erpwUB1Y/ekDpnRA+L494/xddPuuB0+VnN10gABczyCetqnuhp+jD9VUvZL0FjtcD
-         rcBkDILzDH2/GbZAWOnJuGtyrH+xkY22LuP14Rfa5mGatm2WLFUrFPuUthM7lcJbBtVc
-         mxUrb/v/BUHt0oOJ1qz7f0Wjey0VD4LD2UEuusPBeMUPBfFFFUdNvDQBdu765giMpRV1
-         F8M7wtmYwUFKd8YeR5YRiOYYNoTtYmheCVW/qZ06tjFkhcJBukKTOAd+Po2+XUfh8j1s
-         7CFQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rr8oSnrGJy0aW5oIMfAbGHdx5KlQ3aajfJShJEOc4LBZzaHkPytRBkWgXKu5xIR9iUCE3t92KYMBgR7c0tg@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9Y7K8qYLAx4wpbmEPZLGFD6RtEopf00uKLxnWgsP0lROgNIx5
-	2NI8Y/KB9/w7g51roMtMj9eA03vl38B+j/ywL4f/Fpb6JxdYwSbAY2kQQ6KsCY5e6lw=
-X-Gm-Gg: AfdE7cldM53zhOb5gIJFaiJwtEWCT+S7nO+djahl8t95iy5LK9W6masGUd9Qhk46zH6
-	wu5AgQgHBqzxRBoq0LnT9ZHN8F2aEOOPYOgiBw8dcniaO/9//qRxttAhB+MoC490N8WZ2vdY0C/
-	jsSBEjTRp/4aeNWSdcRNDeqlHxCTO1Wjv/QaLZNvnGNc/+8MlLxA8UxsPR5zcq7cQqkk45DNQFj
-	yMgMA0+bZN8kXlpHF16USO2QWjgMaql1rJxBeCx/c+TZws/ajZIE/oStQ1mVgSG1zWKdmvBE+ec
-	g9L7jcByRtxlIgfH32pOPfvjWHc6IXeCSC7hotRS8wnjV+3OuQKUvIB3nFaHh2FyXTw/cIHGBI+
-	UDSX6urE0CpbqDvDJ66SiR8fAZ+vm0l6dOMbHl4mJaVgrAaFeZp7s2WHzSu0PcCUfRClAiN1qxz
-	mmlSb4dC1j1XP6PeeUK0mvuBnsJW2cD7MwzITLwbNYNJY++GPwxMhN+4qpZiE1CB4iHq0efWRU1
-	clGlNF+5HPq2dgr2QbmCskAAurkNCh3kCna3BHNnYTRTvYLqbFjecYaTxBdNZFgLaoKw2Mn6FZg
-	QynNQ+alkZEiA7QIre3ZmL1roQ==
-X-Received: by 2002:a17:902:cf43:b0:2c7:d4ba:4885 with SMTP id d9443c01a7336-2c7d4ba4c8fmr6598755ad.3.1782207489828;
-        Tue, 23 Jun 2026 02:38:09 -0700 (PDT)
-Received: from cs-1047136853211-default.asia-southeast1-a.c.d33bddc1d573818c7-tp.internal (69.129.240.35.bc.googleusercontent.com. [35.240.129.69])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7436aff98sm100841445ad.3.2026.06.23.02.38.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 02:38:09 -0700 (PDT)
-From: Aditya Srivastava <aditya.ansh182@gmail.com>
-To: slava@dubeyko.com
-Cc: glaubitz@physik.fu-berlin.de,
-	frank.li@vivo.com,
+        bh=3SJWx7Zgz0Pyhs4JZwrYmJyYWWMlxydwzpM41quzKVA=;
+        b=YGHMw40j4hj6TfkUnHCRzMeFQvWey1PFjYwC9WxoimkjXSyYUToNiCRRG3XizMJyVX
+         R4ai/ZAAtQDz4f0JWVvcuKQwNrd5Txlkb06UI4Ip+E8l4eB26vkuxuFn6OwMwOYXB61O
+         kCwX0AeABcbrjheN/oka2jvup/pAupU+T8RVm3c6KdjPN3Cw8ivsZFWQa+3luBAcmyHJ
+         J/ccU6I5B7wsmabeYLLM2iBu+F6a7H0unq3OEVcxPr0XIQHv8J7AknumxKhEAFyiYQs6
+         +mqpx2Bs3bCk6AORQ3O0om6vm75JrMhz6Uyb5FEYTnIsi88xM/cBebtwCOEISqrxBiUn
+         GWLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782207763; x=1782812563;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3SJWx7Zgz0Pyhs4JZwrYmJyYWWMlxydwzpM41quzKVA=;
+        b=nU0G7oetb/ERgJ5HXyDjmcsFVVG7Vc4clf3FXI81plptIYR3EUFXE/CVxlRXz4AGCy
+         VQJyBjGdXa3arl2RKobUiUrf3bLRiyuHAFoCe6p1ztxDACZp7BL0ayVeYwQdsvoFLJa0
+         ss2w1lZoylWgctAyRwy0po6IxKHHMZYo8He1ft5V+kqmJH93JwF8Z0KDu3Vl9zAIOboI
+         3S4WIwsLyCYbIMeELqtYtKFIVMAR3jfD4Sn+PCL7Ot5NQGWb+s3hUNsuM+MxKMUdFfBn
+         trpTTgkfthLQPO+f4xNqlDYTtRexzSLIAkX62mxTsYrSFICOn4B3rRZt3ddKYxcaFdsz
+         It3g==
+X-Forwarded-Encrypted: i=1; AFNElJ/Q7Y7E7e07+TphPyVbsyPV4GW77itII15wCglWnL5bSwrrZ1IsUOfXZjhkCBk4w1HsuLLiFbm0f+H/YOvA@vger.kernel.org
+X-Gm-Message-State: AOJu0YxY28cvodOeJtRo02KwTES+ogil0OxcD7QGDZndXbxwIrsdDRqp
+	W9RCdGg1zn136NOKudUYqqw2gwxyIle1jPRmp5PUkRWgGq0A7WG1OfWA
+X-Gm-Gg: AfdE7clZ5Ygwp/o/yJTHNlOybdwn7E5gHd6XoR+PA5WSeXRdjjN+3viqiHUSjXwum8R
+	Z9QXST79i3y+iVCkD42hBRIUtChvDxambQMULjFvXbPwPHjITKcl4K79sFTu35qhsSzdHlaXLs9
+	IeA9gzs0ZSoDn4LHfDCOhICqT3fYUSqd7LdTGYz3z+rfPgebToejivevRrgz1+meB8D12J5IaRk
+	+SWb9NCEhUgA+z9WfVQWyrmP9s3dTdz/8cPV1kry6JDv9YFsDajUi7kfVZaH3Cz9pALtxHCmtWn
+	0yx+rhJdUXPCPpZygBcKsl1O9HICwsU0PnqhaAYjs+K0Xj4CBFk8ZuivwKVcqI0TFj4OJu7wXSj
+	NzKe/6sydPik+NY/w/OxrTJ+nvOr12m6ibvrtyt40GZAAy1mreQy4Eotsx4//EOq1timsJMJTRF
+	p2mUozbruV
+X-Received: by 2002:a05:600c:8b8a:b0:492:2e48:81e6 with SMTP id 5b1f17b1804b1-4925b389b83mr30093645e9.4.1782207762970;
+        Tue, 23 Jun 2026 02:42:42 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49249455302sm280248525e9.15.2026.06.23.02.42.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Jun 2026 02:42:42 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: avagin@gmail.com
+Cc: akpm@linux-foundation.org,
+	alexander@mihalicyn.com,
+	axboe@kernel.dk,
+	bernd@bsbernd.com,
+	brauner@kernel.org,
+	criu@lists.linux.dev,
+	david@kernel.org,
+	dhowells@redhat.com,
+	fuse-devel@lists.linux.dev,
+	hch@infradead.org,
+	jack@suse.cz,
+	joannelkoong@gmail.com,
+	linux-api@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
-Subject: [PATCH] hfs: port HFS+ b-tree bitmap corruption check
-Date: Tue, 23 Jun 2026 09:37:50 +0000
-Message-ID: <20260623093750.2311-1-aditya.ansh182@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-mm@kvack.org,
+	miklos@szeredi.hu,
+	netdev@vger.kernel.org,
+	patches@lists.linux.dev,
+	pfalcato@suse.de,
+	rostedt@goodmis.org,
+	safinaskar@gmail.com,
+	torvalds@linux-foundation.org,
+	val@packett.cool,
+	viro@zeniv.linux.org.uk,
+	willy@infradead.org
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+Date: Tue, 23 Jun 2026 12:42:11 +0300
+Message-ID: <20260623094211.1080873-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <CANaxB-xVCP5HSUNwphFrKPdW0Qh1pA33A6npac60WArkZMFt7w@mail.gmail.com>
+References: <CANaxB-xVCP5HSUNwphFrKPdW0Qh1pA33A6npac60WArkZMFt7w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -77,112 +100,81 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+Andrei Vagin <avagin@gmail.com>:
+> Actually, this change introduces a performance and functional
+> regression for CRIU.
+> 
+> Here is a brief overview of how CRIU currently dumps memory pages:
+> 
+> CRIU injects a parasite code blob into the target process's address
+> space. The parasite invokes vmsplice() with the SPLICE_F_GIFT flag to
+> pin physical pages directly inside a pipe without copying them. The main
+> CRIU process then takes over from outside the target context, calling
+> splice() on the other end of the pipe to stream the data directly into
+> checkpoint image files or a remote network socket.
+> 
+> I ran a simple test that creates an anonymous mapping and touches every
+> page within it:
+> Without this patch, CRIU takes 9 seconds to dump the test process.
+> With this patch, It takes 18 seconds...
+> 
+> Plus, it obviously introduces some memory overhead.
+> 
+> If these changes are merged, we will need to completely rework the
+> memory dumping mechanism in CRIU. Using vmsplice() in this proposed form
+> no longer makes any sense for our architecture...
 
-In HFS+ filesystems, during b-tree open (hfs_btree_open()), the code
-verifies that the allocation map bit for the tree header (node 0) is set.
-If not, it indicates a corrupted map record/bitmap and mounts the volume
-as read-only (SB_RDONLY) to prevent further damage.
+I just have read some docs for CRIU. I found this statement:
 
-HFS filesystems share the same b-tree structure but currently lack this
-corruption detection check, which was highlighted by the maintainer.
+> #### Why `splice` is Better:
+> *   **Consistency via COW**: The `SPLICE_F_GIFT` flag ensures that if the process modifies a "gifted" page after resuming, the kernel performs a **Copy-on-Write (COW)**. The pipe buffer > continues to hold the *original* version of the page as it existed at the moment of the `vmsplice()` call, ensuring a perfectly consistent snapshot of that page.
 
-Port this check to HFS:
-1. Implement hfs_bmap_test_bit() in fs/hfs/btree.c (which safely traverses
-   the b-tree map nodes to inspect the desired bit, identical to HFS+).
-2. Invoke hfs_bmap_test_bit() for node 0 at the end of hfs_btree_open(),
-   warning and forcing read-only if corruption is detected.
+This is wrong (with released kernels). I confirmed this by testing this on my current kernel (6.12.90).
 
-Suggested-by: Viacheslav Dubeyko <slava@dubeyko.com>
-Link: https://lore.kernel.org/all/6a36101b.be22b350.2a3e9.0001.GAE@google.com/T/#r446d0fed2a2900bd805534bbcb799d86619ae2ea
-Signed-off-by: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
----
- fs/hfs/btree.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++
- fs/hfs/btree.h |  1 +
- 2 files changed, 53 insertions(+)
+See the code in the end of this message.
 
-diff --git a/fs/hfs/btree.c b/fs/hfs/btree.c
-index 2eb37a2f64e8..4293399d377e 100644
---- a/fs/hfs/btree.c
-+++ b/fs/hfs/btree.c
-@@ -155,6 +155,14 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id, btree_keycmp ke
- 	kunmap_local(head);
- 	folio_unlock(folio);
- 	folio_put(folio);
-+
-+	if (!hfs_bmap_test_bit(tree, 0)) {
-+		pr_warn("(%s): %s (cnid 0x%x) map record invalid or bitmap corruption detected, forcing read-only.\n",
-+			sb->s_id, id == HFS_EXT_CNID ? "extents" : "catalog", id);
-+		pr_warn("Run fsck.hfs to repair.\n");
-+		sb->s_flags |= SB_RDONLY;
-+	}
-+
- 	return tree;
- 
- fail_folio:
-@@ -356,6 +364,50 @@ struct hfs_bnode *hfs_bmap_alloc(struct hfs_btree *tree)
- 	}
- }
- 
-+bool hfs_bmap_test_bit(struct hfs_btree *tree, u32 nidx)
-+{
-+	struct hfs_bnode *node;
-+	struct page *page;
-+	u16 off, len;
-+	u8 *data, byte, m;
-+	bool res = false;
-+
-+	node = hfs_bnode_find(tree, 0);
-+	if (IS_ERR(node))
-+		return false;
-+
-+	len = hfs_brec_lenoff(node, 2, &off);
-+	while (nidx >= len * 8) {
-+		u32 i;
-+
-+		nidx -= len * 8;
-+		i = node->next;
-+		if (!i) {
-+			hfs_bnode_put(node);
-+			return false;
-+		}
-+		hfs_bnode_put(node);
-+		node = hfs_bnode_find(tree, i);
-+		if (IS_ERR(node))
-+			return false;
-+		if (node->type != HFS_NODE_MAP) {
-+			hfs_bnode_put(node);
-+			return false;
-+		}
-+		len = hfs_brec_lenoff(node, 0, &off);
-+	}
-+	off += node->page_offset + nidx / 8;
-+	page = node->page[off >> PAGE_SHIFT];
-+	data = kmap_local_page(page);
-+	off &= ~PAGE_MASK;
-+	m = 1 << (~nidx & 7);
-+	byte = data[off];
-+	res = (byte & m) != 0;
-+	kunmap_local(data);
-+	hfs_bnode_put(node);
-+	return res;
-+}
-+
- void hfs_bmap_free(struct hfs_bnode *node)
- {
- 	struct hfs_btree *tree;
-diff --git a/fs/hfs/btree.h b/fs/hfs/btree.h
-index 99be858b2446..efe88f66c856 100644
---- a/fs/hfs/btree.h
-+++ b/fs/hfs/btree.h
-@@ -93,6 +93,7 @@ extern void hfs_btree_write(struct hfs_btree *tree);
- extern int hfs_bmap_reserve(struct hfs_btree *tree, u32 rsvd_nodes);
- extern struct hfs_bnode *hfs_bmap_alloc(struct hfs_btree *tree);
- extern void hfs_bmap_free(struct hfs_bnode *node);
-+extern bool hfs_bmap_test_bit(struct hfs_btree *tree, u32 nidx);
- 
- /* bnode.c */
- extern void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32 off, u32 len);
+If you actually rely on mentioned consistency, then, it seems, CRIU is broken.
+
+So, in fact, my patch actually brings consistency to CRIU. :)
+
 -- 
-2.47.3
+Askar Safin
 
+
+
+
+#define _GNU_SOURCE
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/uio.h>
+#include <sys/wait.h>
+#include <errno.h>
+
+int
+main (void)
+{
+    int p[2];
+    if (pipe (p) != 0)
+        abort ();
+    char buf[1] = {'a'};
+    struct iovec iov[] = {
+        {
+            .iov_base = buf,
+            .iov_len = 1,
+        }
+    };
+    // I pass "SPLICE_F_NONBLOCK | SPLICE_F_GIFT" here, because this is what criu passes
+    if (vmsplice (p[1], iov, 1, SPLICE_F_NONBLOCK | SPLICE_F_GIFT) != 1)
+        abort ();
+    if (close (p[1]) != 0)
+        abort ();
+    buf[0] = 'b';
+    char buf2[1];
+    if (read (p[0], buf2, 1) != 1)
+        abort ();
+    printf ("[%c]\n", buf2[0]); // Prints "b" as opposed to "a" on Linux 6.12.90
+    return 0;
+}
