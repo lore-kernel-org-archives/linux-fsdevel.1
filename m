@@ -1,70 +1,77 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3451033F361;
-	Tue, 23 Jun 2026 09:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA6A2288D5;
+	Tue, 23 Jun 2026 10:04:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782208621; cv=none; b=qRuq/5qMinhf7QGTHQrWzHn7ahCRcERb9NXkOmhp+wZDt1iMNfzwyEyQBiRLo9YqlP00aOFlalGxFUj00rs2fTJQTIlm0mBPkk+SS8t73tW2hflLEZmWdIJ9W8Ruidy0TcjEdBui17svWs647b06h1f7I687LBz8VcjSGEZktuo=
+	t=1782209088; cv=none; b=tUityigofCufyKsw7cm+4rxQDvB0BeKKvqdKywNPlGUSIQKBBSe7lg9h60Urq4WKbPvSs6QlfMr3v4IadL2Td9QLWmcAixbGAZOaFEkwHbUZbj7so1rmVooOtkhFDOKziZWsrcp5gdE3N1ft38u8dqyLKAnwNdfD4HEzS9DpUbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782208621; c=relaxed/simple;
-	bh=yG4yXRaZ3kft6oknPdvtgINUD4v3PqTns8m7+GPGKCc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=I1NkZTgItDPCb8gXzyj4Y6YwUt0qglSEF1NqwMHtPz6z4TgMLA7u6Ve9b+/6xuDwFwTAVGNshCHK+CrNZI3K9L76hgAZeiim0s3Gml38sfUcNV5lG0rPAUkAmo1AOIBDYqcoOrlP6vuHsvKJ7NMhxZiLY26rrCR7K8ddLCIGsGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: dbd692386ee911f1aa26b74ffac11d73-20260623
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:d7523a35-4669-4746-a931-191c1311e91b,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:e7bac3a,CLOUDID:21992dfea4215b877f41caa6ae3c6d5c,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|83|102|123|136|850|865|898,TC:nil,
-	Content:0|15|50,EDM:5,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:
-	nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: dbd692386ee911f1aa26b74ffac11d73-20260623
-X-User: luoliang@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <luoliang@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 889360935; Tue, 23 Jun 2026 17:56:51 +0800
-From: luoliang@kylinos.cn
-To: Shuah Khan <shuah@kernel.org>
-Cc: Liang Luo <luoliang@kylinos.cn>,
-	Christian Brauner <brauner@kernel.org>,
-	"Eric W . Biederman" <ebiederm@xmission.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	linux-kselftest@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] selftests/nsfs: fix wrong error check of NS_GET_USERNS result
-Date: Tue, 23 Jun 2026 17:56:48 +0800
-Message-Id: <20260623095648.440638-1-luoliang@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260618070805.144324-1-luoliang@kylinos.cn>
-References: <20260618070805.144324-1-luoliang@kylinos.cn>
+	s=arc-20240116; t=1782209088; c=relaxed/simple;
+	bh=LhicTvQG3rBuY/4XUlOWnsKngw5nyjME+Ra34lr+tWA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=DyfJVlzWUAfKbAN0y+zuylY1Tu+lomeadZnrAX8W2/G4LdfOlbOgfrhYHRLIpYqYhNBq5co+qr/cxwqjONc5CVJ0cpq/btq7aIT0Kh6GBTeEh/ciq9OuJWB/aafQXdJCNAbGj+jiM4a3l0KW9t2Zcc7aT3blg0S3/IKRlE+FaNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ud69vIUM; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ud69vIUM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDC2A1F000E9;
+	Tue, 23 Jun 2026 10:04:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782209087;
+	bh=cd1JUWEWry+Bw3Ln84DVOD3bF1pJkMxaHLBpHRjgYpc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Ud69vIUMxZShdEcq4rg2pboZ8gsAUmSLecJV1R0Yw8dzGfw4sfhkqlDUPuMUQALkX
+	 0dlcxg0OMaG+nIAHV+n+PDboMwnkCJJZjet/FJJPJ3ED9B3u+WVx8Ef1RpT1uBefCq
+	 VFgbwtx3jQmJ9IZtzUtGN4WrYIaICEJt2MxnS9giN6MpFOFCeX3TBtuvafoKFeUIO+
+	 5Y/CrEzjnmAQwpCbc3xua3lLDAxKrG1HFgEcHs+vdubzFjPO7iqtffaO1/mTkGIb3o
+	 yWOziEnbkVDc5v5gsr6WJoUZTZ0YUykzfCdqkY1ALXPHahWPAx6yafAiqA4NPup7zE
+	 LPkD5/Nk9pH7g==
+From: Christian Brauner <brauner@kernel.org>
+To: Christoph Hellwig <hch@infradead.org>, 
+ Farhad Alemi <farhad.alemi@berkeley.edu>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Christian Brauner <brauner@kernel.org>
+In-Reply-To: <CA+0ovChveuAwv=t15dr2m09E32bM48hHJxvfeEYZOhdNiEc9Tw@mail.gmail.com>
+References: <CA+0ovChveuAwv=t15dr2m09E32bM48hHJxvfeEYZOhdNiEc9Tw@mail.gmail.com>
+Subject: Re: [PATCH v2] freevxfs: don't BUG() on unknown typed-extent type
+Message-Id: <20260623-anbot-kanon-imitieren-fea40d9418fd@brauner>
+Date: Tue, 23 Jun 2026 12:04:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev-df257
+X-Developer-Signature: v=1; a=openpgp-sha256; l=876; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=LhicTvQG3rBuY/4XUlOWnsKngw5nyjME+Ra34lr+tWA=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRZRdnWHe6pVPJ91dK066vHRUu2q49XXIq1VFshm8A9y
+ 2N9xyPnjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgImEsDAybGGIn3Mi+GrB0siV
+ cRFGbz9eMZM0ELu49vw+YfGc83cVWhj+Z81b7TBJwWbOU9Edwlcvxc90q1EWmpiq6aurGLBr+p8
+ qdgA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-From: Liang Luo <luoliang@kylinos.cn>
+On Mon, 01 Jun 2026 20:10:08 -0700, Farhad Alemi wrote:
+> freevxfs: don't BUG() on unknown typed-extent type
 
-Adding Christian Brauner and linux-fsdevel to Cc. Running
-get_maintainer.pl on the parent directory
-tools/testing/selftests/filesystems/ surfaces additional frequent
-contributors that the per-file invocation did not.
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
-Original patch:
-https://lore.kernel.org/all/20260618070805.144324-1-luoliang@kylinos.cn/
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-Thanks,
-Liang
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
+
+[1/1] freevxfs: don't BUG() on unknown typed-extent type
+      https://git.kernel.org/vfs/vfs/c/f2f1b6ebe857
+
