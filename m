@@ -1,107 +1,118 @@
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F4D3CFF7E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 11:52:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35A254652;
+	Tue, 23 Jun 2026 12:51:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782215547; cv=none; b=crgR1cfT2+uPhKTlFqkrsrWDomm9x06npv6CIj1MG6/9Y4BoafWhUmPR3KimKWECEZJAK50iZij0eW8WGOqPwEWdJtyRCb6meHAkDFifqyWB8+3nNGZSh+4lK10PTQ7+wmcqNRaGi++TPDY25/5c1V4JUJtDq+sHDOwycp1QiiQ=
+	t=1782219072; cv=none; b=PqGKVuKeBt+1Sou42g/73i0P2w//zplCZtBrYd2l3MCEbBsBXg0ROsFtjXYKcDjo1oZF5Fq+WtKW0xcoskb5uKnlGR5KQqSXyR2E3a+g3wmeNjX+6PznKmsH1KkW8ljChA3nwqlImzuwG9/hlHS3W/FaZ/hzPBztfTczIETmObo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782215547; c=relaxed/simple;
-	bh=vSMq+tVBRFkyDtQqvUY0r/b24xLj9JOEUkggBLpr+3A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ai+JCMb/8LNiC+bfTrtW4fTqPkM5+o8sCA5mTB6Hh6kaFvU4OmasPYLXDemZtItNaSfJsH566Tleoxc/aZypJ6cx4/Kg8oHy1SwPwJRPfdX6oVft2bmebBaQX5H496IrdBXlvkk8bBQC71V7IBawcybojAQQMg6LRlEKLyN58fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chenxiaosong.com; spf=pass smtp.mailfrom=chenxiaosong.com; dkim=pass (2048-bit key) header.d=chenxiaosong.com header.i=@chenxiaosong.com header.b=baLzCHBZ; arc=none smtp.client-ip=91.218.175.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chenxiaosong.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chenxiaosong.com
+	s=arc-20240116; t=1782219072; c=relaxed/simple;
+	bh=n0onqu2lNVvigXhvhU6yD7ENF58nxs5ldu7UTpQUBGE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jM4OCkHoNV89wIBkAPSjLYebyGj0lvHDDYbjuxDzMQuKsUtTnoMJQ1JQQNAGt8iNcV+29czBxIeGornIoCA0wXYK5yZtF2Wh7uP70/oPWkUlYG5kGxZMV5p7r6Nk2Gxn7QDwDGNqZN/icUy48iMtJGZcYU9TOCifA8u+wUF6iY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=LiQFJplK; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=chenxiaosong.com header.i=@chenxiaosong.com header.b="baLzCHBZ"
-Message-ID: <33cc8eb4-8831-49b0-80d6-b06544a37920@chenxiaosong.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chenxiaosong.com;
-	s=key1; t=1782215532;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HbHk9IuwP6sXbnZHOGBepgq7/3h6RydFMctmwTcnnXE=;
-	b=baLzCHBZiCMvODbcElXie9bXXAYXoQSsVix4j82AsGf2L0jSaJKJ1FefcKWnC3r6iptHIP
-	6z9boTPXO4s+uyLao5JCtf7fGRULt6DKsSqhHNlx506XqWRGSzLhk3IMcHQxkozhCR1WGw
-	OwgsAtR57qiB78+yoCkLdWtn3lW9sg3AEBEN+tkJFH9oaUNydw6Wo3vs8KUZFzug5mmCH7
-	zF6kBQpJcfiCi5C4lPNcpeIdnkMLMNt5102SSNoV2IxkMB/vspf7gq6+vUZP1f7fIkyhUj
-	Kg3pqGVUUwx7VoP0q0zJwCXppXP0+Tp5vkeHO/Rv/uRItdPHwEXqechS59ZE6w==
-Date: Tue, 23 Jun 2026 19:52:05 +0800
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="LiQFJplK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Mh9BxkZKhF75YYaZJCyW42tNBJ5dFvL68uL9K+9zjR8=; b=LiQFJplKKHlTJAvsfdhJX3hvsj
+	tkg2tYRKP2kQq4n3/eG8v0tGk7rT48aWRyFLOHYQDL1DCKDc6AO7fCMDJylL+jWJIU8nmWfmQzM7P
+	gy6FLJ/ky8mtRPdIYMtWiT7PakXOBXH9FCYzAoN2xbpUhtoPCOx+cD/7YrUAAO12SUvfAFuQgiRoO
+	zrl4zoYHahQ9RIYGvTDc9mi4E8/NXop40u8jW5AM6mJAn9jY6l5PtDjFCwGAn9flN57RUD5yjQlU1
+	XMjq1zebAI1xwW5Nl3jtIA+V84cLg3fh6tlVvHzhuXoGe0fuhaeXX83E7S7CJOc2XU3Kd+8Yd/bz8
+	7ckSV4xQ==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wc0aa-001ey8-11;
+	Tue, 23 Jun 2026 12:50:52 +0000
+Date: Tue, 23 Jun 2026 05:50:46 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH RFC v3 01/12] fs/configfs: rework configfs_is_root()
+Message-ID: <ajqASYHIzw3k7Okn@gmail.com>
+References: <20260623-configfs-ns-v3-0-841c100fd5dd@kernel.org>
+ <20260623-configfs-ns-v3-1-841c100fd5dd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] netfs: Fix UAF in netfs_unbuffered_write() on failed
- preparation
-To: hongao <hongao@uniontech.com>, David Howells <dhowells@redhat.com>
-Cc: Paulo Alcantara <pc@manguebit.org>, netfs@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- syzbot+3c74b1f0c372e98efc32@syzkaller.appspotmail.com
-References: <FA1EF9EEE4C1415E+20260530011403.1686344-1-hongao@uniontech.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
-In-Reply-To: <FA1EF9EEE4C1415E+20260530011403.1686344-1-hongao@uniontech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260623-configfs-ns-v3-1-841c100fd5dd@kernel.org>
+X-Debian-User: leitao
 
-Hi hongao and David,
+hello hannes,
 
-After applying this patch, I can still reproduce the use-after-free issue.
+On Tue, Jun 23, 2026 at 11:15:46AM +0200, Hannes Reinecke wrote:
+> In preparation for making configfs namespace-aware rework
+> configfs_is_root() to not rely on static structures but
+> rather use the information in the structures themselves.> 
 
-C reproducer: https://syzkaller.appspot.com/text?tag=ReproC&x=171b697e580000
+Thanks for the cleanup.  The approach looks fine: CONFIGFS_ROOT is
+only ever set on the single static configfs_root dirent.
 
-Note that QEMU should be started with the following virtfs option:
+Nit: "namespace-aware rework configfs_is_root()" reads as if a comma is
+missing -- "... namespace-aware, rework configfs_is_root() ...".
 
-   -virtfs ...,mount_tag=syz,...
 
-On 5/30/26 09:14, hongao wrote:
-> If write subrequest preparation fails, netfs_unbuffered_write() calls
-> netfs_write_subrequest_terminated() and then reads subreq->error to set
-> wreq->error.
-> 
-> However, netfs_write_subrequest_terminated() consumes a reference to the
-> subrequest through netfs_put_subrequest(), so the subrequest may be freed
-> before netfs_unbuffered_write() reads subreq->error again.  This can
-> trigger a slab-use-after-free.
-> 
-> Save the error locally before terminating the subrequest, and use the
-> saved value afterwards.
-> 
-> Fixes: a0b4c7a49137 ("netfs: Fix unbuffered/DIO writes to dispatch subrequests in strict sequence")
-> Reported-by: syzbot+3c74b1f0c372e98efc32@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3c74b1f0c372e98efc32
-> 
-> Signed-off-by: hongao <hongao@uniontech.com>
+
+
+
+> Signed-off-by: Hannes Reinecke <hare@kernel.org>
 > ---
->   fs/netfs/direct_write.c | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
+>  fs/configfs/configfs_internal.h | 2 +-
+>  fs/configfs/mount.c             | 9 +++++++--
+>  2 files changed, 8 insertions(+), 3 deletions(-)
 > 
-> diff --git a/fs/netfs/direct_write.c b/fs/netfs/direct_write.c
-> index 25f8ceb15fad..2d5361702076 100644
-> --- a/fs/netfs/direct_write.c
-> +++ b/fs/netfs/direct_write.c
-> @@ -115,8 +115,9 @@ static int netfs_unbuffered_write(struct netfs_io_request *wreq)
->   
->   		/* Check if (re-)preparation failed. */
->   		if (unlikely(test_bit(NETFS_SREQ_FAILED, &subreq->flags))) {
-> -			netfs_write_subrequest_terminated(subreq, subreq->error);
-> -			wreq->error = subreq->error;
-> +			ret = subreq->error;
-> +			wreq->error = ret;
-> +			netfs_write_subrequest_terminated(subreq, ret);
->   			break;
->   		}
->   
+> diff --git a/fs/configfs/configfs_internal.h b/fs/configfs/configfs_internal.h
+> index acdeea8e2d69ac9d621e1a42b039719811c31757..6261e1f3ec201a58a5d46b08dfbced8c2a44d82b 100644
+> --- a/fs/configfs/configfs_internal.h
+> +++ b/fs/configfs/configfs_internal.h
+> @@ -63,7 +63,7 @@ extern spinlock_t configfs_dirent_lock;
+>  
+>  extern struct kmem_cache *configfs_dir_cachep;
+>  
+> -extern int configfs_is_root(struct config_item *item);
+> +extern bool configfs_is_root(struct config_item *item);
+>  
+>  extern struct inode * configfs_new_inode(umode_t mode, struct configfs_dirent *, struct super_block *);
+>  extern struct inode *configfs_create(struct dentry *, umode_t mode);
+> diff --git a/fs/configfs/mount.c b/fs/configfs/mount.c
+> index 4929f343118946eaa55a539db4192e9c6621a8dc..88da7b428e52f2f4ab139ad3907101f685d617b1 100644
+> --- a/fs/configfs/mount.c
+> +++ b/fs/configfs/mount.c
+> @@ -47,9 +47,14 @@ static struct config_group configfs_root_group = {
+>  	},
+>  };
+>  
+> -int configfs_is_root(struct config_item *item)
+> +bool configfs_is_root(struct config_item *item)
+>  {
+> -	return item == &configfs_root_group.cg_item;
+> +	struct configfs_dirent *sd;
+> +
+> +	if (!item->ci_dentry)
+> +		return false;
+> +	sd = item->ci_dentry->d_fsdata;
+> +	return !!(sd->s_type & CONFIGFS_ROOT);
 
--- 
-ChenXiaoSong <chenxiaosong@chenxiaosong.com>
-Chinese Homepage: https://chenxiaosong.com
-English Homepage: https://chenxiaosong.com/en
+The old helper was a pure pointer comparison and never touched item, so it
+tolerated a NULL or not-yet-attached item.  The new one dereferences
+it (item). I suppose that item is never being called as NULL?!
 
+Thanks
+--breno
