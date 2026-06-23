@@ -1,194 +1,192 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CFBD3D7D64
-	for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 15:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D145F2D0292
+	for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 15:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782228387; cv=pass; b=lSjBskMaUXoBHOFZSku2hT6eMmRQ5rFOa+5meiG22MS61ZMvNzUBG+nmSy77IIzVhtQSiFDkt5/y3HRQ0ejxGPgkGS1RNHRP2GyQjNMw3WzYRJfMnMPV9chEdlInfKu6VIMZ0JyMU45VOZS7PBdmbjcbHvQ8nxgRT7Fu0X7RGzM=
+	t=1782228902; cv=pass; b=i6py3q5dyfnPGdFQV0ZWimgkWfO9SYnT8yYEIKoL7MNUM1ykFCGKAaEm1cVDJxl/UrLjY4CQ2aYjNtzA+KSqH24QZiD1YHokre//qa/XT7Uw8zRT3XzVGBfK4jJOVfOHCRhk4A4zeUOSW6+RwrRnoSeq10zCZvl13MJXTzU/vJY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782228387; c=relaxed/simple;
-	bh=YbRh6514ZU2RL6NtnUKsdEeupviuG3XLTy064lm8j7w=;
+	s=arc-20240116; t=1782228902; c=relaxed/simple;
+	bh=F5jxOgOxeIGxOiAIJVL5hSxhOncVvBstJWDCLkelQbQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=shEyqP6pD6+KRPsKrv3x27GTeM/b7vsmcjbJYIB/mPjo/oNq3OytkXJCDlnooWnGIDKPdxC5x/IJkZq/9z56srOEtqHajI8m0VAwe8xSOThVoTMT7dL2UwYY7OCTSFoCraazR26Pibw4HPhUhlh6oCUNDRDpG4rjEwJTQKHOPrc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jIC8KhNR; arc=pass smtp.client-ip=209.85.208.54
+	 To:Cc:Content-Type; b=rd2f/5vaEKl8BvZsW3gIz9TK15l2jSt/aNE/nVN6TT4GQlhZ10Ot1jLxcefoX++iWkPUQswnRMvYlvQR7XKFRYDh20wAHTlT2X+34ab7q84xLC3MLCs1M0v9i5g9Q/udsu6390CJq+z4/zaKf7lxwv7bZEycLOIQnulDqKCxDug=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rQ8WPs7M; arc=pass smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jIC8KhNR"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-697df404e32so1162226a12.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 08:26:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782228383; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rQ8WPs7M"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-697763eeafcso5935398a12.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 08:35:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782228899; cv=none;
         d=google.com; s=arc-20240605;
-        b=FMO0jZNV5Wfrcebm5Bu4LOkwM9CB/PT87z+zqlXepEVFQT2pYJ6vjDj7zEYbjeys4Q
-         OLJKIGxKZPt9HwtczI+ZLXHIX6y/BKe12CUa4G4ClMTmO3HD1C7YnFSuT3ptX9S8vdP4
-         90lvmMFbRLt80w76BunI6yiVZd4SN1aCtCpTkBlAZJSNYoeABhn8wM2yAYi9t9zSRmGO
-         aJ3VyJwZyzCX5VTGz8R99/p8uGLD6U5zD3zxEHwFbYFnhG9DSLsL/H/M5BlFrU7al1bp
-         NQ9h8rSxjvd2Moq8l2dzjUTwoe2l69y1cZBs/ii0vdvFckVfOLWZHHHVXDpDJ9FrGMqu
-         YMRw==
+        b=UbBF68zsG7iDorRK1lnhR/Dw8xV5BC8MT4rNJc4GsHnfAE7E0IwGpN9TZxMl1nP76D
+         uWn4MZpTrHrMT2nqfbRWpy8TGYyy1PMM5nJnnd5tAj4gSQj0ThUZgrIIBRRE6ErpAFU/
+         CLPk8q6wHrMqaY0TidlWr7cB3j78sLmws3nNNAsPipqvdbw8U5/99Gvu073eak6S40Qs
+         2BQmYq6Gl9O9pAEzDHDa75YgIpOrhCMoPv99sP0M16/6wgAQqmxlpCoyxLojk8hoRZfz
+         BzC0sdSjzsuUNhVdp92RRphUqRxv+KYNTmQKYCwSefgTAfKbT4ByFaSWa3mFjR5GThyB
+         lrCw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=r/cZXqF8tr2DhWW1MyXGMQoZN3ZKgmdfxneLAbvm50Y=;
-        fh=A97bGFvKixAQVNFZNeq0fXPdn4o/MyjoWlV0Oc//fwE=;
-        b=bJbVA60W57BLD+ad/6d0BM5a6FlQwLKqosSZ+dLQjQKONx9elHY8azAdWAlTwnt6vp
-         ialOKZtRt/MtfYioBoz/6feiIjOJyNEOhjfqYrxxJHWcAS/LEcXul2ZX8prPPM7/wtrf
-         E3DCVkZTIzk5J83AFGrEii1v3trlzJ4JRu3p8lAig4fkMv+aw8fWj5Un8oM74OIgUO/8
-         z7WOndHPOoYjinMaRUPaU21cRteq4fQVeMawmtNBBcfWyjyi/JokY1KIhJ4hUzx4gb6c
-         0m6p3mQW3G+X5vkOpLdnF/x3FnN76I1CPB1jk+LH5gAYBDnx3xQYxU2VibOVjAtJCQ8N
-         vUCQ==;
+        bh=jGc5O48HR7pepVvOkH86p+d+WQn7/E2BGrsqzSwA0sE=;
+        fh=AsRl5yEAxcp+jDVd+/Vt8tBjhdc6BD745WygKiuNwE0=;
+        b=AcdgAbvIrTmgPxkXnBSoThBD6Z1amrHU3r7HtxbJHWJJ2gsMlXYDwAIkd1HDjmZR5P
+         X1TDrR0xdVZr1H4snPVYKSHehC1Xsv43k30sgRyoDSay2npqO9qz7XQgKuWwiSOC1mHI
+         hj4qBXEUY7k21wwh3vqW4B2yQV+E4GA5ELTsQV8zB+SGFjkxaamqOv7hh/640vCv6+u2
+         n7SmbU/Htrp9QKOUbo44CNeVsfSbcCjFub0MLf1q8y+YJAr/PhvHUM6K52T3/gXeIn3F
+         tZHNd+6y0qz0h6RpLbzC3nr5ClbeGQF+t/Aw41rVh/Ite2P5BE+zgJzYvAC6V21TSMYL
+         OlgQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782228383; x=1782833183; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782228899; x=1782833699; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=r/cZXqF8tr2DhWW1MyXGMQoZN3ZKgmdfxneLAbvm50Y=;
-        b=jIC8KhNRJWeyVOXyowMQyyv0sGI4eZsMG0SioOIkbDqcYAAS7YMOKbF+F/BrVVJy6A
-         R8gEfCrX9s6GrM/o8dYDCvfnP96TaRusFNBOoHYDTY0MaKGkM6M34rsWf5taVD+/tDeN
-         5IBkR0ANibK1gQXtB1Yd3kX7niCaqkD8Qi/JjvFYb6fNQNbwxtYwtX9V0dl8O4FpLOy7
-         JIixH4ZpwRvB3Bm8J4JDHYHyAOzm5lmG7VZOv4uiLX6SAjXwN05QV2RErB8VYb9H5qNc
-         cLzbUlkYEHdpq2dLSx9eKgJCkqjtergDC/BadwEWU8V3EjhUf0Ivaj+MVptO5Fz2tf2l
-         Iltg==
+        bh=jGc5O48HR7pepVvOkH86p+d+WQn7/E2BGrsqzSwA0sE=;
+        b=rQ8WPs7MMgstdoLPEEQHPzKfrSKlXdTayEAxfEKaqHXZ8R3Dfr7OR+Zov9IhAfcoqc
+         LbwgrXbHiB2WQ5+HBmaLWQlV3jxkYznxSD7T39Ojx8Xw+L6zhpI2PIDqbsNH8qzkzFaQ
+         +SUuHSiq3TKBJV+g1KS/eEhiL/49objPT2kGr7EAsfUdBlXOEt9/d8EwAR+ErGE87Vsn
+         wWJhd8YpUr4U9ZSZ0bvsqngAq2EyGFHcJPgykxQKqaswZkiaZUmadADo/sEI05deBjy+
+         J3SRo69S04IXqY9Rz5fMPQC6wLOsOS66F0nTc9lAuE+3b1Q0jMZHOhKBKIV1pwll89T4
+         g6iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782228383; x=1782833183;
+        d=1e100.net; s=20251104; t=1782228899; x=1782833699;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=r/cZXqF8tr2DhWW1MyXGMQoZN3ZKgmdfxneLAbvm50Y=;
-        b=SeXzrIQ2lBMJQN4LKyRUc8gSUN3GxPA82ABQEgDlS5yHMr7I5Z/hJ08Q2R158RSydY
-         yMm878T5CoQi7GGdjMK7QNUQPtOq64/WRbZyAd8WDuGUgyA79EY7KIdx/v11YbgH00xv
-         NUTA8+cIv3t/7g/HoqzoHROMYw/qmCxurtMb4WCdf+oKu3gGhhiWJe4Hp2oVdiAdG858
-         xku45lcXW07yeI/FywHnbdJAgYJ/aZvcWVYEtNRWgL5R2C+qoKIpCnUf5/wTduPCab56
-         SFeuS1dtqa8pVA+Zeisrbsle45/zqu5K902XU52DOpfsyryzN8WsLmV9b2PpxLZakOJp
-         Mw5w==
-X-Forwarded-Encrypted: i=1; AFNElJ8lpf5kyurtoohsWZS0FR1wxs+abQZucWUcRxiE7QrX965cAQ6nSWT4ebJgWODqnpxTT8W/V0WZwvusHmmv@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCDkglnZs/5e3uYy35dXBZCj7c3HMwpUST3sZuwjCpesrFh6Kv
-	vBQ7hPxyL+3ZK88JEwNpFnX2nUIzE88CeSFVE4i43vKLG3qnF+yVNqGTcEY0o5iwZMEbhECKDKw
-	HZELAerdxCFT2v0ycq8fALCLKM5FQdNU=
-X-Gm-Gg: AfdE7cmUXQRHQdMyKiZ2ObH7NcHRPUkrBzaQsz3Zc1pl6ONwkMAICanHWAGim97ogpY
-	GOAFsNwBk76oL4poWUQBd1LMfz3SwPFopiQR/Z3+tO86Wbx4bV5SnRVMZbRQqmsiFBmWd92ndpI
-	FX+Lvl3brBuea3eA69hH35BWk6RAph1vj1Ru2EtsH7t5PMAExXCrKPx9Cve94RCwDoafKZ44TdF
-	nnfI1uV+JGI7UAl7JNHQcLEXgbW82x0dIj7MO2xGFsX4bkD7fVy/ZzySX46NmrZC2YioY096pMb
-	sElA4E3u0ZjtW1pANgsqtVR0l3QwNLA=
-X-Received: by 2002:a05:6402:3506:b0:697:e8c5:f6ce with SMTP id
- 4fb4d7f45d1cf-697e8c5f85dmr1114322a12.0.1782228383503; Tue, 23 Jun 2026
- 08:26:23 -0700 (PDT)
+        bh=jGc5O48HR7pepVvOkH86p+d+WQn7/E2BGrsqzSwA0sE=;
+        b=dRrwbjBhE4LQHv1y/yKcSCGEZKH8UeHF6P3U/0p95zUcsMXvtkbyIZqlhMZphYjTNG
+         e+Upp0IV3mAK+TEyo1lLUjxdsJqFhLRqTF+Zk2M3Bs7uOuUOBbeb7hd/Uyc3XKAJc84F
+         4jrCkjUEDuMjEg2BqCYlJ2CpCk2cRWlPUXRG4fQQocvNj4f60LUl3puy096jdNSpihX7
+         +FOBKySFwvOC4JC7mZJVSVS8dBZE3DqAkvIUoZUFcbyHPyJAnxBQ8kL0iEBlJishqECp
+         /iReYRxq7WSwLdyz9Stl430W9Z1Njo75bAKTqsG39qLK5MlXN1Ss4bMU+Ji6KXn+C+C9
+         00vQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/wvRccZ2CXq1cV/rEe36SFbYVHuzK8+YxjtKfuUBkLtSY3oGnKh2YqJah0c74PnZoNn3p2p5DKceilo7Dl@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVgZzfQFY2HswX5mWJIztyj1phmjOY3VZhjv7ZT15ZuAOLN6Po
+	K5wbS34zrGHLRVUVndp2oOugcsYIoY/9LvyGc6jOQ28/gdCh+3bpiXZsxPiL3MQf7RoVPxcvha3
+	W2lv5fQjfE1rzAOdPAitSrM350dgJscI=
+X-Gm-Gg: AfdE7cn3bvVcwnEFaIRP6xaCwBFLiKlGSHFmX8ZAOtXPGCWLmrjTbYHl+DcM0jLJUrX
+	qO8yjlJROJDASu3I7bh9Rtk4gOW8oL588ddisSu7oYIQS6octr0u9auOPlZrINfZIFmPxs+pW0J
+	S5KWvfkgaNNP3dViUHsIoRYkmqkxTN3RnRSqzM0Kt1tGgyKgAsyjr9I2f9cz4ORRqdFHbkfbH7Y
+	15nCccaRwzlY8bhAMMFVCwQC3ih5kdLJIq5Er4PfnZEBzXXpPmfgQqaBaLmEwYJJ3k+6EGJB1sZ
+	gli9z9EgCVpiiZQYy5mCqL1burT/AfA=
+X-Received: by 2002:a05:6402:3205:b0:687:7fa4:faa0 with SMTP id
+ 4fb4d7f45d1cf-69711e0602bmr1457590a12.23.1782228898944; Tue, 23 Jun 2026
+ 08:34:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260623-work-bpf-real_inode-v2-1-8e8b57dd25f7@kernel.org>
-In-Reply-To: <20260623-work-bpf-real_inode-v2-1-8e8b57dd25f7@kernel.org>
+References: <20260623111533.2285005-1-ptikhomirov@virtuozzo.com>
+ <20260623111533.2285005-2-ptikhomirov@virtuozzo.com> <ajqOyIA8tPQsxfz6@cmpxchg.org>
+ <3f6392aa-c1f6-4263-8892-978dacbbd8ca@virtuozzo.com>
+In-Reply-To: <3f6392aa-c1f6-4263-8892-978dacbbd8ca@virtuozzo.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 23 Jun 2026 17:26:11 +0200
-X-Gm-Features: AVVi8CflCeyuhGgdY0pA4nGSNZyvvrxdUzij31TYdu4fgqAwW4JW8TWopRJ_jU8
-Message-ID: <CAOQ4uxhQnB8kAwHTKhDsxZ51Jm=gwCs2UHs7UGYboy0SNzVN=Q@mail.gmail.com>
-Subject: Re: [PATCH v2] bpf: have bpf_real_data_inode() take a struct file
-To: Christian Brauner <brauner@kernel.org>
-Cc: bpf@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Tue, 23 Jun 2026 17:34:47 +0200
+X-Gm-Features: AVVi8Cecv2_TqQ_O8FYC-won9z3vUEfkkWOTSNMZJamaSksyTs_hA8rdhn2B_co
+Message-ID: <CAOQ4uxhras5YAr8_HBpuHSDwvfiEF8vAr0NDB0R_PXtGDhnqjQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] fs, mm: add ->cachestat() file operation
+To: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Nhat Pham <nphamcs@gmail.com>, Shuah Khan <shuah@kernel.org>, linux-unionfs@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 23, 2026 at 11:32=E2=80=AFAM Christian Brauner <brauner@kernel.=
-org> wrote:
+On Tue, Jun 23, 2026 at 4:55=E2=80=AFPM Pavel Tikhomirov
+<ptikhomirov@virtuozzo.com> wrote:
 >
-> bpf_real_data_inode() must be usable from the bprm_check_security,
-> mmap_file and file_mprotect hooks for systemd's RestrictFilesystemAccess
-> BPF LSM program, so have it take a struct file instead of a dentry.
 >
-> Amir Goldstein <amir73il@gmail.com> suggests:
 >
->   While doing so, rename it from bpf_real_inode() to
->   bpf_real_data_inode(). For a regular file on a union/overlay
->   filesystem it resolves to the underlying inode that hosts the data,
->   but for a non-regular file it returns the overlay inode. The new name
->   makes the "inode hosting the data" intent explicit and avoids the
->   ambiguity of "the real inode backing a file". Document the
->   non-regular-file behavior in the kfunc too.
->
-> Both the signature change and the rename are safe because the kfunc
-> landed this cycle and has no released users.
->
-> Fixes: 9af8c8a54f6e ("bpf: add bpf_real_inode() kfunc")
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-
-> ---
-> Changes in v2:
-> - Rename bpf_real_inode() -> bpf_real_data_inode() (Amir); the new name
->   makes the "inode hosting the data" intent explicit.
-> - Document that the kfunc returns the overlay inode for non-regular files=
-.
-> - Link to v1: https://patch.msgid.link/20260622-work-bpf-real_inode-v1-1-=
-4014eb4cbefd@kernel.org
-> ---
->  fs/bpf_fs_kfuncs.c | 23 ++++++++++++++---------
->  1 file changed, 14 insertions(+), 9 deletions(-)
->
-> diff --git a/fs/bpf_fs_kfuncs.c b/fs/bpf_fs_kfuncs.c
-> index 768aca2dc0f0..f1863a891db6 100644
-> --- a/fs/bpf_fs_kfuncs.c
-> +++ b/fs/bpf_fs_kfuncs.c
-> @@ -360,18 +360,23 @@ __bpf_kfunc int bpf_cgroup_read_xattr(struct cgroup=
- *cgroup, const char *name__s
->  #endif /* CONFIG_CGROUPS */
->
->  /**
-> - * bpf_real_inode - get the real inode backing a dentry
-> - * @dentry: dentry to resolve
-> + * bpf_real_data_inode - get the real inode hosting a file's data
-> + * @file: file to resolve
->   *
-> - * If the dentry is on a union/overlay filesystem, return the underlying=
-, real
-> - * inode that hosts the data.  Otherwise return the inode attached to th=
+> On 6/23/26 15:48, Johannes Weiner wrote:
+> > On Tue, Jun 23, 2026 at 01:14:48PM +0200, Pavel Tikhomirov wrote:
+> >> The cachestat() syscall reads page cache statistics straight from the
+> >> file's f_mapping. Stackable filesystems such as overlayfs keep the dat=
+a
+> >> pages in an underlying inode's mapping rather than in the overlay
+> >> inode's, so cachestat() reports all zeroes for them.
+> >>
+> >> Add a ->cachestat() file operation and route the syscall through a new
+> >> vfs_cachestat() helper that calls it when present, falling back to
+> >> file's f_mapping otherwise. This lets stackable filesystems forward th=
 e
-> - * dentry itself.
-> + * Resolve @file to the inode that hosts its data. For a regular file on=
- a
-> + * union/overlay filesystem this is the underlying (upper or lower) inod=
-e that
-> + * stores the data, not the overlay inode.
->   *
-> - * Return: The real inode backing the dentry, or NULL for a negative den=
-try.
-> + * Data resolution only applies to regular files. For a non-regular file=
- (e.g.
-> + * a device node, fifo or socket) on a union/overlay filesystem the over=
-lay
-> + * inode itself is returned; for any file on a non-union filesystem the =
-inode
-> + * attached to @file is returned.
-> + *
-> + * Return: The inode hosting @file's data, or NULL.
->   */
-> -__bpf_kfunc struct inode *bpf_real_inode(struct dentry *dentry)
-> +__bpf_kfunc struct inode *bpf_real_data_inode(struct file *file)
->  {
-> -       return d_real_inode(dentry);
-> +       return d_real_inode(file_dentry(file));
->  }
+> >> query to the file that actually owns the page cache. No behaviour chan=
+ge
+> >> for regular files.
+> >>
+> >> Signed-off-by: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+> >> ---
+> >> Note: Memset change might be a bit tricky, I moved it to no
+> >> ->cachestat() path to avoid multiple memset on nested overlayfs, that
+> >> means that ->cachestat() is expected to be able to handle unitialized
+> >> cs.
+> >> ---
+> >>  include/linux/fs.h | 10 ++++++++++
+> >>  mm/filemap.c       | 43 +++++++++++++++++++++++++++++++++++--------
+> >>  2 files changed, 45 insertions(+), 8 deletions(-)
+> >>
+> >> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> >> index 6da44573ce450..966b6564707e4 100644
+> >> --- a/include/linux/fs.h
+> >> +++ b/include/linux/fs.h
+> >> @@ -53,6 +53,8 @@
+> >>
+> >>  struct bdi_writeback;
+> >>  struct bio;
+> >> +struct cachestat_range;
+> >> +struct cachestat;
+> >>  struct io_comp_batch;
+> >>  struct fiemap_extent_info;
+> >>  struct kiocb;
+> >> @@ -1963,6 +1965,8 @@ struct file_operations {
+> >>                                 struct file *file_out, loff_t pos_out,
+> >>                                 loff_t len, unsigned int remap_flags);
+> >>      int (*fadvise)(struct file *, loff_t, loff_t, int);
+> >> +    int (*cachestat)(struct file *file, struct cachestat_range *csr,
+> >> +                     struct cachestat *cs);
+> >
+> > I suppose you can't just have it return the real file because of the
+> > with_ovl_creds() scope you need during access?
 >
->  __bpf_kfunc_end_defs();
-> @@ -384,7 +389,7 @@ BTF_ID_FLAGS(func, bpf_get_dentry_xattr, KF_SLEEPABLE=
-)
->  BTF_ID_FLAGS(func, bpf_get_file_xattr, KF_SLEEPABLE)
->  BTF_ID_FLAGS(func, bpf_set_dentry_xattr, KF_SLEEPABLE)
->  BTF_ID_FLAGS(func, bpf_remove_dentry_xattr, KF_SLEEPABLE)
-> -BTF_ID_FLAGS(func, bpf_real_inode, KF_SLEEPABLE | KF_RET_NULL)
-> +BTF_ID_FLAGS(func, bpf_real_data_inode, KF_SLEEPABLE | KF_RET_NULL)
->  BTF_KFUNCS_END(bpf_fs_kfunc_set_ids)
+> Yes, AFAIU in overlay when we use realfile we should always use it
+> with_ovl_creds(), even though I don't think there is anything cred relate=
+d
+> in filemap_cachestat(), I still think we should follow the common pattern
+> other overlay helpers use (similar to ovl_fadvise() and ovl_flush()).
 >
->  static int bpf_fs_kfuncs_filter(const struct bpf_prog *prog, u32 kfunc_i=
-d)
+> note: Actually some places get ovl_real_file() and use it without
+> with_ovl_creds(), e.g.: ovl_read_iter, ovl_write_iter, ovl_splice_read,
+> ovl_splice_write. But those look more of an exception than the general
+> rule. All other instances use with_ovl_creds().
+
+Use with_ovl_creds() is a good practice to keep the mental security model,
+but it is useless if the security check (can_do_cachestat) is not in the
+vfs helper (vfs_cachestat), so please move it there.
+
+Also it kind of makes more sense to check (flags !=3D 0) in sys_cachestats
+before checking permissions.
+
 >
-> ---
-> base-commit: 5b33fc6492a7b7a62359157db0f92f5b6e9af690
-> change-id: 20260622-work-bpf-real_inode-c3202dbaf0ab
+> Also there are simingly no other file_operations which return "realfile"
+> for further processing, mostly the operation from fsops simply replaces
+> general operation with its own logic completely.
 >
+> Thanks for your review!
+>
+> ps: Hope overlay maintainers will correctly if I'm getting this wrong.
+>
+
+I don't think this is wrong per-se, except for can_do_cachestat().
+
+Just be aware that the real file could change from one cachestat
+call to the next (i.e. due to copy up).
+
+Thanks,
+Amir.
