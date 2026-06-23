@@ -1,211 +1,260 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010071.outbound.protection.outlook.com [52.101.85.71])
+Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553503B2FFC;
-	Tue, 23 Jun 2026 06:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.71
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782197768; cv=fail; b=BYOwV+GQq5CsJMDJbKLpvX8LgRcIJ4w883oLxm0mpyrGfLW2iY1GfnmbQresbEpqW/DXHkIpMqPT7LsSDh7C5T4loRtRqlrzc18ETiyomb6SDmtTZnc0DekmtM+0tUqarf593Z/ahLeD2fhiaIbzhNNyGiVlhG6zClySx8FIlM8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782197768; c=relaxed/simple;
-	bh=IFvkaM8u7mkVPaCs4g2EaL49uiw80puYwmcW1hDE4NM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=icjS7xGu45vCtdZbixmcqH7UdXveUWKst8dqSm2ENi7Odnm+84KfyDArOaT8bdD2I7bLQJg4AkRQ78nsZIKLIhxjyKNZQjPD4bRfZMV4Sg3dO9zmcYFx+ye35q8O3KNksMpFLW6XlPIQDD8F1OUxQtO7f+bOVWqFisLqDLbFrx8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=C5lwKBTC; arc=fail smtp.client-ip=52.101.85.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF70B75801;
+	Tue, 23 Jun 2026 07:37:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782200266; cv=none; b=T3QvPU8mIkCrtPk3odvbztzLT8+DfzU9jFp5HFkVxFYx2Tpu/M03EQUarfYlvn9d2nWCjOJ475ncZLkMT6mDB7UKCkfqMcQjQRASqUh99AH5Y0Cdmgj1XXm9Qsg6cqMslTw6GlIwhRaI8VuXvzEb/owEFMzKkCslvJT58vMgCso=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782200266; c=relaxed/simple;
+	bh=7KY+riPquigpYiNWCdw15ESu0Rjk+vSn+wcWy0KUsTc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=riG4QKrABdwZGDR4WqJiKqg9QJitLaunY+Ab2FS82KvAGZlpSNs8VH92FPs2pg9+Pu9i/uLH+yi+w6czLvi/yegPU0vP9M5KLSRqvhxXSB4Y0hVnib+LUJ3kLjLsuI4hYCrPWDNv93+6giITN9MCjKHOPy/Ihxx1Bc8hxQiYhiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=u/j/R+Ys; arc=none smtp.client-ip=113.46.200.226
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="C5lwKBTC"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pS/rZPTLelC1f41G/0/CzgJqg8N+0tsjdB2qKaEjnxS+U1AThpNWQHIMhnmjBhCgMx9Vp2P76Km6AzyhUndP6V6zhhCdyErxB1AL0/uUMrnwV5yYLqZL23qzm8Pd0iGx6YWAUoBw/PYQR9IVqo+TE9b0DVvOxyOTf3iSvq/A9CP2xJNKflsfOCud9Lrj85zA3vDt8TYFCCCabCz7P3b0fDO20378adheENr/FmMyTAhvzpBNurKd0VKSwJlytJBlCVuFKxgwsQh/Z6wLAm4L8NmW2iKO6e69Uxyy5nemKbW5gBNfYo+No4hazyNsr7jTa6urJ/5w4VmHwfLTHehlDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NkilLieKE9+DsK/l6CbQtrWWuGbfPrqca2FikuZuJRU=;
- b=RotdZSslcQ/d2QNodQbpXrW+UZdNq9Xq/PqP3Y98EQ3aX1GDY1pyiSD/2rfey7B/84g6T9mNgcgLHHYbfYGFwGbk+uLKqfEadGUhIU+cFLJjVy4+5z/cGRifRIHGyWFY85PD/VAXXNf28IqNmJKAe/DB4nq4FpgJilKVa7y3Z69Qkr6LApt/l107LBEuXV1rCeinQHKTqcb1G603ZDipYvn+mkXoX3jW0QdmvyzwVzac/b+f47BN+54GSzX4qSK+RsRXyTBWEd6Xou7dFZY3Ve3KaI595j4eBSFPZMTPtCE/nceLH/FtM+Dk5b1A93RpvxhyQ7F1qO43sHc/esj8Xw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NkilLieKE9+DsK/l6CbQtrWWuGbfPrqca2FikuZuJRU=;
- b=C5lwKBTCxHNYZjjnoHhZtlJr/kpkZU0BE8mO0gppR5nWCquBWZZOWVZH11bkysKCmRAhz5PUe7lJ52kuFl5ETOvTFZ4nYtHacwp7eV2hHc9muDBh513+wMVD8+pboQ+V7GDVxPWkeZam3i8HJUkD6k09MWh5oLRgMGrZuB82eMHOzBt5OAA6dZuDqnuBYpAwqrI+3/IneuPPYUlai6+Jh8mBCMYX0RZ6ZwZM2DQtkts2ju0Ayo6onZHkB4FYGH/rOyMYYVd3danjn6meWdLAF1Uzsomd3Dkp/8zT9iyhVonvsZPCbMS1hx4DQBtm07dkx/QIiSRWLOCQO8JPKajS5w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB2370.namprd12.prod.outlook.com (2603:10b6:207:47::27)
- by IA1PR12MB9530.namprd12.prod.outlook.com (2603:10b6:208:593::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.20; Tue, 23 Jun
- 2026 06:56:03 +0000
-Received: from BL0PR12MB2370.namprd12.prod.outlook.com
- ([fe80::86cf:c3ec:2cf5:74c8]) by BL0PR12MB2370.namprd12.prod.outlook.com
- ([fe80::86cf:c3ec:2cf5:74c8%5]) with mapi id 15.21.0139.009; Tue, 23 Jun 2026
- 06:56:03 +0000
-Date: Tue, 23 Jun 2026 14:55:54 +0800
-From: Richard Cheng <icheng@nvidia.com>
-To: John Groves <john@jagalactic.com>
-Cc: John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, 
-	John Groves <jgroves@micron.com>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Alison Schofield <alison.schofield@intel.com>, 
-	Ira Weiny <iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V6 02/10] dax/fsdev: fix multi-range offset in
- memory_failure handler
-Message-ID: <ajotQmNtiDm2c9Ap@MWDK4CY14F>
-References: <0100019ecc080a68-8dc0c99f-ab17-4aa9-83d9-490e9c97ac2e-000000@email.amazonses.com>
- <20260615160626.17473-1-john@jagalactic.com>
- <0100019ecc08d74f-ec0d09b8-11e9-4e5b-af48-8c6d382af486-000000@email.amazonses.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0100019ecc08d74f-ec0d09b8-11e9-4e5b-af48-8c6d382af486-000000@email.amazonses.com>
-X-ClientProxiedBy: SG2PR04CA0203.apcprd04.prod.outlook.com
- (2603:1096:4:187::22) To BL0PR12MB2370.namprd12.prod.outlook.com
- (2603:10b6:207:47::27)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="u/j/R+Ys"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=kVKvh6ytZ6/0+qWMDg/SowqVA26fH8LxyNW7d4OdxmU=;
+	b=u/j/R+YspM8ptAzTAbtKsYsuawFR58nvUaxV1LSysxlXfzyiSGxbgDN0pFIL9ZKZMMq4K+vxu
+	iJllPtHwZUwC0FC7fz/wvCImQxa5BenT5YMul2skSgA5WMpidPl2WgDAUOdpuVQY7Rc3Kb8BBtx
+	I96GyicRbJiPNCtSW1bHg2E=
+Received: from mail.maildlp.com (unknown [172.19.163.163])
+	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4gkxXV6sVBzKm58;
+	Tue, 23 Jun 2026 15:29:30 +0800 (CST)
+Received: from kwepemf100006.china.huawei.com (unknown [7.202.181.220])
+	by mail.maildlp.com (Postfix) with ESMTPS id 9383A4056E;
+	Tue, 23 Jun 2026 15:37:35 +0800 (CST)
+Received: from [10.174.176.240] (10.174.176.240) by
+ kwepemf100006.china.huawei.com (7.202.181.220) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Tue, 23 Jun 2026 15:37:34 +0800
+Message-ID: <9b27efad-f22a-45b9-b080-1552acf50016@huawei.com>
+Date: Tue, 23 Jun 2026 15:37:34 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2370:EE_|IA1PR12MB9530:EE_
-X-MS-Office365-Filtering-Correlation-Id: 707846d4-0fae-47e5-51a6-08ded0f47d99
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|7416014|22082099003|18002099003|56012099006|11063799006|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	14vikLNHrv1fDPUAMNr8YoOhJExOd7DfMtP3qNvZ6ZOtQ2/XyuYhIEow6DTWBox/obJkaD93UonSWiTLJDQAgpw57JiQl6U8tzE0ajSZjftevatISaZtKJL7ZJR5EDogX2buM3gcIwvIyDs9O8ib96qV3STOWkxzGUL+7Qdi4g27+Yyd/mR6o1UbcRySWmWZKYvuKMS6//Ci7eKNdPgaee4XiUdXKZkWTNjAArC715fuqwLjAttx7JZeLhHOsDevyOJrStzxGn2gZZvtsIYKbO5qjzjj1yNle3NFHjZ68GyW5H6EW7/tCViuRjH2XNIwt6eQFc/epbq7UhLcEOuIMKz6q/iRv89k0XdABE1gU4WSerZGgzOqE/w1aDF8HSXnm2vtZe3f9Ic0pfSSzg+xCmZ0fxkMsJFh4E+3AwYqGaCvVPGe6AGZ/CxBBIXKaharJ4fPbmtvzrTvhT6yz9H4Gvv6u1nSHv0XzuGxQkE9hk9mKvnaiHQMoPuVDuXy4rjNCr5auisc80HG9PipnORdedaK9rOcA9lVLNIMpwjEjcY9xXJdaUVFoJKazSwXtb/+0YzUO9VqiH26TgG8UJxZkG68HnO+8VyvcrhfoZJlEqP8gmJOSOng4oN/NFqwRqPMWC4Yb9YbVxEFvVRONgGJemQ9qrniiaQ1h+PhRBGyK4Q=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB2370.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(7416014)(22082099003)(18002099003)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?I5ctwO8ycVly086Bm0YZqiISzTlvpJthnwUoDxpM+2+bE9AX4W5gNt7tX4bt?=
- =?us-ascii?Q?GR6GKA46YopeK/guU2q2vsKORqKFuXxGLJedUwoIHbsMGe6iZ54ASQskxRqv?=
- =?us-ascii?Q?RlMhOXiV9TEk1SDCrqzjCGVGtUNT64gP1gXcutqdgJ40dkRn5L6QImZQDmZv?=
- =?us-ascii?Q?ttl6wiwsB9AwU7AceJEeRxcj5/T19SgjShKH1hi3Slfery+X16UwCE9yTzz7?=
- =?us-ascii?Q?5RXuhth/4PNFGVPCMDNP79urAtWpQdbnKr7tH1vBhmAdj2cnP10/M+STzCKl?=
- =?us-ascii?Q?rEMQHLyHGpmGwQ2+uNoSgGJJ9JSOp9CRUkEjcOm6GJY/SytWv3+fAPn1+WHq?=
- =?us-ascii?Q?zEmBgvbMmH9fp/3V3ZK1PgbrUmXm+AM+R9pZjM0wvCgTEVsrjBXTOP3kOXI5?=
- =?us-ascii?Q?ISxEp0aSmgiodPG1HuFz1zOJIVZR60+sGjc5EcG/u5f+07AkpGgxU/P9rNNH?=
- =?us-ascii?Q?RIdfHnpJop/ymjaWUJrfXFzH34aaHbQTrLPStYhVKuxrWEyu8aMNSx82eDQn?=
- =?us-ascii?Q?uvIOMycleyNy2VFtFoUJ2DsLdHNYyNcaQocTadGVeqPIYtK9DkocvlhnuOHc?=
- =?us-ascii?Q?0rECBrFEEyFc0GxqRduhJhJexU9jKHqhwkm0+O2Onm5vExngg3mBRRmqPUje?=
- =?us-ascii?Q?8VyO6sJZTBDB2ABnX/c59YybKVpkA1BJC1jO4dWH7lTw++/vSXBtubCxuQb2?=
- =?us-ascii?Q?AP5vn2nE3bMWgi9nwF7we3/9wuBn1khVkPcyfyQsQPwcRIWv9cOTqhVFFDKq?=
- =?us-ascii?Q?usdmEDcEAsSde/Qji7a0TKE5m85y5C8ycli3EDJxMyWIcBnEBXsbm+Y3mFLj?=
- =?us-ascii?Q?GhMutPRhGogl8m8yCWK9X7Z5L9ihdMUup2ZEJzMD3oKkkxDriw5PvPop2+or?=
- =?us-ascii?Q?C/PrYR8FNxPaPV0zySit57DBEBvyhQB2OXMmLDE0p+P7R4bt8Xjl5zOFvjuI?=
- =?us-ascii?Q?kWqYvJxZ6xHeXPwpmRr7HTTtmjXtoS0vr/BqU+ZbvNFfYEMN6jzTUR1cASCx?=
- =?us-ascii?Q?7f//DT51hjXVRmJfIDxKCenIxXD4gEaDBOM5DdgREjxIFGSPqFgHKRFZxRLP?=
- =?us-ascii?Q?5Ra2eZT5Yi68aI9+qE8KvGRdG+hepZ6qYX2gRGf2kGFXZUqTV05HH0ImHXF3?=
- =?us-ascii?Q?D2hFJfdtG/edl37Us1aX8oDJKr5my4Rexx7pqRQ+jH1eQJ+oGaTvuhj/JqH0?=
- =?us-ascii?Q?6rp0BNWhNPTQraa+rf4vMYabjqMFFY/kPiVMqI0FE5Ijkayt6NLNd1Xs52kh?=
- =?us-ascii?Q?Q4m2eZwMau2MKHDU9xRl+e/DeaghufiGILYoJSDn7WDVmKU3Nj6Gain9CA7r?=
- =?us-ascii?Q?zdUr6EhpbKpreTRSK/TKw3Ang9Lnw2Rb8Fj5j74YYzt45LUbJS198YSie28e?=
- =?us-ascii?Q?BdnHgLN4izecsO2ohWXBW3QH/pV5VPD8bKImPyE9dtlyREDFFLTJ7PvNHmtt?=
- =?us-ascii?Q?JrJl0FHvrQdg1sDzW9zoqK/L4+zN7TFbFwkml98wUP+R41bmaAus40R9XI36?=
- =?us-ascii?Q?V9of1t/qkTQ6mrpBcU3EGg2poFuYCDSfsefGaNuXpYIeH74FPpfJ4JKD4jgQ?=
- =?us-ascii?Q?08E3y33uGx7QtVrTN9MHvYNgKrSrLngDi/y8bGZcc+iTEKwt4itSrNB0hkQS?=
- =?us-ascii?Q?S86PKB0/ITsqY+A0mNGIuy0nPDK8FY2GtwpbWoxMqTUj0r9DOXDKewlNMLJc?=
- =?us-ascii?Q?pRkO9lRsWT1JxZ8LhXtPz5SXQYtrJFg5MF7xZID7WN0d/5dAM4TSBoeoh6LY?=
- =?us-ascii?Q?naN0g0y/AA=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 707846d4-0fae-47e5-51a6-08ded0f47d99
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2026 06:56:03.7293
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DHGBo0fhztL3hnlZqQ96eWMx9sqVI3kJUCQ0981Ht4XTrM/TdlnUH5sZgNeIb7ZqXE6rBM2LVCr6D+xdFLEMXg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] nfs: use nfsi->rwsem to protect traversal of the file
+ lock list
+To: Jeff Layton <jlayton@kernel.org>, <trondmy@kernel.org>, <anna@kernel.org>,
+	<chuck.lever@oracle.com>
+CC: <linux-nfs@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<yangerkun@huaweicloud.com>, <lilingfeng3@huawei.com>,
+	<zhangjian496@h-partners.com>, <yi.zhang@huawei.com>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <20260226012203.3962997-1-yangerkun@huawei.com>
+ <dcf0b02002857a6be502e372ebb3e175412d7184.camel@kernel.org>
+ <163aebb3-4233-4aaa-872c-c36aa3fcb3af@huawei.com>
+ <403e3267-70ef-4fb3-9700-0a14d28abc4c@huawei.com>
+From: yangerkun <yangerkun@huawei.com>
+In-Reply-To: <403e3267-70ef-4fb3-9700-0a14d28abc4c@huawei.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemf100006.china.huawei.com (7.202.181.220)
 
-On Mon, Jun 15, 2026 at 04:06:32PM +0800, John Groves wrote:
-> From: John Groves <John@Groves.net>
-> 
-> Fix memory_failure offset calculation for multi-range devices. The old
-> code subtracted ranges[0].range.start from the faulting PFN's physical
-> address, which produces an incorrect (inflated) logical offset when the
-> PFN falls in ranges[1] or beyond due to physical gaps between ranges.
-> Add fsdev_pfn_to_offset() to walk the range list and compute the correct
-> device-linear byte offset relative to ranges[0].start (the device data
-> start) -- the base the holder (xfs, famfs) maps from -- for both static
-> and dynamic devices.
-> 
-> V5 walked the pagemap's immutable pgmap->ranges[] instead, to avoid
-> reading the mutable dev_dax->ranges[] from this callback. That had a
-> different problem: it regressed static devices, where pgmap->ranges[0].start
-> can sit data_offset below the data start, so the reported offset came out
-> data_offset too high and the holder would act on the wrong blocks. For
-> dynamic devices the two arrays are identical, so pgmap->ranges[] only ever
-> helped the dynamic case while breaking the static one. Walk
-> dev_dax->ranges[] instead. (Richard Cheng spotted the static regression.)
-> 
-> Reading dev_dax->ranges[] here may race a concurrent krealloc() of the
-> range array via sysfs (mapping_store(), under dax_region_rwsem, which
-> this ->memory_failure callback does not hold). That exposure is
-> pre-existing -- the original single-range code read dev_dax->ranges[0]
-> locklessly as well -- so this patch does not make it worse; a proper fix
-> (locking or snapshotting) belongs in a separate change.
->
+Gently ping...
 
-Hi John,
+This patch has been reviewed, but leave alone here for a long time...
 
-LGTM, thanks for your work !
+在 2026/5/8 16:33, yangerkun 写道:
+> Gently ping...
+> 
+> 在 2026/4/16 11:01, yangerkun 写道:
+>> Hi Anna and Trond,
+>>
+>> Could you please help check if there are any issues with this patch, and
+>> if there are none, could you help merge it in?
+>>
+>> Thanks,
+>> Erkun.
+>>
+>> 在 2026/3/9 22:09, Jeff Layton 写道:
+>>> On Thu, 2026-02-26 at 09:22 +0800, Yang Erkun wrote:
+>>>> Lingfeng identified a bug and suggested two solutions, but both appear
+>>>> to have issues.
+>>>>
+>>>> Generally, we cannot release flc_lock while iterating over the file 
+>>>> lock
+>>>> list to avoid use-after-free (UAF) problems with file locks. However,
+>>>> functions like nfs_delegation_claim_locks and nfs4_reclaim_locks cannot
+>>>> adhere to this rule because recover_lock or nfs4_lock_delegation_recall
+>>>> may take a long time. To resolve this, NFS switches to using nfsi- 
+>>>> >rwsem
+>>>> for the same protection, and nfs_reclaim_locks follows this approach.
+>>>> Although nfs_delegation_claim_locks uses so_delegreturn_mutex instead,
+>>>> this is inadequate since a single inode can have multiple nfs4_state
+>>>> instances. Therefore, the fix is to also use nfsi->rwsem in this case.
+>>>>
+>>>> Furthermore, after commit c69899a17ca4 ("NFSv4: Update of VFS byte 
+>>>> range
+>>>> lock must be atomic with the stateid update"), the functions
+>>>> nfs4_locku_done and nfs4_lock_done also break this rule because they
+>>>> call locks_lock_inode_wait without holding nfsi->rwsem. Simply adding
+>>>> this protection could cause many deadlocks, so instead, the call to
+>>>> locks_lock_inode_wait is moved into _nfs4_proc_setlk. Regarding the bug
+>>>> fixed by commit c69899a17ca4 ("NFSv4: Update of VFS byte range
+>>>> lock must be atomic with the stateid update"), it has been resolved
+>>>> after commit 0460253913e5 ("NFSv4: nfs4_do_open() is incorrectly 
+>>>> triggering
+>>>> state recovery") because all slots are drained before calling
+>>>> nfs4_do_reclaim, which prevents concurrent stateid changes along 
+>>>> this path.
+>>>> Also, nfs_delegation_claim_locks does not cause this concurrency either
+>>>> since when _nfs4_proc_setlk is called with NFS_DELEGATED_STATE, no 
+>>>> RPC is
+>>>> sent, so nfs4_lock_done is not called. Therefore,
+>>>> nfs4_lock_delegation_recall from nfs_delegation_claim_locks is the 
+>>>> first
+>>>> time the stateid is set.
+>>>>
+>>>> Reported-by: Li Lingfeng <lilingfeng3@huawei.com>
+>>>> Closes: https://lore.kernel.org/all/20250419085709.1452492-1- 
+>>>> lilingfeng3@huawei.com/
+>>>> Closes: https://lore.kernel.org/all/20250715030559.2906634-1- 
+>>>> lilingfeng3@huawei.com/
+>>>> Fixes: c69899a17ca4 ("NFSv4: Update of VFS byte range lock must be 
+>>>> atomic with the stateid update")
+>>>> Signed-off-by: Yang Erkun <yangerkun@huawei.com>
+>>>> ---
+>>>>   fs/nfs/delegation.c     |  9 ++++++++-
+>>>>   fs/nfs/nfs4proc.c       | 22 +++++++++++-----------
+>>>>   include/linux/nfs_xdr.h |  1 -
+>>>>   3 files changed, 19 insertions(+), 13 deletions(-)
+>>>>
+>>>> diff --git a/fs/nfs/delegation.c b/fs/nfs/delegation.c
+>>>> index 122fb3f14ffb..9546d2195c25 100644
+>>>> --- a/fs/nfs/delegation.c
+>>>> +++ b/fs/nfs/delegation.c
+>>>> @@ -173,6 +173,7 @@ int nfs4_check_delegation(struct inode *inode, 
+>>>> fmode_t type)
+>>>>   static int nfs_delegation_claim_locks(struct nfs4_state *state, 
+>>>> const nfs4_stateid *stateid)
+>>>>   {
+>>>>       struct inode *inode = state->inode;
+>>>> +    struct nfs_inode *nfsi = NFS_I(inode);
+>>>>       struct file_lock *fl;
+>>>>       struct file_lock_context *flctx = locks_inode_context(inode);
+>>>>       struct list_head *list;
+>>>> @@ -182,6 +183,9 @@ static int nfs_delegation_claim_locks(struct 
+>>>> nfs4_state *state, const nfs4_state
+>>>>           goto out;
+>>>>       list = &flctx->flc_posix;
+>>>> +
+>>>> +    /* Guard against reclaim and new lock/unlock calls */
+>>>> +    down_write(&nfsi->rwsem);
+>>>>       spin_lock(&flctx->flc_lock);
+>>>>   restart:
+>>>>       for_each_file_lock(fl, list) {
+>>>> @@ -189,8 +193,10 @@ static int nfs_delegation_claim_locks(struct 
+>>>> nfs4_state *state, const nfs4_state
+>>>>               continue;
+>>>>           spin_unlock(&flctx->flc_lock);
+>>>>           status = nfs4_lock_delegation_recall(fl, state, stateid);
+>>>> -        if (status < 0)
+>>>> +        if (status < 0) {
+>>>> +            up_write(&nfsi->rwsem);
+>>>>               goto out;
+>>>> +        }
+>>>>           spin_lock(&flctx->flc_lock);
+>>>>       }
+>>>>       if (list == &flctx->flc_posix) {
+>>>> @@ -198,6 +204,7 @@ static int nfs_delegation_claim_locks(struct 
+>>>> nfs4_state *state, const nfs4_state
+>>>>           goto restart;
+>>>>       }
+>>>>       spin_unlock(&flctx->flc_lock);
+>>>> +    up_write(&nfsi->rwsem);
+>>>>   out:
+>>>>       return status;
+>>>>   }
+>>>> diff --git a/fs/nfs/nfs4proc.c b/fs/nfs/nfs4proc.c
+>>>> index 91bcf67bd743..9d6fbca8798b 100644
+>>>> --- a/fs/nfs/nfs4proc.c
+>>>> +++ b/fs/nfs/nfs4proc.c
+>>>> @@ -7076,7 +7076,6 @@ static void nfs4_locku_done(struct rpc_task 
+>>>> *task, void *data)
+>>>>       switch (task->tk_status) {
+>>>>           case 0:
+>>>>               renew_lease(calldata->server, calldata->timestamp);
+>>>> -            locks_lock_inode_wait(calldata->lsp->ls_state->inode, 
+>>>> &calldata->fl);
+>>>>               if (nfs4_update_lock_stateid(calldata->lsp,
+>>>>                       &calldata->res.stateid))
+>>>>                   break;
+>>>> @@ -7344,11 +7343,6 @@ static void nfs4_lock_done(struct rpc_task 
+>>>> *task, void *calldata)
+>>>>       case 0:
+>>>>           renew_lease(NFS_SERVER(d_inode(data->ctx->dentry)),
+>>>>                   data->timestamp);
+>>>> -        if (data->arg.new_lock && !data->cancelled) {
+>>>> -            data->fl.c.flc_flags &= ~(FL_SLEEP | FL_ACCESS);
+>>>> -            if (locks_lock_inode_wait(lsp->ls_state->inode, &data- 
+>>>> >fl) < 0)
+>>>> -                goto out_restart;
+>>>> -        }
+>>>>           if (data->arg.new_lock_owner != 0) {
+>>>>               nfs_confirm_seqid(&lsp->ls_seqid, 0);
+>>>>               nfs4_stateid_copy(&lsp->ls_stateid, &data->res.stateid);
+>>>> @@ -7459,11 +7453,10 @@ static int _nfs4_do_setlk(struct nfs4_state 
+>>>> *state, int cmd, struct file_lock *f
+>>>>       msg.rpc_argp = &data->arg;
+>>>>       msg.rpc_resp = &data->res;
+>>>>       task_setup_data.callback_data = data;
+>>>> -    if (recovery_type > NFS_LOCK_NEW) {
+>>>> -        if (recovery_type == NFS_LOCK_RECLAIM)
+>>>> -            data->arg.reclaim = NFS_LOCK_RECLAIM;
+>>>> -    } else
+>>>> -        data->arg.new_lock = 1;
+>>>> +
+>>>> +    if (recovery_type == NFS_LOCK_RECLAIM)
+>>>> +        data->arg.reclaim = NFS_LOCK_RECLAIM;
+>>>> +
+>>>>       task = rpc_run_task(&task_setup_data);
+>>>>       if (IS_ERR(task))
+>>>>           return PTR_ERR(task);
+>>>> @@ -7573,6 +7566,13 @@ static int _nfs4_proc_setlk(struct nfs4_state 
+>>>> *state, int cmd, struct file_lock
+>>>>       up_read(&nfsi->rwsem);
+>>>>       mutex_unlock(&sp->so_delegreturn_mutex);
+>>>>       status = _nfs4_do_setlk(state, cmd, request, NFS_LOCK_NEW);
+>>>> +    if (status)
+>>>> +        goto out;
+>>>> +
+>>>> +    down_read(&nfsi->rwsem);
+>>>> +    request->c.flc_flags &= ~(FL_SLEEP | FL_ACCESS);
+>>>> +    status = locks_lock_inode_wait(state->inode, request);
+>>>> +    up_read(&nfsi->rwsem);
+>>>>   out:
+>>>>       request->c.flc_flags = flags;
+>>>>       return status;
+>>>> diff --git a/include/linux/nfs_xdr.h b/include/linux/nfs_xdr.h
+>>>> index ff1f12aa73d2..9599ad15c3ad 100644
+>>>> --- a/include/linux/nfs_xdr.h
+>>>> +++ b/include/linux/nfs_xdr.h
+>>>> @@ -580,7 +580,6 @@ struct nfs_lock_args {
+>>>>       struct nfs_lowner    lock_owner;
+>>>>       unsigned char        block : 1;
+>>>>       unsigned char        reclaim : 1;
+>>>> -    unsigned char        new_lock : 1;
+>>>>       unsigned char        new_lock_owner : 1;
+>>>>   };
+>>>
+>>> Nice work!
+>>>
+>>> Reviewed-by: Jeff Layton <jlayton@kernel.org>
+>>>
+>>>
+>>
+> 
+> 
+> 
 
-Reviewed-by: Richard Cheng <icheng@nvidia.com>
-
-Best regards,
-Richard Cheng.
- 
-> Fixes: d5406bd458b0a ("dax: add fsdev.c driver for fs-dax on character dax")
-> 
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
-> Signed-off-by: John Groves <john@groves.net>
-> ---
->  drivers/dax/fsdev.c | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
-> index 188b2526bee45..f315533b299e9 100644
-> --- a/drivers/dax/fsdev.c
-> +++ b/drivers/dax/fsdev.c
-> @@ -135,11 +135,26 @@ static void fsdev_clear_ops(void *data)
->   * The core mm code in free_zone_device_folio() handles the wake_up_var()
->   * directly for this memory type.
->   */
-> +static u64 fsdev_pfn_to_offset(struct dev_dax *dev_dax, unsigned long pfn)
-> +{
-> +	phys_addr_t phys = PFN_PHYS(pfn);
-> +	u64 offset = 0;
-> +
-> +	for (int i = 0; i < dev_dax->nr_range; i++) {
-> +		struct range *range = &dev_dax->ranges[i].range;
-> +
-> +		if (phys >= range->start && phys <= range->end)
-> +			return offset + (phys - range->start);
-> +		offset += range_len(range);
-> +	}
-> +	return -1ULL;
-> +}
-> +
->  static int fsdev_pagemap_memory_failure(struct dev_pagemap *pgmap,
->  		unsigned long pfn, unsigned long nr_pages, int mf_flags)
->  {
->  	struct dev_dax *dev_dax = pgmap->owner;
-> -	u64 offset = PFN_PHYS(pfn) - dev_dax->ranges[0].range.start;
-> +	u64 offset = fsdev_pfn_to_offset(dev_dax, pfn);
->  	u64 len = nr_pages << PAGE_SHIFT;
->  
->  	return dax_holder_notify_failure(dev_dax->dax_dev, offset,
-> -- 
-> 2.53.0
-> 
-> 
