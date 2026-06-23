@@ -1,175 +1,137 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-106112.protonmail.ch (mail-106112.protonmail.ch [79.135.106.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB65388873
-	for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 17:49:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782236946; cv=pass; b=LCcgU6Oz7Koy5RC3kVRSrMVJP4Hz4Y9qJmQw+1sZcvocOjiq/zrwkZ1Ic2nWj0qso8pT1nsfGKQaBLG60z0DY/jEici4lEadThfu8bQsMVpPNHuT1k4UgexgCXh9ZT/CfvlegQFEy3a+kxWu5vdV4e2uQA33CWmfhw61aW3+udI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782236946; c=relaxed/simple;
-	bh=Am0C8/bl64PVJhSl7vSCB5XRQ4+yV8p59Vuevb6WpQs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e6HVsLpKMmIrrEGI51PXOxCpsJOnvzcXXsilAZmW67ACJlb2wGlvfuS/tS3QkdOi7zT675W7lE5dG3vjJASc57GjCKtpRA/bF/gRdR1/FfHZu3oBV+ATXlK/YDnNPssDdhVINXADEKynxA4RGg1hSaKIVJpdogSo38odePUE0bY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SLzwcvV/; arc=pass smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E78390991;
+	Tue, 23 Jun 2026 17:53:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.112
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782237189; cv=none; b=e5UVgxMYDLEFTOp+wORUJx7WMu7DscsZ3h40kjul2GO7q4A8qQB8JyTbwfBy0zugsUal3y80KlgrerqslFQwnaut8zIMwBw5dD3dQ6P0RPiiNqsCVToHOQMqOyphp6Lr5TuSqaPe+v14cfMytJJVeuxgk2dN/LyJsnDKf9t+y6Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782237189; c=relaxed/simple;
+	bh=E2rm2AmDMNS3fPDLaY+Hd1im7cKJ8qFPnxcfWIeR0r4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Y+/ZLJc8+R2X5sRK8NN3h9s2j7e98otaszFhyyVH/qS2wbODTz1Qa0ijbb0bhi61Iz9QXAKz0bSkViUPbAH8/4SyhzSwE7STQzQAxBEtaLntTcuMeOPAnU24KxmMNxQCw69XHbsVdQ6A+bE8k5f4lDBsz6WBX1Bm1DtbHoLqu48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (2048-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=IUwcPBUm; arc=none smtp.client-ip=79.135.106.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=onurozkan.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SLzwcvV/"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-45ef189aa1cso133731f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 10:49:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782236944; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Ill2rzR1J7HPK62sChu73QwCKraaXUABY1lIY9lez1O/JRESg5GtRay4D9HdE5sKrh
-         DqTEWx8tuFbxrZZRcnXo9X9ExIsVyBwlRC5K9q2CFrKvhouMMNpnArDQNz4PmVQzeCRZ
-         cr8kKedB4sOZlNw3pmA1+3sxSLnhLDLGneKi30VjvPnaUk6voedbKBakmHwWt/GL0PrQ
-         dqn7J4Gz2NpNgypY+drG1EBL6AQ0F8ypDaktQp1sySo3xzu7nyxTWCaLilkaP+4XvI/5
-         otL6EGo4rEyEs/O57/15FCfcPh4MV8iAtBgPCD//n9nijSlqFb+BTc70brnj/+0xwl7D
-         MN/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Ht+ij96XcA95mozwv771qFFzvMVtl9I1uO74pBpkfIQ=;
-        fh=3cTlN/SEFa0QW2ElNd9dM5tM+0hkK51w2LrE238aSgw=;
-        b=RQ40eQUd60CNYZOHdZdT/uPRlO2Vhu5HqV8m0dZ3ebD0CeAyD7x/OukybvNydUYO/Z
-         AViGiT1IP88AsbQZM/gdnSAdEm8o/MonhlrIL8Xs7JmSIpWOgj05csg8bdgn3BLtMTkI
-         0brjz3rghr3XOzj+lZi5Mbr2JxHR0WQYYNzLlzm9olIm2jCTrL6pdMYGicHxWvKJlUEx
-         jrw8Z6DM5olDC+f0HhYznN/Aqpqdezw0IxpFo8uOS/tx8tGPh5jLiiRACQskINHxPd9W
-         uFRhdk11PCLXIL5gJnfM8lrFwdZ8EOYFIBTAxO+LvXeedvt+N7OtZq+j0sFu7o+LJhwN
-         yyBQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782236944; x=1782841744; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ht+ij96XcA95mozwv771qFFzvMVtl9I1uO74pBpkfIQ=;
-        b=SLzwcvV/8kPeupIEr1rAUYMrZ3urV7TYTdqqDTl5UxLIHvqMQp80gaNJ5w8fUF/mdA
-         lmNPCftJ2WtvSnrw7+gwjjX3zHj+wUzI/TeXMBckhO5lAXTHS916r1LUGh1YSZ7fsmFi
-         5ZKrHokDEO83poEgedECFlFx3spD3iKTHeZr5qf74E6/h6V6GmxRF4CLKwbnd16R28bs
-         u9iEAPCoW50m8ysjyoWWCN/cq6o7jsjaE1umFOj+1iKZV2zK9u7suolIul/4WT6AIS8T
-         XkyZ+Bkb4WD462NWUg22KFXpM3GPgxui0/VRT2MrGeUQgoHIb/LxTQ5+esQqwVmqIhlf
-         mVbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782236944; x=1782841744;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Ht+ij96XcA95mozwv771qFFzvMVtl9I1uO74pBpkfIQ=;
-        b=gZvQk8dIsuRG65cD9sWooANDCpu7466CoRKbulPp+fj+XRh4Zg6r7aCFsySDNqD7Ru
-         mSGGQrmW6xAgB45jyLLHjOr0MmgF2aDb42er0M7b3XZxruiye72KtMDvfd4DCftlJPGC
-         nieadaO7UAGHhmr0mJOondqf0VtMKdynSie5/dC5jzKGelbJt9MFamdTqpld1EnOdhuK
-         p4WPIJYrDGWiXpUtagR9rZ9S1L6Sxm16423M96BkVDr2LMexUOp+2IVaYKiTjC5WBZDy
-         J44m84wlQUNLWZbMn7lk2Ihyx6V7HZIgFsq+g8ThlP0+ctC4dDgc5QXT8buCjQQHkH0I
-         HqxA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq6Q6TjlGgMcIGXkENvq1dKQ10kOwmaPTrjuX/IEEnXGkjRAPPTrnIGpBdByIcRnCxuuRWHLdfs6CD9CEdR@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywb+a3n5ySl++DtafS1pLpLXzzy8KXrTcSyNN3QmyG7hu6KTBGt
-	BAq1XOd6DjqHuumdg/At/qSbwuWwIziOQwBQ/Wc+xDyfXVdg/zptGnRUKIRdkCOElYY7GQAWr3I
-	EhV4cCaEjy+CQ1eAgejFJexFRSyprvwI=
-X-Gm-Gg: AfdE7clOq9doTRsasVmfvA1jNxEpvg0MkF6rf1ZCeLdjlse3jhRHemBtwAGar5QPKJ7
-	QWHA9rT3KjDMrFZ2JM8zBzynZEa3NUFN2X+zYn/3kDhkhbi0nVP8VrmRWPKdItwTosoLjnZSnoV
-	JJGZRHaArAWg51tfKPRauKPEzJtlhaQJwLiVBRDcR4cncWDRezJxCgDW9d39fIEn7EY7CEeDYyB
-	l02FDrxvHE3PK0eB69XEXcHHF7oPLM15BMJ0YUMCxpIpkyIe4QP3RxEPCI+ap2eMGEZUaPX21Oi
-	cYC3nDVUZTtMvNssgD1fyU2VuoXm6KdhY6Kfop/SXezMqkuViT/S
-X-Received: by 2002:a5d:4d49:0:b0:45e:73b4:85cc with SMTP id
- ffacd0b85a97d-465091bbde1mr24933374f8f.35.1782236943715; Tue, 23 Jun 2026
- 10:49:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="IUwcPBUm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
+	s=protonmail; t=1782237176; x=1782496376;
+	bh=s4Is0q7DP6LQ80r/3dZ+cvP75TsKFlNwA4YLWr0Cmjo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:From:To:
+	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=IUwcPBUmckP5rXwZanc2iqSVRvyw2KiD/T2Pka87Rr9k4JwUwaQxuj1ie3YNYlWKu
+	 5SUso8FzI/8S2nwliVNmKyy5T6vNtzQOOJYflWqR4gKYe/zJeoLkX1HssX7w0KrrYT
+	 z5a8Xo2nG83wDO9cxhI9ynMlCnHSVndW/Ik3uZsGUjQPd27/DkqV1pdBnZ3kjyDvuw
+	 hdo6xjK3+Bn32c5Rbvy9noKj25u2gjwfNJsOcGOE2Qoat1hu7dE7fElB44u+harnIi
+	 XQ9bAQvtPyKSzo8iph+srCyfCU2kULocTMHVEXB5Lq44IPfTpcHPWSVdV2JadFB+qu
+	 nf58a6hspOA8w==
+X-Pm-Submission-Id: 4glCMd2JVcz1DDKr
+From: =?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dave Ertman <david.m.ertman@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Paul Moore <paul@paul-moore.com>,
+	Serge Hallyn <sergeh@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Nishanth Menon <nm@ti.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	=?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Igor Korotin <igor.korotin@linux.dev>,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-pm@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
+Subject: Re: [PATCH v17 10/10] rust: page: add `from_raw()`
+Date: Tue, 23 Jun 2026 20:52:41 +0300
+Message-ID: <20260623175243.83672-1-work@onurozkan.dev>
+X-Mailer: git-send-email 2.51.2
+In-Reply-To: <20260604-unique-ref-v17-10-7b4c3d2930b9@kernel.org>
+References: <20260604-unique-ref-v17-0-7b4c3d2930b9@kernel.org> <20260604-unique-ref-v17-10-7b4c3d2930b9@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260623004227.77628-1-jim.harris@nvidia.com>
-In-Reply-To: <20260623004227.77628-1-jim.harris@nvidia.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 23 Jun 2026 10:48:50 -0700
-X-Gm-Features: AVVi8Cfm9kbbCqcjZjNY0-c2laT-z6gmlwGB6uadTiv-xqdtzhz7LXNXFfcOVDA
-Message-ID: <CAJnrk1b8Z1An-WMijPkqQWxnEw-oECA8DK2Le17B1pR+p5i_vg@mail.gmail.com>
-Subject: Re: [PATCH v2] fuse: allow larger read requests by setting bdi->io_pages
-To: Jim Harris <jim.harris@nvidia.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Konrad Sztyber <ksztyber@nvidia.com>, 
-	Max Gurtovoy <mgurtovoy@nvidia.com>, Idan Zach <izach@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 22, 2026 at 5:42=E2=80=AFPM Jim Harris <jim.harris@nvidia.com> =
-wrote:
->
-> A FUSE server that advertises a large max_pages and max_write (e.g.
-> max_pages=3D256, max_write=3D1MB) cannot currently obtain matching
-> FUSE_READ request sizes from the kernel.  Buffered sequential writes
-> arrive at the server at the negotiated max_write size, but a large
-> buffered read() is split into several smaller FUSE_READ requests.
->
-> For a buffered read, filemap_get_pages() -> page_cache_sync_ra() sizes
-> the read against ractl_max_pages():
->
->         max_pages =3D ractl->ra->ra_pages;
->         if (req_size > max_pages && bdi->io_pages > max_pages)
->                 max_pages =3D min(req_size, bdi->io_pages);
->
-> fuse leaves bdi->io_pages at the default VM_READAHEAD_PAGES (128KB), so
-> a 1MB read() (req_size =3D 256 pages) is clamped to the readahead window
-> (128KB, or 256KB for POSIX_FADV_SEQUENTIAL), producing four 256KB
-> FUSE_READ round-trips instead of one.
->
-> Set bdi->io_pages to fc->max_pages after feature negotiation.  As the
-> code above shows, io_pages only raises the limit when the request size
-> already exceeds the readahead window, so it enlarges explicitly
-> requested reads without enlarging the speculative readahead window.
-> This avoids increasing speculative page-cache readahead on behalf of
-> an unprivileged server.  NFS does the same, setting io_pages from
-> rpages while leaving ra_pages at the default.
->
-> fc->max_pages is already bounded by fc->max_pages_limit (and, for
-> virtio-fs, by the virtqueue descriptor count), so io_pages inherits
-> the same bound.
->
-> Suggested-by: Joanne Koong <joannelkoong@gmail.com>
-> Signed-off-by: Jim Harris <jim.harris@nvidia.com>
-> Assisted-by: Cursor:claude-opus-4.8
-> ---
-> Changes since v1 [1]:
->  - Set bdi->io_pages instead of bdi->ra_pages, per Joanne's review.
->    Raising ra_pages would also enlarge the speculative readahead
->    window for all workloads (including small sequential reads),
->    increasing page-cache readahead on behalf of the server.  Setting
->    io_pages enlarges only explicitly requested reads larger than the
->    readahead window, leaving speculative readahead unchanged.
->
-> [1] https://lore.kernel.org/linux-fsdevel/20260602204430.18427-1-jim.harr=
-is@nvidia.com/
->
-> Notes on AI assistance:
->
->   The mm/readahead analysis (confirming ractl_max_pages() consults
->   io_pages only when the request exceeds the readahead window) and the
->   bulk of this changelog were drafted with an AI coding assistant (see
->   Assisted-by trailer).  The one-line code change was reviewed by me.
->   The motivating performance observation was made by me on a real
->   virtio-fs workload, and verification was performed by me.
->
->  fs/fuse/inode.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> index deddfffb037f..c8373e537d2b 100644
-> --- a/fs/fuse/inode.c
-> +++ b/fs/fuse/inode.c
-> @@ -1495,6 +1495,7 @@ static void process_init_reply(struct fuse_mount *f=
-m, struct fuse_args *args,
->
->                 fm->sb->s_bdi->ra_pages =3D
->                                 min(fm->sb->s_bdi->ra_pages, ra_pages);
-> +               fm->sb->s_bdi->io_pages =3D fc->max_pages;
->                 fc->minor =3D arg->minor;
->                 fc->max_write =3D arg->minor < 5 ? 4096 : arg->max_write;
->                 fc->max_write =3D max_t(unsigned, 4096, fc->max_write);
-> --
-> 2.43.0
->
-
-Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+On Thu, 04 Jun 2026 22:11:22 +0200=0D
+Andreas Hindborg <a.hindborg@kernel.org> wrote:=0D
+=0D
+> From: Andreas Hindborg <a.hindborg@samsung.com>=0D
+> =0D
+> Add a method to `Page` that allows construction of an instance from `stru=
+ct=0D
+> page` pointer.=0D
+> =0D
+> Signed-off-by: Andreas Hindborg <a.hindborg@samsung.com>=0D
+> ---=0D
+>  rust/kernel/page.rs | 12 ++++++++++++=0D
+>  1 file changed, 12 insertions(+)=0D
+> =0D
+> diff --git a/rust/kernel/page.rs b/rust/kernel/page.rs=0D
+> index 844c75e54134..d56ae597f692 100644=0D
+> --- a/rust/kernel/page.rs=0D
+> +++ b/rust/kernel/page.rs=0D
+> @@ -214,6 +214,18 @@ pub fn nid(&self) -> i32 {=0D
+>          unsafe { bindings::page_to_nid(self.as_ptr()) }=0D
+>      }=0D
+>  =0D
+> +    /// Create a `&Page` from a raw `struct page` pointer.=0D
+> +    ///=0D
+> +    /// # Safety=0D
+> +    ///=0D
+> +    /// `ptr` must be convertible to a shared reference with a lifetime =
+of `'a`.=0D
+> +    #[inline]=0D
+> +    pub unsafe fn from_raw<'a>(ptr: *const bindings::page) -> &'a Self {=
+=0D
+> +        // SAFETY: By function safety requirements, `ptr` is not null an=
+d is convertible to a shared=0D
+> +        // reference.=0D
+> +        unsafe { &*ptr.cast() }=0D
+> +    }=0D
+> +=0D
+>      /// Runs a piece of code with this page mapped to an address.=0D
+>      ///=0D
+>      /// The page is unmapped when this call returns.=0D
+> =0D
+> -- =0D
+> 2.51.2=0D
+> =0D
+> =0D
+=0D
+Reviewed-by: Onur =C3=96zkan <work@onurozkan.dev>=0D
