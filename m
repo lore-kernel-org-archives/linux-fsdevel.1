@@ -1,192 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0604395ACB;
-	Tue, 23 Jun 2026 20:14:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEECE39E9DD
+	for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 20:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782245676; cv=none; b=KZ6fIK8cqS05txYoDlYs/fGdAkp2Y++IzCiC9vG8FiRefoPBaRdbCnRQU6t0fwbWbTgpoqx4n+oMi76eozgDeRBhuQa54Dy7+OyFf42GKPh06VghqVfRUZ0wNUVTLCjPWBOrcWMI1PWNOsupdqQV2KDOtpriB+G4nIM9hpGzuh0=
+	t=1782246591; cv=none; b=PIyK8YHAkIRmB6OTwMveA/aLd9A3O9x84Ydue6WtlQT1KP/DpWnERD9mdy6Jpl0TRJ28LUOKvubUAYQHoKyJSozoVIpmY7LcXHWa5fxKv1WhnaKbgHVkd/6Uf7WKv2i6fiZNszylBDO4nxl00wr8gbfRWD3OxCzcA0HTfBRqW9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782245676; c=relaxed/simple;
-	bh=+NGHr3JwJhFyeVqNLHlK3enumdKIlg00Zx4KtBXAj6A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M5OgTBunzPoPJshGSQsKGBYdFSuPHwSx+LBAzI2dgxNLnXn8dbYdJ+XPb6fJKyc/A96VJ1sqKgGvYA3de6KjYg5anWd23PZZ9f5qpwh+zpW8PlrCMcnotKveuDSri7nGOGG52Dv0a8J7Qr6fKYJHqbnu6ATZYWvB/9yem8w6vmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZJAZRpdB; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782246591; c=relaxed/simple;
+	bh=ae9tZLJ9VP0xrA7+kEz3m9adVBnH3W5m1UaMdylFOhY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sjWELsJ3exG4HpeNLb+suwxvtnEbbpD2wrZmvV36maDtmm1EejHieht3W7CLUeuilxeMv0zqheTOf3tN0ZcqnKGKG2Q+x8Jtx/BFdfAC+eYzz2T3vE9x8utNL+y5EKRPuaqAReNlv3W6Ahj+SvCnMqSGPz5hI4SArUvf7KbKKPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mC9qkNbv; arc=none smtp.client-ip=209.85.167.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZJAZRpdB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DB461F00A3A;
-	Tue, 23 Jun 2026 20:14:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782245674;
-	bh=Ra1bLWv4R1sxRHDql8Lrgj/OtpZzKuZ/JFVnOfvRwes=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZJAZRpdBwWufrpjPgspdDTMpomP3SINRtHl8ZOxMtF3PzVz1QwLXUZTwQeAf+uol9
-	 1eIpnqZcQyu2eA9WuB6vdOXm9HrjZdTgIPf+GrfrgLo8/1h8rMn/j5yDRNaQWYcg1z
-	 SoHVXI9jcgMMPfJkeYwgC4Aatt17v9Hrbt5Q4aTLYVl0YHTUn9K219XN/LW5EzZI0y
-	 B0d5t1wmHvNPJk9v6TNFwFUo5f4iAyISIUYJYHJhlyOkJaw1/mmdsfWGo5L315qei/
-	 YFO0TfeLjSI4hSuiUWmQa08cUvaJ9yIlXFnzTK6RlmVc+HJmDya/kd/485ShKYpsJz
-	 AZUK1DyLQaYzA==
-Date: Tue, 23 Jun 2026 13:14:34 -0700
-From: Kees Cook <kees@kernel.org>
-To: Farid Zakaria <farid.m.zakaria@gmail.com>
-Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
-	shuah@kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] fs: support $ORIGIN in ELF interpreter paths
-Message-ID: <202606231236.325C882A78@keescook>
-References: <20260622043934.179879-1-farid.m.zakaria@gmail.com>
- <20260622043934.179879-2-farid.m.zakaria@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mC9qkNbv"
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-4877b2c9e9fso310320b6e.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 13:29:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782246588; x=1782851388; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NuNi7da+RA4oD3knIL+KO9HKkOpiQqXbFGyr9zpIeq0=;
+        b=mC9qkNbvvt5qH0rlsKn/PMZ4z0eK9ehZzKfJiAWwjY5RjGSGzyCIa8cagDBbPMyOAE
+         dqqFxyqo4oV0XPQ7vyq+J8Nrb3RFdi3tBzam2xonSoYEJ5DSt7wZHpDoMwlVcJKrT/hR
+         kyCZJRrYrln0dNW8z71QgX3/0BScVxNqYn5DGsU2qIKr9M30nz7f7bDhVyZr5liYAVIL
+         rqFU1aCynatxsYwHVHWMZhdtHF8C/vRr7Zu6J89zBgyaM3VjKL89YkLBOqMenR8jOp6o
+         pSF1KHcQ5Vx5wWPZuj5gMI9FlEJUVr9Zsy9z6PzrGBSEGNMxVfFEqfBD4IDZEWjv/2jg
+         1BXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782246588; x=1782851388;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NuNi7da+RA4oD3knIL+KO9HKkOpiQqXbFGyr9zpIeq0=;
+        b=mZk5sLVylyRENM295dt2gFuEco2ojzO82eZ6BYjJQTPEpaZGu2a4sjP8NcMweOlYTz
+         cYNM+9k/XRATd1oVwgh2eIhE08WvjmKw8ZbwVMein1nkV+FZPjNi7ck6wnhvrz0BT9Al
+         1B6DZRCMADjaAhKJ4jBRLlB3BoTKgom1JMomLXRriIZ5wR4E4GN93tbfwjvLFwT7egaW
+         TZpQiukAGkr+NzmXj0rxYcjXLniz73H0+KvYBitn5C5QUkXPcTzqVBO/fAbxuQOEmHav
+         aILzhbim4wYmanHb2Xf+LgxtITP7j5TsGsP2OzY6h9VqutrOJlmNxUpFmhlcL9qlXbGn
+         VmaA==
+X-Gm-Message-State: AOJu0Yw7jxJ6eHMbnx09pnRqFBUxdN2n0tWKUr1CKlcHmPIn8mfGCGlF
+	pZtCofB0/QEbDUcINDO2kSxD+bIWn5pXIqt6Lvo0jqYWscQbXaiLO188
+X-Gm-Gg: AfdE7cnfbJY0h4dGZHXHE5MxmOUt3G0MU/ZlXanV5AVajk0IahWpG3/sGihB2mtTUjK
+	7BYv6/x61rpko2rwL8IgjPoJICwZ89cCrRcFLfOh+QwIVna3dvNUOgSDj+FmtR1y4om80Sus0zB
+	4cJs2k/32NxwU6h5DZGo/yViuQbUX8bU3qRKuh4oZ9eKYjkRDIFABkXrM3EYHFQiqqNSzRyy31A
+	kC6N1/OwF1DcOU2+tlRROeObp1pRsILy3U+iaPdy/BMkOmG53MuMnQADxE3Na53i+Cp4fNzCtI1
+	F4M2FJIa0eW+YZ5mmmzAqYMcqZvlTIWD7dalpucFwHRO4VBGA63Bl4sgjeI4tSFtmV/d6wpWMGb
+	Ix7wDLBNYxMWeWHYXoJZ7NCpaG8+8t41DvGZFBfIZnU4EbtT1huFUOMus2AqjFrwM5f618vYRSt
+	7H5x9og/CPLwLIp1vTZuLZKseHmYKCUvocnYu5ea6CDrEiZPd6NBfudWurSIixvNjL
+X-Received: by 2002:a05:6808:384c:b0:48a:3f80:ee54 with SMTP id 5614622812f47-4907a57a5e9mr275739b6e.23.1782246588618;
+        Tue, 23 Jun 2026 13:29:48 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:54::])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-48aec0ddd7bsm7130470b6e.7.2026.06.23.13.29.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2026 13:29:48 -0700 (PDT)
+From: Joanne Koong <joannelkoong@gmail.com>
+To: brauner@kernel.org,
+	hch@lst.de,
+	djwong@kernel.org,
+	miklos@szeredi.hu
+Cc: linux-fsdevel@vger.kernel.org,
+	fuse-devel@lists.linux.dev
+Subject: [PATCH v1 0/2] iomap: add helpers to keep uptodate bitmap in sync
+Date: Tue, 23 Jun 2026 13:28:40 -0700
+Message-ID: <20260623202843.2064992-1-joannelkoong@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260622043934.179879-2-farid.m.zakaria@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jun 21, 2026 at 09:39:33PM -0700, Farid Zakaria wrote:
-> Currently, standard ELF and ELF FDPIC loaders expect a fixed path to the
-> dynamic linker/interpreter (PT_INTERP). However, for systems utilizing
-> relocatable dynamic interpreters (such as Nix/store-based environments),
-> hardcoding this path is inflexible and breaks binary portability.
-> 
-> Introduce support for resolving the $ORIGIN placeholder in the ELF
-> interpreter path. This maps the dynamic linker relative to the path
-> of the binary being executed, matching user-space origin resolution.
-> 
-> To avoid code duplication, implement a shared 'resolve_elf_interpreter()'
-> helper in the VFS exec layer. For safety, limit detection strictly to
-> the prefix string "$ORIGIN" to prevent complex parsing exploits.
+This series is on top of the main linux tree [1] because it depends on some
+fuse changes in Miklos's tree that were merged into 7.2 but not yet pulled
+into Christian's vfs tree.
 
-Does any other OS that implements ELF support also support $ORIGIN in
-the loader? $ORIGIN isn't even part of the ELF spec at all and is a
-glibc extension, IIUC.
+The first patch in this series adds two helpers to iomap that update the
+uptodate bitmap whenever a folio's uptodate status needs to be set or cleared.
 
-I'm not excited about path-based string manipulations as they end up
-being racy, and mucking with loader path seems like we're inviting
-trouble (since the _binary_ specifies setuid-ness), and we've seen
-issues with $ORIGIN before, even strictly outside of the kernel:
-https://seclists.org/fulldisclosure/2010/Oct/257
+This is so that external callers who need to update the uptodate folio state
+from a non-iomap path can do so and keep the bitmap in sync.
 
-> [...]
-> diff --git a/fs/exec.c b/fs/exec.c
-> index b92fe7db1..0978ae613 100644
-> --- a/fs/exec.c
-> +++ b/fs/exec.c
-> @@ -2024,6 +2024,48 @@ static int __init init_fs_exec_sysctls(void)
->  fs_initcall(init_fs_exec_sysctls);
->  #endif /* CONFIG_SYSCTL */
->  
-> +char *resolve_elf_interpreter(struct linux_binprm *bprm, const char *elf_interpreter)
-> +{
-> +	char *pathbuf, *path, *slash, *resolved;
-> +
-> +	if (strncmp(elf_interpreter, "$ORIGIN", 7) != 0) {
-> +		char *ret = kstrdup(elf_interpreter, GFP_KERNEL);
-> +
-> +		return ret ? ret : ERR_PTR(-ENOMEM);
-> +	}
+The second patch adds the fuse caller side of it. fuse uses these two helpers
+in the notify store path for storing server-pushed data into the page cache
+pages and in the writethrough path. This series is needed before fuse can
+start using large folios.
 
-But even if we did take this, I really don't want to incur a universal
-penalty on exec for it. This is doing a kmalloc+dup (and later kfree)
-for all non-$ORIGIN execs. So even if this gets added, it needs to be
-handled differently.
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/
 
-I would probably say this helper should return a struct file * instead
-and have a fast-path for the common case. I think a check for leading
-'$' (if strncmp doesn't get inlined) would be okay here as far as
-"incurring common performance cost"; that string is almost certainly
-cache-hot.
+Joanne Koong (2):
+  iomap: add helpers to mark and clear folio uptodate state
+  fuse: use iomap helpers to update folio uptodate state
 
-> +	pathbuf = kmalloc(PATH_MAX, GFP_KERNEL);
-> +	if (!pathbuf)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	path = file_path(bprm->file, pathbuf, PATH_MAX);
-> +	if (IS_ERR(path)) {
-> +		kfree(pathbuf);
-> +		return (char *)path;
-> +	}
-
-This still just _feels_ like an info leak or a race condition to me. I
-can't give a credible example, though. But it creeps me out. :)
-(I note the blog post also says "and the shabang" and I get even more
-creeped out about seeing that patch.)
-
-> +
-> +	slash = strrchr(path, '/');
-> +	if (slash) {
-> +		if (slash == path)
-> +			*(slash + 1) = '\0';
-
-This is not idiomatic string manipulation.
-
-> +		else
-> +			*slash = '\0';
-
-More readable, IMO, as:
-
-	if (slash)
-		slash[1] = '\0';
-	else
-		path = "";
-
-But does this match the glibc resolution logic? i.e. should it be:
-
-	if (strncmp(elf_interpreter, "$ORIGIN/", 8) != 0)
-	...
-	if (!slash)
-		slash = path;
-	*slash = '\0';
-	...
-	resolved = kasprintf(GFP_KERNEL, "%s/%s", path, elf_interpreter + 8);
-
-(requires the trailing /)
-
-> +	} else {
-> +		kfree(pathbuf);
-> +		char *ret = kstrdup(elf_interpreter, GFP_KERNEL);
-> +
-> +		return ret ? ret : ERR_PTR(-ENOMEM);
-
-This is the same as the logic top of the function. This repetition smells
-of the LLM. :)
-
-> +	}
-> +
-> +	resolved = kasprintf(GFP_KERNEL, "%s%s", path, elf_interpreter + 7);
-> +	kfree(pathbuf);
-> +	if (!resolved)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	return resolved;
-> +}
-> +EXPORT_SYMBOL(resolve_elf_interpreter);
-> +
->  #ifdef CONFIG_EXEC_KUNIT_TEST
->  #include "tests/exec_kunit.c"
->  #endif
-> diff --git a/include/linux/binfmts.h b/include/linux/binfmts.h
-> index 2c77e383e..17419cd3d 100644
-> --- a/include/linux/binfmts.h
-> +++ b/include/linux/binfmts.h
-> @@ -150,4 +150,6 @@ extern ssize_t read_code(struct file *, unsigned long, loff_t, size_t);
->  int kernel_execve(const char *filename,
->  		  const char *const *argv, const char *const *envp);
->  
-> +char *resolve_elf_interpreter(struct linux_binprm *bprm, const char *elf_interpreter);
-> +
->  #endif /* _LINUX_BINFMTS_H */
-> -- 
-> 2.51.2
-> 
-
-So, I guess, I'd like more convincing, but I'm very happy to see a KUnit
-test included!
-
--Kees
+ fs/fuse/file.c         |  6 +++---
+ fs/fuse/notify.c       |  4 +++-
+ fs/iomap/buffered-io.c | 27 +++++++++++++++++++++++++++
+ include/linux/iomap.h  |  2 ++
+ 4 files changed, 35 insertions(+), 4 deletions(-)
 
 -- 
-Kees Cook
+2.52.0
+
