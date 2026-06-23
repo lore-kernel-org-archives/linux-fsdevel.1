@@ -1,140 +1,138 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E44B39DBD4
-	for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 04:02:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782187334; cv=pass; b=e+aWYwZEOZ07kqV2GFhF0zv56pJJ1/tYFWsLgoe6GFLuLtx0o1zB8mNbQ6d+cukFV3SuLQGg8pvTIFYQaKsfhQQCgwAm0jn0ZeUS9/WbbL8/LbI2ECt4qZ1BY5o+N0nV9cLservrHFzTPeF+FIqaGjNbj+V+gKVWzmSoXQjPzzg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782187334; c=relaxed/simple;
-	bh=F0wTGQkkGlxpSFeNyjD6eaC/VlWEy1Nj2KPYSgkBaLA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=opIBfsnnzAmGJ2cUPMR7H26K0psyW+5GkMM1lR53Wf/fNQqH98QAeVOL+ZTz/60yUsxIcCwjfJ7toq1gFIasBgz+ERwtIr2dgVMPTtZilhwxOBW1ZPNaq74vPim693M30SAEM+FtfSHxBs+K/+H9h4s+I1AGG/bUqcHLCvGOIo4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kvfEHe85; arc=pass smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DAD33A9636
+	for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 05:56:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782194213; cv=none; b=VzXN8HFrc5ulye2DUPHe0mpXJIyMZB5v+YRSMhVTSsW+UrQgfa8UlLw9j9TlXbybG8G189Y/H2UEUI7n6LLYxX38w2ytWZGmr6r0ZeUrueEYE6GHHG3uuAzv29sTNRmRqCb/u18Y1MmYQQXj8Zf7FFo6j/bGR5JT054A78TRsdM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782194213; c=relaxed/simple;
+	bh=+jf6FCPhULaYM7x3WdOhcPmt+O8EwtPmzY59JSYi2kU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=keVcdmWOarxUhAsH+veCaHCK+e2sd5CNTBYsUt7GTWmfdfkUjuxnnKd/K6NI6ta48CV1pNfHEbxUu25go45qveXwBXoMvSYsbR99ZWkJ7/Sa/jwU+K9KlPk/bsLM0AIFPapf7HpeJTKaMvXCeepX2mxikxTP9WUoop1HgK0dNKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=Yy1iPVfH; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kvfEHe85"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-915c36e32abso486626685a.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 21:02:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782187328; cv=none;
-        d=google.com; s=arc-20240605;
-        b=i+lUuM49jHushxz9zaxBJdpF3FrEStpOjaZhP+vuIdHW4ru1J+3riPulSV5sIrpYHW
-         EqSrd4o8imIsb3zLtadWA6Dmu/thdqPkO4E5fKkDSFwifXd3wq5/kN2pY2kJiIIgW9Jj
-         dQz8kVRQEeyrhgfJm72zfYYtkizBsc0PhM1TG5MoeaxqYVjjJw4zmlrOmOa4IwtGj4Xh
-         3mDHruAEe69ARFAKrsP2jr2Z5ZdmygfPGKrcE1IY0ajv8LOZmpqq/IX/8XnBmK1okpAV
-         /A1Acdq85f5LaoLb2RpJ01U9/X7kT9mb9g6T2oKNySYKYzW/z6vMRXYpBU3yvvcxvz4k
-         NC9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=eW8+mqrmr6N7CBulx1m18TzlUYk2VeJ10g5AWzjPQEQ=;
-        fh=PgYDfYOVSXjiiQC6u6omVLzLOHXdNjhBHbyBtBqxW5c=;
-        b=JjncUQ5XlT2lw2E0w0IJeHfP5veGx8QFByhloPjySawGXxSD+rja5DQ+EWsta0FHH4
-         ImoV8+jJRd+s+6QbWDUKV1geSv9mde8xjckXjRSQ/rfJVx4CICa3vx2rjyadr/uWsNaY
-         Tq8TJvhV7rLp+EHcJ59l8KOVHzanrhnevpwPdCJsVyO2mLf5jBjxLBc8OYCs+O0S91e2
-         4kS0aKU96lJd8b3oa6VTyqkgGVStFu/9CqUL6kyTHWCWZndw45DSPN3rxtil8rYqZDQt
-         EPPBwUpTgeE1Ocxwxlmfp8yqKUhII4Q5jFmqm3+QQx2uaG03PjoQWa2qPsEVGPvIPh/f
-         tdgA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="Yy1iPVfH"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-396775c26e0so49541871fa.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 22 Jun 2026 22:56:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782187328; x=1782792128; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eW8+mqrmr6N7CBulx1m18TzlUYk2VeJ10g5AWzjPQEQ=;
-        b=kvfEHe85g9lUYBp4b+HBBNOtnEXPs2FhHtjfbueg3OXE/2zsiVDDCk5Sf2KOR1lxib
-         zIoQxQiskpChFQyo21WNgATlA1ZTx/GP/aSDvLer8bGK1k/DXX2aghlwkYqQv2pFkyFz
-         oked1raJu7gLr0qxR3h80MSU/LFbvjxaK41XdPy0f5iGOahOso5D6brjklO00daNIfq1
-         gIxALTWLg3bznUVXFcT2ZVDOgIwpidNjrhE9Sc+zhNk1C8e6f6KiwIxKTskiB6kpTBMK
-         w1nNx8ay0Yr5pDD5SIS7zDfDIGIW66P2uO5D9Xu05DDJK12HXpSTUlR+6N1r5JyQ9KZc
-         sUcw==
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1782194210; x=1782799010; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=y6lTr4KEWrxbE6naabst6mdKqXSyHQxKSAsNHVTHLYE=;
+        b=Yy1iPVfHWstcoYT7P0sa5BB945MMlDkX6inoSr/frPpC5Hna1UTMOFsOIbMZDbpIVX
+         HiWLMh5Ryrb1HIWJwjBsgEk81vvSL7uUSQywkt5Y/+3gWXqw1giGpRz4YLyoVQFpb2IT
+         Gh78MB1P3vzDRP8dsSLFUruFALq1bMJKbkyNMl2Kx7PQHjxUikZyCAfnIzquR7seaivR
+         rEk4LFz1ATgDJiodZ/3UBuAdIhE2QlFCZ/hgj4e8BpNlN05/BvUEO9uAh4khQMdibOo2
+         51wU70tqGUObgjHQVOW0A95DE3tiyMP+st6DxXUybdjTV0iseI8nvDowBcAni7ZzLSLW
+         K7Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782187328; x=1782792128;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=eW8+mqrmr6N7CBulx1m18TzlUYk2VeJ10g5AWzjPQEQ=;
-        b=oiSISinowtjdmAOE+32OHjYnKzddDz8SNVKAvdm3I4Ir61+KlgokYRDLWUxjSdtsyC
-         xu6omDcd+JVwKf7qkO+07skkxK4uWqgra9j6pXIK3KBjBcjQ3VnOaTO2QskoddjrP8nY
-         IRAlDSKK8odxeiYtMkeBTxlAjhzjxjj/ElbxlMNn3e8O+h/b4gyiYnpqxp85yZyx/cp6
-         MMUzNjbV9++c3s0viqnwGEFU3PHRA3gYe+iu3BLvqg4Re0XwGoji8FXRD4+hAhJ6XBKM
-         9CAF+YOAoURiEVYK/P/ReVnvUozAqjDo0v2r2+HWEX50Zx1WINpBamNgXMxBDk6BFJpp
-         HI+w==
-X-Forwarded-Encrypted: i=1; AFNElJ/Jee/mEs5YrryZNalcT534Rj1EeHsqOHpOxrxnd8fqaIUJiWuGGJog4b4LTc0FX60q0z7dSreC4cc6DKDa@vger.kernel.org
-X-Gm-Message-State: AOJu0YzU0191MwQC0+YLw44Lu7ZNkVPNxHMEVJAirxI9tDpKfkqn5TVY
-	e91gix4F78UeHnn4p6GNgMLLqeerK0GM5ZYbKcaSu0YQju3eGh+Z4tow7RPOBpUaBjVQW378Lh7
-	RI6k9yGfFdavUb/aOpMwn4ulhWTxJLGQ=
-X-Gm-Gg: AfdE7cnjwryit/F90igVKcv4E+TLsVDD9W85+V9WYSbT2Eb03MA50SiYoi20ziQjLzb
-	6EsNS480rjJ8ua1kkMXgn6MB+OQrnieqoCoO4kNYsX4Zj0tXx2HAEmLSeJbCMsuZWcrFBAA3tlJ
-	3WfMQlsSC6zQ4lSWjHzC/HpXBFiC9JzHutQxsW5lY+W4fmORLs7sZsPY2oDzshjKO0HmOrPSFzw
-	kHK+byhag1jP/EzwH0LasWrKDXkZbQgN+Z+4M0zm3vQhR3/pb7ieVuNytClJrGzlTFkGPoYKqOT
-	Ba59KkgfAAIFXQ6vEOOriL45pBOh8KWtbwzDSg==
-X-Received: by 2002:a05:620a:4808:b0:915:e9c3:f1a0 with SMTP id
- af79cd13be357-9208f05c232mr2733502085a.12.1782187328229; Mon, 22 Jun 2026
- 21:02:08 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782194210; x=1782799010;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=y6lTr4KEWrxbE6naabst6mdKqXSyHQxKSAsNHVTHLYE=;
+        b=s4xHMGGLaBZa0msKPdk+oPSKSs86iQsTK9q5nP2Z8KJeY2yludHwxuMvzC/zLG/U7c
+         kBB0NWx7NmykFQMYeRJrACHgN7siLFwbK+y407pWNPZAPA5M+cSdaFKsmpNEJe/VAqM2
+         VWM4jV5Bxdc0AhrXIwn3j9v7UEgG2NP146A4os9sm5zhQ0hLWLWs2bKxrn7fgXiSM6uh
+         lF4WhUqX7ifKnOWokhT6UpK/ch5eN0B4KVKMTLM65zHlj0RfSIWdL3hkzxNKS7r3o+mB
+         ghTSCIs4g3S5giS1fbpYeIvVsneJglcQzeSBPs8RWyzlWRKBEdlxNsVErv9eYdlI8Lrm
+         GcEw==
+X-Gm-Message-State: AOJu0Yxfd8GQrc4hVnsQx8F53wm3cfpCe27JNv1CKpmfBibUa3Qi4aw0
+	Z1spgCrlus9gXDjNY1K3BC7H4N+pfoihI7U7zARBVUuKceJFNBKoIbr29bDEPuJMmQs=
+X-Gm-Gg: AfdE7cnoGhijwzcwUF/5Dr+vTNZZVbHn+CFHdPrmNlhcyKYfuwLBnbVQSZFGdfmUhBC
+	e8LyVZPMks10Kjha+uCKRTH64rSaNq/ODtXVPqvbBVZwQpKMDI42KsSn8gjDOl2MygBOBCmCj9w
+	8pG89lklOI4FNewuCqsAvUPBjwriBcO8NFjKIfRRuJF0ojNzV0iMTpf4G/qJsBqWIW6HZQnK/Z9
+	HUgFNoUwvJl2NqVLYUtwiGDqzkFsyaux8/M8UcLQvHbchS80hp2TeWMWaFfBrHcDJBxugOE8/Mg
+	KTT54GmzRQlWHQtRK0pQ1EtPEYzB1+TwyognsFyV3gebX1akf2NNH6N58bzvuuYsM3uU3V27xz8
+	7jZAbCNEQZbZ2Cc2x14FL6p5wZ+WeIoZZ3DZbpGUP0G5foYym0xR3oY8J6Ctv08Ehrc9hwAom7C
+	FGAdL3c6eD+BxoleKY9QK4oTHCPxDZLkCusH7dRE41edaACzP/luf6u0TgYqw3mUjIk01hziqpK
+	vjcRDScqoiPMCck/Xkv1PCnyYKsl6tOPXSy
+X-Received: by 2002:a05:6512:ac3:b0:5aa:63c2:2cbb with SMTP id 2adb3069b0e04-5addb8161f0mr262032e87.9.1782194210009;
+        Mon, 22 Jun 2026 22:56:50 -0700 (PDT)
+Received: from [10.182.218.44] ([178.176.72.208])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5ad6957a8b6sm479882e87.39.2026.06.22.22.56.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jun 2026 22:56:49 -0700 (PDT)
+Message-ID: <5d8bf7aeebb3dbad5640d99784942201212eef4f.camel@dubeyko.com>
+Subject: Re: [PATCH] hfsplus: fix duplicate bnode creation in
+ hfs_bnode_create
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Sainath Manda <sainathmanda777@gmail.com>, glaubitz@physik.fu-berlin.de,
+ 	frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzbot+f83fa2cf571bd7650422@syzkaller.appspotmail.com
+Date: Mon, 22 Jun 2026 22:56:48 -0700
+In-Reply-To: <20260621090448.13108-1-sainathmanda777@gmail.com>
+References: <20260621090448.13108-1-sainathmanda777@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260618203411.73917-1-dwindsor@gmail.com> <20260618203411.73917-2-dwindsor@gmail.com>
- <DJFZGYZFMN73.1799LMXW49WZO@gmail.com> <CAEXv5_jVXS4JoExcd71YkXEE2WXPJ0_9STO-uCwgNF+Eia_h5w@mail.gmail.com>
- <CAADnVQJsdrL2RjxM4UE1WyWrT9KsprFP+=xLHRtFhUSccDqQcg@mail.gmail.com>
-In-Reply-To: <CAADnVQJsdrL2RjxM4UE1WyWrT9KsprFP+=xLHRtFhUSccDqQcg@mail.gmail.com>
-From: David Windsor <dwindsor@gmail.com>
-Date: Tue, 23 Jun 2026 00:01:56 -0400
-X-Gm-Features: AVVi8CdBJDCEtsjZ6Cr-k5RWu5qRO4rCaGhk6aOZoAtNJHl7U-y4zrw2gKO9F3E
-Message-ID: <CAEXv5_jTxeTRdWpv71=6k_VTN4ZCes30xPs746Frw96fShfe4w@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v3 1/2] bpf: add bpf_init_inode_xattr kfunc for
- atomic inode labeling
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	John Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, Eduard <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
-	Emil Tsalapatis <emil@etsalapatis.com>, KP Singh <kpsingh@kernel.org>, 
-	Matt Bobrowski <mattbobrowski@google.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E . Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Roberto Sassu <roberto.sassu@huawei.com>, dmitry.kasatkin@gmail.com, 
-	eric.snowberg@oracle.com, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Ondrej Mosnacek <omosnace@redhat.com>, Casey Schaufler <casey@schaufler-ca.com>, 
-	Shuah Khan <shuah@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
-	LSM List <linux-security-module@vger.kernel.org>, 
-	linux-integrity <linux-integrity@vger.kernel.org>, selinux@vger.kernel.org, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 22, 2026 at 11:59=E2=80=AFPM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
->
-> >
-> > > > diff --git a/kernel/bpf/trampoline.c b/kernel/bpf/trampoline.c
-> > > > index 1a721fc4bef5..b41b02173e24 100644
-> > > > --- a/kernel/bpf/trampoline.c
-> > > > +++ b/kernel/bpf/trampoline.c
-> > > > @@ -859,6 +859,9 @@ static int bpf_trampoline_add_prog(struct bpf_t=
-rampoline *tr,
-> > > >       }
-> > > >       if (cnt >=3D BPF_MAX_TRAMP_LINKS)
-> > > >               return -E2BIG;
-> > > > +     if (node->link->prog->aux->attach_limit &&
-> > > > +         tr->progs_cnt[kind] >=3D node->link->prog->aux->attach_li=
-mit)
-> > > > +             return -E2BIG;
-> > >
-> > > No need. The check inside kfunc is enough.
-> > >
-> >
-> > Paul wanted this check because it occurs at bpf prog attach time,
-> > whereas the one in the kfunc is at inode creation time.
->
-> Sorry, we're not adding redundant code to the verifier.
+On Sun, 2026-06-21 at 14:34 +0530, Sainath Manda wrote:
+> Syzbot reported a WARNING in hfsplus_bnode_create. A maliciously
+> crafted
+> HFS+ image can request the creation of a duplicate bnode (e.g., bnode
+> 0)
+> that is mathematically within the tree->node_count bounds, but has
+> already been hashed in memory. This bypasses initial boundary checks
+> and
+> triggers a WARN_ON(1) upon a duplicate hash collision.
+>=20
+> This patch adds a clean state check in hfs_bnode_create. If a
+> requested
+> node is already hashed, the driver now safely rejects the operation
+> with -EEXIST instead of tripping the kernel warning.
+>=20
+> Reported-by: syzbot+f83fa2cf571bd7650422@syzkaller.appspotmail.com
+> Signed-off-by: Sainath Manda sainathmanda777@gmail.com
+> ---
+> =C2=A0fs/hfsplus/bnode.c | 10 ++++++++--
+> =C2=A01 file changed, 8 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/fs/hfsplus/bnode.c b/fs/hfsplus/bnode.c
+> index f8b5a8ae5..5946baad2 100644
+> --- a/fs/hfsplus/bnode.c
+> +++ b/fs/hfsplus/bnode.c
+> @@ -626,12 +626,18 @@ struct hfs_bnode *hfs_bnode_create(struct
+> hfs_btree *tree, u32 num)
+> =C2=A0	struct page **pagep;
+> =C2=A0	int i;
+> =C2=A0
+> +	if (num >=3D tree->node_count) {
+> +		pr_err("hfsplus: attempted to create invalid bnode
+> %u (max %u)\n",
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 num, tree->node_count);
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+> =C2=A0	spin_lock(&tree->hash_lock);
+> =C2=A0	node =3D hfs_bnode_findhash(tree, num);
+> =C2=A0	spin_unlock(&tree->hash_lock);
+> =C2=A0	if (node) {
+> -		pr_crit("new node %u already hashed?\n", num);
+> -		WARN_ON(1);
+> +		pr_err("hfsplus: attempted to create already hashed
+> bnode %u\n",
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 num);
+> =C2=A0		return ERR_PTR(-EEXIST);
+> =C2=A0	}
+> =C2=A0	node =3D __hfs_bnode_create(tree, num);
 
-Thanks, will send v4 soon.
+If we have corrupted HFS+ image, then we should not mount it. If I
+remember correctly, we already have patch that fixes this issue by
+checking b-tree's map during mount operation. Are you sure that you are
+running the latest state of the Linux kernel?
+
+Thanks,
+Slava.
