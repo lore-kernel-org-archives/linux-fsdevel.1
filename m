@@ -1,313 +1,120 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B440314D1F;
-	Tue, 23 Jun 2026 08:09:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9752C3CE083;
+	Tue, 23 Jun 2026 08:44:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782202187; cv=none; b=AZadO9ngSIpJPRTFfYDvC/wmYCgvjbZybKVrQivxbaTIuZZaeo3x1Iom9oCUvqHJdUmDr+l6MdOOpn39NsRgV/sU1FtscGcrxcWx25QLITPNPbqTPGDMyzMYyyzW6iZwqM3OK2vtkdr9EBTCLOb9wGfhXlh3AFuA0uj3ZvtWRMQ=
+	t=1782204263; cv=none; b=lxy50FIyhsGmFJlp40js4QK6eizqW9AXnDGrWrTowenJU3G7qXYOB6nM2LMIrosbx+vMx4M2B08HGsK7gQZnIZsQIQ2l/BPwcCjwBsGScSBrcD20Y/tONMTyafAeDeZqNDTvweSwUEBVSC8QEKa7aO6EpyrxgVTkBsL2Ac/fqYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782202187; c=relaxed/simple;
-	bh=kYx49VaCm8e3MchEJdki/95wmlHjJtXf/j41pT6J0uE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kYpZGx9ihIzg5Mrui09nzIsxAtrCHGT76OZVzU0y9PoiEPvyHm+55Yr62ETrkF7048YXGFKG+LFuRDpomYYaiMAet5JCmaeuGF8/Pik648QOxDiLT0ChEwdr7EWFBLuaWS1A1M1TmVvFGl7EZK8wqBlK2zGMIfn+4EaNhevH+xQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XUiPILmV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782204263; c=relaxed/simple;
+	bh=xw9NRBVUkFg8CCVr2f3+oeKtZEjveSdW5q17uZHSmbU=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=hhiwbQ+syPIaDdDfUC9cs6nspzNTmCHPEzcdE/K3gJJLxKQVBgN33tn7+0gW7pVLMyJBN1JqoN5f2yCTwhO2UvJL1KP/l44bS0GF18D8VT9I8+OEIG5lrqXZvHC7qKv78bb/M8RJwNkjWDYSKrMPS8SMNxet4agKmglZyk4EW78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PKyzie0K; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XUiPILmV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7016C1F000E9;
-	Tue, 23 Jun 2026 08:09:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PKyzie0K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B40FA1F000E9;
+	Tue, 23 Jun 2026 08:44:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782202185;
-	bh=l6+hcxSmHD+x+2Iij3EYW/GYPqB/Bat6jKxnqJcOT3M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=XUiPILmVm7LgmfMvBEO6XriuWaAs+jsKuXqnY/yk8STR8I7rfyLXhwImyw5sjIgOu
-	 jyVGpMZIePQ88xA2V5O6tmUtNqg161khaPd3UZoN7FD85RRCpQ3tD6JuFPUAGYgM6j
-	 8IynBXpQ5DNsscGVZB5zyX0jzWBostPktxqx5/oPNn3yo3UO71H0QFW4Kh0jOIBjZW
-	 YzpnKU1avILvYzlqcY4YGqqlsCgGxRVKmX1Wpojpm5xOz2rFa6c0zX6N4F/swfNPAi
-	 Nku0u7jGPGL689jTX53842vKpfK3lDdTnOrwLRPKyi1KoBnB26olmQuz2Ngwh3k+uv
-	 8Fx+3nF+7KE0w==
-Message-ID: <151b1c96-0ed5-44ce-b9d5-86a48d8ad592@kernel.org>
-Date: Tue, 23 Jun 2026 10:09:41 +0200
+	s=k20260515; t=1782204262;
+	bh=jTF1xPaRcrdYfpGJO/1QRwXrYeuBiryYE8AtPeKO+f8=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=PKyzie0KHr9LI9sg/tNB6Kych6nKA4sSRMSgh1HGRhg8JQX2jHfHxn5Gqb873n0qz
+	 e7yIGHxqqu36O1EMpvhMVEl7WtsZSsIcvqwh5DyVyCTlExBXhNPCqlvrkXXEs9dk4J
+	 dcBaA2n8ZSZevF+/o/Qh7iZM6+1zFIATm3nODRHWWW3fx/N+SQCSq3Q61VbzZrP3iF
+	 qtnkAdn9upGO6LmsoU6R8vFg/chzllA3sKqM7kKSCdiMcJHYTybfC03EAUefty4Uj/
+	 ggYrJMyOLySTjF3WUWHXUaUOxAQcNxevKw/P881oFe7rS68qlFf0WgRwFoP3mNtA0m
+	 S3q2nAn5BBa7A==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 00/10] kmem_cache instances with static storage
- duration
-Content-Language: en-US
-To: Al Viro <viro@zeniv.linux.org.uk>, linux-mm@kvack.org
-Cc: Vlastimil Babka <vbabka@suse.cz>, Harry Yoo <harry.yoo@oracle.com>,
- linux-fsdevel@vger.kernel.org, Linus Torvalds
- <torvalds@linux-foundation.org>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, Mateusz Guzik <mjguzik@gmail.com>,
- linux-kernel@vger.kernel.org
-References: <20260611171425.1671254-1-viro@zeniv.linux.org.uk>
- <20260613050951.855141-1-viro@zeniv.linux.org.uk>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <20260613050951.855141-1-viro@zeniv.linux.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] bpf: have bpf_real_inode() take a struct file
+From: Christian Brauner <brauner@kernel.org>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, bpf@vger.kernel.org, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <CAOQ4uxiaD3NnUDBCTYzjS-8+y8boxzwVs1p8QsWaC4AkVFPu5A@mail.gmail.com>
+References: <20260622-work-bpf-real_inode-v1-1-4014eb4cbefd@kernel.org>
+ <CAOQ4uxiaD3NnUDBCTYzjS-8+y8boxzwVs1p8QsWaC4AkVFPu5A@mail.gmail.com>
+Date: Tue, 23 Jun 2026 10:44:18 +0200
+Message-Id: <20260623-defizit-unerkannt-einnimmt-779e270d8868@brauner>
+X-Mailer: b4 0.16-dev-e7e48
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2577; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=xw9NRBVUkFg8CCVr2f3+oeKtZEjveSdW5q17uZHSmbU=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRZuadIXPrdZzJVI/PnfYcv65IWdj7Ta/lwMZvnyV7t6
+ I8sbN8TOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYyu5mR4ap0yyvex1tk3t3a
+ 97DH+6Nl0llH0dapAUnmab45f5Sr3RgZ9qg0a4awGfrVeFc5zglZ033iSN9sZaW5gdMs3y+YZbK
+ NHQA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 6/13/26 07:09, Al Viro wrote:
-> Changes since v2:
-> 	* fixed the braindamage in /sys/kernel/slab (any statically allocated
-> caches should just use their name for subdirectory, whether they are mergable
-> or not)
-> 	* infrastructure bits slightly reordered and carved in hopefully saner
-> way.
-> 	* rebased to 7.1-rc7.
+On 2026-06-22 19:15 +0200, Amir Goldstein wrote:
+> On Mon, Jun 22, 2026 at 3:58 PM Christian Brauner <brauner@kernel.org> wrote:
+> >
+> > bpf_real_inode() must be usable from the bprm_check_security, mmap_file
+> > and file_mprotect hooks for systemd's RestrictFilesystemAccess BPF LSM
+> > program. It should take a file instead. The kfunc landed this cycle so
+> > changing the signature is safe.
+> >
+> > Fixes: 9af8c8a54f6e ("bpf: add bpf_real_inode() kfunc")
+> > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> > ---
+> >  fs/bpf_fs_kfuncs.c | 14 +++++++-------
+> >  1 file changed, 7 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/fs/bpf_fs_kfuncs.c b/fs/bpf_fs_kfuncs.c
+> > index 768aca2dc0f0..f941c29d26ef 100644
+> > --- a/fs/bpf_fs_kfuncs.c
+> > +++ b/fs/bpf_fs_kfuncs.c
+> > @@ -360,18 +360,18 @@ __bpf_kfunc int bpf_cgroup_read_xattr(struct cgroup *cgroup, const char *name__s
+> >  #endif /* CONFIG_CGROUPS */
+> >
+> >  /**
+> > - * bpf_real_inode - get the real inode backing a dentry
+> > - * @dentry: dentry to resolve
+> > + * bpf_real_inode - get the real inode backing a file
+> > + * @file: file to resolve
+> >   *
+> > - * If the dentry is on a union/overlay filesystem, return the underlying, real
+> > + * If the file is on a union/overlay filesystem, return the underlying, real
+> >   * inode that hosts the data.  Otherwise return the inode attached to the
+> > - * dentry itself.
+> > + * file itself.
+> >   *
+> > - * Return: The real inode backing the dentry, or NULL for a negative dentry.
+> > + * Return: The real inode backing the file, or NULL.
+> >   */
+> > -__bpf_kfunc struct inode *bpf_real_inode(struct dentry *dentry)
+> > +__bpf_kfunc struct inode *bpf_real_inode(struct file *file)
+> >  {
+> > -       return d_real_inode(dentry);
+> > +       return d_real_inode(file_dentry(file));
+> >  }
 > 
-> Changes since v1:
-> 	* milder restrictions on mergability (non-modular static cache
-> can be used as alias for later dynamic ones)
-> 	* consolidated conversions into fewer commits
-> 	* rebased to 7.1-rc6.
-> 
-> Branch lives in
-> git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git #work.kmem_cache_static
-> individual patches in followups.
-> 
-> Please, review.  It appears to work; the impact on merging is very small -
-> on the testbox here (251 distinct aliases) mainline gets 140 kmem_cache
-> instances and this series gets 142 - fs_cachep and names_cache get split
-> from the group of 192-byte caches.  Considering the contents and use patterns
-> for those two... we might be better off that way, actually.
-> 
->         kmem_cache_create() and friends create new instances of
-> struct kmem_cache and return pointers to those.  Quite a few things in
-> core kernel are allocated from such caches; each allocation involves
-> dereferencing an assign-once pointer and for sufficiently hot ones that
-> dereferencing does show in profiles.
-> 
->         There had been patches floating around switching some of those
-> to runtime_const infrastructure.  Unfortunately, it's arch-specific
-> and most of the architectures lack it.
+> The problem with this API is that for special files it is a bit ambiguous
+> to say "the real inode backing the file".
+> Is it d_real_inode(file_dentry(file))? or is it file_inode(file)?
+> The old API avoided this question.
+> BTW, did you notice that for non-regular files, this helper returns
+> the overlayfs inode?
 
-There's only a handful of architectures that would be considered performance
-critical enough for us to care, right? So the question is which ones of
-those lack it and would the effort to make them support it be smaller than
-doing this? Also this covers slab only, but I'd expect runtime_const() would
-have use cases also in other subsystems that wouldn't need
-subsystem-specific changes?
+Yes. Very aware.
 
->         There's an alternative approach applicable at least to the caches
-> that are never destroyed, which covers a lot of them.  No matter what,
-> runtime_const for pointers is not going to be faster than plain &,
-> so if we had struct kmem_cache instances with static storage duration, we
-> would be at least no worse off than we are with runtime_const variants.
+> This may be important information to document when exporting a kfunc.
 
-But the argument for doing the static duration support is that it should be
-faster, not just "not slower"? So is runtime_const equivalent or for some
-fundamental reason it's slower than plain &?
+Ok.
 
-Or is the advantage that static caches can support modules and runtime_const
-can't?
+> If you take my suggestion from the previous round to name the kfunc
+> bpf_real_data_inode(struct file *file)
+> the intention becomes a little (bit) less ambiguous. huh?
 
->         There are obstacles to doing that, but they turn out to be easy
-> to deal with.
-> 
-> 1) as it is, struct kmem_cache is opaque for anything outside of a few
-> files in mm/*; that avoids serious headache with header dependencies,
-> etc., and it's not something we want to lose.  Solution: struct
-> kmem_cache_opaque, with the size and alignment identical to struct
-> kmem_cache.  Calculation of size and alignment can be done via the same
-> mechanism we use for asm-offsets.h and rq-offsets.h, with build-time
-> check for mismatches.  With that done, we get an opaque type defined in
-> linux/slab-static.h that can be used for declaring those caches.
-> In linux/slab.h we add a forward declaration of kmem_cache_opaque +
-> helper (to_kmem_cache()) converting a pointer to kmem_cache_opaque
-> into pointer to kmem_cache.
-> 
-> 2) real constructor of kmem_cache needs to be taught to deal with
-> preallocated instances.  That turns out to be easy - we already pass an
-> obscene amount of optional arguments via struct kmem_cache_args, so we
-> can stash the pointer to preallocated instance in there.  Changes in
-> mm/slab_common.c are very minor - we should not merge preallocated caches
-> with anything already created, use the instance passed to us instead of
-> allocating a new one and we should not free them.  That's it.
-> 
-> 	A set of helpers parallel to kmem_cache_create() and friends
-> (kmem_cache_setup(), etc.) is provided in the same linux/slab-static.h;
-> generally, conversion affects only a few lines.
-> 
-> 	Note that slab-static.h is needed only in places that create
-> such instances; all users need only slab.h (and they can be modular,
-> unlike runtime_const-based approach).
-> 
-> 
-> 	That covers the instances that never get destroyed.  Quite a few
-> fall into that category, but there's a major exception - anything in
-> modules must be destroyed before the module gets removed.  Note that
-> unlike runtime_constant-based approach, cache _uses_ in a module are
-> fine - if kmem_cache_opaque instance is exported, its address is available
-> to modules without any problems.  It's caches _created_ in a module
-
-So are there uses in modules of caches created in built-in code, which
-therefore could not be changed to runtime_const?
-
-> that offer an extra twist.
-> 
-> 	Teaching kmem_cache_destroy() to skip actual freeing of given
-> kmem_cache instance is trivial; the problem is that kmem_cache_destroy()
-> may overlap with sysfs access to attributes of that cache.  In that
-> case kmem_cache_destroy() may return before the instance gets freed -
-> freeing (from slab_kmem_cache_release()) happens when the refcount of
-> embedded kobject drops to zero.  That's fine, since all references
-> to data structures in module's memory are already gone by the time
-> kmem_cache_destroy() returns.  That, however, relies upon the struct
-> kmem_cache itself not being in module's memory; getting it unmapped
-> before slab_kmem_cache_release() has run needs to be avoided.
-> 
-> 	It's not hard to deal with, though.  We need to make sure that
-> instance in a module will get to slab_kmem_cache_release() before the
-> module data gets freed.  That's only a problem on sysfs setups -
-> otherwise it'll definitely be finished before kmem_cache_destroy()
-> returns.
-> 
-> 	Note that modules themselves have sysfs-exposed attributes,
-> so a similar problem already exists there.  That's dealt with by
-> having mod_sysfs_teardown() wait for refcount of module->mkobj.kobj
-> reaching zero.  Let's make use of that - have static-duration-in-module
-> kmem_cache instances grab a reference to that kobject upon setup and
-> drop it in the end of slab_kmem_cache_release().
-> 
-> 	Let setup helpers store the kobject to be pinned in
-> kmem_cache_args->owner (for preallocated; if somebody manually sets it
-> for non-preallocated case, it'll be ignored).  That would be
-> &THIS_MODULE->mkobj.kobj for a module and NULL in built-in.
-> 
-> 	If sysfs is enabled and we are dealing with preallocated instance,
-> let create_cache() grab and stash that reference in kmem_cache->owner
-> and let slab_kmem_cache_release() drop it instead of freeing kmem_cache
-> instance.
-> 
-> 
-> 	Costs:
-> * a bit (SLAB_PREALLOCATED) is stolen from slab_flags_t
-> * such caches can't be merged with anything preexisting (obviously)
-> and subsequent cache creations can't merge with static-in-module
-> ones.  If you want them more mergable, don't use that technics.
-> * you can't do kmem_cache_setup()/kmem_cache_destroy()/kmem_cache_setup()
-> on the same instance.  Just don't do that.
-> 
-> Al Viro (9):
->   static kmem_cache instances for core caches
->   allow static-duration kmem_cache in modules
->   VFS caches: switch from runtime_const() machinery to slab-static.h
->   make inode_cache statically allocated
->   make mnt_cache statically allocated
->   make bh_cachep statically allocated
->   make seq_file_cache statically allocated
->   make thread component caches (fs_cachep, files_cachep, etc.)
->     statically allocated
->   make ufs_inode_cache statically allocated
-> 
->  Kbuild                            | 14 ++++++-
->  fs/buffer.c                       |  6 ++-
->  fs/dcache.c                       |  8 ++--
->  fs/file_table.c                   | 40 ++++++++----------
->  fs/inode.c                        |  6 ++-
->  fs/namei.c                        | 16 +++----
->  fs/namespace.c                    |  6 ++-
->  fs/seq_file.c                     |  6 ++-
->  fs/ufs/super.c                    |  9 ++--
->  include/asm-generic/vmlinux.lds.h |  6 +--
->  include/linux/fdtable.h           |  3 +-
->  include/linux/fs_struct.h         |  3 +-
->  include/linux/signal.h            |  3 +-
->  include/linux/slab-static.h       | 69 +++++++++++++++++++++++++++++++
->  include/linux/slab.h              | 11 +++++
->  kernel/fork.c                     | 37 ++++++++++-------
->  mm/kmem_cache_size.c              | 20 +++++++++
->  mm/slab.h                         |  1 +
->  mm/slab_common.c                  | 49 ++++++++++++++--------
->  mm/slub.c                         |  7 ++++
->  20 files changed, 231 insertions(+), 89 deletions(-)
->  create mode 100644 include/linux/slab-static.h
->  create mode 100644 mm/kmem_cache_size.c
-> 
-> --
-> 2.47.3
-> 
-> 
-> 
-> Al Viro (10):
->   static kmem_cache instances for core caches: infrastructure
->   static kmem_cache instances for core caches: setup primitives
->   allow preallocated kmem_cache instances in modules
->   VFS caches: switch from runtime_const() machinery to slab-static.h
->   make inode_cache statically allocated
->   make mnt_cache statically allocated
->   make bh_cachep statically allocated
->   make seq_file_cache statically allocated
->   make thread component caches (fs_cachep, files_cachep, etc.)
->     statically allocated
->   make ufs_inode_cache statically allocated
-> 
->  Kbuild                            | 14 ++++++-
->  fs/buffer.c                       |  6 ++-
->  fs/dcache.c                       |  8 ++--
->  fs/file_table.c                   | 40 ++++++++----------
->  fs/inode.c                        |  6 ++-
->  fs/namei.c                        | 16 +++----
->  fs/namespace.c                    |  6 ++-
->  fs/seq_file.c                     |  6 ++-
->  fs/ufs/super.c                    |  9 ++--
->  include/asm-generic/vmlinux.lds.h |  6 +--
->  include/linux/fdtable.h           |  3 +-
->  include/linux/fs_struct.h         |  3 +-
->  include/linux/signal.h            |  3 +-
->  include/linux/slab-static.h       | 69 +++++++++++++++++++++++++++++++
->  include/linux/slab.h              | 11 +++++
->  kernel/fork.c                     | 37 ++++++++++-------
->  mm/kmem_cache_size.c              | 20 +++++++++
->  mm/slab.h                         |  1 +
->  mm/slab_common.c                  | 50 +++++++++++++++-------
->  mm/slub.c                         | 27 +++++++-----
->  20 files changed, 242 insertions(+), 99 deletions(-)
->  create mode 100644 include/linux/slab-static.h
->  create mode 100644 mm/kmem_cache_size.c
-> 
+I don't remember that suggestion. Maybe I missed this. I like it!
+Let me send a new version.
 
