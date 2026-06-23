@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA6A2288D5;
-	Tue, 23 Jun 2026 10:04:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD441E834B;
+	Tue, 23 Jun 2026 10:09:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782209088; cv=none; b=tUityigofCufyKsw7cm+4rxQDvB0BeKKvqdKywNPlGUSIQKBBSe7lg9h60Urq4WKbPvSs6QlfMr3v4IadL2Td9QLWmcAixbGAZOaFEkwHbUZbj7so1rmVooOtkhFDOKziZWsrcp5gdE3N1ft38u8dqyLKAnwNdfD4HEzS9DpUbg=
+	t=1782209352; cv=none; b=dUsZGBjwLEoHyLGfN3Ww4iL8wbo90HxB40jXmMLINxE6RGpwVPUG9uVvNsThzxJumKdog0tt5OyjI0M/EfXLrMlI1bVwLuvlbS0a/9fJih0vHcY25q0jq09IC1EAuQO2u7J+7sxAAVNV5qGlDDNO6qwY9T7zs1owq8WfCu2V8B4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782209088; c=relaxed/simple;
-	bh=LhicTvQG3rBuY/4XUlOWnsKngw5nyjME+Ra34lr+tWA=;
+	s=arc-20240116; t=1782209352; c=relaxed/simple;
+	bh=hWGg7tVMAsEJg8CVKmY/1kdhkArSnRkE1mj1odq5R3w=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DyfJVlzWUAfKbAN0y+zuylY1Tu+lomeadZnrAX8W2/G4LdfOlbOgfrhYHRLIpYqYhNBq5co+qr/cxwqjONc5CVJ0cpq/btq7aIT0Kh6GBTeEh/ciq9OuJWB/aafQXdJCNAbGj+jiM4a3l0KW9t2Zcc7aT3blg0S3/IKRlE+FaNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ud69vIUM; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=tjHp6QHXYIlJ0imH1UXMSAkCbXP4FxvJXKB93NcBMXuB9VXK6tS/3U6HuKiV6PWCINTiDcrJsYeTLsNO52kxIwPx0fY1eccKDUSAGhSsLNPAMnv5kMXFgoDmcVz0peMw4hANx2mx9vTFBrFE/DSdEFjYTFrUxhB+FQDaIibF9ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KyeN+iCj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ud69vIUM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDC2A1F000E9;
-	Tue, 23 Jun 2026 10:04:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KyeN+iCj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C857E1F000E9;
+	Tue, 23 Jun 2026 10:09:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782209087;
-	bh=cd1JUWEWry+Bw3Ln84DVOD3bF1pJkMxaHLBpHRjgYpc=;
+	s=k20260515; t=1782209351;
+	bh=2gYnoY2ltdCJF+NLbGgoD7rO6jo0kwTXFJhIHca/gxM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Ud69vIUMxZShdEcq4rg2pboZ8gsAUmSLecJV1R0Yw8dzGfw4sfhkqlDUPuMUQALkX
-	 0dlcxg0OMaG+nIAHV+n+PDboMwnkCJJZjet/FJJPJ3ED9B3u+WVx8Ef1RpT1uBefCq
-	 VFgbwtx3jQmJ9IZtzUtGN4WrYIaICEJt2MxnS9giN6MpFOFCeX3TBtuvafoKFeUIO+
-	 5Y/CrEzjnmAQwpCbc3xua3lLDAxKrG1HFgEcHs+vdubzFjPO7iqtffaO1/mTkGIb3o
-	 yWOziEnbkVDc5v5gsr6WJoUZTZ0YUykzfCdqkY1ALXPHahWPAx6yafAiqA4NPup7zE
-	 LPkD5/Nk9pH7g==
+	b=KyeN+iCj81nUbiZWCDSdItRRcY+Q9kRqz03UV2kj+oxIcgnyB0gtjmIrhstKxrT0z
+	 hLUSzl86El+ZVS9TD9ch4cSV2p7Y5JyAwa0z1IeCKtWfMQaOccjBBmN8TEAxklrLly
+	 ZVIDFP6kq1pf00eBG9ItWtZNsJphPqVnY/sN7Of8gsUiV1A8cj+ew8Sl1l8tlWvS7b
+	 a5oELP5f7zh56yG6/HoA5gxgFT0Iye6yikLstr0OiaJKtxWqFCqCPp0px9o922FmKW
+	 2fqzgFVxyXxKday9xImwX2O2ak2fSxB3sWXpSVjhScAA3m9J9Ch7dS6ycKR7i3/sth
+	 +zxKVVlXXuUWA==
 From: Christian Brauner <brauner@kernel.org>
-To: Christoph Hellwig <hch@infradead.org>, 
- Farhad Alemi <farhad.alemi@berkeley.edu>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Christian Brauner <brauner@kernel.org>
-In-Reply-To: <CA+0ovChveuAwv=t15dr2m09E32bM48hHJxvfeEYZOhdNiEc9Tw@mail.gmail.com>
-References: <CA+0ovChveuAwv=t15dr2m09E32bM48hHJxvfeEYZOhdNiEc9Tw@mail.gmail.com>
-Subject: Re: [PATCH v2] freevxfs: don't BUG() on unknown typed-extent type
-Message-Id: <20260623-anbot-kanon-imitieren-fea40d9418fd@brauner>
-Date: Tue, 23 Jun 2026 12:04:40 +0200
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ Maxwell Doose <m32285159@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, Fabian Frederick <fabf@skynet.be>, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260605035251.89305-2-m32285159@gmail.com>
+References: <20260605035251.89305-2-m32285159@gmail.com>
+Subject: Re: [PATCH v2] fs: efs: Remove unneeded debug prints
+Message-Id: <20260623-orten-umgedeutet-laufschuhe-60bedf767742@brauner>
+Date: Tue, 23 Jun 2026 12:09:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -45,20 +45,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev-df257
-X-Developer-Signature: v=1; a=openpgp-sha256; l=876; i=brauner@kernel.org;
- h=from:subject:message-id; bh=LhicTvQG3rBuY/4XUlOWnsKngw5nyjME+Ra34lr+tWA=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRZRdnWHe6pVPJ91dK066vHRUu2q49XXIq1VFshm8A9y
- 2N9xyPnjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgImEsDAybGGIn3Mi+GrB0siV
- cRFGbz9eMZM0ELu49vw+YfGc83cVWhj+Z81b7TBJwWbOU9Edwlcvxc90q1EWmpiq6aurGLBr+p8
- qdgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=860; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=hWGg7tVMAsEJg8CVKmY/1kdhkArSnRkE1mj1odq5R3w=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRZRbs6BZefufGx/bvSo8VfPn4Ovq/QwBiWIf7cOX/tn
+ Fe7MupTO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYybTrDXylmj8hc991nHhp2
+ xGz+mLrS152z6Nar0vDlC9x3mdaUqTH8z9PTZVtVM5vr86l//xI13v1o3vRxdlDmulerv519bOs
+ WyA8A
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Mon, 01 Jun 2026 20:10:08 -0700, Farhad Alemi wrote:
-> freevxfs: don't BUG() on unknown typed-extent type
+On Thu, 04 Jun 2026 22:52:51 -0500, Maxwell Doose wrote:
+> fs: efs: Remove unneeded debug prints
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+Applied to the vfs-7.3.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-7.3.misc branch should appear in linux-next soon.
 
 Please report any outstanding bugs that were missed during review in a
 new review to the original patch series allowing us to drop it.
@@ -70,8 +70,8 @@ Note that commit hashes shown below are subject to change due to rebase,
 trailer updates or similar. If in doubt, please check the listed branch.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
+branch: vfs-7.3.misc
 
-[1/1] freevxfs: don't BUG() on unknown typed-extent type
-      https://git.kernel.org/vfs/vfs/c/f2f1b6ebe857
+[1/1] fs: efs: Remove unneeded debug prints
+      https://git.kernel.org/vfs/vfs/c/1fb3f646c9d1
 
