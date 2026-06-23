@@ -1,40 +1,33 @@
-Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF70B75801;
-	Tue, 23 Jun 2026 07:37:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B440314D1F;
+	Tue, 23 Jun 2026 08:09:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782200266; cv=none; b=T3QvPU8mIkCrtPk3odvbztzLT8+DfzU9jFp5HFkVxFYx2Tpu/M03EQUarfYlvn9d2nWCjOJ475ncZLkMT6mDB7UKCkfqMcQjQRASqUh99AH5Y0Cdmgj1XXm9Qsg6cqMslTw6GlIwhRaI8VuXvzEb/owEFMzKkCslvJT58vMgCso=
+	t=1782202187; cv=none; b=AZadO9ngSIpJPRTFfYDvC/wmYCgvjbZybKVrQivxbaTIuZZaeo3x1Iom9oCUvqHJdUmDr+l6MdOOpn39NsRgV/sU1FtscGcrxcWx25QLITPNPbqTPGDMyzMYyyzW6iZwqM3OK2vtkdr9EBTCLOb9wGfhXlh3AFuA0uj3ZvtWRMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782200266; c=relaxed/simple;
-	bh=7KY+riPquigpYiNWCdw15ESu0Rjk+vSn+wcWy0KUsTc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=riG4QKrABdwZGDR4WqJiKqg9QJitLaunY+Ab2FS82KvAGZlpSNs8VH92FPs2pg9+Pu9i/uLH+yi+w6czLvi/yegPU0vP9M5KLSRqvhxXSB4Y0hVnib+LUJ3kLjLsuI4hYCrPWDNv93+6giITN9MCjKHOPy/Ihxx1Bc8hxQiYhiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=u/j/R+Ys; arc=none smtp.client-ip=113.46.200.226
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1782202187; c=relaxed/simple;
+	bh=kYx49VaCm8e3MchEJdki/95wmlHjJtXf/j41pT6J0uE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kYpZGx9ihIzg5Mrui09nzIsxAtrCHGT76OZVzU0y9PoiEPvyHm+55Yr62ETrkF7048YXGFKG+LFuRDpomYYaiMAet5JCmaeuGF8/Pik648QOxDiLT0ChEwdr7EWFBLuaWS1A1M1TmVvFGl7EZK8wqBlK2zGMIfn+4EaNhevH+xQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XUiPILmV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="u/j/R+Ys"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=kVKvh6ytZ6/0+qWMDg/SowqVA26fH8LxyNW7d4OdxmU=;
-	b=u/j/R+YspM8ptAzTAbtKsYsuawFR58nvUaxV1LSysxlXfzyiSGxbgDN0pFIL9ZKZMMq4K+vxu
-	iJllPtHwZUwC0FC7fz/wvCImQxa5BenT5YMul2skSgA5WMpidPl2WgDAUOdpuVQY7Rc3Kb8BBtx
-	I96GyicRbJiPNCtSW1bHg2E=
-Received: from mail.maildlp.com (unknown [172.19.163.163])
-	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4gkxXV6sVBzKm58;
-	Tue, 23 Jun 2026 15:29:30 +0800 (CST)
-Received: from kwepemf100006.china.huawei.com (unknown [7.202.181.220])
-	by mail.maildlp.com (Postfix) with ESMTPS id 9383A4056E;
-	Tue, 23 Jun 2026 15:37:35 +0800 (CST)
-Received: from [10.174.176.240] (10.174.176.240) by
- kwepemf100006.china.huawei.com (7.202.181.220) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Tue, 23 Jun 2026 15:37:34 +0800
-Message-ID: <9b27efad-f22a-45b9-b080-1552acf50016@huawei.com>
-Date: Tue, 23 Jun 2026 15:37:34 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XUiPILmV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7016C1F000E9;
+	Tue, 23 Jun 2026 08:09:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782202185;
+	bh=l6+hcxSmHD+x+2Iij3EYW/GYPqB/Bat6jKxnqJcOT3M=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=XUiPILmVm7LgmfMvBEO6XriuWaAs+jsKuXqnY/yk8STR8I7rfyLXhwImyw5sjIgOu
+	 jyVGpMZIePQ88xA2V5O6tmUtNqg161khaPd3UZoN7FD85RRCpQ3tD6JuFPUAGYgM6j
+	 8IynBXpQ5DNsscGVZB5zyX0jzWBostPktxqx5/oPNn3yo3UO71H0QFW4Kh0jOIBjZW
+	 YzpnKU1avILvYzlqcY4YGqqlsCgGxRVKmX1Wpojpm5xOz2rFa6c0zX6N4F/swfNPAi
+	 Nku0u7jGPGL689jTX53842vKpfK3lDdTnOrwLRPKyi1KoBnB26olmQuz2Ngwh3k+uv
+	 8Fx+3nF+7KE0w==
+Message-ID: <151b1c96-0ed5-44ce-b9d5-86a48d8ad592@kernel.org>
+Date: Tue, 23 Jun 2026 10:09:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -42,219 +35,279 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] nfs: use nfsi->rwsem to protect traversal of the file
- lock list
-To: Jeff Layton <jlayton@kernel.org>, <trondmy@kernel.org>, <anna@kernel.org>,
-	<chuck.lever@oracle.com>
-CC: <linux-nfs@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<yangerkun@huaweicloud.com>, <lilingfeng3@huawei.com>,
-	<zhangjian496@h-partners.com>, <yi.zhang@huawei.com>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <20260226012203.3962997-1-yangerkun@huawei.com>
- <dcf0b02002857a6be502e372ebb3e175412d7184.camel@kernel.org>
- <163aebb3-4233-4aaa-872c-c36aa3fcb3af@huawei.com>
- <403e3267-70ef-4fb3-9700-0a14d28abc4c@huawei.com>
-From: yangerkun <yangerkun@huawei.com>
-In-Reply-To: <403e3267-70ef-4fb3-9700-0a14d28abc4c@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemf100006.china.huawei.com (7.202.181.220)
+Subject: Re: [RFC PATCH v3 00/10] kmem_cache instances with static storage
+ duration
+Content-Language: en-US
+To: Al Viro <viro@zeniv.linux.org.uk>, linux-mm@kvack.org
+Cc: Vlastimil Babka <vbabka@suse.cz>, Harry Yoo <harry.yoo@oracle.com>,
+ linux-fsdevel@vger.kernel.org, Linus Torvalds
+ <torvalds@linux-foundation.org>, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>, Mateusz Guzik <mjguzik@gmail.com>,
+ linux-kernel@vger.kernel.org
+References: <20260611171425.1671254-1-viro@zeniv.linux.org.uk>
+ <20260613050951.855141-1-viro@zeniv.linux.org.uk>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20260613050951.855141-1-viro@zeniv.linux.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Gently ping...
-
-This patch has been reviewed, but leave alone here for a long time...
-
-在 2026/5/8 16:33, yangerkun 写道:
-> Gently ping...
+On 6/13/26 07:09, Al Viro wrote:
+> Changes since v2:
+> 	* fixed the braindamage in /sys/kernel/slab (any statically allocated
+> caches should just use their name for subdirectory, whether they are mergable
+> or not)
+> 	* infrastructure bits slightly reordered and carved in hopefully saner
+> way.
+> 	* rebased to 7.1-rc7.
 > 
-> 在 2026/4/16 11:01, yangerkun 写道:
->> Hi Anna and Trond,
->>
->> Could you please help check if there are any issues with this patch, and
->> if there are none, could you help merge it in?
->>
->> Thanks,
->> Erkun.
->>
->> 在 2026/3/9 22:09, Jeff Layton 写道:
->>> On Thu, 2026-02-26 at 09:22 +0800, Yang Erkun wrote:
->>>> Lingfeng identified a bug and suggested two solutions, but both appear
->>>> to have issues.
->>>>
->>>> Generally, we cannot release flc_lock while iterating over the file 
->>>> lock
->>>> list to avoid use-after-free (UAF) problems with file locks. However,
->>>> functions like nfs_delegation_claim_locks and nfs4_reclaim_locks cannot
->>>> adhere to this rule because recover_lock or nfs4_lock_delegation_recall
->>>> may take a long time. To resolve this, NFS switches to using nfsi- 
->>>> >rwsem
->>>> for the same protection, and nfs_reclaim_locks follows this approach.
->>>> Although nfs_delegation_claim_locks uses so_delegreturn_mutex instead,
->>>> this is inadequate since a single inode can have multiple nfs4_state
->>>> instances. Therefore, the fix is to also use nfsi->rwsem in this case.
->>>>
->>>> Furthermore, after commit c69899a17ca4 ("NFSv4: Update of VFS byte 
->>>> range
->>>> lock must be atomic with the stateid update"), the functions
->>>> nfs4_locku_done and nfs4_lock_done also break this rule because they
->>>> call locks_lock_inode_wait without holding nfsi->rwsem. Simply adding
->>>> this protection could cause many deadlocks, so instead, the call to
->>>> locks_lock_inode_wait is moved into _nfs4_proc_setlk. Regarding the bug
->>>> fixed by commit c69899a17ca4 ("NFSv4: Update of VFS byte range
->>>> lock must be atomic with the stateid update"), it has been resolved
->>>> after commit 0460253913e5 ("NFSv4: nfs4_do_open() is incorrectly 
->>>> triggering
->>>> state recovery") because all slots are drained before calling
->>>> nfs4_do_reclaim, which prevents concurrent stateid changes along 
->>>> this path.
->>>> Also, nfs_delegation_claim_locks does not cause this concurrency either
->>>> since when _nfs4_proc_setlk is called with NFS_DELEGATED_STATE, no 
->>>> RPC is
->>>> sent, so nfs4_lock_done is not called. Therefore,
->>>> nfs4_lock_delegation_recall from nfs_delegation_claim_locks is the 
->>>> first
->>>> time the stateid is set.
->>>>
->>>> Reported-by: Li Lingfeng <lilingfeng3@huawei.com>
->>>> Closes: https://lore.kernel.org/all/20250419085709.1452492-1- 
->>>> lilingfeng3@huawei.com/
->>>> Closes: https://lore.kernel.org/all/20250715030559.2906634-1- 
->>>> lilingfeng3@huawei.com/
->>>> Fixes: c69899a17ca4 ("NFSv4: Update of VFS byte range lock must be 
->>>> atomic with the stateid update")
->>>> Signed-off-by: Yang Erkun <yangerkun@huawei.com>
->>>> ---
->>>>   fs/nfs/delegation.c     |  9 ++++++++-
->>>>   fs/nfs/nfs4proc.c       | 22 +++++++++++-----------
->>>>   include/linux/nfs_xdr.h |  1 -
->>>>   3 files changed, 19 insertions(+), 13 deletions(-)
->>>>
->>>> diff --git a/fs/nfs/delegation.c b/fs/nfs/delegation.c
->>>> index 122fb3f14ffb..9546d2195c25 100644
->>>> --- a/fs/nfs/delegation.c
->>>> +++ b/fs/nfs/delegation.c
->>>> @@ -173,6 +173,7 @@ int nfs4_check_delegation(struct inode *inode, 
->>>> fmode_t type)
->>>>   static int nfs_delegation_claim_locks(struct nfs4_state *state, 
->>>> const nfs4_stateid *stateid)
->>>>   {
->>>>       struct inode *inode = state->inode;
->>>> +    struct nfs_inode *nfsi = NFS_I(inode);
->>>>       struct file_lock *fl;
->>>>       struct file_lock_context *flctx = locks_inode_context(inode);
->>>>       struct list_head *list;
->>>> @@ -182,6 +183,9 @@ static int nfs_delegation_claim_locks(struct 
->>>> nfs4_state *state, const nfs4_state
->>>>           goto out;
->>>>       list = &flctx->flc_posix;
->>>> +
->>>> +    /* Guard against reclaim and new lock/unlock calls */
->>>> +    down_write(&nfsi->rwsem);
->>>>       spin_lock(&flctx->flc_lock);
->>>>   restart:
->>>>       for_each_file_lock(fl, list) {
->>>> @@ -189,8 +193,10 @@ static int nfs_delegation_claim_locks(struct 
->>>> nfs4_state *state, const nfs4_state
->>>>               continue;
->>>>           spin_unlock(&flctx->flc_lock);
->>>>           status = nfs4_lock_delegation_recall(fl, state, stateid);
->>>> -        if (status < 0)
->>>> +        if (status < 0) {
->>>> +            up_write(&nfsi->rwsem);
->>>>               goto out;
->>>> +        }
->>>>           spin_lock(&flctx->flc_lock);
->>>>       }
->>>>       if (list == &flctx->flc_posix) {
->>>> @@ -198,6 +204,7 @@ static int nfs_delegation_claim_locks(struct 
->>>> nfs4_state *state, const nfs4_state
->>>>           goto restart;
->>>>       }
->>>>       spin_unlock(&flctx->flc_lock);
->>>> +    up_write(&nfsi->rwsem);
->>>>   out:
->>>>       return status;
->>>>   }
->>>> diff --git a/fs/nfs/nfs4proc.c b/fs/nfs/nfs4proc.c
->>>> index 91bcf67bd743..9d6fbca8798b 100644
->>>> --- a/fs/nfs/nfs4proc.c
->>>> +++ b/fs/nfs/nfs4proc.c
->>>> @@ -7076,7 +7076,6 @@ static void nfs4_locku_done(struct rpc_task 
->>>> *task, void *data)
->>>>       switch (task->tk_status) {
->>>>           case 0:
->>>>               renew_lease(calldata->server, calldata->timestamp);
->>>> -            locks_lock_inode_wait(calldata->lsp->ls_state->inode, 
->>>> &calldata->fl);
->>>>               if (nfs4_update_lock_stateid(calldata->lsp,
->>>>                       &calldata->res.stateid))
->>>>                   break;
->>>> @@ -7344,11 +7343,6 @@ static void nfs4_lock_done(struct rpc_task 
->>>> *task, void *calldata)
->>>>       case 0:
->>>>           renew_lease(NFS_SERVER(d_inode(data->ctx->dentry)),
->>>>                   data->timestamp);
->>>> -        if (data->arg.new_lock && !data->cancelled) {
->>>> -            data->fl.c.flc_flags &= ~(FL_SLEEP | FL_ACCESS);
->>>> -            if (locks_lock_inode_wait(lsp->ls_state->inode, &data- 
->>>> >fl) < 0)
->>>> -                goto out_restart;
->>>> -        }
->>>>           if (data->arg.new_lock_owner != 0) {
->>>>               nfs_confirm_seqid(&lsp->ls_seqid, 0);
->>>>               nfs4_stateid_copy(&lsp->ls_stateid, &data->res.stateid);
->>>> @@ -7459,11 +7453,10 @@ static int _nfs4_do_setlk(struct nfs4_state 
->>>> *state, int cmd, struct file_lock *f
->>>>       msg.rpc_argp = &data->arg;
->>>>       msg.rpc_resp = &data->res;
->>>>       task_setup_data.callback_data = data;
->>>> -    if (recovery_type > NFS_LOCK_NEW) {
->>>> -        if (recovery_type == NFS_LOCK_RECLAIM)
->>>> -            data->arg.reclaim = NFS_LOCK_RECLAIM;
->>>> -    } else
->>>> -        data->arg.new_lock = 1;
->>>> +
->>>> +    if (recovery_type == NFS_LOCK_RECLAIM)
->>>> +        data->arg.reclaim = NFS_LOCK_RECLAIM;
->>>> +
->>>>       task = rpc_run_task(&task_setup_data);
->>>>       if (IS_ERR(task))
->>>>           return PTR_ERR(task);
->>>> @@ -7573,6 +7566,13 @@ static int _nfs4_proc_setlk(struct nfs4_state 
->>>> *state, int cmd, struct file_lock
->>>>       up_read(&nfsi->rwsem);
->>>>       mutex_unlock(&sp->so_delegreturn_mutex);
->>>>       status = _nfs4_do_setlk(state, cmd, request, NFS_LOCK_NEW);
->>>> +    if (status)
->>>> +        goto out;
->>>> +
->>>> +    down_read(&nfsi->rwsem);
->>>> +    request->c.flc_flags &= ~(FL_SLEEP | FL_ACCESS);
->>>> +    status = locks_lock_inode_wait(state->inode, request);
->>>> +    up_read(&nfsi->rwsem);
->>>>   out:
->>>>       request->c.flc_flags = flags;
->>>>       return status;
->>>> diff --git a/include/linux/nfs_xdr.h b/include/linux/nfs_xdr.h
->>>> index ff1f12aa73d2..9599ad15c3ad 100644
->>>> --- a/include/linux/nfs_xdr.h
->>>> +++ b/include/linux/nfs_xdr.h
->>>> @@ -580,7 +580,6 @@ struct nfs_lock_args {
->>>>       struct nfs_lowner    lock_owner;
->>>>       unsigned char        block : 1;
->>>>       unsigned char        reclaim : 1;
->>>> -    unsigned char        new_lock : 1;
->>>>       unsigned char        new_lock_owner : 1;
->>>>   };
->>>
->>> Nice work!
->>>
->>> Reviewed-by: Jeff Layton <jlayton@kernel.org>
->>>
->>>
->>
+> Changes since v1:
+> 	* milder restrictions on mergability (non-modular static cache
+> can be used as alias for later dynamic ones)
+> 	* consolidated conversions into fewer commits
+> 	* rebased to 7.1-rc6.
+> 
+> Branch lives in
+> git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git #work.kmem_cache_static
+> individual patches in followups.
+> 
+> Please, review.  It appears to work; the impact on merging is very small -
+> on the testbox here (251 distinct aliases) mainline gets 140 kmem_cache
+> instances and this series gets 142 - fs_cachep and names_cache get split
+> from the group of 192-byte caches.  Considering the contents and use patterns
+> for those two... we might be better off that way, actually.
+> 
+>         kmem_cache_create() and friends create new instances of
+> struct kmem_cache and return pointers to those.  Quite a few things in
+> core kernel are allocated from such caches; each allocation involves
+> dereferencing an assign-once pointer and for sufficiently hot ones that
+> dereferencing does show in profiles.
+> 
+>         There had been patches floating around switching some of those
+> to runtime_const infrastructure.  Unfortunately, it's arch-specific
+> and most of the architectures lack it.
+
+There's only a handful of architectures that would be considered performance
+critical enough for us to care, right? So the question is which ones of
+those lack it and would the effort to make them support it be smaller than
+doing this? Also this covers slab only, but I'd expect runtime_const() would
+have use cases also in other subsystems that wouldn't need
+subsystem-specific changes?
+
+>         There's an alternative approach applicable at least to the caches
+> that are never destroyed, which covers a lot of them.  No matter what,
+> runtime_const for pointers is not going to be faster than plain &,
+> so if we had struct kmem_cache instances with static storage duration, we
+> would be at least no worse off than we are with runtime_const variants.
+
+But the argument for doing the static duration support is that it should be
+faster, not just "not slower"? So is runtime_const equivalent or for some
+fundamental reason it's slower than plain &?
+
+Or is the advantage that static caches can support modules and runtime_const
+can't?
+
+>         There are obstacles to doing that, but they turn out to be easy
+> to deal with.
+> 
+> 1) as it is, struct kmem_cache is opaque for anything outside of a few
+> files in mm/*; that avoids serious headache with header dependencies,
+> etc., and it's not something we want to lose.  Solution: struct
+> kmem_cache_opaque, with the size and alignment identical to struct
+> kmem_cache.  Calculation of size and alignment can be done via the same
+> mechanism we use for asm-offsets.h and rq-offsets.h, with build-time
+> check for mismatches.  With that done, we get an opaque type defined in
+> linux/slab-static.h that can be used for declaring those caches.
+> In linux/slab.h we add a forward declaration of kmem_cache_opaque +
+> helper (to_kmem_cache()) converting a pointer to kmem_cache_opaque
+> into pointer to kmem_cache.
+> 
+> 2) real constructor of kmem_cache needs to be taught to deal with
+> preallocated instances.  That turns out to be easy - we already pass an
+> obscene amount of optional arguments via struct kmem_cache_args, so we
+> can stash the pointer to preallocated instance in there.  Changes in
+> mm/slab_common.c are very minor - we should not merge preallocated caches
+> with anything already created, use the instance passed to us instead of
+> allocating a new one and we should not free them.  That's it.
+> 
+> 	A set of helpers parallel to kmem_cache_create() and friends
+> (kmem_cache_setup(), etc.) is provided in the same linux/slab-static.h;
+> generally, conversion affects only a few lines.
+> 
+> 	Note that slab-static.h is needed only in places that create
+> such instances; all users need only slab.h (and they can be modular,
+> unlike runtime_const-based approach).
 > 
 > 
+> 	That covers the instances that never get destroyed.  Quite a few
+> fall into that category, but there's a major exception - anything in
+> modules must be destroyed before the module gets removed.  Note that
+> unlike runtime_constant-based approach, cache _uses_ in a module are
+> fine - if kmem_cache_opaque instance is exported, its address is available
+> to modules without any problems.  It's caches _created_ in a module
+
+So are there uses in modules of caches created in built-in code, which
+therefore could not be changed to runtime_const?
+
+> that offer an extra twist.
+> 
+> 	Teaching kmem_cache_destroy() to skip actual freeing of given
+> kmem_cache instance is trivial; the problem is that kmem_cache_destroy()
+> may overlap with sysfs access to attributes of that cache.  In that
+> case kmem_cache_destroy() may return before the instance gets freed -
+> freeing (from slab_kmem_cache_release()) happens when the refcount of
+> embedded kobject drops to zero.  That's fine, since all references
+> to data structures in module's memory are already gone by the time
+> kmem_cache_destroy() returns.  That, however, relies upon the struct
+> kmem_cache itself not being in module's memory; getting it unmapped
+> before slab_kmem_cache_release() has run needs to be avoided.
+> 
+> 	It's not hard to deal with, though.  We need to make sure that
+> instance in a module will get to slab_kmem_cache_release() before the
+> module data gets freed.  That's only a problem on sysfs setups -
+> otherwise it'll definitely be finished before kmem_cache_destroy()
+> returns.
+> 
+> 	Note that modules themselves have sysfs-exposed attributes,
+> so a similar problem already exists there.  That's dealt with by
+> having mod_sysfs_teardown() wait for refcount of module->mkobj.kobj
+> reaching zero.  Let's make use of that - have static-duration-in-module
+> kmem_cache instances grab a reference to that kobject upon setup and
+> drop it in the end of slab_kmem_cache_release().
+> 
+> 	Let setup helpers store the kobject to be pinned in
+> kmem_cache_args->owner (for preallocated; if somebody manually sets it
+> for non-preallocated case, it'll be ignored).  That would be
+> &THIS_MODULE->mkobj.kobj for a module and NULL in built-in.
+> 
+> 	If sysfs is enabled and we are dealing with preallocated instance,
+> let create_cache() grab and stash that reference in kmem_cache->owner
+> and let slab_kmem_cache_release() drop it instead of freeing kmem_cache
+> instance.
+> 
+> 
+> 	Costs:
+> * a bit (SLAB_PREALLOCATED) is stolen from slab_flags_t
+> * such caches can't be merged with anything preexisting (obviously)
+> and subsequent cache creations can't merge with static-in-module
+> ones.  If you want them more mergable, don't use that technics.
+> * you can't do kmem_cache_setup()/kmem_cache_destroy()/kmem_cache_setup()
+> on the same instance.  Just don't do that.
+> 
+> Al Viro (9):
+>   static kmem_cache instances for core caches
+>   allow static-duration kmem_cache in modules
+>   VFS caches: switch from runtime_const() machinery to slab-static.h
+>   make inode_cache statically allocated
+>   make mnt_cache statically allocated
+>   make bh_cachep statically allocated
+>   make seq_file_cache statically allocated
+>   make thread component caches (fs_cachep, files_cachep, etc.)
+>     statically allocated
+>   make ufs_inode_cache statically allocated
+> 
+>  Kbuild                            | 14 ++++++-
+>  fs/buffer.c                       |  6 ++-
+>  fs/dcache.c                       |  8 ++--
+>  fs/file_table.c                   | 40 ++++++++----------
+>  fs/inode.c                        |  6 ++-
+>  fs/namei.c                        | 16 +++----
+>  fs/namespace.c                    |  6 ++-
+>  fs/seq_file.c                     |  6 ++-
+>  fs/ufs/super.c                    |  9 ++--
+>  include/asm-generic/vmlinux.lds.h |  6 +--
+>  include/linux/fdtable.h           |  3 +-
+>  include/linux/fs_struct.h         |  3 +-
+>  include/linux/signal.h            |  3 +-
+>  include/linux/slab-static.h       | 69 +++++++++++++++++++++++++++++++
+>  include/linux/slab.h              | 11 +++++
+>  kernel/fork.c                     | 37 ++++++++++-------
+>  mm/kmem_cache_size.c              | 20 +++++++++
+>  mm/slab.h                         |  1 +
+>  mm/slab_common.c                  | 49 ++++++++++++++--------
+>  mm/slub.c                         |  7 ++++
+>  20 files changed, 231 insertions(+), 89 deletions(-)
+>  create mode 100644 include/linux/slab-static.h
+>  create mode 100644 mm/kmem_cache_size.c
+> 
+> --
+> 2.47.3
+> 
+> 
+> 
+> Al Viro (10):
+>   static kmem_cache instances for core caches: infrastructure
+>   static kmem_cache instances for core caches: setup primitives
+>   allow preallocated kmem_cache instances in modules
+>   VFS caches: switch from runtime_const() machinery to slab-static.h
+>   make inode_cache statically allocated
+>   make mnt_cache statically allocated
+>   make bh_cachep statically allocated
+>   make seq_file_cache statically allocated
+>   make thread component caches (fs_cachep, files_cachep, etc.)
+>     statically allocated
+>   make ufs_inode_cache statically allocated
+> 
+>  Kbuild                            | 14 ++++++-
+>  fs/buffer.c                       |  6 ++-
+>  fs/dcache.c                       |  8 ++--
+>  fs/file_table.c                   | 40 ++++++++----------
+>  fs/inode.c                        |  6 ++-
+>  fs/namei.c                        | 16 +++----
+>  fs/namespace.c                    |  6 ++-
+>  fs/seq_file.c                     |  6 ++-
+>  fs/ufs/super.c                    |  9 ++--
+>  include/asm-generic/vmlinux.lds.h |  6 +--
+>  include/linux/fdtable.h           |  3 +-
+>  include/linux/fs_struct.h         |  3 +-
+>  include/linux/signal.h            |  3 +-
+>  include/linux/slab-static.h       | 69 +++++++++++++++++++++++++++++++
+>  include/linux/slab.h              | 11 +++++
+>  kernel/fork.c                     | 37 ++++++++++-------
+>  mm/kmem_cache_size.c              | 20 +++++++++
+>  mm/slab.h                         |  1 +
+>  mm/slab_common.c                  | 50 +++++++++++++++-------
+>  mm/slub.c                         | 27 +++++++-----
+>  20 files changed, 242 insertions(+), 99 deletions(-)
+>  create mode 100644 include/linux/slab-static.h
+>  create mode 100644 mm/kmem_cache_size.c
 > 
 
