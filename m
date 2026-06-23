@@ -1,132 +1,77 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F7C126ED3E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 16:01:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782230485; cv=pass; b=MWcFV36vvVPsQd2BysG/zPrYOuzZSZb/BXfbmeBAcaQCurwuLLV6sPcii2sz21I8ry+TJYhbfGfr+uaCpFtwmrosgq3I3Cqo/gZJsgNSaIiuu4u1z8FOxovXQEpnBLsvcQM18Uj6bbcsnvn89CZ0xQ4lKBvdV7CcLFnPytxjDnM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782230485; c=relaxed/simple;
-	bh=moYzU94ucfDv9Ns4t0FmkzpOqQLV5Y4B3n5z4+leBVY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LS2zP4JhO8wx8arMFo2toJe2Fp7MszPbTP/FDekQirM+NqkTPUTn6RbKepB0qqjpDfx6dR95OmBhLqrUZ4wYt/zLoN+XoqQBgIoi/uKiqT3LT6uQaggO/rpWVCpQrsofHCcodteV9ONUpkusy8JWFqdTv6352n3jSHy7HxpLjlM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mDUT+SxN; arc=pass smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF75F30CDBC;
+	Tue, 23 Jun 2026 16:09:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782230959; cv=none; b=Z39irX9sPf8DYBC/fmgq0gm7EFIh8dI7/uu1DoJSde3HxfzcSI6waz/84/eTgH7GWN1eipCpkEIbmWDpFCsB+GUK93sPlZKRnMYHlZz3IQr0/MsQXAxPvDSvrfYttiPndFyI28Wo0pn5ADX3JnObl8K55kYh72umc6aMQuCXOLQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782230959; c=relaxed/simple;
+	bh=CInh8XAA2fhGHng22WiBPloY+8C8sPP8xHVrV0jplks=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=UPu3D0/PEW7TS3is/m69WmjBhck4tdBHiDZOY6WkJru1758o8rjflbD+DRzOQshDS4fFHvZ8shRUfTqPoVr4Yj8xfOnkvfdDGmRDRX/q4SyTF5Lc5MMgoOIUzemjI9iDEuR3st4nrTwMbMM/BTCFfBN6ZBUqFOpxlFb0lMmJtis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zb8IXfwb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mDUT+SxN"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-492329c5514so131765e9.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 09:01:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782230481; cv=none;
-        d=google.com; s=arc-20260327;
-        b=HYxKZU4ODnP3saIgYV+U92e59dOGVv8/9lELIJwnw9S2oWqkVzJwsx9F5kUuF0nzND
-         6iqmaX/o7Pg7/sVhtjQYi5BMomw8qkYUgs/muj1acsi6+OzjmBSQfetyS0hQkzc4uhy+
-         0DM7NNSr9y2JgS6rJNl9Wm2CaBstUr1wVKSF6r0bHSOJ64wGlo2THlbUeKy0O8e92z5s
-         48Mu9/91+KIealjtqHhea21+hVkYHFxg+kfwmYxeFCPIcFnR5Q2ij1/6SwhmtgLpD8Mz
-         qh08Q8b3MkXJnLOy8JLMrZXpr7tBFDsiDGIDa1pn2M/q9cbbTkvdnkUa+9lFl/AnScTD
-         5Dlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=s/dOweBfHSKsBXHjB0p74I+BF7H4VxwvcYuFUhDSwpQ=;
-        fh=/eBB+Vxyljb6GqDXl+pFj4hAnLADraUR24LDHCg4mHU=;
-        b=JTbmYQeEwkYQ48JFQohA7+kOyr75fy3cEM8PgTRWd2AOpuTjQWlBA4zHdPd/b4x1+w
-         BjV0USgsSyE0+B0iGV3vK2o6Bszj6sjv/iHvMNHJ1V9C8472wlpaMiLV9zgE0DsD2MlX
-         ckiDbs6xD8VUAKtObcZx2ybuiLPgnUEANNHSWeig94gHv6zLvgSnQWfnKsczfjkmmzVv
-         ZgkKlMKmz3SZ+I4dQST4ZMh6iQFfSqxO9pcB8AFDIkdPav4qq8DHoAUdwc3kz9oUaM5X
-         +SSG4ja9kQID8HZcwFHClcyil+vpLsSovFhSQdKw0k+2QorlB3VTcddeo3poYKuwAEzT
-         7H1A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782230481; x=1782835281; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s/dOweBfHSKsBXHjB0p74I+BF7H4VxwvcYuFUhDSwpQ=;
-        b=mDUT+SxNtY8wPw8JLRXJdWRSX3bGO2cboOMb/HtZxGz3piNl6QUNZDmEq5Y99jnUpJ
-         rv9xv9ZKXKEEGgZjC6o0hqzWTGvm8MVMBp/V1VJsIaK6eg9L1cZ5Vo7lzYN5HeTZXkrm
-         VbY/NDZBbbRpGxBiM/UpljhJoJl8lCCO2qyLubFT4PBhnyocQDe9jSRYT9uVTC5mB9K3
-         fxEUdiag2v3CifSUchmzAtlSKv1I0zT5z8z2ybzF8rEvyrI5JOt7LtoTweWEgqnl1lMx
-         +8bD17Rf/77AKta+qv5Tp+BA+SQeiGQ1H5wXP1R/DaSPbU+x/GJxs3duhzyKBXGWJMbE
-         NZMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782230481; x=1782835281;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=s/dOweBfHSKsBXHjB0p74I+BF7H4VxwvcYuFUhDSwpQ=;
-        b=etc0v99OOiBVN8O+IMiI9Q3OZAJEucEE+1xuSmGLUnBsrchpdei4LoISKxeCLyo5T3
-         bQefDuc9nWZf39hvq93BIKHp9jOJZGuG95FmYL6gHgj30hAEQ1J9V0kT9X1/2JmXzHEh
-         VnIysOlGukTreY/KC1bPxLGHAMNWUfGZXXitR4htwx2HgO2vmXi+fvyQRF0/9KbJzL3r
-         E48vL3tSH08ELGZ5qPEt7iaYt7Mfk4mbcR7qa6OIiRNjSp5vgIKttiNC1Oq1WfposC3p
-         H3v/AplQbNAZ4aa1UFGe+Qjcv+sVvoiQlTwn8kW2ioDGd5G1CFBzlrWKCqbCS4MtcVPD
-         MgRw==
-X-Forwarded-Encrypted: i=1; AFNElJ+XLa3JEGAc5v4xlMXroYTS12R3j/+DfxKoUkRLBFgDppI7yyup0ZgLJexVnmYXIrOS0FMQ7Zeaaw7C7Vc6@vger.kernel.org
-X-Gm-Message-State: AOJu0YymAwJ5pYZm2x5PUagc2MG9b5jC++4re5lMYQHWlJehLGIo8SCe
-	6LCMG2PRN71y9Vf4hFNtCoXsZmogf6LVXd3/DViZF2rolAN+KxZTv+xb9tem5hkGQIBhcaWUdv9
-	CN9cX1jWUAzJBTPWktssZt0gnU9tKDFQ=
-X-Gm-Gg: AfdE7ckrMZBE+CZkI78cut8ICz69YgzV/5JINQJasTCYj4Jj6pAu2TGpsd5qKz/eIBF
-	9Fe0vFbFCZFhANcIQCT8VHtw21DgGZKyu0Q6ay/vcDHDMoUhwcvVjJzf/rQXv5HQZVOmJnqc/rL
-	shN54E1NEm1kGpt+eqOAnPq87sqSbR6EpUsZdCARuiZk1ORleCYcxwdTgmClEvYvM4wtU+Quh2+
-	EYE174yE2J28ShUsi1+GDioNmZ3imFv+qavdjssmX72CTz9wKzxKT92ZDzDHgtZodRtcqRb0yNQ
-	Zw/L16eknOv2XtjPWS1vi90OUxH3
-X-Received: by 2002:a05:600c:c099:b0:48a:5f32:62c6 with SMTP id
- 5b1f17b1804b1-4925a0ea8b4mr54371835e9.11.1782230480787; Tue, 23 Jun 2026
- 09:01:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zb8IXfwb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC4891F000E9;
+	Tue, 23 Jun 2026 16:09:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782230958;
+	bh=2PguWsrlG4iSkEVEQsCsbjDTmr4CughENgFDBtKEPs0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Zb8IXfwb8IV6Z09cqcfLOU3HmBDF/EznroGhn1/Fw0BaOITdZjBz9Jws7Nrbgi7S+
+	 FJ8eFwBx1G/G2oOLVLO17n6JdS0o/XerVqlFjdf6PN5ez3dtBGKZAJrUgiVglFWz/i
+	 NNHaoxosuTbPj06dtLmnjDcCNQdIDrXXygiOAq3k+gdfCGieIfEbVKUfZ9pMT1HPiI
+	 f8mWRIbwj6ugVZL/khyULUScj0sYa2fq7WqKs5lf/4I7firtDcPQrDhbi+CIGd2DTY
+	 OfJyAcGE/q13O/czDaOv+ZpsyJDY22BXLIH6/RnP+UCYSPvMRy+InkfO6E7NoIHF7I
+	 ogYsDUFXzZLxQ==
+From: Christian Brauner <brauner@kernel.org>
+To: bpf@vger.kernel.org, Christian Brauner <brauner@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Amir Goldstein <amir73il@gmail.com>, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260623-work-bpf-real_inode-v2-1-8e8b57dd25f7@kernel.org>
+References: <20260623-work-bpf-real_inode-v2-1-8e8b57dd25f7@kernel.org>
+Subject: Re: [PATCH v2] bpf: have bpf_real_data_inode() take a struct file
+Message-Id: <20260623-meinung-herzrasen-gewarnt-e3a56bca3df9@brauner>
+Date: Tue, 23 Jun 2026 18:09:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260623111533.2285005-1-ptikhomirov@virtuozzo.com> <20260623111533.2285005-2-ptikhomirov@virtuozzo.com>
-In-Reply-To: <20260623111533.2285005-2-ptikhomirov@virtuozzo.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Tue, 23 Jun 2026 09:01:09 -0700
-X-Gm-Features: AVVi8CexJwF1YIejddCZO0Cw6M7tITGeNOUnTTqz8Z9zx_6aZedVwaVA3e5pkZk
-Message-ID: <CAKEwX=Omr29YZ+ZtDXtVLKQVoinGo3y9xWBJojRCBpewgswycg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] fs, mm: add ->cachestat() file operation
-To: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Shuah Khan <shuah@kernel.org>, linux-unionfs@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev-5fdb0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=881; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=CInh8XAA2fhGHng22WiBPloY+8C8sPP8xHVrV0jplks=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRZrV/T+TiOyVs0XGf2FbMVc2fze03nNmE7/mHeWduTf
+ 160hAre6ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZiIpgLD/9juP/c/mnPO2hF2
+ 9PhJht0xEQ0GMkkL3lk7qrldfDq/kJ2RYVdtWP1EoQ0WPdtqc6/q+k43/9FxvnJeSOm15VG/OFi
+ M+AE=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Tue, Jun 23, 2026 at 4:15=E2=80=AFAM Pavel Tikhomirov
-<ptikhomirov@virtuozzo.com> wrote:
->
-> The cachestat() syscall reads page cache statistics straight from the
-> file's f_mapping. Stackable filesystems such as overlayfs keep the data
-> pages in an underlying inode's mapping rather than in the overlay
-> inode's, so cachestat() reports all zeroes for them.
->
-> Add a ->cachestat() file operation and route the syscall through a new
-> vfs_cachestat() helper that calls it when present, falling back to
-> file's f_mapping otherwise. This lets stackable filesystems forward the
-> query to the file that actually owns the page cache. No behaviour change
-> for regular files.
->
-> Signed-off-by: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
-> ---
-> Note: Memset change might be a bit tricky, I moved it to no
-> ->cachestat() path to avoid multiple memset on nested overlayfs, that
-> means that ->cachestat() is expected to be able to handle unitialized
-> cs.
+On Tue, 23 Jun 2026 11:32:27 +0200, Christian Brauner wrote:
+> bpf: have bpf_real_data_inode() take a struct file
 
-nit: maybe a comment somewhere to document this?
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
-> ---
->  include/linux/fs.h | 10 ++++++++++
->  mm/filemap.c       | 43 +++++++++++++++++++++++++++++++++++--------
->  2 files changed, 45 insertions(+), 8 deletions(-)
->
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-LGTM otherwise. With Amir's suggestions incorporated:
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-Acked-by: Nhat Pham <nphamcs@gmail.com>
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
+
+[1/1] bpf: have bpf_real_data_inode() take a struct file
+      https://git.kernel.org/vfs/vfs/c/c99895a8cbee
+
