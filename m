@@ -1,180 +1,128 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1BB83CD8D4
-	for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 09:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8751367B8A;
+	Tue, 23 Jun 2026 09:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782207766; cv=none; b=d2MPTc8sF7BG6TiK43vinMhAS+EK/1/WcDYHZ33qWGWQxyldJF7eOXOOQsLR1zDm646BhqNUj95oMcwwKqzpljCZBmNm1CbjnTraSJ/NNHQqDxr2jXPmfMhonS9ePzt9hlUiY09edj7fc62q3tgxNAmX5gConcNqcTgYVwxbrpo=
+	t=1782208153; cv=none; b=r9kRGV5ZauvFFFiRlNDSAFnltv2hkUGUJYTr7O3gXNnLi1ZBSHKHaWhX+n0lbXJGCXGHYa+HEJCof3WOsotW0IUfX0QXNiK5VUpqRjQWzP1XMS7f9hAaA8xwiZ+DISwRSmH1dcGNJpCTboKx/yLOtbjqDTklG09QoVoBgE/ngtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782207766; c=relaxed/simple;
-	bh=B8aiSRXgNzNgIcTsqvlM+jiX5YYMrahhBOPApOswCwI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HUdWYfNaGBLL0/SIr0DOlh40/GrGbCD60d3PSmAS61DdzyJRPqkwf0kUWlI0Q3M8g3Ts32vZfSLuttuLu3Q4gUehugpuTZCp7cKmAP5OsfkDTtMsMv9g3+ncI2uJtNZ7Jws/rlJ7EApC5ptK3gWzvLj9D2qtVH+DM5eMfu5D7T4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YGHMw40j; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782208153; c=relaxed/simple;
+	bh=myHlpcVxrje/4LogYH81Ir3neHlcOUHx7Cq5HKiPvoo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=R+A7Qcn3MnbfLc+PP1/zxIN5Gsd+P3CdVx2VhRevxxfwupWOnxQI06VIhrF7fmUMAf22OpYBXSHuT9619jYwNYdcSsXf/CcUNxWkAkozIdLGPK9s5GWiASJ2W89xKp8rCbp4OKdi3vL47QYQaQvqFksOEoX99Qf20KuQBGrN9kE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=yplXKjHQ; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YGHMw40j"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49249072f03so16358775e9.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 02:42:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782207763; x=1782812563; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3SJWx7Zgz0Pyhs4JZwrYmJyYWWMlxydwzpM41quzKVA=;
-        b=YGHMw40j4hj6TfkUnHCRzMeFQvWey1PFjYwC9WxoimkjXSyYUToNiCRRG3XizMJyVX
-         R4ai/ZAAtQDz4f0JWVvcuKQwNrd5Txlkb06UI4Ip+E8l4eB26vkuxuFn6OwMwOYXB61O
-         kCwX0AeABcbrjheN/oka2jvup/pAupU+T8RVm3c6KdjPN3Cw8ivsZFWQa+3luBAcmyHJ
-         J/ccU6I5B7wsmabeYLLM2iBu+F6a7H0unq3OEVcxPr0XIQHv8J7AknumxKhEAFyiYQs6
-         +mqpx2Bs3bCk6AORQ3O0om6vm75JrMhz6Uyb5FEYTnIsi88xM/cBebtwCOEISqrxBiUn
-         GWLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782207763; x=1782812563;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3SJWx7Zgz0Pyhs4JZwrYmJyYWWMlxydwzpM41quzKVA=;
-        b=nU0G7oetb/ERgJ5HXyDjmcsFVVG7Vc4clf3FXI81plptIYR3EUFXE/CVxlRXz4AGCy
-         VQJyBjGdXa3arl2RKobUiUrf3bLRiyuHAFoCe6p1ztxDACZp7BL0ayVeYwQdsvoFLJa0
-         ss2w1lZoylWgctAyRwy0po6IxKHHMZYo8He1ft5V+kqmJH93JwF8Z0KDu3Vl9zAIOboI
-         3S4WIwsLyCYbIMeELqtYtKFIVMAR3jfD4Sn+PCL7Ot5NQGWb+s3hUNsuM+MxKMUdFfBn
-         trpTTgkfthLQPO+f4xNqlDYTtRexzSLIAkX62mxTsYrSFICOn4B3rRZt3ddKYxcaFdsz
-         It3g==
-X-Forwarded-Encrypted: i=1; AFNElJ/Q7Y7E7e07+TphPyVbsyPV4GW77itII15wCglWnL5bSwrrZ1IsUOfXZjhkCBk4w1HsuLLiFbm0f+H/YOvA@vger.kernel.org
-X-Gm-Message-State: AOJu0YxY28cvodOeJtRo02KwTES+ogil0OxcD7QGDZndXbxwIrsdDRqp
-	W9RCdGg1zn136NOKudUYqqw2gwxyIle1jPRmp5PUkRWgGq0A7WG1OfWA
-X-Gm-Gg: AfdE7clZ5Ygwp/o/yJTHNlOybdwn7E5gHd6XoR+PA5WSeXRdjjN+3viqiHUSjXwum8R
-	Z9QXST79i3y+iVCkD42hBRIUtChvDxambQMULjFvXbPwPHjITKcl4K79sFTu35qhsSzdHlaXLs9
-	IeA9gzs0ZSoDn4LHfDCOhICqT3fYUSqd7LdTGYz3z+rfPgebToejivevRrgz1+meB8D12J5IaRk
-	+SWb9NCEhUgA+z9WfVQWyrmP9s3dTdz/8cPV1kry6JDv9YFsDajUi7kfVZaH3Cz9pALtxHCmtWn
-	0yx+rhJdUXPCPpZygBcKsl1O9HICwsU0PnqhaAYjs+K0Xj4CBFk8ZuivwKVcqI0TFj4OJu7wXSj
-	NzKe/6sydPik+NY/w/OxrTJ+nvOr12m6ibvrtyt40GZAAy1mreQy4Eotsx4//EOq1timsJMJTRF
-	p2mUozbruV
-X-Received: by 2002:a05:600c:8b8a:b0:492:2e48:81e6 with SMTP id 5b1f17b1804b1-4925b389b83mr30093645e9.4.1782207762970;
-        Tue, 23 Jun 2026 02:42:42 -0700 (PDT)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49249455302sm280248525e9.15.2026.06.23.02.42.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jun 2026 02:42:42 -0700 (PDT)
-From: Askar Safin <safinaskar@gmail.com>
-To: avagin@gmail.com
-Cc: akpm@linux-foundation.org,
-	alexander@mihalicyn.com,
-	axboe@kernel.dk,
-	bernd@bsbernd.com,
-	brauner@kernel.org,
-	criu@lists.linux.dev,
-	david@kernel.org,
-	dhowells@redhat.com,
-	fuse-devel@lists.linux.dev,
-	hch@infradead.org,
-	jack@suse.cz,
-	joannelkoong@gmail.com,
-	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	miklos@szeredi.hu,
-	netdev@vger.kernel.org,
-	patches@lists.linux.dev,
-	pfalcato@suse.de,
-	rostedt@goodmis.org,
-	safinaskar@gmail.com,
-	torvalds@linux-foundation.org,
-	val@packett.cool,
-	viro@zeniv.linux.org.uk,
-	willy@infradead.org
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-Date: Tue, 23 Jun 2026 12:42:11 +0300
-Message-ID: <20260623094211.1080873-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <CANaxB-xVCP5HSUNwphFrKPdW0Qh1pA33A6npac60WArkZMFt7w@mail.gmail.com>
-References: <CANaxB-xVCP5HSUNwphFrKPdW0Qh1pA33A6npac60WArkZMFt7w@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="yplXKjHQ"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gl0dT19JHz9v0J;
+	Tue, 23 Jun 2026 11:49:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1782208141; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=myHlpcVxrje/4LogYH81Ir3neHlcOUHx7Cq5HKiPvoo=;
+	b=yplXKjHQ2VZwlE7gs0Cme6obvZk+1MOY0dMydr0mkUYtKJIUYXMW2q0C2DY9VCZ0FbrDjq
+	CBXUolVF13Grpx7cAhNCF4KwLJe/Y4+yf4Jf22d9rbvlQw06rZ6BJI1dHY5WTh5dznsPUc
+	WMTN/gRipuQb/cw90+Evmk9DrdMneJl9uGC69Ar5ccLiwWUZN25EY6l61H8ovritF+szoz
+	O+UPhPouCIyYF5tUr44JqNZ6urmQBN8g2cOh/+GnFk5YkcKe5vUuJ6VGxB9scwk5kUoj/+
+	Oe/FVJTnI7BIjAM0zepFouwbUO+0hZtIMmpxuzM1s0vcTmwi0IcEoEwVeZYUXQ==
+Message-ID: <908762cb7fd90df1df70eda28363a0015c404527.camel@mailbox.org>
+Subject: Re: [PATCH v2 1/3] rust: sync: Add abstraction for synchronize_rcu()
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Pedro Falcato <pfalcato@suse.de>, Philipp Stanner <phasta@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo
+	 <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron	
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
+ Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross	 <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ Daniel Almeida	 <daniel.almeida@collabora.com>, Tamir Duberstein
+ <tamird@kernel.org>,  Alexandre Courbot <acourbot@nvidia.com>, Onur
+ =?ISO-8859-1?Q?=D6zkan?= <work@onurozkan.dev>, Alexander Viro	
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
+	 <jack@suse.cz>, Lyude Paul <lyude@redhat.com>, "Paul E. McKenney"	
+ <paulmck@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, Neeraj
+ Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes
+ <joelagnelf@nvidia.com>, Josh Triplett	 <josh@joshtriplett.org>, Uladzislau
+ Rezki <urezki@gmail.com>, Steven Rostedt	 <rostedt@goodmis.org>, Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>,  Lai Jiangshan
+ <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>, Christian Schrefl
+	 <chrisi.schrefl@gmail.com>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ rcu@vger.kernel.org
+Date: Tue, 23 Jun 2026 11:48:50 +0200
+In-Reply-To: <ajpJmjTST-Hoxutb@pedro-suse.lan>
+References: <20260622173250.411377-2-phasta@kernel.org>
+	 <20260622173250.411377-3-phasta@kernel.org>
+	 <ajpJmjTST-Hoxutb@pedro-suse.lan>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: f00e168481f30d97e01
+X-MBO-RS-META: gr93mh3f3t88hakhgorj5p61kskyjdbu
 
-Andrei Vagin <avagin@gmail.com>:
-> Actually, this change introduces a performance and functional
-> regression for CRIU.
-> 
-> Here is a brief overview of how CRIU currently dumps memory pages:
-> 
-> CRIU injects a parasite code blob into the target process's address
-> space. The parasite invokes vmsplice() with the SPLICE_F_GIFT flag to
-> pin physical pages directly inside a pipe without copying them. The main
-> CRIU process then takes over from outside the target context, calling
-> splice() on the other end of the pipe to stream the data directly into
-> checkpoint image files or a remote network socket.
-> 
-> I ran a simple test that creates an anonymous mapping and touches every
-> page within it:
-> Without this patch, CRIU takes 9 seconds to dump the test process.
-> With this patch, It takes 18 seconds...
-> 
-> Plus, it obviously introduces some memory overhead.
-> 
-> If these changes are merged, we will need to completely rework the
-> memory dumping mechanism in CRIU. Using vmsplice() in this proposed form
-> no longer makes any sense for our architecture...
+On Tue, 2026-06-23 at 09:56 +0100, Pedro Falcato wrote:
+> On Mon, Jun 22, 2026 at 07:32:49PM +0200, Philipp Stanner wrote:
+> > synchronize_rcu() is a frequently used C function which is always safe
+> > to be called.
+> >=20
+> > Add a safe abstraction for synchronize_rcu().
+> >=20
+> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> > ---
+> > =C2=A0rust/kernel/sync/rcu.rs | 9 +++++++++
+> > =C2=A01 file changed, 9 insertions(+)
+> >=20
+> > diff --git a/rust/kernel/sync/rcu.rs b/rust/kernel/sync/rcu.rs
+> > index a32bef6e490b..0d438ef31766 100644
+> > --- a/rust/kernel/sync/rcu.rs
+> > +++ b/rust/kernel/sync/rcu.rs
+> > @@ -50,3 +50,12 @@ fn drop(&mut self) {
+> > =C2=A0pub fn read_lock() -> Guard {
+> > =C2=A0=C2=A0=C2=A0=C2=A0 Guard::new()
+> > =C2=A0}
+> > +
+> > +/// Wait for one RCU grace period.
+> > +///
+> > +/// You typically do this to wait for everyone holding a [`Guard`].
+> > +#[inline]
+> > +pub fn synchronize_rcu() {
+> > +=C2=A0=C2=A0=C2=A0 // SAFETY: `synchronize_rcu()` is always safe to be=
+ called. It just waits for a grace period.
+>=20
+> Commething randomly here (I know as much rust as the next not-knowing-rus=
+t-guy, sadly),
+> but synchronize_rcu() is not always safe to be called. You cannot call it=
+ if
+> you have the rcu read lock, or cannot sleep for any reason. I don't know =
+if
+> you can encode these in the rust type system though.
 
-I just have read some docs for CRIU. I found this statement:
+Preventing illegal actions in atomic context seems very difficult to
+achieve in Rust and AFAIK the only viable path forward currently is to
+have klint check for rule violations. Gary is working on that.
 
-> #### Why `splice` is Better:
-> *   **Consistency via COW**: The `SPLICE_F_GIFT` flag ensures that if the process modifies a "gifted" page after resuming, the kernel performs a **Copy-on-Write (COW)**. The pipe buffer > continues to hold the *original* version of the page as it existed at the moment of the `vmsplice()` call, ensuring a perfectly consistent snapshot of that page.
+But it would be interesting to know more about how in general Rust's
+unsafe comments are related to problems beyond UAF issues, and to what
+degree we want to document context requirements.
 
-This is wrong (with released kernels). I confirmed this by testing this on my current kernel (6.12.90).
-
-See the code in the end of this message.
-
-If you actually rely on mentioned consistency, then, it seems, CRIU is broken.
-
-So, in fact, my patch actually brings consistency to CRIU. :)
-
--- 
-Askar Safin
+C documents functions like synchronize_rcu() in much detail, but its
+documentation trusts on the readers general familiarity with RCU,
+assuming no one would come up with the idea of calling
+synchronize_rcu() in an atomic context.
 
 
-
-
-#define _GNU_SOURCE
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/uio.h>
-#include <sys/wait.h>
-#include <errno.h>
-
-int
-main (void)
-{
-    int p[2];
-    if (pipe (p) != 0)
-        abort ();
-    char buf[1] = {'a'};
-    struct iovec iov[] = {
-        {
-            .iov_base = buf,
-            .iov_len = 1,
-        }
-    };
-    // I pass "SPLICE_F_NONBLOCK | SPLICE_F_GIFT" here, because this is what criu passes
-    if (vmsplice (p[1], iov, 1, SPLICE_F_NONBLOCK | SPLICE_F_GIFT) != 1)
-        abort ();
-    if (close (p[1]) != 0)
-        abort ();
-    buf[0] = 'b';
-    char buf2[1];
-    if (read (p[0], buf2, 1) != 1)
-        abort ();
-    printf ("[%c]\n", buf2[0]); // Prints "b" as opposed to "a" on Linux 6.12.90
-    return 0;
-}
+P.
