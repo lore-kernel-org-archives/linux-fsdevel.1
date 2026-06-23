@@ -1,349 +1,192 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBCB1390CAC;
-	Tue, 23 Jun 2026 19:52:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0604395ACB;
+	Tue, 23 Jun 2026 20:14:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782244380; cv=none; b=pD5iZKQrEodROlnGlaEEeqPYva6XPz2fZ/xHmwpCzDuwEz5/VA280O/sKHwYF2Hs0Cnl4WsXk1D+t8FeAKEzflgGecCcw+vTvCllhfLzt2jlMo1/UovjR2/npyu1KJpW89JnGmljQLbrjx6S9G2jxba5xbE5P6kLTjNxJJMA0R8=
+	t=1782245676; cv=none; b=KZ6fIK8cqS05txYoDlYs/fGdAkp2Y++IzCiC9vG8FiRefoPBaRdbCnRQU6t0fwbWbTgpoqx4n+oMi76eozgDeRBhuQa54Dy7+OyFf42GKPh06VghqVfRUZ0wNUVTLCjPWBOrcWMI1PWNOsupdqQV2KDOtpriB+G4nIM9hpGzuh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782244380; c=relaxed/simple;
-	bh=COaA0CAq0uDzZI/TLUxiOJfNJ1hFDNcNwYPA1V9azw8=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=UKfgPTvrwQbrKWPZVRrbmngvK2QndroikZFxI0KN9H3UpGUprn+BEysfRq3v4jWFJCHJQ6EJTGo6qLFYxDBjyVlCcq9HrxnozpN4I2s01KArdSxsByXvyGNhd2RIHAFcL/q/J/JDHYQGNVnBnlEBTiaGid+lMTNKiblY9oIYQUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a2bTDQ25; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782245676; c=relaxed/simple;
+	bh=+NGHr3JwJhFyeVqNLHlK3enumdKIlg00Zx4KtBXAj6A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M5OgTBunzPoPJshGSQsKGBYdFSuPHwSx+LBAzI2dgxNLnXn8dbYdJ+XPb6fJKyc/A96VJ1sqKgGvYA3de6KjYg5anWd23PZZ9f5qpwh+zpW8PlrCMcnotKveuDSri7nGOGG52Dv0a8J7Qr6fKYJHqbnu6ATZYWvB/9yem8w6vmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZJAZRpdB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a2bTDQ25"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 183671F000E9;
-	Tue, 23 Jun 2026 19:52:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZJAZRpdB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DB461F00A3A;
+	Tue, 23 Jun 2026 20:14:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782244378;
-	bh=COaA0CAq0uDzZI/TLUxiOJfNJ1hFDNcNwYPA1V9azw8=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=a2bTDQ25OtNOl3uRaqotVmcSvDYeZvPMcu4WKz5g+h2knV+CiupKQbXgAZHiGMwqc
-	 3OnvYoWTNaSptl4613U3/DCI3IC43dLUwXkH6tNRsL/g3NwgYfLKYHzIy4hm49H2Gh
-	 DPE6nt9ONZucTUmhdJPGNMbGomQsvtRMA/6OmOrBTxGv70NGla3XCCrOOb9zwBYWgB
-	 otAZTy1q5jLzKD3zD9hBIHHE94aD7THrMfkRotkVR+kbn368jxF6O1rDgV1iHEmff1
-	 zLA2THFFK50wii5oNE9mmI/3C1B5wf4nsDRNhAGIJccgkZ5HDZiK3YEHdyu94N0BRq
-	 4SGTOL42ukB/w==
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 5399BF40085;
-	Tue, 23 Jun 2026 15:52:57 -0400 (EDT)
-Received: from phl-imap-04 ([10.202.2.82])
-  by phl-compute-02.internal (MEProxy); Tue, 23 Jun 2026 15:52:57 -0400
-X-ME-Sender: <xms:GeQ6anWvoMIUIOopsy2QqC_OfIHYd9GbuQkspBW1y5OKbb8SVohemQ>
-    <xme:GeQ6aqameE0tkGsfteNoM80HwDfhLVz4VZZ7yIAEHjcLuF8KtCQMyxT3Qrvp9ebFZ
-    -kV3zMWlrx40vSDiAdzfHx9iPsKlUXxTNbKrMAV9J5P2FKWdnmNqQ>
-X-ME-Proxy-Cause: dmFkZTF5PF0Jl3shlwDNXYhFT2lcy4coMZumzMJIgKbL6yG70n6B8NS1ojXnTfTVuSUiE1
-    on9YNWDaPM8IHJksXYf2lkCMQqcJAmpJdX9AxVBhO7ESpBX3dyLmVTSBsiRDgnob2wQS5w
-    SBV73cKdYNkIp+hn0INmj3Xn80+JY8NOHZ98GtBKbeGsNKdlfkagB+dkUqQCH+p6LKAc52
-    XLDuFitLwOMYFY1DCDtWOOznwcx+45a7BcU2/q7ruI0qLRUiA2KXitvqwJVCRgA2soGB6f
-    3zDRgNWPcZc0T6M8NYVTAL+ihcX0fnDQ5uMJCuJl+Y5rr049C8Rzt4/f4pWyYtxYKqZjL/
-    PPPSqe+8WAcjYiXv5sQE7cUeuGEI24bnSNYEMvXiTmdncPOZytVci+wabRRL8A2VeLHUY5
-    lUxBszA/rqvzFAet6EVrnznVYdY4bzSlSQAM8kuoXAyKMfd4ARf+f2TphQKFy9QYpby+N5
-    MBoh92sSNOsg+ZIYzpSO8Pb7I3AgHCaZo394FH6BOqHFPDATMul8XTfoJO25vj5R/EKzxI
-    i841I13vApC2m8Ihx10ehczToXdwg6HEU8V64REtrmAk7Iv+Ag04OOJXbZ1HpPdIOm4R77
-    uXYi+mkmoR7QLHLDZcZUO8m9ZI5wNdkPf6Uu1NGEa3tfpIxJ/9f/JYiOPaUA
-X-ME-Proxy: <xmx:GeQ6aqeqyTqLUaeE0v93TBQwblQ9rwGjONUlBaIJ2hZmu5HQ77-g-g>
-    <xmx:GeQ6agAeVRiomhOaPS5QO7Q1-raPKlrTheHF0f69p8oe_22vA2EY8Q>
-    <xmx:GeQ6am7_gkWgXfwOQXWVDvgHMxVHIOC1UpKTX5Qmawren6qhP83hjg>
-    <xmx:GeQ6ahfTWVoPVKGWjgqSaezYFtPEoYN6tyu44LuVa1yBfSg3WBSZVQ>
-    <xmx:GeQ6akshpP3rE-xe9t-wOxQLSZOa-59x9zzF9r39AfYA52CECrmBFkCo>
-Feedback-ID: i20964851:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 2FB3BB6006F; Tue, 23 Jun 2026 15:52:57 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=k20260515; t=1782245674;
+	bh=Ra1bLWv4R1sxRHDql8Lrgj/OtpZzKuZ/JFVnOfvRwes=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ZJAZRpdBwWufrpjPgspdDTMpomP3SINRtHl8ZOxMtF3PzVz1QwLXUZTwQeAf+uol9
+	 1eIpnqZcQyu2eA9WuB6vdOXm9HrjZdTgIPf+GrfrgLo8/1h8rMn/j5yDRNaQWYcg1z
+	 SoHVXI9jcgMMPfJkeYwgC4Aatt17v9Hrbt5Q4aTLYVl0YHTUn9K219XN/LW5EzZI0y
+	 B0d5t1wmHvNPJk9v6TNFwFUo5f4iAyISIUYJYHJhlyOkJaw1/mmdsfWGo5L315qei/
+	 YFO0TfeLjSI4hSuiUWmQa08cUvaJ9yIlXFnzTK6RlmVc+HJmDya/kd/485ShKYpsJz
+	 AZUK1DyLQaYzA==
+Date: Tue, 23 Jun 2026 13:14:34 -0700
+From: Kees Cook <kees@kernel.org>
+To: Farid Zakaria <farid.m.zakaria@gmail.com>
+Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
+	shuah@kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] fs: support $ORIGIN in ELF interpreter paths
+Message-ID: <202606231236.325C882A78@keescook>
+References: <20260622043934.179879-1-farid.m.zakaria@gmail.com>
+ <20260622043934.179879-2-farid.m.zakaria@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: Apl2SExQFExw
-Date: Tue, 23 Jun 2026 15:52:35 -0400
-From: "Anna Schumaker" <anna@kernel.org>
-To: yangerkun <yangerkun@huawei.com>, "Jeff Layton" <jlayton@kernel.org>,
- "Trond Myklebust" <trondmy@kernel.org>,
- "Chuck Lever" <chuck.lever@oracle.com>
-Cc: linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org,
- yangerkun@huaweicloud.com, lilingfeng3@huawei.com,
- zhangjian496@h-partners.com, yi.zhang@huawei.com,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Message-Id: <261c255e-2cc5-4f27-8239-e708f1c9f95a@app.fastmail.com>
-In-Reply-To: <9b27efad-f22a-45b9-b080-1552acf50016@huawei.com>
-References: <20260226012203.3962997-1-yangerkun@huawei.com>
- <dcf0b02002857a6be502e372ebb3e175412d7184.camel@kernel.org>
- <163aebb3-4233-4aaa-872c-c36aa3fcb3af@huawei.com>
- <403e3267-70ef-4fb3-9700-0a14d28abc4c@huawei.com>
- <9b27efad-f22a-45b9-b080-1552acf50016@huawei.com>
-Subject: Re: [RFC PATCH] nfs: use nfsi->rwsem to protect traversal of the file lock
- list
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260622043934.179879-2-farid.m.zakaria@gmail.com>
 
-Hi Erkun,
+On Sun, Jun 21, 2026 at 09:39:33PM -0700, Farid Zakaria wrote:
+> Currently, standard ELF and ELF FDPIC loaders expect a fixed path to the
+> dynamic linker/interpreter (PT_INTERP). However, for systems utilizing
+> relocatable dynamic interpreters (such as Nix/store-based environments),
+> hardcoding this path is inflexible and breaks binary portability.
+> 
+> Introduce support for resolving the $ORIGIN placeholder in the ELF
+> interpreter path. This maps the dynamic linker relative to the path
+> of the binary being executed, matching user-space origin resolution.
+> 
+> To avoid code duplication, implement a shared 'resolve_elf_interpreter()'
+> helper in the VFS exec layer. For safety, limit detection strictly to
+> the prefix string "$ORIGIN" to prevent complex parsing exploits.
 
-On Tue, Jun 23, 2026, at 3:37 AM, yangerkun wrote:
-> Gently ping...
->
-> This patch has been reviewed, but leave alone here for a long time...
+Does any other OS that implements ELF support also support $ORIGIN in
+the loader? $ORIGIN isn't even part of the ELF spec at all and is a
+glibc extension, IIUC.
 
-The patch is in my linux-next branch right here: https://git.linux-nfs.o=
-rg/?p=3Danna/linux-nfs.git;a=3Dcommit;h=3D4837fb36219e6c08b666bc31a86841=
-bad8526358
+I'm not excited about path-based string manipulations as they end up
+being racy, and mucking with loader path seems like we're inviting
+trouble (since the _binary_ specifies setuid-ness), and we've seen
+issues with $ORIGIN before, even strictly outside of the kernel:
+https://seclists.org/fulldisclosure/2010/Oct/257
 
-Anna
+> [...]
+> diff --git a/fs/exec.c b/fs/exec.c
+> index b92fe7db1..0978ae613 100644
+> --- a/fs/exec.c
+> +++ b/fs/exec.c
+> @@ -2024,6 +2024,48 @@ static int __init init_fs_exec_sysctls(void)
+>  fs_initcall(init_fs_exec_sysctls);
+>  #endif /* CONFIG_SYSCTL */
+>  
+> +char *resolve_elf_interpreter(struct linux_binprm *bprm, const char *elf_interpreter)
+> +{
+> +	char *pathbuf, *path, *slash, *resolved;
+> +
+> +	if (strncmp(elf_interpreter, "$ORIGIN", 7) != 0) {
+> +		char *ret = kstrdup(elf_interpreter, GFP_KERNEL);
+> +
+> +		return ret ? ret : ERR_PTR(-ENOMEM);
+> +	}
 
->
-> =E5=9C=A8 2026/5/8 16:33, yangerkun =E5=86=99=E9=81=93:
->> Gently ping...
->>=20
->> =E5=9C=A8 2026/4/16 11:01, yangerkun =E5=86=99=E9=81=93:
->>> Hi Anna and Trond,
->>>
->>> Could you please help check if there are any issues with this patch,=
- and
->>> if there are none, could you help merge it in?
->>>
->>> Thanks,
->>> Erkun.
->>>
->>> =E5=9C=A8 2026/3/9 22:09, Jeff Layton =E5=86=99=E9=81=93:
->>>> On Thu, 2026-02-26 at 09:22 +0800, Yang Erkun wrote:
->>>>> Lingfeng identified a bug and suggested two solutions, but both ap=
-pear
->>>>> to have issues.
->>>>>
->>>>> Generally, we cannot release flc_lock while iterating over the fil=
-e=20
->>>>> lock
->>>>> list to avoid use-after-free (UAF) problems with file locks. Howev=
-er,
->>>>> functions like nfs_delegation_claim_locks and nfs4_reclaim_locks c=
-annot
->>>>> adhere to this rule because recover_lock or nfs4_lock_delegation_r=
-ecall
->>>>> may take a long time. To resolve this, NFS switches to using nfsi-=20
->>>>> >rwsem
->>>>> for the same protection, and nfs_reclaim_locks follows this approa=
-ch.
->>>>> Although nfs_delegation_claim_locks uses so_delegreturn_mutex inst=
-ead,
->>>>> this is inadequate since a single inode can have multiple nfs4_sta=
-te
->>>>> instances. Therefore, the fix is to also use nfsi->rwsem in this c=
-ase.
->>>>>
->>>>> Furthermore, after commit c69899a17ca4 ("NFSv4: Update of VFS byte=20
->>>>> range
->>>>> lock must be atomic with the stateid update"), the functions
->>>>> nfs4_locku_done and nfs4_lock_done also break this rule because th=
-ey
->>>>> call locks_lock_inode_wait without holding nfsi->rwsem. Simply add=
-ing
->>>>> this protection could cause many deadlocks, so instead, the call to
->>>>> locks_lock_inode_wait is moved into _nfs4_proc_setlk. Regarding th=
-e bug
->>>>> fixed by commit c69899a17ca4 ("NFSv4: Update of VFS byte range
->>>>> lock must be atomic with the stateid update"), it has been resolved
->>>>> after commit 0460253913e5 ("NFSv4: nfs4_do_open() is incorrectly=20
->>>>> triggering
->>>>> state recovery") because all slots are drained before calling
->>>>> nfs4_do_reclaim, which prevents concurrent stateid changes along=20
->>>>> this path.
->>>>> Also, nfs_delegation_claim_locks does not cause this concurrency e=
-ither
->>>>> since when _nfs4_proc_setlk is called with NFS_DELEGATED_STATE, no=20
->>>>> RPC is
->>>>> sent, so nfs4_lock_done is not called. Therefore,
->>>>> nfs4_lock_delegation_recall from nfs_delegation_claim_locks is the=20
->>>>> first
->>>>> time the stateid is set.
->>>>>
->>>>> Reported-by: Li Lingfeng <lilingfeng3@huawei.com>
->>>>> Closes: https://lore.kernel.org/all/20250419085709.1452492-1-=20
->>>>> lilingfeng3@huawei.com/
->>>>> Closes: https://lore.kernel.org/all/20250715030559.2906634-1-=20
->>>>> lilingfeng3@huawei.com/
->>>>> Fixes: c69899a17ca4 ("NFSv4: Update of VFS byte range lock must be=20
->>>>> atomic with the stateid update")
->>>>> Signed-off-by: Yang Erkun <yangerkun@huawei.com>
->>>>> ---
->>>>> =C2=A0 fs/nfs/delegation.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 9 +++++=
-+++-
->>>>> =C2=A0 fs/nfs/nfs4proc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 22 =
-+++++++++++-----------
->>>>> =C2=A0 include/linux/nfs_xdr.h |=C2=A0 1 -
->>>>> =C2=A0 3 files changed, 19 insertions(+), 13 deletions(-)
->>>>>
->>>>> diff --git a/fs/nfs/delegation.c b/fs/nfs/delegation.c
->>>>> index 122fb3f14ffb..9546d2195c25 100644
->>>>> --- a/fs/nfs/delegation.c
->>>>> +++ b/fs/nfs/delegation.c
->>>>> @@ -173,6 +173,7 @@ int nfs4_check_delegation(struct inode *inode,=20
->>>>> fmode_t type)
->>>>> =C2=A0 static int nfs_delegation_claim_locks(struct nfs4_state *st=
-ate,=20
->>>>> const nfs4_stateid *stateid)
->>>>> =C2=A0 {
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct inode *inode =3D state->inod=
-e;
->>>>> +=C2=A0=C2=A0=C2=A0 struct nfs_inode *nfsi =3D NFS_I(inode);
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct file_lock *fl;
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct file_lock_context *flctx =3D=
- locks_inode_context(inode);
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct list_head *list;
->>>>> @@ -182,6 +183,9 @@ static int nfs_delegation_claim_locks(struct=20
->>>>> nfs4_state *state, const nfs4_state
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out;
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 list =3D &flctx->flc_posix;
->>>>> +
->>>>> +=C2=A0=C2=A0=C2=A0 /* Guard against reclaim and new lock/unlock c=
-alls */
->>>>> +=C2=A0=C2=A0=C2=A0 down_write(&nfsi->rwsem);
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spin_lock(&flctx->flc_lock);
->>>>> =C2=A0 restart:
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for_each_file_lock(fl, list) {
->>>>> @@ -189,8 +193,10 @@ static int nfs_delegation_claim_locks(struct=20
->>>>> nfs4_state *state, const nfs4_state
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 continue;
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spin_unlock=
-(&flctx->flc_lock);
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 status =3D =
-nfs4_lock_delegation_recall(fl, state, stateid);
->>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (status < 0)
->>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (status < 0) {
->>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- up_write(&nfsi->rwsem);
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 goto out;
->>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spin_lock(&=
-flctx->flc_lock);
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (list =3D=3D &flctx->flc_posix) {
->>>>> @@ -198,6 +204,7 @@ static int nfs_delegation_claim_locks(struct=20
->>>>> nfs4_state *state, const nfs4_state
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto restar=
-t;
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spin_unlock(&flctx->flc_lock);
->>>>> +=C2=A0=C2=A0=C2=A0 up_write(&nfsi->rwsem);
->>>>> =C2=A0 out:
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return status;
->>>>> =C2=A0 }
->>>>> diff --git a/fs/nfs/nfs4proc.c b/fs/nfs/nfs4proc.c
->>>>> index 91bcf67bd743..9d6fbca8798b 100644
->>>>> --- a/fs/nfs/nfs4proc.c
->>>>> +++ b/fs/nfs/nfs4proc.c
->>>>> @@ -7076,7 +7076,6 @@ static void nfs4_locku_done(struct rpc_task=20
->>>>> *task, void *data)
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 switch (task->tk_status) {
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 0:
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 renew_lease(calldata->server, calldata->timestamp);
->>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- locks_lock_inode_wait(calldata->lsp->ls_state->inode,=20
->>>>> &calldata->fl);
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 if (nfs4_update_lock_stateid(calldata->lsp,
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &calldata->=
-res.stateid))
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
->>>>> @@ -7344,11 +7343,6 @@ static void nfs4_lock_done(struct rpc_task=20
->>>>> *task, void *calldata)
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 0:
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 renew_lease=
-(NFS_SERVER(d_inode(data->ctx->dentry)),
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 data->timestamp);
->>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (data->arg.new_lock=
- && !data->cancelled) {
->>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- data->fl.c.flc_flags &=3D ~(FL_SLEEP | FL_ACCESS);
->>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- if (locks_lock_inode_wait(lsp->ls_state->inode, &data-=20
->>>>> >fl) < 0)
->>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 goto out_restart;
->>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (data->a=
-rg.new_lock_owner !=3D 0) {
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 nfs_confirm_seqid(&lsp->ls_seqid, 0);
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 nfs4_stateid_copy(&lsp->ls_stateid, &data->res.stateid);
->>>>> @@ -7459,11 +7453,10 @@ static int _nfs4_do_setlk(struct nfs4_stat=
-e=20
->>>>> *state, int cmd, struct file_lock *f
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 msg.rpc_argp =3D &data->arg;
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 msg.rpc_resp =3D &data->res;
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 task_setup_data.callback_data =3D d=
-ata;
->>>>> -=C2=A0=C2=A0=C2=A0 if (recovery_type > NFS_LOCK_NEW) {
->>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (recovery_type =3D=3D=
- NFS_LOCK_RECLAIM)
->>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- data->arg.reclaim =3D NFS_LOCK_RECLAIM;
->>>>> -=C2=A0=C2=A0=C2=A0 } else
->>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 data->arg.new_lock =3D=
- 1;
->>>>> +
->>>>> +=C2=A0=C2=A0=C2=A0 if (recovery_type =3D=3D NFS_LOCK_RECLAIM)
->>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 data->arg.reclaim =3D =
-NFS_LOCK_RECLAIM;
->>>>> +
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 task =3D rpc_run_task(&task_setup_d=
-ata);
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (IS_ERR(task))
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return PTR_=
-ERR(task);
->>>>> @@ -7573,6 +7566,13 @@ static int _nfs4_proc_setlk(struct nfs4_sta=
-te=20
->>>>> *state, int cmd, struct file_lock
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 up_read(&nfsi->rwsem);
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mutex_unlock(&sp->so_delegreturn_mu=
-tex);
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 status =3D _nfs4_do_setlk(state, cm=
-d, request, NFS_LOCK_NEW);
->>>>> +=C2=A0=C2=A0=C2=A0 if (status)
->>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out;
->>>>> +
->>>>> +=C2=A0=C2=A0=C2=A0 down_read(&nfsi->rwsem);
->>>>> +=C2=A0=C2=A0=C2=A0 request->c.flc_flags &=3D ~(FL_SLEEP | FL_ACCE=
-SS);
->>>>> +=C2=A0=C2=A0=C2=A0 status =3D locks_lock_inode_wait(state->inode,=
- request);
->>>>> +=C2=A0=C2=A0=C2=A0 up_read(&nfsi->rwsem);
->>>>> =C2=A0 out:
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 request->c.flc_flags =3D flags;
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return status;
->>>>> diff --git a/include/linux/nfs_xdr.h b/include/linux/nfs_xdr.h
->>>>> index ff1f12aa73d2..9599ad15c3ad 100644
->>>>> --- a/include/linux/nfs_xdr.h
->>>>> +++ b/include/linux/nfs_xdr.h
->>>>> @@ -580,7 +580,6 @@ struct nfs_lock_args {
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct nfs_lowner=C2=A0=C2=A0=C2=A0=
- lock_owner;
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned char=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 block : 1;
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned char=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 reclaim : 1;
->>>>> -=C2=A0=C2=A0=C2=A0 unsigned char=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 new_lock : 1;
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned char=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 new_lock_owner : 1;
->>>>> =C2=A0 };
->>>>
->>>> Nice work!
->>>>
->>>> Reviewed-by: Jeff Layton <jlayton@kernel.org>
->>>>
->>>>
->>>
->>=20
->>=20
->>
+But even if we did take this, I really don't want to incur a universal
+penalty on exec for it. This is doing a kmalloc+dup (and later kfree)
+for all non-$ORIGIN execs. So even if this gets added, it needs to be
+handled differently.
+
+I would probably say this helper should return a struct file * instead
+and have a fast-path for the common case. I think a check for leading
+'$' (if strncmp doesn't get inlined) would be okay here as far as
+"incurring common performance cost"; that string is almost certainly
+cache-hot.
+
+> +	pathbuf = kmalloc(PATH_MAX, GFP_KERNEL);
+> +	if (!pathbuf)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	path = file_path(bprm->file, pathbuf, PATH_MAX);
+> +	if (IS_ERR(path)) {
+> +		kfree(pathbuf);
+> +		return (char *)path;
+> +	}
+
+This still just _feels_ like an info leak or a race condition to me. I
+can't give a credible example, though. But it creeps me out. :)
+(I note the blog post also says "and the shabang" and I get even more
+creeped out about seeing that patch.)
+
+> +
+> +	slash = strrchr(path, '/');
+> +	if (slash) {
+> +		if (slash == path)
+> +			*(slash + 1) = '\0';
+
+This is not idiomatic string manipulation.
+
+> +		else
+> +			*slash = '\0';
+
+More readable, IMO, as:
+
+	if (slash)
+		slash[1] = '\0';
+	else
+		path = "";
+
+But does this match the glibc resolution logic? i.e. should it be:
+
+	if (strncmp(elf_interpreter, "$ORIGIN/", 8) != 0)
+	...
+	if (!slash)
+		slash = path;
+	*slash = '\0';
+	...
+	resolved = kasprintf(GFP_KERNEL, "%s/%s", path, elf_interpreter + 8);
+
+(requires the trailing /)
+
+> +	} else {
+> +		kfree(pathbuf);
+> +		char *ret = kstrdup(elf_interpreter, GFP_KERNEL);
+> +
+> +		return ret ? ret : ERR_PTR(-ENOMEM);
+
+This is the same as the logic top of the function. This repetition smells
+of the LLM. :)
+
+> +	}
+> +
+> +	resolved = kasprintf(GFP_KERNEL, "%s%s", path, elf_interpreter + 7);
+> +	kfree(pathbuf);
+> +	if (!resolved)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	return resolved;
+> +}
+> +EXPORT_SYMBOL(resolve_elf_interpreter);
+> +
+>  #ifdef CONFIG_EXEC_KUNIT_TEST
+>  #include "tests/exec_kunit.c"
+>  #endif
+> diff --git a/include/linux/binfmts.h b/include/linux/binfmts.h
+> index 2c77e383e..17419cd3d 100644
+> --- a/include/linux/binfmts.h
+> +++ b/include/linux/binfmts.h
+> @@ -150,4 +150,6 @@ extern ssize_t read_code(struct file *, unsigned long, loff_t, size_t);
+>  int kernel_execve(const char *filename,
+>  		  const char *const *argv, const char *const *envp);
+>  
+> +char *resolve_elf_interpreter(struct linux_binprm *bprm, const char *elf_interpreter);
+> +
+>  #endif /* _LINUX_BINFMTS_H */
+> -- 
+> 2.51.2
+> 
+
+So, I guess, I'd like more convincing, but I'm very happy to see a KUnit
+test included!
+
+-Kees
+
+-- 
+Kees Cook
