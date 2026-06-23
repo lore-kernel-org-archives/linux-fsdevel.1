@@ -1,118 +1,129 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35A254652;
-	Tue, 23 Jun 2026 12:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1C5218592;
+	Tue, 23 Jun 2026 13:12:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782219072; cv=none; b=PqGKVuKeBt+1Sou42g/73i0P2w//zplCZtBrYd2l3MCEbBsBXg0ROsFtjXYKcDjo1oZF5Fq+WtKW0xcoskb5uKnlGR5KQqSXyR2E3a+g3wmeNjX+6PznKmsH1KkW8ljChA3nwqlImzuwG9/hlHS3W/FaZ/hzPBztfTczIETmObo=
+	t=1782220371; cv=none; b=k4+1R4iY9rMclE/9Zw12gbOg/zQnmFcRLBhil5lE8MgEiWcAuLqkfGaUzyPR35mpFAGI04dqsrJ79fOXFDdnlR3F8SJ0EoZIdgR74fmlUmIfGrDOmre88zkcQpasg+91Mrn4SQ/TODHobMCDOnYRGfdgXpvjC4Hk1IHEfFdjijc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782219072; c=relaxed/simple;
-	bh=n0onqu2lNVvigXhvhU6yD7ENF58nxs5ldu7UTpQUBGE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jM4OCkHoNV89wIBkAPSjLYebyGj0lvHDDYbjuxDzMQuKsUtTnoMJQ1JQQNAGt8iNcV+29czBxIeGornIoCA0wXYK5yZtF2Wh7uP70/oPWkUlYG5kGxZMV5p7r6Nk2Gxn7QDwDGNqZN/icUy48iMtJGZcYU9TOCifA8u+wUF6iY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=LiQFJplK; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1782220371; c=relaxed/simple;
+	bh=LuXejG0zn+L5dDE9r+JIoNsNQIfW2IgJExa7sTKqB7Q=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ALC6IxDqo9hDbg1um8wHC9kpy4kGp5yV1JofRi2Q7mEplEt9e6/EB30mQRx/fwEaQPN+0TXcJt3IB8eGz/Ufn5H9xx4UpzsOrp8kMsa1j2LsXeIWF7JSqCECknUNsE1rkRxpj5DC7jjTw5pQuMRGlW3BnP4yuBBPOPAmf74Kq5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ViufDM0E; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="LiQFJplK"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Mh9BxkZKhF75YYaZJCyW42tNBJ5dFvL68uL9K+9zjR8=; b=LiQFJplKKHlTJAvsfdhJX3hvsj
-	tkg2tYRKP2kQq4n3/eG8v0tGk7rT48aWRyFLOHYQDL1DCKDc6AO7fCMDJylL+jWJIU8nmWfmQzM7P
-	gy6FLJ/ky8mtRPdIYMtWiT7PakXOBXH9FCYzAoN2xbpUhtoPCOx+cD/7YrUAAO12SUvfAFuQgiRoO
-	zrl4zoYHahQ9RIYGvTDc9mi4E8/NXop40u8jW5AM6mJAn9jY6l5PtDjFCwGAn9flN57RUD5yjQlU1
-	XMjq1zebAI1xwW5Nl3jtIA+V84cLg3fh6tlVvHzhuXoGe0fuhaeXX83E7S7CJOc2XU3Kd+8Yd/bz8
-	7ckSV4xQ==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wc0aa-001ey8-11;
-	Tue, 23 Jun 2026 12:50:52 +0000
-Date: Tue, 23 Jun 2026 05:50:46 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Hannes Reinecke <hare@kernel.org>
-Cc: Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH RFC v3 01/12] fs/configfs: rework configfs_is_root()
-Message-ID: <ajqASYHIzw3k7Okn@gmail.com>
-References: <20260623-configfs-ns-v3-0-841c100fd5dd@kernel.org>
- <20260623-configfs-ns-v3-1-841c100fd5dd@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ViufDM0E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 922CF1F000E9;
+	Tue, 23 Jun 2026 13:12:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782220370;
+	bh=+rzFpQ8O/10QiSxDOc9EPIkCdPQE1on2cJQrgpHbAZE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=ViufDM0EZ7iUxbOYXY2wdI5lAjc9KlTZkhijrIJU9IXCwHIq77eaTYi1q+b++HSJt
+	 jRu44bv9q4fNbTcplpUTdl0GDJZVn840Fzexjq6sM7GPsYSYiTwtSkcLVYnzJSyZXC
+	 XfMSaa+2lXkLKi3I8GME16fOL0/IlJBx82RnEsWbIgLgfIOVvDS8Fqgg/B4uDOaU0P
+	 8Yzb+3txaIfMRxZ3u8Rw2Mf2i/3MpTM5foSzb9RR+Z7S8KQiluZIW5EyK08LEoiVk6
+	 4B8eyMNZnIAxVokQYMJlAOvP7Ap0MNQAr72k2+A6DrfvBqVFG4VbXV4/dMqiiLtFsS
+	 GX+wqSW8Cjyqg==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: Gary Guo <gary@garyguo.net>, Miguel Ojeda <ojeda@kernel.org>, Gary Guo
+ <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Benno
+ Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor
+ Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Dave Ertman
+ <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, Leon
+ Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, Serge
+ Hallyn <sergeh@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Alexander
+ Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>, Daniel Almeida <daniel.almeida@collabora.com>,
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen
+ Boyd <sboyd@kernel.org>, Bjorn
+ Helgaas <bhelgaas@google.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, Boqun Feng <boqun@kernel.org>, Uladzislau
+ Rezki <urezki@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil
+ Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Igor
+ Korotin <igor.korotin@linux.dev>, Pavel Tikhomirov
+ <ptikhomirov@virtuozzo.com>
+Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
+ driver-core@lists.linux.dev
+Subject: Re: [PATCH v17 03/10] rust: implement `ForeignOwnable` for `Owned`
+In-Reply-To: <DJAGDGPKZ4HX.M47NMAU53PCJ@garyguo.net>
+References: <20260604-unique-ref-v17-0-7b4c3d2930b9@kernel.org>
+ <20260604-unique-ref-v17-3-7b4c3d2930b9@kernel.org>
+ <DJAGDGPKZ4HX.M47NMAU53PCJ@garyguo.net>
+Date: Tue, 23 Jun 2026 15:10:44 +0200
+Message-ID: <87echxpfl7.fsf@t14s.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260623-configfs-ns-v3-1-841c100fd5dd@kernel.org>
-X-Debian-User: leitao
+Content-Type: text/plain
 
-hello hannes,
+"Gary Guo" <gary@garyguo.net> writes:
 
-On Tue, Jun 23, 2026 at 11:15:46AM +0200, Hannes Reinecke wrote:
-> In preparation for making configfs namespace-aware rework
-> configfs_is_root() to not rely on static structures but
-> rather use the information in the structures themselves.> 
+> On Thu Jun 4, 2026 at 9:11 PM BST, Andreas Hindborg wrote:
+>> Implement `ForeignOwnable` for `Owned<T>`. This allows use of `Owned<T>` in
+>> places such as the `XArray`.
+>>
+>> Note that `T` does not need to implement `ForeignOwnable` for `Owned<T>` to
+>> implement `ForeignOwnable`.
+>>
+>> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+>> ---
+>>  rust/kernel/owned.rs | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 46 insertions(+)
+>>
+>> diff --git a/rust/kernel/owned.rs b/rust/kernel/owned.rs
+>> index 456e239e906e..5eacdf327d12 100644
+>> --- a/rust/kernel/owned.rs
+>> +++ b/rust/kernel/owned.rs
+>> @@ -15,6 +15,8 @@
+>>      ptr::NonNull, //
+>>  };
+>>  
+>> +use kernel::types::ForeignOwnable;
+>> +
+>>  /// Types that specify their own way of performing allocation and destruction. Typically, this trait
+>>  /// is implemented on types from the C side.
+>>  ///
+>> @@ -108,6 +110,7 @@ pub trait Ownable {
+>>  ///
+>>  /// - Until `T::release` is called, this `Owned<T>` exclusively owns the underlying `T`.
+>>  /// - The `T` value is pinned.
+>> +#[repr(transparent)]
+>
+> AFAIT this `#[repr(transparent)]` isn't actually needed.
 
-Thanks for the cleanup.  The approach looks fine: CONFIGFS_ROOT is
-only ever set on the single static configfs_root dirent.
+I'll drop it.
 
-Nit: "namespace-aware rework configfs_is_root()" reads as if a comma is
-missing -- "... namespace-aware, rework configfs_is_root() ...".
+>
+>>  pub struct Owned<T: Ownable> {
+>>      ptr: NonNull<T>,
+>>  }
+>> @@ -185,3 +188,46 @@ fn drop(&mut self) {
+>>          unsafe { T::release(self.ptr.as_mut()) };
+>>      }
+>>  }
+>> +
+>> +// SAFETY: We derive the pointer to `T` from a valid `T`, so the returned
+>> +// pointer satisfy alignment requirements of `T`.
+>> +unsafe impl<T: Ownable + 'static> ForeignOwnable for Owned<T> {
+>
+> You should drop the `'static` bound and put where bound on the GAT below
+> instead. See how `Box` is doing it.
+
+I will take a look.
 
 
+Best regards,
+Andreas Hindborg
 
 
-
-> Signed-off-by: Hannes Reinecke <hare@kernel.org>
-> ---
->  fs/configfs/configfs_internal.h | 2 +-
->  fs/configfs/mount.c             | 9 +++++++--
->  2 files changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/fs/configfs/configfs_internal.h b/fs/configfs/configfs_internal.h
-> index acdeea8e2d69ac9d621e1a42b039719811c31757..6261e1f3ec201a58a5d46b08dfbced8c2a44d82b 100644
-> --- a/fs/configfs/configfs_internal.h
-> +++ b/fs/configfs/configfs_internal.h
-> @@ -63,7 +63,7 @@ extern spinlock_t configfs_dirent_lock;
->  
->  extern struct kmem_cache *configfs_dir_cachep;
->  
-> -extern int configfs_is_root(struct config_item *item);
-> +extern bool configfs_is_root(struct config_item *item);
->  
->  extern struct inode * configfs_new_inode(umode_t mode, struct configfs_dirent *, struct super_block *);
->  extern struct inode *configfs_create(struct dentry *, umode_t mode);
-> diff --git a/fs/configfs/mount.c b/fs/configfs/mount.c
-> index 4929f343118946eaa55a539db4192e9c6621a8dc..88da7b428e52f2f4ab139ad3907101f685d617b1 100644
-> --- a/fs/configfs/mount.c
-> +++ b/fs/configfs/mount.c
-> @@ -47,9 +47,14 @@ static struct config_group configfs_root_group = {
->  	},
->  };
->  
-> -int configfs_is_root(struct config_item *item)
-> +bool configfs_is_root(struct config_item *item)
->  {
-> -	return item == &configfs_root_group.cg_item;
-> +	struct configfs_dirent *sd;
-> +
-> +	if (!item->ci_dentry)
-> +		return false;
-> +	sd = item->ci_dentry->d_fsdata;
-> +	return !!(sd->s_type & CONFIGFS_ROOT);
-
-The old helper was a pure pointer comparison and never touched item, so it
-tolerated a NULL or not-yet-attached item.  The new one dereferences
-it (item). I suppose that item is never being called as NULL?!
-
-Thanks
---breno
