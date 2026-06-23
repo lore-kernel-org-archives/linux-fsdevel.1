@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C773C769F;
-	Tue, 23 Jun 2026 09:16:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9843C7DE8;
+	Tue, 23 Jun 2026 09:16:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782206180; cv=none; b=Y/zYqE7e1ubgxFA48LoSKvEUIbEX0sY0dtPC5qgQPH+Og1UuXezNKRacdew9GhT9cRU8DHc1B3pTTmKLpvgeMjcghn68gvbv/v5Lud2sxWvdi8i3Z8jhLPtFRmc+b+JAbQC1VAOS0bi2wpWS/KA664sYHHjn4vetICoopYHKhFA=
+	t=1782206183; cv=none; b=jtIdoYePIziEZ6ctiC1WNOGW39bUvV7QNsvPeR+MN6WDcaEHzhIgYILmIVTyNwQ5biNkAevqE93ZsTai4VvCc8Pt9UTXNdUmpTwl4hvJBPvMS07EhSH7GpX5SOOawEny5SLq17gG8+Hr1Wl80Gd0sD3+MLrGpbSQ2NgwBaFslwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782206180; c=relaxed/simple;
-	bh=pIunaHgmEA4Zdll7x1jJRRd3E+yXa2T7gixz2iydD8o=;
+	s=arc-20240116; t=1782206183; c=relaxed/simple;
+	bh=FJV4Qtadh95tNUoGTBfTx4N6VClvPDUcz3P43AJFQLc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MD6+GBJX/VyeZ6rSBCz2Hgjx3rC793NI6jG+7RMs/Z4jGPZEujtGNZy0a6hNXkD/HWUi0SPAh+YDBC8QAPMQTkEKBmKznD6LVD24EAY2twq/niOx0DRi4VnbrFHsd9iljycNrGBpGc2384hm0A4p5ixn1ala9eq4na629dCMR0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JaQ1tPrG; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=Iq2hZLZ7K03xSlZXCF2ojoyRsg/dyvUDRFpm9oLX6kXNOEC43xR2WEvcgqkkjBhZsQzobJwdl66bhRC55x50vwgIMO+jVfBCA1YLDJI5xJb58cs4ugZ9SW/gHe1Ln5xxA8j1MmiZmR8GTGNZspCXveYLXLt8ftVu7APc8DlEndY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qz1N5Ce0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JaQ1tPrG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60D8D1F00A3A;
-	Tue, 23 Jun 2026 09:16:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qz1N5Ce0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C5981F00A3D;
+	Tue, 23 Jun 2026 09:16:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782206178;
-	bh=KBSboo+CA2yUF+AF4ifaQTvIYsLyMTeWL8AkYviRzUU=;
+	s=k20260515; t=1782206181;
+	bh=cTu6x6XxRI5vzWe/MWN740NA2s7n0Z9WiTKtNaIwedM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=JaQ1tPrGYir00Nr8NuXwjW5F4YWHELuYwLyYX7hjYHu55xpypjus6i6tgZXOOmzPa
-	 LsO1ibpjvRbl69HfV8JYVygYfDGn4Vp9hzfdMTUMyBtFAZtOs4a2we5n4T+1VX8uXg
-	 waUlkiQvw9gyB00Q5Guyqpvuk7ktfPw5tQ0Mq/VF7Dl3nenMM8512jRpenbPYEIva1
-	 ++mV3bg/S6BIE33Ic7p0ghrbiWHwnfNZZo09Rol7/nqt1fiUxmHPuvbRxRFcDDhRcZ
-	 SO9Hyfw0u9bZVmZirE7XuKzIyiRK50IaDNT/626HYpmJk8hK4CuUJ4J2SEkl5Y1xQJ
-	 69Srd6fbmASUg==
+	b=Qz1N5Ce0e66067aoO61H349OhKtAtb804mnwRcQ8wbhDjbm7qoH1FZNVKCLeTklEJ
+	 lTOO2UcnNN4BnrNNl6n4XD6TLcZE/qDgRM3QYzds+2wwbKSGKPuIevN19mHYuq8ZOa
+	 LuZjWlHk4AXhQ+IzRjnNj+ifZagYRqlqBl9HrgQxdHd0c8fXE8X8ucH9/i0QvjPq6v
+	 QAgI6vrYawbB9Pip9VgRDb99MhjBiWHcnTv09PFcumChLwCyYRvRuAT4uKTNjfjUlI
+	 59PEIJXEvt4k7QbCyonHikTfFSIivO+BHivo9bmW9AiYYLafI1+Kwicl+0K9uYMqVK
+	 +a77oyR2thYGg==
 From: Hannes Reinecke <hare@kernel.org>
-Date: Tue, 23 Jun 2026 11:15:51 +0200
-Subject: [PATCH RFC v3 06/12] fs/namespace: implement mnt_clone_direct()
+Date: Tue, 23 Jun 2026 11:15:52 +0200
+Subject: [PATCH RFC v3 07/12] fs/configfs: switch to get_tree_keyed()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260623-configfs-ns-v3-6-841c100fd5dd@kernel.org>
+Message-Id: <20260623-configfs-ns-v3-7-841c100fd5dd@kernel.org>
 References: <20260623-configfs-ns-v3-0-841c100fd5dd@kernel.org>
 In-Reply-To: <20260623-configfs-ns-v3-0-841c100fd5dd@kernel.org>
 To: Andreas Hindborg <a.hindborg@kernel.org>, 
@@ -48,56 +48,103 @@ To: Andreas Hindborg <a.hindborg@kernel.org>,
 Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  linux-nvme@lists.infradead.org, Hannes Reinecke <hare@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782206158; l=1649;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782206158; l=2892;
  i=hare@kernel.org; s=20260619; h=from:subject:message-id;
- bh=pIunaHgmEA4Zdll7x1jJRRd3E+yXa2T7gixz2iydD8o=;
- b=D2VnHbmfHK0vvxHmec368YA3MKqEo4rqBgcpqsA5fPGYQ1sLr98wGhHgB9fPC8ElzMrfW76Iy
- R2AFEJY+Hm1Bc7vCqSSFdIzJo54Bvn54vLqugGwQtwyLAhcuxuR2dYO
+ bh=FJV4Qtadh95tNUoGTBfTx4N6VClvPDUcz3P43AJFQLc=;
+ b=F7pBShUXZ875Ba2ORmmZ30mK3V91nwhxZYI1QftOCGqDTMxjDZUrP6p4woUTKd+7hpfi6HQqp
+ RaHl/4ov/KBAX5bPCGRAxIdNq+9fGfm7ka7CWpnHcgM6GLoDw18QGnv
 X-Developer-Key: i=hare@kernel.org; a=ed25519;
  pk=iekPF4ZZFva3sutm7d1ryPNR1G/WFfUgHaDB423JXho=
 
-Implement mnt_clone_direct() to just clone an existing vfsmount.
+Switch to get_tree_keyed() to instatiate a new superblock whenever
+the mount namespace changed.
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
 ---
- fs/namespace.c        | 11 +++++++++++
- include/linux/mount.h |  1 +
- 2 files changed, 12 insertions(+)
+ fs/configfs/mount.c | 31 ++++++++++++++++++++++++++-----
+ 1 file changed, 26 insertions(+), 5 deletions(-)
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index 3d5cd5bf3b05376c867281541100c6a5e599d387..e7abbf632cc70d70547e4a2483f2217c95cc0c48 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -1482,6 +1482,17 @@ struct vfsmount *mnt_clone_internal(const struct path *path)
- 	return &p->mnt;
- }
+diff --git a/fs/configfs/mount.c b/fs/configfs/mount.c
+index d36fc4a6f6439bea645e62b8423b518a5d7d51c1..bcc403f96d25d8385f6c903d40fa752da2610979 100644
+--- a/fs/configfs/mount.c
++++ b/fs/configfs/mount.c
+@@ -123,11 +123,10 @@ void configfs_put_super_info(struct configfs_super_info *info)
  
-+struct vfsmount *mnt_clone_direct(struct vfsmount *mnt, struct dentry *dentry)
-+{
-+	struct mount *p;
+ static int configfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ {
+-	struct configfs_super_info *info = configfs_get_super_info(&init_net);
++	struct configfs_super_info *info = sb->s_fs_info;
+ 	struct inode *inode;
+ 	struct dentry *root;
+ 
+-	sb->s_fs_info = info;
+ 	sb->s_blocksize = PAGE_SIZE;
+ 	sb->s_blocksize_bits = PAGE_SHIFT;
+ 	sb->s_magic = CONFIGFS_MAGIC;
+@@ -138,7 +137,6 @@ static int configfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 				   &info->root, sb);
+ 	if (IS_ERR(inode)) {
+ 		pr_debug("could not get root inode\n");
+-		configfs_put_super_info(info);
+ 		return PTR_ERR(inode);
+ 	}
+ 	inode->i_op = &configfs_root_inode_operations;
+@@ -149,7 +147,6 @@ static int configfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	root = d_make_root(inode);
+ 	if (!root) {
+ 		pr_debug("%s: could not get root dentry!\n",__func__);
+-		configfs_put_super_info(info);
+ 		return -ENOMEM;
+ 	}
+ 	info->group.cg_item.ci_dentry = root;
+@@ -165,15 +162,38 @@ static int configfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 
+ static int configfs_get_tree(struct fs_context *fc)
+ {
+-	return get_tree_single(fc, configfs_fill_super);
++	struct net *net_ns = fc->fs_private;
++	struct configfs_super_info *info;
++	int err;
 +
-+	p = clone_mnt(real_mount(mnt), dentry, CL_SLAVE);
-+	if (IS_ERR(p))
-+		return ERR_CAST(p);
-+	p->mnt.mnt_flags |= MNT_INTERNAL;
-+	return &p->mnt;
++	info = configfs_get_super_info(net_ns);
++	if (IS_ERR(info))
++		return PTR_ERR(info);
++
++	err = get_tree_keyed(fc, configfs_fill_super, info);
++	if (err && fc->s_fs_info)
++		configfs_put_super_info(info);
++	return err;
 +}
 +
- /*
-  * Returns the mount which either has the specified mnt_id, or has the next
-  * smallest id afer the specified one.
-diff --git a/include/linux/mount.h b/include/linux/mount.h
-index acfe7ef86a1b3fdd70ab460e6e731d3c532b6487..7e7e7d66c3024b907497954a247c7e35dbcfc946 100644
---- a/include/linux/mount.h
-+++ b/include/linux/mount.h
-@@ -75,6 +75,7 @@ extern void mnt_drop_write_file(struct file *file);
- extern void mntput(struct vfsmount *mnt);
- extern struct vfsmount *mntget(struct vfsmount *mnt);
- extern void mnt_make_shortterm(struct vfsmount *mnt);
-+extern struct vfsmount *mnt_clone_direct(struct vfsmount *mnt, struct dentry *dentry);
- extern struct vfsmount *mnt_clone_internal(const struct path *path);
- extern bool __mnt_is_readonly(const struct vfsmount *mnt);
- extern bool mnt_may_suid(struct vfsmount *mnt);
++static void configfs_fs_context_free(struct fs_context *fc)
++{
++	struct net *net_ns = fc->fs_private;
++
++	fc->fs_private = NULL;
++	put_net(net_ns);
+ }
+ 
+ static const struct fs_context_operations configfs_context_ops = {
+ 	.get_tree	= configfs_get_tree,
++	.free		= configfs_fs_context_free,
+ };
+ 
+ static int configfs_init_fs_context(struct fs_context *fc)
+ {
++	struct net *net_ns = get_net(current->nsproxy->net_ns);
++
++	fc->fs_private = net_ns;
+ 	fc->ops = &configfs_context_ops;
+ 	return 0;
+ }
+@@ -193,6 +213,7 @@ static struct file_system_type configfs_fs_type = {
+ 	.name		= "configfs",
+ 	.init_fs_context = configfs_init_fs_context,
+ 	.kill_sb	= configfs_kill_sb,
++	.fs_flags	= FS_USERNS_MOUNT,
+ };
+ MODULE_ALIAS_FS("configfs");
+ 
 
 -- 
 2.51.0
