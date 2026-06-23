@@ -1,102 +1,85 @@
-Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5F53B27E9
-	for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 22:24:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.67.55.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB3D73AE6E9
+	for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 23:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782253448; cv=none; b=ue8uifGGWSsHfFf0fjCBk2sNyZTYX63Ic3hOi2NFIFakBYVnqTve+hvvxYFH7kafTFwGu8bK9opnzdcr+xBjDOHEVDmfRlZvhLtcEwVk8on8110JS8qm0kfswbcjAC5HWy6gxsRP+sBHUxbA05t0l/DAMXjGZ87OFsjMU3Sg3NY=
+	t=1782259076; cv=none; b=LAUtZu4lrh6Py27SLvcdnGVp+qD7LDXwyFiX0XuhzguVgmG8UA5cMWCg6sImmpVW1JnmDmI8E2lH1UXEjEr4IFasV4NcvU8gddh0gaH7l01tEltfIFOjD8ZzISu1TdLMZVg/n1Mcyh4WEY/R87hgZfLabbBfBCAnnDgv33cqli4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782253448; c=relaxed/simple;
-	bh=BGhneuItUz7KOzuK/epKfC9DwI9TTG3U2/mjyrDhuFU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=u5IdKhyNtHJA7ipZSColv8tqkJZhhTCKQFNuku/Y6ovsqMC8Eu2+LhvUjcI8S+l52kp1X8fZaM9tK1LYpKazos6jKH+fO9zX7UiZHFqA3IHaB8rMbMp/Ci4ymFtzf/c45a00GaegMmByehrT/mZxeRHeTqeIjfXQnD4V9IUexx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surriel.com; spf=pass smtp.mailfrom=surriel.com; dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b=UqN3+Cw8; arc=none smtp.client-ip=96.67.55.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surriel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=surriel.com
+	s=arc-20240116; t=1782259076; c=relaxed/simple;
+	bh=KqGn8ILr8rivUMjbzc6Yupu72XeCvMJgyPbmPOCj0EQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eSvlisp0gCdov6TxUUoiO75VNF8LPxuAPmYYxhZoEjBCTvf8ZZ/0HCcKPXZRRGPT3uedFhmvMWE7Ybe6H7hqTHNzqG+i7bJFXujY+6R/Pw99VC/MZpxtEr6Ex099zTk/QqmI3rTxWEQ5d0XTHLR0OhrMVSZ+83SG1PkFotkzBoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TNsrka6j; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b="UqN3+Cw8"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=surriel.com
-	; s=mail; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=BGhneuItUz7KOzuK/epKfC9DwI9TTG3U2/mjyrDhuFU=; b=UqN3+Cw8lnLkXQku8/2OqCKTwi
-	htxm8ZztcdBM3HX7YGIOz9jjw/iuaOVE6gzUvnN5ByKL3jFwsjJnxalCnLfGAJgVMm8piWV+X4ytU
-	9UIsoz8V/P1DPoWzO7SNh4HbWBSY720M05icATzMfZ3MYTodXeC2kGmTO8sbmRQfWIujBYGKDj5dC
-	vun45bcMbQMBFzRkYM6rK39mBsbzxuHvpdedI1jzh+NDdnH15nv9GkmdGu1RTZRBPkf/yXXH1w7kM
-	9XrUcS7eznhh3hPFjyvzAUul/pXqdZzmu/76RchhAs/R+WSlkht06MVwckfmarIHs2V7bXpG+hWWp
-	If/mmZyQ==;
-Received: from fangorn.home.surriel.com ([10.0.13.7])
-	by shelob.surriel.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.97.1)
-	(envelope-from <riel@surriel.com>)
-	id 1wc9Wl-000000007sj-0IMB;
-	Tue, 23 Jun 2026 18:23:31 -0400
-Message-ID: <82a3c10f5a59bc6961b5faf2fbed5727c1c8ea84.camel@surriel.com>
-Subject: Re: [PATCH] fs: Free any excess xarray nodes in clear_inode()
-From: Rik van Riel <riel@surriel.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton
-	 <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, Zi Yan
- <ziy@nvidia.com>,  Jinjiang Tu <tujinjiang@huawei.com>, Dave Jones
- <davej@codemonkey.org.uk>
-Date: Tue, 23 Jun 2026 18:23:30 -0400
-In-Reply-To: <20260623192850.1595958-1-willy@infradead.org>
-References: <20260623192850.1595958-1-willy@infradead.org>
-Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
- keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33A
- eo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47
- Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/
- lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdY
- dIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gU
- mllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986o
- gEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/
- r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHV
- WjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o
- 6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635
- Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE
- +BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTe
- g4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/jddPx
- KRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/Ne
- fO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z
- 3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0Mm
- G1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tP
- okBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznneko
- TE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44N
- cQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhI
- omYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0Ip
- QrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkE
- c4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TNsrka6j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E9271F00A3A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 23:57:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782259074;
+	bh=vo3jkQBWmueCqXflda8hT63tzPuxvWggLYs1HwSrVm4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=TNsrka6jYQMLueD/PdSasDs+OjVGkeRSLwKwpfhI7Ix02RkrecnNvRB2Nhyi0eicc
+	 NiY9OQO6xlDnlj2Z3HsYdZBLqRAJ8/cA1Fjd3YOmJAlv7+KL850tbn2Vi0rmiNog2O
+	 dHpCe9cDf6OMbjE3pPD+XkTxyBIRJkfsR5LJZ9VXiZUPWNSi0ykS52jrP2QKLtzzXF
+	 k48+AlWo/FsLD3jxA2JOLBh1lSJRhd3wLl6p8zumHUcrysJGzu4tAHJz1P9uBGniuY
+	 kSrEJNzPNHQ7E17CWo2tM8WOPrXeIhG8su2u3MVTkx1I7QOdrwvNQyl69wO5Nua3jz
+	 j7lfsBCz1ODXg==
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-697de335c18so710878a12.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 16:57:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/bNVTNYgfj6DssbgP5xb8ARz6dkZkXOSfrohlIctifgda5jSd27f0bRySzecOPh5+pYBg2vqyt1eKuXNx/@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJMj76d6FO91bJSlquxueJcRN1OaHNV64SJAeVFpB7V99P6sBj
+	jtqz9eq9pGFoqLM++lVv1zQ+EryVIgeyn8Zdjo6p7PMLJ5bT7Vke/y2YNuhclKgvqPnWMvtF77Y
+	xGXIO/og5LH+1okRRa+L4lPjm/UVyP9I=
+X-Received: by 2002:a17:907:db18:b0:c0d:a1e4:882a with SMTP id
+ a640c23a62f3a-c119de5e576mr32644966b.5.1782259073275; Tue, 23 Jun 2026
+ 16:57:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260623135208.1812933-1-hch@lst.de> <20260623135208.1812933-2-hch@lst.de>
+In-Reply-To: <20260623135208.1812933-2-hch@lst.de>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Wed, 24 Jun 2026 08:57:40 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd-egHG+EKwpOn1c5drMuuMiv_BNgNRtAZCjscShXwbofA@mail.gmail.com>
+X-Gm-Features: AVVi8Cc6T1k2fn50nfPiKDEdqJoYNhysDxZSt3v-_fDgmbnKqkaZpC3l_SiSFfk
+Message-ID: <CAKYAXd-egHG+EKwpOn1c5drMuuMiv_BNgNRtAZCjscShXwbofA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] iomap: consolidate bio submission
+To: Christoph Hellwig <hch@lst.de>
+Cc: Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, Kelu Ye <yekelu1@huawei.com>, 
+	Yifan Zhao <zhaoyifan28@huawei.com>, Ritesh Harjani <ritesh.list@gmail.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Sungjong Seo <sj1557.seo@samsung.com>, 
+	Hyunchul Lee <hyc.lee@gmail.com>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, ntfs3@lists.linux.dev, 
+	linux-erofs@lists.ozlabs.org, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2026-06-23 at 20:28 +0100, Matthew Wilcox (Oracle) wrote:
-> For many years we've had a hard to hit leak of xarray nodes.=C2=A0 Hugh
-> documented it well in commit 786b31121a2c.=C2=A0 Recently people and
-> syzbot have found ways to force it to happen with madvise.=C2=A0 Rather
-> than fix the leaks where they happen, just call xa_destroy() which
-> has the side-effect of cycling the i_pages lock.
->=20
-> Cc: Rik van Riel <riel@surriel.com>
-> Cc: Zi Yan <ziy@nvidia.com>
-> Cc: Jinjiang Tu <tujinjiang@huawei.com>
-> Cc: Dave Jones <davej@codemonkey.org.uk>
-> Link:
-> https://lore.kernel.org/all/20260121062243.1893129-1-tujinjiang@huawei.co=
-m/
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
->=20
-Reviewed-by: Rik van Riel <riel@surriel.com>
-
-
---=20
-All Rights Reversed.
+On Tue, Jun 23, 2026 at 10:52=E2=80=AFPM Christoph Hellwig <hch@lst.de> wro=
+te:
+>
+> Add a iomap_bio_submit_read_endio helper factored out of
+> iomap_bio_submit_read to that all ->submit_read implementations for
+> iomap_read_ops that use iomap_bio_read_folio_range can shared the
+> logic.
+>
+> Right now that logic is mostly trivial, but already has a bug for XFS
+> because the XFS version is too trivial:  file system integrity validation
+> needs a workqueue context and thus can't happen from the default iomap
+> bi_end_io I/O handler.  Unfortunately the iomap refactoring just before
+> fs integrity landed moved code around here and the call go misplaced,
+> meaning it never got called.  The PI information still is verified by
+> the block layer, but the offloading is less efficient (and the future
+> userspace interface can't get at it).
+>
+> Fixes: 0b10a370529c ("iomap: support T10 protection information")
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+for ntfs, exfat part.
+Acked-by: Namjae Jeon <linkinjeon@kernel.org>
+Thanks!
