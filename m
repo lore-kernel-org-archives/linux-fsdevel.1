@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDFFF3CF96D;
-	Tue, 23 Jun 2026 09:16:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30D93D45D5;
+	Tue, 23 Jun 2026 09:16:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782206186; cv=none; b=CjrktjuNaI+IQdRRbv7mty3wDHUCsniO7JDPFuXXW89w2Toi41WsuxJPKhVlczJ0iHOARd6IoKnKJap2EPMgGWP69TuNAPa3u9P8l1OruNALT37sh6ZZtI8ANpzmk5XwekFPE5mjXRJ/erd0Oypm9M9LNf//Mi3S4XrOHhX9qes=
+	t=1782206189; cv=none; b=bIdJctEw+3/ozZS7wunjnnCMGX6ndTnqdEZ2sUbMezFTGs5T7VIxfQ7Qd64pkSQ7/h7MnjUEC/M0xNDq7MQpVQB/4UzBYJIZWsuMlxjLZorb3lnWXNCek9sxhZRnN0rq2hefse+yvOVXp8yeorgkFexsOL9F977lNnJ96kD9gFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782206186; c=relaxed/simple;
-	bh=MVTYWmct97EfJDIEhTaWhdq0zmtVBW7sYPmXGxzAlyY=;
+	s=arc-20240116; t=1782206189; c=relaxed/simple;
+	bh=6Slvd7PHbPTVG64F5yRfN2Jq/00r4Jeyd4q4sRH65Yg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tlGzqIgDq44UAWtvSeZZJAWpfnUPgmNc8rDBre38rAfm8+VhILk9m5awxEEL7bcrua/pIDy5Pj6aBRpdT96oHIH20t0gKOYh+GFUByFi+yTJWDhZb0OAcYNAovYSKFcsyBfFFaPcicN8vcF7OeP66dgsZnPxx/z4Z7Fm9gJZlmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ofkqs4YW; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=PtvOnE6l/3uWtcUWtswWOmrIi2uXDm5TSV/lMHuamgKASiEG6zocopqlp8XAEMyON9kPnrgPJ0q9ag659EWMhgn+DxES7KV3yEPoVjc58BMnWuhMfKT8OT7sz4paanOfcp8l5nfmMaacSEGSyyExbHAIBv1Kv2VhDk0QMTlg6rQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=emVaMWPW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ofkqs4YW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37CC71F000E9;
-	Tue, 23 Jun 2026 09:16:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="emVaMWPW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 238161F00A3A;
+	Tue, 23 Jun 2026 09:16:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782206184;
-	bh=4Hwti9nFw4mnx7748PeCxxo0AdZPbRq8oHtQ+0eU24M=;
+	s=k20260515; t=1782206187;
+	bh=QCsS+rFDtXHrZIpjDnMkofQrvh6A0Az++BxVe5umTgQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=ofkqs4YW0dUVIhyMyN65kKDjbkgYoPFqCBXzqyIKNH9z1MQegN8/yOiHGN74n0mcl
-	 ImTRS8dG4vWR0XPhuiTdHtVBXscdlMCLzeO15S1x8O4OUnCVTOo1ah6pChrCjaUIam
-	 A/e7PHe7+GD0qvX5lcKXTSUMLSITKuu2W/IfqDYNZzgjfQ8w2RVcDbxnJLEuj74GnK
-	 c4gdRoHEvBN1J+R+cbKd491BZ3KeG/JR7UBGdzWWQywX4KM/bJO7oscolgxns782LD
-	 0dLQ7zBD+6Hg6U4HSzzn/J5KrRkq0maSk6QyxVjUXiy6V35K5E8ip4HkqXGmu6IK54
-	 JZ4xiFrfe21OQ==
+	b=emVaMWPWSFOSKk6IXvh1Za+pBZ2gZzqzcDtS6rYwUbp5xN/yTMW1jC7nwGjjTMleS
+	 4g0V1w0FAxklpFYugjLZOBZTi/IUSQXyLWLgj6HOLk+gT5asPjh8SGuSzx7K0KIV/A
+	 55f3Tp2TbPrgNPoRILCNLM2Sfwe7m+u6GEQRV7f2uz5lBseU7tKg4EZB3STRnpb4f6
+	 VR0JZ1LiCA82jZc2Ran+9zMvBp6zi/bgKkaZ8JXqCwViyHQJXMVCJ9dR5PXsroihiK
+	 KF7oDiVcAUpLChKmutODYAqAuy936w1hn/SGe8+nJV2LK1zvY5qCII/fqUw9u10qE6
+	 dlS4kAcU1KHJg==
 From: Hannes Reinecke <hare@kernel.org>
-Date: Tue, 23 Jun 2026 11:15:53 +0200
-Subject: [PATCH RFC v3 08/12] fs/configfs: open-code simple_pin_fs()
+Date: Tue, 23 Jun 2026 11:15:54 +0200
+Subject: [PATCH RFC v3 09/12] nvmet: make discovery subsystem dynamic
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260623-configfs-ns-v3-8-841c100fd5dd@kernel.org>
+Message-Id: <20260623-configfs-ns-v3-9-841c100fd5dd@kernel.org>
 References: <20260623-configfs-ns-v3-0-841c100fd5dd@kernel.org>
 In-Reply-To: <20260623-configfs-ns-v3-0-841c100fd5dd@kernel.org>
 To: Andreas Hindborg <a.hindborg@kernel.org>, 
@@ -48,107 +48,378 @@ To: Andreas Hindborg <a.hindborg@kernel.org>,
 Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  linux-nvme@lists.infradead.org, Hannes Reinecke <hare@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782206158; l=2713;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782206158; l=11379;
  i=hare@kernel.org; s=20260619; h=from:subject:message-id;
- bh=MVTYWmct97EfJDIEhTaWhdq0zmtVBW7sYPmXGxzAlyY=;
- b=/PTNkMAqVNGned+QZ3KhGslq1fV4jf88UcqmrXEJeX6Gc052gwg43cAmnNNkAv3K792rYMwb4
- qv39DzYHUwLC7dAHvDObGnVlpmitvoketMPm8PWuM6wtbs0uBgML7lb
+ bh=6Slvd7PHbPTVG64F5yRfN2Jq/00r4Jeyd4q4sRH65Yg=;
+ b=zI1sYJXOh6NOdFSTQtLSe7MNAa1E0PrXIxjl++j9S4rDmE2zB9aJo2xuuYgo7h7Ng4a7aDo2d
+ /YVMDYnN/8KDERwpP5Y74bPyV4W5+K28Otbce+oWypA2GsZV/z0m/BB
 X-Developer-Key: i=hare@kernel.org; a=ed25519;
  pk=iekPF4ZZFva3sutm7d1ryPNR1G/WFfUgHaDB423JXho=
 
-simple_pin_fs() is protected by an internal spin lock, to
-protect against concurrent use of simple_release_fs().
-But as we also need to clone the mountpoint we cannot
-easily expand the scope of the lock as it's internal to
-fs/libfs. So open-code simple_pin_fs() and simple_release_fs()
-to be able to use a lock covering all use-cases.
+In preparation to make nvmet namespace-aware convert the
+discovery subsystem to dynamic allocation.
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
 ---
- fs/configfs/mount.c | 56 +++++++++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 48 insertions(+), 8 deletions(-)
+ drivers/nvme/target/configfs.c  | 33 +++++++++++++---
+ drivers/nvme/target/core.c      | 30 ++++++--------
+ drivers/nvme/target/discovery.c | 86 +++++++++++++++++++++++++++++------------
+ drivers/nvme/target/nvmet.h     | 11 ++++--
+ 4 files changed, 108 insertions(+), 52 deletions(-)
 
-diff --git a/fs/configfs/mount.c b/fs/configfs/mount.c
-index bcc403f96d25d8385f6c903d40fa752da2610979..095a480b6ea27db9a43b067af7e6352fd0ae50ee 100644
---- a/fs/configfs/mount.c
-+++ b/fs/configfs/mount.c
-@@ -25,6 +25,7 @@
- struct kmem_cache *configfs_dir_cachep;
- static DEFINE_XARRAY(configfs_super_xa);
- static struct configfs_super_info *configfs_root;
-+static DEFINE_SPINLOCK(configfs_pin_lock);
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index b88f897f06e25e3e604615c75dc55cc5b2a1f1a1..6030647cee937195d772bcf4b92cb37b6ebf9f08 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -51,6 +51,16 @@ static const struct nvmet_type_name_map nvmet_addr_family[] = {
+ 	{ NVMF_ADDR_FAMILY_LOOP,	"loop" },
+ };
  
- static u64 configfs_ns_id(struct net *net_ns)
++u64 nvmet_get_ns_id(struct net *net_ns)
++{
++	struct ns_common *ns;
++
++	if (!net_ns)
++		return 0;
++	ns = to_ns_common(net_ns);
++	return net_ns == &init_net ? 0 : ns->ns_id;
++}
++
+ static bool nvmet_is_port_enabled(struct nvmet_port *p, const char *caller)
  {
-@@ -219,21 +220,60 @@ MODULE_ALIAS_FS("configfs");
- 
- struct dentry *configfs_pin_fs(struct super_block *sb)
+ 	if (p->enabled)
+@@ -1734,14 +1744,17 @@ static const struct config_item_type nvmet_subsys_type = {
+ static struct config_group *nvmet_subsys_make(struct config_group *group,
+ 		const char *name)
  {
--	struct configfs_super_info *info = configfs_root;
--	int err;
--
--	err = simple_pin_fs(&configfs_fs_type, &info->mnt, &info->mnt_count);
--	if (err)
--		return ERR_PTR(err);
-+	struct configfs_super_info *info;
+-	struct nvmet_subsys *subsys;
++	struct nvmet_subsys *subsys, *disc_subsys;
  
-+	spin_lock(&configfs_pin_lock);
-+	if (sb) {
-+		struct configfs_super_info *root = configfs_root;
-+		struct dentry *dentry = sb->s_root;
+ 	if (sysfs_streq(name, NVME_DISC_SUBSYS_NAME)) {
+ 		pr_err("can't create discovery subsystem through configfs\n");
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
+-	if (sysfs_streq(name, nvmet_disc_subsys->subsysnqn)) {
++	disc_subsys = nvmet_get_disc_subsys(&init_net);
++	if (!disc_subsys)
++		return ERR_PTR(-ENOENT);
++	if (sysfs_streq(name, disc_subsys->subsysnqn)) {
+ 		pr_err("can't create subsystem using unique discovery NQN\n");
+ 		return ERR_PTR(-EINVAL);
+ 	}
+@@ -2308,12 +2321,17 @@ static struct config_group nvmet_hosts_group;
+ static ssize_t nvmet_root_discovery_nqn_show(struct config_item *item,
+ 					     char *page)
+ {
+-	return snprintf(page, PAGE_SIZE, "%s\n", nvmet_disc_subsys->subsysnqn);
++	struct nvmet_subsys *disc_subsys = nvmet_get_disc_subsys(&init_net);
 +
-+		info = sb->s_fs_info;
-+		if (!info->mnt) {
-+			struct vfsmount *mnt;
-+
-+			spin_unlock(&configfs_pin_lock);
-+			mnt = mnt_clone_direct(root->mnt, dentry);
-+			if (IS_ERR(mnt))
-+				return ERR_CAST(mnt);
-+			spin_lock(&configfs_pin_lock);
-+			info->mnt = mnt;
-+		} else {
-+			mntget(info->mnt);
-+		}
-+	} else {
-+		info = configfs_root;
-+		if (!info->mnt) {
-+			struct vfsmount *mnt;
-+
-+			spin_unlock(&configfs_pin_lock);
-+			mnt = vfs_kern_mount(&configfs_fs_type, SB_KERNMOUNT,
-+					     configfs_fs_type.name, NULL);
-+			if (IS_ERR(mnt))
-+				return ERR_CAST(mnt);
-+			spin_lock(&configfs_pin_lock);
-+			info->mnt = mnt;
-+		} else {
-+			mntget(info->mnt);
-+		}
++	if (!disc_subsys)
++		return -ENOENT;
++	return snprintf(page, PAGE_SIZE, "%s\n", disc_subsys->subsysnqn);
+ }
+ 
+ static ssize_t nvmet_root_discovery_nqn_store(struct config_item *item,
+ 		const char *page, size_t count)
+ {
++	struct nvmet_subsys *disc_subsys;
+ 	struct list_head *entry;
+ 	char *old_nqn, *new_nqn;
+ 	size_t len;
+@@ -2338,12 +2356,15 @@ static ssize_t nvmet_root_discovery_nqn_store(struct config_item *item,
+ 			return -EINVAL;
+ 		}
+ 	}
+-	old_nqn = nvmet_disc_subsys->subsysnqn;
+-	nvmet_disc_subsys->subsysnqn = new_nqn;
++	disc_subsys = nvmet_get_disc_subsys(&init_net);
++	if (disc_subsys) {
++		old_nqn = disc_subsys->subsysnqn;
++		disc_subsys->subsysnqn = new_nqn;
 +	}
-+	info->mnt_count++;
-+	spin_unlock(&configfs_pin_lock);
- 	return info->mnt->mnt_root;
+ 	up_write(&nvmet_config_sem);
+ 
+ 	kfree(old_nqn);
+-	return len;
++	return disc_subsys ? len : -ENOENT;
  }
  
- void configfs_release_fs(struct super_block *sb)
+ CONFIGFS_ATTR(nvmet_root_, discovery_nqn);
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 62dd59b9aa4f1c9bfd32361e3f06ab1520424ce8..1831a218319b84a1e1a1cfba7fb48e3ad40b09f7 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1798,22 +1798,27 @@ static struct nvmet_subsys *nvmet_find_get_subsys(struct nvmet_port *port,
+ 		const char *subsysnqn)
  {
- 	struct configfs_super_info *info = configfs_root;
--
--	simple_release_fs(&info->mnt, &info->mnt_count);
-+	struct vfsmount *mnt;
+ 	struct nvmet_subsys_link *p;
++	struct nvmet_subsys *disc_subsys;
+ 
+ 	if (!port)
+ 		return NULL;
+ 
++	disc_subsys = nvmet_get_disc_subsys(&init_net);
++	if (!disc_subsys)
++		return NULL;
 +
-+	spin_lock(&configfs_pin_lock);
-+	if (sb)
-+		info = sb->s_fs_info;
-+	mnt = info->mnt;
-+	if (--info->mnt_count)
-+		info->mnt = NULL;
-+	spin_unlock(&configfs_pin_lock);
-+	mntput(mnt);
+ 	if (!strcmp(NVME_DISC_SUBSYS_NAME, subsysnqn)) {
+-		if (!kref_get_unless_zero(&nvmet_disc_subsys->ref))
++		if (!kref_get_unless_zero(&disc_subsys->ref))
+ 			return NULL;
+-		return nvmet_disc_subsys;
++		return disc_subsys;
+ 	}
+ 
+ 	down_read(&nvmet_config_sem);
+-	if (!strncmp(nvmet_disc_subsys->subsysnqn, subsysnqn,
++	if (!strncmp(disc_subsys->subsysnqn, subsysnqn,
+ 				NVMF_NQN_SIZE)) {
+-		if (kref_get_unless_zero(&nvmet_disc_subsys->ref)) {
++		if (kref_get_unless_zero(&disc_subsys->ref)) {
+ 			up_read(&nvmet_config_sem);
+-			return nvmet_disc_subsys;
++			return disc_subsys;
+ 		}
+ 	}
+ 	list_for_each_entry(p, &port->subsystems, entry) {
+@@ -1888,14 +1893,8 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
+ 	INIT_LIST_HEAD(&subsys->ctrls);
+ 	INIT_LIST_HEAD(&subsys->hosts);
+ 
+-	ret = nvmet_debugfs_subsys_setup(subsys);
+-	if (ret)
+-		goto free_subsysnqn;
+-
+ 	return subsys;
+ 
+-free_subsysnqn:
+-	kfree(subsys->subsysnqn);
+ free_fr:
+ 	kfree(subsys->firmware_rev);
+ free_mn:
+@@ -1976,18 +1975,12 @@ static int __init nvmet_init(void)
+ 	if (error)
+ 		goto out_free_nvmet_aen_work_queue;
+ 
+-	error = nvmet_init_discovery();
+-	if (error)
+-		goto out_exit_debugfs;
+-
+ 	error = nvmet_init_configfs();
+ 	if (error)
+-		goto out_exit_discovery;
++		goto out_exit_debugfs;
+ 
+ 	return 0;
+ 
+-out_exit_discovery:
+-	nvmet_exit_discovery();
+ out_exit_debugfs:
+ 	nvmet_exit_debugfs();
+ out_free_nvmet_aen_work_queue:
+@@ -2006,7 +1999,6 @@ static int __init nvmet_init(void)
+ static void __exit nvmet_exit(void)
+ {
+ 	nvmet_exit_configfs();
+-	nvmet_exit_discovery();
+ 	nvmet_exit_debugfs();
+ 	ida_destroy(&cntlid_ida);
+ 	destroy_workqueue(nvmet_aen_wq);
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index 114869d16a1f3ce8740a2126a2cb491ec8007ed7..4a0e5929125ece4c98bf25918ce82b66d4140228 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -8,9 +8,44 @@
+ #include <generated/utsrelease.h>
+ #include "nvmet.h"
+ 
+-struct nvmet_subsys *nvmet_disc_subsys;
++static DEFINE_XARRAY(nvmet_disc_xa);
+ 
+-static u64 nvmet_genctr;
++struct nvmet_subsys *nvmet_get_disc_subsys(struct net *net_ns)
++{
++	struct nvmet_subsys *subsys;
++	u64 ns_id = nvmet_get_ns_id(net_ns);
++
++	subsys = xa_load(&nvmet_disc_xa, ns_id);
++	return subsys;
++}
++
++int nvmet_add_disc_subsys(struct net *net_ns)
++{
++	struct nvmet_subsys *disc_subsys;
++	u64 ns_id = nvmet_get_ns_id(net_ns);
++	int err;
++
++	disc_subsys = nvmet_subsys_alloc(NVME_DISC_SUBSYS_NAME,
++					 NVME_NQN_CURR);
++	if (IS_ERR(disc_subsys))
++		return PTR_ERR(disc_subsys);
++	err = xa_insert(&nvmet_disc_xa, ns_id,
++			disc_subsys, GFP_KERNEL);
++	if (err < 0)
++		nvmet_subsys_put(disc_subsys);
++
++	return err;
++}
++
++void nvmet_del_disc_subsys(struct net *net_ns)
++{
++	struct nvmet_subsys *disc_subsys;
++	u64 ns_id = nvmet_get_ns_id(net_ns);
++
++	disc_subsys = xa_erase(&nvmet_disc_xa, ns_id);
++	if (disc_subsys)
++		nvmet_subsys_put(disc_subsys);
++}
+ 
+ static void __nvmet_disc_changed(struct nvmet_port *port,
+ 				 struct nvmet_ctrl *ctrl)
+@@ -29,18 +64,22 @@ void nvmet_port_disc_changed(struct nvmet_port *port,
+ 			     struct nvmet_subsys *subsys)
+ {
+ 	struct nvmet_ctrl *ctrl;
++	struct nvmet_subsys *disc_subsys;
+ 
+ 	lockdep_assert_held(&nvmet_config_sem);
+-	nvmet_genctr++;
++	disc_subsys = nvmet_get_disc_subsys(&init_net);
++	if (WARN_ON(!disc_subsys))
++		return;
++	disc_subsys->genctr++;
+ 
+-	mutex_lock(&nvmet_disc_subsys->lock);
+-	list_for_each_entry(ctrl, &nvmet_disc_subsys->ctrls, subsys_entry) {
++	mutex_lock(&disc_subsys->lock);
++	list_for_each_entry(ctrl, &disc_subsys->ctrls, subsys_entry) {
+ 		if (subsys && !nvmet_host_allowed(subsys, ctrl->hostnqn))
+ 			continue;
+ 
+ 		__nvmet_disc_changed(port, ctrl);
+ 	}
+-	mutex_unlock(&nvmet_disc_subsys->lock);
++	mutex_unlock(&disc_subsys->lock);
+ 
+ 	/* If transport can signal change, notify transport */
+ 	if (port->tr_ops && port->tr_ops->discovery_chg)
+@@ -52,15 +91,19 @@ static void __nvmet_subsys_disc_changed(struct nvmet_port *port,
+ 					struct nvmet_host *host)
+ {
+ 	struct nvmet_ctrl *ctrl;
++	struct nvmet_subsys *disc_subsys;
+ 
+-	mutex_lock(&nvmet_disc_subsys->lock);
+-	list_for_each_entry(ctrl, &nvmet_disc_subsys->ctrls, subsys_entry) {
++	disc_subsys = nvmet_get_disc_subsys(&init_net);
++	if (WARN_ON(!disc_subsys))
++		return;
++	mutex_lock(&disc_subsys->lock);
++	list_for_each_entry(ctrl, &disc_subsys->ctrls, subsys_entry) {
+ 		if (host && strcmp(nvmet_host_name(host), ctrl->hostnqn))
+ 			continue;
+ 
+ 		__nvmet_disc_changed(port, ctrl);
+ 	}
+-	mutex_unlock(&nvmet_disc_subsys->lock);
++	mutex_unlock(&disc_subsys->lock);
  }
  
- static int __init configfs_init(void)
+ void nvmet_subsys_disc_changed(struct nvmet_subsys *subsys,
+@@ -68,9 +111,13 @@ void nvmet_subsys_disc_changed(struct nvmet_subsys *subsys,
+ {
+ 	struct nvmet_port *port;
+ 	struct nvmet_subsys_link *s;
++	struct nvmet_subsys *disc_subsys;
+ 
+ 	lockdep_assert_held(&nvmet_config_sem);
+-	nvmet_genctr++;
++	disc_subsys = nvmet_get_disc_subsys(&init_net);
++	if (WARN_ON(!disc_subsys))
++		return;
++	disc_subsys->genctr++;
+ 
+ 	list_for_each_entry(port, nvmet_ports, global_entry)
+ 		list_for_each_entry(s, &port->subsystems, entry) {
+@@ -173,6 +220,7 @@ static void nvmet_execute_disc_get_log_page(struct nvmet_req *req)
+ 	u16 status = 0;
+ 	void *buffer;
+ 	char traddr[NVMF_TRADDR_SIZE];
++	struct nvmet_subsys *disc_subsys;
+ 
+ 	if (!nvmet_check_transfer_len(req, data_len))
+ 		return;
+@@ -207,10 +255,12 @@ static void nvmet_execute_disc_get_log_page(struct nvmet_req *req)
+ 	}
+ 	hdr = buffer;
+ 
++	disc_subsys = nvmet_get_disc_subsys(&init_net);
++
+ 	nvmet_set_disc_traddr(req, req->port, traddr);
+ 
+ 	nvmet_format_discovery_entry(hdr, req->port,
+-				     nvmet_disc_subsys->subsysnqn,
++				     disc_subsys->subsysnqn,
+ 				     traddr, NVME_NQN_CURR, numrec);
+ 	numrec++;
+ 
+@@ -235,7 +285,7 @@ static void nvmet_execute_disc_get_log_page(struct nvmet_req *req)
+ 		numrec++;
+ 	}
+ 
+-	hdr->genctr = cpu_to_le64(nvmet_genctr);
++	hdr->genctr = cpu_to_le64(disc_subsys->genctr);
+ 	hdr->numrec = cpu_to_le64(numrec);
+ 	hdr->recfmt = cpu_to_le16(0);
+ 
+@@ -428,15 +478,3 @@ u16 nvmet_parse_discovery_cmd(struct nvmet_req *req)
+ 	}
+ 
+ }
+-
+-int __init nvmet_init_discovery(void)
+-{
+-	nvmet_disc_subsys =
+-		nvmet_subsys_alloc(NVME_DISC_SUBSYS_NAME, NVME_NQN_CURR);
+-	return PTR_ERR_OR_ZERO(nvmet_disc_subsys);
+-}
+-
+-void nvmet_exit_discovery(void)
+-{
+-	nvmet_subsys_put(nvmet_disc_subsys);
+-}
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 3305a88684ecab5d59c53d7f975d1b0a1cb213a2..2bbee443ce7c7a13be15976c18ab003265a366cb 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -325,6 +325,9 @@ struct nvmet_subsys {
+ 	u16			cntlid_min;
+ 	u16			cntlid_max;
+ 
++	/* For discovery subsystems */
++	u64 genctr;
++
+ 	struct list_head	ctrls;
+ 
+ 	struct list_head	hosts;
+@@ -696,11 +699,13 @@ void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+ 
+ int __init nvmet_init_configfs(void);
+ void __exit nvmet_exit_configfs(void);
++extern struct list_head *nvmet_get_port_list(struct net *net_ns);
+ 
+-int __init nvmet_init_discovery(void);
+-void nvmet_exit_discovery(void);
++extern u64 nvmet_get_ns_id(struct net *net_ns);
++extern int nvmet_add_disc_subsys(struct net *net_ns);
++extern void nvmet_del_disc_subsys(struct net *net_ns);
++extern struct nvmet_subsys *nvmet_get_disc_subsys(struct net *net_ns);
+ 
+-extern struct nvmet_subsys *nvmet_disc_subsys;
+ extern struct rw_semaphore nvmet_config_sem;
+ 
+ extern u32 nvmet_ana_group_enabled[NVMET_MAX_ANAGRPS + 1];
 
 -- 
 2.51.0
