@@ -1,99 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79744223708;
-	Wed, 24 Jun 2026 10:40:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387A73002DD
+	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 10:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782297656; cv=none; b=mq+uurG2emdEveyiPWqNEY4yYPGSn8dsl0z/kzzLjqRuzg1PRxWwkSiDHK28HPaGgyQ2MZjLFhiNmwUFPvWP0JV2hMKu7X6I3Of/vjCoDdqxn+AZmwJ+FR451I438B4Pz8piCSx3v+1oEci5KW8ncZ62CkBQ/dD64UQtj+ZMYN0=
+	t=1782298757; cv=none; b=kh4Kk76TP/3m4vpAoevBx7670qxTHBsMQHFNMQfnHJ7u3BXLkWGxKNis9vsHUwR9gRVuCvmC4+25UBteuGU9KNtSuJvG0vsbgF6b2Ud3674tkh4VMAW+CZGbhzDbcpDKYzSXvPZw9XAsfibBRCAdhG7GYesOgcRoXToWNz6A1TQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782297656; c=relaxed/simple;
-	bh=ajGgeyYncEaHvrt8qvqergJfnTM/ArTYVdRgQ4eYPkI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H+zmdcm57Uf8XWLWZfBZkWCOlPjb+gIzKRAfPzXvxHnSsYTWtbt8XHAP5mkBayvmErlNwjzWkpkuD1Km4m5j2EJ8UIrJV/nxSQE7Xu3PpVFmVVWamj9eU9zjk3866GQykUYc6IfAxDqzfXbC5lfiCjNb9jzTPvVJuatil7cUlnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UBnTQocR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782298757; c=relaxed/simple;
+	bh=F84yGQUDkbH98vHWjzmZYErLQPjTxVtksTNdkueSsUg=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=tc9dEn5YqfH21cA0ZzWOzC3HxKjcRqSpeVy9SsLQJHJ0edySrSctMN/k/EcZ/qCV4S3cdxMf1ZBjTPoyz6AMQe0ZZ6WsPJjeO1R/bLdwMWGBVGRRPjyb/JkayqEWq6jEvaQGHwdplQP5WiN4f7ymYStwBebfyejvJbDPXQ04MKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=W/BCILQa; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UBnTQocR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F1181F000E9;
-	Wed, 24 Jun 2026 10:40:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782297655;
-	bh=JkNPLU40GXU7jQSvyKS8fifL1izzRSqGX7zJnJXQxKY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UBnTQocRXi77/kvdQMJDb2buTezeVch5WZmrcSDXefnqedsBIsR5JJj1fa7KfeFn9
-	 r867yGK8QxoFO3Lj0PF2IdHNOuF09e2aNBZteHyFKZAsRwnqh4/hiBASUgpygngXt4
-	 XS6yRXD4IjMQFCpROoNBw6VHuU6dO6tHCbVepgu+ECdB1paEPrFkXqUnND8GkeEPy+
-	 OMoKsb2P0GvubRCIUuthiHPHwnIvBzXKkfxa/qy3wDVUdSdZ7vB22YZhRf3VEx5GQT
-	 OS4RsFolgVnhY/jrCBUfWn/CrgGEcaLWTW2zfv4JeROky8uv33qieTMlpkaAtGmMF+
-	 sDR6OHvxzauyw==
-Date: Wed, 24 Jun 2026 12:40:50 +0200
-From: Carlos Maiolino <cem@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jan Kara <jack@suse.cz>, Filip Blagojevic <filip.blagojevic@wdc.com>, 
-	Matthew Wilcox <willy@infradead.org>, Damien Le Moal <dlemoal@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org
-Subject: Re: update BDI {io,ra}_pages values based on the RT device limits
-Message-ID: <ajuxIMzTbzxEuX5g@nidhogg.toxiclabs.cc>
-References: <20260623142109.1838702-1-hch@lst.de>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="W/BCILQa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782298755;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LG6pXrc0sR0IcEnF7n9P/5Vk8UAhFYpfZl8nu7N/p6s=;
+	b=W/BCILQa2cOTTIF+9kD76hfC/afUZLupRUkWDZJIhhHavUpntWs4+2SvrblIZp0OzR5UcX
+	F1BvyEgKwIGvJ2gcKglPa4PguDNUP2s8hovWeErEdJPt+kaF5R8TG8qBv3eFzMt5MTubfP
+	VkSsnulQP9jtiF6p7E7pUZdY2yTo4hc=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-608-H4IlkNbCM0CR5UarK_yzqg-1; Wed,
+ 24 Jun 2026 06:59:10 -0400
+X-MC-Unique: H4IlkNbCM0CR5UarK_yzqg-1
+X-Mimecast-MFC-AGG-ID: H4IlkNbCM0CR5UarK_yzqg_1782298748
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 710961805C0A;
+	Wed, 24 Jun 2026 10:59:07 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.44.49.152])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1402B19560A0;
+	Wed, 24 Jun 2026 10:59:03 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <498534d3-e82e-40ce-bc7d-230580b2fcae@chenxiaosong.com>
+References: <498534d3-e82e-40ce-bc7d-230580b2fcae@chenxiaosong.com> <33cc8eb4-8831-49b0-80d6-b06544a37920@chenxiaosong.com> <FA1EF9EEE4C1415E+20260530011403.1686344-1-hongao@uniontech.com> <2912807.1782231053@warthog.procyon.org.uk>
+To: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+Cc: dhowells@redhat.com, hongao <hongao@uniontech.com>,
+    Paulo Alcantara <pc@manguebit.org>, netfs@lists.linux.dev,
+    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+    syzbot+3c74b1f0c372e98efc32@syzkaller.appspotmail.com,
+    Steve French <smfrench@gmail.com>,
+    Namjae Jeon <linkinjeon@kernel.org>,
+    "linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>
+Subject: Re: [PATCH] netfs: Fix UAF in netfs_unbuffered_write() on failed preparation
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260623142109.1838702-1-hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <2961242.1782298742.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 24 Jun 2026 11:59:02 +0100
+Message-ID: <2961243.1782298742@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Tue, Jun 23, 2026 at 04:21:05PM +0200, Christoph Hellwig wrote:
-> Hi all,
-> 
-> we ran into a bit of a funny case where adding an SSD to store metadata
-> to a (zoned) XFS file system reduced the performance vs using a HDD for
-> both data and metadata.  It turns out this is due to readahead code
-> looking at the BDI limits, including the io_pages value that can't be
-> inspected or tuned from userspace.
-> 
-> This patch has the simplest fix for that by just updating the values from
-> XFS, but for a long-term solution this feels a bit ugly.  Other, a lot
-> more invasive options would be:
-> 
-> 
->   1) support multiple BDIs per file system.
-> 
-> 	This would work pretty well for XFS, as data for a given file is
-> 	always entirely on one device, and the VFS writeback code is not
-> 	used for metadata.  But it probably doesn't work well for other
-> 	cases
+Actually, this shows what happened:
 
-Giving the current tendency of filesystems being multi-device, this
-doesn't sound bad IMHO. Wouldn't accessing io_pages of each BDI also be
-worth even for a journal dev? I wonder if what you ran into wouldn't be
-possible if somebody would be using just a SSD for journal and a non-rt
-XFS on a HDD or a different/slower device.
+ a.out-717 : netfs_sreq: R=3D00000001[13] UPLD RETRY f=3D210 s=3D240000 1f=
+ac0/20000 s=3D160 e=3D-11
+ a.out-717 : netfs_sreq: R=3D00000001[13] UPLD SUBMT f=3D100 s=3D240000 0/=
+dbfac0 s=3D192 e=3D0
+ a.out-717 : netfs_failure: R=3D00000001[13] UPLD f=3D500 s=3D240000 0/dbf=
+ac0 write e=3D-5
+ a.out-717 : netfs_rreq: R=3D00000001 UW PAUSE   f=3D1801
+ a.out-717 : netfs_sreq: R=3D00000001[13] UPLD TERM  f=3D500 s=3D240000 0/=
+dbfac0 s=3D192 e=3D-5
+ a.out-717 : netfs_rreq: R=3D00000001 UW WAKE-Q  f=3D1805
+ a.out-717 : netfs_failure: R=3D00000001[13] UPLD f=3D400 s=3D240000 0/dbf=
+ac0 write e=3D-5
+ a.out-717 : netfs_rreq: R=3D00000001 UW PAUSE   f=3D1805
+ a.out-717 : netfs_sreq: R=3D00000001[13] UPLD TERM  f=3D400 s=3D240000 0/=
+dbfac0 s=3D192 e=3D-5
+ a.out-717 : netfs_rreq: R=3D00000001 UW WAKE-Q  f=3D1805
+ a.out-717 : netfs_sreq: R=3D00000001[13] UPLD FREE  f=3D400 s=3D240000 0/=
+dbfac0 s=3D192 e=3D-5
 
-I don't know how stupid that sounds but perhaps it wouldn't be that
-complicated to support multiple BDIs without making it unpleasant for
-filesystems that don't care?
-sb->bdi could be turned into a dynamic array and a new sb->s_devcount
-fields to keep track of it on multi-device filesystems. Filesystems who
-don't care about multiple BDIs would have it pointing to a single BDI
-struct. Again I feel I'm missing something, so it might sound really
-stupid :)
+There are two calls to netfs_write_subrequest_terminated().  You can see t=
+he
+IN_PROGRESS bit has been cleared by the second one (f=3D500 -> f=3D400).
 
-> 
->   2) stop propagating these values through the BDI
-> 
-> 	Have a way to query these parameters from the file system, either
-> 	through a method if we want to be fully dynamic, or through fields
-> 	instead of going through the BDI.  The downside would be that
-> 	sysfs modifications of the readahead size would not work after
-> 	the file system initially queried them.
+David
 
-It doesn't sound bad, but to me, not better than keeping multiple BDIs.
-But my lack of knowledge on details about BDI handling might be hiding
-something from me.
-
-> 
-> Thoughts?
-> 
