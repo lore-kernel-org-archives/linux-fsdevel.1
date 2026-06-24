@@ -1,147 +1,257 @@
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7543E1233
-	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 20:52:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782334339; cv=none; b=rtP8Uu4C6pOlZFFMoaAFF4X9iWjHgJ421TxRH4N795FBh//s4XqWSqWc+T3BFjf/MqelYK3WVgPzlKlLls4LKAVCL2xLeI7Pu1hSCTBIgrW8BXqRSOJsVGABzALsiIw1XvR/zhhTYJ4k4kUTmOaX+i8WfSZmQQeTse2GcKksVY8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782334339; c=relaxed/simple;
-	bh=fOk2uLz0kp+du9hIijEy96gF+mn97snUxPEaHV9jQ3M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N1WL5ia/yAhciOelyD6uTG/Mm5PyEqF8zPbKeuWyXmq/9zGJIW3Djn2ygyPTOHVb78B2xJ0w5YOVhk7Av8P40EhoxzBgLfZI8BEuyVWc2wxFRMGF/N0IjlFlYlbrC3oqKasvH2CFtNSqhLZiPfniiAUXJRHmaavtRgIeTgmlonM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FEVq5bBg; arc=none smtp.client-ip=209.85.160.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1FC63E5EE7
+	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 21:23:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782336190; cv=pass; b=FwmnsO7avKgdZzb3OaTrBhwfjlRvnOibZzJ9ZP0NqAxOu8i5jJ8V2HlzlSAc2Ki59d31aJGAOV0jnH7BknjNxZd0m3MLuFx8AVJKAvDmynK75yX6bwRSEqBmRFzS7vVTyx5ixKibP9MbyErFuZ/tNk17mr46uADSs6DE1Jxdids=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782336190; c=relaxed/simple;
+	bh=e8FKnMxnQE6EcbhtFXm3u/ZDFx7rumJIKaX/xozB5Yw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uNdZKSmw/HtG6CrbKvtWONI6JZpj+O9xcrgdAQkapNN0O5ymIKx9LpUtg4kLlbxJvYpydh7dSObf/KJXiFbJoQL/jsSSbyN6umjoClsJveWeQaLfDb3bUk3XpCklYyiYLkzivyl+50ibs+Vlbx0sJ9Sx9I+r3wZTh4AVZJdsclo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=raltZR9i; arc=pass smtp.client-ip=209.85.222.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FEVq5bBg"
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-4471b489240so602849fac.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 13:52:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="raltZR9i"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-9159951f05aso179713285a.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 14:23:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782336187; cv=none;
+        d=google.com; s=arc-20240605;
+        b=EUTAHpbPRuBFtjyZMwRth8pLkAJeXYa/+xm2prGGIXRV4Bdhd76wckla5RvdYAp00j
+         0pymbr53Mn4cRlMKihtCip3eJnr2xNQ+xxGkr7vOtkIxe7OaK9LzXpmG5lJb4c+UQXhe
+         2zEUckfGY8bGgk8OrDNrSpE9TXgA5dVtnpsKunCpdW0J9yPNTFrjNesV+bTPXOpjrSWh
+         K+PHyA4ElsGHw2f0TvqYMie9AR7m6ACErahDyCjmBBKJdXAFDhnb+IsMEdnt0VQFXK+v
+         BG3HonwFkjWbvMTDmNTUMa/woYwqJudImH+4KB/DMfdDnjVyoJnN8p2f2HvMrQhecA40
+         Ying==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=qSoqZHCVaW6be7/8vwIAP/8yZ9kR/NSjkqmErBuSEOM=;
+        fh=e84YK43Rk1Y5BQoVn6Z34j61kpoQYFn/JwVZqQ4uNgU=;
+        b=Co8Jiio5BPdvmKuAQ5wFIs0eaujLw9pIg15iDXZR+rokc+HD0neVQmIakB5AvDcJU0
+         JdlbSBgXmUE93Qyfia18cIe6zxEy4sutRCdWiSglav9cmlf+ZWx/oC+hkKAfXlmiTbG2
+         hcBHCinHsbXHY4578aWj4ubilljoE5Y5hjSPMyD3rMBDgaoS4SMx6cNtVBpSip9LPOLh
+         V54WeXI6oYOk3JH83ude4o+YrXmfJwr0I9248v4a/K8F7wP4Y8Dmg/iRrVwl2g3zb5Ce
+         W00NLRuB20J8NXcEPzfYGM1IXJk+l4Yf4EfGZaIrfJePLGjMtUdKt5i6G4y0c8O7UBpd
+         IOwA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782334335; x=1782939135; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cT8XyovIujOpRgJEtF3RzCkx+q1q0m2DrqWUvg8EN24=;
-        b=FEVq5bBgVCzKJLhwX5P/uOhsqSxgsptRqAdjw2Ni9Fk9+2p+3RzPhHeq1HFDc4Y+Ij
-         XdKXCcJCPFEu8VlcHZtqpYl6eqHL0gNHQNbQvwttEtUVuoXFV7A6H1hIQRrRpKulXefQ
-         y8itUW/P21mIF7L2dNfIkmYQnXSZnbzrJBs9jtNEbvwRQUcXlTjilffb68CdzwfFQPji
-         iZP0s5ZuaQuXh4kaYhS0BHgHxxeQlA9YaEkzC5Hrf7T6m32VVigyI0kPdTLfk7PQXbLd
-         aaEyw8L/9ySKaRsDpvuAiGD+Nh7idELHwQ9BaXGr4+tNQSRrUKBeOgOk+Tvle4mPR92n
-         58NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782334335; x=1782939135;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782336187; x=1782940987; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cT8XyovIujOpRgJEtF3RzCkx+q1q0m2DrqWUvg8EN24=;
-        b=XHUuhdvtdgmwrUKAGr/h/PxqUBqXpja2Hq9IhrYMWVITpjPq5MCsX+zG88r5SLvaZH
-         xXeiplOSFRijpk1WG8SpUPP62wbBgwwjHBLihX4ruFemWq7Ym9pHfOmdAkJmUO5eIsur
-         S7S2gsTr7vkFxnlkFpaGmHHA+T0MLHW887UN/sDYrTuIRGX0WiTNec7aqH8hKsiwbjBk
-         AWRZXxqZE73xpSzJWiYQDqE2TNlEZhMxU0Q2EMpeG5FlIFglq9EwoOsHw7kbSDBLsR70
-         t5b4gJtPOOg2XG2qH8lFLBwQYzawARgtIvlXz4KQq1yMnfhyogtHotHsaGd1ddvhkOC3
-         MKeA==
-X-Forwarded-Encrypted: i=1; AFNElJ/rfzc2gLS5ZzsVnVkCxS49i6sSnM+KS4kc65Zf2XUmmJKEnS0qvofyin/F0MeV5zCzGGWPTti+BC4ifmG8@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwxmSrEORLisSB3tEWpVQ1JjhG+3i7bJOowYbhb/+GINMauKC2
-	YHAmwc63q+Y2hhYC7jyacWpU2LVj+4DAqcpMPoXcl/b2vyNZwPRlmTpi
-X-Gm-Gg: AfdE7cnnfA37BPEClIOsZfkgxZfUcIPaR0cUGoKLpFqqmm8j1TzU2TxLvz5jQlqmAwI
-	3hZq5t/bEe8Y7PNHnA9u165bsGq9wx4zHRhyx93UdlFQtEX1gwkj/idEY1dWaWq5FMjryXKlU79
-	e4DRNWtG/ywxtqQIUQWLsuMeSz/GmqXsZ430KCar3xscgS0C9H8jGY365Q8p/bW1vQlZkNfy2ho
-	HP2tCMVgI0iShuy7mcOAej3h50/Ite1trY5difsogGe1tQJHxqfGe+YvEvuWmBV6556xKzS0mUw
-	Xr3vZTs5SIl0+Yr2l+f9t8w48QBRGqYcCRMB0GPMr0mhsvsR6VhPmTO05a7uNHxhrnLb9MFprHO
-	ZRbJEodfLSbLS7r3vtfSZ2eFLngZdI5A4HRTIBakpOu/dGN9uisCEprt4URlZrrdNKU3XfDhk+S
-	SOZUy+2FNpLfy0gIhmuPkrwO8mZT/L8wg+HPnHN2sFu8SlwLJHEG1ueyMbZTX5ztTQ
-X-Received: by 2002:a05:6871:890:b0:43d:7b24:95 with SMTP id 586e51a60fabf-447dc653ffbmr3634916fac.0.1782334334934;
-        Wed, 24 Jun 2026 13:52:14 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:5d::])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-44778b6159fsm7756695fac.11.2026.06.24.13.52.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2026 13:52:14 -0700 (PDT)
-From: Joanne Koong <joannelkoong@gmail.com>
-To: miklos@szeredi.hu
-Cc: fuse-devel@lists.linux.dev,
-	willy@infradead.org,
-	hch@lst.de,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v1] fuse: don't clear folio uptodate on writethrough errors
-Date: Wed, 24 Jun 2026 13:52:01 -0700
-Message-ID: <20260624205201.842714-1-joannelkoong@gmail.com>
-X-Mailer: git-send-email 2.52.0
+        bh=qSoqZHCVaW6be7/8vwIAP/8yZ9kR/NSjkqmErBuSEOM=;
+        b=raltZR9ix+5bTVcUNHjV/cKP9ZaG1gEmiC+WOxk/Bti6+RV+yArkBmKtnOStqlTsK/
+         ae0P9i68bhil7Gs4F75D7Ra/1LP5Go/rBmccFGT1/FGT3CL9Sf28c0p0p23wUlHO4TRt
+         8bT8mMwUWidmP36ArLQDRrfkHJwY6KobR9od+7qm+0rMKRJMpZl1+0ZNwZaTG2+F906I
+         faqY01BZpg+808056MwqrwGc+i3OLXcjjfzyCxwtH2i9+NtMhOXCQQh4i1Kx019DCs+u
+         LrpW93yC6yNCe7eBQ9XrMxHxEChoF7qARpla1T2YvZlr35n1Yuk3SpCk2niUFbYZcner
+         +WAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782336187; x=1782940987;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=qSoqZHCVaW6be7/8vwIAP/8yZ9kR/NSjkqmErBuSEOM=;
+        b=Ic7/nmSxGYpwYZrSkoz9Y2pgPQRbeuD6IvkhBgWXu0KPLRSGaKhH4aPoF/6zvAaNSI
+         lLYFmi4K+96wr1PmV23AkguEeZFhWS/pcHijJcQwKmdvlcM8g1iqAMZvkX/jxgW44WPs
+         1EUzRKbAS3hWjnhSDTJl42nWszXi7iTOUqlAfJr387WrUEqcGu0O5I5kDR3gCJFWNWpq
+         1LvxWtAGjBsufvd2qI7gbcO0ELQyvTsDuIBy7QvUS08fWfHwXt3eWMA7aQxAJR82zPDY
+         A/IUxgSGj4wSyIx4o9KArv7yNQjwyx5YQ9wezGMToC2WtqkqgQIJhq9bA5FMrHXDUTvh
+         a/pQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpE60QUIgyZyM3LK63pfWkj+LJwv9a8I6CaXiLoN3NGrmjF79CuUya/AsbniQj/sfI+2rGR1yVrUr16MvK4@vger.kernel.org
+X-Gm-Message-State: AOJu0YyE6me1akjaeNuIKC0bTs22DPGPOoyBOWqqrpnXMJcJtxkaDe8q
+	uNHtvshlMBdHyWgF6oNyif++MupAvMq7+KF0h3z0kGM0wgIi3TrGl7zqNtLpSNNK1/r2RbmASEJ
+	8r5lIRowCUNRh9mGMB7O8f4gkTWcJYd8=
+X-Gm-Gg: AfdE7cnvoR9+Omx4tllNb1/2fyi9jw1lvEf2dGFoHQnwRwOIYL/e+oR1Drw/63i6Zup
+	MFjEPEDmNeilKMp87Neh/uXsKzgQOwvKpaxtgVeF+OruYL4lp+m8pYXvz/Y+G1SNB0og2Z1W23+
+	99tSch946qcT6utJiIvheU98vM1rUJdtcATNy6xI1rJytteA12ZnQccDmC0AJRlbm3KW30ReH/s
+	5Qc92BzV0JnhQb+rUMLQgw1CWroWV0MwccUI9WrVvVJVDMb3iXeSL0ASL0BFtuIg2cz7SDF0+xK
+	SQ3pmJbW4MVND5NLCv8afrzL694=
+X-Received: by 2002:a05:6214:cc7:b0:8db:736b:b2fd with SMTP id
+ 6a1803df08f44-8e402a51b48mr148834946d6.26.1782336186403; Wed, 24 Jun 2026
+ 14:23:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260618203411.73917-2-dwindsor@gmail.com> <75d39fd9847cca915d704235264ab474@paul-moore.com>
+In-Reply-To: <75d39fd9847cca915d704235264ab474@paul-moore.com>
+From: David Windsor <dwindsor@gmail.com>
+Date: Wed, 24 Jun 2026 17:22:54 -0400
+X-Gm-Features: AVVi8CdrIOcn7xbcClmMBTsg427tmja6_i0WQl1k6YwRkJtqaPChbJXPc9S5D7w
+Message-ID: <CAEXv5_gSOoHnVn9bKsCdHB5aR_tNHRZ+m2trVcYNmbtS-K=4fQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] bpf: add bpf_init_inode_xattr kfunc for atomic
+ inode labeling
+To: Paul Moore <paul@paul-moore.com>
+Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, ast@kernel.org, 
+	daniel@iogearbox.net, john.fastabend@gmail.com, andrii@kernel.org, 
+	eddyz87@gmail.com, memxor@gmail.com, martin.lau@linux.dev, song@kernel.org, 
+	yonghong.song@linux.dev, jolsa@kernel.org, emil@etsalapatis.com, 
+	kpsingh@kernel.org, mattbobrowski@google.com, jmorris@namei.org, 
+	serge@hallyn.com, zohar@linux.ibm.com, roberto.sassu@huawei.com, 
+	dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, 
+	stephen.smalley.work@gmail.com, omosnace@redhat.com, casey@schaufler-ca.com, 
+	shuah@kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In the writethrough path (fuse_send_write_pages()), if the write to the
-server failed or was a short write, the uptodate flag on the folios are
-cleared.
+On Tue, Jun 23, 2026 at 8:12=E2=80=AFPM Paul Moore <paul@paul-moore.com> wr=
+ote:
+>
+> I have a few specific comments below, inline with the patch, but I wanted
+> to make some general comments too.
+>
+> The kfunc additions really don't belong in the VFS kfunc file, please
+> create a LSM kfunc file (call it security/bpf_lsm_kfuncs.c) and add the
+> kfunc code to this new file.
+>
 
-As explained by Matthew in [1], this is dangerous because the folio may
-be mapped into userspace. The mm code has the invariant that a
-non-uptodate folio must never be visible to userspace (to avoid
-potentially leaking confidental information to userspace) and has checks
-in place for this that if violated can bring down the whole machine.
+Makes sense. I will also do similarly for the selftests.
 
-Practically speaking, the effect of this change for the fuse
-writethrough error path is that if an application does a write and then
-the server fails to persist the data or only services a short write, the
-page cache folio keeps the data the application wrote instead of being
-reverted to the server's contents on the next read. The failure is still
-reported to the application synchronously through the short count /
-error return of the write() syscall. Folios that were only partially
-written are unaffected since they were never marked uptodate in the
-first place (fuse_fill_write_page() only marks a folio as uptodate if
-the whole folio was written to).
+> While moving the kfunc additions to a LSM kfunc file does sort of convert
+> the VFS changes into LSM changes, Christian's comment about splitting
+> this patch two patches, one with the LSM hook changes and one with the
+> BPF additions, is still reasonable and a good suggestion.  I would still
+> CC the VFS folks on these patches and I would encourage reviews from the
+> VFS folks as there is a VFS component here, albeit a somewhat small one.
+>
 
-[1] https://lore.kernel.org/linux-fsdevel/ajtPMgO65FA1TXhi@casper.infradead.org/
+v4 will contain 3 patches: one to introduce struct lsm_xattrs, next to
+introduce the kfunc, and finally the selftests.
 
-Suggested-by: Matthew Wilcox <willy@infradead.org>
-Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
----
- fs/fuse/file.c | 18 +-----------------
- 1 file changed, 1 insertion(+), 17 deletions(-)
+> > +
+> > +static int __bpf_init_inode_xattr(struct xattr_ctx *xattr_ctx,
+> > +                               const char *name__str,
+> > +                               const struct bpf_dynptr *value_p)
+> > +{
+> > +     struct bpf_dynptr_kern *value_ptr =3D (struct bpf_dynptr_kern *)v=
+alue_p;
+> > +     size_t name_len;
+> > +     void *xattr_value;
+> > +     struct xattr *xattr;
+> > +     struct xattr *xattrs;
+> > +     int *xattr_count;
+> > +     const void *value;
+> > +     u32 value_len;
+> > +
+> > +     if (!xattr_ctx || !name__str)
+> > +             return -EINVAL;
+> > +
+> > +     xattrs =3D xattr_ctx->xattrs;
+> > +     xattr_count =3D xattr_ctx->xattr_count;
+>
+> I'm not sure why the "xattrs" and "xattrs_count" local variables are
+> necessary, especially since they only appear to be used in the sanity
+> check below.  I would suggest just using the values in the struct
+> directly.
+>
 
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index cb8da4c06d17..c4ae4009a423 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -1227,8 +1227,7 @@ static ssize_t fuse_send_write_pages(struct fuse_io_args *ia,
- 	struct file *file = iocb->ki_filp;
- 	struct fuse_file *ff = file->private_data;
- 	struct fuse_mount *fm = ff->fm;
--	unsigned int offset, i;
--	bool short_write;
-+	unsigned int i;
- 	int err;
- 
- 	for (i = 0; i < ap->num_folios; i++)
-@@ -1243,24 +1242,9 @@ static ssize_t fuse_send_write_pages(struct fuse_io_args *ia,
- 	if (!err && ia->write.out.size > count)
- 		err = -EIO;
- 
--	short_write = ia->write.out.size < count;
--	offset = ap->descs[0].offset;
--	count = ia->write.out.size;
- 	for (i = 0; i < ap->num_folios; i++) {
- 		struct folio *folio = ap->folios[i];
- 
--		if (err) {
--			folio_clear_uptodate(folio);
--		} else {
--			if (count >= folio_size(folio) - offset)
--				count -= folio_size(folio) - offset;
--			else {
--				if (short_write)
--					folio_clear_uptodate(folio);
--				count = 0;
--			}
--			offset = 0;
--		}
- 		if (ia->write.folio_locked && (i == ap->num_folios - 1))
- 			folio_unlock(folio);
- 		folio_put(folio);
--- 
-2.52.0
+Leftover from the previous implementation, will fix.
 
+> > +/**
+> > + * bpf_init_inode_xattr - set an xattr on a new inode from inode_init_=
+security
+> > + * @xattr_ctx: inode_init_security xattr state from the hook context
+> > + * @name__str: xattr name (e.g., "bpf.file_label")
+> > + * @value_p: dynptr containing the xattr value
+> > + *
+> > + * Only callable from lsm/inode_init_security programs.
+> > + *
+> > + * Return: 0 on success, negative error on failure.
+> > + */
+> > +__bpf_kfunc int bpf_init_inode_xattr(struct xattr_ctx *xattr_ctx,
+> > +                                  const char *name__str,
+> > +                                  const struct bpf_dynptr *value_p)
+> > +{
+> > +     return __bpf_init_inode_xattr(xattr_ctx, name__str, value_p);
+> > +}
+>
+> I'm sure there is a reason why you split the code out into
+> __bpf_init_inode_xattr() as opposed to just putting it directly in this
+> kfunc, can you help me understand?
+
+Not sure, perhaps prior convention, or something with the verifier
+perhaps. I've removed it in -v4 and everything works.
+
+> > diff --git a/include/linux/security.h b/include/linux/security.h
+> > index 153e9043058f..1f8e84e7dd7e 100644
+> > --- a/include/linux/security.h
+> > +++ b/include/linux/security.h
+> > @@ -68,6 +68,11 @@ struct watch;
+> >  struct watch_notification;
+> >  struct lsm_ctx;
+> >
+> > +struct xattr_ctx {
+> > +     struct xattr *xattrs;
+> > +     int *xattr_count;
+> > +};
+>
+> I see the bots already pointed this out, and you acknowledged it, but
+> since I'm looking at this I felt obliged to remind you once again about
+> the rename to "struct lsm_xattrs" :)
+>
+
+Yeah, sorry about that. =3D)
+
+> Also, looking at this closer, is there a reason why the "xattr_count"
+> field is an integer pointer and not just an integer?  We're passing
+> the entire struct by reference to the individual LSMs so we shouldn't
+> need this to get an updated count in the caller and having it as a
+> regular integer should simplify things slightly (you could also
+> make it an unsigned int while you are it).
+>
+
+Copy/paste from v2. Will change xattr_count's type to unsigned int.
+
+> > --- a/kernel/bpf/trampoline.c
+> > +++ b/kernel/bpf/trampoline.c
+> > @@ -859,6 +859,9 @@ static int bpf_trampoline_add_prog(struct bpf_tramp=
+oline *tr,
+> >       }
+> >       if (cnt >=3D BPF_MAX_TRAMP_LINKS)
+> >               return -E2BIG;
+> > +     if (node->link->prog->aux->attach_limit &&
+> > +         tr->progs_cnt[kind] >=3D node->link->prog->aux->attach_limit)
+> > +             return -E2BIG;
+>
+> Re: Alexei's comments about this - if you look back at my previous
+> comments, my concern was around BPF LSMs using too many slots in the
+> xattr array and causing issues.  If the BPF folks want to do that check
+> in the kfunc located in the LSM framework I'm okay with that; the
+> important part is that the BPF LSMs don't use more space than they
+> previously requested.
+>
+
+Ack, will remove this attach-time check.
+
+> > diff --git a/security/security.c b/security/security.c
+> > index 71aea8fdf014..8f82a1352356 100644
+> > --- a/security/security.c
+> > +++ b/security/security.c
+> > @@ -1334,6 +1334,7 @@ int security_inode_init_security(struct inode *in=
+ode, struct inode *dir,
+> >  {
+> >       struct lsm_static_call *scall;
+> >       struct xattr *new_xattrs =3D NULL;
+> > +     struct xattr_ctx xattr_ctx;
+> >       int ret =3D -EOPNOTSUPP, xattr_count =3D 0;
+>
+> Since we have the xattr array/pointer and count in the new "lsm_xattrs"
+> struct, I think we can remove the "new_xattrs" and "xattr_count" local
+> variables in favor of the fields in the new struct.
+>
+
+Thanks! These will be eliminated in v4.
+
+Best,
+David
