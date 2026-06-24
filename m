@@ -1,126 +1,306 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E877823C516
-	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 12:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1450F3B3C17
+	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 12:59:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782304533; cv=none; b=jUdV8R2q1Osz6OQqPwW414YE5ZTwThIRd1tCoqDIv1sP5fkZYusjZ8epSfV5lEgpTcv3pe+kfc3FWSrKoELOBneZyTc6Gu77hi1qDgw8umLu+jjJ1CZCmphHAe0gJXM8jrQ+YXdzpPLZObPf17AlDDw9Np3fEBu6CR3FrsX64P0=
+	t=1782305967; cv=none; b=fi/0P9fbzftvAk5I9g7BPqVJ2SCXybvO0QhOGc56+gk1Vf/ahDrI62AFnVqirrsQHDOBbr3v3DMFO7meoJlfgqpzC1BiK9yxo4/ZTWbVEou2HHe8zTzY75bmKFHz+nuirVx1hbnhCeE6/hThBzjUAV30L3yU+aYPGrS1Dnz7yn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782304533; c=relaxed/simple;
-	bh=dWiwdISBxmWp3lcye7zsMFqe48+MmBd+5ewSexoxLn8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b/AYNmpkktSBcemK7LaqnoKLa34RMywL9RuuZBWLtDVMo+gAtMCevo1uRYmEZefl6aOiOfiqKALxL6N5fgKDCj+Ej7nmPNvdpgkgLuRUSxQv8sj7IlsTUiOze4S2Ivv5/G9anEJJhhIYp33pbqqqgA/TajZAaH5Up+4p/G6/bQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FovHO7Mc; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782305967; c=relaxed/simple;
+	bh=Hp21DabkdJmBrm5olpg71oNYzii2pCB3Ctg0A3bYMZg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mjk6g1RoVFmyfu+F9wlV1mox+rwt4eNP7vLwQr+9SVXlfWf7YRfUSX3zvJRsYGDhJeeyii2rLOT4zGTcfVMqaK6KZ4bHnXaVzAWyXxvZ/PKOmL+obLdtZwGNkNp4R4afAQNj/6m2CaZSdddYbfa55MRElJeUueFx3V6mgCsId5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=NfHfWAOU; arc=none smtp.client-ip=95.215.58.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FovHO7Mc"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-7e86d46b02dso12421197b3.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 05:35:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782304531; x=1782909331; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xPDpBmKtPUywZjFdZYdiGW+cb6iQbByKydMzv17TTi4=;
-        b=FovHO7McPPkI4QmwF3ibW9qlsYiuGX76P2JYsZeppl7UmyEPzE1KEdGPTm+WMw6aJD
-         RHEiTNIcm0Hq2u2duZeJb1829neT4tP0Hw7lTHH9a4VzhsxTaOBhTQt+U20wt2NWlAlV
-         E8jNqeOfqD6BnbZqwNY8BRpI0vQkMy+J5cQVT+HS9hKsP3pGpAlW3ny9Sty6he0QCGcj
-         ul7cKwqBbqXHbexQc25rz+9ywrGzyO/ukOQ4zrMu53HjzfuyaWzq34vBuPwPZT0V2YRh
-         fLD0WjcsoYi2adO0t9HWv6jkLn8hysbk4QH6g2zl61lB2Y1SXa+wpMkXCLPejV4ruA62
-         hflw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782304531; x=1782909331;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xPDpBmKtPUywZjFdZYdiGW+cb6iQbByKydMzv17TTi4=;
-        b=aYWg5UqNwSxA1DU+hGcVnl9NzxQ+ceoE5yjlIDFWt5QAgp747RE20cWdyrUmmUFC6N
-         ZnPo4pxAvmuliAbmlO4fd58mwCUBoC6Y6W600pGgFSxKgi7Fte1rmjx2N1uildOXqCat
-         kM3UWxvv7v3BtUwOGetD7FxKOIaR8LnF8f4wtYV0CAhIEF6rpVEWY0zIwbYqYWmSUDHc
-         Zmx4/fmtZuwWLTPj0ZNLVbC2pmRbb2CiXB+82FCKbA9LjpX7W9I2p2bS/VU63Z+rnbem
-         fZDXIqxp645mpp4lKRgh4LMXlXBEy5HhxDTDxe/N6Hnsv6zTFRS/kDCx9VPSGRxaEp3b
-         HrSw==
-X-Forwarded-Encrypted: i=1; AHgh+RrlfDPM3VHhbi+/N2ETyjuB4Z6gRZSnyuZX5FLSOxi+TZcmkCTd12yABmtG+RqYDHJokXUiU/uBRYJUN+XA@vger.kernel.org
-X-Gm-Message-State: AOJu0YzyipCtrixO/jIIZuo9obtpCK8Ok9b54EGkFrRIbT1fy+NxnxNZ
-	ND7Ijg6oB7Ciy7oD76kEEGSGLoKJvUe9hPoJ1AZf+U/hWHAOJX8Ubh3R
-X-Gm-Gg: AfdE7cmVJIOmEr/kl30DreYtjnTDvlnyJ0dWdHoGj1U04AAVzufyQBvq0fJmkKO83YT
-	9vEjkId+WplWdpA6YVbFEUwYC//CgWlFGPeFhQWKrZicuBd7giWe5Y5gp3B7eJbNgp3I4QxrYVP
-	iHJf6BxWHKaQg2axvBxCj26HjGOwtIE0KvzGpvfx8ZTgHVXL0ayjk9xj0dejIqMi05jEjIKqPQy
-	PEfl2eQnPG+tCuuvopIiYHPLaZFhdaiRAZEEmWHkPh5+9t3NcF7FVy43MgLKT76cRdwe26ctHp2
-	tQf1PgIEAFdVsPTK2rOqM0GiYLtdW0VOf3PI0+x3hQeNVMcF68SgKZiVrmz39m9bpjn1LVhQHZt
-	a/3hMvI3Om89C/nrILgbb5cjU2WWneGvjrlUWtCTTuNqSXQ9n+4R19DHAr/T4a5PW0p8zR0fAdk
-	8zJAQIEFjB4rqsLOg6umIfQzbRNw==
-X-Received: by 2002:a05:690c:3341:b0:806:5a1c:d892 with SMTP id 00721157ae682-807f5633ca1mr28141257b3.47.1782304530790;
-        Wed, 24 Jun 2026 05:35:30 -0700 (PDT)
-Received: from Dev-Null-MSI ([2a0d:3344:52ac:a808:98a4:4381:be45:536f])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8025c97032esm58728607b3.10.2026.06.24.05.35.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2026 05:35:30 -0700 (PDT)
-From: Yousef Alhouseen <alhouseenyousef@gmail.com>
-To: willy@infradead.org,
-	jack@suse.cz
-Cc: shikemeng@huaweicloud.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Yousef Alhouseen <alhouseenyousef@gmail.com>
-Subject: [PATCH] tools/writeback: parse help before importing drgn
-Date: Wed, 24 Jun 2026 14:35:14 +0200
-Message-ID: <20260624123514.7822-1-alhouseenyousef@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="NfHfWAOU"
+Message-ID: <dbfce6fd-1a70-49e4-84f0-f8abe0b0686d@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782305952;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=w7mwncPJFc52L9GcJuLCemWszY1t/5oa8NDDGKNs5Xo=;
+	b=NfHfWAOUjme+ZS3K2cqW3zzBU9DDghXYBUACVwF1DP1IhHC7OpK5Dg+VG056EyHSeeXnq+
+	d2hck8f1B4+5aF6WEjOXUu98tizJ3d/dkoetmJwOT+C8sRL9MoCoWbRSgtT56dE5GZhUKK
+	23iu6/01orE+jSg9Lvj5Ccw4UnfNStE=
+Date: Wed, 24 Jun 2026 20:58:49 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCH v3 0/7] Prepare mutable list iterators to cache cursor
+ state
+To: "David Hildenbrand (Arm)" <david@kernel.org>,
+ Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>,
+ Tejun Heo <tj@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Paul Moore <paul@paul-moore.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Howells <dhowells@redhat.com>, Simona Vetter <simona.vetter@ffwll.ch>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Philipp Stanner <phasta@kernel.org>, linux-block@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ "open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
+ linux-ntfs-dev@lists.sourceforge.net,
+ Linux-Fsdevel <linux-fsdevel@vger.kernel.org>,
+ io-uring <io-uring@vger.kernel.org>, audit@vger.kernel.org,
+ bpf <bpf@vger.kernel.org>, Network Development <netdev@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ "linux-perf-use." <linux-perf-users@vger.kernel.org>,
+ linux-trace-kernel <linux-trace-kernel@vger.kernel.org>,
+ kexec@lists.infradead.org, live-patching@vger.kernel.org,
+ linux-modules@vger.kernel.org,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ Linux Power Management <linux-pm@vger.kernel.org>, rcu@vger.kernel.org,
+ sched-ext@lists.linux.dev, linux-mm <linux-mm@kvack.org>,
+ virtualization@lists.linux.dev, damon@lists.linux.dev,
+ clang-built-linux <llvm@lists.linux.dev>,
+ chengkaitao <chengkaitao@kylinos.cn>
+References: <20260622040533.29824-1-kaitao.cheng@linux.dev>
+ <CAADnVQJmPWFT01b7DuLdtafv=8FyB84GYHNZ8zSTck+9Aw0JpA@mail.gmail.com>
+ <8f98a3a6-f97b-4673-964f-fb09c8879e2e@kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kaitao Cheng <kaitao.cheng@linux.dev>
+In-Reply-To: <8f98a3a6-f97b-4673-964f-fb09c8879e2e@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-wb_monitor.py imports drgn before argparse can handle "-h". That makes
-help fail on systems where drgn is not installed, even though the script
-does not need drgn to print usage text.
 
-Parse arguments before importing drgn so the help path works without the
-runtime debugging dependency. While there, fix a typo in the help text.
 
-Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
----
- tools/writeback/wb_monitor.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+在 2026/6/22 19:27, David Hildenbrand (Arm) 写道:
+> On 6/22/26 07:28, Alexei Starovoitov wrote:
+>> On Sun, Jun 21, 2026 at 9:06 PM Kaitao Cheng <kaitao.cheng@linux.dev> wrote:
+>>>
+>>> From: chengkaitao <chengkaitao@kylinos.cn>
+>>>
+>>> The list_for_each*_safe() helpers are used when the loop body may remove
+>>> the current entry.  Their current interface, however, forces every caller
+>>> to define a temporary cursor outside the macro and pass it in, even when
+>>> the caller never uses that cursor directly.  For most call sites this
+>>> extra cursor is just boilerplate required by the macro implementation.
+>>>
+>>> This is awkward because the saved next pointer is an internal detail of
+>>> the iteration.  Callers that only remove or move the current entry do not
+>>> need to spell it out.
+>>>
+>>> The _safe() suffix has also caused confusion.  Christian Koenig pointed
+>>> out that the name is easy to read as a thread-safe variant, especially
+>>> for beginners, even though it only means that the iterator keeps enough
+>>> state to tolerate removal of the current entry.  He suggested _mutable()
+>>> as a clearer description of what the loop permits.
+>>>
+>>> Add *_mutable() iterator variants for list, hlist and llist.  The new
+>>> helpers are variadic and support both forms.  In the common case, the
+>>> caller omits the temporary cursor and the macro creates a unique internal
+>>> cursor with typeof(pos) and __UNIQUE_ID().  If a loop really needs an
+>>> explicit temporary cursor, the caller can still pass it and the helper
+>>> keeps the existing *_safe() behaviour.
+>>>
+>>> For example, a call site may use the shorter form:
+>>>
+>>>   list_for_each_entry_mutable(pos, head, member)
+>>>
+>>> or keep the explicit temporary cursor form:
+>>>
+>>>   list_for_each_entry_mutable(pos, tmp, head, member)
+>>>
+>>> The existing *_safe() helpers remain available for compatibility.  This
+>>> series only converts users in mm, block, kernel, init and io_uring.  If
+>>> this approach looks acceptable, the remaining users can be converted in
+>>> follow-up series.
+>>>
+>>> Changes in v3 (Christian König, Andy Shevchenko):
+>>> - Convert safe list walks to mutable iterators
+>>>
+>>> Changes in v2 (Muchun Song, Andy Shevchenko):
+>>> - Drop the list_for_each_entry_mutable*() helpers from v1 and make the
+>>>   cursor change directly in the existing list_for_each_entry*() helpers.
+>>> - Open-code special list walks that rely on updating the loop cursor in
+>>>   the body, preserving their existing traversal semantics.
+>>>
+>>> Link to v2:
+>>> https://lore.kernel.org/all/20260609061347.93688-1-kaitao.cheng@linux.dev/
+>>>
+>>> Link to v1:
+>>> https://lore.kernel.org/all/20260529082149.76764-1-kaitao.cheng@linux.dev/
+>>>
+>>> Kaitao Cheng (7):
+>>>   list: Add mutable iterator variants
+>>>   llist: Add mutable iterator variants
+>>>   mm: Use mutable list iterators
+>>>   block: Use mutable list iterators
+>>>   kernel: Use mutable list iterators
+>>>   initramfs: Use mutable list iterator
+>>>   io_uring: Use mutable list iterators
+>>>
+>>>  block/bfq-iosched.c                 |  17 +-
+>>>  block/blk-cgroup.c                  |  12 +-
+>>>  block/blk-flush.c                   |   4 +-
+>>>  block/blk-iocost.c                  |  18 +-
+>>>  block/blk-mq.c                      |   8 +-
+>>>  block/blk-throttle.c                |   4 +-
+>>>  block/kyber-iosched.c               |   4 +-
+>>>  block/partitions/ldm.c              |   8 +-
+>>>  block/sed-opal.c                    |   4 +-
+>>>  include/linux/list.h                | 269 ++++++++++++++++++++++++----
+>>>  include/linux/llist.h               |  81 +++++++--
+>>>  init/initramfs.c                    |   5 +-
+>>>  io_uring/cancel.c                   |   6 +-
+>>>  io_uring/poll.c                     |   3 +-
+>>>  io_uring/rw.c                       |   4 +-
+>>>  io_uring/timeout.c                  |   8 +-
+>>>  io_uring/uring_cmd.c                |   3 +-
+>>>  kernel/audit_tree.c                 |   4 +-
+>>>  kernel/audit_watch.c                |  16 +-
+>>>  kernel/auditfilter.c                |   4 +-
+>>>  kernel/auditsc.c                    |   4 +-
+>>>  kernel/bpf/arena.c                  |  10 +-
+>>>  kernel/bpf/arraymap.c               |   8 +-
+>>>  kernel/bpf/bpf_local_storage.c      |   3 +-
+>>>  kernel/bpf/bpf_lru_list.c           |  25 ++-
+>>>  kernel/bpf/btf.c                    |  18 +-
+>>>  kernel/bpf/cgroup.c                 |   7 +-
+>>>  kernel/bpf/cpumap.c                 |   4 +-
+>>>  kernel/bpf/devmap.c                 |  10 +-
+>>>  kernel/bpf/helpers.c                |   8 +-
+>>>  kernel/bpf/local_storage.c          |   4 +-
+>>>  kernel/bpf/memalloc.c               |  16 +-
+>>>  kernel/bpf/offload.c                |   8 +-
+>>>  kernel/bpf/states.c                 |   4 +-
+>>>  kernel/bpf/stream.c                 |   4 +-
+>>>  kernel/bpf/verifier.c               |   6 +-
+>>>  kernel/cgroup/cgroup-v1.c           |   4 +-
+>>>  kernel/cgroup/cgroup.c              |  54 +++---
+>>>  kernel/cgroup/dmem.c                |  12 +-
+>>>  kernel/cgroup/rdma.c                |   8 +-
+>>>  kernel/events/core.c                |  44 +++--
+>>>  kernel/events/uprobes.c             |  12 +-
+>>>  kernel/exit.c                       |   8 +-
+>>>  kernel/fail_function.c              |   4 +-
+>>>  kernel/gcov/clang.c                 |   4 +-
+>>>  kernel/irq_work.c                   |   4 +-
+>>>  kernel/kexec_core.c                 |   4 +-
+>>>  kernel/kprobes.c                    |  16 +-
+>>>  kernel/livepatch/core.c             |   4 +-
+>>>  kernel/livepatch/core.h             |   4 +-
+>>>  kernel/liveupdate/kho_block.c       |   4 +-
+>>>  kernel/liveupdate/luo_flb.c         |   4 +-
+>>>  kernel/locking/rwsem.c              |   2 +-
+>>>  kernel/locking/test-ww_mutex.c      |   2 +-
+>>>  kernel/module/main.c                |  11 +-
+>>>  kernel/padata.c                     |   4 +-
+>>>  kernel/power/snapshot.c             |   8 +-
+>>>  kernel/power/wakelock.c             |   4 +-
+>>>  kernel/printk/printk.c              |  11 +-
+>>>  kernel/ptrace.c                     |   4 +-
+>>>  kernel/rcu/rcutorture.c             |   3 +-
+>>>  kernel/rcu/tasks.h                  |   9 +-
+>>>  kernel/rcu/tree.c                   |   6 +-
+>>>  kernel/resource.c                   |   4 +-
+>>>  kernel/sched/core.c                 |   4 +-
+>>>  kernel/sched/ext.c                  |  22 +--
+>>>  kernel/sched/fair.c                 |  28 +--
+>>>  kernel/sched/topology.c             |   4 +-
+>>>  kernel/sched/wait.c                 |   4 +-
+>>>  kernel/seccomp.c                    |   4 +-
+>>>  kernel/signal.c                     |  11 +-
+>>>  kernel/smp.c                        |   4 +-
+>>>  kernel/taskstats.c                  |   8 +-
+>>>  kernel/time/clockevents.c           |   6 +-
+>>>  kernel/time/clocksource.c           |   4 +-
+>>>  kernel/time/posix-cpu-timers.c      |   4 +-
+>>>  kernel/time/posix-timers.c          |   3 +-
+>>>  kernel/torture.c                    |   3 +-
+>>>  kernel/trace/bpf_trace.c            |   4 +-
+>>>  kernel/trace/ftrace.c               |  49 +++--
+>>>  kernel/trace/ring_buffer.c          |  25 ++-
+>>>  kernel/trace/trace.c                |  12 +-
+>>>  kernel/trace/trace_dynevent.c       |   6 +-
+>>>  kernel/trace/trace_dynevent.h       |   5 +-
+>>>  kernel/trace/trace_events.c         |  35 ++--
+>>>  kernel/trace/trace_events_filter.c  |   4 +-
+>>>  kernel/trace/trace_events_hist.c    |   8 +-
+>>>  kernel/trace/trace_events_trigger.c |  17 +-
+>>>  kernel/trace/trace_events_user.c    |  16 +-
+>>>  kernel/trace/trace_stat.c           |   4 +-
+>>>  kernel/user-return-notifier.c       |   3 +-
+>>>  kernel/workqueue.c                  |  16 +-
+>>>  mm/backing-dev.c                    |   8 +-
+>>>  mm/balloon.c                        |   8 +-
+>>>  mm/cma.c                            |   4 +-
+>>>  mm/compaction.c                     |   4 +-
+>>>  mm/damon/core.c                     |   4 +-
+>>>  mm/damon/sysfs-schemes.c            |   4 +-
+>>>  mm/dmapool.c                        |   4 +-
+>>>  mm/huge_memory.c                    |   8 +-
+>>>  mm/hugetlb.c                        |  56 +++---
+>>>  mm/hugetlb_vmemmap.c                |  16 +-
+>>>  mm/khugepaged.c                     |  14 +-
+>>>  mm/kmemleak.c                       |   7 +-
+>>>  mm/ksm.c                            |  25 +--
+>>>  mm/list_lru.c                       |   4 +-
+>>>  mm/memcontrol-v1.c                  |   8 +-
+>>>  mm/memory-failure.c                 |  12 +-
+>>>  mm/memory-tiers.c                   |   4 +-
+>>>  mm/migrate.c                        |  23 ++-
+>>>  mm/mmu_notifier.c                   |   9 +-
+>>>  mm/page_alloc.c                     |   8 +-
+>>>  mm/page_reporting.c                 |   2 +-
+>>>  mm/percpu.c                         |  11 +-
+>>>  mm/pgtable-generic.c                |   4 +-
+>>>  mm/rmap.c                           |  10 +-
+>>>  mm/shmem.c                          |   9 +-
+>>>  mm/slab_common.c                    |  14 +-
+>>>  mm/slub.c                           |  33 ++--
+>>>  mm/swapfile.c                       |   4 +-
+>>>  mm/userfaultfd.c                    |  12 +-
+>>>  mm/vmalloc.c                        |  24 +--
+>>>  mm/vmscan.c                         |   7 +-
+>>>  mm/zsmalloc.c                       |   4 +-
+>>>  124 files changed, 875 insertions(+), 681 deletions(-)
+>>
+>> Not sure what you were thinking, but this diff stat
+>> is not landable.
+> 
+> Agreed. If we decide we want this, I guess we should target per-subsystem
+> conversions.
+> 
+> If this goes through the MM tree, I would even appreciate doing this on a per-MM
+> component granularity.
+> 
+> (unless we have some magic "Linus converts all of them" script, which I doubt we
+> will have)
 
-diff --git a/tools/writeback/wb_monitor.py b/tools/writeback/wb_monitor.py
-index 5e3591f1f..e09e00ee2 100644
---- a/tools/writeback/wb_monitor.py
-+++ b/tools/writeback/wb_monitor.py
-@@ -14,7 +14,7 @@ backing dev. For more info on drgn, visit https://github.com/osandov/drgn.
- 
-   dirtied(kB)       Amount of pages have been dirtied.
- 
--  wrttien(kB)       Amount of dirty pages have been written back to disk.
-+  written(kB)       Amount of dirty pages have been written back to disk.
- 
-   avg_wb(kBps)      Smoothly estimated write bandwidth of writing dirty pages
-                     back to disk.
-@@ -25,9 +25,6 @@ import re
- import time
- import json
- 
--import drgn
--from drgn.helpers.linux.list import list_for_each_entry
--
- import argparse
- parser = argparse.ArgumentParser(description=desc,
-                                  formatter_class=argparse.RawTextHelpFormatter)
-@@ -41,6 +38,9 @@ parser.add_argument('-c', '--cgroup', action='store_true',
-                     help='show writeback of bdi in cgroup')
- args = parser.parse_args()
- 
-+import drgn
-+from drgn.helpers.linux.list import list_for_each_entry
-+
- bdi_list                = prog['bdi_list']
- 
- WB_RECLAIMABLE          = prog['WB_RECLAIMABLE']
+I strongly agree with the point above.
+
+> Is there a way forward to replace list_for_each_*_safe entirely, possibly just
+> reusing the old name but simply the parameter?
+
+David Laight, Christian König, and Jani Nikula do not agree with using
+clever macro syntax to support both calling forms at the same time,
+so for now it is not possible to keep the original macro name and only
+simplify the parameter. I may revert to the v1 version and ask everyone
+for their opinions again.
+
 -- 
-2.54.0
+Thanks
+Kaitao Cheng
 
