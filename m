@@ -1,55 +1,74 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB1103911B6;
-	Wed, 24 Jun 2026 06:46:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534AD38A70B
+	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 06:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782283610; cv=none; b=Ea1PjH1PW5APWzNRaom/kggAvTdoYmQxp4+Pr+6aoZA+0VBigieYOzTX/RanK02VIlz1oSVsJ95HKLKzXepZ7UoD8t/vyQ5t+EoepLmyX78GntRYFfAZFfI91Uhm+mJVdmIhPGVBgT62HxG+EzCQQ+Y8r8CQ4BBsBdJwb3M0RD4=
+	t=1782284307; cv=none; b=EkAjvZmt8QsLmH/Pa5ucfnRypiMn4lYvy5V6iv6EAKcjSOgCyAyxZUIb36VDX/FqVP41fdICrTy5XEGuwpif/QDQOIrdIaW6WTFOK+gDoFeqctn57JUcCqx5RO7pCaaUf0dYVRlA5Kgcyh8Lnghvpo4K2cHqAKby0roI//yiFbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782283610; c=relaxed/simple;
-	bh=nwRkIG1D7sHKv4NHd0HMuT5kiLtb9PZpcIa3nzgNehc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ic+FNUPSXWI1CEC/wRkdzvVoziVBx0ZzZHefk2mi8sPr2AcaOjDyU4lLztW7c4B+6EWmn7Uuu/dMiHeBGmKaOpVFiq3tKmKNHf9gsMGprvC2RABIJvv7CSLsUgQ9qEWJYQvuTQUhjWo9Dhqpbwb8I19SpLGBFyNhvLNwqr4g8pA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=pHg/bxLA; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1782284307; c=relaxed/simple;
+	bh=c3/hAAsUkpGUpzNzk6RCbkGXgVL4bAM4gpI7T7r7OVk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Ud0PKupihfHUe8NOM8ccOQMYNNBDqQkAyJVQFORYiMNLP3xUGuPWqnVs0UVcSCARTKMRnPoEAAI6eWlqROH3+PNyBSDibKWFgOVYGTIjBEMpacZEvhQpXvJZHrYoMEJMIWOkapYbJUgpQdpAZdjsHyuCaxjeW17rdHnUzLbwwcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VpAtg9eA; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="pHg/bxLA"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id F28B932C;
-	Wed, 24 Jun 2026 06:37:50 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=pHg/bxLA;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id DF8BD2141;
-	Wed, 24 Jun 2026 06:37:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VpAtg9eA"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-36b9d265355so417608a91.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 23:58:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1782283073;
-	bh=7IcY48b5jFfuxu5UTqcZ9wz6LByK6SxWL34gP1XzfYE=;
-	h=From:To:CC:Subject:Date;
-	b=pHg/bxLABiz2Qj+igxxt3W1R2vL/o5WY3iloYqkRcJEdSVM1vPGoPhDJvoNYiw3i+
-	 CvcJpbzrtl0fgkF1xP2Il4P3KY/pDPUYK+tO6BMD5VIEug2PrUEJIMuuX5T4sUQWtm
-	 Psw6sC12QlSNnTLTultctNYrw/7yd1vxyZIqMU28=
-Received: from localhost.localdomain (172.30.20.193) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Wed, 24 Jun 2026 09:37:50 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Alessandro Schino <7991aleschino@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Edward Adam Davis <eadavis@qq.com>, Helen
- Koike <koike@igalia.com>, Jamie Nguyen <jamien@nvidia.com>, Konstantin
- Komarov <almaz.alexandrovich@paragon-software.com>, Michael Bommarito
-	<michael.bommarito@gmail.com>, Mihai Brodschi <m.brodschi@gmail.com>, Tristan
- Madani <tristan@talencesecurity.com>, Yunpeng Tian <shionthanatos@gmail.com>,
-	Zhan Xusheng <zhanxusheng1024@gmail.com>, ZhengYuan Huang
-	<gality369@gmail.com>
-Subject: [GIT PULL] ntfs3: changes for 7.2
-Date: Wed, 24 Jun 2026 09:37:25 +0300
-Message-ID: <20260624063725.5151-1-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.34.1
+        d=gmail.com; s=20251104; t=1782284305; x=1782889105; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y0Um4hH99oeJ48BWDhTuqgCjMj39PG5+rvU6cG4OaeI=;
+        b=VpAtg9eAKhgR9DfcZVtsUKpUAUVCQiTDVVOWrx8mGfG1D7VUUBQvdKdcV6QFK7P6/h
+         1KtNMqfV1dW2XCb9TzV8nzFwIn9rT99yWOU+zHfVxMevV4de+86fRXP6NiS7eZeZH252
+         PBrH0puLE79E/Hpv+dlVm68YpQ3lRTPwHrNgBZeczInEEZdaFqNrBkPe46VsNzR0gls3
+         60cNZXZ6c4heRFJ3pUf1LWWYwPzt4IR+11LEm6weq0rds5nv6hAQiAyoSgkiWWMsvU/f
+         vahG5dPJc/1onvNsnxA+TGVU1BKP8mzZPWeqz011ZvPfF617ECxyYFMgaqorzd7JNXti
+         6BwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782284305; x=1782889105;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=y0Um4hH99oeJ48BWDhTuqgCjMj39PG5+rvU6cG4OaeI=;
+        b=ifrUa3C1GA1jCkyKl7gD2851LxuBsac3BxBy8qmRgSoKc6Gc/513IdSE+G/hp3RQDN
+         aShDLfEaKgKtz5DyeAQ99TbOvn3npp/oOCnZc8md1/wPYW2NegmWLpF68rTBYIiPrKCY
+         g9LRkqY/5ENRMujGiisowu/pffVT/kUh1z0nLkPtndaV9JoPvCs+2sCGNn0E2yG+s2xN
+         yD7+nMjUE7Bta/pIs96q4qtSYGVnBgPggsgOWwxThHa7b16Zoaokn7b94fVAp3XtPJQS
+         ySwTT9phbDA6Q9WQlMvmhQprozAO4lantFQPuUIR+XLT/5arQlL7y8D9O7QgGWnXRqH8
+         oNkg==
+X-Forwarded-Encrypted: i=1; AHgh+RoRPy9sLZPEDj6+X6KGe41i/0sMWO1L89hSvzPLO7FKgPbEIEYf2/VQtKI9uvVEXyxVmEVE336u8q1Ve5GI@vger.kernel.org
+X-Gm-Message-State: AOJu0YyvwjMhrgd54TRLAexJF1/1rywGM7pq4t/ScjfYLUq+yPEBYVPe
+	1Y0UeXSL5wk6oxj/02MAn3e+imiNMwLBurIVBU+rt/8J+DtxFKVEMx2n9Qw0kg==
+X-Gm-Gg: AfdE7cnXuHVtmGsnIfqk/FBTdnLXacEzruIX2dOGc/V5x7bsgXud+VpozRrf/pjWj1d
+	QvCPkeRLrUsN/+ackCX8+k8tBSXDhRz8ph06CZGTSpGIIfkiIaWPv+e7f2yB4YIdkhBhFL9YbFm
+	61PDkK+093hcgCbRQ/ObkViSlinAQ+deOOgZOP6jnSWUVGgCoPmMby/wYqm/x88r9H4aWRBK7+/
+	vuIQxbkbZY2cfoG47bKhmWo4YyX8aTFMACJYZha0Dxf5USM2DducfhmaIuhQHv3+iWy8piNeZq8
+	30tLyJp70Gda6Ama1cIK2PER56DwM2VESDuP0sQ+6IWrsUmgvuPM4JUrcTqA0B3GUchxKFgb+lW
+	ZNmlMesa0JsyAwSqSUbqcOv0B390nKfEoDB9gflqSVpmVZOwb9HGbpHYMCW7TvzOltru/FU2ZZE
+	YTW7WcfPQj3ZiVSWVDK8iNVVrIoHq9H6OCa0MjNMMQYvJRBlpF0E4hx3ve7IQ9sg==
+X-Received: by 2002:a17:90b:4ac1:b0:369:7421:b36f with SMTP id 98e67ed59e1d1-37de462d411mr2084324a91.21.1782284305284;
+        Tue, 23 Jun 2026 23:58:25 -0700 (PDT)
+Received: from localhost.localdomain ([47.72.129.29])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37de3a8441dsm1488142a91.4.2026.06.23.23.58.22
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 23 Jun 2026 23:58:24 -0700 (PDT)
+From: Barry Song <21cnbao@gmail.com>
+To: willy@infradead.org
+Cc: josef@toxicpanda.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [RFC PATCH] filemap: Remove file pinning during fault handling
+Date: Wed, 24 Jun 2026 14:58:18 +0800
+Message-Id: <20260624065818.49975-1-21cnbao@gmail.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+In-Reply-To: <20260622192114.1147198-1-willy@infradead.org>
+References: <20260622192114.1147198-1-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -57,141 +76,51 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Hello, please pull this branch containing ntfs3 code for 7.2.
- 
-Regards,
-Konstantin
- 
-----------------------------------------------------------------
-The following changes since commit 254f49634ee16a731174d2ae34bc50bd5f45e731:
- 
-  Linux 7.1-rc1 (2026-04-26 14:19:00 -0700)
- 
-are available in the Git repository at:
- 
-https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_7.2
- 
-for you to fetch changes up to 5b08dccecf825cbf905f348bc6ccb497507e28e2:
- 
-  ntfs3: reject direct userspace writes to reserved $LX* xattrs (2026-06-10 12:37:10 +0200)
- 
-----------------------------------------------------------------
-Changes for 7.2-rc1
- 
-Added:
-    depth limit to indx_find_buffer() to prevent stack overflow
-    validate split-point offset in indx_insert_into_buffer()
-    bounds check to run_get_highest_vcn()
-    fileattr_get() and fileattr_set() support
-    zero stale pagecache beyond valid data length
-    handle delayed allocation overlap in run lookup
-    validate lcns_follow in log_replay() conversion
-    cap RESTART_TABLE free-chain walker at rt->used
-    resize log->one_page_buf when adopting on-disk page size
-    reject direct userspace writes to reserved $LX* xattrs
- 
-Fixed:
-    out-of-bounds read in decompress_lznt()
-    avoid -Wmaybe-uninitialized warnings
-    hold ni_lock across readdir metadata walk
-    preserve non-DOS attribute bits in system.dos_attrib
-    validate index entry key bounds
-    syncing wrong inode on DIRSYNC cross-directory rename
-    validate Dirty Page Table capacity in log_replay() copy_lcns
-    wrong LCN in run_remove_range() when splitting a run
-    allocate iomap inline_data using alloc_page
-    mount failure on 64K page-size kernels
-    out-of-bounds read in ntfs_dir_emit() and hdr_find_e()
-    bound attr_off in UpdateResidentValue against data_off
-    bound DeleteIndexEntryAllocation memmove length
-    bound copy_lcns dp->page_lcns[] index in analysis pass
-    bound NTFS_DE view.data_off in UpdateRecordData{Root,Allocation}
-    prevent potential lcn remains uninitialized
- 
-Changed:
-    bound to_move in indx_insert_into_root() before hdr_insert_head()
-    call _ntfs_bad_inode() when failing to rename
-    fold resident writeback into writepages loop
-    force waiting for direct I/O completion
-    fold file size handling into ntfs_set_size()
-    reject SEEK_DATA and SEEK_HOLE past EOF early
-    format code, add descriptive comments and remove non-useful
- 
-----------------------------------------------------------------
-Alessandro Schino (1):
-      ntfs3: fix out-of-bounds read in ntfs_dir_emit() and hdr_find_e()
- 
-Arnd Bergmann (2):
-      ntfs3: avoid -Wmaybe-uninitialized warning
-      ntfs3: avoid another -Wmaybe-uninitialized warning
- 
-Edward Adam Davis (1):
-      fs/ntfs3: prevent potential lcn remains uninitialized
- 
-Helen Koike (1):
-      fs/ntfs3: call _ntfs_bad_inode() when failing to rename
- 
-Jamie Nguyen (2):
-      fs/ntfs3: fix mount failure on 64K page-size kernels
-      fs/ntfs3: resize log->one_page_buf when adopting on-disk page size
- 
-Konstantin Komarov (13):
-      fs/ntfs3: add bounds check to run_get_highest_vcn()
-      fs/ntfs3: add fileattr support
-      fs/ntfs3: zero stale pagecache beyond valid data length
-      fs/ntfs3: handle delayed allocation overlap in run lookup
-      fs/ntfs3: fold resident writeback into writepages loop
-      fs/ntfs3: force waiting for direct I/O completion
-      fs/ntfs3: fold file size handling into ntfs_set_size()
-      fs/ntfs3: reject SEEK_DATA and SEEK_HOLE past EOF early
-      fs/ntfs3: format code, deal with comments
-      fs/ntfs3: bound attr_off in UpdateResidentValue against data_off
-      fs/ntfs3: bound DeleteIndexEntryAllocation memmove length
-      fs/ntfs3: validate lcns_follow in log_replay conversion
-      ntfs3: reject direct userspace writes to reserved $LX* xattrs
- 
-Michael Bommarito (6):
-      fs/ntfs3: add depth limit to indx_find_buffer to prevent stack overflow
-      ntfs3: bound to_move in indx_insert_into_root before hdr_insert_head
-      ntfs3: validate split-point offset in indx_insert_into_buffer
-      fs/ntfs3: bound copy_lcns dp->page_lcns[] index in analysis pass
-      fs/ntfs3: bound NTFS_DE view.data_off in UpdateRecordData{Root,Allocation}
-      ntfs3: cap RESTART_TABLE free-chain walker at rt->used
- 
-Mihai Brodschi (1):
-      ntfs3: Allocate iomap inline_data using alloc_page
- 
-Tristan Madani (1):
-      ntfs3: fix out-of-bounds read in decompress_lznt
- 
-Yunpeng Tian (1):
-      fs/ntfs3: validate Dirty Page Table capacity in log_replay copy_lcns
- 
-Zhan Xusheng (2):
-      fs/ntfs3: fix syncing wrong inode on DIRSYNC cross-directory rename
-      fs/ntfs3: fix wrong LCN in run_remove_range() when splitting a run
- 
-ZhengYuan Huang (3):
-      fs/ntfs3: hold ni_lock across readdir metadata walk
-      fs/ntfs3: preserve non-DOS attribute bits in system.dos_attrib
-      fs/ntfs3: validate index entry key bounds
- 
-fs/ntfs3/attrib.c  |  29 +++--
-fs/ntfs3/dir.c     |  26 +++--
-fs/ntfs3/file.c    | 304 +++++++++++++++++++++++++++--------------------------
-fs/ntfs3/frecord.c |  38 ++++---
-fs/ntfs3/fslog.c   | 157 +++++++++++++++++++++++----
-fs/ntfs3/fsntfs.c  |   1 -
-fs/ntfs3/index.c   | 119 +++++++++++++++++----
-fs/ntfs3/inode.c   |  78 ++++++--------
-fs/ntfs3/lznt.c    |   2 +-
-fs/ntfs3/namei.c   |   6 +-
-fs/ntfs3/ntfs_fs.h |  12 ++-
-fs/ntfs3/run.c     |  75 ++++++++++++-
-fs/ntfs3/xattr.c   |  16 ++-
-13 files changed, 589 insertions(+), 274 deletions(-)
+> Now that faults are protected by a per-VMA lock instead of a process-wide
+> mmap lock, it is far less important to avoid holding the fault lock while
 
+We could have fallen back to the mmap_lock from the very beginning in
+do_page_fault(). And for GUP fault-in, we have always used the
+mmap_lock so far.
+
+> performing file reads.  The per-VMA lock does not prevent operations
+> on other VMAs, nor does it prevent iterating through /proc (see commits
+> 6b4c9f446981 and a75d4c333772 for the original motivations behind dropping
+> the fault lock).
+> 
+> We will now submit I/O and wait for I/O to complete while holding the
+> fault lock.  This removes the need to return VM_FAULT_RETRY which means
+> we won't fall back to the mmap_lock from the VMA lock just because we
+> had to wait for I/O.
+> 
+> This should result in improved lock contention, although it is possible
+> that some workloads will find themselves contending on the VMA locks
+> due to them being held for longer.
+
+Hongru reported that 82 of the top 200 Android applications in the
+China market call fork() in heavily multi-threaded processes[1]. It
+would be good to take existing applications into account, please.
+
+[1] https://lore.kernel.org/linux-mm/20260623075805.466317-1-zhanghongru@xiaomi.com/
+
+[...]
+> -static int lock_folio_maybe_drop_mmap(struct vm_fault *vmf, struct folio *folio,
+> -				     struct file **fpin)
+> -{
+> -	if (folio_trylock(folio))
+> -		return 1;
+> -
+> -	/*
+> -	 * NOTE! This will make us return with VM_FAULT_RETRY, but with
+> -	 * the fault lock still held. That's how FAULT_FLAG_RETRY_NOWAIT
+> -	 * is supposed to work. We have way too many special cases..
+> -	 */
+> -	if (vmf->flags & FAULT_FLAG_RETRY_NOWAIT)
+> -		return 0;
+> -
+
+Does this break FOLL_NOWAIT users? They are KVM on x86 and s390.
+
+Best Regards
+Barry
