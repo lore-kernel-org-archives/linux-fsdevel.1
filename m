@@ -1,63 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A9A91FFC48;
-	Wed, 24 Jun 2026 17:34:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B3C3CC7DF;
+	Wed, 24 Jun 2026 17:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782322453; cv=none; b=KhH23f/2uuAM3U5lSbc0uW0NO0YPo1xg73nrLcPNR6Z/VORCfgS07PhfRA/KQWwHsV7nuD6k6VAKzJMj5NFYg8W4SynLl9hTwxgM+TriUeKc5zTScihqlndazy6frZPKNc5UdGbAPSA7tg3RAOQ5pXO2/z/EJjjqAF86YnDR6MY=
+	t=1782322969; cv=none; b=PIiI20ZX4AqqU4EneXjQQAwctmeUo+gK1Z/n71feRVkvhb9pncNXjfMAs69qzXMc6EdceHuvWgqPgkXYq6F+feDDpgPrtfak0m2DmTn74AhKg/7p4JUObr5EipQwBArbVZSEodyHoVqr/y4eUGGaBCbT6lCzLE1bIZHhXLY1s+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782322453; c=relaxed/simple;
-	bh=Lx8sNzVy3en28MWQkj0wqo2PDuapP8NT8I2SiNbkdCM=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Hhpu4WcDaf9zys2iDheZVOJjo4labKfEQ8lCIq34zadgfv+7jRWEm8uTaqvQdr7uVskx4ViI6zuGkSGaYJpA8nyTu3LqKmormBBib69h78UqSYXRGCjog/n2UWv2vKDbpC/4gXL+c46Cgh4/12waEbkz0SYVBs1UniWOkVqGAKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FFu71/2d; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782322969; c=relaxed/simple;
+	bh=2ZycE3Xs0J5KLMwS+1EP6QccRLENONtX1HayvXH1Hbk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=atLtzgTjzruJlpnqo9/VV1fSGhToPGPu3L7m7KMFU+oK20gACSbf67YFxSEGbXp3hZnCyyFNKuy/w6/ufh1HzWiuJ5/1TFJ8KDfqk8sY3SdNBBpQcSgnW9X9nAn2YNz+kcij1qR2XMSmEGHT+YBcHDfeyINZAOv3hX4s5GDoeps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JqlOnzJa; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FFu71/2d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3C8B1F000E9;
-	Wed, 24 Jun 2026 17:34:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782322452;
-	bh=mqqnvKoyRvjCm51EYYKzRh5KcOf70lqzMhet35d6tfQ=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=FFu71/2d+9bpzNQ9fXipuqUIA5H1P7gNcQQW6Khfvck78UmcFwVslsHwBqLFQjuOy
-	 8ECU8wn9Ppm+9owyQQrpT0RgAFIam5o27ycjF+E2DXmKDlYzfKPstuq0oRK6KlJedh
-	 tOP09DN7ytSJaE1NfYAmUH5QgzZZFPgvOrnG/OGRInE+RgPU87jSS0vSHK9zD7ZA8s
-	 f4CdaItOuHUNHE+EIReOTt+/QhfL8f2KHz5/AZlcRifeDdARJU3xXL5uYdOtjmlxIh
-	 5sN/LVzRqkU6UFhiUMt8Ik4qWwu8XVKR15K74qH3j2g59R4xPWx1Br37PXOetR6+EF
-	 +8sPAVJCi+Jwg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D0CA73AA6A47;
-	Wed, 24 Jun 2026 17:34:01 +0000 (UTC)
-Subject: Re: [GIT PULL] ntfs3: changes for 7.2
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20260624063725.5151-1-almaz.alexandrovich@paragon-software.com>
-References: <20260624063725.5151-1-almaz.alexandrovich@paragon-software.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20260624063725.5151-1-almaz.alexandrovich@paragon-software.com>
-X-PR-Tracked-Remote: https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_7.2
-X-PR-Tracked-Commit-Id: 5b08dccecf825cbf905f348bc6ccb497507e28e2
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: f0e6f20cb52b14c2c441f04e21cef0c95d498cac
-Message-Id: <178232244041.2912789.1112090141455320884.pr-tracker-bot@kernel.org>
-Date: Wed, 24 Jun 2026 17:34:00 +0000
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: torvalds@linux-foundation.org, ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Alessandro Schino <7991aleschino@gmail.com>, Arnd Bergmann <arnd@arndb.de>, Edward Adam Davis <eadavis@qq.com>, Helen Koike <koike@igalia.com>, Jamie Nguyen <jamien@nvidia.com>, Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Michael Bommarito <michael.bommarito@gmail.com>, Mihai Brodschi <m.brodschi@gmail.com>, Tristan Madani <tristan@talencesecurity.com>, Yunpeng Tian <shionthanatos@gmail.com>, Zhan Xusheng <zhanxusheng1024@gmail.com>, ZhengYuan Huang <gality369@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JqlOnzJa"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=4ElqMcyD4SnoVaQLQg03XYigTcdoKEg/OF55QxzEAiY=; b=JqlOnzJae0InaYPAqvmaT+XGXF
+	NE3lCHDU5phMBdzAM0HLvga9mK44xqUP0uku/iiapVYmuLjOEM+VKVi+h7bwd8BB16qeT4l/lfmIg
+	2SIx6fLUOWfTVym/Me6CJgOXR1ipgT/pe0/F1t9vo8he1xfBSlllk6a/u0RpRimgPl7UA194cMa64
+	yzePfkpVxA92FFtp86Kn552jKOUeI4t/GsTykC34EA+ZlWt1C/fN6/dsKhH0qJBAuNVx75rbPSvfc
+	dd1VSfF91HTtSS3fxrHwadeNMYE0Azmzg1MOxzcSKVwVQX1CEV7zE5P9buW9h7bJ0DMTPeblo5bex
+	FJA0OTSQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wcRcT-00000008SR5-2ov3;
+	Wed, 24 Jun 2026 17:42:37 +0000
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Yuezhang Mo <yuezhang.mo@sony.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Hyunchul Lee <hyc.lee@gmail.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Carlos Maiolino <cem@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Naohiro Aota <naohiro.aota@wdc.com>,
+	Johannes Thumshirn <jth@kernel.org>,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	fuse-devel@lists.linux.dev,
+	gfs2@lists.linux.dev,
+	ntfs3@lists.linux.dev
+Subject: [PATCH] iomap: Remove FGP_NOFS from iomap_get_folio()
+Date: Wed, 24 Jun 2026 18:42:26 +0100
+Message-ID: <20260624174228.2015893-1-willy@infradead.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The pull request you sent on Wed, 24 Jun 2026 09:37:25 +0300:
+FGP_NOFS is legacy; filesystems should be using memalloc_nofs_save/restore
+instead.  We have it here in iomap because it was buried in
+grab_cache_page_write_begin() and we didn't want to change this behaviour
+as part of the folio transition.
 
-> https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_7.2
+I have tested this with XFS and see no issues.  Other filesystems (cc'd)
+may need to make adjustments.  Please test with lockdep enabled.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/f0e6f20cb52b14c2c441f04e21cef0c95d498cac
+Cc: "Darrick J. Wong" <djwong@kernel.org> (iomap)
+Cc: Jens Axboe <axboe@kernel.dk> (block)
+Cc: Namjae Jeon <linkinjeon@kernel.org> (exfat, ntfs)
+Cc: Sungjong Seo <sj1557.seo@samsung.com> (exfat)
+Cc: Yuezhang Mo <yuezhang.mo@sony.com> (exfat)
+Cc: Miklos Szeredi <miklos@szeredi.hu> (fuse)
+Cc: Andreas Gruenbacher <agruenba@redhat.com> (gfs2)
+Cc: Hyunchul Lee <hyc.lee@gmail.com> (ntfs)
+Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com> (ntfs3)
+Cc: Carlos Maiolino <cem@kernel.org> (xfs)
+Cc: Damien Le Moal <dlemoal@kernel.org> (zonefs)
+Cc: Naohiro Aota <naohiro.aota@wdc.com> (zonefs)
+Cc: Johannes Thumshirn <jth@kernel.org> (zonefs)
+Cc: linux-xfs@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-block@vger.kernel.org
+Cc: fuse-devel@lists.linux.dev
+Cc: gfs2@lists.linux.dev
+Cc: ntfs3@lists.linux.dev
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+---
+ fs/iomap/buffered-io.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thank you!
-
+diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+index 8d4806dc46d4..27bc2455a98d 100644
+--- a/fs/iomap/buffered-io.c
++++ b/fs/iomap/buffered-io.c
+@@ -768,7 +768,7 @@ EXPORT_SYMBOL_GPL(iomap_is_partially_uptodate);
+  */
+ struct folio *iomap_get_folio(struct iomap_iter *iter, loff_t pos, size_t len)
+ {
+-	fgf_t fgp = FGP_WRITEBEGIN | FGP_NOFS;
++	fgf_t fgp = FGP_WRITEBEGIN;
+ 
+ 	if (iter->flags & IOMAP_NOWAIT)
+ 		fgp |= FGP_NOWAIT;
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.47.3
+
