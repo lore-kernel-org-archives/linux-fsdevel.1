@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0148346E43
-	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 11:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B293451D6
+	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 11:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782302279; cv=none; b=QED4Dgy1gp+Ao4jrN/7YX/7OrCgmUQzMkAKPlaK6n9DUlN2IUFUs3cSIhSMlLElaRS0Se5VK/+St4A4I8GtNxbFFH+WTSBzb2Hx6lNXLg7YiLhmH6ZXMiYqIaFO+8XPMMsvkjGeqY5JRaazqvbwDzC3HkNWO2jk/YyzRqrwvYu4=
+	t=1782302282; cv=none; b=D0EerhM9ccEmKTnox1uQg7jvefkonAd1K4/sCzo6p00c06DQ8gzTEqX/PzO8yMLoOX9SPz3RNqR0RmB/ctklPsnTUQQ/mYWJRN3aFhf9dT6D/84sV1x3VJmyaUKSF3CVAhZfHmO7Fa9CFV9BAwqcnXNtK8URWytLhImkv/MLGI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782302279; c=relaxed/simple;
-	bh=zCd/iNdBzMzBN8CIod7ZZV56ICy+rSCXqOJZZvgRkeg=;
+	s=arc-20240116; t=1782302282; c=relaxed/simple;
+	bh=/VMGqRXj2H1ZoJ9Len4yDIgpZpvQtbhJDErO1fIajO8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VfKQ+YnjN9Du2WatK6i21GZYNll8jiDzBLBvsoqeOS9VyBAMnzI/b13uHedppaW79YT2DdJuKngFYhtoqqLpef2zCqiLWijO7Iluh9S14ojQkXn5LeCH687r7f8qbVHthPQTI/OEgMfpd2R83XFRNDALq1vZhxUYAF5lafp5gmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dyILDLpQ; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=rz65+0wwSYHQr9ZpgLNO/lN+A/rtfM7ockhgeZg/9JiCEVPTaFOpddzE3aIvzv8/UkYsPEX+d9N5og/ooObgAH4e+Vq/3i9DnWhJ9ErUef3ebjlfLu1tVmz1jN80O9k6DPx7El/lYc10y53ic/IgKJNKpM52lAMlsnx+PusyRMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=B+zcD5vG; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dyILDLpQ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="B+zcD5vG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782302277;
+	s=mimecast20190719; t=1782302280;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aRFmJ/J1AuXTPRw4YdoDWjljqrX4pDv27mJgEf6FBEw=;
-	b=dyILDLpQQPwK95vq9/GB3a471kAPRcORqg9LLYLrDi9EUxUUTlBcyMjjDgYHuLSN2zLajc
-	Ep9UeRmiGNdv3AtCeC9wyPKpg6EZ8wnhrLfS/MJgpw43zqlLzRa90NpG4IpAnTBjnthAQx
-	n78PYkKB5XaZ4Ztik8/Gi2lGxxh92U4=
+	bh=6xzr+Qi6ZDs+0Riq2AVSQ7VxUd6HCUSx75f0+qxBdXU=;
+	b=B+zcD5vGPAxJBOUJ3xy/V11O5cDB0GOA8QCVkyEY/WKzlIi4OuNU2pJnvxi80T6LbGFVTx
+	u6ksT0Jm2G4YCGbl4pJTvfuoIUlVXzGrfEfYjTByWN0QASPPIVUzpUTvJqPv+SXQahoX0c
+	tvvn/V2cqZPj7exAAGkabC2eiC38fIE=
 Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-88-eAiCZiLhMVKR1ySOnAkA7A-1; Wed,
- 24 Jun 2026 07:57:51 -0400
-X-MC-Unique: eAiCZiLhMVKR1ySOnAkA7A-1
-X-Mimecast-MFC-AGG-ID: eAiCZiLhMVKR1ySOnAkA7A_1782302270
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-649-4boprWudNKS5lE4buAZyrw-1; Wed,
+ 24 Jun 2026 07:57:57 -0400
+X-MC-Unique: 4boprWudNKS5lE4buAZyrw-1
+X-Mimecast-MFC-AGG-ID: 4boprWudNKS5lE4buAZyrw_1782302275
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 70C601800658;
-	Wed, 24 Jun 2026 11:57:49 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B03AE18005BD;
+	Wed, 24 Jun 2026 11:57:55 +0000 (UTC)
 Received: from warthog.procyon.org.com (unknown [10.44.49.152])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E7AD81956049;
-	Wed, 24 Jun 2026 11:57:45 +0000 (UTC)
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 769991956049;
+	Wed, 24 Jun 2026 11:57:51 +0000 (UTC)
 From: David Howells <dhowells@redhat.com>
 To: Christian Brauner <christian@brauner.io>
 Cc: David Howells <dhowells@redhat.com>,
@@ -51,11 +51,10 @@ Cc: David Howells <dhowells@redhat.com>,
 	linux-cifs@vger.kernel.org,
 	ceph-devel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Marc Dionne <marc.dionne@auristor.com>
-Subject: [PATCH v2 01/14] netfs: Fix decision whether to disallow write-streaming due to fscache use
-Date: Wed, 24 Jun 2026 12:57:22 +0100
-Message-ID: <20260624115737.2964520-2-dhowells@redhat.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 02/14] cachefiles: Fix double fput
+Date: Wed, 24 Jun 2026 12:57:23 +0100
+Message-ID: <20260624115737.2964520-3-dhowells@redhat.com>
 In-Reply-To: <20260624115737.2964520-1-dhowells@redhat.com>
 References: <20260624115737.2964520-1-dhowells@redhat.com>
 Precedence: bulk
@@ -67,76 +66,27 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-netfs_perform_write() buffers data by writing it into the pagecache for
-later writeback.  If the folio it wants to write to isn't present, it uses
-"write streaming" in which is will store partial data in a non-uptodate,
-but dirty folio.
+Fix a double fput() in error handling in cachefiles_create_tmpfile().
 
-However, when fscache is in use, this is a potential problem as writes to
-the cache have to be aligned to the cache backend's DIO granularity, and so
-netfs_perform_write() attempts to suppress write-streaming in such a case,
-requiring the folio content to be fetched first unless the entire folio is
-going to be overwritten.  This allows the content to be written to the
-cache too.
-
-Unfortunately, the test netfs_perform_write() uses isn't correct because it
-doesn't take into account the fact that the object lookup is asynchronous
-and farmed off to a work queue, so there's a short window in which the
-cache is doing a lookup but the test fails because the answer is undefined.
-
-This can be triggered by the generic/464 xfstest, and causes a warning to
-be emitted in cachefiles (in code not yet upstream) because it sees a write
-that doesn't have its bounds rounded out to DIO alignment.
-
-Fix this by changing the condition to whether FSCACHE_COOKIE_IS_CACHING is
-set on a cookie rather than whether the cookie is marked enabled.  Note
-that this is really just a hint as to whether we allow write streaming or
-not and no other aspects of the cookie or cache object are accessed.
-
-Reported-by: Marc Dionne <marc.dionne@auristor.com>
-cc: David Howells <dhowells@redhat.com>
+Link: https://sashiko.dev/#/patchset/20260608145432.681865-1-dhowells%40redhat.com
+Signed-off-by: David Howells <dhowells@redhat.com>
 cc: Paulo Alcantara <pc@manguebit.org>
 cc: netfs@lists.linux.dev
 cc: linux-fsdevel@vger.kernel.org
 ---
- fs/netfs/buffered_write.c |  2 +-
- fs/netfs/internal.h       | 12 ++++++++++++
- 2 files changed, 13 insertions(+), 1 deletion(-)
+ fs/cachefiles/namei.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/fs/netfs/buffered_write.c b/fs/netfs/buffered_write.c
-index 6bde3320bcec..2cdb68e6b16f 100644
---- a/fs/netfs/buffered_write.c
-+++ b/fs/netfs/buffered_write.c
-@@ -277,7 +277,7 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
- 		 * caching service temporarily because the backing store got
- 		 * culled.
- 		 */
--		if (netfs_is_cache_enabled(ctx)) {
-+		if (netfs_is_cache_maybe_enabled(ctx)) {
- 			if (finfo) {
- 				netfs_stat(&netfs_n_wh_wstream_conflict);
- 				goto flush_content;
-diff --git a/fs/netfs/internal.h b/fs/netfs/internal.h
-index 645996ecfc80..d889caa401dc 100644
---- a/fs/netfs/internal.h
-+++ b/fs/netfs/internal.h
-@@ -239,6 +239,18 @@ static inline bool netfs_is_cache_enabled(struct netfs_inode *ctx)
- #endif
- }
- 
-+static inline bool netfs_is_cache_maybe_enabled(struct netfs_inode *ctx)
-+{
-+#if IS_ENABLED(CONFIG_FSCACHE)
-+	struct fscache_cookie *cookie = ctx->cache;
-+
-+	return fscache_cookie_valid(cookie) &&
-+		test_bit(FSCACHE_COOKIE_IS_CACHING, &cookie->flags);
-+#else
-+	return false;
-+#endif
-+}
-+
- /*
-  * Get a ref on a netfs group attached to a dirty page (e.g. a ceph snap).
-  */
+diff --git a/fs/cachefiles/namei.c b/fs/cachefiles/namei.c
+index 2937db690b40..a464c4646c04 100644
+--- a/fs/cachefiles/namei.c
++++ b/fs/cachefiles/namei.c
+@@ -467,7 +467,6 @@ struct file *cachefiles_create_tmpfile(struct cachefiles_object *object)
+ 	ret = -EINVAL;
+ 	if (unlikely(!file->f_op->read_iter) ||
+ 	    unlikely(!file->f_op->write_iter)) {
+-		fput(file);
+ 		pr_notice("Cache does not support read_iter and write_iter\n");
+ 		goto err_unuse;
+ 	}
 
