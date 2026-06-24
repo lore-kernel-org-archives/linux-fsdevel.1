@@ -1,98 +1,61 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F472ECD1D
-	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 07:36:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06FF25B091;
+	Wed, 24 Jun 2026 07:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782286611; cv=none; b=BouKPZTPRLzPhm6hMUBEOpSUOB+GSDO6SMRLLdJHPHfDE2Na+znBV/Qo023t+ti0ZCp3ABOzpLi4qHXfETg5t1EFNG3UlLgQ3/3xdBe17nhk91UIQmCU6E8y7OBWGEi8YKBtJ1FKDPGs/rWOP3zrVOqHb/EtxuFbOyJvzKwKnb4=
+	t=1782286747; cv=none; b=iRO6TA0PDw4MxvDSkaB1+fLNWHiSM2tq8rhqUj+jyoDSKZcn+VgA/PBpjwT1883EpJeHy6400NGLXGkc0BdFFuo+kpb20dDhzZgEq+0fU+uRDAQVj3CXQCHWBwej3wLI5iibIYg5baLT8/ERqSp/xuy2z7AFJ7VA5E9FMdaL/TM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782286611; c=relaxed/simple;
-	bh=xJmPYeKRZ5FA4MxcGK7f/XLGX2YSXtBuBahifySUxQ4=;
-	h=In-Reply-To:References:To:Cc:Subject:MIME-Version:Content-Type:
-	 From:Date:Message-ID; b=sqejGv8VlC9yZkpRcGd4o6SksYwvw2NFqx08d6u2KIrXAr+tLM8ZVX3Og6H1BZ0M6TqzxU2lrI/UwNYBj1wd3drUMji03UA4UVdalusCm5hf8D6TgHDtt77ge5FfYyxlyekEeA0XVICNQwVyETv8unFQyMS9wvHBGeMXlw0CS4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BqxV8Ajo; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BqxV8Ajo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782286606;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AzTq/JBODoLiXp9HIjZkxgqEFl68srXX6njhfZeyXrA=;
-	b=BqxV8Ajok5m2JasrnSIHqg67ee0AfCaNpU2Tue5suR4SKj5NbvFj6S6horqdIyHDRM6Jby
-	i3gtc0nWjfIHLne9BufMPeXQTv/yHzxbPc2LWrVUXOq7B679puSrXGraV9mr/6ZLBpjYa+
-	Mk0f0GbMHjnnw060xGCnZ3t3Tw1YOl8=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-592-7Mtza7J_M7qMK-Ndaan5tg-1; Wed,
- 24 Jun 2026 03:36:45 -0400
-X-MC-Unique: 7Mtza7J_M7qMK-Ndaan5tg-1
-X-Mimecast-MFC-AGG-ID: 7Mtza7J_M7qMK-Ndaan5tg_1782286603
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 31FA31956052;
-	Wed, 24 Jun 2026 07:36:43 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.49.152])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 832551800591;
-	Wed, 24 Jun 2026 07:36:39 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-In-Reply-To: <498534d3-e82e-40ce-bc7d-230580b2fcae@chenxiaosong.com>
-References: <498534d3-e82e-40ce-bc7d-230580b2fcae@chenxiaosong.com> <33cc8eb4-8831-49b0-80d6-b06544a37920@chenxiaosong.com> <FA1EF9EEE4C1415E+20260530011403.1686344-1-hongao@uniontech.com> <2912807.1782231053@warthog.procyon.org.uk>
-To: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
-Cc: dhowells@redhat.com, hongao <hongao@uniontech.com>,
-    Paulo Alcantara <pc@manguebit.org>, netfs@lists.linux.dev,
-    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-    syzbot+3c74b1f0c372e98efc32@syzkaller.appspotmail.com,
-    Steve French <smfrench@gmail.com>,
-    Namjae Jeon <linkinjeon@kernel.org>,
-    "linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>
-Subject: Re: [PATCH] netfs: Fix UAF in netfs_unbuffered_write() on failed preparation
+	s=arc-20240116; t=1782286747; c=relaxed/simple;
+	bh=Z4vHZNdWfmXhY08NWu9SAVKC9IY+kynM7MA+zCAUIZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sOSNl0lS/c9dSqBc879RQFTjqoqOjXIy9liWQytAchmiTG/V8t4/B3R/1q0boOD4LMqzQPs7vjWwBk3B2Y1HJkSawnUrhvBF5+1qReWkop5HGD+2PRMnWDxRFq4ysyjkVv6J4Dc4uPlcQeood/rSBrJ18Vegm8wOISzZTRubJDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 300DA68BEB; Wed, 24 Jun 2026 09:39:02 +0200 (CEST)
+Date: Wed, 24 Jun 2026 09:39:01 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
+	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	dm-devel@lists.linux.dev, axboe@kernel.dk, brauner@kernel.org,
+	djwong@kernel.org, viro@zeniv.linux.org.uk, stable@vger.kernel.org
+Subject: Re: [PATCHv2 6/6] block: validate user space vectors during
+ extraction
+Message-ID: <20260624073901.GA12649@lst.de>
+References: <20260622174241.2299563-1-kbusch@meta.com> <20260622174241.2299563-7-kbusch@meta.com> <20260623151021.GA14919@lst.de> <ajqxoeZ0R_RwqEKe@kbusch-mbp>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2939568.1782286565.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-From: David Howells <dhowells@redhat.com>
-Date: Wed, 24 Jun 2026 08:36:38 +0100
-Message-ID: <2939650.1782286598@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ajqxoeZ0R_RwqEKe@kbusch-mbp>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-This excerpt would seem to show how the problem comes about:
+On Tue, Jun 23, 2026 at 10:17:37AM -0600, Keith Busch wrote:
+> Exactly, the in-kernel users of ITER_BVEC that allocate their own
+> buffers are, as far as I know, aligned already. Fabric storage targets
+> like nvme allocate their own SGLs on page boundaries so the bio is
+> aligned at the point it was constructed.
+> 
+> The ones that forward user buffers like loop and zloop are addressed in
+> the previous two patches. They generally should have been fine for most
+> hardware without those updates, but they're included in case a backing
+> device has more restrictive constraints than 512b "sector_t" aligned.
+> 
+> The only other user space provided alignment that I think may trip this
+> up is the io_uring registered buffer, so that's what I'm trying to call
+> out here.
 
-  a.out-717 : netfs_sreq: R=3D00000001[13] UPLD PREP  f=3D000 s=3D240000 0=
-/0 s=3D192 e=3D0
-  a.out-717 : netfs_sreq: R=3D00000001[13] UPLD SUBMT f=3D100 s=3D240000 0=
-/20000 s=3D192 e=3D0
-  a.out-717 : netfs_sreq: R=3D00000001[13] UPLD TERM  f=3D310 s=3D240000 1=
-fac0/20000 s=3D160 e=3D0
-  a.out-717 : netfs_rreq: R=3D00000001 UW WAKE-Q  f=3D1801
-  a.out-717 : netfs_rreq: R=3D00000001 UW DONE-QUIESCE f=3D1801
-  a.out-717 : netfs_sreq: R=3D00000001[13] UPLD RETRY f=3D210 s=3D240000 1=
-fac0/20000 s=3D160 e=3D-11
-  a.out-717 : netfs_sreq: R=3D00000001[13] UPLD SUBMT f=3D100 s=3D240000 0=
-/dbfac0 s=3D192 e=3D0
-  a.out-717 : netfs_failure: R=3D00000001[13] UPLD f=3D500 s=3D240000 0/db=
-fac0 write e=3D-5
+Sounds reasonable, but it would be really helpful to have this in
+the API documentation somewhere..
 
-It looks like there are two issues: firstly, why does the upload stop shor=
-t?
-Presumably that's forced by the test.  Secondly, I think it has miscalcula=
-ted
-the subreq size in the retry, hence the EIO.
-
-David
-
+Talking about documented APIs and related bits:  do you still plan
+to get back to exposing our pre-vector alignment requirements and
+add tests to blktests/xfstests based on that?
