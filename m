@@ -1,61 +1,63 @@
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5323E1236
-	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 21:29:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8AF53E5A14
+	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 21:30:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782336596; cv=none; b=jTJOdsFl6msaFY3E30w9OLs399VOBiSUc4+bgj0JuzzBq1yTyLBNN+5+JHKLmTCyKimWqwbEn431g087XvAjLi3LYTYLjIzIefbDRr6mVETse5k49Rq0+AG+C37zACFuVkval4sIrkjEKlMCDbKVRYkKd9WwNT9qAMj0m4BX02g=
+	t=1782336602; cv=none; b=Gp34sN2uUMWzJqkD63bpkNC3ENjwf03XgCu0VIOKCse5WPlHJEOZwaeRuLDS5wUZBJPgf7acl0ae4ZhJrN/nWty6m7ZjDZbphTjwMlP+yGfoudsUvwtRDl4mhFSYX4aBsd9ud9g38Ge7X6YJp0aFSi0gsIBrSuAZoLfhWzBge3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782336596; c=relaxed/simple;
-	bh=TuCF5sKw9UIxxPCRQm3DQ93sKxwz/gr8zeSeRiS6Tks=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h4oIJjeJ9mBDRiW8nFQcw/j94QNgNvafimHVzri+vamZG1lK1UWRJ9XpVcPu21a8T044R/ss6nSzUtUtLc05S9ZmbXYr3+sf6CxGbjaXWD33/KAMSeXVXt/wQQxx0ZCBFSJ7Y3L/7tEsTRsJVBpeHIW72dacqV8bh1CZGzdObkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MtExybqi; arc=none smtp.client-ip=209.85.161.54
+	s=arc-20240116; t=1782336602; c=relaxed/simple;
+	bh=+M3qnWWmidwsXgVgDN29tUkdj+H4zV8z61JIEEtw6vE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LsutikgA4LYORnE5jOIbnMM5AGazDfMQdqg6qhaTlBGUWyX0vBWc2xJ3f3+7CcAbYQ8gJh4LjwuMAY+qP0HoZCEiqHv49S9U+Dz8mDyNrDVaC70IB1Q3gC5bxzWQ/LKim8tLrcYMFtuZ0gGkFuPlq5n/IxR1PHg1Ff/QUTMfFtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l/kjljQN; arc=none smtp.client-ip=209.85.161.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MtExybqi"
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-69dead44101so1371077eaf.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 14:29:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l/kjljQN"
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-6a0a38a013eso283579eaf.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 14:30:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782336594; x=1782941394; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cVkmaP5nSHlauDt7X0RCfjMJrLELIxh7onUnnYVHSNA=;
-        b=MtExybqiA3sb98yJA7GExNcf8IcBhi6gHW87XmrRTCyJlSm7yat28V5rclkStvMtS+
-         j2jLNq8aLFYvgvsEvV0lSwAi4L20aWrJM3bbj7dPbaZnW7LyBclHPSUY0ILR8nKyJLw7
-         dGYMKIqZpt4OLOT1oWX1jOz1X+UJUUEXXCTVkbqC+Bp8FcNqLQ9veKm9sHEScMXlhS1P
-         bl+0J1SC8hrY4oyte4cFVONiGqg1XLqh0/7hLNwej/VAegvqK3SyqxVkZ02RGbY8z2Hp
-         hm7xDAbHHQLtrRavDgAs17vO7EozRaKhyPmmb1eU/NXZ92QvLOgXFqqgg+w798kyvtT9
-         43nA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782336594; x=1782941394;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782336601; x=1782941401; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cVkmaP5nSHlauDt7X0RCfjMJrLELIxh7onUnnYVHSNA=;
-        b=V0LQbdBO7ePbR/sjMrURTTO0GRuO8ekvxykXYMLdyxMniB+6wpy7VAY10dZn7bcPZR
-         KUbN+9TkdnoHdkas+JXLGLqH7LjASWmMmjNLfn/njUjG/fXGATDyuFQmTWlQpyS7S+a6
-         scYr6JxphHgT+0WYZYJhAb7sV+ultmYRLVmEKK1IJaIGvfh0+nvbE5qCqjccU9B7Qc4v
-         ouQCX9iuRXAf7Xr6LkakcRrLNrQLTKylZw8SHe6mabG4IhcTcRU0bhmRMEPse3xmnID9
-         jn09DI5Eq6lDMYyI/I7FBrGZEHwETh41zKmhfGs7rFpOBhFf9K88MpbpUd1FTKi+7S7y
-         Ioiw==
-X-Forwarded-Encrypted: i=1; AFNElJ9j1kzhEaRet/7jNQ4Z3ZV5SR9my2ho4JYYrYncwjOw6uAv44cj/1k8GYY/Wu5cv6AzxgWOAxD1L0uaRSf5@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoDBXCrE9+CBAVTaHr6yA6omMNNHq3+nItdv3fWwTo9aY69PJo
-	r/kp0a+eNJ6erWCRtsV8BOnqN0/tlgCVhsH1ILvWUiVWKH60ZC0uceUFP2/7gw==
-X-Gm-Gg: AfdE7cnDW7lLfUMKQyVm6TyK4bDmD895PlMOgU+wiSdDso6VnpNBwUiEDz9gwy+VLyU
-	wn3EPdrzKatdzYZc2RMfVZ+DQSXl2DUqrPiL8LBFG5v92DPVK0B9qUjNjS5H7GzJZjgvV8JFmag
-	N/WXWB0vHyL9mW/umUByWNn98IMDfUh5tGTBo9glzmFSRsp0bYKDgM8rso3rVjsHUJpMa/ZG9TH
-	7nddC+1sTW8xiiZoWmfFlPraSCvX3Km1b8cRHsvO4lDQBCwwTuo4FCO6HCa30u9EAQrVzv/NU3B
-	oZS/h3EvVyiYCJcdlrWLBsv2+wys9JrJVH+er/anR8aOWcdE5ZdjcE5TfZN0LyHJdK+QbROSj0O
-	sjvO6wL4P6fMSZ3PhFjTuLk03wokLE1BMRD/9sM7KZnMsc5waNifu4EudvzipGgJaS908ZFBt+n
-	5yjVCdsxVJTuU4U2OZpoz2cyEGQkQ+p86E3NhmjLkaVrbT0U6Esek1pP9uQldyvped
-X-Received: by 2002:a05:6820:4b14:b0:69e:ba22:33a8 with SMTP id 006d021491bc7-6a122e90ea3mr3488526eaf.9.1782336594077;
-        Wed, 24 Jun 2026 14:29:54 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:57::])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4472eccfa68sm10448851fac.5.2026.06.24.14.29.52
+        bh=QUcXjO78YurIO5Ne7YTcUW1ZByWEpGaEG2epb8Eo1js=;
+        b=l/kjljQNTlj8jDPuNIn3uVKotmF+LyHSndHGfB1k290I0yMR4on6BBVA42mYoKOAe0
+         A+BM89I2+jK2bCcQAVOdP9iOEWzkyOXDQVW/FYDevmZBIN0T3x4ZJvC8cWc+Ito5s9Dv
+         fsY3NVx1zHUO0+x1h/iTLKQiLaur5u1jYLCpGem3M9K+dFkEhbD1GgLlo8Zrnwb1TOfh
+         lnK0QK3yV+JhZBxUQbXifz9UHL7mufW7Tp5T9dgyepz/37Qw+kERwhT8Qg0SsJhm0yBz
+         y9FcrY9wMk0PIa2hZGyPcZwuPdmZDyCAKZN6wiFwCONWeQ69gOBjRrvDkLdS1/vOq9fX
+         2wmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782336601; x=1782941401;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=QUcXjO78YurIO5Ne7YTcUW1ZByWEpGaEG2epb8Eo1js=;
+        b=mNRrScnjdS/hr3AhFLXAA3KhfGmvPgV98ZfCFVcOyIsW2V480QkOumr82ZWr/U6tw9
+         wNWxM3ho7jvjkmzt96/Henjnsl0W9lf8UaJYjlEEU+N31nWrAW4HHakvN7Hs/HNFWc6j
+         YauipSoEntyegpIDF9eCrGYqtj6C90PEv68CruFldk2goNEU1Zbh4/wxYcXG61w5+23Q
+         TizS+P/XAX7Io63pFbXHVkKZV8UjHxizjHKf3ic+h2mRbm/X0mIg1n0tgKjT2gXLx2wA
+         JAF7CfOMc01+aZMhDnb0V7D9DWrbZ/1BmCeHRjX1EvhKTohaSThbLbfJY+vZGYh3BX72
+         /QMw==
+X-Forwarded-Encrypted: i=1; AFNElJ8O7M3j8CqGDJ6lc6js8ZyliryNLRwNurxJqZQbd+uv51HZmsBPmbBbi9HVo/Xu3gT7Kb0JDFJbvXlZLcsN@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9lO70i3WkHVMCBAMx0GbltDQEpBlQz4KcIMrkAKlFE/azVBnu
+	Xz7HlcwJJg0kWkikFmo+XvptCor52P9ZLvIvZA+Ou0rb2kZKtoRvcC+4
+X-Gm-Gg: AfdE7cmq6TVqngKfNerp5CUVO+j/k5vszG3JPbyUmIuvaqFscYen9D5SVUGPudKXkQ3
+	QBy4/wG3/JfkX+XTqmfsvNabfuQ38IAXwiXMYg6qaz81CSKf+ebQaNnW04XeXwMqNVXCD3/CeMJ
+	96nxN/kc1z//17mDDGEyxQgIG/CoBbnfaTPwT2aEnzSGgAj2PLS1mMV6nhRtgoZtCQihOdUDsaX
+	DLvf/TTkXikkzOXr/HPm0YdsVUsY9goVkE+gxgcaJFSjuXQhydm+UMMEFPm4MNWsakOgiGABosI
+	xVwpxnfu4rI2/lOvRUTFOGi4Rh+Uv1Mz1o2QPWcdE0egJGXlc6C0/oxJj9P6NdwIUbSt2PGJ7Bm
+	bt4RDvVpK6s2ctmH9f9N1OVZB1GUg/KrgWFQUMyhqPj2BpsfTGUabmP3L80Pv/LVuOmsdR967N/
+	nucAtzA3v2LRtfB+bndcKwmW2GJjJc4Z1mUfRa4Z1b6HwDJEQHjuyS0UFQjfU4Tbs=
+X-Received: by 2002:a05:6820:6ac5:b0:696:711a:c1b8 with SMTP id 006d021491bc7-6a12d8245admr1242893eaf.15.1782336600506;
+        Wed, 24 Jun 2026 14:30:00 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:3::])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6a0ea1520e4sm9667061eaf.15.2026.06.24.14.29.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2026 14:29:53 -0700 (PDT)
+        Wed, 24 Jun 2026 14:30:00 -0700 (PDT)
 From: Joanne Koong <joannelkoong@gmail.com>
 To: brauner@kernel.org
 Cc: willy@infradead.org,
@@ -64,10 +66,12 @@ Cc: willy@infradead.org,
 	miklos@szeredi.hu,
 	linux-fsdevel@vger.kernel.org,
 	fuse-devel@lists.linux.dev
-Subject: [PATCH v2 0/2] iomap: add helper to keep uptodate bitmap in sync
-Date: Wed, 24 Jun 2026 14:29:23 -0700
-Message-ID: <20260624212925.1668662-1-joannelkoong@gmail.com>
+Subject: [PATCH v2 1/2] iomap: add helper to mark folio uptodate
+Date: Wed, 24 Jun 2026 14:29:24 -0700
+Message-ID: <20260624212925.1668662-2-joannelkoong@gmail.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260624212925.1668662-1-joannelkoong@gmail.com>
+References: <20260624212925.1668662-1-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -76,41 +80,51 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series is on top of the main linux tree [1] because it depends on some
-fuse changes in Miklos's tree that were merged into 7.2 but not yet pulled
-into Christian's vfs tree.
+Add an exported helper iomap_folio_mark_uptodate() to mark a folio as
+uptodate and update its uptodate bitmap if the folio has iomap state
+data attached.
 
-The first patch in this series adds a helper to iomap that also updates the
-uptodate bitmap whenever a folio needs to be marked uptodate.
+This is needed because there are some filesystems (eg fuse) that have
+paths outside of conventional iomap calls that need to mark a folio as
+uptodate (eg writing server-pushed data directly into the page cache)
+and need the iomap-internal uptodate bitmap to be in sync with the
+uptodate state of the folio.
 
-This is so that external callers who need to mark a folio as uptodate from a
-non-iomap path can do so and keep the bitmap in sync.
-
-The second patch adds the fuse caller side of it. fuse uses this helper in the
-notify store path for storing server-pushed data into the page cache pages and
-in the writethrough path when a full folio is copied to the page cache. This
-series is needed before fuse can start using large folios [2].
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/
-[2] https://lore.kernel.org/fuse-devel/20260624012132.1719941-1-joannelkoong@gmail.com/
-
-Changelog
----------
-v1: https://lore.kernel.org/linux-fsdevel/20260623202843.2064992-1-joannelkoong@gmail.com/
-v1 -> v2:
-* drop helper for clearing uptodate state, as per Matthew and Christoph's
-  comments
-
-Joanne Koong (2):
-  iomap: add helper to mark folio uptodate
-  fuse: use iomap helper to mark folio uptodate
-
- fs/fuse/file.c         | 2 +-
- fs/fuse/notify.c       | 4 +++-
+Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+---
  fs/iomap/buffered-io.c | 6 ++++++
  include/linux/iomap.h  | 1 +
- 4 files changed, 11 insertions(+), 2 deletions(-)
+ 2 files changed, 7 insertions(+)
 
+diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+index 8d4806dc46d4..bc33c34800e8 100644
+--- a/fs/iomap/buffered-io.c
++++ b/fs/iomap/buffered-io.c
+@@ -105,6 +105,12 @@ static void iomap_set_range_uptodate(struct folio *folio, size_t off,
+ 		folio_mark_uptodate(folio);
+ }
+ 
++void iomap_folio_mark_uptodate(struct folio *folio)
++{
++	iomap_set_range_uptodate(folio, 0, folio_size(folio));
++}
++EXPORT_SYMBOL_GPL(iomap_folio_mark_uptodate);
++
+ /*
+  * Find the next dirty block in the folio. end_blk is inclusive.
+  * If no dirty block is found, this will return end_blk + 1.
+diff --git a/include/linux/iomap.h b/include/linux/iomap.h
+index 3582ed1fe236..21e73cb9c51e 100644
+--- a/include/linux/iomap.h
++++ b/include/linux/iomap.h
+@@ -365,6 +365,7 @@ struct folio *iomap_get_folio(struct iomap_iter *iter, loff_t pos, size_t len);
+ bool iomap_release_folio(struct folio *folio, gfp_t gfp_flags);
+ void iomap_invalidate_folio(struct folio *folio, size_t offset, size_t len);
+ bool iomap_dirty_folio(struct address_space *mapping, struct folio *folio);
++void iomap_folio_mark_uptodate(struct folio *folio);
+ int iomap_file_unshare(struct inode *inode, loff_t pos, loff_t len,
+ 		const struct iomap_ops *ops,
+ 		const struct iomap_write_ops *write_ops);
 -- 
 2.52.0
 
