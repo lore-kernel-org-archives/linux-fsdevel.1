@@ -1,32 +1,47 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B623627587D;
-	Wed, 24 Jun 2026 15:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C8E1C84A6;
+	Wed, 24 Jun 2026 16:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782315766; cv=none; b=jJG8hHP3WF5NTECn3S3I09Eo6UQixzENBu4AtCkz2Lddf/ATte8gL3Ad9+EPa2lHPQUG+/HfoGEc9sslhCf0oFZ9MMxGThq36VwRqGRBzeeJPKXxuNC+TXOPrunbgzAKHWECxrdY82igjfhgbqb8W3JubBdyVpUbUoh8YiKTv7Q=
+	t=1782318539; cv=none; b=jsP743WBPq+B1j9Rl1i3ub3CByVLyc6AochQgvJ7V7ehtCp0Eqt048bFErxy7p/uI0VtTRlEU49F6D/VWIAEGCuto7LANQnvZ0BqXtBq8sGo8mNWUZ7qkL31l9OQqWUCaXhk64MNv5PW+j1g7+6uJLoJGCXGInICKgUgkC05i24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782315766; c=relaxed/simple;
-	bh=vIIG+NKSQ4WWFUVRsLxcAd6AOqNt52X9FbnfSyE6kuQ=;
+	s=arc-20240116; t=1782318539; c=relaxed/simple;
+	bh=wYsgL36Qll98+9/c4qcp31pYfZKwamekdGbYViKqFvw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ReYv04AZvl0Yef8II6FvkG6+jDjM0Bl5V3Mp9ICSf7ABTPgPnORigNZI+ZsxcOTjh8mxYqoymNHcmyflN5H7LHrJuWtw4RGSkc6+tCZhutbs6hPR0SlF6m8YbdLd4BvIpSszEsBL+z6TwAenOrvicDUhwl5sEHk+h+/bta10CSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 794CB68B05; Wed, 24 Jun 2026 17:42:41 +0200 (CEST)
-Date: Wed, 24 Jun 2026 17:42:41 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Carlos Maiolino <cem@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Jan Kara <jack@suse.cz>,
-	Filip Blagojevic <filip.blagojevic@wdc.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Damien Le Moal <dlemoal@kernel.org>, linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org
-Subject: Re: update BDI {io,ra}_pages values based on the RT device limits
-Message-ID: <20260624154241.GB13186@lst.de>
-References: <20260623142109.1838702-1-hch@lst.de> <ajuxIMzTbzxEuX5g@nidhogg.toxiclabs.cc>
+	 Content-Type:Content-Disposition:In-Reply-To; b=OIjhZt3DZYSosD8GzPD3+YDbb7o91fItxAQumljatUXXc0QzTLqP2vKpSpS/GrARXVDSoKv0xpi6LTbO1bMhamcNlHmYu7ciLTpcPIwcxhCZiz2CB/7Fe+TzUG4vyi8Gf+vVkaVJdIFk0CPJXeagkoDMlBJBdUKtgYn9Xij7Lo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=UyfNI67W; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="UyfNI67W"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=VV1MhbpKXO0Il490a4DZ7QmRI0jphWeYBd/5dU5DKNo=; b=UyfNI67W/iJlio+sS7KxJcp0qE
+	z/2pEUQ9ZxPEICsoEtAXdOMDHu0giARm5FxnQD0ubkkmWRJDIF8CN+rTAyxRUTbBdw6TKQr6yFxCk
+	FA0K8smRdyRNV/Lf0UMh4PbxuJCQae0Awu5jWw79IY8FRzMlCi6Ul4ugdlu00c2KD/dWzq07Rv3rA
+	Le984xSaSIkwQMIxJ2Ib7/yRBaQqHSXSIbH9Q97pKtSzzp1N46W5Cw9RkwdG49KVaS057bgBu0RJl
+	xoT/Pcr9ifJdt3xD53kuZiVQJU8CmN00/6iJWblfo4R6nYn9b3czF1ZxHYQF66IflWxs4LEZ/ZKns
+	TJjjGGbA==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.4 #2 (Red Hat Linux))
+	id 1wcQSy-00000009MLW-0bbX;
+	Wed, 24 Jun 2026 16:28:45 +0000
+Date: Wed, 24 Jun 2026 17:28:44 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Xin Zhao <jackzxcui1989@163.com>
+Cc: brauner@kernel.org, mjguzik@gmail.com, pfalcato@suse.de,
+	ebiederm@xmission.com, jack@suse.cz, jlayton@kernel.org,
+	chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de,
+	keescook@chromium.org, mcgrof@kernel.org, j.granados@samsung.com,
+	allen.lkml@gmail.com, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: Re: [PATCH v4] coredump: Add /proc/<pid>/coredump_pre_exit for
+ pre-exit before dumping
+Message-ID: <20260624162844.GK2636677@ZenIV>
+References: <20260624145552.70143-1-jackzxcui1989@163.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,27 +50,42 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ajuxIMzTbzxEuX5g@nidhogg.toxiclabs.cc>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20260624145552.70143-1-jackzxcui1989@163.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Wed, Jun 24, 2026 at 12:40:50PM +0200, Carlos Maiolino wrote:
-> Giving the current tendency of filesystems being multi-device, this
-> doesn't sound bad IMHO. Wouldn't accessing io_pages of each BDI also be
-> worth even for a journal dev? I wonder if what you ran into wouldn't be
-> possible if somebody would be using just a SSD for journal and a non-rt
-> XFS on a HDD or a different/slower device.
+On Wed, Jun 24, 2026 at 10:55:52PM +0800, Xin Zhao wrote:
+> +void exit_files_pre_exit(struct task_struct *tsk, bool checkflock)
+> +{
+> +	struct files_struct *files = tsk->files;
+> +	struct fdtable *fdt;
+> +	struct file *file;
+> +	unsigned int i, j = 0;
+> +
+> +	if (!files)
+> +		return;
+> +
+> +	fdt = rcu_dereference_raw(files->fdt);
+> +	for (;;) {
+> +		unsigned long set;
+> +
+> +		i = j * BITS_PER_LONG;
+> +		if (i >= fdt->max_fds)
+> +			break;
+> +		set = fdt->open_fds[j++];
+> +		while (set) {
+> +			if (!(set & 1))
+> +				goto next_fd;
+> +			file = fdt->fd[i];
+> +			if (!file)
+> +				goto next_fd;
+> +			if (file->f_flags & O_TMPCLOS) {
+> +				file->f_flags &= ~O_TMPCLOS;
+> +				goto close_fd;
+> +			}
 
-Nothing looks at the value for the log device.
+*blink*
 
-> 
-> I don't know how stupid that sounds but perhaps it wouldn't be that
-> complicated to support multiple BDIs without making it unpleasant for
-> filesystems that don't care?
-> sb->bdi could be turned into a dynamic array and a new sb->s_devcount
-> fields to keep track of it on multi-device filesystems. Filesystems who
-> don't care about multiple BDIs would have it pointing to a single BDI
-> struct. Again I feel I'm missing something, so it might sound really
-> stupid :)
-
-This will get complicated really soon..
-
+	How could that possibly make sense?  Many descriptors
+may refer to the same file; what's more, many descriptor tables
+may contain such descriptors, so... just what is that code
+trying to do?
