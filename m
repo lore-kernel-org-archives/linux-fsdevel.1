@@ -1,82 +1,94 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D5E2E0902;
-	Wed, 24 Jun 2026 00:48:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11CC2505AA
+	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 01:27:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782262116; cv=none; b=ZsPW2eKPOq5zD9oVZL8nq2PeTTgd8SKzkK8f0JDEM5gKPvmBLOVYoOzKkXj68vEqDYktmyygMBx4UMxWH/yvxg5pzd65SDoCdxccYT6Ec+JUfJuf2QfP6jL7RFkokAj9WgRFNsRvDiBOAi7kYgv4loNcF84jVtekx67aqMjzqXc=
+	t=1782264447; cv=none; b=AG2fV10R6DohlNShgjYtUnlrJDZCclnZLXEZuJxvoGSZjJCBTXimbELzAZ6RVIi3zZatB9OvxA5rYaZe7sYR2+lnNGbWCgqbPqscSWjTOfn1xjhEdC926ZWOGTb73ZQDp1WDiYgXu4we/8hWi0cbBEy7TLZZwLyyB9ZDwGR57MU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782262116; c=relaxed/simple;
-	bh=PjAHeB7E2BaIHkRzrRF00bTHpYMgpR4Dh7VSTYWu9lM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tmKlXTSgyDFzA/A/4S/cEURmRW+qXbbAF6HmlEQHorlqXc3lj+WH7M9AlXI84ntlc0JneKExtmqz2lmQxmDb2vjGISW/Of42jmHXNT9pdediBzcDBh0pLZzn7ujI9QKhlkBo3SI099oUJgKMZ8kC+cZEPePoX0dDcIIuCrLBdSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=WjqTrHpW; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1782264447; c=relaxed/simple;
+	bh=Q1Ntu4b4Xuq1WdMImYuxToUtWK3ACq2WpH/R5gGJY1w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=S7bwgZ0g7U5LClVJ/PJ4Dp+PG5sKRKNb4qjeCtG/lQc0+9+fRevV0ktuE27a3s03p0CLnl8n8CtBTBzxeQzicYxjUJNexilyHVAU+oWd8I4mgtPQmidl6It2xm2QHvN3/BdRvHbyPmMr7uj4Cs+uGuTGxnjYFgFXqJiBacCVd2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chenxiaosong.com; spf=pass smtp.mailfrom=chenxiaosong.com; dkim=pass (2048-bit key) header.d=chenxiaosong.com header.i=@chenxiaosong.com header.b=oZy29mm0; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chenxiaosong.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chenxiaosong.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="WjqTrHpW"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=X2EYlWrDIggaFS1Cm6S9FY0dqVECZJtXN6I4L2cEQ1s=; b=WjqTrHpWtqnYLeJO8gl/AWhGiP
-	Jj1v3S+TKScnKZyFylAt5oIXL60KtuUD9g9LHBgyQVxgSXgY3K10dhRfGjktP065GaQIaeUdXEF+e
-	FvO4plR96u8zaxmefNyCBkt+K610qm097kwbe4QGinHOy0L7yI/Iov0t9FZoEXKtpU9YZTieyzAGi
-	JfJSkmj2xKsajTcUAyeoV0+lC8nDomcd4wti3rlvDMLgYykXnpZDSsGejuEZAcTT6fb9f7h7zGj7x
-	d5zTykfCq2IOIgwtJ5KtAUq/MGvSj+kbA/0DZIyPL8rAvlVWnrEvhX/qDzi7waRZsYHrmwsRJ5k4y
-	l5svrOKg==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.4 #2 (Red Hat Linux))
-	id 1wcBn2-00000001S2J-26im;
-	Wed, 24 Jun 2026 00:48:28 +0000
-Date: Wed, 24 Jun 2026 01:48:28 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: linux-mm@kvack.org, Vlastimil Babka <vbabka@suse.cz>,
-	Harry Yoo <harry.yoo@oracle.com>, linux-fsdevel@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Mateusz Guzik <mjguzik@gmail.com>, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v3 00/10] kmem_cache instances with static storage
- duration
-Message-ID: <20260624004828.GI2636677@ZenIV>
-References: <20260611171425.1671254-1-viro@zeniv.linux.org.uk>
- <20260613050951.855141-1-viro@zeniv.linux.org.uk>
- <151b1c96-0ed5-44ce-b9d5-86a48d8ad592@kernel.org>
+	dkim=pass (2048-bit key) header.d=chenxiaosong.com header.i=@chenxiaosong.com header.b="oZy29mm0"
+Message-ID: <498534d3-e82e-40ce-bc7d-230580b2fcae@chenxiaosong.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chenxiaosong.com;
+	s=key1; t=1782264432;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sPCUWs7mHJKIZA6Vk5luHtPpJHH3uCtDf5jLZP++nqQ=;
+	b=oZy29mm0l6+98aj6qiT/ASJPgdMeXY92GdaO5GYS/BOjIfXYlFURfZ8y2qLW3NhKAYWrxA
+	ltWfd8AnPE/3Q8s8LeSWEiITasK4hjvkZJLYuouabe4RhijIePacbPcGAkQBRxcTm8mkkr
+	bNkfbiqOEmbMGdba5lXoQlWTytQ5WPPxmX5UfYFwZvAuzchwEjsVFeYUDK0NHQCLl/tEQ7
+	0smZ+FTLf0oNbMaqMKixWtOnr4Cv/K53o+y6eumPnu2KcLn6jW9FTdtBgPFFU91Eh6XuGT
+	kKQVcsM+8QMXTPxkAExbG9/P0azWQOaWr7UYGFPw+PaKgoi/v/sGlcpGhNVmnQ==
+Date: Wed, 24 Jun 2026 09:26:10 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <151b1c96-0ed5-44ce-b9d5-86a48d8ad592@kernel.org>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Subject: Re: [PATCH] netfs: Fix UAF in netfs_unbuffered_write() on failed
+ preparation
+To: David Howells <dhowells@redhat.com>, hongao <hongao@uniontech.com>
+Cc: Paulo Alcantara <pc@manguebit.org>, netfs@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzbot+3c74b1f0c372e98efc32@syzkaller.appspotmail.com,
+ Steve French <smfrench@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>,
+ "linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>
+References: <33cc8eb4-8831-49b0-80d6-b06544a37920@chenxiaosong.com>
+ <FA1EF9EEE4C1415E+20260530011403.1686344-1-hongao@uniontech.com>
+ <2912807.1782231053@warthog.procyon.org.uk>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+In-Reply-To: <2912807.1782231053@warthog.procyon.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Jun 23, 2026 at 10:09:41AM +0200, Vlastimil Babka (SUSE) wrote:
+Hi David and hongao,
 
-> But the argument for doing the static duration support is that it should be
-> faster, not just "not slower"? So is runtime_const equivalent or for some
-> fundamental reason it's slower than plain &?
+Please refer to my blog for the tracing log and reproduction steps:
+https://chenxiaosong.com/en/netfs-uaf-in-netfs_unbuffered_write.html (I 
+will make sure this link is always accessible)
 
-Yes, on any 64bit RISC.  And if nothing else, arm64 has enough users to care
-about.  runtime_const for _shifts_ tends to be nice and easy; for pointers...
-not really.
+I would appreciate it if you could continue debugging and fixing this 
+issue. As I have many SMB features to implement and review tasks to do.
 
-Compiler does *not* build the address of global variable in a sequence of
-shifts and bitwise operations when it needs to pass it to a function.
-runtime_const_ptr() must be able to handle an arbitrary address; it can't
-avoid doing the general "build a 64bit value in register", which tends to
-be nasty on RISC.
+On 6/24/26 00:10, David Howells wrote:
+> ChenXiaoSong <chenxiaosong@chenxiaosong.com> wrote:
+> 
+>> After applying this patch, I can still reproduce the use-after-free issue.
+> 
+> Can you get some tracing?  I have a suspicion it's a refcount bug.
+> 
+> The following tracepoints would be useful:
+> 
+> echo 1 > /sys/kernel/tracing/events/netfs/netfs_read/enable
+> echo 1 > /sys/kernel/tracing/events/netfs/netfs_write/enable
+> echo 1 > /sys/kernel/tracing/events/netfs/netfs_rreq/enable
+> echo 1 > /sys/kernel/tracing/events/netfs/netfs_sreq/enable
+> echo 1 > /sys/kernel/tracing/events/netfs/netfs_failure/enable
+> echo 1 > /sys/kernel/tracing/events/error_report/enable
+> 
+> And if you can capture this, can you compress the resulting trace and send it
+> to me?
+> 
+> Thanks,
+> David
+> 
 
-If you want real ugliness, take a look at riscv - AFAICS, they wanted to
-avoid a long dependency chain, so they load chunks of constant into 4 registers,
-then shift and combine those.  arm64 doesn't bother; IIRC, the hardware does
-recognize this sequence, but I wouldn't swear on that.
+-- 
+ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+Chinese Homepage: https://chenxiaosong.com
+English Homepage: https://chenxiaosong.com/en
 
-> Or is the advantage that static caches can support modules and runtime_const
-> can't?
-
-Probably, but I'm not ready to give examples at the moment.  There definitely
-used to be __getname() users in modules, but that stopped using names_cache.
