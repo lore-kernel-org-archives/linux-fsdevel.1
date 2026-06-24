@@ -1,49 +1,32 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5D22D0610;
-	Wed, 24 Jun 2026 13:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AD32D7393;
+	Wed, 24 Jun 2026 13:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782308518; cv=none; b=KW6Z/poX84kUht2tYxBVo9Lo6XJCmMyqCYkmKUdgIhkIqgYTCyJzImXFZmX3hnjOluo9ESTpWwwa7n0X3tfwEsWd+Y8RxZTIyFtUsmDSRF8W92i5wfqAKBxfIZjZK7Krt65VB9n7qldwW1YbEPoNuqXms57KCN6JZU4XFq01KCo=
+	t=1782308996; cv=none; b=IC0t3xZ1OW1i99U4lRxgMrRa4iIhvU9NM1qrnlP1PWBvG4gBae98cI3qf5pzx2uMpBcXV2KC+FVtrOnm9NnnFDoQEr0D/D6RM3CSba4MfFTYwvg0siTjsCB8FX9BOKBdoUffdcdH44FkwNcEpfUrJRtaxJlu/Zi7nYHkAs3O7f8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782308518; c=relaxed/simple;
-	bh=SheNGxySSZFR34sI69EC4jiPSS+B72Nup1boVnATJt4=;
+	s=arc-20240116; t=1782308996; c=relaxed/simple;
+	bh=QpzgjY77zUH51UqQDs9YjDnOiWXUsGV1PCcqgRmw4xk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FZdySMQuW++Xq7VArYYAMhyNN1oOZZfewLi5Tebk3wHhiPDYJ/M2mVzEfqgLZdd7I9lgTLn0S2mV7m9NzYa9/xkZNqm168LWeB63uafDGwH57gbqoFE1RoRIFJ0h4WVIVCzeMy7hOIOM86Bl+iOvG46cvD9Q2yPhMLmckVQmbdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KqPZ6YNj; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KqPZ6YNj"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=H1U0u6SiNgbVgzpzyQOqt4lzeTrARqVNcvD9DmvYoss=; b=KqPZ6YNjk/rvXvQhAse49KYePu
-	+cMs3EgDKNHyTN1mvGaII/IfEDegQho04qtvtbrIwHZTL0g2Yu/NO0LWKVesT1jQ7nI2Fi1FeJoIT
-	azQTIYshbJf/EnES6ZXJ1u06xUgqIjwP+kLF9HnAACsaJByweDlEQ1qKr8zN82y2/vrwQyX2mjuK/
-	MuhSRzc4iq3R2XTV4rjp0Bpt4DjiZBxRMe2wSC/PDt2W6RRfoXMd47OvKRhLzRxvEJUAHNBn1ymG9
-	1blLfKtEOKOlLvCD81e10sTjUejaMwDQeyQ07meYXvQibDNKbEXpESRnzmiC+G2wP0z0ul2EM4D2g
-	JaneOEag==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wcNrW-00000007q2F-2klZ;
-	Wed, 24 Jun 2026 13:41:54 +0000
-Date: Wed, 24 Jun 2026 06:41:54 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: David Howells <dhowells@redhat.com>
-Cc: Christian Brauner <christian@brauner.io>,
-	Paulo Alcantara <pc@manguebit.org>, netfs@lists.linux.dev,
-	linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org,
-	ceph-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
-	Christoph Hellwig <hch@infradead.org>, Jens Axboe <axboe@kernel.dk>,
-	Mike Marshall <hubcap@omnibond.com>
-Subject: Re: [PATCH v2 04/14] iov_iter: Fix potential underflow in
- iov_iter_extract_xarray_pages()
-Message-ID: <ajveoo1Z-XdRprS-@infradead.org>
-References: <20260624115737.2964520-1-dhowells@redhat.com>
- <20260624115737.2964520-5-dhowells@redhat.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fy6Bc4RBAY5woO0hWAJ36b0IhHsDk8WVAGNt1fX1u5Qa9Da5iKxTKCyfR/Q5Y8uW1aurm8jpqxCNuKkGeNx5qTepGH+GZ98uWmQ4h9+cxFM9AEk1X/X3yQCCLxAlHC/QgkO5yxoYVbgH7iHjbDTC3RUDkc2vBAonEI2dUFsF6X8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id DA98C68C4E; Wed, 24 Jun 2026 15:49:50 +0200 (CEST)
+Date: Wed, 24 Jun 2026 15:49:50 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Jan Kara <jack@suse.cz>
+Cc: Christoph Hellwig <hch@lst.de>, Carlos Maiolino <cem@kernel.org>,
+	Filip Blagojevic <filip.blagojevic@wdc.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Damien Le Moal <dlemoal@kernel.org>, linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org
+Subject: Re: update BDI {io,ra}_pages values based on the RT device limits
+Message-ID: <20260624134950.GA6471@lst.de>
+References: <20260623142109.1838702-1-hch@lst.de> <rbrncqfmzbnj5o2yvieqtpl3dkb4qzafsai3sarmbta4fsqc6f@yruai3zv5llu>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -52,10 +35,55 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260624115737.2964520-5-dhowells@redhat.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <rbrncqfmzbnj5o2yvieqtpl3dkb4qzafsai3sarmbta4fsqc6f@yruai3zv5llu>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-FYI, I'm getting 5 patches out of apparently 14 patch series and no
-cover letter the second time now.  No idea who I'm supposed to review
-this.
+On Wed, Jun 24, 2026 at 02:26:35PM +0200, Jan Kara wrote:
+> A cleaner but still relatively simple way how to fix your problem would be
+> to do something similar like e.g. btrfs does. That is when you have a
+> filesystem with multiple backing devices, you create a new BDI (using
+> super_setup_bdi()) and set its parameters based on the combination of
+> devices you have.
+> 
+> The only downside to this is that blk-wbt has a layering violation in it
+> when it tries to guess whether there are task dirty-throttled for the
+> device which stops working for when the filesystem uses this synthetic bdi.
+> But I don't think that's too serious to worry about.
 
+The big downside of that is that it breaks the userspace ABI - any
+previous changes to BDI paramters, most importantly the read-ahead size,
+would now only apply to the BDI for s_bdev which isn't actually used
+by anything.
+
+And yeah, the blk-wbt thing actually looks really broken and could use
+fixing..
+
+> >   1) support multiple BDIs per file system.
+> > 
+> > 	This would work pretty well for XFS, as data for a given file is
+> > 	always entirely on one device, and the VFS writeback code is not
+> > 	used for metadata.  But it probably doesn't work well for other
+> > 	cases
+> 
+> Since looking up the bdi is abstracted through inode_to_bdi() (which
+> currently goes through the superblock), this would be relatively easy to do
+> but either the inode would have to store the bdi pointer or we'd have to
+> have an operation to query it. Just at this point I'm not fully convinced
+> the additional complexity / memory cost is worth it compared to what can be
+> achieved with a synthetic bdi.
+
+Same.
+
+> >   2) stop propagating these values through the BDI
+> > 
+> > 	Have a way to query these parameters from the file system, either
+> > 	through a method if we want to be fully dynamic, or through fields
+> > 	instead of going through the BDI.  The downside would be that
+> > 	sysfs modifications of the readahead size would not work after
+> > 	the file system initially queried them.
+> 
+> Similarly as above. It makes sense but I'm not sure there are strong enough
+> usecases to justify this.
+
+It would at least be a lot less complete than option 1.  And get us out of
+a bit more of all that bdi weirdness.
