@@ -1,74 +1,97 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534AD38A70B
-	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 06:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD3938A711
+	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 07:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782284307; cv=none; b=EkAjvZmt8QsLmH/Pa5ucfnRypiMn4lYvy5V6iv6EAKcjSOgCyAyxZUIb36VDX/FqVP41fdICrTy5XEGuwpif/QDQOIrdIaW6WTFOK+gDoFeqctn57JUcCqx5RO7pCaaUf0dYVRlA5Kgcyh8Lnghvpo4K2cHqAKby0roI//yiFbw=
+	t=1782285155; cv=none; b=QfGsI97se3O5+QBirEhYK2h5CiICUSb3xp6nSV6pOgjUMvJ434gmkEKzI+ONPb64E2rjcpbH/91CbGDJy+sNAMIN99TEwhy3jfrFB77HbL7OJmj3nsFKSMTUrYQ+CaSa9gw+OEEIfqh4RH5kdZjypbt0v3LhpJPXkLla6uH264k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782284307; c=relaxed/simple;
-	bh=c3/hAAsUkpGUpzNzk6RCbkGXgVL4bAM4gpI7T7r7OVk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Ud0PKupihfHUe8NOM8ccOQMYNNBDqQkAyJVQFORYiMNLP3xUGuPWqnVs0UVcSCARTKMRnPoEAAI6eWlqROH3+PNyBSDibKWFgOVYGTIjBEMpacZEvhQpXvJZHrYoMEJMIWOkapYbJUgpQdpAZdjsHyuCaxjeW17rdHnUzLbwwcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VpAtg9eA; arc=none smtp.client-ip=209.85.216.53
+	s=arc-20240116; t=1782285155; c=relaxed/simple;
+	bh=T+oTEsZifQSSjkTTm8dieBj546vS01rprc6FRMPpgRY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=HJVUivRpwRsWu26/acuKmu/6teS9LnchXO8OFL9ZWa/28ogirTVpl0aMs4fNu+xOxUhinAGzgZnL+WJirrAjGJ0g+ALDJlLXDwFrx93OtffNVoq8UJ0dzl2OBVq+/bjCjFZn6fSH3aTZ5WpHfa678SpX+PQqWtkCWP403urkdTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NEk6jZgM; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VpAtg9eA"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-36b9d265355so417608a91.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 23:58:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NEk6jZgM"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-4624c1409c9so537224f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 00:12:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782284305; x=1782889105; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782285153; x=1782889953; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=y0Um4hH99oeJ48BWDhTuqgCjMj39PG5+rvU6cG4OaeI=;
-        b=VpAtg9eAKhgR9DfcZVtsUKpUAUVCQiTDVVOWrx8mGfG1D7VUUBQvdKdcV6QFK7P6/h
-         1KtNMqfV1dW2XCb9TzV8nzFwIn9rT99yWOU+zHfVxMevV4de+86fRXP6NiS7eZeZH252
-         PBrH0puLE79E/Hpv+dlVm68YpQ3lRTPwHrNgBZeczInEEZdaFqNrBkPe46VsNzR0gls3
-         60cNZXZ6c4heRFJ3pUf1LWWYwPzt4IR+11LEm6weq0rds5nv6hAQiAyoSgkiWWMsvU/f
-         vahG5dPJc/1onvNsnxA+TGVU1BKP8mzZPWeqz011ZvPfF617ECxyYFMgaqorzd7JNXti
-         6BwQ==
+        bh=VhG9FcF945Re4Q58PUpr7BwlsxWpmlT6fgah9/vT28s=;
+        b=NEk6jZgMulgJqN17XPHyzxZWrjC3SRgX+YSWsZTjYh/fBnelCNZujLrpG/e+mFyoF7
+         f1Gq3XqQrb60v77rGI8/iNo2sqx2/b7UaQAXvH3QITshpe3OUojUSyJlLvUAe2/GpKjU
+         SE3hQWJrn17c9XTEnFuUX50Exw4ddu2TEcs+Jh3H2E1/KEmNBi8R2E1viN8X/RS/F8hf
+         ArU9eVXTMzswldd/Um38NKIYizUTz23JNVE2PVtj38Gk/Zuo1ygshyyt6BVLAHby6pN0
+         x3Dfz9pBCe5euKHjThKElffKbbO9TKgxcg8aVoI/xbwPxYjVbF266rAnHHl+iApuV2NX
+         Ru3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782284305; x=1782889105;
+        d=1e100.net; s=20251104; t=1782285153; x=1782889953;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=y0Um4hH99oeJ48BWDhTuqgCjMj39PG5+rvU6cG4OaeI=;
-        b=ifrUa3C1GA1jCkyKl7gD2851LxuBsac3BxBy8qmRgSoKc6Gc/513IdSE+G/hp3RQDN
-         aShDLfEaKgKtz5DyeAQ99TbOvn3npp/oOCnZc8md1/wPYW2NegmWLpF68rTBYIiPrKCY
-         g9LRkqY/5ENRMujGiisowu/pffVT/kUh1z0nLkPtndaV9JoPvCs+2sCGNn0E2yG+s2xN
-         yD7+nMjUE7Bta/pIs96q4qtSYGVnBgPggsgOWwxThHa7b16Zoaokn7b94fVAp3XtPJQS
-         ySwTT9phbDA6Q9WQlMvmhQprozAO4lantFQPuUIR+XLT/5arQlL7y8D9O7QgGWnXRqH8
-         oNkg==
-X-Forwarded-Encrypted: i=1; AHgh+RoRPy9sLZPEDj6+X6KGe41i/0sMWO1L89hSvzPLO7FKgPbEIEYf2/VQtKI9uvVEXyxVmEVE336u8q1Ve5GI@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvwjMhrgd54TRLAexJF1/1rywGM7pq4t/ScjfYLUq+yPEBYVPe
-	1Y0UeXSL5wk6oxj/02MAn3e+imiNMwLBurIVBU+rt/8J+DtxFKVEMx2n9Qw0kg==
-X-Gm-Gg: AfdE7cnXuHVtmGsnIfqk/FBTdnLXacEzruIX2dOGc/V5x7bsgXud+VpozRrf/pjWj1d
-	QvCPkeRLrUsN/+ackCX8+k8tBSXDhRz8ph06CZGTSpGIIfkiIaWPv+e7f2yB4YIdkhBhFL9YbFm
-	61PDkK+093hcgCbRQ/ObkViSlinAQ+deOOgZOP6jnSWUVGgCoPmMby/wYqm/x88r9H4aWRBK7+/
-	vuIQxbkbZY2cfoG47bKhmWo4YyX8aTFMACJYZha0Dxf5USM2DducfhmaIuhQHv3+iWy8piNeZq8
-	30tLyJp70Gda6Ama1cIK2PER56DwM2VESDuP0sQ+6IWrsUmgvuPM4JUrcTqA0B3GUchxKFgb+lW
-	ZNmlMesa0JsyAwSqSUbqcOv0B390nKfEoDB9gflqSVpmVZOwb9HGbpHYMCW7TvzOltru/FU2ZZE
-	YTW7WcfPQj3ZiVSWVDK8iNVVrIoHq9H6OCa0MjNMMQYvJRBlpF0E4hx3ve7IQ9sg==
-X-Received: by 2002:a17:90b:4ac1:b0:369:7421:b36f with SMTP id 98e67ed59e1d1-37de462d411mr2084324a91.21.1782284305284;
-        Tue, 23 Jun 2026 23:58:25 -0700 (PDT)
-Received: from localhost.localdomain ([47.72.129.29])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37de3a8441dsm1488142a91.4.2026.06.23.23.58.22
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 23 Jun 2026 23:58:24 -0700 (PDT)
-From: Barry Song <21cnbao@gmail.com>
-To: willy@infradead.org
-Cc: josef@toxicpanda.com,
+        bh=VhG9FcF945Re4Q58PUpr7BwlsxWpmlT6fgah9/vT28s=;
+        b=C1l2XZCWRNCVL7fiQ2xHyAjQASQ/3KkqYQz9+t+0aiQOHnxnc9mKFa67ihBtLSTgGc
+         9rBXkF/1dt4SVZRwixmUId4PH6aYx3xoVTVFBFLabrczu/OQ88P+7YgkYFlcRVhNlAl1
+         mu/NCKY9YCOXC+O68TA01eN2zEJZHjgi5TvQLccu/LLwk5wxp+oQX9RC35cWvP4kYt8U
+         nEHPMMLEZuBuKR6qsB3Hn/hsaxmJ3mwo4hpblvUFrovEQIBuE2fCDfFapXngpX4q6gQ+
+         Is0kJ28+cACo+FBOLuiTw+0pfmzymSS7NgwPR5WwmXaX67NvG/eqZv2ApJqC+eDnukRe
+         ELiQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrhFAyOvHIco/lJdOo036drB9C17MyhQd2I11hJq1bUNdYhh1ux8uYonA/0Dc6NvJW2HC3eJ2x5BA3soEcN@vger.kernel.org
+X-Gm-Message-State: AOJu0YwH5o3iVIlj6UVrbqRWbJ1ZEV/08Qy502kFH49rKpRiAPxW1eqA
+	7QKU3mBiojBjF/O0UU7O13/Qs40w76d+cukzmJlNgQ0YQVzgKBKZP9nF
+X-Gm-Gg: AfdE7cnN7W3C0xe3BlDJi4aXi1Fl3L/68CPbuZhKnql0ej5lamzFrCT+ywSS5xxGgpP
+	MUAciYrBSYJFbrUlAatF9Ot6dw/iU1u+1hfbrYD2unITBoFLj5chsy/X3pzaQHsiaGaJcqV9Ahl
+	L8QlD9nzJpKsIW4EfVOj5F3ZiBlh+sMpdHuFy6ztAt9WB0J4R0f1K870A5mBOmGGaNcg39SNWfz
+	lFnA4MKyVoPSyhxf6T54NMpzDOd6d+AsXPzJ/qJdPjQtq7sq4ThBpy7iEzKE2BE3IMnstBimjTN
+	vxfsLCc/THVzPZbHD/rPBiHL3yA8cAGkT6/MQtPtMSPZdwVL0BnVq4MToHapjzpyo8pnQRsvzbu
+	R2sXGa0De+eqgl2NvuYZVNEFgF5xr46C/QiFHJXLk8MQlW8iEC1Eof7nkk8Z7BumPN21DECZ+mo
+	E0A8WqB+ok
+X-Received: by 2002:a05:6000:4683:b0:46a:1f35:113f with SMTP id ffacd0b85a97d-46a1f35172dmr8359155f8f.21.1782285152523;
+        Wed, 24 Jun 2026 00:12:32 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-46c1ee0189esm4296531f8f.9.2026.06.24.00.12.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Jun 2026 00:12:32 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: avagin@gmail.com
+Cc: akpm@linux-foundation.org,
+	alexander@mihalicyn.com,
+	axboe@kernel.dk,
+	bernd@bsbernd.com,
+	brauner@kernel.org,
+	criu@lists.linux.dev,
+	david@kernel.org,
+	dhowells@redhat.com,
+	fuse-devel@lists.linux.dev,
+	hch@infradead.org,
+	jack@suse.cz,
+	joannelkoong@gmail.com,
+	linux-api@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [RFC PATCH] filemap: Remove file pinning during fault handling
-Date: Wed, 24 Jun 2026 14:58:18 +0800
-Message-Id: <20260624065818.49975-1-21cnbao@gmail.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <20260622192114.1147198-1-willy@infradead.org>
-References: <20260622192114.1147198-1-willy@infradead.org>
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	miklos@szeredi.hu,
+	netdev@vger.kernel.org,
+	patches@lists.linux.dev,
+	pfalcato@suse.de,
+	rostedt@goodmis.org,
+	safinaskar@gmail.com,
+	torvalds@linux-foundation.org,
+	val@packett.cool,
+	viro@zeniv.linux.org.uk,
+	willy@infradead.org
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+Date: Wed, 24 Jun 2026 10:12:26 +0300
+Message-ID: <20260624071226.2272209-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <CANaxB-zK5q=Xw6UZTmeFtXsDZjUsPkFk=p485m-wtNTBnf4hgg@mail.gmail.com>
+References: <CANaxB-zK5q=Xw6UZTmeFtXsDZjUsPkFk=p485m-wtNTBnf4hgg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -77,50 +100,36 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-> Now that faults are protected by a per-VMA lock instead of a process-wide
-> mmap lock, it is far less important to avoid holding the fault lock while
-
-We could have fallen back to the mmap_lock from the very beginning in
-do_page_fault(). And for GUP fault-in, we have always used the
-mmap_lock so far.
-
-> performing file reads.  The per-VMA lock does not prevent operations
-> on other VMAs, nor does it prevent iterating through /proc (see commits
-> 6b4c9f446981 and a75d4c333772 for the original motivations behind dropping
-> the fault lock).
+Andrei Vagin <avagin@gmail.com>:
+> The CRIU fifo test fails with this change. The problem is that vmsplice
+> with SPLICE_F_NONBLOCK to a fifo file descriptor fails with -EOPNOTSUPP.
 > 
-> We will now submit I/O and wait for I/O to complete while holding the
-> fault lock.  This removes the need to return VM_FAULT_RETRY which means
-> we won't fall back to the mmap_lock from the VMA lock just because we
-> had to wait for I/O.
+> It seems we need a fix like this one:
 > 
-> This should result in improved lock contention, although it is possible
-> that some workloads will find themselves contending on the VMA locks
-> due to them being held for longer.
+> diff --git a/fs/pipe.c b/fs/pipe.c
+> index 429b0714ec57..6fc49e933727 100644
+> --- a/fs/pipe.c
+> +++ b/fs/pipe.c
+> @@ -1253,6 +1253,7 @@ static int fifo_open(struct inode *inode, struct
+> file *filp)
+> 
+>         /* We can only do regular read/write on fifos */
+>         stream_open(inode, filp);
+> +       filp->f_mode |= FMODE_NOWAIT;
+> 
+>         switch (filp->f_mode & (FMODE_READ | FMODE_WRITE)) {
+>         case FMODE_READ:
 
-Hongru reported that 82 of the top 200 Android applications in the
-China market call fork() in heavily multi-threaded processes[1]. It
-would be good to take existing applications into account, please.
+Does CRIU actually rely on ability to do SPLICE_F_NONBLOCK vmsplice into
+named fifos? Or this is merely a test?
 
-[1] https://lore.kernel.org/linux-mm/20260623075805.466317-1-zhanghongru@xiaomi.com/
+If this is just a test, I think we need not to preserve this behavior.
 
-[...]
-> -static int lock_folio_maybe_drop_mmap(struct vm_fault *vmf, struct folio *folio,
-> -				     struct file **fpin)
-> -{
-> -	if (folio_trylock(folio))
-> -		return 1;
-> -
-> -	/*
-> -	 * NOTE! This will make us return with VM_FAULT_RETRY, but with
-> -	 * the fault lock still held. That's how FAULT_FLAG_RETRY_NOWAIT
-> -	 * is supposed to work. We have way too many special cases..
-> -	 */
-> -	if (vmf->flags & FAULT_FLAG_RETRY_NOWAIT)
-> -		return 0;
-> -
+I did debian code search with regex "vmsplice.*SPLICE_F_NONBLOCK" and I
+found very few packages. And it seems all them use pipes, not named fifos.
 
-Does this break FOLL_NOWAIT users? They are KVM on x86 and s390.
+(On speed: I still think that my vmsplice patches are good thing,
+despite performance regressions in CRIU.)
 
-Best Regards
-Barry
+-- 
+Askar Safin
