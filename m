@@ -1,80 +1,80 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC583BCD2F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 14:11:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D6D3C10A2
+	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 14:16:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782310319; cv=pass; b=cMdoE93/q5bhD+eswW5cdQbpyIRiIDhwwoEunJ2T0t6fNxpRE+vIJUMzLOQ2c5+89QYZ9N1xPYL+1zRS+xcSeu2naZm1fawYl3mQ3VabUNjP5bt/CIQtBNx4nTecR4K5bGeE408ju9gv/+DjGF6h8kltcMRCe+EMm3hrd+npgrc=
+	t=1782310602; cv=pass; b=jFiqVwLiwvOlUbQLDVww0uJRv6F+hEsVgzWB3LC4yYk/gXT43jOyJEjCZlEuIK2DdJTVo4dN/6kdpXaqs7nCNrYUAeVyfuRRps5i0i4o4mtZejOyk3UL6ltgVb/9IOrx/plMuVb7LqGEp82WDWlSTFWMGbPQh2p48Q23f19XKKU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782310319; c=relaxed/simple;
-	bh=lReMwpW9Ma9bFWZKkbvYIhQdFsGC9J9mvewCrG1dWU4=;
+	s=arc-20240116; t=1782310602; c=relaxed/simple;
+	bh=C+gNPHz4KywkYN7bRW5o/LIam8QAzcc06RneqyLy4Ig=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A+fLEwbJGW3uswn/HXdPzkcE+i8oYPJBxyT5WPd061K+Vt63sSDq8jRjROQOVr2S5wGBJJGezkM8SfwRz8bI9N/QIgXxuu54LK3kMbi18nwxbkcPDJmFkIHph3/59L+hyhcLRHSASbQoJMYV9nPpEKNoYtbovgg2LGaQqhOL7vs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qLxUgC7z; arc=pass smtp.client-ip=209.85.208.45
+	 To:Cc:Content-Type; b=D6vWqXs40oYhTbi1rK5qFjAi40jqyPhi2TO1KrWTnH4jwWPDhXbJ1zgQe1yOjuyHbkVdxim23174DV9pkVGx6zA0YtAaELftsmNX5H9KwCPkhAt/xHzvlDKeLAFnzCCcwSBFl/+Y/HaZtqmrl+P4RH84cWgECD5SSm/RIKo8OQU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mp7WPDsx; arc=pass smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qLxUgC7z"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-69531108f25so1901519a12.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 07:11:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782310317; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mp7WPDsx"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c0b97e268f3so155526366b.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 07:16:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782310595; cv=none;
         d=google.com; s=arc-20240605;
-        b=NjOuFXXQqx5otvo1iw21aVkXdyERqVMvC5SqiJI74tueCIBRqWklUs6iXsNGl0bTZ8
-         T5v5RvcaQ5yAvvgtRd7x6778ePXgS6tauR2BefOip5zwaY6nmB2CMtqgHitJiBjtfckS
-         BiuxcvQ9znAX/aoToBdmDyjJLGYS2nk7X0TpWwefjankeWb7ShNWyG7K7tc7ATLO9VBS
-         4EyfNCLuPaPf/2AV7o3xBnACfo411i8sc5a4/84UzgkWOGEJXU/NBGRUgqljhmeChHYS
-         +YoGzTOoqo6jvqlyzhQvvoSPcuWwXZ5Oi6z4vz6oqfXCxRCaefTLkEZKHTMsh6mk0y4b
-         F5bA==
+        b=Cyv23NpqOTQNkRRkLb60YowB4ZZRo6OHUkgFLwO4dC/H3X3lCWJ8d44IVGmvOdDkj3
+         plpSXhcHmgDGjdDNVLVd7nu55Y/lwBRNstI9MdaBHRHU8qi9BIBxA0nvE5m8EgkAVhn1
+         u0lKImEmXcJL9/B9qhqsdqy+F6mMHs8Q3nO9THsfoQQ783Vp6jFctZ4gkz4gmWQdMHen
+         bra3HXy9KIA47KT6Ub2veorc8kdopHVEZYNeLEh/ZCJQldBdUdC9BwxiTq3A23xInoTI
+         iLYwEt5UkiIK8Y5FO3iEDUW8lGo2b2OdLzfq5S+Su5/cWjyFrcnJKBVaqGHsZ871W2Vc
+         kjgQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=LG+grWd6UceBYXX1nWiBnDgEaC9++nTof5X97YF4TKI=;
-        fh=ltVKc+tQnGKfWT/u2Kun9lRb5dRkmB1fzlQ68GSYZ8c=;
-        b=TlP3iIDvOV9epg7Cv203qQPnAU8E9BQMxtYT/JSPrEws+0b5cysWcYOKwRDsehM5Yh
-         1XBMfGpRz/hb4H/5LsFhuG4mYg353Y8X6+ea82HFqt/COM/dBTPvhmMfAHIvc1hTNqgf
-         mWd4DHv8rPWlbb1XA5YZZSh8wzEUUKUmxLCXwetREWWYxkrDj1emMoDGXFMgelj6ftHB
-         rmptgKgBc0j8WXRRqSpSSgHisyG7DOHiFw97hEoK3qu06poC5JvY0dSxCZX1JsO+y2nl
-         c5dyISFWvN0aA4r8yf3tVDwt3p/U5ArblpkKooUAg0rYMGYx7/hVfYVrM54VmXe/b8NX
-         be1Q==;
+        bh=ofp3hEpmgBuA2Xl9gZnye4TILLUrjr4efPci3kviMPY=;
+        fh=GDM7MDxdYyO0mDbWv78LfS5FHDcwx0h7MHbmEDGNJSQ=;
+        b=SI0YdiPHMp3JKVAnNQhh9araLXw8IYCMpFK1bVxrkqV214PmpLB9av93Re0706cpZ2
+         rQ92Rl3Wpl27vVsLeu6nsX2f7npQ9D84zAR1/AmeUPpH1rnxJY032v+RPxm7rfZHVGlh
+         8iHPjfKr+09/53ojZTJ2HbGAQMD0GUNc2Yz/l0SEezfTcl0vEwF1QfNXTO1MdrxqfLuY
+         TqIgC0mWW/Adx4OkdHJlt8hJu6VzGm9/NjJvEFjj08a8CIor1shSbh1xW+Zrxn5w6Zww
+         RUs7qBNYNqcGPFFZQtrmqYvxVCvcM3z3JjJcejOnCpIMyVqRUpbQselZs1bAp1rLISZ4
+         Nq2w==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782310317; x=1782915117; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782310595; x=1782915395; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LG+grWd6UceBYXX1nWiBnDgEaC9++nTof5X97YF4TKI=;
-        b=qLxUgC7ze1wp8fNLbbDPdUEt2hennFa92aZyyfQuledAyZt5en9tJL22oGG+LhwHEU
-         qZdwo93q7KGxIg1b+RbY6oSNZn/bmCmrfm+jQYgQ8qU6Mse49dJFF2/NQ9HcmbAEB1yi
-         pV2LRvYRfdkZzFSAvrmrG/MH9L6+J/8C07Qg4puxZdmIm3npY2E/xDneYSurQkPRCrsy
-         FkGalcIhaNnrYbOpSYePtwNDbeQVWeZVs4508fX7eZOCWY+zDnq1xzNhCji5gQgEM4Qs
-         0MQv/CfmIxtDHpO9QZf/2RaXfl335ZyEL/d30mzHym4Af8bQI4MzEdnl7ezUw2cUpeFB
-         691w==
+        bh=ofp3hEpmgBuA2Xl9gZnye4TILLUrjr4efPci3kviMPY=;
+        b=Mp7WPDsx9tx7+TGBJpV5bdT+0V6Bvluay+GgAv/yVjk4WJxpnu7uJ1O9gE2AVhNjNt
+         /SRvJRBDTtePlHTO1CYBZ80lkuvdeLV8Ik5ZzxmQ6cXXcRN1JyEUV4KwYar2q26ZS7QN
+         6IgAjj4SdBRTGQYZCYkVhdVXBBRD2gkZ3NpeF/JCjVn9927EP1XdbtwG/gjWy3OiLYzN
+         2yJ9kJqbNff012wpaNVw8CBiwu6fNfbof3rkMFvXb8yO6qIsM39l5d8x9uA+PbybiA2L
+         Gjxt1Gz/7d+SfdOzfkIjoQX+NQCeyfFUYNSlqeNxdGTiOvH5/tBtOSv9KMgdepqMHz7+
+         R4FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782310317; x=1782915117;
+        d=1e100.net; s=20251104; t=1782310595; x=1782915395;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=LG+grWd6UceBYXX1nWiBnDgEaC9++nTof5X97YF4TKI=;
-        b=p2JFaz6W79FbuqJeb1k4T4gu5NHmveg1DRVStLhvJNuRKvXuKU9tIVwtPY4aQqLSuV
-         a0PqDWFpNungLHWXEJdothjdD8CbzWB6CM5Z2WTN8lPs5GleQicAa5PVWyetFVoiqHTs
-         15vpp5rLs6DVSTYrTV8zGYaSARaUnYSnYQDZKZtIIPcs4SjXTonDHjQkEDmb+i01KThz
-         ZaZIioPel86oU1DEr2S/j99wv4ECyvmVemp2gZMcnVtc7qT7d5WPIN3RWyM3XXgX+3R/
-         xRIt9+S6yfIBhzdqL1E4nB+0ILVpMLJ5MrfHruhM68TWIKCHwEOPUVkexSy6SkZTsfrQ
-         UoSA==
-X-Forwarded-Encrypted: i=1; AHgh+Ro4gSiDrhlF2VR1pbBz9mvkNjzuYkLn8g9hD86r/bSO00pIEmILmDKTBwrNvjWrvXHE5XO1GL2Xe+lNmLvP@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxy6XFiDQEcsd7JPsTmL2tvPEA4AoHm8LPqVvkQHO84n1QsnjNV
-	bE8CV0n05T5gzPq7+wwdI5ZR735/6sYNCI5C3F4BJR3+LXBnp6ItLIK7qzA28/5/xDbB2HULkMR
-	k37MY8eQc7i1qLx5uSg6Kz59+ZMQeTAk=
-X-Gm-Gg: AfdE7cnWBeKi9xzHLEOyvYyQ+Ug1wKzAZX9G8JHm7jGxf7JqVY4WOm76G5+n2SKRN5B
-	QJoaYFW/3b3i2+mzNJ6yzUI7DWowf7DDAi+F2N184jpib1ex3u6MYT3xSihqC4ET9JwLJtIcAlO
-	une9+Ozxs8RjljesoSJ2t4IFr8cvS2hz6Y5MOTP+GbSCCsUcgKp2+3lbbeJhzl7kzsTQw6HJafK
-	QFszC07avmOJ1h2TVXQFY2EScNFSIJIM19JoIwZWbZqaZjf2D5MmhYyQj347GlaGw0Q+McyCrmq
-	z6UMVviR+Fajuh5xgISjO+dz8NXK46Y=
-X-Received: by 2002:a05:6402:4310:b0:68c:4424:a08d with SMTP id
- 4fb4d7f45d1cf-697f37711abmr1918540a12.2.1782310316342; Wed, 24 Jun 2026
- 07:11:56 -0700 (PDT)
+        bh=ofp3hEpmgBuA2Xl9gZnye4TILLUrjr4efPci3kviMPY=;
+        b=UONTVe9uA+EkbQ87QQlfwBiTcdQI8oCNMi74PC+HKMCuvSvNu12CqcABeViAeL9p0Z
+         pi9ngq0eQadAsxp2Vuu1M9SEQgE2ooeBfzbVlBBr6QPTCGqXNY7G/zCen8FgeiFgVYdL
+         m0kELJ9VtbtAA0RwrNHHDBlI53pxhg6jQGNjx6SD1YsvG6wOATDTp/Av3Bys0fjU35qE
+         j3ChViycTuM8l6RG1zpr3QkU1/4qJoZgKQQv4Qw0W9bCSjk7BzDgHTWoEjsXwEonr8pM
+         6edZV1V1WUXRYpKwiPtWzaEKaCTz/QJkgFcoypIhVl2YK4hZKIlhO6gq3Dw9q4V/fJfu
+         J4NA==
+X-Forwarded-Encrypted: i=1; AFNElJ82QM5jHXclmkn6JZtbHM+R5jGK7eezQyJ45Q1P3JWbKZWkqTYQHwvBgphsoUaAZZSQgmGiTHap7jycSrwO@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdBX6YCLrMI7dmgt1qAbd1tmtMdieEGkZfDUR9u7K1IgA4Zxxy
+	+wGO3z3yVpd/O84CBa9odENOmohFero4YgjJrRDG+d3BkzbNaGv2dREGNSyZ1MH1UQfKfBRAJw7
+	UKg29X00uIcY8fz7CeEZKaBD8XA1LRHg=
+X-Gm-Gg: AfdE7clNSIID4a8NptXRsTuVVtFTQk9ihLpNlji/SVC2UAcdoNwpmQ31eT7WgqNiNEN
+	cx6Ejj8m1i1k+6XKQ5TowGgNt601jtaVmE193Z0uw2k6AXLCh+N/GU19oWErgUmNpxQBllGLo0w
+	Na9T42S1LbqOIbsGAdvZziwMgkJqIkqQ2nMFHJIhjz/2AWJarpDXXHQExwP+40YqIDhPx4dhpHi
+	J+GtvKq1/TKysZB2RWjpa6ZMPSUIB7v8WeiNN3hhyd2nN1Ihru0dhtvSQNlevB8AoAgaKiS8Axe
+	Amr3DfzohCiyfCkq5WaoKk7TgxGs3spGXBiBUfyscQ==
+X-Received: by 2002:a17:907:6092:b0:c08:93fa:2a62 with SMTP id
+ a640c23a62f3a-c119ce79d5bmr206413566b.2.1782310594693; Wed, 24 Jun 2026
+ 07:16:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -82,163 +82,109 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260623111533.2285005-1-ptikhomirov@virtuozzo.com>
- <20260623111533.2285005-2-ptikhomirov@virtuozzo.com> <ajqOyIA8tPQsxfz6@cmpxchg.org>
- <3f6392aa-c1f6-4263-8892-978dacbbd8ca@virtuozzo.com> <CAOQ4uxhras5YAr8_HBpuHSDwvfiEF8vAr0NDB0R_PXtGDhnqjQ@mail.gmail.com>
- <5c7e8c24-0981-4677-aa42-9a74b67bac04@virtuozzo.com>
-In-Reply-To: <5c7e8c24-0981-4677-aa42-9a74b67bac04@virtuozzo.com>
+ <20260623111533.2285005-3-ptikhomirov@virtuozzo.com> <CAKEwX=OaKTfNqzwa=djLxZDeBbR1+DKdqDnxdfPfZFKB-K+ECA@mail.gmail.com>
+ <c390081b-7b2e-4b83-9bca-5f93eec6a939@virtuozzo.com>
+In-Reply-To: <c390081b-7b2e-4b83-9bca-5f93eec6a939@virtuozzo.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 24 Jun 2026 16:11:45 +0200
-X-Gm-Features: AVVi8CedTisCQc6-w-aWZxlaYwfyFEiId3iuvNUGWT5KiajuyJpqODeKptPkY48
-Message-ID: <CAOQ4uxjoq7VGQ+XHi9TT-Hak-tqiudoG7nRJTsFenbNtZRmvcw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] fs, mm: add ->cachestat() file operation
+Date: Wed, 24 Jun 2026 16:16:22 +0200
+X-Gm-Features: AVVi8Cf8pFFkEx_V7HqzrhdruZGs8cQ3Zufmxz4l6Wlncf8175EfLgSWMtHkhw4
+Message-ID: <CAOQ4uxhPROaeEyYceKNsL5QVwVPkTjGtbRr1P_TYXTA0fHvRoA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] ovl: support cachestat() syscall on overlayfs files
 To: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+Cc: Nhat Pham <nphamcs@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>, 
 	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
 	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Nhat Pham <nphamcs@gmail.com>, Shuah Khan <shuah@kernel.org>, linux-unionfs@vger.kernel.org, 
+	Johannes Weiner <hannes@cmpxchg.org>, Shuah Khan <shuah@kernel.org>, linux-unionfs@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
 	linux-mm@kvack.org, linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 24, 2026 at 1:59=E2=80=AFPM Pavel Tikhomirov
+On Wed, Jun 24, 2026 at 1:45=E2=80=AFPM Pavel Tikhomirov
 <ptikhomirov@virtuozzo.com> wrote:
 >
 >
 >
-> On 6/23/26 17:34, Amir Goldstein wrote:
-> > On Tue, Jun 23, 2026 at 4:55=E2=80=AFPM Pavel Tikhomirov
+> On 6/23/26 19:12, Nhat Pham wrote:
+> > On Tue, Jun 23, 2026 at 4:15=E2=80=AFAM Pavel Tikhomirov
 > > <ptikhomirov@virtuozzo.com> wrote:
 > >>
-> >>
-> >>
-> >> On 6/23/26 15:48, Johannes Weiner wrote:
-> >>> On Tue, Jun 23, 2026 at 01:14:48PM +0200, Pavel Tikhomirov wrote:
-> >>>> The cachestat() syscall reads page cache statistics straight from th=
+> >> Overlayfs forwards data I/O to the real (upper/lower) file, so the pag=
 e
-> >>>> file's f_mapping. Stackable filesystems such as overlayfs keep the d=
-ata
-> >>>> pages in an underlying inode's mapping rather than in the overlay
-> >>>> inode's, so cachestat() reports all zeroes for them.
-> >>>>
-> >>>> Add a ->cachestat() file operation and route the syscall through a n=
-ew
-> >>>> vfs_cachestat() helper that calls it when present, falling back to
-> >>>> file's f_mapping otherwise. This lets stackable filesystems forward =
-the
-> >>>> query to the file that actually owns the page cache. No behaviour ch=
-ange
-> >>>> for regular files.
-> >>>>
-> >>>> Signed-off-by: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
-> >>>> ---
-> >>>> Note: Memset change might be a bit tricky, I moved it to no
-> >>>> ->cachestat() path to avoid multiple memset on nested overlayfs, tha=
-t
-> >>>> means that ->cachestat() is expected to be able to handle unitialize=
-d
-> >>>> cs.
-> >>>> ---
-> >>>>  include/linux/fs.h | 10 ++++++++++
-> >>>>  mm/filemap.c       | 43 +++++++++++++++++++++++++++++++++++--------
-> >>>>  2 files changed, 45 insertions(+), 8 deletions(-)
-> >>>>
-> >>>> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> >>>> index 6da44573ce450..966b6564707e4 100644
-> >>>> --- a/include/linux/fs.h
-> >>>> +++ b/include/linux/fs.h
-> >>>> @@ -53,6 +53,8 @@
-> >>>>
-> >>>>  struct bdi_writeback;
-> >>>>  struct bio;
-> >>>> +struct cachestat_range;
-> >>>> +struct cachestat;
-> >>>>  struct io_comp_batch;
-> >>>>  struct fiemap_extent_info;
-> >>>>  struct kiocb;
-> >>>> @@ -1963,6 +1965,8 @@ struct file_operations {
-> >>>>                                 struct file *file_out, loff_t pos_ou=
-t,
-> >>>>                                 loff_t len, unsigned int remap_flags=
-);
-> >>>>      int (*fadvise)(struct file *, loff_t, loff_t, int);
-> >>>> +    int (*cachestat)(struct file *file, struct cachestat_range *csr=
-,
-> >>>> +                     struct cachestat *cs);
-> >>>
-> >>> I suppose you can't just have it return the real file because of the
-> >>> with_ovl_creds() scope you need during access?
+> >> cache lives in the real inode's mapping and cachestat() on an overlay
+> >> fd returned all zeroes.
 > >>
-> >> Yes, AFAIU in overlay when we use realfile we should always use it
-> >> with_ovl_creds(), even though I don't think there is anything cred rel=
-ated
-> >> in filemap_cachestat(), I still think we should follow the common patt=
-ern
-> >> other overlay helpers use (similar to ovl_fadvise() and ovl_flush()).
+> >> Implement the ->cachestat() file operation by forwarding to the real
+> >> file via vfs_cachestat(), the same way ovl_fadvise() forwards
+> >> for fadvise.
 > >>
-> >> note: Actually some places get ovl_real_file() and use it without
-> >> with_ovl_creds(), e.g.: ovl_read_iter, ovl_write_iter, ovl_splice_read=
-,
-> >> ovl_splice_write. But those look more of an exception than the general
-> >> rule. All other instances use with_ovl_creds().
+> >> Signed-off-by: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+> >> ---
+> >>  fs/overlayfs/file.c | 18 ++++++++++++++++++
+> >>  1 file changed, 18 insertions(+)
+> >>
+> >> diff --git a/fs/overlayfs/file.c b/fs/overlayfs/file.c
+> >> index 27cc07738f33b..a7e252a91ea43 100644
+> >> --- a/fs/overlayfs/file.c
+> >> +++ b/fs/overlayfs/file.c
+> >> @@ -518,6 +518,21 @@ static int ovl_fadvise(struct file *file, loff_t =
+offset, loff_t len, int advice)
+> >>                 return vfs_fadvise(realfile, offset, len, advice);
+> >>  }
+> >>
+> >> +#ifdef CONFIG_CACHESTAT_SYSCALL
+> >> +static int ovl_cachestat(struct file *file, struct cachestat_range *c=
+sr,
+> >> +                        struct cachestat *cs)
+> >> +{
+> >> +       struct file *realfile;
+> >> +
+> >> +       realfile =3D ovl_real_file(file);
+> >> +       if (IS_ERR(realfile))
+> >> +               return PTR_ERR(realfile);
 > >
-> > Use with_ovl_creds() is a good practice to keep the mental security mod=
-el,
-> > but it is useless if the security check (can_do_cachestat) is not in th=
-e
-> > vfs helper (vfs_cachestat), so please move it there.
+> > We're propagating the error of ovl_real_file() all the way to
+> > userspace right? I think we need to handle this.
+> >
+> > For example, we might get -EIO here, which is unexpected and
+> > undocumented from cachestat's POV.
+> >
+> > Maybe handle it and just return -EBADF or sth like that (with some
+> > updated documentations, etc.)
+> >
+> > The rest LGTM, but I'll let overlayfs maintainers check the
+> > overlayfs-specific bits :)
 >
-> Totally, I feel stupid now that I missed it originally, will move it in v=
-2.
+> Yeh, we probably can use EBADF here instead of propagating:
 >
-> >
-> > Also it kind of makes more sense to check (flags !=3D 0) in sys_cachest=
-ats
-> > before checking permissions.
-> >
-> >>
-> >> Also there are simingly no other file_operations which return "realfil=
-e"
-> >> for further processing, mostly the operation from fsops simply replace=
-s
-> >> general operation with its own logic completely.
-> >>
-> >> Thanks for your review!
-> >>
-> >> ps: Hope overlay maintainers will correctly if I'm getting this wrong.
-> >>
-> >
-> > I don't think this is wrong per-se, except for can_do_cachestat().
-> >
-> > Just be aware that the real file could change from one cachestat
-> > call to the next (i.e. due to copy up).
+> Man cachestat(2) says:
 >
-> I guess the copy-up between two cachestat calls is an equivalent of cache=
- pages
-> being dropped/reclaimed between the calls, right?
+>   EBADF  Invalid file descriptor.
+>
+> not really a bad fd here, but probably close enough not to rewrite man.
 
-I guess so.
+Please don't do that.
 
-> (I assume old pages will not be used anymore and will be reclaimed in due=
- time.)
+Re-read what you just wrote - it is ridiculous
+Because of being lazy to update man page,
+we are going to send a confusing error to user which tells them
+that their fd is wrong, which it is not.
 
-TBH as long as this overlayfs fd is kept open both real lower
-and real upper (post copy up) files are kept open, but the lower
-pages will not be accessed by overlayfs
-expect for the case ofMAP_SHARED mmap
-if this overlayfs file was mmaped before copy up, the
-lower inode pages will remain mapped to process address space
-and then cachestat will return stats which are disassociated from the
-pages accessed by mmap.
-
-This is documented in the `Non-standard behavior` section of overlayfs.rst
-and not a specific issue to cachestat. Just wanted to be aware of this.
-
-> So userspace should not be
-> overly confused by such a cache usage change.
+>
+> I'm a bit hesitant though, since in other overlayfs operations we already
+> propagate, maybe that was by design?
 >
 
-Agree.
+Exactly, plenty of overlayfs operations return EIO for unexpected
+conditions, often accompanied with some assertion as is the case
+with ovl_real_file().
+
+Even though many man pages don't document an explicit EIO error
+code, it is obvious to any experienced sys admin that if EIO is observed
+they should look at the kernel logs, because an underlying subsystem
+may have reported critical errors.
+
+But in general, man pages follow development, not the other way around.
 
 Thanks,
 Amir.
