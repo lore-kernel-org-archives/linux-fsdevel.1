@@ -1,106 +1,338 @@
-Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
+Received: from flow-a7-smtp.messagingengine.com (flow-a7-smtp.messagingengine.com [103.168.172.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046CE274FD1;
-	Wed, 24 Jun 2026 22:48:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C963B4EB7;
+	Wed, 24 Jun 2026 22:52:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782341296; cv=none; b=ckSeT0U/YN32UrR5L6FJD1RkoypWkFI+x4oFH5C1gHSc15l3GhnWvuND2jZj92nHxnlwcRkwoqQ6wB0B/zNBdpkDIpSTDzQ/NkfrRuoN487+uqzV5m/EwOiofDqDHAwks6dPRiHmd/NPmmd2tAzlbJEiis7ZSprTfRTOp2j9pQA=
+	t=1782341532; cv=none; b=hVVvDArcQ3I5Xj5Z9M0ohm59eKDR+ctNn2/CP6zvsDIfSGfN7ATX54PJFgtSwYmlruC4QaGwMWdncHqh7NQyLd/2xYV65bSRWnvErmuY+mEnjWs7V9H9g6yFFmO+eCracQVw4dERThj88ZxJMITOSvec7zq4t6xWuH6oW6T7aPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782341296; c=relaxed/simple;
-	bh=QCu3e+730inW//TW4J9dj2BBAu4bCV7n1V/6vFGwn3U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l30qaaIR8H+conXLTeiSno8FiaHXnQVx33p80jrMkDRzissc896PvdUjeu8fpMfvIvY8wRwVNq4isiD0nJ5sYrv7jkYZ9aa5e4wMQD484TT0uOzdXZZFmftMHp7ZW5AYLElVBShq4dlf95I9KLeVx2g/cD0n4TR+sxBuxoHjJJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=hjII2+T/; arc=none smtp.client-ip=115.124.30.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1782341532; c=relaxed/simple;
+	bh=SDc2NsUP+jKL+0/+xfeV9B0HFWDDARRFz8HkqwCFVyQ=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:Subject:Content-Type; b=V62JHf6YEmjNUZFQWMjWiV6/uJW4R0YQxCeM8aUxdwOu+CP+mSYMOBV9r7iSHkfLe7xKDQ0PQJP8tOywhMEcy2P4yP61nYf9ivePWgWkn5BSn2Q8jrvlXIJ4qYgySh/FXJ/BauoFv4ab5lwqpue032xLCn3gnkrQFvwy/ISllPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=qh0Jbb/d; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cOXQN8PK; arc=none smtp.client-ip=103.168.172.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=johnericson.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="hjII2+T/"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1782341285; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=RGMvBCrNk+Lqy9bKhGcAKB7S0UyrlOegrIoDIDBDR1w=;
-	b=hjII2+T/no1jl4GLxdPfITBBZDOM89z06DGqTIc6n9OVhcYBCXXAFdsuf+E3/AZvF5J1BsUHaIdc67LG6Agjy/9Hy5qdK0GtxmUW9Oz408QkH76tl2jIKupSfuoFIPQuIkP+EV5CXN8EMpKlJbnZIMl+vsBfN6wpnq1QTDCqvrs=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0X5Z9VTW_1782341282;
-Received: from 30.180.134.80(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X5Z9VTW_1782341282 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 25 Jun 2026 06:48:04 +0800
-Message-ID: <add4b410-4440-4076-879e-2048f97687ee@linux.alibaba.com>
-Date: Thu, 25 Jun 2026 06:48:02 +0800
+	dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b="qh0Jbb/d";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cOXQN8PK"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.phl.internal (Postfix) with ESMTP id CEA3F13804BE;
+	Wed, 24 Jun 2026 18:52:09 -0400 (EDT)
+Received: from phl-imap-16 ([10.202.2.88])
+  by phl-compute-05.internal (MEProxy); Wed, 24 Jun 2026 18:52:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:message-id:mime-version
+	:reply-to:subject:subject:to:to; s=fm3; t=1782341529; x=
+	1782348729; bh=kNEKoSPVRG9xuRzyQZQXCoFYuW5nNtnedBCyvClkfsY=; b=q
+	h0Jbb/dI7ZEEbs2Lm6I+9chkUtRohsZMAx6FtonKUTd0I4ny44vYuL8YYsdfF/0t
+	C7+Aod66y5gXKj+d3phqebilzMay/GmXqna64XVM2v/Da7i5K7zX8yzVnPcbmTxz
+	wHPkmS7+RVYpQ6BszP6ENYUu5EbnpYjrgVo8HJSPHZOAQ15YSJVEJinFb6yYHIM/
+	43Vmsl7jw12muE/yEZpdJPKKFWeBs/wzGWdqz8zhFO9w5f3KxCFghH0h1+0nDWgk
+	2p+gRTidVhZs6zJaBKqoxPiXZITBFsIzoCVVqxogKLifWbr0NySCaevGLRSWLYWP
+	C0Kyvqk4wOzNf1z3XoNbw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1782341529; x=1782348729; bh=kNEKoSPVRG9xuRzyQZQXCoFYuW5n
+	NtnedBCyvClkfsY=; b=cOXQN8PKDvH9vCsuqVAbF3cH+S000CrarUU4hH+EWF4k
+	Oxn/INBHYA2tdMCXNhP433KxIDuN4KGmDXLdkZtZER+8E++RdF/Slktuinkf2PEY
+	YP7+5w2UQBUdVfwXt8C5JWUnTg17Yjy3paSmRUF7yIp0l7m8LzRwxfOuClZrkJkN
+	dOmzjuNYxgL5SV6IjbIEjzyNZLaikc7Udsb6cRpbmErABNJo8F6iQr/rpuOkVNVV
+	KnYFL27PKKEjHbtvoG5aIq3XsnE5SoHHCW9F0TjP/JUu73SORnw4PRrleZNWYQy9
+	Il/G9kmphYTsGI8cOb/rydeT+ddOSfHyN04ofEeDIg==
+X-ME-Sender: <xms:l188aozTUEmULvIUb0i5JDAvKzfVED6Q7rDbf_Wqn9HAEaYHrGbg0w>
+    <xme:l188anGuGB5vc9KXZH3H8m3gKPYDuhYfZh7dYY-1t4HvpeQgBg6AwCnJl8Me7tBR-
+    frPuoQCG7-KbN-xBwp411wIRt8GERrvT7t1JbaYHkiaVPTAXIlKLnQ>
+X-ME-Proxy-Cause: dmFkZTE3myjJ5yD9Pt6Ld2GGDGWzH6y4SjanE++u1dAE84asQUJInKI+iM90ruiX9KPZrt
+    Y/GHke9j9Q9v8EGH6yY57M0DotYOEf1XzH6EtAVw9bkTHoJje8Hdc4xQuOkLbuHw67vWyI
+    q0Y8WdXy4hpaqYkipyfTtrhG7Hd1VBByA1ZWz9mT30Aj9/rFnWRIW5yAU3ffaj5p+82WPT
+    usoaoJ9z0NI/1q4o7G27CGPtw/yjsIpI8UCttrqOb3xqWTX7MGeb5hK4BPs+Ew1SoLqMoZ
+    LbIdLoGe5lxEl62pS0z4pWv63gwZ9Zeb5mlhBQpw+JTTByUdVtyqzZgfC26IisBiO7W5QI
+    ZLSJITLlGsBD7k+WA+/MEG4x8r92g8KG1NI6uy8pD2EcttM9r4+moWr7Ex6C+GvxdMUbHF
+    5aFBGQtBrU1G1FRvj0gMK5b2vff4jfbRPKJcEX1T8xK7+OKq4goCqdTRN/Hee39GPn0Cub
+    hsrNog/AIh5LXNZXcpToAZ0v2Hik1SUSqIYxhq1yl/Z51pMmic0WoxP0EPX4/n67w5R6ij
+    9QM3k0XbcrM16qnBzHYQfBqMg5nr31HQnRmRp0V3BTSUVYvmbBEyaXy5uoc+xrPWQUtTuk
+    bOWzkZGH1/VGcDJFIGXG52pa6FE8CiZGpvYoyfkTAFOZjbJXPN1uSRit318Q
+X-ME-Proxy: <xmx:l188ajNyrKa7W1l-0XGF3mwa3u2DOW-5FMdq65BL8oT1fZ3hh4ixmA>
+    <xmx:l188alnqwV6B9EzNrYMx_utfEp5ewWuPvWzXqfn5EhjBLgaMokaOow>
+    <xmx:l188aifF8d4Oxv99DH9BbFu4isrovBByW30tarMSj57EEGPumNzFKQ>
+    <xmx:l188avvgxxwTTeMDOWL3wZCWNueLuE9xmWxV_mAgwdLCGkiz-uye-g>
+    <xmx:mV88aiiZFHSiBm4FlvALT_gyHdGJ98sJP_aPz8nbH0eHlsiMSao6yRNE>
+Feedback-ID: ieb4144f1:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 775672CC0086; Wed, 24 Jun 2026 18:52:07 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 17/18] fs: look up the superblock via the device
- table in user_get_super()
-To: "Darrick J. Wong" <djwong@kernel.org>,
- Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>,
- Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Carlos Maiolino <cem@kernel.org>,
- linux-xfs@vger.kernel.org, Chris Mason <clm@fb.com>,
- David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org,
- Theodore Ts'o <tytso@mit.edu>, linux-ext4@vger.kernel.org,
- Gao Xiang <xiang@kernel.org>, linux-erofs@lists.ozlabs.org
-References: <20260616-work-super-bdev_holder_global-v2-0-7df6b864028e@kernel.org>
- <20260616-work-super-bdev_holder_global-v2-17-7df6b864028e@kernel.org>
- <20260624175417.GU6078@frogsfrogsfrogs>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <20260624175417.GU6078@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ThreadId: AG8qDlxFSDr7
+Date: Wed, 24 Jun 2026 18:51:47 -0400
+From: "John Ericson" <mail@johnericson.me>
+To: "Li Chen" <me@linux.beauty>, "Cong Wang" <cwang@multikernel.io>,
+ "Christian Brauner" <brauner@kernel.org>, linux-arch@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-api@vger.kernel.org, "Arnd Bergmann" <arnd@arndb.de>,
+ "Andy Lutomirski" <luto@kernel.org>, "Thomas Gleixner" <tglx@kernel.org>,
+ "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>, "Kees Cook" <kees@kernel.org>,
+ "Sergei Zimmerman" <sergei@zimmerman.foo>,
+ "Farid Zakaria" <farid.m.zakaria@gmail.com>
+Message-Id: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
+Subject: [RFC] Null Namespaces
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
+Hello, I am hoping to discuss an idea I've had for a while, that I am
+calling "null namespaces" that has become more relevant with some recent
+other discussions. First I'll discuss null namespaces in general terms,
+and then I'll link those recent discussions and relate null namespaces
+to them.
 
+### Null namespaces
 
-On 2026/6/25 01:54, Darrick J. Wong wrote:
-> On Tue, Jun 16, 2026 at 04:08:33PM +0200, Christian Brauner wrote:
->> user_get_super() still finds the superblock for a device number by
->> walking the global super_blocks list under sb_lock. Every superblock is
->> registered in the device table under its s_dev since sget_fc() inserts
->> it there, including superblocks on anonymous devices, so use the table
->> instead.
->>
->> The refcount-pinning cursor helpers super_dev_{get,first,next}() only
->> touch table state and do not depend on CONFIG_BLOCK, so drop the
->> CONFIG_BLOCK guard around them: their new caller serves anonymous
->> devices as well (ustat() on e.g. tmpfs) and is built without
->> CONFIG_BLOCK. The guard falls in this patch rather than separately
->> since without this caller the helpers would be unused without
->> CONFIG_BLOCK.
->>
->> The pinned entry holds a passive reference on the superblock so
->> super_lock() can be called directly; once the superblock is locked grab
->> a passive reference for the caller before dropping the pin.
->>
->> The device table contains more than the old walk could find: a
->> superblock is also registered for every additional device it claims
->> (the xfs log and realtime devices, btrfs member devices, the ext4
->> external journal, erofs blob devices). Don't filter those out:
->> specifying any device a filesystem uses now resolves to that
->> filesystem, so ustat() and quotactl() work on e.g. the xfs log device
->> or a btrfs member device (the latter used to fail outright as btrfs
->> superblocks carry an anonymous s_dev that never matches a member
->> device). When several superblocks share a device (erofs blob devices)
->> the first live superblock wins.
-> 
-> Does erofs have a means to find the other superblocks that share a
-> device given a notification coming in on one of them?  
-Nope, erofs currently doesn't have a way to find the other
-superblocks (it  doesn't maintain the relationship). My previous
-thought is that because it's a read-only filesystem, IMHO, there
-is not a must to implement shutdown or notification mechanism in
-erofs itself, just because it's strictly immutable (no local
-write or dirty journals), and block layer can return io error
-on dead bdevs directly even it's a shared block dev.  But I may
-be wrong if there are reason that we should maintain the
-relationship.
+The essence of null namespaces is trying to give processes as little
+ambient authority as possible, so they are lighter weight and allowed to
+do even less than fully unshared processes today.
 
-Currently it only uses sb->s_type as the holder for bdev sharing,
-I think Christian meant that.
+Namespaces as they exist today are frequently described as an isolation
+mechanism, but I think this is the conflation of two different things.
+*Removing* a new process from its parent's namespaces unquestionably is
+increasing isolation --- no disagreement there. But putting the process
+in new namespaces is something else; I would call it supporting
+"delusions of grandeur" of that process. For example, namespaces allow a
+process to do mounts, have `CAP_SYS_ADMIN`, create network interfaces,
+look up other processes by PID, etc.
 
-Thanks,
-Gao Xiang
+Conceptually, to remove a process from one ambient authority scope (the
+very name "namespaces" indicates they are about ambient authority)
+should not require putting it in some ambient authority scope. Just
+because, for example, the process cannot see one mount tree, doesn't
+mean it needs to see another.
+
+Here's what I am thinking would happen concretely:
+
+First, the simpler cases:
+
+#### Null mount namespace
+
+- requires:
+
+  - null root file system: absolute paths don't work.
+
+  - null current working directory: relative paths with traditional,
+    non-`*at` system calls (and `*at` ones using `AT_FDCWD`) don't work.
+
+- All operations relating to the "ambient" mount tree don't work.
+
+- `*at` operations with a file descriptor do work.
+
+- The new fd-based mount APIs with detached mounts do work, modulo
+  the calling process having enough permissions (as usual).
+
+#### Null network namespace
+
+- No network interfaces
+
+- No abstract Unix sockets
+
+#### Null IPC namespace
+
+- cannot create or look up either type of message queue
+
+#### Null UTS namespace
+
+- no hostname or domainname: `uname`, `gethostname`/`sethostname`, and the
+  related `/proc/sys/kernel` sysctls all fail.
+
+#### Null user namespace
+
+- Process has no user or group ids
+
+- All uid/gid-based authorization lookups return "denied"
+
+- -1 / "nobody" IDs for operations we don't want to fail (like `fstat`)
+  can be used.
+
+Note how in each of these, the notion of there "existing" a "single"
+null namespace or not is degenerate --- every process with a null
+namespace field is as isolated from one another (in terms of the axis
+that namespace regulates) as they are from processes that are in other
+namespaces. It is truly a minimal permission level, and (as we shall
+see) cheap too, because it is just a null pointer in `task_struct`.
+
+Then for the nested ones --- PID and cgroup --- we cannot have quite a
+null namespace in the same sense, because it is an important property
+that these namespaces are hierarchical up to the root namespaces.
+Instead of having a disjoint null namespace, we need a null namespace
+with a parent.
+
+#### Null PID namespace
+
+- cannot look up other processes by PID
+
+- current process ID lookup fails
+
+- current process's parent process ID lookup fails
+
+- current process still assigned IDs in parent PID namespaces, per usual
+
+#### Null cgroup namespace
+
+- Process still can have resources restricted according to parent cgroup
+
+- Process unaware of cgroup hierarchy though --- blind to who/how it is
+  constrained
+
+In these cases, we cannot just implement with a null pointer, because we
+still need a valid parent namespace. However, we shouldn't need any info
+*but* the parent namespace. A pair of a pointer and a bool indicating
+null namespace with parent namespace or actual namespace membership,
+with some sort of helper to get the parent namespace in either case
+(since the actual namespace has its parent), should implement this.
+
+Finally there is the time namespace. Conceptually a null time namespace
+is simple enough --- you cannot look up the time! --- but the
+implementation is a bit more complex to get right because of the vDSO
+for certain timing operations.
+
+### General Motivation
+
+Why am I so interested in this stuff?
+
+Firstly it is because I have always been interested in a more strictly
+object-capability-based userland, and projects like
+Capsicum/CloudABI/WASI. I think going all in on file descriptors is
+generally the direction that Linux has been going in, and it creates a
+genuinely better programming model than the traditional Unix one with
+all its ambient authority, and the TOCTOU and other issues that attend
+it.
+
+Today's container idioms and the "delusions of grandeur" that namespaces
+provide are great for retrofitting existing software to run in a more
+isolated environment. But I don't want that to be the ceiling of our
+ambitions. Especially in this age of LLM refactoring, it is very easy to
+get both new and existing software to abide by the more limited set of
+allowed operations that null-namespace processes allow. And the
+modifications that that entails (more `openat`, more socket activation,
+etc.) make that software (in my view) simply *better* --- I would want
+it to work that way with or without these constraints forcing the issue.
+
+Secondly, and more concretely/imminently as a Nix developer, I am very
+interested in the performance and overhead of process isolation. It is
+very much my ambition to move Nix into the Bazel/Buck space of ever more
+numerous and fine-grained atomic build steps (i.e. small compilation
+units, not "packages"), but to do this *without* sacrificing Nix's
+strong sandboxing guarantees that make our build plans so self-contained
+and thus the ease of onboarding new Nix users.
+
+I think this "null namespace" sandboxing will likely be simpler and more
+performant than creating and destroying a bunch of regular namespaces
+for each compilation unit. And while it will no doubt take some compiler
+/ other tool patching to fix up any assumptions that get in the way of
+running processes with so few permissions, I am happy to take a stab at
+that too. Nix is, after all, for "tool-assisted yak shaves" as one put
+it --- patching GCC / Clang / whatever and then rebuilding the world is
+something we are quite good at.
+
+Lastly, I'll add that the traditional way people have thought about
+things like Capsicum/CloudABI is custom personalities/seccomp rules, but
+IMO trying to tackle the massive UAPI surface area so shallowly is ugly
+and unmaintainable. Nulling out namespace fields in `task_struct`,
+conversely, attacks the problem at its core, much more elegantly, and
+makes it easy to handle both current *and future* syscalls in a
+minimally invasive and maintainable manner.
+
+### Null namespaces and process spawning
+
+Why bring this up now?
+
+Recently [1], Li Chen took a stab at the venerable old goal of making a
+better process spawning UAPI than fork/clone + exec. I am quite excited
+to see this happen, as it generally dovetails very nicely with the
+object capability goals I have above. (E.g. making it performant and
+idiomatic to opt-in, rather than opt-out of sharing file descriptors
+with a child process is very good for a world where all
+resource/privilege sharing is done with file descriptors.)
+
+One problem with clone that didn't yet come up is that its defaults are
+not good from a security perspective: sharing by default, and unsharing
+as the opt in means that one must remember and take active measures to
+ensure that child processes get *less* privileges. This is very bad ---
+secure practices mean that the "lazy programmer" and the "smallest
+program" must always err on the side of giving the child process *less*
+privileges. This is the only way economics and the "principle of least
+privilege" will work together, rather than against each other (and
+economics is quite likely to win when they are working against each
+other).
+
+The reason that clone *doesn't* work that way is, of course,
+performance: it would be wasteful to unshare and create new namespaces
+when they are just going to be thrown away because the user wants to
+share after all.
+
+Null namespaces I think elegantly work around this performance/security
+trade-off, while also avoiding the need for gazillion-parameter syscalls
+like clone. This is because, as the most secure option, and a cheap
+option, they are the rightful default for a new process creation API.
+
+1. When an "embryonic" (under construction, not yet ready to be
+   scheduled) task is first created, it should have all null namespaces.
+
+2. Separate syscalls (`io_uring` exists for batching, we don't need to
+   reinvent an ad-hoc batch solution) can exist for setting the
+   namespaces on the process, where either "sharing" (use parent process
+   namespace) or "unsharing" (use fresh namespace, usually derived from
+   the parent process namespace but perhaps derived from a different
+   one) are choices that can be opted into instead of the null namespace
+   default.
+
+3. After all state is initialized (arguments, environment variables,
+   file descriptors, namespaces, etc.), the process can be "birthed",
+   and submitted as ready to be scheduled.
+
+This design is very natural to me, but its full naturality is *only*
+available with the null namespace option. Otherwise we are stuck in a
+place of no good defaults, and the "builder pattern" seems more awkward.
+
+Also in [2], I bring up a design for unix sockets without the file
+system or the "abstract" socket namespace, and how I want to avoid both
+in order to firmly rule out TOCTOU and other ambient authority issues. I
+think those arguments stand on their own, but the possibility of a null
+network namespace sharpens the issue: it forces the `O_PATH` FD stuff I
+discuss to be the only viable option.
+
+### Implementation
+
+I've "LLM'd" out some draft patches [3] for this. I'm not submitting
+them because I still need to review and test them, and I don't want
+(currently, pre those steps) low-quality slop to tarnish this proposal.
+What this initial exploration did, however, confirm for me is that these
+changes should be quite lightweight to implement. (Also, what I propose
+is slightly different from my implementation draft in a few cases where
+I think the design I proposed here is better than my draft
+implementation.)
+
+If the discussion here starts moving towards consensus, I'll clean up
+and rework those patches along the lines of the consensus. Ideally I
+would submit them one at a time, I figure, since the implementations for
+different namespaces are necessarily changes to different subsystems.
+
+Cheers!
+
+John
+
+[1]: https://lore.kernel.org/all/20260528095235.2491226-1-me@linux.beauty/
+
+[2]: https://lore.kernel.org/all/455281ec-3ee1-4f27-989b-c239f0690d8b@app.fastmail.com/
+
+[3]: https://github.com/Ericson2314/linux/commits/null-namespace
