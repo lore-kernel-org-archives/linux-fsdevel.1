@@ -1,264 +1,145 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2183C1F31
-	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 14:23:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F27274B3B
+	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 14:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782311011; cv=none; b=PiAufsfxCd2x0Z8xKaJQLWVjqNa5KKWV1/G9wqsJROCbbrSuKsUlO9DYEDuxFFEPeNlh6IXQKaLvrKbUKsSS4CVial2Ap4dUnQHL1Xg9RHkhA1SQabO38w6RlfZfODK4zGn61lpcFyxOGRyj2n9YTi6kOinjJNJq15/yRm/T0v8=
+	t=1782311079; cv=none; b=PTTCFdOqp3m6Xyh7CUObj/aBe36ec2hg0UXygNEZ4qQflqOaMR39qBPpoJNfXMGbUUMFypSNFQkM8Cz5J+L/aglIA1QKg0w4Y4Q8Ae2BVUL6M/9sgHb5n6Uf4+ebmtXkx6CPCfW2jju6v8YImLs3+XzClGwoKutlNm8rjE8lYJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782311011; c=relaxed/simple;
-	bh=ANcnDbJl1GrE6afhpUmaNktn53Zw0TE+IUnQR7Lyflk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UZe0F+CEM0Y+FcHXOnXA1y8Bbjw1BQRnTBQ77X5SUt5miWe/2UFu2z+MZboMk9NsMLfCO8JYbth9xgUrgBIB0+X1MdKy5UxIITLZ8XQBU61SIV+Opda4BLb4fxPsL1CrVGS24uiXZGJmabfAgXc4KMNnRswyqq5TgSsSO9nX0iE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CK1QgHuI; arc=none smtp.client-ip=209.85.221.52
+	s=arc-20240116; t=1782311079; c=relaxed/simple;
+	bh=+GvPHtbjBfoeFHgSA3GIQrRzol9K7XiFhRwqivJDapw=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
+	 MIME-version:Content-type; b=Fy0m/9eRmHpDn73IHrqRW23ni3ZYB3I+uk5E5MfqTqEjYa+WlUdXmpjDs/G2wsO4QIMtpcCeQoyywTrVUeLcS/QvMCUgNiCgGQdPcrbo/ZxiPhO4Wj0GyxZGx0N2qaXa8ZXXBifXxLQnlPMBcOz0/NeezDzSgSG+VD/u6SPkD0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AcMSf/jl; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CK1QgHuI"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4629051c946so786351f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 07:23:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AcMSf/jl"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-37c8e7c8185so697696a91.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 07:24:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782311007; x=1782915807; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Per6MI6n5CBZ4jce2Yah0coKW3mXxHCaIKwWKmwmsgQ=;
-        b=CK1QgHuIU3L+Hoq9eyhLAP/tW60WuHCUI7tfWelD/UEnl2Wy0NhsVkfh8AA22XEOA2
-         hDg0I3Qw0c8thCpYKIRQF2GB97/jDtHq3N7sH/zC33OPWPVMkUtDc/wZajKMWaLEVhh+
-         9ZNJdTbT7ze+PrqZ/wGdLFb1rAwCCMVFvHdTBfoD6HTQegbltGhdwjkQ+PvECoQiudJB
-         SKRNGqOXEB2kF2ZVf2qCX1biZAaWtJawZh0E366EpIQ4SAIrWsXVO2ZBPpaWDzupv+RC
-         TaMQybC2UB1JHLVfYACnBxKWlff5n5TZv8mwnhHgObgWNzrtct1UvpEaaP+EMi+/wDnr
-         NuMA==
+        d=gmail.com; s=20251104; t=1782311076; x=1782915876; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:message-id:date
+         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bC7GeOhZGz0je76Vr4XAaqeVuPBssFAF57vnDxsL79M=;
+        b=AcMSf/jlCJU2ILuSt+66WbpetxY2HadsHQVxaA/1YzNOwOVJf6n4RLaG1DmmcY6C7p
+         TIlPgl5GFj2+dPxYJTMwPia9v9Oh8ViLz3dd8+7bhnGkU8x2iGj0nQxSfc+MsXKNj/AL
+         x0mJtdLNhk4c2+6dcqg5wYXcNiPXJO1vZks1nY9wk5yS5gzhdt+gneIE3OI5jHv4Xeaq
+         DiReOB/Y4FQHNP5xcG8OzvSCbTqCISOt70ReiblXb8Pac7claoinWoXJFNrsMshEt589
+         fFCCiCHURgnayZiapliKnusbAgNylNCa7+XnbSDGBFbW3uneBo7Fbi/kvv4nOj1QPDJp
+         fAXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782311007; x=1782915807;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Per6MI6n5CBZ4jce2Yah0coKW3mXxHCaIKwWKmwmsgQ=;
-        b=sbAxvcnFZuRKXmNasDDS3TPpIYrZBrkoUuhFr8Ilv4afj5D4FMXUO9Nfi+2hQqcZjN
-         4wRF1UqKX57/Pyg70gWkI+OQkNY8fCszgD7ausi0M4YW7kJugdiZiDUsM8TeF1/aGFhZ
-         JYAGZKvQy+dCLYvzQfGiMbn1gI8/mL0ByiiKJjWijOHTBt3uMajdKwVH6dE+bqYgKdHU
-         y3DTgAGfcXgj98Td0o91UsEBo/wZWdZCKWcDXeBxavkyfjDu6AVT0njNcVX6ujVFiOoR
-         I48ohGxt0G976C0ycy5lwjZF90owcBnxw6gqBGtinrwDMVc2hbVjyZWLmsgnAg07Yyu9
-         3BxQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rr1W4KxQWutDHzEaX5/XsZNt/bDGTyl8mFrMKna6SmN59eKMsHMMVfC+LYxDFkiUq2TYMmscnnLzUooj1oN@vger.kernel.org
-X-Gm-Message-State: AOJu0YxF1EQVpTech2e93wQIJBuDAyS191L99gy+vgr6KvgmS77PG17r
-	/2x0orROtbG80SNo830luUptUJ8XNEqDeIhv4AD75WiFoOYQxIBCGcSY
-X-Gm-Gg: AfdE7cmkE1mk5rr2Rned0mwe7oYnwjhHBWgilEUObK8CPE7E1dYTpZrTRChaJeH4FFe
-	pkQJsk3sEGlY2TKy4DxnlV6GmPEmrET+I0U7bDYhogdi2b0SvBY78VH+pidZjWSAJzIht+If/k8
-	1GFJMQcXxCqqGc2dzeyf69ELcOm7KWgbld/Hte1qpZakQ3KJnJ3bKg3DQY7t/+vUd/QqTahHiCL
-	dxSXDGEwFk1U5BHmZVRzywPgPYkU5MgU0oMr1I3O/M+BHdSRujWA4WKaM6YOYO5c8TFP7putKVB
-	bko/0MEyGgRke3T5LuZMLL8j3Tq/knSxy9cS+olwefAzGwXZATQx3hPxngCWPFqfxN8R1tYwA/e
-	XI8nBzYRRDv+wNS2AQx9ZR8/WeitmreTfm+BpeoJYUDLTfpVCJ/6/XBVV/dp2BPrpEiRTidlo/7
-	rHyaGmJao0XYJZABpVAcSrSwEMg1PDeqFIxh8B9PNqM+rWdmC0lQ==
-X-Received: by 2002:a05:6000:471a:b0:460:2e53:a6f6 with SMTP id ffacd0b85a97d-46d04583b35mr1261972f8f.12.1782311006854;
-        Wed, 24 Jun 2026 07:23:26 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c221d9405sm8183744f8f.22.2026.06.24.07.23.25
+        d=1e100.net; s=20251104; t=1782311076; x=1782915876;
+        h=content-transfer-encoding:mime-version:references:message-id:date
+         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=bC7GeOhZGz0je76Vr4XAaqeVuPBssFAF57vnDxsL79M=;
+        b=JK+Ac784mRxSnqfNv8UPN+BmY9GKwobik7hqnjTUYNfMaFM6/4tBZJkv7H6BtkeaD0
+         rhmOegmoC6H9cEABV4Dsze9Te7n2UW7GU5eJct11m4l4i47Rgno9GukoL3BJaO7ovcvr
+         JE7IgYvigX7/96Hro/wvwSKbehSzqawy63vWOpEkIB8+Og9XRkTdmP5rnjkVDela8/sg
+         9e/12sgW3k/XsXFROcRFeONRRmIXtzB5/BtyW2XnYh7Nl6jEASZKmcVJbllp0b94eCx/
+         S2AhLxh1KSWXLlw5f/eVtoAcrbwC6/8atjHGJqp+/A7TLxPrlRcb8j5pH3en41Wo7JfQ
+         6Bxw==
+X-Forwarded-Encrypted: i=1; AHgh+RqRU8FSKfabaKuD8BE15yi0fi01F3d6ZrGC5iq+1kiRooOTgFzeB5qJW3jjRBdxubDizrlvy+F4Qp1tj3xy@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxo4Qin1+kwMNOcEqeaK98npNFani41gOtsshNvNZLtgzYJK1uQ
+	H2zvxILMo/XwjSNS9R1q+gerfgOAVT42ZzRzhQSMHAVW7KIvQHUQvgA7
+X-Gm-Gg: AfdE7ckNQCiXzN3+RswaVp722RJ//zFMamw3+tDqALNZuKBy+P3VwmU7C5VwiNOG/AD
+	fr/hzSJo3I1t+FVEJdm/zA7Wa/x/WhpjzehN9zJzTHmMCaccoSRGWuJ8ycCaaUY9kiaX8VOwFIA
+	0SJZHJsYTwVkp8QAjnZDYPLiqQ0qc6G2JgpUYhNPEN+3qVP1x23Yv7FMmboLF2E+tcfSG9gQe8e
+	3IVPRorAb3eHPVhfHhyWne195bIr5MZkQFcqoJy7saVXl+gU0AbUYl60nFt7A9cHf6yjj4n+4h2
+	6/0tEAU4qkBVWCzdcrCpf5cHAXUUMt8+5D+nTfNMU8IzHEg6+nl76V6hlOLJTUK1ZsxOmaeNQ/D
+	yBhKijsBrBdxaJfYJaEOMbkWlVKBflhge5hWhckoBJk3tQkSBhA3y6DvT2aWJmNeeMOmjg/ZxFu
+	yV9K3jGBnx1O//Go8=
+X-Received: by 2002:a17:903:1d0:b0:2bf:3309:ecce with SMTP id d9443c01a7336-2c7e15804acmr39177245ad.28.1782311076310;
+        Wed, 24 Jun 2026 07:24:36 -0700 (PDT)
+Received: from pve-server ([49.205.216.49])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7439f86aesm135035155ad.49.2026.06.24.07.24.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2026 07:23:26 -0700 (PDT)
-Date: Wed, 24 Jun 2026 15:23:24 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Kaitao Cheng <kaitao.cheng@linux.dev>, Andrew Morton
- <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, Jens
- Axboe <axboe@kernel.dk>, Tejun Heo <tj@kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Alexei
- Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim
- <namhyung@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Juri Lelli
- <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, Paul
- Moore <paul@paul-moore.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, "Paul E. McKenney"
- <paulmck@kernel.org>, Shakeel Butt <shakeel.butt@linux.dev>, David Howells
- <dhowells@redhat.com>, Simona Vetter <simona.vetter@ffwll.ch>, Randy Dunlap
- <rdunlap@infradead.org>, Luca Ceresoli <luca.ceresoli@bootlin.com>, Philipp
- Stanner <phasta@kernel.org>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
- linux-ntfs-dev@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, audit@vger.kernel.org, bpf@vger.kernel.org,
- netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-perf-users@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- kexec@lists.infradead.org, live-patching@vger.kernel.org,
- linux-modules@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-pm@vger.kernel.org, rcu@vger.kernel.org, sched-ext@lists.linux.dev,
- linux-mm@kvack.org, virtualization@lists.linux.dev, damon@lists.linux.dev,
- llvm@lists.linux.dev, Kaitao Cheng <chengkaitao@kylinos.cn>
-Subject: Re: [PATCH v3 1/7] list: Add mutable iterator variants
-Message-ID: <20260624152324.3def88ce@pumpkin>
-In-Reply-To: <cf8467c7-b98f-44a5-9cf9-60b43b5da711@amd.com>
-References: <20260622040533.29824-1-kaitao.cheng@linux.dev>
-	<20260622040533.29824-2-kaitao.cheng@linux.dev>
-	<20260622094242.64531b9a@pumpkin>
-	<351a6b67-b394-4c58-aee2-88b6c8089ad5@linux.dev>
-	<cf8467c7-b98f-44a5-9cf9-60b43b5da711@amd.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        Wed, 24 Jun 2026 07:24:35 -0700 (PDT)
+From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+To: Salvatore Dipietro <dipiets@amazon.it>, willy@infradead.org
+Cc: dipiets@amazon.it, abuehaze@amazon.com, akpm@linux-foundation.org, alisaidi@amazon.com, blakgeof@amazon.com, brauner@kernel.org, dipietro.salvatore@gmail.com, djwong@kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-xfs@vger.kernel.org, stable@vger.kernel.org, vbabka@suse.com, David Hildenbrand (Arm) <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Vlastimil Babka <vbabka@kernel.org>
+Subject: Re: [PATCH 1/1] iomap: avoid compaction for costly folio order allocation
+In-Reply-To: <20260624080639.17100-1-dipiets@amazon.it>
+Date: Wed, 24 Jun 2026 17:51:18 +0530
+Message-ID: <o6h0w2m9.ritesh.list@gmail.com>
+References: <20260527162412.19922-1-dipiets@amazon.it> <20260624080639.17100-1-dipiets@amazon.it>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+MIME-version: 1.0
+Content-type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 24 Jun 2026 15:23:47 +0200
-Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+Salvatore Dipietro <dipiets@amazon.it> writes:
 
-> On 6/24/26 15:14, Kaitao Cheng wrote:
-> >=20
-> >=20
-> > =E5=9C=A8 2026/6/22 16:42, David Laight =E5=86=99=E9=81=93: =20
-> >> On Mon, 22 Jun 2026 12:05:31 +0800
-> >> Kaitao Cheng <kaitao.cheng@linux.dev> wrote:
-> >> =20
-> >>> From: Kaitao Cheng <chengkaitao@kylinos.cn>
-> >>>
-> >>> The list_for_each*_safe() helpers are used when the loop body may
-> >>> remove the current entry.  Their API exposes the temporary cursor at
-> >>> every call site, even though most users only need it for the iterator
-> >>> implementation and never reference it in the loop body.
-> >>>
-> >>> Add *_mutable() variants for list and hlist iteration.  The new helpe=
-rs
-> >>> support both forms: callers may keep passing an explicit temporary cu=
-rsor
-> >>> when they need to inspect or reset it, or omit it and let the helper =
-use
-> >>> a unique internal cursor. =20
-> >>
-> >> I'm not really sure 'mutable' means anything either.
-> >> It is possible to make it valid for the loop body (or even other threa=
-ds)
-> >> to delete arbitrary list items - but that needs significant extra over=
-heads.
-> >>
-> >> It might be worth doing something that doesn't need the extra variable,
-> >> but there is little point doing all the churn just to rename things.
-> >> =20
-> >>>
-> >>> This makes call sites that only mutate the list through the current e=
-ntry
-> >>> less noisy, while keeping the existing *_safe() helpers available for
-> >>> compatibility.
-> >>>
-> >>> Signed-off-by: Kaitao Cheng <chengkaitao@kylinos.cn>
-> >>> ---
-> >>>  include/linux/list.h | 269 +++++++++++++++++++++++++++++++++++++----=
---
-> >>>  1 file changed, 231 insertions(+), 38 deletions(-)
-> >>>
-> >>> diff --git a/include/linux/list.h b/include/linux/list.h
-> >>> index 09d979976b3b..1081def7cea9 100644
-> >>> --- a/include/linux/list.h
-> >>> +++ b/include/linux/list.h
-> >>> @@ -7,6 +7,7 @@
-> >>>  #include <linux/stddef.h>
-> >>>  #include <linux/poison.h>
-> >>>  #include <linux/const.h>
-> >>> +#include <linux/args.h>
-> >>> =20
-> >>>  #include <asm/barrier.h>
-> >>> =20
-> >>> @@ -763,28 +764,72 @@ static inline void list_splice_tail_init(struct=
- list_head *list,
-> >>>  #define list_for_each_prev(pos, head) \
-> >>>  	for (pos =3D (head)->prev; !list_is_head(pos, (head)); pos =3D pos-=
->prev)
-> >>> =20
-> >>> -/**
-> >>> - * list_for_each_safe - iterate over a list safe against removal of =
-list entry
-> >>> - * @pos:	the &struct list_head to use as a loop cursor.
-> >>> - * @n:		another &struct list_head to use as temporary storage
-> >>> - * @head:	the head for your list.
-> >>> +/*
-> >>> + * list_for_each_safe is an old interface, use list_for_each_mutable=
- instead.
-> >>>   */
-> >>>  #define list_for_each_safe(pos, n, head) \
-> >>>  	for (pos =3D (head)->next, n =3D pos->next; \
-> >>>  	     !list_is_head(pos, (head)); \
-> >>>  	     pos =3D n, n =3D pos->next)
-> >>> =20
-> >>> +#define __list_for_each_mutable_internal(pos, tmp, head)		\
-> >>> +	for (typeof(pos) tmp =3D (pos =3D (head)->next)->next;		\ =20
-> >>
-> >> Use auto
-> >> =20
-> >>> +	     !list_is_head(pos, (head));				\
-> >>> +	     pos =3D tmp, tmp =3D pos->next)
-> >>> +
-> >>> +#define __list_for_each_mutable1(pos, head)				\
-> >>> +	__list_for_each_mutable_internal(pos, __UNIQUE_ID(next), head)
-> >>> +
-> >>> +#define __list_for_each_mutable2(pos, next, head)			\
-> >>> +	list_for_each_safe(pos, next, head)
-> >>> +
-> >>>  /**
-> >>> - * list_for_each_prev_safe - iterate over a list backwards safe agai=
-nst removal of list entry
-> >>> + * list_for_each_mutable - iterate over a list safe against entry re=
-moval
-> >>>   * @pos:	the &struct list_head to use as a loop cursor.
-> >>> - * @n:		another &struct list_head to use as temporary storage
-> >>> - * @head:	the head for your list.
-> >>> + * @...:	either (head) or (next, head)
-> >>> + *
-> >>> + * next:	another &struct list_head to use as optional temporary stor=
-age.
-> >>> + *		The temporary cursor is internal unless explicitly supplied by
-> >>> + *		the caller.
-> >>> + * head:	the head for your list.
-> >>> + */
-> >>> +#define list_for_each_mutable(pos, ...)					\
-> >>> +	CONCATENATE(__list_for_each_mutable, COUNT_ARGS(__VA_ARGS__))	\
-> >>> +		(pos, __VA_ARGS__) =20
-> >>
-> >> The variable argument count logic really just slows down compilation.
-> >> Maybe there aren't enough copies of this code to make that significant.
-> >> But just because you can do it doesn't mean it is a gooD idea.
-> >> I'm also not sure it really adds anything to the readability.
-> >>
-> >> And, it you are going to make the middle argument optional there is
-> >> no need to change the macro name. =20
-> >=20
-> > Christian K=C3=B6nig and Jani Nikula also disagree with the variadic-ar=
-gument
-> > implementation approach. If we abandon that method, it means we will
-> > inevitably need to add some new macros. If mutable is not a good name,
-> > suggestions for better alternatives would be welcome; coming up with a
-> > suitable name is indeed rather tricky. =20
->=20
-> I don't think you need to add a new macro for the specific use case that =
-people want to modify the next element of the iteration.
->=20
-> If I remember your numbers correctly that is a really corner case and kee=
-ping using the existing *_safe() macros for that sounds perfectly fine to m=
-e.
+> Hi Ritesh, Matthew,
+>
+> I wanted to kindly follow up on my summary from May 27th regarding the best path 
+> forward for this patch.
+>
 
-IIRC currently you have a choice of either:
-	define               Item that can't be deleted
-	list_for_each()	     The current item.
-	list_for_each_safe() The next item.
-There is also likely to be code that updates the variables to allow
-for other scenarios.
+Hi Salvatore,
 
-Note that if increase a reference count and release a lock then list_for_ea=
-ch()
-is likely safer than list_for_each_safe() :-)
+Sorry about the delay. I did bring this topic up in one of our internal
+ext4 community calls. And to share some context, MM community thinks we
+need a better long term fix for this problem rather than patching call
+sites and/or playing tricks like - 
 
-list.h has 9 variants of the 'safe' loop.
-The bloat of another 9 is getting excessive.
+diff --git a/mm/filemap.c b/mm/filemap.c
+index 4e636647100c..f2343c26dd63 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -2007,8 +2007,13 @@ struct folio *__filemap_get_folio_mpol(struct address_space *mapping,
+ 			gfp_t alloc_gfp = gfp;
+ 
+ 			err = -ENOMEM;
+-			if (order > min_order)
+-				alloc_gfp |= __GFP_NORETRY | __GFP_NOWARN;
++			if (order > min_order) {
++				alloc_gfp |= __GFP_NOWARN;
++				if (order > PAGE_ALLOC_COSTLY_ORDER)
++					alloc_gfp &= ~__GFP_DIRECT_RECLAIM;
++				else
++					alloc_gfp |= __GFP_NORETRY;
++			}
 
-It has to be said that this is one of my least favourite type of list...
+Unfortunately most of the folks might be missing free cycles
+to work on this problem right now :( - Hence the delay in addressing
+this..
 
-	David
 
->=20
-> Regards,
-> Christian.
+However - I would like to bring this problem to other MM community
+members as well who might have an interest in this space. Can we look
+into the proposed solutions from Salvatore and suggest the next steps
+please? 
+
+Maybe if someone can share what is MM community looking  for here - I
+guess that will be a good start. Looking into the table I think
+Salvatore had also shared a diff for kicking kcompactd in the background
+[2].
+
+[2]: https://lore.kernel.org/all/20260506123326.17293-1-dipiets@amazon.it/
+
+(Sorry I still have few other things on my plate before I start look
+into this more actively. But let's hear from others, who have better
+knowledge than me on this.)
+
+> To recap, we benchmarked all proposed variations and shared the results:
+>
+> | Patch                          | Change Location        | Avg TPS    | % vs Baseline |
+> |--------------------------------|------------------------|------------|:-------------:|
+> | Baseline (no patch)            | —                      | 101,979.75 |       —       |
+> | v1 (original, iomap caller)    | fs/iomap/buffered-io.c | 141,194.20 |    +38.45%    |
+> | Ritesh's suggestion            | mm/filemap.c           | 139,200.61 |    +36.50%    |
+> | Matthew's suggestion           | mm/filemap.c           | 143,863.82 |    +41.07%    |
+> | kcompactd background           | mm/page_alloc.c        | 134,278.47 |    +31.67%    |
+>
+
+
+-ritesh
 
