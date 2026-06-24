@@ -1,241 +1,211 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11023130.outbound.protection.outlook.com [40.107.159.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2695D2EC57C
-	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 11:40:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782301261; cv=none; b=IzvRH49kinu67wE60BXaXsv9Q/SFwytK1wYjfSrfJD8MKyOY9xtIj9G0lnODuhaxjc3mdPdo39oxIkUTYPRWwpr5dZ/sRWa1ewA/4CTZ7PPeBtU7G/mm6rKer3Hp1WYcrE2iy/SJ+dgEUkfLe5VY13n9gGzRmG67qRsSciRPrxU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782301261; c=relaxed/simple;
-	bh=K1fFXIxaesd+eFthXGatCw4ranSCgFqT9wKribOcSsc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FlHWdx86V+e7qdve0OxtV8lsQZREpasoSx52AiuujI+lor3rcaqTs81VQiGdZBFfnAYx624jjjeF6Xv2qOzzWj74rEI7um+pKyJ91Wbd84YDdPJhzpClOQdPyyOarW1NavJ6tdDR65iCP1BZUplxphT8eSPebAfVdIFZ9VLevkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hF6NfODF; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=GY8PcayC; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hF6NfODF; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=GY8PcayC; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A721C23815B;
+	Wed, 24 Jun 2026 11:45:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.130
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782301526; cv=fail; b=MlNoQo8LByRB32zpZekoyAPFQoliJHrHD6ykBpUv8p2N7oKKiMfTY6KyfizlKARRG0hVQUWB+3vczQcAWJBolPe/g2Sknf7sUYKI26/ZJwGpEUJyFOi8fHYG593ZQGE6L6ZmKtBWhYuu03+DNc3n4QSR7+8BTxcT50eOVjwXKHk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782301526; c=relaxed/simple;
+	bh=mOjBExn8c8WUoW/8V2se59fq3o9cmxN7psk0lhwwjPI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=TCPSaEYNB+lx+Sr4FdzbW8pbhM9QNgmIXYxwYWJc5M5rCncF75HNitJ3iAz/hFHmqsV2San5Hqcsg184go+4Jtnp9rzdRns/zFeDrBpr4C9phOdHDXN5W0x7xN+xZVndnQMnYT53AipGW5N+pkF/KoNf4bLpNgBz1IW0uth9wmM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com; spf=pass smtp.mailfrom=virtuozzo.com; dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b=ymTENv0v; arc=fail smtp.client-ip=40.107.159.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=virtuozzo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hF6NfODF";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GY8PcayC";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hF6NfODF";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GY8PcayC"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 684BF71314;
-	Wed, 24 Jun 2026 11:40:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782301257; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1FWZgxDjSUCom9Re05WOOJuJNeJjEZN52wMGosALaUs=;
-	b=hF6NfODFPkCXvzr0SSHA/NliEy6UInLzHmobMqkJkWJfYWzdB1aaFCcQ3SiNrr4QQigZ61
-	IOck3SKBclnNectWeI+wu8MiofOCvj0ZXWfpy+xmlOOYlUfZExVRabhPdzvAJwfpomETeR
-	45DUjs7WXol1xxnSafaemMVirLgl+FA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782301257;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1FWZgxDjSUCom9Re05WOOJuJNeJjEZN52wMGosALaUs=;
-	b=GY8PcayCGoSTcAmLpIduGlP87R01qakK2tGhInNlAk5tsyVp1pmYg7EgUSRtXuSA9+T442
-	xJqVt0prij7hymBA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782301257; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1FWZgxDjSUCom9Re05WOOJuJNeJjEZN52wMGosALaUs=;
-	b=hF6NfODFPkCXvzr0SSHA/NliEy6UInLzHmobMqkJkWJfYWzdB1aaFCcQ3SiNrr4QQigZ61
-	IOck3SKBclnNectWeI+wu8MiofOCvj0ZXWfpy+xmlOOYlUfZExVRabhPdzvAJwfpomETeR
-	45DUjs7WXol1xxnSafaemMVirLgl+FA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782301257;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1FWZgxDjSUCom9Re05WOOJuJNeJjEZN52wMGosALaUs=;
-	b=GY8PcayCGoSTcAmLpIduGlP87R01qakK2tGhInNlAk5tsyVp1pmYg7EgUSRtXuSA9+T442
-	xJqVt0prij7hymBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5C833779A8;
-	Wed, 24 Jun 2026 11:40:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id PNKTFknCO2p9HgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 24 Jun 2026 11:40:57 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id EADF4A093E; Wed, 24 Jun 2026 13:40:56 +0200 (CEST)
-Date: Wed, 24 Jun 2026 13:40:56 +0200
-From: Jan Kara <jack@suse.cz>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-block@vger.kernel.org, Christoph Hellwig <hch@lst.de>, Theodore Ts'o <tytso@mit.edu>, 
-	Andreas Dilger <adilger.kernel@dilger.ca>, Baokun Li <libaokun@linux.alibaba.com>, Jan Kara <jack@suse.cz>, 
-	Ojaswin Mujoo <ojaswin@linux.ibm.com>, Ritesh Harjani <ritesh.list@gmail.com>, 
-	Zhang Yi <yi.zhang@huawei.com>, Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>
-Subject: Re: [PATCH 10/16] fs/buffer: Remove fs-layer decryption code
-Message-ID: <hu7h6ga2ndrsedjvjbemdevjzrhvtz7jx2hbc2rtmkskufckmi@yf3a6t4hhike>
-References: <20260624050334.124606-1-ebiggers@kernel.org>
- <20260624050334.124606-11-ebiggers@kernel.org>
+	dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b="ymTENv0v"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DUP3CmqBK9u3BXpYCigvGFY/1jcQajLo3FDxv9nNtXaHPF+zS8BuMTqKMH9XfIRKrHkCnhi98ludkSyC8WY24OFFIQwPFm0Dt2DN5WCdTqxtTm4/EkFD9TzTm8FGMkxBLjRGs9NgFI+95MteYBKcrtBwZKHsdPhEqDX7BZdF6bojwSMKsH8t83hY1DTDlMyWgQRagwS44QlXPs8Z3Iho/r98/I9tD88amkF7HgRCckBHlaR/VDcL1dcw1KEky4ZAnOPmxqJZO9HYlAcIOCSFdnIsPFP+tJ4oIa1ljXkvAWVOQ8vY4cEJvpCLMk8+fviCPaMYKs/sStCzzxpHtlJ7QQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GPECE0WmOEZRyjnvSIc58N/PARLtZnzbEG1CIW7qa5Q=;
+ b=IFCfg5lhuTgnZJBozv67FUlTLaRa2saMnSu4Ot5QaLJXraUrQJowpOr96zygn3rlMSLjaOvxt/jxVuhem+IFe9gS1I6sC/od0akD24dtbo5Ud8+CJTCbwfw8gK0U3Jy2ZbHH2YHDwfGDyxVBKOP+uupaK431hoLRwRqG5gx8uEAeA30ki4cTeaLZUUxUNV1bpuKLWL/QNZmi68f2tYD51ILmK8P1hatcRxlw0MJ05O2CFB5/e67gzBk4s98mDojMorQgLETeanJ3k4o8KUDzLa3LTthUUk4/Lq+Gx8aaK3PPYO9RLubAx/mWKi5Wt3aFwo08iApNXG0H252aleQ03w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GPECE0WmOEZRyjnvSIc58N/PARLtZnzbEG1CIW7qa5Q=;
+ b=ymTENv0vk3Q9PQgHqi57pw5CExA8ZfH3c3ecpKM1yglIKM5nBb48PNjfRlEblqU98x6U90eScpGfWRdM5V4eaqxz8XcUm/14M/3QouR9jVPVUJwNbNWrFR2tBmMZwIfy1K13sm7EmQ5fjZ9/AN79QPazWdKLYHJfN7mequRVUIsMbt1mpjqU0FndtbHTjHgcfi8faPNK93Yy2bJDEciBrBJmG2oXAyH2rIeTin9Y2h9b92btvp1kVek3XtAlQ9MjkIM+vTiAtb4aOjWCwt2XQFyDiuhEySdmv2xiRFNff8v88uIjLTMzPrjC7TP7edlulX+Tud8c1j5YS30bvXi0vg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from GV2PR08MB11819.eurprd08.prod.outlook.com
+ (2603:10a6:150:301::23) by AS2PR08MB9342.eurprd08.prod.outlook.com
+ (2603:10a6:20b:599::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.14; Wed, 24 Jun
+ 2026 11:45:19 +0000
+Received: from GV2PR08MB11819.eurprd08.prod.outlook.com
+ ([fe80::cf17:c42a:92:b6e3]) by GV2PR08MB11819.eurprd08.prod.outlook.com
+ ([fe80::cf17:c42a:92:b6e3%4]) with mapi id 15.21.0159.007; Wed, 24 Jun 2026
+ 11:45:19 +0000
+Message-ID: <c390081b-7b2e-4b83-9bca-5f93eec6a939@virtuozzo.com>
+Date: Wed, 24 Jun 2026 13:45:17 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] ovl: support cachestat() syscall on overlayfs files
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Shuah Khan <shuah@kernel.org>,
+ linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kselftest@vger.kernel.org
+References: <20260623111533.2285005-1-ptikhomirov@virtuozzo.com>
+ <20260623111533.2285005-3-ptikhomirov@virtuozzo.com>
+ <CAKEwX=OaKTfNqzwa=djLxZDeBbR1+DKdqDnxdfPfZFKB-K+ECA@mail.gmail.com>
+Content-Language: en-US
+From: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+In-Reply-To: <CAKEwX=OaKTfNqzwa=djLxZDeBbR1+DKdqDnxdfPfZFKB-K+ECA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BE1P281CA0346.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:7d::11) To GV2PR08MB11819.eurprd08.prod.outlook.com
+ (2603:10a6:150:301::23)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260624050334.124606-11-ebiggers@kernel.org>
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	TAGGED_RCPT(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.sourceforge.net,lst.de,mit.edu,dilger.ca,linux.alibaba.com,suse.cz,linux.ibm.com,gmail.com,huawei.com,kernel.org];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR08MB11819:EE_|AS2PR08MB9342:EE_
+X-MS-Office365-Filtering-Correlation-Id: 68dd19a5-aedd-4aef-4856-08ded1e6110d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|376014|366016|10070799003|7416014|56012099006|22082099003|18002099003|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	GciMzBxu9LUvGgTmuQA+NSK7eZdRTgqni8RnzZVF9k9zRfZ2CqeFn0Hi8APlzArKLEHMHjZL7jlFWUQvZ34nd+2TY//XyfxknDMMxdbzo4c+7pq3PMK9AOyIcPhGlrQXkfu7TLZsq4tqvr6psJiQwTfbHRnqCcb8iaVf7GldFhoDkdVONzU3W1Kmri9H1wZU1bNqO/BLefbm4nGBFH0JtETpQwAJ7WF8NzhoR0FRmqx3zcTeAEn+5Ta3G+oDG7eJsOJW75TyoYCvCH42DhyjBZpQ/fAZfJf9Ec5oGs8hQIM7jf427RelI23uR+AbU4RB3ZyjPQAkfBxi7QizFDt3ppXI+gt+qgqBscrO8UqKqe9InnRfA9nAZJAMK+jNMZ7Wp4jjVbdaGkkfgmVuPFQi05hYVEZQRDqM/cMq3SBBCq+l0DGmy2CmD2DIFSIds2hLb4eO2nA/7oh7GMbxM7nPx0l7krPUdLDP1mql33zKXfKGaTFgopn50i+zyBAW2naZOQSJHj1pOwTrBmJUFNpNVocrslw/L5HwtVQvcMoTFntAgtzG/DDzTgGlOZ+bUGSGveNMF28x+k8YqwL2NjAYf/zyW+s5OawB7z8XBtCcUQIUnLd2i4hpg4SwBbtqX3ihZru4NsqGTVoqS39Gfw8ZMC/tMNHrYtOSbjEHZ9DoFag=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR08MB11819.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(366016)(10070799003)(7416014)(56012099006)(22082099003)(18002099003)(4143699003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZC9YUmNicUpabzZIbzhCTXVnKzEweXE4cHVITWFVeU5YQTJyaTlzb2FFbmNm?=
+ =?utf-8?B?cEtRVmU0NUVNTWVxSm83aUs0empDMnZncmJNM28vQ3BkSHhSQ3NwNy9HL1lz?=
+ =?utf-8?B?R2JCbWgyWnB2K3dOR3VEUlR4aFIrc0R1UGhRcHMxMHdsN2FrQlNxSkwydXVs?=
+ =?utf-8?B?aHJuQ0ZIMUE3VGYycElhZWNYYkRiQ1lxcjJJWnZxOEZQMTFFMklQT1lvSmRN?=
+ =?utf-8?B?eTNNNDZFbFc2NlJIWDAyWmxObE5DNFZCdHArekMxUmYybmp5RnA0bEtSZDl6?=
+ =?utf-8?B?REZqZzdZZVhJTGQ3RkV4SEY2Rjh1SVg0SFpRVEZYa2R3b2lwQTVERk53OTIr?=
+ =?utf-8?B?Nit3RDFGNlhXMVExejJqSHZoU2RQOGd0K3Y1VkhTUE0rM1BuSFliSldEdkVk?=
+ =?utf-8?B?cEk4QTMvZFduRS9wVHpKSU5kbmFuVXFOVXAwTzZ0akxjbEk3Y1plM0IzSUJV?=
+ =?utf-8?B?STFJRkxlVi91Z09CMytwZm5EMEJnLzlRNXNjbVZqNGdoVTkxZjhaMnRkb0Fm?=
+ =?utf-8?B?czlScHptK3ZsRWRQOFBFTlVqNWs0bklGUU5vQ05nb3huSWJRT1N0cjNJWXlk?=
+ =?utf-8?B?YTB5cmVjNDhzZVVzaFR5b2RzYXlkaTgvUlFFcDBoaEdWaWVNNGVZZkVMQ1VQ?=
+ =?utf-8?B?aHQ3eUJTNUx3WEtuMXNWWHRTUHRESi95czljMnZZcmJMWC9zVWYyZWlScXhQ?=
+ =?utf-8?B?UXNQdHdvc0UrbHUyNndRdnNmSVhVZTR2T1RJVk0rQVVSKzZNaFNiQ2tGcmpv?=
+ =?utf-8?B?M2ZvcWpYL001YnpwQnJyOEtGOFhJdFFKVHlxeUhmRktFbVJWT0VvNlJ4YXgz?=
+ =?utf-8?B?d1QrYXBYSXUrbjY1Sk5PUEFucXJjc1NrUXZoaG5wWU1IaUhmeUdVbFptRnd0?=
+ =?utf-8?B?WFNjYVFtMTRubm1aU3J4WU8xL0pIb3FFbThOMnE3STUzd1FmTDgxbjN5VkJ1?=
+ =?utf-8?B?Smw2SzZzMzlYSTY3SndPWHNCVTVXZHl0WDFIMXd6Qk1vRllTMlZhTnY5blRk?=
+ =?utf-8?B?d2FYRTFkZExOeVd5SFplK2tvWnpaZFVWSHJHVzV3NDBwRTNtWUNCNFB5bzVu?=
+ =?utf-8?B?LzMrS2ZvTnViTjdwc3dMMzJ6Yms5d0J6MUxqOFRWSjgzRFFyMTJvOVcxalBW?=
+ =?utf-8?B?dW9qUTEyOUxjYjg2bkhOdlBNZ0phM0RqcW9JTDlFZlJsUVdQcE1pZGorN3lq?=
+ =?utf-8?B?UThaR0VWMjRleWZzOCt6Z291QjhiclBBZm5ucnRUckdQVTRyMks4VmFpektm?=
+ =?utf-8?B?TjMzMk43TUJnNTNOOVE2V2JVNFR5eUFjTFlWRXBPU1NCRkRTcjV3OTZoS3Rp?=
+ =?utf-8?B?VUlOUFV4TWpUWDlZNmE4QTl1YmhZWjBubXhSQUY4cExNcHZOdTlEUHpBUjRx?=
+ =?utf-8?B?bnFUUy93bmMwMDF6eFNXY21nZytwVTJEMWY3ZTRpeXlWZVpjd25LZ3VvMXJk?=
+ =?utf-8?B?U2J2eFE4b2l3TGhDMWZmN1BkbUVyaE9URkJjbnNLTDZ4aldMVHJXM1ErYUd6?=
+ =?utf-8?B?bmZlNU5LT2tTNnZEN3NHdmdOMWxHMERTbGRtWmZKQW5QL2dZK1BETWlCV2x1?=
+ =?utf-8?B?b3FLSzJRL0xDL0pPMzB5NHIrb3dZQkVJeFkrbmNGYUMzRTFXaGY0YW41dnJl?=
+ =?utf-8?B?QnF5Q3VGd3IzajV2L1I5aUMyLzgyNzVtcGwraU1IekYwUmFrdHpBNCs5RWlw?=
+ =?utf-8?B?bWh0anZEOE5WTnNuSk8yVUlLK1BjL0pydWFzZm9zM3FINHBVbE1ZSU5SWjZa?=
+ =?utf-8?B?WmJjeFZ2aFJqQVBlQ0lYYzcrWmtKNWxPVzJhUEJTNEZKNFV4WUMvOVEvNFhY?=
+ =?utf-8?B?Q2dHQTlnaXdmQ1lIbmtXMCsranJkZEd2S1UzWWVqTXhyRE5TVDVVYk9ITVJI?=
+ =?utf-8?B?V2xjM24rb3BsMytOTUV5UDJDSkdqeGxRQ0d5ZS9wM1cvL1pzN3JXUUF6c3No?=
+ =?utf-8?B?WlZwS1J0cDdBK1dIeTBHN1BPT0lqVExXQ3BuR1J5VVFKb3lsb3lJMkRlNkth?=
+ =?utf-8?B?YjdSM1NjMlNmYTl2RWZCSHllQ0lYVFJ0Sy9IN1ZiTjBpR0JOYW5WRllLQ2ZS?=
+ =?utf-8?B?dElud011OWNHb3NNRnhSeExOQlBHNmtoVkNGVVNBeHhjVVFCYlkwQ2d5a2RE?=
+ =?utf-8?B?cThTSGdyRzB5QW02WDBCYkt0bUEvQUtXQnhmZi9TRkN0VkhoVWxLNzk5bVJP?=
+ =?utf-8?B?M1RaZHJzYmdsT0QrdEVpUlZKTWpVVGU4MGhuVHYrT0hiemUxSUVPMjlqNFly?=
+ =?utf-8?B?UjZxOGlVczB0TXBJNVorZ0luUWRvcXM1UTZydUN1Q2dmWXBseFp3dzAwL1F5?=
+ =?utf-8?B?RG5Rd2FBWElHWDl5MGtoQ0FiY2gxRWQ0NnFKOCt1a1JseHFVRkpQVm01cTBR?=
+ =?utf-8?Q?3uqk7tOLaFauK729ESmpIL0+rWiHFls170O1c/zU2zv7j?=
+X-MS-Exchange-AntiSpam-MessageData-1: 6rAcb02anUjL+Xs/7uK7gZ2evsrfC9qgkcA=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68dd19a5-aedd-4aef-4856-08ded1e6110d
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR08MB11819.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2026 11:45:19.3158
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /qG+HW/8edF0NToYVVu+7S5584uoFVPa7Omd6TXzdma0bW6zocid/zpvRolSdXoXp7jC8mcd/HQNxDUcfPQ3lKVJp5McOIvttixLbud6evo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9342
 
-On Tue 23-06-26 22:03:28, Eric Biggers wrote:
-> Now that fscrypt's file contents en/decryption is always implemented
-> using blk-crypto when the filesystem is block-based, the fs-layer
-> decryption code in fs/buffer.c is unused code.  Remove it.
+
+
+On 6/23/26 19:12, Nhat Pham wrote:
+> On Tue, Jun 23, 2026 at 4:15 AM Pavel Tikhomirov
+> <ptikhomirov@virtuozzo.com> wrote:
+>>
+>> Overlayfs forwards data I/O to the real (upper/lower) file, so the page
+>> cache lives in the real inode's mapping and cachestat() on an overlay
+>> fd returned all zeroes.
+>>
+>> Implement the ->cachestat() file operation by forwarding to the real
+>> file via vfs_cachestat(), the same way ovl_fadvise() forwards
+>> for fadvise.
+>>
+>> Signed-off-by: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+>> ---
+>>  fs/overlayfs/file.c | 18 ++++++++++++++++++
+>>  1 file changed, 18 insertions(+)
+>>
+>> diff --git a/fs/overlayfs/file.c b/fs/overlayfs/file.c
+>> index 27cc07738f33b..a7e252a91ea43 100644
+>> --- a/fs/overlayfs/file.c
+>> +++ b/fs/overlayfs/file.c
+>> @@ -518,6 +518,21 @@ static int ovl_fadvise(struct file *file, loff_t offset, loff_t len, int advice)
+>>                 return vfs_fadvise(realfile, offset, len, advice);
+>>  }
+>>
+>> +#ifdef CONFIG_CACHESTAT_SYSCALL
+>> +static int ovl_cachestat(struct file *file, struct cachestat_range *csr,
+>> +                        struct cachestat *cs)
+>> +{
+>> +       struct file *realfile;
+>> +
+>> +       realfile = ovl_real_file(file);
+>> +       if (IS_ERR(realfile))
+>> +               return PTR_ERR(realfile);
 > 
-> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
-
-Fine by me. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  fs/buffer.c | 45 ++++++++-------------------------------------
->  1 file changed, 8 insertions(+), 37 deletions(-)
+> We're propagating the error of ovl_real_file() all the way to
+> userspace right? I think we need to handle this.
 > 
-> diff --git a/fs/buffer.c b/fs/buffer.c
-> index 9af5f061a1f8..21dd9596a941 100644
-> --- a/fs/buffer.c
-> +++ b/fs/buffer.c
-> @@ -334,82 +334,53 @@ static void end_buffer_async_read(struct buffer_head *bh, int uptodate)
->  
->  still_busy:
->  	spin_unlock_irqrestore(&first->b_uptodate_lock, flags);
->  }
->  
-> -struct postprocess_bh_ctx {
-> +struct verify_bh_ctx {
->  	struct work_struct work;
->  	struct buffer_head *bh;
->  	struct fsverity_info *vi;
->  };
->  
->  static void verify_bh(struct work_struct *work)
->  {
-> -	struct postprocess_bh_ctx *ctx =
-> -		container_of(work, struct postprocess_bh_ctx, work);
-> +	struct verify_bh_ctx *ctx =
-> +		container_of(work, struct verify_bh_ctx, work);
->  	struct buffer_head *bh = ctx->bh;
->  	bool valid;
->  
->  	valid = fsverity_verify_blocks(ctx->vi, bh->b_folio, bh->b_size,
->  				       bh_offset(bh));
->  	end_buffer_async_read(bh, valid);
->  	kfree(ctx);
->  }
->  
-> -static void decrypt_bh(struct work_struct *work)
-> -{
-> -	struct postprocess_bh_ctx *ctx =
-> -		container_of(work, struct postprocess_bh_ctx, work);
-> -	struct buffer_head *bh = ctx->bh;
-> -	int err;
-> -
-> -	err = fscrypt_decrypt_pagecache_blocks(bh->b_folio, bh->b_size,
-> -					       bh_offset(bh));
-> -	if (err == 0 && ctx->vi) {
-> -		/*
-> -		 * We use different work queues for decryption and for verity
-> -		 * because verity may require reading metadata pages that need
-> -		 * decryption, and we shouldn't recurse to the same workqueue.
-> -		 */
-> -		INIT_WORK(&ctx->work, verify_bh);
-> -		fsverity_enqueue_verify_work(&ctx->work);
-> -		return;
-> -	}
-> -	end_buffer_async_read(bh, err == 0);
-> -	kfree(ctx);
-> -}
-> -
->  /*
->   * I/O completion handler for block_read_full_folio() - folios
->   * which come unlocked at the end of I/O.
->   */
->  static void bh_end_async_read(struct bio *bio)
->  {
->  	struct buffer_head *bh;
->  	bool uptodate = bio_endio_bh(bio, &bh);
->  	struct inode *inode = bh->b_folio->mapping->host;
-> -	bool decrypt = fscrypt_inode_uses_fs_layer_crypto(inode);
->  	struct fsverity_info *vi = NULL;
->  
->  	/* needed by ext4 */
->  	if (bh->b_folio->index < DIV_ROUND_UP(inode->i_size, PAGE_SIZE))
->  		vi = fsverity_get_info(inode);
->  
-> -	/* Decrypt (with fscrypt) and/or verify (with fsverity) if needed. */
-> -	if (uptodate && (decrypt || vi)) {
-> -		struct postprocess_bh_ctx *ctx = kmalloc_obj(*ctx, GFP_ATOMIC);
-> +	/* Verify (with fsverity) if needed. */
-> +	if (vi && uptodate) {
-> +		struct verify_bh_ctx *ctx = kmalloc_obj(*ctx, GFP_ATOMIC);
->  
->  		if (ctx) {
->  			ctx->bh = bh;
->  			ctx->vi = vi;
-> -			if (decrypt) {
-> -				INIT_WORK(&ctx->work, decrypt_bh);
-> -				fscrypt_enqueue_decrypt_work(&ctx->work);
-> -			} else {
-> -				INIT_WORK(&ctx->work, verify_bh);
-> -				fsverity_enqueue_verify_work(&ctx->work);
-> -			}
-> +			INIT_WORK(&ctx->work, verify_bh);
-> +			fsverity_enqueue_verify_work(&ctx->work);
->  			return;
->  		}
->  		uptodate = false;
->  	}
->  	end_buffer_async_read(bh, uptodate);
-> -- 
-> 2.54.0
+> For example, we might get -EIO here, which is unexpected and
+> undocumented from cachestat's POV.
 > 
+> Maybe handle it and just return -EBADF or sth like that (with some
+> updated documentations, etc.)
+> 
+> The rest LGTM, but I'll let overlayfs maintainers check the
+> overlayfs-specific bits :)
+
+Yeh, we probably can use EBADF here instead of propagating:
+
+Man cachestat(2) says:
+
+  EBADF  Invalid file descriptor.
+
+not really a bad fd here, but probably close enough not to rewrite man.
+
+I'm a bit hesitant though, since in other overlayfs operations we already
+propagate, maybe that was by design?
+
+> 
+>> +
+>> +       with_ovl_creds(file_inode(file)->i_sb)
+>> +               return vfs_cachestat(realfile, csr, cs);
+>> +}
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Best regards, Pavel Tikhomirov
+Senior Software Developer, Virtuozzo.
+
