@@ -1,112 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F35F30BF68;
-	Wed, 24 Jun 2026 22:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046CE274FD1;
+	Wed, 24 Jun 2026 22:48:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782339502; cv=none; b=sNdkUelIqWWh1baJ9fhG/Nc4opgTA/P6x253XZ1P4X3j8ZxJUr/QygemdOtLwEGd4briB3lRMuIY/mFZ+yIDLtEoq/dsGQIc6qIwdWmBkDFX0fmgsHFqtTgKlkW+ka6DKf2eM4pr3hJ8zkUaEVJ50bukg6jqwvZ6hu/rXl2+WjU=
+	t=1782341296; cv=none; b=ckSeT0U/YN32UrR5L6FJD1RkoypWkFI+x4oFH5C1gHSc15l3GhnWvuND2jZj92nHxnlwcRkwoqQ6wB0B/zNBdpkDIpSTDzQ/NkfrRuoN487+uqzV5m/EwOiofDqDHAwks6dPRiHmd/NPmmd2tAzlbJEiis7ZSprTfRTOp2j9pQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782339502; c=relaxed/simple;
-	bh=93YSEFnQYrGLeszqhcD0JorvOrOxXXEGXIHPabGlgFQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lce3MVf5N/ICccJipl4KsfjOiDSdqwvKfbs8Y6tdGqNBV3RF4Mm2buqkqdxxrsnKLZQY6XX9w37k3PtVKvK+6LSlnRXGr4yYWQwC9bcbvnhhErnQSqfs/+LZPtHo910DBGNAAgJ5VKSMNEXan+vAXtA6PzH6pKOSPdaFLQWLIuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fM93r5sp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782341296; c=relaxed/simple;
+	bh=QCu3e+730inW//TW4J9dj2BBAu4bCV7n1V/6vFGwn3U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l30qaaIR8H+conXLTeiSno8FiaHXnQVx33p80jrMkDRzissc896PvdUjeu8fpMfvIvY8wRwVNq4isiD0nJ5sYrv7jkYZ9aa5e4wMQD484TT0uOzdXZZFmftMHp7ZW5AYLElVBShq4dlf95I9KLeVx2g/cD0n4TR+sxBuxoHjJJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=hjII2+T/; arc=none smtp.client-ip=115.124.30.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fM93r5sp"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id F0F621F000E9;
-	Wed, 24 Jun 2026 22:18:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782339501;
-	bh=2NkXmCgsiwfGyGtFEFVTMXDs1VhzcYdTWW4sr6XJP3g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fM93r5spqZiOuukVy9ctz8QbeKToE3OBrwiSTk9r5GVVWMG0nNigRHDNu97iywDgx
-	 I8s2rBRK+/gQGLYguS4pTJDsjBanGJNwxNrXchnf+uHMcVetNke/LeJkauJBFWHIjp
-	 ysGjddm3jCXxQdsVOR+wZdaMq0ERKL4ClEhB7r9E0SeSGIRNbOudiqiGLoPP7X1lJh
-	 dezdImAfh369ZLNmkm6gQUtyShDsEIHrzw6fY9D9GSNoVYZH55NBjv2gTr+NWjF1ZZ
-	 3p73CH2B4p2kzhXgypJxbraBHCVgJo7QFa4nqMDqR0OIqLGdwTeY4RWajJko65XW5n
-	 6bkNibm2C4Kiw==
-Date: Wed, 24 Jun 2026 15:18:20 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: brauner@kernel.org, willy@infradead.org, hch@lst.de, miklos@szeredi.hu,
-	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v2 2/2] fuse: use iomap helper to mark folio uptodate
-Message-ID: <20260624221820.GB6095@frogsfrogsfrogs>
-References: <20260624212925.1668662-1-joannelkoong@gmail.com>
- <20260624212925.1668662-3-joannelkoong@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="hjII2+T/"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1782341285; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=RGMvBCrNk+Lqy9bKhGcAKB7S0UyrlOegrIoDIDBDR1w=;
+	b=hjII2+T/no1jl4GLxdPfITBBZDOM89z06DGqTIc6n9OVhcYBCXXAFdsuf+E3/AZvF5J1BsUHaIdc67LG6Agjy/9Hy5qdK0GtxmUW9Oz408QkH76tl2jIKupSfuoFIPQuIkP+EV5CXN8EMpKlJbnZIMl+vsBfN6wpnq1QTDCqvrs=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0X5Z9VTW_1782341282;
+Received: from 30.180.134.80(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X5Z9VTW_1782341282 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 25 Jun 2026 06:48:04 +0800
+Message-ID: <add4b410-4440-4076-879e-2048f97687ee@linux.alibaba.com>
+Date: Thu, 25 Jun 2026 06:48:02 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260624212925.1668662-3-joannelkoong@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v2 17/18] fs: look up the superblock via the device
+ table in user_get_super()
+To: "Darrick J. Wong" <djwong@kernel.org>,
+ Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>,
+ Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Carlos Maiolino <cem@kernel.org>,
+ linux-xfs@vger.kernel.org, Chris Mason <clm@fb.com>,
+ David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org,
+ Theodore Ts'o <tytso@mit.edu>, linux-ext4@vger.kernel.org,
+ Gao Xiang <xiang@kernel.org>, linux-erofs@lists.ozlabs.org
+References: <20260616-work-super-bdev_holder_global-v2-0-7df6b864028e@kernel.org>
+ <20260616-work-super-bdev_holder_global-v2-17-7df6b864028e@kernel.org>
+ <20260624175417.GU6078@frogsfrogsfrogs>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <20260624175417.GU6078@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 24, 2026 at 02:29:25PM -0700, Joanne Koong wrote:
-> When fuse enables large folios, a large folio will be backed by
-> iomap_folio_state that keeps track of uptodate and dirty state in an
-> internal bitmap.
-> 
-> Fuse writethrough and notify store paths currently set folio uptodate
-> state with folio_mark_uptodate(), which touches only the folio-level
-> flag, but on an iomap-backed folio, that leaves the uptodate bitmap out
-> of sync.
-> 
-> Use the iomap_folio_mark_uptodate() helper to update both the folio
-> uptodate state and the iomap uptodate bitmap.
-> 
-> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> ---
->  fs/fuse/file.c   | 2 +-
->  fs/fuse/notify.c | 4 +++-
->  2 files changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> index e052a0d44dee..26f27e113e9c 100644
-> --- a/fs/fuse/file.c
-> +++ b/fs/fuse/file.c
-> @@ -1335,7 +1335,7 @@ static ssize_t fuse_fill_write_pages(struct fuse_io_args *ia,
->  
->  		/* If we copied full folio, mark it uptodate */
->  		if (tmp == folio_size(folio))
-> -			folio_mark_uptodate(folio);
-> +			iomap_folio_mark_uptodate(folio);
->  
->  		if (folio_test_uptodate(folio)) {
->  			folio_unlock(folio);
-> diff --git a/fs/fuse/notify.c b/fs/fuse/notify.c
-> index 29578104ae6c..1ba763705d91 100644
-> --- a/fs/fuse/notify.c
-> +++ b/fs/fuse/notify.c
-> @@ -2,6 +2,8 @@
->  
->  #include "dev.h"
->  #include "fuse_i.h"
-> +
-> +#include <linux/iomap.h>
->  #include <linux/pagemap.h>
->  
->  static int fuse_notify_poll(struct fuse_conn *fc, unsigned int size,
-> @@ -192,7 +194,7 @@ static int fuse_notify_store(struct fuse_conn *fc, unsigned int size,
->  		if (!folio_test_uptodate(folio) && !err && folio_offset == 0 &&
->  		    (nr_bytes == folio_size(folio) || file_size == end)) {
->  			folio_zero_segment(folio, nr_bytes, folio_size(folio));
-> -			folio_mark_uptodate(folio);
-> +			iomap_folio_mark_uptodate(folio);
 
-I wonder, if a fuse server stores to a range of dirty pagecache and
-completely over-stores the dirty range, can that folio still get
-scheduled for writeback?  I guess it's no big deal if that writeback
-happens since the fuse server already knew about that content.
 
---D
-
->  		}
->  		folio_unlock(folio);
->  		folio_put(folio);
-> -- 
-> 2.52.0
+On 2026/6/25 01:54, Darrick J. Wong wrote:
+> On Tue, Jun 16, 2026 at 04:08:33PM +0200, Christian Brauner wrote:
+>> user_get_super() still finds the superblock for a device number by
+>> walking the global super_blocks list under sb_lock. Every superblock is
+>> registered in the device table under its s_dev since sget_fc() inserts
+>> it there, including superblocks on anonymous devices, so use the table
+>> instead.
+>>
+>> The refcount-pinning cursor helpers super_dev_{get,first,next}() only
+>> touch table state and do not depend on CONFIG_BLOCK, so drop the
+>> CONFIG_BLOCK guard around them: their new caller serves anonymous
+>> devices as well (ustat() on e.g. tmpfs) and is built without
+>> CONFIG_BLOCK. The guard falls in this patch rather than separately
+>> since without this caller the helpers would be unused without
+>> CONFIG_BLOCK.
+>>
+>> The pinned entry holds a passive reference on the superblock so
+>> super_lock() can be called directly; once the superblock is locked grab
+>> a passive reference for the caller before dropping the pin.
+>>
+>> The device table contains more than the old walk could find: a
+>> superblock is also registered for every additional device it claims
+>> (the xfs log and realtime devices, btrfs member devices, the ext4
+>> external journal, erofs blob devices). Don't filter those out:
+>> specifying any device a filesystem uses now resolves to that
+>> filesystem, so ustat() and quotactl() work on e.g. the xfs log device
+>> or a btrfs member device (the latter used to fail outright as btrfs
+>> superblocks carry an anonymous s_dev that never matches a member
+>> device). When several superblocks share a device (erofs blob devices)
+>> the first live superblock wins.
 > 
+> Does erofs have a means to find the other superblocks that share a
+> device given a notification coming in on one of them?  
+Nope, erofs currently doesn't have a way to find the other
+superblocks (it  doesn't maintain the relationship). My previous
+thought is that because it's a read-only filesystem, IMHO, there
+is not a must to implement shutdown or notification mechanism in
+erofs itself, just because it's strictly immutable (no local
+write or dirty journals), and block layer can return io error
+on dead bdevs directly even it's a shared block dev.  But I may
+be wrong if there are reason that we should maintain the
+relationship.
+
+Currently it only uses sb->s_type as the holder for bdev sharing,
+I think Christian meant that.
+
+Thanks,
+Gao Xiang
