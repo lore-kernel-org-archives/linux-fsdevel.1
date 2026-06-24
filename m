@@ -1,337 +1,82 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E8D30C637
-	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 00:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D5E2E0902;
+	Wed, 24 Jun 2026 00:48:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782259958; cv=none; b=dAvedr8Rq2iZlJkGu9gnwOpsOr2ZvH0CbcxjvvwySNDZwjJCWVF9deLiOEy4nTJYZ9suju0dob+TwCU/K9c86PmSPogFfCliSEsfDE4AzvgkVayh6DhXpLxZKDO+6kT9m2364QgA2zUknEiEcIaGnsGt4OtLaquF76IrAaf64/Q=
+	t=1782262116; cv=none; b=ZsPW2eKPOq5zD9oVZL8nq2PeTTgd8SKzkK8f0JDEM5gKPvmBLOVYoOzKkXj68vEqDYktmyygMBx4UMxWH/yvxg5pzd65SDoCdxccYT6Ec+JUfJuf2QfP6jL7RFkokAj9WgRFNsRvDiBOAi7kYgv4loNcF84jVtekx67aqMjzqXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782259958; c=relaxed/simple;
-	bh=Sy2PS2sfg70bsWbRUrWVtcPFYfjxXLcEupysUZUB9j8=;
-	h=Date:Message-ID:MIME-Version:Content-Type:From:To:Cc:Subject:
-	 References:In-Reply-To; b=IfHbxvGEQ5LipjVQxsOv711HPRr6lsaUOlkJV3MRvEhfk6Rg9dRm/piaA1wy9nMiAhcbfWQhhkzESAyH20BsNYi42j7pzEo7CWEHE1do/HEoJCC31r0bzU3elDtkvu9c7g4t5E1nJPq3tblJoCupRiqQPaPq2T3guWF7tYJzVCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=LVvRIu8k; arc=none smtp.client-ip=209.85.222.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	s=arc-20240116; t=1782262116; c=relaxed/simple;
+	bh=PjAHeB7E2BaIHkRzrRF00bTHpYMgpR4Dh7VSTYWu9lM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tmKlXTSgyDFzA/A/4S/cEURmRW+qXbbAF6HmlEQHorlqXc3lj+WH7M9AlXI84ntlc0JneKExtmqz2lmQxmDb2vjGISW/Of42jmHXNT9pdediBzcDBh0pLZzn7ujI9QKhlkBo3SI099oUJgKMZ8kC+cZEPePoX0dDcIIuCrLBdSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=WjqTrHpW; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="LVvRIu8k"
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-915d64fead9so158765885a.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 23 Jun 2026 17:12:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1782259954; x=1782864754; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
-         :mime-version:message-id:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=C4NCFUP999Ds9RO+xlaZQifH2V/EVBrDecHJD/NPIfk=;
-        b=LVvRIu8kICrDLGZshHGRd4MAaJsBRxTYDK/Ygj0Dqvv7+IYNrzu6ulGyc4QM3yRqTb
-         s4PMF141a3D1pXMsTfcxSYrzGVg1dSgqwjybfw0seG+aklNEyuSluffGN4sEj/UEeQd/
-         27SczJyBVdBSe/55sp4uVLYwtCPh5LloBIURMelh3x4kpXU56ZQC0qQVZvxhjaY2+566
-         dij15g7fS3+ULaRo5TcpepMv8z63wfda5iVoIsMBSpaBcxMT8rS9LNmexYuhGT4tkO/d
-         e0TQE3kZk/oZ063mwlXKOaXj/s6ZSI8XsWjP+MQDxTtsA/y5Z54BCZtXqRXlMGsFLUwK
-         oqgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782259954; x=1782864754;
-        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
-         :mime-version:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C4NCFUP999Ds9RO+xlaZQifH2V/EVBrDecHJD/NPIfk=;
-        b=sFVVk8nBnoM95wlnETdqd0oqu6pGT39u6qcFwa674M4YsolVcnFC2/kvyb9SQAlb7T
-         zULE2llxVX6UnZf7rvcznTdKe1F94x1/51y+Uj/G0VrCN2A7AUlUU5iQfFhkRCkK+9dH
-         wim6s8eSzJUbAfh0pn3KGwm38lBiWiK96b4nUh9p1NV1E35EpRGxoqpiHGL3SWFcfqjC
-         BkyWZk1DQ/htxs2McFkdxGMNCbgeShXqYleI/v7FTpehKDlYwJzQLCS7dppfmh4re7fj
-         ufwWBvyLfPUxy/u5YUVEjij2J1+zsa+lZkK59srm2nc27awacpYkebv4AfQWCBQyZi0e
-         r2hw==
-X-Forwarded-Encrypted: i=1; AFNElJ/16OISMm3DodzLLgIAfcDtM3g8MX8k2RtTFj7JaUqio5bUDa3maslHJWmgT1R9EjvmTbwJtoCcEgueWOh+@vger.kernel.org
-X-Gm-Message-State: AOJu0YxIGYazBNFKwQ9jOvKym9dvy8jRIfcXfjw0EZeZ9euPPMcDw6pO
-	wmrjkCbJwBRaJq0MnlhYbCjqpae/Eo9QNiRXPIOv9GShGyYzaFSTFhH8WBA8PFz49g==
-X-Gm-Gg: AfdE7cn3ST3f8Ok2SNLjnurTpZH6oIOcOv7ceKNK18OEf1TTxnVHEu4hbMW6MF/Oi7J
-	FUrYRy5j6hXQGnwbnDuw+Q4WAcii9useH20DFe5EGj5RUknH9IjfVUduCs7bKmXpGwAh+cxUoRm
-	p5Kk44zzs7jAHobloBkIObQ0Yi1pdih86glWuJleVqQNb3MZVafvg4Klsl9bcUlRGydy8O9M0HI
-	B9hKFkO41DRrC38q2SoTJClmjx9ZTIPOvP1pL9wRfljXznQImbLBLCeFlnFD4Mo9XQJChaYlyCy
-	1SMf9yQXsTQiW74D5E0zK6MraUm9B4y9pz4ggllHnUxYhIvo3GhrAYZADBZmGIR+n145i9J9Na3
-	oZVvFumfOVhkxJqkOPVWuJRfOUo4BDf9aa9mFegsuD2uGcn5vsPW0YaMeMTXfQ4Bu43s0kcJGYV
-	leMRuFTPQXm5NdcVc+seii0+BM9i+W38h/BOPGNeHybRzO1dJbMQGgKKGSZQj27bBQy+IL
-X-Received: by 2002:a05:620a:1990:b0:915:e8fc:1396 with SMTP id af79cd13be357-92600e7207cmr879162585a.13.1782259954066;
-        Tue, 23 Jun 2026 17:12:34 -0700 (PDT)
-Received: from localhost (pool-71-126-255-178.bstnma.fios.verizon.net. [71.126.255.178])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-926005a2530sm401515985a.39.2026.06.23.17.12.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 17:12:33 -0700 (PDT)
-Date: Tue, 23 Jun 2026 20:12:32 -0400
-Message-ID: <75d39fd9847cca915d704235264ab474@paul-moore.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="WjqTrHpW"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=X2EYlWrDIggaFS1Cm6S9FY0dqVECZJtXN6I4L2cEQ1s=; b=WjqTrHpWtqnYLeJO8gl/AWhGiP
+	Jj1v3S+TKScnKZyFylAt5oIXL60KtuUD9g9LHBgyQVxgSXgY3K10dhRfGjktP065GaQIaeUdXEF+e
+	FvO4plR96u8zaxmefNyCBkt+K610qm097kwbe4QGinHOy0L7yI/Iov0t9FZoEXKtpU9YZTieyzAGi
+	JfJSkmj2xKsajTcUAyeoV0+lC8nDomcd4wti3rlvDMLgYykXnpZDSsGejuEZAcTT6fb9f7h7zGj7x
+	d5zTykfCq2IOIgwtJ5KtAUq/MGvSj+kbA/0DZIyPL8rAvlVWnrEvhX/qDzi7waRZsYHrmwsRJ5k4y
+	l5svrOKg==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.4 #2 (Red Hat Linux))
+	id 1wcBn2-00000001S2J-26im;
+	Wed, 24 Jun 2026 00:48:28 +0000
+Date: Wed, 24 Jun 2026 01:48:28 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Cc: linux-mm@kvack.org, Vlastimil Babka <vbabka@suse.cz>,
+	Harry Yoo <harry.yoo@oracle.com>, linux-fsdevel@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Mateusz Guzik <mjguzik@gmail.com>, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v3 00/10] kmem_cache instances with static storage
+ duration
+Message-ID: <20260624004828.GI2636677@ZenIV>
+References: <20260611171425.1671254-1-viro@zeniv.linux.org.uk>
+ <20260613050951.855141-1-viro@zeniv.linux.org.uk>
+ <151b1c96-0ed5-44ce-b9d5-86a48d8ad592@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 
-Content-Type: text/plain; charset=UTF-8 
-Content-Transfer-Encoding: 8bit 
-X-Mailer: pstg-pwork:20260623_1615/pstg-lib:20260623_1751/pstg-pwork:20260623_1615
-From: Paul Moore <paul@paul-moore.com>
-To: David Windsor <dwindsor@gmail.com>, viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, ast@kernel.org, daniel@iogearbox.net, john.fastabend@gmail.com, andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com, martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev, jolsa@kernel.org, emil@etsalapatis.com, kpsingh@kernel.org, mattbobrowski@google.com, jmorris@namei.org, serge@hallyn.com, zohar@linux.ibm.com, roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, stephen.smalley.work@gmail.com, omosnace@redhat.com, casey@schaufler-ca.com, shuah@kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org, linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, David Windsor <dwindsor@gmail.com>
-Subject: Re: [PATCH v3 1/2] bpf: add bpf_init_inode_xattr kfunc for atomic  inode labeling
-References: <20260618203411.73917-2-dwindsor@gmail.com>
-In-Reply-To: <20260618203411.73917-2-dwindsor@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <151b1c96-0ed5-44ce-b9d5-86a48d8ad592@kernel.org>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Jun 18, 2026 David Windsor <dwindsor@gmail.com> wrote:
-> 
-> Add bpf_init_inode_xattr() kfunc for BPF LSM programs to atomically set
-> xattrs via the inode_init_security hook using lsm_get_xattr_slot().
-> 
-> The inode_init_security hook previously took the xattr array and count
-> as two separate output parameters (struct xattr *xattrs, int
-> *xattr_count), which BPF programs cannot write to. Pass the xattr state
-> as a single context object (struct xattr_ctx) instead, and have
-> bpf_init_inode_xattr() take that context directly. Update the existing
-> in-tree callers of inode_init_security to take and forward the new
-> xattr_ctx.
-> 
-> A previous attempt [1] required a kmalloc string output protocol for
-> the xattr name. Since commit 6bcdfd2cac55 ("security: Allow all LSMs to
-> provide xattrs for inode_init_security hook") [2], the xattr name is no
-> longer allocated; it is a static constant.
-> 
-> Because we rely on the hook-specific ctx layout, the kfunc is
-> restricted to lsm/inode_init_security. Restrict the xattr names that
-> may be set via this kfunc to the bpf.* namespace.
-> 
-> Link: https://kernsec.org/pipermail/linux-security-module-archive/2022-October/034878.html [1]
-> Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6bcdfd2cac55 [2]
-> Suggested-by: Song Liu <song@kernel.org>
-> Signed-off-by: David Windsor <dwindsor@gmail.com>
-> ---
->  fs/bpf_fs_kfuncs.c                | 106 +++++++++++++++++++++++++++++-
->  include/linux/bpf.h               |   1 +
->  include/linux/bpf_lsm.h           |   3 +
->  include/linux/evm.h               |   9 +--
->  include/linux/lsm_hook_defs.h     |   4 +-
->  include/linux/lsm_hooks.h         |  16 ++---
->  include/linux/security.h          |   5 ++
->  kernel/bpf/bpf_lsm.c              |  10 +++
->  kernel/bpf/trampoline.c           |   3 +
->  security/bpf/hooks.c              |   1 +
->  security/integrity/evm/evm_main.c |   8 ++-
->  security/security.c               |   7 +-
->  security/selinux/hooks.c          |   4 +-
->  security/smack/smack_lsm.c        |  27 ++++----
->  14 files changed, 166 insertions(+), 38 deletions(-)
+On Tue, Jun 23, 2026 at 10:09:41AM +0200, Vlastimil Babka (SUSE) wrote:
 
-I have a few specific comments below, inline with the patch, but I wanted
-to make some general comments too.
+> But the argument for doing the static duration support is that it should be
+> faster, not just "not slower"? So is runtime_const equivalent or for some
+> fundamental reason it's slower than plain &?
 
-The kfunc additions really don't belong in the VFS kfunc file, please
-create a LSM kfunc file (call it security/bpf_lsm_kfuncs.c) and add the
-kfunc code to this new file.
+Yes, on any 64bit RISC.  And if nothing else, arm64 has enough users to care
+about.  runtime_const for _shifts_ tends to be nice and easy; for pointers...
+not really.
 
-While moving the kfunc additions to a LSM kfunc file does sort of convert
-the VFS changes into LSM changes, Christian's comment about splitting
-this patch two patches, one with the LSM hook changes and one with the
-BPF additions, is still reasonable and a good suggestion.  I would still
-CC the VFS folks on these patches and I would encourage reviews from the
-VFS folks as there is a VFS component here, albeit a somewhat small one.
+Compiler does *not* build the address of global variable in a sequence of
+shifts and bitwise operations when it needs to pass it to a function.
+runtime_const_ptr() must be able to handle an arbitrary address; it can't
+avoid doing the general "build a 64bit value in register", which tends to
+be nasty on RISC.
 
-> diff --git a/fs/bpf_fs_kfuncs.c b/fs/bpf_fs_kfuncs.c
-> index 768aca2dc0f0..7abc3f3d1a67 100644
-> --- a/fs/bpf_fs_kfuncs.c
-> +++ b/fs/bpf_fs_kfuncs.c
-> @@ -10,6 +10,7 @@
->  #include <linux/fsnotify.h>
->  #include <linux/file.h>
->  #include <linux/kernfs.h>
-> +#include <linux/lsm_hooks.h>
->  #include <linux/mm.h>
->  #include <linux/xattr.h>
->  
-> @@ -374,6 +375,97 @@ __bpf_kfunc struct inode *bpf_real_inode(struct dentry *dentry)
->  	return d_real_inode(dentry);
->  }
->  
-> +static int bpf_xattrs_used(const struct xattr_ctx *ctx)
-> +{
-> +	const size_t prefix_len = sizeof(XATTR_BPF_LSM_SUFFIX) - 1;
-> +	int i, n = 0;
-> +
-> +	for (i = 0; i < *ctx->xattr_count; i++) {
-> +		const char *name = ctx->xattrs[i].name;
-> +
-> +		if (name && !strncmp(name, XATTR_BPF_LSM_SUFFIX, prefix_len))
-> +			n++;
-> +	}
-> +	return n;
-> +}
-> +
-> +static int __bpf_init_inode_xattr(struct xattr_ctx *xattr_ctx,
-> +				  const char *name__str,
-> +				  const struct bpf_dynptr *value_p)
-> +{
-> +	struct bpf_dynptr_kern *value_ptr = (struct bpf_dynptr_kern *)value_p;
-> +	size_t name_len;
-> +	void *xattr_value;
-> +	struct xattr *xattr;
-> +	struct xattr *xattrs;
-> +	int *xattr_count;
-> +	const void *value;
-> +	u32 value_len;
-> +
-> +	if (!xattr_ctx || !name__str)
-> +		return -EINVAL;
-> +
-> +	xattrs = xattr_ctx->xattrs;
-> +	xattr_count = xattr_ctx->xattr_count;
+If you want real ugliness, take a look at riscv - AFAICS, they wanted to
+avoid a long dependency chain, so they load chunks of constant into 4 registers,
+then shift and combine those.  arm64 doesn't bother; IIRC, the hardware does
+recognize this sequence, but I wouldn't swear on that.
 
-I'm not sure why the "xattrs" and "xattrs_count" local variables are
-necessary, especially since they only appear to be used in the sanity
-check below.  I would suggest just using the values in the struct
-directly.
+> Or is the advantage that static caches can support modules and runtime_const
+> can't?
 
-> +	if (!xattrs || !xattr_count)
-> +		return -EINVAL;
-> +	if (bpf_xattrs_used(xattr_ctx) >= BPF_LSM_INODE_INIT_XATTRS)
-> +		return -ENOSPC;
-> +
-> +	name_len = strlen(name__str);
-> +	if (name_len == 0 || name_len > XATTR_NAME_MAX)
-> +		return -EINVAL;
-> +	if (strncmp(name__str, XATTR_BPF_LSM_SUFFIX,
-> +		    sizeof(XATTR_BPF_LSM_SUFFIX) - 1))
-> +		return -EPERM;
-> +
-> +	value_len = __bpf_dynptr_size(value_ptr);
-> +	if (value_len == 0 || value_len > XATTR_SIZE_MAX)
-> +		return -EINVAL;
-> +
-> +	value = __bpf_dynptr_data(value_ptr, value_len);
-> +	if (!value)
-> +		return -EINVAL;
-> +
-> +	/* Combine xattr value + name into one allocation. */
-> +	xattr_value = kmalloc(value_len + name_len + 1, GFP_KERNEL);
-> +	if (!xattr_value)
-> +		return -ENOMEM;
-> +
-> +	memcpy(xattr_value, value, value_len);
-> +	memcpy(xattr_value + value_len, name__str, name_len);
-> +	((char *)xattr_value)[value_len + name_len] = '\0';
-> +
-> +	xattr = lsm_get_xattr_slot(xattr_ctx);
-> +	if (!xattr) {
-> +		kfree(xattr_value);
-> +		return -ENOSPC;
-> +	}
-> +
-> +	xattr->value = xattr_value;
-> +	xattr->name = (const char *)xattr_value + value_len;
-> +	xattr->value_len = value_len;
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * bpf_init_inode_xattr - set an xattr on a new inode from inode_init_security
-> + * @xattr_ctx: inode_init_security xattr state from the hook context
-> + * @name__str: xattr name (e.g., "bpf.file_label")
-> + * @value_p: dynptr containing the xattr value
-> + *
-> + * Only callable from lsm/inode_init_security programs.
-> + *
-> + * Return: 0 on success, negative error on failure.
-> + */
-> +__bpf_kfunc int bpf_init_inode_xattr(struct xattr_ctx *xattr_ctx,
-> +				     const char *name__str,
-> +				     const struct bpf_dynptr *value_p)
-> +{
-> +	return __bpf_init_inode_xattr(xattr_ctx, name__str, value_p);
-> +}
-
-I'm sure there is a reason why you split the code out into
-__bpf_init_inode_xattr() as opposed to just putting it directly in this
-kfunc, can you help me understand?
-
-> diff --git a/include/linux/security.h b/include/linux/security.h
-> index 153e9043058f..1f8e84e7dd7e 100644
-> --- a/include/linux/security.h
-> +++ b/include/linux/security.h
-> @@ -68,6 +68,11 @@ struct watch;
->  struct watch_notification;
->  struct lsm_ctx;
->  
-> +struct xattr_ctx {
-> +	struct xattr *xattrs;
-> +	int *xattr_count;
-> +};
-
-I see the bots already pointed this out, and you acknowledged it, but
-since I'm looking at this I felt obliged to remind you once again about
-the rename to "struct lsm_xattrs" :)
-
-Also, looking at this closer, is there a reason why the "xattr_count"
-field is an integer pointer and not just an integer?  We're passing
-the entire struct by reference to the individual LSMs so we shouldn't
-need this to get an updated count in the caller and having it as a
-regular integer should simplify things slightly (you could also
-make it an unsigned int while you are it).
- 
-> @@ -315,6 +324,7 @@ BTF_ID(func, bpf_lsm_inode_create)
->  BTF_ID(func, bpf_lsm_inode_free_security)
->  BTF_ID(func, bpf_lsm_inode_getattr)
->  BTF_ID(func, bpf_lsm_inode_getxattr)
-> +BTF_ID(func, bpf_lsm_inode_init_security)
->  BTF_ID(func, bpf_lsm_inode_mknod)
->  BTF_ID(func, bpf_lsm_inode_need_killpriv)
->  BTF_ID(func, bpf_lsm_inode_post_setxattr)
-> diff --git a/kernel/bpf/trampoline.c b/kernel/bpf/trampoline.c
-> index 1a721fc4bef5..b41b02173e24 100644
-> --- a/kernel/bpf/trampoline.c
-> +++ b/kernel/bpf/trampoline.c
-> @@ -859,6 +859,9 @@ static int bpf_trampoline_add_prog(struct bpf_trampoline *tr,
->  	}
->  	if (cnt >= BPF_MAX_TRAMP_LINKS)
->  		return -E2BIG;
-> +	if (node->link->prog->aux->attach_limit &&
-> +	    tr->progs_cnt[kind] >= node->link->prog->aux->attach_limit)
-> +		return -E2BIG;
-
-Re: Alexei's comments about this - if you look back at my previous
-comments, my concern was around BPF LSMs using too many slots in the
-xattr array and causing issues.  If the BPF folks want to do that check
-in the kfunc located in the LSM framework I'm okay with that; the
-important part is that the BPF LSMs don't use more space than they
-previously requested.
-
-> diff --git a/security/security.c b/security/security.c
-> index 71aea8fdf014..8f82a1352356 100644
-> --- a/security/security.c
-> +++ b/security/security.c
-> @@ -1334,6 +1334,7 @@ int security_inode_init_security(struct inode *inode, struct inode *dir,
->  {
->  	struct lsm_static_call *scall;
->  	struct xattr *new_xattrs = NULL;
-> +	struct xattr_ctx xattr_ctx;
->  	int ret = -EOPNOTSUPP, xattr_count = 0;
-
-Since we have the xattr array/pointer and count in the new "lsm_xattrs"
-struct, I think we can remove the "new_xattrs" and "xattr_count" local
-variables in favor of the fields in the new struct.
-
->  	if (unlikely(IS_PRIVATE(inode)))
-> @@ -1349,10 +1350,12 @@ int security_inode_init_security(struct inode *inode, struct inode *dir,
->  		if (!new_xattrs)
->  			return -ENOMEM;
->  	}
-> +	xattr_ctx.xattrs = new_xattrs;
-> +	xattr_ctx.xattr_count = &xattr_count;
->  
->  	lsm_for_each_hook(scall, inode_init_security) {
-> -		ret = scall->hl->hook.inode_init_security(inode, dir, qstr, new_xattrs,
-> -						  &xattr_count);
-> +		ret = scall->hl->hook.inode_init_security(inode, dir, qstr,
-> +							  &xattr_ctx);
->  		if (ret && ret != -EOPNOTSUPP)
->  			goto out;
->  		/*
-
---
-paul-moore.com
+Probably, but I'm not ready to give examples at the moment.  There definitely
+used to be __getname() users in modules, but that stopped using names_cache.
