@@ -1,72 +1,241 @@
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com [209.85.210.69])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9597285CA4
-	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 11:35:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2695D2EC57C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 11:40:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782300903; cv=none; b=ZeLS6lyXv3mLj0qJGgIk1q0lLkuzWAQJDwObrUxm6Jag0XmWEgiEIdvBdgffYt9dnhpAUDgod62XNFLf9jBgqJYcQ88oUsKgHKr2nn6Y69RBcKhq24RT4g5lSwfqxnE/aIeSYqZYzSjd5Diuf6n7xHDsnNOUBPJSWCbipQ8g2OQ=
+	t=1782301261; cv=none; b=IzvRH49kinu67wE60BXaXsv9Q/SFwytK1wYjfSrfJD8MKyOY9xtIj9G0lnODuhaxjc3mdPdo39oxIkUTYPRWwpr5dZ/sRWa1ewA/4CTZ7PPeBtU7G/mm6rKer3Hp1WYcrE2iy/SJ+dgEUkfLe5VY13n9gGzRmG67qRsSciRPrxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782300903; c=relaxed/simple;
-	bh=KlDFNqvN9e8LADivYYDzOhGSGnhn8hFEWVI67gn19IU=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=o6/L9QztxJ8qJ5T1F+lZnoycXEngtsDqoGWEwcH0QTeruf+A6NcGBhNkJmOjj5mlNHHEpDRuUA/jUs6wF+xnAVzQnJwZ/041jMwpBK3SoWIQxxX2OYJmdDRXvgYDfIKlNNev7aC9NBuM4Z0iV7cm3g1lRMZgHHU4N8RkGnfs7so=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f69.google.com with SMTP id 46e09a7af769-7e92c443b82so764548a34.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 04:35:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782300902; x=1782905702;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XvE9Pm70gpmoaAxrFlJ/o8U3S+zB4RLe5NXVuDhnvvk=;
-        b=IxijTbSG1V8HClx6Y/XI0Ly3fq0ZBw29bKyN2ZNIpyQFLGI/DCUx+Rv0+R4RoKHI/T
-         EO+py0MXyN7Gt2ofITAaOD0VWAjlemHZ3fMGjw9VD6D4dT/hiuFVMmmJ+YLeyIWvqcMi
-         dK2h1voin3KcK7rtJi/jwwKIKf7keB3PKx2mgTdMTt+kTahIbtJrA4dSO0l3ti/X9tPY
-         iVQuphHvjzQwwbWn3iguVp9ReVCBygKGvfzVyEZdG26ngp97Kcst1wNnpqZQG4rb7JwA
-         biiYW9gBQL54QV8XFjHBUUVKjxFXgV6tFbxRaj66qVEnCbI0Ve05YEGO82h07aCmi1cL
-         UOdg==
-X-Forwarded-Encrypted: i=1; AFNElJ+4qlaSWWK3+vK5VAhgutdwloFe8gm8c9DCU4aZwbWX4va+DkL1qGjXNSEBmlgzgjCtP4yuW8yC5a9ofhU8@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhPeHWChWgj++XWZcQyGVWIqR8faItgfplcF/bQBDGU4YEC60P
-	zX4EEF8kaKoC4j9aNO277SEucULr9WTnUiL3+tsPVqlbLEq2NsAmQFahFm87jNa6XINNwcZpU2b
-	pI9D//FAB0jW9LLhBHqD1IYMzNhLXtZETNX5Rfl96lLrJdBu+B8N4J1XJyA0=
+	s=arc-20240116; t=1782301261; c=relaxed/simple;
+	bh=K1fFXIxaesd+eFthXGatCw4ranSCgFqT9wKribOcSsc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FlHWdx86V+e7qdve0OxtV8lsQZREpasoSx52AiuujI+lor3rcaqTs81VQiGdZBFfnAYx624jjjeF6Xv2qOzzWj74rEI7um+pKyJ91Wbd84YDdPJhzpClOQdPyyOarW1NavJ6tdDR65iCP1BZUplxphT8eSPebAfVdIFZ9VLevkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hF6NfODF; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=GY8PcayC; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hF6NfODF; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=GY8PcayC; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hF6NfODF";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GY8PcayC";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hF6NfODF";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GY8PcayC"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 684BF71314;
+	Wed, 24 Jun 2026 11:40:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1782301257; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1FWZgxDjSUCom9Re05WOOJuJNeJjEZN52wMGosALaUs=;
+	b=hF6NfODFPkCXvzr0SSHA/NliEy6UInLzHmobMqkJkWJfYWzdB1aaFCcQ3SiNrr4QQigZ61
+	IOck3SKBclnNectWeI+wu8MiofOCvj0ZXWfpy+xmlOOYlUfZExVRabhPdzvAJwfpomETeR
+	45DUjs7WXol1xxnSafaemMVirLgl+FA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1782301257;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1FWZgxDjSUCom9Re05WOOJuJNeJjEZN52wMGosALaUs=;
+	b=GY8PcayCGoSTcAmLpIduGlP87R01qakK2tGhInNlAk5tsyVp1pmYg7EgUSRtXuSA9+T442
+	xJqVt0prij7hymBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1782301257; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1FWZgxDjSUCom9Re05WOOJuJNeJjEZN52wMGosALaUs=;
+	b=hF6NfODFPkCXvzr0SSHA/NliEy6UInLzHmobMqkJkWJfYWzdB1aaFCcQ3SiNrr4QQigZ61
+	IOck3SKBclnNectWeI+wu8MiofOCvj0ZXWfpy+xmlOOYlUfZExVRabhPdzvAJwfpomETeR
+	45DUjs7WXol1xxnSafaemMVirLgl+FA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1782301257;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1FWZgxDjSUCom9Re05WOOJuJNeJjEZN52wMGosALaUs=;
+	b=GY8PcayCGoSTcAmLpIduGlP87R01qakK2tGhInNlAk5tsyVp1pmYg7EgUSRtXuSA9+T442
+	xJqVt0prij7hymBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5C833779A8;
+	Wed, 24 Jun 2026 11:40:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id PNKTFknCO2p9HgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 24 Jun 2026 11:40:57 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id EADF4A093E; Wed, 24 Jun 2026 13:40:56 +0200 (CEST)
+Date: Wed, 24 Jun 2026 13:40:56 +0200
+From: Jan Kara <jack@suse.cz>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	linux-block@vger.kernel.org, Christoph Hellwig <hch@lst.de>, Theodore Ts'o <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Baokun Li <libaokun@linux.alibaba.com>, Jan Kara <jack@suse.cz>, 
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>, Ritesh Harjani <ritesh.list@gmail.com>, 
+	Zhang Yi <yi.zhang@huawei.com>, Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>
+Subject: Re: [PATCH 10/16] fs/buffer: Remove fs-layer decryption code
+Message-ID: <hu7h6ga2ndrsedjvjbemdevjzrhvtz7jx2hbc2rtmkskufckmi@yf3a6t4hhike>
+References: <20260624050334.124606-1-ebiggers@kernel.org>
+ <20260624050334.124606-11-ebiggers@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:690a:b0:487:57d9:9d1c with SMTP id
- 5614622812f47-49077298b49mr1819793b6e.14.1782300901672; Wed, 24 Jun 2026
- 04:35:01 -0700 (PDT)
-Date: Wed, 24 Jun 2026 04:35:01 -0700
-In-Reply-To: <2961584.1782299080@warthog.procyon.org.uk>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a3bc0e5.92e8a34c.2b91f1.0007.GAE@google.com>
-Subject: Re: [syzbot] [netfs?] KASAN: slab-use-after-free Read in netfs_unbuffered_write
-From: syzbot <syzbot+3c74b1f0c372e98efc32@syzkaller.appspotmail.com>
-To: dhowells@redhat.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netfs@lists.linux.dev, pc@manguebit.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260624050334.124606-11-ebiggers@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.sourceforge.net,lst.de,mit.edu,dilger.ca,linux.alibaba.com,suse.cz,linux.ibm.com,gmail.com,huawei.com,kernel.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
 
-Hello,
+On Tue 23-06-26 22:03:28, Eric Biggers wrote:
+> Now that fscrypt's file contents en/decryption is always implemented
+> using blk-crypto when the filesystem is block-based, the fs-layer
+> decryption code in fs/buffer.c is unused code.  Remove it.
+> 
+> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+Fine by me. Feel free to add:
 
-Reported-by: syzbot+3c74b1f0c372e98efc32@syzkaller.appspotmail.com
-Tested-by: syzbot+3c74b1f0c372e98efc32@syzkaller.appspotmail.com
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Tested on:
+								Honza
 
-commit:         8fde5d1d Merge tag 'acpi-7.1-rc6' of git://git.kernel...
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-console output: https://syzkaller.appspot.com/x/log.txt?x=179edb7a580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=8118209836970b54
-dashboard link: https://syzkaller.appspot.com/bug?extid=3c74b1f0c372e98efc32
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=1557d766580000
-
-Note: testing is done by a robot and is best-effort only.
+> ---
+>  fs/buffer.c | 45 ++++++++-------------------------------------
+>  1 file changed, 8 insertions(+), 37 deletions(-)
+> 
+> diff --git a/fs/buffer.c b/fs/buffer.c
+> index 9af5f061a1f8..21dd9596a941 100644
+> --- a/fs/buffer.c
+> +++ b/fs/buffer.c
+> @@ -334,82 +334,53 @@ static void end_buffer_async_read(struct buffer_head *bh, int uptodate)
+>  
+>  still_busy:
+>  	spin_unlock_irqrestore(&first->b_uptodate_lock, flags);
+>  }
+>  
+> -struct postprocess_bh_ctx {
+> +struct verify_bh_ctx {
+>  	struct work_struct work;
+>  	struct buffer_head *bh;
+>  	struct fsverity_info *vi;
+>  };
+>  
+>  static void verify_bh(struct work_struct *work)
+>  {
+> -	struct postprocess_bh_ctx *ctx =
+> -		container_of(work, struct postprocess_bh_ctx, work);
+> +	struct verify_bh_ctx *ctx =
+> +		container_of(work, struct verify_bh_ctx, work);
+>  	struct buffer_head *bh = ctx->bh;
+>  	bool valid;
+>  
+>  	valid = fsverity_verify_blocks(ctx->vi, bh->b_folio, bh->b_size,
+>  				       bh_offset(bh));
+>  	end_buffer_async_read(bh, valid);
+>  	kfree(ctx);
+>  }
+>  
+> -static void decrypt_bh(struct work_struct *work)
+> -{
+> -	struct postprocess_bh_ctx *ctx =
+> -		container_of(work, struct postprocess_bh_ctx, work);
+> -	struct buffer_head *bh = ctx->bh;
+> -	int err;
+> -
+> -	err = fscrypt_decrypt_pagecache_blocks(bh->b_folio, bh->b_size,
+> -					       bh_offset(bh));
+> -	if (err == 0 && ctx->vi) {
+> -		/*
+> -		 * We use different work queues for decryption and for verity
+> -		 * because verity may require reading metadata pages that need
+> -		 * decryption, and we shouldn't recurse to the same workqueue.
+> -		 */
+> -		INIT_WORK(&ctx->work, verify_bh);
+> -		fsverity_enqueue_verify_work(&ctx->work);
+> -		return;
+> -	}
+> -	end_buffer_async_read(bh, err == 0);
+> -	kfree(ctx);
+> -}
+> -
+>  /*
+>   * I/O completion handler for block_read_full_folio() - folios
+>   * which come unlocked at the end of I/O.
+>   */
+>  static void bh_end_async_read(struct bio *bio)
+>  {
+>  	struct buffer_head *bh;
+>  	bool uptodate = bio_endio_bh(bio, &bh);
+>  	struct inode *inode = bh->b_folio->mapping->host;
+> -	bool decrypt = fscrypt_inode_uses_fs_layer_crypto(inode);
+>  	struct fsverity_info *vi = NULL;
+>  
+>  	/* needed by ext4 */
+>  	if (bh->b_folio->index < DIV_ROUND_UP(inode->i_size, PAGE_SIZE))
+>  		vi = fsverity_get_info(inode);
+>  
+> -	/* Decrypt (with fscrypt) and/or verify (with fsverity) if needed. */
+> -	if (uptodate && (decrypt || vi)) {
+> -		struct postprocess_bh_ctx *ctx = kmalloc_obj(*ctx, GFP_ATOMIC);
+> +	/* Verify (with fsverity) if needed. */
+> +	if (vi && uptodate) {
+> +		struct verify_bh_ctx *ctx = kmalloc_obj(*ctx, GFP_ATOMIC);
+>  
+>  		if (ctx) {
+>  			ctx->bh = bh;
+>  			ctx->vi = vi;
+> -			if (decrypt) {
+> -				INIT_WORK(&ctx->work, decrypt_bh);
+> -				fscrypt_enqueue_decrypt_work(&ctx->work);
+> -			} else {
+> -				INIT_WORK(&ctx->work, verify_bh);
+> -				fsverity_enqueue_verify_work(&ctx->work);
+> -			}
+> +			INIT_WORK(&ctx->work, verify_bh);
+> +			fsverity_enqueue_verify_work(&ctx->work);
+>  			return;
+>  		}
+>  		uptodate = false;
+>  	}
+>  	end_buffer_async_read(bh, uptodate);
+> -- 
+> 2.54.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
