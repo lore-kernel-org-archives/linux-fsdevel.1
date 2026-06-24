@@ -1,130 +1,110 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561A7343D72
-	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 17:21:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782321702; cv=pass; b=tt94yWDFbqc2iJd9gOPrJxVRsl/bAf77A2rY1GRbBAhx5QURFFk/IRJB2IV0NTnGY8liuZU61DqV0CN9mP+Zaj8mOQPV5aJN/TUh22FzTHUhZBcLFgJMkn5MMdPRnS9RoHBa68ld0IuJSoIBQIfmRjSN2DISDiCCT42m+UGJDj8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782321702; c=relaxed/simple;
-	bh=VYwfjIyBlUVMpGzw5rbnsNCF6qa5v1n2a/4+jSEq0OQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U3tJua+uD9BSNXgtas004gOjv0+fE8AYnkwaTJ2Zi8OQ+//z35cDQjlY5B+Dmr2lsVmCnpU3wGKpk3iVau0R+keEw5bzSYJwPoAi3Kdp1Kyezm8avGmc/RV87oAFUWvTolpQl825JBQbDfvWAaJUfNAsBobF4YRI2bmkxMLIgsI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BeOWyks8; arc=pass smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCCF3033FB
+	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 17:31:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782322265; cv=none; b=Z18fBaVkIQftDCzufUzuKQJuCHv1X5cBZ//kbpEID4ir/nMplpq7Z+Q3vPnLPyUpnrtnjJCPNdXqyHqBp9mP0Uo0W5OuUhSN4eulNUpMYRu8RJoCVXfYExdapmRCc8Y1YTsaj/xd9Fuo/SJhFcDx23ptQmYgVQKmmR+cykhKJkM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782322265; c=relaxed/simple;
+	bh=md82v5nTc8XTnpQSe3fblUv/07h/vGTvQ6G3iw0BEx0=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XTjxKE45hs2DoEYfHSLBZOfZ9EoEvBJ8QvH9+fmGVcVo3yIluQlefhtppcTn/kiJjajqBMjcvOUGXdqd+IFtPjY03ffWn8cZl4hJxmLvV4oULexyU8yMs6S0Q4NAmqTqhG78fqlfzRfE+sQcCrruOczF2P7iIUss6MfubfD4zrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=cmyX4eQP; arc=none smtp.client-ip=67.231.145.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BeOWyks8"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-69565156c06so591a12.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 10:21:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782321700; cv=none;
-        d=google.com; s=arc-20260327;
-        b=QhaCmJCnfnPaOyIU7xqDvs0uA5SA5oOcrfYYAFiT+/VSIOtL9sEGBc5ExPwHm5gPmk
-         fAWdsiMM7dVu/GQE1e7AHFE78AilCcE1aNHq7WU0pmPGkMJp79tRmaSlXOOoYIXw91qV
-         hgs2HwueUq2lMIaf3GcAKx3gAs9449vl5L82XTsVo3Lj97mOr/gznylAL6PJu7H+ZBvR
-         lGIAuWwQJGJx5d7Pagh9GPMLw9CgxtxMmFNN/p4MmY1WDzZ+yHeQvwTPtcQ8QYtF1nLS
-         J62GVWUXhXnk1Pz4381LKNMKTj988czwrqbfnOoddU9oqNEwbHhWFYB1NFatOkKkTYJa
-         OwHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=RZeC/udB9wkBiwvW9w6mrNkA1Z2HNikx3hwYtFc0XRw=;
-        fh=25Tl/CYp5R5BZ4FNHoJqhipM5WhS77kvSqeZUtXU878=;
-        b=RPOcKgz615FwNo9wOPGgcG2EtaForKfKOHsJd0dK3FJIjsFftbm78GSTvUP5t0oQOK
-         sUuDJWIPjqMmHK/mgB61JFfqmMTtVLL6XoDZbH8O71Zs2N6VJQyFVYUzaKlXv/vjEp1y
-         vsXE5EsW9JuifM+CrFUZWKK55q7mCWCWoMAKi1sPZsrjS9QKLLsKYNtjrfC+NS6/iDUY
-         Tf59TlPQ1pE411XRslbgykN4v8gIt4tDLbH2hq0wdzdL1nb+3Sei7Y4652i5uwJt/eaC
-         2oHAetwFUTwA0nvPQR5vMk08JG6zMA1wwUztYfysyq7ob7X+Wx0IMIfxZRb6GiiICMKX
-         gopA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782321700; x=1782926500; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=RZeC/udB9wkBiwvW9w6mrNkA1Z2HNikx3hwYtFc0XRw=;
-        b=BeOWyks8jvBszQPtPnPO6aJgiqXHXdOM9HkQZIex2RBA+WpC+4jp4K8BrVJhslo+ih
-         8RIfDwXwXOuvnw1+j24UbxaAaRbcs8Yiht5QV/F4RQvr+BAWX2wK0ZBo4KkpkPdNjATj
-         X/nK1YhypV8Hg4jBRczNDdYMrZD7DkFok+OQx45xNSzjdWR0M7HFdJJ9snMKa+WRNru3
-         4NFxVI+Y7Zx42qVvKvOjH1W//PRISzQXvDwhbthnruJ8oGuTirySTsQUh4lF4r0JLb/j
-         oiLWKUXCihzAi1wwgnFfUgIAYUboJQgmcetvRuLu+GVWSxAAgTd7ujUN8pd+FRWFHYks
-         ssiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782321700; x=1782926500;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=RZeC/udB9wkBiwvW9w6mrNkA1Z2HNikx3hwYtFc0XRw=;
-        b=d8XaRKVsgok8BDr9WikaKrkXiStsE7gNhu5Dpebd+Sd/Y4qZQrs6uagDzSQv0pzjCr
-         3cn2Q5VHDATlscsnqmPcVkKvznEcKDOMZV0pMO8bSHUeOR6RrD4w/6mRlRc6sfPhqsaz
-         DlU28vJm/oRjx9v2+0CaETFjxLEhV07guAKyWcNFXDsfoRR35PU10xbyAaImBi4Dq/XA
-         8N6gCk4ei3k3d/54AtkxkYItoZwN+zIaN+DaXmwzrp1LIhlB1fePOpSLzHQ9Jyp6I+TO
-         6bqa6Z6Ml0kXjH6IqodrWp38o4bwZDdKqprNBPNnyE4hjP8I10qKaIUsR8Kz0upZgu+t
-         oRZQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpiL7EeBz4L75lx1VUOaSwE5Q218PDpkP1kttYauzfB8MgxRBGIlXwKYu/Pvpd5jMWr85lGVlJPw8fRcrQy@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy133uWRGshb7odLAPdAJpdv82NVPesN36MMMNyTuzNn1hcoj2r
-	2WX73ZQBmBVc4aI1X5loSs9ogTJW14ZpPIdee+dpW2hyJ0e7nxkv7sjk0up4VOHkkYjS/lgh3al
-	k6Yv55KJDXkE5eJRCldEZm0k7ie2Kq9mw5u0B+BIh
-X-Gm-Gg: AfdE7cmHmbqoiGnWxepZelh2exaVWThHaAYt3+HrGC4mEhNBzx6xxtjty6SxRG9ghLR
-	kk7XqAj1vl4o/+Xl+NhCCfJFtuf9svsJvpwHUW76cG5+cyYLiVl0B2JsDj8T9P5QJk6pe+xTW27
-	WqmPDJyVJfLed6kn+Zs1g0Iz6byauIk1uzzTZMb4KhZd5WottiII/sCNSkqKNowVRmwfpmOQkwo
-	uQKawyWNIOrmMEgZ21QEE9LjeADfAKJodO87fXicek5Tnwh4qDNcyHbS2z9/LBOWnQEuxPMv+Vi
-	2f/bxjKNH+rQ3wUTgQCC8I1qC4858hRmdKMlX89GmDTE2xbDD7+PnqwTpQ0=
-X-Received: by 2002:aa7:d9d4:0:b0:695:4751:c044 with SMTP id
- 4fb4d7f45d1cf-6980c44448emr578a12.8.1782321699316; Wed, 24 Jun 2026 10:21:39
- -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="cmyX4eQP"
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65OEhFkD4022344
+	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 10:31:03 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
+	 bh=fGtIVAQu0NKnCIpvhzj3m60yyJwuBfFcp94oXfJymWE=; b=cmyX4eQP6ReH
+	NQ5SeMPvA61OfSTXZwHqzdXbU9saZR9+flSfdE/8pXeCnRxU+np/6FnDH0iW3F8z
+	3e6Pwsdcql8G2HzFxsBt0rcKU9fhbo36yojLhL9zrhsnZkR5CO67hjsu2VxfMC3E
+	o11sdbucdECxksIFyT3Lou4ZEEWZYqd8Jj7ywo+KhRsidhaoQqp83aj60QeTV58f
+	gVoFHDeeUSWgWmdn2UXgn2yetf3/I++Dc1P9on+OhVageGzCtcEKtMSQcf/yFh9p
+	HNDzlbpHE7W6QR0TZ39V56MVvldP5I9Fj7lO7MueO2db09gq7i+nlChaz7BPQ0K1
+	SE2dUkZRdg==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4eyw0m96h4-17
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 10:30:59 -0700 (PDT)
+Received: from twshared100448.16.frc2.facebook.com (2620:10d:c0a8:1b::30) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.41; Wed, 24 Jun 2026 17:30:58 +0000
+Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
+	id 0A15923C452B9; Wed, 24 Jun 2026 10:09:08 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-block@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
+CC: <dm-devel@lists.linux.dev>, <hch@lst.de>, <axboe@kernel.dk>,
+        <brauner@kernel.org>, <djwong@kernel.org>, <viro@zeniv.linux.org.uk>,
+        Keith
+ Busch <kbusch@kernel.org>
+Subject: [PATCH v3 1/5] block: use blkdev_iov_iter_get_pages status for errors
+Date: Wed, 24 Jun 2026 10:09:01 -0700
+Message-ID: <20260624170905.3972095-2-kbusch@meta.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260624170905.3972095-1-kbusch@meta.com>
+References: <20260624170905.3972095-1-kbusch@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <6a35d725.280d05a0.1060c1.0001.GAE@google.com>
-In-Reply-To: <6a35d725.280d05a0.1060c1.0001.GAE@google.com>
-From: Jann Horn <jannh@google.com>
-Date: Wed, 24 Jun 2026 19:21:02 +0200
-X-Gm-Features: AVVi8CeJZbZvQ959HAmGvPdYiPL4HsQtCGjWmHCcCmFJBfYbyWx8uS299u2u6fM
-Message-ID: <CAG48ez1afLn0yd+H1iLv7AQACk21aBkSU2jxWhz+q+di=UXxsw@mail.gmail.com>
-Subject: Re: [syzbot] [fs?] KASAN: slab-use-after-free Read in d_alloc_parallel
-To: syzbot <syzbot+bcc49cd0a89969bb101a@syzkaller.appspotmail.com>
-Cc: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com, 
-	viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI0MDE0NiBTYWx0ZWRfX49qspUEnEIzP
+ FDZs+Nya43s26vFetcPb9B4KMKRhvLnEcugbn2cDDGRwMJBPib77bv243vo17Mef0SBPhAFwItf
+ RVCMw8icxTdjGXQ/hD81yEjsj0fjayE=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI0MDE0NiBTYWx0ZWRfX+aMO9Lgrc1G4
+ zjZnaFsB9jSG5MjzsTxt9OiryaLmpdC+cKB6Tqjs5al9b8z2g63Acx0sf0hcsOuGl8ZLQmb3lD9
+ o234EqJopI6VUwN3VmKjdKxu8WJA5ESsCqkHlci0xb1vfXDA0QqJl5aV5tY3FwALrPybi+Alclw
+ 42qSkyIPFQjV30uP50sVqUir9B0y1yov8FHTiTbI78HoVlIGW0fHQhB4FNtoFp30xF/xVXiRpsu
+ eur9GL7L01kdXl8JT8+jcfiuzhLuHLGBnyqlkIu4ft0qI4DfgPFMMRFDuw6kmYIeoR69XHKkdt0
+ 6WL97nFX2NM14gvsnHcnPF6LObtwxK+x6gDDkDudt0ookRv4eJ1ZFsLUM9OoE47TU/GL3Kr5SPx
+ P0uqiKFus6MEiPtdHfgw84/Z+eEXqg==
+X-Proofpoint-GUID: DpUrcHoMZOYY_4vMJoIoCLUo_a-RWj3w
+X-Authority-Analysis: v=2.4 cv=EpDiaycA c=1 sm=1 tr=0 ts=6a3c1453 cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
+ a=tpM8CJlwf7uhpglF1g9U:22 a=VwQbUJbxAAAA:8 a=xbwd-4vLOdmjPcKMbXEA:9
+X-Proofpoint-ORIG-GUID: DpUrcHoMZOYY_4vMJoIoCLUo_a-RWj3w
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-24_03,2026-06-24_01,2025-10-01_01
 
-On Sat, Jun 20, 2026 at 1:56=E2=80=AFAM syzbot
-<syzbot+bcc49cd0a89969bb101a@syzkaller.appspotmail.com> wrote:
-> BUG: KASAN: slab-use-after-free in __raw_spin_lock_irqsave include/linux/=
-spinlock_api_smp.h:132 [inline]
-> BUG: KASAN: slab-use-after-free in _raw_spin_lock_irqsave+0x40/0x60 kerne=
-l/locking/spinlock.c:166
-> Read of size 1 at addr ffff8880273bb728 by task kworker/u8:2/1377
->
-> CPU: 1 UID: 0 PID: 1377 Comm: kworker/u8:2 Not tainted syzkaller #0 PREEM=
-PT_{RT,(full)}
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS G=
-oogle 05/09/2026
-> Call Trace:
->  <TASK>
->  dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
->  print_address_description+0x55/0x1e0 mm/kasan/report.c:378
->  print_report+0x58/0x70 mm/kasan/report.c:482
->  kasan_report+0x117/0x150 mm/kasan/report.c:595
->  __kasan_check_byte+0x2a/0x40 mm/kasan/common.c:574
->  kasan_check_byte include/linux/kasan.h:402 [inline]
->  lock_acquire+0x84/0x350 kernel/locking/lockdep.c:5844
->  __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:132 [inline]
->  _raw_spin_lock_irqsave+0x40/0x60 kernel/locking/spinlock.c:166
->  rt_mutex_slowunlock+0xbf/0x8b0 kernel/locking/rtmutex.c:1430
->  spin_unlock include/linux/spinlock_rt.h:109 [inline]
->  d_alloc_parallel+0x103d/0x1630 fs/dcache.c:2826
+From: Keith Busch <kbusch@kernel.org>
 
-This is another case where a spinlock is dropped on a dentry kept
-alive by RCU in an RT kernel.
+blkdev_iov_iter_get_pages() can return various error values, including
+EIO, EFAULT, and ENOMEM. Set the actual reported status so user space
+can know a little more on why an operation failed.
 
-#syz dup: [syzbot] [fs?] KASAN: slab-use-after-free Read in shrink_dcache_t=
-ree
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ block/fops.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/block/fops.c b/block/fops.c
+index 15783a6180dec..0827bb884d473 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -218,7 +218,7 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb,=
+ struct iov_iter *iter,
+=20
+ 		ret =3D blkdev_iov_iter_get_pages(bio, iter, bdev);
+ 		if (unlikely(ret)) {
+-			bio_endio_status(bio, BLK_STS_IOERR);
++			bio_endio_status(bio, errno_to_blk_status(ret));
+ 			break;
+ 		}
+ 		if (iocb->ki_flags & IOCB_NOWAIT) {
+--=20
+2.53.0-Meta
+
