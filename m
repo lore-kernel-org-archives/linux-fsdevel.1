@@ -1,284 +1,127 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72C01A3160;
-	Wed, 24 Jun 2026 02:37:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB24230149F;
+	Wed, 24 Jun 2026 02:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782268633; cv=none; b=VeM+dHmRMAS4Ioggci6PNDf8LcIpvnHU2pTjS/BYZfqvXMTJuj+IqkMSkJyIsB7sc98WohpHKpqgjGyWFGOIzXHJgS9XBH1h9pYYBy7fEroKYCCO0J6jyiBVnvFDTck8e3gfq0jpGtQnYkaLNvKc2jSE4tcGCgI9jPEVFXe5EP0=
+	t=1782269722; cv=none; b=D3klUDDF8tke6sfTYYSiNYgzsZKWFtIKqM32lHwD02PIzpj92OesUXjuonq//HvyZ/4tONLtQR5VZd5egeSmFYbtog/xFhbqEZLzZtcjmu6ZE8lUUt8njd63sZJtbQkofgP/XSypjCW96Pmc7rGTdmz+8gXpilZ8xprB/asHF4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782268633; c=relaxed/simple;
-	bh=toChljM5J+1Q9hPupt4sU9AKm3KQxXi1+sR3Ofx1Z10=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gvV9TJWak/VO5G5UOrDXaT3p4Wi+07Ek6o1x1wrjcDtrpjmVOWLyMfeZ9PE1FBTOW5G1oIkY4yIxZM+Tm596BZZwTbwQNAuk0VX7Xk8QlzIr3Wb37+uZNDFI5av6pCxBUoWYDm/uk3A+U1iUNur6+6fLiEXL/s/JapdkNSfSNA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.198])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4glQzn3DSfzYQts9;
-	Wed, 24 Jun 2026 10:36:21 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id 3A792408E6;
-	Wed, 24 Jun 2026 10:37:03 +0800 (CST)
-Received: from [10.174.176.240] (unknown [10.174.176.240])
-	by APP1 (Coremail) with SMTP id cCh0CgA3hzzJQjtqRbqUCw--.49590S3;
-	Wed, 24 Jun 2026 10:36:59 +0800 (CST)
-Message-ID: <a12a6847-b74c-4fe8-9ad8-b1e0c607bc9d@huaweicloud.com>
-Date: Wed, 24 Jun 2026 10:36:57 +0800
+	s=arc-20240116; t=1782269722; c=relaxed/simple;
+	bh=DE7+pF5y28bPYW4IyyFXvEAe/Ac+GbsL6R0nAQuaGik=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vEIwP8A5ghzQxasQVlnBiD1Q56H4Vx3NYw7kMoqbkDTTnFCH//zu+LohfwOTzCdE7KWJ+zsAI9vyRXuh+ZFz8GC9QBDnXl73Bau2i/+YB36BHOEwyYAL2UipY2X5R7QOywK0NcloZyLe9E6bxaCKRm7ysXdAGq5Z0xT53JSm3Hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IiDa44CB; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IiDa44CB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782269720; x=1813805720;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DE7+pF5y28bPYW4IyyFXvEAe/Ac+GbsL6R0nAQuaGik=;
+  b=IiDa44CBrqSN/PfVLBAGbrgfgAVkZTFraRLLNLxuGHxBNMN0xRMTGR+g
+   vdfzHzHinmydN5zrMPXW6BEsMeqBNFWdmONSq85sURGCp6H7lGOkbODQP
+   n1OHouIByxxjnrBidWk/+OFEHY7VqVkO4mwalprDBxAdp2u/0PEVqBM36
+   Gb7iCyqj5ZoCrlh0W00ix8EJ+rfVQA4d0hjl/kYL+lkgdF1N0qrT0YHKl
+   1pNWEFmD5AQTAvPxuicJVQWkrgAmXdzy/CNobaBbLhNQG+0GPA5bwiWMj
+   pFlK6Qic2iO899eddWYE9yGEDh4S94fzbus5a5TbV9WCmVKQwT5JfsRW2
+   Q==;
+X-CSE-ConnectionGUID: 8TlzUmLhQKGg+oPhgZRyrw==
+X-CSE-MsgGUID: EijGoV4SSXyIhErY2Ff75Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="105814676"
+X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
+   d="scan'208";a="105814676"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 19:55:20 -0700
+X-CSE-ConnectionGUID: mz2h8+0eTjKaKuWK0m+VKg==
+X-CSE-MsgGUID: hUnYcgRRSo2xE1n36M2I5w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
+   d="scan'208";a="254676609"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 23 Jun 2026 19:55:17 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wcDlh-0000000034T-3RBN;
+	Wed, 24 Jun 2026 02:55:13 +0000
+Date: Wed, 24 Jun 2026 10:54:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrea Cervesato <andrea.cervesato@suse.de>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Yuezhang Mo <yuezhang.mo@sony.com>,
+	David Timber <dxdt@dev.snart.me>
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, jack@suse.cz, chrubis@suse.cz,
+	Andrea Cervesato <andrea.cervesato@suse.com>
+Subject: Re: [PATCH] exfat: implement swap activate
+Message-ID: <202606241018.4N100hSQ-lkp@intel.com>
+References: <20260618-exfat_swap_activate-v1-1-4c6a465df295@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] nfs: use nfsi->rwsem to protect traversal of the file
- lock list
-To: Anna Schumaker <anna@kernel.org>, yangerkun <yangerkun@huawei.com>,
- Jeff Layton <jlayton@kernel.org>, Trond Myklebust <trondmy@kernel.org>,
- Chuck Lever <chuck.lever@oracle.com>
-Cc: linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org,
- lilingfeng3@huawei.com, zhangjian496@h-partners.com, yi.zhang@huawei.com,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <20260226012203.3962997-1-yangerkun@huawei.com>
- <dcf0b02002857a6be502e372ebb3e175412d7184.camel@kernel.org>
- <163aebb3-4233-4aaa-872c-c36aa3fcb3af@huawei.com>
- <403e3267-70ef-4fb3-9700-0a14d28abc4c@huawei.com>
- <9b27efad-f22a-45b9-b080-1552acf50016@huawei.com>
- <261c255e-2cc5-4f27-8239-e708f1c9f95a@app.fastmail.com>
-From: yangerkun <yangerkun@huaweicloud.com>
-In-Reply-To: <261c255e-2cc5-4f27-8239-e708f1c9f95a@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:cCh0CgA3hzzJQjtqRbqUCw--.49590S3
-X-Coremail-Antispam: 1UD129KBjvJXoWfGr45urykCFy5ur18WF1xXwb_yoWDWr4fpF
-	ykJFW5GrW5Xr18Jr12gw1UZryjyr1UGw1UXr1UJFyxArsrtr1Fgr1UXryq9r1UJr48Jr4U
-	Xr15JrW3u34UJr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
-	ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1
-	7KsUUUUUU==
-X-CM-SenderInfo: 51dqwvhunx0q5kxd4v5lfo033gof0z/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260618-exfat_swap_activate-v1-1-4c6a465df295@suse.com>
+
+Hi Andrea,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on e771677c937da5808f7b6c1f0e4a97ec1a84f8a8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrea-Cervesato/exfat-implement-swap-activate/20260622-172327
+base:   e771677c937da5808f7b6c1f0e4a97ec1a84f8a8
+patch link:    https://lore.kernel.org/r/20260618-exfat_swap_activate-v1-1-4c6a465df295%40suse.com
+patch subject: [PATCH] exfat: implement swap activate
+config: microblaze-allyesconfig (https://download.01.org/0day-ci/archive/20260624/202606241018.4N100hSQ-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260624/202606241018.4N100hSQ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606241018.4N100hSQ-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   fs/exfat/inode.c: In function 'exfat_swap_activate':
+>> fs/exfat/inode.c:556:16: error: implicit declaration of function 'generic_swapfile_activate' [-Wimplicit-function-declaration]
+     556 |         return generic_swapfile_activate(sis, file, span);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+vim +/generic_swapfile_activate +556 fs/exfat/inode.c
 
-在 2026/6/24 3:52, Anna Schumaker 写道:
-> Hi Erkun,
-> 
-> On Tue, Jun 23, 2026, at 3:37 AM, yangerkun wrote:
->> Gently ping...
->>
->> This patch has been reviewed, but leave alone here for a long time...
-> 
-> The patch is in my linux-next branch right here: https://git.linux-nfs.org/?p=anna/linux-nfs.git;a=commit;h=4837fb36219e6c08b666bc31a86841bad8526358
+   537	
+   538	static int exfat_swap_activate(struct swap_info_struct *sis,
+   539				       struct file *file, sector_t *span)
+   540	{
+   541		struct inode *inode = file_inode(file);
+   542		struct exfat_inode_info *ei = EXFAT_I(inode);
+   543		int ret;
+   544	
+   545		/*
+   546		 * exfat's fallocate allocates clusters without updating valid_size,
+   547		 * leaving them invisible to bmap(). Extend valid_size to i_size so
+   548		 * that generic_swapfile_activate() can map all blocks.
+   549		 */
+   550		if (ei->valid_size < i_size_read(inode)) {
+   551			ret = exfat_extend_valid_size(inode, i_size_read(inode));
+   552			if (ret)
+   553				return ret;
+   554		}
+   555	
+ > 556		return generic_swapfile_activate(sis, file, span);
+   557	}
+   558	
 
-Aha, thanks for this! MAINTAINERS only point 
-git://git.linux-nfs.org/projects/trondmy/linux-nfs.git and I did not 
-found this commit exists. Sorry for the noise....
-
-> 
-> Anna
-> 
->>
->> 在 2026/5/8 16:33, yangerkun 写道:
->>> Gently ping...
->>>
->>> 在 2026/4/16 11:01, yangerkun 写道:
->>>> Hi Anna and Trond,
->>>>
->>>> Could you please help check if there are any issues with this patch, and
->>>> if there are none, could you help merge it in?
->>>>
->>>> Thanks,
->>>> Erkun.
->>>>
->>>> 在 2026/3/9 22:09, Jeff Layton 写道:
->>>>> On Thu, 2026-02-26 at 09:22 +0800, Yang Erkun wrote:
->>>>>> Lingfeng identified a bug and suggested two solutions, but both appear
->>>>>> to have issues.
->>>>>>
->>>>>> Generally, we cannot release flc_lock while iterating over the file
->>>>>> lock
->>>>>> list to avoid use-after-free (UAF) problems with file locks. However,
->>>>>> functions like nfs_delegation_claim_locks and nfs4_reclaim_locks cannot
->>>>>> adhere to this rule because recover_lock or nfs4_lock_delegation_recall
->>>>>> may take a long time. To resolve this, NFS switches to using nfsi-
->>>>>>> rwsem
->>>>>> for the same protection, and nfs_reclaim_locks follows this approach.
->>>>>> Although nfs_delegation_claim_locks uses so_delegreturn_mutex instead,
->>>>>> this is inadequate since a single inode can have multiple nfs4_state
->>>>>> instances. Therefore, the fix is to also use nfsi->rwsem in this case.
->>>>>>
->>>>>> Furthermore, after commit c69899a17ca4 ("NFSv4: Update of VFS byte
->>>>>> range
->>>>>> lock must be atomic with the stateid update"), the functions
->>>>>> nfs4_locku_done and nfs4_lock_done also break this rule because they
->>>>>> call locks_lock_inode_wait without holding nfsi->rwsem. Simply adding
->>>>>> this protection could cause many deadlocks, so instead, the call to
->>>>>> locks_lock_inode_wait is moved into _nfs4_proc_setlk. Regarding the bug
->>>>>> fixed by commit c69899a17ca4 ("NFSv4: Update of VFS byte range
->>>>>> lock must be atomic with the stateid update"), it has been resolved
->>>>>> after commit 0460253913e5 ("NFSv4: nfs4_do_open() is incorrectly
->>>>>> triggering
->>>>>> state recovery") because all slots are drained before calling
->>>>>> nfs4_do_reclaim, which prevents concurrent stateid changes along
->>>>>> this path.
->>>>>> Also, nfs_delegation_claim_locks does not cause this concurrency either
->>>>>> since when _nfs4_proc_setlk is called with NFS_DELEGATED_STATE, no
->>>>>> RPC is
->>>>>> sent, so nfs4_lock_done is not called. Therefore,
->>>>>> nfs4_lock_delegation_recall from nfs_delegation_claim_locks is the
->>>>>> first
->>>>>> time the stateid is set.
->>>>>>
->>>>>> Reported-by: Li Lingfeng <lilingfeng3@huawei.com>
->>>>>> Closes: https://lore.kernel.org/all/20250419085709.1452492-1-
->>>>>> lilingfeng3@huawei.com/
->>>>>> Closes: https://lore.kernel.org/all/20250715030559.2906634-1-
->>>>>> lilingfeng3@huawei.com/
->>>>>> Fixes: c69899a17ca4 ("NFSv4: Update of VFS byte range lock must be
->>>>>> atomic with the stateid update")
->>>>>> Signed-off-by: Yang Erkun <yangerkun@huawei.com>
->>>>>> ---
->>>>>>    fs/nfs/delegation.c     |  9 ++++++++-
->>>>>>    fs/nfs/nfs4proc.c       | 22 +++++++++++-----------
->>>>>>    include/linux/nfs_xdr.h |  1 -
->>>>>>    3 files changed, 19 insertions(+), 13 deletions(-)
->>>>>>
->>>>>> diff --git a/fs/nfs/delegation.c b/fs/nfs/delegation.c
->>>>>> index 122fb3f14ffb..9546d2195c25 100644
->>>>>> --- a/fs/nfs/delegation.c
->>>>>> +++ b/fs/nfs/delegation.c
->>>>>> @@ -173,6 +173,7 @@ int nfs4_check_delegation(struct inode *inode,
->>>>>> fmode_t type)
->>>>>>    static int nfs_delegation_claim_locks(struct nfs4_state *state,
->>>>>> const nfs4_stateid *stateid)
->>>>>>    {
->>>>>>        struct inode *inode = state->inode;
->>>>>> +    struct nfs_inode *nfsi = NFS_I(inode);
->>>>>>        struct file_lock *fl;
->>>>>>        struct file_lock_context *flctx = locks_inode_context(inode);
->>>>>>        struct list_head *list;
->>>>>> @@ -182,6 +183,9 @@ static int nfs_delegation_claim_locks(struct
->>>>>> nfs4_state *state, const nfs4_state
->>>>>>            goto out;
->>>>>>        list = &flctx->flc_posix;
->>>>>> +
->>>>>> +    /* Guard against reclaim and new lock/unlock calls */
->>>>>> +    down_write(&nfsi->rwsem);
->>>>>>        spin_lock(&flctx->flc_lock);
->>>>>>    restart:
->>>>>>        for_each_file_lock(fl, list) {
->>>>>> @@ -189,8 +193,10 @@ static int nfs_delegation_claim_locks(struct
->>>>>> nfs4_state *state, const nfs4_state
->>>>>>                continue;
->>>>>>            spin_unlock(&flctx->flc_lock);
->>>>>>            status = nfs4_lock_delegation_recall(fl, state, stateid);
->>>>>> -        if (status < 0)
->>>>>> +        if (status < 0) {
->>>>>> +            up_write(&nfsi->rwsem);
->>>>>>                goto out;
->>>>>> +        }
->>>>>>            spin_lock(&flctx->flc_lock);
->>>>>>        }
->>>>>>        if (list == &flctx->flc_posix) {
->>>>>> @@ -198,6 +204,7 @@ static int nfs_delegation_claim_locks(struct
->>>>>> nfs4_state *state, const nfs4_state
->>>>>>            goto restart;
->>>>>>        }
->>>>>>        spin_unlock(&flctx->flc_lock);
->>>>>> +    up_write(&nfsi->rwsem);
->>>>>>    out:
->>>>>>        return status;
->>>>>>    }
->>>>>> diff --git a/fs/nfs/nfs4proc.c b/fs/nfs/nfs4proc.c
->>>>>> index 91bcf67bd743..9d6fbca8798b 100644
->>>>>> --- a/fs/nfs/nfs4proc.c
->>>>>> +++ b/fs/nfs/nfs4proc.c
->>>>>> @@ -7076,7 +7076,6 @@ static void nfs4_locku_done(struct rpc_task
->>>>>> *task, void *data)
->>>>>>        switch (task->tk_status) {
->>>>>>            case 0:
->>>>>>                renew_lease(calldata->server, calldata->timestamp);
->>>>>> -            locks_lock_inode_wait(calldata->lsp->ls_state->inode,
->>>>>> &calldata->fl);
->>>>>>                if (nfs4_update_lock_stateid(calldata->lsp,
->>>>>>                        &calldata->res.stateid))
->>>>>>                    break;
->>>>>> @@ -7344,11 +7343,6 @@ static void nfs4_lock_done(struct rpc_task
->>>>>> *task, void *calldata)
->>>>>>        case 0:
->>>>>>            renew_lease(NFS_SERVER(d_inode(data->ctx->dentry)),
->>>>>>                    data->timestamp);
->>>>>> -        if (data->arg.new_lock && !data->cancelled) {
->>>>>> -            data->fl.c.flc_flags &= ~(FL_SLEEP | FL_ACCESS);
->>>>>> -            if (locks_lock_inode_wait(lsp->ls_state->inode, &data-
->>>>>>> fl) < 0)
->>>>>> -                goto out_restart;
->>>>>> -        }
->>>>>>            if (data->arg.new_lock_owner != 0) {
->>>>>>                nfs_confirm_seqid(&lsp->ls_seqid, 0);
->>>>>>                nfs4_stateid_copy(&lsp->ls_stateid, &data->res.stateid);
->>>>>> @@ -7459,11 +7453,10 @@ static int _nfs4_do_setlk(struct nfs4_state
->>>>>> *state, int cmd, struct file_lock *f
->>>>>>        msg.rpc_argp = &data->arg;
->>>>>>        msg.rpc_resp = &data->res;
->>>>>>        task_setup_data.callback_data = data;
->>>>>> -    if (recovery_type > NFS_LOCK_NEW) {
->>>>>> -        if (recovery_type == NFS_LOCK_RECLAIM)
->>>>>> -            data->arg.reclaim = NFS_LOCK_RECLAIM;
->>>>>> -    } else
->>>>>> -        data->arg.new_lock = 1;
->>>>>> +
->>>>>> +    if (recovery_type == NFS_LOCK_RECLAIM)
->>>>>> +        data->arg.reclaim = NFS_LOCK_RECLAIM;
->>>>>> +
->>>>>>        task = rpc_run_task(&task_setup_data);
->>>>>>        if (IS_ERR(task))
->>>>>>            return PTR_ERR(task);
->>>>>> @@ -7573,6 +7566,13 @@ static int _nfs4_proc_setlk(struct nfs4_state
->>>>>> *state, int cmd, struct file_lock
->>>>>>        up_read(&nfsi->rwsem);
->>>>>>        mutex_unlock(&sp->so_delegreturn_mutex);
->>>>>>        status = _nfs4_do_setlk(state, cmd, request, NFS_LOCK_NEW);
->>>>>> +    if (status)
->>>>>> +        goto out;
->>>>>> +
->>>>>> +    down_read(&nfsi->rwsem);
->>>>>> +    request->c.flc_flags &= ~(FL_SLEEP | FL_ACCESS);
->>>>>> +    status = locks_lock_inode_wait(state->inode, request);
->>>>>> +    up_read(&nfsi->rwsem);
->>>>>>    out:
->>>>>>        request->c.flc_flags = flags;
->>>>>>        return status;
->>>>>> diff --git a/include/linux/nfs_xdr.h b/include/linux/nfs_xdr.h
->>>>>> index ff1f12aa73d2..9599ad15c3ad 100644
->>>>>> --- a/include/linux/nfs_xdr.h
->>>>>> +++ b/include/linux/nfs_xdr.h
->>>>>> @@ -580,7 +580,6 @@ struct nfs_lock_args {
->>>>>>        struct nfs_lowner    lock_owner;
->>>>>>        unsigned char        block : 1;
->>>>>>        unsigned char        reclaim : 1;
->>>>>> -    unsigned char        new_lock : 1;
->>>>>>        unsigned char        new_lock_owner : 1;
->>>>>>    };
->>>>>
->>>>> Nice work!
->>>>>
->>>>> Reviewed-by: Jeff Layton <jlayton@kernel.org>
->>>>>
->>>>>
->>>>
->>>
->>>
->>>
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
