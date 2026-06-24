@@ -1,127 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB24230149F;
-	Wed, 24 Jun 2026 02:55:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFBC306B3B;
+	Wed, 24 Jun 2026 03:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782269722; cv=none; b=D3klUDDF8tke6sfTYYSiNYgzsZKWFtIKqM32lHwD02PIzpj92OesUXjuonq//HvyZ/4tONLtQR5VZd5egeSmFYbtog/xFhbqEZLzZtcjmu6ZE8lUUt8njd63sZJtbQkofgP/XSypjCW96Pmc7rGTdmz+8gXpilZ8xprB/asHF4I=
+	t=1782271055; cv=none; b=VnEaMrfjKx0P6ieo68uFBiSUQS49Cr233fYq/AYQzH/ksRALvkSWyWuZn1sftGDP8WqePUZBZn7wfJ+Kj3I59llFQnYmfg0XnBSEmxSdzT7qL+b3tyZk/cRGCHsdyKtC3TNAqM2HRpfgGOHUHzcuLiV6dxjsjwiBP4oKKT36JP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782269722; c=relaxed/simple;
-	bh=DE7+pF5y28bPYW4IyyFXvEAe/Ac+GbsL6R0nAQuaGik=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vEIwP8A5ghzQxasQVlnBiD1Q56H4Vx3NYw7kMoqbkDTTnFCH//zu+LohfwOTzCdE7KWJ+zsAI9vyRXuh+ZFz8GC9QBDnXl73Bau2i/+YB36BHOEwyYAL2UipY2X5R7QOywK0NcloZyLe9E6bxaCKRm7ysXdAGq5Z0xT53JSm3Hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IiDa44CB; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1782271055; c=relaxed/simple;
+	bh=/KMM1mjcm/Wl0iFXtei/MIu2O9rQcRAa/9A+tS+TWrw=;
+	h=Message-ID:Date:MIME-Version:Subject:Cc:References:From:To:
+	 In-Reply-To:Content-Type; b=oMxVzuLPTs7ICd/0RDrC+ugr+Drd1YQ6P1veo6B5BN95EBuu4I6nFwCn56cIZXi4ZUvCmI4kHsNcMuwk9mB4Ax7/ulYFuSjhkQT9s37x2unRDpPoyoRZzTi0+6hAgcYrVlPdRBTKU6UkEC3YnJYXSN0raigqUdwJzNqphB5J38Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=DfweZVmD; arc=none smtp.client-ip=115.124.30.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IiDa44CB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782269720; x=1813805720;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DE7+pF5y28bPYW4IyyFXvEAe/Ac+GbsL6R0nAQuaGik=;
-  b=IiDa44CBrqSN/PfVLBAGbrgfgAVkZTFraRLLNLxuGHxBNMN0xRMTGR+g
-   vdfzHzHinmydN5zrMPXW6BEsMeqBNFWdmONSq85sURGCp6H7lGOkbODQP
-   n1OHouIByxxjnrBidWk/+OFEHY7VqVkO4mwalprDBxAdp2u/0PEVqBM36
-   Gb7iCyqj5ZoCrlh0W00ix8EJ+rfVQA4d0hjl/kYL+lkgdF1N0qrT0YHKl
-   1pNWEFmD5AQTAvPxuicJVQWkrgAmXdzy/CNobaBbLhNQG+0GPA5bwiWMj
-   pFlK6Qic2iO899eddWYE9yGEDh4S94fzbus5a5TbV9WCmVKQwT5JfsRW2
-   Q==;
-X-CSE-ConnectionGUID: 8TlzUmLhQKGg+oPhgZRyrw==
-X-CSE-MsgGUID: EijGoV4SSXyIhErY2Ff75Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="105814676"
-X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
-   d="scan'208";a="105814676"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 19:55:20 -0700
-X-CSE-ConnectionGUID: mz2h8+0eTjKaKuWK0m+VKg==
-X-CSE-MsgGUID: hUnYcgRRSo2xE1n36M2I5w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
-   d="scan'208";a="254676609"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 23 Jun 2026 19:55:17 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wcDlh-0000000034T-3RBN;
-	Wed, 24 Jun 2026 02:55:13 +0000
-Date: Wed, 24 Jun 2026 10:54:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrea Cervesato <andrea.cervesato@suse.de>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>,
-	David Timber <dxdt@dev.snart.me>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jack@suse.cz, chrubis@suse.cz,
-	Andrea Cervesato <andrea.cervesato@suse.com>
-Subject: Re: [PATCH] exfat: implement swap activate
-Message-ID: <202606241018.4N100hSQ-lkp@intel.com>
-References: <20260618-exfat_swap_activate-v1-1-4c6a465df295@suse.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="DfweZVmD"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1782271049; h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
+	bh=+Mw0Weyp34OBYLRAaq0Yg/Q35eH/W3U3kdrm+xZigmQ=;
+	b=DfweZVmDchTfEtnOY545xYEiPqS2Eh2bkfaw5T/QlsRJoI77bk2As1dhC1RQtcgHGMKB3viSRWHTogiO3dqpBlgGiOZYCllJ4b3zr9ld7tl10APYSZBTlC8g4gWEiqsap7fqSx1Hlz5eCF2nLQTWkD1J+SNARCpBUcUtXklWQIU=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=12;SR=0;TI=SMTPD_---0X5W5S46_1782271048;
+Received: from 30.221.130.136(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X5W5S46_1782271048 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 24 Jun 2026 11:17:29 +0800
+Message-ID: <33912eb8-6b2c-40c2-b698-837e3f675d61@linux.alibaba.com>
+Date: Wed, 24 Jun 2026 11:17:28 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260618-exfat_swap_activate-v1-1-4c6a465df295@suse.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ovl: Allow changing default fsync_mode
+Cc: Amir Goldstein <amir73il@gmail.com>, Christoph Hellwig <hch@lst.de>,
+ miklos@szeredi.hu, linux-unionfs@vger.kernel.org, fuweid89@gmail.com,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, derek@mcg.dev,
+ Yafang Shao <laoar.shao@gmail.com>
+References: <CALOAHbAY-3GAd=7DsA74W4ax7aPdXC7ecYt6b+tHoxFu754ZjA@mail.gmail.com>
+ <bfdf1d1e-2313-46e7-8567-da2a363d6b3d@linux.alibaba.com>
+ <CALOAHbAShZ-xYWw5yObqea4hB-4=NmTz1HiKQrApZpxsHvG_wg@mail.gmail.com>
+ <ac56e537-d095-487b-8272-726d6739d0af@linux.alibaba.com>
+ <CALOAHbCBo2eB0xVoSv8Vi+r3DwbwTticismFSL3EXyYuwFkEzA@mail.gmail.com>
+ <13bb8cba-c82e-4a41-aff1-0a6418873bf1@linux.alibaba.com>
+ <CALOAHbCkbSBVqUStUbWB=4vUUOEyB63yMsXvS_cZUZOwr-nmew@mail.gmail.com>
+ <a5a1b56f-0b1a-473d-8fc9-8cbfba85813e@linux.alibaba.com>
+ <CALOAHbCrvbvT04O3v+p-CmdqVN2BGJYKj6F7we70kPwbs-hmRw@mail.gmail.com>
+ <b4d43064-7a7d-4d65-b65c-56e80d47ed17@linux.alibaba.com>
+ <20260623134240.GA7980@lst.de>
+ <1cc0931b-648e-4baf-9667-742175b3f9d0@linux.alibaba.com>
+ <CAOQ4uxhURfuQWMd3y_W1iFebJms3aohn+koy5_sjxbcc4ZBQ-w@mail.gmail.com>
+ <CALOAHbBjhqKZPqb9r8qoUoYfzpEe6wYU9By_cZtuGGmnoaAa5g@mail.gmail.com>
+ <f650bed9-b049-4576-bbcf-6dd46028c5a4@linux.alibaba.com>
+ <CALOAHbC=2AvZYWEUXR9bk2s=2jk_sVK6zimes1H-TK3iFnn_qQ@mail.gmail.com>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+To: conduct@kernel.org
+In-Reply-To: <CALOAHbC=2AvZYWEUXR9bk2s=2jk_sVK6zimes1H-TK3iFnn_qQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Andrea,
+Hi,
 
-kernel test robot noticed the following build errors:
+On 2026/6/24 10:30, Yafang Shao wrote:
+> On Wed, Jun 24, 2026 at 10:28 AM Gao Xiang <hsiangkao@linux.alibaba.com> wrote:
+>>
+>>
+>>
+>> On 2026/6/24 10:09, Yafang Shao wrote:
+>>> On Tue, Jun 23, 2026 at 10:52 PM Amir Goldstein <amir73il@gmail.com> wrote:
+>>>>
+>>>> On Tue, Jun 23, 2026 at 3:47 PM Gao Xiang <hsiangkao@linux.alibaba.com> wrote:
+>>
+>> ...
+>>
+>>>
+>>> Since the "volatile" option has been working fine for over a year
+>>> across our large fleet of Kubernetes production servers, I submitted
+>>> this change to upstream. In Kubernetes environments, there is no use
+>>> case for remounting the workdir to the same directory, so the volatile
+>>> file won't cause any issues — which is why the "volatile" setting has
+>>> been working well there.
+>> That is not an excuse to introduce such new incompatible behavior
+>> to the linux upstream starting only for your customized fleet and
+>> bother every single opensource user/application to adapt this
+>> behavior which uses overlayfs now.
+>>
+>> If you insist to work on a breaking change, please gather
+>> userspace feedback boardly first.
+>>
+>> And here I just say you and your employer are lucky since I
+>> know it's also risky even on the generic kubernate perspective.
+>> Please just maintain your livepatch downstream, thanks.
+>>
+>> No need to reply, and I won't reply this either, it's just
+>> waste of my time to explain a basic upstream principle again
+>> and again.
+> 
+> I'll just go ahead and redirect you to /dev/null ;)
 
-[auto build test ERROR on e771677c937da5808f7b6c1f0e4a97ec1a84f8a8]
+The whole thread is:
+https://lore.kernel.org/linux-unionfs/20260623084337.54344-1-laoar.shao@gmail.com/T/#u
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrea-Cervesato/exfat-implement-swap-activate/20260622-172327
-base:   e771677c937da5808f7b6c1f0e4a97ec1a84f8a8
-patch link:    https://lore.kernel.org/r/20260618-exfat_swap_activate-v1-1-4c6a465df295%40suse.com
-patch subject: [PATCH] exfat: implement swap activate
-config: microblaze-allyesconfig (https://download.01.org/0day-ci/archive/20260624/202606241018.4N100hSQ-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260624/202606241018.4N100hSQ-lkp@intel.com/reproduce)
+Personally, I feel offensive due to Yafang's expression
+written above.  I keep maintain my replies in technical
+discussion, but the replies above already include the
+following words:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606241018.4N100hSQ-lkp@intel.com/
+"No wonder containerd is getting harder and harder to use ;)"
 
-All errors (new ones prefixed by >>):
+"Please do your homework."
 
-   fs/exfat/inode.c: In function 'exfat_swap_activate':
->> fs/exfat/inode.c:556:16: error: implicit declaration of function 'generic_swapfile_activate' [-Wimplicit-function-declaration]
-     556 |         return generic_swapfile_activate(sis, file, span);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~
+"Again, pls do your homework."
 
+and the emotional texts `;)` make me feel uneasy over the
+time,
 
-vim +/generic_swapfile_activate +556 fs/exfat/inode.c
+especially the final words "I'll just go ahead and redirect
+you to /dev/null ;)"
 
-   537	
-   538	static int exfat_swap_activate(struct swap_info_struct *sis,
-   539				       struct file *file, sector_t *span)
-   540	{
-   541		struct inode *inode = file_inode(file);
-   542		struct exfat_inode_info *ei = EXFAT_I(inode);
-   543		int ret;
-   544	
-   545		/*
-   546		 * exfat's fallocate allocates clusters without updating valid_size,
-   547		 * leaving them invisible to bmap(). Extend valid_size to i_size so
-   548		 * that generic_swapfile_activate() can map all blocks.
-   549		 */
-   550		if (ei->valid_size < i_size_read(inode)) {
-   551			ret = exfat_extend_valid_size(inode, i_size_read(inode));
-   552			if (ret)
-   553				return ret;
-   554		}
-   555	
- > 556		return generic_swapfile_activate(sis, file, span);
-   557	}
-   558	
+So I write an email as a public report to the CoC since I'm
+not sure how to proceed to comment the community patches
+because I could get offence as a result.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Gao Xiang
