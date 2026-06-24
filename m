@@ -1,145 +1,603 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F27274B3B
-	for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 14:24:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31583D6CC5;
+	Wed, 24 Jun 2026 14:56:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782311079; cv=none; b=PTTCFdOqp3m6Xyh7CUObj/aBe36ec2hg0UXygNEZ4qQflqOaMR39qBPpoJNfXMGbUUMFypSNFQkM8Cz5J+L/aglIA1QKg0w4Y4Q8Ae2BVUL6M/9sgHb5n6Uf4+ebmtXkx6CPCfW2jju6v8YImLs3+XzClGwoKutlNm8rjE8lYJU=
+	t=1782313023; cv=none; b=C3hbzjrUQOn+CaBG02/3vwDQlaQoiNWu5WuDPHfhp7KTeaaP7S05kvrRt0pmk3w3x5K2iCtpzGKx2sjQX/ecO5Ec8DyGXxiXvWppHSvOWetENjTJJ2qU/+ZqjBBf1DLVcdymy+qI1wp3MOWDiUg7mAqIh1Gi6rCYapiw2lMKK94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782311079; c=relaxed/simple;
-	bh=+GvPHtbjBfoeFHgSA3GIQrRzol9K7XiFhRwqivJDapw=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
-	 MIME-version:Content-type; b=Fy0m/9eRmHpDn73IHrqRW23ni3ZYB3I+uk5E5MfqTqEjYa+WlUdXmpjDs/G2wsO4QIMtpcCeQoyywTrVUeLcS/QvMCUgNiCgGQdPcrbo/ZxiPhO4Wj0GyxZGx0N2qaXa8ZXXBifXxLQnlPMBcOz0/NeezDzSgSG+VD/u6SPkD0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AcMSf/jl; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782313023; c=relaxed/simple;
+	bh=LP435jqQaLf3FLgnu7yL6bsmk5Mftbc0WNhL/HIiQYA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nzgXinMT/iLWHadutbrEmfdL2MgIg4+2rqGv5D9GnLseOUup6Ft3FtbfM2DhaX658wTaqPBVH9Hu3wdK84n526tA687wiF7ACixkynx/kv6KbkX35l8YWpwjwhE/8ir8FreSjcUrkTus4gpvYaWVQlCwCesQDGw9aXt8AQx+8CA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=JryrMjhC; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AcMSf/jl"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-37c8e7c8185so697696a91.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 07:24:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782311076; x=1782915876; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:message-id:date
-         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bC7GeOhZGz0je76Vr4XAaqeVuPBssFAF57vnDxsL79M=;
-        b=AcMSf/jlCJU2ILuSt+66WbpetxY2HadsHQVxaA/1YzNOwOVJf6n4RLaG1DmmcY6C7p
-         TIlPgl5GFj2+dPxYJTMwPia9v9Oh8ViLz3dd8+7bhnGkU8x2iGj0nQxSfc+MsXKNj/AL
-         x0mJtdLNhk4c2+6dcqg5wYXcNiPXJO1vZks1nY9wk5yS5gzhdt+gneIE3OI5jHv4Xeaq
-         DiReOB/Y4FQHNP5xcG8OzvSCbTqCISOt70ReiblXb8Pac7claoinWoXJFNrsMshEt589
-         fFCCiCHURgnayZiapliKnusbAgNylNCa7+XnbSDGBFbW3uneBo7Fbi/kvv4nOj1QPDJp
-         fAXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782311076; x=1782915876;
-        h=content-transfer-encoding:mime-version:references:message-id:date
-         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=bC7GeOhZGz0je76Vr4XAaqeVuPBssFAF57vnDxsL79M=;
-        b=JK+Ac784mRxSnqfNv8UPN+BmY9GKwobik7hqnjTUYNfMaFM6/4tBZJkv7H6BtkeaD0
-         rhmOegmoC6H9cEABV4Dsze9Te7n2UW7GU5eJct11m4l4i47Rgno9GukoL3BJaO7ovcvr
-         JE7IgYvigX7/96Hro/wvwSKbehSzqawy63vWOpEkIB8+Og9XRkTdmP5rnjkVDela8/sg
-         9e/12sgW3k/XsXFROcRFeONRRmIXtzB5/BtyW2XnYh7Nl6jEASZKmcVJbllp0b94eCx/
-         S2AhLxh1KSWXLlw5f/eVtoAcrbwC6/8atjHGJqp+/A7TLxPrlRcb8j5pH3en41Wo7JfQ
-         6Bxw==
-X-Forwarded-Encrypted: i=1; AHgh+RqRU8FSKfabaKuD8BE15yi0fi01F3d6ZrGC5iq+1kiRooOTgFzeB5qJW3jjRBdxubDizrlvy+F4Qp1tj3xy@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxo4Qin1+kwMNOcEqeaK98npNFani41gOtsshNvNZLtgzYJK1uQ
-	H2zvxILMo/XwjSNS9R1q+gerfgOAVT42ZzRzhQSMHAVW7KIvQHUQvgA7
-X-Gm-Gg: AfdE7ckNQCiXzN3+RswaVp722RJ//zFMamw3+tDqALNZuKBy+P3VwmU7C5VwiNOG/AD
-	fr/hzSJo3I1t+FVEJdm/zA7Wa/x/WhpjzehN9zJzTHmMCaccoSRGWuJ8ycCaaUY9kiaX8VOwFIA
-	0SJZHJsYTwVkp8QAjnZDYPLiqQ0qc6G2JgpUYhNPEN+3qVP1x23Yv7FMmboLF2E+tcfSG9gQe8e
-	3IVPRorAb3eHPVhfHhyWne195bIr5MZkQFcqoJy7saVXl+gU0AbUYl60nFt7A9cHf6yjj4n+4h2
-	6/0tEAU4qkBVWCzdcrCpf5cHAXUUMt8+5D+nTfNMU8IzHEg6+nl76V6hlOLJTUK1ZsxOmaeNQ/D
-	yBhKijsBrBdxaJfYJaEOMbkWlVKBflhge5hWhckoBJk3tQkSBhA3y6DvT2aWJmNeeMOmjg/ZxFu
-	yV9K3jGBnx1O//Go8=
-X-Received: by 2002:a17:903:1d0:b0:2bf:3309:ecce with SMTP id d9443c01a7336-2c7e15804acmr39177245ad.28.1782311076310;
-        Wed, 24 Jun 2026 07:24:36 -0700 (PDT)
-Received: from pve-server ([49.205.216.49])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7439f86aesm135035155ad.49.2026.06.24.07.24.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2026 07:24:35 -0700 (PDT)
-From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
-To: Salvatore Dipietro <dipiets@amazon.it>, willy@infradead.org
-Cc: dipiets@amazon.it, abuehaze@amazon.com, akpm@linux-foundation.org, alisaidi@amazon.com, blakgeof@amazon.com, brauner@kernel.org, dipietro.salvatore@gmail.com, djwong@kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-xfs@vger.kernel.org, stable@vger.kernel.org, vbabka@suse.com, David Hildenbrand (Arm) <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Vlastimil Babka <vbabka@kernel.org>
-Subject: Re: [PATCH 1/1] iomap: avoid compaction for costly folio order allocation
-In-Reply-To: <20260624080639.17100-1-dipiets@amazon.it>
-Date: Wed, 24 Jun 2026 17:51:18 +0530
-Message-ID: <o6h0w2m9.ritesh.list@gmail.com>
-References: <20260527162412.19922-1-dipiets@amazon.it> <20260624080639.17100-1-dipiets@amazon.it>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="JryrMjhC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=JM
+	6NJ3nsNBIiosCSiycrJgeG74kXUiijJyX91LFG1MM=; b=JryrMjhChjhHC580O2
+	ShDGqYzYPvMcdGmop5fBJ0ZVwkS9wwVWqxGSn+OIK0mY6lXllKi2jg9ZaHRJEW4C
+	Pu8YkFUI75ubczE5jylwKj9ciFfFPzihLDcwW0FeVQxvSX3AzXMx/WXCT2B2DiIH
+	0e5ghOq6ltwJ/QT1U2lG/DfvE=
+Received: from zhaoxin-MS-7E12.. (unknown [])
+	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wD3l3n67ztqhbIBFg--.64788S2;
+	Wed, 24 Jun 2026 22:55:55 +0800 (CST)
+From: Xin Zhao <jackzxcui1989@163.com>
+To: brauner@kernel.org,
+	mjguzik@gmail.com,
+	pfalcato@suse.de,
+	ebiederm@xmission.com,
+	viro@zeniv.linux.org.uk,
+	jack@suse.cz,
+	jlayton@kernel.org,
+	chuck.lever@oracle.com,
+	alex.aring@gmail.com,
+	arnd@arndb.de,
+	keescook@chromium.org,
+	mcgrof@kernel.org,
+	j.granados@samsung.com,
+	allen.lkml@gmail.com
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	Xin Zhao <jackzxcui1989@163.com>
+Subject: [PATCH v4] coredump: Add /proc/<pid>/coredump_pre_exit for pre-exit before dumping
+Date: Wed, 24 Jun 2026 22:55:52 +0800
+Message-Id: <20260624145552.70143-1-jackzxcui1989@163.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-version: 1.0
-Content-type: text/plain; charset=utf-8
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3l3n67ztqhbIBFg--.64788S2
+X-Coremail-Antispam: 1Uf129KBjvAXoWfXF45Gw4rur1kXryxAF47Jwb_yoW8ZFWrKo
+	WSvrs7Cwn7Gr45Ar4xCF48JF1UXr4DKr4rJ3y5ArWDC3Z7J3WUCryDZw13WFyayr15Gws7
+	AryxAw4Yya18tr1fn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvj4R-AwVUUUUU
+X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/xtbCwBykrmo77-zhiwAA3+
 
-Salvatore Dipietro <dipiets@amazon.it> writes:
+A coredump typically takes some time to complete. If we happen to hold a
+write lock with flock just before triggering the coredump, that write lock
+will not be released during the entire coredump process. As a result,
+other processes attempting to acquire the same write lock may experience
+significant delays. Another typical scenario is that shared memory, such
+as dma-buf, remains occupied and is not released for a long time due to
+core dumps.
 
-> Hi Ritesh, Matthew,
->
-> I wanted to kindly follow up on my summary from May 27th regarding the best path 
-> forward for this patch.
->
+To address this, add /proc/<pid>/coredump_pre_exit node so that people can
+specify which resources they want to release before dumping core. This
+patch implements the early release of two types of resources: flock files
+and file-backed shared memory. Default settings are NOT pre-exit anything.
 
-Hi Salvatore,
+A temporary bit, O_TMPCLOS, is added to mark vma->vm_file->f_flags during
+the execution of the newly introduced exit_mmap_mapped_shared() function.
+In this way, the subsequent exit_files_pre_exit() function does not need
+to find the corresponding vma through the file to check for the VM_SHARED
+attribute, thereby reducing the traversal cost.
 
-Sorry about the delay. I did bring this topic up in one of our internal
-ext4 community calls. And to share some context, MM community thinks we
-need a better long term fix for this problem rather than patching call
-sites and/or playing tricks like - 
+Signed-off-by: Xin Zhao <jackzxcui1989@163.com>
+---
 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 4e636647100c..f2343c26dd63 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -2007,8 +2007,13 @@ struct folio *__filemap_get_folio_mpol(struct address_space *mapping,
- 			gfp_t alloc_gfp = gfp;
+Change in v4:
+- Christian pointed out that the coredump process will traverse file
+  descriptors (fd), so certain fds should not be closed by default.
+  Rework the whole feature, add /proc/<pid>/coredump_pre_exit for user
+  pre-exit resources selection, default is NOT pre-exit anything.
+- Mateusz suggested that walking the fd table and release the file-lock is
+  reasonable. No longer release all the fd(s). Based on user config, only
+  the flock fd(s) and the fd(s) correspondent to file-backed shared memory
+  will be released at most.
+
+Change in v3:
+- Add comment and commit-log to explain why do the MMF_DUMP_MAPPED_SHARED
+  mm_flags_test() check, note that memory mapped files keep their own
+  separate references to the files. The case to work around is that early
+  unlocking a flock on a file allows other processes to lock and modify
+  the mapped data protected by the flock,
+  as suggested by Pedro Falcato.
+- Link to v3: https://lore.kernel.org/all/20260619122419.3954581-1-jackzxcui1989@163.com/
+
+Change in v2:
+- Get rid of the implement of adding new fcntl API, the issue does not
+  worth inflicting the cost on everyone,
+  as suggested by Al Viro.
+- Call exit_files() in coredump_wait(),
+  as suggested by Eric W. Biederman.
+  Add MMF_DUMP_MAPPED_SHARED mm_flags_test() check to filter cases that
+  need to dump file-backed shared memory.
+- Link to v2: https://lore.kernel.org/lkml/20260618150301.3226517-1-jackzxcui1989@163.com/
+
+v1:
+- Link to v1: https://lore.kernel.org/all/20260618030700.2511668-1-jackzxcui1989@163.com/
+---
+ .../admin-guide/kernel-parameters.txt         |  5 ++
+ Documentation/filesystems/proc.rst            | 58 +++++++++-----
+ fs/coredump.c                                 | 23 ++++++
+ fs/file.c                                     | 46 +++++++++++
+ fs/proc/base.c                                | 78 +++++++++++++++++++
+ include/linux/mm.h                            |  1 +
+ include/linux/mm_types.h                      |  9 +++
+ include/linux/sched/task.h                    |  1 +
+ include/uapi/asm-generic/fcntl.h              |  4 +
+ kernel/fork.c                                 | 12 +++
+ mm/mmap.c                                     | 21 +++++
+ 11 files changed, 238 insertions(+), 20 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index f575d4508..bc6d3859f 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1024,6 +1024,11 @@ Kernel parameters
+ 			/proc/<pid>/coredump_filter.
+ 			See also Documentation/filesystems/proc.rst.
  
- 			err = -ENOMEM;
--			if (order > min_order)
--				alloc_gfp |= __GFP_NORETRY | __GFP_NOWARN;
-+			if (order > min_order) {
-+				alloc_gfp |= __GFP_NOWARN;
-+				if (order > PAGE_ALLOC_COSTLY_ORDER)
-+					alloc_gfp &= ~__GFP_DIRECT_RECLAIM;
-+				else
-+					alloc_gfp |= __GFP_NORETRY;
++	coredump_pre_exit=
++			[KNL] Change the default value for
++			/proc/<pid>/coredump_pre_exit.
++			See also Documentation/filesystems/proc.rst.
++
+ 	coresight_cpu_debug.enable
+ 			[ARM,ARM64]
+ 			Format: <bool>
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index db6167bef..6a637d31d 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -39,16 +39,17 @@ fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
+   3.2	/proc/<pid>/oom_score - Display current oom-killer score
+   3.3	/proc/<pid>/io - Display the IO accounting fields
+   3.4	/proc/<pid>/coredump_filter - Core dump filtering settings
+-  3.5	/proc/<pid>/mountinfo - Information about mounts
+-  3.6	/proc/<pid>/comm  & /proc/<pid>/task/<tid>/comm
+-  3.7   /proc/<pid>/task/<tid>/children - Information about task children
+-  3.8   /proc/<pid>/fdinfo/<fd> - Information about opened file
+-  3.9   /proc/<pid>/map_files - Information about memory mapped files
+-  3.10  /proc/<pid>/timerslack_ns - Task timerslack value
+-  3.11	/proc/<pid>/patch_state - Livepatch patch operation state
+-  3.12	/proc/<pid>/arch_status - Task architecture specific information
+-  3.13  /proc/<pid>/fd - List of symlinks to open files
+-  3.14  /proc/<pid>/ksm_stat - Information about the process's ksm status.
++  3.5  /proc/<pid>/coredump_pre_exit - Core dump pre-exit settings
++  3.6	/proc/<pid>/mountinfo - Information about mounts
++  3.7	/proc/<pid>/comm  & /proc/<pid>/task/<tid>/comm
++  3.8   /proc/<pid>/task/<tid>/children - Information about task children
++  3.9   /proc/<pid>/fdinfo/<fd> - Information about opened file
++  3.10   /proc/<pid>/map_files - Information about memory mapped files
++  3.11  /proc/<pid>/timerslack_ns - Task timerslack value
++  3.12	/proc/<pid>/patch_state - Livepatch patch operation state
++  3.13	/proc/<pid>/arch_status - Task architecture specific information
++  3.14  /proc/<pid>/fd - List of symlinks to open files
++  3.15  /proc/<pid>/ksm_stat - Information about the process's ksm status.
+ 
+   4	Configuring procfs
+   4.1	Mount options
+@@ -1961,7 +1962,24 @@ For example::
+   $ echo 0x7 > /proc/self/coredump_filter
+   $ ./some_program
+ 
+-3.5	/proc/<pid>/mountinfo - Information about mounts
++3.5 /proc/<pid>/coredump_pre_exit - Core dump pre-exit settings
++---------------------------------------------------------------
++A coredump typically takes some time to complete. If we happen to hold a write
++lock with flock just before triggering the coredump, that write lock will not
++be released during the entire coredump process. As a result, other processes
++attempting to acquire the same write lock may experience significant delays.
++Another typical scenario is that shared memory, such as dma-buf, remains
++occupied and is not released for a long time due to core dumps.
++
++/proc/<pid>/coredump_pre_exit allows you to pre-exit some resources before
++dumping core.
++
++The following two types are supported:
++
++  - (bit 0) flock files
++  - (bit 1) file-backed shared memory
++
++3.6	/proc/<pid>/mountinfo - Information about mounts
+ --------------------------------------------------------
+ 
+ This file contains lines of the form::
+@@ -2001,7 +2019,7 @@ For more information on mount propagation see:
+   Documentation/filesystems/sharedsubtree.rst
+ 
+ 
+-3.6	/proc/<pid>/comm  & /proc/<pid>/task/<tid>/comm
++3.7	/proc/<pid>/comm  & /proc/<pid>/task/<tid>/comm
+ --------------------------------------------------------
+ These files provide a method to access a task's comm value. It also allows for
+ a task to set its own or one of its thread siblings comm value. The comm value
+@@ -2010,7 +2028,7 @@ then the kernel's TASK_COMM_LEN (currently 16 chars, including the NUL
+ terminator) will result in a truncated comm value.
+ 
+ 
+-3.7	/proc/<pid>/task/<tid>/children - Information about task children
++3.8	/proc/<pid>/task/<tid>/children - Information about task children
+ -------------------------------------------------------------------------
+ This file provides a fast way to retrieve first level children pids
+ of a task pointed by <pid>/<tid> pair. The format is a space separated
+@@ -2027,7 +2045,7 @@ pids, so one needs to either stop or freeze processes being inspected
+ if precise results are needed.
+ 
+ 
+-3.8	/proc/<pid>/fdinfo/<fd> - Information about opened file
++3.9	/proc/<pid>/fdinfo/<fd> - Information about opened file
+ ---------------------------------------------------------------
+ This file provides information associated with an opened file. The regular
+ files have at least four fields -- 'pos', 'flags', 'mnt_id' and 'ino'.
+@@ -2198,7 +2216,7 @@ VFIO Device files
+ where 'vfio-device-syspath' is the sysfs path corresponding to the VFIO device
+ file.
+ 
+-3.9	/proc/<pid>/map_files - Information about memory mapped files
++3.10	/proc/<pid>/map_files - Information about memory mapped files
+ ---------------------------------------------------------------------
+ This directory contains symbolic links which represent memory mapped files
+ the process is maintaining.  Example output::
+@@ -2220,7 +2238,7 @@ time one can open(2) mappings from the listings of two processes and
+ comparing their inode numbers to figure out which anonymous memory areas
+ are actually shared.
+ 
+-3.10	/proc/<pid>/timerslack_ns - Task timerslack value
++3.11	/proc/<pid>/timerslack_ns - Task timerslack value
+ ---------------------------------------------------------
+ This file provides the value of the task's timerslack value in nanoseconds.
+ This value specifies an amount of time that normal timers may be deferred
+@@ -2236,7 +2254,7 @@ Valid values are from 0 - ULLONG_MAX
+ An application setting the value must have PTRACE_MODE_ATTACH_FSCREDS level
+ permissions on the task specified to change its timerslack_ns value.
+ 
+-3.11	/proc/<pid>/patch_state - Livepatch patch operation state
++3.12	/proc/<pid>/patch_state - Livepatch patch operation state
+ -----------------------------------------------------------------
+ When CONFIG_LIVEPATCH is enabled, this file displays the value of the
+ patch state for the task.
+@@ -2253,7 +2271,7 @@ patched.  If the patch is being enabled, then the task has already been
+ patched.  If the patch is being disabled, then the task hasn't been
+ unpatched yet.
+ 
+-3.12 /proc/<pid>/arch_status - task architecture specific status
++3.13 /proc/<pid>/arch_status - task architecture specific status
+ -------------------------------------------------------------------
+ When CONFIG_PROC_PID_ARCH_STATUS is enabled, this file displays the
+ architecture specific status of the task.
+@@ -2298,7 +2316,7 @@ AVX512_elapsed_ms
+   the task is unlikely an AVX512 user, but depends on the workload and the
+   scheduling scenario, it also could be a false negative mentioned above.
+ 
+-3.13 /proc/<pid>/fd - List of symlinks to open files
++3.14 /proc/<pid>/fd - List of symlinks to open files
+ -------------------------------------------------------
+ This directory contains symbolic links which represent open files
+ the process is maintaining.  Example output::
+@@ -2313,7 +2331,7 @@ The number of open files for the process is stored in 'size' member
+ of stat() output for /proc/<pid>/fd for fast access.
+ -------------------------------------------------------
+ 
+-3.14 /proc/<pid>/ksm_stat - Information about the process's ksm status
++3.15 /proc/<pid>/ksm_stat - Information about the process's ksm status
+ ----------------------------------------------------------------------
+ When CONFIG_KSM is enabled, each process has this file which displays
+ the information of ksm merging status.
+diff --git a/fs/coredump.c b/fs/coredump.c
+index bb6fdb1f4..e08a8a6c4 100644
+--- a/fs/coredump.c
++++ b/fs/coredump.c
+@@ -521,6 +521,27 @@ static int zap_threads(struct task_struct *tsk,
+ 	return nr;
+ }
+ 
++static void coredump_pre_exit(void)
++{
++	struct task_struct *tsk = current;
++	unsigned long flags = __mm_flags_get_dumpable(tsk->mm);
++
++	if (!likely(flags & MMF_DUMP_PRE_EXIT_MASK))
++		return;
++
++	/*
++	 * Set O_TMPCLOS of file f_flags if file needs to be closed.
++	 */
++	if (test_bit(MMF_DUMP_PRE_EXIT_FILE_BACKED_SHARED, &flags) &&
++	    !test_bit(MMF_DUMP_MAPPED_SHARED, &flags))
++		exit_mmap_mapped_shared(tsk->mm);
++
++	/*
++	 * Check O_TMPCLOS of file f_flags to close file and clear it.
++	 */
++	exit_files_pre_exit(tsk, mm_flags_test(MMF_DUMP_PRE_EXIT_FLOCK, tsk->mm));
++}
++
+ static int coredump_wait(int exit_code, struct core_state *core_state)
+ {
+ 	struct task_struct *tsk = current;
+@@ -1100,6 +1121,8 @@ static void do_coredump(struct core_name *cn, struct coredump_params *cprm,
+ 		return;
+ 	}
+ 
++	coredump_pre_exit();
++
+ 	switch (cn->core_type) {
+ 	case COREDUMP_FILE:
+ 		if (!coredump_file(cn, cprm, binfmt))
+diff --git a/fs/file.c b/fs/file.c
+index 2c81c0b16..a58ffffcc 100644
+--- a/fs/file.c
++++ b/fs/file.c
+@@ -23,6 +23,7 @@
+ #include <linux/file_ref.h>
+ #include <net/sock.h>
+ #include <linux/init_task.h>
++#include <linux/filelock.h>
+ 
+ #include "internal.h"
+ 
+@@ -527,6 +528,51 @@ void exit_files(struct task_struct *tsk)
+ 	}
+ }
+ 
++void exit_files_pre_exit(struct task_struct *tsk, bool checkflock)
++{
++	struct files_struct *files = tsk->files;
++	struct fdtable *fdt;
++	struct file *file;
++	unsigned int i, j = 0;
++
++	if (!files)
++		return;
++
++	fdt = rcu_dereference_raw(files->fdt);
++	for (;;) {
++		unsigned long set;
++
++		i = j * BITS_PER_LONG;
++		if (i >= fdt->max_fds)
++			break;
++		set = fdt->open_fds[j++];
++		while (set) {
++			if (!(set & 1))
++				goto next_fd;
++			file = fdt->fd[i];
++			if (!file)
++				goto next_fd;
++			if (file->f_flags & O_TMPCLOS) {
++				file->f_flags &= ~O_TMPCLOS;
++				goto close_fd;
 +			}
-
-Unfortunately most of the folks might be missing free cycles
-to work on this problem right now :( - Hence the delay in addressing
-this..
-
-
-However - I would like to bring this problem to other MM community
-members as well who might have an interest in this space. Can we look
-into the proposed solutions from Salvatore and suggest the next steps
-please? 
-
-Maybe if someone can share what is MM community looking  for here - I
-guess that will be a good start. Looking into the table I think
-Salvatore had also shared a diff for kicking kcompactd in the background
-[2].
-
-[2]: https://lore.kernel.org/all/20260506123326.17293-1-dipiets@amazon.it/
-
-(Sorry I still have few other things on my plate before I start look
-into this more actively. But let's hear from others, who have better
-knowledge than me on this.)
-
-> To recap, we benchmarked all proposed variations and shared the results:
->
-> | Patch                          | Change Location        | Avg TPS    | % vs Baseline |
-> |--------------------------------|------------------------|------------|:-------------:|
-> | Baseline (no patch)            | —                      | 101,979.75 |       —       |
-> | v1 (original, iomap caller)    | fs/iomap/buffered-io.c | 141,194.20 |    +38.45%    |
-> | Ritesh's suggestion            | mm/filemap.c           | 139,200.61 |    +36.50%    |
-> | Matthew's suggestion           | mm/filemap.c           | 143,863.82 |    +41.07%    |
-> | kcompactd background           | mm/page_alloc.c        | 134,278.47 |    +31.67%    |
->
-
-
--ritesh
++			if (!checkflock)
++				goto next_fd;
++			if (!vfs_inode_has_locks(file_inode(file)))
++				goto next_fd;
++
++close_fd:
++			fdt->fd[i] = NULL;
++			filp_close(file, files);
++			cond_resched();
++
++next_fd:
++			i++;
++			set >>= 1;
++		}
++	}
++}
++
+ struct files_struct init_files = {
+ 	.count		= ATOMIC_INIT(1),
+ 	.fdt		= &init_files.fdtab,
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index d9acfa89c..99b5f219f 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -3026,6 +3026,83 @@ static const struct file_operations proc_coredump_filter_operations = {
+ 	.write		= proc_coredump_filter_write,
+ 	.llseek		= generic_file_llseek,
+ };
++
++static ssize_t proc_coredump_pre_exit_read(struct file *file, char __user *buf,
++					   size_t count, loff_t *ppos)
++{
++	struct task_struct *task = get_proc_task(file_inode(file));
++	struct mm_struct *mm;
++	char buffer[PROC_NUMBUF];
++	size_t len;
++	int ret;
++
++	if (!task)
++		return -ESRCH;
++
++	ret = 0;
++	mm = get_task_mm(task);
++	if (mm) {
++		unsigned long flags = __mm_flags_get_dumpable(mm);
++
++		len = snprintf(buffer, sizeof(buffer), "%08lx\n",
++			       ((flags & MMF_DUMP_PRE_EXIT_MASK) >>
++				MMF_DUMP_PRE_EXIT_SHIFT));
++		mmput(mm);
++		ret = simple_read_from_buffer(buf, count, ppos, buffer, len);
++	}
++
++	put_task_struct(task);
++
++	return ret;
++}
++
++static ssize_t proc_coredump_pre_exit_write(struct file *file,
++					    const char __user *buf,
++					    size_t count,
++					    loff_t *ppos)
++{
++	struct task_struct *task;
++	struct mm_struct *mm;
++	unsigned int val;
++	int ret;
++	int i;
++	unsigned long mask;
++
++	ret = kstrtouint_from_user(buf, count, 0, &val);
++	if (ret < 0)
++		return ret;
++
++	ret = -ESRCH;
++	task = get_proc_task(file_inode(file));
++	if (!task)
++		goto out_no_task;
++
++	mm = get_task_mm(task);
++	if (!mm)
++		goto out_no_mm;
++	ret = 0;
++
++	for (i = 0, mask = 1; i < MMF_DUMP_PRE_EXIT_BITS; i++, mask <<= 1) {
++		if (val & mask)
++			mm_flags_set(i + MMF_DUMP_PRE_EXIT_SHIFT, mm);
++		else
++			mm_flags_clear(i + MMF_DUMP_PRE_EXIT_SHIFT, mm);
++	}
++
++	mmput(mm);
++ out_no_mm:
++	put_task_struct(task);
++ out_no_task:
++	if (ret < 0)
++		return ret;
++	return count;
++}
++
++static const struct file_operations proc_coredump_pre_exit_operations = {
++	.read		= proc_coredump_pre_exit_read,
++	.write		= proc_coredump_pre_exit_write,
++	.llseek		= generic_file_llseek,
++};
+ #endif
+ 
+ #ifdef CONFIG_TASK_IO_ACCOUNTING
+@@ -3391,6 +3468,7 @@ static const struct pid_entry tgid_base_stuff[] = {
+ #endif
+ #ifdef CONFIG_ELF_CORE
+ 	REG("coredump_filter", S_IRUGO|S_IWUSR, proc_coredump_filter_operations),
++	REG("coredump_pre_exit", S_IRUGO|S_IWUSR, proc_coredump_pre_exit_operations),
+ #endif
+ #ifdef CONFIG_TASK_IO_ACCOUNTING
+ 	ONE("io",	S_IRUSR, proc_tgid_io_accounting),
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index af23453e9..dfd4717c7 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -4066,6 +4066,7 @@ void anon_vma_interval_tree_verify(struct anon_vma_chain *node);
+ extern int __vm_enough_memory(const struct mm_struct *mm, long pages, int cap_sys_admin);
+ extern int insert_vm_struct(struct mm_struct *, struct vm_area_struct *);
+ extern void exit_mmap(struct mm_struct *);
++extern void exit_mmap_mapped_shared(struct mm_struct *mm);
+ bool mmap_read_lock_maybe_expand(struct mm_struct *mm, struct vm_area_struct *vma,
+ 				 unsigned long addr, bool write);
+ 
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index c7db35be6..0555aaf50 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -1963,6 +1963,15 @@ enum {
+ 	(BIT(MMF_DUMP_ANON_PRIVATE) | BIT(MMF_DUMP_ANON_SHARED) | \
+ 	 BIT(MMF_DUMP_HUGETLB_PRIVATE) | MMF_DUMP_MASK_DEFAULT_ELF)
+ 
++/* coredump pre-exit bits */
++#define MMF_DUMP_PRE_EXIT_FLOCK	11
++#define MMF_DUMP_PRE_EXIT_FILE_BACKED_SHARED 12
++
++#define MMF_DUMP_PRE_EXIT_SHIFT	(MMF_DUMPABLE_BITS + MMF_DUMP_FILTER_BITS)
++#define MMF_DUMP_PRE_EXIT_BITS	2
++#define MMF_DUMP_PRE_EXIT_MASK	\
++	(((1 << MMF_DUMP_PRE_EXIT_BITS) - 1) << MMF_DUMP_PRE_EXIT_SHIFT)
++
+ #ifdef CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS
+ # define MMF_DUMP_MASK_DEFAULT_ELF	BIT(MMF_DUMP_ELF_HEADERS)
+ #else
+diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
+index 41ed884cf..b4becbf6c 100644
+--- a/include/linux/sched/task.h
++++ b/include/linux/sched/task.h
+@@ -93,6 +93,7 @@ static inline void exit_thread(struct task_struct *tsk)
+ extern __noreturn void do_group_exit(int);
+ 
+ extern void exit_files(struct task_struct *);
++extern void exit_files_pre_exit(struct task_struct *, bool);
+ extern void exit_itimers(struct task_struct *);
+ 
+ extern pid_t kernel_clone(struct kernel_clone_args *kargs);
+diff --git a/include/uapi/asm-generic/fcntl.h b/include/uapi/asm-generic/fcntl.h
+index 613475285..360604d65 100644
+--- a/include/uapi/asm-generic/fcntl.h
++++ b/include/uapi/asm-generic/fcntl.h
+@@ -95,6 +95,10 @@
+ #define O_NDELAY	O_NONBLOCK
+ #endif
+ 
++#ifndef O_TMPCLOS
++#define O_TMPCLOS	0x80000000	/* tag need close, temporarily used */
++#endif
++
+ #define F_DUPFD		0	/* dup */
+ #define F_GETFD		1	/* get close_on_exec */
+ #define F_SETFD		2	/* set/clear close_on_exec */
+diff --git a/kernel/fork.c b/kernel/fork.c
+index a679b2448..84f1ee7f3 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -1030,6 +1030,18 @@ static int __init coredump_filter_setup(char *s)
+ 
+ __setup("coredump_filter=", coredump_filter_setup);
+ 
++static unsigned long default_dump_pre_exit;
++
++static int __init coredump_pre_exit_setup(char *s)
++{
++	default_dump_pre_exit =
++		(simple_strtoul(s, NULL, 0) << MMF_DUMP_PRE_EXIT_SHIFT) &
++		MMF_DUMP_PRE_EXIT_MASK;
++	return 1;
++}
++
++__setup("coredump_pre_exit=", coredump_pre_exit_setup);
++
+ #include <linux/init_task.h>
+ 
+ static void mm_init_aio(struct mm_struct *mm)
+diff --git a/mm/mmap.c b/mm/mmap.c
+index 5754d1c36..b955c47c0 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -1326,6 +1326,27 @@ void exit_mmap(struct mm_struct *mm)
+ 	vm_unacct_memory(nr_accounted);
+ }
+ 
++void exit_mmap_mapped_shared(struct mm_struct *mm)
++{
++	struct vm_area_struct *vma;
++	VMA_ITERATOR(vmi, mm, 0);
++
++	mmap_write_lock(mm);
++	lru_add_drain();
++
++	for_each_vma(vmi, vma) {
++		if (vma->vm_flags & VM_HUGETLB)
++			continue;
++		if (!(vma->vm_flags & VM_SHARED) || !file_inode(vma->vm_file)->i_nlink)
++			continue;
++		vma->vm_file->f_flags |= O_TMPCLOS;
++		do_munmap(mm, vma->vm_start, vma->vm_end - vma->vm_start, NULL);
++		cond_resched();
++	}
++
++	mmap_write_unlock(mm);
++}
++
+ /*
+  * Return true if the calling process may expand its vm space by the passed
+  * number of pages
+-- 
+2.34.1
 
