@@ -1,19 +1,20 @@
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29559171CD;
-	Thu, 25 Jun 2026 05:49:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5E4265621;
+	Thu, 25 Jun 2026 05:49:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782366600; cv=none; b=PcAMew2S8HkC31Wi8lNdb0ZFWRbLuRz0UERlNmYAPG6bp69olxQxGk0NlHcOcDrgMoKPJhmeJY8aiC8GtUMqizgeuiyfTYPXKWkLJjURYBF/goNWw45G4oL29FJZlkxVISucaLwo/crJk6ToZxTnjhAAX5ZJ8jibEvEYzGgrzNE=
+	t=1782366601; cv=none; b=JUtQeXz7s1IF6U12KpaRLBroDzcZZVdJiia3/Kq/FSRShArgI7VcsBxYXTIhwnUULPQIaXaeIejPAMhPVJ5adT8iEwa9rE9FR94a+9rKnb+9HDhw3hauiksJdEcuSxFErymDapH4tPiZyQx08VPgyTZx0Gezq5GZ3FWOZPpmd8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782366600; c=relaxed/simple;
-	bh=ffyEPNM4/MroNmupf8+356jbswpbUjHbGc/OucLyHUU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kErs3Y1UnDCdthQyttgrHu4LF8SoQb3kzcQF3j59c/a7MfkPK1lSNlxrRkpZq1TQGJvQc/3I7SIQNb7GRRQEs1QSOf5X5660ZqFSXl9maeL1WWCCn7N0ZWwjW8BtDt/Xpzw8z+tmxW7EPGzKqGNu30BblEzX6Pbjj/WM17WXoi8=
+	s=arc-20240116; t=1782366601; c=relaxed/simple;
+	bh=STkD1LDEgxkPBYYkwqQQUJrsHYSnknWWAiVjnKiRkxc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=dB+9PQgMoWD8kQh+QHmz8a9eh6gFxjbkD9XfQpzLZ0m9wUwQt1RzTVbCB5PVKUjTFzLmR6Ak6CQIVQj4KMrs49ek2eYJJG50/L0gV1E/xeCOxaSJGPVo0/YYUMRoC7dKsQTOeDsn8sH3EBW4CScIWLnTgVOIkrDoEDfTmGCRLdc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: ae7cf162705911f1aa26b74ffac11d73-20260625
+X-UUID: aef9f1bc705911f1aa26b74ffac11d73-20260625
 X-CTIC-Tags:
 	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NO_NAME, HR_CTE_8B, HR_CTT_MISS
 	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_SJ_DIGIT_LEN
@@ -23,27 +24,27 @@ X-CTIC-Tags:
 	SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_GOOD, CIE_GOOD_SPF
 	GTI_FG_BS, GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:4a1fc58d-7937-40a2-899c-edc312cdc844,IP:10,
-	URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:5
-X-CID-INFO: VERSION:1.3.12,REQID:4a1fc58d-7937-40a2-899c-edc312cdc844,IP:10,UR
-	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:5
-X-CID-META: VersionHash:e7bac3a,CLOUDID:f653971d38e0eb93971b013d818d392f,BulkI
-	D:260625134951C85J5I9S,BulkQuantity:0,Recheck:0,SF:17|19|38|66|78|102|127|
-	136|850|865|898,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,
-	Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BR
-	R:0,BRE:0,ARC:0
+X-CID-O-INFO: VERSION:1.3.12,REQID:f2e0c2af-0b9f-498c-8781-0762bfd59877,IP:10,
+	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:10
+X-CID-INFO: VERSION:1.3.12,REQID:f2e0c2af-0b9f-498c-8781-0762bfd59877,IP:10,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:10
+X-CID-META: VersionHash:e7bac3a,CLOUDID:99ab6c67cec03f0d7d286831c98c0fee,BulkI
+	D:260625134952RUV7V4LY,BulkQuantity:0,Recheck:0,SF:17|19|38|66|78|81|82|10
+	2|127|136|850|865|898,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:0,File:nil,R
+	T:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DK
+	P:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_SNR
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: ae7cf162705911f1aa26b74ffac11d73-20260625
+X-UUID: aef9f1bc705911f1aa26b74ffac11d73-20260625
 X-User: duanchenghao@kylinos.cn
 Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
 	(envelope-from <duanchenghao@kylinos.cn>)
 	(Generic MTA)
-	with ESMTP id 1580749568; Thu, 25 Jun 2026 13:49:50 +0800
+	with ESMTP id 648558986; Thu, 25 Jun 2026 13:49:51 +0800
 From: Chenghao Duan <duanchenghao@kylinos.cn>
 To: viro@zeniv.linux.org.uk,
 	brauner@kernel.org,
@@ -57,10 +58,12 @@ To: viro@zeniv.linux.org.uk,
 	linux-mm@kvack.org
 Cc: jianghaoran@kylinos.cn,
 	duanchenghao@kylinos.cn
-Subject: [PATCH v1 0/2] luo support for preserving eventfd
-Date: Thu, 25 Jun 2026 13:49:44 +0800
-Message-Id: <20260625054946.73445-1-duanchenghao@kylinos.cn>
+Subject: [PATCH v1 2/2] selftests: liveupdate: Add selftest for eventfd LUO
+Date: Thu, 25 Jun 2026 13:49:46 +0800
+Message-Id: <20260625054946.73445-3-duanchenghao@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260625054946.73445-1-duanchenghao@kylinos.cn>
+References: <20260625054946.73445-1-duanchenghao@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -69,39 +72,451 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-It is my great honor to participate in the development of LiveUpdate.
-The current patch implements logic to preserve and retrieve eventfd
-states, which I developed by referencing memfd_luo while learning the
-LiveUpdate framework.
+This test verifies the Live Update Orchestrator (LUO) support for
+preserving eventfd file descriptors across kexec. It creates multiple
+LUO sessions, each preserving different eventfd types, and verifies
+their state after kexec.
 
-eventfd serves as a critical notification mechanism between Guest and
-Host. During host kernel upgrades, we can preserve the corresponding
-eventfd states and restore them after the kernel update completes.
+The test covers six different eventfd configurations:
+1. **Empty eventfd** - Zero count, default flags
+   - Verifies flag preservation without behavioral testing
+2. **Default eventfd** - Initial count + write, verifies count preservation
+   - Tests basic counter value retention across kexec
+3. **Semaphore eventfd** - EFD_SEMAPHORE flag, multiple reads
+   - Verifies semaphore behavior (returns 1 per read)
+4. **Non-blocking eventfd** - EFD_NONBLOCK flag
+   - Tests O_NONBLOCK flag preservation
+5. **Large-count eventfd** - UINT_MAX count value
+   - Tests handling of maximum counter values
+6. **Modified-after-preserve** - Count changed during handover
+   - Verifies freeze callback captures final state
 
-Patch 0001 implements eventfd_luo, while Patch 0002 contains selftest code.
-Test procedures:
-    1. ./luo_test_eventfd --stage 1
-    2. kexec reboot
-    3. ./luo_test_eventfd --stage 2
+The test validates the following sequence:
 
-Chenghao Duan (2):
-  eventfd: luo: luo support for preserving eventfd
-  selftests: liveupdate: Add selftest for eventfd LUO
+Stage 1 (pre-kexec):
+- Creates state file for inter-stage communication
+- Creates multiple LUO sessions
+- Preserves eventfds with different configurations
+- Trigger kexec reboot
 
- fs/Makefile                                   |   1 +
- fs/eventfd.c                                  |  40 ++
- fs/eventfd_luo.c                              | 250 ++++++++++++
- include/linux/eventfd.h                       |   2 +
- include/linux/kho/abi/eventfd.h               |  39 ++
- kernel/liveupdate/Kconfig                     |  16 +
+Stage 2 (post-kexec):
+- Retrieves preserved eventfd sessions
+- Verifies flags and counter values for each type
+- Tests semaphore read behavior
+- Finalizes all sessions
+
+Signed-off-by: Chenghao Duan <duanchenghao@kylinos.cn>
+---
  tools/testing/selftests/liveupdate/Makefile   |   1 +
  tools/testing/selftests/liveupdate/config     |   2 +
  .../selftests/liveupdate/luo_test_eventfd.c   | 376 ++++++++++++++++++
- 9 files changed, 727 insertions(+)
- create mode 100644 fs/eventfd_luo.c
- create mode 100644 include/linux/kho/abi/eventfd.h
+ 3 files changed, 379 insertions(+)
  create mode 100644 tools/testing/selftests/liveupdate/luo_test_eventfd.c
 
+diff --git a/tools/testing/selftests/liveupdate/Makefile b/tools/testing/selftests/liveupdate/Makefile
+index 30689d22cb02..e092e38fa6f6 100644
+--- a/tools/testing/selftests/liveupdate/Makefile
++++ b/tools/testing/selftests/liveupdate/Makefile
+@@ -8,6 +8,7 @@ TEST_GEN_PROGS_EXTENDED += luo_kexec_simple
+ TEST_GEN_PROGS_EXTENDED += luo_multi_session
+ TEST_GEN_PROGS_EXTENDED += luo_stress_sessions
+ TEST_GEN_PROGS_EXTENDED += luo_stress_files
++TEST_GEN_PROGS_EXTENDED += luo_test_eventfd
+ 
+ TEST_FILES += do_kexec.sh
+ 
+diff --git a/tools/testing/selftests/liveupdate/config b/tools/testing/selftests/liveupdate/config
+index 91d03f9a6a39..d388bd755245 100644
+--- a/tools/testing/selftests/liveupdate/config
++++ b/tools/testing/selftests/liveupdate/config
+@@ -9,3 +9,5 @@ CONFIG_LIVEUPDATE_TEST=y
+ CONFIG_MEMFD_CREATE=y
+ CONFIG_TMPFS=y
+ CONFIG_SHMEM=y
++CONFIG_EVENTFD=y
++CONFIG_LIVEUPDATE_EVENTFD=y
+diff --git a/tools/testing/selftests/liveupdate/luo_test_eventfd.c b/tools/testing/selftests/liveupdate/luo_test_eventfd.c
+new file mode 100644
+index 000000000000..94ef3bc66ad9
+--- /dev/null
++++ b/tools/testing/selftests/liveupdate/luo_test_eventfd.c
+@@ -0,0 +1,376 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2026 KylinSoft Corporation.
++ * Author: Chenghao Duan <duanchenghao@kylinos.cn>
++ */
++
++/*
++ * Multi-session kexec selftest for eventfd LUO support.
++ *
++ * Modeled after luo_multi_session.c.
++ * It creates multiple LUO sessions, each preserving different eventfd types,
++ * and verifies them after kexec.
++ */
++
++#include <errno.h>
++#include <fcntl.h>
++#include <limits.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/eventfd.h>
++#include <sys/ioctl.h>
++#include <unistd.h>
++
++#include "luo_test_utils.h"
++
++/* Session names */
++#define SESSION_EMPTY     "eventfd-empty"
++#define SESSION_DEFAULT   "eventfd-default"
++#define SESSION_SEM       "eventfd-sem"
++#define SESSION_NONBLOCK  "eventfd-nonblock"
++#define SESSION_LARGE     "eventfd-large"
++#define SESSION_MODIFIED  "eventfd-modified-after-preserve"
++
++/* Tokens */
++#define TOKEN_DEFAULT       0xCAFEBABE
++#define TOKEN_SEM           0xDEADBEEF
++#define TOKEN_NONBLOCK      0xFEEDBEEF
++#define TOKEN_LARGE         0xBEEFCAFE
++#define TOKEN_MODIFIED      0xABCD1234
++
++/* Counts */
++#define COUNT_INITIAL   42
++#define COUNT_WRITE     10
++#define COUNT_EXPECTED  (COUNT_INITIAL + COUNT_WRITE) /* 52 */
++#define COUNT_SEM       5
++#define COUNT_NONBLOCK  100
++#define COUNT_LARGE     ((unsigned int)-1) /* UINT_MAX */
++#define COUNT_MODIFIED  25
++#define COUNT_MODIFY_DELTA  99
++
++/* State tracking */
++#define STATE_SESSION_NAME "eventfd_multi_state"
++#define STATE_TOKEN        997
++
++/* Eventfd verification modes */
++enum verify_mode {
++	VERIFY_FLAGS,        /* Only verify flags, no behavior testing */
++	VERIFY_ONCE,         /* Read once and verify count */
++	VERIFY_SEMAPHORE,    /* Read multiple times, verify returns 1 each time */
++	VERIFY_NONBLOCK,     /* Read once in nonblock mode */
++	VERIFY_LARGE         /* Read once, verify large count */
++};
++
++/* Test session configuration */
++struct test_session_config {
++	const char *session_name;
++	unsigned long token;
++	unsigned int count;
++	unsigned int flags;
++	enum verify_mode verify_mode;
++	const char *desc;
++};
++
++/* Test session configurations */
++static const struct test_session_config test_configs[] = {
++	{SESSION_EMPTY, 0, 0, 0, VERIFY_FLAGS, "Empty"},
++	{SESSION_DEFAULT, TOKEN_DEFAULT, COUNT_EXPECTED, 0, VERIFY_ONCE, "Default"},
++	{SESSION_SEM, TOKEN_SEM, COUNT_SEM, EFD_SEMAPHORE, VERIFY_SEMAPHORE, "Semaphore"},
++	{SESSION_NONBLOCK, TOKEN_NONBLOCK, COUNT_NONBLOCK, EFD_NONBLOCK, VERIFY_NONBLOCK, "Nonblock"},
++	{SESSION_LARGE, TOKEN_LARGE, COUNT_LARGE, 0, VERIFY_LARGE, "Large-count"},
++	{SESSION_MODIFIED, TOKEN_MODIFIED, COUNT_MODIFIED + COUNT_MODIFY_DELTA, 0, VERIFY_ONCE, "Modified after preserve (kexec handover)"},
++};
++#define NUM_TEST_SESSIONS ARRAY_SIZE(test_configs)
++
++static int verify_eventfd_flags(int efd, unsigned int expected_flags, const char *desc)
++{
++	int actual_flags = fcntl(efd, F_GETFL);
++
++	if (actual_flags < 0)
++		return -errno;
++
++	int expected_fd_flags = expected_flags & (EFD_NONBLOCK | EFD_CLOEXEC);
++	int actual_fd_flags = actual_flags & (O_NONBLOCK | O_CLOEXEC);
++
++	if (actual_fd_flags != expected_fd_flags) {
++		ksft_print_msg("%s: flag mismatch - expected 0x%x, got 0x%x\n",
++			       desc, expected_fd_flags, actual_fd_flags);
++		return -EINVAL;
++	}
++
++	ksft_print_msg("  %s eventfd flags OK (0x%x)\n", desc, expected_fd_flags);
++	return actual_flags; /* Return actual flags for further use */
++}
++
++static int ensure_nonblock(int efd, int current_flags)
++{
++	return fcntl(efd, F_SETFL, current_flags | O_NONBLOCK);
++}
++
++static int verify_count_once(int efd, unsigned int expected_count, const char *desc)
++{
++	uint64_t val;
++
++	if (read(efd, &val, sizeof(val)) != sizeof(val))
++		return -errno;
++
++	if (val != (uint64_t)expected_count) {
++		ksft_print_msg("%s: expected %u got %llu\n",
++			       desc, expected_count, (unsigned long long)val);
++		return -EINVAL;
++	}
++
++	ksft_print_msg("  %s eventfd OK: %u\n", desc, expected_count);
++	return 0;
++}
++
++static int verify_semaphore_behavior(int efd, unsigned int expected_count, const char *desc)
++{
++	uint64_t val;
++
++	/* Read expected_count times, each should return 1 */
++	for (unsigned int i = 0; i < expected_count; i++) {
++		if (read(efd, &val, sizeof(val)) != sizeof(val))
++			return -errno;
++
++		if (val != 1) {
++			ksft_print_msg("%s: expected 1, got %llu at read %u\n",
++				       desc, (unsigned long long)val, i + 1);
++			return -EINVAL;
++		}
++		ksft_print_msg("  %s eventfd OK: %u at read %u\n", desc, (unsigned int)val, i + 1);
++	}
++
++	/* Next read should return EAGAIN (no more events) */
++	if (read(efd, &val, sizeof(val)) >= 0 || errno != EAGAIN) {
++		ksft_print_msg("%s: expected EAGAIN after %u reads\n",
++			       desc, expected_count);
++		return -EINVAL;
++	}
++
++	ksft_print_msg("  %s eventfd OK (%u reads)\n", desc, expected_count);
++	return 0;
++}
++
++static int restore_and_verify_eventfd_generic(int session_fd,
++					      unsigned long token,
++					      unsigned int expected_count,
++					      unsigned int expected_flags,
++					      enum verify_mode mode,
++					      const char *desc)
++{
++	struct liveupdate_session_retrieve_fd arg = { .size = sizeof(arg) };
++	int efd, ret = 0, actual_flags;
++
++	arg.token = token;
++	if (ioctl(session_fd, LIVEUPDATE_SESSION_RETRIEVE_FD, &arg) < 0)
++		return -errno;
++	efd = arg.fd;
++
++	switch (mode) {
++	case VERIFY_FLAGS:
++		/* Only verify flags, no behavior testing */
++		ret = verify_eventfd_flags(efd, expected_flags, desc);
++		if (ret < 0)
++			close(efd);
++		return ret < 0 ? ret : 0;
++
++	case VERIFY_SEMAPHORE:
++		/* Verify flags + semaphore behavior */
++		actual_flags = verify_eventfd_flags(efd, expected_flags, desc);
++		if (actual_flags < 0) {
++			ret = actual_flags;
++			goto out;
++		}
++
++		if (ensure_nonblock(efd, actual_flags) < 0) {
++			ret = -errno;
++			goto out;
++		}
++
++		ret = verify_semaphore_behavior(efd, expected_count, desc);
++		break;
++
++	case VERIFY_ONCE:
++	case VERIFY_NONBLOCK:
++	case VERIFY_LARGE:
++		/* Verify flags + count behavior */
++		actual_flags = verify_eventfd_flags(efd, expected_flags, desc);
++		if (actual_flags < 0) {
++			ret = actual_flags;
++			goto out;
++		}
++
++		ret = verify_count_once(efd, expected_count, desc);
++		break;
++
++	default:
++		ret = -EINVAL;
++		break;
++	}
++
++out:
++	close(efd);
++	return ret;
++}
++
++static int create_and_preserve_eventfd_keep_fd(int session_fd,
++					       unsigned long token,
++					       unsigned int count,
++					       unsigned int flags,
++					       const char *desc,
++					       int *efd_out)
++{
++	struct liveupdate_session_preserve_fd arg = { .size = sizeof(arg) };
++	int efd = eventfd(count, flags);
++
++	if (efd < 0)
++		return -errno;
++
++	arg.fd = efd;
++	arg.token = token;
++	if (ioctl(session_fd, LIVEUPDATE_SESSION_PRESERVE_FD, &arg) < 0) {
++		int ret = -errno;
++
++		close(efd);
++		return ret;
++	}
++
++	if (efd_out)
++		*efd_out = efd;
++	else
++		close(efd);
++	return 0;
++}
++
++static int create_and_preserve_eventfd(int session_fd,
++				       unsigned long token,
++				       unsigned int count,
++				       unsigned int flags,
++				       const char *desc)
++{
++	return create_and_preserve_eventfd_keep_fd(session_fd, token, count,
++						   flags, desc, NULL);
++}
++
++static int create_session_checked(int luo_fd, const char *session_name)
++{
++	int session_fd = luo_create_session(luo_fd, session_name);
++
++	if (session_fd < 0)
++		fail_exit("luo_create_session for '%s'", session_name);
++	return session_fd;
++}
++
++static int retrieve_session_checked(int luo_fd, const char *session_name)
++{
++	int session_fd = luo_retrieve_session(luo_fd, session_name);
++
++	if (session_fd < 0)
++		fail_exit("luo_retrieve_session for '%s'", session_name);
++	return session_fd;
++}
++
++static void finish_session_checked(int session_fd, const char *session_name)
++{
++	if (luo_session_finish(session_fd) < 0)
++		fail_exit("luo_session_finish for '%s'", session_name);
++	close(session_fd);
++}
++
++static int verify_eventfd_config(int session_fd, const struct test_session_config *config)
++{
++	return restore_and_verify_eventfd_generic(session_fd, config->token,
++						 config->count, config->flags,
++						 config->verify_mode, config->desc);
++}
++
++
++static void run_stage_1(int luo_fd)
++{
++	ksft_print_msg("[STAGE 1] Starting pre-kexec setup for multi-eventfd test...\n");
++	ksft_print_msg("[STAGE 1] Creating state file for next stage (2)...\n");
++	create_state_file(luo_fd, STATE_SESSION_NAME, STATE_TOKEN, 2);
++
++	/* Create all test sessions */
++	for (size_t i = 0; i < NUM_TEST_SESSIONS; i++) {
++		const struct test_session_config *config = &test_configs[i];
++
++		ksft_print_msg("[STAGE 1] Creating session '%s'...\n", config->session_name);
++		int session_fd = create_session_checked(luo_fd, config->session_name);
++
++		/* Special handling for modified session (preserve then modify) */
++		if (config->token == TOKEN_MODIFIED) {
++			int preserved_efd;
++
++			if (create_and_preserve_eventfd_keep_fd(session_fd,
++								config->token,
++								COUNT_MODIFIED,
++								config->flags,
++								"modified-after-preserve",
++								&preserved_efd) < 0)
++				fail_exit("create_and_preserve_eventfd_keep_fd modified");
++
++			/* Now modify the preserved eventfd's count */
++			uint64_t modify_value = COUNT_MODIFY_DELTA;
++
++			if (write(preserved_efd, &modify_value,
++			    sizeof(modify_value)) != sizeof(modify_value))
++				fail_exit("write to preserved eventfd after preserve");
++
++			close(preserved_efd);
++		} else {
++			/* Standard session creation */
++			if (create_and_preserve_eventfd(session_fd, config->token,
++							config->count, config->flags,
++							config->desc) < 0)
++				fail_exit("create_and_preserve_eventfd %s", config->desc);
++		}
++	}
++
++	close(luo_fd);
++	daemonize_and_wait();
++}
++
++static void run_stage_2(int luo_fd, int state_session_fd)
++{
++	int session_fds[NUM_TEST_SESSIONS];
++	int stage;
++
++	ksft_print_msg("[STAGE 2] Starting post-kexec verification...\n");
++
++	restore_and_read_stage(state_session_fd, STATE_TOKEN, &stage);
++	if (stage != 2)
++		fail_exit("Expected stage 2, but state file contains %d", stage);
++
++	ksft_print_msg("[STAGE 2] Retrieving all sessions...\n");
++	for (size_t i = 0; i < NUM_TEST_SESSIONS; i++)
++		session_fds[i] = retrieve_session_checked(luo_fd, test_configs[i].session_name);
++
++	ksft_print_msg("[STAGE 2] Verifying eventfds...\n");
++	for (size_t i = 0; i < NUM_TEST_SESSIONS; i++) {
++		if (verify_eventfd_config(session_fds[i], &test_configs[i]) < 0)
++			fail_exit("verify %s eventfd", test_configs[i].desc);
++	}
++
++	ksft_print_msg("[STAGE 2] All eventfd sessions verified successfully.\n");
++
++	ksft_print_msg("[STAGE 2] Finalizing all sessions...\n");
++	for (size_t i = 0; i < NUM_TEST_SESSIONS; i++)
++		finish_session_checked(session_fds[i], test_configs[i].session_name);
++
++	ksft_print_msg("[STAGE 2] Finalizing state session...\n");
++	if (luo_session_finish(state_session_fd) < 0)
++		fail_exit("luo_session_finish for state session");
++	close(state_session_fd);
++
++	ksft_print_msg("\n--- EVENTFD_LUO TEST PASSED ---\n");
++}
++
++int main(int argc, char *argv[])
++{
++	return luo_test(argc, argv, STATE_SESSION_NAME,
++			run_stage_1, run_stage_2);
++}
 -- 
 2.25.1
 
