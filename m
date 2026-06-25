@@ -1,85 +1,187 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB076347533
-	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 13:56:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E602E7394
+	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 14:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782395790; cv=none; b=hLnpfiOHAwFeEmsmVvs8TwIM1nEKT1+HkwLDlaVJzJXXDlycxG9Y4gm4+ksPDuj5g7hj1E1crUYbjEUTD+FHDoDJRCVP/vXT58NYNvq/CMRVlKBF3eAUIjf107xreO1xS5zQyBzKN5JxmTKaESr4rf0H3xJh5wu1LX+1aRT0m98=
+	t=1782396423; cv=none; b=JZVcm1fWVbq29MXxs33x/5/kRIx9fJoNblTGBregMBwI95UJfiIAddyXCHCO3i8CM45ISNUwB34SMRqF2q9hN7fElGwkIzz6gOvEOUmBqoAImRl2WKJlcg6RNJJCzo5naJ6O9Nwq6By6ws1Cv8U/BFADvPcfVlKKkqgqCKGtnWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782395790; c=relaxed/simple;
-	bh=N+dPJ1vZmBCdqcpBIHgVg/LILATNoPcyjHWT12m+YNA=;
-	h=Message-ID:From:To:Cc:In-Reply-To:Subject:Content-Type:Date; b=rwU9W5N1mGwSpk3ZQv/+/3Cda1F458cuLWt5mfwOQzzlvHOAUlvr1dTpk39dvPycNZWjl5tirzFM3u3UC705kPxVV2u9H/XazymMlGVPDfwFM10yB/kG0eDVxud2cJh16s1PQxdYSHaeMfxD030YEmo8uxvCvb7PXpY3JWUYKBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=SCjpo2wH; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1782396423; c=relaxed/simple;
+	bh=7tcZgU8bfqE0wXlxXrCFNaghRQFDKVfr+le4KLDifbU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QTnY41+w+9KZxmgPnHVNQQySxXlCQGFZFaiLdEGAcKh8oYqQBa/9pAp4qh1uXdbKLEEJLaSlYW2q6pQZJMvV0XqOiJZdW3DaZ2/aYcMrrl7AEAxL+D2CRpzmcxp5OQyhKXSX03lzlucwwQQyKmkl0gpWX2tjHZ1j86tki8kXVJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eQ3gEI3Z; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="SCjpo2wH"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-490b613a17bso22169045e9.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 06:56:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1782395787; x=1783000587; darn=vger.kernel.org;
-        h=date:content-transfer-encoding:subject:in-reply-to:cc:to:from
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=N+dPJ1vZmBCdqcpBIHgVg/LILATNoPcyjHWT12m+YNA=;
-        b=SCjpo2wHH8zRpvauQIs3ZTGscT+9WCqcHLI+bMDV3p/uY9PSift7xcbEmisF6Bame/
-         GdYAmKEMJS1lRBcxHqat/Mvjqu5gJaE11WKCvaOD6sv9wA3E2EgjnWrIRG5LBP0W7DO4
-         kvHlw5QUvXjA7k5pU2SY12zllc/qKCiV0XFNuc9ng18Z9T1Rsjpms/CSATkVcgsIbGpT
-         8onqYxDusiV6DPG0tkbS2oJLBa82NYID5ptVtpcjX+hRqM64jVPZHn69Rto0ybccBK8o
-         jf++m4TQK+l4O7DG25Kb4atp/bTiXAql2CO5MuZ0j+fXzy3FtZ8mdFFbE/XB+mBXbbf1
-         EChw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782395787; x=1783000587;
-        h=date:content-transfer-encoding:subject:in-reply-to:cc:to:from
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=N+dPJ1vZmBCdqcpBIHgVg/LILATNoPcyjHWT12m+YNA=;
-        b=NH4Z9+bL1rOvIFjM1lSUP0C8h+UK8p2ds3NMRwDy12dGaNpKeLmvPUizcopwtc0T3t
-         CQgeQEF2FQZq1q6HUVTyCEgQuZToBPSlgqSwxm/9WgOwVKjQRjUJz9L7dtd/uTN+j94B
-         o3D3zqFVAcgGmS80VKr5qtwzCTCGvWNHTKcmYPZYZ3uM31bRebTHzRscwQa9gsHw1cIK
-         woa3WfA29VY7aXKEIfkeENHYN6Z1nLZwFS4MYYJkkBUAgSG9dlPBGQ4uCuEaYbaJTE1a
-         +5hS8jTRuqpZMStrwstmzpLqXR4JPlzoAQkYCoAxugk9iY5AhyhtD97EH5Cbsb55g8/u
-         3siA==
-X-Forwarded-Encrypted: i=1; AFNElJ+oXg2GQn6ic3KPW7Ixa1+5DltkloxTO+qo+tSqq7T87NTBuK/C1O94UPJ/QisXrVVQt69JpiGPhD3tPJSV@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7Joh8YQy/Ho0QlRN+a72gX+rvasWQPW7WkKmKZ6g565Qo57p9
-	bnxTsGV17iJT2fC4Bs8fuOuk6G4JuZsYExWp1CHCNXsV9pD9yniVEdeeTVYTkuia5A4=
-X-Gm-Gg: AfdE7cnk83jCFNKTRIYQxJhPEPkQH3MXJmVqjbcQh+FawIYxzSQbB78O9hIlYssj6K6
-	cTz3HBTHD9W/Xxp0d+EFqwtengnEiv5NFHx94TneshaYE3nyKXax7Hy3bW+rM7+nMxbE7P2Jnrb
-	CMnquSntkwW0ta8Nu+mAMqhRoASPsfBPvsmtXg2FHz17qQyTe8CMteTDNQNOtzx5GuVIirxEa+Y
-	XEJvlUHVCfl27LGXYLv1Bb7H/2T2JjBFxWlxsJq1u73orPrNRuufUvG9BmAYNw+A+Dm15ViiEE4
-	PJpa/AZipIqVYrEU5Tx2UDe2zlyX6qAsQQqj+5ovrMKhQ28dhJ8B+sWma5BuHBQ7XmF2MGNa6wg
-	uxHznw+tWaeQfENINNUVHvKRre+pIA6CnhT6hEfn/g0T9gLg1AxFf4efeUG4be62mkRn/KZ1Bo/
-	TZE7sjVMl55rEDM1sUauiTddaHloPeOGEZg1rWqyr2xIytA2EslhzXXEJJF4j/mw==
-X-Received: by 2002:a05:600c:e547:10b0:492:4c2e:9613 with SMTP id 5b1f17b1804b1-492668961fdmr26659225e9.18.1782395787248;
-        Thu, 25 Jun 2026 06:56:27 -0700 (PDT)
-Received: from localhost.localdomain (p4fcc8213.dip0.t-ipconnect.de. [79.204.130.19])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4926544dfaesm45103225e9.2.2026.06.25.06.56.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 06:56:26 -0700 (PDT)
-Message-ID: <6a3d338a.73de60af.14beb6.1019@mx.google.com>
-From: "Andrea Cervesato" <andrea.cervesato@suse.com>
-To: "David Timber" <dxdt@dev.snart.me>
-Cc: "Andrea Cervesato" <andrea.cervesato@suse.de>, "Namjae Jeon" <linkinjeon@kernel.org>, "Sungjong
- Seo" <sj1557.seo@samsung.com>, "Yuezhang Mo" <yuezhang.mo@sony.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, jack@suse.cz, chrubis@suse.cz
-In-Reply-To: <f6318cff-3c74-48fe-9297-368386b3251b@dev.snart.me>
-Subject: Re: [PATCH] exfat: implement swap activate
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Date: Thu, 25 Jun 2026 13:56:26 +0000
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eQ3gEI3Z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782396421;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=yPMszipsehEHbDwFN6/VRckHTpEfI2yoQJ9SiHNODMg=;
+	b=eQ3gEI3Z+Vq0rsT9cN0v4jSwnBoifINVWIKzFtNZbgq7izyS2BPjLos++F3QbwjB0+KLoj
+	iQzSJfS851OBr6NegetiRb0FdQZZSgmj9evhAdxdM4lbzVFMre7SYRYgWcHX6vhDm9CiDY
+	SBPnWRLBX1F5MRkovs87zkvhJzrFunQ=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-627-x_jyWUqZOdWhoZ6eM57jwA-1; Thu,
+ 25 Jun 2026 10:06:58 -0400
+X-MC-Unique: x_jyWUqZOdWhoZ6eM57jwA-1
+X-Mimecast-MFC-AGG-ID: x_jyWUqZOdWhoZ6eM57jwA_1782396417
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0FDEB1956067;
+	Thu, 25 Jun 2026 14:06:56 +0000 (UTC)
+Received: from warthog.procyon.org.com (unknown [10.44.49.152])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 291F01956088;
+	Thu, 25 Jun 2026 14:06:51 +0000 (UTC)
+From: David Howells <dhowells@redhat.com>
+To: Christian Brauner <christian@brauner.io>
+Cc: David Howells <dhowells@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	netfs@lists.linux.dev,
+	linux-afs@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 00/15] netfs: Miscellaneous fixes
+Date: Thu, 25 Jun 2026 15:06:18 +0100
+Message-ID: <20260625140640.3116900-1-dhowells@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Hi David,
+Hi Christian,
 
-thanks for explaining your point of view. I will wait for other
-maintainers to decide if this feature can be integrated into the
-kernel or not, before proceding with the v2.
+Here are some miscellaneous fixes for netfslib.  I separated them from my
+netfs-next branch.  Various Sashiko review comments[1][2][3] are addressed:
 
-Best regards,
---
-Andrea Cervesato
-SUSE QE Automation Engineer Linux
-andrea.cervesato@suse.com
+ (1) Fix the decision whether to disallow write-streaming due to fscache
+     use.
+
+ (2) Fix netfs_create_write_req() to better handle async cache object
+     creation.
+
+ (3) Fix a double fput in cachefiles_create_tmpfile().
+
+ (4) Fix alteration of S_KERNEL_FILE inode flag without holding inode lock.
+
+ (5) Fix a potential mathematical underflow in
+     iov_iter_extract_xarray_pages() and make it return 0 and free the
+     array if no pages could be extracted.
+
+ (6) Fix a missing alloc failure check in iov_iter_extract_bvec_pages().
+
+ (7) Fix iov_iter_extract_user_pages() so that it doesn't leak the pages
+     array if it returns an error or 0 (inasmuch as the leak is really in
+     the callers).
+
+ (8) Remove an unused variable in kunit_iov_iter.c.
+
+ (9) Fix extract_xarray_to_sg() to calculate folio offset correctly.
+
+(10) Fix a kdoc comment.
+
+(11) Replace the netfs_inode::wb_lock mutex with a bit lock so that the
+     lock can be passed to the collector so that multiple asynchronous
+     writebacks won't interfere with each other.
+
+(12) Fix writeback error handling to go through writeback_iter() so that it
+     can clean up its state.
+
+(13) Fix ENOMEM handling in writeback to clean up the current folio if we
+     can't allocate a rolling buffer segment.
+
+(14) Fix unbuffered/DIO write retry for filesystems that don't have a
+     ->prepare_write() method.
+
+The patches can also be found here:
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/log/?h=netfs-fixes
+
+Thanks,
+David
+
+[1] https://sashiko.dev/#/patchset/20260608145432.681865-1-dhowells%40redhat.com
+[2] https://sashiko.dev/#/patchset/20260616100821.2062304-1-dhowells%40redhat.com
+[3] https://sashiko.dev/#/patchset/20260619140646.2633762-1-dhowells%40redhat.com
+[4] https://sashiko.dev/#/patchset/20260624115737.2964520-1-dhowells%40redhat.com
+
+Changes
+=======
+ver #3)
+- Addressed more Sashiko comments[4]:
+  - Applied the disallow write-streaming fix to netfs_write_begin() also.
+  - Improve the synchronisation with async cache object creation in
+    netfs_create_write_req().
+  - Fix netfs_writepages() so it doesn't both redirty and kill folios (and
+    double unlock) if it can't create the request.
+  - Move the cleanup of the folio on ENOMEM from netfs_write_folio() to
+    netfs_writepages() as writethrough shouldn't do this.
+  - Alter the unbuffered/DIO write retry fix so that it sets the
+    IN_PROGRESS flag.  Also made it clear the MADE_PROGRESS flag and update
+    wreq->transferred.
+
+ver #2)
+- Addressed various Sashiko comments[3]:
+  - Changed some kfree() to kvfree().
+  - Added some writeback error handling patches.
+- Fixed DIO write retry.
+
+ver #1)
+- Added a fix for S_KERNEL_FILE in cachefiles_bury_object().
+- Fixed how iov_iter_extract_*_pages() deals with *pages when returning 0
+  or error.
+- Fixed the replacement of wb_lock with bit lock:
+  - Only release the bit lock for writeback, writethrough and write-single,
+    not for PG_private_2-based I/O, which doesn't take the lock.
+  - In netfs_writeback_single(), need to redirty the inode if can't get the
+    lock.
+
+David Howells (15):
+  netfs: Fix decision whether to disallow write-streaming due to fscache
+    use
+  netfs: Fix netfs_create_write_req() to handle async cache object
+    creation
+  cachefiles: Fix double fput
+  cachefiles: Fix file burial to take lock when unsetting S_KERNEL_FILE
+  iov_iter: Fix potential underflow in iov_iter_extract_xarray_pages()
+  iov_iter: Fix missing alloc fail check in
+    iov_iter_extract_bvec_pages()
+  iov_iter: Fix a memory leak in iov_iter_extract_user_pages()
+  iov_iter: Remove unused variable in kunit_iov_iter.c
+  scatterlist: Fix offset in folio calc in extract_xarray_to_sg()
+  netfs: Fix kdoc warning
+  netfs: Replace wb_lock with a bit lock for asynchronicity
+  netfs: Fix writethrough to use collection offload
+  netfs: Fix writeback error handling
+  netfs: Fix folio state after ENOMEM whilst under writeback iteration
+  netfs: Fix DIO write retry for filesystems without a ->prepare_write()
+
+ fs/afs/symlink.c           |  4 +-
+ fs/cachefiles/namei.c      |  3 +-
+ fs/netfs/buffered_read.c   |  2 +-
+ fs/netfs/buffered_write.c  |  2 +-
+ fs/netfs/direct_write.c    | 18 +++-----
+ fs/netfs/internal.h        | 12 +++++
+ fs/netfs/locking.c         | 95 ++++++++++++++++++++++++++++++++++++++
+ fs/netfs/write_collect.c   | 10 ++++
+ fs/netfs/write_issue.c     | 55 ++++++++++------------
+ include/linux/netfs.h      | 13 ++++--
+ lib/iov_iter.c             | 20 +++++++-
+ lib/scatterlist.c          |  1 +
+ lib/tests/kunit_iov_iter.c |  5 +-
+ 13 files changed, 185 insertions(+), 55 deletions(-)
+
