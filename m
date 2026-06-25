@@ -1,141 +1,269 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020127.outbound.protection.outlook.com [52.101.196.127])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785C2328B7B
-	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 13:25:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782393921; cv=none; b=c7yHBNfStLzgkvpSeg/pbXMJjr9xsuEHcyXqNU5TtXwDjYumZyOeVAGdQog2E/0J3d+XZ/G8XzwbWA56NtoNuu90kAWmSf2kVjc9TOqCkNs+ODPPVbbr86vYzp0xW4oAZvIuHowakxdCHgbYaxJztUmqS9uYyTNIZw9PjBMsXeg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782393921; c=relaxed/simple;
-	bh=+KGFYuTHXr52pDUj9naqEwscSnD4hhsZ4+B+7TrOsIo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ie/BYwMu/LCIX7rV/0NtzP1LJdgcYqmfjpZhaSPdguKU1P40GMkQnkcemjqGSq8cAI8oxFQQ/oDvolIffocuXs36WrU2N2ePU9B9e6IXMUpVPF+6qyeGTZ09xH6WQe/cbfE7zvuiv8EM8tnz1WxNeHJzyrnyeD09qhRbhLEfbec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hoA5E8f+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IkGiSPVG; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hoA5E8f+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IkGiSPVG; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC74326924;
+	Thu, 25 Jun 2026 13:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.127
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782394169; cv=fail; b=X17T7gp1wsB5VrkGaFk3rDdrCjeskqzmk0ASrtz07QxNOXoy9V2/ZBW6KCYQOByWfC0SW9KKQuCBsk8XNozbPWkX8orThIkJnzXgZ6XBNMR0/GKnPMdt0btqQiuS1iEMFPwEPP0a7nD3l7Ax69RMT+6VGYO3YMj6iyisB6qONiE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782394169; c=relaxed/simple;
+	bh=3dTnN5IqitHlTGSUB8HWkk4ZtUG7p0XG6FKkd5tF+k8=;
+	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
+	 In-Reply-To:MIME-Version; b=ucx1QhNZWmy7h4h6QB9XltBoP3zjq9J9PWsSXzUgyJfyyg4Xn7BPk/adx3/5weCAg1WsZKw8wwJ/GLx0omd5GZEYac9w0dsoJ0W0YN2E6j8T24Lgvtplt+V4HeWUi5xchVhUo1V9Ytl7TFxTbY20c+Rrv6C/Fi65Z2fajGAvL8o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=vrJMjOhI; arc=fail smtp.client-ip=52.101.196.127
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hoA5E8f+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IkGiSPVG";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hoA5E8f+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IkGiSPVG"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BA81471B9E;
-	Thu, 25 Jun 2026 13:25:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782393918; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bv8hdKU0kVTGNugZ+EqK3cP027aZGj25L9MrEJZohaM=;
-	b=hoA5E8f+HkuH18VAn7jk2fe6Q6pNpcyzs4SKftsh84JL3Ut8qr2025OMYNTKcRe98H35XW
-	jKJTCA0Lh3JYEa03de0pzcm6/IWoSrD9RDujPzO26yMVN0gNIoZtibcfoDBEKEY+7FCX1m
-	AliIqVnypQoYYnvK0+iUJoJLOxPLPlo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782393918;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bv8hdKU0kVTGNugZ+EqK3cP027aZGj25L9MrEJZohaM=;
-	b=IkGiSPVG86EyPoygvQZkq15btxTeFawc/1P65MS3sgrjuV0D7t0hVow/QNyMetmBsvcYNO
-	cdX/YGaM7GaXxqBA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782393918; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bv8hdKU0kVTGNugZ+EqK3cP027aZGj25L9MrEJZohaM=;
-	b=hoA5E8f+HkuH18VAn7jk2fe6Q6pNpcyzs4SKftsh84JL3Ut8qr2025OMYNTKcRe98H35XW
-	jKJTCA0Lh3JYEa03de0pzcm6/IWoSrD9RDujPzO26yMVN0gNIoZtibcfoDBEKEY+7FCX1m
-	AliIqVnypQoYYnvK0+iUJoJLOxPLPlo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782393918;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bv8hdKU0kVTGNugZ+EqK3cP027aZGj25L9MrEJZohaM=;
-	b=IkGiSPVG86EyPoygvQZkq15btxTeFawc/1P65MS3sgrjuV0D7t0hVow/QNyMetmBsvcYNO
-	cdX/YGaM7GaXxqBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 470AA779A8;
-	Thu, 25 Jun 2026 13:25:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id E+1vDT4sPWroVwAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Thu, 25 Jun 2026 13:25:18 +0000
-Date: Thu, 25 Jun 2026 14:25:16 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>, 
-	Matthew Bobrowski <repnop@google.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	Christian Brauner <brauner@kernel.org>
-Subject: Re: [RFC] fanotify for flock release
-Message-ID: <aj0qCBgIwSkCrfPj@pedro-suse.lan>
-References: <716044027.2969861.1782392539951@kpc.webmail.kpnmail.nl>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="vrJMjOhI"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uDgk/WZrbR37/gBCZSiAibhYa4vqp/AP+nxK+FaIRZ/QYfDfJutVeAsoPtPJYu0DGVCOsNDaq2v6oRHrQ7n3wG8JzwB9Ltq43gz9ZvwVjWOJl1tGyJr3LRZfV+yiEtEXQSUKUedQiSKrRl9UuBZpLFAXPpmabgUmul/YWUAGCAuUk9VeiPqIAFdj10+D9YrNEJHSutSke9aLqYSWmzfkiFENB9GyrL3V61kEnJKDHC7YtK+pUp7t31YQWfM5hGqGrLi25D6pOsrjkIu+/gxgzVwvP5RTiGJ/yhn1KLZGMCSactOVaCFuYSNgq87Ydha3rRI0WezgEVwHLCAdK92AZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0es9qWF0Nh369myl9gu47wQq6hd1/WMrxIePp1qfYhY=;
+ b=o1ixDs3vDAoxabA6Ub90+4CzCBxck2vofsHcK3a8QM3m1ySV8gzADxYqETflGAySXGd+maqGJOQfCoPsiwoirQbElIxaaS+uJzlwQfR8KXwU4bQS3Z9pfx2HweT52e3kppvikSxDrlQDxFhbwcatnOL52JK79RsUoNJRHHDH2K5HK+Owvr6gDNXYU0Mq3zJ7jumYCGIwPaSTyaJyktxYDKliIX1/f+p12OF+Tz+RL6Bb2Y/J8z+k76d0WcCmIYqigvwXi1V+FlL97fnr9VMRRfKE4eF6G+LlLxbX0FH5JRkQiWW6Xck1XhtVgSofAt6zXuM0yd2TaW7dHNbJnea1uA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0es9qWF0Nh369myl9gu47wQq6hd1/WMrxIePp1qfYhY=;
+ b=vrJMjOhIE5WGn0ivukwwMlyS4cm0iCzqC9Lxa7cFi6kOqbA7jIq9o+/JWGiUENbm8TNfT3JXAPzfqQt3R5nyIvewkT3/a0KCbKVX98diSb6gkDo8xpzJs8w/5gheYjNOwHDb03eQiHeNHDSBDJYRBSOHBhBQ/p5+/fZtUylCSHQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO2P265MB3056.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:17b::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.16; Thu, 25 Jun
+ 2026 13:29:23 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0159.015; Thu, 25 Jun 2026
+ 13:29:23 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 25 Jun 2026 14:29:22 +0100
+Message-Id: <DJI5ZY2TPFSW.BEKOVZYRSTQZ@garyguo.net>
+Subject: Re: [PATCH v18 3/8] rust: implement `ForeignOwnable` for `Owned`
+From: "Gary Guo" <gary@garyguo.net>
+To: "Andreas Hindborg" <a.hindborg@kernel.org>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Lorenzo Stoakes" <ljs@kernel.org>, "Vlastimil Babka"
+ <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, "Uladzislau
+ Rezki" <urezki@gmail.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
+ <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross"
+ <tmgross@umich.edu>, "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Tamir Duberstein" <tamird@kernel.org>, "Alexandre Courbot"
+ <acourbot@nvidia.com>, =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ "Lyude Paul" <lyude@redhat.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?=
+ <arve@android.com>, "Todd Kjos" <tkjos@android.com>, "Christian Brauner"
+ <brauner@kernel.org>, "Carlos Llamas" <cmllamas@google.com>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, "Dave Ertman" <david.m.ertman@intel.com>,
+ "Ira Weiny" <ira.weiny@intel.com>, "Leon Romanovsky" <leon@kernel.org>,
+ "Paul Moore" <paul@paul-moore.com>, "Serge Hallyn" <sergeh@kernel.org>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
+ "Igor Korotin" <igor.korotin@linux.dev>, "Viresh Kumar"
+ <vireshk@kernel.org>, "Nishanth Menon" <nm@ti.com>, "Stephen Boyd"
+ <sboyd@kernel.org>, "Bjorn Helgaas" <bhelgaas@google.com>,
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, "Pavel
+ Tikhomirov" <ptikhomirov@virtuozzo.com>, "Michal Wilczynski"
+ <m.wilczynski@samsung.com>
+Cc: "Philipp Stanner" <phasta@kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <driver-core@lists.linux.dev>, <linux-block@vger.kernel.org>,
+ <linux-security-module@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-fsdevel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+ <linux-pci@vger.kernel.org>, <linux-pwm@vger.kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260625-unique-ref-v18-0-4e06b5896d47@kernel.org>
+ <20260625-unique-ref-v18-3-4e06b5896d47@kernel.org>
+In-Reply-To: <20260625-unique-ref-v18-3-4e06b5896d47@kernel.org>
+X-ClientProxiedBy: LO4P302CA0044.GBRP302.PROD.OUTLOOK.COM
+ (2603:10a6:600:317::10) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <716044027.2969861.1782392539951@kpc.webmail.kpnmail.nl>
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,xs4all.nl];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_TO(0.00)[xs4all.nl];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,google.com,vger.kernel.org,kernel.org];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pedro-suse.lan:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO2P265MB3056:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0856a34d-cd95-4a01-c4ff-08ded2bdc4f2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|23010399003|10070799003|921020|4143699003|56012099006|6133799003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	8LKznPTof3iVNHmP3pXSHcaUIimErZZWEGHLEfHyFR5+ov7q7GiOx3EerIZJjFd5d7Gwf5i39WIO5F91zXasIcxDKvM86dvryOhmlr42eq2LneL3TFW2ncB7iFBe3ZfKcgts3vhsQqJIjdn0/OrVcbDnvtyMovlnyFg6T3LOiQ9ed7s+ZWKuJzQnfJ7ZkjEFvAPNRyTrjNkUvWYiueicko+pFZKKXdL3fGCLFIVv4FakupZWPqFXOhoABifUrIQ/ZzbmlXwknj9qoO2DOYrQl0OQ0pa4y+oOstu46gAMgLY/E9ro2RaJE90dryyXMGDqTxFuk8vuRgjQFJ8jguZ2y0Hm4uhqsm9goETir5nj3yu4N3EvCsZtM9KmcJ7v6YJhULW80yPITLkd6cDeYtOZ3Ejh3ddnDvB25Fiv4zU7xVV2OH+CbQMuhYme5P+EOxXlQE0Gcrcj5YHQ6AOcoLDF1tnF6tLK3YIbEaKGQLBmPIbRsxTsiRRPh/Y13wLFRNaDjMaktgqCk+Kj8eFO4SvEZczAxgdMXdlU2/qyFO5cvj5FXuCf7riZA9tM+sUS1iJg5Ebdrg0s9qd1zXdwoHsarmewP7pFxQ1yuoQju2HXnb3ott+puBDW77etV6nx/qsyDW+djyzYYEyWzh2FiWI8YemE+P8lZ86crOu0581ieWlSaQdcusWzfOnqTt58RS53bG4xXzcy3BXYXoGdQJWfSg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(23010399003)(10070799003)(921020)(4143699003)(56012099006)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?eDg5VGs5bWdjei9HNC9pSkxXdXVSNXNra0Z0ekNPbmtRTUR1WUJRVGNsQ0tp?=
+ =?utf-8?B?bXhLYm42UWpockU0RjMvaXU0aXdwTVYxZDRtU0YycnZON0dKMDFzVDRKQ1N6?=
+ =?utf-8?B?QVNJbmRiY09yRDNLSmtQU3ZiS09pMmU2NUNWS0lTTmlGKzAwOHBlcjUwalVM?=
+ =?utf-8?B?MlhlcmVsMTdEbTB6RzY5NFI3TVYwQVRaMGNZZ2NZSjQ3KzM2bXBId0NWTzM1?=
+ =?utf-8?B?UDNGeld1VGhjN3NNWUlEVUlBdjhTZW5SRTAxSGlnbEZFY2laVHM4RkdoWkp1?=
+ =?utf-8?B?U0RQcXFmR1RkYm50Rk9Oa2ZwWGZxZHBMZlJhZ0hyUjkzNHorbEpnamp0VnFB?=
+ =?utf-8?B?TlFwalp1NHBGa09vR3kxTm05U21vWEkraDNuQURoRmt4MHVlemFjYWU3T2Jm?=
+ =?utf-8?B?MHFNVi9icS93SDJnMmdIMjRFWG4zRkN0eWNSMlpLdXhxdEVNbDZaZ0dJK2FT?=
+ =?utf-8?B?dDVvQ0pWV1VWcktGLzJaZzBjWjZnYTNpSkxMTStDWWFWbmdOUW1ORTVUSVpm?=
+ =?utf-8?B?Tit4SGVQZTdaRkFYcTkyZkdISms0YzUxNDJySGY0ZHgxUlg3UUhVcWxzZVZU?=
+ =?utf-8?B?cFhIMzIrSzlubnQ1d1ZaNHEycjMxZ1JSZG8ycVIrcms1RjgxTGhVTkRSeXVa?=
+ =?utf-8?B?Z2J4NGpIem9rUlNZNWNQbmZSVTdDNDJEZ2I5YjJyQXBiVldRaWNObkQ0TUl0?=
+ =?utf-8?B?QVhoazN3TUx4MzUwWmdHMmsxZHFWQ29weWFkd0dYQzJaU1lnZHNhdmJ6Sndy?=
+ =?utf-8?B?TzBWYXFvSklnbVpwYVk4WS9Ld3Q3NWZlT0dCUFJhU0JBRitld0F2Rk1tamdT?=
+ =?utf-8?B?S084V1pKeTQxNTQxZnFLL0lrd2xOWDZsQ1czbVNhMXhkR3JBcEx3WTBoQlI3?=
+ =?utf-8?B?bWg1ZlVmbnMyZ2VJU0VJaFZhTjdlL0lLVjlqbHlFSk8zOTFqZlhHdEZCRHph?=
+ =?utf-8?B?ak01VW5VeW9yUXBYNWZSbmo2dmU5TDJIVUVOeXk1WDhyN3dSSXo3Wk1VSVpD?=
+ =?utf-8?B?WDMycEFyandlVmh5L3crLzZERHZoZVJPZWZIR045TWtGNnoxVHlOTmFYQSs1?=
+ =?utf-8?B?M2psV3ZDa3RtS3dEUUtaUUI3RzRXN0oyN0N4bXN5VEJUWXVyTDZjWVZjSWRU?=
+ =?utf-8?B?Uk1rMjNMRlFlU2Q5bTR3QUdobnlKd0RMdVJ6eDhraXJNMTFVUkxxSEJQMXN4?=
+ =?utf-8?B?c241cWljd0s3ZVNOQ0w0QndlakEySXFlQVUrNUIvYWwxV2d1MW9sbWhSS2xS?=
+ =?utf-8?B?WWZjTmNOUnRmOEFtZlFiYWUzNndKRGc3QTg1MkJqQzBWWFBsWHJHSlBlYkdX?=
+ =?utf-8?B?aUNOUFdqYTNEZWZzTEJVTmpOYnpNN2RGOTA1cDlZWTZVUnBsd3MveDBEYjVu?=
+ =?utf-8?B?K0NmYXYwSmpMbFRLQXA2akpyaTB6TUhaVmNXaTE0anVwbzZKZ2tSVS9YTU81?=
+ =?utf-8?B?WWhzbnk4N1JWQit0OVp1T3dHWFVONTIxWEtoOXhWb0Q4RGJqb1FZdnNoM1pM?=
+ =?utf-8?B?UUR6QnUyRW8xT1hmeitGOGFZRGUxUW1BZU9tODhxVDNNSlZ6QnltVy9xNWx4?=
+ =?utf-8?B?NmM0bXJJNlpZZnVsc05JM0Q1VVp0WExFeGR3dXc3NlIwWEtyTFVaTnRJc3ox?=
+ =?utf-8?B?UEZnTGFseS8zazRSOHYxVlhVbytxL3ZxREJ2Z1dSYXJTRCs5WUZyZzQwMGpo?=
+ =?utf-8?B?T2ZsMTFHTFdvL01uYXZRTGVlUXphSTBqQnA3bjBnTDYwZG1oTnJldWVocTlh?=
+ =?utf-8?B?cmR0SEFWaUVxSzFpZ1JsYmlCMWx1aFJzOVhycU9UVnYxRGNIRHQzaFEwSVNT?=
+ =?utf-8?B?QjY1L2cvSTViZEZ6dWhDcWRJNU5TUUZXZ2FBOUFUNGtLaCt0Z3RsRVZINko4?=
+ =?utf-8?B?QjB6V29pdEZCT1hVc1YzTmpLeGx2NHliY1Y4Z2pVTU5aSzJsYm8wUUNHUzdK?=
+ =?utf-8?B?SnNVV3Q5dzFRZ2N2NmZPMkFVKzFSZTRINHNCWURWSjY1ZlQ5RmVUdVg4S3NT?=
+ =?utf-8?B?bHczNDlIUVZRNTcyeGNRbGg1bXBFNEpKRjlpVnA1WjFYZDRDaVhTVnROR3Bh?=
+ =?utf-8?B?SkJqWGVrNG5aRFZjVFhGUCtVTllIckdaZThFSTBUQnIzT2RlbWEwTU9RL25G?=
+ =?utf-8?B?NklkYUk3eXQ5U0RDTjBzTEcrbVJnSUxWLzE1MVppNDRTbEJOZ1dLSGlUSE1r?=
+ =?utf-8?B?NHJVZFAraHg5YWZZWmdZdGNZb21Nc1hrTkt1ZEMzQ3Q1WmtQaXFwUmYzQkhN?=
+ =?utf-8?B?VHNXcVpwOXd6WVVXVi91Vlpjd3M5dExxdHJUOWFlQkNpQnBtS2ErK0NRaElz?=
+ =?utf-8?B?YVdvTHRCR1RiamJaS2FOTHlMMUxaV3pJYUpuWXZWRVlpYVQ3dEQwZz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0856a34d-cd95-4a01-c4ff-08ded2bdc4f2
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2026 13:29:22.9473
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 86WHaphtrbszSh2qs/CpBttGq4piGrJ0Sum2KFkMnXDqilF4w1V6BMKrXI6YksCIYgDUkbnLok65/SBzWkjhKQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB3056
 
-On Thu, Jun 25, 2026 at 03:02:19PM +0200, Jori Koolstra wrote:
-> Hi Jan and Amir, (cc Christian)
-> 
-> There has been a wish from systemd to be able to be notified on flock(2) releases.[1]
-> I've been looking at the locks.c code (I really wish requests were decoupled
-> from locks... :) ) and the fanotify code, and this seems to be a rather
-> straightforward expansion of existing fanotify functionality. Before sending a
-> patch up, are there any objections to this? If we implement this should we
-> also do POSIX locks notifications? And what about lock taking?
+On Thu Jun 25, 2026 at 11:15 AM BST, Andreas Hindborg wrote:
+> Implement `ForeignOwnable` for `Owned<T>`. This allows use of `Owned<T>` =
+in
+> places such as the `XArray`.
+>
+> Note that `T` does not need to implement `ForeignOwnable` for `Owned<T>` =
+to
+> implement `ForeignOwnable`.
+>
+> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+> ---
+>  rust/kernel/owned.rs | 53 ++++++++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  1 file changed, 53 insertions(+)
+>
+> diff --git a/rust/kernel/owned.rs b/rust/kernel/owned.rs
+> index 7fe9ec3e55126..9c92d4a83cc1b 100644
+> --- a/rust/kernel/owned.rs
+> +++ b/rust/kernel/owned.rs
+> @@ -15,6 +15,8 @@
+>      ptr::NonNull, //
+>  };
+> =20
+> +use kernel::types::ForeignOwnable;
+> +
+>  /// Types that specify their own way of performing allocation and destru=
+ction. Typically, this trait
+>  /// is implemented on types from the C side.
+>  ///
+> @@ -186,3 +188,54 @@ fn drop(&mut self) {
+>          unsafe { T::release(self.ptr) };
+>      }
+>  }
+> +
+> +// SAFETY: We derive the pointer to `T` from a valid `T`, so the returne=
+d
+> +// pointer satisfy alignment requirements of `T`.
+> +unsafe impl<T: Ownable> ForeignOwnable for Owned<T> {
+> +    const FOREIGN_ALIGN: usize =3D core::mem::align_of::<T>();
+> +
+> +    type Borrowed<'a>
+> +        =3D &'a T
+> +    where
+> +        Self: 'a;
+> +    type BorrowedMut<'a>
+> +        =3D Pin<&'a mut T>
+> +    where
+> +        Self: 'a;
+> +
+> +    #[inline]
+> +    fn into_foreign(self) -> *mut kernel::ffi::c_void {
+> +        let ptr =3D self.ptr.as_ptr().cast();
+> +        core::mem::forget(self);
+> +        ptr
 
-Random comment: any sort of feature like this probably has to interact
-really weirdly with remote filesystems that do non-trivial things for
-their flocking. Like NFS, ceph, 9pfs, etc.
+I think the pattern in `into_raw` is better:
 
-I'm definitely not saying that this is a blocker for the functionality, but
-it is worth keeping in mind that any sort of expectation from userspace will
-be met with inconsistency across filesystems.
+    ManuallyDrop::new(self).ptr.as_ptr().cast()
 
-There's also another gotcha when it comes to block devices I think. systemd
-wants to be notified of block device locking, but block devices also have
-their own innate way of locking other users out (by O_EXCL). I don't know
-if this is worth considering for systemd and other potential users of this.
+Or perhaps this can just use `Self::into_raw(self).as_ptr().cast()`.
 
--- 
-Pedro
+> +    }
+> +
+> +    #[inline]
+> +    unsafe fn from_foreign(ptr: *mut kernel::ffi::c_void) -> Self {
+> +        // INVARIANT: By the function safety contract, `ptr` was returne=
+d by `into_foreign`, which
+> +        // gave up exclusive ownership of a valid, pinned `T`; we retake=
+ that ownership here.
+> +        Self {
+> +            // SAFETY: By function safety contract, `ptr` came from
+> +            // `into_foreign` and cannot be null.
+> +            ptr: unsafe { NonNull::new_unchecked(ptr.cast()) },
+> +        }
+> +    }
+
+Same here, could be using `Self::from_raw`.
+
+However, the current code looks correct to me regardless, so:
+
+Reviewed-by: Gary Guo <gary@garyguo.net>
+
+Best,
+Gary
+
+> +
+> +    #[inline]
+> +    unsafe fn borrow<'a>(ptr: *mut kernel::ffi::c_void) -> Self::Borrowe=
+d<'a> {
+> +        // SAFETY: By function safety requirements, `ptr` is valid for u=
+se as a
+> +        // reference for `'a`.
+> +        unsafe { &*ptr.cast() }
+> +    }
+> +
+> +    #[inline]
+> +    unsafe fn borrow_mut<'a>(ptr: *mut kernel::ffi::c_void) -> Self::Bor=
+rowedMut<'a> {
+> +        // SAFETY: By function safety requirements, `ptr` is valid for u=
+se as a
+> +        // unique reference for `'a`.
+> +        let inner =3D unsafe { &mut *ptr.cast() };
+> +
+> +        // SAFETY: We never move out of inner, and we do not hand out mu=
+table
+> +        // references when `T: !Unpin`.
+> +        unsafe { Pin::new_unchecked(inner) }
+> +    }
+> +}
+
+
