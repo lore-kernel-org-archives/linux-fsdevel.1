@@ -1,269 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from flow-a4-smtp.messagingengine.com (flow-a4-smtp.messagingengine.com [103.168.172.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5173ECBE8;
-	Thu, 25 Jun 2026 17:47:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E7130566D;
+	Thu, 25 Jun 2026 18:24:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782409680; cv=none; b=URI//agd/KLlKG17RceRtGMydLKP3nbtWtuj6wwzwjnDyX+S0Tx9ltGDz6He5F7uyMHO+XOzDROogw/KbP4gccpwpoPMUgu/RBcuNF9GKZjnbwSBLO3at2gijcfUC49MgPmOyP6ZQoVwLo9O5XQP2bHfFIeEjBbS/tXqsHz+WbY=
+	t=1782411848; cv=none; b=eG8zCSo/mkPwACsvYBZWSX9OKJxNFF9Gqf57OEjGv335JnnY3zJKArdgcYXvh66+UVWRYznD9OZQt/jWJapDM7AbytqW6iWSWsivvk6Kx+f2XV2BHGH6BqQI4LhvxVOegxS1WOWRjouURLmTq3FiNUu7BlixnEVm8+AbP2z3F1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782409680; c=relaxed/simple;
-	bh=6EPTlglB0y6n4mVMJ0z5MPsFCpy9YvzkZYMJEHvOMhw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bkc7mLD+GC8H/onLiUWqy4FiAagnz9DaOmWsmPcTsNC9x2LE2A+q4jtx1tY1ZhgBbhOIKaggNLDUCQi/a/dysYxWx0ZVAut0pvWPczANqFIPXFhayuNetQSxIiHwWCYPYGz+oxtQ2un5RTP1aCUCWhtM34mMUvlvEU1NYjNm0I8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bpZGbEY9; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782411848; c=relaxed/simple;
+	bh=FxbkPs6VOjJEhJrxoI/4FTDTG7hckuRIEReabgvOAP0=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=QNiCtVoi11EbmLhsNmh9U3xLu1szFOijP0NwZ2AV2U7jPo+aIMm7HedO6+5aWhO83VG9WQfcvsFtW7nOsBENtSfkDX5mveOjPJqc/bQvV158MzsYHA7o3BJR8F9WdMBn2BCA+QlNiy7Ve1KGCVsAP3hhKYlFNgJgIHh4bTsH2aM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=fPrig3KX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=U0Ki/W1F; arc=none smtp.client-ip=103.168.172.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=johnericson.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bpZGbEY9"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id DE3DA1F000E9;
-	Thu, 25 Jun 2026 17:47:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782409679;
-	bh=FOPfdwn4WT7soBv45WuCMYiLXW+L3mRRpXlE+zmI+mk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bpZGbEY99hKffV7pqxuiuUXyA6GGmd/85wm1zDFkzmvlCmBLNeXBs9e2iPjDdU4rl
-	 FhEtt8uvABGrISroYt6e3B9WZgHeiw98BZEunP2sb1X4uh1stu3zO6MkzQyInYJb6V
-	 ZmA5JWwkCktygNarpzfrrmsieSkeY665h+k+DZg9fqkSjMdtf2BwyV5K7fz6VQsYaJ
-	 okWDrgLg9//QcsrCNTFE0LTMMJjE47N4dPj20nuGvfrIUAcO/RpE+boWGDiP+zqpux
-	 2gZHxb/2IZvFTnddmo4f6ogWOocS4ug4mKZW6hNoQiEJj/pJL1I9UjnPeV1cnQTJgv
-	 u1iwBL5YJzLmA==
-Date: Thu, 25 Jun 2026 10:47:58 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Christian Brauner <brauner@kernel.org>, Kelu Ye <yekelu1@huawei.com>,
-	Yifan Zhao <zhaoyifan28@huawei.com>,
-	Ritesh Harjani <ritesh.list@gmail.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Hyunchul Lee <hyc.lee@gmail.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev,
-	ntfs3@lists.linux.dev, linux-erofs@lists.ozlabs.org,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 2/2] iomap: submit read bio after each extent
-Message-ID: <20260625174758.GE6078@frogsfrogsfrogs>
-References: <20260625120803.2462291-1-hch@lst.de>
- <20260625120803.2462291-3-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b="fPrig3KX";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="U0Ki/W1F"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.phl.internal (Postfix) with ESMTP id 05A791380923;
+	Thu, 25 Jun 2026 14:24:05 -0400 (EDT)
+Received: from phl-imap-16 ([10.202.2.88])
+  by phl-compute-05.internal (MEProxy); Thu, 25 Jun 2026 14:24:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1782411845; x=1782419045; bh=m+Vo2gCieDBsezt/WtRstmVlDLfhdQBZ
+	5OOOQny6uNo=; b=fPrig3KXrFd/rGV3bv52ys5LKfDurXDKhX/ELM+7I3U9NfuQ
+	Y+gEvJA+Jno6b07JbxGRlspTVYgfJ3F3Rcubr0WIfghfABaDVOtDkJZAv4spExnr
+	q/Ug7opOpLRBTlXYb9+0vHVYQIuhSC0YXe/HvE0hhZmg02Ld1eONlgYOAdpbGBls
+	/NQ/h6pTh8qm8hRvh2BTzdWF86FFXz+n0W/SJqWvTPm3/JkLnFY+bWEov3BhxFuH
+	UFvIdmJnPDXCzYXDjoSUv0LriWkpD6bnoqHlCsJEKrKTk+1JcGCNJX4YTw/+j6Kr
+	NEE5zMiYs8nNDBQFi6IX6RQO3nr/5q5kidKTbA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782411845; x=
+	1782419045; bh=m+Vo2gCieDBsezt/WtRstmVlDLfhdQBZ5OOOQny6uNo=; b=U
+	0Ki/W1FjTNtxYNqKU4vKMUlYvANglhLeNHrUI1gKy2reTy4+cHq+AJr2OIBQtPCs
+	R0isubLk5GH5U2pr5EzXa7TWhgDHxODxFiYRQqblJWwabJ62HYNIR9wwB2+JuGq5
+	zV5kUJdHcf21i/reIkepyODko7OdjwbFGmMxY3WtdLGI/5OsaHyiPX4DJRr8rlG1
+	SJHzOhriI2azsW5UCtq+tX84HSaD8UkZjIz1ultHg8LwHfp8Z/HRFNJztD9CSv6/
+	IDTfp57ZBOjUTkjPhaUYM3HoywO0wyiw025G53X/6ey9/5BRl/EfOA6WBGmYdH28
+	tICPEO2bYjuUNRrcXL03g==
+X-ME-Sender: <xms:Q3I9ahto_UBYzml4qt3RUvPyJrgPvZ8LcW3GqFKT8oZtV4ydGdBRig>
+    <xme:Q3I9alRp4JUEqQ12M4UnV-pEEcUv7QKcMftQauxRww-fcoat2YaIaCcqPixuyo1MN
+    pHhqbD1xTC3INGQ6MAF2ma8eInLyuXirzC1o1q1xHVX3hJz2gRrT2g>
+X-ME-Proxy-Cause: dmFkZTFyeIi362Iqgeflrx8SfWAUimV8NIXGDAs+oBvs4keGPehc5LIzevdlDF0NWjSyQe
+    rjGOMj50/KDiHVtZOqMyMBNvHW2R+Hk9mKiNHsA809U87AAei98vwrZfj+SF+BxrBfw3BH
+    DGa9FVsenW85K+hrP0YbDmL8jDLqb14lON88z8hgHIiUF1/tugD1lJWE2yCw4QwNc3AK19
+    XkVh8vdvrtZxIdo5ZkFG3SdpfiR8BHfahKU7c/IpRWZodUAE4QWkcdH/cPUjie2XMxkf2W
+    LZxcLMTKYscUj8LMA452mVjsF6Z1N+EavWYsvbSKavRMKBZYO1qk030/WuVljWBZTt0noO
+    V25ok3cp+J+f9se3nVgiOrW/95O1228fxtVxvVASCzAIIwnKuwu0TMve6p3gHtHwsqXTiV
+    npPMWjLAxJRggUkksQGraXveoEm3MforjDhqXB6WzeVyixLJy/UqTbShs6FhgrbIc5B5K2
+    R8Xe1aUmz053Gf43Qy1iJlbrd1mMYxkqbbuL2o/Ix72e4BCsFzZ9E9faIdK8Ltv4xvu76z
+    m6tKpO/po0RjOXPtNHY9bMOBLdUvfn3rmGz++o//x6Y4N42JWiFyPo7rB2W2N8kjX1c5YS
+    63jKXAElC9xow0rwAIljNLJsLyxdHnR/WbmxAu9ZG0MTWx49BRiwEM+xmv+A
+X-ME-Proxy: <xmx:Q3I9ag-X5qKkM7bORdpbEc6XpVZAKGllEfkV0CqslKokBwbB5XTCMw>
+    <xmx:Q3I9al4i8uEFpiTxfPe8aYPwtSTb_3F0oqGAhb7h9cqt8V-7CqqlAA>
+    <xmx:Q3I9aqiOWOmXm07JkazGreqPeliJw18i1gixMh3WKPkFnk3Gb_mp4A>
+    <xmx:Q3I9asq0iDPnLh87nImobuUTHUJg2LsnTCez2mVVbCnz3hMZnz6ZlA>
+    <xmx:RXI9aq-l3-MAhBirN22asZ7Ce3DwCW_VDvpzKMKk43cUvFfm0pROoRkG>
+Feedback-ID: ieb4144f1:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 53D2E2CC0088; Thu, 25 Jun 2026 14:24:03 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260625120803.2462291-3-hch@lst.de>
+X-ThreadId: AG8qDlxFSDr7
+Date: Thu, 25 Jun 2026 14:21:01 -0400
+From: "John Ericson" <mail@johnericson.me>
+To: "Andy Lutomirski" <luto@kernel.org>
+Cc: "Al Viro" <viro@zeniv.linux.org.uk>, "Li Chen" <me@linux.beauty>,
+ "Cong Wang" <cwang@multikernel.io>, "Christian Brauner" <brauner@kernel.org>,
+ linux-arch <linux-arch@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-api <linux-api@vger.kernel.org>, "Arnd Bergmann" <arnd@arndb.de>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Kees Cook" <kees@kernel.org>, "Sergei Zimmerman" <sergei@zimmerman.foo>,
+ "Farid Zakaria" <farid.m.zakaria@gmail.com>
+Message-Id: <829ad432-8312-45af-bd8e-8b079e8c6226@app.fastmail.com>
+In-Reply-To: 
+ <CALCETrVdtYeJ7rXmvymLpOvn6X4LsfHYoVmbL6XgTqnjcP5n7g@mail.gmail.com>
+References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
+ <CALCETrWhXNetw-BsAaoyT31suMmjYLdMh9MAuLB2Lvk2ac-31g@mail.gmail.com>
+ <CALCETrU3bgUxp0k1y-U-uL0-fW2016Gmsyu9O_=830czEUGMcQ@mail.gmail.com>
+ <103524f8-1658-41df-88e9-cf49c628a721@app.fastmail.com>
+ <20260625011023.GM2636677@ZenIV>
+ <a75a9b82-a15b-4893-8f92-62b62664ea83@app.fastmail.com>
+ <CALCETrVdtYeJ7rXmvymLpOvn6X4LsfHYoVmbL6XgTqnjcP5n7g@mail.gmail.com>
+Subject: Re: [RFC] Null Namespaces
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 25, 2026 at 02:07:57PM +0200, Christoph Hellwig wrote:
-> Currently the iomap buffered read path tries to build up read context
-> (i.e. bios for the typical block based case) over multiple iomaps as
-> long as the sector matches.  This does not take into account files
-> that can map to multiple different devices.  While this could be fixed
-> by a bdev check in iomap_bio_read_folio_range, the building up of I/O
-> over iomaps actually was a problem for the not yet merged ext2 iomap
-> port, as that does want to send out I/O at the end of an indirect
-> block mapped range.
+On Thu, Jun 25, 2026, at 11:51 AM, Andy Lutomirski wrote:
+> On Wed, Jun 24, 2026 at 8:41=E2=80=AFPM John Ericson <mail@johnericson=
+.me> wrote:
+>
+> It's sort of a combination -- read the data structures :)  Other than
+> the propagation part, they're really not that bad.
 
-This really puts the onus on block-mapped filesystems (e.g. ext2) to
-merge adjacent maps into extents.  Granted they *probably* already have
-been doing that.
+Are you saying path resolution *does* depend on the mount namespace that
+the task belongs to? I certainly hope not! I did look over the data
+structures along with my patches and I didn't see an example of this ---
+just path resolution depending on the CWD and root directories (as one
+would expect it to).
 
-> So instead of adding more checks move over to a model where a bio only
-> spans a single iomap.  Change ->submit_read to be called after each
-> iteration, and pass a force argument to indicate that the bio must
-> be submitted set on the last iteration.  Switch the bio based users
-> to always submit, while keeping the single submit for fuse.
+> In any event, I think this discussion is sort of immaterial to the
+> proposed API change.  No one is about to remove the concept of a mount
+> namespace.  But maybe it makes sense to have a way to have a task that
+> doesn't actually belong to a mount namespace.  A mount namespace is
+> certainly going to exist.
 
-Is fuse the sole reason for the "force" parameter to exist?  I wonder if
-fuse could drop its submit_read function and call fuse_send_readpages
-after the iomap_read{ahead,folio} function returns?
+I am not sure if that is addressed more to Al or me? I certainly do
+agree with all that, in any case. Mount namespaces are absolutely here
+to stay, and I'm just trying to make a process that does not belong to
+one; that's exactly correct. Sorry if my motivation by way of historical
+analysis veered off topic.
 
---D
+> There will definitely be subtleties.  For example, what happens if a
+> task with "no mount namespace" tries to do OPEN_TREE_CLONE?  In some
+> logical sense it ought to work but it ought to be impossible to
+> actually mount the resulting tree anywhere, but this risks running
+> afoul of all kinds of checks.  Maybe you get a whole new mount
+> namespace (that does not become your current mnt_ns) if you
+> OPEN_TREE_CLONE?
+>
+> This stuff is complex and it probably makes more sense to keep changes=
+ simple.
 
-> Fixes: dfeab2e95a75 ("erofs: add multiple device support")
-> Reported-by: Kelu Ye <yekelu1@huawei.com>
-> Reported-by: Yifan Zhao <zhaoyifan28@huawei.com>
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Tested-by: Yifan Zhao <zhaoyifan28@huawei.com>
-> ---
->  fs/exfat/iomap.c       |  2 +-
->  fs/fuse/file.c         |  6 +++++-
->  fs/iomap/bio.c         |  6 ++++--
->  fs/iomap/buffered-io.c | 21 +++++++++++++--------
->  fs/ntfs/aops.c         |  2 +-
->  fs/ntfs3/inode.c       |  2 +-
->  fs/xfs/xfs_aops.c      |  3 ++-
->  include/linux/iomap.h  |  2 +-
->  8 files changed, 28 insertions(+), 16 deletions(-)
-> 
-> diff --git a/fs/exfat/iomap.c b/fs/exfat/iomap.c
-> index 190fc6471f84..c428a949120e 100644
-> --- a/fs/exfat/iomap.c
-> +++ b/fs/exfat/iomap.c
-> @@ -251,7 +251,7 @@ static void exfat_iomap_read_end_io(struct bio *bio)
->  }
->  
->  static void exfat_iomap_bio_submit_read(const struct iomap_iter *iter,
-> -		struct iomap_read_folio_ctx *ctx)
-> +		struct iomap_read_folio_ctx *ctx, bool force)
->  {
->  	iomap_bio_submit_read_endio(iter, ctx, exfat_iomap_read_end_io);
->  }
-> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> index e052a0d44dee..6fa3b1f55c95 100644
-> --- a/fs/fuse/file.c
-> +++ b/fs/fuse/file.c
-> @@ -982,13 +982,17 @@ static int fuse_iomap_read_folio_range_async(const struct iomap_iter *iter,
->  }
->  
->  static void fuse_iomap_submit_read(const struct iomap_iter *iter,
-> -		struct iomap_read_folio_ctx *ctx)
-> +		struct iomap_read_folio_ctx *ctx, bool force)
->  {
->  	struct fuse_fill_read_data *data = ctx->read_ctx;
->  
-> +	if (!force)
-> +		return;
-> +
->  	if (data->ia)
->  		fuse_send_readpages(data->ia, data->file, data->nr_bytes,
->  				    data->fc->async_read);
-> +	ctx->read_ctx = NULL;
->  }
->  
->  static const struct iomap_read_ops fuse_iomap_read_ops = {
-> diff --git a/fs/iomap/bio.c b/fs/iomap/bio.c
-> index 0f31e35567b4..6aca1cd0622c 100644
-> --- a/fs/iomap/bio.c
-> +++ b/fs/iomap/bio.c
-> @@ -87,11 +87,13 @@ void iomap_bio_submit_read_endio(const struct iomap_iter *iter,
->  	if (iter->iomap.flags & IOMAP_F_INTEGRITY)
->  		fs_bio_integrity_alloc(bio);
->  	submit_bio(bio);
-> +
-> +	ctx->read_ctx = NULL;
->  }
->  EXPORT_SYMBOL_GPL(iomap_bio_submit_read_endio);
->  
->  static void iomap_bio_submit_read(const struct iomap_iter *iter,
-> -		struct iomap_read_folio_ctx *ctx)
-> +		struct iomap_read_folio_ctx *ctx, bool force)
->  {
->  	return iomap_bio_submit_read_endio(iter, ctx, iomap_read_end_io);
->  }
-> @@ -116,7 +118,7 @@ static void iomap_read_alloc_bio(const struct iomap_iter *iter,
->  
->  	/* Submit the existing range if there was one. */
->  	if (ctx->read_ctx)
-> -		ctx->ops->submit_read(iter, ctx);
-> +		ctx->ops->submit_read(iter, ctx, true);
->  
->  	/* Same as readahead_gfp_mask: */
->  	if (ctx->rac)
-> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> index 8d4806dc46d4..b1c3da8a97dc 100644
-> --- a/fs/iomap/buffered-io.c
-> +++ b/fs/iomap/buffered-io.c
-> @@ -524,6 +524,13 @@ static void iomap_read_end(struct folio *folio, size_t bytes_submitted)
->  	}
->  }
->  
-> +static void iomap_submit_read(struct iomap_iter *iter,
-> +		struct iomap_read_folio_ctx *ctx, bool force)
-> +{
-> +	if (ctx->read_ctx && ctx->ops->submit_read)
-> +		ctx->ops->submit_read(iter, ctx, force);
-> +}
-> +
->  static int iomap_read_folio_iter(struct iomap_iter *iter,
->  		struct iomap_read_folio_ctx *ctx, size_t *bytes_submitted)
->  {
-> @@ -642,12 +649,11 @@ void iomap_read_folio(const struct iomap_ops *ops,
->  		fsverity_readahead(ctx->vi, folio->index,
->  				   folio_nr_pages(folio));
->  
-> -	while ((ret = iomap_iter(&iter, ops)) > 0)
-> +	while ((ret = iomap_iter(&iter, ops)) > 0) {
->  		iter.status = iomap_read_folio_iter(&iter, ctx,
->  				&bytes_submitted);
-> -
-> -	if (ctx->read_ctx && ctx->ops->submit_read)
-> -		ctx->ops->submit_read(&iter, ctx);
-> +		iomap_submit_read(&iter, ctx, !iter.iomap.length);
-> +	}
->  
->  	if (ctx->cur_folio)
->  		iomap_read_end(ctx->cur_folio, bytes_submitted);
-> @@ -718,12 +724,11 @@ void iomap_readahead(const struct iomap_ops *ops,
->  		fsverity_readahead(ctx->vi, readahead_index(rac),
->  				readahead_count(rac));
->  
-> -	while (iomap_iter(&iter, ops) > 0)
-> +	while (iomap_iter(&iter, ops) > 0) {
->  		iter.status = iomap_readahead_iter(&iter, ctx,
->  					&cur_bytes_submitted);
-> -
-> -	if (ctx->read_ctx && ctx->ops->submit_read)
-> -		ctx->ops->submit_read(&iter, ctx);
-> +		iomap_submit_read(&iter, ctx, !iter.iomap.length);
-> +	}
->  
->  	if (ctx->cur_folio)
->  		iomap_read_end(ctx->cur_folio, cur_bytes_submitted);
-> diff --git a/fs/ntfs/aops.c b/fs/ntfs/aops.c
-> index f2bb56506046..f7bd55275d8c 100644
-> --- a/fs/ntfs/aops.c
-> +++ b/fs/ntfs/aops.c
-> @@ -38,7 +38,7 @@ static void ntfs_iomap_read_end_io(struct bio *bio)
->  }
->  
->  static void ntfs_iomap_bio_submit_read(const struct iomap_iter *iter,
-> -		struct iomap_read_folio_ctx *ctx)
-> +		struct iomap_read_folio_ctx *ctx, bool force)
->  {
->  	iomap_bio_submit_read_endio(iter, ctx, ntfs_iomap_read_end_io);
->  }
-> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> index f9600aba1548..cd05faebb806 100644
-> --- a/fs/ntfs3/inode.c
-> +++ b/fs/ntfs3/inode.c
-> @@ -607,7 +607,7 @@ static void ntfs_iomap_read_end_io(struct bio *bio)
->  }
->  
->  static void ntfs_iomap_bio_submit_read(const struct iomap_iter *iter,
-> -		struct iomap_read_folio_ctx *ctx)
-> +		struct iomap_read_folio_ctx *ctx, bool force)
->  {
->  	iomap_bio_submit_read_endio(iter, ctx, ntfs_iomap_read_end_io);
->  }
-> diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
-> index 51293b6f331f..1b9a55e2f4a7 100644
-> --- a/fs/xfs/xfs_aops.c
-> +++ b/fs/xfs/xfs_aops.c
-> @@ -758,7 +758,8 @@ xfs_vm_bmap(
->  static void
->  xfs_bio_submit_read(
->  	const struct iomap_iter		*iter,
-> -	struct iomap_read_folio_ctx	*ctx)
-> +	struct iomap_read_folio_ctx	*ctx,
-> +	bool				force)
->  {
->  	struct bio			*bio = ctx->read_ctx;
->  
-> diff --git a/include/linux/iomap.h b/include/linux/iomap.h
-> index 56b43d594e6e..4d8893b02aaf 100644
-> --- a/include/linux/iomap.h
-> +++ b/include/linux/iomap.h
-> @@ -528,7 +528,7 @@ struct iomap_read_ops {
->  	 * This is optional.
->  	 */
->  	void (*submit_read)(const struct iomap_iter *iter,
-> -			struct iomap_read_folio_ctx *ctx);
-> +			struct iomap_read_folio_ctx *ctx, bool force);
->  
->  	/*
->  	 * Optional, allows filesystem to specify own bio_set, so new bio's
-> -- 
-> 2.53.0
-> 
-> 
+Yes it is subtle; I definitely don't claim to fully understand the
+permission model with mount namespace modifications yet, for one. Should
+we switch gears to just discussing the null CWD and root directories,
+then, and return to mount namespaces later?
+
+I have started to rework my patch series accordingly, so I have a new
+draft first patch for just that, before changing anything else. I could
+(after some testing) submit that next; it's pretty small.
+
+John
