@@ -1,105 +1,263 @@
-Received: from pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.26.1.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F98A35AC00;
-	Thu, 25 Jun 2026 09:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.26.1.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F07092FD1AA
+	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 09:42:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782378665; cv=none; b=U6SL9s6//kv2ejL+mIOiWanGAN+qb/wRTd6hU5j9IVBMxz189t8hTjw/VlQw3vImgsWB2pnQW8PXYNC1Fpoqsk2nKBiyXlnIHC6US4vkOwgg0bpjCpfXxyUGD+/QN6T30hrI6oJ84RsEPSJqzVhb9uPvjD4Hu9TtjytZ3iZnY8Y=
+	t=1782380572; cv=none; b=q8qjAM5MxkX0b2v7xzs8NzPaCYNd7oKfuce7TVicWHgGXZZeadoM1Ou3ewWAwb3dMTaiPxXVQMukasc3YoNZdIGEDYShUgy2U/HwkcBp+h58yvDJJURmPfU9Y7pXTg6rd0efkPwu2RcIBg8xkDzcIfwLXrMt/LqagFUoQ9nKV1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782378665; c=relaxed/simple;
-	bh=oE928MWpjpguJbmMgOw+gSkPCYeo6lVM91/zGpnGPn4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sykvUcdDmsAtfNdG8CecFfLiqQRO3496DNNazPuWRSzwDThnqZC/thHqDntvimc/nQIrWSkefPr2OqAAZW+GxXyex3N7+AVS0YEw+5bOKUkuEpjriHCzuNXAu1+gnA2aFmxv5SA9N/YaWyedzNOOBBP2KHheNesyHY8rhreC/k0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it; spf=pass smtp.mailfrom=amazon.it; dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b=JdqxJYsp; arc=none smtp.client-ip=52.26.1.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.it
+	s=arc-20240116; t=1782380572; c=relaxed/simple;
+	bh=dUb8BeZib35Kt5b1+A79dBfBeBEflZJv6pPhHJL6/ps=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HGlmh2ujxBI/+S0B9/FsdSLE4i8GRHd5vIXbxe+P3OffJ0O9y3n1oErkMnG0Ymc5FsgiBrWFJLW6mL0L7t2/ujT5JKOrP6XWYEs8Q566wAufSI/h2KVeFbSoEpKWuybgSFwvjmYJld19eEGT2BYnVOAUPZzuiiQg2gCeHfgVNHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WKlhVvXs; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=wVZXJpia; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WKlhVvXs; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=wVZXJpia; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b="JdqxJYsp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.it; i=@amazon.it; q=dns/txt; s=amazoncorp2;
-  t=1782378664; x=1813914664;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=oE928MWpjpguJbmMgOw+gSkPCYeo6lVM91/zGpnGPn4=;
-  b=JdqxJYspKNXeA1OD4UdLrFwIBaqNtaBf7KkMRp8E9VqonFQ7wqPf/JJz
-   Kff+Qv1HBYXzV98dbH29J1Nwce7rszoB/Z767H8Uif1rkKChD4MlMZSNt
-   qS5KLiW8ZlppQWuuDHl5N8BQY1T3KQ/O0Yo8pgCD++zTibTIAt/0P3cOw
-   3yRBYeYR9cVVT20hG9rDTHmAdYMRfseViMBGQygNNFnQ75cI/ESSO+kLk
-   la/FDDawATRAJdcNR/uy+xtPDrosVl1nDpuSyL2RAStDXSRFotu63KQWj
-   3K8l4pKciYEKc8i06t51sYp2vFuzOjynxMtbw1kWIOd7pS8trYAg7U92j
-   g==;
-X-CSE-ConnectionGUID: BHvSDaCTQDGldW/+GkcQGw==
-X-CSE-MsgGUID: T6GC85OPQZqEzuE/bVyVkw==
-X-IronPort-AV: E=Sophos;i="6.24,224,1774310400"; 
-   d="scan'208";a="22495960"
-Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
-  by internal-pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 09:11:00 +0000
-Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.104:9509]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.37.116:2525] with esmtp (Farcaster)
- id 53b71abc-ee40-4912-bc3d-4b91185244a3; Thu, 25 Jun 2026 09:10:59 +0000 (UTC)
-X-Farcaster-Flow-ID: 53b71abc-ee40-4912-bc3d-4b91185244a3
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
- Thu, 25 Jun 2026 09:10:59 +0000
-Received: from cdd-dev.amazon.com (172.22.139.101) by
- EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
- Thu, 25 Jun 2026 09:10:58 +0000
-From: Salvatore Dipietro <dipiets@amazon.it>
-To: <hch@infradead.org>, <ritesh.list@gmail.com>
-CC: <abuehaze@amazon.com>, <akpm@linux-foundation.org>, <alisaidi@amazon.com>,
-	<blakgeof@amazon.com>, <brauner@kernel.org>, <david@kernel.org>,
-	<dipietro.salvatore@gmail.com>, <dipiets@amazon.it>, <djwong@kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <linux-xfs@vger.kernel.org>, <ljs@kernel.org>,
-	<mhocko@suse.com>, <rppt@kernel.org>, <stable@vger.kernel.org>,
-	<vbabka@kernel.org>, <vbabka@suse.com>, <willy@infradead.org>
-Subject: Re: [PATCH 1/1] iomap: avoid compaction for costly folio order allocation
-Date: Thu, 25 Jun 2026 09:10:37 +0000
-Message-ID: <20260625091039.24501-1-dipiets@amazon.it>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <ajvc7fSDngyx0X5j@infradead.org>
-References: <ajvc7fSDngyx0X5j@infradead.org>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WKlhVvXs";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="wVZXJpia";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WKlhVvXs";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="wVZXJpia"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2CBE871379;
+	Thu, 25 Jun 2026 09:42:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1782380569; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sS4ZoLrPo8Qstffd9Qpy9LGtqCbDj3DAhHlNpZXuRDM=;
+	b=WKlhVvXsgOaF3DxWkugTfNOnk9Ai5yanCVgfkMY8y/WgqLDwYOlDLMYCdy8YpHdE+e8Ztf
+	wofgXhrChuZEc6xmsUYG9aBZ1/7qNhqO5SLffZ5oZqaTTpSUjCqcQBg14ruva/Q/eTGFXm
+	8A6dOGsiWq6zUBiMkv/1GfMz/MPvwLs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1782380569;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sS4ZoLrPo8Qstffd9Qpy9LGtqCbDj3DAhHlNpZXuRDM=;
+	b=wVZXJpiacGqtFlxFDlAiN0pC6p4/f+W6VrOYHDhuiti5BvaUsrQ3FlJDMSOOL4cbyyLKaQ
+	y0LslzSR09pIMTAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=WKlhVvXs;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=wVZXJpia
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1782380569; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sS4ZoLrPo8Qstffd9Qpy9LGtqCbDj3DAhHlNpZXuRDM=;
+	b=WKlhVvXsgOaF3DxWkugTfNOnk9Ai5yanCVgfkMY8y/WgqLDwYOlDLMYCdy8YpHdE+e8Ztf
+	wofgXhrChuZEc6xmsUYG9aBZ1/7qNhqO5SLffZ5oZqaTTpSUjCqcQBg14ruva/Q/eTGFXm
+	8A6dOGsiWq6zUBiMkv/1GfMz/MPvwLs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1782380569;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sS4ZoLrPo8Qstffd9Qpy9LGtqCbDj3DAhHlNpZXuRDM=;
+	b=wVZXJpiacGqtFlxFDlAiN0pC6p4/f+W6VrOYHDhuiti5BvaUsrQ3FlJDMSOOL4cbyyLKaQ
+	y0LslzSR09pIMTAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 16681779A8;
+	Thu, 25 Jun 2026 09:42:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id OkF2BRn4PGrxAwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 25 Jun 2026 09:42:49 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id AD345A10A3; Thu, 25 Jun 2026 11:42:44 +0200 (CEST)
+Date: Thu, 25 Jun 2026 11:42:44 +0200
+From: Jan Kara <jack@suse.cz>
+To: Zhang Yi <yizhang089@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Zhang Yi <yi.zhang@huaweicloud.com>, 
+	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	tytso@mit.edu, adilger.kernel@dilger.ca, libaokun@linux.alibaba.com, 
+	ojaswin@linux.ibm.com, ritesh.list@gmail.com, djwong@kernel.org, hch@infradead.org, 
+	yi.zhang@huawei.com, yangerkun@huawei.com, yukuai@fnnas.com
+Subject: Re: [PATCH v4 18/23] ext4: wait for ordered I/O in the iomap
+ buffered I/O path
+Message-ID: <3n6ge2tfe4bd65eicc7l2csxkzupcjtdtc4ojpl6bvtf7cwll6@sxmlt3uciw4c>
+References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
+ <20260511072344.191271-19-yi.zhang@huaweicloud.com>
+ <k3w5c3cyg2py4kums7nhdwjg6b6pm43qtweepuolk57xtmnotz@yxkm2k6sqfc6>
+ <9ab9281d-c5dc-4183-8bc9-b53b5a4ac9c0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ClientProxiedBy: EX19D035UWB002.ant.amazon.com (10.13.138.97) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9ab9281d-c5dc-4183-8bc9-b53b5a4ac9c0@gmail.com>
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,huaweicloud.com,vger.kernel.org,mit.edu,dilger.ca,linux.alibaba.com,linux.ibm.com,gmail.com,kernel.org,infradead.org,huawei.com,fnnas.com];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,huawei.com:email]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 2CBE871379
+X-Spam-Score: -2.51
 
-T24gV2VkLCBKdW4gMjQsIDIwMjYgYXQgMTI6MjE6MDBQTSArMDAwMCwgUml0ZXNoIEhhcmphbmkg
-d3JvdGU6Cj4gU29ycnkgYWJvdXQgdGhlIGRlbGF5LiBJIGRpZCBicmluZyB0aGlzIHRvcGljIHVw
-IGluIG9uZSBvZiBvdXIgaW50ZXJuYWwKPiBleHQ0IGNvbW11bml0eSBjYWxscy4gQW5kIHRvIHNo
-YXJlIHNvbWUgY29udGV4dCwgTU0gY29tbXVuaXR5IHRoaW5rcyB3ZQo+IG5lZWQgYSBiZXR0ZXIg
-bG9uZyB0ZXJtIGZpeCBmb3IgdGhpcyBwcm9ibGVtIHJhdGhlciB0aGFuIHBhdGNoaW5nIGNhbGwK
-PiBzaXRlcyBhbmQvb3IgcGxheWluZyB0cmlja3MgbGlrZSAtIAoKVGhhbmtzIFJpdGVzaCBmb3Ig
-dGhlIHVwZGF0ZSBhbmQgZm9yIGJyaW5naW5nIHRoaXMgdG8gdGhlIHdpZGVyIE1NIGNvbW11bml0
-eS4gCkkgY29tcGxldGVseSB1bmRlcnN0YW5kIHRoYXQgdGhlIE1NIGNvbW11bml0eSBpcyBsb29r
-aW5nIGZvciBhIHByb3BlciBsb25nLXRlcm0KZml4IHJhdGhlciB0aGFuIHNwZWNpZmljIHBhdGNo
-aW5nLgoKCk9uIFdlZCwgSnVuIDI0LCAyMDI2IGF0IDEzOjM0OjAwUE0gKzAwMDAsIENocmlzdG9w
-aCBIZWxsd2lnIHdyb3RlOgo+IERvIHlvdSBoYXZlIG9pbnRlcnMgdG8gdGhlIHBhdGNoZXMgZm9y
-IGVhY2ggYXBwcm9hY2ggYWJvdmU/CgpZZXMg4oCUIGFsbCB0aGUgcGF0Y2hlcyBpbiB0aGUgcmVz
-dWx0IHRhYmxlIGFyZSBzaGFyZWQgd2l0aGluIHRoaXMgdGhyZWFkOgoKdjEgKG9yaWdpbmFsLCBp
-b21hcCBjYWxsZXIpOiBUaGUgb3JpZ2luYWwgUEFUQ0ggMS8xIGluIHRoaXMgc2VyaWVzClJpdGVz
-aCdzIHN1Z2dlc3Rpb24gKG1tL2ZpbGVtYXAuYyk6IFNoYXJlZCBpbiBSaXRlc2gncyByZXBseSBv
-biBNYXkgM3JkIFsxXQpNYXR0aGV3J3Mgc3VnZ2VzdGlvbiAobW0vZmlsZW1hcC5jKTogU2hhcmVk
-IGluIE1hdHRoZXcncyByZXBseSBvbiBBcHJpbCA0dGggWzJdCmtjb21wYWN0ZCBiYWNrZ3JvdW5k
-IChtbS9wYWdlX2FsbG9jLmMpOiBTaGFyZWQgaW4gbXkgcmVwbHkgb24gTWF5IDZ0aCBbM10KClsx
-XSBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyNjA0MDMxOTM1MzUuOTk3MC0xLWRpcGll
-dHNAYW1hem9uLml0L1QvI204YzNkYTFjOWZiOWU5YzY2ZDRlOGIxODQ5ZGU4MjRiMGVjZjM3Zjll
-ClsyXSBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyNjA0MDMxOTM1MzUuOTk3MC0xLWRp
-cGlldHNAYW1hem9uLml0L1QvI200YjkwY2YyODBmZjBlZmNmMTc4ZGZkOGQwNjhmMWRlM2IyNjJl
-MjhhClszXSBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyNjA0MDMxOTM1MzUuOTk3MC0x
-LWRpcGlldHNAYW1hem9uLml0L1QvI20yMjk3NzM1NTUzNWE0NTk5MDg0YTUxMTA0YTRkZjgwNmQ0
-OWM1M2QxCgotLQpTYWx2YXRvcmUKCgoKQU1BWk9OIERFVkVMT1BNRU5UIENFTlRFUiBJVEFMWSBT
-UkwsIHZpYWxlIE1vbnRlIEdyYXBwYSAzLzUsIDIwMTI0IE1pbGFubywgSXRhbGlhLCBSZWdpc3Ry
-byBkZWxsZSBJbXByZXNlIGRpIE1pbGFubyBNb256YSBCcmlhbnphIExvZGkgUkVBIG4uIDI1MDQ4
-NTksIENhcGl0YWxlIFNvY2lhbGU6IDEwLjAwMCBFVVIgaS52LiwgQ29kLiBGaXNjLiBlIFAuSVZB
-IDEwMTAwMDUwOTYxLCBTb2NpZXRhIGNvbiBTb2NpbyBVbmljbwoKCg==
+On Mon 22-06-26 11:32:16, Zhang Yi wrote:
+> On 6/18/2026 9:48 PM, Jan Kara wrote:
+> > On Mon 11-05-26 15:23:38, Zhang Yi wrote:
+> > > From: Zhang Yi <yi.zhang@huawei.com>
+> > > 
+> > > For append writes, wait for ordered I/O to complete before updating
+> > > i_disksize. This ensures that zeroed data is flushed to disk before the
+> > > metadata update, preventing stale data from being exposed during
+> > > unaligned post-EOF append writes.
+> > > 
+> > > Suggested-by: Jan Kara <jack@suse.cz>
+> > > Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+> > 
+> > Frankly, this all looks too complex to me. Plus your are adding 32-bytes to
+> > struct ext4_inode_info which isn't great either. Why don't you just do
+> > filemap_fdatawait() for the byte at old i_disksize and be done with it?
+> > 
+> > I believe we have to simplify this. All this complexity (and thus
+> > maintenance burden) across several patches for the corner case of zeroing
+> > tail block on extention is in my opinion difficult to justify.
+> > 
+> > 								Honza
+> 
+> Hi, Jan!
+> 
+> Thanks for the review. I understand the concern about complexity and the
+> 32-byte increase to ext4_inode_info. I tried using
+> filemap_fdatawait_range() as you suggested, but found two issues where
+> this solution doesn't work.
+> 
+> 1. ioend worker deadlock
+> 
+> Since worker concurrency resources are limited, we cannot wait for
+> another ioend worker to complete within one ioend worker with the same
+> work_struct. If the worker calls
+> filemap_fdatawait_range(byte_at_old_disksize) to wait for the zeroed
+> block's folio writeback to complete, it sleeps holding the only worker
+> slot. If the folio contains blocks requiring extent conversion, its
+> writeback bit is cleared by iomap_finish_ioends() running inside
+> another worker -- which can only run after the current worker finishes
+> its batch.
+> 
+> Concretely:
+>   - Worker W1 processes ioend A, calls filemap_fdatawait_range() on
+>     the old EOF byte, sleeps.
+>   - The zeroed data is in ioend B. bio_endio defers it to
+>     i_iomap_ioend_list and calls queue_work().
+>   - queue_work() on i_iomap_ioend_work is idempotent: it returns false
+>     because the work is currently executing (even though sleeping).
+>   - ioend B sits in the list, never gets processed.
+>   - The folio writeback bit is only cleared by processing ioend B.
+>   - W1 sleeps forever -> deadlock.
 
+Yes, good point. We cannot wait for folio writeback completion from end_io
+processing for another folio.
+
+> Therefore, I think we have to put the wakeup logic in
+> ext4_iomap_end_bio() that runs in interrupt context without consuming
+> a worker thread. The ordered range tracking and wait queue are what
+> make that possible.
+> 
+> 2. Truncate-up needs an accurate state query
+> 
+> In the follow-up patch 19, ext4_set_inode_size() must make a precise
+> decision when updating i_disksize during truncate up.
+> 
+> This needs a state query: "is there ordered zero I/O in flight right
+> now?" If yes, the i_disksize update is deferred to
+> ext4_iomap_wb_update_disksize(is_ordered=true), which advances
+> i_disksize to i_size when the ordered I/O completes. If no, we must
+> advance i_disksize immediately, otherwise we will lose the updating
+> forever.
+> 
+> Therefore, we need to track the state of the ordered range. Simply
+> using filemap_fdatawait_range() doesn't work. i_ordered_len serves as
+> a maintained state flag that both the ioend completion path and the
+> setattr path can read atomically without sleeping.
+> 
+> Suggestions?
+
+I see. Thanks for explanation. I went back to our discussion back from
+February to remind myself about the constraints on the tail block zeroing
+and the i_disksize update mechanism. And in the light of complexity of the
+current mechanism, I think we've discarded the following possibility too
+easily:
+
+* On file extend / truncate up just zero tail folio in the page cache, mark
+  it dirty, keep i_disksize at old value, update i_size to the new value,
+  add inode to orphan list.
+  If the i_disksize was block aligned (and so we skip zeroing), we just
+  update i_disksize rightaway.
+
+* In io end processing if the folio for which we end io has a block which
+  straddles i_disksize, we update i_disksize to current i_size. We defer
+  removing inode from orphan list e.g. to file close time (doing it from
+  end_io processing is problematic locking wise as we need i_rwsem for it).
+
+This is a very simple scheme with very good performace. It makes sure stale
+data in the tail block cannot be seen on disk after a crash.
+
+Potential problems with this:
+
+* We need to do i_disksize update from io end processing which means starting a
+  transaction. So this mechanism has to be restricted to buffered IO iomap
+  path due to locking constraints. If the inode uses old ordered mode, it
+  has to keep using it also for handling of the tail block zeroing.
+  I think that's acceptable as we want to transition everything to iomap
+  anyway so this duplicity will eventually go away.
+
+* After a crash we can see i_disksize already updated but file content will
+  show zeros. This is not breaking any guarantees, it just changes how ext4
+  behaves after a crash. Again, I think this is acceptable tradeoff for the
+  simplicity.
+
+What do you think? Any problems I have missed? I'm sorry for poking into
+this mechanism again and again but I want to keep the code as simple as
+possible to make our life easier in the future...
+
+> Regarding the bloat of ext4_inode_info, perhaps we can drop the
+> wait_queue_head_t (24 bytes) and use wait_var_event()/ wake_up_var()
+> instead. Would this be acceptable?
+
+Yes, that would be a good way to reduce the bloat if we still need this.
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
