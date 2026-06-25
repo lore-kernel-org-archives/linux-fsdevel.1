@@ -1,1501 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB8025785C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 19:42:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782416573; cv=none; b=eEkmcgJGwN8Ba8fnRKXnHHuFVy3U2K+yQkRHO0iSZWxEemV9PFGG+0KqRyoIoRAHEXdfYOhI4zD+RwtX2pzEPgMhuZ0IvlGHyXfLeGGCHOTnh+mRAz7mtlBN9wjliZLIPgap1el/bVnWZlcSIcOmiUYc+9xp58jm3StUcuEZomM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782416573; c=relaxed/simple;
-	bh=m/XRTS68ACxy1+PO6wxMA9xvx137hO96zuSQAL7jPlY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K0yNqk5ZE3WQc7wRASVNjUwtO7w6/1z9qyWIiNhLCHF2vidX6khIgWNKtL7aYz+KFK9S9HbNYF27+mt9mDyrct2ElZ93GqADxdQ5sBEhto1+T9nfhrVALyWQKt+/U/gl3dBnYqArbaxNQwlEW7XZKTjfEPWymlYZkdZDpxZs46M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LoJHQ5It; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4975E2E6CB3
+	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 19:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782417523; cv=pass; b=t+LxObpvG+vFCeyUfdc5t76exITtXVobgBTusfpJk16Vu9Y3NAnzwbJDHBD9pR4kl5eEfaydaXAzaaViFI2m6Ki3Sj0p2w1f0GoSdGsBKuizaVr+KzNgYWPdpiOevncbSgfGGu5fpuUK7W11c47huoolOwloQXoAS6/CnEJdXe0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782417523; c=relaxed/simple;
+	bh=t01HuVJS93Se9y/xJOr+SDSuCi2qkwkLjpWQtvIuIYY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ksqtEwpBXnkLNRL11/q/iB9Y+4FJS9Q90vubZqG7TJElcl/bXycBJaBkIUTchmmmy0pjr/uTSFDUxyX95HVeRv8aWDvL+dCd/9tmcwvDzIiI28bpKwvNqP3pGKvWnxWVCuAYjwz7+eGGA31eE8Rgfiutnxe5yQDLkaIYvVCog3k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eaESUM/3; arc=pass smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LoJHQ5It"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id B99A31F000E9;
-	Thu, 25 Jun 2026 19:42:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782416570;
-	bh=8R7QabemLy3uUd67nssv2BScMRE0mSNeV7pMwrbgPOY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LoJHQ5ItOifW5aDp4WA7kOqBZYyotP84NN4M/fyUiRDXGMMsa58DWk+5c7XfRiABr
-	 56nEb2/Zhhg2vKbuEx6ZPu2LMGG+cFNqOywi7iuIWSCao7lDiqOdyqc0VSX7MiCqXZ
-	 sfZG4zpPc2I5OCalXTBYPTBcpxgQyQNeZlVFXqmQLvvKG9apbU+xwYZqrchgjqNOw4
-	 F1x3I+KmXLCSSjRerEWfidEv3p7zSv2eiQv1W7MGUHo5qKq39a6oqPbkaOUCUmLkBK
-	 s+hp2dKond0TYDSSj1ZBorJciZYwNNm+UFKJeUvNTp9kEaznxOZrGcuDj0oH+NvGih
-	 AeD/n4Sgp63Mw==
-Date: Thu, 25 Jun 2026 12:42:50 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Christian Brauner <christian@brauner.io>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] efs: Remove EFS
-Message-ID: <20260625194250.GD6060@frogsfrogsfrogs>
-References: <20260618211822.3599089-1-willy@infradead.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eaESUM/3"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-8422f395a4aso139725b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 12:58:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782417522; cv=none;
+        d=google.com; s=arc-20260327;
+        b=hU0SVxz8xMnJnLnzKqggn4GVmsRAXRz/adZSkFri+YQZiHiJ5a1fzRsH67jmHHsV7Z
+         O0i0nvnioVes5aNBpIS3+LBrCl6ZI2Fp63fjhVeOFI+KDl2ug6V2yuyXuMhlWJiYStvj
+         j9mw7blWIFHon1IMzSFy4vHvt+dOJZG0aqAvK9JdkkhUiulcJQf08Onm8wmg++Ip+6uZ
+         UcU1CefxNdsztn1eLGIE6S5/i57uwcu+cLQwle4mh6LZdzQw98j4C7kZLJ8mYXLI77Kz
+         aVOjZs9QRq1zPNNXiij8nMk6ROXh67S8TmRqQFLGt35RA3/QJmkrfghfucEqC4T3x65l
+         QQuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=hPszu32IdAgDeUQ2X3Ei0AlLyibH0GB2lSQN/iu5tDY=;
+        fh=vv4Lq5kAIb6RSAXoVdYjOUUM7zj1xSu43ioCgZuoBPk=;
+        b=PWIl9qZeF/wt/bSvIlDyztqXWmYWulfKTAgq1mocjGHJ8QSPFtsRL9vksfDpCEOELC
+         5EDqJojUT7XqrfyH4q4HZ4dd21cbMAKU/LPp4ejwioOwGdusOv6YFMAOv9Y4ciPl4k4q
+         14QK5iQeyPbFlKtn3gIdAd25fty6XQmVEyFBcTgC6gCVRJ/zfEwJmjpzOL9GvBQvDIR4
+         MW424Lm5Z+fR6sQJT/cHSVRQ+i7ZwezaUaBr5LDp/RIYxbvZ5f//gCifxz7mKleVXTgc
+         tc7mnOMIdY8q9a5YZGQYjj2D89QfSkEYtG8dvlYX+oE4eimw76WAgHDleaYoH0GBU5ou
+         UmTw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782417522; x=1783022322; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hPszu32IdAgDeUQ2X3Ei0AlLyibH0GB2lSQN/iu5tDY=;
+        b=eaESUM/3qu36XTQpaqOGJRjKaAGFJhqF0lkNADskUW0FZ5YSzZqmQQpCBGhGz/9CVZ
+         3yTqnvI+Bx7woEDhrV7jxG/KIq4nb7Ybwyq8STUCdKFcVOnEBgsqaZtgwLc4IwSrvR6x
+         gAVj749Xk0LvTdnJIO6EhVs1PAhCSbSiB88EoPgFP4UYmxz7F7Zyc0hoIl6K8xltNi+P
+         VBGRGMT9JCYv6vh+8ZsfDNDU1ezEF+k52IKQtYr/p85BMLcP+bDoMyrU8nbOl44doxbK
+         VBlYIdTR0xF5O9W/ojYmiA2Okz/K4cgU5uRDbSIknQxrKRIpZC0xQEeVGhJE8uHDz+mx
+         5bCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782417522; x=1783022322;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hPszu32IdAgDeUQ2X3Ei0AlLyibH0GB2lSQN/iu5tDY=;
+        b=PrdBcX/sbvi8AyQNnJa55VX+ZWZXFEhQQS2lKGTUQGlavDUKG+bBAdi/de4JZGPBf6
+         0KnlGHJYxQyMBVnJLKl0e1DlQqkfg6ClT7xRpJGhUqeAQcANiYDbl7MERf5KrpYmJ1+/
+         Iy9RtB68gSpF+1xnXjYh4+EXal6fO+sj/DPEKfNhVuWHIFI52oqW/mIqNTUGuoanVEDr
+         di9ixL1zfKE0GtVtrrJJmDNaCD5X39jqEH2kLvKEnLOon+ogjO+z2akyjtsPFye74PL7
+         YR8/xVPC4E8H84KK8SLZvsW1LE9fWOJRk2105spqLDQ/aUOeFcMCu6A6EQtAAuZVRuRP
+         Sdng==
+X-Forwarded-Encrypted: i=1; AHgh+RozvEIzd2mIYsaFztIxMA1qh99SlzU10tf7nIgoy7DRNaLwubDP+XpXLJG8s+L+1G5RaLt+t8k+y/7dAaSo@vger.kernel.org
+X-Gm-Message-State: AOJu0YwK4lkFPaKFiVgXg3SG6axf4Dkv8sKRSkoA2+onY0qf2ExvwmRN
+	wRvlQEPYVG/zG8VjiKRKTS+mhcgiuibXAf8Ye9X1Zu50Ub8si/JI0v1VKJqo2PxmYV5/j5GV5lA
+	6yV5ttus0/iFTerXRioC4FMYWtIZBSaI=
+X-Gm-Gg: AfdE7cnCPzTl3gQPNf3cwowKDrUCocNmRIM5/NR0RWMSwcH24XsF/as229eWbVEC/Xq
+	knD34o9rPLHgmbSwxwmcppWOk4s7ZptsUdDjJb/+QsK572kI4X+dJ3rPsO7LTkxlKHBizeNHXJ8
+	C/P1FvlOFWXPajjjEWK+aNWuVq2ozipLv+br/YQQemNcYy6qFbTD9Xt2kQ14Gg+51CaSx2r2LmM
+	cIwv/XLbRYOZpi3b00+SKVvC2NPOWAOSX3FKrqLmUmEdIFFuz5T+mmBlQDOC2OT9AJWk9NUKK3i
+	WaKlQJz2XL6lMUWpBxuoeXccAO5A+w48amzWbwMlW2wDzHx4/6unkw0N2QlRsZORAGVQ3i1gzz6
+	cemGbaFpuEAvh
+X-Received: by 2002:a05:6a00:b44:b0:842:614b:50dc with SMTP id
+ d2e1a72fcca58-84591b767a3mr12823311b3a.13.1782417521452; Thu, 25 Jun 2026
+ 12:58:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260618211822.3599089-1-willy@infradead.org>
+References: <20260618203411.73917-2-dwindsor@gmail.com> <75d39fd9847cca915d704235264ab474@paul-moore.com>
+ <20260625-schnabel-rennmaschine-parieren-bcb352c3cf59@brauner>
+In-Reply-To: <20260625-schnabel-rennmaschine-parieren-bcb352c3cf59@brauner>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Thu, 25 Jun 2026 12:58:29 -0700
+X-Gm-Features: AVVi8CcGIc2g2XVMtMkmAY3eaT2U_sbyaP0UfCx7SkpWcEZUZelhXqYLRoruYRQ
+Message-ID: <CAADnVQKKr5cCYTj8qS7tU-Aeda1iexYUp5aquTjYXMEL656cJQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] bpf: add bpf_init_inode_xattr kfunc for atomic
+ inode labeling
+To: Christian Brauner <brauner@kernel.org>
+Cc: Paul Moore <paul@paul-moore.com>, David Windsor <dwindsor@gmail.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	John Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, Eduard <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	Emil Tsalapatis <emil@etsalapatis.com>, KP Singh <kpsingh@kernel.org>, 
+	Matt Bobrowski <mattbobrowski@google.com>, James Morris <jmorris@namei.org>, 
+	"Serge E . Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, dmitry.kasatkin@gmail.com, 
+	eric.snowberg@oracle.com, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Ondrej Mosnacek <omosnace@redhat.com>, Casey Schaufler <casey@schaufler-ca.com>, 
+	Shuah Khan <shuah@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
+	LSM List <linux-security-module@vger.kernel.org>, 
+	linux-integrity <linux-integrity@vger.kernel.org>, selinux@vger.kernel.org, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 18, 2026 at 10:18:19PM +0100, Matthew Wilcox (Oracle) wrote:
-> The kernel EFS code has been unmaintained for over twenty years.
-> It was superseded on IRIX around thirty years ago.  I haven't seen an
-> EFS filesystem in the wild since 1999.  Userspace tools to read EFS
-> filesystems exist, such as https://github.com/jkbenaim/efsextract
-> 
-> There's no benefit to keeping this filesystem in the kernel, and it only
-> increases the maintenance burden for tree-wide changes.
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+On Thu, Jun 25, 2026 at 7:23=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+rg> wrote:
+>
+> On 2026-06-23 20:12:32-04:00, Paul Moore wrote:
+> > On Jun 18, 2026 David Windsor <dwindsor@gmail.com> wrote:
+> >
+> > > Add bpf_init_inode_xattr() kfunc for BPF LSM programs to atomically s=
+et
+> > > xattrs via the inode_init_security hook using lsm_get_xattr_slot().
+> > >
+> > > The inode_init_security hook previously took the xattr array and coun=
+t
+> > > as two separate output parameters (struct xattr *xattrs, int
+> > > *xattr_count), which BPF programs cannot write to. Pass the xattr sta=
+te
+> > > as a single context object (struct xattr_ctx) instead, and have
+> > > bpf_init_inode_xattr() take that context directly. Update the existin=
+g
+> > > in-tree callers of inode_init_security to take and forward the new
+> > > xattr_ctx.
+> > >
+> > > A previous attempt [1] required a kmalloc string output protocol for
+> > > the xattr name. Since commit 6bcdfd2cac55 ("security: Allow all LSMs =
+to
+> > > provide xattrs for inode_init_security hook") [2], the xattr name is =
+no
+> > > longer allocated; it is a static constant.
+> > >
+> > > Because we rely on the hook-specific ctx layout, the kfunc is
+> > > restricted to lsm/inode_init_security. Restrict the xattr names that
+> > > may be set via this kfunc to the bpf.* namespace.
+> > >
+> > > Link: https://kernsec.org/pipermail/linux-security-module-archive/202=
+2-October/034878.html [1]
+> > > Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git/commit/?id=3D6bcdfd2cac55 [2]
+> > > Suggested-by: Song Liu <song@kernel.org>
+> > > Signed-off-by: David Windsor <dwindsor@gmail.com>
+> > > ---
+> > >  fs/bpf_fs_kfuncs.c                | 106 ++++++++++++++++++++++++++++=
++-
+> > >  include/linux/bpf.h               |   1 +
+> > >  include/linux/bpf_lsm.h           |   3 +
+> > >  include/linux/evm.h               |   9 +--
+> > >  include/linux/lsm_hook_defs.h     |   4 +-
+> > >  include/linux/lsm_hooks.h         |  16 ++---
+> > >  include/linux/security.h          |   5 ++
+> > >  kernel/bpf/bpf_lsm.c              |  10 +++
+> > >  kernel/bpf/trampoline.c           |   3 +
+> > >  security/bpf/hooks.c              |   1 +
+> > >  security/integrity/evm/evm_main.c |   8 ++-
+> > >  security/security.c               |   7 +-
+> > >  security/selinux/hooks.c          |   4 +-
+> > >  security/smack/smack_lsm.c        |  27 ++++----
+> > >  14 files changed, 166 insertions(+), 38 deletions(-)
+> >
+> > I have a few specific comments below, inline with the patch, but I want=
+ed
+> > to make some general comments too.
+> >
+> > The kfunc additions really don't belong in the VFS kfunc file, please
+> > create a LSM kfunc file (call it security/bpf_lsm_kfuncs.c) and add the
+> > kfunc code to this new file.
+>
+> We expose a bunch of VFS heavy operations for various security modules
+> and this is really not different. For xattrs we have it all centralized
+> in the VFS and in general all VFS related bpf kfuncs should continue
+> living there and be registered there. Anything that's just bpf infra
+> specific can go to security/bpf/kfuncs.c instead. But anyway, it's a bpf
+> specific helper so it's the bpf maintainer's call.
 
-Fine with me!  It's a great thing to remove orphaned code when we have
-safer alternatives available.
-
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
-
---D
-
-> ---
->  MAINTAINERS                    |   5 -
->  fs/Kconfig                     |   1 -
->  fs/Makefile                    |   1 -
->  fs/efs/Kconfig                 |  16 --
->  fs/efs/Makefile                |   8 -
->  fs/efs/dir.c                   | 105 ----------
->  fs/efs/efs.h                   | 144 -------------
->  fs/efs/file.c                  |  57 -----
->  fs/efs/inode.c                 | 315 ----------------------------
->  fs/efs/namei.c                 | 120 -----------
->  fs/efs/super.c                 | 368 ---------------------------------
->  fs/efs/symlink.c               |  50 -----
->  include/linux/efs_vh.h         |  54 -----
->  include/uapi/linux/efs_fs_sb.h |  63 ------
->  14 files changed, 1307 deletions(-)
->  delete mode 100644 fs/efs/Kconfig
->  delete mode 100644 fs/efs/Makefile
->  delete mode 100644 fs/efs/dir.c
->  delete mode 100644 fs/efs/efs.h
->  delete mode 100644 fs/efs/file.c
->  delete mode 100644 fs/efs/inode.c
->  delete mode 100644 fs/efs/namei.c
->  delete mode 100644 fs/efs/super.c
->  delete mode 100644 fs/efs/symlink.c
->  delete mode 100644 include/linux/efs_vh.h
->  delete mode 100644 include/uapi/linux/efs_fs_sb.h
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 629b22c6c21e..3c74e23921d2 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -9427,11 +9427,6 @@ L:	linux-fbdev@vger.kernel.org
->  S:	Maintained
->  F:	drivers/video/fbdev/efifb.c
->  
-> -EFS FILESYSTEM
-> -S:	Orphan
-> -W:	http://aeschi.ch.eu.org/efs/
-> -F:	fs/efs/
-> -
->  EHEA (IBM pSeries eHEA 10Gb ethernet adapter) DRIVER
->  L:	netdev@vger.kernel.org
->  S:	Orphan
-> diff --git a/fs/Kconfig b/fs/Kconfig
-> index 43cb06de297f..8089639db25c 100644
-> --- a/fs/Kconfig
-> +++ b/fs/Kconfig
-> @@ -315,7 +315,6 @@ source "fs/hfs/Kconfig"
->  source "fs/hfsplus/Kconfig"
->  source "fs/befs/Kconfig"
->  source "fs/bfs/Kconfig"
-> -source "fs/efs/Kconfig"
->  source "fs/jffs2/Kconfig"
->  # UBIFS File system configuration
->  source "fs/ubifs/Kconfig"
-> diff --git a/fs/Makefile b/fs/Makefile
-> index ae1b07f9c6a0..3a11a7d87832 100644
-> --- a/fs/Makefile
-> +++ b/fs/Makefile
-> @@ -93,7 +93,6 @@ obj-$(CONFIG_HPFS_FS)		+= hpfs/
->  obj-$(CONFIG_NTFS_FS)		+= ntfs/
->  obj-$(CONFIG_NTFS3_FS)		+= ntfs3/
->  obj-$(CONFIG_UFS_FS)		+= ufs/
-> -obj-$(CONFIG_EFS_FS)		+= efs/
->  obj-$(CONFIG_JFFS2_FS)		+= jffs2/
->  obj-$(CONFIG_UBIFS_FS)		+= ubifs/
->  obj-$(CONFIG_AFFS_FS)		+= affs/
-> diff --git a/fs/efs/Kconfig b/fs/efs/Kconfig
-> deleted file mode 100644
-> index 0833e533df9d..000000000000
-> --- a/fs/efs/Kconfig
-> +++ /dev/null
-> @@ -1,16 +0,0 @@
-> -# SPDX-License-Identifier: GPL-2.0-only
-> -config EFS_FS
-> -	tristate "EFS file system support (read only)"
-> -	depends on BLOCK
-> -	select BUFFER_HEAD
-> -	help
-> -	  EFS is an older file system used for non-ISO9660 CD-ROMs and hard
-> -	  disk partitions by SGI's IRIX operating system (IRIX 6.0 and newer
-> -	  uses the XFS file system for hard disk partitions however).
-> -
-> -	  This implementation only offers read-only access. If you don't know
-> -	  what all this is about, it's safe to say N. For more information
-> -	  about EFS see its home page at <http://aeschi.ch.eu.org/efs/>.
-> -
-> -	  To compile the EFS file system support as a module, choose M here: the
-> -	  module will be called efs.
-> diff --git a/fs/efs/Makefile b/fs/efs/Makefile
-> deleted file mode 100644
-> index 85e5b88f9471..000000000000
-> --- a/fs/efs/Makefile
-> +++ /dev/null
-> @@ -1,8 +0,0 @@
-> -# SPDX-License-Identifier: GPL-2.0-only
-> -#
-> -# Makefile for the linux efs-filesystem routines.
-> -#
-> -
-> -obj-$(CONFIG_EFS_FS) += efs.o
-> -
-> -efs-objs := super.o inode.o namei.o dir.o file.o symlink.o
-> diff --git a/fs/efs/dir.c b/fs/efs/dir.c
-> deleted file mode 100644
-> index 35ad0092c115..000000000000
-> --- a/fs/efs/dir.c
-> +++ /dev/null
-> @@ -1,105 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0
-> -/*
-> - * dir.c
-> - *
-> - * Copyright (c) 1999 Al Smith
-> - */
-> -
-> -#include <linux/buffer_head.h>
-> -#include <linux/filelock.h>
-> -#include "efs.h"
-> -
-> -static int efs_readdir(struct file *, struct dir_context *);
-> -
-> -const struct file_operations efs_dir_operations = {
-> -	.llseek		= generic_file_llseek,
-> -	.read		= generic_read_dir,
-> -	.iterate_shared	= efs_readdir,
-> -	.setlease	= generic_setlease,
-> -};
-> -
-> -const struct inode_operations efs_dir_inode_operations = {
-> -	.lookup		= efs_lookup,
-> -};
-> -
-> -static int efs_readdir(struct file *file, struct dir_context *ctx)
-> -{
-> -	struct inode *inode = file_inode(file);
-> -	efs_block_t		block;
-> -	int			slot;
-> -
-> -	if (inode->i_size & (EFS_DIRBSIZE-1))
-> -		pr_warn("%s(): directory size not a multiple of EFS_DIRBSIZE\n",
-> -			__func__);
-> -
-> -	/* work out where this entry can be found */
-> -	block = ctx->pos >> EFS_DIRBSIZE_BITS;
-> -
-> -	/* each block contains at most 256 slots */
-> -	slot  = ctx->pos & 0xff;
-> -
-> -	/* look at all blocks */
-> -	while (block < inode->i_blocks) {
-> -		struct efs_dir		*dirblock;
-> -		struct buffer_head *bh;
-> -
-> -		/* read the dir block */
-> -		bh = sb_bread(inode->i_sb, efs_bmap(inode, block));
-> -
-> -		if (!bh) {
-> -			pr_err("%s(): failed to read dir block %d\n",
-> -			       __func__, block);
-> -			break;
-> -		}
-> -
-> -		dirblock = (struct efs_dir *) bh->b_data; 
-> -
-> -		if (be16_to_cpu(dirblock->magic) != EFS_DIRBLK_MAGIC) {
-> -			pr_err("%s(): invalid directory block\n", __func__);
-> -			brelse(bh);
-> -			break;
-> -		}
-> -
-> -		for (; slot < dirblock->slots; slot++) {
-> -			struct efs_dentry *dirslot;
-> -			efs_ino_t inodenum;
-> -			const char *nameptr;
-> -			int namelen;
-> -
-> -			if (dirblock->space[slot] == 0)
-> -				continue;
-> -
-> -			dirslot  = (struct efs_dentry *) (((char *) bh->b_data) + EFS_SLOTAT(dirblock, slot));
-> -
-> -			inodenum = be32_to_cpu(dirslot->inode);
-> -			namelen  = dirslot->namelen;
-> -			nameptr  = dirslot->name;
-> -			pr_debug("%s(): block %d slot %d/%d: inode %u, name \"%s\", namelen %u\n",
-> -				 __func__, block, slot, dirblock->slots-1,
-> -				 inodenum, nameptr, namelen);
-> -			if (!namelen)
-> -				continue;
-> -			/* found the next entry */
-> -			ctx->pos = (block << EFS_DIRBSIZE_BITS) | slot;
-> -
-> -			/* sanity check */
-> -			if (nameptr - (char *) dirblock + namelen > EFS_DIRBSIZE) {
-> -				pr_warn("directory entry %d exceeds directory block\n",
-> -					slot);
-> -				continue;
-> -			}
-> -
-> -			/* copy filename and data in dirslot */
-> -			if (!dir_emit(ctx, nameptr, namelen, inodenum, DT_UNKNOWN)) {
-> -				brelse(bh);
-> -				return 0;
-> -			}
-> -		}
-> -		brelse(bh);
-> -
-> -		slot = 0;
-> -		block++;
-> -	}
-> -	ctx->pos = (block << EFS_DIRBSIZE_BITS) | slot;
-> -	return 0;
-> -}
-> diff --git a/fs/efs/efs.h b/fs/efs/efs.h
-> deleted file mode 100644
-> index 918d2b9abb76..000000000000
-> --- a/fs/efs/efs.h
-> +++ /dev/null
-> @@ -1,144 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0 */
-> -/*
-> - * Copyright (c) 1999 Al Smith, <Al.Smith@aeschi.ch.eu.org>
-> - *
-> - * Portions derived from work (c) 1995,1996 Christian Vogelgsang.
-> - * Portions derived from IRIX header files (c) 1988 Silicon Graphics
-> - */
-> -#ifndef _EFS_EFS_H_
-> -#define _EFS_EFS_H_
-> -
-> -#ifdef pr_fmt
-> -#undef pr_fmt
-> -#endif
-> -
-> -#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> -
-> -#include <linux/fs.h>
-> -#include <linux/uaccess.h>
-> -
-> -#define EFS_VERSION "1.0a"
-> -
-> -/* 1 block is 512 bytes */
-> -#define	EFS_BLOCKSIZE_BITS	9
-> -#define	EFS_BLOCKSIZE		(1 << EFS_BLOCKSIZE_BITS)
-> -
-> -typedef	int32_t		efs_block_t;
-> -typedef uint32_t	efs_ino_t;
-> -
-> -#define	EFS_DIRECTEXTENTS	12
-> -
-> -/*
-> - * layout of an extent, in memory and on disk. 8 bytes exactly.
-> - */
-> -typedef union extent_u {
-> -	unsigned char raw[8];
-> -	struct extent_s {
-> -		unsigned int	ex_magic:8;	/* magic # (zero) */
-> -		unsigned int	ex_bn:24;	/* basic block */
-> -		unsigned int	ex_length:8;	/* numblocks in this extent */
-> -		unsigned int	ex_offset:24;	/* logical offset into file */
-> -	} cooked;
-> -} efs_extent;
-> -
-> -typedef struct edevs {
-> -	__be16		odev;
-> -	__be32		ndev;
-> -} efs_devs;
-> -
-> -/*
-> - * extent based filesystem inode as it appears on disk.  The efs inode
-> - * is exactly 128 bytes long.
-> - */
-> -struct	efs_dinode {
-> -	__be16		di_mode;	/* mode and type of file */
-> -	__be16		di_nlink;	/* number of links to file */
-> -	__be16		di_uid;		/* owner's user id */
-> -	__be16		di_gid;		/* owner's group id */
-> -	__be32		di_size;	/* number of bytes in file */
-> -	__be32		di_atime;	/* time last accessed */
-> -	__be32		di_mtime;	/* time last modified */
-> -	__be32		di_ctime;	/* time created */
-> -	__be32		di_gen;		/* generation number */
-> -	__be16		di_numextents;	/* # of extents */
-> -	u_char		di_version;	/* version of inode */
-> -	u_char		di_spare;	/* spare - used by AFS */
-> -	union di_addr {
-> -		efs_extent	di_extents[EFS_DIRECTEXTENTS];
-> -		efs_devs	di_dev;	/* device for IFCHR/IFBLK */
-> -	} di_u;
-> -};
-> -
-> -/* efs inode storage in memory */
-> -struct efs_inode_info {
-> -	int		numextents;
-> -	int		lastextent;
-> -
-> -	efs_extent	extents[EFS_DIRECTEXTENTS];
-> -	struct inode	vfs_inode;
-> -};
-> -
-> -#include <linux/efs_fs_sb.h>
-> -
-> -#define EFS_DIRBSIZE_BITS	EFS_BLOCKSIZE_BITS
-> -#define EFS_DIRBSIZE		(1 << EFS_DIRBSIZE_BITS)
-> -
-> -struct efs_dentry {
-> -	__be32		inode;
-> -	unsigned char	namelen;
-> -	char		name[3];
-> -};
-> -
-> -#define EFS_DENTSIZE	(sizeof(struct efs_dentry) - 3 + 1)
-> -#define EFS_MAXNAMELEN  ((1 << (sizeof(char) * 8)) - 1)
-> -
-> -#define EFS_DIRBLK_HEADERSIZE	4
-> -#define EFS_DIRBLK_MAGIC	0xbeef	/* moo */
-> -
-> -struct efs_dir {
-> -	__be16	magic;
-> -	unsigned char	firstused;
-> -	unsigned char	slots;
-> -
-> -	unsigned char	space[EFS_DIRBSIZE - EFS_DIRBLK_HEADERSIZE];
-> -};
-> -
-> -#define EFS_MAXENTS \
-> -	((EFS_DIRBSIZE - EFS_DIRBLK_HEADERSIZE) / \
-> -	 (EFS_DENTSIZE + sizeof(char)))
-> -
-> -#define EFS_SLOTAT(dir, slot) EFS_REALOFF((dir)->space[slot])
-> -
-> -#define EFS_REALOFF(offset) ((offset << 1))
-> -
-> -
-> -static inline struct efs_inode_info *INODE_INFO(struct inode *inode)
-> -{
-> -	return container_of(inode, struct efs_inode_info, vfs_inode);
-> -}
-> -
-> -static inline struct efs_sb_info *SUPER_INFO(struct super_block *sb)
-> -{
-> -	return sb->s_fs_info;
-> -}
-> -
-> -struct statfs;
-> -struct fid;
-> -
-> -extern const struct inode_operations efs_dir_inode_operations;
-> -extern const struct file_operations efs_dir_operations;
-> -extern const struct address_space_operations efs_symlink_aops;
-> -
-> -extern struct inode *efs_iget(struct super_block *, unsigned long);
-> -extern efs_block_t efs_map_block(struct inode *, efs_block_t);
-> -extern int efs_get_block(struct inode *, sector_t, struct buffer_head *, int);
-> -
-> -extern struct dentry *efs_lookup(struct inode *, struct dentry *, unsigned int);
-> -extern struct dentry *efs_fh_to_dentry(struct super_block *sb, struct fid *fid,
-> -		int fh_len, int fh_type);
-> -extern struct dentry *efs_fh_to_parent(struct super_block *sb, struct fid *fid,
-> -		int fh_len, int fh_type);
-> -extern struct dentry *efs_get_parent(struct dentry *);
-> -extern int efs_bmap(struct inode *, int);
-> -
-> -#endif /* _EFS_EFS_H_ */
-> diff --git a/fs/efs/file.c b/fs/efs/file.c
-> deleted file mode 100644
-> index 9e641da6fab2..000000000000
-> --- a/fs/efs/file.c
-> +++ /dev/null
-> @@ -1,57 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0
-> -/*
-> - * file.c
-> - *
-> - * Copyright (c) 1999 Al Smith
-> - *
-> - * Portions derived from work (c) 1995,1996 Christian Vogelgsang.
-> - */
-> -
-> -#include <linux/buffer_head.h>
-> -#include "efs.h"
-> -
-> -int efs_get_block(struct inode *inode, sector_t iblock,
-> -		  struct buffer_head *bh_result, int create)
-> -{
-> -	int error = -EROFS;
-> -	long phys;
-> -
-> -	if (create)
-> -		return error;
-> -	if (iblock >= inode->i_blocks) {
-> -#ifdef DEBUG
-> -		/*
-> -		 * i have no idea why this happens as often as it does
-> -		 */
-> -		pr_warn("%s(): block %d >= %ld (filesize %ld)\n",
-> -			__func__, block, inode->i_blocks, inode->i_size);
-> -#endif
-> -		return 0;
-> -	}
-> -	phys = efs_map_block(inode, iblock);
-> -	if (phys)
-> -		map_bh(bh_result, inode->i_sb, phys);
-> -	return 0;
-> -}
-> -
-> -int efs_bmap(struct inode *inode, efs_block_t block) {
-> -
-> -	if (block < 0) {
-> -		pr_warn("%s(): block < 0\n", __func__);
-> -		return 0;
-> -	}
-> -
-> -	/* are we about to read past the end of a file ? */
-> -	if (!(block < inode->i_blocks)) {
-> -#ifdef DEBUG
-> -		/*
-> -		 * i have no idea why this happens as often as it does
-> -		 */
-> -		pr_warn("%s(): block %d >= %ld (filesize %ld)\n",
-> -			__func__, block, inode->i_blocks, inode->i_size);
-> -#endif
-> -		return 0;
-> -	}
-> -
-> -	return efs_map_block(inode, block);
-> -}
-> diff --git a/fs/efs/inode.c b/fs/efs/inode.c
-> deleted file mode 100644
-> index 4b132729e638..000000000000
-> --- a/fs/efs/inode.c
-> +++ /dev/null
-> @@ -1,315 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0-only
-> -/*
-> - * inode.c
-> - *
-> - * Copyright (c) 1999 Al Smith
-> - *
-> - * Portions derived from work (c) 1995,1996 Christian Vogelgsang,
-> - *              and from work (c) 1998 Mike Shaver.
-> - */
-> -
-> -#include <linux/buffer_head.h>
-> -#include <linux/module.h>
-> -#include <linux/fs.h>
-> -#include "efs.h"
-> -#include <linux/efs_fs_sb.h>
-> -
-> -static int efs_read_folio(struct file *file, struct folio *folio)
-> -{
-> -	return block_read_full_folio(folio, efs_get_block);
-> -}
-> -
-> -static sector_t _efs_bmap(struct address_space *mapping, sector_t block)
-> -{
-> -	return generic_block_bmap(mapping,block,efs_get_block);
-> -}
-> -
-> -static const struct address_space_operations efs_aops = {
-> -	.read_folio = efs_read_folio,
-> -	.bmap = _efs_bmap
-> -};
-> -
-> -static inline void extent_copy(efs_extent *src, efs_extent *dst) {
-> -	/*
-> -	 * this is slightly evil. it doesn't just copy
-> -	 * efs_extent from src to dst, it also mangles
-> -	 * the bits so that dst ends up in cpu byte-order.
-> -	 */
-> -
-> -	dst->cooked.ex_magic  =  (unsigned int) src->raw[0];
-> -	dst->cooked.ex_bn     = ((unsigned int) src->raw[1] << 16) |
-> -				((unsigned int) src->raw[2] <<  8) |
-> -				((unsigned int) src->raw[3] <<  0);
-> -	dst->cooked.ex_length =  (unsigned int) src->raw[4];
-> -	dst->cooked.ex_offset = ((unsigned int) src->raw[5] << 16) |
-> -				((unsigned int) src->raw[6] <<  8) |
-> -				((unsigned int) src->raw[7] <<  0);
-> -	return;
-> -}
-> -
-> -struct inode *efs_iget(struct super_block *super, unsigned long ino)
-> -{
-> -	int i, inode_index;
-> -	dev_t device;
-> -	u32 rdev;
-> -	struct buffer_head *bh;
-> -	struct efs_sb_info    *sb = SUPER_INFO(super);
-> -	struct efs_inode_info *in;
-> -	efs_block_t block, offset;
-> -	struct efs_dinode *efs_inode;
-> -	struct inode *inode;
-> -
-> -	inode = iget_locked(super, ino);
-> -	if (!inode)
-> -		return ERR_PTR(-ENOMEM);
-> -	if (!(inode_state_read_once(inode) & I_NEW))
-> -		return inode;
-> -
-> -	in = INODE_INFO(inode);
-> -
-> -	/*
-> -	** EFS layout:
-> -	**
-> -	** |   cylinder group    |   cylinder group    |   cylinder group ..etc
-> -	** |inodes|data          |inodes|data          |inodes|data       ..etc
-> -	**
-> -	** work out the inode block index, (considering initially that the
-> -	** inodes are stored as consecutive blocks). then work out the block
-> -	** number of that inode given the above layout, and finally the
-> -	** offset of the inode within that block.
-> -	*/
-> -
-> -	inode_index = inode->i_ino /
-> -		(EFS_BLOCKSIZE / sizeof(struct efs_dinode));
-> -
-> -	block = sb->fs_start + sb->first_block + 
-> -		(sb->group_size * (inode_index / sb->inode_blocks)) +
-> -		(inode_index % sb->inode_blocks);
-> -
-> -	offset = (inode->i_ino %
-> -			(EFS_BLOCKSIZE / sizeof(struct efs_dinode))) *
-> -		sizeof(struct efs_dinode);
-> -
-> -	bh = sb_bread(inode->i_sb, block);
-> -	if (!bh) {
-> -		pr_warn("%s() failed at block %d\n", __func__, block);
-> -		goto read_inode_error;
-> -	}
-> -
-> -	efs_inode = (struct efs_dinode *) (bh->b_data + offset);
-> -    
-> -	inode->i_mode  = be16_to_cpu(efs_inode->di_mode);
-> -	set_nlink(inode, be16_to_cpu(efs_inode->di_nlink));
-> -	i_uid_write(inode, (uid_t)be16_to_cpu(efs_inode->di_uid));
-> -	i_gid_write(inode, (gid_t)be16_to_cpu(efs_inode->di_gid));
-> -	inode->i_size  = be32_to_cpu(efs_inode->di_size);
-> -	inode_set_atime(inode, be32_to_cpu(efs_inode->di_atime), 0);
-> -	inode_set_mtime(inode, be32_to_cpu(efs_inode->di_mtime), 0);
-> -	inode_set_ctime(inode, be32_to_cpu(efs_inode->di_ctime), 0);
-> -
-> -	/* this is the number of blocks in the file */
-> -	if (inode->i_size == 0) {
-> -		inode->i_blocks = 0;
-> -	} else {
-> -		inode->i_blocks = ((inode->i_size - 1) >> EFS_BLOCKSIZE_BITS) + 1;
-> -	}
-> -
-> -	rdev = be16_to_cpu(efs_inode->di_u.di_dev.odev);
-> -	if (rdev == 0xffff) {
-> -		rdev = be32_to_cpu(efs_inode->di_u.di_dev.ndev);
-> -		if (sysv_major(rdev) > 0xfff)
-> -			device = 0;
-> -		else
-> -			device = MKDEV(sysv_major(rdev), sysv_minor(rdev));
-> -	} else
-> -		device = old_decode_dev(rdev);
-> -
-> -	/* get the number of extents for this object */
-> -	in->numextents = be16_to_cpu(efs_inode->di_numextents);
-> -	in->lastextent = 0;
-> -
-> -	/* copy the extents contained within the inode to memory */
-> -	for(i = 0; i < EFS_DIRECTEXTENTS; i++) {
-> -		extent_copy(&(efs_inode->di_u.di_extents[i]), &(in->extents[i]));
-> -		if (i < in->numextents && in->extents[i].cooked.ex_magic != 0) {
-> -			pr_warn("extent %d has bad magic number in inode %llu\n",
-> -				i, inode->i_ino);
-> -			brelse(bh);
-> -			goto read_inode_error;
-> -		}
-> -	}
-> -
-> -	brelse(bh);
-> -	pr_debug("efs_iget(): inode %llu, extents %d, mode %o\n",
-> -		 inode->i_ino, in->numextents, inode->i_mode);
-> -	switch (inode->i_mode & S_IFMT) {
-> -		case S_IFDIR: 
-> -			inode->i_op = &efs_dir_inode_operations; 
-> -			inode->i_fop = &efs_dir_operations; 
-> -			break;
-> -		case S_IFREG:
-> -			inode->i_fop = &generic_ro_fops;
-> -			inode->i_data.a_ops = &efs_aops;
-> -			break;
-> -		case S_IFLNK:
-> -			inode->i_op = &page_symlink_inode_operations;
-> -			inode_nohighmem(inode);
-> -			inode->i_data.a_ops = &efs_symlink_aops;
-> -			break;
-> -		case S_IFCHR:
-> -		case S_IFBLK:
-> -		case S_IFIFO:
-> -			init_special_inode(inode, inode->i_mode, device);
-> -			break;
-> -		default:
-> -			pr_warn("unsupported inode mode %o\n", inode->i_mode);
-> -			goto read_inode_error;
-> -			break;
-> -	}
-> -
-> -	unlock_new_inode(inode);
-> -	return inode;
-> -        
-> -read_inode_error:
-> -	pr_warn("failed to read inode %llu\n", inode->i_ino);
-> -	iget_failed(inode);
-> -	return ERR_PTR(-EIO);
-> -}
-> -
-> -static inline efs_block_t
-> -efs_extent_check(efs_extent *ptr, efs_block_t block, struct efs_sb_info *sb) {
-> -	efs_block_t start;
-> -	efs_block_t length;
-> -	efs_block_t offset;
-> -
-> -	/*
-> -	 * given an extent and a logical block within a file,
-> -	 * can this block be found within this extent ?
-> -	 */
-> -	start  = ptr->cooked.ex_bn;
-> -	length = ptr->cooked.ex_length;
-> -	offset = ptr->cooked.ex_offset;
-> -
-> -	if ((block >= offset) && (block < offset+length)) {
-> -		return(sb->fs_start + start + block - offset);
-> -	} else {
-> -		return 0;
-> -	}
-> -}
-> -
-> -efs_block_t efs_map_block(struct inode *inode, efs_block_t block) {
-> -	struct efs_sb_info    *sb = SUPER_INFO(inode->i_sb);
-> -	struct efs_inode_info *in = INODE_INFO(inode);
-> -	struct buffer_head    *bh = NULL;
-> -
-> -	int cur, last, first = 1;
-> -	int ibase, ioffset, dirext, direxts, indext, indexts;
-> -	efs_block_t iblock, result = 0, lastblock = 0;
-> -	efs_extent ext, *exts;
-> -
-> -	last = in->lastextent;
-> -
-> -	if (in->numextents <= EFS_DIRECTEXTENTS) {
-> -		/* first check the last extent we returned */
-> -		if ((result = efs_extent_check(&in->extents[last], block, sb)))
-> -			return result;
-> -    
-> -		/* if we only have one extent then nothing can be found */
-> -		if (in->numextents == 1) {
-> -			pr_err("%s() failed to map (1 extent)\n", __func__);
-> -			return 0;
-> -		}
-> -
-> -		direxts = in->numextents;
-> -
-> -		/*
-> -		 * check the stored extents in the inode
-> -		 * start with next extent and check forwards
-> -		 */
-> -		for(dirext = 1; dirext < direxts; dirext++) {
-> -			cur = (last + dirext) % in->numextents;
-> -			if ((result = efs_extent_check(&in->extents[cur], block, sb))) {
-> -				in->lastextent = cur;
-> -				return result;
-> -			}
-> -		}
-> -
-> -		pr_err("%s() failed to map block %u (dir)\n", __func__, block);
-> -		return 0;
-> -	}
-> -
-> -	pr_debug("%s(): indirect search for logical block %u\n",
-> -		 __func__, block);
-> -	direxts = in->extents[0].cooked.ex_offset;
-> -	indexts = in->numextents;
-> -
-> -	for(indext = 0; indext < indexts; indext++) {
-> -		cur = (last + indext) % indexts;
-> -
-> -		/*
-> -		 * work out which direct extent contains `cur'.
-> -		 *
-> -		 * also compute ibase: i.e. the number of the first
-> -		 * indirect extent contained within direct extent `cur'.
-> -		 *
-> -		 */
-> -		ibase = 0;
-> -		for(dirext = 0; cur < ibase && dirext < direxts; dirext++) {
-> -			ibase += in->extents[dirext].cooked.ex_length *
-> -				(EFS_BLOCKSIZE / sizeof(efs_extent));
-> -		}
-> -
-> -		if (dirext == direxts) {
-> -			/* should never happen */
-> -			pr_err("couldn't find direct extent for indirect extent %d (block %u)\n",
-> -			       cur, block);
-> -			if (bh) brelse(bh);
-> -			return 0;
-> -		}
-> -		
-> -		/* work out block number and offset of this indirect extent */
-> -		iblock = sb->fs_start + in->extents[dirext].cooked.ex_bn +
-> -			(cur - ibase) /
-> -			(EFS_BLOCKSIZE / sizeof(efs_extent));
-> -		ioffset = (cur - ibase) %
-> -			(EFS_BLOCKSIZE / sizeof(efs_extent));
-> -
-> -		if (first || lastblock != iblock) {
-> -			if (bh) brelse(bh);
-> -
-> -			bh = sb_bread(inode->i_sb, iblock);
-> -			if (!bh) {
-> -				pr_err("%s() failed at block %d\n",
-> -				       __func__, iblock);
-> -				return 0;
-> -			}
-> -			pr_debug("%s(): read indirect extent block %d\n",
-> -				 __func__, iblock);
-> -			first = 0;
-> -			lastblock = iblock;
-> -		}
-> -
-> -		exts = (efs_extent *) bh->b_data;
-> -
-> -		extent_copy(&(exts[ioffset]), &ext);
-> -
-> -		if (ext.cooked.ex_magic != 0) {
-> -			pr_err("extent %d has bad magic number in block %d\n",
-> -			       cur, iblock);
-> -			if (bh) brelse(bh);
-> -			return 0;
-> -		}
-> -
-> -		if ((result = efs_extent_check(&ext, block, sb))) {
-> -			if (bh) brelse(bh);
-> -			in->lastextent = cur;
-> -			return result;
-> -		}
-> -	}
-> -	if (bh) brelse(bh);
-> -	pr_err("%s() failed to map block %u (indir)\n", __func__, block);
-> -	return 0;
-> -}  
-> -
-> -MODULE_DESCRIPTION("Extent File System (efs)");
-> -MODULE_LICENSE("GPL");
-> diff --git a/fs/efs/namei.c b/fs/efs/namei.c
-> deleted file mode 100644
-> index 38961ee1d1af..000000000000
-> --- a/fs/efs/namei.c
-> +++ /dev/null
-> @@ -1,120 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0
-> -/*
-> - * namei.c
-> - *
-> - * Copyright (c) 1999 Al Smith
-> - *
-> - * Portions derived from work (c) 1995,1996 Christian Vogelgsang.
-> - */
-> -
-> -#include <linux/buffer_head.h>
-> -#include <linux/string.h>
-> -#include <linux/exportfs.h>
-> -#include "efs.h"
-> -
-> -
-> -static efs_ino_t efs_find_entry(struct inode *inode, const char *name, int len)
-> -{
-> -	struct buffer_head *bh;
-> -
-> -	int			slot, namelen;
-> -	char			*nameptr;
-> -	struct efs_dir		*dirblock;
-> -	struct efs_dentry	*dirslot;
-> -	efs_ino_t		inodenum;
-> -	efs_block_t		block;
-> - 
-> -	if (inode->i_size & (EFS_DIRBSIZE-1))
-> -		pr_warn("%s(): directory size not a multiple of EFS_DIRBSIZE\n",
-> -			__func__);
-> -
-> -	for(block = 0; block < inode->i_blocks; block++) {
-> -
-> -		bh = sb_bread(inode->i_sb, efs_bmap(inode, block));
-> -		if (!bh) {
-> -			pr_err("%s(): failed to read dir block %d\n",
-> -			       __func__, block);
-> -			return 0;
-> -		}
-> -    
-> -		dirblock = (struct efs_dir *) bh->b_data;
-> -
-> -		if (be16_to_cpu(dirblock->magic) != EFS_DIRBLK_MAGIC) {
-> -			pr_err("%s(): invalid directory block\n", __func__);
-> -			brelse(bh);
-> -			return 0;
-> -		}
-> -
-> -		for (slot = 0; slot < dirblock->slots; slot++) {
-> -			dirslot  = (struct efs_dentry *) (((char *) bh->b_data) + EFS_SLOTAT(dirblock, slot));
-> -
-> -			namelen  = dirslot->namelen;
-> -			nameptr  = dirslot->name;
-> -
-> -			if ((namelen == len) && (!memcmp(name, nameptr, len))) {
-> -				inodenum = be32_to_cpu(dirslot->inode);
-> -				brelse(bh);
-> -				return inodenum;
-> -			}
-> -		}
-> -		brelse(bh);
-> -	}
-> -	return 0;
-> -}
-> -
-> -struct dentry *efs_lookup(struct inode *dir, struct dentry *dentry, unsigned int flags)
-> -{
-> -	efs_ino_t inodenum;
-> -	struct inode *inode = NULL;
-> -
-> -	inodenum = efs_find_entry(dir, dentry->d_name.name, dentry->d_name.len);
-> -	if (inodenum)
-> -		inode = efs_iget(dir->i_sb, inodenum);
-> -
-> -	return d_splice_alias(inode, dentry);
-> -}
-> -
-> -static struct inode *efs_nfs_get_inode(struct super_block *sb, u64 ino,
-> -		u32 generation)
-> -{
-> -	struct inode *inode;
-> -
-> -	if (ino == 0)
-> -		return ERR_PTR(-ESTALE);
-> -	inode = efs_iget(sb, ino);
-> -	if (IS_ERR(inode))
-> -		return ERR_CAST(inode);
-> -
-> -	if (generation && inode->i_generation != generation) {
-> -		iput(inode);
-> -		return ERR_PTR(-ESTALE);
-> -	}
-> -
-> -	return inode;
-> -}
-> -
-> -struct dentry *efs_fh_to_dentry(struct super_block *sb, struct fid *fid,
-> -		int fh_len, int fh_type)
-> -{
-> -	return generic_fh_to_dentry(sb, fid, fh_len, fh_type,
-> -				    efs_nfs_get_inode);
-> -}
-> -
-> -struct dentry *efs_fh_to_parent(struct super_block *sb, struct fid *fid,
-> -		int fh_len, int fh_type)
-> -{
-> -	return generic_fh_to_parent(sb, fid, fh_len, fh_type,
-> -				    efs_nfs_get_inode);
-> -}
-> -
-> -struct dentry *efs_get_parent(struct dentry *child)
-> -{
-> -	struct dentry *parent = ERR_PTR(-ENOENT);
-> -	efs_ino_t ino;
-> -
-> -	ino = efs_find_entry(d_inode(child), "..", 2);
-> -	if (ino)
-> -		parent = d_obtain_alias(efs_iget(child->d_sb, ino));
-> -
-> -	return parent;
-> -}
-> diff --git a/fs/efs/super.c b/fs/efs/super.c
-> deleted file mode 100644
-> index 11fea3bbce7c..000000000000
-> --- a/fs/efs/super.c
-> +++ /dev/null
-> @@ -1,368 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0
-> -/*
-> - * super.c
-> - *
-> - * Copyright (c) 1999 Al Smith
-> - *
-> - * Portions derived from work (c) 1995,1996 Christian Vogelgsang.
-> - */
-> -
-> -#include <linux/init.h>
-> -#include <linux/module.h>
-> -#include <linux/exportfs.h>
-> -#include <linux/slab.h>
-> -#include <linux/buffer_head.h>
-> -#include <linux/vfs.h>
-> -#include <linux/blkdev.h>
-> -#include <linux/fs_context.h>
-> -#include "efs.h"
-> -#include <linux/efs_vh.h>
-> -#include <linux/efs_fs_sb.h>
-> -
-> -static int efs_statfs(struct dentry *dentry, struct kstatfs *buf);
-> -static int efs_init_fs_context(struct fs_context *fc);
-> -
-> -static void efs_kill_sb(struct super_block *s)
-> -{
-> -	struct efs_sb_info *sbi = SUPER_INFO(s);
-> -	kill_block_super(s);
-> -	kfree(sbi);
-> -}
-> -
-> -static struct pt_types sgi_pt_types[] = {
-> -	{0x00,		"SGI vh"},
-> -	{0x01,		"SGI trkrepl"},
-> -	{0x02,		"SGI secrepl"},
-> -	{0x03,		"SGI raw"},
-> -	{0x04,		"SGI bsd"},
-> -	{SGI_SYSV,	"SGI sysv"},
-> -	{0x06,		"SGI vol"},
-> -	{SGI_EFS,	"SGI efs"},
-> -	{0x08,		"SGI lv"},
-> -	{0x09,		"SGI rlv"},
-> -	{0x0A,		"SGI xfs"},
-> -	{0x0B,		"SGI xfslog"},
-> -	{0x0C,		"SGI xlv"},
-> -	{0x82,		"Linux swap"},
-> -	{0x83,		"Linux native"},
-> -	{0,		NULL}
-> -};
-> -
-> -/*
-> - * File system definition and registration.
-> - */
-> -static struct file_system_type efs_fs_type = {
-> -	.owner			= THIS_MODULE,
-> -	.name			= "efs",
-> -	.kill_sb		= efs_kill_sb,
-> -	.fs_flags		= FS_REQUIRES_DEV,
-> -	.init_fs_context	= efs_init_fs_context,
-> -};
-> -MODULE_ALIAS_FS("efs");
-> -
-> -static struct kmem_cache * efs_inode_cachep;
-> -
-> -static struct inode *efs_alloc_inode(struct super_block *sb)
-> -{
-> -	struct efs_inode_info *ei;
-> -	ei = alloc_inode_sb(sb, efs_inode_cachep, GFP_KERNEL);
-> -	if (!ei)
-> -		return NULL;
-> -	return &ei->vfs_inode;
-> -}
-> -
-> -static void efs_free_inode(struct inode *inode)
-> -{
-> -	kmem_cache_free(efs_inode_cachep, INODE_INFO(inode));
-> -}
-> -
-> -static void init_once(void *foo)
-> -{
-> -	struct efs_inode_info *ei = (struct efs_inode_info *) foo;
-> -
-> -	inode_init_once(&ei->vfs_inode);
-> -}
-> -
-> -static int __init init_inodecache(void)
-> -{
-> -	efs_inode_cachep = kmem_cache_create("efs_inode_cache",
-> -				sizeof(struct efs_inode_info), 0,
-> -				SLAB_RECLAIM_ACCOUNT|SLAB_ACCOUNT,
-> -				init_once);
-> -	if (efs_inode_cachep == NULL)
-> -		return -ENOMEM;
-> -	return 0;
-> -}
-> -
-> -static void destroy_inodecache(void)
-> -{
-> -	/*
-> -	 * Make sure all delayed rcu free inodes are flushed before we
-> -	 * destroy cache.
-> -	 */
-> -	rcu_barrier();
-> -	kmem_cache_destroy(efs_inode_cachep);
-> -}
-> -
-> -static const struct super_operations efs_superblock_operations = {
-> -	.alloc_inode	= efs_alloc_inode,
-> -	.free_inode	= efs_free_inode,
-> -	.statfs		= efs_statfs,
-> -};
-> -
-> -static const struct export_operations efs_export_ops = {
-> -	.encode_fh	= generic_encode_ino32_fh,
-> -	.fh_to_dentry	= efs_fh_to_dentry,
-> -	.fh_to_parent	= efs_fh_to_parent,
-> -	.get_parent	= efs_get_parent,
-> -};
-> -
-> -static int __init init_efs_fs(void) {
-> -	int err;
-> -	pr_info(EFS_VERSION" - http://aeschi.ch.eu.org/efs/\n");
-> -	err = init_inodecache();
-> -	if (err)
-> -		goto out1;
-> -	err = register_filesystem(&efs_fs_type);
-> -	if (err)
-> -		goto out;
-> -	return 0;
-> -out:
-> -	destroy_inodecache();
-> -out1:
-> -	return err;
-> -}
-> -
-> -static void __exit exit_efs_fs(void) {
-> -	unregister_filesystem(&efs_fs_type);
-> -	destroy_inodecache();
-> -}
-> -
-> -module_init(init_efs_fs)
-> -module_exit(exit_efs_fs)
-> -
-> -static efs_block_t efs_validate_vh(struct volume_header *vh) {
-> -	int		i;
-> -	__be32		cs, *ui;
-> -	int		csum;
-> -	efs_block_t	sblock = 0; /* shuts up gcc */
-> -	struct pt_types	*pt_entry;
-> -	int		pt_type, slice = -1;
-> -
-> -	if (be32_to_cpu(vh->vh_magic) != VHMAGIC) {
-> -		/*
-> -		 * assume that we're dealing with a partition and allow
-> -		 * read_super() to try and detect a valid superblock
-> -		 * on the next block.
-> -		 */
-> -		return 0;
-> -	}
-> -
-> -	ui = ((__be32 *) (vh + 1)) - 1;
-> -	for(csum = 0; ui >= ((__be32 *) vh);) {
-> -		cs = *ui--;
-> -		csum += be32_to_cpu(cs);
-> -	}
-> -	if (csum) {
-> -		pr_warn("SGI disklabel: checksum bad, label corrupted\n");
-> -		return 0;
-> -	}
-> -
-> -#ifdef DEBUG
-> -	pr_debug("bf: \"%16s\"\n", vh->vh_bootfile);
-> -
-> -	for(i = 0; i < NVDIR; i++) {
-> -		int	j;
-> -		char	name[VDNAMESIZE+1];
-> -
-> -		for(j = 0; j < VDNAMESIZE; j++) {
-> -			name[j] = vh->vh_vd[i].vd_name[j];
-> -		}
-> -		name[j] = (char) 0;
-> -
-> -		if (name[0]) {
-> -			pr_debug("vh: %8s block: 0x%08x size: 0x%08x\n",
-> -				name, (int) be32_to_cpu(vh->vh_vd[i].vd_lbn),
-> -				(int) be32_to_cpu(vh->vh_vd[i].vd_nbytes));
-> -		}
-> -	}
-> -#endif
-> -
-> -	for(i = 0; i < NPARTAB; i++) {
-> -		pt_type = (int) be32_to_cpu(vh->vh_pt[i].pt_type);
-> -		for(pt_entry = sgi_pt_types; pt_entry->pt_name; pt_entry++) {
-> -			if (pt_type == pt_entry->pt_type) break;
-> -		}
-> -#ifdef DEBUG
-> -		if (be32_to_cpu(vh->vh_pt[i].pt_nblks)) {
-> -			pr_debug("pt %2d: start: %08d size: %08d type: 0x%02x (%s)\n",
-> -				 i, (int)be32_to_cpu(vh->vh_pt[i].pt_firstlbn),
-> -				 (int)be32_to_cpu(vh->vh_pt[i].pt_nblks),
-> -				 pt_type, (pt_entry->pt_name) ?
-> -				 pt_entry->pt_name : "unknown");
-> -		}
-> -#endif
-> -		if (IS_EFS(pt_type)) {
-> -			sblock = be32_to_cpu(vh->vh_pt[i].pt_firstlbn);
-> -			slice = i;
-> -		}
-> -	}
-> -
-> -	if (slice == -1) {
-> -		pr_notice("partition table contained no EFS partitions\n");
-> -#ifdef DEBUG
-> -	} else {
-> -		pr_info("using slice %d (type %s, offset 0x%x)\n", slice,
-> -			(pt_entry->pt_name) ? pt_entry->pt_name : "unknown",
-> -			sblock);
-> -#endif
-> -	}
-> -	return sblock;
-> -}
-> -
-> -static int efs_validate_super(struct efs_sb_info *sb, struct efs_super *super) {
-> -
-> -	if (!IS_EFS_MAGIC(be32_to_cpu(super->fs_magic)))
-> -		return -1;
-> -
-> -	sb->fs_magic     = be32_to_cpu(super->fs_magic);
-> -	sb->total_blocks = be32_to_cpu(super->fs_size);
-> -	sb->first_block  = be32_to_cpu(super->fs_firstcg);
-> -	sb->group_size   = be32_to_cpu(super->fs_cgfsize);
-> -	sb->data_free    = be32_to_cpu(super->fs_tfree);
-> -	sb->inode_free   = be32_to_cpu(super->fs_tinode);
-> -	sb->inode_blocks = be16_to_cpu(super->fs_cgisize);
-> -	sb->total_groups = be16_to_cpu(super->fs_ncg);
-> -    
-> -	return 0;    
-> -}
-> -
-> -static int efs_fill_super(struct super_block *s, struct fs_context *fc)
-> -{
-> -	struct efs_sb_info *sb;
-> -	struct buffer_head *bh;
-> -	struct inode *root;
-> -
-> -	sb = kzalloc_obj(struct efs_sb_info);
-> -	if (!sb)
-> -		return -ENOMEM;
-> -	s->s_fs_info = sb;
-> -	s->s_time_min = 0;
-> -	s->s_time_max = U32_MAX;
-> -
-> -	s->s_magic		= EFS_SUPER_MAGIC;
-> -	if (!sb_set_blocksize(s, EFS_BLOCKSIZE)) {
-> -		pr_err("device does not support %d byte blocks\n",
-> -			EFS_BLOCKSIZE);
-> -		return invalf(fc, "device does not support %d byte blocks\n",
-> -			      EFS_BLOCKSIZE);
-> -	}
-> -
-> -	/* read the vh (volume header) block */
-> -	bh = sb_bread(s, 0);
-> -
-> -	if (!bh) {
-> -		pr_err("cannot read volume header\n");
-> -		return -EIO;
-> -	}
-> -
-> -	/*
-> -	 * if this returns zero then we didn't find any partition table.
-> -	 * this isn't (yet) an error - just assume for the moment that
-> -	 * the device is valid and go on to search for a superblock.
-> -	 */
-> -	sb->fs_start = efs_validate_vh((struct volume_header *) bh->b_data);
-> -	brelse(bh);
-> -
-> -	if (sb->fs_start == -1) {
-> -		return -EINVAL;
-> -	}
-> -
-> -	bh = sb_bread(s, sb->fs_start + EFS_SUPER);
-> -	if (!bh) {
-> -		pr_err("cannot read superblock\n");
-> -		return -EIO;
-> -	}
-> -
-> -	if (efs_validate_super(sb, (struct efs_super *) bh->b_data)) {
-> -#ifdef DEBUG
-> -		pr_warn("invalid superblock at block %u\n",
-> -			sb->fs_start + EFS_SUPER);
-> -#endif
-> -		brelse(bh);
-> -		return -EINVAL;
-> -	}
-> -	brelse(bh);
-> -
-> -	if (!sb_rdonly(s)) {
-> -#ifdef DEBUG
-> -		pr_info("forcing read-only mode\n");
-> -#endif
-> -		s->s_flags |= SB_RDONLY;
-> -	}
-> -	s->s_op   = &efs_superblock_operations;
-> -	s->s_export_op = &efs_export_ops;
-> -	root = efs_iget(s, EFS_ROOTINODE);
-> -	if (IS_ERR(root)) {
-> -		pr_err("get root inode failed\n");
-> -		return PTR_ERR(root);
-> -	}
-> -
-> -	s->s_root = d_make_root(root);
-> -	if (!(s->s_root)) {
-> -		pr_err("get root dentry failed\n");
-> -		return -ENOMEM;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
-> -static int efs_get_tree(struct fs_context *fc)
-> -{
-> -	return get_tree_bdev(fc, efs_fill_super);
-> -}
-> -
-> -static int efs_reconfigure(struct fs_context *fc)
-> -{
-> -	sync_filesystem(fc->root->d_sb);
-> -	fc->sb_flags |= SB_RDONLY;
-> -
-> -	return 0;
-> -}
-> -
-> -static const struct fs_context_operations efs_context_opts = {
-> -	.get_tree	= efs_get_tree,
-> -	.reconfigure	= efs_reconfigure,
-> -};
-> -
-> -/*
-> - * Set up the filesystem mount context.
-> - */
-> -static int efs_init_fs_context(struct fs_context *fc)
-> -{
-> -	fc->ops = &efs_context_opts;
-> -
-> -	return 0;
-> -}
-> -
-> -static int efs_statfs(struct dentry *dentry, struct kstatfs *buf) {
-> -	struct super_block *sb = dentry->d_sb;
-> -	struct efs_sb_info *sbi = SUPER_INFO(sb);
-> -	u64 id = huge_encode_dev(sb->s_bdev->bd_dev);
-> -
-> -	buf->f_type    = EFS_SUPER_MAGIC;	/* efs magic number */
-> -	buf->f_bsize   = EFS_BLOCKSIZE;		/* blocksize */
-> -	buf->f_blocks  = sbi->total_groups *	/* total data blocks */
-> -			(sbi->group_size - sbi->inode_blocks);
-> -	buf->f_bfree   = sbi->data_free;	/* free data blocks */
-> -	buf->f_bavail  = sbi->data_free;	/* free blocks for non-root */
-> -	buf->f_files   = sbi->total_groups *	/* total inodes */
-> -			sbi->inode_blocks *
-> -			(EFS_BLOCKSIZE / sizeof(struct efs_dinode));
-> -	buf->f_ffree   = sbi->inode_free;	/* free inodes */
-> -	buf->f_fsid    = u64_to_fsid(id);
-> -	buf->f_namelen = EFS_MAXNAMELEN;	/* max filename length */
-> -
-> -	return 0;
-> -}
-> -
-> diff --git a/fs/efs/symlink.c b/fs/efs/symlink.c
-> deleted file mode 100644
-> index 7749feded722..000000000000
-> --- a/fs/efs/symlink.c
-> +++ /dev/null
-> @@ -1,50 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0
-> -/*
-> - * symlink.c
-> - *
-> - * Copyright (c) 1999 Al Smith
-> - *
-> - * Portions derived from work (c) 1995,1996 Christian Vogelgsang.
-> - */
-> -
-> -#include <linux/string.h>
-> -#include <linux/pagemap.h>
-> -#include <linux/buffer_head.h>
-> -#include "efs.h"
-> -
-> -static int efs_symlink_read_folio(struct file *file, struct folio *folio)
-> -{
-> -	char *link = folio_address(folio);
-> -	struct buffer_head *bh;
-> -	struct inode *inode = folio->mapping->host;
-> -	efs_block_t size = inode->i_size;
-> -	int err;
-> -  
-> -	err = -ENAMETOOLONG;
-> -	if (size > 2 * EFS_BLOCKSIZE)
-> -		goto fail;
-> -  
-> -	/* read first 512 bytes of link target */
-> -	err = -EIO;
-> -	bh = sb_bread(inode->i_sb, efs_bmap(inode, 0));
-> -	if (!bh)
-> -		goto fail;
-> -	memcpy(link, bh->b_data, (size > EFS_BLOCKSIZE) ? EFS_BLOCKSIZE : size);
-> -	brelse(bh);
-> -	if (size > EFS_BLOCKSIZE) {
-> -		bh = sb_bread(inode->i_sb, efs_bmap(inode, 1));
-> -		if (!bh)
-> -			goto fail;
-> -		memcpy(link + EFS_BLOCKSIZE, bh->b_data, size - EFS_BLOCKSIZE);
-> -		brelse(bh);
-> -	}
-> -	link[size] = '\0';
-> -	err = 0;
-> -fail:
-> -	folio_end_read(folio, err == 0);
-> -	return err;
-> -}
-> -
-> -const struct address_space_operations efs_symlink_aops = {
-> -	.read_folio	= efs_symlink_read_folio
-> -};
-> diff --git a/include/linux/efs_vh.h b/include/linux/efs_vh.h
-> deleted file mode 100644
-> index 206c5270f7b8..000000000000
-> --- a/include/linux/efs_vh.h
-> +++ /dev/null
-> @@ -1,54 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0 */
-> -/*
-> - * efs_vh.h
-> - *
-> - * Copyright (c) 1999 Al Smith
-> - *
-> - * Portions derived from IRIX header files (c) 1985 MIPS Computer Systems, Inc.
-> - */
-> -
-> -#ifndef __EFS_VH_H__
-> -#define __EFS_VH_H__
-> -
-> -#define VHMAGIC		0xbe5a941	/* volume header magic number */
-> -#define NPARTAB		16		/* 16 unix partitions */
-> -#define NVDIR		15		/* max of 15 directory entries */
-> -#define BFNAMESIZE	16		/* max 16 chars in boot file name */
-> -#define VDNAMESIZE	8
-> -
-> -struct volume_directory {
-> -	char	vd_name[VDNAMESIZE];	/* name */
-> -	__be32	vd_lbn;			/* logical block number */
-> -	__be32	vd_nbytes;		/* file length in bytes */
-> -};
-> -
-> -struct partition_table {	/* one per logical partition */
-> -	__be32	pt_nblks;	/* # of logical blks in partition */
-> -	__be32	pt_firstlbn;	/* first lbn of partition */
-> -	__be32	pt_type;	/* use of partition */
-> -};
-> -
-> -struct volume_header {
-> -	__be32	vh_magic;			/* identifies volume header */
-> -	__be16	vh_rootpt;			/* root partition number */
-> -	__be16	vh_swappt;			/* swap partition number */
-> -	char	vh_bootfile[BFNAMESIZE];	/* name of file to boot */
-> -	char	pad[48];			/* device param space */
-> -	struct volume_directory vh_vd[NVDIR];	/* other vol hdr contents */
-> -	struct partition_table  vh_pt[NPARTAB];	/* device partition layout */
-> -	__be32	vh_csum;			/* volume header checksum */
-> -	__be32	vh_fill;			/* fill out to 512 bytes */
-> -};
-> -
-> -/* partition type sysv is used for EFS format CD-ROM partitions */
-> -#define SGI_SYSV	0x05
-> -#define SGI_EFS		0x07
-> -#define IS_EFS(x)	(((x) == SGI_EFS) || ((x) == SGI_SYSV))
-> -
-> -struct pt_types {
-> -	int	pt_type;
-> -	char	*pt_name;
-> -};
-> -
-> -#endif /* __EFS_VH_H__ */
-> -
-> diff --git a/include/uapi/linux/efs_fs_sb.h b/include/uapi/linux/efs_fs_sb.h
-> deleted file mode 100644
-> index 6bad29a10faa..000000000000
-> --- a/include/uapi/linux/efs_fs_sb.h
-> +++ /dev/null
-> @@ -1,63 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> -/*
-> - * efs_fs_sb.h
-> - *
-> - * Copyright (c) 1999 Al Smith
-> - *
-> - * Portions derived from IRIX header files (c) 1988 Silicon Graphics
-> - */
-> -
-> -#ifndef __EFS_FS_SB_H__
-> -#define __EFS_FS_SB_H__
-> -
-> -#include <linux/types.h>
-> -#include <linux/magic.h>
-> -
-> -/* EFS superblock magic numbers */
-> -#define EFS_MAGIC	0x072959
-> -#define EFS_NEWMAGIC	0x07295a
-> -
-> -#define IS_EFS_MAGIC(x)	((x == EFS_MAGIC) || (x == EFS_NEWMAGIC))
-> -
-> -#define EFS_SUPER		1
-> -#define EFS_ROOTINODE		2
-> -
-> -/* efs superblock on disk */
-> -struct efs_super {
-> -	__be32		fs_size;        /* size of filesystem, in sectors */
-> -	__be32		fs_firstcg;     /* bb offset to first cg */
-> -	__be32		fs_cgfsize;     /* size of cylinder group in bb's */
-> -	__be16		fs_cgisize;     /* bb's of inodes per cylinder group */
-> -	__be16		fs_sectors;     /* sectors per track */
-> -	__be16		fs_heads;       /* heads per cylinder */
-> -	__be16		fs_ncg;         /* # of cylinder groups in filesystem */
-> -	__be16		fs_dirty;       /* fs needs to be fsck'd */
-> -	__be32		fs_time;        /* last super-block update */
-> -	__be32		fs_magic;       /* magic number */
-> -	char		fs_fname[6];    /* file system name */
-> -	char		fs_fpack[6];    /* file system pack name */
-> -	__be32		fs_bmsize;      /* size of bitmap in bytes */
-> -	__be32		fs_tfree;       /* total free data blocks */
-> -	__be32		fs_tinode;      /* total free inodes */
-> -	__be32		fs_bmblock;     /* bitmap location. */
-> -	__be32		fs_replsb;      /* Location of replicated superblock. */
-> -	__be32		fs_lastialloc;  /* last allocated inode */
-> -	char		fs_spare[20];   /* space for expansion - MUST BE ZERO */
-> -	__be32		fs_checksum;    /* checksum of volume portion of fs */
-> -};
-> -
-> -/* efs superblock information in memory */
-> -struct efs_sb_info {
-> -	__u32	fs_magic;	/* superblock magic number */
-> -	__u32	fs_start;	/* first block of filesystem */
-> -	__u32	first_block;	/* first data block in filesystem */
-> -	__u32	total_blocks;	/* total number of blocks in filesystem */
-> -	__u32	group_size;	/* # of blocks a group consists of */ 
-> -	__u32	data_free;	/* # of free data blocks */
-> -	__u32	inode_free;	/* # of free inodes */
-> -	__u16	inode_blocks;	/* # of blocks used for inodes in every grp */
-> -	__u16	total_groups;	/* # of groups */
-> -};
-> -
-> -#endif /* __EFS_FS_SB_H__ */
-> -
-> -- 
-> 2.47.3
-> 
-> 
+Completely agree. This is vfs related kfunc and has to be
+in fs/bpf_fs_kfuncs.c to make sure vfs maintainers review it now
+and all future changes to it.
