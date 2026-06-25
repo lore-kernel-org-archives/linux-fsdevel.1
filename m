@@ -1,164 +1,200 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED33372ECB;
-	Thu, 25 Jun 2026 20:39:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782419943; cv=none; b=gs7Kw/M2gKT3Utfsdw7NJKrZCDOccOp9Y+hdU+p1XlxuYYzMALCgW/l//UOnMZ+cmrFgDiSIWottwtt3d40JMZyFMrL+d3oJnZK+5XpLrSeJ5YRtg1Ht0ivnSlMyGFCpSdlXKQdec0xuaLjIaNAOzopq0Ze0AA8RPKMZNdEHKAo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782419943; c=relaxed/simple;
-	bh=k3wBF4b69LYmcdJHMZkwq5B3w6ha/hzctMpJG5T820M=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=omS7dz+RXHXrPeKRwpZ9BvRAIUSvFkR5/2rFhwRpq2HL1+PqKbGzD0qHRvfhWBWq1w0M4D5POV01or8h2fXAwm8Q/7KA0SbiMUo+d+v2CYljpMdb/3upooHqFj6tsOMXLNLIMSyX2X5TamoSeILlKMSxZV5PiLhDMPq0aSWdU2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nJLGgRg6; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD27430AD1A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 20:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782420037; cv=pass; b=ImyYt0BibrUv0w4VhWRD+vBGAboWB0BmpxNHcsK7z2ImUVzs7QYwHb6bvulRfNjhvlFloFZS5qL4tAvAt2Trv24rfhiqq0so3P7I9BY3p4sIaHd7Y8s3HW2upuDwEWuSqIp0T30ZoAP0FxU4YtBvt6NPrJb7fQUtICoDS3O1swQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782420037; c=relaxed/simple;
+	bh=RyZsVwgwp6SsDCHuEWnfop0rVpAHFJuENw+MxHAhUEc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iuQalpCPszrDPVk2JrE4drTpRPjpHOhuOjFNEOg35W5NN+Tve+BKs6m9cwwEmKH4jw2ta7GF0P86xZmqiHFRdk2TtQgmuNf2WFsSl6wgqK4K7I01dQ1GewzNpQrC7xOxleqOssuE5nQqsK838G2MKe7wbXd4ok3z+U2n2Ks2VDc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=MFsW9Q5c; arc=pass smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nJLGgRg6"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AF1E2C2BCC7;
-	Thu, 25 Jun 2026 20:39:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1782419943;
-	bh=k3wBF4b69LYmcdJHMZkwq5B3w6ha/hzctMpJG5T820M=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=nJLGgRg6VEGHOJhY1dqJURrjBPk+/mFROtW/JBQV43MImwtwjuOpco6Wv53H8wmHS
-	 2Tq4Vl8fcCquoym4xMrUCS/qO8Mst/9Gj6b2jDjqXDGZBMowXniw87shuJ5VLIHWea
-	 cWoUFm1Co7wwU9W0C3csr8OCDpMh8cXPL9yVfoPtyHmGYRdT3mWsT1sAm4I6W9OLcZ
-	 nZOzfetq7Yz1FNmVxwIRqPV4bC15ntOCdJ2GxT/lggbkUkDsHVz+m9mQ4+ml5gVGjT
-	 xwZ9xmICXjL4M5QaJrhIYZR9bDr4FOdjrhpf21XaQKmvUPaOLuPm3UVvlWFrDqLftm
-	 hZ9j9hAAf6mBw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A55B2CDE010;
-	Thu, 25 Jun 2026 20:39:03 +0000 (UTC)
-From: Joel Granados <joel.granados@kernel.org>
-Date: Thu, 25 Jun 2026 22:38:21 +0200
-Subject: [PATCH v3 09/10] sysctl: Update API function documentation
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="MFsW9Q5c"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-37de8c6a2b6so198271a91.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 13:40:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782420035; cv=none;
+        d=google.com; s=arc-20260327;
+        b=rbJYD+6RtugtKONn9iJIn8Lq9dv+Slq8vS5wyANxhw/xsCEBJwEh7TLs730+qc1o00
+         AaeGmmBkm6OQiPepKSvje73PDp5RilCGfdpvaCXYSa2oy2V/yPN5/KY/kVSbtE+CwLIn
+         FlFrvN7NowfPZJYFtLZxxu4HMhkdBjJ1nSUlVonppSZ7Bf+h6DNo21XqPmV1YRCaAoqm
+         BFN+oJw2dIptV5GBYVJTqtE+rYTzMZ5eokmkKp9rlPBuk7Gqcnr8IBrNzF3jytklm6XT
+         EjkbsFvdN2NGtGrYdP5WVYbPckq9+5HTHjNs8xtZy2hKB9hY6/+CmHsKY4GwdC+Dh6Ec
+         sFvw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+yx21f/fYo8TQI0aGf8AWSMgWBwIVqC4ciRZnA/Tpso=;
+        fh=PHF1ZL7u5UF9l0lNVoDoA2T9kHHjBzI6DC5h9T/wcnY=;
+        b=nFdUPVPIq7YPRfwEJOF9AbODj2cGwWHNEDpAG0m92+L4oYY+5dkFCih1X1lh3hIkqY
+         zNkO+akmIRvDgMBbTF2+EAocFxr6eo+O/c2YFOqrT3vwPGxQL0BzFiofmBPjaq4pAP6A
+         AQWS51Pg5piR1dl9Tt+rwNO0lunpyaqTA6Sf6BbCoKxdyn5InnkHd/Z0Kzqd1ogbpwO/
+         tpLsyDITGNy3xP74M5R3cldjD7wIOEuhroQ3LJ+eo0E4lRXdGW8HO6oG+aJHWenZFwVh
+         c6MVPOAyLOHc2px8iMX3r092Ty819DD9N809iuDiQMJ6UoGNB1yDxS6k66ef70I7UM3d
+         uqQg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1782420035; x=1783024835; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+yx21f/fYo8TQI0aGf8AWSMgWBwIVqC4ciRZnA/Tpso=;
+        b=MFsW9Q5cwGycDxFIv1uTpQRDOXbfcxY/EiDTQvSiLgo4ZYkMuB9Pmrc1+YsaqzfH1D
+         9DCVPc+P0+adZtcH0x5OgqmsneY6rOu7C2xAeoz/m5QpVGfAmlgr5Iee/asJtZJjXFAP
+         r2GIk8tOPNWGes2h8n+EIxfyWX9EI6UVGbOzfyCdzq4CverDDtos7ZVd/N+qmyeNUhB6
+         nicRrE0+AYncynkQN7d8+DJlEjFaSRja+6yT8gnVcgP1ncGULueRNJ0sWt3PhrYfNkkv
+         pJZZwkZCknfioGQTu+A6NaXExUgbBzpoRp7vSMmkhMueQW1rgIM/ept+nhUYO7dUyuhF
+         1HBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782420035; x=1783024835;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+yx21f/fYo8TQI0aGf8AWSMgWBwIVqC4ciRZnA/Tpso=;
+        b=UZANQGdTtB+YC2SWF0cHMEj14NvzHnkVw7roNsvRacmNttoy/06Q+LljaeAm6ETMC6
+         yF/Agm7lMOlIDK9lMNGuORVyrTYgyvNUCAhlCzrWDVe3VELbZ2Np7o2Y5cmwOITc/mXP
+         Etj0vuSNrytnNEUzhfHvuez0TAxj3PDWqIWmxKuvl717GPFpVg97SyLtlRnLedkzGRxE
+         zddvBcpsJtuE63nmW9XmUu2T0mQWt6X7+i1Tw8gJGgFD9TSSCFzDuLNaYNEpedFYY3q3
+         /C9+BAdVs4buvaprt670FyS4/aM65l+6PcBl4EO+UsZ3CGyDM4mHRRcw3fpwfnydWWV0
+         r0Og==
+X-Forwarded-Encrypted: i=1; AHgh+RqBiwAm8F24CY5zAA0vfYXUodGJ2GeBfoDk3uMeT08aEB9dZMo8ZWGliuZgayYVWD4ZJc5cccO6L7xvf98N@vger.kernel.org
+X-Gm-Message-State: AOJu0YxNJsyfWoU806E1Qbh1YmbIiJU9YXwgUXBcyB7XQfYZm65dDvDM
+	RHS3mKY9GsMRTN4cD95yD6VlYxk+FozCioOHdRhOp/vriTg/lumZSApMOJlSmjhvakgjMm07jiB
+	FkFRePbWdgeqv0pXUG9zeDtHheLBueff7we0N8eLg
+X-Gm-Gg: AfdE7cloColOJb8Mp2kVV2L6TV1bU/pWRm2wNyIMqZI8gaksmQPbvjs7olrxPNRRPCt
+	CALUqK5PPHHm+Gd0Stt2QzMCnGiNWVAxD0Lp/b/Q7bb158r22Ejsc2/3TjOyBMBmsIKrimQnBBY
+	/VFeFggOuoss/Mp4eU+oTd52pC0KMQfM/fPKDQWU6xECHhwEyrXb6kw3hjmOwyQuCMHBY/utVZd
+	Dv6SXZX4mrUxvUSr0/d5slKhsqCKRclWEjx1isZZc8AIV1uWUI3lq6wGr267/SPtaEh8vOj
+X-Received: by 2002:a17:90b:5288:b0:35b:8d89:719b with SMTP id
+ 98e67ed59e1d1-37dfa1739fdmr3601231a91.1.1782420034987; Thu, 25 Jun 2026
+ 13:40:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260625-jag-dovec_consolidate-v3-9-176ee192bcaf@kernel.org>
-References: <20260625-jag-dovec_consolidate-v3-0-176ee192bcaf@kernel.org>
-In-Reply-To: <20260625-jag-dovec_consolidate-v3-0-176ee192bcaf@kernel.org>
-To: Kees Cook <kees@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Joel Granados <joel.granados@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3622;
- i=joel.granados@kernel.org; h=from:subject:message-id;
- bh=k3wBF4b69LYmcdJHMZkwq5B3w6ha/hzctMpJG5T820M=;
- b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGo9kePBl9qfXx7gvC+PCAXMfIXGs2EC9W9Xh
- ai3UJv3NIWWqIkBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJqPZHjAAoJELqXzVK3
- lkFPoScL/1Oqh9Ig0FdLm39n0X79Ekhsp6a6zxC8+aMRwStZDzWuuzI1r+Y8fQktoNDwenQ25bh
- w6+hxIJP42sZ3df9mF2BS0m9Jb1lOg0R8W+qU6K35runyzXH+82XmHBYtPz6I0VNqOfyI+ZvntN
- RcXjGd5BPNap9pcJcZeNsa/LfNq+GX6Jw4HICtqqaffq6wxconS1UD8blajEBjuzExmfd6Ye+tq
- xqoc05x17ZVb/Med5NPC9aT3iCAeEAvidEf8TcydBGTNnlX0/wvwKeoPcoSXZk/bUWJBKnmOrVf
- WIUvuxH+yqC79ZvwyHFszAXFxfjuqwU0cd689pvYnFLuRIlKGqrFFXGYMhqt+XC9S+OCTHQDo3i
- pA5+6CkzC39Cs1+Z542GhYMBXfxUdd35pGymRIlKf/B+VlwP3PZhUSEEW3gUM69imqoZfmqa7M5
- SzDLCaG8heVazLZpvUiLl+ksjRFNZK0ha3yz+Ny/vxQGdOZ5IZ/CDKWsmDBF9KlSb+akHn6BJ39
- Z4=
-X-Developer-Key: i=joel.granados@kernel.org; a=openpgp;
- fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
-X-Endpoint-Received: by B4 Relay for joel.granados@kernel.org/default with
- auth_id=239
+References: <20260618203411.73917-2-dwindsor@gmail.com> <75d39fd9847cca915d704235264ab474@paul-moore.com>
+ <20260625-schnabel-rennmaschine-parieren-bcb352c3cf59@brauner> <CAADnVQKKr5cCYTj8qS7tU-Aeda1iexYUp5aquTjYXMEL656cJQ@mail.gmail.com>
+In-Reply-To: <CAADnVQKKr5cCYTj8qS7tU-Aeda1iexYUp5aquTjYXMEL656cJQ@mail.gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Thu, 25 Jun 2026 16:40:21 -0400
+X-Gm-Features: AVVi8CcDIUi3TCDxMODHgBDj-5EqkoBML23qr5aVxuP34LM8Xdw4wwqiCZTY1ss
+Message-ID: <CAHC9VhSXXHGRUmJ4YjQ6uEh6dbq7+h_0TwWiV+W5dUWXCTFcfg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] bpf: add bpf_init_inode_xattr kfunc for atomic
+ inode labeling
+To: David Windsor <dwindsor@gmail.com>
+Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	John Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, Eduard <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	Emil Tsalapatis <emil@etsalapatis.com>, KP Singh <kpsingh@kernel.org>, 
+	Matt Bobrowski <mattbobrowski@google.com>, James Morris <jmorris@namei.org>, 
+	"Serge E . Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, dmitry.kasatkin@gmail.com, 
+	eric.snowberg@oracle.com, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Ondrej Mosnacek <omosnace@redhat.com>, Casey Schaufler <casey@schaufler-ca.com>, 
+	Shuah Khan <shuah@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
+	LSM List <linux-security-module@vger.kernel.org>, 
+	linux-integrity <linux-integrity@vger.kernel.org>, selinux@vger.kernel.org, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add colon ":" after argument name where it is missing
-Add doc for proc_int_conv and proc_dointvec_conv
+On Thu, Jun 25, 2026 at 3:58=E2=80=AFPM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+> On Thu, Jun 25, 2026 at 7:23=E2=80=AFAM Christian Brauner <brauner@kernel=
+.org> wrote:
+> > On 2026-06-23 20:12:32-04:00, Paul Moore wrote:
+> > > On Jun 18, 2026 David Windsor <dwindsor@gmail.com> wrote:
+> > >
+> > > > Add bpf_init_inode_xattr() kfunc for BPF LSM programs to atomically=
+ set
+> > > > xattrs via the inode_init_security hook using lsm_get_xattr_slot().
+> > > >
+> > > > The inode_init_security hook previously took the xattr array and co=
+unt
+> > > > as two separate output parameters (struct xattr *xattrs, int
+> > > > *xattr_count), which BPF programs cannot write to. Pass the xattr s=
+tate
+> > > > as a single context object (struct xattr_ctx) instead, and have
+> > > > bpf_init_inode_xattr() take that context directly. Update the exist=
+ing
+> > > > in-tree callers of inode_init_security to take and forward the new
+> > > > xattr_ctx.
+> > > >
+> > > > A previous attempt [1] required a kmalloc string output protocol fo=
+r
+> > > > the xattr name. Since commit 6bcdfd2cac55 ("security: Allow all LSM=
+s to
+> > > > provide xattrs for inode_init_security hook") [2], the xattr name i=
+s no
+> > > > longer allocated; it is a static constant.
+> > > >
+> > > > Because we rely on the hook-specific ctx layout, the kfunc is
+> > > > restricted to lsm/inode_init_security. Restrict the xattr names tha=
+t
+> > > > may be set via this kfunc to the bpf.* namespace.
+> > > >
+> > > > Link: https://kernsec.org/pipermail/linux-security-module-archive/2=
+022-October/034878.html [1]
+> > > > Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linu=
+x.git/commit/?id=3D6bcdfd2cac55 [2]
+> > > > Suggested-by: Song Liu <song@kernel.org>
+> > > > Signed-off-by: David Windsor <dwindsor@gmail.com>
+> > > > ---
+> > > >  fs/bpf_fs_kfuncs.c                | 106 ++++++++++++++++++++++++++=
++++-
+> > > >  include/linux/bpf.h               |   1 +
+> > > >  include/linux/bpf_lsm.h           |   3 +
+> > > >  include/linux/evm.h               |   9 +--
+> > > >  include/linux/lsm_hook_defs.h     |   4 +-
+> > > >  include/linux/lsm_hooks.h         |  16 ++---
+> > > >  include/linux/security.h          |   5 ++
+> > > >  kernel/bpf/bpf_lsm.c              |  10 +++
+> > > >  kernel/bpf/trampoline.c           |   3 +
+> > > >  security/bpf/hooks.c              |   1 +
+> > > >  security/integrity/evm/evm_main.c |   8 ++-
+> > > >  security/security.c               |   7 +-
+> > > >  security/selinux/hooks.c          |   4 +-
+> > > >  security/smack/smack_lsm.c        |  27 ++++----
+> > > >  14 files changed, 166 insertions(+), 38 deletions(-)
+> > >
+> > > I have a few specific comments below, inline with the patch, but I wa=
+nted
+> > > to make some general comments too.
+> > >
+> > > The kfunc additions really don't belong in the VFS kfunc file, please
+> > > create a LSM kfunc file (call it security/bpf_lsm_kfuncs.c) and add t=
+he
+> > > kfunc code to this new file.
+> >
+> > We expose a bunch of VFS heavy operations for various security modules
+> > and this is really not different. For xattrs we have it all centralized
+> > in the VFS and in general all VFS related bpf kfuncs should continue
+> > living there and be registered there. Anything that's just bpf infra
+> > specific can go to security/bpf/kfuncs.c instead. But anyway, it's a bp=
+f
+> > specific helper so it's the bpf maintainer's call.
+>
+> Completely agree. This is vfs related kfunc and has to be
+> in fs/bpf_fs_kfuncs.c to make sure vfs maintainers review it now
+> and all future changes to it.
 
-Signed-off-by: Joel Granados <joel.granados@kernel.org>
----
- kernel/sysctl.c | 33 ++++++++++++++++++++++++---------
- 1 file changed, 24 insertions(+), 9 deletions(-)
+*laughs*
 
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index cff54c4ee88a36ecc643bff5531c640509cff7f4..a26011c3967faffaa19b358038c35d7f8868a051 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -365,7 +365,7 @@ static void proc_put_char(void **buf, size_t *size, char c)
-  * not NULL. Check that the values are less than UINT_MAX to avoid
-  * having to support wrap around from userspace.
-  *
-- * returns 0 on success.
-+ * Returns: 0 on success.
-  */
- int proc_uint_u2k_conv_uop(const ulong *u_ptr, uint *k_ptr,
- 			   ulong (*u_ptr_op)(const ulong))
-@@ -386,7 +386,7 @@ int proc_uint_u2k_conv_uop(const ulong *u_ptr, uint *k_ptr,
-  *
-  * Uses READ_ONCE to assign value to u_ptr.
-  *
-- * returns 0 on success.
-+ * Returns: 0 on success.
-  */
- int proc_uint_k2u_conv(ulong *u_ptr, const uint *k_ptr)
- {
-@@ -515,6 +515,23 @@ int proc_int_u2k_conv_uop(const ulong *u_ptr, int *k_ptr, const bool *negp,
- 	return 0;
- }
- 
-+/**
-+ * proc_int_conv - Change user or kernel pointer based on direction
-+ *
-+ * @negp: will be passed to uni-directional converters
-+ * @u_ptr: pointer to user variable
-+ * @k_ptr: pointer to kernel variable
-+ * @dir: %TRUE if this is a write to the sysctl file
-+ * @tbl: the sysctl table
-+ * @k_ptr_range_check: Check range for k_ptr when %TRUE
-+ * @user_to_kern: Callback used to assign value from user to kernel var
-+ * @kern_to_user: Callback used to assign value from kernel to user var
-+ *
-+ * When direction is kernel to user, then the u_ptr is modified.
-+ * When direction is user to kernel, then the k_ptr is modified.
-+ *
-+ * Returns: 0 on success
-+ */
- int proc_int_conv(bool *negp, ulong *u_ptr, int *k_ptr, int dir,
- 		  const struct ctl_table *tbl, bool k_ptr_range_check,
- 		  int (*user_to_kern)(const bool *negp, const ulong *u_ptr, int *k_ptr),
-@@ -912,7 +929,7 @@ int proc_ulong_conv(ulong *u_ptr, ulong *k_ptr, int dir,
-  * Uses WRITE_ONCE to assign value to k_ptr. Executes u_ptr_op if
-  * not NULL.
-  *
-- * returns: 0 on success.
-+ * Returns: 0 on success.
-  */
- int proc_ulong_u2k_conv_uop(const ulong *u_ptr, ulong *k_ptr,
- 			    ulong (*u_ptr_op)(const ulong))
-@@ -938,7 +955,7 @@ static int proc_ulong_u2k_conv(const ulong *u_ptr, ulong *k_ptr)
-  * Uses READ_ONCE to assign value to u_ptr. Executes k_ptr_op if
-  * not NULL.
-  *
-- * returns: 0 on success.
-+ * Returns: 0 on success.
-  */
- int proc_ulong_k2u_conv_kop(ulong *u_ptr, const ulong *k_ptr,
- 			    ulong (*k_ptr_op)(const ulong))
-@@ -1014,15 +1031,13 @@ int proc_doulongvec_minmax(const struct ctl_table *table, int dir,
-  * @buffer: the user buffer
-  * @lenp: the size of the user buffer
-  * @ppos: file position
-- * @conv: Custom converter call back
-+ * @conv: Custom converter call back. Defaults to do_proc_int_conv
-  *
-- * Reads/writes up to table->maxlen/sizeof(unsigned int) unsigned integer
-- * values from/to the user buffer, treated as an ASCII string. Negative
-- * strings are not allowed.
-+ * Reads/writes up to table->maxlen/sizeof(int) integer values from/to the
-+ * user buffer, treated as an ASCII string.
-  *
-  * Returns: 0 on success
-  */
--
- int proc_dointvec_conv(const struct ctl_table *table, int dir, void *buffer,
- 		       size_t *lenp, loff_t *ppos,
- 		       int (*conv)(bool *negp, unsigned long *u_ptr, int *k_ptr,
+Okay, then split out the LSM specific stuff into
+security/bpf_lsm_kfuncs.c; all the LSM macros/defines/calls should be
+in the LSM kfuncs file.
 
--- 
-2.50.1
-
-
+--=20
+paul-moore.com
