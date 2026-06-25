@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882B434C9A3
-	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 14:07:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62AC534041B
+	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 14:07:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782396436; cv=none; b=VRp1JtErko228mcXNga4+tKQIQ9bkCLhx6W9PY8ZDUaF5weQY+TEcR88lPYqo1+V/PsGTYuktgYr+O0CdeEs4ud4t6qNFgFzNmWAePezJ3PO5T5EaLlVbC+CS6M4VrcrsdkHvSYL3dhpuqBM9cJ1tC2LBONoKJrT+5kRQ6d40jo=
+	t=1782396444; cv=none; b=nbpPJPJOOy+NFXe2zqRF3zSHay8LaxfMJxEccueAXCsdvfPLvQV0pbLl/J31ywVYuDGhvKjXKsZUAneyaNvAEwpcaCOy5NmfJxXxsD7xw9c5tKrFQ/+9dkN55yrErYCXxJVAv+bCqoqmfeV311zgyH010uxpwc7TXqwTTG8ozjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782396436; c=relaxed/simple;
-	bh=/eMp+WImKJH9LzmD/3lNc54QT+Yi3S0Sw6GyYiwY1Qk=;
+	s=arc-20240116; t=1782396444; c=relaxed/simple;
+	bh=/VMGqRXj2H1ZoJ9Len4yDIgpZpvQtbhJDErO1fIajO8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=na+0lMEuX0r8rCSAmeFAuoY+G7PIjSsndAEEFLkKrWFO/aow9AuGSE9AMWSB4gSswTmWqBDzeLhBZFqhAoZTl4zlL6l2IeDtX6DPqQOfpuY0HVhNeT7kZ2peYVyZjVOU5bmj9bINXGPv83zuU3u1UDUWJ+yNl2Ya+2VBGoMKSdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FlxV79KT; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=jVyVkLtThF0kGvg61Cg2KasaF9a/ss8TyH3V5SC2l5STxw/JwnoxtgYgLnEwk2hd14YvJbaDBZf6tTn6RvYjD2MwEd6xADzZDD4/GwDUW+cbf12p9SFvArMbGdAWhDeJE8vCQ3TjBBtkra39SzMEWHTzSVEPB0yF5Q3qaEz5ivE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YpKetUS5; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FlxV79KT"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YpKetUS5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782396431;
+	s=mimecast20190719; t=1782396439;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2m325Nx+i8DIrEF7y0AraLoEtm5viE2NtVsSnCJNNQA=;
-	b=FlxV79KTW6SKAXHhENIy+cIZKOPcMa/pWRDtXllECua/jfh/rx2F7EFa3C/eJ9WQn7UoCc
-	ga91pYBs3NIMTwEenRzTI8ntWALj9zvVBuf2fw9PdejKz6QK2W1uHjSEHbDE5DDBOYKmwY
-	Ot7ACgJ6pHGXmiO7bT/lqkGvNazs3UU=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+	bh=6xzr+Qi6ZDs+0Riq2AVSQ7VxUd6HCUSx75f0+qxBdXU=;
+	b=YpKetUS5GuwseNNzW5VbgQyqRbgk0OBkpq0mAZ+gfADzOrXwqGrV8Kmcs43PgOvP3kJbWL
+	L6OE+Hu0fwHo44ih2WoYdGbyMvEkUw7W+WfSUxHYtJv20r445TBQvn0ezzwaDzHgWmlYrO
+	s+oP3U8PL65rxOsiMR3eYfrSghY1aBw=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-391-zCJMXNQDNpWQhZEmFmPgFg-1; Thu,
- 25 Jun 2026 10:07:09 -0400
-X-MC-Unique: zCJMXNQDNpWQhZEmFmPgFg-1
-X-Mimecast-MFC-AGG-ID: zCJMXNQDNpWQhZEmFmPgFg_1782396426
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-619-SrjPGQpJOEigM1fV5T1daw-1; Thu,
+ 25 Jun 2026 10:07:13 -0400
+X-MC-Unique: SrjPGQpJOEigM1fV5T1daw-1
+X-Mimecast-MFC-AGG-ID: SrjPGQpJOEigM1fV5T1daw_1782396431
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CFDC4180AC7E;
-	Thu, 25 Jun 2026 14:07:05 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CEC591830360;
+	Thu, 25 Jun 2026 14:07:10 +0000 (UTC)
 Received: from warthog.procyon.org.com (unknown [10.44.49.152])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id DF9661800370;
-	Thu, 25 Jun 2026 14:07:02 +0000 (UTC)
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 79BC53189;
+	Thu, 25 Jun 2026 14:07:07 +0000 (UTC)
 From: David Howells <dhowells@redhat.com>
 To: Christian Brauner <christian@brauner.io>
 Cc: David Howells <dhowells@redhat.com>,
@@ -53,9 +53,9 @@ Cc: David Howells <dhowells@redhat.com>,
 	ceph-devel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 02/15] netfs: Fix netfs_create_write_req() to handle async cache object creation
-Date: Thu, 25 Jun 2026 15:06:20 +0100
-Message-ID: <20260625140640.3116900-3-dhowells@redhat.com>
+Subject: [PATCH v3 03/15] cachefiles: Fix double fput
+Date: Thu, 25 Jun 2026 15:06:21 +0100
+Message-ID: <20260625140640.3116900-4-dhowells@redhat.com>
 In-Reply-To: <20260625140640.3116900-1-dhowells@redhat.com>
 References: <20260625140640.3116900-1-dhowells@redhat.com>
 Precedence: bulk
@@ -65,37 +65,29 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-netfs_create_write_req() will skip caching if the fscache cookie is
-disabled, but this is a problem because async cache object creation might
-not have got far enough yet that has been enabled - thereby causing the
-call to fscache_begin_write_operation() to be skipped.
+Fix a double fput() in error handling in cachefiles_create_tmpfile().
 
-Fix this by removing the checks on the cookie and delegating this to
-fscache_begin_write_operation().
-
-Fixes: 7b589a9b45ae ("netfs: Fix handling of USE_PGPRIV2 and WRITE_TO_CACHE flags")
-Closes: https://sashiko.dev/#/patchset/20260624115737.2964520-1-dhowells%40redhat.com
+Link: https://sashiko.dev/#/patchset/20260608145432.681865-1-dhowells%40redhat.com
 Signed-off-by: David Howells <dhowells@redhat.com>
 cc: Paulo Alcantara <pc@manguebit.org>
 cc: netfs@lists.linux.dev
 cc: linux-fsdevel@vger.kernel.org
 ---
- fs/netfs/write_issue.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/cachefiles/namei.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/fs/netfs/write_issue.c b/fs/netfs/write_issue.c
-index c03c7cc45e47..4f55228f0fd4 100644
---- a/fs/netfs/write_issue.c
-+++ b/fs/netfs/write_issue.c
-@@ -106,7 +106,7 @@ struct netfs_io_request *netfs_create_write_req(struct address_space *mapping,
- 	_enter("R=%x", wreq->debug_id);
- 
- 	ictx = netfs_inode(wreq->inode);
--	if (is_cacheable && netfs_is_cache_enabled(ictx))
-+	if (is_cacheable)
- 		fscache_begin_write_operation(&wreq->cache_resources, netfs_i_cookie(ictx));
- 	if (rolling_buffer_init(&wreq->buffer, wreq->debug_id, ITER_SOURCE) < 0)
- 		goto nomem;
+diff --git a/fs/cachefiles/namei.c b/fs/cachefiles/namei.c
+index 2937db690b40..a464c4646c04 100644
+--- a/fs/cachefiles/namei.c
++++ b/fs/cachefiles/namei.c
+@@ -467,7 +467,6 @@ struct file *cachefiles_create_tmpfile(struct cachefiles_object *object)
+ 	ret = -EINVAL;
+ 	if (unlikely(!file->f_op->read_iter) ||
+ 	    unlikely(!file->f_op->write_iter)) {
+-		fput(file);
+ 		pr_notice("Cache does not support read_iter and write_iter\n");
+ 		goto err_unuse;
+ 	}
 
