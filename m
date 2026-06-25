@@ -1,150 +1,98 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10AE2DCC13
-	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 20:54:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782420875; cv=pass; b=r0nOF0qct8PqtcvhjW/+vP90VWz9hXfYbEgOLLZahLfmgePcpdq6QM9+2yUxtxdFF52GjxQFv8tNzu7VMKha842gANZ4Ss9we6tEDMPlGQeidvSFmV9YVIN83Xfd3QaTUg9NqI3XIHsrVpvtDRi1L/vADCO503WPZ8UyvgWs+CU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782420875; c=relaxed/simple;
-	bh=hM54lOYXA6Mdu1DDRr4jGl1n0219yXeQhOn+nt8qkmo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XjOhuM7ySiTbURqdf/9EJtSeTXuyFz74G2F+HNwfGO+I2YX4PfqFSKSfQKmZHGEFpyDKo222nWA7bnPVGLDTVtQDglQ04gFts1xZaG83WRQ+HFc8yG7GrqpzK5K6J0G9X8wkdY6svO14aYWHonc2F7NldRm97qHsT+DD8hteN1I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qXymltu6; arc=pass smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E2E21CA03;
+	Thu, 25 Jun 2026 21:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782421329; cv=none; b=kjO8YxLgkt4zblG0crNQuFJUpKpYLHSS36Xci5Z/JjuppDYAePK4d7Lh7jmyw3rIyq6BcfHLuw0VEOoU3I7pIdfmc3FBfJBsm+9WXdpjYn0rRtjm5gGYWFA7c+QsIkwYG0A5Snh8hl5CAcN04dLE6NVm3qeeq66vOZ1Iu0kd3b4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782421329; c=relaxed/simple;
+	bh=KKpCuldyUjZ9ra7Ij03/KnQY+uzxGKwUzKdHAMFYuWs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dcBhT496cuB+/QLDOwNNf0JlS88YZuLa46a90LtEbUWby2171Z0XojBwmvGDMIAOydgzURuSsMApYDiDRDUgDaxw48tK1IhykKCNLHOn9dj+McT4Ch2xeqYNC7Yn9qHYmfxGViMUqSaEHSky/CVMIlBRW8ay/g8wKBd2uFgcpoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=rPouVeku; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qXymltu6"
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-9157b949fc7so32458785a.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 13:54:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782420873; cv=none;
-        d=google.com; s=arc-20260327;
-        b=PVpp0UAanA9umYkNwWRfnPjLR00Z4afWhxhsfyJ6oSuGObkJOsBsDRlrUfzhC3BfQy
-         Nh8ooMgS86S8Sjsk5mlSjWzBOyHtBEdEq4359KWWVhIezTGaLlrlocX6/RNMsUisdHPE
-         PlI6wJVaKBnxuHzdSoHprN5CbckSfGDJwJLUjIAYWCM2T8lzCHJktmPo0lZ2uu1N5Rc+
-         hTOipkNJp16ydTExFJ0lNDhdJU/PgsqeHXmS1wixtajE8GJ2M+jn+L+ohNZt5+bv6Emt
-         Lfk23Vl/3xHpuOfgxjb/WiQDP6nnM0dqy5AEg2i6NYPoGxcRmjpRW/OKd54xAXPMLRC4
-         ey1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=kivhVnPZ6lJoS6jUUi/vo4yujgjjrudAeAkrAqxP6ro=;
-        fh=2hdIoQrwm7Cy2Wz2W/xDu7tfRQfrnhsSD8bt2jgyoM0=;
-        b=Vmyy8q1/dWPzkF7yqRhRp5mTuh52uyRn8Duw4aw3CL0CQ0QMZ9V5M94DhjJMTqlsG4
-         Vcf9dAitovRWZiNZsl9bDgDtRGndj6dMnH3KRRSQZ18kDZfvHHJ5RUrd0FLCB4ccRa0O
-         nDyjYlQhzBMTsoQCWdGLRmtF2gdeqnNE86W00H8myH0GyMcXzzA/QlQi2oHA2uRliowm
-         5yMZlvVm94/ZvD1h9xekvEXQz8a5l7rKEFTxGcRRnPpO71Lm67UcC+xKEQpGqNszsd8D
-         b7beVULrIQ6cqgF+vdz79m8dj8J8FQPPof4HL04BdMwbRa/wMMO/qonwpJ1QQFEzN6Nn
-         RRsA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782420873; x=1783025673; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kivhVnPZ6lJoS6jUUi/vo4yujgjjrudAeAkrAqxP6ro=;
-        b=qXymltu6dJEn8A6gd/s7CTb05vVPhokcyYHesgVtj8X8txL+meHG46eUPJfgl65eFv
-         k1pd+dG1HBtebB7v2IIflGkuFWKf3v+JVQPDeesjY1BSczfW2kxxFbMXOGIq3SW9Cyib
-         vMVT7mvnC51cCeUJ8H6mMdcNIvCLBnC6xEQ6nxGk9oqNKkL+c1MOHDRfDBQx4Hp4gf1i
-         Is3hyyZQ0MCc5FcXQ6oY2ymUHJPDB3073RBIdf7A5FU8sdL61rQAaZ4x2XV/G+eTG7QW
-         YiP8TqEAeuWGdA1cc4PTJZa/RvuDiF7Pe6+MqQ+NGG1VTC9DnjQQshFEnPu8eHeL8Hbm
-         phog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782420873; x=1783025673;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=kivhVnPZ6lJoS6jUUi/vo4yujgjjrudAeAkrAqxP6ro=;
-        b=pMtzH+wAyd7s+gqYSWw6m7YO81UbsLZjhhbz5mHjIHUW+sOWABwkVCqI2zr+slXCB2
-         g/PpYHdqRLyB67DqBEhOWhKZz/L8nBIxG8Dt/5fzm7a7OG1ni2/j6HaDezU98WB6YpfJ
-         ScyeZALH5bjD/vJ4O/2KrWH+Eaa3nqEaQCqqV86IwtUbNnnShGca0kjycp5ssj9KbDjB
-         bB2qscmVqqdhZ11+GTbyoU1P8pvQKIEjJLuG7UC6Y2MED/+clSbp/KO031XRmjuIWUiX
-         SV9/h4MLbyxQfQDfAzbIhytHKcgieMSvhT5xwnVJDNadlnXnY6MLl0cVRo7Ox79UZ3Vh
-         /ipw==
-X-Forwarded-Encrypted: i=1; AFNElJ89tUoK4wO4ct6gsM5xgw1y85Tx6ooho4npM8PgQDA6JibPhGhUy54ohhaxl7pR1NwpqibtMUq6SfPhACDw@vger.kernel.org
-X-Gm-Message-State: AOJu0YzaXKEWuoe/dX+3o2vu5tdy42kccHjA8IR1IsFvCWrcXBDu1VbM
-	WFcxJwKiakuaAMpv92QK77k3sdC/qUyHVLPfzD3QyhElhyMawHvG5VzMZM9jgBJEFinIY9/bzjn
-	/Y8AoxoDlT+lRra6nlVrR0SSg7A83X/lNUTR0
-X-Gm-Gg: AfdE7cmoQ3nchvHW7091rnfCRhH/uJNupmzrDIWExlcf0dsEQXrCr+pLxPtwrpTWmTN
-	8IcA0oEMklE3gT6zSW2DnghrjpfwJ4bok32XhdfrrIWB1l9ySQz+Ab4u7wy1WSn+2rhlqA1Tjrx
-	tTiLioM4YjytrA+/sT54nBvQ4kMN5KFA+D7Bod9m84GCoXxASyy4HGuCHkMWjNJELJ/Mfld0Wo2
-	i1jTSkhT6vuzawhLr3zXcXaGCtZLkqtlQ2nhcNYaQCNBqKnlg5hhNwkRNn2W/o5U1FUEpjVQjj7
-	uxvteSjk/uT0xJmowhzjtwbAzUf7OHhP+Ks2vQ==
-X-Received: by 2002:a05:620a:6488:b0:915:8c48:497c with SMTP id
- af79cd13be357-9293d1b2aaemr645972085a.28.1782420872492; Thu, 25 Jun 2026
- 13:54:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="rPouVeku"
+Received: from [IPV6:2601:646:8081:7da1:4336:f681:2dbf:7257] ([IPv6:2601:646:8081:7da1:4336:f681:2dbf:7257])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 65PL16H23185257
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Thu, 25 Jun 2026 14:01:11 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 65PL16H23185257
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2026052701; t=1782421274;
+	bh=J+Ja7l7yri21/GM1tHKaRy8u0aE9q/VYwuBcGfp/kwU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=rPouVekuk+j67QyNq3jmzxfkNZtEh/hyIOgOQqSDxhaQQYCku7NnonoInzXL5sUe7
+	 Z+Bvd/4DiKXu0L9MjBCb41qwRbZusc0vN5xca+jpbseiY9KdG5IyOyAqMePIWe8AL8
+	 WKD01g45b75x+wVUym4j9Q/14VocaP2XGRnhie2fFR6XxYvmNOkNgQr6Gt9G7TyJq1
+	 2KTHHvepvc/xrn4+fh+TYwDaCe5DyxYfB1eiO4P0dwra+kEfJtuzbRJeUFR0or+JF6
+	 4xmS4P24dnE0A8U+Kws2ZNJwGe3LvXXgzpdS3dDf6rQQvH57RBKj2tV+wAaWYqA3DX
+	 qyXawPFTzwIEg==
+Message-ID: <29cd3188-2d7c-4470-a39a-6648638f795e@zytor.com>
+Date: Thu, 25 Jun 2026 14:00:59 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260622192114.1147198-1-willy@infradead.org> <20260624065818.49975-1-21cnbao@gmail.com>
- <aj1GnMERF_j54sFA@casper.infradead.org>
-In-Reply-To: <aj1GnMERF_j54sFA@casper.infradead.org>
-From: Barry Song <21cnbao@gmail.com>
-Date: Fri, 26 Jun 2026 04:54:20 +0800
-X-Gm-Features: AVVi8CdriE_v47589Jc9sDFoCpF5Kol7NPi_O35NSMSCh5QSUWtro8gax0Opfeo
-Message-ID: <CAGsJ_4ytP7HBN25oEvPEFx_E9+uK7UZzsiEpFw-_t-s+VGJx4w@mail.gmail.com>
-Subject: Re: [RFC PATCH] filemap: Remove file pinning during fault handling
-To: Matthew Wilcox <willy@infradead.org>
-Cc: josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC] Null Namespaces
+To: Al Viro <viro@zeniv.linux.org.uk>, John Ericson <mail@johnericson.me>
+Cc: Li Chen <me@linux.beauty>, Cong Wang <cwang@multikernel.io>,
+        Christian Brauner <brauner@kernel.org>, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, Jan Kara <jack@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>,
+        Sergei Zimmerman <sergei@zimmerman.foo>,
+        Farid Zakaria <farid.m.zakaria@gmail.com>
+References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
+ <20260624231219.GL2636677@ZenIV>
+Content-Language: en-US, sv-SE
+From: "H. Peter Anvin" <hpa@zytor.com>
+In-Reply-To: <20260624231219.GL2636677@ZenIV>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 25, 2026 at 11:17=E2=80=AFPM Matthew Wilcox <willy@infradead.or=
-g> wrote:
->
-> On Wed, Jun 24, 2026 at 02:58:18PM +0800, Barry Song wrote:
-> > > Now that faults are protected by a per-VMA lock instead of a process-=
-wide
-> > > mmap lock, it is far less important to avoid holding the fault lock w=
-hile
-> >
-> > We could have fallen back to the mmap_lock from the very beginning in
-> > do_page_fault(). And for GUP fault-in, we have always used the
-> > mmap_lock so far.
->
-> Your own data showed that this wasn't the point of contention on the
-> mmap_sem, that it was the fallbacks that was causing the mmap_lock to be
-> contended.
+On 2026-06-24 16:12, Al Viro wrote:
+> On Wed, Jun 24, 2026 at 06:51:47PM -0400, John Ericson wrote:
+> 
+>> #### Null mount namespace
+>>
+>> - requires:
+>>
+>>   - null root file system: absolute paths don't work.
+>>
+>>   - null current working directory: relative paths with traditional,
+>>     non-`*at` system calls (and `*at` ones using `AT_FDCWD`) don't work.
+>>
+>> - All operations relating to the "ambient" mount tree don't work.
+>>
+>> - `*at` operations with a file descriptor do work.
+> 
+> Huh?  The last bit looks contradicts the previous one - if you have
+> an opened directory in a mount from some namespace, those `*at` operations
+> with that descriptor *will* be seeing the mount tree of that namespace,
+> whatever the hell is "ambient" supposed to mean.  Either that, or you
+> will be exposing whatever's overmounted in that mount, which is a huge
+> can of worms.
 
-Right, if the first PF holds the VMA lock, we don't want a retrying
-PF to fall back to taking mmap_lock.
+It seems to me that this is really no different *in practice* to having an
+empty mount namespace, no? You might still be able to stat("/") and get a
+d--------- result, but how does that actually affect anything?
 
-However, with your approach, the first PF may now perform I/O while
-holding mmap_lock. Previously, at least, we didn't perform I/O under
-mmap_lock.
+The big thing with a lot of this is that introducing a null case can really
+complicate things all over the place, and since this is very likely to be only
+a niche use case, it kind of screams to me like it has the potential to become
+an attack surface like any other rarely used code in the kernel...
 
->
-> > > This should result in improved lock contention, although it is possib=
-le
-> > > that some workloads will find themselves contending on the VMA locks
-> > > due to them being held for longer.
-> >
-> > Hongru reported that 82 of the top 200 Android applications in the
-> > China market call fork() in heavily multi-threaded processes[1]. It
-> > would be good to take existing applications into account, please.
->
-> No.  Collect numbers that show it's a problem.  I'm not interested in
-> theoretical problems.
+	-hpa
 
-The earlier report already included a clear call stack showing the
-problem[1], yet it keeps being ignored.
-
-I don't think I'm able to convince you anymore, so I'm giving up.
-
-There have been many occasions where you've used very harsh words
-toward me, and I never once asked for an apology. Yet the one time I
-praised your contribution, you asked me for an apology.
-
-Honestly, I'm tired of this situation. I don't see much fairness
-here, nor much kindness.
-
-[1] https://lore.kernel.org/linux-mm/CAGsJ_4xC5LdhuoWV1=3DtK-RZ5rkjc8aOKOkm=
-b1L_8BG_3gtJhDg@mail.gmail.com/
-
-Best Regards
-Barry
