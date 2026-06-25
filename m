@@ -1,287 +1,173 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE033AA1B0
-	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 03:02:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F17B23C8A0
+	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 03:19:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782356554; cv=none; b=Wec9Zn6w5c1fsZuFUIe7utQHpq1InDSUoZ/UsafMqsYLh2tR++OcRJBT4JRK1FPeaCqEEg6+i2jCTqnPb2KAZKIRqdkVZwPue7VCHcsMgqvqe60021hXc7PFGDVTYYELOEnSP5WQA6Eqi9tRZgIUZaylIJYCc694iS/aHDwL5c8=
+	t=1782357582; cv=none; b=Ax4uqNxN+0xWuC/tEpnKTnQYD/52IMon7dOzhxM0ry5dgf12mtLHdclKpzDbmFuBdGP8z32yKE817h8oTBRJUodbnmYqHb8DtsXADamo5dF+g1foWyonF+KOJmdLZs7PUH1hWksGQH0cHwvS+d1+xxMqXRr/pXLL26AlNDG1ypc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782356554; c=relaxed/simple;
-	bh=AJ5z7v+xj1bwU2aG0Bcmfo35foG9ftC+wsjfKkRv/5U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eD7nX6ThfvT15w97V/iHDFUC0sDAdGp9FsBPTgrDt1UsngjI/x+1xia+oEWK/5/F4s7+IgbZgFITyKNaRrSz/zvuXtZ6hJWjqUuZggvR7XUxn/otwbRMQ0G/V1kJhiQtvyHEzrxe19H4aXPbnLApWQkQr5yKSMROXeJdao6SX54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=f3XfhSe6; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1782357582; c=relaxed/simple;
+	bh=ocAdWgVVI9eKE6+SQhdNnJ3AljxoIAnRJT4HyGiFT4E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lXeqpMKHPCW+1MfwW9TFFq0s3igCXylet3ciyR7nxiwwtEUReuSLNRLT01x/kPCx+FP3ZfmUQZd/ojLlnTKLyAXp7Xi1LjGMPi7BgS8+/hLyl9nqh/TA6uvxaW9o3tXVY78siJNJiXbiVlZlIGALTwNntM9ViCjDJFPShxq9Rp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JchvMgt0; arc=none smtp.client-ip=74.125.82.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="f3XfhSe6"
-Message-ID: <0ed6b5c3-e955-46e2-9fc6-075a0dfd1c4f@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782356535;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bg7TU7hDzDNv/08FHHH/On04xmb+0Xhy9JCW39bnqOs=;
-	b=f3XfhSe6G7brFNVp6GZqjOXNU3vcFca4poUFfkwgVZymI1EYtq9zeoyJzoopay7HWx5JvC
-	E0YJXxuEv9p9ioc24zHIhHD7MfpA8W6eQqa3vo59Vdd3bvTmswHZxeWqPUReOxJ21Oxizv
-	nnsvKa6R3D4a+gLxizvgKiVabRJ3kcE=
-Date: Thu, 25 Jun 2026 11:01:21 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JchvMgt0"
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-30c52f96f60so3321744eec.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 24 Jun 2026 20:19:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782357579; x=1782962379; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uY5fzMvXX5YHwz0Ydg9UGDt+EYXOYezLqMeVC2OApGU=;
+        b=JchvMgt09LkeIKX7uSkwCMUPWzakHu0tQbjm4tQy9MOGJsPZXpweEaqIgHlpULbQ1e
+         iuj3OVub+rjW1DaRGkttjSkm9akf6p2UlaxvrjEDQVlgzbNFMWL121muJyHKPFbEpUbG
+         TRmPSmtnyzc65GqJRiPJoyFiUfGQZ6HOIzY2Ch/hssIHJOjOlkqKcLRS6uZGkis0pHhD
+         E04o/Ln7ehEZFwgzNS95XCBCvnz6tfyQgQ3UpRlAcpeL4GxRW7wbB0p9PAah94d/1vlF
+         ccJ+JPrriUAhKk4lIjZp5F68T5dlRAb7TAh0xEVA/NM6jvkg08uBzmSC7qHAPetP0Bgi
+         oU0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782357579; x=1782962379;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uY5fzMvXX5YHwz0Ydg9UGDt+EYXOYezLqMeVC2OApGU=;
+        b=Co5hdX8z2F3SAf7XKXsebu0fNYC/MjYE8nhg9t694ZDbm18S+SW98RIg6eazVV59m9
+         tQ00h2Ul8F/A6H6Fxn0Vpwq6xWoDmUkcP2gZctnh9jHw4+KfGN1xJrqec26A3yjRw8x/
+         2PnGFh8i3ranVySbaevgFzfy/Eo9xzXGtTXE5F1+O7LMaYG+dweTP+gMeLSYaIKukI6u
+         ONIQvrjsiCjmlEQQIw056hDS2XNWk989lk9aKNqxxA6NYwY4pirsLw/f0puRGQzteddu
+         OR96sP9bLzgIVXtb2X4mOw/2sXAOwrLrrE5U5T4yk8PpjlBJ6FqaBmBB8n+zHUM5uezG
+         WPQg==
+X-Forwarded-Encrypted: i=1; AHgh+RrY29Ef06dFg6gIqtyJ+2EdAATMNnip/QsqTNWTCF1VlRWEJInOebf/p5qyYLUUpVKEEtG8b35OqcSyn4fv@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRdBUOqUNZlpsEskDDogs2iMlrpEcIgryPCyETQnbMzJKzw30K
+	QCTN9U8mFeZFKYGtORwM2BlAlKPZyfqfJtW4Sj75E/Scp4RkegiNt4j6/hgJ2CtWv0Udn+g0
+X-Gm-Gg: AfdE7clkRUmXMUUiVT8njD0a1EitPT1Rv6kcviroiq5ZFOX15QbB/ZIgHl3Xum+oPhW
+	5U32Liy5n0TT4QHpD0rU6nb2DIDTecVOBeU3J2eF/9PKp148ICZXd21nGthJTOGzJnsrdVN4IhN
+	8pkvzoeVYbj8KW1XeGd/yTtIJa8SkHWnxlj4PQWhfJWoQt/hLYtks0EoUSLj+2lq5J1s+weR9oA
+	9A6pkbx/vXzgJ2gOffM+nGXDm/QNr/0/WN+546plu7k72kGV0csCfC35jQym+qRvdm+B1t8U/rm
+	hSvDARnGYwPw511spobc4xu/MuS3EdBYisGwDpb13wOklT+jX73+h4PBSu4VqjOT0oxVrnCCdmI
+	qwAzQMnjA+b80L0OCT5YxkEDDNzKHohJVvx2zXhK7+gcPH/WAJqa2D+TPSHzC0GsS8MtpVnCEp/
+	VIvLdUrI+MBIeIbgvSju27CvYoaPOI8m1PRDwSHNxH
+X-Received: by 2002:a05:7300:7c17:b0:30b:f73f:ff6e with SMTP id 5a478bee46e88-30c84b87a74mr872898eec.11.1782357578976;
+        Wed, 24 Jun 2026 20:19:38 -0700 (PDT)
+Received: from localhost.localdomain ([192.197.201.174])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c52c6c2sm3454343eec.10.2026.06.24.20.19.37
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 24 Jun 2026 20:19:38 -0700 (PDT)
+From: hewei-gikaku <skyexpoc@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	HE WEI <skyexpoc@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] fs/ntfs3: fix slab-out-of-bounds write in ni_create_attr_list()
+Date: Thu, 25 Jun 2026 12:19:30 +0900
+Message-ID: <20260625031932.9412-1-skyexpoc@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 1/7] list: Add mutable iterator variants
-To: David Laight <david.laight.linux@gmail.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- "David Hildenbrand (Arm)" <david@kernel.org>,
- Alexei Starovoitov <ast@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Tejun Heo <tj@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Paul Moore <paul@paul-moore.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Shakeel Butt <shakeel.butt@linux.dev>, David Howells <dhowells@redhat.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, Randy Dunlap
- <rdunlap@infradead.org>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Philipp Stanner <phasta@kernel.org>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
- linux-ntfs-dev@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, audit@vger.kernel.org, bpf@vger.kernel.org,
- netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-perf-users@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- kexec@lists.infradead.org, live-patching@vger.kernel.org,
- linux-modules@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-pm@vger.kernel.org, rcu@vger.kernel.org, sched-ext@lists.linux.dev,
- linux-mm@kvack.org, virtualization@lists.linux.dev, damon@lists.linux.dev,
- llvm@lists.linux.dev, Kaitao Cheng <chengkaitao@kylinos.cn>,
- Muchun Song <muchun.song@linux.dev>
-References: <20260622040533.29824-1-kaitao.cheng@linux.dev>
- <20260622040533.29824-2-kaitao.cheng@linux.dev>
- <20260622094242.64531b9a@pumpkin>
- <351a6b67-b394-4c58-aee2-88b6c8089ad5@linux.dev>
- <cf8467c7-b98f-44a5-9cf9-60b43b5da711@amd.com>
- <20260624152324.3def88ce@pumpkin>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kaitao Cheng <kaitao.cheng@linux.dev>
-In-Reply-To: <20260624152324.3def88ce@pumpkin>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-在 2026/6/24 22:23, David Laight 写道:
-> On Wed, 24 Jun 2026 15:23:47 +0200
-> Christian König <christian.koenig@amd.com> wrote:
->> On 6/24/26 15:14, Kaitao Cheng wrote:
->>> 在 2026/6/22 16:42, David Laight 写道:  
->>>> On Mon, 22 Jun 2026 12:05:31 +0800
->>>> Kaitao Cheng <kaitao.cheng@linux.dev> wrote:
->>>>  
->>>>> From: Kaitao Cheng <chengkaitao@kylinos.cn>
->>>>>
->>>>> The list_for_each*_safe() helpers are used when the loop body may
->>>>> remove the current entry.  Their API exposes the temporary cursor at
->>>>> every call site, even though most users only need it for the iterator
->>>>> implementation and never reference it in the loop body.
->>>>>
->>>>> Add *_mutable() variants for list and hlist iteration.  The new helpers
->>>>> support both forms: callers may keep passing an explicit temporary cursor
->>>>> when they need to inspect or reset it, or omit it and let the helper use
->>>>> a unique internal cursor.  
->>>>
->>>> I'm not really sure 'mutable' means anything either.
->>>> It is possible to make it valid for the loop body (or even other threads)
->>>> to delete arbitrary list items - but that needs significant extra overheads.
->>>>
->>>> It might be worth doing something that doesn't need the extra variable,
->>>> but there is little point doing all the churn just to rename things.
->>>>  
->>>>>
->>>>> This makes call sites that only mutate the list through the current entry
->>>>> less noisy, while keeping the existing *_safe() helpers available for
->>>>> compatibility.
->>>>>
->>>>> Signed-off-by: Kaitao Cheng <chengkaitao@kylinos.cn>
->>>>> ---
->>>>>  include/linux/list.h | 269 +++++++++++++++++++++++++++++++++++++------
->>>>>  1 file changed, 231 insertions(+), 38 deletions(-)
->>>>>
->>>>> diff --git a/include/linux/list.h b/include/linux/list.h
->>>>> index 09d979976b3b..1081def7cea9 100644
->>>>> --- a/include/linux/list.h
->>>>> +++ b/include/linux/list.h
->>>>> @@ -7,6 +7,7 @@
->>>>>  #include <linux/stddef.h>
->>>>>  #include <linux/poison.h>
->>>>>  #include <linux/const.h>
->>>>> +#include <linux/args.h>
->>>>>  
->>>>>  #include <asm/barrier.h>
->>>>>  
->>>>> @@ -763,28 +764,72 @@ static inline void list_splice_tail_init(struct list_head *list,
->>>>>  #define list_for_each_prev(pos, head) \
->>>>>  	for (pos = (head)->prev; !list_is_head(pos, (head)); pos = pos->prev)
->>>>>  
->>>>> -/**
->>>>> - * list_for_each_safe - iterate over a list safe against removal of list entry
->>>>> - * @pos:	the &struct list_head to use as a loop cursor.
->>>>> - * @n:		another &struct list_head to use as temporary storage
->>>>> - * @head:	the head for your list.
->>>>> +/*
->>>>> + * list_for_each_safe is an old interface, use list_for_each_mutable instead.
->>>>>   */
->>>>>  #define list_for_each_safe(pos, n, head) \
->>>>>  	for (pos = (head)->next, n = pos->next; \
->>>>>  	     !list_is_head(pos, (head)); \
->>>>>  	     pos = n, n = pos->next)
->>>>>  
->>>>> +#define __list_for_each_mutable_internal(pos, tmp, head)		\
->>>>> +	for (typeof(pos) tmp = (pos = (head)->next)->next;		\  
->>>>
->>>> Use auto
->>>>  
->>>>> +	     !list_is_head(pos, (head));				\
->>>>> +	     pos = tmp, tmp = pos->next)
->>>>> +
->>>>> +#define __list_for_each_mutable1(pos, head)				\
->>>>> +	__list_for_each_mutable_internal(pos, __UNIQUE_ID(next), head)
->>>>> +
->>>>> +#define __list_for_each_mutable2(pos, next, head)			\
->>>>> +	list_for_each_safe(pos, next, head)
->>>>> +
->>>>>  /**
->>>>> - * list_for_each_prev_safe - iterate over a list backwards safe against removal of list entry
->>>>> + * list_for_each_mutable - iterate over a list safe against entry removal
->>>>>   * @pos:	the &struct list_head to use as a loop cursor.
->>>>> - * @n:		another &struct list_head to use as temporary storage
->>>>> - * @head:	the head for your list.
->>>>> + * @...:	either (head) or (next, head)
->>>>> + *
->>>>> + * next:	another &struct list_head to use as optional temporary storage.
->>>>> + *		The temporary cursor is internal unless explicitly supplied by
->>>>> + *		the caller.
->>>>> + * head:	the head for your list.
->>>>> + */
->>>>> +#define list_for_each_mutable(pos, ...)					\
->>>>> +	CONCATENATE(__list_for_each_mutable, COUNT_ARGS(__VA_ARGS__))	\
->>>>> +		(pos, __VA_ARGS__)  
->>>>
->>>> The variable argument count logic really just slows down compilation.
->>>> Maybe there aren't enough copies of this code to make that significant.
->>>> But just because you can do it doesn't mean it is a gooD idea.
->>>> I'm also not sure it really adds anything to the readability.
->>>>
->>>> And, it you are going to make the middle argument optional there is
->>>> no need to change the macro name.  
->>>
->>> Christian König and Jani Nikula also disagree with the variadic-argument
->>> implementation approach. If we abandon that method, it means we will
->>> inevitably need to add some new macros. If mutable is not a good name,
->>> suggestions for better alternatives would be welcome; coming up with a
->>> suitable name is indeed rather tricky.  
->>
->> I don't think you need to add a new macro for the specific use case that people want to modify the next element of the iteration.
->>
->> If I remember your numbers correctly that is a really corner case and keeping using the existing *_safe() macros for that sounds perfectly fine to me.
-> 
-> IIRC currently you have a choice of either:
-> 	define               Item that can't be deleted
-> 	list_for_each()	     The current item.
-> 	list_for_each_safe() The next item.
-> There is also likely to be code that updates the variables to allow
-> for other scenarios.
-> 
-> Note that if increase a reference count and release a lock then list_for_each()
-> is likely safer than list_for_each_safe() :-)
-> 
-> list.h has 9 variants of the 'safe' loop.
-> The bloat of another 9 is getting excessive.
-> 
-> It has to be said that this is one of my least favourite type of list...
+From: HE WEI (ギカク) <skyexpoc@gmail.com>
 
-Hi Christian König, David Laight, Jani Nikula, David Hildenbrand,
-Andy Shevchenko, Alexei Starovoitov
+ni_create_attr_list() allocates a fixed buffer of al_aligned(record_size)
+(== record_size) bytes and then walks every attribute of the primary MFT
+record, writing one ATTR_LIST_ENTRY per attribute and advancing the cursor
+by le_size(name_len), with no check against the end of the buffer; the
+total size is only computed after the loop.
 
-For ease of discussion, I need to summarize the currently possible
-approaches and briefly describe their respective pros and cons,
-using the list_for_each_entry* interfaces as examples.
+A minimum-size resident attribute occupies SIZEOF_RESIDENT (0x18 = 24)
+bytes on disk, but an unnamed attribute expands to le_size(0) (0x20 = 32)
+bytes in the list.  Because the number of attributes in a record is not
+bounded (mi_enum_attr() accepts arbitrarily many equal-type, nameless
+minimum-size attributes), a crafted record packed with such attributes
+produces a list larger than record_size and overflows the heap buffer.
 
-1. Add list_for_each_entry_mutable, while keeping list_for_each_entry
-and list_for_each_entry_safe unchanged. list_for_each_entry_mutable
-would be used specifically for safe deletion scenarios that do not
-need to expose the temporary cursor externally. The code can refer to
-the v1 version.
+This is reachable from a crafted, loop-mounted NTFS image: opening the file
+and adding an attribute (e.g. via setxattr) drives ntfs_set_ea() ->
+ni_insert_resident() -> ni_insert_attr() -> ni_ins_attr_ext() ->
+ni_create_attr_list().
 
-Pros: Does not depend on immediate per-subsystem adaptation and can be
-      merged directly.
-Cons: Requires adding a whole set of mutable interfaces, which makes the
-      code somewhat redundant.
+  BUG: KASAN: slab-out-of-bounds in ni_create_attr_list+0xc48/0x1058
+  Write of size 4 at addr ffff000008984c00 by task setfattr/345
+   ni_create_attr_list+0xc48/0x1058
+   ni_ins_attr_ext+0x510/0x7c0
+   ni_insert_attr+0x3f8/0x70c
+   ni_insert_resident+0xc8/0x3b0
+   ntfs_set_ea+0x66c/0xd28
+   ntfs_setxattr+0x4d8/0x5b0
+   __arm64_sys_setxattr+0xa4/0x124
+  Allocated by task 345:
+   ni_create_attr_list+0x188/0x1058
+  The buggy address belongs to the cache kmalloc-1k of size 1024
+  (the write lands at object+1024).
 
-2. Directly optimize away the temporary cursor in list_for_each_entry_safe
-and define it inside the loop instead, changing the interface from four
-arguments to three.
+Size the buffer from the actual attributes instead of assuming a single
+record_size is always enough.
 
-Pros: Does not add redundant interfaces.
-Cons: (1) Users need to manually update special cases that use the
-      traversal variable of list_for_each_entry_safe, the new
-      list_for_each_entry_safe would no longer apply there and would
-      need to be open-coded.
-      (2) Because the macro arguments changes, all list_for_each_entry_safe
-      callers would need to be modified and merged together, making it
-      difficult to merge such a large amount of code at once.
+Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
+Cc: stable@vger.kernel.org
+Signed-off-by: HE WEI (ギカク) <skyexpoc@gmail.com>
+---
+v2:
+ - Add Cc: stable@vger.kernel.org: this is an attacker-controlled on-disk
+   image heap out-of-bounds write and should be backported.
+ - No functional change from v1; widening Cc (linux-fsdevel, VFS) for
+   review, as the v1 posting received no response.
+ - Drop a redundant self Reported-by.
 
-3. Use a variadic macro approach to optimize list_for_each_entry_safe,
-so that it supports both three and four arguments.
+v1: https://lore.kernel.org/all/20260610002929.51765-1-skyexpoc@gmail.com/
+---
+ fs/ntfs3/frecord.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
-Pros: (1) Does not add redundant interfaces.
-      (2) Does not depend on immediate per-subsystem adaptation and can
-      be merged directly.
-Cons: (1) Increases compile time.
-      (2) Makes the interface harder for users to use.
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 2e901d073fe9..6488d7a415c0 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -768,10 +768,23 @@ int ni_create_attr_list(struct ntfs_inode *ni)
+ 	rs = sbi->record_size;
 
-4. Optimize list_for_each_entry by defining the temporary cursor internally,
-making it compatible with the functionality of list_for_each_entry_safe.
-The code can refer to the v2 version.
+ 	/*
+-	 * Skip estimating exact memory requirement.
+-	 * Looks like one record_size is always enough.
++	 * Compute the exact size of the attribute list.  Each attribute in the
++	 * record yields one ATTR_LIST_ENTRY of le_size(name_len) bytes.  The
++	 * minimum on-disk attribute is SIZEOF_RESIDENT (0x18) bytes, but an
++	 * unnamed one expands to le_size(0) (0x20) here, so a record crafted
++	 * with many such attributes needs more than a single record_size; the
++	 * previous fixed kzalloc(record_size) could therefore be overflowed by
++	 * an attacker-controlled record.
+ 	 */
+-	le = kzalloc(al_aligned(rs), GFP_NOFS);
++	lsize = 0;
++	attr = NULL;
++	while ((attr = mi_enum_attr(ni, &ni->mi, attr)))
++		lsize += le_size(attr->name_len);
++
++	if (!lsize)
++		return -EINVAL;
++
++	le = kzalloc(al_aligned(lsize), GFP_NOFS);
+ 	if (!le)
+ 		return -ENOMEM;
 
-Pros: (1) Does not add redundant interfaces.
-      (2) The number of externally visible arguments of list_for_each_entry
-      remains unchanged, still three.
-Cons: (1) list_for_each_entry and list_for_each_entry_safe would be merged
-      into one, and list_for_each_entry_safe would gradually be deprecated.
-      (2) Users need to manually update special cases that use the traversal
-      variable of list_for_each_entry, the new list_for_each_entry would no
-      longer apply there and would need to be open-coded. There are 15 such
-      cases in total.
+@@ -781,7 +794,6 @@ int ni_create_attr_list(struct ntfs_inode *ni)
+ 	attr = NULL;
+ 	nb = 0;
+ 	free_b = 0;
+-	attr = NULL;
 
-5. Use a variadic macro approach to optimize list_for_each_entry, so that
-it supports both three and four arguments.
-
-Pros: (1) Does not add redundant interfaces.
-      (2) Does not depend on immediate per-subsystem adaptation and can be
-      merged directly.
-Cons: (1) Increases compile time.
-      (2) list_for_each_entry and list_for_each_entry_safe would be merged
-      into one, and list_for_each_entry_safe would gradually be deprecated.
-
-6. Make no changes, keep the current logic unchanged, and close the current
-email discussion.
-
-
-Which of the six solutions above do people prefer?
-
--- 
-Thanks
-Kaitao Cheng
-
+ 	for (; (attr = mi_enum_attr(ni, &ni->mi, attr)); le = Add2Ptr(le, sz)) {
+ 		sz = le_size(attr->name_len);
+--
+2.43.0
