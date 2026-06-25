@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA67389471
-	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 14:08:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1EFF356766
+	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 14:08:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782396502; cv=none; b=bBHqOcn2sbObs0/CpjiWYFb7QODXKzXu+Eq8q0IkgPSbQSk0KCQ1SfW1C/d13REEA6ipMf4+vy9BFOlI84HYCZdZmTseF0rlxufGCyyESBOunsI/gK4HydIAaYpnREvPYjhAXMmzWuWR+ABmoV8RtRlcj7vvnFkslxjjn4BOMTo=
+	t=1782396540; cv=none; b=pE4nwMuhgl3ZvwyWm29EeLU5H36xI5n80JSCNbBP+gy/QmP4IWHXftjJPqvP+c2L5fOuVRm7+8y0TSzC4nRG8L2Pu0kGneCcKzUr950PesNGtPyLRoiBjsj5al1oJAmaUPZwgpj5eHVZVki9958fIO0l4j3aClSJic70BhgsZCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782396502; c=relaxed/simple;
-	bh=J7N3LfaCZEl3u7MqmzlDY25hDe3GHF6ZhPA2zYyXLJM=;
+	s=arc-20240116; t=1782396540; c=relaxed/simple;
+	bh=XeKZjskD6VOpKhK4DCHRe6/r4KKjrrJrcuXfBF9rrj4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ezFpXLGPtaa9HVw1Q3j+Rav41/KTdrtCc0WBhGFxhAMF5iqLrGcHkuS7H4WZvbnvA3l6hXqaQ9iWsoYRmpjOSNiHYf/QFtgTJrV5AQ+uKsUoiv77X0rYKEDkqnDbeu2WpFEHG7T1c19nNj3wfB7xZXhw6qyVzixRb3di6NvVitw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eRNhhDOM; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=GwyKATDaX9Rhgbwrs58qtley+SMlC22d6K7b18iLyTOCTIRNRIiizi2DBK1yWovx33LQy4yI9E9FZgG1AvHMJZufFptC4VOJQn7gf5TRCI1zsCHoO9FTLc1g4G9uOp5skg0Kx6zyB+W6A+W/HG7vyHOBxpauHCbQcvqsMmSuz6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PZISTtxZ; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eRNhhDOM"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PZISTtxZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782396500;
+	s=mimecast20190719; t=1782396537;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8eQpn2DxVVlAysyqP0fiZy6BHi38PFlf6WR7Omr8vFE=;
-	b=eRNhhDOMeuMsKkvfmB+cssUdgPcQ+THA13SIv10bhkUKVKiF3Ui43XxhZT3wpI0yPyslrY
-	yHLHJqjgKgOBk3CzbacJ6hk3VHfktfTgHNHPRJje8kp5lXjpjrpKz+yReoJDREJQlQsZPx
-	Pe0CD5FN/8pLfQqBif8p6Xru1/fS5NM=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=DZAdgt5Q5ecGnX+0eAge9E84oY2tNl0RIvK/bRkloIk=;
+	b=PZISTtxZhIlT4haW3v1xBiMcFOUygkZW0iotQb7DGx2HRcR6ieLfWLoU3FBdPTRtQvOGUr
+	TLljg5BSv5sg13NtGg76P4arQtvDD1ONKuNnLFdvRGxGh4SYAmhXZGd+w7rlDHYGZ1MNL5
+	JRtwd7ohWUsFbUMbsjYiisGC9L/a8RI=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-221-fNE8G0NGNp-PiX8MnKgxCg-1; Thu,
- 25 Jun 2026 10:08:15 -0400
-X-MC-Unique: fNE8G0NGNp-PiX8MnKgxCg-1
-X-Mimecast-MFC-AGG-ID: fNE8G0NGNp-PiX8MnKgxCg_1782396493
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-127-dhqG_OpHODyzbYpseqLEMQ-1; Thu,
+ 25 Jun 2026 10:07:42 -0400
+X-MC-Unique: dhqG_OpHODyzbYpseqLEMQ-1
+X-Mimecast-MFC-AGG-ID: dhqG_OpHODyzbYpseqLEMQ_1782396453
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BF40918A0E0D;
-	Thu, 25 Jun 2026 14:08:12 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 34B38197730D;
+	Thu, 25 Jun 2026 14:07:33 +0000 (UTC)
 Received: from warthog.procyon.org.com (unknown [10.44.49.152])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E58FD180059F;
-	Thu, 25 Jun 2026 14:08:08 +0000 (UTC)
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0D1C33189;
+	Thu, 25 Jun 2026 14:07:28 +0000 (UTC)
 From: David Howells <dhowells@redhat.com>
 To: Christian Brauner <christian@brauner.io>
 Cc: David Howells <dhowells@redhat.com>,
@@ -53,12 +53,11 @@ Cc: David Howells <dhowells@redhat.com>,
 	ceph-devel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	syzbot+3c74b1f0c372e98efc32@syzkaller.appspotmail.com,
-	hongao <hongao@uniontech.com>,
-	ChenXiaoSong <chenxiaosong@chenxiaosong.com>
-Subject: [PATCH v3 15/15] netfs: Fix DIO write retry for filesystems without a ->prepare_write()
-Date: Thu, 25 Jun 2026 15:06:33 +0100
-Message-ID: <20260625140640.3116900-16-dhowells@redhat.com>
+	Matthew Wilcox <willy@infradead.org>,
+	Jens Axboe <axboe@kernel.dk>
+Subject: [PATCH v3 07/15] iov_iter: Fix a memory leak in iov_iter_extract_user_pages()
+Date: Thu, 25 Jun 2026 15:06:25 +0100
+Message-ID: <20260625140640.3116900-8-dhowells@redhat.com>
 In-Reply-To: <20260625140640.3116900-1-dhowells@redhat.com>
 References: <20260625140640.3116900-1-dhowells@redhat.com>
 Precedence: bulk
@@ -68,73 +67,60 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-Fix netfs_unbuffered_write() so that it doesn't re-issue a write twice when
-the filesystem doesn't have a ->prepare_write().  The resetting of the
-iterator and the call to netfs_reissue_write() should just be removed as
-almost everything it does is done again when the loop it's in goes back to
-the top.
+There's a potential memory leak in callers of iov_iter_extract_user_pages()
+whereby if a pages array is allocated in function, it isn't freed before
+returning of an error or 0.
 
-It does, however, still need the IN_PROGRESS flag setting, so that (and the
-stat inc) are moved out of the if-statement.
+Now, it's not a leak per se in iov_iter_extract_user_pages() as, if an
+array is allocated, it's returned through *pages, so it's incumbent on the
+caller to free it.  However, not all callers do.
 
-Further, the MADE_PROGRESS flags should be cleared and wreq->transferred
-should be updated, so fix those too.
+Fix this by freeing the table and clearing *pages before returning an error
+or 0.  Note that iov_iter_extract_pages() and its subfunctions are allowed
+to return 0 without returning an array (for instance if the iterator count
+is 0).
 
-Reported-by: syzbot+3c74b1f0c372e98efc32@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=3c74b1f0c372e98efc32
+Fixes: 7d58fe731028 ("iov_iter: Add a function to extract a page list from an iterator")
+Closes: https://sashiko.dev/#/patchset/20260616100821.2062304-1-dhowells%40redhat.com
 Signed-off-by: David Howells <dhowells@redhat.com>
 cc: Paulo Alcantara <pc@manguebit.org>
-cc: hongao <hongao@uniontech.com>
-cc: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+cc: Matthew Wilcox <willy@infradead.org>
+cc: Christoph Hellwig <hch@infradead.org>
+cc: Jens Axboe <axboe@kernel.dk>
 cc: netfs@lists.linux.dev
 cc: linux-fsdevel@vger.kernel.org
 ---
- fs/netfs/direct_write.c | 18 +++++++-----------
- 1 file changed, 7 insertions(+), 11 deletions(-)
+ lib/iov_iter.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/fs/netfs/direct_write.c b/fs/netfs/direct_write.c
-index 25f8ceb15fad..c16fbad286a1 100644
---- a/fs/netfs/direct_write.c
-+++ b/fs/netfs/direct_write.c
-@@ -166,13 +166,16 @@ static int netfs_unbuffered_write(struct netfs_io_request *wreq)
- 		 */
- 		subreq->error = -EAGAIN;
- 		trace_netfs_sreq(subreq, netfs_sreq_trace_retry);
--		if (subreq->transferred > 0)
-+		if (subreq->transferred > 0) {
- 			iov_iter_advance(&wreq->buffer.iter, subreq->transferred);
-+			wreq->transferred += subreq->transferred;
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index 1661c237b643..5a6434709716 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -1756,6 +1756,7 @@ static ssize_t iov_iter_extract_user_pages(struct iov_iter *i,
+ 	unsigned long addr;
+ 	unsigned int gup_flags = 0;
+ 	size_t offset;
++	bool will_alloc = !*pages;
+ 	int res;
+ 
+ 	if (i->data_source == ITER_DEST)
+@@ -1772,8 +1773,14 @@ static ssize_t iov_iter_extract_user_pages(struct iov_iter *i,
+ 	if (!maxpages)
+ 		return -ENOMEM;
+ 	res = pin_user_pages_fast(addr, maxpages, gup_flags, *pages);
+-	if (unlikely(res <= 0))
++	if (unlikely(res <= 0)) {
++		if (will_alloc) {
++			kvfree(*pages);
++			*pages = NULL;
 +		}
- 
- 		if (stream->source == NETFS_UPLOAD_TO_SERVER &&
- 		    wreq->netfs_ops->retry_request)
- 			wreq->netfs_ops->retry_request(wreq, stream);
- 
-+		__clear_bit(NETFS_SREQ_MADE_PROGRESS, &subreq->flags);
- 		__clear_bit(NETFS_SREQ_NEED_RETRY, &subreq->flags);
- 		__clear_bit(NETFS_SREQ_BOUNDARY, &subreq->flags);
- 		__clear_bit(NETFS_SREQ_FAILED, &subreq->flags);
-@@ -186,17 +189,10 @@ static int netfs_unbuffered_write(struct netfs_io_request *wreq)
- 
- 		netfs_get_subrequest(subreq, netfs_sreq_trace_get_resubmit);
- 
--		if (stream->prepare_write) {
-+		if (stream->prepare_write)
- 			stream->prepare_write(subreq);
--			__set_bit(NETFS_SREQ_IN_PROGRESS, &subreq->flags);
--			netfs_stat(&netfs_n_wh_retry_write_subreq);
--		} else {
--			struct iov_iter source;
--
--			netfs_reset_iter(subreq);
--			source = subreq->io_iter;
--			netfs_reissue_write(stream, subreq, &source);
--		}
-+		__set_bit(NETFS_SREQ_IN_PROGRESS, &subreq->flags);
-+		netfs_stat(&netfs_n_wh_retry_write_subreq);
- 	}
- 
- 	netfs_unbuffered_write_done(wreq);
+ 		return res;
++	}
++
+ 	maxsize = min_t(size_t, maxsize, res * PAGE_SIZE - offset);
+ 	iov_iter_advance(i, maxsize);
+ 	return maxsize;
 
