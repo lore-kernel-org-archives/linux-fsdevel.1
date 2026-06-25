@@ -1,76 +1,54 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5655625D53B
-	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 13:02:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6DF7283FFB;
+	Thu, 25 Jun 2026 13:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782392551; cv=none; b=RFcP2a9FgQSuPLiwqCQW8BkVcioBe5onZo6WElj5WQo++cwP4I8f3mix2mBSF8FnM/WuTR3yGTTsw1IaHZAz2GEt+kixkAamVCXxwYDz5IIRrcl9MC5hk/y3+aTzqb/Flw5jBVtBvoMFPbeUGwLOqhZ/Y1nu9QzDAbceoJJutt4=
+	t=1782392620; cv=none; b=KidXp2zqbI4gqSQu8/UTSldtcsHmes1CritFb2wzUj9RpDjNOnIe2ywxAv/+mWku8toNYykynO9K+YqL5lUPyBDALLaRmUGX4x+25RlvZuchPEFp6uBt1xS1ojPEKa5CeYJOn0LTMX/s/n0C9X+zB9mPoq/rOAKTvRLfN8bzSs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782392551; c=relaxed/simple;
-	bh=hr50eI0beySceQMd16J9KyCPUmik3+4R5AiGUHrmldM=;
-	h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type; b=O4IAGccQ58IPTglpvLRtWs/HIj5mvtnndr9x6hGjXGZT3d67CjfDAYQdFh1YkPIhlazBPVtB3aQuDGTjSdXaybSxVVWWThMsx35oqpFj3cT/HpjjZgflqjJa0SkyearzY2/PEJqSz6v4Ixa86rsZ5gDoxQ+gQm2Ofkqx/MUy2tY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=mew65xYs; arc=none smtp.client-ip=195.121.94.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="mew65xYs"
-X-KPN-MessageId: 1986c1a9-7096-11f1-9e8e-005056999439
-Received: from mta.kpnmail.nl (unknown [10.31.161.191])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 1986c1a9-7096-11f1-9e8e-005056999439;
-	Thu, 25 Jun 2026 15:02:20 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 19846b44-7096-11f1-91a7-00505699891e;
-	Thu, 25 Jun 2026 15:02:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=hr50eI0beySceQMd16J9KyCPUmik3+4R5AiGUHrmldM=;
-	b=mew65xYsBgGrg6wpLRdhQtyWLiOonWHda48rZlBHpc5U2STZxq7cFupQScTyCETjNWW37G7ubeBko
-	 ASJLNNtCYlLdnKx6DdGsJszsoaFi9YqemWE4KP6YFWPLHWo/+6FmtyvfY3P2NIQ+JEh6+8QaKyxooS
-	 CoDGZvbFGa6X5ojZxo1TUZSvk8SCjYKEtA0ahWXUDM5ueIrWbPB0E13FeN2oewbsXfN9w32SnanmPS
-	 zgkbi0bA51hNFsAM2w7lmK393lULe3teY8ekthLhAvgA1KXrOGmw2jiwzKhZCSxh4M33bEhvtek4iU
-	 NfBpJdx15Fp6qR3mhPCcXX3lTggNuxw==
-X-KPN-MID: 33|ePh7gmVBSt5qXbIaQfWGkeorGHcw12qJUg1oXacklqb2faSYQAIMNUnp+lWPg1f
- CFw3i+TFjLQMBgAZMHWr7EnWhzGuI2CeWFruaU++JR7U=
-X-CMASSUN: 33|yNZWR9Iesf34M5UNey50riEEQEkVXFvSRzu1j+hAwVbTZm9/nUOiWAjVho71W03
- eGcK+oG1Zpxuezagqll4daw==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh01 (cpxoxapps-mh01.personalcloud.so.kpn.org [10.128.135.207])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 1972b932-7096-11f1-916a-005056995d6c;
-	Thu, 25 Jun 2026 15:02:20 +0200 (CEST)
-Date: Thu, 25 Jun 2026 15:02:19 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>,
-	Matthew Bobrowski <repnop@google.com>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	Christian Brauner <brauner@kernel.org>
-Message-ID: <716044027.2969861.1782392539951@kpc.webmail.kpnmail.nl>
-Subject: [RFC] fanotify for flock release
+	s=arc-20240116; t=1782392620; c=relaxed/simple;
+	bh=XoVVAF/QR0fNRc8rAp3TxbaqOXY7dRbfus88K+EQKPw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mRJ4hXzV3zPYvEYQyWQt8ACASYAoi1s2CylKBER7a8nN+05VjJ1EGEy8Sjq17yeEhpIRR9q8M8Rq++zhTcZYXC8N286fw0tZnDoWv6k3eA9MFI2CQ5r1dppOnXjMM8OCKL1aJ2O+6YWvE2wf9yl2KIiNdjVo0/Q59KS5pBKYqPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 7C36268B05; Thu, 25 Jun 2026 15:03:36 +0200 (CEST)
+Date: Thu, 25 Jun 2026 15:03:36 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: hch@lst.de, willy@infradead.org, djwong@kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org
+Subject: Re: [RFC PATCH v1 0/3] iomap: convert to in-iter ->iomap_next()
+ model
+Message-ID: <20260625130336.GD22620@lst.de>
+References: <20260625024723.1611000-1-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260625024723.1611000-1-joannelkoong@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Hi Jan and Amir, (cc Christian)
+On Wed, Jun 24, 2026 at 07:47:20PM -0700, Joanne Koong wrote:
+> A few questions:
+> * is this roughly the in-iter direction you had in mind?
 
-There has been a wish from systemd to be able to be notified on flock(2) releases.[1]
-I've been looking at the locks.c code (I really wish requests were decoupled
-from locks... :) ) and the fanotify code, and this seems to be a rather
-straightforward expansion of existing fanotify functionality. Before sending a
-patch up, are there any objections to this? If we implement this should we
-also do POSIX locks notifications? And what about lock taking?
+I like it.
 
-Best,
-Jori.
+> * is removing the indirect call still worth it? My understanding is that
+>   indirect calls are cheap on modern eIBRS hardware and the conversion adds
+>   some per-filesystem boilerplate, so I'm unsure if it carries its weight. If
+>   not, do you think the in-iter model is still worth having on its own?
 
-[1]: https://systemd.io/BLOCK_DEVICE_LOCKING/
+Indirect calls have always been relatively slow, even without spectre.
+So if we can easily avoid them that's always a win.  That doesn't mean we
+should do stupid things just to avoid them, but I think we have a win/win
+here.
+
