@@ -1,201 +1,180 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F823B47DD;
-	Thu, 25 Jun 2026 16:03:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782403400; cv=none; b=saq0gfdjuClQdZHSVIXxaxz3cyRgt9cCqmHzi7UV5TYB/dfiEjI0kMD9QiVPtBVRadq1PJu1X071Hg0gahmuB+uqsapWBkzxHtD38ysFUaaylPSN1NKOiTAg9oAVKSQkCSpkOD19MxXkgZl7HyS5yv3Zu23SxSE/I5WFWaIzllM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782403400; c=relaxed/simple;
-	bh=7bKoxFM7KIOZ8oc/Q47QcvjrAFswlZcecxV75ra08vE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nfXq7QJ4F9hCYWtW3TuUbNN9RdheO/u12Q8kf06H/b86BT14wPVnPyvkeKK6ja67MvB46IFkRj4yULSjGvfCDHH85TbO98iukc5YBjAs7/OLXiILGHdeH/YqA8t35FVmZqs4uP/Wk8qz5Y9cZpGs0Z7zqnS/f0fLp9WJQDpKxsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eh7r+dl5; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E01348C7C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 16:06:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782403618; cv=pass; b=fCkt9+QfivhK/oV2JpP2qjwoahjP1s6LVdsk8VJKK4Cp9GlJlR2FG8eCFLJqJzsi3q/FNjhfE3v5BBIuV5WiygsSq4VSTOo+eYz16ddDoo3GbKQaB1qa5ju2D6fjLP78zHuyPkGaw+XPdTsWkLLMI9fL+4mGty4l7pXeMgscIow=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782403618; c=relaxed/simple;
+	bh=agsr2jSOniKtJMF+X0oXwibByddxXJqtF6YncOKFIEU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JcK2qWTKP4G81i9awPTP0WMEztCNHYp52umsVUF5BvdR6eWe8pk20+IRtzjLqtXMOdrHc95yhXPQq9CWsSXSDZXV0tZlMq+Y7Iv7TD3Pr5ors53wKEWTwk6KTpuy1omX7xoq9OQY1hDJQ6mE3+wECnwkm0agYtl4vcD+y/2ZiNY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=QvSsjVPq; arc=pass smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eh7r+dl5"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id D838E1F000E9;
-	Thu, 25 Jun 2026 16:03:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782403397;
-	bh=keGsTG6PzRLpDRyGU6n06RqldyGUbJfHiuRsazLhSQQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eh7r+dl5/FXG6ihuw6LEBQjpMJrMq5hkgURRWMfeq3pnk7K4AlEW5Ra5Gb0pY7h+z
-	 JYKHp11flSpRSS0O0Qv4V57geJ2LwlvGXZD4RajjSxpiBVHpwGFzkVKPZFGsECHYxZ
-	 H6Js9ytE1f/MWsYl9EvZqOH1yYowhbXSOnAENVebqIfhK64GOwnkM/RQWxBAH2mo+x
-	 93XRUgIl1bZChegrJN4no1TVLZLdEhRlP7QcqVhWlJqzUvVdI1cB/FFmOZ7IjBIpCE
-	 4n35yoVy1Jxca4ocCyp5KzLqsu5HpHDH75/KLTs4YEwpLyvomrQf51cE17B7TSlag6
-	 77hYGon+G2/pw==
-Date: Thu, 25 Jun 2026 09:03:17 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Carlos Maiolino <cem@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Jan Kara <jack@suse.cz>,
-	linux-xfs@vger.kernel.org, stable@vger.kernel.org,
-	Dave Chinner <david@fromorbit.com>,
-	Eric Sandeen <sandeen@redhat.com>,
-	"Dr. Thomas Orgis" <thomas.orgis@uni-hamburg.de>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH] xfs: fix capabily check in xfs_setattr_nonsize
-Message-ID: <20260625160317.GY6078@frogsfrogsfrogs>
-References: <20260624101436.362533-1-cem@kernel.org>
- <20260624134039.GB5649@lst.de>
- <qcsdbdpp23fsu3cqhpjdpwusvl6onc2knnrun522ofrutxpz6j@reh3k2ofqjir>
- <20260625123754.GA19947@lst.de>
- <aj1CdKwE3A40vQhQ@nidhogg.toxiclabs.cc>
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="QvSsjVPq"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-84594492c26so2491599b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 09:06:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782403616; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Xkc2FlrhFmWsSfYNEQvj2X/vsAOejU/TMWR0D5LmWuoqXl8cGo47eDGFHhtS9gzpga
+         2TG99MxiI0QAaiEzDu/UH1fWNa2Qwg/+FQujAtCiuoi/sHioV7DkOdViyUohqAhLX1wL
+         dLlLNhcyXsM2lPM2lWntLv1NMh+RVAm+JFEQBBAjVdRvB3yHFP7txTzcE6AhYR97dO7O
+         HDK3GQ8n56ZYHGvQCh9iq0A6T7GT4ivfesQ3EowUkBPUWU92KA5Zr8WUINpskVnxT7g2
+         TZ3dMagzYN3RmykbQUF5hyAgyKqdds5QX1m9tTjX2AcNqK6vS/eVbUqEpyKg7oPL7Rw2
+         OBPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=tj5Ca+YrVkSkclVchnHXzQO8ttUEujxWnJ/JyckdB0c=;
+        fh=cJAYzcDnAmWo380GIvqnXk1MCzja+l1efoKsezAIZps=;
+        b=pom44Fd+4Et6pYAKMqIkI/MPUJNMGtQjMStOFjFyngZMX0B7Vic0nKoJdEZOwfnj+s
+         Awlu3t6eXAHYjaKtdmjGINT5meJ3jBzzhvAFCoQk3pUWtK9b/pSZ3G4W82HFiMb/FI5y
+         NnW+y6LDW2nY/3BJ6Z+Ke3jBo84bCCayLmV5wIc/wY0y7X+QHpa+4DSWB85I9hw4aeGl
+         g8M7eYt5mqXIP6gd+VJ0KAGgBgo6RJRf0rHkp5Vad3CUEX50LZIQnLO6shNmZSmVAqtb
+         sgldxU3hq++9gzU8ytHuNgR8aEncVgMm+5buFen5TLYvB0XEgsxdN5ud9srpw5pbTjGn
+         l0Iw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1782403616; x=1783008416; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tj5Ca+YrVkSkclVchnHXzQO8ttUEujxWnJ/JyckdB0c=;
+        b=QvSsjVPq3M1JY0gxDJT0dGWAhQEabdh6KoWw3JBpzBtI3rtnb3lWRsn8ta0q85U6l4
+         Ua9fc9jZSlTlQCTuDpP5pl3PJpzmygJREv8s5m4jjU/kpKu1yQeSbGs6Bu+QQmxV2ezi
+         e6NPDfevXKkBchG/zqVyPXc/kFOhBiI2W3jBrwdKpT5ZZaWOTSIRUKTJNjQJ0AbZcUec
+         vgdp30jAhElXeS5k7V28unI7eOz9LvmVrSUmQlBIQCVGaSXpNXiOqN/qFRoYC/XGgKOC
+         9iAuA/CZaq2dfEavbG5gNF2LFQUOsab5a9SZvIIiNeh6NvKgnQyIElT7hrMSadP+7MFu
+         n1Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782403616; x=1783008416;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tj5Ca+YrVkSkclVchnHXzQO8ttUEujxWnJ/JyckdB0c=;
+        b=EXK2ZGktR6xSx+q7FQbG33LB9d/Qwb+SjvFb3VKXY0CnDyALrf5Eorq/JAgcOKIWre
+         qm3RcTRbuCFP2gOfjcojXcWbmSheyGyvTG03xEwzwLgNXIZCVRcZWbVIFWqCuff3X2fa
+         pX+JME9IedaXV92vwIPd3K5GWtkVpLRzC7Pl49vJeN31KveqitdJNnbbHgb3oIj3e2oD
+         cJslkqNGW2tBa6OJc+NTQskm/9CsjORmkIkfLwm5COk61Rw6qw8bGCK0Vg9xiM8nwvus
+         M//Jcw5G2CLtiXeayFKX7xcjsuCaJNqQVlK/WRUXUiBxjhfqQhqaIti69LSaDqAmXH1n
+         o7DQ==
+X-Forwarded-Encrypted: i=1; AHgh+RogHnnxNfj1eywdMXgfVJgOdaluup+dAUj43gusFFTcsDgqXHjVcYt99UC3K1urK6ej2Nbrc5L5M8gpUJ/6@vger.kernel.org
+X-Gm-Message-State: AOJu0Yww2/CrdAMNrU7JkZKONYnltmCFGLcy/NhULNpnGnpvNIIAmbT9
+	eSSjrnlLita7gGJHk9uPNnSxKMtei/9AZsYM6lsSGldkAysi5OTLlbWy4l4s2YxYdh2DXCBAqeO
+	mP4YN2W2xVQC6RHeQNO6f7YI7tnI1TOCdywMXp9Yp
+X-Gm-Gg: AfdE7cktRf7ldDUNTr0lKYZTQsu/JPxRsn5toX1WIWkaAaOg8h5gTLOOQbBQE+tp89f
+	TLVvhqE0fiMz6q9h1pQ09AHlRPfFsBEL67tIH6oEBInjHcJoeGm0giPPY1s4pobDkCpwBiTRike
+	U++Z9XVCZMvPaFoYdkZ+9x0+hVcDdOhP3vEXSax0Z5VfWtbZpqVYVv0vQwG8lfe4OWTop0mAqHH
+	74vHJ4VZtcotRdPiD94fQQ6qw3r6xIPVxZ6Oi56bVBYzOuRLLONgIQ9OwgqzQ+gnohAlY+p
+X-Received: by 2002:a05:6a00:1a8e:b0:81f:5037:a317 with SMTP id
+ d2e1a72fcca58-845b39d39c6mr3865503b3a.11.1782403616175; Thu, 25 Jun 2026
+ 09:06:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aj1CdKwE3A40vQhQ@nidhogg.toxiclabs.cc>
+References: <20260618203411.73917-2-dwindsor@gmail.com> <75d39fd9847cca915d704235264ab474@paul-moore.com>
+ <20260625-schnabel-rennmaschine-parieren-bcb352c3cf59@brauner>
+In-Reply-To: <20260625-schnabel-rennmaschine-parieren-bcb352c3cf59@brauner>
+From: Paul Moore <paul@paul-moore.com>
+Date: Thu, 25 Jun 2026 12:06:44 -0400
+X-Gm-Features: AVVi8CfVp_1nha_FxdKkksJCUmgb3NBLBVh62tn1q5iqee01wbI4MgNkgsJUBlQ
+Message-ID: <CAHC9VhSP54b9UZLJ5RRaWfnV5J6mD4iLCFXxwwv9pFqDrCAH3w@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] bpf: add bpf_init_inode_xattr kfunc for atomic
+ inode labeling
+To: Christian Brauner <brauner@kernel.org>
+Cc: David Windsor <dwindsor@gmail.com>, viro@zeniv.linux.org.uk, jack@suse.cz, 
+	ast@kernel.org, daniel@iogearbox.net, john.fastabend@gmail.com, 
+	andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com, martin.lau@linux.dev, 
+	song@kernel.org, yonghong.song@linux.dev, jolsa@kernel.org, 
+	emil@etsalapatis.com, kpsingh@kernel.org, mattbobrowski@google.com, 
+	jmorris@namei.org, serge@hallyn.com, zohar@linux.ibm.com, 
+	roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, 
+	stephen.smalley.work@gmail.com, omosnace@redhat.com, casey@schaufler-ca.com, 
+	shuah@kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 25, 2026 at 05:00:21PM +0200, Carlos Maiolino wrote:
-> On Thu, Jun 25, 2026 at 02:37:54PM +0200, Christoph Hellwig wrote:
-> > On Thu, Jun 25, 2026 at 12:43:54PM +0200, Jan Kara wrote:
-> > > On Wed 24-06-26 15:40:39, Christoph Hellwig wrote:
-> > > > Adding Jan and Christian for quota and user_ns knowledge.
-> > > > 
-> > > > On Wed, Jun 24, 2026 at 12:14:29PM +0200, cem@kernel.org wrote:
-> > > > > From: Carlos Maiolino <cem@kernel.org>
-> > > > > 
-> > > > > An user reported a bug where he managed to evade group's quota
-> > > > > by changing a file's gid to a different group id the same user
-> > > > > belonged to, even though quotas were enforced on both gids and the
-> > > > > file's size was big enough to exceed the quota's hardlimit.
-> > > > > 
-> > > > > Commit eba0549bc7d1 replaced a capable() call by a
-> > > > > has_capability_noaudit() to prevent unnecessary selinux audit messages.
-> > > > > Turns out that both calls have slightly different semantics even though
-> > > > > their documentation seems similar. Where in a nutshell:
-> > > > > 
-> > > > > capable() - Tests the task's effective credentials
-> > > > > has_ns_capability_noaudit() - Tests the task's real credentials
-> > > > 
-> > > > Eww..
-> > > 
-> > > Yeah, that's a catch.
+On Thu, Jun 25, 2026 at 10:23=E2=80=AFAM Christian Brauner <brauner@kernel.=
+org> wrote:
+> On 2026-06-23 20:12:32-04:00, Paul Moore wrote:
+> > On Jun 18, 2026 David Windsor <dwindsor@gmail.com> wrote:
+> >
+> > > Add bpf_init_inode_xattr() kfunc for BPF LSM programs to atomically s=
+et
+> > > xattrs via the inode_init_security hook using lsm_get_xattr_slot().
+> > >
+> > > The inode_init_security hook previously took the xattr array and coun=
+t
+> > > as two separate output parameters (struct xattr *xattrs, int
+> > > *xattr_count), which BPF programs cannot write to. Pass the xattr sta=
+te
+> > > as a single context object (struct xattr_ctx) instead, and have
+> > > bpf_init_inode_xattr() take that context directly. Update the existin=
+g
+> > > in-tree callers of inode_init_security to take and forward the new
+> > > xattr_ctx.
+> > >
+> > > A previous attempt [1] required a kmalloc string output protocol for
+> > > the xattr name. Since commit 6bcdfd2cac55 ("security: Allow all LSMs =
+to
+> > > provide xattrs for inode_init_security hook") [2], the xattr name is =
+no
+> > > longer allocated; it is a static constant.
+> > >
+> > > Because we rely on the hook-specific ctx layout, the kfunc is
+> > > restricted to lsm/inode_init_security. Restrict the xattr names that
+> > > may be set via this kfunc to the bpf.* namespace.
+> > >
+> > > Link: https://kernsec.org/pipermail/linux-security-module-archive/202=
+2-October/034878.html [1]
+> > > Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git/commit/?id=3D6bcdfd2cac55 [2]
+> > > Suggested-by: Song Liu <song@kernel.org>
+> > > Signed-off-by: David Windsor <dwindsor@gmail.com>
+> > > ---
+> > >  fs/bpf_fs_kfuncs.c                | 106 ++++++++++++++++++++++++++++=
++-
+> > >  include/linux/bpf.h               |   1 +
+> > >  include/linux/bpf_lsm.h           |   3 +
+> > >  include/linux/evm.h               |   9 +--
+> > >  include/linux/lsm_hook_defs.h     |   4 +-
+> > >  include/linux/lsm_hooks.h         |  16 ++---
+> > >  include/linux/security.h          |   5 ++
+> > >  kernel/bpf/bpf_lsm.c              |  10 +++
+> > >  kernel/bpf/trampoline.c           |   3 +
+> > >  security/bpf/hooks.c              |   1 +
+> > >  security/integrity/evm/evm_main.c |   8 ++-
+> > >  security/security.c               |   7 +-
+> > >  security/selinux/hooks.c          |   4 +-
+> > >  security/smack/smack_lsm.c        |  27 ++++----
+> > >  14 files changed, 166 insertions(+), 38 deletions(-)
+> >
+> > I have a few specific comments below, inline with the patch, but I want=
+ed
+> > to make some general comments too.
+> >
+> > The kfunc additions really don't belong in the VFS kfunc file, please
+> > create a LSM kfunc file (call it security/bpf_lsm_kfuncs.c) and add the
+> > kfunc code to this new file.
+>
+> We expose a bunch of VFS heavy operations for various security modules
+> and this is really not different. For xattrs we have it all centralized
+> in the VFS and in general all VFS related bpf kfuncs should continue
+> living there and be registered there.
 
-I spent a while trying to figure out how I went wrong in selecting the
-function name:
+This is really LSM specific code dealing with more LSM bits than
+anything else, it belongs in security/bpf_lsm_kfuncs.c.
 
- * capable - Determine if the current task has a superior capability in effect
- * @cap: The capability to be tested for
- *
- * Return true if the current task has the given superior capability currently
- * available for use, false if not.
-
-vs.
-
- * has_capability_noaudit - Does a task have a capability (unaudited) in the
- * initial user ns
- * @t: The task in question
- * @cap: The capability to be tested for
- *
- * Return true if the specified task has the given superior capability
- * currently in effect to init_user_ns, false if not.  Don't write an
- * audit message for the check.
-
-vs.
-
- * ns_capable_noaudit - Determine if the current task has a superior capability
- * (unaudited) in effect
- * @ns:  The usernamespace we want the capability in
- * @cap: The capability to be tested for
- *
- * Return true if the current task has the given superior capability currently
- * available for use, false if not.
-
-All three of these sound the same to me.  But what about the call path?
-
-capable -> ns_capable -> ns_capable_common
-
-has_capability_noaudit -> has_ns_capability_noaudit
-
-ns_capable_noaudit -> ns_capable_common
-
-Hum, maybe that's the difference -- ns_capable_common vs.
-has_ns_capability_noaudit?
-
-ns_capable_common calls security_capable() with current_cred(), whereas
-has_ns_capability_noaudit calls it with __task_cred(t), which is
-@current in the xfs_trans_alloc_ichange case.
-
-Aha!  current_cred is current->cred, whereas __task_cred(current) is
-current->real_cred, and these aren't the same thing:
-
-	/* Objective and real subjective task credentials (COW): */
-	const struct cred __rcu		*real_cred;
-
-	/* Effective (overridable) subjective task credentials (COW): */
-	const struct cred __rcu		*cred;
-
-So I guess ns_capable_common (and wrappers) are testing the process'
-effective credentials, whereas has_ns_capability_noaudit is testing the
-process' real credentials?
-
-It would have been *really* nice if the documentation for those
-functions mentioned that distinction!
-
-> > > > > This most of the time has no practical difference but in some cases like
-> > > > > changing attrs (specifically group id in this case) through a NFS client
-> > > > > this will allow the quota code to use XFS_QMOPT_FORCE_RES, effectively
-> > > > > bypassing quota accounting checks.
-> > > > 
-> > > > Yeah, this does look wrong.  Do the other conversion in the above commit
-> > > > have tthe same issue?
-> > > > 
-> > > > > Using instead ns_capable_noaudit() should fix this issue and prevent
-> > > > > selinux audit messages.
-> > > > 
-> > > > The generic quota code manages to do without either has_capability_noaudit
-> > > > or ns_capable_noaudit.  I think this might be hidden behind
-> > > > inode_owner_or_capable calls.  Any idea why we're different?
-> > > 
-> > > Actually no. Generic quota code has equivalent checks in ignore_hardlimit()
-> > > function which does capable(CAP_SYS_RESOURCE) check. I guess the reason why
-> > > nobody complained about generic quota code is that we call
-> > > ignore_hardlimit() only if we are above hardlimit whereas XFS calls this
-> > > for every transaction...
-> > 
-> > I guess we should aim for the same to avoid the spurious audit logs.
-> > 
-> > I.e. xfs_trans_alloc_ichange is currently always called either with
-> > force = true or force = this capable check.  So as a first step we can
-> > move the check into xfs_trans_alloc_ichange for the !force case, and the
-> > propagate that through XFS_QMOPT_FORCE_RES into xfs_trans_dqresv, i.e.
-> > only set XFS_QMOPT_FORCE_RES for the real forced case and instead
-> > have the capable check down in xfs_trans_dqresv.
-> > 
-> 
-> Sounds fair, I'll give it a try tomorrow.
-
-So yeah, I agree we should change that to:
-
-	ns_capable_noaudit(&init_user_ns, CAP_FOWNER)
-
-Though it's also weird that XFS gates it on CAP_FOWNER whereas the VFS
-checks CAP_SYS_RESOURCE.  Though I would have added this:
-
-static inline bool
-current_may_ignore_quota_limits(void)
-{
-	/*
-	 * If the current process' effective credentials include
-	 * CAP_FOWNER, then they're allowed to ignore the hard limit.
-	 */
-	return ns_capable_noaudit(&init_user_ns, CAP_FOWNER);
-}
-
-and then changed the callsites in xfs_ioctl/xfs_iops.c to:
-
-	error = xfs_trans_alloc_ichange(ip, udqp, gdqp, NULL,
-			current_may_ignore_quota_limits(), &tp);
-
-The has_capability_noaudit call in xfs_fsmap.c should change to
-ns_capable_noaudit.
-
---D
+--=20
+paul-moore.com
