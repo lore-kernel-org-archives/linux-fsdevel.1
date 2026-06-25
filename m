@@ -1,123 +1,83 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C043DDDBE
-	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 12:51:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6903E44E9;
+	Thu, 25 Jun 2026 12:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782391868; cv=none; b=RNfAbsKddzEleyp9+opbLcIlhvXCpJJMcIQPPn9CKnJjh0Jbm4AtTHnyRpLakebqJQkDRMeyG1HGZKLxR/0Xd2HbbuZRTP5wc2Cdtg70zwS5rFuHjT+renwt/JdugAVcWF8NmJtTZtgvaN+yGDhJ5C6fDnk+7ocrFm7Yrqdkwkw=
+	t=1782392004; cv=none; b=DM60vC6cCti+U1mN7XH+VO+TO2mR00U24g9NZmlRtbIiqXROucVgfilSVw6E993AJoCeNAcxG1j1MD8PyTaBCy5iWeWY/5gvUSRpJUWFF6DY0rtHP2Zy3Bd3E8kZVYxxEB7PM1UOucsqbmkr7iBwm3LUUxW1dS9+ssf3sE6I+Ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782391868; c=relaxed/simple;
-	bh=P1GGlV0rYbqm+O8QFxt6L8lOqvgo23pRd4tHxoqW/JM=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
-	 Content-Type:Date:Message-ID; b=sna82tDyN71TY3PRWPuhdwo1bHYJcAtvuQ9GemtjeQ/lRUgSCOvDPc/6f4HRoiWj17jDSlSl7yOdUM40i+2Tr0/JnGoKOR5T7JtwXmadgpJVh3ZJKXjInhJw8liYWO2oIkNH5wL+39N0lgFcViQyos41aok0ME76a3Uqleyvrgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BL1h+Jxx; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1782392004; c=relaxed/simple;
+	bh=FJ/2sqPH3xnO/qDjRRGvaOhRiNhaCAXXfpe38vDvhMA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MYWOsP9ifzpH6L7wnSA+749PMKTYehhIsIC+fMI0oFAMHAtnXp9nMo0c5qe3IkOLE+DMp03g4PuIc7iS6P4thT/WeGKqJAS7XaDgiK2S+WLv7gbWL3rGwhilA5sv3JbVTOskwebW6YmjmCV+el8LRQyMR4LQDEy0g5/d8e0a9F4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BfTacltp; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BL1h+Jxx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782391865;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h1dQ9D7LGl7C7AzKpEv42B3bt9Qt3zJDQxQ5d+Jkyi8=;
-	b=BL1h+JxxhmbRYVCoqohqo4M5yrCRTfsAduk9W7G3ZKuTqahMnQM0JJ87PX5AuBMmA/tlz3
-	L+J6rp3nWar7m/eWQaTm72oesuyvSOhYjx9fJ1kS1iFuSBTsKySazONagI3mPgA+X7PqvP
-	B6UU4gYKzWgAUzbK6kY4xkQHaEdVYvA=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-660-5XCf2NW8MF-owCZnTcNd3A-1; Thu,
- 25 Jun 2026 08:51:01 -0400
-X-MC-Unique: 5XCf2NW8MF-owCZnTcNd3A-1
-X-Mimecast-MFC-AGG-ID: 5XCf2NW8MF-owCZnTcNd3A_1782391860
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4367A1977316;
-	Thu, 25 Jun 2026 12:51:00 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.49.152])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3FFCD1956088;
-	Thu, 25 Jun 2026 12:50:58 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <6a19f098.abb04025.19af7b.0003.GAE@google.com>
-References: <6a19f098.abb04025.19af7b.0003.GAE@google.com>
-To: syzbot <syzbot+3c74b1f0c372e98efc32@syzkaller.appspotmail.com>
-Cc: dhowells@redhat.com, linux-fsdevel@vger.kernel.org,
-    linux-kernel@vger.kernel.org, netfs@lists.linux.dev,
-    pc@manguebit.org, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [netfs?] KASAN: slab-use-after-free Read in netfs_unbuffered_write
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BfTacltp"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=ZZDw2s9zWCThga9eYDfaH2QZEXuAsHn0UQSlAmnIq8U=; b=BfTacltpBMagNVXRF/YTZVepiI
+	EavhoY9X0cCWU1/Ern/Te8gkPdpP+fPcwzA4UWpCp0kGH3Vkvpg6sfAOwMU6wVF68ZP3IeFbwVdq6
+	T/yvy+eYqEvt+t5bGGHuvREHF3FdEWV0fgxFHruRvO1tcb8uRJv6JM+luAG5l61/JrVSZjVocjsTc
+	XXVkjOKCmNWlCxEU9aEfJLTJi0qcwqMBMDooDovRcR6A00yO4qn3aH4+gk8Epa+DIpd8kQ5X6lbro
+	KZJgcp3JxrEx/nNvlyzGth65EEQVG0yk7aIpeSqwGO/S4Qu0DqUshLPfCg2pw97blOUZA3bnyse0o
+	SXs1WN6Q==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wcjZz-00000009uyF-1S8Y;
+	Thu, 25 Jun 2026 12:53:15 +0000
+Date: Thu, 25 Jun 2026 13:53:15 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Amir Goldstein <amir73il@gmail.com>,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Johannes Weiner <hannes@cmpxchg.org>, Shuah Khan <shuah@kernel.org>,
+	linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 2/3] ovl: support cachestat() syscall on overlayfs files
+Message-ID: <aj0ku26XNT7Xc8x9@casper.infradead.org>
+References: <20260623111533.2285005-1-ptikhomirov@virtuozzo.com>
+ <20260623111533.2285005-3-ptikhomirov@virtuozzo.com>
+ <CAKEwX=OaKTfNqzwa=djLxZDeBbR1+DKdqDnxdfPfZFKB-K+ECA@mail.gmail.com>
+ <c390081b-7b2e-4b83-9bca-5f93eec6a939@virtuozzo.com>
+ <CAOQ4uxhPROaeEyYceKNsL5QVwVPkTjGtbRr1P_TYXTA0fHvRoA@mail.gmail.com>
+ <CAKEwX=MedyK8aDM=oe=Hbzo77mJOEp0Pmo0u8N4HhvikosVbSw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <3106405.1782391857.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 25 Jun 2026 13:50:57 +0100
-Message-ID: <3106406.1782391857@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKEwX=MedyK8aDM=oe=Hbzo77mJOEp0Pmo0u8N4HhvikosVbSw@mail.gmail.com>
 
-#syz test: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t 8fde5d1d47f6
+On Wed, Jun 24, 2026 at 12:06:54PM -0700, Nhat Pham wrote:
+> I'm more concerned with undocumented/unexpected behavior (error type
+> in this case). -EIO was an example that I saw in ovl_real_file()
+> itself, but I'm not familiar enough with overlayfs to know if that's
+> the extent of it.
+> 
+> But I'm OK with just updating the documentation with a simple note
+> that other error maybe propagated from the underlying fs, if no one
+> else thinks it's a problem :)
 
-diff --git a/fs/netfs/direct_write.c b/fs/netfs/direct_write.c
-index 25f8ceb15fad..c16fbad286a1 100644
---- a/fs/netfs/direct_write.c
-+++ b/fs/netfs/direct_write.c
-@@ -166,13 +166,16 @@ static int netfs_unbuffered_write(struct netfs_io_re=
-quest *wreq)
- 		 */
- 		subreq->error =3D -EAGAIN;
- 		trace_netfs_sreq(subreq, netfs_sreq_trace_retry);
--		if (subreq->transferred > 0)
-+		if (subreq->transferred > 0) {
- 			iov_iter_advance(&wreq->buffer.iter, subreq->transferred);
-+			wreq->transferred +=3D subreq->transferred;
-+		}
- =
+That's ALWAYS true.  POSIX even says so explicitly in section 2.3:
 
- 		if (stream->source =3D=3D NETFS_UPLOAD_TO_SERVER &&
- 		    wreq->netfs_ops->retry_request)
- 			wreq->netfs_ops->retry_request(wreq, stream);
- =
+  Implementations may support additional errors not included in this list,
+  may generate errors included in this list under circumstances other
+  than those described here, or may contain extensions or limitations
+  that prevent some errors from occurring.
 
-+		__clear_bit(NETFS_SREQ_MADE_PROGRESS, &subreq->flags);
- 		__clear_bit(NETFS_SREQ_NEED_RETRY, &subreq->flags);
- 		__clear_bit(NETFS_SREQ_BOUNDARY, &subreq->flags);
- 		__clear_bit(NETFS_SREQ_FAILED, &subreq->flags);
-@@ -186,17 +189,10 @@ static int netfs_unbuffered_write(struct netfs_io_re=
-quest *wreq)
- =
-
- 		netfs_get_subrequest(subreq, netfs_sreq_trace_get_resubmit);
- =
-
--		if (stream->prepare_write) {
-+		if (stream->prepare_write)
- 			stream->prepare_write(subreq);
--			__set_bit(NETFS_SREQ_IN_PROGRESS, &subreq->flags);
--			netfs_stat(&netfs_n_wh_retry_write_subreq);
--		} else {
--			struct iov_iter source;
--
--			netfs_reset_iter(subreq);
--			source =3D subreq->io_iter;
--			netfs_reissue_write(stream, subreq, &source);
--		}
-+		__set_bit(NETFS_SREQ_IN_PROGRESS, &subreq->flags);
-+		netfs_stat(&netfs_n_wh_retry_write_subreq);
- 	}
- =
-
- 	netfs_unbuffered_write_done(wreq);
-
+We don't generally bother to document that pretty much every syscall may
+return -ENOMEM if it can't allocate memory.  That's just ... expected.
+open(2) documents the possibility, but read(2) doesn't.  I think it's
+the same for EIO.  Any operation which accesses storage can return -EIO.
