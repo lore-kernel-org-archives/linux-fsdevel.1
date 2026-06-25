@@ -1,44 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887373B19B4;
-	Thu, 25 Jun 2026 11:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E40223AD514
+	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 11:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782385671; cv=none; b=eOOcJVQnRhIzPcFr5dV6fRctKPtD35ZVaF6s+ISfnph7BsEtFJH/BLveUonL5XN13OnVHwgxQV9pYxk5venIuZZur3gI4FyvTbtaY+uqCp8i2WMs3uv4p9qeoMTyP0BMpm9708cX1h2M0Ss0iYGJ1L1bt/aXAntC1nWMHeJa9ao=
+	t=1782385934; cv=none; b=E4xaZRx/+qakBNVCn6QEioew4epKruUjru3Kzry6Yo6gc3xBOqyXl54nsc1a7o35pm75ehakA/2VuVRhtPLaPjfzScSTKffPXG1KwRgYkFOzIjkBlPh7UIm7c9SSNDvXpLOEquwYGu1U1OoZ6PLpH4XmQrRUlvMLAe0r//M/9zE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782385671; c=relaxed/simple;
-	bh=ZaGQHrsu5B4E8/yrF6teUXrBsceqt6AC7Fd5+8dUGwQ=;
+	s=arc-20240116; t=1782385934; c=relaxed/simple;
+	bh=Hy94OIjWzPLOlCFuuiSfmsBVT6ao6NxQiWi9DIM5Nq4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cEwEU0AdN747eOeJ1dnp06Y3uHR6L5XKXZaR8f8nJdiGVwsR+hVWI2znjPMXmmQbmK0EyA3fAPA0Zs+96tYEvLMMuz4ERe5yNMOZxRKG44lTHZudxxsJfGDHTlLn4KeixKz7CfF8tPGcyLP8E8T3G06mNWW+SKXb6fGzr0IB9UQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0l8fEeLl; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=cIiywRbJOcaiUB3ZkhLP6mxBKaLIFSA7p5DaFlO/CgMLEoGI0H0K9RHgBrb6hBZsYDnne2zM4Mn59GEQXB6YXPQrlEjDCYIX00m8wvjBvXT0xb5w+rBLUH/FR1RBgY6HIydpMFx/RQxqkjeU04xuAn3Z4jKEJtw8Ro6VxsBfFLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=oaMvIP7L; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=85NxXg4c; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=TbuFXCjI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=J9lxoYoW; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0l8fEeLl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9647D1F000E9;
-	Thu, 25 Jun 2026 11:07:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1782385670;
-	bh=/nHrn+mrSRVOJ20fuBj9leaUr9UbxIZAjuQRBG7RaB4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=0l8fEeLlQZLAeyv9XDhXjG1pgfb4Ad+Tu/Do4GcRbYF7+8CvGTZWEOpOy9yF05tuw
-	 srl0FXaUJMnsBIOSMOUX7uejKjbN6qQ3aQC66jZBMB8oXJrVAlZ+W8GOp4Jiz3vrS9
-	 OcNYqZ3kllMoc/yO/M1Kh1acKeX5xiNWwgXdYgrQ=
-Date: Thu, 25 Jun 2026 12:06:38 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Cai Xinchen <caixinchen1@huawei.com>
-Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-	miklos@szeredi.hu, amir73il@gmail.com, paul@paul-moore.com,
-	jmorris@namei.org, serge@hallyn.com, stephen.smalley.work@gmail.com,
-	omosnace@redhat.com, bboscaccy@linux.microsoft.com,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-unionfs@vger.kernel.org,
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
-	bpf@vger.kernel.org, lujialin4@huawei.com
-Subject: Re: [stable/linux-6.18.y 2/2] selinux: fix overlayfs mmap() and
- mprotect() access checks
-Message-ID: <2026062529-squealing-suffice-ed61@gregkh>
-References: <20260622031416.2663747-1-caixinchen1@huawei.com>
- <20260622031416.2663747-3-caixinchen1@huawei.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="oaMvIP7L";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="85NxXg4c";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="TbuFXCjI";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="J9lxoYoW"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 185EE761D1;
+	Thu, 25 Jun 2026 11:12:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1782385931; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x4apt3BUOgYQ5opq6befSCHQHemOIYVJiqJGVn18VK4=;
+	b=oaMvIP7LZmEyqKNuF3XnUZ6XDhUdy+amife892yb5okmeSTRmjYRtgxhv4DNS8tn/hoDJj
+	eagsMV5refAYdSny5KWNWS5wj7jRCaEsgx59vtdsHklGHD0GnPtGHx2FBW8JaTiTdfPgzo
+	MSxQAns5zSc7kGZ6bpyp1Pg9sSmwJRY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1782385931;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x4apt3BUOgYQ5opq6befSCHQHemOIYVJiqJGVn18VK4=;
+	b=85NxXg4cl5gljpWZM+CELJXW4D0lqDD7Ae0foStZXyzzZtJQBrEvK6r1zcnDcUEr1WP/gV
+	b4SS2nB5X0i/WaDQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=TbuFXCjI;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=J9lxoYoW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1782385930; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x4apt3BUOgYQ5opq6befSCHQHemOIYVJiqJGVn18VK4=;
+	b=TbuFXCjIAyb1eNlD05GVAR2hQw5SJhlJhh5x+FQODiUpV87dwvTc6abVl52FiI7zFoqRmU
+	WfdpjRwpcgWMbwisBpVPizidh/Pdh/c28U2KcUNsVfK+uCgNnSoa4IJWtZPBGN9w/MPKPL
+	JzGArFrWeMXVWhiD//cRMSNktZmMXUU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1782385930;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x4apt3BUOgYQ5opq6befSCHQHemOIYVJiqJGVn18VK4=;
+	b=J9lxoYoWEEoUo4zvBg7JE34eVrMDjkBsplk6UEFSg0aApu4R6FAxKDY0y+Cp6dWHeK/X1q
+	+GopzP+YO/iWTrBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0CC00779A8;
+	Thu, 25 Jun 2026 11:12:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 2YUXAwoNPWp2VwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 25 Jun 2026 11:12:10 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 9C5B9A10A3; Thu, 25 Jun 2026 13:12:05 +0200 (CEST)
+Date: Thu, 25 Jun 2026 13:12:05 +0200
+From: Jan Kara <jack@suse.cz>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jan Kara <jack@suse.cz>, Carlos Maiolino <cem@kernel.org>, 
+	Filip Blagojevic <filip.blagojevic@wdc.com>, Matthew Wilcox <willy@infradead.org>, 
+	Damien Le Moal <dlemoal@kernel.org>, linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org
+Subject: Re: update BDI {io,ra}_pages values based on the RT device limits
+Message-ID: <ecyxpdw5jcqiw5lq26pi4af76tygoiqshj23hp7jkguvbn6o3z@bd3hnhglc4bo>
+References: <20260623142109.1838702-1-hch@lst.de>
+ <rbrncqfmzbnj5o2yvieqtpl3dkb4qzafsai3sarmbta4fsqc6f@yruai3zv5llu>
+ <20260624134950.GA6471@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -47,35 +91,80 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260622031416.2663747-3-caixinchen1@huawei.com>
+In-Reply-To: <20260624134950.GA6471@lst.de>
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 185EE761D1
+X-Spam-Score: -4.01
 
-On Mon, Jun 22, 2026 at 11:14:16AM +0800, Cai Xinchen wrote:
-> From: Paul Moore <paul@paul-moore.com>
+On Wed 24-06-26 15:49:50, Christoph Hellwig wrote:
+> On Wed, Jun 24, 2026 at 02:26:35PM +0200, Jan Kara wrote:
+> > A cleaner but still relatively simple way how to fix your problem would be
+> > to do something similar like e.g. btrfs does. That is when you have a
+> > filesystem with multiple backing devices, you create a new BDI (using
+> > super_setup_bdi()) and set its parameters based on the combination of
+> > devices you have.
 > 
-> The existing SELinux security model for overlayfs is to allow access if
-> the current task is able to access the top level file (the "user" file)
-> and the mounter's credentials are sufficient to access the lower
-> level file (the "backing" file).  Unfortunately, the current code does
-> not properly enforce these access controls for both mmap() and mprotect()
-> operations on overlayfs filesystems.
+> The big downside of that is that it breaks the userspace ABI - any
+> previous changes to BDI paramters, most importantly the read-ahead size,
+> would now only apply to the BDI for s_bdev which isn't actually used
+> by anything.
+
+Hum, right. XFS users are used to tweak
+/sys/block/<dev>/queue/read_ahead_kb
+which would stop influencing anything. I guess that could indeed break some
+people's expectations.
+
+> > >   1) support multiple BDIs per file system.
+> > > 
+> > > 	This would work pretty well for XFS, as data for a given file is
+> > > 	always entirely on one device, and the VFS writeback code is not
+> > > 	used for metadata.  But it probably doesn't work well for other
+> > > 	cases
+> > 
+> > Since looking up the bdi is abstracted through inode_to_bdi() (which
+> > currently goes through the superblock), this would be relatively easy to do
+> > but either the inode would have to store the bdi pointer or we'd have to
+> > have an operation to query it. Just at this point I'm not fully convinced
+> > the additional complexity / memory cost is worth it compared to what can be
+> > achieved with a synthetic bdi.
 > 
-> This patch makes use of the newly created security_mmap_backing_file()
-> LSM hook to provide the missing backing file enforcement for mmap()
-> operations, and leverages the backing file API and new LSM blob to
-> provide the necessary information to properly enforce the mprotect()
-> access controls.
-> 
-> Cc: stable@vger.kernel.org
-> Acked-by: Amir Goldstein <amir73il@gmail.com>
-> Signed-off-by: Paul Moore <paul@paul-moore.com>
-> Signed-off-by: Cai Xinchen <caixinchen1@huawei.com>
-> ---
->  security/selinux/hooks.c          | 242 ++++++++++++++++++++++--------
->  security/selinux/include/objsec.h |  11 ++
->  2 files changed, 189 insertions(+), 64 deletions(-)
+> Same.
 
-Again, what is the git id?
+One more idea: We already cache bdi's ra_pages in struct file_ra_state on
+file open. It wouldn't be that hard to allow filesystem to override the
+values in its open method (currently it isn't possible only because
+file_ra_state_init() is called after ->open). For io_pages we currently
+always go to the bdi so we'd have to add it to struct file_ra_state.
 
-thanks,
-
-greg k-h
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
