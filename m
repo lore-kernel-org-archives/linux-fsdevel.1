@@ -1,157 +1,201 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8FF286430
-	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 15:51:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F823B47DD;
+	Thu, 25 Jun 2026 16:03:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782402685; cv=none; b=tD0Bi5YXt0LiiVG/Nf1bSvQ+KbfZn6BZRnj3cPt9T4kwwGeifaDlUfPZCe9RtnEk4S5GVHnqFjuQ/7H01G+yNaRpRbtZ2MZUAQmG+ZI73Rv915apVHGbB5LMV3SDekbZpEjryFWeQhHPcCRtlTyYAR8IdWeUPEaHfeiIorVTPVA=
+	t=1782403400; cv=none; b=saq0gfdjuClQdZHSVIXxaxz3cyRgt9cCqmHzi7UV5TYB/dfiEjI0kMD9QiVPtBVRadq1PJu1X071Hg0gahmuB+uqsapWBkzxHtD38ysFUaaylPSN1NKOiTAg9oAVKSQkCSpkOD19MxXkgZl7HyS5yv3Zu23SxSE/I5WFWaIzllM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782402685; c=relaxed/simple;
-	bh=jRy8DPU+3KK9hjCqyr0r4UFSYg9SRA83IBr0VGhimhk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ju2k/UT+T4egk8r5c6fuKxx04DLh+6VRC8NVOS70yvAKaMACyd2EEotMm1vrt2JnyejjEhe6uGRTQi2tsbN+9dg1TnQCGfAk3lGhjRr6P/U1YmOTCKkVbF1GIV71y74u5IzKEIWZ1OdXEzFlTPFI5qctVLXWze5p+lN0nDDS3FY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FwCQbXIa; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782403400; c=relaxed/simple;
+	bh=7bKoxFM7KIOZ8oc/Q47QcvjrAFswlZcecxV75ra08vE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nfXq7QJ4F9hCYWtW3TuUbNN9RdheO/u12Q8kf06H/b86BT14wPVnPyvkeKK6ja67MvB46IFkRj4yULSjGvfCDHH85TbO98iukc5YBjAs7/OLXiILGHdeH/YqA8t35FVmZqs4uP/Wk8qz5Y9cZpGs0Z7zqnS/f0fLp9WJQDpKxsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eh7r+dl5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FwCQbXIa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A5F11F00ADF
-	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 15:51:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eh7r+dl5"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id D838E1F000E9;
+	Thu, 25 Jun 2026 16:03:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782402684;
-	bh=Kw/IQi4exB4+R3l9GqrvOCZO/Y90Qcj33bUN4lpzTUI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=FwCQbXIaW+By0J8qS932seOm65bhUUfo5T8tNhnrtYSk3kSw0Ioavb7V3ePyGBwnb
-	 pKywczy1RoK9i1S+Q535GAB12tRTO1G/praJ3IlgAlGb5Z66R8SZJ6+vRnCADa11ta
-	 nGbi8bscHaEtG+L13EBzzJ0v+RW5p+zqiWEDV5KnT15Fa0VTQPwK6MNH2ZTT66drTB
-	 L52fkTnVSXqVzc7jg4JjqlGL0KI5hi+CkZzrY0FpsTad7+VUKxbRGYIIXaMXSLa5Po
-	 eWi93IhKYy3giweUh5NzK6H2aQkMfjP9mpjUyzUsb3Hi6LogppAUg60rKxX6MnL05P
-	 yzTvqF8ulnMcA==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5aa68d65d24so2968309e87.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 08:51:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoWg2WFqYlPg2gPbgyuEJqidkLp6aLKSGyx4+uR/HngQtp0xS+bHVFbD2ABUgcRc+68+lOnuria7iXQLFB2@vger.kernel.org
-X-Gm-Message-State: AOJu0YxG6d6dFmWIU+RY7QlaxrK4wxtnH3t2XaNhul+lA1iAJS8lUiPM
-	dKOSHVEl0sRTlGTU9f2A3whpb0SAlB/dMxqxSG0f/Te/EPZ3r8bT2KoYTnXxcDcgWnG6pfSiWUi
-	YtgDw4im53C12MTT8v0E7nG1h+kkNKuyyauBAAvBc
-X-Received: by 2002:a05:6512:8041:b0:5ad:5a14:4c1b with SMTP id
- 2adb3069b0e04-5aea1f645b0mr1066558e87.36.1782402682653; Thu, 25 Jun 2026
- 08:51:22 -0700 (PDT)
+	s=k20260515; t=1782403397;
+	bh=keGsTG6PzRLpDRyGU6n06RqldyGUbJfHiuRsazLhSQQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=eh7r+dl5/FXG6ihuw6LEBQjpMJrMq5hkgURRWMfeq3pnk7K4AlEW5Ra5Gb0pY7h+z
+	 JYKHp11flSpRSS0O0Qv4V57geJ2LwlvGXZD4RajjSxpiBVHpwGFzkVKPZFGsECHYxZ
+	 H6Js9ytE1f/MWsYl9EvZqOH1yYowhbXSOnAENVebqIfhK64GOwnkM/RQWxBAH2mo+x
+	 93XRUgIl1bZChegrJN4no1TVLZLdEhRlP7QcqVhWlJqzUvVdI1cB/FFmOZ7IjBIpCE
+	 4n35yoVy1Jxca4ocCyp5KzLqsu5HpHDH75/KLTs4YEwpLyvomrQf51cE17B7TSlag6
+	 77hYGon+G2/pw==
+Date: Thu, 25 Jun 2026 09:03:17 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Carlos Maiolino <cem@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Jan Kara <jack@suse.cz>,
+	linux-xfs@vger.kernel.org, stable@vger.kernel.org,
+	Dave Chinner <david@fromorbit.com>,
+	Eric Sandeen <sandeen@redhat.com>,
+	"Dr. Thomas Orgis" <thomas.orgis@uni-hamburg.de>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH] xfs: fix capabily check in xfs_setattr_nonsize
+Message-ID: <20260625160317.GY6078@frogsfrogsfrogs>
+References: <20260624101436.362533-1-cem@kernel.org>
+ <20260624134039.GB5649@lst.de>
+ <qcsdbdpp23fsu3cqhpjdpwusvl6onc2knnrun522ofrutxpz6j@reh3k2ofqjir>
+ <20260625123754.GA19947@lst.de>
+ <aj1CdKwE3A40vQhQ@nidhogg.toxiclabs.cc>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
- <CALCETrWhXNetw-BsAaoyT31suMmjYLdMh9MAuLB2Lvk2ac-31g@mail.gmail.com>
- <CALCETrU3bgUxp0k1y-U-uL0-fW2016Gmsyu9O_=830czEUGMcQ@mail.gmail.com>
- <103524f8-1658-41df-88e9-cf49c628a721@app.fastmail.com> <20260625011023.GM2636677@ZenIV>
- <a75a9b82-a15b-4893-8f92-62b62664ea83@app.fastmail.com>
-In-Reply-To: <a75a9b82-a15b-4893-8f92-62b62664ea83@app.fastmail.com>
-From: Andy Lutomirski <luto@kernel.org>
-Date: Thu, 25 Jun 2026 08:51:11 -0700
-X-Gmail-Original-Message-ID: <CALCETrVdtYeJ7rXmvymLpOvn6X4LsfHYoVmbL6XgTqnjcP5n7g@mail.gmail.com>
-X-Gm-Features: AVVi8CeHU1loVo7LvRH0ljWOqNwsMMJXA7mgH3mrRcgo4SlKSTlcciqoC_CrBHo
-Message-ID: <CALCETrVdtYeJ7rXmvymLpOvn6X4LsfHYoVmbL6XgTqnjcP5n7g@mail.gmail.com>
-Subject: Re: [RFC] Null Namespaces
-To: John Ericson <mail@johnericson.me>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>, Li Chen <me@linux.beauty>, 
-	Cong Wang <cwang@multikernel.io>, Christian Brauner <brauner@kernel.org>, 
-	linux-arch <linux-arch@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, linux-api <linux-api@vger.kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	"H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
-	Sergei Zimmerman <sergei@zimmerman.foo>, Farid Zakaria <farid.m.zakaria@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aj1CdKwE3A40vQhQ@nidhogg.toxiclabs.cc>
 
-On Wed, Jun 24, 2026 at 8:41=E2=80=AFPM John Ericson <mail@johnericson.me> =
-wrote:
->
-> Ah, I started replying to your first email, but this is better, this
-> gets to the heart of the matter. Please don't mind me responding to your
-> two questions in reverse.
->
-> On Wed, Jun 24, 2026, at 9:10 PM, Al Viro wrote:
-> > What's the fundamental difference between CWD and any open descriptor
-> > for a directory?  Why does it make sense to ban the former, but allow
-> > the equivalents done via the latter?
->
-> Yes! These two notions are very close --- but that's the *problem*, not
-> a reason to not care about the existence of the CWD and root FS. I want
-> to get rid of CWD in my processes not because it is fundamentally
-> different (it isn't), but because it is superfluous.
->
-> If one is capability-minded like me, it's a bad mistake that we ever had
-> this "working directory" notion to begin with, and yet another example
-> of the folks at Bell Labs sticking something in the kernel that was
-> really only needed by the shell, and that could have just been done in
-> userland.
->
-> The current working directory, roughly, is *just* some global state
-> holding a directory file descriptor. But I don't want that global state.
-> If I am writing my userland program (that is not a shell), I would not
-> create the global variable. I do not appreciate the fact that the kernel
-> foists that state upon me whether I like it or not.
->
-> Now obviously we cannot have a giant breaking change removing the notion
-> of a current working directory altogether. But we can allow individual
-> processes which don't want it to opt out, and that is what nulling out
-> these fields (and updating the path resolution code to cope with that)
-> allows.
->
-> There is no loss of expressive power doing this, because one can (and
-> should!) just use the `*at` and file descriptors. But there is, however,
-> the imposition of discipline. The programmer (or coding agent) is
-> encouraged to do everything with file descriptors rather than path
-> concatenations etc., because they need to use `*at` anyways, and then
-> voil=C3=A0, without browbeating anyone in security seminars or code revie=
-w, a
-> bunch of TOCTOU issues disappear simply because doing the right thing is
-> now the path of least resistance.
->
-> > Please, start with explaining what, in your opinion, a mount namespace
-> > _is_, and where does "mount X is attached at path P relative to mount
-> > Y" belong.
->
-> Let's take a pathological example:
->
-> - Process A has `/foo` bind-mounted at `/bar/foo`
->
-> - Process B has `/bar` without that bind mount, and `/foo` mounted at
->   `/baz/foo`, as is possible because it is in a different mount
->   namespace.
->
-> If A opens `/bar/foo`, and sends it over (via socket) to B, and then B
-> does `openat(recv_fd, "..")`, B will get `/bar`, not `/baz`. This is
-> because `..` is resolved according to the mount referenced in the open
-> file. (This is, by the way, very good! Directory file descriptors would
-> be perilous to use if this were not the case!)
->
-> The moral of the story is that "mount X is attached at path P relative
-> to mount Y" is information accessed in the mounts themselves (maybe via
-> their containing mount namespace, per the `mnt_ns` field, or maybe not,
-> I am not sure, but it is immaterial). In contrast, the mount namespace
-> of the *opening* task (`current->nsproxy->mnt_ns`, and current is B)
-> doesn't matter at all for this purpose.
+On Thu, Jun 25, 2026 at 05:00:21PM +0200, Carlos Maiolino wrote:
+> On Thu, Jun 25, 2026 at 02:37:54PM +0200, Christoph Hellwig wrote:
+> > On Thu, Jun 25, 2026 at 12:43:54PM +0200, Jan Kara wrote:
+> > > On Wed 24-06-26 15:40:39, Christoph Hellwig wrote:
+> > > > Adding Jan and Christian for quota and user_ns knowledge.
+> > > > 
+> > > > On Wed, Jun 24, 2026 at 12:14:29PM +0200, cem@kernel.org wrote:
+> > > > > From: Carlos Maiolino <cem@kernel.org>
+> > > > > 
+> > > > > An user reported a bug where he managed to evade group's quota
+> > > > > by changing a file's gid to a different group id the same user
+> > > > > belonged to, even though quotas were enforced on both gids and the
+> > > > > file's size was big enough to exceed the quota's hardlimit.
+> > > > > 
+> > > > > Commit eba0549bc7d1 replaced a capable() call by a
+> > > > > has_capability_noaudit() to prevent unnecessary selinux audit messages.
+> > > > > Turns out that both calls have slightly different semantics even though
+> > > > > their documentation seems similar. Where in a nutshell:
+> > > > > 
+> > > > > capable() - Tests the task's effective credentials
+> > > > > has_ns_capability_noaudit() - Tests the task's real credentials
+> > > > 
+> > > > Eww..
+> > > 
+> > > Yeah, that's a catch.
 
-It's sort of a combination -- read the data structures :)  Other than
-the propagation part, they're really not that bad.
+I spent a while trying to figure out how I went wrong in selecting the
+function name:
 
-In any event, I think this discussion is sort of immaterial to the
-proposed API change.  No one is about to remove the concept of a mount
-namespace.  But maybe it makes sense to have a way to have a task that
-doesn't actually belong to a mount namespace.  A mount namespace is
-certainly going to exist.
+ * capable - Determine if the current task has a superior capability in effect
+ * @cap: The capability to be tested for
+ *
+ * Return true if the current task has the given superior capability currently
+ * available for use, false if not.
 
-There will definitely be subtleties.  For example, what happens if a
-task with "no mount namespace" tries to do OPEN_TREE_CLONE?  In some
-logical sense it ought to work but it ought to be impossible to
-actually mount the resulting tree anywhere, but this risks running
-afoul of all kinds of checks.  Maybe you get a whole new mount
-namespace (that does not become your current mnt_ns) if you
-OPEN_TREE_CLONE?
+vs.
 
-This stuff is complex and it probably makes more sense to keep changes simp=
-le.
+ * has_capability_noaudit - Does a task have a capability (unaudited) in the
+ * initial user ns
+ * @t: The task in question
+ * @cap: The capability to be tested for
+ *
+ * Return true if the specified task has the given superior capability
+ * currently in effect to init_user_ns, false if not.  Don't write an
+ * audit message for the check.
+
+vs.
+
+ * ns_capable_noaudit - Determine if the current task has a superior capability
+ * (unaudited) in effect
+ * @ns:  The usernamespace we want the capability in
+ * @cap: The capability to be tested for
+ *
+ * Return true if the current task has the given superior capability currently
+ * available for use, false if not.
+
+All three of these sound the same to me.  But what about the call path?
+
+capable -> ns_capable -> ns_capable_common
+
+has_capability_noaudit -> has_ns_capability_noaudit
+
+ns_capable_noaudit -> ns_capable_common
+
+Hum, maybe that's the difference -- ns_capable_common vs.
+has_ns_capability_noaudit?
+
+ns_capable_common calls security_capable() with current_cred(), whereas
+has_ns_capability_noaudit calls it with __task_cred(t), which is
+@current in the xfs_trans_alloc_ichange case.
+
+Aha!  current_cred is current->cred, whereas __task_cred(current) is
+current->real_cred, and these aren't the same thing:
+
+	/* Objective and real subjective task credentials (COW): */
+	const struct cred __rcu		*real_cred;
+
+	/* Effective (overridable) subjective task credentials (COW): */
+	const struct cred __rcu		*cred;
+
+So I guess ns_capable_common (and wrappers) are testing the process'
+effective credentials, whereas has_ns_capability_noaudit is testing the
+process' real credentials?
+
+It would have been *really* nice if the documentation for those
+functions mentioned that distinction!
+
+> > > > > This most of the time has no practical difference but in some cases like
+> > > > > changing attrs (specifically group id in this case) through a NFS client
+> > > > > this will allow the quota code to use XFS_QMOPT_FORCE_RES, effectively
+> > > > > bypassing quota accounting checks.
+> > > > 
+> > > > Yeah, this does look wrong.  Do the other conversion in the above commit
+> > > > have tthe same issue?
+> > > > 
+> > > > > Using instead ns_capable_noaudit() should fix this issue and prevent
+> > > > > selinux audit messages.
+> > > > 
+> > > > The generic quota code manages to do without either has_capability_noaudit
+> > > > or ns_capable_noaudit.  I think this might be hidden behind
+> > > > inode_owner_or_capable calls.  Any idea why we're different?
+> > > 
+> > > Actually no. Generic quota code has equivalent checks in ignore_hardlimit()
+> > > function which does capable(CAP_SYS_RESOURCE) check. I guess the reason why
+> > > nobody complained about generic quota code is that we call
+> > > ignore_hardlimit() only if we are above hardlimit whereas XFS calls this
+> > > for every transaction...
+> > 
+> > I guess we should aim for the same to avoid the spurious audit logs.
+> > 
+> > I.e. xfs_trans_alloc_ichange is currently always called either with
+> > force = true or force = this capable check.  So as a first step we can
+> > move the check into xfs_trans_alloc_ichange for the !force case, and the
+> > propagate that through XFS_QMOPT_FORCE_RES into xfs_trans_dqresv, i.e.
+> > only set XFS_QMOPT_FORCE_RES for the real forced case and instead
+> > have the capable check down in xfs_trans_dqresv.
+> > 
+> 
+> Sounds fair, I'll give it a try tomorrow.
+
+So yeah, I agree we should change that to:
+
+	ns_capable_noaudit(&init_user_ns, CAP_FOWNER)
+
+Though it's also weird that XFS gates it on CAP_FOWNER whereas the VFS
+checks CAP_SYS_RESOURCE.  Though I would have added this:
+
+static inline bool
+current_may_ignore_quota_limits(void)
+{
+	/*
+	 * If the current process' effective credentials include
+	 * CAP_FOWNER, then they're allowed to ignore the hard limit.
+	 */
+	return ns_capable_noaudit(&init_user_ns, CAP_FOWNER);
+}
+
+and then changed the callsites in xfs_ioctl/xfs_iops.c to:
+
+	error = xfs_trans_alloc_ichange(ip, udqp, gdqp, NULL,
+			current_may_ignore_quota_limits(), &tp);
+
+The has_capability_noaudit call in xfs_fsmap.c should change to
+ns_capable_noaudit.
+
+--D
