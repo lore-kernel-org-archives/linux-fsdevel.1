@@ -1,271 +1,165 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-a3-smtp.messagingengine.com (flow-a3-smtp.messagingengine.com [103.168.172.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A95B330659
-	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 21:48:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69F730D3ED;
+	Thu, 25 Jun 2026 21:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782424100; cv=none; b=k7lmGj6o6TXkFbc/ZR9oxgWnwZHY5fwy8CGvgszsYhRMqbBtIq9f0Ey25NphyAJAUjjFo7sy6KUPhrjHdAykLIlMMCIfts+t0oNekw+Ntlqvry2rel7MFLt0eWDoNwh4/Y6/JiiMxV4zdyxvlO2ePv4qwZyfuxA3EYGN9ru/VwI=
+	t=1782424415; cv=none; b=K26R1alvVU7B6u7ayXhkRjPbF3I3NYx3VLBGbhITpt04GXWOZ0Xi/N0BWhQWWLHPwop2/o7tHDJBLfyn1dWVmXjEW0zO9biaeIM3w8ihywZKezseCC6Ln5wvbVRMYHwRDQ0qD1f2t8eKJy38tMb2J4s+cM48Zqd4ecCTnYzEfoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782424100; c=relaxed/simple;
-	bh=yc/b0bj42Z4oPlHvetyL0VeC8AWKB381JYZ0kxX6ZcQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MNJ+pJwuH2eMnrWA+8IUkvmiWX+AubOWOdo3y96oO5jnvJ4dCN9Cv0ybo8l2wdqOOYvheEc/Fu590G98xcHVKYyaG740XOLwLtCMEFmG61BWNf9cxKdnhIhPVMctCcj0As3Ut3wySRMDq38uQO3ba60IZcDr+M5mb+YTvUGwZ54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J/wEg4Rm; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782424415; c=relaxed/simple;
+	bh=z0ogCZX+fL4NK9ldiKbPeg39+XtPZhElqplGgXQgczE=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=hk87whCcx0OY4gQjKYcpy7dMdOOqGm8DF4eFOeReim63ecYZDF1iSlqW0XpWlWaG6J11YDi00eH24OvfyQzlSFiLcSQ/H84Od6My2qU6xOLJRumb52KWoNKvb0k46wRpXJCtwW4AILyFojQj9NGqydXwOcoc1K2KgGOSept3+KU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=dZOvz1X+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=VmtWSt7D; arc=none smtp.client-ip=103.168.172.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=johnericson.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J/wEg4Rm"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-845c38dee22so129893b3a.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 14:48:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782424097; x=1783028897; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2ACiaYAOt2dJJ7VRd/BTVPbeaQ8J4f1s9dNgnRb/KCU=;
-        b=J/wEg4Rm4xSfjAe15tSybxZwHmxIyyLDfnCtvR1z1v5dubPjvrd/+FKIEZ5QWJL4Hg
-         eSX9x4EExofLhaoDIKvQNlRjTW9ivQbk6HScCl+A6H6/dX9O7AmQTqEgt65P+xBuMIK6
-         n+rU3AczmufuOKM02X9JOplMaFVEawq36WmS0+j7AoMQOPZ9FwxgF60wB89MH+icK6y8
-         XFUOga70wOfUQnt02Rf21fYkhw+jXIzn2c6NtvEAr9CZh/sHaMGsnPRYTDbKi5/ztcc7
-         N9DB3UgPLVSmWbxQbB6N+oYPtZqF4OPUjXJB+Ggz3Beuhwy4GxVhqVEC0Us8tkwC656k
-         QPBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782424097; x=1783028897;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2ACiaYAOt2dJJ7VRd/BTVPbeaQ8J4f1s9dNgnRb/KCU=;
-        b=hw2xEw6o2HqKOZwZoWI+fRr3ssIQWkLHq2puaAPvMSU2oFNx+PTYP2D7XV93mC1tyc
-         l4P+eNTUJs82Po0md9TZy0LPRhAu4Ixe+XfQyVfJeBxtMFEXdob1i9vZKslnNrtyljhZ
-         W0BBgykYl64uw+KfYdXhpNlIqIe2Dag/+DtZfUJDVvV9/u5jz3vAQ/azUkTDlozuFkew
-         c6Xq+sqq+FUHUcMVeysfxPu6nDVkeLJuce6neT1tb4igWnnp5MoKp/P7Wi4kFqE7fwzK
-         gYr76mGrOQgyJns2c77x/Jcgbvur8hma09mWH+ISSfwDMbJROBUGU/M82b+SyDb7kycO
-         hc3A==
-X-Gm-Message-State: AOJu0Yzg3ZgnuDSfPa1yGeyXoxccNMjIFoRN139Ut11AvgXcxc3VMcsK
-	fHIhPFB8NUb17Ho4EZmAdQmORaq4swT+gc+OvO6iOp4T1K7ur5Aftygmwnj71A==
-X-Gm-Gg: AfdE7cnn1YBFEgxV/fb3Y4LmnzIDzVXdf8kNJa7dDggq3HboEgRmFhOr+q4eVdnqcyl
-	k9t53YzPHzVi0jK8I2xgz+eeA6W7yUf/KqHGnrRCua7zeDp5yZaveHyI/vopDzuCG1VSLdJz2sl
-	JAraBIwQxn6BGkZuvIKnkLADbRHJJko8AuMwtUTBO4phJur9KmZK7hqTjDB+1Tp0WF0iiWazmlD
-	azjYDJ1W4s6gZe3ht9HtNr9hjtshs7KtPfUJM0EAb8BH6mw0u9nkrkI4d+lPxWHBAvsyoTP/Lpj
-	4adigBp+QVVCDSllUHqsKKnOZM6UFd0BLEl6U78cgdLjjTvNH6XDM4bZXeOwIUnG7h4YkECRZm4
-	DOXyt3uUO2caoyHCVp7MX5h5JtYBCtqtcIHd1WKG1IJeJd/DLQ3XfF9pTJlOMk/Y=
-X-Received: by 2002:a05:6a00:2295:b0:845:c5d5:3743 with SMTP id d2e1a72fcca58-845c5d53b22mr570229b3a.28.1782424097396;
-        Thu, 25 Jun 2026 14:48:17 -0700 (PDT)
-Received: from nineveh.sos.local ([131.191.24.68])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-845a413c39fsm6192134b3a.55.2026.06.25.14.48.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 14:48:17 -0700 (PDT)
-From: Jeremy Bingham <jbingham@gmail.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	brauner@kernel.org,
-	jkoolstra@xs4all.nl,
-	Jeremy Bingham <jbingham@gmail.com>
-Subject: [PATCH 3/3] minix: convert file operations to iomap and add direct I/O
-Date: Thu, 25 Jun 2026 14:48:05 -0700
-Message-ID: <7cfd66f4516a11fc06dbb18186538a0ef458f455.1782422707.git.jbingham@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1782422707.git.jbingham@gmail.com>
-References: <cover.1782422707.git.jbingham@gmail.com>
+	dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b="dZOvz1X+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="VmtWSt7D"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.phl.internal (Postfix) with ESMTP id B94131380CDB;
+	Thu, 25 Jun 2026 17:53:32 -0400 (EDT)
+Received: from phl-imap-16 ([10.202.2.88])
+  by phl-compute-05.internal (MEProxy); Thu, 25 Jun 2026 17:53:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1782424412; x=1782431612; bh=IYsq78NejCoXtDw/qwAAchwUzVkN1+bU
+	UjWnxG1UkCY=; b=dZOvz1X+c5o372apcohjNrL7VyxarusAjUyBlp63GOLa4MDZ
+	ffwFej1PrcaYN41fzbAHgVwji5APx0zPLBI4XY05NVcoq1217kZ/P0gRF97a8VoA
+	gP9522Oje3Pbpu2px6SARXoAOKXEoQG7OJC+lp5qf7J36gE25koXpeEXy1RcR9xg
+	ujjokQl8c/yx2Jx1tL+586vXAuNQim6X4gRpm0PKPaO+U8GocUyzUkV4qq8cscfI
+	K9Ymn7JbJ1HaquRRNE6O3uMAmP/fzRySBGJiQ3274sOryuGQByo1miv3iI4XvSiN
+	wxlMWaGVfS1Pm6uvoq4vLTm0zH/BB0KpFOzKGA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782424412; x=
+	1782431612; bh=IYsq78NejCoXtDw/qwAAchwUzVkN1+bUUjWnxG1UkCY=; b=V
+	mtWSt7D6qTt9ALyCMp7ryHMnsxkWCBiWBOM4UyEu39ZcHzV/fS69NCwAvOooesoW
+	+/nuuuwJaPBlMXS6sPYsZ8GLkm+Bm9bbCpm+zDEC8SBONwMrd4WLPOv1DhslSQx0
+	NbqaKLe4vwI369U01+NjYyGWZUyoPKyZNfqBmVIvn1+Qkc4+vtRyEJC+NRzw0Pca
+	UZlOZxqfffyTDpSjCqVTDO06UgbdHNLrcGBnDpibVWa5W9vD1oVR2IIirdrILgra
+	rd5YHvmrNvVAWpOHUVEDP0/zGV9Y1cqsotxm0yriNx4HAiFQZsMzDqb41lYl0K9q
+	EoA+CAyx/SJp4lllR3e8Q==
+X-ME-Sender: <xms:W6M9asMXnx5cbFHIohVJl1GpcPyDy2TyqiI8wRVrNgVkYRrkBrj_hQ>
+    <xme:W6M9atwjadaH5OVOBRl969claQE8RJEjjcl5muqPKT-EwbS763caYkDIbGanhOf0g
+    wvcLgT0BtPaPzshji-aRcbaP0zcsU_nxlQpIjeLUF96iDpHFAJSk8M>
+X-ME-Proxy-Cause: dmFkZTGrWUulMGa9t7hh5vsJ6ujfE19InZyJmAgynX1N+d7rh6JbPMu5Qd8zLIj7s10I4B
+    EHHq+2X6kFsg+mnVolMH6+caO5+JO9vpixP0Q37sl8vWZl55EaOjRahxqsTdx8pLTGoZQO
+    VAXCynZvt5rIk67xeGuDSfgZppgVkUVlCwihSq12Q4MQr6RiRSaU2v6mgFUz8oBov3dm9R
+    kThJUvMc7+MZZ99johKylTEsDp0cEmpoDO0F2wlgj4z9iFxwvrYlOZNWMV5Nj/dx3/72Oq
+    PolGxOrdytxUCxtni25t5bMMKsoUeq7Y+JgVk+CVTBwQO+ssiX+eZeviQ5C+GBEtwPyGMJ
+    ybM2KXzo+SjafWk5bU27fczaHbLKmEqHv3eBde240KRo7hujnXv9EPcVi4G/mIbOmly1t4
+    /eeuew4Hq5sZ8DWu81FKzBDsbfrvUYYIXh7HpWwT1VNmwECrnoxX/tLaQFvgK3xmoqJ5CN
+    sDQuLKOV/HhkCD/N2kenCLL8sPsDX2Iv2ou8aVFfKNXY7JCpWupl4mD97+zGQEbTWfM7Pz
+    rxbAXIJVtX+UAKrLiApI/Qnrsrpaz6lv/YS6LYn7w2aYg78iO6+ekT17qMZyqn+aJ5Suq2
+    BivUK3xhSNiqth7vFsCuIC6B0ZG9X3sZluJfg2CZUlC2XxL7JCk2+NpG9QBQ
+X-ME-Proxy: <xmx:W6M9anc-CdKzk51jMlNU2krOxhc23NuSijJunvXuhiGv2cPMWZnxGw>
+    <xmx:W6M9aqbZ-pmn5KpDUCbCvRfa_vXZfQeuCHOhEgChiQfpbdIAuwkW0Q>
+    <xmx:W6M9alBIGYAL2njYDZtCiU65NgFreMgCIHdn_aSX-PBJZDOIkRZmNA>
+    <xmx:W6M9alKxRGE-pxZFtzy-snUfN7XE21iggwrwOhgh5XV3xmhpw6YXEQ>
+    <xmx:XKM9apfGsK2JXc_AqU-3rTPQQ_w6ep2LWktZgesw9sHxTMYbMCiWHylD>
+Feedback-ID: ieb4144f1:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 7496B2CC0091; Thu, 25 Jun 2026 17:53:31 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: AG8qDlxFSDr7
+Date: Thu, 25 Jun 2026 17:50:21 -0400
+From: "John Ericson" <mail@johnericson.me>
+To: "H. Peter Anvin" <hpa@zytor.com>, "Al Viro" <viro@zeniv.linux.org.uk>
+Cc: "Li Chen" <me@linux.beauty>, "Cong Wang" <cwang@multikernel.io>,
+ "Christian Brauner" <brauner@kernel.org>,
+ linux-arch <linux-arch@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-api <linux-api@vger.kernel.org>, "Arnd Bergmann" <arnd@arndb.de>,
+ "Andy Lutomirski" <luto@kernel.org>, "Thomas Gleixner" <tglx@kernel.org>,
+ "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>, "Jan Kara" <jack@suse.cz>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Kees Cook" <kees@kernel.org>, "Sergei Zimmerman" <sergei@zimmerman.foo>,
+ "Farid Zakaria" <farid.m.zakaria@gmail.com>
+Message-Id: <614b290f-e274-4eb2-b687-008b004de526@app.fastmail.com>
+In-Reply-To: <29cd3188-2d7c-4470-a39a-6648638f795e@zytor.com>
+References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
+ <20260624231219.GL2636677@ZenIV>
+ <29cd3188-2d7c-4470-a39a-6648638f795e@zytor.com>
+Subject: Re: [RFC] Null Namespaces
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Replace the generic file read/write iterators with iomap-aware
-versions.  Buffered reads go through iomap_bio_read_folio (via the
-aops read_folio), and buffered writes now use iomap_file_buffered_write
-instead of the generic_file_write_iter path.
+On Thu, Jun 25, 2026, at 5:00 PM, H. Peter Anvin wrote:
+> On 2026-06-24 16:12, Al Viro wrote:
+> > On Wed, Jun 24, 2026 at 06:51:47PM -0400, John Ericson wrote:
+> >
+> >> #### Null mount namespace
+> >>
+> >> - requires:
+> >>
+> >>   - null root file system: absolute paths don't work.
+> >>
+> >>   - null current working directory: relative paths with traditional,
+> >>     non-`*at` system calls (and `*at` ones using `AT_FDCWD`) don't work.
+> >>
+> >> - All operations relating to the "ambient" mount tree don't work.
+> >>
+> >> - `*at` operations with a file descriptor do work.
+> >
+> > Huh?  The last bit looks contradicts the previous one - if you have
+> > an opened directory in a mount from some namespace, those `*at` operations
+> > with that descriptor *will* be seeing the mount tree of that namespace,
+> > whatever the hell is "ambient" supposed to mean.  Either that, or you
+> > will be exposing whatever's overmounted in that mount, which is a huge
+> > can of worms.
+>
+> It seems to me that this is really no different *in practice* to having an
+> empty mount namespace, no? You might still be able to stat("/") and get a
+> d--------- result, but how does that actually affect anything?
 
-Add direct I/O support: minix_dio_read_iter and minix_dio_write_iter
-implement DIO read and write paths using iomap_dio_rw, with a
-write_end_io callback that updates i_size and marks the inode dirty.
-Unaligned or extending DIO writes fall back to buffered I/O via
-iomap_file_buffered_write after the DIO portion completes.
+The argument against just having an empty, immutable root directory and
+calling it a day is the tie-in with a new process-spawning API discussed
+near the bottom of my original email. I want to have nice secure
+defaults, rather than forcing the programmer to remember to unshare, but
+I also don't want to degrade performance by speculatively creating new
+empty mount namespaces that might just be thrown away. Null fields alone
+get us both --- security and good performance.
 
-The minix_file_open hook sets FMODE_CAN_ODIRECT so that the VFS allows
-O_DIRECT opens.  splice_write is added via iter_file_splice_write.
+> The big thing with a lot of this is that introducing a null case can really
+> complicate things all over the place, and since this is very likely to be only
+> a niche use case, it kind of screams to me like it has the potential to become
+> an attack surface like any other rarely used code in the kernel...
 
-Signed-off-by: Jeremy Bingham <jbingham@gmail.com>
----
- fs/minix/file.c | 153 ++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 149 insertions(+), 4 deletions(-)
+I understand and am sympathetic to this line of reasoning, but I think
+it is important to look at the patch in question (which I suppose I
+should soon submit) to weigh the competing concerns.
 
-diff --git a/fs/minix/file.c b/fs/minix/file.c
-index 86e5943cd2ff..1f4217115401 100644
---- a/fs/minix/file.c
-+++ b/fs/minix/file.c
-@@ -17,17 +17,162 @@ int minix_fsync(struct file *file, loff_t start, loff_t end, int datasync)
- 			start, end, datasync);
- }
- 
-+static ssize_t minix_dio_read_iter(struct kiocb *iocb, struct iov_iter *to)
-+{
-+	struct inode *inode = iocb->ki_filp->f_mapping->host;
-+	ssize_t ret;
-+
-+	inode_lock_shared(inode);
-+
-+	const struct iomap_ops *ops = minix_iomap_ops_ver(inode);
-+
-+	ret = iomap_dio_rw(iocb, to, ops, NULL, 0, NULL, 0);
-+	inode_unlock_shared(inode);
-+	return ret;
-+}
-+
-+static int minix_dio_write_end_io(struct kiocb *iocb, ssize_t size, int error,
-+		unsigned int flags)
-+{
-+	struct inode *inode = file_inode(iocb->ki_filp);
-+	loff_t pos = iocb->ki_pos;
-+
-+	if (error)
-+		return error;
-+
-+	pos += size;
-+	if (size && pos > i_size_read(inode)) {
-+		i_size_write(inode, pos);
-+		mark_inode_dirty(inode);
-+	}
-+	return 0;
-+}
-+
-+static const struct iomap_dio_ops minix_dio_write_ops = {
-+	.end_io = minix_dio_write_end_io,
-+};
-+
-+static ssize_t minix_dio_write_iter(struct kiocb *iocb, struct iov_iter *from)
-+{
-+	struct inode *inode = iocb->ki_filp->f_mapping->host;
-+	ssize_t ret;
-+	unsigned int flags = 0;
-+	unsigned long blocksize = inode->i_sb->s_blocksize;
-+
-+	inode_lock(inode);
-+	ret = generic_write_checks(iocb, from);
-+	if (ret <= 0)
-+		goto out_unlock;
-+
-+	ret = kiocb_modified(iocb);
-+	if (ret)
-+		goto out_unlock;
-+
-+	if (iocb->ki_pos + iov_iter_count(from) > i_size_read(inode) ||
-+		!IS_ALIGNED(iocb->ki_pos | iov_iter_alignment(from), blocksize))
-+		flags |= IOMAP_DIO_FORCE_WAIT;
-+
-+	const struct iomap_ops *ops = minix_iomap_ops_ver(inode);
-+
-+	ret = iomap_dio_rw(iocb, from, ops,
-+		&minix_dio_write_ops, flags, NULL, 0);
-+	if (ret == -ENOTBLK)
-+		ret = 0; /* fallback to buffered */
-+
-+	if (ret >= 0 && iov_iter_count(from)) {
-+		loff_t pos;
-+		loff_t endbyte;
-+		ssize_t status;
-+
-+		iocb->ki_flags &= ~IOCB_DIRECT;
-+		pos = iocb->ki_pos;
-+		status = iomap_file_buffered_write(iocb, from, ops,
-+			NULL, NULL);
-+		if (unlikely(status < 0)) {
-+			ret = status;
-+			goto out_unlock;
-+		}
-+
-+		ret += status;
-+		endbyte = pos + status - 1;
-+		status = filemap_write_and_wait_range(inode->i_mapping, pos, endbyte);
-+		if (!status) {
-+			invalidate_mapping_pages(inode->i_mapping,
-+				pos >> PAGE_SHIFT,
-+				endbyte >> PAGE_SHIFT);
-+			if (ret > 0)
-+				ret = generic_write_sync(iocb, ret);
-+		} else {
-+			ret = status;
-+		}
-+	}
-+
-+out_unlock:
-+	inode_unlock(inode);
-+	return ret;
-+}
-+
-+static ssize_t minix_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
-+{
-+	if (iocb->ki_flags & IOCB_DIRECT)
-+		return minix_dio_read_iter(iocb, to);
-+
-+	return generic_file_read_iter(iocb, to);
-+}
-+
-+static ssize_t minix_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
-+{
-+	struct inode *inode = iocb->ki_filp->f_mapping->host;
-+	ssize_t ret;
-+
-+	/* minix_dio_write_iter also locks the inode and appears to do the same
-+	 * general sorts of checks as this, so just return directly from there.
-+	 */
-+	if (iocb->ki_flags & IOCB_DIRECT)
-+		return minix_dio_write_iter(iocb, from);
-+
-+	inode_lock(inode);
-+	ret = generic_write_checks(iocb, from);
-+	if (ret <= 0)
-+		goto unlock;
-+
-+	ret = file_modified(iocb->ki_filp);
-+	if (ret)
-+		goto unlock;
-+
-+	const struct iomap_ops *ops = minix_iomap_ops_ver(inode);
-+
-+	ret = iomap_file_buffered_write(iocb, from, ops,
-+			NULL, NULL);
-+
-+	if (ret > 0)
-+		ret = generic_write_sync(iocb, ret);
-+
-+unlock:
-+	inode_unlock(inode);
-+	return ret;
-+}
-+
-+static int minix_file_open(struct inode *inode, struct file *filp)
-+{
-+	filp->f_mode |= FMODE_CAN_ODIRECT;
-+	return generic_file_open(inode, filp);
-+}
-+
- /*
-- * We have mostly NULLs here: the current defaults are OK for
-- * the minix filesystem.
-+ * We still have some NULLs here, but not as many of the current defaults are
-+ * still OK for the minix filesystem.
-  */
-+
- const struct file_operations minix_file_operations = {
- 	.llseek		= generic_file_llseek,
--	.read_iter	= generic_file_read_iter,
--	.write_iter	= generic_file_write_iter,
-+	.read_iter	= minix_file_read_iter,
-+	.write_iter	= minix_file_write_iter,
- 	.mmap_prepare	= generic_file_mmap_prepare,
-+	.open		= minix_file_open,
- 	.fsync		= minix_fsync,
- 	.splice_read	= filemap_splice_read,
-+	.splice_write	= iter_file_splice_write,
- };
- 
- static int minix_setattr(struct mnt_idmap *idmap,
--- 
-2.47.3
+The kernel rightfully has consolidated path resolution in a few key
+places as much as possible -- the internal `struct path` does not suffer
+from these issues. I barely modify those places to support null root and
+CWD, and because of that consolidation, we shouldn't expect new places
+to crop up in the future. (Duplicative path resolution logic is a bad
+idea whether or not we have a nascent, little-used NULL-cwd/root code
+path.) Therefore, I think existing code review, even among people
+totally ignorant of this feature, will protect us --- the vast majority
+of code will just be working with `struct path`, and be totally
+unaffected by this change.
 
+Moreover, every new feature starts rarely used. This is to me a
+judicious anti-feature (removing state, making more things fail) that
+should be quite intuitive to those developing for Linux, given the
+prominence of things like WASI, and I will do what I can in the Nix
+ecosystem to try to get it widely used in short order. Just guessing
+from its design, this ought to be something other ecosystems, like
+Android, are also interested in.
+
+John
