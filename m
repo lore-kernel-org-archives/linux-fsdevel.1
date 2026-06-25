@@ -1,126 +1,196 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1EFF356766
-	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 14:08:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B57E3264FC
+	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 14:14:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782396540; cv=none; b=pE4nwMuhgl3ZvwyWm29EeLU5H36xI5n80JSCNbBP+gy/QmP4IWHXftjJPqvP+c2L5fOuVRm7+8y0TSzC4nRG8L2Pu0kGneCcKzUr950PesNGtPyLRoiBjsj5al1oJAmaUPZwgpj5eHVZVki9958fIO0l4j3aClSJic70BhgsZCE=
+	t=1782396861; cv=none; b=cadpWaVjxjB4iMxX9dfHwy2C0Om7Xuj8/vgRqymNlwxImJVysNVotfcUxlzHc7T52uP4u9x1fpVUQ3jSdIe3I17oPNGZjzjISN84Eq7cfwn2QdFa6/Fz4xdvmNUtkVWwtxaylXPO0FbqHE/SblNlU3mrh/SbCSy4BLDNAE/jksU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782396540; c=relaxed/simple;
-	bh=XeKZjskD6VOpKhK4DCHRe6/r4KKjrrJrcuXfBF9rrj4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GwyKATDaX9Rhgbwrs58qtley+SMlC22d6K7b18iLyTOCTIRNRIiizi2DBK1yWovx33LQy4yI9E9FZgG1AvHMJZufFptC4VOJQn7gf5TRCI1zsCHoO9FTLc1g4G9uOp5skg0Kx6zyB+W6A+W/HG7vyHOBxpauHCbQcvqsMmSuz6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PZISTtxZ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1782396861; c=relaxed/simple;
+	bh=aOZpEhi8zYUAMtivyKPbhUMVXOrv7t7zVCorY5K9xKM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mzMqDTwzT7YmNItN2Ok/wZewJjsP7cCee/k5BWwNhGQTef7XclqbdLPfY3nunqwToTW0FpBvg5AWB07orq4OFBWIp192yPgswxlcRlEkf8++8txPSEOkajJRdk4LhBYY1/JacgLQBgQP015lazDXqH+P2oNydYPiovsjtbIrZUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yan6qnWW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PZISTtxZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782396537;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DZAdgt5Q5ecGnX+0eAge9E84oY2tNl0RIvK/bRkloIk=;
-	b=PZISTtxZhIlT4haW3v1xBiMcFOUygkZW0iotQb7DGx2HRcR6ieLfWLoU3FBdPTRtQvOGUr
-	TLljg5BSv5sg13NtGg76P4arQtvDD1ONKuNnLFdvRGxGh4SYAmhXZGd+w7rlDHYGZ1MNL5
-	JRtwd7ohWUsFbUMbsjYiisGC9L/a8RI=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-127-dhqG_OpHODyzbYpseqLEMQ-1; Thu,
- 25 Jun 2026 10:07:42 -0400
-X-MC-Unique: dhqG_OpHODyzbYpseqLEMQ-1
-X-Mimecast-MFC-AGG-ID: dhqG_OpHODyzbYpseqLEMQ_1782396453
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 34B38197730D;
-	Thu, 25 Jun 2026 14:07:33 +0000 (UTC)
-Received: from warthog.procyon.org.com (unknown [10.44.49.152])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0D1C33189;
-	Thu, 25 Jun 2026 14:07:28 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: Christian Brauner <christian@brauner.io>
-Cc: David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	netfs@lists.linux.dev,
-	linux-afs@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Matthew Wilcox <willy@infradead.org>,
-	Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH v3 07/15] iov_iter: Fix a memory leak in iov_iter_extract_user_pages()
-Date: Thu, 25 Jun 2026 15:06:25 +0100
-Message-ID: <20260625140640.3116900-8-dhowells@redhat.com>
-In-Reply-To: <20260625140640.3116900-1-dhowells@redhat.com>
-References: <20260625140640.3116900-1-dhowells@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yan6qnWW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 287A61F000E9
+	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 14:14:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782396860;
+	bh=tNwjveFq3g+KTegkWxHWHcT2VCBrA4LID1jw/StHbB4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=Yan6qnWW0KBlzdH66vdOWeAeGSlQPH+BkzDWOJd8SmvtbQCla8BlENuScszYQpZ4R
+	 tC0e4W3RWhAPZJjdHsbDvUU3Kwd88oktC/HO/TDMmVYGJdEmaV9LsdHOTZmEOz59zw
+	 uVKYeB6o7bNOZIoPb8swPKVneY3QxWQyQrnke506yZ4xlPizWXNQJoB6z7GfKSFZ9J
+	 zc8mBIel42TrgAtQOwf/OWFdKpGfn4ho/zW2AyMJm6WaOtpp52DrnR2Fxt59xmWT2L
+	 T4nMIGh68nTOFvvtQUvP48qZNGgSYYzQ8jTKCxoCxwelwg05+ptgwNdvD5I576JMQP
+	 U46HsPUkCexWg==
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c029505b389so344480466b.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 07:14:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rq4Ax+YOa89OimY7OEDX5J0Qn3Do6w0n+lTqOLBwZQZVsHdf4Lq1ZJ4hDuE4xGNSw8exdWgKuvKRLfvaZ0N@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRRtCQ+cM+knSjrhiLaHU9Tl6D4PjiE0MLCfVT72t2xMGDbqdQ
+	qLbp3kWrQGirAgCxlwTpMDGOQvvFkm99GnYFXZGejIQ0G42vK5JQqSzIG9FA/W4zxa50iudN2mY
+	0eLnNccdE6SLbwifIq13y4qEbtHhuLK4=
+X-Received: by 2002:a17:907:6e8b:b0:c11:3fc9:ef68 with SMTP id
+ a640c23a62f3a-c1204294675mr187809366b.8.1782396858897; Thu, 25 Jun 2026
+ 07:14:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+References: <20260625044547.3729183-1-zzzccc427@gmail.com>
+In-Reply-To: <20260625044547.3729183-1-zzzccc427@gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Thu, 25 Jun 2026 23:14:06 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd_qReG7QVOt1Xi1XDzW=C-iEd5wcjewM3VYi7DzN+F6Jw@mail.gmail.com>
+X-Gm-Features: AVVi8CeGSMYMDrPo6H6OXwM-xbmpd_5iGTOvj3uiRrU_pKBL4Z8RSoGlGV1zZCY
+Message-ID: <CAKYAXd_qReG7QVOt1Xi1XDzW=C-iEd5wcjewM3VYi7DzN+F6Jw@mail.gmail.com>
+Subject: Re: [PATCH] ntfs: avoid stale runlist element dereference in MFT writeback
+To: Cen Zhang <zzzccc427@gmail.com>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-There's a potential memory leak in callers of iov_iter_extract_user_pages()
-whereby if a pages array is allocated in function, it isn't freed before
-returning of an error or 0.
-
-Now, it's not a leak per se in iov_iter_extract_user_pages() as, if an
-array is allocated, it's returned through *pages, so it's incumbent on the
-caller to free it.  However, not all callers do.
-
-Fix this by freeing the table and clearing *pages before returning an error
-or 0.  Note that iov_iter_extract_pages() and its subfunctions are allowed
-to return 0 without returning an array (for instance if the iterator count
-is 0).
-
-Fixes: 7d58fe731028 ("iov_iter: Add a function to extract a page list from an iterator")
-Closes: https://sashiko.dev/#/patchset/20260616100821.2062304-1-dhowells%40redhat.com
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Paulo Alcantara <pc@manguebit.org>
-cc: Matthew Wilcox <willy@infradead.org>
-cc: Christoph Hellwig <hch@infradead.org>
-cc: Jens Axboe <axboe@kernel.dk>
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
----
- lib/iov_iter.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 1661c237b643..5a6434709716 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -1756,6 +1756,7 @@ static ssize_t iov_iter_extract_user_pages(struct iov_iter *i,
- 	unsigned long addr;
- 	unsigned int gup_flags = 0;
- 	size_t offset;
-+	bool will_alloc = !*pages;
- 	int res;
- 
- 	if (i->data_source == ITER_DEST)
-@@ -1772,8 +1773,14 @@ static ssize_t iov_iter_extract_user_pages(struct iov_iter *i,
- 	if (!maxpages)
- 		return -ENOMEM;
- 	res = pin_user_pages_fast(addr, maxpages, gup_flags, *pages);
--	if (unlikely(res <= 0))
-+	if (unlikely(res <= 0)) {
-+		if (will_alloc) {
-+			kvfree(*pages);
-+			*pages = NULL;
-+		}
- 		return res;
-+	}
-+
- 	maxsize = min_t(size_t, maxsize, res * PAGE_SIZE - offset);
- 	iov_iter_advance(i, maxsize);
- 	return maxsize;
-
+On Thu, Jun 25, 2026 at 1:45=E2=80=AFPM Cen Zhang <zzzccc427@gmail.com> wro=
+te:
+>
+> ntfs_write_mft_block() maps each $MFT record through the $MFT data
+> runlist. For sub-folio clusters it looks up a struct runlist_element unde=
+r
+> ni->runlist.lock, drops the lock, and later uses rl->length and rl->vcn
+> when choosing folio_sz.
+>
+> That pointer is only borrowed from ni->runlist.rl. Concurrent $MFT
+> allocation extension can merge a replacement runlist under the same lock,
+> and ntfs_rl_realloc() can free the old backing array. If that happens
+> between the lookup and the later folio_sz decision, writeback can
+> dereference freed runlist storage.
+>
+> The buggy scenario involves two paths, with each column showing the order
+> within that path:
+>
+> MFT writeback path:               $MFT allocation extension:
+> 1. Look up rl under               1. Extend the $MFT data allocation.
+>    ni->runlist.lock.              2. Publish a replacement runlist.
+> 2. Drop ni->runlist.lock.         3. Free the old runlist array.
+> 3. Read rl->length and rl->vcn
+>    to choose folio_sz.
+>
+> Compute the remaining run length while ni->runlist.lock is still held, an=
+d
+> use that scalar after unlock. This preserves the existing folio sizing
+> decision without carrying a borrowed runlist_element across the lock
+> boundary.
+>
+> Validation reproduced this kernel report:
+> BUG: KASAN: slab-use-after-free in ntfs_mft_writepages+0x1c8d/0x1fb0
+>
+> Call Trace:
+>  <TASK>
+>  dump_stack_lvl+0x66/0xa0
+>  print_report+0xce/0x630
+>  ? ntfs_mft_writepages+0x1c8d/0x1fb0
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? __virt_addr_valid+0x20d/0x410
+>  ? ntfs_mft_writepages+0x1c8d/0x1fb0
+>  kasan_report+0xe0/0x110
+>  ? ntfs_mft_writepages+0x1c8d/0x1fb0
+>  ntfs_mft_writepages+0x1c8d/0x1fb0
+>  ? __pfx_ntfs_mft_writepages+0x10/0x10
+>  ? __pfx___mutex_unlock_slowpath+0x10/0x10
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? iput+0x92/0xa80
+>  do_writepages+0x219/0x530
+>  ? __pfx_do_writepages+0x10/0x10
+>  __writeback_single_inode+0x117/0xf50
+>  ? do_raw_spin_lock+0x130/0x270
+>  ? __pfx_do_raw_spin_lock+0x10/0x10
+>  ? __pfx___writeback_single_inode+0x10/0x10
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  writeback_sb_inodes+0x65b/0x1810
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? lock_acquire+0x2b8/0x2f0
+>  ? __pfx_writeback_sb_inodes+0x10/0x10
+>  ? lock_release+0x1e0/0x280
+>  ? _raw_spin_unlock+0x23/0x40
+>  ? move_expired_inodes+0x2b8/0x850
+>  __writeback_inodes_wb+0xf4/0x270
+>  ? __pfx___writeback_inodes_wb+0x10/0x10
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? queue_io+0x2e4/0x410
+>  wb_writeback+0x666/0x880
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? __pfx_wb_writeback+0x10/0x10
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? get_nr_dirty_inodes+0x1c/0x170
+>  wb_workfn+0x75e/0xbb0
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? _raw_spin_unlock_irqrestore+0x27/0x60
+>  ? __pfx_wb_workfn+0x10/0x10
+>  ? __pfx_debug_object_deactivate+0x10/0x10
+>  ? lock_acquire+0x2b8/0x2f0
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? lock_release+0x1e0/0x280
+>  process_one_work+0x8d0/0x1870
+>  ? __pfx_process_one_work+0x10/0x10
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  worker_thread+0x575/0xf80
+>  ? __pfx_worker_thread+0x10/0x10
+>  kthread+0x2e7/0x3c0
+>  ? __pfx_kthread+0x10/0x10
+>  ret_from_fork+0x576/0x810
+>  ? __pfx_ret_from_fork+0x10/0x10
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? __switch_to+0x57e/0xe10
+>  ? __switch_to_asm+0x33/0x70
+>  ? __pfx_kthread+0x10/0x10
+>  ret_from_fork_asm+0x1a/0x30
+>  </TASK>
+>
+> Allocated by task 970:
+>  kasan_save_stack+0x33/0x60
+>  kasan_save_track+0x14/0x30
+>  __kasan_kmalloc+0xaa/0xb0
+>  __kvmalloc_node_noprof+0x353/0x920
+>  ntfs_rl_realloc+0x3c/0x80
+>  ntfs_runlists_merge+0x1212/0x3010
+>  ntfs_mft_data_extend_allocation_nolock+0x3e0/0x1f40
+>  ntfs_mft_record_alloc+0x1ab4/0x4f10
+>  __ntfs_create+0x680/0x2e50
+>  ntfs_create+0x1e6/0x3a0
+>  path_openat+0x2b55/0x3c10
+>  do_file_open+0x1f4/0x460
+>  do_sys_openat2+0xde/0x170
+>  __x64_sys_openat+0x122/0x1e0
+>  do_syscall_64+0x115/0x6a0
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>
+> Freed by task 1294:
+>  kasan_save_stack+0x33/0x60
+>  kasan_save_track+0x14/0x30
+>  kasan_save_free_info+0x3b/0x60
+>  __kasan_slab_free+0x5f/0x80
+>  kfree+0x307/0x580
+>  ntfs_rl_realloc+0x66/0x80
+>  ntfs_runlists_merge+0x1212/0x3010
+>  ntfs_mft_data_extend_allocation_nolock+0x3e0/0x1f40
+>  ntfs_mft_record_alloc+0x1ab4/0x4f10
+>  __ntfs_create+0x680/0x2e50
+>  ntfs_create+0x1e6/0x3a0
+>  path_openat+0x2b55/0x3c10
+>  do_file_open+0x1f4/0x460
+>  do_sys_openat2+0xde/0x170
+>  __x64_sys_openat+0x122/0x1e0
+>  do_syscall_64+0x115/0x6a0
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>
+> Fixes: 115380f9a2f9 ("ntfs: update mft operations")
+> Assisted-by: Codex:gpt-5.5
+> Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+Applied it to #ntfs-next.
+Thanks!
