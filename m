@@ -1,110 +1,133 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306D73672A7
-	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 21:54:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782424491; cv=pass; b=gjiWid/ARQesrbR4rQNnV3x3zDrOGiUoQUgalrgTwaM7b18iJXuFMXv2HbWQjD+QvPZ0EncALFzSPNC6vVAECwYBpeKKTq0OT66Tz8IwVnPuFjbl3mo7mwKlBCieOy6E48Ss9RM1eekrCQt9xwceMjOOPNgkUEK+Q7OGRapngP4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782424491; c=relaxed/simple;
-	bh=hqP0C+GrCPLuEUi4frPBPhU5bZ7odll3YOOBeZVlniE=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D972F690F
+	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 23:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782429014; cv=none; b=dALhizd4exYHc0YfUUZkKlwSPicFxJZO1x8/g3UEDkgSN7k46eejVEaXMBv25m7rcA2rG59RMLhhOiYyOLqhEiTMRJ1ejAFLGepoLihIyCGBFDwOdK5y9lH4EU4jOhGAYoJ5mYHGolynY5LlCs7RGRaIh68kGVrMjSSn8tYfGQg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782429014; c=relaxed/simple;
+	bh=RivFshPEa3foAoC+Ik5bFickIujQglTHZsmL6g8UQTQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oOVoMNoaNVHKwBQhPh95AlDvkpzgX5rTaP82vcW/ClAQq7lQh4zCoZZyCGqnsHuptEVKcfprioIAmxxMzwy+rod7f7Zv7OtUVUEvqTfZPJ/svEvShjePr8SnTYu733luybTm3OzDJYyjVVA5vEk088PiQdpUE19sKlNvopzaz/Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oTy3p5Pn; arc=pass smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=Ws1yOm1rMOf1r+vVKfK3VRhLIrY0PvkjPK7lYbJZt/MLiEfK8uLnMFQlYrb7jGHjy6bN0G0TOitJNgoq99JxCT027MzUgw4uAKNu5r526i6si4exFfbmjK1Tuq+cjTrYiABrwi2DNdRYnrA4REn/tlKyFe9WAoMhCyTgc5gyEHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VDVKKK7c; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oTy3p5Pn"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-462342ac290so257251f8f.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 14:54:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782424489; cv=none;
-        d=google.com; s=arc-20260327;
-        b=IO1jn3yiK5nttJFuQsuJmmpO244RyoVoacSHKM0Vj/WNV7hOoTlIYL7eHLMvg/Eiel
-         aP6/xYpstsujheglwISEfzd8oSh/MebUZVHoqSMlDnMLoKOyV/Mn2SiXHW78B7juaw4u
-         CFu/qbv4dTPHhODIPXvKTgTCjAXiiVaL4XviMthopLzyGPfqj4KW3o+pyKqQ5N6jSb7F
-         wJlIIb1W0/lH+Jolfh/JN4jvbtzJkOcFMeqVapbWZEfL78smqQ3KPRY8uqPhR0wnFQcC
-         W8XVV1Yph2sGhULEaogFh8mpZxIm23+gvIjkRlJSprx2Dt58oL3k7hYiRhQhZMt+GHRU
-         9tiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=hqP0C+GrCPLuEUi4frPBPhU5bZ7odll3YOOBeZVlniE=;
-        fh=OhlCtj/x+XX7pYqW2ue4t8JC81jUAI/te9O3ghfob7w=;
-        b=C0W/pTVkrrEVyOM3wkpw/RqPwCBE4Bl0nsF48BLpIJlfoDqjLt1UJzwXCc8LdEIvWV
-         hF5UTVYe9cqDzgb7v8DoLevLPLFyanTIkykHCXBU20YRXRKOkPJUDdp2sR5fvAuMrh5b
-         0bZkBhDbjisHnjushHiIi3JRsIBhx1ZGJ2kA/dQP+1nxPlyp5kMSvHGg3/SbPby0cW9S
-         5RuCI+9HGDMUxppyjz+vdmfLanujwC4mSEx3h/vbhZbJXbwtwmO2cNMV4AMzpukVCynQ
-         3QmL1+I7OsmoL3az9h7o19cn4khu4O5ZWa6mqFBA8K867KgzewzAzkUheysYF9tYwsWN
-         uqAg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782424489; x=1783029289; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hqP0C+GrCPLuEUi4frPBPhU5bZ7odll3YOOBeZVlniE=;
-        b=oTy3p5PnpdhOt8pLLym21CDbOMfOHXzrTElw+bGqEG8Eehw0AL2ouiB5Bthfq/nRJe
-         /Q10F2ZhtCJZfOce8TdmxL/sokaqz6R2ROAcUECrr6dAUxz+Q3T6IuT6rECIO3g0v/OA
-         pWuoNNVRNkwa3HIs7UkhF9S/BOo4bRIG2jY/nvkwe6QIyjp1dffGYCYpF2PI1CfM0J26
-         h3YLepyHMMtzhNhwh34PYwW22uZuIA1g3lGiBj5mZoV8SxSX+bDARt44dj6AdoT0QikL
-         CWdphhhE5oGMQ3uBrW+auAe6t0dgVM2rg3aOUVan5xRuuFifgBjQLQneo3tUDaceDZxO
-         Ew4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782424489; x=1783029289;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=hqP0C+GrCPLuEUi4frPBPhU5bZ7odll3YOOBeZVlniE=;
-        b=fP1jWj5VkjrJjZPYDNARHfX7Q3fAWq+etrAeP5fTxgRbvFQuZMi+dKeDhCxOnvgGqX
-         G+Dpo8ccjl5GMSoMmh0TxPS8G/zA4RWYL7v0KLXpmPMBsVvXUJzihWK/a3tlv36DwVlY
-         CWwQFTr1mVJNfel5o5bVoa5bfGhtUOZEFGFSF0FLqAGCpnLV7DuUgiL6geYFrYI1/vXF
-         XrTXY4K31G0Dg5XI4iULVhZG6GFLceZU3nwwmbVJH0zndGop7rI6LugetJENeihKrLO7
-         eH7xHZUxqgSrjb0XMvUu7dmcbMjADXlfr9GC5hC5DU/AD9jvcZh+5YogwhHa+ICS/CLQ
-         wy/g==
-X-Forwarded-Encrypted: i=1; AHgh+RrrMgU6FLYLVbHcEYnpMYts7rjOsoIxw6uKaIjfTeR+KKCf5h68A8w/ZTrQB9hYhqxx8c4lfYxBRPb3a/4l@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqZF4sZH8dDK3VU+X8ivlE5zqeFgSdZRlPM1TJrB1Xtkz1n1dU
-	4Foh5BdO/2vM8vcIX2JOrnOHP5oHgaHlG3Qgxl2n+A27+0kOCbfwQBohXXbRtRnDFewZvrG/HAa
-	gux+cql14zgh10txxHfWWUfUBP5WNeIk=
-X-Gm-Gg: AfdE7cl0SO1EmmzYlgOIXdpLPaoSJKgHHOnm8c2FC/mTpIo4rWg1y6fVHnXr6lHGvd5
-	tv1Ym0a6VxBSH/cGSa6GcxezC0silYoOK6yMt7qlCpkk+zBKE+WzG9XR8VO2K4z+OOFUGYT8I4A
-	NT5fu0lLmZjFV3TQ3xLHnfAt4akdW9urwpEDyK+OfgkqxWTjmXWC4wODW4mdCti741pgMgO9i6Y
-	KLJYCCs52KoPDysmpfzb3xfXI/HOpI+xBPoDN/qsMu7OxbalHmc3aLepTjf+dMxgvppC4YyzpMA
-	z2tVWyfHDt5ETflLS4c3rJbBUzF1H9Q/rlPhyagFH3tgJjWYI01I
-X-Received: by 2002:a05:6000:3109:b0:46e:6684:4665 with SMTP id
- ffacd0b85a97d-46e66844690mr3903048f8f.4.1782424488674; Thu, 25 Jun 2026
- 14:54:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VDVKKK7c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F12311F000E9
+	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 23:10:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782429013;
+	bh=7wdojVO4lfNrrtrf+y6Y72fQrQM84chAKPF6jVlnuvg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=VDVKKK7czT9OG8eau4dHEFjAbOqFl3JHLQorAk7zEi1qzy5yPodHOE+tny8AJqaqp
+	 9p2FVBQU9hJ/Uy+5iMDzXtf49P/pW9dELNLq7OY1MT5IgwTKpb4SdBGHxUG+Z5wrn0
+	 KBZRTHUxKxpoFWl7aRQoAwfSkVe9cmUcLD5X1k4qH0x4ntycCiHqwTzps5xOmgMxxa
+	 PbdeH/gVZdfUUnuvZPzyLqkbvWJAQO8xwcJlwOUd1wV4FjWqg2Hyf+FPtk01H0n45x
+	 bZ4u4TRlr1gy+Qm70cn6GjNYajnGIQr8/9UnOgzRWcnDrhdPB2UhinduFh3g2fUNJT
+	 DKFesUwNu3o8w==
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5aea517451fso281622e87.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 16:10:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RpGBY5fyDlG0KfeGaQLBUe1yMWAYidlSav6HmVxIilFp+XB7GhI38SDv5N0kQ9rUjqdY/RYtS9ubylUxyd0@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5Z2RfrgTov+OlD7YB2ln6IGRW83bSuBeDG3jESRN6tPhdMmIc
+	1phRX+pOvkH216dfh9Kci8zOXGAwJwwf0Iy7e0sZIj8K1rRgvgX/XHrFpu0MOPvRSKk57EtCLbg
+	BzTifwyqBwTyEzOTRI5L6ai9bnfxLj6QHBE9/KkHx
+X-Received: by 2002:ac2:5689:0:b0:5ad:5308:c8d with SMTP id
+ 2adb3069b0e04-5aea1f4cc5cmr1616885e87.27.1782429011491; Thu, 25 Jun 2026
+ 16:10:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260624212925.1668662-1-joannelkoong@gmail.com> <20260625-zeilen-allein-beimessen-2f631e840538@brauner>
-In-Reply-To: <20260625-zeilen-allein-beimessen-2f631e840538@brauner>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 25 Jun 2026 14:54:37 -0700
-X-Gm-Features: AVVi8CdgcDeH4L7ba7ny6GntgJ_zpXfkq2R6ExpkAUsTrggKSXyXk2XE0Qy7MbI
-Message-ID: <CAJnrk1Ypq2r+xofROACMRJ_QTtAJC1wJueNg4uCvnpDnWyYLXQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] iomap: add helper to keep uptodate bitmap in sync
-To: Christian Brauner <brauner@kernel.org>
-Cc: willy@infradead.org, hch@lst.de, djwong@kernel.org, miklos@szeredi.hu, 
-	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
+References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
+ <20260624231219.GL2636677@ZenIV> <29cd3188-2d7c-4470-a39a-6648638f795e@zytor.com>
+ <614b290f-e274-4eb2-b687-008b004de526@app.fastmail.com>
+In-Reply-To: <614b290f-e274-4eb2-b687-008b004de526@app.fastmail.com>
+From: Andy Lutomirski <luto@kernel.org>
+Date: Thu, 25 Jun 2026 16:09:58 -0700
+X-Gmail-Original-Message-ID: <CALCETrWxi1g1wy2Bi4y6URW728Cmo8D3tchdMqs4GZ7S476iJA@mail.gmail.com>
+X-Gm-Features: AVVi8Cen3kKGY39fZg-K6UFdMhU0KAGDW55tLH1dVHKank4s2aEYmav_eUhtxOg
+Message-ID: <CALCETrWxi1g1wy2Bi4y6URW728Cmo8D3tchdMqs4GZ7S476iJA@mail.gmail.com>
+Subject: Re: [RFC] Null Namespaces
+To: John Ericson <mail@johnericson.me>
+Cc: "H. Peter Anvin" <hpa@zytor.com>, Al Viro <viro@zeniv.linux.org.uk>, Li Chen <me@linux.beauty>, 
+	Cong Wang <cwang@multikernel.io>, Christian Brauner <brauner@kernel.org>, 
+	linux-arch <linux-arch@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, linux-api <linux-api@vger.kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Jan Kara <jack@suse.cz>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
+	Sergei Zimmerman <sergei@zimmerman.foo>, Farid Zakaria <farid.m.zakaria@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 25, 2026 at 12:46=E2=80=AFAM Christian Brauner <brauner@kernel.=
-org> wrote:
+On Thu, Jun 25, 2026 at 2:53=E2=80=AFPM John Ericson <mail@johnericson.me> =
+wrote:
 >
-> > This series is on top of the main linux tree [1] because it depends on =
-some
-> > fuse changes in Miklos's tree that were merged into 7.2 but not yet pul=
-led
-> > into Christian's vfs tree.
+> On Thu, Jun 25, 2026, at 5:00 PM, H. Peter Anvin wrote:
+> > On 2026-06-24 16:12, Al Viro wrote:
+> > > On Wed, Jun 24, 2026 at 06:51:47PM -0400, John Ericson wrote:
+> > >
+> > >> #### Null mount namespace
+> > >>
+> > >> - requires:
+> > >>
+> > >>   - null root file system: absolute paths don't work.
+> > >>
+> > >>   - null current working directory: relative paths with traditional,
+> > >>     non-`*at` system calls (and `*at` ones using `AT_FDCWD`) don't w=
+ork.
+> > >>
+> > >> - All operations relating to the "ambient" mount tree don't work.
+> > >>
+> > >> - `*at` operations with a file descriptor do work.
+> > >
+> > > Huh?  The last bit looks contradicts the previous one - if you have
+> > > an opened directory in a mount from some namespace, those `*at` opera=
+tions
+> > > with that descriptor *will* be seeing the mount tree of that namespac=
+e,
+> > > whatever the hell is "ambient" supposed to mean.  Either that, or you
+> > > will be exposing whatever's overmounted in that mount, which is a hug=
+e
+> > > can of worms.
+> >
+> > It seems to me that this is really no different *in practice* to having=
+ an
+> > empty mount namespace, no? You might still be able to stat("/") and get=
+ a
+> > d--------- result, but how does that actually affect anything?
 >
-> So I pushed out vfs-7.3.iomap based on current mainline. It'll be
-> rebased once -rc1 is out ofc but so you've got something to base things
-> one.
+> The argument against just having an empty, immutable root directory and
+> calling it a day is the tie-in with a new process-spawning API discussed
+> near the bottom of my original email. I want to have nice secure
+> defaults, rather than forcing the programmer to remember to unshare, but
+> I also don't want to degrade performance by speculatively creating new
+> empty mount namespaces that might just be thrown away. Null fields alone
+> get us both --- security and good performance.
 
-Thanks, Christian! I'll base v3 on vfs-7.3.iomap
+This seems like a false dichotomy.  There's such thing as a singleton.
+
+In fact, we have this spiffy nullfs_fs_get_tree.  It seems relatively
+straightforward to have an API to get an fd to the singleton nullfs,
+and the default for a newly spawned process could even be to have cwd
+pointing at nullfs.
+
+root is still harder, because of the shadowing issue.  I think I
+proposed, ages ago, relaxing the chroot rules so that, at least under
+certain circumstances (e.g. the task is not already chrooted) an
+unprivileged task could chroot.  chrooting to nullfs seems like a
+somewhat useful operation.
+
+I can imagine more complex schemes to allow even a chrooted process to
+safely start acting as though their root is nullfs, but that would be
+potentially fairly nasty.  *Maybe* everything would work if there was
+a root-for-dotdot and a separate root-for-absolute-paths, and
+nameidata->root could point to the former, but I'm certainly not
+willing to say that I think this would work with any confidence at
+all.
+
+--Andy
