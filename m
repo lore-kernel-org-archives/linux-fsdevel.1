@@ -1,165 +1,110 @@
-Received: from flow-a3-smtp.messagingengine.com (flow-a3-smtp.messagingengine.com [103.168.172.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69F730D3ED;
-	Thu, 25 Jun 2026 21:53:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.138
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782424415; cv=none; b=K26R1alvVU7B6u7ayXhkRjPbF3I3NYx3VLBGbhITpt04GXWOZ0Xi/N0BWhQWWLHPwop2/o7tHDJBLfyn1dWVmXjEW0zO9biaeIM3w8ihywZKezseCC6Ln5wvbVRMYHwRDQ0qD1f2t8eKJy38tMb2J4s+cM48Zqd4ecCTnYzEfoY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782424415; c=relaxed/simple;
-	bh=z0ogCZX+fL4NK9ldiKbPeg39+XtPZhElqplGgXQgczE=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=hk87whCcx0OY4gQjKYcpy7dMdOOqGm8DF4eFOeReim63ecYZDF1iSlqW0XpWlWaG6J11YDi00eH24OvfyQzlSFiLcSQ/H84Od6My2qU6xOLJRumb52KWoNKvb0k46wRpXJCtwW4AILyFojQj9NGqydXwOcoc1K2KgGOSept3+KU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=dZOvz1X+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=VmtWSt7D; arc=none smtp.client-ip=103.168.172.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=johnericson.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306D73672A7
+	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 21:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782424491; cv=pass; b=gjiWid/ARQesrbR4rQNnV3x3zDrOGiUoQUgalrgTwaM7b18iJXuFMXv2HbWQjD+QvPZ0EncALFzSPNC6vVAECwYBpeKKTq0OT66Tz8IwVnPuFjbl3mo7mwKlBCieOy6E48Ss9RM1eekrCQt9xwceMjOOPNgkUEK+Q7OGRapngP4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782424491; c=relaxed/simple;
+	bh=hqP0C+GrCPLuEUi4frPBPhU5bZ7odll3YOOBeZVlniE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oOVoMNoaNVHKwBQhPh95AlDvkpzgX5rTaP82vcW/ClAQq7lQh4zCoZZyCGqnsHuptEVKcfprioIAmxxMzwy+rod7f7Zv7OtUVUEvqTfZPJ/svEvShjePr8SnTYu733luybTm3OzDJYyjVVA5vEk088PiQdpUE19sKlNvopzaz/Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oTy3p5Pn; arc=pass smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b="dZOvz1X+";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="VmtWSt7D"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailflow.phl.internal (Postfix) with ESMTP id B94131380CDB;
-	Thu, 25 Jun 2026 17:53:32 -0400 (EDT)
-Received: from phl-imap-16 ([10.202.2.88])
-  by phl-compute-05.internal (MEProxy); Thu, 25 Jun 2026 17:53:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1782424412; x=1782431612; bh=IYsq78NejCoXtDw/qwAAchwUzVkN1+bU
-	UjWnxG1UkCY=; b=dZOvz1X+c5o372apcohjNrL7VyxarusAjUyBlp63GOLa4MDZ
-	ffwFej1PrcaYN41fzbAHgVwji5APx0zPLBI4XY05NVcoq1217kZ/P0gRF97a8VoA
-	gP9522Oje3Pbpu2px6SARXoAOKXEoQG7OJC+lp5qf7J36gE25koXpeEXy1RcR9xg
-	ujjokQl8c/yx2Jx1tL+586vXAuNQim6X4gRpm0PKPaO+U8GocUyzUkV4qq8cscfI
-	K9Ymn7JbJ1HaquRRNE6O3uMAmP/fzRySBGJiQ3274sOryuGQByo1miv3iI4XvSiN
-	wxlMWaGVfS1Pm6uvoq4vLTm0zH/BB0KpFOzKGA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782424412; x=
-	1782431612; bh=IYsq78NejCoXtDw/qwAAchwUzVkN1+bUUjWnxG1UkCY=; b=V
-	mtWSt7D6qTt9ALyCMp7ryHMnsxkWCBiWBOM4UyEu39ZcHzV/fS69NCwAvOooesoW
-	+/nuuuwJaPBlMXS6sPYsZ8GLkm+Bm9bbCpm+zDEC8SBONwMrd4WLPOv1DhslSQx0
-	NbqaKLe4vwI369U01+NjYyGWZUyoPKyZNfqBmVIvn1+Qkc4+vtRyEJC+NRzw0Pca
-	UZlOZxqfffyTDpSjCqVTDO06UgbdHNLrcGBnDpibVWa5W9vD1oVR2IIirdrILgra
-	rd5YHvmrNvVAWpOHUVEDP0/zGV9Y1cqsotxm0yriNx4HAiFQZsMzDqb41lYl0K9q
-	EoA+CAyx/SJp4lllR3e8Q==
-X-ME-Sender: <xms:W6M9asMXnx5cbFHIohVJl1GpcPyDy2TyqiI8wRVrNgVkYRrkBrj_hQ>
-    <xme:W6M9atwjadaH5OVOBRl969claQE8RJEjjcl5muqPKT-EwbS763caYkDIbGanhOf0g
-    wvcLgT0BtPaPzshji-aRcbaP0zcsU_nxlQpIjeLUF96iDpHFAJSk8M>
-X-ME-Proxy-Cause: dmFkZTGrWUulMGa9t7hh5vsJ6ujfE19InZyJmAgynX1N+d7rh6JbPMu5Qd8zLIj7s10I4B
-    EHHq+2X6kFsg+mnVolMH6+caO5+JO9vpixP0Q37sl8vWZl55EaOjRahxqsTdx8pLTGoZQO
-    VAXCynZvt5rIk67xeGuDSfgZppgVkUVlCwihSq12Q4MQr6RiRSaU2v6mgFUz8oBov3dm9R
-    kThJUvMc7+MZZ99johKylTEsDp0cEmpoDO0F2wlgj4z9iFxwvrYlOZNWMV5Nj/dx3/72Oq
-    PolGxOrdytxUCxtni25t5bMMKsoUeq7Y+JgVk+CVTBwQO+ssiX+eZeviQ5C+GBEtwPyGMJ
-    ybM2KXzo+SjafWk5bU27fczaHbLKmEqHv3eBde240KRo7hujnXv9EPcVi4G/mIbOmly1t4
-    /eeuew4Hq5sZ8DWu81FKzBDsbfrvUYYIXh7HpWwT1VNmwECrnoxX/tLaQFvgK3xmoqJ5CN
-    sDQuLKOV/HhkCD/N2kenCLL8sPsDX2Iv2ou8aVFfKNXY7JCpWupl4mD97+zGQEbTWfM7Pz
-    rxbAXIJVtX+UAKrLiApI/Qnrsrpaz6lv/YS6LYn7w2aYg78iO6+ekT17qMZyqn+aJ5Suq2
-    BivUK3xhSNiqth7vFsCuIC6B0ZG9X3sZluJfg2CZUlC2XxL7JCk2+NpG9QBQ
-X-ME-Proxy: <xmx:W6M9anc-CdKzk51jMlNU2krOxhc23NuSijJunvXuhiGv2cPMWZnxGw>
-    <xmx:W6M9aqbZ-pmn5KpDUCbCvRfa_vXZfQeuCHOhEgChiQfpbdIAuwkW0Q>
-    <xmx:W6M9alBIGYAL2njYDZtCiU65NgFreMgCIHdn_aSX-PBJZDOIkRZmNA>
-    <xmx:W6M9alKxRGE-pxZFtzy-snUfN7XE21iggwrwOhgh5XV3xmhpw6YXEQ>
-    <xmx:XKM9apfGsK2JXc_AqU-3rTPQQ_w6ep2LWktZgesw9sHxTMYbMCiWHylD>
-Feedback-ID: ieb4144f1:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 7496B2CC0091; Thu, 25 Jun 2026 17:53:31 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oTy3p5Pn"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-462342ac290so257251f8f.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 14:54:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782424489; cv=none;
+        d=google.com; s=arc-20260327;
+        b=IO1jn3yiK5nttJFuQsuJmmpO244RyoVoacSHKM0Vj/WNV7hOoTlIYL7eHLMvg/Eiel
+         aP6/xYpstsujheglwISEfzd8oSh/MebUZVHoqSMlDnMLoKOyV/Mn2SiXHW78B7juaw4u
+         CFu/qbv4dTPHhODIPXvKTgTCjAXiiVaL4XviMthopLzyGPfqj4KW3o+pyKqQ5N6jSb7F
+         wJlIIb1W0/lH+Jolfh/JN4jvbtzJkOcFMeqVapbWZEfL78smqQ3KPRY8uqPhR0wnFQcC
+         W8XVV1Yph2sGhULEaogFh8mpZxIm23+gvIjkRlJSprx2Dt58oL3k7hYiRhQhZMt+GHRU
+         9tiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=hqP0C+GrCPLuEUi4frPBPhU5bZ7odll3YOOBeZVlniE=;
+        fh=OhlCtj/x+XX7pYqW2ue4t8JC81jUAI/te9O3ghfob7w=;
+        b=C0W/pTVkrrEVyOM3wkpw/RqPwCBE4Bl0nsF48BLpIJlfoDqjLt1UJzwXCc8LdEIvWV
+         hF5UTVYe9cqDzgb7v8DoLevLPLFyanTIkykHCXBU20YRXRKOkPJUDdp2sR5fvAuMrh5b
+         0bZkBhDbjisHnjushHiIi3JRsIBhx1ZGJ2kA/dQP+1nxPlyp5kMSvHGg3/SbPby0cW9S
+         5RuCI+9HGDMUxppyjz+vdmfLanujwC4mSEx3h/vbhZbJXbwtwmO2cNMV4AMzpukVCynQ
+         3QmL1+I7OsmoL3az9h7o19cn4khu4O5ZWa6mqFBA8K867KgzewzAzkUheysYF9tYwsWN
+         uqAg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782424489; x=1783029289; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hqP0C+GrCPLuEUi4frPBPhU5bZ7odll3YOOBeZVlniE=;
+        b=oTy3p5PnpdhOt8pLLym21CDbOMfOHXzrTElw+bGqEG8Eehw0AL2ouiB5Bthfq/nRJe
+         /Q10F2ZhtCJZfOce8TdmxL/sokaqz6R2ROAcUECrr6dAUxz+Q3T6IuT6rECIO3g0v/OA
+         pWuoNNVRNkwa3HIs7UkhF9S/BOo4bRIG2jY/nvkwe6QIyjp1dffGYCYpF2PI1CfM0J26
+         h3YLepyHMMtzhNhwh34PYwW22uZuIA1g3lGiBj5mZoV8SxSX+bDARt44dj6AdoT0QikL
+         CWdphhhE5oGMQ3uBrW+auAe6t0dgVM2rg3aOUVan5xRuuFifgBjQLQneo3tUDaceDZxO
+         Ew4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782424489; x=1783029289;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hqP0C+GrCPLuEUi4frPBPhU5bZ7odll3YOOBeZVlniE=;
+        b=fP1jWj5VkjrJjZPYDNARHfX7Q3fAWq+etrAeP5fTxgRbvFQuZMi+dKeDhCxOnvgGqX
+         G+Dpo8ccjl5GMSoMmh0TxPS8G/zA4RWYL7v0KLXpmPMBsVvXUJzihWK/a3tlv36DwVlY
+         CWwQFTr1mVJNfel5o5bVoa5bfGhtUOZEFGFSF0FLqAGCpnLV7DuUgiL6geYFrYI1/vXF
+         XrTXY4K31G0Dg5XI4iULVhZG6GFLceZU3nwwmbVJH0zndGop7rI6LugetJENeihKrLO7
+         eH7xHZUxqgSrjb0XMvUu7dmcbMjADXlfr9GC5hC5DU/AD9jvcZh+5YogwhHa+ICS/CLQ
+         wy/g==
+X-Forwarded-Encrypted: i=1; AHgh+RrrMgU6FLYLVbHcEYnpMYts7rjOsoIxw6uKaIjfTeR+KKCf5h68A8w/ZTrQB9hYhqxx8c4lfYxBRPb3a/4l@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqZF4sZH8dDK3VU+X8ivlE5zqeFgSdZRlPM1TJrB1Xtkz1n1dU
+	4Foh5BdO/2vM8vcIX2JOrnOHP5oHgaHlG3Qgxl2n+A27+0kOCbfwQBohXXbRtRnDFewZvrG/HAa
+	gux+cql14zgh10txxHfWWUfUBP5WNeIk=
+X-Gm-Gg: AfdE7cl0SO1EmmzYlgOIXdpLPaoSJKgHHOnm8c2FC/mTpIo4rWg1y6fVHnXr6lHGvd5
+	tv1Ym0a6VxBSH/cGSa6GcxezC0silYoOK6yMt7qlCpkk+zBKE+WzG9XR8VO2K4z+OOFUGYT8I4A
+	NT5fu0lLmZjFV3TQ3xLHnfAt4akdW9urwpEDyK+OfgkqxWTjmXWC4wODW4mdCti741pgMgO9i6Y
+	KLJYCCs52KoPDysmpfzb3xfXI/HOpI+xBPoDN/qsMu7OxbalHmc3aLepTjf+dMxgvppC4YyzpMA
+	z2tVWyfHDt5ETflLS4c3rJbBUzF1H9Q/rlPhyagFH3tgJjWYI01I
+X-Received: by 2002:a05:6000:3109:b0:46e:6684:4665 with SMTP id
+ ffacd0b85a97d-46e66844690mr3903048f8f.4.1782424488674; Thu, 25 Jun 2026
+ 14:54:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AG8qDlxFSDr7
-Date: Thu, 25 Jun 2026 17:50:21 -0400
-From: "John Ericson" <mail@johnericson.me>
-To: "H. Peter Anvin" <hpa@zytor.com>, "Al Viro" <viro@zeniv.linux.org.uk>
-Cc: "Li Chen" <me@linux.beauty>, "Cong Wang" <cwang@multikernel.io>,
- "Christian Brauner" <brauner@kernel.org>,
- linux-arch <linux-arch@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- linux-api <linux-api@vger.kernel.org>, "Arnd Bergmann" <arnd@arndb.de>,
- "Andy Lutomirski" <luto@kernel.org>, "Thomas Gleixner" <tglx@kernel.org>,
- "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>, "Jan Kara" <jack@suse.cz>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
- "Kees Cook" <kees@kernel.org>, "Sergei Zimmerman" <sergei@zimmerman.foo>,
- "Farid Zakaria" <farid.m.zakaria@gmail.com>
-Message-Id: <614b290f-e274-4eb2-b687-008b004de526@app.fastmail.com>
-In-Reply-To: <29cd3188-2d7c-4470-a39a-6648638f795e@zytor.com>
-References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
- <20260624231219.GL2636677@ZenIV>
- <29cd3188-2d7c-4470-a39a-6648638f795e@zytor.com>
-Subject: Re: [RFC] Null Namespaces
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+References: <20260624212925.1668662-1-joannelkoong@gmail.com> <20260625-zeilen-allein-beimessen-2f631e840538@brauner>
+In-Reply-To: <20260625-zeilen-allein-beimessen-2f631e840538@brauner>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Thu, 25 Jun 2026 14:54:37 -0700
+X-Gm-Features: AVVi8CdgcDeH4L7ba7ny6GntgJ_zpXfkq2R6ExpkAUsTrggKSXyXk2XE0Qy7MbI
+Message-ID: <CAJnrk1Ypq2r+xofROACMRJ_QTtAJC1wJueNg4uCvnpDnWyYLXQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] iomap: add helper to keep uptodate bitmap in sync
+To: Christian Brauner <brauner@kernel.org>
+Cc: willy@infradead.org, hch@lst.de, djwong@kernel.org, miklos@szeredi.hu, 
+	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 25, 2026, at 5:00 PM, H. Peter Anvin wrote:
-> On 2026-06-24 16:12, Al Viro wrote:
-> > On Wed, Jun 24, 2026 at 06:51:47PM -0400, John Ericson wrote:
-> >
-> >> #### Null mount namespace
-> >>
-> >> - requires:
-> >>
-> >>   - null root file system: absolute paths don't work.
-> >>
-> >>   - null current working directory: relative paths with traditional,
-> >>     non-`*at` system calls (and `*at` ones using `AT_FDCWD`) don't work.
-> >>
-> >> - All operations relating to the "ambient" mount tree don't work.
-> >>
-> >> - `*at` operations with a file descriptor do work.
-> >
-> > Huh?  The last bit looks contradicts the previous one - if you have
-> > an opened directory in a mount from some namespace, those `*at` operations
-> > with that descriptor *will* be seeing the mount tree of that namespace,
-> > whatever the hell is "ambient" supposed to mean.  Either that, or you
-> > will be exposing whatever's overmounted in that mount, which is a huge
-> > can of worms.
+On Thu, Jun 25, 2026 at 12:46=E2=80=AFAM Christian Brauner <brauner@kernel.=
+org> wrote:
 >
-> It seems to me that this is really no different *in practice* to having an
-> empty mount namespace, no? You might still be able to stat("/") and get a
-> d--------- result, but how does that actually affect anything?
+> > This series is on top of the main linux tree [1] because it depends on =
+some
+> > fuse changes in Miklos's tree that were merged into 7.2 but not yet pul=
+led
+> > into Christian's vfs tree.
+>
+> So I pushed out vfs-7.3.iomap based on current mainline. It'll be
+> rebased once -rc1 is out ofc but so you've got something to base things
+> one.
 
-The argument against just having an empty, immutable root directory and
-calling it a day is the tie-in with a new process-spawning API discussed
-near the bottom of my original email. I want to have nice secure
-defaults, rather than forcing the programmer to remember to unshare, but
-I also don't want to degrade performance by speculatively creating new
-empty mount namespaces that might just be thrown away. Null fields alone
-get us both --- security and good performance.
-
-> The big thing with a lot of this is that introducing a null case can really
-> complicate things all over the place, and since this is very likely to be only
-> a niche use case, it kind of screams to me like it has the potential to become
-> an attack surface like any other rarely used code in the kernel...
-
-I understand and am sympathetic to this line of reasoning, but I think
-it is important to look at the patch in question (which I suppose I
-should soon submit) to weigh the competing concerns.
-
-The kernel rightfully has consolidated path resolution in a few key
-places as much as possible -- the internal `struct path` does not suffer
-from these issues. I barely modify those places to support null root and
-CWD, and because of that consolidation, we shouldn't expect new places
-to crop up in the future. (Duplicative path resolution logic is a bad
-idea whether or not we have a nascent, little-used NULL-cwd/root code
-path.) Therefore, I think existing code review, even among people
-totally ignorant of this feature, will protect us --- the vast majority
-of code will just be working with `struct path`, and be totally
-unaffected by this change.
-
-Moreover, every new feature starts rarely used. This is to me a
-judicious anti-feature (removing state, making more things fail) that
-should be quite intuitive to those developing for Linux, given the
-prominence of things like WASI, and I will do what I can in the Nix
-ecosystem to try to get it widely used in short order. Just guessing
-from its design, this ought to be something other ecosystems, like
-Android, are also interested in.
-
-John
+Thanks, Christian! I'll base v3 on vfs-7.3.iomap
