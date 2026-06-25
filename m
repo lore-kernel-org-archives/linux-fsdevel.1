@@ -1,71 +1,71 @@
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB13B2ECE91
-	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 13:16:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506E73254B0;
+	Thu, 25 Jun 2026 13:21:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782393364; cv=none; b=WgIsKtxn4bVrFjKdeNxQTWRysawUAJhvMNytQua/SGAF7Qd9jaBQh5WWCujQo2NfaHfw13jKVGqvieBdKG9cxaeT40V/3mCibl+eN2J4Fj/mE/5+3ohr3nZO54lMk6BEt5w58eUfzQXoBi6r5zP7GZsDD4fmEV/sBSMqa/Hc+f4=
+	t=1782393704; cv=none; b=gJ3a8b8G8UiWa9r3UiZ/E2vWI2UZNnYlVis6gRn56XzCP2Lx53BtT+aSiPtWheSzjFrHq3ilAIPRMJABirw8eRa6z0tXIUOZtUmxlfVTb0CtKBfFm6G519vTWnzuu/d9dtwd//x0we9PYyQ0BMgQP+Sw9R6Zgelmsrx38u+KaW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782393364; c=relaxed/simple;
-	bh=Av1nEaZBmzPeHVFU/YbHp35FNcszR6QBo3/rp5SvLaQ=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=EF64moB8tWHyrBefGYLsFRHTDmzLLmqZHecoOeOlmrZlQR7EPoj0Yd5JOGY5AOGZQroNOSkWyKfT0QkPdjheTYK2uIZ/ln0t/hhLn8jR7JeY5FwsLTe6B3mz+0VEJT3ILGMBtxEQEGf4NLj1mmS1lK2yC+s9xfWhjzWgW4OYrUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-7e6b5976d74so2866421a34.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 06:16:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782393362; x=1782998162;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=y7VMIbtiM5CsO8L6BOnyEVirILtl8EPmlTi0MLNnwpc=;
-        b=qzbSGHDpza2b31J6BpDNxyF94PSIgZuE0UKfF/jYWeTdDS4P5acZwmRmtefp62x9zF
-         T7FlhOjasm2AiihwTwXw7AtKfOKzcPtrbsLY4WiYVGzqyJATWW1v2klzl6iSbVmWrjpU
-         bneOPP25H5vQ7/QDt3PvmRtkUo3dw8wO97YWa3y0y74c9KKUiasOGv9BjHVeo5qgYmx6
-         /9ssYodQMUMXNq2w0rIpP+HJxRjCpnPVgsHkoVSguSwPFIkqOefTQ/Fj8c9tdVF+VYvN
-         D6fz+fHptivs7IAsx9clAF7jYG8YnGnGfH2dNlar1NYql6CS7NzyisuHjNgdxPK2QRFn
-         /AFg==
-X-Forwarded-Encrypted: i=1; AFNElJ+QlelKRVFHlN7N40wm3zSbxVRKi3J/m3fdNoqe+OgS+CRyMZVKNg+JW7cEEN5ba/SVrYha0zC1G6HGlljM@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdpQ0UrEHe0c500M9ziFYKNYPTkT1XvwTieqxwlp+iy0jWynx+
-	+JlcWeVFuiso1PeieR++B3J9SZY8f0CYhLL9bgYyNN8MsIvzH0gzgc4AOQBIisT9KqCDG96cViw
-	CI9GO41zDwemy7YVzozdKSetc/YCGeAJ5U7vk6AMMOsZf6GU8F37OAybzpW8=
+	s=arc-20240116; t=1782393704; c=relaxed/simple;
+	bh=ZZWP0RQ6thB6c1KDQx9h67xh1diITwJXcdbbY95J5vw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JDMRte0hT9JsYe8CKH8Lf1ojltLU71ThCdAXBHQb7fpSxNkM8JgSywGWEnRjh0ayEcKTmDtZSRqGI0o7LIxmQReVbCOwLmBF2WfRX3nMD37OVzdc0LYffitTvPwf10gA1849+1RYCpEnBPdriFfw4SafoaEmyX6xgs8AY/xSCWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Be46Soy+; arc=none smtp.client-ip=115.124.30.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Be46Soy+"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1782393698; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=GRdL109HStGH3sJC79+Zwf20Y+gZgeZfBmT1pdhSXno=;
+	b=Be46Soy+C6Fok8ikPKtVJNe3mjYJYDmE85a+M7wR81FN8kX54E5a3Hnf5Z6C8MvV7dlsSeoQ6DP/sndibPloSqcHpR4xDElUtRRnJ6vn4/MPXL7ibmAcbxA+Zf+htOqINyVHaJ0OkSj80Ypvo9PihxLRvbj/XdIGO7fXiu791IU=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R761e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0X5beFXO_1782393697;
+Received: from 30.180.134.80(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X5beFXO_1782393697 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 25 Jun 2026 21:21:37 +0800
+Message-ID: <4da9a5ac-2a53-4fe2-9283-2e0f6181c248@linux.alibaba.com>
+Date: Thu, 25 Jun 2026 21:21:36 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6830:4c07:b0:7e7:bf0:d84e with SMTP id
- 46e09a7af769-7e99c18978emr2870405a34.11.1782393361857; Thu, 25 Jun 2026
- 06:16:01 -0700 (PDT)
-Date: Thu, 25 Jun 2026 06:16:01 -0700
-In-Reply-To: <3106406.1782391857@warthog.procyon.org.uk>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a3d2a11.cf1c467f.2941c6.0006.GAE@google.com>
-Subject: Re: [syzbot] [netfs?] KASAN: slab-use-after-free Read in netfs_unbuffered_write
-From: syzbot <syzbot+3c74b1f0c372e98efc32@syzkaller.appspotmail.com>
-To: dhowells@redhat.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netfs@lists.linux.dev, pc@manguebit.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-
-Hello,
-
-syzbot has tested the proposed patch but the reproducer is still triggering an issue:
-lost connection to test machine
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v1 0/3] iomap: convert to in-iter ->iomap_next() model
+To: Christoph Hellwig <hch@lst.de>
+Cc: Joanne Koong <joannelkoong@gmail.com>, willy@infradead.org,
+ djwong@kernel.org, linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org
+References: <20260625024723.1611000-1-joannelkoong@gmail.com>
+ <6446cb94-a005-4e4c-8034-d7bf2a4b402b@linux.alibaba.com>
+ <20260625130206.GC22620@lst.de>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <20260625130206.GC22620@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
 
-Tested on:
+On 2026/6/25 21:02, Christoph Hellwig wrote:
+> On Thu, Jun 25, 2026 at 11:25:54AM +0800, Gao Xiang wrote:
+>> As I mentioned a year ago, I really hope this way can be proceed
+>> to avoid iomap iter-callback models:
+>>
+>> https://lore.kernel.org/r/20250905152118.GE1587915@frogsfrogsfrogs
+> 
+> Oh, I guess this is where passing the iomap and srcmap separately
+> from the iter come from.  But for this to make sense we'd have to
+> be able to pass a const iter.
 
-commit:         8fde5d1d Merge tag 'acpi-7.1-rc6' of git://git.kernel...
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-console output: https://syzkaller.appspot.com/x/log.txt?x=1553eb41580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=8118209836970b54
-dashboard link: https://syzkaller.appspot.com/bug?extid=3c74b1f0c372e98efc32
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=1654601c580000
+... anyway, I hope iomap folks could consider my humble
+suggestion, since I'm afraid that this callback model in
+the long term won't scale well in very slightly different
+details (along with more and more iomap users), so rather
+than just converting more callers, I guess it might be
+better to consider non-callback model as a direction
+anyway.
 
+Thanks,
+Gao Xiang
