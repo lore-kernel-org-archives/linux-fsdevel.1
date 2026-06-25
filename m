@@ -1,60 +1,62 @@
 Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E4937DAB3
-	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 08:34:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50C337D11A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 08:35:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782376490; cv=none; b=ahPJWBteItJKkGt5mTDD3dh/KuoQ/9eZPJA6QzvXKXIKAYfSfGlcURd7xP3wyvFYFo5DCxA3fkb9Yx8ubHaMA4TMWQ987Ae1cNQDojaTAH5/4EO6Hk5QuW81OutBBIQbhWsH4yoAJkt6ozju79FRjIe/mC2NweAiy3LrsVtYQno=
+	t=1782376516; cv=none; b=ex+WdjpM0REOytT2z+YclYe53Y0PjjwDkKNrPgFBWAbkt3R++nC6MjDauZecUlyu5J+ZbfOpeIroZPj12DoC7DEd0J1Rron4jD/XgawzstZymb9kR4UYmAy3iUhqp7pnHaYk7r6G+5vRijiE+csj9jwESGNr9w+YBzauQdLzLTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782376490; c=relaxed/simple;
-	bh=7BEwt6eYwfYFJfykt1yWvyBcAyXt9b2E6Fr7Bm2s5hY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BO8+0Lg3MK/uU8nEDA5pVqaopmEncOapM9S9btLHnE9hUnlZry+In7FGkT0yUrqr/rDHgj7PRa34okvHz2SP3t3k/9GNhuJbxBBAG2VWQkleQJJGyHtyI+Wy/UNP2LFm3VEYcW3EtCDNWWqIXKCK+n2Q2tXWyfcoS/i8E9Kcjx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AhN20rf5; arc=none smtp.client-ip=209.85.221.45
+	s=arc-20240116; t=1782376516; c=relaxed/simple;
+	bh=QtIkhOcb4XuSPNMSHsQTam2xRok/IOw4SC1HUoDCl24=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gljhm2Z+xYM+M56ZoQyoJcOmGqgc/eeDiepK14NKg3cnGOb2CFpOslG68xjHexOGRqqKBq+VXefzqt0+xC2kOtQb/whxpPLSu7eQcOTQ+KmFTSe6Qzr1+yKFskudBC6v++/iZ0OupFggwjViodK5Zi/aa33zmS7VvBnvF/vHc/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IvVtfjAn; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AhN20rf5"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-46def4bd5e8so246601f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 01:34:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IvVtfjAn"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-4629051c946so453366f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 01:35:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782376487; x=1782981287; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cwuPvDSXXbiyOTdpO1yF6fW9CB9apWEc+I7V+XWMZf0=;
-        b=AhN20rf5CJgZHlVu8rhuRPe2lvfLF0OcT28yLQ/pGxRJ2t4hwB9zSqto0j/OnuFEHt
-         fhAAkhHuWrzsyCitxbVSTKCDu/gCzDfP4CWGJliLCAezpSODB4OwczwuOw/wkHvcIDCE
-         gdYDbvMe3jxuNPve1Kn8CWeMq50B0dPAZzCmyJiLWORgWr7fWdwebh4GOzFYqzqvaAf6
-         JwlaZS3CVPiMpo43J0Ihn7i8J2/jtpAD19c6egRqSFNl1GY/1EIxMyDNX3m7BXxfA4Uh
-         bhC2Z2iL9eoBk3R+71HMx9BMIBZPMs7ZkchaoGxe4SpiBU7RJOyzuUqU23mnUiT3x7e4
-         Ayjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782376487; x=1782981287;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782376513; x=1782981313; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cwuPvDSXXbiyOTdpO1yF6fW9CB9apWEc+I7V+XWMZf0=;
-        b=f7lRhGF83hxFLAMes0/i7L+QNYQyltOUZCiRo2YGzrZgQnqQS+zFczERDP0lzP6dO1
-         oKZ+1dJoIgR4RzWiVc115DizIHIR4ce4YRgyO333tfZrWqS3Gh0B27QXv+VdC9eE9JP1
-         kLRQyguyhsisSBVGK91O2wwY58XuzutLYe7fDb+qjctJZr0P6q6wGYVHJOVjU4CQ7mAO
-         eRHQsw/dsoH1SVziYCBFcbXQcpC5ZNqsv+81MLpm+N15Bq3Kzf/L8XPo6xHnkna+8jtz
-         GAfoaHO6f3VV0jam1uFLRDsZxsjgLMlLmRYSoYkuryKA9zPgn4VykKJw44jqjuUj3mD7
-         7M6g==
-X-Gm-Message-State: AOJu0Yw66ocNp8NNkgP+bi3OhGaZNXO0tRib8Cw1F3RZHuF+8SfZIpAu
-	liw1mExo4vJ2x7YWGmCVo63ZWShSPPG6De+l/WMXCiCtjLdbqH7Jun2ovrejz/42oNU=
-X-Gm-Gg: AfdE7cmcNGbqsJjGFSnHBc+aGOAg6bBVNDmA2xSE2sC1wL1ceNiEL3O5Ark+29A2rYM
-	QYUrldoiuCNnQBu0yF1Cym7SHYj1x2MjXK7Pb0e3Gu4Zi+LgJfki2wYnSXDAzb/zj+jM/c9yXCA
-	xv5NboXJGj6y1gqTQakohGqSLL+B0uwBKWvr1PfLif8JeaEsc4titE37hndujMXW5eAwxDJjHKx
-	nZ1QgNUk+Zy6XsZvN+AzXyGnd6DLpLtinRpl73Z4735HycpfC5+maOvGwO1iBPSWofUvZMw4KJu
-	z388YNd1E0MhrHxbkDDhdDbkE1bB25cWPtQk172hWHZQPR2JLgwe2cSxcMk/ymBncITAuvcibsi
-	TMD1E3GM+r9kX5zhei5SVOzWSre2CgZAIzAtbBdAO3+VHLuREMt/lnXvyA+3PsQd6L3KdPPOaX1
-	Oxjgds74OD
-X-Received: by 2002:a05:6000:2f8a:b0:46d:d6c1:8383 with SMTP id ffacd0b85a97d-46dd6c18494mr1746107f8f.44.1782376486646;
-        Thu, 25 Jun 2026 01:34:46 -0700 (PDT)
+        bh=T2cQgCHbxQom2kVIv1Cvt6Y9CPEs8rn7euaXGTL0+j8=;
+        b=IvVtfjAnKaBK/0oQMtnLDiuV4uWEGKXPXAe+AlxRHG6MnbRdOnwIUfAKJjX57utGZS
+         RA93kED8fJa9O5rFjZ+0xpmGWVHSGJekcF4QjLRE+9tIfLia59YTnsl5uCFNeaniCHYM
+         5ZzmM6WJ/eA/ZQgbCsLgjOKHc5QpvB8SEkaetLP6sDVxwCT9Xbf79YBfNv/qFqmFb1eR
+         GqdtIomwz2L9o19YnNZzwc8yfe+1sOCd2S9kf+44M9mXX/WaaS9HEOsL1d9bD/AsSE7U
+         LxGhViFq3CN1cDSLLxRgrgwei7VAOJ71DV4FvcjrUCQB/zwz2D3jyNKU/qsz7in7C5lc
+         AwHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782376513; x=1782981313;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=T2cQgCHbxQom2kVIv1Cvt6Y9CPEs8rn7euaXGTL0+j8=;
+        b=pfPX7xwlaTUmobHjcYpENzfDAZgfz9XJEzUIy78/5Yafcq/NaG01aYLAUwS2355P97
+         a71JuA3YRvYuhlYbYE2Rlvm4GSD0gGCgKbLoK6Ed/G3UezV+HIt64DZJxcKjWajR+ynU
+         2lUGjMQN54JzBitGRCDGObg9YwT+CRdgAWZAD2pZLcR7xb3tDXzb/x7vtQVblvu5Ego6
+         ngsRxKAxlGgd2fGJJjxjyshlRbdyl8zQSBDaKCD3JIo0FwMG0p/gwsgIP279Zr3ijD5T
+         nGUFQ5vf2DC9dlSM0/XiF7+as0EwdESQSA1hnpHVLxMmpXHs27NxYxPW1b++A/gpWBCu
+         b/DA==
+X-Gm-Message-State: AOJu0YznuLQb5HUG8jXW37+LTMxpeg44TvTDZuzmy7DqOWXvalBE3ST7
+	EW3e4VSfHabkRNr468LknEvilZdWK7T0ZcCoBFn6gllCvpRVi3kWigTtPoTdUP/K72c=
+X-Gm-Gg: AfdE7cm65jU/jtlqoLBfZpEbMABVSHZ/lj+1Nmr4lcwJLQrzf/G1RfiuXhCTEdv7oc9
+	QnSjvVnUydZyycc11hBzX5BEtvdHBlynyMEbmWFV3P7TlHfzV9UcNMHAjU3gOYCKaMnLSlUTvb2
+	musWvBup9iaSI4Asvcr1/8qKqgaO+RyhNxswnoxeZrlKtrMVyVQA9XOh2IUz0mfWyd2EBbr2l9t
+	vESASZjV46Ip+KPfhrnXABrhHDLXW477sAQDD4Ab2BYhasIozGAQOGr8om0zdjSmxz7quebWrOO
+	BSr+EWaQgcpj+GthOy3K7ha/tm5Xb0aVEE/Jg3YC0KJiLV/IKpDFu5ZKEcmD8kFbmxisXCN6kfR
+	sNS6D4BA9F68fToK0Vz5/igcyR8b15uLT7od5Vs4Qhz7hENwqVn8HN94X6X0RkmTSbPWqF4vZAd
+	+BldjqHjfA
+X-Received: by 2002:a05:6000:4603:b0:460:602f:85a6 with SMTP id ffacd0b85a97d-46da34965dbmr2376831f8f.0.1782376512951;
+        Thu, 25 Jun 2026 01:35:12 -0700 (PDT)
 Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-46c221d998esm13183555f8f.24.2026.06.25.01.34.43
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-46c9ed7491esm9926887f8f.37.2026.06.25.01.35.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Jun 2026 01:34:46 -0700 (PDT)
+        Thu, 25 Jun 2026 01:35:11 -0700 (PDT)
 From: Askar Safin <safinaskar@gmail.com>
 To: linux-fsdevel@vger.kernel.org,
 	Christian Brauner <brauner@kernel.org>,
@@ -84,10 +86,12 @@ Cc: linux-kernel@vger.kernel.org,
 	Val Packett <val@packett.cool>,
 	Andrei Vagin <avagin@gmail.com>,
 	patches@lists.linux.dev
-Subject: [PATCH v2 0/7] vmsplice: fix some problems in my previous vmsplice patchset
-Date: Thu, 25 Jun 2026 08:34:02 +0000
-Message-ID: <20260625083409.3769242-1-safinaskar@gmail.com>
+Subject: [PATCH v2 1/7] vmsplice: open-code do_writev and do_readv
+Date: Thu, 25 Jun 2026 08:34:03 +0000
+Message-ID: <20260625083409.3769242-2-safinaskar@gmail.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260625083409.3769242-1-safinaskar@gmail.com>
+References: <20260625083409.3769242-1-safinaskar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -96,83 +100,71 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patchset is for VFS. Of course, it depends on my previous vmsplice
-patchset ( https://lore.kernel.org/all/20260531010107.1953702-1-safinaskar@gmail.com/ ).
+My previous vmsplice patch did the following mistake: I did
+"CLASS(fd, f)(fd)", then did some checks on resulting "struct file",
+then passed numeric (!) file descriptor to a function.
 
-I fix some problems in my previous patchset.
+This is somewhat okay in this particular case, but I still think
+this is code smell, so I fix this by open-coding do_writev and do_readv.
 
-1. Fix problem with CLASS(fd, f)(fd). See first patch in this patchset
-for details. This is probably not so important, but I fix it anyway.
+Also I insert a comment to warn other developers to keep
+do_writev and do_readv in sync with vmsplice(2).
 
-2. Change "unsigned long" back to "int". See second patch for details.
-Again, this is probably not important, but I want to fix this anyway.
+Signed-off-by: Askar Safin <safinaskar@gmail.com>
+---
+ fs/read_write.c | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
 
-3. Fix that LTP vmsplice01 bug.
-
-4. libfuse relies on sharing vmsplice behavior. So we detect particular
-combination of flags to pipe2(2) and vmsplice(2) and return -EINVAL.
-This forces libfuse to fail back to non-vmsplice code path.
-I. e. we fix libfuse-related regression [1].
-I did debian code search for regex "vmsplice.*SPLICE_F_NONBLOCK" and
-I found no other packages with this particular combination of flags
-except for fuse itself. (Okay, other packages are fio and stress-ng,
-but these are merely testers.) So, I think this is okay to return
-EINVAL here, breakage will be minimal.
-
-5. Set FMODE_NOWAIT for named FIFOs. CRIU relies on ability to do
-vmsplice(SPLICE_F_NONBLOCK) on named FIFOs. So, I fix this CRIU-related
-regression [2]. But there is another CRIU-related regression, which I do not
-fix [3]: CRIU behavior in splice mode becomes so slow that splice mode
-becomes useless. I personally still believe that removing vmsplice is
-right thing to do. Other option is doing nothing. Yet another option
-is to implement some deprecation period [3]. Let other developers
-decide.
-
-See patches for details.
-
-Please, run that LTP vmsplice01 test again.
-
-Notes:
-
-- I want to repeat: I change behavior around SPLICE_F_NONBLOCK.
-Previously, vmsplice ignored whether pipe itself was opened as
-non-blocking file. Now it is not ignored. And in my opinion
-new behavior is better.
-- vmsplice(2) now is in fs/read_write.c . It is very similar to
-preadv2 and pwritev2 now, so I think it belongs to fs/read_write.c now.
-
-Please, review this patchset carefully. I'm still new contributor.
-In particular, please, review that do-while loop, I'm not sure I did
-everything right.
-
-Tested in Qemu.
-
-[1] https://lore.kernel.org/all/CAJnrk1Y9egYizkx1H9K0cqxSYuB+7vLvQbV7Tf4C5eHFqnnC-A@mail.gmail.com/
-[2] https://lore.kernel.org/all/CANaxB-zK5q=Xw6UZTmeFtXsDZjUsPkFk=p485m-wtNTBnf4hgg@mail.gmail.com/
-[3] https://lore.kernel.org/all/CANaxB-xUrLQYGiRJZc4Boi+KX=0TJSWymErNovANVko20fMDVA@mail.gmail.com/
-
-v1: https://lore.kernel.org/lkml/20260606061031.3744880-1-safinaskar@gmail.com/
-
-Changes since v1: fix fuse-related and CRIU-related regressions (see above).
-
-Askar Safin (7):
-  vmsplice: open-code do_writev and do_readv
-  vmsplice: change argument type back to "int"
-  splice: turn wait_for_space flags argument into bool
-  pipe: move wait_for_space to fs/pipe.c and rename it
-  vmsplice: make sure we don't wait after writing some data
-  vmsplice: return -EINVAL for particular combination of flags
-  pipe: set FMODE_NOWAIT for named FIFOs
-
- fs/pipe.c                 | 23 +++++++++++++
- fs/read_write.c           | 71 +++++++++++++++++++++++++++++++++++----
- fs/splice.c               | 19 +----------
- include/linux/pipe_fs_i.h |  2 ++
- include/linux/syscalls.h  |  2 +-
- 5 files changed, 91 insertions(+), 26 deletions(-)
-
-
-base-commit: 8d86fcfc2857d64af85f5c87c193c25655c970af
+diff --git a/fs/read_write.c b/fs/read_write.c
+index 1e5444f4d..e224e7cb8 100644
+--- a/fs/read_write.c
++++ b/fs/read_write.c
+@@ -1070,6 +1070,7 @@ static ssize_t vfs_writev(struct file *file, const struct iovec __user *vec,
+ static ssize_t do_readv(unsigned long fd, const struct iovec __user *vec,
+ 			unsigned long vlen, rwf_t flags)
+ {
++	/* All future changes to this function should be kept in sync with vmsplice(2). */
+ 	CLASS(fd_pos, f)(fd);
+ 	ssize_t ret = -EBADF;
+ 
+@@ -1093,6 +1094,7 @@ static ssize_t do_readv(unsigned long fd, const struct iovec __user *vec,
+ static ssize_t do_writev(unsigned long fd, const struct iovec __user *vec,
+ 			 unsigned long vlen, rwf_t flags)
+ {
++	/* All future changes to this function should be kept in sync with vmsplice(2). */
+ 	CLASS(fd_pos, f)(fd);
+ 	ssize_t ret = -EBADF;
+ 
+@@ -1226,14 +1228,24 @@ SYSCALL_DEFINE4(vmsplice, unsigned long, fd, const struct iovec __user *, vec,
+ 	if (fd_empty(f))
+ 		return -EBADF;
+ 
+-	/* We do do_writev/do_readv, so it is okay to pass "false" here */
++	/* We do vfs_writev/vfs_readv, so it is okay to pass "false" here */
+ 	if (!get_pipe_info(fd_file(f), /* for_splice = */ false))
+ 		return -EBADF;
+ 
+-	if (fd_file(f)->f_mode & FMODE_WRITE)
+-		return do_writev(fd, vec, vlen, (flags & SPLICE_F_NONBLOCK) ? RWF_NOWAIT : 0);
+-	else
+-		return do_readv(fd, vec, vlen, (flags & SPLICE_F_NONBLOCK) ? RWF_NOWAIT : 0);
++	if (fd_file(f)->f_mode & FMODE_WRITE) {
++		ssize_t ret = vfs_writev(fd_file(f), vec, vlen, NULL, (flags & SPLICE_F_NONBLOCK) ? RWF_NOWAIT : 0);
++		if (ret > 0)
++			add_wchar(current, ret);
++		inc_syscw(current);
++		return ret;
++	} else {
++		ssize_t ret = vfs_readv(fd_file(f), vec, vlen, NULL, (flags & SPLICE_F_NONBLOCK) ? RWF_NOWAIT : 0);
++
++		if (ret > 0)
++			add_rchar(current, ret);
++		inc_syscr(current);
++		return ret;
++	}
+ }
+ 
+ /*
 -- 
 2.47.3
 
