@@ -1,75 +1,109 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074613AE1A6
-	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 14:30:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F63F26F2BE;
+	Thu, 25 Jun 2026 15:00:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782397828; cv=none; b=fmjUSf2kypvdcDsMdvXHB2C7W3de488Un6NZ0sKSfiZCIO6nlzFLPBSBQfA0CK8NeCIwCBNaGEBupQvbTEcux5q55Uhb6oiKza08PJyfuJ7mNnFUHRPqu4bx4cYP7Rgpmjcz0a1ZvIueQI1SRgI0tfaBCBKR2V3ZDn5ke6rnpGY=
+	t=1782399628; cv=none; b=IbCAShA3qKeVHeAJWzKHfOyBu1pch3/sQpi7Wv/TP3R1LL4HvzMpx1JkYO5u03/QXGNFfHDVKr8PGwtadeWcf8IMVQEzgNNVZfMLLwP7mwsvK3gRtoIGbQVdjBnVqWwQ3GFg/bt9YGl8/8uO9Yc3ngfQP5IsU0uyqwZ3ZjsVLrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782397828; c=relaxed/simple;
-	bh=Z6QnWMF1uF0OTi2Uhs/q7U1X2oPoWlSEhAaBYzSr7rU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PvJCp+l39CYv9wj4OEOPd7KfZj8tw1lHww9n02lb7cxXdNxiE6efuLdZJoToN2wbzfx6l+azgtBp7t39pZSAb3EUzBEuDXvnmge7Wxf0FWs1RwlSWuWZjNNs4edI4WaDnML7yWbsB21Iwjj2hdoydXpXChL9j4oAERmIv54+abs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J5gBWS1G; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782399628; c=relaxed/simple;
+	bh=2rGJNW7kzzC2EOAQp+lG2xHE1YA8UeZ14RY+D3jdZss=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S0mv4IJh5zw838l81ZekftsgHyAt3R/I+K604gNBEk6yRi1L+08+IF791IaWg263eVKjpn0tF38W/KQn35enpfSA9XP4J1VKPwsiyav7EYikSDit2MEuzhcTsq0MvF6q6P643xDR124vI/K45NqwrGZUHt6q6qD5E7IrOz9KRzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CoS0GIWz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J5gBWS1G"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C08A1F000E9
-	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 14:30:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CoS0GIWz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBCB01F00A3A;
+	Thu, 25 Jun 2026 15:00:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782397822;
-	bh=Z6QnWMF1uF0OTi2Uhs/q7U1X2oPoWlSEhAaBYzSr7rU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=J5gBWS1G3wt/oy9ZBcyraozR+nUPI2xxSo5IAvb4NrLevzYn/NLKJARjXVsHx0RGO
-	 NGJqEnhzSFlwsFS7FycgZcq2TSBPwdejugyBsTkNLMDtxykWU/GJik0YK1zvghb2Mo
-	 jnjJKtIOohdAJVz9wnOxHMYNxY1hnanxtMgp01P6QD4mtzn7zMDRy9YVUmkppK4gsV
-	 IOFZAPE1PxjUQb+tHX9MrJf9Evmbyi/m/u0tiW7HUnGlSz/LODhUaDG4f5lY5WTBJl
-	 zKOvdpJANcDDfjP/BOaLYIQxF+e8pLfqC9MORW41VNsZq4XNN4n79VP2/VnAQGoB6P
-	 SvSh5gKN1UCtA==
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c0e12cb1d90so390752066b.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 07:30:22 -0700 (PDT)
-X-Gm-Message-State: AOJu0YzMmzNofraJYSybgbjQ3fAop3uIizIzV27PVtLDZUDPQqpTfjb1
-	WLx0IPHp2/cHKbbuC10MQKqACLIj7rBIUkBApt82AXHb7+T22bdYZOFaj7DDwLLKb+YWwXYEOzM
-	rU3ebYpmUy2ey6/FCNwgEikt3GriNh1I=
-X-Received: by 2002:a17:907:6d26:b0:bfb:c8ec:7f9e with SMTP id
- a640c23a62f3a-c1206183caemr193123166b.35.1782397820919; Thu, 25 Jun 2026
- 07:30:20 -0700 (PDT)
+	s=k20260515; t=1782399627;
+	bh=zRvgAQyPPoK2vUdPbDN7JiZo6UURRerJQsTHI7SpChE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=CoS0GIWz0OFCjX9XSXwQosvDlIWcW7PHsxkYrGnEXFeBS8OhtuwJTQlXUW9Lztm3G
+	 Di7qd+qyhVYKeXaX8UQUXOAF8DGodLgUS92D0ckGmUSBc90zkAbDWgHPLQ0Aei2U4A
+	 1SfUzABBMak/gA3UNBS/VaQPIqNojZmQi9SJ5IpDjlR5CCCIavqOsgJ7U2Dp86yBLO
+	 zrQft2+1yEi0BM/tRQJLbx4w++Y0Y9vYTetzOlJNjRpVWNt+bJcTp4cUq8L+3K9EZs
+	 tgg8YnFILMsneAhqfwSSbudgzgzrwHW+7nlU/esr2nWlx4f/b0nQqRpJKXCVrfzC14
+	 UfWx/G2F+nSWA==
+Date: Thu, 25 Jun 2026 17:00:21 +0200
+From: Carlos Maiolino <cem@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jan Kara <jack@suse.cz>, linux-xfs@vger.kernel.org, 
+	stable@vger.kernel.org, "Darrick J. Wong" <djwong@kernel.org>, 
+	Dave Chinner <david@fromorbit.com>, Eric Sandeen <sandeen@redhat.com>, 
+	"Dr. Thomas Orgis" <thomas.orgis@uni-hamburg.de>, linux-fsdevel@vger.kernel.org, 
+	Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH] xfs: fix capabily check in xfs_setattr_nonsize
+Message-ID: <aj1CdKwE3A40vQhQ@nidhogg.toxiclabs.cc>
+References: <20260624101436.362533-1-cem@kernel.org>
+ <20260624134039.GB5649@lst.de>
+ <qcsdbdpp23fsu3cqhpjdpwusvl6onc2knnrun522ofrutxpz6j@reh3k2ofqjir>
+ <20260625123754.GA19947@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAF3PHDynqk0fbtthp8cPQCtgFajrjNvCxmDp8Lq=Gs4TD=ztgw@mail.gmail.com>
-In-Reply-To: <CAF3PHDynqk0fbtthp8cPQCtgFajrjNvCxmDp8Lq=Gs4TD=ztgw@mail.gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Thu, 25 Jun 2026 23:30:09 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd8fYZ9ZXM=F7H6q3bCW66NYT96ckQk20dmfzramV8FxrQ@mail.gmail.com>
-X-Gm-Features: AVVi8Cf_-V9LWD3Yq9Ijsb4Z2KnzoRcrucP581jl2ZHIANmmRCTd7q5Imiao9nk
-Message-ID: <CAKYAXd8fYZ9ZXM=F7H6q3bCW66NYT96ckQk20dmfzramV8FxrQ@mail.gmail.com>
-Subject: Re: ntfs: RO->RW remount is broken - two bugs in the quota-marking path
-To: Razvan Dinculescu <razvandinculescu@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260625123754.GA19947@lst.de>
 
-On Thu, Jun 25, 2026 at 4:33=E2=80=AFPM Razvan Dinculescu
-<razvandinculescu@gmail.com> wrote:
->
-> Hi Namjae,
-Hi Razvan,
->
-> Thanks for the new in-kernel ntfs driver. read-only -> read-write remount
-> fails on any clean NTFS volume. I tracked it to TWO bugs in the quota-mar=
-king
-> path and verified the analysis by building a patched module against 7.1.1=
- and
-> confirming that fixing both makes remount,rw succeed.
-Could you please test the patch below if it fixes this issue ? It has
-already been merged into 7.2-rc1.
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/f=
-s/ntfs?id=3Dcbe287fd65f1a51eb1720e93ceca7ee8d8b011bc
+On Thu, Jun 25, 2026 at 02:37:54PM +0200, Christoph Hellwig wrote:
+> On Thu, Jun 25, 2026 at 12:43:54PM +0200, Jan Kara wrote:
+> > On Wed 24-06-26 15:40:39, Christoph Hellwig wrote:
+> > > Adding Jan and Christian for quota and user_ns knowledge.
+> > > 
+> > > On Wed, Jun 24, 2026 at 12:14:29PM +0200, cem@kernel.org wrote:
+> > > > From: Carlos Maiolino <cem@kernel.org>
+> > > > 
+> > > > An user reported a bug where he managed to evade group's quota
+> > > > by changing a file's gid to a different group id the same user
+> > > > belonged to, even though quotas were enforced on both gids and the
+> > > > file's size was big enough to exceed the quota's hardlimit.
+> > > > 
+> > > > Commit eba0549bc7d1 replaced a capable() call by a
+> > > > has_capability_noaudit() to prevent unnecessary selinux audit messages.
+> > > > Turns out that both calls have slightly different semantics even though
+> > > > their documentation seems similar. Where in a nutshell:
+> > > > 
+> > > > capable() - Tests the task's effective credentials
+> > > > has_ns_capability_noaudit() - Tests the task's real credentials
+> > > 
+> > > Eww..
+> > 
+> > Yeah, that's a catch.
+> > 
+> > > > This most of the time has no practical difference but in some cases like
+> > > > changing attrs (specifically group id in this case) through a NFS client
+> > > > this will allow the quota code to use XFS_QMOPT_FORCE_RES, effectively
+> > > > bypassing quota accounting checks.
+> > > 
+> > > Yeah, this does look wrong.  Do the other conversion in the above commit
+> > > have tthe same issue?
+> > > 
+> > > > Using instead ns_capable_noaudit() should fix this issue and prevent
+> > > > selinux audit messages.
+> > > 
+> > > The generic quota code manages to do without either has_capability_noaudit
+> > > or ns_capable_noaudit.  I think this might be hidden behind
+> > > inode_owner_or_capable calls.  Any idea why we're different?
+> > 
+> > Actually no. Generic quota code has equivalent checks in ignore_hardlimit()
+> > function which does capable(CAP_SYS_RESOURCE) check. I guess the reason why
+> > nobody complained about generic quota code is that we call
+> > ignore_hardlimit() only if we are above hardlimit whereas XFS calls this
+> > for every transaction...
+> 
+> I guess we should aim for the same to avoid the spurious audit logs.
+> 
+> I.e. xfs_trans_alloc_ichange is currently always called either with
+> force = true or force = this capable check.  So as a first step we can
+> move the check into xfs_trans_alloc_ichange for the !force case, and the
+> propagate that through XFS_QMOPT_FORCE_RES into xfs_trans_dqresv, i.e.
+> only set XFS_QMOPT_FORCE_RES for the real forced case and instead
+> have the capable check down in xfs_trans_dqresv.
+> 
 
-If you confirm that this fixes the problem, I will submit a backport
-patch for the 7.1 stable kernel.
-Thanks for the report.
+Sounds fair, I'll give it a try tomorrow.
