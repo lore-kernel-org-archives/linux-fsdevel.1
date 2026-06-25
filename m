@@ -1,31 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28AE1CAA78;
-	Thu, 25 Jun 2026 07:01:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750B724CEEA
+	for <linux-fsdevel@vger.kernel.org>; Thu, 25 Jun 2026 07:09:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782370901; cv=none; b=b/2vVKAOSQQKtbb6odTgQ/vXCLZ165sBtaw6r2PRPaBAG9xEmBiIiAvLAddBUVkPpHa0i9k+eOO7JT/U0APeLOdRL+jF2BYLEfJMcasxLmxp5R54rM220xBp9onmivmlFZKe22VKWn1w2k5Rcf69DzczPnSsgiMFseVG1VGMBus=
+	t=1782371376; cv=none; b=N5LH5PIc86QZrRTfKmZEQIoproDiGB9FgRaeOmWAt12uOg47oPLm/4e3CATRzgyfsy+aoKftsC9CXI7S2ZAqPSD4xprTQYGcbyC8P54k1jyIJpmf4mzLwyRjdtwFHE45l+OXdMRlwFZ9FsmZ2/c92OtbLQ0PxLwuxLhWAMIbtOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782370901; c=relaxed/simple;
-	bh=o7y3zrWWLolQ8rjHQUEvtkfJrU1SIgeSJi1z7iC+nrk=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=D4OBi3ZlVMs98QHvymNFdIZHTUJQfPEOoFwPcP/olF0YEMvy1W3gOhxQobqqJqw/GMabIO6WgWGCclVxiTi1fTEhsmfkhbVnR1C1MwYitCBE+sU4EZHpvhvdO1FRL1xv7WQKAz2G8CeObBgc5v8xnC2oGXmC1v6cLWjQ85ZLrsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dyUeAerz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782371376; c=relaxed/simple;
+	bh=3QwDk/HeTA8/TrfhxghZj8ZqBWpH7iaeCuMfJ7MIlnc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=V5sa5TXdecoCZOQPe5aKgtuCX/oWQtVRXOxahZz4L9pKzlfB8gmRY1d+YmqwLltVXIXghvSqQYNdnn8+/4iFLKJxhfHgffa6IVlKZTFwjTzB5stwSKcgdMSow8cYF5FliixytSiJLYnmtVUTMBglaEQromP5PVE5+S3HEHoKGrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IOkqfVhb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dyUeAerz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15D3B1F000E9;
-	Thu, 25 Jun 2026 07:01:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IOkqfVhb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B57A1F000E9;
+	Thu, 25 Jun 2026 07:09:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782370900;
-	bh=+vv8SM8eUAW3MCRiYBMwLSNBJkmkWiJDn52oy/sEKaQ=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=dyUeAerzru3xhnFxtZ+CbG65FbUdOu0DgT1EdRs+Fh5nbuoTM0kZGTsrCHmZQSZ4E
-	 Mf5hx1nT9BoSHOfwF5eNt2DzQ3l9GYvzQ+EKyJCGerpBchHmAvSWAa2xGHkpYwr4b/
-	 3hGROIWH8dacrQ6f1LjyWDrVJ282Abav4LvIsn2rE0M9dHbgE0+UL+0uZBiX9FwjKB
-	 oMdDPuJmhgHW6m8NbHBaRyBePCbnPFCqeepO/XS4wAsPQmL0T63OcZE6Q5ZaWn/S+X
-	 uTBN9FKvdAcDTNbMASr+WpgrqFu6Da33TiS0cOOmJRUc9GfArmLx4HXm/ui2R3RWwp
-	 yzJYU8tTtQNnA==
+	s=k20260515; t=1782371375;
+	bh=/RyHSUG1l6yInKlHO8vL6Q+ePzu5eDGtAmKFe61uI50=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=IOkqfVhbPqs/r3NXLO62NTnfmNPLxtWHRQpxIW3ENaaxWKF3LvmrhRLGoBbtnMNAG
+	 w0FgvmAqJyVrkYwzgtJVUQJb7zKbiPrWoal60Sq4OamLHy8ZIH///bzdOhulu3pkCS
+	 Mw+9EH8SnpAZoaZDntcL0MGc8w1wBCCt/AtJw51xqmd4jvv8cOKPajErk571J34pCs
+	 yvjqjF39mHidPELOvn3MELDgTMm4CDBrgIwH6Xeqoomso7lkKtYtwz53m06B8HV6DD
+	 +EgnkSTA97f7TvM9cqtBRmkx0Cl3xEDcjWGYvE3aFylD5p5SEnuXuZ6uXIOdtsSQov
+	 GRH4Da1q6/qBw==
+From: Christian Brauner <brauner@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+ Rik van Riel <riel@surriel.com>, Zi Yan <ziy@nvidia.com>, 
+ Jinjiang Tu <tujinjiang@huawei.com>, Dave Jones <davej@codemonkey.org.uk>
+In-Reply-To: <20260623192850.1595958-1-willy@infradead.org>
+References: <20260623192850.1595958-1-willy@infradead.org>
+Subject: Re: [PATCH] fs: Free any excess xarray nodes in clear_inode()
+Message-Id: <20260625-leber-waldrand-passierbar-11cc6a8087be@brauner>
+Date: Thu, 25 Jun 2026 09:09:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,39 +45,34 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 10/16] fs/buffer: Remove fs-layer decryption code
-From: Christian Brauner <brauner@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
- linux-block@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
- Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
- Baokun Li <libaokun@linux.alibaba.com>, Jan Kara <jack@suse.cz>, 
- Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
- Ritesh Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>, 
- Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>
-In-Reply-To: <20260624050334.124606-11-ebiggers@kernel.org>
-References: <20260624050334.124606-1-ebiggers@kernel.org>
- <20260624050334.124606-11-ebiggers@kernel.org>
-Date: Thu, 25 Jun 2026 09:01:34 +0200
-Message-Id: <20260625-kniefall-gemauert-strategisch-f4ad784de60d@brauner>
 X-Mailer: b4 0.16-dev-d9d01
-X-Developer-Signature: v=1; a=openpgp-sha256; l=381; i=brauner@kernel.org;
- h=from:subject:message-id; bh=o7y3zrWWLolQ8rjHQUEvtkfJrU1SIgeSJi1z7iC+nrk=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTZXArIvNXXXfhZxvBow6k26TVNu3SOVMs/nWLSIni5J
- mSRaMXajlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIn8CGT4ZzTD+2Fi1YtLfesm
- c3BFrgviP92eJvfK9aaOhcbLOkl3Fob/rhOf+5125WLY2tO6Q+q5pbTe9sLkpgtL/h5U6f9/paC
- OBQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=894; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=3QwDk/HeTA8/TrfhxghZj8ZqBWpH7iaeCuMfJ7MIlnc=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTZXNEN8wr27RV+w//xbaz71RcylzZdWdWaffg35737X
+ g55NRk5HaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABMp0mX4Z7VoQpLhCtkVGxhW
+ fl54LzjczfdUgb99UV3D1R0PH+Sy72P4K6PYE9bB6nkmc/sOiUtfPxzo/vDx8IxSLqcZUWfKVDe
+ vYQUA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 2026-06-23 22:03 -0700, Eric Biggers wrote:
-> Now that fscrypt's file contents en/decryption is always implemented
-> using blk-crypto when the filesystem is block-based, the fs-layer
-> decryption code in fs/buffer.c is unused code.  Remove it.
-> 
-> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
-> ---
+On Tue, 23 Jun 2026 20:28:48 +0100, Matthew Wilcox (Oracle) wrote:
+> fs: Free any excess xarray nodes in clear_inode()
 
-Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Applied to the vfs-7.3.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-7.3.misc branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.3.misc
+
+[1/1] fs: Free any excess xarray nodes in clear_inode()
+      https://git.kernel.org/vfs/vfs/c/aaecb408f8d3
 
