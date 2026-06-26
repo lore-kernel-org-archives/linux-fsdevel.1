@@ -1,178 +1,89 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFFC3E00B4
-	for <linux-fsdevel@vger.kernel.org>; Fri, 26 Jun 2026 08:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC07F3AC0EB
+	for <linux-fsdevel@vger.kernel.org>; Fri, 26 Jun 2026 09:02:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782462475; cv=none; b=ndKtgTq7jZXtXTl0m1BXnobwoV/xWMHROKVbk1K5R/zvhXTZcchsD+BkEIiAJ8d3nB25OUffRn4lD2kbG46/Y1EPG9Wp9y49wfysSr2MPsBMfjf7kJ0D8wlStWUm385MqKvtXfRSHeHp4kxAxppLhYPiXINnEaD7+fL4iPsYqL8=
+	t=1782464576; cv=none; b=pBB7UgA33XDhK1DYFiIhWMwiPqxQCJ1jraXn3ebCqav6RQ2+nTAL8oeuLVFSy9Ct3fDTFOQzhAeupnld337crghMg+JopCBKyT9EBACjGUQDjuWtvOgIYr6p1T704V+Fqw3J+DEsHe5NuTs03pzbyU9BF7aDoxj0s+GdHB70iw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782462475; c=relaxed/simple;
-	bh=zuf6ntfPTW462871MTn9iuX+pcWTpeY3OFHEjvBsUmw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JkmvjcEo5nn/PS8suS9gyY5JfpW7fMouDt/7LqKk8l+nPtURi9+Ccq8x22IrjckFcqQClJkJMRHixf0bDWQemNR8Wu0ShOjbxk84sx0YgP86rLN3p9BOPhlPw3lWvA2W40YqSnO6a7WhgLzLCCp9ypUDIRjX/jtncAbICjjFHio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VuQ4qUsx; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782464576; c=relaxed/simple;
+	bh=0FmHvDLaa2RCl7vvyihcGV8T554t1KTf1jeCpH+Yfxw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=kqps2zGmI91wx2xx/EWok3oo2ivmzmRC8YGuplA8j2x1+DaXTmk8uodALo9vX3k7n4OIQp8neb903kt51g4f7iwleIQnVJBcqlHpLNWE2VgvbiPGafAIx/HiZty2J8iaFgzF+w4yi9RBVLdC2577fGoxKt+8IAZaCz+PYtzF38o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=xOsqfN68; arc=none smtp.client-ip=113.46.200.222
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VuQ4qUsx"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-490b1bbcf3aso3663065e9.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 26 Jun 2026 01:27:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782462472; x=1783067272; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LPblrGuL3HxTSPqhVNEf1Cuy4s+Ns4aI9V32Ls67imw=;
-        b=VuQ4qUsx+cWNoimp2j+KEaMlEKsx6J7flpPXu/uCwRBlS0LPFCUDyGnk7Gd+EYk9aK
-         il+5lgu0N+dhbh64JNF1FfVDtWS3EOwTEA7DPSBJLw4BKDTzHPemP0Ftf8FYZ614/Jzj
-         EV+p0wKefRVA4EmFLrodWBZ6RH4EIEPFk8FFaB0sj8lv1XPVSsRZHAmK1UUlwhfMS3Hh
-         2UFDsQO2vE9BJnHHbtGy9jViDAA5bvUgoTRby3xLcZd0H2kiVCxIFEfhUqU3se/4uz9y
-         GMK8uPvMfIe+TXIeaRokXSiOP7QsSUU99yzH761XDm0a5/HuSdgbW3QCYffChpozoLLO
-         TApw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782462472; x=1783067272;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LPblrGuL3HxTSPqhVNEf1Cuy4s+Ns4aI9V32Ls67imw=;
-        b=ZDDASyxgfPKPe8UflcdBs7QWp0+sHteGUfw6stUYsY4qfbNjaXY18WcEQfH52CSh2J
-         5xkorcK+Apr+bc7A3bQC8kz5Jz2glpfN4dEvqFgx2KOsgkJrD58fJ3cnc4cND7kDFSI5
-         QQFqawiFWBBRooMWfO2nzErSC5EWmtjTbVeqx9XShurek7TOYVdF9HZZtNJxkkR6SnEd
-         zDWygdQ59vBbjABDaUljmpKK3tCH8r6eO4HxWn74LeGN5m+izgMwixF5GBwCxD9dDncq
-         gCNmZ5Mlq6Zw9JGaGY7xNfU8LrcIYGJRTyfWBluPUER+vg22M++qffZH16uQukWjrBVg
-         JbwQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8oZxXytDu6YOHcGUBEaLN7+NAff/pg69bZRtDvKoiThXdgHztoJo4tlqKH/77eCXc4HHlScolbzFxSa5lG@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeoVNCsHrbU+IWti8q9ceh2hfTd8Fj5SaHGwkj4cX6BINxQle0
-	6u25HqVRY+b78c0oQRRQaUP9RTf6i5BH8zeM72WI9zOZ894FlbpUcnGY
-X-Gm-Gg: AfdE7clL7drol+ruvVp5qaYmjT2EFTUxzhESYSYSLueheHPnKpCnJD/uxhEy4DJfBKo
-	1MkPBfD6JofrwQs8JV28mgBZCfVgUxhvCoBMhKRkg5UkFXEa2S8maGA+goMcZJ1YVVr/S1FUvQ4
-	UcrSv6MxWEwecqTys3xFTrN4Wo4nbgorYVfGnktoB7MaMmaKxhv4txSAOr97gJ/WrTLYSJ6D77M
-	dOZw3QiBaNJBGgp7WXi1fPhi/2hTD7JuhrTiJu9dxqjzwShMzrFM4d3BnR/k3PMfsPXhiJUal2q
-	lZlXLm0B7LrIlM6hiSjL6VRKkNhqgcV8FNzyjWM+F78kEHM/wFuQ4ie4miRrhg3Sa2rl4OabK8H
-	qbWaHdhubpA7vTHPACzKUT4pqdj39c+XzLGT9+nEwE0sMsikGq8eaFAYSdqDrls4zHD/t3pzusW
-	NiILEUfAD3wweEXBOZFWoq+YA8d+uJtbytGPFJSyAXpoXKIvgVCg==
-X-Received: by 2002:a05:600c:6094:b0:492:63c3:8eeb with SMTP id 5b1f17b1804b1-492668aa8b7mr81702715e9.35.1782462472357;
-        Fri, 26 Jun 2026 01:27:52 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49268fde98csm65311585e9.6.2026.06.26.01.27.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2026 01:27:52 -0700 (PDT)
-Date: Fri, 26 Jun 2026 09:27:50 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Andy Lutomirski <luto@kernel.org>
-Cc: John Ericson <mail@johnericson.me>, "H. Peter Anvin" <hpa@zytor.com>, Al
- Viro <viro@zeniv.linux.org.uk>, Li Chen <me@linux.beauty>, Cong Wang
- <cwang@multikernel.io>, Christian Brauner <brauner@kernel.org>, linux-arch
- <linux-arch@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>, linux-api
- <linux-api@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner
- <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
- <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, Jan Kara
- <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, Sergei Zimmerman
- <sergei@zimmerman.foo>, Farid Zakaria <farid.m.zakaria@gmail.com>
-Subject: Re: [RFC] Null Namespaces
-Message-ID: <20260626092750.58a8de9c@pumpkin>
-In-Reply-To: <CALCETrWxi1g1wy2Bi4y6URW728Cmo8D3tchdMqs4GZ7S476iJA@mail.gmail.com>
-References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
-	<20260624231219.GL2636677@ZenIV>
-	<29cd3188-2d7c-4470-a39a-6648638f795e@zytor.com>
-	<614b290f-e274-4eb2-b687-008b004de526@app.fastmail.com>
-	<CALCETrWxi1g1wy2Bi4y6URW728Cmo8D3tchdMqs4GZ7S476iJA@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="xOsqfN68"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=0FmHvDLaa2RCl7vvyihcGV8T554t1KTf1jeCpH+Yfxw=;
+	b=xOsqfN68PenTtQ5tfYxVbyUkbtXrG4r+WiWVkMVN6P24VTF9p6GNP61DCw8inQiHcqjn8Tnvc
+	Mr5pyO92rr8kuPhh9C1oX9Yq+HIYxynVRiFWW0L/ClBdXOLDuCxw4sOtjR5vwkXFVWGVTJFrhdW
+	XWHhnkeY6vISQ7fy7IiysI0=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4gmqG76YmTzLlYp;
+	Fri, 26 Jun 2026 16:53:35 +0800 (CST)
+Received: from kwepemr500001.china.huawei.com (unknown [7.202.194.229])
+	by mail.maildlp.com (Postfix) with ESMTPS id 7C27540573;
+	Fri, 26 Jun 2026 17:02:42 +0800 (CST)
+Received: from [10.174.178.9] (10.174.178.9) by kwepemr500001.china.huawei.com
+ (7.202.194.229) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 26 Jun
+ 2026 17:02:41 +0800
+Message-ID: <6dfe38f0-0df3-429d-ba26-66bb3f94965c@huawei.com>
+Date: Fri, 26 Jun 2026 17:02:40 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, 25 Jun 2026 16:09:58 -0700
-Andy Lutomirski <luto@kernel.org> wrote:
-
-> On Thu, Jun 25, 2026 at 2:53=E2=80=AFPM John Ericson <mail@johnericson.me=
-> wrote:
-> >
-> > On Thu, Jun 25, 2026, at 5:00 PM, H. Peter Anvin wrote: =20
-> > > On 2026-06-24 16:12, Al Viro wrote: =20
-> > > > On Wed, Jun 24, 2026 at 06:51:47PM -0400, John Ericson wrote:
-> > > > =20
-> > > >> #### Null mount namespace
-> > > >>
-> > > >> - requires:
-> > > >>
-> > > >>   - null root file system: absolute paths don't work.
-> > > >>
-> > > >>   - null current working directory: relative paths with traditiona=
-l,
-> > > >>     non-`*at` system calls (and `*at` ones using `AT_FDCWD`) don't=
- work.
-> > > >>
-> > > >> - All operations relating to the "ambient" mount tree don't work.
-> > > >>
-> > > >> - `*at` operations with a file descriptor do work. =20
-> > > >
-> > > > Huh?  The last bit looks contradicts the previous one - if you have
-> > > > an opened directory in a mount from some namespace, those `*at` ope=
-rations
-> > > > with that descriptor *will* be seeing the mount tree of that namesp=
-ace,
-> > > > whatever the hell is "ambient" supposed to mean.  Either that, or y=
-ou
-> > > > will be exposing whatever's overmounted in that mount, which is a h=
-uge
-> > > > can of worms. =20
-> > >
-> > > It seems to me that this is really no different *in practice* to havi=
-ng an
-> > > empty mount namespace, no? You might still be able to stat("/") and g=
-et a
-> > > d--------- result, but how does that actually affect anything? =20
-> >
-> > The argument against just having an empty, immutable root directory and
-> > calling it a day is the tie-in with a new process-spawning API discussed
-> > near the bottom of my original email. I want to have nice secure
-> > defaults, rather than forcing the programmer to remember to unshare, but
-> > I also don't want to degrade performance by speculatively creating new
-> > empty mount namespaces that might just be thrown away. Null fields alone
-> > get us both --- security and good performance. =20
->=20
-> This seems like a false dichotomy.  There's such thing as a singleton.
->=20
-> In fact, we have this spiffy nullfs_fs_get_tree.  It seems relatively
-> straightforward to have an API to get an fd to the singleton nullfs,
-> and the default for a newly spawned process could even be to have cwd
-> pointing at nullfs.
->=20
-> root is still harder, because of the shadowing issue.  I think I
-> proposed, ages ago, relaxing the chroot rules so that, at least under
-> certain circumstances (e.g. the task is not already chrooted) an
-> unprivileged task could chroot.  chrooting to nullfs seems like a
-> somewhat useful operation.
->=20
-> I can imagine more complex schemes to allow even a chrooted process to
-> safely start acting as though their root is nullfs, but that would be
-> potentially fairly nasty.  *Maybe* everything would work if there was
-> a root-for-dotdot and a separate root-for-absolute-paths, and
-> nameidata->root could point to the former, but I'm certainly not
-> willing to say that I think this would work with any confidence at
-> all.
-
-You'd also need to sort out the 'pwd' mess.
-The kernel inode always has its real parent, inside a chroot the scan stops
-when the inode is the same as that of the base of the chroot.
-But faf about with namespaces (IIRC I was doing an unshare to get out of
-a network namespace) and that comparison can fail (if the chroot base isn't
-a mount point) - so "../.." can go all the way back to the real root rather
-than stopping at the base of the chroot (as you would expect).
-
-	David
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] fs/proc: fix KPF_KSM reported for all anonymous pages
+To: "David Hildenbrand (Arm)" <david@kernel.org>, <akpm@linux-foundation.org>,
+	<ziy@nvidia.com>, <luizcap@redhat.com>, <willy@infradead.org>,
+	<linmiaohe@huawei.com>, <svetly.todorov@memverge.com>, <xu.xin16@zte.com.cn>,
+	<chengming.zhou@linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-mm@kvack.org>
+CC: <wangkefeng.wang@huawei.com>, <sunnanyong@huawei.com>
+References: <20260626013252.2846774-1-tujinjiang@huawei.com>
+ <a63b7138-617f-46de-96f9-e56528aee3aa@kernel.org>
+From: Jinjiang Tu <tujinjiang@huawei.com>
+In-Reply-To: <a63b7138-617f-46de-96f9-e56528aee3aa@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemr500001.china.huawei.com (7.202.194.229)
 
 
->=20
-> --Andy
->=20
+在 2026/6/26 16:13, David Hildenbrand (Arm) 写道:
+> On 6/26/26 03:32, Jinjiang Tu wrote:
+>> Reading /proc/kpageflags for any anonymous page returns KPF_KSM set, even
+>> when KSM is not in use. As a result, tools misclassify all anonymous pages
+>> as KSM merged.
+>>
+>> In stable_page_flags(), if the page is anonymous, then use (mapping &
+>> FOLIO_MAPPING_KSM) check to identify if the anonymous page is KSM page.
+>> However, FOLIO_MAPPING_KSM is FOLIO_MAPPING_ANON | FOLIO_MAPPING_ANON_KSM,
+>> (mapping & FOLIO_MAPPING_KSM) check returns true for all nonymous pages.
+>>
+>> To fix it, use FOLIO_MAPPING_ANON_KSM instead.
+>>
+>> Fixes: dee3d0bef2b0 ("proc: rewrite stable_page_flags()")
+>> Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
+>> ---
+> With spelling fix
+>
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
+Thanks.
+
+> And I'd appreciate if someone could look into cleaning up the code to switch
+> back to folio helpers now that we have folio+page snapshots.
+
+I would like to do it.
+
+>
