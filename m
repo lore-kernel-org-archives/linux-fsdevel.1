@@ -1,194 +1,140 @@
-Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
+Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9506627FD75;
-	Fri, 26 Jun 2026 02:22:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402DF28541A;
+	Fri, 26 Jun 2026 03:17:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782440550; cv=none; b=SeD4tF247b8iZoX6qwS3aeeo+Hxi0Geqr09PbZ4SaCha9jJs4PZsYFQjFVcJLJPLuPtOACOzHxOiO9Fe/or9jMImqk/105PgRQGYh/oVBXKjb8vImeIcr72O5h6r9OQnXnJYsHd0ltRxlzLVysHAm/vIMjSj+Q0Eq2ZzOYh5wgE=
+	t=1782443837; cv=none; b=sbfL6t4eZbSsvCuL4cQQwwAUtCOhbHwUA6p6xsBTL4k2WX1Eg/QEDutTZb3dpkH1CFtmqmYlw/6zK9wRRAkMmnS3Dw5EsxrlE3tjbFKPuV9VNenaCnCirOWBJNCx8AtwgpKxy9dL09AYMCNIrkfv/XCiYUcLl2gxYrFCq3tE5Ss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782440550; c=relaxed/simple;
-	bh=EarH9ORv04FlFTNvJDy+Xju9cTY3lIAT9rJb2Va27a0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VBvPPxZUY56pAiIAjm4ULYsA7zRugEntlmvPQqitUAsgEEf+hYCUjeZ8DpQ5+73R2kzWjOBzNwhKCjK5NLv+P5ixkjHlNfv/cjiKKVHnNsjMUGoscsQL4HGpIsy383/SE/ZrRUheFUWAOFfbl1NzL694uT6ECGTzKtmvMfa/NkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=f2UC8l0A; arc=none smtp.client-ip=115.124.30.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1782443837; c=relaxed/simple;
+	bh=lMj5XbwW6LcCx2H3HiAUY1KzeQpYX+KMgSRzQYp20tg=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=CiEg20k0MP4k1ojSyrLudSSIlr45BJ9xa6QD0MpEYxCPPmXric5pb6vscs7G1DAuc5q8VGFDlpdQ5HfHaay9fj/0ZJ76SF7LHGmCDLT3VFTH7SKr5ROj3wuAta0P+IccpDslVQMxeW2ehkm7cSnBaFuD9nZ9/IB2EJO7FCYn2Eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=KauWZcFo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ch22c1mD; arc=none smtp.client-ip=202.12.124.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="f2UC8l0A"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1782440539; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=iH0u+zG2bf/AQezPGWtl+8ZPYaxCxQkGVduyn89k3rU=;
-	b=f2UC8l0AIJbGIu8lrywVhnKVQ0SYHSJVaLJkB4xrJ51JsNG+1a2Smm9iWpZrhxnms6ONRCm78R/U95gz2+T9L+AFgDhzDu/Ydi/8fANtuJ0dplo3y2gK9bpzyJ5kiPMood0zn3M4c5ufch3uacWeUGV6wDSScbMAIiwxztiv7D4=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0X5d5DGY_1782440537;
-Received: from 30.221.130.253(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X5d5DGY_1782440537 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 26 Jun 2026 10:22:18 +0800
-Message-ID: <9bfa2c7a-1b17-41c5-9846-340e6a5b4b66@linux.alibaba.com>
-Date: Fri, 26 Jun 2026 10:22:17 +0800
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="KauWZcFo";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ch22c1mD"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 6F5427A013E;
+	Thu, 25 Jun 2026 23:17:15 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Thu, 25 Jun 2026 23:17:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
+	1782443835; x=1782530235; bh=rKd3v9QCuf/qcqqzuMSxfvxvum0WNtiESqg
+	a4mSwIzo=; b=KauWZcFoetVVmqbDAX/lOAJ2LFUeJkQAFt2rSgRHoOM2avm93xI
+	wPfZFju/jnNxasfee1DlboCc3DfI2qiaZtS22JxFYKJbBgEoDxHw7RlnERqRG98S
+	XvgXKN8iRv6Szo+QAYDmK6EfB5txea1tZBZEa/JonXznIyQGWPGDxntGlMDOYcAt
+	DusGcit3i89dgD9KUhw1cRLA7E775djYpes3pXX58JL4s515eatK9yAe37vukFSz
+	C1VI0Po4YXOh4qq4MNzCl/R0X49fPfbH3eBcbgz7iUIqca7TWG1U8GYJ8Sl0Ohbl
+	Nt18Rj/V72aM2lYGeFnG6GODs2Cn18qqLzA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782443835; x=
+	1782530235; bh=rKd3v9QCuf/qcqqzuMSxfvxvum0WNtiESqga4mSwIzo=; b=c
+	h22c1mD5i5auIhrt4LDCV4GLnqGwHu+MMwVWWOdFhwvRfdJzmc/dWnXjUvPDbtiO
+	IvTgsdWqvXV+DBitvYl7b2FccYXmaNyd4ZEWyXlpY5tx0m0WV+89QMyViTK6IQ1/
+	HxLkeGlQjdJL5XwmdfTqtZhJYj8Uq86nlAaTlCGZY1IOJhgVFecMv6K5R7Okybut
+	PZoD7YBa84S2KZawxFc97+ii9U4ouKOrtRByxt8nCQ54o0eFCb6Yj2X5s7mpSHwN
+	2qe98WqO+5rMbR7XDVivoI/ZVbyEDT3FynUM/BFU/c94ZUVLAOjqnsExJ+Y0S9vm
+	EKTgsybW0nPDJjPDery1A==
+X-ME-Sender: <xms:Ou89ahf-V6Dxv8f739B-rtrjcA_h5uFHCH-Ju7OzsAg56pjfliKROQ>
+    <xme:Ou89arGs2HlNOVzCqz35eZ08ymfh5eIfNReXJv29b6rbTLHD_Nz4RxDMOCEexNMuI
+    rWAU9CIOdJDVJ2PJCqJVQo8Xu_aIwPLgbU6mvyScwR1ixM5Rw>
+X-ME-Received: <xmr:Ou89anioXw0noAddWVLfk044Tw1Lq3mz_M8Adu9ro14-EbzSO1sWBhEQPoZlGsml_w>
+X-ME-Proxy-Cause: dmFkZTGpDcr2aQCDcyqgmulEIoD+DA2popr0XhYMgIhrlVGduc9/ed82TwKLsNJm75UNnI
+    pZly5KyBF5JYFpX2QH9D01R/6Ax8+zpDHs18KxhnPubxE2qXIO4ZKUPrfaIYhN1MjUL/Te
+    bS/HQRt4cLV2ibxVFgBSXcxdXEL8NffIfv9Ne4rKST5r81KmYacQaUYe0uZRbBg2PBDs9Q
+    MeagNwePO2lkiDdvsy7qlYNBL0P8M06dNOcTow99J6TnNRK3ssd2SO+mh85h7CGjMdTx7/
+    UYe5V8iVdJWyJhVKZS1P4aesy8kuzcldrsFPKVkdCFR/LIn/ixskfKAIDo3yodzMj581VS
+    1+sRi9PaVR06Qjke0JJNoBpkbKWUEc1pLsdUPACRYM5vrpdhPI5AEU/bYXMTHV2ECOGTMS
+    eMn83wSkSnzFEZfUT3vAiMlptcG7zTnFLlqNqupUP6EyME0gZX3zrdQQRIeAYAu21Oh+lf
+    rWtEEJqGapYapCOTwnawXhakHwxV4oXeKZNPxZyDGD2f/Mo0tN4BofN0v0AETGUqnZLIAM
+    fqclYzDIHUhnJRi6UDupKMYi6cZZBt5VZgpCH6EL/Cm8JRtyCrLZw0G/TS4+OmhiIMgcy6
+    N/t7aP529Eo9xUvay7iLsWvjrjMORe5QQSri/k6zd7RcplJ9AsqQ/ykwNzyw
+X-ME-Proxy: <xmx:Ou89av31577nuWjLNN1D84prhJwnxbA7byPPqdKR2CkHiCGlYvc4nQ>
+    <xmx:Ou89aidEUqPwrz_pCFuHL41Nhuq-CzYy09m6xiSD-Oc62tXmZOETDw>
+    <xmx:Ou89atxL5Etlb8zog4a-69Ip7H1Vw48ro1NT_BgIhfbXckocpHH90Q>
+    <xmx:Ou89aiyLtmkkBNrHuF-9V-KPxX5h8VWg-FTiN9xB6HDltETj1mnSuw>
+    <xmx:O-89aqgC2KgSwyzK5Ai3rs8bdjhIdX6wv016G6vifTePKk6-KNEUzWj3>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 25 Jun 2026 23:17:11 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 0/3] iomap: convert to in-iter ->iomap_next() model
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>, willy@infradead.org, djwong@kernel.org,
- linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org
-References: <20260625024723.1611000-1-joannelkoong@gmail.com>
- <6446cb94-a005-4e4c-8034-d7bf2a4b402b@linux.alibaba.com>
- <20260625130206.GC22620@lst.de>
- <4da9a5ac-2a53-4fe2-9283-2e0f6181c248@linux.alibaba.com>
- <CAJnrk1Y_RLezfBq7sfgErGq3uT1t3czA+EWHg44zEXp9VrYF=Q@mail.gmail.com>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <CAJnrk1Y_RLezfBq7sfgErGq3uT1t3czA+EWHg44zEXp9VrYF=Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: NeilBrown <neilb@ownmail.net>
+To: "David Howells" <dhowells@redhat.com>
+Cc: "Christian Brauner" <christian@brauner.io>,
+ "David Howells" <dhowells@redhat.com>, "Paulo Alcantara" <pc@manguebit.org>,
+ "Christoph Hellwig" <hch@infradead.org>, netfs@lists.linux.dev,
+ linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org,
+ ceph-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 04/15] cachefiles: Fix file burial to take lock when
+ unsetting S_KERNEL_FILE
+In-reply-to: <20260625140640.3116900-5-dhowells@redhat.com>
+References: <20260625140640.3116900-1-dhowells@redhat.com>
+  <20260625140640.3116900-5-dhowells@redhat.com>
+Date: Fri, 26 Jun 2026 13:17:07 +1000
+Message-id: <178244382730.27465.10343171995116134377@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-Hi Joanne,
+On Fri, 26 Jun 2026, David Howells wrote:
+> Fix cachefiles_bury_object() to lock the inode of the file being buried
+> whilst it unsets the S_KERNEL_FILE flag.
 
-On 2026/6/26 05:33, Joanne Koong wrote:
-> On Thu, Jun 25, 2026 at 6:21 AM Gao Xiang <hsiangkao@linux.alibaba.com> wrote:
->>
->> On 2026/6/25 21:02, Christoph Hellwig wrote:
->>> On Thu, Jun 25, 2026 at 11:25:54AM +0800, Gao Xiang wrote:
->>>> As I mentioned a year ago, I really hope this way can be proceed
->>>> to avoid iomap iter-callback models:
->>>>
->>>> https://lore.kernel.org/r/20250905152118.GE1587915@frogsfrogsfrogs
->>>
->>> Oh, I guess this is where passing the iomap and srcmap separately
->>> from the iter come from.  But for this to make sense we'd have to
->>> be able to pass a const iter.
->>
->> ... anyway, I hope iomap folks could consider my humble
->> suggestion, since I'm afraid that this callback model in
->> the long term won't scale well in very slightly different
->> details (along with more and more iomap users), so rather
->> than just converting more callers, I guess it might be
->> better to consider non-callback model as a direction
->> anyway.
-> 
-> Thanks Gao. I don't think the callback and helper models are as far
-> apart as it might look though after the ->iomap_next() change. Once
-> all the callers have been converted, there'll be no iomap_ops
-> indirection left and callers can just pass in the direct function
-> pointer for iomap_next(). You had mentioned something about having
-> callers own the iter and drive the loop to get rid of indirect calls -
-> I think the inline patch in this series does what you had in mind.
-
-Thanks for the reply.
-
-I partially agree since it's much closer, but what I meant is
-the design model difference as below.
-
-> 
-> I think the difference is that under your proposal, the loop body
-> logic for pre/postprocessing the read/write/etc ranges is also moved
-> out into helper functions, which each caller would then have to put
-> together / reassemble. It seems like a lot of duplicate code and I'm
-> not sure I see the benefit of open-coding that when none of the
-> callers right now need special logic interjected between the
-> fine-grained helpers and and their callback. imo it seems more
-> advantageous to only add that in the future if there's a caller that
-> has that special need, where only that caller would need to do that,
-> instead of making all callers have to do that.
-
-If you take a look at the initial commit of iomap ae259a9c8593
-("fs: introduce iomap infrastructure"), the starting point was
-to provide `struct iomap_ops` (two callbacks) to get the filesystem
-extent mapping and unique entrypoints: iomap_file_buffered_write(),
-iomap_page_mkwrite() for buffer writes (write and mmap write).
-
-And then iomap applies to DAX, direct I/O, writeback, buffer read,
-etc.  basically for block-based filesystems, and that is why
-`struct iomap_ops` is always _one important part of iomap core_
-until FUSE adapted.
-
-
-But if we take a look at the overall requirement, I think what we
-need is to provide an easy-use high-level fs helper library to
-wrap up the following stuffs:
-
-  1. page cache management (mainly sub-page tracking) and DAX pages;
-
-  2. IO management (buffer I/O, direct I/O, DAX access);
-
-  3. others (like fiemap, bmap, lseek, etc.)
-
-
-For example, most block filesystems could use them of all, and for
-FUSE and networking filesystem, basically they only need 1 and
-maybe partial 3.
-
-The recent implementation (including ->iomap_next()), is still
-a callback-based model, the main loop is inside `fs/iomap` itself,
-and you have to:
-
-  - still arrange the mapping logic into an unique callback, which
-is .iomap_next() now, if the mapping logic needs more information
-rather than `struct inode *`, they have to add private pointer
-somewhere.
-
-  - Take a recent example (buffered read refactoring), need
-    `struct iomap_read_folio_ctx` for FUSE and maybe other future
-    networking filesystems to callback into their filesystem to
-    provide new I/O contexts and submit I/Os.
-
-But actually take a simple example of iomap_read_folio, you:
-could change into (just a very rough sketch):
-
-  xxxfs_read_folio {
-    struct xxxxfs_private priv;
-
-    iomap_iter(&iter) {   /// it could be a macro
-        if (iomap_iter_outofrange(&iter))
-		xxxfs_map_extent(&iter, &priv);
-
-        // to maintain the page cache <-> struct iomap_folio_state
-        // and handle some type of mapping
-        if (iomap_read_folio_iter(&iter) == NEED_NEW_IO_CONTEXT) {
-            xxxfs_new_io (&iter, &priv);
-        }
-    }
-    if (xxxfs_if_any_available_io(&iter, &priv))
-	xxxfs_submit_io(&iter, &priv);
-}
-
-In this model, I really think `struct iomap_read_folio_ctx` and
-similar doesn't need any more (another set of callback avoidness),
-and both xxxfs_map_extent() and xxxfs_new_io()/ xxxfs_submit_io()
-can pass in their per-fs private without need to bother
-the iomap-core to add various `private` pointers.
-
-and in the iomap_iter() loop you can omit/change/add any part if
-it doesn't fulfill to the filesystem timing.
-
-As for "a lot of duplicate code", I think with proper new designs,
-the common part could be wrapped up into macros (for example,
-for bdev filesystems, xxxfs_new_io() and xxxfs_submit_io() calls
-can be wrapped up into macros, and only leave:
-
-	if (iomap_iter_outofrange(&iter))
-		xxxfs_map_extent(&iter, &priv);"
-
-can be customized for each fs as the common macro helpers.
-
-It's just my rough thought, as I said in the previous year, I
-still don't have a strong tendency but it's my suggestion over
-these years.
-
-Anyway since you're actively working/changing on iomap, so
-it's fine to just respect your ideas/efforts if you don't
-think it's worth, but as a record of my thoughts here again.
+It might be worth adding
+  lockdep_assert_held(&inode->i_rwsem);
+in __cachefiles_unmark_inode_in_use()
+and __cachefiles_mark_inode_in_use()
+though all uses look safe after this patch.
 
 Thanks,
-Gao Xiang
+NeilBrown
 
-> 
-> Thanks,
-> Joanne
+
+>=20
+> Fixes: 07a90e97400c ("cachefiles: Implement culling daemon commands")
+> Closes: https://sashiko.dev/#/patchset/20260616100821.2062304-1-dhowells%40=
+redhat.com
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> cc: Paulo Alcantara <pc@manguebit.org>
+> cc: NeilBrown <neil@brown.name>
+> cc: netfs@lists.linux.dev
+> cc: linux-fsdevel@vger.kernel.org
+> ---
+>  fs/cachefiles/namei.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/fs/cachefiles/namei.c b/fs/cachefiles/namei.c
+> index a464c4646c04..d4309dfb55df 100644
+> --- a/fs/cachefiles/namei.c
+> +++ b/fs/cachefiles/namei.c
+> @@ -375,7 +375,7 @@ int cachefiles_bury_object(struct cachefiles_cache *cac=
+he,
+>  					    "Rename failed with error %d", ret);
+>  	}
+> =20
+> -	__cachefiles_unmark_inode_in_use(object, d_inode(rep));
+> +	cachefiles_do_unmark_inode_in_use(object, d_inode(rep));
+>  	end_renaming(&rd);
+>  	_leave(" =3D 0");
+>  	return 0;
+>=20
+>=20
+>=20
 
