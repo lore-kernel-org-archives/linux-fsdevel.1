@@ -1,30 +1,36 @@
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC921C2324;
-	Fri, 26 Jun 2026 05:12:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40DFF1714AA;
+	Fri, 26 Jun 2026 05:17:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782450727; cv=none; b=OC6xwxToadu90LJZxLj7Sh9xewnOlYzpGSlrUDLsR25TAs8nclJ9pdvQE3S+15SptCM5W4RBJ1Ks9K8q2vwM1kGi6oNxFFwZ0xYJCbwKcYnxgGqzHSGQyQhnAZdEPYGA5oyhCeeZZKC6rfbWaroPSB1BIix2ISLbhvH6fcQrbGs=
+	t=1782451035; cv=none; b=e1o4vZm/XGltbcGkTco0HG+HT18GnCjrRM42rpWXJ6/7XUSJKgV1MRVceTtkZyr7X5QyblXG3DtRGvpqUGFkpWMoL0UAhPlXowSM4N0SMIPTtPiXZqXr5boGoIOl4a2s/hIfugK+OqRxviD+Xb3XxH0pD2AeC3KTzmfU6sZysb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782450727; c=relaxed/simple;
-	bh=OnrtGagV3vt9IOQrFYFZRP/Ptf7WSF9yWRw5+Altx8E=;
+	s=arc-20240116; t=1782451035; c=relaxed/simple;
+	bh=jLmt3+eE4jJPzSJIb5TXjXC8/57s9fXSmW2h/HafM8s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b7QZ2w9ppb76G5QJBndt71m9Ckltok4QC+wdvP/E1FLqxDoic7mJ8Nok9mrx9oDFFGcRMBNU6rISktmOkqPXKkm1mH2Za/EALOYaUJcp+EW6jD9fi9hjVPD5kLIA/BwmuUzPqJ9bDrOpWhyA/8SXIlIq7vKoOywx1EvYICQRyA4=
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZXvTlMVo87L9gU68ykcsAnt+4f7y0F4b0icml3LHu0f+kNSelwQy05MWbRHYRPbh51GQb6g/vfFx5O2kXTaUuCQGKq9IGd3xMTo5moOhb72urb0IdIrTLUyc7Vs8ynk7Y8+w53nMe5krr1kRQP046WDNp5q3sDw/66yVdL/ixng=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3CCC168B05; Fri, 26 Jun 2026 07:12:03 +0200 (CEST)
-Date: Fri, 26 Jun 2026 07:12:03 +0200
+	id 6C60368C4E; Fri, 26 Jun 2026 07:17:08 +0200 (CEST)
+Date: Fri, 26 Jun 2026 07:17:07 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>, willy@infradead.org, djwong@kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org
-Subject: Re: [RFC PATCH v1 1/3] iomap: add ->iomap_next() and
- iomap_process() helper
-Message-ID: <20260626051203.GA9013@lst.de>
-References: <20260625024723.1611000-1-joannelkoong@gmail.com> <20260625024723.1611000-2-joannelkoong@gmail.com> <20260625125656.GA22620@lst.de> <CAJnrk1a3dY9r=jGVyTLT0k-J11wrdFc4sM6P94FBKwpi5TQTNw@mail.gmail.com>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-block@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Baokun Li <libaokun@linux.alibaba.com>, Jan Kara <jack@suse.cz>,
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>,
+	Ritesh Harjani <ritesh.list@gmail.com>,
+	Zhang Yi <yi.zhang@huawei.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
+	Chao Yu <chao@kernel.org>
+Subject: Re: [PATCH 01/16] blk-crypto: Simplify check for fallback support
+Message-ID: <20260626051707.GA9043@lst.de>
+References: <20260624050334.124606-1-ebiggers@kernel.org> <20260624050334.124606-2-ebiggers@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -33,20 +39,16 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJnrk1a3dY9r=jGVyTLT0k-J11wrdFc4sM6P94FBKwpi5TQTNw@mail.gmail.com>
+In-Reply-To: <20260624050334.124606-2-ebiggers@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Thu, Jun 25, 2026 at 02:03:13PM -0700, Joanne Koong wrote:
-> > As for the arguments:  I don't really see much of a point in passing
-> > the iomap/scrmap separately vs just the iter.  Or am I missing something
-> > here?
-> 
-> It was meant to safeguard against a callback modifying iomap-internal
-> non-mapping fields (iter->pos/len/status/iter_start_pos) but maybe
-> this is unnecessary. I'll drop the 2 args and make it non-const.
+On Tue, Jun 23, 2026 at 10:03:19PM -0700, Eric Biggers wrote:
+> Since blk-crypto-fallback supports all blk_crypto_keys except wrapped
+> keys, just check for that condition directly instead of using
+> __blk_crypto_cfg_supported().  With this done,
+> __blk_crypto_cfg_supported() is now used only for the hardware support.
 
-As in my reply to Gao I missed the constness point.  So I think keeping
-the current version should be ok.  I'm a little worried that we might
-end up with something not beeing const in the end like the iter private
-data, though.
+Looks good:
+
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
