@@ -1,132 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from flow-a1-smtp.messagingengine.com (flow-a1-smtp.messagingengine.com [103.168.172.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97B53F8ECA;
-	Fri, 26 Jun 2026 16:02:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209633E2AD1;
+	Fri, 26 Jun 2026 16:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782489732; cv=none; b=MOlvm3VBLT3pSibU9sz5+YKaRiHFDt+l1sBwj0qmUcSxtGLbbdvytxuMhFAbrcjUoON+of3LpoTdX353P6wwdGZqRcR/NIftYnua61tQ5Hj0dR6Iz4JFO6eWtGIGPIGupRdyYNbQ+A83Uj5torHViD7Li5V5tfcCoYF0ZfwwoV8=
+	t=1782491193; cv=none; b=shcJeTTDwQ6rRk7Xq5YKv0+D1GTjSketmewI/xnR7vAa6ZGRnccQ9dbEOA6HXx1ir64tvImhz7lgfBnfKGHYt7YZsd29Ta21Cha1zCFkJ1T6Gdlgfpl0PAlrUse1/I1T+hn61dhwUFPxTVWsBXrCDZV8II6OYQKmnbSuXS8fpq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782489732; c=relaxed/simple;
-	bh=2/zoTe0FJMMnNFDNawxM9z0BZbG6t/dqPStMJk/4cUM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pvC0pTCMLon4qCLO1l1iGTjxKR6ADApqT3XZeEDKjKISdKdEsURV/r3QoBRy9rznLLxoWP3vy8xz79lVWIyKfIS6Dx2+2sHrxEt34JJzDI7o0SIi9ntF44jd/v1DqdhIpeDEUCTFmJS2+oDAP5qxNsdsPpIBw/R35u0JqwxJLAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OmLzHpUK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782491193; c=relaxed/simple;
+	bh=Mz/U24SwsVtPOUHfNr1Quz+WAfYt6WoruIadhcSODqs=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=dYNu67OhWbYMCU+biJ5SbRJK3dDKM6C5tG+yvpnF//sYduxk3KttgD+c0WWWjwpwn2set5kGbJcb8xFdNLXukmOT8g6yDN2IMzI15b8i676XRoVpshsAg6erS8skKtug2u8hqTG9NdK5N5jLQAl0H9Y6RpEgd/0fej9Yt1H3mbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=SPlopbP4; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dRYp2Ehi; arc=none smtp.client-ip=103.168.172.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=johnericson.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OmLzHpUK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7865C1F000E9;
-	Fri, 26 Jun 2026 16:02:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782489730;
-	bh=yGny4MDbdiGnqMNUM4Qhs7X7axB+H5dnSFgwt0189jg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=OmLzHpUKKK3hBU/M2uh5XdhP2bUOYO7XA6cfj9DJ+nyrKKE7QgpD1xMIm49TZDDTj
-	 zKIu7MS5AW7YL4I4LQr8CxLfRYo3qjWtRNym8W6DXEslLs2/pzXGeuTKx65tBJXx0J
-	 2QCVxfBcKpSBdeYlFkJ05GXZXZ+k6BZ6AW89vVtdSHp3AJW+5TfARK6PwEAM0MCGtR
-	 zq01mbPJxCIG2hz0MEX/2qaNgnxnKt8s2QeDPfWIeexH1rVfD12Vpr4IdD/8kvNDNa
-	 a5J1nX6aFKkkFQk8LaU8eaxehQY+25DNM9RhgqaaxlpSyLgUMqFhksF7HvCjH1z9gA
-	 TRteUxD8T1TBw==
-Message-ID: <08b8c447-c991-4c20-8274-3e65787d20de@kernel.org>
-Date: Fri, 26 Jun 2026 18:02:04 +0200
+	dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b="SPlopbP4";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dRYp2Ehi"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.phl.internal (Postfix) with ESMTP id 28702138003B;
+	Fri, 26 Jun 2026 12:26:31 -0400 (EDT)
+Received: from phl-imap-16 ([10.202.2.88])
+  by phl-compute-05.internal (MEProxy); Fri, 26 Jun 2026 12:26:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1782491191; x=1782498391; bh=zo1vKmi6nDEQFw10MzbUtqBMgAqbeul2
+	j6P3vSvt178=; b=SPlopbP4GHueoT5BMNLqY+W4uGbAwB7jgw8agYIaF28shVlJ
+	wK+qVZDYILJwhka56O2+QDYejbn+J076sNf/S5wRAqjesV2RGpprbRZbUApJH0/V
+	agJmXOataX29I4DlvVvrdlQDJGf+TPxGYL812FMMOFJ6koI1srV0VVuCK8708xYi
+	JliDazJjoyO6tyLhbuwW2fCs7YO/9cBZaaKbkraRN3SMiebslX78owsfSz/rcGpE
+	4oUUgHcP61VyMt7Sr+7Na6Gtzt2/5YxmynYsG8cZWAbIWm13GkNcu5QTfyb1nhJH
+	ovsSv1YsA8tzbvFHlKhZnYdrQuWYPX8OHeNUfg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782491191; x=
+	1782498391; bh=zo1vKmi6nDEQFw10MzbUtqBMgAqbeul2j6P3vSvt178=; b=d
+	RYp2EhiXV6GsJrVk1oSNWuBObCMSYuI6jdEsE0jW+k6solP1QmAKUGSO4hMrU+Ig
+	kBJXiMo6ecgXTDa2oQb0ck7puBap8f4nAshtLteQDCq5GnToY6DwWqvwstgi9Psp
+	Lxfd67txHAJ7I0iYze3F3q1g8Xha9dzkHy2Bt9pp2gjq06HhXrfGau7nkblXe1m8
+	lax94wM9GhDnH0WZK0PmTTsmJW7U1RTsfv/hJe0oyOgpqohKQmYrByJa6bzbjXGh
+	vre79tsw5dXQWXhlQVKfa78bnT9XTMMFvCV1hm7Pjt2fXQFuec65oAwW+t1au/0F
+	ksRBEGo/z9mhjwBh8RSDg==
+X-ME-Sender: <xms:Nag-auWLtcHt889oRmjF6T0gdOKSR2Ux2gwekvx9hJf8goqgFzeHZw>
+    <xme:Nag-alYip_4aAgrSnK6xbQSQSZjOhc-92PCq5HlaNxRW8KXf39qO9odKYBWcXnJht
+    EW6eDC240djqRV2M9HE-tOh3zKFIdh5B4JbMvnOjcvZBuM1YYF4Xw>
+X-ME-Proxy-Cause: dmFkZTFgiFjdRsukHEqzjO2JlLF7qtQ8Ajnv4KbpUVK5BbcUW0/0LZ3HdLzuqk6crIinlh
+    AT292UJL2AHJNFqudBA5tfxvDt8hYr7Pdk4v+1HQ4wDmBditK366BV6RX9xHSDn80klhcA
+    d/vBx2JAgw9T6A8zOCaf6hAUcvgu+oKBKIXdZtdeYeTcpeq9azqtWPuyLZccbY0lvTBD/M
+    GAjnp4AJZR97bP7ThB/C4qvdSCeWKlTgEBzROUQtIgrMMB58RTEvrcvNORUWnWIkl0ZBg/
+    Ont/O9F3HXeMnaYCvOtEysBRg5fpV3zKl5dqOExuwEjnAL1ss0NO2OstgPGN0e7O+pvzcU
+    Mf7k7w2q8iqj3hDGPHirXoPB+oL9jzueRN2HJAkmyFfqYApCHRQTBdj66ufCko0o05sdqA
+    s3Hw54rZHUpSr0yvj4dHK0KbY8HUEXntKsyhG2nWa96gZpMWQirZSLzhHQD/V/+/dJLbKQ
+    8SrgF383091dRJiIIZ061ttxGeRjqMl31lAO+zb2f0epruqcpwsvKjJ2ayBCaCWO1+xUTQ
+    CnGBtEbfQwHqL/+FpOYhlGOm7OOCStq5irIwAPMHj+WsfX0qIXEwtZfHc0d8TETmTVrhzX
+    Zp8WdrXxKjG2CNHFpH/klWZpMczA8gYkg91B3O8TA7TNvVnbV23t+TjN1iww
+X-ME-Proxy: <xmx:Nag-ask1XphmWFQQNKq8v7Fq8pQRsEsRBwdUXQMUX-EVamT2DDV7Iw>
+    <xmx:Nag-apDT832kxHmlJjNL6sl4q37nvlQWiRULoK-DA1e4dcjFfDGvbA>
+    <xmx:Nag-avLsW5GcdZwYn_d-y8EvNfvw5esU3-vroppDogeMrGWKewTQBQ>
+    <xmx:Nag-akxW5tuizNbDxm51vDsMBMAJH9eQrB5T0zo5xMAk-onLEXD1VQ>
+    <xmx:N6g-amMIh2rml7_nZOvyXzk16RhXb0pM48ntbw0pojR4GlFdtIUpjoRO>
+Feedback-ID: ieb4144f1:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 952122CC0083; Fri, 26 Jun 2026 12:26:29 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm: do file ownership checks with the proper mount idmap
-To: Pedro Falcato <pfalcato@suse.de>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>
-Cc: Jan Kara <jack@suse.cz>, Vlastimil Babka <vbabka@kernel.org>,
- Jann Horn <jannh@google.com>, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260625153853.913949-1-pfalcato@suse.de>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260625153853.913949-1-pfalcato@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-ThreadId: AG8qDlxFSDr7
+Date: Fri, 26 Jun 2026 12:26:09 -0400
+From: "John Ericson" <mail@johnericson.me>
+To: "Al Viro" <viro@zeniv.linux.org.uk>
+Cc: "Andy Lutomirski" <luto@kernel.org>, "Li Chen" <me@linux.beauty>,
+ "Cong Wang" <cwang@multikernel.io>, "Christian Brauner" <brauner@kernel.org>,
+ linux-arch <linux-arch@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-api <linux-api@vger.kernel.org>, "Arnd Bergmann" <arnd@arndb.de>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Kees Cook" <kees@kernel.org>, "Sergei Zimmerman" <sergei@zimmerman.foo>,
+ "Farid Zakaria" <farid.m.zakaria@gmail.com>
+Message-Id: <ba6be060-2dd8-4cda-ac73-4b154f968692@app.fastmail.com>
+In-Reply-To: <20260626001538.GO2636677@ZenIV>
+References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
+ <CALCETrWhXNetw-BsAaoyT31suMmjYLdMh9MAuLB2Lvk2ac-31g@mail.gmail.com>
+ <CALCETrU3bgUxp0k1y-U-uL0-fW2016Gmsyu9O_=830czEUGMcQ@mail.gmail.com>
+ <103524f8-1658-41df-88e9-cf49c628a721@app.fastmail.com>
+ <20260625011023.GM2636677@ZenIV>
+ <a75a9b82-a15b-4893-8f92-62b62664ea83@app.fastmail.com>
+ <20260626001538.GO2636677@ZenIV>
+Subject: Re: [RFC] Null Namespaces
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 6/25/26 17:38, Pedro Falcato wrote:
-> Ever since idmapped mounts were introduced, inode ownership checks
-> (for side-channel protection) in mincore() and madvise(MADV_PAGEOUT) were
-> done against the nop_mnt_idmap, which completely ignores the file's mount's
-> idmap. This results in odd edgecases like:
-> 
-> 1) mount/bind-mount with an idmap userA:userB:1
-> 2) userB runs an owner_or_capable() check on file that is owned by userA
-> on-disk/in-memory, but owned by userB after idmap translation
-> 3) owner_or_capable() mysteriously fails as the correct idmap wasn't supplied
-> 
-> In the case of mincore/madvise MADV_PAGEOUT, this is usually benign, because
-> file_permission(file, MAY_WRITE) will probably succeed, as it uses the proper
-> idmap internally, but it does not need to be the case on e.g a 0444 file
-> where even the owner itself doesn't have permissions to write to it.
-> 
-> Since this is clearly not trivial to get right, introduce a
-> file_owner_or_capable() that can carry the correct semantics, and switch
-> the various users in mm to it.
-> 
-> The issue was found by manual code inspection & an off-list discussion with
-> Jan Kara.
-> 
-> Fixes: 9caccd41541a ("fs: introduce MOUNT_ATTR_IDMAP")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Pedro Falcato <pfalcato@suse.de>
+On Thu, Jun 25, 2026, at 8:15 PM, Al Viro wrote:
+> On Wed, Jun 24, 2026 at 11:41:07PM -0400, John Ericson wrote:
+>
+> > But I don't want that global state.
+>
+> Don't use it, then... out of curiosity, does that extend to stdout et.=
+al.?
 
-MM side LGTM
+Good question; it turns out I like the standard streams much better!
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+First of all, the standard streams are just an idiom --- there is
+nothing actually special about file descriptors 0, 1, and 2. That's a
+clean design --- the kernel doesn't need to know about userspace idioms.
 
--- 
-Cheers,
+Second of all, if you don't want any of those, you can just close 'em!
+You can't do that with the cwd, however. It's stuck open.
 
-David
+Ideally `*at` would have been with us from the beginning, and, say, file
+descriptor 3 would have been the "current working directory" merely by
+convention.
+
+> Would that kind of thing added kernel-side assist the development of s=
+uch
+> library?  Maybe, but I wouldn't bet too much on that - if you start fr=
+om
+> scratch, you can trivially verify that you don't even attempt given
+> set of syscalls and if you use libc as a starting point, you get to
+> debug all the failure exits you've added...
+
+First of all, I am trying to change what processes are allowed to do,
+and this includes programs I did not write. A libc-based solution is the
+program cooperating with its own sandboxing; this is not a solution for
+running arbitrary programs which may not be trusted in a restricted
+manner.
+
+Second of all, this would be very laborious in practice, because we're
+talking not about what syscalls the program uses, but about what data is
+passed in those syscalls. Any program that consumes arbitrary user input
+(like shell utilities) might receive an absolute or relative path, and
+so it would have to manually check for that, lest the user input "trick"
+the program into using the root dir and cwd it is trying to ignore.
+
+Making a tiny few edits in the kernel path resolution logic to allow for
+these null fields is much more practical than defending a much broader
+perimeter in userspace.
+
+> > The programmer (or coding agent) is
+> > encouraged to do everything with file descriptors rather than path
+> > concatenations etc., because they need to use `*at` anyways, and then
+> > voil=C3=A0, without browbeating anyone in security seminars or code =
+review, a
+> > bunch of TOCTOU issues disappear simply because doing the right thin=
+g is
+> > now the path of least resistance.
+>
+> I'm sorry, but the path of least resistance is picking a snippet from =
+google
+> that will implement open(), etc., on top of your setup and using it.
+> _Especially_ if coding agents are going to be involved, precisely beca=
+use
+> they'll do a convincing simulation of human duhveloper's behaviour, i.=
+e.
+> "cut'n'paste it from the net".
+
+We agree! But this is precisely why it is important to make these things
+fail. Mindless Stack Overflow cut'n'pasters (human or agent) still run
+their program to make sure it works. Making the thing you don't want
+them to do *actually fail* creates sufficiently strong and incremental
+feedback that they will end up doing the right thing.
+
+> > The current working directory, roughly, is *just* some global state
+> > holding a directory file descriptor.
+>
+> So's the descriptor table; what's the difference?
+
+Now that I've responded to everything else, I can answer this in
+summary:
+
+- File descriptors can be closed; cwd and root cannot be.
+
+- File descriptors need to be explicitly used in syscalls. The cwd and
+  root are implicitly used (in too many different syscalls to make
+  syscall-level auditing practical) based on the sort of path string
+  argument to the syscall, without the program's explicit consent.
+
+John
