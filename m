@@ -1,186 +1,111 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978BE3EB119
-	for <linux-fsdevel@vger.kernel.org>; Fri, 26 Jun 2026 12:40:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782477602; cv=pass; b=PWUtHDOvxPt4p0W76JRzLXgYBQsYh9XTPdxMGH7/HJgcw7NUYodTc+sq4YGhAcpGFp5SypTQ/RRlCOd9mscdP3ZnhR4GBk/0Ij6pfTlISvs0Vr9e5j1mflaDbjnpdoRWUUnThxrkKZtnTF/Vr1rD/KryYz5BUDMc6zs0r2UpTMI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782477602; c=relaxed/simple;
-	bh=WFzHWsxxps29eFxk98eNsgT5ZujxfpUziVilaS7bN2Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uosxN1zEh4SjMFT74PvFREpfUNe/xicipdEJc7QQHDlwNKU3rF+UgsBVyE5GZ4SpbqN50wpb2f+CrExbRGBK0HkOgYujy1+kJkw4JudIi6IFTgznDslM3PM/oyDkcNs9F2yrqGZvwzy95ji29ax8YAMUtKA44hZaz/8g/TXJ6uw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SXutTs9/; arc=pass smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FB6283FE5
+	for <linux-fsdevel@vger.kernel.org>; Fri, 26 Jun 2026 13:11:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782479490; cv=none; b=u0ZY/6ify+Z7lVvK2qD++Jq4ghtU2meDRIlkJ/EeEq75mGt6F2C1wjYcQ/GCDUegeEIts+6+pgY3ZD7LvAjDCmCGexyDLFTeW23WtpCYGMwIWmESCSC5R1rSGiHDLLQxsXj1uPkulv983j40tbKiLoUXPGrwxJuogJAgT0KctrE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782479490; c=relaxed/simple;
+	bh=lJ+OBwpSmNxu05yOr9PmGJPJWDTMt0GEFw3mqTdUhs8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gXYzCCwh292lsCG9mRZp+3UFf+p+km/y0Ks9fSWb7JCc4c+5Z23O/xClWccXp2QNjeaUBxphFsAphGkRKCOAJ54Br1sYK4xICfA2Jw8pEZ2UXUKX7WWRM6mqKB/0/SeDwTOLXM7ajMB0bVWogJMuBPylIpuQTRSB2dWHaa5yJQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Km482adA; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SXutTs9/"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-69565156c06so11272a12.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 26 Jun 2026 05:40:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782477599; cv=none;
-        d=google.com; s=arc-20260327;
-        b=OxH/sRtfGYJLTtxLc9g9tn9U1ctJP2Uwii0hYPaAENm2qTs/ECIHybNWYMXzS3ofpb
-         JrYmmE1TX04SVMda4aQuoOW98HkUEed4f5ItfTKdZz0JHkv7aKmip12NhRor6cJromDt
-         5POcabyPwW+kMiO4gH9I0Ljy6CRQy3UwEcQgDo+rmLnRJM2C/py5ni6M07jfbP/ZNb5N
-         wNwJ+CWTWVcSXkjv+neMxEW3hCDN47aj2riz4qYNS4HXL5v6JzuygHBvI3/fGq1BQiKL
-         3Co3GwFi8RPLA+l4x8JHtG5nf1OVjJHVhgKgATmcI1slo+s6EQvLLX4mxC2HmdlnB9qB
-         /raw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=9E/powVa2kz95H4iGUwNMkUp/TwMZFDOhnjzy0yvsRc=;
-        fh=v1rPw6WanuFQAqn5kTUtel9If5nvKxjKlIzNRE5CQSE=;
-        b=ZkHhcu7WsOSFT5+DkUg44MZGG6/oZzT1nZCVXesFA6XrlfHFEU/YBrBdjXmdkpy91o
-         g3hGB2hnQGO4SS590XuCJ4UYg0jGQXIYVaiZC6ngfpPqrF24RxTr0GgujmEgAT3jtNkg
-         Gcamo9LlwquyPPKe7yxkINlHPKTW2kbQ/LrA1S154PkBUvri/pwqobj6UnEwkdmMGOr2
-         MsvDRWDnKlCvVdcjVCqtLZpwIMZJHmKy/PXNOR9Pz61rIW8Uv4miv2n19y4hq6M/sVjK
-         Sh0gPvtd7T0myjjlBianADbxryjSGWPKeuoo7PLaxyRdh8PwvBD8eX1uFQJ2KehMBDCF
-         X8xQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Km482adA"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-845b88dc991so413194b3a.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 26 Jun 2026 06:11:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782477599; x=1783082399; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=9E/powVa2kz95H4iGUwNMkUp/TwMZFDOhnjzy0yvsRc=;
-        b=SXutTs9/AHROsLxmto9qHL8Mst2GZewYCuEmliEblTQ0TIRW5/ekBMPuG3koSdDeEs
-         AA8e83einkekx9noEwjVLhIp6T/9g+HodLitXdthevHDoYV5tvw9K+yclONQJNfTm8sg
-         Kc7e7Xy7LuTtrcRplmFbrQtWeL5CqJIHVArfEIqTwIKROzCb6i2We+S2x5nAYLgZB3dL
-         3+DaU9ocASXh2hZ733ZMSyi5FMlChftddRcbwpS5cqGXZEJ14fZqDHvZuIXaWhju18zx
-         HdSOlhIxXiV3qM3mL6AoKR17V2dWmcTqsQ/mxDVRNVMEMZed/tyIDRtN0bAOlQ9u0XZG
-         mcbw==
+        d=gmail.com; s=20251104; t=1782479489; x=1783084289; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KjcfW/YArfhSkjN/lzs+Iq6KU+eSjbr3oJOOoEG0Y+s=;
+        b=Km482adAphl9XixZybzVwwbi4VEZkJdHvv2vZPMZkp2UKL5JEbdig3py55DYJqwZt4
+         jMVO5wQME256Hu+sFs7Mrz7vETVV8ael9+yXvCugU4A6Bk6v9WCB/hRsdmo1EmYaDt8w
+         waBmGAMzRf3cSviRC5Y1z52Wlbpb2IvwxE1HWI20f+NInaSqXuHFrPNv4ILQ793UW86T
+         bQZ3dwa+uE1D8alaO269id6nCSe4VKkn2AiM3eaCYrND7lJfhAystACrLhgMHUyNAXZC
+         xaByC3e3QxugCK5wzLwgfriSh5mk7g9Mg84fZMdpd+mHJQybr3sJhmFwKB6cOMzpVqrp
+         QSiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782477599; x=1783082399;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9E/powVa2kz95H4iGUwNMkUp/TwMZFDOhnjzy0yvsRc=;
-        b=NHJbdkEhyEU7CzhFNISJTzFt++kLdv1dMJJMh/oXW7C8YKnKr+PlFg8/kGs2ITrXc6
-         LuVCC36lb1jI73vwN5n4DUX0fq4LtQ/huwZKuNX6CWNYG6dSLbALtqp7Wa+jJjRdT3/m
-         E/PELYN5dfxzbdYMkGLcEjNXuaFTpGDsP4XONNgxiV5049bbZJ45e5c5HEEEk/grB3VX
-         RmH7U9m710yuEs1hE5Mjq48bGbFuvPqRM1w7UZtaySSv7VyTb5NXubLbMTT8tOA16bwX
-         2ayGz4mVCgM4j60871JuaPH9YQ//bFrpWu+KG1sbGxdsABStyoMgHjNSuC25wrutlvdW
-         wm5w==
-X-Forwarded-Encrypted: i=1; AHgh+Rq74/ayqF3gnR+OYk+beYkEbb39cDRpwxmYpCaQIX2qlQ5ghaRnXfDqZiae4eL1HhWWj/spTYqOqrGWZARo@vger.kernel.org
-X-Gm-Message-State: AOJu0YypXjf2bXgtR9EWIVqZ2Vd7PUI0Cy842mn7QVa9x/t8P5fKugEL
-	D3p7AwmSqhL49vdv+B9hqJSaRygHw8C0s/TqMLjrZK5wsmtlg5vBONONZZzYC0FpGpowRX2Cxh+
-	aAuCXdnSDTlF31fhpPbzK4fm4UraaBk5JsBy7YyTb
-X-Gm-Gg: AfdE7cnpa+8SASfykQGQrb0/dsZd4/1+b4hvORkMzRmTjvlEfP+29EkwQmWnIfy/4Fb
-	9FNaDbRxHowa+f6+JIFU8mY6tBXy7c+sRTyrvYMeSZ/qo3lqamA2u8CF9GUUcr0cZa0BAa20lNg
-	HP01wSagH/PEQoEFrEVrA8tjoehxU6gPVo+0cxlTVU6UZE1VaxzC1J1e2xg23EQIhjLL4Nir7ar
-	qvx4yC+g5A37BD60+xZURIazxhOJEhaIWALSH6E9RBy4w8uZ32rmNYWfzD1g9zsHZ3/qOo6fxbO
-	RkIPlxrVL3ZJPiwbM0I3/I0I6Sfuxya57F++Rt+bGkZxC2SfjKUNOmnPulM=
-X-Received: by 2002:aa7:d3c1:0:b0:697:9254:a66b with SMTP id
- 4fb4d7f45d1cf-6983795482bmr2913a12.6.1782477598491; Fri, 26 Jun 2026 05:39:58
- -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782479489; x=1783084289;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=KjcfW/YArfhSkjN/lzs+Iq6KU+eSjbr3oJOOoEG0Y+s=;
+        b=lfynkmVJLZ48h9rFpxN5Ilg4u6MJQB+NNI6GkihH47MJCjWPOxBbqS4mFMRX56diaj
+         fQdQ7o9JqWEi3bjCH7uGkDshY4cihb9gIjDl18aCYIcUX0EOQbBdGo1E2lOzQDx5+Oha
+         sZgJ8QmQQVxV2bjGJXNAtcTe+yixWA9zxZgD8qzjfZV6/w+i1/wiDloOM228Fipa370Q
+         lzU+dC9B14/nEIe2CV3RTSByXz5hJ9QvRur4JtYwysJA4EAuGwms+j73Bn71GrE6VYK5
+         AndbXScSDHR7qvhIB5PkE59duwFBvsrvRVH0RK/nu5I6hE2+CDbsGpcbEYWl9Fgvgp1u
+         amYg==
+X-Forwarded-Encrypted: i=1; AFNElJ9jaYvbeyM2I6f/d/Svgb3z5opbEROeSKDAcxzcYrV4jxNeu7VzeEKEv/iFy1pt1yAFihluzZ2/absSxa9a@vger.kernel.org
+X-Gm-Message-State: AOJu0YwxNBz9w7FjpHq6aLpS3VWKMOxGkNJ/TKqtQkN84NzSNa0k8Djh
+	4MpPZLNhDJ06nOghFM0rGs7Iht56feJu62ujabih6BNnwSA7B2NBrYZw
+X-Gm-Gg: AfdE7cn9uFTMVYmR64sEmALTID4k9ihvXNHYb5ysjXlrLDPdhB8oahbwUF+33oRU7YK
+	ca6udX6Fy8Ks0u3K1l1FhsxekQDXIw7CHblzVNyn+b++eWj3jf4Pfgzaup/6uETAqKywXG5jkHM
+	WQDJHGiHQdnTimusyZDCKWoQ5Ub81iecZFid3XYANoni2sdnotFHLpbZzsQ8GmbuqnumNkBfuBp
+	Ia+0ARARXMp41Pi6X7p5F5ugBQvPCBCAISWAn1Ld1aYZPc7OwKzrwfKWeCKf+O0gDiaeBSkkzUO
+	9IYRzUv1PFDfirUL3bTg576UdIj2p7VOWloGgzWrXGHFx5MPml5FSRofnxSBD2vx+kEx6kjQKj4
+	EN7eY6ToC5unzE53xpbQY3V2x1076VT3xs5+yxh9XnGXSUOCHDs7dsXMF3MD+6fzcXvv/QCNn9G
+	DOnEVJJ/YDkWfUtzQjoqqmleJAkI9KCFGwPu8IjnRUF2cZNSM6kUIHCna7zKg4GG1Ud9n+dBnD
+X-Received: by 2002:a05:6a00:22d4:b0:845:4679:4a3 with SMTP id d2e1a72fcca58-845b3aed31emr7700824b3a.19.1782479488475;
+        Fri, 26 Jun 2026 06:11:28 -0700 (PDT)
+Received: from localhost.localdomain (211-20-143-81.hinet-ip.hinet.net. [211.20.143.81])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-845a40d234esm7104461b3a.29.2026.06.26.06.11.26
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Fri, 26 Jun 2026 06:11:28 -0700 (PDT)
+From: hewei-gikaku <skyexpoc@gmail.com>
+To: Weiming Shi <bestswngs@gmail.com>
+Cc: Xiang Mei <xmei5@asu.edu>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fs/ntfs3: fix out-of-bounds write in ni_create_attr_list()
+Date: Fri, 26 Jun 2026 22:11:22 +0900
+Message-ID: <20260626131122.1341-1-skyexpoc@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260624053008.4885-2-xmei5@asu.edu>
+References: <20260624053008.4885-2-xmei5@asu.edu>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260622043934.179879-1-farid.m.zakaria@gmail.com>
- <sfv7zc6jboy2oxv7zuyofysas4ncbzenwsuzveiyduisfr6i7q@mx23er7uxdbg>
- <CACCo2jkDuwy5w_yhX8833m+s-rY736pk8xtKjxg3_y_7BCOHeg@mail.gmail.com>
- <24420045-a6eb-4999-ab19-1e344eaba8a4@app.fastmail.com> <20260625-atomkraftgegner-hunger-kursbuch-b452ff2becab@brauner>
-In-Reply-To: <20260625-atomkraftgegner-hunger-kursbuch-b452ff2becab@brauner>
-From: Jann Horn <jannh@google.com>
-Date: Fri, 26 Jun 2026 14:39:22 +0200
-X-Gm-Features: AVVi8Cfh5sgf8WRo60ET7C02KjqU2lxAfQoevMPof67z3PBX1H-BhFeEjrTW-GA
-Message-ID: <CAG48ez2X1p5Nm2_sU=SK9wUusUO8c3_T-=FGrrOhkm7Kn9Y_7g@mail.gmail.com>
-Subject: Re: [PATCH 0/2] fs: support $ORIGIN in ELF interpreter paths
-To: Christian Brauner <brauner@kernel.org>
-Cc: John Ericson <mail@johnericson.me>, Farid Zakaria <farid.m.zakaria@gmail.com>, 
-	Jan Kara <jack@suse.cz>, Kees Cook <kees@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	shuah@kernel.org, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	linux-mm <linux-mm@kvack.org>, linux-kselftest <linux-kselftest@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 25, 2026 at 10:50=E2=80=AFAM Christian Brauner <brauner@kernel.=
-org> wrote:
-> The arguments I have heard from various people so far are:
->
-> (1) Userspace would be able to clone a random chroot to /woot and run a
->     binary from it without having to set up a complicated sandbox
->     effectively making dynamically linked binaries more like static
->     binaries in a sense.
->
-> (2) Quote:
->     "If you debootstrap/dnf a chroot to some location in your
->     home dir and try to run a binary from it, that it tries to load the
->     libraries from your /usr is a pretty unintuitive and not at all
->     useful behavior."
->
-> (3) Quote:
->     "[Various remote execution things run in locked down containers that
->     disable userns, which makes the sandbox impossible and hence our
->     builds wouldn't work there."
+Hi Weiming, Xiang,
 
-FWIW I think someone also mentioned to me that it would make things
-easier for them if they could build a piece of software in one
-environment and then bundle it up with all required libraries and such
-and run it in a very different environment, without
-container/sandboxing stuff and without static linking. But I guess
-that's kinda niche.
+I posted a fix for this exact ni_create_attr_list() out-of-bounds write
+two weeks before this patch, to the same list and CC'ing the same
+maintainer:
 
-> I'm discounting "Oh, userspace already allows this so why not the
-> kernel.". I think that's generally a bad argument. Kernel and userspace
-> aren't really alike in that regard.
->
-> The userspace ORIGIN concept is guarded behind AT_SECURE. The kernel has
+  v1 (2026-06-10): https://lore.kernel.org/all/20260610002929.51765-1-skyexpoc@gmail.com/
+  v2 (2026-06-25): https://lore.kernel.org/all/20260625031932.9412-1-skyexpoc@gmail.com/
 
-(To be pedantic: The userspace $ORIGIN concept is only partially gated
-on AT_SECURE - glibc has an allowlist of acceptable library
-directories, listed in "/lib64/ld-linux-x86-64.so.2 --list-diagnostics
-| grep ^path.system_dirs". But clearly we wouldn't want to mirror that
-in the kernel.)
+Same root cause, same Fixes: tag.  The two patches differ in how they fix
+it, and the difference matters:
 
-> to enforce the same rule. That means the loader now depends on the type
-> of binary. I think this is a rather serious issue.
+  - This patch keeps the fixed al_aligned(record_size) buffer and returns
+    -EINVAL as soon as an entry would cross the buffer end.  Because each
+    ATTR_LIST_ENTRY (le_size(0) = 0x20) is larger than the minimum resident
+    attribute it represents (SIZEOF_RESIDENT = 0x18), the list can grow past
+    a single record_size for a sufficiently full base record, so this can
+    fail a normal setxattr/file operation with -EINVAL instead of handling
+    it.
 
-And annoyingly, the bprm->secureexec flag can change in
-security_bprm_creds_from_file(), which is currently reached from
-begin_new_exec(), which is called after we've already opened the
-interpreter, so accessing ->secureexec state during the interpreter
-lookup would require some refactoring. So I think this is a doable
-change, but would require more work.
+  - My v2 computes the exact list size from the attributes first and
+    allocates accordingly, closing the overflow without introducing that
+    regression.
 
-Or we could take the easy way out and say "the kernel always rejects
-this unless LSM_UNSAFE_NO_NEW_PRIVS is set", which would make it clear
-that this can't lead to privilege escalation and would serve as an
-incentive for people to stop doing stuff that relies on setuid
-binaries or privileged apparmor/selinux transitions. :P
+Given the earlier posting and that v2 fixes the bug without rejecting
+otherwise-valid records, I'd suggest taking v2.  I'm happy to rebase it or
+adjust to whatever Konstantin prefers.
 
-> First, it creates confusion in userspace what loader is used. Second, it
-> means anything that any build/chroot that uses AT_SECURE binaries now
-> has to use the sandboxing solution anyway or risk that some binaries use
-> the system loader and others the chroot loader.
-
-I think we would probably just fail the execve() attempt if we see
-$ORIGIN in the interpreter in an AT_SECURE execution? Since the
-interpreter field does not allow listing multiple alternatives.
-
-> Ignoring AT_SECURE, LSMs likely will need a say in whether that ORIGIN
-> thing gets honored or not introducing yet another vector where this can
-> be overriden or ignored.
->
-> Also, we change long-standing kernel behavior which will be very
-> surprising for any userspace that might implicitly rely on the fact that
-> the system loader is used. So even if we were to do something like this
-> it would very likely have to be configurable in some way.
-
-I think the proposed patch will only change behavior if the
-interpreter path starts with "$ORIGIN"? That wouldn't work on existing
-kernels unless you have a directory literally named "$ORIGIN" in the
-cwd, because "$ORIGIN/..." would be interpreted as a normal relative
-path.
-
-> This makes this all ripe for malicious loader injection attacks. And we
-> need to consider this possibility.
->
-> So I'm not enthusiastic about this. I want this to be consistent.
+Thanks,
+HE WEI
