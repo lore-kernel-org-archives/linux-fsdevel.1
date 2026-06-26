@@ -1,130 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA1D3F4DC2;
-	Fri, 26 Jun 2026 11:56:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782474987; cv=none; b=a5vfyZT0se/LlXjagT6jqDE7g0OqYw6aej7LbeoDHTaxY04xSJL9rKjrpfh0mkTQA2FKqy9c8HeaZMfANaX+UXsQd2Yv/OD3NAg7zfU0ZnPnH5nAt9/WvZhQqzBUckWJ//xxZhutHogziR1YthTuxrxyrGVCNbtkOOpGPv2y2qc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782474987; c=relaxed/simple;
-	bh=L57zDm7ALp0lZWMW+Cln/Gg2DuJozYQVYKA2SZ2s83c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rb2rK14iGiEfHVb6aQHhaUfB+5f0kxtYwWLZVFIVIt4Heauqqw9let9rB0pITjPcL1CFTxQTA/l+EGE1Av8+MVTcnOybrAxvzaenx9SFB7LR4S3MEx9lT0uFaDqEacS2VuP6bsY6CVmc5Scfb9JNF2Wl0SXdAjCbnyYoW0tqGvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HkuZ7XBk; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978BE3EB119
+	for <linux-fsdevel@vger.kernel.org>; Fri, 26 Jun 2026 12:40:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782477602; cv=pass; b=PWUtHDOvxPt4p0W76JRzLXgYBQsYh9XTPdxMGH7/HJgcw7NUYodTc+sq4YGhAcpGFp5SypTQ/RRlCOd9mscdP3ZnhR4GBk/0Ij6pfTlISvs0Vr9e5j1mflaDbjnpdoRWUUnThxrkKZtnTF/Vr1rD/KryYz5BUDMc6zs0r2UpTMI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782477602; c=relaxed/simple;
+	bh=WFzHWsxxps29eFxk98eNsgT5ZujxfpUziVilaS7bN2Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uosxN1zEh4SjMFT74PvFREpfUNe/xicipdEJc7QQHDlwNKU3rF+UgsBVyE5GZ4SpbqN50wpb2f+CrExbRGBK0HkOgYujy1+kJkw4JudIi6IFTgznDslM3PM/oyDkcNs9F2yrqGZvwzy95ji29ax8YAMUtKA44hZaz/8g/TXJ6uw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SXutTs9/; arc=pass smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HkuZ7XBk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32BDD1F000E9;
-	Fri, 26 Jun 2026 11:56:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782474984;
-	bh=9MHwt/piGbHaBX1U0Ciw0A9tLdy3GnbZtG5V2/pNbH0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=HkuZ7XBkNBbPpmNh0jHv41Wuw70A+GdUFYjWET1qmXcQIKjTVrIaymEhyhQxZiJDQ
-	 OYQaC+YTngeDtEXGcTZg2nrhdNP6R8cyrSArn0Vcg4mmq7Hto8gxALTcWSWfRU8kgb
-	 i1NX1hBZ94yWCUrkJOY2045ItoVFnZTRZkQr1dHUJS9nY+rKTbTq6HIwWBAr/01JNd
-	 oDiP18WI45XFmDdzBNkxdUAOofCB8I9OwzTdx5AOBXno0NZp0mktQRseoVeUXD9ds/
-	 Ea6yM6KoBk2H/UJkJmv+1gH1PriKePYHNbY2wWHbjbguzGKMCCtNXrSSLLiaCwHwV6
-	 ioGjyljtNEVjg==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-Date: Fri, 26 Jun 2026 13:53:58 +0200
-Subject: [PATCH v19 1/8] rust: alloc: add `KBox::into_non_null`
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SXutTs9/"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-69565156c06so11272a12.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 26 Jun 2026 05:40:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782477599; cv=none;
+        d=google.com; s=arc-20260327;
+        b=OxH/sRtfGYJLTtxLc9g9tn9U1ctJP2Uwii0hYPaAENm2qTs/ECIHybNWYMXzS3ofpb
+         JrYmmE1TX04SVMda4aQuoOW98HkUEed4f5ItfTKdZz0JHkv7aKmip12NhRor6cJromDt
+         5POcabyPwW+kMiO4gH9I0Ljy6CRQy3UwEcQgDo+rmLnRJM2C/py5ni6M07jfbP/ZNb5N
+         wNwJ+CWTWVcSXkjv+neMxEW3hCDN47aj2riz4qYNS4HXL5v6JzuygHBvI3/fGq1BQiKL
+         3Co3GwFi8RPLA+l4x8JHtG5nf1OVjJHVhgKgATmcI1slo+s6EQvLLX4mxC2HmdlnB9qB
+         /raw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9E/powVa2kz95H4iGUwNMkUp/TwMZFDOhnjzy0yvsRc=;
+        fh=v1rPw6WanuFQAqn5kTUtel9If5nvKxjKlIzNRE5CQSE=;
+        b=ZkHhcu7WsOSFT5+DkUg44MZGG6/oZzT1nZCVXesFA6XrlfHFEU/YBrBdjXmdkpy91o
+         g3hGB2hnQGO4SS590XuCJ4UYg0jGQXIYVaiZC6ngfpPqrF24RxTr0GgujmEgAT3jtNkg
+         Gcamo9LlwquyPPKe7yxkINlHPKTW2kbQ/LrA1S154PkBUvri/pwqobj6UnEwkdmMGOr2
+         MsvDRWDnKlCvVdcjVCqtLZpwIMZJHmKy/PXNOR9Pz61rIW8Uv4miv2n19y4hq6M/sVjK
+         Sh0gPvtd7T0myjjlBianADbxryjSGWPKeuoo7PLaxyRdh8PwvBD8eX1uFQJ2KehMBDCF
+         X8xQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782477599; x=1783082399; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9E/powVa2kz95H4iGUwNMkUp/TwMZFDOhnjzy0yvsRc=;
+        b=SXutTs9/AHROsLxmto9qHL8Mst2GZewYCuEmliEblTQ0TIRW5/ekBMPuG3koSdDeEs
+         AA8e83einkekx9noEwjVLhIp6T/9g+HodLitXdthevHDoYV5tvw9K+yclONQJNfTm8sg
+         Kc7e7Xy7LuTtrcRplmFbrQtWeL5CqJIHVArfEIqTwIKROzCb6i2We+S2x5nAYLgZB3dL
+         3+DaU9ocASXh2hZ733ZMSyi5FMlChftddRcbwpS5cqGXZEJ14fZqDHvZuIXaWhju18zx
+         HdSOlhIxXiV3qM3mL6AoKR17V2dWmcTqsQ/mxDVRNVMEMZed/tyIDRtN0bAOlQ9u0XZG
+         mcbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782477599; x=1783082399;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9E/powVa2kz95H4iGUwNMkUp/TwMZFDOhnjzy0yvsRc=;
+        b=NHJbdkEhyEU7CzhFNISJTzFt++kLdv1dMJJMh/oXW7C8YKnKr+PlFg8/kGs2ITrXc6
+         LuVCC36lb1jI73vwN5n4DUX0fq4LtQ/huwZKuNX6CWNYG6dSLbALtqp7Wa+jJjRdT3/m
+         E/PELYN5dfxzbdYMkGLcEjNXuaFTpGDsP4XONNgxiV5049bbZJ45e5c5HEEEk/grB3VX
+         RmH7U9m710yuEs1hE5Mjq48bGbFuvPqRM1w7UZtaySSv7VyTb5NXubLbMTT8tOA16bwX
+         2ayGz4mVCgM4j60871JuaPH9YQ//bFrpWu+KG1sbGxdsABStyoMgHjNSuC25wrutlvdW
+         wm5w==
+X-Forwarded-Encrypted: i=1; AHgh+Rq74/ayqF3gnR+OYk+beYkEbb39cDRpwxmYpCaQIX2qlQ5ghaRnXfDqZiae4eL1HhWWj/spTYqOqrGWZARo@vger.kernel.org
+X-Gm-Message-State: AOJu0YypXjf2bXgtR9EWIVqZ2Vd7PUI0Cy842mn7QVa9x/t8P5fKugEL
+	D3p7AwmSqhL49vdv+B9hqJSaRygHw8C0s/TqMLjrZK5wsmtlg5vBONONZZzYC0FpGpowRX2Cxh+
+	aAuCXdnSDTlF31fhpPbzK4fm4UraaBk5JsBy7YyTb
+X-Gm-Gg: AfdE7cnpa+8SASfykQGQrb0/dsZd4/1+b4hvORkMzRmTjvlEfP+29EkwQmWnIfy/4Fb
+	9FNaDbRxHowa+f6+JIFU8mY6tBXy7c+sRTyrvYMeSZ/qo3lqamA2u8CF9GUUcr0cZa0BAa20lNg
+	HP01wSagH/PEQoEFrEVrA8tjoehxU6gPVo+0cxlTVU6UZE1VaxzC1J1e2xg23EQIhjLL4Nir7ar
+	qvx4yC+g5A37BD60+xZURIazxhOJEhaIWALSH6E9RBy4w8uZ32rmNYWfzD1g9zsHZ3/qOo6fxbO
+	RkIPlxrVL3ZJPiwbM0I3/I0I6Sfuxya57F++Rt+bGkZxC2SfjKUNOmnPulM=
+X-Received: by 2002:aa7:d3c1:0:b0:697:9254:a66b with SMTP id
+ 4fb4d7f45d1cf-6983795482bmr2913a12.6.1782477598491; Fri, 26 Jun 2026 05:39:58
+ -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260626-unique-ref-v19-1-2607ca88dfdf@kernel.org>
-References: <20260626-unique-ref-v19-0-2607ca88dfdf@kernel.org>
-In-Reply-To: <20260626-unique-ref-v19-0-2607ca88dfdf@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
- Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Lyude Paul <lyude@redhat.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>, 
- Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
- Carlos Llamas <cmllamas@google.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
- Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
- Serge Hallyn <sergeh@kernel.org>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Jan Kara <jack@suse.cz>, Igor Korotin <igor.korotin@linux.dev>, 
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
- Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, 
- Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: Andreas Hindborg <a.hindborg@kernel.org>, 
- Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- driver-core@lists.linux.dev, linux-block@vger.kernel.org, 
- linux-security-module@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org, 
- linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1170; i=a.hindborg@kernel.org;
- h=from:subject:message-id; bh=L57zDm7ALp0lZWMW+Cln/Gg2DuJozYQVYKA2SZ2s83c=;
- b=owEBbQKS/ZANAwAKAfpQKQiqxb3QAcsmYgBqPmh0T9NXm2ekfnSlVS5q2a5Nkx3elel1Z+sUE
- lVzxvaywm6JAjMEAAEKAB0WIQRXitnI2WZ2JirAaob6UCkIqsW90AUCaj5odAAKCRD6UCkIqsW9
- 0GQwD/kBPhAfqhuRT/wPQuyxM0apWmNdKJ15rz0l+MH0DxUqynfkKds77p9Ba1hBaXZEiIgHmCH
- pDIBbcmrQR3ZzjLNEC27ic8X6+BdCVjQKsQBQWJ7NKui+imMc++MYWVIYyM0r0enlZe2kmN8hO5
- neGpUe0IvwQ3Lj6UWc6ACsUoOIJ/VSSl4SFZNnkH2SbWvbImu4RPT5mmyv3heMJ9g65NMAedvle
- tw99mHlW+RMWghmbVY1G0CFXcrMFX/ICi7lpll6iz01cgmdWZ00Zk2kIk1MDSePNSLkiHcviPYo
- eujIyeR9+opejbUdjMsWAJIqUz1K+CusSsy+pMB9t+0TM36BK03TehWUHzki1rXsWQby8KUOQx5
- JtTsLGUeCdq8jj5LJh7ikHfha1V5+4WAgb1NU6rWbu0HAaCDeoUfacnX5DMEVlA2YDZYl6lGSYy
- LTe2rZntwugKRllSVNPfbq+vpbu4eh/00OZ+rZuo6jg4qjxcaF8bpEujK1QOVaT6mqH0SIO6fL7
- dafroHQszbX998/omhRnZ/sCkPDELv4EwBaAlkTH7N3G0DsXiUEUx3nko9wa630BA3dS1kWBvKn
- cRx4J3Tc31/zybazPxJ7yei5pHjMTfOHDnSsGrWwiXODWfvRUZiqgEWUO3S3KJWIZpG2VabKArA
- vHegIagDX5flLQQ==
-X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
- fpr=3108C10F46872E248D1FB221376EB100563EF7A7
+References: <20260622043934.179879-1-farid.m.zakaria@gmail.com>
+ <sfv7zc6jboy2oxv7zuyofysas4ncbzenwsuzveiyduisfr6i7q@mx23er7uxdbg>
+ <CACCo2jkDuwy5w_yhX8833m+s-rY736pk8xtKjxg3_y_7BCOHeg@mail.gmail.com>
+ <24420045-a6eb-4999-ab19-1e344eaba8a4@app.fastmail.com> <20260625-atomkraftgegner-hunger-kursbuch-b452ff2becab@brauner>
+In-Reply-To: <20260625-atomkraftgegner-hunger-kursbuch-b452ff2becab@brauner>
+From: Jann Horn <jannh@google.com>
+Date: Fri, 26 Jun 2026 14:39:22 +0200
+X-Gm-Features: AVVi8Cfh5sgf8WRo60ET7C02KjqU2lxAfQoevMPof67z3PBX1H-BhFeEjrTW-GA
+Message-ID: <CAG48ez2X1p5Nm2_sU=SK9wUusUO8c3_T-=FGrrOhkm7Kn9Y_7g@mail.gmail.com>
+Subject: Re: [PATCH 0/2] fs: support $ORIGIN in ELF interpreter paths
+To: Christian Brauner <brauner@kernel.org>
+Cc: John Ericson <mail@johnericson.me>, Farid Zakaria <farid.m.zakaria@gmail.com>, 
+	Jan Kara <jack@suse.cz>, Kees Cook <kees@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+	shuah@kernel.org, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
+	linux-mm <linux-mm@kvack.org>, linux-kselftest <linux-kselftest@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a method to consume a `Box<T, A>` and return a `NonNull<T>`. This
-is a convenience wrapper around `Self::into_raw` for callers that need
-a `NonNull` pointer rather than a raw pointer.
+On Thu, Jun 25, 2026 at 10:50=E2=80=AFAM Christian Brauner <brauner@kernel.=
+org> wrote:
+> The arguments I have heard from various people so far are:
+>
+> (1) Userspace would be able to clone a random chroot to /woot and run a
+>     binary from it without having to set up a complicated sandbox
+>     effectively making dynamically linked binaries more like static
+>     binaries in a sense.
+>
+> (2) Quote:
+>     "If you debootstrap/dnf a chroot to some location in your
+>     home dir and try to run a binary from it, that it tries to load the
+>     libraries from your /usr is a pretty unintuitive and not at all
+>     useful behavior."
+>
+> (3) Quote:
+>     "[Various remote execution things run in locked down containers that
+>     disable userns, which makes the sandbox impossible and hence our
+>     builds wouldn't work there."
 
-Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-Reviewed-by: Gary Guo <gary@garyguo.net>
----
- rust/kernel/alloc/kbox.rs | 9 +++++++++
- 1 file changed, 9 insertions(+)
+FWIW I think someone also mentioned to me that it would make things
+easier for them if they could build a piece of software in one
+environment and then bundle it up with all required libraries and such
+and run it in a very different environment, without
+container/sandboxing stuff and without static linking. But I guess
+that's kinda niche.
 
-diff --git a/rust/kernel/alloc/kbox.rs b/rust/kernel/alloc/kbox.rs
-index 35d1e015848dd..d534e8adcf7b3 100644
---- a/rust/kernel/alloc/kbox.rs
-+++ b/rust/kernel/alloc/kbox.rs
-@@ -211,6 +211,15 @@ pub fn leak<'a>(b: Self) -> &'a mut T {
-         // which points to an initialized instance of `T`.
-         unsafe { &mut *Box::into_raw(b) }
-     }
-+
-+    /// Consumes the `Box<T,A>` and returns a `NonNull<T>`.
-+    ///
-+    /// Like [`Self::into_raw`], but returns a `NonNull`.
-+    #[inline]
-+    pub fn into_non_null(b: Self) -> NonNull<T> {
-+        // SAFETY: `KBox::into_raw` returns a valid pointer.
-+        unsafe { NonNull::new_unchecked(Self::into_raw(b)) }
-+    }
- }
- 
- impl<T, A> Box<MaybeUninit<T>, A>
+> I'm discounting "Oh, userspace already allows this so why not the
+> kernel.". I think that's generally a bad argument. Kernel and userspace
+> aren't really alike in that regard.
+>
+> The userspace ORIGIN concept is guarded behind AT_SECURE. The kernel has
 
--- 
-2.51.2
+(To be pedantic: The userspace $ORIGIN concept is only partially gated
+on AT_SECURE - glibc has an allowlist of acceptable library
+directories, listed in "/lib64/ld-linux-x86-64.so.2 --list-diagnostics
+| grep ^path.system_dirs". But clearly we wouldn't want to mirror that
+in the kernel.)
 
+> to enforce the same rule. That means the loader now depends on the type
+> of binary. I think this is a rather serious issue.
 
+And annoyingly, the bprm->secureexec flag can change in
+security_bprm_creds_from_file(), which is currently reached from
+begin_new_exec(), which is called after we've already opened the
+interpreter, so accessing ->secureexec state during the interpreter
+lookup would require some refactoring. So I think this is a doable
+change, but would require more work.
+
+Or we could take the easy way out and say "the kernel always rejects
+this unless LSM_UNSAFE_NO_NEW_PRIVS is set", which would make it clear
+that this can't lead to privilege escalation and would serve as an
+incentive for people to stop doing stuff that relies on setuid
+binaries or privileged apparmor/selinux transitions. :P
+
+> First, it creates confusion in userspace what loader is used. Second, it
+> means anything that any build/chroot that uses AT_SECURE binaries now
+> has to use the sandboxing solution anyway or risk that some binaries use
+> the system loader and others the chroot loader.
+
+I think we would probably just fail the execve() attempt if we see
+$ORIGIN in the interpreter in an AT_SECURE execution? Since the
+interpreter field does not allow listing multiple alternatives.
+
+> Ignoring AT_SECURE, LSMs likely will need a say in whether that ORIGIN
+> thing gets honored or not introducing yet another vector where this can
+> be overriden or ignored.
+>
+> Also, we change long-standing kernel behavior which will be very
+> surprising for any userspace that might implicitly rely on the fact that
+> the system loader is used. So even if we were to do something like this
+> it would very likely have to be configurable in some way.
+
+I think the proposed patch will only change behavior if the
+interpreter path starts with "$ORIGIN"? That wouldn't work on existing
+kernels unless you have a directory literally named "$ORIGIN" in the
+cwd, because "$ORIGIN/..." would be interpreted as a normal relative
+path.
+
+> This makes this all ripe for malicious loader injection attacks. And we
+> need to consider this possibility.
+>
+> So I'm not enthusiastic about this. I want this to be consistent.
