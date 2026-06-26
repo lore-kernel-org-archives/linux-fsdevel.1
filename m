@@ -1,315 +1,203 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-a8-smtp.messagingengine.com (flow-a8-smtp.messagingengine.com [103.168.172.143])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B971437F8DA
-	for <linux-fsdevel@vger.kernel.org>; Fri, 26 Jun 2026 17:23:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 878AE18C933;
+	Fri, 26 Jun 2026 17:30:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.143
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782494618; cv=none; b=uCV8QpuyuWDeyvtJi6Vf9ZMvJIMtxnrGcbAVWryvPs6gFSj/niNxlOZgoXaNJiWdKcjSv54svPwPa1bT73AylNTeStGUphgEi6QOsxfVvJmfv+zMZ0aavhIKcFVqYYJWkHj/1tWtC4W1MOedGkQ2u32W0DaI5y0Foz8DOGbb63U=
+	t=1782495022; cv=none; b=dxO66VFF+uQpIgQhb9OKvr9lAuc5dyH/N9ignKvXwOlfkp2sQBTsWoHR7nbLBlkdgdTi1ZwvwMKXDnv5kJQ7Sx6tHzRdJ11vKc6QCSvFbe9YUyLs9NDDd2XQseTUh1cdiVCwccODQy0cc9z9gZT0he91SskohDDnRkMUoyePUYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782494618; c=relaxed/simple;
-	bh=XBT9IkUwcz6HnOo25nh7QCJx/jMDplwidRI/hFYjKk4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ksX2ULjqDLfjbM1bqTBZrsqIfbBLvOMdYi1DKHaE8NImXRNHu4xGqzQCa5MlU4CAcjxj1yaNsTUK13WMuqdaJ3mRuEi6GU864krtYi5fQTdXtoV8XPKZiWzBSInksD+shD4N0DftMNPBx7M/z5Ysw1WPJAubSHn9Hug/uroaTbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Xim93x3n; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=rgtg6Mdy; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=UUmLvL3y; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=jAKetOZ7; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1782495022; c=relaxed/simple;
+	bh=fdzE8WKk9XytKfmKg8U5BbsfoByuUmF093+Yi2JrkXM=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=rA6CUjkE6YIltlwln86Titrj6ekyWVkYUHZlUmmK5hpn70N7mOvQnQWx5M1yxU5r3AYgEFZBEY72pTqvU1gyLQzRZak/zJ1LqhHn07SpB6BeRdaqBrvbv7rF5VIqHN7ui7SFp/RpW7Q6Iqh3ImQ3ly7h+TrUpAHXXS4BdwB+tn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=jGcgE5fm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PpcwJ/7k; arc=none smtp.client-ip=103.168.172.143
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=johnericson.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Xim93x3n";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="rgtg6Mdy";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="UUmLvL3y";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="jAKetOZ7"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E4478722C1;
-	Fri, 26 Jun 2026 17:23:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782494615; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kJZtYRwmfpffS3pqCD8JnQyCJ50o6n9FDKI9M+Kok0Q=;
-	b=Xim93x3n+AOTMLrw9v8WTSuWOQygfoiQFaWDwEKu8oUJYMiSUakvcs3L/aE45fjZLYosB+
-	9TLvzbnrhRpE5gUBiuQzAt9nUmoDp7GiHhdsh67wYOVwz8Y0FJnHQ6FxSXvK7NJEU2zDYx
-	vGXklFjux+zCFSqq4Eq2aMm0CW5aIb0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782494615;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kJZtYRwmfpffS3pqCD8JnQyCJ50o6n9FDKI9M+Kok0Q=;
-	b=rgtg6MdyrGpdwil+ya29pL0JprwElmOBXJpMxwq8IcMjRrEoDgSa0g7Y1PjxTz9P7A9ZAz
-	UpkGZw++9Hkh3JCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782494613; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kJZtYRwmfpffS3pqCD8JnQyCJ50o6n9FDKI9M+Kok0Q=;
-	b=UUmLvL3yfLSPJfMJ2gaiASdtygw1YJ8SiIy+y+TIka5J1H0xjIPJE1lOqGRckgYY3HkTIu
-	gl8vFolzch0Xc6j2v46NYhE+lONSjZp4tnOd0QBj5gMRig4e/cXbmtsGYirulJeQWVtK14
-	lJC6wRHncWWI/aAxpsYDxOmrdqyZL5Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782494613;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kJZtYRwmfpffS3pqCD8JnQyCJ50o6n9FDKI9M+Kok0Q=;
-	b=jAKetOZ7zq7KuqaU8Z5lChMsYuWoAw9Y4qpTzAWHBNOLlK3rWWdTwaA+St3ETspmwwTau0
-	j+wC3Rq3Lw8OjLBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CDC63779A8;
-	Fri, 26 Jun 2026 17:23:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id WrfPMZW1PmqmEAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 26 Jun 2026 17:23:33 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 6D086A10A3; Fri, 26 Jun 2026 19:23:29 +0200 (CEST)
-Date: Fri, 26 Jun 2026 19:23:29 +0200
-From: Jan Kara <jack@suse.cz>
-To: Yun Zhou <yun.zhou@windriver.com>
-Cc: tytso@mit.edu, adilger.kernel@dilger.ca, libaokun@linux.alibaba.com, 
-	jack@suse.cz, ojaswin@linux.ibm.com, ritesh.list@gmail.com, 
-	yi.zhang@huawei.com, viro@zeniv.linux.org.uk, brauner@kernel.org, 
-	linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v10 5/5] ext4: prevent deadlock from duplicate EA inode
- references on corrupted fs
-Message-ID: <ipqfj2abofanrrcapw2qp4wx6x6m647nqjrhqpuynpxxlh5ugr@utgka6gkeufw>
-References: <20260625152941.24788-1-yun.zhou@windriver.com>
- <20260625152941.24788-6-yun.zhou@windriver.com>
+	dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b="jGcgE5fm";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PpcwJ/7k"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.phl.internal (Postfix) with ESMTP id C0E82138021A;
+	Fri, 26 Jun 2026 13:26:28 -0400 (EDT)
+Received: from phl-imap-16 ([10.202.2.88])
+  by phl-compute-05.internal (MEProxy); Fri, 26 Jun 2026 13:26:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1782494788; x=1782501988; bh=F2RQwL0S2/VBTjE/xlZGTYwV5SDIqeUh
+	RspcCvNMHJo=; b=jGcgE5fm/SNJF+NeB2QfMDqHWD6tAYDnlE/VEuXh1ob8eNeY
+	JNkWsHzS9ZPuhFDPEgShLU8SipdrgmzRs19yY15NuyZKmcb9yjJTlCpTyjS64M/U
+	k0pzJ6iH7+ffQHJZRkBvxXl6jl+GDvwtwH3xjQbDnQQC+gq7q9+rOiOZX+S4YwDV
+	IIKw2auqdLH5DvpwIqJeEVbaxDMhdsaMcBpvWJPD0xN1rbhhnmQHebqS12iC016F
+	6beXHR/krbcxAdxe96mYsOoiID3b3iEsiwViM/k3ayNy1KXQQ5NF0gEG6PvKaZVh
+	FCFTmetM+6IV47YmpOgQX23B4zNDnUs5D/fkpg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782494788; x=
+	1782501988; bh=F2RQwL0S2/VBTjE/xlZGTYwV5SDIqeUhRspcCvNMHJo=; b=P
+	pcwJ/7kMW5Pmz6H1rv4LBMKXztsUU/tRc/Jg1x+NnJ9mo+6VruE9mwD8Z5EEI1p2
+	Zj8kBGHlkpLGlK6I6bWdloNvEGBnfp2A7tK9MmR/16iLd9LSHpnF2ZgIeBpMs2Hk
+	YO5mCstjyHy2EI1Ho+5uPWug9w+7jyHci+vQqlbwkPQPV8ISnzmasMuUZUTOE/mM
+	7KinOBesAHG5hhpb7mXNGGdO82JEOYKfquE+19nkS0jEt9GkyArH6eNSN5LCV8yQ
+	A5Q77Ydc79EkdjQyB4v45SlNbO6nHwJW0F9yvqrUPd8VNtKkGABRw3Psxn6mNMDE
+	m3XAt5vebvW0WPpgiyDyA==
+X-ME-Sender: <xms:Q7Y-apYyb5q46ROZzKr7butEZxfRNgMuEUP6qM8NDZeNazaiRl-96A>
+    <xme:Q7Y-arMhojrg0BMt98EgIcJChfM-ouZla5lrttcwd9pP37nFlkiMfDxxrnkkYq0gG
+    15z2e_32Oolrpf6Ie-imo4UIQjEyVA3Ah4lVXkASTQjRpA1z04jkxk>
+X-ME-Proxy-Cause: dmFkZTGXKVzao0YncuT4RAnLE/QsHNCC0UboLlIUDyeCJjeLHHZRHdxcvPsPzDS2xVKsHQ
+    GYl3fc96MpX6xhtF7obx24gHFAtP5WIh2T5EX2P0wKHxRH2Peq9vtBcWEP2W3DSbrHf+mv
+    UBfjgRve7aAMMxnL6Dn2f33M6yyqz5GX9xJJ+38zUfrrhx1hr7NaldLsT5Dul+CLLzh0/M
+    4jN2FGDqmMfKaOY+Ipd2MF/rBhzoB9D3psamhdsgVWS55EOUpExs5NIJLv4Uk4xttzOX+j
+    BZjDs/iO7ZP6xvPHDBmY6AD5I2ogEhDn+DATFHmBjnh0uiqaTvpLDaxQH/Jfb0QdMJFOPD
+    pa7EcU5vZMPzvlv2IxiPe75IUFFFg6JncZdTr6ButkcOMRUn/Rf4NnU7vtdk0kwlDe6IML
+    yt5W+9bnQGUkPM1j2KSYDWBMj2DDFLMtkqEdFxYc/qtc00gQaQkc+k3buyHFidz7pIRXZy
+    sVTK4H9k/2J54dRQzw+0IsAoQUL+RSViYHznZr2TZF/ggHGJ1m3GHLHs/cZcHe0EfH8YVX
+    OE7PeS2WPxGWkyys4xeyswuAXXEwlccBjWRuWAnP6u7wAM7lhVlvDIpegjFhYjdjrwV4db
+    Yp4Yhotp4G6nNM/fpP3pAslU2X5KJWi6cOe2MvzDzDlh1/0UDzucwao+J00g
+X-ME-Proxy: <xmx:Q7Y-alYdIPQ2AVA4Nmw8ijq_09lgV-FM8PNc7Og5_JqrQtVmJ8UIXw>
+    <xmx:Q7Y-ahS1oG3TaXU7YoV1SbwvUIam-X82itxpZMbZhbV66nWSX6bciQ>
+    <xmx:Q7Y-algiua63ltREhcMehgDbIh8rWCGTDQbmmxii20GZk8i7Ca2hRA>
+    <xmx:Q7Y-alt_cb_PDz8TwtXQ6jf0Ce09-yLqtURl2fnjtYWMjh5LbBwtKQ>
+    <xmx:RLY-atTr08hYhLgO9zJmj95aaRxyoL8orhMyAJ-wJ0G1UGvX-03p7O0l>
+Feedback-ID: ieb4144f1:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 987882CC0083; Fri, 26 Jun 2026 13:26:27 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260625152941.24788-6-yun.zhou@windriver.com>
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	TAGGED_RCPT(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[mit.edu,dilger.ca,linux.alibaba.com,suse.cz,linux.ibm.com,gmail.com,huawei.com,zeniv.linux.org.uk,kernel.org,vger.kernel.org];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[windriver.com:email,iloc.bh:url,suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Score: -2.30
+X-ThreadId: AG8qDlxFSDr7
+Date: Fri, 26 Jun 2026 13:23:50 -0400
+From: "John Ericson" <mail@johnericson.me>
+To: "David Laight" <david.laight.linux@gmail.com>,
+ "Andy Lutomirski" <luto@kernel.org>
+Cc: "H. Peter Anvin" <hpa@zytor.com>, "Al Viro" <viro@zeniv.linux.org.uk>,
+ "Li Chen" <me@linux.beauty>, "Cong Wang" <cwang@multikernel.io>,
+ "Christian Brauner" <brauner@kernel.org>,
+ linux-arch <linux-arch@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-api <linux-api@vger.kernel.org>, "Arnd Bergmann" <arnd@arndb.de>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>, "Jan Kara" <jack@suse.cz>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Kees Cook" <kees@kernel.org>, "Sergei Zimmerman" <sergei@zimmerman.foo>,
+ "Farid Zakaria" <farid.m.zakaria@gmail.com>
+Message-Id: <497dadf6-c7af-4052-8e2b-dacff204d90c@app.fastmail.com>
+In-Reply-To: <20260626092750.58a8de9c@pumpkin>
+References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
+ <20260624231219.GL2636677@ZenIV>
+ <29cd3188-2d7c-4470-a39a-6648638f795e@zytor.com>
+ <614b290f-e274-4eb2-b687-008b004de526@app.fastmail.com>
+ <CALCETrWxi1g1wy2Bi4y6URW728Cmo8D3tchdMqs4GZ7S476iJA@mail.gmail.com>
+ <20260626092750.58a8de9c@pumpkin>
+Subject: Re: [RFC] Null Namespaces
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu 25-06-26 23:29:41, Yun Zhou wrote:
-> On a corrupted filesystem, multiple xattr entries may reference the same
-> EA inode.  When ext4_xattr_inode_dec_ref_all() processes such entries, it
-> can dec_ref the EA inode (setting nlink=0) and queue it for deferred iput.
-> If the deferred worker runs before the loop processes the duplicate entry,
-> the second iget() may block on I_FREEING while the worker's eviction waits
-> for the caller's transaction to commit -- classic ABBA deadlock.
+I am replying to both Andy and David in a single email --- hope that is
+not confusing.
 
-Hum, this looks possible but it isn't a new thing this patch set
-introduces. Even before if you had corrupted filesystem,
-ext4_xattr_inode_array_free() from ext4_evict_inode() could deadlock in a
-similar way against say ext4_xattr_inode_dec_ref_all() (but practially
-anything calling ext4_xattr_inode_iget() while holding a transaction
-handle). So please leave this alone for now. We can look into that once
-other EA inode settle.
+On Thu, Jun 25, 2026, at 7:09 PM, Andy Lutomirski wrote:
+> On Thu, Jun 25, 2026 at 2:53=E2=80=AFPM John Ericson <mail@johnericson=
+.me> wrote:
+> >
+> > The argument against just having an empty, immutable root directory =
+and
+> > calling it a day is the tie-in with a new process-spawning API discu=
+ssed
+> > near the bottom of my original email. I want to have nice secure
+> > defaults, rather than forcing the programmer to remember to unshare,=
+ but
+> > I also don't want to degrade performance by speculatively creating n=
+ew
+> > empty mount namespaces that might just be thrown away. Null fields a=
+lone
+> > get us both --- security and good performance.
+>
+> This seems like a false dichotomy.  There's such thing as a singleton.
+>
+> In fact, we have this spiffy nullfs_fs_get_tree.  It seems relatively
+> straightforward to have an API to get an fd to the singleton nullfs,
+> and the default for a newly spawned process could even be to have cwd
+> pointing at nullfs.
 
-								Honza
+Ah! This is the first I am learning about the new nullfs. OK yes I agree
+this gives us both properties, since it is truly immutably empty.
 
-> 
-> Fix by tracking successfully processed EA inodes on a per-call llist
-> (reusing i_ea_iput_node) and skipping any ea_ino already in the list.
-> This covers both intra-block duplicates and cross ibody/block duplicates
-> in ext4_xattr_delete_inode().
-> 
-> The actual ext4_put_ea_inode() is deferred until after the processing
-> loop completes (ext4_put_ea_inode_llist), ensuring no EA inode is queued
-> for eviction while the loop is still iterating.
-> 
-> Signed-off-by: Yun Zhou <yun.zhou@windriver.com>
-> ---
->  fs/ext4/xattr.c | 68 ++++++++++++++++++++++++++++++++++++++++++++-----
->  1 file changed, 61 insertions(+), 7 deletions(-)
-> 
-> diff --git a/fs/ext4/xattr.c b/fs/ext4/xattr.c
-> index 7f334349bd4f..5c929043e44a 100644
-> --- a/fs/ext4/xattr.c
-> +++ b/fs/ext4/xattr.c
-> @@ -1152,11 +1152,41 @@ static int ext4_xattr_restart_fn(handle_t *handle, struct inode *inode,
->  	return 0;
->  }
->  
-> +/* Check if an EA inode number is already in the processed llist. */
-> +static bool ext4_ea_ino_in_llist(unsigned int ea_ino,
-> +				 struct llist_head *processed)
-> +{
-> +	struct ext4_inode_info *ei;
-> +
-> +	llist_for_each_entry(ei, processed->first, i_ea_iput_node) {
-> +		if (ei->vfs_inode.i_ino == ea_ino)
-> +			return true;
-> +	}
-> +	return false;
-> +}
-> +
-> +/* Put all EA inodes on a processed llist via ext4_put_ea_inode. */
-> +static void ext4_put_ea_inode_llist(struct super_block *sb,
-> +				    struct llist_head *processed)
-> +{
-> +	struct llist_node *node = llist_del_all(processed);
-> +	struct llist_node *next;
-> +
-> +	while (node) {
-> +		struct ext4_inode_info *ei = container_of(node,
-> +				struct ext4_inode_info, i_ea_iput_node);
-> +		next = node->next;
-> +		ext4_put_ea_inode(sb, &ei->vfs_inode);
-> +		node = next;
-> +	}
-> +}
-> +
->  static void
->  ext4_xattr_inode_dec_ref_all(handle_t *handle, struct inode *parent,
->  			     struct buffer_head *bh,
->  			     struct ext4_xattr_entry *first, bool block_csum,
-> -			     int extra_credits, bool skip_quota)
-> +			     int extra_credits, bool skip_quota,
-> +			     struct llist_head *processed)
->  {
->  	struct inode *ea_inode;
->  	struct ext4_xattr_entry *entry;
-> @@ -1186,6 +1216,11 @@ ext4_xattr_inode_dec_ref_all(handle_t *handle, struct inode *parent,
->  		if (!entry->e_value_inum)
->  			continue;
->  		ea_ino = le32_to_cpu(entry->e_value_inum);
-> +
-> +		/* Skip if already processed (duplicate on corrupted fs) */
-> +		if (ext4_ea_ino_in_llist(ea_ino, processed))
-> +			continue;
-> +
->  		err = ext4_xattr_inode_iget(parent, ea_ino,
->  					    le32_to_cpu(entry->e_hash),
->  					    &ea_inode);
-> @@ -1235,7 +1270,12 @@ ext4_xattr_inode_dec_ref_all(handle_t *handle, struct inode *parent,
->  		entry->e_value_inum = 0;
->  		entry->e_value_size = 0;
->  
-> -		ext4_put_ea_inode(parent->i_sb, ea_inode);
-> +		/*
-> +		 * Collect processed EA inodes for dedup and deferred iput.
-> +		 * ext4_put_ea_inode_llist() handles the actual release
-> +		 * after the loop, preventing iget deadlocks on duplicates.
-> +		 */
-> +		llist_add(&EXT4_I(ea_inode)->i_ea_iput_node, processed);
->  		dirty = true;
->  	}
->  
-> @@ -1262,7 +1302,8 @@ ext4_xattr_inode_dec_ref_all(handle_t *handle, struct inode *parent,
->  static void
->  ext4_xattr_release_block(handle_t *handle, struct inode *inode,
->  			 struct buffer_head *bh,
-> -			 int extra_credits)
-> +			 int extra_credits,
-> +			 struct llist_head *processed)
->  {
->  	struct mb_cache *ea_block_cache = EA_BLOCK_CACHE(inode);
->  	u32 hash, ref;
-> @@ -1304,7 +1345,8 @@ ext4_xattr_release_block(handle_t *handle, struct inode *inode,
->  						     BFIRST(bh),
->  						     true /* block_csum */,
->  						     extra_credits,
-> -						     true /* skip_quota */);
-> +						     true /* skip_quota */,
-> +						     processed);
->  		ext4_free_blocks(handle, inode, bh, 0, 1,
->  				 EXT4_FREE_BLOCKS_METADATA |
->  				 EXT4_FREE_BLOCKS_FORGET);
-> @@ -2171,8 +2213,12 @@ ext4_xattr_block_set(handle_t *handle, struct inode *inode,
->  
->  	/* Drop the previous xattr block. */
->  	if (bs->bh && bs->bh != new_bh) {
-> +		LLIST_HEAD(processed);
-> +
->  		ext4_xattr_release_block(handle, inode, bs->bh,
-> -					 0 /* extra_credits */);
-> +					 0 /* extra_credits */,
-> +					 &processed);
-> +		ext4_put_ea_inode_llist(inode->i_sb, &processed);
->  	}
->  	error = 0;
->  
-> @@ -2866,6 +2912,7 @@ int ext4_xattr_delete_inode(handle_t *handle, struct inode *inode,
->  	struct ext4_xattr_entry *entry;
->  	struct inode *ea_inode;
->  	int error;
-> +	LLIST_HEAD(processed);
->  
->  	error = ext4_journal_ensure_credits(handle, extra_credits,
->  			ext4_free_metadata_revoke_credits(inode->i_sb, 1));
-> @@ -2897,7 +2944,8 @@ int ext4_xattr_delete_inode(handle_t *handle, struct inode *inode,
->  						     IFIRST(header),
->  						     false /* block_csum */,
->  						     extra_credits,
-> -						     false /* skip_quota */);
-> +						     false /* skip_quota */,
-> +						     &processed);
->  	}
->  
->  	if (EXT4_I(inode)->i_file_acl) {
-> @@ -2921,6 +2969,11 @@ int ext4_xattr_delete_inode(handle_t *handle, struct inode *inode,
->  			     entry = EXT4_XATTR_NEXT(entry)) {
->  				if (!entry->e_value_inum)
->  					continue;
-> +				/* Skip EA inodes already dec_ref'd from ibody */
-> +				if (ext4_ea_ino_in_llist(
-> +					    le32_to_cpu(entry->e_value_inum),
-> +					    &processed))
-> +					continue;
->  				error = ext4_xattr_inode_iget(inode,
->  					      le32_to_cpu(entry->e_value_inum),
->  					      le32_to_cpu(entry->e_hash),
-> @@ -2935,7 +2988,7 @@ int ext4_xattr_delete_inode(handle_t *handle, struct inode *inode,
->  		}
->  
->  		ext4_xattr_release_block(handle, inode, bh,
-> -					 extra_credits);
-> +					 extra_credits, &processed);
->  		/*
->  		 * Update i_file_acl value in the same transaction that releases
->  		 * block.
-> @@ -2951,6 +3004,7 @@ int ext4_xattr_delete_inode(handle_t *handle, struct inode *inode,
->  	}
->  	error = 0;
->  cleanup:
-> +	ext4_put_ea_inode_llist(inode->i_sb, &processed);
->  	brelse(iloc.bh);
->  	brelse(bh);
->  	return error;
-> -- 
-> 2.43.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+I still have a slight preference for something that also makes
+statting/opening/etc. of `/` itself fail, but this is otherwise good ---
+there's no denying it.
+
+> root is still harder, because of the shadowing issue.  I think I
+> proposed, ages ago, relaxing the chroot rules so that, at least under
+> certain circumstances (e.g. the task is not already chrooted) an
+> unprivileged task could chroot.  chrooting to nullfs seems like a
+> somewhat useful operation.
+>
+> I can imagine more complex schemes to allow even a chrooted process to
+> safely start acting as though their root is nullfs, but that would be
+> potentially fairly nasty.  *Maybe* everything would work if there was
+> a root-for-dotdot and a separate root-for-absolute-paths, and
+> nameidata->root could point to the former, but I'm certainly not
+> willing to say that I think this would work with any confidence at
+> all.
+
+I really like these ideas!
+
+- Splitting the two uses of root sounds great. Even more generally (at
+  least as a thought experiment, I don't like the O(n) performance), one
+  can imagine a set of paths one must not `cd ..` past. Conceptually, I
+  feel optimistic that inserting another boundary path into the set on
+  every `chroot` makes it safe.
+
+- In the original "real root", the "root for .." field could be null,
+  since no `..` check is actually needed. Then, if we only want to have
+  a single "root for .." (to avoid the O(n)), only the initial
+  assignment of it from null to non-null would be unprivileged --- this
+  would implement your "task is not already chrooted" idea. Subsequent
+  assignment would still be privileged since we are replacing, not
+  extending our "set". (The nullable single path means we have 0 or 1
+  paths in our set.)
+
+----
+
+On Fri, Jun 26, 2026, at 4:27 AM, David Laight wrote:
+>
+> You'd also need to sort out the 'pwd' mess.
+> The kernel inode always has its real parent, inside a chroot the scan =
+stops
+> when the inode is the same as that of the base of the chroot.
+> But faf about with namespaces (IIRC I was doing an unshare to get out =
+of
+> a network namespace) and that comparison can fail (if the chroot base =
+isn't
+> a mount point) - so "../.." can go all the way back to the real root r=
+ather
+> than stopping at the base of the chroot (as you would expect).
+>
+> David
+
+I did get the impression that the `..` check is...rather fragile. I am
+also thinking that a global setting like `openat2`'s `RESOLVE_BENEATH`
+to make `..` never work would be useful; then all manner of chrooting is
+trivially safe, because you cannot go up regardless!
+
+----
+
+Given the state of the discussion, I'll go submit my null cwd and root
+patch momentarily. The nullfs alternative is quite compelling; to the
+extent that I do prefer making the root operations fail as I said above,
+I think my best shot is demonstrating that this patch is so small and
+lightweight that this slight benefit is paid for by the simplicity of
+the implementation.
+
+John
