@@ -1,222 +1,279 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2903DB62F;
-	Fri, 26 Jun 2026 07:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782459285; cv=none; b=fzfFUOCY9hsFLrZcBWYiPnQoA6AEDYsZQA/DpDMrhPAr1he0R+UG+r8Ys00tOSwwv99sxDOCL/xbmW7tvdSrROO13Smv+/yNDkWPueTCCnJUeOOPTLzFkyjGButtVLN8fY0nTbgesUyGO994hSXHtfcypmRZgq0RHVYKHZBEYS0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782459285; c=relaxed/simple;
-	bh=XibRtr3lArfBwIX108UOrQuWbqvLRRJQahUof7b9dK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P3aTa6PfLR89pJOcZGN5B0HsqrMrveP27uxZeFqlR0dfXdA45kUUswIAmXgvW/F0cyFREp/m+7Pb0Ngg2jcuTE0Xda3yftjdV8jrfC4oxEu5dT5yK1G4qy1cEbjbb1+00T4NKCFodFdMM6fNsOXpQD56bVvQ2WV6ZigdiLiQ2hQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n80+wOrW; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA303DFC6A
+	for <linux-fsdevel@vger.kernel.org>; Fri, 26 Jun 2026 07:58:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782460719; cv=pass; b=X64Gv+2SF8bod/BDkK4obGqsgoIwiuVZn7dekaZhU35ayrR35XRsyxnjhld0EANGNYi74CY3tILfVESOoMHf3PlS9I0basjdItAtaiZMgxOoML5Uqsjf1MwQVPZrh1ZUR3bVkod8T/8v/d1dnWoxFi4UzH8/3nxGJW2JeFwwPq8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782460719; c=relaxed/simple;
+	bh=g0HD81zpKLU7yfRoKS/aT1hZRYuyfOkVkg6RR9TFpnA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=h/AOMemULOK4OOAzP8k4YWLpD0Q+cZ25ygVPTQ8fj/bnG/YR5QuuVj09OGvT2aG+ULdicl51pAQJHWMJJCkh8P+26xVlgso1MlEUevQfMCZik5bihKEBZoeXnntm7zGY0dQb+WBwygFNPSohP4lii01W+bHIGSXfrWFPH0gjpC4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iHfeBXph; arc=pass smtp.client-ip=209.85.208.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n80+wOrW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C13911F00A3A;
-	Fri, 26 Jun 2026 07:34:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782459284;
-	bh=aY6yBcadbyrJ7uPn7rxhL8zgDn4sJwvT0MNe17nykgQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=n80+wOrW9gYIE+hX25DQBtQnemZCnGh1I5SwOIx3lvE7Td5jTVD1nOu9JpO/8gIYS
-	 iCAxOQS4FhSTgKrlVoKf5pLQrkNXxXXD70pXL+ngSJ1d/vg2SCLsQol8bMojsbpgAk
-	 swY0LOpk0Xi70RKSqObS9S5sQ/Qbe24zv16HVRlIquhEcjIluGtzUzAFeqXLlVh0NY
-	 ljiuJQgANbqABzrazNnwlknWlAbdO1v0CqX/jn3UQVNAlkZJuDaZrjIBfMLdaiXze8
-	 4t2OV9lz4f96TeEv/mv4T1EdrqkEMTA71AKhMJ5OphtkhX18JooVDt9vJ552PuQGWB
-	 08O+QZPfI5g3g==
-Date: Fri, 26 Jun 2026 09:34:38 +0200
-From: Carlos Maiolino <cem@kernel.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Jan Kara <jack@suse.cz>, 
-	linux-xfs@vger.kernel.org, stable@vger.kernel.org, Dave Chinner <david@fromorbit.com>, 
-	Eric Sandeen <sandeen@redhat.com>, "Dr. Thomas Orgis" <thomas.orgis@uni-hamburg.de>, 
-	linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH] xfs: fix capabily check in xfs_setattr_nonsize
-Message-ID: <aj4qgCpFTXewu6gh@nidhogg.toxiclabs.cc>
-References: <20260624101436.362533-1-cem@kernel.org>
- <20260624134039.GB5649@lst.de>
- <qcsdbdpp23fsu3cqhpjdpwusvl6onc2knnrun522ofrutxpz6j@reh3k2ofqjir>
- <20260625123754.GA19947@lst.de>
- <aj1CdKwE3A40vQhQ@nidhogg.toxiclabs.cc>
- <20260625160317.GY6078@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iHfeBXph"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-39ad400e762so4396321fa.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 26 Jun 2026 00:58:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782460716; cv=none;
+        d=google.com; s=arc-20260327;
+        b=VUaZOZs0L8kTzG53ondSO/yO/xr164FI6QzMQ4xU9buUnxO9tFNFkZy/8a3/3ftHys
+         28UO0VLc9eq0Ug1LyufOTl9JeFVvPChJvBZQDe+WQ7Ke9/uc94WTdHqgMRNlcsrpaYed
+         M+3Ti0Tbasz3H12t9phUXqTtWqtcVOrYSD9gmvVsa0bRbdP4VZyR3w8WuHGk1PwUm72h
+         fetz8KcfFYs82A6Ow86DrZsgYGPw00t1bkTlEmawr4qFV1NKEXiiyP8CB1WM3a7PGTyu
+         ndJ5NUmGpEctCDzxM9B24tS0wx0pyfrNgi2V4t+0gmzEpRBakSpISEJX9VHwT4fhvRm5
+         F9xg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=EboQcNRyoWy32u1f0TF0o9YYezn1b7sgwBo6vz4RF1c=;
+        fh=RZe0Zo7/XhwxjwazSpwnQ9mzTZcYqequVqYkag67q3Q=;
+        b=Ms7Y5NSQ8kMfZPb0UQoRwhc3kgfmkxlzTJSzRvie5sI7o7xZ3a0KS+FfoR3vOo3zZY
+         h4XrdyAbrjTjDDyeiXJ2Clce+iTKOs5959ruxPMQXEwPh/KddGQJTEURAw/JYd5KXDEW
+         kRpClaZtbHGfx2xI37XmU/cfrCo6OcuDlpt7Ea6AyQiQJU3clqvf6z9+S00BEkwbGvwV
+         +u8F5RaqIVVzqi7USsajgfO1TBA0+4QxfUZNdFOEAyZDoEAGBjCXs15xDoc4rN5eDk1C
+         8vmD6qoTC9vH5P0cXjt5Bs0DvGj9XZuVwXPkicgHpvk+3NjwCG8K+gRGUnh+bwHZN+3e
+         hCcA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782460716; x=1783065516; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EboQcNRyoWy32u1f0TF0o9YYezn1b7sgwBo6vz4RF1c=;
+        b=iHfeBXphjBoU+UpS1HwbEFTaxPKUc2BPqw8cQGfoo1exjztpG1QOF2ZkElXRN/ZusT
+         HhDQsFMMwa/NlW4c1d9crXu5Th9XpDZRuJTaOczG754g96y1298mGbClHcMDr1v0UtqM
+         lJoYjLdBFjit/OD+t5Bs6OT7omqjJl13hnB92Rr/xVEOyR3uugswly8Row/CVwUkZCBK
+         BIqXLC5zsA+oMU3HQEga2OxfxsDPT80DTAfqK/mbVVINiamdKP/GD8nVnKK1+SJ2shPf
+         Hc8peifE9Hrb75j0lcBEX87iYYdyolAGuzKpJZSFADm+LSmwPPNwwoBCS/5oQDMDMoW9
+         dTuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782460716; x=1783065516;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=EboQcNRyoWy32u1f0TF0o9YYezn1b7sgwBo6vz4RF1c=;
+        b=exUIHzplrUEqhEApK6PmAQGWMEmTOqI6wQmlxXF+G9N1sAM6d2KNEBYQ3kEgctHytT
+         Fzetz4fECKoeUCJ26/g/d3USbal94gIKJG3nRHLOeYHbhV9nLXtuzyflpa4MXBkYNdQr
+         ldAS5V5mkSRNMiYskRzi65fNMyNOALjAMFA8jFPl1YjtKPjOQHanjFqqAnqFGXUGyWJg
+         ap+MdozAb1/f4m0hG3UdDXamU4elRL6eFFImhh1ZQPAeFy/3of1ca5ugnjJ6AVCB0m4r
+         FMSetYwXhRaLC2EsZ8/mCdVZmAJG+yiRiUlpt1T7of5yReVi6yahf9SyIH2KzqWuNDHs
+         Qhog==
+X-Forwarded-Encrypted: i=1; AHgh+RrTYd9Oi596ew7yuLUVs7a1oWp8HL75T+HLk2Geu0S+noauoDqPt3AResALoNRY1yGLd0fy0sIIhmREe64J@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmdRYOdbZf/Phs5dnewJMor779iZugNejT+CwX/nRNB7EoCQJQ
+	8a8+ch3N6WVFPVtAItIczSJmuPBlZt5X38H3u7cAORNREnb5c+mulE4kFQ8UHfPPvBr+TRYIHqn
+	SYSEcv3RJCs4D5dvr/kgrl0p+mqKUw7k=
+X-Gm-Gg: AfdE7ckSNd8xjFRJ9UBBCcSySUjSS0+nw6O/oy1mv7EQBa0+4rWwYHc5AzAXTq6piKv
+	YeG8J4feCyggws69qtN/DWH7ltTcqPClR59qoPSbzNL510ENJnGTJ8tyUqSECOEnldl+NCsVSIP
+	/SQmSUUirxR8mf46mOWKaxYTukQKyp+RczVhWA1MIF3N9FriH+bWi0WfZb9RA8XcIVMAakPxfSe
+	6BYmbj84U15tHfDobOxB+3LEmdweVK6fQGoLIVSUvPgSRU7XVvDf20m6etjZNPRv8l3Rvvj
+X-Received: by 2002:a05:6512:6712:b0:5aa:6a5c:be4d with SMTP id
+ 2adb3069b0e04-5aea1f2a5bbmr1609389e87.9.1782460715398; Fri, 26 Jun 2026
+ 00:58:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260625160317.GY6078@frogsfrogsfrogs>
+References: <20260625083353.132243-1-zzzccc427@gmail.com>
+In-Reply-To: <20260625083353.132243-1-zzzccc427@gmail.com>
+From: Hyunchul Lee <hyc.lee@gmail.com>
+Date: Fri, 26 Jun 2026 16:58:23 +0900
+X-Gm-Features: AVVi8Cd4R6aeGlory-T9EBr-ab7fFxzZjkUzwGxmgY9EYLK6yhr0ANRBze9_bP0
+Message-ID: <CANFS6baqSnmOYSAWF28sozgoGhyY-9zCDHy9ppmoOCr9POeuaQ@mail.gmail.com>
+Subject: Re: [PATCH] ntfs: avoid stale runlist element dereference in fallocate
+To: Cen Zhang <zzzccc427@gmail.com>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 25, 2026 at 09:03:17AM -0700, Darrick J. Wong wrote:
-> On Thu, Jun 25, 2026 at 05:00:21PM +0200, Carlos Maiolino wrote:
-> > On Thu, Jun 25, 2026 at 02:37:54PM +0200, Christoph Hellwig wrote:
-> > > On Thu, Jun 25, 2026 at 12:43:54PM +0200, Jan Kara wrote:
-> > > > On Wed 24-06-26 15:40:39, Christoph Hellwig wrote:
-> > > > > Adding Jan and Christian for quota and user_ns knowledge.
-> > > > > 
-> > > > > On Wed, Jun 24, 2026 at 12:14:29PM +0200, cem@kernel.org wrote:
-> > > > > > From: Carlos Maiolino <cem@kernel.org>
-> > > > > > 
-> > > > > > An user reported a bug where he managed to evade group's quota
-> > > > > > by changing a file's gid to a different group id the same user
-> > > > > > belonged to, even though quotas were enforced on both gids and the
-> > > > > > file's size was big enough to exceed the quota's hardlimit.
-> > > > > > 
-> > > > > > Commit eba0549bc7d1 replaced a capable() call by a
-> > > > > > has_capability_noaudit() to prevent unnecessary selinux audit messages.
-> > > > > > Turns out that both calls have slightly different semantics even though
-> > > > > > their documentation seems similar. Where in a nutshell:
-> > > > > > 
-> > > > > > capable() - Tests the task's effective credentials
-> > > > > > has_ns_capability_noaudit() - Tests the task's real credentials
-> > > > > 
-> > > > > Eww..
-> > > > 
-> > > > Yeah, that's a catch.
-> 
-> I spent a while trying to figure out how I went wrong in selecting the
-> function name:
-> 
->  * capable - Determine if the current task has a superior capability in effect
->  * @cap: The capability to be tested for
->  *
->  * Return true if the current task has the given superior capability currently
->  * available for use, false if not.
-> 
-> vs.
-> 
->  * has_capability_noaudit - Does a task have a capability (unaudited) in the
->  * initial user ns
->  * @t: The task in question
->  * @cap: The capability to be tested for
->  *
->  * Return true if the specified task has the given superior capability
->  * currently in effect to init_user_ns, false if not.  Don't write an
->  * audit message for the check.
-> 
-> vs.
-> 
->  * ns_capable_noaudit - Determine if the current task has a superior capability
->  * (unaudited) in effect
->  * @ns:  The usernamespace we want the capability in
->  * @cap: The capability to be tested for
->  *
->  * Return true if the current task has the given superior capability currently
->  * available for use, false if not.
-> 
-> All three of these sound the same to me.  But what about the call path?
+2026=EB=85=84 6=EC=9B=94 25=EC=9D=BC (=EB=AA=A9) =EC=98=A4=ED=9B=84 5:34, C=
+en Zhang <zzzccc427@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> ntfs_attr_fallocate() walks the data runlist when it allocates holes or
+> delayed allocations inside initialized size.  It looks up a struct
+> runlist_element under ni->runlist.lock, drops the lock, and then reads
+> rl->lcn, rl->length and rl->vcn to decide how far the current extent can
+> advance.
+>
+> That pointer is only borrowed from ni->runlist.rl.  A racing mmap
+> page_mkwrite path can enter __ntfs_write_iomap_begin(), map clusters, and
+> replace the same runlist through ntfs_runlists_merge().  When
+> ntfs_rl_realloc() allocates replacement storage, the old runlist array is
+> freed while fallocate still carries the stale element pointer.
+>
+> The buggy scenario involves two paths, with each column showing the order
+> within that path:
+>
+> ntfs_attr_fallocate():            mmap page_mkwrite path:
+> 1. Look up rl under               1. Enter __ntfs_write_iomap_begin().
+>    ni->runlist.lock.              2. Map clusters through
+> 2. Drop ni->runlist.lock.            ntfs_attr_map_cluster().
+> 3. Read rl->lcn, rl->length       3. Merge a replacement runlist.
+>    and rl->vcn.                   4. Free the old runlist array.
+>
+> Snapshot the needed runlist fields while ni->runlist.lock is still held,
+> and use only those scalars after unlock.  This preserves the existing
+> fallocate decisions without extending the lock over the later allocation
+> and zeroing work.
+>
+> Validation reproduced this kernel report:
+> BUG: KASAN: slab-use-after-free in ntfs_attr_fallocate+0xbb8/0xd00
+>
+> Call Trace:
+>  <TASK>
+>  dump_stack_lvl+0x66/0xa0
+>  print_report+0xce/0x630
+>  ? ntfs_attr_fallocate+0xbb8/0xd00
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? __virt_addr_valid+0x20d/0x410
+>  ? ntfs_attr_fallocate+0xbb8/0xd00
+>  kasan_report+0xe0/0x110
+>  ? ntfs_attr_fallocate+0xbb8/0xd00
+>  ntfs_attr_fallocate+0xbb8/0xd00
+>  ? lock_acquire+0x2b8/0x2f0
+>  ? __pfx_ntfs_attr_fallocate+0x10/0x10
+>  ? 0xffffffffc0000095
+>  ? down_write+0x10d/0x1e0
+>  ntfs_fallocate+0x5c9/0x1d00
+>  ? __pfx_ntfs_fallocate+0x10/0x10
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? lock_acquire+0x2b8/0x2f0
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? selinux_file_permission+0x3a7/0x510
+>  vfs_fallocate+0x29d/0xd30
+>  __x64_sys_fallocate+0xc7/0x150
+>  ? do_syscall_64+0x81/0x6a0
+>  do_syscall_64+0x115/0x6a0
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>
+> Allocated by task 410:
+>  kasan_save_stack+0x33/0x60
+>  kasan_save_track+0x14/0x30
+>  __kasan_kmalloc+0xaa/0xb0
+>  __kvmalloc_node_noprof+0x353/0x920
+>  ntfs_rl_realloc+0x3f/0x110
+>  ntfs_runlists_merge+0xaa3/0x3010
+>  ntfs_attr_map_cluster+0x4e5/0xf80
+>  ntfs_attr_fallocate+0x53f/0xd00
+>  ntfs_fallocate+0x5c9/0x1d00
+>  vfs_fallocate+0x29d/0xd30
+>  __x64_sys_fallocate+0xc7/0x150
+>  do_syscall_64+0x115/0x6a0
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>
+> Freed by task 424:
+>  kasan_save_stack+0x33/0x60
+>  kasan_save_track+0x14/0x30
+>  kasan_save_free_info+0x3b/0x60
+>  __kasan_slab_free+0x5f/0x80
+>  kfree+0x307/0x580
+>  ntfs_rl_realloc+0x6f/0x110
+>  ntfs_runlists_merge+0x7b1/0x3010
+>  ntfs_attr_map_cluster+0x4e5/0xf80
+>  __ntfs_write_iomap_begin+0x8cd/0x2280
+>  iomap_iter+0x6de/0x11e0
+>  iomap_page_mkwrite+0x391/0x650
+>  ntfs_filemap_page_mkwrite+0x1ac/0x400
+>  do_page_mkwrite+0x15c/0x280
+>  __handle_mm_fault+0xd6d/0x1ca0
+>  handle_mm_fault+0x19c/0x470
+>  do_user_addr_fault+0x23b/0x9c0
+>  exc_page_fault+0x5c/0xc0
+>  asm_exc_page_fault+0x26/0x30
+>
+> Fixes: 495e90fa3348 ("ntfs: update attrib operations")
+> Assisted-by: Codex:gpt-5.5
+> Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 
-Yup, I reached the same conclusion, they are all the same, so I decided
-to look at the implementation...
+Looks good to me.
 
-> 
-> capable -> ns_capable -> ns_capable_common
-> 
-> has_capability_noaudit -> has_ns_capability_noaudit
-> 
-> ns_capable_noaudit -> ns_capable_common
-> 
-> Hum, maybe that's the difference -- ns_capable_common vs.
-> has_ns_capability_noaudit?
-> 
-> ns_capable_common calls security_capable() with current_cred(), whereas
-> has_ns_capability_noaudit calls it with __task_cred(t), which is
-> @current in the xfs_trans_alloc_ichange case.
-> 
-> Aha!  current_cred is current->cred, whereas __task_cred(current) is
-> current->real_cred, and these aren't the same thing:
-> 
-> 	/* Objective and real subjective task credentials (COW): */
-> 	const struct cred __rcu		*real_cred;
-> 
-> 	/* Effective (overridable) subjective task credentials (COW): */
-> 	const struct cred __rcu		*cred;
-> 
-> So I guess ns_capable_common (and wrappers) are testing the process'
-> effective credentials, whereas has_ns_capability_noaudit is testing the
-> process' real credentials?
-> 
-> It would have been *really* nice if the documentation for those
-> functions mentioned that distinction!
+Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
 
-Yup, this is a much more detailed versions from my same findings :)
+Additionally, we need to skip ntfs_dio_zero_range() if
+clusters are not allocated.
+
+@@ -5647,9 +5647,10 @@ int ntfs_attr_fallocate(struct ntfs_inode *ni,
+loff_t start, loff_t byte_len, bo
+                                if (err)
+                                        goto out;
+
+-                               err =3D ntfs_dio_zero_range(VFS_I(ni),
+-                                                         lcn <<
+vol->cluster_size_bits,
+-                                                         alloc_cnt <<
+vol->cluster_size_bits);
++                               if (balloc)
++                                       err =3D ntfs_dio_zero_range(VFS_I(n=
+i),
++                                                                 lcn
+<< vol->cluster_size_bits,
++
+alloc_cnt << vol->cluster_size_bits);
 
 
-> 
-> > > > > > This most of the time has no practical difference but in some cases like
-> > > > > > changing attrs (specifically group id in this case) through a NFS client
-> > > > > > this will allow the quota code to use XFS_QMOPT_FORCE_RES, effectively
-> > > > > > bypassing quota accounting checks.
-> > > > > 
-> > > > > Yeah, this does look wrong.  Do the other conversion in the above commit
-> > > > > have tthe same issue?
-> > > > > 
-> > > > > > Using instead ns_capable_noaudit() should fix this issue and prevent
-> > > > > > selinux audit messages.
-> > > > > 
-> > > > > The generic quota code manages to do without either has_capability_noaudit
-> > > > > or ns_capable_noaudit.  I think this might be hidden behind
-> > > > > inode_owner_or_capable calls.  Any idea why we're different?
-> > > > 
-> > > > Actually no. Generic quota code has equivalent checks in ignore_hardlimit()
-> > > > function which does capable(CAP_SYS_RESOURCE) check. I guess the reason why
-> > > > nobody complained about generic quota code is that we call
-> > > > ignore_hardlimit() only if we are above hardlimit whereas XFS calls this
-> > > > for every transaction...
-> > > 
-> > > I guess we should aim for the same to avoid the spurious audit logs.
-> > > 
-> > > I.e. xfs_trans_alloc_ichange is currently always called either with
-> > > force = true or force = this capable check.  So as a first step we can
-> > > move the check into xfs_trans_alloc_ichange for the !force case, and the
-> > > propagate that through XFS_QMOPT_FORCE_RES into xfs_trans_dqresv, i.e.
-> > > only set XFS_QMOPT_FORCE_RES for the real forced case and instead
-> > > have the capable check down in xfs_trans_dqresv.
-> > > 
-> > 
-> > Sounds fair, I'll give it a try tomorrow.
-> 
-> So yeah, I agree we should change that to:
-> 
-> 	ns_capable_noaudit(&init_user_ns, CAP_FOWNER)
-> 
-> Though it's also weird that XFS gates it on CAP_FOWNER whereas the VFS
-> checks CAP_SYS_RESOURCE.  Though I would have added this:
+> ---
+>  fs/ntfs/attrib.c | 17 +++++++++++------
+>  1 file changed, 11 insertions(+), 6 deletions(-)
+>
+> diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
+> index dd8828098511..73e01f32c067 100644
+> --- a/fs/ntfs/attrib.c
+> +++ b/fs/ntfs/attrib.c
+> @@ -5536,6 +5536,7 @@ int ntfs_attr_fallocate(struct ntfs_inode *ni, loff=
+_t start, loff_t byte_len, bo
+>         s64 old_data_size;
+>         s64 vcn_start, vcn_end, vcn_uninit, vcn, try_alloc_cnt;
+>         s64 lcn, alloc_cnt;
+> +       s64 rl_lcn, rl_length, rl_vcn;
+>         int err =3D 0;
+>         struct runlist_element *rl;
+>         bool balloc;
+> @@ -5615,19 +5616,23 @@ int ntfs_attr_fallocate(struct ntfs_inode *ni, lo=
+ff_t start, loff_t byte_len, bo
+>         while (vcn < vcn_uninit) {
+>                 down_read(&ni->runlist.lock);
+>                 rl =3D ntfs_attr_find_vcn_nolock(ni, vcn, NULL);
+> -               up_read(&ni->runlist.lock);
+>                 if (IS_ERR(rl)) {
+> +                       up_read(&ni->runlist.lock);
+>                         err =3D PTR_ERR(rl);
+>                         goto out;
+>                 }
+> +               rl_lcn =3D rl->lcn;
+> +               rl_length =3D rl->length;
+> +               rl_vcn =3D rl->vcn;
+> +               up_read(&ni->runlist.lock);
+>
+> -               if (rl->lcn > 0) {
+> -                       vcn +=3D rl->length - (vcn - rl->vcn);
+> -               } else if (rl->lcn =3D=3D LCN_DELALLOC || rl->lcn =3D=3D =
+LCN_HOLE) {
+> -                       try_alloc_cnt =3D min(rl->length - (vcn - rl->vcn=
+),
+> +               if (rl_lcn > 0) {
+> +                       vcn +=3D rl_length - (vcn - rl_vcn);
+> +               } else if (rl_lcn =3D=3D LCN_DELALLOC || rl_lcn =3D=3D LC=
+N_HOLE) {
+> +                       try_alloc_cnt =3D min(rl_length - (vcn - rl_vcn),
+>                                             vcn_uninit - vcn);
+>
+> -                       if (rl->lcn =3D=3D LCN_DELALLOC) {
+> +                       if (rl_lcn =3D=3D LCN_DELALLOC) {
+>                                 vcn +=3D try_alloc_cnt;
+>                                 continue;
+>                         }
+> --
+> 2.43.0
+>
 
-Same to me, I think there is no real reason for us to be using
-CAP_FOWNER? I thought about changing it to CAP_SYS_RESOURCE but honestly
-I'd avoid doing that for LTS and just stick with CAP_FOWNER initially.
 
-> 
-> static inline bool
-> current_may_ignore_quota_limits(void)
-> {
-> 	/*
-> 	 * If the current process' effective credentials include
-> 	 * CAP_FOWNER, then they're allowed to ignore the hard limit.
-> 	 */
-> 	return ns_capable_noaudit(&init_user_ns, CAP_FOWNER);
-> }
-> 
-> and then changed the callsites in xfs_ioctl/xfs_iops.c to:
-> 
-> 	error = xfs_trans_alloc_ichange(ip, udqp, gdqp, NULL,
-> 			current_may_ignore_quota_limits(), &tp);
-> 
-> The has_capability_noaudit call in xfs_fsmap.c should change to
-> ns_capable_noaudit.
-
-I'm working on a version now adding some bits hch suggested. At the end
-I think we should add a new helper in kernel/capabililty, but I want to
-avoid doing that now so LTS can cleanly backport a fix. Then we can
-update it.
-I'm working on both things in parallel and see how it goes. I'll Cc you
-folks.
-
-> 
-> --D
-> 
+--=20
+Thanks,
+Hyunchul
