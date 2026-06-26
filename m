@@ -1,132 +1,120 @@
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C48F3BD241;
-	Fri, 26 Jun 2026 15:29:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782487748; cv=none; b=AniukiCb+rSpi1Qn+uI0VSxr1R3TBUwUcaAJcExBboqrjK79mSxmtHsPc8zvZZEDaIvAIGtj8GB3IHg50/gwry43m2nR6LJoLGp7MbowSk/7JymV73AQAZT74E76pWyIvTnHPBDCb/8mN3dlMKYzzrPdkD7Juk5Q9gAJMwEGijs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782487748; c=relaxed/simple;
-	bh=Wy502H7G6EG5DDUhaqL8ZH31eQuVJEouI4PSOxFgm0M=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=AqFwXvrGh1jFkls0XBRWcdq11egauw5Cukm6tO0UvRgM1ZaJAubugQqqoSQnmojTmMSYf5hsmc3k0vVzPovkUyuwJtn50IliKJ5qsjh+T4PfV29XKqG71v100aH6M6YOj7YK94aP6PlXzsUX+YRO585fIFoWvLYbgt0D6Y0ivZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wIhePOhy; arc=none smtp.client-ip=95.215.58.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735FB3E2AAF
+	for <linux-fsdevel@vger.kernel.org>; Fri, 26 Jun 2026 15:31:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782487882; cv=pass; b=K4eYQVFpuAAfUyLzaq/EPCbzsZgn7RYeuKKrmzD/pvnwGTURGDA9Cx2Vb+ESSsMsuEIZLuy5UBgFhXHrNK4AFQ+2EonSii4ia3+2UJXADGkXEz0MvtHbFEVAzJ4hcyHGIS1tAOtMYXhu6OLR1TD4v+UuPYPGUsSbMcF4HmR7XWA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782487882; c=relaxed/simple;
+	bh=wqSHr1EWMYBXrlSAKcagfIVqRtNYI8IHYjPj6F5FHLw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=REDvz0oy9rZRcxvVn83Bwr6vStDWgDBhblmeSXK9+/gadYwoLK1NWCp+ShB5WIfW4ymJIwIEpDE0cnRZwK2KmYCuUOkjFMQRDwkhxfsBSyIBpC3WdEQg8vSJd8C0cxr/xUqN1yafxHIxLEsKT9NlMwUKPm6G6X2cfWXQrU4CWMY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=WwfMYccq; arc=pass smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wIhePOhy"
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="WwfMYccq"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2c81d799ef2so3743185ad.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 26 Jun 2026 08:31:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782487878; cv=none;
+        d=google.com; s=arc-20260327;
+        b=fXWQvi0FqiMknoxSndTkOFgBncplBiZFEpXQW7hTqFyvm3vLOMuLjpafZsm+93MQvE
+         gUA+9+J+YqpSx/KdUG1t59NaUryo4AwbV911kSIhaucJLG39tcvt9qWiVe2l2sPazs2R
+         rVSRSA4Jvli2eOQT9AHhzOMYqf/kFZSXawqmSBoDlj+Xv/so6D0gitsust0i/XPfOfEO
+         4eNIqqQpqEh8mJwm2+1Pyw1xvBD7ho6V5Vyt/tHfpgkvW25KUxK/pEr92sW4iFNUsZm8
+         6HDjYELzO6akuqS5QBdbsQam16Sx53v4S+ShyuSTGBRw1qVUtHP7HZ574+H5xDNdz2u6
+         sGDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=M3UX0w5EKmMEqjBcGu53wO3BCmqVyWzVn/8cvHr+BeY=;
+        fh=zwIByXtYwzZb5N7+B6tZrzj9LGaWwiTY/Fr66Ki3lQw=;
+        b=aSkhLqLsNfiw2iRGtrCsXdltjmLO1lODVMDOhoJUAC5fcMIJ37YGyGpfzZB25031PH
+         yZILMk/eVvZYUBxKrooRcJNm5dSKABohgCHSYMgFtPtRXVGdtCKwgUQzFlHazJtUbpt1
+         YNtBMgOsOPPXvDa2SSLneOWNwuLYD3i8U8Sz9vQ2RU0JaLUGMq2yeeY5EEUYcafUeESo
+         9d60KO8SoWH0so5JRY11HjALFhtPO56z69NxzkXPxZrTW+shml7yXRyuO+X8gXRLZUtU
+         jUnUyZnTqyjiLKUtk6u5P6eQltWcOfF95viSWjd1N6UCHu0eX0WH8vRhrKlVdRWgi8ST
+         P5VQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1782487878; x=1783092678; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M3UX0w5EKmMEqjBcGu53wO3BCmqVyWzVn/8cvHr+BeY=;
+        b=WwfMYccqsBUm52y+juQmzKEuofwm83E6WcDoFZNUzyJe0gmz4JB7GEVKXZw041gsMV
+         uc8FpKgARxiBJaydTkAoB7nahiyicI6V/fSCwGPhcuWYVWXEWURzLc/vkASlYt+73GHA
+         suEC6Lhnvm2rtiTG3Hrtg3RrTR+wwTxasPIxIciVuUcAi839yxU0NG5TrTTjLklazc5T
+         AJZ0Wnz2y6Zh/h00p/GmVmCW35Wz/C/sJoidyWn8qM/Ty86vGK5zfcGv1uIE6dSlaxkY
+         k/H6FRuNTpIFkz3h0OmTD2O7aJ87rQBiQMZ/SauMUpkQ9zyhHaWCOTDNCWJEQ7BR7Tly
+         K86A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782487878; x=1783092678;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=M3UX0w5EKmMEqjBcGu53wO3BCmqVyWzVn/8cvHr+BeY=;
+        b=KJVBviDsXg8SmVQ9RLj/gKUscTKIgduHAEum4IGcwQcNdHIkaNl3q/KlW7AglSU+Ly
+         zPyPdDMZgIGVoHBoR68yf3he9QBK4J4BR9c2O6Ew0vjBRRlpwTXnYK3NIT1FGmP60dyh
+         H9et+3QdbK73JbYB0GOdKevX7RiOa6DI/LrNdvklkZ+qnVPB9ofr6uyVxABUKo7Drt43
+         TWS2+z43yymJmopDpbF6qRuukZ7izM22Jw+uREdyF3QSv0EHCdJvyNGIa/vKwvSoFRst
+         BPHBx8E1WrrkWzMPHK5fbc5CvNPI1LGvvC2ahXeBnQmAwTquJjTvCMW8N5cbxoZ4IeGV
+         PSpw==
+X-Gm-Message-State: AOJu0YzLZAUORNh8n3aja1GC8BHCYNNajWiWlJketUZJNsaq5MPeBf/y
+	MP38s/eu956SFB1LEKHgceBDAawyioEQ54wrqsUfdHk1H+X8oLZVNiAtIqChPt9SMTo0in9ojee
+	xPkjRFUBEQpARvaEd+utIvQYjJ0KNg6Hz5L7ELQDT
+X-Gm-Gg: AfdE7ckGJ07ppCT8vRAuJP/XICLdJcL5t1gJwiGSuraUS9xqWoCYabCqnAT1+oXD8tU
+	LIRHsDLss5Qu/QSN/yGXsRn4bOLs0RtWBjYwu483/2T52R1Ilyt5YUbHzz0GxTcacl8jqpNgOkG
+	Bo5Sx6G3c3zBfA5YwoOXpbdJWnaIstAWraupl9ehZgjaUYAuVRCimgNcEWDvfgCGcwyovh2NTsg
+	Vk7/PuZdI6AlJ/Vi9NUTLK/MSJayHCIqzBKXhxDQPD5yuKLvJUl8/Bbt8QDilhDb0hKcXXK
+X-Received: by 2002:a17:903:19eb:b0:2c2:62ee:5a0d with SMTP id
+ d9443c01a7336-2c7fc74ed9bmr77478525ad.14.1782487878522; Fri, 26 Jun 2026
+ 08:31:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782487742;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A9yV2d4U6Iq5tvwMQAZTQglaDvuPvKN3XGu5+n1GLLQ=;
-	b=wIhePOhyn6G6N5ff0edE/tWPIL0KMu4yLFZwEwWoqZZHrBK6tCDf3vdBAO8t9df+oI6kuQ
-	xLnpFgOEs4zA46/+kNEFwdQe2/mKKSiElfQZLqTo8viWrcXcy9xwbuopsxn4/7w4KV94aW
-	uCiQ2fhh93vV19Hi8UBA0NS234VnMPI=
+MIME-Version: 1.0
+References: <20260626114533.102138-1-cem@kernel.org> <20260626114533.102138-2-cem@kernel.org>
+In-Reply-To: <20260626114533.102138-2-cem@kernel.org>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 26 Jun 2026 11:31:06 -0400
+X-Gm-Features: AVVi8CcEZMeN8u2CIiqk4TLj89kobhoxWYGuWAl5i77ATSryI4gp2OXB1rc_eGY
+Message-ID: <CAHC9VhQNURc=d4AOVDF-z29fjLasCiLf120Y-N3txEBccpkfSA@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/4] capabily: Add new capable_noaudit
+To: cem@kernel.org
+Cc: linux-fsdevel@vger.kernel.org, jack@suze.cz, djwong@kernel.org, hch@lst.de, 
+	serge@hallyn.com, linux-security-module@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 26 Jun 2026 15:28:43 +0000
-Message-Id: <DJJ35VLH2PE5.DFD8OYXEOH97@linux.dev>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Brendan Jackman" <brendan.jackman@linux.dev>
-To: "Takahiro Itazuri" <itazur@amazon.com>, <seanjc@google.com>,
- <ljs@kernel.org>
-Cc: <Liam.Howlett@oracle.com>, <ackerleytng@google.com>,
- <agordeev@linux.ibm.com>, <ajones@ventanamicro.com>,
- <akpm@linux-foundation.org>, <alex@ghiti.fr>, <andrii@kernel.org>,
- <aou@eecs.berkeley.edu>, <ast@kernel.org>, <baolu.lu@linux.intel.com>,
- <catalin.marinas@arm.com>, <chenhuacai@kernel.org>, <corbet@lwn.net>,
- <coxu@redhat.com>, <daniel@iogearbox.net>, <dave.hansen@linux.intel.com>,
- <david@kernel.org>, <dev.jain@arm.com>, <itazur@amazon.co.uk>,
- <jackmanb@google.com>, <jannh@google.com>, <jhubbard@nvidia.com>,
- <jmattson@google.com>, <joey.gouly@arm.com>, <john.fastabend@gmail.com>,
- <jolsa@kernel.org>, <jthoughton@google.com>, <kas@kernel.org>,
- <kernel@xen0n.name>, <kpsingh@kernel.org>, <kvm@vger.kernel.org>,
- <kvmarm@lists.linux.dev>, <lenb@kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
- <linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <linux-mm@kvack.org>,
- <linux-pm@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
- <linux-s390@vger.kernel.org>, <loongarch@lists.linux.dev>,
- <lorenzo.stoakes@oracle.com>, <luto@kernel.org>, <maobibo@loongson.cn>,
- <martin.lau@linux.dev>, <maz@kernel.org>, <mhocko@suse.com>,
- <mingo@redhat.com>, <mlevitsk@redhat.com>, <nikita.kalyazin@linux.dev>,
- <oupton@kernel.org>, <palmer@dabbelt.com>, <patrick.roy@linux.dev>,
- <pavel@kernel.org>, <pbonzini@redhat.com>, <peterx@redhat.com>,
- <peterz@infradead.org>, <pfalcato@suse.de>, <pjw@kernel.org>,
- <prsampat@amd.com>, <rafael@kernel.org>, <riel@surriel.com>,
- <rppt@kernel.org>, <ryan.roberts@arm.com>, <sdf@fomichev.me>,
- <shijie@os.amperecomputing.com>, <skhan@linuxfoundation.org>,
- <song@kernel.org>, <surenb@google.com>, <suzuki.poulose@arm.com>,
- <svens@linux.ibm.com>, <tabba@google.com>, <tglx@kernel.org>,
- <thuth@redhat.com>, <urezki@gmail.com>, <vannapurve@google.com>,
- <vbabka@kernel.org>, <will@kernel.org>, <willy@infradead.org>,
- <wu.fei9@sanechips.com.cn>, <x86@kernel.org>,
- <yang@os.amperecomputing.com>, <yangyicong@hisilicon.com>,
- <yonghong.song@linux.dev>, <yosry@kernel.org>, <yu-cheng.yu@intel.com>,
- <yuzenghui@huawei.com>, <zhengqi.arch@bytedance.com>
-Subject: Re: [PATCH v12 00/16] Direct Map Removal Support for guest_memfd
-References: <aeennZlV60k81OBf@google.com>
- <20260506080753.14517-1-itazur@amazon.com>
-In-Reply-To: <20260506080753.14517-1-itazur@amazon.com>
-X-Migadu-Flow: FLOW_OUT
 
-On Wed May 6, 2026 at 8:07 AM UTC, Takahiro Itazuri wrote:
-> Hi Lorenzo and Sean,
+On Fri, Jun 26, 2026 at 7:49=E2=80=AFAM <cem@kernel.org> wrote:
 >
-> Apologies for the delayed reply =E2=80=94 Nikita is leaving Amazon, and I=
-'m
-> taking over this series going forward. Thanks for your patience.
+> From: Carlos Maiolino <cem@kernel.org>
 >
-> On Tue, Apr 21, 2026 at 01:40:00PM +0000, Lorenzo Stoakes wrote:
->> Hm, given this touches a fair bit of mm, I wonder if we shouldn't try to=
- do this
->> through the mm tree?
+> In some situations (quota enforcement bypass in this case) we'd like to
+> check for a specific capability without triggering spurious audit
+> messages from security modules like selinux.
 >
-> On Tue, Apr 21, 2026 at 04:36:00PM +0000, Sean Christopherson wrote:
->> Yeah, when the time comes, the mm pieces definitely need to go through t=
-he mm
->> tree.  Ideally, I think this would be merged in two separate parts, with=
- all mm
->> changes going through the mm tree, and then the KVM changes through the =
-KVM tree
->> using a stable topic branch/tag from Andrew.
+> Add a new helper so we don't need to use ns_capable_noaudit() directly.
 >
-> Thanks for the guidance. The split makes sense to me; I'm planning to
-> follow this approach with patches 1-6 (mm) going through the mm tree
-> and patches 7-16 (KVM) through the KVM tree on top of a stable
-> branch/tag from mm. I'll confirm the exact boundary and coordination
-> details as I prepare the repost.
->
-> On Tue, Apr 21, 2026 at 01:40:00PM +0000, Lorenzo Stoakes wrote:
->> In any case, we definitely need a rebase on something not-next :) if not=
- mm then
->> Linus's tree at least maybe?
->>
->> I'm seeing a lot of conflicts against mm-unstable, it can't b4 shazam ev=
-en patch
->> 1 and in Linus's tree it's failing at an mm patch (mm: introduce
->> AS_NO_DIRECT_MAP).
->
+> Signed-off-by: Carlos Maiolino <cmaiolino@redhat.com>
+> ---
+>  include/linux/capability.h |  5 +++++
+>  kernel/capability.c        | 17 +++++++++++++++++
+>  2 files changed, 22 insertions(+)
 
-Just as an FYI, I am gonna look at trying to move this forward a bit
-while Takahiro ramps up on taking over (I spoke to him about this off
-list).
+This is Serge's call, not mine, but FWIW, I somewhat prefer to see
+code use the ns_capable_XXX() variants directly as I like to think it
+means some thought went into ensuring the capability check is being
+done in the right namespace.  Yes, we all know that capable() just
+uses the init namespace, but I like to think that having to type that
+out in the parameter list might be a good double check ;)
 
-My ulterior motive is that this would give me an excuse to add
-ALLOC_UNMAPPED (formerly __GFP_UNMAPPED) and the mermap [0] which
-unblocks various security nonsense including ASI [1]. (But also, this
-feature is a good idea).
-
-[0] https://lore.kernel.org/all/20260320-page_alloc-unmapped-v2-0-28bf1bd54=
-f41@google.com/
-[1] https://linuxasi.dev
+--=20
+paul-moore.com
