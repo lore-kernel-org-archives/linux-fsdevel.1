@@ -1,121 +1,609 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34E63ACEE6
-	for <linux-fsdevel@vger.kernel.org>; Fri, 26 Jun 2026 08:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1274349CDD;
+	Fri, 26 Jun 2026 08:16:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782461641; cv=none; b=A2ifXCqWgizIssxEhY7xPcCl3f6/JrOpe26rttud/g9loDVHJZmGe+r7HVaZf8e3+CD2V7+D4/NL60G4ZvB3emFBQAyGn6+4Mvl+MqKHATdKAeZmtkatpMSb1+ZSisWsTn6MJESaX0hvkneuag3HEcTABDbwWy1quS9irLkVQEA=
+	t=1782461796; cv=none; b=ZhVWdVMTMtXl1t8tJOIbFxbzZCm2g6noABL68L/5j+r6WFxAwP/Qew7El0a+YF5CDxq7jMdhs92spOSPAeaiURgAzn4lnBj//5KeWQW1WN9xlghO950L/XicQilAUv+inHllvxKDMyp2PLBcOWyWo2jeXhZO8/q8PVCGhdkh/6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782461641; c=relaxed/simple;
-	bh=dB+gOrBcteqJTCInvtzpR0KibX7YSDlk3Cp8UeD3apU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G7v9f2QMZFOkU1TqIM7jBTRKrmXWK8ep1vVruPvDqlAtLiW5r2+e/mC34+/uEhaKTrSvf1y7/h7+YbhFyhKsBjNhf1SrQj/RedFlSP+EFXvxX0E1RMLsrSRtliFHNYepeCutskVFJP8OYwmnEyHP2uRAsItotmvMyTCOpNtOQPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WR+M1DMJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782461796; c=relaxed/simple;
+	bh=sSd/2kMoEmTArtzQeAGNVhHiUWUFOza+B62xdetRdMU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=HblpsqjqZ/DyQoGIIHbk27VOFuCJ36vJprQGj/Vk2cFBPBwbeK7hEMCBeyL7+a+0lRX6amDmkhQcv1QD6b8yisXTaU/nsEbeBynUIwwRF+Z/4S+TTQWQZZ8N9JxfdnzmNvTJG6BhV/2EUjNpBB/pgO/OBktLi5OaJBbApSoey6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=huYCIoNR; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WR+M1DMJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07B9F1F000E9;
-	Fri, 26 Jun 2026 08:13:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782461640;
-	bh=JxHcRJ/uAa2Q++f+570ob3TPntbfaPHmCgZ1Tbd71eM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=WR+M1DMJgMM4t2+ge79esnF02O9RFDzaN6Hg8/fc7y546zi/NwZiYes6VYI3/aBQZ
-	 6+Cw59NKIvzfa1B4ozxZkKbjLc7j6HSSYkNPdvMHm/WwrLhlD5u9pyfmcL0iADABaB
-	 0k7M86I1isVsPIC/MaNzA3UC2A+FUq4nADUmz7WVOj0d7V9Yq8Xvfmajw9/fdd05cm
-	 xlI/KfbpzFD5DqWZ+Yj7UZzacj+kd6zs8xhQtc8COgTHV2DdXtZYq8rB7rSxanFLXF
-	 rOtRMkHz3+SHSsoE129fOsCYrbYAdXchLobLPk4zHJuj+nXEJL1GhbDfXtv74uhd5A
-	 pheE1SPsjoetw==
-Message-ID: <a63b7138-617f-46de-96f9-e56528aee3aa@kernel.org>
-Date: Fri, 26 Jun 2026 10:13:53 +0200
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="huYCIoNR"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=+bbbtbDlctaXR88F8KPb3YKDrHW4vAzQeJWGC6101SU=; b=huYCIoNRdbZd3gNostBamdNmNu
+	7Aloo5g+Mgmgx9POxwU62cvPbFRHp4GQfY1MIWub7PeJCKbYE4/2wa+qlQxLNSQyjbboqVE/TqWqU
+	fURyBIRxaiRFPlJVJnmDOdd+en4cGXqAv2PNRL+IIqSjLNX6+aYEYLRMG7WFr5MUOklGjcBfuQ0lP
+	t+GhkhXcBu0MnUUaKpQ8uTlpZJOp0Bc4FAL0N8Lzy36QQve9ZaXq7GkQ38L2LfXSqjSxllsRIT/mK
+	zvKELXHU298g9hzUvUkTGouqWOfUGc4HstJ3fUNbnRXGgsfZBfmA+IJMC3494MBg4C7OMemAlom8f
+	Ck5qKSJw==;
+Received: from bl21-120-122.dsl.telepac.pt ([2.82.120.122] helo=localhost)
+	by fanzine2.igalia.com with utf8esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1wd1jg-005PA0-16; Fri, 26 Jun 2026 10:16:28 +0200
+From: Luis Henriques <luis@igalia.com>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-fscrypt@vger.kernel.org,  Theodore Ts'o <tytso@mit.edu>,  Jaegeuk
+ Kim <jaegeuk@kernel.org>,  Jarkko Sakkinen <jarkko@kernel.org>,
+  linux-fsdevel@vger.kernel.org,  keyrings@vger.kernel.org,
+  linux-kernel@vger.kernel.org,
+  syzbot+f55b043dacf43776b50c@syzkaller.appspotmail.com,  Mohammed EL
+ Kadiri <med08elkadiri@gmail.com>,  stable@vger.kernel.org
+Subject: Re: [PATCH] fscrypt: Replace mk_users keyring with simple list
+In-Reply-To: <20260618221921.87896-1-ebiggers@kernel.org> (Eric Biggers's
+	message of "Thu, 18 Jun 2026 15:19:21 -0700")
+References: <20260618221921.87896-1-ebiggers@kernel.org>
+Date: Fri, 26 Jun 2026 09:16:35 +0100
+Message-ID: <87tsqpd8d8.fsf@wotan.olymp>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] fs/proc: fix KPF_KSM reported for all anonymous pages
-To: Jinjiang Tu <tujinjiang@huawei.com>, akpm@linux-foundation.org,
- ziy@nvidia.com, luizcap@redhat.com, willy@infradead.org,
- linmiaohe@huawei.com, svetly.todorov@memverge.com, xu.xin16@zte.com.cn,
- chengming.zhou@linux.dev, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Cc: wangkefeng.wang@huawei.com, sunnanyong@huawei.com
-References: <20260626013252.2846774-1-tujinjiang@huawei.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260626013252.2846774-1-tujinjiang@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 6/26/26 03:32, Jinjiang Tu wrote:
-> Reading /proc/kpageflags for any anonymous page returns KPF_KSM set, even
-> when KSM is not in use. As a result, tools misclassify all anonymous pages
-> as KSM merged.
-> 
-> In stable_page_flags(), if the page is anonymous, then use (mapping &
-> FOLIO_MAPPING_KSM) check to identify if the anonymous page is KSM page.
-> However, FOLIO_MAPPING_KSM is FOLIO_MAPPING_ANON | FOLIO_MAPPING_ANON_KSM,
-> (mapping & FOLIO_MAPPING_KSM) check returns true for all nonymous pages.
-> 
-> To fix it, use FOLIO_MAPPING_ANON_KSM instead.
-> 
-> Fixes: dee3d0bef2b0 ("proc: rewrite stable_page_flags()")
-> Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
+Hi Eric!
+
+On Thu, Jun 18 2026, Eric Biggers wrote:
+
+> Change mk_users (the set of user claims to an fscrypt master key) from a
+> 'struct key' keyring to a simple linked list.
+>
+> It's still a collection of 'struct key' for quota tracking.  It was
+> originally thought to be natural that a collection of 'struct key'
+> should be held in a 'struct key' keyring.  In reality, it's just been
+> causing problems, similar to how using 'struct key' for the filesystem
+> keyring caused problems and was removed in commit d7e7b9af104c
+> ("fscrypt: stop using keyrings subsystem for fscrypt_master_key").
+>
+> Commit d3a7bd420076 ("fscrypt: clear keyring before calling key_put()")
+> fixed mk_users cleanup to be synchronous.  But that apparently wasn't
+> enough: the keyring subsystem's redundant locking is still generating
+> lockdep false positives due to the interaction with filesystem reclaim.
+>
+> With the simple list, the redundant locking and lockdep issue goes away.
+>
+> Of course, searching a linked list is linear-time whereas the
+> 'struct key' keyring used a fancy constant-time associative array.  But
+> that's fine here, since in practice there's just one entry in the list.
+> In fact the new code is much faster in practice, since it's much smaller
+> and doesn't have to convert the kuid_t into a string to search for it.
+>
+> Reported-by: syzbot+f55b043dacf43776b50c@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3Df55b043dacf43776b50c
+> Reported-by: Mohammed EL Kadiri <med08elkadiri@gmail.com>
+> Closes: https://lore.kernel.org/keyrings/20260614150041.21172-1-med08elka=
+diri@gmail.com/
+> Fixes: 23c688b54016 ("fscrypt: allow unprivileged users to add/remove key=
+s for v2 policies")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
 > ---
+>
+> I'm planning to take this via the fscrypt tree for 7.2
 
-With spelling fix
+I was hoping to have some more time to test this patch, but I don't think
+that will happen any time soon.
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+I've done a review of the patch and couldn't find any obvious problem.
+Though, again, a more in-depth review would require more time as it has
+been a while since I took a look into this code.
 
-And I'd appreciate if someone could look into cleaning up the code to switch
-back to folio helpers now that we have folio+page snapshots.
+I just wonder if this is really stable material.  It's a bit intrusive
+(doesn't even apply cleanly in mainline), but above all it's fixing a
+lockdep false positive.  Other than syzbot, has this been seen in the
+wild?
 
--- 
 Cheers,
+--=20
+Lu=C3=ADs
 
-David
+>
+>  fs/crypto/fscrypt_private.h |  32 ++++--
+>  fs/crypto/keyring.c         | 216 +++++++++++++++---------------------
+>  2 files changed, 113 insertions(+), 135 deletions(-)
+>
+> diff --git a/fs/crypto/fscrypt_private.h b/fs/crypto/fscrypt_private.h
+> index 4263cac24b32..0053b5c45412 100644
+> --- a/fs/crypto/fscrypt_private.h
+> +++ b/fs/crypto/fscrypt_private.h
+> @@ -494,10 +494,23 @@ fscrypt_is_key_prepared(const struct fscrypt_prepar=
+ed_key *prep_key,
+>  }
+>  #endif /* !CONFIG_FS_ENCRYPTION_INLINE_CRYPT */
+>=20=20
+>  /* keyring.c */
+>=20=20
+> +/*
+> + * fscrypt_master_key_user - a user's claim to a master key
+> + */
+> +struct fscrypt_master_key_user {
+> +	struct list_head link;
+> +	kuid_t uid;
+> +	/*
+> +	 * This 'struct key' contains no secret.  It exists solely to charge the
+> +	 * appropriate user's key quota.
+> +	 */
+> +	struct key *quota_key;
+> +};
+> +
+>  /*
+>   * fscrypt_master_key_secret - secret key material of an in-use master k=
+ey
+>   */
+>  struct fscrypt_master_key_secret {
+>=20=20
+> @@ -609,23 +622,22 @@ struct fscrypt_master_key {
+>  	 * For v2 policy keys: a cryptographic hash of this key (->identifier).
+>  	 */
+>  	struct fscrypt_key_specifier		mk_spec;
+>=20=20
+>  	/*
+> -	 * Keyring which contains a key of type 'key_type_fscrypt_user' for each
+> -	 * user who has added this key.  Normally each key will be added by just
+> -	 * one user, but it's possible that multiple users share a key, and in
+> -	 * that case we need to keep track of those users so that one user can't
+> -	 * remove the key before the others want it removed too.
+> +	 * List of user claims to this key (struct fscrypt_master_key_user).
+> +	 * Normally each key will be added by just one user, but it's possible
+> +	 * that multiple users share a key, and in that case we need to keep
+> +	 * track of those users so that one user can't remove the key before the
+> +	 * others want it removed too.
+>  	 *
+> -	 * This is NULL for v1 policy keys; those can only be added by root.
+> +	 * Used only for v2 policy keys.  v1 policy keys can be added only by
+> +	 * root, so user tracking doesn't apply to them.
+>  	 *
+> -	 * Locking: protected by ->mk_sem.  (We don't just rely on the keyrings
+> -	 * subsystem semaphore ->mk_users->sem, as we need support for atomic
+> -	 * search+insert along with proper synchronization with other fields.)
+> +	 * Locking: protected by ->mk_sem.
+>  	 */
+> -	struct key		*mk_users;
+> +	struct list_head	mk_users;
+>=20=20
+>  	/*
+>  	 * List of inodes that were unlocked using this key.  This allows the
+>  	 * inodes to be evicted efficiently if the key is removed.
+>  	 */
+> diff --git a/fs/crypto/keyring.c b/fs/crypto/keyring.c
+> index 6ce6b436c34f..16bc348213ca 100644
+> --- a/fs/crypto/keyring.c
+> +++ b/fs/crypto/keyring.c
+> @@ -63,26 +63,23 @@ static void fscrypt_free_master_key(struct rcu_head *=
+head)
+>  	 * Nevertheless, use kfree_sensitive() in case anything was missed.
+>  	 */
+>  	kfree_sensitive(mk);
+>  }
+>=20=20
+> +static void clear_mk_users(struct fscrypt_master_key *mk);
+> +
+>  void fscrypt_put_master_key(struct fscrypt_master_key *mk)
+>  {
+>  	if (!refcount_dec_and_test(&mk->mk_struct_refs))
+>  		return;
+>  	/*
+> -	 * No structural references left, so free ->mk_users, and also free the
+> +	 * No structural references left, so clear ->mk_users, and also free the
+>  	 * fscrypt_master_key struct itself after an RCU grace period ensures
+>  	 * that concurrent keyring lookups can no longer find it.
+>  	 */
+>  	WARN_ON_ONCE(refcount_read(&mk->mk_active_refs) !=3D 0);
+> -	if (mk->mk_users) {
+> -		/* Clear the keyring so the quota gets released right away. */
+> -		keyring_clear(mk->mk_users);
+> -		key_put(mk->mk_users);
+> -		mk->mk_users =3D NULL;
+> -	}
+> +	clear_mk_users(mk);
+>  	call_rcu(&mk->mk_rcu_head, fscrypt_free_master_key);
+>  }
+>=20=20
+>  void fscrypt_put_master_key_activeref(struct super_block *sb,
+>  				      struct fscrypt_master_key *mk)
+> @@ -163,12 +160,12 @@ static void fscrypt_user_key_describe(const struct =
+key *key, struct seq_file *m)
+>  {
+>  	seq_puts(m, key->description);
+>  }
+>=20=20
+>  /*
+> - * Type of key in ->mk_users.  Each key of this type represents a partic=
+ular
+> - * user who has added a particular master key.
+> + * Type of fscrypt_master_key_user::quota_key.  This contains no secret;=
+ it
+> + * exists solely to charge a user's key quota.
+>   *
+>   * Note that the name of this key type really should be something like
+>   * ".fscrypt-user" instead of simply ".fscrypt".  But the shorter name i=
+s chosen
+>   * mainly for simplicity of presentation in /proc/keys when read by a no=
+n-root
+>   * user.  And it is expected to be rare that a key is actually added by =
+multiple
+> @@ -178,34 +175,13 @@ static struct key_type key_type_fscrypt_user =3D {
+>  	.name			=3D ".fscrypt",
+>  	.instantiate		=3D fscrypt_user_key_instantiate,
+>  	.describe		=3D fscrypt_user_key_describe,
+>  };
+>=20=20
+> -#define FSCRYPT_MK_USERS_DESCRIPTION_SIZE	\
+> -	(CONST_STRLEN("fscrypt-") + 2 * FSCRYPT_KEY_IDENTIFIER_SIZE + \
+> -	 CONST_STRLEN("-users") + 1)
+> -
+>  #define FSCRYPT_MK_USER_DESCRIPTION_SIZE	\
+>  	(2 * FSCRYPT_KEY_IDENTIFIER_SIZE + CONST_STRLEN(".uid.") + 10 + 1)
+>=20=20
+> -static void format_mk_users_keyring_description(
+> -			char description[FSCRYPT_MK_USERS_DESCRIPTION_SIZE],
+> -			const u8 mk_identifier[FSCRYPT_KEY_IDENTIFIER_SIZE])
+> -{
+> -	sprintf(description, "fscrypt-%*phN-users",
+> -		FSCRYPT_KEY_IDENTIFIER_SIZE, mk_identifier);
+> -}
+> -
+> -static void format_mk_user_description(
+> -			char description[FSCRYPT_MK_USER_DESCRIPTION_SIZE],
+> -			const u8 mk_identifier[FSCRYPT_KEY_IDENTIFIER_SIZE])
+> -{
+> -
+> -	sprintf(description, "%*phN.uid.%u", FSCRYPT_KEY_IDENTIFIER_SIZE,
+> -		mk_identifier, __kuid_val(current_fsuid()));
+> -}
+> -
+>  /* Create ->s_master_keys if needed.  Synchronized by fscrypt_add_key_mu=
+tex. */
+>  static int allocate_filesystem_keyring(struct super_block *sb)
+>  {
+>  	struct fscrypt_keyring *keyring;
+>=20=20
+> @@ -336,95 +312,98 @@ fscrypt_find_master_key(struct super_block *sb,
+>  out:
+>  	rcu_read_unlock();
+>  	return mk;
+>  }
+>=20=20
+> -static int allocate_master_key_users_keyring(struct fscrypt_master_key *=
+mk)
+> -{
+> -	char description[FSCRYPT_MK_USERS_DESCRIPTION_SIZE];
+> -	struct key *keyring;
+> -
+> -	format_mk_users_keyring_description(description,
+> -					    mk->mk_spec.u.identifier);
+> -	keyring =3D keyring_alloc(description, GLOBAL_ROOT_UID, GLOBAL_ROOT_GID,
+> -				current_cred(), KEY_POS_SEARCH |
+> -				  KEY_USR_SEARCH | KEY_USR_READ | KEY_USR_VIEW,
+> -				KEY_ALLOC_NOT_IN_QUOTA, NULL, NULL);
+> -	if (IS_ERR(keyring))
+> -		return PTR_ERR(keyring);
+> -
+> -	mk->mk_users =3D keyring;
+> -	return 0;
+> -}
+> -
+> -/*
+> - * Find the current user's "key" in the master key's ->mk_users.
+> - * Returns ERR_PTR(-ENOKEY) if not found.
+> - */
+> -static struct key *find_master_key_user(struct fscrypt_master_key *mk)
+> +/* Find the current user's claim in ->mk_users.  ->mk_sem must be held. =
+*/
+> +static struct fscrypt_master_key_user *
+> +find_master_key_user(struct fscrypt_master_key *mk)
+>  {
+> -	char description[FSCRYPT_MK_USER_DESCRIPTION_SIZE];
+> -	key_ref_t keyref;
+> +	struct fscrypt_master_key_user *mk_user;
+> +	kuid_t uid =3D current_fsuid();
+>=20=20
+> -	format_mk_user_description(description, mk->mk_spec.u.identifier);
+> -
+> -	/*
+> -	 * We need to mark the keyring reference as "possessed" so that we
+> -	 * acquire permission to search it, via the KEY_POS_SEARCH permission.
+> -	 */
+> -	keyref =3D keyring_search(make_key_ref(mk->mk_users, true /*possessed*/=
+),
+> -				&key_type_fscrypt_user, description, false);
+> -	if (IS_ERR(keyref)) {
+> -		if (PTR_ERR(keyref) =3D=3D -EAGAIN || /* not found */
+> -		    PTR_ERR(keyref) =3D=3D -EKEYREVOKED) /* recently invalidated */
+> -			keyref =3D ERR_PTR(-ENOKEY);
+> -		return ERR_CAST(keyref);
+> +	list_for_each_entry(mk_user, &mk->mk_users, link) {
+> +		if (uid_eq(mk_user->uid, uid))
+> +			return mk_user;
+>  	}
+> -	return key_ref_to_ptr(keyref);
+> +	return NULL;
+>  }
+>=20=20
+>  /*
+> - * Give the current user a "key" in ->mk_users.  This charges the user's=
+ quota
+> + * Give the current user a claim in ->mk_users.  This charges the user's=
+ quota
+>   * and marks the master key as added by the current user, so that it can=
+not be
+>   * removed by another user with the key.  Either ->mk_sem must be held f=
+or
+>   * write, or the master key must be still undergoing initialization.
+>   */
+>  static int add_master_key_user(struct fscrypt_master_key *mk)
+>  {
+> +	kuid_t uid =3D current_fsuid();
+>  	char description[FSCRYPT_MK_USER_DESCRIPTION_SIZE];
+> -	struct key *mk_user;
+> +	struct key *quota_key;
+> +	struct fscrypt_master_key_user *mk_user;
+>  	int err;
+>=20=20
+> -	format_mk_user_description(description, mk->mk_spec.u.identifier);
+> -	mk_user =3D key_alloc(&key_type_fscrypt_user, description,
+> -			    current_fsuid(), current_gid(), current_cred(),
+> -			    KEY_POS_SEARCH | KEY_USR_VIEW, 0, NULL);
+> -	if (IS_ERR(mk_user))
+> -		return PTR_ERR(mk_user);
+> +	snprintf(description, sizeof(description), "%*phN.uid.%u",
+> +		 FSCRYPT_KEY_IDENTIFIER_SIZE, mk->mk_spec.u.identifier,
+> +		 __kuid_val(uid));
+> +	quota_key =3D key_alloc(&key_type_fscrypt_user, description, uid,
+> +			      current_gid(), current_cred(),
+> +			      KEY_POS_SEARCH | KEY_USR_VIEW, 0, NULL);
+> +	if (IS_ERR(quota_key))
+> +		return PTR_ERR(quota_key);
+> +
+> +	err =3D key_instantiate_and_link(quota_key, NULL, 0, NULL, NULL);
+> +	if (err) {
+> +		key_put(quota_key);
+> +		return err;
+> +	}
+>=20=20
+> -	err =3D key_instantiate_and_link(mk_user, NULL, 0, mk->mk_users, NULL);
+> -	key_put(mk_user);
+> -	return err;
+> +	mk_user =3D kzalloc_obj(*mk_user);
+> +	if (!mk_user) {
+> +		key_put(quota_key);
+> +		return -ENOMEM;
+> +	}
+> +	mk_user->uid =3D uid;
+> +	mk_user->quota_key =3D quota_key;
+> +	list_add(&mk_user->link, &mk->mk_users);
+> +	return 0;
+> +}
+> +
+> +static void unlink_and_free_mk_user(struct fscrypt_master_key_user *mk_u=
+ser)
+> +{
+> +	list_del(&mk_user->link);
+> +	key_put(mk_user->quota_key);
+> +	kfree(mk_user);
+>  }
+>=20=20
+>  /*
+> - * Remove the current user's "key" from ->mk_users.
+> + * Remove the current user's claim from ->mk_users.
+>   * ->mk_sem must be held for write.
+>   *
+> - * Returns 0 if removed, -ENOKEY if not found, or another -errno code.
+> + * Returns 0 if removed or -ENOKEY if not found.
+>   */
+>  static int remove_master_key_user(struct fscrypt_master_key *mk)
+>  {
+> -	struct key *mk_user;
+> -	int err;
+> +	struct fscrypt_master_key_user *mk_user;
+>=20=20
+>  	mk_user =3D find_master_key_user(mk);
+> -	if (IS_ERR(mk_user))
+> -		return PTR_ERR(mk_user);
+> -	err =3D key_unlink(mk->mk_users, mk_user);
+> -	key_put(mk_user);
+> -	return err;
+> +	if (!mk_user)
+> +		return -ENOKEY;
+> +	unlink_and_free_mk_user(mk_user);
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Clear ->mk_users.  Either ->mk_sem must be held for write, or 'mk' mu=
+st have
+> + * no structural references left.
+> + */
+> +static void clear_mk_users(struct fscrypt_master_key *mk)
+> +{
+> +	struct fscrypt_master_key_user *mk_user, *tmp;
+> +
+> +	list_for_each_entry_safe(mk_user, tmp, &mk->mk_users, link)
+> +		unlink_and_free_mk_user(mk_user);
+>  }
+>=20=20
+>  /*
+>   * Allocate a new fscrypt_master_key, transfer the given secret over to =
+it, and
+>   * insert it into sb->s_master_keys.
+> @@ -443,19 +422,18 @@ static int add_new_master_key(struct super_block *s=
+b,
+>=20=20
+>  	init_rwsem(&mk->mk_sem);
+>  	refcount_set(&mk->mk_struct_refs, 1);
+>  	mk->mk_spec =3D *mk_spec;
+>=20=20
+> +	INIT_LIST_HEAD(&mk->mk_users);
+> +
+>  	INIT_LIST_HEAD(&mk->mk_decrypted_inodes);
+>  	spin_lock_init(&mk->mk_decrypted_inodes_lock);
+>=20=20
+>  	INIT_LIST_HEAD(&mk->mk_mode_keys);
+>=20=20
+>  	if (mk_spec->type =3D=3D FSCRYPT_KEY_SPEC_TYPE_IDENTIFIER) {
+> -		err =3D allocate_master_key_users_keyring(mk);
+> -		if (err)
+> -			goto out_put;
+>  		err =3D add_master_key_user(mk);
+>  		if (err)
+>  			goto out_put;
+>  	}
+>=20=20
+> @@ -480,23 +458,17 @@ static int add_existing_master_key(struct fscrypt_m=
+aster_key *mk,
+>  				   struct fscrypt_master_key_secret *secret)
+>  {
+>  	int err;
+>=20=20
+>  	/*
+> -	 * If the current user is already in ->mk_users, then there's nothing to
+> -	 * do.  Otherwise, we need to add the user to ->mk_users.  (Neither is
+> -	 * applicable for v1 policy keys, which have NULL ->mk_users.)
+> +	 * For v2 policy keys (FSCRYPT_KEY_SPEC_TYPE_IDENTIFIER): If the current
+> +	 * user is already in ->mk_users, then there's nothing to do.
+> +	 * Otherwise, add the user to ->mk_users.
+>  	 */
+> -	if (mk->mk_users) {
+> -		struct key *mk_user =3D find_master_key_user(mk);
+> -
+> -		if (mk_user !=3D ERR_PTR(-ENOKEY)) {
+> -			if (IS_ERR(mk_user))
+> -				return PTR_ERR(mk_user);
+> -			key_put(mk_user);
+> +	if (mk->mk_spec.type =3D=3D FSCRYPT_KEY_SPEC_TYPE_IDENTIFIER) {
+> +		if (find_master_key_user(mk) !=3D NULL)
+>  			return 0;
+> -		}
+>  		err =3D add_master_key_user(mk);
+>  		if (err)
+>  			return err;
+>  	}
+>=20=20
+> @@ -890,11 +862,10 @@ int fscrypt_add_test_dummy_key(struct super_block *=
+sb,
+>  int fscrypt_verify_key_added(struct super_block *sb,
+>  			     const u8 identifier[FSCRYPT_KEY_IDENTIFIER_SIZE])
+>  {
+>  	struct fscrypt_key_specifier mk_spec;
+>  	struct fscrypt_master_key *mk;
+> -	struct key *mk_user;
+>  	int err;
+>=20=20
+>  	mk_spec.type =3D FSCRYPT_KEY_SPEC_TYPE_IDENTIFIER;
+>  	memcpy(mk_spec.u.identifier, identifier, FSCRYPT_KEY_IDENTIFIER_SIZE);
+>=20=20
+> @@ -902,17 +873,14 @@ int fscrypt_verify_key_added(struct super_block *sb,
+>  	if (!mk) {
+>  		err =3D -ENOKEY;
+>  		goto out;
+>  	}
+>  	down_read(&mk->mk_sem);
+> -	mk_user =3D find_master_key_user(mk);
+> -	if (IS_ERR(mk_user)) {
+> -		err =3D PTR_ERR(mk_user);
+> -	} else {
+> -		key_put(mk_user);
+> +	if (find_master_key_user(mk) !=3D NULL)
+>  		err =3D 0;
+> -	}
+> +	else
+> +		err =3D -ENOKEY;
+>  	up_read(&mk->mk_sem);
+>  	fscrypt_put_master_key(mk);
+>  out:
+>  	if (err =3D=3D -ENOKEY && capable(CAP_FOWNER))
+>  		err =3D 0;
+> @@ -1100,20 +1068,22 @@ static int do_remove_key(struct file *filp, void =
+__user *_uarg, bool all_users)
+>  	if (!mk)
+>  		return -ENOKEY;
+>  	down_write(&mk->mk_sem);
+>=20=20
+>  	/* If relevant, remove current user's (or all users) claim to the key */
+> -	if (mk->mk_users && mk->mk_users->keys.nr_leaves_on_tree !=3D 0) {
+> -		if (all_users)
+> -			err =3D keyring_clear(mk->mk_users);
+> -		else
+> +	if (!list_empty(&mk->mk_users)) {
+> +		if (all_users) {
+> +			clear_mk_users(mk);
+> +			err =3D 0;
+> +		} else {
+>  			err =3D remove_master_key_user(mk);
+> +		}
+>  		if (err) {
+>  			up_write(&mk->mk_sem);
+>  			goto out_put_key;
+>  		}
+> -		if (mk->mk_users->keys.nr_leaves_on_tree !=3D 0) {
+> +		if (!list_empty(&mk->mk_users)) {
+>  			/*
+>  			 * Other users have still added the key too.  We removed
+>  			 * the current user's claim to the key, but we still
+>  			 * can't remove the key itself.
+>  			 */
+> @@ -1195,10 +1165,12 @@ EXPORT_SYMBOL_GPL(fscrypt_ioctl_remove_key_all_us=
+ers);
+>  int fscrypt_ioctl_get_key_status(struct file *filp, void __user *uarg)
+>  {
+>  	struct super_block *sb =3D file_inode(filp)->i_sb;
+>  	struct fscrypt_get_key_status_arg arg;
+>  	struct fscrypt_master_key *mk;
+> +	kuid_t uid;
+> +	const struct fscrypt_master_key_user *mk_user;
+>  	int err;
+>=20=20
+>  	if (copy_from_user(&arg, uarg, sizeof(arg)))
+>  		return -EFAULT;
+>=20=20
+> @@ -1227,23 +1199,17 @@ int fscrypt_ioctl_get_key_status(struct file *fil=
+p, void __user *uarg)
+>  		err =3D 0;
+>  		goto out_release_key;
+>  	}
+>=20=20
+>  	arg.status =3D FSCRYPT_KEY_STATUS_PRESENT;
+> -	if (mk->mk_users) {
+> -		struct key *mk_user;
+>=20=20
+> -		arg.user_count =3D mk->mk_users->keys.nr_leaves_on_tree;
+> -		mk_user =3D find_master_key_user(mk);
+> -		if (!IS_ERR(mk_user)) {
+> +	uid =3D current_fsuid();
+> +	list_for_each_entry(mk_user, &mk->mk_users, link) {
+> +		arg.user_count++;
+> +		if (uid_eq(mk_user->uid, uid))
+>  			arg.status_flags |=3D
+>  				FSCRYPT_KEY_STATUS_FLAG_ADDED_BY_SELF;
+> -			key_put(mk_user);
+> -		} else if (mk_user !=3D ERR_PTR(-ENOKEY)) {
+> -			err =3D PTR_ERR(mk_user);
+> -			goto out_release_key;
+> -		}
+>  	}
+>  	err =3D 0;
+>  out_release_key:
+>  	up_read(&mk->mk_sem);
+>  	fscrypt_put_master_key(mk);
+>
+> base-commit: 83f1454877cc292b88baf13c829c16ce6937d120
+> prerequisite-patch-id: 319d2891e88c7df1ebb5ebf434d18b68f770399f
+> prerequisite-patch-id: 5330c9e4b65644baae81bd177a46be6223d2b494
+> --=20
+> 2.54.0
+>
+
