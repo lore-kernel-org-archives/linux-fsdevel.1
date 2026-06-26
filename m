@@ -1,193 +1,88 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03563EEAF8;
-	Fri, 26 Jun 2026 10:26:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 730B63749F2;
+	Fri, 26 Jun 2026 11:46:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782469629; cv=none; b=QgVDTnUwuTYqI6hq7m9c04BpHnADkuTyqBDHU7mz8P6zPHDrlLB7EPTEHeRl11ULvE2YxcdG46t+kPJJSkG+lnGSoTwmAayxeznY5iJ6z8ZIgwuP10eXyMqIGj7FsOimYLm2QQ54E06a6+0LBPijMt50s+jkl5VJGaWRXDYwMFs=
+	t=1782474366; cv=none; b=jGs69krnVOS6STWlDUvlYvUtdHtVFggzER9KReBUooFfnrg+wKXLzvC3IXxnWr7GzjDJF2yS5c+ixPb4lmmKwJZjSmbCnAxLCTB/eZjqBaYWXzRUS+o67okAnCYlCKAtMh3CNTlTEKHbA+lCcKvx+WTkog17K9JgT9ffeZqBmwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782469629; c=relaxed/simple;
-	bh=s8N+6S/muj0e1W9benlWMW+/mo8BPEDAPAlP18So2HE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Leu310KF25lxLbu4MnJoaFI3NaX8P3DiwrsAVpBo6tcVXlpnF+G3QsX6DncJF6aImc9HO6U6ObJxZL+Tf8IRtB+57h86houwlBqWIkapSWJLusbWEezSKgfrLJ9ce2d2zp31yBG02A1p2X5dPqETU/5baIVJfr3g7Bcnj/zP4RM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=VozU0ToE; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1782474366; c=relaxed/simple;
+	bh=HjfdRn/qz4r7YX8X7ynmmFvMleCBbJKuZMR55klpxec=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m1Apzi8WNorvzU24RPmIvmjHL/K/+1RbTjvQ9ahGa+VFiGxwg6tJ7zdVUbeFtrHnVL9RVNPg8XmOd77lNwYVsF0lYhC2WyaCUJIRdMTV9+ep+vB7jm2wEiHLtscZZnYSYGdq6hjqYI41OBExW2wyLuoyw/XoJ1xhBi+uqgn3x4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PDtHhNS1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="VozU0ToE"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=qipHOBO5+4w6MxLdGl9vGCVVYRkU+FVrsRuGxczPMro=; b=VozU0ToEZW01608c4Hb/EJeD//
-	KGkxGMuuytgCtn5Cms2iDU9wEvk51vzhWkMCRyui9gR6yFZJ/Opu82khLOoUQMzFQZkk7qD8pkPiz
-	QpIqsmsSrWdZLKzD/ROPVAhmM8OtZ/wdRyGcuVKlrJ0CptNqoSVvpUsOGCh6Hj7tl4bWvytKXgTR6
-	LhOnQFKZhqSo+Pj9JlNz79GW0rARkogJWkzWjw5sUcKJl3K9spu7dnTkjaD//kUhjEEBW5ewMDmLA
-	6lpSI8UwxLQ2fUveHAwUznb81ALd8Kv5gVu0HVcNgFStc0BWXwsxrDlH5IF3JXMMNss0Rn39DVJnp
-	OzZTtFwA==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wd3lu-003u0w-1G;
-	Fri, 26 Jun 2026 10:26:54 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Fri, 26 Jun 2026 03:26:33 -0700
-Subject: [PATCH RFC 4/4] fs/pipe: remove the old on-stack prealloc helpers
- and tmp_page[2]
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PDtHhNS1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB39D1F000E9;
+	Fri, 26 Jun 2026 11:46:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782474365;
+	bh=BTZg3uw/z60en9bHw3BRSWU2+QdKXobFHUYRcNnEduI=;
+	h=From:To:Cc:Subject:Date;
+	b=PDtHhNS1s2MhPLYKcJ8mnUMFs6elII3ioz+kTwpo26B3gcpJIXtgJ3B4l4P4i+ivg
+	 /f80I8r9oHM25Ng9JC8J0BftIgGwDtfS2qLzGkNe3T+lswHdoQjyguWhqvpBQ6Tpmh
+	 Kq7KeH8vpyJczCc222n29Y3MXJbvgIh3Vs3jDrdK9iKb2fifLhzljgareZh1dwZ0+T
+	 9mGxmqIIAYMS0qJI2cAOPtNth7XzHA25j5XeZFlX+asbMEAqLOU14GMmtT+ypCHfyP
+	 ju+ZFQgr4lEh2rSz5uqkR5+9J59d2hPvITXmU+go+RwYdNkYkqFfJwUJp4CazN7p2C
+	 ENt2qhSrDjgDA==
+From: cem@kernel.org
+To: linux-fsdevel@vger.kernel.org
+Cc: jack@suze.cz,
+	djwong@kernel.org,
+	hch@lst.de,
+	serge@hallyn.com,
+	linux-security-module@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	Carlos Maiolino <cem@kernel.org>
+Subject: [RFC PATCH 0/4] Introduce capable_noaudit
+Date: Fri, 26 Jun 2026 13:45:19 +0200
+Message-ID: <20260626114533.102138-1-cem@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260626-b4-pipe-unification-v1-4-d23fa6b1ee27@debian.org>
-References: <20260626-b4-pipe-unification-v1-0-d23fa6b1ee27@debian.org>
-In-Reply-To: <20260626-b4-pipe-unification-v1-0-d23fa6b1ee27@debian.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, oleg@redhat.com, mjguzik@gmail.com, 
- josh@joshtriplett.org, Jan Kara <jack@suse.cz>, jlayton@kernel.org
-Cc: axboe@kernel.dk, shakeel.butt@linux.dev, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Breno Leitao <leitao@debian.org>, 
- kernel-team@meta.com
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4033; i=leitao@debian.org;
- h=from:subject:message-id; bh=s8N+6S/muj0e1W9benlWMW+/mo8BPEDAPAlP18So2HE=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqPlPZDKeZ6JzI6I3Jgqs/bdNP4kMifDpiTVG8n
- V4DGemhV8CJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaj5T2QAKCRA1o5Of/Hh3
- bdduEACxFbiUE7+J6C3lVAi8MfNniNdwtcLkBwS8riEmyxg29Y/KbCI70spAnU0ICdaQhQHz23z
- xfE9NFhHvVxIq8AYmVlmk2cuX2SUxLAd5kBaYOYvlzUq+H+Ua0IMDRzMZc25viKPVeIf9mDVg4G
- mEN1Up4lQs380M1w+QpOf39Ci0nYlB6nJB6336JIksJPKUlhTvGoxtSLQxbn0eSM4VBeGaswHjP
- Xn+EkItT9U7fAmEdqhJPk7oSaTjtS4ElPjq3mULCzwwawi6VSu/dye17myFRAIZuJH5Is5dbHwg
- vGM8CWfMbCe0J3cY/1YN5AjQpNSh7ad0+bCFaQwF30ysA60Gi2ikLDYh6Za0V6PzA0wh2WyiCI9
- rHUqI86yiaVh1PvTIm3cP2tqqueuTuqcmWqp/vVMBAQNBcSr/DqwM8yBY9MNN66tUO7bo09B80y
- l39TviRrUBmoE0VPE45w2g1uz3tzXz/eSWyCj7dwO61EFUuq2dZUuxyG6dDpVAdZfoZEkLjv1+l
- ob/RMOkwdyUokWjwZ5tLi+PnCLOtn/tiFNglNfVz3eBVLbLblgFbNzjpRYCxpsREVAmP2OV14FW
- CdxGX1pBqXDhzL7eOIAakjhFCEbM0QcY55yvlxileaE/XT2rOzs8nBptaFQ2mu46nkpnd/y1FLp
- hE7NIxj8ZXRFVAQ==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+Content-Transfer-Encoding: 8bit
 
-With the write path converted to the per-pipe pool, the old on-stack
-prealloc helpers (anon_pipe_get_page_prealloc, anon_pipe_refill_tmp_pages,
-anon_pipe_free_pages) and the tmp_page[2] cache have no remaining users.
-Remove them.
+From: Carlos Maiolino <cem@kernel.org>
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- fs/pipe.c                 | 66 -----------------------------------------------
- include/linux/pipe_fs_i.h |  2 --
- 2 files changed, 68 deletions(-)
+In some cases - filesystems quota specifically here - we'd like to check
+for effective capabilities without issuing spurious audit messages and
+without the need to specify a namespace for that.
 
-diff --git a/fs/pipe.c b/fs/pipe.c
-index 070fba8c865c1..108e498aee47e 100644
---- a/fs/pipe.c
-+++ b/fs/pipe.c
-@@ -111,40 +111,6 @@ void pipe_double_lock(struct pipe_inode_info *pipe1,
- 	pipe_lock(pipe2);
- }
- 
--/*
-- * Pre-allocate pages outside pipe->mutex for multi-page writes.
-- * alloc_page() with GFP_HIGHUSER can sleep in reclaim and runs memcg
-- * charging; doing it under the mutex stalls a concurrent reader.
-- *
-- * Loop alloc_page() instead of alloc_pages_bulk_*(): the bulk path refuses
-- * __GFP_ACCOUNT under memcg (see commit 8dcb3060d81d "memcg: page_alloc:
-- * skip bulk allocator for __GFP_ACCOUNT") and silently degrades to a single
-- * page. A per-page loop keeps memcg accounting and the task NUMA mempolicy
-- * honoured for every page; the per-call overhead is small compared to the
-- * pipe->mutex hold-time being shrunk. Any shortfall is covered by the
-- * in-lock alloc_page() fallback in anon_pipe_get_page().
-- */
--static void __maybe_unused anon_pipe_get_page_prealloc(struct anon_pipe_prealloc *prealloc,
--						       size_t total_len)
--{
--	unsigned int want, i;
--	struct page *page;
--
--	prealloc->count = 0;
--	if (total_len <= PAGE_SIZE)
--		return;
--
--	want = min_t(unsigned int, DIV_ROUND_UP(total_len, PAGE_SIZE),
--		     PIPE_PREALLOC_MAX);
--
--	for (i = 0; i < want; i++) {
--		page = alloc_page(GFP_HIGHUSER | __GFP_ACCOUNT);
--		if (!page)
--			break;
--		prealloc->pages[prealloc->count++] = page;
--	}
--}
--
- static struct page *anon_pipe_prealloc_pop(struct anon_pipe_prealloc *prealloc)
- {
- 	if (!prealloc->count)
-@@ -242,38 +208,6 @@ static void anon_pipe_put_page(struct pipe_inode_info *pipe,
- 	put_page(page);
- }
- 
--/*
-- * Stash leftover prealloc pages in tmp_page[] so the next write to this
-- * pipe gets a hot page without entering the allocator.
-- */
--static void __maybe_unused anon_pipe_refill_tmp_pages(struct pipe_inode_info *pipe,
--						      struct anon_pipe_prealloc *prealloc)
--{
--	int i, idx;
--
--	if (!prealloc->count)
--		return;
--
--	for (i = 0; i < ARRAY_SIZE(pipe->tmp_page); i++) {
--		if (pipe->tmp_page[i])
--			continue;
--		if (!prealloc->count)
--			return;
--		idx = --prealloc->count;
--		pipe->tmp_page[i] = prealloc->pages[idx];
--		prealloc->pages[idx] = NULL;
--	}
--}
--
--/* Runs after mutex_unlock() to keep put_page() out of the critical section. */
--static void __maybe_unused anon_pipe_free_pages(struct anon_pipe_prealloc *prealloc)
--{
--	while (prealloc->count) {
--		prealloc->count--;
--		put_page(prealloc->pages[prealloc->count]);
--	}
--}
--
- static void anon_pipe_buf_release(struct pipe_inode_info *pipe,
- 				  struct pipe_buffer *buf)
- {
-diff --git a/include/linux/pipe_fs_i.h b/include/linux/pipe_fs_i.h
-index 796860cbddf30..6bd0d956691cb 100644
---- a/include/linux/pipe_fs_i.h
-+++ b/include/linux/pipe_fs_i.h
-@@ -84,7 +84,6 @@ struct anon_pipe_prealloc {
-  *	@max_usage: The maximum number of slots that may be used in the ring
-  *	@ring_size: total number of buffers (should be a power of 2)
-  *	@nr_accounted: The amount this pipe accounts for in user->pipe_bufs
-- *	@tmp_page: cached released page
-  *	@prealloc: per-pipe page preallocation pool
-  *	@readers: number of current readers of this pipe
-  *	@writers: number of current writers of this pipe
-@@ -116,7 +115,6 @@ struct pipe_inode_info {
- #ifdef CONFIG_WATCH_QUEUE
- 	bool note_loss;
- #endif
--	struct page *tmp_page[2];
- 	struct anon_pipe_prealloc prealloc;
- 	struct fasync_struct *fasync_readers;
- 	struct fasync_struct *fasync_writers;
+This series introduce capable_noaudit() which has the same goal as
+capable() but without firing audit messages.
+
+Also, this updates both generic quota and xfs quota code to use that.
+
+The last patch unexports has_capability_noaudit() which was originally
+exported to be used in xfs but turns out it does not meet our needs.
+
+Note this is based on top of a current series I have to remove
+has_capability_noaudit() calls from xfs so the xfs patch won't
+apply cleanly without that series.
+
+If adding this helper is acceptable, I'll turn this into a non-rfc
+series with the required changes to apply properly.
+
+Comments? Flames?
+Cheers
+
+Carlos Maiolino (4):
+  capabily: Add new capable_noaudit
+  quota: Don't issue audit messages on quota enforcing
+  xfs: replace ns_capable_noaudit()
+  capability: unexport has_capability_noaudit
+
+ fs/quota/dquot.c           |  2 +-
+ fs/xfs/xfs_trans_dquot.c   |  2 +-
+ include/linux/capability.h |  5 +++++
+ kernel/capability.c        | 18 +++++++++++++++++-
+ 4 files changed, 24 insertions(+), 3 deletions(-)
 
 -- 
-2.53.0-Meta
+2.54.0
 
