@@ -1,41 +1,41 @@
 Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BCC3EDE68;
-	Fri, 26 Jun 2026 10:26:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BC93EFD34;
+	Fri, 26 Jun 2026 10:26:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782469614; cv=none; b=QZLplTrWaDSJYmBq/SGE4obncITJbw9PPU387idiL9RWlNNvAOr/iggvWT1yoYmaOMbTBH5OzIe/F4VhHVg6fy2+kHGHgYTRyzghl2qsBAMZEy0YHP2BQrsST2GvKkirYPV3fcDa6ARtKoNCiR7FPoKYFOOFsLiLM5zIAmFIuaE=
+	t=1782469615; cv=none; b=EzMb+IFmuknoNZDSB4yItDiZ2daSC78ctwMb7rKtWahe6MjcZMlT38OQrBgUr1RayJ1kbKX9qMTxDyPfz3k/jYmWy3ZfBYRPocOpCAJVeZmhCq57hJJIeM5dCyC72WOsGA9ZMGgHE5sTAn4B/Xg3DabMOJKwCtIzOrUzwdg0Usw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782469614; c=relaxed/simple;
-	bh=bOajw6iIgMGainGbnXLTRmpSSsucqM5UsqIcALhUlSs=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XNiSS1sSM1alEw/73PBVbeOSA30xeW5brLSz/GEXrGQnWtss6AEIE1UUIc02lZutlaAS56wJNRmnk6vdsOO4knbPZZcKpJxb+fLBAFhdxRH2EBCnvDDC7o+h1Lw6nIPEKH5x2972inrKZ7UO5wKQqCGTKoEZvE3n7ODfbfiiKv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=YJeg4Gp4; arc=none smtp.client-ip=82.195.75.108
+	s=arc-20240116; t=1782469615; c=relaxed/simple;
+	bh=30Mifart66PNOREWQghDBMGF+JtVp5ZKAuUWN6kIxns=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=XQ2rCBLrATLy3WSFfqd+vBOkntgNUKmkxIraeU9aTmvKw1htXCzINIl2nTK13ThjJVWTVxXYx4UtHyJ2uqOvMW5W+UNjxzV4S12UoxfNuWG9UqSAllY3GCk6RJU8lx98JValAEv3GTafw/QEor3iw+LDWxdXaBGg9LpjGZcOsAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=SCnijmx8; arc=none smtp.client-ip=82.195.75.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="YJeg4Gp4"
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="SCnijmx8"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-Id:Date:Subject:From:Reply-To:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=eVNFozF8mqAS0n3p3ovWop+lEEA/+9lzXnvwfYxGwWE=; b=YJeg4Gp4GeYh2KgxnelX9+rClP
-	iESDrDF0hrvXr/TKwXeme9aNfmVdRqkRoCy0hyS8EhZsxSJsleXpnQqo7AfPVo9coX7kMUdZ+L/ft
-	eXyngGq8hWUzPKQMQil25GfZQkIFCkhcjI8lUAR406a6Sh/6UIe+GsQDi2fP/VavugqpEiz/6qqPe
-	bGcgUMgocB/pAksUpDayZ6mqcIT4PMq11HAFLph55KaQAPJj3PYpy9TpRA75MttxyioAtPv67C77v
-	qwz2eyGvKUkqQfHwOiMYvsPgy+fih2svJ/3ayyLFLL64wV0i4mMOowON1hctLqGtynZR1h2jG+ePW
-	MKIBJRnA==;
+	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
+	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	From:Reply-To:Content-ID:Content-Description;
+	bh=lh7viwTZV0DElaZjYojU5JIUrRhCdNSvlyul6SWr+AQ=; b=SCnijmx8VlLT7ahqAmH1HUMEXa
+	YIrRlK7v8jnPIkjXQAFQZyL3vT6dXQ1mo7SAGhE9hp5fh7FcddXagiA7pf2JOn9fOZhqWZjT9GcU/
+	9dhlYSUjSjCzvXtH6W+mMAEHenoMPF9PatjGP7RccrMSnJDn257wEyKnVRUr4XMTEYcC9pMZL8O+G
+	CbZ9T8BqlTZ7HceEYgIAdoBHf7/RzRJzTeG86fY3FKluBqkX2GLwZJQe/fDt4toFzI44AmXnItpnU
+	FzsFFqmuYJXfJvlS6FaROfYopIsq6E3a6G5kDo3//BYAWXr886VCqRQ6417sJI840xCfET51lPXl8
+	CeVC2DHw==;
 Received: from authenticated-user
 	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.96)
 	(envelope-from <leitao@debian.org>)
-	id 1wd3ld-003u09-1j;
-	Fri, 26 Jun 2026 10:26:37 +0000
+	id 1wd3lh-003u0F-2U;
+	Fri, 26 Jun 2026 10:26:42 +0000
 From: Breno Leitao <leitao@debian.org>
-Subject: [PATCH RFC 0/4] fs/pipe: unify the page pools into a single
- per-pipe pool
-Date: Fri, 26 Jun 2026 03:26:29 -0700
-Message-Id: <20260626-b4-pipe-unification-v1-0-d23fa6b1ee27@debian.org>
+Date: Fri, 26 Jun 2026 03:26:30 -0700
+Subject: [PATCH RFC 1/4] fs/pipe: make the prealloc pool per-pipe
+ infrastructure
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -43,11 +43,10 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIANVTPmoC/x3MQQrCMBAF0KsMf92BGkwr2QoewK24SNqp/k0aE
- hWh9O6C7wBvQ7NKawiyodqHjWtGkEMnmJ4xP0w5Iwhc74Z+cF7TUQuL6Ttz4RRfXLPGFMd08s7
- PNqITlGoLv//1huvljPu+/wCniZVjagAAAA==
-X-Change-ID: 20260625-b4-pipe-unification-aba7b8525de7
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260626-b4-pipe-unification-v1-1-d23fa6b1ee27@debian.org>
+References: <20260626-b4-pipe-unification-v1-0-d23fa6b1ee27@debian.org>
+In-Reply-To: <20260626-b4-pipe-unification-v1-0-d23fa6b1ee27@debian.org>
 To: Alexander Viro <viro@zeniv.linux.org.uk>, 
  Christian Brauner <brauner@kernel.org>, oleg@redhat.com, mjguzik@gmail.com, 
  josh@joshtriplett.org, Jan Kara <jack@suse.cz>, jlayton@kernel.org
@@ -55,127 +54,109 @@ Cc: axboe@kernel.dk, shakeel.butt@linux.dev, linux-fsdevel@vger.kernel.org,
  linux-kernel@vger.kernel.org, Breno Leitao <leitao@debian.org>, 
  kernel-team@meta.com
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3774; i=leitao@debian.org;
- h=from:subject:message-id; bh=bOajw6iIgMGainGbnXLTRmpSSsucqM5UsqIcALhUlSs=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqPlPZwBrzlNGRrHoCHG4pBNMS1xZM2tq0Arq7H
- nQCyalrPZqJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaj5T2QAKCRA1o5Of/Hh3
- beMjEACstl6iGyqeWSwbYadqrt6Ct6ktpbeQ3eZSdMPyc7nr22NWjN/0hVLdZlrVq3H4SU2eEU/
- jO344Xs8lP8TQGQFRFBKzXQPXn+EHMPA7Mel1sT28OyF+r86dIKB1U6pzA/DTwaF1Q8E6hMVPEp
- icRfsu5/RXiApkyzQa1Cop7YpZMT6xiiPl5OdV4EmlxLErbGUycIY3DeG+0a2piWFE422wp5vMC
- WiT3BsUec8p+0mYBjc/mGFnp46n9QpDzkzieF2cYPQEueyLjEMD4qOXXmxIVIvQ9ZDSbQhaMXgu
- TkNR5WH7TP3CuwLx4mJBX/XbfUTn38uAzHDTH0uijj7gadh6XR1bYtAg6PbA4cgpfIZERGtKc5i
- 78tV2JELRRADUZlZs/HERnd42P/oD/Dld9WiEsEPa+J6lcl0d0g8RRW26WOFQRAtT/CRZ5OrPir
- DvqS72jn9Y83IGDsPZlsTpiDhBcw6MQSSuTYG5avkE5K8tHO8IRCES90oPi3o9a5+Yrlfk78EaT
- 62XHUp7XvSoQoWeQglMd+BujbszIrgOGhUPY73bLL5CLgngNFHcoYEliCvqYykFxTwQyDBX9gU3
- jeO4KK8AHXe2EzEkawRcV6VebmdAauI9BxPHi8Sizk1MMBDHZzOsS2dV7bXs5HeQgC1+1m1kw+B
- q/Lx3XPq9pFfedA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3067; i=leitao@debian.org;
+ h=from:subject:message-id; bh=30Mifart66PNOREWQghDBMGF+JtVp5ZKAuUWN6kIxns=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqPlPZNFkZuAS3kf64x7I/r4N7+twwPbLcQfTRE
+ Dz6TuOTGWiJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaj5T2QAKCRA1o5Of/Hh3
+ bdn8D/9nifTU6aYM0Rqu4hXbF2X0MCDttsm4xSFKYUk8ET4lhMaJWmZIdwZN0n+AxNYEkqMMAey
+ QQJqbHlb49HKY/tcxDO2akWWiLMbjS3I+u8CbIRwGbw/UoTxAPvCjQK1bNSyzJU0gWHQOAkYfLu
+ ZKRXltgtzi42HcVUR5Qkxh8xhojBpMNReF8AuzIfh7HKmYYax1E6MB0xN59+LBCa8SqCPC9hEcB
+ mInnEc0dtNXdUVVoil5S4C+Xuc9ftjvM4qpv1O+nA3z8T0FdStwpmPx73P+SpX7TTjfgialUWKL
+ uyrYZG64Za9Acws+oMEiR2EtnLO/OlqxQRvcrU7Hc2ztoQhvXgkjVYZSuZIAPUPJdPk5svbpaO3
+ 8kMhnki0L1bqtvqyDu/vjGxwxwwetnNpxY0j4rZPhGzIiIs+ai6a0DK3ElY+fwvuCn4Rq3NO9zi
+ 3TulLNgDD/ycrEUoq2NCu4oLKn0tIUU3n2mCnUqyzy54ttI0hYHO5YTUqqvgPSs6hdAKvrNRpK3
+ DSb6AIZtRjHWwdT+K87YbmqsxYFKO9A0dHLnklc4xt6kl26e0ggvQGbs/NV4mIy+EcJboDar3f8
+ MUSqiRRDj3ESdUfpdiFbAzQFiDOKrwir7Xsv+eZHseEVelzS14SLf4rN2BiUo4ylpT3VvyyFNNE
+ Vk6O3lR9V10CHLg==
 X-Developer-Key: i=leitao@debian.org; a=openpgp;
  fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 X-Debian-User: leitao
 
-TL;DR: This simplifies the pipe code, unify the page pools, reduce the
-code by 11 lines, and improves the microbenchmark by up to 23% — so it's
-probably wrong (!?).
+Move struct anon_pipe_prealloc and PIPE_PREALLOC_MAX to pipe_fs_i.h and
+embed the pool in each pipe via a new prealloc field, next to the existing
+tmp_page[2] cache (which will be removed by the end of this patchset).
+Add PIPE_PREALLOC_KEEP for the post-write trim target.
 
-Summary:
-=======
-
-I've spent some time converging tmp_page[] and the on-stack
-anon_pipe_prealloc pool of pages into a single per-pipe pool, as
-discussed previously in a few places, most recently at:
-
-https://lore.kernel.org/all/ajLA_zxsYyKISkwp@redhat.com/
-
-Problem:
-========
-
-1) We have two types of page caches in the pipe mechanism today
-   * tmp_page[]
-   * anon_pipe_prealloc
-
-2) they operate in different ways:
-   * tmp_page[] is protected by the pipe lock
-    *  per-pipe, persistent, 2 pages
-   * anon_pipe_prealloc is an on-stack pool, not lock protected
-    *  burst, up to 8 pages
-
-Proposal/Design:
-================
-
-1) Keep the same page budget as today
-  a) up to two per-pipe persistent pages
-  b) burst of up to 8 pages
-
-2) no pages are allocated unless necessary
-   * Pages are _ONLY_ allocated based on the length of the write,
-     minus the pages already available in the pool.
-   * No page is allocated but left unused
-
-3) keep allocation and freeing outside of the lock
-   * only the assignment of pages stays lock-protected
-   * Currently, tmp_page[] pages are allocated in the lock, so
-     this patch will improve it (thus the performance numbers)
-
-How:
-====
-
-1) replace tmp_page[] with anon_pipe_prealloc in pipe_inode_info
-2) at write (anon_pipe_write), allocate the pages outside the lock in a helper
-   called anon_pipe_prefill()
-   a) the assignment into the pool must be lock protected
-      * anon_pipe_prefill() does it
-   b) anon_pipe_prefill() can populate up to PIPE_PREALLOC_MAX pages in the
-      pool
-3) once anon_pipe_write is done, the pool is trimmed back to at most
-   PIPE_PREALLOC_KEEP (2) pages by anon_pipe_trim_pool()
-
-Testing:
-========
-
-Tested on a bare-metal Intel(R) Xeon(R) Platinum 8321HC (52 CPUs) using the
-pipe_bench selftest (tools/testing/selftests/pipe/pipe_bench).
-
-Two kernels were built from the same configuration (no debug options),
-differing only by this series:
-
-  - baseline: on-stack anon_pipe_prealloc pool + tmp_page[]
-    Commit 4e5dfb7c84012 ("Add linux-next specific files for 20260623")
-  - patched:  this series (unified per-pipe pool)
-
-Each kernel was booted on the same host and benchmarked with 5 writers /
-5 readers, 64 KiB messages, 5s per run, with and without memory pressure
-(stress-ng --vm 4 --vm-bytes 80%). Comparing writes/s and average write
-latency:
-
-  - no memory pressure:    ~+11% throughput, ~-10% avg write latency
-  - under memory pressure: ~+23% throughput, ~-18% avg write latency
-
-The improvement comes from the larger persistent cache (up to 8 reusable
-pages vs the old 2-page tmp_page cache), which reduces alloc_page()/
-free_page() traffic; the effect is largest when reclaim is active.
-
-Future:
-=======
-
-If this approach is accepted, we could keep all allocated pages in the pool
-and rely on a shrinker to trim it under memory pressure.
+The on-stack prealloc pool used by anon_pipe_write() is unchanged; this
+only adds the per-pipe storage that later patches switch the read/write
+paths over to.
 
 Signed-off-by: Breno Leitao <leitao@debian.org>
 ---
-Breno Leitao (4):
-      fs/pipe: make the prealloc pool per-pipe infrastructure
-      fs/pipe: add per-pipe pool push, prefill and trim helpers
-      fs/pipe: switch the write path to the per-pipe pool
-      fs/pipe: remove the old on-stack prealloc helpers and tmp_page[2]
+ fs/pipe.c                 |  7 -------
+ include/linux/pipe_fs_i.h | 19 +++++++++++++++++++
+ 2 files changed, 19 insertions(+), 7 deletions(-)
 
- fs/pipe.c                 | 162 +++++++++++++++++++---------------------------
- include/linux/pipe_fs_i.h |  21 +++++-
- 2 files changed, 86 insertions(+), 97 deletions(-)
----
-base-commit: 4e5dfb7c84012007c3c7061126491bbc92d71bf1
-change-id: 20260625-b4-pipe-unification-aba7b8525de7
+diff --git a/fs/pipe.c b/fs/pipe.c
+index 429b0714ec575..325fd9757dbdd 100644
+--- a/fs/pipe.c
++++ b/fs/pipe.c
+@@ -111,13 +111,6 @@ void pipe_double_lock(struct pipe_inode_info *pipe1,
+ 	pipe_lock(pipe2);
+ }
+ 
+-#define PIPE_PREALLOC_MAX 8
+-
+-struct anon_pipe_prealloc {
+-	struct page *pages[PIPE_PREALLOC_MAX];
+-	unsigned int count;
+-};
+-
+ /*
+  * Pre-allocate pages outside pipe->mutex for multi-page writes.
+  * alloc_page() with GFP_HIGHUSER can sleep in reclaim and runs memcg
+diff --git a/include/linux/pipe_fs_i.h b/include/linux/pipe_fs_i.h
+index a1eeed8006694..796860cbddf30 100644
+--- a/include/linux/pipe_fs_i.h
++++ b/include/linux/pipe_fs_i.h
+@@ -13,6 +13,9 @@
+ #define PIPE_BUF_FLAG_LOSS	0x40	/* Message loss happened after this buffer */
+ #endif
+ 
++#define PIPE_PREALLOC_MAX	8	/* max pages in prealloc pool */
++#define PIPE_PREALLOC_KEEP	2	/* keep at least this many after trim */
++
+ /**
+  *	struct pipe_buffer - a linux kernel pipe buffer
+  *	@page: the page containing the data for the pipe buffer
+@@ -57,6 +60,20 @@ union pipe_index {
+ 	};
+ };
+ 
++/**
++ *	struct anon_pipe_prealloc - per-pipe page preallocation pool
++ *	@pages: array of cached pages (pool)
++ *	@count: number of pages currently in the pool
++ *
++ * Each pipe keeps a small bounded pool of preallocated pages to reduce
++ * allocation overhead during writes. The pool is bounded at PIPE_PREALLOC_MAX
++ * and trimmed down to PIPE_PREALLOC_KEEP after a write completes.
++ */
++struct anon_pipe_prealloc {
++	struct page *pages[PIPE_PREALLOC_MAX];
++	unsigned int count;
++};
++
+ /**
+  *	struct pipe_inode_info - a linux kernel pipe
+  *	@mutex: mutex protecting the whole thing
+@@ -68,6 +85,7 @@ union pipe_index {
+  *	@ring_size: total number of buffers (should be a power of 2)
+  *	@nr_accounted: The amount this pipe accounts for in user->pipe_bufs
+  *	@tmp_page: cached released page
++ *	@prealloc: per-pipe page preallocation pool
+  *	@readers: number of current readers of this pipe
+  *	@writers: number of current writers of this pipe
+  *	@files: number of struct file referring this pipe (protected by ->i_lock)
+@@ -99,6 +117,7 @@ struct pipe_inode_info {
+ 	bool note_loss;
+ #endif
+ 	struct page *tmp_page[2];
++	struct anon_pipe_prealloc prealloc;
+ 	struct fasync_struct *fasync_readers;
+ 	struct fasync_struct *fasync_writers;
+ 	struct pipe_buffer *bufs;
 
-Best regards,
 -- 
-Breno Leitao <leitao@debian.org>
+2.53.0-Meta
 
