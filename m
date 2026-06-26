@@ -1,135 +1,133 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA793009F6
-	for <linux-fsdevel@vger.kernel.org>; Fri, 26 Jun 2026 14:51:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782485493; cv=pass; b=PkXuHUwTcFJLlFuPPXY8ChHmykMgBCiqHuWgUBsgTrd29oLDeFViwOwg7IMzwQptpQ879eUxAmUk1tHkQQh9Pb8XOHFKfkPKqKVChJMqfhcab7Nc9+MwEuLnkWBdwTr6o01O+QUyA2sgip+3vHOLV+0GN1GgUFpFXWQ9MRi17Iw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782485493; c=relaxed/simple;
-	bh=F/vTTa+gFZE1/PfB4U5xRpdZYv0DcxHltEmaOMRgRKU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CcTtd0MrMPE51jUje5M7QtyI228kbrXTgwV1zas2GRYfmdxUL3sKfHxZrZxoLF4vV8Vt6JHQzl8MKLKYBv2mX5dM0JuglvV1YqmrrfG+2e70dI8mgl52QobSFh0h6dJ2Xtjz05HaN2BRbcoyErHUQqIFmDOTDCztLHKZziCgdMI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ps4hgRy1; arc=pass smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA001391505;
+	Fri, 26 Jun 2026 15:16:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782487018; cv=none; b=BO+r7+tz6iBj3eg51aYmaCsSScmzienqzg/e1RGM//wLf2wWG9H748vaYZfoiLRBuuws+7OmchT+OUWTZ+MF6QLQ6PbWeHcgsekGReUHuJwuyB1TTqs7eKTOo39sQMKOdQM3kWSoyW67+nDJDJ93k7YQvc9De1IXGFNJawMiU/E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782487018; c=relaxed/simple;
+	bh=bKJUGbLEj+PKwuuvq0QPZEp0+8e3cs1fTf31rzz4AjE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tsiapm8A/R6WS1ivJx2w44PTaQ5/Uxu9CvZhGfJwhEAEHCtpw2qbtBV9hhJqse3i4wdse4co3kfX2GjLq0we2mWSkQw9wuZeifwFsZ76TMx38PmNrFKGFd9ktgjtcOeQE8Hypxx9OUIO1ApfMetlYPGI+y4GY6gWV4ifE4r3Q+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XECLZGOw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ps4hgRy1"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-46066e640easo580737f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 26 Jun 2026 07:51:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782485491; cv=none;
-        d=google.com; s=arc-20260327;
-        b=i4eIVxoK5tyGF6aeAwZ6tIvKVxAHcRnQEbWcOWq8Go75pQxH9MkoPJxCV2rFl50eca
-         UN3ZPUsx+w3GvHJGXXlwOAC4dEsfYpJvQVFaVF9NkxXhgjG1vAGoduH9y1vDIPEWbjg5
-         lTDW86IQ9tg3vYnYqBxXgYyT8pPhMRrQK4kwea9RjxZF4IIST82eQdPqntAE4AcB7FWj
-         muYq2BA8/cKRR9syXuwoMP3yQXDWJ7AphCqKY/uJ19rYV/TgQb1i9Cg8WmLsSYpc27Ga
-         ShkVQayv5hTS3K9J1P9pRXMb8P6GJEZ7hoQtDK/4+MzQh0NxpiKCbaRY1KVMqiS9BYAJ
-         9ZmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=qEFu/GsLUdYzJ5HEI3yfKh2VsiakBP97CsT9SHwpvI8=;
-        fh=k2TWn8vWLFI0JEWgut9ybZ0KrTCw7hxK72fVRquSIic=;
-        b=p5pCa0bivhUCDzib8+AVeooDG+jKJJO/p8y5Qjf4okz4AoIi5Bzfb+NLmYGB/kk+Xa
-         ijNdr5XabkWsbhznXErRTGfd/bVHuXheAXDR/DJwUU+bRBs7AhYT9bDsgLcb4XnU3faA
-         x9aDDKcvRVzC/OiC7EzdReB/E8Z530g7bwH8TMXLozprXFvTqbxSYjABk9vxPdok6cmb
-         YxL1o7MHpPmG4peMq5DIB7Bb3r64eCDFa+4YySpazNpZOJC5IJRTo8yG+AktoH3NBGDN
-         rGcc+CCgi4AwN75LVjyLAwy7k/xFU1qTv/ZFPYn2josoAbwbIRAAx1+a1koWCn6jJLw1
-         ELZQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782485491; x=1783090291; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qEFu/GsLUdYzJ5HEI3yfKh2VsiakBP97CsT9SHwpvI8=;
-        b=ps4hgRy1TOSS9Riyv3W173MqEmxS0jYow5bSnuvVnKOOWngRr9msR0u/sU4Nz66e9A
-         KFzMejI8vHcUiFAGV0qXjJliUOnN+laMroqRrzAApP3BCZeq1MO2Pyk4wAQNhIQkQLoc
-         rgMUGsC06Kp/yaqAQrwIOAW2FhzEEoDsUKtabw2AsStH4xzvq5LPUB1sHTUedthWS4WB
-         jdGIRKg7TywTT2XMl6dBYB3vG8gw9GLR3KpZ4wmrFkjR+c790I6LbHtKKplq2UGcpD08
-         zQxbatEmWFt2p9PFrhF2HVxHcV/gEeluH8H1EUgZA/dre7weEkJT9H/m1r9GvlFIiOFF
-         O2MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782485491; x=1783090291;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=qEFu/GsLUdYzJ5HEI3yfKh2VsiakBP97CsT9SHwpvI8=;
-        b=L242m92+c+79H84VdW1rX03ZYMadOHKdJ2xtGAqaMv5P0oCmnDNNlnu6cp7jbn86J+
-         H+KfINvMr6xjIT2p73kNOhB6oIJlIUMsGt5OLUUP0QY+MAjOLTXi732KXx2uc42jGe5V
-         eupNzV4RrBiFTFKCQ0baA8UIzERO3h2svb2is5gDuv+z4XtVGE7R09lq4GJ83cbQovxy
-         EPMxNL1Q5bsQM85b+/tBzIg6HzVm2IAQD8gcnmAf1c1PRDGLcsadkkqDevr91Z1M/dRs
-         ncPUBGk0hR+6C0jtT6vJC4KjEqFGRE8cyYUVYI4NxMgrb9M33cJIFDmVhFkcpi2q8/S2
-         gECw==
-X-Forwarded-Encrypted: i=1; AHgh+RpBi7sVWPe2Jlrdx+jOkjxErM4IZVY0iKT0WXYvqeWvkZPLF4LQRyXg6EhXVtPpCWnGtspKbYDEje7TON8x@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTIgLOcQHJcgHQX4HJ1D/Ymkma83glCcZv6j56jhzW9NRwYDIr
-	VAh8mk9uinIGtRS/SyWBREYBJey8L9IIi3IeKjPawaRf8cAwjae7vKtZJd9sywvzP1+VobeHEiI
-	9szbf8ALLiENVEvOMVshgT3VPeB+u1DU=
-X-Gm-Gg: AfdE7cnby/NavRf9PHKwexlWrOlWtL7wdR0N+9/2PGKEn/KRrLNWkQFw9ne8VvlxyuD
-	lyjvVbtYMiu5lxPNIAVwfJhm4Mof0pyHDgEEhBj27ZAZdp1f3AERHU4tKUI+2kXt+gZjVAeqmyW
-	HmuemFx/a0eP8QuDLqYR2N5OKIM92kOeZHgL2PMVRZztKbVvzUAYu+q2yoq7ZY/ZjGMIEG+PoUx
-	w6jTlyEEDIv0PQDJLhNPZZoudvcUFad52TEPCMhT6lL096nmtYIL4X5udCMUFz5tODQ7mgnb3R0
-	7LpBLcEGLXIkap99ZF6Y/FBWXZSpfz296Yc7d/oA5a5fju88JQMuLSM/pMgIh/I=
-X-Received: by 2002:a05:6000:4b1b:b0:469:3037:37d6 with SMTP id
- ffacd0b85a97d-46dbed361c5mr11889497f8f.2.1782485490511; Fri, 26 Jun 2026
- 07:51:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XECLZGOw"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 5170C1F000E9;
+	Fri, 26 Jun 2026 15:16:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782487017;
+	bh=yPrSA3TnI0R8uq4PXOryhjCI9KvQp9dLsVTaqmcmmGI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=XECLZGOwNDofiOoSN/SztkrDttTHbES5pgRyCSa5jPMRwiPLUaMW7517HiFhDv0rP
+	 QcOYCp+Y2usoZgF7s+PpwroV/OJCql0uh681gS1B39+I8EEoYHjzrTZ71j/B2VY3F3
+	 SY1CByGGJtfZQZo/a8qAmpd/YEFdNAtMTp7rc66s3WJvFvIDoRrHMLmwK36n5Upbjq
+	 0CEY4yCwfbnqgYN3GTGA6tSddHjIUkOakh93m+8GSD4HQuZbj3rWQ3r4xrdjLi4vYe
+	 WXoB/i8k+XDzfgj4ZY9KmQjnAnx7B/7NAFjftWYQ7Mn+93pM+BANsSCx62dsA7+Uw6
+	 3uLrmvHgvr1Xg==
+Date: Fri, 26 Jun 2026 08:16:56 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: cem@kernel.org
+Cc: linux-fsdevel@vger.kernel.org, jack@suze.cz, hch@lst.de,
+	serge@hallyn.com, linux-security-module@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org
+Subject: Re: [RFC PATCH 1/4] capabily: Add new capable_noaudit
+Message-ID: <20260626151656.GT6078@frogsfrogsfrogs>
+References: <20260626114533.102138-1-cem@kernel.org>
+ <20260626114533.102138-2-cem@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260625120803.2462291-1-hch@lst.de> <20260625120803.2462291-3-hch@lst.de>
- <20260625174758.GE6078@frogsfrogsfrogs> <CAJnrk1YFeirQ4g7qcVsda-8qPLeAtoiyW6ZBuJb2qDsGpxi-tg@mail.gmail.com>
- <20260626043319.GC8078@lst.de> <20260626061637.GA10337@lst.de>
-In-Reply-To: <20260626061637.GA10337@lst.de>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Fri, 26 Jun 2026 07:51:18 -0700
-X-Gm-Features: AVVi8CdX3YEuehBm4GMevCFp3lRCSJHGYeePQFfRezoeBrVyeHAViWscCz8GoDk
-Message-ID: <CAJnrk1aJbQ0092f=wcTu8v62rdxZ7-NxyF-1vp2e42oSEo6LBA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] iomap: submit read bio after each extent
-To: Christoph Hellwig <hch@lst.de>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, Christian Brauner <brauner@kernel.org>, Kelu Ye <yekelu1@huawei.com>, 
-	Yifan Zhao <zhaoyifan28@huawei.com>, Ritesh Harjani <ritesh.list@gmail.com>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
-	Hyunchul Lee <hyc.lee@gmail.com>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, ntfs3@lists.linux.dev, 
-	linux-erofs@lists.ozlabs.org, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260626114533.102138-2-cem@kernel.org>
 
-On Thu, Jun 25, 2026 at 11:16=E2=80=AFPM Christoph Hellwig <hch@lst.de> wro=
-te:
->
-> On Fri, Jun 26, 2026 at 06:33:19AM +0200, Christoph Hellwig wrote:
-> > On Thu, Jun 25, 2026 at 11:32:40AM -0700, Joanne Koong wrote:
-> > > Yes, that works. I think that's a good idea. fuse only needs
-> > > submit_read logic for readahead. The change would just be:
-> >
-> > A nice, I'll fold that in.
->
-> Btw, can I get a signoff from you for this?  It looks like splitting
-> this into a separate patch actually works better.  If you have a
-> preferred commit log I'd take that as well instead of mine.
->
-> This is what I'm currently testing:
->
-> https://git.infradead.org/?p=3Dusers/hch/misc.git;a=3Dshortlog;h=3Drefs/h=
-eads/iomap-read-submit-bio
+s/capabily/capability/ in the subject even if the typo actually makes it
+easier to find the thread.
 
-The submit_read logic is only needed for readahead. We can remove the
+On Fri, Jun 26, 2026 at 01:45:20PM +0200, cem@kernel.org wrote:
+> From: Carlos Maiolino <cem@kernel.org>
+> 
+> In some situations (quota enforcement bypass in this case) we'd like to
+> check for a specific capability without triggering spurious audit
+> messages from security modules like selinux.
+> 
+> Add a new helper so we don't need to use ns_capable_noaudit() directly.
+> 
+> Signed-off-by: Carlos Maiolino <cmaiolino@redhat.com>
+> ---
+>  include/linux/capability.h |  5 +++++
+>  kernel/capability.c        | 17 +++++++++++++++++
+>  2 files changed, 22 insertions(+)
+> 
+> diff --git a/include/linux/capability.h b/include/linux/capability.h
+> index 37db92b3d6f8..873416ba884c 100644
+> --- a/include/linux/capability.h
+> +++ b/include/linux/capability.h
+> @@ -145,6 +145,7 @@ extern bool has_capability_noaudit(struct task_struct *t, int cap);
+>  extern bool has_ns_capability_noaudit(struct task_struct *t,
+>  				      struct user_namespace *ns, int cap);
+>  extern bool capable(int cap);
+> +extern bool capable_noaudit(int cap);
+>  extern bool ns_capable(struct user_namespace *ns, int cap);
+>  extern bool ns_capable_noaudit(struct user_namespace *ns, int cap);
+>  extern bool ns_capable_setid(struct user_namespace *ns, int cap);
+> @@ -167,6 +168,10 @@ static inline bool capable(int cap)
+>  {
+>  	return true;
+>  }
+> +static inline bool capable_noaudit(int cap)
+> +{
+> +	return true;
+> +}
+>  static inline bool ns_capable(struct user_namespace *ns, int cap)
+>  {
+>  	return true;
+> diff --git a/kernel/capability.c b/kernel/capability.c
+> index 829f49ae07b9..2c2d1e8300bd 100644
+> --- a/kernel/capability.c
+> +++ b/kernel/capability.c
+> @@ -416,6 +416,23 @@ bool capable(int cap)
+>  	return ns_capable(&init_user_ns, cap);
+>  }
+>  EXPORT_SYMBOL(capable);
+> +
+> +/**
+> + * capable_noaudit - Determine if the current task has a superior
+> + * capability in effect (unaudited).
+> + * @cap: The capability to be tested for
+> + *
+> + * This is the same as capable(), except it uses CAP_OPT_NOAUDIT as to prevent
+> + * issuing spurious audit messages.
+> + *
+> + * This sets PF_SUPERPRIV on the task if the capability is available on the
+> + * assumption that it's about to be used.
 
-+       if (data.ia)
-+               fuse_send_readpages(data.ia, data.file, data.nr_bytes,
-+                                   data.fc->async_read);
+Can you mention that this checks the current process' effective
+capabilities (as opposed to the real ones)?  So that nobody else has to
+suffer the confusion I pointed out in [1] which was the source of the
+security bugs in the first place?
 
-change to fuse_read_folio().
+(I do like the wrapper though)
 
-Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+--D
 
-Thanks,
-Joanne
+[1] https://lore.kernel.org/linux-xfs/20260625160317.GY6078@frogsfrogsfrogs/
+
+> + */
+> +bool capable_noaudit(int cap)
+> +{
+> +	return ns_capable_noaudit(&init_user_ns, cap);
+> +}
+> +EXPORT_SYMBOL(capable_noaudit);
+>  #endif /* CONFIG_MULTIUSER */
+>  
+>  /**
+> -- 
+> 2.54.0
+> 
+> 
