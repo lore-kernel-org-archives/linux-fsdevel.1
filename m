@@ -1,120 +1,247 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E708191
-	for <linux-fsdevel@vger.kernel.org>; Sat, 27 Jun 2026 04:26:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782534411; cv=pass; b=gQgqSHvifAkfY3XbPwnPAPiQZsT4msrKaXtpD8XhI6HUXEIG0si6tnsAptMSnOc4N3xo/fDRSC/auEWyyKrwm5hKHQx9gsyl/GX8/Am6uww2eWDWNY7Zu8waK3DhLy2H528AGRIf7ZkpMi5xUcEZXr+7ITHbzhWEeM0V10RuC6w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782534411; c=relaxed/simple;
-	bh=JyCgR7XmuSS+o5PBuXFtKqdTV7XM7Tolv8zwogRy8Yw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d3FwchoAnL13U3YbtXpz0n0JZ8jXLExXnSw9LZ5ZHVPLnFCICkPWxK+ZQ6MBmDSJKxODgp/1q/qPhBvhfJSvakkV0rhE/swWAgDYqx9XB3AA+FXC5blKfRWIcSnSvi7Uv5v3F3dpFj+R9WbRkcp7pg/k80o2UdgyA2ARpWRA8sM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kduUna3R; arc=pass smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBC6175A69
+	for <linux-fsdevel@vger.kernel.org>; Sat, 27 Jun 2026 04:28:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782534487; cv=none; b=IJiklGtY1dx5TxQex9+AVcDaMG9MkDCf++DuPin0HfLOj1LGPChuRxSGcIFCajIQFtNsLbx8QRUX/aVkHJXIhIG6moHk9jeN1Mr+3wJgUCdqvRakYMhPJXSxxfuMCY8OeBDehPCQJV8VHkNih87pjC6sHZR1e96wJoKjk5Ti0hE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782534487; c=relaxed/simple;
+	bh=CslrLekTVHl9z3cjLuk6lO+68kMRlurUvl48ZNr3O8Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=msC7zthcGMmVTk0sVAz6Bz6QtU0HmNarVqgM+59xUQoSmtIYVb9CHGpi+EKMgUH0AABSZ0zC93xsRUlGZc8YWMkMGeQ6eeOOtFnCNPTNeCD5ws4gW1s/dIc++o94iD4ygT8YA+gKrCGDUBngUBP7GOO6qaJ/0jgVU9CJjtMzSMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X8BHcqx8; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kduUna3R"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-7f69b71f7b2so19687457b3.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 26 Jun 2026 21:26:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782534409; cv=none;
-        d=google.com; s=arc-20260327;
-        b=fzDl6taCp1dm+h3I+b1ywkaS1AJ4zm6GAF9aOoWb5RJTEFCDAkKZnt7qiYmaoqHAEH
-         t+9OrktL64fZhUJ8cSHBPzldq1Ar4mIyohakgqOP1dgB7WXks8qtRU/Ko26FJw/sFgg7
-         FevkAp1xdsd6HNuIgBMClgL2BfuX6eoIfb1WnPVuW16eSCJ4I+9+TBJVCXPYxADJOCnB
-         4V9OB4eEgoctVyAfMAf9P1eeLd6m574sZva754xMznnGWXnoArrX6j/AeaFJl+6UUDNg
-         EftVeTBYoBCOQOLu5pAAN6cXnpqNJivMBOi3pRwqUe58K7jvKuLnqaDfsnPTKSr6t0PC
-         DQ8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=JyCgR7XmuSS+o5PBuXFtKqdTV7XM7Tolv8zwogRy8Yw=;
-        fh=EZV7npbBGQlcRLykFWXAtJzB7Bs4+2MTXgreM+vxrQU=;
-        b=MxXr/AAOTq0n3PLkJs4BUv5v6ACovxA74iGc0ztfB76ftAZ191dHAt2ftlEf56pQZB
-         ypYLUP6qnOEOHhaPkDYd7lAJLpyCt6joDPtpoKtj6MmE2LkWeamgvBktOQJ5GAn4N+ud
-         4QBAHTnnpHjmyVpYaVRs+a1Tmog24pgq06H90u/uhYkb3yt2L/Of+MetuVLqC+NdeWaK
-         Jub9ylsOB2i6td09lp5hnbqn4YFLWfGtzP+xBN8LlUeNvEFKL3K2SEte3U5JtDrLG2VN
-         ojohoR2jCKiUnvPazJrRuSP8CprM4VlWaMQjWdFQmYRUcEZ0/7MDMirYWDwaJoqcznsX
-         sxEg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X8BHcqx8"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2c7f1db3ad4so15520175ad.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 26 Jun 2026 21:28:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782534409; x=1783139209; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JyCgR7XmuSS+o5PBuXFtKqdTV7XM7Tolv8zwogRy8Yw=;
-        b=kduUna3Rf7F8PA0iPeRkV/6Ck6GW112w5jv3fy8kAT3dbI+6Ra1YnOAhoU6qFtyUk3
-         B5pv2mtWQsHQoGIfm1Rhu3mjkUW3bLy7w5jtPvmybsq6abcUdboDXl+//XqREfMTgWfJ
-         NmWmc+aO4IrLsUb2DAgUy07xEJdu5k9fTdn+pEu95Z4Y+MfUG2zjthUza+n49t3wKChK
-         MlZ6UMi7DCRJJ8/GJTxuM9WWo60BJa7bPTnc0EYsS++Zfm78yXGRSgRAKSNdY4q8lnap
-         Xg/L/nM45B5GGemM9lS8Fy15NniLb4jIrUzydiZFosdGu6kRmbQqqn19mzxl7nWLUPBm
-         lEmA==
+        d=gmail.com; s=20251104; t=1782534485; x=1783139285; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=om2RB2SmC2niukiy60C/3EPNOAQudzn37k82pM7gjKQ=;
+        b=X8BHcqx8+AzwJDWDwEhroUZM079QfVQCe0t30JgliMPuWD5jTbMtoLSJKWmQAgoz2v
+         OFX37jIIJex3QdNZ5EshIETlwcg1qu7RR8GQtiS0OBqRDL7wOlpfksE+YmMKAEgMPhBe
+         QirUDwFSkDyqpNpqv3BkNCYvBoJMmPholj0/2GOO97tWebjvpSIfqPTI1jIzinGohAbs
+         NUjgeekwdv0x2uaXb717/z8RR3qU4ZmdKCXujm9u8yu2T9YbcoYLslUel+X7JnB7SGO3
+         B9IXgZpxLPf+5wSNssUKANAYxblK0aGNXpKVKMkqEK8oY2G3LNZw2YeL+rRcOCqAYv03
+         UvZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782534409; x=1783139209;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JyCgR7XmuSS+o5PBuXFtKqdTV7XM7Tolv8zwogRy8Yw=;
-        b=mSaNycb8Y2aL+C6P5fmTmQSzXZltx8MMJ8AOYfaicuFRdxvJYgfrSar8bBGu8yXJPs
-         ZdrBYEcbb8EExbwDVyBxJQ4BUiBuaW65oLzE1Do6A1xqiVQ0a03VzElgvJtnSmWijsJ3
-         pvPnPbI9f0LZ/ZmKXvOUJioqBKwAL+zwu5PcPIxyzhpLPbLPNozbdxFGO7AsNk2H87au
-         cE5KQByiYmOt7cLlbn0jsKlrsIigFiqXQhOJMEU+Gn0F/7YQVJKVx2RSDzUGt0VoFwTr
-         Gf+25TlEP2u7JRc9uf/Dad2AAfcW9w+DsxybmPnG3qZjsv7ltesMXh56hpmdw78VueT2
-         2p4Q==
-X-Forwarded-Encrypted: i=1; AHgh+RqdCxWWK0oD57U74lPIVabbF5hAj2ofOHynVW8tJYHroBCLbkk3FxCE3fdvVHEayNH+uuJ0/9Dk8G2yelDm@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBmFa0SpESXqs321PghsgHr/MivmoRgRbEHz0gYVwiQVsGjNUn
-	YVz3x4yWbKInS4QIo9mbT9zGVcwIDUYTq+hazZ2pG04Po3d/qG7gJmyNggusUb8PPm4ZQgAQYWr
-	q9+J1CLrEIgfMEGGGrUD8HEGmjyXpk5avNmfE+V+rcw==
-X-Gm-Gg: AfdE7cmmwMKphVzB3MsIhO5/euRHe/p9wPYyKXNA79WsXc1cgZqORnLxuOKYLNvTc2K
-	p9vcAI0DVBHGL7nwvm6hok1Vk0KR3a7Irul4lPDMXZZFu/FyuJz6eFKimzlcv4xI5JFrq+Hwyzk
-	vTEFD7V3+YU300fVhO9PSCA1cCQhIY/SlXqgHR0mxIX9HYsQIBJ1G7bLqQLWOLCHtdSrU0sQxkY
-	RL/sMxnR95VnXmWghcaoCbOHZjPX5qwmNfK6oj70amiNB6AvQUeJrrgSa2xgSt3M0JZn2DwtDyZ
-	KZr8c+gh1A==
-X-Received: by 2002:a05:690c:6e08:b0:80d:35db:7d9f with SMTP id
- 00721157ae682-80d35db822emr6059627b3.17.1782534409394; Fri, 26 Jun 2026
- 21:26:49 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782534485; x=1783139285;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=om2RB2SmC2niukiy60C/3EPNOAQudzn37k82pM7gjKQ=;
+        b=E7eFUDJy20ITVpaGepVbVGNcM+1S3nuKHWimXcntmQnt9P5kS0uApLwg11a1WruoOD
+         yGVFy7qlRshMjfYCWn/e329Y3y/A77/lOG0nXfFwejL7em8aPcAJhyxF4vBnazZ38+9J
+         JHJ7QpWNSnH8KOK5vsk1ktcA6jdiEOKosFjK5zJ4CBgyIEEAhByNDOc0LXlJ3lE0D/DZ
+         D9FPRtUmh+zXMbCOjA2clYG6DYg8A+mRj2rZDgIv1i2ORn6Oip9QUY5rSfGk+bs2Gio+
+         Uu5HaKKiMfPx1Bf6YVX8YG9Y+R2KIGHGy0+7P+5HvV5H/hio4jZ9XXV8xIGrUQESQH7C
+         ocvQ==
+X-Gm-Message-State: AOJu0YwGnproOARg2ae9cG93akWHxJXOLxy0DlOWIs/o0ouohifGwxpP
+	ntHUUlzDtTh6w2G2XZdtUYCjccFALe6v9LJzpOEQ0C17VfB4hPlPTNaIDkDfmAfatM8=
+X-Gm-Gg: AfdE7cn2ACpNtnbqDkbKNFL2x1qfoYFCKp6LzGAikEm6pctAmQDHA+HC5TWnh/7gXHO
+	F8tUvTag2S9pruC5OaGRoapTRmO7Yno8Vq3LkiWoaWhrJ9CXYpmPzoV/u8AvcKsYPaFcVccr4z2
+	MOVvMVcCl8VUxsSgAalBRzVf9y8WkQUCpnkRZSN/GzN2vd1R8Mqe0OQQNgoigkH3x08NoDRE4JS
+	hkXNK5scrzR1BIPCBozjAgRXsYMnRSGbXf6/6VXvZn+FkW/hhp++tVuAP+8PixBLmXpaq4m/ZmC
+	YHP+U1399gRr6awi2eIQlQPdgsjYYK9VzgEbmrpiu4hNREUnxU/ameCAnkjG+UO7ct66h9GkOao
+	cwxzRkVIJdjnarRM1VHgCKp+D25T0MjZPg/OXFetnlul2XLVnbsuaErv4J8WUSH9kFMBZ1NgyRW
+	Ql1F//NOA=
+X-Received: by 2002:a17:902:ffcb:b0:2bd:c925:3a16 with SMTP id d9443c01a7336-2c7fc9bfc55mr93355805ad.2.1782534484956;
+        Fri, 26 Jun 2026 21:28:04 -0700 (PDT)
+Received: from localhost ([111.228.63.84])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7f650827fsm50014905ad.77.2026.06.26.21.28.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jun 2026 21:28:04 -0700 (PDT)
+From: Cen Zhang <zzzccc427@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com,
+	zzzccc427@gmail.com
+Subject: [PATCH v2] ntfs: avoid stale runlist element dereference in fallocate
+Date: Sat, 27 Jun 2026 12:27:58 +0800
+Message-Id: <20260627042758.2841821-1-zzzccc427@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260626014706.2840003-1-zzzccc427@gmail.com> <CANFS6bYPxyfkSDeUH8vHyjjRNSnP-tgHSEHogA8-ZRiEKqnDsA@mail.gmail.com>
-In-Reply-To: <CANFS6bYPxyfkSDeUH8vHyjjRNSnP-tgHSEHogA8-ZRiEKqnDsA@mail.gmail.com>
-From: Cen Zhang <zzzccc427@gmail.com>
-Date: Sat, 27 Jun 2026 12:26:37 +0800
-X-Gm-Features: AVVi8Cdf0LAYNP85_xHhL8dZrMXS6m8fKkh076fxfqCRrO6EhaCpWTPhTnK8pZY
-Message-ID: <CAFRLqsX-3JtnZtRtK5a6BEsiMpRdu2csK9sdH_PCq5729THj+A@mail.gmail.com>
-Subject: Re: [PATCH] ntfs: serialize read iomap lookup with mrec_lock
-To: Hyunchul Lee <hyc.lee@gmail.com>
-Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Hyunchul,
+ntfs_attr_fallocate() allocates holes and delayed allocations inside
+initialized size by looking up the current runlist element under
+ni->runlist.lock. The returned struct runlist_element is only a borrowed
+pointer into ni->runlist.rl. A writer can replace and free that array
+after the read lock is dropped, so later reads of rl->lcn, rl->length and
+rl->vcn can touch freed memory.
 
-Hyunchul Lee <hyc.lee@gmail.com> =E4=BA=8E2026=E5=B9=B46=E6=9C=8826=E6=97=
-=A5=E5=91=A8=E4=BA=94 15:30=E5=86=99=E9=81=93=EF=BC=9A
->
-> It looks like there is a race condition here.
-> The concurrent writer may create attr_list immediately after this check.
-> In that case, the reader can call ntfs_external_attr_find() from
-> ntfs_attr_lookup() and access the newly created attr_list without the loc=
-k.
->
-> There also appears to be a few places such as ntfs_attr_map_whole_runlist=
-()
-> to call ntfs_attr_lookup() without the lock.
->
-> Considering performance, how about introducing the rw_semaphore to
-> protect attr_list?
+The buggy scenario involves two paths, with each column showing the order
+within that path:
 
-Thanks for your review, that make sense.
+ntfs_attr_fallocate():
+  1. Take ni->runlist.lock for read.
+  2. Get rl from ntfs_attr_find_vcn_nolock().
+  3. Drop ni->runlist.lock.
+  4. Read rl->lcn, rl->length and rl->vcn.
 
-I will rework this to try to use a per-inode attr_list rwsem instead.
+mmap page_mkwrite:
+  1. Enter ntfs_filemap_page_mkwrite().
+  2. Reach __ntfs_write_iomap_begin() and ntfs_attr_map_cluster().
+  3. Merge allocation state with ntfs_runlists_merge().
+  4. Reallocate ni->runlist.rl in ntfs_rl_realloc(), freeing the old array.
 
-Thanks,
-Cen Zhang
+Validation reproduced this kernel report:
+BUG: KASAN: slab-use-after-free in ntfs_attr_fallocate+0xbb8/0xd00
+
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x66/0xa0
+ print_report+0xce/0x630
+ ? ntfs_attr_fallocate+0xbb8/0xd00
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? __virt_addr_valid+0x20d/0x410
+ ? ntfs_attr_fallocate+0xbb8/0xd00
+ kasan_report+0xe0/0x110
+ ? ntfs_attr_fallocate+0xbb8/0xd00
+ ntfs_attr_fallocate+0xbb8/0xd00
+ ? lock_acquire+0x2b8/0x2f0
+ ? __pfx_ntfs_attr_fallocate+0x10/0x10
+ ? 0xffffffffc0000095
+ ? down_write+0x10d/0x1e0
+ ntfs_fallocate+0x5c9/0x1d00
+ ? __pfx_ntfs_fallocate+0x10/0x10
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? lock_acquire+0x2b8/0x2f0
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? selinux_file_permission+0x3a7/0x510
+ vfs_fallocate+0x29d/0xd30
+ __x64_sys_fallocate+0xc7/0x150
+ ? do_syscall_64+0x81/0x6a0
+ do_syscall_64+0x115/0x6a0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Allocated by task 410:
+ kasan_save_stack+0x33/0x60
+ kasan_save_track+0x14/0x30
+ __kasan_kmalloc+0xaa/0xb0
+ __kvmalloc_node_noprof+0x353/0x920
+ ntfs_rl_realloc+0x3f/0x110
+ ntfs_runlists_merge+0xaa3/0x3010
+ ntfs_attr_map_cluster+0x4e5/0xf80
+ ntfs_attr_fallocate+0x53f/0xd00
+ ntfs_fallocate+0x5c9/0x1d00
+ vfs_fallocate+0x29d/0xd30
+ __x64_sys_fallocate+0xc7/0x150
+ do_syscall_64+0x115/0x6a0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Freed by task 424:
+ kasan_save_stack+0x33/0x60
+ kasan_save_track+0x14/0x30
+ kasan_save_free_info+0x3b/0x60
+ __kasan_slab_free+0x5f/0x80
+ kfree+0x307/0x580
+ ntfs_rl_realloc+0x6f/0x110
+ ntfs_runlists_merge+0x7b1/0x3010
+ ntfs_attr_map_cluster+0x4e5/0xf80
+ __ntfs_write_iomap_begin+0x8cd/0x2280
+ iomap_iter+0x6de/0x11e0
+ iomap_page_mkwrite+0x391/0x650
+ ntfs_filemap_page_mkwrite+0x1ac/0x400
+ do_page_mkwrite+0x15c/0x280
+ __handle_mm_fault+0xd6d/0x1ca0
+ handle_mm_fault+0x19c/0x470
+ do_user_addr_fault+0x23b/0x9c0
+ exc_page_fault+0x5c/0xc0
+ asm_exc_page_fault+0x26/0x30
+
+Fix this by copying the needed runlist fields while the read lock is still
+held and using only those scalar snapshots after unlocking.
+
+After the snapshot, ntfs_attr_map_cluster() can also find that the range
+is already mapped and return balloc=false. Only call ntfs_dio_zero_range()
+when new clusters were allocated, matching the write iomap path and
+preserving the zero-newly-allocated-holes behavior.
+
+Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
+Fixes: 495e90fa3348 ("ntfs: update attrib operations")
+Assisted-by: Codex:gpt-5.5
+Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+---
+v2:
+Skip ntfs_dio_zero_range() when ntfs_attr_map_cluster() reports that no
+clusters were allocated, as suggested by Hyunchul Lee.
+
+ fs/ntfs/attrib.c | 30 +++++++++++++++++++-----------
+ 1 file changed, 19 insertions(+), 11 deletions(-)
+
+diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
+index dd8828098511..a99b84751eb1 100644
+--- a/fs/ntfs/attrib.c
++++ b/fs/ntfs/attrib.c
+@@ -5536,6 +5536,7 @@ int ntfs_attr_fallocate(struct ntfs_inode *ni, loff_t start, loff_t byte_len, bo
+ 	s64 old_data_size;
+ 	s64 vcn_start, vcn_end, vcn_uninit, vcn, try_alloc_cnt;
+ 	s64 lcn, alloc_cnt;
++	s64 rl_lcn, rl_length, rl_vcn;
+ 	int err = 0;
+ 	struct runlist_element *rl;
+ 	bool balloc;
+@@ -5615,19 +5616,23 @@ int ntfs_attr_fallocate(struct ntfs_inode *ni, loff_t start, loff_t byte_len, bo
+ 	while (vcn < vcn_uninit) {
+ 		down_read(&ni->runlist.lock);
+ 		rl = ntfs_attr_find_vcn_nolock(ni, vcn, NULL);
+-		up_read(&ni->runlist.lock);
+ 		if (IS_ERR(rl)) {
++			up_read(&ni->runlist.lock);
+ 			err = PTR_ERR(rl);
+ 			goto out;
+ 		}
++		rl_lcn = rl->lcn;
++		rl_length = rl->length;
++		rl_vcn = rl->vcn;
++		up_read(&ni->runlist.lock);
+ 
+-		if (rl->lcn > 0) {
+-			vcn += rl->length - (vcn - rl->vcn);
+-		} else if (rl->lcn == LCN_DELALLOC || rl->lcn == LCN_HOLE) {
+-			try_alloc_cnt = min(rl->length - (vcn - rl->vcn),
++		if (rl_lcn > 0) {
++			vcn += rl_length - (vcn - rl_vcn);
++		} else if (rl_lcn == LCN_DELALLOC || rl_lcn == LCN_HOLE) {
++			try_alloc_cnt = min(rl_length - (vcn - rl_vcn),
+ 					    vcn_uninit - vcn);
+ 
+-			if (rl->lcn == LCN_DELALLOC) {
++			if (rl_lcn == LCN_DELALLOC) {
+ 				vcn += try_alloc_cnt;
+ 				continue;
+ 			}
+@@ -5642,11 +5647,14 @@ int ntfs_attr_fallocate(struct ntfs_inode *ni, loff_t start, loff_t byte_len, bo
+ 				if (err)
+ 					goto out;
+ 
+-				err = ntfs_dio_zero_range(VFS_I(ni),
+-							  lcn << vol->cluster_size_bits,
+-							  alloc_cnt << vol->cluster_size_bits);
+-				if (err > 0)
+-					goto out;
++				if (balloc) {
++					err = ntfs_dio_zero_range(VFS_I(ni),
++								  lcn << vol->cluster_size_bits,
++								  alloc_cnt <<
++								  vol->cluster_size_bits);
++					if (err > 0)
++						goto out;
++				}
+ 
+ 				if (signal_pending(current))
+ 					goto out;
+-- 
+2.43.0
