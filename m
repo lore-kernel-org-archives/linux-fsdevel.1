@@ -1,66 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB0C81D5ADE;
-	Sat, 27 Jun 2026 03:20:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62363128D4;
+	Sat, 27 Jun 2026 04:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782530444; cv=none; b=Px/nQEDw8qWfp/ubwyYuUpTsJI3O3EiOMWvwGP2xlk+jONm7jqOaP4VpXXUc44a3gWGfbl7qyj+sRNMj2PN9uXKdX0niMM02IouTDikfYMNYROjn0Ok22lszQsB0BWJM5hPTOQUis1szbr50n1ww429YBq5edUe6f+0rOD8G3GI=
+	t=1782532825; cv=none; b=S54/ydFEChL+8cZsOd55aaXYtAjK7+se497NggGqnKWqzIVBC+QGaVFFoMVKlO7GibNkjZYJs+xnpTcDrQLdB51v1lSW0G+CK5RkuUSyidvZwjLUDWfpBRMTiNoBrQfCiy4gnAs5KK7MJDkBJFfh85hk6R/rIUF2jQPNUJYGbtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782530444; c=relaxed/simple;
-	bh=cycMDWNG4DyPiR5UzMbSkNRHzx8AKI7W9DYmVznlaoY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ofvz57y6kjNjXmIL5hFBlxKRZ+AySZc8fQmQSytQ/Srr5GwY5qlpO9vzFR7KbrYbHt5EyDdU6JCcWCXXN3KMmqWSzpeK/DEAe0ZV5xQNBTLDhbMGc47eX1Hh9tYyu9eA4Qy4AzK5q6Zvf1U5iylx4sQugiJIn+qw7dV/i5VeVbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RwNWZlfg; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782532825; c=relaxed/simple;
+	bh=5WioYOdkftj4Trcm7BEyYvsRddN1exgX2MN++Iva60I=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rUre8he2atFwLDTOV2wbU9NXGQhuXwUdCoKbbo0RXEyyAk6pVYC2rb2JbrRZbq9oyTmNq1NMTI7u3yd+35Nw+VF4ZLgyMPH+Lk2VJY53L3Yr1BiEgiRqBRnWTl5oJ8nnEjDlg1kO4rx6NlJ9bPdAVD1aRq72rADAAZE4XYIVt1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=n/1O8hT2; arc=none smtp.client-ip=113.46.200.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RwNWZlfg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 367E51F000E9;
-	Sat, 27 Jun 2026 03:20:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782530443;
-	bh=dLn5Ye/u1rkql2w2rInqXApZ9x5R/AHA3OMUU94o6YE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RwNWZlfg/u8BGWxx70gLerjkoDuAWoqh350agTA5BGW6G2ZyOiGmFDrvT0FEgPC/Q
-	 MWnERkC/kPYhzsnBr9N/tC2S//IWxsBHh0P1NMJVoC5TBDNL9VBhZWUp93MpXhUdZU
-	 e35Hfvvjn8GdmJ7ehxt++jhjAu1Kd5UGgo5LN5K8Y9K4m7qIAd/A0wkopkuM4BZ6O9
-	 VMN98Z4G3nsjIqtP3LcUMJdyvJmr1az68lTKibMbD+QfgVAheQw1kJppCrD+w9qwVl
-	 CPYvAkVfM5LPwPpXUT88ZvjQy+xNscLAvzgcZb2nV3DgYwxGLqOz6EM28P8ivo9Tpm
-	 mFBqXsnyZ3qCQ==
-Date: Fri, 26 Jun 2026 23:20:42 -0400
-From: Konstantin Ryabitsev <mricon@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Luis Henriques <luis@igalia.com>, linux-fscrypt@vger.kernel.org, 
-	Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, linux-fsdevel@vger.kernel.org, keyrings@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, syzbot+f55b043dacf43776b50c@syzkaller.appspotmail.com, 
-	Mohammed EL Kadiri <med08elkadiri@gmail.com>, stable@vger.kernel.org
-Subject: Re: [PATCH] fscrypt: Replace mk_users keyring with simple list
-Message-ID: <20260626-capable-inventive-rhino-b9b8fa@lemur>
-References: <20260618221921.87896-1-ebiggers@kernel.org>
- <87tsqpd8d8.fsf@wotan.olymp>
- <20260626190232.GA1719948@google.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="n/1O8hT2"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=b1uPAzThSzd6EJ5lYoL6dx42p8gcMb26cxd/40Y4GBs=;
+	b=n/1O8hT23GEWtntMSXhkM8MWc7mHqZBzdblQoOJuyq1lkOSIoWIH/JVmnr0PbDAtpthbmBvIW
+	VvJteLFcZL8AwsF2wSBAA6hY+UCwrG/1ke8rcmy0XGa7ZAa9aAdc4z4y4zjjTDnPAETVM30xIAq
+	8rH5fIr/ciWuIMVFIcHYLG4=
+Received: from mail.maildlp.com (unknown [172.19.162.197])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4gnJWB2YrdzcZxv;
+	Sat, 27 Jun 2026 11:51:34 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0118E40576;
+	Sat, 27 Jun 2026 12:00:17 +0800 (CST)
+Received: from kwepemq200017.china.huawei.com (7.202.195.228) by
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Sat, 27 Jun 2026 12:00:16 +0800
+Received: from octopus.huawei.com (10.67.174.191) by
+ kwepemq200017.china.huawei.com (7.202.195.228) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Sat, 27 Jun 2026 12:00:15 +0800
+From: Cai Xinchen <caixinchen1@huawei.com>
+To: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <jack@suse.cz>,
+	<miklos@szeredi.hu>, <amir73il@gmail.com>, <paul@paul-moore.com>,
+	<jmorris@namei.org>, <serge@hallyn.com>, <stephen.smalley.work@gmail.com>,
+	<omosnace@redhat.com>, <gregkh@linuxfoundation.org>,
+	<bboscaccy@linux.microsoft.com>, <caixinchen1@huawei.com>
+CC: <linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-unionfs@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
+	<selinux@vger.kernel.org>, <bpf@vger.kernel.org>, <stable@vger.kernel.org>,
+	<lujialin4@huawei.com>
+Subject: [PATCH v2 stable/linux-6.12.y 0/2] Backport Fix incorrect overlayfs mmap() and mprotect() LSM access controls
+Date: Sat, 27 Jun 2026 12:28:33 +0800
+Message-ID: <20260627042835.1492435-1-caixinchen1@huawei.com>
+X-Mailer: git-send-email 2.18.0.huawei.25
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260626190232.GA1719948@google.com>
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemq200017.china.huawei.com (7.202.195.228)
 
-On Fri, Jun 26, 2026 at 07:02:32PM +0000, Eric Biggers wrote:
-> It applies on top of
-> "[PATCH] fscrypt: Fix key setup in edge case with multiple data unit sizes"
-> (https://lore.kernel.org/linux-fscrypt/20260618180652.52742-1-ebiggers@kernel.org/).
-> This time I tried just relying on the prerequisite-patch-id footer (as
-> generated by 'git format-patch') to express the dependency.  But
-> evidently that still doesn't work: for one, 'b4 am' just ignores it.
+v2: Add static to struct kmem_cache *lsm_backing_file_cache; and define
+lbs_backing_file as int for keeping the same type as 6.12.
 
-FWIW, you have to use "b4 shazam" for it to apply the specified dependencies,
-as "b4 am" just creates a mbox file and stuffing it full of deps is not really
-the right approach.
+Backport the patch series
+"Fix incorrect overlayfs mmap() and mprotect() LSM access controls" [1]
+to 6.12 lts
 
-HTH.
+I test selinux-testsuite[2] overlay test, it pass 135 tests.
 
--K
+[1] https://lore.kernel.org/all/20260403030848.731867-5-paul@paul-moore.com/
+[2] https://github.com/SELinuxProject/selinux-testsuite
+
+Paul Moore (2):
+  lsm: add backing_file LSM hooks
+  selinux: fix overlayfs mmap() and mprotect() access checks
+
+ fs/backing-file.c                 |  18 ++-
+ fs/file_table.c                   |  27 +++-
+ fs/fuse/passthrough.c             |   2 +-
+ fs/internal.h                     |   3 +-
+ fs/overlayfs/dir.c                |   2 +-
+ fs/overlayfs/file.c               |   3 +-
+ include/linux/backing-file.h      |   4 +-
+ include/linux/fs.h                |  13 ++
+ include/linux/lsm_audit.h         |   2 +-
+ include/linux/lsm_hook_defs.h     |   5 +
+ include/linux/lsm_hooks.h         |   1 +
+ include/linux/security.h          |  22 +++
+ security/security.c               | 109 ++++++++++++++
+ security/selinux/hooks.c          | 242 ++++++++++++++++++++++--------
+ security/selinux/include/objsec.h |  11 ++
+ 15 files changed, 384 insertions(+), 80 deletions(-)
+
+-- 
+2.18.0.huawei.25
+
