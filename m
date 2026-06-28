@@ -1,63 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D782137FF46;
-	Sat, 27 Jun 2026 21:13:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A3C13B293;
+	Sun, 28 Jun 2026 03:33:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782594801; cv=none; b=gnBHpab3mn/Jl3oEYrWoG1Gbh0aaa539PaAQY7YWKniCmA7ggy3FMMgPlxtUmIFxg9opttz+GwxlLUT+afGM9nUkWuS8P8PayxuIUmbJx3GLdPQQdeI54vObg10ssBtfQpd7GtA9diWE2PXYbVLci9uIkIk2aAWE28/YQYZm32w=
+	t=1782617625; cv=none; b=T6t9UKACqw+Lvq5ly3rNMH1bTvV+17Ih5wMJ8s6bx7h82hKc+3Um44ss7hzQZg3l3vQzBvAzXZMEsZSQKw0o3qlJPdAfO9EOjfvPo6yqdWqT0gS9V4eC2NEoqye6IVukqO9w+ZkEGEC/p8YTYloIj1yDTP/L1HPOZnkyAUKXo78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782594801; c=relaxed/simple;
-	bh=tFvNBQiZI6UzZK8AohNh5zELWhljVKkiMtsyGcDqHwU=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Ew8n4lDnx1MHWQXNpvWNTwVFoXRq1eGc8eQhpUzC46RcIIEhW7Z5PhMvaak+s/3fYVpDVwQ6zDwuE+MizTkjyDBnp+jDMeu6xgl/T05fSmX+VrIW+8ga9ccogH6wR+vdt3a2ljDnSSJQb4Xm8vYNkrqTNLvN0CEpdXDfNUq7sH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eFYDeZlv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782617625; c=relaxed/simple;
+	bh=Z+JVV9VPncqXZgZLL6ymD4pWaALidlXhdXC7+voI7zg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LiNJaVQBOX7BiRYakUnWCVR5o1m1MlboQMuCux+rUEQ4jdeo5cA8yAR2QwLMozXfuoXmveUclzTmeJHIUtNTMI1zwJfrJJ301xnOLdmIQ+cgqgiaweN+dQSup3BqZUsB6z88ynON2tnqaWwK35knDQ0jpCdF0naqYkrirRK7oDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ntt1Riqs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eFYDeZlv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCB711F000E9;
-	Sat, 27 Jun 2026 21:13:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ntt1Riqs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35D3F1F000E9;
+	Sun, 28 Jun 2026 03:33:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782594800;
-	bh=EX5VmE3YSsvEq2Umd1hn19zoxghX3Y31VGqWDH4SHN0=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=eFYDeZlv5uuSrw6TJWzSqcwJQFhruz+ul1pICLmA/g0SkPtBLQJYUxlr1WUsmkYEg
-	 ClE4OGURZJtm9krS4vwzBEmGTZnFzI6zQFw6nE/8wOJi4sPdGWhC2lw/S54rkvgCMD
-	 fSxNMhmQb29BGs/LOBTmZK05uSgxWdSXmfRF3+F7EXZTJs34oS5DhkBil8KXrJ8YVD
-	 zuhwQGTVP6pepTCaQ/pgqRIlGlFi0wT0ycbLgcIjg3bKui1arURogt1zchcmNoA+Sl
-	 F2cnY2kR0TuQrF4zJ1/tQRqQvwfo4uX1SfqzqMlg51jzKSDlMgnPOky0wCbBDT0/bb
-	 MbDkGtdfoyDyA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D0BA53938452;
-	Sat, 27 Jun 2026 21:13:07 +0000 (UTC)
-Subject: Re: [GIT PULL] fscrypt fixes for 7.2
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20260627004314.GA2075@quark>
-References: <20260627004314.GA2075@quark>
-X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20260627004314.GA2075@quark>
-X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/fs/fscrypt/linux.git tags/fscrypt-for-linus
-X-PR-Tracked-Commit-Id: 696c030e1e3438955aba443b308ee8b6faa3983e
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 6ca693ea903df5748809f61b290831004036978d
-Message-Id: <178259478645.1431938.819006475632242246.pr-tracker-bot@kernel.org>
-Date: Sat, 27 Jun 2026 21:13:06 +0000
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, Mohammed EL Kadiri <med08elkadiri@gmail.com>, Luis Henriques <luis@igalia.com>, syzbot+f55b043dacf43776b50c@syzkaller.appspotmail.com
+	s=k20260515; t=1782617624;
+	bh=Z+JVV9VPncqXZgZLL6ymD4pWaALidlXhdXC7+voI7zg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ntt1RiqsPY1ldgjhWXQv46df28gHnKPn2Jk0/rA0ebp+kzQSKixMwk61I11DTnWWl
+	 DpnBQlIgCnrcSMvluWdRaxVRKxF1CHrs32keceL9RLUIxDRhaTRN3wxa2vz8NNRKIR
+	 LeKvG/RyMqoWg3jlk10sl4JnQGJa6s5MbkC6olK04uWGQ3Kfi82f+vNyD5pn4rC9qG
+	 LAKKkHIvYp95EYK8jv2MX9IWX9j1OhBQV5inOWIcRtIjlCCCJxupbFBuwhU6YjKCFA
+	 DBbYVFCijpEn9fbuya8Xt8+FFNTj04zzGk5ZR1dR3QgQiawf+gKbc6aks3RLJpVPeh
+	 p2KxfVn9MAGPw==
+From: Sasha Levin <sashal@kernel.org>
+To: viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	miklos@szeredi.hu,
+	amir73il@gmail.com,
+	paul@paul-moore.com,
+	jmorris@namei.org,
+	serge@hallyn.com,
+	stephen.smalley.work@gmail.com,
+	omosnace@redhat.com,
+	gregkh@linuxfoundation.org,
+	bboscaccy@linux.microsoft.com,
+	caixinchen1@huawei.com
+Cc: Sasha Levin <sashal@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-unionfs@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	selinux@vger.kernel.org,
+	bpf@vger.kernel.org,
+	stable@vger.kernel.org,
+	lujialin4@huawei.com
+Subject: Re: [PATCH v2 stable/linux-6.6.y 0/3] Backport Fix incorrect overlayfs mmap() and mprotect() LSM access controls
+Date: Sat, 27 Jun 2026 23:33:31 -0400
+Message-ID: <20260628032401.0001-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260627065720.1945589-1-caixinchen1@huawei.com>
+References: <20260627065720.1945589-1-caixinchen1@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The pull request you sent on Fri, 26 Jun 2026 17:43:14 -0700:
+On Sat, Jun 27, 2026 at 02:57:17PM +0800, Cai Xinchen wrote:
+> [PATCH v2 stable/linux-6.6.y 0/3] Backport Fix incorrect overlayfs
+> mmap() and mprotect() LSM access controls
 
-> https://git.kernel.org/pub/scm/fs/fscrypt/linux.git tags/fscrypt-for-linus
+All three patches are queued for 6.6, thanks.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/6ca693ea903df5748809f61b290831004036978d
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+--
+Thanks,
+Sasha
