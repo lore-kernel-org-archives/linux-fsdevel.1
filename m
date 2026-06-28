@@ -1,48 +1,48 @@
 Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC373242D88
-	for <linux-fsdevel@vger.kernel.org>; Sun, 28 Jun 2026 09:29:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E33B272E56
+	for <linux-fsdevel@vger.kernel.org>; Sun, 28 Jun 2026 09:52:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782638962; cv=none; b=Ywc6RrRisvR3kXuXi2+8GhNINtDIV9Dubq+RsqKflwyHVc27x/S0mgnWs+R7GkY2Fi49hEGKnYdCZNnbBw67QqtnyoSB0vJQR4ogFwN0Y+4gCP8hr8KBSOj+RM/1ERD2y3npJL1cK9KmPsnuAAOjXDCAe4ibMLotiylyKNbv1dA=
+	t=1782640348; cv=none; b=NK4DC9W7dMoP1XGE/40fxYdWazhZifSoRImhFdqzC82xauZQiEWeY4wgJBVIIawlXl0yjl6S640eIx2xsOO1PjTpYgJB2ux7/0+JtWi8FYKOk6mMUe50yCcscMrEYHztzW6g8MKPQgGyWuJEi2gvCi0gzc+VtIwWyFrBhP2/0Dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782638962; c=relaxed/simple;
-	bh=4tqhR98yZMXNIa6lul9m4s6O5kDDyKTNj4LbTgnz6co=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cnsLsY6H4biQU4GoqAXqAhBDAquCBA39HJiU7PYMGx8shQWWWhQUJjEFTy2OUqgqvND4k8E7+RufCO7Y1JIaI8+9EcfjtWmzuwy+Y472NBTgI+YyAZmEhaIxrWfWdOcej95bKh7xIBu7TBiql53zrl3Hpj1lRt+0ZKMcTCvEwdM=
+	s=arc-20240116; t=1782640348; c=relaxed/simple;
+	bh=meZwVgcg7tDR9jSuGi9nc98yVdlU/Ib6hApJO4PNMss=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IvpZFjXPZkQrn6GR93m//r9HRWVC44Nup2NDR9GDCz9djl+POfZBaH8bT7whwooH0MOmHV1gae3XvpTZ0yuiLcwPbHA62Odm6o1ycrNKTZOQZBE+kLPbMlDjiZg4XiwrM5r7W/0eQjnsWXqz/7nzVQ3gPEP6xn88F9iDJ6tbrso=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=trevrosa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=trevrosa.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2c9d87b1f9eso2121865ad.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 28 Jun 2026 02:29:19 -0700 (PDT)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2c9e89fded0so1907875ad.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 28 Jun 2026 02:52:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782638959; x=1783243759;
+        d=1e100.net; s=20251104; t=1782640344; x=1783245144;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=msiQeoD9bE2+9m/GBRmkavuhnEjua8HjkhejH4gaLD4=;
-        b=f7+emfkfAQDdhewQFEVobpYyAlxZAE8aXBjnwVk3bTX7+Q6SWkCNLo9t21fktshp79
-         oiI53PAm/+HF/Pk9T/VnjhPdHlqoMArsBa/0iWReeHCfP7zR32Fz369tN6BhPUENZ0+V
-         a1a1DbGUNTV8zuGHVvwz0N6P7XSCuSG06CQKOqBc22CT2h+4Mbx7y6ckVMGPjt9n2XK4
-         +vI8fUscWDgj53FuYRbhDwc3Z0jM+kD89SYVTHhTp+BFbIGPFyvkXyqMUXo6rGjmWSBd
-         lT/s2yKDRJ+y4aBLNdr/qEM/I+yPYMMrH5erCXwln2sDfA5LULqPzbsa1v+H4uB/zTpo
-         CqyQ==
-X-Forwarded-Encrypted: i=1; AHgh+RporfK9xjJT4sxbhUx8P0ostpbUByBHANPDNL4+Eeu49371LbPAdWISUw7iBJSo74SsypnkvJVTD2BydtXO@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOhbEuSB1XVdpXSXhwkV6lTNjJIE6LirhsmRuS9tu2UxxjQ1+H
-	1CxiDgI6GDibc828VHnXjaf1NWQeO57D5FnCqsK/BzffWvHps5z84AIc
-X-Gm-Gg: AfdE7cmWQT6X1TcrJxulySB4uh5Qj+qF++FcSugaR/dENWtWXIe2zkq/a6pdlGcmtba
-	iiAOubQzuks6AyRgBP7HgelMDxBHw1sInXxHYLMr2SMBFgM/g50EXKwYup7rrxCA7kaDVNerBSz
-	4KcY//B3ODZFG9yhQWWZJ9qqt8Godu/CvXUVdhAPjVUtKsiJZVi+IuBO3zttgKWGTHZVi/kI89v
-	5EA9DivZo7VkxYrEKLn4yuouJww8FucJGnHNsTw4GGPU2uhshY4cPyk1EEn1OWLGyE4APFkm8PC
-	ueOyICaxjC5N2UOud6iEkrQQ2759EdK11wIasSto7AL7SqG/TnNtYZD5G53itM9rnv94qwdZe9m
-	rfmoQXAiqT7L2efcz5PDrQL+6xDCsC6dGV72lSd5xaqFQHJCk1K8l53c9dD48Y2A9i9hpip9+wW
-	3KcCJ5CnZOPOXq/e8qe2fvXUPKTu1E2MTrvZPV7etycvjySuIHUg==
-X-Received: by 2002:a17:903:1ac3:b0:2c9:97a7:3288 with SMTP id d9443c01a7336-2c997a733f5mr55740665ad.42.1782638958963;
-        Sun, 28 Jun 2026 02:29:18 -0700 (PDT)
+        bh=lDgOeoLgb3Wg1d9q9LSag5G1FEbopPLBrrQaAkjZfVw=;
+        b=AXpHelH9bQqFo/hF1sG1BgPsisO6Aw6xPbiIwQzBXqIFppy6AmJWFQYl5yVErM0tYM
+         xDUrUMoNcMtIhxZBCIwU+95Hlnao5v0EoyVGNHrxlGpygNlPUUbEsRY6pHCmnfzRpQ0x
+         6cScdOh8fd/Nx8U//hMcsQNvX1cF5yHCe+081A6uU5zbyGbjSdW/LMRAxiJ2h0fxC6mO
+         tn5yCfVWnCf0c2cHSyye3dilhB0PhqsSVoy+ODIT6igvKj1QywVBudN/ZowPHIllSH+0
+         Quq+6BH084SU1C8c/eJuRiqIcYqIR6PcZhWEF6RapWtaV+6OqKJq+UGhlK6fA2gshSu6
+         6jaQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrFVTh97gAcV5nYjBfW2+xPkgVXCdy8WzWqeWM61sN3SORPgKC9q+rTTrXjoIxenNhz3hd00Nm11JbWpdm7@vger.kernel.org
+X-Gm-Message-State: AOJu0YxGQv2L3Z+DokUV46WNrBjGxhniu7nD5NbbIW0f3Xit8kyAXS7I
+	AW4QXP17DkDToI+aY4ICCQfAFQi7tw8KqY4AdZ3BbazAuXSnG3ay82iZT4ziSwdAGZs=
+X-Gm-Gg: AfdE7cnHzGiwnIRr7mNjqPAKugfz5zw4RH5e/ANaP4SVQifkbqdDteGoQQnzIlc5VYO
+	wKohi5QAU80BzdY2x2JnUYC7Ods3yb0sy2q9ev7qw2rjMvetDmbmgeMW4tB+7pneKVdZvbUJWTF
+	VnrW0+kymUrvN8gamz86RtBWam27+U2AtXPcc8fN285+A+9pBDdT15QgVGGOUCAOq0wBAwqs2FW
+	7Hytsa0Ij8z98nDkThBwCHKuhEbq68Lts8Ji/fiI5GJ8L/preLcOUjzZ+ONBCtddfDgLr5i0gkU
+	q4Ixpm4R7Qkm0NTjFmeCk7mzR3K4lfGQoZnAa5eioU6v8ChCrZc3q/4dIZh9LFziJwWD8d7w6+i
+	Ovl+ctahTxsThcX7XBs92mpLb6Lo57neMEWZwjQb9k1SbbcdPaD3k7olc97M4Y8DjevOEezzcmu
+	BMXh0kOQ0N+STRlB4g5XOS7BEorNGfxnSM0sOd+9ESkQxole8WQw==
+X-Received: by 2002:a17:903:19eb:b0:2c2:62ee:5a0d with SMTP id d9443c01a7336-2c7fc74ed9bmr130708665ad.14.1782640343700;
+        Sun, 28 Jun 2026 02:52:23 -0700 (PDT)
 Received: from trevor.localdomain (n119236170163.netvigator.com. [119.236.170.163])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c9b43aeb3bsm23041205ad.54.2026.06.28.02.29.10
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7f63b2339sm72101365ad.38.2026.06.28.02.52.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2026 02:29:18 -0700 (PDT)
+        Sun, 28 Jun 2026 02:52:23 -0700 (PDT)
 From: Trevor Chan <trev@trevrosa.dev>
 To: gregkh@linuxfoundation.org,
 	rafael@kernel.org,
@@ -50,12 +50,16 @@ To: gregkh@linuxfoundation.org,
 	ojeda@kernel.org,
 	a.hindborg@kernel.org,
 	paul@paul-moore.com,
+	aliceryhl@google.com,
 	airlied@gmail.com,
 	simona@ffwll.ch,
-	aliceryhl@google.com,
 	viro@zeniv.linux.org.uk,
 	brauner@kernel.org,
 	igor.korotin@linux.dev,
+	vireshk@kernel.org,
+	nm@ti.com,
+	sboyd@kernel.org,
+	m.wilczynski@samsung.com,
 	boqun@kernel.org,
 	gary@garyguo.net,
 	axboe@kernel.dk,
@@ -63,36 +67,39 @@ To: gregkh@linuxfoundation.org,
 	shankari.ak0208@gmail.com,
 	lyude@redhat.com,
 	j@jananu.net,
-	akpm@linux-foundation.org,
-	acourbot@nvidia.com
-Cc: david.m.ertman@intel.com,
-	iweiny@kernel.org,
-	leon@kernel.org,
-	bjorn3_gh@protonmail.com,
 	lossin@kernel.org,
-	tmgross@umich.edu,
-	tamird@kernel.org,
-	work@onurozkan.dev,
-	sergeh@kernel.org,
-	jack@suse.cz,
-	ljs@kernel.org,
-	liam@infradead.org,
-	bhelgaas@google.com,
-	kwilczynski@kernel.org,
-	ptikhomirov@virtuozzo.com,
-	elle@weathered-steel.dev,
-	rust-for-linux@vger.kernel.org,
+	acourbot@nvidia.com,
+	markus.probst@posteo.de,
 	driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-block@vger.kernel.org,
 	linux-security-module@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-mm@kvack.org,
-	linux-pci@vger.kernel.org
-Subject: [PATCH v5] rust: aref: make `AlwaysRefCounted::inc_ref` an associated function
-Date: Sun, 28 Jun 2026 17:28:53 +0800
-Message-ID: <20260628092853.16550-1-trev@trevrosa.dev>
+	linux-pm@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-pwm@vger.kernel.org
+Cc: david.m.ertman@intel.com,
+	iweiny@kernel.org,
+	leon@kernel.org,
+	bjorn3_gh@protonmail.com,
+	tmgross@umich.edu,
+	tamird@kernel.org,
+	work@onurozkan.dev,
+	sergeh@kernel.org,
+	matthew.brost@intel.com,
+	thomas.hellstrom@linux.intel.com,
+	jack@suse.cz,
+	ljs@kernel.org,
+	liam@infradead.org,
+	bhelgaas@google.com,
+	kwilczynski@kernel.org,
+	ptikhomirov@virtuozzo.com
+Subject: [PATCH v6] rust: aref: make `AlwaysRefCounted::inc_ref` an associated function
+Date: Sun, 28 Jun 2026 17:51:32 +0800
+Message-ID: <20260628095132.47753-1-trev@trevrosa.dev>
 X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -116,31 +123,37 @@ Signed-off-by: Trevor Chan <trev@trevrosa.dev>
 Changes in v2:
  - Don't word wrap the patch
 Changes in v3:
- - Make argument name of `Empty::inc_ref` consistent with `Empty::dec_ref` 
+ - Make argument name of `Empty::inc_ref` consistent with `Empty::dec_ref`
 Changes in v4:
  - Rebase to new rust-next, change new implementors
  - Reword explanation for change in `AlwaysRefCounted::inc_ref` doc comment
 Changes in v5:
  - Change commit message to be imperative
+Changes in v6:
+ - Change all the implementors
 ---
- rust/kernel/auxiliary.rs        | 4 ++--
- rust/kernel/block/mq/request.rs | 4 ++--
- rust/kernel/cred.rs             | 4 ++--
- rust/kernel/device.rs           | 4 ++--
- rust/kernel/device/property.rs  | 4 ++--
- rust/kernel/drm/device.rs       | 4 ++--
- rust/kernel/drm/gem/mod.rs      | 4 ++--
- rust/kernel/fs/file.rs          | 8 ++++----
- rust/kernel/i2c.rs              | 8 ++++----
- rust/kernel/mm.rs               | 8 ++++----
- rust/kernel/mm/mmput_async.rs   | 4 ++--
- rust/kernel/pci.rs              | 4 ++--
- rust/kernel/pid_namespace.rs    | 4 ++--
- rust/kernel/platform.rs         | 4 ++--
- rust/kernel/sync/aref.rs        | 9 ++++++---
- rust/kernel/task.rs             | 4 ++--
- rust/kernel/usb.rs              | 8 ++++----
- 17 files changed, 46 insertions(+), 43 deletions(-)
+ rust/kernel/auxiliary.rs        |  4 ++--
+ rust/kernel/block/mq/request.rs |  4 ++--
+ rust/kernel/cred.rs             |  4 ++--
+ rust/kernel/device.rs           |  4 ++--
+ rust/kernel/device/property.rs  |  4 ++--
+ rust/kernel/drm/device.rs       |  4 ++--
+ rust/kernel/drm/gem/mod.rs      |  4 ++--
+ rust/kernel/drm/gpuvm/mod.rs    |  4 ++--
+ rust/kernel/drm/gpuvm/vm_bo.rs  |  4 ++--
+ rust/kernel/fs/file.rs          |  8 ++++----
+ rust/kernel/i2c.rs              |  8 ++++----
+ rust/kernel/mm.rs               |  8 ++++----
+ rust/kernel/mm/mmput_async.rs   |  4 ++--
+ rust/kernel/opp.rs              |  4 ++--
+ rust/kernel/pci.rs              |  4 ++--
+ rust/kernel/pid_namespace.rs    |  4 ++--
+ rust/kernel/platform.rs         |  4 ++--
+ rust/kernel/pwm.rs              |  2 +-
+ rust/kernel/sync/aref.rs        | 11 +++++++----
+ rust/kernel/task.rs             |  4 ++--
+ rust/kernel/usb.rs              |  8 ++++----
+ 21 files changed, 54 insertions(+), 51 deletions(-)
 
 diff --git a/rust/kernel/auxiliary.rs b/rust/kernel/auxiliary.rs
 index c42928d5a239..75a61b51cf79 100644
@@ -255,6 +268,38 @@ index c8b66d816871..ee9e412066ab 100644
              }
  
              unsafe fn dec_ref(obj: core::ptr::NonNull<Self>) {
+diff --git a/rust/kernel/drm/gpuvm/mod.rs b/rust/kernel/drm/gpuvm/mod.rs
+index ae58f6f667c1..1777f9cbd2ca 100644
+--- a/rust/kernel/drm/gpuvm/mod.rs
++++ b/rust/kernel/drm/gpuvm/mod.rs
+@@ -80,9 +80,9 @@ unsafe impl<T: DriverGpuVm> Sync for GpuVm<T> {}
+ 
+ // SAFETY: By type invariants, the allocation is managed by the refcount in `self.vm`.
+ unsafe impl<T: DriverGpuVm> AlwaysRefCounted for GpuVm<T> {
+-    fn inc_ref(&self) {
++    fn inc_ref(obj: &Self) {
+         // SAFETY: By type invariants, the allocation is managed by the refcount in `self.vm`.
+-        unsafe { bindings::drm_gpuvm_get(self.vm.get()) };
++        unsafe { bindings::drm_gpuvm_get(obj.vm.get()) };
+     }
+ 
+     unsafe fn dec_ref(obj: NonNull<Self>) {
+diff --git a/rust/kernel/drm/gpuvm/vm_bo.rs b/rust/kernel/drm/gpuvm/vm_bo.rs
+index c064ac63897b..250e9339b30e 100644
+--- a/rust/kernel/drm/gpuvm/vm_bo.rs
++++ b/rust/kernel/drm/gpuvm/vm_bo.rs
+@@ -21,9 +21,9 @@ pub struct GpuVmBo<T: DriverGpuVm> {
+ 
+ // SAFETY: By type invariants, the allocation is managed by the refcount in `self.inner`.
+ unsafe impl<T: DriverGpuVm> AlwaysRefCounted for GpuVmBo<T> {
+-    fn inc_ref(&self) {
++    fn inc_ref(obj: &Self) {
+         // SAFETY: By type invariants, the allocation is managed by the refcount in `self.inner`.
+-        unsafe { bindings::drm_gpuvm_bo_get(self.inner.get()) };
++        unsafe { bindings::drm_gpuvm_bo_get(obj.inner.get()) };
+     }
+ 
+     unsafe fn dec_ref(obj: NonNull<Self>) {
 diff --git a/rust/kernel/fs/file.rs b/rust/kernel/fs/file.rs
 index 23ee689bd240..8e5967afcd11 100644
 --- a/rust/kernel/fs/file.rs
@@ -355,6 +400,22 @@ index b8d2f051225c..7df40777654c 100644
      }
  
      #[inline]
+diff --git a/rust/kernel/opp.rs b/rust/kernel/opp.rs
+index 62e44676125d..84802f22b652 100644
+--- a/rust/kernel/opp.rs
++++ b/rust/kernel/opp.rs
+@@ -1043,9 +1043,9 @@ unsafe impl Sync for OPP {}
+ /// SAFETY: The type invariants guarantee that [`OPP`] is always refcounted.
+ unsafe impl AlwaysRefCounted for OPP {
+     #[inline]
+-    fn inc_ref(&self) {
++    fn inc_ref(obj: &Self) {
+         // SAFETY: The existence of a shared reference means that the refcount is nonzero.
+-        unsafe { bindings::dev_pm_opp_get(self.0.get()) };
++        unsafe { bindings::dev_pm_opp_get(obj.0.get()) };
+     }
+ 
+     #[inline]
 diff --git a/rust/kernel/pci.rs b/rust/kernel/pci.rs
 index 5071cae6543f..0f16cf0da3d7 100644
 --- a/rust/kernel/pci.rs
@@ -403,8 +464,21 @@ index 9b362e0495d3..85068ae5a405 100644
      }
  
      unsafe fn dec_ref(obj: NonNull<Self>) {
+diff --git a/rust/kernel/pwm.rs b/rust/kernel/pwm.rs
+index 6c9d667009ef..c95b442a972e 100644
+--- a/rust/kernel/pwm.rs
++++ b/rust/kernel/pwm.rs
+@@ -631,7 +631,7 @@ pub fn new<'a>(
+ // SAFETY: Implements refcounting for `Chip` using the embedded `struct device`.
+ unsafe impl<T: PwmOps> AlwaysRefCounted for Chip<T> {
+     #[inline]
+-    fn inc_ref(&self) {
++    fn inc_ref(obj: &Self) {
+         // SAFETY: `self.0.get()` points to a valid `pwm_chip` because `self` exists.
+         // The embedded `dev` is valid. `get_device` increments its refcount.
+         unsafe { bindings::get_device(&raw mut (*self.0.get()).dev) };
 diff --git a/rust/kernel/sync/aref.rs b/rust/kernel/sync/aref.rs
-index b721b2e00b98..2ae2130d5bb1 100644
+index b721b2e00b98..42e11458b77c 100644
 --- a/rust/kernel/sync/aref.rs
 +++ b/rust/kernel/sync/aref.rs
 @@ -44,7 +44,10 @@
@@ -418,6 +492,15 @@ index b721b2e00b98..2ae2130d5bb1 100644
 +    fn inc_ref(obj: &Self);
  
      /// Decrements the reference count on the object.
+     ///
+@@ -126,7 +129,7 @@ pub unsafe fn from_raw(ptr: NonNull<T>) -> Self {
+     ///
+     /// # // SAFETY: TODO.
+     /// unsafe impl AlwaysRefCounted for Empty {
+-    ///     fn inc_ref(&self) {}
++    ///     fn inc_ref(obj: &Self) {}
+     ///     unsafe fn dec_ref(_obj: NonNull<Self>) {}
+     /// }
      ///
 @@ -145,7 +148,7 @@ pub fn into_raw(me: Self) -> NonNull<T> {
  
