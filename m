@@ -1,51 +1,50 @@
-Received: from out203-205-221-209.mail.qq.com (out203-205-221-209.mail.qq.com [203.205.221.209])
+Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2081C695;
-	Sun, 28 Jun 2026 18:48:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866AC23BD1B;
+	Sun, 28 Jun 2026 18:57:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.163.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782672513; cv=none; b=bQbwWmpSSyH2F7pGi6hXYjDshktsZQRaYRESRH9yuu9lWKeEU5DSaMtZ3ts1kj2x5ETf8z2FV9EGYPL62MmCBIrC+dsoJXG/Z07WKOafDjN7MO04mPqJl4TWN3WnY54g14jDHqcxb54MwPYQKoGFiSk4jDjYAfsJQHqXjllD8Fs=
+	t=1782673060; cv=none; b=muNwUnE5zMjGHEMcLaFYKIag75s9UPfqNOALP5smSInv1oncr5B59BjlDOmW5bDXFzpSxpDm8onIOrZgrgxPR5LH0dMUlB229H+qEYysKY9yTyYEAkG2uojAJ2NA4bJA9w0bvMUCoJ6hgPJH9CYLTiFsokW058lwVYl4TREZ+x0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782672513; c=relaxed/simple;
-	bh=ZRmLW+Eb4bUpd4SR5BVnWYEq6Y+eUTJPj8oZucDGlVo=;
+	s=arc-20240116; t=1782673060; c=relaxed/simple;
+	bh=XF7RcKuQCaaaQyV7TgTh/Dh3UR5tR0JCU/b/DlBCZzw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iD4cDyKF87wye4cJf8Rv1oAy7CKRYRFPX35v/P0kVwta4fqBilXM/6ZgvC9CgGL+D3fxX2Rtrd8hQ9+qKQV2X8dn5mpn6VpndMrWw+mASgrrhUdnF46qzMVumh11fKYN8ra5acXFM6aPRH4pHzlvcuNVb/pB1AIXLfLgL48Yt54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=OckDkxan; arc=none smtp.client-ip=203.205.221.209
+	 In-Reply-To:Content-Type; b=TiRIMlaRxXD4ln4tkIDmIrk7h9ZheNrFc3wfPHIjAisXcb7yCfqu6iTWyeAFVJqtqz6DQt5SEQ67BlQFawzE7eHryyGAqST8JB6slwOWh2ddkCREf5pHEqgo620PiCGY6EyscccX0CCju/P0499CZPJ1lz8pNPGE0oVBCY+Ezhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=rQjD09NM; arc=none smtp.client-ip=43.163.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="OckDkxan"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="rQjD09NM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1782672501; bh=xP7qFuWRfVSrnxkZX2mq5293jq/nmmFF/B0jM82Bpkw=;
+	t=1782673048; bh=Vec2D5eQKzQ74gZxdAs44uQsPqe5tItUtvWLO7lctY0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=OckDkxanbEuJPR99Ukc3J/sbCmTBTuSV1rWa/RhHyIC38qInQDrcX0YfD8FONDWQK
-	 l7W54i/BmgYXyx7AIkTof5mMWjAxmpyQ/FxMxk57NnlR0RoTVbLyhv0gag2hL1UMo/
-	 Y2huPSXMioFzNFPmMznykQuQzC9SyF208qL8O9D4=
+	b=rQjD09NMcbIrHIHqJDmyFnWTD1jxDIeYFU7hW+uGw4fs5zd5Y4BFYV7Im6g//5p0b
+	 /36A6g5q9qtqGqpnWf5ozlMuhUv6tSr4iBjTdrXLi9LSwCggGQTVp8kD71FrPcaIvh
+	 C4sUQW1Wx1N0r6QKdBI32Erut9ndK8ArGjLx3Rd4=
 Received: from [192.168.1.102] ([223.77.180.178])
-	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
-	id C131EE08; Mon, 29 Jun 2026 02:48:19 +0800
-X-QQ-mid: xmsmtpt1782672499tbknw1cbs
-Message-ID: <tencent_B01B45AE0C90D7229905B906710F6EBBF105@qq.com>
-X-QQ-XMAILINFO: MDbayGdXPuoek/GR8L1HtbNZ81mh+FQEdVTEARHmJ0XEKhjomO+YUVAaU4WVz7
-	 tBFwfO+QqUm9StOWg3ltqr5NCFSAaec05fk34BIaBhGdbGRi51FVA4M0LVMGBZoUEfYLyHAQU+Rs
-	 vdmbkvYCVBvVue+bsFVUozDVPGwMmbrsLRgJ1ZyAfhBUKtjzTPVcBypuhoM1jB2/m9IiMociQ4T7
-	 JI/s/b7yKVXQVG6B791YUPP0r6tfnEEnYk9bUhkHaiYW0sDuFjE+rpVjQ1gD6jEjb0MKwnahiuD0
-	 ieBpPWJ+Y1I7R6WsASAJ3njWm94430MJ3WsH4QxLbRJRntR7aGI3PWcya3ump3/0fmdLw2RlSb2x
-	 GQC1o26mrMFa1XO7XSbEe5AQlfzpW3irH7l6D3A5fAxvnxV8yaAR4oT+R7r7Rs0V2LKmuH794XrN
-	 92iYwxVYvZfXwf/6w7mRLfKyzHCxEl0T27WDi7kQrYCCFbSbin3W2IQr98JlUS5aIuQSan3gRAzs
-	 akv8s3EnjRpbfXb/S2F3Ak7Vi7mes+0c1yf2+wAtbk3iW0iFBEQMktBgj6BiTDd+O+l3qtcSyjed
-	 6aestaruNDbMPZcgOJGP5lpK3Sih42m9j7Oa5eldSAoC8xDGM7xAtztTqoOhLBa11jLTISgskVVW
-	 MfGOcroUYThd6JBVlHrynS3fKrx/aXAfP4Rq0TOMUtbCoAUvCCey3gU4FHSNqkFvMxA7S8v1uc2f
-	 NHlSlKPF6wMHsgN5gYDUnMHKC94mHD1QTqSzM5ZTx47Wtf+l2a8oBNfJ/3lJmgRPesXQ9fS615qk
-	 nMy/BmH2Bv0jnArbv/T0I+l+4vUBCHkwfhviy2xDC8v1cjZjRFU1MhD3pJkgPAiAyQnmuWP15R2b
-	 vr049fDvLiAilAZsUxRtJUgXvgKJ3TVm70Cjjn8cgYWRJv/YO66S/ABkLeID5xRB6Fr/JRdIBzpP
-	 UEbXdiKKMd8xYohzrb7cOBQ4WBjc8uHra3loDvCLg7JqA32pSj+6cb6N5LY7y2uiI8oDj+iz3Ft8
-	 nyz2FFBOtAeCospc5YOQZFRbWRrFziSpTSr/kCw7BJ78J0msNmCcck6vZUiZySzlY573GttrRAzr
-	 qo6XrY69csdn2qurM=
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-X-OQ-MSGID: <4a24a8b7-4ccc-4cfc-ac79-e60710e7814d@qq.com>
-Date: Mon, 29 Jun 2026 02:48:19 +0800
+	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+	id E583D820; Mon, 29 Jun 2026 02:57:24 +0800
+X-QQ-mid: xmsmtpt1782673044tc5qh6a6x
+Message-ID: <tencent_B515F296245B20D721AEC2C9367AA188940A@qq.com>
+X-QQ-XMAILINFO: NbgegmlEc3JuRORqMjrekPGZUXgzah05C82kWrxNL6IqhCnA4n5bMsn76dV1OP
+	 X7G1mY/Fql/qvyU0hYMWVWMXSBbsDLh1ng6HL+FCmYz3ZEORrJJeRRJbEGvn8mz4ZbthbpvOXTg2
+	 aPR1T9Oi1IHXPfU2G4Q+923HXaB8E7dgqzXeQ+0xVDbz2pErRda9fywdKEkAjoP12DKY78lis3uf
+	 uqRH2pmVT/dUd7k6CKIiYDaal1c6+eH1OgfwMedoiF30HI57HhhlnoXY0s337nti63m8aFUV+BMW
+	 GS8rNnqv1fWFpIK2cvP20iu2gd2HipcfYHGCUr4jz5PMS8YYrp/+2/ywrnfxX/gUf0SXuqbXLPiI
+	 lgKGXejsiVqXmgFM3wg/4zBm5ubOBzJR1v4MjJf9xa5u+by/HchLsjAoyYkqtXqv6oqH/9YE1WUM
+	 aJ3i+SEPZEJf9l4DLYnZMbSgPeDrflDE1+5MvxD84sBhI9if6X6AgT0yGdOBllXbxtOFG8t+9yJr
+	 Gko0sp+qr6HEnGyrV3wYv4RW/yY1Ye2NwEJgq8Px90dDazC/DFBBn/XeoWxxhanbE02d1Bb+fnOQ
+	 mMDKNW+4v+jtUvRkDhhDYFyb6q6Yyk7PGKoZgYGoIKaMh1Jml8DCSep7zrh6+yOB6cI3U0dIa/2B
+	 tDvGKfAqKB4Ctbl+xMB+FeoGxu5Ci3zebonZIoSf/wiHqQjGD6hSRn128d/s4CrGSSY4R3Rumx1e
+	 tWhmgN0xrBB6+iaygEXYkslHoXo3oH8ZpHIKf+dL3tgGaNKMiLf4v8ki/nPK7A0wPSGShuVdwvzf
+	 F8iUaCHNQ0NzfXaHRj8Su6E90hrHnjb42VLrKQS2R5WCEwgwkFTGTtsde2AWOSjhzypUi9X7g0ka
+	 ClchT5WT/BmKQ3GpQIoxt6WKr81Oc5+XmMsViBf3OALit72q5wziZYIuGvWdSXk0RxE1FF9RSCA6
+	 u+K2O+UMvg23sdrWCMeCIYTzhiLacJhdvwp7ou+Nt9Iytzf6ZZ8W+VfsAbhqiagyViqwtnSKvwFJ
+	 wrFcabrPCRZ4uAYQpk7HoHFA95pbfRENYQZQdP79763hY68h5qe2N2zLpVi4WxcEt6p8O0Bw==
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
+X-OQ-MSGID: <5eccf43d-3e9b-48d7-83d8-54fdae452962@qq.com>
+Date: Mon, 29 Jun 2026 02:57:24 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -53,122 +52,116 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] minix: convert address space operations to iomap
-To: Jeremy Bingham <jbingham@gmail.com>, linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, brauner@kernel.org, jkoolstra@xs4all.nl
-References: <cover.1782422707.git.jbingham@gmail.com>
- <253660638c14057720cdcafe7d1ca2828457caa1.1782422707.git.jbingham@gmail.com>
+Subject: Re: [PATCH v10 5/5] ext4: prevent deadlock from duplicate EA inode
+ references on corrupted fs
+To: Yun Zhou <yun.zhou@windriver.com>, tytso@mit.edu,
+ adilger.kernel@dilger.ca, libaokun@linux.alibaba.com, jack@suse.cz,
+ ojaswin@linux.ibm.com, ritesh.list@gmail.com, yi.zhang@huawei.com,
+ viro@zeniv.linux.org.uk, brauner@kernel.org
+Cc: linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+References: <20260625152941.24788-1-yun.zhou@windriver.com>
+ <20260625152941.24788-6-yun.zhou@windriver.com>
 From: XIAO WU <xiaowu.417@qq.com>
-In-Reply-To: <253660638c14057720cdcafe7d1ca2828457caa1.1782422707.git.jbingham@gmail.com>
+In-Reply-To: <20260625152941.24788-6-yun.zhou@windriver.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Jeremy,
+Hi,
 
-I came across the Sashiko AI review of this patch series and reproduced
-one of the issues it flagged -- a NULL pointer dereference when creating
-a symlink on a mounted minix filesystem. The crash is deterministic and
-triggers on the first symlink() call.
+I've been following the sashiko-bot reviews on this series and was able
+to reproduce the llist corruption issue that the bot has flagged — it
+triggers a kernel BUG at ext4_put_super() when an EA inode is leaked
+onto the orphan list at unmount.
 
-The Sashiko review page is at:
-https://sashiko.dev/#/patchset/cover.1782422707.git.jbingham@gmail.com
+The sashiko review is at:
+https://sashiko.dev/#/patchset/20260625152941.24788-1-yun.zhou@windriver.com
 
- > @@ -487,19 +540,36 @@ static int minix_write_begin(...)
- >  }
- >
- >  static const struct address_space_operations minix_aops = {
- > -    .dirty_folio    = block_dirty_folio,
- > -    .invalidate_folio = block_invalidate_folio,
- > +    .dirty_folio    = iomap_dirty_folio,
- > +    .invalidate_folio = iomap_invalidate_folio,
- >      .read_folio = minix_read_folio,
- > +    .readahead = minix_readahead,
- >      .writepages = minix_writepages,
- > +    .migrate_folio = filemap_migrate_folio,
- > +    .bmap = minix_bmap,
- > +    .is_partially_uptodate = iomap_is_partially_uptodate,
- > +    .release_folio = iomap_release_folio,
- > +    .error_remove_folio = generic_error_remove_folio,
- > +};
+ > +/* Put all EA inodes on a processed llist via ext4_put_ea_inode. */
+ > +static void ext4_put_ea_inode_llist(struct super_block *sb,
+ > +                                    struct llist_head *processed)
+ > +{
+ > +    struct llist_node *node = llist_del_all(processed);
+ > +    struct llist_node *next;
+ > +
+ > +    while (node) {
+ > +        struct ext4_inode_info *ei = container_of(node,
+ > +                        struct ext4_inode_info, i_ea_iput_node);
+ > +        next = node->next;
+ > +        ext4_put_ea_inode(sb, &ei->vfs_inode);
+ > +        node = next;
+ > +    }
+ > +}
 
-The iomap conversion removes .write_begin and .write_end from
-minix_aops.  They are now only present in minix_dir_aops (the new
-directory-specific aops).  However, minix_set_inode() still assigns
-minix_aops (without write_begin) to symlink inodes:
+The per-call `processed` llist is declared on the stack of
+ext4_xattr_delete_inode().  If two threads concurrently evict files
+that share the same EA inode (same large xattr value), both threads
+call llist_add() on the SAME embedded i_ea_iput_node, each trying to
+add it to their own stack-local llist head.
 
-In minix_set_inode() (unchanged by this patch):
-```c
-         } else if (S_ISLNK(inode->i_mode)) {
-                 inode->i_op = &minix_symlink_inode_operations;
-                 inode_nohighmem(inode);
-                 inode->i_mapping->a_ops = &minix_aops;
-```
+Since llist_add() unconditionally writes `node->next = head->first`
+(which is a stack address from the caller's frame), the two threads
+corrupt each other's `node->next` pointer.  When
+ext4_put_ea_inode_llist() later traverses the list, it follows a
+dangling next pointer into freed/concurrent stack memory, causing the
+EA inode to be silently skipped during deferred iput processing.
 
-When a user calls symlink() on a mounted minix filesystem,
-minix_symlink() calls page_symlink(), which directly dereferences
-aops->write_begin:
+=== Reproduction ===
 
-In page_symlink() (fs/namei.c):
-```c
-         err = aops->write_begin(NULL, mapping, 0, len-1, &folio, &fsdata);
-```
-
-Since minix_aops.write_begin is now NULL, the kernel tries to execute
-code at address 0x0.
-
---- Reproduction ---
-
-Kernel: 7.1.0-next-20260625-g085406171f0d #1 SMP PREEMPT(full)
-Config: CONFIG_MINIX_FS=y, CONFIG_BLOCK=y, CONFIG_KASAN=y
+Kernel: 7.1.0-next-20260624-gb27bd6a65c17 #1 SMP PREEMPT_RT
+Config: CONFIG_EXT4_FS=y, CONFIG_EXT4_FS_POSIX_ACL=y, CONFIG_KASAN=y
 QEMU:   QEMU Standard PC (Q35 + ICH9, 2009)
 
-The trigger is deterministic -- no fault injection or race conditions
-required. Simply mount a minix filesystem and create a symlink.
+The PoC creates two files sharing the same large xattr value (thus
+sharing the same EA inode), then concurrently unlinks them from two
+pthreads synchronized by a barrier on the same CPU.  This triggers the
+llist_add() race on the shared i_ea_iput_node, leaving the EA inode
+unprocessed.  The EA inode (nlink=0) sits on the orphan list, and
+umount hits the BUG() assertion.
 
---- Crash Log ---
+=== Crash Log ===
 
-[  331.105013][ T9804] BUG: kernel NULL pointer dereference, address: 
-0000000000000000
-[  331.106761][ T9804] #PF: supervisor instruction fetch in kernel mode
-[  331.107911][ T9804] #PF: error_code(0x0010) - not-present page
-[  331.109704][ T9804] Oops: Oops: 0010 [#1] SMP KASAN NOPTI
-[  331.110760][ T9804] CPU: 1 UID: 0 PID: 9804 Comm: poc Not tainted 
-7.1.0-next-20260625-g085406171f0d #1 PREEMPT(full)
-[  331.111754][ T9804] Hardware name: QEMU Standard PC (Q35 + ICH9, 
-2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-[  331.112105][ T9804] RIP: 0010:0x0
-[  331.112831][ T9804] Code: Unable to access opcode bytes at 
-0xffffffffffffffd6.
-[  331.119688][ T9804] Call Trace:
-[  331.120018][ T9804]  <TASK>
-[  331.120309][ T9804]  page_symlink+0x394/0x4c0
-[  331.120772][ T9804]  ? __pfx_page_symlink+0x10/0x10
-[  331.121270][ T9804]  ? minix_new_inode+0x3bf/0x510
-[  331.121772][ T9804]  minix_symlink+0xd8/0x180
-[  331.122717][ T9804]  vfs_symlink+0x17d/0x4e0
-[  331.123171][ T9804]  filename_symlinkat+0x3ab/0x4e0
-[  331.124745][ T9804]  __x64_sys_symlink+0x7e/0xb0
-[  331.125200][ T9804]  do_syscall_64+0x129/0x880
-[  331.125700][ T9804]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-[  331.126200][ T9804] RIP: 0033:0x41c13b
-[  331.126700][ T9804]  </TASK>
-[  331.127200][ T9804] Kernel panic - not syncing: Fatal exception
+[  959.127015][T10365] EXT4-fs (loop0): unmounting filesystem...
+[  959.217461][T10365] EXT4-fs (loop0): sb orphan head is 15
+[  959.217516][T10365] sb_info orphan list:
+[  959.217516][T10365]   inode loop0:15 at ffff88802e27be40: mode 
+100600, nlink 0, next 0
+[  959.217530][T10365] Assertion failure in ext4_put_super() at 
+fs/ext4/super.c:1354: 'list_empty(&sbi->s_orphan)'
+[  959.217704][T10365] ------------[ cut here ]------------
+[  959.217708][T10365] kernel BUG at fs/ext4/super.c:1354!
+[  959.217757][T10365] Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
+[  959.217832][T10365] CPU: 0 UID: 0 PID: 10365 Comm: umount Not tainted 
+7.1.0-next-20260624-gb27bd6a65c17 #1
+[  959.217843][T10365] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009)
+[  959.217849][T10365] RIP: 0010:ext4_put_super+0xf41/0x12c0
+[  959.217978][T10365] Call Trace:
+[  959.217978][T10365]  ? __pfx_ext4_put_super+0x10/0x10
+[  959.217987][T10365]  generic_shutdown_super+0x163/0x390
+[  959.218042][T10365]  kill_block_super+0x40/0xa0
+[  959.218061][T10365]  ext4_kill_sb+0x6f/0xb0
+[  959.218103][T10365]  deactivate_locked_super+0xc6/0x1a0
+[  959.218125][T10365]  deactivate_super+0xe3/0x110
+[  959.218148][T10365]  cleanup_mnt+0x22a/0x460
+[  959.218197][T10365]  task_work_run+0x155/0x250
+[  959.218381][T10365]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+[  959.218511][T10365] ---[ end trace 0000000000000000 ]---
 
-The RIP at 0x0 confirms a NULL function pointer dereference.
-The call chain is exactly page_symlink -> minix_symlink -> vfs_symlink.
+The orphan inode (loop0:15, nlink=0) is an EA inode that was not
+processed by ext4_put_ea_inode_llist() due to the corrupted llist.
 
---- PoC ---
+=== PoC ===
 
-Build:  gcc -o poc poc.c -static
-Run:    ./poc         (requires root for mount/loop setup)
+Build:  gcc -o poc poc.c -static -lpthread
+Run:    ./poc [iterations]   (requires root for mount/loop)
 
+// SPDX-License-Identifier: GPL-2.0-only
 /*
-  * PoC: NULL pointer dereference in page_symlink() when creating a
-  * symlink on a minix filesystem.
+  * PoC: llist race in ext4 EA inode deferred iput (patch 5/5)
   *
-  * The patch removed .write_begin from minix_aops during the iomap
-  * conversion, but symlink inodes still use minix_aops. page_symlink()
-  * dereferences the NULL function pointer.
+  * Two threads concurrently unlink files sharing the same EA inode,
+  * racing on llist_add() to the shared i_ea_iput_node.  The corrupted
+  * llist causes the EA inode to be leaked -> orphan list BUG at umount.
   */
 
 #define _GNU_SOURCE
@@ -176,91 +169,173 @@ Run:    ./poc         (requires root for mount/loop setup)
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <sys/mount.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <fcntl.h>
 #include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
+#include <sys/mount.h>
+#include <sys/syscall.h>
+#include <fcntl.h>
+#include <sched.h>
+#include <signal.h>
+#include <pthread.h>
 
-#define MINIX_IMAGE "/tmp/minix_test.img"
-#define MINIX_MOUNT "/tmp/minix_mount"
-#define LOOP_DEV    "/dev/loop0"
-#define IMAGE_SIZE  (1024 * 1024)
+#define EA_VALUE_SIZE 4032
+#define MAX_ITER 2000
 
-int main(void)
+static const char *mnt = "/mnt/ea_race";
+static const char *f1 = "/mnt/ea_race/f1";
+static const char *f2 = "/mnt/ea_race/f2";
+static const char *loopdev = "/dev/loop0";
+static const char *img = "/tmp/ea_race.img";
+
+static volatile int stop = 0;
+static int iterations = MAX_ITER;
+static pthread_barrier_t barrier;
+static char shared_value[EA_VALUE_SIZE];
+
+static int do_setxattr(const char *path, const char *name,
+                        const void *value, size_t size, int flags)
 {
-     int fd;
-     char buf[IMAGE_SIZE];
-     pid_t pid;
-     int status;
+     int ret = syscall(SYS_setxattr, path, name, value, size, flags);
+     if (ret < 0 && errno == ENODATA) return ret;
+     return ret;
+}
 
-     if (geteuid() != 0) {
-         fprintf(stderr, "This PoC requires root privileges.\n");
-         return 1;
-     }
+static void pin_cpu(int cpu)
+{
+     cpu_set_t cpuset;
+     CPU_ZERO(&cpuset);
+     CPU_SET(cpu, &cpuset);
+     sched_setaffinity(0, sizeof(cpuset), &cpuset);
+}
 
-     mkdir(MINIX_MOUNT, 0755);
-
-     /* Create and format a minix v1 filesystem image */
-     printf("Creating minix filesystem image...\n");
-     memset(buf, 0, sizeof(buf));
-     fd = open(MINIX_IMAGE, O_CREAT | O_RDWR | O_TRUNC, 0644);
-     if (fd < 0) { perror("open image"); return 1; }
-     write(fd, buf, sizeof(buf));
+static int create_file_with_xattr(const char *path,
+                                    const void *value, size_t valuelen)
+{
+     int fd = open(path, O_CREAT | O_WRONLY, 0644);
+     if (fd < 0) return -1;
      close(fd);
-
-     pid = fork();
-     if (pid == 0) {
-         execlp("mkfs.minix", "mkfs.minix", "-1", MINIX_IMAGE, NULL);
-         perror("mkfs.minix"); _exit(1);
+     if (do_setxattr(path, "user.large", value, valuelen, 0) < 0) {
+         unlink(path);
+         fd = open(path, O_CREAT | O_WRONLY, 0644);
+         if (fd < 0) return -1;
+         close(fd);
+         if (do_setxattr(path, "user.large", value, valuelen, 0) < 0)
+             return -1;
      }
-     waitpid(pid, &status, 0);
-     if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
-         fprintf(stderr, "mkfs.minix failed\n");
-         unlink(MINIX_IMAGE); return 1;
-     }
-
-     /* Set up loop device and mount */
-     printf("Setting up loop device and mounting...\n");
-     pid = fork();
-     if (pid == 0) {
-         execlp("losetup", "losetup", LOOP_DEV, MINIX_IMAGE, NULL);
-         _exit(1);
-     }
-     waitpid(pid, &status, 0);
-
-     if (mount(LOOP_DEV, MINIX_MOUNT, "minix", 0, NULL) < 0) {
-         perror("mount");
-         pid = fork();
-         if (pid == 0) { execlp("losetup", "losetup", "-d", LOOP_DEV, 
-NULL); _exit(1); }
-         waitpid(pid, &status, 0);
-         unlink(MINIX_IMAGE); return 1;
-     }
-
-     /*
-      * TRIGGER: symlink() -> minix_symlink() -> page_symlink()
-      * -> aops->write_begin(NULL, ...) -> NULL deref -> RIP 0x0
-      */
-     printf("Creating symlink to trigger NULL dereference...\n");
-     symlink("/this/is/a/test/symlink/target", MINIX_MOUNT "/mylink");
-
-     /* Cleanup (unreachable if kernel panicked) */
-     umount2(MINIX_MOUNT, MNT_DETACH);
-     pid = fork();
-     if (pid == 0) { execlp("losetup", "losetup", "-d", LOOP_DEV, NULL); 
-_exit(1); }
-     waitpid(pid, &status, 0);
-     unlink(MINIX_IMAGE);
-
-     printf("PoC completed. Check dmesg for crash evidence.\n");
      return 0;
 }
 
-I see you already have test patches via the syzbot test infrastructure
-that add write_begin/write_end back to minix_aops -- great!  This PoC
-can serve as a concrete reproducer to verify the fix.
+struct racer_data {
+     const char *file;
+     int thread_id;
+     int *setup_done;
+     pthread_mutex_t *setup_lock;
+};
+
+static void *racer_thread(void *arg)
+{
+     struct racer_data *rd = (struct racer_data *)arg;
+     pin_cpu(0);
+
+     for (int i = 0; i < iterations && !stop; i++) {
+         if (create_file_with_xattr(rd->file, shared_value, 
+EA_VALUE_SIZE) < 0) {
+             char alt_val[EA_VALUE_SIZE];
+             memset(alt_val, 'A' + rd->thread_id, EA_VALUE_SIZE);
+             create_file_with_xattr(rd->file, alt_val, EA_VALUE_SIZE);
+             do_setxattr(rd->file, "user.large", shared_value, 
+EA_VALUE_SIZE, 0);
+         }
+
+         pthread_mutex_lock(rd->setup_lock);
+         (*rd->setup_done)++;
+         pthread_mutex_unlock(rd->setup_lock);
+
+         pthread_barrier_wait(&barrier);
+         unlink(rd->file);    /* RACE: concurrent eviction of shared EA 
+inode */
+         pthread_barrier_wait(&barrier);
+     }
+     return NULL;
+}
+
+static void sig_handler(int sig) { stop = 1; }
+
+static void setup_fs(void)
+{
+     char cmd[512];
+     remove(img); mkdir(mnt, 0755);
+     snprintf(cmd, sizeof(cmd),
+              "dd if=/dev/zero of=%s bs=1M count=64 2>/dev/null", img);
+     system(cmd);
+     snprintf(cmd, sizeof(cmd),
+              "mkfs.ext4 -F -O ea_inode -b 4096 %s 2>/dev/null", img);
+     system(cmd);
+     snprintf(cmd, sizeof(cmd), "losetup %s %s 2>/dev/null", loopdev, img);
+     system(cmd);
+     snprintf(cmd, sizeof(cmd), "mount %s %s 2>/dev/null", loopdev, mnt);
+     system(cmd);
+     printf("Filesystem ready at %s\n", mnt);
+}
+
+static void cleanup_fs(void)
+{
+     char cmd[512];
+     snprintf(cmd, sizeof(cmd), "umount %s 2>/dev/null", mnt);
+     system(cmd);
+     snprintf(cmd, sizeof(cmd), "losetup -d %s 2>/dev/null", loopdev);
+     system(cmd);
+     remove(img); rmdir(mnt);
+}
+
+int main(int argc, char *argv[])
+{
+     pthread_t t1, t2;
+     struct racer_data rd1, rd2;
+     int setup_done = 0;
+     pthread_mutex_t setup_lock = PTHREAD_MUTEX_INITIALIZER;
+
+     if (argc > 1) iterations = atoi(argv[1]);
+     if (iterations < 1) iterations = 1;
+     if (iterations > MAX_ITER) iterations = MAX_ITER;
+
+     signal(SIGINT, sig_handler);
+     signal(SIGTERM, sig_handler);
+
+     printf("=== ext4 EA inode llist Race PoC ===\n");
+     printf("Iterations: %d\n", iterations);
+
+     setup_fs();
+
+     memset(shared_value, 'Z', EA_VALUE_SIZE);
+     pthread_barrier_init(&barrier, NULL, 2);
+
+     rd1 = (struct racer_data){ f1, 1, &setup_done, &setup_lock };
+     rd2 = (struct racer_data){ f2, 2, &setup_done, &setup_lock };
+
+     printf("Starting race threads...\n");
+     pthread_create(&t1, NULL, racer_thread, &rd1);
+     pthread_create(&t2, NULL, racer_thread, &rd2);
+
+     pthread_join(t1, NULL);
+     pthread_join(t2, NULL);
+     pthread_barrier_destroy(&barrier);
+
+     printf("\nRace loop complete.\n");
+     printf("Check dmesg for crash evidence.\n");
+     system("dmesg | tail -50 | grep -E 'KASAN|BUG:|orphan|RIP:' || echo 
+'(none)'");
+
+     cleanup_fs();
+     printf("Done.\n");
+     return 0;
+}
+
+I see that Jan suggested leaving this patch out for now and that you're
+planning an improved version for v11.  This PoC should help verify
+whether the improved llist handling in v11 resolves the race.
 
 Thanks,
 Xiao
