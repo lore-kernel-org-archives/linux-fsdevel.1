@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A08BB425CCE;
-	Mon, 29 Jun 2026 15:04:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B38442EEBA;
+	Mon, 29 Jun 2026 15:04:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782745462; cv=none; b=ootDjJ6FoUGeTrmxHHBrZRL6QJsaARFKorAdoS5g7PsL7fWV3TipI0c6HTChPSe3wPwxO/hiJqrFq/G3fJFdPypmTjKtT8IjZR5lr3OWfB4qGBt/QoHYPg/ktUVxzli0KZQemYQPWUlCnmPsP7RDBwgZIapvTXcVCTgNRw08q/Q=
+	t=1782745465; cv=none; b=rMr4QCR+MLHP3IYdXb9IVyec0+K9NzD3SEnf62qQQCqA5DB3qIHW6mPQx59DBZcACJ/9//jQQMDNoYj+IbSyjeWqbCwryViWfzhE8tMvZIlXXnAUPsyg7l0wcDSCWjljuM5jSc2bZWii7FKypTcCeWQeb9qq/DAQgTMBNwvt/28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782745462; c=relaxed/simple;
-	bh=waH9LghRDw1m5ftv5cUG64IGpq0YuJ8V9i30VSS/8Wo=;
+	s=arc-20240116; t=1782745465; c=relaxed/simple;
+	bh=SYaVXt+IV8k9IprMmFlL40jrqkI+bjDFhw+L/e/x6c0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ocbZNKt+QYbJlqvMPuxdZqdzLGYb3zoA1PU17P4c4iBKHGrhFfvcZiglEtApirP0ZIwbYpO8UKw//BsY1Uxg0tmyrQlSn99ZHaMKEBnFW+TzobVjfLVuxPde3ywOMHzlPL4evVWa2uc0O5wp5pITJTl/8CUEWvZLe8VfrxMv3tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jUPtlzEK; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=HDUcbKhXU9iewW1hIYqKvy4Hti8xJJmYQGZOuEMBWmoaQYT48TEx+UglRxtNrudL+Qoevsz3I2A+DQk9Et/aFuovYPQbA29NPokwF0s70babqqzqFau6bZJ6/Jy7yWXZwScc2ET0XKlTUqP2GHHVfKTqWfWH0CQ22UZXbpg0TKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QFio7RIW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jUPtlzEK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C15E1F00A3D;
-	Mon, 29 Jun 2026 15:04:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QFio7RIW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7841C1F000E9;
+	Mon, 29 Jun 2026 15:04:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782745461;
-	bh=IQuOZwRRSLgdq/8aIs43CiqhUZHBoxvkbrFwRYFQ2B8=;
+	s=k20260515; t=1782745464;
+	bh=njjcJ09hvKJm4DFqkApGQjO9fSrNvBtEtkEmL7ywa5s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=jUPtlzEKm/rkK6U+RL4o276C7CM2BimGalFca5bTDLE9z/wmgRZXass49O8oTQFHY
-	 2KPBHFB1eeyPaLTY3yF3uCC324cMvlFBKDH6sFS+gtSHrhSWPjZChqeERZxNdtcabl
-	 zMz+DfH+0Nh9+eojzTPBFkhNvZ99WcGVAlnr3492c26LktU4aUB3Ny9RZV2lHFDMHP
-	 xPvgub2UUsQYVWdpclSUlc5izTcgxx+p6XqNIIrCLfEGBKj3ea2gK5V+iCcqysOW+0
-	 r8Ls9jiToShkehH/mh2L1XdNB9gtAo+LXRheGe92dPtnMxNI47ugeLviDGLw+YUgl9
-	 VaKLRv269RGcA==
+	b=QFio7RIWh9qUVn1KVNLiBit78SH4LLPizL9FqW44jft3Vr2XWCwkPsbHTRqAbVO4i
+	 DJXgerUwodYxfWKcGXfcssCek5si/ANwdkXnMZhQgEMPxruwf5PA6K88Y+YLkWYmPN
+	 pqun5hdQ0I/Y2M9MfQ0ZvZe9JaGaCs26z9fzx3WJ4pk3cJhdxcqGKMPujyWgU3gMQ7
+	 sgnf68WV4U9Hr9uUvEskGcjMWVcyQ/J+lolia5Ft96QzWnOSu1bbBaokxkY7TsUtjJ
+	 PqkHMy1ywX/SP9fteMIBK0hpuqMI8GsM2dHkxcyofmZO9SiMt9YQnJl0R1Rsj0OhmM
+	 NA6OfaQrULYbA==
 From: Lorenzo Stoakes <ljs@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: David Hildenbrand <david@kernel.org>,
@@ -63,9 +63,9 @@ Cc: David Hildenbrand <david@kernel.org>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: [RFC PATCH 07/10] mm/rmap: track whether the page VMA mapped walk is anonymous
-Date: Mon, 29 Jun 2026 16:03:47 +0100
-Message-ID: <903a8f049fc04e82feba3fcb8b2b9b911551d275.1782745153.git.ljs@kernel.org>
+Subject: [RFC PATCH 08/10] mm: introduce and use linear_folio_page_index()
+Date: Mon, 29 Jun 2026 16:03:48 +0100
+Message-ID: <58b4246bd0cd8b58f86ae7ce2acd54f9f478445a.1782745153.git.ljs@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1782745153.git.ljs@kernel.org>
 References: <cover.1782745153.git.ljs@kernel.org>
@@ -77,101 +77,111 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Update the page_vma_mapped_walk structure to track whether the walk is over
-an anonymous folio or not.
+This function is, for now, a placeholder; it will be used in future to
+determine whether to use the virtual page index or not, based on whether
+the folio is anonymous or not.
 
-This is necessary in order to determine the correct VMA page
-offset (virtual or not) in vma_address_end() ready for a subsequent change
-which adjusts which page offset to use depending on this parameter, and
-update the comment slightly.
+Currently it simply wraps linear_page_index(), so this does not change
+behaviour.
+
+We update callers that will, once the change is introduced to track
+anonymous folios by virtual page offset if MAP_PRIVATE file-backed, need to
+determine which index to use based on folio type.
 
 No functional change intended.
 
 Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 ---
- include/linux/rmap.h |  2 ++
- mm/internal.h        | 13 ++++++++-----
- mm/rmap.c            |  3 +++
- 3 files changed, 13 insertions(+), 5 deletions(-)
+ include/linux/pagemap.h | 18 ++++++++++++++++++
+ mm/huge_memory.c        |  3 ++-
+ mm/migrate.c            |  6 ++++--
+ mm/userfaultfd.c        |  6 ++++--
+ 4 files changed, 28 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/rmap.h b/include/linux/rmap.h
-index 8dc0871e5f00..a48ae9575bd2 100644
---- a/include/linux/rmap.h
-+++ b/include/linux/rmap.h
-@@ -871,6 +871,7 @@ struct page_vma_mapped_walk {
- 	pte_t *pte;
- 	spinlock_t *ptl;
- 	unsigned int flags;
-+	bool is_anon_walk;
- };
- 
- #define DEFINE_FOLIO_VMA_WALK(name, _folio, _vma, _address, _flags)	\
-@@ -881,6 +882,7 @@ struct page_vma_mapped_walk {
- 		.vma = _vma,						\
- 		.address = _address,					\
- 		.flags = _flags,					\
-+		.is_anon_walk = folio_test_anon(_folio),		\
- 	}
- 
- static inline void page_vma_mapped_walk_done(struct page_vma_mapped_walk *pvmw)
-diff --git a/mm/internal.h b/mm/internal.h
-index f1e7e6256b4c..120957a7850c 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -1298,22 +1298,25 @@ static inline unsigned long vma_anon_address(const struct vm_area_struct *vma,
+diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+index 6e0d719d639a..e2affa57dadd 100644
+--- a/include/linux/pagemap.h
++++ b/include/linux/pagemap.h
+@@ -1146,6 +1146,24 @@ static inline pgoff_t linear_virt_page_index(const struct vm_area_struct *vma,
+ 	return pgoff;
  }
  
- /*
-- * Then at what user virtual address will none of the range be found in vma?
-+ * At what user virtual address will none of the range be found in vma?
-  * Assumes that vma_address() already returned a good starting address.
-  */
- static inline unsigned long vma_address_end(struct page_vma_mapped_walk *pvmw)
- {
--	struct vm_area_struct *vma = pvmw->vma;
--	pgoff_t pgoff;
-+	const struct vm_area_struct *vma = pvmw->vma;
-+	const pgoff_t pgoff = pvmw->pgoff;
-+	pgoff_t pgoff_vma_start;
- 	unsigned long address;
-+	pgoff_t pgoff_end;
++/**
++ * linear_folio_page_index() - Determine the absolute page offset of
++ * @address within @vma from @folio.
++ * @folio: The folio whose linear page index is sought.
++ * @vma: The VMA in which @address resides.
++ * @address: The address whose absolute page offset is required.
++ *
++ * For compatibility, currently identical to linear_page_index().
++ *
++ * Returns: The absolute page offset of @address within @vma.
++ */
++static inline pgoff_t linear_folio_page_index(const struct folio *folio,
++					      const struct vm_area_struct *vma,
++					      const unsigned long address)
++{
++	return linear_page_index(vma, address);
++}
++
+ struct wait_page_key {
+ 	struct folio *folio;
+ 	int bit_nr;
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index e94f56487225..1b3456a9ff74 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -2832,7 +2832,8 @@ int move_pages_huge_pmd(struct mm_struct *mm, pmd_t *dst_pmd, pmd_t *src_pmd, pm
+ 		}
  
- 	/* Common case, plus ->pgoff is invalid for KSM */
- 	if (pvmw->nr_pages == 1)
- 		return pvmw->address + PAGE_SIZE;
+ 		folio_move_anon_rmap(src_folio, dst_vma);
+-		src_folio->index = linear_page_index(dst_vma, dst_addr);
++		src_folio->index = linear_folio_page_index(src_folio, dst_vma,
++							   dst_addr);
  
--	pgoff = pvmw->pgoff + pvmw->nr_pages;
-+	pgoff_vma_start = vma_start_pgoff(vma);
-+	pgoff_end = pgoff + pvmw->nr_pages;
- 	address = vma->vm_start +
--		((pgoff - vma_start_pgoff(vma)) << PAGE_SHIFT);
-+		((pgoff_end - pgoff_vma_start) << PAGE_SHIFT);
- 	/* Check for address beyond vma (or wrapped through 0?) */
- 	if (address < vma->vm_start || address > vma->vm_end)
- 		address = vma->vm_end;
-diff --git a/mm/rmap.c b/mm/rmap.c
-index 0bdb65852222..a3e926a708b1 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -1240,8 +1240,10 @@ static bool mapping_wrprotect_range_one(struct folio *folio,
- 		.vma		= vma,
- 		.address	= address,
- 		.flags		= PVMW_SYNC,
-+		.is_anon_walk   = false,
- 	};
+ 		_dst_pmd = folio_mk_pmd(src_folio, dst_vma->vm_page_prot);
+ 		/* Follow mremap() behavior and treat the entry dirty after the move */
+diff --git a/mm/migrate.c b/mm/migrate.c
+index d9b23909d716..4250a56e09c0 100644
+--- a/mm/migrate.c
++++ b/mm/migrate.c
+@@ -358,8 +358,10 @@ static bool remove_migration_pte(struct folio *folio,
+ 		unsigned long idx = 0;
  
-+	VM_WARN_ON_ONCE(folio_test_anon(folio));
- 	state->cleaned += page_vma_mkclean_one(&pvmw);
+ 		/* pgoff is invalid for ksm pages, but they are never large */
+-		if (folio_test_large(folio) && !folio_test_hugetlb(folio))
+-			idx = linear_page_index(vma, pvmw.address) - pvmw.pgoff;
++		if (folio_test_large(folio) && !folio_test_hugetlb(folio)) {
++			idx += linear_folio_page_index(folio, vma, pvmw.address);
++			idx -= pvmw.pgoff;
++		}
+ 		new = folio_page(folio, idx);
  
- 	return true;
-@@ -1317,6 +1319,7 @@ int pfn_mkclean_range(unsigned long pfn, unsigned long nr_pages, pgoff_t pgoff,
- 		.pgoff		= pgoff,
- 		.vma		= vma,
- 		.flags		= PVMW_SYNC,
-+		.is_anon_walk   = false,
- 	};
+ #ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
+diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+index bf4518f4449d..9c6b1a678ca6 100644
+--- a/mm/userfaultfd.c
++++ b/mm/userfaultfd.c
+@@ -1283,7 +1283,8 @@ static long move_present_ptes(struct mm_struct *mm,
+ 		}
  
- 	if (invalid_mkclean_vma(vma, NULL))
+ 		folio_move_anon_rmap(src_folio, dst_vma);
+-		src_folio->index = linear_page_index(dst_vma, dst_addr);
++		src_folio->index = linear_folio_page_index(src_folio, dst_vma,
++							   dst_addr);
+ 
+ 		orig_dst_pte = folio_mk_pte(src_folio, dst_vma->vm_page_prot);
+ 		/* Set soft dirty bit so userspace can notice the pte was moved */
+@@ -1352,7 +1353,8 @@ static int move_swap_pte(struct mm_struct *mm, struct vm_area_struct *dst_vma,
+ 	 */
+ 	if (src_folio) {
+ 		folio_move_anon_rmap(src_folio, dst_vma);
+-		src_folio->index = linear_page_index(dst_vma, dst_addr);
++		src_folio->index = linear_folio_page_index(src_folio, dst_vma,
++							   dst_addr);
+ 	} else {
+ 		/*
+ 		 * Check if the swap entry is cached after acquiring the src_pte
 -- 
 2.54.0
 
