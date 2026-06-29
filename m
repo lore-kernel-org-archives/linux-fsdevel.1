@@ -1,180 +1,192 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022125.outbound.protection.outlook.com [52.101.101.125])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A9735DA40
-	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 23:18:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782775114; cv=none; b=Q4OvxRu1VCgRPVVa1R0hMuKLEWJIcZnvzrdh3+9oCUUIXr+0a3gClHyyJmFVSf3QRwBeahGYq912hjRAcl/K6GSEi+XQe4Y8aNMKRusEKpW7+vWhFNrOQX3FW0QOPZJX+cGlZdY/0yjjyaKd2leKLk/QKsncq6cBYvFtUQu5NLc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782775114; c=relaxed/simple;
-	bh=5QwYmtyK8mDPKQEMdwzLwsu5HLPsbYOnrJaevwTPcH4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=gcfaXeCC2e42jVtdjoav6M6/U7xL9ZMFOZuFDvnrN89ZZTurGbtG4PocJe8hkY9Cggm+9bORCvXo6uAEOtjZ6aVdKRTcY3kP1WIoY3Q6QdJiXU75Y25fcHHOzazoXMMgrKSlGld4keOSwEJ87Tu/sTIhCZWLrUXHzBRAC/k3daE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=uUkp3Tzn; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="uUkp3Tzn"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-80e46c00f3bso12626737b3.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 16:18:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1782775111; x=1783379911; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=qR0jjB6almaCVIp+GBEkjIasVXF1sJo/GazX0Rc9UuA=;
-        b=uUkp3TznjFZSrugd9Y17sMehltQd9nF0JwMbzvV3IqgbLucQlkDirRWzru33ZYZ8FS
-         2xsOUWoxwmFp7Xutqvg0er1rWOAYvgO8DpqB4y2amA+VKh+Olszh7aFPv/IF3QElUoyq
-         gMrzFVbNdKnv9z9uzfve9vViHEcfo4O6QJMOkF9Z5B4tZ5cxaaSlbkcLtB55aQNKziSW
-         s2/NAFR+RQ4rtltFt/tBUCoXF05LrrKkvA0XXBy41Ndo/v8mhJN1CW5us6vgIvdT176A
-         q5uCCAlQdhDgWaLC/2Z0rkmZ7gXMX4U55hh4rztKpJe+sEAOKtrH3KjBAetp3z8me0nS
-         KOaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782775111; x=1783379911;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qR0jjB6almaCVIp+GBEkjIasVXF1sJo/GazX0Rc9UuA=;
-        b=M4ITdBUZHV7v2b50f+4BqnIz/hqZJAKaDVLM2Wn1Rds09dvM6GHP9+IRxOswv0L0+a
-         H/f6mcGhNcfwPzV3nIkoP8dueeBpVnWnoRw2mODbZWwqIW8UqjW8wmvHzONgxVU98Um1
-         tg5xLCRacvdkwW5+3RNULTo8N/WOjyjqxlaYtj90V4fYzkr757X97Ba/k/bCq8uI86wN
-         EQno28E8C7VGdtLZMzhRNBw50dyrIQ68LawGhdKjz5CXk4JHEkokRolVNhFqh3iuSiTJ
-         ta6BGK7covGxSGYkcgDBPelGgTKACld1g8J73bKpgCEiOi743+NChxmUfQXhic043LDN
-         t0FA==
-X-Forwarded-Encrypted: i=1; AHgh+RoIlSfsdKq3chxUf5qQpO62Znbo+u9yNzw+530qC10y3MpuqzmlS/RvVv59e8pFCiMr7tWxyN5RgCM7QnDo@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyn10v6Qqjo0mDKo09Xro7pqwQjWnc3qLCLWU1vfKEb//6qxK4N
-	j6wUCOygkaE005txpkluXdbZ4bFH3d8UqR2EJjOoyaATgTZvvbEfyRojEy8NWmzpNWk=
-X-Gm-Gg: AfdE7ckjI7oNFzJJdksL9BSbrnB+rkNI/4BWiQF6UEetIyjMXgCR7iQQxqqyTQbzXK7
-	IwTCnKysiJGDsNhmTMUqe+Ms9koNVh8bf5tpTQ99NZ5n0a03TIscFkVpX7fQ4aWtRQIryGj1vgX
-	Oc0Bx56XTOF09JuH196sjA7UtSaEb2mzZYEcxaEiDKq/cmF1fpwVdm27/Nb1pfNZCn2KweDrmv/
-	oyzl38bDo6z1OLlFZGBjwHWFJYtSMFJtBmsCom6LUNrDzcjBfGgYEsS5YSf+I6uZXvTToPmPcuK
-	lSDgH/ChcwUfRDp/7r8+Sr4ZZf7IOQW5cWK8c4CuJ5P0KcbVi2VmmuM5UgQmtUBuT0kmFSCoNPW
-	lRjsP1uZ4mTFCzNwffDaazX2z4dr62iZtnmKPlbUyWgNxQh2FhrqhjbatV6yUAiGVbGcra4Khyb
-	ZvvOLsQkpJInh6vDrhji3b+bJGSvgx1FbI7aLL69VROPrzEPDhVC4EC50a+jttMdON3CBpYIyF9
-	Sa1IGYp2bFkcNLLC/CWfTkecdNufpMllavxc942fYcyVQ==
-X-Received: by 2002:a05:690c:630d:b0:7b2:513b:34d7 with SMTP id 00721157ae682-810d82dbf80mr16001397b3.29.1782775110535;
-        Mon, 29 Jun 2026 16:18:30 -0700 (PDT)
-Received: from pop-os.attlocal.net ([2600:1700:6476:1430:620b:6926:2bec:7db3])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-810e9d48f01sm4191487b3.25.2026.06.29.16.18.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 16:18:30 -0700 (PDT)
-Message-ID: <4a0ad1fbf065b3d0bc0e3f1f2efbc44249181d03.camel@dubeyko.com>
-Subject: Re: [PATCH] hfsplus: terminate xattr names before listing them
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Kyle Zeng <kylebot@openai.com>, linux-fsdevel@vger.kernel.org
-Cc: Yangtao Li <frank.li@vivo.com>, John Paul Adrian Glaubitz
-	 <glaubitz@physik.fu-berlin.de>, outbounddisclosures@openai.com, 
-	stable@vger.kernel.org
-Date: Mon, 29 Jun 2026 16:18:28 -0700
-In-Reply-To: <20260611212710.5134-1-kylebot@openai.com>
-References: <20260611212710.5134-1-kylebot@openai.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A323563F6
+	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 23:35:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.125
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782776138; cv=fail; b=FyGkfEIV93AkEwJ5Je+kVkmQ/RUIEuK72EWbKWdcV++E1wCOgFq5erL+njIohQ5k3oF123PeOBDEX4vP5IDw+DeBbO7x7mUbZnK/rzzjKYxHcU5ByeAEnoSiBkyUrU806mhrEj7Kr1CKEfjIV7SokB7tH0mZY697TcAXdhU5S2c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782776138; c=relaxed/simple;
+	bh=NSSjpir2F4YgdU9vGhnL09oVXpdka8791DA5XeDX0vM=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=EvvUfJbytuemQDIHZY40g33EM8CY7R5DtWZn3kEWIxNE+l7luJ8btiBakMlDj7zKerqCSvG8iFe3yDykN+y1HskF2ntkTgbL+kpmPNpAn1NOI8C8T+nws5Vua7k1FlXOw8fkEQRnIAFfBjCLgWTn9EXPbQyFpX11hBN9IptAUsQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=priestnall.info; spf=pass smtp.mailfrom=priestnall.info; arc=fail smtp.client-ip=52.101.101.125
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=priestnall.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=priestnall.info
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZRZvJ3tkwk7HIF5nczJxnUQlFqArp/WMEJWb/FOukPLrcBdeUvAqCRaGrROgFooctiDLEsZWu7uNHRnSkqwymAWEw9cXqYtm3XRYj0/KZqoCugV8wsAhspqWzwFe2g+FMjuvL/Mmjy1wkFsckydT+nVk7S7iZGCRylvIibuY0JnshMlmdLf9Y07gAcLrEhFIJu3RkdoYRvTtTOdC4O97XYQZW89A4kTAdqUcIxZ7J3IJeT6RTJnQZmyAgCk+LSXMdvxoPxT79DzDxsiGVcgae5WwwUfvVPKvrY3bOK0w1Z/Kr+X7CQlGevpkvMIBUrZ5d5svOzYMr0tTcEP+aTmk+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
+ bh=GfFevWjW9EUc7bXIM0VoDBhTU7b++a5wrfLSGRFRggo=;
+ b=DtXOH4U75Hhy7215mdhiI8mqRcFhUfFmOeW8nu24GJzkKRuudqmryRyJlg4e3idCSlUAebG+KG94ouE5APz9YFmVfje9xBVls+OK0KBwrz1wSXOa5vraGE9kbnUwyZcPWdJQOB9xPh3LyX6efyiaK9Rrv73tn406R/OHNrDVTu0xkrSDcokI5q1FYqThsjpo/cnva4kdNcENiXWFoppkZ/+eO8wmmapQuGo3Sxa+Us/0whVL03aEb8Np+CJq7TcEEBSFxCqEN2iZxRaPyT93f6KScERyAdOYt6phrZQ7wLngcHe46miwCHyCWvUe5OxI0/7vWqtfEN2E4DgtYB5oVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=priestnall.info; dmarc=pass action=none
+ header.from=priestnall.info; dkim=pass header.d=priestnall.info; arc=none
+Received: from LNXP123MB3691.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:136::6)
+ by CWLP123MB6526.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:188::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Mon, 29 Jun
+ 2026 23:35:35 +0000
+Received: from LNXP123MB3691.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::f62c:898d:4808:2890]) by LNXP123MB3691.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::f62c:898d:4808:2890%5]) with mapi id 15.21.0159.018; Mon, 29 Jun 2026
+ 23:35:35 +0000
+From: Tim Priestnall <tim@priestnall.info>
+To: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+CC: "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "brauner@kernel.org"
+	<brauner@kernel.org>
+Subject: Unexpected mount table growth with shared bind mount onto itself -
+ expected need_secondary() behaviour?
+Thread-Topic: Unexpected mount table growth with shared bind mount onto itself
+ - expected need_secondary() behaviour?
+Thread-Index: AQHdCB/7Z5uorHTyEk683bLZ+xFNOQ==
+Date: Mon, 29 Jun 2026 23:35:34 +0000
+Message-ID:
+ <LNXP123MB3691574893C2958E77C8FA40ACE82@LNXP123MB3691.GBRP123.PROD.OUTLOOK.COM>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=priestnall.info;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LNXP123MB3691:EE_|CWLP123MB6526:EE_
+x-ms-office365-filtering-correlation-id: cfceae4d-be86-4a7b-6e4f-08ded6371e22
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|6133799003|18002099003|38070700021|56012099006;
+x-microsoft-antispam-message-info:
+ MA2niUvxlLLbyxOBOa/+L1ObZOwAUSiEe4XTpw7qWTfUEUymHG9eWbikDBGTC4VPxGx8zLhgl+3sxgXWvPEzYqOwh/p+5H4rYfjjuxYV5feXX4nDRyn3WmUwAVrbw/R3fKhqy28B7fl1QtOfmZ2TkUaqsXUpYQxLOudMBhOKfgwgb9jav8kkjxOGjUu4h6sStbjLYjGYoE2hMSIJ2n3RDbrOy91Trx2lO2bWDVMiN1TqgjalusXJteWWVRdvil6vQlz69GQ5aYR1hj9FwwDOgLuwVoJUDWe9lFLeimmdJ7DR0tyDNwOniz/q2uF7bWP036rQXl5RYssuWCVc/vM01u+7fY8S/VQPdPRo8uN3IFQ/D56jeKGETcldsKJwwkeUx3YWAnGb6rFOi6TaKGqdaEjCAaxHKGlUHFTWSUI9M1qoKGjRCBElkoyW9q4mBBJxnGnm+74JzyQhc1B53+jJftlF6QSK2KZXnw8Gpis0z2RymhjGJypcTsc+LTEaaQnUO/bELGrmq7ut0NDpGaUQMbifaXjavA6zoxIoGJf6VvTQD8IKigaPmrN7xBb2yQWxM4sW6+SAMgN9bJ8o4F95Fxh5PWNwDu/FnKr0nsNGMvISexJw1vjqcgtogm8Bl/FxPNOpHMoEfb1SODc0Ei7nNWpldWhnS1EQoLoph1Y5kJFP2uBp6ZgglX3AhtL5G4xkm+G3vCwm5fCFcqB+jnJbOxFCe6nRrzbV49vnhnimbfY=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LNXP123MB3691.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(6133799003)(18002099003)(38070700021)(56012099006);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?q1vAoju9H4iX6+oa9zNYfL8uKWZCcSVUu/TwJg/CPFdYYSBacqVECtLFM+?=
+ =?iso-8859-1?Q?9hnGw++HYB9VwH1s0YCllC8U0jn9k/VwH+CY8OZgAgKBWHUCut0/7AcQt/?=
+ =?iso-8859-1?Q?OCUqUoutMbuRHCVVR3VJ4iKmSAO09Ug8kaYp9Xza4IhEZOjWpFRwszerXt?=
+ =?iso-8859-1?Q?PM9HTc//rEckjdOuXX5bOWR6kPdLRpAV05E2/xZt6NB1A+t1O4cgQrGTpr?=
+ =?iso-8859-1?Q?WdM6sOJ6Sh7DHsKmscUjdtGooZG+J7hiyvdsfTErGKuJcc4r9K9s/PE4DW?=
+ =?iso-8859-1?Q?pGeGAiBmF/wVa5jV90sO2IoCQ00KudI9w5ESVduRjNkdIl27mIJWua4z+j?=
+ =?iso-8859-1?Q?AALQLzMCZlEUKJztt1I+aN+P0TH1b3907RJrmsYf0/zj3DWkmh6yht15O+?=
+ =?iso-8859-1?Q?DTV3YN+UBzsCikAgSgBNRvjh1MMNANBqWPM0B568LsuF/F1FA4RK9AWJXU?=
+ =?iso-8859-1?Q?lWDzGhFNvXnAa7iMvjUeimc8128tTDKSGpeRZK1SPBegvQDDNOguRu9/Mr?=
+ =?iso-8859-1?Q?aO+i+xHdokAWzzYodFeedr0FD06WC2TtF3fkXqMvcxEpIPDaUD+Rz5ZloH?=
+ =?iso-8859-1?Q?2SeumZ+R3xasulCb/w2/fCxgjquTfaMpsAJHtKqM1bCeiL/c9U8bASJCDX?=
+ =?iso-8859-1?Q?3d2yDklMlBID0+uFN6mVkwx/jtfEqbtRbml5E+t02+jz18vLeWRp9fB233?=
+ =?iso-8859-1?Q?2GqFOqrF13idWo9vktD592gaTpJzofm82Ldbo6hIrrjP94KXT3mvyf0xgE?=
+ =?iso-8859-1?Q?liIqn4dt+K6Pt2VyrGpQYZUPX6MbfHgA4z3cxCbKeh/S27mX1s1ywVpt1R?=
+ =?iso-8859-1?Q?q6whHNuu7H1BZwSPEqPD/+izgtccos/8nPntvlMTz4oD4ZCpqmUY9HlU5f?=
+ =?iso-8859-1?Q?IjXUdI/OzgGb+W+uGSqWSZaPaFoa2tBwPufrLG+q4ng5wdFbCMY6VTKa+O?=
+ =?iso-8859-1?Q?cnrpwrG11AihYQMSHnquIOhiae6BZenkiiMOvugPOsLHpNVLV13/qiDwq4?=
+ =?iso-8859-1?Q?Y6voy+pxqzgmTlGcFf0tCwvErYZigfPV/VgSPJ/G92uLAE+FdF/yUExf03?=
+ =?iso-8859-1?Q?6SJxQR15tMGNvhmedD62huGWP3dfulDRtdzRe+0xnnwynGhM6yRbHhfsbG?=
+ =?iso-8859-1?Q?7JtqmROsxPXGrOKZvnMCmD6bDT9C5v9BrKTN9Lc0x34APwYPGecVbAZp5V?=
+ =?iso-8859-1?Q?Vj56GR0/Oyx/LrVeicFTkd9lV33tZk9B4wQfbSeSbYVT/l8rXgt8EGV/GR?=
+ =?iso-8859-1?Q?f5GEkUzEvEarm4C5gizTPY/31V2dtYtzBKXGxPlCEiX0V7VZlIpyTyN5qG?=
+ =?iso-8859-1?Q?F1B7JSefUaeDUhge1hTXJy2WOrj9B0m+AmBAhMOsX9a6MkfxkdrNnJPq0G?=
+ =?iso-8859-1?Q?Unn48r/vEOsg9l9xK7DIG3/6dSvHp8FEC14fkk/9HAY79cEd1XVpG76ODO?=
+ =?iso-8859-1?Q?AmnOAirxDYyLbmXPy4l3VukCciM+lYe3lRaWJCkjfFnt5fCquhFuSyMSsm?=
+ =?iso-8859-1?Q?XZLdcrQEBK3lIo9+8zekufQd/4qWxomjoKknE2Ij6maq7HzGj5qiiXVHKW?=
+ =?iso-8859-1?Q?jf6Z/1RPn1XhDWSgP9Pw7Afi5SsOfO1dAnGofpAo44tnnagaUOzjTVlarl?=
+ =?iso-8859-1?Q?Ngx3GgoRcI3Au8pCm8lj67Mg3it4z3xUvMaJlIWYrpSLlYB1ZBynG2MeAy?=
+ =?iso-8859-1?Q?XcTaoYNqtYkcbveums9ueVgMqDPK9Ho0XkVdi6MpWGL8zChBAYRiR4FTb0?=
+ =?iso-8859-1?Q?OTPe19kOkjG1Au/HtlnQ2tVMIkzBxDITK1WI9TaPQPY1/v?=
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-OriginatorOrg: priestnall.info
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LNXP123MB3691.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: cfceae4d-be86-4a7b-6e4f-08ded6371e22
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2026 23:35:34.9935
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: e5a35e03-c2c3-4da1-af74-6b49a0269675
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rB4GLnb6QP72Mxcn++/yH+J2p4U5g1uLquqyNWig8MCnztqCRzb8itR4xGHYuAUZf2m8HsbmQZxCr6xPDyfXpA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP123MB6526
 
-On Thu, 2026-06-11 at 14:27 -0700, Kyle Zeng wrote:
-> hfsplus_uni2asc_xattr_str() returns the converted byte count but does
-> not
-> append a trailing NUL. hfsplus_listxattr() then passes the reusable
-> conversion buffer to string helpers such as can_list(), name_len(),
-> and
-> copy_name().
->=20
-> If a shorter converted xattr name follows a longer one, stale bytes
-> after
-> the new byte count can make strscpy() fail with -E2BIG. The caller
-> adds
-> copy_name()'s return value to the running output offset, so a
-> negative
-> return can move the next write before the listxattr buffer.
->=20
-> Explicitly terminate the converted name at the returned byte count
-> before
-> treating it as a C string.
->=20
-> Fixes: 127e5f5ae51ef ("hfsplus: rework functionality of getting,
-> setting and deleting of extended attributes")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Codex:gpt-5.5
-> Signed-off-by: Kyle Zeng <kylebot@openai.com>
-> ---
-> =C2=A0fs/hfsplus/xattr.c | 1 +
-> =C2=A01 file changed, 1 insertion(+)
->=20
-> diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
-> index 452a1f9becb2..35fcbc397b62 100644
-> --- a/fs/hfsplus/xattr.c
-> +++ b/fs/hfsplus/xattr.c
-> @@ -870,6 +870,7 @@ ssize_t hfsplus_listxattr(struct dentry *dentry,
-> char *buffer, size_t size)
-> =C2=A0			res =3D -EIO;
-> =C2=A0			goto end_listxattr;
-> =C2=A0		}
-> +		strbuf[xattr_name_len] =3D '\0';
-
-The strbuf is allocated by kzalloc() [1] and it is zeroed on every
-iteration [2]. Are you really sure that this code is necessary? Can you
-reproduce any issue without your patch?
-
-Thanks,
-Slava.
-
-> =C2=A0
-> =C2=A0		if (!buffer || !size) {
-> =C2=A0			if (can_list(strbuf))
-
-[1]
-https://elixir.bootlin.com/linux/v7.1/source/fs/hfsplus/xattr.c#L833
-[2]
-https://elixir.bootlin.com/linux/v7.1/source/fs/hfsplus/xattr.c#L891
+Hi,=0A=
+=0A=
+Disclaimer: I should be transparent that I've been working through the kern=
+el source with the help of $AIAssistant - so while the technical observatio=
+ns are based on the actual source, and I have managed to replicate this beh=
+aviour myself to confirm it, I may have drawn incorrect conclusions from it=
+ in regards to "expected" behaviour or interpretations of what is happening=
+ "under the hood". This is dragons and witchcraft territory for me here, so=
+ please forgive me if any this is incorrect.=0A=
+=0A=
+I've been investigating exponential mount table growth in Kubernetes worklo=
+ads using bidirectional mount propagation (shared peer groups / MS_SHARED).=
+ For example, say we mount the following mounts, with bidirectional mount p=
+ropagation method, to the pod:=0A=
+=0A=
+   - /mnt/a/b=0A=
+   - /mnt/a/b/c=0A=
+=0A=
+Whenever the container crashes, a new container starts, and the mount for /=
+mnt/a/b/c leaks back down onto the host via the /mnt/a/b mount (I think). T=
+o be clear, I have a confirmed fix for this particular k8s-centric problem,=
+ so that's not the question... but what I expected to happen is that the /m=
+nt/a/b/c would appear in the mount table X times where X is the number of l=
+eaks. Instead, we get (2^x)-1 entries for the same mount, which feels... 'w=
+rong'?=0A=
+=0A=
+Tracing through fs/pnode.c, the mechanism appears to be:=0A=
+=0A=
+need_secondary() calls is_subdir(dest_mp->m_dentry, m->mnt.mnt_root), which=
+ returns true when the two dentries are identical. In this scenario, every =
+peer in the ring is a bind mount of the same source, so m->mnt.mnt_root is =
+the same dentry as dest_mp->m_dentry for all of them. The "skip if mountpoi=
+nt isn't visible in m" check passes for every peer, thus every peer gets a =
+copy_tree() clone, every clone joins the ring, and the ring grows exponenti=
+ally with each subsequent bind.=0A=
+=0A=
+I have reduced it to a simple reproducer on bare metal to confirm that this=
+ is indeed the case:=0A=
+=0A=
+  $ mkdir -p /tmp/test/dir =0A=
+  $ mount --bind /tmp/test/dir /tmp/test/dir && mount --make-shared /tmp/te=
+st/dir && cat /proc/mounts | grep 'test/dir' # First generation - 1 entry =
+=0A=
+  $ mount --bind /tmp/test/dir /tmp/test/dir && cat /proc/mounts | grep 'te=
+st/dir' # Second generation - 3 entries=0A=
+  $ mount --bind /tmp/test/dir /tmp/test/dir && cat /proc/mounts | grep 'te=
+st/dir' # Third generation - 7 entries=0A=
+  $ mount --bind /tmp/test/dir /tmp/test/dir && cat /proc/mounts | grep 'te=
+st/dir' # Fourth generation - 15 entries=0A=
+=0A=
+Each bind mount of the directory onto itself roughly doubles the number of =
+mount table entries. From experience, it doesn't take many of these leaks f=
+or the host to completely grind to a halt, and as far as I can tell, anythi=
+ng that needs to touch mounts (like containerd/kubelet) is totally hosed, a=
+nd sys cpu% starts to get a little toasty when you reach 14 or 16 iteration=
+s running it manually like above.=0A=
+=0A=
+I did come across something by NeilBrown <neilb@suse.de> whilst digging int=
+o this, where he had to use the pattern !is_subdir(workdir, upperdir) && !i=
+s_subdir(upperdir, workdir) in fs/overlayfs/super.c to check if they were '=
+proper' subdirs. As someone uninitiated in the ways of the kernel functions=
+, I found it quite entertaining that to check if something wasn't a proper =
+subdir, you must check if they are both subdirs of each other. But this did=
+ get me wondering: Given how I personally would have interpreted the name "=
+is_subdir", is this behaviour in need_secondary() intentional, or not?=0A=
+=0A=
+I can't think of a use case for this, but then again, I'm not familiar with=
+ the wider usage of these functions, so you'll have to forgive my ignorance=
+ on that front. It seems like need_secondary() should maybe return false wh=
+en dest_mp->m_dentry =3D=3D m->mnt.mnt_root? Especially since propagating a=
+ mount into a peer that IS the mountpoint is self-referential and produces =
+exponential & unbounded growth.=0A=
+=0A=
+Kernel version: 6.12 LTS (tested on 6.12.88-amzn2023)=0A=
+=0A=
+Thanks=0A=
+Tim=
