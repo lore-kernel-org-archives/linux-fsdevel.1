@@ -1,206 +1,76 @@
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EEDC2EA72A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 05:27:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 580DA38B143;
+	Mon, 29 Jun 2026 05:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782710862; cv=none; b=O29JX9IAS18CdIn4OumedB0FIDRPMiOz4s61dQJLiNOByTcf9u54eU/HFakKIJaqrZhCPCpSmhSewVP8jmY3p6zG/Ow61YsyIVtMdKIW0+Ymd+PueKJb8uk0AO7vSw6Bhv8sI9NHC/gzq1zCJ4E+IIaMUwefx4VizJUB81Ll6K8=
+	t=1782711741; cv=none; b=gZkUiJ10eF01vKMzmF4ygicmMzG0T1bzLeIKXj4TUtfc+cwNVAApq8ZmjOF8TcDykziuG51akUNX0G9I4Wlu1GhTj+xkRv0rPMu1Y+UE8sbBIwusY7hj0hNVzd+CjSWGojdaxQfkKEcvEcXsmi9xEfuy7QibZTQKvXloPLLz+Ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782710862; c=relaxed/simple;
-	bh=qwRvDvnS5Rp3n2hhsuYtgYuVfDND73nAHGHBiJAAhzI=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=i3GaJztMOHd2VU6NHkOcuB7l2fD4NQTfKDL4xHu122MzKR4j7Wbj9fG0Ipoh0T8d6R6JGeCfbR0EGc+SNMmCZCPiS2aI6K790mfOknEba0LrCXE7GxiFERyXddyqD6s0f7mOwH/VZN8Fgz/CQEPzTmEjuQo9i/Qbm0IwGU6IUvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4893fc86bebso4581495b6e.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 28 Jun 2026 22:27:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782710860; x=1783315660;
-        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tvob1qPe+UI8y2x1Gv3H5S0zCulj4xK7a+b1bN0zHyg=;
-        b=UM0ZHhXrKheizNwPSGXElC5CJRVDgMysMeHrXONgXgul1TftVisYNyprCED+Fxiy/a
-         AjtRxHXXCZR+bKm2HM8/ENeACID1VB1H0YSVJ9gZmhsLL06PqRL0/crTeAbN2w7jC5SK
-         jHWmdk5JiALROmIfuY1sR2+0HB3wI/SslOYmbgedaf+Y1yGZEjh1QXV2gN1H01NcoCWG
-         n6WfiqTEA+ee7qwOb52W53aEDl6/OxCmIas+YBiRaWopPC6JKIzun8Zz6kxdw/WXCoMe
-         WWtAQwSLfXO0yuvyiMChqkhA9fv820LWgwdv6D23PLu5plOrBXFuFVrH6eEjWm1y+Mr5
-         7T7g==
-X-Forwarded-Encrypted: i=1; AFNElJ99xpQWUnRNFy9X7JRgWJL0JxQk2kjOmuIWpqt3SIHzalREWqCKeT3SxXTy7AsNwd6bbMErpjoUf3O5CmzU@vger.kernel.org
-X-Gm-Message-State: AOJu0Yylk1rkTnMp7iIr2oBvUsSqo9KVmnBqwE7YUD/XFf3CrDO6Z4Fm
-	SaZcWvITlWOkPZV3H7/SRyibWdMs8myC4Erm1PZHCxB1ZfXxxb5k8iXzMU/urU0L3mxRfNEeoq2
-	4FQlnHcbrAZxvIthp70xPsEG+tyrAf16/lAu90WV6DzHG44kwgITgwTFJnaQ=
+	s=arc-20240116; t=1782711741; c=relaxed/simple;
+	bh=zGRlQ6EBXyxT2V1ve7hn9m4+N50rTmq0MuLll1M8jQc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fwNSiZP+TG2RHNRfaIxYs4nINbCPwF8FN2Ti1H9PamLe1MKOw6VcoPoBwZMe270sdaPMXv5JmPSHiAmQnp8i9LDQdoAAKvteCveyRmw+1I5KeYSf/nCAwAoPt9KcGxR/NOE5ujtJvUyMgBL2mXxW/XiBl29lTy9A4HKXR8X1sfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DLl40y+Q; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DLl40y+Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 986E51F000E9;
+	Mon, 29 Jun 2026 05:42:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782711740;
+	bh=WKVL74ReC9/RSieHk5edMx6bbG7Dz62p6CxJwlh4GMc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=DLl40y+QBf8xwL4athRvVkNc73525Gn/ifIxD47zg586SNp3RNuCdP+Vb0GK1z9hK
+	 Vwo4XyfZ1o0VM9n85X8hxs1tzYjTM349cG5aG1qIRNHwGQ/DGw+yBp3ggoLuQ+a4HV
+	 OBqefm2ogimXSb3jKBXXoNSizUyRRCz5Jz6LZknoGL7u7C3fv4PlaYCNz3VrqxTA2f
+	 9UCZFK/wWkPE4kKf78cW1gFAUbuy8tuPS+Q+v4+q+Wvb0jrkXewCmz1gFBXxrr2U0D
+	 CFlTSf5oexyvDKXu3QLntzowswrtIcvFycm7ndgKYJxNr9vW2XeoIYUgbU8Yt42x9m
+	 ZhchebRmO8nOA==
+Date: Mon, 29 Jun 2026 14:42:17 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Alexey Dobriyan <adobriyan@gmail.com>, Jan Kara <jack@suse.cz>, 
+	Wei Yang <albinwyang@tencent.com>, Zijie Wang <wangzijie1@honor.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v2] proc: only bump parent nlink when registering
+ directories
+Message-ID: <20260629054007.GA2410937@rocinante>
+References: <20260613211005.921692-1-kwilczynski@kernel.org>
+ <20260617-zeitig-umlagen-ortseinfahrt-1389d7457b0f@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1507:b0:495:afbe:b53d with SMTP id
- 5614622812f47-495afbeb899mr3481867b6e.13.1782710860272; Sun, 28 Jun 2026
- 22:27:40 -0700 (PDT)
-Date: Sun, 28 Jun 2026 22:27:40 -0700
-In-Reply-To: <cover.1782619718.git.jbingham@gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a42024c.9dc7bc9d.3393b4.0006.GAE@google.com>
-Subject: [syzbot ci] Re: minix: convert to iomap and add direct I/O
-From: syzbot ci <syzbot+cie60057db19604ba2@syzkaller.appspotmail.com>
-To: brauner@kernel.org, hch@infradead.org, jack@suse.cz, jbingham@gmail.com, 
-	jkoolstra@xs4all.nl, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com, 
-	viro@zeniv.linux.org.uk
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260617-zeitig-umlagen-ortseinfahrt-1389d7457b0f@brauner>
 
-syzbot ci has tested the following series
+Hello,
 
-[v2] minix: convert to iomap and add direct I/O
-https://lore.kernel.org/all/cover.1782619718.git.jbingham@gmail.com
-* [PATCH v2 1/4] minix: add iomap infrastructure
-* [PATCH v2 2/4] minix: convert address space operations to iomap
-* [PATCH v2 3/4] minix: convert file operations to iomap and add
-* [PATCH v2 4/4] minix: fix symlink and truncate for iomap
+> > proc_register() increments the parent directory's link count for every
+> > entry it registers, while remove_proc_entry() and remove_proc_subtree()
+> > decrement it only when the removed entry is a directory.  Regular files
+> > thus inflate the parent's count while they exist, and leak one link
+> > permanently on every create and remove cycle.
+> > 
+> > For example, /proc/bus/pci/00 with twenty-two device files and no
+> > subdirectories reports nlink 24 instead of 2, and SR-IOV VF enable
+> > and disable cycles, each creating and removing the VF config space
+> > entries under /proc/bus/pci/<bus>, inflate the link count of that
+> > directory without bound.
+> > 
+> > [...]
+> 
+> Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+> Patches in the vfs.fixes branch should appear in linux-next soon.
+[...] 
+> [1/1] proc: only bump parent nlink when registering directories
+>       https://git.kernel.org/vfs/vfs/c/552864f6ac8f
 
-and found the following issues:
-* BUG: sleeping function called from invalid context in bdev_getblk
-* BUG: sleeping function called from invalid context in find_get_block_common
+I assume this got lost?  Seems its missing from 7.2-rc1, sadly.
 
-Full report is available here:
-https://ci.syzbot.org/series/3b663c96-cf07-46e0-9b8d-785fe615029d
+Thank you!
 
-***
-
-BUG: sleeping function called from invalid context in bdev_getblk
-
-tree:      torvalds
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
-base:      780d569e6c4b422290f5cba319eb904b355d64be
-arch:      amd64
-compiler:  Debian clang version 22.1.6 (++20260514074242+fc4aad7b5db3-1~exp1~20260514074407.73), Debian LLD 22.1.6
-config:    https://ci.syzbot.org/builds/61f38821-60a2-4c7c-a39e-27291869d296/config
-syz repro: https://ci.syzbot.org/findings/dda4e5c2-7cbc-498a-98ea-83cad3c680e3/syz_repro
-
-         option from the mount to silence this warning.
-=======================================================
-BUG: sleeping function called from invalid context at ./include/linux/sched/mm.h:323
-in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 5865, name: syz.1.18
-preempt_count: 0, expected: 0
-RCU nest depth: 1, expected: 0
-1 lock held by syz.1.18/5865:
- #0: ffffffff8e959c20 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #0: ffffffff8e959c20 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #0: ffffffff8e959c20 (rcu_read_lock){....}-{1:3}, at: path_init+0x124/0x1330 fs/namei.c:2689
-CPU: 1 UID: 0 PID: 5865 Comm: syz.1.18 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- __might_resched+0x378/0x4d0 kernel/sched/core.c:9197
- might_alloc include/linux/sched/mm.h:323 [inline]
- bdev_getblk+0xce/0x6e0 fs/buffer.c:1435
- __bread_gfp+0x89/0x380 fs/buffer.c:1493
- sb_bread include/linux/buffer_head.h:348 [inline]
- minix_get_link+0x143/0x340 fs/minix/namei.c:396
- pick_link+0x782/0xfe0 fs/namei.c:2064
- step_into_slowpath+0x58a/0x820 fs/namei.c:2127
- step_into fs/namei.c:2152 [inline]
- open_last_lookups fs/namei.c:4643 [inline]
- path_openat+0x224e/0x3830 fs/namei.c:4856
- do_file_open+0x23e/0x4a0 fs/namei.c:4888
- do_sys_openat2+0x115/0x200 fs/open.c:1368
- do_sys_open fs/open.c:1374 [inline]
- __do_sys_openat fs/open.c:1390 [inline]
- __se_sys_openat fs/open.c:1385 [inline]
- __x64_sys_openat+0x138/0x170 fs/open.c:1385
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f9618b9ce59
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f9619a29028 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 00007f9618e15fa0 RCX: 00007f9618b9ce59
-RDX: 0000000000105042 RSI: 0000200000000080 RDI: ffffffffffffff9c
-RBP: 00007f9618c32e6f R08: 0000000000000000 R09: 0000000000000000
-R10: 00000000000001ff R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f9618e16038 R14: 00007f9618e15fa0 R15: 00007fffce8916b8
- </TASK>
-
-
-***
-
-BUG: sleeping function called from invalid context in find_get_block_common
-
-tree:      torvalds
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
-base:      780d569e6c4b422290f5cba319eb904b355d64be
-arch:      amd64
-compiler:  Debian clang version 22.1.6 (++20260514074242+fc4aad7b5db3-1~exp1~20260514074407.73), Debian LLD 22.1.6
-config:    https://ci.syzbot.org/builds/61f38821-60a2-4c7c-a39e-27291869d296/config
-syz repro: https://ci.syzbot.org/findings/2af8da3b-836a-479e-9af0-fef473c2f315/syz_repro
-
-loop2: detected capacity change from 0 to 64
-bad symlink on inode 4
-BUG: sleeping function called from invalid context at ./include/linux/pagemap.h:1155
-in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 5813, name: syz.2.19
-preempt_count: 0, expected: 0
-RCU nest depth: 1, expected: 0
-1 lock held by syz.2.19/5813:
- #0: ffffffff8e959c20 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #0: ffffffff8e959c20 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #0: ffffffff8e959c20 (rcu_read_lock){....}-{1:3}, at: path_init+0x124/0x1330 fs/namei.c:2689
-CPU: 1 UID: 0 PID: 5813 Comm: syz.2.19 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- __might_resched+0x378/0x4d0 kernel/sched/core.c:9197
- folio_lock include/linux/pagemap.h:1155 [inline]
- __find_get_block_slow fs/buffer.c:242 [inline]
- find_get_block_common+0x2d0/0xe10 fs/buffer.c:1386
- bdev_getblk+0x58/0x6e0 include/linux/gfp.h:-1
- __bread_gfp+0x89/0x380 fs/buffer.c:1493
- sb_bread include/linux/buffer_head.h:348 [inline]
- minix_get_link+0x143/0x340 fs/minix/namei.c:396
- pick_link+0x782/0xfe0 fs/namei.c:2064
- step_into_slowpath+0x58a/0x820 fs/namei.c:2127
- step_into fs/namei.c:2152 [inline]
- open_last_lookups fs/namei.c:4643 [inline]
- path_openat+0x224e/0x3830 fs/namei.c:4856
- do_file_open+0x23e/0x4a0 fs/namei.c:4888
- do_sys_openat2+0x115/0x200 fs/open.c:1368
- do_sys_open fs/open.c:1374 [inline]
- __do_sys_openat fs/open.c:1390 [inline]
- __se_sys_openat fs/open.c:1385 [inline]
- __x64_sys_openat+0x138/0x170 fs/open.c:1385
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fd37ef9ce59
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fd37fe06028 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 00007fd37f215fa0 RCX: 00007fd37ef9ce59
-RDX: 0000000000000042 RSI: 0000200000000080 RDI: ffffffffffffff9c
-RBP: 00007fd37f032e6f R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fd37f216038 R14: 00007fd37f215fa0 R15: 00007ffe5e5f14f8
- </TASK>
-bad symlink on inode 4
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
-
-To test a patch for this bug, please reply with `#syz test`
-(should be on a separate line).
-
-The patch should be attached to the email.
-Note: arguments like custom git repos and branches are not supported.
+	Krzysztof
