@@ -1,104 +1,149 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E9EA43D4FA
-	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 15:36:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C173FBEB9
+	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 15:40:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782747419; cv=none; b=py/V4vgHI2iVD1q4yUsWEXp4aEtBoRkPHp+wr3CzV7aehtw6mYHwdnSL57VEu8/JLCB0eOjqeGBwgXK3gO2mKU40KygENylrDZkU1ulcBAMx6xqrxhO7Tlu3n5lZRnBGLrqIQuM5mRTdC9KToKjNmHa+VyeE6Eg8CKo0RwZf4+c=
+	t=1782747622; cv=none; b=l4akJrz9wvMd4LcWhYnMV37De/D6TXDD9Ny+/QmDbHwSwMYrQdnkmyqFgtS/3wer7gcnfIpzVMJXCkrZo4jWDUomonAbAOOls5F++d76X7/lEFVwqnkhtEtyELIE+7j2f5AN85ewDxUswtlU99TkWexyXuLCzVU0vLUzFYHY1vk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782747419; c=relaxed/simple;
-	bh=9I6fA3vnYaPDr6xwcu2DqtDSei+6PyQguQznq5rNnt8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DRyZD53QNZXoNtmimj3Ebxr4mYQnULtFOGBLv+gCJhyie6dZmi0t7hUJ+okILVFkfWyX6t2AQQxl+X8aqV2yz4JVdKNCyAr/XBxxOpM3feke9tsHqzCxMxjgfpZ81MwEo2ATxMdo2Vct1lZqQbvHz0HUdHEZsmAZhahVuIaSP2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=SQEfYY4p; arc=none smtp.client-ip=195.121.94.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1782747622; c=relaxed/simple;
+	bh=wTZ867cLvl3NEk7csUy7NtkIFljCREofjieQ4f4eY6U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WzVs6Th0WRQ296ciSwFOevfolpxPOKpfYTSzdfr/f6wkAxg+l9JnkX45Kh0g2p5x0lSpqXQd2NNO7NvlvbxHheyXsux61TOPOgOqBJbbOKyD7eJ9V917VhLNrzbnYNZr26BHwQiNC8uQRWBNzf+QNtZcZtJW8U39IoFRi2St5G4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=rlI/CDK2; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="SQEfYY4p"
-X-KPN-MessageId: 33ca6b4f-73d0-11f1-bfba-00505699b430
-Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 33ca6b4f-73d0-11f1-bfba-00505699b430;
-	Mon, 29 Jun 2026 17:35:48 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="rlI/CDK2"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-51c0ecfaee7so1470151cf.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 08:40:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=mime-version:message-id:date:subject:to:from;
-	bh=PtZwkNCW/5nY5d8mBTmyPZGJH5KWES5QNvMvKmYnLhA=;
-	b=SQEfYY4p2q5BokL11eeIXvhXKeKfkmCOvcRsAcHvHMhxOaaOmVUPpX9gB7I/0po+OCMQHtmosGFb2
-	 4Xi52dgu81dR3n7FZz6t9i04KyU/uqGc7HML9hqpZsMARhdWS5Bi5RXo7sypxRlQMpkDN20uXXr5+5
-	 T5HMCt3tXIWyw4SsVbCLze1oLVA8tEvr9Mx5aIHcgtwL8502xDRCpR/P0dXUPmlp+6lwaZf2CoPzui
-	 pFzBxbWOWQhmjmf+41wTTD8nYwMrmTp1Aeji3VODabdn0NCLos5+Wv0jNp6puIJQ5qB6id+/2ZN30m
-	 P8kc2wJv6zqqNalAYODdrCu+QCy3PZg==
-X-KPN-MID: 33|B1aXeAPGroLhIJy8Wh016l3KQ8Mf2BxShy9KWSqqHpJx5pDgwfHkyUt0g8Jukhb
- RMIUSeCfRBDEnNGWc58TiUFQtbx0DbgZTCxi0camltQQ=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|Ndg3GtuZSh5TCnjTD3c1iDHvVw+g5sHgjZ5IoNiLg2ZUZmOB7b3CfAu7vD0G3cd
- poUuSrBiSrAQ4BROc5cEe+w==
-Received: from daedalus.home (unknown [178.231.11.185])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 33956459-73d0-11f1-8076-005056998788;
-	Mon, 29 Jun 2026 17:35:48 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jan Kara <jack@suse.cz>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	NeilBrown <neilb@suse.de>
-Cc: Aleksa Sarai <cyphar@cyphar.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Jori Koolstra <jkoolstra@xs4all.nl>
-Subject: [PATCH v2 08/14] vfs: lookup_open(): use vfs_create_no_perm()
-Date: Mon, 29 Jun 2026 17:36:24 +0200
-Message-ID: <20260629153630.2158649-9-jkoolstra@xs4all.nl>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260629153630.2158649-1-jkoolstra@xs4all.nl>
-References: <20260629153630.2158649-1-jkoolstra@xs4all.nl>
+        d=gourry.net; s=google; t=1782747619; x=1783352419; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VwgemlAWVZOfyfvrJ+7cyHmQGRLai3JgFnH6EFj5//k=;
+        b=rlI/CDK2Me2Etlx0NUkaHtRU+6rVLYVzfsgo3i4Dopx/2QYpJJyxXzwr3cnt/dsnQi
+         c7ypbUJWyZrOclOTOo6xuS2x8j6h+YbrMDDzO04dRP/9MZI9xlFOaRleW2eF4FKXc2oP
+         1nhfYC3dofYj3kga3Ya0HWk6wBZo++TjajS3+6vEuC8oT/rb69G26r4OCj5ta+x+crBT
+         WNhEhQy+v48nJMdFyK8CO3cb5bpxZ08fg57jYe7qPCx9Xcs3739pKT89IDi+3yaD2yCN
+         aM+IejLgEjH9gnlRl0fCieJR2PcnGG96QNC64qauIdZ9x6GaO094v5hpKdyg7+5e84iQ
+         C+2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782747619; x=1783352419;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VwgemlAWVZOfyfvrJ+7cyHmQGRLai3JgFnH6EFj5//k=;
+        b=p6jjRTnzmXv0JSDs1+AaEq55HPpBoa9kutgS+B553FP49n5qw+/wYbZbGR+mqNfzPP
+         YXQgm7T4ePHexkdNumhiu1QlpCaoZxE7+rYcLvojGGq5ONyTAhA7bxj9CqMUm2qEQhXP
+         pEIII5WB5/ek5obuzZFDhlHBYldC1XbjMwhfa0sEte9foy9FFbA6c0q16WWVtli9T9hM
+         6WpJ2kpOJtRm8M4voKxataVz+lrJvq8WMNhM+QKr7z8wghPRlEknYSuqXlddzPDiBf5W
+         W9yw5BnZKPIQWrpNPMpyClGJja9Of6emRlkmO30odXfBV1sgsJnFZDSEbYar5oy++Qug
+         phAw==
+X-Forwarded-Encrypted: i=1; AFNElJ8NLlDZ+Txngf4RDxosuCreVSoAOdAKpNgmHQsFRY8oDKXJ+ViQOss5oVfGzgIbODnmSLAQ41UvifK4eGVx@vger.kernel.org
+X-Gm-Message-State: AOJu0YzU2YuYl4KSonNhxtBIn/u6J/yGjoqZXQKV8ngBA9Cfvr8yMV7B
+	VDBxcQYvcCGeE1MsZIFyH+1nlDtUrbmUxBToGb9ddGmeUzVczO8uluKK43crRb/GFQ4=
+X-Gm-Gg: AfdE7cm7cd4YssOTy9CnLQrRrkkcSaGXYKEYQkz32QWkWCcUmvVaj6JutSIwy4cRMLl
+	5fjBH4Vwcho5NwxBAzeO/KedkGvf5BwdF8NfZ/MOcStC5iddDTmH/HSGfxYldiRWvRlzjqvZ9AI
+	cm6Z12GwACHLyfETfoelqiN5IXiT+h6LZ4Tbf4bCKhyKZbiW8KUSed90RNCM1ZHfcnMRiK8WawH
+	YpYhs04JtdZERkA0fvpPWEhFMsL9T2TvCu/ywjJ163367lXKi+XlYJ55U1aEKASZVEYjYI4DLVM
+	2VrcD/9/g7EhCdlqsXHxtL+QoxJwg09NinnuBIODERgTuR9S9CMiSA/pfxvA/aCsOqNtvg5yGOn
+	wxYZ8jK7VauOygJ6Ctyy1NuxYOsn/+f9JWT/uuS/8E0BOfff4WBnoRfUMp/vUtid07N9bf2AzYq
+	K9EJPO9k6K8cUH+PxP1pPzl5ag74P3dbbQ3AiCCKgfVkTCS9ZInasGgCBaTClOFVsfwdLV
+X-Received: by 2002:a05:622a:5987:b0:51b:f635:9aa1 with SMTP id d75a77b69052e-51bf6359eadmr68650541cf.48.1782747619393;
+        Mon, 29 Jun 2026 08:40:19 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51a876c888bsm78114501cf.9.2026.06.29.08.40.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 08:40:18 -0700 (PDT)
+Date: Mon, 29 Jun 2026 11:40:13 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Simon Schuster <schuster.simon@siemens-energy.com>,
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Christian Koenig <christian.koenig@amd.com>,
+	Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Dan Williams <djbw@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>, Hugh Dickins <hughd@google.com>,
+	Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+	linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+	kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-mm@kvack.org, iommu@lists.linux.dev,
+	linux-perf-users@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+	Jann Horn <jannh@google.com>
+Subject: Re: [PATCH 03/30] tools/testing/vma: use vma_start_pgoff() in merge
+ tests
+Message-ID: <akKR3bFV7393yOUs@gourry-fedora-PF4VCD3F>
+References: <cover.1782735110.git.ljs@kernel.org>
+ <b501eca378b9d9734e83838102aadc9276590fba.1782735110.git.ljs@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b501eca378b9d9734e83838102aadc9276590fba.1782735110.git.ljs@kernel.org>
 
-We can replace the code in the no create_error/negative dentry found
-from lookup case in lookup_open() with the vfs_create_no_perm() helper.
+On Mon, Jun 29, 2026 at 01:23:14PM +0100, Lorenzo Stoakes wrote:
+> Now we have the vma_start_pgoff() helper, update the merge tests to make
+> use of it for consistency.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 
-It is safe here to always pass excl=true to ->create via
-vfs_create_no_perm(). Local filesystems always ignore the excl flag,
-and cluster filesystems implement ->atomic_open, so that the ->create
-call is never reached in lookup_open().
+Question: Should we have primitive tests for vma_*_pgoff() since
+the behavior changes depending on file/anon?
 
-Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
----
- fs/namei.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+Nice to have the cleanup and clarity. Maybe worth asserting no
+one ever breaks this.
 
-diff --git a/fs/namei.c b/fs/namei.c
-index 063d40d5753e..b1b43c85651a 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -4551,16 +4551,10 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 		goto out_dput;
- 	}
- 
--	error = try_break_deleg(dir_inode, LEASE_BREAK_DIR_CREATE, delegated_inode);
-+	error = vfs_create_no_perm(idmap, dentry, mode, delegated_inode);
- 	if (error)
- 		goto out_dput;
- 
--	error = dir_inode->i_op->create(idmap, dir_inode, dentry,
--					mode, open_flag & O_EXCL);
--	if (error)
--		goto out_dput;
--
--	fsnotify_create(dir_inode, dentry);
- 	file->f_mode |= FMODE_CREATED;
- 
- 	return dentry;
--- 
-2.54.0
+for this patch though
 
+Reviewed-by: Gregory Price <gourry@gourry.net>
