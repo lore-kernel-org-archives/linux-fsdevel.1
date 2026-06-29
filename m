@@ -1,149 +1,71 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C173FBEB9
-	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 15:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E278B42EEA3;
+	Mon, 29 Jun 2026 15:46:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782747622; cv=none; b=l4akJrz9wvMd4LcWhYnMV37De/D6TXDD9Ny+/QmDbHwSwMYrQdnkmyqFgtS/3wer7gcnfIpzVMJXCkrZo4jWDUomonAbAOOls5F++d76X7/lEFVwqnkhtEtyELIE+7j2f5AN85ewDxUswtlU99TkWexyXuLCzVU0vLUzFYHY1vk=
+	t=1782747969; cv=none; b=Rtx1Pmieo2FeX346a8pBXjyFZIVq49P8l1dEiJlpQ0v77+gZgNYa9kPMyQ778OhfNzr+2NEEQEnRFR/jxNHV7GMSfqLH9Ntub/2doJ+djs44c1ewFi8TbF2wgwp8GqdqSepvc9DNHm2ON+dAOZl2tSpObwi1Q0nqs4vu0R0EYIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782747622; c=relaxed/simple;
-	bh=wTZ867cLvl3NEk7csUy7NtkIFljCREofjieQ4f4eY6U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WzVs6Th0WRQ296ciSwFOevfolpxPOKpfYTSzdfr/f6wkAxg+l9JnkX45Kh0g2p5x0lSpqXQd2NNO7NvlvbxHheyXsux61TOPOgOqBJbbOKyD7eJ9V917VhLNrzbnYNZr26BHwQiNC8uQRWBNzf+QNtZcZtJW8U39IoFRi2St5G4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=rlI/CDK2; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1782747969; c=relaxed/simple;
+	bh=yULRd5hH9yPTEC/uL7OzkOQKfywNhOkWradH8m7U50A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KYIG/khWv6JJ5UDWPEILKh0U9shNF5kx+QnTKcymTiWJ+7KVIz1ROl9t7rbkeGcKjxW32d5PoJ+pfQYodtHiU290/3nf3WiFvmYqt+gFOsXvQMcwaNYTyfIYE8SCtbdXC4ZQBqmBSkF0ouznZz7sRf5Qgfb1Kxswiv1Q4GNn+H4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=Uxw4a9fM; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="rlI/CDK2"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-51c0ecfaee7so1470151cf.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 08:40:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1782747619; x=1783352419; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VwgemlAWVZOfyfvrJ+7cyHmQGRLai3JgFnH6EFj5//k=;
-        b=rlI/CDK2Me2Etlx0NUkaHtRU+6rVLYVzfsgo3i4Dopx/2QYpJJyxXzwr3cnt/dsnQi
-         c7ypbUJWyZrOclOTOo6xuS2x8j6h+YbrMDDzO04dRP/9MZI9xlFOaRleW2eF4FKXc2oP
-         1nhfYC3dofYj3kga3Ya0HWk6wBZo++TjajS3+6vEuC8oT/rb69G26r4OCj5ta+x+crBT
-         WNhEhQy+v48nJMdFyK8CO3cb5bpxZ08fg57jYe7qPCx9Xcs3739pKT89IDi+3yaD2yCN
-         aM+IejLgEjH9gnlRl0fCieJR2PcnGG96QNC64qauIdZ9x6GaO094v5hpKdyg7+5e84iQ
-         C+2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782747619; x=1783352419;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VwgemlAWVZOfyfvrJ+7cyHmQGRLai3JgFnH6EFj5//k=;
-        b=p6jjRTnzmXv0JSDs1+AaEq55HPpBoa9kutgS+B553FP49n5qw+/wYbZbGR+mqNfzPP
-         YXQgm7T4ePHexkdNumhiu1QlpCaoZxE7+rYcLvojGGq5ONyTAhA7bxj9CqMUm2qEQhXP
-         pEIII5WB5/ek5obuzZFDhlHBYldC1XbjMwhfa0sEte9foy9FFbA6c0q16WWVtli9T9hM
-         6WpJ2kpOJtRm8M4voKxataVz+lrJvq8WMNhM+QKr7z8wghPRlEknYSuqXlddzPDiBf5W
-         W9yw5BnZKPIQWrpNPMpyClGJja9Of6emRlkmO30odXfBV1sgsJnFZDSEbYar5oy++Qug
-         phAw==
-X-Forwarded-Encrypted: i=1; AFNElJ8NLlDZ+Txngf4RDxosuCreVSoAOdAKpNgmHQsFRY8oDKXJ+ViQOss5oVfGzgIbODnmSLAQ41UvifK4eGVx@vger.kernel.org
-X-Gm-Message-State: AOJu0YzU2YuYl4KSonNhxtBIn/u6J/yGjoqZXQKV8ngBA9Cfvr8yMV7B
-	VDBxcQYvcCGeE1MsZIFyH+1nlDtUrbmUxBToGb9ddGmeUzVczO8uluKK43crRb/GFQ4=
-X-Gm-Gg: AfdE7cm7cd4YssOTy9CnLQrRrkkcSaGXYKEYQkz32QWkWCcUmvVaj6JutSIwy4cRMLl
-	5fjBH4Vwcho5NwxBAzeO/KedkGvf5BwdF8NfZ/MOcStC5iddDTmH/HSGfxYldiRWvRlzjqvZ9AI
-	cm6Z12GwACHLyfETfoelqiN5IXiT+h6LZ4Tbf4bCKhyKZbiW8KUSed90RNCM1ZHfcnMRiK8WawH
-	YpYhs04JtdZERkA0fvpPWEhFMsL9T2TvCu/ywjJ163367lXKi+XlYJ55U1aEKASZVEYjYI4DLVM
-	2VrcD/9/g7EhCdlqsXHxtL+QoxJwg09NinnuBIODERgTuR9S9CMiSA/pfxvA/aCsOqNtvg5yGOn
-	wxYZ8jK7VauOygJ6Ctyy1NuxYOsn/+f9JWT/uuS/8E0BOfff4WBnoRfUMp/vUtid07N9bf2AzYq
-	K9EJPO9k6K8cUH+PxP1pPzl5ag74P3dbbQ3AiCCKgfVkTCS9ZInasGgCBaTClOFVsfwdLV
-X-Received: by 2002:a05:622a:5987:b0:51b:f635:9aa1 with SMTP id d75a77b69052e-51bf6359eadmr68650541cf.48.1782747619393;
-        Mon, 29 Jun 2026 08:40:19 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51a876c888bsm78114501cf.9.2026.06.29.08.40.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 08:40:18 -0700 (PDT)
-Date: Mon, 29 Jun 2026 11:40:13 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Simon Schuster <schuster.simon@siemens-energy.com>,
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Christian Koenig <christian.koenig@amd.com>,
-	Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="Uxw4a9fM"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=XaU6I4utoFAI77DUDFWcQiwtBI/mExuqELPwROmi0tU=; b=Uxw4a9fM5yKQFgvKxSwaBnBDNw
+	h5rQA1KaW7ndiYPm7/DsJeacyhUF2eR24ZNTVfa/GGgiAhaJiSzBddeIF3iiJrh+QfA+CWMweS4uv
+	/T2GDl7r4+0h0nh4ZdTo5qNGoYngWbaybscnzAVq7t7Pujh/hFDvWuSdPoyGpx4SHHqeXes46e/qy
+	mtoUL9argkvEJStXXwTsCijTZHX3qv15+8YUaXqomUU0ouoL8RywP4obqgiPjKcKk20Ait4Rjc7JA
+	fiuFy/YpyMu4TX8XC6TisNdUgqqbVktMTioWkuei1MUgzOdNygXHn0eWnGDC0LcRcHi1KBNB+KAW5
+	LE8Et6sA==;
+Received: from bl21-120-122.dsl.telepac.pt ([2.82.120.122] helo=localhost)
+	by fanzine2.igalia.com with utf8esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1weEB8-006ftz-5r; Mon, 29 Jun 2026 17:45:46 +0200
+From: Luis Henriques <luis@igalia.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>,
-	Dan Williams <djbw@kernel.org>, Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>,
-	Miaohe Lin <linmiaohe@huawei.com>, Hugh Dickins <hughd@google.com>,
-	Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
-	linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-	kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-mm@kvack.org, iommu@lists.linux.dev,
-	linux-perf-users@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
-	Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 03/30] tools/testing/vma: use vma_start_pgoff() in merge
- tests
-Message-ID: <akKR3bFV7393yOUs@gourry-fedora-PF4VCD3F>
-References: <cover.1782735110.git.ljs@kernel.org>
- <b501eca378b9d9734e83838102aadc9276590fba.1782735110.git.ljs@kernel.org>
+	Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Luis Henriques <luis@igalia.com>
+Subject: [PATCH] posix_acl: remove useless code
+Date: Mon, 29 Jun 2026 16:45:54 +0100
+Message-ID: <20260629154554.29093-1-luis@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b501eca378b9d9734e83838102aadc9276590fba.1782735110.git.ljs@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 29, 2026 at 01:23:14PM +0100, Lorenzo Stoakes wrote:
-> Now we have the vma_start_pgoff() helper, update the merge tests to make
-> use of it for consistency.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+This is just a trivial clean-up: it removes an unnecessary return branch.
 
-Question: Should we have primitive tests for vma_*_pgoff() since
-the behavior changes depending on file/anon?
+Signed-off-by: Luis Henriques <luis@igalia.com>
+---
+ fs/posix_acl.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-Nice to have the cleanup and clarity. Maybe worth asserting no
-one ever breaks this.
-
-for this patch though
-
-Reviewed-by: Gregory Price <gourry@gourry.net>
+diff --git a/fs/posix_acl.c b/fs/posix_acl.c
+index b4bfe4ddf64e..6df5de23aac4 100644
+--- a/fs/posix_acl.c
++++ b/fs/posix_acl.c
+@@ -740,8 +740,6 @@ static int posix_acl_fix_xattr_common(const void *value, size_t size)
+ 	count = posix_acl_xattr_count(size);
+ 	if (count < 0)
+ 		return -EINVAL;
+-	if (count == 0)
+-		return 0;
+ 
+ 	return count;
+ }
