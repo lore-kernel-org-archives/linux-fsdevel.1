@@ -1,222 +1,103 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A423FBB44
-	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 09:36:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4303B19B9;
+	Mon, 29 Jun 2026 09:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.194.254.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782725799; cv=none; b=atHcmDCNYZrmxTNwgAYiDzgdH/H6EK7dKRf8JKE7NG3kyIcCjDvCjnc63Chp8KUV8qUysswf4CLhzloKNqf64f7Oesn9Ck1aJ2gltvMOLrAAt1KG/1xHIpHO3EUkxSqjrThL16v+zuFEReFBzy6UJE4qsz683a/8dADvQUwL3rE=
+	t=1782726034; cv=none; b=JtcVddNkRiqgdyWwRhuB90UsIrDLsAA7XxpKRihpIBkTKHyfWcQIrWsdx4Mx5B8rLYq4mummGhuQO5m1gT5XovfszJ0DHPQiocHPhhpp86F4iMCp7rzIXtOth0d2JuNv1tl3ao904CMNWqZjZ1UC50qJtvl/bI6ca8oR1mUeCO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782725799; c=relaxed/simple;
-	bh=0l9MGm5ea0mr75L2caNh2S4gYswrKhMJrS7zyb0kDyE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=svlXi0BegvDNQJoOn8wD75S0Xe305MSP4U1RwXwRm3zLdEb418F2HNfGtPPFb4oZQSVXrsosv8HbHxNWj7noB2+ZGyXWwYYzTbIMSXgaABZRzfxwgRvI21A/1Tv+gYUYfpxA0aXYpxMQeYDxcNgGb4XJi7tYtEGmiBxYRa8PRSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1913975D0B;
-	Mon, 29 Jun 2026 09:36:34 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0F075779A8;
-	Mon, 29 Jun 2026 09:36:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5TykA6I8QmoyYwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 29 Jun 2026 09:36:34 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id A3D7AA10B5; Mon, 29 Jun 2026 11:36:25 +0200 (CEST)
-Date: Mon, 29 Jun 2026 11:36:25 +0200
-From: Jan Kara <jack@suse.cz>
-To: kernel test robot <oliver.sang@intel.com>
-Cc: AnonymeMeow <anonymemeow@gmail.com>, oe-lkp@lists.linux.dev, 
-	lkp@intel.com, linux-kernel@vger.kernel.org, Jan Kara <jack@suse.cz>, 
-	Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, ltp@lists.linux.it
-Subject: Re: [linus:master] [fanotify]  82c6dd2047: ltp.fanotify21.fail
-Message-ID: <qvbzvyoqab7c4g6jh2rezvdemqed7omco4qgvdq3elwbrlaffn@thrhz2uqtgqt>
-References: <202606291514.594c4370-lkp@intel.com>
+	s=arc-20240116; t=1782726034; c=relaxed/simple;
+	bh=37KETMUTc5xeBt9g1+XXfGXRhGh0sPVI3NYNnyE1UGQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tjHh8Q21emqkNYqvYgYnL0SMUYZPXLQPVzuyWcoVB1NRI8wdcVcIz/qiqsQdVJGdmJV7HCsiy3injN/qtz4NBi8VoWog35EatxdW3XaeWqwrSWjMvi96icPefh2A9p39q+qHfuEpKL5cyt9QOVP2CO7P17L9BSjTQCi41PQG0b4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smail.nju.edu.cn; spf=pass smtp.mailfrom=smail.nju.edu.cn; dkim=pass (1024-bit key) header.d=smail.nju.edu.cn header.i=@smail.nju.edu.cn header.b=nWHm7/34; arc=none smtp.client-ip=18.194.254.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smail.nju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smail.nju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=smail.nju.edu.cn header.i=@smail.nju.edu.cn header.b="nWHm7/34"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smail.nju.edu.cn;
+	s=iohv2404; t=1782725985;
+	bh=1cLz079p44E3BLMheqQckuVZaXbDtFvod6nuBviQRS0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=nWHm7/34QHDYbP25BNvtY+d3n349rgnoAaoLJozoaxo2C5HNcYLxyUf4WilmD2+Tq
+	 FCPF+TM81RZ5/ekU+Y+zQETygmX2m6vAdR5nld3bDl8JUKgk9+tr5k/H5BWY+mYFQG
+	 NqolsRcNq8EdoYsDYEBRxvDhtKtpT23e808EhBCQ=
+X-QQ-mid: zesmtpsz6t1782725984t775bdeae
+X-QQ-Originating-IP: NOYne1Z1e8TZIUFvaBYWKSP9RkeJe8BRpocwyU+QKeo=
+Received: from [172.27.139.54] ( [218.94.142.77])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 29 Jun 2026 17:39:42 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 17125133871365925860
+Message-ID: <394DF429DB89D1ED+3cf8c72f-31dd-484f-9324-8e4d27a6a7c2@smail.nju.edu.cn>
+Date: Mon, 29 Jun 2026 17:39:41 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <202606291514.594c4370-lkp@intel.com>
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Rspamd-Queue-Id: 1913975D0B
-X-Rspamd-Action: no action
+User-Agent: Mozilla Thunderbird
+Subject: Re: [BUG] ntfs: mrec_lock ABBA deadlock between writeback/fsync and
+ rename
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: hyc.lee@gmail.com, syzkaller@googlegroups.com,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <C4D296F0E9F3D66C+9397ffbc-eb55-44bb-9b3f-5da4809e7955@smail.nju.edu.cn>
+ <CAKYAXd_XUHGKfJsZpZ7ZGpe8icvJZRWrjuU9D3H3XgauYhV_Ow@mail.gmail.com>
+Content-Language: en-US
+From: Peiyang He <peiyang_he@smail.nju.edu.cn>
+In-Reply-To: <CAKYAXd_XUHGKfJsZpZ7ZGpe8icvJZRWrjuU9D3H3XgauYhV_Ow@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:smail.nju.edu.cn:qybglogicsvrsz:qybglogicsvrsz4b-0
+X-QQ-XMAILINFO: M6jCEqzRSimEtimxTxX/HH9O6xTnhDM/PkIz1FwM6PF10Vcx+NbihKOE
+	eD1miIlL7YjDwq2NHSnDhKVdt/wP+GYuedYE5x5oaAByRgvTZmVd+hlwjurOftWPfLHicrN
+	QMSFp8scsstPSguuqKDypklmvl1RI25fWyP0Nfx6gRjxBf+Ii5/P5VIaPsit4xpfQyhOoBq
+	1AdWO5fHoP2eJF7Pb6n+lHXZ6rIRR/1NnNL9Ny/iFrIcEf9zy+X2ZLCI9gR72dPoPysMjlC
+	hBw3/4bdI3iN02N55PHnkHtkfLMqhG79X82ek6maQ8JaY8Pc8GAFfG1FcrOCZpetuc0JJ3O
+	SixLdBsfunpm03cRxKxXtlW2GfvMkzjEOjdmNjFp0bvYTNELK5XykDpNcw5GMW7hMSXdmxe
+	6yYE+ENpxLafl/5RwxPemUmV5cTFP8dZzBG/+ierI3uHjG/E6+VAOfCu+BPKncJ8MrBiAUW
+	E2AHATm74de2+URXoYPCpPCrNncUQFOT/WOrVUXFSuuZUaeXrXYHVtOUSD/Hv6v06U8ySGt
+	YWQ3IIuFYlnPSAhX7XnSIt2MWUhbHWxK/upqbD0noL5AJC8h/65lTbOJXl7uMXqZ+i+ZUJm
+	FhTX72zFJ51FyPGR59dAPxS04l/Y42/1pKdiUyrcyCKncX7lIercEGTnfe2RfJ9iddnz4F3
+	9so8IDzBIOOW9Fw9bofStS9RI++81y2jpugNlSfSdRCVsNMAt65EThdA2H9u8YrNMqFsOrK
+	pEc7RQnv/5ew1DIRxA6a+02Ls1tfHljw9al556O3GMJTssf78I0INzikP+udkbDnVXwAAfO
+	VCmMdkRIK0LbE4+fIdrSddtKB8ljsiMuC9R0sgixx0j5775vIsVUODkj16r+nvUG0tbHW99
+	sksAFD0ZhDnU2KNALnh3wegX7lY7iSEZmFn8PgJZqszXDXatC2vED5mkaxBYqRA4SV7EE/G
+	bgl2X0rkwEJrvIQry47fQuPg8mLghx2qnP9Nb2+ef7ujj7dRGNOFv1p6zNrDWM8v5fi4P5b
+	i4RllZaoCQdYXQeHU0+0gCmZNPDdgW2ie5QWTXHM6fgAt0xVeOlLw8DYGs/FJ9pqNnyXwqd
+	U0ctmXt3BfDMLc0vlG5tbs=
+X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
+X-QQ-RECHKSPAM: 0
 
-On Mon 29-06-26 16:45:58, kernel test robot wrote:
-> kernel test robot noticed "ltp.fanotify21.fail" on:
->=20
-> commit: 82c6dd20479bb6a9625e1d63a650c3be8865e2db ("fanotify: allow report=
-ing pidfds for reaped tasks")
-> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git master
+On 2026/6/29 13:18, Namjae Jeon wrote:
+> On Mon, Jun 29, 2026 at 1:25 PM Peiyang He <peiyang_he@smail.nju.edu.cn> wrote:
+>>
+>> Hello Linux kernel developers and maintainers,
+> Hello Peiyang,
+> 
+>>
+>> We found two task hungs in the new NTFS when fuzzing with Syzkaller.
+>> After our digging, we believe both hangs are caused by the SAME AB-BA type DEADLOCK issue,
+>> so we report them together here.
+>>
+>> Title of task hung #1: INFO: task hung in __ntfs_write_inode
+>> Title of task hung #2: INFO: task hung in ntfs_inode_sync_filename
+>>
+>> Kernel version: commit 8cd9520d35a6c38db6567e97dd93b1f11f185dc6 (tag v7.1).
+>> And we believe the bug is also possible in the current mainline.
+>> Note that the code line numbers in the following analysis are also based on this kernel version.
+>>
+>> Relevant kernel config: (the complete config is included in the attachments)
+> Do you have a suggested patch you can get credit for?
+Hi Namjae,
+Thanks for your reply. Yes, I'm working on the patch, and hopefully I can get it done very soon.
 
-FWIW this is expected failure. Patch to fix fanotify21 to accept success
-in this test was submitted to LTP.
+> Thanks.
+> 
 
-								Honza
 
->=20
-> [test failed on linus/master      5a66900afbd6b2a063eebad35294038a654de2b=
-0]
-> [test failed on linux-next/master 3d5670d672ae08b8c534b7beed6f57c8b44e7b4=
-3]
->=20
-> in testcase: ltp
-> version:=20
-> with following parameters:
->=20
-> 	disk: 1HDD
-> 	fs: xfs
-> 	test: syscalls-00
->=20
->=20
->=20
-> config: x86_64-rhel-9.4-ltp
-> compiler: gcc-14
-> test machine: 4 threads 1 sockets Intel(R) Core(TM) i3-3220 CPU @ 3.30GHz=
- (Ivy Bridge) with 8G memory
->=20
-> (please refer to attached dmesg/kmsg for entire log/backtrace)
->=20
->=20
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <oliver.sang@intel.com>
-> | Closes: https://lore.kernel.org/oe-lkp/202606291514.594c4370-lkp@intel.=
-com
->=20
->=20
-> =1B[1;37mfanotify15: =1B[0m=1B[1;36mskip=1B[0m | =1B[1;33mtainted=1B[0m  =
-(12.585s)
-> =1B[1;37mfanotify21: =1B[0m=1B[1;31mfail=1B[0m | =1B[1;33mtainted=1B[0m  =
-(25.438s)    <------
-> =1B[1;37mioprio_set02: =1B[0m=1B[1;32mpass=1B[0m | =1B[1;33mtainted=1B[0m=
-  (0.037s)
->=20
->=20
-> ...
->=20
->=20
-> Execution time: 9m 29s
->=20
-> Disconnecting from SUT: default
->=20
-> Target information
-> =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80
-> Kernel:   Linux 7.1.0-rc3+ #1 SMP PREEMPT_DYNAMIC Fri Jun 26 20:05:34 CST=
- 2026
-> Cmdline:  ip=3D::::lkp-ivb-d04::dhcp
->           root=3D/dev/ram0
->           RESULT_ROOT=3D/result/ltp/1HDD-xfs-syscalls-00/lkp-ivb-d04/debi=
-an-13-x86_64-20250902.cgz/x86_64-rhel-9.4-ltp/gcc-14/82c6dd20479bb6a9625e1d=
-63a650c3be8865e2db/0
->           BOOT_IMAGE=3D/pkg/linux/x86_64-rhel-9.4-ltp/gcc-14/82c6dd20479b=
-b6a9625e1d63a650c3be8865e2db/vmlinuz-7.1.0-rc3+
->           branch=3Dlinux-next/master
->           job=3D/lkp/jobs/scheduled/lkp-ivb-d04/ltp-1HDD-xfs-syscalls-00-=
-debian-13-x86_64-20250902.cgz-82c6dd20479b-20260626-11320-p5g804-0.yaml
->           user=3Dlkp
->           ARCH=3Dx86_64
->           kconfig=3Dx86_64-rhel-9.4-ltp
->           commit=3D82c6dd20479bb6a9625e1d63a650c3be8865e2db
->           intremap=3Dposted_msi
->           max_uptime=3D7200
->           LKP_SERVER=3Dinternal-lkp-server
->           nokaslr
->           selinux=3D0
->           debug
->           apic=3Ddebug
->           sysrq_always_enabled
->           rcupdate.rcu_cpu_stall_timeout=3D100
->           net.ifnames=3D0
->           printk.devkmsg=3Don
->           panic=3D-1
->           softlockup_panic=3D1
->           nmi_watchdog=3Dpanic
->           oops=3Dpanic
->           load_ramdisk=3D2
->           prompt_ramdisk=3D0
->           drbd.minor_count=3D8
->           systemd.log_level=3Derr
->           ignore_loglevel
->           console=3Dtty0
->           earlyprintk=3DttyS0,115200
->           console=3DttyS0,115200
->           vga=3Dnormal
->           rw
->           keep_initrds=3D/osimage/pkg/debian-13-x86_64-20250902.cgz/ltp-x=
-86_64-5ccf816f5-1_20260531.cgz
-> Machine:  unknown
-> Arch:     x86_64
-> RAM:      6898364 kB
-> Swap:     0 kB
-> Distro:   debian 13
->=20
-> =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80
->       TEST SUMMARY
-> =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80
-> Suite:   syscalls-00
-> Runtime: 9m 15s
-> Runs:    188
->=20
-> Results:
->     Passed:   2339
->     Failed:   18
->     Broken:   0
->     Skipped:  45
->     Warnings: 0
->=20
-> =1B[1;31mFailures:=1B[0m
->     =E2=80=A2 fanotify21
->=20
-> Session stopped
-> /tmp/kirk.root/latest is not found
->=20
->=20
->=20
-> The kernel config and materials to reproduce are available at:
-> https://download.01.org/0day-ci/archive/20260629/202606291514.594c4370-lk=
-p@intel.com
->=20
->=20
->=20
-> --=20
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->=20
---=20
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
