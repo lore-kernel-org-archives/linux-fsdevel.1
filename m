@@ -1,489 +1,270 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62EDD3B1B3
-	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 00:29:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385A81A3172;
+	Mon, 29 Jun 2026 03:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.178.238
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782692954; cv=pass; b=QCFD2PltxtvkQloy1mSyKfvHFd8IEYvsPrYs9cx5Lvpna6pL4y0wnQENegahnAPgSyaj7cT1XtMlJqt8J3lQW9pZ9xg73a4sdklA4AVGKRInAZVNECNwd/gTwS81aZPT77//SvZrNbCrqajdKcXKQ4QgLXldDs/h3pSXCzM2Ni0=
+	t=1782703091; cv=fail; b=vBBgTLXwMCQ1O9wfikzZN5Hr5Qd+YlrS2Brgd8fMWLJuMRwRCsHeVluWPzEF1exSTiWD1FcSF5vkd6yWfGX15qAWHMehcR6/Js48IceiO3/GH0epApiBteJ4+OKgtOtKXla0mvNWgwt3LiCBZ0v/+hinSbgIUG5JsWuAnSI3+XU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782692954; c=relaxed/simple;
-	bh=++rcTmkcEQ5y5VlKY/ZSTExjniqGoW4uEGUa5cAG8hU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rBi7/ueSPGbO2mJt4HGQ/bq7S6K2nHLtSTwnuW2eqJQDQ7tJ0TwmYx4237qkv6Z6qzFWea1njB9CmQZL933N3+euBfN7itSkk19VUHGHR/WPncVeDexQZL40H06u1BMpkFemotn8XCGhNXdQOC4VtYhnr7ZQH7yfToIEXk3ZErY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j4VygRxq; arc=pass smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782703091; c=relaxed/simple;
+	bh=NT4yRsGc67O0nHMuYxkzdELSTCr3+4GBQ7KtQsqbeIM=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ooPjnaolEtMd8zfgFKkUwCL9XI5MgrgWwp7HzOhdiU5FlWFDYt8Njuuw+3tNNwZ/6z3x5Yk+xLq4JyZf3BzcRr+Y0lNJkU4BackvUooDDHc/TD3chhmdykCGBJpli4rYmcJTE+OtvdAG7c02gppc4a1pFRgRQl++2E4BZ7an9PM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=d9viA7DT; arc=fail smtp.client-ip=205.220.178.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j4VygRxq"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5aeb7467a8dso529307e87.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 28 Jun 2026 17:29:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782692951; cv=none;
-        d=google.com; s=arc-20260327;
-        b=CswIL6F6gA3H1fK+lPeYc1UQvqjBWY0cBI69T12Pptu2t+7hUs4qKNNYLUNjoFywel
-         yOlHjGkJ+r8TAXqKnur6uMy/k06Gu9a3hqlvNv6og4CIwtoBgsRlT2eovMCCCBWeXS/g
-         1Cqaiq2Ikw2B3WtwMEYvcFdebA9Vmmq6pKofiuao7oQWvupfY29UyBDvIp4WQMQFkevd
-         DT6gMPY/dBDpVvdaJDW3lA2JC/0gcA6niidKBDbIZSFbg9KhPlzunN3GURWb95tSO2xR
-         k9iFGiHCohP8yY/DSga9CK91zrox4tUanYHXYGCDRJnTV78Vcbez4UQcpKj9bMRfQHS/
-         ibAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=W7CBkID6B5s8Pw+MFYEXHCDbfTGrGnCA/p9jFnR7ock=;
-        fh=oGmzJRpi/ggcbHjcX53A5jUn/++DVzSwNUdUD2BO6hg=;
-        b=fdlYija+TfG8wUsEX1Kz//P2jZSU8gsHm0cfzHfwQXWubzNRbRqSx0VlLEIXP38VCA
-         QLhFIpyiyFPlkXF+y65UgI87yDFTu8K+7R8hcPSatWSC91EaQ5/UY4TJoqMoETrIcYao
-         vljIIkE8DKwl7Of+wDQ1+lWsPVXnGSLXwN0juVVL5wgH3JCjYqCVsPHm44/Ru9ITu3wI
-         rXuY+ThYI1Lt7XVAUS6PqEO1fPduqptvlj1YRKdWBDUcpnGKw+8A0+EliK04u/0zrOcc
-         BMwuDOiD2sTddjiG+Fz2CtZKBtm0+Z+zXFKz06u8T4p5/PdgdJWG4fvDABQEI9J3YmPy
-         21ig==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782692951; x=1783297751; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W7CBkID6B5s8Pw+MFYEXHCDbfTGrGnCA/p9jFnR7ock=;
-        b=j4VygRxqYRTaHzgpCkyKtQN3HQpGAjz60UdaEYr6wm/cIv0kmVLwqrsr/EspiPJiso
-         W4YX9QyeL62g52SMBSwD0TJRlgmAUjYqhCKzhlE7aVjS4l4/XP4eoeMRwax1AuoKqwU1
-         r+a9RkZWitd/PNwqZu6FntCyNxYZdSH1IUntw0iT+1gxvc0LCPTJhhSdbvbQaHlXdtmB
-         UCC1O8wA8c6vamQ00D0gGytap3991N9ABn6T/RGCkfNIWaho9Q9ppLNIOkjzBXkrY2mM
-         SU8zRbLrq6CgeyvFgo40ZwgsGa0A/3tNdYXBuGVtthzKembt9PebLDPYRC+K5mRGddSV
-         PMLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782692951; x=1783297751;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=W7CBkID6B5s8Pw+MFYEXHCDbfTGrGnCA/p9jFnR7ock=;
-        b=nVN/WLndGrz054rnLR1NBAFeNvBkXp6LybMMoT5Ak5JEGngQ0SFzu+oeSPbEQ4rZmc
-         NphFOLZydnI781ETbYczjo5ePrd1qPFdV3vjCIWx4xk68xvgUsgb1g98Lqf+9dPinn5u
-         isEUi1chLoclow3+MXstugBShQPbI9s9hiaQ9tuw/FPy3uN8fPfrwOOmDQJibPLF0tY6
-         2XrPyendiUSHThkUWGQJEC8QOGkDUmCYpkoeGw/qW6XLt3ZXt6ksYk1cYbGiL5+xCTCA
-         VHiaB1h0FVfxhIv9hJK2l8q3A6w0jETwxGrN8g6bqVNq/9r6Hm6V+zD2j4qVZAVJNfKx
-         2Bng==
-X-Forwarded-Encrypted: i=1; AHgh+RqGibWmwvvJYGxM8HQNgy8R15Jp6w06ei5XwW0fbklGKAePtRu3Nq0XdAB14p7FpZdB3ScFfiItuBX8jRgG@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/9qtqChD96pO7wrsGDknsNjLT73uobFpZ0ljvlVr6aV0W+GlG
-	n4O4DTYfRV21G45UhRbwcvntOB8gtvEDkMBBc1jJ/13Dzz7bi4QcrjzDKdPEk4HFxSV2T01fSvK
-	MuMlxKswKAI/23n2gkKkxTDbQyNkYrt8=
-X-Gm-Gg: AfdE7cndlZ8fUIVnmvY8FI7IiFr5lWk5nf43lJOS0q6GeY1kVclwdFCqp93g+NJ2opX
-	0ks4dyVf80epjOFI00RXdMaf5U609gScjuL+u+nZkp3nm+MSl6TcsKmQWJ76lbZLaWSM3I1GPC4
-	ys+/d2nHM5mkfZfu6Hd2sP9SadZ9tpouT5Kw13jrPTMQtB/HWllGY0vcWJ5YwpNfk3OCj2EO2im
-	qhXgVHfdmRnQwWN+WkaxEQ12L1t046LkoGJeoGuigDfKOWpbfNE7pEyzCqkcXrjBUig7Sk4
-X-Received: by 2002:ac2:4bd3:0:b0:5ae:b7a3:6dc3 with SMTP id
- 2adb3069b0e04-5aeb7a36f7emr631951e87.0.1782692950222; Sun, 28 Jun 2026
- 17:29:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="d9viA7DT"
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65T3BkDI1730419;
+	Mon, 29 Jun 2026 03:17:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=YOZd4NSFzXeAoFOQ0wXt2tAN1MIWHr4/WIg1YplLB9Y=; b=
+	d9viA7DT0nMksLJIJAOCe3Q9VWWAQjxb6oYNioYJWIMfDVo5Jb4ylu70WAUYiDp+
+	v6yPa0GUwkjb26GlmRHe80u/hXVZhypD5rx5EKGwq2QDZU0xkDFsztsURNtdIMIq
+	JJTvDFxtP4RD8KzHcGyWvqssrcq5OIbQ6H5iU6G7pCR5/fvdiH2eYl0dL0Yt6f8Q
+	J1fqpCLdhLgAgBkJtToJQUTYwAGjo18KEzHFIBPK0eljNQpZP6w5yT+43m/QHZFD
+	5mV9IWixkx+l8Oj3aQk0NEw508TelKuMhlEL2EIfBgUBn3YozjOSmdqYs9hlPCuN
+	b4+eGto2+DbIF8vvpGGWNA==
+Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11011052.outbound.protection.outlook.com [52.101.52.52])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4f25g5hmf7-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 29 Jun 2026 03:17:36 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=istyOm7zYjgKNC4Fef8e4OjmjpWCPF/utD/6z5V4PkzdVaiYyfqhwaLIWF4LSc7VqJymn89T5x5D7UAYEYNSVvQnbv5pn+VuoesjLIsT3bgF/+p0f7W1frVGosj21E1V2g3GaCG/QPpLZ47eUDhPZ4w+2cdpTc4jfVGDArd6t7e0qbvPuG5KGbtGENbNsOIc3b2iG0ALvRgSdWzlrQu5xwX7E4gH2EGz2nwsYk9k4wULhFCb7N8mNrchvuFlc0p8+J2Nk7uMT6y9X62wGcDtMH1whY+ng6z/TK5zjEJz+7WEmdsNG5mUBEpbrQOXbvEXEAJHkUGz7ERiZ5ZfoipWgQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YOZd4NSFzXeAoFOQ0wXt2tAN1MIWHr4/WIg1YplLB9Y=;
+ b=s3LON3F5Zlj1E2uKMkndR4jjESkML1j+HnSjg44mS7xaWPtaZ+aQK4FNzPwxMn5DgZf6eEjQzVkN19N5ZR4LNV4UpdpUaDqdKN+/NvaEN4XrYYBKXJ+ZacFnDPlAiJ2k/PTjP+76dF1LjlDO2VgGKoT2Q31Kk94zc6eSDQxMT71Tbu6Kq1rLncK73sb+mJAhSfRah2L2PPOsi5nnOxcCyDuJ7wUdJUbszOb5SL+UWcBz7UGfqbIm5eGErhZbbz7q/FrOV6bdDfzIWIXdqV5N5SiWg1tvCBpUYTw+BhOlZCdG1Gs/GfqDcQ/kKHmeota1u55nz8xuvpSQvCuYZpjzbA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH0PR11MB5332.namprd11.prod.outlook.com (2603:10b6:610:bf::17)
+ by PH7PR11MB6029.namprd11.prod.outlook.com (2603:10b6:510:1d0::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Mon, 29 Jun
+ 2026 03:17:33 +0000
+Received: from CH0PR11MB5332.namprd11.prod.outlook.com
+ ([fe80::8f86:8d08:45bf:ec13]) by CH0PR11MB5332.namprd11.prod.outlook.com
+ ([fe80::8f86:8d08:45bf:ec13%6]) with mapi id 15.21.0159.018; Mon, 29 Jun 2026
+ 03:17:33 +0000
+Message-ID: <93a088e3-f5bd-4d64-8a0a-f5aad14ac3c9@windriver.com>
+Date: Mon, 29 Jun 2026 11:17:24 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 5/5] ext4: prevent deadlock from duplicate EA inode
+ references on corrupted fs
+To: XIAO WU <xiaowu.417@qq.com>, tytso@mit.edu, adilger.kernel@dilger.ca,
+        libaokun@linux.alibaba.com, jack@suse.cz, ojaswin@linux.ibm.com,
+        ritesh.list@gmail.com, yi.zhang@huawei.com, viro@zeniv.linux.org.uk,
+        brauner@kernel.org
+Cc: linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+References: <20260625152941.24788-1-yun.zhou@windriver.com>
+ <20260625152941.24788-6-yun.zhou@windriver.com>
+ <tencent_B515F296245B20D721AEC2C9367AA188940A@qq.com>
+Content-Language: en-US
+From: "Zhou, Yun" <yun.zhou@windriver.com>
+In-Reply-To: <tencent_B515F296245B20D721AEC2C9367AA188940A@qq.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: TYCP286CA0327.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3b7::20) To CH0PR11MB5332.namprd11.prod.outlook.com
+ (2603:10b6:610:bf::17)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260627042816.2842609-1-zzzccc427@gmail.com>
-In-Reply-To: <20260627042816.2842609-1-zzzccc427@gmail.com>
-From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Mon, 29 Jun 2026 09:28:58 +0900
-X-Gm-Features: AVVi8CdBlie8n4hwQxAl3T5u_ydyJM5at-L6ZmUYptJeqF3yYGPUWGz_TuCDxmc
-Message-ID: <CANFS6baiHaz-U-uCPjh2oERc5TM8yU1OHYEN3WJ3KbXS524M+A@mail.gmail.com>
-Subject: Re: [PATCH v2] ntfs: serialize attribute-list replacement with lookups
-To: Cen Zhang <zzzccc427@gmail.com>
-Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Cen,
-
-Hi Cen,
-
-I reviewed and noticed a few concurrency issues.
-
-* ntfs_attr_lookup() releases the read lock before returning, which leaves
-the ctx->al_entry unprotected during the lifetime of the search context.
-
-* In some functions such as ntfs_attrlist_entry_add(), the memcpy()
-reads base_ni->attr_list outside of the writ lock. If another thread
-frees it concurrently, this leads to a UAF.
-
-To resolve these issues, How about coupling the attr_list_lock directly
-with the search context?
-
-* Extend ntfs_attr_get_search_ctx with a lock mode (NONE, READ, WRITE)
-to automatically acquire the lock unpon context creation and release
-it in ntfs_attr_put_search_ctx().
-
-* To prevent deadlocks, the following lock ordering is needed:
-base_ni->mrec_lock =3D> base_ni->attr_list_lock =3D> ni->runlist.lock.
-And to prevent nesting attr_list_lock under runlist.lock, The NONE
-mode bypasses context-owned locking and is required for paths
-that must control ordering manually (e.g, ntfs_attr_vcn_to_lcn_nlock()).
-
-2026=EB=85=84 6=EC=9B=94 27=EC=9D=BC (=ED=86=A0) =EC=98=A4=ED=9B=84 1:28, C=
-en Zhang <zzzccc427@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> ntfs_external_attr_find() walks base_ni->attr_list with raw
-> attr_list_entry cursors stored in ctx->al_entry and local variables.  Oth=
-er
-> metadata paths can replace base_ni->attr_list and free the old buffer whi=
-le
-> a lookup still carries one of those cursors.
->
-> The buggy scenario involves two paths, with each column showing the order
-> within that path:
->
->   attribute lookup path:              attribute-list mutation path:
->   1. enters ntfs_attr_lookup()        1. enters an attr-list add/remove
->   2. reads base_ni->attr_list         2. builds a replacement buffer
->   3. keeps ctx->al_entry/al_entry     3. publishes base_ni->attr_list
->      pointing into that buffer        4. frees the previous buffer
->   4. continues the attribute search
->   5. dereferences the saved cursor
->
-> Validation reproduced this kernel report:
-> BUG: KASAN: slab-use-after-free in ntfs_attr_lookup+0x24b2/0x2bf0
->
-> Call Trace:
->  <TASK>
->  dump_stack_lvl+0x66/0xa0
->  print_report+0xce/0x630
->  ? ntfs_attr_lookup+0x24b2/0x2bf0
->  ? srso_alias_return_thunk+0x5/0xfbef5
->  ? __virt_addr_valid+0x20d/0x410
->  ? ntfs_attr_lookup+0x24b2/0x2bf0
->  kasan_report+0xe0/0x110
->  ? ntfs_attr_lookup+0x24b2/0x2bf0
->  ntfs_attr_lookup+0x24b2/0x2bf0
->  ? ntfs_attr_lookup+0x9/0x2bf0
->  ? srso_alias_return_thunk+0x5/0xfbef5
->  ? 0xffffffffc00000da
->  ? __pfx_ntfs_attr_lookup+0x10/0x10
->  ntfs_attr_map_whole_runlist+0x488/0x8b0
->  ? __pfx_ntfs_attr_map_whole_runlist+0x10/0x10
->  ? __pfx_do_raw_spin_trylock+0x10/0x10
->  ntfs_attr_vcn_to_rl+0x13a/0x1d0
->  ? filemap_fault+0xf03/0x2080
->  ntfs_read_iomap_begin_non_resident+0x142/0x920
->  ? __pfx_ntfs_read_iomap_begin_non_resident+0x10/0x10
->  ? srso_alias_return_thunk+0x5/0xfbef5
->  ? __pfx_ntfs_read_iomap_begin+0x10/0x10
->  iomap_iter+0x6de/0x11e0
->  ? srso_alias_return_thunk+0x5/0xfbef5
->  ? prepare_alloc_pages+0x1c4/0x4d0
->  iomap_readahead+0x239/0x910
->  ? folios_put_refs+0x1ed/0x4f0
->  ? __pfx_iomap_readahead+0x10/0x10
->  ? __pfx_folios_put_refs+0x10/0x10
->  ? lock_release+0x1e0/0x280
->  ? srso_alias_return_thunk+0x5/0xfbef5
->  ? xas_store+0x871/0x1650
->  ? xas_find_conflict+0x64b/0xb90
->  ? srso_alias_return_thunk+0x5/0xfbef5
->  ? lock_release+0x1e0/0x280
->  ntfs_readahead+0x193/0x1d0
->  ? __pfx_ntfs_readahead+0x10/0x10
->  ? __filemap_add_folio+0x869/0xa60
->  ? srso_alias_return_thunk+0x5/0xfbef5
->  ? lock_acquire+0x2b8/0x2f0
->  ? __pfx___filemap_add_folio+0x10/0x10
->  read_pages+0x18f/0x890
->  ? srso_alias_return_thunk+0x5/0xfbef5
->  ? folio_alloc_noprof+0x69/0xb0
->  ? __pfx_read_pages+0x10/0x10
->  ? srso_alias_return_thunk+0x5/0xfbef5
->  page_cache_ra_unbounded+0x389/0x6c0
->  do_page_cache_ra+0x109/0x170
->  filemap_fault+0xf03/0x2080
->  ? __pfx_filemap_fault+0x10/0x10
->  ? srso_alias_return_thunk+0x5/0xfbef5
->  ? lock_acquire+0x2b8/0x2f0
->  ? lockdep_init_map_type+0x5c/0x230
->  __do_fault+0xf0/0x260
->  __handle_mm_fault+0xdcf/0x1ca0
->  ? __pfx___handle_mm_fault+0x10/0x10
->  ? srso_alias_return_thunk+0x5/0xfbef5
->  ? srso_alias_return_thunk+0x5/0xfbef5
->  ? lock_release+0x1e0/0x280
->  handle_mm_fault+0x19c/0x470
->  do_user_addr_fault+0x23b/0x9c0
->  exc_page_fault+0x5c/0xc0
->  asm_exc_page_fault+0x26/0x30
->
-> Allocated by task 511:
->  kasan_save_stack+0x33/0x60
->  kasan_save_track+0x14/0x30
->  __kasan_kmalloc+0xaa/0xb0
->  __kvmalloc_node_noprof+0x353/0x920
->  ntfs_attrlist_entry_rm+0x28d/0x510
->  ntfs_attr_record_rm+0x4dd/0xda0
->  ntfs_delete+0x50a/0xf90
->  ntfs_unlink+0x212/0x4d0
->  vfs_unlink+0x259/0xb00
->  filename_unlinkat+0x2db/0x5f0
->  __x64_sys_unlink+0x46/0x70
->  do_syscall_64+0x115/0x6a0
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
->
-> Freed by task 511:
->  kasan_save_stack+0x33/0x60
->  kasan_save_track+0x14/0x30
->  kasan_save_free_info+0x3b/0x60
->  __kasan_slab_free+0x5f/0x80
->  kfree+0x307/0x580
->  ntfs_attrlist_entry_add+0xc1b/0x1110
->  ntfs_resident_attr_record_add+0x6a8/0xa10
->  ntfs_attr_add+0x682/0xcd0
->  __ntfs_link+0x815/0xde0
->  ntfs_link+0x223/0x3d0
->  vfs_link+0x465/0xcf0
->  filename_linkat+0x316/0x540
->  __x64_sys_link+0x81/0xb0
->  do_syscall_64+0x115/0x6a0
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
->
-> Add a per-ntfs_inode attr_list_lock.  ntfs_attr_lookup() takes the read
-> side around the NInoAttrList() decision and the selected local or
-> external lookup, so any attr-list cursor derived during the lookup is
-> protected until the lookup returns.  Writers take the write side only
-> while publishing, rolling back, detaching, or clearing the in-memory
-> attr_list pointer, size, and state.  The on-disk ntfs_attrlist_update()
-> work stays outside the write side.
->
-> Fixes: 495e90fa3348 ("ntfs: update attrib operations")
-> Assisted-by: Codex:gpt-5.5
-> Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
-> ---
-> v2:
-> - Replace the read-iomap mrec_lock wrapper with a per-inode attr_list rws=
-em,
->   following Hyunchul Lee's review.
-> - Protect attr-list creation, replacement, rollback, detach, and clear
->   transitions, while keeping ntfs_attrlist_update() outside the write sid=
-e.
-> - Update the Fixes tag to the attribute operations commit.
->
->  fs/ntfs/attrib.c   | 21 +++++++++++++++++----
->  fs/ntfs/attrlist.c | 10 +++++++++-
->  fs/ntfs/inode.c    | 10 ++++++++++
->  fs/ntfs/inode.h    |  4 ++++
->  4 files changed, 40 insertions(+), 5 deletions(-)
->
-> diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
-> index dd8828098511..e630f63ed7ad 100644
-> --- a/fs/ntfs/attrib.c
-> +++ b/fs/ntfs/attrib.c
-> @@ -1565,6 +1565,7 @@ int ntfs_attr_lookup(const __le32 type, const __le1=
-6 *name,
->                 struct ntfs_attr_search_ctx *ctx)
->  {
->         struct ntfs_inode *base_ni;
-> +       int err;
->
->         ntfs_debug("Entering.");
->         if (ctx->base_ntfs_ino)
-> @@ -1572,11 +1573,18 @@ int ntfs_attr_lookup(const __le32 type, const __l=
-e16 *name,
->         else
->                 base_ni =3D ctx->ntfs_ino;
->         /* Sanity check, just for debugging really. */
-> -       if (!base_ni || !NInoAttrList(base_ni) || type =3D=3D AT_ATTRIBUT=
-E_LIST)
-> +       if (!base_ni)
->                 return ntfs_attr_find(type, name, name_len, ic, val, val_=
-len,
->                                 ctx);
-> -       return ntfs_external_attr_find(type, name, name_len, ic, lowest_v=
-cn,
-> -                       val, val_len, ctx);
-> +
-> +       down_read(&base_ni->attr_list_lock);
-> +       if (!NInoAttrList(base_ni) || type =3D=3D AT_ATTRIBUTE_LIST)
-> +               err =3D ntfs_attr_find(type, name, name_len, ic, val, val=
-_len, ctx);
-> +       else
-> +               err =3D ntfs_external_attr_find(type, name, name_len, ic,
-> +                                             lowest_vcn, val, val_len, c=
-tx);
-> +       up_read(&base_ni->attr_list_lock);
-> +       return err;
->  }
->
->  /**
-> @@ -2622,6 +2630,7 @@ static int ntfs_non_resident_attr_record_add(struct=
- ntfs_inode *ni, __le32 type,
->  int ntfs_attr_record_rm(struct ntfs_attr_search_ctx *ctx)
->  {
->         struct ntfs_inode *base_ni, *ni;
-> +       u8 *old_al =3D NULL;
->         __le32 type;
->         int err;
->
-> @@ -2659,10 +2668,14 @@ int ntfs_attr_record_rm(struct ntfs_attr_search_c=
-tx *ctx)
->
->         /* Post $ATTRIBUTE_LIST delete setup. */
->         if (type =3D=3D AT_ATTRIBUTE_LIST) {
-> +               down_write(&base_ni->attr_list_lock);
->                 if (NInoAttrList(base_ni) && base_ni->attr_list)
-> -                       kvfree(base_ni->attr_list);
-> +                       old_al =3D base_ni->attr_list;
->                 base_ni->attr_list =3D NULL;
-> +               base_ni->attr_list_size =3D 0;
->                 NInoClearAttrList(base_ni);
-> +               up_write(&base_ni->attr_list_lock);
-> +               kvfree(old_al);
->         }
->
->         /* Free MFT record, if it doesn't contain attributes. */
-> diff --git a/fs/ntfs/attrlist.c b/fs/ntfs/attrlist.c
-> index afb13038ba42..e91fc74eda31 100644
-> --- a/fs/ntfs/attrlist.c
-> +++ b/fs/ntfs/attrlist.c
-> @@ -220,14 +220,18 @@ int ntfs_attrlist_entry_add(struct ntfs_inode *ni, =
-struct attr_record *attr)
->                         entry_offset, ni->attr_list_size - entry_offset);
->
->         /* Set new runlist. */
-> +       down_write(&ni->attr_list_lock);
->         old_al =3D ni->attr_list;
->         ni->attr_list =3D new_al;
->         ni->attr_list_size =3D ni->attr_list_size + entry_len;
-> +       up_write(&ni->attr_list_lock);
->
->         err =3D ntfs_attrlist_update(ni);
->         if (err) {
-> +               down_write(&ni->attr_list_lock);
->                 ni->attr_list =3D old_al;
->                 ni->attr_list_size -=3D entry_len;
-> +               up_write(&ni->attr_list_lock);
->                 goto err_out;
->         }
->         kvfree(old_al);
-> @@ -251,6 +255,7 @@ int ntfs_attrlist_entry_rm(struct ntfs_attr_search_ct=
-x *ctx)
->         int new_al_len;
->         struct ntfs_inode *base_ni;
->         struct attr_list_entry *ale;
-> +       u8 *old_al;
->
->         if (!ctx || !ctx->ntfs_ino || !ctx->al_entry) {
->                 ntfs_debug("Invalid arguments.\n");
-> @@ -285,9 +290,12 @@ int ntfs_attrlist_entry_rm(struct ntfs_attr_search_c=
-tx *ctx)
->                                 ale->length), new_al_len - ((u8 *)ale - b=
-ase_ni->attr_list));
->
->         /* Set new runlist. */
-> -       kvfree(base_ni->attr_list);
-> +       down_write(&base_ni->attr_list_lock);
-> +       old_al =3D base_ni->attr_list;
->         base_ni->attr_list =3D new_al;
->         base_ni->attr_list_size =3D new_al_len;
-> +       up_write(&base_ni->attr_list_lock);
-> +       kvfree(old_al);
->
->         return ntfs_attrlist_update(base_ni);
->  }
-> diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
-> index c2715521e562..25e957401892 100644
-> --- a/fs/ntfs/inode.c
-> +++ b/fs/ntfs/inode.c
-> @@ -475,6 +475,7 @@ void __ntfs_init_inode(struct super_block *sb, struct=
- ntfs_inode *ni)
->         ni->folio =3D NULL;
->         ni->folio_ofs =3D 0;
->         ni->mrec =3D NULL;
-> +       init_rwsem(&ni->attr_list_lock);
->         ni->attr_list_size =3D 0;
->         ni->attr_list =3D NULL;
->         ni->itype.index.block_size =3D 0;
-> @@ -3112,9 +3113,11 @@ int ntfs_inode_add_attrlist(struct ntfs_inode *ni)
->         }
->
->         /* Set in-memory attribute list. */
-> +       down_write(&ni->attr_list_lock);
->         ni->attr_list =3D al;
->         ni->attr_list_size =3D al_len;
->         NInoSetAttrList(ni);
-> +       up_write(&ni->attr_list_lock);
->
->         attr_al_len =3D offsetof(struct attr_record, data.resident.reserv=
-ed) + 1 +
->                 ((al_len + 7) & ~7);
-> @@ -3147,8 +3150,11 @@ int ntfs_inode_add_attrlist(struct ntfs_inode *ni)
->
->  remove_attrlist_record:
->         /* Prevent ntfs_attr_recorm_rm from freeing attribute list. */
-> +       down_write(&ni->attr_list_lock);
->         ni->attr_list =3D NULL;
-> +       ni->attr_list_size =3D 0;
->         NInoClearAttrList(ni);
-> +       up_write(&ni->attr_list_lock);
->         /* Remove $ATTRIBUTE_LIST record. */
->         ntfs_attr_reinit_search_ctx(ctx);
->         if (!ntfs_attr_lookup(AT_ATTRIBUTE_LIST, NULL, 0,
-> @@ -3160,9 +3166,11 @@ int ntfs_inode_add_attrlist(struct ntfs_inode *ni)
->         }
->
->         /* Setup back in-memory runlist. */
-> +       down_write(&ni->attr_list_lock);
->         ni->attr_list =3D al;
->         ni->attr_list_size =3D al_len;
->         NInoSetAttrList(ni);
-> +       up_write(&ni->attr_list_lock);
->  rollback:
->         /*
->          * Scan attribute list for attributes that placed not in the base=
- MFT
-> @@ -3189,10 +3197,12 @@ int ntfs_inode_add_attrlist(struct ntfs_inode *ni=
-)
->         }
->
->         /* Remove in-memory attribute list. */
-> +       down_write(&ni->attr_list_lock);
->         ni->attr_list =3D NULL;
->         ni->attr_list_size =3D 0;
->         NInoClearAttrList(ni);
->         NInoClearAttrListDirty(ni);
-> +       up_write(&ni->attr_list_lock);
->  put_err_out:
->         ntfs_attr_put_search_ctx(ctx);
->  err_out:
-> diff --git a/fs/ntfs/inode.h b/fs/ntfs/inode.h
-> index 9aacd5787ffe..0aaa6c90a7fb 100644
-> --- a/fs/ntfs/inode.h
-> +++ b/fs/ntfs/inode.h
-> @@ -10,6 +10,8 @@
->  #ifndef _LINUX_NTFS_INODE_H
->  #define _LINUX_NTFS_INODE_H
->
-> +#include <linux/rwsem.h>
-> +
->  #include "debug.h"
->
->  enum ntfs_inode_mutex_lock_class {
-> @@ -66,6 +68,7 @@ enum ntfs_inode_mutex_lock_class {
->   * Attribute list support (only for use by the attribute lookup
->   * functions). Setup during read_inode for all inodes with attribute
->   * lists. Only valid if NI_AttrList is set in state.
-> + * @attr_list_lock: Serializes attribute list pointer updates with looku=
-ps.
->   * @attr_list_size: Length of attribute list value in bytes.
->   * @attr_list: Attribute list value itself.
->   *
-> @@ -118,6 +121,7 @@ struct ntfs_inode {
->         int folio_ofs;
->         s64 mft_lcn[2];
->         unsigned int mft_lcn_count;
-> +       struct rw_semaphore attr_list_lock;
->         u32 attr_list_size;
->         u8 *attr_list;
->         union {
-> --
-> 2.43.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR11MB5332:EE_|PH7PR11MB6029:EE_
+X-MS-Office365-Filtering-Correlation-Id: f5e3ad73-8914-4b09-cabf-08ded58cf5c2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|23010399003|376014|7416014|1800799024|921020|18002099003|22082099003|4143699003|11063799006|6133799003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	nvRw/FD7zsxpaVE7IxwLCGZ5d4gvo9coIJ3Blz0ZrrEA6aEY+i63OC7NBRSmjclIVAGEHNtylS/d8bU6QecBPc6tw21x4qh+jvF/97ZuiiPSkOU+qkheBaYaG7fbbtlJpR523j8H4l8Luja4wNqyTuNdXdQs4Qc3zzZaVNKqsvcPixhu4+j9AZ0J77Tqto75XbQu1KBnDSxKhsz9ovzeX4QCQ8krZWOFSj/SYmWyphjLIjlttKMjK+7xzzNRSlPxxJMpo4bXw0IdRDSsNYqsucOcMx6yF8sOmkWfZIPHpzL3kL40g/i1WShYywS1gK1NxO9+2WvPrP/++dfxc5tOfSK4o4kqkVhUA826MXQCH2V03IviLRo+kkerp6DMIn/Sm72aN7AaKy1AZ8YUKIFOfZi9aRHqFs71vlkMFl7mVf3HdbXUK31zmy/wyaEBASb/j5iw0GpFELATU30VqUaDjsNLQpdTFZfiUU1ul55XVx0pxWSl5bnWSB2mW2ZbOf7q4q3JiV58Iap4r7oajzgQtCpAozyoQfYsCJR6qvtQ3L15zX+ocTLO8+eyLCaHF2gEE31JMtpQxY3MD40ArJCjxQII6eUz5Hq4QJnJaUalN/Fg0GS8mPyB/phyoBBaMHLOPRzkLvw+akRYYU2paxgNhA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR11MB5332.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(7416014)(1800799024)(921020)(18002099003)(22082099003)(4143699003)(11063799006)(6133799003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?R2pBWW1zMGw1NzNiUjZTQi9URVdpZ3kvaHVVbEc3eDRJR2o2VVQ1SXRwYzlt?=
+ =?utf-8?B?MFQvS04vU3FqUUdZcFNYSUdCV3ZIbjduSlNoUEpNTkt6THNBRi9aRzFzM2Jw?=
+ =?utf-8?B?bGM0d0tpWHlEUHFnNlgxRDlsRHptRmZqNkVzTy9aT3FNRFQ3OWt5WGlEMEda?=
+ =?utf-8?B?ZndmTDVPYk1TSmhFeVZkS2Y1Slo2TVQxVVIvUmdCVU9KemtZOTVON1pURFdv?=
+ =?utf-8?B?REo2cXlQWW9vTHlESmpQSkhVQmJpZjVLQ0VDdnB4ekpENldoVHNuTGVxT2RW?=
+ =?utf-8?B?OERBYnhDVFRWcWxxcExoeGdvWCtoSWpFUVBibWpMNHYzYkxhVzFMcERwV2t6?=
+ =?utf-8?B?SVJ5WlQ3eUNQK2J1MXA0bDh5MXE3U1B4WmptWVlLbndCOGdXVkk1SWorak1Z?=
+ =?utf-8?B?Q3JiV3NVeTR0WTJOMEM1MWFabHEvRE1qbXFvM2hWR2RSaXBMNUloaVYwS0N1?=
+ =?utf-8?B?Z3pDVi9lMUFLODBNc1hlNnd3anNDYzV1UnZJOVlOSU9VaU5lT1Z0dXVCaGNI?=
+ =?utf-8?B?TVlienQwRi9sSzJwRmdKdnk0MFNNTU5Odm54emhIc2RmTk1ycGdod3ZpaDBV?=
+ =?utf-8?B?SG9yQWNnZDJnOVFhYmt0bmcvbVVDRXJUSitiMEZHYWovcDR6R0pja21UbzQ2?=
+ =?utf-8?B?UDQ4QWVnS2Y5MHJFbFBFcjZBVDY4N3h4Njg0VzhrUDFGdmlZVzR3d2NjSnFE?=
+ =?utf-8?B?T2xVMUVCdEdGTEt3WngvYUNFV1o5RUZpcDFoN3JLTS9yMlMvaHZIZlZkQTJB?=
+ =?utf-8?B?aUpIV0w3U3ByVzBzUlJxcmNZVjA1a0ZBQitCcVc3MEx6eHQ0UEx1eXVvVTJ3?=
+ =?utf-8?B?blZvU3NxSTY5UGQxT0pYc2FjNzBoY09YWW1CdDVmbWM4VmRGN1U5SSs2aXl4?=
+ =?utf-8?B?WWVyMWRBaGorMWxTWS9ZUGpkV01wdXpKak1tWjlQcWpvUFVpTHZXZ2xCMkRJ?=
+ =?utf-8?B?b1BwbC9sSFRNa2JDdHR5L0FKRzF4YS9CUEhjVEV5dTcra0FGQ3R1aGR2NC9t?=
+ =?utf-8?B?ZEM5ZlowOEx1T3p0V29VSjN1NDV4ODJJY1pPODVGcHlOSW93clNiODBnTmVI?=
+ =?utf-8?B?dFFKbTlVSTRJOE14bWgwRHV4aU5EWWtIK2dvYzFTUEtlOE5wc2ZGZy8zcllD?=
+ =?utf-8?B?am80Y244cjFQSW5TRmxnNEFpdDJCUzVCL0JSUVVmQ0NsKzhpL0t5YmVlY3Vx?=
+ =?utf-8?B?TGZIMk9PWkhaekxqV01pSG02cnNwN3dzK1Z5T0ZnWXNveDRBcXZhNmdhVnR4?=
+ =?utf-8?B?YTFqTmZ0Z1E0TzkxdGRHSm9LSnZpR1QzN1pZTWIxRVlOZmdpMDJNa3FyL0ZM?=
+ =?utf-8?B?Q2s4Q2hYQUlwdjkwS1A4b0VOY01sT3NaamlsWlYrb2Fvb2Jmb3BsTnNxUHBw?=
+ =?utf-8?B?TVpTRHlKSGc5czVJMml1Rk9WeEVVd1cxZjlFRlVUZi83b3BXVVVlWjlRK09X?=
+ =?utf-8?B?eWJ4N29DZzRGTWhsbWxNTVEyUDNLSTFHTnNWaTd3dm16RUxxR2FhVXdPMGlX?=
+ =?utf-8?B?M3ZBN0U5SnAwdEJvTGdnU0VjaGx4RTBzRkxTWmhyRXErV1FNdDRVbkNPOVBv?=
+ =?utf-8?B?OE1ONmVZeThIdzh5UnA5ZWc1Q0pxSUxVcmZsWGNuam92dGJ1VERHKzNKU2hJ?=
+ =?utf-8?B?bWYwWFJMb3czN3hRM1g4Q2trVFFpR1RuYjVpOGRkZ1RnR2xBb212ZG9SWWRk?=
+ =?utf-8?B?TnZqTDVUSEE3TXRGemZ1YkZqUTJCd3hXRGUvYjFGSHM0SkFUVmRMTnA2QW82?=
+ =?utf-8?B?T3hyTStBRE9QeFJ5Ylo2T0FOdWFSSk5xSjNWTGJ1SStuK0dWQnZLOHJKRkNZ?=
+ =?utf-8?B?emJ2TFF2SFJlSi9KbUF6dHd2eGQyUVNEeTlxZWtwNW82VEwwU29GNkVBTmRt?=
+ =?utf-8?B?WTVOMzZSaFNXenR0dzZ2Z21XYjJHeUNPd05ZSzNISmUrYytLOHFoTGJrVjBq?=
+ =?utf-8?B?TEczOEFGVU1JRHlCMDN2OVYxMWJkTm1mS2VhbWsydEUraC9BU3J5b1VIaFRS?=
+ =?utf-8?B?aFI0NUFUYWhaVHlVSWVFZE9sSTRKMzlJa3FvcUxBN1gwMmJFZmxZc2RCT3l2?=
+ =?utf-8?B?RWhOKzNuYUlXdlYrTkV5K1VvQXRqRmZ5VEdJMGpUaGVQQW9QUmRRUUxqWno0?=
+ =?utf-8?B?d0ZtcWZYY3Awa1lFaFhFY0pQYkF2anFZb1Q1bXFUQzljRUFPQ1I4TTZQVnJX?=
+ =?utf-8?B?ZVdSSjhIcHJPRGFrc2tGZ0U0RGM3cEh0VTRmR3Q3Z2RweGhhN29ibnFlZDND?=
+ =?utf-8?B?akpzY2tOOXppY2ZRTVk5K1BvU2p2TWtGZVF4VGpqUHAvb2xnTTVDL1ZBWTRv?=
+ =?utf-8?B?V3BheStib2dyWkd1cXZlZlZlQVJpTnpUeDVsdU5BNE52MVlMcitSZz09?=
+X-Exchange-RoutingPolicyChecked:
+	bJJjH7UKMbd62mNPWbZLd1k+YiUYyz1dpsZK6nXUOgKqJh2fHvHeqRBuz5e1D0r9TS6eZpUKocXmoGWxXQHtakHluEvU8EmmLoEkv0xpUhTgGa1JuHWnzEBhAVagl2xCPIUU/1O2wLsDIppEq+tIfD7kKj6d5KY/ZvMw9q0Vx7uYAy7vcL8h9Z+CftWrrSm8FKalZm99LhCHI+voMwhCAABw4s9Mwmj+gh3TLR5Ks7R1XrlqpXLgVL/pB7CM9Z3lps9Xz1QaqCqMQH71/yDBwk/tmMpilF7uQjS1nXmOqB3rwMBAD4BXbrv70e+MzCbtMz9iQnuYqKx1xen+KqvCig==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f5e3ad73-8914-4b09-cabf-08ded58cf5c2
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5332.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 03:17:33.1030
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OmUqROeWBlCT88BSmMuNlnPTJvdqYX32s4Xz9UUyyAvKO0xMdFeMT4af445eaKT7ZuYOFjgv70b5TUNhrov6fA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6029
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI5MDAyNSBTYWx0ZWRfX/DEXqxWD5vbk
+ RU/pt/ux1shhnRRuNTYnrlg2Spj5WK05dFKhemZ71aKzuR8KW3jFAqvGeb1mH/UCaxybJLwu8gA
+ SG8SWhlMTOCQvn1z0xNnbEnoYI6sBH7FyDK+rGHQinis7b817QZv
+X-Proofpoint-ORIG-GUID: bVOxBxki7qk8JzeTfnGUDWwPccp8MIAI
+X-Proofpoint-GUID: bVOxBxki7qk8JzeTfnGUDWwPccp8MIAI
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI5MDAyNSBTYWx0ZWRfX7e9g4CxXERIC
+ 7mbCvKl5zUQkmKvGy56anvu4j51cBq9wxjfKRjK6hdselQoBVXWvHBchihy8ydV2AgFpaA4T/lO
+ R61DrYE5F1NoCpRMqz8Adug8nKjC6v7FUIZMvfxAyYVX05F1SbsJj0ZO3neNX3sT/9Sd/mBipGc
+ hFPUk/Hf54k+HJnXHMZIZgq4BRUQG3rih2HuPYSeCETko2IwwwAh1nblMXRGl8OpRaikRGT9qLR
+ N4wc0KnWF9Icx5oPHNJ9xzvAxbGI5WjM5Omv1pOWFGydlKTqSNlXUWGYVx0T4BJMKc00zIhAbIa
+ sST+rALD7AlO8c06qpMyLiiup8i/o9fYw+AdCrhFMeP+xZ7QlnjFl4w7AW0o/JT66gSM/NT+H8K
+ l1ZZP86nlFisJ6vMtuPkXLxO9pJU3zEC4ocFhcEutGRfiJZ32z3qz3+7XIgDByt2+zLLh/Ic8HI
+ nMqsJmy8PPjlYGY6XGw==
+X-Authority-Analysis: v=2.4 cv=TvLWQjXh c=1 sm=1 tr=0 ts=6a41e3d0 cx=c_pps
+ a=MCVANC9+7Y5oazsiooDUXw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22
+ a=c92rfblmAAAA:8 a=t7CeM3EgAAAA:8 a=OmZe0yJs8ERP5gnB7g8A:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=GvGzcOZaWPEFPQC_NcjD:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-29_01,2026-06-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 lowpriorityscore=0 spamscore=0 phishscore=0 clxscore=1011
+ priorityscore=1501 bulkscore=0 suspectscore=0 impostorscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606290025
 
 
+On 6/29/26 02:57, XIAO WU wrote:
+> 
+> Hi,
+> 
+> I've been following the sashiko-bot reviews on this series and was able
+> to reproduce the llist corruption issue that the bot has flagged — it
+> triggers a kernel BUG at ext4_put_super() when an EA inode is leaked
+> onto the orphan list at unmount.
+> 
+> The sashiko review is at:
+> https://sashiko.dev/#/patchset/20260625152941.24788-1- 
+> yun.zhou@windriver.com
+> 
+>  > +/* Put all EA inodes on a processed llist via ext4_put_ea_inode. */
+>  > +static void ext4_put_ea_inode_llist(struct super_block *sb,
+>  > +                                    struct llist_head *processed)
+>  > +{
+>  > +    struct llist_node *node = llist_del_all(processed);
+>  > +    struct llist_node *next;
+>  > +
+>  > +    while (node) {
+>  > +        struct ext4_inode_info *ei = container_of(node,
+>  > +                        struct ext4_inode_info, i_ea_iput_node);
+>  > +        next = node->next;
+>  > +        ext4_put_ea_inode(sb, &ei->vfs_inode);
+>  > +        node = next;
+>  > +    }
+>  > +}
+> 
+> The per-call `processed` llist is declared on the stack of
+> ext4_xattr_delete_inode().  If two threads concurrently evict files
+> that share the same EA inode (same large xattr value), both threads
+> call llist_add() on the SAME embedded i_ea_iput_node, each trying to
+> add it to their own stack-local llist head.
+> 
+> Since llist_add() unconditionally writes `node->next = head->first`
+> (which is a stack address from the caller's frame), the two threads
+> corrupt each other's `node->next` pointer.  When
+> ext4_put_ea_inode_llist() later traverses the list, it follows a
+> dangling next pointer into freed/concurrent stack memory, causing the
+> EA inode to be silently skipped during deferred iput processing.
+> 
+> === Reproduction ===
+> 
+> Kernel: 7.1.0-next-20260624-gb27bd6a65c17 #1 SMP PREEMPT_RT
+> Config: CONFIG_EXT4_FS=y, CONFIG_EXT4_FS_POSIX_ACL=y, CONFIG_KASAN=y
+> QEMU:   QEMU Standard PC (Q35 + ICH9, 2009)
+> 
+> The PoC creates two files sharing the same large xattr value (thus
+> sharing the same EA inode), then concurrently unlinks them from two
+> pthreads synchronized by a barrier on the same CPU.  This triggers the
+> llist_add() race on the shared i_ea_iput_node, leaving the EA inode
+> unprocessed.  The EA inode (nlink=0) sits on the orphan list, and
+> umount hits the BUG() assertion.
+> 
 
---=20
-Thanks,
-Hyunchul
+Thank you very much for testing and sharing the PoC. I used it to verify 
+the issue and found a pre-existing bug (fixed by a new patch), but the 
+issue reported by sashiko-ai could not be reproduced.
+
+# ./repro-xiaowu
+=== ext4 EA inode llist Race PoC ===
+Iterations: 2000
+Discarding device blocks: done
+Creating filesystem with 16384 4k blocks and 16384 inodes
+
+Allocating group tables: done
+Writing inode tables: done
+Creating journal (1024 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+Filesystem ready at /mnt/ea_race
+Starting race threads...
+[   44.741752][ T3761] EXT4-fs error (device loop0): 
+ext4_xattr_inode_cache_find:1616: inode #14: comm repro-xiaowu: missing 
+EA_INODE flag
+[   44.743426][ T3762] EXT4-fs error (device loop0): 
+ext4_xattr_inode_cache_find:1616: inode #14: comm repro-xiaowu: missing 
+EA_INODE flag
+[   44.923046][ T3762] EXT4-fs error (device loop0): 
+ext4_xattr_inode_cache_find:1616: inode #14: comm repro-xiaowu: missing 
+EA_INODE flag
+[   44.924562][ T3761] EXT4-fs error (device loop0): 
+ext4_xattr_inode_cache_find:1616: inode #14: comm repro-xiaowu: missing 
+EA_INODE flag
+
+Race loop complete.
+Check dmesg for crash evidence.
+(none)
+Done.
+
+Thanks again,
+Yun
