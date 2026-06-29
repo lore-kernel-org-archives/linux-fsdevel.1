@@ -1,77 +1,78 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA1BA3ACF0B
-	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 11:37:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FCB3D5221
+	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 11:38:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782733074; cv=none; b=mkXlfCrf8z4g+FV+EhIGZozsM70OnwBudtAs0fHOdYIFvoMTtzSuipwzqLKIlh49NQqXllD0ayuSoh2v+BiNs3Roc+jLBViGKf40ibNYqhJ6w46g40Dr88yWpkTG2Xw6luE4Rj7CQO/fvVSZURn5XzRWp1/z2D4EPTKRbOgaq0E=
+	t=1782733135; cv=none; b=CMCKsuq0AxUxqGyyzZ1EWz9pbcifxK4ULz5o37m2Q3mSpLaMzjrieXnwuiM7Q9fd0tVUtKbwV/YCtrT/bKrmilt1MgEjUtXN+xfI5aQuIAb/SFw1F8s3VOP7bgpy/H0b2PdM1l8EtWqok3ry1NaapWaQBskYUOZVJVrkC7dx6dI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782733074; c=relaxed/simple;
-	bh=jWN2p9ror6Y86hZXk/tLl8y2DxtoBCUT4hQLpTZrn70=;
+	s=arc-20240116; t=1782733135; c=relaxed/simple;
+	bh=lN1IifZsflkfhK5GPM/B3+aPEWeAoH5hSQ7gb7yBDDo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SDN4kt/rzduD5TfAYOsZXPnNBi40E9QC9+HYz8FcAWfuFJNVkGPCKSvjHciS8oEJT5t7nYtiEQoHV4Z2YfSeO/hQArYn0h4k2nG+yWuEAR8zk+rlIHF3I1lat5kpEpz/vzyIBrrGfbnsqAFljjhIOV9q7aZPEeQTeBb27aQJTwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=AcdymO3A; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7K8hjG7I; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=AcdymO3A; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7K8hjG7I; arc=none smtp.client-ip=195.135.223.130
+	 Content-Type:Content-Disposition:In-Reply-To; b=FF5/rGzTWDEayh1FSmZkY/1XYjm6Dfhs4ZE9mPBotbUzL0xo+1ZP+no2D32awheV88GHNfh/VkTjljNgkIHcp/11lTBPMoHuQLP3MRMDeD/G/ZglN9RN+zobQ3l4HMz8jF0RAbW0oSHwfbDyvTZKCCE2praXDWy46MBaftJ1aQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0PnS5nLr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=87yKCZKh; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0PnS5nLr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=87yKCZKh; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="AcdymO3A";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7K8hjG7I";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="AcdymO3A";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7K8hjG7I"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0PnS5nLr";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="87yKCZKh";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0PnS5nLr";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="87yKCZKh"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 051157304B;
-	Mon, 29 Jun 2026 11:37:51 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6004273065;
+	Mon, 29 Jun 2026 11:38:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782733071; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1782733132; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bLC3qw/vmbZxhW2/s5UndiO5IYcBI53VNN28GArFeLs=;
-	b=AcdymO3Ac2jhNQABuakDiOrYdbtxYrGH/wKpEgcaVYmJWReRp6nSQ2GQmuT02vESCnZgku
-	hlYK55NVEww3erlMc/9439j+rtVGhg66W215fwdFq14tqD9dHUAy3GLdMSavVl5lAkqjHu
-	PjvxJZP2CCFg2sHgLokqL7bPRr1cxVs=
+	bh=8l1qXnS89fJooLwtG/GOT6JItKflAKJzdlPsMvSwQQg=;
+	b=0PnS5nLrMMwagZaxVXYRQYB8d2+nyejHl5niG7YmVKAyx9+IYcGcDG2ckq3V+MRhVIoS+y
+	mQl1TB924JiYwahCGZUx/Tr9awobY7MHMYsV0oChpFIZ+uzKh1nwy3glRghYR2IgqCtT33
+	u/YRv7XyEpGOY2rvXxvUYevt+uqfcOY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782733071;
+	s=susede2_ed25519; t=1782733132;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bLC3qw/vmbZxhW2/s5UndiO5IYcBI53VNN28GArFeLs=;
-	b=7K8hjG7IZbLv7d4LRb93ZrN0x60DxdhXYoqr/P0alkhYp2DR2er39UzW2/LiZY6SqydTYZ
-	lESB3G7TjaJfHeBA==
+	bh=8l1qXnS89fJooLwtG/GOT6JItKflAKJzdlPsMvSwQQg=;
+	b=87yKCZKh1GbYP7l6PJ7srAA9YeW7IdQnybYlymzu36MWPN4RSegSMrNWvS+zJcOShv/Zi0
+	zUVo1t0vBLFhO3AQ==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=0PnS5nLr;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=87yKCZKh
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782733071; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1782733132; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bLC3qw/vmbZxhW2/s5UndiO5IYcBI53VNN28GArFeLs=;
-	b=AcdymO3Ac2jhNQABuakDiOrYdbtxYrGH/wKpEgcaVYmJWReRp6nSQ2GQmuT02vESCnZgku
-	hlYK55NVEww3erlMc/9439j+rtVGhg66W215fwdFq14tqD9dHUAy3GLdMSavVl5lAkqjHu
-	PjvxJZP2CCFg2sHgLokqL7bPRr1cxVs=
+	bh=8l1qXnS89fJooLwtG/GOT6JItKflAKJzdlPsMvSwQQg=;
+	b=0PnS5nLrMMwagZaxVXYRQYB8d2+nyejHl5niG7YmVKAyx9+IYcGcDG2ckq3V+MRhVIoS+y
+	mQl1TB924JiYwahCGZUx/Tr9awobY7MHMYsV0oChpFIZ+uzKh1nwy3glRghYR2IgqCtT33
+	u/YRv7XyEpGOY2rvXxvUYevt+uqfcOY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782733071;
+	s=susede2_ed25519; t=1782733132;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bLC3qw/vmbZxhW2/s5UndiO5IYcBI53VNN28GArFeLs=;
-	b=7K8hjG7IZbLv7d4LRb93ZrN0x60DxdhXYoqr/P0alkhYp2DR2er39UzW2/LiZY6SqydTYZ
-	lESB3G7TjaJfHeBA==
+	bh=8l1qXnS89fJooLwtG/GOT6JItKflAKJzdlPsMvSwQQg=;
+	b=87yKCZKh1GbYP7l6PJ7srAA9YeW7IdQnybYlymzu36MWPN4RSegSMrNWvS+zJcOShv/Zi0
+	zUVo1t0vBLFhO3AQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E5BFF779A8;
-	Mon, 29 Jun 2026 11:37:50 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 43BFE779A8;
+	Mon, 29 Jun 2026 11:38:52 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id nmegNw5ZQmqqYgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 29 Jun 2026 11:37:50 +0000
+	id U8uKEExZQmqwYwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 29 Jun 2026 11:38:52 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 88C19A10B5; Mon, 29 Jun 2026 13:37:46 +0200 (CEST)
-Date: Mon, 29 Jun 2026 13:37:46 +0200
+	id DB228A10B5; Mon, 29 Jun 2026 13:38:47 +0200 (CEST)
+Date: Mon, 29 Jun 2026 13:38:47 +0200
 From: Jan Kara <jack@suse.cz>
 To: Yun Zhou <yun.zhou@windriver.com>
 Cc: tytso@mit.edu, adilger.kernel@dilger.ca, libaokun@linux.alibaba.com, 
@@ -79,11 +80,11 @@ Cc: tytso@mit.edu, adilger.kernel@dilger.ca, libaokun@linux.alibaba.com,
 	yi.zhang@huawei.com, viro@zeniv.linux.org.uk, brauner@kernel.org, 
 	linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
 	xiaowu.417@qq.com
-Subject: Re: [PATCH v11 2/5] ext4: introduce ext4_put_ea_inode() for safe
- deferred iput
-Message-ID: <gyrelvt577bxfhq5e5k4rwdr5r2m455c3dn44hx7jgrgnvoqqn@bfc43qrask7g>
+Subject: Re: [PATCH v11 3/5] ext4: convert all EA inode iput() calls to
+ ext4_put_ea_inode()
+Message-ID: <hhbqclaymocb7wxfg2wryy6fo3pwj55qj7mug623lah5z75ub4@pjtbe2jtvffx>
 References: <20260629110848.3085662-1-yun.zhou@windriver.com>
- <20260629110848.3085662-3-yun.zhou@windriver.com>
+ <20260629110848.3085662-4-yun.zhou@windriver.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -92,89 +93,216 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260629110848.3085662-3-yun.zhou@windriver.com>
+In-Reply-To: <20260629110848.3085662-4-yun.zhou@windriver.com>
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 6004273065
 X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.30 / 50.00];
+X-Spam-Score: -2.51
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_COUNT_THREE(0.00)[3];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim,suse.com:email,windriver.com:email];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	URIBL_BLOCKED(0.00)[suse.cz:email,suse.com:email,windriver.com:email,imap1.dmz-prg2.suse.org:helo];
 	RCPT_COUNT_TWELVE(0.00)[14];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
+	ARC_NA(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com,qq.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	TAGGED_RCPT(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FREEMAIL_CC(0.00)[mit.edu,dilger.ca,linux.alibaba.com,suse.cz,linux.ibm.com,gmail.com,huawei.com,zeniv.linux.org.uk,kernel.org,vger.kernel.org,qq.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,windriver.com:email,suse.cz:email]
-X-Spam-Level: 
-X-Spam-Score: -2.30
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email,suse.cz:dkim,windriver.com:email]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-On Mon 29-06-26 19:08:45, Yun Zhou wrote:
-> Calling iput() on EA inodes while holding xattr_sem or a jbd2 handle
-> can trigger write_inode_now() -> ext4_writepages() -> s_writepages_rwsem,
-> creating a lock ordering issue during mount (!SB_ACTIVE).
+On Mon 29-06-26 19:08:46, Yun Zhou wrote:
+> Convert all iput() calls on EA inodes in xattr code paths to use
+> ext4_put_ea_inode().  This establishes a uniform rule: every EA inode
+> reference release in ext4 xattr code goes through ext4_put_ea_inode(),
+> eliminating the need to analyze each call site individually for lock
+> safety.
 > 
-> Add ext4_put_ea_inode() which uses iput_if_not_last() as a fast path.
-> If this is not the last reference, it is dropped immediately.  If this
-> is the last reference, the inode is linked onto a per-sb lock-free llist
-> via i_ea_iput_node (embedded in ext4_inode_info, sharing space with the
-> unused xattr_sem of EA inodes via a union) and a delayed worker
-> (1 jiffie) performs the final iput() in a clean context.  This avoids
-> per-iput memory allocation.
+> Converted sites:
 > 
-> Flush points are placed before quota shutdown (ext4_put_super and
-> failed_mount9) and before freeing structures that eviction depends on
-> (failed_mount_wq and failed_mount3a).  Initialization is placed before
-> journal loading since fast commit replay may trigger evictions that call
-> ext4_put_ea_inode().
+> - ext4_xattr_inode_get() read path
+> - ext4_xattr_inode_inc_ref_all() main loop and cleanup path
+> - ext4_xattr_inode_dec_ref_all() error paths
+> - ext4_xattr_inode_create() error path
+> - ext4_xattr_inode_cache_find() mismatch path
+> - ext4_xattr_inode_lookup_create() out_err
+> - ext4_xattr_set_entry() old_ea_inode
+> - ext4_xattr_block_set() new block path, cleanup, and tmp_inode
+> - ext4_xattr_ibody_set() error and success paths
+> - ext4_xattr_delete_inode() quota loop
 > 
-> Also moves init_rwsem(xattr_sem) from init_once to ext4_alloc_inode to
-> handle slab object reuse after the union field has been overwritten.
+> For most of these, iput_if_not_last() will succeed (the EA inode has
+> other references) making the overhead a single atomic operation.
 > 
 > Signed-off-by: Yun Zhou <yun.zhou@windriver.com>
-> Suggested-by: Jan Kara <jack@suse.cz>
 
-...
+Looks good. Feel free to add:
 
-> +/*
-> + * Release a VFS reference on an EA inode.  Must be used instead of iput()
-> + * in any context where xattr_sem or a jbd2 handle is held.
-> + *
-> + * If this is not the last reference, drops it immediately via
-> + * iput_if_not_last() with no further action needed.
-> + *
-> + * If this is the last reference, the inode is linked onto a per-sb
-> + * llist via i_ea_iput_node (embedded in ext4_inode_info, sharing space
-> + * with the unused xattr_sem) and a delayed worker performs the final
-> + * iput() in a clean context.
-> + *
-> + * Note: while an inode is on s_ea_inode_to_free, the unconsumed i_count
-> + * reference (still 1) keeps it in the inode cache, so any concurrent
-> + * iget() bumps i_count to >= 2 and iput_if_not_last() will succeed.
-> + * Nobody will add the inode a second time until ext4_ea_inode_work()
-> + * drops that reference via iput().
-> + */
-> +void ext4_put_ea_inode(struct super_block *sb, struct inode *inode)
-
-One small question here: Any reason why you explicitely pass sb here
-instead of using inode->i_sb? EA inodes are guaranteed to be from the same
-superblock... It would somewhat simplify the callers.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
 
+> ---
+>  fs/ext4/xattr.c | 30 +++++++++++++++---------------
+>  1 file changed, 15 insertions(+), 15 deletions(-)
+> 
+> diff --git a/fs/ext4/xattr.c b/fs/ext4/xattr.c
+> index ec66c62fbdaa..d6950b0b8f40 100644
+> --- a/fs/ext4/xattr.c
+> +++ b/fs/ext4/xattr.c
+> @@ -567,7 +567,7 @@ ext4_xattr_inode_get(struct inode *inode, struct ext4_xattr_entry *entry,
+>  					ea_inode->i_ino, true /* reusable */);
+>  	}
+>  out:
+> -	iput(ea_inode);
+> +	ext4_put_ea_inode(inode->i_sb, ea_inode);
+>  	return err;
+>  }
+>  
+> @@ -1104,10 +1104,10 @@ static int ext4_xattr_inode_inc_ref_all(handle_t *handle, struct inode *parent,
+>  		err = ext4_xattr_inode_inc_ref(handle, ea_inode);
+>  		if (err) {
+>  			ext4_warning_inode(ea_inode, "inc ref error %d", err);
+> -			iput(ea_inode);
+> +			ext4_put_ea_inode(parent->i_sb, ea_inode);
+>  			goto cleanup;
+>  		}
+> -		iput(ea_inode);
+> +		ext4_put_ea_inode(parent->i_sb, ea_inode);
+>  	}
+>  	return 0;
+>  
+> @@ -1133,7 +1133,7 @@ static int ext4_xattr_inode_inc_ref_all(handle_t *handle, struct inode *parent,
+>  		if (err)
+>  			ext4_warning_inode(ea_inode, "cleanup dec ref error %d",
+>  					   err);
+> -		iput(ea_inode);
+> +		ext4_put_ea_inode(parent->i_sb, ea_inode);
+>  	}
+>  	return saved_err;
+>  }
+> @@ -1201,7 +1201,7 @@ ext4_xattr_inode_dec_ref_all(handle_t *handle, struct inode *parent,
+>  		if (err) {
+>  			ext4_warning_inode(ea_inode,
+>  					   "Expand inode array err=%d", err);
+> -			iput(ea_inode);
+> +			ext4_put_ea_inode(parent->i_sb, ea_inode);
+>  			continue;
+>  		}
+>  
+> @@ -1505,7 +1505,7 @@ static struct inode *ext4_xattr_inode_create(handle_t *handle,
+>  			if (ext4_xattr_inode_dec_ref(handle, ea_inode))
+>  				ext4_warning_inode(ea_inode,
+>  					"cleanup dec ref error %d", err);
+> -			iput(ea_inode);
+> +			ext4_put_ea_inode(inode->i_sb, ea_inode);
+>  			return ERR_PTR(err);
+>  		}
+>  
+> @@ -1564,7 +1564,7 @@ ext4_xattr_inode_cache_find(struct inode *inode, const void *value,
+>  			kvfree(ea_data);
+>  			return ea_inode;
+>  		}
+> -		iput(ea_inode);
+> +		ext4_put_ea_inode(inode->i_sb, ea_inode);
+>  	next_entry:
+>  		ce = mb_cache_entry_find_next(ea_inode_cache, ce);
+>  	}
+> @@ -1615,7 +1615,7 @@ static struct inode *ext4_xattr_inode_lookup_create(handle_t *handle,
+>  				      ea_inode->i_ino, true /* reusable */);
+>  	return ea_inode;
+>  out_err:
+> -	iput(ea_inode);
+> +	ext4_put_ea_inode(inode->i_sb, ea_inode);
+>  	ext4_xattr_inode_free_quota(inode, NULL, value_len);
+>  	return ERR_PTR(err);
+>  }
+> @@ -1848,7 +1848,7 @@ static int ext4_xattr_set_entry(struct ext4_xattr_info *i,
+>  
+>  	ret = 0;
+>  out:
+> -	iput(old_ea_inode);
+> +	ext4_put_ea_inode(inode->i_sb, old_ea_inode);
+>  	return ret;
+>  }
+>  
+> @@ -2010,7 +2010,7 @@ ext4_xattr_block_set(handle_t *handle, struct inode *inode,
+>  				old_ea_inode_quota = le32_to_cpu(
+>  						s->here->e_value_size);
+>  			}
+> -			iput(tmp_inode);
+> +			ext4_put_ea_inode(inode->i_sb, tmp_inode);
+>  
+>  			s->here->e_value_inum = 0;
+>  			s->here->e_value_size = 0;
+> @@ -2150,7 +2150,7 @@ ext4_xattr_block_set(handle_t *handle, struct inode *inode,
+>  					ext4_warning_inode(ea_inode,
+>  							   "dec ref error=%d",
+>  							   error);
+> -				iput(ea_inode);
+> +				ext4_put_ea_inode(inode->i_sb, ea_inode);
+>  				ea_inode = NULL;
+>  			}
+>  
+> @@ -2203,7 +2203,7 @@ ext4_xattr_block_set(handle_t *handle, struct inode *inode,
+>  			ext4_xattr_inode_free_quota(inode, ea_inode,
+>  						    i_size_read(ea_inode));
+>  		}
+> -		iput(ea_inode);
+> +		ext4_put_ea_inode(inode->i_sb, ea_inode);
+>  	}
+>  	if (ce)
+>  		mb_cache_entry_put(ea_block_cache, ce);
+> @@ -2285,7 +2285,7 @@ int ext4_xattr_ibody_set(handle_t *handle, struct inode *inode,
+>  
+>  			ext4_xattr_inode_free_quota(inode, ea_inode,
+>  						    i_size_read(ea_inode));
+> -			iput(ea_inode);
+> +			ext4_put_ea_inode(inode->i_sb, ea_inode);
+>  		}
+>  		return error;
+>  	}
+> @@ -2297,7 +2297,7 @@ int ext4_xattr_ibody_set(handle_t *handle, struct inode *inode,
+>  		header->h_magic = cpu_to_le32(0);
+>  		ext4_clear_inode_state(inode, EXT4_STATE_XATTR);
+>  	}
+> -	iput(ea_inode);
+> +	ext4_put_ea_inode(inode->i_sb, ea_inode);
+>  	return 0;
+>  }
+>  
+> @@ -2986,7 +2986,7 @@ int ext4_xattr_delete_inode(handle_t *handle, struct inode *inode,
+>  					continue;
+>  				ext4_xattr_inode_free_quota(inode, ea_inode,
+>  					      le32_to_cpu(entry->e_value_size));
+> -				iput(ea_inode);
+> +				ext4_put_ea_inode(inode->i_sb, ea_inode);
+>  			}
+>  
+>  		}
+> -- 
+> 2.43.0
+> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
