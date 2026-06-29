@@ -1,149 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A78395AF8
-	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 21:07:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE573B2FE6
+	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 22:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782767230; cv=none; b=PWCmtXO1tO2p16IQGVZAfQTYPYsuaCwjNdivaRnLqB8TpYvtutr9xRKPxiElg9gDV0TophzyaCeboBhoHOxhO78CM5nSCtkQaWnnchJTq92/zH968eTVI8hAon6M06ppvkug8VwQlDSL/ZEhwsZshp/A1UdbzgqR2669evzgKhk=
+	t=1782772948; cv=none; b=aOFrmOnO18ZmWDIfw9q2LnMmgZDqzTbiuMVQhuj+sr9yoTaUvnqbxjgZiaBpOvs7B5Vdz9iboY2P2145GGVMNZdomWzAVj5FNU7crTtm0OqXYTl1GF1wXDNE6vhywdPBvDMnT3dqSqbMiFDsDlhzP+vsEs96jb9S6qvqy3ds0EE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782767230; c=relaxed/simple;
-	bh=uRnAtDwCNO9BhCTtGFk7SnQYQafVVJE2jiS6mFdcqFo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pn8to2xV5YTPkPPXz1Ae8n749aJUUkMZ8flpDJ8B+XaZwCRpddKz+VWMx45S1Ukfr70wT0Xbxz53cTlD7FdZ+X+fY+FlczjK2kdQ1ftamVwT/TOdQRLhETC4HPqJ98NlacOwB1NaXDGHa1sYFhsT5OT0J8fgJUND3nz9sHhIBaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WvOADvgw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782772948; c=relaxed/simple;
+	bh=rb0mXRAiHaBonRB9u3PoZ+GhZeyEKP+NerJ8i5AfFdY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=KOP+8Y2vcOx4/WvxmIhAe6Jbtv9ZAMwFzzfCaLt5xMgLK8VPeHU2+9G/MbYAkB3c3tovPZTqsbFuP7W2M3l7MsIWLSQWgaO4CdrxPy5RnE2vvUTtUpwOV/gt/W/woL1N27jlL77a9pxlD4VsWvF6IUGzdGG21ir4zo7K5AH6Qxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=Eip8OOdT; arc=none smtp.client-ip=74.125.224.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WvOADvgw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9AD41F00ADF
-	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 21:07:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782767228;
-	bh=YfIToqSpqLi5Ux4oNUHmwU5C18eq/HPGb1nR21G13hE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=WvOADvgwMQCNYf3xVBU8wXEITYw3J0aqr+SQG5z0hR7kHHv31T3mx+T5Jhg0LGYeZ
-	 8iiH19VtqFAsKbIV5bjbf4PoiGmK1M8Sd3ryfOPPvReHKLe+POM6Fciz9T5sS32Oo9
-	 JKt8bKLaHMYbBaQf5Z9A6MUpdnvfT7W2nuPnUElqMRZTidM96SDR+/YRY5py2Cxjt4
-	 b4uhAY6lmTKstfzhg2HJtVqmP7dODriH1JHhMURygo4pajVVeZMIk6QGX5g/P+GQVy
-	 FuPHm3LDLqTicDJ2F5RGOT1SM4kce8EUeaGTMu+C9p30g9LrRb9YcHmEexOLM+aC6R
-	 w1A3Bsu7h4e3A==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5aebba706b3so1125693e87.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 14:07:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RplGE0aySN23WHgCBkdMl1SDhMMzawaB8GqtsCiiNEQD3QxBxltAtNM97U/ZWm+Sw6imfQVhHdYtLNVD9ZN@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxvVv4ruAtAl+7zE8ji65G9yk5orITAjcIvK5l0WgjfLP9YK6i
-	JGglP038EzRu7UOh8l4iHxautIi9TR4ITGRW5gT4KUkI5Wajlo8KcwKzExOa/ZRV+xcMYK4nh4Z
-	XxHfGEoww0B6shI8VmWG6d/AlevtxlK1ZL+hH1QMJ
-X-Received: by 2002:a05:6512:401f:b0:5ae:b36d:bbb with SMTP id
- 2adb3069b0e04-5aebdbe2840mr201140e87.44.1782767227209; Mon, 29 Jun 2026
- 14:07:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="Eip8OOdT"
+Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-6626b5ace23so24794d50.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 15:42:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1782772946; x=1783377746; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=rb0mXRAiHaBonRB9u3PoZ+GhZeyEKP+NerJ8i5AfFdY=;
+        b=Eip8OOdTHAJ+dVTaEFSjJp/kbesOXRBBngnX/kLwlNJAkgyTWQzQ30e3N6PwKLyHiH
+         0aomrwrRLQ195/O9xfAk1zRuR8SZYWas9uIDb/z0USU9hoprablgkAyXOKp8qX4o/6dC
+         eM9gvilgZNVsH4SpAWflHr0KSkvm1L/MQdqAXJ2S2q3Rwm3ad/r6Ymhi3S8fY5BwZDtt
+         d/3oKZCnym6IaQEeAzGyWtSQ75iCps///HvVVrLqxqDH++LRnWuJznrczKYqJayw8mfQ
+         CCRYD0MTh7P7peBhzQ+qapMARWfEqWx5ASvfikSrlKP4uVOcqUZ7a0CZgCwlzUqmPiOy
+         UAiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782772946; x=1783377746;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rb0mXRAiHaBonRB9u3PoZ+GhZeyEKP+NerJ8i5AfFdY=;
+        b=Ffe8IR8NUDCF6qY7SZcHNx0+vzAUj4g4W4ZwVm8U3NnQak1QMMa5B2tpFQILJYw/Ul
+         w5H84M7jN4r4VRjqQFE+G1ca9A7BVUNZ+kSgbZEtANdynMc/fu8b5/MFdT6X1pJtkamt
+         +ELQnzZfNon91NrfmE8jAosJew6FYDXz14ks5RmhUjANCmBvQfOcEFxlrf8J0GShQI0S
+         H7qzc9WV1D3AK3rNNoM2xxG2pgwdIhn3BRu9IzyCA6diH44SauQuBTcOjAEbcTFJ8G8F
+         +yEfeoScU0ISyQypA7hDKbTbOZ0fdDDVbYjvGiWcG1g3fwTTgdNJN2CL5/u1hkzWm2fE
+         16OA==
+X-Gm-Message-State: AOJu0Yy5viUAB3DARxZnIEbhvA/CPDKMt73Y6OgfwzpTBorAuPqUwHk4
+	qKaFfNleL9UskJzs8iiah/UJyfqceESjgt26D42VCzlmFEuDvq0eMIDE83cptmuVl7c=
+X-Gm-Gg: AfdE7cnuHfMBHqC2uEQTZMqv/Ktk96AlNrX8LaqhF+otsMqJSBVc3EbSTxyITnfmxGQ
+	/aFHLBrWDREIICCIrKDdSecAj+xxnFO/zKdhenXhxT6xqEWM7m3P3gecvk9fXjzU0tTqVN8h0/U
+	rFdnciUGlb/z+CViJgdXdM+jpdZE5bVg/y/cLxodGTSOMpZBeRJSI2JTXN7iu9NChpkB6C0VoEL
+	mxKXuArldOoiCj4uMng49YlYUtkuuhHVN6PCmFllrr6a+E3LN5J6euL8wNnIDS1cNCunhl8GyRh
+	VnuO0Ed0AuntBJL9YRqWznEv9x5BBQj9HVHDodjji/Qkfjj6jqL7dRXOU5qYj27xTiYasiLp5xu
+	FRwnU9iMd244PShPG2HAdLxAingLEa4qfd/8Ulpo6WqLNa9dnkDukO6DclrZsNI2MeieO//4lA/
+	jJkrfIUsUp2sv5g2cjcXlIoEPIwIfPBFVfqJ7l8NhRX8GstzVYK6j49tr/WB9bMdJ0WgsWGIr/T
+	v8jxPMSk0OmAqS2DNaEpmP3YwRU+hezFLIg8/81LBPM2w==
+X-Received: by 2002:a05:690e:12c4:b0:664:d547:b749 with SMTP id 956f58d0204a3-664fb1e6a4cmr1068301d50.48.1782772946026;
+        Mon, 29 Jun 2026 15:42:26 -0700 (PDT)
+Received: from pop-os.attlocal.net ([2600:1700:6476:1430:620b:6926:2bec:7db3])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66501637312sm82432d50.15.2026.06.29.15.42.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 15:42:25 -0700 (PDT)
+Message-ID: <6ea169fd4c8da3e345732aa2d6601e14ef908b1b.camel@dubeyko.com>
+Subject: Re: [PATCH] hfsplus: validate thread record before delete key
+ rebuild
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Kyle Zeng <kylebot@openai.com>
+Cc: linux-fsdevel@vger.kernel.org, Yangtao Li <frank.li@vivo.com>, John Paul
+ Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ outbounddisclosures@openai.com
+Date: Mon, 29 Jun 2026 15:42:24 -0700
+In-Reply-To: <CAC7i468bgEXQTdj_xheFeGiJ+T+3c+OX55HWgpct4pvpwuSWgw@mail.gmail.com>
+References: <20260611212633.5058-1-kylebot@openai.com>
+	 <04c1bff937f903a43820ae4c916b6ea919944869.camel@dubeyko.com>
+	 <CAC7i46-j-5QgBcv2Bm64NUz+T5nkTBhiRmh=a7i0_hd2x099Tg@mail.gmail.com>
+	 <a6220ce5bf7f546c77123934974a0f94f19a6711.camel@dubeyko.com>
+	 <CAC7i468bgEXQTdj_xheFeGiJ+T+3c+OX55HWgpct4pvpwuSWgw@mail.gmail.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com> <20260629-hauer-erhitzen-sobald-96d3dff68707@brauner>
-In-Reply-To: <20260629-hauer-erhitzen-sobald-96d3dff68707@brauner>
-From: Andy Lutomirski <luto@kernel.org>
-Date: Mon, 29 Jun 2026 14:06:55 -0700
-X-Gmail-Original-Message-ID: <CALCETrVuh0-biOw=TgYN9ERTFAoiki57XeZ3S2T3dO2+hL54gA@mail.gmail.com>
-X-Gm-Features: AVVi8Cf3LtciGmvZ6gi6NvgR3pE8gOwRXUXdgsUdnKdMuHYPpJ3RHP1m1o_FUek
-Message-ID: <CALCETrVuh0-biOw=TgYN9ERTFAoiki57XeZ3S2T3dO2+hL54gA@mail.gmail.com>
-Subject: Re: [RFC] Null Namespaces
-To: Christian Brauner <brauner@kernel.org>
-Cc: John Ericson <mail@johnericson.me>, Li Chen <me@linux.beauty>, 
-	Cong Wang <cwang@multikernel.io>, linux-arch@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
-	Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	"H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Kees Cook <kees@kernel.org>, Sergei Zimmerman <sergei@zimmerman.foo>, 
-	Farid Zakaria <farid.m.zakaria@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 29, 2026 at 4:45=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
->
+Hi Kyle,
 
-> But I guess the even simpler model would be to copy what I've been doing
-> for pidfs:
->
-> +static struct path nullfs_root_path =3D {};
-> +
-> +void nullfs_get_root(struct path *path)
-> +{
-> +       *path =3D nullfs_root_path;
-> +       path_get(path);
-> +}
-> +
->  static void __init init_mount_tree(void)
->  {
->         struct vfsmount *mnt, *nullfs_mnt;
-> @@ -6209,6 +6217,8 @@ static void __init init_mount_tree(void)
->         /* Mount mutable rootfs on top of nullfs. */
->         root.mnt                =3D nullfs_mnt;
->         root.dentry             =3D nullfs_mnt->mnt_root;
-> +       nullfs_root_path.mnt    =3D nullfs_mnt;
-> +       pidfs_root_path.dentry  =3D nullfs_mnt->mnt_root;
->
->         LOCK_MOUNT_EXACT(mp, &root);
->         if (unlikely(IS_ERR(mp.parent)))
-> diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
-> index aadfbf6e0cb3..f55c87c70b78 100644
-> --- a/include/uapi/linux/fcntl.h
-> +++ b/include/uapi/linux/fcntl.h
-> @@ -124,6 +124,7 @@ struct delegation {
->
->  #define FD_PIDFS_ROOT                  -10002 /* Root of the pidfs files=
-ystem */
->  #define FD_NSFS_ROOT                   -10003 /* Root of the nsfs filesy=
-stem */
-> +#define FD_NULLFS_ROOT                 -10004 /* Root of the nullfs file=
-system */
->  #define FD_INVALID                     -10009 /* Invalid file descriptor=
-: -10000 - EBADF =3D -10009 */
->
->  /* Generic flags for the *at(2) family of syscalls. */
->
-> we then add fchroot() (overdue anyway) and then teach both fchdir() and
-> fchroot() to honor FD_NULLFS_ROOT. Then a process may shed its fs state
-> and move itself into nullfs. Restrict *chdir() and *chroot() for said
-> process via seccomp and it's locked in forever as well.
->
+On Fri, 2026-06-26 at 17:52 -0700, Kyle Zeng wrote:
+> Hi Viacheslav,
+>=20
+> I hope you had a great trip.
+> It was difficult for us to test the patches without knowing the exact
+> number of xfstests failures. So I wonder whether you could help test
+> the two HFS patches we shared previously.
+>=20
 
-One thing comes to mind that might need a bit of care: this would give
-an API for any task to get an fd to a directory that lives in the init
-mount namespace.  It's not at all obvious to me that this is dangerous
-or even observable (you're not about to find a setuid program in
-nullfs), but I think it's at least worth a tiny bit of consideration.
+I need to manage multiple patches review during next 2 - 3 days. I am
+going to test your patches during next 2 - 3 days too. Let me take a
+look into the patches at first. I'll share the results ASAP.
 
-But if this happens, maybe we could finally land one of the patches to
-enable unprivileged chroot?  It's been tried a few times.
-
-https://lore.kernel.org/lkml/0e2f0f54e19bff53a3739ecfddb4ffa9a6dbde4d.13278=
-58005.git.luto@amacapital.net/
-
-https://lore.kernel.org/all/20210316203633.424794-2-mic@digikod.net/
-
-I think the need for it has reduced a tiny bit with user namespaces,
-as you can sort of emulate it by unsharing your user namespace and
-thus getting enough privilege, but this is rather heavyweight and
-limiting.
-
-
-If all of the above landed, then the old chroot /var/empty kludge that
-security-minded programs have done for decades could finally be
-modernized and not require any privilege :)
-
-Hmm, thinking aloud: every now and then someone brings up the idea of
-having an fd (really an OFD) that points to a file or a directory but
-carries less in the way of permissions/capabilities than the usual
-OFDs.  If we had a way to make an OFD to a directory that forced
-RESOLVE_BENEATH (or RESOLVE_IN_ROOT) and that propagated that
-restriction to anything you open using it, and if an unprivileged
-process could chroot itself to nullfs, then we would be getting quite
-close to what Capsicum can do.
-
---Andy
+Thanks,
+Slava.
