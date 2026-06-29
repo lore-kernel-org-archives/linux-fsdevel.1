@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A034F426D0B;
-	Mon, 29 Jun 2026 15:04:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2604279EE;
+	Mon, 29 Jun 2026 15:04:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782745450; cv=none; b=PlQ79MWSdometb7VyTI0Pca3X0/X3cKoXxD8HXrKJJOb+W2ZnNyrNh2LldjSR5iIhfVPvEdm965VtaRWYUiys+uTWWaNX6N5KywHAtiQ7iGiCxQ7j3d8EJHLVVGebIPyMPmMWXl1h6EkSa+wFtJHbGfd4ZfJSQiejnC7LJ27WzQ=
+	t=1782745453; cv=none; b=XkZDt3D/LHfL55GcdmdB9nvkGu/Ama/5B6rG9Ag+SbwkkF+wN/1znM4uM55FZQamSXzAThY27Diafvq/QyWUK/r2iWNeCydOwmqvNDdIvdVhkR8gdcE3xA0SdLpcUOANeDN83ut7Cl62lviozeClE8mJhW+4xGkUzpOUjbldZck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782745450; c=relaxed/simple;
-	bh=mLSyO1+NPebuCTeSWUzbQ58Q/H2fSPE53PUj98xh8PI=;
+	s=arc-20240116; t=1782745453; c=relaxed/simple;
+	bh=xYdGs2hYm6cZgTn2nq/whsO7qcoa+Eo9Pq9YQgOxIco=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iF9JAzN45paKGMhpkBce+FE7lcOFA0OCzG4xLk6u0r/e4zTZowap0n6rbcpUud0e8L9hm7rI6l2bV6ier43iCc+fSWs0JyTzAeze7qsIvvw5In94/rLNAJ+Ze74u4Zt2IAJfKJh10vpIYe74w4sPgWU+1TwS0/08tzKCGSoepB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B7soDseR; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=OFcYWywbRKg0ivMitpwFUVDcKV9iicKxQBoZ2ftAz7a37JjI1jM33DiM/NGCc34cuJX1CKwBtu58D1I6ElxzPnYKU7UVjox9mVBbJ8GeyZ3UrjCkapsEy7XkqtBOv11ElkG8Dh6MpaNso4jhE1eeLxLEeCLYTDCxyPY1owixHzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PcDHXqhE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B7soDseR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B50BA1F00A3A;
-	Mon, 29 Jun 2026 15:04:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PcDHXqhE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90C4F1F000E9;
+	Mon, 29 Jun 2026 15:04:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782745449;
-	bh=bT1K9xIQtKkJ4es0A0jqBMylDdy8ZjgVwBCbSp5G+tc=;
+	s=k20260515; t=1782745452;
+	bh=tWUJODwdTE7pH27pI40oaqFE2CYlQJqY1Z9hmUi6ed8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=B7soDseRBlOlLhv/73D+XSAbW6CNvYcLDEKO866eqfcBNRSfKHRrO0CqH7e+fuNPI
-	 w1lGtxyEA7msrq+arH2v5I1HA8ekB7PpyyGOeYOQBtlZ2eFQTdwIk/8eOHIeNU3qar
-	 tl8svHFmugSTog67erD9mgAeCM5iVyrlItnneYlQJd4HRCgOT39r5u6zs6q1Zdfgu3
-	 zOV2hA9u0e/bug1GpNjUNeXDBM69FervhCRXhdizkW7GsY/Nw8Wp8jPm2E2Q3tXXf2
-	 /5aoEhik2enCaqHbqpJBA1jinZE9MmasGoC2VJOAIfwLqDwcFNs+yYs3Irb5h1oIyc
-	 fNPi83Hxlj/bA==
+	b=PcDHXqhE/bIrZtFQ9F+4e4CNVz6V1zxlfjiFoRWxC1FDjE2JODm8vZb2iN6Eigzno
+	 Ph79Y9UrJqcVN+LGSlnPItEj4sZYiQkqg6bD+McwtzEJm66HSVr/MBs1XcEN6nv27W
+	 N6DCX7mWnMYR9EK7bLKbqxK+26Ff1GBjJqTcTEqCLkf/44WEU9mJaGc9wPRxLCBL5f
+	 ukj9O2dq8s1hFfITtdeXoOnwmL+lVdivY3/X1KUAuhE/5zGqtiK29pSEr3fHuXrtc8
+	 bFud6jCxY+2pSJ2CEAJT3QQAG/uhAY1BuJQS0h1qZUw/Fu1/9VZd5+KoPGUtYMAjXP
+	 3J8FGt4KLhgfg==
 From: Lorenzo Stoakes <ljs@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: David Hildenbrand <david@kernel.org>,
@@ -63,9 +63,9 @@ Cc: David Hildenbrand <david@kernel.org>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: [RFC PATCH 03/10] mm: abstract vma_address() and introduce vma_anon_address()
-Date: Mon, 29 Jun 2026 16:03:43 +0100
-Message-ID: <49b4a22767552ff1aa814a200a1752d0cdcec598.1782745153.git.ljs@kernel.org>
+Subject: [RFC PATCH 04/10] mm: update print_bad_page_map() to show virtual page index
+Date: Mon, 29 Jun 2026 16:03:44 +0100
+Message-ID: <f10dd43c4ca57484948dcdd9be9fe398f79dc9d3.1782745153.git.ljs@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1782745153.git.ljs@kernel.org>
 References: <cover.1782745153.git.ljs@kernel.org>
@@ -77,97 +77,50 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Introduce __vma_address() which abstracts the VMA start page offset field
-as pgoff_start, then update vma_address() to use it.
+This is potentially useful debugging information and matches the existing
+page offset provided.
 
-Then introduce vma_anon_address() which does the equivalent of
-vma_address(), only using the virtual page offset of the VMA rather than
-the file-backed one.
+We only do so if the VMA is not a shared mapping, as shared mappings ignore
+the virtual page offset.
 
-Also add an assert to ensure that the function is not called for mappings
-which are file-backed but not MAP_PRIVATE to ensure it is only used in the
-correct places.
-
-This will be necessary for determining the address of a folio's index
-within a VMA when the folio belongs to a MAP_PRIVATE file-backed VMA but
-has been CoW'd, and thus is anonymous, once the anonymous VMA page offset
-field is used for the reverse mapping.
-
-No callers are updated, so no functional change intended.
+We use __linear_virt_page_offset() as the VMA may be shared.
 
 Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 ---
- mm/internal.h | 49 +++++++++++++++++++++++++++++++++++++------------
- 1 file changed, 37 insertions(+), 12 deletions(-)
+ mm/memory.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/mm/internal.h b/mm/internal.h
-index e127dfea9c0f..8689f560854f 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -1224,19 +1224,9 @@ void mlock_drain_remote(int cpu);
- 
- extern pmd_t maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma);
- 
--/**
-- * vma_address - Find the virtual address a page range is mapped at
-- * @vma: The vma which maps this object.
-- * @pgoff: The page offset within its object.
-- * @nr_pages: The number of pages to consider.
-- *
-- * If any page in this range is mapped by this VMA, return the first address
-- * where any of these pages appear.  Otherwise, return -EFAULT.
-- */
--static inline unsigned long vma_address(const struct vm_area_struct *vma,
--		pgoff_t pgoff, unsigned long nr_pages)
-+static inline unsigned long __vma_address(const struct vm_area_struct *vma,
-+		pgoff_t pgoff, pgoff_t pgoff_start, unsigned long nr_pages)
+diff --git a/mm/memory.c b/mm/memory.c
+index f5eb06544ba4..7890e5200ecb 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -588,21 +588,23 @@ static void print_bad_page_map(struct vm_area_struct *vma,
+ 		enum pgtable_level level)
  {
--	const pgoff_t pgoff_start = vma_start_pgoff(vma);
- 	unsigned long address;
+ 	struct address_space *mapping;
+-	pgoff_t index;
++	pgoff_t index, virt_index;
  
- 	if (pgoff >= pgoff_start) {
-@@ -1254,6 +1244,41 @@ static inline unsigned long vma_address(const struct vm_area_struct *vma,
- 	return address;
- }
+ 	if (is_bad_page_map_ratelimited())
+ 		return;
  
-+/**
-+ * vma_address - Find the virtual address a page range is mapped at.
-+ * @vma: The vma which maps this object.
-+ * @pgoff: The page offset within its object.
-+ * @nr_pages: The number of pages to consider.
-+ *
-+ * If any page in this range is mapped by this VMA, return the first address
-+ * where any of these pages appear.  Otherwise, return -EFAULT.
-+ */
-+static inline unsigned long vma_address(const struct vm_area_struct *vma,
-+		pgoff_t pgoff, unsigned long nr_pages)
-+{
-+	return __vma_address(vma, pgoff, vma_start_pgoff(vma), nr_pages);
-+}
-+
-+/**
-+ * vma_anon_address - Find the address an anonymous folio with index @pgoff_virt
-+ * is mapped at.
-+ * @vma: The vma which maps this object.
-+ * @pgoff_virt: The virtual page index belonging to the folio.
-+ * @nr_pages: The number of pages to consider.
-+ *
-+ * This is only valid for anonymous or MAP_PRIVATE-mapped file-backed VMAs.
-+ *
-+ * Returns: If any page in this range is mapped by this VMA, return the first address
-+ * where any of these pages appear. Otherwise, return -EFAULT.
-+ */
-+static inline unsigned long vma_anon_address(const struct vm_area_struct *vma,
-+		pgoff_t pgoff_virt, unsigned long nr_pages)
-+{
-+	VM_WARN_ON_ONCE(!vma_is_anonymous(vma) && vma_test(vma, VMA_SHARED_BIT));
-+
-+	return __vma_address(vma, pgoff_virt, vma_start_virt_pgoff(vma), nr_pages);
-+}
-+
- /*
-  * Then at what user virtual address will none of the range be found in vma?
-  * Assumes that vma_address() already returned a good starting address.
+ 	mapping = vma->vm_file ? vma->vm_file->f_mapping : NULL;
+ 	index = linear_page_index(vma, addr);
++	virt_index = __linear_virt_page_index(vma, addr);
+ 
+ 	pr_alert("BUG: Bad page map in process %s  %s:%08llx", current->comm,
+ 		 pgtable_level_to_str(level), entry);
+ 	__print_bad_page_map_pgtable(vma->vm_mm, addr);
+ 	if (page)
+ 		dump_page(page, "bad page map");
+-	pr_alert("addr:%px vm_flags:%08lx anon_vma:%px mapping:%px index:%lx\n",
+-		 (void *)addr, vma->vm_flags, vma->anon_vma, mapping, index);
++	pr_alert("addr:%px vm_flags:%08lx anon_vma:%px mapping:%px index:%lx virt_index:%lx\n",
++		 (void *)addr, vma->vm_flags, vma->anon_vma, mapping, index,
++		 virt_index);
+ 	pr_alert("file:%pD fault:%ps mmap:%ps mmap_prepare: %ps read_folio:%ps\n",
+ 		 vma->vm_file,
+ 		 vma->vm_ops ? vma->vm_ops->fault : NULL,
 -- 
 2.54.0
 
