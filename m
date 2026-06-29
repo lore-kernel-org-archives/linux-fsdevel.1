@@ -1,127 +1,63 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C075143D4F6
-	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 17:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17CE83655F1;
+	Mon, 29 Jun 2026 17:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782753089; cv=none; b=fmMa9bgVke/n7+m+VAEag76uxKBmp90GgnOcsmllRwJW8nKitRV9hV/KiKSqa7lDLFvFkwcOM0VISWv2w39FS15J0/ktpwrzqLSgAbq2ttoyr5MPPqmaWEAbw6pdNE2ogxRC/iPGpk1I0yubgNL2SVOKbBPbPZrLPiKpWgLyBVU=
+	t=1782753640; cv=none; b=q9qDkNUK+YT0kuE3asg7QUF6X4XZ6usyXGcrvYqjHGEwVoOGcYAoN/t6vhNWi0WODq2Ev3HnPBvtHCGPomfYkAP6JAl4RR1cgcV3VXoco7qgrHhIqiewwIGsp5MrmlDAtWJjP5+2f4lmJOFCbtVHKGfE9Zorib1RFQB1bFbkEkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782753089; c=relaxed/simple;
-	bh=NzS+Cir/zCg/P5bHO1uwaI39NGJ0soZPEUZf3jpz04g=;
+	s=arc-20240116; t=1782753640; c=relaxed/simple;
+	bh=al5yQE0+dYMsecaa6NaCOaeK0Yanl/mTELVPQXEbJIs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nm9mP7TcADiljmQ711PadDHZooY85PHoJki3p6dUqnYwCMAlSrVJQdqSF8VctfSrZ96aRW+rQbaeJhmXtoWuqNNOYUeOXBT4HPdK/SgkF58EsLojNjvbjhmnugPeZCmCOviF/IJ1PYTUk9QXMFwsLhDxLAVsnt6yb6nPNrhgYzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=kRN6V9UH; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=m+3BtZsVBd+Avq8MrHaa7vDT6RwZIS33PDc6ohcUrmwKtCUHh1UKnTK2wlhC67K4gV6f872PXq3RQkHGZSYGGuhT/P4yc8kYbw0ojUQLA62A8f2Pw5cO38DeRSfWr8tjC4MS8MA5cpX87Y3GZbCFtImXP0TqWyNTwg0SCnzlOZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vb4sF2Wx; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="kRN6V9UH"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-519eced8cbeso52129011cf.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 10:11:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1782753086; x=1783357886; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=C6+KY00whvPT5nv3+mPk4rrEbELgRer0MfbyQfoaO+U=;
-        b=kRN6V9UHAwpM/B7ZQj92hJHopNqlsQzIOmXqJMvTamcPlxklFV0LvQy3QWNM1QP7Cg
-         GH/B6j4NR8EjGWtJ7y0rtEMD72lM/Ol3O+kcCCLmBYgCUwpCnz6M1Vza/HDIPhr6Ho4g
-         FS0AYtSrLnOR62Sl4+Fp9dyFooraqcXxfpe7UwDAsCQUNyQjDBIydzrxtTHhX8muDIPl
-         2ceKAx0MDUrzb4lVg5ptX3iKHFRgKue5Hj9zJmMze7I9Iurb8+M5gdBoW3w835DtCSQO
-         1zERXqGaVZ5i0l6HUbCKx7j/x3Ayfyuf747TFFD7HbgApsGBKGgEEuj3GQDHNhvWC4aK
-         pBhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782753086; x=1783357886;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C6+KY00whvPT5nv3+mPk4rrEbELgRer0MfbyQfoaO+U=;
-        b=L8qGfe5TpQJEJI7q3eP5dQyM9depGcHiFDwDdhBe3o7SNBxguxFx/Vwc2HzEKcYxwQ
-         QnlsZ6Mam33jMPbVXwrOvct0+gypYcoBR3x9FdAt5wf3oMASqzajTRwW9WcFxlgRV+jM
-         Mphg8aufn/QbM0YUckd4WY9cr4j96H3y5/lccQG5flM4aY91D+iqKVEQTS1CLg1L3VI5
-         PBrSbx6TVs5nklkot2ncfB0D0gcnpZTAlYKT5nuC6FdPGQEpychFXE3P+Nzg1SJdtf81
-         +Vfw1hxaf1CuKKDLnHIWsAcToSPRinof5yRB4VkFJu569bSTzEr9lV+JlWu90yvUqfJb
-         bwMQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9MMmvRh43+4ngDi5jDFAPDMiLku05bZm7VjCaPKsyHgVMBgcseYVCXh4mM6zrCYBB/SGOZTY/JeyTggeR3@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZ8o6PBfh73awFF0KPORz5+Vzi/7sIJPmw9rzNCz5Q3sllzUXU
-	s0E03/LZWhrWsw3VkA1b1vLKo0b7B3YaILfScCaWX7OAkvjxYXYZQVLDCbkm+wEiAEU=
-X-Gm-Gg: AfdE7cm9jUpl4oMl8bfg+DZjI1RTeqGZBNVI2wEf8wxWhlTgj+vJ5DilmtqKQjKdXLP
-	GAjpOjXE+xz20ENzAFhSeA/q+YQk5DZ1MxufnmcAahhrD605gtW7bDL5jFSYGmzG42OgMTK3O/M
-	bytp4lTieO8xZ2d2mKEmLt6SjeAu2kxyYQW32+TeRXSxO4aIaSGSR5wArCOvXyx1hWQiChpUMzt
-	oqFyYzqpJsnq8YtSurNG9XydgqSq8S9PhBpD1gpIwndNIRxfM1haXI88uHj1cNYmx2FeLNAA8u9
-	A1oS9Edl+mkuAYtMO6G4I7JHS+lQkyDOveU+93YlIN0UnKrsul8bFLv8OgcpxhZ1cahBi3OtEka
-	Uxv10Vkhtocj7HYTAhkewLrJX0tos1PQmEXIdDyxL/OwOQndj3l7JK8Ng+eQL18a09ktZvpUB4d
-	l/ytNUw1Inb8MbAYulNSW8FJXFcSEQFLbv7bJL6EH8wSjNqcdCH3IB8H+zbo7KuOkybjwUAHpA1
-	VJ1at0=
-X-Received: by 2002:a05:622a:420b:b0:517:58f6:29c3 with SMTP id d75a77b69052e-51c107f633bmr2561751cf.32.1782753085667;
-        Mon, 29 Jun 2026 10:11:25 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51c1080d4dcsm934601cf.5.2026.06.29.10.11.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 10:11:25 -0700 (PDT)
-Date: Mon, 29 Jun 2026 13:11:19 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Simon Schuster <schuster.simon@siemens-energy.com>,
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Christian Koenig <christian.koenig@amd.com>,
-	Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Dan Williams <djbw@kernel.org>, Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>,
-	Miaohe Lin <linmiaohe@huawei.com>, Hugh Dickins <hughd@google.com>,
-	Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
-	linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-	kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-mm@kvack.org, iommu@lists.linux.dev,
-	linux-perf-users@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
-	Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 05/30] mm/rmap: update mm/interval_tree.c comments
-Message-ID: <akKnNy64lhNqPtLL@gourry-fedora-PF4VCD3F>
-References: <cover.1782735110.git.ljs@kernel.org>
- <80d482a927b2e9862487b812e0ab48ebc1289a70.1782735110.git.ljs@kernel.org>
- <akKWvnU2Ua-8ceSb@gourry-fedora-PF4VCD3F>
- <akKfAl-wdIAbexNR@lucifer>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vb4sF2Wx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782753639; x=1814289639;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=al5yQE0+dYMsecaa6NaCOaeK0Yanl/mTELVPQXEbJIs=;
+  b=Vb4sF2WxOaICnsuNCJ8qXijkTZHz+/fEE/XSjY6ELFGj5WUGsWXVPWRI
+   5IZuuyvDaOXZlr0HZC8t6CGrcFzPVCA9qbzsZxP/15dp144DM+HisLQHj
+   NMCF3pnQTLTyVdRBcrzSVl1pn6gOi0swPVmnp9PIR8f0rTWlau/I4zHEC
+   4m6le2SEg9cEZ6pyh4tcYWxiS6G0YAWpEuEEhb0e0XQ25knz6MauZJJjK
+   bEiuu7pk07xz9z5xtp74eT+Fw4M2QAO59fSRD49ymtBW6p4/afPy/fxIa
+   UlA7gmwYVepu6oyubMz6dATKVRSG6Gm+ST1vNu0nY1+0Ug0FsUcDAKUdQ
+   Q==;
+X-CSE-ConnectionGUID: Xvxip7/uQ0ecSRnjAJUoTQ==
+X-CSE-MsgGUID: wtTNEFijRvm0kEBEk9mnRA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="83651019"
+X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
+   d="scan'208";a="83651019"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 10:20:38 -0700
+X-CSE-ConnectionGUID: 0vRtVAJ/SG22+p1DOcbZCg==
+X-CSE-MsgGUID: sNaMJrLLR/K0VUi71Nij5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
+   d="scan'208";a="250315835"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 29 Jun 2026 10:20:36 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1weFer-000000007bt-3yh3;
+	Mon, 29 Jun 2026 17:20:33 +0000
+Date: Tue, 30 Jun 2026 01:19:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Peiyang He <peiyang_he@smail.nju.edu.cn>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, syzkaller@googlegroups.com,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ntfs: fix mrec_lock ABBA deadlock in rename
+Message-ID: <202606300141.H6Io52CJ-lkp@intel.com>
+References: <53BDDD94CF346272+20260629105036.2137914-1-peiyang_he@smail.nju.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -130,36 +66,31 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <akKfAl-wdIAbexNR@lucifer>
+In-Reply-To: <53BDDD94CF346272+20260629105036.2137914-1-peiyang_he@smail.nju.edu.cn>
 
-On Mon, Jun 29, 2026 at 05:41:16PM +0100, Lorenzo Stoakes wrote:
-> On Mon, Jun 29, 2026 at 12:01:02PM -0400, Gregory Price wrote:
-> > On Mon, Jun 29, 2026 at 01:23:16PM +0100, Lorenzo Stoakes wrote:
-> > > Update the file comment to clarify that both file-backed and anonymous
-> > > interval trees are provided, referencing the relevant data types for
-> > > clarity.
-> > >
-> >
-> > Isn't this self-evident by nature of the function definitions?
-> > (one takes a vm_area_struct, the other takes an anon_vma_chain)
-> 
-> Well you see you're already hitting up on issues there, they both take an
-> rb_root_cached and the vma_*() ones do not instantly scream 'file-backed' do
-> they? As VMAs are obviously used for buth anon and file-backed...
-> 
-> But later patches fix this stuff :)
-> 
-> And I feel it's hard visually to see where one set of definitions end and
-> another begins, which was really the motive for this, as trivial as it is!
-> 
+Hi Peiyang,
 
-Fair enough, I scanned the rest initially but trying to wrap my head
-around everything as i go through one by one.  Generally this really
-screams "fix the apis" not "comment the bad ones" - but i suppose that's
-the whole point here.
+kernel test robot noticed the following build errors:
 
-It's definitely an improvement either way.
+[auto build test ERROR on 1a3746ccbb0a97bed3c06ccde6b880013b1dddc1]
 
-Reviewed-by: Gregory Price <gourry@gourry.net>
+url:    https://github.com/intel-lab-lkp/linux/commits/Peiyang-He/ntfs-fix-mrec_lock-ABBA-deadlock-in-rename/20260629-185343
+base:   1a3746ccbb0a97bed3c06ccde6b880013b1dddc1
+patch link:    https://lore.kernel.org/r/53BDDD94CF346272%2B20260629105036.2137914-1-peiyang_he%40smail.nju.edu.cn
+patch subject: [PATCH] ntfs: fix mrec_lock ABBA deadlock in rename
+config: arm-randconfig-001-20260629 (https://download.01.org/0day-ci/archive/20260630/202606300141.H6Io52CJ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260630/202606300141.H6Io52CJ-lkp@intel.com/reproduce)
 
-~Gregory
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606300141.H6Io52CJ-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "d_ancestor" [fs/ntfs/ntfs.ko] undefined!
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
