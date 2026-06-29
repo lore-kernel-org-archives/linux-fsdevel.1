@@ -1,30 +1,31 @@
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3CC3FF882;
-	Mon, 29 Jun 2026 12:31:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A129E401A37;
+	Mon, 29 Jun 2026 12:46:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782736314; cv=none; b=OOScHJEUwP9RgZ/5fB/OWG6gQj/HkQ+fLWBQOcJrpD8TNC2XysEPXSSlnIg4+SJwEiBuTrJTnshYWFii5X7j9/z8pOD6frEeMo2bDRrp4qTBsI2w1m6u7J8qzJYwS6GHOTX0uvxob6Mumb/3LjbEnnWH2tzO0YIQQHNKbw5nsLo=
+	t=1782737170; cv=none; b=mfppTB2mU1FCi4UJ5V4ma2D7cZEeox5Lr4gcVoTwTQkuCQ5zgnvdeIHf+zk46xi64DL2lnp7YVYqp9l9cZd3N0fRRLDDrXB6CSRbudCyPKu1ZZvQKTZygFb7cQ35uigtqJM+BTjGWa1yBo447PtQsQmU4KL9MhOGlEg9rRnHizY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782736314; c=relaxed/simple;
-	bh=2hbpIe7AHDa0DTrvX6F91N3Qe/fVCk2WZdTigay+9tk=;
+	s=arc-20240116; t=1782737170; c=relaxed/simple;
+	bh=389AEM2utSqn2fN8FAKtgkgAr4Z17AuWTFZfzIj2Gjk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dw/cWeE2Xl6NoQ75AyMgjbQ3ubDzz7yubZKZGJNoczw7hVaO5ApnhQW2fqybOlVwtiMy07+k9bH2uFQeHUZVSm6LjdxhFyabfJR/RJBKh0c009lEgH0FQz4KE3eoneo6Of8O0UXAwcMgxeXU/Kq1+lbHjRAr1bOzlP4l1UzS/E4=
+	 Content-Type:Content-Disposition:In-Reply-To; b=kSgka/qaSHXIDERNeck18XPW3cB1U8OplBdPydPX8SUmfSEUSxK+TsMsE1gHsx38g+rpCpyDwvt1kEGVk+ohLRcM2Z3E+nfUfgnSjBjL5m31Uo98iBdVGEOeMUGYmKUSFOYCbqe0WMJjaH4ptM50H3lV+Y2TrjWmhqdYC2DtZXg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 2FEC468B05; Mon, 29 Jun 2026 14:31:51 +0200 (CEST)
-Date: Mon, 29 Jun 2026 14:31:50 +0200
+	id 53E6668C7B; Mon, 29 Jun 2026 14:46:04 +0200 (CEST)
+Date: Mon, 29 Jun 2026 14:46:03 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: cem@kernel.org, linux-fsdevel@vger.kernel.org, jack@suze.cz, hch@lst.de,
-	serge@hallyn.com, linux-security-module@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org
-Subject: Re: [RFC PATCH 4/4] capability: unexport has_capability_noaudit
-Message-ID: <20260629123150.GF21958@lst.de>
-References: <20260626114533.102138-1-cem@kernel.org> <20260626114533.102138-5-cem@kernel.org> <20260626152008.GW6078@frogsfrogsfrogs>
+To: Carlos Maiolino <cem@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Filip Blagojevic <filip.blagojevic@wdc.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Damien Le Moal <dlemoal@kernel.org>, linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org
+Subject: Re: update BDI {io,ra}_pages values based on the RT device limits
+Message-ID: <20260629124603.GA23417@lst.de>
+References: <20260623142109.1838702-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -33,15 +34,39 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260626152008.GW6078@frogsfrogsfrogs>
+In-Reply-To: <20260623142109.1838702-1-hch@lst.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Fri, Jun 26, 2026 at 08:20:08AM -0700, Darrick J. Wong wrote:
-> Please update the kerneldoc for this function to mention that it only
-> checks real capability, not effective capability.  I'd like to prevent
-> someone else from making the same mistakes I did with these functions
-> that sound the same in documentation but have very different behaviors.
+So, I guess we're stuck with this approach?  Or any other ideas?
 
-Yes, that would be useful.  But make it a separate patch please, it's
-not related to the unexporting in any way.
-
+On Tue, Jun 23, 2026 at 04:21:05PM +0200, Christoph Hellwig wrote:
+> Hi all,
+> 
+> we ran into a bit of a funny case where adding an SSD to store metadata
+> to a (zoned) XFS file system reduced the performance vs using a HDD for
+> both data and metadata.  It turns out this is due to readahead code
+> looking at the BDI limits, including the io_pages value that can't be
+> inspected or tuned from userspace.
+> 
+> This patch has the simplest fix for that by just updating the values from
+> XFS, but for a long-term solution this feels a bit ugly.  Other, a lot
+> more invasive options would be:
+> 
+> 
+>   1) support multiple BDIs per file system.
+> 
+> 	This would work pretty well for XFS, as data for a given file is
+> 	always entirely on one device, and the VFS writeback code is not
+> 	used for metadata.  But it probably doesn't work well for other
+> 	cases
+> 
+>   2) stop propagating these values through the BDI
+> 
+> 	Have a way to query these parameters from the file system, either
+> 	through a method if we want to be fully dynamic, or through fields
+> 	instead of going through the BDI.  The downside would be that
+> 	sysfs modifications of the readahead size would not work after
+> 	the file system initially queried them.
+> 
+> Thoughts?
+---end quoted text---
