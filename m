@@ -1,344 +1,198 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235FD3E2AA1;
-	Mon, 29 Jun 2026 14:57:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F067E37C0E5;
+	Mon, 29 Jun 2026 15:04:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782745032; cv=none; b=k+3WDCFauvgrn3wjhCIfjjQlN18OhLIIUYCZE/vOwlGbxO19o0shaX8WQYww1KfC4bAKEA9grHmTP9qUEbom/hnPm3rC1WQyDqfm7ySvNW2sAFwPE1sUAXcbIpZIWKDBlVXSuqXozawHn1wOPNp9d+Mv7mD/k/2eDciEXwjIl6s=
+	t=1782745442; cv=none; b=qBqYycqjXQaPuIqy0TGRTXj6xcRZkmUzwx7OZ4Pr8rU1Ky7NPwzlEWOKwqr6X/MsB/oB2UUpPEdZkJegpKDdE1wKxL7CbBeTn0PTp85X059PPOqlesnYZM6b64E3pK9rnppcXz+vDv3fx1v/VOg6U7qelg4gvJCwarRgqG92U3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782745032; c=relaxed/simple;
-	bh=LNgB0LZoHZw0fP3mNzpypR694eprJdbAT8t2kv7BsKU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GI5/5Ra45V/YDwNMQz8ePGi4cIwOMbqC2HJnXjf5w0BEYBatRgQbj7tczWiijqHkQ7/4oIbkOokcphb3MA8FcCQX0eBE4REHvb6MyP2hRLev9vZbyT9xWMfZcF58B7hG+65FCiqyJotAVyWNfsJ7b8uKGTU9MMv6a+ggv3Fs/+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fb4gXdfC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782745442; c=relaxed/simple;
+	bh=T1CVxi7lIdyWyn2veTi/PzCLocIdWLPx/0kPjizu+NU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kM8Yl7X7aqKbtaXovIyQBX4EgAQsWviL9R+qpif8ckh1BgdofPD06zw8l4vfV5mbCQepVc0c7ADL83406U53nNnaWid7DjiaipSLPdl0ktfzgbaUh/FegvEscfjeru+AYRaOV9p59+pS55LtTXfSZ1HCGkEZfdkS8PdSG0Cjhbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ESN8Gj1O; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fb4gXdfC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 466751F00A3A;
-	Mon, 29 Jun 2026 14:56:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ESN8Gj1O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AB5F1F000E9;
+	Mon, 29 Jun 2026 15:04:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782745029;
-	bh=c8iLIqBeF3LyAyaueUWtK1sqEjRS1M9AqqZ5Dyw7Z58=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Fb4gXdfCr+2KFrFMF2IByaqjqN6OTvaWqQOC5SC3n+FH76BIVh2JDagVQM04zbj4i
-	 z9UqiAHTat+mRSFXdSoYoJyzmoUlF3p6Jal6xe6vOj0QLi7S2K5h9jaYFUYjI+BSuq
-	 9d7IwNlxDTjp3VQUkRtwL9oT//Ua6zIzQzWpQkWh48TlIzq75ChfxoMs7JMB6YBa+Q
-	 ZxwQy1+SAoBg4NhXVNiEOzrZ3Dhl/wVvyFl01n5vJfnD+QDhnTEyYlWVs30E2o8W8y
-	 wepBBBkvWmHWS2C9RD6SaF8XQCZzAuIK1yFyi3oKvRdndjk8kenHlAuuXYQ9iZ77Xx
-	 OWjGalyUwbbUQ==
-Date: Mon, 29 Jun 2026 15:56:48 +0100
+	s=k20260515; t=1782745440;
+	bh=Xh/MSGNSnNRTjM6MyqfalLvjoIfiLrZQnoiXR5GG7w0=;
+	h=From:To:Cc:Subject:Date;
+	b=ESN8Gj1OzVoyWQgxniIR+ph1G1ks5F2YjNdY8EmOaSKlPB5hO1UpgG4F9jCCeDAJe
+	 ilTxD8yxiPcBgUwB+OLB6DLCFS5tktLhQt4hC21j8+1bQ0lGYgTcCJPatPW46b0/Dx
+	 7zR8As366NZxCaD+ZOuPavMTcEERsO7GTOu4c/D7bNZeVwHOGHMs9HvDZmXOkrQ4CL
+	 rV/ucsgUu3V2zPY0xHQO86s7YH5ASdPrJaBygEWMCVkGroIps74ZF7ZmRqIH+McDu8
+	 9YJfwIss37OJSIFfAJfyskXK0F9hUam0Qn0G0irsYlWb35L89OvlTKwRJI85l0H2kM
+	 QuRJuPhaYNGRA==
 From: Lorenzo Stoakes <ljs@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Simon Schuster <schuster.simon@siemens-energy.com>, 
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Ian Abbott <abbotti@mev.co.uk>, 
-	H Hartley Sweeten <hsweeten@visionengravers.com>, Lucas Stach <l.stach@pengutronix.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Rob Clark <robin.clark@oss.qualcomm.com>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Thierry Reding <thierry.reding@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Christian Koenig <christian.koenig@amd.com>, 
-	Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>, 
-	Alex Williamson <alex@shazbot.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Dan Williams <djbw@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	"Liam R . Howlett" <liam@infradead.org>, Matthew Wilcox <willy@infradead.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Hugh Dickins <hughd@google.com>, Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org, linux-sgx@vger.kernel.org, 
-	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-mm@kvack.org, 
-	iommu@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, damon@lists.linux.dev, 
-	Pedro Falcato <pfalcato@suse.de>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 19/30] mm: use linear_page_[index, delta]() consistently
-Message-ID: <akKHUPxEVCSlifn5@lucifer>
-References: <cover.1782735110.git.ljs@kernel.org>
- <bf56e2e98b512962a2fb88900d535a0e9e6769d8.1782735110.git.ljs@kernel.org>
- <21c4d96a-cd1b-4c65-8a66-2223df3b6109@suse.de>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Rik van Riel <riel@surriel.com>,
+	Harry Yoo <harry@kernel.org>,
+	Jann Horn <jannh@google.com>,
+	Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <npache@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Xu Xin <xu.xin16@zte.com.cn>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>,
+	Rakie Kim <rakie.kim@sk.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	Peter Xu <peterx@redhat.com>,
+	Kees Cook <kees@kernel.org>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [RFC PATCH 00/10] mm/rmap: index MAP_PRIVATE file-backed folios by virt pgoff
+Date: Mon, 29 Jun 2026 16:03:40 +0100
+Message-ID: <cover.1782745153.git.ljs@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <21c4d96a-cd1b-4c65-8a66-2223df3b6109@suse.de>
 
-On Mon, Jun 29, 2026 at 03:56:33PM +0200, Thomas Zimmermann wrote:
-> Hi
->
-> Am 29.06.26 um 14:23 schrieb Lorenzo Stoakes:
-> > There are a number of places where we open code what linear_page_index()
-> > and linear_page_delta() calculate.
-> >
-> > Replace this code with the appropriate functions for consistency.
-> >
-> > No functional change intended.
-> >
-> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
->
-> For the DRM changes:
->
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+In memory management we've managed to manufacture a great deal of confusion
+around the concept of anonymous memory. We have:
 
-Thanks!
+1. 'Pure anon' memory - anonymous VMAs whose folios are anonymous and
+   swap-backed (thus for reclaim purposes, treated as anonymous). These are
+   simple enough.
 
->
-> See below for two additional comments.
->
->
-> > ---
-> >   arch/arm/mm/fault-armv.c              | 2 +-
-> >   arch/x86/kernel/cpu/sgx/virt.c        | 3 ++-
-> >   drivers/comedi/comedi_fops.c          | 3 ++-
-> >   drivers/gpu/drm/etnaviv/etnaviv_gem.c | 3 ++-
-> >   drivers/gpu/drm/gma500/gem.c          | 2 +-
-> >   drivers/gpu/drm/msm/msm_gem.c         | 3 ++-
-> >   drivers/gpu/drm/omapdrm/omap_gem.c    | 5 +++--
-> >   drivers/gpu/drm/tegra/gem.c           | 3 ++-
-> >   drivers/gpu/drm/ttm/ttm_bo_vm.c       | 7 ++++---
-> >   drivers/vfio/pci/nvgrace-gpu/main.c   | 3 ++-
-> >   drivers/vfio/pci/vfio_pci_core.c      | 3 ++-
-> >   mm/nommu.c                            | 2 +-
-> >   mm/vma.c                              | 2 +-
-> >   virt/kvm/guest_memfd.c                | 2 +-
-> >   14 files changed, 26 insertions(+), 17 deletions(-)
-> >
->
-> [...]
->
-> >   #include <linux/io.h>
-> >   #include <linux/uaccess.h>
-> > @@ -2462,7 +2463,7 @@ static int comedi_vm_access(struct vm_area_struct *vma, unsigned long addr,
-> >   {
-> >   	struct comedi_buf_map *bm = vma->vm_private_data;
-> >   	unsigned long offset =
-> > -	    addr - vma->vm_start + (vma->vm_pgoff << PAGE_SHIFT);
-> > +	    addr - vma->vm_start + (vma_start_pgoff(vma) << PAGE_SHIFT);
->
-> This doesn't seem to belong here.
+2. shmem - file-backed VMAs, file-backed folios (from rmap perspective) so
+   present in the page cache and mapped by an address_space object, but
+   whose folios are also swap-backed (thus treated as anonymous for reclaim
+   purposes).
 
-Ah yeah, I'll move that on a respin thanks!
+3. MAP_PRIVATE-mapped /dev/zero - a strange beast whose VMAs have
+   vma->vm_file set, but whose mmap_prepare callback clears vma->vm_ops to
+   satisfy vma_is_anonymous(), which results in VMAs that were mmap()'d
+   referencing a file and whose VMAs reference a file, but are in every other
+   sense anonymous, including the folios.
 
->
-> >   	if (len < 0)
-> >   		return -EINVAL;
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> > index b0436a1e103f..2e4d6d117ee2 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> > @@ -6,6 +6,7 @@
-> >   #include <drm/drm_prime.h>
-> >   #include <drm/drm_print.h>
-> >   #include <linux/dma-mapping.h>
-> > +#include <linux/pagemap.h>
-> >   #include <linux/shmem_fs.h>
-> >   #include <linux/spinlock.h>
-> >   #include <linux/vmalloc.h>
-> > @@ -188,7 +189,7 @@ static vm_fault_t etnaviv_gem_fault(struct vm_fault *vmf)
-> >   	}
-> >   	/* We don't use vmf->pgoff since that has the fake offset: */
-> > -	pgoff = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
-> > +	pgoff = linear_page_delta(vma, vmf->address);
-> >   	pfn = page_to_pfn(pages[pgoff]);
-> > diff --git a/drivers/gpu/drm/gma500/gem.c b/drivers/gpu/drm/gma500/gem.c
-> > index 88f1e86c8903..2708e8c68f4c 100644
-> > --- a/drivers/gpu/drm/gma500/gem.c
-> > +++ b/drivers/gpu/drm/gma500/gem.c
-> > @@ -288,7 +288,7 @@ static vm_fault_t psb_gem_fault(struct vm_fault *vmf)
-> >   	/* Page relative to the VMA start - we must calculate this ourselves
-> >   	   because vmf->pgoff is the fake GEM offset */
-> > -	page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
-> > +	page_offset = linear_page_delta(vma, vmf->address);
-> >   	/* CPU view of the page, don't go via the GART for CPU writes */
-> >   	if (pobj->stolen)
-> > diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-> > index efd3d3c9a449..cbf723a5d86f 100644
-> > --- a/drivers/gpu/drm/msm/msm_gem.c
-> > +++ b/drivers/gpu/drm/msm/msm_gem.c
-> > @@ -9,6 +9,7 @@
-> >   #include <linux/spinlock.h>
-> >   #include <linux/shmem_fs.h>
-> >   #include <linux/dma-buf.h>
-> > +#include <linux/pagemap.h>
-> >   #include <drm/drm_dumb_buffers.h>
-> >   #include <drm/drm_prime.h>
-> > @@ -360,7 +361,7 @@ static vm_fault_t msm_gem_fault(struct vm_fault *vmf)
-> >   	}
-> >   	/* We don't use vmf->pgoff since that has the fake offset: */
-> > -	pgoff = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
-> > +	pgoff = linear_page_delta(vma, vmf->address);
-> >   	pfn = page_to_pfn(pages[pgoff]);
-> > diff --git a/drivers/gpu/drm/omapdrm/omap_gem.c b/drivers/gpu/drm/omapdrm/omap_gem.c
-> > index 8e013e4f2c6b..00404fb6c29a 100644
-> > --- a/drivers/gpu/drm/omapdrm/omap_gem.c
-> > +++ b/drivers/gpu/drm/omapdrm/omap_gem.c
-> > @@ -5,6 +5,7 @@
-> >    */
-> >   #include <linux/dma-mapping.h>
-> > +#include <linux/pagemap.h>
-> >   #include <linux/seq_file.h>
-> >   #include <linux/shmem_fs.h>
-> >   #include <linux/spinlock.h>
-> > @@ -359,7 +360,7 @@ static vm_fault_t omap_gem_fault_1d(struct drm_gem_object *obj,
-> >   	pgoff_t pgoff;
-> >   	/* We don't use vmf->pgoff since that has the fake offset: */
-> > -	pgoff = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
-> > +	pgoff = linear_page_delta(vma, vmf->address);
-> >   	if (omap_obj->pages) {
-> >   		omap_gem_cpu_sync_page(obj, pgoff);
-> > @@ -407,7 +408,7 @@ static vm_fault_t omap_gem_fault_2d(struct drm_gem_object *obj,
-> >   	const int m = DIV_ROUND_UP(omap_obj->width << fmt, PAGE_SIZE);
-> >   	/* We don't use vmf->pgoff since that has the fake offset: */
-> > -	pgoff = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
-> > +	pgoff = linear_page_delta(vma, vmf->address);
-> >   	/*
-> >   	 * Actual address we start mapping at is rounded down to previous slot
-> > diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
-> > index 436394e04812..1d8d27a5ea89 100644
-> > --- a/drivers/gpu/drm/tegra/gem.c
-> > +++ b/drivers/gpu/drm/tegra/gem.c
-> > @@ -13,6 +13,7 @@
-> >   #include <linux/dma-buf.h>
-> >   #include <linux/iommu.h>
-> >   #include <linux/module.h>
-> > +#include <linux/pagemap.h>
-> >   #include <linux/vmalloc.h>
-> >   #include <drm/drm_drv.h>
-> > @@ -564,7 +565,7 @@ static vm_fault_t tegra_bo_fault(struct vm_fault *vmf)
-> >   	if (!bo->pages)
-> >   		return VM_FAULT_SIGBUS;
-> > -	offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
-> > +	offset = linear_page_delta(vma, vmf->address);
-> >   	page = bo->pages[offset];
-> >   	return vmf_insert_page(vma, vmf->address, page);
-> > diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > index a80510489c45..88babf435ac2 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > @@ -32,6 +32,7 @@
-> >   #define pr_fmt(fmt) "[TTM] " fmt
-> >   #include <linux/export.h>
-> > +#include <linux/pagemap.h>
-> >   #include <drm/ttm/ttm_bo.h>
-> >   #include <drm/ttm/ttm_placement.h>
-> > @@ -208,9 +209,9 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
-> >   	if (unlikely(err != 0))
-> >   		return VM_FAULT_SIGBUS;
-> > -	page_offset = ((address - vma->vm_start) >> PAGE_SHIFT) +
-> > -		vma->vm_pgoff - drm_vma_node_start(&bo->base.vma_node);
-> > -	page_last = vma_pages(vma) + vma->vm_pgoff -
-> > +	page_offset = linear_page_index(vma, address) -
-> > +		drm_vma_node_start(&bo->base.vma_node);
-> > +	page_last = vma_end_pgoff(vma) -
-> >   		drm_vma_node_start(&bo->base.vma_node);
->
-> Not your fault, but page_last seems misnamed here.
+4. Other MAP_PRIVATE-file backed mappings - These possess file-backed VMAs
+   and have file-backed folios until CoW'd, at which point those CoW'd
+   folios are anonymous.
 
-Yeah :)
+This series focuses upon issue 4.
 
->
-> Best regards
-> Thomas
->
-> >   	if (unlikely(page_offset >= PFN_UP(bo->base.size)))
-> > diff --git a/drivers/vfio/pci/nvgrace-gpu/main.c b/drivers/vfio/pci/nvgrace-gpu/main.c
-> > index d07dcacb76bd..963fd8ded20d 100644
-> > --- a/drivers/vfio/pci/nvgrace-gpu/main.c
-> > +++ b/drivers/vfio/pci/nvgrace-gpu/main.c
-> > @@ -11,6 +11,7 @@
-> >   #include <linux/jiffies.h>
-> >   #include <linux/sched.h>
-> >   #include <linux/pci-p2pdma.h>
-> > +#include <linux/pagemap.h>
-> >   #include <linux/pm_runtime.h>
-> >   #include <linux/memory-failure.h>
-> > @@ -385,7 +386,7 @@ static unsigned long addr_to_pgoff(struct vm_area_struct *vma,
-> >   	u64 pgoff = vma->vm_pgoff &
-> >   		((1U << (VFIO_PCI_OFFSET_SHIFT - PAGE_SHIFT)) - 1);
-> > -	return ((addr - vma->vm_start) >> PAGE_SHIFT) + pgoff;
-> > +	return linear_page_delta(vma, addr) + pgoff;
-> >   }
-> >   static vm_fault_t nvgrace_gpu_vfio_pci_huge_fault(struct vm_fault *vmf,
-> > diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-> > index a28f1e99362c..55d4937d495a 100644
-> > --- a/drivers/vfio/pci/vfio_pci_core.c
-> > +++ b/drivers/vfio/pci/vfio_pci_core.c
-> > @@ -19,6 +19,7 @@
-> >   #include <linux/module.h>
-> >   #include <linux/mutex.h>
-> >   #include <linux/notifier.h>
-> > +#include <linux/pagemap.h>
-> >   #include <linux/pci.h>
-> >   #include <linux/pm_runtime.h>
-> >   #include <linux/slab.h>
-> > @@ -1727,7 +1728,7 @@ static vm_fault_t vfio_pci_mmap_huge_fault(struct vm_fault *vmf,
-> >   	struct vm_area_struct *vma = vmf->vma;
-> >   	struct vfio_pci_core_device *vdev = vma->vm_private_data;
-> >   	unsigned long addr = vmf->address & ~((PAGE_SIZE << order) - 1);
-> > -	unsigned long pgoff = (addr - vma->vm_start) >> PAGE_SHIFT;
-> > +	unsigned long pgoff = linear_page_delta(vma, addr);
-> >   	unsigned long pfn = vma_to_pfn(vma) + pgoff;
-> >   	vm_fault_t ret = VM_FAULT_FALLBACK;
-> > diff --git a/mm/nommu.c b/mm/nommu.c
-> > index 60560b2c457e..7333d855e974 100644
-> > --- a/mm/nommu.c
-> > +++ b/mm/nommu.c
-> > @@ -1332,7 +1332,7 @@ static int split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
-> >   	*region = *vma->vm_region;
-> >   	new->vm_region = region;
-> > -	npages = (addr - vma->vm_start) >> PAGE_SHIFT;
-> > +	npages = linear_page_delta(vma, addr);
-> >   	if (new_below) {
-> >   		region->vm_top = region->vm_end = new->vm_end = addr;
-> > diff --git a/mm/vma.c b/mm/vma.c
-> > index ee3a8ca13d07..185d07397ca6 100644
-> > --- a/mm/vma.c
-> > +++ b/mm/vma.c
-> > @@ -517,7 +517,7 @@ __split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
-> >   		new->vm_end = addr;
-> >   	} else {
-> >   		new->vm_start = addr;
-> > -		new->vm_pgoff += ((addr - vma->vm_start) >> PAGE_SHIFT);
-> > +		new->vm_pgoff += linear_page_delta(vma, addr);
-> >   	}
-> >   	err = -ENOMEM;
-> > diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-> > index db57c5766ab6..f0e5da490866 100644
-> > --- a/virt/kvm/guest_memfd.c
-> > +++ b/virt/kvm/guest_memfd.c
-> > @@ -440,7 +440,7 @@ static int kvm_gmem_set_policy(struct vm_area_struct *vma, struct mempolicy *mpo
-> >   static struct mempolicy *kvm_gmem_get_policy(struct vm_area_struct *vma,
-> >   					     unsigned long addr, pgoff_t *ilx)
-> >   {
-> > -	pgoff_t pgoff = vma->vm_pgoff + ((addr - vma->vm_start) >> PAGE_SHIFT);
-> > +	pgoff_t pgoff = linear_page_index(vma, addr);
-> >   	struct inode *inode = file_inode(vma->vm_file);
-> >   	*ilx = inode->i_ino;
->
-> --
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-> GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
->
->
+In order for us to traverse VMAs using the reverse mapping, we require two
+fields - folio->mapping and folio->index. The first tells the rmap code
+where to look for VMAs, and the second tells it at which offset the folio
+starts within the referenced object.
 
-Cheers, Lorenzo
+For anonymous folios, folio->mapping points at an anon_vma object. For
+file-backed folios, it points at an address_space. And:
+
+* For file-backed folios folio->index is simply the page offset of the start
+  of the folio within the file.
+
+* For anonymous folios belonging to pure anon mappings, folio->index is
+  equal to the virtual page offset of the folio.
+
+* For anonymous folios belonging to file-backed mappings (i.e. CoW'd folios
+  of a MAP_PRIVATE file-backed mapping), folio->index is equal to the file
+  page offset.
+
+This series establishes a new virtual page offset property of VMAs to
+allow us to map anonymous folios at their virtual page offset, consistent
+with pure anon.
+
+The purpose of doing so is to lay the foundations for the scalable CoW
+work. This is necessary because firstly the approach first looks in the
+maple tree for the VMA located at folio->index << PAGE_SHIFT, before
+falling back to looking up tracked remaps if necessary.
+
+The MAP_PRIVATE file-backed case means that folio indices will very often
+conflict with one another and this remap tracking becomes substantially
+more contended, and of course the fast path can never be used.
+
+This also makes it possible, in future, to unshare anonymously mapped
+folios with deep fork hierarchies on remap, eliminating the need for remap
+tracking in the vast majority of cases.
+
+Simlar to page offset of pure anonymous VMAs, we update the virtual page
+offset of unfaulted file-backed VMAs on remap, but do not once CoW'd
+(i.e. vma->anon_vma is non-NULL).
+
+Overall, there is little impact on mergeability - for shared file-backed
+mappings, we treat the anonymous page offset as equal to the file-backed
+one (via vma_start_anon_pgoff()), so merge behaviour remains the same
+there.
+
+The only impact is on MAP_PRIVATE-mapped file-backed mappings, which must
+now match on virtual page offset as well as file page offset to be merged.
+
+To fail to merge like this would require CoW'ing the mapping then remapping
+in such a way as to eliminate compatibility, but this is very much an edge
+case that should very little impact (and which scalable CoW may very well
+address in any case).
+
+
+REVIEWER/MERGER NOTE: This is dependent on [0], which must be merged before
+this.
+
+[0]:https://lore.kernel.org/linux-mm/cover.1782735110.git.ljs@kernel.org/
+
+Lorenzo Stoakes (10):
+  mm/vma: introduce VMA virtual page offset field and add helpers
+  mm: introduce linear_virt_page_index()
+  mm: abstract vma_address() and introduce vma_anon_address()
+  mm: update print_bad_page_map() to show virtual page index
+  mm: introduce and use vma_filebacked_address()
+  mm: propagate VMA virtual page offset on map, remap, split + merge
+  mm/rmap: track whether the page VMA mapped walk is anonymous
+  mm: introduce and use linear_folio_page_index()
+  mm/rmap: use virt pgoff for MAP_PRIVATE file-backed anon folios
+  tools/testing/vma: expand VMA merge tests to assert virt pgoff
+
+ include/linux/mm.h               |  61 ++++++++++++-
+ include/linux/mm_types.h         |   4 +
+ include/linux/pagemap.h          |  66 +++++++++++++++
+ include/linux/rmap.h             |   2 +
+ mm/huge_memory.c                 |   3 +-
+ mm/internal.h                    |  69 +++++++++++----
+ mm/interval_tree.c               |   4 +-
+ mm/ksm.c                         |   2 +-
+ mm/memory-failure.c              |   4 +-
+ mm/memory.c                      |   8 +-
+ mm/migrate.c                     |   6 +-
+ mm/mremap.c                      |   6 +-
+ mm/page_vma_mapped.c             |   6 +-
+ mm/rmap.c                        |  23 +++--
+ mm/userfaultfd.c                 |   6 +-
+ mm/vma.c                         |  70 +++++++++++----
+ mm/vma.h                         | 141 ++++++++++++++++++++++++-------
+ mm/vma_exec.c                    |   2 +-
+ mm/vma_init.c                    |   1 +
+ tools/testing/vma/include/dup.h  |  48 +++++++++++
+ tools/testing/vma/shared.c       |   3 +-
+ tools/testing/vma/tests/merge.c  |  22 ++++-
+ tools/testing/vma/tests/vma.c    |   4 +-
+ tools/testing/vma/vma_internal.h |   1 +
+ 24 files changed, 468 insertions(+), 94 deletions(-)
+
+--
+2.54.0
