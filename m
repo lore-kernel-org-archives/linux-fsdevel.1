@@ -1,264 +1,487 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C6322370A
-	for <linux-fsdevel@vger.kernel.org>; Sun, 28 Jun 2026 23:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62EDD3B1B3
+	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 00:29:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782690164; cv=pass; b=O9iV4RyFXZMD5S1fcnPyTAkBc0MRrOHbwWydcRunUl9QtWTWs0hvbs7ZYMyBIqPlupGJS/GuUYdOkKBW1HFx8QO5NqUjaqNrvIug7mzPm8+15LpjgFottvZ//pY88PxoKNR1ypHueDXd5jtxZcT0+CZ3jfr0aHmTTn18TF7UcAM=
+	t=1782692954; cv=pass; b=QCFD2PltxtvkQloy1mSyKfvHFd8IEYvsPrYs9cx5Lvpna6pL4y0wnQENegahnAPgSyaj7cT1XtMlJqt8J3lQW9pZ9xg73a4sdklA4AVGKRInAZVNECNwd/gTwS81aZPT77//SvZrNbCrqajdKcXKQ4QgLXldDs/h3pSXCzM2Ni0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782690164; c=relaxed/simple;
-	bh=WkSBiaPgT77wOXHcI1bS01jKi/dOjmDGBwyodGKswSE=;
+	s=arc-20240116; t=1782692954; c=relaxed/simple;
+	bh=++rcTmkcEQ5y5VlKY/ZSTExjniqGoW4uEGUa5cAG8hU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VB8KcY9cTh9vZDYlz9Auuobznc8/BHz8LgKgtO0oO87tbkEceTi+SQWTML/ngu6VteaOIFsANL5AL64gtd/XsEHJbPdYVu2/ZCCNjks+nhGs0wncxuHcWRlMgZSFD157ghMuxFfalICGHK1s47vrTP5iBEeKfpV3iYb44rWQTeE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e9tp5MjE; arc=pass smtp.client-ip=209.85.167.50
+	 To:Cc:Content-Type; b=rBi7/ueSPGbO2mJt4HGQ/bq7S6K2nHLtSTwnuW2eqJQDQ7tJ0TwmYx4237qkv6Z6qzFWea1njB9CmQZL933N3+euBfN7itSkk19VUHGHR/WPncVeDexQZL40H06u1BMpkFemotn8XCGhNXdQOC4VtYhnr7ZQH7yfToIEXk3ZErY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j4VygRxq; arc=pass smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e9tp5MjE"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5aea0fff535so2749319e87.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 28 Jun 2026 16:42:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782690161; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j4VygRxq"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5aeb7467a8dso529307e87.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 28 Jun 2026 17:29:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782692951; cv=none;
         d=google.com; s=arc-20260327;
-        b=DpwoUTzv0GpjKfrbigGRQ+SjXJOIrCwbWrZsFL86h3OB5VM2E07R9UbggVhN/nrIV1
-         8R97Msufv2paHweWxyLPELfUV+vJhEmXoSX7Whvs6HtbQdLeFxN6mIAHzDqoYsqaEUTc
-         5z2tf4OiYq5NCB/kQytwvApbaJiPw+LkNxKzU2L/ADKLorzslOjdIq6vYA+dEak3aqY2
-         N4xlYRLcB2iA1SAg6GUJhS4GDfXIEMg+zdx+nxKS/drD+k+XZ61w4OLJczqSscWtjj+S
-         Mmhwitf6PgwtzWWOmvBNfuW08vnZNiJ5W1IDvUOqGmZYW3STiEcUK0IIlmz5uziGIYGa
-         TRQw==
+        b=CswIL6F6gA3H1fK+lPeYc1UQvqjBWY0cBI69T12Pptu2t+7hUs4qKNNYLUNjoFywel
+         yOlHjGkJ+r8TAXqKnur6uMy/k06Gu9a3hqlvNv6og4CIwtoBgsRlT2eovMCCCBWeXS/g
+         1Cqaiq2Ikw2B3WtwMEYvcFdebA9Vmmq6pKofiuao7oQWvupfY29UyBDvIp4WQMQFkevd
+         DT6gMPY/dBDpVvdaJDW3lA2JC/0gcA6niidKBDbIZSFbg9KhPlzunN3GURWb95tSO2xR
+         k9iFGiHCohP8yY/DSga9CK91zrox4tUanYHXYGCDRJnTV78Vcbez4UQcpKj9bMRfQHS/
+         ibAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=WkSBiaPgT77wOXHcI1bS01jKi/dOjmDGBwyodGKswSE=;
-        fh=rOhgeqpZ1Zi2aZhquXZOm5UNXAEoIvAsZJZcKjITZnQ=;
-        b=VRQ/nKH6D8dommVejQIPL8dN8at8JCqJDkx25g9qhjIN+gJjtVvzXQU83SiNuZ7kTk
-         Myv4snRrKaUs1MqCeyWcPdl6sknLYqHHqR9OI63zxIWrxW5gJKlnKF/rXvPmwmSUG5xL
-         NBzkVLtiEMHnt3iX/wwlhyDBtZpqphQg5lpLxVnpPxIJhlIjcxp+F++MHYgT8/WShZeH
-         keoh7JdokZEqkTKj4vJyNR7cMW//uVj1hDyxCoyBIxMOucSINJUF08Q1ttF5sLjRfUlE
-         wwSW4x97qvp3x/EcwvNHx8X5F+ivdELSNUs3i/sky5TZdDqUlb58n5j1gZMcdfCmJk7R
-         dFpQ==;
+        bh=W7CBkID6B5s8Pw+MFYEXHCDbfTGrGnCA/p9jFnR7ock=;
+        fh=oGmzJRpi/ggcbHjcX53A5jUn/++DVzSwNUdUD2BO6hg=;
+        b=fdlYija+TfG8wUsEX1Kz//P2jZSU8gsHm0cfzHfwQXWubzNRbRqSx0VlLEIXP38VCA
+         QLhFIpyiyFPlkXF+y65UgI87yDFTu8K+7R8hcPSatWSC91EaQ5/UY4TJoqMoETrIcYao
+         vljIIkE8DKwl7Of+wDQ1+lWsPVXnGSLXwN0juVVL5wgH3JCjYqCVsPHm44/Ru9ITu3wI
+         rXuY+ThYI1Lt7XVAUS6PqEO1fPduqptvlj1YRKdWBDUcpnGKw+8A0+EliK04u/0zrOcc
+         BMwuDOiD2sTddjiG+Fz2CtZKBtm0+Z+zXFKz06u8T4p5/PdgdJWG4fvDABQEI9J3YmPy
+         21ig==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782690161; x=1783294961; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782692951; x=1783297751; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WkSBiaPgT77wOXHcI1bS01jKi/dOjmDGBwyodGKswSE=;
-        b=e9tp5MjEvNVRImtLo30cPcMZ0xq66j+lY82z2ZAI/CBvAKAwGZtfzbVzfY46+Ko5OG
-         6H4g7x36Sha7H3uSlTDQoeccS55+Cmi39Qo+tlcU5TTSJGmkY7n6oDkbP9oYzCpjt98Q
-         jGR9eTpYEJgjSPc1CRf59mY2NG1LznXjJchsS79ZptVNGDAqDFzYmFL6cNgy1in1xOB4
-         uqbsLAns4yarV/eZFw0kX04DHc9q7kZUqDzOl6PWesnKdg2scbKwEYt/Ezdg8SBmi4WC
-         sM/C6CIiEbuhsy7Pp2+mlylxhaNkoiVCyvfYa1Jv9AxK8/PEOHfAEhwi7VnBS91NgBBS
-         jfAA==
+        bh=W7CBkID6B5s8Pw+MFYEXHCDbfTGrGnCA/p9jFnR7ock=;
+        b=j4VygRxqYRTaHzgpCkyKtQN3HQpGAjz60UdaEYr6wm/cIv0kmVLwqrsr/EspiPJiso
+         W4YX9QyeL62g52SMBSwD0TJRlgmAUjYqhCKzhlE7aVjS4l4/XP4eoeMRwax1AuoKqwU1
+         r+a9RkZWitd/PNwqZu6FntCyNxYZdSH1IUntw0iT+1gxvc0LCPTJhhSdbvbQaHlXdtmB
+         UCC1O8wA8c6vamQ00D0gGytap3991N9ABn6T/RGCkfNIWaho9Q9ppLNIOkjzBXkrY2mM
+         SU8zRbLrq6CgeyvFgo40ZwgsGa0A/3tNdYXBuGVtthzKembt9PebLDPYRC+K5mRGddSV
+         PMLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782690161; x=1783294961;
+        d=1e100.net; s=20251104; t=1782692951; x=1783297751;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=WkSBiaPgT77wOXHcI1bS01jKi/dOjmDGBwyodGKswSE=;
-        b=DxtW9pW11gp5RARMrbEPxTQXQjNpCw/RvfdV8mgt7ybJOaEcfMm3avCwyx+/9tNK4k
-         RKJhsn3KBNk31H4lDf8o6OEsUJtH90+9iqqnVJB9l7W7Di9IfQbsMCnQy+gN4eDmC1ss
-         lmDXShnYyR0NIiuRK37AL5HCRCMp3x1imRoQwnpHthBNTWCTjBuq7BD2snZE3Vj8TTX0
-         mWLANuoiRviONCsZdCZO6mQbr/h22F4FaaEChC+pHaHmjCxnwSwr9fVrwIplkIiwAlRa
-         frwxcA15uiB7UrLUEtnf8AHRPLWun4qQRFVcCMWVxAvbwPPNYAgcrBlJuT310ZMb/CNo
-         61tQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqS6SVZszkRT9SmnX+xqtY5tasIqKR7g5OdHwxUnno8ux0LuUiFOLWmz6mK8WC2N6y2nJaWLatyKXPN1cSi@vger.kernel.org
-X-Gm-Message-State: AOJu0YwT1NWHDxQts0Q0hh3XB5frsjJCtK9j2Lm2rAVauB3XiWtdGsGt
-	RtXN2DioBqoFhviETzgPyOaQoa98maInhqWzMIwZPG2Egyod/rpag1TpEw9y0EOqkpZ+kWTj2T9
-	XHq9Ewbn8csoyz54mX9Mb83IBD2llttuxgnz+
-X-Gm-Gg: AfdE7cn2UQ9HBAlgzd3dPcSENNFKN5RKc2g3eJypRfBxxUq5KqRGint2VTUQluIwKMo
-	Bc0VX1XEKkn+K/qNgnYFctcXcWEXQyBuXhL5OwLTkfzCzOgAgzqjSvoFJ0dy1oSFeZYzBVqTBET
-	b72bw+u/0bfcVziNGTawXkKs5qvLS/4brjoP/oL9fS02RAJZmyph6JVCRLkjO0xggwN6b+yHbdl
-	Op3CeiqNDcTqncRsghQUbLKiUTscf63CG30ho+UtWqzRxJkGbIIMlVCwmYj9/sQygVhP/lQ
-X-Received: by 2002:ac2:4bd3:0:b0:5ae:b01a:d215 with SMTP id
- 2adb3069b0e04-5aeb01ad289mr1267555e87.5.1782690160832; Sun, 28 Jun 2026
- 16:42:40 -0700 (PDT)
+        bh=W7CBkID6B5s8Pw+MFYEXHCDbfTGrGnCA/p9jFnR7ock=;
+        b=nVN/WLndGrz054rnLR1NBAFeNvBkXp6LybMMoT5Ak5JEGngQ0SFzu+oeSPbEQ4rZmc
+         NphFOLZydnI781ETbYczjo5ePrd1qPFdV3vjCIWx4xk68xvgUsgb1g98Lqf+9dPinn5u
+         isEUi1chLoclow3+MXstugBShQPbI9s9hiaQ9tuw/FPy3uN8fPfrwOOmDQJibPLF0tY6
+         2XrPyendiUSHThkUWGQJEC8QOGkDUmCYpkoeGw/qW6XLt3ZXt6ksYk1cYbGiL5+xCTCA
+         VHiaB1h0FVfxhIv9hJK2l8q3A6w0jETwxGrN8g6bqVNq/9r6Hm6V+zD2j4qVZAVJNfKx
+         2Bng==
+X-Forwarded-Encrypted: i=1; AHgh+RqGibWmwvvJYGxM8HQNgy8R15Jp6w06ei5XwW0fbklGKAePtRu3Nq0XdAB14p7FpZdB3ScFfiItuBX8jRgG@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/9qtqChD96pO7wrsGDknsNjLT73uobFpZ0ljvlVr6aV0W+GlG
+	n4O4DTYfRV21G45UhRbwcvntOB8gtvEDkMBBc1jJ/13Dzz7bi4QcrjzDKdPEk4HFxSV2T01fSvK
+	MuMlxKswKAI/23n2gkKkxTDbQyNkYrt8=
+X-Gm-Gg: AfdE7cndlZ8fUIVnmvY8FI7IiFr5lWk5nf43lJOS0q6GeY1kVclwdFCqp93g+NJ2opX
+	0ks4dyVf80epjOFI00RXdMaf5U609gScjuL+u+nZkp3nm+MSl6TcsKmQWJ76lbZLaWSM3I1GPC4
+	ys+/d2nHM5mkfZfu6Hd2sP9SadZ9tpouT5Kw13jrPTMQtB/HWllGY0vcWJ5YwpNfk3OCj2EO2im
+	qhXgVHfdmRnQwWN+WkaxEQ12L1t046LkoGJeoGuigDfKOWpbfNE7pEyzCqkcXrjBUig7Sk4
+X-Received: by 2002:ac2:4bd3:0:b0:5ae:b7a3:6dc3 with SMTP id
+ 2adb3069b0e04-5aeb7a36f7emr631951e87.0.1782692950222; Sun, 28 Jun 2026
+ 17:29:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1f751705-ca48-48c9-9120-a3829d45e1f8@bakabaka9.tech>
-In-Reply-To: <1f751705-ca48-48c9-9120-a3829d45e1f8@bakabaka9.tech>
+References: <20260627042816.2842609-1-zzzccc427@gmail.com>
+In-Reply-To: <20260627042816.2842609-1-zzzccc427@gmail.com>
 From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Mon, 29 Jun 2026 08:42:28 +0900
-X-Gm-Features: AVVi8CdffwqeD01CwCofEDzBXPURAfJpTFfhDmc4NLjN8j73sRo33TciK7H1Duc
-Message-ID: <CANFS6bbEztmGsa8phoCe1mzeW=R2zQ_-9C8ibT9XJk5jGg3jRQ@mail.gmail.com>
-Subject: Re: [REPORT] fs/ntfs: out-of-bounds / use-after-free read in
- ntfs_index_walk_down, via crafted directory index, readdir
-To: Bakabaka_9 <baka9@bakabaka9.tech>
-Cc: linkinjeon@kernel.org, linux-fsdevel@vger.kernel.org, security@kernel.org
+Date: Mon, 29 Jun 2026 09:28:58 +0900
+X-Gm-Features: AVVi8CdBlie8n4hwQxAl3T5u_ydyJM5at-L6ZmUYptJeqF3yYGPUWGz_TuCDxmc
+Message-ID: <CANFS6baiHaz-U-uCPjh2oERc5TM8yU1OHYEN3WJ3KbXS524M+A@mail.gmail.com>
+Subject: Re: [PATCH v2] ntfs: serialize attribute-list replacement with lookups
+To: Cen Zhang <zzzccc427@gmail.com>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Cen,
 
-This issue has already been mitigated in v7.2-rc1.
+Hi Cen,
 
-The root cause has been addressed by ntfs_index_entries_inconsistent(),
-which validates that every entry stays within the index_end bounds.
+I reviewed and noticed a few concurrency issues.
 
-The patch will be backported to v7.1.
+* ntfs_attr_lookup() releases the read lock before returning, which leaves
+the ctx->al_entry unprotected during the lifetime of the search context.
 
-Could you please try to reproduce this on v7.2-rc1 and let us know if
-the issue is still reproducible?
+* In some functions such as ntfs_attrlist_entry_add(), the memcpy()
+reads base_ni->attr_list outside of the writ lock. If another thread
+frees it concurrently, this leads to a UAF.
 
-2026=EB=85=84 6=EC=9B=94 28=EC=9D=BC (=EC=9D=BC) =EC=98=A4=ED=9B=84 4:52, B=
-akabaka_9 <baka9@bakabaka9.tech>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+To resolve these issues, How about coupling the attr_list_lock directly
+with the search context?
+
+* Extend ntfs_attr_get_search_ctx with a lock mode (NONE, READ, WRITE)
+to automatically acquire the lock unpon context creation and release
+it in ntfs_attr_put_search_ctx().
+
+* To prevent deadlocks, the following lock ordering is needed:
+base_ni->mrec_lock =3D> base_ni->attr_list_lock =3D> ni->runlist.lock.
+And to prevent nesting attr_list_lock under runlist.lock, The NONE
+mode bypasses context-owned locking and is required for paths
+that must control ordering manually (e.g, ntfs_attr_vcn_to_lcn_nlock()).
+
+2026=EB=85=84 6=EC=9B=94 27=EC=9D=BC (=ED=86=A0) =EC=98=A4=ED=9B=84 1:28, C=
+en Zhang <zzzccc427@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
 >
-> Tree: git://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/ntfs.git
-> Affected: fs/ntfs (the in-kernel NTFS merged in the 7.1 cycle; NOT fs/ntf=
-s3)
-> Version: v7.1-rc5 (commit e7ae89a0c97c "Linux 7.1-rc5")
+> ntfs_external_attr_find() walks base_ni->attr_list with raw
+> attr_list_entry cursors stored in ctx->al_entry and local variables.  Oth=
+er
+> metadata paths can replace base_ni->attr_list and free the old buffer whi=
+le
+> a lookup still carries one of those cursors.
 >
-> Summary
+> The buggy scenario involves two paths, with each column showing the order
+> within that path:
 >
-> A crafted NTFS directory index triggers an out-of-bounds / use-after-free=
- READ in ntfs_index_walk_down() during readdir(). The index-tree traversal =
-helpers ntfs_index_next() / ntfs_index_walk_down() advance to the next inde=
-x entry and read its child VCN before validating that the entry lies within=
- the index block. With a corrupted entry length the traversal pointer steps=
- past the index block into an adjacent (and, depending on timing, freed) sl=
-ab object, and the kernel dereferences it.
+>   attribute lookup path:              attribute-list mutation path:
+>   1. enters ntfs_attr_lookup()        1. enters an attr-list add/remove
+>   2. reads base_ni->attr_list         2. builds a replacement buffer
+>   3. keeps ctx->al_entry/al_entry     3. publishes base_ni->attr_list
+>      pointing into that buffer        4. frees the previous buffer
+>   4. continues the attribute search
+>   5. dereferences the saved cursor
 >
-> Reproducible deterministically under KASAN; mounting and listing a malici=
-ous image is sufficient. Reachable by anyone able to mount an NTFS image (r=
-emovable-media automount as root on desktops that route NTFS to this driver=
-; a user namespace + mount capability; etc.).
+> Validation reproduced this kernel report:
+> BUG: KASAN: slab-use-after-free in ntfs_attr_lookup+0x24b2/0x2bf0
 >
-> Impact
+> Call Trace:
+>  <TASK>
+>  dump_stack_lvl+0x66/0xa0
+>  print_report+0xce/0x630
+>  ? ntfs_attr_lookup+0x24b2/0x2bf0
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? __virt_addr_valid+0x20d/0x410
+>  ? ntfs_attr_lookup+0x24b2/0x2bf0
+>  kasan_report+0xe0/0x110
+>  ? ntfs_attr_lookup+0x24b2/0x2bf0
+>  ntfs_attr_lookup+0x24b2/0x2bf0
+>  ? ntfs_attr_lookup+0x9/0x2bf0
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? 0xffffffffc00000da
+>  ? __pfx_ntfs_attr_lookup+0x10/0x10
+>  ntfs_attr_map_whole_runlist+0x488/0x8b0
+>  ? __pfx_ntfs_attr_map_whole_runlist+0x10/0x10
+>  ? __pfx_do_raw_spin_trylock+0x10/0x10
+>  ntfs_attr_vcn_to_rl+0x13a/0x1d0
+>  ? filemap_fault+0xf03/0x2080
+>  ntfs_read_iomap_begin_non_resident+0x142/0x920
+>  ? __pfx_ntfs_read_iomap_begin_non_resident+0x10/0x10
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? __pfx_ntfs_read_iomap_begin+0x10/0x10
+>  iomap_iter+0x6de/0x11e0
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? prepare_alloc_pages+0x1c4/0x4d0
+>  iomap_readahead+0x239/0x910
+>  ? folios_put_refs+0x1ed/0x4f0
+>  ? __pfx_iomap_readahead+0x10/0x10
+>  ? __pfx_folios_put_refs+0x10/0x10
+>  ? lock_release+0x1e0/0x280
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? xas_store+0x871/0x1650
+>  ? xas_find_conflict+0x64b/0xb90
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? lock_release+0x1e0/0x280
+>  ntfs_readahead+0x193/0x1d0
+>  ? __pfx_ntfs_readahead+0x10/0x10
+>  ? __filemap_add_folio+0x869/0xa60
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? lock_acquire+0x2b8/0x2f0
+>  ? __pfx___filemap_add_folio+0x10/0x10
+>  read_pages+0x18f/0x890
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? folio_alloc_noprof+0x69/0xb0
+>  ? __pfx_read_pages+0x10/0x10
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  page_cache_ra_unbounded+0x389/0x6c0
+>  do_page_cache_ra+0x109/0x170
+>  filemap_fault+0xf03/0x2080
+>  ? __pfx_filemap_fault+0x10/0x10
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? lock_acquire+0x2b8/0x2f0
+>  ? lockdep_init_map_type+0x5c/0x230
+>  __do_fault+0xf0/0x260
+>  __handle_mm_fault+0xdcf/0x1ca0
+>  ? __pfx___handle_mm_fault+0x10/0x10
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? srso_alias_return_thunk+0x5/0xfbef5
+>  ? lock_release+0x1e0/0x280
+>  handle_mm_fault+0x19c/0x470
+>  do_user_addr_fault+0x23b/0x9c0
+>  exc_page_fault+0x5c/0xc0
+>  asm_exc_page_fault+0x26/0x30
 >
-> Confirmed, with KASAN evidence:
+> Allocated by task 511:
+>  kasan_save_stack+0x33/0x60
+>  kasan_save_track+0x14/0x30
+>  __kasan_kmalloc+0xaa/0xb0
+>  __kvmalloc_node_noprof+0x353/0x920
+>  ntfs_attrlist_entry_rm+0x28d/0x510
+>  ntfs_attr_record_rm+0x4dd/0xda0
+>  ntfs_delete+0x50a/0xf90
+>  ntfs_unlink+0x212/0x4d0
+>  vfs_unlink+0x259/0xb00
+>  filename_unlinkat+0x2db/0x5f0
+>  __x64_sys_unlink+0x46/0x70
+>  do_syscall_64+0x115/0x6a0
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
 >
-> Out-of-bounds read and use-after-free read of kernel slab memory (kmalloc=
--4096) -> kernel memory disclosure / KASLR defeat.
-> Denial of service (oops / BUG) on a range of corrupted images.
+> Freed by task 511:
+>  kasan_save_stack+0x33/0x60
+>  kasan_save_track+0x14/0x30
+>  kasan_save_free_info+0x3b/0x60
+>  __kasan_slab_free+0x5f/0x80
+>  kfree+0x307/0x580
+>  ntfs_attrlist_entry_add+0xc1b/0x1110
+>  ntfs_resident_attr_record_add+0x6a8/0xa10
+>  ntfs_attr_add+0x682/0xcd0
+>  __ntfs_link+0x815/0xde0
+>  ntfs_link+0x223/0x3d0
+>  vfs_link+0x465/0xcf0
+>  filename_linkat+0x316/0x540
+>  __x64_sys_link+0x81/0xb0
+>  do_syscall_64+0x115/0x6a0
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
 >
-> The contents of the read-back object are attacker-influenceable: spraying=
- System V message bodies (kmalloc-4096) into the freed slot during the moun=
-t/list window makes the dereferenced VCN take an attacker-chosen value (ver=
-ified: spray byte 0xMM -> VCN 0xMM..MM -> ntfs_ib_read pos =3D VCN<<bits).
+> Add a per-ntfs_inode attr_list_lock.  ntfs_attr_lookup() takes the read
+> side around the NInoAttrList() decision and the selected local or
+> external lookup, so any attr-list cursor derived during the lookup is
+> protected until the lookup returns.  Writers take the write side only
+> while publishing, rolling back, detaching, or clearing the in-memory
+> attr_list pointer, size, and state.  The on-disk ntfs_attrlist_update()
+> work stays outside the write side.
 >
-> We specifically investigated whether this can be turned into a controllab=
-le write (to assess privilege escalation). It cannot, on this path: in ntfs=
-_readdir() the write target ictx->ib is only ever freshly kvzalloc'd (index=
-.c:1980), re-read in place, or kfree()'d-and-NULLed (walk_up, index.c:2031)=
-. The dangling/out-of-bounds pointer is exclusively the read cursor entry. =
-We confirmed this dynamically (57344 sprayed objects read back, 0 overwritt=
-en, 0 write-type KASAN reports). So the realistic impact is kernel info-lea=
-k + DoS, not a self-contained LPE.
+> Fixes: 495e90fa3348 ("ntfs: update attrib operations")
+> Assisted-by: Codex:gpt-5.5
+> Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+> ---
+> v2:
+> - Replace the read-iomap mrec_lock wrapper with a per-inode attr_list rws=
+em,
+>   following Hyunchul Lee's review.
+> - Protect attr-list creation, replacement, rollback, detach, and clear
+>   transitions, while keeping ntfs_attrlist_update() outside the write sid=
+e.
+> - Update the Fixes tag to the attribute operations commit.
 >
-> CVSS 3.1 (info-leak + DoS, attacker-supplied image, local/automount deliv=
-ery): AV:L/AC:L/PR:N/UI:R/S:C/C:H/I:N/A:H -> 7.0 (High)
+>  fs/ntfs/attrib.c   | 21 +++++++++++++++++----
+>  fs/ntfs/attrlist.c | 10 +++++++++-
+>  fs/ntfs/inode.c    | 10 ++++++++++
+>  fs/ntfs/inode.h    |  4 ++++
+>  4 files changed, 40 insertions(+), 5 deletions(-)
 >
-> KASAN report
+> diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
+> index dd8828098511..e630f63ed7ad 100644
+> --- a/fs/ntfs/attrib.c
+> +++ b/fs/ntfs/attrib.c
+> @@ -1565,6 +1565,7 @@ int ntfs_attr_lookup(const __le32 type, const __le1=
+6 *name,
+>                 struct ntfs_attr_search_ctx *ctx)
+>  {
+>         struct ntfs_inode *base_ni;
+> +       int err;
 >
-> BUG: KASAN: use-after-free in ntfs_index_walk_down+0x167/0x230 Read of si=
-ze 8 at addr ffff8881060e01ea by task ls/81 CPU: 0 ... 7.1.0-rc5 #2 Call Tr=
-ace: ntfs_index_walk_down+0x167/0x230 fs/ntfs/index.c:1978 ntfs_index_next+=
-0x9a/0x1c0 fs/ntfs/index.c:2117 ntfs_readdir+0x86f/0x1150 iterate_dir+0xe9/=
-0x250 __x64_sys_getdents64+0xec/0x1b0 do_syscall_64+0xf9/0x540
+>         ntfs_debug("Entering.");
+>         if (ctx->base_ntfs_ino)
+> @@ -1572,11 +1573,18 @@ int ntfs_attr_lookup(const __le32 type, const __l=
+e16 *name,
+>         else
+>                 base_ni =3D ctx->ntfs_ino;
+>         /* Sanity check, just for debugging really. */
+> -       if (!base_ni || !NInoAttrList(base_ni) || type =3D=3D AT_ATTRIBUT=
+E_LIST)
+> +       if (!base_ni)
+>                 return ntfs_attr_find(type, name, name_len, ic, val, val_=
+len,
+>                                 ctx);
+> -       return ntfs_external_attr_find(type, name, name_len, ic, lowest_v=
+cn,
+> -                       val, val_len, ctx);
+> +
+> +       down_read(&base_ni->attr_list_lock);
+> +       if (!NInoAttrList(base_ni) || type =3D=3D AT_ATTRIBUTE_LIST)
+> +               err =3D ntfs_attr_find(type, name, name_len, ic, val, val=
+_len, ctx);
+> +       else
+> +               err =3D ntfs_external_attr_find(type, name, name_len, ic,
+> +                                             lowest_vcn, val, val_len, c=
+tx);
+> +       up_read(&base_ni->attr_list_lock);
+> +       return err;
+>  }
 >
-> A second, very similar splat is reachable at the same site as "slab-out-o=
-f-bounds in ntfs_index_walk_down+0x167" (the same cursor stepping just past=
- the end of a still-allocated block instead of into a freed one).
+>  /**
+> @@ -2622,6 +2630,7 @@ static int ntfs_non_resident_attr_record_add(struct=
+ ntfs_inode *ni, __le32 type,
+>  int ntfs_attr_record_rm(struct ntfs_attr_search_ctx *ctx)
+>  {
+>         struct ntfs_inode *base_ni, *ni;
+> +       u8 *old_al =3D NULL;
+>         __le32 type;
+>         int err;
 >
-> ntfs_index_walk_down+0x167 corresponds to the VCN load:
+> @@ -2659,10 +2668,14 @@ int ntfs_attr_record_rm(struct ntfs_attr_search_c=
+tx *ctx)
 >
-> fs/ntfs/index.c:1978 vcn =3D ntfs_ie_get_vcn(entry);
+>         /* Post $ATTRIBUTE_LIST delete setup. */
+>         if (type =3D=3D AT_ATTRIBUTE_LIST) {
+> +               down_write(&base_ni->attr_list_lock);
+>                 if (NInoAttrList(base_ni) && base_ni->attr_list)
+> -                       kvfree(base_ni->attr_list);
+> +                       old_al =3D base_ni->attr_list;
+>                 base_ni->attr_list =3D NULL;
+> +               base_ni->attr_list_size =3D 0;
+>                 NInoClearAttrList(base_ni);
+> +               up_write(&base_ni->attr_list_lock);
+> +               kvfree(old_al);
+>         }
 >
-> and ntfs_ie_get_vcn() reads 8 bytes at entry + entry->length - 8:
+>         /* Free MFT record, if it doesn't contain attributes. */
+> diff --git a/fs/ntfs/attrlist.c b/fs/ntfs/attrlist.c
+> index afb13038ba42..e91fc74eda31 100644
+> --- a/fs/ntfs/attrlist.c
+> +++ b/fs/ntfs/attrlist.c
+> @@ -220,14 +220,18 @@ int ntfs_attrlist_entry_add(struct ntfs_inode *ni, =
+struct attr_record *attr)
+>                         entry_offset, ni->attr_list_size - entry_offset);
 >
-> fs/ntfs/index.c:273-283 static __le64 *ntfs_ie_get_vcn_addr(struct index_=
-entry *ie) { return (__le64 *)((u8 *)ie + le16_to_cpu(ie->length) - sizeof(=
-s64)); }
+>         /* Set new runlist. */
+> +       down_write(&ni->attr_list_lock);
+>         old_al =3D ni->attr_list;
+>         ni->attr_list =3D new_al;
+>         ni->attr_list_size =3D ni->attr_list_size + entry_len;
+> +       up_write(&ni->attr_list_lock);
 >
-> Root cause
+>         err =3D ntfs_attrlist_update(ni);
+>         if (err) {
+> +               down_write(&ni->attr_list_lock);
+>                 ni->attr_list =3D old_al;
+>                 ni->attr_list_size -=3D entry_len;
+> +               up_write(&ni->attr_list_lock);
+>                 goto err_out;
+>         }
+>         kvfree(old_al);
+> @@ -251,6 +255,7 @@ int ntfs_attrlist_entry_rm(struct ntfs_attr_search_ct=
+x *ctx)
+>         int new_al_len;
+>         struct ntfs_inode *base_ni;
+>         struct attr_list_entry *ale;
+> +       u8 *old_al;
 >
-> The traversal advances and dereferences before bounds-checking.
+>         if (!ctx || !ctx->ntfs_ino || !ctx->al_entry) {
+>                 ntfs_debug("Invalid arguments.\n");
+> @@ -285,9 +290,12 @@ int ntfs_attrlist_entry_rm(struct ntfs_attr_search_c=
+tx *ctx)
+>                                 ale->length), new_al_len - ((u8 *)ale - b=
+ase_ni->attr_list));
 >
-> ntfs_index_next() computes the next sibling purely from the (attacker- co=
-ntrolled) on-disk length and immediately dereferences it:
+>         /* Set new runlist. */
+> -       kvfree(base_ni->attr_list);
+> +       down_write(&base_ni->attr_list_lock);
+> +       old_al =3D base_ni->attr_list;
+>         base_ni->attr_list =3D new_al;
+>         base_ni->attr_list_size =3D new_al_len;
+> +       up_write(&base_ni->attr_list_lock);
+> +       kvfree(old_al);
 >
-> fs/ntfs/index.c:2105 next =3D (struct index_entry *)((char *)ie + le16_to=
-_cpu(ie->length)); fs/ntfs/index.c:2107 flags =3D next->flags; fs/ntfs/inde=
-x.c:2110 if (flags & INDEX_ENTRY_NODE) fs/ntfs/index.c:2117 next =3D ntfs_i=
-ndex_walk_down(next, ictx);
+>         return ntfs_attrlist_update(base_ni);
+>  }
+> diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
+> index c2715521e562..25e957401892 100644
+> --- a/fs/ntfs/inode.c
+> +++ b/fs/ntfs/inode.c
+> @@ -475,6 +475,7 @@ void __ntfs_init_inode(struct super_block *sb, struct=
+ ntfs_inode *ni)
+>         ni->folio =3D NULL;
+>         ni->folio_ofs =3D 0;
+>         ni->mrec =3D NULL;
+> +       init_rwsem(&ni->attr_list_lock);
+>         ni->attr_list_size =3D 0;
+>         ni->attr_list =3D NULL;
+>         ni->itype.index.block_size =3D 0;
+> @@ -3112,9 +3113,11 @@ int ntfs_inode_add_attrlist(struct ntfs_inode *ni)
+>         }
 >
-> ntfs_index_walk_down() then reads the child VCN of that unvalidated entry=
-:
+>         /* Set in-memory attribute list. */
+> +       down_write(&ni->attr_list_lock);
+>         ni->attr_list =3D al;
+>         ni->attr_list_size =3D al_len;
+>         NInoSetAttrList(ni);
+> +       up_write(&ni->attr_list_lock);
 >
-> fs/ntfs/index.c:1978 vcn =3D ntfs_ie_get_vcn(entry); /* entry + len - 8 *=
-/
+>         attr_al_len =3D offsetof(struct attr_record, data.resident.reserv=
+ed) + 1 +
+>                 ((al_len + 7) & ~7);
+> @@ -3147,8 +3150,11 @@ int ntfs_inode_add_attrlist(struct ntfs_inode *ni)
 >
-> A correct per-entry bounds check does exist (ntfs_index_entry_inconsisten=
-t(), fs/ntfs/index.c, which verifies ie_start <=3D ie and ie + ie->length <=
- ih + index_length), and ntfs_readdir() even calls it =E2=80=94 but only on=
- the result, one step too late:
+>  remove_attrlist_record:
+>         /* Prevent ntfs_attr_recorm_rm from freeing attribute list. */
+> +       down_write(&ni->attr_list_lock);
+>         ni->attr_list =3D NULL;
+> +       ni->attr_list_size =3D 0;
+>         NInoClearAttrList(ni);
+> +       up_write(&ni->attr_list_lock);
+>         /* Remove $ATTRIBUTE_LIST record. */
+>         ntfs_attr_reinit_search_ctx(ctx);
+>         if (!ntfs_attr_lookup(AT_ATTRIBUTE_LIST, NULL, 0,
+> @@ -3160,9 +3166,11 @@ int ntfs_inode_add_attrlist(struct ntfs_inode *ni)
+>         }
 >
-> fs/ntfs/dir.c:924 next =3D ntfs_index_next(next, ictx); /* derefs first *=
-/ ... fs/ntfs/dir.c:933 if (ntfs_index_entry_inconsistent(ictx, vol, next, =
-...))
->
-> By the time line 933 runs, ntfs_index_next()/ntfs_index_walk_down() have =
-already dereferenced next/entry at index.c:2107 and index.c:1978.
->
-> For comparison, the classic lookup path open-codes the right check before=
- each dereference while iterating entries:
->
-> fs/ntfs/dir.c:390-399 (bounds-checks ie against index_end every iteration=
+>         /* Setup back in-memory runlist. */
+> +       down_write(&ni->attr_list_lock);
+>         ni->attr_list =3D al;
+>         ni->attr_list_size =3D al_len;
+>         NInoSetAttrList(ni);
+> +       up_write(&ni->attr_list_lock);
+>  rollback:
+>         /*
+>          * Scan attribute list for attributes that placed not in the base=
+ MFT
+> @@ -3189,10 +3197,12 @@ int ntfs_inode_add_attrlist(struct ntfs_inode *ni=
 )
+>         }
 >
-> The block-level check ntfs_index_block_inconsistent() (fs/ntfs/index.c, r=
-un inside ntfs_ib_read) only validates magic/VCN and index_length <=3D allo=
-cated_size <=3D block_size; it does NOT validate individual entry lengths, =
-so a block can pass it yet contain an entry whose length walks the cursor o=
-ut of the block.
+>         /* Remove in-memory attribute list. */
+> +       down_write(&ni->attr_list_lock);
+>         ni->attr_list =3D NULL;
+>         ni->attr_list_size =3D 0;
+>         NInoClearAttrList(ni);
+>         NInoClearAttrListDirty(ni);
+> +       up_write(&ni->attr_list_lock);
+>  put_err_out:
+>         ntfs_attr_put_search_ctx(ctx);
+>  err_out:
+> diff --git a/fs/ntfs/inode.h b/fs/ntfs/inode.h
+> index 9aacd5787ffe..0aaa6c90a7fb 100644
+> --- a/fs/ntfs/inode.h
+> +++ b/fs/ntfs/inode.h
+> @@ -10,6 +10,8 @@
+>  #ifndef _LINUX_NTFS_INODE_H
+>  #define _LINUX_NTFS_INODE_H
 >
-> Suggested fix
+> +#include <linux/rwsem.h>
+> +
+>  #include "debug.h"
 >
-> Validate each entry against the current index block before dereferencing =
-it in the traversal helpers:
->
-> In ntfs_index_next(), after computing next (index.c:2105) and before read=
-ing next->flags, verify next lies within the index block and that next + ne=
-xt->length stays within ih + index_length (i.e. call ntfs_index_entry_incon=
-sistent() / an inline bounds check there).
-> In ntfs_index_walk_down(), validate entry before ntfs_ie_get_vcn(entry) (=
-index.c:1978), since ntfs_ie_get_vcn() dereferences entry + len - 8.
-> Consider having ntfs_ib_read()/ntfs_index_block_inconsistent() reject blo=
-cks whose entry chain does not exactly tile [entries_offset, index_length),=
- so corrupted intra-block lengths are caught at read time.
->
-> Reproduction
->
-> Tested in QEMU/KVM, x86-64, CONFIG_KASAN=3Dy, v7.1-rc5.
->
-> Build a clean image and apply a deterministic mutation: mkntfs -F -s 512 =
--p 0 -H 0 -S 0 <16MiB file> # base.ntfs mutate base.ntfs poc.ntfs 1244 # fl=
-ips 8..31 metadata bytes (mutate.c and the prebuilt base.ntfs/poc.ntfs are =
-attached.)
->
-> In the guest: mount -t ntfs -o loop,ro poc.ntfs /mnt ls -R /mnt -> KASAN =
-use-after-free / slab-out-of-bounds read in ntfs_index_walk_down+0x167 (dur=
-ing getdents64).
->
-> The PoC image (poc.ntfs), the clean base (base.ntfs), the mutator (mutate=
-.c), the heap-spray / read-back verifier used for the impact analysis (wpro=
-of.c), and the full KASAN logs are attached / available on request.
->
-> Disclosure
->
-> Found via local fuzzing/auditing (by AI) as authorized security research.=
- No prior public disclosure. Happy to test patches against the reproducer. =
-Please advise whether you would like a CVE requested or prefer to handle as=
-signment.
->
-> -- Bakabaka_9 (baka9@bakabaka9.tech)
->
->
+>  enum ntfs_inode_mutex_lock_class {
+> @@ -66,6 +68,7 @@ enum ntfs_inode_mutex_lock_class {
+>   * Attribute list support (only for use by the attribute lookup
+>   * functions). Setup during read_inode for all inodes with attribute
+>   * lists. Only valid if NI_AttrList is set in state.
+> + * @attr_list_lock: Serializes attribute list pointer updates with looku=
+ps.
+>   * @attr_list_size: Length of attribute list value in bytes.
+>   * @attr_list: Attribute list value itself.
+>   *
+> @@ -118,6 +121,7 @@ struct ntfs_inode {
+>         int folio_ofs;
+>         s64 mft_lcn[2];
+>         unsigned int mft_lcn_count;
+> +       struct rw_semaphore attr_list_lock;
+>         u32 attr_list_size;
+>         u8 *attr_list;
+>         union {
+> --
+> 2.43.0
+
 
 
 --=20
