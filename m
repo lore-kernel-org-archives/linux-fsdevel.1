@@ -1,43 +1,44 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A5D4192E0
-	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 15:36:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7640F3FAE19
+	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 15:36:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782747411; cv=none; b=erUYLP5AsH8UOcLf1lGOTt4tqV31sXI86dqWYtzgeg9xmPahtOYME+3I42or9p/BOpNMX62iDvKiymnNoXWR3kSqRoMDuzayCHRz5f/bSZDmO/UtlcqLJCH4dNlSXlAbmnr/HG5CMRAVO5ejFYtfjp9tfm+oVjgWk6F/FpjlYVI=
+	t=1782747413; cv=none; b=TbY3E3tGaFQ+B+ib8rDnteEZjqRAtCos7NsSyPghz+uG3S+zNRVjk45ghj0PVAn26nzNSW7Z4NOkGqddQINdiZJEhWeqvAgv59x07FAtrX9ColD+WwG6MkwZV0YLribFbgB7s5DjM3/ukFhufYtnpQZps46/YlC6Adclery4K4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782747411; c=relaxed/simple;
-	bh=2eATAG7R4ZWY4Dx3/NpLmmYwmyI4awTULFQ8AJofxm8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ny8+9U+zld4ucIWyG/Y9s1kqIStrP0GIbOOcttx1G6RJX8Jk4Vex+Wz+7frFKBl69IeJRgsa1Bd43Fh7MeZD7JhVV5SikOeBvR2NoJgayhjfatGzfqTmbpIaBlcIjBTpv7uPCWhvsXc/nLA5kohzgqmuxcn/1kr6qHHcwH1VjFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=LDRtkWwl; arc=none smtp.client-ip=195.121.94.186
+	s=arc-20240116; t=1782747413; c=relaxed/simple;
+	bh=9QiU3eK0jAxf8PLk8vUi8H4ukzLDmvkgcgQ3d9BV2uY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OgYfxFTo6OxDl7wSM8nb6t4ZBWMD8snUX/O+4Jaoz2aevap6R3I942/PQHXYb7EZdI+oLbTUOCNp7dqFcGFqpR//sWrIguCiD7jdej560dBOBM7gT+603psApKXShD1wSoIUH+1MF9OYSCZtCFg3G6MzQq8dp5KoOJngAwuDj6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=ptdDFX6O; arc=none smtp.client-ip=195.121.94.184
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="LDRtkWwl"
-X-KPN-MessageId: 30196889-73d0-11f1-bfba-00505699b430
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="ptdDFX6O"
+X-KPN-MessageId: 30a7dfa0-73d0-11f1-a59f-005056994fde
 Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 30196889-73d0-11f1-bfba-00505699b430;
-	Mon, 29 Jun 2026 17:35:42 +0200 (CEST)
+	id 30a7dfa0-73d0-11f1-a59f-005056994fde;
+	Mon, 29 Jun 2026 17:35:43 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=mime-version:message-id:date:subject:to:from;
-	bh=vlvXrHOB2EnpBeMBZ+xGD2T8jeG3IQHbBLzaNvuL1fA=;
-	b=LDRtkWwlpbQfUkt+jW47wkTTjAbXN4IP2CqGpSpJ2On2hdrMfooFyhQyKmMmOLzWuufXdCtCf5NLX
-	 ZPpMimhwhdSvb+kGWtHwm82GEufarekO/OffJFsRBnRz0kK5XTo0bQ1eXlWpihGgFoAIKp2yn3rgQ1
-	 5BJ05s59z/D96LjEkQAGMMvFThjE2aa6GSOGFKRK6cjM1Dks80o/fUYucTlNNnAYY5kGEdj0Qbo7iV
-	 ga5QJeJesN+ZGsi0ns2JKqt+bIu+LSrZvkwNZFKeL3V6aMiegFSvoFK+cSj7KpLKV+TIGjSnm+tkXi
-	 W6eK0utgzS/VtT+1xSenN4NdlcjLQ/Q==
-X-KPN-MID: 33|r/16Rve8fLQRSGu/Gj3+1CU+/zAwV3drs6tHip9DhkqRr2mIxYDkSuQcLvolFYe
- r3U91CPOQb9ntuTpf1xZJQ0eRfupI6paVWn7nUVOKuIk=
+	bh=oagfIm4xPQIxQdDp0zlFn353IxoDjLawSLkCpeCgjXc=;
+	b=ptdDFX6O5v3/2JpMcU2dv+0EUQWrB8FufG6KFX1rzAOl1/hXQm1Pq3EplVnMGZu7/N3QEIokx1uXW
+	 wiueBldNJq3HQYR7iaJNM7sUSL4BbPGtE57G9zUjBFOjYFJeSTnCtNEGXuXjpovMvxPscsNSiZIA+v
+	 urh4YSEzeDz7/FEbu8DZFtXTt5lUsEpxC1sfvJFBsQuFimQ3aaquf+Plcbipye7wHP5KS2Sv4b8UD+
+	 FwhqbyZ+qZbqbH6cqZ90TT8sCkrgEAqHgdBkeJOO8LOz8hdu9BrnKYiX5vJdyhhsBtPzXSPzMP61ES
+	 ib+KiSsG/FgPersyuJmPsLUDAlP1z6Q==
+X-KPN-MID: 33|lStetxaxPvxJfh9u+ONYiIpC4NI/TFHj35vAgRvQne6lCaRi4grNu+hwMSLCnCX
+ Us+5QZQ3aBf3YYtKZ/gkul1gaz7BlV6WZbbMOnXtWU3E=
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|boZMfIVEzOzQjHt97LjoJH24qi1j3jLJdQalCmwBKMjcMMvfoQ1JtjVR9N4hOqV
- Ds7in5Wo0T3FIFf91dUA0Iw==
+X-CMASSUN: 33|YDOjyGWtnie33rzG2jj4iOEv61s2wUJ38J6A6UX6aldxfNOyCDFvSAcBaCzjXkS
+ aDizJZE9sez3b9KyjmUad7g==
 Received: from daedalus.home (unknown [178.231.11.185])
 	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 2d156f16-73d0-11f1-8076-005056998788;
-	Mon, 29 Jun 2026 17:35:42 +0200 (CEST)
+	id 306bd8b3-73d0-11f1-8076-005056998788;
+	Mon, 29 Jun 2026 17:35:43 +0200 (CEST)
 From: Jori Koolstra <jkoolstra@xs4all.nl>
 To: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
@@ -49,10 +50,12 @@ Cc: Aleksa Sarai <cyphar@cyphar.com>,
 	Amir Goldstein <amir73il@gmail.com>,
 	Jeff Layton <jlayton@kernel.org>,
 	Jori Koolstra <jkoolstra@xs4all.nl>
-Subject: [PATCH v2 00/14] vfs: add O_CREAT|O_DIRECTORY to open*(2)
-Date: Mon, 29 Jun 2026 17:36:16 +0200
-Message-ID: <20260629153630.2158649-1-jkoolstra@xs4all.nl>
+Subject: [PATCH v2 01/14] fs/namei.c: use trailing_slashes()
+Date: Mon, 29 Jun 2026 17:36:17 +0200
+Message-ID: <20260629153630.2158649-2-jkoolstra@xs4all.nl>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260629153630.2158649-1-jkoolstra@xs4all.nl>
+References: <20260629153630.2158649-1-jkoolstra@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -61,48 +64,100 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series implements new semantics for the O_CREAT|O_DIRECTORY flag
-combination for open*(2): perform a mkdir and open the resulting
-directory; return a pinning fd (which mkdir does not).
+There are several places in fs/namei.c that can use the
+trailing_slashes() function to improve intent.
 
-Jori Koolstra (14):
-  fs/namei.c: use trailing_slashes()
-  fs/namei.c: move create error && negative dentry case in lookup_open
-    up
-  vfs: prepare vfs_creat|mkdir_no_perm for reuse in lookup_open()
-  vfs: call audit_inode_child() in lookup_open() on failure too
-  fs/namei.c: don't dput() when atomic_open() errors
-  vfs: lookup_open(): move setting FMODE_CREATED down
-  fs/namei.c: lookup_open(): move i_op->create check before
-    try_break_deleg()
-  vfs: lookup_open(): use vfs_create_no_perm()
-  vfs: add O_CREAT|O_DIRECTORY to open*(2)
-  vfs: move O_IS_MKDIR check out atomic_open() to individual filesystems
-  vfs: refuse O_CREAT for directories through a dangling symlink
-  vfs: short-circuit MAY_WRITE access for O_DIRECTORY opens
-  selftest: fix headers in fclog.c
-  selftest: add tests for open*(O_CREAT|O_DIRECTORY)
+Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+---
+ fs/namei.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
- fs/9p/vfs_inode.c                             |   3 +
- fs/9p/vfs_inode_dotl.c                        |   3 +
- fs/ceph/file.c                                |   3 +
- fs/fuse/dir.c                                 |   3 +
- fs/gfs2/inode.c                               |   3 +
- fs/namei.c                                    | 291 ++++++++++++------
- fs/nfs/dir.c                                  |   6 +
- fs/open.c                                     |  32 +-
- fs/smb/client/dir.c                           |   3 +
- fs/vboxsf/dir.c                               |   3 +
- include/linux/fcntl.h                         |   6 +
- .../testing/selftests/filesystems/.gitignore  |   1 +
- tools/testing/selftests/filesystems/Makefile  |   2 +-
- tools/testing/selftests/filesystems/fclog.c   |   4 +-
- .../filesystems/open_o_creat_o_dir.c          | 197 ++++++++++++
- 15 files changed, 447 insertions(+), 113 deletions(-)
- create mode 100644 tools/testing/selftests/filesystems/open_o_creat_o_dir.c
-
-
-base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+diff --git a/fs/namei.c b/fs/namei.c
+index 5cc9f0f466b8..98f9d788cbe5 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -2781,9 +2781,14 @@ static const char *path_init(struct nameidata *nd, unsigned flags)
+ 	return s;
+ }
+ 
++static inline bool trailing_slashes(const struct qstr last)
++{
++	return (bool)last.name[last.len];
++}
++
+ static inline const char *lookup_last(struct nameidata *nd)
+ {
+-	if (nd->last_type == LAST_NORM && nd->last.name[nd->last.len])
++	if (nd->last_type == LAST_NORM && trailing_slashes(nd->last))
+ 		nd->flags |= LOOKUP_FOLLOW | LOOKUP_DIRECTORY;
+ 
+ 	return walk_component(nd, WALK_TRAILING);
+@@ -4521,17 +4526,12 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+ 	return ERR_PTR(error);
+ }
+ 
+-static inline bool trailing_slashes(struct nameidata *nd)
+-{
+-	return (bool)nd->last.name[nd->last.len];
+-}
+-
+ static struct dentry *lookup_fast_for_open(struct nameidata *nd, int open_flag)
+ {
+ 	struct dentry *dentry;
+ 
+ 	if (open_flag & O_CREAT) {
+-		if (trailing_slashes(nd))
++		if (trailing_slashes(nd->last))
+ 			return ERR_PTR(-EISDIR);
+ 
+ 		/* Don't bother on an O_EXCL create */
+@@ -4539,7 +4539,7 @@ static struct dentry *lookup_fast_for_open(struct nameidata *nd, int open_flag)
+ 			return NULL;
+ 	}
+ 
+-	if (trailing_slashes(nd))
++	if (trailing_slashes(nd->last))
+ 		nd->flags |= LOOKUP_FOLLOW | LOOKUP_DIRECTORY;
+ 
+ 	dentry = lookup_fast(nd);
+@@ -4946,7 +4946,7 @@ static struct dentry *filename_create(int dfd, struct filename *name,
+ 	 * Do the final lookup.  Suppress 'create' if there is a trailing
+ 	 * '/', and a directory wasn't requested.
+ 	 */
+-	if (last.name[last.len] && !want_dir)
++	if (trailing_slashes(last) && !want_dir)
+ 		create_flags &= ~LOOKUP_CREATE;
+ 	dentry = start_dirop(path->dentry, &last, reval_flag | create_flags);
+ 	if (IS_ERR(dentry))
+@@ -5565,7 +5565,7 @@ int filename_unlinkat(int dfd, struct filename *name)
+ 		goto exit_drop_write;
+ 
+ 	/* Why not before? Because we want correct error value */
+-	if (unlikely(last.name[last.len])) {
++	if (unlikely(trailing_slashes(last))) {
+ 		if (d_is_dir(dentry))
+ 			error = -EISDIR;
+ 		else
+@@ -6167,16 +6167,16 @@ int filename_renameat2(int olddfd, struct filename *from,
+ 	if (flags & RENAME_EXCHANGE) {
+ 		if (!d_is_dir(rd.new_dentry)) {
+ 			error = -ENOTDIR;
+-			if (new_last.name[new_last.len])
++			if (trailing_slashes(new_last))
+ 				goto exit_unlock;
+ 		}
+ 	}
+ 	/* unless the source is a directory trailing slashes give -ENOTDIR */
+ 	if (!d_is_dir(rd.old_dentry)) {
+ 		error = -ENOTDIR;
+-		if (old_last.name[old_last.len])
++		if (trailing_slashes(old_last))
+ 			goto exit_unlock;
+-		if (!(flags & RENAME_EXCHANGE) && new_last.name[new_last.len])
++		if (!(flags & RENAME_EXCHANGE) && trailing_slashes(new_last))
+ 			goto exit_unlock;
+ 	}
+ 
 -- 
 2.54.0
 
