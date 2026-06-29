@@ -1,79 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A26328CF5D;
-	Mon, 29 Jun 2026 10:31:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F160E33B961;
+	Mon, 29 Jun 2026 10:35:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782729101; cv=none; b=g5P+RUvGAaD5EqJ8EsmbP1zh1b+Nr01rYdHjlBvc0lltWYXyCQvDmTn2caTUJTlMMowwy9a5kO3B57mkBzPoHnYQYbBWDhX2EI2mb3iDGB7kU59ix2ye+Il+kDZo2U2l+laYgC8gKdo48M8PQ1Yp3L+Joq3q+xA9kMrwkOmTibU=
+	t=1782729349; cv=none; b=gwAsKQxI9kyQSk+Vt9rHY6lpy22Yrz+2Boow6ZxT0bphPWPZ11/gT2bL1YhcmOYsDRF2oPCGNOvy+dj+Xk1epJBvm/6VJlEaF7e3teb+2z1eVipKFHyBkTYAlI4iAWmt8Hwxl1K1aVXTK3NnwivcmNyQ8/wVTidyLjVOytaFMcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782729101; c=relaxed/simple;
-	bh=ytkV7hcokUzl4TuVl61zJBHjebIrKvs1gvmLCTFBA4g=;
+	s=arc-20240116; t=1782729349; c=relaxed/simple;
+	bh=oZKEgsAeSbUFcWNbYqqA+tqAigfpU6kxFl6/5tR87ig=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OEkuBKawSWeyh9IlB9/0ZZmegzQf6BOuavsBsrp7vLReDkSuE+3IVUz3QaW0n9yFVA9tQBadslNeM45M55KBBrXLvbtedyGjppZtVlhAYWsshXrbSHdxNtnxo0KZe7y+MQoSCZQYSnH4NJmJfCqlgcxJT61KwN+brg0eTHIihUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jHr2ajkK; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=IVBTgiPU/8rYKa+YIikMuzB/DM7V46F/2DKxLIKJzeTAoU52nChZv2IOC3PTyfp4RwV/zXvFFRFGMmIjn/aHc6k2I2Yg/VBAUBD961DhAfcrj3TERPnlY/2bv9dvjpSAzyeLqEuCAjPGKuXXkRPOo6PLcRys61XcNimXm6WFXHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EKa10FBf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jHr2ajkK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D3511F000E9;
-	Mon, 29 Jun 2026 10:31:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EKa10FBf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE1971F000E9;
+	Mon, 29 Jun 2026 10:35:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782729100;
-	bh=RT8yWbDeKwEmQZtLq+f3M6TtP8uGbz5p5b/YTk59k20=;
+	s=k20260515; t=1782729348;
+	bh=oZKEgsAeSbUFcWNbYqqA+tqAigfpU6kxFl6/5tR87ig=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jHr2ajkK5owuB7Yg5VBd8ULJvukLZc0+xaFZn/wsJViqPHbC9njU4HVpn5wJAKk6x
-	 +R5BjVoBKzOlU9a133aFg9AXxhtbF0JdeoJYLsfKsQh7KAnAxM6DWSNjgm0Wn24Lt1
-	 a5KUjVFBy7m+r4edcTwIkFZtI1kKdHGEVb/jaY3Udcn4ILRowdiOP/a4fQfPzzkiQI
-	 QZ5+6nlh5c7hwhOHz76VYMGiMrHN5gCgGw/aneIU1YFsgAyTqSnaNVnJlVUFh63twf
-	 cdF9+r26nvDhX/xi9HGymnUTYj+l4sg8VgupcQE+iCk60ftbAtG6LyKY1gHhRilmj5
-	 GeCqdLhXq6iWA==
-Date: Mon, 29 Jun 2026 12:31:33 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: John Ericson <mail@johnericson.me>, Andy Lutomirski <luto@kernel.org>, 
-	Li Chen <me@linux.beauty>, Cong Wang <cwang@multikernel.io>, 
-	linux-arch <linux-arch@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, linux-api <linux-api@vger.kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Kees Cook <kees@kernel.org>, Sergei Zimmerman <sergei@zimmerman.foo>, 
-	Farid Zakaria <farid.m.zakaria@gmail.com>
-Subject: Re: [RFC] Null Namespaces
-Message-ID: <20260629-parabel-kraut-waldsee-a4ebfab949ee@brauner>
-References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
- <CALCETrWhXNetw-BsAaoyT31suMmjYLdMh9MAuLB2Lvk2ac-31g@mail.gmail.com>
- <CALCETrU3bgUxp0k1y-U-uL0-fW2016Gmsyu9O_=830czEUGMcQ@mail.gmail.com>
- <103524f8-1658-41df-88e9-cf49c628a721@app.fastmail.com>
- <20260625011023.GM2636677@ZenIV>
- <a75a9b82-a15b-4893-8f92-62b62664ea83@app.fastmail.com>
- <20260626001538.GO2636677@ZenIV>
+	b=EKa10FBf0Q4RGAZAmqjlC0fIa+dP/+JGG7/kE4axKXYgB6hT9NCUClwF0SqLSUgiw
+	 0ohRCRkT0gbZKnag0Tm94xuSWdRL9D44yPjlcmP9Zw1e4Jy+EW8SZqZOoZe2mnr0mQ
+	 6h0sabOs9e8zOTT4g42Q8HxSHZiEVhO/N5SO+nILifZyWNxADGkCbOiGJp3zCy1IH+
+	 dsTfu+8JafH0SNVpLac/SPfCFC+Li0l2ifyeUqi3Uux1mapzsYMOjkDQm0hcQ+T63A
+	 PmBrOTU9B+xw6vnMlDZGW6yzSunCDQNSfQ0MGHHmevPBiqIy6N/qYY2IJba3A7LdoM
+	 xYwt6sUiE4jzg==
+Date: Mon, 29 Jun 2026 11:35:39 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Jan Kara <jack@suse.cz>
+Cc: kernel test robot <oliver.sang@intel.com>, 
+	Frederick Mayle <fmayle@google.com>, oe-lkp@lists.linux.dev, lkp@intel.com, 
+	Andrew Morton <akpm@linux-foundation.org>, Kalesh Singh <kaleshsingh@google.com>, 
+	David Hildenbrand <david@kernel.org>, Matthew Wilcox <willy@infradead.org>, 
+	Suren Baghdasaryan <surenb@google.com>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [linux-next:master] [mm]  7b32f64bc5:
+ pts.svt-av1.Preset13.Bosphorus4K.frames_per_second 45.8% regression
+Message-ID: <akJKSZQTvnUhkMWV@lucifer>
+References: <202606181547.617a6967-lkp@intel.com>
+ <6z2rqmo7b6m2rdhqurspwya25ps4dj7lctdygnmq3rn4xt6h3i@57kiiy72epgd>
+ <ajP_-zqVPtbzvc9j@lucifer>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260626001538.GO2636677@ZenIV>
+In-Reply-To: <ajP_-zqVPtbzvc9j@lucifer>
 
-> So supply a library of your own and try to convince people to use it
-> instead of libc.  You'll have to anyway, seeing that a large and
+On Thu, Jun 18, 2026 at 03:30:28PM +0100, Lorenzo Stoakes wrote:
+> (Sorry to be naggy buuut :) - I see there wasn't maintainer [Matthew] signoff on
+> this, we should really be in the habit of _requiring_ that for merge).
 
-I agree. And in fact that is what we've been doing:
+To be clear this is no comment on importance or not of review - all feedback is
+taken very seriously and I respect Jan's opinions _very_ highly indeed in
+particular.
 
-https://github.com/cyphar/libpathrs
+This was merely an administrative point.
 
-I also plan on splitting the chase*() machinery in systemd out as
-a separate C library as well:
-
-https://github.com/systemd/systemd/blob/104750fd60da4c563650785e272a7ce0a6694d01/src/basic/chase.c#L238
-
-> hard-to-predict part of libc will be non-functional.  Which syscalls
-> are used by your library is entirely up to you.
-> 
-> Would that kind of thing added kernel-side assist the development of such
-> library?  Maybe, but I wouldn't bet too much on that - if you start from
-
-It wouldn't really and we haven't needed it for that.
+Cheers, Lorenzo
