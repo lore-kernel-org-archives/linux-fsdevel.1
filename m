@@ -1,716 +1,294 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011020.outbound.protection.outlook.com [52.101.62.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C597A3E9C12
-	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 19:42:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782762157; cv=none; b=lzGUvtjquB9uHAnTnqiOo//nrahXMurYIlqh0bNIS2HEDUacp76OfX3gxAqapDaENwwGE+CrUAlHGG63/EF+ICUj3wy7Z3ZTgj7DUzvhjXjsGGbyiryG3WIezMUNJPs/+H0DYClL1t2evHUv2gmzkuUYaTZEmr6Wb3vU0ARAtIY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782762157; c=relaxed/simple;
-	bh=771913KNEgAmcUzG6I55O2cBXCoV58ZG5cTsyqxEKP0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HwAtWw5MMgCBnQYtTk6nXUHcbl1b0VyYSVukornNS9NRIOYxgk65RE/g1qYRQhjPx32M9UtW81zaA7cSt33i56U1HnJg3hYEbRIIUJvIdBENRYkCTYBXrUBSdAriHTvp5Xv3ET14wABzgzuT/wALDOR+wsmRz93Upm2nwptlQD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=HLQmjI2c; arc=none smtp.client-ip=195.121.94.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3F41DED4C;
+	Mon, 29 Jun 2026 20:26:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782764795; cv=fail; b=DVopuxE7F4SYv6iJH2NkbJN1DwxdBngFVM9xWqOz/S6Shw4rlNV/SB5cFrjLrDq/rRC/1dYLNjHesN0FbWpSgODZjle5EJyLa2xhpnJVF9fljK4x4v6EMZ6JQGix1yeGfXLJFlMfoLtCjEXx9QeI0XpZezX562yxaYKVg7qpwdE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782764795; c=relaxed/simple;
+	bh=T7Xv+AT2MBTk+ZYWYIEMjedxgqjgq6Cr9/6+ZNge/Pk=;
+	h=Content-Type:Date:Message-Id:From:Subject:Cc:To:References:
+	 In-Reply-To:MIME-Version; b=IAnpo2MYaTOlJTGTKb2XnBBGDvMLbitCbmrrIW9R4Bm/UO16xdWjbES1GekCnZ+VAR0ylFAnCvV2vvrFIUuYAMFBcGB0lGDz2vOUidg6DNzUD7jt8Dvwunre5Zi0DMtzj+rm8N6iMqXlKenqFGFwLYyDXcjBopN9q9kTlmRiupw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=aYnFAIn2; arc=fail smtp.client-ip=52.101.62.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="HLQmjI2c"
-X-KPN-MessageId: ac195578-73f2-11f1-9e8e-005056999439
-Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id ac195578-73f2-11f1-9e8e-005056999439;
-	Mon, 29 Jun 2026 21:42:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=mime-version:message-id:date:subject:to:from;
-	bh=KVLNbAqFFCG8rwDMRhT8CoQ0eu3LivfXB93/2AHA5VY=;
-	b=HLQmjI2cmifG/y9rH5mpRb0NdJvsowAfK7t8obqQpyVRhsL4O/0Sxh/bx+QEcfoFZsKV9ae8Njo57
-	 gMcurozM5v9qgBhR/Cg2xE8v40BOFa0IHKZVqpHT+G2PA2qqWu7ONw2t42BpVxGWlHrkcyI4rXFptk
-	 sl/qKTdK0Yso/PXX3hz+k8Z1c4fyXq+3nAOOLeUuIyTTZCwBkgqPrA4EFzyM4ScU4cu/qnXOhhZh0F
-	 8NaLWYc8qJIskBHnaoOf3upAC7HzKK7qCoK6DyrP+O09mRMMU1biPRADh/bHV76vZGVJaN1h0K52qs
-	 IiyyOfSbzjoEGnJJqkUFTiAUkKrU3KA==
-X-KPN-MID: 33|WIsaJIEUAEB7BvzjQuPc3Bzgwys8unxdIUOszHw7dcg7PdFo6qesJykeTxMRrNa
- jI1wiPvzd0Vp/FVjrURD/AF/PHmSOScmatQSplxwgu+w=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|i//pJlOhFUi5Z1DfDdgx9RLRbAVjrqcJMejy62y1lrjdngY/uLQTObok7MBCuMk
- aSUWx+azEhxlqSmVMsfSTkw==
-Received: from daedalus.home (unknown [178.231.11.185])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id abd0ad6c-73f2-11f1-8076-005056998788;
-	Mon, 29 Jun 2026 21:42:33 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>,
-	Aleksa Sarai <cyphar@cyphar.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>
-Cc: netdev@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jori Koolstra <jkoolstra@xs4all.nl>
-Subject: [PATCH net-next v3 5/5] selftest: Add tests for useful handling of LSM denials on SCM_RIGHTS
-Date: Mon, 29 Jun 2026 21:43:27 +0200
-Message-ID: <20260629194327.2270798-6-jkoolstra@xs4all.nl>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260629194327.2270798-1-jkoolstra@xs4all.nl>
-References: <20260629194327.2270798-1-jkoolstra@xs4all.nl>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="aYnFAIn2"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=T/v44OCgZVv8TnwMyFEqZ59yu11oCB/L8D/YmJ45y3NQvoZQNhrxzCH34Xr4RtJnlmGEbegSVMRmMjurJ9k44Z0/gng+ZdY6mFprMUoGrSiOIiBPpTCnIzNz7C4PAKic1QMjjhB3wrZhwhZWvYn8GEMWsnjwJCqvDm0xSVemHrfuoO+LWQ3P6OJXsI6Q7WguJ8UxcHY5cf3FpmmnpBsQWjSzqxFD3CQYu4gMk9u6t6uC1DIwIwB1teUbMbQf4Q8hZmMYkUC7uOHG7VX2amk9Ekjy/AEO+CuR8vv6qVeoSSMBMi4p0J6sHcCEnLZckLWf+ZiWQ2cdDcfH3MKASIkBKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UjOcawimHyWmxgix9NetNoPKlptEq1gcNWDAjaT9jQw=;
+ b=ETjNpAbP7ey+4SFFarO0HFFa58CsUMqTPhTZ6MoEu77yNuv4XlJ7z3qHfH3wTBDxqWfKmR1eryM06/wAPJhYsEGSkpOH1e+zrVfLpV7gTfVNHMv2XWr4LoMAzE6xqFlTDtjubMihZQ4daGCdHxAcmjZ6U3ZkRMFN9whuNWqz+kx2MURGE9CXq2XBL08JCwvBzMyfIav1tWO3vSUJdC/R8nHwqSB9Q7xd7DobDUmWZsd+2fGSr41wxtOt00KtskVCttuCm/WLc+ss4CRZqD1t6b/yJQkHchvV77pB42Thcv1Czd3D2i/HEOuOd39PjMIdMgZqFPxRPF0ADL7YZuJEQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UjOcawimHyWmxgix9NetNoPKlptEq1gcNWDAjaT9jQw=;
+ b=aYnFAIn2X9xFXp3Fs19l/6YLTYATk0NbcZ68EnMprL3spbrD7OTb6WKPkVm3IDu+1b67fgyFwo2ywI5nr0JLH8dFvemEbfWOqMDPcJ0SRokU7U960JH25I7aq/aXIytsuh+SAvoaScfzHXZqJ1KLvbE0frQpLu7XQ81i5xO9wMFQM+XhAWzbrAMV6Wgm7KvK+uQlpFVY3NFDs9c80F4Ndy5zMVpf2DBZmYM1asChhVA/SAK6YBw6g61oj8S5j4CMJkUGMor7NCUA3QJbWJy7Ea5FbzGl0z6UuXdhOeT8AVUeKTgEC6Cu0UBvlnTLPjJkJ3PePzU5itCa1iBHsubWeQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by DM4PR12MB7551.namprd12.prod.outlook.com (2603:10b6:8:10d::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Mon, 29 Jun
+ 2026 20:26:20 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0159.018; Mon, 29 Jun 2026
+ 20:26:20 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 29 Jun 2026 16:26:18 -0400
+Message-Id: <DJLTDCPWMXDL.4ICZ77A1LPZZ@nvidia.com>
+From: "Zi Yan" <ziy@nvidia.com>
+Subject: Re: [PATCH 01/13] mm: introduce vma_flags_can_grow() and
+ vma_can_grow()
+Cc: "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>, "Madhavan Srinivasan"
+ <maddy@linux.ibm.com>, "Michael Ellerman" <mpe@ellerman.id.au>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Lucas
+ Stach" <l.stach@pengutronix.de>, "Inki Dae" <inki.dae@samsung.com>,
+ "Seung-Woo Kim" <sw0312.kim@samsung.com>, "Kyungmin Park"
+ <kyungmin.park@samsung.com>, "Krzysztof Kozlowski" <krzk@kernel.org>,
+ "Peter Griffin" <peter.griffin@linaro.org>, "Jani Nikula"
+ <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
+ <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
+ "Tvrtko Ursulin" <tursulin@ursulin.net>, "Rob Clark"
+ <robin.clark@oss.qualcomm.com>, "Dmitry Baryshkov" <lumag@kernel.org>,
+ "Lyude Paul" <lyude@redhat.com>, "Danilo Krummrich" <dakr@kernel.org>,
+ "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>, "Sandy Huang"
+ <hjc@rock-chips.com>, =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ "Andy Yan" <andy.yan@rock-chips.com>, "Thierry Reding"
+ <thierry.reding@kernel.org>, "Mikko Perttunen" <mperttunen@nvidia.com>,
+ "Jonathan Hunter" <jonathanh@nvidia.com>, "Gerd Hoffmann"
+ <kraxel@redhat.com>, "Dmitry Osipenko" <dmitry.osipenko@collabora.com>,
+ "Zack Rusin" <zack.rusin@broadcom.com>, "Matthew Brost"
+ <matthew.brost@intel.com>, "Thomas Hellstrom"
+ <thomas.hellstrom@linux.intel.com>, "Oleksandr Andrushchenko"
+ <oleksandr_andrushchenko@epam.com>, "Helge Deller" <deller@gmx.de>,
+ "Benjamin LaHaise" <bcrl@kvack.org>, "Alexander Viro"
+ <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
+ "Muchun Song" <muchun.song@linux.dev>, "Oscar Salvador"
+ <osalvador@suse.de>, "David Hildenbrand" <david@kernel.org>, "Baolin Wang"
+ <baolin.wang@linux.alibaba.com>, "Liam R . Howlett" <liam@infradead.org>,
+ "Nico Pache" <npache@redhat.com>, "Ryan Roberts" <ryan.roberts@arm.com>,
+ "Dev Jain" <dev.jain@arm.com>, "Barry Song" <baohua@kernel.org>, "Lance
+ Yang" <lance.yang@linux.dev>, "Hugh Dickins" <hughd@google.com>, "Vlastimil
+ Babka" <vbabka@kernel.org>, "Mike Rapoport" <rppt@kernel.org>, "Suren
+ Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Jann
+ Horn" <jannh@google.com>, "Pedro Falcato" <pfalcato@suse.de>, "Kees Cook"
+ <kees@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
+ <tiwai@suse.com>, <linux-mips@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
+ <dri-devel@lists.freedesktop.org>, <etnaviv@lists.freedesktop.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-samsung-soc@vger.kernel.org>, <intel-gfx@lists.freedesktop.org>,
+ <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
+ <nouveau@lists.freedesktop.org>, <linux-rockchip@lists.infradead.org>,
+ <linux-tegra@vger.kernel.org>, <virtualization@lists.linux.dev>,
+ <intel-xe@lists.freedesktop.org>, <xen-devel@lists.xenproject.org>,
+ <linux-fbdev@vger.kernel.org>, <linux-aio@kvack.org>,
+ <linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-sound@vger.kernel.org>
+To: "Lorenzo Stoakes" <ljs@kernel.org>, "Andrew Morton"
+ <akpm@linux-foundation.org>
+X-Mailer: aerc 0.21.0
+References: <cover.1782760670.git.ljs@kernel.org>
+ <f2e8c32515d328db62279cc8bab8398ea278d74f.1782760670.git.ljs@kernel.org>
+In-Reply-To: <f2e8c32515d328db62279cc8bab8398ea278d74f.1782760670.git.ljs@kernel.org>
+X-ClientProxiedBy: BLAP220CA0026.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:208:32c::31) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|DM4PR12MB7551:EE_
+X-MS-Office365-Filtering-Correlation-Id: bcdbfcab-ac89-4e05-59d2-08ded61cadfd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|23010399003|56012099006|22082099003|18002099003|4143699003|11063799006|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	xUj0Wbi7enOgdR8SfgVuT5C73lXoevgkzScl9VL1vsj0miycsDySQxzOAN6+yVwlaeVhGLKqkIayPxmq1HCPnZhRw9vOk0gDDPPvKfEOz0ZESjcbEs2cEZs+hdnh1i6oSi+6AXAZTLt3IC4T0HDKPuXI4C5I7J7/sY1eAn9xAt7rXgSTZZtq7IPZUawDx5rf/pGGcPoP0WbHVGYEQxe/34QBIUrEPJTadYzWQ6LUdRd7P4lrz0HdM37EY6/SdwgCz4BT+XqhdE8Xk9yIbGKKoq9a1mR4/qDOHqdpxghkHsLKvAh4kMHvncz1akgnhR38twHjIjyWGz5BLMeX/aVmnb5qxlyvFDm78GZ7ImdEZeL53JW1o8KwzX4mNIZF/c3zaupiC5x4htPFwOTc43ztfGKot0S5JrSyb+dQR2v9OK2EHhkGUjCPmyGfWXm1r/2C6x6zAcOukC0FS4O0eeOKmRwDGrRxFVgXiQh+QbqyhEvF7FpPwf8Bysr1zlerwRkHyc/66RHdmHSD7dIUzmBBKD6QiONcCzV3YPuK0oklR2Fm4kKr5Sg5ELEzaT6wKluIZ5441stoCvpJiPxZec3UMiuJ9lNzczUR+PvqcWFEAE1eEnXBbjPwCJpX38bIlBAIjfH6Py1HcGoT1a14UjGCntdei7oGEa5zchpvlGderDM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(23010399003)(56012099006)(22082099003)(18002099003)(4143699003)(11063799006)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Q2FSYUZmZVN3Q25LK0llMFRzY2EwNkZRQ1lMWjdiT3U1Q1RoU2c5NUZuNjJC?=
+ =?utf-8?B?VWllTW01dWZFZ1NVVFhDQXVXT0ZZdXBNLytTc3RySWlibWREOGJsYkNNKzMx?=
+ =?utf-8?B?MC9DekxkRnAybzNZVVhlZldFYWlhRW1JYnpSWFRHR1NsOGh5T2tqNmY1MStZ?=
+ =?utf-8?B?ZHptdS81RGorTFB0dldWZkNvSlRYTEtPay94UkZTVnF6eFNOZjJRUVB1WHVX?=
+ =?utf-8?B?clNneWFrVlNiTU1zRXBBOEVHSGpGVkdUM2hoNElUcElOVUdlQ0wvbHZjNXRH?=
+ =?utf-8?B?TlRGenUxUHAvUENnMUIxc3pucGVpMHJWODBwVjcxRmRER3BYVnBSdGljSjlu?=
+ =?utf-8?B?MXN5SUJrVjNvVGxzYkMxRlFlbU00QTRURnJNUmJCK1pWVmxla2d3RHpWaFpz?=
+ =?utf-8?B?SHgvcnFtZUdTK2hMMFRDR0lJRFEvYnRFSnBReTF4SXBFZ1lwMUJyOU1xVzd2?=
+ =?utf-8?B?ZWJBMmwwUC9KRFZQRkJwaFV1RHJlTG1iOC83TWRZRlcrRUxjSVk1RHdTZ2h1?=
+ =?utf-8?B?bGUvS1RFcUdLaC95YW5PenVLOXFPUVM2MThSMUkvQWx2MEprZHNHTS9tNmRF?=
+ =?utf-8?B?RElqcFZlUGpudlJNVUZPZHBXNWdzNGEremdlWkJzZG5YbjVrTWJ4Tld4bHlK?=
+ =?utf-8?B?eVF5aEswK2poLzFUVmtmQ0JtNG5vbzBNZTNtYjRaVWIxcmxrMjVHTEorUzZY?=
+ =?utf-8?B?Q3Y2aThOTzIxdTVrbGVwZ044L1Z1NkNaNXgrSXUvbFBDak4yYXhOT3RTTXFN?=
+ =?utf-8?B?SnpkS3EyTkk1TC8yOFBTNVlBMkVsZ21YZzlObDcrS1ZPSG1KYVNnZDVCYWV6?=
+ =?utf-8?B?cnByMVVwWVU5MExBTEpFcGxmRGlWOHowYS81QU1IaElqL0hZZU9zclZxR0VV?=
+ =?utf-8?B?UWNyWTFnLzFRbCswSWVnNzNDL08yQS8rZU4yVnZMQm9pVDQrdzEvZEttQUp0?=
+ =?utf-8?B?b0VvQm5vUHUwTzJTVDU4dHFaY1Jkc1RBakNxK3VZdVZzd2hVTnZ5Um9XWDIv?=
+ =?utf-8?B?cFc0d0F4dzM2c3NaMEZRajBRTkF4MW9wQ1gzbTVnNm1aSlNaVE5YS295dUxH?=
+ =?utf-8?B?NzRnMjA5MXRCcVBIVURVd0VqWHkvaVg3dUtwR0Evc0Y5RUUvWjEzS3hzTWNj?=
+ =?utf-8?B?Qm9DSXRqTzh1QzdkQ2s3OW1wNlRTZUx0cUFpUkhoc1FpOEpCZS9RdkRvaTk3?=
+ =?utf-8?B?aTd4THNCZUlpY2VBU2c1SGVzYzBvd2R0dForRWZzUnMyMzdYUkljTHU1aktK?=
+ =?utf-8?B?OXBKTmV2NUNpeGZjaTc5ODhLM2JMaEJaM054UUF6RTdHTndTbDY2RHZxRy9i?=
+ =?utf-8?B?M1NiNGRZQUZOWnVJYXRtcW96STVNbHhScndhZmtLVWlud0FCdnRBMjhENTRN?=
+ =?utf-8?B?cmpsb25CS2JaNU9WY2pPNDdPNXJmaTVOVlIrWGJxcmgzMERuRDZzdmhRZGRU?=
+ =?utf-8?B?UVN2RlRqSzhVN1BLMTM3R3JDWGpOWWVBUFRFNGV6dDRuZCtoSjM0K0s5UG9W?=
+ =?utf-8?B?Z2FybXh3enRDcUxPUGNHWjYvMVdiaHpVQlFyenRReFprVXhhQWNsZU81OFd0?=
+ =?utf-8?B?OW5XRXlEZ20wYlBLWlZsYmFobDBJVXNSeExVMmM5eTgwTGcyQ20zZ0lWcWJ4?=
+ =?utf-8?B?V0d1OG1STXJ6T2U5eThmS1AxTElCK2lZK2lCcWZ3OFJpZmtldndsTDFPRVMz?=
+ =?utf-8?B?TVk4STNTU0V5MDFMV0xhOFRTbkxhQWJXdFpEYWxtZTdyWVUyK0FpQkpXYnhN?=
+ =?utf-8?B?SXgvMi8zUEtYRTFNWmdTMU90cUVTNGhrZjBZcGNlYVBHSytsOVlJcndSdjU0?=
+ =?utf-8?B?YXFrU1ZZakRMeGJUVGdvekhQeFl0ZVNINGFkTjZRbSt1bUorTzI3cDgvaFNP?=
+ =?utf-8?B?QmJuakREYjN5bllIMVIzeWd0ZCtza2NwS0lESzNNZkdhamJYRXhMNzRaVGNh?=
+ =?utf-8?B?c25kMko0VlRqTXdJT1JCOHBOK1N5ejV4bm54MkQvRW5YcHRnMVpPOWtSaHpL?=
+ =?utf-8?B?QldRbGZxZHUwRGlNaUF5MnNvaXFNeWlhV29aRUcyQWRKZG8wVXRjbHR6anZu?=
+ =?utf-8?B?c04wV3Y4RHBTU3M5QkFVVXRYVlllZG40eEZlVWJ4UmtSdEs4eDhsMEx0d2ky?=
+ =?utf-8?B?NmdKTzVUWlduS0VDODcvakRvaURQMllyQys3OFl6Q04wVmR0VWxMdzNJSnEw?=
+ =?utf-8?B?K2xXQ0k1SnV3Z2NaaUFIbk1PUGI2ZTkrOFV6NVBaNURNMnJRNUIyTDZoaXF3?=
+ =?utf-8?B?aytMQ0tLdENFU1Y2ZUZ4OUw4TTlGcFJFR25MaFhTWkNsME03SFIrYzFKcVph?=
+ =?utf-8?Q?+t2YN/oXnRlwZEOT5Y?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bcdbfcab-ac89-4e05-59d2-08ded61cadfd
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 20:26:20.1258
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZeOF9AEynETVEVXKwzskEDGmMEHuAC1VcI7guFM1cBS66AuhSMQ4skmiFHWDXKMV
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7551
 
-Tests SCM_RIGHTS fd passing on a socket with the new socket option
-SO_RIGHTS_NOTRUNC turned on.
+On Mon Jun 29, 2026 at 3:25 PM EDT, Lorenzo Stoakes wrote:
+> These test whether the VMA has stack sematics, i.e. is able to grow upwar=
+ds
+> or downwards depending on the architecture.
+>
+> In order to account for arches which do not support upward-growing stacks=
+,
+> introduce VMA_GROWSUP whose definition depends on the architecture
+> supporting it, and use vma_flags_test_single_mask() in vma_flags_can_grow=
+()
+> to account for this.
+>
+> Update the VMA userland tests to reflect the changes
+>
+> No functional change intended.
+>
+> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+> ---
+>  include/linux/mm.h              | 21 ++++++++++++++++++---
+>  tools/testing/vma/include/dup.h |  4 ++++
+>  2 files changed, 22 insertions(+), 3 deletions(-)
+>
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 868b2334bff3..cf7df1569052 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -472,6 +472,7 @@ enum {
+>  #define VM_SAO		INIT_VM_FLAG(SAO)
+>  #elif defined(CONFIG_PARISC)
+>  #define VM_GROWSUP	INIT_VM_FLAG(GROWSUP)
+> +#define VMA_GROWSUP	mk_vma_flags(VMA_GROWSUP_BIT)
+>  #elif defined(CONFIG_SPARC64)
+>  #define VM_SPARC_ADI	INIT_VM_FLAG(SPARC_ADI)
+>  #define VM_ARCH_CLEAR	INIT_VM_FLAG(ARCH_CLEAR)
+> @@ -483,6 +484,7 @@ enum {
+>  #endif
+>  #ifndef VM_GROWSUP
+>  #define VM_GROWSUP	VM_NONE
+> +#define VMA_GROWSUP	EMPTY_VMA_FLAGS
+>  #endif
+>  #ifdef CONFIG_ARM64_MTE
+>  #define VM_MTE		INIT_VM_FLAG(MTE)
+> @@ -1563,11 +1565,24 @@ static inline bool vma_is_initial_stack(const str=
+uct vm_area_struct *vma)
+>  		vma->vm_end >=3D vma->vm_mm->start_stack;
+>  }
+> =20
+> -static inline bool vma_is_temporary_stack(const struct vm_area_struct *v=
+ma)
+> +static inline bool vma_flags_can_grow(const vma_flags_t *flags)
+>  {
+> -	int maybe_stack =3D vma->vm_flags & (VM_GROWSDOWN | VM_GROWSUP);
+> +	if (vma_flags_test_single_mask(flags, VMA_GROWSUP))
+> +		return true;
+> +	if (vma_flags_test(flags, VMA_GROWSDOWN_BIT))
+> +		return true;
+> +
+> +	return false;
+> +}
+> =20
+> -	if (!maybe_stack)
+> +static inline bool vma_can_grow(const struct vm_area_struct *vma)
+> +{
+> +	return vma_flags_can_grow(&vma->flags);
 
-The test uses the following Smack labels:
+Would it save vma_flags_can_grow() if we do below?
 
-   "Sender"   - label for the sending process
-   "Receiver" - label for the receiving process
-   "SecretX"   - labels for the files being passed
+return vma_test(vma, VMA_GROWSDOWN_BIT) || vma_test_single_mask(vma, VMA_GR=
+OWSUP);
 
-Socket communication (Sender <-> Receiver) is always allowed.
-The tests control whether Receiver can access "SecretX"-labeled fds.
-When the LSM blocks an fd, we should see a sentinel that corresponds to
-the error returned by the LSM, such as -EACCES.
+I find these two functions when I am reading mm.h.
 
-Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
----
- .../testing/selftests/net/af_unix/.gitignore  |   3 +
- tools/testing/selftests/net/af_unix/Makefile  |   4 +
- .../selftests/net/af_unix/scm_rights_denial.c |  20 ++
- .../selftests/net/af_unix/scm_rights_denial.h |  38 ++++
- .../net/af_unix/scm_rights_denial.sh          | 174 ++++++++++++++++
- .../net/af_unix/scm_rights_denial_receiver.c  | 195 ++++++++++++++++++
- .../net/af_unix/scm_rights_denial_sender.c    | 126 +++++++++++
- 7 files changed, 560 insertions(+)
- create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial.c
- create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial.h
- create mode 100755 tools/testing/selftests/net/af_unix/scm_rights_denial.sh
- create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial_receiver.c
- create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial_sender.c
+> +}
+> +
+> +static inline bool vma_is_temporary_stack(const struct vm_area_struct *v=
+ma)
+> +{
+> +	if (!vma_can_grow(vma))
+>  		return false;
+> =20
+>  	if ((vma->vm_flags & VM_STACK_INCOMPLETE_SETUP) =3D=3D
+> diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/=
+dup.h
+> index 5d7d0afd7765..6f5bcd7fbcd8 100644
+> --- a/tools/testing/vma/include/dup.h
+> +++ b/tools/testing/vma/include/dup.h
+> @@ -245,8 +245,10 @@ enum {
+>  #define VM_STACK	INIT_VM_FLAG(STACK)
+>  #ifdef CONFIG_STACK_GROWS_UP
+>  #define VM_STACK_EARLY	INIT_VM_FLAG(STACK_EARLY)
+> +#define VMA_STACK_EARLY mk_vma_flags(VMA_STACK_EARLY_BIT)
+>  #else
+>  #define VM_STACK_EARLY	VM_NONE
+> +#define VMA_STACK_EARLY EMPTY_VMA_FLAGS
+>  #endif
+>  #ifdef CONFIG_ARCH_HAS_PKEYS
+>  #define VM_PKEY_SHIFT ((__force int)VMA_HIGH_ARCH_0_BIT)
+> @@ -315,6 +317,8 @@ enum {
+> =20
+>  /* Bits set in the VMA until the stack is in its final location */
+>  #define VM_STACK_INCOMPLETE_SETUP (VM_RAND_READ | VM_SEQ_READ | VM_STACK=
+_EARLY)
+> +#define VMA_STACK_INCOMPLETE_SETUP append_vma_flags(		\
+> +	VMA_STACK_EARLY, VMA_RAND_READ_BIT, VMA_SEQ_READ_BIT)
+> =20
+>  #define TASK_EXEC_BIT ((current->personality & READ_IMPLIES_EXEC) ? \
+>  		       VM_EXEC_BIT : VM_READ_BIT)
 
-diff --git a/tools/testing/selftests/net/af_unix/.gitignore b/tools/testing/selftests/net/af_unix/.gitignore
-index 240b26740c9e..2e14b025a6e8 100644
---- a/tools/testing/selftests/net/af_unix/.gitignore
-+++ b/tools/testing/selftests/net/af_unix/.gitignore
-@@ -3,6 +3,9 @@ msg_oob
- scm_inq
- scm_pidfd
- scm_rights
-+scm_rights_denial
-+scm_rights_denial_receiver
-+scm_rights_denial_sender
- so_peek_off
- unix_connect
- unix_connreset
-diff --git a/tools/testing/selftests/net/af_unix/Makefile b/tools/testing/selftests/net/af_unix/Makefile
-index 4c0375e28bbe..86c5588caf28 100644
---- a/tools/testing/selftests/net/af_unix/Makefile
-+++ b/tools/testing/selftests/net/af_unix/Makefile
-@@ -11,9 +11,13 @@ TEST_GEN_PROGS := \
- 	scm_inq \
- 	scm_pidfd \
- 	scm_rights \
-+	scm_rights_denial \
- 	so_peek_off \
- 	unix_connect \
- 	unix_connreset \
- # end of TEST_GEN_PROGS
- 
-+TEST_GEN_FILES := scm_rights_denial_sender scm_rights_denial_receiver
-+TEST_FILES := scm_rights_denial.sh
-+
- include ../../lib.mk
-diff --git a/tools/testing/selftests/net/af_unix/scm_rights_denial.c b/tools/testing/selftests/net/af_unix/scm_rights_denial.c
-new file mode 100644
-index 000000000000..3566f1d28b9a
---- /dev/null
-+++ b/tools/testing/selftests/net/af_unix/scm_rights_denial.c
-@@ -0,0 +1,20 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <stdlib.h>
-+#include <sys/wait.h>
-+
-+#include "kselftest_harness.h"
-+
-+TEST(scm_rights_denial)
-+{
-+	int ret = system("./scm_rights_denial.sh");
-+
-+	ASSERT_NE(-1, ret);
-+	ASSERT_TRUE(WIFEXITED(ret));
-+
-+	if (WEXITSTATUS(ret) == KSFT_SKIP)
-+		SKIP(return, "scm_rights_denial.sh prerequisites not met");
-+
-+	EXPECT_EQ(0, WEXITSTATUS(ret));
-+}
-+
-+TEST_HARNESS_MAIN
-diff --git a/tools/testing/selftests/net/af_unix/scm_rights_denial.h b/tools/testing/selftests/net/af_unix/scm_rights_denial.h
-new file mode 100644
-index 000000000000..2ecdf2b8b973
---- /dev/null
-+++ b/tools/testing/selftests/net/af_unix/scm_rights_denial.h
-@@ -0,0 +1,38 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <unistd.h>
-+#include <fcntl.h>
-+
-+#ifndef SO_RIGHTS_NOTRUNC
-+#define SO_RIGHTS_NOTRUNC 85
-+#endif
-+
-+#define CMSG_IS_SCM_RIGHTS(cmsg) ({		\
-+	typeof(cmsg) _cmsg = (cmsg);		\
-+	_cmsg &&				\
-+	_cmsg->cmsg_level == SOL_SOCKET &&	\
-+	_cmsg->cmsg_type == SCM_RIGHTS;		\
-+})
-+
-+#define MIN(a, b) ({ \
-+	typeof(a) _a = (a); \
-+	typeof(b) _b = (b); \
-+	_a < _b ? _a : _b; \
-+})
-+
-+#define MAX_FDS 10
-+
-+static inline int read_current_label(char *label, size_t size)
-+{
-+	int fd = open("/proc/self/attr/current", O_RDONLY);
-+	if (fd < 0)
-+		return fd;
-+
-+	ssize_t r = read(fd, label, size - 1);
-+	close(fd);
-+	if (r < 0)
-+		return r;
-+
-+	label[r] = '\0';
-+
-+	return 0;
-+}
-diff --git a/tools/testing/selftests/net/af_unix/scm_rights_denial.sh b/tools/testing/selftests/net/af_unix/scm_rights_denial.sh
-new file mode 100755
-index 000000000000..74cafe1dfc62
---- /dev/null
-+++ b/tools/testing/selftests/net/af_unix/scm_rights_denial.sh
-@@ -0,0 +1,174 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+
-+#
-+# scm_rights_denial.sh - Test SCM_RIGHTS fd passing using Smack LSM blocking
-+#
-+# Must be run as root on a kernel with Smack enabled (security=smack).
-+# Requires: capsh (libcap), setfattr/getfattr (attr)
-+#
-+# We use the following Smack labels:
-+#   "Sender"   - label for the sending process
-+#   "Receiver" - label for the receiving process
-+#   "SecretX"   - labels for the files being passed
-+#
-+# Socket communication (Sender <-> Receiver) is always allowed.
-+# The tests control whether Receiver can access "SecretX"-labeled fds.
-+#
-+
-+set -e
-+
-+readonly KSFT_SKIP=4
-+
-+readonly SENDER="./scm_rights_denial_sender"
-+readonly RECEIVER="./scm_rights_denial_receiver"
-+
-+readonly TESTDIR="$(mktemp -d)"
-+readonly SOCK="$TESTDIR/scm_test.sock"
-+readonly TESTFILE1="$TESTDIR/secret_1"
-+readonly TESTFILE2="$TESTDIR/secret_2"
-+
-+trap 'rm -rf "$TESTDIR"' EXIT
-+
-+run_tests() {
-+
-+	preflight
-+	setup
-+
-+	run_test "TEST 1" \
-+		"Receiver should NOT have access to Secret1." \
-+		"Receiver Secret1 ---
-+Receiver Secret2 ---" \
-+		"$TESTFILE1" \
-+		"BLOCKED"
-+
-+	run_test "TEST 2" \
-+		"Receiver should have access to Secret1." \
-+		"Receiver Secret1 r--
-+Receiver Secret2 ---" \
-+		"$TESTFILE1" \
-+		"PASSED"
-+
-+	run_test "TEST 3" \
-+		"Receiver should have access to Secret2, but NOT Secret1." \
-+		"Receiver Secret1 ---
-+Receiver Secret2 r--" \
-+		"$TESTFILE1 $TESTFILE2" \
-+		"BLOCKED PASSED"
-+}
-+
-+run_test() {
-+	local name="$1"
-+	local description="$2"
-+	local rules="$3"
-+	local files="$4"
-+	local expected="$5"
-+
-+	echo ""
-+	echo "$name: $description"
-+	echo "Rules:"
-+	echo "$rules"
-+	echo "Expected: $expected"
-+	echo ""
-+
-+	while IFS= read -r rule; do
-+		[ -n "$rule" ] && echo "$rule" > /sys/fs/smackfs/load2
-+	done <<< "$rules"
-+
-+	local output status last_line
-+	output=$(send_fds "$SOCK" $files)
-+	status=$?
-+	echo "$output"
-+	last_line=$(echo "$output" | tail -n 1 | xargs)
-+
-+	if [ "$status" -ne 0 ]; then
-+		echo "TEST FAILED: receiver returned $status"
-+		return 1
-+	fi
-+
-+	if [[ "$last_line" == "$expected" ]]; then
-+		echo "TEST PASSED: outcome was $expected as expected"
-+		return 0
-+	else
-+		echo "TEST FAILED: expected $expected, got '$last_line'"
-+		return 1
-+	fi
-+}
-+
-+setup() {
-+
-+	printf "Secret 1" > "$TESTFILE1"
-+	printf "Secret 2" > "$TESTFILE2"
-+
-+	setfattr -n security.SMACK64 -v "Secret1" "$TESTFILE1"
-+	setfattr -n security.SMACK64 -v "Secret2" "$TESTFILE2"
-+	setfattr -n security.SMACK64 -v "Tmp" /tmp
-+	setfattr -n security.SMACK64 -v "Tmp" "$TESTDIR"
-+
-+	echo "Sender	Receiver	-w-" > /sys/fs/smackfs/load2
-+	echo "Receiver	Sender		-w-" > /sys/fs/smackfs/load2
-+	echo "Sender	Tmp 		rwx" > /sys/fs/smackfs/load2
-+	echo "Receiver	Tmp		rwx" > /sys/fs/smackfs/load2
-+	echo "Sender	Secret1		r--" > /sys/fs/smackfs/load2
-+	echo "Sender	Secret2		r--" > /sys/fs/smackfs/load2
-+}
-+
-+send_fds() {
-+
-+	local sk="$1"
-+	shift
-+	local files="$*"
-+
-+	(
-+	    echo "Receiver" > /proc/self/attr/current
-+	    exec capsh --drop=cap_mac_override,cap_mac_admin -- -c "$RECEIVER $sk"
-+	) &
-+	local recv_pid=$!
-+	sleep 1
-+
-+	(
-+	    echo "Sender" > /proc/self/attr/current
-+	    exec capsh --drop=cap_mac_override,cap_mac_admin -- -c "$SENDER $sk $files"
-+	) || true
-+
-+	local recv_status=0
-+	wait "$recv_pid" || recv_status=$?
-+
-+	if [ "$recv_status" -ne 0 ]; then
-+	    echo "receiver exited with $recv_status"
-+	fi
-+	return "$recv_status"
-+}
-+
-+preflight() {
-+
-+	if [ "$(id -u)" -ne 0 ]; then
-+	    echo "SKIP: must be run as root"
-+	    exit $KSFT_SKIP
-+	fi
-+
-+	if ! grep -q smack /sys/kernel/security/lsm 2>/dev/null; then
-+	    echo "SKIP: Smack is not active"
-+	    echo "  Check: cat /sys/kernel/security/lsm"
-+	    echo "  Boot with: security=smack"
-+	    exit $KSFT_SKIP
-+	fi
-+
-+	if ! mountpoint -q /sys/fs/smackfs 2>/dev/null; then
-+	    echo "Mounting smackfs..."
-+	    mount -t smackfs smackfs /sys/fs/smackfs
-+	fi
-+
-+	if ! command -v capsh &>/dev/null; then
-+	    echo "SKIP: capsh not found (install libcap)"
-+	    exit $KSFT_SKIP
-+	fi
-+
-+	if [ ! -x "$SENDER" ] || [ ! -x "$RECEIVER" ]; then
-+	    echo "ERROR: $SENDER / $RECEIVER not built (run 'make' first)"
-+	    exit 1
-+	fi
-+
-+}
-+
-+run_tests
-diff --git a/tools/testing/selftests/net/af_unix/scm_rights_denial_receiver.c b/tools/testing/selftests/net/af_unix/scm_rights_denial_receiver.c
-new file mode 100644
-index 000000000000..2965980f96ef
---- /dev/null
-+++ b/tools/testing/selftests/net/af_unix/scm_rights_denial_receiver.c
-@@ -0,0 +1,195 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/*
-+ * scm_rights_denial_receiver.c - Receive fds over a Unix socket via SCM_RIGHTS
-+ *
-+ * Usage: ./scm_rights_denial_receiver <socket_path>
-+ *
-+ * Listens on the given Unix socket path, accepts a connection, and
-+ * attempts to receive file descriptors via SCM_RIGHTS. Reports
-+ * whether the fds were delivered or blocked.
-+ *
-+ * Used for testing LSM (Smack) blocking of fd passing.
-+ */
-+
-+#include <sys/socket.h>
-+#include <sys/un.h>
-+#include <sys/xattr.h>
-+#include <unistd.h>
-+#include <string.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <fcntl.h>
-+
-+#include "scm_rights_denial.h"
-+
-+#define RECV_LOG(fmt, ...) printf("receiver: " fmt, ##__VA_ARGS__)
-+#define RECV_ERR(fmt, ...) fprintf(stderr, "receiver: " fmt, ##__VA_ARGS__)
-+
-+static int recv_fds(int sock, int *fds)
-+{
-+	char buf[1];
-+	char ctrl[CMSG_SPACE(MAX_FDS * sizeof(int))];
-+
-+	struct iovec iov = {
-+		.iov_base = buf,
-+		.iov_len  = sizeof(buf),
-+	};
-+	struct msghdr msg = {
-+		.msg_iov        = &iov,
-+		.msg_iovlen     = 1,
-+		.msg_control    = ctrl,
-+		.msg_controllen = sizeof(ctrl),
-+	};
-+
-+	ssize_t bytes_read = recvmsg(sock, &msg, 0);
-+	if (bytes_read < 0) {
-+		perror("receiver: recvmsg");
-+		return -1;
-+	}
-+	if (bytes_read == 0) {
-+		RECV_ERR("connection closed, no data received\n");
-+		return -1;
-+	}
-+
-+	struct cmsghdr *cmsg = CMSG_FIRSTHDR(&msg);
-+	if (!CMSG_IS_SCM_RIGHTS(cmsg)) {
-+		RECV_ERR("no SCM_RIGHTS in control message\n");
-+		return -1;
-+	}
-+
-+	int num_fd_slots = (cmsg->cmsg_len - CMSG_LEN(0)) / sizeof(int);
-+	memcpy(fds, CMSG_DATA(cmsg), num_fd_slots  * sizeof(int));
-+
-+	RECV_LOG("got %d fd slot(s):", num_fd_slots);
-+	for (int i = 0; i < num_fd_slots ; i++) {
-+		if (fds[i] < 0)
-+			printf(" %s", strerrorname_np(-fds[i]));
-+		else
-+			printf(" %d", fds[i]);
-+	}
-+	putchar('\n');
-+
-+	return num_fd_slots;
-+}
-+
-+static inline int print_current_label(void)
-+{
-+	char label[256];
-+	if (!read_current_label(label, sizeof(label))) {
-+		RECV_LOG("running with Smack label '%s'\n", label);
-+		return 0;
-+	}
-+	return -1;
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	if (argc != 2) {
-+		fprintf(stderr, "Usage: %s <socket_path>\n", argv[0]);
-+		return -1;
-+	}
-+
-+	if (print_current_label()) {
-+		RECV_ERR("cannot read process Smack label");
-+		return -1;
-+	}
-+
-+	int listen_sock = socket(AF_UNIX, SOCK_STREAM, 0);
-+	if (listen_sock < 0) {
-+		perror("receiver: socket");
-+		return -1;
-+	}
-+
-+	struct sockaddr_un addr = {};
-+	addr.sun_family = AF_UNIX;
-+	strncpy(addr.sun_path, argv[1], sizeof(addr.sun_path) - 1);
-+
-+	/* Remove any stale socket file */
-+	unlink(argv[1]);
-+
-+	if (bind(listen_sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
-+		perror("receiver: bind");
-+		return -1;
-+	}
-+
-+	if (listen(listen_sock, 1) < 0) {
-+		perror("receiver: listen");
-+		return -1;
-+	}
-+
-+	RECV_LOG("listening on '%s'\n", argv[1]);
-+
-+	int conn_sock = accept(listen_sock, NULL, NULL);
-+	if (conn_sock < 0) {
-+		perror("receiver: accept");
-+		return -1;
-+	}
-+
-+	RECV_LOG("connection accepted\n");
-+
-+	int one = 1;
-+	if (setsockopt(conn_sock, SOL_SOCKET, SO_RIGHTS_NOTRUNC,
-+		       &one, sizeof(one)) < 0) {
-+		perror("receiver: setsockopt(SO_RIGHTS_NOTRUNC)");
-+		goto out_sock;
-+	}
-+
-+	/* Try to receive the fds */
-+	int fds[MAX_FDS];
-+	int num_fds = recv_fds(conn_sock, fds);
-+	if (num_fds < 0)
-+		goto out_sock;
-+
-+	/* Try to use the received fds -- read and print their contents */
-+	RECV_LOG("attempting to read from received fds...\n");
-+	int i;
-+	for (i = 0; i < num_fds; ++i) {
-+		char readbuf[256];
-+
-+		if (fds[i] < 0) {
-+			RECV_LOG("fd in position %i blocked\n", i);
-+			continue;
-+		} else if (fds[i] == 0) {
-+			RECV_LOG("bad fd in position %i\n", i);
-+			goto out_recv;
-+		}
-+
-+		ssize_t n = read(fds[i], readbuf, sizeof(readbuf) - 1);
-+		if (n < 0) {
-+			perror("receiver: read from received fd");
-+			goto out_recv;
-+		}
-+
-+		readbuf[n] = '\0';
-+		RECV_LOG("read %zd bytes from fd at position %i: '%s'\n", n, i, readbuf);
-+	}
-+
-+	RECV_LOG("final result:\n");
-+	for (int j = 0; j < num_fds; ++j) {
-+		if (fds[j] < 0) {
-+			printf("BLOCKED");
-+		} else {
-+			printf("PASSED");
-+			close(fds[j]);
-+		}
-+		putchar(' ');
-+	}
-+
-+	close(conn_sock);
-+	close(listen_sock);
-+	unlink(argv[1]);
-+	return 0;
-+
-+out_recv:
-+	for (int j = 0; j < num_fds; ++j) {
-+		if (fds[j] > 0)
-+			close(fds[j]);
-+	}
-+
-+out_sock:
-+	close(conn_sock);
-+	close(listen_sock);
-+	unlink(argv[1]);
-+	return -1;
-+}
-diff --git a/tools/testing/selftests/net/af_unix/scm_rights_denial_sender.c b/tools/testing/selftests/net/af_unix/scm_rights_denial_sender.c
-new file mode 100644
-index 000000000000..9742eb25f0b5
---- /dev/null
-+++ b/tools/testing/selftests/net/af_unix/scm_rights_denial_sender.c
-@@ -0,0 +1,126 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+/*
-+ * scm_rights_denial_sender.c - Send fds over a Unix socket via SCM_RIGHTS
-+ *
-+ * Usage: ./scm_rights_denial_sender <socket_path> <file_to_send> [<file_to_send>...]
-+ *
-+ * Opens the specified files and sends their fds to a receiver connected
-+ * on the given Unix socket path. Used for testing LSM blocking of fd
-+ * passing.
-+ */
-+
-+#include <sys/socket.h>
-+#include <sys/un.h>
-+#include <unistd.h>
-+#include <string.h>
-+#include <stdio.h>
-+#include <fcntl.h>
-+
-+#include "scm_rights_denial.h"
-+
-+#define SEND_LOG(fmt, ...) fprintf(stdout, "sender: " fmt, ##__VA_ARGS__)
-+#define SEND_ERR(fmt, ...) fprintf(stderr, "sender: " fmt, ##__VA_ARGS__)
-+
-+static int send_fds(int sock, int *fds, int num_fds)
-+{
-+	if (num_fds > MAX_FDS)
-+		return -1;
-+
-+	char buf[1] = { 'X' };
-+	char ctrl[CMSG_SPACE(MAX_FDS * sizeof(int))] = { 0 };
-+
-+	struct iovec iov = {
-+		.iov_base = buf,
-+		.iov_len  = sizeof(buf),
-+	};
-+	struct msghdr msg = {
-+		.msg_iov        = &iov,
-+		.msg_iovlen     = 1,
-+		.msg_control    = ctrl,
-+		.msg_controllen = CMSG_SPACE(num_fds * sizeof(int)),
-+	};
-+
-+	struct cmsghdr *cmsg = CMSG_FIRSTHDR(&msg);
-+	cmsg->cmsg_level = SOL_SOCKET;
-+	cmsg->cmsg_type  = SCM_RIGHTS;
-+	cmsg->cmsg_len   = CMSG_LEN(num_fds * sizeof(int));
-+	memcpy(CMSG_DATA(cmsg), fds, num_fds * sizeof(int));
-+
-+	ssize_t bytes_send = sendmsg(sock, &msg, 0);
-+	if (bytes_send < 0) {
-+		perror("sender: sendmsg");
-+		return -1;
-+	}
-+
-+	return 0;
-+}
-+
-+static inline int print_current_label(void)
-+{
-+	char label[256];
-+	if (!read_current_label(label, sizeof(label))) {
-+		SEND_LOG("running with Smack label '%s'\n", label);
-+		return 0;
-+	}
-+	return -1;
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	if (argc < 3 || argc > 2 + MAX_FDS) {
-+		fprintf(stderr, "Usage: %s <socket_path> <file_to_send> [<file_to_send>...]\\n",
-+			argv[0]);
-+		fprintf(stderr, "Up to a maximum of %d files", MAX_FDS);
-+		return -1;
-+	}
-+
-+	if (print_current_label()) {
-+		SEND_ERR("cannot read process Smack label");
-+		return -1;
-+	}
-+
-+	int sock = socket(AF_UNIX, SOCK_STREAM, 0);
-+	if (sock < 0) {
-+		perror("sender: socket");
-+		return -1;
-+	}
-+
-+	struct sockaddr_un addr = {};
-+	addr.sun_family = AF_UNIX;
-+	strncpy(addr.sun_path, argv[1], sizeof(addr.sun_path) - 1);
-+
-+	if (connect(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
-+		perror("sender: connect");
-+		goto out_sock;
-+	}
-+
-+	SEND_LOG("connected to '%s'\n", argv[1]);
-+
-+	int num_files = argc - 2;
-+	int fds[MAX_FDS];
-+	int i;
-+	for (i = 0; i < num_files; i++) {
-+		fds[i] = open(argv[2 + i], O_RDONLY);
-+		if (fds[i] < 0) {
-+			perror("sender: open file");
-+			goto out_opened;
-+		}
-+		SEND_LOG("opened '%s' as fd %d\n", argv[2 + i], fds[i]);
-+	}
-+
-+	if (send_fds(sock, fds, num_files) < 0)
-+		goto out_opened;
-+
-+	SEND_LOG("fds successfully sent:");
-+	for (int j = 0; j < num_files; j++)
-+		printf(" %d", fds[j]);
-+	putchar('\n');
-+
-+out_opened:
-+	for (int j = 0; j < i; j++)
-+		close(fds[j]);
-+out_sock:
-+	close(sock);
-+	return -1;
-+}
--- 
-2.54.0
+Why are VMA_STACK_EARLY and VMA_STACK_INCOMPLETE_SETUP added here but
+not in mm.h?
+
+
+--=20
+Best Regards,
+Yan, Zi
 
