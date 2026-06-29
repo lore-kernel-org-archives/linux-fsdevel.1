@@ -1,294 +1,149 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011020.outbound.protection.outlook.com [52.101.62.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3F41DED4C;
-	Mon, 29 Jun 2026 20:26:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.20
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782764795; cv=fail; b=DVopuxE7F4SYv6iJH2NkbJN1DwxdBngFVM9xWqOz/S6Shw4rlNV/SB5cFrjLrDq/rRC/1dYLNjHesN0FbWpSgODZjle5EJyLa2xhpnJVF9fljK4x4v6EMZ6JQGix1yeGfXLJFlMfoLtCjEXx9QeI0XpZezX562yxaYKVg7qpwdE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782764795; c=relaxed/simple;
-	bh=T7Xv+AT2MBTk+ZYWYIEMjedxgqjgq6Cr9/6+ZNge/Pk=;
-	h=Content-Type:Date:Message-Id:From:Subject:Cc:To:References:
-	 In-Reply-To:MIME-Version; b=IAnpo2MYaTOlJTGTKb2XnBBGDvMLbitCbmrrIW9R4Bm/UO16xdWjbES1GekCnZ+VAR0ylFAnCvV2vvrFIUuYAMFBcGB0lGDz2vOUidg6DNzUD7jt8Dvwunre5Zi0DMtzj+rm8N6iMqXlKenqFGFwLYyDXcjBopN9q9kTlmRiupw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=aYnFAIn2; arc=fail smtp.client-ip=52.101.62.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A78395AF8
+	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 21:07:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782767230; cv=none; b=PWCmtXO1tO2p16IQGVZAfQTYPYsuaCwjNdivaRnLqB8TpYvtutr9xRKPxiElg9gDV0TophzyaCeboBhoHOxhO78CM5nSCtkQaWnnchJTq92/zH968eTVI8hAon6M06ppvkug8VwQlDSL/ZEhwsZshp/A1UdbzgqR2669evzgKhk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782767230; c=relaxed/simple;
+	bh=uRnAtDwCNO9BhCTtGFk7SnQYQafVVJE2jiS6mFdcqFo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pn8to2xV5YTPkPPXz1Ae8n749aJUUkMZ8flpDJ8B+XaZwCRpddKz+VWMx45S1Ukfr70wT0Xbxz53cTlD7FdZ+X+fY+FlczjK2kdQ1ftamVwT/TOdQRLhETC4HPqJ98NlacOwB1NaXDGHa1sYFhsT5OT0J8fgJUND3nz9sHhIBaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WvOADvgw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="aYnFAIn2"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=T/v44OCgZVv8TnwMyFEqZ59yu11oCB/L8D/YmJ45y3NQvoZQNhrxzCH34Xr4RtJnlmGEbegSVMRmMjurJ9k44Z0/gng+ZdY6mFprMUoGrSiOIiBPpTCnIzNz7C4PAKic1QMjjhB3wrZhwhZWvYn8GEMWsnjwJCqvDm0xSVemHrfuoO+LWQ3P6OJXsI6Q7WguJ8UxcHY5cf3FpmmnpBsQWjSzqxFD3CQYu4gMk9u6t6uC1DIwIwB1teUbMbQf4Q8hZmMYkUC7uOHG7VX2amk9Ekjy/AEO+CuR8vv6qVeoSSMBMi4p0J6sHcCEnLZckLWf+ZiWQ2cdDcfH3MKASIkBKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UjOcawimHyWmxgix9NetNoPKlptEq1gcNWDAjaT9jQw=;
- b=ETjNpAbP7ey+4SFFarO0HFFa58CsUMqTPhTZ6MoEu77yNuv4XlJ7z3qHfH3wTBDxqWfKmR1eryM06/wAPJhYsEGSkpOH1e+zrVfLpV7gTfVNHMv2XWr4LoMAzE6xqFlTDtjubMihZQ4daGCdHxAcmjZ6U3ZkRMFN9whuNWqz+kx2MURGE9CXq2XBL08JCwvBzMyfIav1tWO3vSUJdC/R8nHwqSB9Q7xd7DobDUmWZsd+2fGSr41wxtOt00KtskVCttuCm/WLc+ss4CRZqD1t6b/yJQkHchvV77pB42Thcv1Czd3D2i/HEOuOd39PjMIdMgZqFPxRPF0ADL7YZuJEQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UjOcawimHyWmxgix9NetNoPKlptEq1gcNWDAjaT9jQw=;
- b=aYnFAIn2X9xFXp3Fs19l/6YLTYATk0NbcZ68EnMprL3spbrD7OTb6WKPkVm3IDu+1b67fgyFwo2ywI5nr0JLH8dFvemEbfWOqMDPcJ0SRokU7U960JH25I7aq/aXIytsuh+SAvoaScfzHXZqJ1KLvbE0frQpLu7XQ81i5xO9wMFQM+XhAWzbrAMV6Wgm7KvK+uQlpFVY3NFDs9c80F4Ndy5zMVpf2DBZmYM1asChhVA/SAK6YBw6g61oj8S5j4CMJkUGMor7NCUA3QJbWJy7Ea5FbzGl0z6UuXdhOeT8AVUeKTgEC6Cu0UBvlnTLPjJkJ3PePzU5itCa1iBHsubWeQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by DM4PR12MB7551.namprd12.prod.outlook.com (2603:10b6:8:10d::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Mon, 29 Jun
- 2026 20:26:20 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0159.018; Mon, 29 Jun 2026
- 20:26:20 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 29 Jun 2026 16:26:18 -0400
-Message-Id: <DJLTDCPWMXDL.4ICZ77A1LPZZ@nvidia.com>
-From: "Zi Yan" <ziy@nvidia.com>
-Subject: Re: [PATCH 01/13] mm: introduce vma_flags_can_grow() and
- vma_can_grow()
-Cc: "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>, "Madhavan Srinivasan"
- <maddy@linux.ibm.com>, "Michael Ellerman" <mpe@ellerman.id.au>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Lucas
- Stach" <l.stach@pengutronix.de>, "Inki Dae" <inki.dae@samsung.com>,
- "Seung-Woo Kim" <sw0312.kim@samsung.com>, "Kyungmin Park"
- <kyungmin.park@samsung.com>, "Krzysztof Kozlowski" <krzk@kernel.org>,
- "Peter Griffin" <peter.griffin@linaro.org>, "Jani Nikula"
- <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
- <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
- "Tvrtko Ursulin" <tursulin@ursulin.net>, "Rob Clark"
- <robin.clark@oss.qualcomm.com>, "Dmitry Baryshkov" <lumag@kernel.org>,
- "Lyude Paul" <lyude@redhat.com>, "Danilo Krummrich" <dakr@kernel.org>,
- "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>, "Sandy Huang"
- <hjc@rock-chips.com>, =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- "Andy Yan" <andy.yan@rock-chips.com>, "Thierry Reding"
- <thierry.reding@kernel.org>, "Mikko Perttunen" <mperttunen@nvidia.com>,
- "Jonathan Hunter" <jonathanh@nvidia.com>, "Gerd Hoffmann"
- <kraxel@redhat.com>, "Dmitry Osipenko" <dmitry.osipenko@collabora.com>,
- "Zack Rusin" <zack.rusin@broadcom.com>, "Matthew Brost"
- <matthew.brost@intel.com>, "Thomas Hellstrom"
- <thomas.hellstrom@linux.intel.com>, "Oleksandr Andrushchenko"
- <oleksandr_andrushchenko@epam.com>, "Helge Deller" <deller@gmx.de>,
- "Benjamin LaHaise" <bcrl@kvack.org>, "Alexander Viro"
- <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
- "Muchun Song" <muchun.song@linux.dev>, "Oscar Salvador"
- <osalvador@suse.de>, "David Hildenbrand" <david@kernel.org>, "Baolin Wang"
- <baolin.wang@linux.alibaba.com>, "Liam R . Howlett" <liam@infradead.org>,
- "Nico Pache" <npache@redhat.com>, "Ryan Roberts" <ryan.roberts@arm.com>,
- "Dev Jain" <dev.jain@arm.com>, "Barry Song" <baohua@kernel.org>, "Lance
- Yang" <lance.yang@linux.dev>, "Hugh Dickins" <hughd@google.com>, "Vlastimil
- Babka" <vbabka@kernel.org>, "Mike Rapoport" <rppt@kernel.org>, "Suren
- Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Jann
- Horn" <jannh@google.com>, "Pedro Falcato" <pfalcato@suse.de>, "Kees Cook"
- <kees@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
- <tiwai@suse.com>, <linux-mips@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
- <dri-devel@lists.freedesktop.org>, <etnaviv@lists.freedesktop.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-samsung-soc@vger.kernel.org>, <intel-gfx@lists.freedesktop.org>,
- <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
- <nouveau@lists.freedesktop.org>, <linux-rockchip@lists.infradead.org>,
- <linux-tegra@vger.kernel.org>, <virtualization@lists.linux.dev>,
- <intel-xe@lists.freedesktop.org>, <xen-devel@lists.xenproject.org>,
- <linux-fbdev@vger.kernel.org>, <linux-aio@kvack.org>,
- <linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
- <linux-sound@vger.kernel.org>
-To: "Lorenzo Stoakes" <ljs@kernel.org>, "Andrew Morton"
- <akpm@linux-foundation.org>
-X-Mailer: aerc 0.21.0
-References: <cover.1782760670.git.ljs@kernel.org>
- <f2e8c32515d328db62279cc8bab8398ea278d74f.1782760670.git.ljs@kernel.org>
-In-Reply-To: <f2e8c32515d328db62279cc8bab8398ea278d74f.1782760670.git.ljs@kernel.org>
-X-ClientProxiedBy: BLAP220CA0026.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:208:32c::31) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WvOADvgw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9AD41F00ADF
+	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 21:07:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782767228;
+	bh=YfIToqSpqLi5Ux4oNUHmwU5C18eq/HPGb1nR21G13hE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=WvOADvgwMQCNYf3xVBU8wXEITYw3J0aqr+SQG5z0hR7kHHv31T3mx+T5Jhg0LGYeZ
+	 8iiH19VtqFAsKbIV5bjbf4PoiGmK1M8Sd3ryfOPPvReHKLe+POM6Fciz9T5sS32Oo9
+	 JKt8bKLaHMYbBaQf5Z9A6MUpdnvfT7W2nuPnUElqMRZTidM96SDR+/YRY5py2Cxjt4
+	 b4uhAY6lmTKstfzhg2HJtVqmP7dODriH1JHhMURygo4pajVVeZMIk6QGX5g/P+GQVy
+	 FuPHm3LDLqTicDJ2F5RGOT1SM4kce8EUeaGTMu+C9p30g9LrRb9YcHmEexOLM+aC6R
+	 w1A3Bsu7h4e3A==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5aebba706b3so1125693e87.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 14:07:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RplGE0aySN23WHgCBkdMl1SDhMMzawaB8GqtsCiiNEQD3QxBxltAtNM97U/ZWm+Sw6imfQVhHdYtLNVD9ZN@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxvVv4ruAtAl+7zE8ji65G9yk5orITAjcIvK5l0WgjfLP9YK6i
+	JGglP038EzRu7UOh8l4iHxautIi9TR4ITGRW5gT4KUkI5Wajlo8KcwKzExOa/ZRV+xcMYK4nh4Z
+	XxHfGEoww0B6shI8VmWG6d/AlevtxlK1ZL+hH1QMJ
+X-Received: by 2002:a05:6512:401f:b0:5ae:b36d:bbb with SMTP id
+ 2adb3069b0e04-5aebdbe2840mr201140e87.44.1782767227209; Mon, 29 Jun 2026
+ 14:07:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|DM4PR12MB7551:EE_
-X-MS-Office365-Filtering-Correlation-Id: bcdbfcab-ac89-4e05-59d2-08ded61cadfd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|23010399003|56012099006|22082099003|18002099003|4143699003|11063799006|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	xUj0Wbi7enOgdR8SfgVuT5C73lXoevgkzScl9VL1vsj0miycsDySQxzOAN6+yVwlaeVhGLKqkIayPxmq1HCPnZhRw9vOk0gDDPPvKfEOz0ZESjcbEs2cEZs+hdnh1i6oSi+6AXAZTLt3IC4T0HDKPuXI4C5I7J7/sY1eAn9xAt7rXgSTZZtq7IPZUawDx5rf/pGGcPoP0WbHVGYEQxe/34QBIUrEPJTadYzWQ6LUdRd7P4lrz0HdM37EY6/SdwgCz4BT+XqhdE8Xk9yIbGKKoq9a1mR4/qDOHqdpxghkHsLKvAh4kMHvncz1akgnhR38twHjIjyWGz5BLMeX/aVmnb5qxlyvFDm78GZ7ImdEZeL53JW1o8KwzX4mNIZF/c3zaupiC5x4htPFwOTc43ztfGKot0S5JrSyb+dQR2v9OK2EHhkGUjCPmyGfWXm1r/2C6x6zAcOukC0FS4O0eeOKmRwDGrRxFVgXiQh+QbqyhEvF7FpPwf8Bysr1zlerwRkHyc/66RHdmHSD7dIUzmBBKD6QiONcCzV3YPuK0oklR2Fm4kKr5Sg5ELEzaT6wKluIZ5441stoCvpJiPxZec3UMiuJ9lNzczUR+PvqcWFEAE1eEnXBbjPwCJpX38bIlBAIjfH6Py1HcGoT1a14UjGCntdei7oGEa5zchpvlGderDM=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(23010399003)(56012099006)(22082099003)(18002099003)(4143699003)(11063799006)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Q2FSYUZmZVN3Q25LK0llMFRzY2EwNkZRQ1lMWjdiT3U1Q1RoU2c5NUZuNjJC?=
- =?utf-8?B?VWllTW01dWZFZ1NVVFhDQXVXT0ZZdXBNLytTc3RySWlibWREOGJsYkNNKzMx?=
- =?utf-8?B?MC9DekxkRnAybzNZVVhlZldFYWlhRW1JYnpSWFRHR1NsOGh5T2tqNmY1MStZ?=
- =?utf-8?B?ZHptdS81RGorTFB0dldWZkNvSlRYTEtPay94UkZTVnF6eFNOZjJRUVB1WHVX?=
- =?utf-8?B?clNneWFrVlNiTU1zRXBBOEVHSGpGVkdUM2hoNElUcElOVUdlQ0wvbHZjNXRH?=
- =?utf-8?B?TlRGenUxUHAvUENnMUIxc3pucGVpMHJWODBwVjcxRmRER3BYVnBSdGljSjlu?=
- =?utf-8?B?MXN5SUJrVjNvVGxzYkMxRlFlbU00QTRURnJNUmJCK1pWVmxla2d3RHpWaFpz?=
- =?utf-8?B?SHgvcnFtZUdTK2hMMFRDR0lJRFEvYnRFSnBReTF4SXBFZ1lwMUJyOU1xVzd2?=
- =?utf-8?B?ZWJBMmwwUC9KRFZQRkJwaFV1RHJlTG1iOC83TWRZRlcrRUxjSVk1RHdTZ2h1?=
- =?utf-8?B?bGUvS1RFcUdLaC95YW5PenVLOXFPUVM2MThSMUkvQWx2MEprZHNHTS9tNmRF?=
- =?utf-8?B?RElqcFZlUGpudlJNVUZPZHBXNWdzNGEremdlWkJzZG5YbjVrTWJ4Tld4bHlK?=
- =?utf-8?B?eVF5aEswK2poLzFUVmtmQ0JtNG5vbzBNZTNtYjRaVWIxcmxrMjVHTEorUzZY?=
- =?utf-8?B?Q3Y2aThOTzIxdTVrbGVwZ044L1Z1NkNaNXgrSXUvbFBDak4yYXhOT3RTTXFN?=
- =?utf-8?B?SnpkS3EyTkk1TC8yOFBTNVlBMkVsZ21YZzlObDcrS1ZPSG1KYVNnZDVCYWV6?=
- =?utf-8?B?cnByMVVwWVU5MExBTEpFcGxmRGlWOHowYS81QU1IaElqL0hZZU9zclZxR0VV?=
- =?utf-8?B?UWNyWTFnLzFRbCswSWVnNzNDL08yQS8rZU4yVnZMQm9pVDQrdzEvZEttQUp0?=
- =?utf-8?B?b0VvQm5vUHUwTzJTVDU4dHFaY1Jkc1RBakNxK3VZdVZzd2hVTnZ5Um9XWDIv?=
- =?utf-8?B?cFc0d0F4dzM2c3NaMEZRajBRTkF4MW9wQ1gzbTVnNm1aSlNaVE5YS295dUxH?=
- =?utf-8?B?NzRnMjA5MXRCcVBIVURVd0VqWHkvaVg3dUtwR0Evc0Y5RUUvWjEzS3hzTWNj?=
- =?utf-8?B?Qm9DSXRqTzh1QzdkQ2s3OW1wNlRTZUx0cUFpUkhoc1FpOEpCZS9RdkRvaTk3?=
- =?utf-8?B?aTd4THNCZUlpY2VBU2c1SGVzYzBvd2R0dForRWZzUnMyMzdYUkljTHU1aktK?=
- =?utf-8?B?OXBKTmV2NUNpeGZjaTc5ODhLM2JMaEJaM054UUF6RTdHTndTbDY2RHZxRy9i?=
- =?utf-8?B?M1NiNGRZQUZOWnVJYXRtcW96STVNbHhScndhZmtLVWlud0FCdnRBMjhENTRN?=
- =?utf-8?B?cmpsb25CS2JaNU9WY2pPNDdPNXJmaTVOVlIrWGJxcmgzMERuRDZzdmhRZGRU?=
- =?utf-8?B?UVN2RlRqSzhVN1BLMTM3R3JDWGpOWWVBUFRFNGV6dDRuZCtoSjM0K0s5UG9W?=
- =?utf-8?B?Z2FybXh3enRDcUxPUGNHWjYvMVdiaHpVQlFyenRReFprVXhhQWNsZU81OFd0?=
- =?utf-8?B?OW5XRXlEZ20wYlBLWlZsYmFobDBJVXNSeExVMmM5eTgwTGcyQ20zZ0lWcWJ4?=
- =?utf-8?B?V0d1OG1STXJ6T2U5eThmS1AxTElCK2lZK2lCcWZ3OFJpZmtldndsTDFPRVMz?=
- =?utf-8?B?TVk4STNTU0V5MDFMV0xhOFRTbkxhQWJXdFpEYWxtZTdyWVUyK0FpQkpXYnhN?=
- =?utf-8?B?SXgvMi8zUEtYRTFNWmdTMU90cUVTNGhrZjBZcGNlYVBHSytsOVlJcndSdjU0?=
- =?utf-8?B?YXFrU1ZZakRMeGJUVGdvekhQeFl0ZVNINGFkTjZRbSt1bUorTzI3cDgvaFNP?=
- =?utf-8?B?QmJuakREYjN5bllIMVIzeWd0ZCtza2NwS0lESzNNZkdhamJYRXhMNzRaVGNh?=
- =?utf-8?B?c25kMko0VlRqTXdJT1JCOHBOK1N5ejV4bm54MkQvRW5YcHRnMVpPOWtSaHpL?=
- =?utf-8?B?QldRbGZxZHUwRGlNaUF5MnNvaXFNeWlhV29aRUcyQWRKZG8wVXRjbHR6anZu?=
- =?utf-8?B?c04wV3Y4RHBTU3M5QkFVVXRYVlllZG40eEZlVWJ4UmtSdEs4eDhsMEx0d2ky?=
- =?utf-8?B?NmdKTzVUWlduS0VDODcvakRvaURQMllyQys3OFl6Q04wVmR0VWxMdzNJSnEw?=
- =?utf-8?B?K2xXQ0k1SnV3Z2NaaUFIbk1PUGI2ZTkrOFV6NVBaNURNMnJRNUIyTDZoaXF3?=
- =?utf-8?B?aytMQ0tLdENFU1Y2ZUZ4OUw4TTlGcFJFR25MaFhTWkNsME03SFIrYzFKcVph?=
- =?utf-8?Q?+t2YN/oXnRlwZEOT5Y?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bcdbfcab-ac89-4e05-59d2-08ded61cadfd
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 20:26:20.1258
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZeOF9AEynETVEVXKwzskEDGmMEHuAC1VcI7guFM1cBS66AuhSMQ4skmiFHWDXKMV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7551
+References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com> <20260629-hauer-erhitzen-sobald-96d3dff68707@brauner>
+In-Reply-To: <20260629-hauer-erhitzen-sobald-96d3dff68707@brauner>
+From: Andy Lutomirski <luto@kernel.org>
+Date: Mon, 29 Jun 2026 14:06:55 -0700
+X-Gmail-Original-Message-ID: <CALCETrVuh0-biOw=TgYN9ERTFAoiki57XeZ3S2T3dO2+hL54gA@mail.gmail.com>
+X-Gm-Features: AVVi8Cf3LtciGmvZ6gi6NvgR3pE8gOwRXUXdgsUdnKdMuHYPpJ3RHP1m1o_FUek
+Message-ID: <CALCETrVuh0-biOw=TgYN9ERTFAoiki57XeZ3S2T3dO2+hL54gA@mail.gmail.com>
+Subject: Re: [RFC] Null Namespaces
+To: Christian Brauner <brauner@kernel.org>
+Cc: John Ericson <mail@johnericson.me>, Li Chen <me@linux.beauty>, 
+	Cong Wang <cwang@multikernel.io>, linux-arch@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
+	Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	"H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Kees Cook <kees@kernel.org>, Sergei Zimmerman <sergei@zimmerman.foo>, 
+	Farid Zakaria <farid.m.zakaria@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon Jun 29, 2026 at 3:25 PM EDT, Lorenzo Stoakes wrote:
-> These test whether the VMA has stack sematics, i.e. is able to grow upwar=
-ds
-> or downwards depending on the architecture.
+On Mon, Jun 29, 2026 at 4:45=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+rg> wrote:
 >
-> In order to account for arches which do not support upward-growing stacks=
-,
-> introduce VMA_GROWSUP whose definition depends on the architecture
-> supporting it, and use vma_flags_test_single_mask() in vma_flags_can_grow=
-()
-> to account for this.
+
+> But I guess the even simpler model would be to copy what I've been doing
+> for pidfs:
 >
-> Update the VMA userland tests to reflect the changes
->
-> No functional change intended.
->
-> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
-> ---
->  include/linux/mm.h              | 21 ++++++++++++++++++---
->  tools/testing/vma/include/dup.h |  4 ++++
->  2 files changed, 22 insertions(+), 3 deletions(-)
->
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 868b2334bff3..cf7df1569052 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -472,6 +472,7 @@ enum {
->  #define VM_SAO		INIT_VM_FLAG(SAO)
->  #elif defined(CONFIG_PARISC)
->  #define VM_GROWSUP	INIT_VM_FLAG(GROWSUP)
-> +#define VMA_GROWSUP	mk_vma_flags(VMA_GROWSUP_BIT)
->  #elif defined(CONFIG_SPARC64)
->  #define VM_SPARC_ADI	INIT_VM_FLAG(SPARC_ADI)
->  #define VM_ARCH_CLEAR	INIT_VM_FLAG(ARCH_CLEAR)
-> @@ -483,6 +484,7 @@ enum {
->  #endif
->  #ifndef VM_GROWSUP
->  #define VM_GROWSUP	VM_NONE
-> +#define VMA_GROWSUP	EMPTY_VMA_FLAGS
->  #endif
->  #ifdef CONFIG_ARM64_MTE
->  #define VM_MTE		INIT_VM_FLAG(MTE)
-> @@ -1563,11 +1565,24 @@ static inline bool vma_is_initial_stack(const str=
-uct vm_area_struct *vma)
->  		vma->vm_end >=3D vma->vm_mm->start_stack;
->  }
-> =20
-> -static inline bool vma_is_temporary_stack(const struct vm_area_struct *v=
-ma)
-> +static inline bool vma_flags_can_grow(const vma_flags_t *flags)
+> +static struct path nullfs_root_path =3D {};
+> +
+> +void nullfs_get_root(struct path *path)
+> +{
+> +       *path =3D nullfs_root_path;
+> +       path_get(path);
+> +}
+> +
+>  static void __init init_mount_tree(void)
 >  {
-> -	int maybe_stack =3D vma->vm_flags & (VM_GROWSDOWN | VM_GROWSUP);
-> +	if (vma_flags_test_single_mask(flags, VMA_GROWSUP))
-> +		return true;
-> +	if (vma_flags_test(flags, VMA_GROWSDOWN_BIT))
-> +		return true;
-> +
-> +	return false;
-> +}
-> =20
-> -	if (!maybe_stack)
-> +static inline bool vma_can_grow(const struct vm_area_struct *vma)
-> +{
-> +	return vma_flags_can_grow(&vma->flags);
+>         struct vfsmount *mnt, *nullfs_mnt;
+> @@ -6209,6 +6217,8 @@ static void __init init_mount_tree(void)
+>         /* Mount mutable rootfs on top of nullfs. */
+>         root.mnt                =3D nullfs_mnt;
+>         root.dentry             =3D nullfs_mnt->mnt_root;
+> +       nullfs_root_path.mnt    =3D nullfs_mnt;
+> +       pidfs_root_path.dentry  =3D nullfs_mnt->mnt_root;
+>
+>         LOCK_MOUNT_EXACT(mp, &root);
+>         if (unlikely(IS_ERR(mp.parent)))
+> diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+> index aadfbf6e0cb3..f55c87c70b78 100644
+> --- a/include/uapi/linux/fcntl.h
+> +++ b/include/uapi/linux/fcntl.h
+> @@ -124,6 +124,7 @@ struct delegation {
+>
+>  #define FD_PIDFS_ROOT                  -10002 /* Root of the pidfs files=
+ystem */
+>  #define FD_NSFS_ROOT                   -10003 /* Root of the nsfs filesy=
+stem */
+> +#define FD_NULLFS_ROOT                 -10004 /* Root of the nullfs file=
+system */
+>  #define FD_INVALID                     -10009 /* Invalid file descriptor=
+: -10000 - EBADF =3D -10009 */
+>
+>  /* Generic flags for the *at(2) family of syscalls. */
+>
+> we then add fchroot() (overdue anyway) and then teach both fchdir() and
+> fchroot() to honor FD_NULLFS_ROOT. Then a process may shed its fs state
+> and move itself into nullfs. Restrict *chdir() and *chroot() for said
+> process via seccomp and it's locked in forever as well.
+>
 
-Would it save vma_flags_can_grow() if we do below?
+One thing comes to mind that might need a bit of care: this would give
+an API for any task to get an fd to a directory that lives in the init
+mount namespace.  It's not at all obvious to me that this is dangerous
+or even observable (you're not about to find a setuid program in
+nullfs), but I think it's at least worth a tiny bit of consideration.
 
-return vma_test(vma, VMA_GROWSDOWN_BIT) || vma_test_single_mask(vma, VMA_GR=
-OWSUP);
+But if this happens, maybe we could finally land one of the patches to
+enable unprivileged chroot?  It's been tried a few times.
 
-I find these two functions when I am reading mm.h.
+https://lore.kernel.org/lkml/0e2f0f54e19bff53a3739ecfddb4ffa9a6dbde4d.13278=
+58005.git.luto@amacapital.net/
 
-> +}
-> +
-> +static inline bool vma_is_temporary_stack(const struct vm_area_struct *v=
-ma)
-> +{
-> +	if (!vma_can_grow(vma))
->  		return false;
-> =20
->  	if ((vma->vm_flags & VM_STACK_INCOMPLETE_SETUP) =3D=3D
-> diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/=
-dup.h
-> index 5d7d0afd7765..6f5bcd7fbcd8 100644
-> --- a/tools/testing/vma/include/dup.h
-> +++ b/tools/testing/vma/include/dup.h
-> @@ -245,8 +245,10 @@ enum {
->  #define VM_STACK	INIT_VM_FLAG(STACK)
->  #ifdef CONFIG_STACK_GROWS_UP
->  #define VM_STACK_EARLY	INIT_VM_FLAG(STACK_EARLY)
-> +#define VMA_STACK_EARLY mk_vma_flags(VMA_STACK_EARLY_BIT)
->  #else
->  #define VM_STACK_EARLY	VM_NONE
-> +#define VMA_STACK_EARLY EMPTY_VMA_FLAGS
->  #endif
->  #ifdef CONFIG_ARCH_HAS_PKEYS
->  #define VM_PKEY_SHIFT ((__force int)VMA_HIGH_ARCH_0_BIT)
-> @@ -315,6 +317,8 @@ enum {
-> =20
->  /* Bits set in the VMA until the stack is in its final location */
->  #define VM_STACK_INCOMPLETE_SETUP (VM_RAND_READ | VM_SEQ_READ | VM_STACK=
-_EARLY)
-> +#define VMA_STACK_INCOMPLETE_SETUP append_vma_flags(		\
-> +	VMA_STACK_EARLY, VMA_RAND_READ_BIT, VMA_SEQ_READ_BIT)
-> =20
->  #define TASK_EXEC_BIT ((current->personality & READ_IMPLIES_EXEC) ? \
->  		       VM_EXEC_BIT : VM_READ_BIT)
+https://lore.kernel.org/all/20210316203633.424794-2-mic@digikod.net/
 
-Why are VMA_STACK_EARLY and VMA_STACK_INCOMPLETE_SETUP added here but
-not in mm.h?
+I think the need for it has reduced a tiny bit with user namespaces,
+as you can sort of emulate it by unsharing your user namespace and
+thus getting enough privilege, but this is rather heavyweight and
+limiting.
 
 
---=20
-Best Regards,
-Yan, Zi
+If all of the above landed, then the old chroot /var/empty kludge that
+security-minded programs have done for decades could finally be
+modernized and not require any privilege :)
 
+Hmm, thinking aloud: every now and then someone brings up the idea of
+having an fd (really an OFD) that points to a file or a directory but
+carries less in the way of permissions/capabilities than the usual
+OFDs.  If we had a way to make an OFD to a directory that forced
+RESOLVE_BENEATH (or RESOLVE_IN_ROOT) and that propagated that
+restriction to anything you open using it, and if an unprivileged
+process could chroot itself to nullfs, then we would be getting quite
+close to what Capsicum can do.
+
+--Andy
