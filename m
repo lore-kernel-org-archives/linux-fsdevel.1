@@ -1,58 +1,110 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E44D3FFAC3;
-	Mon, 29 Jun 2026 12:18:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C82A3FF882;
+	Mon, 29 Jun 2026 12:23:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782735496; cv=none; b=ay5PljGT+kTcvymoOD7xbI8W8ch2QdK89O9DXIikmPMzuJaqoX6ZJ5MeXfhRU3YszHfdiEhTIq7+7Bc9VBQF7/u22K6Fn++XmCsvG55sqrytlUmvIQg57uXaFzOLmHzTyxpDytW5uaPI6hkBwVoESbgVqJD6MIA4DGsJsjPgXYE=
+	t=1782735837; cv=none; b=r0U0c0qus5qgOr8ZCpPoHw2/wX6WEe3k9KPQFH3BenCP2iOYjRUcmY+TT0WM+ypY5KrFig8ur7UCFNmRm3TKJMDtrr676zuu/PwOfYy4tpLo+EzBJ2hapnuR3opidiUV3R2spipJFEq3A7R7+VYRVp3Mka4PHdwT3uRJZDSV5BM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782735496; c=relaxed/simple;
-	bh=4+t23brUA9ds467O+9uJjeNTARw+qZ8jDp8rrkJi1nc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IVZxMt/T3ocjxsTUaQE52Yzumeq+/YSyir47ww1A1Inu507XrAWUnD09P9/TvWYgztWuoxqpwpGnemZl/IA1yrQ7RCe90z0mv8g/xLvaXZy4esF2fViiyfiHLGsnOJyxLuCTkYCqM328bXTVwGR+jzT6TlXoSf4Se1ysnkvx1QQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=eedIQ8Qq; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1782735837; c=relaxed/simple;
+	bh=ykYZMTKEV9hGpicnoJmepKH0wgtlYPIDGNJrMx1fbJc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Tdo/ejy01sywxuvhFNHEaC/YnijQLW9e2vGEdxqmMSlyArhme4Ww9YA/wfbYbs/ozdty1HmZG/mIxtMeFoonMyKrEdw9EdmIZd2b0M92S9dQRO3nzVZLRYWAX28pT+7b2mUJdV08AMt+mPy1ZbZM8g5qjzQ2ZxPC/zJxsS2+knE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VXIgWtDv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="eedIQ8Qq"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=3uv6XzvXDFaI2s9endu4pr1fplTSlVypCXcNeZT65c4=; b=eedIQ8QqTRxd6h5AkRYsGDJ6YS
-	4kv4Qn5bntDkBKjrWSpSeh+NCKdcvYQaj1/Wor3mrcNNW5A/NBxkRLYpc5DBNLH5ln9pOoH4OMSB0
-	QopCbNCZMcCi83A1nojoVmbbu6WX93YKMstLM1HAN2ru8wY+ZgphspFaXxG8KgGo6U1+VSuvunJcg
-	sPWjFbaM7XuoBn9QHr2yMJwqLoq/DoRHlWi8yZAM7hSWlhu5M/xWi/I/sRUtdozgFglmr4934qw7w
-	FbtaIiwSvaJmB5gWy8x7SWEk05EA+j9Y6DN9u2Z63wyuls6oyPysgk047jGC4L+/s4nZCSKoXXCi+
-	jLdF1unA==;
-Received: from clnet-b08-202.ikbnet.co.at ([83.175.123.202] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1weAwG-0000000EX0p-3WTv;
-	Mon, 29 Jun 2026 12:18:13 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>
-Cc: Kelu Ye <yekelu1@huawei.com>,
-	Yifan Zhao <zhaoyifan28@huawei.com>,
-	Ritesh Harjani <ritesh.list@gmail.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Hyunchul Lee <hyc.lee@gmail.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	fuse-devel@lists.linux.dev,
-	ntfs3@lists.linux.dev,
-	linux-erofs@lists.ozlabs.org,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 3/3] iomap: submit read bio after each extent
-Date: Mon, 29 Jun 2026 14:17:40 +0200
-Message-ID: <20260629121750.3392300-4-hch@lst.de>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260629121750.3392300-1-hch@lst.de>
-References: <20260629121750.3392300-1-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VXIgWtDv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5D2D1F000E9;
+	Mon, 29 Jun 2026 12:23:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782735835;
+	bh=KhbirzDiqdXz8L9jjlZYmqe2i6OHEV90p3aTdG2piLY=;
+	h=From:To:Cc:Subject:Date;
+	b=VXIgWtDvSyFcIJVJpcYBkbjDgAVyydc/iME59+R6XRw8bXvm1BkNScIESWGDKzwG8
+	 AhB5OWOUACxuGpUzXK9CREXTc7QbzenbF+f/m6fiWZ0ZOCz579Z+6psilDULlUv4KS
+	 t1hK4vxpshyeCdzB6jjoAR0ouWSDv6aa2AfmFzAVxeVUQ8libN4amrv2h5IP6iXnkJ
+	 vw5hlBz64z8tNrLEbQWPi3qxat89f66kKwijiuXDogs+GZh0c9W1lQTLDBkLRzgknf
+	 wM2jN6figSLSgDjYHDAuCpQ6/CJax3wvd/hhdrpFl4QAONOJEwet916X7QRVjLhdGy
+	 V41g50mCmMcMA==
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Russell King <linux@armlinux.org.uk>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Simon Schuster <schuster.simon@siemens-energy.com>,
+	"James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Helge Deller <deller@gmx.de>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Christian Koenig <christian.koenig@amd.com>,
+	Huang Rui <ray.huang@amd.com>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Dan Williams <djbw@kernel.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	SeongJae Park <sj@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Hugh Dickins <hughd@google.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-parisc@vger.kernel.org,
+	linux-sgx@vger.kernel.org,
+	etnaviv@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	linux-tegra@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	nvdimm@lists.linux.dev,
+	linux-mm@kvack.org,
+	iommu@lists.linux.dev,
+	linux-perf-users@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	damon@lists.linux.dev,
+	Pedro Falcato <pfalcato@suse.de>,
+	Rik van Riel <riel@surriel.com>,
+	Harry Yoo <harry@kernel.org>,
+	Jann Horn <jannh@google.com>
+Subject: [PATCH 00/30] mm: make VMA page offset handling more consistent
+Date: Mon, 29 Jun 2026 13:23:11 +0100
+Message-ID: <cover.1782735110.git.ljs@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -60,85 +112,156 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Currently the iomap buffered read path tries to build up read context
-(i.e. bios for the typical block based case) over multiple iomaps as
-long as the sector matches.  This does not take into account files
-that can map to multiple different devices.  While this could be fixed
-by a bdev check in iomap_bio_read_folio_range, the building up of I/O
-over iomaps actually was a problem for the not yet merged ext2 iomap
-port, as that does want to send out I/O at the end of an indirect
-block mapped range.
+This series performs a series of cleanups and improvements around how the
+vma->vm_pgoff field is used.
 
-So instead of adding more checks move over to a model where a bio only
-spans a single iomap.  Change ->submit_read to be called after each
-iteration so that the bio based users submit the bio after each iomap.
-Fuse is unchanged because the previous commit stopped using ->submit_read
-for it.
+Folios belonging to file-backed mappings are simply indexed by the page
+offset within the file they map.
 
-Fixes: dfeab2e95a75 ("erofs: add multiple device support")
-Reported-by: Kelu Ye <yekelu1@huawei.com>
-Reported-by: Yifan Zhao <zhaoyifan28@huawei.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
-Tested-by: Yifan Zhao <zhaoyifan28@huawei.com>
----
- fs/iomap/bio.c         |  2 ++
- fs/iomap/buffered-io.c | 16 ++++++++--------
- 2 files changed, 10 insertions(+), 8 deletions(-)
+However, anonymous folios belonging to pure anonymous mappings are indexed
+by their "virtual" page offset, which is equal to addr >> PAGE_SHIFT at the
+time at which the VMA was first faulted in.
 
-diff --git a/fs/iomap/bio.c b/fs/iomap/bio.c
-index 0f31e35567b4..dc8ac7e370a5 100644
---- a/fs/iomap/bio.c
-+++ b/fs/iomap/bio.c
-@@ -87,6 +87,8 @@ void iomap_bio_submit_read_endio(const struct iomap_iter *iter,
- 	if (iter->iomap.flags & IOMAP_F_INTEGRITY)
- 		fs_bio_integrity_alloc(bio);
- 	submit_bio(bio);
-+
-+	ctx->read_ctx = NULL;
- }
- EXPORT_SYMBOL_GPL(iomap_bio_submit_read_endio);
- 
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index 8d4806dc46d4..276720bc18dc 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -642,12 +642,12 @@ void iomap_read_folio(const struct iomap_ops *ops,
- 		fsverity_readahead(ctx->vi, folio->index,
- 				   folio_nr_pages(folio));
- 
--	while ((ret = iomap_iter(&iter, ops)) > 0)
-+	while ((ret = iomap_iter(&iter, ops)) > 0) {
- 		iter.status = iomap_read_folio_iter(&iter, ctx,
- 				&bytes_submitted);
--
--	if (ctx->read_ctx && ctx->ops->submit_read)
--		ctx->ops->submit_read(&iter, ctx);
-+		if (ctx->read_ctx && ctx->ops->submit_read)
-+			ctx->ops->submit_read(&iter, ctx);
-+	}
- 
- 	if (ctx->cur_folio)
- 		iomap_read_end(ctx->cur_folio, bytes_submitted);
-@@ -718,12 +718,12 @@ void iomap_readahead(const struct iomap_ops *ops,
- 		fsverity_readahead(ctx->vi, readahead_index(rac),
- 				readahead_count(rac));
- 
--	while (iomap_iter(&iter, ops) > 0)
-+	while (iomap_iter(&iter, ops) > 0) {
- 		iter.status = iomap_readahead_iter(&iter, ctx,
- 					&cur_bytes_submitted);
--
--	if (ctx->read_ctx && ctx->ops->submit_read)
--		ctx->ops->submit_read(&iter, ctx);
-+		if (ctx->read_ctx && ctx->ops->submit_read)
-+			ctx->ops->submit_read(&iter, ctx);
-+	}
- 
- 	if (ctx->cur_folio)
- 		iomap_read_end(ctx->cur_folio, cur_bytes_submitted);
--- 
-2.53.0
+The page offset of a VMA is stored in vma->vm_pgoff and indicates the page
+offset of the start of the VMA range, whether it be file-backed or
+anonymous.
 
+The work here both cleans up how we reference this field, as well as laying
+the foundations for a future series which addresses the inconsistency of
+CoW'd folios in MAP_PRIVATE-file backed mappings, which are indexed as if
+they were file-backed but behave as if they were anonymous.
+
+This future series will make it such that all anonymous folios are indexed
+by virtual page offset whether belonging to VMAs who satisfy
+vma_is_anonymous() or MAP_PRIVATE-mapped file-backed mappings.
+
+This series:
+
+* Exposes vma_start_pgoff() and updates the kernel to use it consistently.
+* Adds and uses the useful vma_end_pgoff() helper.
+* Parameterises the file-backed mapping helpers vma_interval_tree_*()
+  by adress_space rather than rb_root_cached.
+* Renames the misleadingly-named vma_interval_tree_*() helpers to
+  mapping_interval_tree_*() to be consistent with
+  anon_vma_interval_tree_*().
+* Parameterises anon_vma_interval_tree_*() by anon_vma.
+* Moves mm/interval_tree.c to the rmap section.
+* Adds vmg_*() helpers for page offset.
+* Clarifies the confusing vmg_adjust_set_range() function.
+* Introduces linear_page_delta() to provide relative pgoff within a VMA.
+* Replaces open-coded versions of linear_page_delta() and
+  linear_page_index() with invocations of these functions.
+* Introduces and uses vma_assert_can_modify() to account for whether a VMA
+  can be modified (detached or write locked).
+* Adds and uses vma_[add,sub]_pgoff() to adjust VMA page offset.
+* Moves __install_special_mapping() to vma.c.
+* Makes vma_set_range() static and internal to vma.c.
+* Introduces and makes use of vma_set_pgoff().
+* Fixes incorrect vma.h header inclusion.
+* Defaults VMA userland tests to 64-bit vma flags size.
+* Updates VMA userland tests to give better output on failure.
+* Various smaller cleanups.
+
+Lorenzo Stoakes (30):
+  mm: move vma_start_pgoff() into mm.h and clean up
+  mm: add kdoc comments for vma_start/last_pgoff()
+  tools/testing/vma: use vma_start_pgoff() in merge tests
+  mm: introduce and use vma_end_pgoff()
+  mm/rmap: update mm/interval_tree.c comments
+  mm/rmap: parameterise vma_interval_tree_*() by address_space
+  mm/rmap: elide unnecessary static inline's in interval_tree.c
+  mm/rmap: rename vma_interval_tree_*() to mapping_interval_tree_*()
+  mm/rmap: parameterise anon_vma_interval_tree_*() by anon_vma
+  MAINTAINERS: Move mm/interval_tree.c to rmap section
+  mm/vma: introduce and use vmg_pages(), vmg_[start, end]_pgoff()
+  mm/vma: clean up anon_vma_compatible()
+  mm/vma: refactor vmg_adjust_set_range() for clarity
+  mm/vma: minor cleanup of expand_[upwards, downwards]()
+  mm: introduce and use linear_page_delta()
+  mm/vma: use vma_start_pgoff(), linear_page_index() in mm code
+  mm: prefer vma_[start,end]_pgoff() to vma->vm_pgoff in kernel/
+  mm/vma: remove duplicative vma_pgoff_offset() helper
+  mm: use linear_page_[index, delta]() consistently
+  mm/vma: introduce vma_assert_can_modify()
+  mm/vma: add and use vma_[add/sub]_pgoff()
+  mm/vma: move __install_special_mapping() to vma.c
+  mm/vma: make vma_set_range() static, drop insert_vm_struct() decl
+  mm/vma: update vma_shrink() to not pass unnecessary pgoff parameter
+  mm/vma: update vmg_adjust_set_range() to offset pgoff instead
+  mm/vma: introduce and use vma_set_pgoff()
+  mm/vma: correct incorrect vma.h inclusion
+  mm/vma: use guard clauses in can_vma_merge_[before, after]()
+  tools/testing/vma: default VMA flag bits to 64-bit
+  tools/testing/vma: output compared expression on ASSERT_[EQ, NE]()
+
+ MAINTAINERS                           |   2 +-
+ arch/arm/mm/fault-armv.c              |   4 +-
+ arch/arm/mm/flush.c                   |   2 +-
+ arch/nios2/mm/cacheflush.c            |   2 +-
+ arch/parisc/kernel/cache.c            |   2 +-
+ arch/x86/kernel/cpu/sgx/virt.c        |   3 +-
+ drivers/comedi/comedi_fops.c          |   3 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c |   3 +-
+ drivers/gpu/drm/gma500/gem.c          |   2 +-
+ drivers/gpu/drm/msm/msm_gem.c         |   3 +-
+ drivers/gpu/drm/omapdrm/omap_gem.c    |   5 +-
+ drivers/gpu/drm/tegra/gem.c           |   3 +-
+ drivers/gpu/drm/ttm/ttm_bo_vm.c       |   7 +-
+ drivers/vfio/pci/nvgrace-gpu/main.c   |   3 +-
+ drivers/vfio/pci/vfio_pci_core.c      |   3 +-
+ fs/dax.c                              |   2 +-
+ fs/hugetlbfs/inode.c                  |  15 +-
+ include/linux/huge_mm.h               |   1 +
+ include/linux/hugetlb.h               |   3 +-
+ include/linux/mm.h                    | 118 +++++++++----
+ include/linux/mmap_lock.h             |   8 +
+ include/linux/pagemap.h               |  39 ++++-
+ kernel/dma/coherent.c                 |   7 +-
+ kernel/dma/direct.c                   |   6 +-
+ kernel/dma/mapping.c                  |   8 +-
+ kernel/dma/ops_helpers.c              |   4 +-
+ kernel/events/core.c                  |  20 ++-
+ kernel/events/uprobes.c               |  13 +-
+ kernel/kcov.c                         |   2 +-
+ kernel/trace/ring_buffer.c            |   3 +-
+ mm/damon/vaddr.c                      |   5 +-
+ mm/debug.c                            |   2 +-
+ mm/filemap.c                          |   7 +-
+ mm/huge_memory.c                      |   2 +-
+ mm/hugetlb.c                          |  15 +-
+ mm/internal.h                         |  33 ++--
+ mm/interval_tree.c                    | 113 +++++++-----
+ mm/khugepaged.c                       |   7 +-
+ mm/ksm.c                              |   7 +-
+ mm/madvise.c                          |   6 +-
+ mm/mapping_dirty_helpers.c            |   2 +-
+ mm/memory-failure.c                   |  10 +-
+ mm/memory.c                           |  33 ++--
+ mm/mempolicy.c                        |  13 +-
+ mm/mmap.c                             |  41 +----
+ mm/mmu_notifier.c                     |   2 +-
+ mm/mremap.c                           |  12 +-
+ mm/msync.c                            |   4 +-
+ mm/nommu.c                            |  22 +--
+ mm/pagewalk.c                         |   6 +-
+ mm/rmap.c                             |  14 +-
+ mm/shmem.c                            |   9 +-
+ mm/userfaultfd.c                      |   4 +-
+ mm/util.c                             |   4 +-
+ mm/vma.c                              | 239 ++++++++++++++++++--------
+ mm/vma.h                              |  59 ++++++-
+ mm/vma_exec.c                         |  12 +-
+ mm/vma_init.c                         |   6 +-
+ mm/vma_internal.h                     |   4 +-
+ tools/testing/vma/Makefile            |   2 +-
+ tools/testing/vma/include/dup.h       |  41 ++++-
+ tools/testing/vma/include/stubs.h     |  12 +-
+ tools/testing/vma/shared.c            |   9 -
+ tools/testing/vma/shared.h            |  36 ++--
+ tools/testing/vma/tests/merge.c       |  40 ++---
+ virt/kvm/guest_memfd.c                |   2 +-
+ 66 files changed, 699 insertions(+), 432 deletions(-)
+
+--
+2.54.0
