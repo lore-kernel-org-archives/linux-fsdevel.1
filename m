@@ -1,88 +1,148 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B8C0367F4D
-	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 15:53:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB1E42189A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 15:54:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782748389; cv=none; b=GgQeOz4CozdY6IUPB5NcMhOj/yLHy6lf7xXYVU6uNnmUdKgUXaA/s0L28EoauP4++l2qKjvbA7zqem0pgYO8Vmup6BTd90he6PtLM5wgzHAL/PecqBrf57zTfO6VsTI7n5IFJLXwE8smSGzMGMe/GrEQ7jPXlnqouJX9cpZzoLM=
+	t=1782748496; cv=none; b=fGAAdXKki4GqtJweO5sm4cP4sGDaWP7ttuZ7IBKk9gTvpBo8IHzkYg8Mux0PJUIR/aYNqfswubt+XocwpfVx1svWdSKeHN5hw7M8BV0rojdoafbaGFtrak6wgfXE9NqACYxg81rhAxU8gL68cBcrJ9s8f9034z4c047Pv5Z8avI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782748389; c=relaxed/simple;
-	bh=HBKTeC1UYr7Vk89U6ngW2mnqbwXYsD8bAab7Bs4X8WM=;
-	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:Content-Type; b=aPAKb74RMiOAUk5sZxMELEXXjA2RxXppfaKz4dw1HvP/iJVsbnBbtIo0AYHSGlBp9i9JIneZ1VU4Cxkvz7zDWYaV+rCCc3cNIFJNqLpX5Lb1aHFOkJUIjY/SPaDFmy+sbZSn8+9zGvS7eLrQYZEmIPZurYIJEGUpZHKyEbf6Uwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=CYYwjCju; arc=none smtp.client-ip=195.121.94.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1782748496; c=relaxed/simple;
+	bh=vSc4ORRRpUbp5nwMJk1U6F/78ha49jf3UdrgblxYv9I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GmgQyzakzX+xHIqKYoLaO+q6UfrYLiCp9j+9K2DgcFTl5S6nMnRiEJ3hlfjsj2eMl5SHpCxnXBt+LFsX7He5RouNlXxevqe8ePGLZpegXL0AcBoQakXMiIWHu+QArB3EvLZsfk4qhfO3EHGgxZlb/xA7DpToJcxySdyT91RiBLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=JM0fnN0H; arc=none smtp.client-ip=209.85.219.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="CYYwjCju"
-X-KPN-MessageId: 9df1d06d-73d2-11f1-8f53-005056992ed3
-Received: from mta.kpnmail.nl (unknown [10.31.161.190])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 9df1d06d-73d2-11f1-8f53-005056992ed3;
-	Mon, 29 Jun 2026 17:53:05 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 9df0c82a-73d2-11f1-b2f5-0050569977a2;
-	Mon, 29 Jun 2026 17:53:05 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="JM0fnN0H"
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-8eec5dfdb65so9350686d6.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 08:54:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=qOONzDv5IesMk7FmwRmWzL6ygdLiibOwc8oHhYY7XrQ=;
-	b=CYYwjCju+XLArjuTKBz0rrgXA4PLF1scq5Z9TAbxDpheI1kftsve8cZWZubzZzt7lm3S5PF5Psgz/
-	 N1wrbUfnted0yFscCXf5Ln5kBMztNOhchSVRRSb8y3skkscFCj4ow7gW/cfmOzyhc/GaqbZouwIxaM
-	 kWDY99XmbTddF7l8Fh/LhJIFZ+wtQG3zzJJqRYXHtjrUF2SViD/npnB5qd9rR6aaBI8ZgaoMB8Ip1Q
-	 e51pdzWU9Hh9uqpiWtrgftegg5bgyOcCQok6cnlfiudA3bllo8f4khxCDXOcIVdiS0koEYUinR7jRK
-	 An3HSbZH8OpsqMhPFpbLmdCX3cZSGtQ==
-X-KPN-MID: 33|BaQkabgEHsvisp719waZgGn9YmCzBfLF6CdmDC6kBge5ST+vHdIs5hmt2c/mJhl
- wZT24V09hy0jB+gHTHdAHqYeYlCyAV300xMHTsPvqixY=
-X-CMASSUN: 33|yBKuqd4nIaS/wjALx6AA/ZAeyWBS4N0LHbMMZ2RpRUrbo8EFpPBvuB6eefB8n/7
- PNOApHam61ycLPX/T2Yy/PQ==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh01 (cpxoxapps-mh01.personalcloud.so.kpn.org [10.128.135.207])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 9ddd7143-73d2-11f1-916a-005056995d6c;
-	Mon, 29 Jun 2026 17:53:05 +0200 (CEST)
-Date: Mon, 29 Jun 2026 17:53:05 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Luis Henriques <luis@igalia.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <701701086.3381067.1782748385402@kpc.webmail.kpnmail.nl>
-Subject: Re: [PATCH] posix_acl: remove useless code
+        d=gourry.net; s=google; t=1782748493; x=1783353293; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4r3nyg8MsZ+G0ckW9OOGJtlL6QAvCNLsDtm+wiwuKtE=;
+        b=JM0fnN0HJKUi6uSnA3IrfoUPrcjauK6XThjH2DReQOmpX1gM2LZPfoF1ZbHc/BfOsW
+         XI9kmoGCt6lvgHoZXI6Sh1Ty6+UIIveqPkZsQXGuZVY3CysSg9QdBDdUJ6g0L87cTIHt
+         p/0MmTIL7mZvw71fhcyjCRfTkRh/O+Dwx6mRwAg+epfM+SqLwiyuwSs1n0Sz3N8cV2mH
+         AUIUyTmBdyr+54ccj7lbpXdws+p31Q+ZmFOiRb6ngfzp1k0eL6vsPmNcaCqY0tFQzoIQ
+         wj5Gh2CoyjJm0JjYVxbpgfxq/lylqC7ox+tH4VrNSX1XtlLyydAen95MqgFL+zI/X2z6
+         T5nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782748493; x=1783353293;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4r3nyg8MsZ+G0ckW9OOGJtlL6QAvCNLsDtm+wiwuKtE=;
+        b=sweG2bj1Th+yz/un4D5izbcXycuGDzrdBxSy2BwhGH+cji/BaKsMX6OBkyC7Shv141
+         dLyjA3X6FZFBhxfOyQd358motuiLmHMPq0YvOyNj7GxkuI+7T2iLi5GjWFx47Hq13lX0
+         1BBzlUdtXpiSMOKsfBXBnl0qzQEKGqvNYyW03Jny72r/4QEcotYnQ8ppfpu+nJuspPr7
+         dtyc+4Q3k9KUITD7nEsfQ+ZOE2gNHmPPhkfb1Nddsrb32zmtoDLbJR6lscgk0EFxZ/oQ
+         HPbHR3OKO2SEXLp1x09NdUWFDn2+B4G0vBkHLjQ1j7K1NgrfpgX5nRluLO1x4q8T27To
+         gGHw==
+X-Forwarded-Encrypted: i=1; AHgh+RpOHGGz/WQ7bGVhOPE7CIOdf1cI+hKIFBkDjjps5aVgkP/vV+uCGV9i5ixS3DpBHfb1NIyPqVbvtc1EIKTI@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUpqH8V1iob2dlDIgdiLSu6pFnnFV6mROBxy69JFl46TA4VnDN
+	cYnhkPnvjaPubWgurF3fXEPIhyiiQQACAIfxJKcB7o9LMhoitPxf43wUpYz2frLiblc=
+X-Gm-Gg: AfdE7cnasH5emqJ9Us88dzSXaWDXxraeNyNJeBl4tWeVK1FavEnfKeO3UulTRsyCQBL
+	enw1aiH0/KEaQQZMaBhYvk4HT+pShcIuNxpkDaQWncjN5BYO6AWz+Xwh/UEaDiIXVmACebNGduZ
+	4QoK7cVWUzY/fvNk4J0nBItRPDrBylINUppfOXm7htw7ytfzx6ew6qSTFE7Odep6GpNRgGiBcnv
+	23TgoUKlmsrZw+q38wDtuoMrIM1v1DDkI4GnaP94L37e9FXLxQjDlpF0AQPDiNuI4p64qzt8gXh
+	1+/3RHvd5v1Cg35gwoBW6v/eBdyLo8xP6fYNfBL/t9GrO0/D+MhCtvfQLgSIslkg1Nyshi78yHC
+	g0Ez6KB71IDRSzCkBcRswkJ53iCC4tzQOADua49VwIDvAlzR9N4YCEb35WW4Zd1kyW0bauSLVfB
+	RbkpS8FFAQB2hcCSMDti6IBW3F1EuyCvrJM9naMTSHExqxVBxwDGWpk9dqTbXjcfh7+rC/k/e2d
+	ZwqIMA=
+X-Received: by 2002:a05:6214:c65:b0:8f0:5b55:1f6c with SMTP id 6a1803df08f44-8f05b552223mr58558406d6.43.1782748492988;
+        Mon, 29 Jun 2026 08:54:52 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8f1a26f1b34sm1726396d6.3.2026.06.29.08.54.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 08:54:52 -0700 (PDT)
+Date: Mon, 29 Jun 2026 11:54:47 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Simon Schuster <schuster.simon@siemens-energy.com>,
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Christian Koenig <christian.koenig@amd.com>,
+	Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Dan Williams <djbw@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>, Hugh Dickins <hughd@google.com>,
+	Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+	linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+	kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-mm@kvack.org, iommu@lists.linux.dev,
+	linux-perf-users@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+	Jann Horn <jannh@google.com>
+Subject: Re: [PATCH 04/30] mm: introduce and use vma_end_pgoff()
+Message-ID: <akKVR2wNSjbLDt1-@gourry-fedora-PF4VCD3F>
+References: <cover.1782735110.git.ljs@kernel.org>
+ <e379a1cb6a897126ad96e3a263fdb91d6c11f6cb.1782735110.git.ljs@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e379a1cb6a897126ad96e3a263fdb91d6c11f6cb.1782735110.git.ljs@kernel.org>
 
-On Mon, Jun 29, 2026 at 04:45:54PM +0100, Luis Henriques wrote:
-> This is just a trivial clean-up: it removes an unnecessary return branch.
+On Mon, Jun 29, 2026 at 01:23:15PM +0100, Lorenzo Stoakes wrote:
+> We already have vma_last_pgoff() which retrieves the last page offset
+> within a VMA.
 > 
-> Signed-off-by: Luis Henriques <luis@igalia.com>
-> ---
->  fs/posix_acl.c | 2 --
->  1 file changed, 2 deletions(-)
+> However, code often wishes to span a page offset range, which requires the
+> exclusive end of this range.
 > 
-> diff --git a/fs/posix_acl.c b/fs/posix_acl.c
-> index b4bfe4ddf64e..6df5de23aac4 100644
-> --- a/fs/posix_acl.c
-> +++ b/fs/posix_acl.c
-> @@ -740,8 +740,6 @@ static int posix_acl_fix_xattr_common(const void *value, size_t size)
->  	count = posix_acl_xattr_count(size);
->  	if (count < 0)
->  		return -EINVAL;
-> -	if (count == 0)
-> -		return 0;
->  
->  	return count;
->  }
+> So provide this in vma_end_pgoff() and update vma_last_pgoff() to use this
+> function.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 
-Right, well spotted. Feel free to add:
+Reviewed-by: Gregory Price <gourry@gourry.net>
 
-Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
