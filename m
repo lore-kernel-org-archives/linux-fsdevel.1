@@ -1,75 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7049C283C93;
-	Mon, 29 Jun 2026 17:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76061388E42
+	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 18:30:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782754874; cv=none; b=QSWJd0o1lNkifAqvxo6AZM4s4FkTXEmkNs/OWRTKQ31KIuPYEUM4kUmE+0WB3ncm9rz8FTRgXw7haoXdjckk802ak6DOyHF4Z7Nl0tsCDTFPS1AVKHVnFYmcnWI7O8Hv1c9WrSVgMxfARakGuDULi/Vgh5iJyYKDcjs1cisNoA4=
+	t=1782757850; cv=none; b=JXxKyL6ZEMJtArfmWjYEKTfkaArOeHHWkq+xBQ58/mM4/kDdB5qqyq3h70sVo1Uw050KUJLZOJP8Fmg8JdxdaZPJrMLjelaDhyudGrEtFgK8SLH44g52WNZFguOyLs7n1jte2ybqLFlAb9pZEv6s3fTeCznLiPwXuHEo/ZbwNec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782754874; c=relaxed/simple;
-	bh=7ogGndBpHueGVWrVa5AFFYzim8+s377QhCGSJtKEE4Y=;
+	s=arc-20240116; t=1782757850; c=relaxed/simple;
+	bh=NSyl7BT1TjFj5gSTLMOULowrGNab8nMNFh4Un9s5lk8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HqNgkNH63iYbJl//aXWeZhI4qbF9JTi6yeWgRgPboabelH82so8iCclbwZfwjPzGSuGkyeRA+NdwIlyrMD7UjAeOPBPv6zmS2MRo0U73Q15M7hzH4vT9ZPSeJzP79ECU8mqd9TxsMnP0qUNcvnG0VpQ4hVr0pONI0T2cIsRqq1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JwaoyB6l; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=qcVlqOwprceSB0L1eUN0oio1h30wX/AKtJu7HT1C9dlha2wCZs86sWnjb+Us2hpCSIFXkM4SDI1T1+vEQhXZY2bxbA8G+Acy/8iK9JxPIV+05XdCgMXyWkgUKx+TwQMh7ne1beGdeuLxruZ+ZmKMoXobNopxEkcDE2/Qo2mehf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZSKW5IWI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XiK/ozan; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0Ip6Kwgp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EeYyMfbh; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JwaoyB6l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EA521F000E9;
-	Mon, 29 Jun 2026 17:40:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782754873;
-	bh=aQOiijNvdTgOg0ZDAoyrNzD33sjFLDelNYagWZ6KgVc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JwaoyB6lWKH7ik47HITJbeTKRuRVfEO/0pfh+FINdeuw0SW8eTRpmytBGps7cxq+S
-	 kCNxhF/4sUF9JTuYBPt+gxEficptfxjI4Ts803QKT6eKGg4SzB2GwWxKUWqlCQn0l9
-	 8f9cXn9tIT+sPqdX3U0y0w9x3G09VMFKEVU1DGcxCD4GVjIrlUxjbdU0zRQEz8q7QC
-	 mcugOs41Y7eE/Nj43NtJtSgVb0EqBim8qmc/DbOOo6P9Tky+uXOtwwn26EwNHq3UCN
-	 XCWemy+r6UszZnRM3oT+U8VC1D0qCApuNOrmYwKXCeFmYfWusMxcdVWgEhsuAemzi7
-	 qVl/nL+loLawQ==
-Date: Mon, 29 Jun 2026 18:40:51 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Gregory Price <gourry@gourry.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Simon Schuster <schuster.simon@siemens-energy.com>, 
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Ian Abbott <abbotti@mev.co.uk>, 
-	H Hartley Sweeten <hsweeten@visionengravers.com>, Lucas Stach <l.stach@pengutronix.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Thierry Reding <thierry.reding@kernel.org>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>, 
-	Alex Williamson <alex@shazbot.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Dan Williams <djbw@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	"Liam R . Howlett" <liam@infradead.org>, Matthew Wilcox <willy@infradead.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Hugh Dickins <hughd@google.com>, Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org, linux-sgx@vger.kernel.org, 
-	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-mm@kvack.org, 
-	iommu@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, damon@lists.linux.dev, 
-	Pedro Falcato <pfalcato@suse.de>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 05/30] mm/rmap: update mm/interval_tree.c comments
-Message-ID: <akKt5S96pJZGzeER@lucifer>
-References: <cover.1782735110.git.ljs@kernel.org>
- <80d482a927b2e9862487b812e0ab48ebc1289a70.1782735110.git.ljs@kernel.org>
- <akKWvnU2Ua-8ceSb@gourry-fedora-PF4VCD3F>
- <akKfAl-wdIAbexNR@lucifer>
- <akKnNy64lhNqPtLL@gourry-fedora-PF4VCD3F>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZSKW5IWI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XiK/ozan";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0Ip6Kwgp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EeYyMfbh"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8C5DC73213;
+	Mon, 29 Jun 2026 18:30:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782757847; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+4unOw1kC7PDoCyOC3Zep6sOEjf/lsnW9nQUlS74aFs=;
+	b=ZSKW5IWIhLmI75H5Ru137+UQ9cwp0wZYNWh0wLLIwO5UeUdvIAf2J7wD49hRckfFtQs5te
+	KCzC0YssaeSjr9FGF/D0OVQ2YRkDRna7X85nfuOKVE/gp+B0yhLSpINVrqY3eRm3M7t9q+
+	m/I00eAYwiTNDvSUCNHwMzn1k11kjAA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782757847;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+4unOw1kC7PDoCyOC3Zep6sOEjf/lsnW9nQUlS74aFs=;
+	b=XiK/ozan+2lMDL5Detpi57el9beS/jZlYoacw9yUkD5LGELLMmDbFuIPMzf6NDHVdguh8N
+	ri9mJsShahj+JlAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782757846; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+4unOw1kC7PDoCyOC3Zep6sOEjf/lsnW9nQUlS74aFs=;
+	b=0Ip6KwgpFhy8F4Ou3+lH/mzi+xCwIOYpRGCQ3A3XNcrAfHKigDU/sszYi08H5tg4Xv6+1R
+	xdZV1ik8foXtGbd1KHMUkOLd9PFKWatLgTqBU/lEqi7pgcAv4zo/Ll41gcTaMmwmOWKLxP
+	wJEC8RthywEFKzfWtAYS9zFXCNRqa/E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782757846;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+4unOw1kC7PDoCyOC3Zep6sOEjf/lsnW9nQUlS74aFs=;
+	b=EeYyMfbhRr8oQQjM/Igb3SEFQJcXtgZp4ynHWIVDTLcZcStgOopApUqSajIw8RiD8N7NHY
+	ZiPQqv8eCeLo1ZDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8D138779A8;
+	Mon, 29 Jun 2026 18:30:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id uIrYHtW5Qmr0dwAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Mon, 29 Jun 2026 18:30:45 +0000
+Date: Mon, 29 Jun 2026 19:30:43 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, David Hildenbrand <david@kernel.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] mm: do file ownership checks with the proper mount idmap
+Message-ID: <akK4CRgiv9G29UiM@pedro-suse.lan>
+References: <20260625153853.913949-1-pfalcato@suse.de>
+ <s6mr3j7gew2cgerzrvqzenjctctrtnhvlynmcccxb24uszcauz@5iapd6wnbfxg>
+ <20260629-sektor-gaben-gepokert-58db0a3528a3@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -78,45 +90,82 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <akKnNy64lhNqPtLL@gourry-fedora-PF4VCD3F>
+In-Reply-To: <20260629-sektor-gaben-gepokert-58db0a3528a3@brauner>
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,pedro-suse.lan:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
 
-On Mon, Jun 29, 2026 at 01:11:19PM -0400, Gregory Price wrote:
-> On Mon, Jun 29, 2026 at 05:41:16PM +0100, Lorenzo Stoakes wrote:
-> > On Mon, Jun 29, 2026 at 12:01:02PM -0400, Gregory Price wrote:
-> > > On Mon, Jun 29, 2026 at 01:23:16PM +0100, Lorenzo Stoakes wrote:
-> > > > Update the file comment to clarify that both file-backed and anonymous
-> > > > interval trees are provided, referencing the relevant data types for
-> > > > clarity.
-> > > >
-> > >
-> > > Isn't this self-evident by nature of the function definitions?
-> > > (one takes a vm_area_struct, the other takes an anon_vma_chain)
-> >
-> > Well you see you're already hitting up on issues there, they both take an
-> > rb_root_cached and the vma_*() ones do not instantly scream 'file-backed' do
-> > they? As VMAs are obviously used for buth anon and file-backed...
-> >
-> > But later patches fix this stuff :)
-> >
-> > And I feel it's hard visually to see where one set of definitions end and
-> > another begins, which was really the motive for this, as trivial as it is!
-> >
->
-> Fair enough, I scanned the rest initially but trying to wrap my head
-> around everything as i go through one by one.  Generally this really
-> screams "fix the apis" not "comment the bad ones" - but i suppose that's
-> the whole point here.
+On Mon, Jun 29, 2026 at 02:15:19PM +0200, Christian Brauner wrote:
+> On 2026-06-26 16:19:18+02:00, Jan Kara wrote:
+> > On Thu 25-06-26 16:38:53, Pedro Falcato wrote:
+> > 
+> > > Ever since idmapped mounts were introduced, inode ownership checks
+> > > (for side-channel protection) in mincore() and madvise(MADV_PAGEOUT) were
+> > > done against the nop_mnt_idmap, which completely ignores the file's mount's
+> > > idmap. This results in odd edgecases like:
+> > > 
+> > > 1) mount/bind-mount with an idmap userA:userB:1
+> > > 2) userB runs an owner_or_capable() check on file that is owned by userA
+> > > on-disk/in-memory, but owned by userB after idmap translation
+> > > 3) owner_or_capable() mysteriously fails as the correct idmap wasn't supplied
+> > > 
+> > > In the case of mincore/madvise MADV_PAGEOUT, this is usually benign, because
+> > > file_permission(file, MAY_WRITE) will probably succeed, as it uses the proper
+> > > idmap internally, but it does not need to be the case on e.g a 0444 file
+> > > where even the owner itself doesn't have permissions to write to it.
+> > > 
+> > > Since this is clearly not trivial to get right, introduce a
+> > > file_owner_or_capable() that can carry the correct semantics, and switch
+> > > the various users in mm to it.
+> > > 
+> > > The issue was found by manual code inspection & an off-list discussion with
+> > > Jan Kara.
+> > > 
+> > > Fixes: 9caccd41541a ("fs: introduce MOUNT_ATTR_IDMAP")
+> > > Cc: stable@vger.kernel.org
+> > > Signed-off-by: Pedro Falcato <pfalcato@suse.de>
+> > 
+> > This looks good to me. I'm a bit curious why Christian initially (in 2021)
+> > used init_user_ns here instead of the file namespace... Anyway feel free to
+> > add:
+> 
+> Back when this was added only the do_mincore() codepath existed and that
+> was intentionally left unconverted because it exposes the cache
+> residency status. So it was effectively a massive side-channel.
 
-Yeah intent is to eventually completely remove the anon stuff from here at least
-:)
+Hmm. I'm not sure what you mean by this. Wouldn't it be more correct to respect
+the mount idmap (given that a mount-ns-capable user mounted it with an idmap for
+someone else, or itself) for mincore? Am I missing something? Or maybe I'm
+misunderstanding that paragraph.
 
-And Pedro I think is looking at the file rmap so we'll get there :)
+> 
+> Both fd3b1bc3c86e ("mm/madvise: fix madvise_pageout for private file mappings")
+> and specifically cachestat() came way after all that.
+> 
+> I'm otherwise fine with the change.
+> 
+> Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org> 
 
->
-> It's definitely an improvement either way.
->
-> Reviewed-by: Gregory Price <gourry@gourry.net>
->
-> ~Gregory
+Thanks!
 
-Cheers, Lorenzo
+-- 
+Pedro
