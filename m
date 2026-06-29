@@ -1,145 +1,154 @@
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824AE3ED5D6
-	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 15:31:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC2537DAA6
+	for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 15:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782747080; cv=none; b=A0Fr9timgwqyyVzM09JmfEuL0qDb4ShAi4ITLvYjgkWfkpOIEgcMfv0bQmuNiU0ON9vhALHl3opf8BaqA/urkeeo9kBp5vb7LdmQPltW9ZlDHpxhIcz7bpB77wWH7W4yf0HlzD1bE0p4/CqDoE5wlpIt2pKM+3CKClhJnRD+mLM=
+	t=1782747354; cv=none; b=hUqJTPuu/1gKxbjjLHUUcZ3bnd0TQxOKZZqKGiKvQ1A4jrOHn6Atebe5i0++MhvEnKMuHThI2uJ2S+pmux4D9go4fDECkzEVi/nlYALG6NAQS2aokY4NwP190rvkLN6frhZ5ohgGQz/CZFATRxv7gEhAGuNCiC06FLiu8q+YZFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782747080; c=relaxed/simple;
-	bh=eSLebA2K6K0JqwA20gSpIaLBxceDZU1DyvE+HEyhHoc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dmSr0KxdSJiC4qLf8uFC4EAf3vEa+eD+iDa4oxCkILUrXKvRWLCGnaTDzhcQqzN8IlVXtpg0WLFnl7vj1YiImUvm0xWBpf+FDWoLHNZ6WJWXqDCw4C8L+nKm7mVEAO8Vwnq7Q3BR9foPfSSw2oVyF7PTdPxfiTZg0eC0bqsA/lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=WCLcnhWp; arc=none smtp.client-ip=209.85.161.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1782747354; c=relaxed/simple;
+	bh=5PLD134ZrEmnn3YL/Utuef6Ep+ADPD3bAmW4mlAyM+I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Hkv39Si8bKfQJmXjvKvk0mfbc9RqF1Xn0h1lnf+fjrLZaux//13dLGJEYDtlioKGmJDCZqarsOl3ka68WOaEg215AR2rPzKBYNPeavuRKxzSJIUJae4VF/ZIYcD7Fl7+DzV1MLkSKDChQbXFZ7Q3APuePCdutspJlGABdjJ6lwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=JUiUXBR5; arc=none smtp.client-ip=195.121.94.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="WCLcnhWp"
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-6a145935764so1133601eaf.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 08:31:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="JUiUXBR5"
+X-KPN-MessageId: 326fe27f-73d0-11f1-8f53-005056992ed3
+Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 326fe27f-73d0-11f1-8f53-005056992ed3;
+	Mon, 29 Jun 2026 17:35:46 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1782747077; x=1783351877; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TtnRVAeDbe2jCD/DHkmGFKsvQqrt7nLFRBhYCay7qN4=;
-        b=WCLcnhWpf7I8vxLvaDK13rqwV768hOMWQx3Cs32tapStGxKFc5PSkHyyxm/qd0f6um
-         hu9z6uLVCdwWPfSVWBd2TJUc6UfaxIlfe8FZ9RXCykQLTO2692OQNDVBnsKuM4B1JJQE
-         6W/lhFZSfUONNP1pQhwFgEsnZv/pL5LkqssPv9R8nifaUbtdHTpvu6P81zd5uRAqhz+c
-         6B6CjwGuwLBmIMMYDBuGLnuU8LUKUrHil+Rlw1R8kg9Z35oW+08106oj/zjCblQvsZI1
-         dvZcq8/m69vYHm+wc665i4ljxxQU5aew6njTJlPlnMt56WjzD8bl0Lc2nGD3S5+wFILM
-         8IpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782747077; x=1783351877;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TtnRVAeDbe2jCD/DHkmGFKsvQqrt7nLFRBhYCay7qN4=;
-        b=b56XGEfDEqsMugryRY9ZhKJxV0WSuK26a47QYs/NKUrJBRJdV78hQuW/c3OTnAZ9z5
-         RV0GkVcCs+kpBn7Zatp32h+STAyoXjqKTPE9/tZ3rVFNRQjV9l6nzkqiwilteS69uLzT
-         btZLo8GT9B09F9FmiywQPyWIeJrH625gViq/WAY3/q2DL6c38roOmwRkL/2x+l07PysH
-         eJNc2fO9KI9KOD9jTXFCMBh+GO760J+86SHvyy/SOV62xXqOuSBOQRklJJZd1rKn09Fy
-         Yng0YrFiU3fI+T/LCHlluZ29sZFdbCz+POboCiL6HimQc4jaJvxbVAWUFyaKBST5DDxX
-         2Ueg==
-X-Forwarded-Encrypted: i=1; AFNElJ/sCSeOVX3RhTJ92vQ4vNziYvaBhj3QV5q/qCnpV+OCmhoz+S59shsmHeiPIxYC+CuTWpY/+xMzBRVDgLMh@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvPqrauGKDa2BcXKRRH2DPulDpVZYUkd26ws09tt6q6kf0N8F1
-	f2G5Uwtd0vbLDwUPSUG64dfogar2CrAq83RSiIsFIyGxQ9kuqtp8AqZjOTQbv+ZlkxA=
-X-Gm-Gg: AfdE7cmWJ5RphZ9kyMfYpkDpO1hvrX9Hf9/1S3a9R6FDKagoQd/zNJPLAA6kNy5PUOh
-	4ZM6uRlSt+ehdR/krwx4oMAGwF1anEJDp0Ff52B98hf6A7t39AyBo4i7+N7ArlA8QUvipxjhefs
-	Wq7qZhSTTAzJtEFuwjqMYCoC+l3faBEFjDOEwuDd6UcokJSlcyHq3o4p6wZT6CFVEGb15BusYjD
-	kKS8qdOp86yZGViYnfuIc7b5mFkhyCjRXdZVKmpUdjxrdJY+9qu9AjeXuafLIzEW8gz1ogOvSFa
-	tBeA16tZhW4IgBv+FDp4FemhpHAOHqxIEez97vRVRzfArnjCy/u1A1Bgsnu4iURau92ehZqj9kx
-	Wm9RduHCjR/Z20yoguAA4csubjzkoPQCRkeYy5yoJNjlg/ugsv+bVGdzfcpq9fWdS+4Wwqj0qpQ
-	9aQwv7fPBW9i4Sl7F82g553zEFNcGiRgutc7QBgIPFhshkYc3x31Lbn9vb9FJmqFDRMLDY/RB+P
-	kVQnKw=
-X-Received: by 2002:a4a:e914:0:b0:6a1:524b:1f5 with SMTP id 006d021491bc7-6a1891b6f09mr98038eaf.42.1782747077395;
-        Mon, 29 Jun 2026 08:31:17 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e6213b95esm9184285a.5.2026.06.29.08.31.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 08:31:16 -0700 (PDT)
-Date: Mon, 29 Jun 2026 11:31:11 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Simon Schuster <schuster.simon@siemens-energy.com>,
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Christian Koenig <christian.koenig@amd.com>,
-	Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Dan Williams <djbw@kernel.org>, Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>,
-	Miaohe Lin <linmiaohe@huawei.com>, Hugh Dickins <hughd@google.com>,
-	Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
-	linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-	kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-mm@kvack.org, iommu@lists.linux.dev,
-	linux-perf-users@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
-	Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 02/30] mm: add kdoc comments for vma_start/last_pgoff()
-Message-ID: <akKPvwYs-4TwYwKO@gourry-fedora-PF4VCD3F>
-References: <cover.1782735110.git.ljs@kernel.org>
- <8c618dfd7de419e3b797b8bd1cd921d4c5b8878b.1782735110.git.ljs@kernel.org>
+	d=xs4all.nl; s=xs4all01;
+	h=mime-version:message-id:date:subject:to:from;
+	bh=+hUKHnAx6/dQNvRrGgWCQ6JjIxKsKbCG+/FoGh33W5s=;
+	b=JUiUXBR5g119pYfLJ10qFsoJ9Srsv+W9ruTVFr9W93a1PGkbfxtxOFLfuXY0C01lgh195YRKMWAE7
+	 15vSk1M5HlX1edeW6NO558modGvklTZ14Jpum7dPcIDDL80PQSrj6IYv7/xdTOtnf5Jp+riBikAXYT
+	 /FYdSQY5uT85RYnVD+V1Jv9RmeZgTzi7iC1/vhGxHR8pYf3333Uadw/nWbQzu40DG4f/c0tq7llDoP
+	 KALwGyBdv4VakKkMleACj4/TyMdsUo4IxyD88K96SnGCXAsOZjVYMEwT4LSG2fEsZJtbcDlM5UigeO
+	 CU5wXmmnuJO3RwX9d1jRYoZ0Ewz2sAA==
+X-KPN-MID: 33|vwl3+VP3ze8QM7kpdeaM/R+HkcdHLcqEiQJDIpSJ3TicgFKnj37c8Moe+hRondS
+ 4/YXKzrbM2ZhUGhVh/fRjQhgjLEnCIqzI+HAeN2ZLMH0=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|CCxfUq/yU5ENcKfKmQ7YMdft07JPqyyNJQNnnHa/YF2s/MN/AtLgHgOpdxYsGHe
+ LxEv1KrvYF9aM8aQFLMi1Vw==
+Received: from daedalus.home (unknown [178.231.11.185])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 3234fdff-73d0-11f1-8076-005056998788;
+	Mon, 29 Jun 2026 17:35:46 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jan Kara <jack@suse.cz>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	NeilBrown <neilb@suse.de>
+Cc: Aleksa Sarai <cyphar@cyphar.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>
+Subject: [PATCH v2 05/14] fs/namei.c: don't dput() when atomic_open() errors
+Date: Mon, 29 Jun 2026 17:36:21 +0200
+Message-ID: <20260629153630.2158649-6-jkoolstra@xs4all.nl>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260629153630.2158649-1-jkoolstra@xs4all.nl>
+References: <20260629153630.2158649-1-jkoolstra@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8c618dfd7de419e3b797b8bd1cd921d4c5b8878b.1782735110.git.ljs@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 29, 2026 at 01:23:13PM +0100, Lorenzo Stoakes wrote:
-> Describe what vma_start_pgoff() and vma_last_pgoff() actually provide in
-> detail.
-> 
-> This is in order that we can differentiate this between functions that will
-> be added in a subsequent patch which provide a different page offset.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+Both users of atomic_open() now need the dentry alive after return from
+atomic_open() on error, so we can remove the dput() from atomic_open()
+to prevent useless dget()/dput() calls on the normal path.
 
-Reviewed-by: Gregory Price <gourry@gourry.net>
+Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+---
+ fs/namei.c | 30 +++++++++++++-----------------
+ 1 file changed, 13 insertions(+), 17 deletions(-)
+
+diff --git a/fs/namei.c b/fs/namei.c
+index 4f747546ff3d..85ce44b068c1 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -4365,7 +4365,7 @@ static int may_o_create(struct mnt_idmap *idmap,
+  * be set.  The caller will need to perform the open themselves.  @path will
+  * have been updated to point to the new dentry.  This may be negative.
+  *
+- * Returns an error code otherwise.
++ * Returns an error code otherwise. On error the ref to dentry is kept.
+  */
+ static struct dentry *atomic_open(const struct path *path, struct dentry *dentry,
+ 				  struct file *file,
+@@ -4389,17 +4389,24 @@ static struct dentry *atomic_open(const struct path *path, struct dentry *dentry
+ 		} else if (WARN_ON(file->f_path.dentry == DENTRY_NOT_SET)) {
+ 			error = -EIO;
+ 		} else {
++			struct dentry *old = dentry;
++			bool replaced = false;
+ 			if (file->f_path.dentry) {
+-				dput(dentry);
+ 				dentry = file->f_path.dentry;
++				replaced = dentry != old;
+ 			}
+-			if (unlikely(d_is_negative(dentry)))
++			if (unlikely(d_is_negative(dentry))) {
++				/* Do not drop original dentry ref on error */
++				if (replaced)
++					dput(dentry);
+ 				error = -ENOENT;
++			} else if (replaced) {
++				dput(old);
++			}
+ 		}
+ 	}
+ 
+ 	if (error) {
+-		dput(dentry);
+ 		dentry = ERR_PTR(error);
+ 	} else {
+ 		if (file->f_mode & FMODE_CREATED)
+@@ -4497,13 +4504,10 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+ 		struct dentry *orig_dentry = dentry;
+ 		if (nd->flags & LOOKUP_DIRECTORY)
+ 			open_flag |= O_DIRECTORY;
+-		dget(orig_dentry);
+ 		dentry = atomic_open(&nd->path, dentry, file, open_flag, mode);
+ 		error = PTR_ERR_OR_ZERO(dentry);
+ 		if (unlikely(error))
+-			dentry = orig_dentry;
+-		else
+-			dput(orig_dentry);
++			dentry = orig_dentry; /* atomic_open() keeps ref on error */
+ 		if (unlikely(create_error) && error == -ENOENT) {
+ 			/* Should have done a create, but we already errored. */
+ 			audit_inode_child(dir->d_inode, dentry, AUDIT_TYPE_CHILD_CREATE);
+@@ -5081,18 +5085,10 @@ struct file *dentry_create(struct path *path, int flags, umode_t mode,
+ 		if (create_error)
+ 			flags &= ~O_CREAT;
+ 
+-		/* atomic_open will dput(dentry) on error */
+-		dget(orig_dentry);
+ 		dentry = atomic_open(path, dentry, file, flags, mode);
+ 		error = PTR_ERR_OR_ZERO(dentry);
+-
+-		if (IS_ERR(dentry))
+-			/* keep the original */
++		if (unlikely(error))
+ 			dentry = orig_dentry;
+-		else
+-			/* Drop the extra reference */
+-			dput(orig_dentry);
+-
+ 		if (unlikely(create_error) && error == -ENOENT)
+ 			error = create_error;
+ 
+-- 
+2.54.0
 
