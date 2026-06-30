@@ -1,104 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD96832FA30;
-	Tue, 30 Jun 2026 03:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7F9279DCA
+	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 04:05:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782791937; cv=none; b=n2htVwlBVRsBN++iJBeSP79mWXTUJHaKcY5FLRxmIXKlp1xwK+3vVcCipVGHzaHzvPvgwWyaGg6PKZ4ikcXqPjJEyY7y8CbwC7GCu8gMomtzFNQH/NLAKw6NCSEY3hJlwg+Z03VHs6ad/AKEYGwNvHcGBdauZTU2T7O7SaF6Jzo=
+	t=1782792303; cv=none; b=pLK+kNSRs1UmEhMvUn8QZW1acYEREsdVkA7jAdOrGRIiCh9tV/viRcmctqUSv7Qq5Gpv4fkmAGCtAGrZvnBeG5uBI5gn+VgAs5CcdJbstkCti8a9xImvXmU8WFhs6pDWHx+2oItJJrqj+dv25yNrJ8xPBYzIzrqicrOJVGobeuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782791937; c=relaxed/simple;
-	bh=BNBCDun1OGDkp3w3Mj7xVI/yyes3zom9OtNp7H3N9+o=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=MmFOEA/gkYc55/wnIMRDCuIC/JdPBhRZpBQttZ6wF+jNVBSM0vIsaNRy8MTTy8Aw0F58vh7KxSEju+WKzucTbX+KbTCUetoGrLHVOWO6UMWxzA7JQLlg9UFjVs9MWOCCNdWV4UJ/ReDb8vIRSpSwZcYIvLNJVnm+kBsg04fQBwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=LyAxgN98; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="LyAxgN98"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A33F1F000E9;
-	Tue, 30 Jun 2026 03:58:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1782791935;
-	bh=N89Up5BXPY/yDZUMYrHxzavh21D3+xcyvzN4VyJg2o0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=LyAxgN98kQZcX32CCab64mlHrDaYfRHMLVPQd4Z3hPWx4F/VUBubQdNILCdOwsGEz
-	 mMkVWTgJnIG4KM7WGRIk9b16omEFl/XRAuOcUibLZDZTm+C5kTqi4OITXyCThUEuYJ
-	 qiYxFdaLVl362tIBMrV+jB2QyOGfOoQHUBe+6fUg=
-Date: Mon, 29 Jun 2026 20:58:54 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Daniel Palmer <daniel@thingy.jp>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>, Christian
- Brauner <brauner@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>
-Subject: Re: [PATCH] tmpfs/ramfs: Let memfd_create() work on nommu
-Message-Id: <20260629205854.0062b1fc9588ba9928bb1707@linux-foundation.org>
-In-Reply-To: <20260523130445.1101818-1-daniel@thingy.jp>
-References: <20260523130445.1101818-1-daniel@thingy.jp>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1782792303; c=relaxed/simple;
+	bh=alOu7gwRSMbqrvli9KWAAa7wVcLCEXA4LC1xM2EZrVk=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=XS6e4IBWByoWdp7Ept+RVmd+Lk4/AFWnrAsM/o4Gc06Q0y2yeYGheIQvO4U/IQEZ1WwXABYo6Wc8evYO72Z3GUMNHddnI7jECgnBn+y1/eVgl2Y30iwn8a/EPZcgDZfwvG57+tAt6Hgx0p/YaeIXccjThG1hvJ4F5mfsIwBSJkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-495b8b30310so3317335b6e.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 21:05:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782792301; x=1783397101;
+        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=alOu7gwRSMbqrvli9KWAAa7wVcLCEXA4LC1xM2EZrVk=;
+        b=L922bp821ysUtTpw/L8hHccJ/7EJaNTXCOccVkAzqeZLRYn/muvxYbgm0IpVZPz4b2
+         YIE2wyVVfvYIEoNR5LmPC/0hKqL407h5E4KpUP6K1UnLGv6i2CMmhSkQtfPgkMoKQokj
+         du0qA4kTEkRqWeDJUgqPmn3E+Vk/O3qzkHVJwAtIPa/2GgCENyPQb8LtVHPVfSKVRsDX
+         NAkORbMFvO4S7E4poCcvlYViSAgxkKSWYl9niUFA4KOyTCpgyNWUvWm0exG3vWguf/6m
+         gz+5T/KeZSxQq4fK430Mf99Rp3IyBnV4UCO1jJ/ZfXCl5bzIB6o2u4wy2VFmbXQOBFuo
+         sc2Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9pN7sXccoIHKb02DDSASVmcypR1aYenqwLLfoxchWO2bgcI54GbsDvkS1R7cVZKVfZJsuexCk8kt7axeGQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMtuwaj8wN/q/t3wCDACJgNaAiVKFP020AGhUmz1bRDPNo2ldq
+	aGy4W1+8uKC5SoZUqnFztBFtpC4I3VYy7H/+97+VJBfFj+8MI1hRMGDqt5vV6toZaQOWV3TtUdb
+	gBh6TwkFgZUphBye5VHV9hOkWHwWI8zKsazLdquIis6MpyD50U/mg5XUvCh8=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+X-Received: by 2002:a05:6808:1808:b0:492:3a59:37cf with SMTP id
+ 5614622812f47-495eafe4f74mr1954717b6e.37.1782792301124; Mon, 29 Jun 2026
+ 21:05:01 -0700 (PDT)
+Date: Mon, 29 Jun 2026 21:05:01 -0700
+In-Reply-To: <20260630030535.3309854-1-jbingham@gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a43406d.854d4ab9.360e1d.0012.GAE@google.com>
+Subject: [syzbot ci] Re: minix: convert to iomap and add direct I/O
+From: syzbot ci <syzbot+ci94d886345594fe6a@syzkaller.appspotmail.com>
+To: jbingham@gmail.com, brauner@kernel.org, hch@infradead.org, jack@suse.cz, 
+	jkoolstra@xs4all.nl, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzbot@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com, syzkaller@googlegroups.com, 
+	viro@zeniv.linux.org.uk
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 23 May 2026 22:04:45 +0900 Daniel Palmer <daniel@thingy.jp> wrote:
+syzbot ci has tested the suggested fix patch on top of the following series:
 
-> Currently trying to use memfd_create() on nommu returns
-> an error with errno set to EFBIG. The manpage memfd_create()
-> doesn't have EFBIG as a possible error value.
-> 
-> Doing some digging this is coming from 0 getting passed as
-> newsize to ramfs_nommu_expand_for_mapping() and that getting
-> into get_order() and there "The result is undefined if the size is 0".
-> 
-> Whatever comes out of get_order() is then used in the following
-> logic and that results in the EFBIG that causes the syscall
-> to fail and the errno in userspace.
-> 
-> If newsize is 0 there is nothing to do so just return.
-> 
-> Roughly tested on m68k nommu by creating a process, creating
-> an memfd, forking another process, mmap()ing the memfd in the
-> child, writing into the mapping, then mmap()ing in the parent
-> and checking that the right data is there.
-> 
+[v2] minix: convert to iomap and add direct I/O
+https://lore.kernel.org/all/cover.1782619718.git.jbingham@gmail.com
 
-Old patch, older code.   Thanks.
+Patch: https://ci.syzbot.org/jobs/fb0b2cff-4f4e-442b-a6f8-5fa767f200fc/patch
+Testing results:
+* [build 0] Build Patched: passed
+* [build 0] Boot test: Patched: passed
 
-> Really not sure if this is correct. It works for me but on
-> nommu a lot of things just work because there is no MMU to
-> shout about badness.
-> 
-> Maybe shashiko will say this is a dumb patch and explain
-> the proper fix. :)
+Full report is available here:
+https://ci.syzbot.org/session/4d7ba7ce-a1cf-4df0-b856-6be6475a5498
 
-Sashiko had no complaints but it seems to have found some unrelated
-bugs:
-
-	https://sashiko.dev/#/patchset/20260523130445.1101818-1-daniel@thingy.jp
-
-(tmpfs calls "ramfs_nommu" code.  Who knew?)
-
-> Also I had almost no idea who to send this to from the output
-> of get_maintainer.pl.
-
-I suspect most would prefer it's someone else, but this is viro/brauner
-stuff, if anyone)
-
-> --- a/fs/ramfs/file-nommu.c
-> +++ b/fs/ramfs/file-nommu.c
-> @@ -69,6 +69,9 @@ int ramfs_nommu_expand_for_mapping(struct inode *inode, size_t newsize)
->  	gfp_t gfp = mapping_gfp_mask(inode->i_mapping);
->  
->  	/* make various checks */
-> +	if (!newsize)
-> +		return 0;
-> +
->  	order = get_order(newsize);
->  	if (unlikely(order > MAX_PAGE_ORDER))
->  		return -EFBIG;
-
-Oh well, thanks, I'll toss it onto the pile and see what happens.
-
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
