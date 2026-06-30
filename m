@@ -1,206 +1,317 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420783C1973
-	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 16:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782837388; cv=none; b=a32MRmJ12NVCWS92uhWVf1BomgK43Eh8i6dq6FGfBVdpcdfV9CCa1xq/1L0OXeUTTu8nlXNsfHnYNgZqRtVJdTyiXKnZXEpBxXdgMaZSpXFF4LhbOKPe8Wc/0HwNVWS3a59ZPeq2zoahK5yqVB0vz/PI3/hTzy0HBRo8uYBOVtI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782837388; c=relaxed/simple;
-	bh=d9wug2nxL1uyn9+xDv1rDebfpG+gnaq49E2sbVFw0kg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dxnbc8QKNYswpEEKhgh7RnyiF1jPUjmkN3y1lhDOmg2RArTs1qMUQ4hu41qRgc9JtBlCPjIaN8BC7RZ6gko4RvrIksEfwtQ5yMOOi5SqlQ613jrdJXIlUH8gFL60FRf00zItzWTdjLNqo6eodUI7GSCqfjKkiizGPx1i5/BC/+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Csm/0TAQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SuTooq+C; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Csm/0TAQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SuTooq+C; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A34B83C415F
+	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 16:44:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782837845; cv=pass; b=HO9XLihEjrl4XSTlbbXa7HPnrw7NOT2vZ8ZBPaBF/eLsmGShJxyXMMCCV0hmiLSOxRMpWE60ZjRoWxHIrGhWCBpR8E9LT1AO5KqstF/JzQJeHCklO1HLd1Vzd6rf806aeN0wT3utgQ0S5nt5SXhMsqIypzQKMfsN0/776IAQw+I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782837845; c=relaxed/simple;
+	bh=v/OcWx3LYLBx0KlspHhgb4R6jpCaa2+fiCx8LKjOQhQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S/2M67MWL3aDRWXXISztR5GUC0CoCr91V2ayCM7N7hfRgYmmVVrLG6BcamVFlQHhVrO4KmMRlcg0zGCl5xVctEloSKrF1cl0m65YFS5q1/URWP1o6CzdsvhgLMRTKGO4z407PwS9emWfUD5Yq7AfgGgFyVkPms8sTv1XJ3mLPpA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NypgtcyR; arc=pass smtp.client-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Csm/0TAQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SuTooq+C";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Csm/0TAQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SuTooq+C"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9485D75953;
-	Tue, 30 Jun 2026 16:36:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782837384; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zwtvYcpEu3U9PLHqG7OTydVnRKJe82b04p0UFeAYHjA=;
-	b=Csm/0TAQDKcAqPahjvJm4t6wIygBvouh4o3HLWaKsgyk698bUArVP/FODSuGjNHcARgLTj
-	CJc2gPmeHEfliGZdWDOcmZZZ0vZ9z95eXBkXNuiEMJpmpW8Tp01B9gZwKHKhDLyJoN2tn+
-	chGgPP4YUFkHsmNHRAZUF9xPb+SnjMo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782837384;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zwtvYcpEu3U9PLHqG7OTydVnRKJe82b04p0UFeAYHjA=;
-	b=SuTooq+CQho1YfxuTrEUMCh69pnVtR5UtZwMeH7IAZfA6dmdObdMjx1/u2fLm2dXcH2Fos
-	1ruN1lCKBfY39zDg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Csm/0TAQ";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SuTooq+C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782837384; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zwtvYcpEu3U9PLHqG7OTydVnRKJe82b04p0UFeAYHjA=;
-	b=Csm/0TAQDKcAqPahjvJm4t6wIygBvouh4o3HLWaKsgyk698bUArVP/FODSuGjNHcARgLTj
-	CJc2gPmeHEfliGZdWDOcmZZZ0vZ9z95eXBkXNuiEMJpmpW8Tp01B9gZwKHKhDLyJoN2tn+
-	chGgPP4YUFkHsmNHRAZUF9xPb+SnjMo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782837384;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zwtvYcpEu3U9PLHqG7OTydVnRKJe82b04p0UFeAYHjA=;
-	b=SuTooq+CQho1YfxuTrEUMCh69pnVtR5UtZwMeH7IAZfA6dmdObdMjx1/u2fLm2dXcH2Fos
-	1ruN1lCKBfY39zDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E748F779A8;
-	Tue, 30 Jun 2026 16:36:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GZUpNYPwQ2qifgAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Tue, 30 Jun 2026 16:36:19 +0000
-Date: Tue, 30 Jun 2026 17:36:18 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Simon Schuster <schuster.simon@siemens-energy.com>, 
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Ian Abbott <abbotti@mev.co.uk>, 
-	H Hartley Sweeten <hsweeten@visionengravers.com>, Lucas Stach <l.stach@pengutronix.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Thierry Reding <thierry.reding@kernel.org>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>, 
-	Alex Williamson <alex@shazbot.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Dan Williams <djbw@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	"Liam R . Howlett" <liam@infradead.org>, Matthew Wilcox <willy@infradead.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Hugh Dickins <hughd@google.com>, Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org, linux-sgx@vger.kernel.org, 
-	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-mm@kvack.org, 
-	iommu@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, damon@lists.linux.dev, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 12/30] mm/vma: clean up anon_vma_compatible()
-Message-ID: <akPwbHbGiF1FxL6m@pedro-suse.lan>
-References: <cover.1782735110.git.ljs@kernel.org>
- <5a7a07bd2a774989849b0fea84f758059ed914df.1782735110.git.ljs@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NypgtcyR"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-1384ebe7a10so8491356c88.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 09:44:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782837843; cv=none;
+        d=google.com; s=arc-20260327;
+        b=izMNQvhe3sE5SAqrAYrgSjqxJbanj/7zT/MtU7rNjxohJZbf27O0TFw4UQ1inXLILY
+         dG2XJibzpLJt2Vp0lJzHcF3Ca9h5TJ9xcvlPc58AQvkzt4hrnAzEwQ1lh09x4DmM2lRV
+         Xhkh3ERKfEbdUVLA4tjEc3+MR3gjKykIQc+QIL7IzNRIeJAtk/wOGVoES/J6RShFeN+k
+         yVeQgjcHJDWWnJBXEVMQO++aWQ9bHCXg7vXQ1XQyigBP2Ak+80EdZ72yqJYhPyDRvQAF
+         YDcUQ8NDLTfsJ5pNjxvKC/Uiu/nbjekgg1db+Jdt53MBgI0Lg1vKez1MunqbRV7ZHPmc
+         COYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=603x+vbEytdZ550OAdNYJC+Z9vxOv/z6ypcG3r0EpNE=;
+        fh=k+oV9+outENiC150gEIwCJ9aOb3F0eDCDKBJKEGWdVE=;
+        b=Ea0TM0bFSiYo7RuUSdiM/74MDV8pJdbSHJVpHv1qFrHzx89Zy3ZGvF7fXRyG7yOUr7
+         PvNXrSvgu2KcRy3sFw7vt+pH8nGUjctso6lQ6j+dsk8PGabQUS6NeaP9VVKdCPYNqw+y
+         K3a6ExiLkPC0L/lC03x2muBQeR2Xh/P9DV3uIl2qtOVLLVgz0/rk7R/jXsotqIVl1EhS
+         2l02QZ/dY1QzHF/+H+/vFb0rUJIuFi9r5TjnJsztYpbUdmblYKYx4T2L9NQ4glDC3zEo
+         5AEXwjTxMI0TKs8HGbq9vdob0R5tLhBv6Tb5NljF+tZ+j0MmBrITYupZ4GdFdctNy5Hw
+         uzbg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782837843; x=1783442643; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=603x+vbEytdZ550OAdNYJC+Z9vxOv/z6ypcG3r0EpNE=;
+        b=NypgtcyRac1p+m/Q+Rzoe9y2EBHtO02VxKrCpbLnh7jrpbVCLR+nWqrrjXQJp8Rwxy
+         GZT7XqtJ5KgzVVmExnJYW9xCwm2q76sKXMJ02OI/msDuiI6B6y0H+/KhQNWRVA/iJgW2
+         Ovo0BF+hs16iKmcebuphhYntq7qoMGDEEocmMlYz+59LljkKnARA//FqKDvUk1ijhygN
+         Plz/sqAj2lkhxtdGwMe9T/4FlxV7jnJIbOexykr++UCv69CesvLslaZ7IHOV+JEIoJQj
+         aTGCoNeTQCkD2CMqhOOMem5uM2DJyJPpTsbvA9ioVhzgsgg6srzA/qQRsBKV9+mtmuFl
+         0XVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782837843; x=1783442643;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=603x+vbEytdZ550OAdNYJC+Z9vxOv/z6ypcG3r0EpNE=;
+        b=oAhQYU2Ci3l7yJuVHsx6Vdh/x005WzDN0SAoByd3E/YsuyvOJJ4uU3Hs76ONdJFfYW
+         VuzjdvaJgzmkuII/vhR7/PS+g4ew66MqJz1yPweWBcn38iV/HQO7e/A3MxB8odbbcAUY
+         Zy7DHKAHFKu5Tn4T+2AeERkqyCoIgTd844Mu92uWNn+GtoE/Lp3gXBuFDsTHPs9WicCz
+         3rmXj5rKKTK4yZcY8r7Sd0/3kfRclofKZxhml9EZ3EIo0oAoNElg9vEJUz1tHLdDBsL4
+         yF6rAcm1zyEuvZ6DqHZSJTo7arxetXmPe9zF7IjBsqFlWfe/uQgo000egWNk+xLHkFfn
+         r72Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9ItMFZRX/FeEI+fxRFkfn2uDfeqV3tS0iIesFQk847Qc9k2pHEhJ/Avg4jdewGjsvo23ytueIr7cM9vZmw@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpdyU6t2W9PtC7JtgaRSXGdJc2cGI0pVfLpwqCBGlSyGV50Lx+
+	vU4kpPqSZt5+sQsu2lI6lckshe1fP0PW5GrRQcJSPkulxGCPSWXdmGrJ49bN7j3JwxF00PBxObt
+	s6qBGvIKaIh6BoVDup3bxyefl/uXWi9f6npzmd9DKyGRlUPwuygrriXJ3yyi7yg==
+X-Gm-Gg: AfdE7clEmlJLHEwnrtwz5gKo09128OpZeGv1l9SF2v52s7uwJPNdmRUjwnWXa+jfGwp
+	meibVyGneprlpqv4msvtVHSozTTakIsIs+fjb5y41iaT0LwnX/SNyNeWq0H8eMdxovMn9AfOQLh
+	OYdMFz1HT4hkK1tZDWRo+y02Ml/tBTkZIvGSP1Osfd46WTpIzrdsMJr1Y4NiFjt5Y9JOodsAb/e
+	ZI97vND5UBcPScFby9gwiTeto5uS/6+Y18GcYPw2EqrVEF+tIi8MDijRidi+OdUii27WVZqa5ca
+	bBjVkLjtdp5xUH54XeiyQcsUyZpUCPOYmib2gxHmvlLM0GCk4kLQ/ugptdbMSuSRjYvBr1fo+8C
+	JuN7uUwzG4PvBC0JVobjoIg9Ep+w1NPRrA9uuMA==
+X-Received: by 2002:a05:7022:fa5:b0:139:ed5d:3b3 with SMTP id
+ a92af1059eb24-13b2a1d25d6mr3161157c88.44.1782837842011; Tue, 30 Jun 2026
+ 09:44:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5a7a07bd2a774989849b0fea84f758059ed914df.1782735110.git.ljs@kernel.org>
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,armlinux.org.uk,kernel.org,siemens-energy.com,hansenpartnership.com,gmx.de,redhat.com,alien8.de,linux.intel.com,mev.co.uk,visionengravers.com,pengutronix.de,gmail.com,ffwll.ch,suse.de,oss.qualcomm.com,ideasonboard.com,nvidia.com,amd.com,shazbot.org,zeniv.linux.org.uk,linux.dev,google.com,infradead.org,samsung.com,goodmis.org,huawei.com,vger.kernel.org,lists.infradead.org,lists.freedesktop.org,lists.linux.dev,kvack.org,googlegroups.com,surriel.com];
-	FROM_HAS_DN(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	MISSING_XM_UA(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_GT_50(0.00)[75];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pedro-suse.lan:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 9485D75953
-X-Spam-Score: -3.01
+References: <20260629194327.2270798-1-jkoolstra@xs4all.nl> <20260629194327.2270798-4-jkoolstra@xs4all.nl>
+In-Reply-To: <20260629194327.2270798-4-jkoolstra@xs4all.nl>
+From: Kuniyuki Iwashima <kuniyu@google.com>
+Date: Tue, 30 Jun 2026 09:43:50 -0700
+X-Gm-Features: AVVi8Cfg-jGOSmM0AyC_veTlwOcXtiFvZmVGHLWJZaxOaynBoRDq8uW1BKdMGmA
+Message-ID: <CAAVpQUBFJXv2FK=7DmKgWms7JROJGWp=S+AOBS__hxmgbLbUkA@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 3/5] net: af_unix: useful handling of LSM
+ denials on SCM_RIGHTS
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Christian Brauner <brauner@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 29, 2026 at 01:23:23PM +0100, Lorenzo Stoakes wrote:
-> Break up the existing very large conditional, add comments and use
-> vma_[start/end]_pgoff() to make clearer what we're doing here.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+On Mon, Jun 29, 2026 at 12:42=E2=80=AFPM Jori Koolstra <jkoolstra@xs4all.nl=
+> wrote:
+>
+> Right now if some LSM such as Smack denies an AF_UNIX socket peer to
+> receive an SCM_RIGHTS fd, the SCM_RIGHTS fd array will be cut short at
+> that point, and MSG_CTRUNC is set on return of recvmsg(). This is
+> highly problematic behaviour, because it leaves the receiver
+> wondering what happened. As per man page MSG_CTRUNC is supposed to
+> indicate that the control buffer was sized too short, but suddenly
+> a permission error might result in the exact same flag being set.
+> Moreover, the receiver has no chance to determine how many fds got
+> originally sent and how many were suppressed.[1]
+>
+> Add a SO_RIGHTS_NOTRUNC option to UNIX sockets to enable more useful
+> handling of LSM denials when receiving SCM_RIGHTS messages: instead of
+> truncating the message at the first blocked fd, keep every fd slot
+> and store the LSM errno in the blocked slot.
+>
+> [1]: https://github.com/uapi-group/kernel-features#useful-handling-of-lsm=
+-denials-on-scm_rights
+>
+> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
 > ---
->  mm/vma.c | 21 ++++++++++++++++-----
->  1 file changed, 16 insertions(+), 5 deletions(-)
-> 
-> diff --git a/mm/vma.c b/mm/vma.c
-> index b60375c6c5c3..6296acecf3b7 100644
-> --- a/mm/vma.c
-> +++ b/mm/vma.c
-> @@ -1967,14 +1967,25 @@ static int anon_vma_compatible(struct vm_area_struct *a, struct vm_area_struct *
+>  include/net/af_unix.h             |  1 +
+>  include/net/scm.h                 | 15 +++++++++++----
+>  include/uapi/asm-generic/socket.h |  3 +++
+>  net/compat.c                      |  4 ++--
+>  net/core/scm.c                    | 16 +++++++++++-----
+>  net/unix/af_unix.c                |  9 +++++++++
+>  6 files changed, 37 insertions(+), 11 deletions(-)
+>
+> diff --git a/include/net/af_unix.h b/include/net/af_unix.h
+> index 34f53dde65ce..bb1b3dee02e8 100644
+> --- a/include/net/af_unix.h
+> +++ b/include/net/af_unix.h
+> @@ -49,6 +49,7 @@ struct unix_sock {
+>         struct scm_stat         scm_stat;
+>         int                     inq_len;
+>         bool                    recvmsg_inq;
+> +       bool                    scm_rights_notrunc;
+>  #if IS_ENABLED(CONFIG_AF_UNIX_OOB)
+>         struct sk_buff          *oob_skb;
+>  #endif
+> diff --git a/include/net/scm.h b/include/net/scm.h
+> index c52519669349..761cda0803fb 100644
+> --- a/include/net/scm.h
+> +++ b/include/net/scm.h
+> @@ -50,8 +50,8 @@ struct scm_cookie {
+>  #endif
+>  };
+>
+> -void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm);
+> -void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm);
+> +void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm, bool not=
+runc);
+> +void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm, b=
+ool notrunc);
+>  int __scm_send(struct socket *sock, struct msghdr *msg, struct scm_cooki=
+e *scm);
+>  void __scm_destroy(struct scm_cookie *scm);
+>  struct scm_fp_list *scm_fp_dup(struct scm_fp_list *fpl);
+> @@ -108,11 +108,18 @@ void scm_recv_unix(struct socket *sock, struct msgh=
+dr *msg,
+>                    struct scm_cookie *scm, int flags);
+>
+>  static inline int scm_recv_one_fd(struct file *f, int __user *ufd,
+> -                                 unsigned int flags)
+> +                                 unsigned int flags, bool notrunc)
 >  {
->  	vma_flags_t diff = vma_flags_diff_pair(&a->flags, &b->flags);
->  
-> +	/* Ignore flags that mprotect() can change. */
->  	vma_flags_clear_mask(&diff, VMA_ACCESS_FLAGS);
-> +	/* Ignore flags that do not impact merging. */
->  	vma_flags_clear_mask(&diff, VMA_IGNORE_MERGE_FLAGS);
->  
-> -	return a->vm_end == b->vm_start &&
-> -		mpol_equal(vma_policy(a), vma_policy(b)) &&
-> -		a->vm_file == b->vm_file &&
-> -		vma_flags_empty(&diff) &&
-> -		b->vm_pgoff == a->vm_pgoff + ((b->vm_start - a->vm_start) >> PAGE_SHIFT);
-> +	/* Must be adjacent. */
-> +	if (a->vm_end != b->vm_start)
-> +		return false;
-> +	/* Must have matching policy. */
-> +	if (!mpol_equal(vma_policy(a), vma_policy(b)))
-> +		return false;
-> +	/* Must both be anon or map the same file (MAP_PRIVATE case). */
-> +	if (a->vm_file != b->vm_file)
-> +		return false;
-> +	/* Flags must be equivalent modulo mprotect(). */
-> +	if (!vma_flags_empty(&diff))
-> +		return false;
-> +	/* Page offset must align. */
-> +	return vma_end_pgoff(a) == vma_start_pgoff(b);
+> +       bool filtered;
+> +       int error;
+> +
+>         if (!ufd)
+>                 return -EFAULT;
+> -       return receive_fd(f, ufd, flags);
+> +
+> +       error =3D receive_fd_filtered(f, ufd, flags, &filtered);
+> +       if (filtered && notrunc)
+> +               return put_user(error, ufd);
+> +       return error;
+>  }
+>
+>  #endif /* __LINUX_NET_SCM_H */
+> diff --git a/include/uapi/asm-generic/socket.h b/include/uapi/asm-generic=
+/socket.h
+> index 53b5a8c002b1..c5fb2ee96830 100644
+> --- a/include/uapi/asm-generic/socket.h
+> +++ b/include/uapi/asm-generic/socket.h
+> @@ -150,6 +150,9 @@
+>  #define SO_INQ                 84
+>  #define SCM_INQ                        SO_INQ
+>
+> +#define SO_RIGHTS_NOTRUNC      85
+> +#define SCM_RIGHTS_NOTRUNC     SO_RIGHTS_NOTRUNC
 
-Very nice.
+SCM_RIGHTS_NOTRUNC is not needed as it's not used.
 
-Reviewed-by: Pedro Falcato <pfalcato@suse.de>
 
--- 
-Pedro
+> +
+>  #if !defined(__KERNEL__)
+>
+>  #if __BITS_PER_LONG =3D=3D 64 || (defined(__x86_64__) && defined(__ILP32=
+__))
+> diff --git a/net/compat.c b/net/compat.c
+> index d68cf9c3aad5..6bdf4a2c9077 100644
+> --- a/net/compat.c
+> +++ b/net/compat.c
+> @@ -286,7 +286,7 @@ static int scm_max_fds_compat(struct msghdr *msg)
+>         return (msg->msg_controllen - sizeof(struct compat_cmsghdr)) / si=
+zeof(int);
+>  }
+>
+> -void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm)
+> +void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm, b=
+ool notrunc)
+>  {
+>         struct compat_cmsghdr __user *cm =3D
+>                 (struct compat_cmsghdr __user *)msg->msg_control_user;
+> @@ -296,7 +296,7 @@ void scm_detach_fds_compat(struct msghdr *msg, struct=
+ scm_cookie *scm)
+>         int err =3D 0, i;
+>
+>         for (i =3D 0; i < fdmax; i++) {
+> -               err =3D scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_=
+flags);
+> +               err =3D scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_=
+flags, notrunc);
+>                 if (err < 0)
+>                         break;
+>         }
+> diff --git a/net/core/scm.c b/net/core/scm.c
+> index a73b1eb30fd2..55bab203281a 100644
+> --- a/net/core/scm.c
+> +++ b/net/core/scm.c
+> @@ -351,7 +351,7 @@ static int scm_max_fds(struct msghdr *msg)
+>         return (msg->msg_controllen - sizeof(struct cmsghdr)) / sizeof(in=
+t);
+>  }
+>
+> -void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm)
+> +void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm, bool not=
+runc)
+>  {
+>         struct cmsghdr __user *cm =3D
+>                 (__force struct cmsghdr __user *)msg->msg_control_user;
+> @@ -365,12 +365,12 @@ void scm_detach_fds(struct msghdr *msg, struct scm_=
+cookie *scm)
+>                 return;
+>
+>         if (msg->msg_flags & MSG_CMSG_COMPAT) {
+> -               scm_detach_fds_compat(msg, scm);
+> +               scm_detach_fds_compat(msg, scm, notrunc);
+>                 return;
+>         }
+>
+>         for (i =3D 0; i < fdmax; i++) {
+> -               err =3D scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_=
+flags);
+> +               err =3D scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_=
+flags, notrunc);
+>                 if (err < 0)
+>                         break;
+>         }
+> @@ -542,8 +542,14 @@ void scm_recv_unix(struct socket *sock, struct msghd=
+r *msg,
+>         if (!__scm_recv_common(sock->sk, msg, scm, flags))
+>                 return;
+>
+> -       if (scm->fp)
+> -               scm_detach_fds(msg, scm);
+> +       if (scm->fp) {
+> +               struct unix_sock *u;
+> +               bool notrunc;
+> +
+> +               u =3D unix_sk(sock->sk);
+> +               notrunc =3D READ_ONCE(u->scm_rights_notrunc);
+
+Does this build with CONFIG_UNIX=3Dn ?
+
+
+> +               scm_detach_fds(msg, scm, notrunc);
+> +       }
+>
+>         if (sock->sk->sk_scm_pidfd)
+>                 scm_pidfd_recv(msg, scm);
+> diff --git a/net/unix/af_unix.c b/net/unix/af_unix.c
+> index f7a9d55eee8a..83274ce18e06 100644
+> --- a/net/unix/af_unix.c
+> +++ b/net/unix/af_unix.c
+> @@ -921,6 +921,7 @@ static bool unix_custom_sockopt(int optname)
+>  {
+>         switch (optname) {
+>         case SO_INQ:
+> +       case SO_RIGHTS_NOTRUNC:
+>                 return true;
+>         default:
+>                 return false;
+> @@ -956,6 +957,14 @@ static int unix_setsockopt(struct socket *sock, int =
+level, int optname,
+>
+>                 WRITE_ONCE(u->recvmsg_inq, val);
+>                 break;
+> +
+> +       case SO_RIGHTS_NOTRUNC:
+> +               if (val > 1 || val < 0)
+> +                       return -EINVAL;
+> +
+> +               WRITE_ONCE(u->scm_rights_notrunc, val);
+> +               break;
+> +
+>         default:
+>                 return -ENOPROTOOPT;
+>         }
+> --
+> 2.54.0
+>
