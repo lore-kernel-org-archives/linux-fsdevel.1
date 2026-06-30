@@ -1,224 +1,158 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012052.outbound.protection.outlook.com [40.107.200.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2A83E3D96
-	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 18:49:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782845360; cv=none; b=Mq/Do0GU2YC/znsFTjoLgKm+eDUX1uLTkw8/44EZMpcnW7MJQ8xnKo/2Y2+CgIzWEo2eNsmjqhO7R9gWlW9sx50DrA+ym78HMPbe2Blne06w0mWd8nO+PWDljRMM5QYSu9qh82JooPFj5j53x/Hppi0JgznuwKfq2tZrHdvWQpw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782845360; c=relaxed/simple;
-	bh=GZ6A4VMvj4irOyQ3zgofeSdKf4v6bwXkVVxRE4M+qqo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VxE8cToz4NTWQ4fXS4u9H62Kv+3hku0n6J3Zw992vrj8cFgRTiPPIplqT7wfHQIdIG9YQ2d+MxMRmyVrPNiaY4x9lDw58ssYp0gIdnr0OZ9y8E4nvH0ZFVw+IT2Z6hAkbwNIXzhdSCLAgwzBUJMz0qTtezgyQECu+6oTW6asfQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u18grtz3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sGHaEjKp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z3C3/oGO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jiGaKDSG; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C69B2DCF52;
+	Tue, 30 Jun 2026 19:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782846329; cv=fail; b=ctgKspxczwq7cOaEOOLXycN7n1kt1CVCN5QTv3mrl9E96nQad+Qpb/XgdSCr14jDyyCa8LVBcbX8H4eQdW/HMF/CYN8aTJ2xYEzulUjshY8uNicdfuQT8KBf1z/Qw9Cvn2JWQW5TiqszG8ejbf4vnTXN3oALShSKiPFuYGAH5B4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782846329; c=relaxed/simple;
+	bh=7E3hao+YY28nOvvD8Nv0QtcSRn4Bu4rRmJtLdPx70ks=;
+	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
+	 In-Reply-To:MIME-Version; b=OpYXIa66izGcak6UfxRKpz+b6RYvE+hHJ9WduFUcT7BboVyptJRDNfrdKhqq2HUvtO6jyn8zZciVxwagQchQUrfrLAOQDyaBjutMMODYKxsfTM0lSzKECm04UI/XaRbDh7h1ZcPcQfrKkyLMJqiHVqVveSHRRoercsZDUh/WAEM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=S7d/8sBw; arc=fail smtp.client-ip=40.107.200.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u18grtz3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sGHaEjKp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z3C3/oGO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jiGaKDSG"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9F2D875A5E;
-	Tue, 30 Jun 2026 18:49:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782845353; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tsCa3RNAA7O69TzyzAjIqux3S4SG5DUxACORIUg1Tps=;
-	b=u18grtz3pS8lgC+oV44hYee4ph60d0uHjj8YpHsmry6VgI+x0kq3T2fuZP4bRfE/9+moId
-	2yM3tRbHCeY7S+yOh/QFqU9frwiaBCAF+BbHZa+Mjm60/DumVICsGH1Snt9dmT4Yrjpxpa
-	dgGbVerXbZtEde9ERY+7qThv2CQ/SaM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782845353;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tsCa3RNAA7O69TzyzAjIqux3S4SG5DUxACORIUg1Tps=;
-	b=sGHaEjKpAswitz0sN6p0SX8lABGDefKe7XkhW/8GofXp5HC/6bH8ou82rY8xbs9HQ/80BN
-	cuiy28kOX0wwQHCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Z3C3/oGO";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=jiGaKDSG
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782845352; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tsCa3RNAA7O69TzyzAjIqux3S4SG5DUxACORIUg1Tps=;
-	b=Z3C3/oGOkFrXPDFhBeNvjU+XahGABVHmMwB7O6+3VdWpwdTFJeFGNXGdpYQ2MS/8AiRmEu
-	q9tQXxvhaPkRuTDqdeHQwq/5clXIrXNpVZksVsBbRawBZQeCd3/wZoF0cfH4GdyJkORW9v
-	hJAbqXL/Vy7rQF7gBOdlo0jAXlFYbm4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782845352;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tsCa3RNAA7O69TzyzAjIqux3S4SG5DUxACORIUg1Tps=;
-	b=jiGaKDSGbHvY3ULrhwKR6U6k8KcrcXtV8IB5jf6I5QCDp273jpCjKtdEk6ZkHROCGRxe8z
-	D+KaRiZZ7jMC1VBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A418C779A8;
-	Tue, 30 Jun 2026 18:49:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 598rJKcPRGpBAwAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Tue, 30 Jun 2026 18:49:11 +0000
-Date: Tue, 30 Jun 2026 19:49:09 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Gregg Leventhal <gleventhal@janestreet.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Song Liu <song@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	Eric Hagberg <ehagberg@janestreet.com>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="S7d/8sBw"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=G75jWPn8Vjfd1RGmZNnJw5lAGjUv7qMgExvfROwhGOtTP+jxk8LrlGPJlmC5Kx5ZMpQDrgNYgFPF3DLuNpaoClCW0YYbCbZtaqcl75/TsLUlFDm/zpiCAH/NT7sCilelvjEOHhU6Lw7Ud0NzUc/Xby2ikU63kBNhSILbJ903xnIOHuKScaUpBaq6WWiXTTURntkR4T710bOOwqjedMuns6eChyi+fXRyT59Tf+o+CW+L0hTAYbcTtme9E45pqWeVXriFh8MZa5w+24LoXc3X3Up/ruRdtLe3MDyDszen9Qku6ft9tXnjHJ8uNyaO6jgkj0K0B8su2FhXbQ1q3EEm7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OGf8i/tucmRynxOhf+ZY/2YquKPy4+BbWaL2SgcFaSw=;
+ b=OoAKgswySqSp9J3/8siYlXc3gjhf8IeBC8PFsqmLprsg1fs179VtqbRxrfxA8fJR0C3XNPuB/rQysV1YIf/9IUkNgaLgTZKhF+YHxvcpSAouP906KbuoJ21MSQ6UI9PJA+Y3tAKMRY1cF4LhTeghI2DhC1mXoQxwKd5TtnqrB4VIcT2AFhUHTmFnWM7e3AqblfO0ebP6ZZZnAbfcdu7CnBuRkj2G7Uj6ePzjhfSG+/36vbap03MjvqtVji+NQkrxnLmX418xfonX1mvIH6wUFuudyP8CCVKLFb/imqUQlqubgqWFGqtUr9/WCDF2T/pKgxQ2tbf9DrB8iUU2446Wkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OGf8i/tucmRynxOhf+ZY/2YquKPy4+BbWaL2SgcFaSw=;
+ b=S7d/8sBwDD6/zbH2CW9NHHZTVs+kUizC5lNo3UuMEK8ggjZGH2MlEU615oeUncKJEkgsgfxSzlC+hHyGWIsGU6GEgVZh+EZ3/URy61pKD0joqciEVLgWRakT/vojgpDuQZ1e9LQeEOV+2VErHoICl7VnZKIkt2e0+0nc/1CIBnEFHEb4uzvq5PtWpyNuS6Th0tv0O6+tkb6IGSNLjJwaSi/RwvxwQcR6o0ntEoTZZjfcvZRybwZZcgYA0rJQnSrYno/Jh7fPJZ9tFJyPLM2dxZpSmxhAhqFH9effvSHDaAQGZhd7Cnr0C+z363pf9m7y6BjJjKRiXKotTiXnQ5WpCA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by CH3PR12MB7524.namprd12.prod.outlook.com (2603:10b6:610:146::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Tue, 30 Jun
+ 2026 19:05:20 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0181.008; Tue, 30 Jun 2026
+ 19:05:20 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 30 Jun 2026 15:05:16 -0400
+Message-Id: <DJMM9V4Z58QP.2DXAKKZ4YE6HA@nvidia.com>
 Subject: Re: Subject: [BUG/RFC] write-open file THP cache purge can discard
  dirty page cache
-Message-ID: <akQO8JtTxmp89GS8@pedro-suse.lan>
-References: <CAFN_u7H_0ECF3jixP=T=U7AH5=Q3wQNvJMo8an3VqUDMerQfUw@mail.gmail.com>
- <akQIIav_zaK6RmIC@pedro-suse.lan>
+Cc: "To: Alexander Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner"
+ <brauner@kernel.org>, "Cc: Jan Kara" <jack@suse.cz>, "Andrew Morton"
+ <akpm@linux-foundation.org>, "Song Liu" <song@kernel.org>,
+ <linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-kernel@vger.kernel.org>, "Eric Hagberg" <ehagberg@janestreet.com>
+To: "Matthew Wilcox" <willy@infradead.org>, "Gregg Leventhal"
+ <gleventhal@janestreet.com>
+From: "Zi Yan" <ziy@nvidia.com>
+X-Mailer: aerc 0.21.0
+References: <CAFN_u7H_0ECF3jixP=T=U7AH5=Q3wQNvJMo8an3VqUDMerQfUw@mail.gmail.com> <akQMy54dxVTVkMJ6@casper.infradead.org>
+In-Reply-To: <akQMy54dxVTVkMJ6@casper.infradead.org>
+X-ClientProxiedBy: DS7PR03CA0091.namprd03.prod.outlook.com
+ (2603:10b6:5:3b7::6) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <akQIIav_zaK6RmIC@pedro-suse.lan>
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	URIBL_BLOCKED(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,janestreet.com:email,pedro-suse.lan:mid];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	MISSING_XM_UA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[janestreet.com:email,pedro-suse.lan:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 9F2D875A5E
-X-Spam-Score: -4.51
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|CH3PR12MB7524:EE_
+X-MS-Office365-Filtering-Correlation-Id: a527ec0a-0a1a-4ec2-edb3-08ded6da879d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|23010399003|22082099003|18002099003|4143699003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	jwLvBzNnEdVPcbnZiTDzIW4jkYppH/dD+18cQPye6s1HeRpasT4i2lF2BUmxUDbK0LxhjTuQtdHfc7cOL6V+M7u7UwIuslUGairnjvA/+fhW+eTPyAyZMmQEXCH8ZXxjodBJGghtnOcanaIS970sxSV3smeBI4QvMDVCqdmEywm86035pOw9eAl5lDsOQ03GEmP4cn9+PIk61Hv9EW4SOiCL9mbi99YXKbz530bcz41QO/NFBNbeECt8i+oa4WBdKx/6Qo1iMKqlpG5+anIC2JjeMELQUo8/sOzm7waoBILvVZjSav33UPEbwr3P/5Az1qtu1RbMBFLHG35bcDcOiqJWhVIJiR9r7TrGgYLQ9hQ3IoI/ZSCJs2+KC5d9DPXiDfaH7ZwvieFQXIZPEJVxVotQl6C3Tch14lQJYKv/o/GVH22IrTE++M0ihptRt8Kcs164hGZs1YhItDNwvxmS65GvAaRcrRtsyTgSvxscuJEbNyPOwYdRu2favX1V/STVslKqS0ZUseaEesAPY9LQI+z13BRxAHQRSMMHHEGQy1tg2YGaRt4h2XP+3F9oyl/PO4AKmKI9L8avYmhiIR4CKAseFeFnrz4zYEkEWmea/y8LS7y+5gYjp1Vg56pbP5ww6KBm78HlU9l94XSDmCRVqWGvLeEWyIZjIGR08RfcQVw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(23010399003)(22082099003)(18002099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SVpQWkhIWWZ3Sm9aZUZVbDdGQ3ZJMTBBZEV3U0ZGTmlFNjJyQTJlRTdnZXNl?=
+ =?utf-8?B?QlR6SkN2UThFdjZ3c0lIdHQ2NC8vMkdDRDN4dlpWYWROWVo1SldNZVVkTHFt?=
+ =?utf-8?B?aUUzZG5wV0pHSnY4OVVZNU8vQWh2SzJDOXNwdjBjUUZhN09wdHNlQ1RUK0RX?=
+ =?utf-8?B?a3ZDblE5L2h1dS9HWVZCU1ZyeWJLL3lYUWp6alZtZXN0ZUhpOFA4TXB3ZUgx?=
+ =?utf-8?B?WlNnTFJUdnFrME5kMkdzNnlFT1BFdzlmd0F3YU9lT0lqS2dCNmFJa1BYb1NE?=
+ =?utf-8?B?L1RlN0lwTDhWODg5VnBEMHo5dE5aS0M1SWpianpHdVE1N2ZyTXlpVE5vV2xM?=
+ =?utf-8?B?aE8rZ0xkSlJobWhoZE1IVmJFQSthcG1wSW1ZV2ppcFVkSVh3MnMrYkpHaUkw?=
+ =?utf-8?B?REROM3B5QlBGY2x4Q2ZRWGJaTTZMaU1sYzBjQlR2WEhVU05DVFFBb3lWVDdY?=
+ =?utf-8?B?cVBrTzJwTWlJMzVjbUxKVG5XV3JWcXVMaWErZXZsN2cvRlc4UHZnLzdjaTh1?=
+ =?utf-8?B?TStzTTNCeGRBdnhhN1dtUUxNSTU4L01JWGRBUlg5R3YyYnpPR2dlYWF3aW4w?=
+ =?utf-8?B?eTV2QTZubmk0OXB2dkNILzhDcnFhbnNSNkQyazd5NG90Yk1RWWtidTZHd2pz?=
+ =?utf-8?B?Mk9nRENuZDQyQitmUnV6aE1HWEloeUlTR1ZmcXBnbnFKeE43TjlvelJLRlpH?=
+ =?utf-8?B?V09aNHJGeVhCZ2kyMHVpczMyTTdLNk9HWjluSzdudDBHaGxKQ2tWczAyWnNv?=
+ =?utf-8?B?b3BDT1dTQmNWVllkSHRoeXZqTjRMbVpxR0I5RzB1WHQxaWwzTDExUnRMdGNF?=
+ =?utf-8?B?UGZseGhZNTNVUytxYmVHWVBsZEtQUDBzVCtJajFWMDBNQ3NtTDJrNjBFb05J?=
+ =?utf-8?B?aGNMdm1kN1JEQlRZU3pUNjJjTFR4RmpmUlE1cFhFTm5KaGJ3b2Q1UjloaWxx?=
+ =?utf-8?B?Kzk1RHhtQzNidTM4K3F6K01Ic3lFK2Z3VTVyditDWCtjeWdvRUZrTzZKdEpO?=
+ =?utf-8?B?R24vNGVIUXhBa1ZiUHdOdlhnUjIzcDd3Y2s2UTJzanpmS3Z3VyswakFheXJ6?=
+ =?utf-8?B?aXg3SGJZanVwTitkUi9RUGJZbVBiV3pEa054c3VjRUh3TXc4akpic0pSMSsx?=
+ =?utf-8?B?clg3R2Znd2VOOGVFK0lhSVVCSzhrMURlV2ZmWGk1TjRqMDhHQUxsZHlhMUNo?=
+ =?utf-8?B?VnFEMlRuUk1SNmdBUkFIbXVtcndDUlFQNWdOSDdPekR0L0dHMmFEekdtS2Ex?=
+ =?utf-8?B?b1Y2M0VPdHZ5aFFtaGl0YjdHazV0NnhMaFJJdFgzZ1V5WWdhbmtsTVhMRDZM?=
+ =?utf-8?B?WHQwcnQzRWMwUTN5YVp1VUdPMS92YnkrWGo2RE5RRStqTHNDVGFpUTg1SXYy?=
+ =?utf-8?B?UktEQk9BV2xSNlIxc0pJRTJ1dGtWU3pTL2F6VzlhYXBBWk83dXg5R2tMVGt2?=
+ =?utf-8?B?Tm1hZlpjYjE0MThZNE9JVGF3T1I0ZXordGhPNXBDaDk1eDE0dUVqdkJKNU1i?=
+ =?utf-8?B?S0ZCVWVxalNiY0R3N0VOTGpvWEs2RENjTWNtNmNZZ2UxcWlJeUx1ZVdYbHRI?=
+ =?utf-8?B?V0ZxZDVjV2tQOUdZMU9wSlNoTmRqYm9EQm8rcEZzbG1ObkNlQUN2NjM2TXB6?=
+ =?utf-8?B?NmRCaFQ0WW4rNUQ1Z0ZBOUlGNC9ZSVJkUmlESjdPbmppTmMzUjhZblNEcHF4?=
+ =?utf-8?B?QXloL3VoNGVCalF2dnB4QXlZcUVBbGt3cHRIUzVBUkx1Q1IwOHdVVVJVK0FN?=
+ =?utf-8?B?NDYzTnVCRkJQbXhtaG5meVlhT05YRm5WYkJzdm1LcHQ2TEZadWNoOENMZm5L?=
+ =?utf-8?B?eWhGREo1cFJQZ3BGdmJDQllHREVFdzdpZ2Y4NlFDT2JMN3hOdi9jNC9YWnJQ?=
+ =?utf-8?B?MDFmMVp6RmpCbnNNWVlEK3VVRlFMUy9WdUIxeWwwUTQxL3BNZ1ZlY2F1NHNv?=
+ =?utf-8?B?WDJrTHNnMk93Z3FrYkFoYWhNS3pnYmwvSXZocnNVMlBCekRMVkZtTStoTWdl?=
+ =?utf-8?B?NHpRM29hczE5ZjNyVXFId1lROVA0Q1RCVnpBWGNqMURXaTkxYWtXMGhpT2cv?=
+ =?utf-8?B?ZVQwS21OMm5aRVZxRVcxTVBqaXNwbmhXakxPSDZhcFpFWVZ5YUlWcVVpalBr?=
+ =?utf-8?B?eTlqRGVZOVZBd0R3ZS9qZ1FPT0V0bkdCelBtYVkzVWZoY1ZHZkNGNGF1K1ZL?=
+ =?utf-8?B?aVVPSnFKbVVhZUozR0QrOFI5bEx4ZnRwUjlVSmJhS0ptS3dtVzBKWkFOSDl6?=
+ =?utf-8?B?dE5mY0NWUjhKb2RkeVJlZUM4Q1d6RW5BUXhtd1FMbHk5eW1pWVp2TVAwVXJ5?=
+ =?utf-8?Q?7kW04gU5i3Wy/ftC/X?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a527ec0a-0a1a-4ec2-edb3-08ded6da879d
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2026 19:05:20.0943
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HEH8Jco0Pqg5LV6lkoqOoZV7E60locBELZB/GxCUrnMXD/jZmnVSiOog80ZHV1d0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7524
 
-On Tue, Jun 30, 2026 at 07:31:07PM +0100, Pedro Falcato wrote:
-> +CC some relevant THP folks
-> Quick note, your email client's spacing seems to be all over the place, making
-> this extremely hard to read.
-> 
+On Tue Jun 30, 2026 at 2:36 PM EDT, Matthew Wilcox wrote:
 > On Tue, Jun 30, 2026 at 01:01:53PM -0400, Gregg Leventhal wrote:
-> > Hello,
-> > 
-> > We (Gregg Leventhal <gleventhal@janestreet.com> and Eric Hagberg
-> > 
-> > <ehagberg@janestreet.com>) have a reproducible data-loss issue involving file
-> > 
-> > THPs and write-open, impacting filesystems that do not support
-> > writable large folios.
-> > 
-> > 
-> > Attached are:
-> > 
-> > 
-> >   - thp_write_open_cancel_dirty_repro.c
-> > 
-> >   - thp-open-writeback-before-purge.patch
-> > 
-> > 
-> > 
-> > Summary
-> > 
-> > =======
-> > 
-> > 
-> > On an affected 6.12 kernel with CONFIG_READ_ONLY_THP_FOR_FS=y, a file can
-> > 
-> > contain read-only file THPs installed by khugepaged / MADV_COLLAPSE. When that
-> > 
-> > same file is later opened for write, do_dentry_open() notices
-> > 
-> > filemap_nr_thps() and drops the page cache:
-> > 
-> > 
-> >         /*
-> > 
-> >          * XXX: Huge page cache doesn't support writing yet. Drop all page
-> > 
-> >          * cache for this file before processing writes.
-> > 
-> >          */
-> > 
-> >         if (f->f_mode & FMODE_WRITE) {
-> > 
-> >                 if (filemap_nr_thps(inode->i_mapping)) {
-> > 
-> >                         struct address_space *mapping = inode->i_mapping;
-> > 
-> > 
-> >                         filemap_invalidate_lock(inode->i_mapping);
-> > 
-> >                         unmap_mapping_range(mapping, 0, 0, 0);
-> > 
-> >                         truncate_inode_pages(mapping, 0);
-> > 
-> >                         filemap_invalidate_unlock(inode->i_mapping);
-> > 
-> >                 }
-> > 
-> >         }
-> 
-> Ugh, this is embarassing. So, good news: this code doesn't exist anymore
-> in mainline! Bad news: it exists on every other upstream-stable-maintained
-> release :|
-> 
-> FWIW I don't think your fix works, there's still a race there (what if
-> you write and wait, then someone dirties a folio, then you truncate the
-> pagecache? you lost data again.). I'm attaching a very quick WIP patch
-> that I wrote against 6.12 LTS (again, this does not exist in mainline).
-> I _think_ we want to go roughly in that direction, either here or in
-> collapse file paths. There are still problems which are invasive and
-> I haven't dealt with (GUP and other "temporary" folio releases being
-> the main one). Some of these problems may simply make it so opening
-> these files writable may fail (there is certainly, AFAIK, no way of
-> waiting for GUP and other temporary folio holders).
-> 
-> We would probably be served with a custom loop that forcibly yanks
-> only THPs out the pagecache, though. But that requires a bit more
-> code for a stable-only issue...
-> 
-> Anyway, the patch is obviously ungood and uncromulent and is only
-> here for a rough conversation starter. I don't think it works and
-> it will probably never work. mapping invalidation is simply too
-> best-effort for something that Just Needs(tm) to work.
+>> On an affected 6.12 kernel with CONFIG_READ_ONLY_THP_FOR_FS=3Dy, a file =
+can
+>> contain read-only file THPs installed by khugepaged / MADV_COLLAPSE. Whe=
+n that
+>> same file is later opened for write, do_dentry_open() notices
+>> filemap_nr_thps() and drops the page cache:
+> [...]
+>>=20
+>> This is unsafe if the mapping also contains dirty folios.
+>
+> But there shouldn't be any.  It should not be possible to have
+> dirty folios and THPs in the same file unless the filesystem
+> supports large folios natively.
+>
+> If the file is open for writing, the attempt to create THPs should fail.
 
-Other idea: perhaps doing filemap_write_and_wait() after the nr_thps
-increment in collapse_file() will Just Work and result in a _much_
-simpler fix. And it avoids any weird forward-progress issues as no one can
-write to folios at that point.
+Maybe he means order-0 dirty folios?
 
--- 
-Pedro
+--=20
+Best Regards,
+Yan, Zi
+
