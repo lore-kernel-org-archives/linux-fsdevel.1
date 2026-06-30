@@ -1,184 +1,153 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A30646AF3F
-	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 16:16:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782836221; cv=none; b=Pk5GNfQKUHjh01lwdDo32mCcl7KDpemaYTkcccuSQlfMDjYKmXa9XJZ6p8JQZTQormk8PcxNdn7otm6pqiIIvPHU9jKYiOAJh4H6PJV8J55dFEQeXSHupOzFocrYQHC2HA58Bs9AbL/jfCnpFv4dcnxbn1F3zQI5RE8sDpYKWSQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782836221; c=relaxed/simple;
-	bh=9Uh6omyv0egd2O0MW2I8cCku+zX6aCnH6X0xqMlwmM4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W0ULbXRHuISfuABprK1KfZXcZcMYKUsF0eJANorGuAZSmeoZaUSbx8hBHTmC0QEyDEOjf8+8XhyO9xaxDKnGo88DjCxB+3KmDgu21JIBIvsnDtmfCO2Yz6yPCz2m5GFHF7DIKXhI9bZ97uXu71DhVaFJ3XJU1liJVQd+fFylSFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sJ3ZcnD0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ez7nu8R1; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sJ3ZcnD0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ez7nu8R1; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38AA046AF06
+	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 16:19:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782836349; cv=pass; b=k77K5SU75C4q1zCKMrETrTcHCVk8Xv5woGrOy36Ng4HhFSY/uItBg61ITiJbwZdmQ46XT4571CYqYDKOSVrc6GYIYUK/t3O3zqpTP9GRBz+7DWvhLpMyNdzETuBKeqRMZJ81+eFwnSJ1uV8T5Yx824uvbUn0z/TEsh7o+LFT3uA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782836349; c=relaxed/simple;
+	bh=f/+MyDfnaeuI7CogaxN3dIMBY5/0RM7R9hdpQjkqoaQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RBHii226PfvLpE2B/t4ju0+3Gbv0y741rXCAeBscsF/Wb70w809UzRnCuUAZI3Ousn/KCJJnEJnQ+og2dP4gsNEV3uH1+Elber05ylrH3CHhfZiw4W9BKp3xdgr2t+beoM50gUb6iK/qoTgCT9+vvNZS9a65rops0jDMp1y5Kr8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hdH3oFZa; arc=pass smtp.client-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sJ3ZcnD0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ez7nu8R1";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sJ3ZcnD0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ez7nu8R1"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7ABE975B28;
-	Tue, 30 Jun 2026 16:16:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782836217; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tJoAvYhq93KYCzjaxFWoitVi4doOxRa03N6I4a85wxg=;
-	b=sJ3ZcnD04vfuWg15fYumkN4Z5BLAEG5OnvVU6Bka7MAyaat5LqwR9IVSPmnXInsXtwqN51
-	b89OFcITXKZzIiyvIGZWoIgArrvUYfzlcEon6pgA6x1Dw72IWcn2X4CKeyscQC3mVuG/VG
-	uH288u/SS5kzDZxzCA+LJ7BF9msmT1k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782836217;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tJoAvYhq93KYCzjaxFWoitVi4doOxRa03N6I4a85wxg=;
-	b=Ez7nu8R11lxDQwLyZgdyYikD5oOap9w7bVhI6cDXjd5zwHEzIYIEVh0Txv2+5yqC2aktsj
-	tJS7DQ6Lv6+a+tAw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=sJ3ZcnD0;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Ez7nu8R1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782836217; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tJoAvYhq93KYCzjaxFWoitVi4doOxRa03N6I4a85wxg=;
-	b=sJ3ZcnD04vfuWg15fYumkN4Z5BLAEG5OnvVU6Bka7MAyaat5LqwR9IVSPmnXInsXtwqN51
-	b89OFcITXKZzIiyvIGZWoIgArrvUYfzlcEon6pgA6x1Dw72IWcn2X4CKeyscQC3mVuG/VG
-	uH288u/SS5kzDZxzCA+LJ7BF9msmT1k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782836217;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tJoAvYhq93KYCzjaxFWoitVi4doOxRa03N6I4a85wxg=;
-	b=Ez7nu8R11lxDQwLyZgdyYikD5oOap9w7bVhI6cDXjd5zwHEzIYIEVh0Txv2+5yqC2aktsj
-	tJS7DQ6Lv6+a+tAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F01F6779A8;
-	Tue, 30 Jun 2026 16:16:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KG5RN/TrQ2rNawAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Tue, 30 Jun 2026 16:16:52 +0000
-Date: Tue, 30 Jun 2026 17:16:51 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Simon Schuster <schuster.simon@siemens-energy.com>, 
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Ian Abbott <abbotti@mev.co.uk>, 
-	H Hartley Sweeten <hsweeten@visionengravers.com>, Lucas Stach <l.stach@pengutronix.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Thierry Reding <thierry.reding@kernel.org>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>, 
-	Alex Williamson <alex@shazbot.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Dan Williams <djbw@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	"Liam R . Howlett" <liam@infradead.org>, Matthew Wilcox <willy@infradead.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Hugh Dickins <hughd@google.com>, Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org, linux-sgx@vger.kernel.org, 
-	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-mm@kvack.org, 
-	iommu@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, damon@lists.linux.dev, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 05/30] mm/rmap: update mm/interval_tree.c comments
-Message-ID: <akPrTU96BwQJoygw@pedro-suse.lan>
-References: <cover.1782735110.git.ljs@kernel.org>
- <80d482a927b2e9862487b812e0ab48ebc1289a70.1782735110.git.ljs@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hdH3oFZa"
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-139a5f4ca15so5747789c88.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 09:19:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782836347; cv=none;
+        d=google.com; s=arc-20260327;
+        b=hMDb12ch+SKALDeGI9cp/DVsI5Ks4LIBIX/+tfph82ljMhDN1LMJFUmhofYmqVuw91
+         /bisQaS3t3HNTCT+0o9YBhhVw7ox2IiywjWoPN5U0y9Qjo4C7TEWy3tvHqKlQEkVy/5+
+         civJHKuBWLDKMIVX7BrTqxskN9pQrzbEUxbWceJTSuyTVeRXy07d++iLhDZseI9cPVp2
+         pJ447dwAWY3vu/1gm/GYzE/QamKRSyXDdVY42h7gqLYjuEXUyBoprLjyK2aJXNaIH2lv
+         YNJpq3y9K4xOjCi5wAQQY9jK8tgcT8ThFEujzll2FPyHGOv/FdjfT2woZyw/16AmDhYE
+         h0yA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=FmnZQ0z2vLXoLibFoyOKx5KfiNn7WrdOlM9j302Dwv0=;
+        fh=J3i+vzqijYHZ/UOwj8DCT2aKiEqq4woUUIH3Qc9OQNA=;
+        b=JVRqZA10Ee9PTNVcHjw/W5NDxX57Bak/8yV3mP1z7HKdp7Z0qXTeCiU6qQ4891FtRg
+         av/RVJRnWn0430xtlB4arhIWHjvmjSYu8Zh6ENO3K7XxXd30QyA0FIYGbjhhcBuog788
+         rqN14klEWDk0tacj3oX6cYkTJ6USYFunntUPevaMv2eaTVccRe+OtXzm4s0WphzQvvsQ
+         irAlpybO5T3YIshko9ww+wXsRBLcScUYiOrby8EdREBQgGFYC3mpOrofSvCJ5Ju+ObxG
+         VasVS3Bv3tD2tYp4UmCLURiRbmKNXYyL1zJi3j7NuL/Da9g8oJx9FuBq0bii+1090c+q
+         zcdQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782836347; x=1783441147; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FmnZQ0z2vLXoLibFoyOKx5KfiNn7WrdOlM9j302Dwv0=;
+        b=hdH3oFZadb5aVCZDHspdVB+floXDVazdlU/UzwLYjKTeMiOnvmRlgz43APilz52RQ6
+         eS77Y7kcZRwS8MX5qTPLHEb+gMFiORfx+zfEKWghJlQ+Jxl3kQkQYMlWV8igxGJBcu6j
+         Qzd6OU3lUrVB9PbyvALD6notCzMNaZKuFKCjtVqwunhRf6IkhT16PeF2gUXjdHHd+lKY
+         DG2IGpjQ595fdmV7KyRajXJy82GVA1skoxOOl6kqjmdvw/8nyr+iMshVpuKGKV4j3NNJ
+         7S0qZEROoHwVCA8vLi6YEGo3X5XLjXtz2DukymP7NE1IYXepfA6NjLjPgCiUTfUJIlyp
+         tTZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782836347; x=1783441147;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=FmnZQ0z2vLXoLibFoyOKx5KfiNn7WrdOlM9j302Dwv0=;
+        b=KjHTEEaoUsJVYkoFNkpG/ZbcYJI6hNF0BcVHG7ot/I6R8GWfHWgVY9hH/F9wWzlv8q
+         Kp47tSJhFRJi8G9zXqATqLhPT7TH6ofFABpsCh405Pf0U/45uGWr6MQOoXrsDOj+lArS
+         2oWKg+mnY3yn0VrtfUNWz0/hq+As5uZSjaKPOdvPQdHMd4cDtV7k93+YhfL6ZamCRuC+
+         6T98hRZUhAmSdmfAoANr6Cq706ttcbtLnf/iT99UuiM2yjfqKW7rhcEODhQC7i3R1FR5
+         k3nODBE7FuhaOsErJkooSAPipnRyQgNUotMSMckch8bgvD21MdK4RyeWVMSEPDfDQtBK
+         qE3A==
+X-Forwarded-Encrypted: i=1; AFNElJ8cZ0Ah1OX02+fq4suI3+jf7/RMWMz4xER29+8tJIiTWirhS+ebDE4gLLnyig/saWN6ktNmpAXQyg/82jH0@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJGiLrYALEvdHag87cFcw4FjigqRWSdfPAFR6tnvaG0MoZBchK
+	qUI+d6klzcPO6abGUYLwNPTNuprJ5+XC+tCgM51xTVNfWdceBoDcEbedEeNsJhQpjhGzzJeqakp
+	qQdA+cfusS0MWx0Hi5lP+Yi/vPShnPRN6dwiz1dTV
+X-Gm-Gg: AfdE7clFZDLBbTjqiOFsQIKEMKfHnDcDupoecEa22wvtczW6sNKKHEB487oNy65jxeX
+	54c45rJN2aceOXKLl8idmwsY61sKPYUdxhGr1Z2qs63uVsDuDrOYF7hwvzMdaG66OAZ45+iNAoe
+	SPKTAY1aAbHLzrDJo2MQLINN3Za3LI+WN30uqEFfrd/n9DB62DKDBQw2HXw/RGB8+fOne9PpU5K
+	Yab1Nw51cwzM1luHF0jArVT13INR8ExPjiJo8OMKVvXdqKnxuidbCsK2YX8o4ppXL3vSRMqPbXV
+	xfus5nB4hdVyw751RZ+5sw7RYeWSz9WgxwrtcgXr3sLVxOP9+zYEDhoy8xVFSe+1ClxTfzAegXj
+	Fjmk9wVxsan09srxxR8ahMRmPdF8rmMdTO1n5iQ==
+X-Received: by 2002:a05:7022:4595:b0:139:ed59:4b86 with SMTP id
+ a92af1059eb24-13b2a1bf1bbmr2364497c88.42.1782836346356; Tue, 30 Jun 2026
+ 09:19:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <80d482a927b2e9862487b812e0ab48ebc1289a70.1782735110.git.ljs@kernel.org>
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,armlinux.org.uk,kernel.org,siemens-energy.com,hansenpartnership.com,gmx.de,redhat.com,alien8.de,linux.intel.com,mev.co.uk,visionengravers.com,pengutronix.de,gmail.com,ffwll.ch,suse.de,oss.qualcomm.com,ideasonboard.com,nvidia.com,amd.com,shazbot.org,zeniv.linux.org.uk,linux.dev,google.com,infradead.org,samsung.com,goodmis.org,huawei.com,vger.kernel.org,lists.infradead.org,lists.freedesktop.org,lists.linux.dev,kvack.org,googlegroups.com,surriel.com];
-	FROM_HAS_DN(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	MISSING_XM_UA(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_GT_50(0.00)[75];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,pedro-suse.lan:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 7ABE975B28
-X-Spam-Score: -3.01
+References: <20260629194327.2270798-1-jkoolstra@xs4all.nl> <20260629194327.2270798-5-jkoolstra@xs4all.nl>
+In-Reply-To: <20260629194327.2270798-5-jkoolstra@xs4all.nl>
+From: Kuniyuki Iwashima <kuniyu@google.com>
+Date: Tue, 30 Jun 2026 09:18:55 -0700
+X-Gm-Features: AVVi8CfwyMBPNQ0tPm3h1L9ozwd_nr1YcpkmcBZ_aBP6o8OPTJkBnWkD5vIy6-A
+Message-ID: <CAAVpQUBFFzVvsdJ+JytvUukRinN29+J0uZQKZbxLy01m7VeeKg@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 4/5] net: af_unix: replace copy_from_sockptr()
+ with copy_safe_from_sockptr()
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Christian Brauner <brauner@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 29, 2026 at 01:23:16PM +0100, Lorenzo Stoakes wrote:
-> Update the file comment to clarify that both file-backed and anonymous
-> interval trees are provided, referencing the relevant data types for
-> clarity.
-> 
-> Also add comments to indicate which parts of the file apply to each.
-> 
-> While we're here, convert the VM_BUG_ON_VMA() to VM_WARN_ON_ONCE_VMA().
-> 
-> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+On Mon, Jun 29, 2026 at 12:42=E2=80=AFPM Jori Koolstra <jkoolstra@xs4all.nl=
+> wrote:
+>
+> Replace deprecated call to copy_from_sockptr() with
+> copy_safe_from_sockptr().
+>
+> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> ---
+>  net/unix/af_unix.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+>
+> diff --git a/net/unix/af_unix.c b/net/unix/af_unix.c
+> index 83274ce18e06..07a0b07cd65f 100644
+> --- a/net/unix/af_unix.c
+> +++ b/net/unix/af_unix.c
+> @@ -933,6 +933,7 @@ static int unix_setsockopt(struct socket *sock, int l=
+evel, int optname,
+>  {
+>         struct unix_sock *u =3D unix_sk(sock->sk);
+>         struct sock *sk =3D sock->sk;
+> +       int error;
+>         int val;
+>
+>         if (level !=3D SOL_SOCKET)
+> @@ -941,11 +942,9 @@ static int unix_setsockopt(struct socket *sock, int =
+level, int optname,
+>         if (!unix_custom_sockopt(optname))
+>                 return sock_setsockopt(sock, level, optname, optval, optl=
+en);
+>
+> -       if (optlen !=3D sizeof(int))
+> -               return -EINVAL;
+> -
+> -       if (copy_from_sockptr(&val, optval, sizeof(val)))
+> -               return -EFAULT;
+> +       error =3D copy_safe_from_sockptr(&val, sizeof(val), optval, optle=
+n);
 
-Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+Currently, only int is allowed, but this change unnecessarily loosens
+the validation.
 
-This is fine for now, but I'm wondering if it doesn't make sense to, in the
-long term, have:
+Please keep copy_from_sockptr() as is.
 
-mm/rmap.c - common rmap mechanisms
-mm/anon_rmap.c - anon rmap gunk
-mm/file_rmap.c - file rmap gunk
 
-or even something like mm/rmap/{core,anon,file,ksm??}.c
-
-While working on my file rmap patches I noticed there's so much stuff just
-splurged all over rmap.c - interval_tree.c - fs.h - fs/inode.c.
-It's a little silly.
-
--- 
-Pedro
+> +       if (error)
+> +               return error;
+>
+>         switch (optname) {
+>         case SO_INQ:
+> --
+> 2.54.0
+>
