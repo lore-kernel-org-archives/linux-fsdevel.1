@@ -1,206 +1,134 @@
-Received: from flow-b3-smtp.messagingengine.com (flow-b3-smtp.messagingengine.com [202.12.124.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67008248F64;
-	Tue, 30 Jun 2026 02:52:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441D372623
+	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 03:05:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782787929; cv=none; b=DrLe6nmFtwWQbwcUiJKDAYMIaClmst5Ufwf2TCdvV7XQp5vQVjKeMg5N3c7ixd8fr/vtXjE9gmeva2sG17pGYu1ahkeUBIc8U0tudMFTA0sZZDNZ9hVtNFs5hjB8grwINnkkw76Xj1fckpxu16rIYvO5VgHM/Mg1C6gyLwic2WU=
+	t=1782788746; cv=none; b=eBWLRLJ0asaU4/k8mjLHozG0JOJQvrzvfSBGT4bBlblYIGMStJOTJaLDk4qE3KnwjbD4m0NNSy5Av7zCgPmxqWfh9/kdQ0gs58W0EsLsUN1ugNDd/B4U6hbeEnh8Y8KC7MLVaDqfsRNhoqOpa3Q8kWPkEhtqqQDFmVCFMItEwHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782787929; c=relaxed/simple;
-	bh=hTs0/hVA1FBxLDWAiGpAUUaeU4TRbbhvTyH0rQv4IEw=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Roav7v4RmzSICcXKEETakUqEa3OlDR0+Ov7zIpTILw0/A1ljX4luxicnbw25hV19N5uhDvaB5/QRL96WeSqO3E9TjUxxRmJcDwFs1pslw10YmeCmvYAKbBgwZsIyHzBIROl0uXtC88MI/RB5CIAHhv2IE1MEIXKENO9NQCxHIgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=j0ojmboj; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QxBzsQkM; arc=none smtp.client-ip=202.12.124.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=johnericson.me
+	s=arc-20240116; t=1782788746; c=relaxed/simple;
+	bh=gZGEgMQsqYkk4U6xVt2LXnjcjO41Y9xmH3s6kEZs9wU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=mLK1es+a7eG6SbMXJCXUcbPO04rZuCKGPSPYb1ouKvnMWa1uhHC2Hd1+uV+5gH+55qj5XZcXUK5NhAC1xm2VLC3L78txRgDHtUFSL3C5zXN6+UDlciigjI9DHuuTsC+aAjznQ/K0wp6rJVk5TjGZP8HH/+dLRquTAnbVVfB6frk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BK2Wto9U; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b="j0ojmboj";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QxBzsQkM"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailflow.stl.internal (Postfix) with ESMTP id BA7971300086;
-	Mon, 29 Jun 2026 22:52:05 -0400 (EDT)
-Received: from phl-imap-16 ([10.202.2.88])
-  by phl-compute-05.internal (MEProxy); Mon, 29 Jun 2026 22:52:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1782787925; x=1782795125; bh=fHtPYj1Vq9217cMqxqbh4CUFXsI6QZsW
-	dmN+9WGCzkE=; b=j0ojmboj1Jz65r79PKN9kopAdp8W3GlQo7NL28aCMlDYVsfE
-	XC3wbGsNoJLoa8r0fU4A71QNk5P58t22cH3oMD3hk89H2b3AC1i+qtXESw39IoR5
-	cryQqO9GMuz80qzTZxzLEWi/WomWSObWXAZocKKgKRAh8YrEZ2/WWzySUZbvjjQl
-	2JkvOVp83hJOETd8Nr43tGy7M/ysNdpM1L/SrgBs8JRU6CJJ8C1GvU9OGefJW3dJ
-	yfk8cmMRZ79D91qMWEj1SbuS45JVpn/q6HQuIo0vR6KBKcyCPn0NC+PyKtQX7mXB
-	1mML+qqpqOfAn/wKDhLygRmOW3f2vbGwR7L+xw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782787925; x=
-	1782795125; bh=fHtPYj1Vq9217cMqxqbh4CUFXsI6QZsWdmN+9WGCzkE=; b=Q
-	xBzsQkMSlAfpPzQYTDfwUXWG//FZLkJV9Ssm/pddcbbyqNRHpVzEgdgTcPAlYJIX
-	+mPy2VafNqwJiKNi3Js0EJ6qhCThzaaFqbtrQ9mJ2GryGGbZe5aMEanF2torVwN3
-	DBFG3+VdGQ4MHFNEucRkW/SQlOq9P8bjHzT+I96atw4Etvf4s6faD8uW0J/YhuDH
-	I6Qdwip2d8RHL8aQPL4BxX6033Dc87E3FMyz7oGH0oPcbFfQ0O5e4KvuJRJQJU9g
-	Ueoj8oCB+dO0x12y7Rb1KJnu0HSrFfZ8VU7LDkszF0RAnqWRzw+qNNsTrNxrKpZA
-	12uuVH3blfS+6oT7cY5fw==
-X-ME-Sender: <xms:Uy9DagrsIXHLUchxjo3ZDIGftPw1GSZ-T3Psf4N4wr16B6iRcsaMQw>
-    <xme:Uy9DahdQScYfMTFpPfOrmazF9JCsGEiNSVVcM1A-krZPPo4THrKRWxCEMxO9xhXPf
-    iRAKlxuNg32AO5itWqEj-aF5Nq_nULPEAzMnHE4vXZkJQt6VkN3>
-X-ME-Proxy-Cause: dmFkZTGh88Ny/NSP614TAUmt/Zu/ZyAQDQd3Kc0pxhXkE8DlAE1bg21crdAJgMzKXpWkSQ
-    60lHHXkrA6+QRDSsthPUVsekdZKAdo8oMRIL1ljoLTzB4ORvStWc4S1s6le07c/R/ZBfpN
-    PliZs+7NViV0ygxfKhs/tFXshhTVIYH86XdGJ5PXcP7JaX5sfciqoA33Bl0qXud0oWQvUQ
-    gDeFIMDaXYdyIEkujGxfozpXPiRtANOLMiKtBccjeQiFmouB7U0BZfcg6haduu0zs3meyw
-    2FAiK69ZliqABxlwiNkQ9lhvbvdjykoP0nSUQfx9CZ93L+8mTbE/3w2xsJqsasQFD2hhc7
-    zlYRtsEFhS3NjG8TaXqQ5plVFdokW/XyXC3jmdiz+kTbAW8wiQprVafJEymhqgomem1Hae
-    wFI4fv4G6aXO3sm/a61sai+RzvOwdc/lrRbClaX4qwU8qXqFEUuUEYJOGW6ZgsksZuNYCq
-    6kqn3iRtBNrLMy2/NYwPedhYoJ7u9+Kvkadj13PbQV5FDdVDZ37UZUfGZO6HvxYvpIrQVC
-    R0E8q2k6xileMO5gVtqGD4OIal3NwOWfT5iXHMK5CxLTqtJez0AB4s13AR7WRHAkJE6+OP
-    KjtzZr5qAHD9PhitI2LW1AmAWhId96sF6SnFBxVjhChqqhbFO0G+xE7+QItA
-X-ME-Proxy: <xmx:Uy9DamapRexMJYq8G16bWjGVaAY5uV5pBG-TQnFfwEvlJMRbzILGmg>
-    <xmx:Uy9DamkbG-QbwotlxwC0U3gzmotugTxevZOReohbo9b0LikzxYuaLw>
-    <xmx:Uy9Dald6rsQvhlhYJDcMsr_8oue3VDgghs0M402a9ssilEhHOovZdQ>
-    <xmx:Uy9Dak1IMdBKeJgcIQdhPGQBQoHIB7bVOmRHCtRucUUYKWrcqI3mQQ>
-    <xmx:VS9DakSD0yTppRQ4i8oyoQAGhnkwhqOLIkAVWwdW_s_t0O5ecUtJ9gM9>
-Feedback-ID: ieb4144f1:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 84B382CC0083; Mon, 29 Jun 2026 22:52:03 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BK2Wto9U"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c858961a8efso1504494a12.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 29 Jun 2026 20:05:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782788744; x=1783393544; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lYUwa5SWJODh41lHbkqVdEqGxK3t/Ss9xv0IBj7fNXs=;
+        b=BK2Wto9U1eqqv/T1g5gqR+0ie0JpU6NeQywmujWghsSQdMDXIORyvw+q2NZvdlpPDQ
+         oSi1j5ZmcgxjZXwRKUxBcxM6IowoVtUUwQ9GTA8LltjUtK4SVQzvT0PCZspsVWYXqoUG
+         jshsvcA5ldlD7m9gIDy+5FMwkYUVfT35RL9DljebV3dtWVdeCNp4RnSwWcL7tLZGz8Ry
+         heQk9n4k/Kt+fJuTSw6lXiCTT+VVbLLCSIjnX7CEYjmvTMg5a94zj+cD44KFQPcf0LC4
+         BW/R3Ujhipj1PvkAFEeFGVQihIpHu32FdAcMMvFewnTxeyjihSHLbxkwnzGWDs/SQGeA
+         lzcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782788744; x=1783393544;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lYUwa5SWJODh41lHbkqVdEqGxK3t/Ss9xv0IBj7fNXs=;
+        b=kRPaEc8OcDUZdHS+wZUNbimkTU/mKEgZhYjXngPD0V4V4ouSM+jjnDrMI7UQjqLy2G
+         h2ZjfZr9KaiZb82haNxvroOQwPXllfD1MEV/kz0Jys6mSTW+kRoK09SyrcAWX1GhQpX2
+         FtrwcL3zdQd99Bc6UqTLpFOPlw//8T3zhqm1OCoSBqC4vBrhnDR1/vgHJ7+zsJPBLJN2
+         tjOzEgw+KtaNx59aqARUy29SBd+UZ4JC9iBMDAXYGF8yLTPqC6nmp8Z19fPX8Hoh2aRG
+         mpDMvlG/bJk03UsUYjeEp9mmSR1Gx2S8IHoEzUxIqmXi+1ahinW931I0JXGuU2L33EEP
+         J4/Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8sscinTV0X6i5hHrDLJbxoHSGpwp+wYL1XTYpUOwCg25KTZSPxnav1Yesvyx2WpzrVoFskOqPiw2uqg2Gk@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzzh/g0gyZveAqXqnj+MZJlQ3jZODqNQnroauzyURO920NqW3kk
+	ubXwLEG1J1LGZilgz5akSh5qWZ1W77DF+JvC+9KSlr0PhBlNG7cmT5r565nYq6sL
+X-Gm-Gg: AfdE7cmujGMP531ne0wrjTrfffQkjQDOrLEyTIJzZArT9rCUjsf+kNQms7WOrYdIqgV
+	zJB2aozD287GEU++NGDb7yjAOxhLvvN3kOkowHfNPMpVgv2rMuziF84bsFIM8ZRWi9Q9D4OjanU
+	9Y2uwhKzfAePyf7OO1UOZC8myYlnV+VJz7AoDZKJA+Po9Q7iEW+DvoH6lNh/fOZrLViUHEGwlHe
+	1ph1E7sslYpFNowE4xFhIL9S5TV1un/NG/ROwWuDTp+/YLRwuj+BpzP3z2rr6lZjOy4IxcpHcJx
+	xXojFuq2oFZEKvNWLi5Q1CymHpEWPqw2kKCumv1XU3UJ0Z12y3jhLKsuLOcd5xjViBe5uNG233p
+	uagDBTvetUHa/dKsDO+sz/z+El8uU259HgIZImcHgrLiYxVczTQN3tnh+GL9tqL0=
+X-Received: by 2002:a05:6a20:2447:b0:3bf:866b:b74a with SMTP id adf61e73a8af0-3bfc5273c06mr1526316637.35.1782788744402;
+        Mon, 29 Jun 2026 20:05:44 -0700 (PDT)
+Received: from nineveh.sos.local ([131.191.24.68])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c9bbf95aa99sm638053a12.17.2026.06.29.20.05.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 20:05:43 -0700 (PDT)
+From: Jeremy Bingham <jbingham@gmail.com>
+To: syzbot+cie60057db19604ba2@syzkaller.appspotmail.com
+Cc: brauner@kernel.org,
+	hch@infradead.org,
+	jack@suse.cz,
+	jbingham@gmail.com,
+	jkoolstra@xs4all.nl,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot@lists.linux.dev,
+	syzkaller-bugs@googlegroups.com,
+	syzkaller@googlegroups.com,
+	viro@zeniv.linux.org.uk
+Subject: Re: [syzbot ci] Re: minix: convert to iomap and add direct I/O
+Date: Mon, 29 Jun 2026 20:05:35 -0700
+Message-ID: <20260630030535.3309854-1-jbingham@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: 6a42024c.9dc7bc9d.3393b4.0006.GAE@google.com
+References: <6a42024c.9dc7bc9d.3393b4.0006.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AG8qDlxFSDr7
-Date: Mon, 29 Jun 2026 22:50:38 -0400
-From: "John Ericson" <mail@johnericson.me>
-To: "Christian Brauner" <brauner@kernel.org>
-Cc: "Li Chen" <me@linux.beauty>, "Cong Wang" <cwang@multikernel.io>,
- linux-arch <linux-arch@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- linux-api <linux-api@vger.kernel.org>, "Arnd Bergmann" <arnd@arndb.de>,
- "Andy Lutomirski" <luto@kernel.org>, "Thomas Gleixner" <tglx@kernel.org>,
- "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
- "Al Viro" <viro@zeniv.linux.org.uk>, "Kees Cook" <kees@kernel.org>,
- "Sergei Zimmerman" <sergei@zimmerman.foo>,
- "Farid Zakaria" <farid.m.zakaria@gmail.com>
-Message-Id: <eb390c52-eeb3-44b3-88e9-e65c52a26c05@app.fastmail.com>
-In-Reply-To: <20260629-hauer-erhitzen-sobald-96d3dff68707@brauner>
-References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
- <20260629-hauer-erhitzen-sobald-96d3dff68707@brauner>
-Subject: Re: [RFC] Null Namespaces
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 29, 2026, at 7:45 AM, Christian Brauner wrote:
-> But I guess the even simpler model would be to copy what I've been doing
-> for pidfs:
->
-> [...]
->
-> we then add fchroot() (overdue anyway) and then teach both fchdir() and
-> fchroot() to honor FD_NULLFS_ROOT. Then a process may shed its fs state
-> and move itself into nullfs. Restrict *chdir() and *chroot() for said
-> process via seccomp and it's locked in forever as well.
+#syz test
 
-This looks good! It delivers most of what I want, and I do want to be
-very clear that while I am responding to your comments on my patch
-below, I would still be very pleased if we just did this, much more than
-I am pleased with the status quo.
+minix: add the same dentry check as ext4_get_link to minix_get_link
 
-(And also, yes, good to create the long-overdue fchroot regardless of
-what we do here.)
+It turns out that minix_get_link does need to have both the sb_bread and
+the sb_getblk paths, like ext4_get_link does. It working with just the
+sb_bread one initially was deceptive.
+---
+ fs/minix/namei.c | 23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
 
-> Nothing here requires you to NULL anything and I oppose this on code
-> sanity reasons alone. We shoud absolutely not start to stash any NULL
-> pointers in core kernel objects such as struct path that are used
-> everywhere.
+diff --git a/fs/minix/namei.c b/fs/minix/namei.c
+index e245f55a68ff..a4caaa3f7c9a 100644
+--- a/fs/minix/namei.c
++++ b/fs/minix/namei.c
+@@ -393,12 +393,23 @@ const char *minix_get_link(struct dentry *dentry, struct inode *inode,
+ 	else
+ 		blk = v2_block_to_cpu(*(v2_i_data(inode)));
+ 
+-	bh = sb_bread(sb, blk);
+-	if (IS_ERR(bh))
+-		return ERR_CAST(bh);
+-	if (!bh) {
+-		pr_err("bad symlink on inode %llu", inode->i_ino);
+-		return ERR_PTR(-EFSCORRUPTED);
++	/* This tried dodging the dentry check that ext4 does, but it turns out
++	 * that it's necessary after all.
++	 */
++	if (!dentry) {
++		bh = sb_getblk(sb, blk);
++		if (!bh || !buffer_uptodate(bh)) {
++			brelse(bh);
++			return ERR_PTR(-ECHILD);
++		}
++	} else {
++		bh = sb_bread(sb, blk);
++		if (IS_ERR(bh))
++			return ERR_CAST(bh);
++		if (!bh) {
++			pr_err("bad symlink on inode %llu", inode->i_ino);
++			return ERR_PTR(-EFSCORRUPTED);
++		}
+ 	}
+ 
+ 	set_delayed_call(callback, minix_free_link, bh);
+-- 
+2.47.3
 
-Before we do the "pidfd style" nullfs route, I want to make one thing
-clear about my patch: I was *not* trying to relax the invariant across
-the board that (live) `struct path` should only contain non-null
-pointers. Rather, I just want `struct fs_struct` to contain ("morally")
-`Option<struct path>`. My use of the null pointer was merely me doing
-the sort of ragged union packing that, for example, Rust does. I think
-as a matter of A_B_I (emphasis on "binary"), this is fine, and not
-going to cause Armageddon --- `struct path` is widely used, but `struct
-fs_struct` is (as far as I can tell) not.
-
-All that said, as a matter of A_P_I (emphasis on "program"), I do see
-your point that it's too easy for someone to not read my comment, and
-then `struct path` with null pointers starts leaking all over the place,
-making a big mess. I think a simple enough fix is to just use another C
-encoding, such as a union, for `Option<struct path>`.
-
-For example:
-
-    union optional_path {
-        struct {
-            void *p0, *p1; /* must be null */
-        } __randomize_layout null_path;
-        struct path path; /* both fields must be non-null */
-    };
-
-To continue saving space, or --- if relying on the overlap of
-`null_path` and `path.mnt` is too sketchy --- making a bona fide tagged
-union:
-
-    struct optional_path {
-        enum {
-            OPTIONAL_PATH_ABSENT,
-            OPTIONAL_PATH_PRESENT,
-        } tag;
-        union {
-            struct {} null_path;
-            struct path path;
-        };
-    };
-
-And either way, there can be an inline function:
-
-    const struct path * /* nullable */
-    get_optional_path(const struct optional_path * /* non-nullable */);
-
-taking a non-null pointer and returning a nullable pointer to help
-consumers of `struct fs_struct` not screw up accessing `root` and `pwd`.
-
-A third option is simply copying the definition of `struct path`, doing:
-
-    /* Just like `struct path`, but instead of both fields always being
-     * non-null, both fields can also both be null to indicate an absent
-     * path. One field null, the other field non-null is still not
-     * permitted, however.
-     */
-    struct optional_path {
-            struct vfsmount *optional_mnt;
-            struct dentry *optional_dentry;
-    } __randomize_layout;
-
-in which case `get_optional_path` works by value instead of by
-reference, because in the `CONFIG_RANDSTRUCT`-case the field order may
-not be the same.
-
-Any of these 3 variations would make absolutely clear that the
-invariants around `struct path` have not changed, and only `struct
-fs_struct` is changed. Furthermore, the API breakage on `fs->pwd` and
-`fs->root` will mechanically ensure that all consumers get caught and
-fixed (with the fix being to use `get_optional_path` and check for the
-null case).
-
-I do like these versions better than my original, because I do agree
-making a safer C API is worthwhile. And because of the API breakage
-forcing a complete patch as discussed above, I think that if I make a v2
-along these lines, the diff will either prove or refute my basic premise
-that `pwd` and `root` in `struct fs_struct`, unlike `struct path`, are
-not widely used, and so changing their definitions like this (from
-`struct path` to `... optional_path`) is lightweight.
-
-Thanks,
-
-John
