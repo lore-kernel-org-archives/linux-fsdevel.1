@@ -1,63 +1,65 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D7C399365
-	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 15:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7667F3BB69A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 15:28:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782833322; cv=none; b=aCPC7m92aej6U16TkLjmCtbmmjqaB2iEUdkuvMJi/f1ZDDGj+ikspxHYfqvvAaHEhrJivFu83yX8gQapcGPDE79LzHWGvWsnYFtUHLumQlAFiOgAl0yEzfr3KUha21H6lGztJ+m3j7s9NYBPrJSbMKzNo07hZnCrJnoYV8bUT5k=
+	t=1782833332; cv=none; b=dRU5Exl9sO2G1jjXpdDf7ul8fOH9TeqBt4EM9W8Ya5AyIxpWR9vo8DIwZtWaHaHiyfk6DWPddp1AX3XkGJdaygYHkuUfZO1g8qxQtOAW2BYcyXjg76GhNiJeJwIsXp2fLZisnz499cdl03h8X/xSoiyp2R9bCuORspJAChiST6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782833322; c=relaxed/simple;
-	bh=Ozwrg5vtYkvUjByMh8Q7JYkkU7wDlbu9EjlFXZuBF3E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mceXUeo12zLcVHClPRIzgky+wI+xG+TyrdT/EDEzo/x7/LYOuDQy0dmiF9tjKtceqZ17ZYxQ+J1peHr21C9pUneTB3wNbQZnPxkCcpJwoF4dBpvvNoOceHCyZ5THJbIAr6TaMCM6F+0eOQb5Dx6KRuChorphMK2YuQpdCNRyt08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VtyfQhQu; arc=none smtp.client-ip=209.85.214.179
+	s=arc-20240116; t=1782833332; c=relaxed/simple;
+	bh=xquv6/1zmKIN/2mTfcKs1/FdMOLlx+LF57fKWWzyfCw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=sMNb//hNz3xp5jBcU3EWsI6vmH1y3k/64TP+l0jUJOgmMARk++e+0AzuFssc6PD002P5yvz3Qjxog94DaAGXQXIHGUw3QTtQrqcOYQywQGfUxN52g6egDHUGmFs3Pt7zwn/jN00OP4EuIEc+ICm7ieiRqpsGTm3lu4b1PRE93h8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ys6/+H0l; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VtyfQhQu"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2c9cb97e178so26826375ad.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 08:28:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ys6/+H0l"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2c9e89fded0so23490665ad.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 08:28:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782833319; x=1783438119; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MKTgauuOYaFio2lSDyUix5l+tJ8GaI8cbBppvZ2p7Hg=;
-        b=VtyfQhQulJeqamxXY3z//tstQhbwvBqdRhjXCRoy56qGTeqzmYcfZCyS2HmUoUrjLh
-         5QOYj6Sp0C3QJQMvDketkEY7s00IwUXAyaXaWtck2qrA+QMTAT142AnvfUWRf3+Zmq0L
-         mxhor0kIihQgW4J+ypWaO9ZihkBxRg7hHgXAe50ZvCJ8AgnhwkIuTmFqCxyS+AqL1gSr
-         lUgNwwlGgbikWT+uQS4JAxeu1zWPiHVd2kmMgZTtUGeKyM9Orvb6GGVfBmnqRKWhKtvV
-         rZpvK3Hm46uAE0WyIvOb9pJxY7blafFolDXmT+rbVy6slScU+YLvwJkWGewUvhcbBK5P
-         ijnw==
+        d=gmail.com; s=20251104; t=1782833326; x=1783438126; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=8Szwrzz9Z+aWg8QbD4KtPZAGCdM9gbtLs+u51W0gxvs=;
+        b=Ys6/+H0lsjI08r7hxRzRnNxUlGqSbES2eRu5ED6zhipUUkFIZf2+XfP4GEI6IUF+pR
+         qLqGsCHiadFPNjeZ2KF7dWd1K/seNqTeIFqsIRRV2PaAUqRSYvlDHezr+pU/8YTjCnq8
+         PTugaD2oS4c+nJYcWy6RbZ46DwjNRF3Q3QPje8EUvD1ttUTqKMctBloZIhH9/EBSuNpf
+         HRsjdyOrD1OstKkXAo5n6eS2r6QQlkGSU70A0TrZvMAJCujRgLN90p6nwFzbEka1Bt/c
+         b22G1DJ6SOEYI/9xHhtZfq3qANqd4tz9eSWyZAbuuIOp3gMbwRDUcxa5tD1DuKucrYlF
+         2XCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782833319; x=1783438119;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MKTgauuOYaFio2lSDyUix5l+tJ8GaI8cbBppvZ2p7Hg=;
-        b=HHn9VoSkk6YNDXuAz+iHsMVfDWN3SORA2E/UA5BnlVagyFnuvWXX1XWsBRDkUdLegv
-         fxx42Evw+g/wRu6q/pR7B9LMk9eUQKuHpPEI3QM4Eq59RMzXGxXdOuCKMOYrY8g0isqY
-         fOIHAK6iHRbd5jm+9D0hXV41ddxEYLS2DfR4V5BLCFNROUExyGtFOWTbnQWNEUX9Ao4s
-         KcKz1r/6J9PaZJ1DZZdrGqFYPAhl8gRg12gy59nHVkJYEIRqVhqmjJpuaLYcBVj7Guvo
-         nzNs7LpvPBtADrEtu8ZDvK85plbMkCd5kj3ySQTDLuSZeg3o6gipUlvQ+flxfSvnieGS
-         IWwg==
-X-Forwarded-Encrypted: i=1; AHgh+Rojl+Dli/CTUXhibDnFe3veScGVkrjaB/2+kBulQJm1qOi+GeHrmRy7IHyvj9uLgRRWtgKsFwQfE9IyXuzo@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywvua1WkkNtQG7+MV+06KA8g3oI4AV49A0JTInVpPG9R+CWRC2z
-	yv4qTdBdCgKbKH4mTWMm8/gWBej/pzf2YgT+hydkifnOx+87HVkRSIMt
-X-Gm-Gg: AfdE7ckAdqkFltk1+VFFRDnwQ2ipFf4o9KfTOvucH5z+DX6Lx+n/21g3U4IzUUnhydO
-	rAHitf63pS+wEcpBoDY5crjK7vdBwvQOjJQuQsytCqqKAnJtaua/Qz+BbGY5dJ9qLpns/lTx2um
-	fKPWuUHjPUdjFRFlrdel72Jf2hwVF0VhFeiu2ZBsreefBPBwTRWTTRarCHL8y+OcaSdB9eSA0O8
-	Lx8QHpsAsbohdvwCiXEoUnukf06HZruiLyVngg9pVRiv759VZwbyxqgkvcvrczuMCC9MsmyFUzf
-	+Zro8O1DsKq8B1bh91UnYST9BOsXH7wcDo8xOUzZiMHw6s5D4Ggzc1a3Ap5lkiaMQI2+RmwWUDc
-	xHNYqES3fEK+XrNJ7CdIZuHJIT8D2opN7OaE86SfS2usyB1xUFZwlLL8HkNQ3b00mBaRBmuabYv
-	mMemE4pauwrHYL4xkk2VAWD/qp0SoiEfj9Qj6nIFADqacIScNoJr3e1ILEAydFZ42W1q17+DK6W
-	djxiDzQgDzJqXb+MBeXopmSJGByNw/Vxj+v2V5fBTXKZnkSKXGvJKMDD3UmN1p+4Oz33t1vnNV6
-	5z+gpQLVdlWtpOPk0gES11d7VQ==
-X-Received: by 2002:a17:903:fa4:b0:2bf:dd0:c8b1 with SMTP id d9443c01a7336-2ca2d3d28admr36079005ad.0.1782833318526;
-        Tue, 30 Jun 2026 08:28:38 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782833326; x=1783438126;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=8Szwrzz9Z+aWg8QbD4KtPZAGCdM9gbtLs+u51W0gxvs=;
+        b=ppCyIUHBfDkrUL509F09RbrVPeIrLkjahRHpEftCnzzRo++/I12+Y+OJeT7j4TPz0z
+         vKS8dUW6XFiQPhAQRqpUZkgTvRZkcUZv5rTmMfTgXxldrU/eNKperJj5iIj/zqMxNfAA
+         RQlt3WE4gc+OwGWjPbIlHMfSCpaLWonAwuBnvOAeXC6lEqpPaZbPV2lfY6Vg0Ykgba05
+         9M34D3qfu3xzaF0NNq1pyEQfjPgbvIZL27+5kBx5v628zn6tDfNC/JPGlkmM3bhfhK5S
+         PA4YSVC6TNO6h6ZO9Y9bNNs/tfVAAa7g1HnWVHcxo201anJoALc5IJgpJJvFY3Fi/GGn
+         8www==
+X-Forwarded-Encrypted: i=1; AHgh+RpsLD3+HUFGQdx3voBuOkB/aWVz4Gv5r2rum1qAxXzi1o4R4ysGa8gLfhytwb3GsmiYVQG7SFVtylFf+sjp@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIw33XAALTOgqXRcoWWhHIZlrad/ZXBZQ04aqHLHRKIv1ye4iL
+	1/+GqA5MyioN580UbPGhRM9WDkoKaoC2OJysLgawjUKTTuGkmV2SlKCR
+X-Gm-Gg: AfdE7cmcx+K5QsxXNOl2nfhyqfWOaUL0zrhKY/y/VpTM7BRTTmGBvDQ1Erj/AhItLwU
+	8sYG05+SGkn2UoJ0anpvtcs7wiVRs/znnITKQJhpZTux/Ju4FrwLT1uANBEpII8Ygwli/Ni5Cqk
+	oarD2uyKUdOJn5+fnaw41sv8SdDWfxKym/815qf4LVGkxcVn7dTp8nvrLTBRCKJkz7yCTR4aNJI
+	bmjE1itp9+LdWbapHusa3A8yPU/OUrJCt0lKA8dYCJwzijenlpSVsvpZCD46e/O3K+yDZZ93aof
+	0eAQpcHIUMQgDs3wu7Zdm40Mebkd2Mcubec86ymSTKHE9lUFpVvSjBZwlOCAFomUF9cpHHIDvEc
+	PlMA1zGb6bb4nuDjczE5GbthbETKnBPCUBw/XTtbN0uwzfXteBS3SZM1YKanJMl4HilVYkQ6qF4
+	Hz1uOuXRhHMeaRSGh+NoPYhS7RVDcY8OJK2x7OfFnw8+8xF6rClrEKRfP9vDzJi01lHdsMT+/yq
+	i7uuH4vsfM/mmWIV64n46cOJjuKSnYrLTet8rkhrxdlILGlkYl6Hz4Ps8uuvhGAkV588njbuiPp
+	FxjttuOTB8eneOBwmkRjtMRkSA==
+X-Received: by 2002:a17:903:46cf:b0:2c2:62ee:5a0d with SMTP id d9443c01a7336-2ca2d567ff9mr34948525ad.14.1782833325996;
+        Tue, 30 Jun 2026 08:28:45 -0700 (PDT)
 Received: from cs-1047136853211-default.asia-southeast1-b.c.d33bddc1d573818c7-tp.internal (126.60.158.34.bc.googleusercontent.com. [34.158.60.126])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca4bae1e2asm10501645ad.73.2026.06.30.08.28.34
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca4bae1e2asm10501645ad.73.2026.06.30.08.28.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 08:28:37 -0700 (PDT)
+        Tue, 30 Jun 2026 08:28:45 -0700 (PDT)
 From: Aditya Srivastava <aditya.ansh182@gmail.com>
 To: Theodore Ts'o <tytso@mit.edu>
 Cc: Andreas Dilger <adilger.kernel@dilger.ca>,
@@ -72,10 +74,12 @@ Cc: Andreas Dilger <adilger.kernel@dilger.ca>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
-Subject: [PATCH 0/2] ext4: fix race conditions and clean up locking of inline data writes
-Date: Tue, 30 Jun 2026 15:28:10 +0000
-Message-ID: <20260630152812.1706-1-aditya.ansh182@gmail.com>
+Subject: [PATCH 1/2] ext4: use fsdata to track inline data write state
+Date: Tue, 30 Jun 2026 15:28:11 +0000
+Message-ID: <20260630152812.1706-2-aditya.ansh182@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260630152812.1706-1-aditya.ansh182@gmail.com>
+References: <20260630152812.1706-1-aditya.ansh182@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -86,53 +90,121 @@ Content-Transfer-Encoding: 8bit
 
 From: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
 
-This patch series addresses the remaining race conditions and locking
-issues involved with inline data writes, implementing the clean
-state-communication design suggested by Jan Kara.
+Instead of checking the live inode state (`ext4_has_inline_data(inode)`
+and `ext4_test_inode_state(inode, EXT4_STATE_MAY_INLINE_DATA)`) in the
+write_end handlers, use the `fsdata` parameter of the address space
+operations to explicitly pass down the state in which `write_begin`
+prepared the write.
 
-Previously, `ext4_write_end()`, `ext4_journalled_write_end()`, and
-`ext4_da_write_end()` checked the inode state and the inline data flag
-directly to decide whether to finish writing inline data or to fall
-back to block writes. This is highly susceptible to TOCTOU race
-conditions where concurrent memory-mapped page faults
-(`ext4_page_mkwrite()`) can convert the inline data to an extent
-between `write_begin` and `write_end`. Since block buffers were not
-allocated in the inline path during `write_begin`, such fallbacks
-resulted in kernel crashes and NULL pointer dereferences because
-`folio_buffers(folio)` was NULL.
+A concurrent thread (such as `ext4_page_mkwrite()`) can convert the
+inline data to an extent between `write_begin` and `write_end`. If this
+happens, the write_end handlers would previously miss the inline
+write_end path and fall through to extent-based write_end logic. However,
+since block buffers were never allocated in `write_begin`, this resulted
+in NULL pointer dereferences or data loss because `folio_buffers(folio)`
+was NULL.
 
-The series cleans up and resolves these issues in two distinct steps:
+By defining `EXT4_WRITE_DATA_INLINE` (3) and communicating this state via
+`fsdata`:
+1) `ext4_write_begin()` and `ext4_da_write_begin()` explicitly set
+   `*fsdata` to `EXT4_WRITE_DATA_INLINE` when an inline write is
+   successfully prepared.
+2) `ext4_write_end()`, `ext4_journalled_write_end()`, and
+   `ext4_da_write_end()` rely solely on `fsdata` / `write_mode` to
+   invoke `ext4_write_inline_data_end()`.
 
-1) Patch 1 introduces state tracking via the standard `fsdata`
-   parameter. By marking whether a write was prepared as inline
-   (`EXT4_WRITE_DATA_INLINE`) directly in the private per-write
-   `fsdata` during `write_begin`, the corresponding `write_end`
-   handlers can reliably decide whether to call
-   `ext4_write_inline_data_end()` or complete a normal extent write.
-   This eliminates the race-prone checks on the live inode state and
-   gets rid of crude fallback/retry hacks.
+This removes the crude race fallbacks and makes the write_end
+determination unambiguous, simple, and clean.
 
-2) Patch 2 replaces a potential kernel panic
-   (`BUG_ON(!ext4_has_inline_data(inode))`) inside
-   `ext4_write_inline_data_end()` with a graceful retry error path.
-   If a concurrent conversion clears the inline flag right after the
-   `write_end` checks pass but before the xattr semaphore is acquired,
-   we gracefully release all held resources and return 0 (VFS retry) to
-   let the VFS safely retry the write from scratch.
+Suggested-by: Jan Kara <jack@suse.cz>
+Signed-off-by: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+---
+ fs/ext4/ext4.h  |  1 +
+ fs/ext4/inode.c | 22 +++++++++++++---------
+ 2 files changed, 14 insertions(+), 9 deletions(-)
 
-The series compiles clean against the latest linux-next/ext4 tree.
-
-Thanks,
-Aditya
-
-Aditya Prakash Srivastava (2):
-  ext4: use fsdata to track inline data write state
-  ext4: replace BUG_ON with graceful retry in ext4_write_inline_data_end
-
- fs/ext4/ext4.h   |  1 +
- fs/ext4/inline.c | 14 +++++++++++++-
- fs/ext4/inode.c  | 22 +++++++++++++---------
- 3 files changed, 27 insertions(+), 10 deletions(-)
-
+diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+index b37c136ea3ab..521bd5d6321c 100644
+--- a/fs/ext4/ext4.h
++++ b/fs/ext4/ext4.h
+@@ -3138,6 +3138,7 @@ int do_journal_get_write_access(handle_t *handle, struct inode *inode,
+ void ext4_set_inode_mapping_order(struct inode *inode);
+ #define FALL_BACK_TO_NONDELALLOC 1
+ #define CONVERT_INLINE_DATA	 2
++#define EXT4_WRITE_DATA_INLINE	 3
+ 
+ typedef enum {
+ 	EXT4_IGET_NORMAL =	0,
+diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+index ce99807c5f5b..e2e8ac5fb8d8 100644
+--- a/fs/ext4/inode.c
++++ b/fs/ext4/inode.c
+@@ -1302,6 +1302,9 @@ static int ext4_write_begin(const struct kiocb *iocb,
+ 	if (unlikely(ret))
+ 		return ret;
+ 
++	if (fsdata && *fsdata != (void *)FALL_BACK_TO_NONDELALLOC)
++		*fsdata = NULL;
++
+ 	trace_ext4_write_begin(inode, pos, len);
+ 	/*
+ 	 * Reserve one block more for addition to orphan list in case
+@@ -1316,8 +1319,11 @@ static int ext4_write_begin(const struct kiocb *iocb,
+ 						    foliop);
+ 		if (ret < 0)
+ 			return ret;
+-		if (ret == 1)
++		if (ret == 1) {
++			if (fsdata)
++				*fsdata = (void *)EXT4_WRITE_DATA_INLINE;
+ 			return 0;
++		}
+ 	}
+ 
+ 	/*
+@@ -1450,8 +1456,7 @@ static int ext4_write_end(const struct kiocb *iocb,
+ 
+ 	trace_ext4_write_end(inode, pos, len, copied);
+ 
+-	if (ext4_has_inline_data(inode) &&
+-	    ext4_test_inode_state(inode, EXT4_STATE_MAY_INLINE_DATA))
++	if (fsdata == (void *)EXT4_WRITE_DATA_INLINE)
+ 		return ext4_write_inline_data_end(inode, pos, len, copied,
+ 						  folio);
+ 
+@@ -1560,8 +1565,7 @@ static int ext4_journalled_write_end(const struct kiocb *iocb,
+ 
+ 	BUG_ON(!ext4_handle_valid(handle));
+ 
+-	if (ext4_has_inline_data(inode) &&
+-	    ext4_test_inode_state(inode, EXT4_STATE_MAY_INLINE_DATA))
++	if (fsdata == (void *)EXT4_WRITE_DATA_INLINE)
+ 		return ext4_write_inline_data_end(inode, pos, len, copied,
+ 						  folio);
+ 
+@@ -3161,8 +3165,10 @@ static int ext4_da_write_begin(const struct kiocb *iocb,
+ 						     foliop, fsdata, true);
+ 		if (ret < 0)
+ 			return ret;
+-		if (ret == 1)
++		if (ret == 1) {
++			*fsdata = (void *)EXT4_WRITE_DATA_INLINE;
+ 			return 0;
++		}
+ 	}
+ 
+ retry:
+@@ -3299,9 +3305,7 @@ static int ext4_da_write_end(const struct kiocb *iocb,
+ 
+ 	trace_ext4_da_write_end(inode, pos, len, copied);
+ 
+-	if (write_mode != CONVERT_INLINE_DATA &&
+-	    ext4_test_inode_state(inode, EXT4_STATE_MAY_INLINE_DATA) &&
+-	    ext4_has_inline_data(inode))
++	if (write_mode == EXT4_WRITE_DATA_INLINE)
+ 		return ext4_write_inline_data_end(inode, pos, len, copied,
+ 						  folio);
+ 
 -- 
 2.47.3
+
