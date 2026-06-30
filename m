@@ -1,185 +1,191 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F2140803F
-	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 12:05:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A81C23C9894
+	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 12:06:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782821144; cv=none; b=X0qifkwP3SaAPfhwFgpAl8728G+ktzpjhstUzXmKXmUnzUCTBw8MLehp+S6Dq2fnmDYtuaF4a7EuOEpwtdW+RjBr68UdM/bGFBdCKmd+8KLm2UOH4lQuvGYWDICe82tBaYq0ysqcblM/FOMSNHZYTIVNResR7jTmaG4XoffYiJE=
+	t=1782821213; cv=none; b=i2sEUPRV8g2OE91npWAf49befjv1Fzh989bL2TTlNZmC07UVrjIFodZuc3f6rZAJ0FU2nBZ6lEul2rhc1zktcfFqfSSgQm1r7cBg1ZkwuDtqKKS4kDAcGBWHCmjkuYFoOtMGD1x28vEyLeORtx/5dirl4SawIdv1xN/BAP+4tRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782821144; c=relaxed/simple;
-	bh=y0IECwpS11X03Syuv8WNSoCJUgh0Gr/zONiezbb0hCg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jTHzquhLQPPU6XkTtvJw7NVSbW+Tfn/LpPLtC9PXtJuR6B7a5+jpdE1AqOrg6kriFZiuM9cI4khVUmn5LsGxjJLoWkFa6dC2OrOXYG3fsf+gFTVDGaunXmQQNMc9w176Sp27gBt1CxkWeji/9itOw2NocwZoAfLX3ipIBN+XhQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ssb8Laqy; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=CXix7dh7; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=iC+oWmZD; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vhif/LMX; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1782821213; c=relaxed/simple;
+	bh=gj/wEJYySi3MEE17wYZ1ddxA0YVh3m7ssC5PQi+0np8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ikWr5yjlkxljaoDIpdapFpgYctbriwiGxwyTJ2lX4sQukn7V3lXM+S1PjR3S6pTKKBKwdarYVXnGhGGCUp2Yv14V5lpi70oQGTKcC1g+4hKnwdhibk4Oo8OyZt/DqAAIHw1XvwCLd65Zu2X0+GIooAnqc3SrMlace8BONIsUwM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MlWc4wda; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ssb8Laqy";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CXix7dh7";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="iC+oWmZD";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vhif/LMX"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MlWc4wda"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782821210;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YrKW+ASXvHkTAtDz3B6bbN0qjGt1KjYQ5+f/YXFilR8=;
+	b=MlWc4wdaQs+Wyk0n/vCl6CJe4kiKgGNGpwQMXOtY6ojyfIsE3YfzsgFb38XAHzYg8/7ZsI
+	2W54i/7YE/bHUhFGZ9CCsu8dTm2F1kMd86cSFMpg+v6g1vhZGbEHfQr6fFZqcFUbcF0UDw
+	Vx7tZgOJhGwRX7rc8dWQJGly92tXuo4=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-326-13cEbdzANlS82pMY0F8MLw-1; Tue,
+ 30 Jun 2026 08:06:46 -0400
+X-MC-Unique: 13cEbdzANlS82pMY0F8MLw-1
+X-Mimecast-MFC-AGG-ID: 13cEbdzANlS82pMY0F8MLw_1782821205
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D1CA571A01;
-	Tue, 30 Jun 2026 12:05:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782821138; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r6qeYl5QdWsqI+hopgAOLmohwbxl23aNjL7MQDQYJm8=;
-	b=Ssb8Laqy/DH8yJevDGsofF+FkMfbKxppLq3zzL75AnwBUMgmCassqeJSC1bur4Fx+9Cxc0
-	vXBHz9v0ZQjnk7JYEyBLTeaOLPQzSs91ArHwCimaJnoPWpwb6GJ1VX1UhkCKrNjo18HdBD
-	vzT8fg8Y4fkT6/jDoI3dJQv6hREKqrU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782821138;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r6qeYl5QdWsqI+hopgAOLmohwbxl23aNjL7MQDQYJm8=;
-	b=CXix7dh7ivvnopTgFv7snhSI+17JyWsMEa/40afS4xKzqU8JjKa0E3QlYlZUbCk4R2Lbv9
-	ajtbXLcaLohjaeDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782821136; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r6qeYl5QdWsqI+hopgAOLmohwbxl23aNjL7MQDQYJm8=;
-	b=iC+oWmZDdRvrKhlZfLlXoMQm++41AY+51Zp5mProfKqDC4jq+3rxYTBmngb6VdF2obC2uc
-	t16k/ixaIAi414I3UZcm/9Cd2gEwxfTtpQ+eyq7HKkw9sNfYRWZeUiTGNn/uX5RWn7MVzZ
-	n/np9tq5k02gUBIz9QSJG9xf/yVC1K0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782821136;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r6qeYl5QdWsqI+hopgAOLmohwbxl23aNjL7MQDQYJm8=;
-	b=vhif/LMXhIUzPz8RC4A6mfbNxF3PA9ZSv1E7t6ibGANjjwoebxfAdYAb0dblMSkCE/ENsk
-	rtv2iEbDZFHDwuCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BED06779A8;
-	Tue, 30 Jun 2026 12:05:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fzGMLhCxQ2qkbgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 30 Jun 2026 12:05:36 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id A1B67A10B7; Tue, 30 Jun 2026 14:05:33 +0200 (CEST)
-Date: Tue, 30 Jun 2026 14:05:33 +0200
-From: Jan Kara <jack@suse.cz>
-To: Zhen Yan <yanzhen20011121@163.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
-	Hugh Dickins <hughd@google.com>
-Subject: Re: [PATCH] mm: fix mapping_seek_hole_data() overflow on last page
-Message-ID: <tikbuxxazkmz5obcf6llp342vn7bi5tlgbbnuliw4jlwndj63e@jkp5g5oj6ug7>
-References: <20260629164932.b91930b0497e8446a2a549d2@linux-foundation.org>
- <20260630031226.3141360-1-yanzhen20011121@163.com>
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D9CFF18052DB;
+	Tue, 30 Jun 2026 12:06:44 +0000 (UTC)
+Received: from pasta.fast.eng.rdu2.dc.redhat.com (unknown [10.44.49.17])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CE9CE1956051;
+	Tue, 30 Jun 2026 12:06:42 +0000 (UTC)
+From: Andreas Gruenbacher <agruenba@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Andreas Gruenbacher <agruenba@redhat.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] xattrat: accept empty O_PATH file descriptors
+Date: Tue, 30 Jun 2026 14:06:40 +0200
+Message-ID: <20260630120641.133521-1-agruenba@redhat.com>
+In-Reply-To: <20260630-wunsch-wichtel-ansporn-f4754acc8bcf@brauner>
+References: <20260630-wunsch-wichtel-ansporn-f4754acc8bcf@brauner> <20260607164136.2948550-1-agruenba@redhat.com> <20260607164136.2948550-2-agruenba@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260630031226.3141360-1-yanzhen20011121@163.com>
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[163.com];
-	MISSING_XM_UA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[163.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Spam-Level: 
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Tue 30-06-26 11:12:26, Zhen Yan wrote:
-> A local unprivileged process can create a shmem/tmpfs file with
-> i_size == LLONG_MAX using memfd_create() and fallocate().  If the last
-> page is present in the page cache, lseek(SEEK_HOLE) on that page
-> returns 0x8000000000000000 as a successful offset, which is LLONG_MIN
-> when stored in loff_t.
-> 
-> The same file has readable data at the last byte, but SEEK_DATA from
-> that offset returns ENXIO.
-> 
-> The overflow is in mapping_seek_hole_data():
-> 
->   pos = round_up((u64)pos + 1, seek_size);
-> 
-> For the final page below LLONG_MAX, the next page boundary is
-> 0x8000000000000000, which is then used as a signed file offset.
-> 
-> This violates the lseek() ABI for shmem/tmpfs: a successful seek
-> returns a negative offset, and SEEK_DATA can miss readable data at EOF.
-> Hole-aware copy, backup, and sparse-file scanners may skip the last
-> cached byte range.
-> 
-> Keep mapping_seek_hole_data() inside its documented [start, end)
-> search range by clamping the rounded-up position to end before passing
-> it to folio_seek_hole_data().
-> 
-> Signed-off-by: Zhen Yan <yanzhen20011121@163.com>
-> ---
->  mm/filemap.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index 5af62e6abca5..22a1534ec8b3 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -3234,6 +3234,8 @@ loff_t mapping_seek_hole_data(struct address_space *mapping, loff_t start,
-> 
->  		seek_size = seek_folio_size(&xas, folio);
->  		pos = round_up((u64)pos + 1, seek_size);
-> +		if (pos > end)
-> +			pos = end;
+On Tue, Jun 30, 2026 at 11:12 AM Christian Brauner <brauner@kernel.org> wrote:
+> > Right now, the setxattrat(), getxattrat(), listxattrat(), and removexattrat()
+> > system calls fail with -EBADF when dfd is an O_PATH file descriptor, pathname
+> > is an empty string or NULL, and the AT_EMPTY_PATH flag in at_flags is set.
+> > (Regular non-O_PATH file descriptors are accepted.)  This is inconsistent with
+> > the behavior of system calls like fstatat() and fchmodat() which do accept
+> > those file descriptors.
+> >
+> > The same operations can also be carried out indirectly by using
+> > "/proc/self/fd/<dfd>" as the pathname, but that is only more cumbersome, and
+> > for no good reason.  Fix that by changing the xattrat() system calls to accept
+> > these file descriptors directly.
+> >
+> > We stick with the existing practice of leaving the behavior of the fsetxattr(),
+> > fgetxattr(), flistxattr(), and fremovexattr() system calls unchanged: those
+> > will still reject O_PATH file descriptors.
+> >
+> > Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
+> >
+> > diff --git a/fs/xattr.c b/fs/xattr.c
+> > index d58979115200..4737554df5fa 100644
+> > --- a/fs/xattr.c
+> > +++ b/fs/xattr.c
+> > @@ -700,7 +700,8 @@ int filename_setxattr(int dfd, struct filename *filename,
+> >
+> >  static int path_setxattrat(int dfd, const char __user *pathname,
+> >                          unsigned int at_flags, const char __user *name,
+> > -                        const void __user *value, size_t size, int flags)
+> > +                        const void __user *value, size_t size, int flags,
+> > +                        fmode_t mask)
+> >  {
+> >       struct xattr_name kname;
+> >       struct kernel_xattr_ctx ctx = {
+> > @@ -725,7 +726,7 @@ static int path_setxattrat(int dfd, const char __user *pathname,
+> >
+> >       CLASS(filename_maybe_null, filename)(pathname, at_flags);
+> >       if (!filename && dfd >= 0) {
+> > -             CLASS(fd, f)(dfd);
+> > +             CLASS(fd_except, f)(dfd, mask);
+>
+> So I can live with the O_PATH change, I guess...
+> but I really dislike fd_except. The code should never bother to pass
+> FMODE_PATH directly which is just rather ugly and we've taken pain to
+> make it work without passing it.
+>
+> I also don't yet understand why this would be necessary at all.
 
-So I agree with your analysis of the problem but I'm not sure how this is
-supposed to fix it. If pos was offset of the last folio - that is
-LLONG_MAX - PAGE_SIZE + 1, then round_up() ends at LLONG_MAX + 1, which
-readily overflows to LLONG_MIN (pos is loff_t). So pos > end will not be
-true and nothing changes. Am I missing something? So I think you rather
-need the condition to check for something like pos < 0. Or maybe use
-check_add_overflow() to make the overflow checking more explicit.
+So we've got some system calls that should accept O_PATH file descriptors
+({get,set,list,remove}xattrat), and others that should not
+(f{get,set,list,remove}xattr).
 
-								Honza
+We could implement that by using either CLASS(fd) or CLASS(fd_raw) in
+path_{get,set,list,remove}xattrat depending on which case we want, but that
+would duplicate unrelated code.  To avoid that, this patch took the approach of
+extending the class with a parameter that defines which file descriptors to
+accept.  But we could also accept all file descriptors and filter out the bad
+ones later like in the untested patch below.  Either approach will get us
+there; just pick one ...
 
+Thanks,
+Andreas
 
->  		start = folio_seek_hole_data(&xas, mapping, folio, start, pos,
->  				seek_data);
->  		if (start < pos)
-> --
-> 2.25.1
-> 
-> Sorry, my previous email may have been lost due to network
-> filtering issues.  Resending the revised patch with the
-> requested changes (tabs preserved, CCs added, signoff added).
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+diff --git a/fs/xattr.c b/fs/xattr.c
+index d58979115200..8e4495585fad 100644
+--- a/fs/xattr.c
++++ b/fs/xattr.c
+@@ -845,7 +845,8 @@ ssize_t filename_getxattr(int dfd, struct filename *filename,
+ 
+ static ssize_t path_getxattrat(int dfd, const char __user *pathname,
+ 			       unsigned int at_flags, const char __user *name,
+-			       void __user *value, size_t size)
++			       void __user *value, size_t size,
++			       unsigned int reject_flags)
+ {
+ 	struct xattr_name kname;
+ 	struct kernel_xattr_ctx ctx = {
+@@ -865,10 +866,13 @@ static ssize_t path_getxattrat(int dfd, const char __user *pathname,
+ 
+ 	CLASS(filename_maybe_null, filename)(pathname, at_flags);
+ 	if (!filename && dfd >= 0) {
+-		CLASS(fd, f)(dfd);
++		CLASS(fd_raw, f)(dfd);
+ 		if (fd_empty(f))
+ 			return -EBADF;
+-		return file_getxattr(fd_file(f), &ctx);
++		struct file *file = fd_file(f);
++		if (file->f_flags & reject_flags)
++			return -EBADF;
++		return file_getxattr(file, &ctx);
+ 	} else {
+ 		int lookup_flags = 0;
+ 		if (!(at_flags & AT_SYMLINK_NOFOLLOW))
+@@ -899,26 +903,27 @@ SYSCALL_DEFINE6(getxattrat, int, dfd, const char __user *, pathname, unsigned in
+ 		return -EINVAL;
+ 
+ 	return path_getxattrat(dfd, pathname, at_flags, name,
+-			       u64_to_user_ptr(args.value), args.size);
++			       u64_to_user_ptr(args.value), args.size, 0);
+ }
+ 
+ SYSCALL_DEFINE4(getxattr, const char __user *, pathname,
+ 		const char __user *, name, void __user *, value, size_t, size)
+ {
+-	return path_getxattrat(AT_FDCWD, pathname, 0, name, value, size);
++	return path_getxattrat(AT_FDCWD, pathname, 0, name, value, size, 0);
+ }
+ 
+ SYSCALL_DEFINE4(lgetxattr, const char __user *, pathname,
+ 		const char __user *, name, void __user *, value, size_t, size)
+ {
+ 	return path_getxattrat(AT_FDCWD, pathname, AT_SYMLINK_NOFOLLOW, name,
+-			       value, size);
++			       value, size, 0);
+ }
+ 
+ SYSCALL_DEFINE4(fgetxattr, int, fd, const char __user *, name,
+ 		void __user *, value, size_t, size)
+ {
+-	return path_getxattrat(fd, NULL, AT_EMPTY_PATH, name, value, size);
++	return path_getxattrat(fd, NULL, AT_EMPTY_PATH, name, value, size,
++			       O_PATH);
+ }
+ 
+ /*
+
