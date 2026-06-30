@@ -1,210 +1,165 @@
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010054.outbound.protection.outlook.com [52.101.56.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C97277C96;
-	Tue, 30 Jun 2026 22:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782859034; cv=none; b=UGn1jz2X0KKN3Pe6jwzxj2j6M+UAkNucRDZHRBONaGPFO9lq31b1dVkZpJwg3ztVUTCJyZ2CWZOLmDKHql7I/OqS0aWHTxAyK7eOnphuIZI/C3tnqO+hY0pTF3OYMzsCZKq1Hz/GYSdyYsVMBmvFZ3dxKlICJo/4fpXtC/yJYxU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782859034; c=relaxed/simple;
-	bh=fWniH1QOQ/DveSc6o3Tr/RL20umC964UaKjzWl6Nf7U=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=fziKIkB5/sTTvsIo0vcV5uX5QyPSgKLj1usdK2Il3WBoekz97KCElHYD0hxWJ/RBfrdCfnbEywnfRbna0LwPXMJkQLIcTlXec8c8iXGa1+VgV3mST70kt1NXgGjEaNJufbOLpE3oDRwfTcmizB5eGF3udJBsJnUTlx9ugvUd1VM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=gS3HLxCV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=FCvEeFM1; arc=none smtp.client-ip=202.12.124.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20AF2F7F06;
+	Tue, 30 Jun 2026 22:48:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782859728; cv=fail; b=k0rXn87LlKX/WG3sIkRKXw4Nhll6sLmYmJk3TsdNQO+ndf96AEf8kDBjMNVzzENY2S4tXQ7ahudWKPYtboYaA9SSXPa8Uu0W983M39FaoQL8FB2RQJZbIFx2XTkxB7yhAMhlPRtZIYSNPiZxjkmT8JMH+Ayrqg0SdG1Z6OrQ+20=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782859728; c=relaxed/simple;
+	bh=mIAXSlBGPymRjo+9hVDcf5njhn5Bx9XkxeS+VgVDhlA=;
+	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
+	 In-Reply-To:MIME-Version; b=tM7zRBswlaeLxLlXoN5xX8Z6WJpT4RZTwYInK0fvqz5gJkL37ZbdY0WwhCxRm9EicjYidGDwbLKaeWaVCbgcd1S4haTSB2V14pkcReSMWVudZx2QXHsVi8mnjaapRqEsLNyE71iGunydQoFQ3oL8wejOjujHcEk4TJ81LCrY+Hc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=UKL1fmu9; arc=fail smtp.client-ip=52.101.56.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="gS3HLxCV";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FCvEeFM1"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 847E57A0150;
-	Tue, 30 Jun 2026 18:37:11 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Tue, 30 Jun 2026 18:37:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1782859031; x=1782945431; bh=WFJUju+3U9YYQkCdorbclOXan3wNXM5yWhX
-	ihjT4uhE=; b=gS3HLxCVfud0JpRbbIc5qZhYI7nrMJSYGYtR1rxqQ0l0CU6FqL8
-	ppc/CvqkQBQlQEi6r4dJzSXQzZIMsSilqVlYKQ6Gfdd8rUojedtk9+wIMIMRgCTl
-	036wtCismlw0HZeuP7cTVyXuasEg9591ZmWJ5C4IZVsrL7QeVMZfctj/b9LkBMCp
-	OD0AH4w4WLv3zgnM9qRPnM23ON+vrdMF/6AEXkdwpBh2rmpubNAsfEX8DYn+LLbQ
-	Xn9mi+Pba1c/9nFPsUGuIz9FPknuJfAxhptyop5+QHlNpSXYAInoAncZzEOscPGR
-	SQsGvchJqI/+VLsp4mi3TTsjXSHoK0EOsQw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782859031; x=
-	1782945431; bh=WFJUju+3U9YYQkCdorbclOXan3wNXM5yWhXihjT4uhE=; b=F
-	CvEeFM1tEZmw8yEflmIiTXGIpIVrTaja7uqlzQ/1bScLpgSi04kKylOheHBR2rUb
-	dWOfXiEMp2fUWj1GdlKlPhdD9FgG9Lf2zEPNUu+S48Et3GS7kPt474V00OK8aqEg
-	GqXa8SQLMGgIQY+4VanCZj+5mMit7AkPMc8NkOIUJ9RMhCbrzhBeAT9Zmh0pT8V6
-	d1FIcQm2zfURcJ6sFLn7cI61FdN4WrbQGbUbR8Ma7MR8UJVn8M5nih9uz5ZxJmtO
-	Bj6jYe4y5OovCP7xowq4NrDam8XhZQvHyhJjYZGgLCDgtgIhV+G/rjiaVkQNy9Bx
-	qDikHq+tXA50kmXDxRLUQ==
-X-ME-Sender: <xms:FkVEas4VxPYhO6ekB930fVWauuhEFZ8-c_2evspuyzrLS1U3HU6LrQ>
-    <xme:FkVEagJhyvlAOjYvtHpaG-rLihXy5DN2OTQXj5eSOV1xM4i4BZUU5T2DNQvkH2-aK
-    r632tohQsfLBaq88HsL_RY17wwAWBrr_oSsiMoUCGITKVZD>
-X-ME-Received: <xmr:FkVEatv1bkOMrJsbG9Bk0_ofndFXOeRsAbhd2xKQHzeG4j7mM2f5CGGOwvz-0vMHf4nKlKAPZus3u0h2JrrFTj5-daRRaxs>
-X-ME-Proxy-Cause: dmFkZTFVnTpHejSBQPZiX5iQvce4x6lZss3jVXMsGrGfQuBJVHvstV4zBvNHlstVmPuinD
-    AZDb8PBbZWNmqC46CCCj9r91V8V7cUTeEDZUbRUIxfqwm1W5qz4BsqniSMQn12WtheY9I6
-    TM3z30jJXqmq+zYQweOBjZt3lpDrTWlM3MdWBG6rDHj2jzdEgx0DT/5HT559t/kOQJMiYQ
-    WYDe/aA2LMmgR9GjmLU2jgGJ/NQGTCT38q1mvUbkrkCR4szJMkWsqT4DfHhEgrXclucAwn
-    7cXKjNNhAfqLa/4Pj8KTb+AujXPb8WWIXvJe0csC3fKykinay4u5mLju5r9c3S8Vym7nU6
-    pTmXUZctQzhnxfrV7MNmR8MarKo2+2wsgqNlOfUlKbj5WtpTL1j202RGzuwc0EpFiwBET2
-    PRSKcamDMyxV8tS0M5aeqDr5vjF/s4wVqngEJC18Ip2TsF5rOoXImj3+48UUbTNEqXZ1Gs
-    Qf4eqgAh/mQEH1isRVxhsv0csiK5tE8ZRAPixIRKR0QgeTiXrMGmG2CY5n6vihEaZbcLce
-    H8cTCZXRQVKyGnYt1bMkJ7P3bKnDcLWigKJ4gvFg3qjUAA0furNii0Kk4LWij2qcK8DjX7
-    2e2n7pMlu9NHTELgz1rIje4fUSiJ0XaXjsGykWmGHAIPX/z+FYgYPSXlyNoA
-X-ME-Proxy: <xmx:FkVEanLetIWs2XOrgbd7izn-jDGTysG2p0Tt7xfQCxv_HnbUh9SbNg>
-    <xmx:FkVEau_2qaLe4Uc7fIaYoZxKk0FJh955e1nCoekoMbFi7pVUbz_Eyg>
-    <xmx:FkVEaow92i6ecC-hDu-zHDMY1wegtFbUp-nM_OmGuDHAG5Nk3QH3iQ>
-    <xmx:FkVEaj5YIp9DM1njf9h_wZbeZ8OxoPwlGhFau2gdjXgoZZgXeusofg>
-    <xmx:F0VEathukEw16wHxAVucdRFB5tWlHrzWW9jh2yJT4aEXIHis25Xj4dEC>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 30 Jun 2026 18:37:08 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="UKL1fmu9"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bfLi+r3X0kyIcR6YKE8cfyXfqWtw0qrKvvZbhYGpSt1nrxeaLYEIlXYIxDIYcMyWOCYKuGinD9sf/s0Gq3VfBHN4mXkDdmeXUaX8+aV5bh2ozP5p8hTfc73MPn5h6LMHsy2+2zYK+E5kjnIkoH7UUT21GN6hYXpF2Ne62aeOkSiNZ9i0Fpwo9iM/Hbts1qe9uP9f45HrzUnoJjFuSSNR5L3roaqWZI8z8VvYE3lGI5Haqgb5OqN6YYzKUtiYeiTCaSWsLQR2oBiAx6mu4osTMsjaGFr1wRl94jV+ZmZx5tAeVTZShHxbnUEvPpx9DqVQoDOFZ+zW7MwtFij7fq54QA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mIAXSlBGPymRjo+9hVDcf5njhn5Bx9XkxeS+VgVDhlA=;
+ b=c/2E7H/2iY+V3kXVOPrV2moDSOQbK1u5LyY8nJk9fQOd2ykFDqzWuYLcB1EWlLHMR9tPxvHJ9TnoIxffF3rQ546o3zoyA6rexQXDDTMDInExNwgXtQrJMAlOUVRPPe62dkUQvqewSBMP998xeZO3zMtP3rk1fJBQqsX3UFS9qWjoU9k4v42ZszCBUkZtGPMXZsI3p6aDR15WulC5JsDP2Zgampi7NZbn+5NfwKQj+P6i1BuFMlXSx3mFg0joz1xTHOQkajhDKQwt/M67ezuRZvZ4Y2ZUwl8Bu4piacyTWdr9p/4aEMc8gC5gS2/3DGK3pDbM4LoC2eCZfG1aHMb15g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mIAXSlBGPymRjo+9hVDcf5njhn5Bx9XkxeS+VgVDhlA=;
+ b=UKL1fmu9mIfRHLnKaOkLlLT0jrB8NUdhZZyMmQD6+7ldncSkau0XbDO88bv0VEo1STVJTxjToqeHZWGUK0eQhGsRnxfesCOM63UC3llMcSy5YwIPD4eVfA/9xWJZUGx/qzs6PllqdhXoPY+NDpYFe/L5onb1fZW3+9r064soLbVBcpgHIW0U9xYhmlObWeIh1rPDcHZN3Q/Q54ACMI0MHPPf2B1ZJG7MV3ZxemoEIuQI1iDE1wMpKUlGql7FanYkLRSn6mkkF48MqqOKJtdL1V9Q2qmka+M0GtRdaowGZK0INgOKD8lwRQT+W5R4kGN9jZzxy4CrOmp9UlXD4Pk8gQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by DM4PR12MB6352.namprd12.prod.outlook.com (2603:10b6:8:a0::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.17; Tue, 30 Jun
+ 2026 22:48:41 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0181.008; Tue, 30 Jun 2026
+ 22:48:41 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 30 Jun 2026 18:48:39 -0400
+Message-Id: <DJMR0W6NUSAI.3UF6I74VFDFSH@nvidia.com>
+Subject: Re: Subject: [BUG/RFC] write-open file THP cache purge can discard
+ dirty page cache
+Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner"
+ <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>, "Matthew Wilcox"
+ <willy@infradead.org>, "Andrew Morton" <akpm@linux-foundation.org>, "Song
+ Liu" <song@kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>, "Eric Hagberg"
+ <ehagberg@janestreet.com>, "David Hildenbrand" <david@kernel.org>, "Lorenzo
+ Stoakes" <ljs@kernel.org>
+To: "Pedro Falcato" <pfalcato@suse.de>, "Gregg Leventhal"
+ <gleventhal@janestreet.com>
+From: "Zi Yan" <ziy@nvidia.com>
+X-Mailer: aerc 0.21.0
+References: <CAFN_u7H_0ECF3jixP=T=U7AH5=Q3wQNvJMo8an3VqUDMerQfUw@mail.gmail.com> <akQIIav_zaK6RmIC@pedro-suse.lan> <akQO8JtTxmp89GS8@pedro-suse.lan> <akQekZUyoKadiGCH@pedro-suse.lan>
+In-Reply-To: <akQekZUyoKadiGCH@pedro-suse.lan>
+X-ClientProxiedBy: CH0PR03CA0417.namprd03.prod.outlook.com
+ (2603:10b6:610:11b::6) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Jori Koolstra" <jkoolstra@xs4all.nl>
-Cc: "Christian Brauner" <brauner@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- "Jori Koolstra" <jkoolstra@xs4all.nl>
-Subject: Re: [PATCH v2 00/31] vfs: pass S_IFDIR mode to vfs_prepare_mode()
-In-reply-to: <20260630105400.68459-1-jkoolstra@xs4all.nl>
-References: <20260630105400.68459-1-jkoolstra@xs4all.nl>
-Date: Wed, 01 Jul 2026 08:37:03 +1000
-Message-id: <178285902311.27465.11536482082229795452@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|DM4PR12MB6352:EE_
+X-MS-Office365-Filtering-Correlation-Id: 54a2a9b4-db0d-479a-09e6-08ded6f9bb2e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|366016|7416014|1800799024|23010399003|22082099003|18002099003|5023799004|56012099006|4143699003|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	uSb0HyBRHj33jk6BOVUEHQ8wiVrf9XdXGWbaSQ7+4RKXwH86NWQxTi8QXUERzuKXXcvnAvSP86U/Mhp6P2NuwAb6qB3TMT1owU0NMSc+7/yTdLEvRe1V88PalHhqAeziRa9bjA5CdSxA8o3SLlN/lj9/zw47AM/egM71h+/EZ9s6l46AXDSx7GqipqJLwZRMMuqenJLWypnjXnK1r5XzoozyDGTsZ7ZxB3C8EaJd8bBx6W00pVA18VYB1oWjQfwHQJhCgt+JSf3L0jwvo8e5M64ugfx0Ksa7+VfxiasneoML9SyTrHrD8Rg7eCq7qgD00nrWhg8I6XGTw68h0nBhIw/0vh9nkZlS0x3xh6R7OQJvyky2GXWDjY8CUiDKLHUdqC9R1XY1dX35kTdukwH2moTJw2bjzPkl79hBrDYEIa1ZnpXPbMwPgBalCGbK2ZbVXUj9dxZs6RNCQsrztoLLkN8/z+ME73aGtKgatpjYZhEMxYI7UcfuwQffYmTIZIxC/0WgEoR02fY6CrQ3d+OtFEYVr7O0tl+3hJ7jy1mSUUoULX/URbX5ulbKZj87GypIe2IH/D3ikBJazAjw/4/1ocGa+ZURC2wjbOdPfKmmjWuKPHyP0TLoAqoRZRgt8yR6TfP6v3OiPv8z6Htqb0+K4e5W/jsfn0i+/xuN06uSutY=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024)(23010399003)(22082099003)(18002099003)(5023799004)(56012099006)(4143699003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?elplUzNWR2thQTFGMzE0WHB6Z3JEN21SbkFrNE5kRjZEMWZDQU9xalZXUm1C?=
+ =?utf-8?B?NlBKdEFvY0cvTmF1bDJFT2JnaEt5ZjFxajc0Nk02Y3A2MTdGbDVIMnZrVHlM?=
+ =?utf-8?B?R0RSN2JYK2VaQkROb003bDJ4UktVeDdKQVNXbjVPQUNLcDI5L2N4OHp3aktj?=
+ =?utf-8?B?ZWtZY0JCcG5Tdmp0TkxOZXpEaTNpdkhnMk8wMHBHOHN1R0NBNTk5SEZSNzRF?=
+ =?utf-8?B?MkVlSkp1NFdVRTB4TVBUbnBtMGNyMGlveFhSWGVZK1J4VkRUVmZqWTNKdktK?=
+ =?utf-8?B?aHNONTR0akxsS3h0NHovY1dTajFpWEJFdUNHL0FLem9PUzN3eGRvckhhWUVC?=
+ =?utf-8?B?MWZ3RmhzUkNBYm9QSWZ0Rk4wVGsxVDRhUXc0SHltNnVyajZuTnJvUnh5ajRO?=
+ =?utf-8?B?M2d0YWFvWUVyTHVoQVdjQU1sS1pmZVBnTnUzSVQrRDd5T1lYV25zK2Q3VWdL?=
+ =?utf-8?B?N24xT2pUYTlmUnZlcjhLL3k5dDZZOWxrUTJVOVhDTUdjQmhzMGZMTEdOcmFM?=
+ =?utf-8?B?RGUrd0NMaWovZk9OdkhZWUFlZnlyUkVvTXJ6SmQxeExTQnh4UGNidmxSRm5h?=
+ =?utf-8?B?ZjMvV2d5N1A3YlVYSFc1cm5HY1dRTUVqdHZtNS81dzhFVmt5TTJmQUFSaHZn?=
+ =?utf-8?B?dUNrY1Z4WGZvbGxMUktyK21GZlVqNzRpZmVFUGNoalU2MTBPZXRObGltRm5K?=
+ =?utf-8?B?SEhNSzV2QnBTcmlLZWs2Ti96VUlsQkZ2ZDBuMExGaGNBWnJmWU1xLzllMHc1?=
+ =?utf-8?B?bXpaYmx0NDlSRWdrek9YamdCclFwNzRTSmRGdDNPaGEwemNzdWU2Q2ZLUnBr?=
+ =?utf-8?B?Tm1oek1qVTdobE50QmxPcVBwR0NRaEQ1QkN5Z1FFd1puZmdGdXY3SVRoQ3ds?=
+ =?utf-8?B?bDdzNWRSanZYZFNEN0tYdDVkWGtFaDNHaUt2Rmc3SmlySmlBclhIVjVkTld4?=
+ =?utf-8?B?SFFIMjJqUnR4MGVaalAyMnczRlp5TXVQVXhBQUxHNEVsVkFGMU9WaE1XRUZV?=
+ =?utf-8?B?Z045MXRLUHc3RWJ5bC9mdmhrVnNrLzU3QnladUEvVENnRGhxYUljUnFFMVJN?=
+ =?utf-8?B?SFhMSUJVZDRhNWhaUmNCVk9uc2tQSTh2VUtDWWJwV2NMUU4xOUJieW9XUUdN?=
+ =?utf-8?B?dFdRNXRCU1FaTDBOUzhRUVlsVDErZkVFUHZsVFM2MXMwWjQ1Qk5vSklCOUQ1?=
+ =?utf-8?B?UlI5YUFmeVVKNWdDTkVxOVlpM3M0TnhyK0lDbDI4SHRiRnFMK1dYN25vaFZY?=
+ =?utf-8?B?Z2l6YnF4cEZ4QlJlL0Q4dEd3QitwT3VDbHd3bFo0aWxsbHhZVlpwdHd2L2lO?=
+ =?utf-8?B?NlZsUjMzM3FQSmtJVUQvQnQ0MWgvandKMkh1NWVFL3NOZ2x2ajBtUWxmUDdl?=
+ =?utf-8?B?S3lRSG1WdCs0VmgrT3Rjem1aVFBEWGVkV0dWa0ZFOHJ1QjhJZVk5Nk8raFQv?=
+ =?utf-8?B?clMrdVJnT1g3d2F6TVJNZVB0djJkSG9uQzk2bGtTdDA1azl4dTNIMC9YWDFV?=
+ =?utf-8?B?c2U3N1FmTGlhK0dycDlpdTl6cDVOcGh1WDJpVGVjdzBpU3N0RVdjTlU4bHpS?=
+ =?utf-8?B?WTIxTWFObGJ1cTRleHErMzlVMVpLcy9pL1BCbUwvMDBiRjBOeDJBNlFITTlP?=
+ =?utf-8?B?eUxoZEhjL3BMTXNMZXljYVYxLzhXYVN3VGkxWXIrSTBxS2ZIQW5HaHg1dFBs?=
+ =?utf-8?B?WjFHUWZnQ1I4VnZ1d3JDNi9peGdwVWhYTW10SU44VjRNQWdGS2xhd1ZPVWFI?=
+ =?utf-8?B?cmd0R3FZQlZkakZ4dTVUSnhzTzkvSUUvWm5aY0tGeWhmSEQ4WXQrTFVwNFdB?=
+ =?utf-8?B?UE9XOFFLU0szREZ5UWlwczd3RXUxbFdUaUxMbkpjOUhiQjJVWWlZbUVjQW0z?=
+ =?utf-8?B?aElTWHQ4SnhUdzZHTi8xM3kzamVKTGVva01iRGNmQlpzUEhDUGs5VFJPOWdP?=
+ =?utf-8?B?bnFnZEdPUmdmNlZGYU91YVY0K1VOUkQ2UC9jWlJ3RnRYQmlFUTVZbDJGR0tG?=
+ =?utf-8?B?bGJQUWpUaGRsdjRyU25lWE9oVnFUZXZJTDVtb3grZ0gwalpCaVRSM0dUcUk1?=
+ =?utf-8?B?MlNFMWh0T0xHZGFyQ2NZYk9aTkl5ejBYZWhOTkQvRlRma1N5VmtFU0tRQi9i?=
+ =?utf-8?B?eVA1bituS1ZWbjlyeGlXS2dnMkdUSG1pVTRsZStISTFkbmdRV2F6NTV0R3ZD?=
+ =?utf-8?B?VkxiSTAzWFFndEhqMFA5UE82NHJkSDBzaXhpZytFcUdvdENpaitvSi8xaTdT?=
+ =?utf-8?B?UmQ4Y204bmgrVEo2YTRQTGI4aFpkbE5OemNxQjFPWTdoR1JwNW9sMWlpNmJw?=
+ =?utf-8?Q?WtCtzOADpwW7cTOACU?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54a2a9b4-db0d-479a-09e6-08ded6f9bb2e
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2026 22:48:41.0217
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2ee6PzQmrjjqvmU5vqYemQ9Ra4F86LvBrlwQBWxlQz1KihQpkMxh7a+G97NrV8nx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6352
 
-On Tue, 30 Jun 2026, Jori Koolstra wrote:
-> There is a comment in vfs_prepare_mode() that says:
-> 
-> Note that it's currently valid for @type to be 0 if a directory is
-> created. Filesystems raise that flag individually and we need to check
-> whether each filesystem can deal with receiving S_IFDIR from the vfs
-> before we enforce a non-zero type.
-> 
-> It is useful to do this clean-up ahead of O_CREAT|O_DIRECTORY.
-> Specifically, in lookup_open() we need to replace the vfs_prepare_mode()
-> with something that also handles dirs. I don't really want to push the
-> odd
-> 
->     mode = vfs_prepare_mode(idmap, dir, mode, S_IRWXUGO | S_ISVTX, 0);
-> 
-> further into that code, and neither do I want this to be different from
-> the regular vfs_mkdir() path. We can then also match on S_IFMT in
-> may_o_create(), instead of passing a bool to signal whether we are
-> creating a dir (and assuming 0 means a dir is really ugly).
-> 
-> It is a bit challenging to verify that passing S_IFDIR is safe, as there
-> are many filesystems. Claude Opus 4.8 was used to generate the context
-> for each mkdir implementation from which it can be judged whether
-> passing S_IFDIR is OK. The result was then verified by hand by looking
-> at how the mode argument is used in each case. To check whether all
-> mkdir implementations are covered, 'rg "\.mkdir" ' was used and checked
-> against the list of uses Claude found.
-> 
-> It is safe to do this clean-up except that three filesystems (fuse,
-> cifs, and coda) forward the mkdir @mode unchanged to something outside
-> the kernel. Mask S_IFDIR back out in coda_mkdir(), fuse_mkdir() and
-> cifs_mkdir() so that what is sent outside the kernel is unchanged.
-> Their maintainers can drop the mask once they have confirmed it is safe.
-> For the other filesystems redundant S_IFDIR OR'ing is dropped.
+On Tue Jun 30, 2026 at 3:55 PM EDT, Pedro Falcato wrote:
+> On Tue, Jun 30, 2026 at 07:49:12PM +0100, Pedro Falcato wrote:
+> snip
+>>=20
+>> Other idea: perhaps doing filemap_write_and_wait() after the nr_thps
+>> increment in collapse_file() will Just Work and result in a _much_
+>> simpler fix. And it avoids any weird forward-progress issues as no one c=
+an
+>> write to folios at that point.
+>>=20
+>
+> Gregg, if you could test this patch, it would be much appreciated. This p=
+atch
+> (hopefully) makes it so no dirty folio will ever coexist with a ro-THP, t=
+hus
+> hopefully sidestepping the entire issue in a simple way. Only compile-tes=
+ted
+> and not reviewed.
 
-This all looks good to me - thanks.
-Reviewed-by: NeilBrown <neil@brown.name>
+I tested the patch on v6.12 kernel with the reproducer from Gregg and
+confirmed that the issue is fixed.
 
-NeilBrown
+Feel free to add
+Tested-by: Zi Yan <ziy@nvidia.com>
 
-
-> 
-> Jori Koolstra (31):
->   vfs: pass S_IFDIR mode to vfs_prepare_mode()
->   9p: drop redundant S_IFDIR from mkdir
->   affs: drop redundant S_IFDIR from mkdir
->   afs: drop redundant S_IFDIR from mkdir
->   autofs: drop redundant S_IFDIR from mkdir
->   btrfs: drop redundant S_IFDIR from mkdir
->   ceph: drop redundant S_IFDIR from mkdir
->   ext2: drop redundant S_IFDIR from mkdir
->   ext4: drop redundant S_IFDIR from mkdir
->   f2fs: drop redundant S_IFDIR from mkdir
->   gfs2: drop redundant S_IFDIR from mkdir
->   hfs: drop redundant S_IFDIR from mkdir
->   hfsplus: drop redundant S_IFDIR from mkdir
->   hpfs: drop redundant S_IFDIR from mkdir
->   hugetlbfs: drop redundant S_IFDIR from mkdir
->   jffs2: drop redundant S_IFDIR from mkdir
->   jfs: drop redundant S_IFDIR from mkdir
->   minix: drop redundant S_IFDIR from mkdir
->   nilfs2: drop redundant S_IFDIR from mkdir
->   ntfs3: drop redundant S_IFDIR from mkdir
->   ocfs2: drop redundant S_IFDIR from mkdir
->   ocfs2: dlmfs: drop redundant S_IFDIR from mkdir
->   omfs: drop redundant S_IFDIR from mkdir
->   orangefs: drop redundant S_IFDIR from mkdir
->   ramfs: drop redundant S_IFDIR from mkdir
->   udf: drop redundant S_IFDIR from mkdir
->   ufs: drop redundant S_IFDIR from mkdir
->   nfs: drop redundant S_IFDIR from mkdir
->   ubifs: drop redundant S_IFDIR from mkdir
->   xfs: drop redundant S_IFDIR from mkdir
->   ntfs: drop redundant S_IFDIR from mkdir
-> 
->  fs/9p/vfs_inode.c      | 2 +-
->  fs/9p/vfs_inode_dotl.c | 1 -
->  fs/affs/namei.c        | 2 +-
->  fs/afs/dir.c           | 2 +-
->  fs/autofs/root.c       | 2 +-
->  fs/btrfs/inode.c       | 2 +-
->  fs/ceph/dir.c          | 1 -
->  fs/coda/dir.c          | 7 ++++++-
->  fs/ext2/namei.c        | 2 +-
->  fs/ext4/namei.c        | 2 +-
->  fs/f2fs/namei.c        | 2 +-
->  fs/fuse/dir.c          | 8 ++++++++
->  fs/gfs2/inode.c        | 2 +-
->  fs/hfs/dir.c           | 2 +-
->  fs/hfsplus/dir.c       | 2 +-
->  fs/hpfs/namei.c        | 4 ++--
->  fs/hugetlbfs/inode.c   | 2 +-
->  fs/jffs2/dir.c         | 2 --
->  fs/jfs/namei.c         | 2 +-
->  fs/minix/namei.c       | 2 +-
->  fs/namei.c             | 7 +------
->  fs/nfs/dir.c           | 2 +-
->  fs/nilfs2/namei.c      | 2 +-
->  fs/ntfs/namei.c        | 2 +-
->  fs/ntfs3/namei.c       | 2 +-
->  fs/ocfs2/dlmfs/dlmfs.c | 2 +-
->  fs/ocfs2/namei.c       | 2 +-
->  fs/omfs/dir.c          | 2 +-
->  fs/orangefs/namei.c    | 2 +-
->  fs/ramfs/inode.c       | 2 +-
->  fs/smb/client/inode.c  | 7 +++++++
->  fs/ubifs/dir.c         | 2 +-
->  fs/udf/namei.c         | 2 +-
->  fs/ufs/namei.c         | 2 +-
->  fs/xfs/xfs_iops.c      | 2 +-
->  35 files changed, 51 insertions(+), 40 deletions(-)
-> 
-> 
-> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-> -- 
-> 2.54.0
-> 
-> 
+--=20
+Best Regards,
+Yan, Zi
 
