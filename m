@@ -1,70 +1,183 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54D825B0AD;
-	Tue, 30 Jun 2026 18:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6B23E1211
+	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 18:39:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782844626; cv=none; b=MJ2Nltk9+74u7YV2YfBGHnSt46FFHBZkDBpXJ3QXgDEJ2z6aQf1U1ImxLIxpnYzv7w7+raeSw9q4oi4Um6sdkKkQ77ALbbn1dXBY0Ooox0I39mx0E9DaoR6UBzNhGGSnrhfcsGsLdcc+Sw7GNyzVWuKuT7llVE61DxYMr3SY+0Q=
+	t=1782844801; cv=none; b=nWs2vZYwLnY7br3qIED9UAx8qK7PO3qopT41HTV5W/5Vbr7twIzQtAJc3UWmJEtCwiuT4X059J67PgNjty3zGq6CVBROy+3+XJ+CYEVz98RUYZZNZRK4cHwC00M/JJ4JVspCmYQVq+y1vw7rFgDjS1vCjM/1bdOA0KFt/DDkT8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782844626; c=relaxed/simple;
-	bh=zctrbBcEPpgI+rulkIwrxbKJX1dl4sKytOWcJ44TWOQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z+M2mS4ZhEA7uWiiiEfjQkuBC7sS0U2Xfng3Vs6UCJQ74x6WYcRVmWIkSblAH9HciCqbnrt5XKu62BsFcPWT7REN4PhmjiQk0gHvr+Mm059J7AIoXPLE7E4EDFXeYwWx+X8xSW/lh6gE6rBYTPB05PITPE6u922M8u+7BEJmkn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=aN2oOJXH; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1782844801; c=relaxed/simple;
+	bh=S6k+uQwLsBLqS78QaiWexapMR9GFIKsV5VVSUcaj7Js=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C6ocSsowaqGUmLpkUWVGosM1PuL8hbxoDW4Nb9ViLTRI1IXd539OySq/41X+Yn1GNaHn3kcaBAUJ8JOJEaVD6wpyoGJQ9+RWi4H5E15wsdzpp80+Y8SKWqnXlFuWWBY8UZYcnnqIoGDdWPJCB3pvY97/LnSIIXHGk2MeUakkZcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aEQ12RMX; arc=none smtp.client-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="aN2oOJXH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=sxmahw67jvFH8EYoUlnhdZ6NYwIof1KgSy2fQ7/QPiI=; b=aN2oOJXHM1LRftU+o0io32YJhc
-	AY/Cy7EQ4WqzgXhobdNspDCNb/4gwDOC9rCIGwzU6DBRUwXI4HmS8ceFSKI/GtX09aLaF4l4InTWi
-	m65uufH7LUVdI17APyKm0uyk8NuSlGTJW78mMS1O1vRNRw20eXupIWK1ND14r4JIBI5HjQ+RZWyMl
-	xe0wtmmbMTk5ldPHEHc3r5V78LWKCXjP3Q/IKTQP1pG9SzpogXg4DRaADlRxJE/0rXPVJalJTs146
-	t7snZRZvZyHJttMttdNVdMtkbpQU67drR3gsDZw8/X58VrSte8T5m/G4WUUenjvkGrGjF6DQmXZvK
-	q2Ibxtfw==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wedKN-00000005Nc2-1soS;
-	Tue, 30 Jun 2026 18:36:59 +0000
-Date: Tue, 30 Jun 2026 19:36:59 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Gregg Leventhal <gleventhal@janestreet.com>
-Cc: "To: Alexander Viro" <viro@zeniv.linux.org.uk>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aEQ12RMX"
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-92e5cb052edso180999185a.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 11:39:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782844799; x=1783449599; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KmgV8nCn9sbfqM1ezwxzcVc9Q6Oo1QwQHw5Oa3kbYoo=;
+        b=aEQ12RMXQ+9Hh3F8u82u1VGab0TICtc/2lK+zxraZIDrae+S3v/JtWuYFKJsnzbp3/
+         rTUg5SEbJgZN6xVgrxhrVKZQj4Ogp9uPEb6JZvnnRtpuj2opyz5ULVe6H8+J/JnmjONs
+         /WYbwijD17n+1B77a+eIL4kTFmd2LydZ0hs6TLYwYjcSWFi9k6XXwVYqknEioWyTkfrN
+         eHEbtCkZwVBmFDjIQMKLNDQCFzVck68Uc0xuvcCFtwEObTvpvFRvOekTQswV6P+Ci4Tn
+         l9mhkVkmpB1uIdKzzdMMpKAlmnCMKW0x9Rp/bjthR/8mOFihJiTVI5El7+6ALF3nDnb1
+         5gfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782844799; x=1783449599;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=KmgV8nCn9sbfqM1ezwxzcVc9Q6Oo1QwQHw5Oa3kbYoo=;
+        b=OybOlUSoH7TmO7e2hUK2ncZXA1opdQLyhfyXjI8YGpbZsGU9G/XZeQ2ZucHTC5K5/M
+         yXptsQtCrxdzAggIfpN0oY9ZaQZZjVlphs4sQU+ik265IEHFlICl0a07aT7oTgJ97C9G
+         OhAM2oShg6gTkS0/XmODAxWWp3Mid+MPXLk+y+a3hDyUi3D2iqsUPYiVX81yTyV/Tkkd
+         9QxLqcHUAOQ8pQoFnA2OOKVQw4uTzvJM0LoS84ZkYdG6xs47DSHeJocmUGE4A5pK9UIH
+         gcuiY6Rw7+PgJsZ+n3fbDUw9GU2UUQPWPL2tDd3mq+6GTzrTEndsn/mCx4p7Tg9YgApT
+         jP1A==
+X-Forwarded-Encrypted: i=1; AFNElJ/VjJUhbdEWjBB4jKy23X8TQfpFdQ+p602oAE82V/u0Av6oI7JbZfuZauoD8QCitFmgJyAtiBglwdLvzdEi@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1hpon/2T2dOWuyHnhGuRTbSbldfhYsCRHwDEKUfDOAiJvLHcy
+	fM9scl81oerHRKn0+aWIYUwIdDAJEKnbgMGbuojFfEjzaDBH8iKcJ6C5
+X-Gm-Gg: AfdE7cky4JmfV2eiUhRderE8jofUpPxx+oVzGyjeATtRTJC6qxpucpZ0g7Yi4awMUVz
+	HN94zvQD0x9vKMjhfNXQez9oBlq08lpCvABFLH/Cm798kKI1Y0OSYngrT/hlz7+zP1xmzBH+L26
+	EJimKk0ium5VOAxJwfSJMheg6oJCm134ytUcGoAR9kIMUGU9OMOwRj/6y8v9osOZFoxPqWn2K88
+	H/gYgaXJ1BLf2RvOvfTmafRsEUzJPmqmrqThTedH10gdgHSnk9T2FQhEHAYmFTELfAJaudIqBR/
+	ihpIqqA5GaFJdOm+gTaqYx0ORFr7cKzN6UAqpFQivaUJPgj2M8PjLevYUgQzKXAQQuUeEm7taBR
+	zhGO2VaFAF66iphjQ77QJgX5P0+R0SCIntQYnSvOjoNQmO30I1wexZlHkeL07w9PTkpGwe2SL6S
+	x2fS59BPEpPgBFunLZ2HNoIa+UDhVp8D+h2ndqta+3BOgMbJ7JS5S4OJAh3Kx+az8VCqjcYTAQp
+	v6ozgpqEYgtifs=
+X-Received: by 2002:a05:620a:7088:b0:92e:4773:5a05 with SMTP id af79cd13be357-92e624aa5a7mr812235885a.4.1782844798653;
+        Tue, 30 Jun 2026 11:39:58 -0700 (PDT)
+Received: from battery.lan (pool-138-88-31-60.washdc.fios.verizon.net. [138.88.31.60])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e62191b18sm326961285a.18.2026.06.30.11.39.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2026 11:39:58 -0700 (PDT)
+From: David Windsor <dwindsor@gmail.com>
+To: Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Matt Bobrowski <mattbobrowski@google.com>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E . Hallyn" <serge@hallyn.com>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>,
-	"Cc: Jan Kara" <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Song Liu <song@kernel.org>, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	Eric Hagberg <ehagberg@janestreet.com>
-Subject: Re: Subject: [BUG/RFC] write-open file THP cache purge can discard
- dirty page cache
-Message-ID: <akQMy54dxVTVkMJ6@casper.infradead.org>
-References: <CAFN_u7H_0ECF3jixP=T=U7AH5=Q3wQNvJMo8an3VqUDMerQfUw@mail.gmail.com>
+	Jan Kara <jack@suse.cz>,
+	Shuah Khan <shuah@kernel.org>
+Cc: bpf@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	selinux@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	David Windsor <dwindsor@gmail.com>
+Subject: [PATCH v4 bpf-next 0/3] bpf: add bpf_init_inode_xattr kfunc for atomic inode labeling
+Date: Tue, 30 Jun 2026 14:39:52 -0400
+Message-ID: <20260630183956.281293-1-dwindsor@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFN_u7H_0ECF3jixP=T=U7AH5=Q3wQNvJMo8an3VqUDMerQfUw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 30, 2026 at 01:01:53PM -0400, Gregg Leventhal wrote:
-> On an affected 6.12 kernel with CONFIG_READ_ONLY_THP_FOR_FS=y, a file can
-> contain read-only file THPs installed by khugepaged / MADV_COLLAPSE. When that
-> same file is later opened for write, do_dentry_open() notices
-> filemap_nr_thps() and drops the page cache:
-[...]
-> 
-> This is unsafe if the mapping also contains dirty folios.
+Many in-kernel LSMs (SELinux, Smack, IMA) store security labels in
+extended attributes. For these LSMs, atomic labeling during inode
+creation is critical: if the inode becomes accessible before its xattr
+is set, it is briefly unlabeled, which can disrupt LSMs making policy
+decisions based on file labels.
 
-But there shouldn't be any.  It should not be possible to have
-dirty folios and THPs in the same file unless the filesystem
-supports large folios natively.
+Existing LSMs solve this by setting xattrs directly in the
+inode_init_security hook, which runs before the inode becomes
+accessible. BPF LSM programs currently lack this capability because
+the hook uses an output parameter (xattr_count) that BPF programs
+cannot write to, and existing kfuncs like bpf_set_dentry_xattr
+require a dentry that isn't available until after the inode is
+accessible.
 
-If the file is open for writing, the attempt to create THPs should fail.
+This series introduces the bpf_init_inode_xattr() kfunc, which takes
+the combined inode_init_security xattr context argument to access
+xattrs and xattr_count, and internally writes to xattr_count via
+lsm_get_xattr_slot().
+
+v4:
+  - introduce struct lsm_xattrs in separate patch (Alexei, Paul)
+  - rename struct xattr_ctx to struct lsm_xattrs (Paul)
+  - make lsm_xattrs.xattr_count unsigned int (Paul)
+  - drop new_xattrs/xattr_count locals in
+    security_inode_init_security() (Paul)
+  - fold __bpf_init_inode_xattr() into bpf_init_inode_xattr() (Paul)
+  - drop bpf_fs_kfuncs_filter() attach-point check; rely on verifier
+    type enforcement (Alexei)
+  - drop attach-time cap; enforce slot budget in the kfunc (Alexei)
+  - allocate the combined xattr with GFP_NOFS (sashiko-bot)
+  - replace init_inode_xattr_attach_cap selftest with runtime
+    init_inode_xattr_slot_limit
+
+v3:
+  - rename struct lsm_xattr_ctx to struct xattr_ctx (Paul)
+  - increase BPF_LSM_INODE_INIT_XATTRS to 4 (Song)
+  - enforce per-hook attachment cap at attach time to prevent
+    runtime rejection (Paul)
+  - add init_inode_xattr_attach_cap selftest
+
+v2:
+  - pass the xattr state as a combined context object and drop the
+    verifier fixup path (Kumar)
+  - restrict bpf_init_inode_xattr labels to bpf.* namespace (Matt)
+  - cap bpf_init_inode_xattr() at BPF_LSM_INODE_INIT_XATTRS slots per
+    invocation (AI)
+
+David Windsor (3):
+  security: pass inode_init_security xattrs via struct lsm_xattrs
+  bpf: add bpf_init_inode_xattr kfunc for atomic inode labeling
+  selftests/bpf: add tests for bpf_init_inode_xattr kfunc
+
+ fs/bpf_fs_kfuncs.c                            |  79 +++++++++++
+ include/linux/bpf_lsm.h                       |   3 +
+ include/linux/evm.h                           |   9 +-
+ include/linux/lsm_hook_defs.h                 |   4 +-
+ include/linux/lsm_hooks.h                     |  16 +--
+ include/linux/security.h                      |   5 +
+ kernel/bpf/bpf_lsm.c                          |   1 +
+ security/bpf/hooks.c                          |   1 +
+ security/integrity/evm/evm_main.c             |   8 +-
+ security/security.c                           |  24 ++--
+ security/selinux/hooks.c                      |   4 +-
+ security/smack/smack_lsm.c                    |  27 ++--
+ tools/testing/selftests/bpf/bpf_kfuncs.h      |   5 +
+ .../selftests/bpf/prog_tests/lsm_kfuncs.c     | 129 ++++++++++++++++++
+ .../bpf/progs/test_init_inode_xattr.c         |  31 +++++
+ 15 files changed, 299 insertions(+), 47 deletions(-)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/lsm_kfuncs.c
+ create mode 100644 tools/testing/selftests/bpf/progs/test_init_inode_xattr.c
+
+
+base-commit: e771677c937da5808f7b6c1f0e4a97ec1a84f8a8
+-- 
+2.53.0
 
