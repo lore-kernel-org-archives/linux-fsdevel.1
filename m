@@ -1,162 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D082317164;
-	Tue, 30 Jun 2026 09:58:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27DA03ECBE3;
+	Tue, 30 Jun 2026 10:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.166.238
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782813532; cv=none; b=XO59rw10IOZvSjlkBu7JQBjdJonkjdDSNUTppWjnNMn2EsuFscvkQWZldsVoX0rugEQlr87BDQOQxjQC3ZWDqGNELSCuujjJYm7FUyHU9g9iV7mc9NP/4GKA2Fi50qdTOsLdzeXKc0+WfUhyxxJW+zWA88UK7q7eF4ewM4dXxD8=
+	t=1782814154; cv=none; b=md8h3ZWWoUuXBkkWqZley1kmtFy5A5ZBo3mcvwIkyB9xgqf6HTG2o7AKlSOiUQ7haPebKYtSM6e2sNkBAFaHJf2rKtt139Qwftuing6LCM4usq34jEhCUjDqU2JXDeM+azFx5muzfjp7JMJJesiDkjdaffogfl2/yDOJcyzgVks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782813532; c=relaxed/simple;
-	bh=R1HOq/Rc2e0mHhkp/cZR6s3G8VYvSRDfS6VPARRSjys=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=orBLQMAb/CzmM6SfvaMiXNHttTYnlSmsEMhcBP9UkyQh1Up+G0uAqkZcBQ7vhRwx1L0Jh/nsFMaQ4SB1pZSqcVV6Y+Ta0vE599OXB/XwBQ+dS/XTzQjbxK3oQD1nrTeoOKhE0h25drkM5U7qJgYoqUqzjlCvyM8FG6sj2WLGYCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AwsGvlgJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782814154; c=relaxed/simple;
+	bh=33PUqLBndmr7Em2HQ+fPhL0r4dS7gUCyBnlesE6JeQo=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=j8k5Yf6XKP7mrSKDDoFpzWuxXa1BjNQjrqT9YsvNc+Ts3VXsUe291QzVQBMr8hf7SfZAvMxwLBTzRBf/gRftXPp3b+IpY4+kmVIoK+ai//8fNk/KQSlVUs6jtKVe+jzd6z1cRKYDWl7kWOc3bozGwBztYbMInMpLoKxurWwSxO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=dfaW0G9/; arc=none smtp.client-ip=205.220.166.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AwsGvlgJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFF4E1F000E9;
-	Tue, 30 Jun 2026 09:58:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782813531;
-	bh=exCIX3lRbpsd86KnItXyPO8javiFP1yVs5ghoBTVi6c=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=AwsGvlgJY9EljQQXeV1LIQ+0fXdp5LoarCwAuUGuaOVwiCZjKLEd/stK5HCYEixJt
-	 NJuMWJNJpRSUPCr3c2bYC9KJ4AH/7+eVslUCHfNURi+HhhmBfmydzJVZixTPr2QSeL
-	 d5iotlj3iR6rdpI6lfE4e7VFJmVEadL055Nc4tonjHFlKoqG5PmyAs3mMp5GwEpKjX
-	 E4oC7vvIz4RnTiO3uBFcK2RL2+Id6MvLJBMaer2ZOuBDbbAArtW8QTrMu5ZGOL6kZ8
-	 tHPO0avkmxMOKrSNYDOqdpoocQblzQeNN6ky4sXbz3H2HaRW6XYlgtSYicSulU0yJT
-	 8In60av6DS9ow==
+	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="dfaW0G9/"
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65U9oWth715972;
+	Tue, 30 Jun 2026 03:08:37 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=fiopdP/EpgkRgWya9e3nhtUo0uGnjwoSrXLJZjX00m4=; b=
+	dfaW0G9/DtaCxG+/twKUbYIbVn8r+RGl+TFkfjpST6xK0cwN+my3GMmzGHLiX6Yt
+	OBwUGpWyld+u1x5PTRWLVjWLKx4vyWBZbn7ICDvYSrqyGndllgIao2gBxBRdbCpt
+	1JfMI1tMSi09VngAPuqK+m4lbaOu2Ndh8O/KmP6bRkW/zIOhh2fwve6tLMy/a6sp
+	sURMcoef5+2BA0EM5EybfxAqccRaKcuLqFjXCveoHYZ5v1OzixkcFD10qrdJzKBw
+	+YRkDHgwwKs9lR4jfglIwGKt1mlJ4//WHZicypD1E0M7d2tT5EX/Kg4gvY7qYZA1
+	Vvmt35A8Pu5R3XcUsJIxQg==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4f29sykkwn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 30 Jun 2026 03:08:37 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Tue, 30 Jun 2026 03:08:36 -0700
+Received: from pek-yzhou-d3.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Tue, 30 Jun 2026 03:08:33 -0700
+From: Yun Zhou <yun.zhou@windriver.com>
+To: <tytso@mit.edu>, <adilger.kernel@dilger.ca>, <libaokun@linux.alibaba.com>,
+        <jack@suse.cz>, <ojaswin@linux.ibm.com>, <ritesh.list@gmail.com>,
+        <yi.zhang@huawei.com>, <viro@zeniv.linux.org.uk>, <brauner@kernel.org>
+CC: <linux-ext4@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <yun.zhou@windriver.com>, <linux-fsdevel@vger.kernel.org>
+Subject: [PATCH v12 1/4] fs: add iput_if_not_last() helper
+Date: Tue, 30 Jun 2026 18:08:26 +0800
+Message-ID: <20260630100829.1257618-2-yun.zhou@windriver.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260630100829.1257618-1-yun.zhou@windriver.com>
+References: <20260630100829.1257618-1-yun.zhou@windriver.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH net-next v3 3/5] net: af_unix: useful handling of LSM
- denials on SCM_RIGHTS
-From: Christian Brauner <brauner@kernel.org>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: Christian Brauner <brauner@kernel.org>, 
- Aleksa Sarai <cyphar@cyphar.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
- "David S . Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260629194327.2270798-4-jkoolstra@xs4all.nl>
-References: <20260629194327.2270798-1-jkoolstra@xs4all.nl>
- <20260629194327.2270798-4-jkoolstra@xs4all.nl>
-Date: Tue, 30 Jun 2026 11:58:43 +0200
-Message-Id: <20260630-getoppt-granit-gekrochen-78244e8979d9@brauner>
-X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3893; i=brauner@kernel.org;
- h=from:subject:message-id; bh=R1HOq/Rc2e0mHhkp/cZR6s3G8VYvSRDfS6VPARRSjys=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ5T4745d8tLpli2PTMq6Xgy6YGf6fMjx533nbtNpvxo
- bnH0Dawo5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCKzzjIy/PJ8wfLhvPUd5eIg
- MbNyhWINvybm0w8MI6tMjkdaH+haw8hw4PGss4FLkjZb/3775EJQd9N8c0MLG3lbs9Vsm4w1E+V
- 5AA==
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: 847kMgzQmbSQnyPpFQOLfeoZUEUUQ1Wm
+X-Authority-Analysis: v=2.4 cv=HsJG3UTS c=1 sm=1 tr=0 ts=6a4395a5 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=HK-ge7EqtdluswH-FwHe:22 a=t7CeM3EgAAAA:8 a=VwQbUJbxAAAA:8
+ a=vCr0if_IiwaKUNF-nsEA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: 847kMgzQmbSQnyPpFQOLfeoZUEUUQ1Wm
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjMwMDA5MSBTYWx0ZWRfX1ob3c2rfqd2+
+ UxcKJhTDuhbJO/VImJqCH52qL9QeUitV+O+IReNnbsJ1bkbZG0POxbevN4F0kCWA8/Q2JVIBrep
+ aXV9E+qtSCN59aQD1xvC7NPNdz6BwDWYiN54cJnT+BNEHRkSI4EM
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjMwMDA5MSBTYWx0ZWRfX+ogSmW6rdTxK
+ rZEKBizk91oRAAjhCaJ3X6Is8aoqXnN8a/i9Hdn9QG/ntzYR3xfwFxyLa9UzWuudOs+gAdxOJIn
+ zCYZ96JzpDwWUByb9SzMwo18a6WAE72XEsOjoUC4ddQ2MT/CSgUzxqhHsqQhGULF+BdKzIJoqK/
+ X+nn5vHizx8aezhahgV+MKWe9Uy6y0ghiSlCbSgvu3yfjfu4OtA6XnfKAeWjwCg3uGI/w7wQeRn
+ zos25lAU+7xJmaOy6h6V5gBLbgxYUm1Wwy+4X8V6DFNETtDy6UNCGKlTCF+Sr577gamjLggMCor
+ 6zpJKHlJNGxYV/fC+J9my7ln4w2klEucjlgigvnFR1bpkjTkyNsB/IYF40myvnYh61KBe/VQ8IS
+ h4NdmQgs8jt/0GARgyJplHJxLOlDeBRHyUuMY8JzTYkz5pv4ZSU10ff+3S0oEFyLA4vFrlRGVCY
+ Q2KxZ2tMElsrTCyyDiw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-30_03,2026-06-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 clxscore=1015 impostorscore=0 adultscore=0
+ phishscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606300091
 
-> Right now if some LSM such as Smack denies an AF_UNIX socket peer to
-> receive an SCM_RIGHTS fd, the SCM_RIGHTS fd array will be cut short at
-> that point, and MSG_CTRUNC is set on return of recvmsg(). This is
-> highly problematic behaviour, because it leaves the receiver
-> wondering what happened. As per man page MSG_CTRUNC is supposed to
-> indicate that the control buffer was sized too short, but suddenly
-> a permission error might result in the exact same flag being set.
-> Moreover, the receiver has no chance to determine how many fds got
-> originally sent and how many were suppressed.[1]
-> 
-> Add a SO_RIGHTS_NOTRUNC option to UNIX sockets to enable more useful
-> handling of LSM denials when receiving SCM_RIGHTS messages: instead of
-> truncating the message at the first blocked fd, keep every fd slot
-> and store the LSM errno in the blocked slot.
-> 
-> [1]: https://github.com/uapi-group/kernel-features#useful-handling-of-lsm-denials-on-scm_rights
-> 
-> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
->
-> diff --git a/include/net/af_unix.h b/include/net/af_unix.h
-> index 34f53dde65ce..bb1b3dee02e8 100644
-> --- a/include/net/af_unix.h
-> +++ b/include/net/af_unix.h
-> @@ -49,6 +49,7 @@ struct unix_sock {
->  	struct scm_stat		scm_stat;
->  	int			inq_len;
->  	bool			recvmsg_inq;
-> +	bool			scm_rights_notrunc;
->  #if IS_ENABLED(CONFIG_AF_UNIX_OOB)
->  	struct sk_buff		*oob_skb;
->  #endif
-> diff --git a/include/net/scm.h b/include/net/scm.h
-> index c52519669349..761cda0803fb 100644
-> --- a/include/net/scm.h
-> +++ b/include/net/scm.h
-> @@ -50,8 +50,8 @@ struct scm_cookie {
->  #endif
->  };
->  
-> -void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm);
-> -void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm);
-> +void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm, bool notrunc);
-> +void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm, bool notrunc);
->  int __scm_send(struct socket *sock, struct msghdr *msg, struct scm_cookie *scm);
->  void __scm_destroy(struct scm_cookie *scm);
->  struct scm_fp_list *scm_fp_dup(struct scm_fp_list *fpl);
-> @@ -108,11 +108,18 @@ void scm_recv_unix(struct socket *sock, struct msghdr *msg,
->  		   struct scm_cookie *scm, int flags);
->  
->  static inline int scm_recv_one_fd(struct file *f, int __user *ufd,
-> -				  unsigned int flags)
-> +				  unsigned int flags, bool notrunc)
->  {
-> +	bool filtered;
-> +	int error;
-> +
->  	if (!ufd)
->  		return -EFAULT;
-> -	return receive_fd(f, ufd, flags);
-> +
-> +	error = receive_fd_filtered(f, ufd, flags, &filtered);
-> +	if (filtered && notrunc)
-> +		return put_user(error, ufd);
+Add a helper that drops an inode reference only if the caller does not
+hold the last one.  Returns true if the reference was dropped, false
+otherwise.
 
-This helper makes no sense to me. The boolean return argument is just
-really nasty and you need an additional put_user() as well. At this
-point, just drop receive_fd() and open-code it instead of using another
-custom helper. Something like the completely untested:
+This is useful for filesystems that need to release inode references
+in contexts where triggering final iput (and thus eviction) would be
+unsafe due to lock ordering constraints.  The caller can check the
+return value and defer the final iput to a safe context.
 
-diff --git a/include/net/scm.h b/include/net/scm.h
-index 761cda0803fb..171b5ccd0b77 100644
---- a/include/net/scm.h
-+++ b/include/net/scm.h
-@@ -116,10 +116,22 @@ static inline int scm_recv_one_fd(struct file *f, int __user *ufd,
-        if (!ufd)
-                return -EFAULT;
+Unlike iput_not_last() which BUG_ON's if called with the last ref,
+this variant is designed to be called speculatively.
 
--       error = receive_fd_filtered(f, ufd, flags, &filtered);
--       if (filtered && notrunc)
--               return put_user(error, ufd);
--       return error;
-+       error = security_file_receive(file);
-+       if (error)
-+               return notrunc ? put_user(error, ufd) : error;
+Signed-off-by: Yun Zhou <yun.zhou@windriver.com>
+Suggested-by: Jan Kara <jack@suse.cz>
+Reviewed-by: Jan Kara <jack@suse.cz>
+Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+ include/linux/fs.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index d10897b3a1e3..04f0de78fa7a 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -2413,6 +2413,19 @@ static inline void super_set_sysfs_name_generic(struct super_block *sb, const ch
+ extern void ihold(struct inode * inode);
+ extern void iput(struct inode *);
+ void iput_not_last(struct inode *);
 +
-+       FD_PREPARE(fdf, flags, f);
-+       if (fdf.err)
-+               return fdf.err;
-+       get_file(f);
++/**
++ * iput_if_not_last - drop an inode reference only if it is not the last one
++ * @inode: inode to put
++ *
++ * Returns true if the reference was dropped, false if this was the last
++ * reference and the caller must arrange for final iput() in a safe context.
++ */
++static inline bool __must_check iput_if_not_last(struct inode *inode)
++{
++	return atomic_add_unless(&inode->i_count, -1, 1);
++}
 +
-+       error = put_user(fd_prepare_fd(fdf), ufd);
-+       if (error)
-+               return error;
-+
-+       __receive_sock(f);
-+       return fd_publish(fdf);
- }
-
+ int inode_update_time(struct inode *inode, enum fs_update_time type,
+ 		unsigned int flags);
+ int generic_update_time(struct inode *inode, enum fs_update_time type,
 -- 
-Christian Brauner <brauner@kernel.org>
+2.43.0
+
