@@ -1,86 +1,47 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB04358360
-	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 18:31:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54D825B0AD;
+	Tue, 30 Jun 2026 18:37:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782844271; cv=none; b=E7zcf3i692DwOaKAHx6ETIRShev6GfAR4/H1cbAHuhB9wNhZMDhTO9AMoHX5hDW5DbLnApqTIerZrt1tWajY19kdE478bCVWnIUugNgE7a7814dFd9XemcyuLQw5NaNPu+J8kzGRTTdfkAHudVrwM2wETOKrzEl27J3yAD6uWag=
+	t=1782844626; cv=none; b=MJ2Nltk9+74u7YV2YfBGHnSt46FFHBZkDBpXJ3QXgDEJ2z6aQf1U1ImxLIxpnYzv7w7+raeSw9q4oi4Um6sdkKkQ77ALbbn1dXBY0Ooox0I39mx0E9DaoR6UBzNhGGSnrhfcsGsLdcc+Sw7GNyzVWuKuT7llVE61DxYMr3SY+0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782844271; c=relaxed/simple;
-	bh=hv07MCpFOt2rozNYhadA8oEmeU/UeR31oab/Gzv+1Tw=;
+	s=arc-20240116; t=1782844626; c=relaxed/simple;
+	bh=zctrbBcEPpgI+rulkIwrxbKJX1dl4sKytOWcJ44TWOQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B2POAI/GsNoTX27RO4dXRWXYHMXk/9woX1HG+4vvViEQL2sYaHzHwozbGjuCG2M2nmV0UfGuldNdwEqluk57VA5Tpq/JtKqPV2ovWHHs9IG+kQNywudLUFQ4sX/IlTJEHPii3iPzm9rE9uxh/0PmAZP6yjFYtWVLLpNg6/zEkc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=g3UoGDoz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ta6n1aUP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=g3UoGDoz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ta6n1aUP; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z+M2mS4ZhEA7uWiiiEfjQkuBC7sS0U2Xfng3Vs6UCJQ74x6WYcRVmWIkSblAH9HciCqbnrt5XKu62BsFcPWT7REN4PhmjiQk0gHvr+Mm059J7AIoXPLE7E4EDFXeYwWx+X8xSW/lh6gE6rBYTPB05PITPE6u922M8u+7BEJmkn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=aN2oOJXH; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="g3UoGDoz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ta6n1aUP";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="g3UoGDoz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ta6n1aUP"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 993C8736A6;
-	Tue, 30 Jun 2026 18:31:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782844267; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mU8FzwXctUR/PxXeIEd6XhA5si5vC1kRVBGbfPOCGCo=;
-	b=g3UoGDozpKNrTrpCTewdzW6hDWOnKcvFzikZ5WTozmwcmfdels4BSJu0Jb/laTXa3hRlBN
-	EacZPomiwlX52XRjWF+Bj5fVhsd0gwei0wcKiKTCECQSegvS0P4smGKAYXgC/DY843bL6o
-	gNliXQ/M3kjDpqyfANik1Zi6CKBHDlQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782844267;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mU8FzwXctUR/PxXeIEd6XhA5si5vC1kRVBGbfPOCGCo=;
-	b=ta6n1aUPYiqSF+UBgmUWCEcge4k4qQdy+01PvEuiyB+oV3Ot/SKuMx3VuB0cMDbK4FZ7dL
-	dDpUKLV2O07KWgAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782844267; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mU8FzwXctUR/PxXeIEd6XhA5si5vC1kRVBGbfPOCGCo=;
-	b=g3UoGDozpKNrTrpCTewdzW6hDWOnKcvFzikZ5WTozmwcmfdels4BSJu0Jb/laTXa3hRlBN
-	EacZPomiwlX52XRjWF+Bj5fVhsd0gwei0wcKiKTCECQSegvS0P4smGKAYXgC/DY843bL6o
-	gNliXQ/M3kjDpqyfANik1Zi6CKBHDlQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782844267;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mU8FzwXctUR/PxXeIEd6XhA5si5vC1kRVBGbfPOCGCo=;
-	b=ta6n1aUPYiqSF+UBgmUWCEcge4k4qQdy+01PvEuiyB+oV3Ot/SKuMx3VuB0cMDbK4FZ7dL
-	dDpUKLV2O07KWgAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A0972779A8;
-	Tue, 30 Jun 2026 18:31:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dnq8I2oLRGpTcAAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Tue, 30 Jun 2026 18:31:06 +0000
-Date: Tue, 30 Jun 2026 19:31:04 +0100
-From: Pedro Falcato <pfalcato@suse.de>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="aN2oOJXH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=sxmahw67jvFH8EYoUlnhdZ6NYwIof1KgSy2fQ7/QPiI=; b=aN2oOJXHM1LRftU+o0io32YJhc
+	AY/Cy7EQ4WqzgXhobdNspDCNb/4gwDOC9rCIGwzU6DBRUwXI4HmS8ceFSKI/GtX09aLaF4l4InTWi
+	m65uufH7LUVdI17APyKm0uyk8NuSlGTJW78mMS1O1vRNRw20eXupIWK1ND14r4JIBI5HjQ+RZWyMl
+	xe0wtmmbMTk5ldPHEHc3r5V78LWKCXjP3Q/IKTQP1pG9SzpogXg4DRaADlRxJE/0rXPVJalJTs146
+	t7snZRZvZyHJttMttdNVdMtkbpQU67drR3gsDZw8/X58VrSte8T5m/G4WUUenjvkGrGjF6DQmXZvK
+	q2Ibxtfw==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wedKN-00000005Nc2-1soS;
+	Tue, 30 Jun 2026 18:36:59 +0000
+Date: Tue, 30 Jun 2026 19:36:59 +0100
+From: Matthew Wilcox <willy@infradead.org>
 To: Gregg Leventhal <gleventhal@janestreet.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Song Liu <song@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	Eric Hagberg <ehagberg@janestreet.com>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>
+Cc: "To: Alexander Viro" <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	"Cc: Jan Kara" <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Song Liu <song@kernel.org>, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	Eric Hagberg <ehagberg@janestreet.com>
 Subject: Re: Subject: [BUG/RFC] write-open file THP cache purge can discard
  dirty page cache
-Message-ID: <akQIIav_zaK6RmIC@pedro-suse.lan>
+Message-ID: <akQMy54dxVTVkMJ6@casper.infradead.org>
 References: <CAFN_u7H_0ECF3jixP=T=U7AH5=Q3wQNvJMo8an3VqUDMerQfUw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -88,319 +49,22 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="sgcbtvevrg4dwu7g"
-Content-Disposition: inline
-In-Reply-To: <CAFN_u7H_0ECF3jixP=T=U7AH5=Q3wQNvJMo8an3VqUDMerQfUw@mail.gmail.com>
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.989];
-	MIME_GOOD(-0.10)[multipart/mixed,text/plain,text/x-patch];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+,1:+,2:+];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo,janestreet.com:email];
-	HAS_ATTACHMENT(0.00)[]
-X-Spam-Level: 
-
-
---sgcbtvevrg4dwu7g
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-+CC some relevant THP folks
-Quick note, your email client's spacing seems to be all over the place, making
-this extremely hard to read.
+In-Reply-To: <CAFN_u7H_0ECF3jixP=T=U7AH5=Q3wQNvJMo8an3VqUDMerQfUw@mail.gmail.com>
 
 On Tue, Jun 30, 2026 at 01:01:53PM -0400, Gregg Leventhal wrote:
-> Hello,
-> 
-> We (Gregg Leventhal <gleventhal@janestreet.com> and Eric Hagberg
-> 
-> <ehagberg@janestreet.com>) have a reproducible data-loss issue involving file
-> 
-> THPs and write-open, impacting filesystems that do not support
-> writable large folios.
-> 
-> 
-> Attached are:
-> 
-> 
->   - thp_write_open_cancel_dirty_repro.c
-> 
->   - thp-open-writeback-before-purge.patch
-> 
-> 
-> 
-> Summary
-> 
-> =======
-> 
-> 
 > On an affected 6.12 kernel with CONFIG_READ_ONLY_THP_FOR_FS=y, a file can
-> 
 > contain read-only file THPs installed by khugepaged / MADV_COLLAPSE. When that
-> 
 > same file is later opened for write, do_dentry_open() notices
-> 
 > filemap_nr_thps() and drops the page cache:
+[...]
 > 
-> 
->         /*
-> 
->          * XXX: Huge page cache doesn't support writing yet. Drop all page
-> 
->          * cache for this file before processing writes.
-> 
->          */
-> 
->         if (f->f_mode & FMODE_WRITE) {
-> 
->                 if (filemap_nr_thps(inode->i_mapping)) {
-> 
->                         struct address_space *mapping = inode->i_mapping;
-> 
-> 
->                         filemap_invalidate_lock(inode->i_mapping);
-> 
->                         unmap_mapping_range(mapping, 0, 0, 0);
-> 
->                         truncate_inode_pages(mapping, 0);
-> 
->                         filemap_invalidate_unlock(inode->i_mapping);
-> 
->                 }
-> 
->         }
+> This is unsafe if the mapping also contains dirty folios.
 
-Ugh, this is embarassing. So, good news: this code doesn't exist anymore
-in mainline! Bad news: it exists on every other upstream-stable-maintained
-release :|
+But there shouldn't be any.  It should not be possible to have
+dirty folios and THPs in the same file unless the filesystem
+supports large folios natively.
 
-FWIW I don't think your fix works, there's still a race there (what if
-you write and wait, then someone dirties a folio, then you truncate the
-pagecache? you lost data again.). I'm attaching a very quick WIP patch
-that I wrote against 6.12 LTS (again, this does not exist in mainline).
-I _think_ we want to go roughly in that direction, either here or in
-collapse file paths. There are still problems which are invasive and
-I haven't dealt with (GUP and other "temporary" folio releases being
-the main one). Some of these problems may simply make it so opening
-these files writable may fail (there is certainly, AFAIK, no way of
-waiting for GUP and other temporary folio holders).
+If the file is open for writing, the attempt to create THPs should fail.
 
-We would probably be served with a custom loop that forcibly yanks
-only THPs out the pagecache, though. But that requires a bit more
-code for a stable-only issue...
-
-Anyway, the patch is obviously ungood and uncromulent and is only
-here for a rough conversation starter. I don't think it works and
-it will probably never work. mapping invalidation is simply too
-best-effort for something that Just Needs(tm) to work.
-
--- 
-Pedro
-
---sgcbtvevrg4dwu7g
-Content-Type: text/x-patch; charset=us-ascii
-Content-Disposition: attachment; filename="0001-foo.patch"
-
-From 22c7255577e1efbca5186fa3a3afadf714743647 Mon Sep 17 00:00:00 2001
-From: Pedro Falcato <pfalcato@suse.de>
-Date: Tue, 30 Jun 2026 19:13:20 +0100
-Subject: [PATCH] foo
-
-Not-Signed-off-by: Pedro Falcato <pfalcato@suse.de>
----
- fs/open.c               | 15 ++--------
- include/linux/pagemap.h |  1 +
- mm/fadvise.c            |  2 +-
- mm/internal.h           |  3 +-
- mm/truncate.c           | 63 +++++++++++++++++++++++++++++++++++++++--
- 5 files changed, 68 insertions(+), 16 deletions(-)
-
-diff --git a/fs/open.c b/fs/open.c
-index be7b55260a75..8feaf87c06b8 100644
---- a/fs/open.c
-+++ b/fs/open.c
-@@ -985,18 +985,9 @@ static int do_dentry_open(struct file *f,
- 		 * cache will fail.
- 		 */
- 		if (filemap_nr_thps(inode->i_mapping)) {
--			struct address_space *mapping = inode->i_mapping;
--
--			filemap_invalidate_lock(inode->i_mapping);
--			/*
--			 * unmap_mapping_range just need to be called once
--			 * here, because the private pages is not need to be
--			 * unmapped mapping (e.g. data segment of dynamic
--			 * shared libraries here).
--			 */
--			unmap_mapping_range(mapping, 0, 0, 0);
--			truncate_inode_pages(mapping, 0);
--			filemap_invalidate_unlock(inode->i_mapping);
-+			error = filemap_truncate_thps(inode);
-+			if (error)
-+				goto cleanup_all;
- 		}
- 	}
- 
-diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-index 68a5f1ff3301..401b03970f68 100644
---- a/include/linux/pagemap.h
-+++ b/include/linux/pagemap.h
-@@ -67,6 +67,7 @@ static inline int filemap_write_and_wait(struct address_space *mapping)
- {
- 	return filemap_write_and_wait_range(mapping, 0, LLONG_MAX);
- }
-+int filemap_truncate_thps(struct inode *inode);
- 
- /**
-  * filemap_set_wb_err - set a writeback error on an address_space
-diff --git a/mm/fadvise.c b/mm/fadvise.c
-index 588fe76c5a14..c44a7a11eee2 100644
---- a/mm/fadvise.c
-+++ b/mm/fadvise.c
-@@ -156,7 +156,7 @@ int generic_fadvise(struct file *file, loff_t offset, loff_t len, int advice)
- 			lru_add_drain();
- 
- 			mapping_try_invalidate(mapping, start_index, end_index,
--					&nr_failed);
-+					&nr_failed, NULL);
- 
- 			/*
- 			 * The failures may be due to the folio being
-diff --git a/mm/internal.h b/mm/internal.h
-index 3bfc1dc2d7ea..83e3bbbe18a6 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -407,7 +407,8 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t start,
- 		loff_t end);
- long mapping_evict_folio(struct address_space *mapping, struct folio *folio);
- unsigned long mapping_try_invalidate(struct address_space *mapping,
--		pgoff_t start, pgoff_t end, unsigned long *nr_failed);
-+		pgoff_t start, pgoff_t end, unsigned long *nr_failed,
-+		pgoff_t *first_fail);
- 
- /**
-  * folio_evictable - Test whether a folio is evictable.
-diff --git a/mm/truncate.c b/mm/truncate.c
-index fb5c20b57bd4..3efcadd2be4f 100644
---- a/mm/truncate.c
-+++ b/mm/truncate.c
-@@ -490,12 +490,14 @@ EXPORT_SYMBOL(truncate_inode_pages_final);
-  * @start: the offset 'from' which to invalidate
-  * @end: the offset 'to' which to invalidate (inclusive)
-  * @nr_failed: How many folio invalidations failed
-+ * @first_fail: What was the first offset to fail invalidation?
-  *
-  * This function is similar to invalidate_mapping_pages(), except that it
-  * returns the number of folios which could not be evicted in @nr_failed.
-  */
- unsigned long mapping_try_invalidate(struct address_space *mapping,
--		pgoff_t start, pgoff_t end, unsigned long *nr_failed)
-+		pgoff_t start, pgoff_t end, unsigned long *nr_failed,
-+		pgoff_t *first_fail)
- {
- 	pgoff_t indices[PAGEVEC_SIZE];
- 	struct folio_batch fbatch;
-@@ -504,6 +506,7 @@ unsigned long mapping_try_invalidate(struct address_space *mapping,
- 	unsigned long count = 0;
- 	int i;
- 	bool xa_has_values = false;
-+	bool has_failed = false;
- 
- 	folio_batch_init(&fbatch);
- 	while (find_lock_entries(mapping, &index, end, &fbatch, indices)) {
-@@ -529,6 +532,9 @@ unsigned long mapping_try_invalidate(struct address_space *mapping,
- 				/* Likely in the lru cache of a remote CPU */
- 				if (nr_failed)
- 					(*nr_failed)++;
-+				if (!has_failed && first_fail)
-+					*first_fail = folio_pgoff(folio);
-+				has_failed = true;
- 			}
- 			count += ret;
- 		}
-@@ -560,7 +566,7 @@ unsigned long mapping_try_invalidate(struct address_space *mapping,
- unsigned long invalidate_mapping_pages(struct address_space *mapping,
- 		pgoff_t start, pgoff_t end)
- {
--	return mapping_try_invalidate(mapping, start, end, NULL);
-+	return mapping_try_invalidate(mapping, start, end, NULL, NULL);
- }
- EXPORT_SYMBOL(invalidate_mapping_pages);
- 
-@@ -864,3 +870,56 @@ void truncate_pagecache_range(struct inode *inode, loff_t lstart, loff_t lend)
- 	truncate_inode_pages_range(mapping, lstart, lend);
- }
- EXPORT_SYMBOL(truncate_pagecache_range);
-+
-+int filemap_truncate_thps(struct inode *inode)
-+{
-+	struct address_space *mapping = inode->i_mapping;
-+	pgoff_t start_index = 0, first_fail;
-+	unsigned long nr_failed = 0;
-+	int err;
-+
-+	while (filemap_nr_thps(mapping)) {
-+		nr_failed = 0;
-+		first_fail = 0;
-+		filemap_invalidate_lock(mapping);
-+		/*
-+		 * unmap_mapping_range just need to be called once
-+		 * here, because the private pages is not need to be
-+		 * unmapped mapping (e.g. data segment of dynamic
-+		 * shared libraries here).
-+		 */
-+		unmap_mapping_range(mapping, 0, 0, 0);
-+		lru_add_drain();
-+		mapping_try_invalidate(mapping, start_index, LLONG_MAX,
-+				       &nr_failed, &first_fail);
-+		filemap_invalidate_unlock(mapping);
-+		if (!nr_failed)
-+			break;
-+		/*
-+		 * The failures may be due to the folio being
-+		 * in the LRU cache of a remote CPU. Drain all
-+		 * caches, do writeback and try again.
-+		 */
-+		lru_add_drain_all();
-+		/*
-+		 * We now know that up to first_fail, there are no THPs. Start
-+		 * from there to ensure forward progress.
-+		 */
-+		start_index = first_fail;
-+
-+		/*
-+		 * Attempt to writeback. If it fails, it's ok to fail the open. There's not
-+		 * much we can do in that case.
-+		 */
-+		err = filemap_write_and_wait_range(mapping, start_index, LLONG_MAX);
-+		if (err)
-+			return err;
-+	}
-+
-+	/*
-+	 * It should not be possible to hit this case after the above loop
-+	 * completes.
-+	 */
-+	WARN_ON_ONCE(filemap_nr_thps(mapping));
-+	return 0;
-+}
--- 
-2.55.0
-
-
---sgcbtvevrg4dwu7g--
