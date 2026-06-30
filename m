@@ -1,403 +1,309 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010058.outbound.protection.outlook.com [52.101.46.58])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9804643C06F
-	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 14:44:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782830661; cv=none; b=haRxx+583MyWegR7ubpw9vZ3jR3OnbmdZytrUx+2KqFlCGeuLLxF+DurcPYIa5XTxpSfAv2PfvbYs6tnTvSxvTVmtpvuz6i8N8mejvz7nkntjMVq+G7M3/jtcZz+FLXsAyes2OqvcABScymUVE2Gx9vDDGI47iyDJM0xn2AzEQY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782830661; c=relaxed/simple;
-	bh=XXz9zIlxLSQo0paP0etE8KuL1q6rijNhQ63/Xuy55ZY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=g+iqm+F23WGIy+uw1iLUuIKDWfmT0g2lO4Ex4jvx+n/ncPt2u4YkTXcOdfUzg5uMae86lqYZir1PlCzxmZdUv3xK9/faMfFGsxs7tIgcdHzAQAhvHlcMLL3fzgop7JAnW61DeWbpOxgGakH0K9x67Y896YUecJZDiQntkcHgyEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=heCHQFFB; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 911E231D372;
+	Tue, 30 Jun 2026 15:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.58
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782832210; cv=fail; b=ZXgqJgYSF0et949ZlthOU4L7t96Hce2B4VvbMip878r4F0vmXjTEFo50ousj8jAq6US6RFjgFAI9p3ob1dh7H3RKd0MtyhzJ3ZvBavR52Pglq9mwSILahDmcYyjT3zxgoCWb0EgodLA7tkONDh1b5qS8v0Kqjg2W7TEtddxfAhk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782832210; c=relaxed/simple;
+	bh=YjhMD/X8efnDY2WF7veY95gMjgkKm0MmsYu8IKrkECY=;
+	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
+	 In-Reply-To:MIME-Version; b=HPtFkKmZ34EdoVknEd1IprRPW0e8AdITJx+I/Kswp9oU/dwvbYozaMjmi0aRtdL99Kz6nEtnaAI2oGjlM/7me8W9+g5Qxkh6KzPz+GJqS7D+xLMELhBUroKuyRuFCldPEZizLggKx0O8RX2LBbCyiY6+iHwe6lYjX76vLUbuNf8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=sYufEBUR; arc=fail smtp.client-ip=52.101.46.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="heCHQFFB"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-80bb578d58bso41163587b3.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 07:44:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1782830659; x=1783435459; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=fbYdcKvuEZ/LzI7dRcuhRizhiFPHz8tZa6tHHK273sE=;
-        b=heCHQFFBsMoGB2GXi6w5cBaCS9tGcu3vQg93iBikaEBbXhx1iPPxpVLVtPWgS+rANZ
-         sNEafFSrQs6/ndPdCilWmhJFmD4/U8+fWXzPuy5GGbzQKE4mwPMVmoaHTxX6P1mjiIjk
-         BlHr6YFWJZpB9rZ/3gohy8eySxTIXIg5Evv087yEm70K8q8/jDfPsVNpI5M832zAgI0F
-         Pebs8BpQMgWo8th3cbjMcmly+cLbQ0/j3M6TPAig5Stwv9EZ3oTUrSgvgIQ2mvsjO4Bi
-         CIemsT/SXcQAUhZrWX9zQu1V2+ace3uSmpQ07h3qzzMxJSVeLZuW4UAshcl5IwMsAqhb
-         g7OA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782830659; x=1783435459;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fbYdcKvuEZ/LzI7dRcuhRizhiFPHz8tZa6tHHK273sE=;
-        b=hkuCKolQQ3KSoUmBo+NdH3KrIDvJv6irROde2LGOZvk0SXP56850vNrpblgd6SbkXS
-         X4wiWaC7DVwGw138SYKKjJahwNX8m6Z7HK6lVRM5kBz5PP5i5e6oiyspt4dToGw43eJq
-         n5aJMA4r0dSmX5cdBW60Znpwv81UqceQMc6cSx4am7MO3mR4LNUsQOdbhSiW9GLh6l5r
-         MPgVugyYe559JnPQlYh/+j5JcK7IuPwEFxrHP3Gxd4DBVmBenuZ8/dc8wcNZsFVk/83g
-         0qOADiAiiKJThVL5zxUWnr8frcYi7c3aMFBAnJraFDKt2dXQnrwfTCM0GeuDCjWLr+MX
-         lHJQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpMPwdu90CvUYjj6iJAPrIH+gep8kl01j6aZy189MXDpP43LL3I3tIxN97BPBAoSUZXfURziJENBmHH3qp0@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2nsQRfv3ZlWsLwionmWPD6wD4PGnhjKriU0mej8AajxfFKFaI
-	LsAVeZ40CbCYUw5bbjdfjiaYHuYoAxCJ1QX54yJ1eGPp5VzZLBRkccElUdSuYyUialQ=
-X-Gm-Gg: AfdE7ckJ+XxEi0gGB4kOm82HJjyA4x2j3k1cHZnC1NwDkMWpOAY77EApaOPvrvhyRoA
-	wXuE3TOtoZ7eawdJHE4CL81F4aoe5eTCnMjtqp87c9n4DCFgYZ5K89Kh21+1vp3k6us6fve7gxY
-	toL+ldsuCLuA7P64qRdEKSVhnJmnLKgGsVc9xyXIh3cWKxS6hrYTiVBwYDCWL20BNARh27mRBOU
-	8jIitCqqBFuIaGjeaPDjys7UK8h3trEYXZUL9GHfGEoqa4kblxMuQHfLZzwjbSPHmq+tXWavtTP
-	mndZWSZICizx7YoiIBdGG5iEmUQwk5rnS41GJuJBsPtH82nm4pVXOTtlJzM8UCi8o1FVfGJTJVb
-	GwZYsTsR1NlzPStj0oquX9jofelMeimkVpGz6Za0puBqH8zs6IYgPFoZ4GJEEgQSkYjnvT1Dup1
-	pI9zVXbHsKWRGIWWyhRWROU0zlX698k87DIMOMHM9eLPSNadCXdCEoItg2npT/j5t04ox3jhkSI
-	LiWQY2PW75Sj1m64SmuQRSh3sO7RhoSR2MrftWovg6rnFJqI442c76H7XvIL796dYCls4VTK5Sc
-	+QUPHEM=
-X-Received: by 2002:a05:690c:7341:b0:80c:cad:c4e4 with SMTP id 00721157ae682-810d89e8be1mr41270987b3.28.1782830658424;
-        Tue, 30 Jun 2026 07:44:18 -0700 (PDT)
-Received: from [10.0.0.3] (162-197-212-70.lightspeed.sntcca.sbcglobal.net. [162.197.212.70])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-810e7a722ddsm11617317b3.18.2026.06.30.07.44.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 07:44:17 -0700 (PDT)
-Message-ID: <f43b31b0e988e06b724dcd9f2c1278d58c2ec6f9.camel@dubeyko.com>
-Subject: Re: [PATCH v2] hfs: validate corrupt catalog and btree metadata
- before hfs_write_inode()
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: David Maximiliano Hermitte <davemadmaxxx@gmail.com>, Jori Koolstra
-	 <jkoolstra@xs4all.nl>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li
-	 <frank.li@vivo.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
-Date: Tue, 30 Jun 2026 07:44:16 -0700
-In-Reply-To: <20260624135412.7208-1-davemadmaxxx@gmail.com>
-References: <20260624135412.7208-1-davemadmaxxx@gmail.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="sYufEBUR"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iP9bh3XjRxU1vdlXRbKMD9i06YGwBrYWhLC8ZCTV/WkM3VAhnzc5VXTsgcVfa59tzuEyXufQfLBrlJKiRzgF/yOjW8QSyap1KYTsv6X/9jTpqkDcs+x1a3tOYy0ZIStDKMshqlM1vJi029XJbUiKc48uE/m5662u3UilBE7+J2RyDcy4srddMjI8noIEHc05g6nN/2ASZD39txL68ct12mvqc7+TpCwu2MDDO/yoJvjN8nMmnZowIWxSn1aoj0khN9xEn6GoTyemMyA16ZgVJPLeOFrJmH79DlbOapFbeb09g4wDan7Waxz0gM8+UBQp04G7S3uB9PIRmvzmoXXymw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eoxaXJsILjU7jh80C1WkESw+OFwhH8/Tpv2coL+xT8E=;
+ b=YB/F4pZtNrmkPxw/tRPV1REk1I6y0wRs718Griep8Kyxe585eDh6kesp8bgDAgYNBGMIfGcqISmU/xE5JxZ5R5KwxDaZKCU2L0qmWvamXAtOvW0GklCY8XWsQhWlJuKUjthre+gkP0Wsmt1l5YYOB6KOtu4z6DWSi7S2X9XOjEWxmcRaOL4TZLC4yPN3sp9WhD+p4djOfBYAlYezBAnFdx1rPDEzdTGlXgAteodFOzB+qtY4XMbZfFj22I//R+N2lXr4NypSA8TnnMx8EStIjUnIepSzJLmZsjKmEqo3+D0ol6hKCPMHtKj4rDvElyDko4hKvCYKvu+MlVjhhn7Qpg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eoxaXJsILjU7jh80C1WkESw+OFwhH8/Tpv2coL+xT8E=;
+ b=sYufEBURKFZymRK3+8C4mnt8zdWAPa4JwHgBQzD6jaNAGXgnqmy9elZ8lxdkAc6nQUok6vtduK+y0ZVX+QIwCqS4wvRlA+u54bK9NterRLTqMgfweHu+1++dfN22QgUW+X1LwdBD/QjdfV4H0tNh2MvtDBKFVWzk7OY+zAkLheua3ZMRtG4uIlhz79dY6S92UEplqahT9ysOrmyeQUi6uporvMJo+4DiWFp8sQt1fAHXbhzC6oIA+AabSfcBIuCtFNSrNlHkLjksnu4FtXtqJAEgAwC2P0hEBB8CtYvrYsLLo4G+uPkRI8x47I2MJiO05NAT31IoiTgT4085ko4srg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by SN7PR12MB7202.namprd12.prod.outlook.com (2603:10b6:806:2a9::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Tue, 30 Jun
+ 2026 15:09:59 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0181.008; Tue, 30 Jun 2026
+ 15:09:58 +0000
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 30 Jun 2026 11:09:56 -0400
+Message-Id: <DJMH9O7CWAWX.5E207D1UQL27@nvidia.com>
+Subject: Re: [PATCH 01/13] mm: introduce vma_flags_can_grow() and
+ vma_can_grow()
+Cc: "Andrew Morton" <akpm@linux-foundation.org>, "Thomas Bogendoerfer"
+ <tsbogend@alpha.franken.de>, "Madhavan Srinivasan" <maddy@linux.ibm.com>,
+ "Michael Ellerman" <mpe@ellerman.id.au>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Lucas Stach"
+ <l.stach@pengutronix.de>, "Inki Dae" <inki.dae@samsung.com>, "Seung-Woo
+ Kim" <sw0312.kim@samsung.com>, "Kyungmin Park" <kyungmin.park@samsung.com>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>, "Peter Griffin"
+ <peter.griffin@linaro.org>, "Jani Nikula" <jani.nikula@linux.intel.com>,
+ "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi"
+ <rodrigo.vivi@intel.com>, "Tvrtko Ursulin" <tursulin@ursulin.net>, "Rob
+ Clark" <robin.clark@oss.qualcomm.com>, "Dmitry Baryshkov"
+ <lumag@kernel.org>, "Lyude Paul" <lyude@redhat.com>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>,
+ "Sandy Huang" <hjc@rock-chips.com>, =?utf-8?q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, "Andy Yan" <andy.yan@rock-chips.com>, "Thierry Reding"
+ <thierry.reding@kernel.org>, "Mikko Perttunen" <mperttunen@nvidia.com>,
+ "Jonathan Hunter" <jonathanh@nvidia.com>, "Gerd Hoffmann"
+ <kraxel@redhat.com>, "Dmitry Osipenko" <dmitry.osipenko@collabora.com>,
+ "Zack Rusin" <zack.rusin@broadcom.com>, "Matthew Brost"
+ <matthew.brost@intel.com>, "Thomas Hellstrom"
+ <thomas.hellstrom@linux.intel.com>, "Oleksandr Andrushchenko"
+ <oleksandr_andrushchenko@epam.com>, "Helge Deller" <deller@gmx.de>,
+ "Benjamin LaHaise" <bcrl@kvack.org>, "Alexander Viro"
+ <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
+ "Muchun Song" <muchun.song@linux.dev>, "Oscar Salvador"
+ <osalvador@suse.de>, "David Hildenbrand" <david@kernel.org>, "Baolin Wang"
+ <baolin.wang@linux.alibaba.com>, "Liam R . Howlett" <liam@infradead.org>,
+ "Nico Pache" <npache@redhat.com>, "Ryan Roberts" <ryan.roberts@arm.com>,
+ "Dev Jain" <dev.jain@arm.com>, "Barry Song" <baohua@kernel.org>, "Lance
+ Yang" <lance.yang@linux.dev>, "Hugh Dickins" <hughd@google.com>, "Vlastimil
+ Babka" <vbabka@kernel.org>, "Mike Rapoport" <rppt@kernel.org>, "Suren
+ Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Jann
+ Horn" <jannh@google.com>, "Pedro Falcato" <pfalcato@suse.de>, "Kees Cook"
+ <kees@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
+ <tiwai@suse.com>, <linux-mips@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
+ <dri-devel@lists.freedesktop.org>, <etnaviv@lists.freedesktop.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-samsung-soc@vger.kernel.org>, <intel-gfx@lists.freedesktop.org>,
+ <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
+ <nouveau@lists.freedesktop.org>, <linux-rockchip@lists.infradead.org>,
+ <linux-tegra@vger.kernel.org>, <virtualization@lists.linux.dev>,
+ <intel-xe@lists.freedesktop.org>, <xen-devel@lists.xenproject.org>,
+ <linux-fbdev@vger.kernel.org>, <linux-aio@kvack.org>,
+ <linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-sound@vger.kernel.org>
+To: "Lorenzo Stoakes" <ljs@kernel.org>
+From: "Zi Yan" <ziy@nvidia.com>
+X-Mailer: aerc 0.21.0
+References: <cover.1782760670.git.ljs@kernel.org>
+ <f2e8c32515d328db62279cc8bab8398ea278d74f.1782760670.git.ljs@kernel.org>
+ <DJLTDCPWMXDL.4ICZ77A1LPZZ@nvidia.com> <akNucoP3eaDN2_Vz@lucifer>
+In-Reply-To: <akNucoP3eaDN2_Vz@lucifer>
+X-ClientProxiedBy: BL1PR13CA0239.namprd13.prod.outlook.com
+ (2603:10b6:208:2bf::34) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|SN7PR12MB7202:EE_
+X-MS-Office365-Filtering-Correlation-Id: 25ba0c9a-ab30-4465-4f4d-08ded6b9a6a4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|23010399003|6133799003|22082099003|18002099003|4143699003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	oJiFFAY1O1XOi+MaYZztPsDKyPeuL2ihjhq2EovLixzr8+9G5MQL5kZqvqPRN0HTISwWv2Cb+KyDnchA0tkycwebBRXF4SBNmXVvHZ0jXLk4OiWdJaf9/EqEmhs6gpXEIS0LAjp2GsPd3fEeUi812PL+ggQIntyQyokgEO/5TFpebHEIqHyJMyk39tanhjyagdmoPex1u6MXuTRvfNESuBPqeVRarXswd2hEnFVKPk2SiYf5NsKV1k1aBPfNPMFiyPZxnXM5D8M92yWYQph8JN+iaX6jXvbv1a52zIJpAM5qz4672oNMMSqBwWVTbND1wEALjZXUQLF1wANHnR4DsZOnhY+9VnBKtbBmFlUrMNiEjfDic8NnBYkHrurUSZd9/s12NOqF/YhxdqW/n6kwFaMcujtq66Ucdc7vVPhAOwU6v5HDNHIpq5pcL0HrFpzpr3aCjRsAg9FB7YcawGOKaPoADuEjuQjBuo1tPTNpJra02DlFZ1hIUwdufJGFb8SDisVWGl+5RWvRh+HNKjp3A3ewX7wY+NtpJWhWkZ1z+dv8T+26iwmI1XvmgtAXB1hvcxeENaiy4E5QEHtZC9z1p6IwK3kWI2OCK409mSJNVN+uhth7xocnZ5yRCNqgV/aJ25ot3ruVYXNujVj8nPPzb61lwV+1fEzmNDLto35Db+Q=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(23010399003)(6133799003)(22082099003)(18002099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?aXM0WCtReWtGUVBJTWR6TmdrK1BDRTE0Q0UxbVQrN0YxTWJVV0JtRjJQVENl?=
+ =?utf-8?B?dGZja3VaWW1OWkZmMEgwZkFDWGJ4L1BvRkQyWVl2MWtaWkI3aU5PYUIzcjZt?=
+ =?utf-8?B?L2RGaGlkWW1uTVVLVVJtM0tMUGdPUHpEU3V4TWc3N2xEeUp5d3hNOHdmSng1?=
+ =?utf-8?B?VGt3UEFSU2ZVY1M3ODRvS2ZvT2hxUjMwVmNiejI2SW5UZzQ3UnQraTJRalVP?=
+ =?utf-8?B?OWc0NHVmOXlLdmlwUWlMTGlhUHliVkpPSFY0T3dtUElyMWgzdE5zSVhrKzNu?=
+ =?utf-8?B?OEViV0FUQ2JWTmZQcG1IV0xROWpUOVg3ZU1RVnJYMVNBd2xjMG9kTTlwWWg2?=
+ =?utf-8?B?M2FxcjFjU3pILytIUk05NnBhYXdtU1AyWFBvY0tGR3NHWDF5MkZGNHVRNzhz?=
+ =?utf-8?B?VW5GSnlxeDF2SUxCNTVxeEdYOUxVTXNVZEdqYjd5MHlUV1ljNDlwYU91Z0gw?=
+ =?utf-8?B?OHhjMFI2a2ZhYlZ5Y0IzK0RoS1BTQ0hITUVVbThwK1duaTNMSWdOdkFSVm9L?=
+ =?utf-8?B?MWZSbmxQQ0FoSlZsSVhXZGsyNFBpTU9YUDhQWWk4TCtTL0s3ZDdWWXR1emN5?=
+ =?utf-8?B?V2lnNml3dFdTaENOZjV6SjRxSjZobEpkVE9nNktPWEFjL0d0UURhaGpOVERM?=
+ =?utf-8?B?V3hRWm9jZ2xvNDUyZlhFSUh6V2RaODhZTVdUeXBhL1gxdGJqT215UXFpZWdn?=
+ =?utf-8?B?VFlGdzhkTG9Td2xsbjdBTnRPTnhXWC90TVNHZzM4L29QRitRUFhQNkZVYStN?=
+ =?utf-8?B?d3hkMjQwMnU4NXZvSDkwRUZwa01ueVZsNGxrL3NwTkdWR2hhL1lXdVZmcmhC?=
+ =?utf-8?B?TkUxYklISzFmRTcxNzZ3VjkwcEJWQjlpblplazdNSzdRVXE5RnZCN013OUJy?=
+ =?utf-8?B?UnF1V1o2SE1mZzBmaHhyc3VYWDF1aE1NaGM5WjJjNENreXRPTUxLM1VEV01N?=
+ =?utf-8?B?V3NpdVl4VTkzU05wRWdGdkRldnhqcDV4WFUyNFNPZ2NOdVV6NnpZd09sSWh5?=
+ =?utf-8?B?UTdySHp1OStGQjZwNG9MVm03VklkRi9IMWVOR1NONjRTSWhySUdldm93WjFT?=
+ =?utf-8?B?d1RqT2lQQWlkaDRHQmxxOS9Ob3MrUU5wL0pRdVlGYzV2RGJQK0tvV1RMQWl6?=
+ =?utf-8?B?dW8rM0RjUGg2MHZablA3aklscm9kMnhudlVKK3BTSmU2QlR2NzFFL0xUd054?=
+ =?utf-8?B?NXNuVmhISXdxeFM3OU8yaGhtaUtjVkVTZTd1OWtvSWV3OG83d2VQdXplL0dF?=
+ =?utf-8?B?OHg1bm90UlpIWVd4WkNFN3FtNEJmRTlvbUIza3FiaEE5UU9NNTFYZjNGcE9r?=
+ =?utf-8?B?bzQ3L1RUSnNocTZCNDU4NDVXdFJ5UVU0NzhPWEZpY2xQWm9HcXlFeFNyb1d0?=
+ =?utf-8?B?UTYxMFQ2dms0cWtTRkp2bWVqQnZqWkIwOHdHSStlL0dNNEpRRzJWd2RVSzNn?=
+ =?utf-8?B?WGg0TWVaS2FBUHp3QmtYZFlLSUtRQkVBRUl5SThoSXhtUEpaSThqNUl5ZVZz?=
+ =?utf-8?B?YW5PUjNpR2dkbjZSTHFtN3JEU1FPa2pqRi9xRWRuYUVGUXBzNmpvREx6VDdJ?=
+ =?utf-8?B?WDFqdU1GSUVTN0pYUU1GOG14TjhEQ2xLMXdLaHl5VG42bmZ1eEIyQk5hN0Ra?=
+ =?utf-8?B?Z1BsTWRxYkVsTG96V3BXb3lTblRoZUJFOEkxV1lmQzhWVDBpZGxNeTBTM1Fi?=
+ =?utf-8?B?L1J5R2k0elllRzBaU3I4T1F0UGFqQ1lrbUsrMG9naEtXNStqeHp2UnEvSEV5?=
+ =?utf-8?B?Q2J3dkp1ZjJiUWhBWHdZSnloT2E5Z0RkYWg2V0c2Q0FHVzZXaENkMkIxWXZn?=
+ =?utf-8?B?RTd2R1ZxaVNrRUZ1dGhNVUU0anpkM0tGbDI2ZFFaUDNScHY0WXFUOCs4L1Uz?=
+ =?utf-8?B?K2NqeFdZdTc1QTBFQkNseCsvbWtGd1dtdWo3QXZBcWVMVEcxNmcyUnh5N1lB?=
+ =?utf-8?B?Z2h6ampNeU1adXNsYjVNYUV2VVpHTnV0RG9OSzA2ZDJEQ0JDelJ6dWlZdmt0?=
+ =?utf-8?B?WS93OERIYXdibnErL1NuRFF5MTcwVHVGRDg3bklLbitxUnVYNkxRaklkdGpi?=
+ =?utf-8?B?SzdockgxNGZPYmtHMEttblVTblVzY3l1Q3lZRmYwTHFXTjhRZDVzMzl6cXl5?=
+ =?utf-8?B?Ukk4RzNYZ1lXZW04VC9JV1pDTWNUT2Z5WVpCOCtDeDRHdlJWaFhaQTlDZHpH?=
+ =?utf-8?B?ZWxJck5FQVJOTUZhdnJhNldMVnk3UVlkYUdnaTZteXd1Ri8vZjNodExPZkcz?=
+ =?utf-8?B?VEx0T0FMNGxpWGRoVmxJRnF6N1QrY2xKRWU5Y0FuRGJ2NjVrQW5wUTJicTg1?=
+ =?utf-8?Q?VXmBPftHdX8EVsIops?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 25ba0c9a-ab30-4465-4f4d-08ded6b9a6a4
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2026 15:09:58.7994
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JnAYTkFnPevWfBepW6Rd8YtqtMSRQbCTBTdlMJEJeNmkdtpxg3jlpUgR9RhMt7p8
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7202
 
-On Wed, 2026-06-24 at 13:54 +0000, David Maximiliano Hermitte wrote:
-> Hello Slava, Jori, all,
->=20
-> I am following up with a refined test patch for the same HFS syzbot
-> reproducer.
->=20
-> This variant does not change hfs_write_inode(), hfs_test_inode(), or
-> the BUG() site. It rejects corrupted catalog/B-tree metadata earlier:
->=20
-> - hfs_brec_read(): rejects invalid entry offset/length, caches
-> node_size locally, and uses overflow-safe bounds arithmetic.
-> - hfs_read_inode(): rejects invalid file/directory CNIDs before
-> writeback.
->=20
-> Local validation on commit 840ef6c78e6a:
->=20
-> - git diff --check: pass
-> - checkpatch.pl --strict: 0 errors, 0 warnings
-> - make -j2 fs/hfs/: pass
-> - bzImage built
-> - QEMU/TCG with the same public syzbot ReproC:
-> =C2=A0 - BEFORE: repro_started=3Dtrue, kernel_bug_seen=3Dtrue
-> =C2=A0 - AFTER: repro_started=3Dtrue, repro_done=3Dtrue,
-> kernel_bug_seen=3Dfalse, hfs_write_inode_seen=3Dfalse, kasan_seen=3Dfalse=
-,
-> oops_seen=3Dfalse
-> =C2=A0 - verdict=3DREPRO_RAN_NO_BUG_SEEN
->=20
-> I have prepared this refined variant because the hfs_brec_read()
-> bounds check now validates entryoffset before computing node_size -
-> entryoffset, caches node_size locally, and rejects entryoffset >=3D
-> node_size explicitly. I am including it inline because it avoids
-> potential integer overflow in the bounds check while preserving the
-> same QEMU validation result.
->=20
-> I am sending it as a test patch / direction check, not as a final
-> maintainer-ready fix. The point is that validating corrupt catalog/B-
-> tree metadata before hfs_write_inode() prevents this reproducer from
-> reaching the BUG() endpoint.
->=20
-> I would appreciate your opinion on whether this placement/direction
-> is closer to the expected HFS fix.
->=20
-> Best regards,
-> David
->=20
-> Patch follows:
->=20
-> diff --git a/fs/hfs/bfind.c b/fs/hfs/bfind.c
-> index d56e47bdc517..e48a7110e342 100644
-> --- a/fs/hfs/bfind.c
-> +++ b/fs/hfs/bfind.c
-> @@ -170,12 +170,20 @@ int hfs_brec_find(struct hfs_find_data *fd)
-> =C2=A0int hfs_brec_read(struct hfs_find_data *fd, void *rec, u32 rec_len)
-> =C2=A0{
-> =C2=A0	int res;
-> +	u32 node_size;
-> =C2=A0
-> =C2=A0	res =3D hfs_brec_find(fd);
-> =C2=A0	if (res)
-> =C2=A0		return res;
-> +	node_size =3D fd->bnode->tree->node_size;
+On Tue Jun 30, 2026 at 3:38 AM EDT, Lorenzo Stoakes wrote:
+> On Mon, Jun 29, 2026 at 04:26:18PM -0400, Zi Yan wrote:
+>> On Mon Jun 29, 2026 at 3:25 PM EDT, Lorenzo Stoakes wrote:
+>> > These test whether the VMA has stack sematics, i.e. is able to grow up=
+wards
+>> > or downwards depending on the architecture.
+>> >
+>> > In order to account for arches which do not support upward-growing sta=
+cks,
+>> > introduce VMA_GROWSUP whose definition depends on the architecture
+>> > supporting it, and use vma_flags_test_single_mask() in vma_flags_can_g=
+row()
+>> > to account for this.
+>> >
+>> > Update the VMA userland tests to reflect the changes
+>> >
+>> > No functional change intended.
+>> >
+>> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+>> > ---
+>> >  include/linux/mm.h              | 21 ++++++++++++++++++---
+>> >  tools/testing/vma/include/dup.h |  4 ++++
+>> >  2 files changed, 22 insertions(+), 3 deletions(-)
+>> >
+>> > diff --git a/include/linux/mm.h b/include/linux/mm.h
+>> > index 868b2334bff3..cf7df1569052 100644
+>> > --- a/include/linux/mm.h
+>> > +++ b/include/linux/mm.h
+>> > @@ -472,6 +472,7 @@ enum {
+>> >  #define VM_SAO		INIT_VM_FLAG(SAO)
+>> >  #elif defined(CONFIG_PARISC)
+>> >  #define VM_GROWSUP	INIT_VM_FLAG(GROWSUP)
+>> > +#define VMA_GROWSUP	mk_vma_flags(VMA_GROWSUP_BIT)
+>> >  #elif defined(CONFIG_SPARC64)
+>> >  #define VM_SPARC_ADI	INIT_VM_FLAG(SPARC_ADI)
+>> >  #define VM_ARCH_CLEAR	INIT_VM_FLAG(ARCH_CLEAR)
+>> > @@ -483,6 +484,7 @@ enum {
+>> >  #endif
+>> >  #ifndef VM_GROWSUP
+>> >  #define VM_GROWSUP	VM_NONE
+>> > +#define VMA_GROWSUP	EMPTY_VMA_FLAGS
+>> >  #endif
+>> >  #ifdef CONFIG_ARM64_MTE
+>> >  #define VM_MTE		INIT_VM_FLAG(MTE)
+>> > @@ -1563,11 +1565,24 @@ static inline bool vma_is_initial_stack(const =
+struct vm_area_struct *vma)
+>> >  		vma->vm_end >=3D vma->vm_mm->start_stack;
+>> >  }
+>> >
+>> > -static inline bool vma_is_temporary_stack(const struct vm_area_struct=
+ *vma)
+>> > +static inline bool vma_flags_can_grow(const vma_flags_t *flags)
+>> >  {
+>> > -	int maybe_stack =3D vma->vm_flags & (VM_GROWSDOWN | VM_GROWSUP);
+>> > +	if (vma_flags_test_single_mask(flags, VMA_GROWSUP))
+>> > +		return true;
+>> > +	if (vma_flags_test(flags, VMA_GROWSDOWN_BIT))
+>> > +		return true;
+>> > +
+>> > +	return false;
+>> > +}
+>> >
+>> > -	if (!maybe_stack)
+>> > +static inline bool vma_can_grow(const struct vm_area_struct *vma)
+>> > +{
+>> > +	return vma_flags_can_grow(&vma->flags);
+>>
+>> Would it save vma_flags_can_grow() if we do below?
+>>
+>> return vma_test(vma, VMA_GROWSDOWN_BIT) || vma_test_single_mask(vma, VMA=
+_GROWSUP);
+>>
+>> I find these two functions when I am reading mm.h.
+>
+> Yeah but we require vma_flags_can_grow() for code in mmap.c, the majority=
+ of
+> checks of this have only vma_flags_t to work with not a VMA :)
+>
 
-These multiple dereferences make me really nervous. As some pointer
-potentially could be NULL as node_size could be not valid.
+Got it. I think I need to finish this series. :)
 
-> +	if (fd->entryoffset < 0 || fd->entrylength <=3D 0)
-> +		return -EFSCORRUPTED;
-> +	if (fd->entryoffset >=3D node_size)
-> +		return -EFSCORRUPTED;
-> +	if (fd->entrylength > node_size - fd->entryoffset)
-> +		return -EFSCORRUPTED;
-> =C2=A0	if (fd->entrylength > rec_len)
-> -		return -EINVAL;
-> +		return -EFSCORRUPTED;
+>>
+>> > +}
+>> > +
+>> > +static inline bool vma_is_temporary_stack(const struct vm_area_struct=
+ *vma)
+>> > +{
+>> > +	if (!vma_can_grow(vma))
+>> >  		return false;
+>> >
+>> >  	if ((vma->vm_flags & VM_STACK_INCOMPLETE_SETUP) =3D=3D
+>> > diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/inclu=
+de/dup.h
+>> > index 5d7d0afd7765..6f5bcd7fbcd8 100644
+>> > --- a/tools/testing/vma/include/dup.h
+>> > +++ b/tools/testing/vma/include/dup.h
+>> > @@ -245,8 +245,10 @@ enum {
+>> >  #define VM_STACK	INIT_VM_FLAG(STACK)
+>> >  #ifdef CONFIG_STACK_GROWS_UP
+>> >  #define VM_STACK_EARLY	INIT_VM_FLAG(STACK_EARLY)
+>> > +#define VMA_STACK_EARLY mk_vma_flags(VMA_STACK_EARLY_BIT)
+>> >  #else
+>> >  #define VM_STACK_EARLY	VM_NONE
+>> > +#define VMA_STACK_EARLY EMPTY_VMA_FLAGS
+>> >  #endif
+>> >  #ifdef CONFIG_ARCH_HAS_PKEYS
+>> >  #define VM_PKEY_SHIFT ((__force int)VMA_HIGH_ARCH_0_BIT)
+>> > @@ -315,6 +317,8 @@ enum {
+>> >
+>> >  /* Bits set in the VMA until the stack is in its final location */
+>> >  #define VM_STACK_INCOMPLETE_SETUP (VM_RAND_READ | VM_SEQ_READ | VM_ST=
+ACK_EARLY)
+>> > +#define VMA_STACK_INCOMPLETE_SETUP append_vma_flags(		\
+>> > +	VMA_STACK_EARLY, VMA_RAND_READ_BIT, VMA_SEQ_READ_BIT)
+>> >
+>> >  #define TASK_EXEC_BIT ((current->personality & READ_IMPLIES_EXEC) ? \
+>> >  		       VM_EXEC_BIT : VM_READ_BIT)
+>>
+>> Why are VMA_STACK_EARLY and VMA_STACK_INCOMPLETE_SETUP added here but
+>> not in mm.h?
+>
+> Yeah urgh oops my bad. It doesn't really break anything but I'll fix it i=
+f a
+> respin is needed...
 
-These values are not records from the volume. So, these values could be
-wrong because of file system logic bugs but because the volume is
-corrupted. And, frankly speaking, I don't see connection between the
-issue that you are trying to solve and these checks.
+Sure.
 
-> =C2=A0	hfs_bnode_read(fd->bnode, rec, fd->entryoffset, fd-
-> >entrylength);
-> =C2=A0	return 0;
-> =C2=A0}
-> diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
-> index ac4a9055c5c0..7283b9541064 100644
-> --- a/fs/hfs/inode.c
-> +++ b/fs/hfs/inode.c
-> @@ -367,6 +367,9 @@ static int hfs_read_inode(struct inode *inode,
-> void *data)
-> =C2=A0	rec =3D idata->rec;
-> =C2=A0	switch (rec->type) {
-> =C2=A0	case HFS_CDR_FIL:
-> +		/* Reject corrupted user file CNIDs before
-> writeback. */
-> +		if (be32_to_cpu(rec->file.FlNum) <
-> HFS_FIRSTUSER_CNID)
-> +			return -EFSCORRUPTED;
-
-Please, see my explanation below.
-
-> =C2=A0		if (!HFS_IS_RSRC(inode)) {
-> =C2=A0			hfs_inode_read_fork(inode, rec->file.ExtRec,
-> rec->file.LgLen,
-> =C2=A0					=C2=A0=C2=A0=C2=A0 rec->file.PyLen,
-> be16_to_cpu(rec->file.ClpSize));
-> @@ -390,6 +393,10 @@ static int hfs_read_inode(struct inode *inode,
-> void *data)
-> =C2=A0		inode->i_mapping->a_ops =3D &hfs_aops;
-> =C2=A0		break;
-> =C2=A0	case HFS_CDR_DIR:
-> +		/* Only the root directory may use a reserved CNID
-> here. */
-> +		if (be32_to_cpu(rec->dir.DirID) < HFS_FIRSTUSER_CNID
-> &&
-> +		=C2=A0=C2=A0=C2=A0 be32_to_cpu(rec->dir.DirID) !=3D HFS_ROOT_CNID)
-> +			return -EFSCORRUPTED;
-
-Please, see my explanation below.
-
-> =C2=A0		inode->i_ino =3D be32_to_cpu(rec->dir.DirID);
-> =C2=A0		inode->i_size =3D be16_to_cpu(rec->dir.Val) + 2;
-> =C2=A0		HFS_I(inode)->fs_blocks =3D 0;
-
-If we have corrupted Catalog File, then, the root folder record could
-be corrupted too. So, first of all, we need to manage this case in
-hfs_fill_super() [1]. If something is going wrong, then hfs_iget() can
-return bad inode [2,3] or NULL [4]. So, hfs_fill_super() shoudl be
-ready to manage this situation and it should not mount volume with
-corrupted root folder.
-
-Also, we need to check the CNID validity:
-
-+/*
-+ * is_valid_cnid
-+ *
-+ * Validate the CNID of a catalog record
-+ */
-+static inline
-+bool is_valid_cnid(u32 cnid, u8 type)
-+{
-+	if (likely(cnid >=3D HFS_FIRSTUSER_CNID))
-+		return true;
-+
-+	switch (cnid) {
-+	case HFS_ROOT_CNID:
-+		return type =3D=3D HFS_CDR_DIR;
-+	case HFS_EXT_CNID:
-+	case HFS_CAT_CNID:
-+		return type =3D=3D HFS_CDR_FIL;
-+	case HFS_POR_CNID:
-+		/* No valid record with this CNID */
-+		break;
-+	case HFS_BAD_CNID:
-+	case HFS_EXCH_CNID:
-+		/* Not implemented */
-+		break;
-+	default:
-+		/* Invalid reserved CNID */
-+		break;
-+	}
-+
-+	return false;
-+}
-
-And hfs_read_inode() should execute this check:
-
- /*
-  * hfs_read_inode
-  */
-@@ -350,6 +382,8 @@ static int hfs_read_inode(struct inode *inode, void
-*data)
- 	rec =3D idata->rec;
- 	switch (rec->type) {
- 	case HFS_CDR_FIL:
-+		if (!is_valid_cnid(rec->file.FlNum, HFS_CDR_FIL))
-+			goto make_bad_inode;
- 		if (!HFS_IS_RSRC(inode)) {
- 			hfs_inode_read_fork(inode, rec->file.ExtRec,
-rec->file.LgLen,
- 					    rec->file.PyLen,
-be16_to_cpu(rec->file.ClpSize));
-@@ -371,6 +405,8 @@ static int hfs_read_inode(struct inode *inode, void
-*data)
- 		inode->i_mapping->a_ops =3D &hfs_aops;
- 		break;
- 	case HFS_CDR_DIR:
-+		if (!is_valid_cnid(rec->dir.DirID, HFS_CDR_DIR))
-+			goto make_bad_inode;
- 		inode->i_ino =3D be32_to_cpu(rec->dir.DirID);
- 		inode->i_size =3D be16_to_cpu(rec->dir.Val) + 2;
- 		HFS_I(inode)->fs_blocks =3D 0;
-@@ -380,8 +416,12 @@ static int hfs_read_inode(struct inode *inode,
-void *data)
- 		inode->i_op =3D &hfs_dir_inode_operations;
- 		inode->i_fop =3D &hfs_dir_operations;
- 		break;
-+	make_bad_inode:
-+		pr_warn("rejected cnid %lu. Volume is probably
-corrupted, try performing fsck.\n", inode->i_ino);
-+		fallthrough;
- 	default:
- 		make_bad_inode(inode);
-+		break;
- 	}
- 	return 0;
- }
-
-Potentially, hfs_write_inode() could employ this check too:
-
-@@ -441,20 +481,19 @@ int hfs_write_inode(struct inode *inode, struct
-writeback_control *wbc)
- 	if (res)
- 		return res;
-=20
--	if (inode->i_ino < HFS_FIRSTUSER_CNID) {
--		switch (inode->i_ino) {
--		case HFS_ROOT_CNID:
--			break;
--		case HFS_EXT_CNID:
--			hfs_btree_write(HFS_SB(inode->i_sb)-
->ext_tree);
--			return 0;
--		case HFS_CAT_CNID:
--			hfs_btree_write(HFS_SB(inode->i_sb)-
->cat_tree);
--			return 0;
--		default:
--			BUG();
--			return -EIO;
--		}
-+	if (!is_valid_cnid(inode->i_ino,
-+			   S_ISDIR(inode->i_mode) ? HFS_CDR_DIR :
-HFS_CDR_FIL))
-+		BUG();
-+
-+	switch (inode->i_ino) {
-+	case HFS_EXT_CNID:
-+		hfs_btree_write(HFS_SB(inode->i_sb)->ext_tree);
-+		return 0;
-+	case HFS_CAT_CNID:
-+		hfs_btree_write(HFS_SB(inode->i_sb)->cat_tree);
-+		return 0;
-+	default:
-+		break;
- 	}
-
-The most tricky part is to check the CNID in file or folder record.
-File and folder records always have a key that contains a non-empty
-nodeName. The key for a thread record is the file's or folder's CNID
-(not the CNID of the parent folder) and an empty (zero length)
-nodeName. This allows a file or folder to by found using just the CNID.
-The thread record contains the parentID and nodeName field of the file
-or folder itself. Finding a file or folder by its CNID is a two-step
-process. The first step is to use the CNID to look up the thread record
-for the file or folder. This yields the file or folder's parent folder
-ID and name. The second step is to use that information to look up the
-real file or folder record.
-
-So, the key of thread record could contain the valid CNID but the found
-file or folder record could contain corrupted CNID value. So, my vision
-is that hfs_cat_find_brec() needs to check that found record contains
-valid CNID value.
-
-Thanks,
-Slava.=20
-
-[1] https://elixir.bootlin.com/linux/v7.1/source/fs/hfs/super.c#L370
-[2] https://elixir.bootlin.com/linux/v7.1/source/fs/hfs/inode.c#L433
-[3] https://elixir.bootlin.com/linux/v7.1/source/fs/hfs/inode.c#L403
-[4] https://elixir.bootlin.com/linux/v7.1/source/fs/hfs/inode.c#L431
-
+--=20
+Best Regards,
+Yan, Zi
 
