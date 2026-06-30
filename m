@@ -1,129 +1,224 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CAF53A8745
-	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 18:46:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782845212; cv=pass; b=PWTXNTzDtDUkTclyOsmBJ+OtdsJkmW+g+I6Ax7o2g5+tvpzPhbv6yJ4g0OS386zv8b2wDnyDv7tq7Fhw4UNTkwLwr0/m/I1XD9m65cmpHmSCVwGUsKqjmJrfzzkp9qjTfHzvminIl29rX2sScBKNuIucRFqzOrfJSrfhAWJlYng=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782845212; c=relaxed/simple;
-	bh=/mr0mxcymU+YTx8PbSVH8xKSeGb4CtbjDq3BsjMlcFI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oagPiu/M8JJzhHGRma+PV2v45T1fNxXfnq6PXyf8AACB0pzum4dwzFPP5oZDsNDk49Nnx/kAjUNjukI3CWDyw2kOk4OkfP9yPQaCitOrusikFsfaB9zKEZ4P0ixR7V0L8D/ZiHIjpYimoyQFo198NMemIu0uYzcJyiweryqTvzo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EQSgW7XY; arc=pass smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2A83E3D96
+	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 18:49:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782845360; cv=none; b=Mq/Do0GU2YC/znsFTjoLgKm+eDUX1uLTkw8/44EZMpcnW7MJQ8xnKo/2Y2+CgIzWEo2eNsmjqhO7R9gWlW9sx50DrA+ym78HMPbe2Blne06w0mWd8nO+PWDljRMM5QYSu9qh82JooPFj5j53x/Hppi0JgznuwKfq2tZrHdvWQpw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782845360; c=relaxed/simple;
+	bh=GZ6A4VMvj4irOyQ3zgofeSdKf4v6bwXkVVxRE4M+qqo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VxE8cToz4NTWQ4fXS4u9H62Kv+3hku0n6J3Zw992vrj8cFgRTiPPIplqT7wfHQIdIG9YQ2d+MxMRmyVrPNiaY4x9lDw58ssYp0gIdnr0OZ9y8E4nvH0ZFVw+IT2Z6hAkbwNIXzhdSCLAgwzBUJMz0qTtezgyQECu+6oTW6asfQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u18grtz3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sGHaEjKp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z3C3/oGO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jiGaKDSG; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EQSgW7XY"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8efb708b1a0so29217406d6.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 11:46:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782845210; cv=none;
-        d=google.com; s=arc-20260327;
-        b=n5vrNvjY7MMEw9U/hTkNBlGzc3hsiEWowGE+Zrej6MK/ssvhYsc/lCFSLJuD9Ua0iq
-         8XouzCHo1JdhiCT/VOQYn0RwSf+Im/inVsbyUxCXZnVPb426ykULdEFgTYrM2Sf3PcJ2
-         QKCeUUupvoD0yColVNVISh6wZ8dtdT1it+7gxyT/NTqirV6nMnl7mK/b/XTaX6hONCtU
-         e/N5zlw/uvGUDSUtVlekKaPzmbI2ToANU8XzCdbW+c08L/HWsYWcfcIZ2IrDv/aUjTNC
-         ZLaqGlM3ZkOKwisUAkgf7wCj9/7SflF3XLRzUa2sWZK6fjOcHLzWpdVfswQFLQdYoJ5q
-         9Y3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=/mr0mxcymU+YTx8PbSVH8xKSeGb4CtbjDq3BsjMlcFI=;
-        fh=cWNqvlqG8PotgdnfUZs/97iMPzFVD25gEhEP5nQzhrA=;
-        b=s+ofTF7gNGVoNtENtdaxO9nux75E0WyaEb7xCQS6YLuwwx2GeFCWdsJNcsXEA+s6Uk
-         9WkB8awMANHTmeZfhKysmQJRI2F/UanQDnghVN/gbQ6v4E0VTIPoViZHm2jcXmbSiqim
-         WsAM9cQVwXiiI2UhmLiHjhZVl0E//rCU/gdMXuwCg4JTOgLHx1s9ZkTFqsHCY9mvG5m4
-         DETMOALvYg+n+GO7udkNWw2nQZgb/Y9Qhc1bOHid2Y9poEWUjs+bdZ1qk8sNbuH+p4ot
-         2pFF0xOmBZJKJrp6exNb7PxfFpQ8pyfnwQLB01bijCop4Nez81XAoD2ztiutB0pwZmuR
-         dECQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782845210; x=1783450010; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/mr0mxcymU+YTx8PbSVH8xKSeGb4CtbjDq3BsjMlcFI=;
-        b=EQSgW7XYwFqpR2UhR5oIjGjz1p7Sl5z7prkaHtU62QYm16o5fwYNMZbZzXDw4N1o7w
-         TjaTc8/oiqjtm0zKD8i/CcS95pH2dm+43MADe2rn9aMf1hKPGLdSdl+rh7nEvSKdwdWb
-         QjR+GW8xwXjKE83wXgRxXBKZFIbpxBvEorTFKDTnaw6FQqAGR1E6nY0qU6hw6SonOJ6f
-         UnNgIa6B4mckZ2hxw1SIudwaouFYge5A1ubJndzfYxye9NPihpkUAmXXjBYL0RLjqY1x
-         hVUSvSmtURF36OOyxm9jT4L44uwrOo02x0k956HPazkIOlQs3pQRuCDykMIY8f+Jh/HA
-         PW7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782845210; x=1783450010;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/mr0mxcymU+YTx8PbSVH8xKSeGb4CtbjDq3BsjMlcFI=;
-        b=a1Qn+CqCaxZYQJvz68vKBxQ3xirpdt2RZV4rr352WwTu4Uv9s59dMcOjZ7yH9782Y7
-         Vmx1qqs3UJW5w/4nEzc/9ZIwgFx0COw4gGoxqVHtJsNIQrOOTmqUwoiouC6JssyOKfUd
-         1lOTvhuRdscZO9r+N2X4PfH/9lYrLxz7J55sOO1Prig26IfQNguJW4eJ51DSa1Io/GII
-         CSGmi6bVi0tdE/eyErpqyjyidaKj8RP9pLqrE3Ea02Pxk2oUgOCZtfji5q2yQv3qE6C4
-         Z/dHtWqlXxgtMWACqYqm04B1tzRIzdWhXGxq+MABB5wT+MI3odIl7ixGhfW6dk4iTZls
-         GyBw==
-X-Forwarded-Encrypted: i=1; AHgh+RrzzBA75RsmFPE+iGOdPbezNvQsqJ3wHXtiUb+2XTa/QLHPHISYsYFn59sJNPAJRt2fWWw2Mzndmsedz59B@vger.kernel.org
-X-Gm-Message-State: AOJu0YwH/uUKd0QRpEJLIWNPfuZn9aWdVv/DYfnwGybzA03WnLvPlDXC
-	tcoqiwp47KixpJ0SU8oju+kFvxuXkuGeU61fizP/wWAoR4rQXyYwepCDF1KmSsDoeyHsfRx74GM
-	l85MrcWAGzJS+bE+8i5TG1QjJj2II+AU=
-X-Gm-Gg: AfdE7cn09ygZXjGvfHGDWwKBoHAW1C/IGj6FWKDJhMJwEmede+c+DTM93BJsPfTZiqs
-	+I2qQXC074eXAIL8lEjWKHMlEiZDpxXpYXqdyV/o5+UzLUZiFkUjPRBSRlt+KvFgq8t84K6rJKG
-	5OndMYFYQOkjJV/60zqUAhy+iGJeyRJA/PnpVszR94zB1b0mhkaamombnDH5RPH6ieXB5c8Ffdp
-	mqKOfjSOxFpA83o1x8wwUA3znwGwDhjLM9aBRrO0LM75VdFsbMZf7n+sn/P+EEtCZyHQySni+y6
-	j+QVmB1OnZBnGt8TlFt6NpbB5Wd5AEOnvtMu+Q==
-X-Received: by 2002:a05:6214:4d01:b0:8f0:b08d:1327 with SMTP id
- 6a1803df08f44-8f1bab7325amr66906576d6.20.1782845210237; Tue, 30 Jun 2026
- 11:46:50 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u18grtz3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sGHaEjKp";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z3C3/oGO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jiGaKDSG"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9F2D875A5E;
+	Tue, 30 Jun 2026 18:49:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782845353; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tsCa3RNAA7O69TzyzAjIqux3S4SG5DUxACORIUg1Tps=;
+	b=u18grtz3pS8lgC+oV44hYee4ph60d0uHjj8YpHsmry6VgI+x0kq3T2fuZP4bRfE/9+moId
+	2yM3tRbHCeY7S+yOh/QFqU9frwiaBCAF+BbHZa+Mjm60/DumVICsGH1Snt9dmT4Yrjpxpa
+	dgGbVerXbZtEde9ERY+7qThv2CQ/SaM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782845353;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tsCa3RNAA7O69TzyzAjIqux3S4SG5DUxACORIUg1Tps=;
+	b=sGHaEjKpAswitz0sN6p0SX8lABGDefKe7XkhW/8GofXp5HC/6bH8ou82rY8xbs9HQ/80BN
+	cuiy28kOX0wwQHCQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Z3C3/oGO";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=jiGaKDSG
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782845352; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tsCa3RNAA7O69TzyzAjIqux3S4SG5DUxACORIUg1Tps=;
+	b=Z3C3/oGOkFrXPDFhBeNvjU+XahGABVHmMwB7O6+3VdWpwdTFJeFGNXGdpYQ2MS/8AiRmEu
+	q9tQXxvhaPkRuTDqdeHQwq/5clXIrXNpVZksVsBbRawBZQeCd3/wZoF0cfH4GdyJkORW9v
+	hJAbqXL/Vy7rQF7gBOdlo0jAXlFYbm4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782845352;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tsCa3RNAA7O69TzyzAjIqux3S4SG5DUxACORIUg1Tps=;
+	b=jiGaKDSGbHvY3ULrhwKR6U6k8KcrcXtV8IB5jf6I5QCDp273jpCjKtdEk6ZkHROCGRxe8z
+	D+KaRiZZ7jMC1VBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A418C779A8;
+	Tue, 30 Jun 2026 18:49:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 598rJKcPRGpBAwAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Tue, 30 Jun 2026 18:49:11 +0000
+Date: Tue, 30 Jun 2026 19:49:09 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Gregg Leventhal <gleventhal@janestreet.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Song Liu <song@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	Eric Hagberg <ehagberg@janestreet.com>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>
+Subject: Re: Subject: [BUG/RFC] write-open file THP cache purge can discard
+ dirty page cache
+Message-ID: <akQO8JtTxmp89GS8@pedro-suse.lan>
+References: <CAFN_u7H_0ECF3jixP=T=U7AH5=Q3wQNvJMo8an3VqUDMerQfUw@mail.gmail.com>
+ <akQIIav_zaK6RmIC@pedro-suse.lan>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260630183956.281293-1-dwindsor@gmail.com> <20260630183956.281293-3-dwindsor@gmail.com>
-In-Reply-To: <20260630183956.281293-3-dwindsor@gmail.com>
-From: David Windsor <dwindsor@gmail.com>
-Date: Tue, 30 Jun 2026 14:46:38 -0400
-X-Gm-Features: AVVi8CeaiheJ3F5i-jO4LvtVLGlRB5U5ReoDcpDUEtFteA-6-xXjOCWxSS0LCkE
-Message-ID: <CAEXv5_jCoYbs63RRukH44CMCxiOFzvWWraBOunKrgTVw+inUPg@mail.gmail.com>
-Subject: Re: [PATCH v4 bpf-next 2/3] bpf: add bpf_init_inode_xattr kfunc for
- atomic inode labeling
-To: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Emil Tsalapatis <emil@etsalapatis.com>, 
-	Matt Bobrowski <mattbobrowski@google.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E . Hallyn" <serge@hallyn.com>, 
-	Casey Schaufler <casey@schaufler-ca.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Ondrej Mosnacek <omosnace@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
-	Eric Snowberg <eric.snowberg@oracle.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Shuah Khan <shuah@kernel.org>
-Cc: bpf@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <akQIIav_zaK6RmIC@pedro-suse.lan>
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	URIBL_BLOCKED(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,janestreet.com:email,pedro-suse.lan:mid];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[janestreet.com:email,pedro-suse.lan:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 9F2D875A5E
+X-Spam-Score: -4.51
 
-On Thu, Jun 25, 2026 at 7:23=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
-<snip>
->
-> We expose a bunch of VFS heavy operations for various security modules
-> and this is really not different. For xattrs we have it all centralized
-> in the VFS and in general all VFS related bpf kfuncs should continue
-> living there and be registered there. Anything that's just bpf infra
-> specific can go to security/bpf/kfuncs.c instead. But anyway, it's a bpf
-> specific helper so it's the bpf maintainer's call.
+On Tue, Jun 30, 2026 at 07:31:07PM +0100, Pedro Falcato wrote:
+> +CC some relevant THP folks
+> Quick note, your email client's spacing seems to be all over the place, making
+> this extremely hard to read.
+> 
+> On Tue, Jun 30, 2026 at 01:01:53PM -0400, Gregg Leventhal wrote:
+> > Hello,
+> > 
+> > We (Gregg Leventhal <gleventhal@janestreet.com> and Eric Hagberg
+> > 
+> > <ehagberg@janestreet.com>) have a reproducible data-loss issue involving file
+> > 
+> > THPs and write-open, impacting filesystems that do not support
+> > writable large folios.
+> > 
+> > 
+> > Attached are:
+> > 
+> > 
+> >   - thp_write_open_cancel_dirty_repro.c
+> > 
+> >   - thp-open-writeback-before-purge.patch
+> > 
+> > 
+> > 
+> > Summary
+> > 
+> > =======
+> > 
+> > 
+> > On an affected 6.12 kernel with CONFIG_READ_ONLY_THP_FOR_FS=y, a file can
+> > 
+> > contain read-only file THPs installed by khugepaged / MADV_COLLAPSE. When that
+> > 
+> > same file is later opened for write, do_dentry_open() notices
+> > 
+> > filemap_nr_thps() and drops the page cache:
+> > 
+> > 
+> >         /*
+> > 
+> >          * XXX: Huge page cache doesn't support writing yet. Drop all page
+> > 
+> >          * cache for this file before processing writes.
+> > 
+> >          */
+> > 
+> >         if (f->f_mode & FMODE_WRITE) {
+> > 
+> >                 if (filemap_nr_thps(inode->i_mapping)) {
+> > 
+> >                         struct address_space *mapping = inode->i_mapping;
+> > 
+> > 
+> >                         filemap_invalidate_lock(inode->i_mapping);
+> > 
+> >                         unmap_mapping_range(mapping, 0, 0, 0);
+> > 
+> >                         truncate_inode_pages(mapping, 0);
+> > 
+> >                         filemap_invalidate_unlock(inode->i_mapping);
+> > 
+> >                 }
+> > 
+> >         }
+> 
+> Ugh, this is embarassing. So, good news: this code doesn't exist anymore
+> in mainline! Bad news: it exists on every other upstream-stable-maintained
+> release :|
+> 
+> FWIW I don't think your fix works, there's still a race there (what if
+> you write and wait, then someone dirties a folio, then you truncate the
+> pagecache? you lost data again.). I'm attaching a very quick WIP patch
+> that I wrote against 6.12 LTS (again, this does not exist in mainline).
+> I _think_ we want to go roughly in that direction, either here or in
+> collapse file paths. There are still problems which are invasive and
+> I haven't dealt with (GUP and other "temporary" folio releases being
+> the main one). Some of these problems may simply make it so opening
+> these files writable may fail (there is certainly, AFAIK, no way of
+> waiting for GUP and other temporary folio holders).
+> 
+> We would probably be served with a custom loop that forcibly yanks
+> only THPs out the pagecache, though. But that requires a bit more
+> code for a stable-only issue...
+> 
+> Anyway, the patch is obviously ungood and uncromulent and is only
+> here for a rough conversation starter. I don't think it works and
+> it will probably never work. mapping invalidation is simply too
+> best-effort for something that Just Needs(tm) to work.
 
-After Alexei's requested changes removing the attach-time checks,
-there's really not much left to go in an LSM-specific kfuncs file. The
-bpf infra plumbing for registering the kfunc and bpf_xattrs_used()
-seem to be the only LSM-specific bits aside from the kfunc.
+Other idea: perhaps doing filemap_write_and_wait() after the nr_thps
+increment in collapse_file() will Just Work and result in a _much_
+simpler fix. And it avoids any weird forward-progress issues as no one can
+write to folios at that point.
 
-I am willing to put this code anywhere. I've tried to CC all involved
-in all 3 patches, even though there's some split in concerns.
+-- 
+Pedro
