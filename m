@@ -1,124 +1,201 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5D53D1CCF;
-	Tue, 30 Jun 2026 07:14:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C309C3DDDBB;
+	Tue, 30 Jun 2026 07:39:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782803678; cv=none; b=HVfPvK2P1CqQmWqC9pG3kfT95Pb5hq7TSs8AVnwru3hcKug+8FC4OSZ+bQR7CNA+pil/KacQnOOnldsLDAWx/EbiO9AuGRZtVTVPaA7FyOVa8J+aTavh/MgwqvfZ4MgYf2C0oFvbNDaN5u5jzGK7duIuqFdezomArtaiPl9N8/M=
+	t=1782805159; cv=none; b=CwC6rpGfSwVswnEfzptLP/rGkR4PbE5aENsd/warvrH3LN5Omy0wJk19IQyni5GumdNVOYJ/8Wpwp7A3EiWefMXmAUvu+EZ3eqFyXKr+kV7TzEvteBnBOSBV+UapkKwGDKStP1ZmB0JpvaYVrX7EqwD1DmP3wfBsVwfvM+jY/ZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782803678; c=relaxed/simple;
-	bh=VICWaE9WUXW2LWdO5r9lbkxHnC+JwXq4KpepnM7pCA0=;
+	s=arc-20240116; t=1782805159; c=relaxed/simple;
+	bh=lvjAdPL/53pFYItQkwcVoVpd0+EC0h2230TPbhE1lZQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QkJXs8BC9pvEm3+f77B9V7EvylyQh9161F8W/HW6QQuuCBFoYe9gaOG1SHwcq6zBHReOq9kNEk1YmidGEof+6vhuKBzMq7X3ykgZU8XxhsTOH7pxDeqsUtFXQj8EQofqqNtK0bdMZzwjDFBLKmumHMOEr/hgi3rXOlJKB5cws0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lF6Bhj9O; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=HmSpzoSYxrc4H5ztsmq6lCNMe1UnwxMnCR6alLswoUBlxALPDtcz9XI4vOhxpZZI+6+wzjuvcin7O/PEafze9SLaaJMMufggJK3GI+Tk2WUKOpUDSa0gNDa/G9QkNqlN1ict13FNuALj8TYZM44J5QoNM0tpvdCM1tK3gNL5rGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fDaf4ZqW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lF6Bhj9O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAE601F00A3A;
-	Tue, 30 Jun 2026 07:14:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fDaf4ZqW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8F3C1F00A3D;
+	Tue, 30 Jun 2026 07:38:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782803677;
-	bh=+QSVg6eV+J0zaLkGpTTo7MZ6WXU0ihg0UHJ87/LB+6w=;
+	s=k20260515; t=1782805156;
+	bh=QFTirDmiRXM2E2UxDPivyHpH5WU8vmAPSC3LpjlrT8o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lF6Bhj9OoogKud4iTtoRksj3SG8/hInr72NpOxv+PftPWGHJV4EyNPyxPsqL7ND/T
-	 HPxN3DCwTGHq+fQubufrypHawzwGcB3ChEl6hr8v+CNSILbRcCHoGoNHOkcQuuloko
-	 OhuMoeWIy23ruLd/DRjYuxPubIpK4OvaVWx7qzPh2ndE8B9L2q5pUqWSMpWzrHn+By
-	 Uj3NVRJjqGt+fY1aoLJRe9EYTho5ZESjxfkVBNGRFaSm8oNFQOQTQzmKJ6OnXYTk05
-	 R9KMYRv0T8qLJRR0Q0meWmz0yOZ2eudt4x3nCrzXpfOpqkGl0BD+1RdHQAciG5MVB7
-	 pB5lWonGYgsdQ==
-Date: Tue, 30 Jun 2026 09:14:30 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: John Ericson <mail@johnericson.me>
-Cc: Li Chen <me@linux.beauty>, Cong Wang <cwang@multikernel.io>, 
-	linux-arch <linux-arch@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, linux-api <linux-api@vger.kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Kees Cook <kees@kernel.org>, 
-	Sergei Zimmerman <sergei@zimmerman.foo>, Farid Zakaria <farid.m.zakaria@gmail.com>
-Subject: Re: [RFC] Null Namespaces
-Message-ID: <20260630-kippen-jobaussicht-restriktionen-2149cc663b22@brauner>
-References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
- <20260629-hauer-erhitzen-sobald-96d3dff68707@brauner>
- <eb390c52-eeb3-44b3-88e9-e65c52a26c05@app.fastmail.com>
+	b=fDaf4ZqW3PD9fY8acsrJCsXc7pOEzc4lLsW2jgJhfYGl7NXG5KcVo4Pxek2Uz+Nla
+	 tOcu2NuZHwmic0JpBPUEEgMmuaTGNKExmRCbT0ES7+8QhHL9YqeimbRUf62O0HtMfs
+	 LYny1udM2eWLdF0sRgHD+bBsvogcyV+srg+CrLasOfuUZDDcJr8dZlygrFZBfDoggP
+	 p2mllhEamdnPs77YGrH3WGaXXIkqv4Xgyt7g+R7YVqHEf/NFyfi55aJUF3SRsQX/b0
+	 NUbVhpaMaUvlKWWtDdlDlkLmrVKracrOVgHvCwNbE5g49j/+vG6Xvy5Wxh+acQ6BjY
+	 MYjz8K0OvlQ3A==
+Date: Tue, 30 Jun 2026 08:38:51 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Lucas Stach <l.stach@pengutronix.de>, Inki Dae <inki.dae@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Peter Griffin <peter.griffin@linaro.org>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Thierry Reding <thierry.reding@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>, Zack Rusin <zack.rusin@broadcom.com>, 
+	Matthew Brost <matthew.brost@intel.com>, Thomas Hellstrom <thomas.hellstrom@linux.intel.com>, 
+	Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>, Helge Deller <deller@gmx.de>, Benjamin LaHaise <bcrl@kvack.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	"Liam R . Howlett" <liam@infradead.org>, Nico Pache <npache@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, Kees Cook <kees@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+	nouveau@lists.freedesktop.org, linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org, 
+	virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org, 
+	linux-fbdev@vger.kernel.org, linux-aio@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 01/13] mm: introduce vma_flags_can_grow() and
+ vma_can_grow()
+Message-ID: <akNucoP3eaDN2_Vz@lucifer>
+References: <cover.1782760670.git.ljs@kernel.org>
+ <f2e8c32515d328db62279cc8bab8398ea278d74f.1782760670.git.ljs@kernel.org>
+ <DJLTDCPWMXDL.4ICZ77A1LPZZ@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <eb390c52-eeb3-44b3-88e9-e65c52a26c05@app.fastmail.com>
+In-Reply-To: <DJLTDCPWMXDL.4ICZ77A1LPZZ@nvidia.com>
 
-On Mon, Jun 29, 2026 at 10:50:38PM -0400, John Ericson wrote:
-> On Mon, Jun 29, 2026, at 7:45 AM, Christian Brauner wrote:
-> > But I guess the even simpler model would be to copy what I've been doing
-> > for pidfs:
+On Mon, Jun 29, 2026 at 04:26:18PM -0400, Zi Yan wrote:
+> On Mon Jun 29, 2026 at 3:25 PM EDT, Lorenzo Stoakes wrote:
+> > These test whether the VMA has stack sematics, i.e. is able to grow upwards
+> > or downwards depending on the architecture.
 > >
-> > [...]
+> > In order to account for arches which do not support upward-growing stacks,
+> > introduce VMA_GROWSUP whose definition depends on the architecture
+> > supporting it, and use vma_flags_test_single_mask() in vma_flags_can_grow()
+> > to account for this.
 > >
-> > we then add fchroot() (overdue anyway) and then teach both fchdir() and
-> > fchroot() to honor FD_NULLFS_ROOT. Then a process may shed its fs state
-> > and move itself into nullfs. Restrict *chdir() and *chroot() for said
-> > process via seccomp and it's locked in forever as well.
-> 
-> This looks good! It delivers most of what I want, and I do want to be
-> very clear that while I am responding to your comments on my patch
-> below, I would still be very pleased if we just did this, much more than
-> I am pleased with the status quo.
-> 
-> (And also, yes, good to create the long-overdue fchroot regardless of
-> what we do here.)
-> 
-> > Nothing here requires you to NULL anything and I oppose this on code
-> > sanity reasons alone. We shoud absolutely not start to stash any NULL
-> > pointers in core kernel objects such as struct path that are used
-> > everywhere.
-> 
-> Before we do the "pidfd style" nullfs route, I want to make one thing
-> clear about my patch: I was *not* trying to relax the invariant across
-> the board that (live) `struct path` should only contain non-null
-> pointers. Rather, I just want `struct fs_struct` to contain ("morally")
-> `Option<struct path>`. My use of the null pointer was merely me doing
-> the sort of ragged union packing that, for example, Rust does. I think
-> as a matter of A_B_I (emphasis on "binary"), this is fine, and not
-> going to cause Armageddon --- `struct path` is widely used, but `struct
-> fs_struct` is (as far as I can tell) not.
-> 
-> All that said, as a matter of A_P_I (emphasis on "program"), I do see
-> your point that it's too easy for someone to not read my comment, and
-> then `struct path` with null pointers starts leaking all over the place,
-> making a big mess. I think a simple enough fix is to just use another C
-> encoding, such as a union, for `Option<struct path>`.
-> 
-> For example:
-> 
->     union optional_path {
->         struct {
->             void *p0, *p1; /* must be null */
->         } __randomize_layout null_path;
->         struct path path; /* both fields must be non-null */
->     };
-> 
-> To continue saving space, or --- if relying on the overlap of
-> `null_path` and `path.mnt` is too sketchy --- making a bona fide tagged
-> union:
-> 
->     struct optional_path {
->         enum {
->             OPTIONAL_PATH_ABSENT,
->             OPTIONAL_PATH_PRESENT,
->         } tag;
->         union {
->             struct {} null_path;
->             struct path path;
->         };
->     };
+> > Update the VMA userland tests to reflect the changes
+> >
+> > No functional change intended.
+> >
+> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+> > ---
+> >  include/linux/mm.h              | 21 ++++++++++++++++++---
+> >  tools/testing/vma/include/dup.h |  4 ++++
+> >  2 files changed, 22 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > index 868b2334bff3..cf7df1569052 100644
+> > --- a/include/linux/mm.h
+> > +++ b/include/linux/mm.h
+> > @@ -472,6 +472,7 @@ enum {
+> >  #define VM_SAO		INIT_VM_FLAG(SAO)
+> >  #elif defined(CONFIG_PARISC)
+> >  #define VM_GROWSUP	INIT_VM_FLAG(GROWSUP)
+> > +#define VMA_GROWSUP	mk_vma_flags(VMA_GROWSUP_BIT)
+> >  #elif defined(CONFIG_SPARC64)
+> >  #define VM_SPARC_ADI	INIT_VM_FLAG(SPARC_ADI)
+> >  #define VM_ARCH_CLEAR	INIT_VM_FLAG(ARCH_CLEAR)
+> > @@ -483,6 +484,7 @@ enum {
+> >  #endif
+> >  #ifndef VM_GROWSUP
+> >  #define VM_GROWSUP	VM_NONE
+> > +#define VMA_GROWSUP	EMPTY_VMA_FLAGS
+> >  #endif
+> >  #ifdef CONFIG_ARM64_MTE
+> >  #define VM_MTE		INIT_VM_FLAG(MTE)
+> > @@ -1563,11 +1565,24 @@ static inline bool vma_is_initial_stack(const struct vm_area_struct *vma)
+> >  		vma->vm_end >= vma->vm_mm->start_stack;
+> >  }
+> >
+> > -static inline bool vma_is_temporary_stack(const struct vm_area_struct *vma)
+> > +static inline bool vma_flags_can_grow(const vma_flags_t *flags)
+> >  {
+> > -	int maybe_stack = vma->vm_flags & (VM_GROWSDOWN | VM_GROWSUP);
+> > +	if (vma_flags_test_single_mask(flags, VMA_GROWSUP))
+> > +		return true;
+> > +	if (vma_flags_test(flags, VMA_GROWSDOWN_BIT))
+> > +		return true;
+> > +
+> > +	return false;
+> > +}
+> >
+> > -	if (!maybe_stack)
+> > +static inline bool vma_can_grow(const struct vm_area_struct *vma)
+> > +{
+> > +	return vma_flags_can_grow(&vma->flags);
+>
+> Would it save vma_flags_can_grow() if we do below?
+>
+> return vma_test(vma, VMA_GROWSDOWN_BIT) || vma_test_single_mask(vma, VMA_GROWSUP);
+>
+> I find these two functions when I am reading mm.h.
 
-I think Al is about to have a stroke reading this... and I might too.
-I agree with the sentiment I disagree with the details of this and
-touching the whole kernel for this. You know what the easy solution is:
-don't allow a struct path to be empty...
+Yeah but we require vma_flags_can_grow() for code in mmap.c, the majority of
+checks of this have only vma_flags_t to work with not a VMA :)
+
+>
+> > +}
+> > +
+> > +static inline bool vma_is_temporary_stack(const struct vm_area_struct *vma)
+> > +{
+> > +	if (!vma_can_grow(vma))
+> >  		return false;
+> >
+> >  	if ((vma->vm_flags & VM_STACK_INCOMPLETE_SETUP) ==
+> > diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
+> > index 5d7d0afd7765..6f5bcd7fbcd8 100644
+> > --- a/tools/testing/vma/include/dup.h
+> > +++ b/tools/testing/vma/include/dup.h
+> > @@ -245,8 +245,10 @@ enum {
+> >  #define VM_STACK	INIT_VM_FLAG(STACK)
+> >  #ifdef CONFIG_STACK_GROWS_UP
+> >  #define VM_STACK_EARLY	INIT_VM_FLAG(STACK_EARLY)
+> > +#define VMA_STACK_EARLY mk_vma_flags(VMA_STACK_EARLY_BIT)
+> >  #else
+> >  #define VM_STACK_EARLY	VM_NONE
+> > +#define VMA_STACK_EARLY EMPTY_VMA_FLAGS
+> >  #endif
+> >  #ifdef CONFIG_ARCH_HAS_PKEYS
+> >  #define VM_PKEY_SHIFT ((__force int)VMA_HIGH_ARCH_0_BIT)
+> > @@ -315,6 +317,8 @@ enum {
+> >
+> >  /* Bits set in the VMA until the stack is in its final location */
+> >  #define VM_STACK_INCOMPLETE_SETUP (VM_RAND_READ | VM_SEQ_READ | VM_STACK_EARLY)
+> > +#define VMA_STACK_INCOMPLETE_SETUP append_vma_flags(		\
+> > +	VMA_STACK_EARLY, VMA_RAND_READ_BIT, VMA_SEQ_READ_BIT)
+> >
+> >  #define TASK_EXEC_BIT ((current->personality & READ_IMPLIES_EXEC) ? \
+> >  		       VM_EXEC_BIT : VM_READ_BIT)
+>
+> Why are VMA_STACK_EARLY and VMA_STACK_INCOMPLETE_SETUP added here but
+> not in mm.h?
+
+Yeah urgh oops my bad. It doesn't really break anything but I'll fix it if a
+respin is needed...
+
+>
+>
+> --
+> Best Regards,
+> Yan, Zi
+>
+
+Thanks, Lorenzo
