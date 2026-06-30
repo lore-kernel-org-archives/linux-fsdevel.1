@@ -1,164 +1,290 @@
-Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1C93DFC93;
-	Tue, 30 Jun 2026 20:22:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C18E47B420
+	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 20:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782850970; cv=none; b=geg9KS9S/JjhrXcTveVaUSJnFKpRe/lQvyvgndyOMTCxc8wMAkCvof47utZXIGpH/HhW3Z8AkyWest722RarLQnVSBie64yisyecF/yBeYRPPPPOUozL6u7SGGVvtWMStlcnYR9lpywrcXbXW4IBtfQUItQ7IDkVs7HfKZgxjH8=
+	t=1782853171; cv=none; b=aSujXUR0N+6C8YxfId1ZC8dlASQgTdgAQOe0wSgOH8IZRvRUdqkqGhOQjlS5ULslX+EqbbIhC9eVNIw73yos79Yf48xyz7H2GS64IsHqd/J2JAQR+bnYL1PbF1Djuaxw8erdWIAdoFRxptOO9mHupIyef1m491g9qniT9h4m8b4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782850970; c=relaxed/simple;
-	bh=E/1GRPAhq/z8dkF2qE+9M54j9+TZzZ6ebgYpimWXjx4=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=XX7jaLfBj2jkeKFeC7Nfv97Aw8nyENpYQP1riHrzZxU3Y6JBgJOHFZB387I4JYuR4KrQazddnUn4jqSWfbSiFdFj6AHR1bZ66Fv77TyCJ5YYEsiKpwfQgBLodU/NDVtFFVsnbuYrpQlNK8KzuLYfUAXV4isrQHeVFnPQTbiZWZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=NtNfENdA; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Axxt0L7g; arc=none smtp.client-ip=103.168.172.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=johnericson.me
+	s=arc-20240116; t=1782853171; c=relaxed/simple;
+	bh=7nWDFp++odGju4EQD247gPaFq+1N0ocPJ/Yr1tUzCE0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KFTgZ2URiEOkFaGOPe0QcXMVGZVjfybM/+ZvNvpgwZBCRE0k50F91AodRg5PzaU6+KPqgfUk7j1SaALCJdxReHLBFqHZgaNS/OD5jKOagrUY/3R7kgSneSYifS6B7tVXLeBU1CriPLBtU1Vpd+wJKL+egfDvmqucRNT1MEhHPa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l+us4pzz; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b="NtNfENdA";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Axxt0L7g"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 03840EC018C;
-	Tue, 30 Jun 2026 16:22:48 -0400 (EDT)
-Received: from phl-imap-16 ([10.202.2.88])
-  by phl-compute-05.internal (MEProxy); Tue, 30 Jun 2026 16:22:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1782850967; x=1782937367; bh=ImMCq2g/+CnrELmjJfykJhJwl9epgRAt
-	MN2WHOmfAYw=; b=NtNfENdACRh7f6vuoHr9w2tXjbjdTHJjbWh4G2KLkCIkBsib
-	yJzg/DTPFFQMvAqxC56OkmaqoNIGqZrpuwtFSM2Wsar2hYirZXRWhFln7MQHcmEc
-	6kkc8pUTEU5Dz7cZx6+jMvL2YE7uCpvEGVHLm7eCpLCgyggKk6XyOUcfUWzc8Kz6
-	suCZ1ES6VspruEp9SW0EoVbLRNevueu7z5TrevV1Qu7BZUrcx8mbMgeXub5Yfoyh
-	oASuFVIQuck/ethgdk4N4sCfgU/EfXRnsMgLrdnyMzlC3hCS4+hZI4O5S/pVdqCY
-	52q0XNbOASQ3YCclmBqlXxpZdVGnK4VnM/F6Fg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782850967; x=
-	1782937367; bh=ImMCq2g/+CnrELmjJfykJhJwl9epgRAtMN2WHOmfAYw=; b=A
-	xxt0L7gVMqSrwoiKq3LqUdKTAhqolHVApIR/sVKX17pr+OKbR3wSI9z51JHB3HkE
-	FxO6V/vqHzUk6tTURBri91nYHlU0s3RZ6k7vwnWmZDI2VOAigXAXxL6yzWWVM2Cd
-	lNpZ+I+Zp2iZX926UJiWWjv/SMotoBjeWijwizgCA87g+XlSdT3fw7KR6D6V9t/w
-	VLVCOAha6+rrFcualQ2EeCmCXV/gUbjdLB5SN4M5XYSTE47LKY8vRih4xq2fTM0F
-	bFDw3/Lk67xT4SkbEFkWQkZ7XwabLwMo8Toyo1QDcfmMsQ93zNVrpk5rwfuCZbM6
-	SHTXkvl5lm8ma3aH09XSA==
-X-ME-Sender: <xms:lyVEajfpni2RYPLcu9P-jCI3zPy18SpZMQ1oOXax-RhFym0Lp9RChQ>
-    <xme:lyVEakCKc74QS9_U7SjIPw5sYg0VA-KxbTEWQDegRp2LX94qZ67WJJJW0jzKTkFdT
-    yki8K1gQamV5k_iBeYl8QeFDUVeWCbeD6z9-zxkrlkzj7qxv9qOTQ>
-X-ME-Proxy-Cause: dmFkZTEob2y7xsHNEpz/7I02rTab7fGg7x7fjcd6S9Va4JVcYH5vCtabOClhZHXi+41eaR
-    1VSm1ZUO6YkVjVZ4lciGuVzFDosH2S4m0HTnNWtX5Mh8P6x279hOjqpqJEQcJQWjW+TxJE
-    E2biBtIb9cAL1CvtBOuyGKpQQiOy2bmkhiBEUEYuK48BrmQW4Tr7ALBTnxdlX/5jpAbzw4
-    1/m7cp5Ds/WNcwyxj1FuIA3XG22FoPbngHN70OmIKfgA1z+VV+/QcbplNulXKCQ08tRH1S
-    wXkK6+MuVakggurtLx3RiOcOaczsgSLJiPWnEkBCSgL1o95iqcwzJb5I9TmBm7jU/VYVZ9
-    WQ+0NR1ZtlWSHx5h9bIvV90akohUk6wGDVgGd6lqfneK1NLc1cc3KeL+rtCuSL7bfUFuXT
-    TMeGsyy3JfcVQXMOq8ikjUztz7RmxfjWRZ2IRLa7emHLEMIDl6fyT+X03RF147zz52Y/gf
-    UYXVrPzmxRW16lukDPVLv9xSZRkYo1vA26OaLHhw6j8/1jvMJExkEdezN1TTGao4NZgsxU
-    h4GRpwQ6p93s6wgga1Ny5eSVXeL/LyswknZI0NA0CTO3Diq6LRucA78cx6ZzJBYQsDhoTN
-    TXmIfSh1V82546thVvEFtiICLgbd/p7+SK4C8Uw1c7Wvdq+sHjvxpFhMTm2Q
-X-ME-Proxy: <xmx:lyVEatEu_FDqYIZOiJLhQ1vidQUkMR-SxbE3bFeQCpa0jwcXtzxoaw>
-    <xmx:lyVEasYUacYtmc4QEp_m9fCgpB8-QsvSNBNen7xoK-3eJGuHPAPnsA>
-    <xmx:lyVEavAXyjES9Znt05JlLWrv5UVebEyAfvjTaIQ588194mCnx_Exog>
-    <xmx:lyVEaknMNoTZhQ_P0LZMGBuHqaCZmAT32aEc_tAsPotYpPojyFbIOw>
-    <xmx:lyVEauPih3bsBcvndDxw6GSCL14n0JgxfS-ci95ae0La3tBFx5bR89t3>
-Feedback-ID: ieb4144f1:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 91A2C2CC0083; Tue, 30 Jun 2026 16:22:47 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l+us4pzz"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493ba701891so8076235e9.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 13:59:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782853168; x=1783457968; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=A7uWj5buZ7MVbleckY0RL8j/yUJ1pj8LCM17PMcJDxA=;
+        b=l+us4pzzq0sU2wEGynDHy42q4eFwUFucNJ/8QXD2fwEUlq7t8SotNIIy5lahN3KKDW
+         z+9ulY8xphwCGaqr8b42J8HrJpxs2ih+YRH3bTfhhQf5ih6LIKtK9T5qmCmNoW2rIyAN
+         mfy6PwU0/f6oaNtqZvQfpuUW92y0YPujwJ1kxi1An0wOW0zp4ZE8LbxmUq5VkbjVTBUC
+         aYySXs/h3ThUDrfvb0QoXTyfld/89Ad7I4lk1TGyTDX8OSEoU+7FjfvX2SJ4JM8RXlsn
+         10/EVIfj5PECXSVRj3FobFj9ZZHtf7FttKJZXaDLpaFj/rA6+C6pX+TxTFQr1tftj+9M
+         qHVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782853168; x=1783457968;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=A7uWj5buZ7MVbleckY0RL8j/yUJ1pj8LCM17PMcJDxA=;
+        b=ILIvQmpjx3OELls8IPSAywoVGmyy3JwnTakPGNGZoXXjRZD3oMd/k3+cjGH/bUILbw
+         LLF5oLqCXQcWQrMSQlVeG5HJP5yeyBOCiWiMCYrrO6kTWNVQ6s5rulcwbDqnC/wWsjp6
+         4XTw0CbDp4kOlF3niEpHxGEUjHwhSug1he9yL4xupGPrG+OMV7oVyFLe59SQLf2srNyb
+         mP1ibfyKQaAWKupCDrCbQT7NnhxTrjWvHLE8nU1YXuIgteDOOpXqtt1k126tIohntwZG
+         rMHBfb9XnxkcKOH0fXErAulLRdFXHggzv/IHLf4TroV06Tj4bwUHbVj8LfNTxU0pEL58
+         iX0Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8qfvyL/pYyh9pCA8wcbttCUf3No4U7tbpF+3TJCafiN2ivxXC0ExiBedVbYoqRAKD+TgkZ/4RYON1c4bSX@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqOmKUY0mA/BXH9TkSeqHB/yg5G6i0VBCnU+0nBsEBftqG2AJZ
+	8idPfpVw1MW4TW72I3/Lt6/qP0blid9kxL2FJy7h5JbbYQHI0fikTxil
+X-Gm-Gg: AfdE7clbDl7t75PPIAy1nFAkGtsxaTdoLPjXMIVYNrdeVsM/iBxdTDbW4zpVPZRnOZA
+	R9tVPx/Ax8wS/D40iKuZabI6Zhy6wIeWVfZul9rzfKOo+1T8ReI2AHVPVV2hUrtd48TqkkaI8eQ
+	QjhOR1Z+KLViL9uZP3ou26JCGtqWhYER1jZZAzmuqsaR5JxLgbSOuJdQnPng9R8glzgTmt+XplY
+	j8VdyiBQgLvxTzL9Ep0CUV7FsBhoC4see8hUvTeTWHQB3JcBqHQWE2K9gan1+L/SIWbxrINSETu
+	x+HzJzBm1709MRPhagWruotLkCIz48SjQH6PMFSZjeWHrBExL0PhIigLcLw4//U6o2wbZUcdgig
+	3oHA0SSTEK3/jA+hWhmYU88DdmCyruk5fHFGpsBmdgJRcYeXN+gfzw4Zwz8OZJqy83AZobOgB4+
+	Tm3JlZRXNlDy9LI/eE4eWCA7eCUoDBYyxbq/aD9/3i+JrpGKWk2U6KGurr+wK2V4oDY7V9Su6lu
+	55VC3iCRar/wA98A8F/UwSESjSPgIQJJVFNAF/TbDTcJFM3OvzHaOavIT8XRH5F0BGEsTBMCi0=
+X-Received: by 2002:a05:600c:4585:b0:493:a96b:fa0b with SMTP id 5b1f17b1804b1-493b82ae872mr72441315e9.24.1782853168134;
+        Tue, 30 Jun 2026 13:59:28 -0700 (PDT)
+Received: from instance-20260604-012959.europe-west1-b.c.project-2c9d95d2-bf4e-4d5a-ac6.internal (250.69.76.34.bc.googleusercontent.com. [34.76.69.250])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493be4bfdd5sm37500745e9.1.2026.06.30.13.59.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2026 13:59:27 -0700 (PDT)
+From: David Maximiliano Hermitte <davemadmaxxx@gmail.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>,
+	Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>,
+	linux-fsdevel@vger.kernel.org,
+	David <davemadmaxxx@gmail.com>
+Subject: [PATCH/RFC] hfs: validate catalog CNIDs before writeback
+Date: Tue, 30 Jun 2026 20:59:24 +0000
+Message-ID: <20260630205924.896357-1-davemadmaxxx@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: Aqzxz9K-cSE-
-Date: Tue, 30 Jun 2026 16:22:25 -0400
-From: "John Ericson" <mail@johnericson.me>
-To: "Cong Wang" <cwang@multikernel.io>
-Cc: "Li Chen" <me@linux.beauty>, "Andy Lutomirski" <luto@kernel.org>,
- "Christian Brauner" <brauner@kernel.org>, "Jens Axboe" <axboe@kernel.dk>,
- "network dev" <netdev@vger.kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Message-Id: <e396ce86-ec84-4189-9da2-98af7cfa6c41@app.fastmail.com>
-In-Reply-To: <66eb8227-85b6-4684-a4fa-e3e17ac2fa45@app.fastmail.com>
-References: <b1af80fc-a57c-408d-bdfe-fa6bae26eaca@app.fastmail.com>
- <aicbyQIC2qEveNd-@pop-os.localdomain>
- <455281ec-3ee1-4f27-989b-c239f0690d8b@app.fastmail.com>
- <aixU_RccxS_BKhgX@pop-os.localdomain>
- <66eb8227-85b6-4684-a4fa-e3e17ac2fa45@app.fastmail.com>
-Subject: Re: [RFC] connectat()/bindat() or an alternative design
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-I'm bumping this and adding new recipients again in light of the
-discussion happening elsewhere in
-<https://lore.kernel.org/all/a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com/>.
-I don't want to count my chickens before they are hatched, but it is
-looking to me like a consensus in that thread is building around the
-ability to opt into intentionally empty/unusable root and working
-directories (at least with nullfs, maybe but less likely with other
-mechanisms instead).
+Hi Slava,
 
-That new functionality concretizes the motivation for what I am
-proposing in this thread: in such a world, there is little to no point
-binding listening sockets in the file system, because the containing
-directory would have to be conveyed by file descriptor anyways --- might
-as well just directly convey the socket to connect to by file
-descriptor. Likewise, abstract sockets are not appealing, because the
-abstract socket namespace is either too coarse-grained (leaking info in
-the same way root/cwd would), or too cumbersome to keep it from leaking.
+Thank you again for the previous review.
 
-To recap (with some slight changes, like renames), my latest proposal (a
-new version, not either of the two variations in the original email) is
-new syscalls `bind_unix_anon` and `connectat`, supporting a workflow
-like this:
+I reworked the HFS patch following your feedback. This version
+uses a focused CNID validator for catalog records.
 
-    /* server */
-    int lfd = socket(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0);
-    int addrfd = bind_unix_anon(
-            lfd,
-            /*flags, for the future*/0);
-    listen(lfd, 64);
+The patch now:
 
-    /* client, handed `addrfd` */
-    int cfd = socket(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0);
-    connectat(addrfd, cfd, AT_EMPTY_PATH);
+- adds hfs_is_valid_cnid();
+- validates file and directory CNIDs in hfs_read_inode();
+- marks invalid catalog records as bad inodes;
+- rejects a bad root inode in hfs_fill_super();
+- validates the found catalog record in hfs_cat_find_brec();
+- keeps BUG() in hfs_write_inode() for internal impossible state.
 
-Or, more radically, `bind_unix_anon` and `connectat` could let one skip
-the initial `socket` calls by returning those new sockets directly:
+Local validation:
 
-    /* server */
-    int fds[2];
-    bind_unix_anon(
-            SOCK_STREAM | SOCK_CLOEXEC,
-            /*flags, for the future*/0,
-            fds);
-    int lfd = fds[0], addrfd = fds[1];
-    listen(lfd, 64);
+- git diff --check: pass
+- reverse apply check: pass
+- checkpatch strict: 0 errors
+- make fs/hfs/: pass
+- make bzImage: pass
+- QEMU HFS repro: started and completed
+- no kernel BUG, Oops, panic, KASAN, UBSAN, or GPF observed
 
-    /* client, handed `addrfd` */
-    int cfd = connectat(
-            addrfd,
-            SOCK_STREAM | SOCK_CLOEXEC,
-            AT_EMPTY_PATH);
+The goal is to treat corrupted on-disk catalog metadata as
+filesystem corruption, without crashing the kernel.
 
-(Note that in this variation `bind_unix_anon` would return *two* file
-descriptors: one for the server, with the permission to listen, and the
-other for clients, with just the privilege to `connectat`.) (Maybe
-`bind_unix_anon` should furthermore `listen` right away on `lfd` too?)
-
-Of course, it would be nice to have io_uring versions of these too. But
-I don't know what the usual process is for that (regular first? io_uring
-first? both at the same time?)
+Please let me know whether this matches the expected direction.
 
 Thanks,
+David
 
-John
-
-P.S. For anyone just getting CC'd now, the first message in this thread
-is
-<https://lore.kernel.org/all/b1af80fc-a57c-408d-bdfe-fa6bae26eaca@app.fastmail.com/>.
-Hope that might save people a few keypresses :).
+---
+diff --git a/fs/hfs/catalog.c b/fs/hfs/catalog.c
+index 632c226a3..87aa45db4 100644
+--- a/fs/hfs/catalog.c
++++ b/fs/hfs/catalog.c
+@@ -184,6 +184,31 @@ int hfs_cat_keycmp(const btree_key *key1, const btree_key *key2)
+ 
+ /* Try to get a catalog entry for given catalog id */
+ // move to read_super???
++static int hfs_cat_validate_found_cnid(struct hfs_find_data *fd)
++{
++	hfs_cat_rec rec;
++	int err;
++
++	err = hfs_brec_read(fd, &rec, sizeof(rec));
++	if (err)
++		return err;
++
++	switch (rec.type) {
++	case HFS_CDR_FIL:
++		if (!hfs_is_valid_cnid(be32_to_cpu(rec.file.FlNum), HFS_CDR_FIL))
++			return -EFSCORRUPTED;
++		break;
++	case HFS_CDR_DIR:
++		if (!hfs_is_valid_cnid(be32_to_cpu(rec.dir.DirID), HFS_CDR_DIR))
++			return -EFSCORRUPTED;
++		break;
++	default:
++		return -EFSCORRUPTED;
++	}
++
++	return 0;
++}
++
+ int hfs_cat_find_brec(struct super_block *sb, u32 cnid,
+ 		      struct hfs_find_data *fd)
+ {
+@@ -208,7 +233,11 @@ int hfs_cat_find_brec(struct super_block *sb, u32 cnid,
+ 		return -EIO;
+ 	}
+ 	memcpy(fd->search_key->cat.CName.name, rec.thread.CName.name, len);
+-	return hfs_brec_find(fd);
++	err = hfs_brec_find(fd);
++	if (err)
++		return err;
++
++	return hfs_cat_validate_found_cnid(fd);
+ }
+ 
+ 
+diff --git a/fs/hfs/hfs_fs.h b/fs/hfs/hfs_fs.h
+index 49d02524e..d0eb10c4b 100644
+--- a/fs/hfs/hfs_fs.h
++++ b/fs/hfs/hfs_fs.h
+@@ -186,6 +186,30 @@ extern void hfs_cat_build_key(struct super_block *, btree_key *, u32, const stru
+ 
+ /* dir.c */
+ extern const struct file_operations hfs_dir_operations;
++
++/*
++ * Validate the CNID of a catalog record.
++ */
++static inline bool hfs_is_valid_cnid(u32 cnid, u8 type)
++{
++	if (likely(cnid >= HFS_FIRSTUSER_CNID))
++		return true;
++
++	switch (cnid) {
++	case HFS_ROOT_CNID:
++		return type == HFS_CDR_DIR;
++	case HFS_EXT_CNID:
++	case HFS_CAT_CNID:
++		return type == HFS_CDR_FIL;
++	case HFS_POR_CNID:
++	case HFS_BAD_CNID:
++	case HFS_EXCH_CNID:
++		return false;
++	default:
++		return false;
++	}
++}
++
+ extern const struct inode_operations hfs_dir_inode_operations;
+ 
+ /* extent.c */
+diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
+index 61ed76d10..90d676dc9 100644
+--- a/fs/hfs/inode.c
++++ b/fs/hfs/inode.c
+@@ -344,6 +344,11 @@ static int hfs_read_inode(struct inode *inode, void *data)
+ 	rec = idata->rec;
+ 	switch (rec->type) {
+ 	case HFS_CDR_FIL:
++		if (!hfs_is_valid_cnid(be32_to_cpu(rec->file.FlNum), HFS_CDR_FIL)) {
++			pr_warn_ratelimited("hfs: invalid file CNID %u; run fsck\n",
++					    be32_to_cpu(rec->file.FlNum));
++			goto bad_inode;
++		}
+ 		if (!HFS_IS_RSRC(inode)) {
+ 			hfs_inode_read_fork(inode, rec->file.ExtRec, rec->file.LgLen,
+ 					    rec->file.PyLen, be16_to_cpu(rec->file.ClpSize));
+@@ -365,6 +370,11 @@ static int hfs_read_inode(struct inode *inode, void *data)
+ 		inode->i_mapping->a_ops = &hfs_aops;
+ 		break;
+ 	case HFS_CDR_DIR:
++		if (!hfs_is_valid_cnid(be32_to_cpu(rec->dir.DirID), HFS_CDR_DIR)) {
++			pr_warn_ratelimited("hfs: invalid directory CNID %u; run fsck\n",
++					    be32_to_cpu(rec->dir.DirID));
++			goto bad_inode;
++		}
+ 		inode->i_ino = be32_to_cpu(rec->dir.DirID);
+ 		inode->i_size = be16_to_cpu(rec->dir.Val) + 2;
+ 		HFS_I(inode)->fs_blocks = 0;
+@@ -375,9 +385,15 @@ static int hfs_read_inode(struct inode *inode, void *data)
+ 		inode->i_fop = &hfs_dir_operations;
+ 		break;
+ 	default:
+-		make_bad_inode(inode);
++		pr_warn_ratelimited("hfs: invalid catalog record type %u; run fsck\n",
++				    rec->type);
++		goto bad_inode;
+ 	}
+ 	return 0;
++
++bad_inode:
++	make_bad_inode(inode);
++	return 0;
+ }
+ 
+ /*
+@@ -435,20 +451,20 @@ int hfs_write_inode(struct inode *inode, struct writeback_control *wbc)
+ 	if (res)
+ 		return res;
+ 
+-	if (inode->i_ino < HFS_FIRSTUSER_CNID) {
+-		switch (inode->i_ino) {
+-		case HFS_ROOT_CNID:
+-			break;
+-		case HFS_EXT_CNID:
+-			hfs_btree_write(HFS_SB(inode->i_sb)->ext_tree);
+-			return 0;
+-		case HFS_CAT_CNID:
+-			hfs_btree_write(HFS_SB(inode->i_sb)->cat_tree);
+-			return 0;
+-		default:
+-			BUG();
+-			return -EIO;
+-		}
++	if (!hfs_is_valid_cnid(inode->i_ino,
++			       S_ISDIR(inode->i_mode) ? HFS_CDR_DIR :
++			       HFS_CDR_FIL))
++		BUG();
++
++	switch (inode->i_ino) {
++	case HFS_EXT_CNID:
++		hfs_btree_write(HFS_SB(inode->i_sb)->ext_tree);
++		return 0;
++	case HFS_CAT_CNID:
++		hfs_btree_write(HFS_SB(inode->i_sb)->cat_tree);
++		return 0;
++	default:
++		break;
+ 	}
+ 
+ 	if (HFS_IS_RSRC(inode))
+diff --git a/fs/hfs/super.c b/fs/hfs/super.c
+index 53800105e..9428cd7fe 100644
+--- a/fs/hfs/super.c
++++ b/fs/hfs/super.c
+@@ -432,7 +432,7 @@ static int hfs_fill_super(struct super_block *sb, void *data, int silent)
+ 	res = -EINVAL;
+ 	root_inode = hfs_iget(sb, &fd.search_key->cat, &rec);
+ 	hfs_find_exit(&fd);
+-	if (!root_inode)
++	if (!root_inode || is_bad_inode(root_inode))
+ 		goto bail_no_root;
+ 
+ 	sb->s_d_op = &hfs_dentry_operations;
