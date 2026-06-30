@@ -1,107 +1,78 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B095C369D5A;
-	Tue, 30 Jun 2026 08:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7902BE63F;
+	Tue, 30 Jun 2026 08:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782807036; cv=none; b=jw9mZJbF6ubPffBrZq9v8wRwlMIlEtCTAE3mtRMQsT1HMauMGoGicXruI+ba0LfGm4XFm0LreP/ATJNTbN6judFNIoNzxlk4AfXfv/wizlWAM2NSCMJrJvdZjDvFSXiJI4BPK31YT1JbpSTfKsQ5u44TZo4jt+NIhEg09cZ1BiQ=
+	t=1782808741; cv=none; b=skGzcUEmHuPZ3JX1Ad2NxB8v812hMe41ZrP2VeyVIvxfr1rJ0IXIW78tFtSxeGhaeslS/QJrpuqvpNOyXw5WzeaVZKm3tFRT4PXykT6YLW6GxcpghIFe9Nc23JF44tJFVqjDPkzPY/VSg8w7oC1PBf+3+tNI7cHrflYc7eBPEwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782807036; c=relaxed/simple;
-	bh=3Hu/AyHkz4mASSYxxFNDWErhvNFt0/dPFpeQCi6idbI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OzeQPuz/maqyOVrB8Tm95GnqxtrBoaw7aM0KlGFhjhVcg97u3tVtOW8M9wx9EmXGDLVnT+1BVU/kzc98stOUU3Z8qTDtORcmAaF2k4UZ5QgJ0BQFFzNqXThMK2Wb06iHbhG51yz9KcO272hjA++r6O0LtBm8tHndqrTF+j7FYXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=M3UVh/O0; arc=none smtp.client-ip=220.197.31.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1782808741; c=relaxed/simple;
+	bh=p7NcjLTCHAU4XGeKVdGFtERbLu1j9f6AIJejEQVyaXg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ZtvEsabn3piBBpv30pGPFn1ZeYPLdjxnpZ0MUvDrXpB6WCTY3tn2GoGTEEmG6bZzTi6bu/jqf0QcdnQMq6XUZU4J5HJp//1aoIKwA0sqaUOLJRHvEX46fa7NeozNykjm9PamTdiPbCwvv4JPyHDDdOHCYLnxePLvDeHDr3hjbx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EdtT64cN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="M3UVh/O0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=yM
-	FvOab7JfjhFzPXVN7GoFjgSZR2kyk1cDhk7lmS3lE=; b=M3UVh/O0Jvp01mB0fW
-	/lfDkszRjzteGlggE8Qi2E0kvUA1xbwb6dQaxNRDuykytA+uI37uu+wjD6maB1dB
-	CVkY+mE/6fA0vJ1svCH7D2bcdKOziVea3Aa6eNm3gTk6T0OWGMpo9xAEWoCHluhk
-	8ohzJ9Jl3kwWqWXb7caUIGZqY=
-Received: from zhaoxin-MS-7E12.. (unknown [])
-	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wDX3su8eUNqwWWIGg--.46550S2;
-	Tue, 30 Jun 2026 16:09:33 +0800 (CST)
-From: Xin Zhao <jackzxcui1989@163.com>
-To: brauner@kernel.org
-Cc: alex.aring@gmail.com,
-	allen.lkml@gmail.com,
-	arnd@arndb.de,
-	chuck.lever@oracle.com,
-	david@kernel.org,
-	ebiederm@xmission.com,
-	j.granados@samsung.com,
-	jack@suse.cz,
-	jackzxcui1989@163.com,
-	jlayton@kernel.org,
-	keescook@chromium.org,
-	linux-arch@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	ljs@kernel.org,
-	mcgrof@kernel.org,
-	mjguzik@gmail.com,
-	pfalcato@suse.de,
-	rppt@kernel.org,
-	viro@zeniv.linux.org.uk
-Subject: Re: [PATCH v4] coredump: Add /proc/<pid>/coredump_pre_exit for pre-exit before dumping
-Date: Tue, 30 Jun 2026 16:09:32 +0800
-Message-Id: <20260630080932.60881-1-jackzxcui1989@163.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260625-wappnen-drohbrief-wermutstropfen-c53538f01547@brauner>
-References: <20260625-wappnen-drohbrief-wermutstropfen-c53538f01547@brauner>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EdtT64cN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D77E01F000E9;
+	Tue, 30 Jun 2026 08:38:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782808740;
+	bh=JO7K29wF3xs9lZKgiCQ4LKYyHpt69w1WzAX+Sb4mevU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=EdtT64cN1QWmxC5MRlpo3ue31LOo4IMbvc2tKJzYDbxZzfAX3cHq4BSsk+W/VPpZq
+	 TmeY+OPVVJu86LetbhkOwcDtgTkMvAeAzlqlxH+/2MZq1pMWoB7ZjuQ+W6RhHGWfcs
+	 ZYwY0vJLltEPVeInjxbUc2idMu6GLFiKO5RF+KfiSPemxWt1TnC29WvVdJWSoBSaX3
+	 9osdn41VDsk142mzcvfCssPWq6RpuowoAYntBA/8VSuZa5KZ4VMfP7GMw4pF3IlJMb
+	 PxZwNa/Fl6X2yN7wEaewl3K83i7BpzOBwf/W2SPZ3h4KZ5DqOOaUOwd5x9FgrX/hL4
+	 s0Kpqizorm+sw==
+From: Christian Brauner <brauner@kernel.org>
+To: David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>, 
+ Prashant Rahul <prashantrahul23@gmail.com>
+Cc: Shuah Khan <shuah@kernel.org>, netfs@lists.linux.dev, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260624-netfs-doc-fix-v1-1-d826fc570a2c@gmail.com>
+References: <20260624-netfs-doc-fix-v1-1-d826fc570a2c@gmail.com>
+Subject: Re: [PATCH] netfs: Fix kernel-doc parameter name for
+ netfs_resize_file()
+Message-Id: <20260630-hissen-lesebrille-zieren-7cde341435fc@brauner>
+Date: Tue, 30 Jun 2026 10:38:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDX3su8eUNqwWWIGg--.46550S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7tF4DWF4DKF1xAry7uw4rZrb_yoW8XFyfpF
-	W5Ka93Ar4kGr17J3Z2ya1rXF1Fk3y5JF47XrW5W3y7u3Wkur1Svr48Kryag3ykCr1Ig3Wj
-	qrnFv34Uu3sIqFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pR489tUUUUU=
-X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/xtbCvx34A2pDeb2JZQAA3Y
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=910; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=p7NcjLTCHAU4XGeKVdGFtERbLu1j9f6AIJejEQVyaXg=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ5NyxS9Tg5z/9q7dnmLZ6e9S86bV5W/ea58ixWhT9Xf
+ 4F5FztvRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwET2Tmb4n61sWCIREzK1v/LW
+ OrX9LizBMZ4iBdtOiWiz11ouEg73ZfgrvPFM9Z6fuWzL95xRkPvW1iY1Z5aOyORanh83g/d0PFj
+ FCQA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Dear Christian,
+On Wed, 24 Jun 2026 18:59:29 +0530, Prashant Rahul wrote:
+> netfs: Fix kernel-doc parameter name for netfs_resize_file()
 
-On Thu, 25 Jun 2026 09:28:08 +0200 Christian Brauner <brauner@kernel.org> wrote:
+Applied to the vfs-7.3.netfs branch of the vfs/vfs.git tree.
+Patches in the vfs-7.3.netfs branch should appear in linux-next soon.
 
-> Nah, we're not doing a separate file for this. That makes no sense
-> whatsoever. I've already explained this in the first mail. There are
-> effectively three modes:
-> 
-> (1) dump to a file
-> (2) spawn super-privileged usermode helper process connect coredumping
->     process and said helper via pipe
-> (3) coredumping process connects to AF_UNIX socket
-> 
-> Parameterize (1) and (2) via a command line arguments. I strongly
-> suspect you're using some AI tooling so it should be able to figure out
-> how this was done in the past.
-> 
-> (3) can be extended by just introducing a new flag value for struct
->     coredump_req. That is also illustrated by previous work.
-> 
-> We're not spreading procfs files. It's terrible api design especially
-> for security sensitive changes.
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-I am unsure whether the addition of a bit 9 for coredump_filter in version
-v5 will be acceptable to everyone, as there are still many projects using
-the coredump file and coredump pipe mechanisms. I found that coredump
-files are used in elf_coredump_extra_notes_write, which makes it difficult
-to distinguish between these two types and determine whether early release
-of the files is possible without setting parameters. I am reluctant to add
-another bit for this purpose, but it seems necessary. I am not sure if my
-understanding is correct or if you have better suggestions, as I really do
-not want to address only the coredump socket situation.
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
-Thanks
-Xin Zhao
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.3.netfs
+
+[1/1] netfs: Fix kernel-doc parameter name for netfs_resize_file()
+      https://git.kernel.org/vfs/vfs/c/fcaf5da60beb
 
