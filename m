@@ -1,201 +1,162 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C309C3DDDBB;
-	Tue, 30 Jun 2026 07:39:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C6B3E44E0;
+	Tue, 30 Jun 2026 07:55:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782805159; cv=none; b=CwC6rpGfSwVswnEfzptLP/rGkR4PbE5aENsd/warvrH3LN5Omy0wJk19IQyni5GumdNVOYJ/8Wpwp7A3EiWefMXmAUvu+EZ3eqFyXKr+kV7TzEvteBnBOSBV+UapkKwGDKStP1ZmB0JpvaYVrX7EqwD1DmP3wfBsVwfvM+jY/ZQ=
+	t=1782806158; cv=none; b=sCDAaspxaJ0gNBydahVGhS3igJcXKz51/4uqRZZ/zQyJxPllEn1n2ryzIsXOq1H7aK9+03ApMYyFoGa4ebQM27IYApunOr8t+pFrJGYLy4IncMyIWHeBqXyT9b4FGMsLV5kbgoeA4jpikjXXO4QZmT6Bk9T6ro/1lFz5tAcvYjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782805159; c=relaxed/simple;
-	bh=lvjAdPL/53pFYItQkwcVoVpd0+EC0h2230TPbhE1lZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HmSpzoSYxrc4H5ztsmq6lCNMe1UnwxMnCR6alLswoUBlxALPDtcz9XI4vOhxpZZI+6+wzjuvcin7O/PEafze9SLaaJMMufggJK3GI+Tk2WUKOpUDSa0gNDa/G9QkNqlN1ict13FNuALj8TYZM44J5QoNM0tpvdCM1tK3gNL5rGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fDaf4ZqW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782806158; c=relaxed/simple;
+	bh=akQT6JRfJ1Zkbm0d13uEQPaH8NlEtNJnfMROgJGxvXM=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=IkzUDIYcWHYwkZBosvgZIc/ELGsLsdOprMhE9JULV1gMLb0xDrMWJyvjb4JU8gpgtSK++er2Om10FRa2kndE7Od4/3uCFzj+7fH7QP2vXpOiOkE+1rzeVWsuw0BkLVhOU5Av0P2LsGfhDrBGmN1abbQ9fjTbTNuj2PEQFyD/fqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V4CwXk6Y; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fDaf4ZqW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8F3C1F00A3D;
-	Tue, 30 Jun 2026 07:38:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V4CwXk6Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D52031F000E9;
+	Tue, 30 Jun 2026 07:55:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782805156;
-	bh=QFTirDmiRXM2E2UxDPivyHpH5WU8vmAPSC3LpjlrT8o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fDaf4ZqW3PD9fY8acsrJCsXc7pOEzc4lLsW2jgJhfYGl7NXG5KcVo4Pxek2Uz+Nla
-	 tOcu2NuZHwmic0JpBPUEEgMmuaTGNKExmRCbT0ES7+8QhHL9YqeimbRUf62O0HtMfs
-	 LYny1udM2eWLdF0sRgHD+bBsvogcyV+srg+CrLasOfuUZDDcJr8dZlygrFZBfDoggP
-	 p2mllhEamdnPs77YGrH3WGaXXIkqv4Xgyt7g+R7YVqHEf/NFyfi55aJUF3SRsQX/b0
-	 NUbVhpaMaUvlKWWtDdlDlkLmrVKracrOVgHvCwNbE5g49j/+vG6Xvy5Wxh+acQ6BjY
-	 MYjz8K0OvlQ3A==
-Date: Tue, 30 Jun 2026 08:38:51 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Lucas Stach <l.stach@pengutronix.de>, Inki Dae <inki.dae@samsung.com>, 
-	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Peter Griffin <peter.griffin@linaro.org>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
-	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
-	Thierry Reding <thierry.reding@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>, 
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>, Zack Rusin <zack.rusin@broadcom.com>, 
-	Matthew Brost <matthew.brost@intel.com>, Thomas Hellstrom <thomas.hellstrom@linux.intel.com>, 
-	Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>, Helge Deller <deller@gmx.de>, Benjamin LaHaise <bcrl@kvack.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	"Liam R . Howlett" <liam@infradead.org>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, Kees Cook <kees@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
-	nouveau@lists.freedesktop.org, linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org, 
-	virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org, 
-	linux-fbdev@vger.kernel.org, linux-aio@kvack.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 01/13] mm: introduce vma_flags_can_grow() and
- vma_can_grow()
-Message-ID: <akNucoP3eaDN2_Vz@lucifer>
-References: <cover.1782760670.git.ljs@kernel.org>
- <f2e8c32515d328db62279cc8bab8398ea278d74f.1782760670.git.ljs@kernel.org>
- <DJLTDCPWMXDL.4ICZ77A1LPZZ@nvidia.com>
+	s=k20260515; t=1782806156;
+	bh=w2dS4VqRw/Em0OvDV2StfeJ9DlNgRzJR6JUzBHHof/0=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=V4CwXk6YKnkYyH5J826DwWWvxDBFMYJsBkeZ0jSkUuMCi7MRUOwPXrQIs0ZHNDKTe
+	 2ephx8Dr1Na5hqDsI++k6XEZ7iCni7ECvJYyTPYqj3g2lXsipul+IGD/QTusb1vOTm
+	 OAqqQxxkgt0xfx9VoWOeskdhoVrsyyJ450FyZnKwxmnnIWvfbkDizSNP3kFvy9Ob+W
+	 sLw0QaG9BhNasKCuFOOhQclfgqewrbO1QbkwMCqFsPukzl/hosk5V6ICSYZFcwKbFH
+	 5z5sjJV2t/O1coQ0RxG+9M7fpfWNHyh8S9q8n8Sv8Yc5JFX2ToBAYBkY3yLAQsYxUr
+	 kntxXfArnl0VA==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DJLTDCPWMXDL.4ICZ77A1LPZZ@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 1/3] fs, mm: add ->cachestat() file operation
+From: Christian Brauner <brauner@kernel.org>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, 
+ Johannes Weiner <hannes@cmpxchg.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Nhat Pham <nphamcs@gmail.com>, 
+ Shuah Khan <shuah@kernel.org>, linux-unionfs@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+In-Reply-To: <CAOQ4uxiNrEZ8rsRc11mdjkMWe3dfThE0DJ2vXuO0yiNemnpR6A@mail.gmail.com>
+References: <20260623111533.2285005-1-ptikhomirov@virtuozzo.com>
+ <20260623111533.2285005-2-ptikhomirov@virtuozzo.com>
+ <ajqOyIA8tPQsxfz6@cmpxchg.org>
+ <3f6392aa-c1f6-4263-8892-978dacbbd8ca@virtuozzo.com>
+ <CAOQ4uxhras5YAr8_HBpuHSDwvfiEF8vAr0NDB0R_PXtGDhnqjQ@mail.gmail.com>
+ <20260625-lehrbuch-gehalt-wichen-1b2f3533efbe@brauner>
+ <CAOQ4uxiNrEZ8rsRc11mdjkMWe3dfThE0DJ2vXuO0yiNemnpR6A@mail.gmail.com>
+Date: Tue, 30 Jun 2026 09:55:50 +0200
+Message-Id: <20260630-tierisch-ehrbaren-errichten-bed402a0a26c@brauner>
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3948; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=akQT6JRfJ1Zkbm0d13uEQPaH8NlEtNJnfMROgJGxvXM=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ5l3WEHDrovNv1wMy7DPHbGI4bei2/3jc3L9d3/brdP
+ qJvp1nYd5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEwk34GR4Ybbp8jPbOuYjn14
+ 0nyR4VK4ZUDq6amfGTtvldl4p3+yKWH4763BU/ipx7TfP8TdQ8Wx8fuNS5bxvaenzZovVnl2+oo
+ gFgA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Mon, Jun 29, 2026 at 04:26:18PM -0400, Zi Yan wrote:
-> On Mon Jun 29, 2026 at 3:25 PM EDT, Lorenzo Stoakes wrote:
-> > These test whether the VMA has stack sematics, i.e. is able to grow upwards
-> > or downwards depending on the architecture.
+On 2026-06-26 17:18 +0200, Amir Goldstein wrote:
+> On Thu, Jun 25, 2026 at 12:36 PM Christian Brauner <brauner@kernel.org> wrote:
 > >
-> > In order to account for arches which do not support upward-growing stacks,
-> > introduce VMA_GROWSUP whose definition depends on the architecture
-> > supporting it, and use vma_flags_test_single_mask() in vma_flags_can_grow()
-> > to account for this.
+> > On 2026-06-23 17:34:47+02:00, Amir Goldstein wrote:
+> > > On Tue, Jun 23, 2026 at 4:55 PM Pavel Tikhomirov
+> > > <ptikhomirov@virtuozzo.com> wrote:
+> > >
+> > > > On 6/23/26 15:48, Johannes Weiner wrote:
+> > > >
+> > > > Yes, AFAIU in overlay when we use realfile we should always use it
+> > > > with_ovl_creds(), even though I don't think there is anything cred related
+> > > > in filemap_cachestat(), I still think we should follow the common pattern
+> > > > other overlay helpers use (similar to ovl_fadvise() and ovl_flush()).
+> > > >
+> > > > note: Actually some places get ovl_real_file() and use it without
+> > > > with_ovl_creds(), e.g.: ovl_read_iter, ovl_write_iter, ovl_splice_read,
+> > > > ovl_splice_write. But those look more of an exception than the general
+> > > > rule. All other instances use with_ovl_creds().
+> > >
+> > > Use with_ovl_creds() is a good practice to keep the mental security model,
+> > > but it is useless if the security check (can_do_cachestat) is not in the
+> > > vfs helper (vfs_cachestat), so please move it there.
+> > >
+> > > Also it kind of makes more sense to check (flags != 0) in sys_cachestats
+> > > before checking permissions.
+> > >
+> > > > Also there are simingly no other file_operations which return "realfile"
+> > > > for further processing, mostly the operation from fsops simply replaces
+> > > > general operation with its own logic completely.
+> > > >
+> > > > Thanks for your review!
+> > > >
+> > > > ps: Hope overlay maintainers will correctly if I'm getting this wrong.
+> > >
+> > > I don't think this is wrong per-se, except for can_do_cachestat().
+> > >
+> > > Just be aware that the real file could change from one cachestat
+> > > call to the next (i.e. due to copy up).
 > >
-> > Update the VMA userland tests to reflect the changes
+> > I'm really grump about adding a new file operation just for a
+> > special-sauce system call which is under a CONFIG_* option even. We're
+> > not going to set the precedent of piling on custom file operations for a
+> > single filesystem everytime someone adds a new system call unless
+> > absolutely necessary.
+> 
+> I had a similar reaction.
+> 
+> > This looks like it could just use a new helper in
+> > fs/backing_file.c that the cachestat thing can call to use the correct
+> > file.
 > >
-> > No functional change intended.
-> >
-> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
-> > ---
-> >  include/linux/mm.h              | 21 ++++++++++++++++++---
-> >  tools/testing/vma/include/dup.h |  4 ++++
-> >  2 files changed, 22 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> > index 868b2334bff3..cf7df1569052 100644
-> > --- a/include/linux/mm.h
-> > +++ b/include/linux/mm.h
-> > @@ -472,6 +472,7 @@ enum {
-> >  #define VM_SAO		INIT_VM_FLAG(SAO)
-> >  #elif defined(CONFIG_PARISC)
-> >  #define VM_GROWSUP	INIT_VM_FLAG(GROWSUP)
-> > +#define VMA_GROWSUP	mk_vma_flags(VMA_GROWSUP_BIT)
-> >  #elif defined(CONFIG_SPARC64)
-> >  #define VM_SPARC_ADI	INIT_VM_FLAG(SPARC_ADI)
-> >  #define VM_ARCH_CLEAR	INIT_VM_FLAG(ARCH_CLEAR)
-> > @@ -483,6 +484,7 @@ enum {
-> >  #endif
-> >  #ifndef VM_GROWSUP
-> >  #define VM_GROWSUP	VM_NONE
-> > +#define VMA_GROWSUP	EMPTY_VMA_FLAGS
-> >  #endif
-> >  #ifdef CONFIG_ARM64_MTE
-> >  #define VM_MTE		INIT_VM_FLAG(MTE)
-> > @@ -1563,11 +1565,24 @@ static inline bool vma_is_initial_stack(const struct vm_area_struct *vma)
-> >  		vma->vm_end >= vma->vm_mm->start_stack;
-> >  }
-> >
-> > -static inline bool vma_is_temporary_stack(const struct vm_area_struct *vma)
-> > +static inline bool vma_flags_can_grow(const vma_flags_t *flags)
-> >  {
-> > -	int maybe_stack = vma->vm_flags & (VM_GROWSDOWN | VM_GROWSUP);
-> > +	if (vma_flags_test_single_mask(flags, VMA_GROWSUP))
-> > +		return true;
-> > +	if (vma_flags_test(flags, VMA_GROWSDOWN_BIT))
-> > +		return true;
-> > +
-> > +	return false;
-> > +}
-> >
-> > -	if (!maybe_stack)
-> > +static inline bool vma_can_grow(const struct vm_area_struct *vma)
-> > +{
-> > +	return vma_flags_can_grow(&vma->flags);
->
-> Would it save vma_flags_can_grow() if we do below?
->
-> return vma_test(vma, VMA_GROWSDOWN_BIT) || vma_test_single_mask(vma, VMA_GROWSUP);
->
-> I find these two functions when I am reading mm.h.
+> 
+> I was considering suggesting this as well.
+> Having f_real_file() complement
+> 
+> but technically, can_do_cachestat() should be checked against
+> the overlayfs file/inode AND also against the real file/inode with
+> ovl_creds.
+> 
+> I'd love to be able to provide a backing_file "template" for
+> operations, but I don't have a good idea how to do that.
+> Do you?
 
-Yeah but we require vma_flags_can_grow() for code in mmap.c, the majority of
-checks of this have only vma_flags_t to work with not a VMA :)
+diff --git a/fs/file_table.c b/fs/file_table.c
+index c68b8c0a4097..d93059d53e88 100644
+--- a/fs/file_table.c
++++ b/fs/file_table.c
+@@ -57,6 +57,8 @@ struct backing_file {
+ #ifdef CONFIG_SECURITY
+        void *security;
+ #endif
++       unsigned int flags;
++       struct cred *backing_cred;
+ };
 
->
-> > +}
-> > +
-> > +static inline bool vma_is_temporary_stack(const struct vm_area_struct *vma)
-> > +{
-> > +	if (!vma_can_grow(vma))
-> >  		return false;
-> >
-> >  	if ((vma->vm_flags & VM_STACK_INCOMPLETE_SETUP) ==
-> > diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
-> > index 5d7d0afd7765..6f5bcd7fbcd8 100644
-> > --- a/tools/testing/vma/include/dup.h
-> > +++ b/tools/testing/vma/include/dup.h
-> > @@ -245,8 +245,10 @@ enum {
-> >  #define VM_STACK	INIT_VM_FLAG(STACK)
-> >  #ifdef CONFIG_STACK_GROWS_UP
-> >  #define VM_STACK_EARLY	INIT_VM_FLAG(STACK_EARLY)
-> > +#define VMA_STACK_EARLY mk_vma_flags(VMA_STACK_EARLY_BIT)
-> >  #else
-> >  #define VM_STACK_EARLY	VM_NONE
-> > +#define VMA_STACK_EARLY EMPTY_VMA_FLAGS
-> >  #endif
-> >  #ifdef CONFIG_ARCH_HAS_PKEYS
-> >  #define VM_PKEY_SHIFT ((__force int)VMA_HIGH_ARCH_0_BIT)
-> > @@ -315,6 +317,8 @@ enum {
-> >
-> >  /* Bits set in the VMA until the stack is in its final location */
-> >  #define VM_STACK_INCOMPLETE_SETUP (VM_RAND_READ | VM_SEQ_READ | VM_STACK_EARLY)
-> > +#define VMA_STACK_INCOMPLETE_SETUP append_vma_flags(		\
-> > +	VMA_STACK_EARLY, VMA_RAND_READ_BIT, VMA_SEQ_READ_BIT)
-> >
-> >  #define TASK_EXEC_BIT ((current->personality & READ_IMPLIES_EXEC) ? \
-> >  		       VM_EXEC_BIT : VM_READ_BIT)
->
-> Why are VMA_STACK_EARLY and VMA_STACK_INCOMPLETE_SETUP added here but
-> not in mm.h?
+ diff --git a/fs/overlayfs/file.c b/fs/overlayfs/file.c
+index 27cc07738f33..64e07ebc43b0 100644
+--- a/fs/overlayfs/file.c
++++ b/fs/overlayfs/file.c
+@@ -50,6 +50,12 @@ static struct file *ovl_open_realfile(const struct file *file,
 
-Yeah urgh oops my bad. It doesn't really break anything but I'll fix it if a
-respin is needed...
+                        realfile = backing_file_open(file,
+                                                     flags, realpath, current_cred());
++
++                       // Raises ->flags |= BACKING_FILE_CREDS and sets ->creds to ->backing_cred.
++                       backing_file_set_creds(file, ovl_creds(file_inode(file)->i_sb));
++                       // Now add a helper that performs permission checks on
++                       // both creds for that cachestat() thing and returns
++                       // the actual file to operate on.
+                }
+        }
 
->
->
-> --
-> Best Regards,
-> Yan, Zi
->
+something like that?
 
-Thanks, Lorenzo
