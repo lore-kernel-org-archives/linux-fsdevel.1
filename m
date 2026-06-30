@@ -1,143 +1,145 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909473C0A1A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 15:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E00E3976B8
+	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 15:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782833342; cv=none; b=kNTqy0yjJ4zD8cLoiKwexsfktXPZVBLfJ3x9AGm0Rh581EZJlddDZ+EorrNWe89AAvFfPnL9vASHCgf0BGxIFhmILTMIy1L+7kOK7UJFDEZROhN9rC/G8YgRFkA1j/F60LxNyvElD5CK2GY0yvmLGGNjhwww0JHh8A5cVp96wM0=
+	t=1782833462; cv=none; b=hP5tyV8iMYpj2NOufbNL+5IM4J3BRsLGt36IvyakZSmbxch0xifLd3grpxiSBlmxDiWxwGnl10wHFw6l5acCJSUShDrl5bFxMHX8WaqJo4bsxL6UW0MQ9LJSwhToW6TLUwhXhluvHo6hl/UCBycreU6VExCdYdabQ4En7tQMlwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782833342; c=relaxed/simple;
-	bh=2M9MfY4H1H/0HOYfmt+JcueUOSRO8TvBT8BHq19qHb0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CKCIgMkUbZsw0pYth8emY98z5kMAuCI7UPBuKD6rblveFjkvQ7GyszxctDLeeLdDGA1orRHVSRGKK2IQi2W+uKEtPZvfqhZa4Bg/MnCRasWg6T7HWPYv266rtsX3lOg5mvEX8oJaCdDiYt0Pcc/g/VVqRElq2CBYrXfsWgKgM2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MDW5CNQ8; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782833462; c=relaxed/simple;
+	bh=dsxaVzZxmHO2gtIU2TvsbwgiexrCHtWtBKWF+qAkz/U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ufv+aV/6D+T6n3OaDSzmpteMN4guO2DkxdxuAhig5qfAmFGieOvWSc/ymuS/5MNO3mKbiblF5jvcmh4smjqzIHpdQK84db2VxRp0bNjtzGGsvGyHx7/RGgdiaBNOr+zZVh2m6+kFSGUdp+fab1yKz07iZBeijyUisDzGaco7FCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=psJiMuwN; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MDW5CNQ8"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2c9f10fa7a3so23512185ad.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 08:28:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="psJiMuwN"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-80e4455b9a3so25122917b3.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 08:31:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782833336; x=1783438136; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ieZ/cbQKHK2F/fV/agCmqPxTOt3w91FfvE0jZzlrx+4=;
-        b=MDW5CNQ84fFkHhocKYme4NT2geGMu/9H0dsiQaYydsJdH6piOgWwHOcd9U/r8l7vm4
-         kzxKUC/M/+pIMBmMLrP18Xm0spNVoaMJiPSbBtTTgBBezyk+UcuI5lkKWH2ec5ta47h0
-         OoYYbz5LlD46gbl4rFjdGCRHZIEvhwFztPaKqHJWIt1C4tEIQxdEKF/jQ/kMbW/R1+lC
-         fdO2FKzG8PX7i5mpkxM9OA41UEixW/m3YhR8QpnBEmHUj4IFRW9/Z17qIDoSTBwEW0Nv
-         UiqaJW6txo6I3fFQv1dCR1N6Gdd7ACfA6hYm2B+l5K5mNAWMmhR8vm5aXMaRx9LVHThd
-         eMuQ==
+        d=gourry.net; s=google; t=1782833461; x=1783438261; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vvVAmqyImW7TQjYTHR7q/vQBEUZYJ1tMtKhaki/MPes=;
+        b=psJiMuwNe+wsnUKX7JHCC2bk1zBbH6TKDOkVBQ66qIshRB/HhIKhiSrjGwt1s7N7VC
+         tOi5rem+fSHxGzpb3kuOMD6hh875dR7NBTCiw/2BXknMBRbL6KWT4294gx3TdIf059Of
+         Z5vcIfRCC/NTqtq0kzExToplBIxc9T/yI2Jp2uAfbuoXNoElsI2IhIGC9Q+cJ7GkimQH
+         Yol7MsahNFki7nOoT2pIRwagOA2RApVYKCCBC4kdPMvrlV5P0magpXSJr8EmEVmU6VaD
+         JCn+0NFPnynd6/LJAzVsjJH33Y/ZCb5XU0qkOPyw5gvpPx66+U1NVRBwzQ8/RaSOVzrW
+         R6wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782833336; x=1783438136;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ieZ/cbQKHK2F/fV/agCmqPxTOt3w91FfvE0jZzlrx+4=;
-        b=S9/8eh5qtAZZSSMAwB8IEpTJgqeKEb311+fqnPF5KsL2Y/yd5dsIzTF1YsodwIhwra
-         bRJja4M+tEMYEDIxIvrtOI0THqemXoqB0nECfp9YpxmZZmdfc/wbp0sCHRk1ks+GDGcT
-         4vAvMfikikQBjSO9PDm+BIui8Ud0ftzhdk8B1o4xjXrrkeB75p0w0b+R4VKQKpqlOfDv
-         YPNJ76KYO3klzbWrHscHnGU6DBMq9V7sPBXaKVk51/abNNhbh17+SwbIKNsylhh+0NES
-         i3wj8IfsiS6iJxurbR9aWCmi+xdId3QF/8EbqgLNZxOfVGbE9hxA8tL5vpHsKFFIuPNp
-         cIGQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpZCiLbSuyrzLpyoMO9wZggj1YZfgXobfZvfcMWmi0RITMzBGatNFnqOfv9COJvwyArJl9/SDnrfhlMi0Lo@vger.kernel.org
-X-Gm-Message-State: AOJu0YzN7yCBOMsiwpOPNpkFlKqQIhu5OfFPaMTeaHeVqoQdej8VEmc5
-	a8v3m/AkyT5BrjBxrA9SUlQe+orFtVXI38b5eiBuWAWVEdw0mfoAVcG+
-X-Gm-Gg: AfdE7cmbjhUTU4KAJwz2ZpyHF9D7awsMfY25tdSyKAQNsP1+27JoOGXD15u8Y45Z72I
-	+5xWzwG8jrmSA+jjotC9Pd4w1f6i4Oja4hCeGZz1dN2dpoifm1lr2cCaQtZHPSF1YzXnEsAqiB0
-	lzwFbOcBrkn20ozzL5qEHI65RKZPJQxH4wi9IDlcU/4iR8H3R/qpymIsIS3T1/z+H4g9WqRlmPX
-	sNnJD8SA4WRUFTCvXtKc+Is9AZetPKZcQC9Aqoxq6rnm7sMzhDeU6Bd5xrkBYcrP779YfHGvEjC
-	lppDvTrvp9aBygI4p5iK0FcOkJcd7rpFlPgwxAzdFdpZiSw5Y9xZ/T5djx5sLSpV56jfg3Z3xsO
-	33ydK2phsy8Eh6z6K4+txFoTS1BqMJAQ4TmxsSVqkVqZufdYywFJn0QGltUUpKPsvkGGmp8VA61
-	1xWa85x0L/pL3LQFc9bG+eWHjOv7JIJXONTk6RYM9BFgg4O/UEN7NDio4cOfVatfBysT5F2y5hK
-	xtpyerxR8apcfFRRAnyf70bc1dYK4BJkIVfB0NaVgxJNon9+uDhu70rtavO2HH9cBifGG23xB6y
-	D7V+O5yMTSC7+Kk5AaY2+ZXE7A==
-X-Received: by 2002:a17:903:291:b0:2c9:bd64:8c81 with SMTP id d9443c01a7336-2ca5a58544dmr7912625ad.18.1782833336338;
-        Tue, 30 Jun 2026 08:28:56 -0700 (PDT)
-Received: from cs-1047136853211-default.asia-southeast1-b.c.d33bddc1d573818c7-tp.internal (126.60.158.34.bc.googleusercontent.com. [34.158.60.126])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca4bae1e2asm10501645ad.73.2026.06.30.08.28.52
+        d=1e100.net; s=20251104; t=1782833461; x=1783438261;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vvVAmqyImW7TQjYTHR7q/vQBEUZYJ1tMtKhaki/MPes=;
+        b=fkZAJCu3oKK5Iw9SgdQ/5T3sNiVLBYirKvw2SGzsocSsjo3KSywN4hmJ9nWyB4knAj
+         94rpocHn3ThqXH3jJTazibwWnxWGgRgAS5Qhj3YS2/LCbAQhv+K6AD251NCsgi7NxBTf
+         tZLOw3MKuD26bZ6fAuCC+4FUdmCFqMjTRTgFYrrKq5fVzuT+znt8kD5AtO5XmXbnIAnE
+         Wu7ZlwO/jcUS8o8CEuAXnLfYQxuVHv7zHf2xs+xVghF3eI5p/yM1praFxf2WMbqdhTWO
+         5PAsDwq/BdVFPQuJ4FgWsbnM7Ixjq61nI0u7IbXn4e/7kLbzgjg2zhiozvEgn2cunF07
+         6aqQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqEopDRUgNyT/TFc4B6VRmkpE8tLpVdKdLa2q2G0yK6N96G/PlMApC19jOw6BYVtMza0ED7/u/EXMGjt7qI@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCc3xw40zKo4JMa+zo+6Fzau0VyefrNOa6pJJNOELxLR+xas1r
+	zAK7hMgDaSIWn/ozJAg5taQzm2+E5MFNeWFkcCEAW/aze+JrdZdprvCBMWskTDfThOA=
+X-Gm-Gg: AfdE7clVyhEAzxa+kpZyEACZti+ZjTd/dRQP/tUwD5goYUeewt1vmrqrvlLvcBm+pkZ
+	GblLPv3ZxRJ4WkBGbi+gCzFgod+z5/cgso0qPF8GEyLBtPMZkF8RV/fat1so51+vk5ngzDnjxM7
+	uYMFazsmq23AN7FYL5CKldQvk6cH107aVS02tCXUk93xXG2bfZpPXUoCIpNear+l+CzVSrW0MDQ
+	3vj1xwIuT3UdGvRklyi+eTrd3iv46Yd2ZFrEbRHelS/yEcB3rDfU4LBdtuSfLUGZULc3T/soAAi
+	5PrALUxgDajcQc04/nguc7bWVQR0IbO6lLWeY/61yj04CCjJ6Lx/C1TcrhelkZvqEapXpB4PpuL
+	Kex2Sggd2bwrCUzWzt0VjdMcVvRcdLbwg9slsUmWYv00RS6P+SXdphUJ8Nof8BaRuKhigzxFbvl
+	XA/0C+P/Xn0lE07raL5BiCRaxX4FCecbEHw8qtVzrK074m4WTuB4Iw63IjiSGP3PdTnOaG
+X-Received: by 2002:a05:690c:6112:b0:80e:bd63:1780 with SMTP id 00721157ae682-810d7eb0bd6mr46000317b3.2.1782833460437;
+        Tue, 30 Jun 2026 08:31:00 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8f1a783d9d7sm25574106d6.41.2026.06.30.08.30.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 08:28:55 -0700 (PDT)
-From: Aditya Srivastava <aditya.ansh182@gmail.com>
-To: Theodore Ts'o <tytso@mit.edu>
-Cc: Andreas Dilger <adilger.kernel@dilger.ca>,
-	Jan Kara <jack@suse.cz>,
-	Baokun Li <libaokun@linux.alibaba.com>,
-	Ojaswin Mujoo <ojaswin@linux.ibm.com>,
-	Ritesh Harjani <ritesh.list@gmail.com>,
-	Zhang Yi <yi.zhang@huawei.com>,
-	Tao Ma <boyu.mt@taobao.com>,
-	syzbot+0c89d865531d053abb2d@syzkaller.appspotmail.com,
-	linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
-Subject: [PATCH 2/2] ext4: replace BUG_ON with graceful retry in ext4_write_inline_data_end
-Date: Tue, 30 Jun 2026 15:28:12 +0000
-Message-ID: <20260630152812.1706-3-aditya.ansh182@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260630152812.1706-1-aditya.ansh182@gmail.com>
-References: <20260630152812.1706-1-aditya.ansh182@gmail.com>
+        Tue, 30 Jun 2026 08:30:59 -0700 (PDT)
+Date: Tue, 30 Jun 2026 11:30:54 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Simon Schuster <schuster.simon@siemens-energy.com>,
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Christian Koenig <christian.koenig@amd.com>,
+	Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Dan Williams <djbw@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>, Hugh Dickins <hughd@google.com>,
+	Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+	linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+	kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-mm@kvack.org, iommu@lists.linux.dev,
+	linux-perf-users@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+	Jann Horn <jannh@google.com>
+Subject: Re: [PATCH 07/30] mm/rmap: elide unnecessary static inline's in
+ interval_tree.c
+Message-ID: <akPhLlv66ZqQ-jrw@gourry-fedora-PF4VCD3F>
+References: <cover.1782735110.git.ljs@kernel.org>
+ <ed5fd5358382217a92f0a6afddcfaa030c933055.1782735110.git.ljs@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ed5fd5358382217a92f0a6afddcfaa030c933055.1782735110.git.ljs@kernel.org>
 
-From: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+On Mon, Jun 29, 2026 at 01:23:18PM +0100, Lorenzo Stoakes wrote:
+> It's not necessary to declare these functions static inline as they are
+> contained within a single compilation unit.
+> 
+> This makes the anonymous interval tree code consistent with the newly
+> updated file-backed interval tree code.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 
-During a buffered write, `ext4_write_inline_data_end()` acquires the
-xattr lock after preparing the write. If a concurrent page fault
-(`ext4_page_mkwrite()`) converts the inline data to an extent after
-the write_end handlers check the state but before
-`ext4_write_inline_data_end()` acquires the xattr write lock, the
-subsequent check will trigger a kernel panic via
-`BUG_ON(!ext4_has_inline_data(inode))`.
-
-Replace the `BUG_ON` check with a graceful error-handling retry path.
-If the inline data is cleared after locking the xattr, we safely
-release all resources (releasing `iloc.bh`, unlocking/putting the
-folio, stopping the active journal transaction handle) and return 0
-(VFS retry) to let the generic write path retry the operation safely.
-
-Reported-by: syzbot+0c89d865531d053abb2d@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=0c89d865531d053abb2d
-Fixes: 3fdcfb668fd7 ("ext4: add journalled write support for inline data")
-Suggested-by: Jan Kara <jack@suse.cz>
-Signed-off-by: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
----
- fs/ext4/inline.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
-
-diff --git a/fs/ext4/inline.c b/fs/ext4/inline.c
-index 8045e4ff270c..cfd591dc1d9c 100644
---- a/fs/ext4/inline.c
-+++ b/fs/ext4/inline.c
-@@ -812,7 +812,19 @@ int ext4_write_inline_data_end(struct inode *inode, loff_t pos, unsigned len,
- 			goto out;
- 		}
- 		ext4_write_lock_xattr(inode, &no_expand);
--		BUG_ON(!ext4_has_inline_data(inode));
-+		/*
-+		 * We could have raced with ext4_page_mkwrite() converting
-+		 * the inode and clearing the inline data flag, so we just
-+		 * release resources and retry the whole write.
-+		 */
-+		if (unlikely(!ext4_has_inline_data(inode))) {
-+			ext4_write_unlock_xattr(inode, &no_expand);
-+			brelse(iloc.bh);
-+			folio_unlock(folio);
-+			folio_put(folio);
-+			ext4_journal_stop(handle);
-+			return 0;
-+		}
- 
- 		/*
- 		 * ei->i_inline_off may have changed since
--- 
-2.47.3
+Reviewed-by: Gregory Price <gourry@gourry.net>
 
