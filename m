@@ -1,44 +1,44 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.168])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1747441168F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5CF41323C
 	for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 10:54:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.168
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782816890; cv=none; b=eyHOPC8/f/Uw05V/IFoTVHGbJWDRERYkaTgFopCiVYlwFTjio8DfkSciTz1mE7fhlwQVpbxpl4NjoakboaWGU4dWLIptD2pIE+BN9gl162Y1fFA9MuRK3fjU5LReIxRAUaHo9URl5F7F0NcjSZqOua+RaJdg4Cf+yhCVJ8A0yLs=
+	t=1782816891; cv=none; b=H+i+Sb7FmZltyYESkfOkzhu7yb2f2gI/4PK2HAVmct2Tqy5GvbbyztpU5vbn7F8KNG/TEaOYgMETLK9DerTRxPcdcQ6eoj865UyFva19XDCw8QXfDv5CdsfUyrDphudzmXbkKJgoVM3lH7J8vnHTwDTuUbXFumARaBRnjNyyOig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782816890; c=relaxed/simple;
-	bh=FhD7r87hDuR+ur5wmbnUTHPsXF/vd1UGN3/eWbmoSlc=;
+	s=arc-20240116; t=1782816891; c=relaxed/simple;
+	bh=Uk+/WyHJjtE2MuRU1zNQ866KZy4HYKQl4BqLY5mPhS0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fKh6UAqAYc1XukgySbRf+BxzqQm2k9GLLokaon6Z5NVSU4aJUzEGpW6FVNVpBodbFAix8BT78SkgwbfdShYAiIsfPpixpwTV6ftGaa+wmvf127xdsijQvjkxnGHUdz1Pfjb8Nak0wiLLkCzCXRE/luxulgzx+U5Us78ccH4+3QQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=c6b0Vv93; arc=none smtp.client-ip=195.121.94.168
+	 MIME-Version; b=Qpi6rqRhrejToGVZ01szk9lqaE+NQrdr/J/s2u0WVdSTkYKOM8MCyiz/nFgStn9QOHBGcwy7IMWwzEdfQmWwuv8xgxiuUMwdrYeJUtP1jo6j/03LlqMvenZwP45Qr6kNGFr+WJzqql56mZdr1AltB0cXmat2WPCUxv1kXXPeMIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=Fq00iWCs; arc=none smtp.client-ip=195.121.94.167
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="c6b0Vv93"
-X-KPN-MessageId: 1c45667a-7472-11f1-861c-005056aba152
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="Fq00iWCs"
+X-KPN-MessageId: 1cd670b6-7472-11f1-b2a8-005056abbe64
 Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 1c45667a-7472-11f1-861c-005056aba152;
-	Tue, 30 Jun 2026 12:54:47 +0200 (CEST)
+	id 1cd670b6-7472-11f1-b2a8-005056abbe64;
+	Tue, 30 Jun 2026 12:54:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=mime-version:message-id:date:subject:to:from;
-	bh=nbumNdnyvl6j2oNuW2WkPsDqoFFYYg5CBsziWvZ0Um0=;
-	b=c6b0Vv93m8kefhMJp6ueYiFAjp7A/7Np+SGAfiploDu0e/b+qLHyo19lVgmwVpE5K+nIofdQWIyno
-	 uHN4MAoekTJLUq72GJSo/I+wo2GNHR3QZVJ/UdWOsLgC2c1IlSmbx/TIVy9dUKp5w76T+SQYY84XBd
-	 T8Nyqwm+kNWP/Bu/4de0+i7I7NjtP13s7RESrGUSy1h/y9lxlX6ey7Nvo3/V6Q81u59efluilIwuP/
-	 G+DPM2hMkteOTiQV0KbtT4a4H0mWVGtedXTq6akL4FnSB5RAXJcTCDFfyDDQ81Nzccrsv8w6xDlZ8D
-	 wjf0DbkOWC3OgyJUBRimneMf9LDemSQ==
-X-KPN-MID: 33|YVkKUR2bRl3chFc1dzwXIAWHPctmqilZ8x61WPDQLGyjzw5ZFSY2O3xMFg7i5rd
- +Ea8cq4d5sSObyl6L1B7r8a5DvKwtd0agcdo9rjyMi4k=
+	bh=Y5AAPOXPjfW23Ek4gvsWUMEi+CKmtD3C/DJEXHOyq+U=;
+	b=Fq00iWCsoCZrVxUvPzFfktmQfMzguCv+vilflYLG9yz03zUL6Cs+7d1Z4PlItu/h7U6pFMXgNBwOG
+	 U8QymV35bx3wFHxQRQi3RvF3iqPqj/VDjidDXSScQBynyEk16tq5sdy4HpM0DhIFFFMK/LGa5pEg86
+	 YGhHeYjNvKRqNV8ekY323RX+z81x8sMqein/vMZtdOlfZzqFy7kGWEQ/irhirgahFSqoK0D/2Mm7XQ
+	 mY15zC/EQeDzw4rejB7XR3MW53B0yxZ/+R7t7DaoAoxtg5iz2l9ZMbs/usW0r91YIKgrqv5Z80flzz
+	 2IzfNrnWabYMElphQjemrY+j6zTcV3Q==
+X-KPN-MID: 33|41D0mvihReCMSSj0jt2PxYCvJ4+ngUJt1olpzwSVpFCVHV+K261Irk1djVd+VLk
+ hHYZ5rcb9L3EoSdkdAbqApcIRh65KFeqh7yDPrJ5nil4=
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|XFtsbxvIPXcmWdwAsQikly/Np55wAP97j34oeQpkOBhAKAN7xODbLJQngyGa47B
- HIBsh4dnv09wildxZxuNccw==
+X-CMASSUN: 33|9tgQq1ohVxlBJLrcr8gYkhLHl+EVm6K4CIn9U0Sqg1Afvz9nuurlFf4CAEK9+2D
+ i1dnKWXGIo3OFYFjUVJDImg==
 Received: from lt-jori.home (unknown [178.226.150.234])
 	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 1c20c143-7472-11f1-91b9-005056ab1411;
-	Tue, 30 Jun 2026 12:54:47 +0200 (CEST)
+	id 1c8d72c2-7472-11f1-91b9-005056ab1411;
+	Tue, 30 Jun 2026 12:54:48 +0200 (CEST)
 From: Jori Koolstra <jkoolstra@xs4all.nl>
 To: Christian Brauner <brauner@kernel.org>,
 	NeilBrown <neil@brown.name>,
@@ -47,9 +47,9 @@ To: Christian Brauner <brauner@kernel.org>,
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Jori Koolstra <jkoolstra@xs4all.nl>
-Subject: [PATCH v2 28/31] nfs: drop redundant S_IFDIR from mkdir
-Date: Tue, 30 Jun 2026 12:53:57 +0200
-Message-ID: <20260630105400.68459-29-jkoolstra@xs4all.nl>
+Subject: [PATCH v2 29/31] ubifs: drop redundant S_IFDIR from mkdir
+Date: Tue, 30 Jun 2026 12:53:58 +0200
+Message-ID: <20260630105400.68459-30-jkoolstra@xs4all.nl>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260630105400.68459-1-jkoolstra@xs4all.nl>
 References: <20260630105400.68459-1-jkoolstra@xs4all.nl>
@@ -62,28 +62,28 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 vfs_mkdir() now sets the S_IFDIR type bit in the mode it passes to
-->mkdir(), so OR-ing S_IFDIR into the mode again in nfs_mkdir() is
+->mkdir(), so OR-ing S_IFDIR into the mode again in ubifs_mkdir() is
 redundant. Drop it.
 
 Assisted-by: Claude Opus 4.8 (1M context)
 Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
 ---
- fs/nfs/dir.c | 2 +-
+ fs/ubifs/dir.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/nfs/dir.c b/fs/nfs/dir.c
-index c7b723c18620..630718739d59 100644
---- a/fs/nfs/dir.c
-+++ b/fs/nfs/dir.c
-@@ -2474,7 +2474,7 @@ struct dentry *nfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
- 			dir->i_sb->s_id, dir->i_ino, dentry);
+diff --git a/fs/ubifs/dir.c b/fs/ubifs/dir.c
+index 86d41e077e4d..b200f3d682b6 100644
+--- a/fs/ubifs/dir.c
++++ b/fs/ubifs/dir.c
+@@ -1031,7 +1031,7 @@ static struct dentry *ubifs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
  
- 	attr.ia_valid = ATTR_MODE;
--	attr.ia_mode = mode | S_IFDIR;
-+	attr.ia_mode = mode;
+ 	sz_change = CALC_DENT_SIZE(fname_len(&nm));
  
- 	trace_nfs_mkdir_enter(dir, dentry);
- 	ret = NFS_PROTO(dir)->mkdir(dir, dentry, &attr);
+-	inode = ubifs_new_inode(c, dir, S_IFDIR | mode, false);
++	inode = ubifs_new_inode(c, dir, mode, false);
+ 	if (IS_ERR(inode)) {
+ 		err = PTR_ERR(inode);
+ 		goto out_fname;
 -- 
 2.54.0
 
