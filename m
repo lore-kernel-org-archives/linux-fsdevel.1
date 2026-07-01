@@ -1,44 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E79175A9C;
-	Wed,  1 Jul 2026 18:53:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81401A5BAE
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 19:16:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782931985; cv=none; b=taoxjxrZRYkCz0fvpSEUvWK8iKknKD5ePgnLQUfVEZaMjHnKnUt3tl+wP7cmoAmGaVJtpcYMbl8nOJgC43S6DUMdtGjdhPG+AWwIzzY2yXMb4k+AN7YtP6ACTbdE82JQPqV3cY6K2vbZpbJECCqzzl907TGz5WdDVwrfCHrcji8=
+	t=1782933420; cv=none; b=MmOJwRmccANxEEMv1K/UdeEluwMJJrCis7X5mQz7lxMHF4z8aXXqs2dJNgnhAaVo44jGW6bl98BC1riCHAkK+/PeDGR4iOalL3SK0Ng1i8udb9KH77LmWWjDMN/AgJZR+FOZctYRYopP/nzqU72n4PBfdU2f0YB7WNu2vedTYm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782931985; c=relaxed/simple;
-	bh=JJ2bCvF9V9faRtkSVez83R/oSccusPAWgLiUuakKyvM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QrK0op8V/aZDo3Eid5DBPhyRSMseFhjN9crhTESnJoA6YGwBfOUT8DCVvM/syRsEoQWmKeZGP3Xws9HYX1IYN3RmVsZ7Sa0QT1/tdzm13HM9OCK5NBijwIWt2iTe9Phs+wFxS7AKQhHv4O+zowEPt4p+A9TodMJY+4oRLsrFtak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P6cpzUM4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782933420; c=relaxed/simple;
+	bh=ZZYQB1ywWdaj6nerK4frFgidpSnEvrwM3J7Wzj7z7+U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RUu/72657xGJnq/+WfIuHC/que9olh/e7JxFv6fJ0dheinW22/7ZrCGQ/Z7Eitac9cq/8V2Hs15HmErDG4VAkO5Rgk9XuagsnS49BdFMwUCQTlsUE15lytZi7f2oiA7FkGSWYL6dWRUtCF5MuQcX0KSB92zDNLk0TLQ/LcNY7pY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=H3fPN8Kb; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P6cpzUM4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47F061F000E9;
-	Wed,  1 Jul 2026 18:53:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782931983;
-	bh=TNz7DIIDlkzXwzuwPEkNP0afeY/1aW0PYOsxFj/Jr6c=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=P6cpzUM4FLbh2hMauoymkBbq26tRWfe6OhHarMMy5mVfPLJUzeHNRBKFKX1jfrWu1
-	 aFgzL0YfCF+JrSOjuRbwxx3OY/0g6xQce7WUhQbI4OulM73Nn/dyudyil7H9hIlXpB
-	 xuma73m7yo3FiFhQfBbiAgbdPvDlBPZl+vw8uTUZ7wffYSkrsLAfQS96x8FrlM1mI7
-	 PUM9vpv24jgMXghqLmBC5zJQg1+GbJcMI9KXQQgNE9W7WNDg8fAX+Z+L2Ofa05B/BV
-	 89tKMRnsv69cSruy2SEJ/X60YNS1kGjlk/RqxjdnSvek/Methvdj0s4Jp+BdwVfaSk
-	 7JyPGYdU5sxdg==
-Date: Wed, 1 Jul 2026 11:53:02 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>, Christian Brauner <brauner@kernel.org>
-Cc: Linus Torvalds  <torvalds@linux-foundation.org>, Jonathan Corbet
- <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, David Hildenbrand
- <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-Message-ID: <20260701115302.29c66401@kernel.org>
-In-Reply-To: <bffcce9436c47e8762e6f4fa4cae9f7ddd183b8f.camel@kernel.org>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
-	<bffcce9436c47e8762e6f4fa4cae9f7ddd183b8f.camel@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H3fPN8Kb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782933417;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pLZC12D+E8xxQ7rcSIFsFe8bUzAIAxTb4/5hf/WE3DQ=;
+	b=H3fPN8KbRVGFsin+RjJaPxrJBop+kwEDleR1x0S47gnWUkMiarsCWRsEgNPWSGoftwQzRf
+	n+yqje4PHwaekpPGpCaoghGFTMwt7Y3dYir9Xg0WD57jtJaDHZ19FkL5XxWtc97JFPrVmr
+	WzWocv3MUVBO24CUvpmJENzaGrV5fC4=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-277-chM19dmSMfCN1M4NdP2ZuA-1; Wed,
+ 01 Jul 2026 15:16:54 -0400
+X-MC-Unique: chM19dmSMfCN1M4NdP2ZuA-1
+X-Mimecast-MFC-AGG-ID: chM19dmSMfCN1M4NdP2ZuA_1782933413
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 350FE185D683;
+	Wed,  1 Jul 2026 19:16:53 +0000 (UTC)
+Received: from pasta.fast.eng.rdu2.dc.redhat.com (unknown [10.44.49.17])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 009FA30A8;
+	Wed,  1 Jul 2026 19:16:50 +0000 (UTC)
+From: Andreas Gruenbacher <agruenba@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Andreas Gruenbacher <agruenba@redhat.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] xattrat: accept empty O_PATH file descriptors
+Date: Wed,  1 Jul 2026 21:16:48 +0200
+Message-ID: <20260701191649.175871-1-agruenba@redhat.com>
+In-Reply-To: <20260701-beinfreiheit-export-enorm-1f81a94f2454@brauner>
+References: <20260701-beinfreiheit-export-enorm-1f81a94f2454@brauner> <20260630-wunsch-wichtel-ansporn-f4754acc8bcf@brauner> <20260607164136.2948550-1-agruenba@redhat.com> <20260607164136.2948550-2-agruenba@redhat.com> <20260630120641.133521-1-agruenba@redhat.com> <20260630-ochsen-neutralisieren-langzeitfolgen-f685027b7f3c@brauner> <CAHc6FU4E8t1wXg4MFhi4W=+fBMsrHXQeXQ1B+W3ELiLxRdErJw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -46,111 +61,181 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-On Wed, 01 Jul 2026 14:35:08 -0400 Jeff Layton wrote:
-> On Wed, 2026-07-01 at 17:54 +0200, Christian Brauner wrote:
-> > I remain very confused by our coding assistant contribution guidelines.
-> > I'm going to be a bit polemic now but this seriously in good faith.
-> >=20
-> > Why precisely do we require all this detailed information about what
-> > specific coding assistant was used?
-> >=20
-> > I find it very irritating that our git history has effectively started
-> > to function a bit like a free advertising platform for a bunch of AI
-> > companies and their proprietary agents and models.
+On Wed, Jul 1, 2026 at 10:33 AM Christian Brauner <brauner@kernel.org> wrote:
+> On 2026-06-30 15:05:03+02:00, Andreas Gruenbacher wrote:
+> > On Tue, Jun 30, 2026 at 2:33 PM Christian Brauner <brauner@kernel.org> wrote:
+> >
+> > > On 2026-06-30 14:06 +0200, Andreas Gruenbacher wrote:
+> > >
+> > > I'm very confused why the f*at() variants are supposed to accept O_PATH
+> > > but the f*() aren't? What's the point?
+> >
+> > Oh, I see. To keep things consistent with fchmod() and fchown() vs.
+> > fchmodat() and fchownat(): the former two also don't accept O_PATH
+> > file descriptors, while the latter two do.
+>
+> Right, I saw that and wondered about that there too. I guess it makes
+> some sense in that nothing about O_PATH at this point is consistent
+> anymore. Will be fun to document what exactly works and doesn't work on
+> the manpage...
+>
+> So then I think we should refactor fs/xattr.c similar to how we did it
+> for fch*() and fch*at(). So that f*xattr() call CLASS(fd, ...) and
+> f*xattrat() call CLASS(fd_raw, ...).
+>
+> This should also make it a lot easier to follow, hopefully.
 
-FWIW, this is exactly how I feel. I added a regex to strip these in
-my git hooks. So at least the net/ history should be ads-free =F0=9F=A4=B7=
-=EF=B8=8F
+That works for flistxattr(), but it creates a mess for fgetxattr() and
+fsetxattr() due to the argument passing; see below.
 
-Inexperienced developers who just trust the LLM output, and therefore
-are the group where the tags would be most useful, tend not to add
-them. Either because they are ashamed or because they want full credit.
-This correlation kills the utility of the tag.
+That argument passing happenss at that level because the lower-level functions
+filename_{get,set}xattr() and file_{get,set}xattr() are also used by io_uring,
+which has slightly different argument passing semantics.
 
-> > And it reamins unclear to me what exactly we do get out of this detailed
-> > information: Do we want to run statistical analysis on what agent and
-> > model is used the most and publish that on LWN at some point?
-> >=20
-> > I acknowledge that my stance is even more radical: imho we would just
-> > stop it with any disclosure requirements completely. It's useless imho.
-> > We already see that other than core contributors most people don't care
-> > and will just not disclose their usage of AI. I think this is entirely
-> > pointless and worse it brings in undefined legal status as well. It's
-> > not like recent events of pulling certain models from the face of the
-> > earth have made this any less concerning.
-> >=20
-> > But fine, if we want to do this can we please just dumb it down to
-> >=20
-> > Assisted-by: LLM
-> >=20
-> > or
-> >=20
-> > Assisted-by: Coding Assistant
-> >=20
-> > or something else. That still gives the "careful review" signal to
-> > reviewers that want to pay special attention to LLM generated work while
-> > avoiding this slew of metadata.
-> >=20
-> > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> > ---
-> >  Documentation/process/coding-assistants.rst | 8 ++------
-> >  1 file changed, 2 insertions(+), 6 deletions(-)
-> >=20
-> > diff --git a/Documentation/process/coding-assistants.rst b/Documentatio=
-n/process/coding-assistants.rst
-> > index 899f4459c52d..fe34f3e7e828 100644
-> > --- a/Documentation/process/coding-assistants.rst
-> > +++ b/Documentation/process/coding-assistants.rst
-> > @@ -43,12 +43,8 @@ When AI tools contribute to kernel development, prop=
-er attribution
-> >  helps track the evolving role of AI in the development process.
-> >  Contributions should include an Assisted-by tag in the following forma=
-t::
-> > =20
-> > -  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
-> > +  Assisted-by: LLM [TOOL1] [TOOL2]
-> > =20
-> > -Where:
-> > -
-> > -* ``AGENT_NAME`` is the name of the AI tool or framework
-> > -* ``MODEL_VERSION`` is the specific model version used
-> >  * ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
-> >    (e.g., coccinelle, sparse, smatch, clang-tidy)
-> > =20
-> > @@ -56,4 +52,4 @@ Basic development tools (git, gcc, make, editors) sho=
-uld not be listed.
-> > =20
-> >  Example::
-> > =20
-> > -  Assisted-by: Claude:claude-3-opus coccinelle sparse
-> > +  Assisted-by: LLM coccinelle sparse
-> >=20
-> > ---
-> > base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-> > change-id: 20260701-work-coding-assistants-650ae1202ee0 =20
->=20
->=20
-> In general, collecting data for nebulous purposes usually turns out to
-> be a bad idea. If we're not 100% clear on why we want this data, then
-> we're probably better off not collecting it at all.
->=20
-> With that in mind: if we're going to water down the tag, then I say
-> just remove the requirement altogether. If we later decide that we want
-> to start collecting more detailed info for some (clear) purpose then we
-> can revisit the idea.
+The attribute name copying in path_removexattr() could be pushed down into
+removexattr() because io_uring doesn't use that, but that would make things
+less orthogonal.
 
-+1
+So that's why I've proposed to change path_{get,set,list,remove}xattr() to
+either handle only non-O_PATH or all file descriptors depending on the caller.
 
-Honestly even tool attribution feels increasingly moot.
-People vibe code tools and AI-in-the-loop pipelines which they never
-publish. Open source tools are (hopefully?) used in pre-commit
-pipelines, so they have the "kbuild bot problem" of problems getting
-fixed before the code is merged. And we have the same free advertising
-problem for the rest.
+Thanks,
+Andreas
 
-It's 100 times more important to drill into people to provide sufficient
-information in plain English. How was the bug discovered, has it been
-triggered / proven and how, what is the user impact. I wonder if
-inventing tags distracts contributors from what really matters.
+
+diff --git a/fs/xattr.c b/fs/xattr.c
+index d58979115200..a111813be920 100644
+--- a/fs/xattr.c
++++ b/fs/xattr.c
+@@ -725,7 +725,7 @@ static int path_setxattrat(int dfd, const char __user *pathname,
+ 
+ 	CLASS(filename_maybe_null, filename)(pathname, at_flags);
+ 	if (!filename && dfd >= 0) {
+-		CLASS(fd, f)(dfd);
++		CLASS(fd_raw, f)(dfd);
+ 		if (fd_empty(f))
+ 			error = -EBADF;
+ 		else
+@@ -779,8 +779,30 @@ SYSCALL_DEFINE5(lsetxattr, const char __user *, pathname,
+ SYSCALL_DEFINE5(fsetxattr, int, fd, const char __user *, name,
+ 		const void __user *,value, size_t, size, int, flags)
+ {
+-	return path_setxattrat(fd, NULL, AT_EMPTY_PATH, name,
+-			       value, size, flags);
++	struct xattr_name kname;
++	struct kernel_xattr_ctx ctx = {
++		.cvalue	= value,
++		.kvalue	= NULL,
++		.size	= size,
++		.kname	= &kname,
++		.flags	= flags,
++	};
++	int error;
++
++	error = setxattr_copy(name, &ctx);
++	if (error)
++		return error;
++
++	CLASS(fd, f)(fd);
++	error = -EBADF;
++	if (fd_empty(f))
++		goto out;
++
++	error = file_setxattr(fd_file(f), &ctx);
++
++out:
++	kvfree(ctx.kvalue);
++	return error;
+ }
+ 
+ /*
+@@ -865,7 +887,7 @@ static ssize_t path_getxattrat(int dfd, const char __user *pathname,
+ 
+ 	CLASS(filename_maybe_null, filename)(pathname, at_flags);
+ 	if (!filename && dfd >= 0) {
+-		CLASS(fd, f)(dfd);
++		CLASS(fd_raw, f)(dfd);
+ 		if (fd_empty(f))
+ 			return -EBADF;
+ 		return file_getxattr(fd_file(f), &ctx);
+@@ -918,7 +940,24 @@ SYSCALL_DEFINE4(lgetxattr, const char __user *, pathname,
+ SYSCALL_DEFINE4(fgetxattr, int, fd, const char __user *, name,
+ 		void __user *, value, size_t, size)
+ {
+-	return path_getxattrat(fd, NULL, AT_EMPTY_PATH, name, value, size);
++	struct xattr_name kname;
++	struct kernel_xattr_ctx ctx = {
++		.value    = value,
++		.size     = size,
++		.kname    = &kname,
++		.flags    = 0,
++	};
++	int error;
++
++	error = import_xattr_name(&kname, name);
++	if (error)
++		return error;
++
++	CLASS(fd, f)(fd);
++	if (fd_empty(f))
++		return -EBADF;
++
++	return file_getxattr(fd_file(f), &ctx);
+ }
+ 
+ /*
+@@ -991,7 +1030,7 @@ static ssize_t path_listxattrat(int dfd, const char __user *pathname,
+ 
+ 	CLASS(filename_maybe_null, filename)(pathname, at_flags);
+ 	if (!filename) {
+-		CLASS(fd, f)(dfd);
++		CLASS(fd_raw, f)(dfd);
+ 		if (fd_empty(f))
+ 			return -EBADF;
+ 		return file_listxattr(fd_file(f), list, size);
+@@ -1022,7 +1061,11 @@ SYSCALL_DEFINE3(llistxattr, const char __user *, pathname, char __user *, list,
+ 
+ SYSCALL_DEFINE3(flistxattr, int, fd, char __user *, list, size_t, size)
+ {
+-	return path_listxattrat(fd, NULL, AT_EMPTY_PATH, list, size);
++	CLASS(fd, f)(fd);
++	if (fd_empty(f))
++		return -EBADF;
++
++	return file_listxattr(fd_file(f), list, size);
+ }
+ 
+ /*
+@@ -1088,7 +1131,7 @@ static int path_removexattrat(int dfd, const char __user *pathname,
+ 
+ 	CLASS(filename_maybe_null, filename)(pathname, at_flags);
+ 	if (!filename) {
+-		CLASS(fd, f)(dfd);
++		CLASS(fd_raw, f)(dfd);
+ 		if (fd_empty(f))
+ 			return -EBADF;
+ 		return file_removexattr(fd_file(f), &kname);
+@@ -1117,7 +1160,18 @@ SYSCALL_DEFINE2(lremovexattr, const char __user *, pathname,
+ 
+ SYSCALL_DEFINE2(fremovexattr, int, fd, const char __user *, name)
+ {
+-	return path_removexattrat(fd, NULL, AT_EMPTY_PATH, name);
++	struct xattr_name kname;
++	int error;
++
++	error = import_xattr_name(&kname, name);
++	if (error)
++		return error;
++
++	CLASS(fd, f)(fd);
++	if (fd_empty(f))
++		return -EBADF;
++
++	return file_removexattr(fd_file(f), &kname);
+ }
+ 
+ int xattr_list_one(char **buffer, ssize_t *remaining_size, const char *name)
+
