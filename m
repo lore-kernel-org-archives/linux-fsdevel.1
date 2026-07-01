@@ -1,148 +1,155 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1384E48123B
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 12:48:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D188C39EF2A
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 12:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782910107; cv=none; b=t6YZCCEUSmp0nKOzG23BfvPMq5Qm2Nv34sg+UGzkXOmgBlbuqJajYpL8t4NGuPQQBD71e56eCbTkKHDnfqJfqOL1Svtm92PflOcfeVKzoSiyLEvDbmFsJy2cnh1eqGtSrpIwac4FORsxHG3lkWMlOHS/9qd4cBJQykYjYbViFdU=
+	t=1782910335; cv=none; b=I4PLE2u8HXWPaTiq8Dq1vUKMe8wP4+JmUG9JzGd2iZSq84NF/LdIUEdb5hOQSvlPEZ4HcVmX+Qi/Y040ZDjALp6eLD/MwtRpUaRMvUwTxW1YPdU1yMO8mfn3BamEMQS+P2fUTvB1t90bYp2EwxsQpiSOALLdvC2iiOg9iWo/Fp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782910107; c=relaxed/simple;
-	bh=OXAGwtbCR5BuLa8eWeCN6HqXW1rcZGfmUkEq8KpffGU=;
+	s=arc-20240116; t=1782910335; c=relaxed/simple;
+	bh=BTxdh5Md4jN0jz0/EPLsTIHwavSFz+o4g37ScCPnc78=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hK12Aft4lPZJ+t3iVYPMIv8yb6JAJGiYmJW2JPMwORGkMTiA9uPaZ5pyuIMdnYtgLeyIrzN0jZhdFUvGU5uIWk/neUkzJcTRtXzRrLt+cBTzW2sHhhtwfiyBWdgLKOTk/S0LL3FGXSuPwLf/yWxR7I44zBYC/kkb3v4nxMU/aJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FBzO9H7c; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=T0ytnlOz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FBzO9H7c; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=T0ytnlOz; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=f1tf0gADD0tu6LCmyl28Ldgg8Y7er1TZpFEeShR6eDQcreYox1BuNDZV0vSw188Zuw2aLN1jj1SR0ZxBcAGumja2xifTcQF0npRJLHtUM3aEpkplpqJmpcdnM2A6se7x5jEBgziLZ8jOh3CWYQONw8gdrogbkI/5pGmS8zA79rI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bC7VMtCr; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FBzO9H7c";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T0ytnlOz";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FBzO9H7c";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T0ytnlOz"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5029A759CB;
-	Wed,  1 Jul 2026 12:48:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782910104; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fvYRWyc3z8t27v3w0F62f0dG6Aqi1GbB0bRsD3zgvpc=;
-	b=FBzO9H7c7Z/s2E2BIupzX3lBkpmiT/Qc5MtIPhWGV0CX0FcpAyD8tYathFJkp4Kw8ZwXQf
-	oS3OyXEAxtydlKRWdNFAkERhiuCzcXsvpDx9JNnIYe8+hYg66ZpMAWij1ho+sce+S6oDQb
-	11rcOjdrEh8uf9KstGO+o4x3aMbQYF8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782910104;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fvYRWyc3z8t27v3w0F62f0dG6Aqi1GbB0bRsD3zgvpc=;
-	b=T0ytnlOzZ2O8awA/SAMxHkS+lt3EDFCOWRfjgiJJqBwYE+fMJ3jD5EMYu1+hI8gQ6veAJj
-	Sjqk7rycwKyMmgDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782910104; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fvYRWyc3z8t27v3w0F62f0dG6Aqi1GbB0bRsD3zgvpc=;
-	b=FBzO9H7c7Z/s2E2BIupzX3lBkpmiT/Qc5MtIPhWGV0CX0FcpAyD8tYathFJkp4Kw8ZwXQf
-	oS3OyXEAxtydlKRWdNFAkERhiuCzcXsvpDx9JNnIYe8+hYg66ZpMAWij1ho+sce+S6oDQb
-	11rcOjdrEh8uf9KstGO+o4x3aMbQYF8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782910104;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fvYRWyc3z8t27v3w0F62f0dG6Aqi1GbB0bRsD3zgvpc=;
-	b=T0ytnlOzZ2O8awA/SAMxHkS+lt3EDFCOWRfjgiJJqBwYE+fMJ3jD5EMYu1+hI8gQ6veAJj
-	Sjqk7rycwKyMmgDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5EB55779AA;
-	Wed,  1 Jul 2026 12:48:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ohXhE5cMRWqYXgAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Wed, 01 Jul 2026 12:48:23 +0000
-Date: Wed, 1 Jul 2026 13:48:21 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Gregg Leventhal <gleventhal@janestreet.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, Song Liu <song@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	Eric Hagberg <ehagberg@janestreet.com>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>
-Subject: Re: Subject: [BUG/RFC] write-open file THP cache purge can discard
- dirty page cache
-Message-ID: <akUKty7jsWJrdyho@pedro-suse>
-References: <CAFN_u7H_0ECF3jixP=T=U7AH5=Q3wQNvJMo8an3VqUDMerQfUw@mail.gmail.com>
- <akQIIav_zaK6RmIC@pedro-suse.lan>
- <akQO8JtTxmp89GS8@pedro-suse.lan>
- <akQekZUyoKadiGCH@pedro-suse.lan>
- <akUADHLWEetveHLp@casper.infradead.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bC7VMtCr"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-80a123ef90aso9442767b3.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Jul 2026 05:52:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782910333; x=1783515133; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=KRa8dFyzV2cMAE0LM92Xv2fevBdHI3119BxUOXFBzuQ=;
+        b=bC7VMtCr8/2507aMhR4dtgz72pvM9eVkOpxunMCdK/jyC4Xq25OoWBUXPAHL9D8ilv
+         51HSvwEZ9Px6mZ+ScdbJ6UPyiwvvH7jXot7uYbBHi/b7n7VzmEgXu0uMX1Ex7FnOdtv8
+         JEVvlVNqz6GCen38JQI31Q2YQz0vIi7qkzdWz0/MHVIJj/28fpuAEcTJ8/54rbtQlMoN
+         NhJio3GBTCrnipjQ2PS3h1BST1PU8f0k72Jtk7WyXU8HfSc5TZNYAtA+To6C4W3UmUK+
+         m5BwaNzMcwWkUtTDizpEu6AMxpLB+c53Fvm4z2makUovuIHoQeqzx+j4M0PQqqD2vvLt
+         SC3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782910333; x=1783515133;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KRa8dFyzV2cMAE0LM92Xv2fevBdHI3119BxUOXFBzuQ=;
+        b=O8mqy+Tcz5JL11oO1y2JVSmGVXjvJ8DL9fyrelwRTDiqdQdlcMV0kl9Y4p/EhfNurI
+         1Vczfl6m5H5GoXymzBeIv2czaIpkTxdk8mcjevRGYsXvaJbJoqAM2eG9PyM7naPcru4q
+         iiB6C/zYaFbIFdOpuCfcwkqn0AQhE112nNq/dg+5WywfKevDm02CTurXzQe06MLI+Qeg
+         uqBNv/LWWX0rLo9bM4Kqa2kcEFNYwVMvxh/W+yS/aug+ZkWDiil8lz1R72PKpMhisXHz
+         lMVWBI6QHFQnxbQMdlDV6MYJEgE5KpPQVgj1kCGAymZINRro1+lCG070olmEGqZAno5n
+         1doQ==
+X-Forwarded-Encrypted: i=1; AHgh+RocCELbJLN9d/LmvTeXbGVyYQUhTW+R/zHFXoj+ARpN4e44bJIBPmSEhHQrdbz9F567+Hh0jiZmPZT3SREi@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnbyOD4lJYgz183ZhmZ0esPiuB4XcFbYGT08/xTNv9xAwrbkXR
+	qydFpaJHZdcKUvGIihLUXSfNSYdPi3gwhZbFKpmaZ9X14G3RCQJ59A3z
+X-Gm-Gg: AfdE7clPhUr+jvrteAct4Jylsk7OpRURAUd4v1FO3ijhlC6WICdsGapAYc64I7RwHgp
+	HoNH9z//bv62Vqx6T9AEA3sqrTaC3/EuqYcFLc+mT0qFwLZXTYxKd5hjn2W/rCstytYK29eSf/H
+	HeN6h8B2CIVzN2MVD3J/gvmDRVkaER1llJADwCShaJXHsqVr6YPMFGU0Xsf7aS9AoKsulCBIcyJ
+	vOounvrqehbpAg1gsLIRiwbDKnJ70Y+slTYAuxYNqd5sv8asIKylPSMavgOfqiNCJutg9u/wwEk
+	52V2o7ZjIWipjDULnLNhg2xO4OH8HaFdUCjIYUbC/byqZeDpavqcj8zirfu/FcODSmZ1zXjC1Kg
+	S7Jz+sPv0PksEkaOb37s98JvE1W1TuSqM//QdCd1u0Yiov20PsJzJa/nOtsQb1QjCX21oDp2bt9
+	tZT446THgD6w1gGfL0Bqk+cd6voYFWL5cJ4kEcF47dH8cb0ko=
+X-Received: by 2002:a05:690c:92:b0:7ef:e7ec:b6e7 with SMTP id 00721157ae682-8118107cb17mr55744057b3.27.1782910332829;
+        Wed, 01 Jul 2026 05:52:12 -0700 (PDT)
+Received: from zenbox ([2600:1700:18fb:6011:60e4:f1cd:c4d2:6ac9])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8128ad331d7sm7358117b3.15.2026.07.01.05.52.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jul 2026 05:52:12 -0700 (PDT)
+Date: Wed, 1 Jul 2026 08:52:11 -0400
+From: Justin Suess <utilityemal77@gmail.com>
+To: Paul Moore <paul@paul-moore.com>
+Cc: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, kpsingh@kernel.org, viro@zeniv.linux.org.uk, 
+	brauner@kernel.org, kees@kernel.org, gnoack@google.com, jack@suse.cz, 
+	jmorris@namei.org, serge@hallyn.com, song@kernel.org, yonghong.song@linux.dev, 
+	martin.lau@linux.dev, m@maowtm.org, eddyz87@gmail.com, john.fastabend@gmail.com, 
+	sdf@fomichev.me, skhan@linuxfoundation.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Frederick Lawler <fred@cloudflare.com>
+Subject: Re: [RFC PATCH 06/20] bpf: lsm: Add Landlock kfuncs
+Message-ID: <akUH13qbsEnJLgQu@zenbox>
+References: <20260407200157.3874806-1-utilityemal77@gmail.com>
+ <20260407200157.3874806-7-utilityemal77@gmail.com>
+ <20260701.ze4eph1eKo7a@digikod.net>
+ <CAHC9VhRfqSoM89WC6TdQHapUVQe8a18rW2c-F7+tu6EjM9EdCA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <akUADHLWEetveHLp@casper.infradead.org>
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MISSING_XM_UA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Score: -3.80
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHC9VhRfqSoM89WC6TdQHapUVQe8a18rW2c-F7+tu6EjM9EdCA@mail.gmail.com>
 
-On Wed, Jul 01, 2026 at 12:54:52PM +0100, Matthew Wilcox wrote:
-> On Tue, Jun 30, 2026 at 08:55:12PM +0100, Pedro Falcato wrote:
-> > @@ -2043,6 +2044,17 @@ static int collapse_file(struct mm_struct *mm, unsigned long addr,
-> >  	 */
-> >  	try_to_unmap_flush();
-> >  
-> > +	/*
-> > +	 * If collapse looks to be successful, flush any dirty pages
-> > +	 * out the page cache. With the nr_thps incremented, there won't be
-> > +	 * any new writers (nor new dirties).
-> > +	 */
-> > +	if (result == SCAN_SUCCEED && !is_shmem) {
-> > +		err = filemap_write_and_wait(mapping);
-> > +		if (err)
-> > +			result = SCAN_WRITEBACK_FAIL;
-> > +	}
+On Wed, Jul 01, 2026 at 08:12:34AM -0400, Paul Moore wrote:
+> On Wed, Jul 1, 2026 at 6:59 AM Mickaël Salaün <mic@digikod.net> wrote:
+> > On Tue, Apr 07, 2026 at 04:01:28PM -0400, Justin Suess wrote:
+> > > Create 2 kfuncs exposing control over Landlock functionality to BPF
+> > > callers. Export an opaque struct bpf_landlock_ruleset preventing callers
+> > > from accessing unstable internal Landlock fields.
 > 
-> Oh, the other thing is that this should be conditioned on
-> !mapping_large_folio_support().
+> Generally speaking we don't want to provide APIs, either in-kernel or
+> at the userspace/kernel boundary, that are specific to a single LSM,
+> see the LSM syscalls or the security_current_getlsmprop_subj()
+> function as examples.
+>
 
-Thinking more about this, I don't think it works. On the file open side, we
-always truncate the full page cache, even if large folios are supported (due
-to possibly max folio < PMD_ORDER). So if we skip write-and-wait on such cases,
-it will be possible to fully reproduce this issue.
+I would raise bpf_ima_file_hash, bpf_ima_inode_hash, as examples of
+clear precedence for this. (BPF calling into specific LSM)
 
--- 
-Pedro
+Is this also discouraged now?
+
+These IMA BPF functions are also helpers, which are more "permanent"
+than the kfuncs like this patch proposes.
+
+Kfuncs are explicitly marked as not being an ABI, and are more
+flexible for later changes / deprecation etc. [1]
+
+That was partially why I proposed this as a kfunc, and not a helper.
+
+[1] : https://docs.ebpf.io/linux/concepts/kfuncs/
+
+> Yes, Landlock does have its own syscalls, but those are
+> "grandfathered" and not something I want to see emulated across other
+> LSMs.  If a BPF program wants to interact with a LSM, it should go
+> through a LSM framework API.
+>
+
+LSM framework API can mean a lot of things. I assume you are meaning
+like a pseudo-filesystem mounted interface that controls LSM? 
+Correct me if I'm wrong.
+
+I'm a little unsure how this would work with the BPF model. Generally,
+BPF relies on type checking and reference checking. Creating a weakly
+typed securityfs / sysfs like interface would be very awkward for BPF to
+use. Especially if it requires reading / writing files, or parsing
+strings, it would be very hairy. It's the same problem with reading any
+file from kernel space, it's almost always inadvisable.
+
+Pseudo-fs is fantastic for userspace, (read and write is as simple as
+echo and cat) but not fantastic when you are writing BPF programs.
+
+But maybe this is a false diochotomy, I see no reason why the LSM
+framework API couldn't have a strongly typed interface into BPF via
+helpers / kfuncs. In that case, wouldn't these kfuncs be exactly that
+LSM framework API? And there be some translation layer exposing them to
+userspace using BTF type information -> pseudo fs? :)
+
+BTF is not just for BPF!
+
+Justin
+
+> There have been some initial efforts to develop a LSM wide policy API
+> for userspace, and while it was put on hold to sort out some namespace
+> issues, we could move forward with an in-kernel API now.  We don't
+> have strict API stability guarantees for LSM hooks/APIs so we have
+> some more freedom to do something now, even if it isn't perfect, and
+> refine it at a later date.
+> 
+> -- 
+> paul-moore.com
