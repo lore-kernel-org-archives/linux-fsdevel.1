@@ -1,214 +1,150 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A5E7420E89
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 22:21:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8CB239085
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 22:42:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782944500; cv=none; b=ma3pHfg1gSN2Bb+x/uqQeXvFHB5FPkIaBf7jkbjDpDtPKv6Cv86uKZMFzu0oDuZzZok8f/TVVbf0lUVK6KoAbqlzI87++dw5fHG4xBjLQMN4rQ8W7NUrAFIdSAnXkKyenTFn4bXcKZxpACVJuI01zIbySranQsZJaxt84lpCLTQ=
+	t=1782945777; cv=none; b=AWxQF9R5dMZlqmxYKN+8gEQ9Z6kJdFRHSMp3gAx5f0zbAbVvZR/2/p6oC91NgIqW4Npw080HcdZz3acrwSNcV4CvCB3S5xedctct+ahuSCe5UHAAPBk2mA40HCSo2iwRN/BXOpneV8LLSudjTy4cddhvMu2uzM/dp+c93fZYFE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782944500; c=relaxed/simple;
-	bh=Uycl8RnRr9FlkGcP8YpQ97rk1SSGy2RfCcaOvE3xqR4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oQN4oSXIrC/DGTtu1ihQaGeAMALPv+0c3a/wF44o0giMq5qOSpwc1EwZkJQIXYRJ1gV+2oeVVKIjO3tBzg5MspLHTBjDQmMrun8XfMQCqAVYEZDfJ1nvMFx51vmmUPhVgHcybC4FF43LaQkmCJwwPiuoQ0LK3F82XlDXX/Uo9jU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=OZIHNViw; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1782945777; c=relaxed/simple;
+	bh=JTUe7ZrQKBgCCKMLlN3QL8qqPxoPgPJ6p7iURqdPFO4=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=fVRlnDn17WR9jcLiFpCCmlz+lTJcsRt0fUjCEGhFvMACd77T4inOTEZfP0I4TnOdmVKoIy0B44skJn+xnYVaytmuVBGME+Ai/xsgBntCfsMmH9w0GO9NsD0PaFcLorIeaF6aJHw6DLhlD3M9DoI+F93L2z3z05Ou66HC4rTqi8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=ipKYB9y1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ChVWUbrZ; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="OZIHNViw"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-8eeb4508f29so8164646d6.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Jul 2026 15:21:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1782944498; x=1783549298; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6JWJ0GrNM4nyfXD1ju+x4+oy32oP6/tEENp87ryjDBA=;
-        b=OZIHNViwE3QARy834+R/WmqHMVaPOZi1J+DeixoJDoBhDX1efvgsGyXc8NxtNCAh/q
-         ivB1zJvQyzR+spIjfj1LDuBqwcbdDAmn8+vUer1Zi9B3US7vs5QjKrUyPm9BR5GOia/T
-         o7Ve/ZMTAKLmt9AR1LX+KAj0mbErBMj1CX652W8KH3Wmqo+KdsFQFWrCQYOfZJm8JH9y
-         eNAt3N76P74+klUdzDKUs2JZJufKWC2CcUhdG1+7BUTPMOGmBGcE2BWka2zu81qFhUKq
-         H4xWB3X1Xa142izyxRqMCbZYb4dVn6R5NFOnHjtRqhFb2klklp40SFleuPC85jwhLnvv
-         TJdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782944498; x=1783549298;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6JWJ0GrNM4nyfXD1ju+x4+oy32oP6/tEENp87ryjDBA=;
-        b=Qkt+p86lfGVfJ7NampP1XWL0IWq+OmXQZOjvcrb7ubFBaf+j4zbKvtADhk+VZWNVud
-         1cQ6lSGIO+spuqWOqNE9GW5eHBd9huHR1vcAnQ4Sf/8WTeclsM/+yTqeeJkbReOslSy/
-         5psWVaZGfivz4K3fMGivkG9VsO4D6sCGGUFiAATozbHd7+06y91wSd6GrQYFBlmMApNm
-         e8e8KJS4M8IreqBJYEoU0ZozjEfwKaooL5nXcq3FSHC/Icd18hAZTLE3SuMevvq+XKIv
-         +nqXwEaPiqUQrU4paB3DQ1o1t/dHc0xNy7V7A/g2RA+dkbhIJupGwv+vri7nFZ+wqQyj
-         sj2Q==
-X-Forwarded-Encrypted: i=1; AHgh+Ro22rNwv1QAqIpK5+oQX2a64kruQj/JZK5BUDxwQVZdQlcD1CqlMXaQ8DoRhCVPympkwsoHNYVDIyTN7dpZ@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQFhAG8DZ2nMZVPwq3+fYm27D7gaPxqYd+pehytyQcFFtfamyz
-	LrRokwspl7Ig+z/54UYjbJMQDFeFPCS5xy1hjLy6CoCbFXW2obgN4MgnuqYn15W8eg4=
-X-Gm-Gg: AfdE7ck88vaKYPkMZ97Cd3zvioHsY4xf4w1eBP9ykR6MJWDgw7yAPbaDYfwSzb8eBY/
-	oQmhkSKtnY0cafedKIMHCmGoeMw3HZeULXmQSfdf5wrNyQIziVqyrIGt1mYnhS4hWgdSilejpv8
-	+PzlBZXE0TcwLy4xisW7M3n3Pu1q3vH/ITVk62ml8nb5S3Qpynf9MFn6LIxvADX4o01aqePTMc2
-	2EgE+xjyWIWSv7qfzPA/SDuP6CWRJDxkm6gs0B98pZD0TzYUDVWFaDY4Etp8llzuzYDrH18WBEe
-	LuTFrwwjVUdksrmeTIw3xmJjq3eAo0afAxB29kp20Nq3aDOR0p/uJ9FMNgVpod5Ov4Ov+FW+UDf
-	Mni0lx+NKwHmHjwQ07Tmu+sjm0ejNKbx/ULL2VFEgkH8ZPFTxYanPgWq0uHk8B9J1+In5qIa2O/
-	+RG6WL8gTsJOSV9KJmffePIUStF9PWWRt6u9PlNTPDDrHJHkhlq0EsiW5YHmY4GZvMJRtzoHwVd
-	A==
-X-Received: by 2002:a05:6214:2f89:b0:8ef:e0d0:9fae with SMTP id 6a1803df08f44-8f3c6bbacb3mr51714426d6.14.1782944498337;
-        Wed, 01 Jul 2026 15:21:38 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F.lan (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8f46e27d137sm9709076d6.9.2026.07.01.15.21.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 15:21:37 -0700 (PDT)
-From: Gregory Price <gourry@gourry.net>
-To: linux-mm@kvack.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	kernel-team@meta.com,
-	willy@infradead.org,
-	jack@suse.cz,
-	akpm@linux-foundation.org,
-	david@kernel.org,
-	ziy@nvidia.com,
-	matthew.brost@intel.com,
-	joshua.hahnjy@gmail.com,
-	rakie.kim@sk.com,
-	byungchul@sk.com,
-	gourry@gourry.net,
-	ying.huang@linux.alibaba.com,
-	apopple@nvidia.com,
-	Johannes Weiner <hannes@cmpxchg.org>
-Subject: [PATCH 2/2] mm/mempolicy: skip task mempolicy for unmovable unaccounted kernel allocations
-Date: Wed,  1 Jul 2026 18:21:12 -0400
-Message-ID: <20260701222112.2820098-3-gourry@gourry.net>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260701222112.2820098-1-gourry@gourry.net>
-References: <20260701222112.2820098-1-gourry@gourry.net>
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="ipKYB9y1";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ChVWUbrZ"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 52EAD7A00AF;
+	Wed,  1 Jul 2026 18:42:55 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Wed, 01 Jul 2026 18:42:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
+	1782945775; x=1783032175; bh=oD1VI0RuGlWlKJ9fEAsevQuRXnenezHIFfG
+	zH9+Eq3g=; b=ipKYB9y1BxKMaMW8K6K+r0nr9+bcRILCyciJ7LzW+1l+wdhCgVz
+	bbKoDhMEcN3sge4zbPD/uZb2GJG9XqByOpDbriJ0erCkBHyIVXtfi4H65K7XjcTc
+	y2hQrUEDAZ5GympeTYvxwyVy2XYGG3BSE3LM9wBuB/kay9MpWjmUNzP9hN+GJQsH
+	VHWE3AJ+4Xy6HaNGwOLkt+wU7j+i5GfLIrp6qdSNX0I8gWFcIwIV6wBHv7gFKeQr
+	EQZLz1vHiBpqRG9EMV7IE6GRauUidcRzvQu1P5HUWwyNMCl3lT0+CbgG5fZOfGvC
+	/hAU7QyW5fGR6IoCmLbDf5yWNmCfF3CVKJw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782945775; x=
+	1783032175; bh=oD1VI0RuGlWlKJ9fEAsevQuRXnenezHIFfGzH9+Eq3g=; b=C
+	hVWUbrZ0GzjfT5itszwOL7bgbxiIEVnkqsr3vVmPN0NdZJ1ArH4NRc2k3IG8HiIQ
+	2oK2NlVUwPpx97CNM8FX4T+d8xr20iRFe83gqZZxfoY0rT53ReKnAJSQP0G8VHot
+	V+DWGvojXtbNL1zm04Rd+E0ch2lFaNy2VCkmpyqcshHXd7oxdgJFoOAZF7TlJJS0
+	Nm7r3WW7tJXJ0xiHrLGllhjPM+M6QINuhuE4QG3CWjRcLujFlofZezJU9JDoWOMB
+	fyBT83kjPeE+ksuPeYODrptHAfz2aCdOdUlW5AoWFbYFkPraUz6mco6kY5WBvGn+
+	l8cYyxxMKExO7WNVXWN5A==
+X-ME-Sender: <xms:7pdFalxHmsw4Rlne1beEJM-NKrPjmLXQimWwm8Qp9yw9h2FCZhUB1A>
+    <xme:7pdFauNjmU4uSwR4jyLxV_V5Tk2H6BBhNUZb7ZV1PKpBp1kJVmqVH0BzC0r8hPuW3
+    0lj_RrQi8clLF0GorzBspeRLflS5Q9gF2TS7VyZ5q9Vx3wt4A>
+X-ME-Received: <xmr:7pdFaq7Bioxi51crUMs7Cl5B_NjSZUaTrr-uQT25jyJXBPSQJaims0qeJCHMfgozmb_BzM-UswKFYip7eIP2OVlPYTpX1mo>
+X-ME-Proxy-Cause: dmFkZTEZAfJTTpA58Hv6KwQp8DPQvsjjPFaue5CKpDtOLs9Bh0U7FeSsVVY0z1Tj2985w9
+    aLCLbEOZ6SzDhuLpu3qm3BS2aAOzRx4SSDTDWaZoBOkeFF9Rhh5YshLGsluhtZE75eRbfR
+    nl5Weq/Rgx5O+PIjAonNwoqoWHXFTvm/sWYqj/CU/ZYlQHI6Kpxx4mTD4d+oV0sQRwLYWj
+    orAd90bMg3K0q3/ydlOGvLfQAu5UUsXtknSpSMuRD52afd6Tk/WIP/txJ0MCc8lpP5KHTU
+    MwLJL+u0vldOtgxdSfc4PdmL35vqIMv3JgJiwnFg3FjRLFXz6pphEDDsnZTuvFQMT0OCTU
+    yuLcagqpItGaBRirj5Ll2UME+0jBn9Qy6PHCT7WML8t/jmYM8mhhtk4zK7QLMPuxT40/Lc
+    WM+y7WktfqoRAkS1tvGLicNNWLLJzm0ni5AM5i0o5O/41sQlwK6Os9d+o75zCIF9xGbcQB
+    0bchYrinUUGUJ17ETLCzcSOOs4wkmCSE2qEmv9BdlP01zzMwCjTQkkrqBs6xreb+qhKknN
+    W6zy2CofOa91j1ID2JMRvcXuJciZF6tDOyydqIgKmj3fFFMypYTmiyXF3mbTDLwFW8ahfP
+    5cv0sxFvItGmi3C+H9zGhjFPcC/tHcZJCayPqJRSNWgG/4lQVspBK87cJMhw
+X-ME-Proxy: <xmx:7pdFankM8Ojj0B2RJrdJL0h84b4A-99WEc9pxSNhhtI71f1LM-8rdA>
+    <xmx:7pdFajRguY-hfcvB422baKIkQXIiyHS3iCUyS1YE2PKBtUb7lasu7w>
+    <xmx:7pdFauEdOmqvykwe688TH2ETENcn4DpYyo7updXuLL_B5xpXl0Wrrw>
+    <xmx:7pdFagGueIGd8u7fogfYt6tb1m1rMur7xrjYUnkO9SVxl9QJzhZDOw>
+    <xmx:75dFalR0k7nRF3n2qiXIQrrrWswr5hxhQ5JEiE7gLi18CwLoCHO773sR>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 1 Jul 2026 18:42:52 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: NeilBrown <neilb@ownmail.net>
+To: "Christian Brauner" <brauner@kernel.org>
+Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
+ "Jori Koolstra" <jkoolstra@xs4all.nl>, linux-fsdevel@vger.kernel.org
+Subject: [PATCH] fixup: Remove excl arg to ->create inode_operation
+In-reply-to: <20260701-zahnfleisch-manisch-chiffrieren-266179f4694c@brauner>
+References: <178290671516.27465.15984496764174914338@noble.neil.brown.name>
+  <20260701-zahnfleisch-manisch-chiffrieren-266179f4694c@brauner>
+Date: Thu, 02 Jul 2026 08:42:50 +1000
+Message-id: <178294577084.27465.9288356265750603629@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-Bare calls to alloc_pages / folio_alloc / vmalloc / slab-refill cause
-vma-less allocations which fall back to the current task's mempolicy
-for a placement hint.  This has the effect of directing incidental,
-global, task-unrelated allocations to follow the task's mempolicy.
 
-On uniform multi-socket systems, this is not implicitly harmful.
-On tiered memory systems, these incidental allocations can land
-on slower memory tiers and actively cause performance regressions.
+From: NeilBrown <neil@brown.name>
 
-For example, the code in lib/stackdepot.c allocates a global
-resource that sticks around for the life of the system:
+Remove mention of the excl arg from some documentation that was missed
+in the first patch.
 
-  stack_depot_save_flags()
-      page = alloc_pages(gfp_nested_mask(alloc_flags));
-
-In this example:
-  1) the ownership is global (stackdepot, no association to the task)
-  2) The lifetime is forever (the pool is more or less permanent)
-  3) Whichever task causes the FIRST allocation to occur dictates
-     placement for future users - permanently.
-  4) It's unaccounted and unmovable.
-
-While this doesn't prevent fallback allocations occurring and landing
-in the same class of memory the same way, a per-task interleave policy
-shouldn't dictate placement for such allocations.
-
-Make a new helper, alloc_task_policy(), to identify three classes of
-allocations we explicitly do not want to follow the task policy.
-
- 1) in_interrupt() - interrupt allocations are not related to the task
- 2) __GFP_THISNODE - caller explicit placement
- 3) unmovable, unaccounted kernel allocations
-    !(__GFP_MOVABLE | __GFP_ACCOUNT)
-
-The third filter keeps incidental global kernel allocations from being
-spread throughout the system when a task has set a mempolicy. The other
-two are existing filters consolidated by the helper.
-
-Allowing movable allocations to follow task policy retains existing
-non-harmful placement behavior, and cpuset constraints are still
-enforced by ALLOC_CPUSET.  Pagecache placement is made explicit by
-the preceding patch.
-
-Everything else (unmovable and unaccounted) falls back to node-local.
-
-User-space folios are unaffected: they fall through folio_alloc_mpol().
-
-Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
-Link: https://lore.kernel.org/linux-mm/akU2_Mt_JDCxmnc7@cmpxchg.org/
-Assisted-by: Claude:claude-opus-4-8
-Signed-off-by: Gregory Price <gourry@gourry.net>
+Signed-off-by: NeilBrown <neil@brown.name>
 ---
- mm/mempolicy.c | 40 ++++++++++++++++++++++++++++------------
- 1 file changed, 28 insertions(+), 12 deletions(-)
+ Documentation/filesystems/locking.rst | 2 +-
+ Documentation/filesystems/vfs.rst     | 2 +-
+ fs/gfs2/inode.c                       | 1 -
+ 3 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index fc9051e9558b..6c00dc32c8b4 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -2737,16 +2737,35 @@ struct folio *vma_alloc_folio_noprof(gfp_t gfp, int order, struct vm_area_struct
- }
- EXPORT_SYMBOL(vma_alloc_folio_noprof);
- 
--struct page *alloc_frozen_pages_noprof(gfp_t gfp, unsigned order)
-+/*
-+ * Bare alloc_pages() calls only have task policy as a placement hint.
-+ * There are 3 scenarios where we don't want to use the task policy:
-+ *  1) interrupt context - these allocations are not related to the task
-+ *  2) __GFP_THISNODE - the caller asked for explicit placement
-+ *  3) Unmovable (!__GFP_MOVABLE), unaccounted (!__GFP_ACCOUNT) kernel memory
-+ *
-+ * The third filter keeps incidental global kernel allocations from being
-+ * spread throughout the system when a task has set an interleave policy.
-+ * This can include cached global metadata for drivers and internal
-+ * services that outlives the life of the task.
-+ *
-+ * Allowing movable allocations to follow task policy retains existing
-+ * non-harmful behavior, and cpuset constraints are still respected.
-+ *
-+ * No reference counting needed for current->mempolicy nor default_policy
-+ */
-+static struct mempolicy *alloc_task_policy(gfp_t gfp)
- {
--	struct mempolicy *pol = &default_policy;
-+	if (in_interrupt() || (gfp & __GFP_THISNODE))
-+		return &default_policy;
-+	if (!(gfp & (__GFP_MOVABLE | __GFP_ACCOUNT)))
-+		return &default_policy;
-+	return get_task_policy(current);
-+}
- 
--	/*
--	 * No reference counting needed for current->mempolicy
--	 * nor system default_policy
--	 */
--	if (!in_interrupt() && !(gfp & __GFP_THISNODE))
--		pol = get_task_policy(current);
-+struct page *alloc_frozen_pages_noprof(gfp_t gfp, unsigned order)
-+{
-+	struct mempolicy *pol = alloc_task_policy(gfp);
- 
- 	return alloc_pages_mpol(gfp, order, pol, NO_INTERLEAVE_INDEX,
- 				       numa_node_id());
-@@ -2964,13 +2983,10 @@ static unsigned long alloc_pages_bulk_preferred_many(gfp_t gfp, int nid,
- unsigned long alloc_pages_bulk_mempolicy_noprof(gfp_t gfp,
- 		unsigned long nr_pages, struct page **page_array)
- {
--	struct mempolicy *pol = &default_policy;
-+	struct mempolicy *pol = alloc_task_policy(gfp);
- 	nodemask_t *nodemask;
- 	int nid;
- 
--	if (!in_interrupt() && !(gfp & __GFP_THISNODE))
--		pol = get_task_policy(current);
--
- 	if (pol->mode == MPOL_INTERLEAVE)
- 		return alloc_pages_bulk_interleave(gfp, pol,
- 							 nr_pages, page_array);
--- 
-2.53.0-Meta
+diff --git a/Documentation/filesystems/locking.rst b/Documentation/filesystem=
+s/locking.rst
+index 08d01bc62c31..c274c5eef733 100644
+--- a/Documentation/filesystems/locking.rst
++++ b/Documentation/filesystems/locking.rst
+@@ -61,7 +61,7 @@ inode_operations
+=20
+ prototypes::
+=20
+-	int (*create) (struct mnt_idmap *, struct inode *,struct dentry *,umode_t, =
+bool);
++	int (*create) (struct mnt_idmap *, struct inode *,struct dentry *,umode_t);
+ 	struct dentry * (*lookup) (struct inode *,struct dentry *, unsigned int);
+ 	int (*link) (struct dentry *,struct inode *,struct dentry *);
+ 	int (*unlink) (struct inode *,struct dentry *);
+diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vf=
+s.rst
+index 7c753148af88..651b83b00440 100644
+--- a/Documentation/filesystems/vfs.rst
++++ b/Documentation/filesystems/vfs.rst
+@@ -415,7 +415,7 @@ As of kernel 2.6.22, the following members are defined:
+ .. code-block:: c
+=20
+ 	struct inode_operations {
+-		int (*create) (struct mnt_idmap *, struct inode *,struct dentry *, umode_t=
+, bool);
++		int (*create) (struct mnt_idmap *, struct inode *,struct dentry *, umode_t=
+);
+ 		struct dentry * (*lookup) (struct inode *,struct dentry *, unsigned int);
+ 		int (*link) (struct dentry *,struct inode *,struct dentry *);
+ 		int (*unlink) (struct inode *,struct dentry *);
+diff --git a/fs/gfs2/inode.c b/fs/gfs2/inode.c
+index 9e23c8d55962..17bfa283b320 100644
+--- a/fs/gfs2/inode.c
++++ b/fs/gfs2/inode.c
+@@ -963,7 +963,6 @@ static int gfs2_create_inode(struct inode *dir, struct de=
+ntry *dentry,
+  * @dir: The directory in which to create the file
+  * @dentry: The dentry of the new file
+  * @mode: The mode of the new file
+- * @excl: Force fail if inode exists
+  *
+  * Returns: errno
+  */
+--=20
+2.50.0.107.gf914562f5916.dirty
 
