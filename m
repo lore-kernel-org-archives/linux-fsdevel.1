@@ -1,91 +1,207 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6600824DCF6
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 09:31:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E6D3F0AA6
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 09:36:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782898280; cv=none; b=kv5JB09OZOLvOYKjjfcWcydxIOZ2pERwm4oAQjNlknTupzRWJ8dLy5K+3dURr90PbCxC2K8TwL+xmMkDEgHZ73VM6G+aurp+Ur1OBOkvZOoGlG+aItl7S5JosDmZGjx4/yFIzqJTaHts+V3wNfqlP2IEIHwRRtJqJHnQiMlW+60=
+	t=1782898596; cv=none; b=gQt1c5DwBXQd0JWbR2qEh9wFHeRjFH3+5gs2ylfniiYbZUKqzaJGBEGCLD+icCVQZhkVGGXN93YfQjLx5a+WyduaCfiG8FasiE51fY7PO15f9JYIyDktmVAzLzdo2huoRpWBbG6jiQa/CYFTW8MjNaedZRzr7mfVf+paSXN8U7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782898280; c=relaxed/simple;
-	bh=4Bu7DWsBxSyx4e2vtkSpxLp0Q2Am/sM8AG1rEg2Y6dM=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=cmT+188tYWl9zpywUB/2EgeBE2IlZAKj2UwfhV0qJieNTwVPL0WaofZHY9ssbsC5fqC/SZLW9B/hi1YJYFsyw1vABcZ9LySZGR+1S+lW7SWY97oLztQbiPId4og4cll+eK3v0brn5JkS1VBvbBzjFq72wwL4lXHnP4d8ihUBTjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=AQ9ucjkA; arc=none smtp.client-ip=195.121.94.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1782898596; c=relaxed/simple;
+	bh=fCNjfyIyZHECyjbXoYrkrKPVsycEzkl04MhK+pEZiSc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UT1AOWBlvlGBMcNrYnhhMXcbigKCUMehhL96+ZAU3t4mCung9lofjkoNdSrhozPvhYVd3cjfjCu4RNRnM7pgzbpAOCFerNquJKPocHaIUBmfOPJztcnF4ZsXKpETr/03pNDuKop/haUczOhBMCY4j0ICK3AaEnzKoLB/QxZWlck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sdEU2s5b; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=BQrstiZw; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sdEU2s5b; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=BQrstiZw; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="AQ9ucjkA"
-X-KPN-MessageId: 984a675c-752f-11f1-8f53-005056992ed3
-Received: from mta.kpnmail.nl (unknown [10.31.161.191])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 984a675c-752f-11f1-8f53-005056992ed3;
-	Wed, 01 Jul 2026 11:31:10 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 98490546-752f-11f1-91ab-00505699891e;
-	Wed, 01 Jul 2026 11:31:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=tLwus2Z9SHB/2dEYbgbr6ka8rzE4SPYBz1p950DKNCA=;
-	b=AQ9ucjkAD1nktGKQ4PEH183hlPxzCOwAXO9wSPpjRdEnfmyUCUcqHNxY+wsh03QmRhSXB+S142nyE
-	 cidac8MBYPx0JBfImz1P5qQZCAwklY5w88TkDZHS7n21cD5EZTXT1i8kJrADObWP1F4TTTnJe+PhCb
-	 DJ4TNg9nq48eZ7frva5jsbe5wcD+4w0qZNYv9ymNdJtgJmLHDCk2sQ2fOAwRi7kHNdQwWHh7aIm8Cm
-	 km/hteWZvcQYMKg9a+YsW5n9y3SwEeJreSUL0dTpkgzBJwPWIWobvP9QiF+7CqzVKdpZEUH5C+2ERZ
-	 KwQTU8VPWvsD2rUBlcfeKT1O8fvu6Kw==
-X-KPN-MID: 33|YUU32CqV37goJ+ohMNXmFuus5fLBFklWXleDZmHWBhHrO3iY8e3T+7N7VuO0xrm
- pE+pIkbmk9XO7h2+2/heGhrbD1vqvRN2DvyWSPFdPdrA=
-X-CMASSUN: 33|kv2oYt4LwQtno3a++u2D/ia5PC6BC0vMT133ArgPoj5L5wUohptDWdnl3ZwTI9k
- FhwAlzTjvakaAqQSCsQZ82g==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh07 (cpxoxapps-mh07.personalcloud.so.kpn.org [10.128.135.213])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 983c0ba5-752f-11f1-916a-005056995d6c;
-	Wed, 01 Jul 2026 11:31:10 +0200 (CEST)
-Date: Wed, 1 Jul 2026 11:31:10 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jakub Kicinski <kuba@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, netdev@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <66991303.3605710.1782898270313@kpc.webmail.kpnmail.nl>
-In-Reply-To: <20260701-malen-gutmachen-stengel-2c70ad5d2971@brauner>
-References: <20260629194327.2270798-1-jkoolstra@xs4all.nl>
- <20260629194327.2270798-6-jkoolstra@xs4all.nl>
- <20260630071701.6b583d1e@kernel.org>
- <1957659940.3537950.1782830112890@kpc.webmail.kpnmail.nl>
- <20260701-malen-gutmachen-stengel-2c70ad5d2971@brauner>
-Subject: Re: [PATCH net-next v3 5/5] selftest: Add tests for useful handling
- of LSM denials on SCM_RIGHTS
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sdEU2s5b";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="BQrstiZw";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sdEU2s5b";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="BQrstiZw"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3C38D758E1;
+	Wed,  1 Jul 2026 09:36:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1782898592; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ApMiROQCRkCyRHrj8nMBPyaqH3ICbz3SDaFc+c0bz9Y=;
+	b=sdEU2s5bDAXMQrOmH5YCnpRp8fZALRPpC3qbNBR1nDJMIMmg6Kx3LWsu6KWO4+GAEDgZt2
+	80moGlge+CXYaCOtjDXTahLSH1i+8i3nTRYbklfjrSS479nnaxKOX6yaOUWpcmNessp83V
+	z35Y/H1sD+2imVBqAip0517oyO5iOuk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1782898592;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ApMiROQCRkCyRHrj8nMBPyaqH3ICbz3SDaFc+c0bz9Y=;
+	b=BQrstiZwnID+bjKZPTzOE4G04cd/TLO3xWlIqzL3eFMrADnCkYW5rIZ3zuw+1eczQqFhnE
+	tZn643rlYi0cAjDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1782898592; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ApMiROQCRkCyRHrj8nMBPyaqH3ICbz3SDaFc+c0bz9Y=;
+	b=sdEU2s5bDAXMQrOmH5YCnpRp8fZALRPpC3qbNBR1nDJMIMmg6Kx3LWsu6KWO4+GAEDgZt2
+	80moGlge+CXYaCOtjDXTahLSH1i+8i3nTRYbklfjrSS479nnaxKOX6yaOUWpcmNessp83V
+	z35Y/H1sD+2imVBqAip0517oyO5iOuk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1782898592;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ApMiROQCRkCyRHrj8nMBPyaqH3ICbz3SDaFc+c0bz9Y=;
+	b=BQrstiZwnID+bjKZPTzOE4G04cd/TLO3xWlIqzL3eFMrADnCkYW5rIZ3zuw+1eczQqFhnE
+	tZn643rlYi0cAjDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2E9D4779AA;
+	Wed,  1 Jul 2026 09:36:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6TJXC6DfRGpIHAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 01 Jul 2026 09:36:32 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id B3030A10B7; Wed, 01 Jul 2026 11:36:31 +0200 (CEST)
+Date: Wed, 1 Jul 2026 11:36:31 +0200
+From: Jan Kara <jack@suse.cz>
+To: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Theodore Ts'o <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Baokun Li <libaokun@linux.alibaba.com>, 
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>, Ritesh Harjani <ritesh.list@gmail.com>, 
+	Zhang Yi <yi.zhang@huawei.com>, Tao Ma <boyu.mt@taobao.com>, 
+	syzbot+0c89d865531d053abb2d@syzkaller.appspotmail.com, linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] ext4: fix race conditions and clean up locking of
+ inline data writes
+Message-ID: <sngafhlj2o5wipnrapsp43cyj4e3evq7abjlfogt55q5bzl2fy@3tkkp2titjxx>
+References: <20260630152812.1706-1-aditya.ansh182@gmail.com>
+ <du3mel4k4hwnbbogufghauulvqrijx3bhgem2lfuss2nfgcoxv@6awcqkjsrsh6>
+ <CAK5ssPOrN+=uqqF3=6_0CukAigOMY=GrLLZQEUSz5jrn30aBYg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK5ssPOrN+=uqqF3=6_0CukAigOMY=GrLLZQEUSz5jrn30aBYg@mail.gmail.com>
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MISSING_XM_UA(0.00)[];
+	TAGGED_RCPT(0.00)[0c89d865531d053abb2d];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,mit.edu,dilger.ca,linux.alibaba.com,linux.ibm.com,gmail.com,huawei.com,taobao.com,syzkaller.appspotmail.com,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
 
+Hi!
 
-> Op 01-07-2026 09:38 CEST schreef Christian Brauner <brauner@kernel.org>:
-> 
-> > 
-> > I just need some LSM to trigger the reject of security_file_receive()
-> > and Smack was the easiest to get going. The series is totally agnostic
-> > to the used LSM. I am fine with moving the tests elsewhere or porting
-> > them to SELinux if that is really necessary. We could also drop them
-> > altogether.
-> > 
-> > What do you propose?
-> 
-> I'm pretty sure the easiest will be to use a tiny bpf program to reject
-> security_file_receive().
+On Wed 01-07-26 14:59:41, Aditya Prakash Srivastava wrote:
+> While the cover letter mentions only a clean compile, I can categorically
+> confirm that I have run fstests, LTP, and a layered filesystem I/O
+> testing matrix before submitting. Sorry about the confusion in the write-up.
 
-Ah. Well, that's a testament to how much there's still to learn for me. 
-I didn't even know that bpf could hook into LSM calls :)
+Cool, thanks for confirmation! I was suspecting this was just unlucky
+formulation but wanted to make sure... I'm sorry for the noise.
+
+								Honza
+
+> On Wed, Jul 1, 2026 at 2:33 PM Jan Kara <jack@suse.cz> wrote:
+> >
+> > On Tue 30-06-26 15:28:10, Aditya Srivastava wrote:
+> > > From: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+> > >
+> > > This patch series addresses the remaining race conditions and locking
+> > > issues involved with inline data writes, implementing the clean
+> > > state-communication design suggested by Jan Kara.
+> > >
+> > > Previously, `ext4_write_end()`, `ext4_journalled_write_end()`, and
+> > > `ext4_da_write_end()` checked the inode state and the inline data flag
+> > > directly to decide whether to finish writing inline data or to fall
+> > > back to block writes. This is highly susceptible to TOCTOU race
+> > > conditions where concurrent memory-mapped page faults
+> > > (`ext4_page_mkwrite()`) can convert the inline data to an extent
+> > > between `write_begin` and `write_end`. Since block buffers were not
+> > > allocated in the inline path during `write_begin`, such fallbacks
+> > > resulted in kernel crashes and NULL pointer dereferences because
+> > > `folio_buffers(folio)` was NULL.
+> > >
+> > > The series cleans up and resolves these issues in two distinct steps:
+> > >
+> > > 1) Patch 1 introduces state tracking via the standard `fsdata`
+> > >    parameter. By marking whether a write was prepared as inline
+> > >    (`EXT4_WRITE_DATA_INLINE`) directly in the private per-write
+> > >    `fsdata` during `write_begin`, the corresponding `write_end`
+> > >    handlers can reliably decide whether to call
+> > >    `ext4_write_inline_data_end()` or complete a normal extent write.
+> > >    This eliminates the race-prone checks on the live inode state and
+> > >    gets rid of crude fallback/retry hacks.
+> > >
+> > > 2) Patch 2 replaces a potential kernel panic
+> > >    (`BUG_ON(!ext4_has_inline_data(inode))`) inside
+> > >    `ext4_write_inline_data_end()` with a graceful retry error path.
+> > >    If a concurrent conversion clears the inline flag right after the
+> > >    `write_end` checks pass but before the xattr semaphore is acquired,
+> > >    we gracefully release all held resources and return 0 (VFS retry) to
+> > >    let the VFS safely retry the write from scratch.
+> > >
+> > > The series compiles clean against the latest linux-next/ext4 tree.
+> >
+> > This caught my eye: Do you actually do real testing of your patches? Like
+> > using fstests / kvm-xfstests? Every patch author for ext4 is supposed to do
+> > that before submitting his changes...
+> >
+> >                                                                 Honza
+> >
+> > > Aditya Prakash Srivastava (2):
+> > >   ext4: use fsdata to track inline data write state
+> > >   ext4: replace BUG_ON with graceful retry in ext4_write_inline_data_end
+> > >
+> > >  fs/ext4/ext4.h   |  1 +
+> > >  fs/ext4/inline.c | 14 +++++++++++++-
+> > >  fs/ext4/inode.c  | 22 +++++++++++++---------
+> > >  3 files changed, 27 insertions(+), 10 deletions(-)
+> > >
+> > > --
+> > > 2.47.3
+> > --
+> > Jan Kara <jack@suse.com>
+> > SUSE Labs, CR
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
