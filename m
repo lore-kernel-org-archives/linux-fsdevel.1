@@ -1,62 +1,64 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174F1337BBD
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 22:21:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B876E3BFE5C
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 22:21:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782944498; cv=none; b=Bb71h2ynVo/Va3fnSybbVu1DhCimaEjyAl6vZ6CObWK15mu1tNiGZ24GPCG12/bBa0K9Qm6X6YgfMMS74AH0GZjZCMNjbfRHDvDCU4sm4IxIp4lnc7sy5+XWjb7XKhplW3PS5CvzRa5wEeXwubAtjMyyoiSWZyGA4K5pjjYw0f4=
+	t=1782944499; cv=none; b=b8MSTDnOcQ6OnLXGLQg5f5E69MdeZgPdZhQGsj5GLi09Op88YuJBr7i2EBMzc+IntPqO3zBtDVCYCXeSrRfvgbJtVN9MwKTQ61QtaIfE8TQ8yn3VRR4hqzbF574qitYxKWQzmUsLeXnbseRk57vPJFm2Zs5meunoKiEbsHqgVAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782944498; c=relaxed/simple;
-	bh=yJOSEoy8sWsXcxdQIXpUWpA881MN+YVUpBL5IK2Xm4o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sbeYRq1JH0A0JLkwGTCpbsVjR0HBPQ5RcdwMhHF4XGqdHOwwV7BbXB8uZqZiTYs7nmAlyS77IDc5L78QX05bAt3cqUcvM8VtDa+Bi4vctwlndY5BEdcr2eOJgGIwZK/QG1Z4AN8ayNQ3j4vhPmzAcARW2ZZFtENF6/OWOEbNfN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=g3ikBhyz; arc=none smtp.client-ip=209.85.160.179
+	s=arc-20240116; t=1782944499; c=relaxed/simple;
+	bh=alSKPTQT6qyupCa9Wb3tH77OaCuCEs2eZNAD/mw8pDE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tE9LatgAxo6s+PE6mt2Tw1D0YHS4CZNRvy3UNYjJTO65AigX/V28MFcTelS7NeCoQL0NDF4N5VfZBgLWALHAL7do08ZcN47hvuUq45qdgg7tSal5Tqj76RcPkfuur7ir69b+DWmSEFEU5i0PONY2kisFzrq9OLhAHIjQNpn3xjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=YN3OK31P; arc=none smtp.client-ip=209.85.219.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="g3ikBhyz"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-51a868b6962so10460411cf.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Jul 2026 15:21:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="YN3OK31P"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8e5be46f663so7657196d6.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Jul 2026 15:21:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1782944495; x=1783549295; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ly94HkQriumv5CAnLiirr4F1XjBYwwHktI6gudLRhmE=;
-        b=g3ikBhyzwnndsKk1sfOLAyyuus9MsCUwTcYpcPeNpC25BvkLHam0tPCdXgWpzOpTd1
-         d81Oxmk73yWPHpeegbqZMNJuRm/6Htvd7iQnVXhVr9dyGEIhBWyy9g3l4Ohli25QYMvV
-         lWVUJBgvWcj2TOPYAyo0OPMVhsNVs0YImy1PJR3CQYJisqbLqEYEmwZWaDuDK9xif7tp
-         IqHq+HJansdJjIQhpxkOU/qDoYH+kkSJ5Jxo0yQRpsuY8uoHEOnw5FSxfbmujv0IaXmT
-         +m519xzcvMrkJwxcEDqbwRFcCO8hwW17aQKlXbPLqchZh2KB9M/+y2WM2Qb/V5NukyzM
-         inIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782944495; x=1783549295;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gourry.net; s=google; t=1782944497; x=1783549297; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ly94HkQriumv5CAnLiirr4F1XjBYwwHktI6gudLRhmE=;
-        b=JS58y1kcZe6D+wl98xoZbwMu0kOgubaf8ixLMDjtvsGqg+spSNDo3QCjWhG0VrfcLR
-         OHRoPST545mc+R2XHSuA8ylkyR0a38BoWGa8A+Mmf8grfn/PLrBZgH96nTZIDxY/i0Ho
-         jt61BHHXCMELWMquMk4k9d610bMPwCNihJ6AgE3AJ1oLmFNJy1WV4EGolMWzaxci5R+Y
-         Sof/tLaD/00cyGcvcJby3u1c7gn7c6gyhdL1h2utCbI15Cc9sMjmJuD0EHy80BHhGbUT
-         f9efiyJ9m65g45dKXU9tFrNPm7RmahJ3oIqEF2gyQsALoAgxh/SZEFs1g4xCcfhqBIbL
-         p3PQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8q2S0ozDI3XIK89dsEssUFcA6yoheLoVR8Vh4zaBpQNJfN0b8mT4M2vRJde1HRPAa0uGRoY8taaSiLRNA5@vger.kernel.org
-X-Gm-Message-State: AOJu0YxP19Js0vcI2ey9COgNouDb3pMGBEApP3ehfuhP9hKZVJuRwEHa
-	grY8fY31zR0dIyrYgYjZ3V1+hNxrlIxVN9Nb+Frs1WOerzugESZ9NQ8mK0gl7ahmM5A=
-X-Gm-Gg: AfdE7cmDIc/4i7MUQe9kEdrarD9Se2o18PZPgGrQjI4m/Tun7erPW1KDJX9jcynybq1
-	bdzhbF3X0WX0WJt0wHS0voEkNZf2ughGDsm+vKZIgPfqjcL0ZCFLr8FJIbt6geash4O4LcMApzB
-	JUyNIc54ME+BfL/F2JS1eCQq+ttC3JVgRM2TSCnPPvEoaEFAmawyWz9h+/0cracuI80zMYtDlCp
-	qRcqwyYUg54GJvvgZpjz6hauRCHln0xWItTHkihDskuahKyWT2M1Z9kyoCW/cHt4pd5o9WppAUZ
-	FC+eTVfyIwb0gu0Ysws+gJfhRc1MbpZz640rvl9iHXuNvctzPUcI/tMiqF8xPGraq9Ryt2BlON8
-	9CgmHglny9UhJHlEDPOsy5d8il1qtrBir/qOweE+lemJX86+e+psfqH+eg9zLdboYk/N+FPIi6o
-	vU9PA0+lFybT9h2LnnwgUrZy0gOB42cUi4ANqpeuzhRL1qzjUlbN5NDeYg7cmo982r+WErg+1lJ
-	Q==
-X-Received: by 2002:a05:622a:1e0c:b0:51a:896c:9abc with SMTP id d75a77b69052e-51c26a6d79amr46819031cf.30.1782944495109;
-        Wed, 01 Jul 2026 15:21:35 -0700 (PDT)
+        bh=0bjo3T7/TDMFL6Bk9RMp5aO8WfjOwcDSqkt8gjpOfos=;
+        b=YN3OK31PkMANkY+aDMjAgSDCJL7LIiY1inUzNTmLI9irMx4ofgIY6D/MoeS2updoPT
+         XE8b8IISkdFGy02dOftkRVB7So/Tw3bmoLff+0dumvnY8lKKau1YKQL/sRsx7MO1lTHB
+         GbCtowY9wzzLq8g1qbyUB0Vg0XndpnAQSvPtbfnxLlnC+4bERVIgGmZJtrTvD/TfMxc/
+         28yDUYWy6/LAlR9p+ITAvNF0h7ZsmsMAscHe33ELqMlqva2C7Ia+9TnEDObjMqZjpFsi
+         GjLJUHOw0rW1s5AIs8POncfpxH2CdqBM2LYhKHJ7PCtP3c9X6hYsFY2zpGw13ec9gyNU
+         EdqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782944497; x=1783549297;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0bjo3T7/TDMFL6Bk9RMp5aO8WfjOwcDSqkt8gjpOfos=;
+        b=AJW2SwvViq1ariZeFygxhyyOWtXgf9qDylpwC4818+zjbntBSka/KG4uokDzqWPJxS
+         kjk0VmhJYFhJ8fqC7M6O0T7I+kLsup5Aj7c+b8e7XV+0VFEXPMlhrs8erLjMpL5REUvr
+         eDgghUbdEfk00NvnQG6UpCCsdhI88Q/oHjDjkKFjsMLelfY9MFCsZbN57q2JhsbdZfBE
+         Qc6IMUXeGhUj4fP+ePdKDTvktygkLGTCCXCS1WfphJQ2+hrzn7ZfGa9u6x8L4eY7l9bu
+         Vd4JQd0LipDHHfjJ5+9N9qC00yRHy9BlvziW3ymLlYXQWJr+cqLTK3xX/yEj9ibkorSx
+         TxnA==
+X-Forwarded-Encrypted: i=1; AHgh+Ro1d/Yw9f8WzSA5UZxovEQZb2HW+qlIfwWnd2NQ8Qlj9GCes22iGdYxJPvzajhCR7f11klbTV9LVYirlYLf@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFz0U2gLoxlh9u+L3RvMOokGK8DNk81pfWr2dkQufVYLGwlkSK
+	xy2z7xrLOsiVyPdk2K009Vj57tEakJkbRvnxiI1kx1uOYku2xlQcsvL4PLSry9BtoqY=
+X-Gm-Gg: AfdE7clM1IbSN+bbjRpekUea0cXmCx9XhBjNHLuSEtjM3+Nj0QN8O5OZujo6qYW1g2e
+	DPes645NCzlTKSerPaRA7W3L98shUKXFWpKM3OcDE2uVbZAmsyEy2MFxhgN9kgl1agGEU8d7boW
+	Kd7NuucS/yaJZMCrCFoaBlg2az4QeOl1bn00klKFibs23qLxHdo/Jaw4c4d01xY1bmgBZ94LxrJ
+	eNceHrBDXQKKNeVQbGfFwDeKZtNynmWCMtU8IL/gSo9VqVEJObvoyE/QAWQAx3c2MLiNKfIPlsc
+	QlO5VT4ItNfs2//PFznLTOhfTgMkZXG/3VXcnhit1Qel5+OcZ7JgVu+2/R70p0L2kVpSjYlcTdB
+	E8zGF6SrYD4TliDgoIxJQFI7tpj45WFyqJSyKZud0LhYNrTvYb5WtoC4EvS9ccQ/UUFCeE/DTj+
+	IH4H9mgTvGjWJzG8HnwDqRHhZKOJT8BaJla57mfZryNwBsRAmN50pPc+NrsI5hlSg2GkwQsFXxg
+	w==
+X-Received: by 2002:a05:6214:29c9:b0:8f0:275e:8b3a with SMTP id 6a1803df08f44-8f42557f540mr40756456d6.48.1782944496729;
+        Wed, 01 Jul 2026 15:21:36 -0700 (PDT)
 Received: from gourry-fedora-PF4VCD3F.lan (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8f46e27d137sm9709076d6.9.2026.07.01.15.21.34
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8f46e27d137sm9709076d6.9.2026.07.01.15.21.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 15:21:34 -0700 (PDT)
+        Wed, 01 Jul 2026 15:21:36 -0700 (PDT)
 From: Gregory Price <gourry@gourry.net>
 To: linux-mm@kvack.org
 Cc: linux-kernel@vger.kernel.org,
@@ -73,12 +75,13 @@ Cc: linux-kernel@vger.kernel.org,
 	byungchul@sk.com,
 	gourry@gourry.net,
 	ying.huang@linux.alibaba.com,
-	apopple@nvidia.com,
-	Johannes Weiner <hannes@cmpxchg.org>
-Subject: [PATCH 0/2] mm: don't apply task mempolicy to unmovable kernel allocations
-Date: Wed,  1 Jul 2026 18:21:10 -0400
-Message-ID: <20260701222112.2820098-1-gourry@gourry.net>
+	apopple@nvidia.com
+Subject: [PATCH 1/2] mm/filemap: place page-cache folios via an explicit mempolicy
+Date: Wed,  1 Jul 2026 18:21:11 -0400
+Message-ID: <20260701222112.2820098-2-gourry@gourry.net>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260701222112.2820098-1-gourry@gourry.net>
+References: <20260701222112.2820098-1-gourry@gourry.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -87,91 +90,42 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series stops a task's NUMA mempolicy from steering incidental,
-global kernel allocations that have no real relationship to the task.
+Page-cache allocations have no mempolicy of their own and implicitly
+follow first-touch task mempolicy via the page allocator.
 
-VMA-less allocations (alloc_pages(), folio_alloc(), vmalloc(), slab
-refils) - fall back to the current task's mempolicy as their only
-placement hint.
+Codify this preference explicitly in filemap.c, rather than taking an
+implicit behavior from the page allocator.  No functional change; it
+keeps pagecache placement stable across the following change.
 
-This sweeps in kernel memory that is not the task's:
-  - unaccounted slab
-  - kernel page tables
-  - driver GFP_KERNEL buffers
-  - one-off global structures
-  - etc
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Gregory Price <gourry@gourry.net>
+---
+ mm/filemap.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-On a uniform multi-socket system this is not implicitly harmful.
-On a tiered-memory system a task's interleave/bind can push these
-incidental allocations onto slower tiers and cause regressions.
-
-The memory may outlive the task, or be shared by others, yet a single
-task's policy dictated where it landed.  
-
-The fix is to only follow the task policy for allocations that are
-plausibly the task's:
-
-  - movable allocations (mostly user data), and
-  - allocations explicitly tied to the task via __GFP_ACCOUNT.
-
-Everything else (unmovable and unaccounted) prefers node-local.
-
-Cpuset still enforces any hard confinements (ALLOC_CPUSET), and
-fallback allocations may still cause spillage, but this at least
-prevents interleave policies from making poor placements.
-
-Patch 1 makes page-cache placement explicit in filemap to retain
-existing behavior (pagecache and metadata still end up following
-the task mempolicy).  Since the metadata can be significant on
-some systems, retaining this behavior will ensure there are no
-surprises for existing users.
-
-If we want to change this behavior, this patch is droppable.
-
-Patch 2 adds the alloc_task_policy() filter for bare allocations.
-
-Test 1: Page cache follows the task policy (unchanged)
-======
-A process running on node0 but bound to node1:
-   (numactl --cpunodebind=0 --membind=1) writes a 1.2G file.
-
-  membind=1 (non-local):  FilePages  node0 +0MB     node1 +1200MB
-  membind=0 (control):    FilePages  node0 +1200MB  node1 +0MB 
-
-
-Test 2: Incidental kernel allocations no longer follow it (changed)
-======
-Added a debugfs interface to do movable and kernel allocations:
-
- w/ --cpunodebind=0
- numactl ... --membind=1      echo 100000 > .../alloc_kernel
- numactl ... --membind=1      echo 100000 > .../alloc_movable
- numactl ... --interleave=all echo 100000 > .../alloc_kernel
-
-                       GFP_KERNEL          GFP_HIGHUSER_MOVABLE
-membind=1    base:     node1 (follows)     node1
-             patched:  node0 (local)       node1 (follows)
-
-interleave   base:     50/50 (follows)     50/50
-             patched:  node0 (local)       50/50 (follows)
-
-Movable (user) allocations are unaffected in every case.
-
-The unmovable unaccounted kernel allocations stop following the
-task policy and place node-local. With no policy set, both place
-node-local as before.
-
-Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
-
-Gregory Price (2):
-  mm/filemap: place page-cache folios via an explicit mempolicy
-  mm/mempolicy: skip task mempolicy for unmovable unaccounted kernel
-    allocations
-
- mm/filemap.c   |  5 ++++-
- mm/mempolicy.c | 40 ++++++++++++++++++++++++++++------------
- 2 files changed, 32 insertions(+), 13 deletions(-)
-
---
+diff --git a/mm/filemap.c b/mm/filemap.c
+index 5af62e6abca5..d419d09a58c1 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -25,6 +25,7 @@
+ #include <linux/syscalls.h>
+ #include <linux/mman.h>
+ #include <linux/pagemap.h>
++#include <linux/mempolicy.h>
+ #include <linux/file.h>
+ #include <linux/uio.h>
+ #include <linux/error-injection.h>
+@@ -1010,7 +1011,9 @@ struct folio *filemap_alloc_folio_noprof(gfp_t gfp, unsigned int order,
+ 
+ 		return folio;
+ 	}
+-	return folio_alloc_noprof(gfp, order);
++	/* page cache defaults to first-accessor task mempolicy for placement */
++	return folio_alloc_mpol_noprof(gfp, order, get_task_policy(current),
++			NO_INTERLEAVE_INDEX, numa_node_id());
+ }
+ EXPORT_SYMBOL(filemap_alloc_folio_noprof);
+ #endif
+-- 
 2.53.0-Meta
 
