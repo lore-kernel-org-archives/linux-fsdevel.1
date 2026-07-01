@@ -1,136 +1,70 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3503009F6;
-	Wed,  1 Jul 2026 07:42:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85983B1016;
+	Wed,  1 Jul 2026 07:44:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782891768; cv=none; b=me0VLgQwEm1/mN2z7yY81WRi8mwGog7q3STRtuYSrROB6Xq+hU8j4WuQ2cWPNbFpW92bbpIH4T3iJYXhjBiEqXI9igMnqq94agG6vn7TXC2i+Ys0C+AGV8s3tY4xSWmhtRzUim2k/Xw6sWXktUGSqisnCfLUd6JlAI0Isk38Gb4=
+	t=1782891851; cv=none; b=AyLCKmVKyP1fyDJy6YKHYKxy2v9JdOmMOtiyLeI1Kiom5POqbqlmtSbp4PeESweGyE6eqqaZrFikgPguccuAbS9A9FJ/hVkMpk1ZOxvpyAY7EoH316wCDbypabpR6HvkfiFrpr7/8Pixq9A42NzuwUSjPRnrEZnXFzMirXuVlSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782891768; c=relaxed/simple;
-	bh=LRk3F+glB1e+uODYrg3n9UX4FoxzrJ+UwW5EF1K6820=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=RFsGi21j6no+WqSkUuF4zgTa8SqKpWPxuRt06/F0AGVseMejYhr8wabWVDxaRIGcFc9ko/imFUco064/sx6nDWIXbKFd/B475IvU/bVN/p8Sqhy0y1T/mzWVq0PGOQo6rKCKhOqj+7b/hoLD9GTCozeJhQVHe7XIuFZgPzzFlgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 6f0a90ea752011f1aa26b74ffac11d73-20260701
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:7e7bc834-067e-429c-b48a-8d941eef7612,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:e7bac3a,CLOUDID:0ad45be064530f10f0bd86a303b51d1c,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102|136|850|865|898,TC:nil,Content:0|15|
-	50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
-	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 6f0a90ea752011f1aa26b74ffac11d73-20260701
-X-User: zenghongling@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zenghongling@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1546790373; Wed, 01 Jul 2026 15:42:38 +0800
-From: Hongling Zeng <zenghongling@kylinos.cn>
-To: linkinjeon@kernel.org,
-	hyc.lee@gmail.com,
-	charsyam@gmail.com
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	zhongling0719@126.com,
-	Hongling Zeng <zenghongling@kylinos.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH v4] ntfs: validate error codes from untrusted disk data
-Date: Wed,  1 Jul 2026 15:42:33 +0800
-Message-Id: <20260701074233.67855-1-zenghongling@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1782891851; c=relaxed/simple;
+	bh=MLHJ55u6fkpaD2Px1OJT5Ffy8FyDtBQJsFcLHSj4Oq8=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=QjaYcK3bvHMqHFFpyAnKI+aYswfTKNkWMrj4sdtoyNXsmx0JqS/fsOvk3zl0oLUYDKzpg/8FJKghWrubtmxU2E0H2aWYCKvoM0hyZ0Eyzr9xSWk9Kkfk4pAqsXKvo2SCjS7OTbWIYNZrWwTPdhF4loHmJ9lhGio3zxjeBqEbRs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T1uk3EQZ; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T1uk3EQZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A59181F000E9;
+	Wed,  1 Jul 2026 07:44:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782891850;
+	bh=MLHJ55u6fkpaD2Px1OJT5Ffy8FyDtBQJsFcLHSj4Oq8=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=T1uk3EQZYvJhT0cMxWKx+q7GONtrv9fvk1of19IekudsERiTc08aBC62mVyzyj9IG
+	 h7K2D9udhy3hN/rZhQ3jTohEirdlXfm7krp7PoruFREobPRj1a7MNjy1wdNwv7rE5W
+	 o1zRz+6ruO7cAzKrnsWGlHq1yc2v2TPrJZpL5AX7cRw33yKKaMN2qwRwlAegXS6e5x
+	 GxFCD7ADMlxE3Upoq3v46oIAXdlFGpO76KUsgt9PQdqIfdcFW5SBrkZ/2+hLza40xy
+	 SzpVBrS1qe8kFMka90BdwmklkIWBNUQB5/bVrPxXZ0XRWXXNSyiCqSgoij4K567W4G
+	 02OUx2Oc/942Q==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH net-next v3 3/5] net: af_unix: useful handling of LSM
+ denials on SCM_RIGHTS
+From: Christian Brauner <brauner@kernel.org>
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ Aleksa Sarai <cyphar@cyphar.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
+ "David S . Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <158151977.3525022.1782821834050@kpc.webmail.kpnmail.nl>
+References: <20260629194327.2270798-1-jkoolstra@xs4all.nl>
+ <20260629194327.2270798-4-jkoolstra@xs4all.nl>
+ <20260630-getoppt-granit-gekrochen-78244e8979d9@brauner>
+ <158151977.3525022.1782821834050@kpc.webmail.kpnmail.nl>
+Date: Wed, 01 Jul 2026 09:44:05 +0200
+Message-Id: <20260701-angezapft-unreflektiert-galant-e89d63be60ac@brauner>
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=237; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=MLHJ55u6fkpaD2Px1OJT5Ffy8FyDtBQJsFcLHSj4Oq8=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS5HHV/snTF+qDVDH9smy9veXglwEU2MZ5ZaWIxz33p0
+ OPdCwSOdJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExk9hNGhksHM+wdVF++yryv
+ 7Z529r9KRoHClyTN9itpyrnLamav3cPwv7LM7e5OXYmTGmKzq53sA5wOzyg5ZpITlLHsbEtX0i5
+ XLgA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-ntfs_lookup_ino_by_name() returns MFT references read directly from
-disk, which are untrusted data. The current code extracts error codes
-via MREF_ERR() without proper validation, allowing maliciously crafted
-NTFS images to trigger kernel panic.
+> I also choose to not put -EPERM as sentinel as suggested first, but use the
+> actual LSM error. Agreed?
 
-The MFT reference encoding uses bit 47 as an error indicator, but the
-lower 32 bits can contain arbitrary values. If a malicious image sets
-the error bit with a positive integer (e.g., 1), MREF_ERR() returns
-that positive value. Returning ERR_PTR(1) causes VFS to treat it as
-a valid dentry pointer since IS_ERR() only recognizes values in
-[-MAX_ERRNO, -1] as errors.
-
-This leads to kernel panic when walk_component() → step_into()
-dereferences the bogus pointer at:
-    struct inode *inode = dentry->d_inode;
-
-Fix by strictly validating error codes: only accept negative values
-in the valid errno range [-MAX_ERRNO, -1]. Convert all other values
-(positive, zero, or out-of-range) to -EIO to indicate disk corruption.
-
-This prevents potential security issues and ensures proper error handling
-for corrupted or malicious NTFS filesystems.
-
-Fixes: 1e9ea7e04472d ("Revert \"fs: Remove NTFS classic\"")
-Cc: stable@vger.kernel.org
-Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
-Suggested-by: Namjae Jeon <linkinjeon@kernel.org>
-
----
-Change in v2:
- - Use else branch to replace original error handling, avoiding duplicate
-   logging and ensuring single consistent error messag
----
-Change in v3:
- - move the assignment long err = MREF_ERR(mref); to the top of the block
-   and reuse err instead of using MREF_ERR(mref).
----
-Change in v4
- - Declaring variables at the top.
----
- fs/ntfs/namei.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
-
-diff --git a/fs/ntfs/namei.c b/fs/ntfs/namei.c
-index a19626a135bd..3d8b7e557b08 100644
---- a/fs/ntfs/namei.c
-+++ b/fs/ntfs/namei.c
-@@ -177,6 +177,7 @@ static struct dentry *ntfs_lookup(struct inode *dir_ino, struct dentry *dent,
- 	u64 mref;
- 	unsigned long dent_ino;
- 	int uname_len;
-+	long err;
- 
- 	ntfs_debug("Looking up %pd in directory inode 0x%llx.",
- 			dent, NTFS_I(dir_ino)->mft_no);
-@@ -233,9 +234,18 @@ static struct dentry *ntfs_lookup(struct inode *dir_ino, struct dentry *dent,
- 		ntfs_debug("Done.");
- 		return d_splice_alias(NULL, dent);
- 	}
--	ntfs_error(vol->sb, "ntfs_lookup_ino_by_name() failed with error code %i.",
--			-MREF_ERR(mref));
--	return ERR_PTR(MREF_ERR(mref));
-+
-+	err = MREF_ERR(mref);
-+
-+	if (err < 0 && err >= -MAX_ERRNO) {
-+		ntfs_error(vol->sb, "ntfs_lookup_ino_by_name() failed with error code %li.",
-+				err);
-+		return ERR_PTR(err);
-+	}
-+	ntfs_error(vol->sb, 
-+		"ntfs_lookup_ino_by_name() returned invalid error code %li, treating as disk corruption.",
-+			err);
-+	return ERR_PTR(-EIO);
- handle_name:
- 	{
- 		struct mft_record *m;
--- 
-2.25.1
+Yes. We have to surface the actual error. In case the LSM is returning
+some custom error (can easily happen from a bpf lsm).
 
