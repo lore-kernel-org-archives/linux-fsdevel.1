@@ -1,197 +1,121 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9404F39A808
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 19:35:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782934540; cv=pass; b=VjvnkPg0y23ZHKMAhQNq0kJPuFnw6JNNMDLB/WkrOjqbFU4Gw/rQh51UCL9Gop7Mpu7RE5+MIEQ+CqaFa5n9NKgtAXgO2ZcMDvBD/aPNW+AVnOuCH/8cSMNgHaqOY3wmBSYrvXyZjn0CASNSwKDR7a1hfiGHBdQtubys3FwweVI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782934540; c=relaxed/simple;
-	bh=W6CJBvffePQ1xTgxagHeLlloRE/H6DklNbAaM7XMEes=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PZWXbR5XxpWJJa8wgPDWxxLVOBnkeZ1l1Ho7empknP3p05lRcU5GyAtZdEAwFaoe/gibCjUHg1CejVOSlpcqlnB1CumEtIWXMKe5ZGao6HKwQJFhE94bc1dn3ntGiqTjmDqdBPS5RGFtzlMBWF1qJBeHsPMRsdnXR9Y4f2CWy/U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dkWeW4MO; arc=pass smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564C0423F7A;
+	Wed,  1 Jul 2026 19:42:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782934940; cv=none; b=fmMWkMPKwpvt8Y+gfcesAM1pgqwuWX5FxY6W4jrE8zanRI91l+1YWp9MZD8YURTDugKSbZwO1ECwnJoHMJSuoYrGKNd0HrqyX92CM/1MAX1+lAVuSP78lTufxTbUHTiviqQs/iYM3C3fUCgiecuYhhjzYubIBipMU43dH9onaPY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782934940; c=relaxed/simple;
+	bh=duvUiJra6H1sq6gOYlnLjNAg1Sfl3oKcL1JFeqAltT0=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=TSP6yF5sUQSAJWJZ9jrdvpXHP0drTWYvEz2sFny1QPwoWW3nemdx3zSshLAy6bQnN4s1b5JZie3hdj9netfWhekiU4XtXwq7I5PMcqGpIWFIKioGfhCDhvZoDeuEOOqr9tAHpJNEQEIKj5bV+GBOMV2DZC9onWSg4Ad3fHuGarc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=aOOuf8X4; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=FSfv9d0v; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=johnericson.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dkWeW4MO"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-474560436c3so959822f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Jul 2026 12:35:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782934537; cv=none;
-        d=google.com; s=arc-20260327;
-        b=eIwE+LQqOQd9uorJpSWHe6E7qHF4tz0DzaU4DcoDFxxh8a00ZvWszm/s1PLx64k1gk
-         gwNWYLOM1DCaQdZb6Jfeb2+WixFmij5fUCTJCEoG3P+CNqSWOspzJnlofXk52xgn9j1A
-         RFacV0yn26kJ/4BNGk4pDCccRDhxBVduAj1/x79hUDtpMnQ+lUU3sPXPwJPKDtjmy8aU
-         CiHwrDYMKQcBi57Sn+WvwK5H9bV9IWLPXTi+/uFNNKl/o2/+XhTHyqBGTIdUo7K26MZj
-         aS0HrxKBWlU5qriaS+NLkG8Mo6YskPV4UKz6hBoxDBbsiJtuuBRJmIlUeOttCPkthmR2
-         20yg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=pGGDxr3N3ZHTVGBYFBwUmfiD25X2IVkVBZj7x5VdJpQ=;
-        fh=snFWi6iuIncj0fPh4Klc0nINasY+qLirQbTpiqQ6Br4=;
-        b=XXe5urhY6nk/qJLO9JxJTELXAmswXlUoBvo9YSw6NZ5lOut12t9HzKxURH2x0Wa2Kt
-         hllJbCOrWBKVPTN+uN0Ji28SZP6WFIHjigXaDDSbRDVPoR8IU3fcjWK3rWhYYc7vUgkf
-         lJyFZu2KHtt40Ttvwmo/a2TLxq+yN9YXzQvtrsfWZYTHiS0hCRhUa4KGHllHuEoXG+I/
-         HEFuLE52UWNcvJRn6mnkAMgi1HBMhMtJzCjTLo8zTOlhYtWz1hg7pZaGVhpqZ7xNKWoG
-         sa4YLxMfBGxGC3N2G+fxGOvDWJh3u2SibhOIbV5PnVn9QnBDOVvjKMerYkSHTjzGfymR
-         4irg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782934537; x=1783539337; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pGGDxr3N3ZHTVGBYFBwUmfiD25X2IVkVBZj7x5VdJpQ=;
-        b=dkWeW4MOYHjKBIGKBMixuDTcGthkx7tZXP9qzgxCHl0Bhnw7UPL730ubvrQwSAEbaw
-         N1P6VfwhITJJgbnUb9K6TjMyMC5EMPXVByrQJSNCizIMoewbHJQxE9Boi2WHOZ2HoOtU
-         8vsQigsZL8uiD07U8I1r8mMD5o2u+HH7JuIGZZ1biooJQwvQKXDMI3eMP+qF2HyZIqtu
-         Er8v6T7q1EY5r/kHM9q+VWDlBnCeFjUFZYRTBD5dyqKKXbr/IZpfdMyqA+cSdk1+EvMl
-         ZHrcGQWI7znAwTXcwS6VvN9n4vzlYri5UNI0P1Zd3pezzoouXNDwkzrg5x4ha3faPdn4
-         hEag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782934537; x=1783539337;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pGGDxr3N3ZHTVGBYFBwUmfiD25X2IVkVBZj7x5VdJpQ=;
-        b=e16vHSA/twjVt0ulsmQdoDEmTQJyge05ePMik1liizy3htEjNuJpUV4hKtfGkL3Q4T
-         v4riVac+ffMX7kgVMOFllI7Lc+ofeJg+btoJIdULEwo7oNaRWCFP+p8FWsO1AFndFu6L
-         MvkjCLgaEwEnRJFU7cUrBHNOPTTkuDIh+ScRSyXWvUomSrqypMOr+eP3amrck/7rmafb
-         sJGC5g9To3rX9/JUTSUJQbB1WphKlvKUcxkJAW+POZB/a67wcPuD1LXYBhkdHCqWQexE
-         XI6lo5YMchzABHVpEzF0aTsjwGhQ97H/+weuVSeHNLQu9VXrtxdcZw4GpOtbKhz/DilK
-         xEMw==
-X-Forwarded-Encrypted: i=1; AHgh+RrolkoQ2uloa8D2zTYAu0dd1TzMAjjcwDxsgCKfofFD5E4frmpBNJjTQjyUg4MR8g03UN8Ft0Mh+55VsuVR@vger.kernel.org
-X-Gm-Message-State: AOJu0YzXBhKDnOy8Jk6iCGl59qwF6MubgdhRIJ1r5ldZEY3s2Mapbwrl
-	FDY7grl02XxgPXXd06k2AJBuH9x72vfFI3mkOso4JDDA4UYdwwaxlH8lUmYHJ/Te+Ro6YeCSV4G
-	FbXgPglOS/m3Pyk0izOHmbLXkFvxRogU=
-X-Gm-Gg: AfdE7claKhk2SyhtklMuhLAsg4Iu2iRTJwRQrGTqkoVaZYfdfEPNkpAEZVGUcP7fEN0
-	8fezAAbDy55CMKhcD8K+BRd2bORCkSEaPg+hSkczmmR2FzUmZq61/wLHiYMcrRC1e3RsyBjgvqW
-	OA9zuy0Id0AhPraDw2hcJebT1qhB2GFoi3Quen26VGZqVXPok5N/7oApBtizbYuoF6cuz/FOGEn
-	+4yqaadl/5EBM6znkl+Efvlm7w+gT/5kZSv8+t1BQTZ5HZa71Hx1xtlwVCfqEPUShLUVZyR7f+f
-	RuK0c69GYhxENcgMIDyAplr6g1OIhLALHAH7OfEsgnIVxC4i0a/n
-X-Received: by 2002:a05:6000:4818:b0:474:9991:60d0 with SMTP id
- ffacd0b85a97d-477aeb5bef7mr3461724f8f.12.1782934536936; Wed, 01 Jul 2026
- 12:35:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b="aOOuf8X4";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FSfv9d0v"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 1BE201400181;
+	Wed,  1 Jul 2026 15:42:18 -0400 (EDT)
+Received: from phl-imap-16 ([10.202.2.88])
+  by phl-compute-05.internal (MEProxy); Wed, 01 Jul 2026 15:42:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1782934938; x=1783021338; bh=duvUiJra6H1sq6gOYlnLjNAg1Sfl3oKc
+	L1JFeqAltT0=; b=aOOuf8X4xJIDQD4w2sETh9g2ftGWMPoPk+yb+53cAdN7DZUm
+	i/i3gV1UyttJG81U54VrtBFEXCeP/HabgzI4PRGzq6Jqfx9cKHlennpw2uTdT4IT
+	OGPSlSqOodbQKEaFmRz2CSebrpuBTkmKzOwi+UsRPPpCXVVYKR3IK2AsyAjnqCLC
+	jOpscOcoDZwx3xmNWjHrnmSS+Ye/DjKTl/prKCXF1kOx3z172SwWQJmixkFhmx0g
+	oFceT1Q/a5oEDISnKImKZUmukVzHAr33YIL9sFFfzCKut9YaML4CAtrfmR/C7XjK
+	3hVXuUS+586bpAXjTZIhNuzv7NBnqsmYgw0+Jw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782934938; x=
+	1783021338; bh=duvUiJra6H1sq6gOYlnLjNAg1Sfl3oKcL1JFeqAltT0=; b=F
+	Sfv9d0vof2r896tQSZsEnEAwKnFRINQoAfDHoDdS1oqzHcs21XMAmRSBPcODqt79
+	UAQsdEEIlt65SQmzWubBKh3eXiX11VcI8331T01qmRPDEv0M9VIZd9C9JdDjphhl
+	vVAcDQBP3Ho5tAmXtQTOt5jBTmWilfQIe2jpjAiB3XdNInu9DkiS9kXd96n2D7Av
+	0HasrbO668ETHIXBG/dD+SNajH5y0fCsc9B/z8aDosn0v6YekKZGZp6/eqSK9Ezp
+	VIHDorO55fd5PQcKT4WIYi2HC8RinjRCaWOrOstkwc6pT+tDwbktSpp7CPB04WCc
+	Q1GE+jUcrRg5k9fORQ5UA==
+X-ME-Sender: <xms:mW1Fal4k1KHH97RX8qQmRD707dVYxGTPPdsMcAqRduAXG2JKWuBkhA>
+    <xme:mW1FatvDNmZoxN0KotHC3L18qsIXMlYivtgKP0r6r2Rmw8hJlyE8D9GuZBWPEK_US
+    EzlwYLy7fKIetvmDfe5Rsw-SNl6Ij21-mB1I_GLa-L51eu-45uBRIM>
+X-ME-Proxy-Cause: dmFkZTEcQge4w4sBHRY0uHSPe4IFqDnYUN2Tns4osA1e7ov62RU/KtjrvaM/pG/pfRNw5U
+    9WgqleVx9+5kW2MWfNtTOhIY6ozhR/yri1GZMGHT9RAZG0Dp7IxrZjPZrLmo9skv+k1ZU/
+    bZHEXxMZh3llrfZFP29O3onIDj8fE9HtzeAVz2DOMzQZJkkZ9JbZSs+bL86ngQH7LM56e2
+    WLm5uo7kJxlc8BffnXb6JvjrPRq/tNV0ttrLL9f9lgJVlKx54JitZLT45Xprpx4Mfdq2Ua
+    f8vAKz8PK0Alh4g0KP3E1+tGGU4qp243bGcy5AkqIg+vA/afTVEqR93dy04qfcB1ZEPGjr
+    nVGrEnCRBQQblRSci2vjCaIYk9M2C52Gz+6/tcPZqTPxeHs8ib/PFj8qw+ilatRn7fQwd7
+    jOqzaU+XhldTw8Ov3t2I0c10gVefLzDJVCHnJ34gZWuXvn54EbfyggUJ8bx5ouzGtAYHS/
+    6BaClM9QNcvEIyGVs2YvXWOZM0tIxK7t6bBCVgrB2gD91mOjDIZJa5Fj5QtCn+C35S/n5D
+    a5NpXv2KFEgyP6qxnOoZz9RagJmCPaeW5d+je+gHj8iFFSKCZAjBeoccbjmLLwnCJBNHmG
+    jf0uJKOKRDALpZZivamcTUYC/6+4LCfkYKIlAB0HHHIT4LvMC2fsuHlFI4GQ
+X-ME-Proxy: <xmx:mW1FajgBIYJJcrof1bvDAIK7luF2Y5644tyXiLd_lZp4_JSE2gAUcw>
+    <xmx:mW1FaqE0ExHQfrGTEVDKuFa66fe0LcY2J8oXikK7Hzx6vUYLgPYMbg>
+    <xmx:mW1Fai9qvBz2fCVNLsREC4VWre72CBrhi76rEx0nredBSEaqCbbVEg>
+    <xmx:mW1FahxrXLe9K15wLkuUmeaLxn-Z1kfWfGaZ4fm80yydlJbUPgaPbg>
+    <xmx:mm1Faoq77LztJFOGEvGAKKFNYIkMbHCHpq56SxMB5--K5Rh7Q_a87cfp>
+Feedback-ID: ieb4144f1:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 9C4512CC0083; Wed,  1 Jul 2026 15:42:17 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260701033253.46420-1-changfengnan@bytedance.com>
- <20260701033253.46420-4-changfengnan@bytedance.com> <akT4tJzFSfrBxqdq@infradead.org>
-In-Reply-To: <akT4tJzFSfrBxqdq@infradead.org>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 1 Jul 2026 12:35:24 -0700
-X-Gm-Features: AVVi8CeXAJXVfUIyr35lv5pL20q_ALlPEdtXwqos7WTDEDHtloeaTCi_lAygHvs
-Message-ID: <CAJnrk1Y3yPeXBeBNo+DjTt8eRN-mc2F9apBCUn+j=GV7GMzi4g@mail.gmail.com>
-Subject: Re: [PATCH v6 3/3] iomap: add simple dio path for small direct I/O
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Fengnan Chang <changfengnan@bytedance.com>, brauner@kernel.org, djwong@kernel.org, 
-	ojaswin@linux.ibm.com, dgc@kernel.org, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, lidiangang@bytedance.com, 
-	pankaj.raghav@linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-ThreadId: Aqzxz9K-cSE-
+Date: Wed, 01 Jul 2026 15:41:39 -0400
+From: "John Ericson" <mail@johnericson.me>
+To: "Cong Wang" <cwang@multikernel.io>
+Cc: "Li Chen" <me@linux.beauty>, "Andy Lutomirski" <luto@kernel.org>,
+ "Christian Brauner" <brauner@kernel.org>, "Jens Axboe" <axboe@kernel.dk>,
+ "network dev" <netdev@vger.kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Message-Id: <d0999427-dc53-4f8b-8026-c7d97cb31cae@app.fastmail.com>
+In-Reply-To: <e396ce86-ec84-4189-9da2-98af7cfa6c41@app.fastmail.com>
+References: <b1af80fc-a57c-408d-bdfe-fa6bae26eaca@app.fastmail.com>
+ <aicbyQIC2qEveNd-@pop-os.localdomain>
+ <455281ec-3ee1-4f27-989b-c239f0690d8b@app.fastmail.com>
+ <aixU_RccxS_BKhgX@pop-os.localdomain>
+ <66eb8227-85b6-4684-a4fa-e3e17ac2fa45@app.fastmail.com>
+ <e396ce86-ec84-4189-9da2-98af7cfa6c41@app.fastmail.com>
+Subject: Re: [RFC] connectat()/bindat() or an alternative design
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 1, 2026 at 4:23=E2=80=AFAM Christoph Hellwig <hch@infradead.org=
-> wrote:
->
-> Looks good:
->
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
->
-> We'll need to sort out the interaction with the iomap_next work, though.
->
-> Joanne, is it ok to get this in first and have Fengnan help your with
-> the interactions due to the open coded iomap_begin/end calls?
->
+Two small addendums to my previous email:
 
-That sounds good, I'll rebase the next version onto these changes.
+First, I linked these two unresponded-to emails for prior art in the
+opening email of the thread:
 
-I think it ends up being pretty simple to get it integrated since
-->iomap_next already contains the logic to only begin the mapping at
-the start and only finish the mapping when the iter has been fully
-consumed, eg
+> https://lore.kernel.org/netdev/4FCF171B.8000207@parallels.com/
+> https://lore.kernel.org/all/CAEnbY+co6YLXANfeMnfBOBs8Ba_Sbdqz0Ahm8RzAhRF7MrxL4Q@mail.gmail.com/
 
-diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-index 3ef5e9adca87..e654ec135d54 100644
---- a/fs/iomap/direct-io.c
-+++ b/fs/iomap/direct-io.c
-@@ -1035,7 +1035,7 @@ iomap_dio_simple_supported(struct kiocb *iocb,
-struct iov_iter *iter,
-  */
- static ssize_t
- iomap_dio_simple(struct kiocb *iocb, struct iov_iter *iter,
--                const struct iomap_ops *ops, void *private,
-+                iomap_next_fn iomap_next, void *private,
-                 unsigned int dio_flags)
- {
-        struct inode *inode =3D file_inode(iocb->ki_filp);
-@@ -1062,11 +1062,11 @@ iomap_dio_simple(struct kiocb *iocb, struct
-iov_iter *iter,
+Since then, I found one more:
 
-        inode_dio_begin(inode);
+https://lore.kernel.org/all/20120815161141.7598.16682.stgit@localhost.localdomain/#t
 
--       ret =3D ops->iomap_begin(inode, iomi.pos, count, iomi.flags,
--                              &iomi.iomap, &iomi.srcmap);
--       if (ret) {
-+       ret =3D iomap_iter(&iomi, iomap_next);
-+       if (ret <=3D 0) {
-                inode_dio_end(inode);
--               return ret;
-+               /* ret of 0 means no mapping, which should never happen */
-+               return ret ? ret : -EFAULT;
-        }
+which is an actual patch by the same person that wrote the first linked
+email, with replies. Hopefully that is useful.
 
-        if (iomi.iomap.type !=3D IOMAP_MAPPED ||
-@@ -1125,14 +1125,17 @@ iomap_dio_simple(struct kiocb *iocb, struct
-iov_iter *iter,
-                WRITE_ONCE(iocb->private, bio);
-        }
 
--       if (ops->iomap_end)
--               ops->iomap_end(inode, iomi.pos, count, count, iomi.flags,
--                              &iomi.iomap);
-+       iomap_iter_advance(&iomi, count);
-+       /*
-+        * ends the mapping if the mapping needs to be ended. no new mappin=
-gs
-+        * are fetched since the entire range of the iter has been consumed
-+        */
-+       iomap_iter(&iomi, iomap_next);
+Second, it occurred to me that regarding
 
-        if (!wait_for_completion) {
-                bio->bi_end_io =3D iomap_dio_simple_end_io;
-                submit_bio(bio);
--               trace_iomap_dio_rw_queued(inode, iomi.pos, count);
-+               trace_iomap_dio_rw_queued(inode, iocb->ki_pos, count);
-                return -EIOCBQUEUED;
-        }
+> (Maybe `bind_unix_anon` should furthermore `listen` right away on
+> `lfd` too?)
 
-@@ -1144,9 +1147,12 @@ iomap_dio_simple(struct kiocb *iocb, struct
-iov_iter *iter,
- out_bio_put:
-        bio_put(bio);
- out_iomap_end:
--       if (ops->iomap_end)
--               ops->iomap_end(inode, iomi.pos, count, 0, iomi.flags,
--                              &iomi.iomap);
-+       /*
-+        * on failure, iter was never advanced. ->iomap_next() will know th=
-at 0
-+        * bytes have been processed and the mapping will be ended with no =
-next
-+        * mapping fetched
-+        */
-+       iomap_iter(&iomi, iomap_next);
-        inode_dio_end(inode);
-        return ret;
- }
+a useful thing to first decide is whether `bind_unix_anon` is
+helpful and/or should be allowed for `SOCK_DGRAM`.
 
-Thanks,
-Joanne
+John
