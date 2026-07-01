@@ -1,60 +1,62 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A45E342532
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 14:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184DA332EA7
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 14:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782915638; cv=none; b=AFREmCdOxotcV1YHBu/fWL9bcCgFNPa6BWw2iEJd/pxGsgbhWOmwO6u2t3n4gE2nCCHyvMeSTTWD3F00xz5m/vBaSZ1oc0Pzv7a32wFLAeBabtCqnx/v1WKE5FULIZDX2UG+n+09rIfDssIeRG4fmX7S607LTi1ya+owp4oR7+s=
+	t=1782915647; cv=none; b=oMmPZPyzlKaT00o7jaWwkLG0nBgqYnAj8jPckNXEMncK++rwTAnE2yS2AGB2RSDUTdD+CORfaPDShSThdKndjmyS5SYUh46ixA3FqhxiAayQZd8S9kzB8celW8W29R89req0M2iKuaCWtAIQzOTGfw8vRYIxutqp0dgLuR5aX1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782915638; c=relaxed/simple;
-	bh=Fb4m7RM02pybVE+aIJPJZ3nvE8N/Yp2mY5olzcic/Rg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BRybD3tV52bBeXFh3WDY/sZb4npRPgma7W9Kb70NIWjieF9w9BzeFZJSO9TkAh9jMH+PodEYDOm9bxgzvxzYIiyIs9jHC8SCgwSY5WYmfHj8rxZauiimE4CVQwqhU/vcIIryxS6uliZBecMpa+DCT0WpqrZDJf+4pwx3Tgr61OU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TY3d0JrQ; arc=none smtp.client-ip=209.85.215.180
+	s=arc-20240116; t=1782915647; c=relaxed/simple;
+	bh=yc2Hyz7KSu0+lW1gLaiBvQG/wcF0zCCeP501YXvzp7Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TZBSjgW7gI6kgPFxExjHmsT2vh+Zc0eg5BXlTc0Bw1jSakFQkfUXn1YfIe+JMOk6Bm/JOJeof/PaVhSLO0JO60yqv4KXMz1/Xwtufz335fKL4Xn3/KG1XjL+jhn8mEJKU+aryoRsuI+z/4RI5VgtEA9lR6WIdF5H281M3+19VxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B+95Gfxp; arc=none smtp.client-ip=209.85.215.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TY3d0JrQ"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c9aaa90a791so249139a12.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Jul 2026 07:20:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B+95Gfxp"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c8fee9f63d5so296036a12.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Jul 2026 07:20:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782915636; x=1783520436; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nD2OwIScAIp/QX9OAmRACvwCunUHX0Zy3/ChkfevH3o=;
-        b=TY3d0JrQFTz5Kl7tfLZSym9E/+7l3FVxWvXI0FPfqnRMHHQ0m9PDzn3f0Quf+6Eeox
-         2Z4ilzF5Whz/frAu2DPFd09OForpa7l7aXZQkN6WQpAypAZPS27CG0kFJTIarZtKXV3m
-         9fuf+c7bDQ3UxiWwSneI6GqumEGJS8jAw4+odwhr8zLLz91TpfC2qRZ7S74xJHjDedPS
-         lEf1aO+koR+dO136qO74XGJT7uaCk0wtY08SFMI/SiT7thuWtMFg2bYw0+earf3gQqJN
-         KjN8qifx71sR2dN5gXHooEbHInxXn+PG/YGi2YBRWalmcMoJENSicnp1R5VjGLLU1wMx
-         9/tQ==
+        d=gmail.com; s=20251104; t=1782915645; x=1783520445; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=VAnbx+5aUJivupEEG6uiMWkDGEOXRc8YwNCEsizzxjY=;
+        b=B+95GfxpI75Hayaf7iavht28QvcPoX9NJu9ScGGN5sIAaESEYY/C9/lOzl7GySY5iP
+         zOAbpwpJmbMtD5IwIxq7zQ/sqsUOS6aRTPn9sMVqL4/htkjG4A7NrVEvbUMJAnbVEjBD
+         9JfFypAYCtFobqGJisnS46No9kWOPYe5JsmsMrxA+acgTiJVm1RfzPcayM3d7xFDdjaj
+         WcezlxfBWDVaIxizcHsiAyNFxWiPn4kyepgy1b3bHuHGNUv722I3/gG0wD3Ha4RDG1/L
+         EkJWsbeaNVlHKVqqYN1HpLhCtfQY0cpvkHURzFANsV+93zYfySzfxVJeBZYAwvz3uatf
+         4vKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782915636; x=1783520436;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nD2OwIScAIp/QX9OAmRACvwCunUHX0Zy3/ChkfevH3o=;
-        b=COHIpkV99oEaphep+NIYNpvBR49h/acJ7kQc2D/ihKX9dEus7hlHlaftDxFL5F2F4J
-         zM9OckFS5HEgH2dA9AQ+cfxKcSOa9TDYKO9rgZKKP6LebQTGJz49NA3M2CJxkC9KhW9h
-         sSn21tCnKJwWwbKHovwr/MLLD5LPMLRPDfW8aimvWri52bP+hzdBNblwsnUjnLfzQmsc
-         Z9npulujkMgfNFSLITIaDbTb7Snlxa/6I4LIMmEKEXPLh307eoPsbgn1JsClhFLW7Aoa
-         KgW3ql9qIUja/btvyVWKoBpqKnfZZvgORZeveEp1gkwFPCm0Nyn6KIhcJYycORe9ZadK
-         5iUg==
-X-Gm-Message-State: AOJu0Yxg0DFXgWtPTB6nRsdm2Rk+83l8EkYZD5Evlenw7VsOWVbB0CtP
-	i2RQsV6Vd5mrFY9LA74rPjSrHwQVKG/P/DvBMDEka3uFWx8vtmgXSAHQpyLw//DbkGs=
-X-Gm-Gg: AfdE7cmAlg0Q+MRzeulC5mIqnm/elgPmEjQ0IPU1SF8W02DNuZa1WmRnUKKpMi/1i3h
-	0zjekIQFj+UydieR3saz9+FJd8ct1j5oFlobYLSkTdBbWuySzEuFoxhfDWgG5HiBzgKoUrlvXOH
-	jBKln/6iM9OPTly6PDdewCgVvoN33w5h4ofnDgTDZv+SOQ2IBb3wOjdRjTs+GgTwuunpijD7j50
-	xXP2vOuJanUJYLJqRg3KpqNawQYLRR21I6FKYhKPYKFdl9Itd8pqmjaHItVUwl3RMS1+xQvx055
-	ewucHCcR2OxUsYvG43N14IhlDiT4KuawtjzXQ6X2AJjJfKIEFhxOsw47o2HMWqfA+f+xNl20XWN
-	zT9U4m50F8C+h63ae4eWeA85icjuC2XyM3VCCmMFwfDKEDIAuLGTaVoSqZKHkv6KDspcMRCNY0P
-	hIv56RpMAMgUKvZ4gabWvKcsLJQV7Yoejm
-X-Received: by 2002:a05:6a20:918e:b0:3bf:9fc0:f6c2 with SMTP id adf61e73a8af0-3bfed1bfe6bmr1905706637.11.1782915635572;
-        Wed, 01 Jul 2026 07:20:35 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782915645; x=1783520445;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=VAnbx+5aUJivupEEG6uiMWkDGEOXRc8YwNCEsizzxjY=;
+        b=O2CN+8xtAiXZtDxQN2mtezkJanB96uHyCF2ustt9bCuNBBIeCLJDNxEGsUoZMWoJAK
+         F5/CwRWGvc4xDtGgWB9Yrhebd8ootpUVqFsRicjP5aU6OS2GCuU30oRqPCDIAgdsH4oL
+         bIhYCpNO4lvNgvNV3tNaeIB1Lor7X+M9aRcdhgHjFRp6gnOcrV1mN6vFI96dktmsdFwu
+         BskJKbfbeJdUvSBcrjyw1PiK0+46ZdyLOEzD9B0So2HBvMt0Fxol5C8JnZhvwrGcwMEq
+         tPArfAizMY8H7/FjsFlW5oolhUDlKa4cbkUfhn1qdJIkNv+RayjBG+a11774c+ps4mnh
+         PBKA==
+X-Gm-Message-State: AOJu0YwZZ3vGkeM7ObGSZGqRysHlvuLxoDJaciZjSVpK855DyXIu40iw
+	tHTmTS/DFeWlq/tj/N+3HbP9ARqmfpA+7i6tG+EDkTt/4PTd1xu4TV3S
+X-Gm-Gg: AfdE7cn+ljpiddQwI0eT8WGb3lniA9ylHfm5Ckz7chFCKWuOvmNaNvNH96/99QebY2M
+	vFSVjfmAsMYjHt6+Vvb1pgAXCoJbja4fCVUjkkVUrpRIJ7LmbI9uL4rAjTCspFQtPoeGjyRS3UR
+	ilN9P0onnF329G2fqYjFpEO3J4OcTl5HRDiCXRcYJbpEJIMUwfAe2oNAu0FLo0tafnvOgIfgZ6o
+	jCanfvtAP5tL/nz0/JYa9krZ4lxyl3+xPmP2zQERG/n0/LPeMUaL77v6LQ4XhvBvaZ3P2TXZ8NC
+	2XuPV7h8oSRC+Mjo/Jbvb7ja8jdKRNnRYA1Xw3ywP89Ecn0TxZCPoVuFOneW07z8un1nww7x06z
+	vYEC8g7d0L1L+vKKXxC1enNtXt1Z6DLJZ5s3jhxmV8IO35AnsfnxAMfpgm9DXix4N7uvOtya+6Q
+	VuVkHF8XeJFDotaKp1EuSUBGMZ7Lhi6y4swXQQZ0P3btA=
+X-Received: by 2002:a05:6300:6715:b0:3bf:b0b8:58b5 with SMTP id adf61e73a8af0-3bff422d1d6mr1010582637.36.1782915645158;
+        Wed, 01 Jul 2026 07:20:45 -0700 (PDT)
 Received: from DESKTOP-DK6PUT8.localdomain ([124.70.231.46])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c9e32ef8e49sm383894a12.19.2026.07.01.07.20.26
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c9e32ef8e49sm383894a12.19.2026.07.01.07.20.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 07:20:34 -0700 (PDT)
+        Wed, 01 Jul 2026 07:20:44 -0700 (PDT)
 From: yizhang089@gmail.com
 To: linux-ext4@vger.kernel.org
 Cc: linux-fsdevel@vger.kernel.org,
@@ -70,10 +72,12 @@ Cc: linux-fsdevel@vger.kernel.org,
 	yizhang089@gmail.com,
 	chengzhihao1@huawei.com,
 	yangerkun@huawei.com
-Subject: [PATCH 0/6] ext4: fix unaligned edge handling in FALLOC_FL_WRITE_ZEROES
-Date: Wed,  1 Jul 2026 22:20:03 +0800
-Message-ID: <20260701142009.1510104-1-yizhang089@gmail.com>
+Subject: [PATCH 1/6] ext4: move partial block zeroing earlier in ext4_zero_range()
+Date: Wed,  1 Jul 2026 22:20:04 +0800
+Message-ID: <20260701142009.1510104-2-yizhang089@gmail.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260701142009.1510104-1-yizhang089@gmail.com>
+References: <20260701142009.1510104-1-yizhang089@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -84,58 +88,54 @@ Content-Transfer-Encoding: 8bit
 
 From: Zhang Yi <yi.zhang@huawei.com>
 
-Hi,
+In ext4_zero_range(), move the ext4_zero_partial_blocks() call, which
+handles unaligned edges, into the same branch where the unaligned range
+is preallocated, immediately after ext4_alloc_file_blocks(). This is
+safe because there is no dependency between partial block handling and
+the subsequent full block handling.
 
-The current FALLOC_FL_WRITE_ZEROES implementation in ext4 does not
-correctly handle unaligned edge blocks. FALLOC_FL_WRITE_ZEROES is
-needed to convert the requested range to written extents with zeroed
-content, but the existing code only partially zero the edges and never
-guarantees that:
+This change will be used by later patches that handle unaligned
+FALLOC_FL_WRITE_ZEROES operations, which will need to check the partial
+zeroed result.
 
-  1) edges that are clean unwritten extents or holes get promoted to
-     written extents, and
-  2) edges that are dirty unwritten or delalloc get their underlying
-     extents converted to written before the syscall returns.
+Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+---
+ fs/ext4/extents.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-Both cases leave the on-disk extent type unwritten, violating the
-WRITE_ZEROES contract, and in these cases a subsequent sync buffered
-overwrite would still observe pending metadata changes from the
-conversion work that should have been completed by WRITE_ZEROES itself.
-
-This series fixes the unaligned edge handling and cleans up a related
-redundant i_disksize update. The first three patches are preparatory:
-moving ext4_zero_partial_blocks() earlier in ext4_zero_range(),
-documenting the return semantics of ext4_load_tail_bh(), and
-replacing the single bool output of ext4_zero_partial_blocks() with a
-per-edge bitmask (EXT4_PARTIAL_ZERO_START/END). The next two patches
-fix the two scenarios above by expanding the aligned allocation range
-outward for skipped (clean unwritten or hole) edges, and by writing
-back partial-zeroed edges so the underlying extents are converted to
-written. The final patch drops the now-redundant
-ext4_update_disksize_before_punch() call on the WRITE_ZEROES path,
-since WRITE_ZEROES is mutually exclusive with KEEP_SIZE and the
-i_disksize update is already handled by ext4_alloc_file_blocks().
-
-Thanks,
-Yi.
-
-Discussion Link:
-  https://lore.kernel.org/linux-xfs/0b7f1a4f-da1c-4297-8099-98d738070ab7@huaweicloud.com/
-
-Zhang Yi (6):
-  ext4: move partial block zeroing earlier in ext4_zero_range()
-  ext4: clarify return semantics of ext4_load_tail_bh()
-  ext4: track partial-zero outcome per edge in
-    ext4_zero_partial_blocks()
-  ext4: zero out whole block for clean edges in WRITE_ZEROES
-  ext4: write back partial-zeroed edges in WRITE_ZEROES
-  ext4: skip ext4_update_disksize_before_punch() in WRITE_ZEROES
-
- fs/ext4/ext4.h    |  5 ++++-
- fs/ext4/extents.c | 47 +++++++++++++++++++++++++++++++++++++----------
- fs/ext4/inode.c   | 42 +++++++++++++++++++++++++++++++++++-------
- 3 files changed, 76 insertions(+), 18 deletions(-)
-
+diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
+index 125f628e738a..27ca641e701b 100644
+--- a/fs/ext4/extents.c
++++ b/fs/ext4/extents.c
+@@ -4734,10 +4734,16 @@ static long ext4_zero_range(struct file *file, loff_t offset,
+ 	}
+ 
+ 	flags = EXT4_GET_BLOCKS_CREATE_UNWRIT_EXT;
+-	/* Preallocate the range including the unaligned edges */
++	/*
++	 * Preallocate the range including the unaligned edges, and zero
++	 * out partial blocks if they already contain data.
++	 */
+ 	if (!IS_ALIGNED(offset | end, blocksize)) {
+ 		ret = ext4_alloc_file_blocks(file, offset, len, new_size,
+ 					     flags);
++		if (!ret)
++			ret = ext4_zero_partial_blocks(inode, offset, len,
++						       &partial_zeroed);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -4770,10 +4776,6 @@ static long ext4_zero_range(struct file *file, loff_t offset,
+ 	if (IS_ALIGNED(offset | end, blocksize))
+ 		return ret;
+ 
+-	/* Zero out partial block at the edges of the range */
+-	ret = ext4_zero_partial_blocks(inode, offset, len, &partial_zeroed);
+-	if (ret)
+-		return ret;
+ 	if (((file->f_flags & O_SYNC) || IS_SYNC(inode)) && partial_zeroed) {
+ 		ret = filemap_write_and_wait_range(inode->i_mapping, offset,
+ 						   end - 1);
 -- 
 2.53.0
 
