@@ -1,82 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 805CF41C2E4
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 12:02:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DACC47F2E7
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 12:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782907345; cv=none; b=i4ICPEkC8d2orYMhDKWF8F9Sbz1H9LK6lhaaAwXWMNvOoTdZiY3AO6rDNHVUj3sFVC7S0wqfAPxX+KCSYQMe/6RunUjuYH3QEgPrb5OJ6r3O7oaS5tEiyx7SNASA5tEsMtIWWu59UjoN///adK5SYF2XQr+kOEI4UuFHK5B3Izo=
+	t=1782907501; cv=none; b=QtgekkMtkzE2McXfVFMRxj//aQTKo03mGIGQyIWYm+YcKGCv4KI8MMHnoYu82OJIBXf74uI0rZ0NaWbiVigjdBF0ZzzCy4ZZ+NKY7QLpIKa3qHrIXIlhmyjNlwTwUuacZOXu7udSOvxT8tH5z78zy7PlhzQSG9HqpUD+On2s2eQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782907345; c=relaxed/simple;
-	bh=I96FsRiOWv5GQ3iIfC6p39dklOUnYZjyNSQ3d9NuKc4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aRY1Qy2XoyiRfLfUve94oIzMp5NaPjCZkoUsCXRj615Obl7KYsKdAmgScFR3mUomH+eeUSzzHNcnUO8M1NxAQ+9HrYCozoRXC/X/8DmAFLtCnNOjt6RLfeTUwBebVZ41LM68rG2AVXnn2VeLUNtxkGE7wP3+5LzmR0VGWy7OX1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lZGQVaPl; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782907501; c=relaxed/simple;
+	bh=M2BUN1D3Un75lO+OgkAjD+hyXwO98GzkNqPKpwvW5yU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fGrTumapfQLw5FeF+CcLOlQy7Gr6PoWWf+8IXT2XtybkiOZ8bplkRjLVJC6SrRIckxAB8U3Amhe4QGqc0ZLfCfQmFyAesGfPME3cT1ohXwi9jMLEWc47oPppTu9yCPh++vBe5UUJho03KSPt2hDszdUpUtwQ87SuHV0S+VfJ0Zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vXVifsuE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0ZSPYLM2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vXVifsuE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0ZSPYLM2; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lZGQVaPl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B14DD1F00AC4
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 12:02:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782907343;
-	bh=PEQ7MmRVr2YYcLoFCXLkIbaapHzulKLzbo5zmC2bjP0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=lZGQVaPlY0kyILIXo35amhl+ut43f3X6NnluQ1VOlOAdWtsxgGing4cCoS70fn95m
-	 IQdiTFpH1ukpkv9ofijm3Vl48ae00MZ93i6gUBSbIU6OYeI+paa8eac/l75lV/PjXz
-	 TH4hjWeEXeYAYvQpSajykoI8pPFxAB8aEg+D+IV+UJ67TSKcvkFRC27XoLMO5igq1X
-	 JQOV9dGHka24K60irQSukD6/ZMQnqWjQg4ZEI9Quw+yfBlK9C+EdHTyLehB2IqpGzl
-	 PYMWxJekhdcY9+Ifnd1QoqomXCVsgPrn20W5I6FHge049qnYCkAPSD4/IbFbJEkZ5k
-	 IJjX9c32aIRdw==
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c1276f8414bso74248666b.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Jul 2026 05:02:23 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yw18u9657mCB0e/g5BQcCOSLToXqhXHssDxVeApkJf6HQ8151sw
-	s3SnN8Xyk3rxhgz/ysWnqLs7zTYhZkQ0mDy6kcMYYQEN8QEdYor4VeyOWf5T6XzyOrxlASamyYh
-	jjIQhK38CYWQx1lRbeX909K/OSuPQ3XE=
-X-Received: by 2002:a17:906:630b:b0:c12:330e:ea76 with SMTP id
- a640c23a62f3a-c12aa1fe58dmr64909266b.37.1782907342355; Wed, 01 Jul 2026
- 05:02:22 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vXVifsuE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0ZSPYLM2";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vXVifsuE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0ZSPYLM2"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8625573A87;
+	Wed,  1 Jul 2026 12:04:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782907497; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U4id5fjRmUwpHNxQihK2Flg7ASSDlcpvubHpyY4zbP0=;
+	b=vXVifsuEykeck4AJwZB77cLwR6YJw0yhLqR+m5xRmsX8vq54XX5gra5wMueWQT5RrmrvpD
+	/aOJae1W+TDd+fzKg7lylTCC6SBA1HYvMCKDTpKr6EFrGhAYPqup2YB/mUVPuzJnfl/mnF
+	/5ygqQ6aga2lAh7t4mQGF5lZG6vux1g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782907497;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U4id5fjRmUwpHNxQihK2Flg7ASSDlcpvubHpyY4zbP0=;
+	b=0ZSPYLM2d+cLZqPDTeSjIa4VUFkbRqoThRELy++4mMn/9ECdBkBektt66UhlLhgs7MWGJZ
+	FUQWBxC0QgnczVAw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782907497; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U4id5fjRmUwpHNxQihK2Flg7ASSDlcpvubHpyY4zbP0=;
+	b=vXVifsuEykeck4AJwZB77cLwR6YJw0yhLqR+m5xRmsX8vq54XX5gra5wMueWQT5RrmrvpD
+	/aOJae1W+TDd+fzKg7lylTCC6SBA1HYvMCKDTpKr6EFrGhAYPqup2YB/mUVPuzJnfl/mnF
+	/5ygqQ6aga2lAh7t4mQGF5lZG6vux1g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782907497;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U4id5fjRmUwpHNxQihK2Flg7ASSDlcpvubHpyY4zbP0=;
+	b=0ZSPYLM2d+cLZqPDTeSjIa4VUFkbRqoThRELy++4mMn/9ECdBkBektt66UhlLhgs7MWGJZ
+	FUQWBxC0QgnczVAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 977AD779AA;
+	Wed,  1 Jul 2026 12:04:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ZRmcIWgCRWr6MgAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Wed, 01 Jul 2026 12:04:56 +0000
+Date: Wed, 1 Jul 2026 13:04:54 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Gregg Leventhal <gleventhal@janestreet.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, Song Liu <song@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	Eric Hagberg <ehagberg@janestreet.com>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>
+Subject: Re: Subject: [BUG/RFC] write-open file THP cache purge can discard
+ dirty page cache
+Message-ID: <akUCJvTLD-bPm0s4@pedro-suse>
+References: <CAFN_u7H_0ECF3jixP=T=U7AH5=Q3wQNvJMo8an3VqUDMerQfUw@mail.gmail.com>
+ <akQIIav_zaK6RmIC@pedro-suse.lan>
+ <akQO8JtTxmp89GS8@pedro-suse.lan>
+ <akQekZUyoKadiGCH@pedro-suse.lan>
+ <akUADHLWEetveHLp@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260701005418.735715-1-chizhiling@163.com>
-In-Reply-To: <20260701005418.735715-1-chizhiling@163.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Wed, 1 Jul 2026 21:02:09 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd9SxmntoutaKdCC0T4vDoKEJBgiQiJ=bcTnmgNaa+f-AQ@mail.gmail.com>
-X-Gm-Features: AVVi8CfPQTMTUhdoPMDuS0d4VB3HyVHkksdG6wcybYQz-qSThFMXfeZuFFd9pW8
-Message-ID: <CAKYAXd9SxmntoutaKdCC0T4vDoKEJBgiQiJ=bcTnmgNaa+f-AQ@mail.gmail.com>
-Subject: Re: [PATCH] exfat: validate cached iomaps during buffered writes and writeback
-To: Chi Zhiling <chizhiling@163.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
-	Chi Zhiling <chizhiling@kylinos.cn>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <akUADHLWEetveHLp@casper.infradead.org>
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
 
-> diff --git a/fs/exfat/cache.c b/fs/exfat/cache.c
-> index 7c8b4182f5de..71631bab182c 100644
-> --- a/fs/exfat/cache.c
-> +++ b/fs/exfat/cache.c
-> @@ -228,9 +228,10 @@ static void __exfat_cache_inval_inode(struct inode *inode)
->                 exfat_cache_free(cache);
->         }
->         /* Update. The copy of caches before this id is discarded. */
-> -       ei->cache_valid_id++;
-> -       if (ei->cache_valid_id == EXFAT_CACHE_VALID)
-> -               ei->cache_valid_id++;
-> +       if (ei->cache_valid_id + 1 == EXFAT_CACHE_VALID)
-> +               ei->cache_valid_id = EXFAT_CACHE_VALID + 1;
-> +       else
-> +               ei->cache_valid_id = ei->cache_valid_id + 1;
-This looks equivalent to the original one. What does this rewrite change?
+On Wed, Jul 01, 2026 at 12:54:52PM +0100, Matthew Wilcox wrote:
+> On Tue, Jun 30, 2026 at 08:55:12PM +0100, Pedro Falcato wrote:
+> > @@ -2043,6 +2044,17 @@ static int collapse_file(struct mm_struct *mm, unsigned long addr,
+> >  	 */
+> >  	try_to_unmap_flush();
+> >  
+> > +	/*
+> > +	 * If collapse looks to be successful, flush any dirty pages
+> > +	 * out the page cache. With the nr_thps incremented, there won't be
+> > +	 * any new writers (nor new dirties).
+> > +	 */
+> > +	if (result == SCAN_SUCCEED && !is_shmem) {
+> > +		err = filemap_write_and_wait(mapping);
+> > +		if (err)
+> > +			result = SCAN_WRITEBACK_FAIL;
+> > +	}
+> 
+> Oh, the other thing is that this should be conditioned on
+> !mapping_large_folio_support().
 
-> @@ -133,7 +134,7 @@ static int __exfat_iomap_begin(struct inode *inode, loff_t offset, loff_t length
->                 }
->         }
->
-> -       iomap->flags |= IOMAP_F_MERGED;
-Is dropping the IOMAP_F_MERGED flag intentional? If yes, Why ?
-> +       iomap->validity_cookie = ei->cache_valid_id;
+ACK to both of your suggestions, I'll send a proper version (once I figure
+out the proper way to send a stable fix that does not hit mainline). 
 
-Thanks.
+-- 
+Pedro
