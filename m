@@ -1,151 +1,249 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C53391E60
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 18:42:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782931379; cv=pass; b=SbqDW8Xsb3LHLm07sFaFZY9KKwv8IZhne2+8P2PIi2Lt7tJ0tynGf5S2LZ5/h8zOmjralW9MftGxYJSA80ICgd/SRKDRkQKSOQpcQHAW/bQVb9zwq0zLWFWImNQoM9plgCJTzK8QtmOKOJdIhEd15sNNxMYfeoR7SipJ6ANsNj8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782931379; c=relaxed/simple;
-	bh=dtn2YffXfDyR5hZVMmhNG75JP/ICDogzGJzK452Phz0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EePpDCRZjjo+skciO2XvZOarrFHtrnaGpE39fgfmphmSQ6wK7evcz38Pet41vbQHzs2IutkH+vBCZAQG6TLcGFYLLQxflXcmOX1r0CkZhUuG4HLaqzrpljjA73jAkKhwHLGk/bhdLp6GUlbU+W5PEbJkx8k4ZKQe1uggNjLFwRo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FDixXHgF; arc=pass smtp.client-ip=209.85.160.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C7F255F52;
+	Wed,  1 Jul 2026 18:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782931630; cv=none; b=tR3NM1udWUJCw7xMtE0z9YERVhK4wUsMeJNkTLX1UH2qrTfo9YLw8ovnDtx+Hg7eIVYPPH+LkLAGZkQLqxbjLUQrXHfEMmfIheqCgfBZ7o9styE/nHKyNFD0V4FypapfIuV3IKIzsOXs6Q9YAuedcBOAJz7nu96MO6f2xi0NkrY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782931630; c=relaxed/simple;
+	bh=8wT8sJa+6z2rqvwl909kajQKiuVkAsxhnPSfcrtEk/k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OHDjDlAMSDEdHCh8lwWItivDZDPoYDU9u2kWkRRE2i5s0QyInCZaHoOgbQWR1bdgveoBT2lS10uBWm4UWbsvlY3rmOlIiX3ES5VpBA9fXfafDNYMY8drti3aqz5ZIz7zG/HJy2qT6Vh0viB49c2X6uea8sx4gV+u7X3LIxzL4So=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eNGwAuhK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FDixXHgF"
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-44ae14b4fd6so458635fac.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Jul 2026 11:42:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782931377; cv=none;
-        d=google.com; s=arc-20260327;
-        b=WNpcPK80ORm/ibgh4lSmJ9PXIRDr12BDkQx/MRZEr8cIFbP0tkpl8TcKPPRL+fA3XD
-         VZ0yozvqV6EItOuXAeNmuMig1JtSjpFoJf04HwvRYxdLs0I0oAwVqIt5mPt5MmnG49mP
-         fsVprovioh3wwAXrGn/A2Fyu6R+YzElcc/0WPhT4Uv2x5U6K+fWXlRFhvyOrzlLPMlJc
-         BNSDbn1sHdphU5yiXqXaT1YpPr+SKOIR1/1Ocu9N/WxKljt9QahqXLGvxg0IiyyCMLvV
-         9vuLQwFwOiv88rZBFT5XlDH9TbagP0jQH1IbBpi8/70cayL0T+lkTg9Ydmr/cUkO8Jj7
-         QIqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=YNo4H7B94p9nhYVyAQkHxg75frg7eF2HSh8OUMRCG+Y=;
-        fh=3f05R44LPn5QtKTe5Ybn5txrPU91y8/U1XHlpy2T+1E=;
-        b=dyzlJ4oT35SR580OHHo5qC+rwzo6d7N+Zk+F/yM1xMNwKVu77Z+VoyUmheJ7ph5B7K
-         KD3bfg0I1Kd8w782c15qjprLLXEk5gBR3q4tL4j7wXcWu/h6bF2rrXrpLLithe/bcK0V
-         n6dQv/YMyDChws63J7/SfS1GnfrhHV83vdXXryv5CSeuGHqoBlHGKuNPaQibCJXrb/mg
-         tJL3IKjbEry7Ya/CcfixfTEclZcKK2q1POScHo7vKiyd9YLsT6D2FDpICz6D3VAKC/Cj
-         rdUlp22dxNheRmfWQt6jx+O5y2pQRJIw1tfS2FiRLIneSqpixE62u1LFd7xCEadb4rwc
-         Dtcg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782931377; x=1783536177; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YNo4H7B94p9nhYVyAQkHxg75frg7eF2HSh8OUMRCG+Y=;
-        b=FDixXHgFs+cf2aHLypYYykq7tCxVtKhUWUOTr+Y3uScq1zjvYdaP7f9uw2UYsAxZuA
-         m82cfb5UF3lzqmHz4qjIZvwpiplGLQV+Tqd7qEGpnY36GKhEJmdQ9zS5EwmYt+s9kZAx
-         l5YKm7feJKZOammoSqOmVm93iaL0v2BBjNtlrz5VScGRNqf7sFOFBumOqxiXApKZo/Oi
-         ANCNGFw27ekbvmLx9CbU8Uy81NsWWslz1/inKz/OEzdxUWDpF0oUD2O9hh0k5HTY6W+m
-         SdwG1dhIq56uAVEBNT2g5d6bIBVeD+yvBT7KkunYVDugh4Aozu3kVf3DE1/4xjUNczPX
-         JKOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782931377; x=1783536177;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=YNo4H7B94p9nhYVyAQkHxg75frg7eF2HSh8OUMRCG+Y=;
-        b=c4pYL+W1Zv+De0C6z8ZM+l5Qn7mjMzzO4cOR31C1Okwgt9lndfiemv3p7uNFxu2B+A
-         OF4i2aI0uJaPCraP7We5E6UvRE3RkchUDJpglCOmioxW2Z/jG/k1R2zw/DwVbaR/Eab7
-         3J6zdr7/SGcmzlEqC/owXYcDxkwLK+W0PVgupOLUIyfq1LJ7BlZltw2Blw+79MTWbRiR
-         GSzOhFKMhRyX6MF5F+okuESvtSENag7VNfY+TS97j1APRueRDiQ0uqgu3WHrsimXMi16
-         YAF8k4GWz4f8f+ZMHW+azMpyOgckm2OcHzKsIi3yWbCFH2H0T5cDbkA/byGOaYvsEJND
-         Op0Q==
-X-Gm-Message-State: AOJu0Yw2I57CIwOSjPoidPumq6VbUF7gzTtlYYxGUKhJ9apH69k4aCJV
-	coKwwl4A3IsCxpodQsNbOE+u1fGJfTfrYyhu/3LTEHCq4r0ucugYAu9nNlWwc5q0kVSmkAFqJXN
-	Rhrh2qFyhNc7eH6Yzc2/AxbjUweYJK4I=
-X-Gm-Gg: AfdE7clRJqjNpndMsmHlqZCAInC88o/ZQV+KGJmA/ymsc4Ok9aFc49FdRDsabibnCiD
-	YCBT44YiBFGSAW67xHb4Z8hC33SAwusTKcqs4B9J/K8q9tXEzs1KI4LgrWlDl3D3+xfPIQJriDs
-	nxcKb+6kzfPJtTuo04HLt3CMBlaUcj3khRwIotq9A2sZ84Y8rkhz0OTegfIjWn15MX5Bc6x418X
-	uh/nVkxapVQ6sz0jNZgWwEKSP2m/2I0iNKFPdInMmfrDWzY3jgYdQm0Rz9jgXqR/DDW5uTe
-X-Received: by 2002:a05:6808:1508:b0:491:3ade:8ba0 with SMTP id
- 5614622812f47-4960ee01b26mr1888600b6e.16.1782931377482; Wed, 01 Jul 2026
- 11:42:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eNGwAuhK"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 4A82E1F000E9;
+	Wed,  1 Jul 2026 18:47:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782931628;
+	bh=MuaDy9Y4LaxOxAfpe3GAAxMMa0xMUHWf13tgvCwsUTg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=eNGwAuhKzXsUaZufTGW+jKaeE4Q2XxdyjBRgZjbE12PvOeMfgAQspoUePh8nfOgCD
+	 Pap3z0Hn4OukvEDfmK8ngork8+mYSNNfKR2cfIAp7b2hgmAJN9xyP/FpLehLjb3C1H
+	 ek2flb3F9CQJDXvSS+WNJ5pIRFwdenc6YvQ1KVXOQ7xLZ+UbekQGEYw+IuDt7dLpJS
+	 RzZmY52k1W0LA7v5zO5iT4o0uokCHIE3I/ZSQWyi/QQ4j0qwXrYisYIg+CtzXmX0vz
+	 kO5zjdy3CzoieuxWd2URPhSc0lYxOmfgKgs4ZzqbBYXbk/4IbKFvpbmr25YEvJV0vI
+	 TXWB+I6lrBSCQ==
+Date: Wed, 1 Jul 2026 11:47:07 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Jeremy Bingham <jbingham@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	brauner@kernel.org, jkoolstra@xs4all.nl, jack@suse.cz,
+	hch@infradead.org, viro@zeniv.linux.org.uk,
+	syzkaller@googlegroups.com
+Subject: Re: [PATCH v2 2/4] minix: convert address space operations to iomap
+Message-ID: <20260701184707.GE6507@frogsfrogsfrogs>
+References: <cover.1782619718.git.jbingham@gmail.com>
+ <7060fde4f164617c58eeac616a40e5bd89b921d2.1782619718.git.jbingham@gmail.com>
+ <20260701181451.GC6507@frogsfrogsfrogs>
+ <CAMyBmMCVQpA+X_M6nH1nx6O-QCfng2OWqrDWOxcL7qNohE797Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1782619718.git.jbingham@gmail.com> <44e53f18f7bc7d190c2676e66a0b77a40a62d448.1782619718.git.jbingham@gmail.com>
- <20260701182146.GD6507@frogsfrogsfrogs>
-In-Reply-To: <20260701182146.GD6507@frogsfrogsfrogs>
-From: Jeremy Bingham <jbingham@gmail.com>
-Date: Wed, 1 Jul 2026 11:42:45 -0700
-X-Gm-Features: AVVi8Ccx7043s48-Csvz6w-YG14hk-GhZUaghEDj8Vlr68E5PdG8KlquygtL-G8
-Message-ID: <CAMyBmMAFSXFcSt_KQNeVvfXRCbZ0twS60J5VLCVDsUfMHqce5g@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] minix: convert file operations to iomap and add
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	brauner@kernel.org, jkoolstra@xs4all.nl, jack@suse.cz, hch@infradead.org, 
-	viro@zeniv.linux.org.uk, syzkaller@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMyBmMCVQpA+X_M6nH1nx6O-QCfng2OWqrDWOxcL7qNohE797Q@mail.gmail.com>
 
-On Wed, Jul 1, 2026 at 11:21=E2=80=AFAM Darrick J. Wong <djwong@kernel.org>=
- wrote:
->
-> On Sat, Jun 27, 2026 at 10:15:55PM -0700, Jeremy Bingham wrote:
-> > Subject: [PATCH v2 3/4] minix: convert file operations to iomap and add
->
-> ...add what?
-
-Ugh, "add direct I/O". When I was preparing the second version of the patch=
-es,
-I screwed up.
-
-> > Replace generic_file_read_iter and generic_file_write_iter with custom
-> > minix_file_read_iter and minix_file_write_iter that dispatch to iomap
-> > for both buffered and direct I/O.
+On Wed, Jul 01, 2026 at 11:37:10AM -0700, Jeremy Bingham wrote:
+> On Wed, Jul 1, 2026 at 11:14 AM Darrick J. Wong <djwong@kernel.org> wrote:
 > >
-> > Buffered writes now go through iomap_file_buffered_write instead of
-> > the aops write_begin/write_end path (which no longer exists for
-> > regular files). Buffered reads still use generic_file_read_iter
-> > for the non-DIO case.
+> > On Sat, Jun 27, 2026 at 10:15:54PM -0700, Jeremy Bingham wrote:
+> > > Convert minix regular file and symlink address space operations from
+> > > buffer_head to iomap. The new minix_aops uses iomap_dirty_folio,
+> > > iomap_invalidate_folio, iomap_bio_read_folio, iomap_bio_readahead,
+> > > iomap_writepages, iomap_bmap, and related iomap helpers.
+> > > The write_begin/write_end callbacks are removed since buffered writes
+> > > now go through iomap_file_buffered_write in file.c.
+> > >
+> > > Directories keep using buffer_heads via a new minix_dir_aops, which
+> > > retains the old block_dirty_folio, block_read_full_folio,
+> > > block_write_begin, generic_write_end, and mpage_writepages. This is
+> > > necessary because directory entry manipulation (minix_prepare_chunk,
+> > > minix_write_begin) still uses the buffer_head chunk protocol.
+> > >
+> > > minix_bmap is converted from generic_block_bmap to iomap_bmap.
 > >
-> > Direct I/O is implemented via iomap_dio_rw for both reads and writes.
-> > minix_dio_read_iter takes a shared inode lock; minix_dio_write_iter
-> > takes an exclusive lock, does generic_write_checks, and falls back
-> > to buffered writes via iomap_file_buffered_write for the tail of a
-> > DIO write that is not block-aligned. The minix_dio_write_end_io
-> > callback updates i_size and marks the inode dirty.
+> > I'd drop BMAP support entirely, unless you know of people who use LILO
+> > and minixfs.  If all you want is swapfile activation, use
+> > iomap_swapfile_activate... assuming that anyone actually cares about
+> > hosting swapfiles on minixfs.
+> 
+> I'm not dead set against dropping BMAP support entirely, but is there a
+> compelling reason to drop it?
+
+It's a terrible legacy interface -- you can only ask about a single
+block, the block and sector numbers are limited to u32, the magic value
+0 means no mapping, and it doesn't actually tell you which device.
+
+Anyone who really wants to find the sparse areas of a file would be
+better off calling SEEK_{DATA,HOLE} ... which I guess is something you
+could implement as part of this patchset.
+
+--D
+
+> Thanks,
+> 
+> -j
+> 
+> > > The minix_get_block function is exported (non-static) so the
+> > > directory aops can still use it for block_write_begin and
+> > > mpage_writepages.
+> > >
+> > > Signed-off-by: Jeremy Bingham <jbingham@gmail.com>
+> > > ---
+> > >  fs/minix/inode.c | 86 +++++++++++++++++++++++++++++++++++++++++++-----
+> > >  1 file changed, 78 insertions(+), 8 deletions(-)
+> > >
+> > > diff --git a/fs/minix/inode.c b/fs/minix/inode.c
+> > > index c30cc590698d..2ba6766fce51 100644
+> > > --- a/fs/minix/inode.c
+> > > +++ b/fs/minix/inode.c
+> > > @@ -436,7 +436,32 @@ static int minix_statfs(struct dentry *dentry, struct kstatfs *buf)
+> > >       return 0;
+> > >  }
+> > >
+> > > -static int minix_get_block(struct inode *inode, sector_t block,
+> > > +static ssize_t minix_writeback_range(struct iomap_writepage_ctx *wpc,
+> > > +     struct folio *folio, u64 pos, unsigned int len, u64 end_pos)
+> > > +{
+> > > +     int error;
+> > > +
+> > > +     if (pos < wpc->iomap.offset ||
+> > > +                     pos >= wpc->iomap.offset + wpc->iomap.length) {
+> > > +             if (INODE_VERSION(wpc->inode) == MINIX_V1)
+> > > +                     error = V1_minix_iomap_begin(wpc->inode, pos, len, IOMAP_WRITE,
+> > > +                             &wpc->iomap, NULL);
+> > > +             else
+> > > +                     error = V2_minix_iomap_begin(wpc->inode, pos, len, IOMAP_WRITE,
+> > > +                             &wpc->iomap, NULL);
+> > > +             if (error)
+> > > +                     return error;
+> > > +     }
+> > > +
+> > > +     return iomap_add_to_ioend(wpc, folio, pos, end_pos, len);
+> > > +}
+> > > +
+> > > +static const struct iomap_writeback_ops minix_writeback_ops = {
+> > > +     .writeback_range = minix_writeback_range,
+> > > +     .writeback_submit = iomap_ioend_writeback_submit,
+> > > +};
+> > > +
+> > > +int minix_get_block(struct inode *inode, sector_t block,
+> > >                   struct buffer_head *bh_result, int create)
+> > >  {
+> > >       if (INODE_VERSION(inode) == MINIX_V1)
+> > > @@ -445,17 +470,45 @@ static int minix_get_block(struct inode *inode, sector_t block,
+> > >               return V2_minix_get_block(inode, block, bh_result, create);
+> > >  }
+> > >
+> > > -static int minix_writepages(struct address_space *mapping,
+> > > +/* The old minix_writepages, preserved for directory operations. */
+> > > +static int minix_block_writepages(struct address_space *mapping,
+> > >               struct writeback_control *wbc)
+> > >  {
+> > >       return mpage_writepages(mapping, wbc, minix_get_block);
+> > >  }
+> > >
+> > > +static int minix_writepages(struct address_space *mapping,
+> > > +             struct writeback_control *wbc)
+> > > +{
+> > > +     struct iomap_writepage_ctx wpc = {
+> > > +             .inode = mapping->host,
+> > > +             .wbc = wbc,
+> > > +             .ops = &minix_writeback_ops,
+> > > +     };
+> > > +     return iomap_writepages(&wpc);
+> > > +}
+> > > +
+> > >  static int minix_read_folio(struct file *file, struct folio *folio)
+> > > +{
+> > > +     const struct iomap_ops *ops = minix_iomap_ops_ver(folio->mapping->host);
+> > > +
+> > > +     iomap_bio_read_folio(folio, ops);
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +/* The old minix_read_folio, preserved for directory operations. */
+> > > +static int minix_block_read_folio(struct file *file, struct folio *folio)
+> > >  {
+> > >       return block_read_full_folio(folio, minix_get_block);
+> > >  }
+> > >
+> > > +static void minix_readahead(struct readahead_control *rac)
+> > > +{
+> > > +     const struct iomap_ops *ops = minix_iomap_ops_ver(rac->mapping->host);
+> > > +
+> > > +     iomap_bio_readahead(rac, ops);
+> > > +}
+> > > +
+> > >  int minix_prepare_chunk(struct folio *folio, loff_t pos, unsigned len)
+> > >  {
+> > >       return __block_write_begin(folio, pos, len, minix_get_block);
+> > > @@ -487,19 +540,36 @@ static int minix_write_begin(const struct kiocb *iocb,
+> > >
+> > >  static sector_t minix_bmap(struct address_space *mapping, sector_t block)
+> > >  {
+> > > -     return generic_block_bmap(mapping,block,minix_get_block);
+> > > +     const struct iomap_ops *ops = minix_iomap_ops_ver(mapping->host);
+> > > +
+> > > +     return iomap_bmap(mapping, block, ops);
+> > >  }
+> > >
+> > > -static const struct address_space_operations minix_aops = {
+> > > -     .dirty_folio    = block_dirty_folio,
+> > > -     .invalidate_folio = block_invalidate_folio,
+> > > +const struct address_space_operations minix_aops = {
+> > > +     .dirty_folio    = iomap_dirty_folio,
+> > > +     .invalidate_folio = iomap_invalidate_folio,
+> > >       .read_folio = minix_read_folio,
+> > > +     .readahead = minix_readahead,
+> > >       .writepages = minix_writepages,
+> > > +     .migrate_folio = filemap_migrate_folio,
+> > > +     .bmap = minix_bmap,
+> > > +     .is_partially_uptodate = iomap_is_partially_uptodate,
+> > > +     .release_folio = iomap_release_folio,
+> > > +     .error_remove_folio = generic_error_remove_folio,
+> > > +};
+> > > +
+> > > +/* A special aops for directories that keeps using the buffer head chunks, at
+> > > + * least for the time being.
+> > > + */
+> > > +static const struct address_space_operations minix_dir_aops = {
+> > > +     .dirty_folio = block_dirty_folio,
+> > > +     .invalidate_folio = block_invalidate_folio,
+> > > +     .read_folio = minix_block_read_folio,
+> > >       .write_begin = minix_write_begin,
+> > >       .write_end = generic_write_end,
+> > >       .migrate_folio = buffer_migrate_folio,
+> > >       .bmap = minix_bmap,
+> > > -     .direct_IO = noop_direct_IO
 > >
-> > minix_file_open sets FMODE_CAN_ODIRECT so the VFS allows O_DIRECT
-> > opens, and splice_write is added to the file operations.
->
-> Ignore my question about FMODE_CAN_ODIRECT in the previous patch, then.
-
-Noted.
-
-> > +
-> > +     if (ret >=3D 0 && iov_iter_count(from)) {
-> > +             loff_t pos;
-> > +             loff_t endbyte;
-> > +             ssize_t status;
-> > +
-> > +             iocb->ki_flags &=3D ~IOCB_DIRECT;
->
-> Why not set IOC_DSYNC here and let generic_write_sync do all the
-> flushing work for you?  There's no requirement to dump the pagecache
-> after a downgraded direct write, but if you want that, use
-> IOCB_DONTCACHE.
->
-> --D
-
-*nod* I will also try this when I'm updating the minix patches.
-
-Thank you again for your comments,
-
--j
+> > I forget, does one have to set FMODE_CAN_ODIRECT if the address_space
+> > operations don't supply a ->direct_IO function?
+> >
+> > --D
+> >
+> > > +     .writepages = minix_block_writepages,
+> > >  };
+> > >
+> > >  static const struct inode_operations minix_symlink_inode_operations = {
+> > > @@ -516,7 +586,7 @@ void minix_set_inode(struct inode *inode, dev_t rdev)
+> > >       } else if (S_ISDIR(inode->i_mode)) {
+> > >               inode->i_op = &minix_dir_inode_operations;
+> > >               inode->i_fop = &minix_dir_operations;
+> > > -             inode->i_mapping->a_ops = &minix_aops;
+> > > +             inode->i_mapping->a_ops = &minix_dir_aops;
+> > >       } else if (S_ISLNK(inode->i_mode)) {
+> > >               inode->i_op = &minix_symlink_inode_operations;
+> > >               inode_nohighmem(inode);
+> > > --
+> > > 2.47.3
+> > >
+> > >
+> 
