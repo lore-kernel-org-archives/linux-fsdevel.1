@@ -1,44 +1,52 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp-bc0c.mail.infomaniak.ch (smtp-bc0c.mail.infomaniak.ch [45.157.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C7F255F52;
-	Wed,  1 Jul 2026 18:47:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B73399D08
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 18:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782931630; cv=none; b=tR3NM1udWUJCw7xMtE0z9YERVhK4wUsMeJNkTLX1UH2qrTfo9YLw8ovnDtx+Hg7eIVYPPH+LkLAGZkQLqxbjLUQrXHfEMmfIheqCgfBZ7o9styE/nHKyNFD0V4FypapfIuV3IKIzsOXs6Q9YAuedcBOAJz7nu96MO6f2xi0NkrY=
+	t=1782931823; cv=none; b=AppraWphiIrQq44Lyzt1nqrQxAugVPfpigqXae/8q1RV1knXsu9JsBfKVv1Lg+05tbHKZN8sRiCXj6Wz/QTIO/Hpu93qLMz0egt4ms1VH82SJF7NAjca59eXBuVrIKS2JkXcORR+yopFrKhipk6tckARw5aY+pRE66+C6UTlOMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782931630; c=relaxed/simple;
-	bh=8wT8sJa+6z2rqvwl909kajQKiuVkAsxhnPSfcrtEk/k=;
+	s=arc-20240116; t=1782931823; c=relaxed/simple;
+	bh=gPljzWPcgFRN3dCUIqencE0tOGupLA+eutYTLhEDqCs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OHDjDlAMSDEdHCh8lwWItivDZDPoYDU9u2kWkRRE2i5s0QyInCZaHoOgbQWR1bdgveoBT2lS10uBWm4UWbsvlY3rmOlIiX3ES5VpBA9fXfafDNYMY8drti3aqz5ZIz7zG/HJy2qT6Vh0viB49c2X6uea8sx4gV+u7X3LIxzL4So=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eNGwAuhK; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=YZpxiGvFQaRlW6McqUL4ywLEWvmea6zQUc9WtwQRGLhsWy3jhma7ZFV5EDmWECfWoPx3ntIW2OK6oO4XS/Ntef99kHZwXMBFG8Ul/cLpit5vuYuwCXNepTVHZaRfhOrWy+c8H5HMbHlSUXj1Lv7Ks2jJCfJCpWKNbX3nZRxXCsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=r/Mxdlz0; arc=none smtp.client-ip=45.157.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eNGwAuhK"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 4A82E1F000E9;
-	Wed,  1 Jul 2026 18:47:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782931628;
-	bh=MuaDy9Y4LaxOxAfpe3GAAxMMa0xMUHWf13tgvCwsUTg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eNGwAuhKzXsUaZufTGW+jKaeE4Q2XxdyjBRgZjbE12PvOeMfgAQspoUePh8nfOgCD
-	 Pap3z0Hn4OukvEDfmK8ngork8+mYSNNfKR2cfIAp7b2hgmAJN9xyP/FpLehLjb3C1H
-	 ek2flb3F9CQJDXvSS+WNJ5pIRFwdenc6YvQ1KVXOQ7xLZ+UbekQGEYw+IuDt7dLpJS
-	 RzZmY52k1W0LA7v5zO5iT4o0uokCHIE3I/ZSQWyi/QQ4j0qwXrYisYIg+CtzXmX0vz
-	 kO5zjdy3CzoieuxWd2URPhSc0lYxOmfgKgs4ZzqbBYXbk/4IbKFvpbmr25YEvJV0vI
-	 TXWB+I6lrBSCQ==
-Date: Wed, 1 Jul 2026 11:47:07 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Jeremy Bingham <jbingham@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	brauner@kernel.org, jkoolstra@xs4all.nl, jack@suse.cz,
-	hch@infradead.org, viro@zeniv.linux.org.uk,
-	syzkaller@googlegroups.com
-Subject: Re: [PATCH v2 2/4] minix: convert address space operations to iomap
-Message-ID: <20260701184707.GE6507@frogsfrogsfrogs>
-References: <cover.1782619718.git.jbingham@gmail.com>
- <7060fde4f164617c58eeac616a40e5bd89b921d2.1782619718.git.jbingham@gmail.com>
- <20260701181451.GC6507@frogsfrogsfrogs>
- <CAMyBmMCVQpA+X_M6nH1nx6O-QCfng2OWqrDWOxcL7qNohE797Q@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="r/Mxdlz0"
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246b])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4gr7vw1pkWzNjf;
+	Wed,  1 Jul 2026 20:34:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1782930859;
+	bh=x9zsCAel8IcUJsxPYBnz+qgLjbdveeYyNWKEwojOYs4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=r/Mxdlz0a7Us5BIFnbE3s3+XP2T1MgIX3hXvzNWL9HLlNtOPHneRR2LYr/lnQFy/n
+	 192lggcAC//GVg6gVwY9lznXkSSIMYpDgFNtRdAF32IxwATyBce9T0Os1vFkqDoSQS
+	 jilXyc8fSp2hfYnocXjbTGp5ua/iwfqeIlecLkmI=
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4gr7vs5SXZzHyS;
+	Wed,  1 Jul 2026 20:34:17 +0200 (CEST)
+Date: Wed, 1 Jul 2026 20:34:10 +0200
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Paul Moore <paul@paul-moore.com>, ast@kernel.org, daniel@iogearbox.net, 
+	kpsingh@kernel.org, john.fastabend@gmail.com
+Cc: Justin Suess <utilityemal77@gmail.com>, andrii@kernel.org, 
+	viro@zeniv.linux.org.uk, brauner@kernel.org, kees@kernel.org, gnoack@google.com, 
+	jack@suse.cz, jmorris@namei.org, serge@hallyn.com, song@kernel.org, 
+	yonghong.song@linux.dev, martin.lau@linux.dev, m@maowtm.org, eddyz87@gmail.com, 
+	sdf@fomichev.me, skhan@linuxfoundation.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Frederick Lawler <fred@cloudflare.com>
+Subject: Re: [RFC PATCH 06/20] bpf: lsm: Add Landlock kfuncs
+Message-ID: <20260701.jei4Paej3zen@digikod.net>
+References: <20260407200157.3874806-1-utilityemal77@gmail.com>
+ <20260407200157.3874806-7-utilityemal77@gmail.com>
+ <20260701.ze4eph1eKo7a@digikod.net>
+ <CAHC9VhRfqSoM89WC6TdQHapUVQe8a18rW2c-F7+tu6EjM9EdCA@mail.gmail.com>
+ <akUH13qbsEnJLgQu@zenbox>
+ <CAHC9VhSjRcMr9+5dMkep_TPKduYdob-bZ73FLfXd_o2xiWwOSg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -48,202 +56,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMyBmMCVQpA+X_M6nH1nx6O-QCfng2OWqrDWOxcL7qNohE797Q@mail.gmail.com>
+In-Reply-To: <CAHC9VhSjRcMr9+5dMkep_TPKduYdob-bZ73FLfXd_o2xiWwOSg@mail.gmail.com>
+X-Infomaniak-Routing: alpha
 
-On Wed, Jul 01, 2026 at 11:37:10AM -0700, Jeremy Bingham wrote:
-> On Wed, Jul 1, 2026 at 11:14 AM Darrick J. Wong <djwong@kernel.org> wrote:
-> >
-> > On Sat, Jun 27, 2026 at 10:15:54PM -0700, Jeremy Bingham wrote:
-> > > Convert minix regular file and symlink address space operations from
-> > > buffer_head to iomap. The new minix_aops uses iomap_dirty_folio,
-> > > iomap_invalidate_folio, iomap_bio_read_folio, iomap_bio_readahead,
-> > > iomap_writepages, iomap_bmap, and related iomap helpers.
-> > > The write_begin/write_end callbacks are removed since buffered writes
-> > > now go through iomap_file_buffered_write in file.c.
+On Wed, Jul 01, 2026 at 09:28:22AM -0400, Paul Moore wrote:
+> On Wed, Jul 1, 2026 at 8:52 AM Justin Suess <utilityemal77@gmail.com> wrote:
+> > On Wed, Jul 01, 2026 at 08:12:34AM -0400, Paul Moore wrote:
+> > > On Wed, Jul 1, 2026 at 6:59 AM Mickaël Salaün <mic@digikod.net> wrote:
+> > > > On Tue, Apr 07, 2026 at 04:01:28PM -0400, Justin Suess wrote:
+> > > > > Create 2 kfuncs exposing control over Landlock functionality to BPF
+> > > > > callers. Export an opaque struct bpf_landlock_ruleset preventing callers
+> > > > > from accessing unstable internal Landlock fields.
 > > >
-> > > Directories keep using buffer_heads via a new minix_dir_aops, which
-> > > retains the old block_dirty_folio, block_read_full_folio,
-> > > block_write_begin, generic_write_end, and mpage_writepages. This is
-> > > necessary because directory entry manipulation (minix_prepare_chunk,
-> > > minix_write_begin) still uses the buffer_head chunk protocol.
-> > >
-> > > minix_bmap is converted from generic_block_bmap to iomap_bmap.
+> > > Generally speaking we don't want to provide APIs, either in-kernel or
+> > > at the userspace/kernel boundary, that are specific to a single LSM,
+> > > see the LSM syscalls or the security_current_getlsmprop_subj()
+> > > function as examples.
+
+This patch series is not about the LSM framework, only about Landlock
+and its specific model and use case.  Landlock using some of the LSM API
+is not relevant here.
+
 > >
-> > I'd drop BMAP support entirely, unless you know of people who use LILO
-> > and minixfs.  If all you want is swapfile activation, use
-> > iomap_swapfile_activate... assuming that anyone actually cares about
-> > hosting swapfiles on minixfs.
+> > I would raise bpf_ima_file_hash, bpf_ima_inode_hash, as examples of
+> > clear precedence for this. (BPF calling into specific LSM)
 > 
-> I'm not dead set against dropping BMAP support entirely, but is there a
-> compelling reason to drop it?
-
-It's a terrible legacy interface -- you can only ask about a single
-block, the block and sector numbers are limited to u32, the magic value
-0 means no mapping, and it doesn't actually tell you which device.
-
-Anyone who really wants to find the sparse areas of a file would be
-better off calling SEEK_{DATA,HOLE} ... which I guess is something you
-could implement as part of this patchset.
-
---D
-
-> Thanks,
+> The BPF IMA helpers were merged back in the v5.18 timeframe when IMA
+> was still standalone, it wasn't until v6.9 that IMA and EVM became
+> proper LSMs.
 > 
-> -j
+> > Kfuncs are explicitly marked as not being an ABI, and are more
+> > flexible for later changes / deprecation etc. [1]
 > 
-> > > The minix_get_block function is exported (non-static) so the
-> > > directory aops can still use it for block_write_begin and
-> > > mpage_writepages.
-> > >
-> > > Signed-off-by: Jeremy Bingham <jbingham@gmail.com>
-> > > ---
-> > >  fs/minix/inode.c | 86 +++++++++++++++++++++++++++++++++++++++++++-----
-> > >  1 file changed, 78 insertions(+), 8 deletions(-)
-> > >
-> > > diff --git a/fs/minix/inode.c b/fs/minix/inode.c
-> > > index c30cc590698d..2ba6766fce51 100644
-> > > --- a/fs/minix/inode.c
-> > > +++ b/fs/minix/inode.c
-> > > @@ -436,7 +436,32 @@ static int minix_statfs(struct dentry *dentry, struct kstatfs *buf)
-> > >       return 0;
-> > >  }
-> > >
-> > > -static int minix_get_block(struct inode *inode, sector_t block,
-> > > +static ssize_t minix_writeback_range(struct iomap_writepage_ctx *wpc,
-> > > +     struct folio *folio, u64 pos, unsigned int len, u64 end_pos)
-> > > +{
-> > > +     int error;
-> > > +
-> > > +     if (pos < wpc->iomap.offset ||
-> > > +                     pos >= wpc->iomap.offset + wpc->iomap.length) {
-> > > +             if (INODE_VERSION(wpc->inode) == MINIX_V1)
-> > > +                     error = V1_minix_iomap_begin(wpc->inode, pos, len, IOMAP_WRITE,
-> > > +                             &wpc->iomap, NULL);
-> > > +             else
-> > > +                     error = V2_minix_iomap_begin(wpc->inode, pos, len, IOMAP_WRITE,
-> > > +                             &wpc->iomap, NULL);
-> > > +             if (error)
-> > > +                     return error;
-> > > +     }
-> > > +
-> > > +     return iomap_add_to_ioend(wpc, folio, pos, end_pos, len);
-> > > +}
-> > > +
-> > > +static const struct iomap_writeback_ops minix_writeback_ops = {
-> > > +     .writeback_range = minix_writeback_range,
-> > > +     .writeback_submit = iomap_ioend_writeback_submit,
-> > > +};
-> > > +
-> > > +int minix_get_block(struct inode *inode, sector_t block,
-> > >                   struct buffer_head *bh_result, int create)
-> > >  {
-> > >       if (INODE_VERSION(inode) == MINIX_V1)
-> > > @@ -445,17 +470,45 @@ static int minix_get_block(struct inode *inode, sector_t block,
-> > >               return V2_minix_get_block(inode, block, bh_result, create);
-> > >  }
-> > >
-> > > -static int minix_writepages(struct address_space *mapping,
-> > > +/* The old minix_writepages, preserved for directory operations. */
-> > > +static int minix_block_writepages(struct address_space *mapping,
-> > >               struct writeback_control *wbc)
-> > >  {
-> > >       return mpage_writepages(mapping, wbc, minix_get_block);
-> > >  }
-> > >
-> > > +static int minix_writepages(struct address_space *mapping,
-> > > +             struct writeback_control *wbc)
-> > > +{
-> > > +     struct iomap_writepage_ctx wpc = {
-> > > +             .inode = mapping->host,
-> > > +             .wbc = wbc,
-> > > +             .ops = &minix_writeback_ops,
-> > > +     };
-> > > +     return iomap_writepages(&wpc);
-> > > +}
-> > > +
-> > >  static int minix_read_folio(struct file *file, struct folio *folio)
-> > > +{
-> > > +     const struct iomap_ops *ops = minix_iomap_ops_ver(folio->mapping->host);
-> > > +
-> > > +     iomap_bio_read_folio(folio, ops);
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +/* The old minix_read_folio, preserved for directory operations. */
-> > > +static int minix_block_read_folio(struct file *file, struct folio *folio)
-> > >  {
-> > >       return block_read_full_folio(folio, minix_get_block);
-> > >  }
-> > >
-> > > +static void minix_readahead(struct readahead_control *rac)
-> > > +{
-> > > +     const struct iomap_ops *ops = minix_iomap_ops_ver(rac->mapping->host);
-> > > +
-> > > +     iomap_bio_readahead(rac, ops);
-> > > +}
-> > > +
-> > >  int minix_prepare_chunk(struct folio *folio, loff_t pos, unsigned len)
-> > >  {
-> > >       return __block_write_begin(folio, pos, len, minix_get_block);
-> > > @@ -487,19 +540,36 @@ static int minix_write_begin(const struct kiocb *iocb,
-> > >
-> > >  static sector_t minix_bmap(struct address_space *mapping, sector_t block)
-> > >  {
-> > > -     return generic_block_bmap(mapping,block,minix_get_block);
-> > > +     const struct iomap_ops *ops = minix_iomap_ops_ver(mapping->host);
-> > > +
-> > > +     return iomap_bmap(mapping, block, ops);
-> > >  }
-> > >
-> > > -static const struct address_space_operations minix_aops = {
-> > > -     .dirty_folio    = block_dirty_folio,
-> > > -     .invalidate_folio = block_invalidate_folio,
-> > > +const struct address_space_operations minix_aops = {
-> > > +     .dirty_folio    = iomap_dirty_folio,
-> > > +     .invalidate_folio = iomap_invalidate_folio,
-> > >       .read_folio = minix_read_folio,
-> > > +     .readahead = minix_readahead,
-> > >       .writepages = minix_writepages,
-> > > +     .migrate_folio = filemap_migrate_folio,
-> > > +     .bmap = minix_bmap,
-> > > +     .is_partially_uptodate = iomap_is_partially_uptodate,
-> > > +     .release_folio = iomap_release_folio,
-> > > +     .error_remove_folio = generic_error_remove_folio,
-> > > +};
-> > > +
-> > > +/* A special aops for directories that keeps using the buffer head chunks, at
-> > > + * least for the time being.
-> > > + */
-> > > +static const struct address_space_operations minix_dir_aops = {
-> > > +     .dirty_folio = block_dirty_folio,
-> > > +     .invalidate_folio = block_invalidate_folio,
-> > > +     .read_folio = minix_block_read_folio,
-> > >       .write_begin = minix_write_begin,
-> > >       .write_end = generic_write_end,
-> > >       .migrate_folio = buffer_migrate_folio,
-> > >       .bmap = minix_bmap,
-> > > -     .direct_IO = noop_direct_IO
-> >
-> > I forget, does one have to set FMODE_CAN_ODIRECT if the address_space
-> > operations don't supply a ->direct_IO function?
-> >
-> > --D
-> >
-> > > +     .writepages = minix_block_writepages,
-> > >  };
-> > >
-> > >  static const struct inode_operations minix_symlink_inode_operations = {
-> > > @@ -516,7 +586,7 @@ void minix_set_inode(struct inode *inode, dev_t rdev)
-> > >       } else if (S_ISDIR(inode->i_mode)) {
-> > >               inode->i_op = &minix_dir_inode_operations;
-> > >               inode->i_fop = &minix_dir_operations;
-> > > -             inode->i_mapping->a_ops = &minix_aops;
-> > > +             inode->i_mapping->a_ops = &minix_dir_aops;
-> > >       } else if (S_ISLNK(inode->i_mode)) {
-> > >               inode->i_op = &minix_symlink_inode_operations;
-> > >               inode_nohighmem(inode);
-> > > --
-> > > 2.47.3
-> > >
-> > >
+> The issue isn't so much the kfunc itself, it is what the kfunc
+> *calls*.  From what I saw in the proposed patch, the kfunc calls
+> directly into Landlock instead of passing through the LSM framework,
+> e.g. a function wrapper in security/security.c.
+
+Yes, and I'm OK for this kfunc to call directly into a new public
+Landlock function.  There is no need to create a new class of LSM
+wrapper.
+
+LSM hooks make sense because they are designed for a specific subsystem
+(the caller) and their goal is to return an access decision or to keep
+up-to-date related states, which means that their API is designed for
+the caller, with its own types and specificities, not the other way
+around.  This case is different, the kfunc is strongly typed and tied to
+the Landlock (subsystem) semantic with an API defined by and for
+Landlock.  I don't think a multiplexer would be a good idea.
+
+However, I agree with your layering concern, and it would make more
+sense to move the Landlock-related kfuncs to security/landlock/bpf.c,
+which is also the idiomatic way for subsystems to own their API.
+
+Alexei, KP, what do you think?
+
 > 
+> > LSM framework API can mean a lot of things. I assume you are meaning
+> > like a pseudo-filesystem mounted interface that controls LSM?
+> > Correct me if I'm wrong.
+> 
+> My apologies, I should have been more clear.  When I speak about the
+> "LSM framework", I'm talking about the abstraction layer that provides
+> the interface that the kernel and userspace uses to talk to individual
+> LSMs.  The LSM framework is analogous to the VFS layer/framework in
+> that it provides a single API for a variety of underlying subsystems.
+> While not 100% correct, you can think of it the LSM framework as being
+> the functions/hooks defined in security/security.c.
+
+This abstraction layer is useful and make sense for access control hooks
+but it is not needed in this case, and it would only make the kfunc
+interface more complex for no reason.  If any other kernel subsystem
+wants to add a kfunc, I think it should be reviewed with its purpose in
+mind and a well defined use case.
+
+> 
+> Does that help?
+
+I think Justin is right, and with some minor changes this kfunc should
+be good.
