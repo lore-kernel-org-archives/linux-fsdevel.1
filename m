@@ -1,76 +1,77 @@
-Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D01427A47F
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 20:24:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B038F3998B2
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 20:31:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782937467; cv=none; b=CU/Zq+UcLPJomFz+JJO6YxDuZbQCED9HCYBHjrbN7uzRRJ48oEzcvyvJece5iTkRbWdaVH1lYrSxC4cv7q4Aom722ZerpcV5pFnxHx/utqZ2eVCFUPm0vlHTFDZqpTYRFklwt2vuXTC286Ap5n+GmXP4gOTM5fy7/YujYGQFOCs=
+	t=1782937868; cv=none; b=blB5/Gt/qN8TyS6JSQPwPSZWfgDMnq6jkOLEZq/OQTJcadMgzFm7elrh95ZxhkIhyA/CDOjWLGUhwUkKdAJt62vazCqMjr8cXehq5oZmo93BoP4t8B0ZzU2M/9kG+XCAiZDdG6FIyGGD5dg18O2d6f4dxHE55O88rkhT5ov+QHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782937467; c=relaxed/simple;
-	bh=UXqtu+8j7g6Y/iptscRBArYBJCL8LDC5qo6jy0SsgHo=;
+	s=arc-20240116; t=1782937868; c=relaxed/simple;
+	bh=sJb1hpPoJvea7G7luaxcB0X03g/OToAr3zQtJFOLpTk=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=OrBcrsPK91owILZNL0Tat+542AFfCfarAYc5e8xVTguXhfkHSkJC4xBvuF2ST3GZFQwCWPEa143/LwKvH4RXTfh8WrNDbgkt6wrQtGKOhTf07mw5CMscl77WB9QuHojIJdxYpeGlcUp5kDiOADOPJyBop8nEpyaYOQxWNVIewtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=mktVg590; arc=none smtp.client-ip=74.125.224.42
+	 Content-Type:MIME-Version; b=p/Jo9aC806HPUsGNHv34ZnpXZ6IPoAzFHBXH28I2epT9qJfAFvnIAWSgRtc7LiL33sQaHQhxCzRfDYLcEdGi4wD2coJiJ0FYvWdxXXzNiW//AJswl+5vIDkzcm/0uzFHRpDeoHde3q+a19ZTGXu2u7mtcLpyeHN4/UwSsoYmC4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=BhG3hNme; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="mktVg590"
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-66493875766so1411615d50.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Jul 2026 13:24:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="BhG3hNme"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2c8017e981fso10247315ad.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Jul 2026 13:31:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1782937464; x=1783542264; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=tU+NlMZtfzXce6NqEZf1VNbY4WmO3Yr+TxW5npDraLI=;
-        b=mktVg59099FdPEYgNtijKMU0U12LUolLFq8h9JHaDVSOId7yCR4P26Io/Bo9EhJY+Q
-         J6StzZ5RUdtw/990NZ4JMRWzvUTGazN1M2xtXyUxlpKDD/9je+n+gZ1K2y0u36HXsNlY
-         20MrBwr3CY8aEgoX+O2KQnmS1Rjz7KFdR7Y924mCM5Jkw4DZCN8lrtIxyEi0HwceqqgL
-         pTYbqNM4SHyx+C22HYLSvj0gthK8lGXq1bZjnFWrkIdfFSr+L1td3uBGAJYbUEScaGLr
-         Nsy62YjK8R9U41PFsVnGm2fAM9NEDipKf0XrlLv5AegyaldYn+uXbArd5OreK3npqtXs
-         ll5g==
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1782937867; x=1783542667; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=sJb1hpPoJvea7G7luaxcB0X03g/OToAr3zQtJFOLpTk=;
+        b=BhG3hNmevinikbQJMYKq/RKT0K4a4jvzcdBxKWbd0pU85Bfbu3S08Qe28WPN2jJkeE
+         DpQo95m9+o/M+ZeLDdURHpaIpXVc8Njvdsp8tuM9k8NcErHjUTOowyuRbjtKDvAc8B7f
+         ixAK2H1hNPOmNYRciTdoi/7Ja20PT0IYuuxVbeD0hoGPAk5WTEJqoX9HAfnJY9/kWwiz
+         aIvxe6YiE99LqInohwQLDfr8jEWYwf0v4JfQEWUaHvGD5gQwlOcAnhj7zoEGePxH422v
+         h0RQSsmbA9q7Q2MkJxUoDiQHbWKhgvLmR6a1lgbwwwD1vFZg/PAQcvlTbOMm0kXl7iNp
+         1kdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782937464; x=1783542264;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tU+NlMZtfzXce6NqEZf1VNbY4WmO3Yr+TxW5npDraLI=;
-        b=HY8RwQt0Hw9QbCVV2mvWGMGbOO27trk5Ist1tn/oEQns5+272c4Hso+vLjUWKx+6b1
-         fvsk/HaK7oUwVlxa2wG6XfYcJ7q0g3WYD29viT7+1DKBNEjjPhWT5hhqhHM7SRj3qTJk
-         fiGsCIV87GhfUfyEbbp2wi52M8KBkxZdIWq6h8zD76cE7JR0ju3XFCkHhdfhrvzKyuGI
-         D3HLMbr/TQpusfRsu6osFivkxTFs68yhUMFrGy4XJOsbqp9QHzW1/4Rzx7jDV1xM5+i1
-         SwV+ii1M2W7kiNp28yGm/CSYhaycYrDh0H+mn2Dlzipgtez1QA8CjvN8vL+AioTFZmLf
-         88Ag==
-X-Forwarded-Encrypted: i=1; AHgh+RrltQiuakwFOzCMghJHrwMFv+fx9JiTSPjhMEK9iUGLSwPVJYbSgWzqW5KoSc50Hkauce6bnUq/S/hSG92P@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOv7PTCMoO94Hhbt/iAzr6mTjAD8z8oWhuzxamiwjSMeZiBtoU
-	T8ipk4oODt71ek6jdUZlkCzAMAVvK6bJf/4SewMOnLvqNgcxQns3hPODmZdBeL5Tz+M=
-X-Gm-Gg: AfdE7ckyGrk0CSW9F2hqDr2vWIijDATOJYSa3JX3j91SVURM8uzoKb5Xl8btXysqrq+
-	dwJehZ/iBjr0GvIqx2sO/k+TeEf215wlA2NB99MuivRRGkO+vmymhHXVRUTGwQu91VAPVdcctBX
-	8wWgqaiIwLDYH/mr/ITUTkkEQVxv+xzFnQTIHFwZLKHgAEakKP8a0gWVxUz71umdjOZLKzkrmF9
-	qsvl6ZqVOcmTn32xQIOteQv6K0ueqwd0p+CBTnLz7bVdmm3qMuijEyXYo/XM36o5n0dk1fX+EAy
-	3ttyqMVqMUOaL0vmtfyOwWeKh58fGIeJLyZrBLtWjKjtd+e6H3Po9NtTg+UtV35PEDxNeKmvRz/
-	wpafOQcEW4xKvorCrguXqWu868Zl/fdk0lKBQXoEQ4+P+Xfyntqhuxhplv0kdkRSWVi/yfYLldO
-	JZ6TpxMnuDxh1UhPShi96qrRoo8tjzHNgdYIXmGMonYgXOQj005mTNOm0z66FW4vKL+8aIIWt1X
-	Hcv41cmNyOXBZbMpSOyZdCS3eGkoETdAkWoCEHdGJVMXB67/Cik3pmmrIbXyjO3DA2h8OQawq84
-	RDfMPoBKR3nTh87Irw==
-X-Received: by 2002:a05:690c:ed0:b0:80e:38c5:bc17 with SMTP id 00721157ae682-812e8bf0f35mr35919297b3.7.1782937463935;
-        Wed, 01 Jul 2026 13:24:23 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782937867; x=1783542667;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=sJb1hpPoJvea7G7luaxcB0X03g/OToAr3zQtJFOLpTk=;
+        b=DgNmZdQ2zWLObLtgWF44R6RrqcuHVJcMpZA+gztd1fa4hqfapagrD5MFBaTA3QeeB/
+         6pooQJ4QUvxqx9lNUQzLcLiMuPBIVO1hYTUVJ81RCsPojoj3Vum91mdCc0FhIkc/BH1w
+         U7+EL85Qo+Wxx12uOUWfLLVYPQzwr7Qopkz7ds44UZGqk9ZLqQNMB7XcRwIh2TaKiwX0
+         Z3SSM3xjqx/30IIXYiQ0SLeT2kXhbfqNjh6hPSWynFLJAEyX9kz0VhWOhmwVAGF4KfmC
+         IOvnhT3Eyb0uH0OpYv7A7pNKgkSL3vJ6JtiNJOh0YiDyEFBYej4n5FAitOprZD7KnShc
+         zAeQ==
+X-Gm-Message-State: AOJu0YyBS53SEnFuKdQfc8MwOR8rBjQ+q2QBJ/8IPzfPPS85SzjddAGx
+	UTyOt2dYYmABlW4XvYxXYV1WDhmQvcBNlyUIiyIbLPAohveC2g6F0GRJsiajLk3C/kI=
+X-Gm-Gg: AfdE7ckARSnC/hiCqxEMMRiMIYmGS8lwntbVvw3tIRJOVgio/iCYLXwuWkHs1LXS1JR
+	5orGYtw9Sl8eWBqagOuh8H0C9h6RTOSQ/1Xx2/W/9nTcE7KT27Gr100VdqCJqFjIspR88IzMByz
+	SzIKGurnC/Zeoc0H6vJiq//+uiIK8314HPXbIDK0pOHDjKzK//UAHVTnOIXxUT7Mzrw34Vvk0gP
+	0Y8kT8o9uKBWHs1fCdovUwlTSH7oXXnH6/pSyQQjXRUPkDn/DbFRplhNIkSRF99cUb4U6RUXIYs
+	EgMJaAsW4cIKbgpMR++vP/3iNRCkqE2OAuDyzkPse4fWvPmzZsnlbsmovcP8EBpTSjFoqPji5eK
+	v34BsPl3cUFCg2pN/KFR0WKvzdWQq0uzRiv4BLjPdWPYnmF7ZR4+INbH16RYmOSZL8GTvpSrN+g
+	521rnNIBuEGhhNx0jmn6bILypRcLHFCoZ4Iau2k+/4tY3qf24luQjtTFSkMm3JZURR4XtYjAsKc
+	Aj8l2Tznvx/54cAXg0Cmg+wQhh2x4G4Y9bMApF7QbVWaeR70caTO1RpIBf1+6yMC+jf0XqponaY
+	KyC8Vok=
+X-Received: by 2002:a17:903:1acb:b0:2c9:bd64:8c8b with SMTP id d9443c01a7336-2ca911d9aa1mr21958695ad.31.1782937866890;
+        Wed, 01 Jul 2026 13:31:06 -0700 (PDT)
 Received: from [10.0.0.3] (162-197-212-70.lightspeed.sntcca.sbcglobal.net. [162.197.212.70])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8144783cc5esm4692777b3.9.2026.07.01.13.24.22
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca9a8dae49sm3586195ad.10.2026.07.01.13.31.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 13:24:23 -0700 (PDT)
-Message-ID: <6074d91cefcc32cb54f48a1ee214530836e6c948.camel@dubeyko.com>
-Subject: Re: [PATCH] hfsplus: validate B-tree record offset table
+        Wed, 01 Jul 2026 13:31:06 -0700 (PDT)
+Message-ID: <4210584abe2c4ae948ef12225cc20b86b7e06586.camel@dubeyko.com>
+Subject: Re: [PATCH] hfsplus: terminate xattr names before listing them
 From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Jiaming Zhang <r772577952@gmail.com>
-Cc: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller@googlegroups.com
-Date: Wed, 01 Jul 2026 13:24:21 -0700
-In-Reply-To: <20260701055020.385680-1-r772577952@gmail.com>
-References: <4ef15f553f01e959209273f5a170288af6ecdc91.camel@dubeyko.com>
-	 <20260701055020.385680-1-r772577952@gmail.com>
+To: Kyle Zeng <kylebot@openai.com>
+Cc: linux-fsdevel@vger.kernel.org, Yangtao Li <frank.li@vivo.com>, John Paul
+ Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ outbounddisclosures@openai.com, stable@vger.kernel.org
+Date: Wed, 01 Jul 2026 13:31:04 -0700
+In-Reply-To: <CAC7i46-V_aK=ZVVvQ_45_Sv==swzD0P0-FeqWbsbO4zACiv_9w@mail.gmail.com>
+References: <20260611212710.5134-1-kylebot@openai.com>
+	 <4a0ad1fbf065b3d0bc0e3f1f2efbc44249181d03.camel@dubeyko.com>
+	 <CAC7i46-V_aK=ZVVvQ_45_Sv==swzD0P0-FeqWbsbO4zACiv_9w@mail.gmail.com>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -125,339 +126,17 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Wed, 2026-07-01 at 13:50 +0800, Jiaming Zhang wrote:
-> A crafted HFS+ image can contain a corrupted B-tree node. The node
-> descriptor
-> may contain a record count that does not fit in the node, and record
-> offsets may
-> be unordered, unaligned, outside the node, or point into the offset
-> table
-> itself.
+On Wed, 2026-07-01 at 00:02 -0600, Kyle Zeng wrote:
 >=20
-> Several B-tree helpers consume these on-disk fields before validating
-> them:
-> hfs_bnode_dump() can walk past the offset table when num_recs is
-> corrupted,
-> hfs_brec_lenoff() can produce an underflowed length or a record range
-> that
-> overlaps the offset table. This can make the unlink/writeback path
-> repeatedly
-> call hfs_bnode_read_u16() with invalid offsets while holding the HFS+
-> B-tree
-> lock, producing a flood of "requested invalid offset" messages. Other
-> writeback
-> workers then block on tree->tree_lock and the system reports tasks
-> hung in
-> hfsplus_write_inode().
+
+<skipped>
+
 >=20
-> Reject corrupted B-tree metadata earlier: validate num_recs against
-> the node
-> size before walking the record offset table, reject record offsets
-> that are
-> unordered, unaligned, outside the node, or overlapping the offset
-> table, stop
-> B-tree record walkers on invalid records, and avoid decrementing an
-> already-zero
-> leaf_count.
+> I suggest to backport the patch to stable branches because it has
+> security implications.
 >=20
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Closes:
-> https://lore.kernel.org/lkml/CANypQFb_2TqKGrztAXj5m0_v+QChxXDnQVeifzV8J25=
-Vuju10Q@mail.gmail.com/
-> Assisted-by: Codex:gpt-5.5-xhigh
-> Signed-off-by: Jiaming Zhang <r772577952@gmail.com>
-> ---
-> =C2=A0fs/hfsplus/bfind.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 12 +++++++++---
-> =C2=A0fs/hfsplus/bnode.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 15 +++++++++++++=
---
-> =C2=A0fs/hfsplus/brec.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 35 ++++++++=
-++++++++++++++++++++++-----
-> =C2=A0fs/hfsplus/hfsplus_fs.h | 18 ++++++++++++++++++
-> =C2=A04 files changed, 70 insertions(+), 10 deletions(-)
->=20
-> diff --git a/fs/hfsplus/bfind.c b/fs/hfsplus/bfind.c
-> index 9a55fa6d5294..ace9ba027a9d 100644
-> --- a/fs/hfsplus/bfind.c
-> +++ b/fs/hfsplus/bfind.c
-> @@ -112,11 +112,13 @@ int __hfs_brec_find(struct hfs_bnode *bnode,
-> struct hfs_find_data *fd,
-> =C2=A0	b =3D 0;
-> =C2=A0	e =3D bnode->num_recs - 1;
-> =C2=A0	res =3D -ENOENT;
-> +	if (!bnode->num_recs)
 
-Do you mean bnode->num_recs =3D=3D 0?
-
-> +		return res;
-
-In majority of cases, we check fd->record:
-
-	__hfs_brec_find(parent, fd, hfs_find_rec_by_key);
-	if (fd->record < 0)
-		return -ENOENT;
-
-So, this is not completely correct to simply return error because, we
-do not check the returned error code.
-
-> =C2=A0	do {
-> =C2=A0		rec =3D (e + b) / 2;
-> =C2=A0		len =3D hfs_brec_lenoff(bnode, rec, &off);
-> =C2=A0		keylen =3D hfs_brec_keylen(bnode, rec);
-> -		if (keylen =3D=3D 0) {
-> +		if (!keylen || keylen >=3D len) {
-
-I really dislike this !keylen pattern is used not for pointer. Should
-we expect that that keylen =3D=3D len? Then, we could use keylen !=3D len
-here.
-
-> =C2=A0			res =3D -EINVAL;
-> =C2=A0			goto fail;
-> =C2=A0		}
-> @@ -130,7 +132,7 @@ int __hfs_brec_find(struct hfs_bnode *bnode,
-> struct hfs_find_data *fd,
-> =C2=A0	if (rec !=3D e && e >=3D 0) {
-> =C2=A0		len =3D hfs_brec_lenoff(bnode, e, &off);
-> =C2=A0		keylen =3D hfs_brec_keylen(bnode, e);
-> -		if (keylen =3D=3D 0) {
-> +		if (!keylen || keylen >=3D len) {
-
-Ditto.
-
-> =C2=A0			res =3D -EINVAL;
-> =C2=A0			goto fail;
-> =C2=A0		}
-> @@ -232,6 +234,10 @@ int hfs_brec_goto(struct hfs_find_data *fd, int
-> cnt)
-> =C2=A0
-> =C2=A0	bnode =3D fd->bnode;
-> =C2=A0	tree =3D bnode->tree;
-> +	if (!bnode->num_recs) {
-
-I dislike this !bnode->num_recs.
-
-> +		res =3D -ENOENT;
-> +		goto out;
-> +	}
-> =C2=A0
-> =C2=A0	if (cnt < 0) {
-> =C2=A0		cnt =3D -cnt;
-> @@ -274,7 +280,7 @@ int hfs_brec_goto(struct hfs_find_data *fd, int
-> cnt)
-> =C2=A0
-> =C2=A0	len =3D hfs_brec_lenoff(bnode, fd->record, &off);
-> =C2=A0	keylen =3D hfs_brec_keylen(bnode, fd->record);
-> -	if (keylen =3D=3D 0) {
-> +	if (!keylen || keylen >=3D len) {
-
-Ditto.
-
-> =C2=A0		res =3D -EINVAL;
-> =C2=A0		goto out;
-> =C2=A0	}
-> diff --git a/fs/hfsplus/bnode.c b/fs/hfsplus/bnode.c
-> index d088fb7eb0df..df406f75a5b3 100644
-> --- a/fs/hfsplus/bnode.c
-> +++ b/fs/hfsplus/bnode.c
-> @@ -352,15 +352,22 @@ void hfs_bnode_dump(struct hfs_bnode *node)
-> =C2=A0	struct hfs_bnode_desc desc;
-> =C2=A0	__be32 cnid;
-> =C2=A0	int i, off, key_off;
-> +	u16 num_recs;
-> =C2=A0
-> =C2=A0	hfs_dbg("node %d\n", node->this);
-> =C2=A0	hfs_bnode_read(node, &desc, 0, sizeof(desc));
-> +	num_recs =3D be16_to_cpu(desc.num_recs);
-> =C2=A0	hfs_dbg("next %d, prev %d, type %d, height %d, num_recs
-> %d\n",
-> =C2=A0		be32_to_cpu(desc.next), be32_to_cpu(desc.prev),
-> -		desc.type, desc.height, be16_to_cpu(desc.num_recs));
-> +		desc.type, desc.height, num_recs);
-> +
-> +	if (!hfs_bnode_num_recs_valid(node, num_recs)) {
-> +		hfs_dbg("invalid num_recs %u\n", num_recs);
-> +		return;
-> +	}
-> =C2=A0
-> =C2=A0	off =3D node->tree->node_size - 2;
-> -	for (i =3D be16_to_cpu(desc.num_recs); i >=3D 0; off -=3D 2, i--)
-> {
-> +	for (i =3D num_recs; i >=3D 0; off -=3D 2, i--) {
-> =C2=A0		key_off =3D hfs_bnode_read_u16(node, off);
-> =C2=A0		hfs_dbg(" key_off %d", key_off);
-> =C2=A0		if (i && node->type =3D=3D HFS_NODE_INDEX) {
-> @@ -579,6 +586,9 @@ struct hfs_bnode *hfs_bnode_find(struct hfs_btree
-> *tree, u32 num)
-> =C2=A0		goto node_error;
-> =C2=A0	}
-> =C2=A0
-> +	if (!hfs_bnode_num_recs_valid(node, node->num_recs))
-> +		goto node_error;
-> +
-> =C2=A0	rec_off =3D tree->node_size - 2;
-> =C2=A0	off =3D hfs_bnode_read_u16(node, rec_off);
-> =C2=A0	if (off !=3D sizeof(struct hfs_bnode_desc))
-> @@ -588,6 +598,7 @@ struct hfs_bnode *hfs_bnode_find(struct hfs_btree
-> *tree, u32 num)
-> =C2=A0		next_off =3D hfs_bnode_read_u16(node, rec_off);
-> =C2=A0		if (next_off <=3D off ||
-> =C2=A0		=C2=A0=C2=A0=C2=A0 next_off > tree->node_size ||
-> +		=C2=A0=C2=A0=C2=A0 next_off > rec_off ||
-> =C2=A0		=C2=A0=C2=A0=C2=A0 next_off & 1)
-> =C2=A0			goto node_error;
-> =C2=A0		entry_size =3D next_off - off;
-> diff --git a/fs/hfsplus/brec.c b/fs/hfsplus/brec.c
-> index e3df89284079..dce397be9151 100644
-> --- a/fs/hfsplus/brec.c
-> +++ b/fs/hfsplus/brec.c
-> @@ -20,12 +20,27 @@ static int hfs_btree_inc_height(struct hfs_btree
-> *);
-> =C2=A0u16 hfs_brec_lenoff(struct hfs_bnode *node, u16 rec, u16 *off)
-> =C2=A0{
-> =C2=A0	__be16 retval[2];
-> -	u16 dataoff;
-> +	u16 data_off;
-> +	u16 next_off;
-> =C2=A0
-> -	dataoff =3D node->tree->node_size - (rec + 2) * 2;
-> -	hfs_bnode_read(node, retval, dataoff, 4);
-> +	if (rec >=3D node->num_recs ||
-> +		!hfs_bnode_num_recs_valid(node, node->num_recs)) {
-
-Ditto. We need static inline function for such check that can be reused
-in multiple places.
-
-> +		*off =3D 0;
-> +		return 0;
-> +	}
-> +
-> +	data_off =3D node->tree->node_size - (rec + 2) * 2;
-> +	hfs_bnode_read(node, retval, data_off, 4);
-> =C2=A0	*off =3D be16_to_cpu(retval[1]);
-> -	return be16_to_cpu(retval[0]) - *off;
-> +	next_off =3D be16_to_cpu(retval[0]);
-> +	if (*off < sizeof(struct hfs_bnode_desc) ||
-> +		*off & 1 ||
-> +		next_off <=3D *off ||
-> +		next_off > node->tree->node_size ||
-> +		next_off > data_off ||
-> +		next_off & 1)
-
-It looks like a static inline function for the check. I dislike such
-multi-line check logic.
-
-> +		return 0;
-> +	return next_off - *off;
-> =C2=A0}
-> =C2=A0
-> =C2=A0/* Get the length of the key from a keyed record */
-> @@ -35,6 +50,9 @@ u16 hfs_brec_keylen(struct hfs_bnode *node, u16
-> rec)
-> =C2=A0
-> =C2=A0	if (node->type !=3D HFS_NODE_INDEX && node->type !=3D
-> HFS_NODE_LEAF)
-> =C2=A0		return 0;
-> +	if (rec >=3D node->num_recs ||
-> +		!hfs_bnode_num_recs_valid(node, node->num_recs))
-
-Ditto.
-
-> +		return 0;
-> =C2=A0
-> =C2=A0	if ((node->type =3D=3D HFS_NODE_INDEX) &&
-> =C2=A0	=C2=A0=C2=A0 !(node->tree->attributes & HFS_TREE_VARIDXKEYS) &&
-> @@ -43,7 +61,7 @@ u16 hfs_brec_keylen(struct hfs_bnode *node, u16
-> rec)
-> =C2=A0	} else {
-> =C2=A0		recoff =3D hfs_bnode_read_u16(node,
-> =C2=A0			node->tree->node_size - (rec + 1) * 2);
-> -		if (!recoff)
-> +		if (recoff < sizeof(struct hfs_bnode_desc) || recoff
-> & 1)
-
-I don't quite follow what this check means. Could we rework it somehow?
-
-> =C2=A0			return 0;
-> =C2=A0		if (recoff > node->tree->node_size - 2) {
-> =C2=A0			pr_err("recoff %d too large\n", recoff);
-> @@ -185,10 +203,17 @@ int hfs_brec_remove(struct hfs_find_data *fd)
-> =C2=A0	tree =3D fd->tree;
-> =C2=A0	node =3D fd->bnode;
-> =C2=A0again:
-> +	if (fd->record < 0 ||
-> +		fd->record >=3D node->num_recs ||
-
-I think it makes sense to call hfs_bnode_num_recs_valid() before
-checking fd->record.
-
-> +		!hfs_bnode_num_recs_valid(node, node->num_recs))
-
-It looks like method of fd->record. I suggest to introduce static
-inline method of fd->record. Could we reuse this method for another
-cases?
-
-> +		return -EIO;
-> +
-> =C2=A0	rec_off =3D tree->node_size - (fd->record + 2) * 2;
-> =C2=A0	end_off =3D tree->node_size - (node->num_recs + 1) * 2;
-> =C2=A0
-> =C2=A0	if (node->type =3D=3D HFS_NODE_LEAF) {
-> +		if (!tree->leaf_count)
-
-Ditto. I dislike this !tree->leaf_count pattern.
-
-> +			return -EIO;
-> =C2=A0		tree->leaf_count--;
-> =C2=A0		mark_inode_dirty(tree->inode);
-> =C2=A0	}
-> diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
-> index ec04b82ad927..8b2f2041b8b9 100644
-> --- a/fs/hfsplus/hfsplus_fs.h
-> +++ b/fs/hfsplus/hfsplus_fs.h
-> @@ -587,6 +587,24 @@ bool is_bnode_offset_valid(struct hfs_bnode
-> *node, u32 off)
-> =C2=A0	return is_valid;
-> =C2=A0}
-> =C2=A0
-> +static inline
-> +bool hfs_bnode_num_recs_valid(struct hfs_bnode *node, u16 num_recs)
-
-What the point to provide num_recs? You can access it by node-
->num_recs.
-
-> +{
-> +	u32 node_size;
-> +	u32 offs_size;
-> +
-> +	if (!node || !node->tree)
-> +		return false;
-> +
-> +	node_size =3D node->tree->node_size;
-> +	if (node_size < sizeof(struct hfs_bnode_desc) +
-> sizeof(__be16))
-
-You use sizeof(__be16) several times. Also, nobody can follow why you
-need to make this addition. So, you need to introduce the local
-variable with good name.
-
-> +		return false;
-> +
-> +	offs_size =3D ((u32)num_recs + 1) * sizeof(__be16);
-
-Ditto.
-
-> +
-> +	return offs_size <=3D node_size - sizeof(struct
-> hfs_bnode_desc);
-
-It cannot cover all potential corruptions. Because, offs_size could be
-smaller one but still to overlap with node's content.
+You are welcomed to do it. ;)
 
 Thanks,
 Slava.
-
-> +}
-> +
-> =C2=A0static inline
-> =C2=A0u32 check_and_correct_requested_length(struct hfs_bnode *node, u32
-> off, u32 len)
-> =C2=A0{
