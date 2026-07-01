@@ -1,92 +1,187 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569FC3612FB
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 01:55:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257041FD4;
+	Wed,  1 Jul 2026 02:33:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782870960; cv=none; b=MKQue8hxua7isO58E41MdrQEfn0oyM0gvL4lSyJyagOJfsclUc03cu7FG1l2DbhMB8Eo/LbJdNLV1IkwvGIrgC2X48nl2MNGYrM0M2JPmh59V2LnkNfOXhQMZdXcZd5z81cw7z4wLVl+qxJ2K/91DkhD+PVRdM22ETvyh5DUk9E=
+	t=1782873223; cv=none; b=tHYi9Rkh/rJgGboAnJ0kKs36qr4sfchN9YbnVXDkDCLJEYZ9vy2+gDMJynUb2IR6CcETnzLA9qHVoTEik4n4SADu6/UazABDesISUDMpZx3H0WhKff+L/tXeuCZB6r2ppeHsWA8cIU2pJh7Uj2SCUFKBRD0MW9f7U3wQh2j52/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782870960; c=relaxed/simple;
-	bh=4mIi4p0t8FiEl76o5sTJP13tmIjADiLco8oz+Ebzfwo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I0mQrmgiUBwN82PSJNB6G0gW3TuYkQlA5AwXzRsCSo5Qvc/ltDibqRoge2sGLIssYtqmBcmPNrq4TKKaI9/dwtOgKpMgm0yfpanu1ckrcAKW4h4XWh+2PLTrGZACiCaOzum6tjfeQ0zhtOdNTN8mffWchyEJ4PhmNR/6hPkw3L4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L5Ps2yTQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782873223; c=relaxed/simple;
+	bh=OT6wqOeUGF2XQZyiqqa4L9r4ufXQ+e2YgV3nJulZLrA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=TtM8PzK+A40qWGAo7yh2VVUbbC557mOPQx41NNBdUTBmzwkDjhkfDWmTKghCD8E8YNxPr5gXJPpFDGeF/D8gC2YCvuXQ60UxqpCT8DM/k7x5o6RXp4V8LgcaWS31gM41kLwvJmcRpsStvBkohm4gIiOFhOpoCcNIKNFQoIBns50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=hQPC1aQP; arc=none smtp.client-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L5Ps2yTQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A36A1F000E9
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 01:55:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782870959;
-	bh=4Y7Mu3qIX1rzeTFFd6h7gzcdLQmTsS/ys3zPwHxqqV4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=L5Ps2yTQSTVdmSsqrMHXVjUPVhpC4DPUj7MkuqSiNaBh6/6TugMS/qy5Xqp/+zIeW
-	 oNx9c6ITW5piybQ940qMOsulbKO9o8EIyvfeq0SyAp57ftyVz1NGjgOkTmEpxmXMV0
-	 n3x3Icy5GPGrRcwoWpWXYR76XA43MsfNGqtkmb3fRwUX6262f1WMqsyod5b4uZ3k/Q
-	 dxCem4YXO/hqeZmTBXDxembnm6gyRil9XQhFOAMbbZALT5NsphWjEte+mhnuAxzXoS
-	 NLUco0NePRFEsVOjxa1hZQDTX2jjnk72DmCN+6zNyRb2eY2gjSiEa5OJPexKqOGfRV
-	 gM8HFccfsCdWg==
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c1274bedebfso14904966b.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 18:55:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoqZkFoHhS3BwUW/syaksXddOms5a4PuYEdm3GyzklTyWULal7xL+ZXOj8X2G7+WRjTFiDQ897ckna46sV9@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzJtfbf8yAZ9BHQGm8b/CAFn1kkNF/i5o/wMbtj/tHJ4CWDY1M
-	pnNr4+zw8WWKG6TZCAO4ob85OHnqRWGKM+PvycLl6lGHSOCUVMIYJ8vfkjwdut6hpsb3Lza4qYB
-	5LDOPmemYBCbh/BgQYKt0EIkOnsSurw4=
-X-Received: by 2002:a17:906:fd86:b0:c11:f5dc:22b with SMTP id
- a640c23a62f3a-c128716a47fmr275124866b.14.1782870957804; Tue, 30 Jun 2026
- 18:55:57 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="hQPC1aQP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=mQ
+	N1IUhhTEXUFB92w3rc4mmoU0B96GEth86y033SCFo=; b=hQPC1aQP7GXuOIIGgW
+	6tB9hTq7bS3wbNyYvHbTWFOcdcCqWTZNGAhzmd35x2rTQhbq5GP0VR+OMt6Jh3Q2
+	0XLsLRuuncqYMfAF19cM4uiLqQbb/CaTRfq7dXXLXQ4ZP/xBrQedICUyMXhtIYQV
+	bqpoIPoJHmFtqnPMGS6DhDFu4=
+Received: from zhaoxin-MS-7E12.. (unknown [])
+	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wCX3EcXfERqS6ElGw--.58356S2;
+	Wed, 01 Jul 2026 10:31:52 +0800 (CST)
+From: Xin Zhao <jackzxcui1989@163.com>
+To: brauner@kernel.org
+Cc: akpm@linux-foundation.org,
+	alex.aring@gmail.com,
+	allen.lkml@gmail.com,
+	arnd@arndb.de,
+	chuck.lever@oracle.com,
+	corbet@lwn.net,
+	david@kernel.org,
+	ebiederm@xmission.com,
+	j.granados@samsung.com,
+	jack@suse.cz,
+	jackzxcui1989@163.com,
+	jlayton@kernel.org,
+	juri.lelli@redhat.com,
+	keescook@chromium.org,
+	kuba@kernel.org,
+	liam@infradead.org,
+	linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	ljs@kernel.org,
+	mcgrof@kernel.org,
+	mhocko@suse.com,
+	mingo@redhat.com,
+	mjguzik@gmail.com,
+	peterz@infradead.org,
+	pfalcato@suse.de,
+	rppt@kernel.org,
+	skhan@linuxfoundation.org,
+	surenb@google.com,
+	vbabka@kernel.org,
+	vincent.guittot@linaro.org,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v5] coredump: Add bit 9 of coredump_filter for pre-exit files before dumping
+Date: Wed,  1 Jul 2026 10:31:51 +0800
+Message-Id: <20260701023151.694758-1-jackzxcui1989@163.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260630-alzheimer-mahlzeit-mutlos-4641a5947a04@brauner>
+References: <20260630-alzheimer-mahlzeit-mutlos-4641a5947a04@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260630065016.48259-1-zenghongling@kylinos.cn>
-In-Reply-To: <20260630065016.48259-1-zenghongling@kylinos.cn>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Wed, 1 Jul 2026 10:55:44 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-hj98HnPfpA06dB=ZfLi91SBXf0XT2S-vhr2UdMq6rpQ@mail.gmail.com>
-X-Gm-Features: AVVi8Cfua2ukTvLahoyDc_ECtqT1NAUTYSrwibh3ueXHU75Pcv1gIhwjxTgKQfg
-Message-ID: <CAKYAXd-hj98HnPfpA06dB=ZfLi91SBXf0XT2S-vhr2UdMq6rpQ@mail.gmail.com>
-Subject: Re: [PATCH v2] ntfs: validate error codes from untrusted disk data
-To: Hongling Zeng <zenghongling@kylinos.cn>
-Cc: hyc.lee@gmail.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, zhongling0719@126.com, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wCX3EcXfERqS6ElGw--.58356S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxZFWrAFyfAw1ftw4UXFWxtFb_yoWrAw1kpF
+	WrKay0kF4kG3yxt34xAw45XF1rCw1ftrs8Zr1Fgwn5A398A34Svr1xtFy5Zas8Crs2yw4j
+	qw12va47C34qyaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0JUouWQUUUUU=
+X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/xtbCvxnQ2mpEfBkuNgAA3-
 
-> diff --git a/fs/ntfs/namei.c b/fs/ntfs/namei.c
-> index 9c1c36acfad2..e959387135b5 100644
-> --- a/fs/ntfs/namei.c
-> +++ b/fs/ntfs/namei.c
-> @@ -233,10 +233,18 @@ static struct dentry *ntfs_lookup(struct inode *dir_ino, struct dentry *dent,
->                 d_add(dent, NULL);
->                 ntfs_debug("Done.");
->                 return NULL;
-This patch seems to be written for the 7.1 kernel. Could you please
-create a patch on 7.2-rc1?
-> +       } else {
-else { } is not needed. and let's move the assignment long err =
-MREF_ERR(mref); to the top of the block and reuse err instead of using
-MREF_ERR(mref).
+On Tue, 30 Jun 2026 13:50:15 +0200 Christian Brauner <brauner@kernel.org> wrote:
 
-Thanks.
-> +               long err = MREF_ERR(mref);
-> +
-> +               if (err < 0 && err >= -MAX_ERRNO) {
-> +                       ntfs_error(vol->sb, "ntfs_lookup_ino_by_name() failed with error code %li.",
-> +                               err);
-> +                       return ERR_PTR(err);
-> +               }
-> +               ntfs_error(vol->sb, "ntfs_lookup_ino_by_name() returned invalid error code %li, treating as disk corruption.",
-> +                       err);
-> +               return ERR_PTR(-EIO);
->         }
-> -       ntfs_error(vol->sb, "ntfs_lookup_ino_by_name() failed with error code %i.",
-> -                       -MREF_ERR(mref));
-> -       return ERR_PTR(MREF_ERR(mref));
->  handle_name:
->         {
->                 struct mft_record *m;
-> --
-> 2.25.1
->
+> > + * If do not dump fd list, files that are not referenced by any VMA
+> > + * can be released before dumping core. Therefore, some file release
+> > + * logic, such as exiting flock or releasing references to shared
+> > + * buffers is executed much earlier. Note that do_coredump() often
+> > + * takes several seconds or even longer to execute.
+> > + */
+> > +static void coredump_pre_exit(void)
+> > +{
+> > +	struct task_struct *tsk = current, *t;
+> > +
+> > +	if (mm_flags_test(MMF_DUMP_FD_LIST, tsk->mm))
+> > +		return;
+> 
+> Why does this hanging off of mm?
+
+Like other bits of coredump_filter, it is actually attached to the mm flags.
+
+> Even if we wanted to do this it is fundamentally the wrong primitive for
+> this. I would envision that anything that wanted to "zap" file
+> descriptors synchronously would either have to do it synchronously or
+> offload it to a delayed coredump list and wait for it to have drained.
+> 
+> I dislike both options... Without thorough anaylsis I'm not even sure if
+
+Are you saying that the file release operation must be performed in the
+context of each task_struct? I'm not quite clear on the necessity of doing
+this. The execution of exit_files merely reduces the reference count of
+the file_struct for the thread, rather than decreasing the reference count
+of each individual file.
+
+> taking out files out of order with other exit-related cleanup will not
+> end up causing fun bugs. Meaning:
+> 
+> [...]
+> exit_sem(tsk);
+> exit_shm(tsk);
+> exit_files(tsk);
+> 
+> anything before that might implicitly relying on files struct being
+> sane or some other subtle interactions. My appetite to dig into this
+> just to make this questionable patch mergeable isn't very high...
+
+The essence of file descriptors (fd) is to allow processes to reference
+specific files through an index. The fundamental purpose of exit_files()
+is that when a process exits, it no longer needs to reference files by
+their indices. From this perspective, I don't see it causing any issues,
+because even if functions like exit_sem and exit_shm need to use file
+instances, they won't use the fd index; instead, they will increase the
+reference count of the file as needed in the prior logic. By the time the
+core dump begins execution, user-space logic will no longer be running.
+Therefore, as long as the contents of the core dump do not require the
+mapping relationship between fd and file, the file can be safely put.
+
+
+> > -	if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD))) {
+> > +	/*
+> > +	 * coredump_pre_exit() may release files before dumping core.
+> > +	 * Cannot use task_work in the case, needs to release files
+> > +	 * earlier."
+> 
+> And it does that by offloading the closing of files to a kthread that
+> runs asynchronously?
+
+yes
+
+
+> Also, as was pointed out in other parts of the thread: files are shared
+> _across_ thread-groups not just within thread-groups. Anything that does
+> SCM_RIGHTS or has done some pidfd_getfd() dance - however unlikely -
+> might still hold that file alive and you have zero chances of getting it
+> out of its hands.
+> 
+> If this is so critical, just skip the coredump via COREDUMP_REJECT or
+> similar means.
+
+> > +	 */
+> > +	if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD | PF_DUMPCORE))) {
+> 
+> This:
+> 
+> (task->flags & PF_KTHREAD | PF_DUMPCORE)
+> 
+> will have interesting side-effects for everyone else...
+
+As you mentioned, other processes may potentially reference these files
+across processes, so even if a core dump is not triggered, the file
+release actions are not entirely executed within task_work. Because after
+a process exits, other processes may still hold references to the file,
+the work for releasing the file cannot be added to task_work at that
+point. In this case, it still uses schedule_delayed_work().
+
+If kernel developers do not correctly implement the file release
+operation, such as relying on certain information from the task context to
+free related resources, then the issues arising from such unreasonable
+release operations will manifest in other scenarios, regardless of my
+changes. My modifications only amplify this problem in the context of core
+dumps.
+
+
+Thanks
+Xin Zhao
+
