@@ -1,142 +1,136 @@
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 295763C6606
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 22:03:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2EA412289
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 22:07:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782943430; cv=none; b=RHIt92cSt4HIshc74Q/v1Z7+DfaUKnh5styaGnphBor6TkrY2odNQFSQ7ueBnFVY+w+I7rpHaxa6ZU9jvf+hnDMw18BM/Ss44fzbhQGH2xFIfzPyauqIuodTWu8UIXKDfExZBdLHeQwgPmh6kuV8XWNnoALrhh5uRVEuPm1JMPA=
+	t=1782943662; cv=none; b=K9sLgkVsquCv+GpFN1sLgZUb8qmrk3Hi1nEDKHlN3SbY+bGBtY+AWQenvyqBExEyGgG7LwQcS2tt/ryvZ/Z3biZ7G+35lbxSiGn8kizbLeVggTCUux7Fvp+EUx42JbNkLg/nVx+UN7GIeR4+QPMLAPOfeniERyMLJb6SaILz9aE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782943430; c=relaxed/simple;
-	bh=1rYzlkPKiIczgAYiOOJDQ6sU2iqvo/0OYVU/JY1IAs0=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=r4wMcmk70d64nmCGbIrk3d2zLt9KUcofqQTpyinzhm9tfoN3NToNDvnI3Gs8C9SALOK0/FbE3qWiVFmSUEEScdo1gonz7H3oqGZJeMK7S8tRcxDMWlyffI3udCFTRrmv45EDWID+bWoC/NRkycHMrT5DRJidUhwuYycjAOpL/3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=dibZBgC1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=SBXCXcZs; arc=none smtp.client-ip=202.12.124.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1782943662; c=relaxed/simple;
+	bh=AJcvxrjgFC/vzLLX5SpDA1f1GuEyqQdgHyLo32ybmW4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=leDF+rkdr5dMVZq28EpIP+wLlRalAil0AsfTAs+nUPPR9fSBgrf9c6qRnVL9/g9Mtg/1av+mJY9nBnM5nIz/XU0G/RNN/V+VOBtmGamSc+1UqVGb/tVAbHAlIaCRPOfgIG83oZGZQ//dxokvmADnif5W+kJ49yly95bmHG7174k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oy1pjo9Y; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="dibZBgC1";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="SBXCXcZs"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.stl.internal (Postfix) with ESMTP id 3894D1D000CC;
-	Wed,  1 Jul 2026 18:03:47 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Wed, 01 Jul 2026 18:03:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1782943427; x=1783029827; bh=oYazdZ1QhU/FueJMM2YMIqtQK6RtyrEkgVp
-	0AKREgY0=; b=dibZBgC1CXPl+xLY18JF60esvJaTPl6FcvHvOESHFaT3CmTNpCy
-	57d6deIow8qrRk0BRqF3ymF0pt9PQDQINhLpvqm/C3cYggl0jkkk7Ua5zZeJocTl
-	E8FZqdRTnH3Ely4TSoydKvOcqir5N4BYqpltrLYDHmGMGKdGmkPHEAqCXvl/lsXh
-	QvYPDddwFeR4ioQXz7XixEj3Vj4CPuBqVpo4E3abjnCLBbXSDpf+AJFsY+iBGwUE
-	YJoP7otQSVMB9hWLKGSz5CGhpmx56yiT+laAkF+uxxheiEjsVEbRaX1k0QwpkDja
-	tCOebQCn3/mpQmK1mJqhPmLJQPKhYv2YWKA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782943427; x=
-	1783029827; bh=oYazdZ1QhU/FueJMM2YMIqtQK6RtyrEkgVp0AKREgY0=; b=S
-	BXCXcZsQ8mqWvEYcQvXSTx2O0UvMHLEFuPWkeR7syoJjCWlVXDjSY0qMyQ0qKSs+
-	tq/LYOm0E5PybDmxOXpFTvHDx0AMhA6/UAbXHxKpknLZmkzO/VF0haHCv9L05yMW
-	55GQUg5Rw/3XwRi/EDIMDZF/m4+/8ZN7nXD3wiV9qU9emD6S0SFalFAVr+3C0sQQ
-	TdFZb4P5PUoKDMXGJSW7OQTb4wUoYSKb5Trpdj7T1mY/scqPK1SDmvd475es7akz
-	ltET7/XYWl4b0dCtcoQ7qrs1cfD0G1ijx5RXlWdIs/BuO3BMbcJj12F6sW6n98eo
-	6Lx0juh0gIxKRtlClt0dw==
-X-ME-Sender: <xms:wo5Fak7YyoOr2EpWFiY3UnTQFZ_1Hkh83INwL50u-j186lQuXQFu0A>
-    <xme:wo5Fau2GmGvJzM6z7D3rciB4Z2zVklZj9suvCIb9TNCKBkSPAVEhqX6AZFptbfhQg
-    Rn6LWZ0FNEuRUJkJe1RWdkb3WLXtg0f_4FbpIBmA-Ok6QqBcA>
-X-ME-Received: <xmr:wo5FavCo3xciPo3oSpF5MCOqXpDBZsg9CYJr8GcAfXXh_8WGVMVXr0YFjM2R1HHufKRlai7QQfbprKhALj4RRUCXsS0gJ7U>
-X-ME-Proxy-Cause: dmFkZTGNNjlDNQwxTrSOq5LJGXcPjCFyx0rimsssPzmbau5MBkJxc+ArKw9vhalwyJ/M0O
-    TsItda3dTLpJWkEdIgdrMXu0FzomhPDHuPZD+VJgor3Ex+Z7CGrZBmUTictzbvZtOKo136
-    8dL6ObbuEtTKAUTeLDbniYKD3zskCqrzJlTqVNKobzAYexVEdcc7QZyBySrkl6t2PFcpg1
-    q3LSLrnr1mgWlam5SRrq60mimlUyPNKV0oRb4x9QBrEoRx6B3qXh5cNAYxVTFxFE17Y/LW
-    8ahlO9lFFzs58eLdGpaLbC48F2aCTHEB0UxKb9cIWo+sutBvX+ca13pCO6pN5/bswSGFhC
-    JBRYLDmg6rjo7Y1FX+X9Lr7p0QBvbUEFfEiCMjQyT04+mhkkCEJ+Sj8TlyDILScHVQDCCb
-    o3QyvhzhxC10wC7U5LqcjJdrLj+WyHxRxS4rc9eaX+PJBr1CaY6qxfBQ+aArTwjWvVA98U
-    kCqfQm7kUwDv9QbMhhTgi9fNfTqMLbmqUz0XOxT5KcbRrn/MtdZB9xoGfo6kDI2aD/EssB
-    u7Qp3tm1LaaUvJA0l9LaMABpMLUpSQu1fbENT8ivhXC4zYp2ajfCKOLAYEXgV3QMdfHs/X
-    XvczxKHNjUHVpPkwZXT7Iu1Y3tIALmkZ18CA/sfX+O4AayitrAiKNC12gG+Q
-X-ME-Proxy: <xmx:wo5FapPPs_BqZl3_fUqsGDCdtfJO2f-gXQOhs_dEe1M0s2qsyGkegw>
-    <xmx:wo5FakbOVCdHLSqjqilIHUn0aPFxizBnjBpFx_bFBTOHFpxiXal69Q>
-    <xmx:wo5Faosn5LBmZWvho7tUAyUMHx3gKe1fmNmMT_FuT-8wYZmQuYBtXA>
-    <xmx:wo5FamOHRbHOQKa4rUG10JcMqR6ku5V8UAP3st0aQCIc4yKiepbo_g>
-    <xmx:w45FauXxKJqv6Lgy3SVAQtKtm9KZFlm7m9R1WHY9EOhQL1L_aASyH0zX>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Jul 2026 18:03:44 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oy1pjo9Y"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-845ea8924a2so702430b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Jul 2026 15:07:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782943653; x=1783548453; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AtXiHxBOWtzv91/tPtTE+82KTENG8TullCuPYV97qQ4=;
+        b=oy1pjo9Yz62Jn34veTzC9iLJh7KjxLi0B2IfkUPCLVI9NAuMEnoy8FkWYonY9U3iJl
+         RXj4lstajnBwivDkeu+t/T6LjyqLFCt9U8euvXLo0PHwhKX0smtEzIJK6VoPshsrzDtH
+         QSPL5kbi5PHH3ouE+4Ni+KJQ95qliMV0zuEL/0AAiSYV9bNQBgq4McLqnGVAMJCdltDE
+         5+RfXfjA2GWMy+Hw+6CDJeMhof1fDRpuCKCfS9Di3nGXJSDoR6XB1CBdJREOu1E16PQ3
+         wzqdOHUm7AelNC0+q5KskTKC1icM/qKZXNedfujqZ6yC1XPQwzE5YV6OIESlYdX471wr
+         1Xfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782943653; x=1783548453;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AtXiHxBOWtzv91/tPtTE+82KTENG8TullCuPYV97qQ4=;
+        b=kPb+o3ovhEEUAuVmpNFNifZmgvnl4QYoc369LlfUEx5KlEtRd/WdBF9N9/PmnK/p22
+         kjZmQVE/OIs+9ikWS1IR6Y+vV0rowQysOeFo6wLg/04WAHpAie8eOkhIUyFV/R3GvmQ0
+         ZPwIF+wfDgncyZcEeyRRRBKztMBFt5fVbln09E63zP3UvIcK+z7xC1V9g+QWbg/q5sQs
+         CYc47lRP8LvfrQ2zhzFtsCnchQPY031JgMdWMcxqSF+PQIfNH4V3tzCUBb+RubcoFV0B
+         wrA/XJ4+TWHT2njBr7WQXZTYYx0d1EUwQcmrguFa4/P22HVU8LdWR7rIAicK98RqJu2b
+         oFzA==
+X-Forwarded-Encrypted: i=1; AHgh+Rr3qa01ahWLJrkcEsmkmz7mgVEmZSr2wgrNN+/rg8fVIZYCHlxUWUPO3KDt4DGhOTSNjwDvOvWHbajDQK2L@vger.kernel.org
+X-Gm-Message-State: AOJu0YwF7xvVBNpnN/9zkzi5EKyZO2vOuHf2yDRpnIYL0tl6BFimAmqS
+	NgEjOBp82Z/dtn7iRSWwxzXBHd8uoP8ZFYUduXBDOUxczRAHdprI8IgPgqBtehSv
+X-Gm-Gg: AfdE7clEbpkM6z7kI1cy6zwYJ1xlsA5TF9BKU1RUph3abCEmMtmop+lsul/eFsIRD0z
+	TqcZC/Zb9V2DvW47RM/K3UunZh+B0czVVdJU8LoN/2mX6PdEdPkfPdEb1jwS3qkegSFHb26OnV3
+	cCM222QFXm3xBXkIhDOokwIAXsp8b5iTS7tEYNofFvfOk71SG6jX0QWX7wIz+Ce2cA3j+ysWFMZ
+	Ji1HwueoAVHi8JG17Ym6CntBZEzGlaO6J4oe6TN+vudAFn+pGVNoIB0a7BQNbZ9Te8hIrI16QcM
+	sg1tTDGB7d8P5PJCpvsBnb3QGu48Riwcxu71tJil2QbZy4yCQLKPo0H6c8eTv9zXyFapWGLoyop
+	SaOX9lbx1chG16HkJZceRuHiKaffDVv6q9iMAVOmTmrUOHliCBeCUP1GKRW/4NJXV/UlYABEyWd
+	JCHiWBRPyZqnBLqJmJPUbnK5QNUMVTnInzC0nB7W1mgIN4iojjAnxLLrjPkrb5I84=
+X-Received: by 2002:a05:6a00:4ac7:b0:847:9e62:251 with SMTP id d2e1a72fcca58-847c09ca681mr3305708b3a.54.1782943652943;
+        Wed, 01 Jul 2026 15:07:32 -0700 (PDT)
+Received: from DESKTOP-L3Q0GIV.localdomain ([203.230.195.19])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847cb78d69csm390395b3a.25.2026.07.01.15.07.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jul 2026 15:07:32 -0700 (PDT)
+From: =?UTF-8?q?=EC=9D=B4=EC=83=81=ED=98=B8?= <kudo3228@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?=EC=9D=B4=EC=83=81=ED=98=B8?= <kudo3228@gmail.com>,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH] romfs: detect hard link cycles
+Date: Thu,  2 Jul 2026 07:07:29 +0900
+Message-ID: <20260701220729.822112-1-kudo3228@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Jori Koolstra" <jkoolstra@xs4all.nl>
-Cc: "Christian Brauner" <brauner@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] Remove excl arg to ->create inode_operation
-In-reply-to: <39244151.3680933.1782911540642@kpc.webmail.kpnmail.nl>
-References: <178290671516.27465.15984496764174914338@noble.neil.brown.name>
-  <39244151.3680933.1782911540642@kpc.webmail.kpnmail.nl>
-Date: Thu, 02 Jul 2026 08:03:40 +1000
-Message-id: <178294342077.27465.955368983460781263@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 01 Jul 2026, Jori Koolstra wrote:
-> > Op 01-07-2026 13:51 CEST schreef NeilBrown <neilb@ownmail.net>:
-> >=20
-> > =20
-> > From: NeilBrown <neil@brown.name>
-> >=20
-> > The only time that 'false' is passed as the 'excl' arg to the ->create
-> > inode_operation is in lookup_open() when ->atomic_open is not provided
-> > by the parent directory.
-> > *all* directory inode_operations which do not have ->atomic_open
-> > completely ignore the 'excl' arg.
-> >=20
-> > Therefore we don't need the 'excl' arg.  Those few ->create operations
-> > which pay attention to the arg are only ever called with a value of
-> > 'true'.
-> >=20
-> > We remove that arg and change all ->create operations to behave as those
-> > thhe arg were 'true'.
-> >=20
->=20
-> What was the intention originally of the excl argument? It reads like
-> the vfs saying "hey, I intended this file create to be exclusive (because I
-> did a lookup and no luck), do with that information whatever you want!" But
-> then for the filesystems where this actually matters, because the locking i=
-sn't
-> local, we also have to deal with opening issues because of the O_CREAT path=
-, so
-> we need atomic_open() anyway. Is that the gist of how this came about?
+romfs_iget() follows on-disk hard link entries until it reaches a non-hard
+link inode:
 
-Back in 2003 a 'struct nameidata*' arg was added to .create for NFSv3 so
-it could make use of the exclusive-create functionality in the NFSv3
-protocol.   This was long before ->atomic_open existed.
-In Jun 2012 the 'nameidata' was replaced with the 'bool' that we see
-today.
-That same month ->atomic_open was added for NFSv4, fuse, cifs, ceph, 9p,
-but NFSv3 didn't use it.
-Then in 2024 I converted NFSv3 to use ->atomic_open (to make O_TRUNC
-work properly).  This removed the last need for the 'excl' flag to
-->create().
+	pos = be32_to_cpu(ri.spec) & ROMFH_MASK;
 
->=20
-> Anyway, looks good, thanks, I'll rebase on the misc branch. I only see a st=
-ale
-> docstring in gfs2, other than that:
->=20
-> Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
->=20
+The target position is image-controlled, and the loop does not detect
+cycles. A crafted romfs image can make the root inode a hard link. The hard
+link can point back to itself and leave mount(2) spinning in the kernel.
 
-Thanks!
+Reject excessive hard link indirection with -ELOOP. Normal romfs images do
+not need long hard link chains. This bounds corrupted-image traversal.
+Propagate romfs_iget() errors from lookup because hard link traversal can
+now fail with -ELOOP.
 
-NeilBrown
+Signed-off-by: 이상호 <kudo3228@gmail.com>
+---
+ fs/romfs/super.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/fs/romfs/super.c b/fs/romfs/super.c
+index 794a6051d0b5..2d42f7f95260 100644
+--- a/fs/romfs/super.c
++++ b/fs/romfs/super.c
+@@ -240,6 +240,8 @@ static struct dentry *romfs_lookup(struct inode *dir, struct dentry *dentry,
+ 			if ((be32_to_cpu(ri.next) & ROMFH_TYPE) == ROMFH_HRD)
+ 				offset = be32_to_cpu(ri.spec) & ROMFH_MASK;
+ 			inode = romfs_iget(dir->i_sb, offset);
++			if (IS_ERR(inode))
++				return ERR_CAST(inode);
+ 			break;
+ 		}
+ 
+@@ -262,6 +262,8 @@ static const struct inode_operations romfs_dir_inode_operations = {
+ 	.lookup		= romfs_lookup,
+ };
+ 
++#define ROMFS_MAX_HARDLINK_DEPTH 64
++
+ /*
+  * get a romfs inode based on its position in the image (which doubles as the
+  * inode number)
+@@ -274,6 +276,7 @@ static struct inode *romfs_iget(struct super_block *sb, unsigned long pos)
+ 	struct inode *i;
+ 	unsigned long nlen;
+ 	unsigned nextfh;
++	unsigned int depth = 0;
+ 	int ret;
+ 	umode_t mode;
+ 
+@@ -289,6 +292,9 @@ static struct inode *romfs_iget(struct super_block *sb, unsigned long pos)
+ 		if ((nextfh & ROMFH_TYPE) != ROMFH_HRD)
+ 			break;
+ 
++		if (++depth > ROMFS_MAX_HARDLINK_DEPTH)
++			return ERR_PTR(-ELOOP);
++
+ 		pos = be32_to_cpu(ri.spec) & ROMFH_MASK;
+ 	}
+ 
+-- 
+2.43.0
