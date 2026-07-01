@@ -1,117 +1,198 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 445983451CF;
-	Wed,  1 Jul 2026 16:12:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F1D37186F;
+	Wed,  1 Jul 2026 18:00:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782922351; cv=none; b=OEbna7eOktMqPMGIkocsN4X1yqPqAgRjyPwv5IuP/he8//Lstoiwn59/0luIEd6sWt5VD5qrCuMxSIt/aDOsxmKghWPlmwVT3IKMjBddymRi+Gb12L70TUBWhck9NaVQACwgLKdDzUb5OSBJq8B2sb0mRmtSL/Q572Kbp1WqYsg=
+	t=1782928837; cv=none; b=ienuhSG5nfOixA5KQ7BypowCmUZZ0zCIV3h/3tkUHAQkcfLTSiGqQAYQMlrIwrEZoLMw/EGzKjyP2W9syQ8O5GB0eOf2fMyxonzot7j1YrQCl+qjpqEqPvUK6dSTahIC6I2EWVqddXbqdmwupGgjZSnj7aUGyRUvxybL02Fn/E4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782922351; c=relaxed/simple;
-	bh=Fg/F2rEaQQLvjtodqGSEx7qxzaHpbh6BnEgH9NShsK4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RANMvfA5LUHmIsLkpmXqdKinFQvgRztw8F1KLYOKWcQ92gjzswLLrSTJuX7TBMOHktuXe23srwTjHu2TSE+J86J6wKGDxoCNcFcsBFY6KHd2054+2ZNfAl+cuvdSFxKk47IwvimFI8MBsQKwN7Hoq1oD9v3MXOVevgs2YRV+LgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gv+dMdBu; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782928837; c=relaxed/simple;
+	bh=T+ZeMDdQstt14YXQihJiZSCH+wvykfRe5gQOSa+Iugc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ix3zwsYE1xGSzhN3pUsR42YDg0ne1DKkWRM7n9KP17p/GHMvX5GUmkVFlHU47kPvvg+VIOpKUOL6Sm05cmY2HeTIt9mNAObC6qKE4c9HAsWt4C7r/0IN1gmhhHOI26IKSRIEf87R2QUbk/pF6++aIExwMLFeEMTPFOdYvgI3dwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oADoV7su; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gv+dMdBu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC43A1F00A3A;
-	Wed,  1 Jul 2026 16:12:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oADoV7su"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id E28981F000E9;
+	Wed,  1 Jul 2026 18:00:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782922349;
-	bh=Gf4eJ7K7IPStDHHxjcPIPjwkFaGCeeTw9PdLMzPEse8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Gv+dMdBuk5gK7Jf9rwZxVNWbB4B6qK6wam+eRR4A/qUU1Q1Mf9wOB3aGDQ8CpwJ/C
-	 HPtFD+KQ8cbPeIe++ayBjKm328aHSn+wH3mWB5TqR8rlYenfDvb3Kk+6LCbyhDcj31
-	 XQmWLBoX5M78U8wGWB83SHG7WF4lts3tpGsrTwGpCO5zeFMv2lDWWMv4yYcaHAk94N
-	 SkRd1++GpGEFcJvC058jrdGIKEQIkUPff63ivIT8d7hfZdvrux+oID1LTl9fd723QG
-	 zOyiX+wetnUuTUtqFwaFd7yeS3WuYfHxum8vffCXPoYDQf8Xygq5NwcijUvjtvYcdX
-	 X7Fcrw4efdTeg==
-Message-ID: <eab184a0-7c25-4aec-be91-b5166c706c62@kernel.org>
-Date: Wed, 1 Jul 2026 18:12:25 +0200
+	s=k20260515; t=1782928836;
+	bh=eRqiZY2ScRUCJ4VpnIrR57NXCBViTODVv97Vt+oRZ1E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=oADoV7su119m2azC1HyD+1j6VVf1aNDzarLOCRxmH8U3KZAWaGuAiUYaNzXoZLyQ5
+	 Dzbjs6jQF0YHprhx3QUze4/ngyGg/T9V/QoUkQYBO08G4N+60+JJzyR6EmpPN1y7uS
+	 ELhNklQN5WxyiUWMEVicmyZuhcN8IVFrPkbVt+EpalMNs+LSmjQDYaTph41AaTgv6X
+	 4XyjCozgj+d1Qnuw/bqEJM3kB/UU9CctQ/MC+PfColOhiCerds24d4wYAwMTEVzFEv
+	 SpNXyGflTKowuSB6qA1VA5jNwC4RNuBtoJ6xqcg/F6ArJcc081e34lt88Q2CyOdnvp
+	 Scl5G5L9Of5Mw==
+Date: Wed, 1 Jul 2026 11:00:35 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Jeremy Bingham <jbingham@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	brauner@kernel.org, jkoolstra@xs4all.nl, jack@suse.cz,
+	hch@infradead.org, viro@zeniv.linux.org.uk,
+	syzkaller@googlegroups.com
+Subject: Re: [PATCH v2 0/4] minix: convert to iomap and add direct I/O
+Message-ID: <20260701180035.GA6507@frogsfrogsfrogs>
+References: <cover.1782619718.git.jbingham@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-To: Jonathan Corbet <corbet@lwn.net>, Christian Brauner <brauner@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Jeff Layton <jlayton@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <87jyreofpw.fsf@trenco.lwn.net>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <87jyreofpw.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1782619718.git.jbingham@gmail.com>
 
->> I acknowledge that my stance is even more radical: imho we would just
->> stop it with any disclosure requirements completely. It's useless imho.
->> We already see that other than core contributors most people don't care
->> and will just not disclose their usage of AI.
+On Sat, Jun 27, 2026 at 10:15:52PM -0700, Jeremy Bingham wrote:
+> This is v2 of the minix iomap conversion series. The original v1
+> submission (3 patches) was tested by syzbot, which found four issues.
+> Three were straightforward; the fourth, a null pointer dereference in
+> page_symlink when creating symlinks, required more substantial changes.
 > 
-> The widespread ignoring of the disclosure rule is, IMO, something we
-> need to address somehow; were I still on the TAB, I'd be raising the
-> issue there.  Either we find a way to be serious about enforcing the
-> disclosure rule, or we should just drop it.  A rule that everybody
-> ignores is less than useful.
+> The original description follows:
+> 
+> This series converts the minix filesystem from the buffer_head-based
+> I/O path to the iomap API, and adds direct I/O support in the process.
+> 
+> The conversion is straightforward: minix's indirect block tree mapping
+> logic (from itree_common.c) is reworked into an iomap_begin/iomap_end
+> implementation. The iomap_end callback is a no-op since minix has no
+> extents or transactions to finalize.
+> 
+> Patch 1 adds the iomap infrastructure: the new iomap.c file, wrapper
+> functions and iomap_ops structs in itree_v1.c and itree_v2.c, and the
+> relevant declarations in minix.h.
+> 
+> The iomap.c file is #include'd into itree_v1.c and itree_v2.c rather
+> than compiled as a standalone translation unit. This is because the
+> minix filesystem versions (V1 vs V2/V3) have different block_t sizes
+> (16-bit vs 32-bit) and different indirect tree depths. This follows
+> the existing pattern in minix where itree_common.c is included into
+> both itree_v1.c and itree_v2.c. Each version provides a thin wrapper
+> and a corresponding iomap_ops struct.
 
-Note. :)
+Yuck.  I guess that's /one/ way to avoid having a geometry struct
+capturing those details... :(
 
-We do have people using it, and at least in MM, when we suspect AI usage and get
-the confirmation, we would tell people to use proper tags. (happens not so often
-IIRC)
+> Patch 2 converts the regular file address space operations to iomap:
+> read_folio, readahead, writepages (with a writeback callback), bmap,
+> and folio lifecycle helpers. Directory inodes continue to use
+> buffer_head-based operations via a new minix_dir_aops, since directory
+> handling still relies on buffer head chunks for prepare/write_begin.
+> 
+> Patch 3 converts the file_operations: replacing the generic read/write
+> iterators with iomap-aware versions, adding direct I/O read/write paths
+> using iomap_dio_rw, and setting FMODE_CAN_ODIRECT in the open handler.
+> 
+> The minix iomap implementation was adapted from the out-of-tree xiafs
+> iomap conversion. The xiafs module itself borrowed heavily from the
+> modernized minix kernel module. The exfat iomap changes were an
+> additional reference for both conversions.
+> 
+> Changes since v1:
+> 
+>   * Added a fourth patch to fix the symlink and truncate issues:
+>     - Replaced page_symlink with a custom __page_symlink that writes
+>       the target directly to a data block via minix_new_block +
 
--- 
-Cheers,
+Sounds to me like it's time to write iomap_write_symlink.
 
-David
+int
+iomap_symlink_write(struct inode *inode, const char *target, int len,
+		const struct iomap_ops *ops,
+		const struct iomap_write_ops *write_ops, void *private)
+{
+	struct kvec vec = {
+		.iov_base	= target,
+		.iov_len	= len,
+	};
+	struct iomap_iter iter = {
+		.inode		= inode,
+		.pos		= 0,
+		.len		= len,
+		.flags		= IOMAP_WRITE,
+		.private	= private,
+	};
+	struct iov_iter iov;
+	int ret;
+
+	iov_iter_kvec(&iov, ITER_SRC, &vec, 1, iov.iov_len);
+
+	while ((ret = iomap_iter(&iter, ops)) > 0)
+		iter.status = iomap_write_iter(&iter, &iov, write_ops);
+
+	if (unlikely(iter.pos == 0))
+		return ret;
+
+	mark_inode_dirty(inode);
+	return 0;
+}
+EXPORT_SYMBOL_GPL(iomap_symlink_write);
+
+
+>       sb_getblk, bypassing the aops write path (which no longer has
+>       write_begin/write_end). Added a matching custom minix_get_link
+>       that reads the target from the data block via sb_bread, similar
+>       to ext4_get_link. No iomap-based filesystem in the kernel uses
+>       page_symlink; XFS, GFS2, and ext4 all handle symlink storage
+
+That's because they embed headers and crcs in the symlink file data
+and/or do fancy things with inline targets.  xfs has its own buffer
+cache, so there's no need to duplicate it with the pagecache and then
+have to interpret ondisk formats.
+
+>       directly. The on-disk format is unchanged.
+>     - Fixed a buffer_head/iomap type confusion in truncate:
+>       block_truncate_page attaches buffer_heads to data folios, but
+>       minix_aops now uses iomap which interprets folio->private as
+>       struct iomap_folio_state. truncate() now dispatches between
+>       iomap_truncate_page (for regular files/symlinks) and
+>       block_truncate_page (for directories) based on the inode's aops.
+>     - Added .setattr = minix_setattr to minix_symlink_inode_operations
+>       so symlinks truncate properly through the iomap path.
+> 
+>   * Patch 1 (iomap infrastructure): minix_get_block is now exported
+>     (non-static) so the directory aops and iomap writeback path can
+>     use it. Added minix_iomap_ops_ver() inline helper and extern
+>     declarations for minix_aops and the version-specific iomap_ops.
+>     Fixed unsigned -> unsigned int in minix_blocks_needed and
+>     minix_find_first_zero_bit to silence checkpatch warnings.
+> 
+>   * Patch 2 (aops conversion): unchanged in approach; minor cleanup
+>     of the writeback callback and minix_bmap conversion.
+> 
+>   * Patch 3 (file operations): minix_setattr is now exported for reuse
+>     by the symlink inode operations in patch 4.
+> 
+> Testing: the full series has been tested with mkfs.minix V1/V2/V3,
+> exercising file creation, read/write, overwrite, append, binary data,
+> directories, symlinks (full path, relative, directory symlinks), hard
+> links, truncation (shrink/grow), large files (1MB, exercising indirect
+> blocks), deep nesting (20 levels), 100 files in one directory,
+> deletions, remount persistence, and fsck.minix. All pass cleanly. The
+> four syzbot-reported issues are resolved.
+> 
+> Jeremy Bingham (4):
+>   minix: add iomap infrastructure
+>   minix: convert address space operations to iomap
+>   minix: convert file operations to iomap and add direct I/O
+>   minix: fix symlilnk and truncate for iomap compatibility
+> 
+>  fs/minix/file.c         | 157 ++++++++++++++++++++++++++++++++++++++--
+>  fs/minix/inode.c        |  90 ++++++++++++++++++++---
+>  fs/minix/iomap.c        | 114 +++++++++++++++++++++++++++++
+>  fs/minix/itree_common.c |  11 ++-
+>  fs/minix/itree_v1.c     |  25 ++++++-
+>  fs/minix/itree_v2.c     |  17 ++++-
+>  fs/minix/minix.h        |  30 +++++++-
+>  fs/minix/namei.c        | 137 ++++++++++++++++++++++++++++++++++-
+>  8 files changed, 558 insertions(+), 23 deletions(-)
+>  create mode 100644 fs/minix/iomap.c
+> 
+> -- 
+> 2.47.3
+> 
+> 
