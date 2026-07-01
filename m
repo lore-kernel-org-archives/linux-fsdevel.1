@@ -1,126 +1,160 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD889345751
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 14:21:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A84C3438B0
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 14:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782915693; cv=none; b=meDyxalqPkoNeLag31+D9uCwk8tNc4K5tAmGIQvDDouaeqJiUa1z1JhQdhhxGeu0y/q13g51brFRbchGI+yYUqxCaRX96DRp0Fz5VdE4ZFTMnLqVXV1ju+NjNHn4d9Ghh3+8eUL7Ly2nTk5RBALDlPoM6tw2CghEOfgNHP9TJTI=
+	t=1782915796; cv=none; b=rbuRXk4jSDoza8XnNjdJU3pZaPXyYTfbA15Oh2XkwtJyrkUCF71ILfyVgiB13jkPKQlOHGVstwN0oY1u5Ujae67FoA2vfGmLJ7Bdidd24oKBSrcC3s4pJrqq2EGh6awBMg6sSKEUqN8YdBpfQ4hoPlOl8oBJZ2MqOIEZPkNvuXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782915693; c=relaxed/simple;
-	bh=iRWnmB3n4mXDtaTJezBVflP8PXOZYbOZtUjv4DLQQZM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gNF8hBcwth5e4/UnnBX+g+L4KUxES3aZPl5UCV7QTTG6x2O2vx1U+Z6nBPxZEGSleADovZi02Vnd3TzbGoUkuK0KY16Axwjp27/VE4UwOjtqJJOrXoCLjXxXIXpH/w0HK6SVpOHmmldnzRi+d69sfxfjF/AyuLlcreb8UlHbkR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d69ypUh8; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782915796; c=relaxed/simple;
+	bh=1WG5aTYqNCDJ+M6yXUUr1SzB2I8EnG3UDsFn7Gmcl8Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yn9p2UNOE+Yp4ok9lm4Y473L0FJW1nsWW++pPIcM3RdT/L3kH445BsWNp5h4w3UsYcNbcYxU0+jkjwrXoVOY7uPqV9agTJy12bdEYDkAdN0vg9I3SzDkY5M0KhMacRxfq9CYQ670SBwAbmQmH3zFymNR2MBRrU/1pEdZg9s/49c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kDhD0Kph; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0iTfvM0k; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kDhD0Kph; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0iTfvM0k; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d69ypUh8"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c85c531d4a9so268170a12.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Jul 2026 07:21:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782915692; x=1783520492; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xalwgHUXq8zbjTwGJ1t/+Gt6kZFOt5YBAHy7z8R+4IY=;
-        b=d69ypUh8OKMIEV5R8dqhA+feBctLFB2isFJ7zN37DvVQ6Is5yz1qaHXscj0Efo2A/W
-         Lkkp79sD8+HvhIGBPTF9aiUga1SD3Y/MnbiQtCy4nQJ/nLI4oLKWY1Pw2Xqo9fgawOhw
-         22FD/vkpn30dyGyInJZ1avHPGZm53kslcnz2SG8v1ZgVKRKuK6Hf6gMf7+MEezXUvp30
-         yUvreaCrRLrpYguqYzHkVLoyIP3ALGfeKo8IC5PxZjcJefd1koKYwJ8Fz18NPcutnQ9s
-         iCG/m10k/jCx8ShcQZwvQWKVZycdb5vwmnuTqmtxlOqblZ/waDoQlsQELp9YzyvexXeU
-         x7Pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782915692; x=1783520492;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=xalwgHUXq8zbjTwGJ1t/+Gt6kZFOt5YBAHy7z8R+4IY=;
-        b=TXVonhH212gQmlvF8FZNVtDGveOvFvYNNtgxDzGAexmviMUD2sD9CFyIkrOfWqF5vL
-         yDm0ANuuPr+3IcKVKuAWFJE0WYLu0IWOZiQ5TADfrotBN06DZtBB4FQFBU20YxkvWtD6
-         htL05xmLT6o1Q6ymCOIgtqlRM+EG+Y9C5zvfNAy/LGTyaVA8+v/dvmcrpKZ1SoDVOe3R
-         F+zdD1kR2VOGH3ppn/4Z/qeTp5+rH3ISGKyV+ToYGACXN850R/bskOk0XYDocqEkDnNg
-         6y9U5hT61s3AKXILhg6DqvKltDtkHCLHQts+OaVv/Q3L6vm8K4Dowz+ms84oJCZQJDRL
-         0tQg==
-X-Gm-Message-State: AOJu0YyDgmE2HMpHHQ/R5Bf8M22A/9NrM3RFqmuvtd9xK1vkWOeaBqGC
-	yHN9J6pK1JU2zYVVoXLoFwaNZyp6VE1ir8gIHTw4XOD0rtCaRFVOqSDb
-X-Gm-Gg: AfdE7cm+uLZuhU1Oqz0KaHoGBFlh7a6mj+8UPOjr/Pi68N2VDir2noXnNUY2LITuVCP
-	zwR6J/MydbPIAuX1E+zg1dZUaoxmSWntqZpGBTuWJBz6e+Alu1KiPPJOk/NSb5k5WT5ikwFYRkP
-	5tP1hQJ0ev6Wcw5qkVB2JJotWM5FaLz1lYIjD1mQQinO8qnd8VtBg2oGRGLcVVNQfKPjk79ZqZi
-	OleBEMS4VJrwpIasbRfIXN/x0NZMXYtpMwaifYOD4ScUBVbfs1S37ckC++y5yamOidACSlZioGO
-	kkU1ndYhsRIbgvqLLt2tUe2ueOVZ/ohOaSF5tDlJrxLsScs636zGETZIBIZAjK3ic0Zys1wcIsr
-	WUzRRcK/jtIcir8RTYtaiLc+tL9MsnMyf7ykWMfvf3sxKDUlhtkKjSd0B2lqB52tGT447HApz6J
-	F2/H9p09m1oZ+9q121Yk5cSOARZkUVlUi1
-X-Received: by 2002:a05:6a21:b89:b0:3bf:a941:8932 with SMTP id adf61e73a8af0-3bfed2112bcmr1882908637.19.1782915691998;
-        Wed, 01 Jul 2026 07:21:31 -0700 (PDT)
-Received: from DESKTOP-DK6PUT8.localdomain ([124.70.231.46])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c9e32ef8e49sm383894a12.19.2026.07.01.07.21.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 07:21:31 -0700 (PDT)
-From: yizhang089@gmail.com
-To: linux-ext4@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	tytso@mit.edu,
-	adilger.kernel@dilger.ca,
-	libaokun@linux.alibaba.com,
-	jack@suse.cz,
-	ojaswin@linux.ibm.com,
-	ritesh.list@gmail.com,
-	yi.zhang@huawei.com,
-	yi.zhang@huaweicloud.com,
-	yizhang089@gmail.com,
-	chengzhihao1@huawei.com,
-	yangerkun@huawei.com
-Subject: [PATCH 6/6] ext4: skip ext4_update_disksize_before_punch() in WRITE_ZEROES
-Date: Wed,  1 Jul 2026 22:20:09 +0800
-Message-ID: <20260701142009.1510104-7-yizhang089@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260701142009.1510104-1-yizhang089@gmail.com>
-References: <20260701142009.1510104-1-yizhang089@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kDhD0Kph";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0iTfvM0k";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kDhD0Kph";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0iTfvM0k"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 58407721EB;
+	Wed,  1 Jul 2026 14:23:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782915793; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=95W0nKL1hRUxqV1DLYCYkKF9o64WWkoMvBh6p06VBkM=;
+	b=kDhD0KpheC/f6fecE/el33e3lS4GXzLSQ1s9ZBXDmqeliUWes25Db+ze2Er9UGrjbwstCc
+	iBHmEkNdNy8Coa9E2fIb6X9qTDcSwzKBpZJCLbR/Cu11Y8k/n8bS8Ijxui1H7S+tP27fQ5
+	Gl+irvlUzVZ5P3U3WaJffeIPdOBqfMM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782915793;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=95W0nKL1hRUxqV1DLYCYkKF9o64WWkoMvBh6p06VBkM=;
+	b=0iTfvM0kurn2XV9ZWhpyuYqnCke4yZiUGIKtPm8c8I7R3YpB0QJVXYejip7G2MIyk0EaIG
+	yLiy8Zroc3MZxFDQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782915793; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=95W0nKL1hRUxqV1DLYCYkKF9o64WWkoMvBh6p06VBkM=;
+	b=kDhD0KpheC/f6fecE/el33e3lS4GXzLSQ1s9ZBXDmqeliUWes25Db+ze2Er9UGrjbwstCc
+	iBHmEkNdNy8Coa9E2fIb6X9qTDcSwzKBpZJCLbR/Cu11Y8k/n8bS8Ijxui1H7S+tP27fQ5
+	Gl+irvlUzVZ5P3U3WaJffeIPdOBqfMM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782915793;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=95W0nKL1hRUxqV1DLYCYkKF9o64WWkoMvBh6p06VBkM=;
+	b=0iTfvM0kurn2XV9ZWhpyuYqnCke4yZiUGIKtPm8c8I7R3YpB0QJVXYejip7G2MIyk0EaIG
+	yLiy8Zroc3MZxFDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 66D40779AA;
+	Wed,  1 Jul 2026 14:23:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id YUq0FdAiRWr8PwAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Wed, 01 Jul 2026 14:23:12 +0000
+Date: Wed, 1 Jul 2026 15:23:10 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Gregg Leventhal <gleventhal@janestreet.com>
+Cc: Matthew Wilcox <willy@infradead.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, Song Liu <song@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	Eric Hagberg <ehagberg@janestreet.com>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>
+Subject: Re: Subject: [BUG/RFC] write-open file THP cache purge can discard
+ dirty page cache
+Message-ID: <akUezvsxuDKR8D6z@pedro-suse>
+References: <CAFN_u7H_0ECF3jixP=T=U7AH5=Q3wQNvJMo8an3VqUDMerQfUw@mail.gmail.com>
+ <akQIIav_zaK6RmIC@pedro-suse.lan>
+ <akQO8JtTxmp89GS8@pedro-suse.lan>
+ <akQekZUyoKadiGCH@pedro-suse.lan>
+ <akUADHLWEetveHLp@casper.infradead.org>
+ <akUKty7jsWJrdyho@pedro-suse>
+ <CAFN_u7EE0ooQsH2JAnYn6EFrxnRToXAqvW_uUE0aqPDEPEmSAw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFN_u7EE0ooQsH2JAnYn6EFrxnRToXAqvW_uUE0aqPDEPEmSAw@mail.gmail.com>
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
 
-From: Zhang Yi <yi.zhang@huawei.com>
+On Wed, Jul 01, 2026 at 09:07:44AM -0400, Gregg Leventhal wrote:
+> Thanks all, it sounds like there is nothing for me to do quite yet, correct?
 
-FALLOC_FL_WRITE_ZEROES is mutually exclusive with FALLOC_FL_KEEP_SIZE.
-In ext4_zero_range(), when end > i_disksize, new_size is always set to
-end for WRITE_ZEROES, so the i_disksize update should not be lost.
+Correct.
 
-The ext4_update_disksize_before_punch() call is only needed for the
-ZERO_RANGE path in ext4_zero_range(), as it handles the case where
-KEEP_SIZE may preserve the original disk size. Skip it for WRITE_ZEROES
-to avoid unnecessary work and potential confusion.
+> Also Zi Yan is correct, I meant order-0 folios.
+> 
+> Please let me know if there is anything I can do.
+> FWIW: The patch I suggested did seem to resolve the issue (based on my
+> testing) and did prevent my reproducer from reproducing (whereas it
+> repros ~instantly for me on a not patched kernel), but I (obviously)
+> defer to you all here.
 
-Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
----
- fs/ext4/extents.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+FWIW, yes, I think your patch approaches correctness, but there are subtle issues, like:
 
-diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
-index c083703bf704..38753c2ef910 100644
---- a/fs/ext4/extents.c
-+++ b/fs/ext4/extents.c
-@@ -4748,9 +4748,11 @@ static long ext4_zero_range(struct file *file, loff_t offset,
- 			return ret;
- 	}
- 
--	ret = ext4_update_disksize_before_punch(inode, offset, len);
--	if (ret)
--		return ret;
-+	if (mode & FALLOC_FL_ZERO_RANGE) {
-+		ret = ext4_update_disksize_before_punch(inode, offset, len);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	/* Now release the pages and zero block aligned part of pages */
- 	ret = ext4_truncate_page_cache_block_range(inode, offset, end);
+Thread 0                    | Thread 1
+do_dentry_open()            | do_dentry_open()
+ FMODE_WRITE                | FMODE_WRITE
+  nr_thps > 0               | /* the rest of the THP truncate logic */
+  write_and_wait            |
+                            |  write(opened_file)
+                            |  /* we now have dirtied folios */
+  truncate()                |
+
+where the effective result depends on whether the invalidate lock
+is held across filemap_write_and_wait() as well. But it will always,
+as far as I can see, result in weird cases where writes can simply go
+missing (truncate isn't really supposed to be called without the inode
+lock, I think).
+
+Matthew raised that, fundamentally, large-folio unaware filesystems should
+not see these file THPs mixed in with dirty folios. Which is sensible and
+seems to result in a simpler and easier to reason about fix overall.
+
+
 -- 
-2.53.0
-
+Pedro
