@@ -1,142 +1,165 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B038F3998B2
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 20:31:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782937868; cv=none; b=blB5/Gt/qN8TyS6JSQPwPSZWfgDMnq6jkOLEZq/OQTJcadMgzFm7elrh95ZxhkIhyA/CDOjWLGUhwUkKdAJt62vazCqMjr8cXehq5oZmo93BoP4t8B0ZzU2M/9kG+XCAiZDdG6FIyGGD5dg18O2d6f4dxHE55O88rkhT5ov+QHM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782937868; c=relaxed/simple;
-	bh=sJb1hpPoJvea7G7luaxcB0X03g/OToAr3zQtJFOLpTk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=p/Jo9aC806HPUsGNHv34ZnpXZ6IPoAzFHBXH28I2epT9qJfAFvnIAWSgRtc7LiL33sQaHQhxCzRfDYLcEdGi4wD2coJiJ0FYvWdxXXzNiW//AJswl+5vIDkzcm/0uzFHRpDeoHde3q+a19ZTGXu2u7mtcLpyeHN4/UwSsoYmC4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=BhG3hNme; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D723431E7C
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 20:51:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782939081; cv=pass; b=RIFCLxrr/r3Vf+TeXlcYasSbU+Ppp6ehLOrAsN0P9fGhblLDJTnY0lWHAQ9IuNyzAsXnSKt/fjoNp+teDNwliZEkRY8SSGMGK8td2XYGyhKifQz35Y6yr6vpjfnZD74UA5KSdSd9znZ2vv6fs0lqziMpbWRRV9HoKUoIhLa3VVY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782939081; c=relaxed/simple;
+	bh=CXbyE5jAZaxhOqn1wsrHntSB48IwpOuSpEKralUyb4c=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=DAMrUgsgbSCW1HFDuzQRv/zXW4TUcOGK915OzXJyfeqC35shb1glcm38G7WSsUW05gtvcHPoECghfdeItw/t/HYnrxJSUes2mrY44zEs6O7J3jIZnbiOPtquoAO5aJ94i+lKby/bTFzBpBAsDQrzYxfjhqGP+JLPptxUM24gUxY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=M8d67CwD; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=FnJq9Fph; arc=pass smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="BhG3hNme"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2c8017e981fso10247315ad.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Jul 2026 13:31:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="M8d67CwD";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="FnJq9Fph"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782939079;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=XF81/sKTmZ1AnlJSj3x2T7mD8T/hF0ps/9K/nqtvitg=;
+	b=M8d67CwDGJgWwxhIubBTlpkFwjw7Fz+LyeDmRbAtbDgDKJ7unua66X0YgfLWXcSg4O/Bmo
+	oYcmbo0g/MCWAwGgJteUXeTDW09mZ2YWbtj8GUSiqhklvqfMNVwbYkIcFRHdmostnV2u0m
+	WN7ignq9bbi1+9h7gUTTBY2y0K6U8b8=
+Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com
+ [74.125.224.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-207-86O33AJSMe-9twnAUePb6Q-1; Wed, 01 Jul 2026 16:51:18 -0400
+X-MC-Unique: 86O33AJSMe-9twnAUePb6Q-1
+X-Mimecast-MFC-AGG-ID: 86O33AJSMe-9twnAUePb6Q_1782939078
+Received: by mail-yx1-f69.google.com with SMTP id 956f58d0204a3-664e1e408b2so3031382d50.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Jul 2026 13:51:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782939078; cv=none;
+        d=google.com; s=arc-20260327;
+        b=P+wjTCLblzye9na/gIf2LRNnwjrko7PBmQX9U+9nDO8ZUQFxsr3NK5/t1valuyRaj/
+         FF2NG8ZtbT0/h5n27+t9TwAgu0Jn4CqkO+ivBGnUzH1TG6BZDEE82kKheTbmMc1JvHNN
+         kz1T97cnICqDHcVdQSMwlFu7XgSAWAfijqRF3A5HYV1DJ0RHksseweR12QY/pJDlcQz4
+         VR5HrddO/ulY8YwqHXMPcaEbKeghviwbmtilCCg+JoRzh3Q4UMCWuh4j8tPme46ToBL4
+         3KU47DQEY6s4hF7n4USWNicQMP6iRG2P5C0DXyZC6GJQqG6HUsdyO4ghR4zOOrhdmPKz
+         KbQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=XF81/sKTmZ1AnlJSj3x2T7mD8T/hF0ps/9K/nqtvitg=;
+        fh=jFuoDLZKfyTgTKe5dfJAOMilC1EA5KIRvvq0h6L6NL0=;
+        b=Bagatkv06pNQmVFGCh+8HlZF7y0CIlQZd70aRtPlUs6hrgdX/l+8S8fJLzF1HKYqIf
+         Wr2Kzhspr6ju6fVz8iBSbi/acrZ+atxUkqq3SQv81Pll0OiQi814yj1TBV7PPiZISjhY
+         S2YsiF6ebmwaXj2qZHZA/fycMIwqdCZMT8oXRiZSXBJG58da/IdSPn7J4bVbf8R/zrC7
+         3RERrDK/Uvz3nyuwp76iczhGdThFCL+sRMsP0szEci2XCxP3hGNryUCcIW46/QuXYg4y
+         MKGe/P2DWJ3uAHVT2j+uR8yVpRiue+H3aorvfqnFQUpOn10tCHaQMdMnIlhfeK+7H+LW
+         sZHw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1782937867; x=1783542667; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sJb1hpPoJvea7G7luaxcB0X03g/OToAr3zQtJFOLpTk=;
-        b=BhG3hNmevinikbQJMYKq/RKT0K4a4jvzcdBxKWbd0pU85Bfbu3S08Qe28WPN2jJkeE
-         DpQo95m9+o/M+ZeLDdURHpaIpXVc8Njvdsp8tuM9k8NcErHjUTOowyuRbjtKDvAc8B7f
-         ixAK2H1hNPOmNYRciTdoi/7Ja20PT0IYuuxVbeD0hoGPAk5WTEJqoX9HAfnJY9/kWwiz
-         aIvxe6YiE99LqInohwQLDfr8jEWYwf0v4JfQEWUaHvGD5gQwlOcAnhj7zoEGePxH422v
-         h0RQSsmbA9q7Q2MkJxUoDiQHbWKhgvLmR6a1lgbwwwD1vFZg/PAQcvlTbOMm0kXl7iNp
-         1kdA==
+        d=redhat.com; s=google; t=1782939078; x=1783543878; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=XF81/sKTmZ1AnlJSj3x2T7mD8T/hF0ps/9K/nqtvitg=;
+        b=FnJq9Fphx/rnHWEzC9BSjCn9AnYdWao6r28p8TvhNE0XHR68BvjjBo0YSh58phMWWM
+         lF51OvwSYcjTVWOeBFhCRcFMOQs1+OXHKIlgqN60o0DuJvukP/UjBNNNgFVLRLqkS1Gf
+         Va3vVrn+y+soUUWiLBFyNXO+jQ993UjZNmpj78+L1oWmiSvwsXj049ZpRs+rQCDeYpsB
+         +7EdO3qSzOflCK5Ioz6q5TbFNyfyC5on/ooVyw7jgwzcqdVbubC+ArCAi3sYsWmHtvni
+         WTx/mf0kebO8Qv3s247sR8NuatuSiT1mspks55In8XTrWz/G8T+Hxqlltxcs+7Xtqa2Y
+         JwWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782937867; x=1783542667;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=sJb1hpPoJvea7G7luaxcB0X03g/OToAr3zQtJFOLpTk=;
-        b=DgNmZdQ2zWLObLtgWF44R6RrqcuHVJcMpZA+gztd1fa4hqfapagrD5MFBaTA3QeeB/
-         6pooQJ4QUvxqx9lNUQzLcLiMuPBIVO1hYTUVJ81RCsPojoj3Vum91mdCc0FhIkc/BH1w
-         U7+EL85Qo+Wxx12uOUWfLLVYPQzwr7Qopkz7ds44UZGqk9ZLqQNMB7XcRwIh2TaKiwX0
-         Z3SSM3xjqx/30IIXYiQ0SLeT2kXhbfqNjh6hPSWynFLJAEyX9kz0VhWOhmwVAGF4KfmC
-         IOvnhT3Eyb0uH0OpYv7A7pNKgkSL3vJ6JtiNJOh0YiDyEFBYej4n5FAitOprZD7KnShc
-         zAeQ==
-X-Gm-Message-State: AOJu0YyBS53SEnFuKdQfc8MwOR8rBjQ+q2QBJ/8IPzfPPS85SzjddAGx
-	UTyOt2dYYmABlW4XvYxXYV1WDhmQvcBNlyUIiyIbLPAohveC2g6F0GRJsiajLk3C/kI=
-X-Gm-Gg: AfdE7ckARSnC/hiCqxEMMRiMIYmGS8lwntbVvw3tIRJOVgio/iCYLXwuWkHs1LXS1JR
-	5orGYtw9Sl8eWBqagOuh8H0C9h6RTOSQ/1Xx2/W/9nTcE7KT27Gr100VdqCJqFjIspR88IzMByz
-	SzIKGurnC/Zeoc0H6vJiq//+uiIK8314HPXbIDK0pOHDjKzK//UAHVTnOIXxUT7Mzrw34Vvk0gP
-	0Y8kT8o9uKBWHs1fCdovUwlTSH7oXXnH6/pSyQQjXRUPkDn/DbFRplhNIkSRF99cUb4U6RUXIYs
-	EgMJaAsW4cIKbgpMR++vP/3iNRCkqE2OAuDyzkPse4fWvPmzZsnlbsmovcP8EBpTSjFoqPji5eK
-	v34BsPl3cUFCg2pN/KFR0WKvzdWQq0uzRiv4BLjPdWPYnmF7ZR4+INbH16RYmOSZL8GTvpSrN+g
-	521rnNIBuEGhhNx0jmn6bILypRcLHFCoZ4Iau2k+/4tY3qf24luQjtTFSkMm3JZURR4XtYjAsKc
-	Aj8l2Tznvx/54cAXg0Cmg+wQhh2x4G4Y9bMApF7QbVWaeR70caTO1RpIBf1+6yMC+jf0XqponaY
-	KyC8Vok=
-X-Received: by 2002:a17:903:1acb:b0:2c9:bd64:8c8b with SMTP id d9443c01a7336-2ca911d9aa1mr21958695ad.31.1782937866890;
-        Wed, 01 Jul 2026 13:31:06 -0700 (PDT)
-Received: from [10.0.0.3] (162-197-212-70.lightspeed.sntcca.sbcglobal.net. [162.197.212.70])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca9a8dae49sm3586195ad.10.2026.07.01.13.31.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 13:31:06 -0700 (PDT)
-Message-ID: <4210584abe2c4ae948ef12225cc20b86b7e06586.camel@dubeyko.com>
-Subject: Re: [PATCH] hfsplus: terminate xattr names before listing them
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Kyle Zeng <kylebot@openai.com>
-Cc: linux-fsdevel@vger.kernel.org, Yangtao Li <frank.li@vivo.com>, John Paul
- Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- outbounddisclosures@openai.com, stable@vger.kernel.org
-Date: Wed, 01 Jul 2026 13:31:04 -0700
-In-Reply-To: <CAC7i46-V_aK=ZVVvQ_45_Sv==swzD0P0-FeqWbsbO4zACiv_9w@mail.gmail.com>
-References: <20260611212710.5134-1-kylebot@openai.com>
-	 <4a0ad1fbf065b3d0bc0e3f1f2efbc44249181d03.camel@dubeyko.com>
-	 <CAC7i46-V_aK=ZVVvQ_45_Sv==swzD0P0-FeqWbsbO4zACiv_9w@mail.gmail.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
- zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
- ZcvScAX2n/PlhpTnzJKf3JkHh3nM1ACO3jzSe2/muSQJvqMLG2D71ccekr1RyUh8V+OZdrPtfkDam
- V6GOT6IvyE+d+55fzmo20nJKecvbyvdikWwZvjjCENsG9qOf3TcCJ9DDYwjyYe1To8b+mQM9nHcxp
- jUsUuH074BhISFwt99/htZdSgp4csiGeXr8f9BEotRB6+kjMBHaiJ6B7BIlDmlffyR4f3oR/5hxgy
- dvIxMocqyc03xVyM6tA4ZrshKkwDgZIFEKkx37ec22ZJczNwGywKQW2TGXUTZVbdooiG4tXbRBLxe
- ga/NTZ52ZdEkSxAUGw/l0y0InTtdDIWvfUT+WXtQcEPRBE6HHhoeFehLzWL/o7w5Hog+0hXhNjqte
- fzKpI2fWmYzoIb6ueNmE/8sP9fWXo6Av9m8B5hRvF/hVWfEysr/2LSqN+xjt9NEbg8WNRMLy/Y0MS
- p5fgf9pmGF78waFiBvgZIQNuQnHrM+0BmYOhR0JKoHjt7r5wLyNiKFc8b7xXndyCDYfniO3ljbr0j
- tXWRGxx4to6FwARAQABtCZWaWFjaGVzbGF2IER1YmV5a28gPHNsYXZhQGR1YmV5a28uY29tPokCVw
- QTAQoAQQIbAQUJA8JnAAULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBFXDC2tnzsoLQtrbBDlc2cL
- fhEB1BQJoGl5PAhkBAAoJEDlc2cLfhEB17DsP/jy/Dx19MtxWOniPqpQf2s65enkDZuMIQ94jSg7B
- F2qTKIbNR9SmsczjyjC+/J7m7WZRmcqnwFYMOyNfh12aF2WhjT7p5xEAbvfGVYwUpUrg/lcacdT0D
- Yk61GGc5ZB89OAWHLr0FJjI54bd7kn7E/JRQF4dqNsxU8qcPXQ0wLHxTHUPZu/w5Zu/cO+lQ3H0Pj
- pSEGaTAh+tBYGSvQ4YPYBcV8+qjTxzeNwkw4ARza8EjTwWKP2jWAfA/ay4VobRfqNQ2zLoo84qDtN
- Uxe0zPE2wobIXELWkbuW/6hoQFPpMlJWz+mbvVms57NAA1HO8F5c1SLFaJ6dN0AQbxrHi45/cQXla
- 9hSEOJjxcEnJG/ZmcomYHFneM9K1p1K6HcGajiY2BFWkVet9vuHygkLWXVYZ0lr1paLFR52S7T+cf
- 6dkxOqu1ZiRegvFoyzBUzlLh/elgp3tWUfG2VmJD3lGpB3m5ZhwQ3rFpK8A7cKzgKjwPp61Me0o9z
- HX53THoG+QG+o0nnIKK7M8+coToTSyznYoq9C3eKeM/J97x9+h9tbizaeUQvWzQOgG8myUJ5u5Dr4
- 6tv9KXrOJy0iy/dcyreMYV5lwODaFfOeA4Lbnn5vRn9OjuMg1PFhCi3yMI4lA4umXFw0V2/OI5rgW
- BQELhfvW6mxkihkl6KLZX8m1zcHitCpWaWFjaGVzbGF2IER1YmV5a28gPFNsYXZhLkR1YmV5a29Aa
- WJtLmNvbT6JAlQEEwEKAD4WIQRVwwtrZ87KC0La2wQ5XNnC34RAdQUCaBpd7AIbAQUJA8JnAAULCQ
- gHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRA5XNnC34RAdYjFEACiWBEybMt1xjRbEgaZ3UP5i2bSway
- DwYDvgWW5EbRP7JcqOcZ2vkJwrK3gsqC3FKpjOPh7ecE0I4vrabH1Qobe2N8B2Y396z24mGnkTBbb
- 16Uz3PC93nFN1BA0wuOjlr1/oOTy5gBY563vybhnXPfSEUcXRd28jI7z8tRyzXh2tL8ZLdv1u4vQ8
- E0O7lVJ55p9yGxbwgb5vXU4T2irqRKLxRvU80rZIXoEM7zLf5r7RaRxgwjTKdu6rYMUOfoyEQQZTD
- 4Xg9YE/X8pZzcbYFs4IlscyK6cXU0pjwr2ssjearOLLDJ7ygvfOiOuCZL+6zHRunLwq2JH/RmwuLV
- mWWSbgosZD6c5+wu6DxV15y7zZaR3NFPOR5ErpCFUorKzBO1nA4dwOAbNym9OGkhRgLAyxwpea0V0
- ZlStfp0kfVaSZYo7PXd8Bbtyjali0niBjPpEVZdgtVUpBlPr97jBYZ+L5GF3hd6WJFbEYgj+5Af7C
- UjbX9DHweGQ/tdXWRnJHRzorxzjOS3003ddRnPtQDDN3Z/XzdAZwQAs0RqqXrTeeJrLppFUbAP+HZ
- TyOLVJcAAlVQROoq8PbM3ZKIaOygjj6Yw0emJi1D9OsN2UKjoe4W185vamFWX4Ba41jmCPrYJWAWH
- fAMjjkInIPg7RLGs8FiwxfcpkILP0YbVWHiNAabQoVmlhY2hlc2xhdiBEdWJleWtvIDx2ZHViZXlr
- b0BrZXJuZWwub3JnPokCVAQTAQoAPhYhBFXDC2tnzsoLQtrbBDlc2cLfhEB1BQJoVemuAhsBBQkDw
- mcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDlc2cLfhEB1GRwP/1scX5HO9Sk7dRicLD/fxo
- ipwEs+UbeA0/TM8OQfdRI4C/tFBYbQCR7lD05dfq8VsYLEyrgeLqP/iRhabLky8LTaEdwoAqPDc/O
- 9HRffx/faJZqkKc1dZryjqS6b8NExhKOVWmDqN357+Cl/H4hT9wnvjCj1YEqXIxSd/2Pc8+yw/KRC
- AP7jtRzXHcc/49Lpz/NU5irScusxy2GLKa5o/13jFK3F1fWX1wsOJF8NlTx3rLtBy4GWHITwkBmu8
- zI4qcJGp7eudI0l4xmIKKQWanEhVdzBm5UnfyLIa7gQ2T48UbxJlWnMhLxMPrxgtC4Kos1G3zovEy
- Ep+fJN7D1pwN9aR36jVKvRsX7V4leIDWGzCdfw1FGWkMUfrRwgIl6i3wgqcCP6r9YSWVQYXdmwdMu
- 1RFLC44iF9340S0hw9+30yGP8TWwd1mm8V/+zsdDAFAoAwisi5QLLkQnEsJSgLzJ9daAsE8KjMthv
- hUWHdpiUSjyCpigT+KPl9YunZhyrC1jZXERCDPCQVYgaPt+Xbhdjcem/ykv8UVIDAGVXjuk4OW8la
- nf8SP+uxkTTDKcPHOa5rYRaeNj7T/NClRSd4z6aV3F6pKEJnEGvv/DFMXtSHlbylhyiGKN2Amd0b4
- 9jg+DW85oNN7q2UYzYuPwkHsFFq5iyF1QggiwYYTpoVXsw
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+        d=1e100.net; s=20251104; t=1782939078; x=1783543878;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XF81/sKTmZ1AnlJSj3x2T7mD8T/hF0ps/9K/nqtvitg=;
+        b=KuW4OMtw1jZdtvdbyAHheQMDHhCCPNydxOqIaTDfoBUMTRZoyKDFKGf/ycMNz361DC
+         LqFVtbMDd06mSEFLJZmjmO/hJfl+wVzEu0QpgaZtzKOYwK5qJOsRrBs0olq7/sqg1gKO
+         xzXSal+D342NFxJNHdeQf4l5HKJRbXpATmK1O3VgO2EjKlTWi5KDEqZ1ocHKJTzryoZk
+         q+qxXZAOreLBuQFSn0/dePYc7fqafrb+Tiztg66BZRfZpqVcufnp1SXPEZTZgNM6v4BT
+         IuaJ+8bkoGgaV8J7apr1QCWbTJ/kUcHT6Xqd9pMbKDQQ2ZUX0LIXglwEObYwwpak/Ggr
+         ROYg==
+X-Forwarded-Encrypted: i=1; AHgh+RqYHsvpfhnZs0K0pPEgpSSv8nBeaRrFvUhGjVBQ4FBuuZYibC3HhoDkUHC1HJyLHqAsGPRrwYOqv8U+Z8Fs@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxj+PXnUVoSrEx9zW/PVPJZ2WMVyEHEcQ+iNh8n8+Q+KG7d83Zj
+	WeP5PtZle7QWgMsuh6YEZWABxPEcAypRTYqy4rJJfN1ILPvY+NF2EzMGAl6RpGSO/W4h6eU7YOm
+	Zoymjlu/82Na9tizhAyWzl3QxnTz97hSF6lbgPOTNBaaP6CSEqG1K0wc2cQqTbXcBEe99PglWqm
+	m8C7jHha3aLnhy/wfC4CiE+nsjtT5Ani5zvGRrb0gIeQ==
+X-Gm-Gg: AfdE7clGJ7V25+G+b/y0+iZh6r4P08PixF4ixo1NDcHP6lXsn3zS6P29r9MzT1BItaD
+	8WueQfk+6XWq61HMrJczGowKf8nJh3gfsIdcwKaWWs7c74aIlnfTecrs0k9k16Y3z/KK2uJyOSQ
+	tpqCup4/8KlpVkiloIHiHL6/5D1IDEfxb0tFS5BwfhB2/AbBkxo2Qh6Ar4qCRaiu526SXhd1gwg
+	cBhkU3Bz4pg/zncr+RWiWTFipdiX8TyDX27fVqBy2tA9J2K+rH9a5M=
+X-Received: by 2002:a53:ac88:0:b0:666:2480:2b0a with SMTP id 956f58d0204a3-66624802c95mr562170d50.50.1782939077541;
+        Wed, 01 Jul 2026 13:51:17 -0700 (PDT)
+X-Received: by 2002:a53:ac88:0:b0:666:2480:2b0a with SMTP id
+ 956f58d0204a3-66624802c95mr562129d50.50.1782939077080; Wed, 01 Jul 2026
+ 13:51:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+From: Andreas Gruenbacher <agruenba@redhat.com>
+Date: Wed, 1 Jul 2026 22:51:06 +0200
+X-Gm-Features: AVVi8CfsV3cGOgb6Svx2JkIRUFiPC3HXmSBXTyt1juuiIVniLQt7WCc-miACenM
+Message-ID: <CAHc6FU4tz8-HmEf2_XKT0NT8N=rv5OMcY79PxTACkXAVLOAUpg@mail.gmail.com>
+Subject: iomap_writepages WARN_ON_ONCE(PF_MEMALLOC)
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, gfs2 <gfs2@lists.linux.dev>, 
+	linux-xfs@vger.kernel.org, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 2026-07-01 at 00:02 -0600, Kyle Zeng wrote:
->=20
+Hi Christoph,
 
-<skipped>
+I'm running into a problem with the following check in
+iomap_writepages() on gfs2 in RHEL-8:
 
->=20
-> I suggest to backport the patch to stable branches because it has
-> security implications.
->=20
+        /*
+         * Writeback from reclaim context should never happen except in the case
+         * of a VM regression so warn about it and refuse to write the data.
+         */
+        if (WARN_ON_ONCE((current->flags & (PF_MEMALLOC | PF_KSWAPD)) ==
+                        PF_MEMALLOC))
+                return -EIO;
 
-You are welcomed to do it. ;)
+In my case, reclaim is triggered by the following command:
+
+  echo anything > /sys/fs/cgroup/memory/.../memory.force_empty
+
+And we end up on this code path:
+
+mem_cgroup_force_empty_write -> mem_cgroup_force_empty ->
+try_to_free_mem_cgroup_pages -> do_try_to_free_pages ->
+shrink_zones -> shrink_node -> shrink_node_memcgs -> shrink_slab ->
+do_shrink_slab -> super_cache_scan -> prune_icache_sb -> dispose_list ->
+evict -> gfs2_evict_inode -> evict_linked_inode -> gfs2_log_flush ->
+gfs2_ordered_write -> filemap_fdatawrite -> __filemap_fdatawrite ->
+__filemap_fdatawrite_range -> do_writepages -> gfs2_writepages ->
+iomap_writepages
+
+The PF_MEMALLOC flag is set in try_to_free_mem_cgroup_pages() before
+calling do_try_to_free_pages(). We end up in gfs2_evict_inode(), and
+the filesystem is required to evict the inode. At that point, gfs2 has
+no way of recovering from an -EIO error from iomap_writepages().
+
+That WARN_ON_ONCE() was originally added to xfs in commit 070ecdca54dd
+("xfs: skip writeback from reclaim context") and later modified to
+allow kswapd writerback in commit d4f7a5cbd544 ("xfs: allow writeback
+from kswapd").
+
+Before commit c2dc7e5589a1 ("iomap: move the PF_MEMALLOC check to
+iomap_writepages"), the comment above the WARN_ON_ONCE() indicated
+that the reason for rejecting the write was to prevent stack
+overflows. But this code path triggers reclaim right at the top of the
+stack, so that's certainly not an issue here.
+
+Do you have any suggestions?
+
+The above is on RHEL-8, but a similar code path exists in cgroups v2,
+triggered via:
+
+  echo reclaim_amount > /sys/fs/cgroup/.../memory.reclaim
+
+That code path starts with:
+
+memory_reclaim -> user_proactive_reclaim -> try_to_free_mem_cgroup_pages ->
 
 Thanks,
-Slava.
+Andreas
+
