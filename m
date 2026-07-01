@@ -1,187 +1,217 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-1-114.ptr.blmpb.com (va-1-114.ptr.blmpb.com [209.127.230.114])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257041FD4;
-	Wed,  1 Jul 2026 02:33:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC7D3655C3
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 03:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782873223; cv=none; b=tHYi9Rkh/rJgGboAnJ0kKs36qr4sfchN9YbnVXDkDCLJEYZ9vy2+gDMJynUb2IR6CcETnzLA9qHVoTEik4n4SADu6/UazABDesISUDMpZx3H0WhKff+L/tXeuCZB6r2ppeHsWA8cIU2pJh7Uj2SCUFKBRD0MW9f7U3wQh2j52/g=
+	t=1782876082; cv=none; b=aIxbeplN+Uxt20K+4+MLSRTCNmJi6ccNrF5aLrk+wrTWUeKPyGGThumTWKEuEkBpM9UwFgw8BdRnukFcoHbdO+dtPJn5xI3xoGJsJBYB0aIokzfUqEAjNM1rbecOSHlpXco4QPr05fQSdyNc7uYiealIlV2cTSNAlZc+IU2Xqag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782873223; c=relaxed/simple;
-	bh=OT6wqOeUGF2XQZyiqqa4L9r4ufXQ+e2YgV3nJulZLrA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=TtM8PzK+A40qWGAo7yh2VVUbbC557mOPQx41NNBdUTBmzwkDjhkfDWmTKghCD8E8YNxPr5gXJPpFDGeF/D8gC2YCvuXQ60UxqpCT8DM/k7x5o6RXp4V8LgcaWS31gM41kLwvJmcRpsStvBkohm4gIiOFhOpoCcNIKNFQoIBns50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=hQPC1aQP; arc=none smtp.client-ip=220.197.31.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1782876082; c=relaxed/simple;
+	bh=wpJbvL4JrvOzZTBw60HtNPTGM903OJ2RaEfQdR3JyoI=;
+	h=Date:Message-Id:To:In-Reply-To:Content-Type:Cc:Subject:From:
+	 Mime-Version:References; b=byaIA97P1PmxUqByyi6/+yVETFm28rVSTUnoD5+12qpEbUK9J3YDR9i/u0xBMWu0mYIyi1gm2w7GCCkf6nd3S5Dl2tFJBX0IFsyZq2ERmBgSwduDng/amjQZPaInnpzpxEScblRFqf2C0e3Olfa22yD1nn7LKZwgs+l3rG2jVio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=PYXJTQfn; arc=none smtp.client-ip=209.127.230.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="hQPC1aQP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=mQ
-	N1IUhhTEXUFB92w3rc4mmoU0B96GEth86y033SCFo=; b=hQPC1aQP7GXuOIIGgW
-	6tB9hTq7bS3wbNyYvHbTWFOcdcCqWTZNGAhzmd35x2rTQhbq5GP0VR+OMt6Jh3Q2
-	0XLsLRuuncqYMfAF19cM4uiLqQbb/CaTRfq7dXXLXQ4ZP/xBrQedICUyMXhtIYQV
-	bqpoIPoJHmFtqnPMGS6DhDFu4=
-Received: from zhaoxin-MS-7E12.. (unknown [])
-	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wCX3EcXfERqS6ElGw--.58356S2;
-	Wed, 01 Jul 2026 10:31:52 +0800 (CST)
-From: Xin Zhao <jackzxcui1989@163.com>
-To: brauner@kernel.org
-Cc: akpm@linux-foundation.org,
-	alex.aring@gmail.com,
-	allen.lkml@gmail.com,
-	arnd@arndb.de,
-	chuck.lever@oracle.com,
-	corbet@lwn.net,
-	david@kernel.org,
-	ebiederm@xmission.com,
-	j.granados@samsung.com,
-	jack@suse.cz,
-	jackzxcui1989@163.com,
-	jlayton@kernel.org,
-	juri.lelli@redhat.com,
-	keescook@chromium.org,
-	kuba@kernel.org,
-	liam@infradead.org,
-	linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	ljs@kernel.org,
-	mcgrof@kernel.org,
-	mhocko@suse.com,
-	mingo@redhat.com,
-	mjguzik@gmail.com,
-	peterz@infradead.org,
-	pfalcato@suse.de,
-	rppt@kernel.org,
-	skhan@linuxfoundation.org,
-	surenb@google.com,
-	vbabka@kernel.org,
-	vincent.guittot@linaro.org,
-	viro@zeniv.linux.org.uk
-Subject: Re: [PATCH v5] coredump: Add bit 9 of coredump_filter for pre-exit files before dumping
-Date: Wed,  1 Jul 2026 10:31:51 +0800
-Message-Id: <20260701023151.694758-1-jackzxcui1989@163.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260630-alzheimer-mahlzeit-mutlos-4641a5947a04@brauner>
-References: <20260630-alzheimer-mahlzeit-mutlos-4641a5947a04@brauner>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="PYXJTQfn"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1782876069; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=wpJbvL4JrvOzZTBw60HtNPTGM903OJ2RaEfQdR3JyoI=;
+ b=PYXJTQfnyeRVBUv4KR9wQHQfddvmftuVvKn/TFwlMOSNl4vKnEl9isHCFXFURGqnvhN498
+ 1x0Kjyf6c5wtZ+J5UbNlNoVThzbOrX9q2hbivcKBgLT1unw7swyssDAfae0NbM0RQYyRQ4
+ SYjxJHwAKDhyk0EjuTsU63wAr4PpRlGEKOIek5djGm4PdZJARLe/gD2xilpF/JK7BYzUqt
+ MdaPzuDLCLrtuGBQwlv28WAzrje4hWSPHQLqcuU0/Jn2CJQ3xh9LTQ3cRtc1NPyJt8c+v3
+ hB4S3VuOtLW3JPXv9l1Bltoc3nIY1sy7/zQIEZMsG4tmi7VdJCggBkkOlxL7sQ==
+Date: Wed, 01 Jul 2026 11:21:04 +0800
+Message-Id: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.d073d334.1a3b.4298.a7c5.ebe721e67448@bytedance.com>
+To: "Christoph Hellwig" <hch@infradead.org>
+In-Reply-To: <akOtG5_gNb8btWCx@infradead.org>
+X-Lms-Return-Path: <lba+16a4487a3+c1752c+vger.kernel.org+changfengnan@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Cc: <brauner@kernel.org>, <djwong@kernel.org>, <hch@infradead.org>, 
+	<ojaswin@linux.ibm.com>, <dgc@kernel.org>, <linux-xfs@vger.kernel.org>, 
+	<linux-fsdevel@vger.kernel.org>, <linux-ext4@vger.kernel.org>, 
+	<linux-kernel@vger.kernel.org>, <lidiangang@bytedance.com>, 
+	<pankaj.raghav@linux.dev>
+Subject: Re: [PATCH v5 4/4] iomap: add simple dio path for small direct I/O
+From: "changfengnan" <changfengnan@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wCX3EcXfERqS6ElGw--.58356S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxZFWrAFyfAw1ftw4UXFWxtFb_yoWrAw1kpF
-	WrKay0kF4kG3yxt34xAw45XF1rCw1ftrs8Zr1Fgwn5A398A34Svr1xtFy5Zas8Crs2yw4j
-	qw12va47C34qyaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0JUouWQUUUUU=
-X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/xtbCvxnQ2mpEfBkuNgAA3-
+Mime-Version: 1.0
+References: <20260629120124.25223-1-changfengnan@bytedance.com> <20260629120124.25223-5-changfengnan@bytedance.com>
+	<akOtG5_gNb8btWCx@infradead.org>
 
-On Tue, 30 Jun 2026 13:50:15 +0200 Christian Brauner <brauner@kernel.org> wrote:
 
-> > + * If do not dump fd list, files that are not referenced by any VMA
-> > + * can be released before dumping core. Therefore, some file release
-> > + * logic, such as exiting flock or releasing references to shared
-> > + * buffers is executed much earlier. Note that do_coredump() often
-> > + * takes several seconds or even longer to execute.
-> > + */
-> > +static void coredump_pre_exit(void)
-> > +{
-> > +	struct task_struct *tsk = current, *t;
+> From: "Christoph Hellwig"<hch@infradead.org>
+> Date:=C2=A0 Tue, Jun 30, 2026, 19:49
+> Subject:=C2=A0 Re: [PATCH v5 4/4] iomap: add simple dio path for small di=
+rect I/O
+> To: "Fengnan Chang"<changfengnan@bytedance.com>
+> Cc: <brauner@kernel.org>, <djwong@kernel.org>, <hch@infradead.org>, <ojas=
+win@linux.ibm.com>, <dgc@kernel.org>, <linux-xfs@vger.kernel.org>, <linux-f=
+sdevel@vger.kernel.org>, <linux-ext4@vger.kernel.org>, <linux-kernel@vger.k=
+ernel.org>, <lidiangang@bytedance.com>, <pankaj.raghav@linux.dev>
+> On Mon, Jun 29, 2026 at 08:01:24PM +0800, Fengnan Chang wrote:
+> > +#include <linux/kobject.h>
+> > +#include <linux/sysfs.h>
+>=C2=A0
+> I don't think these two headers are actually used by the new code.
+
+Debug code, will delete in next version.
+
+>=C2=A0
+> > +struct iomap_dio_simple {
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct kiocb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0*iocb;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0size_t =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0size;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0dio_flags;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct work_struct =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0work;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0/*
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Align @bio to a cacheline boundary so t=
+hat, combined with the
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * front_pad passed to bioset_init(), the =
+bio sits at the start of
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * a cacheline in memory returned by the (=
+HWCACHE-aligned) bio
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * slab. =C2=A0This keeps the hot fields b=
+lock layer touches on submit
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * and completion (bi_iter, bi_status, ...=
+) within a single line.
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 */
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct bio =C2=A0 =C2=A0 =C2=A0 =C2=A0bio =
+____cacheline_aligned_in_smp;
+>=C2=A0
+> Add an extra tab here so it aligns with the fields above the comment?
+
+All comments will fix in next version, thanks.
+
+>=C2=A0
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0int error =3D blk_status_to_errno(bio->bi_=
+status);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0ssize_t ret =3D error;
 > > +
-> > +	if (mm_flags_test(MMF_DUMP_FD_LIST, tsk->mm))
-> > +		return;
-> 
-> Why does this hanging off of mm?
-
-Like other bits of coredump_filter, it is actually attached to the mm flags.
-
-> Even if we wanted to do this it is fundamentally the wrong primitive for
-> this. I would envision that anything that wanted to "zap" file
-> descriptors synchronously would either have to do it synchronously or
-> offload it to a delayed coredump list and wait for it to have drained.
-> 
-> I dislike both options... Without thorough anaylsis I'm not even sure if
-
-Are you saying that the file release operation must be performed in the
-context of each task_struct? I'm not quite clear on the necessity of doing
-this. The execution of exit_files merely reduces the reference count of
-the file_struct for the thread, rather than decreasing the reference count
-of each individual file.
-
-> taking out files out of order with other exit-related cleanup will not
-> end up causing fun bugs. Meaning:
-> 
-> [...]
-> exit_sem(tsk);
-> exit_shm(tsk);
-> exit_files(tsk);
-> 
-> anything before that might implicitly relying on files struct being
-> sane or some other subtle interactions. My appetite to dig into this
-> just to make this questionable patch mergeable isn't very high...
-
-The essence of file descriptors (fd) is to allow processes to reference
-specific files through an index. The fundamental purpose of exit_files()
-is that when a process exits, it no longer needs to reference files by
-their indices. From this perspective, I don't see it causing any issues,
-because even if functions like exit_sem and exit_shm need to use file
-instances, they won't use the fd index; instead, they will increase the
-reference count of the file as needed in the prior logic. By the time the
-core dump begins execution, user-space logic will no longer be running.
-Therefore, as long as the contents of the core dump do not require the
-mapping relationship between fd and file, the file can be safely put.
-
-
-> > -	if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD))) {
-> > +	/*
-> > +	 * coredump_pre_exit() may release files before dumping core.
-> > +	 * Cannot use task_work in the case, needs to release files
-> > +	 * earlier."
-> 
-> And it does that by offloading the closing of files to a kthread that
-> runs asynchronously?
-
-yes
-
-
-> Also, as was pointed out in other parts of the thread: files are shared
-> _across_ thread-groups not just within thread-groups. Anything that does
-> SCM_RIGHTS or has done some pidfd_getfd() dance - however unlikely -
-> might still hold that file alive and you have zero chances of getting it
-> out of its hands.
-> 
-> If this is so critical, just skip the coredump via COREDUMP_REJECT or
-> similar means.
-
-> > +	 */
-> > +	if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD | PF_DUMPCORE))) {
-> 
-> This:
-> 
-> (task->flags & PF_KTHREAD | PF_DUMPCORE)
-> 
-> will have interesting side-effects for everyone else...
-
-As you mentioned, other processes may potentially reference these files
-across processes, so even if a core dump is not triggered, the file
-release actions are not entirely executed within task_work. Because after
-a process exits, other processes may still hold references to the file,
-the work for releasing the file cannot be added to task_work at that
-point. In this case, it still uses schedule_delayed_work().
-
-If kernel developers do not correctly implement the file release
-operation, such as relying on certain information from the task context to
-free related resources, then the issues arising from such unreasonable
-release operations will manifest in other scenarios, regardless of my
-changes. My modifications only amplify this problem in the context of core
-dumps.
-
-
-Thanks
-Xin Zhao
-
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (likely(!ret)) {
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D sr->si=
+ze;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iocb->ki_pos +=
+=3D ret;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (should_report_dio_fserror(ret))=
+ {
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fserror_report=
+_io(inode, FSERR_DIRECTIO_READ, iocb->ki_pos,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sr->size, ret, GFP_NOFS);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> > +
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0iomap_dio_bio_release_pages(bio, sr->dio_f=
+lags, ret < 0);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0inode_dio_end(inode);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0trace_iomap_dio_complete(iocb, error, ret)=
+;
+>=C2=A0
+> I think some of this could be micro-optimized a bit more and
+> cleaned up at the same time:
+>=C2=A0
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 ssize_t ret;
+>=C2=A0
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (unlikely(bio->bi_status) {
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D blk_statu=
+s_to_errno(bio->bi_status);
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (should_report=
+_dio_fserror(ret)) {
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 fserror_report_io(inode, FSERR_DIRECTIO_READ,
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 iocb->ki=
+_pos, sr->size, ret,
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 GFP_NOFS=
+);
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D sr->size;
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 iocb->ki_pos +=3D=
+ ret;
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 }
+>=C2=A0
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 iomap_dio_bio_release_pages(bio, sr->dio_flag=
+s, ret < 0);
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 inode_dio_end(inode);
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_iomap_dio_complete(iocb, ret < 0 ? ret =
+: 0, ret);
+>=C2=A0
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;
+>=C2=A0
+> > +
+> > +static void iomap_dio_simple_complete_work(struct work_struct *work)
+> > +{
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct iomap_dio_simple *sr =3D
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0container_of(work, struct iomap_dio_simple, work);
+>=C2=A0
+> A single tab indent is enough here. (and used in the next function)
+>=C2=A0
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct bio *bio;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0bool wait_for_completion =3D is_sync_kiocb=
+(iocb);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0ssize_t ret;
+>=C2=A0
+> Nitpick: keep variables initialized at declaration time above those
+> that are not initalized.
+>=C2=A0
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0/*
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Fast path for small, block-aligned dire=
+ct I/Os that map to a
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * single contiguous on-disk extent.
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 *
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * @dops must be NULL: a non-NULL @dops me=
+ans the caller wants its
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * ->end_io / ->submit_io hooks invoked, a=
+nd in particular wants its
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * bios to be allocated from the filesyste=
+m-private @dops->bio_set
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * (whose front_pad sizes a filesystem-pri=
+vate wrapper around the
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * bio). =C2=A0The fast path instead alloc=
+ates from the shared
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * iomap_dio_simple_pool, whose front_pad =
+matches
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * struct iomap_dio_simple; the two wrappe=
+rs are not
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * interchangeable, so we must fall back t=
+o __iomap_dio_rw() in
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * that case.
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 *
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * @done_before must be zero: a non-zero c=
+aller-accumulated residual
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * cannot be carried through a single-bio =
+inline completion.
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 *
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * -ENOTBLK is the private sentinel return=
+ed by iomap_dio_simple()
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * when it decides the request does not fi=
+t the fast path.
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * In that case we proceed to the generic =
+__iomap_dio_rw() slow
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * path. =C2=A0Any other errno is a real r=
+esult and is propagated as-is,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 * in particular -EAGAIN for IOCB_NOWAIT m=
+ust reach the caller.
+>=C2=A0
+> I think this documentation belongs above iomap_dio_simple, not
+> here. =C2=A0And maye it should also mention that iomap_dio_simple_support=
+ed
+> enforces these limitations. =C2=A0Mostly anyway, and maybe the other two
+> checks should go into that as well for completeness?
+>=C2=A0
