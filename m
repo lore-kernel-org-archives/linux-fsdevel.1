@@ -1,137 +1,156 @@
-Received: from smtp-bc0c.mail.infomaniak.ch (smtp-bc0c.mail.infomaniak.ch [45.157.188.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B73399D08
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 18:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E79175A9C;
+	Wed,  1 Jul 2026 18:53:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782931823; cv=none; b=AppraWphiIrQq44Lyzt1nqrQxAugVPfpigqXae/8q1RV1knXsu9JsBfKVv1Lg+05tbHKZN8sRiCXj6Wz/QTIO/Hpu93qLMz0egt4ms1VH82SJF7NAjca59eXBuVrIKS2JkXcORR+yopFrKhipk6tckARw5aY+pRE66+C6UTlOMI=
+	t=1782931985; cv=none; b=taoxjxrZRYkCz0fvpSEUvWK8iKknKD5ePgnLQUfVEZaMjHnKnUt3tl+wP7cmoAmGaVJtpcYMbl8nOJgC43S6DUMdtGjdhPG+AWwIzzY2yXMb4k+AN7YtP6ACTbdE82JQPqV3cY6K2vbZpbJECCqzzl907TGz5WdDVwrfCHrcji8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782931823; c=relaxed/simple;
-	bh=gPljzWPcgFRN3dCUIqencE0tOGupLA+eutYTLhEDqCs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YZpxiGvFQaRlW6McqUL4ywLEWvmea6zQUc9WtwQRGLhsWy3jhma7ZFV5EDmWECfWoPx3ntIW2OK6oO4XS/Ntef99kHZwXMBFG8Ul/cLpit5vuYuwCXNepTVHZaRfhOrWy+c8H5HMbHlSUXj1Lv7Ks2jJCfJCpWKNbX3nZRxXCsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=r/Mxdlz0; arc=none smtp.client-ip=45.157.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	s=arc-20240116; t=1782931985; c=relaxed/simple;
+	bh=JJ2bCvF9V9faRtkSVez83R/oSccusPAWgLiUuakKyvM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QrK0op8V/aZDo3Eid5DBPhyRSMseFhjN9crhTESnJoA6YGwBfOUT8DCVvM/syRsEoQWmKeZGP3Xws9HYX1IYN3RmVsZ7Sa0QT1/tdzm13HM9OCK5NBijwIWt2iTe9Phs+wFxS7AKQhHv4O+zowEPt4p+A9TodMJY+4oRLsrFtak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P6cpzUM4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="r/Mxdlz0"
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246b])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4gr7vw1pkWzNjf;
-	Wed,  1 Jul 2026 20:34:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1782930859;
-	bh=x9zsCAel8IcUJsxPYBnz+qgLjbdveeYyNWKEwojOYs4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r/Mxdlz0a7Us5BIFnbE3s3+XP2T1MgIX3hXvzNWL9HLlNtOPHneRR2LYr/lnQFy/n
-	 192lggcAC//GVg6gVwY9lznXkSSIMYpDgFNtRdAF32IxwATyBce9T0Os1vFkqDoSQS
-	 jilXyc8fSp2hfYnocXjbTGp5ua/iwfqeIlecLkmI=
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4gr7vs5SXZzHyS;
-	Wed,  1 Jul 2026 20:34:17 +0200 (CEST)
-Date: Wed, 1 Jul 2026 20:34:10 +0200
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Paul Moore <paul@paul-moore.com>, ast@kernel.org, daniel@iogearbox.net, 
-	kpsingh@kernel.org, john.fastabend@gmail.com
-Cc: Justin Suess <utilityemal77@gmail.com>, andrii@kernel.org, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, kees@kernel.org, gnoack@google.com, 
-	jack@suse.cz, jmorris@namei.org, serge@hallyn.com, song@kernel.org, 
-	yonghong.song@linux.dev, martin.lau@linux.dev, m@maowtm.org, eddyz87@gmail.com, 
-	sdf@fomichev.me, skhan@linuxfoundation.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Frederick Lawler <fred@cloudflare.com>
-Subject: Re: [RFC PATCH 06/20] bpf: lsm: Add Landlock kfuncs
-Message-ID: <20260701.jei4Paej3zen@digikod.net>
-References: <20260407200157.3874806-1-utilityemal77@gmail.com>
- <20260407200157.3874806-7-utilityemal77@gmail.com>
- <20260701.ze4eph1eKo7a@digikod.net>
- <CAHC9VhRfqSoM89WC6TdQHapUVQe8a18rW2c-F7+tu6EjM9EdCA@mail.gmail.com>
- <akUH13qbsEnJLgQu@zenbox>
- <CAHC9VhSjRcMr9+5dMkep_TPKduYdob-bZ73FLfXd_o2xiWwOSg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P6cpzUM4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47F061F000E9;
+	Wed,  1 Jul 2026 18:53:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782931983;
+	bh=TNz7DIIDlkzXwzuwPEkNP0afeY/1aW0PYOsxFj/Jr6c=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=P6cpzUM4FLbh2hMauoymkBbq26tRWfe6OhHarMMy5mVfPLJUzeHNRBKFKX1jfrWu1
+	 aFgzL0YfCF+JrSOjuRbwxx3OY/0g6xQce7WUhQbI4OulM73Nn/dyudyil7H9hIlXpB
+	 xuma73m7yo3FiFhQfBbiAgbdPvDlBPZl+vw8uTUZ7wffYSkrsLAfQS96x8FrlM1mI7
+	 PUM9vpv24jgMXghqLmBC5zJQg1+GbJcMI9KXQQgNE9W7WNDg8fAX+Z+L2Ofa05B/BV
+	 89tKMRnsv69cSruy2SEJ/X60YNS1kGjlk/RqxjdnSvek/Methvdj0s4Jp+BdwVfaSk
+	 7JyPGYdU5sxdg==
+Date: Wed, 1 Jul 2026 11:53:02 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jeff Layton <jlayton@kernel.org>, Christian Brauner <brauner@kernel.org>
+Cc: Linus Torvalds  <torvalds@linux-foundation.org>, Jonathan Corbet
+ <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, David Hildenbrand
+ <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+Message-ID: <20260701115302.29c66401@kernel.org>
+In-Reply-To: <bffcce9436c47e8762e6f4fa4cae9f7ddd183b8f.camel@kernel.org>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+	<bffcce9436c47e8762e6f4fa4cae9f7ddd183b8f.camel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHC9VhSjRcMr9+5dMkep_TPKduYdob-bZ73FLfXd_o2xiWwOSg@mail.gmail.com>
-X-Infomaniak-Routing: alpha
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 01, 2026 at 09:28:22AM -0400, Paul Moore wrote:
-> On Wed, Jul 1, 2026 at 8:52 AM Justin Suess <utilityemal77@gmail.com> wrote:
-> > On Wed, Jul 01, 2026 at 08:12:34AM -0400, Paul Moore wrote:
-> > > On Wed, Jul 1, 2026 at 6:59 AM Mickaël Salaün <mic@digikod.net> wrote:
-> > > > On Tue, Apr 07, 2026 at 04:01:28PM -0400, Justin Suess wrote:
-> > > > > Create 2 kfuncs exposing control over Landlock functionality to BPF
-> > > > > callers. Export an opaque struct bpf_landlock_ruleset preventing callers
-> > > > > from accessing unstable internal Landlock fields.
-> > >
-> > > Generally speaking we don't want to provide APIs, either in-kernel or
-> > > at the userspace/kernel boundary, that are specific to a single LSM,
-> > > see the LSM syscalls or the security_current_getlsmprop_subj()
-> > > function as examples.
+On Wed, 01 Jul 2026 14:35:08 -0400 Jeff Layton wrote:
+> On Wed, 2026-07-01 at 17:54 +0200, Christian Brauner wrote:
+> > I remain very confused by our coding assistant contribution guidelines.
+> > I'm going to be a bit polemic now but this seriously in good faith.
+> >=20
+> > Why precisely do we require all this detailed information about what
+> > specific coding assistant was used?
+> >=20
+> > I find it very irritating that our git history has effectively started
+> > to function a bit like a free advertising platform for a bunch of AI
+> > companies and their proprietary agents and models.
 
-This patch series is not about the LSM framework, only about Landlock
-and its specific model and use case.  Landlock using some of the LSM API
-is not relevant here.
+FWIW, this is exactly how I feel. I added a regex to strip these in
+my git hooks. So at least the net/ history should be ads-free =F0=9F=A4=B7=
+=EF=B8=8F
 
-> >
-> > I would raise bpf_ima_file_hash, bpf_ima_inode_hash, as examples of
-> > clear precedence for this. (BPF calling into specific LSM)
-> 
-> The BPF IMA helpers were merged back in the v5.18 timeframe when IMA
-> was still standalone, it wasn't until v6.9 that IMA and EVM became
-> proper LSMs.
-> 
-> > Kfuncs are explicitly marked as not being an ABI, and are more
-> > flexible for later changes / deprecation etc. [1]
-> 
-> The issue isn't so much the kfunc itself, it is what the kfunc
-> *calls*.  From what I saw in the proposed patch, the kfunc calls
-> directly into Landlock instead of passing through the LSM framework,
-> e.g. a function wrapper in security/security.c.
+Inexperienced developers who just trust the LLM output, and therefore
+are the group where the tags would be most useful, tend not to add
+them. Either because they are ashamed or because they want full credit.
+This correlation kills the utility of the tag.
 
-Yes, and I'm OK for this kfunc to call directly into a new public
-Landlock function.  There is no need to create a new class of LSM
-wrapper.
+> > And it reamins unclear to me what exactly we do get out of this detailed
+> > information: Do we want to run statistical analysis on what agent and
+> > model is used the most and publish that on LWN at some point?
+> >=20
+> > I acknowledge that my stance is even more radical: imho we would just
+> > stop it with any disclosure requirements completely. It's useless imho.
+> > We already see that other than core contributors most people don't care
+> > and will just not disclose their usage of AI. I think this is entirely
+> > pointless and worse it brings in undefined legal status as well. It's
+> > not like recent events of pulling certain models from the face of the
+> > earth have made this any less concerning.
+> >=20
+> > But fine, if we want to do this can we please just dumb it down to
+> >=20
+> > Assisted-by: LLM
+> >=20
+> > or
+> >=20
+> > Assisted-by: Coding Assistant
+> >=20
+> > or something else. That still gives the "careful review" signal to
+> > reviewers that want to pay special attention to LLM generated work while
+> > avoiding this slew of metadata.
+> >=20
+> > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> > ---
+> >  Documentation/process/coding-assistants.rst | 8 ++------
+> >  1 file changed, 2 insertions(+), 6 deletions(-)
+> >=20
+> > diff --git a/Documentation/process/coding-assistants.rst b/Documentatio=
+n/process/coding-assistants.rst
+> > index 899f4459c52d..fe34f3e7e828 100644
+> > --- a/Documentation/process/coding-assistants.rst
+> > +++ b/Documentation/process/coding-assistants.rst
+> > @@ -43,12 +43,8 @@ When AI tools contribute to kernel development, prop=
+er attribution
+> >  helps track the evolving role of AI in the development process.
+> >  Contributions should include an Assisted-by tag in the following forma=
+t::
+> > =20
+> > -  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
+> > +  Assisted-by: LLM [TOOL1] [TOOL2]
+> > =20
+> > -Where:
+> > -
+> > -* ``AGENT_NAME`` is the name of the AI tool or framework
+> > -* ``MODEL_VERSION`` is the specific model version used
+> >  * ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
+> >    (e.g., coccinelle, sparse, smatch, clang-tidy)
+> > =20
+> > @@ -56,4 +52,4 @@ Basic development tools (git, gcc, make, editors) sho=
+uld not be listed.
+> > =20
+> >  Example::
+> > =20
+> > -  Assisted-by: Claude:claude-3-opus coccinelle sparse
+> > +  Assisted-by: LLM coccinelle sparse
+> >=20
+> > ---
+> > base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+> > change-id: 20260701-work-coding-assistants-650ae1202ee0 =20
+>=20
+>=20
+> In general, collecting data for nebulous purposes usually turns out to
+> be a bad idea. If we're not 100% clear on why we want this data, then
+> we're probably better off not collecting it at all.
+>=20
+> With that in mind: if we're going to water down the tag, then I say
+> just remove the requirement altogether. If we later decide that we want
+> to start collecting more detailed info for some (clear) purpose then we
+> can revisit the idea.
 
-LSM hooks make sense because they are designed for a specific subsystem
-(the caller) and their goal is to return an access decision or to keep
-up-to-date related states, which means that their API is designed for
-the caller, with its own types and specificities, not the other way
-around.  This case is different, the kfunc is strongly typed and tied to
-the Landlock (subsystem) semantic with an API defined by and for
-Landlock.  I don't think a multiplexer would be a good idea.
++1
 
-However, I agree with your layering concern, and it would make more
-sense to move the Landlock-related kfuncs to security/landlock/bpf.c,
-which is also the idiomatic way for subsystems to own their API.
+Honestly even tool attribution feels increasingly moot.
+People vibe code tools and AI-in-the-loop pipelines which they never
+publish. Open source tools are (hopefully?) used in pre-commit
+pipelines, so they have the "kbuild bot problem" of problems getting
+fixed before the code is merged. And we have the same free advertising
+problem for the rest.
 
-Alexei, KP, what do you think?
-
-> 
-> > LSM framework API can mean a lot of things. I assume you are meaning
-> > like a pseudo-filesystem mounted interface that controls LSM?
-> > Correct me if I'm wrong.
-> 
-> My apologies, I should have been more clear.  When I speak about the
-> "LSM framework", I'm talking about the abstraction layer that provides
-> the interface that the kernel and userspace uses to talk to individual
-> LSMs.  The LSM framework is analogous to the VFS layer/framework in
-> that it provides a single API for a variety of underlying subsystems.
-> While not 100% correct, you can think of it the LSM framework as being
-> the functions/hooks defined in security/security.c.
-
-This abstraction layer is useful and make sense for access control hooks
-but it is not needed in this case, and it would only make the kfunc
-interface more complex for no reason.  If any other kernel subsystem
-wants to add a kfunc, I think it should be reviewed with its purpose in
-mind and a well defined use case.
-
-> 
-> Does that help?
-
-I think Justin is right, and with some minor changes this kfunc should
-be good.
+It's 100 times more important to drill into people to provide sufficient
+information in plain English. How was the bug discovered, has it been
+triggered / proven and how, what is the user impact. I wonder if
+inventing tags distracts contributors from what really matters.
