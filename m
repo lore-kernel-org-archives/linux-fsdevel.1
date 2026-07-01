@@ -1,174 +1,91 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7281B1FC110
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 09:29:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782898195; cv=pass; b=lYtSnwDwArd5FrmbG9dk54Hcbc4Xje6snHNOWKw/B/EnJSSSuK4C363obt76nid76ZorAlValxa1WL4wjgPI/w8gJD7aPxs+giQmMdjMcUtcPDwMlsjxC5lRW/7feRviPNGFhtaNrHs3hs1WwLS2pmhzhRx7jduvDXDnyVBRf8I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782898195; c=relaxed/simple;
-	bh=wuRM+tcB1KjSDDLm3LT5C+DXByrfbxxf6GC+nkn5Wmc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rpfPo4f7mLHnv/vWvb4TjuvwmLCwhZWrDdkgn3BQLSF/3Vo5wDDp7lL37Z9HBTJLy3OX2lLLwb/AD7B4dpB2IzHcEH9oUcr+G+yIBES4T+ClD11+xg1qts4jBVyUhdKllYJGbyMUDPGxRa9x2usdkBesphfrjTr+tDOt/pENSAM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hIdz0uWa; arc=pass smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6600824DCF6
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 09:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782898280; cv=none; b=kv5JB09OZOLvOYKjjfcWcydxIOZ2pERwm4oAQjNlknTupzRWJ8dLy5K+3dURr90PbCxC2K8TwL+xmMkDEgHZ73VM6G+aurp+Ur1OBOkvZOoGlG+aItl7S5JosDmZGjx4/yFIzqJTaHts+V3wNfqlP2IEIHwRRtJqJHnQiMlW+60=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782898280; c=relaxed/simple;
+	bh=4Bu7DWsBxSyx4e2vtkSpxLp0Q2Am/sM8AG1rEg2Y6dM=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=cmT+188tYWl9zpywUB/2EgeBE2IlZAKj2UwfhV0qJieNTwVPL0WaofZHY9ssbsC5fqC/SZLW9B/hi1YJYFsyw1vABcZ9LySZGR+1S+lW7SWY97oLztQbiPId4og4cll+eK3v0brn5JkS1VBvbBzjFq72wwL4lXHnP4d8ihUBTjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=AQ9ucjkA; arc=none smtp.client-ip=195.121.94.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hIdz0uWa"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c0868ca8738so67595966b.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Jul 2026 02:29:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782898193; cv=none;
-        d=google.com; s=arc-20260327;
-        b=EjmSYlFQnEoD89BCtuLY3Xr2YmXMR0l7pVukoREGtb3ttNLocpWzQeR0S8V//EV9y6
-         U9p3O8QTqL/ACRZyHy1uUK6vmljWez1uB6YDZIugP6DBDX/meOlggOAh5H5afOdExEYR
-         c9HHiJ0rz9+BiF7k9YE0rwvTk+yzz1S3n5EpjQJZI5wHzNhB23AjpHIqQMOFDh/N2tux
-         S2CozKqHym1X3E4qBv1wNXGAIME7UHM2jpXJ6rffCKHEJaM7iYslfwBEvXYHVgAr2XlB
-         tCXm2Fp6gPT3bZyIjHuxlDIiqgKyeDFfaaVB33O82W+uruPaXbF71WyFG8L3BQkEcYL+
-         KsYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=nyFZblf28m4uZe4PtMDIudn9j1XK/d1XjqzIVFyhRsc=;
-        fh=iKMLvs0cynwwA58OjzVCx5t4WLPa4FkFNVXxBvZXIFw=;
-        b=J/goZNC8ENNQ9gV2GRtN3YMl6oDR6H2jHxbAZFOj0heOpYzxv8EhFfuiwYwGUa8N9L
-         KNlvAD9VFM6ligkUhJrEzj67iy7TWAq20Uc0WnlBvIQtHEvnWUA9dEDHxtDyN2f7TLTU
-         o5gM+IGxSL4Y/v3doG78qbDwD0Bd2u3oUL5jXQKHfT8OInZr/k89aGvA3i3+ecBB3h/v
-         +km933eEhCcwdWVBwjVvnfNBgYqDl+S3qk/rnOZKJozkdhnTOdYkavDSdzGq5TeyY+8t
-         NHuNZQwqvLKU38OKrukrSHrYdaVMYdtF7lp0brpZHKnkpCC5DvXbV+9WqyvsSPUBwSSG
-         9e/Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="AQ9ucjkA"
+X-KPN-MessageId: 984a675c-752f-11f1-8f53-005056992ed3
+Received: from mta.kpnmail.nl (unknown [10.31.161.191])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 984a675c-752f-11f1-8f53-005056992ed3;
+	Wed, 01 Jul 2026 11:31:10 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 98490546-752f-11f1-91ab-00505699891e;
+	Wed, 01 Jul 2026 11:31:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782898193; x=1783502993; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nyFZblf28m4uZe4PtMDIudn9j1XK/d1XjqzIVFyhRsc=;
-        b=hIdz0uWaAjd5/8UgeuJPSnXD20zLNnm2LPb2P3k8WVYrgKoP8n06FF/2Exo8zsokqv
-         ehBaP/pPiCvsibg1b57K8i5e+WfoMPU5KxbUlvCoXEh472iQa/NfhjB5/bcOqm/AjCB+
-         e9zU5S/WcQsiLGPRBaRPtWnHxgRZhUY7xu1ytLmCMOxd2d2IVrCUPsTFKZHmuTB4RKhR
-         I0zYriCRbEQPbgX/S3btIVr0EGxvbb2WB1r5VxQ8bGKPfvPAOd+yNSmKVTYV84hwLnGe
-         UBFVxNWrAShJqsbFwCCVcJ5o3mpZkEkvpm+F7+yPYgHMZgHjAUc3ffb9QSJK6FcO9NXH
-         I7iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782898193; x=1783502993;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nyFZblf28m4uZe4PtMDIudn9j1XK/d1XjqzIVFyhRsc=;
-        b=fLErDb1m9UGeUNHecuJteZQHcGKd4hLBzVqYE3pDsUSNWhr6NSBCFy/ZKo0JjCT4F3
-         wXzXp2hBrl+CefEHPDuvyux6d4xxrNv3N9JTSN40vhERIVuMSOKTeEJWLsBZiETk4KTr
-         ynn1Kc8/B5THCElxSdFSRjwvis3nv6WVwXiNCgSncDlqUqw+PCQq7AHA6Wghc10Iof2o
-         26QoeewRhzdBc3wEILhwYRUaws4LL6C2Y8OlLvFWFVCdmyicieepRy0fV0psijanzCNF
-         VX92SEUMmZPFDw1QfscXiYoWw9sSXCjuYmHRjDj1lozrhwtvwrd2jJ1ZUWVaiBCJCBrN
-         VKLg==
-X-Forwarded-Encrypted: i=1; AHgh+RoEGxTzrftA76X538lVx39Tflw8n/+jOzkOa7UOPGQfkOmEMLcl3T9atwXkE4xg49eVDkZezMHbAg+ZSsrL@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLdWIhqDizV2aIbT7CwQU8n/IRESeTX9k4nmCZ67iB+JtdlAXr
-	BggXbyDfF0eZQhuqO4hGaUnTuQsatBTvgS9w3IkgKkgnecLESeuO/XBpT/jxXyikkqbiHrjASbR
-	DTfrAKKqzoh6Shxtfmlz3UZ3G/auWTn0=
-X-Gm-Gg: AfdE7clExYFl/fBv9NtOgFv7iH5BMHRRCMj8O92Cmo8P9KdXTc2fTlFRjymS/BcAVES
-	tEVCKR5XFpYvcBjN4J+MrY8Wx9krVvRqpK65XNCqMYOUYEwkrVjBYvvRyMXYCvFVYLZU05GkGeZ
-	iUPjkIr2+CHCjoqgniHyXIYZcocWs1szt7wcU0QX4q7/InPtXmPi3egm7JL3da1eXN+SZvhcYfj
-	avaT3T5ZWFgDE23e7IQfvYD+xQAy8Pxxjy+WyzWs8ybrgpGLutX2JJ+qg74hPozhB5Ve10tmJu4
-	vGae0s3IDb+BfOL5RpXgKlAR7FRv+g==
-X-Received: by 2002:a17:907:96a1:b0:c12:9b93:61fd with SMTP id
- a640c23a62f3a-c12a9d37e0fmr34834266b.6.1782898192577; Wed, 01 Jul 2026
- 02:29:52 -0700 (PDT)
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=tLwus2Z9SHB/2dEYbgbr6ka8rzE4SPYBz1p950DKNCA=;
+	b=AQ9ucjkAD1nktGKQ4PEH183hlPxzCOwAXO9wSPpjRdEnfmyUCUcqHNxY+wsh03QmRhSXB+S142nyE
+	 cidac8MBYPx0JBfImz1P5qQZCAwklY5w88TkDZHS7n21cD5EZTXT1i8kJrADObWP1F4TTTnJe+PhCb
+	 DJ4TNg9nq48eZ7frva5jsbe5wcD+4w0qZNYv9ymNdJtgJmLHDCk2sQ2fOAwRi7kHNdQwWHh7aIm8Cm
+	 km/hteWZvcQYMKg9a+YsW5n9y3SwEeJreSUL0dTpkgzBJwPWIWobvP9QiF+7CqzVKdpZEUH5C+2ERZ
+	 KwQTU8VPWvsD2rUBlcfeKT1O8fvu6Kw==
+X-KPN-MID: 33|YUU32CqV37goJ+ohMNXmFuus5fLBFklWXleDZmHWBhHrO3iY8e3T+7N7VuO0xrm
+ pE+pIkbmk9XO7h2+2/heGhrbD1vqvRN2DvyWSPFdPdrA=
+X-CMASSUN: 33|kv2oYt4LwQtno3a++u2D/ia5PC6BC0vMT133ArgPoj5L5wUohptDWdnl3ZwTI9k
+ FhwAlzTjvakaAqQSCsQZ82g==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh07 (cpxoxapps-mh07.personalcloud.so.kpn.org [10.128.135.213])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 983c0ba5-752f-11f1-916a-005056995d6c;
+	Wed, 01 Jul 2026 11:31:10 +0200 (CEST)
+Date: Wed, 1 Jul 2026 11:31:10 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, netdev@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-ID: <66991303.3605710.1782898270313@kpc.webmail.kpnmail.nl>
+In-Reply-To: <20260701-malen-gutmachen-stengel-2c70ad5d2971@brauner>
+References: <20260629194327.2270798-1-jkoolstra@xs4all.nl>
+ <20260629194327.2270798-6-jkoolstra@xs4all.nl>
+ <20260630071701.6b583d1e@kernel.org>
+ <1957659940.3537950.1782830112890@kpc.webmail.kpnmail.nl>
+ <20260701-malen-gutmachen-stengel-2c70ad5d2971@brauner>
+Subject: Re: [PATCH net-next v3 5/5] selftest: Add tests for useful handling
+ of LSM denials on SCM_RIGHTS
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260630152812.1706-1-aditya.ansh182@gmail.com> <du3mel4k4hwnbbogufghauulvqrijx3bhgem2lfuss2nfgcoxv@6awcqkjsrsh6>
-In-Reply-To: <du3mel4k4hwnbbogufghauulvqrijx3bhgem2lfuss2nfgcoxv@6awcqkjsrsh6>
-From: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
-Date: Wed, 1 Jul 2026 14:59:41 +0530
-X-Gm-Features: AVVi8CdycI1IH4Ct-nF61eZi5sGJCVN1QhBWc0GVo6oA3dOSvQlNHkrxUK7wB30
-Message-ID: <CAK5ssPOrN+=uqqF3=6_0CukAigOMY=GrLLZQEUSz5jrn30aBYg@mail.gmail.com>
-Subject: Re: [PATCH 0/2] ext4: fix race conditions and clean up locking of
- inline data writes
-To: Jan Kara <jack@suse.cz>
-Cc: "Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
-	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
-	Ritesh Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>, Tao Ma <boyu.mt@taobao.com>, 
-	syzbot+0c89d865531d053abb2d@syzkaller.appspotmail.com, 
-	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-Hi Jan,
 
-While the cover letter mentions only a clean compile, I can categorically
-confirm that I have run fstests, LTP, and a layered filesystem I/O
-testing matrix before submitting. Sorry about the confusion in the write-up=
-.
+> Op 01-07-2026 09:38 CEST schreef Christian Brauner <brauner@kernel.org>:
+> 
+> > 
+> > I just need some LSM to trigger the reject of security_file_receive()
+> > and Smack was the easiest to get going. The series is totally agnostic
+> > to the used LSM. I am fine with moving the tests elsewhere or porting
+> > them to SELinux if that is really necessary. We could also drop them
+> > altogether.
+> > 
+> > What do you propose?
+> 
+> I'm pretty sure the easiest will be to use a tiny bpf program to reject
+> security_file_receive().
 
-Thanks,
-Aditya
-
-On Wed, Jul 1, 2026 at 2:33=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
->
-> On Tue 30-06-26 15:28:10, Aditya Srivastava wrote:
-> > From: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
-> >
-> > This patch series addresses the remaining race conditions and locking
-> > issues involved with inline data writes, implementing the clean
-> > state-communication design suggested by Jan Kara.
-> >
-> > Previously, `ext4_write_end()`, `ext4_journalled_write_end()`, and
-> > `ext4_da_write_end()` checked the inode state and the inline data flag
-> > directly to decide whether to finish writing inline data or to fall
-> > back to block writes. This is highly susceptible to TOCTOU race
-> > conditions where concurrent memory-mapped page faults
-> > (`ext4_page_mkwrite()`) can convert the inline data to an extent
-> > between `write_begin` and `write_end`. Since block buffers were not
-> > allocated in the inline path during `write_begin`, such fallbacks
-> > resulted in kernel crashes and NULL pointer dereferences because
-> > `folio_buffers(folio)` was NULL.
-> >
-> > The series cleans up and resolves these issues in two distinct steps:
-> >
-> > 1) Patch 1 introduces state tracking via the standard `fsdata`
-> >    parameter. By marking whether a write was prepared as inline
-> >    (`EXT4_WRITE_DATA_INLINE`) directly in the private per-write
-> >    `fsdata` during `write_begin`, the corresponding `write_end`
-> >    handlers can reliably decide whether to call
-> >    `ext4_write_inline_data_end()` or complete a normal extent write.
-> >    This eliminates the race-prone checks on the live inode state and
-> >    gets rid of crude fallback/retry hacks.
-> >
-> > 2) Patch 2 replaces a potential kernel panic
-> >    (`BUG_ON(!ext4_has_inline_data(inode))`) inside
-> >    `ext4_write_inline_data_end()` with a graceful retry error path.
-> >    If a concurrent conversion clears the inline flag right after the
-> >    `write_end` checks pass but before the xattr semaphore is acquired,
-> >    we gracefully release all held resources and return 0 (VFS retry) to
-> >    let the VFS safely retry the write from scratch.
-> >
-> > The series compiles clean against the latest linux-next/ext4 tree.
->
-> This caught my eye: Do you actually do real testing of your patches? Like
-> using fstests / kvm-xfstests? Every patch author for ext4 is supposed to =
-do
-> that before submitting his changes...
->
->                                                                 Honza
->
-> > Aditya Prakash Srivastava (2):
-> >   ext4: use fsdata to track inline data write state
-> >   ext4: replace BUG_ON with graceful retry in ext4_write_inline_data_en=
-d
-> >
-> >  fs/ext4/ext4.h   |  1 +
-> >  fs/ext4/inline.c | 14 +++++++++++++-
-> >  fs/ext4/inode.c  | 22 +++++++++++++---------
-> >  3 files changed, 27 insertions(+), 10 deletions(-)
-> >
-> > --
-> > 2.47.3
-> --
-> Jan Kara <jack@suse.com>
-> SUSE Labs, CR
+Ah. Well, that's a testament to how much there's still to learn for me. 
+I didn't even know that bpf could hook into LSM calls :)
