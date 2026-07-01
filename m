@@ -1,313 +1,352 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C07392822
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 05:50:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782885032; cv=none; b=DMdzZh1v2y3C1S99JnyX3CZMrFVlQ8Wt4hyXORkDqBzhHACBxAH5m1AwrUD8NqUtQJU/bcW46G/q36AhfD+KLQh0cPm1hjX/Wgw8PCaWgMdngfddJ5JMz20MugoKz3MzV8Cm7k+Tvw7h7vnRzUNJ7atsZ2ENG01tGmn+rR/Asak=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782885032; c=relaxed/simple;
-	bh=IZliUkXiBExgdug3BDDrwmryDpIMfYmqI7Icd2i9Z3g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p6DtrFviOCSU+rxtsJSyKROvkiIaUvtszUu8whnG/O0NUvM1wyiLl3qMA/59n16pPt9DLoa9r3AI8d3wgpJ+wscKdc3jTDAXmvegeUlO29LxbTZne100L/5kk+H+ycYUZ21sdzo8TwPfVaXF5zxeRTpvWqzJr/IOgbosuX4U614=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q/mBUBzp; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4F01AA1F4
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 06:03:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782885788; cv=pass; b=WsHxqleH3/XN6fjMqjNMNluBqHW4inGG13BTEFeM6r7vfp8oqfjeHjcWN0G5XOgqL0KqFm0XsD8YeZnnbcZTAjFYC2RQsbdqltS59IgRN2Loyp5zrvoHGfgIXJ9uw2og0bM5vU5gjpaDKthNvCUIUXadffksGstVBGBygIIWv4U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782885788; c=relaxed/simple;
+	bh=ii2Ovvmk+FgMf8xa6WQFuQJH12MHZCzQMAvYq811Z84=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JSxfNry1ortyi0t7Jpi8OxlMzq+jHOfqXMNQOd2FgMKcaJVZwpQMCZrhzYRQfdWHmYHWIhUntYsZLfm6tMLdjsKNvevKdDplXBRuCg1G257wOtpaIiVZBD37I8eglkRkdaaFoxsZIA0CxZwzlRcsF0j899+4UpBD/sCIO9mxwd0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openai.com; spf=pass smtp.mailfrom=openai.com; dkim=pass (1024-bit key) header.d=openai.com header.i=@openai.com header.b=DBRTR9rg; arc=pass smtp.client-ip=209.85.160.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openai.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=openai.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q/mBUBzp"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-845f2909cd4so125534b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 22:50:30 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=openai.com header.i=@openai.com header.b="DBRTR9rg"
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-43b7e186a0cso90893fac.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 23:03:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782885784; cv=none;
+        d=google.com; s=arc-20260327;
+        b=MLNXB69g2j6GgPd+mbRy+WsFGelHiIdlVBMBlRrWq3ZIblXusHk11FUlC+gdO5m2Hy
+         eywd0zd/V634eizntjA0QT5QttE5vrke6NCHVTTj2Eei9DsNRYAxpMv53oZ25B6/1o1D
+         tLzhyOzBO2UN7kJX9udYr2JUe/tOqsZTDKU7KWGQiv6+jsy+U8nuTz97Cb2X76CmBL5q
+         4xcqmxmrpvBZ4y4nTqbUjNzowWV0XzPageKYQp70xN4Prl3MgPruEJBbBcnepEde051k
+         954WIJWRYj1hBwF5tE3qa5m6/NfG3sGlnrnRfBXjB9XmFboNWdccIWjZbhv0D+qbC/g3
+         vFnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=urWfKwGcxwK3Z47RUlR4AeZM5LsrQTLduiz910KNLFw=;
+        fh=Rw2Qm41fBS69ywWh+kl3F2jevgx9qqz1AWoy6RdxPOo=;
+        b=BX7WjvHdGa1NqFKilggvHcNktMW0UIHoEmMwYPtfE1cuuSZ24YvL1C3mO625OI+Y0z
+         r0dMN4ULc4Xw/VZEVvZQ4DB1NU8q+46+Xq7vo9JuaCUJYwGTOtG8XkoqYztnmN+KDDQP
+         ofE2GySsn8H59iZAfgw7+rCAKit8sMdzRWlo3pWH0l1uW9AIB4q5F/itiZ4ZEIACwVQs
+         mWlM+d2RD9JCAk8lqVx1TOuXF4I36zwKe8R48v1hCJRcF4i5qhszlKuaMm1v0li3E416
+         IAX/7iNrn94Fi+Qow32H/hIzP8TBE6EfmUoRDXTsiaAAKaYc34WOHnxn56wXOa9EWO9j
+         i3RQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782885030; x=1783489830; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L8fxNaewk/OBFH32QFXdwx3B+xFO1JJNL6eeCMiecrE=;
-        b=Q/mBUBzpfN74rAX+HQtGafbOq4w0cpb7wGYRAPAvAdlkQyYEQtndtB4QWg315JY33j
-         WIVcrrwOwjKDldGPhitZik4fSj86XZo8snCWgv96VbFraphtCtRw/+sr6noU5dqvfLRq
-         7Aw4zDvBBRdhIuuDe17CHLRNFbIj1od7eNlUFlaiFyZxKJRw2SW47bEADKLErMswpze8
-         wPR+9IWEhUzKvWxr11YC43+XR+UMjO/+GRoKGt9sqJV7fSZt5lR+ZwbU2EKFvOv2FNiY
-         LR1VpFGDzinbW8veVJ/Lxi0yiqZ7rgRvDnw4eAxmu6icapgRgAI0JVzFpi/c3R/n9iAy
-         7Kxw==
+        d=openai.com; s=google; t=1782885784; x=1783490584; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=urWfKwGcxwK3Z47RUlR4AeZM5LsrQTLduiz910KNLFw=;
+        b=DBRTR9rgFmrvq9xvLTomVNjAaNLUqN8b643deB7MtZS/ku5kEE5ZmNcR7VTqjcYzY0
+         h23i1ss+LudJmoiskJPPSOys4uhlymAb6kdvPBZM6dipQ+ugx704GvpGlum5aC6d82rx
+         85USYE87ihFtefSHEoC03frs5V9PxLkBNnEXI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782885030; x=1783489830;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=L8fxNaewk/OBFH32QFXdwx3B+xFO1JJNL6eeCMiecrE=;
-        b=hYRbt71SzELICUylBnPu7uXmOPLX4/fMIEDSMI97GW++dAhiv1wLWb8cx1wtKXdSht
-         EVxVc5HzCD+/FzqJdJEdaYEOryJ5oxR9/3TlcbfbOIEX0M3RRTuL3AUMGhMRANlSW2Ns
-         leMlCVKrYoSJTCRaopVz0JU9VSclLpEdIXMhT4/a0WMOHic+DX5gizLBZv0ljcjJTbcE
-         Sq7SG+A9QSRwr5pKllnsJKvMOkfPjgwQJtuuTp2Zv5MBPxG4Wd3cR0acmVue2gKDG77T
-         j5HLhdSq1P7WjGl12c28QGEWB+nA8bLgKSmPLoS57CTmLgJZFaRPyOdsMjDdlTXUkI4M
-         2JGA==
-X-Forwarded-Encrypted: i=1; AHgh+RoY77LRtGhsTwKDuJBNOuNYkhTNrRtf9BeVwc//fPrTk25D3qJtSCQFcdkjvOiwfxKwdh377k3B9xGtQlWm@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx17WAdTXms8zlMJGvK//lwrlApFzW4INopfR4p/gR0NmOEL6ry
-	H3YcWYdW36yCheqWorZ8+lSTdLgR/lgZbeZD+W9sk+r1z6IZ661b5YHN
-X-Gm-Gg: AfdE7cmDESu5OV9j5I2WTrN4C5NW0JjPHj/B/qB+u86TT2ELXWS6EWDDy5tY9dJy3VH
-	wAzlNPzlIdHJe+cncE5QLrP9FnWUZnEii0dqnI+LCjkgednKVGujJG6+IY+t9cDqH8brUxJgPeg
-	nZSkLFODP00Ca045kijmuS8iT2PY8x2hJ5WyrUs8HUTnCNA/KN7InfftrKG1vCZNVbtaPDsFBXS
-	g2vgW53B7aV/Ru0zXI1ikwtZvlm4YjIRhXmdyTW5ry9xROrCrm7rRxSlOMehKlL0dU2iItFTLsS
-	QeUILketZpJy1SNj0ZSfo2ov1tdx1QCcp+Rv8eQkDTNwDX+Wn219WnhAuyaYOvNq9P3mCgtctTF
-	narjpKXfBxh79nME5Y8+aoQfhD60npiw/mIykZ5e3kQvmtv+tJe9TaNfkqBqnuE7qK9L0wcKSKP
-	fOsPmkJuqCzLej/wXjJ5FHN1fD
-X-Received: by 2002:a05:6a00:4387:b0:847:8d54:f4f9 with SMTP id d2e1a72fcca58-847c094916amr148963b3a.51.1782885029874;
-        Tue, 30 Jun 2026 22:50:29 -0700 (PDT)
-Received: from ustb520lab-MS-7E07.. ([123.124.147.27])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8479fffdfe1sm3442637b3a.18.2026.06.30.22.50.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 22:50:29 -0700 (PDT)
-From: Jiaming Zhang <r772577952@gmail.com>
-To: slava@dubeyko.com
-Cc: frank.li@vivo.com,
-	glaubitz@physik.fu-berlin.de,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	r772577952@gmail.com,
-	syzkaller@googlegroups.com
-Subject: [PATCH] hfsplus: validate B-tree record offset table
-Date: Wed,  1 Jul 2026 13:50:20 +0800
-Message-ID: <20260701055020.385680-1-r772577952@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <4ef15f553f01e959209273f5a170288af6ecdc91.camel@dubeyko.com>
-References: <4ef15f553f01e959209273f5a170288af6ecdc91.camel@dubeyko.com>
+        d=1e100.net; s=20251104; t=1782885784; x=1783490584;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=urWfKwGcxwK3Z47RUlR4AeZM5LsrQTLduiz910KNLFw=;
+        b=Yw/pCuNh0IoP0Rg2UrLO6IxDA8sSYmr6GNuBttDRlThCs7oFOuTbrYSh8GOf0csFOF
+         YFa2H13FMI/15//JXGYYef7CGvfHQKzdTyKQ3werITJ+Vx3K+TUZiU0A8WK4oR2/IWj4
+         RhtsE/rJFCkVCwlxZT2tU6V1/B2UB3sEYLJiV2zqMZq0XgBaxRZdJ5O51nCE9xIKOeRd
+         jSMoxN7XmyXos9n3dW6OWUwqx3Yz/Ww7jcIDT3r/elUcWl3+ZsRbcYYpWU9ljbr5xXB1
+         oG3fZyVWta4tc9b3Sk9S92SbREaP3i2KTlIgKKdMcs7jINMoqXzktylOsQ+Wq2tllunn
+         4sRw==
+X-Gm-Message-State: AOJu0YwkghMkJGKmD/eRxnvDCT/JyXdER5qNo2+JFADyRQJsIWqopswb
+	4VMqltHGqk25featisrIAmdYv4qNeesMo2HvZYe/onmudih/ZmVIkpmVWca37xFl7Hv+TfFB44P
+	BxD7iB4SFtb1e69bJAnt38YLz3oo9+QSq6bZCLqqPWKG4CaBCGz/HfBP0vw==
+X-Gm-Gg: AfdE7ckb3hPwoW6bUosNOaA2H9RjxkWVRI2LynRGLF8pmDpeiYN5Wf5Eaku72U0mTPL
+	VmSk5XnmvXkzb56f+upb7a4cg/SbXDZlQG2JKvyl+hDxTmOSaiXIGu3pYBo6gn8H9Cu4QgXOd30
+	AuQH/035nFVc0LMjS2bgIHEDiV9NBR2dSW4bgzIpXaJcxunmNCAGJusrsYXiK4dbaeEl1NDOIVM
+	wxCd5t4n58ShF4y5wnmTFICnAA5uLoa2OSG+kFE0FVY9SIA/yCq5FDnpPFuvE+edSuTTpa13zd1
+	OYRIWESGnsxZeudbR/KjIAZxS+UNS8aNO6Ws6t6FDPE=
+X-Received: by 2002:a05:6871:6615:b0:448:b0bc:e63c with SMTP id
+ 586e51a60fabf-44cab982d70mr70174fac.25.1782885784398; Tue, 30 Jun 2026
+ 23:03:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260611212710.5134-1-kylebot@openai.com> <4a0ad1fbf065b3d0bc0e3f1f2efbc44249181d03.camel@dubeyko.com>
+In-Reply-To: <4a0ad1fbf065b3d0bc0e3f1f2efbc44249181d03.camel@dubeyko.com>
+From: Kyle Zeng <kylebot@openai.com>
+Date: Wed, 1 Jul 2026 00:02:52 -0600
+X-Gm-Features: AVVi8CfHZxpUzMycGiwegRVobrM33QDlg0eLpjrN9fL3Cdc7Vxe02DKkOm5Phog
+Message-ID: <CAC7i46-V_aK=ZVVvQ_45_Sv==swzD0P0-FeqWbsbO4zACiv_9w@mail.gmail.com>
+Subject: Re: [PATCH] hfsplus: terminate xattr names before listing them
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: linux-fsdevel@vger.kernel.org, Yangtao Li <frank.li@vivo.com>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, outbounddisclosures@openai.com, 
+	stable@vger.kernel.org
+Content-Type: multipart/mixed; boundary="000000000000dae7d806558671c9"
 
-A crafted HFS+ image can contain a corrupted B-tree node. The node descriptor
-may contain a record count that does not fit in the node, and record offsets may
-be unordered, unaligned, outside the node, or point into the offset table
-itself.
+--000000000000dae7d806558671c9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Several B-tree helpers consume these on-disk fields before validating them:
-hfs_bnode_dump() can walk past the offset table when num_recs is corrupted,
-hfs_brec_lenoff() can produce an underflowed length or a record range that
-overlaps the offset table. This can make the unlink/writeback path repeatedly
-call hfs_bnode_read_u16() with invalid offsets while holding the HFS+ B-tree
-lock, producing a flood of "requested invalid offset" messages. Other writeback
-workers then block on tree->tree_lock and the system reports tasks hung in
-hfsplus_write_inode().
+Hi Viacheslav,
 
-Reject corrupted B-tree metadata earlier: validate num_recs against the node
-size before walking the record offset table, reject record offsets that are
-unordered, unaligned, outside the node, or overlapping the offset table, stop
-B-tree record walkers on invalid records, and avoid decrementing an already-zero
-leaf_count.
+I just checked the report. It seems the issue has been patched on
+master (https://github.com/torvalds/linux/commit/413466f3f0f84e7356da16c611=
+afd69d2a0872e4),
+but the corresponding patch is not backported to stable branches yet.
+And you are right, zeroing strbuf on every iteration can fix the issue.
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Closes: https://lore.kernel.org/lkml/CANypQFb_2TqKGrztAXj5m0_v+QChxXDnQVeifzV8J25Vuju10Q@mail.gmail.com/
-Assisted-by: Codex:gpt-5.5-xhigh
-Signed-off-by: Jiaming Zhang <r772577952@gmail.com>
----
- fs/hfsplus/bfind.c      | 12 +++++++++---
- fs/hfsplus/bnode.c      | 15 +++++++++++++--
- fs/hfsplus/brec.c       | 35 ++++++++++++++++++++++++++++++-----
- fs/hfsplus/hfsplus_fs.h | 18 ++++++++++++++++++
- 4 files changed, 70 insertions(+), 10 deletions(-)
+I just confirmed the issue on 6.12.94 and the same vulnerable pattern
+seems to exist in 6.18.y as well.
+The corresponding crash splash is attached.
 
-diff --git a/fs/hfsplus/bfind.c b/fs/hfsplus/bfind.c
-index 9a55fa6d5294..ace9ba027a9d 100644
---- a/fs/hfsplus/bfind.c
-+++ b/fs/hfsplus/bfind.c
-@@ -112,11 +112,13 @@ int __hfs_brec_find(struct hfs_bnode *bnode, struct hfs_find_data *fd,
- 	b = 0;
- 	e = bnode->num_recs - 1;
- 	res = -ENOENT;
-+	if (!bnode->num_recs)
-+		return res;
- 	do {
- 		rec = (e + b) / 2;
- 		len = hfs_brec_lenoff(bnode, rec, &off);
- 		keylen = hfs_brec_keylen(bnode, rec);
--		if (keylen == 0) {
-+		if (!keylen || keylen >= len) {
- 			res = -EINVAL;
- 			goto fail;
- 		}
-@@ -130,7 +132,7 @@ int __hfs_brec_find(struct hfs_bnode *bnode, struct hfs_find_data *fd,
- 	if (rec != e && e >= 0) {
- 		len = hfs_brec_lenoff(bnode, e, &off);
- 		keylen = hfs_brec_keylen(bnode, e);
--		if (keylen == 0) {
-+		if (!keylen || keylen >= len) {
- 			res = -EINVAL;
- 			goto fail;
- 		}
-@@ -232,6 +234,10 @@ int hfs_brec_goto(struct hfs_find_data *fd, int cnt)
- 
- 	bnode = fd->bnode;
- 	tree = bnode->tree;
-+	if (!bnode->num_recs) {
-+		res = -ENOENT;
-+		goto out;
-+	}
- 
- 	if (cnt < 0) {
- 		cnt = -cnt;
-@@ -274,7 +280,7 @@ int hfs_brec_goto(struct hfs_find_data *fd, int cnt)
- 
- 	len = hfs_brec_lenoff(bnode, fd->record, &off);
- 	keylen = hfs_brec_keylen(bnode, fd->record);
--	if (keylen == 0) {
-+	if (!keylen || keylen >= len) {
- 		res = -EINVAL;
- 		goto out;
- 	}
-diff --git a/fs/hfsplus/bnode.c b/fs/hfsplus/bnode.c
-index d088fb7eb0df..df406f75a5b3 100644
---- a/fs/hfsplus/bnode.c
-+++ b/fs/hfsplus/bnode.c
-@@ -352,15 +352,22 @@ void hfs_bnode_dump(struct hfs_bnode *node)
- 	struct hfs_bnode_desc desc;
- 	__be32 cnid;
- 	int i, off, key_off;
-+	u16 num_recs;
- 
- 	hfs_dbg("node %d\n", node->this);
- 	hfs_bnode_read(node, &desc, 0, sizeof(desc));
-+	num_recs = be16_to_cpu(desc.num_recs);
- 	hfs_dbg("next %d, prev %d, type %d, height %d, num_recs %d\n",
- 		be32_to_cpu(desc.next), be32_to_cpu(desc.prev),
--		desc.type, desc.height, be16_to_cpu(desc.num_recs));
-+		desc.type, desc.height, num_recs);
-+
-+	if (!hfs_bnode_num_recs_valid(node, num_recs)) {
-+		hfs_dbg("invalid num_recs %u\n", num_recs);
-+		return;
-+	}
- 
- 	off = node->tree->node_size - 2;
--	for (i = be16_to_cpu(desc.num_recs); i >= 0; off -= 2, i--) {
-+	for (i = num_recs; i >= 0; off -= 2, i--) {
- 		key_off = hfs_bnode_read_u16(node, off);
- 		hfs_dbg(" key_off %d", key_off);
- 		if (i && node->type == HFS_NODE_INDEX) {
-@@ -579,6 +586,9 @@ struct hfs_bnode *hfs_bnode_find(struct hfs_btree *tree, u32 num)
- 		goto node_error;
- 	}
- 
-+	if (!hfs_bnode_num_recs_valid(node, node->num_recs))
-+		goto node_error;
-+
- 	rec_off = tree->node_size - 2;
- 	off = hfs_bnode_read_u16(node, rec_off);
- 	if (off != sizeof(struct hfs_bnode_desc))
-@@ -588,6 +598,7 @@ struct hfs_bnode *hfs_bnode_find(struct hfs_btree *tree, u32 num)
- 		next_off = hfs_bnode_read_u16(node, rec_off);
- 		if (next_off <= off ||
- 		    next_off > tree->node_size ||
-+		    next_off > rec_off ||
- 		    next_off & 1)
- 			goto node_error;
- 		entry_size = next_off - off;
-diff --git a/fs/hfsplus/brec.c b/fs/hfsplus/brec.c
-index e3df89284079..dce397be9151 100644
---- a/fs/hfsplus/brec.c
-+++ b/fs/hfsplus/brec.c
-@@ -20,12 +20,27 @@ static int hfs_btree_inc_height(struct hfs_btree *);
- u16 hfs_brec_lenoff(struct hfs_bnode *node, u16 rec, u16 *off)
- {
- 	__be16 retval[2];
--	u16 dataoff;
-+	u16 data_off;
-+	u16 next_off;
- 
--	dataoff = node->tree->node_size - (rec + 2) * 2;
--	hfs_bnode_read(node, retval, dataoff, 4);
-+	if (rec >= node->num_recs ||
-+		!hfs_bnode_num_recs_valid(node, node->num_recs)) {
-+		*off = 0;
-+		return 0;
-+	}
-+
-+	data_off = node->tree->node_size - (rec + 2) * 2;
-+	hfs_bnode_read(node, retval, data_off, 4);
- 	*off = be16_to_cpu(retval[1]);
--	return be16_to_cpu(retval[0]) - *off;
-+	next_off = be16_to_cpu(retval[0]);
-+	if (*off < sizeof(struct hfs_bnode_desc) ||
-+		*off & 1 ||
-+		next_off <= *off ||
-+		next_off > node->tree->node_size ||
-+		next_off > data_off ||
-+		next_off & 1)
-+		return 0;
-+	return next_off - *off;
- }
- 
- /* Get the length of the key from a keyed record */
-@@ -35,6 +50,9 @@ u16 hfs_brec_keylen(struct hfs_bnode *node, u16 rec)
- 
- 	if (node->type != HFS_NODE_INDEX && node->type != HFS_NODE_LEAF)
- 		return 0;
-+	if (rec >= node->num_recs ||
-+		!hfs_bnode_num_recs_valid(node, node->num_recs))
-+		return 0;
- 
- 	if ((node->type == HFS_NODE_INDEX) &&
- 	   !(node->tree->attributes & HFS_TREE_VARIDXKEYS) &&
-@@ -43,7 +61,7 @@ u16 hfs_brec_keylen(struct hfs_bnode *node, u16 rec)
- 	} else {
- 		recoff = hfs_bnode_read_u16(node,
- 			node->tree->node_size - (rec + 1) * 2);
--		if (!recoff)
-+		if (recoff < sizeof(struct hfs_bnode_desc) || recoff & 1)
- 			return 0;
- 		if (recoff > node->tree->node_size - 2) {
- 			pr_err("recoff %d too large\n", recoff);
-@@ -185,10 +203,17 @@ int hfs_brec_remove(struct hfs_find_data *fd)
- 	tree = fd->tree;
- 	node = fd->bnode;
- again:
-+	if (fd->record < 0 ||
-+		fd->record >= node->num_recs ||
-+		!hfs_bnode_num_recs_valid(node, node->num_recs))
-+		return -EIO;
-+
- 	rec_off = tree->node_size - (fd->record + 2) * 2;
- 	end_off = tree->node_size - (node->num_recs + 1) * 2;
- 
- 	if (node->type == HFS_NODE_LEAF) {
-+		if (!tree->leaf_count)
-+			return -EIO;
- 		tree->leaf_count--;
- 		mark_inode_dirty(tree->inode);
- 	}
-diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
-index ec04b82ad927..8b2f2041b8b9 100644
---- a/fs/hfsplus/hfsplus_fs.h
-+++ b/fs/hfsplus/hfsplus_fs.h
-@@ -587,6 +587,24 @@ bool is_bnode_offset_valid(struct hfs_bnode *node, u32 off)
- 	return is_valid;
- }
- 
-+static inline
-+bool hfs_bnode_num_recs_valid(struct hfs_bnode *node, u16 num_recs)
-+{
-+	u32 node_size;
-+	u32 offs_size;
-+
-+	if (!node || !node->tree)
-+		return false;
-+
-+	node_size = node->tree->node_size;
-+	if (node_size < sizeof(struct hfs_bnode_desc) + sizeof(__be16))
-+		return false;
-+
-+	offs_size = ((u32)num_recs + 1) * sizeof(__be16);
-+
-+	return offs_size <= node_size - sizeof(struct hfs_bnode_desc);
-+}
-+
- static inline
- u32 check_and_correct_requested_length(struct hfs_bnode *node, u32 off, u32 len)
- {
--- 
-2.43.0
+I suggest to backport the patch to stable branches because it has
+security implications.
 
+Best,
+Kyle
+
+On Mon, Jun 29, 2026 at 5:18=E2=80=AFPM Viacheslav Dubeyko <slava@dubeyko.c=
+om> wrote:
+>
+> On Thu, 2026-06-11 at 14:27 -0700, Kyle Zeng wrote:
+> > hfsplus_uni2asc_xattr_str() returns the converted byte count but does
+> > not
+> > append a trailing NUL. hfsplus_listxattr() then passes the reusable
+> > conversion buffer to string helpers such as can_list(), name_len(),
+> > and
+> > copy_name().
+> >
+> > If a shorter converted xattr name follows a longer one, stale bytes
+> > after
+> > the new byte count can make strscpy() fail with -E2BIG. The caller
+> > adds
+> > copy_name()'s return value to the running output offset, so a
+> > negative
+> > return can move the next write before the listxattr buffer.
+> >
+> > Explicitly terminate the converted name at the returned byte count
+> > before
+> > treating it as a C string.
+> >
+> > Fixes: 127e5f5ae51ef ("hfsplus: rework functionality of getting,
+> > setting and deleting of extended attributes")
+> > Cc: stable@vger.kernel.org
+> > Assisted-by: Codex:gpt-5.5
+> > Signed-off-by: Kyle Zeng <kylebot@openai.com>
+> > ---
+> >  fs/hfsplus/xattr.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
+> > index 452a1f9becb2..35fcbc397b62 100644
+> > --- a/fs/hfsplus/xattr.c
+> > +++ b/fs/hfsplus/xattr.c
+> > @@ -870,6 +870,7 @@ ssize_t hfsplus_listxattr(struct dentry *dentry,
+> > char *buffer, size_t size)
+> >                       res =3D -EIO;
+> >                       goto end_listxattr;
+> >               }
+> > +             strbuf[xattr_name_len] =3D '\0';
+>
+> The strbuf is allocated by kzalloc() [1] and it is zeroed on every
+> iteration [2]. Are you really sure that this code is necessary? Can you
+> reproduce any issue without your patch?
+>
+> Thanks,
+> Slava.
+>
+> >
+> >               if (!buffer || !size) {
+> >                       if (can_list(strbuf))
+>
+> [1]
+> https://elixir.bootlin.com/linux/v7.1/source/fs/hfsplus/xattr.c#L833
+> [2]
+> https://elixir.bootlin.com/linux/v7.1/source/fs/hfsplus/xattr.c#L891
+
+--000000000000dae7d806558671c9
+Content-Type: text/plain; charset="US-ASCII"; name="splash.txt"
+Content-Disposition: attachment; filename="splash.txt"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mr1o22kc0>
+X-Attachment-Id: f_mr1o22kc0
+
+WyAgMTE0LjgyODY2Nl0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09ClsgIDExNC44Mjk1ODhdIEJVRzogS0FTQU46IHNsYWIt
+b3V0LW9mLWJvdW5kcyBpbiBzdHJpbmcrMHgyZjcvMHgzMzAKWyAgMTE0LjgyOTU4OF0gV3JpdGUg
+b2Ygc2l6ZSAxIGF0IGFkZHIgZmZmZjg4ODEwMTI3M2NhOCBieSB0YXNrIGV4cC81NDEKWyAgMTE0
+LjgyOTU4OF0gClsgIDExNC44Mjk1ODhdIENQVTogMCBVSUQ6IDAgUElEOiA1NDEgQ29tbTogZXhw
+IE5vdCB0YWludGVkIDYuMTIuOTQgIzEKWyAgMTE0LjgyOTU4OF0gSGFyZHdhcmUgbmFtZTogUUVN
+VSBVYnVudHUgMjQuMDQgUEMgdjIgKGk0NDBGWCArIFBJSVgsIGFyY2hfY2FwcyBmaXgsIDE5OTYp
+LCBCSU9TIDEuMTYuMy1kZWJpYW4tMS4xNi4zLTIgMDQvMDEvMjAxNApbICAxMTQuODI5NTg4XSBD
+YWxsIFRyYWNlOgpbICAxMTQuODI5NTg4XSAgPFRBU0s+ClsgIDExNC44Mjk1ODhdICBkdW1wX3N0
+YWNrX2x2bCsweDY0LzB4ODAKWyAgMTE0LjgyOTU4OF0gIHByaW50X3JlcG9ydCsweGNlLzB4NjYw
+ClsgIDExNC44Mjk1ODhdICA/IF9fcGZ4X19yYXdfc3Bpbl9sb2NrX2lycXNhdmUrMHgxMC8weDEw
+ClsgIDExNC44Mjk1ODhdICA/IF9fcGZ4X3VuaTJjaGFyKzB4MTAvMHgxMApbICAxMTQuODI5NTg4
+XSAgPyBzdHJpbmcrMHgyZjcvMHgzMzAKWyAgMTE0LjgyOTU4OF0gIGthc2FuX3JlcG9ydCsweGM2
+LzB4MTAwClsgIDExNC44Mjk1ODhdICA/IHN0cmluZysweDJmNy8weDMzMApbICAxMTQuODI5NTg4
+XSAgc3RyaW5nKzB4MmY3LzB4MzMwClsgIDExNC44Mjk1ODhdICA/IF9fcGZ4X3N0cmluZysweDEw
+LzB4MTAKWyAgMTE0LjgyOTU4OF0gID8gX194NjRfc3lzX2ZsaXN0eGF0dHIrMHgxMmIvMHgxYzAK
+WyAgMTE0LjgyOTU4OF0gIHZzbnByaW50ZisweDVlYy8weDE2ODAKWyAgMTE0LjgyOTU4OF0gID8g
+X19wZnhfdnNucHJpbnRmKzB4MTAvMHgxMApbICAxMTQuODI5NTg4XSAgPyBoZnNwbHVzX2Jub2Rl
+X3JlYWRfdTE2KzB4NzEvMHhhMApbICAxMTQuODI5NTg4XSAgPyBfX2FzYW5fbWVtY3B5KzB4M2Mv
+MHg2MApbICAxMTQuODI5NTg4XSAgc2NucHJpbnRmKzB4YjUvMHgxMTAKWyAgMTE0LjgyOTU4OF0g
+ID8gX19wZnhfc2NucHJpbnRmKzB4MTAvMHgxMApbICAxMTQuODI5NTg4XSAgPyB1bmkyY2hhcisw
+eDE5LzB4NzAKWyAgMTE0LjgyOTU4OF0gID8gaGZzcGx1c191bmkyYXNjKzB4MjlmLzB4OWUwClsg
+IDExNC44Mjk1ODhdICA/IF9fcGZ4X3VuaTJjaGFyKzB4MTAvMHgxMApbICAxMTQuODI5NTg4XSAg
+Y29weV9uYW1lKzB4NjIvMHg3MApbICAxMTQuODI5NTg4XSAgaGZzcGx1c19saXN0eGF0dHIrMHg0
+YTgvMHhiYjAKWyAgMTE0LjgyOTU4OF0gID8gX19wZnhfaGZzcGx1c19saXN0eGF0dHIrMHgxMC8w
+eDEwClsgIDExNC44Mjk1ODhdICA/IF9fa2FzYW5fa21hbGxvYysweDhmLzB4YTAKWyAgMTE0Ljgy
+OTU4OF0gID8gX19rbWFsbG9jX25vZGVfbm9wcm9mKzB4MTlhLzB4NDYwClsgIDExNC44Mjk1ODhd
+ICA/IGxpc3R4YXR0cisweDQyLzB4ZjAKWyAgMTE0LjgyOTU4OF0gID8gX194NjRfc3lzX2ZsaXN0
+eGF0dHIrMHgxMmIvMHgxYzAKWyAgMTE0LjgyOTU4OF0gID8gZG9fc3lzY2FsbF82NCsweDU4LzB4
+MTIwClsgIDExNC44Mjk1ODhdICA/IGthc2FuX3NhdmVfdHJhY2srMHgxNC8weDMwClsgIDExNC44
+Mjk1ODhdICA/IF9fa21hbGxvY19ub2RlX25vcHJvZisweDE5YS8weDQ2MApbICAxMTQuODI5NTg4
+XSAgPyBsaXN0eGF0dHIrMHg0Mi8weGYwClsgIDExNC44Mjk1ODhdICA/IHNlY3VyaXR5X2lub2Rl
+X2xpc3R4YXR0cisweGQwLzB4MTQwClsgIDExNC44Mjk1ODhdICBsaXN0eGF0dHIrMHg1Yy8weGYw
+ClsgIDExNC44Mjk1ODhdICBfX3g2NF9zeXNfZmxpc3R4YXR0cisweDEyYi8weDFjMApbICAxMTQu
+ODI5NTg4XSAgPyBhcmNoX2V4aXRfdG9fdXNlcl9tb2RlX3ByZXBhcmUuaXNyYS4wKzB4YmQvMHhl
+MApbICAxMTQuODI5NTg4XSAgZG9fc3lzY2FsbF82NCsweDU4LzB4MTIwClsgIDExNC44Mjk1ODhd
+ICBlbnRyeV9TWVNDQUxMXzY0X2FmdGVyX2h3ZnJhbWUrMHg3Ni8weDdlClsgIDExNC44Mjk1ODhd
+IFJJUDogMDAzMzoweDQyZGQ0YgpbICAxMTQuODI5NTg4XSBDb2RlOiBjNyBjMCBiOCBmZiBmZiBm
+ZiA2NCBjNyAwMCAwYyAwMCAwMCAwMCBiOCBmZiBmZiBmZiBmZiBjMyA2NiAyZSAwZiAxZiA4NCAw
+MCAwMCAwMCAwMCAwMCA2NiA5MCBmMyAwZiAxZSBmYSBiOCBjNCAwMCAwMCAwMCAwZiAwNSA8NDg+
+IDNkIDAxIGYwIGZmIGZmIDczIDAxIGMzIDQ4IGM3IGMxIGI4IGZmIGZmIGZmIGY3IGQ4IDY0IDg5
+IDAxIDQ4ClsgIDExNC44Mjk1ODhdIFJTUDogMDAyYjowMDAwN2ZmZTYwMGM5ZmE4IEVGTEFHUzog
+MDAwMDAyMDcgT1JJR19SQVg6IDAwMDAwMDAwMDAwMDAwYzQKWyAgMTE0LjgyOTU4OF0gUkFYOiBm
+ZmZmZmZmZmZmZmZmZmRhIFJCWDogMDAwMDAwMDAwMDAwMDAwMCBSQ1g6IDAwMDAwMDAwMDA0MmRk
+NGIKWyAgMTE0LjgyOTU4OF0gUkRYOiAwMDAwMDAwMDAwMDAwMDIwIFJTSTogMDAwMDdmZmU2MDBj
+OWZjMCBSREk6IDAwMDAwMDAwMDAwMDAwMDUKWyAgMTE0LjgyOTU4OF0gUkJQOiAwMDAwN2ZmZTYw
+MGM5ZmYwIFIwODogMDAwMDdmZmU2MDBjYTcwOCBSMDk6IDAwMDAwMDAwMDAwMDAwMTAKWyAgMTE0
+LjgyOTU4OF0gUjEwOiAwMDAwMDAwMDAwMDAwMDAwIFIxMTogMDAwMDAwMDAwMDAwMDIwNyBSMTI6
+IDAwMDA3ZmZlNjAwZDMwNTgKWyAgMTE0LjgyOTU4OF0gUjEzOiAwMDAwN2ZmZTYwMGQzMDY4IFIx
+NDogMDAwMDAwMDAwMDRkNDgwOCBSMTU6IDAwMDAwMDAwMDAwMDAwMDEKWyAgMTE0LjgyOTU4OF0g
+IDwvVEFTSz4KWyAgMTE0LjgyOTU4OF0gClsgIDExNC44Mjk1ODhdIEFsbG9jYXRlZCBieSB0YXNr
+IDE6ClsgIDExNC44Mjk1ODhdICBrYXNhbl9zYXZlX3N0YWNrKzB4MzMvMHg2MApbICAxMTQuODI5
+NTg4XSAga2FzYW5fc2F2ZV90cmFjaysweDE0LzB4MzAKWyAgMTE0LjgyOTU4OF0gIF9fa2FzYW5f
+a21hbGxvYysweDhmLzB4YTAKWyAgMTE0LjgyOTU4OF0gIGFjcGlfYmluZF9vbmUrMHgxNTQvMHg2
+ZjAKWyAgMTE0LjgyOTU4OF0gIGFjcGlfZGV2aWNlX25vdGlmeSsweDE3LzB4MjYwClsgIDExNC44
+Mjk1ODhdICBkZXZpY2VfYWRkKzB4MjJhLzB4MTQ5MApbICAxMTQuODI5NTg4XSAgY29udGFpbmVy
+X2RldmljZV9hdHRhY2grMHgxNzAvMHgyNTAKWyAgMTE0LjgyOTU4OF0gIGFjcGlfYnVzX2F0dGFj
+aCsweDRmOS8weGE1MApbICAxMTQuODI5NTg4XSAgZGV2aWNlX2Zvcl9lYWNoX2NoaWxkKzB4Zjkv
+MHgxNzAKWyAgMTE0LjgyOTU4OF0gIGFjcGlfZGV2X2Zvcl9lYWNoX2NoaWxkKzB4N2IvMHhiMApb
+ICAxMTQuODI5NTg4XSAgYWNwaV9idXNfYXR0YWNoKzB4NzMzLzB4YTUwClsgIDExNC44Mjk1ODhd
+ICBkZXZpY2VfZm9yX2VhY2hfY2hpbGQrMHhmOS8weDE3MApbICAxMTQuODI5NTg4XSAgYWNwaV9k
+ZXZfZm9yX2VhY2hfY2hpbGQrMHg3Yi8weGIwClsgIDExNC44Mjk1ODhdICBhY3BpX2J1c19hdHRh
+Y2grMHg3MzMvMHhhNTAKWyAgMTE0LjgyOTU4OF0gIGRldmljZV9mb3JfZWFjaF9jaGlsZCsweGY5
+LzB4MTcwClsgIDExNC44Mjk1ODhdICBhY3BpX2Rldl9mb3JfZWFjaF9jaGlsZCsweDdiLzB4YjAK
+WyAgMTE0LjgyOTU4OF0gIGFjcGlfYnVzX2F0dGFjaCsweDczMy8weGE1MApbICAxMTQuODI5NTg4
+XSAgYWNwaV9idXNfc2NhbisweGMxLzB4NDQwClsgIDExNC44Mjk1ODhdICBhY3BpX3NjYW5faW5p
+dCsweDFlNi8weDY0MApbICAxMTQuODI5NTg4XSAgYWNwaV9pbml0KzB4Mzg1LzB4OGYwClsgIDEx
+NC44Mjk1ODhdICBkb19vbmVfaW5pdGNhbGwrMHhiMS8weDM3MApbICAxMTQuODI5NTg4XSAga2Vy
+bmVsX2luaXRfZnJlZWFibGUrMHg0OTQvMHg3YTAKWyAgMTE0LjgyOTU4OF0gIGtlcm5lbF9pbml0
+KzB4MWYvMHgxZTAKWyAgMTE0LjgyOTU4OF0gIHJldF9mcm9tX2ZvcmsrMHgzNC8weDcwClsgIDEx
+NC44Mjk1ODhdICByZXRfZnJvbV9mb3JrX2FzbSsweDFhLzB4MzAKWyAgMTE0LjgyOTU4OF0gClsg
+IDExNC44Mjk1ODhdIFNlY29uZCB0byBsYXN0IHBvdGVudGlhbGx5IHJlbGF0ZWQgd29yayBjcmVh
+dGlvbjoKWyAgMTE0LjgyOTU4OF0gLS0tLS0tLS0tLS0tWyBjdXQgaGVyZSBdLS0tLS0tLS0tLS0t
+ClsgIDExNC44Mjk1ODhdIHBvb2wgaW5kZXggLTEgb3V0IG9mIGJvdW5kcyAoMjM3KSBmb3Igc3Rh
+Y2sgaWQgNzUwMDAwMDAKWyAgMTE0LjgyOTU4OF0gV0FSTklORzogQ1BVOiAwIFBJRDogNTQxIGF0
+IGxpYi9zdGFja2RlcG90LmM6NDUxIGRlcG90X2ZldGNoX3N0YWNrKzB4NWEvMHg4MApbICAxMTQu
+ODI5NTg4XSBNb2R1bGVzIGxpbmtlZCBpbjoKWyAgMTE0LjgyOTU4OF0gQ1BVOiAwIFVJRDogMCBQ
+SUQ6IDU0MSBDb21tOiBleHAgTm90IHRhaW50ZWQgNi4xMi45NCAjMQpbICAxMTQuODI5NTg4XSBI
+YXJkd2FyZSBuYW1lOiBRRU1VIFVidW50dSAyNC4wNCBQQyB2MiAoaTQ0MEZYICsgUElJWCwgYXJj
+aF9jYXBzIGZpeCwgMTk5NiksIEJJT1MgMS4xNi4zLWRlYmlhbi0xLjE2LjMtMiAwNC8wMS8yMDE0
+ClsgIDExNC44Mjk1ODhdIFJJUDogMDAxMDpkZXBvdF9mZXRjaF9zdGFjaysweDVhLzB4ODAKWyAg
+MTE0LjgyOTU4OF0gQ29kZTogMDQgZWQgODAgNDkgMTIgOGEgNDggODUgYzAgNzQgMjUgNDggMDEg
+ZDggOGIgNTAgMWMgODUgZDIgNzQgMjEgNWIgNWQgYzMgY2MgY2MgY2MgY2MgODkgZjkgNDggYzcg
+YzcgNTAgNTAgNTcgODcgZTggYzYgNjUgZTIgZmQgPDBmPiAwYiAzMSBjMCBlYiBlNSAwZiAwYiAz
+MSBjMCBlYiBkZiAwZiAwYiAzMSBjMCBlYiBkOSA0OCA4OSBlZSA0OApbICAxMTQuODI5NTg4XSBS
+U1A6IDAwMTg6ZmZmZmM5MDAwMTQzZjdiMCBFRkxBR1M6IDAwMDAwMDgyClsgIDExNC44Mjk1ODhd
+IFJBWDogMDAwMDAwMDAwMDAwMDAwMCBSQlg6IDAwMDAwMDAwMDAwMDI4MDAgUkNYOiAwMDAwMDAw
+MDAwMDAwMDI3ClsgIDExNC44Mjk1ODhdIFJEWDogMDAwMDAwMDAwMDAwMDAyNyBSU0k6IDAwMDAw
+MDAwMDAwMDAwMDQgUkRJOiBmZmZmODg4MTFhYTMxYTA4ClsgIDExNC44Mjk1ODhdIFJCUDogZmZm
+Zjg4ODEwMTI3M2NhOCBSMDg6IDAwMDAwMDAwMDAwMDAwMDEgUjA5OiBmZmZmZWQxMDIzNTQ2MzQx
+ClsgIDExNC44Mjk1ODhdIFIxMDogZmZmZjg4ODExYWEzMWEwYiBSMTE6IDAwMDAwMDAwMDAwMDAw
+MDEgUjEyOiBmZmZmZWEwMDA0MDQ5Y2MwClsgIDExNC44Mjk1ODhdIFIxMzogZmZmZjg4ODEwNGU3
+YTAwMCBSMTQ6IDAwMDAwMDAwMDAwMDAwMDEgUjE1OiAwMDAwMDAwMDAwMDAwMDZmClsgIDExNC44
+Mjk1ODhdIEZTOiAgMDAwMDAwMDAzMTIxZjNjMCgwMDAwKSBHUzpmZmZmODg4MTFhYTAwMDAwKDAw
+MDApIGtubEdTOjAwMDAwMDAwMDAwMDAwMDAKWyAgMTE0LjgyOTU4OF0gQ1M6ICAwMDEwIERTOiAw
+MDAwIEVTOiAwMDAwIENSMDogMDAwMDAwMDA4MDA1MDAzMwpbICAxMTQuODI5NTg4XSBDUjI6IDAw
+MDAwMDAwMDA0ZGMwZDAgQ1IzOiAwMDAwMDAwMTExMWNhMDAwIENSNDogMDAwMDAwMDAwMDAwMDZm
+MApbICAxMTQuODI5NTg4XSBDYWxsIFRyYWNlOgpbICAxMTQuODI5NTg4XSAgPFRBU0s+ClsgIDEx
+NC44Mjk1ODhdICBzdGFja19kZXBvdF9wcmludCsweDFiLzB4NTAKWyAgMTE0LjgyOTU4OF0gIGth
+c2FuX3ByaW50X2F1eF9zdGFja3MrMHgzYS8weDcwClsgIDExNC44Mjk1ODhdICBwcmludF9yZXBv
+cnQrMHgxMTcvMHg2NjAKWyAgMTE0LjgyOTU4OF0gID8gX19wZnhfX3Jhd19zcGluX2xvY2tfaXJx
+c2F2ZSsweDEwLzB4MTAKWyAgMTE0LjgyOTU4OF0gID8gX19wZnhfdW5pMmNoYXIrMHgxMC8weDEw
+ClsgIDExNC44Mjk1ODhdICA/IHN0cmluZysweDJmNy8weDMzMApbICAxMTQuODI5NTg4XSAga2Fz
+YW5fcmVwb3J0KzB4YzYvMHgxMDAKWyAgMTE0LjgyOTU4OF0gID8gc3RyaW5nKzB4MmY3LzB4MzMw
+ClsgIDExNC44Mjk1ODhdICBzdHJpbmcrMHgyZjcvMHgzMzAKWyAgMTE0LjgyOTU4OF0gID8gX19w
+Znhfc3RyaW5nKzB4MTAvMHgxMApbICAxMTQuODI5NTg4XSAgPyBfX3g2NF9zeXNfZmxpc3R4YXR0
+cisweDEyYi8weDFjMApbICAxMTQuODI5NTg4XSAgdnNucHJpbnRmKzB4NWVjLzB4MTY4MApbICAx
+MTQuODI5NTg4XSAgPyBfX3BmeF92c25wcmludGYrMHgxMC8weDEwClsgIDExNC44Mjk1ODhdICA/
+IGhmc3BsdXNfYm5vZGVfcmVhZF91MTYrMHg3MS8weGEwClsgIDExNC44Mjk1ODhdICA/IF9fYXNh
+bl9tZW1jcHkrMHgzYy8weDYwClsgIDExNC44Mjk1ODhdICBzY25wcmludGYrMHhiNS8weDExMApb
+ICAxMTQuODI5NTg4XSAgPyBfX3BmeF9zY25wcmludGYrMHgxMC8weDEwClsgIDExNC44Mjk1ODhd
+ICA/IHVuaTJjaGFyKzB4MTkvMHg3MApbICAxMTQuODI5NTg4XSAgPyBoZnNwbHVzX3VuaTJhc2Mr
+MHgyOWYvMHg5ZTAKWyAgMTE0LjgyOTU4OF0gID8gX19wZnhfdW5pMmNoYXIrMHgxMC8weDEwClsg
+IDExNC44Mjk1ODhdICBjb3B5X25hbWUrMHg2Mi8weDcwClsgIDExNC44Mjk1ODhdICBoZnNwbHVz
+X2xpc3R4YXR0cisweDRhOC8weGJiMApbICAxMTQuODI5NTg4XSAgPyBfX3BmeF9oZnNwbHVzX2xp
+c3R4YXR0cisweDEwLzB4MTAKWyAgMTE0LjgyOTU4OF0gID8gX19rYXNhbl9rbWFsbG9jKzB4OGYv
+MHhhMApbICAxMTQuODI5NTg4XSAgPyBfX2ttYWxsb2Nfbm9kZV9ub3Byb2YrMHgxOWEvMHg0NjAK
+WyAgMTE0LjgyOTU4OF0gID8gbGlzdHhhdHRyKzB4NDIvMHhmMApbICAxMTQuODI5NTg4XSAgPyBf
+X3g2NF9zeXNfZmxpc3R4YXR0cisweDEyYi8weDFjMApbICAxMTQuODI5NTg4XSAgPyBkb19zeXNj
+YWxsXzY0KzB4NTgvMHgxMjAKWyAgMTE0LjgyOTU4OF0gID8ga2FzYW5fc2F2ZV90cmFjaysweDE0
+LzB4MzAKWyAgMTE0LjgyOTU4OF0gID8gX19rbWFsbG9jX25vZGVfbm9wcm9mKzB4MTlhLzB4NDYw
+ClsgIDExNC44Mjk1ODhdICA/IGxpc3R4YXR0cisweDQyLzB4ZjAKWyAgMTE0LjgyOTU4OF0gID8g
+c2VjdXJpdHlfaW5vZGVfbGlzdHhhdHRyKzB4ZDAvMHgxNDAKWyAgMTE0LjgyOTU4OF0gIGxpc3R4
+YXR0cisweDVjLzB4ZjAKWyAgMTE0LjgyOTU4OF0gIF9feDY0X3N5c19mbGlzdHhhdHRyKzB4MTJi
+LzB4MWMwClsgIDExNC44Mjk1ODhdICA/IGFyY2hfZXhpdF90b191c2VyX21vZGVfcHJlcGFyZS5p
+c3JhLjArMHhiZC8weGUwClsgIDExNC44Mjk1ODhdICBkb19zeXNjYWxsXzY0KzB4NTgvMHgxMjAK
+WyAgMTE0LjgyOTU4OF0gIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDc2LzB4N2UK
+WyAgMTE0LjgyOTU4OF0gUklQOiAwMDMzOjB4NDJkZDRiClsgIDExNC44Mjk1ODhdIENvZGU6IGM3
+IGMwIGI4IGZmIGZmIGZmIDY0IGM3IDAwIDBjIDAwIDAwIDAwIGI4IGZmIGZmIGZmIGZmIGMzIDY2
+IDJlIDBmIDFmIDg0IDAwIDAwIDAwIDAwIDAwIDY2IDkwIGYzIDBmIDFlIGZhIGI4IGM0IDAwIDAw
+IDAwIDBmIDA1IDw0OD4gM2QgMDEgZjAgZmYgZmYgNzMgMDEgYzMgNDggYzcgYzEgYjggZmYgZmYg
+ZmYgZjcgZDggNjQgODkgMDEgNDgKWyAgMTE0LjgyOTU4OF0gUlNQOiAwMDJiOjAwMDA3ZmZlNjAw
+YzlmYTggRUZMQUdTOiAwMDAwMDIwNyBPUklHX1JBWDogMDAwMDAwMDAwMDAwMDBjNApbICAxMTQu
+ODI5NTg4XSBSQVg6IGZmZmZmZmZmZmZmZmZmZGEgUkJYOiAwMDAwMDAwMDAwMDAwMDAwIFJDWDog
+MDAwMDAwMDAwMDQyZGQ0YgpbICAxMTQuODI5NTg4XSBSRFg6IDAwMDAwMDAwMDAwMDAwMjAgUlNJ
+OiAwMDAwN2ZmZTYwMGM5ZmMwIFJESTogMDAwMDAwMDAwMDAwMDAwNQpbICAxMTQuODI5NTg4XSBS
+QlA6IDAwMDA3ZmZlNjAwYzlmZjAgUjA4OiAwMDAwN2ZmZTYwMGNhNzA4IFIwOTogMDAwMDAwMDAw
+MDAwMDAxMApbICAxMTQuODI5NTg4XSBSMTA6IDAwMDAwMDAwMDAwMDAwMDAgUjExOiAwMDAwMDAw
+MDAwMDAwMjA3IFIxMjogMDAwMDdmZmU2MDBkMzA1OApbICAxMTQuODI5NTg4XSBSMTM6IDAwMDA3
+ZmZlNjAwZDMwNjggUjE0OiAwMDAwMDAwMDAwNGQ0ODA4IFIxNTogMDAwMDAwMDAwMDAwMDAwMQpb
+ICAxMTQuODI5NTg4XSAgPC9UQVNLPgpbICAxMTQuODI5NTg4XSAtLS1bIGVuZCB0cmFjZSAwMDAw
+MDAwMDAwMDAwMDAwIF0tLS0KWyAgMTE0LjgyOTU4OF0gLS0tLS0tLS0tLS0tWyBjdXQgaGVyZSBd
+LS0tLS0tLS0tLS0tClsgIDExNC44Mjk1ODhdIGNvcnJ1cHQgaGFuZGxlIG9yIHVzZSBhZnRlciBz
+dGFja19kZXBvdF9wdXQoKQpbICAxMTQuODI5NTg4XSBXQVJOSU5HOiBDUFU6IDAgUElEOiA1NDEg
+YXQgbGliL3N0YWNrZGVwb3QuYzo3MTkgc3RhY2tfZGVwb3RfcHJpbnQrMHgzZS8weDUwClsgIDEx
+NC44Mjk1ODhdIE1vZHVsZXMgbGlua2VkIGluOgpbICAxMTQuODI5NTg4XSBDUFU6IDAgVUlEOiAw
+IFBJRDogNTQxIENvbW06IGV4cCBUYWludGVkOiBHICAgICAgICBXICAgICAgICAgIDYuMTIuOTQg
+IzEKWyAgMTE0LjgyOTU4OF0gVGFpbnRlZDogW1ddPVdBUk4KWyAgMTE0LjgyOTU4OF0gSGFyZHdh
+cmUgbmFtZTogUUVNVSBVYnVudHUgMjQuMDQgUEMgdjIgKGk0NDBGWCArIFBJSVgsIGFyY2hfY2Fw
+cyBmaXgsIDE5OTYpLCBCSU9TIDEuMTYuMy1kZWJpYW4tMS4xNi4zLTIgMDQvMDEvMjAxNApbICAx
+MTQuODI5NTg4XSBSSVA6IDAwMTA6c3RhY2tfZGVwb3RfcHJpbnQrMHgzZS8weDUwClsgIDExNC44
+Mjk1ODhdIENvZGU6IGNjIGNjIGU4IDc1IGZjIGZmIGZmIDQ4IDg1IGMwIDc0IDEyIDhiIDcwIDE0
+IDQ4IDhkIDc4IDIwIDg1IGY2IDc0IDFhIDMxIGQyIGU5IDVlIDI2IDA2IGZlIDQ4IGM3IGM3IDg4
+IDUwIDU3IDg3IGU4IDcyIDYyIGUyIGZkIDwwZj4gMGIgYzMgY2MgY2MgY2MgY2MgYzMgY2MgY2Mg
+Y2MgY2MgNjYgMGYgMWYgNDQgMDAgMDAgOTAgOTAgOTAgOTAKWyAgMTE0LjgyOTU4OF0gUlNQOiAw
+MDE4OmZmZmZjOTAwMDE0M2Y3YzggRUZMQUdTOiAwMDAwMDA4MgpbICAxMTQuODI5NTg4XSBSQVg6
+IDAwMDAwMDAwMDAwMDAwMDAgUkJYOiBmZmZmODg4MTAxMjczY2EwIFJDWDogMDAwMDAwMDAwMDAw
+MDAyNwpbICAxMTQuODI5NTg4XSBSRFg6IDAwMDAwMDAwMDAwMDAwMjcgUlNJOiAwMDAwMDAwMDAw
+MDAwMDA0IFJESTogZmZmZjg4ODExYWEzMWEwOApbICAxMTQuODI5NTg4XSBSQlA6IGZmZmY4ODgx
+MDEyNzNjYTggUjA4OiAwMDAwMDAwMDAwMDAwMDAxIFIwOTogZmZmZmVkMTAyMzU0NjM0MQpbICAx
+MTQuODI5NTg4XSBSMTA6IGZmZmY4ODgxMWFhMzFhMGIgUjExOiAwMDAwMDAwMDAwMDAwMDAxIFIx
+MjogZmZmZmVhMDAwNDA0OWNjMApbICAxMTQuODI5NTg4XSBSMTM6IGZmZmY4ODgxMDRlN2EwMDAg
+UjE0OiAwMDAwMDAwMDAwMDAwMDAxIFIxNTogMDAwMDAwMDAwMDAwMDA2ZgpbICAxMTQuODI5NTg4
+XSBGUzogIDAwMDAwMDAwMzEyMWYzYzAoMDAwMCkgR1M6ZmZmZjg4ODExYWEwMDAwMCgwMDAwKSBr
+bmxHUzowMDAwMDAwMDAwMDAwMDAwClsgIDExNC44Mjk1ODhdIENTOiAgMDAxMCBEUzogMDAwMCBF
+UzogMDAwMCBDUjA6IDAwMDAwMDAwODAwNTAwMzMKWyAgMTE0LjgyOTU4OF0gQ1IyOiAwMDAwMDAw
+MDAwNGRjMGQwIENSMzogMDAwMDAwMDExMTFjYTAwMCBDUjQ6IDAwMDAwMDAwMDAwMDA2ZjAKWyAg
+MTE0LjgyOTU4OF0gQ2FsbCBUcmFjZToKWyAgMTE0LjgyOTU4OF0gIDxUQVNLPgpbICAxMTQuODI5
+NTg4XSAga2FzYW5fcHJpbnRfYXV4X3N0YWNrcysweDNhLzB4NzAKWyAgMTE0LjgyOTU4OF0gIHBy
+aW50X3JlcG9ydCsweDExNy8weDY2MApbICAxMTQuODI5NTg4XSAgPyBfX3BmeF9fcmF3X3NwaW5f
+bG9ja19pcnFzYXZlKzB4MTAvMHgxMApbICAxMTQuODI5NTg4XSAgPyBfX3BmeF91bmkyY2hhcisw
+eDEwLzB4MTAKWyAgMTE0LjgyOTU4OF0gID8gc3RyaW5nKzB4MmY3LzB4MzMwCgoK
+--000000000000dae7d806558671c9--
