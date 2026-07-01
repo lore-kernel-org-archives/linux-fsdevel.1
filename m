@@ -1,58 +1,58 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA023C9881
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 11:04:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610B03C9881
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 11:07:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782903862; cv=none; b=kIhCxuLeR9/AjhnR++/OdKAW+0ck/2qRlI9xs4EPL4rrHGZYAM/I2bBamc/mogxqgNJk8qa/ubc4Y2cW1zXXUaF5oqEKx65gXqtRbyJ05sOP0g8NeUQWHWAA0ZClyyFvOqIuqe+Jedo5/tTJAK1XVUXaJU6A9GhrPAUUgD8ii7s=
+	t=1782904070; cv=none; b=gMg0uVNYlEdAoqSIP9RFndb/OLWvO80/mNcI+Z2XKwa+h+Hjafdi4E5idmigHIASKrPtpIFBArRj3RQJBN45Y5VoJQcI6jaE5zfyLIfzQUtCFSH7Fu9Trv986K4LyjIJ9DajDLZI9FD3HhKU+xiB567HAHLm2hH/Vt9mogSxYhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782903862; c=relaxed/simple;
-	bh=MSrxmrzOCAc004e4bgNai+ZOe5wtK1/kJcZMJgq+c3c=;
+	s=arc-20240116; t=1782904070; c=relaxed/simple;
+	bh=+DpHaNz5MICBLsZHkxrJjp4aP2LwkmKv7jFTR1+/z6Y=;
 	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=rl+tvsIBjlF3sq9K8NB+TVADmJcWbKw1n79C+HauZvUOWpwLrDeoZ2U2SKPSYSyIsZT7I4wZeYy0CrstbxEA3saT2DZQBvF5UOGvOCcd0k0bKrNS/CcOgti7BqB6Wh6YzXtkDG5d8EK035SdUl925qjsJcxxgsVXFgHZQ+qWhAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=TwRVzxSz; arc=none smtp.client-ip=195.121.94.186
+	 MIME-Version:Content-Type; b=MQHcoTdYCoC+6oN4tq7uJARyEXjWG94bJ1ekwgwVtvqzytbQ1nZwDt21ny0aLI+9NUG7UnGhz7C+un3bWpbRS2FRH/V1Idb+HXBRr78wM5vZpM17pOguChphrxUYaCldVNygE4aWRNEWXYGBl0Lv5C7rM0jUEmLWNS1klAHgyTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=ZECzprwn; arc=none smtp.client-ip=195.121.94.184
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="TwRVzxSz"
-X-KPN-MessageId: 97ab58c0-753c-11f1-bfba-00505699b430
-Received: from mta.kpnmail.nl (unknown [10.31.161.189])
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="ZECzprwn"
+X-KPN-MessageId: 137220c4-753d-11f1-a59f-005056994fde
+Received: from mta.kpnmail.nl (unknown [10.31.161.190])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 97ab58c0-753c-11f1-bfba-00505699b430;
-	Wed, 01 Jul 2026 13:04:12 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	id 137220c4-753d-11f1-a59f-005056994fde;
+	Wed, 01 Jul 2026 13:07:40 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
 	by mta.kpnmail.nl (Halon) with ESMTP
-	id 97aa5570-753c-11f1-ae65-0050569981f5;
-	Wed, 01 Jul 2026 13:04:12 +0200 (CEST)
+	id 13703cee-753d-11f1-b2fa-0050569977a2;
+	Wed, 01 Jul 2026 13:07:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=gxUAjZ4jCu9GIeJocNb94loPTpAzzw+6Rx3tyQi/xVU=;
-	b=TwRVzxSzRooToqCJhNJNxyW6aWV4YC0Dl+TI/fkVIeJKuZnhoWOq2MiW97sjcgs1DD+mr4jyAjeNc
-	 vv08owxmAJ13QiYgwLTEnKny+FPqjOcMDZnwHZa9vRTeb3nn47GHytifk4tjTa3gBp2OFrSERXgGbw
-	 TA2ipAJDBXI68pUNdJigc/68KjlhlcROHbEoLFH2GhOqmJdE1QywBgVbVpDdZ4OvJbazYiT7nmR4W3
-	 YUpzWZ7xuTt/wOae3JasYc45fmLhFGiTL0qxEXJ0QkMU4cjWRlS3Qx7bW4sIWxhFLJXeLbCR2GFBBU
-	 lCpwvWM2g2uxp2g6COKbRVfwfhrAieQ==
-X-KPN-MID: 33|nH4netaQ8bTFXirivr5mTglSC4FC6KxXeYZMjxVpuIeQ9uXGlO6WcEJbVoH5thr
- iC1u6VhEkXhtFXRSLQFkOOak7QC7rNxArvZHzquP3RYg=
-X-CMASSUN: 33|zWQdlOv2/X+kx0Ic0N4oEmJ4jxK262OX3E4c3yGyZLf3+gHNGqTfqqoNjaqYaCZ
- /vfj6CqmEwlnL9BlDQZy1zg==
+	bh=TuHGBTAqg9dOHzBouloGe7pKw9k776/EbdZmQhmzgYk=;
+	b=ZECzprwndyI5OAzptfiRLfZeJAE+a0mAT7lqTDiY4skgPkYHHwOVCwm8vfCpqEAwA3d0fjD2fe49j
+	 Ld2l5+I7Gi7ceZKVCwPBP2nxaaT3vOB9GiMzLTDh4ygPNkcsJL8lw46fnkfiAxTFxR3/rMQeSMZcXs
+	 SQvcNuuNjnvDr8LfYkv57/U5A04VhrU+kqOM9ivCF0rYds0/vyRCkfCxsBReRJmITYRDi0WpZyZSNR
+	 Jn0+qaRhJZUbL8bU48+kFu8gn2JzhDtwcMTgTqPBfzHbyeUZzdaprfwfJw9YY50mjZTknkLqm3x1K0
+	 va2GERgcg9FnLEaIwxKijsOvYyj9smA==
+X-KPN-MID: 33|Q1Kb3ouTd0U3IwX7QCZ2qm7LMIWM/KkaVsHJmRozbx2rgxguEHW+knuAeK8SK2R
+ 1rzn2/wZHPhIc1nsBfbCqpG1s7JZZasFFFn5JvIaq9Oo=
+X-CMASSUN: 33|rpQCR7pe5Fnq4DINgN6QKUwx4Q116BfW086JK73Z38m4ByaWe5gl6fGQ5I2VQe6
+ A4W3PWY0fcw/hwq5McONFEQ==
 X-KPN-VerifiedSender: Yes
 Received: from cpxoxapps-mh07 (cpxoxapps-mh07.personalcloud.so.kpn.org [10.128.135.213])
 	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 979021d1-753c-11f1-916a-005056995d6c;
-	Wed, 01 Jul 2026 13:04:12 +0200 (CEST)
-Date: Wed, 1 Jul 2026 13:04:12 +0200 (CEST)
+	id 136500fb-753d-11f1-8edb-00505699eff2;
+	Wed, 01 Jul 2026 13:07:40 +0200 (CEST)
+Date: Wed, 1 Jul 2026 13:07:40 +0200 (CEST)
 From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: NeilBrown <neil@brown.name>, NeilBrown <neilb@ownmail.net>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+To: Christian Brauner <brauner@kernel.org>
+Cc: NeilBrown <neil@brown.name>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <1647258662.3623074.1782903852645@kpc.webmail.kpnmail.nl>
-In-Reply-To: <178285902311.27465.11536482082229795452@noble.neil.brown.name>
+Message-ID: <1904623668.3623657.1782904060400@kpc.webmail.kpnmail.nl>
+In-Reply-To: <20260701-vorspannen-zutreffen-unbeeindruckt-29ea949f9d5c@brauner>
 References: <20260630105400.68459-1-jkoolstra@xs4all.nl>
- <178285902311.27465.11536482082229795452@noble.neil.brown.name>
+ <20260701-vorspannen-zutreffen-unbeeindruckt-29ea949f9d5c@brauner>
 Subject: Re: [PATCH v2 00/31] vfs: pass S_IFDIR mode to vfs_prepare_mode()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -66,10 +66,12 @@ X-Priority: 3
 Importance: Normal
 
 
-> Op 01-07-2026 00:37 CEST schreef NeilBrown <neilb@ownmail.net>:
+> Op 01-07-2026 12:51 CEST schreef Christian Brauner <brauner@kernel.org>:
 > 
 >  
-> On Tue, 30 Jun 2026, Jori Koolstra wrote:
+> On Tue, 30 Jun 2026 12:53:29 +0200, Jori Koolstra wrote:
+> > vfs: pass S_IFDIR mode to vfs_prepare_mode()
+> > 
 > > There is a comment in vfs_prepare_mode() that says:
 > > 
 > > Note that it's currently valid for @type to be 0 if a directory is
@@ -77,46 +79,99 @@ Importance: Normal
 > > whether each filesystem can deal with receiving S_IFDIR from the vfs
 > > before we enforce a non-zero type.
 > > 
-> > It is useful to do this clean-up ahead of O_CREAT|O_DIRECTORY.
-> > Specifically, in lookup_open() we need to replace the vfs_prepare_mode()
-> > with something that also handles dirs. I don't really want to push the
-> > odd
-> > 
-> >     mode = vfs_prepare_mode(idmap, dir, mode, S_IRWXUGO | S_ISVTX, 0);
-> > 
-> > further into that code, and neither do I want this to be different from
-> > the regular vfs_mkdir() path. We can then also match on S_IFMT in
-> > may_o_create(), instead of passing a bool to signal whether we are
-> > creating a dir (and assuming 0 means a dir is really ugly).
-> > 
-> > It is a bit challenging to verify that passing S_IFDIR is safe, as there
-> > are many filesystems. Claude Opus 4.8 was used to generate the context
-> > for each mkdir implementation from which it can be judged whether
-> > passing S_IFDIR is OK. The result was then verified by hand by looking
-> > at how the mode argument is used in each case. To check whether all
-> > mkdir implementations are covered, 'rg "\.mkdir" ' was used and checked
-> > against the list of uses Claude found.
-> > 
-> > It is safe to do this clean-up except that three filesystems (fuse,
-> > cifs, and coda) forward the mkdir @mode unchanged to something outside
-> > the kernel. Mask S_IFDIR back out in coda_mkdir(), fuse_mkdir() and
-> > cifs_mkdir() so that what is sent outside the kernel is unchanged.
-> > Their maintainers can drop the mask once they have confirmed it is safe.
-> > For the other filesystems redundant S_IFDIR OR'ing is dropped.
+> > [...]
 > 
-> This all looks good to me - thanks.
-> Reviewed-by: NeilBrown <neil@brown.name>
+> People are of course free to annotate their patches with Assisted-by
+> tags to point out that they are using an LLM. But I'm refusing to do
+> free in-kernel advertising for specific companies. So I've changed all
+> tags to read:
 > 
-> NeilBrown
+> Assisted-by: LLM
 > 
+> which is good enough for all purposes. Nobody cares what specific sed or
+> coccinelle version or whatever else was used.
 > 
 
-Thanks for the review, Neil.
+Oh, I actually much prefer that. Thanks for changing it. I was just following
+https://docs.kernel.org/process/coding-assistants.html. Maybe that should be
+updated...?
 
-By the way, if possible, would be great if we can get the excl flag removed
-(as you mentioned) before the next merge window. Then the O_CREAT|O_DIRECTORY
-stuff can use that clean-up as well (along with this) and maybe we can get
-it all into 7.3.
-
-Is it OK if I just go ahead and do that? But it is your observation, so feel free
-to do it yourself whenever you have time, of course :)
+> ---
+> 
+> Applied to the vfs-7.3.misc branch of the vfs/vfs.git tree.
+> Patches in the vfs-7.3.misc branch should appear in linux-next soon.
+> 
+> Please report any outstanding bugs that were missed during review in a
+> new review to the original patch series allowing us to drop it.
+> 
+> It's encouraged to provide Acked-bys and Reviewed-bys even though the
+> patch has now been applied. If possible patch trailers will be updated.
+> 
+> Note that commit hashes shown below are subject to change due to rebase,
+> trailer updates or similar. If in doubt, please check the listed branch.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+> branch: vfs-7.3.misc
+> 
+> [01/31] vfs: pass S_IFDIR mode to vfs_prepare_mode()
+>         https://git.kernel.org/vfs/vfs/c/efdfa808046b
+> [02/31] 9p: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/cdece9964e85
+> [03/31] affs: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/a8b708c9854f
+> [04/31] afs: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/f5522bef1e46
+> [05/31] autofs: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/31468de07502
+> [06/31] btrfs: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/119ace91c0b6
+> [07/31] ceph: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/2a3471957fb2
+> [08/31] ext2: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/59d70c116933
+> [09/31] ext4: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/583b53b0b470
+> [10/31] f2fs: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/9822629e4207
+> [11/31] gfs2: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/cda6023f474b
+> [12/31] hfs: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/c9c0d511a820
+> [13/31] hfsplus: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/698ce0b15c50
+> [14/31] hpfs: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/e3ec849de731
+> [15/31] hugetlbfs: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/d6c1e7d1ddfe
+> [16/31] jffs2: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/2b8c9ca36328
+> [17/31] jfs: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/f6ad401d7f0c
+> [18/31] minix: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/3b4857471b66
+> [19/31] nilfs2: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/2183594ad607
+> [20/31] ntfs3: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/fc70a07e2702
+> [21/31] ocfs2: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/b12ec01ea00f
+> [22/31] ocfs2: dlmfs: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/840de92490a2
+> [23/31] omfs: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/2f2983204488
+> [24/31] orangefs: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/7643456f3468
+> [25/31] ramfs: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/86f91a68fb25
+> [26/31] udf: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/d36d77de05c1
+> [27/31] ufs: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/6449e995b4b2
+> [28/31] nfs: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/0266eafe7e34
+> [29/31] ubifs: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/9fc38090ccbc
+> [30/31] xfs: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/57162848e543
+> [31/31] ntfs: drop redundant S_IFDIR from mkdir
+>         https://git.kernel.org/vfs/vfs/c/bec2272283f9
