@@ -1,87 +1,87 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A03B3EAC74
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 10:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B84D3F0A86
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 10:10:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782900603; cv=none; b=CJoTn5hztYSeK2uc5wZtUVavfjCsTgy2if5nBMkgD8BSh0FIhoXjZPdYTjwAySM6uJ+a6pZMe4yX+x0db6z/2cK+mClGy6nExeGvHjINfypxiNpsl+ReZ0qednqQrFKJvB3uxowqE8SV4loAQR0g5PpcEpu9cQRLvdq2uB58nzQ=
+	t=1782900630; cv=none; b=B6fnYk8mF3Hbw2GKfaAYNMliObePvDXA3CY50rvBFLPTe48UhsM3kLpER2MyPnXOfOvj6Pgdv8fFvY/UdqVROkmt2mxnyLSX8q2FftTjD0gLZbZk4ssD1oGMlBimJobo3/QYd4MWGn2FtHLhXFO8RFbzRAokWePlHZ4rfMHWRkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782900603; c=relaxed/simple;
-	bh=9AGCWj9yEiZb7AqZlXGvgn/z/ubcTkyqzUxgdC9/Xks=;
+	s=arc-20240116; t=1782900630; c=relaxed/simple;
+	bh=uf/SHqlJlcID6ZAm/Y6yx6k/jOMu5I8DMyfoFu0rpeI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lu07er9Kg0XcxO85uMCSkzGRMI6jmBOTU4ClSkEgho1bRgsMhr5OyWrs4foYsEJYNfZTt8g9M+sHDhv5wbxhd8Gs4sTV3y8QjTUuM5q2mJVgRcxrE0iii/6dRs/bTedGfh0CaD7NI4/KmVyEkjcLusAYEO9R2MAiSuZHFaJ/KFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Bn2LbrA9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=quTxt17S; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=KnWCrdSj; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7zaHOWIw; arc=none smtp.client-ip=195.135.223.130
+	 Content-Type:Content-Disposition:In-Reply-To; b=ul5F4Jiv+04XicfsLHMxCmxJUu7dt/0XqUNnt2Y0HfyPHZQFjmH1VSTGPeqT33Apd9ro+fAQ3B2gw8xEtBXqR7gDm6f0FOzsqyp/dqvBS6MWvCJQINrkvN/IhhmkVsrvLjDw9kq8CIFaAATcAY4RAnwjALV/dBu8hFmG/1+JVLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=eF0VUq3i; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=n1HMPlV8; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=2XWxz/AL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=X7VcNAal; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Bn2LbrA9";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="quTxt17S";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="KnWCrdSj";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7zaHOWIw"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="eF0VUq3i";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="n1HMPlV8";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2XWxz/AL";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="X7VcNAal"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 68CA471AFC;
-	Wed,  1 Jul 2026 10:09:58 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2E1D275EEA;
+	Wed,  1 Jul 2026 10:10:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782900599; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1782900627; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PYst2nRR2UmxJ/X+CMuFRprM0QVn/5EVI2NX6JEPhVM=;
-	b=Bn2LbrA9X1oHdAnSEjaDTXWyx2CCY3Bw3WPrgM6wpLqK3w4zrynOKzFLC6vm40PqL31WJr
-	G0uqR8vfmVA5taG6fnbs1cS/6SZ8zdcVoEYZXvsWZs4Ma92+4XBL90Ne7w/pL4kkvjCXnr
-	taPHR5G22+eXuHkI/5v4kj3vUSZ0f/I=
+	bh=yQsAuCfULrr4d5at8t7nMnwwroQ/kgrDznQlW2w40cU=;
+	b=eF0VUq3iEdH6Plws2llipNAlWFuLBERxIN3ZhQm+1Hl4HDuHZjNZ0NJYD9uIM1buyAe5Br
+	GjzJc/sX107NP5R26KfRf9UAv8vM4F7aBmrwGuQ+HOpdP+qQg5sP26Gs5NPWFMJzeBfUMH
+	KZmbkHNGrstTAmZ5YJwg1xEuBzEAVOI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782900599;
+	s=susede2_ed25519; t=1782900627;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PYst2nRR2UmxJ/X+CMuFRprM0QVn/5EVI2NX6JEPhVM=;
-	b=quTxt17S5F4VVVt9efUJtMd+sTpxj42DicnQtIIyafnVI7TG9ZfJVC/tFiO55Wt2IOhYuw
-	Ca+XkO9NfaWNA5Bw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=KnWCrdSj;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=7zaHOWIw
+	bh=yQsAuCfULrr4d5at8t7nMnwwroQ/kgrDznQlW2w40cU=;
+	b=n1HMPlV8S/4I7X7zg/dd0XBOObwzA3KIexr/PwLGVaPoc/SY7eYx/XA34OSclIMNCYma57
+	+rO5i1t0LxtJo6DA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="2XWxz/AL";
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=X7VcNAal
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782900598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1782900625; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PYst2nRR2UmxJ/X+CMuFRprM0QVn/5EVI2NX6JEPhVM=;
-	b=KnWCrdSjiC9VpwWiqODenw0Exdtdt2V/gW942mhnSIpqc9FGMMCt8J0xRxkX78uHSxYq55
-	wQQBQIjGE4Zog0yYiOcRfGLNPhtNzImIBuTH1+hYuZ5I8CZcWEZDx2+K1EPc7K9VLK6H/p
-	M7bddN5RuQpwhcEoQjnmG8jI2fBk5W0=
+	bh=yQsAuCfULrr4d5at8t7nMnwwroQ/kgrDznQlW2w40cU=;
+	b=2XWxz/ALnEtl+6j7PKKGtsdUxiRHNK3XioT5HtOXIZaOa3pgNG4p+8O6zfGtwXMuV4OZQw
+	E3ycLy96KsKlGPm5OPNUwHSZgzPt1aoR3cGQsJ6885Iu9OqVtMCN1z0ccg6zdvBXIkQs8j
+	n173zl/F0JLEA1OfZCW0W7mz6vAubIc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782900598;
+	s=susede2_ed25519; t=1782900625;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PYst2nRR2UmxJ/X+CMuFRprM0QVn/5EVI2NX6JEPhVM=;
-	b=7zaHOWIw62fic2RpXviqu4owEa1Q/Ppe7udvz0lQE7F6hc7dxGAsGKHUAr2PwL3WsKwEfY
-	Vv+M5uC7P/ysPkCw==
+	bh=yQsAuCfULrr4d5at8t7nMnwwroQ/kgrDznQlW2w40cU=;
+	b=X7VcNAal4Hvhh/rVFxkPpMOKDjLQLavfyqGULrPOidFUeQi+OcUJWEjG/apZZ9Awxv/cN8
+	r8C8NVsoSx4Xw1Dg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7C5D5779AA;
-	Wed,  1 Jul 2026 10:09:57 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 24853779AA;
+	Wed,  1 Jul 2026 10:10:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id QzNaHnXnRGrKPQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 01 Jul 2026 10:09:57 +0000
+	id LtHoCJHnRGr0PQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 01 Jul 2026 10:10:25 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 24555A10B7; Wed, 01 Jul 2026 12:09:53 +0200 (CEST)
-Date: Wed, 1 Jul 2026 12:09:53 +0200
+	id CA1A1A10B7; Wed, 01 Jul 2026 12:10:24 +0200 (CEST)
+Date: Wed, 1 Jul 2026 12:10:24 +0200
 From: Jan Kara <jack@suse.cz>
 To: Jori Koolstra <jkoolstra@xs4all.nl>
 Cc: Christian Brauner <brauner@kernel.org>, NeilBrown <neil@brown.name>, 
 	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 18/31] minix: drop redundant S_IFDIR from mkdir
-Message-ID: <kaldjdxf4jnq6hb6i7vuldh6samp5mdarpqna6lyld3fincmy6@svxvcubhvcvp>
+Subject: Re: [PATCH v2 25/31] ramfs: drop redundant S_IFDIR from mkdir
+Message-ID: <wa6eku46yywaw7fkxrb657i3ueeq6eqgue466wute5nhmpeqsg@zggilvdbnpo6>
 References: <20260630105400.68459-1-jkoolstra@xs4all.nl>
- <20260630105400.68459-19-jkoolstra@xs4all.nl>
+ <20260630105400.68459-26-jkoolstra@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -90,45 +90,45 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260630105400.68459-19-jkoolstra@xs4all.nl>
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 68CA471AFC
+In-Reply-To: <20260630105400.68459-26-jkoolstra@xs4all.nl>
 X-Spam-Flag: NO
-X-Spam-Score: -4.01
+X-Rspamd-Action: no action
 X-Spam-Level: 
 X-Spamd-Result: default: False [-4.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
 	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
 	FREEMAIL_TO(0.00)[xs4all.nl];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	MIME_TRACE(0.00)[0:+];
-	URIBL_BLOCKED(0.00)[xs4all.nl:email,suse.com:email,suse.cz:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
 	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FREEMAIL_ENVRCPT(0.00)[xs4all.nl];
-	RCVD_TLS_LAST(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_DN_SOME(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[xs4all.nl:email,suse.cz:email,suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.cz:dkim,xs4all.nl:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 2E1D275EEA
+X-Spam-Score: -4.01
 
-On Tue 30-06-26 12:53:47, Jori Koolstra wrote:
+On Tue 30-06-26 12:53:54, Jori Koolstra wrote:
 > vfs_mkdir() now sets the S_IFDIR type bit in the mode it passes to
-> ->mkdir(), so OR-ing S_IFDIR into the mode again in minix_mkdir() is
+> ->mkdir(), so OR-ing S_IFDIR into the mode again in ramfs_mkdir() is
 > redundant. Drop it.
 > 
 > Assisted-by: Claude Opus 4.8 (1M context)
@@ -141,22 +141,22 @@ Reviewed-by: Jan Kara <jack@suse.cz>
 								Honza
 
 > ---
->  fs/minix/namei.c | 2 +-
+>  fs/ramfs/inode.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/fs/minix/namei.c b/fs/minix/namei.c
-> index 263e4ba8b1c8..19b03ee15c28 100644
-> --- a/fs/minix/namei.c
-> +++ b/fs/minix/namei.c
-> @@ -110,7 +110,7 @@ static struct dentry *minix_mkdir(struct mnt_idmap *idmap, struct inode *dir,
->  	struct inode * inode;
->  	int err;
->  
-> -	inode = minix_new_inode(dir, S_IFDIR | mode);
-> +	inode = minix_new_inode(dir, mode);
->  	if (IS_ERR(inode))
->  		return ERR_CAST(inode);
->  
+> diff --git a/fs/ramfs/inode.c b/fs/ramfs/inode.c
+> index 3987639ed132..e884ebc58a33 100644
+> --- a/fs/ramfs/inode.c
+> +++ b/fs/ramfs/inode.c
+> @@ -121,7 +121,7 @@ ramfs_mknod(struct mnt_idmap *idmap, struct inode *dir,
+>  static struct dentry *ramfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
+>  				 struct dentry *dentry, umode_t mode)
+>  {
+> -	int retval = ramfs_mknod(&nop_mnt_idmap, dir, dentry, mode | S_IFDIR, 0);
+> +	int retval = ramfs_mknod(&nop_mnt_idmap, dir, dentry, mode, 0);
+>  	if (!retval)
+>  		inc_nlink(dir);
+>  	return ERR_PTR(retval);
 > -- 
 > 2.54.0
 > 
