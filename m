@@ -1,177 +1,316 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610B03C9881
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 11:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9528343637D;
+	Wed,  1 Jul 2026 11:08:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782904070; cv=none; b=gMg0uVNYlEdAoqSIP9RFndb/OLWvO80/mNcI+Z2XKwa+h+Hjafdi4E5idmigHIASKrPtpIFBArRj3RQJBN45Y5VoJQcI6jaE5zfyLIfzQUtCFSH7Fu9Trv986K4LyjIJ9DajDLZI9FD3HhKU+xiB567HAHLm2hH/Vt9mogSxYhc=
+	t=1782904114; cv=none; b=iR9iVCa2aysB+vFs1Am8U6jJA9V0uXvX0RmE/YtkQ03NdoShRo6yLUGGLPwy8/XFwsV5u1hkdZi4z8nL/8A04imcj5s6Auxl6EO/e2w7rlWEiQEzZnpYBW4dVapuqCUvJqkJ7kNTJyf86NbL9TNSo2Og9ZULqkl0jl/g06PqzR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782904070; c=relaxed/simple;
-	bh=+DpHaNz5MICBLsZHkxrJjp4aP2LwkmKv7jFTR1+/z6Y=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=MQHcoTdYCoC+6oN4tq7uJARyEXjWG94bJ1ekwgwVtvqzytbQ1nZwDt21ny0aLI+9NUG7UnGhz7C+un3bWpbRS2FRH/V1Idb+HXBRr78wM5vZpM17pOguChphrxUYaCldVNygE4aWRNEWXYGBl0Lv5C7rM0jUEmLWNS1klAHgyTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=ZECzprwn; arc=none smtp.client-ip=195.121.94.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1782904114; c=relaxed/simple;
+	bh=S9U/QQkOj2QcN7GOUDf8Nq4vJ3cWwPyQIEl2/pEFaPo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kKqfYrPMMtRjByZsakL5vlqIu8RDlC/porwbV+EY/X+Jj9W3fGQ2JVzTMgHChj6U5oxh/+xWUv2W+DAbDDkJiS7KS9eDPDCmvhIxkkvNsibMetJp77YrOHf0L+2x8Z20NrFQp002+l5oP/AhbnD+3usivHw10XAkUxqddKyCofU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QRnvYhKi; arc=none smtp.client-ip=91.218.175.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="ZECzprwn"
-X-KPN-MessageId: 137220c4-753d-11f1-a59f-005056994fde
-Received: from mta.kpnmail.nl (unknown [10.31.161.190])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 137220c4-753d-11f1-a59f-005056994fde;
-	Wed, 01 Jul 2026 13:07:40 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 13703cee-753d-11f1-b2fa-0050569977a2;
-	Wed, 01 Jul 2026 13:07:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=TuHGBTAqg9dOHzBouloGe7pKw9k776/EbdZmQhmzgYk=;
-	b=ZECzprwndyI5OAzptfiRLfZeJAE+a0mAT7lqTDiY4skgPkYHHwOVCwm8vfCpqEAwA3d0fjD2fe49j
-	 Ld2l5+I7Gi7ceZKVCwPBP2nxaaT3vOB9GiMzLTDh4ygPNkcsJL8lw46fnkfiAxTFxR3/rMQeSMZcXs
-	 SQvcNuuNjnvDr8LfYkv57/U5A04VhrU+kqOM9ivCF0rYds0/vyRCkfCxsBReRJmITYRDi0WpZyZSNR
-	 Jn0+qaRhJZUbL8bU48+kFu8gn2JzhDtwcMTgTqPBfzHbyeUZzdaprfwfJw9YY50mjZTknkLqm3x1K0
-	 va2GERgcg9FnLEaIwxKijsOvYyj9smA==
-X-KPN-MID: 33|Q1Kb3ouTd0U3IwX7QCZ2qm7LMIWM/KkaVsHJmRozbx2rgxguEHW+knuAeK8SK2R
- 1rzn2/wZHPhIc1nsBfbCqpG1s7JZZasFFFn5JvIaq9Oo=
-X-CMASSUN: 33|rpQCR7pe5Fnq4DINgN6QKUwx4Q116BfW086JK73Z38m4ByaWe5gl6fGQ5I2VQe6
- A4W3PWY0fcw/hwq5McONFEQ==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh07 (cpxoxapps-mh07.personalcloud.so.kpn.org [10.128.135.213])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 136500fb-753d-11f1-8edb-00505699eff2;
-	Wed, 01 Jul 2026 13:07:40 +0200 (CEST)
-Date: Wed, 1 Jul 2026 13:07:40 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>
-Cc: NeilBrown <neil@brown.name>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <1904623668.3623657.1782904060400@kpc.webmail.kpnmail.nl>
-In-Reply-To: <20260701-vorspannen-zutreffen-unbeeindruckt-29ea949f9d5c@brauner>
-References: <20260630105400.68459-1-jkoolstra@xs4all.nl>
- <20260701-vorspannen-zutreffen-unbeeindruckt-29ea949f9d5c@brauner>
-Subject: Re: [PATCH v2 00/31] vfs: pass S_IFDIR mode to vfs_prepare_mode()
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QRnvYhKi"
+Message-ID: <0efcc0a9-a51d-4de8-8406-b8fa536a91b7@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782904099;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ieMgPSS1eIBfAPTWcoeMePMwN2vKLGAwkXUol+yS3JM=;
+	b=QRnvYhKi7ifn2CAOqwrrTALRRhFuKdBNRY4USBSzQESgxOH79yyPbWsw+wvjxJGm9pDQu3
+	75wHltVABewcdEultw97xVO9Srux+vxmHLrM1y3qkyY8Qi8RlcbW/19L2d+jmEkSOqKAw5
+	8d3ZpLHm3o4fEt3mWUbZ+Ie+mvfoBxk=
+Date: Wed, 1 Jul 2026 19:07:22 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCH v3 1/7] list: Add mutable iterator variants
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ David Laight <david.laight.linux@gmail.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "David Hildenbrand (Arm)" <david@kernel.org>,
+ Alexei Starovoitov <ast@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>,
+ Tejun Heo <tj@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Paul Moore <paul@paul-moore.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Shakeel Butt <shakeel.butt@linux.dev>, David Howells <dhowells@redhat.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>, Randy Dunlap
+ <rdunlap@infradead.org>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Philipp Stanner <phasta@kernel.org>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+ linux-ntfs-dev@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, audit@vger.kernel.org, bpf@vger.kernel.org,
+ netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-perf-users@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ kexec@lists.infradead.org, live-patching@vger.kernel.org,
+ linux-modules@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-pm@vger.kernel.org, rcu@vger.kernel.org, sched-ext@lists.linux.dev,
+ linux-mm@kvack.org, virtualization@lists.linux.dev, damon@lists.linux.dev,
+ llvm@lists.linux.dev, Kaitao Cheng <chengkaitao@kylinos.cn>,
+ Muchun Song <muchun.song@linux.dev>
+References: <20260622040533.29824-1-kaitao.cheng@linux.dev>
+ <20260622040533.29824-2-kaitao.cheng@linux.dev>
+ <20260622094242.64531b9a@pumpkin>
+ <351a6b67-b394-4c58-aee2-88b6c8089ad5@linux.dev>
+ <cf8467c7-b98f-44a5-9cf9-60b43b5da711@amd.com>
+ <20260624152324.3def88ce@pumpkin>
+ <0ed6b5c3-e955-46e2-9fc6-075a0dfd1c4f@linux.dev>
+ <734f66ca51485ee3ec9788c0eaaead681e00664b@intel.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kaitao Cheng <kaitao.cheng@linux.dev>
+In-Reply-To: <734f66ca51485ee3ec9788c0eaaead681e00664b@intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+
+在 2026/6/25 19:00, Jani Nikula 写道:
+> On Thu, 25 Jun 2026, Kaitao Cheng <kaitao.cheng@linux.dev> wrote:
+>> 在 2026/6/24 22:23, David Laight 写道:
+>>> On Wed, 24 Jun 2026 15:23:47 +0200
+>>> Christian König <christian.koenig@amd.com> wrote:
+>>>> On 6/24/26 15:14, Kaitao Cheng wrote:
+>>>>> 在 2026/6/22 16:42, David Laight 写道:  
+>>>>>> On Mon, 22 Jun 2026 12:05:31 +0800
+>>>>>> Kaitao Cheng <kaitao.cheng@linux.dev> wrote:
+>>>>>>  
+>>>>>>> From: Kaitao Cheng <chengkaitao@kylinos.cn>
+>>>>>>>
+>>>>>>> The list_for_each*_safe() helpers are used when the loop body may
+>>>>>>> remove the current entry.  Their API exposes the temporary cursor at
+>>>>>>> every call site, even though most users only need it for the iterator
+>>>>>>> implementation and never reference it in the loop body.
+>>>>>>>
+>>>>>>> Add *_mutable() variants for list and hlist iteration.  The new helpers
+>>>>>>> support both forms: callers may keep passing an explicit temporary cursor
+>>>>>>> when they need to inspect or reset it, or omit it and let the helper use
+>>>>>>> a unique internal cursor.  
+>>>>>>
+>>>>>> I'm not really sure 'mutable' means anything either.
+>>>>>> It is possible to make it valid for the loop body (or even other threads)
+>>>>>> to delete arbitrary list items - but that needs significant extra overheads.
+>>>>>>
+>>>>>> It might be worth doing something that doesn't need the extra variable,
+>>>>>> but there is little point doing all the churn just to rename things.
+>>>>>>  
+>>>>>>>
+>>>>>>> This makes call sites that only mutate the list through the current entry
+>>>>>>> less noisy, while keeping the existing *_safe() helpers available for
+>>>>>>> compatibility.
+>>>>>>>
+>>>>>>> Signed-off-by: Kaitao Cheng <chengkaitao@kylinos.cn>
+>>>>>>> ---
+>>>>>>>  include/linux/list.h | 269 +++++++++++++++++++++++++++++++++++++------
+>>>>>>>  1 file changed, 231 insertions(+), 38 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/include/linux/list.h b/include/linux/list.h
+>>>>>>> index 09d979976b3b..1081def7cea9 100644
+>>>>>>> --- a/include/linux/list.h
+>>>>>>> +++ b/include/linux/list.h
+>>>>>>> @@ -7,6 +7,7 @@
+>>>>>>>  #include <linux/stddef.h>
+>>>>>>>  #include <linux/poison.h>
+>>>>>>>  #include <linux/const.h>
+>>>>>>> +#include <linux/args.h>
+>>>>>>>  
+>>>>>>>  #include <asm/barrier.h>
+>>>>>>>  
+>>>>>>> @@ -763,28 +764,72 @@ static inline void list_splice_tail_init(struct list_head *list,
+>>>>>>>  #define list_for_each_prev(pos, head) \
+>>>>>>>  	for (pos = (head)->prev; !list_is_head(pos, (head)); pos = pos->prev)
+>>>>>>>  
+>>>>>>> -/**
+>>>>>>> - * list_for_each_safe - iterate over a list safe against removal of list entry
+>>>>>>> - * @pos:	the &struct list_head to use as a loop cursor.
+>>>>>>> - * @n:		another &struct list_head to use as temporary storage
+>>>>>>> - * @head:	the head for your list.
+>>>>>>> +/*
+>>>>>>> + * list_for_each_safe is an old interface, use list_for_each_mutable instead.
+>>>>>>>   */
+>>>>>>>  #define list_for_each_safe(pos, n, head) \
+>>>>>>>  	for (pos = (head)->next, n = pos->next; \
+>>>>>>>  	     !list_is_head(pos, (head)); \
+>>>>>>>  	     pos = n, n = pos->next)
+>>>>>>>  
+>>>>>>> +#define __list_for_each_mutable_internal(pos, tmp, head)		\
+>>>>>>> +	for (typeof(pos) tmp = (pos = (head)->next)->next;		\  
+>>>>>>
+>>>>>> Use auto
+>>>>>>  
+>>>>>>> +	     !list_is_head(pos, (head));				\
+>>>>>>> +	     pos = tmp, tmp = pos->next)
+>>>>>>> +
+>>>>>>> +#define __list_for_each_mutable1(pos, head)				\
+>>>>>>> +	__list_for_each_mutable_internal(pos, __UNIQUE_ID(next), head)
+>>>>>>> +
+>>>>>>> +#define __list_for_each_mutable2(pos, next, head)			\
+>>>>>>> +	list_for_each_safe(pos, next, head)
+>>>>>>> +
+>>>>>>>  /**
+>>>>>>> - * list_for_each_prev_safe - iterate over a list backwards safe against removal of list entry
+>>>>>>> + * list_for_each_mutable - iterate over a list safe against entry removal
+>>>>>>>   * @pos:	the &struct list_head to use as a loop cursor.
+>>>>>>> - * @n:		another &struct list_head to use as temporary storage
+>>>>>>> - * @head:	the head for your list.
+>>>>>>> + * @...:	either (head) or (next, head)
+>>>>>>> + *
+>>>>>>> + * next:	another &struct list_head to use as optional temporary storage.
+>>>>>>> + *		The temporary cursor is internal unless explicitly supplied by
+>>>>>>> + *		the caller.
+>>>>>>> + * head:	the head for your list.
+>>>>>>> + */
+>>>>>>> +#define list_for_each_mutable(pos, ...)					\
+>>>>>>> +	CONCATENATE(__list_for_each_mutable, COUNT_ARGS(__VA_ARGS__))	\
+>>>>>>> +		(pos, __VA_ARGS__)  
+>>>>>>
+>>>>>> The variable argument count logic really just slows down compilation.
+>>>>>> Maybe there aren't enough copies of this code to make that significant.
+>>>>>> But just because you can do it doesn't mean it is a gooD idea.
+>>>>>> I'm also not sure it really adds anything to the readability.
+>>>>>>
+>>>>>> And, it you are going to make the middle argument optional there is
+>>>>>> no need to change the macro name.  
+>>>>>
+>>>>> Christian König and Jani Nikula also disagree with the variadic-argument
+>>>>> implementation approach. If we abandon that method, it means we will
+>>>>> inevitably need to add some new macros. If mutable is not a good name,
+>>>>> suggestions for better alternatives would be welcome; coming up with a
+>>>>> suitable name is indeed rather tricky.  
+>>>>
+>>>> I don't think you need to add a new macro for the specific use case that people want to modify the next element of the iteration.
+>>>>
+>>>> If I remember your numbers correctly that is a really corner case and keeping using the existing *_safe() macros for that sounds perfectly fine to me.
+>>>
+>>> IIRC currently you have a choice of either:
+>>> 	define               Item that can't be deleted
+>>> 	list_for_each()	     The current item.
+>>> 	list_for_each_safe() The next item.
+>>> There is also likely to be code that updates the variables to allow
+>>> for other scenarios.
+>>>
+>>> Note that if increase a reference count and release a lock then list_for_each()
+>>> is likely safer than list_for_each_safe() :-)
+>>>
+>>> list.h has 9 variants of the 'safe' loop.
+>>> The bloat of another 9 is getting excessive.
+>>>
+>>> It has to be said that this is one of my least favourite type of list...
+>>
+>> Hi Christian König, David Laight, Jani Nikula, David Hildenbrand,
+>> Andy Shevchenko, Alexei Starovoitov
+>>
+>> For ease of discussion, I need to summarize the currently possible
+>> approaches and briefly describe their respective pros and cons,
+>> using the list_for_each_entry* interfaces as examples.
+>>
+>> 1. Add list_for_each_entry_mutable, while keeping list_for_each_entry
+>> and list_for_each_entry_safe unchanged. list_for_each_entry_mutable
+>> would be used specifically for safe deletion scenarios that do not
+>> need to expose the temporary cursor externally. The code can refer to
+>> the v1 version.
+>>
+>> Pros: Does not depend on immediate per-subsystem adaptation and can be
+>>       merged directly.
+>> Cons: Requires adding a whole set of mutable interfaces, which makes the
+>>       code somewhat redundant.
+> 
+> Seems fine, and the original _safe naming is ambiguous anyway.
+> 
+>> 2. Directly optimize away the temporary cursor in list_for_each_entry_safe
+>> and define it inside the loop instead, changing the interface from four
+>> arguments to three.
+>>
+>> Pros: Does not add redundant interfaces.
+>> Cons: (1) Users need to manually update special cases that use the
+>>       traversal variable of list_for_each_entry_safe, the new
+>>       list_for_each_entry_safe would no longer apply there and would
+>>       need to be open-coded.
+>>       (2) Because the macro arguments changes, all list_for_each_entry_safe
+>>       callers would need to be modified and merged together, making it
+>>       difficult to merge such a large amount of code at once.
+> 
+> This won't fly because there are literally thousands of
+> list_for_each_entry_safe() users.
+> 
+>> 3. Use a variadic macro approach to optimize list_for_each_entry_safe,
+>> so that it supports both three and four arguments.
+>>
+>> Pros: (1) Does not add redundant interfaces.
+>>       (2) Does not depend on immediate per-subsystem adaptation and can
+>>       be merged directly.
+>> Cons: (1) Increases compile time.
+>>       (2) Makes the interface harder for users to use.
+> 
+> Basically I'm against any variadic macro tricks where the optional
+> argument is not the last argument. That's just way too surprising, and
+> goes against common practice in just about all other languages.
+> 
+>> 4. Optimize list_for_each_entry by defining the temporary cursor internally,
+>> making it compatible with the functionality of list_for_each_entry_safe.
+>> The code can refer to the v2 version.
+>>
+>> Pros: (1) Does not add redundant interfaces.
+>>       (2) The number of externally visible arguments of list_for_each_entry
+>>       remains unchanged, still three.
+>> Cons: (1) list_for_each_entry and list_for_each_entry_safe would be merged
+>>       into one, and list_for_each_entry_safe would gradually be deprecated.
+>>       (2) Users need to manually update special cases that use the traversal
+>>       variable of list_for_each_entry, the new list_for_each_entry would no
+>>       longer apply there and would need to be open-coded. There are 15 such
+>>       cases in total.
+> 
+> This sounds good to me, though I take it there's some code size increase
+> and/or performance penalty?
+> 
+> Maybe the 15 cases are questionable anyway?
+> 
+>> 5. Use a variadic macro approach to optimize list_for_each_entry, so that
+>> it supports both three and four arguments.
+>>
+>> Pros: (1) Does not add redundant interfaces.
+>>       (2) Does not depend on immediate per-subsystem adaptation and can be
+>>       merged directly.
+>> Cons: (1) Increases compile time.
+>>       (2) list_for_each_entry and list_for_each_entry_safe would be merged
+>>       into one, and list_for_each_entry_safe would gradually be deprecated.
+> 
+> Please don't do the macro tricks.
+> 
+>> 6. Make no changes, keep the current logic unchanged, and close the current
+>> email discussion.
+> 
+> I like hiding the temporary stuff when possible.
+> 
+> BR,
+> Jani.
+
+Hi all,
+If there are no objections, I will make the changes using the first approach.
 
 
-> Op 01-07-2026 12:51 CEST schreef Christian Brauner <brauner@kernel.org>:
-> 
->  
-> On Tue, 30 Jun 2026 12:53:29 +0200, Jori Koolstra wrote:
-> > vfs: pass S_IFDIR mode to vfs_prepare_mode()
-> > 
-> > There is a comment in vfs_prepare_mode() that says:
-> > 
-> > Note that it's currently valid for @type to be 0 if a directory is
-> > created. Filesystems raise that flag individually and we need to check
-> > whether each filesystem can deal with receiving S_IFDIR from the vfs
-> > before we enforce a non-zero type.
-> > 
-> > [...]
-> 
-> People are of course free to annotate their patches with Assisted-by
-> tags to point out that they are using an LLM. But I'm refusing to do
-> free in-kernel advertising for specific companies. So I've changed all
-> tags to read:
-> 
-> Assisted-by: LLM
-> 
-> which is good enough for all purposes. Nobody cares what specific sed or
-> coccinelle version or whatever else was used.
-> 
+Hi David Laight,
+You previously expressed a different opinion. Do you have any further comments
+on the current proposed approach?
 
-Oh, I actually much prefer that. Thanks for changing it. I was just following
-https://docs.kernel.org/process/coding-assistants.html. Maybe that should be
-updated...?
+-- 
+Thanks
+Kaitao Cheng
 
-> ---
-> 
-> Applied to the vfs-7.3.misc branch of the vfs/vfs.git tree.
-> Patches in the vfs-7.3.misc branch should appear in linux-next soon.
-> 
-> Please report any outstanding bugs that were missed during review in a
-> new review to the original patch series allowing us to drop it.
-> 
-> It's encouraged to provide Acked-bys and Reviewed-bys even though the
-> patch has now been applied. If possible patch trailers will be updated.
-> 
-> Note that commit hashes shown below are subject to change due to rebase,
-> trailer updates or similar. If in doubt, please check the listed branch.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-> branch: vfs-7.3.misc
-> 
-> [01/31] vfs: pass S_IFDIR mode to vfs_prepare_mode()
->         https://git.kernel.org/vfs/vfs/c/efdfa808046b
-> [02/31] 9p: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/cdece9964e85
-> [03/31] affs: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/a8b708c9854f
-> [04/31] afs: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/f5522bef1e46
-> [05/31] autofs: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/31468de07502
-> [06/31] btrfs: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/119ace91c0b6
-> [07/31] ceph: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/2a3471957fb2
-> [08/31] ext2: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/59d70c116933
-> [09/31] ext4: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/583b53b0b470
-> [10/31] f2fs: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/9822629e4207
-> [11/31] gfs2: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/cda6023f474b
-> [12/31] hfs: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/c9c0d511a820
-> [13/31] hfsplus: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/698ce0b15c50
-> [14/31] hpfs: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/e3ec849de731
-> [15/31] hugetlbfs: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/d6c1e7d1ddfe
-> [16/31] jffs2: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/2b8c9ca36328
-> [17/31] jfs: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/f6ad401d7f0c
-> [18/31] minix: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/3b4857471b66
-> [19/31] nilfs2: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/2183594ad607
-> [20/31] ntfs3: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/fc70a07e2702
-> [21/31] ocfs2: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/b12ec01ea00f
-> [22/31] ocfs2: dlmfs: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/840de92490a2
-> [23/31] omfs: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/2f2983204488
-> [24/31] orangefs: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/7643456f3468
-> [25/31] ramfs: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/86f91a68fb25
-> [26/31] udf: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/d36d77de05c1
-> [27/31] ufs: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/6449e995b4b2
-> [28/31] nfs: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/0266eafe7e34
-> [29/31] ubifs: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/9fc38090ccbc
-> [30/31] xfs: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/57162848e543
-> [31/31] ntfs: drop redundant S_IFDIR from mkdir
->         https://git.kernel.org/vfs/vfs/c/bec2272283f9
