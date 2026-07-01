@@ -1,249 +1,151 @@
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 878764A1395
-	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 16:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765704963B5;
+	Wed,  1 Jul 2026 16:10:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782922195; cv=none; b=thcOLx6ZEQ0/umwiu5uzt/cL5KUbvoh5AuTo0HM5s3U+9IBGPoGcr3aGuamXV/+IvWM5FTVTHUHh5pHPYKmcMk1wBZrexAl2kQcshjiIe6efpRhGKZaZ6UW/MW/xNpphagHuMqjkmbhz9hKe4nhxOPStmAp8zxf+AkwXU+j3cRQ=
+	t=1782922254; cv=none; b=jDB5kvTDLrhrXycu+Ymqyl3mf22QKux4bOD5KudLMpR0dyA+V5XI9Y6vryPj8Aa5T43QwVeitopWUQBbbviCp1Ox3PkKvwK9i5+hEIww11jWLnc5p6cbp7deSjLoYeDKVENP6Sd3t1SCQcDbVQ4I5m7PXIXlmPOiT2QBmaSpr6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782922195; c=relaxed/simple;
-	bh=8e1pR5ODf4qR1XSRT43hMYiO0BUA8niL6+sOiP2Ey+A=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FvXEJ7vcI7LBaVEQlWDHEfAcY0RtYjXzQ5h1wJaC48IxwPs1meUeWtKtM6qx8K4eWjjumAvqH8CoOCaRambvZxcbZIv638uSq9IyswhOuBk1t85rlPmg9gmO7S4AgcKSn3vPd113uFoZeM/SHKOPHGcinSxXjQzXSKy9xJNwO24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=GKsigi9j; arc=none smtp.client-ip=91.218.175.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1782922254; c=relaxed/simple;
+	bh=0oKdR1fL0GKv6uWyuerTNaIMjIHrzUjebGm5glZ9XME=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hAd2IXhoEIIYvWNwO9kFy6iI+M5/OAtq9ca6P4KE3212XbV2rTVVMBf9v8Z8AIt2dmyoGipwAehhNIfUeAIlM6mVBzAGZ8z4Eg8zta1u5EM5V1Se2vi39akWSUV5nAQzyC+67ACqW6ZsvgBL5zes8sFZ0s2YL/X6B510h4mTp64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y1fS5nse; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="GKsigi9j"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782922180;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=32k3xy2qoDs5v558QiIXDOBJrw4XcLaI228zHYcvJQI=;
-	b=GKsigi9jw5iEZkRAOu0U35OCwwNX+WFYQBJnw1VnjqCFwAV1xkeG5HVPPXjVerUIFCpvkl
-	1sYFG/+4cZNO5RnH+3ZGNEajZyzEn2vDXqeNcTTch6ZM0ZT3P4Eo/8D1DaouN8eSB+B2FA
-	bvbtO9Gx6J4K8rZ0y4m06I1Z9Hu4ibM=
-From: Lance Yang <lance.yang@linux.dev>
-To: ljs@kernel.org
-Cc: akpm@linux-foundation.org,
-	tsbogend@alpha.franken.de,
-	maddy@linux.ibm.com,
-	mpe@ellerman.id.au,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	l.stach@pengutronix.de,
-	inki.dae@samsung.com,
-	sw0312.kim@samsung.com,
-	kyungmin.park@samsung.com,
-	krzk@kernel.org,
-	peter.griffin@linaro.org,
-	jani.nikula@linux.intel.com,
-	joonas.lahtinen@linux.intel.com,
-	rodrigo.vivi@intel.com,
-	tursulin@ursulin.net,
-	robin.clark@oss.qualcomm.com,
-	lumag@kernel.org,
-	lyude@redhat.com,
-	dakr@kernel.org,
-	tomi.valkeinen@ideasonboard.com,
-	hjc@rock-chips.com,
-	heiko@sntech.de,
-	andy.yan@rock-chips.com,
-	thierry.reding@kernel.org,
-	mperttunen@nvidia.com,
-	jonathanh@nvidia.com,
-	kraxel@redhat.com,
-	dmitry.osipenko@collabora.com,
-	zack.rusin@broadcom.com,
-	matthew.brost@intel.com,
-	thomas.hellstrom@linux.intel.com,
-	oleksandr_andrushchenko@epam.com,
-	deller@gmx.de,
-	bcrl@kvack.org,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	muchun.song@linux.dev,
-	osalvador@suse.de,
-	david@kernel.org,
-	ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com,
-	liam@infradead.org,
-	npache@redhat.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	baohua@kernel.org,
-	lance.yang@linux.dev,
-	hughd@google.com,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	jannh@google.com,
-	pfalcato@suse.de,
-	kees@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-mips@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	dri-devel@lists.freedesktop.org,
-	etnaviv@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org,
-	linux-rockchip@lists.infradead.org,
-	linux-tegra@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	intel-xe@lists.freedesktop.org,
-	xen-devel@lists.xenproject.org,
-	linux-fbdev@vger.kernel.org,
-	linux-aio@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 12/13] mm/mprotect: convert mprotect code to use vma_flags_t
-Date: Thu,  2 Jul 2026 00:09:17 +0800
-Message-Id: <20260701160917.91435-1-lance.yang@linux.dev>
-In-Reply-To: <7ef626d8a12dc742cfc09d080be5dc09850e873a.1782760670.git.ljs@kernel.org>
-References: <7ef626d8a12dc742cfc09d080be5dc09850e873a.1782760670.git.ljs@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y1fS5nse"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 097EE1F000E9;
+	Wed,  1 Jul 2026 16:10:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782922253;
+	bh=PN+aYp1+EmpVX1ltAn0MkZsIr9z6Inx4GfdjM92k1o8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Y1fS5nsev6ZwpGQdbaIvSGI92n2XA+5GBi/c1PjbAmjlfxhwCWMrapLREHlyiGGtO
+	 ycSr3hpvtS7ir9sg89nCkbnisn3c3hbKRkRJ+0c+YI4RyUCWz8IIk722i7txOjPnb0
+	 vajJsfiLA+W0tS3pIDYNECqThY8e3V4NvkT/zP40Wc6KzTJB2QEa8V+hloTLA1QiKH
+	 w+kxQpIhM/1kFdL/WixOew+Guq2DL6v3FqiZnHoryyyBhzD5n6N/5Wfu9gYZRzRdDD
+	 WP1YNzRJSXBDod0oYapB2c87Zdmcjq1qhKDNfhi8WnPpVURELxXpdS/aax9Svg1H3C
+	 CaxIYtarmMj8w==
+Message-ID: <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
+Date: Wed, 1 Jul 2026 18:10:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+To: Christian Brauner <brauner@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Jens Axboe <axboe@kernel.dk>, Jeff Layton <jlayton@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 7bit
 
-
-On Mon, Jun 29, 2026 at 08:25:35PM +0100, Lorenzo Stoakes wrote:
->Replace use of the legacy vm_flags_t flags with vma_flags_t values
->throughout the mprotect logic.
->
->Note that we retain the legacy vm_flags_t bit shifting code in
->do_mprotect_key(), deferring a vma_flags_t approach to this for the time
->being.
->
->Additionally update comments to reflect the changes to be consistent.
->
->No functional change intended.
->
->Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
->---
-> mm/mprotect.c | 16 ++++++++--------
-> 1 file changed, 8 insertions(+), 8 deletions(-)
->
->diff --git a/mm/mprotect.c b/mm/mprotect.c
->index 9cbf932b028c..c9504b2a2525 100644
->--- a/mm/mprotect.c
->+++ b/mm/mprotect.c
->@@ -40,7 +40,7 @@
+On 7/1/26 17:54, Christian Brauner wrote:
+> I remain very confused by our coding assistant contribution guidelines.
+> I'm going to be a bit polemic now but this seriously in good faith.
 > 
-> static bool maybe_change_pte_writable(struct vm_area_struct *vma, pte_t pte)
-> {
->-	if (WARN_ON_ONCE(!(vma->vm_flags & VM_WRITE)))
->+	if (WARN_ON_ONCE(!vma_test(vma, VMA_WRITE_BIT)))
-> 		return false;
+> Why precisely do we require all this detailed information about what
+> specific coding assistant was used?
 > 
-> 	/* Don't touch entries that are not even readable. */
->@@ -97,7 +97,7 @@ static bool can_change_shared_pte_writable(struct vm_area_struct *vma,
-> bool can_change_pte_writable(struct vm_area_struct *vma, unsigned long addr,
-> 			     pte_t pte)
-> {
->-	if (!(vma->vm_flags & VM_SHARED))
->+	if (!vma_test(vma, VMA_SHARED_BIT))
-> 		return can_change_private_pte_writable(vma, addr, pte);
+> I find it very irritating that our git history has effectively started
+> to function a bit like a free advertising platform for a bunch of AI
+> companies and their proprietary agents and models.
 > 
-> 	return can_change_shared_pte_writable(vma, pte);
->@@ -194,7 +194,7 @@ static __always_inline void set_write_prot_commit_flush_ptes(struct vm_area_stru
-> {
-> 	bool set_write;
+> And it reamins unclear to me what exactly we do get out of this detailed
+> information: Do we want to run statistical analysis on what agent and
+> model is used the most and publish that on LWN at some point?
 > 
->-	if (vma->vm_flags & VM_SHARED) {
->+	if (vma_test(vma, VMA_SHARED_BIT)) {
-> 		set_write = can_change_shared_pte_writable(vma, ptent);
-> 		prot_commit_flush_ptes(vma, addr, ptep, oldpte, ptent, nr_ptes,
-> 				       /* idx = */ 0, set_write, tlb);
->@@ -811,8 +811,8 @@ mprotect_fixup(struct vma_iterator *vmi, struct mmu_gather *tlb,
-> 		vm_unacct_memory(nrpages);
+> I acknowledge that my stance is even more radical: imho we would just
+> stop it with any disclosure requirements completely. It's useless imho.
+> We already see that other than core contributors most people don't care
+> and will just not disclose their usage of AI. I think this is entirely
+> pointless and worse it brings in undefined legal status as well. It's
+> not like recent events of pulling certain models from the face of the
+> earth have made this any less concerning.
 > 
-> 	/*
->-	 * Private VM_LOCKED VMA becoming writable: trigger COW to avoid major
->-	 * fault on access.
->+	 * Private VMA_LOCKED_BIT VMA becoming writable: trigger COW to avoid
->+	 * major fault on access.
-> 	 */
-> 	if (vma_flags_test(&new_vma_flags, VMA_WRITE_BIT) &&
-> 	    vma_flags_test(&old_vma_flags, VMA_LOCKED_BIT) &&
->@@ -886,7 +886,7 @@ static int do_mprotect_pkey(unsigned long start, size_t len,
-> 			goto out;
-> 		start = vma->vm_start;
-> 		error = -EINVAL;
->-		if (!(vma->vm_flags & VM_GROWSDOWN))
->+		if (!vma_test(vma, VMA_GROWSDOWN_BIT))
-> 			goto out;
-> 	} else {
-> 		if (vma->vm_start > start)
->@@ -894,7 +894,7 @@ static int do_mprotect_pkey(unsigned long start, size_t len,
-> 		if (unlikely(grows & PROT_GROWSUP)) {
-> 			end = vma->vm_end;
-> 			error = -EINVAL;
->-			if (!(vma->vm_flags & VM_GROWSUP))
->+			if (!vma_test(vma, VMA_GROWSUP_BIT))
-
-IIUC, should this be
-
-if (!vma_test_single_mask(vma, VMA_GROWSUP))
-
-instead?
-
-#elif defined(CONFIG_PARISC)
-#define VM_GROWSUP	INIT_VM_FLAG(GROWSUP)
-...
-#ifndef VM_GROWSUP
-#define VM_GROWSUP	VM_NONE
-...
-
-VM_GROWSUP is only defined as GROWSUP on parisc and becomes VM_NONE
-elsewhere. But VMA_GROWSUP_BIT is the raw ARCH_1 bit, which is also used
-for other arch-specific VMA flags:
-
-	DECLARE_VMA_BIT_ALIAS(SAO, ARCH_1),		/* Strong Access Ordering (powerpc) */
-	DECLARE_VMA_BIT_ALIAS(GROWSUP, ARCH_1),		/* parisc */
-	DECLARE_VMA_BIT_ALIAS(SPARC_ADI, ARCH_1),	/* sparc64 */
-	DECLARE_VMA_BIT_ALIAS(ARM64_BTI, ARCH_1),	/* arm64 */
-	DECLARE_VMA_BIT_ALIAS(ARCH_CLEAR, ARCH_1),	/* sparc64, arm64 */
-	DECLARE_VMA_BIT_ALIAS(MAPPED_COPY, ARCH_1),	/* !CONFIG_MMU */
-
-Other vma_test() changes look fine to me: just fixed INIT_VM_FLAG()
-masks matching their VMA_*_BIT :)
-
-Cheers, Lance
-
-> 				goto out;
-> 		}
-> 	}
->@@ -918,7 +918,7 @@ static int do_mprotect_pkey(unsigned long start, size_t len,
-> 		}
+> But fine, if we want to do this can we please just dumb it down to
 > 
-> 		/* Does the application expect PROT_READ to imply PROT_EXEC */
->-		if (rier && (vma->vm_flags & VM_MAYEXEC))
->+		if (rier && vma_test(vma, VMA_MAYEXEC_BIT))
-> 			prot |= PROT_EXEC;
+> Assisted-by: LLM
 > 
-> 		/*
->-- 
->2.54.0
->
->
+> or
+> 
+> Assisted-by: Coding Assistant
+
+I'd prefer this.
+
+The doc states "proper attribution helps track the evolving role of AI in the
+development process". If there is another reason why we need the free
+advertisement, we should document it.
+
+Side note: if someone instructs an LLM exactly what to do, and would have
+achieved the same thing just typing it in, the use of the tag is not any helpful
+to me. (similar to "Assisted-by: vim" would not be helpful).
+
+What would be much more relevant to know is to which degree LLMs were used.
+
+Assisted-by: LLM # translate commit message
+Assisted-by: LLM # generate some test cases
+Assisted-by: LLM # cleanup logic
+Assisted-by: LLM # everything and I have no clue what any in here does
+
+I thought we ask for that in some document, but couldn't immediately find it
+(and nobody does that).
+
+-- 
+Cheers,
+
+David
