@@ -1,138 +1,197 @@
-Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E107131E834;
-	Tue, 30 Jun 2026 23:31:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7491BF33
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 00:10:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782862264; cv=none; b=Nkd55Im/lrCEAW3uQOK1dNU0V12VBxOHzrHZ8JuanhdP1yM5N//S4YcKQli7a0SypuebviXPlrUFt72q0Sx2/8btV7C7aT+bEcUgIrPuFILnuMSkrqpW27khxPeIZWG62CltqrusRfvGSNcxogfc48ZOSKSFuk7ZyP4HfnrAruU=
+	t=1782864647; cv=none; b=C9C6bMt9J5aKnXyVX9AiCYP+tFmYMbZXJ530LrcvARyJPdnjMJIAzvE/mn8cT398F9m4GCte04+QaKySEHhuZ3vyu1G6wVL40PketXjnf2HYkThs37cna9rjzEkNJOjBWkZJwlJgtyM4uWPKfx3lnB/8SSbHrmQQfmBXgdXl9F0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782862264; c=relaxed/simple;
-	bh=nmum7b6E4ThNuBAAdyTQN0WMwuwlJI0AauIO5UVtdIU=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=W5yTCaM98qRJn1wWw590kfgsQsTeDPxTbpkwW4eKiq2cIcoMsEPWOFUAYXqsxPKESCWGhV8We3PcUduEmLiC/0cW4IhEMLp4LBvmOE7JqioCb+wKM9pvf5l+qfOJuzgoi4b3iDvPEnThxqJK4LCpCN/r1QDyxOJGJe5tuhpW9u8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=f/SOD/M3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RGki0XLy; arc=none smtp.client-ip=202.12.124.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1782864647; c=relaxed/simple;
+	bh=wZJShG1258d75ZNnBq3KB1Y4038h6PIjQCDHOhPR1/I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ORaVLoRV0+dFmCENaNhtnISUCKqrjxkKb6fJYePym6wo05+g3u1tD2IHeWDrydijbBfzkxgTtUSfU7OmZbGKTtlu0oollgYGmend7yrYC1pqPTnuhE1sA3af7EBX+MgXqnlbA5BospKAlg302FNsoz0kwEti2rx3XuYj5+3MZi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bcrGPN/z; arc=none smtp.client-ip=209.85.210.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="f/SOD/M3";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RGki0XLy"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id 343EB1D00100;
-	Tue, 30 Jun 2026 19:31:02 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Tue, 30 Jun 2026 19:31:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1782862262; x=1782948662; bh=HC3rX9aewZEqOlQDOIhJ49d2y+me05A1l3L
-	MXf3ayxU=; b=f/SOD/M3AWchs5RHZQRloOwx4RPHyI8CPEZU7eYZm+QmIlTIvRr
-	D6uCo2OcNbjbaPDiKoNAZmjgUQ0aRM6rlMeYQ5H7MRMXt6hofmWFY9lW7x3wmpnW
-	smU6dAJo6oB7Vt29rKaistws5ngCbj7Hq/GE8FdgQk4inclqx2PRnI6z4EwfYamu
-	nW2fGB5h5hwvTzcEIKcCAK90nC+pded/vgcKWtIgtRkuMbrZ6MF13IeDJ+KhXGNE
-	I8ALSYBZ5jjSIuRv1gd8gdtt3MwPPuQWEsTvDWB76k22MP0Mu80R/RT7VludM/cX
-	jETnkvE8xVPvdRhoBpXl6q6BqoVlQ1ohU9A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782862262; x=
-	1782948662; bh=HC3rX9aewZEqOlQDOIhJ49d2y+me05A1l3LMXf3ayxU=; b=R
-	Gki0XLyJFcdaxGQErHAdlMBJvq77ky2TbBe6RT7mJynXNQyZn4QaSAowD0uGMLbi
-	Twmg7gdeLvb46KUvKtLFvxFkLyYhOYcwg9ROBxgwZ5qQzV5WxXhpNRdqOK2rLCIB
-	EnZoF8ZWnfrEpm8OEvTwGKon0dT6F+ZIvzxSS1CvEulMmixI98sB6pRzRsJ0psGl
-	GKSVLUTvFDpzJVgOBuDyry+7vUoooBq9pWH7EUE1RuLDmyBU+jyXjnbg0justEwx
-	4HyzDscPgkVG1fKig1E9Fmh2Gf4aiy1nK3x1yxLuQpdfbwRBQGxRuJL6EKUXIaXc
-	Nz4VIiJMhTzm9tIp3ARmQ==
-X-ME-Sender: <xms:tVFEagueoKrrWe4SlOsxUq8pyjlKK9yc1b_oWILLi7yee58qlb3cyw>
-    <xme:tVFEamaGgTR5YXzTucoxD5YUhAiQD6eIjDM0sanYHPF97juTzLIhCu96lJte99KDu
-    Uib2S-gHgCJCjEn_d-84eTc8FbpLKO-eIkdU6yy_jgzqfvAKA>
-X-ME-Received: <xmr:tVFEanUlJ2r5pJF7vSD596Koo0YBoSTHldvEAPyw9x9gU_4e2mKXh3_mVX76F70FHz49pN7igDJhApbRw9GeCvgAD0T93_8>
-X-ME-Proxy-Cause: dmFkZTFd7dJuxJk5EJFZXd4B37RWxuI3t196xFcOklBw5G9dOdPyD8bg9jUn1ZyZ9nCVBJ
-    Ec9ReMjCZWgey70bA673/xDU0x4XRXlpZY9D7cqXRIpyYhP0O39vBsJXFS4LcQQZn2zAbO
-    P7a8tTWMVLvGDXa91UU8cXVDmevT1ZyHa458O/l8vN4YVMbTA1EnvFT8/QHLWvEncJ5j9N
-    oO5R3qzSxnm0X3vFYmyjXVsmJupMhNrQF7mtkYn7lUWT7HqnHHWXHiZnE0NTCAOtWGf1NH
-    eL13vi4ymALcmorQgGJErnTWq2NczzSaBsOC7ZRNA+0beoGH1n3L0EvNyTuAkkEr8BS5g4
-    brL5BL8T16/xy8haJp7loi+8XdnNhq4N9Dg9OaITGTuUIjBJf0kobPVXeeYIh/xGwRqLLU
-    y98Llco1WsiZxJkNLLmhsz3Dw2hw/5SM2bV75dBj+RPVZqrFvH7bYxsjCVngSIAT0af0j3
-    GjimMHOjcPRhfqr1Q6IncRkGPAk9IVSliy71Nmexn/dhokZdxRbOkbeZxRxneqd5I/u8Ue
-    QmkiO7MOd5Ci1Xt46cH1l/lzZhaDTbR1+SwfJGRSoqaCzg13BGw5/E+t7jau9Q1mZuNhUv
-    0W3GKiy6dYrhPGAJHxToAII+xWSYwkDPEVl/sSvwUyMbj4J6FtaeVv18UF2g
-X-ME-Proxy: <xmx:tVFEajRSn1PlnkqA1vIBD756iLuh9XVmFpPHDWafaqRaUZ0p435fNg>
-    <xmx:tVFEatMSZOdftkBt8yWC-EpE_L1tIRKyL1hKqgBz3mMYqt86KMfwpQ>
-    <xmx:tVFEapQF96azsKLawLxTAwWoEinixA0-qMcRyr0o73V5jcY_cJQ8iQ>
-    <xmx:tVFEajgnFulqeLOY-7pbVYnYA71nsnYIB0Y9BHv_enGGY3uP93ljVg>
-    <xmx:tlFEarBQ4zM78LtgpgOwvvP730YrbDg4hsb886wJ5VG2xoM-PSZUThCF>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 30 Jun 2026 19:30:59 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bcrGPN/z"
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7e9f5637634so61113a34.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 30 Jun 2026 17:10:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782864644; x=1783469444; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=00v5X3baWfSngkK0txDtqxtj/nkRDu2X3zVjI+7oWpM=;
+        b=bcrGPN/zG0Q2lsag7ZZAOVTQSEZ+DKMdY5pVjYodtx5OZ59b/GDfwd+AB4jBfMj+jh
+         TXVSB+2GXBErPrRO6d/TtOjBE3YA3mxJsBZSyM1J/JcLgN2SD+J5o8Cg4T3V7ihPUztT
+         PBAYHRz38HmWrQZl7C1QEsJ0FFqts2u2KIKI2Q/jWo0Mne8rAn8yYrReUxUojEdwkltl
+         RD6r8z446Jj2CpvsUb1kS42ihAhW0TnRlrzJNyoXYGHX1Z7695wMC9alt/c5AAUNNHMD
+         ysxX248L7tFP/RUjR9GCBS+Y0oj5GJTAKrNem4hORpjMZw3yXf4ZraMt4QMbL9+K+sd2
+         et0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782864644; x=1783469444;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=00v5X3baWfSngkK0txDtqxtj/nkRDu2X3zVjI+7oWpM=;
+        b=cDbKvC96+bB9+FA6Cm2OonaktAtdLk+K6QGnqDL9dVbaAdGs7WCOF6A+0jKWpKCxbO
+         GTTW/O5SAZtkWxTir6JM8RAvqGisPgyI5Kkdd/f8XM908dWjU2Gvudh5v1W5wX6Z1mQ/
+         9RqI6jvsX9dAVAE8ScqqchMJGO1pSEbTz0Ynqi2h8eNpZODZjvJhh2vU08bi5XhseH1i
+         GZFKe0mI2/CQ1I6mdV2M6gY/ns6uZtgAjfmDtyRRevTWwQXfqVGHGi/5nKcy5AS+bwii
+         ExkurQ19FztKIz3VWHkZW3JmXMWE6XadESFb5grwYuuXfxM0r3yRYlRlyIBWfF82Bol4
+         Pqgw==
+X-Forwarded-Encrypted: i=1; AFNElJ9SR4N8PjFbAkSFPxrPM8Y+t9L+fDPlrr4JUJDZThTPNAtvra3M7MSp6joJeHz0zOMWvJTHlKVYgF4fXHji@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzpUBPqRyEo/msiKJgSEmFpdSfreVBjmbGDd/uPabPEbGQmFGt
+	mSSaaNUoq8SaRo9lBcUQbngnuvj8OaharFMq/bazQVpYqtb/77E9c48W
+X-Gm-Gg: AfdE7clAqL9AMs+y5oa1fpS1qAN3vDeIQ/HDrLDOU1XYS/dnyPOUatyYjzZbPJZZo7R
+	MiOpjH/tIdrIoiaWMbXbzFhIpTSc10WemTBRaGK6bNlI48h53Z9GnWrBc2n2CbEb9V81IHFrfg6
+	Pq9FLpfN1soEdLH3MGV+oQgg8po6tVUVLWr9Y7iw2so+nouyuQINUth0VWC9iakm7VvE6NwJsa6
+	9cG6dSQKKDSqxumhNHf8rkj8CnuyNgAX4aYNIclgaXIh5NAdDn5UnVJFLzo4yYi8xXOft23ZhWR
+	Re7cNLlESIW6BPAUFpANZQrqzVXNbv8UnnYAx/35LfQ0skNViNcsp28WoTlnWXEtKCvbEDHSZ0h
+	YTZvShkfUX2m1fF1bfh7u4DOiY91vCu4ThFP5kF+L1iwJaeEsvpJB0uz4yEER012yOzaMOrc0KE
+	RDur/lOhBhYy0O2CSCtFmCBXrygz03MfnTR5Tkvc273XGg3cVxGfR2GfVjWIM3Bwq3
+X-Received: by 2002:a05:6820:2089:b0:6a1:7953:38fd with SMTP id 006d021491bc7-6a18926014bmr4246123eaf.59.1782864644561;
+        Tue, 30 Jun 2026 17:10:44 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:70::])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6a18917194csm2904868eaf.2.2026.06.30.17.10.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2026 17:10:43 -0700 (PDT)
+From: Joanne Koong <joannelkoong@gmail.com>
+To: brauner@kernel.org,
+	hch@lst.de
+Cc: djwong@kernel.org,
+	willy@infradead.org,
+	hsiangkao@linux.alibaba.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org
+Subject: [PATCH v2 00/18] iomap: convert to in-iter iomap_next() model 
+Date: Tue, 30 Jun 2026 17:09:15 -0700
+Message-ID: <20260701000949.1666714-1-joannelkoong@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Miklos Szeredi" <miklos@szeredi.hu>
-Cc: =?utf-8?b?0JDRgNGC0LXQvCDQm9Cw0LHQsNC30L7Qsg==?= <123321artyom@gmail.com>,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- regressions@lists.linux.dev
-Subject: Re: PROBLEM: FUSE_NOTIFY_INVAL_ENTRY leaves stale negative dentry
- after c9ba789dad15
-In-reply-to:
- <CAJfpeguDUS_3X-AFZD6XCJB1SjVkFGu2aJ+p1BK574Scu-ASdA@mail.gmail.com>
-References:
- <CAFbF8N7++zopZuEcsKRxBV_sgOGCbzCY0hOyMw1SiGAtuzGhyQ@mail.gmail.com>
-  <CAJfpegsCJnMfn_BzzTK7m9ndCGVsnPit8ZsT0fzAhYoY+yOsKQ@mail.gmail.com>
-  <178035740095.2923901.5908691318688917347@noble.neil.brown.name>
-  <CAJfpegswAZv8OmDAcK-5u8kssAF1vZKe4gdDB2XPErAnoGFSYg@mail.gmail.com>
-  <178056619459.3392745.3091041855723132411@noble.neil.brown.name>
-  <CAJfpeguDUS_3X-AFZD6XCJB1SjVkFGu2aJ+p1BK574Scu-ASdA@mail.gmail.com>
-Date: Wed, 01 Jul 2026 09:30:55 +1000
-Message-id: <178286225519.27465.210364797855970767@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Transfer-Encoding: 8bit
 
-On Thu, 04 Jun 2026, Miklos Szeredi wrote:
-> On Thu, 4 Jun 2026 at 11:43, NeilBrown <neilb@ownmail.net> wrote:
-> 
-> > My guess is you refer to the need for retry-on-error.
-> > I need that design so that locking can be pushed closer to the
-> > filesystem and ultimately, in some cases, removed.
-> 
-> Aha, but this is filesystem code, we don't need or want to move it
-> closer to the filesystem, it's already there.
-> 
-> > It is a lot like the reason that we often use cmp-xchg loops instead of
-> > holding a spinlock while performing a simple operation.  The code is
-> > more complex but it scales better.
-> 
-> Okay, so this is about making VFS more scalable?  Can't we just leave
-> filesystem code alone in that case?
+This series implements a suggestion by Christoph for finishing the conversion
+of iomap to an iterator model. This revives Matthew's previous RFC [1], which
+had the same intention.
 
-yes and no...
+This series has no functional changes intended. Patch 1 introduces the new
+->iomap_next() interface, and the rest is a mechanical conversion to the new
+api. The patches are broken down as:
 
-Some things in filesystems do need to change - particularly some uses of
-d_drop() and all of d_rehash(), though they don't apply here.
-And as I am changing what inode_lock() protects for directories I
-needed to review all uses.  As I was providing new interfaces I wanted
-to be sure those interfaces were capable of handling all use-cases, so
-my goal was to convert all uses of inode_lock() on directories.
+1) Patch 1: adds ->iomap_next() and an iomap_process() inline helper that
+filesystems can use by passing in their direct begin/end helper functions
 
-However I did take that too far here.  As you helpfully point out, I
-don't need to change this code at all.  It only involves fuse code
-taking locks on a fuse filesystem, and this usage isn't problematic for
-the new scheme (as it would be if, for example, d_alloc_parallel() was
-called while the directory was locked).
+2) Patches 2 to 15: converts each filesystem to ->iomap_next()
 
-So I now see that I don't need to make any changes here - thanks for
-helping me see that.
+3) Patch 16: Removes the legacy ->iomap_begin()/->iomap_end() path
 
-Thanks for fixing the mess I made.
+4) Patch 17: Passes iomap_next_fn directly instead of struct iomap_ops
 
-NeilBrown
-(with apologies for the long delay in replying).
+5) Patch 18: Updates the iomap documentation to match.
+
+If needed, performance-critical callers can later inline the iteration into
+the caller and avoid the indirect iomap_next_fn call on hot paths.
+
+This series is submitted against Christian's vfs iomap tree, and is based
+on top of the current head of his tree (commit f2727952b21d1).
+
+Thanks,
+Joanne
+
+[1] https://lore.kernel.org/linux-fsdevel/20200728173216.7184-1-willy@infradead.org/T/#u
+
+Changelog
+---------
+v1: https://lore.kernel.org/linux-fsdevel/20260625024723.1611000-1-joannelkoong@gmail.com/
+v1 -> v2:
+* Implement conversion for all callers
+
+Joanne Koong (18):
+  iomap: add ->iomap_next() and iomap_process() helper
+  xfs: convert iomap ops to ->iomap_next()
+  btrfs: convert iomap ops to ->iomap_next()
+  ntfs3: convert iomap ops to ->iomap_next()
+  ntfs: convert iomap ops to ->iomap_next()
+  ext4: convert iomap ops to ->iomap_next()
+  erofs: convert iomap ops to ->iomap_next()
+  zonefs: convert iomap ops to ->iomap_next()
+  ext2: convert iomap ops to ->iomap_next()
+  block: convert iomap ops to ->iomap_next()
+  f2fs: convert iomap ops to ->iomap_next()
+  gfs2: convert iomap ops to ->iomap_next()
+  hpfs: convert iomap ops to ->iomap_next()
+  fuse: convert iomap ops to ->iomap_next()
+  exfat: convert iomap ops to ->iomap_next()
+  iomap: remove ->iomap_begin()/->iomap_end() legacy path
+  iomap: pass iomap_next_fn directly instead of struct iomap_ops
+  Documentation: iomap: update docs to reflect iomap_next model
+
+ Documentation/filesystems/iomap/design.rst    | 115 ++++++++++-----
+ .../filesystems/iomap/operations.rst          |  60 ++++----
+ Documentation/filesystems/iomap/porting.rst   |  22 ++-
+ block/fops.c                                  |  14 +-
+ fs/btrfs/direct-io.c                          |  14 +-
+ fs/dax.c                                      |  47 ++++---
+ fs/erofs/data.c                               |  30 ++--
+ fs/erofs/internal.h                           |   3 +-
+ fs/erofs/zmap.c                               |   9 +-
+ fs/exfat/file.c                               |  18 +--
+ fs/exfat/inode.c                              |   6 +-
+ fs/exfat/iomap.c                              |  20 +--
+ fs/exfat/iomap.h                              |   6 +-
+ fs/ext2/ext2.h                                |   3 +-
+ fs/ext2/file.c                                |   4 +-
+ fs/ext2/inode.c                               |  12 +-
+ fs/ext4/ext4.h                                |   6 +-
+ fs/ext4/extents.c                             |  12 +-
+ fs/ext4/file.c                                |  14 +-
+ fs/ext4/inode.c                               |  23 +--
+ fs/f2fs/data.c                                |   9 +-
+ fs/f2fs/f2fs.h                                |   3 +-
+ fs/f2fs/file.c                                |   4 +-
+ fs/fuse/dax.c                                 |  16 ++-
+ fs/fuse/file.c                                |  14 +-
+ fs/fuse/virtio_fs.c                           |   2 +-
+ fs/gfs2/aops.c                                |   6 +-
+ fs/gfs2/bmap.c                                |  12 +-
+ fs/gfs2/bmap.h                                |   3 +-
+ fs/gfs2/file.c                                |   6 +-
+ fs/gfs2/inode.c                               |   6 +-
+ fs/hpfs/file.c                                |  10 +-
+ fs/internal.h                                 |   1 -
+ fs/iomap/buffered-io.c                        |  38 ++---
+ fs/iomap/direct-io.c                          |   8 +-
+ fs/iomap/fiemap.c                             |   8 +-
+ fs/iomap/iter.c                               |  88 +++++++-----
+ fs/iomap/seek.c                               |   8 +-
+ fs/iomap/swapfile.c                           |   4 +-
+ fs/ntfs/aops.c                                |   6 +-
+ fs/ntfs/file.c                                |  24 ++--
+ fs/ntfs/inode.c                               |   2 +-
+ fs/ntfs/iomap.c                               |  58 +++++---
+ fs/ntfs/iomap.h                               |  15 +-
+ fs/ntfs3/file.c                               |  16 +--
+ fs/ntfs3/inode.c                              |  16 ++-
+ fs/ntfs3/ntfs_fs.h                            |   3 +-
+ fs/remap_range.c                              |   6 +-
+ fs/xfs/xfs_aops.c                             |   8 +-
+ fs/xfs/xfs_file.c                             |  44 +++---
+ fs/xfs/xfs_iomap.c                            | 105 ++++++++++----
+ fs/xfs/xfs_iomap.h                            |  24 ++--
+ fs/xfs/xfs_iops.c                             |   4 +-
+ fs/xfs/xfs_reflink.c                          |   6 +-
+ fs/zonefs/file.c                              |  32 +++--
+ include/linux/dax.h                           |  18 ++-
+ include/linux/fs.h                            |   7 +-
+ include/linux/iomap.h                         | 131 ++++++++++++------
+ 58 files changed, 730 insertions(+), 479 deletions(-)
+
+-- 
+2.52.0
 
