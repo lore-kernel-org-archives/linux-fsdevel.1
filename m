@@ -1,102 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10CE1A275;
-	Wed,  1 Jul 2026 13:28:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782912485; cv=none; b=bM8VbOVqzJCOElfebLPsBKvRf6t+0W9Q+MjfFdNmxrP/kBMcVsjnvaVML4biZ2dGjfiWqUmWoKS7a4dZpboBYVvfDXymUidQxKF26qUA1Fo6b/c3RMGWHYXdrgS75d5IOeHWsuYILarL3zagv0gx2N5sKKKPrC99B5fXfYwnoKc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782912485; c=relaxed/simple;
-	bh=iKscDZQfy0MtN4T97LK36aJevrKA4UAXQeqiSYbMIyY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mriY/hXyIuc+k6nE+gG/NmqbVQJO4C0wfVSAGBTK44UPRXC74RuqQVQ/casTKjpb7L0rHFK/iHtW1F5wHP92NCeWAcTdws6Jz+BEu+r/YX3tDYqPbPEHXkZcVmZ7CvUL3E3h21YipxmHYLaffliz/wcQI6Pd6QzZudac11atzL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QBkIcOoi; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E43481659
+	for <linux-fsdevel@vger.kernel.org>; Wed,  1 Jul 2026 13:28:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782912520; cv=pass; b=kMMjzG7JXS70liHEpiGyJsMCZAoPxZmjyM6MCc4XpA5LlUjDySf1XaF+xxNuffqSZuFWAlODWOrx1aRCcE2ZdmGuTFSYSGz/3f2GD6sRvI78OLpQtuYG9kI+/FibH84b39qnBxm16NYbS3tjOij0Ghg4zrhKh7rloXxtUFeu89U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782912520; c=relaxed/simple;
+	bh=bj8dz0dNkNQf20yNhw2GSl+QGHWwTUPvPhjmw1s2sGY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VwXwuqmlTPJBprp4G5sPb2Y4YEh51miF7A6JsCnXx4uCsdlYP/eE9bUwbaWf1pD+f5FxRVgQn9MoQ/LxP1FJdpVUbtNFlCg1vu3d4hvy4z1Cb/PLwc1HrRpv/4SEnhqwZtLsdYL6H8fsQq3wIY5PfydAFAdoDE+t4Xtuiu0gvTY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=Sg3LQItu; arc=pass smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QBkIcOoi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE62B1F000E9;
-	Wed,  1 Jul 2026 13:28:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782912484;
-	bh=S/ir4WC1F7FyETK8VqjWLb5Y+h//+o4RHG1aeGMPGPI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=QBkIcOoiSZQuYYK7QffAwCNm8VaK++eXTg9AS9VzPGwSsZmNe721QfD5tLz0b5Ljb
-	 ERybIPZ7UuKg70udSUh9Q7eOo7zB8AJYJB13RW0B0gKO+zjDFlqE1pfKCrU+V6INxn
-	 TlEjtN0MBdNs7Feqv9TDr/7CiYC0dt+iiVMhTx+dNJQMW8Ld8IphDTJDZjDp7Umn5F
-	 M2rvGjzuDP/DBJUpfAARQoQ8IeDuScYB4VkDJwESKSuVGxquOomHKsPgr+z5851UJb
-	 FNRZI4ms/t9yiUs2jrV1bdlAXEQSYynE3g4laKriuldFn2wUzcnPKXLr3Prazk95Xv
-	 ZeHqosXQ2hpXQ==
-From: Christian Brauner <brauner@kernel.org>
-To: "Darrick J. Wong" <djwong@kernel.org>,
-	Christoph Hellwig <hch@lst.de>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Kelu Ye <yekelu1@huawei.com>,
-	Yifan Zhao <zhaoyifan28@huawei.com>,
-	Ritesh Harjani <ritesh.list@gmail.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Hyunchul Lee <hyc.lee@gmail.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	fuse-devel@lists.linux.dev,
-	ntfs3@lists.linux.dev,
-	linux-erofs@lists.ozlabs.org,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 1/3] iomap: consolidate bio submission
-Date: Wed,  1 Jul 2026 15:27:40 +0200
-Message-ID: <20260701-davon-kniegelenk-gedehnt-96476b242a09@brauner>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260629121750.3392300-2-hch@lst.de>
-References: <20260629121750.3392300-2-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Sg3LQItu"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-697763eeafcso1181623a12.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Jul 2026 06:28:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782912517; cv=none;
+        d=google.com; s=arc-20260327;
+        b=QWgzFGXIn4pOkqL8MNsDQ+IQCN/pQ8Ie/0orsZ/NzE6LbRODaJRnDkUqDTvFbdV5zk
+         5Q8nqT+nqB4kpAoz4Qm7fxXJn6kIYvxLOEYu/jNNVaq3+D9MivDmTJdnHxX51PlNw+WN
+         czFoFQjJfLmg1ZLJ6TnBU158R75IZSROsBVoTLKVqTotBj5SHEUbtqUYBsL1o9KXBIni
+         h0VeTe/0HlYCFrQTSaJg0yaNuIPZ8iHLRq+TInlUnuQ0jIJ09SgkKMHMp3cHkX7/I1Wt
+         eKn2MjgKOTL7CIpp16vQBVSai636OrGQKEoObnv2lsE3uQMV6A6UMXKE87Oon8uImKya
+         Vm1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=W7qXrY1GphC5/vec00qtpPY+1HhdLEpo4SYlrRMHO9A=;
+        fh=YMYQ1I09QTJoDrhTGM2UBuW/w5F+EPTBi6WaSpGqx1k=;
+        b=C5zxMLzy18Znib6IOmW7uGqXPyD76EeL09iKdv1AzHqeL8vz8uj1ka6tzikdW/4F6z
+         IgIM50pCFwYSMv9InWl97S4hVQRj4aR1vt6pxhNvOv0WQkImU7uSGLO8h2nd5pGPr18+
+         JtDOV4Aqh+8YBRZw/WkDKFPoiRswGKsERdQq8AJx2cekmGCIqW/ejm3AHtVQ8+QiGBi0
+         rqAwGwDuFloDDsjX4S3HHg+BYrYa5qa4fBzHmLgi4RWO+ck2ZB3Yg+LPn8BJQUvi649z
+         lkAku0znc6UpnqPbYb/6TSPXer+lD0964O0vYrGdPJDCVorRSeqweXUIXfwJrVf/7NpG
+         +nLg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1782912517; x=1783517317; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W7qXrY1GphC5/vec00qtpPY+1HhdLEpo4SYlrRMHO9A=;
+        b=Sg3LQItuByysCglFb7zcrhwOYL9ae158GUkEWZQ42XEgh2jyE1jSROao82DLgbB3sx
+         KihncwtkrF0p98wHShO8QWK9SQcIz1cBddpOP7rJ2h3+YkUXIM+W3nb81CdH6/d7EWEI
+         ulyB9FGoFY0krM0XqtzuzgmN/8SHQZmo0NsjrS+xt9Lt733cw7nHK/rDTWYJAtuPURWa
+         t+kob93HApHg/yHLI/Jxnn8Pua0j9lhPl47QQLMDrS/jtIU8LXvxILa8HLUE+GlBWzVC
+         NjvLG4h0M5u1MrXbUA+1llAI1MK+92T5lmcNLz/5unu1oh3K1O5jE4kyFGxUVR3xgPkr
+         DCEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782912517; x=1783517317;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=W7qXrY1GphC5/vec00qtpPY+1HhdLEpo4SYlrRMHO9A=;
+        b=KCoHplLKen2xbmkhEOcWOuDrgRxWmGNHW+RSPa7C4mndYktBdQt9hqYul33lMBSqZ/
+         7xDtLwhZov9Tz6smj/XZmrmbSBlZ7vt6YGc4QYJktNCNe+xJD5UQmywAhJDOzal89gln
+         kXuOv0Yus1Zacx2WJ5vrj1DFKZ46St5+fRvgDeXJnj27W7AXBu9+F6xlDqGfRKhPG9WQ
+         occ0bGarxyjb0FAuqrGxc9ZcZJq8XdAImqDaYeW2HkQHkRhok/danV5aFCrtERZ9+3mU
+         243OyHEgumoqbCIJWCzWHMUujc++BlJzlbTr7DBp5UCrm80WKkmPvtVR28WujWIvjDJh
+         NzrA==
+X-Forwarded-Encrypted: i=1; AHgh+Rr7UDP6QecggMdNf7VmU82AeShAB/q1VWTIPanu8g5hT0dtyXx1kGehfD67DfmetnqlLxli0ARAuAMnl0xR@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZn9ImRixGAQAyADMs9i5ArB1P5ElZ7WcPyCCVshtm9pPvE2Aa
+	iFbwy0ezvNbYFOLWFi5Dgoj/Wr4R0r9+/uIQav+e+suRauHIf2tJktUeN5YUIKNVPXu3goC9hs4
+	HF/+XUZkXLxxdA3wtX4xRH6xfyZrOWHf/BcNy21/9
+X-Gm-Gg: AfdE7cmgc1QiEvUjjhDTGR3we096XrxCXew75yCx/7m6R+IQaSDARqoUdOgAxj1C62X
+	BKQnybgctFKhsWS5mNVzxfLWyqcTEbFBjrlUjjq0ckl8MKzsryKEmiNWcQUF/Rms3gk51NA1qOy
+	DgtZJIAJvLWaedQ3bT5CcLCB1W2xHLITnoce5MWfyOPSweRRGmkwwZxyb+ikyA2ibqbOffknc3Z
+	uRxvwTWsoeFYOn4I0Wxas5QcwtUDo7z/gd66rytft2EmgFWuMNdYw5pubHnwU0A1RSKyC5e
+X-Received: by 2002:a05:6402:a29c:20b0:698:5e8a:2645 with SMTP id
+ 4fb4d7f45d1cf-698a2c5fe69mr229183a12.8.1782912516536; Wed, 01 Jul 2026
+ 06:28:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1819; i=brauner@kernel.org; h=from:subject:message-id; bh=iKscDZQfy0MtN4T97LK36aJevrKA4UAXQeqiSYbMIyY=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS5it7RsWDc2sutssqLV0pi/oIv7G6tQj4SdWfS564sN 1S5YvS9o5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCK3IhgZXn05sNjoiK6LmpzZ kcUpV9dIfso4M2nzmZJgzb9SPNb6lgz/9Pi6PGc+u+HOtq8gTdxvdnHqPs1ItmXMtw7+cZHdLbG KGQA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+References: <20260407200157.3874806-1-utilityemal77@gmail.com>
+ <20260407200157.3874806-7-utilityemal77@gmail.com> <20260701.ze4eph1eKo7a@digikod.net>
+ <CAHC9VhRfqSoM89WC6TdQHapUVQe8a18rW2c-F7+tu6EjM9EdCA@mail.gmail.com> <akUH13qbsEnJLgQu@zenbox>
+In-Reply-To: <akUH13qbsEnJLgQu@zenbox>
+From: Paul Moore <paul@paul-moore.com>
+Date: Wed, 1 Jul 2026 09:28:22 -0400
+X-Gm-Features: AVVi8Cc1vT55jUxpGNkg-5sjvQ2eBr8E5cdvCjMEhHhjY5jPSa6NSmuXqY0WW14
+Message-ID: <CAHC9VhSjRcMr9+5dMkep_TPKduYdob-bZ73FLfXd_o2xiWwOSg@mail.gmail.com>
+Subject: Re: [RFC PATCH 06/20] bpf: lsm: Add Landlock kfuncs
+To: Justin Suess <utilityemal77@gmail.com>
+Cc: =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, kpsingh@kernel.org, 
+	viro@zeniv.linux.org.uk, brauner@kernel.org, kees@kernel.org, 
+	gnoack@google.com, jack@suse.cz, jmorris@namei.org, serge@hallyn.com, 
+	song@kernel.org, yonghong.song@linux.dev, martin.lau@linux.dev, m@maowtm.org, 
+	eddyz87@gmail.com, john.fastabend@gmail.com, sdf@fomichev.me, 
+	skhan@linuxfoundation.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, Frederick Lawler <fred@cloudflare.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 29 Jun 2026 14:17:38 +0200, Christoph Hellwig wrote:
-> Add a iomap_bio_submit_read_endio helper factored out of
-> iomap_bio_submit_read to that all ->submit_read implementations for
-> iomap_read_ops that use iomap_bio_read_folio_range can shared the
-> logic.
-> 
-> Right now that logic is mostly trivial, but already has a bug for XFS
-> because the XFS version is too trivial:  file system integrity validation
-> needs a workqueue context and thus can't happen from the default iomap
-> bi_end_io I/O handler.  Unfortunately the iomap refactoring just before
-> fs integrity landed moved code around here and the call go misplaced,
-> meaning it never got called.  The PI information still is verified by
-> the block layer, but the offloading is less efficient (and the future
-> userspace interface can't get at it).
-> 
-> [...]
+On Wed, Jul 1, 2026 at 8:52=E2=80=AFAM Justin Suess <utilityemal77@gmail.co=
+m> wrote:
+> On Wed, Jul 01, 2026 at 08:12:34AM -0400, Paul Moore wrote:
+> > On Wed, Jul 1, 2026 at 6:59=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@di=
+gikod.net> wrote:
+> > > On Tue, Apr 07, 2026 at 04:01:28PM -0400, Justin Suess wrote:
+> > > > Create 2 kfuncs exposing control over Landlock functionality to BPF
+> > > > callers. Export an opaque struct bpf_landlock_ruleset preventing ca=
+llers
+> > > > from accessing unstable internal Landlock fields.
+> >
+> > Generally speaking we don't want to provide APIs, either in-kernel or
+> > at the userspace/kernel boundary, that are specific to a single LSM,
+> > see the LSM syscalls or the security_current_getlsmprop_subj()
+> > function as examples.
+>
+> I would raise bpf_ima_file_hash, bpf_ima_inode_hash, as examples of
+> clear precedence for this. (BPF calling into specific LSM)
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+The BPF IMA helpers were merged back in the v5.18 timeframe when IMA
+was still standalone, it wasn't until v6.9 that IMA and EVM became
+proper LSMs.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+> Kfuncs are explicitly marked as not being an ABI, and are more
+> flexible for later changes / deprecation etc. [1]
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+The issue isn't so much the kfunc itself, it is what the kfunc
+*calls*.  From what I saw in the proposed patch, the kfunc calls
+directly into Landlock instead of passing through the LSM framework,
+e.g. a function wrapper in security/security.c.
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+> LSM framework API can mean a lot of things. I assume you are meaning
+> like a pseudo-filesystem mounted interface that controls LSM?
+> Correct me if I'm wrong.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
+My apologies, I should have been more clear.  When I speak about the
+"LSM framework", I'm talking about the abstraction layer that provides
+the interface that the kernel and userspace uses to talk to individual
+LSMs.  The LSM framework is analogous to the VFS layer/framework in
+that it provides a single API for a variety of underlying subsystems.
+While not 100% correct, you can think of it the LSM framework as being
+the functions/hooks defined in security/security.c.
 
-[1/3] iomap: consolidate bio submission
-      https://git.kernel.org/vfs/vfs/c/044472d5ee7d
-[2/3] fuse: call fuse_send_readpages explicitly from fuse_readahead
-      https://git.kernel.org/vfs/vfs/c/3372eb0384b7
-[3/3] iomap: submit read bio after each extent
-      https://git.kernel.org/vfs/vfs/c/c1fb97d31782
+Does that help?
+
+--=20
+paul-moore.com
