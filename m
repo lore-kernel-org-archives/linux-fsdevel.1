@@ -1,190 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD064412271;
-	Thu,  2 Jul 2026 09:24:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549714266B1;
+	Thu,  2 Jul 2026 09:29:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782984300; cv=none; b=DOTLiUSgl6EIMYCkXzDRrRVFdAF5Z4LYe7rPJRjFeU8YrYKA1VBeA6oLAxF6VJllt1FsXSbaYNLfyJi1M5q6ZacLMH7hSkGTE2KAdpMvCRFZfMjVvtWBB8OBN802ceJfht26edTVN/oDIUg/g86uuT0PhNlYYW83GHR2plh1iHk=
+	t=1782984570; cv=none; b=ZjxLoMJiyYr1oOGnJmc2Nco32zueRf6s2a0yfdkP9R0N6Uve6zawXxtIFLhfP6yN/35Q0IsBkI7S2kEqgnk4hWKz6gohkzC4wAe8k8G4d2SQpVhU7ItpnYczB3xG9pkYBV5kiQKcU0QMrNs//Fj0p+II4iZuSuL+CJhhcnKBeNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782984300; c=relaxed/simple;
-	bh=ZS7u7hz1Qbli0QqnmbwELxK1FEHM1yiG9rosI7WRkco=;
+	s=arc-20240116; t=1782984570; c=relaxed/simple;
+	bh=BW4Hg/WHgx/wqWP0dHNwLEanMvutIGbvuRLcltLhx2w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=um48A4v/2pQ2rBCr1xxSbclxo2QYJgSPsS0cZOZyk+1aDeDS6T/5WXuv0ODCj1ZiODfjRFOKCCG03Haubyv16C04+X17vyiLOG611VfBZ4hLEMLhqNTbXpMvVIg1zaVYxU1FTC7+9SbfEbjUvAGaYTr4ZlFxuX24hPRztcf9qm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PpPbJ4g3; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=cblM7e7qzixEeAl2HcKmFvr+48m8dpXfVDRUkNg0G63j1TpLM5+H64UkqDAX+z59PbFFeaXjSnDbY+spQyTZb4HNUZAHKYyehXDqwWLzx/Y72Bhoz1rXknstx0VVRrXpHaU9IPSx+DX3M1p6aGQ5bYVLTv3kHW9dTpiCb7I74yE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e1pHYz6M; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PpPbJ4g3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F6B31F00A3A;
-	Thu,  2 Jul 2026 09:24:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e1pHYz6M"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 451721F000E9;
+	Thu,  2 Jul 2026 09:29:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782984298;
-	bh=fWN2PUZqz314MN6aw/zLCpIVBp40dgc/RS82IgvPVMA=;
+	s=k20260515; t=1782984568;
+	bh=dXbKba1B/CK8l+IdjdOVTRZMbCjkk+ESMNksJd+Czxo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PpPbJ4g310gK8zS/jgvsvWNGJUjuzCQkeJltv5RR3fm3WEyQnzATo6Tu7ZlqpjlaY
-	 KvH/MGkLBv3LPh8q20cdGdZjWjaFoNNmbjqrnFAHQXclwoCvFlhG0WV7M552ZXNSrL
-	 0OWfiAhjYpjzACxY6BsCt55l4MrQcvj9xgDOhCWSkL8RDm3sgp0PJmoVmFw9vd9nlL
-	 tdcZciGoy6Qn6BRP7sD7snET3sdFlOtJrYxzvEs9ARi+ITy1i0wx6UBmYlOVjr2sEh
-	 nOvr++WrQzSv17CMWZWNlq5bxBnXyAUqJsaGrEptPfJ03G4ZJA4oLPAv5+Lb97e+hJ
-	 72gKjkjWYOjjA==
-Date: Thu, 2 Jul 2026 10:24:51 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
-	Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-Message-ID: <akYjFXFaVDCx6WH0@lucifer>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
+	b=e1pHYz6M5wc22UEPY39S7MqKIR92W35h+OZlUX2//BA9xeVm6wvj0cP/u3aO6dTZv
+	 TIGdOAH18KZ9CiNo9hwRzrtH4q3kCxAjc+BVpLC/mE79gxFg34GOJLmNNPVHPwuZwn
+	 QTUBMCFpPGmCmUPxtbpGeUX01UhCAbMPQD0nBOccht09xoOs5VOphvm+jF7QvULdP3
+	 Bl4QTqSqA42sKKvKE4pWXPHR23G7F3Rvp/m/9dsQxmChy3LNDpRsSKfdg1foo4Hx9e
+	 7Pk+jESfziUy3hlUU+M4wL3z9Bt/TjFONYY3iLKAYClvwn7AGspasA4SUBxrZu2Hrb
+	 29+piCtGSKm+A==
+Date: Thu, 2 Jul 2026 11:29:22 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Andy Lutomirski <luto@kernel.org>
+Cc: John Ericson <mail@johnericson.me>, Li Chen <me@linux.beauty>, 
+	Cong Wang <cwang@multikernel.io>, linux-arch <linux-arch@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
+	linux-api <linux-api@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Kees Cook <kees@kernel.org>, 
+	Sergei Zimmerman <sergei@zimmerman.foo>, Farid Zakaria <farid.m.zakaria@gmail.com>
+Subject: Re: [RFC] Null Namespaces
+Message-ID: <20260702-markt-haifisch-kiesgrube-8580a3636064@brauner>
+References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
+ <20260629-hauer-erhitzen-sobald-96d3dff68707@brauner>
+ <eb390c52-eeb3-44b3-88e9-e65c52a26c05@app.fastmail.com>
+ <20260630-kippen-jobaussicht-restriktionen-2149cc663b22@brauner>
+ <372c1f13-e6eb-46e6-8685-3c39da4e9f72@app.fastmail.com>
+ <CALCETrV8T3KOWgjZL6wy2j7E+Y6zOjfN1aCDsVH4PadvE+yxSw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
+In-Reply-To: <CALCETrV8T3KOWgjZL6wy2j7E+Y6zOjfN1aCDsVH4PadvE+yxSw@mail.gmail.com>
 
-On Wed, Jul 01, 2026 at 06:10:48PM +0200, David Hildenbrand (Arm) wrote:
-> On 7/1/26 17:54, Christian Brauner wrote:
-> > I remain very confused by our coding assistant contribution guidelines.
-> > I'm going to be a bit polemic now but this seriously in good faith.
+> > > I agree with the sentiment
 > >
-> > Why precisely do we require all this detailed information about what
-> > specific coding assistant was used?
+> > Thanks, I appreciate it :).
 > >
-> > I find it very irritating that our git history has effectively started
-> > to function a bit like a free advertising platform for a bunch of AI
-> > companies and their proprietary agents and models.
+> > > You know what the easy solution is: don't allow a struct path to be
+> > > empty...
 > >
-> > And it reamins unclear to me what exactly we do get out of this detailed
-> > information: Do we want to run statistical analysis on what agent and
-> > model is used the most and publish that on LWN at some point?
+> > Just so we're clear, my quibble here is purely behavioral: the nullfs
+> > directory can be opened, right? And that open directory can also be
+> > getdents64ed (yielding no entries, since it is empty), right? If I am
+> > wrong about these things then sure, no objections from me --- let's ship
+> > nullfs FDs right away!
 > >
-> > I acknowledge that my stance is even more radical: imho we would just
-> > stop it with any disclosure requirements completely. It's useless imho.
-> > We already see that other than core contributors most people don't care
-> > and will just not disclose their usage of AI. I think this is entirely
-> > pointless and worse it brings in undefined legal status as well. It's
-> > not like recent events of pulling certain models from the face of the
-> > earth have made this any less concerning.
-> >
-> > But fine, if we want to do this can we please just dumb it down to
-> >
-> > Assisted-by: LLM
-> >
-> > or
-> >
-> > Assisted-by: Coding Assistant
->
-> I'd prefer this.
+> 
+> Christian, how would you feel about a variant of nullfs that fails all
+> operations instead of acting as if it were empty?  (I'm far from
+> convinced that this would actually be better, but it at least seems
+> pretty straightforwardly possible.  And obviously the
+> nullfs-at-the-root-of-everything would not want this variant.)
 
-Yeah I don't see any reason why we need to know precisely which model or version
-of said model we need.
+I think it would have to be a separate fs type: failfs. The problem is -
+if taken to its logical extreme - it would have to refuse statfs and
+fstatfs as well which means you can't discover it. You'd still be able
+to get your cwd and root of course via /proc/self/{cwd,root}. So for
+that we could just add:
 
->
-> The doc states "proper attribution helps track the evolving role of AI in the
-> development process". If there is another reason why we need the free
-> advertisement, we should document it.
+FD_FAILFS_ROOT
 
-Yup.
+I don't have quarrels with that. I can add that and it seems genuinely
+useful. I'd again keep it as a kernel-only thing (not mountable) for now
+until we have an idea whether the semantics work out...
 
-Honestly I find the phrasing here quite vague.
-
-While it is interesting to track the degree of AI involvement (where that's
-disclosed) a really important part of this is how maintainers deal with AI
-submissions.
-
-Also we have a schism in the documentation anyway, there's [0] which is
-literally indexed as 'AI Coding Assistants', which says NOTHING about how
-people are supposed to use them etc. and there's [1] Which DOES say
-something about that, but which isn't linked to by [0], nor links to it.
-
-Before I happened across this thread, I was thinking of sending a patch to
-at least link one to the other. Now I think I definitely will.
-
->
-> Side note: if someone instructs an LLM exactly what to do, and would have
-> achieved the same thing just typing it in, the use of the tag is not any helpful
-> to me. (similar to "Assisted-by: vim" would not be helpful).
->
-> What would be much more relevant to know is to which degree LLMs were used.
-
-As I mentioned off-list I do agree that this is key.
-
-Having this information helps with the most important issue we face when it
-comes to AI - an EXISTENTIAL issue actually IMO - the asymmetry between how
-much code can be generated, and available maintainer/reviewer resource.
-
-Being able to, at a glance, see that a series was both wholly generated
-seems substandard means we can quickly ask for more human attention.
-
-And I know what the argument's going to be - 'bad faith people will lie
-about it' - and sure, yes they will.
-
-But now that there's been a huge surge of AI generated code in mm I can
-speak from experience - many DO attribute, and for those that don't it's
-very useful to have guidelines to point to.
-
-Both aid in dealing with this asymmetry.
-
-(as an example, I've had to push back quite strongly on an _attributed_
-series ([2] and [3]) that appeared to be wholly generated. Having this
-information would have helped there).
-
->
-> Assisted-by: LLM # translate commit message
-> Assisted-by: LLM # generate some test cases
-> Assisted-by: LLM # cleanup logic
-> Assisted-by: LLM # everything and I have no clue what any in here does
-
-Yeah this format works I think!
-
->
-> I thought we ask for that in some document, but couldn't immediately find it
-> (and nobody does that).
-
-Well you're probably thinking of [1], e.g.:
-
-	Second, when making a contribution, be transparent about the origin
-	of content in cover letters and changelogs. You can be more
-	transparent by adding information like this:
-
-	...
-
-	- Which portions of the content were affected by that tool?
-
-	...
-
-
-And also from the same document:
-
-	If tools permit you to generate a contribution automatically,
-	expect additional scrutiny in proportion to how much of it was
-	generated.
-
-	As with the output of any tooling, the result may be incorrect or
-	inappropriate. You are expected to understand and to be able to
-	defend everything you submit. If you are unable to do so, then do
-	not submit the resulting changes.
-
-	If you do so anyway, maintainers are entitled to reject your series
-	without detailed review.
-
-This only speaks more to the need to link the two documents together. I'll
-send a patch.
-
->
-> --
-> Cheers,
->
-> David
-
-Thanks, Lorenzo
-
-[0]:https://docs.kernel.org/process/coding-assistants.html
-[1]:https://docs.kernel.org/process/generated-content.html
-[2]:https://lore.kernel.org/linux-mm/aj9yrlB0TrlYCLlf@lucifer/
-[3]:https://lore.kernel.org/linux-mm/akIjA_dqh4OHAYo4@lucifer/
+(Btw, I've done something vaguely similar for kthreads in work to be
+merged coming cycle. Their root and pwd are in a _separate_ nullfs that
+can't even be overmounted. Which means you can't do arbitrary lookup or
+I/O in init's fs state from kthreads anymore without having to use an
+explicit scoped_with_init_fs() override with init's fs state
+temporarily. Which means that hopefully things like ksmbd will not
+happen again...)
