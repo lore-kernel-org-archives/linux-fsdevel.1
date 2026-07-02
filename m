@@ -1,81 +1,81 @@
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9BB28C874
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 02:04:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A8628030E
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 02:04:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782957848; cv=none; b=sniWz2W+eucSEF9KnDMng+8xRONFaqWDulddWa8RNPwHRPPUwgIJjcHiSNCfA+nyNMdHt09qhbTgybpZYybqM+YPfqVDCYPue8Bqp/ndioPXBiwEGvhKeEvwgx2gQuOnpv99puHl7y8GdXLmjA52rPkfvAmbU7tnOAyenh76Ngg=
+	t=1782957853; cv=none; b=BDUBw8FqT50Thrxl39bhnXQNWhb83cTsffMXT1MYT+rc+znSbuVNoWmvz4gQ6hbIUL7Jpu1jwKcC5yrOGXqk658YGwfmSN/mKUbXm0gbUZpZEu1aySLpX3Lirzifm2DozJ0o2rGkUpkgCwgAJ8O/NpmdMF4xQ+fhz8y/2c1xLiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782957848; c=relaxed/simple;
-	bh=hZ6IBu0TW0eIRybNAy1yNENH/syej04PuK+eBeksZCI=;
+	s=arc-20240116; t=1782957853; c=relaxed/simple;
+	bh=TTLVwpFnjw/vdSw1Ye+Z8QP2VnkOut9vgYNXPiylSVA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oW1hKRfCth4qQ2H4VKeLhbLHY4I+FtLSqsssTIaBr1SuLwFlV76RSGgaRud48gSlq49YEeH5ZgGOhvQLcRhZ5lUKyIqAJKDS5zgpW6EW8qE37PMYdHSTwFaGpRy6HT9CMnCg5my8SHhsTfFk36Z+GHZXuwTyQ1o4tgWETgKWwjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=FxFjLegk; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Uwn8pUyl; arc=none smtp.client-ip=103.168.172.147
+	 MIME-Version; b=SFAO9xwczwmYiSC6WnEOd3N4bcD3c8zg0IrKrTk/GV6HaLniVAHcdIXgao1LRI3sXrW2X+TEg0Pzwq2mxtGCZ+ZtWVEXKtJ/uqId5hpDIeFJ/8YYaSdoX3d0aMgfDqsYn8t/r6RcWaupN3zKpYWxrsPkj3a+LyFvjlzxYWwPUxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=BAou5NaO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DjKGPOJB; arc=none smtp.client-ip=103.168.172.156
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="FxFjLegk";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Uwn8pUyl"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id 8AC98EC00AB;
-	Wed,  1 Jul 2026 22:04:06 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Wed, 01 Jul 2026 22:04:06 -0400
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="BAou5NaO";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DjKGPOJB"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id EDCB51400143;
+	Wed,  1 Jul 2026 22:04:10 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Wed, 01 Jul 2026 22:04:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm1; t=1782957846;
-	 x=1783044246; bh=Ko3IpsxnNBdCXLNbNlYHykBauiyeH8iRf7GrViRMiSY=; b=
-	FxFjLegkt+T2o3PYco9LcxOIEzeV4M3mhSVcXp7aObPbP6tr9OIC9j5rLe86+ijU
-	QzSm+puh96hKiF6v/IlphbGRJQFIz9BrRLtzlQo5Zn++9oiyeMUugbbyXJuQGNI1
-	wUOojlEoxWQcowVXC33U6mw1s2Jtcc+8MzAzlIDhPFhOC6ESvL6+EfxMy2AvY8Vg
-	zQyfPjMsLXEKXqz4n/++VFPmJ0NgloNcZ+ANf6ogu9nGwD5A2N0/uz2jrE+gIA7Z
-	WIfWRzQkwfWt/IPdqlXLGGS5sSjg5TNXDGBg9P7+xQGsxRbFd5qDpMv00F7xZ7Zk
-	uh2wpP5aMZd8a/Ml/sBPag==
+	:reply-to:reply-to:subject:subject:to:to; s=fm1; t=1782957850;
+	 x=1783044250; bh=5lSGYiUVovvCZlqK7Higlps49OWTiKRhCsZotTeHk0I=; b=
+	BAou5NaO10O47TSQMmR5TM7v9DhFI6A4RO+cZYCB+lbyyyN4sEdSyVRx5tvqqLvG
+	FUbPAe6XzsEspJKL4V/aZAZjIwckURp185cuTV4dHngcaKQk+wA1G0OBVhm251oM
+	s1moj2za6f7LEZ8B5FX/LY8JmDQsP4vboM4abMlDVeEI6doKAWzjRH0bNhdb9z9Y
+	k0LhH+rSVzhhkkcp3jstnwa7v7HyEWIHao270BE+lu7A+vTB8LNocAScNVecb3QZ
+	6ovKcE4wYWR5zQbiFmPfX3yujXGvAU3diwSlwoOd0s6q8s5jSFHl7NM2ZhP5rNDb
+	QVFCQ+7oyq4WyL1/AAdzEQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1782957846; x=1783044246; bh=K
-	o3IpsxnNBdCXLNbNlYHykBauiyeH8iRf7GrViRMiSY=; b=Uwn8pUyl66ztdUxyO
-	GfWgFxiTX1BUUMY55JsBhzOh517wwy/PgGbUfJI1NpVP9oxVf59nCnGYTj4zgDtD
-	3uwX/vEaehojoz5dN5pi6+oca5YtTB1sDXQL0ZbcyKlmiEW+SaPIk0MB3fs00zzi
-	kM01voGYi4mhJAP7tMIjnFJP3tkd5nhqVCu0Af8oiylhN7bMUdmA7daQeNC7n9v9
-	1+qws3+F3zYqq9hPnSm606ejSOWh7ejE9IChx0qSMA9W6ux7/lqC7R/WFGXQUDUM
-	MwAbXunvp0siyX+R0k+8p12KsTPE0ILT2cA60raIeoIjaFIL8WthkTS7qEf2NpfJ
-	KLTjA==
-X-ME-Sender: <xms:FsdFahoKcRngsvhRDIcvDgY0X0KGJARZVmDhcUTLP_pblgLPXMuyCA>
-    <xme:FsdFahe3TBnDwHSy4LcvJKaCsW7ILa5s4zzbHSIr4no7vX0hsOJL6rlxVzgjfMr5B
-    C9mHuHErF31hViy7lw7LaaOwSrh0A_7T8ZMsDu8vOS16qof4g>
-X-ME-Received: <xmr:FsdFaorUnRrSr9Z_iMct-k40o3TI7o0tdBEWiis5GSw4GAZaD9FMoj8wp_X5z_Ef55ZoUkOvPVAvWeYeMi9g8rdwtfLi80A>
-X-ME-Proxy-Cause: dmFkZTFBlC2s1yYlVvupIM97BEnZO/7OPbr+acxX4nRSYzIQeXoAQeDKsD4er4hbKJRbPH
-    vFaZqGpBs4JhS/UEEk5fxY8Ihon6bczjILRRW7Cb4ZJYjHVE90TRCAK29TxNKAXYEjdFh4
-    NXS+G7znjgWr5jEYCvzwPSPa/VALm+JOuDcfRFJiRU+fH+nT6zJVb++ZvCAYFx32pyp19B
-    7N++n3JGVmGW4HgE2UUMBDNCIWZFa27ShL+xPFt4/oB9mq+gqnwzpAm4HSacQPYyMvjiy9
-    vlXjSc/jXXYYwLmX1wjS3WMu/iurO943Hjm1+m7BT17nwi6fxAf7e5WryDbL7Kox2LEpP3
-    bQ54KW8PHaAC7RTlc5M+ua9wrhwJWNR37tM7rHvMBAdGFowxKmyEduJQiM5v4qvJjo2tU+
-    nG1ybnnCHk9uXIAMXiQzcF0ChscNmmCeycC6x4AE1gBGUA/6VuW5wsvz5r/Z2wtAqdjok1
-    BQzkUKj5/kLr5maTBdGVrnbufYR8BJzxEZA/D8zpGs4aP8sMHhPxoV0Nsmj8KFmXcVUcbm
-    O5Z7LzwKoFEVLqntrOgvNO9kpU6kYa9K/poFeEN3wb0L8zjOXkouZuSAQkKovAEbjfMhXm
-    bQAADKA3XNxdWP+M98PLZiR5Q+sCzvw3P/OPCvsodfrdq1V0nd3Mcp47LrSw
-X-ME-Proxy: <xmx:FsdFaqHI9QsrZFaWG8DHtwbgvAVUBo5-7GKP8yG5ieXoqAW-sxVUzw>
-    <xmx:FsdFagsmPgTASXWYLrEOvIn9TYmp96n3lXcViiWCmklweTRE0LK-Qw>
-    <xmx:FsdFakX79FsXJPgX_ZiDLCAPWcA5lj386wdnphY0S4uZCGpS5caEEw>
-    <xmx:FsdFakGNvV3xWIjdm2kPtubkpmQX974fNOgcg7thJkIqVxXb83hzuA>
-    <xmx:FsdFatRDckJ4ffM9xcgr7wdvGr_NRyc5G6mcf1epZe0NIy506P81y--v>
+	:x-me-sender:x-sasl-enc; s=fm1; t=1782957850; x=1783044250; bh=5
+	lSGYiUVovvCZlqK7Higlps49OWTiKRhCsZotTeHk0I=; b=DjKGPOJBrtkshQh51
+	glwSMcyNn8K4NIM4hAgKx4QOHpIs2I6yysw/DMyYREwVnQdF+JOO6Hkj5wDbO5iR
+	HKfWfjYa2JawUREMzuBvFxIEFb7Wzu6xE/V5sNfmw4b893GvxbUvvUbo7ymQoc3T
+	47KGXy56dQQeCfyNAv2FtTIHBsr9d7EANlGYLfQYP9Xucm59VQn5oeyTo4//ygk+
+	Q2cDkig7qg5Jzl8AOdIktVTcW1qq5ddFHxcX2X5GIRLwe663ZEWiVJ7yokGP/y37
+	/iOox4LwQdeZ4e410K+cCOfbn/X+gVjQLXKfJK8L7Jyvz1NDWXqMSlOzvRQ6baC7
+	5RGsA==
+X-ME-Sender: <xms:GsdFakbL5HwlxiPkbUJ8aN6-KPWRMKULnKhQ65ZZ5zMqMd8Ob0AwXw>
+    <xme:GsdFatN-s62V47_6-WGfMWY3dbScIwHBHnvtR2WjBJmuKzm_q5arl1Sjm9eNbNi2K
+    pXAbHBcB_oV3s_RlgBcj8RVea62HEjCVr81xcrET3HQp_mt7g>
+X-ME-Received: <xmr:GsdFapbHI8tfm6kSkawAhCiJ2mLqs-zfgyeJuEuk_CvAA-MAUqji4ceIL9mVzKDSwasc0FGyIXBQ6LyMOWXEIKq5hWDsZnU>
+X-ME-Proxy-Cause: dmFkZTFBM60NYNvBYVyZBJE7BtjskAnRB5cF+Y5CxG3dl8xBiQ1DVZb41zrTInBF3jaFxm
+    8+pPgR3R2Hfs3MGbv9VeKwHM9g6bR4S8J9RYmIMfjSsamA40CBcf6BittuEXs10PMgrBl4
+    5Fk2UwQsXXBr66XU1RXhOjZA4QKgC/Pany22UKsouDAb3b0oU3RdJL8TvIW0PF3Qko6oB1
+    1B+CuhKSqihZYX4BnH5PD4WuPf/MvTKb3I8QFENVwoGJWFzI9/VXlZvH40Ips6pT1dbbMr
+    AdmQyItGacXgN4qLa13lvxsNwQdSnvAgFn7BN72ReAo4Xg001h8PE2+wAtfvzyrjptUTXA
+    QQJUzGlF1K41HWELIBGSfN9597s7z39i46HvDfR9FzauYhpFlx5WTTl8XtNgTl9jnG/Gjn
+    xIKTiXdjf/8I+8mHKXOHS9KuBMxPjAOu/iM5LwLrUcFWziZ4t3+V6zCJXKtD8f/gGmAhi/
+    BddqMaFA0yf6cH/m+CIJ28CI7W7jhSLrTcEeSzqgixzqvPpI6Oa/bELgWPtFUNYANCWlwt
+    ntfO4SV2kzhzg+rqAYfEcv+FpWFD4hC66qSlTjA7t3wnAazdwPUHimqIKLK85rH6wgrm+K
+    pgVIoiOtCmkrkJwZnoSsgud0dedbXHi9eOQOrz+H4AK520ha2emqqenhLlRQ
+X-ME-Proxy: <xmx:GsdFar0MawSld0s5jnGuVZhuIuZ2qrIlvRgjKzdP9y_jTO9m67UdfQ>
+    <xmx:GsdFavdNLTsN94M379GQU9DycCJH2JlhBXHBaTFfEHsv3IlbwYcIUQ>
+    <xmx:GsdFasECNxO2o55rGl-lPBP4idyxwc-u4K2Mhn9Bngr7LUgB5UeM2w>
+    <xmx:GsdFag0l5CX0WCQGGA55y24ZdBz61eyjVfZ8yN6tWZePeZCDV3rlXQ>
+    <xmx:GsdFagARyUMESPfyMIVWS6r8Km1y6NDyX6jxyve-fjBpeMfo0MglzoJ4>
 Feedback-ID: i9d664b8f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Jul 2026 22:04:04 -0400 (EDT)
+ 1 Jul 2026 22:04:09 -0400 (EDT)
 From: NeilBrown <neilb@ownmail.net>
 To: David Howells <dhowells@redhat.com>,
 	Marc Dionne <marc.dionne@auristor.com>
 Cc: linux-afs@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 1/2] afs: use d_time instead of d_fsdata
-Date: Thu,  2 Jul 2026 11:58:29 +1000
-Message-ID: <20260702020350.3403907-2-neilb@ownmail.net>
+Subject: [PATCH 2/2] afs: don't unhash/rehash dentries during unlink/rename
+Date: Thu,  2 Jul 2026 11:58:30 +1000
+Message-ID: <20260702020350.3403907-3-neilb@ownmail.net>
 X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
 In-Reply-To: <20260702020350.3403907-1-neilb@ownmail.net>
 References: <20260702020350.3403907-1-neilb@ownmail.net>
@@ -90,129 +90,226 @@ Content-Transfer-Encoding: 8bit
 
 From: NeilBrown <neil@brown.name>
 
-afs uses ->d_fsdata to store version information for the parent
-directory.  ->d_time is arguably a better field to store this
-information as the version is like a time stamp, and ->d_time is an
-unsigned long, while ->d_fsdata is a void *.
+afs needs to block lookup of dentries during unlink and rename.
+There are two reasons:
+1/ If the target is to be removed, not silly-renamed, the subsequent
+   opens cannot be allowed as the file won't exist on the server.
+2/ If the rename source is being moved between directories a lookup,
+   particularly d_revalidate, might change ->d_time asynchronously
+   with rename changing ->d_time with possible incorrect results.
 
-This will leave ->d_fsdata free for a different use ...  which
-admittedly is also not a void*, but is certainly not at all a time.
+afs current unhashes the dentry to force a lookup which will wait on the
+directory lock, and rehashes afterwards.  This is incompatible with
+proposed changed to directory locking which will require a dentry to
+remain hashed throughout rename/unlink/etc operations.
 
-Interestingly the value stored in ->d_time or d_fsdata is u64 which does
-not fit in "unsigned long" or "void *" on 32 bit hosts.  Maybe that
-doesn't matter.
+This patch copies a mechanism developed for NFS.  ->d_fsdata which is
+currently unused is now set to a non-NULL value when lookups must be
+blocked.  d_revalidate checks for this value, and waits for it to become
+NULL.
+
+->d_lock is used to ensure d_revalidate never updates ->d_time while
+->d_fsdata is set.
 
 Signed-off-by: NeilBrown <neil@brown.name>
 ---
- fs/afs/dir.c      | 18 +++++++++---------
- fs/afs/internal.h |  8 ++++----
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ fs/afs/afs.h      |  7 ++++++
+ fs/afs/dir.c      | 64 +++++++++++++++++++++++++++++------------------
+ fs/afs/internal.h |  5 +---
+ 3 files changed, 47 insertions(+), 29 deletions(-)
 
+diff --git a/fs/afs/afs.h b/fs/afs/afs.h
+index ec3db00bd081..019e77b08458 100644
+--- a/fs/afs/afs.h
++++ b/fs/afs/afs.h
+@@ -26,6 +26,13 @@ typedef u64			afs_volid_t;
+ typedef u64			afs_vnodeid_t;
+ typedef u64			afs_dataversion_t;
+ 
++/* This is stored in ->d_fsdata to stop d_revalidate looking at,
++ * and possibly changing, ->d_time on a dentry which is being moved
++ * between directories, and to block lookup for dentry that is
++ * being removed without silly-rename.
++ */
++#define AFS_FSDATA_BLOCKED ((void*)1)
++
+ typedef enum {
+ 	AFSVL_RWVOL,			/* read/write volume */
+ 	AFSVL_ROVOL,			/* read-only volume */
 diff --git a/fs/afs/dir.c b/fs/afs/dir.c
-index 498b99ccdf0e..7ff84b410097 100644
+index 7ff84b410097..e9aaf66218ea 100644
 --- a/fs/afs/dir.c
 +++ b/fs/afs/dir.c
-@@ -795,7 +795,7 @@ static struct inode *afs_do_lookup(struct inode *dir, struct dentry *dentry)
- 		afs_dir_iterate(dir, &cookie->ctx, NULL, &data_version);
- 	}
+@@ -1021,6 +1021,10 @@ static int afs_d_revalidate_rcu(struct afs_vnode *dvnode, struct dentry *dentry)
+ 	if (!afs_check_validity(dvnode))
+ 		return -ECHILD;
  
--	dentry->d_fsdata = (void *)(unsigned long)data_version;
-+	dentry->d_time = (unsigned long)data_version;
++	/* A rename/unlink is pending */
++	if (dentry->d_fsdata)
++		return -ECHILD;
++
+ 	/* We only need to invalidate a dentry if the server's copy changed
+ 	 * behind our back.  If we made the change, it's no problem.  Note that
+ 	 * on a 32-bit system, we only have 32 bits in the dentry to store the
+@@ -1056,6 +1060,10 @@ static int afs_d_revalidate(struct inode *parent_dir, const struct qstr *name,
+ 	if (flags & LOOKUP_RCU)
+ 		return afs_d_revalidate_rcu(dir, dentry);
  
- 	/* Check to see if we already have an inode for the primary fid. */
- 	inode = ilookup5(dir->i_sb, cookie->fids[1].vnode,
-@@ -882,9 +882,9 @@ static struct inode *afs_do_lookup(struct inode *dir, struct dentry *dentry)
- 	}
- 
- 	if (op->file[0].scb.have_status)
--		dentry->d_fsdata = (void *)(unsigned long)op->file[0].scb.status.data_version;
-+		dentry->d_time = (unsigned long)op->file[0].scb.status.data_version;
- 	else
--		dentry->d_fsdata = (void *)(unsigned long)op->file[0].dv_before;
-+		dentry->d_time = (unsigned long)op->file[0].dv_before;
- 	ret = afs_put_operation(op);
- out:
- 	kfree(cookie);
-@@ -997,7 +997,7 @@ static struct dentry *afs_lookup(struct inode *dir, struct dentry *dentry,
- 	_debug("splice %p", dentry->d_inode);
- 	d = d_splice_alias(inode, dentry);
- 	if (!IS_ERR_OR_NULL(d)) {
--		d->d_fsdata = dentry->d_fsdata;
-+		d->d_time = dentry->d_time;
- 		trace_afs_lookup(dvnode, &d->d_name, &fid);
- 	} else {
- 		trace_afs_lookup(dvnode, &dentry->d_name, &fid);
-@@ -1027,7 +1027,7 @@ static int afs_d_revalidate_rcu(struct afs_vnode *dvnode, struct dentry *dentry)
- 	 * version.
- 	 */
- 	dir_version = (long)READ_ONCE(dvnode->status.data_version);
--	de_version = (long)READ_ONCE(dentry->d_fsdata);
-+	de_version = (long)READ_ONCE(dentry->d_time);
- 	if (de_version != dir_version) {
- 		dir_version = (long)READ_ONCE(dvnode->invalid_before);
- 		if (de_version - dir_version < 0)
-@@ -1087,7 +1087,7 @@ static int afs_d_revalidate(struct inode *parent_dir, const struct qstr *name,
- 	 * version.
- 	 */
- 	dir_version = dir->status.data_version;
--	de_version = (long)dentry->d_fsdata;
-+	de_version = (long)dentry->d_time;
- 	if (de_version == (long)dir_version)
- 		goto out_valid_noupdate;
- 
-@@ -1148,7 +1148,7 @@ static int afs_d_revalidate(struct inode *parent_dir, const struct qstr *name,
++	/* Wait for rename/unlink to complete */
++wait_for_rename:
++	wait_var_event(&dentry->d_fsdata, dentry->d_fsdata == NULL);
++
+ 	if (d_really_is_positive(dentry)) {
+ 		vnode = AFS_FS_I(d_inode(dentry));
+ 		_enter("{v={%llx:%llu} n=%pd fl=%lx},",
+@@ -1148,7 +1156,13 @@ static int afs_d_revalidate(struct inode *parent_dir, const struct qstr *name,
  	}
  
  out_valid:
--	dentry->d_fsdata = (void *)(unsigned long)dir_version;
-+	dentry->d_time = (unsigned long)dir_version;
++	spin_lock(&dentry->d_lock);
++	if (dentry->d_fsdata) {
++		spin_unlock(&dentry->d_lock);
++		goto wait_for_rename;
++	}
+ 	dentry->d_time = (unsigned long)dir_version;
++	spin_unlock(&dentry->d_lock);
  out_valid_noupdate:
  	key_put(key);
  	_leave(" = 1 [valid]");
-@@ -1935,7 +1935,7 @@ static void afs_rename_edit_dir(struct afs_operation *op)
- 		spin_unlock(&new_inode->i_lock);
+@@ -1523,8 +1537,7 @@ static void afs_unlink_edit_dir(struct afs_operation *op)
+ static void afs_unlink_put(struct afs_operation *op)
+ {
+ 	_enter("op=%08x", op->debug_id);
+-	if (op->unlink.need_rehash && afs_op_error(op) < 0 && afs_op_error(op) != -ENOENT)
+-		d_rehash(op->dentry);
++	store_release_wake_up(&op->dentry->d_fsdata, NULL);
+ }
+ 
+ static const struct afs_operation_ops afs_unlink_operation = {
+@@ -1578,11 +1591,7 @@ static int afs_unlink(struct inode *dir, struct dentry *dentry)
+ 		afs_op_set_error(op, afs_sillyrename(dvnode, vnode, dentry, op->key));
+ 		goto error;
+ 	}
+-	if (!d_unhashed(dentry)) {
+-		/* Prevent a race with RCU lookup. */
+-		__d_drop(dentry);
+-		op->unlink.need_rehash = true;
+-	}
++	dentry->d_fsdata = AFS_FSDATA_BLOCKED;
+ 	spin_unlock(&dentry->d_lock);
+ 
+ 	op->file[1].vnode = vnode;
+@@ -1889,9 +1898,10 @@ static void afs_rename_edit_dir(struct afs_operation *op)
+ 
+ 	_enter("op=%08x", op->debug_id);
+ 
+-	if (op->rename.rehash) {
+-		d_rehash(op->rename.rehash);
+-		op->rename.rehash = NULL;
++	if (op->rename.unblock) {
++		/* Rename has finished, so unlocks lookups to target */
++		store_release_wake_up(&op->rename.unblock->d_fsdata, NULL);
++		op->rename.unblock = NULL;
  	}
  
--	/* Now we can update d_fsdata on the dentries to reflect their
-+	/* Now we can update d_time on the dentries to reflect their
- 	 * new parent's data_version.
- 	 */
- 	afs_update_dentry_version(op, new_dvp, op->dentry);
-@@ -2171,7 +2171,7 @@ static int afs_rename(struct mnt_idmap *idmap, struct inode *old_dir,
- 	}
+ 	fscache_begin_write_operation(&orig_cres, afs_vnode_cache(orig_dvnode));
+@@ -1974,6 +1984,9 @@ static void afs_rename_exchange_edit_dir(struct afs_operation *op)
  
- 	/* This bit is potentially nasty as there's a potential race with
--	 * afs_d_revalidate{,_rcu}().  We have to change d_fsdata on the dentry
-+	 * afs_d_revalidate{,_rcu}().  We have to change d_time_ on the dentry
- 	 * to reflect it's new parent's new data_version after the op, but
+ 		d_exchange(old_dentry, new_dentry);
+ 		up_write(&orig_dvnode->validate_lock);
++	/* dentry has been moved, so d_validate can safely proceed */
++	store_release_wake_up(&old_dentry->d_fsdata, NULL);
++
+ 	} else {
+ 		down_write(&orig_dvnode->validate_lock);
+ 		if (test_bit(AFS_VNODE_DIR_VALID, &orig_dvnode->flags) &&
+@@ -2013,11 +2026,10 @@ static void afs_rename_exchange_edit_dir(struct afs_operation *op)
+ static void afs_rename_put(struct afs_operation *op)
+ {
+ 	_enter("op=%08x", op->debug_id);
+-	if (op->rename.rehash)
+-		d_rehash(op->rename.rehash);
++	if (op->rename.unblock)
++		store_release_wake_up(&op->rename.unblock->d_fsdata, NULL);
++	store_release_wake_up(&op->dentry->d_fsdata, NULL);
+ 	dput(op->rename.tmp);
+-	if (afs_op_error(op))
+-		d_rehash(op->dentry);
+ }
+ 
+ static const struct afs_operation_ops afs_rename_operation = {
+@@ -2125,7 +2137,6 @@ static int afs_rename(struct mnt_idmap *idmap, struct inode *old_dir,
+ 		op->ops		= &afs_rename_noreplace_operation;
+ 	} else if (flags & RENAME_EXCHANGE) {
+ 		op->ops		= &afs_rename_exchange_operation;
+-		d_drop(new_dentry);
+ 	} else {
+ 		/* If we might displace the target, we might need to do silly
+ 		 * rename.
+@@ -2139,14 +2150,12 @@ static int afs_rename(struct mnt_idmap *idmap, struct inode *old_dir,
+ 		 */
+ 		if (d_is_positive(new_dentry) && !d_is_dir(new_dentry)) {
+ 			/* To prevent any new references to the target during
+-			 * the rename, we unhash the dentry in advance.
++			 * the rename, we set d_fsdata which afs_d_revalidate will wait for.
++			 * d_lock ensures d_count() and ->d_fsdata are consistent.
+ 			 */
+-			if (!d_unhashed(new_dentry)) {
+-				d_drop(new_dentry);
+-				op->rename.rehash = new_dentry;
+-			}
+-
++			spin_lock(&new_dentry->d_lock);
+ 			if (d_count(new_dentry) > 2) {
++				spin_unlock(&new_dentry->d_lock);
+ 				/* copy the target dentry's name */
+ 				op->rename.tmp = d_alloc(new_dentry->d_parent,
+ 							 &new_dentry->d_name);
+@@ -2164,8 +2173,12 @@ static int afs_rename(struct mnt_idmap *idmap, struct inode *old_dir,
+ 				}
+ 
+ 				op->dentry_2 = op->rename.tmp;
+-				op->rename.rehash = NULL;
+ 				op->rename.new_negative = true;
++			} else {
++				/* Block any lookups to target until the rename completes */
++				new_dentry->d_fsdata = AFS_FSDATA_BLOCKED;
++				op->rename.unblock = new_dentry;
++				spin_unlock(&new_dentry->d_lock);
+ 			}
+ 		}
+ 	}
+@@ -2176,10 +2189,11 @@ static int afs_rename(struct mnt_idmap *idmap, struct inode *old_dir,
  	 * d_revalidate may see old_dentry between the op having taken place
  	 * and the version being updated.
+ 	 *
+-	 * So drop the old_dentry for now to make other threads go through
+-	 * lookup instead - which we hold a lock against.
++	 * So block revalidate on the old_dentry until the rename completes.
+ 	 */
+-	d_drop(old_dentry);
++	spin_lock(&old_dentry->d_lock);
++	old_dentry->d_fsdata = AFS_FSDATA_BLOCKED;
++	spin_unlock(&old_dentry->d_lock);
+ 
+ 	ret = afs_do_sync_operation(op);
+ 	if (ret == -ENOTSUPP)
 diff --git a/fs/afs/internal.h b/fs/afs/internal.h
-index 0b72a8566299..a22027935482 100644
+index a22027935482..a0afe552ae64 100644
 --- a/fs/afs/internal.h
 +++ b/fs/afs/internal.h
-@@ -1764,17 +1764,17 @@ static inline struct inode *AFS_VNODE_TO_I(struct afs_vnode *vnode)
- }
- 
- /*
-- * Note that a dentry got changed.  We need to set d_fsdata to the data version
-+ * Note that a dentry got changed.  We need to set d_time to the data version
-  * number derived from the result of the operation.  It doesn't matter if
-- * d_fsdata goes backwards as we'll just revalidate.
-+ * d_time goes backwards as we'll just revalidate.
-  */
- static inline void afs_update_dentry_version(struct afs_operation *op,
- 					     struct afs_vnode_param *dir_vp,
- 					     struct dentry *dentry)
- {
- 	if (!op->cumul_error.error)
--		dentry->d_fsdata =
--			(void *)(unsigned long)dir_vp->scb.status.data_version;
-+		dentry->d_time =
-+			(unsigned long)dir_vp->scb.status.data_version;
- }
- 
- /*
+@@ -900,10 +900,7 @@ struct afs_operation {
+ 			struct afs_symlink *symlink;
+ 		} create;
+ 		struct {
+-			bool	need_rehash;
+-		} unlink;
+-		struct {
+-			struct dentry	*rehash;
++			struct dentry	*unblock;
+ 			struct dentry	*tmp;
+ 			unsigned int	rename_flags;
+ 			bool		new_negative;
 -- 
 2.50.0.107.gf914562f5916.dirty
 
