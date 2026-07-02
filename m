@@ -1,149 +1,161 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010036.outbound.protection.outlook.com [52.101.85.36])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B844E3778
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 14:32:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.36
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783002762; cv=fail; b=gjCQCi0pxDz7BkDcJsUQKIzjC1kWXrTpyc6tK3OhRd/P+2iTMwm8Xne/ekTK8hToyk1ZhsTx6NbQwrQESBsDE80wsZJHoS03Nv7CP0alhPewYYJCOtBEltX5ocQm5og7w4EH00dDOeq96Nle591LcTb0mmD9kDeUmGoN+mUYPqI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783002762; c=relaxed/simple;
-	bh=iaSrW/yvZX4we7mTKcN1BQ9Wtnx06Zr9cvRlZtd6It4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=oinDiCu2JtXYOZlRnBcPwetwRs4UVJnSLp/k3+FsLNXtmjLyQBBTBrRKx9xnfV5eYYVZkwAImzynLliRfFe734Cay8vkAs1OPGmwM/EWopSwJ7MQ00hpXwXKK4KbNSpKlFU3zOViz0Tplhve6WKcKeXIMypxQbBRziVmFXYCWLc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=JCRr40ZS; arc=fail smtp.client-ip=52.101.85.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19FB4949FF;
+	Thu,  2 Jul 2026 14:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783002798; cv=none; b=Me3/X7KKqNWKAsrp96N23iIdzMx4wW72GR7QeE9qLGlrfBhl4A0XDrPuibJe66iALamywBx02v3PhrH3b533YjeR+U0YbhsO0VIIw9SKaYVzfxUPE66OteLUwJCg9y6cHVyEbZoF2DWQLsPDM9eBUoH4I/nL0DXGs9YYg4g5UWY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783002798; c=relaxed/simple;
+	bh=VwALL1CLa3MHOZPyhYCPHFevCXfXeLWPcPMyfYsJl/8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ifnQwCeBBc5SzKKwVo+3bSfKsv9sgPRAtt5sCmonhM+wFndc9iCVJZVkvJ2DuS26Zm5SNAwY+jG0KUaaN9x2ud55GoyFvQzPV3IKT1TpX3zjJ1nJRkxyDz2X9dzeiI0JDj7mt+LtZ2o5haE1XLQM8HVOnzPJfzXR/b3cyGvjLYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EsgETONb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="JCRr40ZS"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Pokg9vn3nKFYIejrzu96vXdNHn4q+pDeLdtZoXv6wce8RlLlC/TYfULYngjEvCUcoq9EvkPpq20DX973C1rykfF4IwzombmJrkIf5b087HpjSw2WUPr+xfj6pG75YKWJzY6K8TIcs6sWY+72+80ijTDFsRf4qQYtcYkNSzaki5ZAqgME8w/kunmpl3CIi4OxE+8Z+UQYxjbAeUUOu8Q56598lqIwQ8U+1yL9SWB7B2+MXKwT4FYeKKpg7tBp5jC8AcAyuPCk1b79XEgcLeSXBFRlPvnNi2TJZiYsPasJGHRQ3ICA7iOGGT5yA6YEDnb5QFD5rBROZr7wLGtV5GIvNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vQwEaIWLp8QZaE6YKjf5wRY50P0yRf1wZ1navooi/yM=;
- b=h9NKHzxu6NPjvzNlRlHYxy0Ru7AAUM1DQ1Z/6BJvVYY/U00ENVJuO3Qn1XSkCg9n2ocPR+r+r+l5oFHPCOrKH2v0ujA6oneNjkPS+N3P7DvIMz53yzdCP9w883y/lWNZs3D3Vioall4qMxmS/B4UWgHohExxnQpmm6+/Ir4jdMLalYAkUD0GTqG5qFMZPKU74EDwsbf0eGRWnN+q2F0x2tyqtWZe2+M1fYvztAOS9yLg4wtqljuzmsWVip/O6zVK+Lf9WpgSFSemvaOYFt7mSkvpy6mvpxz2YF133wv3fp1EiY9cvgm243bYgsM92sXP4eMD1exxkOQygDbx/boYbw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vQwEaIWLp8QZaE6YKjf5wRY50P0yRf1wZ1navooi/yM=;
- b=JCRr40ZS8QalQ+S4Ik+GCwOlazeeb09gQi6qh0LHistVeG2qa3caSJfq/GrX7O2r0wO6PLEusSMj1pWjVwAasWEHROfHhed76glk95d+g3VkeUUAx44+MGB9Lq9mZsagQcAkTuTF1p5/KtIkn4M9oYFwBkQet5+pS9NqM2tGMJQiJK73bACHDxiSTnxZESg78k61/CaTQnVfbBb1yDTUPDpXiqe3GFMQG/4nimtv4uDtT0fYY3vWMmUQ2FgWeWxcERQaeuxThkscDiQWeNSd7ZU6zQZ76o5KPqaOZZ4vs3WBhtjPLmL68bckpaQ6L/yvNhTfPqFnXYzR834/UYoRtA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by CY8PR12MB8313.namprd12.prod.outlook.com (2603:10b6:930:7d::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Thu, 2 Jul
- 2026 14:32:27 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0181.009; Thu, 2 Jul 2026
- 14:32:27 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Jinjiang Tu <tujinjiang@huawei.com>
-Cc: akpm@linux-foundation.org, david@kernel.org, luizcap@redhat.com,
- willy@infradead.org, linmiaohe@huawei.com, svetly.todorov@memverge.com,
- xu.xin16@zte.com.cn, chengming.zhou@linux.dev, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, wangkefeng.wang@huawei.com, sunnanyong@huawei.com
-Subject: Re: [PATCH 1/2] stable_page_flags(): use BIT_ULL() for KPF flags
-Date: Thu, 02 Jul 2026 10:32:26 -0400
-X-Mailer: MailMate (2.0r6290)
-Message-ID: <90719075-A7FD-45E7-A1B1-1AA8C34DB435@nvidia.com>
-In-Reply-To: <20260702110614.2176986-2-tujinjiang@huawei.com>
-References: <20260702110614.2176986-1-tujinjiang@huawei.com>
- <20260702110614.2176986-2-tujinjiang@huawei.com>
-Content-Type: text/plain
-X-ClientProxiedBy: BN0PR04CA0135.namprd04.prod.outlook.com
- (2603:10b6:408:ed::20) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EsgETONb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9BAF1F000E9;
+	Thu,  2 Jul 2026 14:33:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783002793;
+	bh=WrG0OcwOEgURZ4WYdMBRYNJ5EzkU3zUGs20P0YcxiIM=;
+	h=From:Date:Subject:To:Cc;
+	b=EsgETONbu4Lf13kgKceGuPUwlW5Jop5gl7AkievMhu/qFGpHR3L9zpPvqzaWHJrPl
+	 WCWqXv0HEDxDIpSfhVE0e/6XiC/24YH7fBA2TnrArkajO5v+pEqNkESWw0vqqz0BZv
+	 E40rRn/ID4qgmmt3rrAoyuIDip2vNgYxEAGbquhWMbLk1J5IE9EBL4Il8ZN0aUKFYu
+	 J7i3S1Vx5Ie5Yb5ljauF4C1UR9cs0LS9wCMMWSv/c7CNnx/wsHMPYV3UxMZuaVXbOc
+	 PZK6V2Qa4UMHp52H7RuyJLkkWvGMJx65XkWPZ6RsDU14TDplp6r+JQlNkzJEb6EfRh
+	 7TuNzx4jmfn7w==
+From: Jeff Layton <jlayton@kernel.org>
+Date: Thu, 02 Jul 2026 10:32:48 -0400
+Subject: [PATCH] Documentation: remove the requirement for LLM attribution
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|CY8PR12MB8313:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9b7d9fd0-9e01-44c7-475e-08ded846bda2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|23010399003|1800799024|366016|6133799003|11063799006|56012099006|4143699003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	J1foe6a5UJ8/xPIpiNiGZCXlEE1vJaPIDyCpk0PIIZBuSs3nUnQuHXb9aSkLmY+1CExJtF2CitGwiV5OF/adGvcUSDDPa2mqJ2mP0guKEo9vqehoOWxXOR8p1lCb8Q2ygm17qdDaP361JN8M20GXEzjqz8vIsWy4Mc9wK6pMfQSBfR+LAJeReSvM7lGOSw87XTPfRx4TwlSeJATQLA12YUKzDv/YAVH1OOOMY91r586EvFs3Lcld5fS3ggvCh8a+IZ1Mka6E4RI8qewcPUFB4ko3puaVrWxahHwJbPEz73g06pqFyT1kZm6wekKFPMy9LzfVVhgRNge2Vew8WaHmPQA4mDYiecn2X+G8Lb89BWuyQqJeY3yHu/pghi1CYPKgxtZ6B63RswNu0BHHA3nyTldwQh/xe51p3Etma0/RcPR+oNVkyQRHjA0iCbTDub+rzu5DQbkb0xe6IgeVyK/PKvEtEByc2zx4NQlgEGEMguobFE/zj7OYotAitlU9+Yuq+8OPQDlf+S4Owv2P/P4B5Fvfec/HV1rBnGVkg3GOOaA8c+65LtfLkx7crXx87bmNkp/W6/rKANET7ma57QZcAv5HaMVhVksURWYgrbzbE9aZVV/5gyTkxGSIZ+jzvRHlXEHW4PYqrc4G3bWTiznu0N1gPndP/+2c6P51DuPu1Qc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(1800799024)(366016)(6133799003)(11063799006)(56012099006)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?HwLVZn0+Yb2QBfU84Re4j83X0fC31gk63RHjoTv78KG6JTvPMg99AmtCFCdm?=
- =?us-ascii?Q?ABGOdgrg4C1jChqx0hEdyTl7jh8ntKHAnUncl3AdqJQ1GgI5f9+mKoNSaim/?=
- =?us-ascii?Q?pxKySXSr47q9J1AAirqV3NeOsoUBhJzFO+i9kjmsS8zj7MWA87pCGm3mLRDQ?=
- =?us-ascii?Q?+pmCcPikQhXAt7QsGmYYEuxZMAvrbP8GVtdI1p4WGDfwy5q6BEBgVTs8z0a1?=
- =?us-ascii?Q?PcntTka5m7VaPkBZ3iz4ylx4K06j3QD/NvBzQDnLtvxPbaKoKBLImRbek+WI?=
- =?us-ascii?Q?TYfc7YyJfpEk81ugBFaHissFZJwxQXACsV0Yai+Ttl/XCGnnlal+qV6eIgCk?=
- =?us-ascii?Q?qXPTvTjcIKAOCJx/F80CAfUnkBSbdAz8Qnkioutj9XpzpNjkG6JFRu9qHQNE?=
- =?us-ascii?Q?N9vSLE3lDHNjuxN51dL0r3LbalR3j4pqoxsNEOEjMcFBuf2VWOnat+LFzTW1?=
- =?us-ascii?Q?NIcv7a/88fxgleVqUtgiKtoi/REH5LLFjCqgGUfMXgWhwJCOG1Dml5PyqH53?=
- =?us-ascii?Q?a2FLDmjUEtnGH8AoRSeNUh9Dv1B+cBNw0FTgTuSsJJ/cN4BkrWAAhvMcU+09?=
- =?us-ascii?Q?vPc/pKtN1mcIyK/YS71Ikv6o7LT7gazKz9ReKgn/pfy3zv3HLEXXuhqJLmtl?=
- =?us-ascii?Q?B+8KbO1clXKkRv7Cw8WX1WQ8pshq/V1ECHsdS6vZTWt5ValhZbjdF9ayq/6E?=
- =?us-ascii?Q?L03yoUJw/axwtCzT/NvrF98aBnPvaQcZu1OwjzFVjTrnaNqBnRBNnHiOyT1M?=
- =?us-ascii?Q?aAy7PTsMu7s2ivL1R3mrZDblePhl6eUSdWYdeUKmq+6vDZLSvrOfVH7diKfp?=
- =?us-ascii?Q?1Wj5pz8PO4FLik3eGuXKf4utLw8faOI4FbRZ777r3V/XAP1N4jiTGb/qUQoZ?=
- =?us-ascii?Q?iVTgoTnrp0C3IaqgqltHuxWz9C4O/6T1TARvO/AwJCmwzLf2kWLRDDa5Q1G+?=
- =?us-ascii?Q?+JWAzybVx7RipADQXg3o894Crx5k4OFy08/Lmq0F71UcCQxOw9zZn0iUzJP8?=
- =?us-ascii?Q?R+I9av4vG11ry/M4SYvl4ZoFZs68CyxO6fSLV86JC2fvcv9VklKP7XOAkk+7?=
- =?us-ascii?Q?bqcaYofoZMj/XwQOKjNtkC+4GljIFKW4VnqBRR3iRVK2XkzxVxJ/5AlIR2If?=
- =?us-ascii?Q?zqhbkmZvV4u8EuC92jiAnEa5czzu22sIG57SquQnlQWZvW2r5mSB7rFyDmZT?=
- =?us-ascii?Q?8kwD8Gq2cwl9fybdyt1HJ28WQ0Xh3Myc9P3Rm393vy8PH+d0rSQ1tCCqE5Cl?=
- =?us-ascii?Q?DLWB92ubi4uOck1gd+tfQ1W5mL34z4cln0CHhqY3YsPBC9WfB2os6j7E3Fn2?=
- =?us-ascii?Q?pIuSfDyISWpocMXuJhUFkKQ0LIueSTQ9JBCyE8g1JCyPkf+jUAF9AJabRw2u?=
- =?us-ascii?Q?b9J9sY32sHabKtsEP4pcYeL0/HymcxSV6+/kmvuPyiGD+eNlaVuJagME885W?=
- =?us-ascii?Q?NeJrTKe3LbeLIfw3vM/dtlfZF6HD7DWBdYDp5SzV+gsZcqM14pZ+HjyMe2jc?=
- =?us-ascii?Q?+LQ1B7jexa9W0k5eaVTML/qkS/XkECcwq88ErhXI5FRzvB6A5eFOZWXPILlH?=
- =?us-ascii?Q?qnEt3R4p+VLE10xnWxtiNAaHOLqlTrUoplaJJXWlVSG27gVr7iUXumJSBG5H?=
- =?us-ascii?Q?Ok3v0b04G2F/rCJc6H4f5Wf3eLERuwn+KQLaHKjcVQamwMGc7MQxNoBiWEGv?=
- =?us-ascii?Q?SHNExdfE5PXo/cm6M88+ASY6pgS2m8aT6mnB+UlGBL+tvex2z1cCkp/ntBAc?=
- =?us-ascii?Q?GEYUwc++nw=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b7d9fd0-9e01-44c7-475e-08ded846bda2
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2026 14:32:27.5724
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yY5o+U/OA+55QZeR4YCb/4mkvr2cgfPuIhhXWeOSw/eiwSMSxf5XL97aSwFDClLm
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8313
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDcwMj3cTMlPxkXfNUQ4s0IyPDFDPjRCWg2oKi1LTMCrA50bG1tQA60Uk
+ AVwAAAA==
+X-Change-ID: 20260702-aidoc-7e18f221d63a
+To: Linus Torvalds <torvalds@linux-foundation.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+ Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>, 
+ Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, 
+ David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
+ Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
+ David Hildenbrand <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, 
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3314; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=VwALL1CLa3MHOZPyhYCPHFevCXfXeLWPcPMyfYsJl/8=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBqRnai/gKXOrwEHaJip75IM/d38JKS5kmCb/eoy
+ NT66RC0KhKJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCakZ2ogAKCRAADmhBGVaC
+ FXJDEACeLv7UX7B+3MkvQeF7XtMmdwNJANt7yElsGT0Hq2pQLLrHjN6IiUg4aphBS2wSbKp3Evv
+ FQyzZqj/OJBE1ZzoLhqNyCWqqWu7yFZ2n2eLwJO6Y4jgOL0sBZDL9BBvhkFlOeLjE0GPopFgP5z
+ VrG41+oHi51Gn/8GdoypLNKoBzBSm0IIs0+uz/dXJpxT270KnpK6mwXGtKyt7no1N0lcyOPIPJm
+ KXqZ2qnViDQPxqNx00sT9m45qVjsh+UludTVuHqvcBFNLYSMg9AhakAc3gTxpWsXCBhT1uEp683
+ lLG0AE/xNOGUa7QF6BYYtWuRtJsvzj/tj8s+9i4pMqhyACNJoDStE6OfgoeivTgiVGs/JfcXtvi
+ XruNCq9whl9ziCYa1nnnSCFJShLzxYEezF97z9cCb3zK7dOCt6LPl6c0vU665i1WLisOwuxKYr2
+ 56mH2oPSwI1tXbdbwM8pQNRQVb9LdoArZL7/AYjsVL1uzCMwtulHC+Xgs7iXK6fVQg9BPwfTzFv
+ HiRyq+f5nX+fTGg48T6SElmcTRzcKfkxq6dy+NZhQl3mBJhxPLJwHOx1pShgvrIZNF1sK4u1yZm
+ z01e5JBCmxCRBE/dq2vbfMngJReVnTBIe9BN3bunKeFXy4WUSgpGgw0bccG+bkvhmreDDmmRGFc
+ ZVXBV3x5Pu5xcnA==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-On 2 Jul 2026, at 7:06, Jinjiang Tu wrote:
+We've had this requirement in place in the Documentation for several
+months, but it's becoming clear that the signal to noise ratio from this
+is quite low.
 
-> The stable_page_flags() function currently sets page flag bits using
-> "1 << KPF_xxx" for various KPF_* definitions. KPF_* may be larger than 32,
-> which will trigger -Wshift-count-overflow warning. All KPF_* values
-> currently used in "1 << KPF_xxx" are smaller than 33, so no warning is
-> triggered with current code. However, the later patch will cleanup
-> stable_page_flags() and "1 << KPF_xxx" will be used for KPF_* values larger
-> than 32, such as KPF_MLOCKED.
->
-> Replace all occurrences of "1 << KPF_*" with the BIT_ULL() macro to
-> ensure all shifts are performed on a 64-bit unsigned type. This makes
-> the code robust, and safe for future extension.
->
-> No functional change is intended.
->
-> Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
-> ---
->  fs/proc/page.c | 30 +++++++++++++++---------------
->  1 file changed, 15 insertions(+), 15 deletions(-)
->
-LGTM. Thanks.
+1/ It's not universally followed. While many people do try to attribute
+the LLMs in good faith, not everyone does for various reasons.
 
-Acked-by: Zi Yan <ziy@nvidia.com>
+2/ It basically serves as free advertising for proprietary LLM companies.
 
-Best Regards,
-Yan, Zi
+3/ It's not clear why we want to collect this info in the first place.
+
+Given that the data this provides is flawed at best and is being
+collected for a purpose that isn't clear, let's just kill the
+requirement for these tags from the kernel at large.
+
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+Christian had proposed watering down the LLM attribution, but I think
+it's not productive to try and track this until we have a clearer sense
+of what we want to do with this information and how to make it more
+reliable.
+---
+ Documentation/process/coding-assistants.rst  | 22 ----------------------
+ Documentation/process/submitting-patches.rst | 10 ----------
+ 2 files changed, 32 deletions(-)
+
+diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+index 899f4459c52d..c4cc0917fc92 100644
+--- a/Documentation/process/coding-assistants.rst
++++ b/Documentation/process/coding-assistants.rst
+@@ -35,25 +35,3 @@ is responsible for:
+ * Ensuring compliance with licensing requirements
+ * Adding their own Signed-off-by tag to certify the DCO
+ * Taking full responsibility for the contribution
+-
+-Attribution
+-===========
+-
+-When AI tools contribute to kernel development, proper attribution
+-helps track the evolving role of AI in the development process.
+-Contributions should include an Assisted-by tag in the following format::
+-
+-  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
+-
+-Where:
+-
+-* ``AGENT_NAME`` is the name of the AI tool or framework
+-* ``MODEL_VERSION`` is the specific model version used
+-* ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
+-  (e.g., coccinelle, sparse, smatch, clang-tidy)
+-
+-Basic development tools (git, gcc, make, editors) should not be listed.
+-
+-Example::
+-
+-  Assisted-by: Claude:claude-3-opus coccinelle sparse
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index cc6a1f73d7f2..b74c38aa9770 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -634,16 +634,6 @@ bugzilla.kernel.org is a public place in this sense, but email addresses
+ used there are private; so do not expose them in tags, unless the person
+ used them in earlier contributions.
+ 
+-Using Assisted-by:
+-------------------
+-
+-If you used any sort of advanced coding tool in the creation of your patch,
+-you need to acknowledge that use by adding an Assisted-by tag.  Failure to
+-do so may impede the acceptance of your work.  Please see
+-Documentation/process/coding-assistants.rst for details regarding the
+-acknowledgment of coding assistants.
+-
+-
+ .. _the_canonical_patch_format:
+ 
+ The canonical patch format
+
+---
+base-commit: 665159e246749578d4e4bfe106ee3b74edcdab18
+change-id: 20260702-aidoc-7e18f221d63a
+
+Best regards,
+-- 
+Jeff Layton <jlayton@kernel.org>
+
