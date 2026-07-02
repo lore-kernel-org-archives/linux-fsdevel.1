@@ -1,95 +1,115 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C3D47DD65
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 09:09:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463D047DD7A
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 09:09:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782983378; cv=none; b=X2h+mrt1DeyR1RrRZgkM0LYT74Qs7feWTfKzjGIRTh9wzVN4pVkTCjHOhFKGgQHp2s/a3TPRyNNQI5wX/mpY/onKr6+Hgrjj0AwPamCLfAOZsR6k32WA5tySW4nQpuA3483FjQBhTEHp+xy09jr6N9rxHate+Q78GsgYuiHtArQ=
+	t=1782983380; cv=none; b=ali5Wis19m4IsF8aQkYfTD658fRhlVZioiPLwl9CMmi1cigwkGMXXSZ3uDqEe675C1GCBhF0viAvIGepvIJpF271wd9kNMTUyXk4dcILqOQiPMT4ea3drnhLFOZ4Q11DeQkXDynSyJmiRBNF6kfuB/T8RKMG0qUTNMmKDeQTTbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782983378; c=relaxed/simple;
-	bh=/4H8fB5UmRZ6XOOyDDuG9rxihECf1pxl2PCJsBeCRKE=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
-	 Content-Type:Date:Message-ID; b=Nd+iGW2cUI4WlQ9Oemji8HCc0utM/vLHh1RysmiKImvtVfh/FhQOb+QOqytnfDXBbByEowWdmB5aUEL/Y758EgvtqHNrlrPLrGgOPy5SbRgU3Oz3GHI2g+5Zs6RButaheEfy3HLJQcGJMWDiPHdJaizDZ4ITibgedyadNBzNo+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G8wHW3Cn; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1782983380; c=relaxed/simple;
+	bh=X4lWb4Zgyq9kDtHYjOqT/HcpzyRjjLI0DNIX1c5jUaM=;
+	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=IqImIRHxjO3yIjapvHo/BkhmjDGOfp+xFeNFSaYRktfFKljtz+irKkiY4sxsAWwo/KfwUqy8Tj40I4w6IYliAQltb76AAdyA3WyWQA0EOBKnXRAzoZfZZLCYAUDw+juvWFAuzLTkbmYR9Xjj30+GFBuogwYgmNEN/cvah6lVC6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=ZEiDPTGN; arc=none smtp.client-ip=195.121.94.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G8wHW3Cn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782983376;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gtcifYcfR4fB1xFwNMQo5aJiOPVK1/D0m+96KdcNtC0=;
-	b=G8wHW3CnfpjlMx8DZPTNop3r39qyU865q6lv+2dSsL3HFmONgjiRPYJtV19L54ge6HYOuW
-	JDUxZ2mygu9wKNeLIdt4IiNx80Hme9F00He/pX50igubI5PRO7aRv/vEBzDJr2x11qB/at
-	3GLk+UzW135aRzHPBMphqU+/GKz+o6k=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-421-RkgkJoh6NEGf7u75AHquyg-1; Thu,
- 02 Jul 2026 05:09:35 -0400
-X-MC-Unique: RkgkJoh6NEGf7u75AHquyg-1
-X-Mimecast-MFC-AGG-ID: RkgkJoh6NEGf7u75AHquyg_1782983374
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C68ED1856A5A;
-	Thu,  2 Jul 2026 09:09:33 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.33.159])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E0CE236F04;
-	Thu,  2 Jul 2026 09:09:31 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <20260702020350.3403907-2-neilb@ownmail.net>
-References: <20260702020350.3403907-2-neilb@ownmail.net> <20260702020350.3403907-1-neilb@ownmail.net>
-To: NeilBrown <neil@brown.name>
-Cc: dhowells@redhat.com, Marc Dionne <marc.dionne@auristor.com>,
-    linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/2] afs: use d_time instead of d_fsdata
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="ZEiDPTGN"
+X-KPN-MessageId: bff4b762-75f5-11f1-9e8e-005056999439
+Received: from mta.kpnmail.nl (unknown [10.31.161.191])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id bff4b762-75f5-11f1-9e8e-005056999439;
+	Thu, 02 Jul 2026 11:09:37 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id bff2e651-75f5-11f1-91b1-00505699891e;
+	Thu, 02 Jul 2026 11:09:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=PqYWlkDcCBR62HicUulD+ZvvBxbrhHpWKTkTuPcmOVk=;
+	b=ZEiDPTGNBOsEJe7MBRiZA+HoZfQoCwumR1bRMcSFV5e9HqtGX/AvhvfHYteM5cMrTBkGUKpL+yN63
+	 4KuIx7VOlkYtRDupf3JnPqFpzA2x9PbhcodHS8OYX9WbobOI+rJl0ZU/Dsex1PqFnQ+sPxHn7Da9ZM
+	 zstxb371hUTwEpUOUun9fryUYtOkWO5iusVSXdi1KlEbSUrKXZsiBeAqdI3L7c5WYrb3TQvreaF/5L
+	 NVaR4sFh1jnQYgVbWA5xjXLOJ9yjShdLbhjGw5lBYtWjDhu+bp6JU+Yh/cVAFlA1jnRtKcaW3rZSuB
+	 2P0rGauZpugbjh6TmrbjqNb7DNqbfGg==
+X-KPN-MID: 33|A06hq9/OspSCblDEB2XsEAaS5PUjMJ/PvGk4O1z0S/ckLTliPawVDjQhJtQvp7M
+ bC1I6m8Et6gUXIjvcKmMYL13UY3qYJ2f+ajB4taehJ64=
+X-CMASSUN: 33|xV5+ZKyjGAqrRMlg92btei7Fl/lSCjGxTWwji/cF8+tpZaRdc5GIqoJHUqUCdfC
+ j3Qw633Ao3CXiKU7+omMp5A==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh03 (cpxoxapps-mh03.personalcloud.so.kpn.org [10.128.135.209])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id bfe2ba4c-75f5-11f1-916a-005056995d6c;
+	Thu, 02 Jul 2026 11:09:37 +0200 (CEST)
+Date: Thu, 2 Jul 2026 11:09:37 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+	David Hildenbrand <david@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, Lorenzo Stoakes <ljs@kernel.org>
+Message-ID: <1468431527.3731104.1782983377190@kpc.webmail.kpnmail.nl>
+In-Reply-To: <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <akYasD1ckWcH1C0g@lt-jori.localdomain>
+ <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <140095.1782983370.1@warthog.procyon.org.uk>
-Date: Thu, 02 Jul 2026 10:09:30 +0100
-Message-ID: <140096.1782983370@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-NeilBrown <neilb@ownmail.net> wrote:
 
-> afs uses ->d_fsdata to store version information for the parent
-> directory.  ->d_time is arguably a better field to store this
-> information as the version is like a time stamp, and ->d_time is an
-> unsigned long, while ->d_fsdata is a void *.
+> Op 02-07-2026 10:44 CEST schreef Vlastimil Babka (SUSE) <vbabka@kernel.org>:
+> 
+>  
+> On 7/2/26 10:12, Jori Koolstra wrote:
+> > Ah, I still reigniting this discussion again :)
+> > 
+> > What about a combination of what David and Jeff say? The whole point
+> > seems to me that the salient information is not that an LLM was used (or
+> > are we going to tag Sashiko as well or any other LLM-based code review
+> > tool?), but what is was used to do. This information may be relevant for
+> > how the review is approached. The latter should perhaps only be in the
+> > cover letter and then we can drop the assisted-by tags altogether.
+> > 
+> > The question about enforcement remains.
+> 
+> It's not possible to enforce it. People can deny it if the tag is missing
+> and you confront them and even though the submission has many signs of being
+> obviously LLM, there is no definite proof. We've seen (likely, as there's no
+> proof!) that happen in mm.
+> 
 
-Might it be better to rename ->d_time to ->d_version, since that would seem to
-be more in line with how it's used?
+Maintainers should be free to ignore what they perceive as slop without needing
+to defend that call. Reputation can be gained by submitting useful work or
+being present in the community, attending conferences, giving talks, etc.
+I am not saying that we should be harsh on beginning contributors (or I would
+have to count myself out as well), but they should be as free as possible to
+only invest their time in the project and people that may become involved in the
+community. And that call is up to them.
 
-> Interestingly the value stored in ->d_time or d_fsdata is u64 which does
-> not fit in "unsigned long" or "void *" on 32 bit hosts.  Maybe that
-> doesn't matter.
+I try to review fix-up patches of first-time contributors, but if it reeks of
+AI I don't bother. We have the same policy in the kernel mentorship program,
+we invest time to help people get involved with the community and kernel, not
+to let someone strike "kernel contributor" of their list. The whole point is
+not that most of this clean-up work is super useful (and indeed an LLM can do it),
+but to let someone feel excited about contributing and maybe getting them to
+to stick around.
 
-Hmmm...  It looks like NFS may have a bug here:
-
-static int nfs_dentry_verify_change(struct inode *dir, struct dentry *dentry)
-{
-	if (nfs_server_capable(dir, NFS_CAP_CASE_INSENSITIVE) &&
-	    d_really_is_negative(dentry))
-		return dentry->d_time == inode_peek_iversion_raw(dir);
-	return nfs_verify_change_attribute(dir, dentry->d_time);
-}
-
-dentry->d_time may be 32-bits, but inode_peek_iversion_raw() is always 64 bits
-and i_version is set to the 64-bit fattr->change_attr.
-
-David
-
+> Such situation then penalizes those who disclose so obviously they won't. We
+> should drop the tag and instead think how we can empower maintainers to be
+> able to use their own judgment and deprioritize dealing with what they
+> perceive as LLM slop, without fearing consequences of not being properly
+> responsible etc, and not rely on any non-enforceable tags for that.
