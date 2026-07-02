@@ -1,197 +1,242 @@
-Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 058213A5445
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 11:15:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6963EC2EB
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 11:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782990954; cv=none; b=QNPnJ+Qol1/v4Jbf+lQ87gvCafhEfxHZr4vfAfblYrV8j8Pm5UCym4oRWwNphIlktaGME2zffbBg2P1CeGoZCbjDPsAR0+nA/Uz0Lr57jk83ixHWTaJ2nblJmqjfDYFdUXdDJcsIUHjjE2Y+lWkIOyoRgwB4jvaR+Kblww014wg=
+	t=1782990958; cv=none; b=Ifc8oXcqJyR6tjdM20PIWMnJNXQ9cdzEDJSALpRalfoBsg0vRn3IyzY/7OHKkShor7lqplv0AFzHWB5yrLIWluapJ6ukkZfhb+PTUGmwMTiYEU5lGX034hNJJd5onJVAxqy+N/IYHgdtZjmg+We7cHX3XHIItVza+xtuNvb84ok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782990954; c=relaxed/simple;
-	bh=o3L8rAPHiy/10eQII74uqvkHypZ/DJEOuDz8+/vV5nc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BrfbBIsS3ynIokRLN6ZhLOQ4KIXo9m/Y9rbPu7+qkPHUbRqWRLTTGTvrWgMTeOsYENjiz7AGNJj5GEIrMbJrVXgKcQlohvdhwias4RKQOwBybN03Lhe09jB4TuRhlp7zv1z3yHkJqCXjmEbEIbVehJPa8oRvYQV7SSQpCu6lv7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=PH54OQ/K; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dFqv5VZx; arc=none smtp.client-ip=103.168.172.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1782990958; c=relaxed/simple;
+	bh=GnYBDGATmtulOrbHYieuBQYJQv+WuoHKcBOPpP2DOUE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HyXxDz9eSloKwgXcQSilvgODSqSq/zigouhBnf6MMvJC8t2Luf6eqFjXAlOeGovzRJE8St8Z9P4Vp9dOHVnA9UZzXvaXtMNEhEhy9Jn6PXnELgo0zgcbgBB11ex6g8hjXzcXg7SoKWGAthu9ac1/8c7P4I/rm1ENy3q8jcUuFbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=SNO+TI3y; arc=none smtp.client-ip=91.218.175.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="PH54OQ/K";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dFqv5VZx"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id 3BF84EC02C0;
-	Thu,  2 Jul 2026 07:15:52 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Thu, 02 Jul 2026 07:15:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm2; t=1782990952;
-	 x=1783077352; bh=XAcEQ6cVFr33H2ISpoN2Lk9eyeaITM41VfCB9z/797o=; b=
-	PH54OQ/Kq6x0pEG1rpsERBgYDpGSsw3XEelVrdf0wsXoVJM+ge+3SyrbAwReiB9n
-	S2XMWBTPBwkBVfZ7w4LtHU0LAznyFV3wMHVaphsQC1hLbRNrvXPyrRJCaVbZqPRb
-	Ru/XEJDny0tPGrdO7MkJMQwD/Vf1y1QSM9RNcixv4WGQ82dfDxse9fDx0QiufVJL
-	RwlA7L42xIwLqHoyUbYG3hJrCALZlpriyBhvdd1sZdjY4Nl/7NgXSFfSersn8iuA
-	KPyS0G8ezj0p9PQ4HdGxkz1uIq128xmNRTBARGIUyyhbzd2QoWhmM2nDI0KyiaRH
-	9Ag5tApfl8H/LqDaU5V+4A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1782990952; x=1783077352; bh=X
-	AcEQ6cVFr33H2ISpoN2Lk9eyeaITM41VfCB9z/797o=; b=dFqv5VZxYHiMhSf63
-	RPf07lCHSl+0jPAr3zGtKiK+X6KrgSlYTHqQYS/OlfGh9uGnHnV0tXSqDOz0Toa1
-	XUac3aGvOwR1lm94ovSc2RF1ScTiTQNgIqrbAL4xdq2mwygaJ+9Mr+UwI9Pyw6Cx
-	ypbf2y+Tycjgsf4FQgak7y3aTp9wLsz1teR0AoqX03rZg7EItVbKkbGCZQJ3COAs
-	PATyqKmx2qoBxNWAcR4gQL8Eczb00Ie3uzgZXGqrapQcYlBXkGP+f5tduGhwfDUZ
-	2CKCIG3GKv7K6GLetJkMPWBsiYWTqDeYwrvnqHdkJxlMjukCH9rbieurhcFjOoCK
-	+JCQg==
-X-ME-Sender: <xms:aEhGavaizvnO6y7WCURLBg2V6QoXFMACDqPeH-dk6y-2EC1i7GKmHA>
-    <xme:aEhGanXAKJbb_JUI3AJ0ZKYSRhz1xblBD1gUeL6vKgiHOKqU9IItxnEoXd5RGk1uc
-    f6c1q9uYzLU5dxuFVQ-mL7Yz3wwX-BAMZIrVbPXVXnNcyBhFw>
-X-ME-Received: <xmr:aEhGathXWMTN8JF7pXPJ1zIfghhqObVj0WY0SLnFRXuwvzH-EUXLwlyxLojhj08AAzq8aJeBufJ_oQ4-FpPe06ZMCEOuO3g>
-X-ME-Proxy-Cause: dmFkZTGAj4tPrnRCfABz+6tzWcP/g5MP0zOCQZK/BdAi7s4Klp5HDo6JKm5ohTwOS54M/E
-    /csJlXbNTXDnGVXZ18fXudwJ3FNp2FsiUIyhax9Yq7AVZ/FCBG4TDE0cKHRhE4Ha3CsPEj
-    W1y7WOTvjM5jElEd6PoLy9qb0HQi+qY0CiNrM0z/rl/BswrK0I6DZbHc5/1lHsB/3JNec4
-    RRJ0iHzthWxBUN0NmYHA7C8N7wV/hHuSD7h9BwEcq+QKECHA9rJcyawIeNvsNVt4HTW9GG
-    /7j8L6DTHAljiBamtx3ZF2oSXY3W9ucHLbCINvC5BaudPluw0Umo/U0S03aFU8w0HrZ4hj
-    pDqWzwmC1DXzzaALAipQavpzF32Ug60nK3hsA++Vt9GM6T5ESa55kQeJTvadAmtAAFqJYb
-    usqNUzGeU30BQB3lCLFcosj1ay0BUAhsTGRPBRdqY7MFcFW6LlPSNTsKC1Bzm8rRDZmGpX
-    ekUMXsyNUbJ9KbLg3q/l7syca9xoOzII0cIGC1Xw5R+snv3emfG7yte017BbQC52Ei8yw8
-    MJ6mjcZdGp/03XRnZ8kzoFFmxfqlY7Si2stqhuE6tT2DlGB44p1Q50BB7h0tT1TmwjYO8Z
-    tgELPoVcyaVBJJ6ogYBwC0qlSCMJ7CeQ/czUHsY3hnI8WPWib31ZG5HlU1Sg
-X-ME-Proxy: <xmx:aEhGalu4Gjt6CR9IQAplv4Qq6Y49ywNgHJsStx0fyI6ZKZMuGDvdGg>
-    <xmx:aEhGam6bqVLOey2Xbg7vl-XPrmqV82-A1qflpwW5qOPaHxGWgMPclg>
-    <xmx:aEhGapNxMSVuWJqK6FEynx8BR80slDu04pEKPsHdx8gJvn6vgcBa_g>
-    <xmx:aEhGass8EdZo7jBBCFPTrsP_lNjt_i_KDeoS7tXE5jEyq844IaZMVQ>
-    <xmx:aEhGaq3ieQx2QBYP5FDfRobekZl6LTiEyujepapVbUgvSrrJiKxtJ8rU>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 2 Jul 2026 07:15:50 -0400 (EDT)
-From: NeilBrown <neilb@ownmail.net>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="SNO+TI3y"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782990951;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MXoiAeiZxppUV0bbr36tbNoILtIVkAZHXOhXlmlq9aE=;
+	b=SNO+TI3ysBG4+DhR3hPTF1SvhO32c4IR52yjAPmkR78MakGGmD/cQOYIcE8MmMX2BXfJ/B
+	PngJwUk8MPDHueMWfaVQgxbOjSa6VTjHZniUa88SClGCvA5JNzJYRen32CdMAokXiIgXtC
+	8TVZTPLK3UhpO1X2vjoT/Jd84+uq0gc=
+From: Lance Yang <lance.yang@linux.dev>
+To: ljs@kernel.org
+Cc: akpm@linux-foundation.org,
+	tsbogend@alpha.franken.de,
+	maddy@linux.ibm.com,
+	mpe@ellerman.id.au,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	l.stach@pengutronix.de,
+	inki.dae@samsung.com,
+	sw0312.kim@samsung.com,
+	kyungmin.park@samsung.com,
+	krzk@kernel.org,
+	peter.griffin@linaro.org,
+	jani.nikula@linux.intel.com,
+	joonas.lahtinen@linux.intel.com,
+	rodrigo.vivi@intel.com,
+	tursulin@ursulin.net,
+	robin.clark@oss.qualcomm.com,
+	lumag@kernel.org,
+	lyude@redhat.com,
+	dakr@kernel.org,
+	tomi.valkeinen@ideasonboard.com,
+	hjc@rock-chips.com,
+	heiko@sntech.de,
+	andy.yan@rock-chips.com,
+	thierry.reding@kernel.org,
+	mperttunen@nvidia.com,
+	jonathanh@nvidia.com,
+	kraxel@redhat.com,
+	dmitry.osipenko@collabora.com,
+	zack.rusin@broadcom.com,
+	matthew.brost@intel.com,
+	thomas.hellstrom@linux.intel.com,
+	oleksandr_andrushchenko@epam.com,
+	deller@gmx.de,
+	bcrl@kvack.org,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	muchun.song@linux.dev,
+	osalvador@suse.de,
+	david@kernel.org,
+	ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com,
+	liam@infradead.org,
+	npache@redhat.com,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	hughd@google.com,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	jannh@google.com,
+	pfalcato@suse.de,
+	kees@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org,
+	etnaviv@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org,
+	linux-rockchip@lists.infradead.org,
+	linux-tegra@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	intel-xe@lists.freedesktop.org,
+	xen-devel@lists.xenproject.org,
+	linux-fbdev@vger.kernel.org,
+	linux-aio@kvack.org,
 	linux-fsdevel@vger.kernel.org,
-	Jori Koolstra <jkoolstra@xs4all.nl>
-Subject: [PATCH 2/3] VFS: move delegated_inode retry loop into lookup_open()
-Date: Thu,  2 Jul 2026 21:09:20 +1000
-Message-ID: <20260702111529.3559835-3-neilb@ownmail.net>
-X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
-In-Reply-To: <20260702111529.3559835-1-neilb@ownmail.net>
-References: <[PATCH 0/3] VFS: replace dentry_create>
- <20260702111529.3559835-1-neilb@ownmail.net>
-Reply-To: NeilBrown <neil@brown.name>
+	linux-mm@kvack.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 02/13] mm/vma: update do_mmap() to use vma_flags_t
+Date: Thu,  2 Jul 2026 19:15:31 +0800
+Message-Id: <20260702111531.64883-1-lance.yang@linux.dev>
+In-Reply-To: <e0ac58ad2b88ff7e2f0024e3286b2e786f79ca32.1782760670.git.ljs@kernel.org>
+References: <e0ac58ad2b88ff7e2f0024e3286b2e786f79ca32.1782760670.git.ljs@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-From: NeilBrown <neil@brown.name>
 
-By moving this retry into lookup_open() we no longer need to pass around
-the delegated_inode pointer.
+On Mon, Jun 29, 2026 at 08:25:25PM +0100, Lorenzo Stoakes wrote:
+>The core do_mmap() function accepts a vm_flags_t parameter which it then
+>manipulates before passing to mmap_region() to do the heavy lifting of the
+>memory mapping.
+>
+>Update do_mmap() to instead accept a vma_flags_t parameter, and adjust all
+>the logic within do_mmap() to manipulate this instead.
+>
+>This is as part of the ongoing effort to convert VMA flags from a system
+>word size to a bitmap type which allows us to unrestrict the number of VMA
+>flags, as well as gain control over how VMA flag manipulation occurs.
+>
+>We do not cascade these changes to all functions which accept vm_flags_t,
+>but rather use vma_flags_to_legacy() where necessary, specifically
+>deferring converting calc_vm_prot_bits(), calc_vm_flag_bits() and
+>__get_unmapped_area() to vma_flags_t.
+>
+>Also utilise the new vma_flags_can_grow() predicate which correctly handles
+>the case of architectures without upward growing stacks.
+>
+>As part of this change, introduce VMA_SHADOW_STACK so we can correctly
+>handle the case of the shadow stack not being defined.
+>
+>No functional change intended.
+>
+>Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+>---
 
-Various variable assignments need to be moved out of the declaration
-block so that they can be repeated after the "goto retry".
+Not exactly a small one :) I stared at this patch for a while, hopefully
+don't miss anythig ...
 
-Signed-off-by: NeilBrown <neil@brown.name>
----
- fs/namei.c | 43 ++++++++++++++++++++++++-------------------
- 1 file changed, 24 insertions(+), 19 deletions(-)
+Just one tiny nit below. Overall, LGTM, feel free to add:
 
-diff --git a/fs/namei.c b/fs/namei.c
-index 55404fe0e269..cb33a01d16eb 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -4397,17 +4397,23 @@ static struct dentry *atomic_open(const struct path *path, struct dentry *dentry
-  * An error code is returned on failure.
-  */
- static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
--				  const struct open_flags *op,
--				  struct delegated_inode *delegated_inode)
-+				  const struct open_flags *op)
- {
-+	struct delegated_inode delegated_inode = { };
- 	struct mnt_idmap *idmap;
- 	struct dentry *dir = nd->path.dentry;
- 	struct inode *dir_inode = dir->d_inode;
--	int open_flag = op->open_flag;
-+	int open_flag;
- 	struct dentry *dentry;
--	int error, create_error = 0;
--	umode_t mode = op->mode;
--	bool got_write = false;
-+	int error, create_error;
-+	umode_t mode;
-+	bool got_write;
-+
-+retry:
-+	open_flag = op->open_flag;
-+	got_write = false;
-+	mode = op->mode;
-+	create_error = 0;
- 
- 	if (open_flag & (O_CREAT | O_TRUNC | O_WRONLY | O_RDWR)) {
- 		got_write = !mnt_want_write(nd->path.mnt);
-@@ -4505,7 +4511,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 	/* Negative dentry, just create the file */
- 	if (!dentry->d_inode && (open_flag & O_CREAT)) {
- 		/* but break the directory lease first! */
--		error = try_break_deleg(dir_inode, LEASE_BREAK_DIR_CREATE, delegated_inode);
-+		error = try_break_deleg(dir_inode, LEASE_BREAK_DIR_CREATE, &delegated_inode);
- 		if (error)
- 			goto out_dput;
- 
-@@ -4539,6 +4545,15 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 	if (got_write)
- 		mnt_drop_write(nd->path.mnt);
- 
-+	if (is_delegated(&delegated_inode)) {
-+		/* Must have come through out_dput: dentry is an ERR_PTR() */
-+		error = break_deleg_wait(&delegated_inode);
-+
-+		if (!error)
-+			goto retry;
-+		dentry = ERR_PTR(error);
-+	}
-+
- 	return dentry;
- 
- out_dput:
-@@ -4586,7 +4601,6 @@ static struct dentry *lookup_fast_for_open(struct nameidata *nd, int open_flag)
- static const char *open_last_lookups(struct nameidata *nd,
- 		   struct file *file, const struct open_flags *op)
- {
--	struct delegated_inode delegated_inode = { };
- 	int open_flag = op->open_flag;
- 	struct dentry *dentry;
- 	const char *res;
-@@ -4616,19 +4630,10 @@ static const char *open_last_lookups(struct nameidata *nd,
- 				return ERR_PTR(-ECHILD);
- 		}
- 	}
--retry:
--	dentry = lookup_open(nd, file, op, &delegated_inode);
--
--	if (IS_ERR(dentry)) {
--		if (is_delegated(&delegated_inode)) {
--			int error = break_deleg_wait(&delegated_inode);
- 
--			if (!error)
--				goto retry;
--			return ERR_PTR(error);
--		}
-+	dentry = lookup_open(nd, file, op);
-+	if (IS_ERR(dentry))
- 		return ERR_CAST(dentry);
--	}
- 
- 	if (file->f_mode & (FMODE_OPENED | FMODE_CREATED)) {
- 		dput(nd->path.dentry);
--- 
-2.50.0.107.gf914562f5916.dirty
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
 
+[...]
+>diff --git a/mm/mmap.c b/mm/mmap.c
+>index 46174e706bbe..547352183214 100644
+>--- a/mm/mmap.c
+>+++ b/mm/mmap.c
+[...]
+>@@ -488,23 +496,27 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
+> 		 * Check to see if we are violating any seals and update VMA
+> 		 * flags if necessary to avoid future seal violations.
+> 		 */
+>-		err = memfd_check_seals_mmap(file, &vm_flags);
+>+		err = memfd_check_seals_mmap(file, &vma_flags);
+> 		if (err)
+> 			return (unsigned long)err;
+> 	} else {
+> 		switch (flags & MAP_TYPE) {
+> 		case MAP_SHARED:
+>-			if (vm_flags & (VM_GROWSDOWN|VM_GROWSUP))
+>+			if (vma_flags_can_grow(&vma_flags))
+> 				return -EINVAL;
+> 			/*
+> 			 * Ignore pgoff.
+> 			 */
+> 			pgoff = 0;
+>-			vm_flags |= VM_SHARED | VM_MAYSHARE;
+>+			vma_flags_set(&vma_flags, VMA_SHARED_BIT, VMA_MAYSHARE_BIT);
+> 			break;
+>-		case MAP_DROPPABLE:
+>-			if (VM_DROPPABLE == VM_NONE)
+>+		case MAP_DROPPABLE: {
+>+			vma_flags_t droppable = VMA_DROPPABLE;
+>+
+>+			if (vma_flags_empty(&droppable))
+> 				return -EOPNOTSUPP;
+>+			vma_flags_set_mask(&vma_flags, droppable);
+>+
+> 			/*
+> 			 * A locked or stack area makes no sense to be droppable.
+> 			 *
+>@@ -515,23 +527,24 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
+> 			 */
+> 			if (flags & (MAP_LOCKED | MAP_HUGETLB))
+> 			        return -EINVAL;
+>-			if (vm_flags & (VM_GROWSDOWN | VM_GROWSUP))
+>+			if (vma_flags_can_grow(&vma_flags))
+> 			        return -EINVAL;
+> 
+>-			vm_flags |= VM_DROPPABLE;
+
+Old code checked VM_GROWSDOWN|VM_GROWSUP before seting VM_DROPPABLE. New
+code flips that around. Hmm, shouldn't master, just made me look twice ;)
+
+Maybe keep old order?
+
+Cheers, Lance
+
+>-
+> 			/*
+> 			 * If the pages can be dropped, then it doesn't make
+> 			 * sense to reserve them.
+> 			 */
+>-			vm_flags |= VM_NORESERVE;
+>+			vma_flags_set(&vma_flags, VMA_NORESERVE_BIT);
+> 
+> 			/*
+> 			 * Likewise, they're volatile enough that they
+> 			 * shouldn't survive forks or coredumps.
+> 			 */
+>-			vm_flags |= VM_WIPEONFORK | VM_DONTDUMP;
+>+			vma_flags_set(&vma_flags, VMA_WIPEONFORK_BIT,
+>+				      VMA_DONTDUMP_BIT);
+>+
+> 			fallthrough;
+>+		}
+> 		case MAP_PRIVATE:
+> 			/*
+> 			 * Set pgoff according to addr for anon_vma.
+[...]
