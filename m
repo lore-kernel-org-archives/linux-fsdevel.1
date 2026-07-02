@@ -1,159 +1,220 @@
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C9538E121
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 12:45:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782996338; cv=pass; b=h3qdgHS5RXJU7ki+TZ22KnchlVeuSaEC1+/y/3zSZP9jTNcGkUIBXo+vUIDMzsP63baOC0RGEvXmkTrNZoaJRfo03oFFDukVPdgDGj/lySbRISSom1elavIIrAUqL7s6tiL1XDPlssEWoBabj4/h36uRs/VHo8cFj5Lr/h/tZbU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782996338; c=relaxed/simple;
-	bh=YfuTP/ZRleT5u8JPEbY+mg8sn8oDE1H48dUxEJLwHHk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JHCpw14tuVAwCT1U16TdQ+l9aUldglZ6lBqfHVGAFhWZTJlMgOu+V9bWK9n0lFDkbKCpvQtcmJs3ZULxZ4f9jzSoB2aB/PFj83hWchl4nLnmd3sg5kkY6mhDVXXdjF9NRD4iq1R7QmAO8Px08v8Q/b5WvXByMwMGLs/2Pv3Q3kY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=stG3jPxX; arc=pass smtp.client-ip=74.125.224.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58DE480951;
+	Thu,  2 Jul 2026 12:49:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782996558; cv=none; b=iGMBOa4oFDoKxfRsThZf04CXPEgJSXIMSW3zruFHlH6e8TJscUZLNF9OUbZo0n3xcZviDAFFiabcaCoPwmxyeg5Z2xSJ1Prbqbceu1c6VxJpMl9HhnJjGYtePqZN5dhFeQHyAKG47V7ops/rMhhaMGPaYKSSZLJy8oed1/8cQ0o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782996558; c=relaxed/simple;
+	bh=2ehsPQFCG7dqB0gfauORyOk54MRv9xXLvMVwyvFcdfM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MXf/4J9hcYI68hohmOHniueMQ4QZbRBFYtnwux+Md+tA6hf2p3jSE3qAZHNFfNFZDFacOFSXe2vPea8VM2aMeHQHe6G/UHAtlWx8b9RcqO2ksiyyJJIVTaT+CxgAmnpV2wzIUia8YCC3m/btxcpJYA3+FHgGEC27OqSMc5xD9/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WIGdnMMp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="stG3jPxX"
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-664f0a76a74so2257333d50.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Jul 2026 05:45:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782996336; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Mc57Eu74DOX49zWM3Qd0097pXbZupl2xGFy0pB87VRDjNnQw4G/Ev+nBu7twMC4s/H
-         u4Nc9nbfp2GfK6g3ZvXTt/hFkvUaS9w1sCcfMN8JHfFAAu0sNJbvOPR1tCGrp/R5T+Fc
-         rm1C8oK8V6jDwJ0wkMy3hBWAb2Lv0YeSjPgHiaY8gLVUZvzutSUuMQUmS+JySqHYNb1U
-         T8xEx4GyM6QZd9/sCZZnVh3fvlFrgcv0GWYEPJ3ydxAoOa0vMjRDzxDn2um6cbaYi3P7
-         FwxueGzv8PpA+IOdqAwSQIrE+VeQ+grx08tOI0hPV6MBbe0XEap4UScr6A44LwDPTSvJ
-         /D/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=1LTF2zi6k8qqnOoUHhbldZF0g+S9mvdrS4GbbTxAt6U=;
-        fh=ElGcNglI54lU5kR1SdudlRryTPQrCCginaSDQffGBZ0=;
-        b=oHJIoYUjNhmIqGQ8y83Td6/X7z8TtSwrw2N4/GvFIsk4Px41MgWpSgypjTwsI05Wvf
-         MJgrj9lFQ592hOBfEMvE6uIuEWzEZ2k1njBPibKCoyWiVlaaQL+m60cL/tEI3cMfUxbp
-         UpFnjhJK0d6a75sVeL0NjIy2ag6x2eHmYg3b6hU1iNMpqE+CU6M1wdxPZVodTGpy+a2s
-         p6OVaN7DhH55P3OSqiYQqawpr1qlN44TT+hqvxMtNAywg916MdDQgWaiJec72zb7NewJ
-         wqF5EwO/blmTNHerCtOnHNCM/tGeUara9iWMda/IvQR8/rFJypywgG+1mXFcV2DAfFwx
-         RclA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782996336; x=1783601136; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1LTF2zi6k8qqnOoUHhbldZF0g+S9mvdrS4GbbTxAt6U=;
-        b=stG3jPxXPnMRcSQjMNoyaY7Ikf81aZtjiowVDv7NA9ilAqjcWnbAxtfiqqm4gtGFtJ
-         2MSXxETFrNqDf9zRV3E0wF9h3vCR00aY+zBwnyZ++fRtHdsqE8FeubfXot4HcMfQgLAI
-         TfOlqSWNeCCCECD4GtvrIZhxBDv4AVSJp9K3WkRWY5Gp59YHmZ3eZh6QCDjVWFZexsJg
-         WzJUg49Ysa5YHg15oXMLkAxZbV2eY/E5dpeY/9HBpYx51c/9z04smPlMDjkEQ+KooZ9t
-         Ly0avz/dYpOzYcfNddtBy+2/empiTtsPg3VuuSH8iJuXfKj5N04GWf2kWPcb5mk+QKqM
-         lqCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782996336; x=1783601136;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1LTF2zi6k8qqnOoUHhbldZF0g+S9mvdrS4GbbTxAt6U=;
-        b=TNjU6WwZApR5V2Au6MwH/kEz/0jAtsEz2Lf2voFROR+WJJWopjsHimfjNFi65r9eCM
-         ul3aJZ3IXD+o3kzt/cLuwV1X0u8xOqGvFXDCyUeKZuWUJYATfCigXVAVYNXjLku4OmXE
-         lxaKVU5LqI1wEIo0fvkalswOjmVIRl37+9qI5Elex2DScLefjOJwMy6HgdOkTsBIbJVG
-         NAng2y9GlOO/d/AG7ZYm8eRuAv5wgWQev0O/RUCvb6RBmYIvc8toc4vLrnnOt2BNP3oI
-         DB5F0DXcfylmkcL2rdp7D7oGYt8Wjk09cQF1f8HoOFHO1+2+X0PrGDO9WWofabQPF9dw
-         QbBA==
-X-Forwarded-Encrypted: i=1; AHgh+RqowUyOZed+ugOhMhCant7kzwbSC1LR+jp1SnbV6GwF80m2FoH8hNnAbdDiMoKbkXnS+Yy/1zjmfeRiaV/F@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzr1ye1h7a/leyL0ATTnqIbfvsLdMpYn5fFiBdpRkWBX8yqYMZV
-	qwloF4TwWfJA7ZeRtEh1+7RJpMN7EynWs8CHoiFvZSaHBXgsC3PQL4QugQFHks307mK4vbMrbel
-	AXpeNI4P6dDF/9p5c2dW2tRNzkGKUQdc=
-X-Gm-Gg: AfdE7cmfzSkvjq12oFpBIpBVbhsVT3r9BUPjxmva2RJV3z3A0Jw63cjz2anvjWWsFFu
-	Z/BbnPZAj/NJu41w/y+uY2U3T8IkSqYB2dXjbZNXqE44eow38u/E12QVStAsLVizsrpK7+CfztF
-	hHFLnR4EwPnPhqpAJ6gXWCS0KB74mIh+hWA4GMZw3VHDs/sZxslK4//+Mq+IX0VT2MMonLNlrb4
-	4SOKu17XMjWMjO/4Xw33/vNnT890uck+eAf4aoReS58lSYlEB5BUPQa6HT+DPIIr594C2DR5Ydb
-	lt7QvNt52q/YWald9SB1+ynaF49T1cs=
-X-Received: by 2002:a05:690e:1289:b0:662:dcc4:c6bd with SMTP id
- 956f58d0204a3-66521a6e36bmr5861205d50.34.1782996336401; Thu, 02 Jul 2026
- 05:45:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WIGdnMMp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 022611F000E9;
+	Thu,  2 Jul 2026 12:49:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782996556;
+	bh=2ehsPQFCG7dqB0gfauORyOk54MRv9xXLvMVwyvFcdfM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WIGdnMMpMr5mDzh8n4Euq3pAWpsGUjs+ClPp5mhTGgc1rAwXAPP8S/3tYhlthOXl/
+	 MI1D/E44ZksaYNlbz+wIHDF/CBr9W1M3LyWd7srX+X3usGfM9szkJMaA1SoajNoCmY
+	 lBUKB2s1cngqlx1dXsQzAvMDkXjyp/+H5vu/gGzU7SbDouAUlnCFnOnk49pw8UraMd
+	 Tsjkc7SFqw357isJuMNsUhibOn1dpMn8BsDuU1P+ztpRUT/jllQIjk7xMmny+YYuEz
+	 eNCo6txhZxxaeY8vBv3ZCinvzrMbkEa9aF2lSK/YKssBS9N6Md9JEcXM0YI6nePftw
+	 k771xBbSEQBGg==
+Date: Thu, 2 Jul 2026 13:49:07 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
+	Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+Message-ID: <akZYSGoysWSb0K1J@lucifer>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
+ <20260702-seekrank-stilrichtung-mitentscheiden-69a64ee097ec@brauner>
+ <1f29f48d-b9ff-4de2-a392-dc05781728be@kernel.org>
+ <akYz2aMIco1fbD-t@lucifer>
+ <54d3a698-a275-488e-ad36-ef423db30f70@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260702050724.1658-1-aditya.ansh182@gmail.com>
- <3sbocdflzeajcievmbdwprrgzkztd7ogn7mmjx4quptorotwak@rlzklako3yht>
- <CAK5ssPOM-rddJR6=QJ4RSCeQvamKKAbJS+NCOLbsC2eSODydkQ@mail.gmail.com>
- <zwfhyqxdxfigm5nced3hgsp4mygwxgwc4cxzeyl7glrmie73rm@r66bdrw7fjsj> <CAK5ssPPPfkL889aCK_z9EnDNbKBuHRQd45uLzXpeUVrVkFkzbw@mail.gmail.com>
-In-Reply-To: <CAK5ssPPPfkL889aCK_z9EnDNbKBuHRQd45uLzXpeUVrVkFkzbw@mail.gmail.com>
-From: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
-Date: Thu, 2 Jul 2026 18:15:21 +0530
-X-Gm-Features: AVVi8CcVo-eNxK1YaN3wDQSM42J7VF1rgCK8uZiy3AfWHDTqxEpsOP0UeyEofZY
-Message-ID: <CAK5ssPOxredbV5dDsyc4YLdDBVPEv5b6qOKCxiWPLMWSc7VyaQ@mail.gmail.com>
-Subject: Re: [PATCH v2] ext4: use fsdata to track inline data write state and
- fix race
-To: Jan Kara <jack@suse.cz>
-Cc: "Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
-	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
-	Ritesh Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>, Tao Ma <boyu.mt@taobao.com>, 
-	syzbot+0c89d865531d053abb2d@syzkaller.appspotmail.com, 
-	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <54d3a698-a275-488e-ad36-ef423db30f70@kernel.org>
 
-Hi Jan,
+On Thu, Jul 02, 2026 at 01:51:10PM +0200, David Hildenbrand (Arm) wrote:
+> On 7/2/26 12:04, Lorenzo Stoakes wrote:
+> > (thanks for the cc-!)
+> >
+> > On Thu, Jul 02, 2026 at 09:46:37AM +0200, David Hildenbrand (Arm) wrote:
+> >> On 7/2/26 09:27, Christian Brauner wrote:
+> >>>
+> >>> I think we should just drop any attribution as a general kernel-wide
+> >>> rule and let subsystems require them as needed. Then you can have all
+> >>> the complexity in mm for this that you think is needed for your
+> >>> workflow to function. This is precisely what the subsystem profiles are
+> >>> for. So maybe just add:
+> >
+> > A single comment is complexity?
+>
+> I think Christian meant more elaborate rules. More than just "If you used LLMs,
+> disclose how you used them."
 
-Thought a bit more about it. Treating fsdata as
-bitwise flags rather than mutually exclusive enums is a much
-cleaner and more robust design. It completely decouples the
-different write path states.
+What's elaborate?
 
-To implement this, I will define:
+"Say how much of your patch is LLM written, here are some examples".
 
-#define FALL_BACK_TO_NONDELALLOC 1
-#define CONVERT_INLINE_DATA 2
-#define EXT4_WRITE_DATA_INLINE 4
+Surely?
 
-This ensures that the flags are fully independent and do not
-overlap.
+>
+> >>
+> >> I'm not really sure if having (more?) subsystem-specific tags is the way to go.
+> >> (below)
+> >>
+> >> So either we find a very simple, kernel-wide rule for such tags, or we drop them
+> >> entirely.
+> >
+> > Yup I couldn't disagree more with Christian here, the whole thing feels like
+> > trying to 'wish away' the AI issue, and now punting off to subsystem
+> > maintainers...
+> >
+> > Subsystems impact each other. Right now I'm writing a series that changes driver
+> > code so we can enforce some sanity in mm APIs.
+> >
+> > I've had to interact with fs code quite a bit that uses mm logic.
+> >
+> > It's all interconnected, and one subsystem let's say going with 'let it all in'
+> > say, impacts another.
+> >
+> > Yes some people lie about it, but having the guidelines only STRENGTHENS our
+> > position on that, and I've seen that in practice.
+> >
+> > So yeah, sorry, I think it's beyond silly to push back on requesting somebody
+> > disclose how much of a patch/series was AI generated.
+> >
+> > And [0] already essentially says people NEED to do this now. But that doc has
+> > been rather downplayed unfortunately I think.
+>
+> [...]
+>
+> >> I agree on the "enforce" aspect. It's impossible, but it's still easy to catch
+> >> people using AI irresponsibly today ... and that's what we care about. Not
+> >> people that know what they are doing using AI responsibly.
+> >
+> > For me it's about empowering maintainers to push back.
+>
+> Right, but I suspect maintainers do have this power already, it's just not
+> exercised that often on obvious AI slop yet.
 
-Regarding unrolling the state on exit, there is a slight
-asymmetry in the VFS interface. ext4_write_begin() receives
-fsdata as a pointer-to-pointer (void **fsdata), while
-ext4_write_end() receives it by value (void *fsdata).
+Well I certainly don't feel I do :)
 
-Because write_end() receives fsdata by value, modifying it in
-the write_end handlers has no effect on the caller's
-(generic_perform_write()) local stack variable. As a result, a
-stale EXT4_WRITE_DATA_INLINE bit would remain in the VFS across
-a retry.
+I tried pushing back on obvious AI slop and got a huge amount of blow back for
+it because the guy wasn't honest about it.
 
-To handle this cleanly within the constraints of the VFS
-interface, I propose clearing the stale bit on entry to
-ext4_write_begin():
+A key reason for me pushing back on the tooling documentation was precisely
+because I felt we needed a clear means of doing this.
 
-static int ext4_write_begin(..., void **fsdata)
-{
-...
+This being the part:
 
-/* Clear any stale inline flag from a previous retry. */
-*fsdata = (void *)((unsigned long)*fsdata &
-  ~EXT4_WRITE_DATA_INLINE);
+"As with the output of any tooling, the result may be incorrect or
+inappropriate. You are expected to understand and to be able to defend
+everything you submit. If you are unable to do so, then do not submit the
+resulting changes.
 
-...
-}
+If you do so anyway, maintainers are entitled to reject your series without
+detailed review."
 
-This ensures that:
+But if somebody denies it, no matter how strong the evidence, you can never
+really 'prove' it.
 
-any stale inline flag from a previous retry is cleared from
-the VFS stack variable before the next attempt;
+I think honestly if there's a newcomer who suddenly out of nowhere does a huge
+involved series in an area they've not touched before and LLMs assess it as 90%
+likely to be LLM generated,and they reply making mistakes that only an LLM would
+make (misinterpreting a field's symbol and then acting as if really exists) -
+it's not unreasonable to cite these things as a reason to 'not really trust'
+that it's their work.
 
-the FALL_BACK_TO_NONDELALLOC bit remains preserved; and
+Perhaps worded nicely to say 'sorry if I'm mistaken'?
 
-if the retry prepares an inline write, ext4_write_begin()
-simply sets the bit again.
+All I'm really asking is for the ability to say something like "I reasonably
+believe that this is generated, so we need to build more trust here, apologies
+if I'm mistaken, but can we see some smaller patches in this area first" or
+something like this.
 
-Please let me know whether this write_begin unrolling approach
-looks good to you, and I'll submit the v3 series shortly.
+>
+> >
+> >>
+> >>>
+> >>> If the information is mostly useful during review then I still would
+> >>> question why it has to end up in our git logs. It's completely
+> >>> irrelevant information imho.
+> >>
+> >> Fully agreed. In the tree it's irrelevant.
+> >
+> > Not sure about that, if it turns out AI-generated patches are causing 95% more
+> > bugs say that's pretty useful information no?
+>
+> Well
+>
+> a) You don't know how much AI was used. In particular, it could just slip in as
 
-Thanks,
-Aditya
+Hence 'tell us how much was used' :)
+
+> the submitter tries to untangle some of the mess the AI created (so not AI's
+> fault). Or the submitter just used it to write+translate the patch description.
+> Really, the tag itself doesn't tell you much as it stands, which is the biggest
+> problem I am having with it.
+>
+> b) You don't catch all the cases where people didn't use the tag.
+
+Is this arguing 'we don't have complete information so let's have no
+information'? Because I would say something > nothing?
+
+>
+> >
+> > Or if you find that a patch somebody sent from another subsystem that has a
+> > lassez faire approach to AI slop completely breaks you in some subtle way, isn't
+> > it easier to push for a revert if you see it's LLM-generated?
+>
+> The information would have to be had from the linked mailing list posting.
+
+That's creating a lot more work for maintainers?
+
+You could even figure out bug rate from Fixes: tags alone using metadata.
+
+And yes it will be imperfect but something > nothing.
+
+>
+> Given that some subsystems already started suppressing the tags when applying
+> patches, that doesn't really help ... :/
+
+Well that's unfortunate. But something > nothing, again.
+
+>
+> >
+> > And is it really that egregious to include a tag? You can ignore it if you don't
+> > care.
+>
+> I hate the current tags as they are. The question I am asking myself: assume we
+> stop using the Assisted-by for LLM stuff. What to do with the other tools? Why
+> are LLMs suddenly no longer a tool to mention there.
+
+Because it turns out it's useful to have this information and more information >
+less information?
+
+>
+> --
+> Cheers,
+>
+> David
+
+Thanks, Lorenzo
