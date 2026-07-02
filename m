@@ -1,55 +1,56 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698C441C2F4
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 08:23:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F094189A0
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 08:25:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782980593; cv=none; b=kWrnOXi3aulEtGrTAPK+yl06sI0KD3bwptJGYpqH/y9/q2ETVbHYk3ihJ8ikfyF0XZ/nSi47bNoO15xRDCeRzIAvUKWKNfY6jkbtJGKJUVCG64Bv5tX66Vmf8LADgT5jY2Pdhm/jGjbUrnRtQXYprjbxUYeN/BSomINnRUGoO9U=
+	t=1782980714; cv=none; b=jfdnk0YsSFVmGDSp5rH5Icw7WXPnPxFjl5TbfivL2mIW+L7GBB3UdQeub2YQ217qm477REarJFopknf8jAyCyF2zY7rdEVnMGeezNzJ9Ne3ygIkorlLCNjjS2OKVeICTa6ag8WATmsg/db1VThC7qQbnBmKibaYoFtnOt/xYdi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782980593; c=relaxed/simple;
-	bh=6FLiQhR9apEcZHHkTSIJOA1/B8NuqA/h/bLdqEjvJz0=;
-	h=From:To:cc:Subject:MIME-Version:Content-Type:Date:Message-ID; b=a6fqcj5o3GEnN0ipV3CXMnZcZOGL1bva+nMYqlBKJruMWrvowx6LD2Oa9/g0luRM1RnY8HzT+vOAFL+NBVbabEyeAtJLOBZIwctLrTHXzo/xO0odgw2KGY5stqF4RBWdZEEDDT7YPXbkFGhC05BsO27VxZl1cCTtbAS/pMlIYbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IrhztJ2t; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1782980714; c=relaxed/simple;
+	bh=HfgtOtkPnTZkqP0l+/lCuQCSuBXFO/omL6HTHwvhIWc=;
+	h=From:To:cc:Subject:MIME-Version:Content-Type:Date:Message-ID; b=FXN6xsw1c9T3VT6R3kpupBShF9wjqMyyNmm8OPlORIxI10kLplLmM2UN75uQ7lGwdbl6EIzXaXOP2DB9k6QgIeVkxNQ5sIyAW+o2UqK/Qk0dHImHlW65/lJCWgGx3UUCrS9ps1wXXznJCecBvp+jw5jgtXQwsd1mQ9YQVb/lfBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gERKbwU1; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IrhztJ2t"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gERKbwU1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782980590;
+	s=mimecast20190719; t=1782980711;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=rG6FsvMTpXDIz1UoDbo/KxKXu8DxNP7LA7+Lfa9Ypx8=;
-	b=IrhztJ2tVfGOH5hcrNHYM/00MmDFja10azUoarm9xUSo9WPWuvjs7m+Xa7YsV0vN6rxwZ2
-	2U8fd0097ZIh/UzKEn4PyWIGx7Xh35vpsNHnhY83p2Py+RmibmnG7WCoydZT0zEARk/NrI
-	j4W85AHp1e5M1kRn1kKv+/2xjFaIfOs=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=IEuW/QSzgrY+ZRrhZ3j8kkCyMYjASqMWanhrXEurUlM=;
+	b=gERKbwU1BZWVd7CUeyqKGO3IraMeG5Hq5pMg27uIZAqwH1ILRuLGFjbaYmch+S4jY98Vcq
+	HiIr0MMOioovjgaioBT7Aw9U2DE/7GCaAXd9rZZ/ucQqvHSSjZ8sFzEOUGTwInLg8W3Itf
+	wlW8Una5YuOQaRTXfGk3HP4yxDpVZWw=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-584-5KyXlEVEMMixFGHRK1eZAg-1; Thu,
- 02 Jul 2026 04:23:07 -0400
-X-MC-Unique: 5KyXlEVEMMixFGHRK1eZAg-1
-X-Mimecast-MFC-AGG-ID: 5KyXlEVEMMixFGHRK1eZAg_1782980586
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-654-GvQoMCS9OW2t6w5xa65nAA-1; Thu,
+ 02 Jul 2026 04:25:06 -0400
+X-MC-Unique: GvQoMCS9OW2t6w5xa65nAA-1
+X-Mimecast-MFC-AGG-ID: GvQoMCS9OW2t6w5xa65nAA_1782980704
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 20EA71833388;
-	Thu,  2 Jul 2026 08:23:06 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 814A719541A5;
+	Thu,  2 Jul 2026 08:25:04 +0000 (UTC)
 Received: from warthog.procyon.org.uk (unknown [10.44.33.159])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1E7811971E67;
-	Thu,  2 Jul 2026 08:23:03 +0000 (UTC)
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1BA2F3001D87;
+	Thu,  2 Jul 2026 08:25:01 +0000 (UTC)
 Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
 	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
 	Kingdom.
 	Registered in England and Wales under Company Registration No. 3798903
 From: David Howells <dhowells@redhat.com>
-To: Christian Brauner <brauner@kernel.org>
+To: Steve French <sfrench@samba.org>
 cc: dhowells@redhat.com, Paulo Alcantara <pc@manguebit.org>,
+    Christian Brauner <brauner@kernel.org>, linux-cifs@vger.kernel.org,
     netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
     linux-kernel@vger.kernel.org
-Subject: [PATCH] netfs: Fix barriering when walking subrequest list
+Subject: [PATCH] cifs: Fix missing credit release on failure in cifs_issue_read()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -57,67 +58,40 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <138806.1782980582.1@warthog.procyon.org.uk>
+Content-ID: <138901.1782980700.1@warthog.procyon.org.uk>
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 02 Jul 2026 09:23:02 +0100
-Message-ID: <138807.1782980582@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Date: Thu, 02 Jul 2026 09:25:00 +0100
+Message-ID: <138902.1782980700@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-Fix the barriering used when walking the subrequest list in retry as
-there's a possibility of seeing a subreq that's just been added by the
-application thread.
+Fix missing release of credits in the failure path in cifs_issue_read()
+lest retrying the subreq just overwrites the credits value.
 
-Fixes: ee4cdf7ba857 ("netfs: Speed up buffered reading")
-Fixes: 288ace2f57c9 ("netfs: New writeback implementation")
+Fixes: 69c3c023af25 ("cifs: Implement netfslib hooks")
 Link: https://sashiko.dev/#/patchset/20260608145432.681865-1-dhowells%40re=
 dhat.com
 Signed-off-by: David Howells <dhowells@redhat.com>
+cc: Steve French <sfrench@samba.org>
 cc: Paulo Alcantara <pc@manguebit.org>
+cc: linux-cifs@vger.kernel.org
 cc: netfs@lists.linux.dev
 cc: linux-fsdevel@vger.kernel.org
 ---
- fs/netfs/read_retry.c  |    7 ++++++-
- fs/netfs/write_retry.c |    7 ++++++-
- 2 files changed, 12 insertions(+), 2 deletions(-)
+ fs/smb/client/file.c |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/fs/netfs/read_retry.c b/fs/netfs/read_retry.c
-index f59a70f3a086..2b42758e01ec 100644
---- a/fs/netfs/read_retry.c
-+++ b/fs/netfs/read_retry.c
-@@ -98,7 +98,12 @@ static void netfs_retry_read_subrequests(struct netfs_i=
-o_request *rreq)
- 			goto abandon;
- 		}
+diff --git a/fs/smb/client/file.c b/fs/smb/client/file.c
+index 8b25d6c9ec5e..5a25635bc62a 100644
+--- a/fs/smb/client/file.c
++++ b/fs/smb/client/file.c
+@@ -241,6 +241,7 @@ static void cifs_issue_read(struct netfs_io_subrequest=
+ *subreq)
+ 	return;
  =
 
--		list_for_each_continue(next, &stream->subrequests) {
-+		for (;;) {
-+			/* Read pointer to subreq before reading subreq state. */
-+			next =3D smp_load_acquire(&next->next);
-+			if (next =3D=3D &stream->subrequests)
-+				break;
-+
- 			subreq =3D list_entry(next, struct netfs_io_subrequest, rreq_link);
- 			if (subreq->start + subreq->transferred !=3D start + len ||
- 			    test_bit(NETFS_SREQ_BOUNDARY, &subreq->flags) ||
-diff --git a/fs/netfs/write_retry.c b/fs/netfs/write_retry.c
-index 32735abfa03f..058bc7a166a5 100644
---- a/fs/netfs/write_retry.c
-+++ b/fs/netfs/write_retry.c
-@@ -72,7 +72,12 @@ static void netfs_retry_write_stream(struct netfs_io_re=
-quest *wreq,
- 		    !test_bit(NETFS_SREQ_NEED_RETRY, &from->flags))
- 			return;
- =
-
--		list_for_each_continue(next, &stream->subrequests) {
-+		for (;;) {
-+			/* Read pointer to subreq before reading subreq state. */
-+			next =3D smp_load_acquire(&next->next);
-+			if (next =3D=3D &stream->subrequests)
-+				break;
-+
- 			subreq =3D list_entry(next, struct netfs_io_subrequest, rreq_link);
- 			if (subreq->start + subreq->transferred !=3D start + len ||
- 			    test_bit(NETFS_SREQ_BOUNDARY, &subreq->flags) ||
+ failed:
++	add_credits_and_wake_if(rdata->server, &rdata->credits, 0);
+ 	subreq->error =3D rc;
+ 	netfs_read_subreq_terminated(subreq);
+ }
 
