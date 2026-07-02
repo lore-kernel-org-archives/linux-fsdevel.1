@@ -1,176 +1,122 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-bc0a.mail.infomaniak.ch (smtp-bc0a.mail.infomaniak.ch [45.157.188.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6FC84BCAAF
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 09:57:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261CA40DFBB
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 10:00:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782986253; cv=none; b=WY58Hv/p86suaWqzFbpxHZva8VyPPIeBPQKQcnVrYnvZ75MAEiIxTIQMm7m+U0Y9hHktvbw3nUq+rKPQ2CfneEh6FrCGOWosNViIkNVSbj4eAQVpZlIju7+E31Ahn7twzG1Bp+X6fAKgAxLp8bnSWaHv5Ka9rBrqTlbI/3wBsb8=
+	t=1782986428; cv=none; b=j+zuFTU6n2znpZ1IyTjeUBT4ZQG8n+lznDSK9XQ7KPfQO4fRniB75cVA/2PRIQnAdfVPQ328QP8qy1ZH1T0R6olh5+FpRthVxSDZPS4sUsDpDvpBlBy0QBveZ6Zn2GPbyE2cMEzUTjc7D3x/4oPaEbacWkvlxTV/TGVxA+PrQ84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782986253; c=relaxed/simple;
-	bh=BNFDrdPvq9mzRD45aFtwnk18UW4DPP3kimNwP4o8/pw=;
+	s=arc-20240116; t=1782986428; c=relaxed/simple;
+	bh=//wk7179FguVyasl50g5Wote0Tk9APu7AWvtVlY8tNU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EH6iGNDy7ihZiERCgoJQVWLK2Kr6WndXU1xCPJ++o28amwn3NS3rMQ2JtqgvjqBlvb1WhSQKXQC++dcAu15hQzHOAMKesRp+mT/fvPI7DsOlgGKvolTZp5axXE+b4jB0NUEnmkMm31w5RUUix8QtXwYc7tyuRXLofPXz96qo6WA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=GsEGTz3R; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=H0yBIV+D; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=GsEGTz3R; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=H0yBIV+D; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=MqDBOksRWc5T6n+qBmwH9UfR82TEQCGrB8HAWyOT/y7ujjpFWl6FvRL88/0PHafy+I/Od9b5takaH7+Tg7mE6VhJUJG1xgnEKfnv200dRBJof7c6RaOujdmEgT1TobMNAk8cNAFP+pDP+0IUBHxjBFLeDjkV2bjIz1St8fZULUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=P/L3o1ie; arc=none smtp.client-ip=45.157.188.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="GsEGTz3R";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="H0yBIV+D";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="GsEGTz3R";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="H0yBIV+D"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7940C7410D;
-	Thu,  2 Jul 2026 09:57:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782986248; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qkHLi4bBeSixPSheQ5BY8WCz7v8WI2F8fgvlkqiCVKo=;
-	b=GsEGTz3R1U37eZA6BNXBXTiK5XPnUww9D1bcTM8Es8MKSTdIKnXCXbig3tIM8bmEmKDcjh
-	pRMs0Z3kRX5FNTbnxDa6gwdE5/rVb9UA4+epadyR3e1dy9ZQK+uH7NHBK2EWdJySaVOLWr
-	Tke7cyxKadchedQd6nXFnNAYWRWK+yE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782986248;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qkHLi4bBeSixPSheQ5BY8WCz7v8WI2F8fgvlkqiCVKo=;
-	b=H0yBIV+DFIZ/ecyfRXlrrATOZf38h5BLlSzIJ8LlsqOBqf4EiMgxyMHx4I0jec3WCBTHJ5
-	zTzPLBs7Owf0KtDA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=GsEGTz3R;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=H0yBIV+D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782986248; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qkHLi4bBeSixPSheQ5BY8WCz7v8WI2F8fgvlkqiCVKo=;
-	b=GsEGTz3R1U37eZA6BNXBXTiK5XPnUww9D1bcTM8Es8MKSTdIKnXCXbig3tIM8bmEmKDcjh
-	pRMs0Z3kRX5FNTbnxDa6gwdE5/rVb9UA4+epadyR3e1dy9ZQK+uH7NHBK2EWdJySaVOLWr
-	Tke7cyxKadchedQd6nXFnNAYWRWK+yE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782986248;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qkHLi4bBeSixPSheQ5BY8WCz7v8WI2F8fgvlkqiCVKo=;
-	b=H0yBIV+DFIZ/ecyfRXlrrATOZf38h5BLlSzIJ8LlsqOBqf4EiMgxyMHx4I0jec3WCBTHJ5
-	zTzPLBs7Owf0KtDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6E47C779AA;
-	Thu,  2 Jul 2026 09:57:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id B/bpGgg2RmpGGQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 02 Jul 2026 09:57:28 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 2F6CEA12AD; Thu, 02 Jul 2026 11:57:22 +0200 (CEST)
-Date: Thu, 2 Jul 2026 11:57:22 +0200
-From: Jan Kara <jack@suse.cz>
-To: yizhang089@gmail.com
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca, 
-	libaokun@linux.alibaba.com, jack@suse.cz, ojaswin@linux.ibm.com, ritesh.list@gmail.com, 
-	yi.zhang@huawei.com, yi.zhang@huaweicloud.com, chengzhihao1@huawei.com, 
-	yangerkun@huawei.com
-Subject: Re: [PATCH 3/6] ext4: track partial-zero outcome per edge in
- ext4_zero_partial_blocks()
-Message-ID: <tb77wbv7gcqzkcftikip2bgftzqjdahuwsmrynfjke2prsz2kh@ux3sr3logun4>
-References: <20260701142009.1510104-1-yizhang089@gmail.com>
- <20260701142009.1510104-4-yizhang089@gmail.com>
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="P/L3o1ie"
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246c])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4grXGn24DNzdgb;
+	Thu,  2 Jul 2026 11:52:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1782985920;
+	bh=oEWBJpKZfD92xrQv2OExUZvBrbU2/bp/oFr1oEXgzA8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=P/L3o1ieylcYjqtUNm50SFSz+jYWm6i2JNuzgI5TeEZPavrOaasuRNwmLTrYJbR8e
+	 je/WTUIB8Qn32AMybuitq2EGO1G9WXlNhf72tnJWb5TAndvthwjnwbYJbHXba3sf/v
+	 x79J33AgbtdZNSf1c6ayNuWLHH+tRIkQwzaAlesk=
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4grXGk6Xp1znQb;
+	Thu,  2 Jul 2026 11:51:58 +0200 (CEST)
+Date: Thu, 2 Jul 2026 11:51:54 +0200
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Casey Schaufler <casey@schaufler-ca.com>
+Cc: Paul Moore <paul@paul-moore.com>, 
+	Justin Suess <utilityemal77@gmail.com>, ast@kernel.org, daniel@iogearbox.net, kpsingh@kernel.org, 
+	john.fastabend@gmail.com, andrii@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org, 
+	kees@kernel.org, gnoack@google.com, jack@suse.cz, jmorris@namei.org, 
+	serge@hallyn.com, song@kernel.org, yonghong.song@linux.dev, martin.lau@linux.dev, 
+	m@maowtm.org, eddyz87@gmail.com, sdf@fomichev.me, skhan@linuxfoundation.org, 
+	bpf@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Frederick Lawler <fred@cloudflare.com>
+Subject: Re: [RFC PATCH 06/20] bpf: lsm: Add Landlock kfuncs
+Message-ID: <20260702.wiegh2vahb3O@digikod.net>
+References: <20260701.ze4eph1eKo7a@digikod.net>
+ <CAHC9VhRfqSoM89WC6TdQHapUVQe8a18rW2c-F7+tu6EjM9EdCA@mail.gmail.com>
+ <akUH13qbsEnJLgQu@zenbox>
+ <CAHC9VhSjRcMr9+5dMkep_TPKduYdob-bZ73FLfXd_o2xiWwOSg@mail.gmail.com>
+ <20260701.jei4Paej3zen@digikod.net>
+ <CAHC9VhRzZVUz8icZ2RD9OVvscJdZW3ivPERJLEkNi5poBeguxw@mail.gmail.com>
+ <20260701.oTeikequi3ee@digikod.net>
+ <akVvkA3kmlv_POsF@zenbox>
+ <CAHC9VhTQtHPFGqu58EaFqMobV3LCcTsdzYfxy568P8mU769TMg@mail.gmail.com>
+ <c9abd9ab-3379-47ab-ad41-79cec8f465c2@schaufler-ca.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260701142009.1510104-4-yizhang089@gmail.com>
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 7940C7410D
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	TO_DN_NONE(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,mit.edu,dilger.ca,linux.alibaba.com,suse.cz,linux.ibm.com,gmail.com,huawei.com,huaweicloud.com];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim,suse.com:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+In-Reply-To: <c9abd9ab-3379-47ab-ad41-79cec8f465c2@schaufler-ca.com>
+X-Infomaniak-Routing: alpha
 
-On Wed 01-07-26 22:20:06, yizhang089@gmail.com wrote:
-> From: Zhang Yi <yi.zhang@huawei.com>
+On Wed, Jul 01, 2026 at 02:41:49PM -0700, Casey Schaufler wrote:
+> On 7/1/2026 1:02 PM, Paul Moore wrote:
+> > ...
+> >
+> >> Each LSM calls this once to register its sets. Because registration goes
+> >> through the framework, the framework gets to decide whether to actually
+> >> register them so you could, for example, run an LSM while explicitly
+> >> opting its BPF kfuncs out. (something that should be done at the LSM
+> >> framework level).
+> > I'm not opposed to the LSM supporting a set of kfuncs, see my comments
+> > in other threads, but we should treat these kfuncs just as we treat
+> > other LSM hooks today because that is what they are: LSM hooks that
+> > happened to be called from within a BPF program.
 > 
-> Replace the single bool did_zero output of ext4_zero_partial_blocks()
-> with a bitmask that records which edge (start, end, or both in the
-> single-block case) was actually partial-zeroed. This allows callers to
-> distinguish which edges have been zeroed, preparing for unaligned
-> FALLOC_FL_WRITE_ZEROES handling in later patches.
+> As someone who has been working to get the SELinux specific assumptions
+> out of the LSM framework for the past 15 years the notion of adding
+> Landlock specific interfaces makes me want to cry. Is it really that
+> difficult to understand that 5 or 10 years from now something is going
+> to come along that makes any LSM specific interface a nightmare?
+
+From my point of view, your work has been, and continue to be, very
+valuable and helped improve Linux security tremendously.  Everyone agree
+that no LSM should implement their own security hook.  But that's not
+the topic here.  See
+https://lore.kernel.org/all/20260701.aeghohNoe3ek@digikod.net/
+
+> What
+> if there's an LSM that does what Landlock does, but does it better?
+
+Then the eBPF programs will use another kfunc, specific to the *new*
+semantic of the other LSM.
+
+> What if the Landlock sponsors decide to quit funding it? Or the maintainers
+> get bored?
+
+It is the same for any (kernel) interface: going through a multiplexer
+would not help at all.  Your argument is sound for security hooks, but
+not here.  Security (or access control) hooks make sense because they
+identify a set of specific enforcement points in the kernel, and any LSM
+can implement such hook to allow or deny the related operation.  Other
+hooks are useful to keep track of the kernel state.  Again, see
+https://lore.kernel.org/all/20260701.aeghohNoe3ek@digikod.net/
+
 > 
-> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+> I agree with Paul completely. Make the hooks available to any and all
+> LSMs, or don't make them at all.
 
-Just some text corrections below. Otherwise feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-> index 0b31fa873743..d68f7be4ff02 100644
-> --- a/fs/ext4/inode.c
-> +++ b/fs/ext4/inode.c
-> @@ -4256,13 +4256,26 @@ int ext4_block_zero_eof(struct inode *inode, loff_t from, loff_t end)
->  	return 0;
->  }
->  
-> +/*
-> + * Zero out the unaligned head and tail of the [lstart, lstart+length)
-> + * range.
-> + *
-> + * On return, @partial_zeroed records which edges actually got
-> + * partial-zeroed.  Set EXT4_PARTIAL_ZERO_START/EXT4_PARTIAL_ZERO_END if
-> + * the head/tail block got actually partially zeroed (in written, dirty
-> + * unwritten or delalloc state).  Cleared if the head/tail block is a
-> + * hole or a clean unwritten block, in which case there is nothing needs
-								      ^^^
-that needs zeroing.
-
-> + * to zero.  When the head and tail land in the same block, both bits
-> + * are set together on a successful zero.
-					^^^ zeroing
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+We don't need a security hook but a function call to one specific part
+of the kernel with a very clear semantic that only make sense for one
+subsystem (i.e. Landlock in this case).  It's the same for other kfunc,
+nothing special.  The same way it would be a waste of time to implement
+an in-kernel multiplexer for a set of unrelated operations, I really
+don't see the value of adding a generic kfunc that might perform an
+action according to an operation argument (i.e. multiplexer).  Why
+implementing an ioctl-like interface in the kernel?  I'm open to
+suggestions (and concrete proposal/examples) but so far I only heard
+authoritative arguments that ignored most of my comments.
