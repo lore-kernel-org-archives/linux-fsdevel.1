@@ -1,115 +1,190 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463D047DD7A
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 09:09:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD064412271;
+	Thu,  2 Jul 2026 09:24:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782983380; cv=none; b=ali5Wis19m4IsF8aQkYfTD658fRhlVZioiPLwl9CMmi1cigwkGMXXSZ3uDqEe675C1GCBhF0viAvIGepvIJpF271wd9kNMTUyXk4dcILqOQiPMT4ea3drnhLFOZ4Q11DeQkXDynSyJmiRBNF6kfuB/T8RKMG0qUTNMmKDeQTTbY=
+	t=1782984300; cv=none; b=DOTLiUSgl6EIMYCkXzDRrRVFdAF5Z4LYe7rPJRjFeU8YrYKA1VBeA6oLAxF6VJllt1FsXSbaYNLfyJi1M5q6ZacLMH7hSkGTE2KAdpMvCRFZfMjVvtWBB8OBN802ceJfht26edTVN/oDIUg/g86uuT0PhNlYYW83GHR2plh1iHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782983380; c=relaxed/simple;
-	bh=X4lWb4Zgyq9kDtHYjOqT/HcpzyRjjLI0DNIX1c5jUaM=;
-	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=IqImIRHxjO3yIjapvHo/BkhmjDGOfp+xFeNFSaYRktfFKljtz+irKkiY4sxsAWwo/KfwUqy8Tj40I4w6IYliAQltb76AAdyA3WyWQA0EOBKnXRAzoZfZZLCYAUDw+juvWFAuzLTkbmYR9Xjj30+GFBuogwYgmNEN/cvah6lVC6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=ZEiDPTGN; arc=none smtp.client-ip=195.121.94.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1782984300; c=relaxed/simple;
+	bh=ZS7u7hz1Qbli0QqnmbwELxK1FEHM1yiG9rosI7WRkco=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=um48A4v/2pQ2rBCr1xxSbclxo2QYJgSPsS0cZOZyk+1aDeDS6T/5WXuv0ODCj1ZiODfjRFOKCCG03Haubyv16C04+X17vyiLOG611VfBZ4hLEMLhqNTbXpMvVIg1zaVYxU1FTC7+9SbfEbjUvAGaYTr4ZlFxuX24hPRztcf9qm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PpPbJ4g3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="ZEiDPTGN"
-X-KPN-MessageId: bff4b762-75f5-11f1-9e8e-005056999439
-Received: from mta.kpnmail.nl (unknown [10.31.161.191])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id bff4b762-75f5-11f1-9e8e-005056999439;
-	Thu, 02 Jul 2026 11:09:37 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id bff2e651-75f5-11f1-91b1-00505699891e;
-	Thu, 02 Jul 2026 11:09:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=PqYWlkDcCBR62HicUulD+ZvvBxbrhHpWKTkTuPcmOVk=;
-	b=ZEiDPTGNBOsEJe7MBRiZA+HoZfQoCwumR1bRMcSFV5e9HqtGX/AvhvfHYteM5cMrTBkGUKpL+yN63
-	 4KuIx7VOlkYtRDupf3JnPqFpzA2x9PbhcodHS8OYX9WbobOI+rJl0ZU/Dsex1PqFnQ+sPxHn7Da9ZM
-	 zstxb371hUTwEpUOUun9fryUYtOkWO5iusVSXdi1KlEbSUrKXZsiBeAqdI3L7c5WYrb3TQvreaF/5L
-	 NVaR4sFh1jnQYgVbWA5xjXLOJ9yjShdLbhjGw5lBYtWjDhu+bp6JU+Yh/cVAFlA1jnRtKcaW3rZSuB
-	 2P0rGauZpugbjh6TmrbjqNb7DNqbfGg==
-X-KPN-MID: 33|A06hq9/OspSCblDEB2XsEAaS5PUjMJ/PvGk4O1z0S/ckLTliPawVDjQhJtQvp7M
- bC1I6m8Et6gUXIjvcKmMYL13UY3qYJ2f+ajB4taehJ64=
-X-CMASSUN: 33|xV5+ZKyjGAqrRMlg92btei7Fl/lSCjGxTWwji/cF8+tpZaRdc5GIqoJHUqUCdfC
- j3Qw633Ao3CXiKU7+omMp5A==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh03 (cpxoxapps-mh03.personalcloud.so.kpn.org [10.128.135.209])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id bfe2ba4c-75f5-11f1-916a-005056995d6c;
-	Thu, 02 Jul 2026 11:09:37 +0200 (CEST)
-Date: Thu, 2 Jul 2026 11:09:37 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	David Hildenbrand <david@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, Lorenzo Stoakes <ljs@kernel.org>
-Message-ID: <1468431527.3731104.1782983377190@kpc.webmail.kpnmail.nl>
-In-Reply-To: <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <akYasD1ckWcH1C0g@lt-jori.localdomain>
- <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PpPbJ4g3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F6B31F00A3A;
+	Thu,  2 Jul 2026 09:24:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782984298;
+	bh=fWN2PUZqz314MN6aw/zLCpIVBp40dgc/RS82IgvPVMA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PpPbJ4g310gK8zS/jgvsvWNGJUjuzCQkeJltv5RR3fm3WEyQnzATo6Tu7ZlqpjlaY
+	 KvH/MGkLBv3LPh8q20cdGdZjWjaFoNNmbjqrnFAHQXclwoCvFlhG0WV7M552ZXNSrL
+	 0OWfiAhjYpjzACxY6BsCt55l4MrQcvj9xgDOhCWSkL8RDm3sgp0PJmoVmFw9vd9nlL
+	 tdcZciGoy6Qn6BRP7sD7snET3sdFlOtJrYxzvEs9ARi+ITy1i0wx6UBmYlOVjr2sEh
+	 nOvr++WrQzSv17CMWZWNlq5bxBnXyAUqJsaGrEptPfJ03G4ZJA4oLPAv5+Lb97e+hJ
+	 72gKjkjWYOjjA==
+Date: Thu, 2 Jul 2026 10:24:51 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
+	Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
 Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+Message-ID: <akYjFXFaVDCx6WH0@lucifer>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
+
+On Wed, Jul 01, 2026 at 06:10:48PM +0200, David Hildenbrand (Arm) wrote:
+> On 7/1/26 17:54, Christian Brauner wrote:
+> > I remain very confused by our coding assistant contribution guidelines.
+> > I'm going to be a bit polemic now but this seriously in good faith.
+> >
+> > Why precisely do we require all this detailed information about what
+> > specific coding assistant was used?
+> >
+> > I find it very irritating that our git history has effectively started
+> > to function a bit like a free advertising platform for a bunch of AI
+> > companies and their proprietary agents and models.
+> >
+> > And it reamins unclear to me what exactly we do get out of this detailed
+> > information: Do we want to run statistical analysis on what agent and
+> > model is used the most and publish that on LWN at some point?
+> >
+> > I acknowledge that my stance is even more radical: imho we would just
+> > stop it with any disclosure requirements completely. It's useless imho.
+> > We already see that other than core contributors most people don't care
+> > and will just not disclose their usage of AI. I think this is entirely
+> > pointless and worse it brings in undefined legal status as well. It's
+> > not like recent events of pulling certain models from the face of the
+> > earth have made this any less concerning.
+> >
+> > But fine, if we want to do this can we please just dumb it down to
+> >
+> > Assisted-by: LLM
+> >
+> > or
+> >
+> > Assisted-by: Coding Assistant
+>
+> I'd prefer this.
+
+Yeah I don't see any reason why we need to know precisely which model or version
+of said model we need.
+
+>
+> The doc states "proper attribution helps track the evolving role of AI in the
+> development process". If there is another reason why we need the free
+> advertisement, we should document it.
+
+Yup.
+
+Honestly I find the phrasing here quite vague.
+
+While it is interesting to track the degree of AI involvement (where that's
+disclosed) a really important part of this is how maintainers deal with AI
+submissions.
+
+Also we have a schism in the documentation anyway, there's [0] which is
+literally indexed as 'AI Coding Assistants', which says NOTHING about how
+people are supposed to use them etc. and there's [1] Which DOES say
+something about that, but which isn't linked to by [0], nor links to it.
+
+Before I happened across this thread, I was thinking of sending a patch to
+at least link one to the other. Now I think I definitely will.
+
+>
+> Side note: if someone instructs an LLM exactly what to do, and would have
+> achieved the same thing just typing it in, the use of the tag is not any helpful
+> to me. (similar to "Assisted-by: vim" would not be helpful).
+>
+> What would be much more relevant to know is to which degree LLMs were used.
+
+As I mentioned off-list I do agree that this is key.
+
+Having this information helps with the most important issue we face when it
+comes to AI - an EXISTENTIAL issue actually IMO - the asymmetry between how
+much code can be generated, and available maintainer/reviewer resource.
+
+Being able to, at a glance, see that a series was both wholly generated
+seems substandard means we can quickly ask for more human attention.
+
+And I know what the argument's going to be - 'bad faith people will lie
+about it' - and sure, yes they will.
+
+But now that there's been a huge surge of AI generated code in mm I can
+speak from experience - many DO attribute, and for those that don't it's
+very useful to have guidelines to point to.
+
+Both aid in dealing with this asymmetry.
+
+(as an example, I've had to push back quite strongly on an _attributed_
+series ([2] and [3]) that appeared to be wholly generated. Having this
+information would have helped there).
+
+>
+> Assisted-by: LLM # translate commit message
+> Assisted-by: LLM # generate some test cases
+> Assisted-by: LLM # cleanup logic
+> Assisted-by: LLM # everything and I have no clue what any in here does
+
+Yeah this format works I think!
+
+>
+> I thought we ask for that in some document, but couldn't immediately find it
+> (and nobody does that).
+
+Well you're probably thinking of [1], e.g.:
+
+	Second, when making a contribution, be transparent about the origin
+	of content in cover letters and changelogs. You can be more
+	transparent by adding information like this:
+
+	...
+
+	- Which portions of the content were affected by that tool?
+
+	...
 
 
-> Op 02-07-2026 10:44 CEST schreef Vlastimil Babka (SUSE) <vbabka@kernel.org>:
-> 
->  
-> On 7/2/26 10:12, Jori Koolstra wrote:
-> > Ah, I still reigniting this discussion again :)
-> > 
-> > What about a combination of what David and Jeff say? The whole point
-> > seems to me that the salient information is not that an LLM was used (or
-> > are we going to tag Sashiko as well or any other LLM-based code review
-> > tool?), but what is was used to do. This information may be relevant for
-> > how the review is approached. The latter should perhaps only be in the
-> > cover letter and then we can drop the assisted-by tags altogether.
-> > 
-> > The question about enforcement remains.
-> 
-> It's not possible to enforce it. People can deny it if the tag is missing
-> and you confront them and even though the submission has many signs of being
-> obviously LLM, there is no definite proof. We've seen (likely, as there's no
-> proof!) that happen in mm.
-> 
+And also from the same document:
 
-Maintainers should be free to ignore what they perceive as slop without needing
-to defend that call. Reputation can be gained by submitting useful work or
-being present in the community, attending conferences, giving talks, etc.
-I am not saying that we should be harsh on beginning contributors (or I would
-have to count myself out as well), but they should be as free as possible to
-only invest their time in the project and people that may become involved in the
-community. And that call is up to them.
+	If tools permit you to generate a contribution automatically,
+	expect additional scrutiny in proportion to how much of it was
+	generated.
 
-I try to review fix-up patches of first-time contributors, but if it reeks of
-AI I don't bother. We have the same policy in the kernel mentorship program,
-we invest time to help people get involved with the community and kernel, not
-to let someone strike "kernel contributor" of their list. The whole point is
-not that most of this clean-up work is super useful (and indeed an LLM can do it),
-but to let someone feel excited about contributing and maybe getting them to
-to stick around.
+	As with the output of any tooling, the result may be incorrect or
+	inappropriate. You are expected to understand and to be able to
+	defend everything you submit. If you are unable to do so, then do
+	not submit the resulting changes.
 
-> Such situation then penalizes those who disclose so obviously they won't. We
-> should drop the tag and instead think how we can empower maintainers to be
-> able to use their own judgment and deprioritize dealing with what they
-> perceive as LLM slop, without fearing consequences of not being properly
-> responsible etc, and not rely on any non-enforceable tags for that.
+	If you do so anyway, maintainers are entitled to reject your series
+	without detailed review.
+
+This only speaks more to the need to link the two documents together. I'll
+send a patch.
+
+>
+> --
+> Cheers,
+>
+> David
+
+Thanks, Lorenzo
+
+[0]:https://docs.kernel.org/process/coding-assistants.html
+[1]:https://docs.kernel.org/process/generated-content.html
+[2]:https://lore.kernel.org/linux-mm/aj9yrlB0TrlYCLlf@lucifer/
+[3]:https://lore.kernel.org/linux-mm/akIjA_dqh4OHAYo4@lucifer/
