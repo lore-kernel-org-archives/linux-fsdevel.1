@@ -1,35 +1,50 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339B948C8A1;
-	Thu,  2 Jul 2026 13:07:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353BB47DD45
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 13:09:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782997673; cv=none; b=UO9QrICou+24Di3QWxxclhSVW9nsYL+/26vO3dXP5D3v4s0gBi/0I/S9+pf1OBkzhKVlDkN/qzK1Qwai6KWndrGhZKZQJnsGC8VIP1UEdPv8dhU4QrRaEHddTvxOfFfA+Mi6NqLspAp3RVGXb42lTrWVmbsXopuaXrqLPfos2mQ=
+	t=1782997761; cv=none; b=kS47tauAJ3lLilLxw3op61py64COFVpDm+tY/3G6mAzFTJ2wMcta4/YOLGGO4u8FqEkg3pKQ5VIrA4U5EmbZlFmsNVqI+OTRdaIR/7zGhhTjulv1mapQpxICjkE75h8IWZ4cBcwlBMQPeUibYXbWhEv5S8Q24M2Z2ZZepLbJGpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782997673; c=relaxed/simple;
-	bh=5dr//tfMOhqPbri/FQ9+o/A+RTH+vCjcdGSY4+mZ/MM=;
+	s=arc-20240116; t=1782997761; c=relaxed/simple;
+	bh=fiJrezrPzd/66Esvi9NNyo7ek1v+7YfLuLcqu8NbMQ4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JUG6zPtuZ9u0B452B0Cp7RZg1ot5aL2CSGJominW/M36fwixWjOCRhmQzjwGcHdNJfHrSGkYde0px0XDsvHCYCgXejnr/DkBDgL9122jhq7o1Yazc5lnXuaXXgOciLl0tM5aXsI+XyZFFaYMCiMZD363UXq0UbxSzYYwmkO3Ft4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BT/gjmaH; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=LY7FftwqyGYLiVYcGzazQdidpt1NeWW7e5KXoLQnYt81JOTm5jXadWEMFSOcahEnkl8kY9ONd0xiTgBzlYjDff4YoYiXAhoIvtPAxavVOxHtU+4CRcN8T/o9jDkfVwBYEna1V1IPrHNNPjL1Ec3YqbTIOrzi6+j44X5XQTLzQbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Tlm02BNW; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BT/gjmaH"
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C7423A2;
-	Thu,  2 Jul 2026 15:06:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1782997617;
-	bh=5dr//tfMOhqPbri/FQ9+o/A+RTH+vCjcdGSY4+mZ/MM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BT/gjmaHIxgKrSuuqeYr7xoSarPN2c/U2bL2Yka6+jzeWLInWwmx4b4TYMbGy7mFV
-	 RdnY4dqK26RSVLzCNV5TcdsI4FDXGM6Apvw/x11LMM7bQJIThpoZO+9aQ8adhcJj2s
-	 5xdHwDyAblqt6adcasCPd2YeBMXDq32QeitSIuV4=
-Date: Thu, 2 Jul 2026 16:07:40 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Tlm02BNW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782997758;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pk2pYhN52w0a/kFsyxeCmsifCUQ0v8hhl1JGZ0yb2rk=;
+	b=Tlm02BNWHxjhSpiSLQKyFHEK3Se9n+OgBnkaoJOUZo5VA3FjeXIdZaSEMtgKNdq5VQDJCl
+	cSDAChcl1xSUrvjJO4lT7JqEdGOsUtbasP6HpjXG3zUNzbiWIembhwnimtV2bxHbjO7XHO
+	iK9Xw4NcwXIo6XeqV3lIHZJTx0r7VeA=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-642-9HHLOQTTMlCktmfHsFKvaQ-1; Thu,
+ 02 Jul 2026 09:09:13 -0400
+X-MC-Unique: 9HHLOQTTMlCktmfHsFKvaQ-1
+X-Mimecast-MFC-AGG-ID: 9HHLOQTTMlCktmfHsFKvaQ_1782997751
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C51CB1944EB6;
+	Thu,  2 Jul 2026 13:09:10 +0000 (UTC)
+Received: from bfoster (unknown [10.22.80.59])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 29A923001D87;
+	Thu,  2 Jul 2026 13:09:08 +0000 (UTC)
+Date: Thu, 2 Jul 2026 09:09:05 -0400
+From: Brian Foster <bfoster@redhat.com>
 To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Brian Foster <bfoster@redhat.com>,
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
 	Jori Koolstra <jkoolstra@xs4all.nl>,
 	Christian Brauner <brauner@kernel.org>,
@@ -40,7 +55,7 @@ Cc: Brian Foster <bfoster@redhat.com>,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
 Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-Message-ID: <20260702130740.GB3534761@killaraus.ideasonboard.com>
+Message-ID: <akZi8XmYA0XUCx2-@bfoster>
 References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
  <akYasD1ckWcH1C0g@lt-jori.localdomain>
  <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
@@ -54,9 +69,10 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <akZW1RPqTc-4_7jW@lucifer>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
 On Thu, Jul 02, 2026 at 01:18:06PM +0100, Lorenzo Stoakes wrote:
 > On Thu, Jul 02, 2026 at 07:57:45AM -0400, Brian Foster wrote:
@@ -129,18 +145,40 @@ On Thu, Jul 02, 2026 at 01:18:06PM +0100, Lorenzo Stoakes wrote:
 > Yup I thought of this, have done this on series and they do detect it
 > reliably.
 > 
+
+Interesting.
+
 > But then it becomes an arms race. People will get AI to try to defeat AI
 > detection. So I'm not sure it's a safe road to go down.
+> 
 
-That would be my concern too.
+Yeah that's fair, but my thinking is the goal would be more to detect
+slop content as opposed to just LLM usage. The trend of these
+discussions has been that we generally don't care too much about LLM use
+in general when it's used properly as a tool, but rather as you stated
+earlier we want to be able to quickly dismiss slop to avoid wasting
+maintainer and reviewer time.
 
-At this stage, I think it's better to make sure people know our
-expectations, and expect that the vast majority will understand it's a
-trust-based system where being caught willingly breaching trust will
-have a very high cost. Or have we reached a point where that doesn't
-work any more ?
+It seems like we're generally able to sniff out pure LLM generated
+content in most cases. That suggests we should be able document some
+common patterns that tend to describe slop such that an LLM bot could
+detect and flag it. For example, "Slop bot has detected comments have
+LLM prose and just repeat what the code does," "Slop bot has detected
+unnecessary code volume and duplication," etc. etc.
 
--- 
-Regards,
+So the idea with that would be that defeating the slop bot is the point.
+Consider it a sort of informal/minimal goal before a submitter is
+entitled to human review. But yeah, I guess it's still just a handwavy
+theory that you'd be able to reliably disentagle detection of general
+LLM code generation from something that more qualifies as LLM slop. Just
+thinking out loud.
 
-Laurent Pinchart
+Brian
+
+> >
+> > Brian
+> >
+> 
+> Thanks, Lorenzo
+> 
+
