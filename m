@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED0039A7F6;
-	Thu,  2 Jul 2026 07:41:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14003B4EA9;
+	Thu,  2 Jul 2026 07:44:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782978107; cv=none; b=dYApveEbOPCJIEMvsD4yNs58JZpWYqEWagcCexlV3TKau1KRTV5+3u5cOdOQMHaAmj+KOJxbC+lK+CFwRNXKdBsXfp2sEEfDhHZ+7+wjHelDROsiAZHORHUkkvfZUMlme4oOPEHAebkoJE3NoOW/10l46CvTPs0AADhuyvXQIJM=
+	t=1782978266; cv=none; b=D5wroQqQ9FsbzheIIymscXgtzHLR4vBZBMJu1IiSkVJYaaUYJ7H0q2dLC/bZC1w9WOA1gU2irGb1VD+6Rk4fghqCImpgU9QgpyoOEV4rbi7dO/lP75Px0j8AnGyZapTPv/DuVet2Fr48YfxEtDsybl90pzyuV2b/cgc+4Ejze7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782978107; c=relaxed/simple;
-	bh=rbbTGK5IEPcsoqPFchYNcH6XviR0Ovhzdz1mtknJTYY=;
+	s=arc-20240116; t=1782978266; c=relaxed/simple;
+	bh=86OvD4fbRP1MhaFrjiWmHql7uPFq7+n64G79hRC1syE=;
 	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=j10xO1bPfAyCw12SbOOrnQGfdj7L77HBfHXI8r18wusJrx6bvLj1Gk2DeORcIC/YtZPdaXk1Etgq4v43DFpLVDJ6FBDTfqkZ9zA5HMF8hDbT0H4XllHuAnLP+0UoUOY69GvnmOZ/tPsamXyKH0f9f8exeEVoFAwgBHberrrp5zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jfYUYY7B; arc=none smtp.client-ip=100.103.45.18
+	 References:Date:Message-Id; b=ZmF4hiPQFHslRGBF4qJfSGLATfVcgzXm7/qFG0/vNZLvFAoRTAOIkmwi7jB2k1rUmIWpvnfoc2RHJaGGHhcEWGHhADt3ligbVFz4FbG/CuWr8vKfk8b3bU2Jx2Ho4/WhToqTv91Gv3Pf7YW7EvGzUYk/TutRfIeA/kH//NTV+gc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZdKpHwc2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jfYUYY7B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A45741F00A3D;
-	Thu,  2 Jul 2026 07:41:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZdKpHwc2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13F841F000E9;
+	Thu,  2 Jul 2026 07:44:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782978103;
-	bh=HQD+Zv+MCFoFX8owNBrpFDmZBtwE205TGxfDDnF3MAk=;
+	s=k20260515; t=1782978262;
+	bh=pw7UB+las03Zd+n0XXxB46auuLv6eyuJTUsh0sXoIck=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=jfYUYY7BMT53WMwu8B8Vs9SmppFc4NEe81L/0n0LGa58GGwaG+d4MibP8Uj7/JlBz
-	 CMifxOeMnDfDykmYQ9F7SNT4v0ZrcjK10L5+XWXjkEegwW2ajTHzdcusLNJo+SNTzZ
-	 uR23l4vTYsT/iaLCtJBGjSn264AjROy5hxUdXb50XRT9hbWGBP99IYu+RApqa/EWzd
-	 e/SjNn6OcULi+FE4RGYks2LiEBNi5noOO0WseMF5rwtuWEwuu036vJTg54LQiSW+8K
-	 n7Kh072MH/9jt2soVBgHntGltUdNZgI1QPraT/6+IbnaAX+xauK9NEEV6Ujd199GTe
-	 4EIJ/Tl6i5cyA==
+	b=ZdKpHwc2j42OHNqT6vySAGjYzBtQ7zSona1+PlfNEsIOXJYT2WxO89xvARtVfCenO
+	 90FAp5/2D0wzbkCDmUPenZRdJhzKu3UqFdPQR1xTkxbIeIoVrp4NoGSPvV/LAWAY/+
+	 13LDx8rtoqw/x7NdwEXxIS7KOLLOHt9SBUYjc7OSF/kMxtazINW6JhtXf0Bd7Zfz3l
+	 r3N5CBpGUTT5oZgqEfAqxjKD/BAz5Qd2ETtUm2GAZUmipaaZKnc0/rpnKUifjRqAJB
+	 w0DeFz5B4+ov2oczSldWfH4T/IC6OVdOuIOR4mQksiq/t8mzN/EJLaHVKnLZvcuoXg
+	 5AawwGEY4Kkog==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,49 +34,56 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [RFC PATCH 0/4] Introduce capable_noaudit
+Subject: Re: [PATCH/RFC 00/18] VFS/nfsd: replace dentry_create()
 From: Christian Brauner <brauner@kernel.org>
-To: cem@kernel.org
-Cc: linux-fsdevel@vger.kernel.org, jack@suze.cz, djwong@kernel.org, 
- hch@lst.de, serge@hallyn.com, linux-security-module@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org
-In-Reply-To: <20260626114533.102138-1-cem@kernel.org>
-References: <20260626114533.102138-1-cem@kernel.org>
-Date: Thu, 02 Jul 2026 09:41:39 +0200
-Message-Id: <20260702-alufelgen-belag-tastatur-b666a49f7fc0@brauner>
+To: NeilBrown <neil@brown.name>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Chuck Lever <cel@kernel.org>, 
+ Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>, 
+ linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+ Jori Koolstra <jkoolstra@xs4all.nl>, 
+ Benjamin Coddington <ben.coddington@hammerspace.com>, 
+ Mateusz Guzik <mjguzik@gmail.com>
+In-Reply-To: <20260601070042.249432-1-neilb@ownmail.net>
+References: <20260601070042.249432-1-neilb@ownmail.net>
+Date: Thu, 02 Jul 2026 09:44:17 +0200
+Message-Id: <20260702-kurswechsel-grundlos-erdteil-27c448aef1ec@brauner>
 X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1001; i=brauner@kernel.org;
- h=from:subject:message-id; bh=rbbTGK5IEPcsoqPFchYNcH6XviR0Ovhzdz1mtknJTYY=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS5iZlKnTwSHtjY/+1zbMWWjeqHPylPPfR62bYTH9rPn
- Lmy3flTfUcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBEXBsY/tcuKNpx6f3no4+2
- zmE3eRSpFHDs/Knij2+2eu2+ui4vOWQWI8Oqa1I7nlbouIp33bN+WG2tvVgunTE2J3K23ZnNesZ
- Om/gB
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1395; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=86OvD4fbRP1MhaFrjiWmHql7uPFq7+n64G79hRC1syE=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS5iV1+tWCqwHXtvdvOGOrfK3RIcHy7IuFwJ3tQ/MFUz
+ wUcamyTOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYS6s/IsPPxiVP+Zv9n/b3x
+ bHXZ+1MNRwOz2rjlS0Qfz/DqDON9vIvhf/i3kFt68w8EJHrsnMLx/uyZG1mrqjS6dCynL44xCe/
+ QZAMA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 2026-06-26 13:45 +0200, cem@kernel.org wrote:
-> From: Carlos Maiolino <cem@kernel.org>
+On 2026-06-01 16:37 +1000, NeilBrown wrote:
+> My recent proposal for inverting the order between inode_lock() on a
+> parent dir and d_alloc_parallel()[1] missed that fact that atomic_open()
+> has two callers, and would have resulted in easy deadlocks from nfsd
+> when re-exporting and NFS filesystem.
 > 
-> In some cases - filesystems quota specifically here - we'd like to check
-> for effective capabilities without issuing spurious audit messages and
-> without the need to specify a namespace for that.
+> I think the best way to fix this is to provide a richer interface for
+> nfsd to use, which includes all the locking as well as inode_operations
+> calls.  This allows the nfsd behaviour to share more code with the
+> system-call behaviour.
 > 
-> This series introduce capable_noaudit() which has the same goal as
-> capable() but without firing audit messages.
+> This series refactors code between lookup_open() and
+> open_last_lookups(), and uses the new lookup_open() to provide
+> vfs_lookup_open().  It then rearranges the code in nfsd so that it can
+> easily use vfs_lookup_open() instead of dentry_create().  Finally
+> dentry_create() is removed.
 > 
-> Also, this updates both generic quota and xfs quota code to use that.
-> 
-> The last patch unexports has_capability_noaudit() which was originally
-> exported to be used in xfs but turns out it does not meet our needs.
-> 
-> Note this is based on top of a current series I have to remove
-> has_capability_noaudit() calls from xfs so the xfs patch won't
-> apply cleanly without that series.
-> 
-> If adding this helper is acceptable, I'll turn this into a non-rfc
-> series with the required changes to apply properly.
-> 
-> Comments? Flames?
+> This series is based on a merge of nfsd-testing, vfs-next/work.dcache,
+> and vfs/vfs.fixes (though I can't see my "Fix possible failure to
+> unlock.."[2] patch in there yet).  So I probably will need to resubmit
+> after a bunch of that has hit mainline - though a few of the patches
 
-Convert more, please.
+Yes, please resubmit. 
+
+> This will conflict with the O_CREAT|O_DIRECTORY work so obviously we'll need to
+> work out how to order them once we both have enough positive review.
+
+I have that on my todo but somehow said todo keeps growing...
 
