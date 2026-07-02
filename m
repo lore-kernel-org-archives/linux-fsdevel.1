@@ -1,181 +1,81 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F69B43E498
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 11:44:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD4E42A791
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 11:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782992674; cv=none; b=QRsrdRqfRRDnkd7XpqXLsN5FwlFz2JAFzY+cfW67VGbKyqqMKthWFBKnPzaRm2kKJVhORzwMj16liNZHQd/UMcFepuNl6rei0xaRR6n6+HdrxUha88tossXcInReQFcXZE6S5D70IywBnk9kuKMQKI2VK0mQE1glA24YpCTNqqI=
+	t=1782992867; cv=none; b=juZ/gUWGCd0rHX34NXsQRTecm7j6WeZo90/h7ZSoheadQdINlwXEnHCCCSVz8+2VdNzIiiMRMdq/WvhnZ3AJFGQCNWjQgyrnsq/oZV6h4qoCN7xv9+4RFNP3WJXYtHWis9hf9sypZHrzev390AcS74eQHT+NQBFdATNDH0opkzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782992674; c=relaxed/simple;
-	bh=2iib/6qzyTeiWqoloXxjUbgOG9FYp+QTrMdppSXZ47o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r5UDfZ8g6oie7Eh2Qf3yMjrOBa0f+OX5GtJctd+BCtRmk2HWocnScH/ZBOkZqCNYRvTYMvB8FYqvOk6+74QKQkcNM6BFe2Olcd/AHmKcDvT1Krl0o/GzmIlSEC/i6nVfUbS7uFoC/QG4twBOvWJbK3D8Z/vK8lTBpL2s++BCwcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BsLjh1T5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IRqowbv8; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BsLjh1T5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IRqowbv8; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1782992867; c=relaxed/simple;
+	bh=IBs370aE8JYqxfGWK1ILQZ5zKJpQO8cMEzpFUWRk4E0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lN9313aqRZl2iA6mzf1oTD8z2cHk1SUOb6ZtEbee3lCMZHxgWA5WGdRqhAQFzBmkz+wI/3zTp7D89o5NEc+yHL/A3il1d9tCl7hU+EcP2dAwdjp0Eml7EBdgytnffs+hFnMkyiNqFoDtKvwGHCVL5NOuTTO8uT5XiACDg6a/sy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=BGvwrgrM; arc=none smtp.client-ip=113.46.200.222
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BsLjh1T5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IRqowbv8";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BsLjh1T5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IRqowbv8"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 98DEF75C4E;
-	Thu,  2 Jul 2026 11:44:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782992667; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j+IuV5NXgLWOHGH7hlb2Ti+qJXpSv2ZiBAFyqHwiaiY=;
-	b=BsLjh1T5s0g7Spf0lz/24ftBN67tZIUYSBaPUkNS6bZaaYvxYAiBFimLgrIso4fNLwhvEt
-	B8mLiz40gQvD/6CCLl+sN2DIrp5wjd3qEKvV/Iq4fVghDpX8Yh2RCC7XVr8cMYy5PbLcn9
-	+H8VxZdiowi1t4PpNhYyvi/BS1zZkes=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782992667;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j+IuV5NXgLWOHGH7hlb2Ti+qJXpSv2ZiBAFyqHwiaiY=;
-	b=IRqowbv8tTNdVsXh2T0dBluIEHHSfkKO0XY2vdlLy/h3tosatT85+qiq8+q1FZ9A599s1s
-	W+iTOaW6Aeqc7vBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782992667; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j+IuV5NXgLWOHGH7hlb2Ti+qJXpSv2ZiBAFyqHwiaiY=;
-	b=BsLjh1T5s0g7Spf0lz/24ftBN67tZIUYSBaPUkNS6bZaaYvxYAiBFimLgrIso4fNLwhvEt
-	B8mLiz40gQvD/6CCLl+sN2DIrp5wjd3qEKvV/Iq4fVghDpX8Yh2RCC7XVr8cMYy5PbLcn9
-	+H8VxZdiowi1t4PpNhYyvi/BS1zZkes=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782992667;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j+IuV5NXgLWOHGH7hlb2Ti+qJXpSv2ZiBAFyqHwiaiY=;
-	b=IRqowbv8tTNdVsXh2T0dBluIEHHSfkKO0XY2vdlLy/h3tosatT85+qiq8+q1FZ9A599s1s
-	W+iTOaW6Aeqc7vBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1F79E779AA;
-	Thu,  2 Jul 2026 11:44:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id e+V5BBdPRmq4BgAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Thu, 02 Jul 2026 11:44:23 +0000
-Date: Thu, 2 Jul 2026 12:44:21 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Simon Schuster <schuster.simon@siemens-energy.com>, 
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Ian Abbott <abbotti@mev.co.uk>, 
-	H Hartley Sweeten <hsweeten@visionengravers.com>, Lucas Stach <l.stach@pengutronix.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Thierry Reding <thierry.reding@kernel.org>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>, 
-	Alex Williamson <alex@shazbot.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Dan Williams <djbw@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	"Liam R . Howlett" <liam@infradead.org>, Matthew Wilcox <willy@infradead.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Hugh Dickins <hughd@google.com>, Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org, linux-sgx@vger.kernel.org, 
-	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-mm@kvack.org, 
-	iommu@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, damon@lists.linux.dev, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 29/30] tools/testing/vma: default VMA flag bits to 64-bit
-Message-ID: <akZO3xI4Lt1iSbms@pedro-suse.lan>
-References: <cover.1782735110.git.ljs@kernel.org>
- <27cd07f6dd862d92410cf9db03f7c11e5f66854d.1782735110.git.ljs@kernel.org>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="BGvwrgrM"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=PGc3zRf1zoDa9l5gecI4KZf4Y8Gc6iBYEHK0yoaFmbo=;
+	b=BGvwrgrMmCwLJlKTmEYvNKxZk5CIs1HatwIojXO+5LSMEkawM3TlwK4cJ9jofY/+1tFb61xon
+	8/a7mHrqLdHJxfDn+97qBLuRK7ndf4EEReyGtd+IZ7bEcu02mbJ7fxaHff99Q55TrqhW+IjTOdp
+	untHYEM4NOr2Gm3P5rwEFOE=
+Received: from mail.maildlp.com (unknown [172.19.162.92])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4grZFR633GzLlyw;
+	Thu,  2 Jul 2026 19:20:59 +0800 (CST)
+Received: from kwepemr500001.china.huawei.com (unknown [7.202.194.229])
+	by mail.maildlp.com (Postfix) with ESMTPS id 376974058E;
+	Thu,  2 Jul 2026 19:30:10 +0800 (CST)
+Received: from huawei.com (10.50.85.135) by kwepemr500001.china.huawei.com
+ (7.202.194.229) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 2 Jul
+ 2026 19:30:09 +0800
+From: Jinjiang Tu <tujinjiang@huawei.com>
+To: <akpm@linux-foundation.org>, <ziy@nvidia.com>, <david@kernel.org>,
+	<luizcap@redhat.com>, <willy@infradead.org>, <linmiaohe@huawei.com>,
+	<svetly.todorov@memverge.com>, <xu.xin16@zte.com.cn>,
+	<chengming.zhou@linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-mm@kvack.org>
+CC: <wangkefeng.wang@huawei.com>, <sunnanyong@huawei.com>,
+	<tujinjiang@huawei.com>
+Subject: [PATCH 0/2] fs: stable_page_flags(): use folio_test_*() helpers
+Date: Thu, 2 Jul 2026 19:06:12 +0800
+Message-ID: <20260702110614.2176986-1-tujinjiang@huawei.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <27cd07f6dd862d92410cf9db03f7c11e5f66854d.1782735110.git.ljs@kernel.org>
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_CC(0.00)[linux-foundation.org,armlinux.org.uk,kernel.org,siemens-energy.com,hansenpartnership.com,gmx.de,redhat.com,alien8.de,linux.intel.com,mev.co.uk,visionengravers.com,pengutronix.de,gmail.com,ffwll.ch,suse.de,oss.qualcomm.com,ideasonboard.com,nvidia.com,amd.com,shazbot.org,zeniv.linux.org.uk,linux.dev,google.com,infradead.org,samsung.com,goodmis.org,huawei.com,vger.kernel.org,lists.infradead.org,lists.freedesktop.org,lists.linux.dev,kvack.org,googlegroups.com,surriel.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[75];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,pedro-suse.lan:mid]
-X-Spam-Level: 
-X-Spam-Score: -2.80
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemr500001.china.huawei.com (7.202.194.229)
 
-On Mon, Jun 29, 2026 at 01:23:40PM +0100, Lorenzo Stoakes wrote:
-> With all of the sanitisers turned on, setting the VMA flag bits depth to
-> 128 by default results in overly long build times.
-> 
-> Reduce this to 64 - we can always manipulate these later for testing of
-> larger bitmaps as needed.
-> 
+This series cleans up stable_page_flags(), removing the remaining direct
+flag manipulation and replacing with folio helpers.
 
-Hmm, what's the problem with the sanitizers? Shouldn't this just result in
-slightly different codegen?
+Patch 1 replaces the "1 << KPF_*" expressions with BIT_ULL() marco, to
+avoid -Wshift-count-overflow warning for KPF_* values larger than 32.
 
-> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
-> ---
->  tools/testing/vma/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tools/testing/vma/Makefile b/tools/testing/vma/Makefile
-> index e72b45dedda5..ef6cc558afe1 100644
-> --- a/tools/testing/vma/Makefile
-> +++ b/tools/testing/vma/Makefile
-> @@ -10,7 +10,7 @@ OFILES = $(SHARED_OFILES) main.o shared.o maple-shim.o
->  TARGETS = vma
->  
->  # These can be varied to test different sizes.
-> -CFLAGS += -DNUM_VMA_FLAG_BITS=128 -DNUM_MM_FLAG_BITS=128
-> +CFLAGS += -DNUM_VMA_FLAG_BITS=64 -DNUM_MM_FLAG_BITS=64
->  
->  main.o: main.c shared.c shared.h vma_internal.h tests/merge.c tests/mmap.c tests/vma.c ../../../mm/vma.c ../../../mm/vma_init.c ../../../mm/vma_exec.c ../../../mm/vma.h include/custom.h include/dup.h include/stubs.h
->  
-> -- 
-> 2.54.0
-> 
+Patch 2 replaces direct accesses to folio->flags.f with the standard
+folio_test_*() helper functions, which cleans up stable_page_flags() and
+hides internal implementation details.
+
+This series is based on [1].
+
+[1] https://lore.kernel.org/all/20260629033122.774318-1-tujinjiang@huawei.com/
+
+Jinjiang Tu (2):
+  fs: stable_page_flags(): use BIT_ULL() for KPF flags
+  fs: stable_page_flags(): use folio_test_*() helpers
+
+ fs/proc/page.c | 124 +++++++++++++++++++++++++------------------------
+ 1 file changed, 64 insertions(+), 60 deletions(-)
 
 -- 
-Pedro
+2.43.0
+
