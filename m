@@ -1,63 +1,298 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F1C30FF27;
-	Thu,  2 Jul 2026 13:49:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1B54ADD8B
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 13:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783000174; cv=none; b=IWPw+lI0ivOc2OkRdYL/KXny5kcIT0RneHq0bvcVRz4Y7QaOCU7l4QgTuMdlcm2EfAo36f5bcjeYIK2wffCNrd+s2LsYHSFhumahOWaYtKU11fScMyZRCXo8KnXGv9fxFwu6CZ5GNn2O/zA+EZAimG2rdrRWVBJZba5RjvO/bX0=
+	t=1783000222; cv=none; b=aIh4U0eFHQP5NuHHwNuo/x/cPMI6jVgFGRhtQqDi+z4Oges6oT4cFSEfDTQrffjGWb8wNnc81N/RdOBNRyYcJDwXibBjVDDBPnpZs8QZ18CLZYPXOgWA2fC6xvWWTQSQ37loD4yDmFatZzQN8tekzZZ2dCXA5rrmEHdoTD22NSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783000174; c=relaxed/simple;
-	bh=3Ug9c4Z9XE/ksD5EW63cpbWHHV1t/uEnyjYvHZutetg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=of1G4Cpa/D7x2iJpWguQem5aVNHylOlIas4T5YUxtEoRsX5eogBYQS5FYLxa9saDwrpgqTq/i+5uSvlZ/SkB2tQG6TWGSFERKeCmXD4xB9jKPl6Lits7tJnqbSBodoHF6waR5aEXXF//RhMAbHkpg3ktkAYjMa+OlXJwg8pUt3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=wOSHFcv8; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1783000222; c=relaxed/simple;
+	bh=z6IixF9QOh7e7lQ7b1TChJ42lnH9xfDjuFXFsYA5HY8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Bm54hwxE56Re1tudHoZwhF3ssYiOlX3Qi1HmmPG3suWJbzYd5l/vW4QbdPywrXEtWKfnBt0HLYNVdpR9wyqKsxNc1ngBlkDEzhhdw6vcFYS+yqXiTyDUJsFKLwtPAFUpA+pDaRS6cocWAaGcn0pi1VC05Hby2A+nTFo0nLnJnsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=SBk2LGdo; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="wOSHFcv8"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=gBiFwLwpMZ4xX7XKdbboQHYHT+1mcUqdGMEeb2uCi8g=; b=wOSHFcv8HZ65Phed7Z5NdTBSAP
-	9aIZgkU9kT8A+xWn/FD1bNNZRWkoF5PS/OQRD77M0uKTGoXbFmsuK++sNENh0JbWoaLxB1NEdtwWf
-	rIeiDHdjfDPlts7U6DVh6WT8h5hJhMTi4rV+spqMSZGJMuhbZxjGzUlWxhcs5OYhLZxk2On2RRieF
-	RnRWnGwfY8tSFrVuOaF8PV2QAVlUKz8h5kvizCCCH6OyiqQ5VaFQOK+cZORKDBkrhdYyr6VzsYa4o
-	Lg8fuY1cktvA4sq8l6CtsqtLHRavVb/cZDi05yIU0tjQ2J++600GkphW9wb+OpS+mzhyy6ua5jUiZ
-	Wwo1eF8w==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wfHnD-00000004Yhw-3y3i;
-	Thu, 02 Jul 2026 13:49:27 +0000
-Date: Thu, 2 Jul 2026 06:49:27 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: brauner@kernel.org, hch@lst.de, djwong@kernel.org, willy@infradead.org,
-	hsiangkao@linux.alibaba.com, linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org
-Subject: Re: [PATCH v2 00/18] iomap: convert to in-iter iomap_next() model
-Message-ID: <akZsZ2KV_-jsNZl9@infradead.org>
-References: <20260701000949.1666714-1-joannelkoong@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="SBk2LGdo"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1783000216;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n7JedrMMFsZ3SA9xp8Er9WQ7Q5NWmS7gMbpQ8O+PQSg=;
+	b=SBk2LGdo8O2Fh816oQbqXrmhKAQAYAxHqV6r2z//9k66SRzp2XfssdY3VkdvqTHoJEhhne
+	KBLV5b7WimMmbUd67b8UpLhwJTAsCl8UHKUpcr3XwD//YOwU43JswyAPjZ9yhLgdwnTOAg
+	TszqN8wOwdlDLsXMvuRT5nF6gC9LQmA=
+From: Lance Yang <lance.yang@linux.dev>
+To: ljs@kernel.org
+Cc: akpm@linux-foundation.org,
+	tsbogend@alpha.franken.de,
+	maddy@linux.ibm.com,
+	mpe@ellerman.id.au,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	l.stach@pengutronix.de,
+	inki.dae@samsung.com,
+	sw0312.kim@samsung.com,
+	kyungmin.park@samsung.com,
+	krzk@kernel.org,
+	peter.griffin@linaro.org,
+	jani.nikula@linux.intel.com,
+	joonas.lahtinen@linux.intel.com,
+	rodrigo.vivi@intel.com,
+	tursulin@ursulin.net,
+	robin.clark@oss.qualcomm.com,
+	lumag@kernel.org,
+	lyude@redhat.com,
+	dakr@kernel.org,
+	tomi.valkeinen@ideasonboard.com,
+	hjc@rock-chips.com,
+	heiko@sntech.de,
+	andy.yan@rock-chips.com,
+	thierry.reding@kernel.org,
+	mperttunen@nvidia.com,
+	jonathanh@nvidia.com,
+	kraxel@redhat.com,
+	dmitry.osipenko@collabora.com,
+	zack.rusin@broadcom.com,
+	matthew.brost@intel.com,
+	thomas.hellstrom@linux.intel.com,
+	oleksandr_andrushchenko@epam.com,
+	deller@gmx.de,
+	bcrl@kvack.org,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	muchun.song@linux.dev,
+	osalvador@suse.de,
+	david@kernel.org,
+	ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com,
+	liam@infradead.org,
+	npache@redhat.com,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	hughd@google.com,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	jannh@google.com,
+	pfalcato@suse.de,
+	kees@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org,
+	etnaviv@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org,
+	linux-rockchip@lists.infradead.org,
+	linux-tegra@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	intel-xe@lists.freedesktop.org,
+	xen-devel@lists.xenproject.org,
+	linux-fbdev@vger.kernel.org,
+	linux-aio@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 13/13] mm/mremap: convert mremap code to use vma_flags_t
+Date: Thu,  2 Jul 2026 21:49:47 +0800
+Message-Id: <20260702134947.25189-1-lance.yang@linux.dev>
+In-Reply-To: <380f761d35a3faa4370f8b3f92e3d4af3d4c7110.1782760670.git.ljs@kernel.org>
+References: <380f761d35a3faa4370f8b3f92e3d4af3d4c7110.1782760670.git.ljs@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260701000949.1666714-1-joannelkoong@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-What tree does this apply to?  I tried 7.2-rc1, Linus current
-master, vfs/vfs.fixes and had slightly different failures to apply
-with each one.
 
-On Tue, Jun 30, 2026 at 05:09:15PM -0700, Joanne Koong wrote:
-> This series implements a suggestion by Christoph for finishing the conversion
-> of iomap to an iterator model. This revives Matthew's previous RFC [1], which
-> had the same intention.
+On Mon, Jun 29, 2026 at 08:25:36PM +0100, Lorenzo Stoakes wrote:
+>Replace use of the legacy vm_flags_t flags with vma_flags_t values
+>throughout the mremap logic.
+>
+>Additionally update comments to reflect the changes to be consistent.
+>
+>No functional change intended.
+>
+>Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+>---
 
-Btw, this evolved from my original suggestion to something that actually
-looks much better, so don't give me too much credit :)
+The vm_flags_set() cases below spell out vma_start_write(), but the
+vm_flags_clear() cases don't?
 
+Thanks, Lance
+
+> mm/mremap.c | 38 ++++++++++++++++++++------------------
+> 1 file changed, 20 insertions(+), 18 deletions(-)
+>
+>diff --git a/mm/mremap.c b/mm/mremap.c
+>index 079a0ba0c4a7..0ea43302b7ed 100644
+>--- a/mm/mremap.c
+>+++ b/mm/mremap.c
+>@@ -68,7 +68,7 @@ struct vma_remap_struct {
+> 	bool populate_expand;		/* mlock()'d expanded, must populate. */
+> 	enum mremap_type remap_type;	/* expand, shrink, etc. */
+> 	bool mmap_locked;		/* Is mm currently write-locked? */
+>-	unsigned long charged;		/* If VM_ACCOUNT, # pages to account. */
+>+	unsigned long charged;		/* If VMA_ACCOUNT_BIT, # pgs to account */
+> 	bool vmi_needs_invalidate;	/* Is the VMA iterator invalidated? */
+> };
+> 
+>@@ -954,7 +954,7 @@ static unsigned long vrm_set_new_addr(struct vma_remap_struct *vrm)
+> 
+> 	if (vrm->flags & MREMAP_FIXED)
+> 		map_flags |= MAP_FIXED;
+>-	if (vma->vm_flags & VM_MAYSHARE)
+>+	if (vma_test(vma, VMA_MAYSHARE_BIT))
+> 		map_flags |= MAP_SHARED;
+> 
+> 	res = get_unmapped_area(vma->vm_file, new_addr, vrm->new_len, pgoff,
+>@@ -976,7 +976,7 @@ static bool vrm_calc_charge(struct vma_remap_struct *vrm)
+> {
+> 	unsigned long charged;
+> 
+>-	if (!(vrm->vma->vm_flags & VM_ACCOUNT))
+>+	if (!vma_test(vrm->vma, VMA_ACCOUNT_BIT))
+> 		return true;
+> 
+> 	/*
+>@@ -1003,7 +1003,7 @@ static bool vrm_calc_charge(struct vma_remap_struct *vrm)
+>  */
+> static void vrm_uncharge(struct vma_remap_struct *vrm)
+> {
+>-	if (!(vrm->vma->vm_flags & VM_ACCOUNT))
+>+	if (!vma_test(vrm->vma, VMA_ACCOUNT_BIT))
+> 		return;
+> 
+> 	vm_unacct_memory(vrm->charged);
+>@@ -1023,7 +1023,7 @@ static void vrm_stat_account(struct vma_remap_struct *vrm,
+> 	struct vm_area_struct *vma = vrm->vma;
+> 
+> 	vm_stat_account(mm, vma->vm_flags, pages);
+>-	if (vma->vm_flags & VM_LOCKED)
+>+	if (vma_test(vma, VMA_LOCKED_BIT))
+> 		mm->locked_vm += pages;
+> }
+> 
+>@@ -1167,7 +1167,7 @@ static void unmap_source_vma(struct vma_remap_struct *vrm)
+> 	 * arose, in which case we _do_ wish to unmap the _new_ VMA, which means
+> 	 * we actually _do_ want it be unaccounted.
+> 	 */
+>-	bool accountable_move = (vma->vm_flags & VM_ACCOUNT) &&
+>+	bool accountable_move = vma_test(vma, VMA_ACCOUNT_BIT) &&
+> 		!(vrm->flags & MREMAP_DONTUNMAP);
+> 
+> 	/*
+>@@ -1186,7 +1186,7 @@ static void unmap_source_vma(struct vma_remap_struct *vrm)
+> 	 * portions of the original VMA that remain.
+> 	 */
+> 	if (accountable_move) {
+>-		vm_flags_clear(vma, VM_ACCOUNT);
+>+		vma_clear_flags(vma, VMA_ACCOUNT_BIT);
+> 		/* We are about to split vma, so store the start/end. */
+> 		vm_start = vma->vm_start;
+> 		vm_end = vma->vm_end;
+>@@ -1211,8 +1211,8 @@ static void unmap_source_vma(struct vma_remap_struct *vrm)
+> 	 * |             |
+> 	 * |-------------|
+> 	 *
+>-	 * Having cleared VM_ACCOUNT from the whole VMA, after we unmap above
+>-	 * we'll end up with:
+>+	 * Having cleared VMA_ACCOUNT_BIT from the whole VMA, after we unmap
+>+	 * above we'll end up with:
+> 	 *
+> 	 *    addr  end
+> 	 *     |     |
+>@@ -1232,13 +1232,15 @@ static void unmap_source_vma(struct vma_remap_struct *vrm)
+> 		if (vm_start < addr) {
+> 			struct vm_area_struct *prev = vma_prev(&vmi);
+> 
+>-			vm_flags_set(prev, VM_ACCOUNT); /* Acquires VMA lock. */
+>+			vma_start_write(prev);
+>+			vma_set_flags(prev, VMA_ACCOUNT_BIT);
+> 		}
+> 
+> 		if (vm_end > end) {
+> 			struct vm_area_struct *next = vma_next(&vmi);
+> 
+>-			vm_flags_set(next, VM_ACCOUNT); /* Acquires VMA lock. */
+>+			vma_start_write(next);
+>+			vma_set_flags(next, VMA_ACCOUNT_BIT);
+> 		}
+> 	}
+> }
+>@@ -1321,8 +1323,8 @@ static void dontunmap_complete(struct vma_remap_struct *vrm,
+> 	unsigned long old_start = vrm->vma->vm_start;
+> 	unsigned long old_end = vrm->vma->vm_end;
+> 
+>-	/* We always clear VM_LOCKED[ONFAULT] on the old VMA. */
+>-	vm_flags_clear(vrm->vma, VM_LOCKED_MASK);
+>+	/* We always clear VMA_LOCKED[ONFAULT]_BIT on the old VMA. */
+>+	vma_clear_flags_mask(vrm->vma, VMA_LOCKED_MASK);
+> 
+> 	/*
+> 	 * anon_vma links of the old vma is no longer needed after its page
+>@@ -1758,14 +1760,14 @@ static int check_prep_vma(struct vma_remap_struct *vrm)
+> 	 * based on the original.  There are no known use cases for this
+> 	 * behavior.  As a result, fail such attempts.
+> 	 */
+>-	if (!old_len && !(vma->vm_flags & (VM_SHARED | VM_MAYSHARE))) {
+>+	if (!old_len && !vma_test_any(vma, VMA_SHARED_BIT, VMA_MAYSHARE_BIT)) {
+> 		pr_warn_once("%s (%d): attempted to duplicate a private mapping with mremap.  This is not supported.\n",
+> 			     current->comm, current->pid);
+> 		return -EINVAL;
+> 	}
+> 
+> 	if ((vrm->flags & MREMAP_DONTUNMAP) &&
+>-			(vma->vm_flags & (VM_DONTEXPAND | VM_PFNMAP)))
+>+	    vma_test_any(vma, VMA_DONTEXPAND_BIT, VMA_PFNMAP_BIT))
+> 		return -EINVAL;
+> 
+> 	/*
+>@@ -1795,7 +1797,7 @@ static int check_prep_vma(struct vma_remap_struct *vrm)
+> 		return 0;
+> 
+> 	/* We are expanding and the VMA is mlock()'d so we need to populate. */
+>-	if (vma->vm_flags & VM_LOCKED)
+>+	if (vma_test(vma, VMA_LOCKED_BIT))
+> 		vrm->populate_expand = true;
+> 
+> 	/* Need to be careful about a growing mapping */
+>@@ -1803,10 +1805,10 @@ static int check_prep_vma(struct vma_remap_struct *vrm)
+> 	if (pgoff + (new_len >> PAGE_SHIFT) < pgoff)
+> 		return -EINVAL;
+> 
+>-	if (vma->vm_flags & (VM_DONTEXPAND | VM_PFNMAP))
+>+	if (vma_test_any(vma, VMA_DONTEXPAND_BIT, VMA_PFNMAP_BIT))
+> 		return -EFAULT;
+> 
+>-	if (!mlock_future_ok(mm, vma->vm_flags & VM_LOCKED, vrm->delta))
+>+	if (!mlock_future_ok(mm, vma_test(vma, VMA_LOCKED_BIT), vrm->delta))
+> 		return -EAGAIN;
+> 
+> 	if (!may_expand_vm(mm, &vma->flags, vrm->delta >> PAGE_SHIFT))
+>-- 
+>2.54.0
+>
+>
