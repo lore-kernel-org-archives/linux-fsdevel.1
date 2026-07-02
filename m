@@ -1,115 +1,66 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D262571DA
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 11:53:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DB347885D
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 11:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782993200; cv=none; b=CSmF6LUUxbnFKGauEyHXJTeQYV1ZFYTS/0V7Hsfpxv8bjS/uhh6wwl07NweWnIDEL8iYF+Hn1i7kN0WXg7mi15lYgFNHQTU8MrMjVkhcHdqEUfrDWlygHtlJLkD103UiS8RcWhu6icDdAQC/a3N/sVh1pHVKuTRBBSMZaQLsg+A=
+	t=1782993483; cv=none; b=WUZHyLFCo4LCSKKMgoNMU3srYBb15Nv9P7L4J0JKPuu/GpuZGmNJ48crdJSJVT+aQFZWGGn9uCiZeQe2wLCcvkFbz4fUsHw3ZJocu+8pOILe/tJ/PEnldp8rF3cKONVNZf1k6w2yr1IAjXusCkpdsV/DZtrMQ+tCwjD2P5ohnvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782993200; c=relaxed/simple;
-	bh=0nzVK4pL1TFIe/BHP21jD7kuyIRs9dRrUj42zYkQjp0=;
+	s=arc-20240116; t=1782993483; c=relaxed/simple;
+	bh=ol1u6qHXQ2AZmxoHjQqoDN+JlTGFk0++bJU8o4AE304=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kDF/MVLbZ1CjPSKyylxinkA70iVJg08BZgODxRoM+zS8Qnhe324/dT8WvlqilcblvmgHKPvZY4nJXfmcxpr9lYxFcqzk0eDccCxt08XwKxAFbwbbh7Ct7fknGP3OXbA4MAPf7/Sy2oGKSf+erpmLm4hcYnV7BBKeinGE0cF+rOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xYVfKCYZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1CfcEF2X; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZsoQ8uTQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KH4HUf0G; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=q7GcGsRJ7cIo3YvSBrJr/2WBo/7Rd+WtZFBxzFTLoyS0epktQIr4q2XK6S81HQDqyaTrMh5fGJiEosL8WMhJ6SqSNSExE8j4JfdzWzpKYD0l99BwSfSjLHNKLtd4RN2BhrllWksJIQQ+6Mmmx5IFhkxNOJy05er1KsqO/g7+UYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Uhanx+4S; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xYVfKCYZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1CfcEF2X";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZsoQ8uTQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KH4HUf0G"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Uhanx+4S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782993481;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8xm+vDnzT7DuBwAtfuNAFkFCTgwEZyXMnG++VqJgtfM=;
+	b=Uhanx+4SJi5CY746BqvU5pyhqtrmO6haMKFUPp1bpoxei/NCodLAcxaaJdfTXMuVjmdpuS
+	O7jh/RScRrwZ/GaxrGiE4MLy6OIsB4lqiptLgHNMR1VLDNE0fwBm/VfpCe/A2B/RwLAZZC
+	QUGW0xuhA9tBq8nmTxK3XEwKhIOnKsI=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-130-4Ze0ABGpN0qJj3vSxX-E3g-1; Thu,
+ 02 Jul 2026 07:57:52 -0400
+X-MC-Unique: 4Ze0ABGpN0qJj3vSxX-E3g-1
+X-Mimecast-MFC-AGG-ID: 4Ze0ABGpN0qJj3vSxX-E3g_1782993470
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2167576031;
-	Thu,  2 Jul 2026 11:53:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782993196; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vVyat4DfuJxMczGxKMvPQcf269Ets9cihaExe8YQLuA=;
-	b=xYVfKCYZqsD2UpmKdK9fQagIYcRuil6l2nF+c+r+OdaWXSJ3/rwYjd7a01znBykkCl/Xt3
-	9O4NKD4ShEoEJNxL6hGpG4AaLC9aa6PdJXC9DHJBilYLHQ97wn3GN35NJMqUm9UCDFS88r
-	wicYeO/ITfDsf1NnfuUfNeKKq6hAmCg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782993196;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vVyat4DfuJxMczGxKMvPQcf269Ets9cihaExe8YQLuA=;
-	b=1CfcEF2XREK0S/tUSQtvmsJmKkDvH3H5nu0WdgGnc2E7VNJZR/Zw6wuuz38wcdrZmhtyEi
-	jix7vUFpBgOEGBCg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782993195; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vVyat4DfuJxMczGxKMvPQcf269Ets9cihaExe8YQLuA=;
-	b=ZsoQ8uTQ9HKMle6PfLos3WQbXxWjN5sSXPSkT4+ZanUKBq2lpNP4jJRp6GUkrzXkwHJjvB
-	yWpyhzC0YNGQkPHvBgmFCvrDVYHqifJdwhEcBa2T0tb/TAg1tJpbYwf72U7Ci9qPVJUSvT
-	ORMtcGbh+MGBJHqHakIUbwKXHdphSvU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782993195;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vVyat4DfuJxMczGxKMvPQcf269Ets9cihaExe8YQLuA=;
-	b=KH4HUf0G2xIXtfn7ykyjf+pVZsRa2r7mxNuifMcKR/Sb9aOtVjljEmdJqCSJ/e9IL2sF9Y
-	uM7PBo8soLh0gDAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A8A84779AA;
-	Thu,  2 Jul 2026 11:53:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6MDvJSZRRmr6DwAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Thu, 02 Jul 2026 11:53:10 +0000
-Date: Thu, 2 Jul 2026 12:53:09 +0100
-From: Pedro Falcato <pfalcato@suse.de>
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 23BD81944B00;
+	Thu,  2 Jul 2026 11:57:50 +0000 (UTC)
+Received: from bfoster (unknown [10.22.80.59])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 403991966663;
+	Thu,  2 Jul 2026 11:57:47 +0000 (UTC)
+Date: Thu, 2 Jul 2026 07:57:45 -0400
+From: Brian Foster <bfoster@redhat.com>
 To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Simon Schuster <schuster.simon@siemens-energy.com>, 
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Ian Abbott <abbotti@mev.co.uk>, 
-	H Hartley Sweeten <hsweeten@visionengravers.com>, Lucas Stach <l.stach@pengutronix.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Thierry Reding <thierry.reding@kernel.org>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>, 
-	Alex Williamson <alex@shazbot.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Dan Williams <djbw@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	"Liam R . Howlett" <liam@infradead.org>, Matthew Wilcox <willy@infradead.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Hugh Dickins <hughd@google.com>, Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org, linux-sgx@vger.kernel.org, 
-	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-mm@kvack.org, 
-	iommu@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, damon@lists.linux.dev, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 30/30] tools/testing/vma: output compared expression on
- ASSERT_[EQ, NE]()
-Message-ID: <akZPXB56I83vkyxd@pedro-suse.lan>
-References: <cover.1782735110.git.ljs@kernel.org>
- <432444fa4c12ae1c4047550e2b205d3e9bab458f.1782735110.git.ljs@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Christian Brauner <brauner@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+	David Hildenbrand <david@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+Message-ID: <akZSOa4awK5l9x_w@bfoster>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <akYasD1ckWcH1C0g@lt-jori.localdomain>
+ <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
+ <20260702093844.GA3491311@killaraus.ideasonboard.com>
+ <akYx9blvVhIXB5A-@lucifer>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -118,104 +69,96 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <432444fa4c12ae1c4047550e2b205d3e9bab458f.1782735110.git.ljs@kernel.org>
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,armlinux.org.uk,kernel.org,siemens-energy.com,hansenpartnership.com,gmx.de,redhat.com,alien8.de,linux.intel.com,mev.co.uk,visionengravers.com,pengutronix.de,gmail.com,ffwll.ch,suse.de,oss.qualcomm.com,ideasonboard.com,nvidia.com,amd.com,shazbot.org,zeniv.linux.org.uk,linux.dev,google.com,infradead.org,samsung.com,goodmis.org,huawei.com,vger.kernel.org,lists.infradead.org,lists.freedesktop.org,lists.linux.dev,kvack.org,googlegroups.com,surriel.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[75];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo,pedro-suse.lan:mid]
-X-Spam-Level: 
-X-Spam-Score: -2.80
+In-Reply-To: <akYx9blvVhIXB5A-@lucifer>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Mon, Jun 29, 2026 at 01:23:41PM +0100, Lorenzo Stoakes wrote:
-> Update the macros to output the compared values at hex for easier debugging
-> when test asserts fail.
+On Thu, Jul 02, 2026 at 10:44:09AM +0100, Lorenzo Stoakes wrote:
+> On Thu, Jul 02, 2026 at 12:38:44PM +0300, Laurent Pinchart wrote:
+> > On Thu, Jul 02, 2026 at 10:44:34AM +0200, Vlastimil Babka (SUSE) wrote:
+> > > On 7/2/26 10:12, Jori Koolstra wrote:
+> > > > Ah, I still reigniting this discussion again :)
+> > > >
+> > > > What about a combination of what David and Jeff say? The whole point
+> > > > seems to me that the salient information is not that an LLM was used (or
+> > > > are we going to tag Sashiko as well or any other LLM-based code review
+> > > > tool?), but what is was used to do. This information may be relevant for
+> > > > how the review is approached. The latter should perhaps only be in the
+> > > > cover letter and then we can drop the assisted-by tags altogether.
+> > > >
+> > > > The question about enforcement remains.
+> > >
+> > > It's not possible to enforce it. People can deny it if the tag is missing
+> > > and you confront them and even though the submission has many signs of being
+> > > obviously LLM, there is no definite proof. We've seen (likely, as there's no
+> > > proof!) that happen in mm.
+> > >
+> > > Such situation then penalizes those who disclose so obviously they won't.
+> >
+> > I think there's also a penality for those who don't disclose when
+> > they're told they should: it will lower trust. Kernel development is
+> > largely based on a trust model. If a contributor decides to adopt a
+> > deceiptful behaviour, they can expect maintainers to raise the bar for
+> > accepting patches, when not rejecting them outright.
 > 
-> Also remove unused IS_SET() macro.
+> Yes, I explicitly said this in response to somebody for whom there was
+> overwhelming evidence they were submitting AI slop, and that they'd need to
+> build it back up again.
 > 
-> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
-> ---
->  tools/testing/vma/shared.h | 31 +++++++++++++++++++------------
->  1 file changed, 19 insertions(+), 12 deletions(-)
+> It's precisely the issue as I see it.
 > 
-> diff --git a/tools/testing/vma/shared.h b/tools/testing/vma/shared.h
-> index ca4f1238f1c7..216be4cda369 100644
-> --- a/tools/testing/vma/shared.h
-> +++ b/tools/testing/vma/shared.h
-> @@ -21,19 +21,28 @@
->  		}							\
->  	} while (0)
+> But others within the community disagreed with me, so it turned into a very
+> long and draining discussion that I don't particularly wish to repeat.
 > 
-> -#define ASSERT_TRUE(_expr)						\
-> -	do {								\
-> -		if (!(_expr)) {						\
-> -			fprintf(stderr,					\
-> -				"Assert FAILED at %s:%d:%s(): %s is FALSE.\n", \
-> -				__FILE__, __LINE__, __FUNCTION__, #_expr); \
-> -			return false;					\
-> -		}							\
-> +#define __ASSERT_TRUE(_expr, _fmt, ...)					   \
-> +	do {								   \
-> +		if (!(_expr)) {						   \
-> +			fprintf(stderr,					   \
-> +				"Assert FAILED at %s:%d:%s(): %s is FALSE" \
-> +				_fmt ".\n",				   \
-> +				__FILE__, __LINE__, __FUNCTION__, #_expr   \
-> +				__VA_OPT__(,) __VA_ARGS__);		   \
-> +			return false;					   \
-> +		}							   \
->  	} while (0)
+> So we really need clarity on it being OK to do this (I remember saying this
+> last year when I made an ultimately unsuccessful submission to the
+> maintainer's summit about all this :)
 > 
-> +#define __TO_SCALAR(x)	((unsigned long long)(uintptr_t)(x))
+> What matters overall is being able to _quickly_ dismiss AI slop so that
+> asymmetry between LLM generation + maintainer time isn't exploited.
+> 
+> And ultimately I think the trust model will end up being 'newcomes have 0,
+> now build it up'.
+> 
+> Which sucks but this issue is simply existential for open source.
+> 
 
-There's a slight footgun here: this can truncate 64-bit types in 32-bit archs.
-Though it doesn't really matter in our case, I think.
+Has anybody tried throwing any of the obvious LLM slop submissions we
+have seen into one of these LLM detector things? To be clear, I've never
+tried those so I'm certainly no authority on if they even work reliably,
+but if so I wonder if something like that is a potential solution for
+elminating the worst cases..
 
-> +
-> +#define ASSERT_TRUE(_expr) __ASSERT_TRUE(_expr, "")
->  #define ASSERT_FALSE(_expr) ASSERT_TRUE(!(_expr))
-> -#define ASSERT_EQ(_val1, _val2) ASSERT_TRUE((_val1) == (_val2))
-> -#define ASSERT_NE(_val1, _val2) ASSERT_TRUE((_val1) != (_val2))
-> +#define ASSERT_EQ(_val1, _val2)						\
-> +	__ASSERT_TRUE((_val1) == (_val2), " (0x%llx != 0x%llx)",	\
-> +		      __TO_SCALAR(_val1), __TO_SCALAR(_val2))
-> +#define ASSERT_NE(_val1, _val2) \
-> +	__ASSERT_TRUE((_val1) != (_val2), " (0x%llx == 0x%llx)", \
-> +		       __TO_SCALAR(_val1), __TO_SCALAR(_val2))
-> 
->  #define ASSERT_FLAGS_SAME_MASK(_flags, _flags_other) \
->  	ASSERT_TRUE(vma_flags_same_mask((_flags), (_flags_other)))
-> @@ -53,8 +62,6 @@
->  #define ASSERT_FLAGS_NONEMPTY(_flags) \
->  	ASSERT_FALSE(vma_flags_empty(_flags))
-> 
-> -#define IS_SET(_val, _flags) ((_val & _flags) == _flags)
-> -
->  extern bool fail_prealloc;
-> 
->  /* Override vma_iter_prealloc() so we can choose to fail it. */
-> --
-> 2.54.0
+I.e., suppose we had some Sashiko type LLM/bot whose job was mainly to
+detect purely LLM generated content based on some minimum level of
+confidence and reply with a loud and clear message to the thread. Maybe
+that would be a clear enough signal to maintainers and reviewers that
+something is not worth prioritizing for review.. Maybe also some "slop
+detected" feedback would help disincentivize flinging slop onto the
+lists. At the very least that could be something that is more easily
+configured/enabled per-subsystem without having to use per-subsystem
+commit tags.
 
-Acked-by: Pedro Falcato <pfalcato@suse.de>
+Brian
 
--- 
-Pedro
+> >
+> > I can't quantifying which of the penalities will be higher, but I hope
+> > (call me naive if you wish) that the vast majority of contributurs who
+> > *know* we require disclosure to abide by that rule, even if it incurs a
+> > penalty. After all, proponents for LLM usage claim such performance
+> > improvements that a small penalty during review can't be that bad, right
+> > ? :-)
+> >
+> > > We
+> > > should drop the tag and instead think how we can empower maintainers to be
+> > > able to use their own judgment and deprioritize dealing with what they
+> > > perceive as LLM slop, without fearing consequences of not being properly
+> > > responsible etc, and not rely on any non-enforceable tags for that.
+> >
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
+> 
+> Thanks, Lorenzo
+> 
+
