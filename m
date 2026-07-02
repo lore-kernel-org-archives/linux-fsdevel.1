@@ -1,204 +1,218 @@
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFAB830D412;
-	Thu,  2 Jul 2026 15:28:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B14963FCC;
+	Thu,  2 Jul 2026 15:28:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783006084; cv=none; b=K1k5OSC7dCJFvUD7Yg3i1OX2eT41ykR6lik8CTzO6FbpyAMVlB3n6/Znwv5T0Ls7sADuc/0hb/EOGWLIsXgRP7bKSbzp0WAb5B1GY6ZDQMZWJ9iHhBjHw1rzmBCWXeftkK+Ml9393ryKmuuuGK+JvkmrGSFRpMR0h8RGDPY+jCM=
+	t=1783006101; cv=none; b=ofRDBZACIhFdE+DM9Mvg/1FStc0gOZ140VWjZeTnWUx2P7/1G6D/Bobcc0SO3k0j56jNSmIg3hbjEwCGemD7w/HpWJaQ6H0KAo2kSFTXp+do3hw0f9gU/SxuOkE/JsSxOmfAmqQA7ArZX6mbCDTMPsEHa97F0PEqiRVzmkE3KjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783006084; c=relaxed/simple;
-	bh=5eUXJ5FDvu3Ukqb7pD4PKCorbNamowsnQTxPJT9wabc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uj0HVuPwZN7o449S6uInUHZgEIpD04FHxlaIdgkVABieKQTJDumSTfijlAeCOM+excLx9zKcUplW7M7/7mZUjl9MUtXG03EK2J63Jh1+OvneG3ox9lKRHstfrGChCWTmxbGswUQjAyiyQNmgR/m0K9Qc3VosNKBaeLuJEB4yih4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=GvZ2tX1Z; arc=none smtp.client-ip=205.220.178.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+	s=arc-20240116; t=1783006101; c=relaxed/simple;
+	bh=VA040G+v0TOpHUy+dFK5DbNlnXz2nfZoKYv2a39Yzd0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O28VP1UpsgCuI5i8RWQfHiY4cgCBssjJfXm1nAU/d5dEFXcXS3SNWO1ynoJudCbe10MXEICseIv/2uIrttfOath8uZWxtL1j1ZMLWvP7e8+vpji/ae1zGfLmafAHkN/Xu4TIUwuIRuCVRimDG7jb3xJbJDkkj5LjGeF5jeXRHXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KDXBYfPz; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="GvZ2tX1Z"
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 662E3xZA1908682;
-	Thu, 2 Jul 2026 15:22:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=/w35vLLNv
-	xBB1Tzw3g6sWcCRoQuPkM2OB3acch05eZI=; b=GvZ2tX1ZLrGO+YzLoPusVKlh2
-	o488vZa2zo109O87KCSY6Obt0Uw8OlmocA32HY9tP2x5/L8mo6cufhFmlKIoS5wj
-	JrXlPnwyeDa9CKJaqQ0vlRQTeD7AlT9Nx+669FtKzVnTmO9STWOo6vznL3uu4VWJ
-	f4eNJAFK5WmiUXcBWi3qr74QKMmcdEra7AMkwTZwj4DSFDU+0MYt2p/XaG/YVGBB
-	VwfYQ8QDVWiFDGZjSvTCeAYZzbmss8Vm1p7VYtovAHzcozIjk85Egk3ixeNK5E70
-	2w38+jC9y3LN9PEneLh8uynHl73i5xcY6NFqtkqsSzgwRFuEY1YonIql4E9Ug==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4f25g5qtd4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 02 Jul 2026 15:22:30 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Thu, 2 Jul 2026 08:22:28 -0700
-Received: from pek-yzhou-d3.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Thu, 2 Jul 2026 08:22:25 -0700
-From: Yun Zhou <yun.zhou@windriver.com>
-To: <tytso@mit.edu>, <adilger.kernel@dilger.ca>, <libaokun@linux.alibaba.com>,
-        <jack@suse.cz>, <ojaswin@linux.ibm.com>, <ritesh.list@gmail.com>,
-        <yi.zhang@huawei.com>, <viro@zeniv.linux.org.uk>, <brauner@kernel.org>
-CC: <linux-ext4@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <yun.zhou@windriver.com>, <linux-fsdevel@vger.kernel.org>
-Subject: [PATCH v13 0/4] ext4: deferred iput framework for EA inodes
-Date: Thu, 2 Jul 2026 23:22:20 +0800
-Message-ID: <20260702152225.4071746-1-yun.zhou@windriver.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KDXBYfPz"
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 09A3C3A2;
+	Thu,  2 Jul 2026 17:27:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1783006052;
+	bh=VA040G+v0TOpHUy+dFK5DbNlnXz2nfZoKYv2a39Yzd0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KDXBYfPzJEfG4yxO3+bupZDdZM/7G1maG6iFYRMdaYzxRFzcx4EgSBEG8BIJxk4t3
+	 6D5QAzkvquAkZvMaaV8MoQzScD+zp3aOkFpwAT6fLwiG4eri3YBQjA8IqGixoiPN5v
+	 hIcSpXemUoJOkevc9cKvlJstr031dZXKSdAA74C8=
+Date: Thu, 2 Jul 2026 18:28:15 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Jeff Layton <jlayton@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Justin Stitt <justinstitt@google.com>,
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Brian Foster <bfoster@redhat.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+	David Hildenbrand <david@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+Message-ID: <20260702152815.GA3559965@killaraus.ideasonboard.com>
+References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+ <akZ5_aiOuOpgLII1@lucifer>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAyMDE2MSBTYWx0ZWRfX9TpisIS+C7KC
- iNZV2PG0uOru3Mf2JUtBNUXvJ++z/YwMgW1mUyfyLZO7iGbPh+mEJnfjc3R8LdcGZrt/HIoeHNk
- nVRaOeMtRLzLiMpmwLmvMiuvHUEdrtUVTU9V8P7++vQ8HIfVmBT7
-X-Proofpoint-ORIG-GUID: 7k874Q40-MdYsgFtOXaXzrZEFMACYoxj
-X-Proofpoint-GUID: 7k874Q40-MdYsgFtOXaXzrZEFMACYoxj
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAyMDE2MSBTYWx0ZWRfXwVNPFBp+LkUj
- /jxp/MkOLxzV9JX2ToFpXrCEFLTRmUj2HFHprfxLQWR/n8gDxI70g6avoQkIGX6BiU/i9icjPht
- sJ4ZnjNKz4Q6LSua5RaMRoeMfvOYAmCiARqfI++5pxtYgA7uvBk8En1esmxY+yXj36sQd/6lXK+
- GqbetPqy3AzC77s5NEGEG5lzCM8MG7sKdSnEjUCOoTv6Ehx+bRfR1Sju0wmU3CIDJPoZqGtbe0i
- kGYzPjGWoNzTWOIuxRt6E7xiomQuNmreWiU0bliLXGZay17kgHkbNG0bVWAH5P4r+7n+aos0TR8
- cjbAvgUxE91VHfo3rFaFzYestauaozpT8l7Hm1w4e7/BL3Nkmjk9NKcejVhK0GBYWaeaM/0wc9X
- n49eaimvXlyqyZsYG6KrNrq+CfaTOtEDUihFzMnqzs5os4bZV9ASEqxITbpo/Kkp4fz35owG3xF
- CCnIOcz8pezuh8AxSyQ==
-X-Authority-Analysis: v=2.4 cv=TvLWQjXh c=1 sm=1 tr=0 ts=6a468236 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=fTW__CHxibyLmBMfj2wP:22 a=edf1wS77AAAA:8 a=V-Be077b3uO8ztIljxAA:9
- a=DcSpbTIhAlouE1Uv7lRv:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-07-02_02,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 lowpriorityscore=0 spamscore=0 phishscore=0 clxscore=1015
- priorityscore=1501 bulkscore=0 suspectscore=0 impostorscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607020161
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <akZ5_aiOuOpgLII1@lucifer>
 
-This series introduces a deferred-iput framework for EA inodes to
-eliminate a class of lock ordering issues in ext4 xattr code.
+Hi Lorenzo,
 
-The problem: iput() on EA inodes while holding xattr_sem or a jbd2
-handle can trigger eviction, which may acquire those same locks or
-s_writepages_rwsem, creating circular dependencies.  The immediate
-deadlock (during mount-time orphan cleanup) is fixed by two separate
-patches already reviewed and posted:
+On Thu, Jul 02, 2026 at 03:57:11PM +0100, Lorenzo Stoakes wrote:
+> I'm a little surprised I'm cc'd on this :) I'm not entirely sure if my pushing
+> back on this is going to mean anything but I suppose here goes nothing.
+> 
+> On Thu, Jul 02, 2026 at 10:32:48AM -0400, Jeff Layton wrote:
+> > We've had this requirement in place in the Documentation for several
+> > months, but it's becoming clear that the signal to noise ratio from this
+> > is quite low.
+> >
+> > 1/ It's not universally followed. While many people do try to attribute
+> > the LLMs in good faith, not everyone does for various reasons.
+> 
+> Does something not being universally followed therefore make it worthless?
+> 
+> You really have to explain that, because this is literally true of any rule
+> whatsoever we might have in the kernel, should we drop all of them?
+> 
+> I think you should replace this with a cogent argument such as that you feel it
+> is not being used in the _majority_ of cases or is very rarely used, and that
+> value is in your view not there.
+> 
+> >
+> > 2/ It basically serves as free advertising for proprietary LLM companies.
+> 
+> I agree with this point, we should drop the model.
+> 
+> > 3/ It's not clear why we want to collect this info in the first place.
+> 
+> Well I made arguments on the other thread, but to repeat:
+> 
+> - It makes it easier to engage with people when they do ack it.
+> 
+> - It makes it far quicker to be able to do so.
+> 
+> - There's a barrier to mentioning an LLM if it's not provided - people can get
+>   upset, or it can cause issues to raise it as a concern.
+> 
+> - Even if it's only there in _some_ cases, it makes _those_ cases easier to deal
+>   with.
 
-  ext4: skip extra isize expansion during mount to prevent deadlock
-  ext4: set EXT4_STATE_NO_EXPAND in ext4_evict_inode
+As far as I understand, all the above arguments would also be addressed
+with either a free-formed mention of LLM usage, or a formal
+"non-advertising" tag that is not merged in the kernel history, right ?
 
-This series provides the structural fix that makes the code safe
-regardless of calling context:
+> - It provides some (incomplete) data that might make it easier to deal with
+>   bug-causing patches.
+> 
+> - It provides some (incomplete) data on bug rates with/without LLMs.
 
-Patch 1 adds a VFS helper iput_if_not_last() which drops an inode
-reference only if it is not the last one, using atomic_add_unless().
-Annotated with __must_check to ensure callers handle the failure case.
+For those two I suppose a machine-parseable tag in the git history could
+improve things slightly compared to information provided in the patch
+submission that would not get recorded in the history.
 
-Patch 2 introduces ext4_put_ea_inode() using iput_if_not_last() as
-a fast path (single atomic, zero overhead for the common case).  If
-this is the last reference, the inode is linked onto a per-sb llist
-(via i_ea_iput_node embedded in ext4_inode_info, union with xattr_sem
-which is unused for EA inodes) and a delayed worker (1 jiffie) performs
-the final iput() in a clean context.  No per-iput allocation needed.
-Also moves init_rwsem(xattr_sem) from init_once to ext4_alloc_inode
-to handle slab reuse after the union field has been overwritten.
+Is this why you have a preference for a formal tag compared to a
+free-formed mention ?
 
-Patch 3 converts all EA inode iput() calls in xattr code to use
-ext4_put_ea_inode() uniformly -- no exceptions to reason about.
+> I do agree they're far far less useful when there's not some indication of how
+> much of the patch was LLM-generated.
+> 
+> Their usefulness is obviously deeply far from perfect, but not zero.
+> 
+> > Given that the data this provides is flawed at best and is being
+> > collected for a purpose that isn't clear, let's just kill the
+> > requirement for these tags from the kernel at large.
+> 
+> I feel there are purposes. Perhaps the argument is stronger for having the tags
+> on submissions rather than actually in-tree, however.
 
-Patch 4 removes the now-redundant ea_inode_array mechanism (parameter
-threading, struct, expand/free functions), replaced entirely by direct
-ext4_put_ea_inode() calls.  This is a net code reduction.
+I really think we need to have the information at submission. I think I
+have a slight preference for not recording it in the kernel tree, but
+only slight.
 
-The only change since v12 is a minor addition of two VFS_BUG_ON_INODE
-assertions in iput_if_not_last() (patch 1), as suggested by Mateusz
-Guzik.  All existing Reviewed-by tags are retained.  The series has
-been fully reviewed and is ready to be merged.
-
-Link: https://syzkaller.appspot.com/bug?extid=5d19358d7eb30ffb0cc5
-
-v13:
- - Patch 1: add VFS_BUG_ON_INODE assertions in iput_if_not_last() to
-   catch misuse on inodes in I_FREEING/I_CLEAR state or with zero
-   refcount (suggested by Mateusz Guzik).
-
-v12:
- - Drop patch 5 (dedup array for corrupted fs duplicate entries).
- - Simplify ext4_put_ea_inode() to take only an inode argument (sb is
-   derived from inode->i_sb).
-
-v11:
- - Patch 1: add __must_check annotation to iput_if_not_last().
- - Patch 2: remove ext4_drain_ea_inode_work() wrapper, use direct
-   flush_delayed_work() at drain points.  Re-arm is not possible
-   because check_igot_inode() in __ext4_iget() already rejects EA
-   inodes with extended attributes, so evicting an EA inode never
-   enters ext4_xattr_delete_inode().  Drop the ext4_evict_inode()
-   guard (was patch 5 in v10) -- it is unnecessary given the above.
-   Remove ext4_xattr_inode_array_free_deferred() intermediate function
-   -- mechanism is introduced without converting any call site.
- - Patch 2: add comment on ext4_put_ea_inode() documenting why the
-   inode cannot be double-queued to s_ea_inode_to_free (reviewer
-   request).
- - Patch 2: simplify ext4_ea_inode_work() by removing 'next' variable.
- - Patch 5: replace per-call llist (i_ea_iput_node reuse) with a simple
-   on-stack ino array + __GFP_NOFAIL dynamic growth.  This eliminates
-   all concurrent access concerns on i_ea_iput_node and avoids the
-   need for EXT4_STATE_EA_DEC_REF or ihold tricks.  Only EA inodes
-   whose nlink drops to 0 are tracked, so legitimate dedup with
-   ref_count > 1 is correctly processed multiple times.
-
-v10:
- - New patch 5: prevent deadlock from duplicate EA inode references
-   on corrupted filesystems.  Track processed EA inodes on a per-call
-   llist to skip duplicates before iget, and defer ext4_put_ea_inode()
-   until after the loop to avoid queuing an inode for eviction while
-   the same loop may still iget it.
- - Patch 2: move ext4_init_ea_inode_work() before ext4_multi_mount_protect()
-   so that failed_mount3a drain does not hit an uninitialized delayed_work
-   when MMP check fails.
-
-v9:
- - Add iput_if_not_last() as proper VFS helper (per reviewer: don't
-   let filesystems manipulate inode refcount without VFS abstraction).
- - Use iput_if_not_last() + llist_node embedded in ext4_inode_info
-   (union with xattr_sem) to avoid per-iput allocation entirely.
- - Convert ALL EA inode iput() calls uniformly -- no exceptions.
- - Remove entire ea_inode_array mechanism.
- - Add WARN_ON_ONCE in ext4_put_ea_inode() to catch misuse on non-EA
-   inodes (protects the xattr_sem union safety).
- - Move INIT_DELAYED_WORK before journal loading (fast commit replay
-   may trigger evictions).
- - Drain before ext4_quotas_off() for correct quota accounting.
- - Add flush in failed_mount_wq and failed_mount3a error paths for
-   journal replay case.
- - Move init_rwsem(xattr_sem) from init_once to ext4_alloc_inode to
-   handle slab object reuse after union overwrite.
- - Encapsulate worker init into ext4_init_ea_inode_work(), making
-   ext4_ea_inode_work() static to xattr.c.
-
-Yun Zhou (4):
-  fs: add iput_if_not_last() helper
-  ext4: introduce ext4_put_ea_inode() for safe deferred iput
-  ext4: convert all EA inode iput() calls to ext4_put_ea_inode()
-  ext4: remove ea_inode_array mechanism in favor of ext4_put_ea_inode()
-
- fs/ext4/ext4.h     |  13 +++-
- fs/ext4/inode.c    |   6 +-
- fs/ext4/super.c    |  18 +++++-
- fs/ext4/xattr.c    | 154 +++++++++++++++++++++------------------------
- fs/ext4/xattr.h    |   9 +--
- include/linux/fs.h |  15 +++++
- 6 files changed, 119 insertions(+), 96 deletions(-)
+> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> 
+> I think simplifying by requiring only 'LLM' and adding a line simply suggesting
+> a comment giving a sense of how much was used, and then perhaps a paragraph saying
+> 
+> 	Subsystems may vary in their acceptance of this patch blah blah blah
+> 
+> Could be a compromise?
+> 
+> > ---
+> > Christian had proposed watering down the LLM attribution, but I think
+> > it's not productive to try and track this until we have a clearer sense
+> > of what we want to do with this information and how to make it more
+> > reliable.
+> 
+> Well he's moved now to stridently saying we should do what you're doing here so
+> presumably you're now in alignment.
+> 
+> > ---
+> >  Documentation/process/coding-assistants.rst  | 22 ----------------------
+> >  Documentation/process/submitting-patches.rst | 10 ----------
+> >  2 files changed, 32 deletions(-)
+> >
+> > diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+> > index 899f4459c52d..c4cc0917fc92 100644
+> > --- a/Documentation/process/coding-assistants.rst
+> > +++ b/Documentation/process/coding-assistants.rst
+> > @@ -35,25 +35,3 @@ is responsible for:
+> >  * Ensuring compliance with licensing requirements
+> >  * Adding their own Signed-off-by tag to certify the DCO
+> >  * Taking full responsibility for the contribution
+> > -
+> > -Attribution
+> > -===========
+> > -
+> > -When AI tools contribute to kernel development, proper attribution
+> > -helps track the evolving role of AI in the development process.
+> > -Contributions should include an Assisted-by tag in the following format::
+> > -
+> > -  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
+> > -
+> > -Where:
+> > -
+> > -* ``AGENT_NAME`` is the name of the AI tool or framework
+> > -* ``MODEL_VERSION`` is the specific model version used
+> > -* ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
+> > -  (e.g., coccinelle, sparse, smatch, clang-tidy)
+> > -
+> > -Basic development tools (git, gcc, make, editors) should not be listed.
+> > -
+> > -Example::
+> > -
+> > -  Assisted-by: Claude:claude-3-opus coccinelle sparse
+> > diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> > index cc6a1f73d7f2..b74c38aa9770 100644
+> > --- a/Documentation/process/submitting-patches.rst
+> > +++ b/Documentation/process/submitting-patches.rst
+> > @@ -634,16 +634,6 @@ bugzilla.kernel.org is a public place in this sense, but email addresses
+> >  used there are private; so do not expose them in tags, unless the person
+> >  used them in earlier contributions.
+> >
+> > -Using Assisted-by:
+> > -------------------
+> > -
+> > -If you used any sort of advanced coding tool in the creation of your patch,
+> > -you need to acknowledge that use by adding an Assisted-by tag.  Failure to
+> > -do so may impede the acceptance of your work.  Please see
+> > -Documentation/process/coding-assistants.rst for details regarding the
+> > -acknowledgment of coding assistants.
+> > -
+> > -
+> >  .. _the_canonical_patch_format:
+> >
+> >  The canonical patch format
+> >
+> > ---
+> > base-commit: 665159e246749578d4e4bfe106ee3b74edcdab18
+> > change-id: 20260702-aidoc-7e18f221d63a
 
 -- 
-2.43.0
+Regards,
 
+Laurent Pinchart
