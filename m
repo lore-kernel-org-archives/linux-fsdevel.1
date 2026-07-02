@@ -1,53 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56CEA349CF2;
-	Thu,  2 Jul 2026 16:50:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193F9317146;
+	Thu,  2 Jul 2026 16:51:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783011028; cv=none; b=XD/KvlQg2/nrW/xPu3dh0YOI48U9ynyVPtnZaoAcDh8GKld1acwZfXbETBa5LzfHUQgjb/2/HteaonV+ZA427zD62gqCrTgjdD/il5sblTtP3nWvPA3swyl6tneoYoKtkzxAv1w/tUcGC9p1nOWwwkggJG+UmzIia9pyzkbnKuY=
+	t=1783011079; cv=none; b=aoztfLET7ZB9xbDTxc7Rdgxmm3J1IinhQ/x8XiBgVxMBm+s5DsfhHM1N2Q2bqvDsl/qRmvWJWE3HcXxDszdkG20+FOSr1bnZLlPUeHziU31nj6QdzMQq8E9mOd6ypXFeUgI5612YQf6f6EmktkNktc7krhyxDepsJvMS1p3tqzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783011028; c=relaxed/simple;
-	bh=h4chzH7MM2I+Nv1bVeEEsP5ZVrAG/C782EzN9I6JUxY=;
+	s=arc-20240116; t=1783011079; c=relaxed/simple;
+	bh=biYNUAbSLkMakBI2InMvj+slMvc5J5VSiUpkwej/21U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kSGF7wgm9a/BAKrwAStE8/ERgik4RBpkd9wgFnpcixa3BeWTRH0fD20y27tmpo8mBYu3SUGe8VbvYhKF7rtNEBx8trNImmGHX2aAEVSEkucGQoqVklB6PI49CBKpRCf4WB9nq6zjTq/e1TQzdB2dgTZZlPZqytOI0p5aVjGI05Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pj+S+1n+; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=rM8CmaCCNP/7TloF7PDZGL9YjQeXPeyW2QBOBCLoLVRWMx6yIffy27XauQzN80+3Vj05Fo37lGrflmo8/bfl1JGeqDnsmAl4aFMBzMUAD0Whgz9u9fSo5rvkqXHVG60QddQKz2d0qT/QOO2thQtk2BbNCoinZtz1vWkM4cLWR6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ymepa36T; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pj+S+1n+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 672F81F000E9;
-	Thu,  2 Jul 2026 16:50:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ymepa36T"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id D15C81F000E9;
+	Thu,  2 Jul 2026 16:51:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783011027;
-	bh=VxwP5sbJnHA5aX0cWSiGCuHUNdENo3EBGO3dln8kb20=;
+	s=k20260515; t=1783011078;
+	bh=ydgqm4JLD9wHorHnF+2XAPjVnBLFS4UbABn2TMKW9lg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Pj+S+1n+cHOxdLDHnr/zFJ11PPk5uiN9qE6D6DEJsmOuRRZ0Ucv2vdt46rWtzd4/S
-	 5eSlxBHqzXguL3/MIE4TpCNzEAXaWv2cNmXIzmS5ZyHzKCzTAvX+TDD4hPrVdfwDBm
-	 epj6IKDP7iANNPhNg9Vcy50nuzo2MwqkwqYwflq688M6c1kinTB8HZ8GT+zCrJYEtu
-	 o1vsun5lCe50FNf2Z9oRQ5bDVHY/LjBchQgfYWKVsPwgnyY3P0QVz5Ge42tCY2qpc2
-	 iMBcbTReE2KgvOJs9t05kiwc/6dAIitF+MEvlau4g1i3SUlEEOdM5RVV17F/ELoDVi
-	 b0OCOcAljsj5Q==
-Date: Thu, 2 Jul 2026 17:50:15 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Greg KH <gregkh@linuxfoundation.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>, 
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, 
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
-	David Hildenbrand <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	"Christian Brauner (Amutable)" <brauner@kernel.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-Message-ID: <akaWnQ5Pkg_676B-@lucifer>
-References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
- <2026070224-unholy-commode-cf45@gregkh>
- <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
- <20260702161330.GH3534761@killaraus.ideasonboard.com>
- <2026070227-payroll-eradicate-8f66@gregkh>
- <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
+	b=Ymepa36TovSJKNYZV3u+xpDtmvDD0jgD8tu6oITOhStEqSB4dFm2GSNjYvX6a/XhD
+	 idd1sj/Z9E/KlApdD9cMjRLqTlqdgS1ZGfahdEB1adsC1jHUM18Idy2FDJdP+91o7q
+	 QlYswMBkWSAqfhgV/t0BjA2QDKkEneDGjH+Gl5qKC5w3Z9fiVXFpsrFrRHn8BhtWaG
+	 lcACOAbDkojouQsXQtSoi47LOb5OGkLJW+AXDJEZT+ElhlEosUQhZ2/nNXhEJR9+aI
+	 PyMC3eJrsnz1BJ5WVFaLKabv6f9zwLwtBLpgZ7fU4xVDkd9t8o3JJ3wtYAC95RX0Zj
+	 PrPeMRFBP/AuA==
+Date: Thu, 2 Jul 2026 09:51:17 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Joanne Koong <joannelkoong@gmail.com>, brauner@kernel.org,
+	willy@infradead.org, hsiangkao@linux.alibaba.com,
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>, Chris Mason <clm@fb.com>,
+	David Sterba <dsterba@suse.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Dan Williams <djbw@kernel.org>, Gao Xiang <xiang@kernel.org>,
+	Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>,
+	Jeffle Xu <jefflexu@linux.alibaba.com>,
+	Sandeep Dhavale <dhavale@google.com>,
+	Hongbo Li <lihongbo22@huawei.com>,
+	Chunhai Guo <guochunhai@vivo.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Yuezhang Mo <yuezhang.mo@sony.com>, Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Baokun Li <libaokun@linux.alibaba.com>,
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>,
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+	Zhang Yi <yi.zhang@huawei.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
+	Hyunchul Lee <hyc.lee@gmail.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Carlos Maiolino <cem@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Naohiro Aota <naohiro.aota@wdc.com>,
+	Johannes Thumshirn <jth@kernel.org>,
+	"open list:BLOCK LAYER" <linux-block@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:BTRFS FILE SYSTEM" <linux-btrfs@vger.kernel.org>,
+	"open list:FILESYSTEM DIRECT ACCESS (DAX)" <nvdimm@lists.linux.dev>,
+	"open list:EROFS FILE SYSTEM" <linux-erofs@lists.ozlabs.org>,
+	"open list:EXT2 FILE SYSTEM" <linux-ext4@vger.kernel.org>,
+	"open list:F2FS FILE SYSTEM" <linux-f2fs-devel@lists.sourceforge.net>,
+	"open list:FUSE FILESYSTEM [CORE]" <fuse-devel@lists.linux.dev>,
+	"open list:GFS2 FILE SYSTEM" <gfs2@lists.linux.dev>,
+	"open list:NTFS3 FILESYSTEM" <ntfs3@lists.linux.dev>
+Subject: Re: [PATCH v2 17/18] iomap: pass iomap_next_fn directly instead of
+ struct iomap_ops
+Message-ID: <20260702165117.GK9392@frogsfrogsfrogs>
+References: <20260701000949.1666714-1-joannelkoong@gmail.com>
+ <20260701000949.1666714-18-joannelkoong@gmail.com>
+ <20260702140705.GE21339@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -56,67 +82,22 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
+In-Reply-To: <20260702140705.GE21339@lst.de>
 
-On Thu, Jul 02, 2026 at 12:48:22PM -0400, Jeff Layton wrote:
-> On Thu, 2026-07-02 at 18:19 +0200, Greg KH wrote:
-> > On Thu, Jul 02, 2026 at 07:13:30PM +0300, Laurent Pinchart wrote:
-> > > On Thu, Jul 02, 2026 at 11:57:46AM -0400, Jeff Layton wrote:
-> > > > On Thu, 2026-07-02 at 17:07 +0200, Greg KH wrote:
-> > > > > On Thu, Jul 02, 2026 at 10:32:48AM -0400, Jeff Layton wrote:
-> > > > > > We've had this requirement in place in the Documentation for several
-> > > > > > months, but it's becoming clear that the signal to noise ratio from this
-> > > > > > is quite low.
-> > > > > >
-> > > > > > 1/ It's not universally followed. While many people do try to attribute
-> > > > > > the LLMs in good faith, not everyone does for various reasons.
-> > > > >
-> > > > > Then let's move to get people to follow it.
-> > > > >
-> > > > > > 2/ It basically serves as free advertising for proprietary LLM companies.
-> > > > >
-> > > > > Who cares, make up a name, all I want is the "signal" that someone is
-> > > > > using a LLM so that I can review it as-such.  And if I think someone is
-> > > > > not reporting that, I can ask for them to properly attribute it and if
-> > > > > they lie, well, that's on them.
-> > > > >
-> > > > > > 3/ It's not clear why we want to collect this info in the first place.
-> > > > >
-> > > > > We want to know if a LLM is being used.
-> > > >
-> > > > But why? What do you intend to do with this information?
-> > > >
-> > > > Do you mean to use it as an indicator that the patch should receive
-> > > > "extra" review (or maybe that it should be ignored)? Do you mean to use
-> > > > it to generate some sort of statistics at a later time?
-> > >
-> > > I use the information to decide how to review the patch, and what level
-> > > of priority to give it. For that usage I don't need a tag, but I need
-> > > the information in some human-readable form at patch submission time.
-> >
-> > Same here.  I don't care about stats, I care about "how do I review this
-> > patch" and this gives me that signal that I need if faced with a
-> > llm-helped patch.
-> >
-> >
->
-> Do we need a tag for this though?
->
-> This seems like the kind of information that we would always require in
-> the cover letter of a series (or the little place in an individual
-> patch for comments that don't get merged). That would also allow you to
-> convey a lot more nuance about how it was used.
->
-> ISTM asking people to disclose LLM usage in a cover letter would give
-> everyone what they want: Information about whether and possibly how an
-> LLM was used, and it also wouldn't clutter up the changelogs with these
-> tags.
+On Thu, Jul 02, 2026 at 04:07:05PM +0200, Christoph Hellwig wrote:
+> Looks good:
+> 
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> 
+> In terms of merge logistics, I wonder if we should delay this and
+> the previous patch to the next merge window so that we can minimize the
+> cross-subsystem merge pain with more file system iomap conversion.
+> If none of them actually happen until rc6 or so, orif  the merges aren't
+> painful we could still pick them up late in the merge window.
 
-It's much much clearer and easier to just have a standardised tag for that.
+I'd say everything but this patch should go in during the merge window
+for 7.3, along with clear instructions to brauner/torvalds to expect
+this patch to appear right before 7.3-rc1 gets tagged, to clean up all
+the other changes that come in.
 
-You can see that (and grep for that) immediately, vague paragraphs not so much.
-
-> --
-> Jeff Layton <jlayton@kernel.org>
-
-Thanks, Lroenzo
+--D
