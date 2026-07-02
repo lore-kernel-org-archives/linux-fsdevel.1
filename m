@@ -1,133 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E482E8DEA;
-	Thu,  2 Jul 2026 12:18:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782994698; cv=none; b=osBwU+EAXheVfpC9aC142Wi/DofjKdgmrkba8i27O58r3sILwREuOoGGUBbn75NLLcCznh1Z7HYPAXQ0Hxb9Crz26zNKeuJYLAeXSbdsaDZz8QwcnQ+O5kykOiO0Dg44hTcd+hthsfgLKAUlz6Iezt6FEQi9jEDNeZP3YBljtTI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782994698; c=relaxed/simple;
-	bh=srX5VlSeRKseI3gF1QCQsGPTMGH2T7YpwxUkbIXvjFM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M1M/GrdAlWBOSoVPD240RIFQYCiTu+bdoH42dyvwYaJnN41gFZl5mgtEnaun/IOf5/BazjGb3+5I4Lmz0OhRUHeDNEqwuMlP1scRPnP2qFh6ej7IBW89JP6OI4jv7IojOi8XAViYIQuMTJX3k47m+wkBgMKl+bi/9vzrddOjLNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P4q9b30B; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4F447DFA7
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 12:18:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782994731; cv=pass; b=r9gq69koIYB/PVWLgw5t+8k/b3H77vwA8+YJSG6h8DN0wAaYLFy3ROCCw21nnqzKgLuEKHl9pATHF5eEAOAPrfnFqOa19+ArQNVGhPzV3nZJ6Z6vlY9c0ZAWhzvLqZgZA8HdLC3kNDmkik9+7W6tPnV6zwWkTU5T0MYMDZXAKRs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782994731; c=relaxed/simple;
+	bh=XeFTm+NDhKM4oCHE6F+bTKNgKrbiRR9bmo8v9+zhMpE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hpa/SuB+lzwWsR/WG9MczOj3l/AAMT4OApy5cFCO9o9RhGvHszmuzOsvduPTYvb4++O5yobfaH0tUsEHoz9Vny5lKI3+O+ehx9iOghmqfqe7GcJqZGswNMteERuo9S2XsVOwRSj0jxzAKRxY0ginM/n9ZCwISAwPFOd3Y10FuvQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=E+L0xupo; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=J/4T0ArS; arc=pass smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P4q9b30B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE7DF1F000E9;
-	Thu,  2 Jul 2026 12:18:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782994696;
-	bh=srX5VlSeRKseI3gF1QCQsGPTMGH2T7YpwxUkbIXvjFM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=P4q9b30BnbSPh3XR1Fz5zxwlgsdOdLIPkmuPMaYbR6jiziriNWGOhqZ0Rtz5zVGJQ
-	 5RWt77ZSj1BXYY1F+JSjt+rFDi75oTN4doGjseidzVfSs43Oik98K7uzxvD0qt7B7i
-	 dRYwxT6K9EtfQY1q3T0gLTQe6qHn2p2DbEUyEkCq6U+VFFnidb119jCRNgAJ2IWkTj
-	 zivhnV/bOySiWub2nJtlGpEMVPoKjWFlzY84StyjMT6iuZBTJl4GP3tjDcrlbTMFjC
-	 +dHM5Us0qbZcufxr8pLWvm7BJ8Ooe9HG335VDww0hYcypGJ7k3PLyRrkFA5L08kACc
-	 Kf6r8M+PW8ZnA==
-Date: Thu, 2 Jul 2026 13:18:06 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Brian Foster <bfoster@redhat.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
-	Christian Brauner <brauner@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
-	David Hildenbrand <david@kernel.org>, Jeff Layton <jlayton@kernel.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-Message-ID: <akZW1RPqTc-4_7jW@lucifer>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <akYasD1ckWcH1C0g@lt-jori.localdomain>
- <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
- <20260702093844.GA3491311@killaraus.ideasonboard.com>
- <akYx9blvVhIXB5A-@lucifer>
- <akZSOa4awK5l9x_w@bfoster>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E+L0xupo";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="J/4T0ArS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782994729;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bpxexNxbp3gQtF5nX8pm76QaTn6WVWQbj9dC51+H6Ig=;
+	b=E+L0xupoNkY0/ZtkUjwhK/LB0E94LpvKm342xIkar03SUGAxY1vryfYh4IJpkJ9W3QEoZ5
+	4ieLey4ASKQcQ0rAEi2gbgt8FbvFJwETMyJ26B8fQDru9Hl4xxEG2jIAfEDmODSDoPB5cw
+	a0ldrVGvu1+j4QMKnV4Arxq/dOhzJCc=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-331-C3jBLXvqNvKIGJuJCIES8g-1; Thu, 02 Jul 2026 08:18:48 -0400
+X-MC-Unique: C3jBLXvqNvKIGJuJCIES8g-1
+X-Mimecast-MFC-AGG-ID: C3jBLXvqNvKIGJuJCIES8g_1782994727
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-c1271887c33so162101166b.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Jul 2026 05:18:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782994727; cv=none;
+        d=google.com; s=arc-20260327;
+        b=eyB87kckDtYHA93Xjo4cJxYlHLu5FPdsFoEfr9NLp2FOol2XYi0bPC+wuYHuX4qhL9
+         7iQCDd+otsaXophlb9mRudbRvINLu/sEnsVW7Za4L26S3tf8BFepwK/L5oDBsuhPiKqV
+         mu3xukc03OnubDGDuGi8P/y93627kYojHklpS9h5smkg1tEZCQblwI82z6j47v1hGBYg
+         jf6139e8oPEdjqEpJNlKO5y8gbhXAT9O8JGRXeRS1OUl84yTaIbDjzdZ/1BVTkbOJrCX
+         DxMrOCYTr0KWXWHRAW5baouNMEwDFQ/iMlmRG9djD9f8DItlovz8tPgatgohGxTSgYlM
+         AX+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=bpxexNxbp3gQtF5nX8pm76QaTn6WVWQbj9dC51+H6Ig=;
+        fh=A9w2IbrE6wH42P/QE8w4FyNRlEMe6+0lvp+Dz1TO2Po=;
+        b=MwD/RZJ5g3r3jKSXScJfqonGLsRWQzO4U4UrV6YyqKwSrlQfVrlDBUigW1w7ROrCIQ
+         oltChZpMFC9Ev1KCfi/Gma1BBfGNtXkAIF7/AT2AeAd6JekIy1MjU8zFYtgtKPuFzlch
+         YrY8SLQbKJY+Ya7+ZXUlUWltjAa2CGDXCuLgADv1H+Sj40oNaIWzvtsl8ocrYy3kWiNC
+         n8gp5rJQd+Nv5jUNWzOSH+0TnGYJHlKYWyI3SsyL0bXuQdoshv40ZubENIuVVPRxVrUQ
+         P5+VPihypgpmYDPtcCUHnif4TmaZEfeqBtyV8rrft+8YV5HqhURxqePlgLVBhoqbK1WR
+         n8ag==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1782994727; x=1783599527; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bpxexNxbp3gQtF5nX8pm76QaTn6WVWQbj9dC51+H6Ig=;
+        b=J/4T0ArSb3Dbu5ArRFSO4lFsj0jq6/eSPbIr3yD7Im4gJllpze9pPmBR6tHkepuSTC
+         wOu0YZ21d6GahF2tChVllMJV8RCdKmp9LNSyf0berdiu+nJJuxZE2dJrwJodiyIhDu9r
+         oBWZjSn/Y5/tp3WOXGO5IRHRrXchwQIktVLhvoDINdVqMHspX80vTP7HyM6VV+Ogwyfz
+         /Q5sXg4cCuTy1gb+ZEoudUxV1tPE7qsDbUGsNoRIQl36YGQp1kDG1S2Bx36KCS+rSHwY
+         CQn/phG/ufiSsS/x+FHnuKQToGkdrs25R4bG4QYym2CEmDXNw9ynQK7CLx7geu0iEI9R
+         2OXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782994727; x=1783599527;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=bpxexNxbp3gQtF5nX8pm76QaTn6WVWQbj9dC51+H6Ig=;
+        b=f2STjwfAOc0C6fCsTFLv0NPu97S66R/9nC5NMtiTUO0gwj8clCfkgLdhBgmmaYlfw6
+         w9TJH2EBHXm+Erd6nfrjuxBMx3OtoHu6BgUpUVILzpBtzfuplyN97zbQdE5FaHImLwjZ
+         UEyznASi4B+HvOlPJRoe7IEsfYsyWKRZLNDkK/+WWRMhHRwfyYGyMVh/XVocvt/cXqq9
+         /kMLz6QFRyDOZiuVyFgL71rssDz5afK49jHDSP/c9w23dPDXGfTp+qCtkMWq3oM6Fq7N
+         B4LkCqKy/0dOqnk1sdWBGFUBs2f7YOPJ/TCnRdBE29lzDhwZQ2XmUSV1hGll4sbrzER0
+         Iy4Q==
+X-Forwarded-Encrypted: i=1; AHgh+RpFaj/AnWSr7SAyJpePo4MpIYwep4XpTSvXA9sZxiJNxyBk13o+32wa13SSDFgCpb8ct/0JzsQUzNmcpNbn@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxc7URJyqNhW5L58ii+vn4jkS0GKf2WNT754sZMgwgJqBXSnSvj
+	bOIfShYXt3+LZW6gCFXfF+lZQR/LDALsfZVT5UVRuY6inlTEEuZZ/nUTsDZbsXyHIbwOMyeLEkf
+	VwkpzTEDQkQq1cg/ETjGnsu9gCYuZvuIqXcd11hU2JCr/mCytcc5ly04uoXchBlGaol9bLwVMNb
+	s5BNdXddKaQW23eP6pM+SZRI5w0K2361jmXTaWyrT8Mw==
+X-Gm-Gg: AfdE7cnxv0AOapNmILY7Rrv5Gxsv5oQd2uzjbEpMMqnretry9RQQPXhlxfJWOPEjGT9
+	Yb7Mb8MrOxc40fnnUytXe6oJueXS2WEqZrsi6QZenGWHUCUsVQJf4MRTeMP6mbbZbgTXOD+oJYw
+	qllziASaSggCOk1doSaSzbnvZ6iojV4CaYyplPEaLmlbkwoz9flXBu5YqDKWfG3urrYKYbHm2TG
+	qrBuoDoMDo+ktFd4FmN/oG1Aq1ERhRvL3jqnweWc+nss1VdqYL8ECMZ
+X-Received: by 2002:a17:907:6c12:b0:c0d:cd71:6463 with SMTP id a640c23a62f3a-c12ae48cbddmr258355066b.16.1782994726706;
+        Thu, 02 Jul 2026 05:18:46 -0700 (PDT)
+X-Received: by 2002:a17:907:6c12:b0:c0d:cd71:6463 with SMTP id
+ a640c23a62f3a-c12ae48cbddmr258354266b.16.1782994726351; Thu, 02 Jul 2026
+ 05:18:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <akZSOa4awK5l9x_w@bfoster>
+References: <20260701132410.711205-1-rrobaina@redhat.com> <20260702-edelherzig-hammer-beenden-08e75c154e46@brauner>
+In-Reply-To: <20260702-edelherzig-hammer-beenden-08e75c154e46@brauner>
+From: Ricardo Robaina <rrobaina@redhat.com>
+Date: Thu, 2 Jul 2026 09:18:35 -0300
+X-Gm-Features: AVVi8Cep1ZCE6nCvM5-B9LYxsOd5RvIlr8zB25Nc8T6Z_iJ3zcYnuNEtemUS1kc
+Message-ID: <CAABTaaByDwAokuDgR5BsoKzWyByHn6rpBL1EoY_TdVyT-Kt0Jw@mail.gmail.com>
+Subject: Re: [PATCH] audit: add FSOPEN record to log filesystem name
+To: Christian Brauner <brauner@kernel.org>
+Cc: audit@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, paul@paul-moore.com, eparis@redhat.com, 
+	viro@zeniv.linux.org.uk, jack@suse.cz
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 02, 2026 at 07:57:45AM -0400, Brian Foster wrote:
-> On Thu, Jul 02, 2026 at 10:44:09AM +0100, Lorenzo Stoakes wrote:
-> > On Thu, Jul 02, 2026 at 12:38:44PM +0300, Laurent Pinchart wrote:
-> > > On Thu, Jul 02, 2026 at 10:44:34AM +0200, Vlastimil Babka (SUSE) wrote:
-> > > > On 7/2/26 10:12, Jori Koolstra wrote:
-> > > > > Ah, I still reigniting this discussion again :)
-> > > > >
-> > > > > What about a combination of what David and Jeff say? The whole point
-> > > > > seems to me that the salient information is not that an LLM was used (or
-> > > > > are we going to tag Sashiko as well or any other LLM-based code review
-> > > > > tool?), but what is was used to do. This information may be relevant for
-> > > > > how the review is approached. The latter should perhaps only be in the
-> > > > > cover letter and then we can drop the assisted-by tags altogether.
-> > > > >
-> > > > > The question about enforcement remains.
-> > > >
-> > > > It's not possible to enforce it. People can deny it if the tag is missing
-> > > > and you confront them and even though the submission has many signs of being
-> > > > obviously LLM, there is no definite proof. We've seen (likely, as there's no
-> > > > proof!) that happen in mm.
-> > > >
-> > > > Such situation then penalizes those who disclose so obviously they won't.
-> > >
-> > > I think there's also a penality for those who don't disclose when
-> > > they're told they should: it will lower trust. Kernel development is
-> > > largely based on a trust model. If a contributor decides to adopt a
-> > > deceiptful behaviour, they can expect maintainers to raise the bar for
-> > > accepting patches, when not rejecting them outright.
-> >
-> > Yes, I explicitly said this in response to somebody for whom there was
-> > overwhelming evidence they were submitting AI slop, and that they'd need to
-> > build it back up again.
-> >
-> > It's precisely the issue as I see it.
-> >
-> > But others within the community disagreed with me, so it turned into a very
-> > long and draining discussion that I don't particularly wish to repeat.
-> >
-> > So we really need clarity on it being OK to do this (I remember saying this
-> > last year when I made an ultimately unsuccessful submission to the
-> > maintainer's summit about all this :)
-> >
-> > What matters overall is being able to _quickly_ dismiss AI slop so that
-> > asymmetry between LLM generation + maintainer time isn't exploited.
-> >
-> > And ultimately I think the trust model will end up being 'newcomes have 0,
-> > now build it up'.
-> >
-> > Which sucks but this issue is simply existential for open source.
-> >
+On Thu, Jul 2, 2026 at 3:59=E2=80=AFAM Christian Brauner <brauner@kernel.or=
+g> wrote:
 >
-> Has anybody tried throwing any of the obvious LLM slop submissions we
-> have seen into one of these LLM detector things? To be clear, I've never
-> tried those so I'm certainly no authority on if they even work reliably,
-> but if so I wonder if something like that is a potential solution for
-> elminating the worst cases..
+> > Modern mount tools (util-linux >=3D 2.39.1) use the new mount API
+> > (fsopen, fsconfig, fsmount, move_mount) instead of the legacy mount(2)
+> > syscall. The generic SYSCALL audit record logs the fsopen syscall but
+> > does not capture the filesystem name string, creating an audit gap for
+> > filesystem mount operations.
+> >
+> > Add an FSOPEN auxiliary record that logs the dereferenced filesystem
+> > name string passed to fsopen(2).
+> >
+> >   type=3DSYSCALL ... : arch=3Dx86_64 syscall=3Dfsopen ... a1=3DFSOPEN_C=
+LOEXEC
+> >   type=3DFSOPEN  ... : fs_name=3D"tmpfs"
+> >
+> > Link: https://github.com/linux-audit/audit-kernel/issues/152
+> > Signed-off-by: Ricardo Robaina <rrobaina@redhat.com>
+> >
+> > diff --git a/fs/fsopen.c b/fs/fsopen.c
+> > index ae19e5136598..8b07f9d42be2 100644
+> > --- a/fs/fsopen.c
+> > +++ b/fs/fsopen.c
+> > @@ -15,6 +15,7 @@
+> >  #include <linux/namei.h>
+> >  #include <linux/file.h>
+> >  #include <uapi/linux/mount.h>
+> > +#include <linux/audit.h>
+> >  #include "internal.h"
+> >  #include "mount.h"
+> >
+> > @@ -150,6 +151,8 @@ SYSCALL_DEFINE2(fsopen, const char __user *, _fs_na=
+me, unsigned int, flags)
+> >       if (ret < 0)
+> >               goto err_fc;
+> >
+> > +     audit_log_fsopen(fs_name);
 >
-> I.e., suppose we had some Sashiko type LLM/bot whose job was mainly to
-> detect purely LLM generated content based on some minimum level of
-> confidence and reply with a loud and clear message to the thread. Maybe
-> that would be a clear enough signal to maintainers and reviewers that
-> something is not worth prioritizing for review.. Maybe also some "slop
-> detected" feedback would help disincentivize flinging slop onto the
-> lists. At the very least that could be something that is more easily
-> configured/enabled per-subsystem without having to use per-subsystem
-> commit tags.
-
-Yup I thought of this, have done this on series and they do detect it
-reliably.
-
-But then it becomes an arms race. People will get AI to try to defeat AI
-detection. So I'm not sure it's a safe road to go down.
-
+> Right above:
 >
-> Brian
+>         fs_type =3D get_fs_type(fs_name);
+>         kfree(fs_name);
+>         if (!fs_type)
+>                 return -ENODEV;
+>
+> So that's a UAF.
+>
+> --
+> Christian Brauner <brauner@kernel.org>
 >
 
-Thanks, Lorenzo
+Thanks for reviewing this patch, Christian!
+
+You're right, I missed that. I'll be sending a v2 shortly.
+
+-Ricardo
+
