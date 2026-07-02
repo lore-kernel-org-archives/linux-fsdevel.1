@@ -1,139 +1,123 @@
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA38213E9C;
-	Thu,  2 Jul 2026 15:23:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.166.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AAC353A6E;
+	Thu,  2 Jul 2026 15:25:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783005791; cv=none; b=VzTUEh9YVb2pbAQWV8EljC17ZiPn0WzzAIn+N59wVq162DgArTHWENEZKXK4neEdsoLqqMqnxk44jH/aRgia46c4csSYZ/4cTdy61+HWVyhOODXWNXQIU8xJy74XkyfV66O7IlhJMRotiRfZZXKrhrSgXCMAilev0B4/5EeIEJw=
+	t=1783005902; cv=none; b=Qd4kOVxePvxrcYJLOsUCq9/HomTZoky5sSi9wy3i9phrqoATOoao/niSELzLkpNOaEe+5BLRp5ahi46Z34pOCHuMBsdyznLa6DAGy7e/VmUxrSKtgVnOTmwFRZLeNufoB22Qy6hIk0I3yB2c6Vv+/UUOGbQ8TY9x3Z6otz16F9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783005791; c=relaxed/simple;
-	bh=yxzGMgqoSZA9yPq43a1QVOF+byYEaf/sD7O8OmIhn0E=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jDEyKko4wKFeZij/MPxMo1smzMT0otzI2HV1wdVR/C41CVmDzdWupfi6jU7lElWfbYaoyt4BeCkpJnwJJc7IeZUeWXXeCx6pT07ODCzWWvr5mrJ2ZlMNKiKd2KHSmO+Ikshdgf6Uq1DgYEM2upIHYKWwQM2T2dsQyXNinzcaOg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=QRc5oFBg; arc=none smtp.client-ip=205.220.166.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+	s=arc-20240116; t=1783005902; c=relaxed/simple;
+	bh=PdIrpbOgawWvi9UkUjXo0VCjVwbZVIb5PqySnXAuTkg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TN29T6AhXcZuSpKNxIGE7y+2hc8UTp+8t9eaMlyPwfqvnwevA+SaiQmU8F5uJ02ghjtTZl50wS5wI+YgEPevIx++RUIfgOxnfaHZl/bBPR5A9xYvkMVvyviMYBYq5RtUmxa71dYZ8t+gXZ7SvEdxxAFIp2wlCfyq+aiBs3mz4dA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kbG+cL/z; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="QRc5oFBg"
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 662E2RHh2007659;
-	Thu, 2 Jul 2026 08:22:33 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=ZXSseWQlcD8T7J5F6cBcRHQf5mWABbCBt69AehAV5qs=; b=
-	QRc5oFBg/1NHLN4NHZix6PCg9KqZ7uzNengex0dUKtZtgdt6GvTsQie9ZUVxYDzr
-	mPJiJR6yl5vkQMYxFix5ue5dJH/mGTXCMgWSff9QxyjbAUQ06UDhUi4znxiFYZg5
-	8DcjRp7gl+fn+R7oIpHCmDRygtISGgMekDg4eH5KnYu4uun0KiPW6ADGwGjG83yh
-	L3gxxzI8nNRz6DQYUCTHpYOkRCleRSECyo8tVq9s0wmlTjmv7N9h9vEg/Fc8Kppk
-	MgsSWj3kzyxUT/umInxEB+iVSyFbCO6hh39HTPjNkVUZj6FshTEr3ctHLWRaUFx2
-	+q/o8ogz21lUOlZrcvhQyg==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4f2e1gyn4a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 02 Jul 2026 08:22:32 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Thu, 2 Jul 2026 08:22:32 -0700
-Received: from pek-yzhou-d3.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Thu, 2 Jul 2026 08:22:29 -0700
-From: Yun Zhou <yun.zhou@windriver.com>
-To: <tytso@mit.edu>, <adilger.kernel@dilger.ca>, <libaokun@linux.alibaba.com>,
-        <jack@suse.cz>, <ojaswin@linux.ibm.com>, <ritesh.list@gmail.com>,
-        <yi.zhang@huawei.com>, <viro@zeniv.linux.org.uk>, <brauner@kernel.org>
-CC: <linux-ext4@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <yun.zhou@windriver.com>, <linux-fsdevel@vger.kernel.org>
-Subject: [PATCH v13 1/4] fs: add iput_if_not_last() helper
-Date: Thu, 2 Jul 2026 23:22:21 +0800
-Message-ID: <20260702152225.4071746-2-yun.zhou@windriver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260702152225.4071746-1-yun.zhou@windriver.com>
-References: <20260702152225.4071746-1-yun.zhou@windriver.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kbG+cL/z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F0E41F000E9;
+	Thu,  2 Jul 2026 15:24:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783005900;
+	bh=LX3BYrLY2k63JpXB67A/Bjg+Ew5yjhUF+WJZEyA1fRw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kbG+cL/z/Lm6qSE4udnGibaK8FsMK4daZd2R+hoEFAnemIecEE1GgHP0X+YmGanAO
+	 lUy6V/tOsn4eLItop07tyF1+tKZLAB376Z73zBZZR/VxVccPToewSf2zWsClidLb0a
+	 1ba3VdHACF4EGJhQZxBSvTHBcWlMH/zUclnichRT0/C3hk+pIj4TS7GYchozD+ZWNu
+	 evu0CqyUEndELEE8NUvVmpXBep2Kukvvzwrnf2DWGzh4uAWg/PKpNORRO9bOZEjI+M
+	 pMTZGas90E8+KBulzvC/BZdad1hSIx2FR4a50cjXxyZVyxi/oq6E9v6gCdozTTgwHV
+	 VbLDs0NzwuGjg==
+Date: Thu, 2 Jul 2026 16:24:37 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Lance Yang <lance.yang@linux.dev>
+Cc: akpm@linux-foundation.org, tsbogend@alpha.franken.de, 
+	maddy@linux.ibm.com, mpe@ellerman.id.au, maarten.lankhorst@linux.intel.com, 
+	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
+	l.stach@pengutronix.de, inki.dae@samsung.com, sw0312.kim@samsung.com, 
+	kyungmin.park@samsung.com, krzk@kernel.org, peter.griffin@linaro.org, 
+	jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com, 
+	tursulin@ursulin.net, robin.clark@oss.qualcomm.com, lumag@kernel.org, lyude@redhat.com, 
+	dakr@kernel.org, tomi.valkeinen@ideasonboard.com, hjc@rock-chips.com, 
+	heiko@sntech.de, andy.yan@rock-chips.com, thierry.reding@kernel.org, 
+	mperttunen@nvidia.com, jonathanh@nvidia.com, kraxel@redhat.com, 
+	dmitry.osipenko@collabora.com, zack.rusin@broadcom.com, matthew.brost@intel.com, 
+	thomas.hellstrom@linux.intel.com, oleksandr_andrushchenko@epam.com, deller@gmx.de, bcrl@kvack.org, 
+	viro@zeniv.linux.org.uk, brauner@kernel.org, muchun.song@linux.dev, osalvador@suse.de, 
+	david@kernel.org, ziy@nvidia.com, baolin.wang@linux.alibaba.com, 
+	liam@infradead.org, npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, 
+	baohua@kernel.org, hughd@google.com, vbabka@kernel.org, rppt@kernel.org, 
+	surenb@google.com, mhocko@suse.com, jannh@google.com, pfalcato@suse.de, 
+	kees@kernel.org, perex@perex.cz, tiwai@suse.com, linux-mips@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
+	etnaviv@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+	freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+	linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, 
+	intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org, linux-fbdev@vger.kernel.org, 
+	linux-aio@kvack.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 05/13] mm: prefer mm->def_vma_flags in mm logic
+Message-ID: <akaCFf_SjccZznnP@lucifer>
+References: <3b4ccdc38819b42ddc79ee5a795831208ac7986c.1782760670.git.ljs@kernel.org>
+ <20260702121022.49113-1-lance.yang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 1V9AeZccal3YAliDPBzgANqlMLadfeZQ
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAyMDE2MSBTYWx0ZWRfX1+hJz+924FaI
- st4p9jM/Pd1Tv7kaX+A8qnvJ6S4StvAPYnYNBZz7y+QQnhVhjyoj+80AREIEu3eSqCMqlST7IxB
- +enKkSeSPr+voDB4i9CwdJZ/7w2SDbjC2e8372W29Z1XLcR61OQz
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAyMDE2MSBTYWx0ZWRfXwE6UsaeRtj0p
- KLd8JREfzp3v+AxHRGyTGPrAbKPghlNekfEVTJdaREr7O7mPAxzW3x7UFkIG6vKawKKXfHnDH08
- uUgwuKXCwDwOZChJvhcyNc8X+6VAC2DErsa6XelM58Uy3iPy3zb3CqjjSPEaC4IoEdYt6m+85uU
- +ETcGiCulemWuKqhW7j7o/PoN62Qv7M/3TTME5HSF31RbTaVO0fRbp8JqMZ+30AHnjYcQPOVORo
- VVT9sh00lQffT4oxgSrjhgv7HQ6fwEUX+n3qlsjzTE9krFDIbHyo3EOLtQfKfWVFxzb9Yzfvuw2
- q7BOe7uHXTFHRSSg0ptqLW0z6/byxjq6jezy63eblQZ+uEu2cE6+8yAwlq2MNqw23Z3+7egMGN0
- BgnVrwRL82xdeHuAaA9nHuebU1V5WKmyddIstAgUVyO1l2NgbKCl7BNuGRx5MeI/2tdNhUxPpWI
- wchPCyTaFKNurlcd+gw==
-X-Proofpoint-GUID: 1V9AeZccal3YAliDPBzgANqlMLadfeZQ
-X-Authority-Analysis: v=2.4 cv=GsByPE1C c=1 sm=1 tr=0 ts=6a468238 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=iKiJcTA2PjBS6x5JeXcw:22 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=VwQbUJbxAAAA:8
- a=vCr0if_IiwaKUNF-nsEA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-07-02_02,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015 bulkscore=0
- spamscore=0 malwarescore=0 priorityscore=1501 impostorscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607020161
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260702121022.49113-1-lance.yang@linux.dev>
 
-Add a helper that drops an inode reference only if the caller does not
-hold the last one.  Returns true if the reference was dropped, false
-otherwise.
+On Thu, Jul 02, 2026 at 08:10:22PM +0800, Lance Yang wrote:
+>
+> On Mon, Jun 29, 2026 at 08:25:28PM +0100, Lorenzo Stoakes wrote:
+> >Currently mm->def_flags (of type vm_flags_t) is union'd with
+> >mm->def_vma_flags (of type vma_flags_t).
+> >
+> >As part of the effort to convert vm_flags_t usage to vma_flags_t (in order
+> >to no longer be arbitrarily limited to a system word size for VMA flags),
+> >prefer mm->def_vma_flags to mm->def_flags throughout the mm logic.
+> >
+> >No functional change intended.
+> >
+> >Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+> >---
+> > mm/debug.c |  2 +-
+> > mm/mlock.c | 13 +++++++------
+> > mm/mmap.c  | 11 ++++++-----
+> > mm/vma.c   |  4 ++--
+> > 4 files changed, 16 insertions(+), 14 deletions(-)
+> >
+> >diff --git a/mm/debug.c b/mm/debug.c
+> >index 497654b36f1a..f0a354a9496a 100644
+> >--- a/mm/debug.c
+> >+++ b/mm/debug.c
+> >@@ -226,7 +226,7 @@ void dump_mm(const struct mm_struct *mm)
+> > 		mm->numa_next_scan, mm->numa_scan_offset, mm->numa_scan_seq,
+> > #endif
+> > 		atomic_read(&mm->tlb_flush_pending),
+> >-		mm->def_flags, &mm->def_flags
+> >+		vma_flags_to_legacy(mm->def_vma_flags), &mm->def_vma_flags
+> > 	);
+>
+> While at it, one thing for later: dump_mm() still assumes one-world VMA
+> flags. That works today since vma_flags_t is one word. Maybe worth a
+> BUILD_BUG_ON() here, before that stops being true?
 
-This is useful for filesystems that need to release inode references
-in contexts where triggering final iput (and thus eviction) would be
-unsafe due to lock ordering constraints.  The caller can check the
-return value and defer the final iput to a safe context.
+Ah yeah that could actually be pretty straightforward, if you see
+https://www.kernel.org/doc/Documentation/printk-formats.txt there is a bitmap
+format that could be used.
 
-Unlike iput_not_last() which BUG_ON's if called with the last ref,
-this variant is designed to be called speculatively.
+Can do that on a respin!
 
-Signed-off-by: Yun Zhou <yun.zhou@windriver.com>
-Suggested-by: Jan Kara <jack@suse.cz>
-Suggested-by: Mateusz Guzik <mjguzik@gmail.com>
-Reviewed-by: Jan Kara <jack@suse.cz>
-Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- include/linux/fs.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+>
+> Not a big deal though. Feel free to add:
+>
+> Reviewed-by: Lance Yang <lance.yang@linux.dev>
+>
+> > }
+> > EXPORT_SYMBOL(dump_mm);
+> [...]
 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index d10897b3a1e3..030d7877f23a 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -2413,6 +2413,21 @@ static inline void super_set_sysfs_name_generic(struct super_block *sb, const ch
- extern void ihold(struct inode * inode);
- extern void iput(struct inode *);
- void iput_not_last(struct inode *);
-+
-+/**
-+ * iput_if_not_last - drop an inode reference only if it is not the last one
-+ * @inode: inode to put
-+ *
-+ * Returns true if the reference was dropped, false if this was the last
-+ * reference and the caller must arrange for final iput() in a safe context.
-+ */
-+static inline bool __must_check iput_if_not_last(struct inode *inode)
-+{
-+	VFS_BUG_ON_INODE(inode_state_read_once(inode) & (I_FREEING | I_CLEAR), inode);
-+	VFS_BUG_ON_INODE(icount_read_once(inode) < 1, inode);
-+	return atomic_add_unless(&inode->i_count, -1, 1);
-+}
-+
- int inode_update_time(struct inode *inode, enum fs_update_time type,
- 		unsigned int flags);
- int generic_update_time(struct inode *inode, enum fs_update_time type,
--- 
-2.43.0
-
+Cheers, Lorenzo
