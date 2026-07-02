@@ -1,160 +1,124 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CB63CC9F2
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 11:04:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C493AA195
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 11:15:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782990281; cv=none; b=Jj1iykUJVlHXUI/+vhLUbeQyNiZrpbVfs/ZsRpg0aW7EPy3kBZNNIoLqZQBy8peR8EEC+Lq6WSeSjG64tb9erbz+8mPs2kSehGSfcGuFoG8vIOLHPfcXYweuym36Frk0sWJ9NTBXbgl1HYnYUsqN8bqsDBrPKy+AIOe9f8Oy9TY=
+	t=1782990944; cv=none; b=bCuTG1k30EDUHQomD7RiORZYH+eic/p3cqPYheCu+Jwtakbk9kpXGeJMibZT1nm3vmnYjMWpjdLbuROwaj0Hxb5hWV9C34UICK3BrFCmi1RqDwZ2lDc9UCjXiX0moOLLvvXlmljd/ODN914/HB9KZbxXG1Mh1VjQYux9b7VrS4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782990281; c=relaxed/simple;
-	bh=V5Qh3F0r7UKO4a2pst2HKAruYuCXs0d3M8jSNjL/Iog=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XcqB9HwqdW9smqagA+r664xlVtnTsrz9YgQ1bU7bcVatWrKL+GSe8znKV26utqZ0pDerVSOeZAZaMG91MQHvPgx5rrpmJGAxDfIbIhU+QqmTYv7ssd2yDVCLnkLdlMwDfwpGEFtK/vN6/jylmISbJ4Je3h5dzwdQ0d5M+sbAu5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FetH+lRX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5kLIclg2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bhSk6d6j; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DzHL3T70; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1782990944; c=relaxed/simple;
+	bh=JBhaZUBXJi+T6jsaUtHleiansk316rG3v0I1czHjHjs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=R+zfDVdfkifwnSFRnECU3fCLhxVHYppmUfiOBoAWmyrt3iOrw5LWCUfl4pFg96+mJwaAeIcZOMnqnsJ8uKpn4UWUy6oDxSYCGK0+XauscBd3PjDUPowJs6Wsh0i0eonxkhjoU9mZDdlg2FN2BF84YGidh8DBY6Q/z5qAmLwqCvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=geFSDX4U; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=HkgsRhHa; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FetH+lRX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5kLIclg2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bhSk6d6j";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DzHL3T70"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B1FE674160;
-	Thu,  2 Jul 2026 11:04:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782990278; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RM0VnXVk8zwqUTKTdqmIyIriscuAiRayUnMD17BOvjs=;
-	b=FetH+lRXOBR5XXV51imu9ljC+T70ZDce7ciLoxqyYuTD6SS6OE/OxwAIMpARPbGdjxFnt5
-	tguAcjKBFFBKfJQqcNxCxiB49art39Z64B/CyT6pni1Hh2MsWhyWhsw9eUMMj+mBJjKdRb
-	GvOBztPz7f29ZyV6W9PxsOTw30HZ3iU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782990278;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RM0VnXVk8zwqUTKTdqmIyIriscuAiRayUnMD17BOvjs=;
-	b=5kLIclg2rijKZ/Embq58dsde1+ak7vUB8mltc6mZF2C3u49t/xRP6KCUxlMLClQBas2jVj
-	ZIzAJ57qJBjPsbDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782990276; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RM0VnXVk8zwqUTKTdqmIyIriscuAiRayUnMD17BOvjs=;
-	b=bhSk6d6jaJukAkLrM+k+465vPBcI9hqzsHCvCLWmQkUQSRCidrLbUQzozfIHUAifnIpyHH
-	F5rme4Pt5efSvrDUUGdxw+NgQtz0lcsoRb82lDT9zQZejRGWVNY2TphmghW1nTrZkSWz4v
-	UWI7ik0P5b1jidgqMj2IuXx2BOkP05k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782990276;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RM0VnXVk8zwqUTKTdqmIyIriscuAiRayUnMD17BOvjs=;
-	b=DzHL3T70nLB6a6RbNb1r7Wrdb/fKTHMnmniCbTOBz/9Pu6d/JCPqV/khBXqqsiR77G0gN7
-	aSrbyy0yzOVqdaDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 516B0779AA;
-	Thu,  2 Jul 2026 11:04:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Q66hEMBFRmpLXQAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Thu, 02 Jul 2026 11:04:32 +0000
-Date: Thu, 2 Jul 2026 12:04:30 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Simon Schuster <schuster.simon@siemens-energy.com>, 
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Ian Abbott <abbotti@mev.co.uk>, 
-	H Hartley Sweeten <hsweeten@visionengravers.com>, Lucas Stach <l.stach@pengutronix.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Thierry Reding <thierry.reding@kernel.org>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>, 
-	Alex Williamson <alex@shazbot.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Dan Williams <djbw@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	"Liam R . Howlett" <liam@infradead.org>, Matthew Wilcox <willy@infradead.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Hugh Dickins <hughd@google.com>, Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org, linux-sgx@vger.kernel.org, 
-	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-mm@kvack.org, 
-	iommu@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, damon@lists.linux.dev, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 19/30] mm: use linear_page_[index, delta]() consistently
-Message-ID: <akZFmt9uAmOBqs2z@pedro-suse.lan>
-References: <cover.1782735110.git.ljs@kernel.org>
- <bf56e2e98b512962a2fb88900d535a0e9e6769d8.1782735110.git.ljs@kernel.org>
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="geFSDX4U";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="HkgsRhHa"
+Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
+	by mailfout.phl.internal (Postfix) with ESMTP id 15B39EC02C0;
+	Thu,  2 Jul 2026 07:15:42 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-08.internal (MEProxy); Thu, 02 Jul 2026 07:15:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:reply-to:subject:subject:to:to; s=fm2; t=1782990942;
+	 x=1783077342; bh=WsYl+qicsByhkFqFKOYSpTVK+mokgbxbv0Rd2DuRxZg=; b=
+	geFSDX4UBGVuPQ5x5fpvQrnmr5mSA/wPrG41U99kvYaan7Cjn9oUvAaxVH7PaklW
+	VKZjpJSc64YWk2i9TijHtz7sEl8axChFv2Y3XB70BWElQQ6bizoh4uNczvsr4XXG
+	s/tJmNa2Q52VmDItW3bWjC484q/jkw1eaSx+rduBHSZt77TVzIr8JTYqSwtMFMu1
+	QXQxBs/+fxccgdk1IJfZKxh/d7z6EVasPMyrv30czrCsKi0yIXZ25JkuNL+5iDte
+	EUqesvyHkVgvdxOHJKIiXSmmujEUquZxhfDBGanoG8+S7IqLSOL0BdAKshSsrTXE
+	+SAhQuZ7PvgpPTJYtAvIzw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm2; t=1782990942; x=1783077342; bh=W
+	sYl+qicsByhkFqFKOYSpTVK+mokgbxbv0Rd2DuRxZg=; b=HkgsRhHakw56FA6Et
+	598wqP4919WAWmI5V8mBD5TwvzBLYs/2b7NJ+b893RB8VBJTw9nY05SMDbjDbJRE
+	atxTK4ksmaGE2nz2pjrOIuTep8icnY/Io35FkruIq+oGt6Re5GCJU08mIrLN9g9Y
+	GgMW0DLCrF7VpQoAETZ/yJfTMga5jb4suwYocbkAk5fYxU8PiCLnz9nliZWQjIA+
+	i9mTzPBcNmppxl8ZD0ytvVa5fFbtVQP1/s+mczylWzWx4ThclTIzFXmL9mQoHuyz
+	bKiSNJL2IYD7tzs5x9GPRnpA2JxJcagYzwOlZ4PLP/R07yeg7rTTEeB7cGuL3dCE
+	vvQQg==
+X-ME-Sender: <xms:XUhGalulm1zSiCXMXxZSb_NLMmXwJ8jHAqAVPR3sCqWh9R-M-vSY6w>
+    <xme:XUhGanaDtaJlzkq1QfbBzmZe8eNsWnMiDhWyRlu3WISvYPpCk29pcUcyKPFPvQA3n
+    Zz0Q90mq82Fxau0iryGyKGAJs2TNXfjjiyJorQ84ZhA2itxHg>
+X-ME-Received: <xmr:XUhGakVFZjasmGrFJtild3p_oonHBq8wPT6DE6S0tMu_3FaHDQOeD7tPcqUt6pzNtbPgtj1jjEFagMzerRJz3PdkLgfMPtw>
+X-ME-Proxy-Cause: dmFkZTFYFXduZZeCbiYO2qP7P/IlfTT5YqzJQ01ckcz5pMDPBWwDDZF/7cGa5t22DbgHOl
+    swOSaY5zdf1Z6CX341Ql0yO04kji5O/ZhFcMzqwBGmmjzVcnb6rNi+OyubnQQkFgFOwz1y
+    YfS9om9qseIzLF23yd7GfK2AldsRuqPp9AjWf8XADVHZdyTF9AqJMIeWlXHOj4SDgwYJoX
+    Rl1TWZo5BIv+zebqjKs4rKu0AKc4R4gsgbIBqk7KoopDFTPDXX+G9lTs0Owr3vkT/WyNED
+    RwmQtsG92ty9KYFubvm05R4Wd81hx2EXc3mqhqFsHRSHxsKC3AUqhx1riG1r/ZayhkL2ku
+    w39xzdkFqWxeV3t81pr3DWggjod1DkZm/agD3THn3By/RMkPTYeRjfxS7psR53eXx1CVAU
+    9ATz87ioQ5wQREFGBjy0vTJXGsGhUWvruQwsyDZkIFrGgDmSGJ2bDGJJctovkG9ejRckUa
+    UU4BaG/b5usmQmB7gtAg1h6YI95gD7C43jb0JH2EvX5eRtECGaJVNc5qDT3jnYlZZMwgD2
+    xzg61CtT934dk2NSA18vUiHwBWZiv/GGdD5aiDNhEfmxLS3upkmt5jI56dPU46oYkfB70n
+    cb++0VKKaW+4yO1Zv/FS5Bf4nLUx6ThAjRUmQAA5pAH4Rj4GZlaKoiu2g2Jg
+X-ME-Proxy: <xmx:XUhGasS91LTpejNzdOqruwiyiMi4hosjyfuwFqfyU0pKmDCG351WBQ>
+    <xmx:XUhGaiM_hlJ9OE0jp5hONL4KslXkMvTElB4c7oGe7uX8U4OZfQJ1yA>
+    <xmx:XUhGaqTDEzItiLMq4unXlya1tNuarEIw6m7Pdo1WoRHmCLDbWLNfsw>
+    <xmx:XUhGagh01Q1-G2MnJ3UNg_uSg-JhWjwxPsS11_rlT1bcfoGIxeH9JA>
+    <xmx:XkhGahb5GehaQn104WbJaGC4TH-WDmFWeUDCRWVoQDEuw51FUQ5jBLzF>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 2 Jul 2026 07:15:39 -0400 (EDT)
+From: NeilBrown <neilb@ownmail.net>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Jori Koolstra <jkoolstra@xs4all.nl>
+Subject: 
+Date: Thu,  2 Jul 2026 21:09:18 +1000
+Message-ID: <20260702111529.3559835-1-neilb@ownmail.net>
+X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
+In-Reply-To: <[PATCH 0/3] VFS: replace dentry_create>
+References: <[PATCH 0/3] VFS: replace dentry_create>
+Reply-To: NeilBrown <neil@brown.name>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bf56e2e98b512962a2fb88900d535a0e9e6769d8.1782735110.git.ljs@kernel.org>
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,armlinux.org.uk,kernel.org,siemens-energy.com,hansenpartnership.com,gmx.de,redhat.com,alien8.de,linux.intel.com,mev.co.uk,visionengravers.com,pengutronix.de,gmail.com,ffwll.ch,suse.de,oss.qualcomm.com,ideasonboard.com,nvidia.com,amd.com,shazbot.org,zeniv.linux.org.uk,linux.dev,google.com,infradead.org,samsung.com,goodmis.org,huawei.com,vger.kernel.org,lists.infradead.org,lists.freedesktop.org,lists.linux.dev,kvack.org,googlegroups.com,surriel.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[75];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,pedro-suse.lan:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 29, 2026 at 01:23:30PM +0100, Lorenzo Stoakes wrote:
-> There are a number of places where we open code what linear_page_index()
-> and linear_page_delta() calculate.
-> 
-> Replace this code with the appropriate functions for consistency.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+This is a resubmittion of the VFS parts of my series for replacing
+dentry_create(), used by nfsd, with a new vfs_lookup_open().  I've sent
+the nfsd parts which doesn't depend on these VFS change to the nfsd
+maintainer/list.  After both sets a reviewed and land in respective tree
+we can land the final patches to use vfs_lookup_open().
 
-Reviewed-by: Pedro Falcato <pfalcato@suse.de> # mm
+These change conflict with Jori's O_CREATE|O_DIRECTORY patches.
+I've done an initial port of those patches onto these with the result 
+at github.com/neilbrown/linux.git in branch lookup-open.
+They compile, but that is all.
 
--- 
-Pedro
+Relevant parts of the original cover letter:
+
+My recent proposal for inverting the order between inode_lock() on a
+parent dir and d_alloc_parallel() missed that fact that atomic_open()
+has two callers, and would have resulted in easy deadlocks from nfsd
+when re-exporting and NFS filesystem.
+
+I think the best way to fix this is to provide a richer interface for
+nfsd to use, which includes all the locking as well as inode_operations
+calls.  This allows the nfsd behaviour to share more code with the
+system-call behaviour.
+
+This series refactors code between lookup_open() and
+open_last_lookups(), and uses the new lookup_open() to provide
+vfs_lookup_open().
+
+ [PATCH 1/3] VFS: move mnt_want_write() and locking into lookup_open()
+ [PATCH 2/3] VFS: move delegated_inode retry loop into lookup_open()
+ [PATCH 3/3] VFS: add vfs_lookup_open()
+
+Thanks,
+NeilBrown
