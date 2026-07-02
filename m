@@ -1,182 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6963D304BA3;
-	Thu,  2 Jul 2026 15:08:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0482848BE;
+	Thu,  2 Jul 2026 15:09:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783004881; cv=none; b=arrPexDMl6Hr77yFfpuBlLHOhe4OARqIqiG60O4JeB9NlLk7jNEtdja/TPN5a4CkvI5X++3obaKp8+amn6X/FbklFa2RcVWS2Y+69ZMWtHDvHI2aF69X4q+VnVtLvcnuEweAKy9uOGlcLiLxDQ5z7jTHvC6aiZc5CqYu5CliJls=
+	t=1783004946; cv=none; b=HNO4KS04Z4UBO+UvsXrPZvp6LCuEoJmc6WxVdvVJhkduJqwSM22qYYuTORgwGpNuBzH80UyVIlsIc6++hLnNrn9stC3xuQhdUeKavfj8OviKj1P0KFAGLCn8Z8bG1qsNEgdVkuDkby6beuX7BtQrcVuNgV1+O8Ld16UWUxm+cg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783004881; c=relaxed/simple;
-	bh=y4zASIOpDcdHNpVyvC0V7pZR6lTxoHxe/cShlwJcbxo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LcFPeWbWMOKmwWwh5Uenr2nylgsnuzemBzLu98pEHcD7/8ifEGKSsKZM2EGH8leujS5ZYkDOy1v6JtZ/j3rEiFUM7x3y2Clz/w8BJhH80Dy7WlDhbxAsKLNZwFnvsfaW5l0CBPh0NdelwbS1wLT3ioF5OY7lZDYyB3m6gbHKUKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a4Gnl3tS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783004946; c=relaxed/simple;
+	bh=yGJKHc5VaZqAcjK7B3O7FcXFuO948pn6B7TcAXQ0C7M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EMvqAXt/Ji+yTBVkOa6CLTWVCePpqOKW//TrQClF90OLU6ZUTUDnpSjiDv28BptLUVZlun+EuuIBvtImcK5AQOvckzjzTp+c0zKueeXhgs6X7gA+ccvjoHL5/wJQuEd0veXoFHI9FGAZpVVlGZQV8UhNfXFg+unU1gnkgxM1BdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Dkh9RWL9; arc=none smtp.client-ip=95.215.58.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a4Gnl3tS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FDA51F000E9;
-	Thu,  2 Jul 2026 15:07:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783004880;
-	bh=SMdTlZSyfYXIySwapoErHbyj0uzKe07jFauf8iJA+Mc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=a4Gnl3tStGH7RXQ//+xF/BSggNAlae1CK+r+l2EfL4WbA5ScMFREkIkCRJUmtOA29
-	 FU0Nugw6scm8cddkC3g7Km5GNuRDDPb8TPuNzmv0rVcZpSdP+YmNhtydo6qq22qlya
-	 0aRi4YiBevV/DRw6I/LekVEZEqWo637T58bz1zTm8VWXa494/26F5kEsBqE2YKPeE8
-	 OLMb6lDdwuvw54/qbWz5swglGC2O06Glcen8UycBue3SbWQI/scubg8jsbHGvH+y3O
-	 gpRjo41H3rQAijyjyCVzXMbzqjpvJ0UhdAFw4TbEhBjixetkTYNhs9K9haZu69AcTI
-	 8HgJHw9AjIj2w==
-Date: Thu, 2 Jul 2026 16:07:48 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Justin Stitt <justinstitt@google.com>, Carlos Maiolino <cem@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Brian Foster <bfoster@redhat.com>, 
-	Christoph Hellwig <hch@infradead.org>, David Disseldorp <ddiss@suse.de>, 
-	Mark Brown <broonie@kernel.org>, Jani Nikula <jani.nikula@intel.com>, 
-	Jens Axboe <axboe@kernel.dk>, David Hildenbrand <david@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Christian Brauner (Amutable)" <brauner@kernel.org>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-Message-ID: <akZ-NTnx9EiNZqu6@lucifer>
-References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
- <20260702145322.GG3534761@killaraus.ideasonboard.com>
- <8a1cbee162ce85bb34b279de60726bee565d7279.camel@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Dkh9RWL9"
+Message-ID: <cf5a92d3-2c7e-41e6-afed-f2a4c9d1a774@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1783004941;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GVgi/IDW6MB0ICHH5yTujujreeH5t5fHN661xjkq/74=;
+	b=Dkh9RWL9rMIQE6Ur1L+lFP9fWBIPUF1EBlETBXiV1FwoU/+0F4n7u3+DtwQotZKTkFazHu
+	oHVZr/Vs+FAfYKVbUxY57cWOfPctKhbPm5r74IEfkBs57Xoqgu/OIspBSvCnXq9uEYouaN
+	h+ygMrTbcJpYGV90L9aTDp+5SWenOgM=
+Date: Thu, 2 Jul 2026 23:08:32 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8a1cbee162ce85bb34b279de60726bee565d7279.camel@kernel.org>
+Subject: Re: [PATCH 02/13] mm/vma: update do_mmap() to use vma_flags_t
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: akpm@linux-foundation.org, tsbogend@alpha.franken.de,
+ maddy@linux.ibm.com, mpe@ellerman.id.au, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ l.stach@pengutronix.de, inki.dae@samsung.com, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, krzk@kernel.org, peter.griffin@linaro.org,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tursulin@ursulin.net, robin.clark@oss.qualcomm.com,
+ lumag@kernel.org, lyude@redhat.com, dakr@kernel.org,
+ tomi.valkeinen@ideasonboard.com, hjc@rock-chips.com, heiko@sntech.de,
+ andy.yan@rock-chips.com, thierry.reding@kernel.org, mperttunen@nvidia.com,
+ jonathanh@nvidia.com, kraxel@redhat.com, dmitry.osipenko@collabora.com,
+ zack.rusin@broadcom.com, matthew.brost@intel.com,
+ thomas.hellstrom@linux.intel.com, oleksandr_andrushchenko@epam.com,
+ deller@gmx.de, bcrl@kvack.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
+ muchun.song@linux.dev, osalvador@suse.de, david@kernel.org, ziy@nvidia.com,
+ baolin.wang@linux.alibaba.com, liam@infradead.org, npache@redhat.com,
+ ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org, hughd@google.com,
+ vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com,
+ jannh@google.com, pfalcato@suse.de, kees@kernel.org, perex@perex.cz,
+ tiwai@suse.com, linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-tegra@vger.kernel.org, virtualization@lists.linux.dev,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ linux-fbdev@vger.kernel.org, linux-aio@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-sound@vger.kernel.org
+References: <e0ac58ad2b88ff7e2f0024e3286b2e786f79ca32.1782760670.git.ljs@kernel.org>
+ <20260702111531.64883-1-lance.yang@linux.dev> <akZwsS-_cywsXSjL@lucifer>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+In-Reply-To: <akZwsS-_cywsXSjL@lucifer>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Jul 02, 2026 at 11:02:19AM -0400, Jeff Layton wrote:
-> On Thu, 2026-07-02 at 17:53 +0300, Laurent Pinchart wrote:
-> > On Thu, Jul 02, 2026 at 10:32:48AM -0400, Jeff Layton wrote:
-> > > We've had this requirement in place in the Documentation for several
-> > > months, but it's becoming clear that the signal to noise ratio from this
-> > > is quite low.
-> > >
-> > > 1/ It's not universally followed. While many people do try to attribute
-> > > the LLMs in good faith, not everyone does for various reasons.
-> > >
-> > > 2/ It basically serves as free advertising for proprietary LLM companies.
-> > >
-> > > 3/ It's not clear why we want to collect this info in the first place.
-> > >
-> > > Given that the data this provides is flawed at best and is being
-> > > collected for a purpose that isn't clear, let's just kill the
-> > > requirement for these tags from the kernel at large.
-> > >
-> > > Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> > > ---
-> > > Christian had proposed watering down the LLM attribution, but I think
-> > > it's not productive to try and track this until we have a clearer sense
-> > > of what we want to do with this information and how to make it more
-> > > reliable.
-> > > ---
-> > >  Documentation/process/coding-assistants.rst  | 22 ----------------------
-> > >  Documentation/process/submitting-patches.rst | 10 ----------
-> >
-> > You're missing scripts/checkpatch.pl.
-> >
-> > >  2 files changed, 32 deletions(-)
-> > >
-> > > diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
-> > > index 899f4459c52d..c4cc0917fc92 100644
-> > > --- a/Documentation/process/coding-assistants.rst
-> > > +++ b/Documentation/process/coding-assistants.rst
-> > > @@ -35,25 +35,3 @@ is responsible for:
-> > >  * Ensuring compliance with licensing requirements
-> > >  * Adding their own Signed-off-by tag to certify the DCO
-> > >  * Taking full responsibility for the contribution
-> > > -
-> > > -Attribution
-> > > -===========
-> > > -
-> > > -When AI tools contribute to kernel development, proper attribution
-> > > -helps track the evolving role of AI in the development process.
-> > > -Contributions should include an Assisted-by tag in the following format::
-> > > -
-> > > -  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
-> > > -
-> > > -Where:
-> > > -
-> > > -* ``AGENT_NAME`` is the name of the AI tool or framework
-> > > -* ``MODEL_VERSION`` is the specific model version used
-> > > -* ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
-> > > -  (e.g., coccinelle, sparse, smatch, clang-tidy)
-> > > -
-> > > -Basic development tools (git, gcc, make, editors) should not be listed.
-> > > -
-> > > -Example::
-> > > -
-> > > -  Assisted-by: Claude:claude-3-opus coccinelle sparse
-> >
-> > Documentation/process/generated-content.rst still clearly requests
-> > contributors to disclose usage of code-generation tools. Even if we drop
-> > the Assisted-by tag, I think it is useful to mention the requirement
-> > here (probably including a link to generated-content.rst).
-> >
->
-> Fair point. Maybe we should keep the Attribution section then, and give
-> it some brief text like:
 
-I really do not understand how requiring disclosure but not tags isn't a
-contradictory position?
 
-If disclosure via tags is worthless because people don't always do it, how is
-disclosure using rules not also worthless?
+On 2026/7/2 22:16, Lorenzo Stoakes wrote:
+> On Thu, Jul 02, 2026 at 07:15:31PM +0800, Lance Yang wrote:
+[...]
+>>
+>> [...]
+>>> diff --git a/mm/mmap.c b/mm/mmap.c
+>>> index 46174e706bbe..547352183214 100644
+>>> --- a/mm/mmap.c
+>>> +++ b/mm/mmap.c
+>> [...]
+>>> @@ -488,23 +496,27 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
+>>> 		 * Check to see if we are violating any seals and update VMA
+>>> 		 * flags if necessary to avoid future seal violations.
+>>> 		 */
+>>> -		err = memfd_check_seals_mmap(file, &vm_flags);
+>>> +		err = memfd_check_seals_mmap(file, &vma_flags);
+>>> 		if (err)
+>>> 			return (unsigned long)err;
+>>> 	} else {
+>>> 		switch (flags & MAP_TYPE) {
+>>> 		case MAP_SHARED:
+>>> -			if (vm_flags & (VM_GROWSDOWN|VM_GROWSUP))
+>>> +			if (vma_flags_can_grow(&vma_flags))
+>>> 				return -EINVAL;
+>>> 			/*
+>>> 			 * Ignore pgoff.
+>>> 			 */
+>>> 			pgoff = 0;
+>>> -			vm_flags |= VM_SHARED | VM_MAYSHARE;
+>>> +			vma_flags_set(&vma_flags, VMA_SHARED_BIT, VMA_MAYSHARE_BIT);
+>>> 			break;
+>>> -		case MAP_DROPPABLE:
+>>> -			if (VM_DROPPABLE == VM_NONE)
+>>> +		case MAP_DROPPABLE: {
+>>> +			vma_flags_t droppable = VMA_DROPPABLE;
+>>> +
+>>> +			if (vma_flags_empty(&droppable))
+>>> 				return -EOPNOTSUPP;
+>>> +			vma_flags_set_mask(&vma_flags, droppable);
+>>> +
+>>> 			/*
+>>> 			 * A locked or stack area makes no sense to be droppable.
+>>> 			 *
+>>> @@ -515,23 +527,24 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
+>>> 			 */
+>>> 			if (flags & (MAP_LOCKED | MAP_HUGETLB))
+>>> 			        return -EINVAL;
+>>> -			if (vm_flags & (VM_GROWSDOWN | VM_GROWSUP))
+>>> +			if (vma_flags_can_grow(&vma_flags))
+>>> 			        return -EINVAL;
+>>>
+>>> -			vm_flags |= VM_DROPPABLE;
+>>
+>> Old code checked VM_GROWSDOWN|VM_GROWSUP before seting VM_DROPPABLE. New
+>> code flips that around. Hmm, shouldn't master, just made me look twice ;)
+>>
+>> Maybe keep old order?
+> 
+> I guess I feared that defining droppable above then referencing it below would
+> be less clear?
+> 
+> Can move if you feel strongly about it, and sorry for making the move at the
+> same time as the general vm_flags_t -> vma_flags_t refactor as it does make that
+> less clear...
 
-Tags seem like the clearest possible means of expressing this so now I'm
-confused as to the point being argued here...
-
->
-> "Contributions developed with LLM help should also follow the
-> guidelines outlined in the generated-content document."
->
-> With a link to generated-content.rst?
-
-Again I proposed to send this patch alrady but oppose your one, so how should we
-move forwards?
-
-If the patch will land over my objections then fine I can save some time, but if
-it's in question, maybe I can just do that bit separately?...
-
->
->
-> > > diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> > > index cc6a1f73d7f2..b74c38aa9770 100644
-> > > --- a/Documentation/process/submitting-patches.rst
-> > > +++ b/Documentation/process/submitting-patches.rst
-> > > @@ -634,16 +634,6 @@ bugzilla.kernel.org is a public place in this sense, but email addresses
-> > >  used there are private; so do not expose them in tags, unless the person
-> > >  used them in earlier contributions.
-> > >
-> > > -Using Assisted-by:
-> > > -------------------
-> > > -
-> > > -If you used any sort of advanced coding tool in the creation of your patch,
-> > > -you need to acknowledge that use by adding an Assisted-by tag.  Failure to
-> > > -do so may impede the acceptance of your work.  Please see
-> > > -Documentation/process/coding-assistants.rst for details regarding the
-> > > -acknowledgment of coding assistants.
-> > > -
-> > > -
-> > >  .. _the_canonical_patch_format:
-> > >
-> > >  The canonical patch format
-> > >
-> > > ---
-> > > base-commit: 665159e246749578d4e4bfe106ee3b74edcdab18
-> > > change-id: 20260702-aidoc-7e18f221d63a
->
-> --
-> Jeff Layton <jlayton@kernel.org>
-
-Thanks, Lorenzo
+No need to churn just for me. Thanks :)
