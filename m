@@ -1,109 +1,77 @@
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003243346BE
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 16:18:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689B62C21C7;
+	Thu,  2 Jul 2026 16:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783009097; cv=none; b=h/jmYjLPUFjBQHekb1eVa5scV5mNxGV7Yp5F4y5U+xxUhWxGOcwPULKllwOp2pRp9qOGjXU6mw+FNazeb3HkinlSONzWrxrpRDfRJeIv8t8KwYotcd5caAOEBx110yYEsQMSZKuAjibafnFytvsDIE/KBSmqz8Eg5BMmcO16RH0=
+	t=1783009132; cv=none; b=NBnJpcutE0WXLCZCw/FFcbwSSTgdkfEo0rNPQUuVJg45nTPiR+tYzIVhT/U/QpXY0LfL1h4GTseqT/2oAnuYdD8AgdJ5jv3KN4fLejCycqG3cLiwblO370wv/WN0QoCPnsGCa3wqnBKudtTXBdsccWbvFYep3PMrhT7KgzJBSZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783009097; c=relaxed/simple;
-	bh=pQ4G/DNjqbCGt0i5V57QRDAYeVOz7JXZ8WuyK5q8U4o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GXXO+gc1wQaTrnc02IAUAnKPgi5sj3rDFK7CFwaHWRdowOKWceKDeJvZ8EaytW/aXUSOJKZUeO6U/d6MCUBykoFuYay6cvIP7jPjriBqZ97qOJjz4wdKkwFuNyguh3xDqcjqlXNwmMGKVHJyFMcmAbehXMTjys35o8HyjoAHOCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ZvFsPkNB; arc=none smtp.client-ip=95.215.58.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1783009132; c=relaxed/simple;
+	bh=7htcDs/00c25hrTxhtL6vvRMJZp3El53VXx2WaqiFJY=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=ewuz9WiQhefiReFHzkjDcVroCi/yHWsGD7+t5yFfYlrjh0y/fH0Zu5q5oZOJ7KeIJ5ff/y3zaLh/QfILvxJKc6RWtCNYKTJKuvzGQYmmrdPs1oteIk6e1AqEYC+6e3FICqzeYd/+ofTblvKslAldWZJDDuHWlIYOByWtQcFOPS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DyRFsJ0q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ZvFsPkNB"
-Message-ID: <2f36a2da-0686-485f-b4b9-ae699bef4fd4@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1783009091;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nLm6wd6MZy34PotO0lu+sqiieTpRzFwK6t+5eDAyG2s=;
-	b=ZvFsPkNBnPpT/fXlkSqC4NvmGcAElqV1ItfaWxOxanuNMADXNea0vysO/aaC9fK20Fa/Nl
-	/h+xkuVNERTD1ctetn6nlGPrMQ61CJ3XCqhhkVF860M2M509mqat5nuz+pZfFLHprM1shj
-	DZ6Bs3Xsc4eQrpsCTRy6e4DCc3heh0Y=
-Date: Fri, 3 Jul 2026 00:17:29 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DyRFsJ0q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 630E71F000E9;
+	Thu,  2 Jul 2026 16:18:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783009131;
+	bh=7htcDs/00c25hrTxhtL6vvRMJZp3El53VXx2WaqiFJY=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=DyRFsJ0qPwfI55AIV2ZDqEkfnyZVBzGiYoKD3IZOhZ1Cj0oQnY9Nuhr+y0h3b5UI5
+	 2mdTM5hyA5pBOp1CFLLrJmgcmxFmHe5b4eTGMnM0lp7XUJe4Xq80p9htog7nR5NYZ6
+	 5gLyavR4Cx3NKu6wfEtrHhqPGIWyVJwf/ukOepmrPcRGNHe4KwqzADHr01BUQrHq5G
+	 ovcVugYhwzPgotFM7Gmy9YTBpe1F1bk73jtm+tuw9ExdMyXtM/yOMDfiBwrsSUgs6m
+	 soXZNVsM1M1KMQ3Z8TDeNdPkePG8NZLbX03WNjs/bwM00vpLvRyM6pdhtSTJnPI6fG
+	 DbUjhZeyI909Q==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 13/13] mm/mremap: convert mremap code to use vma_flags_t
-Content-Language: en-US
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: akpm@linux-foundation.org, tsbogend@alpha.franken.de,
- maddy@linux.ibm.com, mpe@ellerman.id.au, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- l.stach@pengutronix.de, inki.dae@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, krzk@kernel.org, peter.griffin@linaro.org,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tursulin@ursulin.net, robin.clark@oss.qualcomm.com,
- lumag@kernel.org, lyude@redhat.com, dakr@kernel.org,
- tomi.valkeinen@ideasonboard.com, hjc@rock-chips.com, heiko@sntech.de,
- andy.yan@rock-chips.com, thierry.reding@kernel.org, mperttunen@nvidia.com,
- jonathanh@nvidia.com, kraxel@redhat.com, dmitry.osipenko@collabora.com,
- zack.rusin@broadcom.com, matthew.brost@intel.com,
- thomas.hellstrom@linux.intel.com, oleksandr_andrushchenko@epam.com,
- deller@gmx.de, bcrl@kvack.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
- muchun.song@linux.dev, osalvador@suse.de, david@kernel.org, ziy@nvidia.com,
- baolin.wang@linux.alibaba.com, liam@infradead.org, npache@redhat.com,
- ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org, hughd@google.com,
- vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com,
- jannh@google.com, pfalcato@suse.de, kees@kernel.org, perex@perex.cz,
- tiwai@suse.com, linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-tegra@vger.kernel.org, virtualization@lists.linux.dev,
- intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
- linux-fbdev@vger.kernel.org, linux-aio@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-sound@vger.kernel.org
-References: <380f761d35a3faa4370f8b3f92e3d4af3d4c7110.1782760670.git.ljs@kernel.org>
- <20260702134947.25189-1-lance.yang@linux.dev> <akaJx8Zt8kazlrjq@lucifer>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <akaJx8Zt8kazlrjq@lucifer>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+From: Christian Brauner <brauner@kernel.org>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ "David Hildenbrand (Arm)" <david@kernel.org>, 
+ Linus Torvalds <torvalds@linux-foundation.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
+ Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>
+In-Reply-To: <akZzDfK-yr5ErVJT@lucifer>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
+ <20260702-seekrank-stilrichtung-mitentscheiden-69a64ee097ec@brauner>
+ <1f29f48d-b9ff-4de2-a392-dc05781728be@kernel.org>
+ <akYz2aMIco1fbD-t@lucifer>
+ <54d3a698-a275-488e-ad36-ef423db30f70@kernel.org>
+ <20260702-weitreichend-aufgearbeitet-flausen-fd92f38bbba0@brauner>
+ <akZqigap0GTOSkyx@lucifer>
+ <20260702-angewachsen-glatze-kassen-61b7761f6564@brauner>
+ <akZzDfK-yr5ErVJT@lucifer>
+Date: Thu, 02 Jul 2026 18:18:45 +0200
+Message-Id: <20260702-jagdrevier-halfen-paragraf-442896b3a5a0@brauner>
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=289; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=7htcDs/00c25hrTxhtL6vvRMJZp3El53VXx2WaqiFJY=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS59WeUW4pOVuV1sC9zub3ozckjz8VWPDXdq6ZpfU1z7
+ 1K/wwrXOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACby2Y+R4d/cd4YtZp8un9fe
+ peUU9zRDfp/e+cv/pX28cza+VN1itoHhf6rD3E2dj9TfX/j1s8inlDukYG+VucMyS/mtkraz5uz
+ JYAIA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
+> I don't understand that at all. The coding assistants document is not being
+> deleted, and if you read https://docs.kernel.org/process/generated-content.html
+> you can see it doesn't enforce tags.
 
+I think that was a misunderstanding. I just wasn't clear on what you
+wanted to do.
 
-On 2026/7/3 00:07, Lorenzo Stoakes wrote:
-> On Thu, Jul 02, 2026 at 09:49:47PM +0800, Lance Yang wrote:
->>
->> On Mon, Jun 29, 2026 at 08:25:36PM +0100, Lorenzo Stoakes wrote:
->>> Replace use of the legacy vm_flags_t flags with vma_flags_t values
->>> throughout the mremap logic.
->>>
->>> Additionally update comments to reflect the changes to be consistent.
->>>
->>> No functional change intended.
->>>
->>> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
->>> ---
->>
->> The vm_flags_set() cases below spell out vma_start_write(), but the
->> vm_flags_clear() cases don't?
-> 
-> Yep as I said elsewhere, implicitly taking the lock is terrible and me doing
-> this is completely on purpose to get rid of that :)
-> 
-> But I haven't been clear enough clearly, so I should put the argument as to why
-> that's ok in the commit message.
-> 
-> Will do so on respin.
-
-Makes sense, thanks for spelling it out! A short changelog note
-should clear it up for me :D
-
-[...]
