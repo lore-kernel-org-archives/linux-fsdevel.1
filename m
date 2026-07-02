@@ -1,118 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from flow-b5-smtp.messagingengine.com (flow-b5-smtp.messagingengine.com [202.12.124.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A19D25C6EE;
-	Thu,  2 Jul 2026 15:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61AE43191CE;
+	Thu,  2 Jul 2026 15:43:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783006839; cv=none; b=aXuZ1AvGL/SqfScg6yTXojcBsV2s4TYDl+iqGlYwnm/mMT5EUuX8/vb3bTaBtQNWta39LfMTU3SWsn4aHwxOTHY812Wyb6K5fpIAdg8oQHpnUGK9YH6qWH0+oC6moE+sNONS10gwh/Iaj1htd60s7FVz+oWWEf5VkOOjCkrbSTU=
+	t=1783007035; cv=none; b=CRGb6pxdMxWgHssbNGleRWfIw/5+ZbDA3yl1M1cgZO6QPx41ISQVOkt/EOBgZ39ewVBb3OIY2RPIxulEHD/USk01sjkfGkKjde37s1oGZwxELMIGm8K+LC2ZzDia7WXs+NUQXoPb4WT5TsusPS6CRdS9dBpNja5BdOX9u39dkQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783006839; c=relaxed/simple;
-	bh=1KusJ3AQEr1aqQ3DLhLNitOF1kBax8nnylo9H5eGrBU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hqUuNVcEIEOXVr+yfo7Pr+eyP7gpA2e7R7wCC5tTxOf2C0UxAE66k/whYEbOZcwDavVevV4GhkWmeP5zwcOxXcrGF5JUWvNOXbJjxDbrQlv6TbWv5sGj/90o+rEheWXFPhKi4yyyxMfI9wyQ06KDcPddLiZc1raqHUv7F45PyoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z8vOAtQO; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783007035; c=relaxed/simple;
+	bh=vf9XSdkCvFVNbsoR1vcY9ePWywXI5GETA9KGjDxzwiY=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=J0ummyyfWWoxKLID4SGs07oHdUQLtRaAl5oq2WhJwN47FG2otdugmHPWbaUZUG3ijEPKmxDCLBazgffQV77AOqYPuIr7pQ2fTE6PohG/79WAPWjpSN9a6SZe/0tZd1fKoeGx8ONTzy5uSQTwqvybHEXH9hRI71G2McrQliFEB8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=wPiWIf7i; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PK70Z+VM; arc=none smtp.client-ip=202.12.124.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=johnericson.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z8vOAtQO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE8E41F00A3E;
-	Thu,  2 Jul 2026 15:40:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783006838;
-	bh=gNLYS8EYE6bJ5KaXF7DR9fRu4urDF+a7laqqF8q0hcA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Z8vOAtQOT+iGTiy4xQ3GfxWy9CpR6iieY1qxm1fyBJSvxEFV2aEwGeTLwIZE4UbYF
-	 sH6QvDHKQJHBXcc/JYlecYNDNZBJEw63vn2taYjOLxg3iNlePJRLcm76SDX3qcqqpf
-	 OAzUHT+NRGQHyZOOfos5EJuVfaKEWfkdr4crDOBp2KFX/hKeIetGWLc1I64/oz6RHQ
-	 NC8RA6ivq/IEW4DV1d+3Z0k229cWnviqo6Svky+UHUgnyeaFy3m0xyIovRQ1UfVX8n
-	 wqqP9ts5FpBy46j7HS+G+te0/D/3BLeS388iQo+wLiLJCSDRdl7jDwGFy3vdpkllGJ
-	 NUUDfmqseIbQg==
-Date: Thu, 2 Jul 2026 16:40:15 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Lance Yang <lance.yang@linux.dev>
-Cc: akpm@linux-foundation.org, tsbogend@alpha.franken.de, 
-	maddy@linux.ibm.com, mpe@ellerman.id.au, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
-	l.stach@pengutronix.de, inki.dae@samsung.com, sw0312.kim@samsung.com, 
-	kyungmin.park@samsung.com, krzk@kernel.org, peter.griffin@linaro.org, 
-	jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com, 
-	tursulin@ursulin.net, robin.clark@oss.qualcomm.com, lumag@kernel.org, lyude@redhat.com, 
-	dakr@kernel.org, tomi.valkeinen@ideasonboard.com, hjc@rock-chips.com, 
-	heiko@sntech.de, andy.yan@rock-chips.com, thierry.reding@kernel.org, 
-	mperttunen@nvidia.com, jonathanh@nvidia.com, kraxel@redhat.com, 
-	dmitry.osipenko@collabora.com, zack.rusin@broadcom.com, matthew.brost@intel.com, 
-	thomas.hellstrom@linux.intel.com, oleksandr_andrushchenko@epam.com, deller@gmx.de, bcrl@kvack.org, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, muchun.song@linux.dev, osalvador@suse.de, 
-	david@kernel.org, ziy@nvidia.com, baolin.wang@linux.alibaba.com, 
-	liam@infradead.org, npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, 
-	baohua@kernel.org, hughd@google.com, vbabka@kernel.org, rppt@kernel.org, 
-	surenb@google.com, mhocko@suse.com, jannh@google.com, pfalcato@suse.de, 
-	kees@kernel.org, perex@perex.cz, tiwai@suse.com, linux-mips@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
-	etnaviv@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
-	linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, 
-	intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org, linux-fbdev@vger.kernel.org, 
-	linux-aio@kvack.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 08/13] mm: introduce vma_get_page_prot() and use it
-Message-ID: <akaGOiLz-3Zx6kDs@lucifer>
-References: <3bb8bdc4788230c33102166d56cbc5abfad9d4cb.1782760670.git.ljs@kernel.org>
- <20260702123845.95316-1-lance.yang@linux.dev>
+	dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b="wPiWIf7i";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PK70Z+VM"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.stl.internal (Postfix) with ESMTP id 222731300436;
+	Thu,  2 Jul 2026 11:43:53 -0400 (EDT)
+Received: from phl-imap-16 ([10.202.2.88])
+  by phl-compute-05.internal (MEProxy); Thu, 02 Jul 2026 11:43:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
+	 t=1783007032; x=1783014232; bh=vf9XSdkCvFVNbsoR1vcY9ePWywXI5GET
+	A9KGjDxzwiY=; b=wPiWIf7iWy32YLJJ0SMGd1NcHSYqScVIM3M7FpHP8AXgk4g7
+	Y7i3X/KOZkuNAUqQ+y3cdD+UjdGk2QXfFwWaLUZmgmw8LEii8rDeuYKdDBHXz2LA
+	3KsnRLL4yDkarzv5R87JCrikNYvgeMrOwAcxYEiGGihPIoZrIewMC89TruqSbNZR
+	O48Cm0gC7ZEuKEgBi0XIjbc4mZmEGaYft6zUHn4PtlkbSghDjcw6gdcjDdLVeK0T
+	Fu2thCuuX7tid1qgyLz2LNbNM3eCHR3ycyCBGK7XwjipzJBYH+1UKeOZy3a0cT3l
+	VOC+PGhPVBiLY+mkhuLVfAKgozera91Ua6z4GA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1783007032; x=
+	1783014232; bh=vf9XSdkCvFVNbsoR1vcY9ePWywXI5GETA9KGjDxzwiY=; b=P
+	K70Z+VMbMfq+5ZKQNqUpYAOuUQfjP68coj6vUY9T6sckYR/HCRZhcEEqVNjBpDnr
+	A1PNn5KW8Sd44fxzC1E2EoUXgZ8hEduXecCuqoCFn9ADyjEU9heuclcZ1/0l5Fx6
+	4U7FWpitVNBg8XD1YkSA7/bE8pVSUR+eHlQ1guvRFysOTh7M0piqZiAPg9SGzos2
+	Z+u2VDsihTHs965Jl9oLVAL4u5bh+q1p/2hVUSMwVIS92/e2YEOwjvFTDV/PCCbM
+	NSeuxsP/6QzjJo3uK+IEDCrnoopkXuQ/VEWV94lxtqE+mUZsuUfLp5qCTq/BrARg
+	xFLhph53xQ5zPK5B/JJTg==
+X-ME-Sender: <xms:OIdGasFIfFAiBrIhi8ce5Kwx18rxTFFEvEo3pPv8ajOwE1Y220Bxmg>
+    <xme:OIdGagI0wzl2dkZWudPjNS6w2ARQiDJNdsoSaWK1KyL6DG-LvPc0aXIftuEjxhW3R
+    tIIBjJvpTZTR9ixMD-BT1iDAAyL9L6MQfgJ4qM-QjQ5LX8tJ6ixWsVl>
+X-ME-Proxy-Cause: dmFkZTF1QqVkYWXEVVgDZimDsMhAsUZjAfnUjHrZwcnS/C2Z757MjYdRqxqUruGGfXLYdW
+    EsoNXCOq8oCONH5vd0WLSrPRGh9XFE8tHmJ1gIKI3LuR0La/9A8vB/90k9UUGtpCROmeqr
+    xHmVjgn0C2+RD+VkPMucZPlynxVuKdbUDWjDu4wK0IRjKix6gagkr3wmFWR3LNLEV9Rcrl
+    d9NT3Ro+fl2aGLLooU775EXkXRypUrCfdW5tcQQow3+UGwF9AH4FP5pAbsZyHku8tid93+
+    X6dlYUPXj0i4Xyp1/NMOVWNiCdOMerJRKfs7lrvxsYCHxoTkteaLKD0Urj1867+0bKMvZz
+    S/ii+FXiFN7nD8u4I3FvgYqJiCiA7WCi8pPvn1QXN1rLkkWzeOlBlyVwN16RHwLHkUzFIH
+    oMWpl5sMBsJ9nt7ScHh5ydDbtkh6qZO1DbQAX8PysYJVmGU/aIUvIPcfoSTRoo8eptZjQ0
+    01x7Ah/VTUS9FmOXJbdiIlK8sdBwon4KSGeXiS8TI3Ta/Q8eAz17Xmkc36EvAtPrwhyuPB
+    BUpkC6FPwbNRUovXDE3tGLXxD3giOz/US6YfpnE2jSqlUU22ly0+i6Y/Ymv/cUdQDG2uH3
+    kgJsHTxCF0+tOnroapZT+O4AnJsT0KVXmYIY24hYnlnUAADbZK2FXvgaoZ0Q
+X-ME-Proxy: <xmx:OIdGakVnKWaSJABfEYQHKXqQa3tynug9Da6dnI3Hv9HGSm99vrbDNg>
+    <xmx:OIdGalxNPdKZLG_iXrmDRY-OAgX92Bc5M5ZhW82Xlv83I4MX3bK52w>
+    <xmx:OIdGas4QIqiXvdTjtz6tFoS2jpfWXqo5z0CotTmmRIv9YJ_kJVGQXg>
+    <xmx:OIdGavhCS2ne6jKctt3pB-EWRMd6JBpw6iwI-8mFVNVl6Bix8WNyXQ>
+    <xmx:OIdGao9rnT-IushQv9sjuHB3_QfZcYHKn5pcNMezfWfAZJ1Z06q8Evw2>
+Feedback-ID: ieb4144f1:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 117E12CC0083; Thu,  2 Jul 2026 11:43:52 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260702123845.95316-1-lance.yang@linux.dev>
+X-ThreadId: AG8qDlxFSDr7
+Date: Thu, 02 Jul 2026 11:43:31 -0400
+From: "John Ericson" <mail@johnericson.me>
+To: "Christian Brauner" <brauner@kernel.org>,
+ "Andy Lutomirski" <luto@kernel.org>
+Cc: "Li Chen" <me@linux.beauty>, "Cong Wang" <cwang@multikernel.io>,
+ linux-arch <linux-arch@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-api <linux-api@vger.kernel.org>, "Arnd Bergmann" <arnd@arndb.de>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Al Viro" <viro@zeniv.linux.org.uk>, "Kees Cook" <kees@kernel.org>,
+ "Sergei Zimmerman" <sergei@zimmerman.foo>,
+ "Farid Zakaria" <farid.m.zakaria@gmail.com>
+Message-Id: <5abd7c81-3c6b-45d1-aaab-195493c1cdc9@app.fastmail.com>
+In-Reply-To: 
+ <20260702-entladen-farbkombinationen-klarheit-fe24cb608f23@brauner>
+References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
+ <20260629-hauer-erhitzen-sobald-96d3dff68707@brauner>
+ <CALCETrVuh0-biOw=TgYN9ERTFAoiki57XeZ3S2T3dO2+hL54gA@mail.gmail.com>
+ <20260702-entladen-farbkombinationen-klarheit-fe24cb608f23@brauner>
+Subject: Re: [RFC] Null Namespaces
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 02, 2026 at 08:38:45PM +0800, Lance Yang wrote:
->
-> On Mon, Jun 29, 2026 at 08:25:31PM +0100, Lorenzo Stoakes wrote:
-> >There's a large number of vm_get_page_prot(vma->vm_flags) invocations. Make
-> >life easier by introducing vma_get_page_prot() parameterised by the VMA.
-> >
-> >This also makes converting vm_get_page_prot() to vma_flags_t easier.
-> >
-> >Also update the userland VMA tests to reflect the change.
-> >
-> >No functional change intended.
-> >
-> >Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
-> >---
-> > drivers/gpu/drm/drm_gem.c                   |  2 +-
-> > drivers/gpu/drm/drm_gem_dma_helper.c        |  2 +-
-> > drivers/gpu/drm/drm_gem_shmem_helper.c      |  2 +-
-> > drivers/gpu/drm/etnaviv/etnaviv_gem.c       |  2 +-
-> > drivers/gpu/drm/exynos/exynos_drm_gem.c     |  6 +++---
-> > drivers/gpu/drm/i915/gem/i915_gem_mman.c    | 12 ++++++------
-> > drivers/gpu/drm/msm/msm_gem.c               |  2 +-
-> > drivers/gpu/drm/nouveau/nouveau_gem.c       |  2 +-
-> > drivers/gpu/drm/omapdrm/omap_fbdev.c        |  2 +-
-> > drivers/gpu/drm/omapdrm/omap_gem.c          |  6 +++---
-> > drivers/gpu/drm/rockchip/rockchip_drm_gem.c |  2 +-
-> > drivers/gpu/drm/tegra/gem.c                 |  2 +-
-> > drivers/gpu/drm/virtio/virtgpu_vram.c       |  2 +-
-> > drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c  |  2 +-
-> > drivers/gpu/drm/xe/xe_device.c              |  2 +-
-> > drivers/gpu/drm/xe/xe_mmio_gem.c            |  2 +-
-> > drivers/gpu/drm/xen/xen_drm_front_gem.c     |  2 +-
-> > drivers/video/fbdev/core/fb_io_fops.c       |  2 +-
->
-> One missed?
->
-> drivers/gpu/drm/panthor/panthor_gem.c still has:
->
-> 	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
->
-> Can use vma_get_page_prot(vma) too.
+On Thu, Jul 2, 2026, at 4:34 AM, Christian Brauner wrote:
+> I think we could make that work with both FD_NULLFS_ROOT and
+> FD_FAILFS_ROOT...
 
-Oops! Will respin and update. Good spot!
+Fantastic!!
 
->
-> [...]
+What comes next? Do you want to submit the patches for this, Christian,
+or do you want one of us to? (Just trying to be helpful.)
 
-Thanks, Lorenzo
+John
