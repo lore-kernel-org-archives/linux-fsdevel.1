@@ -1,172 +1,113 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9834A47DD43;
-	Thu,  2 Jul 2026 12:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F379846AF3B;
+	Thu,  2 Jul 2026 12:23:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782994926; cv=none; b=sOUyr30CIWiCpychFHorPsUCNsGaRSmIfGukb8voOsfyA1clKs/8dJ3rO9yiNi8UK908S6DNmrh2qdKfqsyeywFQ6vg4sYsXn7/1xi/fklhbW1Qk8QV5btzEVbVXqJCDC+jv/5Owy8S7tVDkl4B5AbBL5EOK4mRvfFUb/LYfl00=
+	t=1782995011; cv=none; b=U0U6M3Qeepq2oE9Sd40v40xFYbJoD+5BkICNx4f9fnIr3DiU387H3c33tcnLkXzV+GyMqqhry1FN0R+Plpd5+bWspEdye0GlCDu9igD8MjxEHxXYrZST1m4eFMZsz92uZ3vh1IHX+iG+dZz/canSc5bz24yIfZicoM6LHU2yec8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782994926; c=relaxed/simple;
-	bh=HAAT0DQ/UAvdNOs6dKZMzpAmDc0tMByxgXgKCu3IuzE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Skb1Skzt7KMSqVWGx8vs5jCNsm7sDMCXfamchhQGpvkTGCAuhNM5t+SoFz1nAH3WaaxcImNaZLnv/cHRJWumEA8oNjgqQ/6DqRXUkA8GMr4zitzwh8ZN72W+iBH1SVHzpvSij2aeJxDB7eZIR+jRGIeEMuab2Fztd4S5xhDFNE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lN0+Boa2; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1782995011; c=relaxed/simple;
+	bh=pYmO2Mgsm3qNbu9Extssk+fNBa9iFzNsg4SsXlV8Ams=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DQ/BEg9aONl3fbfiDLY0WIo8Vbl6y19j3q9HopWSSFKKr4RxNDjZyc2Sh7+eOb1jenveUlRXOgk8BhL4FdYxK/P0xlr1gJXsKSIWvht51AqmXV6rCxR2jzi7qhnQVlQxFPPaWoluStDdmjz0C+aF0ymONEF5Xp/rpyJeiT75k+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RGHKvjLi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lN0+Boa2"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782994911;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=flDoJiJgtgGf3x2zlQX9jaS5nhFTdBgmSXvfG9PiFjA=;
-	b=lN0+Boa2ASIcCLc47EPvtXVMZuYaw78VJ/wVLmRpCeGudutYAguuVxwIGwqQDa2oDibvGW
-	bIpbbgc5ew0Ij3QtFyyGuneAdXTOrpkXqfYfNRMzfKjFKxKgZCy8wM/iRDCenl6trdMYJz
-	+LOdf87J+2yAD0n3s3yNqonkzwm6x4w=
-From: Lance Yang <lance.yang@linux.dev>
-To: ljs@kernel.org
-Cc: akpm@linux-foundation.org,
-	tsbogend@alpha.franken.de,
-	maddy@linux.ibm.com,
-	mpe@ellerman.id.au,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	l.stach@pengutronix.de,
-	inki.dae@samsung.com,
-	sw0312.kim@samsung.com,
-	kyungmin.park@samsung.com,
-	krzk@kernel.org,
-	peter.griffin@linaro.org,
-	jani.nikula@linux.intel.com,
-	joonas.lahtinen@linux.intel.com,
-	rodrigo.vivi@intel.com,
-	tursulin@ursulin.net,
-	robin.clark@oss.qualcomm.com,
-	lumag@kernel.org,
-	lyude@redhat.com,
-	dakr@kernel.org,
-	tomi.valkeinen@ideasonboard.com,
-	hjc@rock-chips.com,
-	heiko@sntech.de,
-	andy.yan@rock-chips.com,
-	thierry.reding@kernel.org,
-	mperttunen@nvidia.com,
-	jonathanh@nvidia.com,
-	kraxel@redhat.com,
-	dmitry.osipenko@collabora.com,
-	zack.rusin@broadcom.com,
-	matthew.brost@intel.com,
-	thomas.hellstrom@linux.intel.com,
-	oleksandr_andrushchenko@epam.com,
-	deller@gmx.de,
-	bcrl@kvack.org,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	muchun.song@linux.dev,
-	osalvador@suse.de,
-	david@kernel.org,
-	ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com,
-	liam@infradead.org,
-	npache@redhat.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	baohua@kernel.org,
-	lance.yang@linux.dev,
-	hughd@google.com,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	jannh@google.com,
-	pfalcato@suse.de,
-	kees@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-mips@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	dri-devel@lists.freedesktop.org,
-	etnaviv@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org,
-	linux-rockchip@lists.infradead.org,
-	linux-tegra@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	intel-xe@lists.freedesktop.org,
-	xen-devel@lists.xenproject.org,
-	linux-fbdev@vger.kernel.org,
-	linux-aio@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 06/13] mm/vma: convert vm_pgprot_modify() to use vma_flags_t and rename
-Date: Thu,  2 Jul 2026 20:21:16 +0800
-Message-Id: <20260702122116.65642-1-lance.yang@linux.dev>
-In-Reply-To: <548ba81b2971734d4d2143237ad1465bd1b2f525.1782760670.git.ljs@kernel.org>
-References: <548ba81b2971734d4d2143237ad1465bd1b2f525.1782760670.git.ljs@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RGHKvjLi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD10E1F000E9;
+	Thu,  2 Jul 2026 12:23:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782995009;
+	bh=pYmO2Mgsm3qNbu9Extssk+fNBa9iFzNsg4SsXlV8Ams=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RGHKvjLi/rQ8Uc1aMCl46e4UCyRg5d/WjnWRYYQ+NdUrbxwZZ4lqieHgBqxQDA2yf
+	 3pAS6hV0G0OL7FU9kMQTSSxUuEqPHILuItgJFIczqIkL4fvd8TESkUeWzDEn44Gv8d
+	 pt/0XPB5DT5IUKwP9OeAD2csN2DEdvnwSpDUgfZe4X08/0dgBsnH1XISS6HJGFxt93
+	 sxL3J60TkDiNwPnanjYjCUIO1NSI9EiY3lvBZZCo24stOLp4jX+ZOJiXd6q1d8+IBY
+	 pV1WsDeYyN2pOYEsI36EcdGW8yT8vl2fJBknxECAxq/r+AxLuCQEIRdsfIpBkxe63r
+	 55/9tpKnfyLIA==
+Date: Thu, 2 Jul 2026 13:23:19 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
+	Jori Koolstra <jkoolstra@xs4all.nl>, Christian Brauner <brauner@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
+	David Hildenbrand <david@kernel.org>, Jeff Layton <jlayton@kernel.org>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+Message-ID: <akZXGJSy0FA3kQ3-@lucifer>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <akYasD1ckWcH1C0g@lt-jori.localdomain>
+ <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
+ <afd0635c-1903-4c7b-8023-cbcd1823e081@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <afd0635c-1903-4c7b-8023-cbcd1823e081@kernel.org>
 
-
-On Mon, Jun 29, 2026 at 08:25:29PM +0100, Lorenzo Stoakes wrote:
->Update vm_pgprot_modify() to use the new VMA flags type vma_flags_t, and
->rename to vma_pgprot_modify() accordingly.
+On Thu, Jul 02, 2026 at 12:34:34PM +0200, Krzysztof Kozlowski wrote:
+> On 02/07/2026 10:44, Vlastimil Babka (SUSE) wrote:
+> > On 7/2/26 10:12, Jori Koolstra wrote:
+> >> Ah, I still reigniting this discussion again :)
+> >>
+> >> What about a combination of what David and Jeff say? The whole point
+> >> seems to me that the salient information is not that an LLM was used (or
+> >> are we going to tag Sashiko as well or any other LLM-based code review
+> >> tool?), but what is was used to do. This information may be relevant for
+> >> how the review is approached. The latter should perhaps only be in the
+> >> cover letter and then we can drop the assisted-by tags altogether.
+> >>
+> >> The question about enforcement remains.
+> >
+> > It's not possible to enforce it. People can deny it if the tag is missing
+> > and you confront them and even though the submission has many signs of being
+> > obviously LLM, there is no definite proof. We've seen (likely, as there's no
+> > proof!) that happen in mm.
+> >
+> > Such situation then penalizes those who disclose so obviously they won't. We
+> > should drop the tag and instead think how we can empower maintainers to be
+> > able to use their own judgment and deprioritize dealing with what they
+> > perceive as LLM slop, without fearing consequences of not being properly
+> > responsible etc, and not rely on any non-enforceable tags for that.
 >
->This is part of the ongoing work to convert vm_flags_t to vma_flags_t, in
->order to eliminate the arbitrary limit of the number of bits in a system
->word on available VMA flags.
+> +1
 >
->Update VMA userland tests accordingly, updating vma_set_page_prot() to no
->longer inline vma_pgprot_modify(), rather we can simply define
->vma_pgprot_modify() as a static inline function and the tests will pick it
->up from vma.h.
+> I see no benefits of enforcing the tag for these exact reasons. Every
+> LLM slop will miss the tag. OTOH, seeing reasonable contribution with
+> the tag makes my spider-senses tingling and causing unnecessary
+> prejudice. If the contribution is reasonable, how does the tag
+> information helps me? I trust (or not) the person, regardless what tool
+> they use.
 >
->No functional change intended.
+> And if we think about any future possible copyright issues with LLM
+> contributions (like if there is ever a ruling that model trained on BSD
+> data creates BSD-derivative work etc), does that tag anyhow solve it?
+> Like if that ruling appear we will go through the history and revert the
+> commits?
+
+Why would you take information _away_ from maintainers?
+
+You're making every LLM 'accusation' a risk for a maintainer because you might
+get the 'how dare you accuse me of using an LLM rah rah rah' response.
+
+Why not eliminate that in at least some cases?
+
+I continue to be baffled at people's opposition adding a single line to emails,
+or a single little comment on the end of it.
+
+I do agree with Vlasta that we need to have a clearer way to just say no (TM) if
+we strongly suspect an LLM.
+
+I had a very unpleasant experience dealing with blowback for doing that in a
+_very_ blatant case and I'd rather not repeat it if it's at all possible.
+
 >
->Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
->---
-[...]
->diff --git a/mm/vma.h b/mm/vma.h
->index bcf0c2773449..6a8abb8ae937 100644
->--- a/mm/vma.h
->+++ b/mm/vma.h
->@@ -522,9 +522,11 @@ static inline bool vma_wants_manual_pte_write_upgrade(struct vm_area_struct *vma
-> }
-> 
-> #ifdef CONFIG_MMU
->-static inline pgprot_t vm_pgprot_modify(pgprot_t oldprot, vm_flags_t vm_flags)
->+static inline pgprot_t vma_pgprot_modify(pgprot_t oldprot, vma_flags_t vma_flags)
-> {
->-	return pgprot_modify(oldprot, vm_get_page_prot(vm_flags));
->+	const pgprot_t prot = vma_get_page_prot(vma_flags);
->+
->+	return pgprot_modify(oldprot, prot);
+> Best regards,
+> Krzysztof
 
-Nit: could this just stay as a single return? something like:
-
-return pgprot_modify(oldprot, vma_get_page_prot(vma_flags));
-
-Otherwise, LGTM, feel free to add: 
-
-Reviewed-by: Lance Yang <lance.yang@linux.dev>
-
-[...]
+Thanks, Lorenzo
