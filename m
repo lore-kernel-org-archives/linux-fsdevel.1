@@ -1,133 +1,161 @@
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5093C6A2B
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 22:57:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.200
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783033024; cv=none; b=RPeMNYTFJRWNkypRQjWozyMuK8ETS50TiQa8XX6F2WfgdJRBclS/812UDagqr8ihxLq/4vLqkKDBgTQD3YvcNEsg6hUFX54PvC/HT7HDfIhvH3wPYIVybnf7ac7bZR4JNk+9TSl3llNUHuTF1XCxZ6li1sqfKgHB6f6onR6Hq/w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783033024; c=relaxed/simple;
-	bh=JbREc04h3WlPRWGedBjLlTNzwXCNqmFS1OsIK4EbIVg=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=lA1soJjawZ8ot8D5702xCSUm232+VYTj+KkWe4CTZe/saSOm4Gv1eiR0YH4Xsyd/5xmxzqU7qdWaF3+co1Qeu23JbpKgne9IyzS/duqa851crefluI1FsrUqrALPE6MpKHkAKaPq4fIadXpc2vn68kGGohAdWWb27j7v/ridMv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-48a4c610ebdso3085614b6e.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Jul 2026 15:57:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44AA34844C
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 23:02:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783033328; cv=pass; b=VOtj2lc8hg5CuVIH2+ODf6XtUlX+XwibhDqrGaW/0eWDwYeoiQvLsRHzN7n6+qPiRqPC/PPthkEHcepuKb6fjqIi++0CpaLruTTOsUJeiZCuDiKciJ6Sm5TtA9xiBYIx6gAX0vbzMm38NZjP+H8WnA66sx7wVM2ivi84O0ySRAQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783033328; c=relaxed/simple;
+	bh=4Kn3VQND47UCcI26pv7bb40u477SLSvq4NVjLC7sHeg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=C4JTQfMAYGiipkbCpkP6X2jEkHadAYGXf7LedhKiYVHWo+JDQeq/Zt6vKvq7ybl0VcktShmgFq5DTETjohHCDfMOQoMZEmajzgXWDTodopJ2Rxkw+uGgEg4GD6gkBDJuwPRcSsJAjNrmt2OanYpW1CYHavByzOF9YOiS1Xlxt/c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fJaEPJ3l; arc=pass smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fJaEPJ3l"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4629051c946so767607f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Jul 2026 16:02:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783033325; cv=none;
+        d=google.com; s=arc-20260327;
+        b=jqSjZJ+Agj9XAVPkbUn+OLaIkjJweYwKE1TB6ph0Edo23uN2cb5lDyC5gg7n8RaI2h
+         GCKp/bm4iJUqExRG+yCO8pAsLH7I2wCE9LqbBrqsGDUsPDqD+Dk3AeWrPC4TVaISI+C+
+         OXQfr+/oYLUazJ2r/EbmvZ0Z3u/rYQfF9l0F0PI6cto/TjB5zuMsTl4P8PKuiTaoWora
+         74PIpTNOawKy3cJv1MOVx1sh4HEknLy9hPA4IfeIZsQMILkXiXbqyW934uuw5ji+B7D2
+         gSIL/7w0MYpD1bp8lUB+JV2XLuARyWo+IReBc2zmU8ZU9YXnAEWidWfAqjAz321u/otr
+         8F1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4DB0StncCI4DCdkHVBFZN5AAMbnpw9y/OLi7Kcm8C6U=;
+        fh=SDmnqi78Q+4YLtbZm9hllZsmvhoExTQ6a0zRVoeSIrI=;
+        b=BXZrNbF70uH9xdTNFWtXTILmzX3/59gtDVZxKZTpSP9ZpqyMfgRLr9HFTSo9Q8vGui
+         unVbcsWRAfLQX9oT0MWC4/O4DLct5njswb8ih3pazgc3Eu2TXd8sBfzaKd0taYAYqu/Y
+         6ivpVx2AQVchffGRRWtbXEvCmZIXLPC94mhnSwpxWiAjBMXBF3vQx3qslr4Nsoe2y4CC
+         4Z07G2bpu3C+jeUvZ3Tv0N1Hr+0oNoZq6p0lzjyk8vRAFnmFSPVs07UUCk9XQGy0Wdpx
+         NlWJE1gDK6Zi9Ad0p3xHPMwht5+yurTQPahWysdG1oRuE4euGnVuMYjbM6Q9LaXwIR1/
+         2Thg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783033325; x=1783638125; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4DB0StncCI4DCdkHVBFZN5AAMbnpw9y/OLi7Kcm8C6U=;
+        b=fJaEPJ3ld+n66r1G5fSulWfucGH7LbdhRHl+lw4OzgmeFjsyUZpSjGk0ARFBeMStHJ
+         5iBdiO1V9XFNcgioODdbtjBieLBMehoW9n2JdGkpAk9S6+6qTfdfCGEjKPr5XM7VioOu
+         CBxZtd6lthU/F0kBOtEAW9th911Tkx2DnrhSZwqa0UuanXVZfgk3C411Tf/gUNvMBVrc
+         rzOZRzxgrcApMw2SeK/YK43VaOAKVhQXCNJ9OOdwZV18IvOM43VGIMl1Gejr54Wa9orj
+         Xus2O8eFj4mYhw8D33DFyRSomOK1AbOjSkpIJkHilF6ovudCY3f3PryZAjQy+wTpaa5i
+         CuZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783033022; x=1783637822;
-        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=j28VgG8vASX4K9xxxxnxbwBaDXCS94Uwp097TC+/578=;
-        b=sJnz0+XcsPF+RU7bTM4FQWRq52oqKh0DPxQTovJd0sDk+IUFr0yLDriT5fIl9J1FOe
-         J9FynVxMPBzwIyn3ca8NGXIdA7wOGSuIRUTzu4BpB4spidrzHYFCiF2PVX0gGWkEJQSB
-         LDfkuOB3VB+0ptzHwNjuqPsGOPSwwJncpxmDFMjlqOXpS6grzVpXfzG1MVGC5y6uoEpT
-         1jLUs3sC3ScoXrUMsmowmBWlYJjg1y4KVIa2YdZrCn4qtbKnwBLKE9DN+Hpk2gzyPKvX
-         sxCLmbVeIrDYnnP9mlfQ74IBXTN+wX5E1nPFJfmPPR14+DzoefQ0VrgnhE15MaiSpoaT
-         aoqg==
-X-Forwarded-Encrypted: i=1; AFNElJ/L88XTyH9eDQynti5atu185SrxiHoe+CUHlOk2BaPSRMAdB74KuEGFzSQYy171KCUl6JWDrL7mYCOl2sXO@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAF5r+6QrK47V/QYMX9MUxNJGtz+1RhhPAyjy097LuldPhmap/
-	8Clbz/A1avNlEyC2mJ54MGfLsKE6fb+Eyshl85S7HWoyWYtZR+mt96hqZvtWN6JwNFitFhBTP6C
-	xiQ/pfr+p9vqVBdqwRYSjDmw4LmzF6X1/tWCSbrDOuAyfOITR47RMU803aho=
+        d=1e100.net; s=20251104; t=1783033325; x=1783638125;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4DB0StncCI4DCdkHVBFZN5AAMbnpw9y/OLi7Kcm8C6U=;
+        b=orn/Ckjk/9POZ8I6pmWu/LNnQqKul5Ro8TWPG7SuvceRIy0s1pL9N9iIn/LhJo5XJx
+         evmds19liUAQcS3PuJpkm0P+L2qx3UrPOqbFQ6+bvR/D+pyX84jh6jdmA6Vgdc54tjDd
+         jwQamwAhZarTUQMeNP7C08qUCVQeoxjAjJ0oqes6dpXX/nNYHgXkpKQySMMIT0CZ+I1S
+         qPJ5riePEJY/qTdtuoZXJz6BXIsAb62ME8+Q1ANA/A3DvdB7xr/gpuqlQrIcR7P83b1j
+         Y48syL+HGuWH9m82xTunmiRuuMwHyjPVlyFjnzOR+wJ9k7243xAylkCC4HD6g4GdX/2D
+         YiZQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rrvu8NxgARzQFiD5PNftHBlHg4nicX4ESsVWXw4TD8Nd2Z09KN/Mg5xqcCe/oMV9KzlPUo7pRlScTxHMJWQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YxX7otv6PtUkP5vsB6aJMZ1CTls5r3hULw7tKNGBKnp1R0aklAx
+	xG3MWpnltDXhBH8PEHRC9ePOwKk3/CReIfIklPQyiDDSI0do2rN/bvmipeZVygGuPs25iNRfDyc
+	q7QVTbIPomH7tQMbWtIZb64BrR9DX6uo=
+X-Gm-Gg: AfdE7cm/XA0MEeHkgqF6m8noLiPjNlIhU+xyknRrK6V1/J53zNMGvbOfEmORPj1kBdC
+	EMpbsFiZk/d6u4/tnimZYls09XhVEypGcoGxEoHv91jWSld1f+Ot9XM3h+AgqH9rERFb0/nIlCz
+	DdZjj7FzWjv/Qot1XJhLi40dODip/J9dm9W6zSn1aMBJDdovIkJDBzOoYRo7kVLyfHFCNzuGazT
+	yNHlUOEDmAF5osQNLoWBiY1mC2hWBQUJEVZiE7NNc/oNwYOMQpOVIyr3yd6zU57ypREpLqmeVs9
+	eG3ezbznvqnS8sGC+SRQbAFRASABZiLDsMZmqWhz5AJC2zHv05Sk
+X-Received: by 2002:a5d:5ccc:0:b0:475:f0c2:75b3 with SMTP id
+ ffacd0b85a97d-47936d2f33emr1915668f8f.30.1783033324743; Thu, 02 Jul 2026
+ 16:02:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:199d:b0:496:fd2:94ee with SMTP id
- 5614622812f47-4962d93e521mr5633343b6e.24.1783033021882; Thu, 02 Jul 2026
- 15:57:01 -0700 (PDT)
-Date: Thu, 02 Jul 2026 15:57:01 -0700
-In-Reply-To: <20260702152225.4071746-1-yun.zhou@windriver.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a46ecbd.52c20a74.1f8b39.000b.GAE@google.com>
-Subject: [syzbot ci] Re: ext4: deferred iput framework for EA inodes
-From: syzbot ci <syzbot+ciadd810ddf4701c1b@syzkaller.appspotmail.com>
-To: adilger.kernel@dilger.ca, brauner@kernel.org, jack@suse.cz, 
-	libaokun@linux.alibaba.com, linux-ext4@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ojaswin@linux.ibm.com, ritesh.list@gmail.com, tytso@mit.edu, 
-	viro@zeniv.linux.org.uk, yi.zhang@huawei.com, yun.zhou@windriver.com
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+References: <20260701000949.1666714-1-joannelkoong@gmail.com>
+ <20260701000949.1666714-2-joannelkoong@gmail.com> <20260702140009.GA21339@lst.de>
+In-Reply-To: <20260702140009.GA21339@lst.de>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Thu, 2 Jul 2026 16:01:51 -0700
+X-Gm-Features: AVVi8CeaIMzXU9RzKe_zbiO3Q8oQSJv6T5IEdOvWb1S4DuwOGjn86_r2tKsstdQ
+Message-ID: <CAJnrk1ae4QJgg8pPBVaxQdBkHLTeVtdmPdzLyMJeRkt8xx9OeQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/18] iomap: add ->iomap_next() and iomap_process() helper
+To: Christoph Hellwig <hch@lst.de>
+Cc: brauner@kernel.org, djwong@kernel.org, willy@infradead.org, 
+	hsiangkao@linux.alibaba.com, linux-fsdevel@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-syzbot ci has tested the following series
+On Thu, Jul 2, 2026 at 7:00=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrote=
+:
+>
+> On Tue, Jun 30, 2026 at 05:09:16PM -0700, Joanne Koong wrote:
+> > +static int iomap_iter_legacy(struct iomap_iter *iter, const struct iom=
+ap_ops *ops)
+>
+> Overly long line here.  Not that it really matters too much given
+> that this goes away by the end of the series.
 
-[v13] ext4: deferred iput framework for EA inodes
-https://lore.kernel.org/all/20260702152225.4071746-1-yun.zhou@windriver.com
-* [PATCH v13 1/4] fs: add iput_if_not_last() helper
-* [PATCH v13 2/4] ext4: introduce ext4_put_ea_inode() for safe deferred iput
-* [PATCH v13 3/4] ext4: convert all EA inode iput() calls to ext4_put_ea_inode()
-* [PATCH v13 4/4] ext4: remove ea_inode_array mechanism in favor of ext4_put_ea_inode()
+I'll fix this.
 
-and found the following issue:
-WARNING in ext4_journal_check_start
+>
+> > + * Iterate over filesystem-provided space mappings for the provided fi=
+le range.
+> > + *
+> > + * This function handles cleanup of resources acquired for iteration w=
+hen the
+> > + * filesystem indicates there are no more space mappings, which means =
+that this
+> > + * function must be called in a loop that continues as long it returns=
+ a
+> > + * positive value.  If 0 or a negative value is returned, the caller m=
+ust not
+> > + * return to the loop body.  Within a loop body, there are two ways to=
+ break out
+> > + * of the loop body:  leave @iter.status unchanged, or set it to a neg=
+ative
+> > + * errno.
+> > + */
+> > +int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
+> > +{
+> > +     if (ops->iomap_next)
+> > +             return iomap_iter_next(iter, ops);
+> > +
+> > +     return iomap_iter_legacy(iter, ops);
+>
+> Maybe inline the code currently in iomap_iter_next here from the
+> start, as that what we're getting to by the end of the series anyway.
+> And just do a:
+>
+>         if (!ops->iomap_next))
+>                 return iomap_iter_legacy(iter, ops);
+>
+> at the beginning?
 
-Full report is available here:
-https://ci.syzbot.org/series/ce304d7b-7f32-44b5-bf6f-e579abb42a5c
+Sounds good, I'll make this change.
 
-***
+>
+> > +int iomap_iter_continue(const struct iomap_iter *iter, struct iomap *i=
+omap,
+> >
+>
+> It seems like this is largely just factored out form the old iomap_iter()=
+.
+> Can you do a prep patch before this one which factors this out?
+> Preferably in a way that keeps the code in roughly the same place to
+> minimize the git blame disturbance?
 
-WARNING in ext4_journal_check_start
+Sounds good, I'll extract this shared logic out into a preparatory patch.
 
-tree:      torvalds
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
-base:      4a50a141f05a8d1737661b19ee22ff8455b94409
-arch:      amd64
-compiler:  Debian clang version 22.1.6 (++20260514074242+fc4aad7b5db3-1~exp1~20260514074407.73), Debian LLD 22.1.6
-config:    https://ci.syzbot.org/builds/e5413370-cf09-4540-b9d3-7d280f314ae0/config
-syz repro: https://ci.syzbot.org/findings/e7cd69b7-8bb9-4554-bd84-b5ebcd7a8089/syz_repro
-
-------------[ cut here ]------------
-sb_rdonly(sb)
-WARNING: fs/ext4/ext4_jbd2.c:75 at ext4_journal_check_start+0x24f/0x2b0 fs/ext4/ext4_jbd2.c:75, CPU#0: kworker/0:5/5860
-Modules linked in:
-CPU: 0 UID: 0 PID: 5860 Comm: kworker/0:5 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-Workqueue: events ext4_ea_inode_work
-RIP: 0010:ext4_journal_check_start+0x24f/0x2b0 fs/ext4/ext4_jbd2.c:75
-Code: 5b 41 5c 41 5d 41 5e 41 5f 5d c3 cc cc cc cc cc e8 06 75 42 ff 41 bf fb ff ff ff eb e0 e8 f9 74 42 ff eb d3 e8 f2 74 42 ff 90 <0f> 0b 90 eb c8 e8 e7 74 42 ff 90 0f 0b 90 43 80 7c 25 00 00 0f 85
-RSP: 0018:ffffc900036bf888 EFLAGS: 00010293
-RAX: ffffffff8283ecce RBX: ffff888170078000 RCX: ffff888107390000
-RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
-RBP: 00000000000000ef R08: ffff8881bb53440f R09: 1ffff110376a6881
-R10: dffffc0000000000 R11: ffffed10376a6882 R12: dffffc0000000000
-R13: 1ffff1102e00f0cd R14: ffff888170078668 R15: 0000000000000001
-FS:  0000000000000000(0000) GS:ffff88818dc20000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000055557b325a28 CR3: 0000000114bfe000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- __ext4_journal_start_sb+0x147/0x5d0 fs/ext4/ext4_jbd2.c:107
- __ext4_journal_start fs/ext4/ext4_jbd2.h:242 [inline]
- ext4_evict_inode+0x7cb/0xf70 fs/ext4/inode.c:238
- evict+0x624/0xb50 fs/inode.c:825
- ext4_ea_inode_work+0x5c/0x90 fs/ext4/xattr.c:2974
- process_one_work kernel/workqueue.c:3322 [inline]
- process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
- worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
- kthread+0x388/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
-
-To test a patch for this bug, please reply with `#syz test`
-(should be on a separate line).
-
-The patch should be attached to the email.
-Note: arguments like custom git repos and branches are not supported.
+Thanks,
+Joanne
