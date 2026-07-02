@@ -1,77 +1,104 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689B62C21C7;
-	Thu,  2 Jul 2026 16:18:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4C83382DA;
+	Thu,  2 Jul 2026 16:22:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783009132; cv=none; b=NBnJpcutE0WXLCZCw/FFcbwSSTgdkfEo0rNPQUuVJg45nTPiR+tYzIVhT/U/QpXY0LfL1h4GTseqT/2oAnuYdD8AgdJ5jv3KN4fLejCycqG3cLiwblO370wv/WN0QoCPnsGCa3wqnBKudtTXBdsccWbvFYep3PMrhT7KgzJBSZo=
+	t=1783009322; cv=none; b=MgezYMAxLDVsJ0aj5jkdM2Bn61qgHd2fdMutGZvG2t+AJE5KsNg+bnBigOWsg4x4J6IxyJmiT7LAdN3fDBX4p5pz1rXNEiQdCUUoPUQleBwIB3XQGLVOJHteVwtIAUMI44HwCI6sIwuUB44NHG0GOl5LHVPvJewdT/P0WYAjz68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783009132; c=relaxed/simple;
-	bh=7htcDs/00c25hrTxhtL6vvRMJZp3El53VXx2WaqiFJY=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=ewuz9WiQhefiReFHzkjDcVroCi/yHWsGD7+t5yFfYlrjh0y/fH0Zu5q5oZOJ7KeIJ5ff/y3zaLh/QfILvxJKc6RWtCNYKTJKuvzGQYmmrdPs1oteIk6e1AqEYC+6e3FICqzeYd/+ofTblvKslAldWZJDDuHWlIYOByWtQcFOPS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DyRFsJ0q; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783009322; c=relaxed/simple;
+	bh=OsSDOQIrgtchdtrVgSK3nnizozNNXFaJwSyg5VreD7k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XFc9K2BUtAhp/r1dSSwlXxJKdHX1HbOYEskJpdloX1GrKLZxamrleDpsZ6zANPdfIN/qkxcsSOCII1wGDt7oNfwVPFu6A0yfhG2iD5OetQrrmQtlE8saxv0VGpyiEnHrH6B9JvAxrU+7Y0auh6GBy8HX+5+t237SulYn61/jrIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zApc09pG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DyRFsJ0q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 630E71F000E9;
-	Thu,  2 Jul 2026 16:18:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783009131;
-	bh=7htcDs/00c25hrTxhtL6vvRMJZp3El53VXx2WaqiFJY=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=DyRFsJ0qPwfI55AIV2ZDqEkfnyZVBzGiYoKD3IZOhZ1Cj0oQnY9Nuhr+y0h3b5UI5
-	 2mdTM5hyA5pBOp1CFLLrJmgcmxFmHe5b4eTGMnM0lp7XUJe4Xq80p9htog7nR5NYZ6
-	 5gLyavR4Cx3NKu6wfEtrHhqPGIWyVJwf/ukOepmrPcRGNHe4KwqzADHr01BUQrHq5G
-	 ovcVugYhwzPgotFM7Gmy9YTBpe1F1bk73jtm+tuw9ExdMyXtM/yOMDfiBwrsSUgs6m
-	 soXZNVsM1M1KMQ3Z8TDeNdPkePG8NZLbX03WNjs/bwM00vpLvRyM6pdhtSTJnPI6fG
-	 DbUjhZeyI909Q==
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zApc09pG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE3631F000E9;
+	Thu,  2 Jul 2026 16:22:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1783009321;
+	bh=kK4vBztoIykW9+OGgKvTHApPTBMrfjJGiJlwKiL6kOg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=zApc09pGa6ijstV9hQYvpSJDrSI7IbslYravwN/5RkJD9XwRhzlLk6ASUxpxWJiVk
+	 LopIiO17izoTFkYfkjliqyajJ+myI0ZHqR+smtB9wWBXxKHw2x7gPN6wezCbqw71n6
+	 Mzds3mfibgDnSK86ov2VKFNRcytYY4IKSAGtLJns=
+Date: Thu, 2 Jul 2026 18:19:15 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jeff Layton <jlayton@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Justin Stitt <justinstitt@google.com>,
+	Lorenzo Stoakes <ljs@kernel.org>, Carlos Maiolino <cem@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Brian Foster <bfoster@redhat.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+	David Hildenbrand <david@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+Message-ID: <2026070227-payroll-eradicate-8f66@gregkh>
+References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+ <2026070224-unholy-commode-cf45@gregkh>
+ <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
+ <20260702161330.GH3534761@killaraus.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-From: Christian Brauner <brauner@kernel.org>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>, 
- "David Hildenbrand (Arm)" <david@kernel.org>, 
- Linus Torvalds <torvalds@linux-foundation.org>, 
- Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
- Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
- workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>
-In-Reply-To: <akZzDfK-yr5ErVJT@lucifer>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
- <20260702-seekrank-stilrichtung-mitentscheiden-69a64ee097ec@brauner>
- <1f29f48d-b9ff-4de2-a392-dc05781728be@kernel.org>
- <akYz2aMIco1fbD-t@lucifer>
- <54d3a698-a275-488e-ad36-ef423db30f70@kernel.org>
- <20260702-weitreichend-aufgearbeitet-flausen-fd92f38bbba0@brauner>
- <akZqigap0GTOSkyx@lucifer>
- <20260702-angewachsen-glatze-kassen-61b7761f6564@brauner>
- <akZzDfK-yr5ErVJT@lucifer>
-Date: Thu, 02 Jul 2026 18:18:45 +0200
-Message-Id: <20260702-jagdrevier-halfen-paragraf-442896b3a5a0@brauner>
-X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=289; i=brauner@kernel.org;
- h=from:subject:message-id; bh=7htcDs/00c25hrTxhtL6vvRMJZp3El53VXx2WaqiFJY=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS59WeUW4pOVuV1sC9zub3ozckjz8VWPDXdq6ZpfU1z7
- 1K/wwrXOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACby2Y+R4d/cd4YtZp8un9fe
- peUU9zRDfp/e+cv/pX28cza+VN1itoHhf6rD3E2dj9TfX/j1s8inlDukYG+VucMyS/mtkraz5uz
- JYAIA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260702161330.GH3534761@killaraus.ideasonboard.com>
 
-> I don't understand that at all. The coding assistants document is not being
-> deleted, and if you read https://docs.kernel.org/process/generated-content.html
-> you can see it doesn't enforce tags.
+On Thu, Jul 02, 2026 at 07:13:30PM +0300, Laurent Pinchart wrote:
+> On Thu, Jul 02, 2026 at 11:57:46AM -0400, Jeff Layton wrote:
+> > On Thu, 2026-07-02 at 17:07 +0200, Greg KH wrote:
+> > > On Thu, Jul 02, 2026 at 10:32:48AM -0400, Jeff Layton wrote:
+> > > > We've had this requirement in place in the Documentation for several
+> > > > months, but it's becoming clear that the signal to noise ratio from this
+> > > > is quite low.
+> > > > 
+> > > > 1/ It's not universally followed. While many people do try to attribute
+> > > > the LLMs in good faith, not everyone does for various reasons.
+> > > 
+> > > Then let's move to get people to follow it.
+> > > 
+> > > > 2/ It basically serves as free advertising for proprietary LLM companies.
+> > > 
+> > > Who cares, make up a name, all I want is the "signal" that someone is
+> > > using a LLM so that I can review it as-such.  And if I think someone is
+> > > not reporting that, I can ask for them to properly attribute it and if
+> > > they lie, well, that's on them.
+> > > 
+> > > > 3/ It's not clear why we want to collect this info in the first place.
+> > > 
+> > > We want to know if a LLM is being used.
+> > 
+> > But why? What do you intend to do with this information?
+> > 
+> > Do you mean to use it as an indicator that the patch should receive
+> > "extra" review (or maybe that it should be ignored)? Do you mean to use
+> > it to generate some sort of statistics at a later time? 
+> 
+> I use the information to decide how to review the patch, and what level
+> of priority to give it. For that usage I don't need a tag, but I need
+> the information in some human-readable form at patch submission time.
 
-I think that was a misunderstanding. I just wasn't clear on what you
-wanted to do.
+Same here.  I don't care about stats, I care about "how do I review this
+patch" and this gives me that signal that I need if faced with a
+llm-helped patch.
 
+So it needs to stay please.
+
+thanks,
+
+greg k-h
