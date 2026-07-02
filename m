@@ -1,262 +1,120 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3CC337105;
-	Thu,  2 Jul 2026 16:07:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6686213D8B1;
+	Thu,  2 Jul 2026 16:11:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783008461; cv=none; b=hLVfPx9FkbGGVR6QFlDbPG9G6qthms3b1evkV/Yh9BUcajv7sOSLYU+ela/FRpW6dwZNhd6+muwOB6ElHhjzhN4xdgld5M1S+wKo4a2Gsg04mFNSAHfceFpHU0C2XdavN0L8eBfCTSPaCjdtA9WQgIjVNrqC1v5SKc0RvHRRj9A=
+	t=1783008704; cv=none; b=qoKYWxSFNPhUxuhxBuOq44u6EmgAKyums9EVlZl8swM71jcPLf/rVC87RBNW6k7glUNIG/OropOlb+QhUpT2Ga8JzM/j3Iu50ty1nxjpItngE+VTtwbxitMwVN/dIl35E3kdnS0dyiDKgDS+L/fZhy6Y+EBYmjiwmGco16fRzuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783008461; c=relaxed/simple;
-	bh=68NmACw8V9kZ9Aq+1Kxesug2P51w5JThIGuO8iCMqZI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=upxE2gJs1uOmKBaZcWqKcKrXixCt0vh8KApzVYytY0FnFLsitscP97z00xj312NZ6EzgNKmqZrrQWKAJ+XqAadLOjLrf9XxQ+rLi5ZBW/KM7Ln4uHHpZ1uYCdQsZhxheCyn4eOUaaK+5uC/hk3gveRuVSmRN/vW4q9HSsFWu534=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RZKUR0qn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783008704; c=relaxed/simple;
+	bh=Zx7yBkfj4iflclgczmtvb9yPMEoE2DNajCV0FBtCA7M=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=btrcwnYxNl4c/YTfmF/Lp/SJ09MYZ6466+kF9//YNlU4Dp3/5/0ocaKgWIB6TuGC5qUw8xvULzB6rXRIC4vUIqkPMoF6eohKlhBt+5A93ksTzAvhOXrRq5G763u4jHcBAG8FB5JEf713GjH3aclvE6WH4rcU42VH/7SUth1ukdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tm0HAosR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RZKUR0qn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C8A31F000E9;
-	Thu,  2 Jul 2026 16:07:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tm0HAosR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F0D71F00A3D;
+	Thu,  2 Jul 2026 16:11:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783008453;
-	bh=TfvR3Muaq7o+afYbXjsDSvqRy7FxUVckvz1k4Hxbez0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RZKUR0qnMCX1lVPMLegWDJwvMR3XwPOjgqmuDlY8+1sNyGBX6G0WNkOyriJ+PtG6y
-	 WoL1rkJ4u0k6Z/pcI27Q9cfN5qit8W5zrOm26I9VdyLr6cW2bUvNsdF/9cAdED/TO5
-	 AhCJxe7BVGNUURRd3IeizZOkboEYr9oFtXUUDXIMY549O+sfZleE5cdwLHHY1Mnd5w
-	 fUEwk8w3Bqh1uArvHx8Wkw0ChPSb59uuaQpmYgj0hIESSw8+X4zGBfFv8Mg5ixvDOI
-	 z8XtFU+Dq4mFlmkaOHGXh7hbxcLj3TzRDApEJrIOyiLSNEjyj9JwDrdlVKeNPP3pCm
-	 r9BU9h8EBQzqg==
-Date: Thu, 2 Jul 2026 17:07:10 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Lance Yang <lance.yang@linux.dev>
-Cc: akpm@linux-foundation.org, tsbogend@alpha.franken.de, 
-	maddy@linux.ibm.com, mpe@ellerman.id.au, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
-	l.stach@pengutronix.de, inki.dae@samsung.com, sw0312.kim@samsung.com, 
-	kyungmin.park@samsung.com, krzk@kernel.org, peter.griffin@linaro.org, 
-	jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com, 
-	tursulin@ursulin.net, robin.clark@oss.qualcomm.com, lumag@kernel.org, lyude@redhat.com, 
-	dakr@kernel.org, tomi.valkeinen@ideasonboard.com, hjc@rock-chips.com, 
-	heiko@sntech.de, andy.yan@rock-chips.com, thierry.reding@kernel.org, 
-	mperttunen@nvidia.com, jonathanh@nvidia.com, kraxel@redhat.com, 
-	dmitry.osipenko@collabora.com, zack.rusin@broadcom.com, matthew.brost@intel.com, 
-	thomas.hellstrom@linux.intel.com, oleksandr_andrushchenko@epam.com, deller@gmx.de, bcrl@kvack.org, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, muchun.song@linux.dev, osalvador@suse.de, 
-	david@kernel.org, ziy@nvidia.com, baolin.wang@linux.alibaba.com, 
-	liam@infradead.org, npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, 
-	baohua@kernel.org, hughd@google.com, vbabka@kernel.org, rppt@kernel.org, 
-	surenb@google.com, mhocko@suse.com, jannh@google.com, pfalcato@suse.de, 
-	kees@kernel.org, perex@perex.cz, tiwai@suse.com, linux-mips@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
-	etnaviv@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
-	linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, 
-	intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org, linux-fbdev@vger.kernel.org, 
-	linux-aio@kvack.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 13/13] mm/mremap: convert mremap code to use vma_flags_t
-Message-ID: <akaJx8Zt8kazlrjq@lucifer>
-References: <380f761d35a3faa4370f8b3f92e3d4af3d4c7110.1782760670.git.ljs@kernel.org>
- <20260702134947.25189-1-lance.yang@linux.dev>
+	s=k20260515; t=1783008703;
+	bh=7jJesRTSN4UY/pF5nooQk5ux4I3JeN+OKBLAPg7OGF4=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=Tm0HAosREWXSCjAP82UamtrVEGIUUJpYAUX219v4RBjWJ7JOiVzEdzG347SsPB+hS
+	 ANXrZQPFfC58bMUU74c9NznetmTbz2AtfnqbuYpSR0wDroXPuLVzMC7bxyQRf7DJiY
+	 k4s0vWIidHSpJp7LA6MAsZ+ccNLwSAredX2YIa4Z0M3pDK27QSENKRV1TZzHeihEy/
+	 MtBfyN330GuuZUHLE9K9uan+WdVcjnPr7uC7LSvAtTyVitZ3AUrk7M6ILd38ExONNi
+	 SZPx7o8dC/6c+i5eT/yBYuKVOAixX+ddpZnD1XKKQ/qClNmjAFTlAqjzt+ApjsZQC2
+	 OycP/FgAztbSQ==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 4D871F40069;
+	Thu,  2 Jul 2026 12:11:41 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Thu, 02 Jul 2026 12:11:41 -0400
+X-ME-Sender: <xms:vY1GakHamotLwY3SXVrVKJWP7754PTluzTeQ_2Z7EUe4kwbV1V92bQ>
+    <xme:vY1GaoIngP4EjbcIo9AHQ0fMtytjj5hhfKYpNQG6OWXsVQTC5B8MVtPHl0EeDSzXC
+    d9rurowuJ43rHmZ8l2rLfW--oR0lIq-F0EQD_LpcdC5I4JrzDZ-uCA>
+X-ME-Proxy-Cause: dmFkZTEhsvyoby4nY2r92IelFirjHkTPIxOTKuouLw81XqL2Hzmr1wi3ruMiyJPv4uYqsh
+    9aMZGLtMJHxu5zy4kTYDgOhZRWbRxN1X5XCQvyCbPgepuwlO7IRGP908JWcfFc9WIpHSiP
+    gKnsk77hY1jKrqJks205SUNM6E0vRXWwyrTdh2rWgJ4m2Wuh931nOXc2qmUR3aSAJyMB+m
+    QZYWcTIL0p+tLo0ud0Ml/cADh8NfOequ8BogirAatbCGdky0UZvD+lBaJo8rui74oHG+cK
+    +MDmb/CkheSICIWyOgQM3huDvwjbbBBs0ncvaeobm+nA2Y9OnxUKIS0NQQNMmJe38tpyis
+    G56soxDZd0yZx7La8WQ9LHTtrsZzhanGuhMA63pm2uOS8RwBIq01cveQ3wIAeeVsGrCPCl
+    VHShLlFYdQG5EOR0sZNdwYBUflXhavPDdqnM/sp8Lj/RCsotF8OOCST/U9PZLOlpfybk8e
+    30AqwwIHXxouQVvwXtFrwjV7NKJaDS5v0WPVhbBzR8yTVD+1mnB05vWHYHnGsNcaYFuiYC
+    pi5+UMoKgsLQuYbSHtAylmhGpF+bQPtjWp8a1qOWYAIsIxGod84Zf/5OjwKK0pbeG2L+p6
+    cXEdCUbOoVvSJUg8mJFTpv8yuqs93cHWKuF4lNq9pPmP7E2/LTgYMzu5SfeQ
+X-ME-Proxy: <xmx:vY1GanFnsP2URmPG2l_ySVh0dLqynXre8D_dzfv6OLrek6Z2UuWbVQ>
+    <xmx:vY1GapOEiN3dX46h2ONiWO_s-pIEfJCg0ZF7SX-bF2pEgF-AbRFFSw>
+    <xmx:vY1GamuV7AO2OI3T6JR4AQy0dT1yhDfsTHPTLL4Emf7wdr51y-NcdA>
+    <xmx:vY1GanKQQM9KCS9V_Ka9GwjnE4xzYSApL4LBQtWPcTCRt4ldyJzkxg>
+    <xmx:vY1GasdFpOG_dR20EYFDDV2T87Sov9WRvfzYVNnHvnFC5YS9kME68JpP>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 21438780AB5; Thu,  2 Jul 2026 12:11:41 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260702134947.25189-1-lance.yang@linux.dev>
+X-ThreadId: AUMuDe2ntHRJ
+Date: Thu, 02 Jul 2026 12:11:20 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Jeff Layton" <jlayton@kernel.org>,
+ "Linus Torvalds" <torvalds@linux-foundation.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Justin Stitt" <justinstitt@google.com>
+Cc: "Lorenzo Stoakes" <ljs@kernel.org>,
+ "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
+ "Carlos Maiolino" <cem@kernel.org>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Jori Koolstra" <jkoolstra@xs4all.nl>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>, "Brian Foster" <bfoster@redhat.com>,
+ "Christoph Hellwig" <hch@infradead.org>, "David Disseldorp" <ddiss@suse.de>,
+ "Mark Brown" <broonie@kernel.org>, "Jani Nikula" <jani.nikula@intel.com>,
+ "Jens Axboe" <axboe@kernel.dk>, "David Hildenbrand" <david@kernel.org>,
+ "Vlastimil Babka" <vbabka@kernel.org>,
+ "Christian Brauner" <brauner@kernel.org>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+Message-Id: <98e8d828-bcbd-4075-9b4c-dc1949647784@app.fastmail.com>
+In-Reply-To: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 02, 2026 at 09:49:47PM +0800, Lance Yang wrote:
+
+
+On Thu, Jul 2, 2026, at 10:32 AM, Jeff Layton wrote:
+> We've had this requirement in place in the Documentation for several
+> months, but it's becoming clear that the signal to noise ratio from this
+> is quite low.
 >
-> On Mon, Jun 29, 2026 at 08:25:36PM +0100, Lorenzo Stoakes wrote:
-> >Replace use of the legacy vm_flags_t flags with vma_flags_t values
-> >throughout the mremap logic.
-> >
-> >Additionally update comments to reflect the changes to be consistent.
-> >
-> >No functional change intended.
-> >
-> >Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
-> >---
+> 1/ It's not universally followed. While many people do try to attribute
+> the LLMs in good faith, not everyone does for various reasons.
 >
-> The vm_flags_set() cases below spell out vma_start_write(), but the
-> vm_flags_clear() cases don't?
-
-Yep as I said elsewhere, implicitly taking the lock is terrible and me doing
-this is completely on purpose to get rid of that :)
-
-But I haven't been clear enough clearly, so I should put the argument as to why
-that's ok in the commit message.
-
-Will do so on respin.
-
+> 2/ It basically serves as free advertising for proprietary LLM companies.
 >
-> Thanks, Lance
+> 3/ It's not clear why we want to collect this info in the first place.
 >
-> > mm/mremap.c | 38 ++++++++++++++++++++------------------
-> > 1 file changed, 20 insertions(+), 18 deletions(-)
-> >
-> >diff --git a/mm/mremap.c b/mm/mremap.c
-> >index 079a0ba0c4a7..0ea43302b7ed 100644
-> >--- a/mm/mremap.c
-> >+++ b/mm/mremap.c
-> >@@ -68,7 +68,7 @@ struct vma_remap_struct {
-> > 	bool populate_expand;		/* mlock()'d expanded, must populate. */
-> > 	enum mremap_type remap_type;	/* expand, shrink, etc. */
-> > 	bool mmap_locked;		/* Is mm currently write-locked? */
-> >-	unsigned long charged;		/* If VM_ACCOUNT, # pages to account. */
-> >+	unsigned long charged;		/* If VMA_ACCOUNT_BIT, # pgs to account */
-> > 	bool vmi_needs_invalidate;	/* Is the VMA iterator invalidated? */
-> > };
-> >
-> >@@ -954,7 +954,7 @@ static unsigned long vrm_set_new_addr(struct vma_remap_struct *vrm)
-> >
-> > 	if (vrm->flags & MREMAP_FIXED)
-> > 		map_flags |= MAP_FIXED;
-> >-	if (vma->vm_flags & VM_MAYSHARE)
-> >+	if (vma_test(vma, VMA_MAYSHARE_BIT))
-> > 		map_flags |= MAP_SHARED;
-> >
-> > 	res = get_unmapped_area(vma->vm_file, new_addr, vrm->new_len, pgoff,
-> >@@ -976,7 +976,7 @@ static bool vrm_calc_charge(struct vma_remap_struct *vrm)
-> > {
-> > 	unsigned long charged;
-> >
-> >-	if (!(vrm->vma->vm_flags & VM_ACCOUNT))
-> >+	if (!vma_test(vrm->vma, VMA_ACCOUNT_BIT))
-> > 		return true;
-> >
-> > 	/*
-> >@@ -1003,7 +1003,7 @@ static bool vrm_calc_charge(struct vma_remap_struct *vrm)
-> >  */
-> > static void vrm_uncharge(struct vma_remap_struct *vrm)
-> > {
-> >-	if (!(vrm->vma->vm_flags & VM_ACCOUNT))
-> >+	if (!vma_test(vrm->vma, VMA_ACCOUNT_BIT))
-> > 		return;
-> >
-> > 	vm_unacct_memory(vrm->charged);
-> >@@ -1023,7 +1023,7 @@ static void vrm_stat_account(struct vma_remap_struct *vrm,
-> > 	struct vm_area_struct *vma = vrm->vma;
-> >
-> > 	vm_stat_account(mm, vma->vm_flags, pages);
-> >-	if (vma->vm_flags & VM_LOCKED)
-> >+	if (vma_test(vma, VMA_LOCKED_BIT))
-> > 		mm->locked_vm += pages;
-> > }
-> >
-> >@@ -1167,7 +1167,7 @@ static void unmap_source_vma(struct vma_remap_struct *vrm)
-> > 	 * arose, in which case we _do_ wish to unmap the _new_ VMA, which means
-> > 	 * we actually _do_ want it be unaccounted.
-> > 	 */
-> >-	bool accountable_move = (vma->vm_flags & VM_ACCOUNT) &&
-> >+	bool accountable_move = vma_test(vma, VMA_ACCOUNT_BIT) &&
-> > 		!(vrm->flags & MREMAP_DONTUNMAP);
-> >
-> > 	/*
-> >@@ -1186,7 +1186,7 @@ static void unmap_source_vma(struct vma_remap_struct *vrm)
-> > 	 * portions of the original VMA that remain.
-> > 	 */
-> > 	if (accountable_move) {
-> >-		vm_flags_clear(vma, VM_ACCOUNT);
-> >+		vma_clear_flags(vma, VMA_ACCOUNT_BIT);
+> Given that the data this provides is flawed at best and is being
+> collected for a purpose that isn't clear, let's just kill the
+> requirement for these tags from the kernel at large.
+>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+> Christian had proposed watering down the LLM attribution, but I think
+> it's not productive to try and track this until we have a clearer sense
+> of what we want to do with this information and how to make it more
+> reliable.
 
-This is called from move_vma() which holds the VMA write lock on vma.
+I agree that the current tagging system is flawed and almost useless
+for real analysis -- self-reporting and a nebulous definition of what
+"LLM was used" actually means are red flags for any data scientist.
 
-> > 		/* We are about to split vma, so store the start/end. */
-> > 		vm_start = vma->vm_start;
-> > 		vm_end = vma->vm_end;
-> >@@ -1211,8 +1211,8 @@ static void unmap_source_vma(struct vma_remap_struct *vrm)
-> > 	 * |             |
-> > 	 * |-------------|
-> > 	 *
-> >-	 * Having cleared VM_ACCOUNT from the whole VMA, after we unmap above
-> >-	 * we'll end up with:
-> >+	 * Having cleared VMA_ACCOUNT_BIT from the whole VMA, after we unmap
-> >+	 * above we'll end up with:
-> > 	 *
-> > 	 *    addr  end
-> > 	 *     |     |
-> >@@ -1232,13 +1232,15 @@ static void unmap_source_vma(struct vma_remap_struct *vrm)
-> > 		if (vm_start < addr) {
-> > 			struct vm_area_struct *prev = vma_prev(&vmi);
-> >
-> >-			vm_flags_set(prev, VM_ACCOUNT); /* Acquires VMA lock. */
-> >+			vma_start_write(prev);
-> >+			vma_set_flags(prev, VMA_ACCOUNT_BIT);
-> > 		}
-> >
-> > 		if (vm_end > end) {
-> > 			struct vm_area_struct *next = vma_next(&vmi);
-> >
-> >-			vm_flags_set(next, VM_ACCOUNT); /* Acquires VMA lock. */
-> >+			vma_start_write(next);
-> >+			vma_set_flags(next, VMA_ACCOUNT_BIT);
+I don't have a stand on whether the tagging should be removed or fixed.
+But today I ignore it (my 2-cents US) for these reasons.
 
-These need vma_start_write() as referencing other, unlocked VMAs.
-
-> > 		}
-> > 	}
-> > }
-> >@@ -1321,8 +1323,8 @@ static void dontunmap_complete(struct vma_remap_struct *vrm,
-> > 	unsigned long old_start = vrm->vma->vm_start;
-> > 	unsigned long old_end = vrm->vma->vm_end;
-> >
-> >-	/* We always clear VM_LOCKED[ONFAULT] on the old VMA. */
-> >-	vm_flags_clear(vrm->vma, VM_LOCKED_MASK);
-> >+	/* We always clear VMA_LOCKED[ONFAULT]_BIT on the old VMA. */
-> >+	vma_clear_flags_mask(vrm->vma, VMA_LOCKED_MASK);
--
-Same as above, called from move_vma() with VMA write lock held.
-
-> >
-> > 	/*
-> > 	 * anon_vma links of the old vma is no longer needed after its page
-> >@@ -1758,14 +1760,14 @@ static int check_prep_vma(struct vma_remap_struct *vrm)
-> > 	 * based on the original.  There are no known use cases for this
-> > 	 * behavior.  As a result, fail such attempts.
-> > 	 */
-> >-	if (!old_len && !(vma->vm_flags & (VM_SHARED | VM_MAYSHARE))) {
-> >+	if (!old_len && !vma_test_any(vma, VMA_SHARED_BIT, VMA_MAYSHARE_BIT)) {
-> > 		pr_warn_once("%s (%d): attempted to duplicate a private mapping with mremap.  This is not supported.\n",
-> > 			     current->comm, current->pid);
-> > 		return -EINVAL;
-> > 	}
-> >
-> > 	if ((vrm->flags & MREMAP_DONTUNMAP) &&
-> >-			(vma->vm_flags & (VM_DONTEXPAND | VM_PFNMAP)))
-> >+	    vma_test_any(vma, VMA_DONTEXPAND_BIT, VMA_PFNMAP_BIT))
-> > 		return -EINVAL;
-> >
-> > 	/*
-> >@@ -1795,7 +1797,7 @@ static int check_prep_vma(struct vma_remap_struct *vrm)
-> > 		return 0;
-> >
-> > 	/* We are expanding and the VMA is mlock()'d so we need to populate. */
-> >-	if (vma->vm_flags & VM_LOCKED)
-> >+	if (vma_test(vma, VMA_LOCKED_BIT))
-> > 		vrm->populate_expand = true;
-> >
-> > 	/* Need to be careful about a growing mapping */
-> >@@ -1803,10 +1805,10 @@ static int check_prep_vma(struct vma_remap_struct *vrm)
-> > 	if (pgoff + (new_len >> PAGE_SHIFT) < pgoff)
-> > 		return -EINVAL;
-> >
-> >-	if (vma->vm_flags & (VM_DONTEXPAND | VM_PFNMAP))
-> >+	if (vma_test_any(vma, VMA_DONTEXPAND_BIT, VMA_PFNMAP_BIT))
-> > 		return -EFAULT;
-> >
-> >-	if (!mlock_future_ok(mm, vma->vm_flags & VM_LOCKED, vrm->delta))
-> >+	if (!mlock_future_ok(mm, vma_test(vma, VMA_LOCKED_BIT), vrm->delta))
-> > 		return -EAGAIN;
-> >
-> > 	if (!may_expand_vm(mm, &vma->flags, vrm->delta >> PAGE_SHIFT))
-> >--
-> >2.54.0
-> >
-> >
-
-Cheers, Lorenzo
+-- 
+Chuck Lever
