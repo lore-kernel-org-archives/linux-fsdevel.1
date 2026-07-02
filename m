@@ -1,115 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA69E3C343B;
-	Thu,  2 Jul 2026 08:44:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F003F356770
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 08:54:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782981881; cv=none; b=oe35wZrOpxg8EOoiQwDYT3dn23uM5Z+AgtcD+/UNR1V7UavnPLRPdLGcPO9kvX82WSCLsRjk6UNzRMCQQnrhsnDXDG6V3WncaFIP6F5GxiTEtDjvcs7uhV0ULijptLxCJupBylgmFM1XWxkRhx1wONbObOIe3RZ5sIEX7EoCR/8=
+	t=1782982470; cv=none; b=s/ncQviD9b3keSHf8Vn9VxATJt/lyEY9kFZ5SjGa6RWMHCA2vjCp04zBEPhfCk24Wa4Wv/2zm3tgd+roIriQHo7HLV2xmwGyzYtBInHVCwpvfRFZ75N3rv0fuW8o5v16ptwNk6C6qR0qQlbMYCEJHnWcJgAA/OPuRlfrL5+0i48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782981881; c=relaxed/simple;
-	bh=wqVkVEQbZx/Lr8vf1DeVCYTt/gRn9RvBYZXSwMbcIK0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=HZZPEtvSA1HB7uRj+v9jvMxnOKsAwAjeUq1sYB7LIQLimBjfP6Nq4S6+AZS4bKOGetZZLpN2KOmcjh6y+jOvXEzvrGCo3xduLGPxuAazrHpgZr+xdJq381fM6uptsvNr2oXRqffRP9CIZR20pGCP8NFgDmhHJ/4U6Iua7L2JeYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f9ncpSCS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782982470; c=relaxed/simple;
+	bh=UDxb16AXt3qHrF1Q/moSGeEEuR0vyLr1TR/rBQvyznY=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=FS/hUvBPVmKPGkjiNzg/039KeEzN2FzZuOH3iPqvHn97QrmrBcJrZB0ob8pGobhQO+GGTK95KnScb1I3aSeEU0j8clm3p/QS5SbYSc/ylvv266wTXTE9ElImYfn/xQMD7/GzhtgPOk7G4p9EQbmb+mS5kkzeQlqjR6HPYSXfPHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JVSYs6JA; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f9ncpSCS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 404921F000E9;
-	Thu,  2 Jul 2026 08:44:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782981880;
-	bh=E4Nesj045JaK7TwaEOfUk2rjKqB1fcfilatvsOM6jto=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=f9ncpSCSDrkEcpXgRcllIwdvX/xXcC5b2LvSiHJYItS4g/8IjCTlxxsN41biZILA/
-	 IKs8UOBavgui2m+TLoD/zj++wjBYGyRFlml+3KXu3pB05XagZYNeYIWmTb4dDwfNBX
-	 O19WLtHWiRjJnS36zKpqzMx50vk4YpiNwKE+WKILl2OQX0p9bCxfLvlb5Rob2fixYD
-	 zAmUcExPRS+wK1ZV7iwG6SGFuYZy1bvunIqt6ewiRN7qCmD2GbJMIb3WIsl3JTpoOA
-	 ENimZPExtLO81/CNhSu0U8kiAlxpBhWUpOt1xybJgMWlIGoi6MwVriN+dfWVYDCXdW
-	 EayzkuIncQBIg==
-Message-ID: <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
-Date: Thu, 2 Jul 2026 10:44:34 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JVSYs6JA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782982468;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7K/A5ilrlqJqkJotmMKVc7GnR26ahpXCs/t4+YctDV8=;
+	b=JVSYs6JAC9BQdxKNEw+tLr/2KyALdeZSfxaiVdO9RuEU32WgUuxk10+GtqgOzr3f3UHpr8
+	BcZzA1EHqhS/Bo+c5T5IiY4qym5Z18+5QLWvNb0CnNS2wi0iEj2ka8HKz0ol3LSJx0oE55
+	r1MjUr4fdxbJ73lrZDpW16YpJhpO6Ac=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-695-tqbKJb-nM2ypf_ZEowTuJA-1; Thu,
+ 02 Jul 2026 04:54:25 -0400
+X-MC-Unique: tqbKJb-nM2ypf_ZEowTuJA-1
+X-Mimecast-MFC-AGG-ID: tqbKJb-nM2ypf_ZEowTuJA_1782982464
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 542AB1945CB5;
+	Thu,  2 Jul 2026 08:54:24 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.44.33.159])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CFD9718007F3;
+	Thu,  2 Jul 2026 08:54:21 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <20260702020350.3403907-2-neilb@ownmail.net>
+References: <20260702020350.3403907-2-neilb@ownmail.net> <20260702020350.3403907-1-neilb@ownmail.net>
+To: NeilBrown <neil@brown.name>
+Cc: dhowells@redhat.com, Marc Dionne <marc.dionne@auristor.com>,
+    linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/2] afs: use d_time instead of d_fsdata
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-Content-Language: en-US
-To: Jori Koolstra <jkoolstra@xs4all.nl>,
- Christian Brauner <brauner@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
- David Hildenbrand <david@kernel.org>, Jeff Layton <jlayton@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Lorenzo Stoakes <ljs@kernel.org>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <akYasD1ckWcH1C0g@lt-jori.localdomain>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <akYasD1ckWcH1C0g@lt-jori.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <139683.1782982460.1@warthog.procyon.org.uk>
+Date: Thu, 02 Jul 2026 09:54:20 +0100
+Message-ID: <139684.1782982460@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On 7/2/26 10:12, Jori Koolstra wrote:
-> Ah, I still reigniting this discussion again :)
-> 
-> What about a combination of what David and Jeff say? The whole point
-> seems to me that the salient information is not that an LLM was used (or
-> are we going to tag Sashiko as well or any other LLM-based code review
-> tool?), but what is was used to do. This information may be relevant for
-> how the review is approached. The latter should perhaps only be in the
-> cover letter and then we can drop the assisted-by tags altogether.
-> 
-> The question about enforcement remains.
+NeilBrown <neilb@ownmail.net> wrote:
 
-It's not possible to enforce it. People can deny it if the tag is missing
-and you confront them and even though the submission has many signs of being
-obviously LLM, there is no definite proof. We've seen (likely, as there's no
-proof!) that happen in mm.
+> afs uses ->d_fsdata to store version information for the parent
+> directory.  ->d_time is arguably a better field to store this
+> information as the version is like a time stamp, and ->d_time is an
+> unsigned long, while ->d_fsdata is a void *.
 
-Such situation then penalizes those who disclose so obviously they won't. We
-should drop the tag and instead think how we can empower maintainers to be
-able to use their own judgment and deprioritize dealing with what they
-perceive as LLM slop, without fearing consequences of not being properly
-responsible etc, and not rely on any non-enforceable tags for that.
+It wasn't clear that ->d_time was available for private use by the filesystem.
+
+> This will leave ->d_fsdata free for a different use ...  which
+> admittedly is also not a void*, but is certainly not at all a time.
+
+Are you going to use ->d_fsdata for something generic?
+
+> Interestingly the value stored in ->d_time or d_fsdata is u64 which does
+> not fit in "unsigned long" or "void *" on 32 bit hosts.  Maybe that
+> doesn't matter.
+
+I know.  I just have to hope that someone triggers revalidation on a dirent
+before 4 billion changes have been made to the directory on a 32-bit machine.
+I could use both d_time and d_fsdata on 32-bit, I suppose.  I really don't
+want to allocate an 8-byte blob for each dentry.
+
+Maybe I should switch to a single-bit flag and "invalidate" all the dentries
+attached to a directory if I detect a jump in the directory's version number
+due to a third-party modification (the version is monotonically incremented
+for each modification committed).
+
+I'm not sure how to do a mass invalidation without risking deadlock, though,
+because I'd quite likely be starting from a random dirent in a directory and
+then have to walk through all the other dirents of the directory.  I suppose I
+could lock the directory (probably using dvnode->validate_lock) and then walk
+through d_children.
+
+David
+
