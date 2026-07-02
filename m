@@ -1,66 +1,133 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842883CF212
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 22:41:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5093C6A2B
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 22:57:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783032106; cv=none; b=O+3xwGrxuiDNQOysg/nsk8uSNsAqZJgS3IQ8XTlWDKwig9NrEPt5vw5eJxHBYrUmP2wvh2x+OloyLe8r/oKr7PLckTjfIQPnWxv6vaNHMJoqZh08LOCreeZ2AGRlicvsQJrh9f6sKU7kgT6Q3mHYo4sLxwY4xcCz6hn+yEWBbhU=
+	t=1783033024; cv=none; b=RPeMNYTFJRWNkypRQjWozyMuK8ETS50TiQa8XX6F2WfgdJRBclS/812UDagqr8ihxLq/4vLqkKDBgTQD3YvcNEsg6hUFX54PvC/HT7HDfIhvH3wPYIVybnf7ac7bZR4JNk+9TSl3llNUHuTF1XCxZ6li1sqfKgHB6f6onR6Hq/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783032106; c=relaxed/simple;
-	bh=jmymH8zFE169gpjDhcVVH3GrM5H+fK3kENKES5/LB6o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xot7/FHxkG57VaZ5okrB0XL15BK2FirX+9+jJZ4x6jrLREFLBsN4hNIeY88G4x5NMQ+dpY8CxgHcCG3yTImvx00JQ4Uk9vB8YZtXSlphYomxRNaXIhQED1qB57ETrjfnchHDJNK8hFupv4p0EwXEZk2al+DqtrVqP2AG9IjLR/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
-Received: from macsyma.thunk.org (syn-072-043-125-131.biz.spectrum.com [72.43.125.131])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 662Mf7jQ000562
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 2 Jul 2026 18:41:08 -0400
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 9C34686B4B1; Thu,  2 Jul 2026 18:41:07 -0400 (EDT)
-Date: Thu, 2 Jul 2026 18:41:07 -0400
-From: "Theodore Tso" <tytso@mit.edu>
-To: "Zhou, Yun" <yun.zhou@windriver.com>
-Cc: Jan Kara <jack@suse.cz>, Mateusz Guzik <mjguzik@gmail.com>,
-        adilger.kernel@dilger.ca, libaokun@linux.alibaba.com,
-        ojaswin@linux.ibm.com, ritesh.list@gmail.com, yi.zhang@huawei.com,
-        viro@zeniv.linux.org.uk, brauner@kernel.org,
-        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, xiaowu.417@qq.com
-Subject: Re: [PATCH v11 1/5] fs: add iput_if_not_last() helper
-Message-ID: <akbouO1usgN6burE@mit.edu>
-References: <20260629110848.3085662-1-yun.zhou@windriver.com>
- <20260629110848.3085662-2-yun.zhou@windriver.com>
- <4k4crl4oobz4xtmvjoqwoefrd6in46xf725z3ewme3smgh5ide@6dmywcnp6o6y>
- <txvgbvn77wjgfz4ywdb25v7ol4ecszqh5yg3p4g56sbxq6prlo@rpfwveotnfvz>
- <6c4e9256-5727-44b2-b63c-e18fe1b95194@windriver.com>
- <mqchxi74vrsmsitr46gtnw5w7tooj7go2tm2jadg4mktppjafc@5uplsind6ooq>
- <12a0d660-2794-4dc0-910a-3c63155624ba@windriver.com>
+	s=arc-20240116; t=1783033024; c=relaxed/simple;
+	bh=JbREc04h3WlPRWGedBjLlTNzwXCNqmFS1OsIK4EbIVg=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=lA1soJjawZ8ot8D5702xCSUm232+VYTj+KkWe4CTZe/saSOm4Gv1eiR0YH4Xsyd/5xmxzqU7qdWaF3+co1Qeu23JbpKgne9IyzS/duqa851crefluI1FsrUqrALPE6MpKHkAKaPq4fIadXpc2vn68kGGohAdWWb27j7v/ridMv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-48a4c610ebdso3085614b6e.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Jul 2026 15:57:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783033022; x=1783637822;
+        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=j28VgG8vASX4K9xxxxnxbwBaDXCS94Uwp097TC+/578=;
+        b=sJnz0+XcsPF+RU7bTM4FQWRq52oqKh0DPxQTovJd0sDk+IUFr0yLDriT5fIl9J1FOe
+         J9FynVxMPBzwIyn3ca8NGXIdA7wOGSuIRUTzu4BpB4spidrzHYFCiF2PVX0gGWkEJQSB
+         LDfkuOB3VB+0ptzHwNjuqPsGOPSwwJncpxmDFMjlqOXpS6grzVpXfzG1MVGC5y6uoEpT
+         1jLUs3sC3ScoXrUMsmowmBWlYJjg1y4KVIa2YdZrCn4qtbKnwBLKE9DN+Hpk2gzyPKvX
+         sxCLmbVeIrDYnnP9mlfQ74IBXTN+wX5E1nPFJfmPPR14+DzoefQ0VrgnhE15MaiSpoaT
+         aoqg==
+X-Forwarded-Encrypted: i=1; AFNElJ/L88XTyH9eDQynti5atu185SrxiHoe+CUHlOk2BaPSRMAdB74KuEGFzSQYy171KCUl6JWDrL7mYCOl2sXO@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAF5r+6QrK47V/QYMX9MUxNJGtz+1RhhPAyjy097LuldPhmap/
+	8Clbz/A1avNlEyC2mJ54MGfLsKE6fb+Eyshl85S7HWoyWYtZR+mt96hqZvtWN6JwNFitFhBTP6C
+	xiQ/pfr+p9vqVBdqwRYSjDmw4LmzF6X1/tWCSbrDOuAyfOITR47RMU803aho=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <12a0d660-2794-4dc0-910a-3c63155624ba@windriver.com>
+X-Received: by 2002:a05:6808:199d:b0:496:fd2:94ee with SMTP id
+ 5614622812f47-4962d93e521mr5633343b6e.24.1783033021882; Thu, 02 Jul 2026
+ 15:57:01 -0700 (PDT)
+Date: Thu, 02 Jul 2026 15:57:01 -0700
+In-Reply-To: <20260702152225.4071746-1-yun.zhou@windriver.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a46ecbd.52c20a74.1f8b39.000b.GAE@google.com>
+Subject: [syzbot ci] Re: ext4: deferred iput framework for EA inodes
+From: syzbot ci <syzbot+ciadd810ddf4701c1b@syzkaller.appspotmail.com>
+To: adilger.kernel@dilger.ca, brauner@kernel.org, jack@suse.cz, 
+	libaokun@linux.alibaba.com, linux-ext4@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	ojaswin@linux.ibm.com, ritesh.list@gmail.com, tytso@mit.edu, 
+	viro@zeniv.linux.org.uk, yi.zhang@huawei.com, yun.zhou@windriver.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jul 02, 2026 at 10:55:31PM -0500, Zhou, Yun wrote:
-> > I think there will be no more feedback to this series. So just
-> > include this suggested change (keeping current Reviewed-by tags -
-> > the change is minimal) and submit one more version. Mention in the
-> > cover letter that there's only minor adjustment to this one patch,
-> > everything is reviewed and ready to be merged so that Ted knows.
+syzbot ci has tested the following series
 
-No worries, I've been paying attention.  :-)
+[v13] ext4: deferred iput framework for EA inodes
+https://lore.kernel.org/all/20260702152225.4071746-1-yun.zhou@windriver.com
+* [PATCH v13 1/4] fs: add iput_if_not_last() helper
+* [PATCH v13 2/4] ext4: introduce ext4_put_ea_inode() for safe deferred iput
+* [PATCH v13 3/4] ext4: convert all EA inode iput() calls to ext4_put_ea_inode()
+* [PATCH v13 4/4] ext4: remove ea_inode_array mechanism in favor of ext4_put_ea_inode()
 
-Christian, I assume you have no objectoins to my taking this first
-patch through the ext4 tree, since you've reviewed it.
+and found the following issue:
+WARNING in ext4_journal_check_start
 
-      	      	       	     	   	  - Ted
-					  
+Full report is available here:
+https://ci.syzbot.org/series/ce304d7b-7f32-44b5-bf6f-e579abb42a5c
+
+***
+
+WARNING in ext4_journal_check_start
+
+tree:      torvalds
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
+base:      4a50a141f05a8d1737661b19ee22ff8455b94409
+arch:      amd64
+compiler:  Debian clang version 22.1.6 (++20260514074242+fc4aad7b5db3-1~exp1~20260514074407.73), Debian LLD 22.1.6
+config:    https://ci.syzbot.org/builds/e5413370-cf09-4540-b9d3-7d280f314ae0/config
+syz repro: https://ci.syzbot.org/findings/e7cd69b7-8bb9-4554-bd84-b5ebcd7a8089/syz_repro
+
+------------[ cut here ]------------
+sb_rdonly(sb)
+WARNING: fs/ext4/ext4_jbd2.c:75 at ext4_journal_check_start+0x24f/0x2b0 fs/ext4/ext4_jbd2.c:75, CPU#0: kworker/0:5/5860
+Modules linked in:
+CPU: 0 UID: 0 PID: 5860 Comm: kworker/0:5 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Workqueue: events ext4_ea_inode_work
+RIP: 0010:ext4_journal_check_start+0x24f/0x2b0 fs/ext4/ext4_jbd2.c:75
+Code: 5b 41 5c 41 5d 41 5e 41 5f 5d c3 cc cc cc cc cc e8 06 75 42 ff 41 bf fb ff ff ff eb e0 e8 f9 74 42 ff eb d3 e8 f2 74 42 ff 90 <0f> 0b 90 eb c8 e8 e7 74 42 ff 90 0f 0b 90 43 80 7c 25 00 00 0f 85
+RSP: 0018:ffffc900036bf888 EFLAGS: 00010293
+RAX: ffffffff8283ecce RBX: ffff888170078000 RCX: ffff888107390000
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: 00000000000000ef R08: ffff8881bb53440f R09: 1ffff110376a6881
+R10: dffffc0000000000 R11: ffffed10376a6882 R12: dffffc0000000000
+R13: 1ffff1102e00f0cd R14: ffff888170078668 R15: 0000000000000001
+FS:  0000000000000000(0000) GS:ffff88818dc20000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055557b325a28 CR3: 0000000114bfe000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ __ext4_journal_start_sb+0x147/0x5d0 fs/ext4/ext4_jbd2.c:107
+ __ext4_journal_start fs/ext4/ext4_jbd2.h:242 [inline]
+ ext4_evict_inode+0x7cb/0xf70 fs/ext4/inode.c:238
+ evict+0x624/0xb50 fs/inode.c:825
+ ext4_ea_inode_work+0x5c/0x90 fs/ext4/xattr.c:2974
+ process_one_work kernel/workqueue.c:3322 [inline]
+ process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+
+To test a patch for this bug, please reply with `#syz test`
+(should be on a separate line).
+
+The patch should be attached to the email.
+Note: arguments like custom git repos and branches are not supported.
