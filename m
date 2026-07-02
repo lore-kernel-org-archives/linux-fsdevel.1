@@ -1,400 +1,201 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 169553BE156
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 23:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783036785; cv=none; b=ZFPkeawUFDRwCMpoORCDHtkfDwbydngAWGKPn3yqKazQKtgChzDl/gxDY2ROi6wFXjzYKMmjaknBzdT1/j+VmbvKbrIIu+mfGtLDbNug3Azk0NesZEdboFr26m6e/lkwZHQjNHJhqi7nFTNnYnA2a8Tl/kMVyu4V2O3CL/izHRo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783036785; c=relaxed/simple;
-	bh=V5OX0TMdtJmDuWAkBJN5Wb/QQ1n5NIo6TDFqF/tIaVY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Gdu1aUcXgwXPClENUp5InNKbhIqReorZQMM2LaMAeOrDfFIvzLSbH/DOyKSA4z6JcIZ3ZHA3y4lpynT7eIWTFKrOAiLxN1jWe7MBQp5/LJlBN1dxQhJhab7PNl6ZtLu2Xy+LhPmPyvx2+X4x3VLf9jBPmn3IEQRpxjC1YuCz6Bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=IiHvxUUY; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28433D648C
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 23:59:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783036795; cv=pass; b=HNNaG7VpDYN8wg+UuzbTKTcdtrDj+LvoWYwDQR9DvUC8OIIgZcH+VhlG5tRSL5Vl2wuFutcRtMCZGkqtzPjYePDuq7ownB31E8WuwcpGZU3yqmq5EErQFowZfCmD4x6yIOHJleWzAO0FnAfQMIVp4r2AgGNaaKUFdzRkXc1dyG4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783036795; c=relaxed/simple;
+	bh=9mfrTGat0AT7NLP1gbhbIUiw0dL1UYJaiMio4afATB0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mtqEF/yrSete055ygt1X+tRucSU+0WRy4CxtxPUX6/t5Pf8k7r18sEczvs7UX71/8nGu3eYnUWitbRUBhYVr8D6ww5HLVwety/7CYA5BPb06kSC3X8v9M//VV7QYm/++Ghm7pzjqdtluw19OykSmtqVvxxVCrml2sJyywDLSLQ4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LuRB4kcA; arc=pass smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="IiHvxUUY"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-38101f85591so672958a91.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Jul 2026 16:59:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LuRB4kcA"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-493bc8fda98so21092845e9.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Jul 2026 16:59:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783036792; cv=none;
+        d=google.com; s=arc-20260327;
+        b=NET2HsrbmtvYZyD4f+lJRwiN4fwXIw2JJw8DYoz/yqFZoDVvgathrcmD7fSzQOkgcc
+         cE4kxurJDqpxqMB5de8FMYIXXmvGs4Aj17hoeciDpN4VAty20JpN1NiRgjs414kqguJo
+         FXyC9NJE6BO9WLDhUNg7YyvKmE2ZbPWW2vhtGepUVzcuqTlxwznWY38E4h5iYIp5tswY
+         LXtlcYKBIdF5KqZ4vnufwF1De4vyUfeIhTO3UptBI/HDnZTsWEwAcG8f4drUMAPK05N9
+         356+s9OZN02tZHY5efW62h5ApaaZcvs1HAy54pNEMEAqOpA2EAlAvM0bE+Y9ygyMl820
+         7A9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Lr71FjY8xrzyOTpsfFewrECV5PtfY/nu/gI0pAnlh+k=;
+        fh=HCdtKoqmpPf8fhyX36JIQ/1AVjcDstBNkhZxGh2n2uY=;
+        b=m1PTLbSXoaUKA/NddE9bJustjAmwwsSq6fJfq4ye7myR5VdQJEqKfXCbRU7f5+Z5B2
+         QIv87gUGQ6Y9Ow9UYGpz7wZHKnErtQTYKuhZ7df/a5+3XBGEZvsWeTsgC73kzcnP7hyX
+         8AgW0Df1ar+GziO8PIuCngXf1jjla/SOuKomrG7URp09tRATFRxnABSF6f39t3D/+5nn
+         IdJBvRzi5y7AFEuPP/tZsP4wlPRrwdAhOUKwgbZKfkaSI9uo7rbhxE1fBsvfAsGbzXjH
+         2Gg5KVY6Lk6UQjTXUE82nnA8dqArX0PauogPWh/+QhPvNUzs/7v3RwV3kYL+8CUJAgmb
+         v+EA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1783036783; x=1783641583; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=OcFnChr9omzL4R68clXYzlZ8MxLUHIgHq1HKULbBZeg=;
-        b=IiHvxUUYwooNjYvpecE2f+OIxqUKD8DHdSXoxJbh5H8hAmUghbVGDfHWz010TZULSQ
-         Y9KU/zqNoXc7jJqgUVDfiUu5yppUdjYQtvLDp5YYnzTiKlAXRRXWOcbLPwzHOERpWqOP
-         Rz1wSWTs+T/XdDJzmBVtHNEzEoEHkUzaKyUqK7Rqx8eUxx+jBUJRJRxMIq0qDqIzPlnA
-         qYFQqJ9dvSL0FUqViVJyyhSDvgPDrrAnSYoNruipT42LJpf5DYtsq+DWCuwWRylX5N6A
-         hfOkKRfd6nUmvrCkbrfVvDAXQM4/f1JZUvqDzWm5pHg+FK1fSXLOpHAECNvxqiNg9xQY
-         bNrQ==
+        d=gmail.com; s=20251104; t=1783036792; x=1783641592; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Lr71FjY8xrzyOTpsfFewrECV5PtfY/nu/gI0pAnlh+k=;
+        b=LuRB4kcAQ9y8MIh/YvJtL+KSYYf77KFXLPxOyovtVvvxUHgY0YjXmkAZKsLwfpa8jG
+         GUkFHhPhYd+M6tHa3Flt0x2uLlVRCQ6HrtYLmsu/ZKg+yhOqpvoC+1SlEkYocacz0KDV
+         UjmI1kBSJk7VR81NuS4u7mLSYR/FG9Gr5Y9wUJuZkf5oEAABAtveNRpIWXNm0W5nBCDm
+         EwXZPxpIdqvrovrJdohH94O5YoE6oyQSvHBUZXxlIyQeHfmfvFRfnVYJXYWRlfEwyEVS
+         8lqrVie50IoGIFy0cVztoVHbk6/Ikbl1Q2pN7Y9BW9IMK7FcLsc8UpWrUc7eqPcXeZon
+         fgoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783036783; x=1783641583;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OcFnChr9omzL4R68clXYzlZ8MxLUHIgHq1HKULbBZeg=;
-        b=YUqoUbztJSDvD58gsTkDd/myvC3US1OB6XFqHXurh7ALOIktJVhxOiHI1WOmooAqF8
-         YDVoPiHJp6k70CLbBhFlAFAFlkLVCD6aLdvPkbQOp2zR2B1Ym3JiSqYx84nRMc+/VuZP
-         eHLCRQCTA1zG6/wM9/yKZ8qKy3G/eyGwjaZo/PtyLywz+qhUXYN+l2AAQJ6J4UBTZyLu
-         9bnBr/ulOD9STHT2cZMg6yKbfl/n56v6Alb16gDDFQOYdax7BxKM0lgD9T7kGTt47MMO
-         I2bZ454y3Ck+RNmw/VtBtBVJEoCNC47Zib6wDk9qR7U7wc4j/IcaiJVy3y8ZnlSgRm8f
-         VhBQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqxMJGUS0cp/BCwnmSJ7uSY4gp6J8152Hib17OKvhtHNaWqBteGz1reGJjwLN3HlkEdA7hTk2/DqBr5OkVT@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3xtw5FEacRRTKQmPkGvzcLr3X8qzuIqVBaFWhLRF5APg3c7sg
-	d4QJxit9QhfrRmplTzBiJgt8QmTrb+HjMSII3uSotjr0XILncwyiQwALmdN8C3V1Hr59ewrWJgo
-	HQ1B99ATEtg==
-X-Gm-Gg: AfdE7ckdXjMP9TZHHgKcn4H7/+JCjFCGt6hZwmWHTJtFm35HHQRdO/N55/l502/rRD2
-	tqxJPNlxylrXhlkoc8953rF+np66QkMb7yP13waXPN7L3j826mDBws/iclwwnr7K9RlQoIDB1RK
-	CSsEwOyIqpMxImUCFNFvxLHXPwDMUHs5TuBHz/MWldIaE/740JkGUTajS3GKAY/SKgBPbo9M11Y
-	1w1+WJ+wiRDAV0+JgOYEBH15TgVHuoLMhAfuGPXPgJqFG2EZRkjq2JNYPKz4u4nV8GWsYrtDVNu
-	Fsmm3a9dFXgxb8YU6Hyo6UAKOoV2JljS8wwwV9IG+iLZi44i1wT/S6qCJJCzJxo7ll8ldKijofy
-	mHaABmyZoJJqrs88SgfJSIOkuwC7zSQo5Ww3uXHusdDszMiqz/yBn8nnHQPgFbygk1ueomoH9WY
-	KqMan3Og5ZYNyCt5BJGXcG6D9Jsr7py6fmDyFvICgXzY2FcwpF4hyTvH4kAb6YnWQiDUtkwM8kQ
-	obU2Ms848ecn2RtLBxYRuVmrGCjRjq/Y8brvMJel05n7N8ROW+X3YxN/bMLii630XOP4/oU12zQ
-	65BF6TA=
-X-Received: by 2002:a17:90b:5251:b0:380:8bb9:aba9 with SMTP id 98e67ed59e1d1-38112063c22mr2272880a91.3.1783036783261;
-        Thu, 02 Jul 2026 16:59:43 -0700 (PDT)
-Received: from [10.0.0.3] (162-197-212-70.lightspeed.sntcca.sbcglobal.net. [162.197.212.70])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f0b7bb8fasm13237482eec.1.2026.07.02.16.59.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 16:59:42 -0700 (PDT)
-Message-ID: <b12eec5f2cafc5f1d2dbf60d172b930d4bee5b5d.camel@dubeyko.com>
-Subject: Re: [PATCH] hfs: validate catalog CNIDs before instantiating inodes
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: David Maximiliano Hermitte <davemadmaxxx@gmail.com>, Jori Koolstra
-	 <jkoolstra@xs4all.nl>
-Cc: George Anthony Vernon <contact@gvernon.com>, Tetsuo Handa
-	 <penguin-kernel@I-love.SAKURA.ne.jp>, John Paul Adrian Glaubitz
-	 <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
-Date: Thu, 02 Jul 2026 16:59:41 -0700
-In-Reply-To: <20260702183800.1119202-1-davemadmaxxx@gmail.com>
-References: <20260702183800.1119202-1-davemadmaxxx@gmail.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+        d=1e100.net; s=20251104; t=1783036792; x=1783641592;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Lr71FjY8xrzyOTpsfFewrECV5PtfY/nu/gI0pAnlh+k=;
+        b=D/QHhKI0Rbajn/FkFKziKW6oRX/3L2CGySs8zy8/riLZEzOjJ906c0zAnccWO12Jp/
+         k9R0W5iWNSpn1BtZ2SmokBy8yjqqLKN0uhAKSpUUlVZLiTFxh4eLxrecVFIeY/I3/ks5
+         +Iut6UtZd8JXbvNcbK9iLcSPJZngTl0kRX0MpFAkLHnZ7Cu6vUcn76Qa72qHkt5I2L81
+         ySMq74aBPXfOtTJVBpt8IO8B0fRNnTuj0+AWClgqGDsy5G4ZaFCC/4Wa8sNF4JrqtJoB
+         0yiwignv8PQxMRNQKSMa0d6E74yI+0Qoj2M4+YVja9yHdT8rfru+OOBczCVbxK8dPU1q
+         jd0w==
+X-Forwarded-Encrypted: i=1; AHgh+RqvadZ7BcrCejv8rLR2BDqqxwM8rUE0Oi7ksjxy2P0b6JLrbk0ygPIFras+VQLtTPctzQjlap8Aah97oZnN@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkamY8O6sNlcvzpmgTWny3hXgcE2uttsj+iBn1XUtGVFmF41i4
+	wLECv/2pVciaEsb654Rn9GOdcAnjbajlmGiRnP/iEego+Gf9prZoFSaP6UT6WEeVxczqj0SlSS+
+	WMiTPfakfZIIcpVdfunZrVcRBBL5+8Ag=
+X-Gm-Gg: AfdE7cmDkT86+q5VxbdGco+WEYs+fitXNDyBq0sQ0teqj+asH37F056ozX2SGIVH3QS
+	PluX0Eadw2LHRK/6r4kds1Eh30VQGxi8gRBWo36V1CVOx/KeuYWmzA7o/OwLNB+OcMn74JuvuYi
+	zrZn8gfvDVRet54ceJbaojxvaF0MhWRsgKnleb0xhmEs6zd2Wq6W19ASqxIL0QrMTayE2BjQ40G
+	aN5bZzthMMd7UaIedXAbsoNWQdNL/uFZ+j8C6ObuNXsUYGj3Oj9tAT27ecMLzNhqZgl4LsvG3Tk
+	khTILJNq/1MgEuUWt5p60CdpAz2hxFfvPgLNzfZBYgFv8iW6CQKA
+X-Received: by 2002:a05:6000:178d:b0:46f:7127:9f70 with SMTP id
+ ffacd0b85a97d-477b3889564mr11032946f8f.18.1783036792138; Thu, 02 Jul 2026
+ 16:59:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260701000949.1666714-1-joannelkoong@gmail.com>
+ <20260701000949.1666714-3-joannelkoong@gmail.com> <20260702164339.GI9392@frogsfrogsfrogs>
+In-Reply-To: <20260702164339.GI9392@frogsfrogsfrogs>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Thu, 2 Jul 2026 16:59:39 -0700
+X-Gm-Features: AVVi8CfRMLQ82BMABsxnrmWXO9hzG4sO4-QzmTQ2Zp72T-55jYigQ-9-a_U5Uvo
+Message-ID: <CAJnrk1ZRQaFseAnz3zm31oR3KmQWje5HDJjhNbAQSAQyK9_PMA@mail.gmail.com>
+Subject: Re: [PATCH v2 02/18] xfs: convert iomap ops to ->iomap_next()
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: brauner@kernel.org, hch@lst.de, willy@infradead.org, 
+	hsiangkao@linux.alibaba.com, linux-fsdevel@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, Carlos Maiolino <cem@kernel.org>, 
+	open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2026-07-02 at 18:38 +0000, David Maximiliano Hermitte wrote:
-> hfs_cat_find_brec() first resolves a catalog thread record by CNID
-> and
-> then looks up the corresponding catalog record by parent/name. On a
-> corrupted filesystem image, the second lookup may find a record whose
-> CNID does not match the CNID that was requested.
->=20
-> Validate the catalog record found by the second lookup before
-> returning
-> it to callers. Inspect the already-found record with
-> hfs_bnode_read(),
-> not hfs_brec_read(), and reject records whose CNID is invalid for
-> their
-> record type or does not match the requested CNID.
->=20
-> Also validate CNIDs in hfs_read_inode() before the inode is
-> populated,
-> and propagate hfs_read_inode() errors from the resource-fork lookup
-> path.
-> For the root inode path, require the root catalog record to be a
-> directory
-> with DirID =3D=3D HFS_ROOT_CNID, and drop the root inode reference if it
-> was
-> instantiated as a bad inode.
->=20
-> This keeps hfs_write_inode() unchanged and prevents corrupted catalog
-> records from reaching the existing reserved-CNID BUG() path during
-> writeback.
->=20
-> Reported-by: syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D97e301b4b82ae803d21b
-> Cc: George Anthony Vernon <contact@gvernon.com>
-> Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> Signed-off-by: David Maximiliano Hermitte <davemadmaxxx@gmail.com>
-> ---
-> =C2=A0fs/hfs/catalog.c | 48
-> +++++++++++++++++++++++++++++++++++++++++++++++-
-> =C2=A0fs/hfs/hfs_fs.h=C2=A0 | 19 +++++++++++++++++++
-> =C2=A0fs/hfs/inode.c=C2=A0=C2=A0 |=C2=A0 9 ++++++++-
-> =C2=A0fs/hfs/super.c=C2=A0=C2=A0 |=C2=A0 8 +++++++-
-> =C2=A04 files changed, 81 insertions(+), 3 deletions(-)
->=20
-> diff --git a/fs/hfs/catalog.c b/fs/hfs/catalog.c
-> index 1bfa36d71e24..fa2a0a5975e3 100644
-> --- a/fs/hfs/catalog.c
-> +++ b/fs/hfs/catalog.c
-> @@ -182,6 +182,47 @@ int hfs_cat_keycmp(const btree_key *key1, const
-> btree_key *key2)
-> =C2=A0			=C2=A0 key2->cat.CName.name, key2-
-> >cat.CName.len);
-> =C2=A0}
-> =C2=A0
-> +static int hfs_cat_validate_found_cnid(struct hfs_find_data *fd, u32
-> cnid)
-> +{
-> +	hfs_cat_rec rec;
-> +	u32 found_cnid;
-> +	unsigned int rec_len;
+On Thu, Jul 2, 2026 at 9:43=E2=80=AFAM Darrick J. Wong <djwong@kernel.org> =
+wrote:
+>
+> On Tue, Jun 30, 2026 at 05:09:17PM -0700, Joanne Koong wrote:
+> > Convert xfs iomap_ops to the new ->iomap_next() callback. This uses the
+> > iomap_process() helper, which finishes the previous mapping if needed
+> > and produces the next one. No functional changes are intended.
+> >
+> > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> > ---
+> >  fs/xfs/xfs_file.c  |  4 +-
+> >  fs/xfs/xfs_iomap.c | 96 +++++++++++++++++++++++++++++++++++++++++-----
+> >  2 files changed, 88 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+> > index 845a97c9b063..7f8bef1a9954 100644
+> > --- a/fs/xfs/xfs_file.c
+> > +++ b/fs/xfs/xfs_file.c
+> > @@ -857,9 +857,9 @@ xfs_file_dio_write_atomic(
+> >                       NULL, 0);
+> >
+> >       /*
+> > -      * The retry mechanism is based on the ->iomap_begin method retur=
+ning
+> > +      * The retry mechanism is based on the ->iomap_next method return=
+ing
+> >        * -ENOPROTOOPT, which would be when the REQ_ATOMIC-based write i=
+s not
+> > -      * possible. The REQ_ATOMIC-based method typically not be possibl=
+e if
+> > +      * possible. The REQ_ATOMIC-based method is typically not possibl=
+e if
+> >        * the write spans multiple extents or the disk blocks are misali=
+gned.
+> >        */
+> >       if (ret =3D=3D -ENOPROTOOPT && dops =3D=3D &xfs_direct_write_ioma=
+p_ops) {
+> > diff --git a/fs/xfs/xfs_iomap.c b/fs/xfs/xfs_iomap.c
+> > index 225c3de88d03..4fa1a5c985db 100644
+> > --- a/fs/xfs/xfs_iomap.c
+> > +++ b/fs/xfs/xfs_iomap.c
+> > @@ -1037,8 +1037,18 @@ xfs_direct_write_iomap_begin(
+> >       return error;
+> >  }
+> >
+> > +static int
+> > +xfs_direct_write_iomap_next(
+> > +     const struct iomap_iter *iter,
+> > +     struct iomap            *iomap,
+> > +     struct iomap            *srcmap)
+>
+> <unvarnished brainstream ahead>
+>
+> Now that I see the callsites, I think the "next" name could use some
+> bikeshedding <cough>.  The purpose of this function is either
+>
+> (a) to look up the first mapping to start iterating;
+> (b) to release whatever resources were attached during the current
+>     iteration and look up the next mapping to continue iterating; or
+> (c) to decide that it's time to stop iterating.
+>
+> From that it seems obvious to me that xfs_direct_write_iomap_next yields
+> iomaps for iteration.  In Python those are called generator functions;
+> in Rust they're called objects that implement the Iterator trait (or
+> iterators for short).
+>
+> How about s/iomap_next/iomap_iter/ ?
+>
+> Then this function would be called xfs_direct_write_iomap_iter, which
+> IMO is a closer description of what the function does, which is to say
+> iterates iomaps for direct writes.
+>
+> (Yes, my brain might be polluted with thinking that "iomap next" refers
+> to a major shift, in the sense of "linux next". :P)
 
-I prefer to see the size_t here.
-
-> +	size_t cnid_off;
-> +
-> +	if (fd->entrylength <=3D 0)
-> +		return -EIO;
-> +
-> +	if ((unsigned int)fd->entrylength > sizeof(rec))
-
-The hfs_cat_rec union is big enough to keep any type of record in
-Catalog File. If fd->entrylength is bigger one, then it sounds like a
-incorrect behavior or corruption. We cannot silently process such
-situation.
-
-> +		rec_len =3D sizeof(rec);
-> +	else
-> +		rec_len =3D fd->entrylength;
-> +
-> +	memset(&rec, 0, sizeof(rec));
-> +	hfs_bnode_read(fd->bnode, &rec, fd->entryoffset, rec_len);
-> +
-> +	switch (rec.type) {
-> +	case HFS_CDR_FIL:
-> +		cnid_off =3D offsetof(struct hfs_cat_file, FlNum);
-> +		if ((size_t)rec_len < cnid_off +
-> sizeof(rec.file.FlNum))
-> +			return -EIO;
-
-If you would like to check that size of the record, then you don't need
-to do this weird logic.
-
-typedef union hfs_cat_rec {
-	s8 type;			/* The type of entry */
-	struct hfs_cat_file file;
-	struct hfs_cat_dir dir;
-	struct hfs_cat_thread thread;
-} hfs_cat_rec;
-
-You can simply compare with particular structure size.
-
-> +		found_cnid =3D be32_to_cpu(rec.file.FlNum);
-> +		break;
-> +	case HFS_CDR_DIR:
-> +		cnid_off =3D offsetof(struct hfs_cat_dir, DirID);
-> +		if ((size_t)rec_len < cnid_off +
-> sizeof(rec.dir.DirID))
-> +			return -EIO;
-
-Ditto.
-
-> +		found_cnid =3D be32_to_cpu(rec.dir.DirID);
-> +		break;
-> +	default:
-> +		return -EIO;
-
-Are we sure that thread record cannot be checked by this logic?
-
-> +	}
-> +
-> +	if (!hfs_is_valid_cnid(found_cnid, rec.type) || found_cnid
-> !=3D cnid)
-
-We don't need to call hfs_is_valid_cnid() because found_cnid !=3D cnid is
-completely enough.
-
-> +		return -EIO;
-> +
-> +	return 0;
-> +}
-> +
-> =C2=A0/* Try to get a catalog entry for given catalog id */
-> =C2=A0// move to read_super???
-> =C2=A0int hfs_cat_find_brec(struct super_block *sb, u32 cnid,
-> @@ -208,7 +249,12 @@ int hfs_cat_find_brec(struct super_block *sb,
-> u32 cnid,
-> =C2=A0		return -EIO;
-> =C2=A0	}
-> =C2=A0	memcpy(fd->search_key->cat.CName.name,
-> rec.thread.CName.name, len);
-> -	return hfs_brec_find(fd);
-> +
-> +	res =3D hfs_brec_find(fd);
-> +	if (res)
-> +		return res;
-> +
-> +	return hfs_cat_validate_found_cnid(fd, cnid);
-> =C2=A0}
-> =C2=A0
-> =C2=A0static inline
-> diff --git a/fs/hfs/hfs_fs.h b/fs/hfs/hfs_fs.h
-> index f3624514fcb0..670638f17438 100644
-> --- a/fs/hfs/hfs_fs.h
-> +++ b/fs/hfs/hfs_fs.h
-> @@ -155,6 +155,25 @@ extern int hfs_cat_move(u32 cnid, struct inode
-> *src_dir,
-> =C2=A0extern void hfs_cat_build_key(struct super_block *sb, btree_key
-> *key,
-> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u32 parent, const struct qstr *na=
-me);
-> =C2=A0
-> +/*
-> + * Validate the CNID of a catalog record.
-> + */
-> +static inline bool hfs_is_valid_cnid(u32 cnid, u8 type)
-> +{
-> +	if (likely(cnid >=3D HFS_FIRSTUSER_CNID))
-> +		return true;
-> +
-> +	switch (cnid) {
-> +	case HFS_ROOT_CNID:
-> +		return type =3D=3D HFS_CDR_DIR;
-> +	case HFS_EXT_CNID:
-> +	case HFS_CAT_CNID:
-> +		return type =3D=3D HFS_CDR_FIL;
-> +	default:
-> +		return false;
-> +	}
-> +}
-> +
-> =C2=A0/* dir.c */
-> =C2=A0extern const struct file_operations hfs_dir_operations;
-> =C2=A0extern const struct inode_operations hfs_dir_inode_operations;
-> diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
-> index ac4a9055c5c0..c685f1bb7009 100644
-> --- a/fs/hfs/inode.c
-> +++ b/fs/hfs/inode.c
-> @@ -367,6 +367,9 @@ static int hfs_read_inode(struct inode *inode,
-> void *data)
-> =C2=A0	rec =3D idata->rec;
-> =C2=A0	switch (rec->type) {
-> =C2=A0	case HFS_CDR_FIL:
-> +		if (!hfs_is_valid_cnid(be32_to_cpu(rec->file.FlNum),
-> rec->type))
-> +			return -EIO;
-> +
-> =C2=A0		if (!HFS_IS_RSRC(inode)) {
-> =C2=A0			hfs_inode_read_fork(inode, rec->file.ExtRec,
-> rec->file.LgLen,
-> =C2=A0					=C2=A0=C2=A0=C2=A0 rec->file.PyLen,
-> be16_to_cpu(rec->file.ClpSize));
-> @@ -390,6 +393,9 @@ static int hfs_read_inode(struct inode *inode,
-> void *data)
-> =C2=A0		inode->i_mapping->a_ops =3D &hfs_aops;
-> =C2=A0		break;
-> =C2=A0	case HFS_CDR_DIR:
-> +		if (!hfs_is_valid_cnid(be32_to_cpu(rec->dir.DirID),
-> rec->type))
-> +			return -EIO;
-> +
-> =C2=A0		inode->i_ino =3D be32_to_cpu(rec->dir.DirID);
-> =C2=A0		inode->i_size =3D be16_to_cpu(rec->dir.Val) + 2;
-> =C2=A0		HFS_I(inode)->fs_blocks =3D 0;
-> @@ -571,7 +577,8 @@ static struct dentry *hfs_file_lookup(struct
-> inode *dir, struct dentry *dentry,
-> =C2=A0	res =3D hfs_brec_read(&fd, &rec, sizeof(rec));
-> =C2=A0	if (!res) {
-> =C2=A0		struct hfs_iget_data idata =3D { NULL, &rec };
-> -		hfs_read_inode(inode, &idata);
-> +
-
-Do we really need empty line here?
-
-> +		res =3D hfs_read_inode(inode, &idata);
-> =C2=A0	}
-> =C2=A0	hfs_find_exit(&fd);
-
-
-I believe we need something like this here:
-
-if (res || is_bad_inode(inode)) {
-   iput(inode);
-   return ERR_PTR(-EIO);
-}
-
-> =C2=A0	if (res) {
-> diff --git a/fs/hfs/super.c b/fs/hfs/super.c
-> index a466c401f6bb..5275936304c7 100644
-> --- a/fs/hfs/super.c
-> +++ b/fs/hfs/super.c
-> @@ -361,7 +361,8 @@ static int hfs_fill_super(struct super_block *sb,
-> struct fs_context *fc)
-> =C2=A0			goto bail_hfs_find;
-> =C2=A0		}
-> =C2=A0		hfs_bnode_read(fd.bnode, &rec, fd.entryoffset,
-> fd.entrylength);
-> -		if (rec.type !=3D HFS_CDR_DIR)
-> +		if (rec.type !=3D HFS_CDR_DIR ||
-> +		=C2=A0=C2=A0=C2=A0 be32_to_cpu(rec.dir.DirID) !=3D HFS_ROOT_CNID)
-
-This check is completely not necessary here because
-hfs_cat_validate_found_cnid() will execute the CNID check.
+Thanks for sharing your thoughts. The idea makes sense to me in theory
+but I think in rust and python the "iter" naming is reserved for the
+iterator object itself and the method / callback for advancing and
+yielding the next item in the iteration is named "next" (eg
+Iterator::next in rust and __next__() in python)? I wonder if the
+s/_next/_iter gets confusing with multiple things in iomap already
+called iter (eg the struct iomap_iter, the iomap_iter() function). I'm
+not sure, I'm happy to rename this if that's the preference.
 
 Thanks,
-Slava.
+Joanne
 
-> =C2=A0			res =3D -EIO;
-> =C2=A0	}
-> =C2=A0	if (res)
-> @@ -372,6 +373,11 @@ static int hfs_fill_super(struct super_block
-> *sb, struct fs_context *fc)
-> =C2=A0	if (!root_inode)
-> =C2=A0		goto bail_no_root;
-> =C2=A0
-> +	if (is_bad_inode(root_inode)) {
-> +		iput(root_inode);
-> +		goto bail_no_root;
-> +	}
-> +
-> =C2=A0	set_default_d_op(sb, &hfs_dentry_operations);
-> =C2=A0	res =3D -ENOMEM;
-> =C2=A0	sb->s_root =3D d_make_root(root_inode);
+>
+> > +{
+> > +     return iomap_process(iter, iomap, srcmap, xfs_direct_write_iomap_=
+begin,
+> > +                     NULL);
+>
+> But then "iomap_iter" sets up a new problem: should iomap_process have a
+> new name that goes along with that?  iomap_iter is already taken for the
+> legacy path.  If we were emulating python I'd suggest iomap_iter_yield
+> but this is C so we get to reinvent everything from scratch so who
+> knows.
+>
+> --D
+>
