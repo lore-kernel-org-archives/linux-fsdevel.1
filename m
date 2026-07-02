@@ -1,128 +1,151 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E5D47DF96;
-	Thu,  2 Jul 2026 09:33:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACF73C585B;
+	Thu,  2 Jul 2026 09:34:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782984830; cv=none; b=XoUYLgya78d2tjEPRp8ihSMlhdpGWN7G/0DVY2czDu64nuZYDzYsGrLSrYN4eAElgMMxpNE/UNssedGwuAqJDsZ6KXsaiPW/JsyaqLQcrGeUZHm3icxPQft+l9UxpubotTzJ2858WKae1St7HCLCZLbxRhaectO1TIlTC6EyDic=
+	t=1782984849; cv=none; b=o5PfxQYRjeTxjzq2mINfJ0VK04ogKwFeXJKaLm5794i86Cjn9n/r/s3YHKix1tJq5mnUK5+RE7zrUfObLkad1ObjA/q2u3QUApD8A9YjZ6RhgAbUOEGfcscwyW4UCQzfSRzikRefW9RmFlZ9JeuW94BAWDfSplVC7XZY27oBiCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782984830; c=relaxed/simple;
-	bh=npiKLdN+w6T3goyUViROmCZMeRJmRIyo6Pqg1JQq6QU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Dg+/Qt7gT8BmdK4fRO/iCjCpt/Dd7YI6EB6rlx5xHbbdpjLFXtPclt0s/efyXFzvPZI6EmLCgsVHWj5wGgU3uXqFyTBG54Jvb8KU2mlNhOqAiVTgJDYXw58hBsuXh4OooH8uj+ApSMbKEdYnA9psfWmSsX4e9XczTXjTgQAgOOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GBOoypFc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782984849; c=relaxed/simple;
+	bh=OQGQJ9k7AjYDuJr9gGYov76Q+MbkBhbJjTVHEbYsBjc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jRaypVCAOLySkMzCkA0FqdlFxUpu+S1rK3QN2voxh1Uxx/YMkT+QFSmK0Gz1B3WehYberFY644dYg4dcbuqGm+MVlKbK2z0L615uRcQRZmkVIw0ovsVyco6mVlvSCieer5vUMrTSQWigDoyu1h6gRG5XdkasCUSSaD32aVagY/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R3FyXP42; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GBOoypFc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 444AB1F000E9;
-	Thu,  2 Jul 2026 09:33:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R3FyXP42"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B21C61F00A3A;
+	Thu,  2 Jul 2026 09:34:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782984828;
-	bh=iwKbs9rXzszpSDj408nMEVkROgilQf533CtonCYgF0U=;
-	h=From:To:Cc:Subject:Date;
-	b=GBOoypFc9hOc8WsmgBc+NzIAsbbukZUgwg4tCdvKGh0LHhqyk8BKECXaE367JYDHg
-	 1Zb6xjXjZwcl2PjjvmtinU1s+37TzHj9RhtoYxBbbZaB5VvKg89WkSX2k8F6xH7T/1
-	 oXEzcgPrezwySFs3cZB6PGXtm2mb+PJbf4BY/ln8mL6U7mqpAlzgjdDsC8j6NvCF8g
-	 9vd3UsYV74t9JgCWffSSkC0JucAoyZUjWVLqBjmvDMU9GNh3npUCUxrYGR9VSHnbh7
-	 /R61vMBnmtxuem9zFySH4LItt8z8Jljjt0oWaM36QzuY+Z8K6TT2zRY5c1x3oz2M+/
-	 CghMceBKcS9PQ==
-From: cem@kernel.org
-To: cem@kernel.org
-Cc: Jan Kara <jack@suse.cz>,
-	Christoph Hellwig <hch@lst.de>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Dave Chinner <david@fromorbit.com>,
-	Eric Sandeen <sandeen@redhat.com>,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/5] Fix quota evasion on xfs and add capable_noaudit
-Date: Thu,  2 Jul 2026 11:33:15 +0200
-Message-ID: <20260702093324.127450-1-cem@kernel.org>
-X-Mailer: git-send-email 2.54.0
+	s=k20260515; t=1782984848;
+	bh=I6ljKjFilDZDw8eVEUNLqFNyOGzShy3qTsG1Pdqsu2s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=R3FyXP42pzYYWvmmy6o99v7zM015UzCtT7KGWYJyZEIrp+tnoMOnMURDmzLkXEb1S
+	 +4DnOSB6HmieRiwwwEwIV+IhHfLLBVHPeVciwUgxy0bCUHJNL5HRZ+3r0UjtqHDppV
+	 8rMCIn41+fouCViD13NAjp4UDO80IJhg7tRuqHiynrdcMAq5Odi96MyYL4VZtRhsN4
+	 FOEbU8sGISNsXsx4vGmaMAd0ZDwepDWteOq2P2JfyWYPnV0lFdIU9p93b3dTSI1XdC
+	 PZmcF1tfFhpVT5lF4zUu9Q0V63Z9rulVuMcnDlxOWlaxnBDSuCiGZWAN3oPKw++tWx
+	 ZP2078bgeg5Nw==
+Date: Thu, 2 Jul 2026 11:34:01 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Andy Lutomirski <luto@kernel.org>
+Cc: John Ericson <mail@johnericson.me>, Li Chen <me@linux.beauty>, 
+	Cong Wang <cwang@multikernel.io>, linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Kees Cook <kees@kernel.org>, 
+	Sergei Zimmerman <sergei@zimmerman.foo>, Farid Zakaria <farid.m.zakaria@gmail.com>
+Subject: Re: [RFC] Null Namespaces
+Message-ID: <20260702-entladen-farbkombinationen-klarheit-fe24cb608f23@brauner>
+References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
+ <20260629-hauer-erhitzen-sobald-96d3dff68707@brauner>
+ <CALCETrVuh0-biOw=TgYN9ERTFAoiki57XeZ3S2T3dO2+hL54gA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALCETrVuh0-biOw=TgYN9ERTFAoiki57XeZ3S2T3dO2+hL54gA@mail.gmail.com>
 
-From: Carlos Maiolino <cem@kernel.org>
+On Mon, Jun 29, 2026 at 02:06:55PM -0700, Andy Lutomirski wrote:
+> On Mon, Jun 29, 2026 at 4:45 AM Christian Brauner <brauner@kernel.org> wrote:
+> >
+> 
+> > But I guess the even simpler model would be to copy what I've been doing
+> > for pidfs:
+> >
+> > +static struct path nullfs_root_path = {};
+> > +
+> > +void nullfs_get_root(struct path *path)
+> > +{
+> > +       *path = nullfs_root_path;
+> > +       path_get(path);
+> > +}
+> > +
+> >  static void __init init_mount_tree(void)
+> >  {
+> >         struct vfsmount *mnt, *nullfs_mnt;
+> > @@ -6209,6 +6217,8 @@ static void __init init_mount_tree(void)
+> >         /* Mount mutable rootfs on top of nullfs. */
+> >         root.mnt                = nullfs_mnt;
+> >         root.dentry             = nullfs_mnt->mnt_root;
+> > +       nullfs_root_path.mnt    = nullfs_mnt;
+> > +       pidfs_root_path.dentry  = nullfs_mnt->mnt_root;
+> >
+> >         LOCK_MOUNT_EXACT(mp, &root);
+> >         if (unlikely(IS_ERR(mp.parent)))
+> > diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+> > index aadfbf6e0cb3..f55c87c70b78 100644
+> > --- a/include/uapi/linux/fcntl.h
+> > +++ b/include/uapi/linux/fcntl.h
+> > @@ -124,6 +124,7 @@ struct delegation {
+> >
+> >  #define FD_PIDFS_ROOT                  -10002 /* Root of the pidfs filesystem */
+> >  #define FD_NSFS_ROOT                   -10003 /* Root of the nsfs filesystem */
+> > +#define FD_NULLFS_ROOT                 -10004 /* Root of the nullfs filesystem */
+> >  #define FD_INVALID                     -10009 /* Invalid file descriptor: -10000 - EBADF = -10009 */
+> >
+> >  /* Generic flags for the *at(2) family of syscalls. */
+> >
+> > we then add fchroot() (overdue anyway) and then teach both fchdir() and
+> > fchroot() to honor FD_NULLFS_ROOT. Then a process may shed its fs state
+> > and move itself into nullfs. Restrict *chdir() and *chroot() for said
+> > process via seccomp and it's locked in forever as well.
+> >
+> 
+> One thing comes to mind that might need a bit of care: this would give
+> an API for any task to get an fd to a directory that lives in the init
+> mount namespace.  It's not at all obvious to me that this is dangerous
+> or even observable (you're not about to find a setuid program in
+> nullfs), but I think it's at least worth a tiny bit of consideration.
 
-Hi there.
+Yes, I thought about this as well. But it doesn't have to be this way.
+Every mount namespaces has nullfs as it's root ever since I introduced
+it. Which means FD_NULLFS_ROOT can also just mean "nullfs within that
+specific mount namespace". That's fine.
 
-This is the (hopefully) final version of the series I've been working on
-to fix a quota evasion issue on xfs. This bug has originally been
-introduced by accident while turning off audit messages while checking
-quota limits in xfs by replacing capable() calls by has_capability_noaudit().
+For my FD_FAILFS_ROOT proposal it would be enough if we make failfs
+SB_KERNMOUNT which means it's logically distinct from every mount
+namespace. I think that might be the right thing to do. I need to spend
+one or more brain cycles on this though.
 
-This series concatenates both series I sent for xfs and capabilities
-infrastructure as they are dependent.
+> 
+> But if this happens, maybe we could finally land one of the patches to
+> enable unprivileged chroot?  It's been tried a few times.
+> 
+> https://lore.kernel.org/lkml/0e2f0f54e19bff53a3739ecfddb4ffa9a6dbde4d.1327858005.git.luto@amacapital.net/
+> 
+> https://lore.kernel.org/all/20210316203633.424794-2-mic@digikod.net/
+> 
+> I think the need for it has reduced a tiny bit with user namespaces,
+> as you can sort of emulate it by unsharing your user namespace and
+> thus getting enough privilege, but this is rather heavyweight and
+> limiting.
 
-The first patch fix the xfs bug in a way that makes it easily portable
-to older LTS kernels.
+I think we could make that work with both FD_NULLFS_ROOT and
+FD_FAILFS_ROOT...
 
-From second patch and beyond, it adds a new helper for the capabilities
-framework named capable_noaudit() which as the same semantics as
-capable() but without generating audit messages.
-The following patches then replaces both generic quota call to
-capable() and properly update xfs code to use this new helper.
+> 
+> 
+> If all of the above landed, then the old chroot /var/empty kludge that
+> security-minded programs have done for decades could finally be
+> modernized and not require any privilege :)
 
-Last but not least this unexport has_capability_noaudit which had been
-previously exported.
+I think I like it.
 
-Giving this affects different subsystems, I think it would be easier to
-pull everything from a single tree (as long as everything is properly
-reviewed of course).
+> Hmm, thinking aloud: every now and then someone brings up the idea of
+> having an fd (really an OFD) that points to a file or a directory but
+> carries less in the way of permissions/capabilities than the usual
+> OFDs.  If we had a way to make an OFD to a directory that forced
+> RESOLVE_BENEATH (or RESOLVE_IN_ROOT) and that propagated that
+> restriction to anything you open using it, and if an unprivileged
+> process could chroot itself to nullfs, then we would be getting quite
+> close to what Capsicum can do.
 
-Serge, Honza, are you guys ok if I pull those patches and send them to
-Linus through xfs tree so we don't need to split the series?
-
-Christoph, this series moves back to pass the capable_noaudit() result
-straight back to xfs_trans_alloc_ichange() instead of moving the
-capability check into xfs_trans_dqresv() as Darrick was not in agreement
-with that (patch unreviewed and open for comments).
-
-Changelog from the last state of these patches:
-
-Patch2: removed the redundant external classifier from the declaration
-        in include/linux/capability.h.
-	Serge, I kept your RwB here as the external is redundant, please
-	let me know if you are ok with it or not.
-
-Patch4: Replace all ns_capable_noaudit() calls by capable_noaudit() and
-	keep the CAP_FOWNER (instead replacing it by SYS_RESOURCE)
-
-
-Carlos Maiolino (5):
-  xfs: fix capability check in xfs
-  capability: Add new capable_noaudit
-  quota: Don't issue audit messages on quota enforcing
-  xfs: replace ns_capable_noaudit
-  capability: unexport has_capability_noaudit
-
- fs/quota/dquot.c           |  2 +-
- fs/xfs/xfs_fsmap.c         |  3 +--
- fs/xfs/xfs_ioctl.c         |  2 +-
- fs/xfs/xfs_iops.c          |  3 ++-
- include/linux/capability.h |  5 +++++
- kernel/capability.c        | 18 +++++++++++++++++-
- 6 files changed, 27 insertions(+), 6 deletions(-)
-
-Cc: Jan Kara <jack@suse.cz>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Serge E. Hallyn <serge@hallyn.com>
-Cc: Darrick J. Wong <djwong@kernel.org>
-Cc: Dave Chinner <david@fromorbit.com>
-Cc: Eric Sandeen <sandeen@redhat.com>
-Cc: Dr. Thomas Orgis" <thomas.orgis@uni-hamburg.de>
-Cc: linux-xfs@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org
-Cc: linux-security-module@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-
--- 
-2.54.0
-
+Next steps. I hear you volunteering...
