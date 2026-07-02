@@ -1,90 +1,45 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B54A47DF81
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 09:40:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646C13859FC;
+	Thu,  2 Jul 2026 09:44:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782985246; cv=none; b=UyiNDUEreEl3lHi4AY/m1N59mie+Crqz8cmwSGtsokXkb4JBySms3m5QgwmIX7ZWEc5xHSQJT/CzWCwiBGaKvfCSQe4lo+XRn7r1Jrzrlx3WIs5eK25kPA9uHqmSbOnETkeMM6g9ElWfW2+/2fJLOkn7Wd1ryPqkwA10vZGQ8bQ=
+	t=1782985460; cv=none; b=BD1WnGh8WP/Fs6neIGXMypHlW6YP58tvhNJu9keC78CHvVIxIit4N1y5jJNSWkJPOOvY6Fh0/qz3iTTCea7LcuLu8KGNoN4KgyMzBcLdEfmw+KkGHwGowRIIfJgjwx5fVO9116T2au+T80mz+TK0Z/l45ec+JROz1EG7k+Teyys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782985246; c=relaxed/simple;
-	bh=/HrSB3GU8mMqF4YJty0deYHW/4oph8vKjQwhJFrmkd0=;
+	s=arc-20240116; t=1782985460; c=relaxed/simple;
+	bh=6OKVbkbqcH6Fn6AMPx7ZC9iOfkmYA0nPzMprU6lSMmo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CIAJbChwQYSW7+Yt3JJy2cPq11VeYj2n81m0hEJGmqhYoXqFW5qcLPF5PqDFQDPgIax3IB5/dqkF/6yeeewR2u02DcyXPw2YcOEKgnDhjDUvL8v27ZoOdQ42tI7Tz0MEorCcWG6yB5je7CnNPifuHJJVrVElzifIpPJoemHZjkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xEKtTGMl; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=1Op7gKCT; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xEKtTGMl; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=1Op7gKCT; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=CFNZNqgLfAgEJG2JSLYOzlzGMSKcLbR4a6sKHl4k+0LTdkuiidk65Ve6Q3+mKZdBnY0EN3fAF7u+KKbQgRLnfQownGpAdWmzPQTNhn5V3+MYyEz3abx+nmuJ/dSme8fSWQcoKffl/zQgeM8TBbkkSTEda+YhM8HmPuD5s8CZT2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KvrmsTRZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xEKtTGMl";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1Op7gKCT";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xEKtTGMl";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1Op7gKCT"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D357C75B7B;
-	Thu,  2 Jul 2026 09:40:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782985243; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BLdjHvad7QAdEAreonBw4NRnVIwomQM/9TaVTzA889Q=;
-	b=xEKtTGMltFteHXmxGSEd/n0p8AWZ5iN4tos7oWT4YBAScfUeAWcpfk24FLCxXHpoSr2iGt
-	7TvR+QpIMRfsZRQHkmEYiFT8XDrZq473lN/i7soeYgN74AjaM37ttF9+NtalhKdD/shG1f
-	ZZ423QvPpRwWJf3r6QkITIvXuv1Lc7Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782985243;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BLdjHvad7QAdEAreonBw4NRnVIwomQM/9TaVTzA889Q=;
-	b=1Op7gKCTDq64X9fUODOytvnXbb/9nOCRhWK9As/o7xI3fEINZyizlPV1WxmvGDOW3MGQnZ
-	SesfB+T2b3KYv0Aw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=xEKtTGMl;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=1Op7gKCT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782985243; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BLdjHvad7QAdEAreonBw4NRnVIwomQM/9TaVTzA889Q=;
-	b=xEKtTGMltFteHXmxGSEd/n0p8AWZ5iN4tos7oWT4YBAScfUeAWcpfk24FLCxXHpoSr2iGt
-	7TvR+QpIMRfsZRQHkmEYiFT8XDrZq473lN/i7soeYgN74AjaM37ttF9+NtalhKdD/shG1f
-	ZZ423QvPpRwWJf3r6QkITIvXuv1Lc7Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782985243;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BLdjHvad7QAdEAreonBw4NRnVIwomQM/9TaVTzA889Q=;
-	b=1Op7gKCTDq64X9fUODOytvnXbb/9nOCRhWK9As/o7xI3fEINZyizlPV1WxmvGDOW3MGQnZ
-	SesfB+T2b3KYv0Aw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C7698779AA;
-	Thu,  2 Jul 2026 09:40:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kCCpMBsyRmpFCQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 02 Jul 2026 09:40:43 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 6C767A12AD; Thu, 02 Jul 2026 11:40:43 +0200 (CEST)
-Date: Thu, 2 Jul 2026 11:40:43 +0200
-From: Jan Kara <jack@suse.cz>
-To: yizhang089@gmail.com
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca, 
-	libaokun@linux.alibaba.com, jack@suse.cz, ojaswin@linux.ibm.com, ritesh.list@gmail.com, 
-	yi.zhang@huawei.com, yi.zhang@huaweicloud.com, chengzhihao1@huawei.com, 
-	yangerkun@huawei.com
-Subject: Re: [PATCH 1/6] ext4: move partial block zeroing earlier in
- ext4_zero_range()
-Message-ID: <6r57idnpuehe67svxurouxbiskqaqbfe3lojj2gkjgcknu3dcy@q7wuyrmeyt7k>
-References: <20260701142009.1510104-1-yizhang089@gmail.com>
- <20260701142009.1510104-2-yizhang089@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KvrmsTRZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C0351F000E9;
+	Thu,  2 Jul 2026 09:44:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782985459;
+	bh=6OKVbkbqcH6Fn6AMPx7ZC9iOfkmYA0nPzMprU6lSMmo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KvrmsTRZp0bhiZure/2sCA1cLY3F0cPcgXL6Rih01X+q1+eXgHaR6ldSd8JKQE6RH
+	 y30XASYWpRprT08c8w5U3TdFHD5WJSK0fv2PA3vONIbFoonUe4WZI5/MVg+h6nu9ZT
+	 t56BqyO06qhgJtt2NJQ/oEqAocPqk19VMON4lpJgsM+MfalXJa2F2FsHSTUicOp50p
+	 D6k3DVo+hRcpLfeR0oVgF2xK33angsI+Otle0Z7U4jYiLkbRzDEVPwXG0rjIiwSYe9
+	 Sh2G7r3TOHDjfCOzFPQpWVEwvSRdj+VCKiNdGckbdM7l5vtOjvhzHb9BnvM8ZHih3p
+	 qXT6Go1XT+mQg==
+Date: Thu, 2 Jul 2026 10:44:09 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
+	Jori Koolstra <jkoolstra@xs4all.nl>, Christian Brauner <brauner@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
+	David Hildenbrand <david@kernel.org>, Jeff Layton <jlayton@kernel.org>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+Message-ID: <akYx9blvVhIXB5A-@lucifer>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <akYasD1ckWcH1C0g@lt-jori.localdomain>
+ <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
+ <20260702093844.GA3491311@killaraus.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -93,105 +48,73 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260701142009.1510104-2-yizhang089@gmail.com>
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	TO_DN_NONE(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,mit.edu,dilger.ca,linux.alibaba.com,suse.cz,linux.ibm.com,gmail.com,huawei.com,huaweicloud.com];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,huawei.com:email,suse.cz:email,suse.cz:dkim]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: D357C75B7B
-X-Spam-Score: -2.51
+In-Reply-To: <20260702093844.GA3491311@killaraus.ideasonboard.com>
 
-On Wed 01-07-26 22:20:04, yizhang089@gmail.com wrote:
-> From: Zhang Yi <yi.zhang@huawei.com>
-> 
-> In ext4_zero_range(), move the ext4_zero_partial_blocks() call, which
-> handles unaligned edges, into the same branch where the unaligned range
-> is preallocated, immediately after ext4_alloc_file_blocks(). This is
-> safe because there is no dependency between partial block handling and
-> the subsequent full block handling.
-> 
-> This change will be used by later patches that handle unaligned
-> FALLOC_FL_WRITE_ZEROES operations, which will need to check the partial
-> zeroed result.
-> 
-> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+On Thu, Jul 02, 2026 at 12:38:44PM +0300, Laurent Pinchart wrote:
+> On Thu, Jul 02, 2026 at 10:44:34AM +0200, Vlastimil Babka (SUSE) wrote:
+> > On 7/2/26 10:12, Jori Koolstra wrote:
+> > > Ah, I still reigniting this discussion again :)
+> > >
+> > > What about a combination of what David and Jeff say? The whole point
+> > > seems to me that the salient information is not that an LLM was used (or
+> > > are we going to tag Sashiko as well or any other LLM-based code review
+> > > tool?), but what is was used to do. This information may be relevant for
+> > > how the review is approached. The latter should perhaps only be in the
+> > > cover letter and then we can drop the assisted-by tags altogether.
+> > >
+> > > The question about enforcement remains.
+> >
+> > It's not possible to enforce it. People can deny it if the tag is missing
+> > and you confront them and even though the submission has many signs of being
+> > obviously LLM, there is no definite proof. We've seen (likely, as there's no
+> > proof!) that happen in mm.
+> >
+> > Such situation then penalizes those who disclose so obviously they won't.
+>
+> I think there's also a penality for those who don't disclose when
+> they're told they should: it will lower trust. Kernel development is
+> largely based on a trust model. If a contributor decides to adopt a
+> deceiptful behaviour, they can expect maintainers to raise the bar for
+> accepting patches, when not rejecting them outright.
 
-Looks good. Feel free to add:
+Yes, I explicitly said this in response to somebody for whom there was
+overwhelming evidence they were submitting AI slop, and that they'd need to
+build it back up again.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+It's precisely the issue as I see it.
 
-								Honza
+But others within the community disagreed with me, so it turned into a very
+long and draining discussion that I don't particularly wish to repeat.
 
-> ---
->  fs/ext4/extents.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
-> index 125f628e738a..27ca641e701b 100644
-> --- a/fs/ext4/extents.c
-> +++ b/fs/ext4/extents.c
-> @@ -4734,10 +4734,16 @@ static long ext4_zero_range(struct file *file, loff_t offset,
->  	}
->  
->  	flags = EXT4_GET_BLOCKS_CREATE_UNWRIT_EXT;
-> -	/* Preallocate the range including the unaligned edges */
-> +	/*
-> +	 * Preallocate the range including the unaligned edges, and zero
-> +	 * out partial blocks if they already contain data.
-> +	 */
->  	if (!IS_ALIGNED(offset | end, blocksize)) {
->  		ret = ext4_alloc_file_blocks(file, offset, len, new_size,
->  					     flags);
-> +		if (!ret)
-> +			ret = ext4_zero_partial_blocks(inode, offset, len,
-> +						       &partial_zeroed);
->  		if (ret)
->  			return ret;
->  	}
-> @@ -4770,10 +4776,6 @@ static long ext4_zero_range(struct file *file, loff_t offset,
->  	if (IS_ALIGNED(offset | end, blocksize))
->  		return ret;
->  
-> -	/* Zero out partial block at the edges of the range */
-> -	ret = ext4_zero_partial_blocks(inode, offset, len, &partial_zeroed);
-> -	if (ret)
-> -		return ret;
->  	if (((file->f_flags & O_SYNC) || IS_SYNC(inode)) && partial_zeroed) {
->  		ret = filemap_write_and_wait_range(inode->i_mapping, offset,
->  						   end - 1);
-> -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+So we really need clarity on it being OK to do this (I remember saying this
+last year when I made an ultimately unsuccessful submission to the
+maintainer's summit about all this :)
+
+What matters overall is being able to _quickly_ dismiss AI slop so that
+asymmetry between LLM generation + maintainer time isn't exploited.
+
+And ultimately I think the trust model will end up being 'newcomes have 0,
+now build it up'.
+
+Which sucks but this issue is simply existential for open source.
+
+>
+> I can't quantifying which of the penalities will be higher, but I hope
+> (call me naive if you wish) that the vast majority of contributurs who
+> *know* we require disclosure to abide by that rule, even if it incurs a
+> penalty. After all, proponents for LLM usage claim such performance
+> improvements that a small penalty during review can't be that bad, right
+> ? :-)
+>
+> > We
+> > should drop the tag and instead think how we can empower maintainers to be
+> > able to use their own judgment and deprioritize dealing with what they
+> > perceive as LLM slop, without fearing consequences of not being properly
+> > responsible etc, and not rely on any non-enforceable tags for that.
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+Thanks, Lorenzo
