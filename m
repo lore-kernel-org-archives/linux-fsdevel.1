@@ -1,161 +1,157 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44AA34844C
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 23:02:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783033328; cv=pass; b=VOtj2lc8hg5CuVIH2+ODf6XtUlX+XwibhDqrGaW/0eWDwYeoiQvLsRHzN7n6+qPiRqPC/PPthkEHcepuKb6fjqIi++0CpaLruTTOsUJeiZCuDiKciJ6Sm5TtA9xiBYIx6gAX0vbzMm38NZjP+H8WnA66sx7wVM2ivi84O0ySRAQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783033328; c=relaxed/simple;
-	bh=4Kn3VQND47UCcI26pv7bb40u477SLSvq4NVjLC7sHeg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C4JTQfMAYGiipkbCpkP6X2jEkHadAYGXf7LedhKiYVHWo+JDQeq/Zt6vKvq7ybl0VcktShmgFq5DTETjohHCDfMOQoMZEmajzgXWDTodopJ2Rxkw+uGgEg4GD6gkBDJuwPRcSsJAjNrmt2OanYpW1CYHavByzOF9YOiS1Xlxt/c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fJaEPJ3l; arc=pass smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0F27081A;
+	Thu,  2 Jul 2026 23:05:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783033552; cv=none; b=qnEW+SgiXev40v349ndfjWFDkZDr+E1nh7bmGxUXzlUT+uCa+kUauWIw/ZsABK6kITnCD9RHbVvy1YZkP8JzlZidoycv3YcsZHe85bfEBwZIyVrt6JO+fClqUFH5sC3xsMcSmzCTLWo3N2HAaXBfFCifr3V4Y2iYwhYt5wWK+Pk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783033552; c=relaxed/simple;
+	bh=z/PL7fFq4kLVO+b7hoZGEv+ChBPGUpOeKsZUiEv2w5I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=myvig1BV6PV9IGxMfKv2D151KMgIH0G9wHYt/ux09+ffSf8HLfcspjZKBzJhMLBIy3Ss+ybcp9ff7JSsyIxksnTRlBBGwauqHfmFFtkDftSiGDq8d+CxV5/kfxC8tokft9Hj5K6hTXFbSTRU4sHvTctx2EUjFd8BEDUEVX4DTKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y+ROQ5ff; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fJaEPJ3l"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4629051c946so767607f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Jul 2026 16:02:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783033325; cv=none;
-        d=google.com; s=arc-20260327;
-        b=jqSjZJ+Agj9XAVPkbUn+OLaIkjJweYwKE1TB6ph0Edo23uN2cb5lDyC5gg7n8RaI2h
-         GCKp/bm4iJUqExRG+yCO8pAsLH7I2wCE9LqbBrqsGDUsPDqD+Dk3AeWrPC4TVaISI+C+
-         OXQfr+/oYLUazJ2r/EbmvZ0Z3u/rYQfF9l0F0PI6cto/TjB5zuMsTl4P8PKuiTaoWora
-         74PIpTNOawKy3cJv1MOVx1sh4HEknLy9hPA4IfeIZsQMILkXiXbqyW934uuw5ji+B7D2
-         gSIL/7w0MYpD1bp8lUB+JV2XLuARyWo+IReBc2zmU8ZU9YXnAEWidWfAqjAz321u/otr
-         8F1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=4DB0StncCI4DCdkHVBFZN5AAMbnpw9y/OLi7Kcm8C6U=;
-        fh=SDmnqi78Q+4YLtbZm9hllZsmvhoExTQ6a0zRVoeSIrI=;
-        b=BXZrNbF70uH9xdTNFWtXTILmzX3/59gtDVZxKZTpSP9ZpqyMfgRLr9HFTSo9Q8vGui
-         unVbcsWRAfLQX9oT0MWC4/O4DLct5njswb8ih3pazgc3Eu2TXd8sBfzaKd0taYAYqu/Y
-         6ivpVx2AQVchffGRRWtbXEvCmZIXLPC94mhnSwpxWiAjBMXBF3vQx3qslr4Nsoe2y4CC
-         4Z07G2bpu3C+jeUvZ3Tv0N1Hr+0oNoZq6p0lzjyk8vRAFnmFSPVs07UUCk9XQGy0Wdpx
-         NlWJE1gDK6Zi9Ad0p3xHPMwht5+yurTQPahWysdG1oRuE4euGnVuMYjbM6Q9LaXwIR1/
-         2Thg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783033325; x=1783638125; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4DB0StncCI4DCdkHVBFZN5AAMbnpw9y/OLi7Kcm8C6U=;
-        b=fJaEPJ3ld+n66r1G5fSulWfucGH7LbdhRHl+lw4OzgmeFjsyUZpSjGk0ARFBeMStHJ
-         5iBdiO1V9XFNcgioODdbtjBieLBMehoW9n2JdGkpAk9S6+6qTfdfCGEjKPr5XM7VioOu
-         CBxZtd6lthU/F0kBOtEAW9th911Tkx2DnrhSZwqa0UuanXVZfgk3C411Tf/gUNvMBVrc
-         rzOZRzxgrcApMw2SeK/YK43VaOAKVhQXCNJ9OOdwZV18IvOM43VGIMl1Gejr54Wa9orj
-         Xus2O8eFj4mYhw8D33DFyRSomOK1AbOjSkpIJkHilF6ovudCY3f3PryZAjQy+wTpaa5i
-         CuZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783033325; x=1783638125;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4DB0StncCI4DCdkHVBFZN5AAMbnpw9y/OLi7Kcm8C6U=;
-        b=orn/Ckjk/9POZ8I6pmWu/LNnQqKul5Ro8TWPG7SuvceRIy0s1pL9N9iIn/LhJo5XJx
-         evmds19liUAQcS3PuJpkm0P+L2qx3UrPOqbFQ6+bvR/D+pyX84jh6jdmA6Vgdc54tjDd
-         jwQamwAhZarTUQMeNP7C08qUCVQeoxjAjJ0oqes6dpXX/nNYHgXkpKQySMMIT0CZ+I1S
-         qPJ5riePEJY/qTdtuoZXJz6BXIsAb62ME8+Q1ANA/A3DvdB7xr/gpuqlQrIcR7P83b1j
-         Y48syL+HGuWH9m82xTunmiRuuMwHyjPVlyFjnzOR+wJ9k7243xAylkCC4HD6g4GdX/2D
-         YiZQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rrvu8NxgARzQFiD5PNftHBlHg4nicX4ESsVWXw4TD8Nd2Z09KN/Mg5xqcCe/oMV9KzlPUo7pRlScTxHMJWQ@vger.kernel.org
-X-Gm-Message-State: AOJu0YxX7otv6PtUkP5vsB6aJMZ1CTls5r3hULw7tKNGBKnp1R0aklAx
-	xG3MWpnltDXhBH8PEHRC9ePOwKk3/CReIfIklPQyiDDSI0do2rN/bvmipeZVygGuPs25iNRfDyc
-	q7QVTbIPomH7tQMbWtIZb64BrR9DX6uo=
-X-Gm-Gg: AfdE7cm/XA0MEeHkgqF6m8noLiPjNlIhU+xyknRrK6V1/J53zNMGvbOfEmORPj1kBdC
-	EMpbsFiZk/d6u4/tnimZYls09XhVEypGcoGxEoHv91jWSld1f+Ot9XM3h+AgqH9rERFb0/nIlCz
-	DdZjj7FzWjv/Qot1XJhLi40dODip/J9dm9W6zSn1aMBJDdovIkJDBzOoYRo7kVLyfHFCNzuGazT
-	yNHlUOEDmAF5osQNLoWBiY1mC2hWBQUJEVZiE7NNc/oNwYOMQpOVIyr3yd6zU57ypREpLqmeVs9
-	eG3ezbznvqnS8sGC+SRQbAFRASABZiLDsMZmqWhz5AJC2zHv05Sk
-X-Received: by 2002:a5d:5ccc:0:b0:475:f0c2:75b3 with SMTP id
- ffacd0b85a97d-47936d2f33emr1915668f8f.30.1783033324743; Thu, 02 Jul 2026
- 16:02:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y+ROQ5ff"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C6A91F000E9;
+	Thu,  2 Jul 2026 23:05:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783033550;
+	bh=ZBRHqb1NDOH8oHItOd3hyQ5MfmYi1tcrPJ9XDGwB6DA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Y+ROQ5ff0I1CMQF7LqfbXbxZbxZo7E3AaR26HxXLZxvJwnTQUS4mcYloqdo9gf3sC
+	 FzBL8mumI4haKcU7WfATnu/h17N8Xcn9XWtDAz0H9wJ6b34MTuwzqBljPVC1HcPoJC
+	 EHWydJmluYpOk/atLpq6k8BaG1Vwujf3WfwFsEAKmxa1W0mqbbAI2P8cojJOQy1H0Z
+	 Vs1O0SSgO4Nuf2eCzQ3FanFuq8wEaZd4nNsFnuSlwJiyyfRHVNfTh+mCmAhpr5yJG1
+	 QpxoanZjLuyGPrQYM8f2j7pcnNlLXeaOO3rY40QoGBhUAESLyIi/P3IdVWlW7EuOQP
+	 thIAHCykiQEnQ==
+From: SJ Park <sj@kernel.org>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: SJ Park <sj@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Justin Stitt <justinstitt@google.com>,
+	Carlos Maiolino <cem@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Brian Foster <bfoster@redhat.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	David Disseldorp <ddiss@suse.de>,
+	Mark Brown <broonie@kernel.org>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	David Hildenbrand <david@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+Date: Thu,  2 Jul 2026 16:05:40 -0700
+Message-ID: <20260702230540.98160-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <akaWnQ5Pkg_676B-@lucifer>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260701000949.1666714-1-joannelkoong@gmail.com>
- <20260701000949.1666714-2-joannelkoong@gmail.com> <20260702140009.GA21339@lst.de>
-In-Reply-To: <20260702140009.GA21339@lst.de>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 2 Jul 2026 16:01:51 -0700
-X-Gm-Features: AVVi8CeaIMzXU9RzKe_zbiO3Q8oQSJv6T5IEdOvWb1S4DuwOGjn86_r2tKsstdQ
-Message-ID: <CAJnrk1ae4QJgg8pPBVaxQdBkHLTeVtdmPdzLyMJeRkt8xx9OeQ@mail.gmail.com>
-Subject: Re: [PATCH v2 01/18] iomap: add ->iomap_next() and iomap_process() helper
-To: Christoph Hellwig <hch@lst.de>
-Cc: brauner@kernel.org, djwong@kernel.org, willy@infradead.org, 
-	hsiangkao@linux.alibaba.com, linux-fsdevel@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 2, 2026 at 7:00=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrote=
-:
->
-> On Tue, Jun 30, 2026 at 05:09:16PM -0700, Joanne Koong wrote:
-> > +static int iomap_iter_legacy(struct iomap_iter *iter, const struct iom=
-ap_ops *ops)
->
-> Overly long line here.  Not that it really matters too much given
-> that this goes away by the end of the series.
+On Thu, 2 Jul 2026 17:50:15 +0100 Lorenzo Stoakes <ljs@kernel.org> wrote:
 
-I'll fix this.
-
->
-> > + * Iterate over filesystem-provided space mappings for the provided fi=
-le range.
-> > + *
-> > + * This function handles cleanup of resources acquired for iteration w=
-hen the
-> > + * filesystem indicates there are no more space mappings, which means =
-that this
-> > + * function must be called in a loop that continues as long it returns=
- a
-> > + * positive value.  If 0 or a negative value is returned, the caller m=
-ust not
-> > + * return to the loop body.  Within a loop body, there are two ways to=
- break out
-> > + * of the loop body:  leave @iter.status unchanged, or set it to a neg=
-ative
-> > + * errno.
-> > + */
-> > +int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
-> > +{
-> > +     if (ops->iomap_next)
-> > +             return iomap_iter_next(iter, ops);
-> > +
-> > +     return iomap_iter_legacy(iter, ops);
->
-> Maybe inline the code currently in iomap_iter_next here from the
-> start, as that what we're getting to by the end of the series anyway.
-> And just do a:
->
->         if (!ops->iomap_next))
->                 return iomap_iter_legacy(iter, ops);
->
-> at the beginning?
-
-Sounds good, I'll make this change.
-
->
-> > +int iomap_iter_continue(const struct iomap_iter *iter, struct iomap *i=
-omap,
+> On Thu, Jul 02, 2026 at 12:48:22PM -0400, Jeff Layton wrote:
+> > On Thu, 2026-07-02 at 18:19 +0200, Greg KH wrote:
+> > > On Thu, Jul 02, 2026 at 07:13:30PM +0300, Laurent Pinchart wrote:
+> > > > On Thu, Jul 02, 2026 at 11:57:46AM -0400, Jeff Layton wrote:
+> > > > > On Thu, 2026-07-02 at 17:07 +0200, Greg KH wrote:
+> > > > > > On Thu, Jul 02, 2026 at 10:32:48AM -0400, Jeff Layton wrote:
+> > > > > > > We've had this requirement in place in the Documentation for several
+> > > > > > > months, but it's becoming clear that the signal to noise ratio from this
+> > > > > > > is quite low.
+> > > > > > >
+> > > > > > > 1/ It's not universally followed. While many people do try to attribute
+> > > > > > > the LLMs in good faith, not everyone does for various reasons.
+> > > > > >
+> > > > > > Then let's move to get people to follow it.
+> > > > > >
+> > > > > > > 2/ It basically serves as free advertising for proprietary LLM companies.
+> > > > > >
+> > > > > > Who cares, make up a name, all I want is the "signal" that someone is
+> > > > > > using a LLM so that I can review it as-such.  And if I think someone is
+> > > > > > not reporting that, I can ask for them to properly attribute it and if
+> > > > > > they lie, well, that's on them.
+> > > > > >
+> > > > > > > 3/ It's not clear why we want to collect this info in the first place.
+> > > > > >
+> > > > > > We want to know if a LLM is being used.
+> > > > >
+> > > > > But why? What do you intend to do with this information?
+> > > > >
+> > > > > Do you mean to use it as an indicator that the patch should receive
+> > > > > "extra" review (or maybe that it should be ignored)? Do you mean to use
+> > > > > it to generate some sort of statistics at a later time?
+> > > >
+> > > > I use the information to decide how to review the patch, and what level
+> > > > of priority to give it. For that usage I don't need a tag, but I need
+> > > > the information in some human-readable form at patch submission time.
+> > >
+> > > Same here.  I don't care about stats, I care about "how do I review this
+> > > patch" and this gives me that signal that I need if faced with a
+> > > llm-helped patch.
+> > >
+> > >
 > >
->
-> It seems like this is largely just factored out form the old iomap_iter()=
-.
-> Can you do a prep patch before this one which factors this out?
-> Preferably in a way that keeps the code in roughly the same place to
-> minimize the git blame disturbance?
+> > Do we need a tag for this though?
+> >
+> > This seems like the kind of information that we would always require in
+> > the cover letter of a series (or the little place in an individual
+> > patch for comments that don't get merged). That would also allow you to
+> > convey a lot more nuance about how it was used.
+> >
+> > ISTM asking people to disclose LLM usage in a cover letter would give
+> > everyone what they want: Information about whether and possibly how an
+> > LLM was used, and it also wouldn't clutter up the changelogs with these
+> > tags.
 
-Sounds good, I'll extract this shared logic out into a preparatory patch.
+I understand the concern is having the information in the git log.  I agree in
+a level.  I wish cloning linux takes not too long time and huge traffic.  I
+wish each commit message be lengthy only as much as needed.
+
+> 
+> It's much much clearer and easier to just have a standardised tag for that.
+> 
+> You can see that (and grep for that) immediately, vague paragraphs not so much.
+
+I also agree having a formal tag can be convenient.  LWN's Assisted-by: tag
+statistic was interesting enough to make me supporting this idea.
+
+What about keep requesting this formal signature to the submitters, but also
+formally allow (or, encourage) subsystem maintainers to remove the tags when
+pull-request?  That's already allowed, to my understanding and some maintainers
+are doing [1] today.   That can help preventing the git history of a subsystem
+bloating or advertising priorietary companies, as much as the maintainer care.
+Meanwhile, we can still get the information at review time, and also after
+review from the mail archives.  It will still be handy as long as we use tools
+like 'lei'.  As some maintainers are already removing the tags from the git
+log, this may be anyway a better way.  Someone may interested in only their
+subsystem history, but I find LLM users tend to contribute to multiple
+subsystems, so this might actually matters.
+
+It might be too clear to formally document this, though.
+
+[1] https://lore.kernel.org/20260701115302.29c66401@kernel.org
+
 
 Thanks,
-Joanne
+SJ
+
+[...]
