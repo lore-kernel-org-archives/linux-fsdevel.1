@@ -1,178 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EAFC2E8DEA;
-	Thu,  2 Jul 2026 12:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782996002; cv=none; b=b343JbCO5QvsoaLihcjUagGKNamt9pH7stPiEONHC5DAuwwlUol6/fksnEsjOtUITRnDyAxElqlRQA0jcoc+/HDorZHtqErXFx251WJXzEfos9HQyEeSVzR2VCd4HHICS2nkNfQPa9jzjVtYOIxNe9m4rg/o32lUq/Hzgj0Sc74=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782996002; c=relaxed/simple;
-	bh=3axNtMZZ6hvzc94Ke4W+1ty9JZ3i1hGJEWsAAGEua0o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F5B/hHuo3o4kUtCJT3mQWjl/vkEMiuJhXFYr2QcJm3z4md32nfcwGVOb0Vy7Wboyv7l3kwYBajbc0+C42hEWMj88WSjeKbjbPGgqQ5DrOsZKVWUUOmJCb/cp7PF1B/g4/wYhazwisg0Xff9kf/mnrZ8J0ubNHIvcxRoxEWsS1tI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CZWeFBgG; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C9538E121
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 12:45:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782996338; cv=pass; b=h3qdgHS5RXJU7ki+TZ22KnchlVeuSaEC1+/y/3zSZP9jTNcGkUIBXo+vUIDMzsP63baOC0RGEvXmkTrNZoaJRfo03oFFDukVPdgDGj/lySbRISSom1elavIIrAUqL7s6tiL1XDPlssEWoBabj4/h36uRs/VHo8cFj5Lr/h/tZbU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782996338; c=relaxed/simple;
+	bh=YfuTP/ZRleT5u8JPEbY+mg8sn8oDE1H48dUxEJLwHHk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JHCpw14tuVAwCT1U16TdQ+l9aUldglZ6lBqfHVGAFhWZTJlMgOu+V9bWK9n0lFDkbKCpvQtcmJs3ZULxZ4f9jzSoB2aB/PFj83hWchl4nLnmd3sg5kkY6mhDVXXdjF9NRD4iq1R7QmAO8Px08v8Q/b5WvXByMwMGLs/2Pv3Q3kY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=stG3jPxX; arc=pass smtp.client-ip=74.125.224.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CZWeFBgG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2E381F000E9;
-	Thu,  2 Jul 2026 12:39:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782996001;
-	bh=LzlB2TISOANdddexIz6jlk85wGYRGJOEKANaM3zy/p0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=CZWeFBgGPLQXMyJJ/PESA1qwRFh4t4fMPo63pBqk+wvmm9Zi/WshKYTdHJ8ZB6Tmx
-	 1vcOiJ9n1F18TZNIOMeDv8pkM7PrLV031LuNhKG8hNl33ijGkxtQjevEii/Z445vvO
-	 8zbUICU8PRRk0zgsIfyUu/xUOnjnIPy0fU9SAO3WP8vB7nqvFt6cJGgPUGcSXeaQh5
-	 9YjUk9JJ271XtQGxR3oxBfIXsmLUGLy3p8fybTQmB456UiccDF3xHE6MqdD7YtHndV
-	 1TU0j/wejrJzbu+al/4dpR8IHAXjL+N5kXWgbkWeUh/IsQDNURstwRa+ukndWLMpx2
-	 SAi9qW2Ej8f7g==
-Message-ID: <a4406124-2d0c-4703-9ee6-174af94d6fd9@kernel.org>
-Date: Thu, 2 Jul 2026 14:39:53 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="stG3jPxX"
+Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-664f0a76a74so2257333d50.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Jul 2026 05:45:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782996336; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Mc57Eu74DOX49zWM3Qd0097pXbZupl2xGFy0pB87VRDjNnQw4G/Ev+nBu7twMC4s/H
+         u4Nc9nbfp2GfK6g3ZvXTt/hFkvUaS9w1sCcfMN8JHfFAAu0sNJbvOPR1tCGrp/R5T+Fc
+         rm1C8oK8V6jDwJ0wkMy3hBWAb2Lv0YeSjPgHiaY8gLVUZvzutSUuMQUmS+JySqHYNb1U
+         T8xEx4GyM6QZd9/sCZZnVh3fvlFrgcv0GWYEPJ3ydxAoOa0vMjRDzxDn2um6cbaYi3P7
+         FwxueGzv8PpA+IOdqAwSQIrE+VeQ+grx08tOI0hPV6MBbe0XEap4UScr6A44LwDPTSvJ
+         /D/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=1LTF2zi6k8qqnOoUHhbldZF0g+S9mvdrS4GbbTxAt6U=;
+        fh=ElGcNglI54lU5kR1SdudlRryTPQrCCginaSDQffGBZ0=;
+        b=oHJIoYUjNhmIqGQ8y83Td6/X7z8TtSwrw2N4/GvFIsk4Px41MgWpSgypjTwsI05Wvf
+         MJgrj9lFQ592hOBfEMvE6uIuEWzEZ2k1njBPibKCoyWiVlaaQL+m60cL/tEI3cMfUxbp
+         UpFnjhJK0d6a75sVeL0NjIy2ag6x2eHmYg3b6hU1iNMpqE+CU6M1wdxPZVodTGpy+a2s
+         p6OVaN7DhH55P3OSqiYQqawpr1qlN44TT+hqvxMtNAywg916MdDQgWaiJec72zb7NewJ
+         wqF5EwO/blmTNHerCtOnHNCM/tGeUara9iWMda/IvQR8/rFJypywgG+1mXFcV2DAfFwx
+         RclA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782996336; x=1783601136; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=1LTF2zi6k8qqnOoUHhbldZF0g+S9mvdrS4GbbTxAt6U=;
+        b=stG3jPxXPnMRcSQjMNoyaY7Ikf81aZtjiowVDv7NA9ilAqjcWnbAxtfiqqm4gtGFtJ
+         2MSXxETFrNqDf9zRV3E0wF9h3vCR00aY+zBwnyZ++fRtHdsqE8FeubfXot4HcMfQgLAI
+         TfOlqSWNeCCCECD4GtvrIZhxBDv4AVSJp9K3WkRWY5Gp59YHmZ3eZh6QCDjVWFZexsJg
+         WzJUg49Ysa5YHg15oXMLkAxZbV2eY/E5dpeY/9HBpYx51c/9z04smPlMDjkEQ+KooZ9t
+         Ly0avz/dYpOzYcfNddtBy+2/empiTtsPg3VuuSH8iJuXfKj5N04GWf2kWPcb5mk+QKqM
+         lqCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782996336; x=1783601136;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1LTF2zi6k8qqnOoUHhbldZF0g+S9mvdrS4GbbTxAt6U=;
+        b=TNjU6WwZApR5V2Au6MwH/kEz/0jAtsEz2Lf2voFROR+WJJWopjsHimfjNFi65r9eCM
+         ul3aJZ3IXD+o3kzt/cLuwV1X0u8xOqGvFXDCyUeKZuWUJYATfCigXVAVYNXjLku4OmXE
+         lxaKVU5LqI1wEIo0fvkalswOjmVIRl37+9qI5Elex2DScLefjOJwMy6HgdOkTsBIbJVG
+         NAng2y9GlOO/d/AG7ZYm8eRuAv5wgWQev0O/RUCvb6RBmYIvc8toc4vLrnnOt2BNP3oI
+         DB5F0DXcfylmkcL2rdp7D7oGYt8Wjk09cQF1f8HoOFHO1+2+X0PrGDO9WWofabQPF9dw
+         QbBA==
+X-Forwarded-Encrypted: i=1; AHgh+RqowUyOZed+ugOhMhCant7kzwbSC1LR+jp1SnbV6GwF80m2FoH8hNnAbdDiMoKbkXnS+Yy/1zjmfeRiaV/F@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzr1ye1h7a/leyL0ATTnqIbfvsLdMpYn5fFiBdpRkWBX8yqYMZV
+	qwloF4TwWfJA7ZeRtEh1+7RJpMN7EynWs8CHoiFvZSaHBXgsC3PQL4QugQFHks307mK4vbMrbel
+	AXpeNI4P6dDF/9p5c2dW2tRNzkGKUQdc=
+X-Gm-Gg: AfdE7cmfzSkvjq12oFpBIpBVbhsVT3r9BUPjxmva2RJV3z3A0Jw63cjz2anvjWWsFFu
+	Z/BbnPZAj/NJu41w/y+uY2U3T8IkSqYB2dXjbZNXqE44eow38u/E12QVStAsLVizsrpK7+CfztF
+	hHFLnR4EwPnPhqpAJ6gXWCS0KB74mIh+hWA4GMZw3VHDs/sZxslK4//+Mq+IX0VT2MMonLNlrb4
+	4SOKu17XMjWMjO/4Xw33/vNnT890uck+eAf4aoReS58lSYlEB5BUPQa6HT+DPIIr594C2DR5Ydb
+	lt7QvNt52q/YWald9SB1+ynaF49T1cs=
+X-Received: by 2002:a05:690e:1289:b0:662:dcc4:c6bd with SMTP id
+ 956f58d0204a3-66521a6e36bmr5861205d50.34.1782996336401; Thu, 02 Jul 2026
+ 05:45:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
- Jori Koolstra <jkoolstra@xs4all.nl>, Christian Brauner <brauner@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
- David Hildenbrand <david@kernel.org>, Jeff Layton <jlayton@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <akYasD1ckWcH1C0g@lt-jori.localdomain>
- <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
- <afd0635c-1903-4c7b-8023-cbcd1823e081@kernel.org> <akZXGJSy0FA3kQ3-@lucifer>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <akZXGJSy0FA3kQ3-@lucifer>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260702050724.1658-1-aditya.ansh182@gmail.com>
+ <3sbocdflzeajcievmbdwprrgzkztd7ogn7mmjx4quptorotwak@rlzklako3yht>
+ <CAK5ssPOM-rddJR6=QJ4RSCeQvamKKAbJS+NCOLbsC2eSODydkQ@mail.gmail.com>
+ <zwfhyqxdxfigm5nced3hgsp4mygwxgwc4cxzeyl7glrmie73rm@r66bdrw7fjsj> <CAK5ssPPPfkL889aCK_z9EnDNbKBuHRQd45uLzXpeUVrVkFkzbw@mail.gmail.com>
+In-Reply-To: <CAK5ssPPPfkL889aCK_z9EnDNbKBuHRQd45uLzXpeUVrVkFkzbw@mail.gmail.com>
+From: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+Date: Thu, 2 Jul 2026 18:15:21 +0530
+X-Gm-Features: AVVi8CcVo-eNxK1YaN3wDQSM42J7VF1rgCK8uZiy3AfWHDTqxEpsOP0UeyEofZY
+Message-ID: <CAK5ssPOxredbV5dDsyc4YLdDBVPEv5b6qOKCxiWPLMWSc7VyaQ@mail.gmail.com>
+Subject: Re: [PATCH v2] ext4: use fsdata to track inline data write state and
+ fix race
+To: Jan Kara <jack@suse.cz>
+Cc: "Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
+	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
+	Ritesh Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>, Tao Ma <boyu.mt@taobao.com>, 
+	syzbot+0c89d865531d053abb2d@syzkaller.appspotmail.com, 
+	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 02/07/2026 14:23, Lorenzo Stoakes wrote:
-> On Thu, Jul 02, 2026 at 12:34:34PM +0200, Krzysztof Kozlowski wrote:
->> On 02/07/2026 10:44, Vlastimil Babka (SUSE) wrote:
->>> On 7/2/26 10:12, Jori Koolstra wrote:
->>>> Ah, I still reigniting this discussion again :)
->>>>
->>>> What about a combination of what David and Jeff say? The whole point
->>>> seems to me that the salient information is not that an LLM was used (or
->>>> are we going to tag Sashiko as well or any other LLM-based code review
->>>> tool?), but what is was used to do. This information may be relevant for
->>>> how the review is approached. The latter should perhaps only be in the
->>>> cover letter and then we can drop the assisted-by tags altogether.
->>>>
->>>> The question about enforcement remains.
->>>
->>> It's not possible to enforce it. People can deny it if the tag is missing
->>> and you confront them and even though the submission has many signs of being
->>> obviously LLM, there is no definite proof. We've seen (likely, as there's no
->>> proof!) that happen in mm.
->>>
->>> Such situation then penalizes those who disclose so obviously they won't. We
->>> should drop the tag and instead think how we can empower maintainers to be
->>> able to use their own judgment and deprioritize dealing with what they
->>> perceive as LLM slop, without fearing consequences of not being properly
->>> responsible etc, and not rely on any non-enforceable tags for that.
->>
->> +1
->>
->> I see no benefits of enforcing the tag for these exact reasons. Every
->> LLM slop will miss the tag. OTOH, seeing reasonable contribution with
->> the tag makes my spider-senses tingling and causing unnecessary
->> prejudice. If the contribution is reasonable, how does the tag
->> information helps me? I trust (or not) the person, regardless what tool
->> they use.
->>
->> And if we think about any future possible copyright issues with LLM
->> contributions (like if there is ever a ruling that model trained on BSD
->> data creates BSD-derivative work etc), does that tag anyhow solve it?
->> Like if that ruling appear we will go through the history and revert the
->> commits?
-> 
-> Why would you take information _away_ from maintainers?
-> 
-> You're making every LLM 'accusation' a risk for a maintainer because you might
-> get the 'how dare you accuse me of using an LLM rah rah rah' response.
-> 
-> Why not eliminate that in at least some cases?
+Hi Jan,
 
-Because I don't think we will be able to enforce that information,
-therefore it is close to pointless.
+Thought a bit more about it. Treating fsdata as
+bitwise flags rather than mutually exclusive enums is a much
+cleaner and more robust design. It completely decouples the
+different write path states.
 
-And if you ask about future copyright issues, I simply do not believe
-the tags will matter based on argument (repeating): what are you going
-to do with that information that commit was involving LLM tool which now
-received some copyright-related verdict?
+To implement this, I will define:
 
-> 
-> I continue to be baffled at people's opposition adding a single line to emails,
-> or a single little comment on the end of it.
-> 
-> I do agree with Vlasta that we need to have a clearer way to just say no (TM) if
-> we strongly suspect an LLM.
+#define FALL_BACK_TO_NONDELALLOC 1
+#define CONVERT_INLINE_DATA 2
+#define EXT4_WRITE_DATA_INLINE 4
 
-This part is not being discussed by me and I think the thread itself is
-not about it.
+This ensures that the flags are fully independent and do not
+overlap.
 
-> 
-> I had a very unpleasant experience dealing with blowback for doing that in a
-> _very_ blatant case and I'd rather not repeat it if it's at all possible.
+Regarding unrolling the state on exit, there is a slight
+asymmetry in the VFS interface. ext4_write_begin() receives
+fsdata as a pointer-to-pointer (void **fsdata), while
+ext4_write_end() receives it by value (void *fsdata).
 
-Well, I made here the point already - that blatant blowback and any
-future similar slop will not use any tags, thus the tags do not solve
-that problem.
+Because write_end() receives fsdata by value, modifying it in
+the write_end handlers has no effect on the caller's
+(generic_perform_write()) local stack variable. As a result, a
+stale EXT4_WRITE_DATA_INLINE bit would remain in the VFS across
+a retry.
 
-Basically having the tag solves no problems we experience. The tags are
-worthless in problem solving...
+To handle this cleanly within the constraints of the VFS
+interface, I propose clearing the stale bit on entry to
+ext4_write_begin():
 
-Best regards,
-Krzysztof
+static int ext4_write_begin(..., void **fsdata)
+{
+...
+
+/* Clear any stale inline flag from a previous retry. */
+*fsdata = (void *)((unsigned long)*fsdata &
+  ~EXT4_WRITE_DATA_INLINE);
+
+...
+}
+
+This ensures that:
+
+any stale inline flag from a previous retry is cleared from
+the VFS stack variable before the next attempt;
+
+the FALL_BACK_TO_NONDELALLOC bit remains preserved; and
+
+if the retry prepares an inline write, ext4_write_begin()
+simply sets the bit again.
+
+Please let me know whether this write_begin unrolling approach
+looks good to you, and I'll submit the v3 series shortly.
+
+Thanks,
+Aditya
