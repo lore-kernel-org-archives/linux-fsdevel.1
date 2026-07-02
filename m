@@ -1,236 +1,199 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA812571DA
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 11:50:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB8347CC97;
+	Thu,  2 Jul 2026 11:51:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782993004; cv=none; b=a/fBZwPyIXIc90dbmILGO00BS44bCW3yDRymZtOBPz5JZXJAJT8GEvGifwCm4iYWVMPO+ZlWKe8BJBEKvvwkQcyGwbnssRZvK9+54hLjgxyl+CKuNOSwoqcoyVUDKjqqrTrJBTtveBKBdpOhrWd5MCThcv3ZsGOA7UUk1MCqHWI=
+	t=1782993081; cv=none; b=SGJnN2Ep6CrEASbGxPeyWCENLpK7fW/2zVEUgLaAUKp5vpz4tSqu7dO+KBNLeiwtARUmsS9U7uKb5x3lgP3NyuyqOgSe+TM512T83YJq/dsUHqVt2PPlWMEubzDsjqXGxJ36ekKLYHH7C7CQOdFMYQc+TShu0Z0bL8edz4ttXHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782993004; c=relaxed/simple;
-	bh=WC/Z8q6h+I7cQIQz6xnjH8S06oHo3n8AZhmHWQYmhaE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jlyJm7UzXNDohp3ZZeY0hVEnP8aug4SYyE6w7TFe6tUBX19n913Pjyxb4YImF6CEFx/7cKVdgZRLJVosqzuvo+tszOV0lCmFZroY3JI+11kUI08mYcoxpErfKv9kwAeYKZ8zRTorqql4EWIXUMMgidjtZ7SHya7yRMqrCCrqYAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=MY7v7DXV; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZygHexrr; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=MY7v7DXV; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZygHexrr; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1782993081; c=relaxed/simple;
+	bh=o1Rh4oYb0269rCu+uez8gvHa8RCE2onRyCpbquaqQbk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=K/3zwC3b5qUDOaRfwH3wqfkP4otVCpqN6w5Qv/PZjD9p4d9yGn5FU5cCpGEdVkYWXCEVFmD1cO2h7k+Hn1GGhdjYEAj1NfcXG5TyYvaRhfuGtEALyBYQ0oaOi6dGJ1EpC/qfTwoAq0Q9ar1vR1RPnqdQsxAqvS8p0X6iW1ZSIRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fdU6LcVj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="MY7v7DXV";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZygHexrr";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="MY7v7DXV";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZygHexrr"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 71A887419D;
-	Thu,  2 Jul 2026 11:50:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782993001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Cv4ZUbNNYkyG3g7dLDUdlKuXAaJWmDGzMSK4pXrl+Ok=;
-	b=MY7v7DXVFYxJJykvhQh+gSujc8Kk9gMjXO+OqXF9aL5+hxwTvoTctqvke0ekZ7TPTy9KIb
-	BInAh54SnrFOlhMbMNPGhIkN3efwPy6kCqwiR5VsN83Ng747PE2kCZ8RFZxUNVuvehphs2
-	qnVB+IlF5W1Qp5AGGTC8/ZRxVs5y2hA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782993001;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Cv4ZUbNNYkyG3g7dLDUdlKuXAaJWmDGzMSK4pXrl+Ok=;
-	b=ZygHexrrjdF6GJio/Wq4HtRAQy4IMRKHdT1oTqSGF6T4hu+bOhfLf6iieDOs2Eq1RCtvTm
-	Wewymb49CB1SyrBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1782993001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Cv4ZUbNNYkyG3g7dLDUdlKuXAaJWmDGzMSK4pXrl+Ok=;
-	b=MY7v7DXVFYxJJykvhQh+gSujc8Kk9gMjXO+OqXF9aL5+hxwTvoTctqvke0ekZ7TPTy9KIb
-	BInAh54SnrFOlhMbMNPGhIkN3efwPy6kCqwiR5VsN83Ng747PE2kCZ8RFZxUNVuvehphs2
-	qnVB+IlF5W1Qp5AGGTC8/ZRxVs5y2hA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1782993001;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Cv4ZUbNNYkyG3g7dLDUdlKuXAaJWmDGzMSK4pXrl+Ok=;
-	b=ZygHexrrjdF6GJio/Wq4HtRAQy4IMRKHdT1oTqSGF6T4hu+bOhfLf6iieDOs2Eq1RCtvTm
-	Wewymb49CB1SyrBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 62EF3779AA;
-	Thu,  2 Jul 2026 11:50:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id k3cnGGlQRmrkDAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 02 Jul 2026 11:50:01 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 02BCFA12AD; Thu, 02 Jul 2026 13:49:56 +0200 (CEST)
-Date: Thu, 2 Jul 2026 13:49:56 +0200
-From: Jan Kara <jack@suse.cz>
-To: NeilBrown <neil@brown.name>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	Jori Koolstra <jkoolstra@xs4all.nl>
-Subject: Re: [PATCH 2/3] VFS: move delegated_inode retry loop into
- lookup_open()
-Message-ID: <y35bq233pi54khi3hjnzv2lpfeklvbgcmybrmu6iw5ztvaayfc@xnfi4qssfcv6>
-References: <[PATCH 0/3] VFS: replace dentry_create>
- <20260702111529.3559835-1-neilb@ownmail.net>
- <20260702111529.3559835-3-neilb@ownmail.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fdU6LcVj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E92771F000E9;
+	Thu,  2 Jul 2026 11:51:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782993076;
+	bh=HE/Q9Eq1voDEKGJinYVNwOuV8PPFWOwtUYtxlvplJbU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=fdU6LcVj6HHXQVwa7NPNVzK9cfWw+Or+X7w2mw+FihFw+DBbsGxH4rRBiXivaqgmp
+	 /e/G3xEss5OArYF7jJyiifPfJH33qcBlUMW0TiMYF7cq/xa0YxzoV/zEhQRRbxEBnL
+	 sc6p5wHggxPEbqVzz/ptDtnMiNWE8uy87472Ad31NYaCX0xvxfA6cCs7wgEdbQ3tU7
+	 27s0DQG8WHq9Xo55YC6+U3cLC248Ui8HXHLWccDiGw2qLvj1CoGp4h28+06dKTF6O0
+	 l+qdUwi93yltZSJDR3wE4kTxEUMZZT9BT0hHPsQbFIsfszgjxsAbwXWrQhaEyLXfqI
+	 raPYZVO/Vu98w==
+Message-ID: <54d3a698-a275-488e-ad36-ef423db30f70@kernel.org>
+Date: Thu, 2 Jul 2026 13:51:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260702111529.3559835-3-neilb@ownmail.net>
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_COUNT_THREE(0.00)[3];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[xs4all.nl];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org,xs4all.nl];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email,brown.name:email,suse.com:email]
-X-Spam-Level: 
-X-Spam-Score: -3.80
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+ Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
+ <20260702-seekrank-stilrichtung-mitentscheiden-69a64ee097ec@brauner>
+ <1f29f48d-b9ff-4de2-a392-dc05781728be@kernel.org> <akYz2aMIco1fbD-t@lucifer>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <akYz2aMIco1fbD-t@lucifer>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu 02-07-26 21:09:20, NeilBrown wrote:
-> From: NeilBrown <neil@brown.name>
+On 7/2/26 12:04, Lorenzo Stoakes wrote:
+> (thanks for the cc-!)
 > 
-> By moving this retry into lookup_open() we no longer need to pass around
-> the delegated_inode pointer.
+> On Thu, Jul 02, 2026 at 09:46:37AM +0200, David Hildenbrand (Arm) wrote:
+>> On 7/2/26 09:27, Christian Brauner wrote:
+>>>
+>>> I think we should just drop any attribution as a general kernel-wide
+>>> rule and let subsystems require them as needed. Then you can have all
+>>> the complexity in mm for this that you think is needed for your
+>>> workflow to function. This is precisely what the subsystem profiles are
+>>> for. So maybe just add:
 > 
-> Various variable assignments need to be moved out of the declaration
-> block so that they can be repeated after the "goto retry".
-> 
-> Signed-off-by: NeilBrown <neil@brown.name>
+> A single comment is complexity?
 
-With the same reservation as for the first patch feel free to add:
+I think Christian meant more elaborate rules. More than just "If you used LLMs,
+disclose how you used them."
 
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  fs/namei.c | 43 ++++++++++++++++++++++++-------------------
->  1 file changed, 24 insertions(+), 19 deletions(-)
+>>
+>> I'm not really sure if having (more?) subsystem-specific tags is the way to go.
+>> (below)
+>>
+>> So either we find a very simple, kernel-wide rule for such tags, or we drop them
+>> entirely.
 > 
-> diff --git a/fs/namei.c b/fs/namei.c
-> index 55404fe0e269..cb33a01d16eb 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -4397,17 +4397,23 @@ static struct dentry *atomic_open(const struct path *path, struct dentry *dentry
->   * An error code is returned on failure.
->   */
->  static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
-> -				  const struct open_flags *op,
-> -				  struct delegated_inode *delegated_inode)
-> +				  const struct open_flags *op)
->  {
-> +	struct delegated_inode delegated_inode = { };
->  	struct mnt_idmap *idmap;
->  	struct dentry *dir = nd->path.dentry;
->  	struct inode *dir_inode = dir->d_inode;
-> -	int open_flag = op->open_flag;
-> +	int open_flag;
->  	struct dentry *dentry;
-> -	int error, create_error = 0;
-> -	umode_t mode = op->mode;
-> -	bool got_write = false;
-> +	int error, create_error;
-> +	umode_t mode;
-> +	bool got_write;
-> +
-> +retry:
-> +	open_flag = op->open_flag;
-> +	got_write = false;
-> +	mode = op->mode;
-> +	create_error = 0;
->  
->  	if (open_flag & (O_CREAT | O_TRUNC | O_WRONLY | O_RDWR)) {
->  		got_write = !mnt_want_write(nd->path.mnt);
-> @@ -4505,7 +4511,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
->  	/* Negative dentry, just create the file */
->  	if (!dentry->d_inode && (open_flag & O_CREAT)) {
->  		/* but break the directory lease first! */
-> -		error = try_break_deleg(dir_inode, LEASE_BREAK_DIR_CREATE, delegated_inode);
-> +		error = try_break_deleg(dir_inode, LEASE_BREAK_DIR_CREATE, &delegated_inode);
->  		if (error)
->  			goto out_dput;
->  
-> @@ -4539,6 +4545,15 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
->  	if (got_write)
->  		mnt_drop_write(nd->path.mnt);
->  
-> +	if (is_delegated(&delegated_inode)) {
-> +		/* Must have come through out_dput: dentry is an ERR_PTR() */
-> +		error = break_deleg_wait(&delegated_inode);
-> +
-> +		if (!error)
-> +			goto retry;
-> +		dentry = ERR_PTR(error);
-> +	}
-> +
->  	return dentry;
->  
->  out_dput:
-> @@ -4586,7 +4601,6 @@ static struct dentry *lookup_fast_for_open(struct nameidata *nd, int open_flag)
->  static const char *open_last_lookups(struct nameidata *nd,
->  		   struct file *file, const struct open_flags *op)
->  {
-> -	struct delegated_inode delegated_inode = { };
->  	int open_flag = op->open_flag;
->  	struct dentry *dentry;
->  	const char *res;
-> @@ -4616,19 +4630,10 @@ static const char *open_last_lookups(struct nameidata *nd,
->  				return ERR_PTR(-ECHILD);
->  		}
->  	}
-> -retry:
-> -	dentry = lookup_open(nd, file, op, &delegated_inode);
-> -
-> -	if (IS_ERR(dentry)) {
-> -		if (is_delegated(&delegated_inode)) {
-> -			int error = break_deleg_wait(&delegated_inode);
->  
-> -			if (!error)
-> -				goto retry;
-> -			return ERR_PTR(error);
-> -		}
-> +	dentry = lookup_open(nd, file, op);
-> +	if (IS_ERR(dentry))
->  		return ERR_CAST(dentry);
-> -	}
->  
->  	if (file->f_mode & (FMODE_OPENED | FMODE_CREATED)) {
->  		dput(nd->path.dentry);
-> -- 
-> 2.50.0.107.gf914562f5916.dirty
+> Yup I couldn't disagree more with Christian here, the whole thing feels like
+> trying to 'wish away' the AI issue, and now punting off to subsystem
+> maintainers...
 > 
+> Subsystems impact each other. Right now I'm writing a series that changes driver
+> code so we can enforce some sanity in mm APIs.
+> 
+> I've had to interact with fs code quite a bit that uses mm logic.
+> 
+> It's all interconnected, and one subsystem let's say going with 'let it all in'
+> say, impacts another.
+> 
+> Yes some people lie about it, but having the guidelines only STRENGTHENS our
+> position on that, and I've seen that in practice.
+> 
+> So yeah, sorry, I think it's beyond silly to push back on requesting somebody
+> disclose how much of a patch/series was AI generated.
+> 
+> And [0] already essentially says people NEED to do this now. But that doc has
+> been rather downplayed unfortunately I think.
+
+[...]
+
+>> I agree on the "enforce" aspect. It's impossible, but it's still easy to catch
+>> people using AI irresponsibly today ... and that's what we care about. Not
+>> people that know what they are doing using AI responsibly.
+> 
+> For me it's about empowering maintainers to push back.
+
+Right, but I suspect maintainers do have this power already, it's just not
+exercised that often on obvious AI slop yet.
+
+> 
+>>
+>>>
+>>> If the information is mostly useful during review then I still would
+>>> question why it has to end up in our git logs. It's completely
+>>> irrelevant information imho.
+>>
+>> Fully agreed. In the tree it's irrelevant.
+> 
+> Not sure about that, if it turns out AI-generated patches are causing 95% more
+> bugs say that's pretty useful information no?
+
+Well
+
+a) You don't know how much AI was used. In particular, it could just slip in as
+the submitter tries to untangle some of the mess the AI created (so not AI's
+fault). Or the submitter just used it to write+translate the patch description.
+Really, the tag itself doesn't tell you much as it stands, which is the biggest
+problem I am having with it.
+
+b) You don't catch all the cases where people didn't use the tag.
+
+> 
+> Or if you find that a patch somebody sent from another subsystem that has a
+> lassez faire approach to AI slop completely breaks you in some subtle way, isn't
+> it easier to push for a revert if you see it's LLM-generated?
+
+The information would have to be had from the linked mailing list posting.
+
+Given that some subsystems already started suppressing the tags when applying
+patches, that doesn't really help ... :/
+
+> 
+> And is it really that egregious to include a tag? You can ignore it if you don't
+> care.
+
+I hate the current tags as they are. The question I am asking myself: assume we
+stop using the Assisted-by for LLM stuff. What to do with the other tools? Why
+are LLMs suddenly no longer a tool to mention there.
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Cheers,
+
+David
