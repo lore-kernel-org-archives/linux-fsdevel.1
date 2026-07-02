@@ -1,218 +1,176 @@
-Received: from smtp-190e.mail.infomaniak.ch (smtp-190e.mail.infomaniak.ch [185.125.25.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5AB416D0C
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 09:53:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6FC84BCAAF
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 09:57:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782986024; cv=none; b=MfMpeQL4wsVS64gvZ1BscJD8DWQgdzB2fFnVz568oMVCEDvPcN5hOwm8YJFqHqbES6b4yXJRJIwv+aNAR7e/kP2Yvgm0GQmN/w/rYZuM65GYM6oTChwff4aLD2uYiEitGO5elOPzBKw09g4mWgVPkpgYTZuGeY2RSR6Gm9d91ck=
+	t=1782986253; cv=none; b=WY58Hv/p86suaWqzFbpxHZva8VyPPIeBPQKQcnVrYnvZ75MAEiIxTIQMm7m+U0Y9hHktvbw3nUq+rKPQ2CfneEh6FrCGOWosNViIkNVSbj4eAQVpZlIju7+E31Ahn7twzG1Bp+X6fAKgAxLp8bnSWaHv5Ka9rBrqTlbI/3wBsb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782986024; c=relaxed/simple;
-	bh=awht1+4TGXpltiUaIUINPh0ni0Ekfg4l4tLYB6CdFL0=;
+	s=arc-20240116; t=1782986253; c=relaxed/simple;
+	bh=BNFDrdPvq9mzRD45aFtwnk18UW4DPP3kimNwP4o8/pw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o8Yi762okjBNcmQMkz9apqeVrVchTYuXa3RcW3OM+77+mV0d97dziIvF6xOT9m6E63cEwQSvLJZ7sOE/6Ari0kKQxJ8Vx1jtw2PVDF3OmrVU438MyTEgRcDevAelCBW8bPJHrAs2iv1TzFx6J8Unrd8cBxbRGM4pVnwsGRP8HX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=ZcL5foN3; arc=none smtp.client-ip=185.125.25.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=EH6iGNDy7ihZiERCgoJQVWLK2Kr6WndXU1xCPJ++o28amwn3NS3rMQ2JtqgvjqBlvb1WhSQKXQC++dcAu15hQzHOAMKesRp+mT/fvPI7DsOlgGKvolTZp5axXE+b4jB0NUEnmkMm31w5RUUix8QtXwYc7tyuRXLofPXz96qo6WA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=GsEGTz3R; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=H0yBIV+D; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=GsEGTz3R; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=H0yBIV+D; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="ZcL5foN3"
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246b])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4grXJL4f8pzjrM;
-	Thu,  2 Jul 2026 11:53:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1782986002;
-	bh=w5yKyriWdfqxI/VD/SvKt+YW5stML2iFnEsLvQtXp24=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZcL5foN38QMLyL3T1hITDriaKoSzFVN10GhDAFjokhbfol1Sf74Ukj7bpemF0qDf/
-	 ZJFbrskSmZLVZf2g4DJ5QvpDWrErfZL3HX0Co/c8nfbExTwxarQCgyLgAa+9mo7Piy
-	 ZsFZvlNSUsL6zhq+QIp7voYfeOXU/kXtqQ+vqnE4=
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4grXJJ7214z2QG;
-	Thu,  2 Jul 2026 11:53:20 +0200 (CEST)
-Date: Thu, 2 Jul 2026 11:53:19 +0200
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Paul Moore <paul@paul-moore.com>, 
-	Casey Schaufler <casey@schaufler-ca.com>
-Cc: Justin Suess <utilityemal77@gmail.com>, ast@kernel.org, 
-	daniel@iogearbox.net, kpsingh@kernel.org, john.fastabend@gmail.com, andrii@kernel.org, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, kees@kernel.org, gnoack@google.com, 
-	jack@suse.cz, jmorris@namei.org, serge@hallyn.com, song@kernel.org, 
-	yonghong.song@linux.dev, martin.lau@linux.dev, m@maowtm.org, eddyz87@gmail.com, 
-	sdf@fomichev.me, skhan@linuxfoundation.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Frederick Lawler <fred@cloudflare.com>
-Subject: Re: [RFC PATCH 06/20] bpf: lsm: Add Landlock kfuncs
-Message-ID: <20260702.ierahzaiLub3@digikod.net>
-References: <CAHC9VhRfqSoM89WC6TdQHapUVQe8a18rW2c-F7+tu6EjM9EdCA@mail.gmail.com>
- <akUH13qbsEnJLgQu@zenbox>
- <CAHC9VhSjRcMr9+5dMkep_TPKduYdob-bZ73FLfXd_o2xiWwOSg@mail.gmail.com>
- <20260701.jei4Paej3zen@digikod.net>
- <CAHC9VhRzZVUz8icZ2RD9OVvscJdZW3ivPERJLEkNi5poBeguxw@mail.gmail.com>
- <20260701.oTeikequi3ee@digikod.net>
- <akVvkA3kmlv_POsF@zenbox>
- <CAHC9VhTQtHPFGqu58EaFqMobV3LCcTsdzYfxy568P8mU769TMg@mail.gmail.com>
- <20260701.aeghohNoe3ek@digikod.net>
- <CAHC9VhSYJPdn3Y+C1s8VExQ0DhV9Kg-NZiWhhOA657JeHDnzjQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="GsEGTz3R";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="H0yBIV+D";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="GsEGTz3R";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="H0yBIV+D"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7940C7410D;
+	Thu,  2 Jul 2026 09:57:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1782986248; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qkHLi4bBeSixPSheQ5BY8WCz7v8WI2F8fgvlkqiCVKo=;
+	b=GsEGTz3R1U37eZA6BNXBXTiK5XPnUww9D1bcTM8Es8MKSTdIKnXCXbig3tIM8bmEmKDcjh
+	pRMs0Z3kRX5FNTbnxDa6gwdE5/rVb9UA4+epadyR3e1dy9ZQK+uH7NHBK2EWdJySaVOLWr
+	Tke7cyxKadchedQd6nXFnNAYWRWK+yE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1782986248;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qkHLi4bBeSixPSheQ5BY8WCz7v8WI2F8fgvlkqiCVKo=;
+	b=H0yBIV+DFIZ/ecyfRXlrrATOZf38h5BLlSzIJ8LlsqOBqf4EiMgxyMHx4I0jec3WCBTHJ5
+	zTzPLBs7Owf0KtDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=GsEGTz3R;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=H0yBIV+D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1782986248; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qkHLi4bBeSixPSheQ5BY8WCz7v8WI2F8fgvlkqiCVKo=;
+	b=GsEGTz3R1U37eZA6BNXBXTiK5XPnUww9D1bcTM8Es8MKSTdIKnXCXbig3tIM8bmEmKDcjh
+	pRMs0Z3kRX5FNTbnxDa6gwdE5/rVb9UA4+epadyR3e1dy9ZQK+uH7NHBK2EWdJySaVOLWr
+	Tke7cyxKadchedQd6nXFnNAYWRWK+yE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1782986248;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qkHLi4bBeSixPSheQ5BY8WCz7v8WI2F8fgvlkqiCVKo=;
+	b=H0yBIV+DFIZ/ecyfRXlrrATOZf38h5BLlSzIJ8LlsqOBqf4EiMgxyMHx4I0jec3WCBTHJ5
+	zTzPLBs7Owf0KtDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6E47C779AA;
+	Thu,  2 Jul 2026 09:57:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id B/bpGgg2RmpGGQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 02 Jul 2026 09:57:28 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 2F6CEA12AD; Thu, 02 Jul 2026 11:57:22 +0200 (CEST)
+Date: Thu, 2 Jul 2026 11:57:22 +0200
+From: Jan Kara <jack@suse.cz>
+To: yizhang089@gmail.com
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca, 
+	libaokun@linux.alibaba.com, jack@suse.cz, ojaswin@linux.ibm.com, ritesh.list@gmail.com, 
+	yi.zhang@huawei.com, yi.zhang@huaweicloud.com, chengzhihao1@huawei.com, 
+	yangerkun@huawei.com
+Subject: Re: [PATCH 3/6] ext4: track partial-zero outcome per edge in
+ ext4_zero_partial_blocks()
+Message-ID: <tb77wbv7gcqzkcftikip2bgftzqjdahuwsmrynfjke2prsz2kh@ux3sr3logun4>
+References: <20260701142009.1510104-1-yizhang089@gmail.com>
+ <20260701142009.1510104-4-yizhang089@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHC9VhSYJPdn3Y+C1s8VExQ0DhV9Kg-NZiWhhOA657JeHDnzjQ@mail.gmail.com>
-X-Infomaniak-Routing: alpha
+In-Reply-To: <20260701142009.1510104-4-yizhang089@gmail.com>
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 7940C7410D
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	TO_DN_NONE(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,mit.edu,dilger.ca,linux.alibaba.com,suse.cz,linux.ibm.com,gmail.com,huawei.com,huaweicloud.com];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim,suse.com:email]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-On Wed, Jul 01, 2026 at 07:32:57PM -0400, Paul Moore wrote:
-> On Wed, Jul 1, 2026 at 5:28 PM Mickaël Salaün <mic@digikod.net> wrote:
-> > On Wed, Jul 01, 2026 at 04:02:36PM -0400, Paul Moore wrote:
-> > > On Wed, Jul 1, 2026 at 3:55 PM Justin Suess <utilityemal77@gmail.com> wrote:
-> > > > On Wed, Jul 01, 2026 at 09:49:07PM +0200, Mickaël Salaün wrote:
-> > > > > On Wed, Jul 01, 2026 at 02:38:08PM -0400, Paul Moore wrote:
-> > > > > > On Wed, Jul 1, 2026 at 2:34 PM Mickaël Salaün <mic@digikod.net> wrote:
-> > > > > > > On Wed, Jul 01, 2026 at 09:28:22AM -0400, Paul Moore wrote:
-> > > > > > > > On Wed, Jul 1, 2026 at 8:52 AM Justin Suess <utilityemal77@gmail.com> wrote:
-> > > > > > > > > On Wed, Jul 01, 2026 at 08:12:34AM -0400, Paul Moore wrote:
-> > > > > > > > > > On Wed, Jul 1, 2026 at 6:59 AM Mickaël Salaün <mic@digikod.net> wrote:
-> > > > > > > > > > > On Tue, Apr 07, 2026 at 04:01:28PM -0400, Justin Suess wrote:
-> > > > > > > > > > > > Create 2 kfuncs exposing control over Landlock functionality to BPF
-> > > > > > > > > > > > callers. Export an opaque struct bpf_landlock_ruleset preventing callers
-> > > > > > > > > > > > from accessing unstable internal Landlock fields.
-> > > > > > > > > >
-> > > > > > > > > > Generally speaking we don't want to provide APIs, either in-kernel or
-> > > > > > > > > > at the userspace/kernel boundary, that are specific to a single LSM,
-> > > > > > > > > > see the LSM syscalls or the security_current_getlsmprop_subj()
-> > > > > > > > > > function as examples.
-> > > > > > >
-> > > > > > > This patch series is not about the LSM framework, only about Landlock
-> > > > > > > and its specific model and use case.  Landlock using some of the LSM API
-> > > > > > > is not relevant here.
-> > > > > >
-> > > > > > Based on a quick look the patchset enables BPF programs to call
-> > > > > > directly into Landlock.  For the same reason we discourage other parts
-> > > > > > of the kernel to call directly into individual LSMs, we want to
-> > > > > > discourage BPF programs from calling directly into individual LSMs.
-> > > > >
-> > > > > We're OK for a dedicated kfunc to call directly into Landlock (with a
-> > > > > tailored interface).  Landlock is designed around its syscall interfaces
-> > > > > (well documented, tailored, tested), and this would be a new user of
-> > > > > almost the same UAPI.
-> > > >
-> > > > Paul, Mickaël,
-> > > >
-> > > > I think there's a cleaner way to resolve this.
-> > > >
-> > > > First, walking back my earlier email: I was wrong saying that we need to call
-> > > > into security/security.c to check whether Landlock is enabled. Landlock's
-> > > > init only runs when it's in the active lsm= list, so I can just test
-> > > > landlock_initialized directly. There's no per-invocation reason to route
-> > > > through the LSM framework for that.
-> > >
-> > > The landlock_initialized flag is not really a LSM framework API, that
-> > > is still Landlock specific which is something we try hard to avoid.
-> > >
-> > > > Rather than routing each kfunc *invocation* through a security/security.c
-> > > > wrapper, I think the right place for the framework to be involved is
-> > > > *registration*: have the LSM framework own registration of an LSM's
-> > > > kfunc sets, e.g.
-> > > >
-> > > >     int security_register_lsm_kfunc_set(u64 lsm_id, enum bpf_prog_type type,
-> > > >                                         const struct btf_kfunc_id_set *kset);
-> > >
-> > > That implies a set of LSM kfunc APIs which Alexei has been deadset
-> > > against (see other ongoing threads).
-> > >
-> > > > Each LSM calls this once to register its sets. Because registration goes
-> > > > through the framework, the framework gets to decide whether to actually
-> > > > register them so you could, for example, run an LSM while explicitly
-> > > > opting its BPF kfuncs out. (something that should be done at the LSM
-> > > > framework level).
-> > >
-> > > I'm not opposed to the LSM supporting a set of kfuncs, see my comments
-> > > in other threads, but we should treat these kfuncs just as we treat
-> > > other LSM hooks today because that is what they are: LSM hooks that
-> > > happened to be called from within a BPF program.
-> >
-> > What an LSM hook is or should be is the crux of the misunderstanding.  I
-> > explained my point of view here:
-> > https://lore.kernel.org/all/20260701.jei4Paej3zen@digikod.net/
-> >
-> >   LSM hooks make sense because they are designed for a specific subsystem
-> >   (the caller) and their goal is to return an access decision or to keep
-> >   up-to-date related states, which means that their API is designed for
-> >   the caller, with its own types and specificities, not the other way
-> >   around.  This case is different, the kfunc is strongly typed and tied to
-> >   the Landlock (subsystem) semantic with an API defined by and for
-> >   Landlock.  I don't think a multiplexer would be a good idea.
-> >
-> > I'd try to explain better: in a nutshell, an LSM hook exposes a subset
-> > of the context of the caller, for any access control system to be able
-> > to make a decision.
+On Wed 01-07-26 22:20:06, yizhang089@gmail.com wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
 > 
-> That is true for some LSM hooks, but not all of them.  LSM hooks are
-> really just another name for the functions that compose parts of the
-> LSM framework API; it isn't always strictly about access control in
-> the kernel.
-
-That's why I wrote "in a nutshell".  Concrete examples and the rationale
-for such hooks would help.
-
-> We leverage the "hooks" for the LSM syscalls, we've
-> discussed "hooks" for implementing a common LSM namespace API, and
-> there have also been early efforts at LSM policy loading via "hooks".
-
-All that is doable, my question is: why a kfunc multiplexer?  What are
-the pros and cons?  I only see disadvantages for now.  Please, convince
-us.
-
+> Replace the single bool did_zero output of ext4_zero_partial_blocks()
+> with a bitmask that records which edge (start, end, or both in the
+> single-block case) was actually partial-zeroed. This allows callers to
+> distinguish which edges have been zeroed, preparing for unaligned
+> FALLOC_FL_WRITE_ZEROES handling in later patches.
 > 
-> > It makes sense to have such dispatcher because the
-> > callees must adapt to the caller's context, and then the API is tailored
-> > to the caller, so even with several consumers, the API would ultimately
-> > be the same.  In the case of this kfunc, the callee is one specific
-> > subsystem that happens to be Landlock.  The caller asks a specific
-> > subsystem to do something specific to this subsystem, not to ask all
-> > potential access control systems to give a generic verdict to grant an
-> > access or not.
-> 
-> > For this kfunc, the caller passes arguments which are
-> > specific to the callee subsystem (e.g. a Landlock ruleset), not the
-> > other way around.  Every LSM has its own configuration, and it doesn't
-> > make sense to somehow wrap these configurations with a common layer/API.
-> 
-> Once again, there have already been discussions about trying to build
-> a common API for that.  I'd rather have us pick that up for an
-> in-kernel/kfunc users than treat Landlock as an exception.  We're
-> trying to get rid of the exceptions in the LSM space.
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 
-I understand and I agree about the argument for dispatchers (e.g. access
-control and state hooks) but not for multiplexers (i.e. which would be a
-kfunc in this case).
+Just some text corrections below. Otherwise feel free to add:
 
-How would look such multiplexer kfunc?  Something like this?
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-  union lsm_restrict_arg {
-    struct {
-	    const struct landlock_rulest *ruleset,
-	    int flags,
-    } landlock;
-    ...?
-  };
+> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+> index 0b31fa873743..d68f7be4ff02 100644
+> --- a/fs/ext4/inode.c
+> +++ b/fs/ext4/inode.c
+> @@ -4256,13 +4256,26 @@ int ext4_block_zero_eof(struct inode *inode, loff_t from, loff_t end)
+>  	return 0;
+>  }
+>  
+> +/*
+> + * Zero out the unaligned head and tail of the [lstart, lstart+length)
+> + * range.
+> + *
+> + * On return, @partial_zeroed records which edges actually got
+> + * partial-zeroed.  Set EXT4_PARTIAL_ZERO_START/EXT4_PARTIAL_ZERO_END if
+> + * the head/tail block got actually partially zeroed (in written, dirty
+> + * unwritten or delalloc state).  Cleared if the head/tail block is a
+> + * hole or a clean unwritten block, in which case there is nothing needs
+								      ^^^
+that needs zeroing.
 
- int bpf_lsm_restrict_binprm(struct lsm_id target_lsm,
-                             union lsm_restrict_arg multiplexed_generic_argument);
+> + * to zero.  When the head and tail land in the same block, both bits
+> + * are set together on a successful zero.
+					^^^ zeroing
 
-I don't see the point of such multiplexer.  It adds complexity for no
-gain, except maybe to sneak in new features by only extending the
-argument types?  What would be the value for eBPF users?
-
-> 
-> > Why not start with something simple that fits a use case now?  If and
-> > when another LSM will need a kfunc, then we'll have something concrete
-> > to talk about.
-> 
-> I think Casey's reply answers that question rather well.
-
-This was mainly about (access control/security) hooks, not multiplexer
-interfaces.
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
