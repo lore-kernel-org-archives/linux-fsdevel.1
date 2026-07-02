@@ -1,160 +1,109 @@
-Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3558527AC57;
-	Thu,  2 Jul 2026 03:23:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE9C2D0602;
+	Thu,  2 Jul 2026 03:37:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782962588; cv=none; b=D+nrEORy6FY85mccG6/5Hn6yRk7vrik/fs3AZ7EQEJXEjoY2yoNrNn5SJlalDA+HrRQrI1u+EZvoH7WLflbuDNAypQmjaklEPhJAVQK2E4sWTHiUQupmxkSj2W1qDFBWXb4qkOB1YYbskybYqQ+1KagBmUubvpv2xeZl3kFG11Y=
+	t=1782963431; cv=none; b=bh5LPAz7VTARDX78SewaH0ImOZHUCVAbMiSLzH20ztHGqU/yRdzum+AeJG5pYkkNSd+cgJQLpaDjz4k6co+gk8usMzsGaBZKvg5ZrA594wtujDgSPQMNTX0IRTbWVq9ePOXeqzPosqmPTFzgiWrE0fOqp2izewXr1IyhQojmM0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782962588; c=relaxed/simple;
-	bh=h52IPXEO3GErwPUXSaSWfDdjb5VBspL/PzrUT7vQqEg=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=BvgR7UeZyF40zT1yuvIDL3bwveaPG8E2WVygpD75sym2HUIraPc4zyrU+NSZ7CxhagTCIIrAqyhwz6z1aJHYGYC0bYrSlodGNwbwybYWSbzyO0bWgaA5dOd2bEeeCqnrVSPxOfNibUdoul2NG0vXhopT086E8aEps5TXfaSvlfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=dR8H/USd; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CjDFCovs; arc=none smtp.client-ip=202.12.124.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=johnericson.me
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b="dR8H/USd";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CjDFCovs"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id 3CFB21D0006E;
-	Wed,  1 Jul 2026 23:23:05 -0400 (EDT)
-Received: from phl-imap-16 ([10.202.2.88])
-  by phl-compute-05.internal (MEProxy); Wed, 01 Jul 2026 23:23:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1782962585; x=1783048985; bh=+ofwFd0BgfH978UubVq3+U13sv3WhECD
-	ex7It7QGGUQ=; b=dR8H/USdaOxwA8CPdfFY89sM3BC1+DOOrvJsPM3+yZLXRQqq
-	40bkEMX6zts4qFPZfegYrUkvWhny8WZOou0hVp8MMv3wwzuu8w53mhLxO9QqqKYm
-	WUYWV1aK9oMsrzetc6Re2IhRdt9PCZKdwsIoSzfl3sICf588keEwpKde8Akd+h1M
-	FbJo+msUq4rwBt5q7Warf1SRTIKq9emrZHPNtLAkF3gnAz8rBNraUWigiyYBjUsC
-	6XnLUhRB/w3HAQ+WzAxvWcn+odFNqMpo0Rir8XMIXHORYlSCSRq+nn2pgJ/13EQ6
-	DStp+B1p1Cnf6m4wZ4Ge2h2cTsjtFODwsn/BrA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782962585; x=
-	1783048985; bh=+ofwFd0BgfH978UubVq3+U13sv3WhECDex7It7QGGUQ=; b=C
-	jDFCovsnejQgJrhSNtYSSOvrC4hJ47Dd1Gav+2htmIldr4Co+5euDii0MPGSM7O8
-	pWhQ11olagALAMydFq/u+YlUeG/5xYOlf8W6wFr4GlfVWVhH1/dgfSvecfi9LiK9
-	vi3g8jaVeNSdoUY4prtQFVLHYALNkZquk4nVOajVdkkz50qf5ux7ndwf6CzP7p7N
-	l/5wiKWc1rkeCnYpr90UPOnLpbAGAF4gXHJMgBAOE/mFepUCEPxMVGaAJIa3CD9A
-	HqlUkznOcwB4dPgd4qwT4nWs5pglSLA/HXgCyIIVX5mlhxHCsDfWDhlU7qUU0FJH
-	XTGDRfJIjprBlckCmwlqw==
-X-ME-Sender: <xms:mNlFapSrjxUA73UrHUnUc10NEnh4QtgVRUCgwipMQH53vPB-phz6qA>
-    <xme:mNlFatnZUaJ9cmR51IQjKytXXa8DWcaLYPYY-AMV1GRwIejdTm2snSM-J3_HsAsSV
-    9xSsuq_NPSpzKsdc6Ai6cJlRE1JKTln-08vsU2tjkQRWt6d5BRhr8C9>
-X-ME-Proxy-Cause: dmFkZTFM4tHx1Q26ZIh3UHc0hey+73JTKicWAXjZ52Lldta0RJQwSyaD00TgDAIOLdvcqT
-    ZtskFQh1q65fyyZhjZuDmkQcsycDoBQkNBcRSf9ESab22aSbz5H4ecg2npHMwRQQ3bvvPK
-    6h7ypaUo586eXVYjVCnGPD4Y3xrUo+EYT+l0TOEqhIoXIHuVmPkmWlteO8t1Cr+Ae6YZJh
-    ZXwuwaQzAqI2+ebnMhG0DrmGevo7feD4kb6Rv8skIvSe8sLe+VpUezCTgtTpp/KcKEH8pT
-    18aJSibAKd95jY6Dqc3PoFuJijcVZUxKcEEj6FETnqYBZbdZ7V9eYFLrh7QkgAE5CzQ7ZL
-    wKATY6bxfLhaqtAXkUyRZ2JQ7lOh+BhbEsfnCQjIUIp2Yb0Ig+9+ktLi6kL+gestfZKKFk
-    WSlmAqJuhhDtJ15qdQzwo0rGS12l5GRwPCt+lzh1ibZZJXP8ayRL0iStOoXTlTGD/3UqgG
-    a8F593FosQmmIgLoVoqikr/BxYXa9B2v94FvnrKYgv2Fh90yNHdii44R0eDLAeDolyKG89
-    ZkwFpSaa3bRWAId0PEUMoEDEHfmtFY+ibABbIeBjkcTHd767DTt1LXPP3K41/JVHZ+Yxgy
-    baldltiKOkr2fS92PstYI/tB/OaepR/ZkVIuBmME1GHkjEl3SZlxzT2Le3NA
-X-ME-Proxy: <xmx:mNlFasTNu2XizDprPQb8Z5qCZi15vrGoNpkwSHTovXCkCsSGBB7o3w>
-    <xmx:mNlFalyyPJWaycBN35w-u4hUusT7LWHSxplXAv_M13tMEAKXS9flWQ>
-    <xmx:mNlFasDpqcqGuQWg5K1XUMnUjKpGLLCW0ZvkFpb7YqG7rU15tEeVWg>
-    <xmx:mNlFahHnDiJRYSwVLESitq_vW_pLeiNVvRsYjzTZHR9VsAA_U_8PXw>
-    <xmx:mdlFaroV3nXG0GC8XHGjTjWMdLKa6Fz_dSNQhH8EL_irwEtK3ekT9mF5>
-Feedback-ID: ieb4144f1:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 5F9CE2CC0083; Wed,  1 Jul 2026 23:23:04 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1782963431; c=relaxed/simple;
+	bh=usuKir4LrXS8zKa8d1qjs74NKCCAe9vYkvZCvZk1TPM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=S4B4K/N98/MEw5Z0vLJiuyJhw44mNqSRdbQBPJElEvwxg8XxPFBujIE9RtHk17Ts2epteifltg/nndR10shHk2hSaLwP1JSy6reuyZz4WYqHJC3wGqEN+Yq5iAKmpw7R+QZLRUa/aoa6lL00q8yd6QX8oZGXzg34NoSRJr7Pu8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 48cdeeb675c711f1aa26b74ffac11d73-20260702
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:6010c4bf-d519-40d2-8300-64e5702de31d,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:e7bac3a,CLOUDID:d4c84d72fc2ae16fb3e4124b21550943,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|136|850|865|898,TC:nil,Content:0|15|
+	50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
+	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 48cdeeb675c711f1aa26b74ffac11d73-20260702
+X-User: zenghongling@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zenghongling@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1027932102; Thu, 02 Jul 2026 11:37:00 +0800
+From: Hongling Zeng <zenghongling@kylinos.cn>
+To: linkinjeon@kernel.org,
+	hyc.lee@gmail.com,
+	charsyam@gmail.com
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	zhongling0719@126.com,
+	Hongling Zeng <zenghongling@kylinos.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] ntfs: validate error codes in check_windows_hibernation_status()
+Date: Thu,  2 Jul 2026 11:36:56 +0800
+Message-Id: <20260702033656.23048-1-zenghongling@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: Aqzxz9K-cSE-
-Date: Wed, 01 Jul 2026 23:22:43 -0400
-From: "John Ericson" <mail@johnericson.me>
-To: "Cong Wang" <cwang@multikernel.io>
-Cc: "Li Chen" <me@linux.beauty>, "Andy Lutomirski" <luto@kernel.org>,
- "Christian Brauner" <brauner@kernel.org>, "Jens Axboe" <axboe@kernel.dk>,
- "network dev" <netdev@vger.kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- "Sergei Zimmerman" <sergei@zimmerman.foo>
-Message-Id: <ec6c3206-ed41-4de0-b315-0b602b7faf41@app.fastmail.com>
-In-Reply-To: <akWxrjOl4Up02Bvq@pop-os.localdomain>
-References: <b1af80fc-a57c-408d-bdfe-fa6bae26eaca@app.fastmail.com>
- <aicbyQIC2qEveNd-@pop-os.localdomain>
- <455281ec-3ee1-4f27-989b-c239f0690d8b@app.fastmail.com>
- <aixU_RccxS_BKhgX@pop-os.localdomain>
- <66eb8227-85b6-4684-a4fa-e3e17ac2fa45@app.fastmail.com>
- <e396ce86-ec84-4189-9da2-98af7cfa6c41@app.fastmail.com>
- <akWxrjOl4Up02Bvq@pop-os.localdomain>
-Subject: Re: [RFC] connectat()/bindat() or an alternative design
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 1, 2026, at 8:32 PM, Cong Wang wrote:
-> Hm? Why not just setsockopt()? Something like:
->
-> struct unix_lookup_ctx {
->     int dirfd;
->     __u64 resolve_flags;   /* RESOLVE_BENEATH, RESOLVE_NO_SYMLINKS, etc. */
->     __u64 op_flags;        /* maybe future */
-> };
->
-> setsockopt(fd, SOL_UNIX, UNIX_NEXT_LOOKUP,
->            &ctx, sizeof(ctx));
->
-> bind(fd, (struct sockaddr *)&addr, addrlen);
-> /* or connect(fd, ...) */
->
->
-> Zero new syscall is needed.
+check_windows_hibernation_status() calls ntfs_lookup_inode_by_name()
+which returns MFT references read directly from disk (untrusted data).
+The current code extracts error codes via MREF_ERR() without proper
+validation, allowing maliciously crafted NTFS images to trigger
+incorrect error handling.
 
-If this supports the `AT_EMPTY_PATH` no filesystem at all use-case
-(which is what I chose to highlight in the previous summary email), I'll
-take it --- it hits my desiderata. But implementation-side, I don't
-relish the thought of even more state for socket setup --- since we need
-to persist the lookup context until the bind.
+The MFT reference encoding uses bit 47 as an error indicator, but the
+lower 32 bits can contain arbitrary values. If a malicious image sets
+the error bit with a positive integer (e.g., 1), MREF_ERR() returns
+that positive value. This can cause the function to incorrectly
+interpret the error as "Windows is hibernated" status, potentially
+leading to the filesystem being mounted read-only (denial of service).
 
-If setsockopt is the "ioctl of sockets" --- a convenient way to de facto
-create syscalls without doing so de jure --- I would think it would be
-better to just make it do the bind in one go so there is no state:
+Fix by strictly validating error codes: only accept negative values
+in the valid errno range [-MAX_ERRNO, -1]. Convert all other values
+(positive, zero, or out-of-range) to -EIO to indicate disk corruption.
 
-    struct unix_bind_anon_ctx {
-        int *connect_fd;       /* fd used to connect to this socket
-                                  written to this */
-        __u64 op_flags;        /* future usage */
-    };
+This prevents potential security issues and ensures proper error handling
+for corrupted or malicious NTFS filesystems.
 
-    setsockopt(fd, SOL_UNIX, UNIX_BIND_ANON,
-               &ctx, sizeof(ctx));
+Fixes: 1e9ea7e04472d ("Revert \"fs: Remove NTFS classic\"")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
+---
+ fs/ntfs/super.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-Regular `linkat` can be used to place the "connect fd" in the filesystem
-for regular file-based connecting (e.g. to cope with long paths), in
-addition to how the "connect fd" can directly be used in the
-`AT_EMPTY_PATH` case.
+diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
+index 8abe7bee4c0d..78f7e9fa76a0 100644
+--- a/fs/ntfs/super.c
++++ b/fs/ntfs/super.c
+@@ -1168,9 +1168,16 @@ static int check_windows_hibernation_status(struct ntfs_volume *vol)
+ 			ntfs_debug("hiberfil.sys not present.  Windows is not hibernated on the volume.");
+ 			return 0;
+ 		}
+-		/* A real error occurred. */
+-		ntfs_error(vol->sb, "Failed to find inode number for hiberfil.sys.");
+-		return ret;
++		/* Validate error code from untrusted disk data. */
++		if (ret < 0 && ret >= -MAX_ERRNO) {
++			ntfs_error(vol->sb, "Failed to find inode number for hiberfil.sys.");
++			return ret;
++		}
++		/* Invalid error code indicates disk corruption. */
++		ntfs_error(vol->sb,
++			"hiberfil.sys lookup returned invalid error code %i, treating as disk corruption.",
++				ret);
++		return -EIO;
+ 	}
+ 	/* Get the inode. */
+ 	vi = ntfs_iget(vol->sb, MREF(mref));
+-- 
+2.25.1
 
-and for the connecting side:
-
-    struct unix_connect_at_ctx {
-        int dirfd;
-        const char *path;
-        __u64 resolve_flags;   /* RESOLVE_BENEATH, RESOLVE_NO_SYMLINKS, etc. */
-        __u64 op_flags;        /* SOMETHING_EMPTY_PATH, other future usage */
-    };
-
-    setsockopt(fd, SOL_UNIX, UNIX_CONNECT_AT,
-               &ctx, sizeof(ctx));
-
-This is just what I had in my previous `summary email`, but with the new
-system calls twisted into `setsockopt` variations instead. (I forgot to
-mention the `linkat` usage in that email, oops, but it was always
-intended to be part of the plan.)
-
-Cheers,
-
-John
