@@ -1,170 +1,90 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21191DDA9
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 12:10:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CF43B18A;
+	Thu,  2 Jul 2026 12:11:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782994259; cv=none; b=SseWxa6GwjpXkDgKGR6X+jTiVo9YuErCuOohcy4QPCjHF+wZkF4hCN4UxpBcM9i2RpDTpZGIXII2CeJnz1Kuinv5arSxxSPt9GhSL5vI5YLNkN/K/AgAKDDMwgJXHfCjBvbpbZjP9xx7tHKgtNL3u08R4VLMsHMxxYWJFUXgYDs=
+	t=1782994304; cv=none; b=fc1pje4ACXNb+EyrGMdPM13unj78w5NDwfz686puVGNH/CIL3hSPHny6CTRncFUrG05RwSRbDRIwZFxYtBthTN3tldK4YHSYX4Ug81GLZSisRFqD4EaRBULI6D0TmmGcYfCorZ1IWKy0gP/6x9VZ6GgW0PN17GnvJeRUmZeN4C8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782994259; c=relaxed/simple;
-	bh=kq0EROHRAMyH30t9/IFYi2AfFSrm3TyBHx9kn2N5NhY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lVVKxuhXUhd+2uS20j7MRF4zrgjupPROipEFKx0TAIHYL4b962w1QC2elqgtx6Y2FUPZDdEze0Si7687BMvfJqQSe+m0ExHFDoJPUw/3xt8ts37VCYmDMefZktTWck5FTRrbsMahJsN6fKU+9r98xpeYtrBgqyh4WnQnkpq3S+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=o2h14zEv; arc=none smtp.client-ip=91.218.175.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1782994304; c=relaxed/simple;
+	bh=UZvI23KSvbAWv2SEA0PbymAV+PkCadSSiY6n7uV2F0k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=huRjOzirKuNmh9TeFLBECx5kUmPQwBcnwtIrYQrHNfRVOmpSFSXT9eMsmm+OV3Awc4pxW9XxVtuOuIJuvTH4xQHkdoAkjaySzhdMe25FhRgJCWu1PV2pl/yjmS25g/41Zn5XRYM6wA29yIsrtFXscNdOBBuujT2+nVrk/txMMR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=liuOZaG4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="o2h14zEv"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782994254;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=szYxJDyUXLwpHCPYtdT5QZRTamk7ohIwjDiVPC1pzUs=;
-	b=o2h14zEvKcQ49vaQ50LBNnbgHGGpFBTA0OsIFCWdpiUc7gYaraiUcJHgmdFM4mBzY7pBJH
-	3Nawgn9WkBzIHxRb3Nw1H0UdEQI7UMwMGIksMhfoUjYHvm6uqPS5csZAIdTgWkWJ0NxwiR
-	+fbu3PSBP2IvpsY/0wNqYNag0+1ZZPU=
-From: Lance Yang <lance.yang@linux.dev>
-To: ljs@kernel.org
-Cc: akpm@linux-foundation.org,
-	tsbogend@alpha.franken.de,
-	maddy@linux.ibm.com,
-	mpe@ellerman.id.au,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	l.stach@pengutronix.de,
-	inki.dae@samsung.com,
-	sw0312.kim@samsung.com,
-	kyungmin.park@samsung.com,
-	krzk@kernel.org,
-	peter.griffin@linaro.org,
-	jani.nikula@linux.intel.com,
-	joonas.lahtinen@linux.intel.com,
-	rodrigo.vivi@intel.com,
-	tursulin@ursulin.net,
-	robin.clark@oss.qualcomm.com,
-	lumag@kernel.org,
-	lyude@redhat.com,
-	dakr@kernel.org,
-	tomi.valkeinen@ideasonboard.com,
-	hjc@rock-chips.com,
-	heiko@sntech.de,
-	andy.yan@rock-chips.com,
-	thierry.reding@kernel.org,
-	mperttunen@nvidia.com,
-	jonathanh@nvidia.com,
-	kraxel@redhat.com,
-	dmitry.osipenko@collabora.com,
-	zack.rusin@broadcom.com,
-	matthew.brost@intel.com,
-	thomas.hellstrom@linux.intel.com,
-	oleksandr_andrushchenko@epam.com,
-	deller@gmx.de,
-	bcrl@kvack.org,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	muchun.song@linux.dev,
-	osalvador@suse.de,
-	david@kernel.org,
-	ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com,
-	liam@infradead.org,
-	npache@redhat.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	baohua@kernel.org,
-	lance.yang@linux.dev,
-	hughd@google.com,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	jannh@google.com,
-	pfalcato@suse.de,
-	kees@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-mips@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	dri-devel@lists.freedesktop.org,
-	etnaviv@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org,
-	linux-rockchip@lists.infradead.org,
-	linux-tegra@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	intel-xe@lists.freedesktop.org,
-	xen-devel@lists.xenproject.org,
-	linux-fbdev@vger.kernel.org,
-	linux-aio@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 05/13] mm: prefer mm->def_vma_flags in mm logic
-Date: Thu,  2 Jul 2026 20:10:22 +0800
-Message-Id: <20260702121022.49113-1-lance.yang@linux.dev>
-In-Reply-To: <3b4ccdc38819b42ddc79ee5a795831208ac7986c.1782760670.git.ljs@kernel.org>
-References: <3b4ccdc38819b42ddc79ee5a795831208ac7986c.1782760670.git.ljs@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="liuOZaG4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFC391F000E9;
+	Thu,  2 Jul 2026 12:11:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782994303;
+	bh=nCxAISgEcjC49iBckaad9g67RdR2PRAP40w8i5UPhjM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=liuOZaG4mLRU+xtD0qhUoqKBUwt3mjLTJrhBV4a4jXp9CSLfTHhN/GY2DFEpRiVX/
+	 kTCjsO7srNQVMcDMp0rZd3ATpW0OBTG4Umbsm68jGyXVIKG/iKU1qkoECfq6K/yHyX
+	 QiQpBUf4Hr5C9RNNXlLR5AiZOUOYU5LKqo2EtR4l+za6pkAfg6FOpLiqdUbwcfBe2d
+	 EzdICmIncIgCEjL+yTVx8PADwRqBPgdGYxhbMRa/LCUlQryPpjIMnioXFpSeKFpMZE
+	 DxrvCpTzN2HIO7w+7de666OLqEJPzGNI8tuMuKw/2lRdlxvWsMTGq2YlZuAWdgbtiD
+	 vUDVyVZ/NDQXA==
+Date: Thu, 2 Jul 2026 14:11:37 +0200
+From: Carlos Maiolino <cem@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: stable@vger.kernel.org, Jan Kara <jack@suse.cz>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, "Darrick J. Wong" <djwong@kernel.org>, 
+	Dave Chinner <david@fromorbit.com>, Eric Sandeen <sandeen@redhat.com>, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, "Dr. Thomas Orgis" <thomas.orgis@uni-hamburg.de>
+Subject: Re: [PATCH v3 1/5] xfs: fix capability check in xfs
+Message-ID: <akZVYNolu7tZFoJL@nidhogg.toxiclabs.cc>
+References: <20260702093324.127450-1-cem@kernel.org>
+ <20260702093324.127450-3-cem@kernel.org>
+ <20260702103052.GA6670@lst.de>
+ <akZITB_FDP1nl2_S@nidhogg.toxiclabs.cc>
+ <20260702112438.GA10565@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260702112438.GA10565@lst.de>
 
+On Thu, Jul 02, 2026 at 01:24:38PM +0200, Christoph Hellwig wrote:
+> On Thu, Jul 02, 2026 at 01:17:29PM +0200, Carlos Maiolino wrote:
+> > On Thu, Jul 02, 2026 at 12:30:52PM +0200, Christoph Hellwig wrote:
+> > > On Thu, Jul 02, 2026 at 11:33:17AM +0200, cem@kernel.org wrote:
+> > > > index 6339f4956ecb..205fe2dae732 100644
+> > > > --- a/fs/xfs/xfs_iops.c
+> > > > +++ b/fs/xfs/xfs_iops.c
+> > > > @@ -835,7 +835,8 @@ xfs_setattr_nonsize(
+> > > >  	}
+> > > >  
+> > > >  	error = xfs_trans_alloc_ichange(ip, udqp, gdqp, NULL,
+> > > > -			has_capability_noaudit(current, CAP_FOWNER), &tp);
+> > > > +					ns_capable_noaudit(&init_user_ns, CAP_FOWNER),
+> > > 
+> > 
+> > Thanks, I tried to keep the parameters aligned, but I can bring it one
+> > tab back. Do you mind if I fix it at commit time if -unlikely- no other
+> > change is required?
+> > 
+> > This is what it will look like:
+> > 
+> >         error = xfs_trans_alloc_ichange(ip, udqp, gdqp, NULL,
+> > -                       has_capability_noaudit(current, CAP_FOWNER), &tp);
+> > +                               ns_capable_noaudit(&init_user_ns, CAP_FOWNER),
+> > +                               &tp);
+> 
+> This still adds an extra tab.  Like much (but not all) of the kernel
+> we use two-tabs by default, which is also in the other two hinks.  This
+> now adds a third.  Just keep it as it was:
+> 
+> 	error = xfs_trans_alloc_ichange(ip, udqp, gdqp, NULL,
+> 			ns_capable_noaudit(&init_user_ns, CAP_FOWNER), &tp);
+> 
+> 
 
-On Mon, Jun 29, 2026 at 08:25:28PM +0100, Lorenzo Stoakes wrote:
->Currently mm->def_flags (of type vm_flags_t) is union'd with
->mm->def_vma_flags (of type vma_flags_t).
->
->As part of the effort to convert vm_flags_t usage to vma_flags_t (in order
->to no longer be arbitrarily limited to a system word size for VMA flags),
->prefer mm->def_vma_flags to mm->def_flags throughout the mm logic.
->
->No functional change intended.
->
->Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
->---
-> mm/debug.c |  2 +-
-> mm/mlock.c | 13 +++++++------
-> mm/mmap.c  | 11 ++++++-----
-> mm/vma.c   |  4 ++--
-> 4 files changed, 16 insertions(+), 14 deletions(-)
->
->diff --git a/mm/debug.c b/mm/debug.c
->index 497654b36f1a..f0a354a9496a 100644
->--- a/mm/debug.c
->+++ b/mm/debug.c
->@@ -226,7 +226,7 @@ void dump_mm(const struct mm_struct *mm)
-> 		mm->numa_next_scan, mm->numa_scan_offset, mm->numa_scan_seq,
-> #endif
-> 		atomic_read(&mm->tlb_flush_pending),
->-		mm->def_flags, &mm->def_flags
->+		vma_flags_to_legacy(mm->def_vma_flags), &mm->def_vma_flags
-> 	);
+Ok, will do!
 
-While at it, one thing for later: dump_mm() still assumes one-world VMA
-flags. That works today since vma_flags_t is one word. Maybe worth a
-BUILD_BUG_ON() here, before that stops being true?
-
-Not a big deal though. Feel free to add:
-
-Reviewed-by: Lance Yang <lance.yang@linux.dev>
-
-> }
-> EXPORT_SYMBOL(dump_mm);
-[...]
