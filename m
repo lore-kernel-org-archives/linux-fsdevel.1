@@ -1,64 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52EC24DBD97;
-	Thu,  2 Jul 2026 14:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF4F388E4E
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 14:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783001810; cv=none; b=ocERjdrKULWaF075KA3mU/X3rA/EduwLm6tSk5mnjt+vXcF9YnTRbumitTtaLnfeAwzm+mjvCnI/0yHFjFPSEvgkJ3OqMCcfuz4cqIbVdc27GFIEcYkC4Uar/QjTio7d/UGOVy7krt8h33CehitiC7LwJpiF/fsdOzp3ljQNdA4=
+	t=1783002025; cv=none; b=JaQmaC9S0Egug/6fUL3QBtDKZeBD3ZxdfCbo4yTw/Dsqm6PU2hgcbyeG02o6xgxSaBI4Zxx/L2a8AHODAhQ3np5eZ+7AcdE67Af1OdEQ8nu02/wXA3mfJrUcz3qCy+zIzV7P7U9oDw2myMs63YGQ2ayiiBFT/5NemkeBkudZfW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783001810; c=relaxed/simple;
-	bh=BMNaohWnQQE3GUJu1xKZgGxifcOf8Us5+ymgGbhFLCY=;
+	s=arc-20240116; t=1783002025; c=relaxed/simple;
+	bh=mt+L05S5JLKmuJLOFFQAqaGE3EHY+fJpRtH6u+jPDYs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CogNPrqzffeyPM8KO/CUIhMNrQTLgjQwWhFgUE1ybyvvqc5M93jguDIJA9A/Onz+ENzs3gBLkoHgagF+5O/0aPkQZX7p0lHIxIwa4eoSvNCXGAaF4Dv8RRdx9IT7QsiWvfxUznaa5nFKc8XUXh5OF9pRLjfSxDAzZcH9Paw8jBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nBuFO4OK; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=TwbZPsWXK5S+lBpgdJYEEQtlO3mC3a1xmZ5qlA2Exl0JgVnc/HtQfL0FFEz8kFx3lVjxBkrs6KdMeMgGNyw8ouUjywidfAl1FCbJYxQ4C+6tGVpRQIW1+5R1nQUo6UYxRizIbNjuhXbjn8pq0dQe9UdmOEli3Z+mgsSea432H9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FT7Vfp8S; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=cgVHm+bz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FT7Vfp8S; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=cgVHm+bz; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nBuFO4OK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B77881F00A3A;
-	Thu,  2 Jul 2026 14:16:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783001804;
-	bh=vcXV/OFRF3o5nc90hy/rNYztoQp19dfE8boUb7skCPA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nBuFO4OKuZkx4g9lHIILMu0GcvZdBu9Hnc71+r10+sQ+KcL0n3xj7kUQucOnqcAk3
-	 AkoJXlYf1oNjG50cQd8gf2TOHQhPraHIQjZt480Xg/htWdV6q91LBwFijLRn3TQOuu
-	 DUzRy0MHOPnAYLdnUDmlOOE6s8dMsOCBWennldGjml9Hl6vq1cQQi9Nbr1EERzrjN/
-	 Lkc41jqy6VqEbMgqwe1omDOJT4iOl7aycvqDHrKI8KUC4jXNXsDmIx9h9ZJsJesofT
-	 OviVXSDvnQJkEiSWSZwtp7bcBRhTwnjivbJlK0EsZWjLSEUjELxUeBndnhMBbTL5bE
-	 /U9iv5KrQkB8g==
-Date: Thu, 2 Jul 2026 15:16:20 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Lance Yang <lance.yang@linux.dev>
-Cc: akpm@linux-foundation.org, tsbogend@alpha.franken.de, 
-	maddy@linux.ibm.com, mpe@ellerman.id.au, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
-	l.stach@pengutronix.de, inki.dae@samsung.com, sw0312.kim@samsung.com, 
-	kyungmin.park@samsung.com, krzk@kernel.org, peter.griffin@linaro.org, 
-	jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com, 
-	tursulin@ursulin.net, robin.clark@oss.qualcomm.com, lumag@kernel.org, lyude@redhat.com, 
-	dakr@kernel.org, tomi.valkeinen@ideasonboard.com, hjc@rock-chips.com, 
-	heiko@sntech.de, andy.yan@rock-chips.com, thierry.reding@kernel.org, 
-	mperttunen@nvidia.com, jonathanh@nvidia.com, kraxel@redhat.com, 
-	dmitry.osipenko@collabora.com, zack.rusin@broadcom.com, matthew.brost@intel.com, 
-	thomas.hellstrom@linux.intel.com, oleksandr_andrushchenko@epam.com, deller@gmx.de, bcrl@kvack.org, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, muchun.song@linux.dev, osalvador@suse.de, 
-	david@kernel.org, ziy@nvidia.com, baolin.wang@linux.alibaba.com, 
-	liam@infradead.org, npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, 
-	baohua@kernel.org, hughd@google.com, vbabka@kernel.org, rppt@kernel.org, 
-	surenb@google.com, mhocko@suse.com, jannh@google.com, pfalcato@suse.de, 
-	kees@kernel.org, perex@perex.cz, tiwai@suse.com, linux-mips@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
-	etnaviv@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
-	linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, 
-	intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org, linux-fbdev@vger.kernel.org, 
-	linux-aio@kvack.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 02/13] mm/vma: update do_mmap() to use vma_flags_t
-Message-ID: <akZwsS-_cywsXSjL@lucifer>
-References: <e0ac58ad2b88ff7e2f0024e3286b2e786f79ca32.1782760670.git.ljs@kernel.org>
- <20260702111531.64883-1-lance.yang@linux.dev>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FT7Vfp8S";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="cgVHm+bz";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FT7Vfp8S";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="cgVHm+bz"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 741BE75C4E;
+	Thu,  2 Jul 2026 14:20:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1783002020; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7dFz1fanEiEEoSTVnHgME6YSZpardQHma3X74n6XE9E=;
+	b=FT7Vfp8ScjCPqdWZkZhjbFlK/NvgkfzdT1LJQ8WKOcaUV17CSGOEwkubw3Nuc/i0fgBJO+
+	3HgXkThC/7XAngFbQTaMoOULYRIkMYMnqwdWGB/8zm98in9rDFavrRJDrtdYSfoydCib6Q
+	JKyk24CDpmg2/tLOIQ+GrEJ9/W6aULc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1783002020;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7dFz1fanEiEEoSTVnHgME6YSZpardQHma3X74n6XE9E=;
+	b=cgVHm+bzJqPbUfDvktkGZA2Y3OkwzfMKFEwQR6AWUdikgw/1rP/q396btLy0G63wsLicqc
+	xipBXx1LEFGehEBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1783002020; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7dFz1fanEiEEoSTVnHgME6YSZpardQHma3X74n6XE9E=;
+	b=FT7Vfp8ScjCPqdWZkZhjbFlK/NvgkfzdT1LJQ8WKOcaUV17CSGOEwkubw3Nuc/i0fgBJO+
+	3HgXkThC/7XAngFbQTaMoOULYRIkMYMnqwdWGB/8zm98in9rDFavrRJDrtdYSfoydCib6Q
+	JKyk24CDpmg2/tLOIQ+GrEJ9/W6aULc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1783002020;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7dFz1fanEiEEoSTVnHgME6YSZpardQHma3X74n6XE9E=;
+	b=cgVHm+bzJqPbUfDvktkGZA2Y3OkwzfMKFEwQR6AWUdikgw/1rP/q396btLy0G63wsLicqc
+	xipBXx1LEFGehEBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 54247779AA;
+	Thu,  2 Jul 2026 14:20:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id KluHFKRzRmpLKAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 02 Jul 2026 14:20:20 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id C255CA0AE1; Thu, 02 Jul 2026 16:20:19 +0200 (CEST)
+Date: Thu, 2 Jul 2026 16:20:19 +0200
+From: Jan Kara <jack@suse.cz>
+To: Zhang Yi <yizhang089@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Zhang Yi <yi.zhang@huaweicloud.com>, 
+	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	tytso@mit.edu, adilger.kernel@dilger.ca, libaokun@linux.alibaba.com, 
+	ojaswin@linux.ibm.com, ritesh.list@gmail.com, djwong@kernel.org, hch@infradead.org, 
+	yi.zhang@huawei.com, yangerkun@huawei.com, yukuai@fnnas.com
+Subject: Re: [PATCH v4 18/23] ext4: wait for ordered I/O in the iomap
+ buffered I/O path
+Message-ID: <c6zpjk3gml5lj72cagu7sncswqeea2e3h7gc2ie5qnwwe6qdft@6qoaz7zccmem>
+References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
+ <20260511072344.191271-19-yi.zhang@huaweicloud.com>
+ <k3w5c3cyg2py4kums7nhdwjg6b6pm43qtweepuolk57xtmnotz@yxkm2k6sqfc6>
+ <9ab9281d-c5dc-4183-8bc9-b53b5a4ac9c0@gmail.com>
+ <3n6ge2tfe4bd65eicc7l2csxkzupcjtdtc4ojpl6bvtf7cwll6@sxmlt3uciw4c>
+ <8999aa70-073c-47f9-ae6e-39af3cc1fe32@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -67,136 +96,182 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260702111531.64883-1-lance.yang@linux.dev>
+In-Reply-To: <8999aa70-073c-47f9-ae6e-39af3cc1fe32@gmail.com>
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,huaweicloud.com,vger.kernel.org,mit.edu,dilger.ca,linux.alibaba.com,linux.ibm.com,gmail.com,kernel.org,infradead.org,huawei.com,fnnas.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[huawei.com:email,suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
+X-Spam-Level: 
 
-On Thu, Jul 02, 2026 at 07:15:31PM +0800, Lance Yang wrote:
->
-> On Mon, Jun 29, 2026 at 08:25:25PM +0100, Lorenzo Stoakes wrote:
-> >The core do_mmap() function accepts a vm_flags_t parameter which it then
-> >manipulates before passing to mmap_region() to do the heavy lifting of the
-> >memory mapping.
-> >
-> >Update do_mmap() to instead accept a vma_flags_t parameter, and adjust all
-> >the logic within do_mmap() to manipulate this instead.
-> >
-> >This is as part of the ongoing effort to convert VMA flags from a system
-> >word size to a bitmap type which allows us to unrestrict the number of VMA
-> >flags, as well as gain control over how VMA flag manipulation occurs.
-> >
-> >We do not cascade these changes to all functions which accept vm_flags_t,
-> >but rather use vma_flags_to_legacy() where necessary, specifically
-> >deferring converting calc_vm_prot_bits(), calc_vm_flag_bits() and
-> >__get_unmapped_area() to vma_flags_t.
-> >
-> >Also utilise the new vma_flags_can_grow() predicate which correctly handles
-> >the case of architectures without upward growing stacks.
-> >
-> >As part of this change, introduce VMA_SHADOW_STACK so we can correctly
-> >handle the case of the shadow stack not being defined.
-> >
-> >No functional change intended.
-> >
-> >Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
-> >---
->
-> Not exactly a small one :) I stared at this patch for a while, hopefully
-> don't miss anythig ...
+On Tue 30-06-26 20:06:55, Zhang Yi wrote:
+> On 6/25/2026 5:42 PM, Jan Kara wrote:
+> > On Mon 22-06-26 11:32:16, Zhang Yi wrote:
+> > > On 6/18/2026 9:48 PM, Jan Kara wrote:
+> > > > On Mon 11-05-26 15:23:38, Zhang Yi wrote:
+> > > > > From: Zhang Yi <yi.zhang@huawei.com>
+> > > > > 
+> > > > > For append writes, wait for ordered I/O to complete before updating
+> > > > > i_disksize. This ensures that zeroed data is flushed to disk before the
+> > > > > metadata update, preventing stale data from being exposed during
+> > > > > unaligned post-EOF append writes.
+> > > > > 
+> > > > > Suggested-by: Jan Kara <jack@suse.cz>
+> > > > > Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+> > > > 
+> > > > Frankly, this all looks too complex to me. Plus your are adding 32-bytes to
+> > > > struct ext4_inode_info which isn't great either. Why don't you just do
+> > > > filemap_fdatawait() for the byte at old i_disksize and be done with it?
+> > > > 
+> > > > I believe we have to simplify this. All this complexity (and thus
+> > > > maintenance burden) across several patches for the corner case of zeroing
+> > > > tail block on extention is in my opinion difficult to justify.
+> > > > 
+> > > > 								Honza
+> > > 
+> > > Hi, Jan!
+> > > 
+> > > Thanks for the review. I understand the concern about complexity and the
+> > > 32-byte increase to ext4_inode_info. I tried using
+> > > filemap_fdatawait_range() as you suggested, but found two issues where
+> > > this solution doesn't work.
+> > > 
+> > > 1. ioend worker deadlock
+> > > 
+> > > Since worker concurrency resources are limited, we cannot wait for
+> > > another ioend worker to complete within one ioend worker with the same
+> > > work_struct. If the worker calls
+> > > filemap_fdatawait_range(byte_at_old_disksize) to wait for the zeroed
+> > > block's folio writeback to complete, it sleeps holding the only worker
+> > > slot. If the folio contains blocks requiring extent conversion, its
+> > > writeback bit is cleared by iomap_finish_ioends() running inside
+> > > another worker -- which can only run after the current worker finishes
+> > > its batch.
+> > > 
+> > > Concretely:
+> > >    - Worker W1 processes ioend A, calls filemap_fdatawait_range() on
+> > >      the old EOF byte, sleeps.
+> > >    - The zeroed data is in ioend B. bio_endio defers it to
+> > >      i_iomap_ioend_list and calls queue_work().
+> > >    - queue_work() on i_iomap_ioend_work is idempotent: it returns false
+> > >      because the work is currently executing (even though sleeping).
+> > >    - ioend B sits in the list, never gets processed.
+> > >    - The folio writeback bit is only cleared by processing ioend B.
+> > >    - W1 sleeps forever -> deadlock.
+> > 
+> > Yes, good point. We cannot wait for folio writeback completion from end_io
+> > processing for another folio.
+> > 
+> > > Therefore, I think we have to put the wakeup logic in
+> > > ext4_iomap_end_bio() that runs in interrupt context without consuming
+> > > a worker thread. The ordered range tracking and wait queue are what
+> > > make that possible.
+> > > 
+> > > 2. Truncate-up needs an accurate state query
+> > > 
+> > > In the follow-up patch 19, ext4_set_inode_size() must make a precise
+> > > decision when updating i_disksize during truncate up.
+> > > 
+> > > This needs a state query: "is there ordered zero I/O in flight right
+> > > now?" If yes, the i_disksize update is deferred to
+> > > ext4_iomap_wb_update_disksize(is_ordered=true), which advances
+> > > i_disksize to i_size when the ordered I/O completes. If no, we must
+> > > advance i_disksize immediately, otherwise we will lose the updating
+> > > forever.
+> > > 
+> > > Therefore, we need to track the state of the ordered range. Simply
+> > > using filemap_fdatawait_range() doesn't work. i_ordered_len serves as
+> > > a maintained state flag that both the ioend completion path and the
+> > > setattr path can read atomically without sleeping.
+> > > 
+> > > Suggestions?
+> > 
+> > I see. Thanks for explanation. I went back to our discussion back from
+> > February to remind myself about the constraints on the tail block zeroing
+> > and the i_disksize update mechanism. And in the light of complexity of the
+> > current mechanism, I think we've discarded the following possibility too
+> > easily:
+> > 
+> > * On file extend / truncate up just zero tail folio in the page cache, mark
+> >    it dirty, keep i_disksize at old value, update i_size to the new value,
+> >    add inode to orphan list.
+> >    If the i_disksize was block aligned (and so we skip zeroing), we just
+> >    update i_disksize rightaway.
+> > 
+> > * In io end processing if the folio for which we end io has a block which
+> >    straddles i_disksize, we update i_disksize to current i_size. We defer
+> >    removing inode from orphan list e.g. to file close time (doing it from
+> >    end_io processing is problematic locking wise as we need i_rwsem for it).
+> > 
+> > This is a very simple scheme with very good performace. It makes sure stale
+> > data in the tail block cannot be seen on disk after a crash.
+> 
+> Hmm, I think this solution has a problem. Since i_disksize is advanced
+> to i_size only when the ioend covering the i_disksize block completes,
+> we must ensure that i_size is updated before the zeroed folio's
+> writeback completes. Otherwise the ioend worker reads the old i_size,
+> advances i_disksize to the old value (a no-op), and i_disksize stays
+> stale forever after i_size is updated.
+> 
+> Currently, neither truncate-up nor file-extend paths guarantee this
+> ordering -- in both, ext4_block_zero_eof() runs before the i_size
+> update.
 
-Yeah sorry maybe I could have broken this down more!
+Good point, that needs to be handled.
 
->
-> Just one tiny nit below. Overall, LGTM, feel free to add:
->
-> Reviewed-by: Lance Yang <lance.yang@linux.dev>
+> For truncate-up and fallocate, we might be able to split
+> ext4_update_inode_size() / ext4_set_inode_size() so that i_size is
+> updated before ext4_block_zero_eof(), and then decide whether to
+> update i_disksize based on whether i_disksize is block-aligned. I'm
+> not yet sure what side effects this reordering would have, but I feel
+> uneasy about this.
+> 
+> The append-write case is hard to solve. We can't know the final i_size
+> before the write completes, so we can't update i_size ahead of
+> ext4_block_zero_eof(). When the zeroed folio is later written back, it's
+> treated as an ordinary overwriting write -- i_disksize is not advanced.
+> And when the subsequent buffered-write data is written back, i_disksize
+> still isn't advanced either. The size update is lost.
 
-Thanks!
+One thing we need to do is to perform i_size updates in append write,
+truncate, etc. under i_data_sem (similarly to i_disksize updates) so that
+we can properly synchronize i_size + i_disksize updates from IO completion
+and these paths.
 
->
-> [...]
-> >diff --git a/mm/mmap.c b/mm/mmap.c
-> >index 46174e706bbe..547352183214 100644
-> >--- a/mm/mmap.c
-> >+++ b/mm/mmap.c
-> [...]
-> >@@ -488,23 +496,27 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
-> > 		 * Check to see if we are violating any seals and update VMA
-> > 		 * flags if necessary to avoid future seal violations.
-> > 		 */
-> >-		err = memfd_check_seals_mmap(file, &vm_flags);
-> >+		err = memfd_check_seals_mmap(file, &vma_flags);
-> > 		if (err)
-> > 			return (unsigned long)err;
-> > 	} else {
-> > 		switch (flags & MAP_TYPE) {
-> > 		case MAP_SHARED:
-> >-			if (vm_flags & (VM_GROWSDOWN|VM_GROWSUP))
-> >+			if (vma_flags_can_grow(&vma_flags))
-> > 				return -EINVAL;
-> > 			/*
-> > 			 * Ignore pgoff.
-> > 			 */
-> > 			pgoff = 0;
-> >-			vm_flags |= VM_SHARED | VM_MAYSHARE;
-> >+			vma_flags_set(&vma_flags, VMA_SHARED_BIT, VMA_MAYSHARE_BIT);
-> > 			break;
-> >-		case MAP_DROPPABLE:
-> >-			if (VM_DROPPABLE == VM_NONE)
-> >+		case MAP_DROPPABLE: {
-> >+			vma_flags_t droppable = VMA_DROPPABLE;
-> >+
-> >+			if (vma_flags_empty(&droppable))
-> > 				return -EOPNOTSUPP;
-> >+			vma_flags_set_mask(&vma_flags, droppable);
-> >+
-> > 			/*
-> > 			 * A locked or stack area makes no sense to be droppable.
-> > 			 *
-> >@@ -515,23 +527,24 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
-> > 			 */
-> > 			if (flags & (MAP_LOCKED | MAP_HUGETLB))
-> > 			        return -EINVAL;
-> >-			if (vm_flags & (VM_GROWSDOWN | VM_GROWSUP))
-> >+			if (vma_flags_can_grow(&vma_flags))
-> > 			        return -EINVAL;
-> >
-> >-			vm_flags |= VM_DROPPABLE;
->
-> Old code checked VM_GROWSDOWN|VM_GROWSUP before seting VM_DROPPABLE. New
-> code flips that around. Hmm, shouldn't master, just made me look twice ;)
->
-> Maybe keep old order?
+How we could then handle the races between writeback of folio straddling
+i_disksize and the i_size updates from the i_size extending paths is that
+we'd set EXT4_STATE_DISKSIZE_GROW_PENDING bit when zeroing the folio
+straddling i_disksize and clear this (under i_data_sem) in IO completion
+when updating i_disksize to i_size. And when setting new i_size after
+append write, truncate up, etc. we will also update i_disksize when this
+state bit is not set (again all happening under i_data_sem). This should
+also automatically include the case where i_disksize was block aligned and
+thus no zeroing was needed and we need to update i_disksize together with
+i_size. Sounds good?
 
-I guess I feared that defining droppable above then referencing it below would
-be less clear?
-
-Can move if you feel strongly about it, and sorry for making the move at the
-same time as the general vm_flags_t -> vma_flags_t refactor as it does make that
-less clear...
-
->
-> Cheers, Lance
->
-> >-
-> > 			/*
-> > 			 * If the pages can be dropped, then it doesn't make
-> > 			 * sense to reserve them.
-> > 			 */
-> >-			vm_flags |= VM_NORESERVE;
-> >+			vma_flags_set(&vma_flags, VMA_NORESERVE_BIT);
-> >
-> > 			/*
-> > 			 * Likewise, they're volatile enough that they
-> > 			 * shouldn't survive forks or coredumps.
-> > 			 */
-> >-			vm_flags |= VM_WIPEONFORK | VM_DONTDUMP;
-> >+			vma_flags_set(&vma_flags, VMA_WIPEONFORK_BIT,
-> >+				      VMA_DONTDUMP_BIT);
-> >+
-> > 			fallthrough;
-> >+		}
-> > 		case MAP_PRIVATE:
-> > 			/*
-> > 			 * Set pgoff according to addr for anon_vma.
-> [...]
-
-Thanks, Lorenzo
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
