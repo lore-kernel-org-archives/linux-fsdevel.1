@@ -1,135 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CAC23C7DE1;
-	Thu,  2 Jul 2026 10:27:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB6335CB9C
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 10:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782988046; cv=none; b=P6XtIgAhbTZWuIueKxznd11ZBxPUp1j7ITyVWtyrREHVlEVzwXWaaFj5BnNSToWy0pWAXOpUGGbUyIVaOs4QMT6PZJc88ydaBWTjO/Un3IK/MAhZblvhij6YIvRGTkbaVhRYUqQYhUxixexHrkdu3kQ533ufnudbcwYRHoUuODs=
+	t=1782988058; cv=none; b=iMLtNbMZ45CHO6t9SzpfFvEYeiUMHPW0UoXA6w/tCPIU38kzsHw79F73Bc79u2eweJ0Z4TL2+M/7LUPPXv1kqZEDbx3Zv22jOdhBcn64CehJuUUnNHzhh7f3GJ9b7Z8W41b3i8ZR+TeTdFE6x28K3GvDIX5uH/8nEHUJXjkfqME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782988046; c=relaxed/simple;
-	bh=YvEOBLItkrqvAbCfU/vVsQkLk5Y7FT8BXnXQDbsF9EM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cLOOeKb1fiemComVLRk8PNKVOdgTWgDw11IJHq5VuGBTlR8HUsmcdDC3lymH32sow3FlpmOyvRE17YoqcFeBNOiakaOS7cl2jXHshjVq2yB8t02L1Hx5PY7pC6LljTogVOCvJh64mckx0l6+frdIt7rvpW1lP50KHQZGJDBTnmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oX9rZXvU; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782988058; c=relaxed/simple;
+	bh=LTyWv+EqnRpzWRiHN8BmIY8YeqMQ/7r2SQDlQYpP7tw=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=XhCyCx8BNwoFrICRzXPuah+WLz7MXbibEq+qmab9gN3feiLF0Es06oGnoDZkGYnMfvGJRngfoJ5qlaJ4b+plT3KlOrxn1vItcm8gT3qzKP5YKxSCIlD/ZH2j3QzPHATUcdklO70n4/3wsX+vdsUvXLO34VFJ6bhzKLvKVZcO2wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=YWLyoAby; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ib5c1KZL; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oX9rZXvU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4C731F000E9;
-	Thu,  2 Jul 2026 10:27:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782988045;
-	bh=t5DySkcPpG4n3I/KnPOM5e5iyA34NMFERIywYZbfhLQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=oX9rZXvUdGzGPlvLRGdF4+qalNgkcw4N+5930je5DTtsBnUxL1RDuFTrz1aIYLdzw
-	 cHbgubUCWtBkefvOx3mvzS558YSs2+DzDdLXZywGYGtvSQgTJ6WzLuut6sBT+3/VuE
-	 /080GgovCJqrVFbu1GQYdDaqLe4sD4tMzpnXoPlX4Sf2qalLx1JMm0uZN7wllyuWol
-	 AiMBLJ36LN5E1Z7Sp4hq3lSTSKdCtj8UkquuKtPwSUikoW3+W88+Z8CKEB2m8FVGVK
-	 Jidv/Amdkm6eyHQcWjkUfeHT+vOXNVPA2qqSTOaUAyrhfMZtwhW9DP01PjceEAMTrk
-	 W8J/Vrgil4BUw==
-Message-ID: <7d2ba1b4-6199-406e-88ae-fb5c9fad4689@kernel.org>
-Date: Thu, 2 Jul 2026 12:27:17 +0200
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="YWLyoAby";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ib5c1KZL"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id D7659EC024A;
+	Thu,  2 Jul 2026 06:27:35 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Thu, 02 Jul 2026 06:27:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
+	1782988055; x=1783074455; bh=Wbhh7YmTxsvtssy2kpO2Y82zS07yzWzoQIU
+	g3qqyk2I=; b=YWLyoAby8v2Jo4wMj5tIAc1WwWe7PFhmdOZg7uJELwx22eL5/IH
+	u1B2+UIf9D7j04kZVMEoBAnfNi2PX35BryvD+uebtbsA1SG5KPYwNB4vpYwKdSAh
+	nEC3iOXT8wJydX3jIb75feOqBu0UbSBHgW1Li0SUg48rpBK/xiXy/gUhw0TqGr/d
+	1W5mv27RmpviIuufGWhBMqK5tJxlma/UIM+ZkWxxWTb2wqgV85OSyyPFVOUo5f31
+	JYqj5V3o/F2leEIXwv9iKyDne25y6kOP9iRVJsA0J7gKSCqTc98x9hyJSzoy7N6Z
+	mdteqWHffWZygaPJErB9lcozezu7M3d77cA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1782988055; x=
+	1783074455; bh=Wbhh7YmTxsvtssy2kpO2Y82zS07yzWzoQIUg3qqyk2I=; b=i
+	b5c1KZL9+5vcr2qECEIiy+Jsfk7dKc9xi98E9TdoO4Xot88SiEEZLbRienYDO1b2
+	MQsD6w76imy/9tjff636KepzE/Of8giEN9Lg+J9mC6XzMw+q4/rCXZfl3wklIliu
+	Eg5iRhKeRtUXASIeEZI9giVZmDd3BhBcFI2BbnMvCUpz/7hWJ1Lbmz7UCl7K4lSR
+	6UDJcGaU6q9bpDZyLzCXc6RN+u9YktBvdPm1Q8GAXRqbGNNNFy4SXI7PIFSqTuWn
+	Px2BlwAVXhhQ+kToRfBCTG1D4MVK/G4AdkTbGG907nQaLTrb5r9f36rzaSNtVhbA
+	Bdb6eWJ6BMBZgVc7GplqQ==
+X-ME-Sender: <xms:Fz1GamdmjPFG3d5SDVj3pxgInvKce4vAAq7CysAa_YDPoUc8XXTTDw>
+    <xme:Fz1GauAx3I5qVOGai5Bn2NpW6DkCmSl8Lkb96AHozY9XckyyPO2rPzJyerKu0Xibc
+    vfcwDw1l_iUz4Wc-X-jMDIgQH1Z1aATtuT-UK0b7jsfX7jL2w>
+X-ME-Received: <xmr:Fz1Gah-yUZDmjkeONwWBlERjfpuib9ZJ-jKQlY3Mju729dTYn4BEKxDH6bRsZvbiQpiGbKfvpYvCA2eI2Uf5zx9HMwwVMGQ>
+X-ME-Proxy-Cause: dmFkZTEHbsi0GF6dHfYQiH7gLI69I4DgvEAd5EV+JduwXbkX9II4iPP+98fm2DA+yHG6Xc
+    cy8npjXwPUVc60+X8RoIpAHhNKgBxcHYvd/NHx+nHbWQz0nIZG7/BMzW5fz2bh0qz53Yb/
+    LoF7wtlT6peNO+G3x+Yjpi/2NEuGVNJOKTTgjGf1rM6kfUifGPCB51KULQxDTCGRLIlXFR
+    8BP3r5WjgEpo8LEJRT88nB54caWg7yqKiFNQXnxKAlumWFuFlsRavstwK9Z/reCBaLQ9e/
+    VkrPeMZ7vXMUvGNwC0nRDjNDOoDVYYti4oazA0q0kSF48SE+Elbh0lDiu2v/gpzlxfNJXe
+    Wd9n8WTWSSkL0d86kZEL34ttTVLs/TGBZ/xpn39GejwqiSoKvZSlbAx6x4u7h9O3W3grj7
+    p2hlaDopKmdQ9ijv+w6u9Fn5vj1nSIAr//BKWbleXOKVpkJzto8l2i5o3pcuPP38xgemkz
+    yb3kIxZN4bJyQsGYfPCfE4YD1YTBBkL9xRtvh9CaiKHvTVWyDGpHS8gcrBOa8EGMYLT6p4
+    2cKZEurDBOHLwMR/fJXsB4Cc77sQa8Dptdiuya7JBpvxysT0vqdvACchV5vVl35kIE6k3P
+    jBFcT+/9Wuor5xrgGnokOX7f0iwCt9Zt4/yN5eNF/2iCdRCWTBS//jx8GSGg
+X-ME-Proxy: <xmx:Fz1GahL_-j3OijziQ6qOzHqbqqXt9wt6nDVjb6cqemWDWcWpm5KR0w>
+    <xmx:Fz1Gaijaiy1kJiB1OsrF8IpLH4jHNZB6gdDa1exB6f7QapRcKiPXRg>
+    <xmx:Fz1Gap65mPK8WU_q7kihyqBGuMQQI3R41b6mPGTPKHc2lZYK9bR30w>
+    <xmx:Fz1GaiaPhUaF5q1K3alBTB3bpeMiBUbXwpu-XzhzUWIcpe06RE2DpA>
+    <xmx:Fz1GaiE1T92wb9d5-mwrdSjHYJqPdukjzDXa1gvcoxwkh0D8yQgSelrf>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 2 Jul 2026 06:27:34 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-To: Christian Brauner <brauner@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Jens Axboe <axboe@kernel.dk>, David Hildenbrand <david@kernel.org>,
- Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: NeilBrown <neilb@ownmail.net>
+To: "David Howells" <dhowells@redhat.com>
+Cc: dhowells@redhat.com, "Marc Dionne" <marc.dionne@auristor.com>,
+ linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/2] afs: use d_time instead of d_fsdata
+In-reply-to: <140096.1782983370@warthog.procyon.org.uk>
+References: <20260702020350.3403907-2-neilb@ownmail.net>
+  <20260702020350.3403907-1-neilb@ownmail.net>
+  <140096.1782983370@warthog.procyon.org.uk>
+Date: Thu, 02 Jul 2026 20:27:31 +1000
+Message-id: <178298805168.27465.937804342736897811@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On 01/07/2026 17:54, Christian Brauner wrote:
-> I remain very confused by our coding assistant contribution guidelines.
-> I'm going to be a bit polemic now but this seriously in good faith.
-> 
-> Why precisely do we require all this detailed information about what
-> specific coding assistant was used?
-> 
-> I find it very irritating that our git history has effectively started
-> to function a bit like a free advertising platform for a bunch of AI
-> companies and their proprietary agents and models.
-> 
-> And it reamins unclear to me what exactly we do get out of this detailed
-> information: Do we want to run statistical analysis on what agent and
-> model is used the most and publish that on LWN at some point?
-> 
-> I acknowledge that my stance is even more radical: imho we would just
-> stop it with any disclosure requirements completely. It's useless imho.
-> We already see that other than core contributors most people don't care
-> and will just not disclose their usage of AI. I think this is entirely
-> pointless and worse it brings in undefined legal status as well. It's
-> not like recent events of pulling certain models from the face of the
-> earth have made this any less concerning.
-> 
-> But fine, if we want to do this can we please just dumb it down to
-> 
-> Assisted-by: LLM
-> 
+On Thu, 02 Jul 2026, David Howells wrote:
+> NeilBrown <neilb@ownmail.net> wrote:
+>=20
+> > afs uses ->d_fsdata to store version information for the parent
+> > directory.  ->d_time is arguably a better field to store this
+> > information as the version is like a time stamp, and ->d_time is an
+> > unsigned long, while ->d_fsdata is a void *.
+>=20
+> Might it be better to rename ->d_time to ->d_version, since that would seem=
+ to
+> be more in line with how it's used?
 
-Yes, I agree. Useful information would be the model or trained data,
-e.g. to judge for any copyright issues, but I doubt anyone will ever
-provide such details.
+Maybe.
+ fuse and kernfs store an incrementing version number, like afs
+ cifs and vboxsf store jiffies
+ nfs stores whatever the server provides, which might be a counter or
+   might be a timestamp.
 
-I also see little value to keep even the Assisted-by tag in the first
-place. I am interested in seeing named respectable tools in commit msg
-as reasons for doing this commit, e.g. I am fixing warning from Smatch
-so I mention Smatch. Sashiko fits this purpose as well. I have no
-interests to see "Claude" as reason of doing something.
+So d_version is arguably slightly better than d_time.
 
-Best regards,
-Krzysztof
+>=20
+> > Interestingly the value stored in ->d_time or d_fsdata is u64 which does
+> > not fit in "unsigned long" or "void *" on 32 bit hosts.  Maybe that
+> > doesn't matter.
+>=20
+> Hmmm...  It looks like NFS may have a bug here:
+>=20
+> static int nfs_dentry_verify_change(struct inode *dir, struct dentry *dentr=
+y)
+> {
+> 	if (nfs_server_capable(dir, NFS_CAP_CASE_INSENSITIVE) &&
+> 	    d_really_is_negative(dentry))
+> 		return dentry->d_time =3D=3D inode_peek_iversion_raw(dir);
+> 	return nfs_verify_change_attribute(dir, dentry->d_time);
+> }
+>=20
+> dentry->d_time may be 32-bits, but inode_peek_iversion_raw() is always 64 b=
+its
+> and i_version is set to the 64-bit fattr->change_attr.
+
+I wonder if there would be any appetite for making d_time (or d_version)
+always 64bit, much like i_ino was recently changed to u64.
+
+NeilBrown
