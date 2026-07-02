@@ -1,123 +1,204 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AAC353A6E;
-	Thu,  2 Jul 2026 15:25:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFAB830D412;
+	Thu,  2 Jul 2026 15:28:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783005902; cv=none; b=Qd4kOVxePvxrcYJLOsUCq9/HomTZoky5sSi9wy3i9phrqoATOoao/niSELzLkpNOaEe+5BLRp5ahi46Z34pOCHuMBsdyznLa6DAGy7e/VmUxrSKtgVnOTmwFRZLeNufoB22Qy6hIk0I3yB2c6Vv+/UUOGbQ8TY9x3Z6otz16F9Q=
+	t=1783006084; cv=none; b=K1k5OSC7dCJFvUD7Yg3i1OX2eT41ykR6lik8CTzO6FbpyAMVlB3n6/Znwv5T0Ls7sADuc/0hb/EOGWLIsXgRP7bKSbzp0WAb5B1GY6ZDQMZWJ9iHhBjHw1rzmBCWXeftkK+Ml9393ryKmuuuGK+JvkmrGSFRpMR0h8RGDPY+jCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783005902; c=relaxed/simple;
-	bh=PdIrpbOgawWvi9UkUjXo0VCjVwbZVIb5PqySnXAuTkg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TN29T6AhXcZuSpKNxIGE7y+2hc8UTp+8t9eaMlyPwfqvnwevA+SaiQmU8F5uJ02ghjtTZl50wS5wI+YgEPevIx++RUIfgOxnfaHZl/bBPR5A9xYvkMVvyviMYBYq5RtUmxa71dYZ8t+gXZ7SvEdxxAFIp2wlCfyq+aiBs3mz4dA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kbG+cL/z; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783006084; c=relaxed/simple;
+	bh=5eUXJ5FDvu3Ukqb7pD4PKCorbNamowsnQTxPJT9wabc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uj0HVuPwZN7o449S6uInUHZgEIpD04FHxlaIdgkVABieKQTJDumSTfijlAeCOM+excLx9zKcUplW7M7/7mZUjl9MUtXG03EK2J63Jh1+OvneG3ox9lKRHstfrGChCWTmxbGswUQjAyiyQNmgR/m0K9Qc3VosNKBaeLuJEB4yih4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=GvZ2tX1Z; arc=none smtp.client-ip=205.220.178.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kbG+cL/z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F0E41F000E9;
-	Thu,  2 Jul 2026 15:24:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783005900;
-	bh=LX3BYrLY2k63JpXB67A/Bjg+Ew5yjhUF+WJZEyA1fRw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kbG+cL/z/Lm6qSE4udnGibaK8FsMK4daZd2R+hoEFAnemIecEE1GgHP0X+YmGanAO
-	 lUy6V/tOsn4eLItop07tyF1+tKZLAB376Z73zBZZR/VxVccPToewSf2zWsClidLb0a
-	 1ba3VdHACF4EGJhQZxBSvTHBcWlMH/zUclnichRT0/C3hk+pIj4TS7GYchozD+ZWNu
-	 evu0CqyUEndELEE8NUvVmpXBep2Kukvvzwrnf2DWGzh4uAWg/PKpNORRO9bOZEjI+M
-	 pMTZGas90E8+KBulzvC/BZdad1hSIx2FR4a50cjXxyZVyxi/oq6E9v6gCdozTTgwHV
-	 VbLDs0NzwuGjg==
-Date: Thu, 2 Jul 2026 16:24:37 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Lance Yang <lance.yang@linux.dev>
-Cc: akpm@linux-foundation.org, tsbogend@alpha.franken.de, 
-	maddy@linux.ibm.com, mpe@ellerman.id.au, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
-	l.stach@pengutronix.de, inki.dae@samsung.com, sw0312.kim@samsung.com, 
-	kyungmin.park@samsung.com, krzk@kernel.org, peter.griffin@linaro.org, 
-	jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com, 
-	tursulin@ursulin.net, robin.clark@oss.qualcomm.com, lumag@kernel.org, lyude@redhat.com, 
-	dakr@kernel.org, tomi.valkeinen@ideasonboard.com, hjc@rock-chips.com, 
-	heiko@sntech.de, andy.yan@rock-chips.com, thierry.reding@kernel.org, 
-	mperttunen@nvidia.com, jonathanh@nvidia.com, kraxel@redhat.com, 
-	dmitry.osipenko@collabora.com, zack.rusin@broadcom.com, matthew.brost@intel.com, 
-	thomas.hellstrom@linux.intel.com, oleksandr_andrushchenko@epam.com, deller@gmx.de, bcrl@kvack.org, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, muchun.song@linux.dev, osalvador@suse.de, 
-	david@kernel.org, ziy@nvidia.com, baolin.wang@linux.alibaba.com, 
-	liam@infradead.org, npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, 
-	baohua@kernel.org, hughd@google.com, vbabka@kernel.org, rppt@kernel.org, 
-	surenb@google.com, mhocko@suse.com, jannh@google.com, pfalcato@suse.de, 
-	kees@kernel.org, perex@perex.cz, tiwai@suse.com, linux-mips@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
-	etnaviv@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
-	linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, 
-	intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org, linux-fbdev@vger.kernel.org, 
-	linux-aio@kvack.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 05/13] mm: prefer mm->def_vma_flags in mm logic
-Message-ID: <akaCFf_SjccZznnP@lucifer>
-References: <3b4ccdc38819b42ddc79ee5a795831208ac7986c.1782760670.git.ljs@kernel.org>
- <20260702121022.49113-1-lance.yang@linux.dev>
+	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="GvZ2tX1Z"
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 662E3xZA1908682;
+	Thu, 2 Jul 2026 15:22:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=/w35vLLNv
+	xBB1Tzw3g6sWcCRoQuPkM2OB3acch05eZI=; b=GvZ2tX1ZLrGO+YzLoPusVKlh2
+	o488vZa2zo109O87KCSY6Obt0Uw8OlmocA32HY9tP2x5/L8mo6cufhFmlKIoS5wj
+	JrXlPnwyeDa9CKJaqQ0vlRQTeD7AlT9Nx+669FtKzVnTmO9STWOo6vznL3uu4VWJ
+	f4eNJAFK5WmiUXcBWi3qr74QKMmcdEra7AMkwTZwj4DSFDU+0MYt2p/XaG/YVGBB
+	VwfYQ8QDVWiFDGZjSvTCeAYZzbmss8Vm1p7VYtovAHzcozIjk85Egk3ixeNK5E70
+	2w38+jC9y3LN9PEneLh8uynHl73i5xcY6NFqtkqsSzgwRFuEY1YonIql4E9Ug==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4f25g5qtd4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 02 Jul 2026 15:22:30 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Thu, 2 Jul 2026 08:22:28 -0700
+Received: from pek-yzhou-d3.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Thu, 2 Jul 2026 08:22:25 -0700
+From: Yun Zhou <yun.zhou@windriver.com>
+To: <tytso@mit.edu>, <adilger.kernel@dilger.ca>, <libaokun@linux.alibaba.com>,
+        <jack@suse.cz>, <ojaswin@linux.ibm.com>, <ritesh.list@gmail.com>,
+        <yi.zhang@huawei.com>, <viro@zeniv.linux.org.uk>, <brauner@kernel.org>
+CC: <linux-ext4@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <yun.zhou@windriver.com>, <linux-fsdevel@vger.kernel.org>
+Subject: [PATCH v13 0/4] ext4: deferred iput framework for EA inodes
+Date: Thu, 2 Jul 2026 23:22:20 +0800
+Message-ID: <20260702152225.4071746-1-yun.zhou@windriver.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260702121022.49113-1-lance.yang@linux.dev>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAyMDE2MSBTYWx0ZWRfX9TpisIS+C7KC
+ iNZV2PG0uOru3Mf2JUtBNUXvJ++z/YwMgW1mUyfyLZO7iGbPh+mEJnfjc3R8LdcGZrt/HIoeHNk
+ nVRaOeMtRLzLiMpmwLmvMiuvHUEdrtUVTU9V8P7++vQ8HIfVmBT7
+X-Proofpoint-ORIG-GUID: 7k874Q40-MdYsgFtOXaXzrZEFMACYoxj
+X-Proofpoint-GUID: 7k874Q40-MdYsgFtOXaXzrZEFMACYoxj
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAyMDE2MSBTYWx0ZWRfXwVNPFBp+LkUj
+ /jxp/MkOLxzV9JX2ToFpXrCEFLTRmUj2HFHprfxLQWR/n8gDxI70g6avoQkIGX6BiU/i9icjPht
+ sJ4ZnjNKz4Q6LSua5RaMRoeMfvOYAmCiARqfI++5pxtYgA7uvBk8En1esmxY+yXj36sQd/6lXK+
+ GqbetPqy3AzC77s5NEGEG5lzCM8MG7sKdSnEjUCOoTv6Ehx+bRfR1Sju0wmU3CIDJPoZqGtbe0i
+ kGYzPjGWoNzTWOIuxRt6E7xiomQuNmreWiU0bliLXGZay17kgHkbNG0bVWAH5P4r+7n+aos0TR8
+ cjbAvgUxE91VHfo3rFaFzYestauaozpT8l7Hm1w4e7/BL3Nkmjk9NKcejVhK0GBYWaeaM/0wc9X
+ n49eaimvXlyqyZsYG6KrNrq+CfaTOtEDUihFzMnqzs5os4bZV9ASEqxITbpo/Kkp4fz35owG3xF
+ CCnIOcz8pezuh8AxSyQ==
+X-Authority-Analysis: v=2.4 cv=TvLWQjXh c=1 sm=1 tr=0 ts=6a468236 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=fTW__CHxibyLmBMfj2wP:22 a=edf1wS77AAAA:8 a=V-Be077b3uO8ztIljxAA:9
+ a=DcSpbTIhAlouE1Uv7lRv:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-07-02_02,2026-06-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 lowpriorityscore=0 spamscore=0 phishscore=0 clxscore=1015
+ priorityscore=1501 bulkscore=0 suspectscore=0 impostorscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607020161
 
-On Thu, Jul 02, 2026 at 08:10:22PM +0800, Lance Yang wrote:
->
-> On Mon, Jun 29, 2026 at 08:25:28PM +0100, Lorenzo Stoakes wrote:
-> >Currently mm->def_flags (of type vm_flags_t) is union'd with
-> >mm->def_vma_flags (of type vma_flags_t).
-> >
-> >As part of the effort to convert vm_flags_t usage to vma_flags_t (in order
-> >to no longer be arbitrarily limited to a system word size for VMA flags),
-> >prefer mm->def_vma_flags to mm->def_flags throughout the mm logic.
-> >
-> >No functional change intended.
-> >
-> >Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
-> >---
-> > mm/debug.c |  2 +-
-> > mm/mlock.c | 13 +++++++------
-> > mm/mmap.c  | 11 ++++++-----
-> > mm/vma.c   |  4 ++--
-> > 4 files changed, 16 insertions(+), 14 deletions(-)
-> >
-> >diff --git a/mm/debug.c b/mm/debug.c
-> >index 497654b36f1a..f0a354a9496a 100644
-> >--- a/mm/debug.c
-> >+++ b/mm/debug.c
-> >@@ -226,7 +226,7 @@ void dump_mm(const struct mm_struct *mm)
-> > 		mm->numa_next_scan, mm->numa_scan_offset, mm->numa_scan_seq,
-> > #endif
-> > 		atomic_read(&mm->tlb_flush_pending),
-> >-		mm->def_flags, &mm->def_flags
-> >+		vma_flags_to_legacy(mm->def_vma_flags), &mm->def_vma_flags
-> > 	);
->
-> While at it, one thing for later: dump_mm() still assumes one-world VMA
-> flags. That works today since vma_flags_t is one word. Maybe worth a
-> BUILD_BUG_ON() here, before that stops being true?
+This series introduces a deferred-iput framework for EA inodes to
+eliminate a class of lock ordering issues in ext4 xattr code.
 
-Ah yeah that could actually be pretty straightforward, if you see
-https://www.kernel.org/doc/Documentation/printk-formats.txt there is a bitmap
-format that could be used.
+The problem: iput() on EA inodes while holding xattr_sem or a jbd2
+handle can trigger eviction, which may acquire those same locks or
+s_writepages_rwsem, creating circular dependencies.  The immediate
+deadlock (during mount-time orphan cleanup) is fixed by two separate
+patches already reviewed and posted:
 
-Can do that on a respin!
+  ext4: skip extra isize expansion during mount to prevent deadlock
+  ext4: set EXT4_STATE_NO_EXPAND in ext4_evict_inode
 
->
-> Not a big deal though. Feel free to add:
->
-> Reviewed-by: Lance Yang <lance.yang@linux.dev>
->
-> > }
-> > EXPORT_SYMBOL(dump_mm);
-> [...]
+This series provides the structural fix that makes the code safe
+regardless of calling context:
 
-Cheers, Lorenzo
+Patch 1 adds a VFS helper iput_if_not_last() which drops an inode
+reference only if it is not the last one, using atomic_add_unless().
+Annotated with __must_check to ensure callers handle the failure case.
+
+Patch 2 introduces ext4_put_ea_inode() using iput_if_not_last() as
+a fast path (single atomic, zero overhead for the common case).  If
+this is the last reference, the inode is linked onto a per-sb llist
+(via i_ea_iput_node embedded in ext4_inode_info, union with xattr_sem
+which is unused for EA inodes) and a delayed worker (1 jiffie) performs
+the final iput() in a clean context.  No per-iput allocation needed.
+Also moves init_rwsem(xattr_sem) from init_once to ext4_alloc_inode
+to handle slab reuse after the union field has been overwritten.
+
+Patch 3 converts all EA inode iput() calls in xattr code to use
+ext4_put_ea_inode() uniformly -- no exceptions to reason about.
+
+Patch 4 removes the now-redundant ea_inode_array mechanism (parameter
+threading, struct, expand/free functions), replaced entirely by direct
+ext4_put_ea_inode() calls.  This is a net code reduction.
+
+The only change since v12 is a minor addition of two VFS_BUG_ON_INODE
+assertions in iput_if_not_last() (patch 1), as suggested by Mateusz
+Guzik.  All existing Reviewed-by tags are retained.  The series has
+been fully reviewed and is ready to be merged.
+
+Link: https://syzkaller.appspot.com/bug?extid=5d19358d7eb30ffb0cc5
+
+v13:
+ - Patch 1: add VFS_BUG_ON_INODE assertions in iput_if_not_last() to
+   catch misuse on inodes in I_FREEING/I_CLEAR state or with zero
+   refcount (suggested by Mateusz Guzik).
+
+v12:
+ - Drop patch 5 (dedup array for corrupted fs duplicate entries).
+ - Simplify ext4_put_ea_inode() to take only an inode argument (sb is
+   derived from inode->i_sb).
+
+v11:
+ - Patch 1: add __must_check annotation to iput_if_not_last().
+ - Patch 2: remove ext4_drain_ea_inode_work() wrapper, use direct
+   flush_delayed_work() at drain points.  Re-arm is not possible
+   because check_igot_inode() in __ext4_iget() already rejects EA
+   inodes with extended attributes, so evicting an EA inode never
+   enters ext4_xattr_delete_inode().  Drop the ext4_evict_inode()
+   guard (was patch 5 in v10) -- it is unnecessary given the above.
+   Remove ext4_xattr_inode_array_free_deferred() intermediate function
+   -- mechanism is introduced without converting any call site.
+ - Patch 2: add comment on ext4_put_ea_inode() documenting why the
+   inode cannot be double-queued to s_ea_inode_to_free (reviewer
+   request).
+ - Patch 2: simplify ext4_ea_inode_work() by removing 'next' variable.
+ - Patch 5: replace per-call llist (i_ea_iput_node reuse) with a simple
+   on-stack ino array + __GFP_NOFAIL dynamic growth.  This eliminates
+   all concurrent access concerns on i_ea_iput_node and avoids the
+   need for EXT4_STATE_EA_DEC_REF or ihold tricks.  Only EA inodes
+   whose nlink drops to 0 are tracked, so legitimate dedup with
+   ref_count > 1 is correctly processed multiple times.
+
+v10:
+ - New patch 5: prevent deadlock from duplicate EA inode references
+   on corrupted filesystems.  Track processed EA inodes on a per-call
+   llist to skip duplicates before iget, and defer ext4_put_ea_inode()
+   until after the loop to avoid queuing an inode for eviction while
+   the same loop may still iget it.
+ - Patch 2: move ext4_init_ea_inode_work() before ext4_multi_mount_protect()
+   so that failed_mount3a drain does not hit an uninitialized delayed_work
+   when MMP check fails.
+
+v9:
+ - Add iput_if_not_last() as proper VFS helper (per reviewer: don't
+   let filesystems manipulate inode refcount without VFS abstraction).
+ - Use iput_if_not_last() + llist_node embedded in ext4_inode_info
+   (union with xattr_sem) to avoid per-iput allocation entirely.
+ - Convert ALL EA inode iput() calls uniformly -- no exceptions.
+ - Remove entire ea_inode_array mechanism.
+ - Add WARN_ON_ONCE in ext4_put_ea_inode() to catch misuse on non-EA
+   inodes (protects the xattr_sem union safety).
+ - Move INIT_DELAYED_WORK before journal loading (fast commit replay
+   may trigger evictions).
+ - Drain before ext4_quotas_off() for correct quota accounting.
+ - Add flush in failed_mount_wq and failed_mount3a error paths for
+   journal replay case.
+ - Move init_rwsem(xattr_sem) from init_once to ext4_alloc_inode to
+   handle slab object reuse after union overwrite.
+ - Encapsulate worker init into ext4_init_ea_inode_work(), making
+   ext4_ea_inode_work() static to xattr.c.
+
+Yun Zhou (4):
+  fs: add iput_if_not_last() helper
+  ext4: introduce ext4_put_ea_inode() for safe deferred iput
+  ext4: convert all EA inode iput() calls to ext4_put_ea_inode()
+  ext4: remove ea_inode_array mechanism in favor of ext4_put_ea_inode()
+
+ fs/ext4/ext4.h     |  13 +++-
+ fs/ext4/inode.c    |   6 +-
+ fs/ext4/super.c    |  18 +++++-
+ fs/ext4/xattr.c    | 154 +++++++++++++++++++++------------------------
+ fs/ext4/xattr.h    |   9 +--
+ include/linux/fs.h |  15 +++++
+ 6 files changed, 119 insertions(+), 96 deletions(-)
+
+-- 
+2.43.0
+
