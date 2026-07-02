@@ -1,157 +1,479 @@
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691D841B354
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 11:30:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60E04189DE;
+	Thu,  2 Jul 2026 11:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782991825; cv=none; b=mzlqYtZQRpFaUlMaTG2O33Fu3YLxxMzQSmQ92lxYxcwRqAhyvmdNIxHgP1PtO4X57V+QcyNfPNMQ5nfRRFS247c6PKP0kIPL3fvbocAVUvQv273sBULvqJXiWaSD6jUTBukWpr2Mz6arBGNRW9/FZKES0CrqdbjjGTLci6i0uts=
+	t=1782991883; cv=none; b=PBj0u+mKWlBWLQhCMZkoJAUx083QEyd4zsFlEGxPeTis1ShibrUoawyZ4VYVB4tWTd6n+KEhzPFlN8ydabRPq4LZQwZ/t3nsY0jp5+HGmdnKZ48g6smCZXxBDigp//TJnd2swDxEPDo+krsQ19QCY3yLcqakZCYc76I7ImfCXiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782991825; c=relaxed/simple;
-	bh=zRRx1dIqBhrlqZMNbjX6tfAPwfuQxRFeez/D1suSqHY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uvfjQBdPhEqN919DyWnC6bFFoNvHeN8Bwz72imHXB/FwIVhZc6OHw/nb5sBhDroh1mMinbrfNRwMlKvydjbMODC9nhgA6FqESGHjGiOVfKs0vhKoVuKypfCTwUzydaUXJCZkIldm8SrEh+E5s/F6Wgo5SJTeKEuEn22vafDzNRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=cU9ghqQX; arc=none smtp.client-ip=113.46.200.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1782991883; c=relaxed/simple;
+	bh=oEqsGD08xxe0Cu5FosBKzGaCg+/FdysJ7yQ46TYIhfw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pPVaQFawKGbR9mu5cYi0IAu0kTZ3KuKj9CIuSBmC/tJxZakwi7jLBbPJcs3TXIDMepKj16Ofv2AhG/ATdr1EQhw3IAs8W/uRVgCbUvLnhuAnQMCGlK7vg9auGAeyu3yAqprLB+vKAvifiyv6HSw4OmkpqAEdgHziZxgkfjURGcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KF5raoni; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="cU9ghqQX"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=c6spe87TeODtMCQYh5DHSqjATPrCJwLTYCaRZNSADXM=;
-	b=cU9ghqQXG0eWjz6aYGqwm5styPynJqhUwB5tQ3jnYN863aM7UvaFr5mnoaZIQNrsshptoLtvo
-	NjELlY5x/f2hS67swVCtz8U80WWthJY4KTMpGL8R6+1yj0cYvglvZTtm03NMkKlMP7fImjTtth3
-	964EwVHIiCmqpKfB/8mm9Ac=
-Received: from mail.maildlp.com (unknown [172.19.163.200])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4grZFS1cZ1zmV7h;
-	Thu,  2 Jul 2026 19:21:00 +0800 (CST)
-Received: from kwepemr500001.china.huawei.com (unknown [7.202.194.229])
-	by mail.maildlp.com (Postfix) with ESMTPS id BE50E4056A;
-	Thu,  2 Jul 2026 19:30:10 +0800 (CST)
-Received: from huawei.com (10.50.85.135) by kwepemr500001.china.huawei.com
- (7.202.194.229) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 2 Jul
- 2026 19:30:10 +0800
-From: Jinjiang Tu <tujinjiang@huawei.com>
-To: <akpm@linux-foundation.org>, <ziy@nvidia.com>, <david@kernel.org>,
-	<luizcap@redhat.com>, <willy@infradead.org>, <linmiaohe@huawei.com>,
-	<svetly.todorov@memverge.com>, <xu.xin16@zte.com.cn>,
-	<chengming.zhou@linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-mm@kvack.org>
-CC: <wangkefeng.wang@huawei.com>, <sunnanyong@huawei.com>,
-	<tujinjiang@huawei.com>
-Subject: [PATCH 1/2] fs: stable_page_flags(): use BIT_ULL() for KPF flags
-Date: Thu, 2 Jul 2026 19:06:13 +0800
-Message-ID: <20260702110614.2176986-2-tujinjiang@huawei.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260702110614.2176986-1-tujinjiang@huawei.com>
-References: <20260702110614.2176986-1-tujinjiang@huawei.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KF5raoni"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57DC61F000E9;
+	Thu,  2 Jul 2026 11:31:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782991881;
+	bh=dwzYYCSTerfam2cyFhh651QlnQHZp+3k2k49hku8SSY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KF5raoniPxVs+VeUV8vJZ742SCHPFlqTXauJ93LdE8Wk4u2oT/RTikIryvzEjoFTM
+	 c+iETtRrKPNLW25+aVFyh+UInETHjtdNJA7RaGGgPjuPfA7mIbbsXSwJcEOhXFB27q
+	 tRapybkQ1EbsGMOGwaRTTqphy/6in3beInqSfoQj1KGxFyzVLjB87vyd4UI8rLuZtm
+	 B15PeA2wTphKmPXgyQ22V97dpT12OorTrt8nJcQxc2aZ1U7R0lFfri1r2w7gw73NE4
+	 V8r067lErBLwwsU5agFpHddFROV4sLr7eRYllW0m1kbIinebUf8sVbUlC34ZWLlWDU
+	 kbjN+G14+uopw==
+Date: Thu, 2 Jul 2026 12:30:59 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>, 
+	Simon Schuster <schuster.simon@siemens-energy.com>, 
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Ian Abbott <abbotti@mev.co.uk>, 
+	H Hartley Sweeten <hsweeten@visionengravers.com>, Lucas Stach <l.stach@pengutronix.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Thierry Reding <thierry.reding@kernel.org>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>, 
+	Alex Williamson <alex@shazbot.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Dan Williams <djbw@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	"Liam R . Howlett" <liam@infradead.org>, Matthew Wilcox <willy@infradead.org>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
+	Hugh Dickins <hughd@google.com>, Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org, linux-sgx@vger.kernel.org, 
+	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-mm@kvack.org, 
+	iommu@lists.linux.dev, linux-perf-users@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, damon@lists.linux.dev, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>
+Subject: Re: [PATCH 17/30] mm: prefer vma_[start,end]_pgoff() to
+ vma->vm_pgoff in kernel/
+Message-ID: <akZGqclqQ6gS12Vv@lucifer>
+References: <cover.1782735110.git.ljs@kernel.org>
+ <ea87349d63205bf4c26ea79854f179a9bf8cfb0b.1782735110.git.ljs@kernel.org>
+ <akZCg73F-oGzDp1a@pedro-suse.lan>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemr500001.china.huawei.com (7.202.194.229)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <akZCg73F-oGzDp1a@pedro-suse.lan>
 
-The stable_page_flags() function currently sets page flag bits using
-"1 << KPF_xxx" for various KPF_* definitions. KPF_* may be larger than 32,
-which will trigger -Wshift-count-overflow warning. All KPF_* values
-currently used in "1 << KPF_xxx" are smaller than 33, so no warning is
-triggered with current code. However, the later patch will cleanup
-stable_page_flags() and "1 << KPF_xxx" will be used for KPF_* values larger
-than 32, such as KPF_MLOCKED.
+On Thu, Jul 02, 2026 at 12:01:37PM +0100, Pedro Falcato wrote:
+> On Mon, Jun 29, 2026 at 01:23:28PM +0100, Lorenzo Stoakes wrote:
+> > Be consistent in using vma_start_pgoff() and vma_end_pgoff(), which clearly
+> > indicates which part of the VMA the page offset refers to and aids
+> > greppability.
+> >
+> > This is part of a broader series laying the ground to provide a virtual
+> > page offset for MAP_PRIVATE-file backed anon folios.
+> >
+> > No functional change intended.
+> >
+> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+> > ---
+> >  kernel/dma/coherent.c      |  7 ++++---
+> >  kernel/dma/direct.c        |  6 ++++--
+> >  kernel/dma/mapping.c       |  8 +++++---
+> >  kernel/dma/ops_helpers.c   |  4 ++--
+> >  kernel/events/core.c       | 20 +++++++++++---------
+> >  kernel/events/uprobes.c    | 11 +++++++----
+> >  kernel/kcov.c              |  2 +-
+> >  kernel/trace/ring_buffer.c |  3 ++-
+> >  8 files changed, 36 insertions(+), 25 deletions(-)
+> >
+> > diff --git a/kernel/dma/coherent.c b/kernel/dma/coherent.c
+> > index bcdc0f76d2e8..2d3195eb7e83 100644
+> > --- a/kernel/dma/coherent.c
+> > +++ b/kernel/dma/coherent.c
+> > @@ -236,14 +236,15 @@ static int __dma_mmap_from_coherent(struct dma_coherent_mem *mem,
+> >  {
+> >  	if (mem && vaddr >= mem->virt_base && vaddr + size <=
+> >  		   (mem->virt_base + ((dma_addr_t)mem->size << PAGE_SHIFT))) {
+> > -		unsigned long off = vma->vm_pgoff;
+> > +		const pgoff_t pgoff_start = vma_start_pgoff(vma);
+> > +		const pgoff_t pgoff_end = vma_end_pgoff(vma);
+> >  		int start = (vaddr - mem->virt_base) >> PAGE_SHIFT;
+> >  		unsigned long user_count = vma_pages(vma);
+> >  		int count = PAGE_ALIGN(size) >> PAGE_SHIFT;
+> >
+> >  		*ret = -ENXIO;
+> > -		if (off < count && user_count <= count - off) {
+> > -			unsigned long pfn = mem->pfn_base + start + off;
+> > +		if (pgoff_start < count && pgoff_end <= count) {
+> > +			unsigned long pfn = mem->pfn_base + start + pgoff_start;
+> >  			*ret = remap_pfn_range(vma, vma->vm_start, pfn,
+> >  					       user_count << PAGE_SHIFT,
+> >  					       vma->vm_page_prot);
+> > diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+> > index 4391b797d4db..436310d6e4a2 100644
+> > --- a/kernel/dma/direct.c
+> > +++ b/kernel/dma/direct.c
+> > @@ -534,6 +534,8 @@ int dma_direct_mmap(struct device *dev, struct vm_area_struct *vma,
+> >  	unsigned long user_count = vma_pages(vma);
+> >  	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
+> >  	unsigned long pfn = PHYS_PFN(dma_to_phys(dev, dma_addr));
+> > +	const pgoff_t pgoff_start = vma_start_pgoff(vma);
+> > +	const pgoff_t pgoff_end = vma_end_pgoff(vma);
+> >  	int ret = -ENXIO;
+> >
+> >  	vma->vm_page_prot = dma_pgprot(dev, vma->vm_page_prot, attrs);
+> > @@ -545,9 +547,9 @@ int dma_direct_mmap(struct device *dev, struct vm_area_struct *vma,
+> >  	if (dma_mmap_from_global_coherent(vma, cpu_addr, size, &ret))
+> >  		return ret;
+> >
+> > -	if (vma->vm_pgoff >= count || user_count > count - vma->vm_pgoff)
+> > +	if (pgoff_start >= count || pgoff_end > count)
+> >  		return -ENXIO;
+> > -	return remap_pfn_range(vma, vma->vm_start, pfn + vma->vm_pgoff,
+> > +	return remap_pfn_range(vma, vma->vm_start, pfn + pgoff_start,
+> >  			user_count << PAGE_SHIFT, vma->vm_page_prot);
+> >  }
+> >
+> > diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+> > index 4fe04669e5e6..c986639044e9 100644
+> > --- a/kernel/dma/mapping.c
+> > +++ b/kernel/dma/mapping.c
+> > @@ -761,12 +761,14 @@ EXPORT_SYMBOL_GPL(dma_free_pages);
+> >  int dma_mmap_pages(struct device *dev, struct vm_area_struct *vma,
+> >  		size_t size, struct page *page)
+> >  {
+> > -	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
+> > +	const pgoff_t pgoff_start = vma_start_pgoff(vma);
+> > +	const pgoff_t pgoff_end = vma_end_pgoff(vma);
+> > +	const unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
+> >
+> > -	if (vma->vm_pgoff >= count || vma_pages(vma) > count - vma->vm_pgoff)
+> > +	if (pgoff_start >= count || pgoff_end > count)
+> >  		return -ENXIO;
+> >  	return remap_pfn_range(vma, vma->vm_start,
+> > -			       page_to_pfn(page) + vma->vm_pgoff,
+> > +			       page_to_pfn(page) + pgoff_start,
+> >  			       vma_pages(vma) << PAGE_SHIFT, vma->vm_page_prot);
+> >  }
+> >  EXPORT_SYMBOL_GPL(dma_mmap_pages);
+> > diff --git a/kernel/dma/ops_helpers.c b/kernel/dma/ops_helpers.c
+> > index 20caf9cabf69..6b5f9208d31c 100644
+> > --- a/kernel/dma/ops_helpers.c
+> > +++ b/kernel/dma/ops_helpers.c
+> > @@ -39,7 +39,7 @@ int dma_common_mmap(struct device *dev, struct vm_area_struct *vma,
+> >  #ifdef CONFIG_MMU
+> >  	unsigned long user_count = vma_pages(vma);
+> >  	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
+> > -	unsigned long off = vma->vm_pgoff;
+> > +	unsigned long off = vma_start_pgoff(vma);
+> >  	struct page *page = dma_common_vaddr_to_page(cpu_addr);
+> >  	int ret = -ENXIO;
+> >
+> > @@ -52,7 +52,7 @@ int dma_common_mmap(struct device *dev, struct vm_area_struct *vma,
+> >  		return -ENXIO;
+> >
+> >  	return remap_pfn_range(vma, vma->vm_start,
+> > -			page_to_pfn(page) + vma->vm_pgoff,
+> > +			page_to_pfn(page) + vma_start_pgoff(vma),
+> >  			user_count << PAGE_SHIFT, vma->vm_page_prot);
+> >  #else
+> >  	return -ENXIO;
+> > diff --git a/kernel/events/core.c b/kernel/events/core.c
+> > index 954c36e28101..d6d2d557ccb8 100644
+> > --- a/kernel/events/core.c
+> > +++ b/kernel/events/core.c
+> > @@ -6998,7 +6998,7 @@ static void perf_mmap_open(struct vm_area_struct *vma)
+> >  	refcount_inc(&event->mmap_count);
+> >  	refcount_inc(&event->rb->mmap_count);
+> >
+> > -	if (vma->vm_pgoff)
+> > +	if (vma_start_pgoff(vma))
+> >  		refcount_inc(&event->rb->aux_mmap_count);
+> >
+> >  	if (mapped)
+> > @@ -7032,7 +7032,7 @@ static void perf_mmap_close(struct vm_area_struct *vma)
+> >  	 * The AUX buffer is strictly a sub-buffer, serialize using aux_mutex
+> >  	 * to avoid complications.
+> >  	 */
+> > -	if (rb_has_aux(rb) && vma->vm_pgoff == rb->aux_pgoff &&
+> > +	if (rb_has_aux(rb) && vma_start_pgoff(vma) == rb->aux_pgoff &&
+> >  	    refcount_dec_and_mutex_lock(&rb->aux_mmap_count, &rb->aux_mutex)) {
+> >  		/*
+> >  		 * Stop all AUX events that are writing to this buffer,
+> > @@ -7190,7 +7190,8 @@ static int map_range(struct perf_buffer *rb, struct vm_area_struct *vma)
+> >  	 */
+> >  	for (pagenum = 0; pagenum < nr_pages; pagenum++) {
+> >  		unsigned long va = vma->vm_start + PAGE_SIZE * pagenum;
+> > -		struct page *page = perf_mmap_to_page(rb, vma->vm_pgoff + pagenum);
+> > +		struct page *page = perf_mmap_to_page(rb,
+> > +				vma_start_pgoff(vma) + pagenum);
+> >
+> >  		if (page == NULL) {
+> >  			err = -EINVAL;
+> > @@ -7348,6 +7349,7 @@ static int perf_mmap_aux(struct vm_area_struct *vma, struct perf_event *event,
+> >  	u64 aux_offset, aux_size;
+> >  	struct perf_buffer *rb;
+> >  	int ret, rb_flags = 0;
+> > +	const pgoff_t pgoff_start = vma_start_pgoff(vma);
+>
+> Variable decs here seem to be in reverse christmas tree order, so perhaps
+> move this to the top.
 
-Replace all occurrences of "1 << KPF_*" with the BIT_ULL() macro to
-ensure all shifts are performed on a 64-bit unsigned type. This makes
-the code robust, and safe for future extension.
+Ack will change on respin.
 
-No functional change is intended.
+>
+> >
+> >  	rb = event->rb;
+> >  	if (!rb)
+> > @@ -7366,11 +7368,11 @@ static int perf_mmap_aux(struct vm_area_struct *vma, struct perf_event *event,
+> >  	if (aux_offset < perf_data_size(rb) + PAGE_SIZE)
+> >  		return -EINVAL;
+> >
+> > -	if (aux_offset != vma->vm_pgoff << PAGE_SHIFT)
+> > +	if (aux_offset != pgoff_start << PAGE_SHIFT)
+> >  		return -EINVAL;
+> >
+> >  	/* already mapped with a different offset */
+> > -	if (rb_has_aux(rb) && rb->aux_pgoff != vma->vm_pgoff)
+> > +	if (rb_has_aux(rb) && rb->aux_pgoff != pgoff_start)
+> >  		return -EINVAL;
+> >
+> >  	if (aux_size != nr_pages * PAGE_SIZE)
+> > @@ -7400,7 +7402,7 @@ static int perf_mmap_aux(struct vm_area_struct *vma, struct perf_event *event,
+> >  		if (vma->vm_flags & VM_WRITE)
+> >  			rb_flags |= RING_BUFFER_WRITABLE;
+> >
+> > -		ret = rb_alloc_aux(rb, event, vma->vm_pgoff, nr_pages,
+> > +		ret = rb_alloc_aux(rb, event, pgoff_start, nr_pages,
+> >  				   event->attr.aux_watermark, rb_flags);
+> >  		if (ret) {
+> >  			refcount_dec(&rb->mmap_count);
+> > @@ -7457,7 +7459,7 @@ static int perf_mmap(struct file *file, struct vm_area_struct *vma)
+> >  		if (event->state <= PERF_EVENT_STATE_REVOKED)
+> >  			return -ENODEV;
+> >
+> > -		if (vma->vm_pgoff == 0)
+> > +		if (!vma_start_pgoff(vma))
+> >  			ret = perf_mmap_rb(vma, event, nr_pages);
+> >  		else
+> >  			ret = perf_mmap_aux(vma, event, nr_pages);
+> > @@ -9884,7 +9886,7 @@ static bool perf_addr_filter_vma_adjust(struct perf_addr_filter *filter,
+> >  					struct perf_addr_filter_range *fr)
+> >  {
+> >  	unsigned long vma_size = vma->vm_end - vma->vm_start;
+> > -	unsigned long off = vma->vm_pgoff << PAGE_SHIFT;
+> > +	unsigned long off = vma_start_pgoff(vma) << PAGE_SHIFT;
+> >  	struct file *file = vma->vm_file;
+> >
+> >  	if (!perf_addr_filter_match(filter, file, off, vma_size))
+> > @@ -9974,7 +9976,7 @@ void perf_event_mmap(struct vm_area_struct *vma)
+> >  			/* .tid */
+> >  			.start  = vma->vm_start,
+> >  			.len    = vma->vm_end - vma->vm_start,
+> > -			.pgoff  = (u64)vma->vm_pgoff << PAGE_SHIFT,
+> > +			.pgoff  = (u64)vma_start_pgoff(vma) << PAGE_SHIFT,
+> >  		},
+> >  		/* .maj (attr_mmap2 only) */
+> >  		/* .min (attr_mmap2 only) */
+> > diff --git a/kernel/events/uprobes.c b/kernel/events/uprobes.c
+> > index f23cebacbc6d..244651380ca1 100644
+> > --- a/kernel/events/uprobes.c
+> > +++ b/kernel/events/uprobes.c
+> > @@ -144,12 +144,14 @@ static bool valid_vma(struct vm_area_struct *vma, bool is_register)
+> >
+> >  static unsigned long offset_to_vaddr(struct vm_area_struct *vma, loff_t offset)
+> >  {
+> > -	return vma->vm_start + offset - ((loff_t)vma->vm_pgoff << PAGE_SHIFT);
+> > +	return vma->vm_start + offset -
+> > +		((loff_t)vma_start_pgoff(vma) << PAGE_SHIFT);
+> >  }
+> >
+> >  static loff_t vaddr_to_offset(struct vm_area_struct *vma, unsigned long vaddr)
+> >  {
+> > -	return ((loff_t)vma->vm_pgoff << PAGE_SHIFT) + (vaddr - vma->vm_start);
+> > +	return ((loff_t)vma_start_pgoff(vma) << PAGE_SHIFT) +
+> > +		(vaddr - vma->vm_start);
+> >  }
+>
+> Something we've seen in this series is that perhaps something like
+>
+> static inline loff_t vma_start_off(vma)
+> {
+> 	return ((loff_t) vma_start_pgoff(vma)) << PAGE_SHIFT;
+> }
+>
+> could be worth it.
 
-Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
----
- fs/proc/page.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+Yeah I already thought about this kind of thing, but in the end decided against
+it at least for now, maybe I could revisit with something like that added
+though...
 
-diff --git a/fs/proc/page.c b/fs/proc/page.c
-index 7d9387143435..2717dbb0431b 100644
---- a/fs/proc/page.c
-+++ b/fs/proc/page.c
-@@ -157,7 +157,7 @@ u64 stable_page_flags(const struct page *page)
- 	 * it differentiates a memory hole from a page with no flags
- 	 */
- 	if (!page)
--		return 1 << KPF_NOPAGE;
-+		return BIT_ULL(KPF_NOPAGE);
- 
- 	snapshot_page(&ps, page);
- 	folio = &ps.folio_snapshot;
-@@ -170,11 +170,11 @@ u64 stable_page_flags(const struct page *page)
- 	 * pseudo flags for the well known (anonymous) memory mapped pages
- 	 */
- 	if (folio_mapped(folio))
--		u |= 1 << KPF_MMAP;
-+		u |= BIT_ULL(KPF_MMAP);
- 	if (is_anon) {
--		u |= 1 << KPF_ANON;
-+		u |= BIT_ULL(KPF_ANON);
- 		if ((mapping & FOLIO_MAPPING_FLAGS) == FOLIO_MAPPING_KSM)
--			u |= 1 << KPF_KSM;
-+			u |= BIT_ULL(KPF_KSM);
- 	}
- 
- 	/*
-@@ -184,35 +184,35 @@ u64 stable_page_flags(const struct page *page)
- 	if (ps.idx == 0)
- 		u |= kpf_copy_bit(k, KPF_COMPOUND_HEAD, PG_head);
- 	else
--		u |= 1 << KPF_COMPOUND_TAIL;
-+		u |= BIT_ULL(KPF_COMPOUND_TAIL);
- 	if (folio_test_hugetlb(folio))
--		u |= 1 << KPF_HUGE;
-+		u |= BIT_ULL(KPF_HUGE);
- 	else if (folio_test_large(folio) &&
- 	         folio_test_large_rmappable(folio)) {
- 		/* Note: we indicate any THPs here, not just PMD-sized ones */
--		u |= 1 << KPF_THP;
-+		u |= BIT_ULL(KPF_THP);
- 	} else if (is_huge_zero_pfn(ps.pfn)) {
--		u |= 1 << KPF_ZERO_PAGE;
--		u |= 1 << KPF_THP;
-+		u |= BIT_ULL(KPF_ZERO_PAGE);
-+		u |= BIT_ULL(KPF_THP);
- 	} else if (is_zero_pfn(ps.pfn)) {
--		u |= 1 << KPF_ZERO_PAGE;
-+		u |= BIT_ULL(KPF_ZERO_PAGE);
- 	}
- 
- 	if (ps.flags & PAGE_SNAPSHOT_PG_BUDDY)
--		u |= 1 << KPF_BUDDY;
-+		u |= BIT_ULL(KPF_BUDDY);
- 
- 	if (folio_test_offline(folio))
--		u |= 1 << KPF_OFFLINE;
-+		u |= BIT_ULL(KPF_OFFLINE);
- 	if (folio_test_pgtable(folio))
--		u |= 1 << KPF_PGTABLE;
-+		u |= BIT_ULL(KPF_PGTABLE);
- 	if (folio_test_slab(folio))
--		u |= 1 << KPF_SLAB;
-+		u |= BIT_ULL(KPF_SLAB);
- 
- #if defined(CONFIG_PAGE_IDLE_FLAG) && defined(CONFIG_64BIT)
- 	u |= kpf_copy_bit(k, KPF_IDLE,          PG_idle);
- #else
- 	if (ps.flags & PAGE_SNAPSHOT_PG_IDLE)
--		u |= 1 << KPF_IDLE;
-+		u |= BIT_ULL(KPF_IDLE);
- #endif
- 
- 	u |= kpf_copy_bit(k, KPF_LOCKED,	PG_locked);
--- 
-2.43.0
+But given this series is being held off on already for acceptance, I'm not sure
+adding _yet more_ changes will be welcomed.
 
+Plus I worry people will get confused.
+
+There's 2 forms I noticed:
+
+1. effectively: linear_page_index(vma, address) << PAGE_SHIFT
+
+I wanted to rewrite this as such, but you can't, because of course vaddr might
+have non-page aligned bits (or tags) that you lose by doing that. So ugh.
+
+You'd then need to write a slightly nuanced version like:
+
+static inline unsigned long vma_offset(const struct vm_area_struct *vma,
+				       const unsigned long address)
+{
+	/* Retains page offset and tags. */
+	return address - vma->vm_start;
+}
+
+static inline unsigned long linear_page_offset(const struct vm_area_struct *vma,
+					       const unsigned long address)
+{
+	const unsigned long addr = vma_start_pgoff(vma) << PAGE_SHIFT;
+
+	addr += linear_delta(vma, address);
+	return addr;
+}
+
+(Could also do:)
+
+static inline pgoff_t linear_page_delta(const struct vm_area_struct *vma,
+					const unsigned long address)
+{
+	return vma_offset(vma, address) >> PAGE_SHIFT;
+}
+
+BUT.
+
+I think this will confuse people. I already in a previous version of this series
+named linear_page_delta() as linear_page_offset() and then changed it to avoid
+confusion.
+
+And I'm not sure it's really all that useful. Perhaps retaining vma_offset()
+would be though.
+
+2.
+
+This is a much more useful form I noticed, effectively drivers doing the inverse
+of a linear_page_index() to get the address:
+
+static inline unsigned long linear_page_address(const struct vm_area_struct *vma,
+						const pgoff_t pgoff)
+{
+	const pgoff_t page_delta = pgoff - vma_start_pgoff(vma);
+	const unsigned long offset = page_delta << PAGE_SHIFT;
+
+	return vma->vm_start + offset;
+}
+
+This is one that I think makes more sense.
+
+But in general, I'd rather hold off from yet more churn here.
+
+I'm making these changes to establish a basis for virtual page offsets
+introduced in [0], rather than just cleaning up in general.
+
+These changes are really to make it such that we more consistently use these
+forms, so when I introduce the virt pgoff versions, it fits canonically into
+that.
+
+And also beacuse I may as well improve kernel code as I go :)
+
+But I think adding yet more doesn't really serve the same purpose.
+
+But it's food for a follow up perhaps?
+
+>
+> >
+> >  /**
+> > @@ -1482,7 +1484,7 @@ static int unapply_uprobe(struct uprobe *uprobe, struct mm_struct *mm)
+> >  		    file_inode(vma->vm_file) != uprobe->inode)
+> >  			continue;
+> >
+> > -		offset = (loff_t)vma->vm_pgoff << PAGE_SHIFT;
+> > +		offset = (loff_t)vma_start_pgoff(vma) << PAGE_SHIFT;
+> >  		if (uprobe->offset <  offset ||
+> >  		    uprobe->offset >= offset + vma->vm_end - vma->vm_start)
+> >  			continue;
+> > @@ -2453,7 +2455,8 @@ static struct uprobe *find_active_uprobe_speculative(unsigned long bp_vaddr)
+> >  	if (!vm_file)
+> >  		return NULL;
+> >
+> > -	offset = (loff_t)(vma->vm_pgoff << PAGE_SHIFT) + (bp_vaddr - vma->vm_start);
+> > +	offset = (loff_t)(vma_start_pgoff(vma) << PAGE_SHIFT) +
+> > +		(bp_vaddr - vma->vm_start);
+>
+> This is more extremely contrived logic that could be better expressed as
+>
+> loff_t vma_linear_off(vma, bp_vaddr);
+
+See above.
+
+>
+> >  	uprobe = find_uprobe_rcu(vm_file->f_inode, offset);
+> >  	if (!uprobe)
+> >  		return NULL;
+> > diff --git a/kernel/kcov.c b/kernel/kcov.c
+> > index 1df373fb562b..b19b473c366a 100644
+> > --- a/kernel/kcov.c
+> > +++ b/kernel/kcov.c
+> > @@ -512,7 +512,7 @@ static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
+> >
+> >  	spin_lock_irqsave(&kcov->lock, flags);
+> >  	size = kcov->size * sizeof(unsigned long);
+> > -	if (kcov->area == NULL || vma->vm_pgoff != 0 ||
+> > +	if (kcov->area == NULL || vma_start_pgoff(vma) ||
+>
+> as a nit, perhaps                 vma_start_pgoff(vma) > 0
+> would be a little more idiomatic.
+
+I felt the if (<val>) form was more idiomatic?
+
+>
+> >  	    vma->vm_end - vma->vm_start != size) {
+> >  		res = -EINVAL;
+> >  		goto exit;
+> > diff --git a/kernel/trace/ring_buffer.c b/kernel/trace/ring_buffer.c
+> > index 56a328e94395..dfa493d54ef9 100644
+> > --- a/kernel/trace/ring_buffer.c
+> > +++ b/kernel/trace/ring_buffer.c
+> > @@ -7613,7 +7613,8 @@ static int __rb_inc_dec_mapped(struct ring_buffer_per_cpu *cpu_buffer,
+> >  static int __rb_map_vma(struct ring_buffer_per_cpu *cpu_buffer,
+> >  			struct vm_area_struct *vma)
+> >  {
+> > -	unsigned long nr_subbufs, nr_pages, nr_vma_pages, pgoff = vma->vm_pgoff;
+> > +	unsigned long nr_subbufs, nr_pages, nr_vma_pages;
+> > +	pgoff_t pgoff = vma_start_pgoff(vma);
+> >  	unsigned int subbuf_pages, subbuf_order;
+> >  	struct page **pages __free(kfree) = NULL;
+> >  	int p = 0, s = 0;
+>
+> Anyway, in general:
+>
+> Acked-by: Pedro Falcato <pfalcato@suse.de>
+
+Thanks!
+
+>
+> --
+> Pedro
+
+[0]:https://lore.kernel.org/linux-mm/cover.1782745153.git.ljs@kernel.org/
