@@ -1,139 +1,182 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C28C30D400;
-	Thu,  2 Jul 2026 15:56:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5500A2C0268;
+	Thu,  2 Jul 2026 15:57:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783007767; cv=none; b=MxRJBelmUqGMAAvtVOlpxvaWm03RXSKOGBLvjx/Bd7QfZvz3EGnf6O69pLRNh/T9R/eVv83zHMXTuwDGbKIuAEcaEgMDt1spu8l8OgmRnlmlMy7rrU5eq7fBdaWOYwKzj6OSwkiR6FdbItp5tRl3J4kZhwp44NTj9XregD5YBd8=
+	t=1783007871; cv=none; b=QIXJzrwNTQXc8Tk+vA/whm/Cj1JgUFbwK3iwOc50pX6H2OOgo153kfD4nX9pok/HycU0qticNELKnlQN2gpvgnY3N5j7dEVbRTh/2T+oeS/bC2VxihE0IHvKoxXy2Zh5opZdXdSAb79ygu6W368CvMQk/M0ZObFffDO+d6770fQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783007767; c=relaxed/simple;
-	bh=yLsZmQMux0ygxcrYMOFGfc5TWB2i9Up5MrZUsJ0wygs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fRPwGDOo+P1lw0EK7wqYBqXgVbzls4oNcMznqAfDsV2EZyzwWH5jst45BCPpCZ7TfTDGRhqA8XnApOMDgzj1CYpC6vI5dWewRNGGDQh59j+D3jR6m8fBPce7vLRoK6evCuhAggcfve+dkXnxwQjPItBR3rRVsqj7WpTWF1/KzkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Me5Wxx6p; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783007871; c=relaxed/simple;
+	bh=YaO8EyaGKAQhn06HkoUzPL2dWr4zksdX1fz5ItOsUVE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tujB4Kzsf6SFMobKdq6GamJUMY6cPDZC45E7Eo6d9tupP6DaWMq3ZUSMYh++R3GyTL0mK24xaIRNE9+VtwGKnf/2O4iPXnfMZY5hdBMnKQsms/Vw48IDnIREgSx0xaJIZHmzERi3aYUaLPargj2pHEOcvYs7P4agIqhivliHdj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QZ6lIGOi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Me5Wxx6p"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 04E9F1F000E9;
-	Thu,  2 Jul 2026 15:56:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QZ6lIGOi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17C3E1F000E9;
+	Thu,  2 Jul 2026 15:57:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783007766;
-	bh=O77koWr7SeU/8PCz2s/A0CB50aq+2Nj8DFXspCWAMjA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Me5Wxx6psC0R1I/DAw9W4P1ZDEl9Kk9VDxz5ZSr2pCbjnFAVjMmah8khJn82oi8RE
-	 mg39ht7dbG5m2SjBLeyDwjkyO6SMqL/Fg6ZgyKsDKU9QkuNfwpfCjSmT7RXo+/bUvO
-	 0693fwZ2DWqWNXxCAVaWdZA0VFNq71jsjdkysEyqvWod9Hnh+RDgdFWvy60558Cy+j
-	 sDrSQNXQGAs3woVkeek4HC55gX8SIdqU9TGyJkaAT5SMybNY4CVH9ZI9DQdtd9u0+T
-	 iCiflKcmA4KN/pnKQxH8mcwHFpFU1ToPdLGWbGavHazPUqQFUgfaZpRjxIetEJWhzY
-	 gk1eLLFgSBPpw==
-Date: Thu, 2 Jul 2026 08:56:05 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: cem@kernel.org
-Cc: Jan Kara <jack@suse.cz>, Dave Chinner <david@fromorbit.com>,
-	Eric Sandeen <sandeen@redhat.com>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>, Serge Hallyn <serge@hallyn.com>
-Subject: Re: [PATCH v3 2/5] capability: Add new capable_noaudit
-Message-ID: <20260702155605.GE9392@frogsfrogsfrogs>
-References: <20260702093324.127450-1-cem@kernel.org>
- <20260702093324.127450-5-cem@kernel.org>
+	s=k20260515; t=1783007870;
+	bh=kr+pfy6WhXsm8UVqEsmoQn+5R7CHXWM6TcAZBf9U49Q=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=QZ6lIGOiWSqQLAX8EidooUymjvYhfkSKXpnz0DYUnmAjTogbimi9QjQNHFFD9nIeU
+	 ZxJkERxMCmxBNiMZ3HrfrlEszVGdiw2wKFIviTdXXDmTeK0X3/vx70C2yaTM+lXL8P
+	 iVCy90nVQJWiLsD/98RIctSBGBwuA3NS/Euf4MNjeXqNGTX+GfeMBdh9czL2Cq+/PL
+	 6oztJ6zrU/P0+ZLIEp/whiiLNV9nOaHS7gsEADz9m2m0sFr0v4BgMoQFZQ3Zh6YMRk
+	 qWVCxA/r4yjrSmXmaX/hwSkmamQdLVtT2LRINKWdKZTu6hPsq2JruFJ/fM7mhk+/v8
+	 JOaXKwXD41YGA==
+Message-ID: <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM
+ attribution
+From: Jeff Layton <jlayton@kernel.org>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Jonathan Corbet	
+ <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>, Lorenzo Stoakes	
+ <ljs@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Carlos Maiolino	 <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Jori
+ Koolstra	 <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Brian Foster	 <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>,
+ David Disseldorp	 <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, Jani
+ Nikula	 <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, David
+ Hildenbrand	 <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
+ "Christian Brauner (Amutable)" <brauner@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Date: Thu, 02 Jul 2026 11:57:46 -0400
+In-Reply-To: <2026070224-unholy-commode-cf45@gregkh>
+References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+	 <2026070224-unholy-commode-cf45@gregkh>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
+ n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
+ egyjnSsFt7EGoDjdKqr1TS9syJYFjagYtvWk/UfHlW09X+jOh4vYtfX7iYSx/NfqV3W1D7EDi0PqV
+ T2h6v8i8YqsATFPwO4nuiTmL6I40ZofxVd+9wdRI4Db8yUNA4ZSP2nqLcLtFjClYRBoJvRWvsv4lm
+ 0OX6MYPtv76hka8lW4mnRmZqqx3UtfHX/hF/zH24Gj7A6sYKYLCU3YrI2Ogiu7/ksKcl7goQjpvtV
+ YrOOI5VGLHge0awt7bhMCTM9KAfPc+xL/ZxAMVWd3NCk5SamL2cE99UWgtvNOIYU8m6EjTLhsj8sn
+ VluJH0/RcxEeFbnSaswVChNSGa7mXJrTR22lRL6ZPjdMgS2Km90haWPRc8Wolcz07Y2se0xpGVLEQ
+ cDEsvv5IMmeMe1/qLZ6NaVkNuL3WOXvxaVT9USW1+/SGipO2IpKJjeDZfehlB/kpfF24+RrK+seQf
+ CBYyUE8QJpvTZyfUHNYldXlrjO6n5MdOempLqWpfOmcGkwnyNRBR46g/jf8KnPRwXs509yAqDB6sE
+ LZH+yWr9LQZEwARAQABtCVKZWZmIExheXRvbiA8amxheXRvbkBwb29jaGllcmVkcy5uZXQ+iQI7BB
+ MBAgAlAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAUCTpXWPAIZAQAKCRAADmhBGVaCFc65D/4
+ gBLNMHopQYgG/9RIM3kgFCCQV0pLv0hcg1cjr+bPI5f1PzJoOVi9s0wBDHwp8+vtHgYhM54yt43uI
+ 7Htij0RHFL5eFqoVT4TSfAg2qlvNemJEOY0e4daljjmZM7UtmpGs9NN0r9r50W82eb5Kw5bc/r0km
+ R/arUS2st+ecRsCnwAOj6HiURwIgfDMHGPtSkoPpu3DDp/cjcYUg3HaOJuTjtGHFH963B+f+hyQ2B
+ rQZBBE76ErgTDJ2Db9Ey0kw7VEZ4I2nnVUY9B5dE2pJFVO5HJBMp30fUGKvwaKqYCU2iAKxdmJXRI
+ ONb7dSde8LqZahuunPDMZyMA5+mkQl7kpIpR6kVDIiqmxzRuPeiMP7O2FCUlS2DnJnRVrHmCljLkZ
+ Wf7ZUA22wJpepBligemtSRSbqCyZ3B48zJ8g5B8xLEntPo/NknSJaYRvfEQqGxgk5kkNWMIMDkfQO
+ lDSXZvoxqU9wFH/9jTv1/6p8dHeGM0BsbBLMqQaqnWiVt5mG92E1zkOW69LnoozE6Le+12DsNW7Rj
+ iR5K+27MObjXEYIW7FIvNN/TQ6U1EOsdxwB8o//Yfc3p2QqPr5uS93SDDan5ehH59BnHpguTc27Xi
+ QQZ9EGiieCUx6Zh2ze3X2UW9YNzE15uKwkkuEIj60NvQRmEDfweYfOfPVOueC+iFifbQgSmVmZiBM
+ YXl0b24gPGpsYXl0b25AcmVkaGF0LmNvbT6JAjgEEwECACIFAk6V0q0CGwMGCwkIBwMCBhUIAgkKC
+ wQWAgMBAh4BAheAAAoJEAAOaEEZVoIViKUQALpvsacTMWWOd7SlPFzIYy2/fjvKlfB/Xs4YdNcf9q
+ LqF+lk2RBUHdR/dGwZpvw/OLmnZ8TryDo2zXVJNWEEUFNc7wQpl3i78r6UU/GUY/RQmOgPhs3epQC
+ 3PMJj4xFx+VuVcf/MXgDDdBUHaCTT793hyBeDbQuciARDJAW24Q1RCmjcwWIV/pgrlFa4lAXsmhoa
+ c8UPc82Ijrs6ivlTweFf16VBc4nSLX5FB3ls7S5noRhm5/Zsd4PGPgIHgCZcPgkAnU1S/A/rSqf3F
+ LpU+CbVBDvlVAnOq9gfNF+QiTlOHdZVIe4gEYAU3CUjbleywQqV02BKxPVM0C5/oVjMVx3bri75n1
+ TkBYGmqAXy9usCkHIsG5CBHmphv9MHmqMZQVsxvCzfnI5IO1+7MoloeeW/lxuyd0pU88dZsV/riHw
+ 87i2GJUJtVlMl5IGBNFpqoNUoqmvRfEMeXhy/kUX4Xc03I1coZIgmwLmCSXwx9MaCPFzV/dOOrju2
+ xjO+2sYyB5BNtxRqUEyXglpujFZqJxxau7E0eXoYgoY9gtFGsspzFkVNntamVXEWVVgzJJr/EWW0y
+ +jNd54MfPRqH+eCGuqlnNLktSAVz1MvVRY1dxUltSlDZT7P2bUoMorIPu8p7ZCg9dyX1+9T6Muc5d
+ Hxf/BBP/ir+3e8JTFQBFOiLNdFtB9KZWZmIExheXRvbiA8amxheXRvbkBzYW1iYS5vcmc+iQI4BBM
+ BAgAiBQJOldK9AhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRAADmhBGVaCFWgWD/0ZRi4h
+ N9FK2BdQs9RwNnFZUr7JidAWfCrs37XrA/56olQl3ojn0fQtrP4DbTmCuh0SfMijB24psy1GnkPep
+ naQ6VRf7Dxg/Y8muZELSOtsv2CKt3/02J1BBitrkkqmHyni5fLLYYg6fub0T/8Kwo1qGPdu1hx2BQ
+ RERYtQ/S5d/T0cACdlzi6w8rs5f09hU9Tu4qV1JLKmBTgUWKN969HPRkxiojLQziHVyM/weR5Reu6
+ FZVNuVBGqBD+sfk/c98VJHjsQhYJijcsmgMb1NohAzwrBKcSGKOWJToGEO/1RkIN8tqGnYNp2G+aR
+ 685D0chgTl1WzPRM6mFG1+n2b2RR95DxumKVpwBwdLPoCkI24JkeDJ7lXSe3uFWISstFGt0HL8Eew
+ P8RuGC8s5h7Ct91HMNQTbjgA+Vi1foWUVXpEintAKgoywaIDlJfTZIl6Ew8ETN/7DLy8bXYgq0Xzh
+ aKg3CnOUuGQV5/nl4OAX/3jocT5Cz/OtAiNYj5mLPeL5z2ZszjoCAH6caqsF2oLyAnLqRgDgR+wTQ
+ T6gMhr2IRsl+cp8gPHBwQ4uZMb+X00c/Amm9VfviT+BI7B66cnC7Zv6Gvmtu2rEjWDGWPqUgccB7h
+ dMKnKDthkA227/82tYoFiFMb/NwtgGrn5n2vwJyKN6SEoygGrNt0SI84y6hEVbQlSmVmZiBMYXl0b
+ 24gPGpsYXl0b25AcHJpbWFyeWRhdGEuY29tPokCOQQTAQIAIwUCU4xmKQIbAwcLCQgHAwIBBhUIAg
+ kKCwQWAgMBAh4BAheAAAoJEAAOaEEZVoIV1H0P/j4OUTwFd7BBbpoSp695qb6HqCzWMuExsp8nZjr
+ uymMaeZbGr3OWMNEXRI1FWNHMtcMHWLP/RaDqCJil28proO+PQ/yPhsr2QqJcW4nr91tBrv/MqItu
+ AXLYlsgXqp4BxLP67bzRJ1Bd2x0bWXurpEXY//VBOLnODqThGEcL7jouwjmnRh9FTKZfBDpFRaEfD
+ FOXIfAkMKBa/c9TQwRpx2DPsl3eFWVCNuNGKeGsirLqCxUg5kWTxEorROppz9oU4HPicL6rRH22Ce
+ 6nOAON2vHvhkUuO3GbffhrcsPD4DaYup4ic+DxWm+DaSSRJ+e1yJvwi6NmQ9P9UAuLG93S2MdNNbo
+ sZ9P8k2mTOVKMc+GooI9Ve/vH8unwitwo7ORMVXhJeU6Q0X7zf3SjwDq2lBhn1DSuTsn2DbsNTiDv
+ qrAaCvbsTsw+SZRwF85eG67eAwouYk+dnKmp1q57LDKMyzysij2oDKbcBlwB/TeX16p8+LxECv51a
+ sjS9TInnipssssUDrHIvoTTXWcz7Y5wIngxDFwT8rPY3EggzLGfK5Zx2Q5S/N0FfmADmKknG/D8qG
+ IcJE574D956tiUDKN4I+/g125ORR1v7bP+OIaayAvq17RP+qcAqkxc0x8iCYVCYDouDyNvWPGRhbL
+ UO7mlBpjW9jK9e2fvZY9iw3QzIPGKtClKZWZmIExheXRvbiA8amVmZi5sYXl0b25AcHJpbWFyeWRh
+ dGEuY29tPokCOQQTAQIAIwUCU4xmUAIbAwcLCQgHAwIBBhUIAgkKCwQWAgMBAh4BAheAAAoJEAAOa
+ EEZVoIVzJoQALFCS6n/FHQS+hIzHIb56JbokhK0AFqoLVzLKzrnaeXhE5isWcVg0eoV2oTScIwUSU
+ apy94if69tnUo4Q7YNt8/6yFM6hwZAxFjOXR0ciGE3Q+Z1zi49Ox51yjGMQGxlakV9ep4sV/d5a50
+ M+LFTmYSAFp6HY23JN9PkjVJC4PUv5DYRbOZ6Y1+TfXKBAewMVqtwT1Y+LPlfmI8dbbbuUX/kKZ5d
+ dhV2736fgyfpslvJKYl0YifUOVy4D1G/oSycyHkJG78OvX4JKcf2kKzVvg7/Rnv+AueCfFQ6nGwPn
+ 0P91I7TEOC4XfZ6a1K3uTp4fPPs1Wn75X7K8lzJP/p8lme40uqwAyBjk+IA5VGd+CVRiyJTpGZwA0
+ jwSYLyXboX+Dqm9pSYzmC9+/AE7lIgpWj+3iNisp1SWtHc4pdtQ5EU2SEz8yKvDbD0lNDbv4ljI7e
+ flPsvN6vOrxz24mCliEco5DwhpaaSnzWnbAPXhQDWb/lUgs/JNk8dtwmvWnqCwRqElMLVisAbJmC0
+ BhZ/Ab4sph3EaiZfdXKhiQqSGdK4La3OTJOJYZphPdGgnkvDV9Pl1QZ0ijXQrVIy3zd6VCNaKYq7B
+ AKidn5g/2Q8oio9Tf4XfdZ9dtwcB+bwDJFgvvDYaZ5bI3ln4V3EyW5i2NfXazz/GA/I/ZtbsigCFc
+ 8ftCBKZWZmIExheXRvbiA8amxheXRvbkBrZXJuZWwub3JnPokCOAQTAQIAIgUCWe8u6AIbAwYLCQg
+ HAwIGFQgCCQoLBBYCAwECHgECF4AACgkQAA5oQRlWghUuCg/+Lb/xGxZD2Q1oJVAE37uW308UpVSD
+ 2tAMJUvFTdDbfe3zKlPDTuVsyNsALBGclPLagJ5ZTP+Vp2irAN9uwBuacBOTtmOdz4ZN2tdvNgozz
+ uxp4CHBDVzAslUi2idy+xpsp47DWPxYFIRP3M8QG/aNW052LaPc0cedYxp8+9eiVUNpxF4SiU4i9J
+ DfX/sn9XcfoVZIxMpCRE750zvJvcCUz9HojsrMQ1NFc7MFT1z3MOW2/RlzPcog7xvR5ENPH19ojRD
+ CHqumUHRry+RF0lH00clzX/W8OrQJZtoBPXv9ahka/Vp7kEulcBJr1cH5Wz/WprhsIM7U9pse1f1g
+ Yy9YbXtWctUz8uvDR7shsQxAhX3qO7DilMtuGo1v97I/Kx4gXQ52syh/w6EBny71CZrOgD6kJwPVV
+ AaM1LRC28muq91WCFhs/nzHozpbzcheyGtMUI2Ao4K6mnY+3zIuXPygZMFr9KXE6fF7HzKxKuZMJO
+ aEZCiDOq0anx6FmOzs5E6Jqdpo/mtI8beK+BE7Va6ni7YrQlnT0i3vaTVMTiCThbqsB20VrbMjlhp
+ f8lfK1XVNbRq/R7GZ9zHESlsa35ha60yd/j3pu5hT2xyy8krV8vGhHvnJ1XRMJBAB/UYb6FyC7S+m
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260702093324.127450-5-cem@kernel.org>
 
-On Thu, Jul 02, 2026 at 11:33:19AM +0200, cem@kernel.org wrote:
-> From: Carlos Maiolino <cem@kernel.org>
-> 
-> In some situations (quota enforcement bypass in this case) we'd like to
-> check for a specific capability without triggering spurious audit
-> messages from security modules like selinux.
-> 
-> Add a new helper so we don't need to use ns_capable_noaudit() directly.
-> 
-> V3: remove the extern declaration
-> 
-> Signed-off-by: Carlos Maiolino <cmaiolino@redhat.com>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: Darrick J. Wong <djwong@kernel.org>
-> Cc: Dave Chinner <david@fromorbit.com>
-> Cc: Eric Sandeen <sandeen@redhat.com>
-> Cc: Dr. Thomas Orgis" <thomas.orgis@uni-hamburg.de>
-> Cc: linux-xfs@vger.kernel.org
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: linux-security-module@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Serge Hallyn <serge@hallyn.com>
-> ---
->  include/linux/capability.h |  5 +++++
->  kernel/capability.c        | 17 +++++++++++++++++
->  2 files changed, 22 insertions(+)
-> 
-> diff --git a/include/linux/capability.h b/include/linux/capability.h
-> index 37db92b3d6f8..f8532d92fcad 100644
-> --- a/include/linux/capability.h
-> +++ b/include/linux/capability.h
-> @@ -145,6 +145,7 @@ extern bool has_capability_noaudit(struct task_struct *t, int cap);
->  extern bool has_ns_capability_noaudit(struct task_struct *t,
->  				      struct user_namespace *ns, int cap);
->  extern bool capable(int cap);
-> +bool capable_noaudit(int cap);
->  extern bool ns_capable(struct user_namespace *ns, int cap);
->  extern bool ns_capable_noaudit(struct user_namespace *ns, int cap);
->  extern bool ns_capable_setid(struct user_namespace *ns, int cap);
-> @@ -167,6 +168,10 @@ static inline bool capable(int cap)
->  {
->  	return true;
->  }
-> +static inline bool capable_noaudit(int cap)
-> +{
-> +	return true;
-> +}
->  static inline bool ns_capable(struct user_namespace *ns, int cap)
->  {
->  	return true;
-> diff --git a/kernel/capability.c b/kernel/capability.c
-> index 829f49ae07b9..2c2d1e8300bd 100644
-> --- a/kernel/capability.c
-> +++ b/kernel/capability.c
-> @@ -416,6 +416,23 @@ bool capable(int cap)
->  	return ns_capable(&init_user_ns, cap);
->  }
->  EXPORT_SYMBOL(capable);
-> +
-> +/**
-> + * capable_noaudit - Determine if the current task has a superior
-> + * capability in effect (unaudited).
-> + * @cap: The capability to be tested for
-> + *
-> + * This is the same as capable(), except it uses CAP_OPT_NOAUDIT as to prevent
-> + * issuing spurious audit messages.
-> + *
-> + * This sets PF_SUPERPRIV on the task if the capability is available on the
-> + * assumption that it's about to be used.
+On Thu, 2026-07-02 at 17:07 +0200, Greg KH wrote:
+> On Thu, Jul 02, 2026 at 10:32:48AM -0400, Jeff Layton wrote:
+> > We've had this requirement in place in the Documentation for several
+> > months, but it's becoming clear that the signal to noise ratio from thi=
+s
+> > is quite low.
+> >=20
+> > 1/ It's not universally followed. While many people do try to attribute
+> > the LLMs in good faith, not everyone does for various reasons.
+>=20
+> Then let's move to get people to follow it.
+>=20
+> > 2/ It basically serves as free advertising for proprietary LLM companie=
+s.
+>=20
+> Who cares, make up a name, all I want is the "signal" that someone is
+> using a LLM so that I can review it as-such.  And if I think someone is
+> not reporting that, I can ask for them to properly attribute it and if
+> they lie, well, that's on them.
+>=20
+> > 3/ It's not clear why we want to collect this info in the first place.
+>=20
+> We want to know if a LLM is being used.
+>=20
 
-Same complaint about the documentation as last time:
-https://lore.kernel.org/linux-fsdevel/20260626151656.GT6078@frogsfrogsfrogs/
+But why? What do you intend to do with this information?
 
---D
+Do you mean to use it as an indicator that the patch should receive
+"extra" review (or maybe that it should be ignored)? Do you mean to use
+it to generate some sort of statistics at a later time?=20
 
-> + */
-> +bool capable_noaudit(int cap)
-> +{
-> +	return ns_capable_noaudit(&init_user_ns, cap);
-> +}
-> +EXPORT_SYMBOL(capable_noaudit);
->  #endif /* CONFIG_MULTIUSER */
->  
->  /**
-> -- 
-> 2.54.0
-> 
-> 
+If we want to collect some sort of structured data like this, it would
+be good to have some idea of how it will be used. That might inform the
+format and content of what we're collecting.
+
+> > Given that the data this provides is flawed at best and is being
+> > collected for a purpose that isn't clear, let's just kill the
+> > requirement for these tags from the kernel at large.
+>=20
+> No, please do not do this.  It's useful already for many patches in my
+> subsystems, and is only going to be used more in the future.
+>=20
+
+I should have sent this as an RFC patch, but hopefully everyone is
+treating that way anyway. To be clear, I don't have a strong preference
+on whether we keep Assisted-by: or not, but I'd like to better
+understand the intended uses of it if we do intend to keep it.
+--=20
+Jeff Layton <jlayton@kernel.org>
