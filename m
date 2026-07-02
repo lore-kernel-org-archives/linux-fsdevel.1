@@ -1,156 +1,278 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12E1309F1C
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 05:28:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782970105; cv=none; b=Dt9uFzFATVJITeJKSW9MAHHISKzoJ4rS9Jvos16nFcW3jyVHklnXGulhbvbpPM3euEMYP0cRsmiMnSxDebaqNhXFLZP6ZVE25YsGZyW+OnEy3MjQnHJujEV/DZ3FPJzjGEOAYD8hWtgo4Qf3lB6lVpyWcne+6//xJFZLEoS9fkE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782970105; c=relaxed/simple;
-	bh=lQtmVLwNBWkxqTLg9tYuRhH2hUW+InGrLu4tIiTeJsg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uC5pHutg2HJLjp/XfmG3ZrnYwczoXNT9L8G9lAbpZQ+XkLy7X6a7fj8nzJ1+avjnl+wUXJnPmUNzXn3TAx8JBPPa0U1dURkijPIojmRdl7KdYr0AwRUcKijeLNv1g0omQBEoRusnWtonmv2VGS674bA7baUORj2GkwrSRGO9sEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=snhI8/wF; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B5A262FD0
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 05:30:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782970261; cv=pass; b=EHoVO0f3QY57nZPZ0Qh1FP/4QryP8PLWe2ODO0huAhe2pC69CZI9H6wFD+NgDRiBv+hO68KdWdOI+pFrnVfVCRoFEmlgCsz40+kL1HOttPZu9oHxCqpUQV5h7jw6Po3P/J8iNxtG+hLMOpC+ap+ywWXDILEPCaqfvZ1D/mg9Esc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782970261; c=relaxed/simple;
+	bh=kI/47gROSL4oU949/2kjwzdE7BGfMCwBjrkqCWUFK2o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Snwo9TbJZhLTgIgrwf8mRYo0tLjh0h0OPcDx5xQFbWMshvokxCfK2chdi8CyKgH/PFJZMDyKpucSDkBCxd0c4gN2Tyfa8DGE70kNTGD+b40uTvHAFuYVc+sWfeYEsH7AOt8f5jj1RdqMf95zwP3Q+V8v27tOIB+MypKAYE3vaMQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IymwPp9T; arc=pass smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="snhI8/wF"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-847d1e9db22so253817b3a.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Jul 2026 22:28:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IymwPp9T"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c125fbfbae0so145856766b.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 01 Jul 2026 22:30:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782970257; cv=none;
+        d=google.com; s=arc-20260327;
+        b=OAH8pLEj/RSd9UrrTMLMB2cI03pRm+QudZ7RTEiB8VgpIL0AoN5Yy8KgabS6ReSM6+
+         zom4ZukuK4612cwtoq/gv4aKPxDSVBEWpp44Wr7zQO6oblgUr9qCTAJZrlyPPD2P0v2M
+         +BMGJ0D0LNmoo2OXy7qTJB1VUHztqqbrd77elnGSAlHxZVW3zGlT4dNkWuz+hU1lwUQy
+         tGrCpQKuBArbFPhfGrUQk0KbTaPomI47Shuf0nE6CdkFT0dg7/AobDc47Pk8JSSvDh+D
+         N8A9W6eXfJ5IG3JgPut1M1oSyWKw4TrBcQsMk3DX767KSFRCrlmeYRCw7WnvCuMITU54
+         cOCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=bELejxA6xNl1rTCERHzNWjc3NY2ffQPjFphF1wY/jKo=;
+        fh=kLF9CSy4ytoCPe04lVNxfnhwvjp2z7Dgf57XTsMHnv0=;
+        b=pXaGaQbu7LxUMM0zg7ZTcc3m+mbnKEF/O+rZLVkFFCH6p5xaDqsDkbIHPvOyMX3VGq
+         bB48Zy4puDip3fCXTEenCDstc/C763kmoMzNttP2D/vB7orvvh1lgHNDC55rGUXlzwJo
+         sSUkgUovJdpyxguBYCbMAhvFd/mMYEitt88ZatIZ3SYiQNVdJjKncio1ehajBLjwh/KM
+         1l4GIm+8Ft2B8x6LOYP6zVcv84QVgcVIa7DNBUGob4vsiD4khsERbNNoaDVv+ryt1NcK
+         stlTaNi339v8M3AlwcadAfHqfiTUXWAC5ErNyQSGIa9XytVxRW02lobSjY73pdxIyq3e
+         DhtA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782970102; x=1783574902; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iNtTOoShZvK//y8UxKZL0ixNJ3K6se2hU6GGK++MvJ4=;
-        b=snhI8/wFoxITKV/AswQwuGIlO8dorqG1d/xGcp69/rTJog3QYEjb9e1jpI4h+GHFob
-         D2VCdR507mNQtAlGsqw2Sq9MFexnJjGrtFizQpFNZGTiiiz7MLsueKhgMYBCgVDfmtuM
-         uDLo9vrWeTXO1hTck7wU7wflc7V/hh6aYojHVaA3Bi7bqf7o6ULwGmJbocHYZdYraRbw
-         3unaHoF6Q3uHznIRG56NDhBuI37E479KUhUlx/FtSy38QbWOZrzpbhpVdJjQ9Q9oN/EZ
-         NlJixdH4WpAzJ7I4YnOkQGvq5AhtLGFJkiVDkUeCiG3KU6nNW5IWMlx4tYdKRfN/xqNg
-         ppGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782970102; x=1783574902;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782970257; x=1783575057; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iNtTOoShZvK//y8UxKZL0ixNJ3K6se2hU6GGK++MvJ4=;
-        b=Tf/zzFtYLAYcVnSIN6DUTgc+yWHJq0/BSh4tsiGMVLyVZ+20ABMnQAfbMsbIhwqjPV
-         XLOqlnyo6Mn8bDGTO9GrlhbNjuN0lHKLwg5FJ+LRwj9loYFvMrSxaJ3bgg7snfLxMHCH
-         Uunn3SNuapHJPA1hBd+s2MmZZsSvc/n0i1oeuuunIn8+/njoV5lqfHLZd/7JVTpSJdl6
-         fbteJNsCFuvP/BOakeTQn4tsWq3rhN4+3yV15bSMmwHZP6Zck2PlBsLvBVKU08EoJZkG
-         SwbvNlUBfWtr4cqAZklWb6o09ALe7pwj/f+sBzPVAFJQkWiJ1EnVQAHjIDIYs2SnUoUG
-         a03Q==
-X-Forwarded-Encrypted: i=1; AHgh+RpS5q8mMqHAX0dC86WMKEIHHL/eFhhSUvdUbPmpUiTNNMwUIIockmsYegf4DTTFzPBQ5hyT0fj7NqLpxAKQ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx44qyS6QPdiDhPPankO9r8Rjpds2Qx1lZcGX2f9LhKefk0e0R4
-	ZZWR7tt6FRfhBO0EErNj0xM1Ye4efN7SWb4MQPH1qn1vEvMl3A2DMTb0sijhKtiH
-X-Gm-Gg: AfdE7cnNV42uTEQ+C9jXFhYKKuiTED9SwAcdzVpwtx74L9E+A+a9fiST4ttrMClQ9H/
-	/bZA4aATA71mh2PAVV9kBFYIO/U72XzT+mngB27eZLMWoBffeyuu4VVWk4N+yBxJJlxk6L0POqs
-	UUihxKCrS0Gb6GqTpxGKnTGetUTnk2+yCBNgK3J0rDL/k4R541OyVsZF3d6Cnh/CQRxj+rFRMwY
-	zffLxRUs0Tqzff9Mgp0eGrTZD5bbmlMLOfk+6ueF5k3U5AR6qen0A3JRU8XtvgXgxANP+92klcp
-	eCGm5gb17IEej2Vo3KjTlRYHSu9tV4AOWOYOOnrsv/4uxERPtXCZEEb9r1kxTgHi9D93FdH9/kS
-	aL6gKw4ovVWKIfYAzpd9X2gC4hmz1Akr7WMgo4EPYkk4wRZ02dMBIDghhjnTLnNf1OLOUM1cbwp
-	QtlLBsDnz5Rg0LsUaEYpo=
-X-Received: by 2002:a05:6a00:420d:b0:846:2f5c:dc39 with SMTP id d2e1a72fcca58-847c0a39468mr4467510b3a.42.1782970102017;
-        Wed, 01 Jul 2026 22:28:22 -0700 (PDT)
-Received: from hyunchul-PC02.lge.net ([27.122.242.71])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847cb9b0b77sm743988b3a.49.2026.07.01.22.28.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 22:28:21 -0700 (PDT)
-From: Hyunchul Lee <hyc.lee@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ntfs: avoid self-deadlock during inode eviction
-Date: Thu,  2 Jul 2026 14:28:16 +0900
-Message-ID: <20260702-fix-deadlock-inode-eviction-v1-1-2abcfcdce38a@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=bELejxA6xNl1rTCERHzNWjc3NY2ffQPjFphF1wY/jKo=;
+        b=IymwPp9TwHVr1QDcOaTdJilM+0Vhi76O2aWxiGliQEhshk76QmPb4LD2yaCs1+WL52
+         rTic8ho/yIYozLSDJ7369xPyFRxqXxxkoRvDB+l1Wc8OHlYGOQoLkC5YSD2aIq8UvMEY
+         oEtdHGnLdZbe+2i/Bp4CSik/UgztSYXdRX9Z1MzOMgX232TydoQuE1k5ewP6mvlCvqJl
+         abtUdbNthme/O7v3v4GmNH8QWwvP072z+avwPmsoGO5BsZ9iS9ony6GquL1HYTGWVO33
+         y8zdM6kWX+tmJB4DKFKvb7JyjAMUV0q/NWeHLbNLJD3pQ0gZQhFvwgdXe8FOklcJUGPy
+         HmzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782970257; x=1783575057;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=bELejxA6xNl1rTCERHzNWjc3NY2ffQPjFphF1wY/jKo=;
+        b=KBT8YbEZkQR7+/xg/ieIfQQkp9NndRbgKE1z44EZptzZGwZB8I1adHj+Kw/g8Z0z8u
+         Spc7F6tp4sEvs/H5c/LsWw28YP6f6yHqd1cnjQ4UxBoIB3WJIkI/p60rW4AlQStCj5RK
+         iMGfmsfiDwRObCsYD0fKXxPufOzKtEc/vbnnTeoDfK2iTiE0Tglmmasatb+7ZWAKvdG5
+         GYPjnsuer70jLj4Na4AttrGAhyJvEAt3MrCCb6DSX0pwnX3BBwHjumUT0dQz3d1RRIHS
+         IEhK8AkXSEQua/LOrI9s198QeQ4ElRxg/no4EDqRFqTZK9AxzaSHTL4dLx0qiD/d9vuf
+         MNYA==
+X-Forwarded-Encrypted: i=1; AHgh+Rqdxk4RYzL/e3o8IJJrWvlXx9ROiurhH8GuKI2tE+hagSv1IA/Chnr7Plxbdg0Nqd5w2AdyCqJon4Jc6B2W@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRhkehD1FECoxs+dRxwlqXZ6unUavdlEe/Gj6ANkjuzEWkQ6Mn
+	2XvPbg1gfDFQlrMh9C+ADwtvhBF+A+6wzBiZ737Ux8FY03M2epnH2DoSQwdcehyBqvql/iXPiua
+	hXKDkYFBETYpdvx5Q2BSud2vTseQVG6MvFhHggS8cAA==
+X-Gm-Gg: AfdE7cn0b0/yVSEdqrkrX9vFlYqt5qiR42SISHb4Z9cGKiyiS2a8bcsyCnXzFLyeDtm
+	SokbJUx4pPqfUfGaWln162f02vr8i58GIQzlhfXN26X8NaVqZCWST3UCs8gmoaUr2DYYVQj/t45
+	pLUeMq1f8X9SsLweQGeqVKAUe04vXEgvgebuYGQwD2u6PabP+8jZpljHIeX20lvDx5Yr6/bQurK
+	xWmwSvYBzSnPjwGnXPYxw+Hqy96/lAbmxLK4rNFwKZRFIBlfm+LgaSt22ZSDl839FW94LPP8IB/
+	fXRSc0nOUd8cfjcaMIkB7nnHpsa+fU8=
+X-Received: by 2002:a17:907:c408:b0:c12:51d9:bb78 with SMTP id
+ a640c23a62f3a-c12a9de6f7bmr208925966b.28.1782970256938; Wed, 01 Jul 2026
+ 22:30:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1998; i=hyc.lee@gmail.com;
- h=from:subject:message-id; bh=lQtmVLwNBWkxqTLg9tYuRhH2hUW+InGrLu4tIiTeJsg=;
- b=owEBbQKS/ZANAwAKATTyMPr3jkjTAcsmYgBqRfZb1xOONQEM/MQ1tFcDodKhGDyHFFgnpbixU
- 5WyrqG7D5KJAjMEAAEKAB0WIQTVhSnMU3bjbW4eb2I08jD6945I0wUCakX2WwAKCRA08jD6945I
- 0+WtD/wKP4CScyU+vBdYl77WdrTmrO0kY+QT6LWCkuZBoEprQI8JgiXpJRO7E6yMNSr42IuFyFb
- LdKG1veplaciU0Wd13DGvrWlbgU23WrCu3udCpTFZX40hz17J8PqsKm17RddSYqJTPVpUUbDwSv
- J2cjs7/04qfu2sv3MaTcihvsnoPXlBUZsGakxyCkUdcwu46V5DWS3smObNJn6CqcAtsgR2b/Mqm
- nkdVWfYJQ/FSWlc+JZrQZV0qYfG1DZUeFnWnaBa7Gbn5IWyH+++PIcOiZq99fBiL2hDUaKzLjxu
- DJ4A/atMvJpX1X56UCkra5aR7gSLK+cZXbbg87Zyb1hwghih6gyLESHjrJaV+XQURKeRigPLFnN
- 6lVNbjlIGkxmjuLgelqkvumox2U++Qd7I4q5Lr44wlVHXe/ZmxgYT4pM+YR0Qrpnlw0tdgz/t0D
- lfRWAxd4+z8MIOUV9RSbL5edOZLkmry4UzWLX3+FPtqSnjIrpUoh7bifxccFXd5W/BNuRuSlvgr
- QoPdKQcLDqJvbsLn9qakoHjeVfReZ0EekHeUZBSBmLqDNYWdOcs9WRYIMIAiH1jfeOChgl3lalc
- hBKnE6xAXzeWVgVsalM1w6F06LR57Pzh14vdVT+FyS0KmyR2H88rd8c18KA6jO9MXWS7gLD+UWm tAk60MHz+wfpEGg==
-X-Developer-Key: i=hyc.lee@gmail.com; a=openpgp; fpr=D58529CC5376E36D6E1E6F6234F230FAF78E48D3
-Content-Transfer-Encoding: 8bit
+References: <20260623093750.2311-1-aditya.ansh182@gmail.com> <5c6c46993f8fbf44300814e2b37ca62e637cdc66.camel@dubeyko.com>
+In-Reply-To: <5c6c46993f8fbf44300814e2b37ca62e637cdc66.camel@dubeyko.com>
+From: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+Date: Thu, 2 Jul 2026 11:00:44 +0530
+X-Gm-Features: AVVi8CdMmTDZbW6mldyfqemSDkmPkFB9BzKF7Qzjmxm8e-M469FGs0vLtOSbd-c
+Message-ID: <CAK5ssPN-7631-=bZT1QhovU5jq_z=a8sjEK4g+GaMa1jOFFU3g@mail.gmail.com>
+Subject: Re: [PATCH] hfs: port HFS+ b-tree bitmap corruption check
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-An attribute-list update performed while allocating clusters can drop the
-last reference to the temporary attribute inode. Evicting that inode
-drops its reference to the base inode and can invoke ntfs_drop_big_inode()
-for the base inode from within the base inode's own writeback path.
+Hi Slava,
 
-If the base inode is unlinked, ntfs_drop_big_inode() calls
-truncate_setsize(), which waits for the inode's folio writeback to
-complete. The same writeback worker is responsible for completing that
-writeback, so it waits for itself indefinitely.
+Thanks for the suggestion.
 
-Prevent this self-deadlock by grabbing a reference to the base inode at the
-beginning of ntfs_writepages() and releasing it at the end of the function.
-This defers eviction until all bios have been submitted, allowing the wait
-for folio writeback to complete safely.
+You're right. The initial implementation ended up a bit more
+complex because HFS lacks the struct hfs_bmap_ctx and
+hfs_bmap_get_map_page() helpers that HFS+ already has.
 
-Signed-off-by: Hyunchul Lee <hyc.lee@gmail.com>
----
- fs/ntfs/aops.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+Porting those helpers to HFS is straightforward since both
+filesystems use the same b-tree map layout (record index 2 for
+the header node map and record index 0 for map nodes). Doing so
+also lets hfs_bmap_test_bit() follow the same implementation as
+HFS+, which is much cleaner.
 
-diff --git a/fs/ntfs/aops.c b/fs/ntfs/aops.c
-index 1fbf832ad165..88e5b2def66c 100644
---- a/fs/ntfs/aops.c
-+++ b/fs/ntfs/aops.c
-@@ -251,6 +251,8 @@ static int ntfs_writepages(struct address_space *mapping,
- 		.wbc		= wbc,
- 		.ops		= &ntfs_writeback_ops,
- 	};
-+	bool need_iput = false;
-+	int ret;
- 
- 	if (NVolShutdown(ni->vol))
- 		return -EIO;
-@@ -267,7 +269,20 @@ static int ntfs_writepages(struct address_space *mapping,
- 		return -EOPNOTSUPP;
- 	}
- 
--	return iomap_writepages(&wpc);
-+	/*
-+	 * Prevent eviction in writeback to avoid deadlock in
-+	 * ntfs_drop_big_inode().
-+	 */
-+	if ((ni->type == AT_DATA || ni->type == AT_INDEX_ALLOCATION) &&
-+	    igrab(inode))
-+		need_iput = true;
-+
-+	ret = iomap_writepages(&wpc);
-+
-+	if (need_iput)
-+		iput(inode);
-+
-+	return ret;
- }
- 
- static int ntfs_swap_activate(struct swap_info_struct *sis,
+I'll update this in v2 by:
 
----
-base-commit: ec050fc4cf17d341e08c8e25dd9dd6af37bb2e67
-change-id: 20260702-fix-deadlock-inode-eviction-086ee99bd59d
+adding struct hfs_bmap_ctx to fs/hfs/btree.c;
+porting hfs_bmap_get_map_page();
+simplifying hfs_bmap_test_bit() to match the HFS+
+implementation; and
+updating hfs_btree_open() to call
+hfs_bmap_test_bit(node, 0) accordingly.
 
-Best regards,
--- 
+I'll send a v2 with these changes.
+
 Thanks,
-Hyunchul
+Aditya
 
+On Thu, Jul 2, 2026 at 8:21=E2=80=AFAM Viacheslav Dubeyko <slava@dubeyko.co=
+m> wrote:
+>
+> On Tue, 2026-06-23 at 09:37 +0000, Aditya Srivastava wrote:
+> > From: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+> >
+> > In HFS+ filesystems, during b-tree open (hfs_btree_open()), the code
+> > verifies that the allocation map bit for the tree header (node 0) is
+> > set.
+> > If not, it indicates a corrupted map record/bitmap and mounts the
+> > volume
+> > as read-only (SB_RDONLY) to prevent further damage.
+> >
+> > HFS filesystems share the same b-tree structure but currently lack
+> > this
+> > corruption detection check, which was highlighted by the maintainer.
+> >
+> > Port this check to HFS:
+> > 1. Implement hfs_bmap_test_bit() in fs/hfs/btree.c (which safely
+> > traverses
+> >    the b-tree map nodes to inspect the desired bit, identical to
+> > HFS+).
+> > 2. Invoke hfs_bmap_test_bit() for node 0 at the end of
+> > hfs_btree_open(),
+> >    warning and forcing read-only if corruption is detected.
+> >
+> > Suggested-by: Viacheslav Dubeyko <slava@dubeyko.com>
+> > Link:
+> > https://lore.kernel.org/all/6a36101b.be22b350.2a3e9.0001.GAE@google.com=
+/T/#r446d0fed2a2900bd805534bbcb799d86619ae2ea
+> > Signed-off-by: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+> > ---
+> >  fs/hfs/btree.c | 52
+> > ++++++++++++++++++++++++++++++++++++++++++++++++++
+> >  fs/hfs/btree.h |  1 +
+> >  2 files changed, 53 insertions(+)
+> >
+> > diff --git a/fs/hfs/btree.c b/fs/hfs/btree.c
+> > index 2eb37a2f64e8..4293399d377e 100644
+> > --- a/fs/hfs/btree.c
+> > +++ b/fs/hfs/btree.c
+> > @@ -155,6 +155,14 @@ struct hfs_btree *hfs_btree_open(struct
+> > super_block *sb, u32 id, btree_keycmp ke
+> >       kunmap_local(head);
+> >       folio_unlock(folio);
+> >       folio_put(folio);
+> > +
+> > +     if (!hfs_bmap_test_bit(tree, 0)) {
+> > +             pr_warn("(%s): %s (cnid 0x%x) map record invalid or
+> > bitmap corruption detected, forcing read-only.\n",
+> > +                     sb->s_id, id =3D=3D HFS_EXT_CNID ? "extents" :
+> > "catalog", id);
+> > +             pr_warn("Run fsck.hfs to repair.\n");
+> > +             sb->s_flags |=3D SB_RDONLY;
+> > +     }
+> > +
+> >       return tree;
+> >
+> >  fail_folio:
+> > @@ -356,6 +364,50 @@ struct hfs_bnode *hfs_bmap_alloc(struct
+> > hfs_btree *tree)
+> >       }
+> >  }
+> >
+> > +bool hfs_bmap_test_bit(struct hfs_btree *tree, u32 nidx)
+> > +{
+> > +     struct hfs_bnode *node;
+> > +     struct page *page;
+> > +     u16 off, len;
+> > +     u8 *data, byte, m;
+> > +     bool res =3D false;
+> > +
+> > +     node =3D hfs_bnode_find(tree, 0);
+> > +     if (IS_ERR(node))
+> > +             return false;
+> > +
+> > +     len =3D hfs_brec_lenoff(node, 2, &off);
+> > +     while (nidx >=3D len * 8) {
+> > +             u32 i;
+> > +
+> > +             nidx -=3D len * 8;
+> > +             i =3D node->next;
+> > +             if (!i) {
+> > +                     hfs_bnode_put(node);
+> > +                     return false;
+> > +             }
+> > +             hfs_bnode_put(node);
+> > +             node =3D hfs_bnode_find(tree, i);
+> > +             if (IS_ERR(node))
+> > +                     return false;
+> > +             if (node->type !=3D HFS_NODE_MAP) {
+> > +                     hfs_bnode_put(node);
+> > +                     return false;
+> > +             }
+> > +             len =3D hfs_brec_lenoff(node, 0, &off);
+> > +     }
+> > +     off +=3D node->page_offset + nidx / 8;
+> > +     page =3D node->page[off >> PAGE_SHIFT];
+> > +     data =3D kmap_local_page(page);
+> > +     off &=3D ~PAGE_MASK;
+> > +     m =3D 1 << (~nidx & 7);
+> > +     byte =3D data[off];
+> > +     res =3D (byte & m) !=3D 0;
+> > +     kunmap_local(data);
+> > +     hfs_bnode_put(node);
+> > +     return res;
+> > +}
+>
+> Why we cannot follow to the approach is implemented in HFS+?
+>
+> static bool hfs_bmap_test_bit(struct hfs_bnode *node, u32 node_bit_idx)
+> {
+>         struct hfs_bmap_ctx ctx;
+>         struct page *page;
+>         u8 *bmap, byte, mask;
+>
+>         page =3D hfs_bmap_get_map_page(node, &ctx, node_bit_idx /
+> BITS_PER_BYTE);
+>         if (IS_ERR(page))
+>                 return false;
+>
+>         bmap =3D kmap_local_page(page);
+>         byte =3D bmap[ctx.off];
+>         kunmap_local(bmap);
+>
+>         mask =3D 1 << (7 - (node_bit_idx % BITS_PER_BYTE));
+>         return (byte & mask) !=3D 0;
+> }
+>
+> Currently implemented function looks slightly complicated. Also, I
+> would like to have similar logic in HFS and HFS+ with the goal to make
+> b-tree logic something like library that HFS and HFS+ code can use.
+>
+> Thanks,
+> Slava.
+>
+> > +
+> >  void hfs_bmap_free(struct hfs_bnode *node)
+> >  {
+> >       struct hfs_btree *tree;
+> > diff --git a/fs/hfs/btree.h b/fs/hfs/btree.h
+> > index 99be858b2446..efe88f66c856 100644
+> > --- a/fs/hfs/btree.h
+> > +++ b/fs/hfs/btree.h
+> > @@ -93,6 +93,7 @@ extern void hfs_btree_write(struct hfs_btree
+> > *tree);
+> >  extern int hfs_bmap_reserve(struct hfs_btree *tree, u32 rsvd_nodes);
+> >  extern struct hfs_bnode *hfs_bmap_alloc(struct hfs_btree *tree);
+> >  extern void hfs_bmap_free(struct hfs_bnode *node);
+> > +extern bool hfs_bmap_test_bit(struct hfs_btree *tree, u32 nidx);
+> >
+> >  /* bnode.c */
+> >  extern void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32
+> > off, u32 len);
