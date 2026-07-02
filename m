@@ -1,50 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78972DCF6C;
-	Thu,  2 Jul 2026 14:46:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33C741D777;
+	Thu,  2 Jul 2026 14:51:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783003577; cv=none; b=aRoQp8CHybjYvvpKzH7GlzMo3VYuUggkD5zS88ENR+XRs4c218NdLgooTJ0yzrADIUNfehXU4w0X8T3/3r3u8agraoq0t11bVu7hxqLHFrKX4JJ670BjA45B77gZ1KTzUq8hP74ga0Z0d8yJ02d27sWrl4MHIerzEMabywliDos=
+	t=1783003867; cv=none; b=SxHxmFieK5ftmiYBMvjRp3e50ISeXqureQopMnFN/brZcFu+WRMMpBwUXzFVnsrvtUt0ZjzXHzxJgqE7zpnXjZfMsuRYo7z968h0yxWpvXxMfJ3gLSkOeZ04LydvrKAV6PVwtuhfIxhAiFmN8r1eXA1MxdP+Ha7jAYxk47YD/Eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783003577; c=relaxed/simple;
-	bh=5c7tc9jWyeW+Ar5vmIaMB6k6xdAeTe8Mi8XrpBZReYI=;
+	s=arc-20240116; t=1783003867; c=relaxed/simple;
+	bh=+teDQnmp9brRFj1zs6hXifmWQhD2Sv4TNJX11xkWD5I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r148r5945brBF0lczSDHbPC3V0gAzLnb0/Ny+o5Dgvx1xA63ZOwOGhYrKDYOjIBduZqqMoVS8rkuas/oAmZRJRk8WfK60aWN9leDOdDnIK+Tfz0XLAU7bkDKoLOForh5MTzkPnVkDpJ/IhN4OWkRbNflc4pK2eLtrg2OM77DBFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DPhdg7VU; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gfqdnj7Ee//npuYtV9mX+XQfmgz2E6YAeDDftCpB0OEKv3+pqQLYSVUuABhNt5q5wsVOvWfrIC7YTI6pw2Jp1HyXG07IQztYbV/zzrCMu4RUCj3bGSBL8YlPgeHXLLLk90csdqY+BKr+SW9ERODCKIyBWRqHMjYCBtpGSHjq044=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PpywpTRs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DPhdg7VU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6DF11F00A3A;
-	Thu,  2 Jul 2026 14:46:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PpywpTRs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4605A1F000E9;
+	Thu,  2 Jul 2026 14:51:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783003576;
-	bh=5c7tc9jWyeW+Ar5vmIaMB6k6xdAeTe8Mi8XrpBZReYI=;
+	s=k20260515; t=1783003866;
+	bh=vM9+qGckBI3ZB5sIe3KU97TZcXYa6afqIkCQ42YlBEY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DPhdg7VUhl7YBGeDQR+WTho9c3YkHv/mXIX7R5ZvC3p4a+UnxjOlYkvo9dtpJXZD+
-	 17Uu2iAH5UmJUsHjogtVKG0wuYhIBWi38kHC48FqhA08qMGujG+BLJrbcnGIjbpfBN
-	 bEYm+4akaoRQ6ymDy1BAq8qBLxuN0CtFmKJtlLcVQohlQqDrtoieHacrMAXjfUEY3s
-	 Q0wUylsJ7eYDddX7FSPHWL4rkxWjHPq6gK23zDfskRDr7j5kUH/N7RN5VJ+OEx68FY
-	 B0K+FbMw7hqVtNVjIk/D2JbocpKCCCgq0PxuZ1DSkOT4BuMaVNF0GbT8EOcUETLiTZ
-	 M8rDlyuia2jGw==
-Date: Thu, 2 Jul 2026 15:46:06 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
+	b=PpywpTRs6/CjsHQw+HKGTbGzxH2NSJFWzeg86ZIZEVaAxdk5fH1qdBL2YGffGmlai
+	 PrX+VZgWANirK1szWt+Sg2252aGbYE1ITMRCg7yY9qS/FWOq35PZPsHePdVKfvqX/r
+	 QsI8uv619toLrQnZGP0A+IV+dANilKOIa+yCpahetPXiusF5RNIq2SZin8QUFhWO5n
+	 m6ncWyG7+Y8bn8QGkz06LWvrQ/JHlbQnGJUOG0vhXGYNSRxamu5rCcjUnXKMOfb1lx
+	 k9zPUJZ9urfR4+seyBwcaGeRAMsaPhrYWSAjE3NZTDaXueTjG63O2HQTUdHoa+aXbG
+	 5sqR/SO2OUlBQ==
+Date: Thu, 2 Jul 2026 16:51:01 +0200
+From: Carlos Maiolino <cem@kernel.org>
 To: Christian Brauner <brauner@kernel.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
-	Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-Message-ID: <akZzDfK-yr5ErVJT@lucifer>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
- <20260702-seekrank-stilrichtung-mitentscheiden-69a64ee097ec@brauner>
- <1f29f48d-b9ff-4de2-a392-dc05781728be@kernel.org>
- <akYz2aMIco1fbD-t@lucifer>
- <54d3a698-a275-488e-ad36-ef423db30f70@kernel.org>
- <20260702-weitreichend-aufgearbeitet-flausen-fd92f38bbba0@brauner>
- <akZqigap0GTOSkyx@lucifer>
- <20260702-angewachsen-glatze-kassen-61b7761f6564@brauner>
+Cc: linux-fsdevel@vger.kernel.org, jack@suze.cz, djwong@kernel.org, 
+	hch@lst.de, serge@hallyn.com, linux-security-module@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org
+Subject: Re: [RFC PATCH 0/4] Introduce capable_noaudit
+Message-ID: <akZ6yxZ0p54l9Dwg@nidhogg.toxiclabs.cc>
+References: <20260626114533.102138-1-cem@kernel.org>
+ <20260702-alufelgen-belag-tastatur-b666a49f7fc0@brauner>
+ <akYimPrAcHlv7shR@nidhogg.toxiclabs.cc>
+ <20260702-fortsetzen-verarbeiten-abfertigung-ead54cb2e597@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -53,54 +46,41 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260702-angewachsen-glatze-kassen-61b7761f6564@brauner>
+In-Reply-To: <20260702-fortsetzen-verarbeiten-abfertigung-ead54cb2e597@brauner>
 
-On Thu, Jul 02, 2026 at 04:09:14PM +0200, Christian Brauner wrote:
-> > > I think as a global policy this has ran its course.
-> >
-> > I'm honestly not sure why you sent this patch in the first place if you're
-> > simply going to ignore it (+ people's opinions) anyway :)
->
-> I sent an RFC patch for the minimal acceptable change in my opinion. It
-> turns out that the majority of people on here seem to prefer the removal
-> that I mentioned as an alternative in the commit message instead and it
-> already happens in practice.
+On Thu, Jul 02, 2026 at 03:47:37PM +0200, Christian Brauner wrote:
+> On 2026-07-02 10:35 +0200, Carlos Maiolino wrote:
+> > On Thu, Jul 02, 2026 at 09:41:39AM +0200, Christian Brauner wrote:
+> > > On 2026-06-26 13:45 +0200, cem@kernel.org wrote:
+> > > > From: Carlos Maiolino <cem@kernel.org>
+> > > > 
+> > > > In some cases - filesystems quota specifically here - we'd like to check
+> > > > for effective capabilities without issuing spurious audit messages and
+> > > > without the need to specify a namespace for that.
+> > > > 
+> > > > This series introduce capable_noaudit() which has the same goal as
+> > > > capable() but without firing audit messages.
+> > > > 
+> > > > Also, this updates both generic quota and xfs quota code to use that.
+> > > > 
+> > > > The last patch unexports has_capability_noaudit() which was originally
+> > > > exported to be used in xfs but turns out it does not meet our needs.
+> > > > 
+> > > > Note this is based on top of a current series I have to remove
+> > > > has_capability_noaudit() calls from xfs so the xfs patch won't
+> > > > apply cleanly without that series.
+> > > > 
+> > > > If adding this helper is acceptable, I'll turn this into a non-rfc
+> > > > series with the required changes to apply properly.
+> > > > 
+> > > > Comments? Flames?
+> > > 
+> > > Convert more, please.
+> > > 
+> > 
+> > Convert what? :) more callers from capable() to capable_noaudit()?
+> 
+> Yes, there's more code that should use the noaudit variant. Future
+> work...
 
-I made arguments as to why I felt tags were useful, linking to actual series,
-etc. and I feel it'd be healthier if you would respond to those points rather
-than vox populi.
-
-But I guess the ship has sailed.
-
-There's been about 1,000 Assisted-by tags since this doc was introduced at the
-end of December 2025, which is small (~2% of all patches) and clearly majorly
-underestimates the actual numbers, so 'it already happens in practice' seems a
-bit... inaccurate?
-
-I also think there's a lot more frustration in 'it does nothing to prevent the
-flood of unacked AI slop' in the responses here, which is totally
-understandable.
-
-But I think people are missing the fact it makes it easier to deal with those
-instances where people do ack it.
-
-It's imperfect, it shouldn't advertise models, but it's still got actual use. If
-you were looking for 'do people have a use for this', then yes, we do.
-
->
-> > I'll still send a patch to link the apparently redundant AI doc to the generated
-> > tooling doc because for those who do pay attention it's silly that they're not
-> > connected.
->
-> This on the other hand seems a bit strange given the direction of this
-> discussion.
->
-
-I don't understand that at all. The coding assistants document is not being
-deleted, and if you read https://docs.kernel.org/process/generated-content.html
-you can see it doesn't enforce tags.
-
-It makes reasonable points that from the sounds of it you don't disagree with?
-So why on earth wouldn't we link the two?
-
-Thanks, Lorenzo
+/me writes to his todo list
