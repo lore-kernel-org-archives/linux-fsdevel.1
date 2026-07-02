@@ -1,150 +1,72 @@
 Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 608292D47F4;
-	Thu,  2 Jul 2026 02:31:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8525E1FF5E3;
+	Thu,  2 Jul 2026 02:42:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782959522; cv=none; b=MizBb0ShuHev5iU5526J0JNj+wr6krgP2pxNaXpIL6fDKdGdmYi2knmqX6nGnu9+Iw/3CUOpWSet8w48JKZI86Ot7ln/WXEFH314ULoIHRfH6ydROZvSBjmSY5P2+GirESbgRtJcMu5lw9lSd+zWDf4GfEpKx083PqbUA1utDY8=
+	t=1782960170; cv=none; b=Oqu5ePxlwZ3IatDO3DWc2RpHZ7y9qcH2Vx/sFfMduC9CDrXTc0VEinYVBrNas4iJCZznLfFNahjJmrqu/aJgNYkX9yKDxwycXS6BBLtrNz5n8gN+3cLvtPLVUrE8qu48ThtrDpVgMQ0fMlbDe3zdNpj+zNt9/TVRzut4+ZqLE8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782959522; c=relaxed/simple;
-	bh=1s+iPxRG1hUEhy/elEVSEllw+q4cgCjWnMCApe/aSws=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fn+kN3ef1lpczOtVmJAgADuNLHRyaeyGzYt7+AH0O/M8jk2OXzr8DuPkMHb1IvYi7i7dH6OJi/sLX1fgsVgjCecFxWzUd9Nkjxs+7LKY0Ve3r+EjvHnSzocb0K6KyUPogKBgfgGNeX3UflnXk+UYBGWVVX4yw/MtUqiuNyvCF0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=VcoIAbOK; arc=none smtp.client-ip=220.197.31.4
+	s=arc-20240116; t=1782960170; c=relaxed/simple;
+	bh=mZx85SmqurJw5XpRcNyNyJ0HFKrbxPsiHTk5jJ/Y/XE=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=J6lVZJUwHE2ojJj6trPFK4Fjn8aLR5nYpeOIvkB1axMruO2SVvK+dzIBSo8L6gYZFTgGxNhyvxlycTNn5rRlqQcALyGH72puKHjtDvaKfBs43Mogvd9ZSSGIXiD2Sj3Y7yvvIygZTO13cqtvgDMkazZWcM6xspAiGqL+YmBQYUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ZRtM7fa0; arc=none smtp.client-ip=220.197.31.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="VcoIAbOK"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ZRtM7fa0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=tA
-	vtJG9IFXuZLcKJvm7o56+Ya4NXBTEQy9YEtHkvsa8=; b=VcoIAbOKhjnB2Zc3el
-	jfRSUaTyWz/xRaTALJ1EE81/np9tUTwt+pmDYdpUfWTykulYBumwsKeiMhZi1v7v
-	/TGE3+CNEQ+Yh31d9Z6Rx7Km/NdjLP6U3pM9OV2wvAfdwiGhQQ6q2Ws+RyTkWEme
-	Ad93jAe+vYH/+l7nWAD1eD6NA=
-Received: from czl-ubuntu-pc.. (unknown [])
-	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wA3pcqBzUVqvuk3HQ--.13573S2;
-	Thu, 02 Jul 2026 10:31:30 +0800 (CST)
-From: Chi Zhiling <chizhiling@163.com>
-To: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>,
-	Chi Zhiling <chizhiling@kylinos.cn>
-Subject: [PATCH v2] exfat: validate cached iomaps during buffered writes and writeback
-Date: Thu,  2 Jul 2026 10:31:16 +0800
-Message-ID: <20260702023116.829321-1-chizhiling@163.com>
-X-Mailer: git-send-email 2.43.0
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:From:To:
+	Content-Type; bh=6Pn4pf6f5s+K9mk+WFRvSch9mSawLEvD0kBg3n7MWcA=;
+	b=ZRtM7fa0jhc/T2xn1mO349xz/fT2mmi8ZuhfP1nNfAi1a7Ifa6kG6MpYiuZxvM
+	+sxLIipVkb8yf87VYafUSxe4qT2rwqFxvoEBunEV/8DbTpGbV8EcjOL4ZG4pxAUh
+	ASxFbZqte2kxtSGbTJ7xDNAKeraD00cJ3yLJ/zKGNgXjk=
+Received: from [192.168.3.124] (unknown [])
+	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wBX6lsM0EVq9a7uGA--.114S2;
+	Thu, 02 Jul 2026 10:42:25 +0800 (CST)
+Message-ID: <613f117f-e192-427e-ba88-4a060250e7db@163.com>
+Date: Thu, 2 Jul 2026 10:42:20 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wA3pcqBzUVqvuk3HQ--.13573S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxXFy7ZFWrXryfJrWDGr4xtFb_yoW5KFyDp3
-	98Ka47GFs7X3W7WF1DGFyUZ3WFk34fKFW7JryrGwn8ZryqvrWIka47KFy29F15J3srCr42
-	qF4FgryUJrs7Cr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jnmiiUUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC+AJ-HWpFzYJGpwAA3Z
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] exfat: validate cached iomaps during buffered writes
+ and writeback
+From: Chi Zhiling <chizhiling@163.com>
+To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo
+ <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>,
+ Chi Zhiling <chizhiling@kylinos.cn>
+References: <20260702023116.829321-1-chizhiling@163.com>
+In-Reply-To: <20260702023116.829321-1-chizhiling@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:_____wBX6lsM0EVq9a7uGA--.114S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrXrWrAFyrJry3Xw1UXw17GFg_yoWxGFXEvw
+	1vvryrGa1jvF1rJr47Xw43ArZ2vFs5GFn8X3yUt3srtwn2gFs2vF1xZFnxtryjq39rGF1v
+	yr4vkw4UJFy7XjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUj8nY7UUUUU==
+X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC3BEkwWpF0BHYzAAA3S
 
-From: Chi Zhiling <chizhiling@kylinos.cn>
-
-Writeback does not hold i_rwsem and can race with truncate or other
-operations that change the file's block mapping. This may leave cached
-iomaps stale, causing writeback to write data to blocks that no longer
-belong to the file.
-
-Track iomap validity with exfat's cache_valid_id and implement
-iomap_valid() so cached iomaps are revalidated after the folio is locked.
-If the mapping has changed, a new iomap is obtained before writeback
-continues.
-
-This matches the iomap validity model used by XFS and prevents data
-corruption from stale cached iomaps.
-
-IOMAP_F_MERGED is set twice in __exfat_iomap_begin(), this patch
-also drops the redundant setting.
-
-Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
----
- fs/exfat/file.c  |  4 ++--
- fs/exfat/iomap.c | 15 +++++++++++++--
- fs/exfat/iomap.h |  1 +
- 3 files changed, 16 insertions(+), 4 deletions(-)
-
-diff --git a/fs/exfat/file.c b/fs/exfat/file.c
-index 5fc13378d35f..4258398ca641 100644
---- a/fs/exfat/file.c
-+++ b/fs/exfat/file.c
-@@ -772,8 +772,8 @@ static ssize_t exfat_file_write_iter(struct kiocb *iocb, struct iov_iter *iter)
- 	if (iocb->ki_flags & IOCB_DIRECT)
- 		ret = exfat_dio_write_iter(iocb, iter);
- 	else
--		ret = iomap_file_buffered_write(iocb, iter,
--				&exfat_write_iomap_ops, NULL, NULL);
-+		ret = iomap_file_buffered_write(iocb, iter, &exfat_write_iomap_ops,
-+						&exfat_iomap_write_ops, NULL);
- 	if (ret < 0)
- 		goto unlock;
- 
-diff --git a/fs/exfat/iomap.c b/fs/exfat/iomap.c
-index 1aac38e63fe6..e417116f0084 100644
---- a/fs/exfat/iomap.c
-+++ b/fs/exfat/iomap.c
-@@ -56,6 +56,7 @@ static int __exfat_iomap_begin(struct inode *inode, loff_t offset, loff_t length
- 			iomap->addr = IOMAP_NULL_ADDR;
- 			iomap->offset = offset;
- 			iomap->length = length;
-+			iomap->validity_cookie = ei->cache_valid_id;
- 			return 0;
- 		}
- 
-@@ -133,7 +134,7 @@ static int __exfat_iomap_begin(struct inode *inode, loff_t offset, loff_t length
- 		}
- 	}
- 
--	iomap->flags |= IOMAP_F_MERGED;
-+	iomap->validity_cookie = ei->cache_valid_id;
- out:
- 	mutex_unlock(&sbi->s_lock);
- 	return err;
-@@ -201,7 +202,8 @@ static ssize_t exfat_writeback_range(struct iomap_writepage_ctx *wpc,
- 		struct folio *folio, u64 offset, unsigned int len, u64 end_pos)
- {
- 	if (offset < wpc->iomap.offset ||
--	    offset >= wpc->iomap.offset + wpc->iomap.length) {
-+	    offset >= wpc->iomap.offset + wpc->iomap.length ||
-+	    !exfat_iomap_valid(wpc->inode, &wpc->iomap)) {
- 		int error;
- 
- 		error = __exfat_iomap_begin(wpc->inode, offset, len,
-@@ -269,3 +271,12 @@ int exfat_iomap_swap_activate(struct swap_info_struct *sis,
- {
- 	return iomap_swapfile_activate(sis, file, span, &exfat_iomap_ops);
- }
-+
-+static bool exfat_iomap_valid(struct inode *inode, const struct iomap *iomap)
-+{
-+	return EXFAT_I(inode)->cache_valid_id == iomap->validity_cookie;
-+}
-+
-+const struct iomap_write_ops exfat_iomap_write_ops = {
-+	.iomap_valid = exfat_iomap_valid,
-+};
-diff --git a/fs/exfat/iomap.h b/fs/exfat/iomap.h
-index fd8a913f7794..2ea387f2b179 100644
---- a/fs/exfat/iomap.h
-+++ b/fs/exfat/iomap.h
-@@ -11,6 +11,7 @@ extern const struct iomap_ops exfat_iomap_ops;
- extern const struct iomap_ops exfat_write_iomap_ops;
- extern const struct iomap_writeback_ops exfat_writeback_ops;
- extern const struct iomap_read_ops exfat_iomap_bio_read_ops;
-+extern const struct iomap_write_ops exfat_iomap_write_ops;
- 
- int exfat_iomap_swap_activate(struct swap_info_struct *sis,
- 			       struct file *file, sector_t *span);
--- 
-2.43.0
+On 7/2/26 10:31 AM, Chi Zhiling wrote:
+>   		error = __exfat_iomap_begin(wpc->inode, offset, len,
+> @@ -269,3 +271,12 @@ int exfat_iomap_swap_activate(struct swap_info_struct *sis,
+>   {
+>   	return iomap_swapfile_activate(sis, file, span, &exfat_iomap_ops);
+>   }
+> +
+> +static bool exfat_iomap_valid(struct inode *inode, const struct iomap *iomap)
+> +{
+> +	return EXFAT_I(inode)->cache_valid_id == iomap->validity_cookie;
+> +}
+> +
+> +const struct iomap_write_ops exfat_iomap_write_ops = {
+> +	.iomap_valid = exfat_iomap_valid,
+> +};
+Sorry, this patch causes a build failure. I'll send a v3 as soon as 
+possible.
 
