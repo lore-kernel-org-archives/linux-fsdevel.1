@@ -1,115 +1,44 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFA53EBF0C
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 11:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0535A3EB0E6;
+	Thu,  2 Jul 2026 11:17:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782991002; cv=none; b=tbIp4oPQA9BSzy4zpo6ANXb4o9aFmBVMc6MUrvW6W6CZtBZkPCyagcH1B35RHcPR3IA25uMZY+cixmo13DDoHUtk5YjTUGLj4rC1CaOfuxRDKyRfuoGndvMSKYd8K/KT0ATDk6UzTIcOAXzohCqDqbjGxAIBRWgegVJA3Leuk4I=
+	t=1782991055; cv=none; b=CsbBjc5Eto1y6gAGLSamZQUbILtTQp6dgnV1KU5XSAEC78qfd/TraQRqsm+TPBTAhnphxXqQtL2+sAmAXMQdsaLTYx2jn36QdHOaQz8uzB/wN/1GZyBdGCTewNd+CGE0n73Ai1+OebUfDeIFgQZvLBA/Iqf3JxiZvwTbQbs3cMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782991002; c=relaxed/simple;
-	bh=egNNIeSTqKDsuUgb2VZ0PZXU/HWv6jJeb1LiC5f7h6I=;
+	s=arc-20240116; t=1782991055; c=relaxed/simple;
+	bh=LhOXCibg9a5drTPSzz1LQIpCrkavwlW99AeY8rvjAHg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kID4jCxo6lSayxJqx8Aau8p2YfcKcskqgtmMnjP6OmCsDD9pIJjImxbhF/wqItNPOYZJTZADrhkzHKp4PYAf6MyEbqWQ6I4IZ6D/xOXX8a7P7UgFtz4UaJ3dQQqJO7fj1/XzZMieTvuA1OFmzofoZx8sPbWPO6zPIEd8E9T/dtk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MaQ0JND5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3pvLQ4ye; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MaQ0JND5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3pvLQ4ye; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=WmxXHFjTUfEZWMHfXjVe+ADR9sGN/+H0cMpWoXwWXTs22ALI7WVWSL1620DREwMNcvfJdLC62ov7+rBVV5R9mJLMIwrJElDyTvdYgUxrA6rMmQqz4rXfGXsaiCVeTCSev/ALtEUhQjEN3GQIZDLF3nN3JAXs76RbAqX5P8eM2oU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jeTdrDsU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MaQ0JND5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3pvLQ4ye";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MaQ0JND5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3pvLQ4ye"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7A77674168;
-	Thu,  2 Jul 2026 11:16:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782990998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eRBGEURpGsQZvwqVZtDQ4XJM7h1z4ZC8YrrvTCFqxmw=;
-	b=MaQ0JND5KWm4wpsJciLfkQvP3ai3tn4nmxHssSfFpsKDgKPYMo0CCpWKvNCaMeBjXitcJ3
-	ryZQphknx3FCsPabrXjnCA7E61K/L28Q+1mGAIXijYZw0KuJju507sLH6zDd+1GghLs0zF
-	8X9joVhTiON2oevqtL6uIb5F4wnvrBo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782990998;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eRBGEURpGsQZvwqVZtDQ4XJM7h1z4ZC8YrrvTCFqxmw=;
-	b=3pvLQ4yedxRGWLa9EIEPJidt5sWRqQteN0D5+X9wN34CbwAqs9zn4kp7F2+pWog96DCFuh
-	7UShynnYN7M9UJCQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MaQ0JND5;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3pvLQ4ye
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782990998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eRBGEURpGsQZvwqVZtDQ4XJM7h1z4ZC8YrrvTCFqxmw=;
-	b=MaQ0JND5KWm4wpsJciLfkQvP3ai3tn4nmxHssSfFpsKDgKPYMo0CCpWKvNCaMeBjXitcJ3
-	ryZQphknx3FCsPabrXjnCA7E61K/L28Q+1mGAIXijYZw0KuJju507sLH6zDd+1GghLs0zF
-	8X9joVhTiON2oevqtL6uIb5F4wnvrBo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782990998;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eRBGEURpGsQZvwqVZtDQ4XJM7h1z4ZC8YrrvTCFqxmw=;
-	b=3pvLQ4yedxRGWLa9EIEPJidt5sWRqQteN0D5+X9wN34CbwAqs9zn4kp7F2+pWog96DCFuh
-	7UShynnYN7M9UJCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 13EB5779AA;
-	Thu,  2 Jul 2026 11:16:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fWCIAZJIRmp4aQAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Thu, 02 Jul 2026 11:16:34 +0000
-Date: Thu, 2 Jul 2026 12:16:32 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Simon Schuster <schuster.simon@siemens-energy.com>, 
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Ian Abbott <abbotti@mev.co.uk>, 
-	H Hartley Sweeten <hsweeten@visionengravers.com>, Lucas Stach <l.stach@pengutronix.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Thierry Reding <thierry.reding@kernel.org>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>, 
-	Alex Williamson <alex@shazbot.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Dan Williams <djbw@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	"Liam R . Howlett" <liam@infradead.org>, Matthew Wilcox <willy@infradead.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Hugh Dickins <hughd@google.com>, Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org, linux-sgx@vger.kernel.org, 
-	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-mm@kvack.org, 
-	iommu@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, damon@lists.linux.dev, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 20/30] mm/vma: introduce vma_assert_can_modify()
-Message-ID: <akZHWwVgJfqCwA2W@pedro-suse.lan>
-References: <cover.1782735110.git.ljs@kernel.org>
- <23c7602c58cacc23ef22618a27af9a2d54addf58.1782735110.git.ljs@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jeTdrDsU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA6DD1F000E9;
+	Thu,  2 Jul 2026 11:17:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782991054;
+	bh=B6qx0fV5Kuct++leTThUpa0sfGnYf2tKGKYlTAvI5PM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jeTdrDsUpWlyRENZ5SuOv40SOfygUjbYr5ohbvCL0H6KeKqJ5xpnjqG4A7+CC3SU/
+	 SA+XzP/+GdgXLgZnBiqwBvqRB9T4Qe+xPMnpm9jM5Aqve+Bemm+XvrDTEgUFi9wtu+
+	 VGTBkz/CUtT1R5jqtJbTlHKoekOuQ9yMMCpwXxxQF1ZOwxez+DSQok0RTe76DhsD8y
+	 iVQ/7bp+Fxfkec2UKWa2G3w0myWjHdHKyxy9esAlwv7peMRJOFzCFt7VL2fZEweg6j
+	 aIAjQqtx/AWB2hYLED67A3rpurffS/rpgHV/gHC7hVmewp1lljPws0/icVyn1SXj/T
+	 /uhGO1qliYBkg==
+Date: Thu, 2 Jul 2026 13:17:29 +0200
+From: Carlos Maiolino <cem@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: stable@vger.kernel.org, Jan Kara <jack@suse.cz>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, "Darrick J. Wong" <djwong@kernel.org>, 
+	Dave Chinner <david@fromorbit.com>, Eric Sandeen <sandeen@redhat.com>, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, "Dr. Thomas Orgis" <thomas.orgis@uni-hamburg.de>
+Subject: Re: [PATCH v3 1/5] xfs: fix capability check in xfs
+Message-ID: <akZITB_FDP1nl2_S@nidhogg.toxiclabs.cc>
+References: <20260702093324.127450-1-cem@kernel.org>
+ <20260702093324.127450-3-cem@kernel.org>
+ <20260702103052.GA6670@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -118,104 +47,35 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <23c7602c58cacc23ef22618a27af9a2d54addf58.1782735110.git.ljs@kernel.org>
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 7A77674168
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,armlinux.org.uk,kernel.org,siemens-energy.com,hansenpartnership.com,gmx.de,redhat.com,alien8.de,linux.intel.com,mev.co.uk,visionengravers.com,pengutronix.de,gmail.com,ffwll.ch,suse.de,oss.qualcomm.com,ideasonboard.com,nvidia.com,amd.com,shazbot.org,zeniv.linux.org.uk,linux.dev,google.com,infradead.org,samsung.com,goodmis.org,huawei.com,vger.kernel.org,lists.infradead.org,lists.freedesktop.org,lists.linux.dev,kvack.org,googlegroups.com,surriel.com];
-	DKIM_TRACE(0.00)[suse.de:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[75];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pedro-suse.lan:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+In-Reply-To: <20260702103052.GA6670@lst.de>
 
-On Mon, Jun 29, 2026 at 01:23:31PM +0100, Lorenzo Stoakes wrote:
-> vma_assert_write_locked() and vma_assert_attached() are useful for their
-> own purposes, however VMA code absolutely does allow the modification of
-> non-write locked VMAs if they are at that point detached (i.e. unreachable
-> from anywhere).
-> 
-> It's therefore useful to be able to assert that a VMA is either
-> detached (modification doesn't matter) or write locked (you're explicitly
-> locked for modification).
-
-Hmm, I was wondering why detached does not imply write_locked, and then
-realized that new VMAs aren't write-locked. Could we do it by default?
-Like a simple:
-
-	vma->vm_lock_seq = __vma_raw_mm_seqnum(vma);
-
-might do the trick. I don't see why it wouldn't work? Is there some other
-case I am not considering?
-
-> 
-> Therefore introduce vma_assert_can_modify() for this purpose.
-> 
-> While we're here, make vma_is_attached() available generally - if
-> !CONFIG_PER_VMA_LOCKS, then there's no sense in which a VMA is
-> detached (vma_mark_detached() is a noop), so have this default to true in
-> this case.
-> 
-> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
-> ---
->  include/linux/mmap_lock.h | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/include/linux/mmap_lock.h b/include/linux/mmap_lock.h
-> index 04b8f61ece5d..d513286d8160 100644
-> --- a/include/linux/mmap_lock.h
-> +++ b/include/linux/mmap_lock.h
-> @@ -506,6 +506,8 @@ static inline __must_check
->  int vma_start_write_killable(struct vm_area_struct *vma) { return 0; }
->  static inline void vma_assert_write_locked(struct vm_area_struct *vma)
->  		{ mmap_assert_write_locked(vma->vm_mm); }
-> +static inline bool vma_is_attached(struct vm_area_struct *vma)
-> +		{ return true; }
->  static inline void vma_assert_attached(struct vm_area_struct *vma) {}
->  static inline void vma_assert_detached(struct vm_area_struct *vma) {}
->  static inline void vma_mark_attached(struct vm_area_struct *vma) {}
-> @@ -530,6 +532,12 @@ static inline void vma_assert_stabilised(struct vm_area_struct *vma)
->  
->  #endif /* CONFIG_PER_VMA_LOCK */
->  
-> +static inline void vma_assert_can_modify(struct vm_area_struct *vma)
-> +{
-> +	if (vma_is_attached(vma))
-> +		vma_assert_write_locked(vma);
-> +}
-> +
->  static inline void mmap_write_lock(struct mm_struct *mm)
->  {
->  	__mmap_lock_trace_start_locking(mm, true);
-> -- 
-> 2.54.0
+On Thu, Jul 02, 2026 at 12:30:52PM +0200, Christoph Hellwig wrote:
+> On Thu, Jul 02, 2026 at 11:33:17AM +0200, cem@kernel.org wrote:
+> > index 6339f4956ecb..205fe2dae732 100644
+> > --- a/fs/xfs/xfs_iops.c
+> > +++ b/fs/xfs/xfs_iops.c
+> > @@ -835,7 +835,8 @@ xfs_setattr_nonsize(
+> >  	}
+> >  
+> >  	error = xfs_trans_alloc_ichange(ip, udqp, gdqp, NULL,
+> > -			has_capability_noaudit(current, CAP_FOWNER), &tp);
+> > +					ns_capable_noaudit(&init_user_ns, CAP_FOWNER),
 > 
 
--- 
-Pedro
+Thanks, I tried to keep the parameters aligned, but I can bring it one
+tab back. Do you mind if I fix it at commit time if -unlikely- no other
+change is required?
+
+This is what it will look like:
+
+        error = xfs_trans_alloc_ichange(ip, udqp, gdqp, NULL,
+-                       has_capability_noaudit(current, CAP_FOWNER), &tp);
++                               ns_capable_noaudit(&init_user_ns, CAP_FOWNER),
++                               &tp);
+
+
+
+> Extra indentation and an overly long line caused by that here.
+> 
+> Otherwise looks good.
+> 
