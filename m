@@ -1,220 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58DE480951;
-	Thu,  2 Jul 2026 12:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5A0480DFE
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 12:51:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782996558; cv=none; b=iGMBOa4oFDoKxfRsThZf04CXPEgJSXIMSW3zruFHlH6e8TJscUZLNF9OUbZo0n3xcZviDAFFiabcaCoPwmxyeg5Z2xSJ1Prbqbceu1c6VxJpMl9HhnJjGYtePqZN5dhFeQHyAKG47V7ops/rMhhaMGPaYKSSZLJy8oed1/8cQ0o=
+	t=1782996681; cv=none; b=ex0MPzEkpnJQdF4Q5Gc/9Fq0CgBWJCAjewIQrpbYw1ee+1ThvT6xuYatuJRZV8gQI3jhTnVooD/dNIzgxyGIaeiIB7mf+ECroI1hrwNUmu19GbPuL5P/9wX7l/pc3oh8XMF6X0ldkyJ2VCwJj+eoWiMy9beYyGWv2KQwePHreYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782996558; c=relaxed/simple;
-	bh=2ehsPQFCG7dqB0gfauORyOk54MRv9xXLvMVwyvFcdfM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MXf/4J9hcYI68hohmOHniueMQ4QZbRBFYtnwux+Md+tA6hf2p3jSE3qAZHNFfNFZDFacOFSXe2vPea8VM2aMeHQHe6G/UHAtlWx8b9RcqO2ksiyyJJIVTaT+CxgAmnpV2wzIUia8YCC3m/btxcpJYA3+FHgGEC27OqSMc5xD9/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WIGdnMMp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782996681; c=relaxed/simple;
+	bh=KCmq1hZLLl7GOyWtL6cRPjjbHfWJ5jvpchLdwXolxL8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=e621RDoNzpIklmARqW6HOKqJ9yCzY/UiAp84GlgF+gReItDjx+QaxXZwJmDAVyl3bUNAoBQDxhgQ+2yiGwUyxRMDDPiRzaqWDxMNN6g9ymGq8eE6ElF++2if9cSUh+YnkUouaeAcYRm7B2GtQ0bdApvldvaFUgjSMSfOqLsnIDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=F4ZVf9Bv; arc=none smtp.client-ip=95.215.58.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WIGdnMMp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 022611F000E9;
-	Thu,  2 Jul 2026 12:49:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782996556;
-	bh=2ehsPQFCG7dqB0gfauORyOk54MRv9xXLvMVwyvFcdfM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WIGdnMMpMr5mDzh8n4Euq3pAWpsGUjs+ClPp5mhTGgc1rAwXAPP8S/3tYhlthOXl/
-	 MI1D/E44ZksaYNlbz+wIHDF/CBr9W1M3LyWd7srX+X3usGfM9szkJMaA1SoajNoCmY
-	 lBUKB2s1cngqlx1dXsQzAvMDkXjyp/+H5vu/gGzU7SbDouAUlnCFnOnk49pw8UraMd
-	 Tsjkc7SFqw357isJuMNsUhibOn1dpMn8BsDuU1P+ztpRUT/jllQIjk7xMmny+YYuEz
-	 eNCo6txhZxxaeY8vBv3ZCinvzrMbkEa9aF2lSK/YKssBS9N6Md9JEcXM0YI6nePftw
-	 k771xBbSEQBGg==
-Date: Thu, 2 Jul 2026 13:49:07 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
-	Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-Message-ID: <akZYSGoysWSb0K1J@lucifer>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
- <20260702-seekrank-stilrichtung-mitentscheiden-69a64ee097ec@brauner>
- <1f29f48d-b9ff-4de2-a392-dc05781728be@kernel.org>
- <akYz2aMIco1fbD-t@lucifer>
- <54d3a698-a275-488e-ad36-ef423db30f70@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="F4ZVf9Bv"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782996675;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KCmq1hZLLl7GOyWtL6cRPjjbHfWJ5jvpchLdwXolxL8=;
+	b=F4ZVf9BvB+hLAf9gQChbe4sRNb4sLCrUWRBNFM0pPt8IAzUbVhXxDEH/DvD8axflIDk2vm
+	3zmwuSmbnQ/BvpRKYzyKP8V+Wt7x4/jYspjeo/Nuwy87WFjjbKm5Us6Gqkc64N1S5Bi0bl
+	Qu3WpSOCEMC/DqM+tZU+hrTjGqJDt6Q=
+From: Lance Yang <lance.yang@linux.dev>
+To: ljs@kernel.org
+Cc: akpm@linux-foundation.org,
+	tsbogend@alpha.franken.de,
+	maddy@linux.ibm.com,
+	mpe@ellerman.id.au,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	l.stach@pengutronix.de,
+	inki.dae@samsung.com,
+	sw0312.kim@samsung.com,
+	kyungmin.park@samsung.com,
+	krzk@kernel.org,
+	peter.griffin@linaro.org,
+	jani.nikula@linux.intel.com,
+	joonas.lahtinen@linux.intel.com,
+	rodrigo.vivi@intel.com,
+	tursulin@ursulin.net,
+	robin.clark@oss.qualcomm.com,
+	lumag@kernel.org,
+	lyude@redhat.com,
+	dakr@kernel.org,
+	tomi.valkeinen@ideasonboard.com,
+	hjc@rock-chips.com,
+	heiko@sntech.de,
+	andy.yan@rock-chips.com,
+	thierry.reding@kernel.org,
+	mperttunen@nvidia.com,
+	jonathanh@nvidia.com,
+	kraxel@redhat.com,
+	dmitry.osipenko@collabora.com,
+	zack.rusin@broadcom.com,
+	matthew.brost@intel.com,
+	thomas.hellstrom@linux.intel.com,
+	oleksandr_andrushchenko@epam.com,
+	deller@gmx.de,
+	bcrl@kvack.org,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	muchun.song@linux.dev,
+	osalvador@suse.de,
+	david@kernel.org,
+	ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com,
+	liam@infradead.org,
+	npache@redhat.com,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	hughd@google.com,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	jannh@google.com,
+	pfalcato@suse.de,
+	kees@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org,
+	etnaviv@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org,
+	linux-rockchip@lists.infradead.org,
+	linux-tegra@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	intel-xe@lists.freedesktop.org,
+	xen-devel@lists.xenproject.org,
+	linux-fbdev@vger.kernel.org,
+	linux-aio@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 09/13] mm/vma: update create_init_stack_vma() to use vma_flags_t
+Date: Thu,  2 Jul 2026 20:50:52 +0800
+Message-Id: <20260702125052.19248-1-lance.yang@linux.dev>
+In-Reply-To: <34689784ee6856f100c02ad4eabeaa4db643713a.1782760670.git.ljs@kernel.org>
+References: <34689784ee6856f100c02ad4eabeaa4db643713a.1782760670.git.ljs@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <54d3a698-a275-488e-ad36-ef423db30f70@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Jul 02, 2026 at 01:51:10PM +0200, David Hildenbrand (Arm) wrote:
-> On 7/2/26 12:04, Lorenzo Stoakes wrote:
-> > (thanks for the cc-!)
-> >
-> > On Thu, Jul 02, 2026 at 09:46:37AM +0200, David Hildenbrand (Arm) wrote:
-> >> On 7/2/26 09:27, Christian Brauner wrote:
-> >>>
-> >>> I think we should just drop any attribution as a general kernel-wide
-> >>> rule and let subsystems require them as needed. Then you can have all
-> >>> the complexity in mm for this that you think is needed for your
-> >>> workflow to function. This is precisely what the subsystem profiles are
-> >>> for. So maybe just add:
-> >
-> > A single comment is complexity?
+
+On Mon, Jun 29, 2026 at 08:25:32PM +0100, Lorenzo Stoakes wrote:
+>Replace use of the legacy vm_flags_t flags with vma_flags_t values in
+>create_init_stack_vma().
 >
-> I think Christian meant more elaborate rules. More than just "If you used LLMs,
-> disclose how you used them."
-
-What's elaborate?
-
-"Say how much of your patch is LLM written, here are some examples".
-
-Surely?
-
+>As part of this change we add VMA_STACK_EARLY and VMA_STACK_INCOMPLETE
+>vma_flags_t defines, and slightly rework create_init_stack_vma() for
+>clarity.
 >
-> >>
-> >> I'm not really sure if having (more?) subsystem-specific tags is the way to go.
-> >> (below)
-> >>
-> >> So either we find a very simple, kernel-wide rule for such tags, or we drop them
-> >> entirely.
-> >
-> > Yup I couldn't disagree more with Christian here, the whole thing feels like
-> > trying to 'wish away' the AI issue, and now punting off to subsystem
-> > maintainers...
-> >
-> > Subsystems impact each other. Right now I'm writing a series that changes driver
-> > code so we can enforce some sanity in mm APIs.
-> >
-> > I've had to interact with fs code quite a bit that uses mm logic.
-> >
-> > It's all interconnected, and one subsystem let's say going with 'let it all in'
-> > say, impacts another.
-> >
-> > Yes some people lie about it, but having the guidelines only STRENGTHENS our
-> > position on that, and I've seen that in practice.
-> >
-> > So yeah, sorry, I think it's beyond silly to push back on requesting somebody
-> > disclose how much of a patch/series was AI generated.
-> >
-> > And [0] already essentially says people NEED to do this now. But that doc has
-> > been rather downplayed unfortunately I think.
+>No functional change intended.
 >
-> [...]
->
-> >> I agree on the "enforce" aspect. It's impossible, but it's still easy to catch
-> >> people using AI irresponsibly today ... and that's what we care about. Not
-> >> people that know what they are doing using AI responsibly.
-> >
-> > For me it's about empowering maintainers to push back.
->
-> Right, but I suspect maintainers do have this power already, it's just not
-> exercised that often on obvious AI slop yet.
+>Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+>---
 
-Well I certainly don't feel I do :)
+Nothing looks off to me ;) Feel free to add:
 
-I tried pushing back on obvious AI slop and got a huge amount of blow back for
-it because the guy wasn't honest about it.
-
-A key reason for me pushing back on the tooling documentation was precisely
-because I felt we needed a clear means of doing this.
-
-This being the part:
-
-"As with the output of any tooling, the result may be incorrect or
-inappropriate. You are expected to understand and to be able to defend
-everything you submit. If you are unable to do so, then do not submit the
-resulting changes.
-
-If you do so anyway, maintainers are entitled to reject your series without
-detailed review."
-
-But if somebody denies it, no matter how strong the evidence, you can never
-really 'prove' it.
-
-I think honestly if there's a newcomer who suddenly out of nowhere does a huge
-involved series in an area they've not touched before and LLMs assess it as 90%
-likely to be LLM generated,and they reply making mistakes that only an LLM would
-make (misinterpreting a field's symbol and then acting as if really exists) -
-it's not unreasonable to cite these things as a reason to 'not really trust'
-that it's their work.
-
-Perhaps worded nicely to say 'sorry if I'm mistaken'?
-
-All I'm really asking is for the ability to say something like "I reasonably
-believe that this is generated, so we need to build more trust here, apologies
-if I'm mistaken, but can we see some smaller patches in this area first" or
-something like this.
-
->
-> >
-> >>
-> >>>
-> >>> If the information is mostly useful during review then I still would
-> >>> question why it has to end up in our git logs. It's completely
-> >>> irrelevant information imho.
-> >>
-> >> Fully agreed. In the tree it's irrelevant.
-> >
-> > Not sure about that, if it turns out AI-generated patches are causing 95% more
-> > bugs say that's pretty useful information no?
->
-> Well
->
-> a) You don't know how much AI was used. In particular, it could just slip in as
-
-Hence 'tell us how much was used' :)
-
-> the submitter tries to untangle some of the mess the AI created (so not AI's
-> fault). Or the submitter just used it to write+translate the patch description.
-> Really, the tag itself doesn't tell you much as it stands, which is the biggest
-> problem I am having with it.
->
-> b) You don't catch all the cases where people didn't use the tag.
-
-Is this arguing 'we don't have complete information so let's have no
-information'? Because I would say something > nothing?
-
->
-> >
-> > Or if you find that a patch somebody sent from another subsystem that has a
-> > lassez faire approach to AI slop completely breaks you in some subtle way, isn't
-> > it easier to push for a revert if you see it's LLM-generated?
->
-> The information would have to be had from the linked mailing list posting.
-
-That's creating a lot more work for maintainers?
-
-You could even figure out bug rate from Fixes: tags alone using metadata.
-
-And yes it will be imperfect but something > nothing.
-
->
-> Given that some subsystems already started suppressing the tags when applying
-> patches, that doesn't really help ... :/
-
-Well that's unfortunate. But something > nothing, again.
-
->
-> >
-> > And is it really that egregious to include a tag? You can ignore it if you don't
-> > care.
->
-> I hate the current tags as they are. The question I am asking myself: assume we
-> stop using the Assisted-by for LLM stuff. What to do with the other tools? Why
-> are LLMs suddenly no longer a tool to mention there.
-
-Because it turns out it's useful to have this information and more information >
-less information?
-
->
-> --
-> Cheers,
->
-> David
-
-Thanks, Lorenzo
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
