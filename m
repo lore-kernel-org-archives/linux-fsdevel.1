@@ -1,223 +1,319 @@
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CDEF44D015
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 11:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C33A42A791
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 11:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782992867; cv=none; b=XlwUtK5mcnRv8wC+DrhiUII97tyMlpEHSz5388WolA6VNf3ie/XXI04ZkJhWgmdrvX6vNmTUXqh983b4DFGNk7jzH2v4uULBImf1UfzT2rmB38mJCO3h8rAGrlLk7Xj4ih8USy03Tx0mqjb1gIt8Up+VoR1yvd6rOsCIOn9IVjs=
+	t=1782992972; cv=none; b=jcazSZvUapGTliRTImcIDBEJRy0mJA4dW25rr9oljGeyXFZsRr5MZiX1RJZIcU8K0QMLtADyI3ViCtdM5h29pljq8yyCxxt8tcMCJXYaFmWzBm17GCEKZt4uJNorb3oeVbk0fiXUErquwccxMzohBbN2Fp/7WMIF9R7uvoWJPVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782992867; c=relaxed/simple;
-	bh=0+6LrMbcL9jYWLDGznXtdt+CLQpbx0KpzwShtcsb6Z4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hcM7fSAltGtRXtOsMHeCukpQoAp4gvTzWyWlGXCs3yfm7+WDNXSgwHGVPG9UadNnV8lVjJ8sADCil6WVh/kgMrZPx8AvUHG6aJhb/5V7afHsnOcQY1dyUyHMTmVchNLCYlhkD9ka+KTddjG9CPtkAfAWq02crEN32RFK+JADqu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Pf3afDLq; arc=none smtp.client-ip=113.46.200.222
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1782992972; c=relaxed/simple;
+	bh=FyV6JIaF3z/a2YLKkdXWi0gWGnV0t0qbtTdhwNscbho=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LacH4EuM24s0S6eZxXTQMDrEVAEICDG1CQrKjWbnKNRApGrZXxhEFcPNa6LNTK6AHbIpWdPKV99nGtk6sfYJ+ZpfbDXReCE47Mp/yOmfXy6ELcNpRjYAKl8pIvF8NJ2pKDECAOA0Ks0Mft+bxFV/WyauzZVBY/GBskhNLqe1O0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=mjdlNhDL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Xs23PBms; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=mjdlNhDL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Xs23PBms; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Pf3afDLq"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=KhzUYKwVkNICuNRrpLwwscb9mfOPrWSyd5JLo0nzv2I=;
-	b=Pf3afDLqRkSI9vKEHk2TTMIRoWQz4ogBZ+ZWbahPqN23mJfAdWinXKrUa3gphLb37FiDchFUc
-	Sm1SeeZikCxuumjYDlEdj7h+jyFx2H22J30WA/whcL+rZSUv+o4xeuUJCztd6JiU8yCuJCxnQTV
-	mJaSJ1aFKXxh+PY8BZM82QQ=
-Received: from mail.maildlp.com (unknown [172.19.163.200])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4grZFS6xs8zLm05;
-	Thu,  2 Jul 2026 19:21:00 +0800 (CST)
-Received: from kwepemr500001.china.huawei.com (unknown [7.202.194.229])
-	by mail.maildlp.com (Postfix) with ESMTPS id 53DB34056A;
-	Thu,  2 Jul 2026 19:30:11 +0800 (CST)
-Received: from huawei.com (10.50.85.135) by kwepemr500001.china.huawei.com
- (7.202.194.229) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 2 Jul
- 2026 19:30:10 +0800
-From: Jinjiang Tu <tujinjiang@huawei.com>
-To: <akpm@linux-foundation.org>, <ziy@nvidia.com>, <david@kernel.org>,
-	<luizcap@redhat.com>, <willy@infradead.org>, <linmiaohe@huawei.com>,
-	<svetly.todorov@memverge.com>, <xu.xin16@zte.com.cn>,
-	<chengming.zhou@linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-mm@kvack.org>
-CC: <wangkefeng.wang@huawei.com>, <sunnanyong@huawei.com>,
-	<tujinjiang@huawei.com>
-Subject: [PATCH 2/2] fs: stable_page_flags(): use folio_test_*() helpers
-Date: Thu, 2 Jul 2026 19:06:14 +0800
-Message-ID: <20260702110614.2176986-3-tujinjiang@huawei.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260702110614.2176986-1-tujinjiang@huawei.com>
-References: <20260702110614.2176986-1-tujinjiang@huawei.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="mjdlNhDL";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Xs23PBms";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="mjdlNhDL";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Xs23PBms"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0E530741A8;
+	Thu,  2 Jul 2026 11:49:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1782992968; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rK7hQLDM/Cc7m2DFVtL7YVFJdsoiRP40EC2cTc3bMdM=;
+	b=mjdlNhDLhlL+osNvEDpMapISNguXBEPYB38qqyCyf6SX9rCiy6fSdvdv4T8K7GqXQRoC/2
+	FTi0GIzYpf1TcJSWNRsY3ROXiGVAbesI9a0/patfVAHnuzRRpdQNV8iOzETiBOZzdFCzcW
+	zpjwN4hXR9IXDMuYNoCaribTSW3JisI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1782992968;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rK7hQLDM/Cc7m2DFVtL7YVFJdsoiRP40EC2cTc3bMdM=;
+	b=Xs23PBmsWTdVOhMSJ4j7a0Gf8tlSQF8JxIPEAtJhi3mAHpPuvWXF0FOGv035taoZ5QDTMM
+	csnio0vvjZzQamAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=mjdlNhDL;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Xs23PBms
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1782992968; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rK7hQLDM/Cc7m2DFVtL7YVFJdsoiRP40EC2cTc3bMdM=;
+	b=mjdlNhDLhlL+osNvEDpMapISNguXBEPYB38qqyCyf6SX9rCiy6fSdvdv4T8K7GqXQRoC/2
+	FTi0GIzYpf1TcJSWNRsY3ROXiGVAbesI9a0/patfVAHnuzRRpdQNV8iOzETiBOZzdFCzcW
+	zpjwN4hXR9IXDMuYNoCaribTSW3JisI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1782992968;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rK7hQLDM/Cc7m2DFVtL7YVFJdsoiRP40EC2cTc3bMdM=;
+	b=Xs23PBmsWTdVOhMSJ4j7a0Gf8tlSQF8JxIPEAtJhi3mAHpPuvWXF0FOGv035taoZ5QDTMM
+	csnio0vvjZzQamAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E38BC779AA;
+	Thu,  2 Jul 2026 11:49:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id CEsNN0dQRmo4DAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 02 Jul 2026 11:49:27 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 7B793A12AD; Thu, 02 Jul 2026 13:49:23 +0200 (CEST)
+Date: Thu, 2 Jul 2026 13:49:23 +0200
+From: Jan Kara <jack@suse.cz>
+To: NeilBrown <neil@brown.name>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	Jori Koolstra <jkoolstra@xs4all.nl>
+Subject: Re: [PATCH 1/3] VFS: move mnt_want_write() and locking into
+ lookup_open()
+Message-ID: <xd56meklckurfba53w5vremoywvvrwvidmz6ohxiz5phuzgvfp@mpdu7auyq5il>
+References: <[PATCH 0/3] VFS: replace dentry_create>
+ <20260702111529.3559835-1-neilb@ownmail.net>
+ <20260702111529.3559835-2-neilb@ownmail.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemr500001.china.huawei.com (7.202.194.229)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260702111529.3559835-2-neilb@ownmail.net>
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[xs4all.nl];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org,xs4all.nl];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,brown.name:email,suse.com:email]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 0E530741A8
+X-Spam-Score: -4.01
 
-stable_page_flags() currently accesses folio->flags.f directly. Since
-commit 476d87d6a061 ("fs: stable_page_flags(): use snapshot_page()"), we
-can replace these raw flag accesses with the existing folio_test_*()
-helpers, thereby cleaning up the open‑coded flag handling.
+On Thu 02-07-26 21:09:19, NeilBrown wrote:
+> From: NeilBrown <neil@brown.name>
+> 
+> The mnt_want_write() call and the parent inode locking in
+> open_last_lookups() are only needed for lookup_open().  So we can move
+> them and all the got_write handling into lookup_open().
+> 
+> Note that we need to also check create_error when determining whether to
+> unlock shared or not, as O_CREAT can be cleared, but create_error is
+> only set of O_CREAT was set.
+> 
+> The fsnotify calls come too as they must be in the locked region.
+> 
+> Also use the existing dir_inode uniformly for dir->d_inode.
+> 
+> This is a step towards exporting an better "open/create" interface to nfsd.
+> 
+> Signed-off-by: NeilBrown <neil@brown.name>
 
-For KPF_IDLE, set_ps_flags() already handles both 64‑bit and 32‑bit
-cases, so the duplicate code in stable_page_flags() that deals with
-CONFIG_PAGE_IDLE_FLAG for the 64‑bit case is removed.
+I'll defer to others to decide whether the overall patch set is the
+desirable direction of NFS - VFS interactions but if yes, then this patch
+looks correct to me. Feel free to add:
 
-The flag bits that has no folio_test_*() helpers are left unchanged,
-including PG_owner_priv_1, PG_arch_*.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-No functional change is intended.
+								Honza
 
-Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
----
- fs/proc/page.c | 94 ++++++++++++++++++++++++++------------------------
- 1 file changed, 49 insertions(+), 45 deletions(-)
 
-diff --git a/fs/proc/page.c b/fs/proc/page.c
-index 2717dbb0431b..0dbd46fa84ea 100644
---- a/fs/proc/page.c
-+++ b/fs/proc/page.c
-@@ -148,8 +148,6 @@ u64 stable_page_flags(const struct page *page)
- 	const struct folio *folio;
- 	struct page_snapshot ps;
- 	unsigned long k;
--	unsigned long mapping;
--	bool is_anon;
- 	u64 u = 0;
- 
- 	/*
-@@ -163,17 +161,14 @@ u64 stable_page_flags(const struct page *page)
- 	folio = &ps.folio_snapshot;
- 
- 	k = folio->flags.f;
--	mapping = (unsigned long)folio->mapping;
--	is_anon = mapping & FOLIO_MAPPING_ANON;
--
- 	/*
- 	 * pseudo flags for the well known (anonymous) memory mapped pages
- 	 */
- 	if (folio_mapped(folio))
- 		u |= BIT_ULL(KPF_MMAP);
--	if (is_anon) {
-+	if (folio_test_anon(folio)) {
- 		u |= BIT_ULL(KPF_ANON);
--		if ((mapping & FOLIO_MAPPING_FLAGS) == FOLIO_MAPPING_KSM)
-+		if (folio_test_ksm(folio))
- 			u |= BIT_ULL(KPF_KSM);
- 	}
- 
-@@ -181,10 +176,12 @@ u64 stable_page_flags(const struct page *page)
- 	 * compound pages: export both head/tail info
- 	 * they together define a compound page's start/end pos and order
- 	 */
--	if (ps.idx == 0)
--		u |= kpf_copy_bit(k, KPF_COMPOUND_HEAD, PG_head);
--	else
-+	if (ps.idx == 0) {
-+		if (folio_test_head(folio))
-+			u |= BIT_ULL(KPF_COMPOUND_HEAD);
-+	} else {
- 		u |= BIT_ULL(KPF_COMPOUND_TAIL);
-+	}
- 	if (folio_test_hugetlb(folio))
- 		u |= BIT_ULL(KPF_HUGE);
- 	else if (folio_test_large(folio) &&
-@@ -201,6 +198,9 @@ u64 stable_page_flags(const struct page *page)
- 	if (ps.flags & PAGE_SNAPSHOT_PG_BUDDY)
- 		u |= BIT_ULL(KPF_BUDDY);
- 
-+	if (ps.flags & PAGE_SNAPSHOT_PG_IDLE)
-+		u |= BIT_ULL(KPF_IDLE);
-+
- 	if (folio_test_offline(folio))
- 		u |= BIT_ULL(KPF_OFFLINE);
- 	if (folio_test_pgtable(folio))
-@@ -208,42 +208,46 @@ u64 stable_page_flags(const struct page *page)
- 	if (folio_test_slab(folio))
- 		u |= BIT_ULL(KPF_SLAB);
- 
--#if defined(CONFIG_PAGE_IDLE_FLAG) && defined(CONFIG_64BIT)
--	u |= kpf_copy_bit(k, KPF_IDLE,          PG_idle);
--#else
--	if (ps.flags & PAGE_SNAPSHOT_PG_IDLE)
--		u |= BIT_ULL(KPF_IDLE);
--#endif
--
--	u |= kpf_copy_bit(k, KPF_LOCKED,	PG_locked);
--	u |= kpf_copy_bit(k, KPF_DIRTY,		PG_dirty);
--	u |= kpf_copy_bit(k, KPF_UPTODATE,	PG_uptodate);
--	u |= kpf_copy_bit(k, KPF_WRITEBACK,	PG_writeback);
--
--	u |= kpf_copy_bit(k, KPF_LRU,		PG_lru);
--	u |= kpf_copy_bit(k, KPF_REFERENCED,	PG_referenced);
--	u |= kpf_copy_bit(k, KPF_ACTIVE,	PG_active);
--	u |= kpf_copy_bit(k, KPF_RECLAIM,	PG_reclaim);
--
--#define SWAPCACHE ((1 << PG_swapbacked) | (1 << PG_swapcache))
--	if ((k & SWAPCACHE) == SWAPCACHE)
--		u |= 1 << KPF_SWAPCACHE;
--	u |= kpf_copy_bit(k, KPF_SWAPBACKED,	PG_swapbacked);
--
--	u |= kpf_copy_bit(k, KPF_UNEVICTABLE,	PG_unevictable);
--	u |= kpf_copy_bit(k, KPF_MLOCKED,	PG_mlocked);
--
--#ifdef CONFIG_MEMORY_FAILURE
--	if (u & (1 << KPF_HUGE))
--		u |= kpf_copy_bit(k, KPF_HWPOISON,	PG_hwpoison);
--	else
--		u |= kpf_copy_bit(ps.page_snapshot.flags.f, KPF_HWPOISON, PG_hwpoison);
--#endif
-+	if (folio_test_locked(folio))
-+		u |= BIT_ULL(KPF_LOCKED);
-+	if (folio_test_dirty(folio))
-+		u |= BIT_ULL(KPF_DIRTY);
-+	if (folio_test_uptodate(folio))
-+		u |= BIT_ULL(KPF_UPTODATE);
-+	if (folio_test_writeback(folio))
-+		u |= BIT_ULL(KPF_WRITEBACK);
-+
-+	if (folio_test_lru(folio))
-+		u |= BIT_ULL(KPF_LRU);
-+	if (folio_test_referenced(folio))
-+		u |= BIT_ULL(KPF_REFERENCED);
-+	if (folio_test_active(folio))
-+		u |= BIT_ULL(KPF_ACTIVE);
-+	if (folio_test_reclaim(folio))
-+		u |= BIT_ULL(KPF_RECLAIM);
-+
-+	if (folio_test_swapcache(folio))
-+		u |= BIT_ULL(KPF_SWAPCACHE);
-+	if (folio_test_swapbacked(folio))
-+		u |= BIT_ULL(KPF_SWAPBACKED);
-+	if (folio_test_unevictable(folio))
-+		u |= BIT_ULL(KPF_UNEVICTABLE);
-+	if (folio_test_mlocked(folio))
-+		u |= BIT_ULL(KPF_MLOCKED);
-+
-+	if ((folio_test_hugetlb(folio) && folio_test_hwpoison(folio))
-+		|| PageHWPoison(&ps.page_snapshot))
-+		u |= BIT_ULL(KPF_HWPOISON);
-+
-+	if (folio_test_reserved(folio))
-+		u |= BIT_ULL(KPF_RESERVED);
-+	if (folio_test_owner_2(folio))
-+		u |= BIT_ULL(KPF_OWNER_2);
-+	if (folio_test_private(folio))
-+		u |= BIT_ULL(KPF_PRIVATE);
-+	if (folio_test_private_2(folio))
-+		u |= BIT_ULL(KPF_PRIVATE_2);
- 
--	u |= kpf_copy_bit(k, KPF_RESERVED,	PG_reserved);
--	u |= kpf_copy_bit(k, KPF_OWNER_2,	PG_owner_2);
--	u |= kpf_copy_bit(k, KPF_PRIVATE,	PG_private);
--	u |= kpf_copy_bit(k, KPF_PRIVATE_2,	PG_private_2);
- 	u |= kpf_copy_bit(k, KPF_OWNER_PRIVATE,	PG_owner_priv_1);
- 	u |= kpf_copy_bit(k, KPF_ARCH,		PG_arch_1);
- #ifdef CONFIG_ARCH_USES_PG_ARCH_2
+> ---
+>  fs/namei.c | 77 +++++++++++++++++++++++++++++-------------------------
+>  1 file changed, 41 insertions(+), 36 deletions(-)
+> 
+> diff --git a/fs/namei.c b/fs/namei.c
+> index 7ead3db55be2..55404fe0e269 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -4398,7 +4398,7 @@ static struct dentry *atomic_open(const struct path *path, struct dentry *dentry
+>   */
+>  static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+>  				  const struct open_flags *op,
+> -				  bool got_write, struct delegated_inode *delegated_inode)
+> +				  struct delegated_inode *delegated_inode)
+>  {
+>  	struct mnt_idmap *idmap;
+>  	struct dentry *dir = nd->path.dentry;
+> @@ -4407,9 +4407,25 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+>  	struct dentry *dentry;
+>  	int error, create_error = 0;
+>  	umode_t mode = op->mode;
+> +	bool got_write = false;
+>  
+> -	if (unlikely(IS_DEADDIR(dir_inode)))
+> -		return ERR_PTR(-ENOENT);
+> +	if (open_flag & (O_CREAT | O_TRUNC | O_WRONLY | O_RDWR)) {
+> +		got_write = !mnt_want_write(nd->path.mnt);
+> +		/*
+> +		 * do _not_ fail yet - we might not need that or fail with
+> +		 * a different error; let lookup_open() decide; we'll be
+> +		 * dropping this one anyway.
+> +		 */
+> +	}
+> +	if (open_flag & O_CREAT)
+> +		inode_lock(dir_inode);
+> +	else
+> +		inode_lock_shared(dir_inode);
+> +
+> +	if (unlikely(IS_DEADDIR(dir_inode))) {
+> +		dentry = ERR_PTR(-ENOENT);
+> +		goto out;
+> +	}
+>  
+>  	file->f_mode &= ~FMODE_CREATED;
+>  	dentry = d_lookup(dir, &nd->last);
+> @@ -4417,7 +4433,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+>  		if (!dentry) {
+>  			dentry = d_alloc_parallel(dir, &nd->last);
+>  			if (IS_ERR(dentry))
+> -				return dentry;
+> +				goto out;
+>  		}
+>  		if (d_in_lookup(dentry))
+>  			break;
+> @@ -4433,7 +4449,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+>  	}
+>  	if (dentry->d_inode) {
+>  		/* Cached positive dentry: will open in f_op->open */
+> -		return dentry;
+> +		goto out;
+>  	}
+>  
+>  	if (open_flag & O_CREAT)
+> @@ -4454,7 +4470,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+>  	if (open_flag & O_CREAT) {
+>  		if (open_flag & O_EXCL)
+>  			open_flag &= ~O_TRUNC;
+> -		mode = vfs_prepare_mode(idmap, dir->d_inode, mode, mode, mode);
+> +		mode = vfs_prepare_mode(idmap, dir_inode, mode, mode, mode);
+>  		if (likely(got_write))
+>  			create_error = may_o_create(idmap, &nd->path,
+>  						    dentry, mode);
+> @@ -4469,7 +4485,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+>  		dentry = atomic_open(&nd->path, dentry, file, open_flag, mode);
+>  		if (unlikely(create_error) && dentry == ERR_PTR(-ENOENT))
+>  			dentry = ERR_PTR(create_error);
+> -		return dentry;
+> +		goto out;
+>  	}
+>  
+>  	if (d_in_lookup(dentry)) {
+> @@ -4508,11 +4524,27 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+>  		error = create_error;
+>  		goto out_dput;
+>  	}
+> +out:
+> +	if (!IS_ERR(dentry)) {
+> +		if (file->f_mode & FMODE_CREATED)
+> +			fsnotify_create(dir_inode, dentry);
+> +		if (file->f_mode & FMODE_OPENED)
+> +			fsnotify_open(file);
+> +	}
+> +	if ((open_flag & O_CREAT) || create_error)
+> +		inode_unlock(dir_inode);
+> +	else
+> +		inode_unlock_shared(dir_inode);
+> +
+> +	if (got_write)
+> +		mnt_drop_write(nd->path.mnt);
+> +
+>  	return dentry;
+>  
+>  out_dput:
+>  	dput(dentry);
+> -	return ERR_PTR(error);
+> +	dentry = ERR_PTR(error);
+> +	goto out;
+>  }
+>  
+>  static inline bool trailing_slashes(struct nameidata *nd)
+> @@ -4555,9 +4587,7 @@ static const char *open_last_lookups(struct nameidata *nd,
+>  		   struct file *file, const struct open_flags *op)
+>  {
+>  	struct delegated_inode delegated_inode = { };
+> -	struct dentry *dir = nd->path.dentry;
+>  	int open_flag = op->open_flag;
+> -	bool got_write = false;
+>  	struct dentry *dentry;
+>  	const char *res;
+>  
+> @@ -4587,32 +4617,7 @@ static const char *open_last_lookups(struct nameidata *nd,
+>  		}
+>  	}
+>  retry:
+> -	if (open_flag & (O_CREAT | O_TRUNC | O_WRONLY | O_RDWR)) {
+> -		got_write = !mnt_want_write(nd->path.mnt);
+> -		/*
+> -		 * do _not_ fail yet - we might not need that or fail with
+> -		 * a different error; let lookup_open() decide; we'll be
+> -		 * dropping this one anyway.
+> -		 */
+> -	}
+> -	if (open_flag & O_CREAT)
+> -		inode_lock(dir->d_inode);
+> -	else
+> -		inode_lock_shared(dir->d_inode);
+> -	dentry = lookup_open(nd, file, op, got_write, &delegated_inode);
+> -	if (!IS_ERR(dentry)) {
+> -		if (file->f_mode & FMODE_CREATED)
+> -			fsnotify_create(dir->d_inode, dentry);
+> -		if (file->f_mode & FMODE_OPENED)
+> -			fsnotify_open(file);
+> -	}
+> -	if (open_flag & O_CREAT)
+> -		inode_unlock(dir->d_inode);
+> -	else
+> -		inode_unlock_shared(dir->d_inode);
+> -
+> -	if (got_write)
+> -		mnt_drop_write(nd->path.mnt);
+> +	dentry = lookup_open(nd, file, op, &delegated_inode);
+>  
+>  	if (IS_ERR(dentry)) {
+>  		if (is_delegated(&delegated_inode)) {
+> -- 
+> 2.50.0.107.gf914562f5916.dirty
+> 
 -- 
-2.43.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
