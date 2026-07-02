@@ -1,152 +1,179 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1485C47D938
-	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 10:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A2E39EF1F
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 10:19:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782987144; cv=none; b=I6AIlIvwNl+SwMEARAOZ5TwKQxz+379ueePzR3K0lWavJgQnzXJdIS4MKae4gZVEjqpAfM7PAebC7ctIVzBQ+trW8CBjNKJReipTEftCHJ7gbVej0Wl9qgn5h7nMC6SHH0xAJgXj1e7OlPLRKFiUnb+IXU1aSf4CbQfv0p6RQ1I=
+	t=1782987600; cv=none; b=dSX4KsHl05ODVAGkyBJ04xWXVOBIOwl4hBQlQ4ZxsSh1KowI1kRly7FjQp+SIPG9U06yJdN/6qQmQq857uwoN7We8Bqusq7jesxlg2KvhJGlKS6cR22ZICl0wvlNyiD5pJ5kT5i7yYM5gk9aM9NbJHOCyuU0pKBZmNSyXZzukCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782987144; c=relaxed/simple;
-	bh=OeAXm453eNl5Ju9vclt8/yInKnA5PVD4LHUB+k7IU+s=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=XkuXCJe4dXxx3Zo5GVYB6oJ0xe87m1SrRSSTDJRREWNGFRvspuy1FYNRpdlUi0Lf16nND0AbL12p6cnO2mt/uTEjXN8JXT1/q9MyxxusaAlS1bLgaSONbQTOSo/VzR7fRoTFX2nvKDC4jr3y2VniuoDnA8feoTxpqa8keCWQ7NE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=Y2lOFcwu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KgNd8Hmy; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1782987600; c=relaxed/simple;
+	bh=0r3uwQjn7I0wLk1WaDQdhrrhvNOACHllczEws6QwEtk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=im4uD8gvoFZQNJzpmv/jfu1T+pvi6ZACRVNkTrcuKRDMnmznxsJT3zp+DetGPDeev5xkbhXYv/3izgOoLpyWdCcktSys7Nsl26varU++eOjUo96cMpfZY3UKoauborly/WnbfZoFVH3VfFkU7bFBrFJceTXTgIhlBlCytdswhtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=2HPPvC5K; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=yTu2rlMf; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xexrTsng; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=QB9lUFyq; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="Y2lOFcwu";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KgNd8Hmy"
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 47F5C140019F;
-	Thu,  2 Jul 2026 06:12:21 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Thu, 02 Jul 2026 06:12:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
-	1782987141; x=1783073541; bh=ZYD1YbWe03+/DFv5xIwGAahSLweuFow8F6W
-	CVPyG7bU=; b=Y2lOFcwuYxc5SKCP1czYId41EPu+kUhIs3VkUllgrrZlCuwahqp
-	dpfNiOCZJ+zuxoXPYVH+vyI+LbFQr2qySOib8SMK17dAsBIa/WYyCJDUmU5Bv/OB
-	Og/6iBaG/Cx2QE1zJ76T4uQkGYyMNXv79hzIGNTj4lISRCXSXbVb7HI2awLrc6Ae
-	ocYoAYXAdeTVPXd8sQf8sEciDOlb9Yq8F++w+rH7HZj8mslsL7F/Qnt5AA97gWBg
-	nMiFTxGofaQbXP4qFd8bDnwvKm5/BQRbGahHYqxItkZalboorLYK61DiHxU8RFBQ
-	/NzIw2mf1z0oUFVaDjezdLuQCUiqBNzafEA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1782987141; x=
-	1783073541; bh=ZYD1YbWe03+/DFv5xIwGAahSLweuFow8F6WCVPyG7bU=; b=K
-	gNd8HmyhD9Cgb6ztA8RN8QIqhMnK9xGARs3BrtePZcEeXLVBWLN0qF+CEei8/b3n
-	jQBes/yZCzZYR+K/3tsJPksL/c5flwEbwHU9un944zDfSVYxpsRyXPpTrSUEW0cR
-	zYnd03P2XA2gd6mJFR82S72smR5JX/LbLUT27RM5XIIQoSQyseHVqIEU7Pvn+G81
-	qMzPxcf01joLDcp8enxxv6hZF1ntv/6PtSuY7W9VPqNUlyFlf2usbiMsu8GtJHXJ
-	9iUY/b03vMPANdjqeWQ13MvmN8UEclK+HU37y/DWWCL6lLPn6GDejR5vnjOi44hp
-	PvdAjNAPMjkfJmDzXrQiQ==
-X-ME-Sender: <xms:hTlGalj9iRe5v0wejp6ybuqf-OYLVx9wdzxbHvD4c3rEhqSa02fm-A>
-    <xme:hTlGan38nbXbIeEL-ApFvCWcy1RS1G6fZuJ0dLb12Q09FE09oBL61fM9M3qE3TVja
-    6Dklkr-fY_VzJ8AZRGJzRkG0Bc4D04enIugiaOLlZo2MpvxEw>
-X-ME-Received: <xmr:hTlGavgEmhtWCBo-bz9mx9zEgB-S3d2mqH9_6xfEpid_0tdwEZHYpdLN5WNTMijx9vOuwpL-rpIpmAuo8aio9Ry1f_9Rmc8>
-X-ME-Proxy-Cause: dmFkZTG1IeEmh/Uah6csLmcYOFyJeWX7zbNxpwjrBvI6QLnwvproBKNaQrnkbV0ePqvHYS
-    hlYXn8KkFUM8i1URVbGu5lYm3xtYysnXCbuo3n4XWYPPumw7jetrjj7C9+oYf6fjnK70AN
-    h+1KE3bbtUDaNYnpxOgVt69yfw8M97gaR7vBksj6TIfL1pvudCcnVIKLDNGkjaV+xWzwao
-    abLxGAz3FMPN8uaHu+J22a81OB3dv8vXo6mfG/feIRXa7cUizVxyoYIKXulVHmgnEVO+rm
-    0wJwxw2XcdASAdNy4u1GrZ8cnxUaDRAItpBWN23Ol0lvCTMuuKUDDy4k+YBMY7CLcVPRaA
-    fOFivJXbTD4+4cbXqDU0OFs8L1MB6oL1MSIt5MRp1PiRyk1t60AYkdcqg7Tajqwng5sO5R
-    z9+QoALqxpsMA3wNBayWFiy9hpZlJ1MDrg43lBSlKpgB96uJTJuux3pYwpjKJU+ZI2/aMc
-    9+/rFkTKVCpvDUEnK6DHte8XJNOiieZhVpUadInzz9BUqbU+xqRxS6wbzMo9g8Xzs0cI8k
-    +8VBmD5LSz1S74cZ92Lj96jPHevQnk4C4NWSO0sS4nKq/X5l0Ds1PjYKK7n9sNm0e5P1sQ
-    H1jx3NrYmI6WzZo3HzqTKsN5Zf6WtMsDyKynwwPqmSO9LZSbzx5VscP8Axug
-X-ME-Proxy: <xmx:hTlGanc7QRSRyY5c4UzAdQFuehF04RbC6DLDEDLJVW0Txe57D51XSA>
-    <xmx:hTlGailP0sYKOgwc3CzWqdhFD4iopflu68dqXLgJhygpBKHauDL9bA>
-    <xmx:hTlGagtxoz2sCdXl2rz4kZMan-RKojNIUEeVp3nz5RnJmL7S0wJt5g>
-    <xmx:hTlGao-WXXmxQVk4NRBpMtv8Grz8IJ-pBU02RUkAbRN7TfOVuTfFCA>
-    <xmx:hTlGahKl0xwXWgKa7sdjDN07dTwy-6r2cmoB5ajzPep0wBS2jw6CTcId>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 2 Jul 2026 06:12:19 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2HPPvC5K";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="yTu2rlMf";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xexrTsng";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="QB9lUFyq"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A7C1C7412D;
+	Thu,  2 Jul 2026 10:19:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1782987595; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KXaQjDnf9nei9NemUmQcnQJjjLoXtg/2FI2y8fr4vc8=;
+	b=2HPPvC5KbPmzzTBYkpUhiLR1zbuc/MiAEH2iz9pAcjU597j//43RbBgwGuKbt9JO92pp9M
+	DylsXisr5nlwWcaQKbSdBvEPCLUCjxvxhpfZ5hDFcXZNx9ISQcNMpXboQqv/ifWfs8DOGn
+	/1kfM1mXiPNGMSeghoQ4m9efis0Ec78=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1782987595;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KXaQjDnf9nei9NemUmQcnQJjjLoXtg/2FI2y8fr4vc8=;
+	b=yTu2rlMf0kzV1Chyk9NRUQDHGfLnLOUO5LAnqNRlGycbJREZXjeXoEm0HQDdZim3gfkqv3
+	kY/AShdyHyp+7bAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1782987594; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KXaQjDnf9nei9NemUmQcnQJjjLoXtg/2FI2y8fr4vc8=;
+	b=xexrTsngZZ5HWsiyj7vNjY8VYDQ/oD9q/I3JRVQpIaS4Usjo9E24n0xKXkUIGq+Hj4Gzf8
+	Wd1+D+fpzahZ3NHiHFJwrGKGw2gzM0W98GOeCb83/oHe4Fxn8XsKBjOMISpcL9XmRmvLcW
+	aDp8NvbXihj/6XY7QwLe3sng/vOrHhE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1782987594;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KXaQjDnf9nei9NemUmQcnQJjjLoXtg/2FI2y8fr4vc8=;
+	b=QB9lUFyq6IkNmyEss6DUd3xW1ra4zz7CRd56pIRD698yv1Y5Gdpcu8r+r5/TPd5JGrItI7
+	Q/W4WeFDwRPsU3Bg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 954C3779AA;
+	Thu,  2 Jul 2026 10:19:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id RDcHJEo7RmpmMAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 02 Jul 2026 10:19:54 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 1DD4BA12AD; Thu, 02 Jul 2026 12:19:50 +0200 (CEST)
+Date: Thu, 2 Jul 2026 12:19:50 +0200
+From: Jan Kara <jack@suse.cz>
+To: yizhang089@gmail.com
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca, 
+	libaokun@linux.alibaba.com, jack@suse.cz, ojaswin@linux.ibm.com, ritesh.list@gmail.com, 
+	yi.zhang@huawei.com, yi.zhang@huaweicloud.com, chengzhihao1@huawei.com, 
+	yangerkun@huawei.com
+Subject: Re: [PATCH 6/6] ext4: skip ext4_update_disksize_before_punch() in
+ WRITE_ZEROES
+Message-ID: <3f6ao5amv7glbgigndtegcucgo3n34ij3lau6l3da3hgdxgn3v@ev66wv3r5umt>
+References: <20260701142009.1510104-1-yizhang089@gmail.com>
+ <20260701142009.1510104-7-yizhang089@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "David Howells" <dhowells@redhat.com>
-Cc: dhowells@redhat.com, "Marc Dionne" <marc.dionne@auristor.com>,
- linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/2] afs: use d_time instead of d_fsdata
-In-reply-to: <139684.1782982460@warthog.procyon.org.uk>
-References: <20260702020350.3403907-2-neilb@ownmail.net>
-  <20260702020350.3403907-1-neilb@ownmail.net>
-  <139684.1782982460@warthog.procyon.org.uk>
-Date: Thu, 02 Jul 2026 20:12:15 +1000
-Message-id: <178298713518.27465.922344481963289625@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260701142009.1510104-7-yizhang089@gmail.com>
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_RCPT(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,mit.edu,dilger.ca,linux.alibaba.com,suse.cz,linux.ibm.com,gmail.com,huawei.com,huaweicloud.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,huawei.com:email]
+X-Spam-Level: 
 
-On Thu, 02 Jul 2026, David Howells wrote:
-> NeilBrown <neilb@ownmail.net> wrote:
->=20
-> > afs uses ->d_fsdata to store version information for the parent
-> > directory.  ->d_time is arguably a better field to store this
-> > information as the version is like a time stamp, and ->d_time is an
-> > unsigned long, while ->d_fsdata is a void *.
->=20
-> It wasn't clear that ->d_time was available for private use by the filesyst=
-em.
+On Wed 01-07-26 22:20:09, yizhang089@gmail.com wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
+> 
+> FALLOC_FL_WRITE_ZEROES is mutually exclusive with FALLOC_FL_KEEP_SIZE.
+> In ext4_zero_range(), when end > i_disksize, new_size is always set to
+> end for WRITE_ZEROES, so the i_disksize update should not be lost.
+> 
+> The ext4_update_disksize_before_punch() call is only needed for the
+> ZERO_RANGE path in ext4_zero_range(), as it handles the case where
+> KEEP_SIZE may preserve the original disk size. Skip it for WRITE_ZEROES
+> to avoid unnecessary work and potential confusion.
+> 
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 
-Fair enough - it isn't clearly documented.
-5 different filesystems use it, no common VFS code touches it.
+Hum, but suppose i_disksize is before the start of our zeroed range, i_size
+is beyond the end of the zeroed range. Now
+ext4_alloc_file_blocks(EXT4_GET_BLOCKS_CREATE_ZERO) will create some zeroed
+written extents beyond i_disksize and if we crash before
+ext4_update_inode_size() runs, we have inconsistent filesystem with
+written extents beyond i_disksize... Hum, actually that could have been the
+case even before, just now there are more cases where this can happen. So I
+think FALLOC_FL_WRITE_ZEROES mode needs to add the inode to the orphan list
+to truncate the inode properly in case of crash.
 
->=20
-> > This will leave ->d_fsdata free for a different use ...  which
-> > admittedly is also not a void*, but is certainly not at all a time.
->=20
-> Are you going to use ->d_fsdata for something generic?
+								Honza
 
-I only need 1 bit - a flag to say that the dentry is being removed on
-the server.  I've occasionally thought of asking for a DCACHE_PRIVATE
-flag but ->d_fsdata is just as good.
-
->=20
-> > Interestingly the value stored in ->d_time or d_fsdata is u64 which does
-> > not fit in "unsigned long" or "void *" on 32 bit hosts.  Maybe that
-> > doesn't matter.
->=20
-> I know.  I just have to hope that someone triggers revalidation on a dirent
-> before 4 billion changes have been made to the directory on a 32-bit machin=
-e.
-> I could use both d_time and d_fsdata on 32-bit, I suppose.  I really don't
-> want to allocate an 8-byte blob for each dentry.
-
-I only want 1 bit of d_fsdata, and 60 bits is likely plenty for a
-version number.  So that would be the easiest approach.
-
->=20
-> Maybe I should switch to a single-bit flag and "invalidate" all the dentries
-> attached to a directory if I detect a jump in the directory's version number
-> due to a third-party modification (the version is monotonically incremented
-> for each modification committed).
->=20
-> I'm not sure how to do a mass invalidation without risking deadlock, though,
-> because I'd quite likely be starting from a random dirent in a directory and
-> then have to walk through all the other dirents of the directory.  I suppos=
-e I
-> could lock the directory (probably using dvnode->validate_lock) and then wa=
-lk
-> through d_children.
-
-Walking d_children could work, but that list can be long so you want to
-allow scheduling points.
-I haven't actually tried this, but I think you can allocate a
-DCACHE_CURSOR dentry on the stack and insert it in the list whenever you
-want to drop ->d_lock and schedule.
-
-Maybe not worth the effort though - 32-bit is a vanishing breed.
-
-NeilBrown
+> ---
+>  fs/ext4/extents.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
+> index c083703bf704..38753c2ef910 100644
+> --- a/fs/ext4/extents.c
+> +++ b/fs/ext4/extents.c
+> @@ -4748,9 +4748,11 @@ static long ext4_zero_range(struct file *file, loff_t offset,
+>  			return ret;
+>  	}
+>  
+> -	ret = ext4_update_disksize_before_punch(inode, offset, len);
+> -	if (ret)
+> -		return ret;
+> +	if (mode & FALLOC_FL_ZERO_RANGE) {
+> +		ret = ext4_update_disksize_before_punch(inode, offset, len);
+> +		if (ret)
+> +			return ret;
+> +	}
+>  
+>  	/* Now release the pages and zero block aligned part of pages */
+>  	ret = ext4_truncate_page_cache_block_range(inode, offset, end);
+> -- 
+> 2.53.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
