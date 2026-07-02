@@ -1,180 +1,111 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E3847DFA9;
-	Thu,  2 Jul 2026 13:21:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349084229AF;
+	Thu,  2 Jul 2026 13:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782998515; cv=none; b=UV26VOq4cgS3Tg9dY5yiPC9HEzjhhTVcQ7eSP7XJa7Yj8GivrZpQpMreIdwUwcwLMFwpcwav7Whbhe5dwiK13OSbUc3aM/waa3M8TgpVwoaoa4OBJ74e+2ZX9hC5zwuJIn5S+OXupboHteXo3WN4JtD/fEqCNUZ4MdI3/nUqkns=
+	t=1782998617; cv=none; b=VLJZWTVRp7JvbPdAR0G96PASPdWZim7g5+wtdFkBCA4Ux/K8rotDPqklrTV8hUdapWjuHv8dE7PUchoDW5TR5hgWFEvmVN9fIu9WuiEIoEbaXV78wYbtGN2CFU031hI/Ydp1oGTLuSE09p+ASA1bS2SeTN36+sOy7WHs55E/jk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782998515; c=relaxed/simple;
-	bh=gXUrajB2To0IOz5KqeBKr9/Bg4kcYOdXZYimcIYSsyo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OPFXeQkpldp5wzR8Hh3XWGkh4jgG0n7ap6Ynh++MkJxDiyyzJzKOjQ/Na7vBbJbVDgDOjvqN4Qlts7Im2nQOd74cwtxYCMP6xP4JlHu12Us0HADP2CltR7KvCyoZzHjdl+7hdhdw/8bHlIGqhwJ8nLM1A7u3xOmyPf0Pkr877aM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lItd+RyL; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1782998617; c=relaxed/simple;
+	bh=srJfFpeJLJJMkWxEGH/KQX8NpxQ+aQ6Ou7pVGBy0L9g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R15BHVJCYgn2/zrdrp7s/r4QKkYuIAIJ8K6Brscxh+gmb6adGr+gFgVWen1LVoPzXvGlGEL9zHwptWkjeCC9am4QtiJh+P8ylyQ07gJy5vhZu8g8KIuTEc6LFzcQCzOR2Qa02g5noKv/34Pl5UzE2rRzu1wZZsi43RvTNcKeTc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dM1Yo28u; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lItd+RyL"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782998499;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JUypSg4x3H5Npdac5Q/QNTHcczAl9LnBdMVXVWinEec=;
-	b=lItd+RyL3jRAHkpl0dxrPEWed2AY0HWUHX4RwICujMLfpbUgWjWjW+ARImTVfb6PHm9Sny
-	y6V8i67fWjOA8LCWLGCzxRy43+gvonIsLNLIP4rLaMNI+LWR2I1BadswAi+4/7c6z/eUrS
-	IlFVPIdu28UO/M5UjVs/++abx0FKfS4=
-From: Lance Yang <lance.yang@linux.dev>
-To: ljs@kernel.org
-Cc: akpm@linux-foundation.org,
-	tsbogend@alpha.franken.de,
-	maddy@linux.ibm.com,
-	mpe@ellerman.id.au,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	l.stach@pengutronix.de,
-	inki.dae@samsung.com,
-	sw0312.kim@samsung.com,
-	kyungmin.park@samsung.com,
-	krzk@kernel.org,
-	peter.griffin@linaro.org,
-	jani.nikula@linux.intel.com,
-	joonas.lahtinen@linux.intel.com,
-	rodrigo.vivi@intel.com,
-	tursulin@ursulin.net,
-	robin.clark@oss.qualcomm.com,
-	lumag@kernel.org,
-	lyude@redhat.com,
-	dakr@kernel.org,
-	tomi.valkeinen@ideasonboard.com,
-	hjc@rock-chips.com,
-	heiko@sntech.de,
-	andy.yan@rock-chips.com,
-	thierry.reding@kernel.org,
-	mperttunen@nvidia.com,
-	jonathanh@nvidia.com,
-	kraxel@redhat.com,
-	dmitry.osipenko@collabora.com,
-	zack.rusin@broadcom.com,
-	matthew.brost@intel.com,
-	thomas.hellstrom@linux.intel.com,
-	oleksandr_andrushchenko@epam.com,
-	deller@gmx.de,
-	bcrl@kvack.org,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	muchun.song@linux.dev,
-	osalvador@suse.de,
-	david@kernel.org,
-	ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com,
-	liam@infradead.org,
-	npache@redhat.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	baohua@kernel.org,
-	lance.yang@linux.dev,
-	hughd@google.com,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	jannh@google.com,
-	pfalcato@suse.de,
-	kees@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-mips@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	dri-devel@lists.freedesktop.org,
-	etnaviv@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org,
-	linux-rockchip@lists.infradead.org,
-	linux-tegra@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	intel-xe@lists.freedesktop.org,
-	xen-devel@lists.xenproject.org,
-	linux-fbdev@vger.kernel.org,
-	linux-aio@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 11/13] mm/mlock: convert mlock code to use vma_flags_t
-Date: Thu,  2 Jul 2026 21:21:07 +0800
-Message-Id: <20260702132107.73727-1-lance.yang@linux.dev>
-In-Reply-To: <2db16db81538355ca65f778c246d2381c673cad4.1782760670.git.ljs@kernel.org>
-References: <2db16db81538355ca65f778c246d2381c673cad4.1782760670.git.ljs@kernel.org>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dM1Yo28u"
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A9DDA8FA;
+	Thu,  2 Jul 2026 15:22:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1782998568;
+	bh=srJfFpeJLJJMkWxEGH/KQX8NpxQ+aQ6Ou7pVGBy0L9g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dM1Yo28uTBkgyU6E88ogluXVhCUPNTC6Zf2WMoqyDegYfFy6Bh2GVDCoGVbneHB+b
+	 RupfVuCvuCZ3gxGN4anqlTArQESF6ikt3z06tv3zDlHE1PRwYTNrtJiZro0I8d5QVY
+	 5nPWIwZzYIMNQKWcFQWw282lDyOHelV94E+6F8HM=
+Date: Thu, 2 Jul 2026 16:23:32 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Christian Brauner <brauner@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+	David Hildenbrand <david@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, Lorenzo Stoakes <ljs@kernel.org>
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+Message-ID: <20260702132332.GD3534761@killaraus.ideasonboard.com>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <akYasD1ckWcH1C0g@lt-jori.localdomain>
+ <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
+ <afd0635c-1903-4c7b-8023-cbcd1823e081@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <afd0635c-1903-4c7b-8023-cbcd1823e081@kernel.org>
 
-
-On Mon, Jun 29, 2026 at 08:25:34PM +0100, Lorenzo Stoakes wrote:
->Replace use of the legacy vm_flags_t flags with vma_flags_t values
->throughout the mlock logic.
->
->Additionally update comments to reflect the changes to be consistent.
->
->No functional change intended.
->
->Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
->---
-
-Nothing scary jumped out at me. Just one tiny nit below ;)
-
-[...]
->@@ -466,24 +466,23 @@ static void mlock_vma_pages_range(struct vm_area_struct *vma,
->  */
-> static int mlock_fixup(struct vma_iterator *vmi, struct vm_area_struct *vma,
-> 	       struct vm_area_struct **prev, unsigned long start,
->-	       unsigned long end, vm_flags_t newflags)
->+	       unsigned long end, vma_flags_t *new_vma_flags)
-> {
->-	vma_flags_t new_vma_flags = legacy_to_vma_flags(newflags);
-> 	const vma_flags_t old_vma_flags = vma->flags;
-> 	struct mm_struct *mm = vma->vm_mm;
-> 	int nr_pages;
-> 	int ret = 0;
+On Thu, Jul 02, 2026 at 12:34:34PM +0200, Krzysztof Kozlowski wrote:
+> On 02/07/2026 10:44, Vlastimil Babka (SUSE) wrote:
+> > On 7/2/26 10:12, Jori Koolstra wrote:
+> >> Ah, I still reigniting this discussion again :)
+> >>
+> >> What about a combination of what David and Jeff say? The whole point
+> >> seems to me that the salient information is not that an LLM was used (or
+> >> are we going to tag Sashiko as well or any other LLM-based code review
+> >> tool?), but what is was used to do. This information may be relevant for
+> >> how the review is approached. The latter should perhaps only be in the
+> >> cover letter and then we can drop the assisted-by tags altogether.
+> >>
+> >> The question about enforcement remains.
+> > 
+> > It's not possible to enforce it. People can deny it if the tag is missing
+> > and you confront them and even though the submission has many signs of being
+> > obviously LLM, there is no definite proof. We've seen (likely, as there's no
+> > proof!) that happen in mm.
+> > 
+> > Such situation then penalizes those who disclose so obviously they won't. We
+> > should drop the tag and instead think how we can empower maintainers to be
+> > able to use their own judgment and deprioritize dealing with what they
+> > perceive as LLM slop, without fearing consequences of not being properly
+> > responsible etc, and not rely on any non-enforceable tags for that.
 > 
->-	if (vma_flags_same_pair(&old_vma_flags, &new_vma_flags) ||
->+	if (vma_flags_same_pair(&old_vma_flags, new_vma_flags) ||
-> 	    vma_is_secretmem(vma) || !vma_supports_mlock(vma)) {
-> 		/*
->-		 * Don't set VM_LOCKED or VM_LOCKONFAULT and don't count.
->+		 * Don't set VMA_LOCKED_BIT or VM_LOCKONFAULT and don't count.
-
-s/VM_LOCKONFAULT/VMA_LOCKONFAULT_BIT/
-
-Otherwise LGTM. Feel free to add:
-
-Reviewed-by: Lance Yang <lance.yang@linux.dev>
-
-> 		 * For secretmem, don't allow the memory to be unlocked.
-> 		 */
-> 		goto out;
-> 	}
+> +1
 > 
->-	vma = vma_modify_flags(vmi, *prev, vma, start, end, &new_vma_flags);
->+	vma = vma_modify_flags(vmi, *prev, vma, start, end, new_vma_flags);
-> 	if (IS_ERR(vma)) {
-> 		ret = PTR_ERR(vma);
-> 		goto out;
-[...]
+> I see no benefits of enforcing the tag for these exact reasons. Every
+> LLM slop will miss the tag. OTOH, seeing reasonable contribution with
+> the tag makes my spider-senses tingling and causing unnecessary
+> prejudice.
+
+I'm not even sure the prejudice is unnecessary, given how studies point
+to the cognitive decline impact of generative AI usage.
+
+I have previously heard long-term, experienced developers saying they
+handle review feedback by "doing whatever the reviewer asks" without
+"really trying to understand" in order to get their code merged. That
+doesn't lead to very good long term results. When such developers turn
+to LLMs to write code, I'm pretty sure the prejudice is warranted.
+
+> If the contribution is reasonable, how does the tag
+> information helps me? I trust (or not) the person, regardless what tool
+> they use.
+> 
+> And if we think about any future possible copyright issues with LLM
+> contributions (like if there is ever a ruling that model trained on BSD
+> data creates BSD-derivative work etc), does that tag anyhow solve it?
+> Like if that ruling appear we will go through the history and revert the
+> commits?
+
+-- 
+Regards,
+
+Laurent Pinchart
