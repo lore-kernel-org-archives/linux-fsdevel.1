@@ -1,135 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9114747F2FB;
-	Thu,  2 Jul 2026 09:36:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F39480350;
+	Thu,  2 Jul 2026 09:37:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782984995; cv=none; b=kzyHZUV2W/JrP7tX4MxLLuqiQkn3PcbHhr5pLT9x6NoHiZ0K1J6+9UPxvcs86tOTHz/dOwYmsxzY9s5Ihkm51jSf4vX18+US/lW0YqsGn8gIy6ZvgY6NeOhnOCUgYYcUAproYdEfy5AGh8K0CZS7nKhO7V/eqVhXGlGwNiLzVdQ=
+	t=1782985030; cv=none; b=W0xhrCq2s+Ohem0inU3D6e3Xf9STN477kEigTUL2g3Qoo8mDwNaQFJv4AITJWcnsIr22ppyJ+fogANPII3b3cX7MRzucOzwmmae2qmCwORkOWhgwOzj/GnOI14I14c+aflIhwX4b9AQiG5su/kefvqX6wjVvST9gekZp4zXm8No=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782984995; c=relaxed/simple;
-	bh=Hn1k/D1ClXZsM/kgBtPcAtcOgTvg6izGNl2wimsfMkU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sf65tBzuBQKv9LQ0aXSDFVN7jBAPqCWHSmL3sphnqJoKxqvRfket4QE70PONt7Tw6Fxg60ycJdyZnVOpyBUjXSpj/Hm7dbrZ9nGY9yevHvD3qgjFmLWYZbDRsVhK6kTWTh7i65sEV1/iAUtLTVQb2vd3RQhofvehXimsqyd5DN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dN+SAJnl; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782985030; c=relaxed/simple;
+	bh=F256BFkHUVtMHlt+j/IArBp0TcI8EFEg3oC6P2PCN8c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CDh4o3zO0pvazYSDzlzKAqYXlIsEPJUO2MJOQZk+9xPnJxACqtKESIX4O4w1kCKbDfWkWqMAl+VAdHkfBBJzQvpN9AWM3zTSbfkuzgfrB4TvshGpssR/YN04LAKAw8Z23Mt3tCYkg33YWn9wQvndSI1j8+WXWctCvmlXUDim+eU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZgjtOGjK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dN+SAJnl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7A931F000E9;
-	Thu,  2 Jul 2026 09:36:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZgjtOGjK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0CA31F000E9;
+	Thu,  2 Jul 2026 09:37:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782984994;
-	bh=NvufOs32I4haHGafE2VQL3eyYoeYK0iSWCEBHiuHF+8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=dN+SAJnl6i61MbeGVC12bXTVR0Yd61lYyJIpGDGoy6y+r6r0XcLUnvD/OhItpNoFf
-	 lULtGRtI09dz2Wu+BWijiJMmXbpBFJIdTj0xsf6K/uOWx3RAhVZFp6xU+AibrIq1rE
-	 Ungy5XXARG1HaiYfT9KCFY5TpSAm4V1r0LVibDYUQkbdxwGTZC9WUho7JUXlBYDyuv
-	 wlOkM6GhzTTtPjpTszmEuyQC/mISEP62YwFB28whO07l/IFssKycsIgaTd0m0rbvrB
-	 mXgqT6Yrz67G38smYlnMiwgppc1y4r8CBiiNf3Kho2zhmWVYaDA1ezgDQa0o9r4D4d
-	 3cug001AxW9Qw==
-From: cem@kernel.org
-To: cem@kernel.org
-Cc: Jan Kara <jack@suse.cz>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Dave Chinner <david@fromorbit.com>,
-	Eric Sandeen <sandeen@redhat.com>,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>,
-	Serge Hallyn <serge@hallyn.com>
-Subject: [PATCH v3 2/5] capability: Add new capable_noaudit
-Date: Thu,  2 Jul 2026 11:33:19 +0200
-Message-ID: <20260702093324.127450-5-cem@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260702093324.127450-1-cem@kernel.org>
-References: <20260702093324.127450-1-cem@kernel.org>
+	s=k20260515; t=1782985029;
+	bh=F256BFkHUVtMHlt+j/IArBp0TcI8EFEg3oC6P2PCN8c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ZgjtOGjK0zDu0PYPQfJnc2e5FmDQt0zw+ap5VSD8KdNDv+LecZQfYanXQW0ZvHeY8
+	 U8In/hdZGig6AvDF4385PlqZJ1XFdhmLkqvGvjgeX8qihKGaFfAx82fY67hpxb2H/0
+	 sAtWjfGEIPc/K1zdW9DOm09fP9T33cAI4qh89PfYre/Ul6i/sEFV+GxaKu/yVlrmFf
+	 fIGsTHYffKMOPwXDp/rnRXYxGyeGsbzy8x4waqSfXr4eTtXIuJk5xVBN/UFx45iiik
+	 CjH1kRkMhF8etAHiF7CYyy6mYNhykksjoYAia/SIZlzN71uLP+dwcVX+LJdr9sWPkE
+	 lbKoe9etouBHg==
+Date: Thu, 2 Jul 2026 10:37:00 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Christian Brauner <brauner@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
+	David Hildenbrand <david@kernel.org>, Jeff Layton <jlayton@kernel.org>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+Message-ID: <akYvWe505KPzleBL@lucifer>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+ <akYasD1ckWcH1C0g@lt-jori.localdomain>
+ <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
 
-From: Carlos Maiolino <cem@kernel.org>
+On Thu, Jul 02, 2026 at 10:44:34AM +0200, Vlastimil Babka (SUSE) wrote:
+> On 7/2/26 10:12, Jori Koolstra wrote:
+> > Ah, I still reigniting this discussion again :)
+> >
+> > What about a combination of what David and Jeff say? The whole point
+> > seems to me that the salient information is not that an LLM was used (or
+> > are we going to tag Sashiko as well or any other LLM-based code review
+> > tool?), but what is was used to do. This information may be relevant for
+> > how the review is approached. The latter should perhaps only be in the
+> > cover letter and then we can drop the assisted-by tags altogether.
+> >
+> > The question about enforcement remains.
+>
+> It's not possible to enforce it. People can deny it if the tag is missing
+> and you confront them and even though the submission has many signs of being
+> obviously LLM, there is no definite proof. We've seen (likely, as there's no
+> proof!) that happen in mm.
 
-In some situations (quota enforcement bypass in this case) we'd like to
-check for a specific capability without triggering spurious audit
-messages from security modules like selinux.
+I think it's helpful to point to guidelines, and I've actively used that in
+practice with the recent wave of AI slop in mm.
 
-Add a new helper so we don't need to use ns_capable_noaudit() directly.
+But yes it quickly becomes very politically difficult if somebody adamently lies
+about that, and as you know I've found myself in that situation too :)
 
-V3: remove the extern declaration
+However, there are those who _do_ attribute, especially those working at tech
+companies that are encouraging LLM-usage, and others who are in good faith, so
+having the tag is, I think, helpful.
 
-Signed-off-by: Carlos Maiolino <cmaiolino@redhat.com>
-Cc: Jan Kara <jack@suse.cz>
-Cc: Darrick J. Wong <djwong@kernel.org>
-Cc: Dave Chinner <david@fromorbit.com>
-Cc: Eric Sandeen <sandeen@redhat.com>
-Cc: Dr. Thomas Orgis" <thomas.orgis@uni-hamburg.de>
-Cc: linux-xfs@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org
-Cc: linux-security-module@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Serge Hallyn <serge@hallyn.com>
----
- include/linux/capability.h |  5 +++++
- kernel/capability.c        | 17 +++++++++++++++++
- 2 files changed, 22 insertions(+)
+It also strengthens the case for those who are dishonest if we do at some point
+institute a 'well this seems very likely to be so sorry no' approach in mm at
+least.
 
-diff --git a/include/linux/capability.h b/include/linux/capability.h
-index 37db92b3d6f8..f8532d92fcad 100644
---- a/include/linux/capability.h
-+++ b/include/linux/capability.h
-@@ -145,6 +145,7 @@ extern bool has_capability_noaudit(struct task_struct *t, int cap);
- extern bool has_ns_capability_noaudit(struct task_struct *t,
- 				      struct user_namespace *ns, int cap);
- extern bool capable(int cap);
-+bool capable_noaudit(int cap);
- extern bool ns_capable(struct user_namespace *ns, int cap);
- extern bool ns_capable_noaudit(struct user_namespace *ns, int cap);
- extern bool ns_capable_setid(struct user_namespace *ns, int cap);
-@@ -167,6 +168,10 @@ static inline bool capable(int cap)
- {
- 	return true;
- }
-+static inline bool capable_noaudit(int cap)
-+{
-+	return true;
-+}
- static inline bool ns_capable(struct user_namespace *ns, int cap)
- {
- 	return true;
-diff --git a/kernel/capability.c b/kernel/capability.c
-index 829f49ae07b9..2c2d1e8300bd 100644
---- a/kernel/capability.c
-+++ b/kernel/capability.c
-@@ -416,6 +416,23 @@ bool capable(int cap)
- 	return ns_capable(&init_user_ns, cap);
- }
- EXPORT_SYMBOL(capable);
-+
-+/**
-+ * capable_noaudit - Determine if the current task has a superior
-+ * capability in effect (unaudited).
-+ * @cap: The capability to be tested for
-+ *
-+ * This is the same as capable(), except it uses CAP_OPT_NOAUDIT as to prevent
-+ * issuing spurious audit messages.
-+ *
-+ * This sets PF_SUPERPRIV on the task if the capability is available on the
-+ * assumption that it's about to be used.
-+ */
-+bool capable_noaudit(int cap)
-+{
-+	return ns_capable_noaudit(&init_user_ns, cap);
-+}
-+EXPORT_SYMBOL(capable_noaudit);
- #endif /* CONFIG_MULTIUSER */
- 
- /**
--- 
-2.54.0
+>
+> Such situation then penalizes those who disclose so obviously they won't. We
+> should drop the tag and instead think how we can empower maintainers to be
+> able to use their own judgment and deprioritize dealing with what they
+> perceive as LLM slop, without fearing consequences of not being properly
+> responsible etc, and not rely on any non-enforceable tags for that.
 
+I agree we should have the ability to do this.
+
+But the amount of time wasted on AI slop is already too much and we're only at
+the start of this, we really need a very low effort way to filter it.
+
+Tags with more information WILL help IMO, but I honestly think, in the long run,
+we're simply going to have to deprioritise patches from newcomers that do more
+than small changes.
+
+Other open source communities are ahead of us in this and that seems to be the
+road being taken often (e.g. [0]).
+
+Cheers, Lorenzo
+
+[0]:https://godotengine.org/article/contribution-policy-2026/
