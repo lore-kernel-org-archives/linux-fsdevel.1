@@ -1,54 +1,135 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4804C3A9861;
-	Thu,  2 Jul 2026 10:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CAC23C7DE1;
+	Thu,  2 Jul 2026 10:27:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782988032; cv=none; b=KcwIKun2I5d6tsq3K8yiiOErM8NCORfeHUo0CuVOgr2UGCLEAcjYgFDlFSfxqdgBcxPARO+3z1eL8kjC2uxsp/hTrxgyHkQvjDvnRrtbypnOnIwoooay7b60+qEUqiWQ32Xv2OR0JUHVNakiO9cj/Vuvv3t3AAY8DFefADPptPo=
+	t=1782988046; cv=none; b=P6XtIgAhbTZWuIueKxznd11ZBxPUp1j7ITyVWtyrREHVlEVzwXWaaFj5BnNSToWy0pWAXOpUGGbUyIVaOs4QMT6PZJc88ydaBWTjO/Un3IK/MAhZblvhij6YIvRGTkbaVhRYUqQYhUxixexHrkdu3kQ533ufnudbcwYRHoUuODs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782988032; c=relaxed/simple;
-	bh=Ii8HglSf588SoGDAT6pEq7kUdME/oJt1MpciuR55l2A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fp8beeSFqgbgfHrrMK6P0kwlT4TofOzbO9frr+PlDiXvXndAYL24P53mZq91owk7l/w6dRJNmnKJey098IYPB//GloIAl334A2hYgXr6iPKEOiSa/BWy4nAVuZ/9JfOTgCEhl/7CepY3tZxBK0y9vj5uRk0V5nHILmhvm/rTa8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 35C9B68BEB; Thu,  2 Jul 2026 12:27:06 +0200 (CEST)
-Date: Thu, 2 Jul 2026 12:27:06 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Christian Brauner <brauner@kernel.org>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Kelu Ye <yekelu1@huawei.com>, Yifan Zhao <zhaoyifan28@huawei.com>,
-	Ritesh Harjani <ritesh.list@gmail.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Hyunchul Lee <hyc.lee@gmail.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev,
-	ntfs3@lists.linux.dev, linux-erofs@lists.ozlabs.org,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 1/3] iomap: consolidate bio submission
-Message-ID: <20260702102705.GB6252@lst.de>
-References: <20260629121750.3392300-2-hch@lst.de> <20260701-davon-kniegelenk-gedehnt-96476b242a09@brauner>
+	s=arc-20240116; t=1782988046; c=relaxed/simple;
+	bh=YvEOBLItkrqvAbCfU/vVsQkLk5Y7FT8BXnXQDbsF9EM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cLOOeKb1fiemComVLRk8PNKVOdgTWgDw11IJHq5VuGBTlR8HUsmcdDC3lymH32sow3FlpmOyvRE17YoqcFeBNOiakaOS7cl2jXHshjVq2yB8t02L1Hx5PY7pC6LljTogVOCvJh64mckx0l6+frdIt7rvpW1lP50KHQZGJDBTnmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oX9rZXvU; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oX9rZXvU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4C731F000E9;
+	Thu,  2 Jul 2026 10:27:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782988045;
+	bh=t5DySkcPpG4n3I/KnPOM5e5iyA34NMFERIywYZbfhLQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=oX9rZXvUdGzGPlvLRGdF4+qalNgkcw4N+5930je5DTtsBnUxL1RDuFTrz1aIYLdzw
+	 cHbgubUCWtBkefvOx3mvzS558YSs2+DzDdLXZywGYGtvSQgTJ6WzLuut6sBT+3/VuE
+	 /080GgovCJqrVFbu1GQYdDaqLe4sD4tMzpnXoPlX4Sf2qalLx1JMm0uZN7wllyuWol
+	 AiMBLJ36LN5E1Z7Sp4hq3lSTSKdCtj8UkquuKtPwSUikoW3+W88+Z8CKEB2m8FVGVK
+	 Jidv/Amdkm6eyHQcWjkUfeHT+vOXNVPA2qqSTOaUAyrhfMZtwhW9DP01PjceEAMTrk
+	 W8J/Vrgil4BUw==
+Message-ID: <7d2ba1b4-6199-406e-88ae-fb5c9fad4689@kernel.org>
+Date: Thu, 2 Jul 2026 12:27:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260701-davon-kniegelenk-gedehnt-96476b242a09@brauner>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+To: Christian Brauner <brauner@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Jens Axboe <axboe@kernel.dk>, David Hildenbrand <david@kernel.org>,
+ Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 01, 2026 at 03:27:40PM +0200, Christian Brauner wrote:
-> Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-> Patches in the vfs.fixes branch should appear in linux-next soon.
+On 01/07/2026 17:54, Christian Brauner wrote:
+> I remain very confused by our coding assistant contribution guidelines.
+> I'm going to be a bit polemic now but this seriously in good faith.
+> 
+> Why precisely do we require all this detailed information about what
+> specific coding assistant was used?
+> 
+> I find it very irritating that our git history has effectively started
+> to function a bit like a free advertising platform for a bunch of AI
+> companies and their proprietary agents and models.
+> 
+> And it reamins unclear to me what exactly we do get out of this detailed
+> information: Do we want to run statistical analysis on what agent and
+> model is used the most and publish that on LWN at some point?
+> 
+> I acknowledge that my stance is even more radical: imho we would just
+> stop it with any disclosure requirements completely. It's useless imho.
+> We already see that other than core contributors most people don't care
+> and will just not disclose their usage of AI. I think this is entirely
+> pointless and worse it brings in undefined legal status as well. It's
+> not like recent events of pulling certain models from the face of the
+> earth have made this any less concerning.
+> 
+> But fine, if we want to do this can we please just dumb it down to
+> 
+> Assisted-by: LLM
+> 
 
-Hmm, both this mail and the merge commit in git reference the first
-commit instead of the cower letter.  Is there an issue with your
-automation that made it miss the cover letter?
+Yes, I agree. Useful information would be the model or trained data,
+e.g. to judge for any copyright issues, but I doubt anyone will ever
+provide such details.
+
+I also see little value to keep even the Assisted-by tag in the first
+place. I am interested in seeing named respectable tools in commit msg
+as reasons for doing this commit, e.g. I am fixing warning from Smatch
+so I mention Smatch. Sashiko fits this purpose as well. I have no
+interests to see "Claude" as reason of doing something.
+
+Best regards,
+Krzysztof
