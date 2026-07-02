@@ -1,94 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113EC2DFA2F;
-	Thu,  2 Jul 2026 11:35:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED7E44DB7D
+	for <linux-fsdevel@vger.kernel.org>; Thu,  2 Jul 2026 11:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782992128; cv=none; b=gjJmR/84NhqIsk2H+nqb/qe/W66pmElFXHenHYqHsMWDd4x93sl0aHO/jckkOu400Xx8LfAGKbiKqWksgukC+ict32RXBhZRCc4yqQh9FIALACEeFXl3aIcUQTh/RnsKxnxHNVe78GcfVH0AMrls4wmTQwieMzel6cgf8YCUjDw=
+	t=1782992290; cv=none; b=cFF0ypoYF5tuOt8Ek5L298FHqXYlzLM3AqfXgtI69b7t8CsiE7RyIYiDFt/UPpO37G+RIVruvQIBkQkXRhTr451dkVGGv3YNDrN0dDEMNcWFyD1O3WxjkJSqbc6xBm/2vAxEPXahkZ5W+25ysyLY38bpmuQ/BPoJIt7LBW+k48k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782992128; c=relaxed/simple;
-	bh=BjcbYXCdqTJh939WrQc12HPWeFxIa/Kkv7EJRbyw4io=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qemALQUsnujNe5SdlpI6J3Qc7O4bgBZ2U7Ii7lgX/EPK5F57PRxGVYoBTSkWgKdAhwg+mE3IBAy1rYk1wSEXsfdJfc3rX96iZXti7m9sxc2GQxudtPIyjHMPv9yepbbdOojnRyybMSRa7hmlenvMZWipAoOpPmm8zL+gtrXVhyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JZ9sQXtl; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782992290; c=relaxed/simple;
+	bh=s4zTiOPxPEEvh+Z2LMv+6gqe9ZZvh+3yTK3Yc5UnT/U=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OaqVkuemmi3+S7CD6ZpFscy0jeDNaTr9LQ9NgsqsqU0IFbnFzMW3liUWKfAp+v4vNr5qWd8eRw3WiHtC46/XWQ2VHN7PDEWmYyFabXEkKoElGZXQgWOn1665Svqgl8GT0RE0vL0lLT17jcEU22QB/TQTryK+DvcMS+VadSdu6s8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AkD1PO3E; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JZ9sQXtl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 796751F000E9;
-	Thu,  2 Jul 2026 11:35:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782992126;
-	bh=1pwM7n/u2kSrUcdJ3ZFWmOq97lL6l2O1hk/UECX/G3E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JZ9sQXtl0aUwgKc+Fyi2RMXNroekDcgK/ccnd6JmVRI0ZoTIk/uZd2LDbl8KC8nKR
-	 1X6Er47uoqiCfDq5hPRaYHEQ2Ch4XoMcyvAVaaoiryX0BgTcIEeO/oDc1YsOngTyPB
-	 O0peHKxUNOu3bKJR/nFdGrRVvTRoqgTjqqdEdDrvlgk1EETnuojhg6TEXJjeu0qYnG
-	 HNvN1NhWR9SmfgncJ00giCdh8aaFnTRD9ybG40aOIthYTTWP6Yk25Wk4lZPIji5FXW
-	 EqKImlv5U5TTA536o1IIbDWjkntd3IdJ/Waj7yvTVtC9GqZDKNr+7BPi8NgJbonxjs
-	 +CBQXDtKQKHeA==
-Date: Thu, 2 Jul 2026 12:35:21 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	David Hildenbrand <david@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-Message-ID: <5272cc4b-262a-4efb-9b99-50ea61695c93@sirena.org.uk>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <70c1d2eb-a1ae-441c-91d4-1c5113b131aa@sirena.org.uk>
- <20260702-ehebruch-dromedar-anbiedern-1116154f96dc@brauner>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AkD1PO3E"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782992273;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s4zTiOPxPEEvh+Z2LMv+6gqe9ZZvh+3yTK3Yc5UnT/U=;
+	b=AkD1PO3EYh/hmuzqNyG5+F4iFU+xRbougp+bY+xotWctIjwUQvMKpAwXsjPb5kG+NxyY12
+	mV0mEGNoe2Czu7JdCtguHySTk1KxuHzjRfZnXIBhIe71SSOqRiI6wOFZz62JhxqVX83KFA
+	KhWu2A9hV9btjfbdFeq0dyXUttdl5PQ=
+From: Lance Yang <lance.yang@linux.dev>
+To: ljs@kernel.org
+Cc: akpm@linux-foundation.org,
+	tsbogend@alpha.franken.de,
+	maddy@linux.ibm.com,
+	mpe@ellerman.id.au,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	l.stach@pengutronix.de,
+	inki.dae@samsung.com,
+	sw0312.kim@samsung.com,
+	kyungmin.park@samsung.com,
+	krzk@kernel.org,
+	peter.griffin@linaro.org,
+	jani.nikula@linux.intel.com,
+	joonas.lahtinen@linux.intel.com,
+	rodrigo.vivi@intel.com,
+	tursulin@ursulin.net,
+	robin.clark@oss.qualcomm.com,
+	lumag@kernel.org,
+	lyude@redhat.com,
+	dakr@kernel.org,
+	tomi.valkeinen@ideasonboard.com,
+	hjc@rock-chips.com,
+	heiko@sntech.de,
+	andy.yan@rock-chips.com,
+	thierry.reding@kernel.org,
+	mperttunen@nvidia.com,
+	jonathanh@nvidia.com,
+	kraxel@redhat.com,
+	dmitry.osipenko@collabora.com,
+	zack.rusin@broadcom.com,
+	matthew.brost@intel.com,
+	thomas.hellstrom@linux.intel.com,
+	oleksandr_andrushchenko@epam.com,
+	deller@gmx.de,
+	bcrl@kvack.org,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	muchun.song@linux.dev,
+	osalvador@suse.de,
+	david@kernel.org,
+	ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com,
+	liam@infradead.org,
+	npache@redhat.com,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	hughd@google.com,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	jannh@google.com,
+	pfalcato@suse.de,
+	kees@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org,
+	etnaviv@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org,
+	linux-rockchip@lists.infradead.org,
+	linux-tegra@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	intel-xe@lists.freedesktop.org,
+	xen-devel@lists.xenproject.org,
+	linux-fbdev@vger.kernel.org,
+	linux-aio@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 03/13] mm: convert __get_unmapped_area() to use vma_flags_t
+Date: Thu,  2 Jul 2026 19:37:22 +0800
+Message-Id: <20260702113722.97837-1-lance.yang@linux.dev>
+In-Reply-To: <b1ad7c4443f5cba622e4c48c5a9ef15427001a93.1782760670.git.ljs@kernel.org>
+References: <b1ad7c4443f5cba622e4c48c5a9ef15427001a93.1782760670.git.ljs@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ZVvYCLokbOAFQKm9"
-Content-Disposition: inline
-In-Reply-To: <20260702-ehebruch-dromedar-anbiedern-1116154f96dc@brauner>
-X-Cookie: Reactor error - core dumped!
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
 
---ZVvYCLokbOAFQKm9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Mon, Jun 29, 2026 at 08:25:26PM +0100, Lorenzo Stoakes wrote:
+>Update __get_unmapped_area() to be parameterised by vma_flags_t rather than
+>vm_flags_t as part of the effort to move VMA flags from a system word to a
+>bitmap.
+>
+>We cascade the changes up to arch_get_unmapped_area_topdown() and
+>arch_get_unmapped_area(), where, for now, we use vma_flags_to_legacy() in
+>order to propagate the VMA flags.
+>
+>No functional change intended.
+>
+>Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+>---
 
-On Thu, Jul 02, 2026 at 09:10:16AM +0200, Christian Brauner wrote:
-> On 2026-07-01 17:08 +0100, Mark Brown wrote:
-> > On Wed, Jul 01, 2026 at 05:54:48PM +0200, Christian Brauner wrote:
+Nothing suspicious that I could spot :) Feel free to add:
 
-> > > And it reamins unclear to me what exactly we do get out of this detailed
-> > > information: Do we want to run statistical analysis on what agent and
-> > > model is used the most and publish that on LWN at some point?
-
-> > IIRC it was literally this, have people mention which tools they used so
-> > we can use that to inform our assessment of the patches.  I'm not sure
-
-> Forgive my candor but I think that is just useless for us. It's
-> certainly useful for AI company statistics. If we want to provide that
-> service I would recommend we start charging. ;)
-
-Yeah, that was more an observation of fact than a comment on value.
-Certainly now we're able to see what things look like in practice.
-
---ZVvYCLokbOAFQKm9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpGTPgACgkQJNaLcl1U
-h9BE+gf+JMNLfzqoTw7wcTvxlFAC5AO9SVbqT1cv2BzgFdmmhKjGTONSe+maIxvZ
-YdEqzg7mrtYPvAoMFtKIP4loTDmrs318k90OI4MZJ7YI1kqNbubn0HYBapp9fBt/
-EqWzjxnu8RjHDcQlh5352PhoDHXd4k/zTPNJD8A45WuFZ85+LB7e/h+7b87/YiqG
-wyWU55zkUhBQ8cs81+boDRefZiv3OZbG7nu++gU8J8NnrobQ1MpPo/mGtKGsoDEm
-L47pSlCPDj1+YeJg7J83U2M8Wfc3qvYbnN1ZH/nPFdZ49cYsKJXoXK1JCmel4KOL
-g1suEVOs5xFlxCE7BzSItiSZz6Xe9A==
-=qEt3
------END PGP SIGNATURE-----
-
---ZVvYCLokbOAFQKm9--
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
