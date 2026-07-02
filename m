@@ -1,179 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1054A2E16;
-	Thu,  2 Jul 2026 13:25:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DDB0431E55;
+	Thu,  2 Jul 2026 13:27:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782998743; cv=none; b=c116GdMhG7waVa8F7Vhts7QNA9kcoUd1J7pyL6Gb46IOvRf05pFgg8ooAvpjnkRDsoYjYEsyB8AE+2ku+HU0R00vszeXoIPeOFAymogAi//w+MMTeHb8bOCQImEcRt1Er0IYRTDsNr5zgPiplSG4XJQKQjERM/MK0PC5avcjfc0=
+	t=1782998825; cv=none; b=qIA7BjhUfd71pPjNRJWwRjzMhFyGPT/HnuhbfrAgrOwv22DArkPVb+5mVE+DZ1+nGaUrYG/oJQkB14L3loFPp0ljxy7xid8nwoN+DeqgF7mMFwpTv9pfT+8TBA89u/ansY5Lf6g+8m3jR3yFhMklWr9O2K5nYk3WeyHOXTCgvF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782998743; c=relaxed/simple;
-	bh=cYAm9nlSexe7nKSLuQUVU8DabenGTVMaWZc0yXMFmt8=;
+	s=arc-20240116; t=1782998825; c=relaxed/simple;
+	bh=lSqo6O6WZ+rDfnb7vMn5V/d/pI1JVJxXS2FNIESa+Y0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jVmBqlahh3XIYlYyN4T/M9rjJFPYiETPnZqSOs1zlPobtbCeDh/hEDSvpx/7oUIeKYC0q4gOwra4gv5t9tNnqgPTC6QoMDZgmcVNu26T47RpK4VBgE7TMKafZ4rMSJKzLblhNDQnRqxauJi3SoQK1ZfGt2CYGj6soBxIJNtJHn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Viy+MX3w; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=r8CwQAkZKRggiPTqgIEU6x3zkh94RyFYdB+Ew9t7FmDattccLq44Y1pqZfxMO4vKopqeW8wdbEXIuvQgxXjIS901ebmnyuBp9lzXz8CbfZZnIAUU7+bKhknoNKgdS7xMV59AfjuhXh5K6qJjEbFjGNbWP4UI2n+IFmuLjC4ZaoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZcGXSKu4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Viy+MX3w"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BA431F000E9;
-	Thu,  2 Jul 2026 13:25:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZcGXSKu4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CF0F1F000E9;
+	Thu,  2 Jul 2026 13:27:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782998741;
-	bh=cYAm9nlSexe7nKSLuQUVU8DabenGTVMaWZc0yXMFmt8=;
+	s=k20260515; t=1782998824;
+	bh=zC+CbGWapRoHKyQI3zNE/DEViQmuDGCBN+60Eb79jsA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Viy+MX3wVZESV/1DQnGAItDqvZFVIbnPdrLsUaJvq+WZqxYGfqcuA8ZT/RgeoTvy7
-	 TAyNh4Y6hODqW5PXnsHvVLOw8vUiU7wEvaKk0qPVZhBebMsUDqDbQ7vThzgePEtM/0
-	 WVg0ON8hmzG7x5hQvMFzELCVjsgKrftNO+vAuBYSs+QZe61GZavlOFLmLCp8CV1MrE
-	 WxQjVK5riBQqDfbnSEUigVIXIlPc8T44ji4M3lic499hC008pwz3pTmYKWQsNbTRgX
-	 xUQnohoZWlsWqrZEvQQJFYS5ODdgsmjk96aQ18Z/EXUEZKPlJSkVJZkSjxlDb4n0ZT
-	 VtNsqdw8tdu6A==
-Date: Thu, 2 Jul 2026 14:25:31 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Brian Foster <bfoster@redhat.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
-	Christian Brauner <brauner@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
-	David Hildenbrand <david@kernel.org>, Jeff Layton <jlayton@kernel.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+	b=ZcGXSKu4UBl6s6DCC939ScwNnKE91/22cbrs2i119LT85uIaE5c4h4iEnAoux2+vJ
+	 lLk42HWsiStY5YEn9rTc9BhhLCHxPfggO+TVw73gQf3UKa5RJophgJGJPEp4RfPqeB
+	 ZX3nq5YOI+krrZMNGRUDp6A4S94qvAKjfzbeA+2bP0z39PTJxz3sFUNb32t36F4h1b
+	 9XSjpomX7Z9jU4vrr5YcpxpAMDZV3uCOq45LR1POC53QZYd7Kmhn1g1N7GQapZrWOy
+	 ju4OmkcZVsJAW2J1hSpRCLlgEzO00l0FOn7rnt7jqaYJ9Vjn3y98kp6mkHhnanVXqZ
+	 YRUwdrkREwXmQ==
+Date: Thu, 2 Jul 2026 15:26:58 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
+	Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>
 Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-Message-ID: <akZmJgbSdyM2Ww-t@lucifer>
+Message-ID: <20260702-weitreichend-aufgearbeitet-flausen-fd92f38bbba0@brauner>
 References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
- <akYasD1ckWcH1C0g@lt-jori.localdomain>
- <a17b9a17-0ca7-4912-836d-4637cd0110f7@kernel.org>
- <20260702093844.GA3491311@killaraus.ideasonboard.com>
- <akYx9blvVhIXB5A-@lucifer>
- <akZSOa4awK5l9x_w@bfoster>
- <akZW1RPqTc-4_7jW@lucifer>
- <akZi8XmYA0XUCx2-@bfoster>
+ <5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org>
+ <20260702-seekrank-stilrichtung-mitentscheiden-69a64ee097ec@brauner>
+ <1f29f48d-b9ff-4de2-a392-dc05781728be@kernel.org>
+ <akYz2aMIco1fbD-t@lucifer>
+ <54d3a698-a275-488e-ad36-ef423db30f70@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <akZi8XmYA0XUCx2-@bfoster>
+In-Reply-To: <54d3a698-a275-488e-ad36-ef423db30f70@kernel.org>
 
-On Thu, Jul 02, 2026 at 09:09:05AM -0400, Brian Foster wrote:
-> On Thu, Jul 02, 2026 at 01:18:06PM +0100, Lorenzo Stoakes wrote:
-> > On Thu, Jul 02, 2026 at 07:57:45AM -0400, Brian Foster wrote:
-> > > On Thu, Jul 02, 2026 at 10:44:09AM +0100, Lorenzo Stoakes wrote:
-> > > > On Thu, Jul 02, 2026 at 12:38:44PM +0300, Laurent Pinchart wrote:
-> > > > > On Thu, Jul 02, 2026 at 10:44:34AM +0200, Vlastimil Babka (SUSE) wrote:
-> > > > > > On 7/2/26 10:12, Jori Koolstra wrote:
-> > > > > > > Ah, I still reigniting this discussion again :)
-> > > > > > >
-> > > > > > > What about a combination of what David and Jeff say? The whole point
-> > > > > > > seems to me that the salient information is not that an LLM was used (or
-> > > > > > > are we going to tag Sashiko as well or any other LLM-based code review
-> > > > > > > tool?), but what is was used to do. This information may be relevant for
-> > > > > > > how the review is approached. The latter should perhaps only be in the
-> > > > > > > cover letter and then we can drop the assisted-by tags altogether.
-> > > > > > >
-> > > > > > > The question about enforcement remains.
-> > > > > >
-> > > > > > It's not possible to enforce it. People can deny it if the tag is missing
-> > > > > > and you confront them and even though the submission has many signs of being
-> > > > > > obviously LLM, there is no definite proof. We've seen (likely, as there's no
-> > > > > > proof!) that happen in mm.
-> > > > > >
-> > > > > > Such situation then penalizes those who disclose so obviously they won't.
-> > > > >
-> > > > > I think there's also a penality for those who don't disclose when
-> > > > > they're told they should: it will lower trust. Kernel development is
-> > > > > largely based on a trust model. If a contributor decides to adopt a
-> > > > > deceiptful behaviour, they can expect maintainers to raise the bar for
-> > > > > accepting patches, when not rejecting them outright.
-> > > >
-> > > > Yes, I explicitly said this in response to somebody for whom there was
-> > > > overwhelming evidence they were submitting AI slop, and that they'd need to
-> > > > build it back up again.
-> > > >
-> > > > It's precisely the issue as I see it.
-> > > >
-> > > > But others within the community disagreed with me, so it turned into a very
-> > > > long and draining discussion that I don't particularly wish to repeat.
-> > > >
-> > > > So we really need clarity on it being OK to do this (I remember saying this
-> > > > last year when I made an ultimately unsuccessful submission to the
-> > > > maintainer's summit about all this :)
-> > > >
-> > > > What matters overall is being able to _quickly_ dismiss AI slop so that
-> > > > asymmetry between LLM generation + maintainer time isn't exploited.
-> > > >
-> > > > And ultimately I think the trust model will end up being 'newcomes have 0,
-> > > > now build it up'.
-> > > >
-> > > > Which sucks but this issue is simply existential for open source.
-> > > >
-> > >
-> > > Has anybody tried throwing any of the obvious LLM slop submissions we
-> > > have seen into one of these LLM detector things? To be clear, I've never
-> > > tried those so I'm certainly no authority on if they even work reliably,
-> > > but if so I wonder if something like that is a potential solution for
-> > > elminating the worst cases..
-> > >
-> > > I.e., suppose we had some Sashiko type LLM/bot whose job was mainly to
-> > > detect purely LLM generated content based on some minimum level of
-> > > confidence and reply with a loud and clear message to the thread. Maybe
-> > > that would be a clear enough signal to maintainers and reviewers that
-> > > something is not worth prioritizing for review.. Maybe also some "slop
-> > > detected" feedback would help disincentivize flinging slop onto the
-> > > lists. At the very least that could be something that is more easily
-> > > configured/enabled per-subsystem without having to use per-subsystem
-> > > commit tags.
-> >
-> > Yup I thought of this, have done this on series and they do detect it
-> > reliably.
-> >
->
-> Interesting.
->
-> > But then it becomes an arms race. People will get AI to try to defeat AI
-> > detection. So I'm not sure it's a safe road to go down.
-> >
->
-> Yeah that's fair, but my thinking is the goal would be more to detect
-> slop content as opposed to just LLM usage. The trend of these
-> discussions has been that we generally don't care too much about LLM use
-> in general when it's used properly as a tool, but rather as you stated
-> earlier we want to be able to quickly dismiss slop to avoid wasting
-> maintainer and reviewer time.
->
-> It seems like we're generally able to sniff out pure LLM generated
-> content in most cases. That suggests we should be able document some
-> common patterns that tend to describe slop such that an LLM bot could
-> detect and flag it. For example, "Slop bot has detected comments have
-> LLM prose and just repeat what the code does," "Slop bot has detected
-> unnecessary code volume and duplication," etc. etc.
+On Thu, Jul 02, 2026 at 01:51:10PM +0200, David Hildenbrand (Arm) wrote:
+> On 7/2/26 12:04, Lorenzo Stoakes wrote:
+> > (thanks for the cc-!)
+> > 
+> > On Thu, Jul 02, 2026 at 09:46:37AM +0200, David Hildenbrand (Arm) wrote:
+> >> On 7/2/26 09:27, Christian Brauner wrote:
+> >>>
+> >>> I think we should just drop any attribution as a general kernel-wide
+> >>> rule and let subsystems require them as needed. Then you can have all
+> >>> the complexity in mm for this that you think is needed for your
+> >>> workflow to function. This is precisely what the subsystem profiles are
+> >>> for. So maybe just add:
+> > 
+> > A single comment is complexity?
+> 
+> I think Christian meant more elaborate rules. More than just "If you used LLMs,
+> disclose how you used them."
 
-Yep it might be helpful.
+Yes.
 
-But it turns out this is more contentious than you might think, and it might be
-a hard sell.
+I'm going to follow netdev and start dropping those tags from the
+changelog completely too. After speaking to some bpf maintainers they
+also don't use the tag. So I can safely assume that 3 large subsystems
+don't bother with it.
 
->
-> So the idea with that would be that defeating the slop bot is the point.
-> Consider it a sort of informal/minimal goal before a submitter is
-> entitled to human review. But yeah, I guess it's still just a handwavy
-> theory that you'd be able to reliably disentagle detection of general
-> LLM code generation from something that more qualifies as LLM slop. Just
-> thinking out loud.
+So seems to me that such requirements should just move into the
+subsystem profiles.
 
-Yeah tbh it'd not be perfect but I wouldn't mind if we did this.
+I think as a global policy this has ran its course.
 
-Some information > no information.
+> > And is it really that egregious to include a tag? You can ignore it if you don't
+> > care.
+> 
+> I hate the current tags as they are. The question I am asking myself: assume we
+> stop using the Assisted-by for LLM stuff. What to do with the other tools? Why
+> are LLMs suddenly no longer a tool to mention there.
 
->
-> Brian
->
-> > >
-> > > Brian
-> > >
-> >
-> > Thanks, Lorenzo
-> >
->
+Tbh, I think that's equally pointless. There are also very few instances
+of non-AI attribution with Assisted-by.
 
-Thanks, Lorenzo
+If the tool mattered to what was done significantly then it should just
+be disclosed in an appropriate paragraph in the commit message. The tag
+itself is imho equally useless for this. I really don't need to know
+that you used grep or git-sed or tcpdump and it certainly doesn't need
+to spam the trailers.
