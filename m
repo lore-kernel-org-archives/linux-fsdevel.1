@@ -1,129 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DAF839A05E;
-	Thu,  2 Jul 2026 22:00:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25BD4385D97;
+	Thu,  2 Jul 2026 22:25:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783029645; cv=none; b=ehHV0/N0LCoqdfqcKjia9VomVrKCeBDsMLiHnbIPfrURgWZatIFRx4nFjHz/01Q6eayrPHrPSO43tCBYvxm2wcZpJ9158Q0L1uA/Z7w7pE2w8HQadismQKHRjEXSjs5kuMn5bI5cKBJ0FPaIadOacXyLUgS6ErVRvwI/+U/Fo2A=
+	t=1783031137; cv=none; b=cby76h9zhs5I5m1HB90qxqEZD7wAQUEGtXbnhNtxvzZE6943ggGLn63d1s12l6QE0iOoJVkxM3BWp11yzvCKQciG7LK1t0GSTLq9X8Q12LP1Waj/Njgr2MOiZzepXszBQJ1gjp3/RVXj+0O6lpPHZ9R9MY6tMTwO2Of787r0sHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783029645; c=relaxed/simple;
-	bh=yb1zGZvJJpOXW/XZg2P4kXqNBlC7uLdr9sk678pac1w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e2ajSiO6MB9AlfqRhBXpgxN1pe/jok2ZdY6EeASaToNxibmbMtFYF6r8Pdlr22ulNJnKsXB/5HKSEU9XVJkwI01oNTbico6U8YWqXJ+4GcTgIKc/8Lg0GQ1warhA5fALHdywKF4a6p4M84MK+Bwn5LfCPx1XeHFkdt409aD+uVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fm0ziciI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783031137; c=relaxed/simple;
+	bh=rYUZQU4IoRnRAd/35XA8va9YZ39q23yriUAvglcSsC4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C+++Z7u2tYfMAUL9E2CwML5GsnZsP41R/6j65iWIOgIZcvBuuahywKFzcv2aJu7k5hchL0iX+6QQnnkZzzZtBgw6VtPUEM4yR7vdQCtbRIIsdfGVTdYhTaXZefowrNmVmwHQMXYPWn7XBBuGlH1PL7nBIQva90R1al78tSefN8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b/0e+aXL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fm0ziciI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 682441F00A3A;
-	Thu,  2 Jul 2026 22:00:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b/0e+aXL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B494E1F000E9;
+	Thu,  2 Jul 2026 22:25:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783029643;
-	bh=mzTSOxzn5WhMjC1txEmxRE0ErHMtsKX7cVbSOX0nygY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=fm0ziciINayGbylnbbHjsBhKUAeDwah0kZPuhlh+Q9jKe7jngIrM5DTtXHSiqASbh
-	 Ag7Ko3kWkgeKTss8HJ6dhlJQs7OywAvbPNpfphmLlrMLsny0BFW8cbBwgo5ykmCQB8
-	 DT/qIKIFZl4B80Wy0GEWaTiEv8Nd7tXdU83y1ZTuK7ekWYZQWK1RdaP0FrkQqt4fO+
-	 efUbXNDFabu79DxQ066sBZ1cpy6QRl5+k47/13Igd52zEnbVdEP6WEKo+0ZsFquncr
-	 +npVa0eIS45sf7h1S09/zCTI55F/2IIkHHFOMET3ohHCBSk7t6iCMMuLfRGVOHNIWn
-	 1B1nU5QbRE2fg==
-From: SJ Park <sj@kernel.org>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: SJ Park <sj@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Justin Stitt <justinstitt@google.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Carlos Maiolino <cem@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Brian Foster <bfoster@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Disseldorp <ddiss@suse.de>,
-	Mark Brown <broonie@kernel.org>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	David Hildenbrand <david@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] docs: link AI coding assistants and tool-generated content pages
-Date: Thu,  2 Jul 2026 15:00:37 -0700
-Message-ID: <20260702220037.97787-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260702164901.121128-1-ljs@kernel.org>
-References: 
+	s=k20260515; t=1783031135;
+	bh=iEx8hd2bPMd7iqL7IWWUMNOa5KtZU8bVEw3FFSPuhSk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=b/0e+aXLv2cCNHCot7pa2lTHf3nRDTaLBBzpV0kGcFlMKG9HwNZtiQma7yjRb4SSe
+	 Rvc5uEh5OjGHXCrbtzPwV0140dcuPbsRq0r55P3qoePRYLwRVM1MJ+by73r9g9WXPs
+	 f7D+lPhJKeNReXDDuzMTqYphZTx1HD8p0S0jFuwPJffWCXj+6v2bJGwsV2ZnEUX1g/
+	 qjQOjj7mjY2YY0u2POUk1XSH3uLX4SWhZw2qy4JBHOOLu8SDqGNnhL5ep4BlDUWpr8
+	 t45Yh9+ZwGTdPydbNYHg9Ee+F4kODm0imoSHiAvfIrmgG4LXdUuqPq2s9A76PN2JT5
+	 uGCwf2w0ql13g==
+Message-ID: <faa6ca07-ddc4-4365-b1a5-8f02b32bfbbc@kernel.org>
+Date: Fri, 3 Jul 2026 07:25:32 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] xfs: update BDI {io,ra}_pages values based on the RT
+ device limits
+To: Christoph Hellwig <hch@lst.de>, Carlos Maiolino <cem@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Filip Blagojevic <filip.blagojevic@wdc.com>,
+ Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
+ linux-xfs@vger.kernel.org
+References: <20260623142109.1838702-1-hch@lst.de>
+ <20260623142109.1838702-2-hch@lst.de>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20260623142109.1838702-2-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu,  2 Jul 2026 17:49:01 +0100 Lorenzo Stoakes <ljs@kernel.org> wrote:
-
-> Both of these guidelines are complimentary to one another - one specifying
-> guidelines on AI coding assistants, and the other specifying those for
-> tool-generated content.
+On 6/23/26 23:21, Christoph Hellwig wrote:
+> When using XFS with a main device on an SSD that stores metadata and a RT
+> device to store data on a HDD, we fail to take the I/O sizes for the RT
+> device into accounting, leading to up to 5% slower read performance when
+> using an SSD for metadata vs storing data and metadata on the HDD.
 > 
-> Since they are complimentary to one another, provide a link to each in the
-> other.
-
-Makes perfect sense to me.
-
+> Fix this up by taking the RT settings into account.  Note that this
+> updates the BDI owned by the main device, and leaves those settings in
+> place even when the file system is unmounted.  This is a bit unexpected
+> but not different from manual tuning through sysfs (although that is only
+> possible for the ra_pages value).
 > 
-> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+> Reported-by: Filip Blagojevic <filip.blagojevic@wdc.com>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Acked-by: SJ Park <sj@kernel.org>
+Until we have a better API to do this, given the performance improvements this
+gives with HDDs, I am all for it.
 
-> ---
->  Documentation/process/coding-assistants.rst | 4 ++++
->  Documentation/process/generated-content.rst | 7 +++++++
->  2 files changed, 11 insertions(+)
-> 
-> diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
-> index 899f4459c52d..6125ee4914c5 100644
-> --- a/Documentation/process/coding-assistants.rst
-> +++ b/Documentation/process/coding-assistants.rst
-> @@ -15,6 +15,10 @@ kernel development process:
->  * Documentation/process/coding-style.rst
->  * Documentation/process/submitting-patches.rst
-> 
-> +For guidelines on content generated by AI coding assistants see:
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
 
-A comma after 'assistants' is missed?
-
-> +
-> +* Documentation/process/generated-content.rst
-> +
->  Licensing and Legal Requirements
->  ================================
-> 
-> diff --git a/Documentation/process/generated-content.rst b/Documentation/process/generated-content.rst
-> index 08621e50a462..aad2caad9f8b 100644
-> --- a/Documentation/process/generated-content.rst
-> +++ b/Documentation/process/generated-content.rst
-> @@ -107,3 +107,10 @@ the resulting changes.
-> 
->  If you do so anyway, maintainers are entitled to reject your series
->  without detailed review.
-> +
-> +References
-> +==========
-> +
-> +For specific guidelines on AI coding assistants, see:
-
-Or, a comma is unnecessarily added after 'assistants'.
-
-Whatever, I think keeping those identical is better.
-
-
-Thanks,
-SJ
-
-[...]
+-- 
+Damien Le Moal
+Western Digital Research
