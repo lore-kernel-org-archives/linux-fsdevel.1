@@ -1,229 +1,135 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF4513603D5;
-	Fri,  3 Jul 2026 08:11:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8512DFA4A;
+	Fri,  3 Jul 2026 08:18:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783066288; cv=none; b=OftlEDTop0ty5apui7tM+IAxFcjGTREeDCdN5UfuQ/VBjRuVITQVz9kpnR/Pvb85PvV/n90818vCx1ITOhPgKmM32+eZKyn0KTN9e4LjwzFZ8m1mOWZ/zGGU+TcVSW53qaB2B1aRzh2wA8dViGd8L+B2tUjrMLSOejoBJziTAsQ=
+	t=1783066739; cv=none; b=gFI1t/X7frXUqTpB5BC8jBGY0ZH53mu4CCtxSrVYT1UHykf3pzn8FJFjJcIhM/C5fB+6gaX3OHwMe3kIf9kBSnJjf2mL8kgrYrHUr08C943MVFD8GqrDy47ycclgnBMe3LnBIXyY9sLRw08yy0Ksi6mmrZdRU9Fz1yakJR++hK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783066288; c=relaxed/simple;
-	bh=JX03iTHrikR9VJkoRUoLi2VdEbthp71g9eD2Ync+wV8=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=qSnUH8AwBsA7nHgqet3twjQMhLlh87H0MgxwC127yY4LKqxd7HJnaiP8JepsaRv07aG4YxaXJcQI8oxSeECjv3WZCMjjxv6YgHwD9H9JQA/aRi9lgpcqwlFt7v/pkDURCMujCh91u2JvKO6wEppscYmiiQ8ftTJnPAfXyw/P51w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j5YhX3kQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783066739; c=relaxed/simple;
+	bh=7xiCS+LW/hpUxAtoORyHdSsXhPaej2VMVnF4af3E7zw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fHCRrusME3EWCAl+P5EclqaHeMXLMz37BqOZgRwOfcmbtqWzbnkDPZOJC4SAjJbfcUY24iXhXrFScMg7eObUoeW5y5+SqerkQ+CwHH2eTq/yfAYaqnvVAr2inEQC2E61RDO3blgyNJqg+pZc+OY4cHp7WLNuTOLA4bJqD8+v7bo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fxrGGfNm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j5YhX3kQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F39131F00A3D;
-	Fri,  3 Jul 2026 08:11:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fxrGGfNm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE4881F000E9;
+	Fri,  3 Jul 2026 08:18:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783066286;
-	bh=Ro3wnGG38KDFb6ihthy3CeKILdGmcUHT/i7PDCPWBlM=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=j5YhX3kQ4j+JL24vYWVliFbx2reqcLtkKZNj/KvNuamnJJZXRnzNZ0YsFe6IvR4F1
-	 /8IrlRhkVueayUweMGKsylr6bFuryvIA4aNCqyOyQhvHkpQolQMA36ts6Dlbk1iIGL
-	 1OO6TCkHxfZdmlkv4on6+grDtq5W7zvTqmPmO2h1Nnkmm3UGHKwJi9aqcrZ83xQ7Gw
-	 Ot8jhIuBdv49vuAS94kgMUbHyI9Ar7O2KcZyRDiBvu3koDkb/1lR2QtXHslvDi1eXq
-	 7LB3KtzC9drJ61NC2Unz5Q00A4jlLVFxfl/ROXLkaHab5YpDbdEcrT2D4NyXiDTxj9
-	 l6N+Bw1So6h7g==
+	s=k20260515; t=1783066738;
+	bh=mxu4stcCENodA3+tKKQflfouRvjUw7ufWxrAbD2T02M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fxrGGfNme8F5iyNhEvWIFJ3Iv1sPdlQzCHHKSTMyxLE1V3yCs/6uP+ZdLnycl50Oe
+	 NMsmKsTmR8zwEdZCT15UF3wJmwVuKKYj8kLmBNvQ3DQaNI4XU2n8ITHLemoprY77AO
+	 PWqENCPgcPsZcx/CBr5fF59WFdOzvU5WAM40YxBlyZZh5l2aVXcAUrBmiiHTHDbuFK
+	 ArFL5ZT4AWQDzCQGpK+egl9AJ0aaO6SI7QhGKTfvrE2R4Dj4Zf4hjNV0qJzOirePbb
+	 W3L80ediaU0K1AVRpep5gnCXig4Kop5QRdXgG01V4ZWT9eDQCsS3Ydlpr9Gds/l87y
+	 KI3uen+03j+Tg==
+Date: Fri, 3 Jul 2026 09:18:46 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Justin Stitt <justinstitt@google.com>, 
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, 
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
+	David Hildenbrand <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] docs: link AI coding assistants and tool-generated
+ content pages
+Message-ID: <akdv9GCjOrs_6DM6@lucifer>
+References: <20260702164901.121128-1-ljs@kernel.org>
+ <20260702182632.GK3534761@killaraus.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [RFC PATCH 3/3] coredump, net: remove `SOCK_COREDUMP`
-From: Christian Brauner <brauner@kernel.org>
-To: John Ericson <John.Ericson@Obsidian.Systems>
-Cc: "David S . Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, John Ericson <mail@JohnEricson.me>, 
- Cong Wang <cwang@multikernel.io>, Kuniyuki Iwashima <kuniyu@google.com>, 
- Simon Horman <horms@kernel.org>, Christian Brauner <brauner@kernel.org>, 
- David Rheinsberg <david@readahead.eu>, Andy Lutomirski <luto@kernel.org>, 
- Sergei Zimmerman <sergei@zimmerman.foo>, netdev@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, 
- =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
- =?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
- Paul Moore <paul@paul-moore.com>, linux-security-module@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260703073948.2541875-4-John.Ericson@Obsidian.Systems>
-References: <20260703073948.2541875-1-John.Ericson@Obsidian.Systems>
- <20260703073948.2541875-4-John.Ericson@Obsidian.Systems>
-Date: Fri, 03 Jul 2026 10:11:17 +0200
-Message-Id: <20260703-umgehen-auftun-anlagen-826bf59dfcb5@brauner>
-X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6629; i=brauner@kernel.org;
- h=from:subject:message-id; bh=JX03iTHrikR9VJkoRUoLi2VdEbthp71g9eD2Ync+wV8=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS5562s2lpsMeOa1UeBlV1NOsYHJLb7n9vzq3f+ji9uF
- ibhqVHLO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACaS3Mvw3/Ph/YzHP3y4kr46
- hZ03MpzI1FVqpmgxy8epYpewVKSzHyPD1hlfqr2jl3768S5U4+PhLadOzpy9TDCbqZt735NpM5W
- bOQA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260702182632.GK3534761@killaraus.ideasonboard.com>
 
-> The utility of the refactors of the last two commits is demonstrated by
-> fixing this glaring layer violation: the unix socket implementation
-> knowing about the coredump socket caller.
-> 
-> Before, when the only way to connect to a socket was via the UAPI
-> `struct sockaddr_un`, the only way to implement the proper logic that
-> the kernel needs to resolve the coredump socket path was via hacking it
-> into the socket implementation.
-> 
-> In addition to being quite ugly, this layer violation is not great for
-> security. The intent is that `SOCK_COREDUMP` can only be used by the
-> kernel, and to be clear, I have no reason to believe this is not
-> correctly enforced today. But because of the many functions with flags
-> arguments, this is not a locally-enforced invariant. Some change, at
-> some point, could mess up, and allow user-provided flags to sneak in,
-> and this strikes me as a mistake waiting to happen. At that point, a
-> user could exploit this to connect to any socket it likes, bypassing
-> permission checks.
-> 
-> Now, with the two functions we've just previously factored out, we can
-> fix the layering. The custom path lookup logic lives with the coredump
-> caller, where it belongs. Once the right `struct path` is found
-> (actually just the inode is needed), the coredump caller can resolve a
-> `struct sock *` from it, and then directly connect to it. With this
-> change, `SOCK_COREDUMP` is no longer needed at all, and can be deleted.
-> The layer violation is gone, and the security footgun is gone with it.
-> 
-> As an added bonus, remove `flags` parameters from a number of internal
-> functions that no longer need them. They were just taking flags
-> parameters for the sake of `SOCK_COREDUMP`, and so with that gone, those
-> flag parameters are also no longer needed. If or when there is a new
-> flag that motivates them, they can be added back.
-> 
-> Tested that `coredump_socket_protocol_test` still passes.
-> 
-> Signed-off-by: John Ericson <mail@JohnEricson.me>
+On Thu, Jul 02, 2026 at 09:26:32PM +0300, Laurent Pinchart wrote:
+> On Thu, Jul 02, 2026 at 05:49:01PM +0100, Lorenzo Stoakes wrote:
+> > Both of these guidelines are complimentary to one another - one specifying
+> > guidelines on AI coding assistants, and the other specifying those for
+> > tool-generated content.
+> >
+> > Since they are complimentary to one another, provide a link to each in the
+> > other.
+> >
+> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+> > ---
+> >  Documentation/process/coding-assistants.rst | 4 ++++
+> >  Documentation/process/generated-content.rst | 7 +++++++
+> >  2 files changed, 11 insertions(+)
+> >
+> > diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+> > index 899f4459c52d..6125ee4914c5 100644
+> > --- a/Documentation/process/coding-assistants.rst
+> > +++ b/Documentation/process/coding-assistants.rst
+> > @@ -15,6 +15,10 @@ kernel development process:
+> >  * Documentation/process/coding-style.rst
+> >  * Documentation/process/submitting-patches.rst
+> >
+> > +For guidelines on content generated by AI coding assistants see:
+> > +
+> > +* Documentation/process/generated-content.rst
+> > +
 >
-> diff --git a/fs/coredump.c b/fs/coredump.c
-> index e68a76ff92a3..e1452021218e 100644
-> --- a/fs/coredump.c
-> +++ b/fs/coredump.c
-> @@ -14,6 +14,7 @@
->  #include <linux/perf_event.h>
->  #include <linux/highmem.h>
->  #include <linux/spinlock.h>
-> +#include <linux/cred.h>
->  #include <linux/key.h>
->  #include <linux/personality.h>
->  #include <linux/binfmts.h>
-> @@ -21,6 +22,7 @@
->  #include <linux/sort.h>
->  #include <linux/sched/coredump.h>
->  #include <linux/sched/signal.h>
-> +#include <linux/sched/task.h>
->  #include <linux/sched/task_stack.h>
->  #include <linux/utsname.h>
->  #include <linux/pid_namespace.h>
-> @@ -50,7 +52,6 @@
->  #include <net/net_namespace.h>
->  #include <net/sock.h>
->  #include <uapi/linux/pidfd.h>
-> -#include <uapi/linux/un.h>
->  #include <uapi/linux/coredump.h>
->  
->  #include <linux/uaccess.h>
-> @@ -668,17 +669,10 @@ static int umh_coredump_setup(struct subprocess_info *info, struct cred *new)
->  static bool coredump_sock_connect(struct core_name *cn, struct coredump_params *cprm)
->  {
->  	struct file *file __free(fput) = NULL;
-> -	struct sockaddr_un addr = {
-> -		.sun_family = AF_UNIX,
-> -	};
-> -	ssize_t addr_len;
-> -	int retval;
-> +	struct path root, path;
->  	struct socket *socket;
-> -
-> -	addr_len = strscpy(addr.sun_path, cn->corename);
-> -	if (addr_len < 0)
-> -		return false;
-> -	addr_len += offsetof(struct sockaddr_un, sun_path) + 1;
-> +	struct sock *sk;
-> +	int retval;
->  
->  	/*
->  	 * It is possible that the userspace process which is supposed
-> @@ -710,14 +704,37 @@ static bool coredump_sock_connect(struct core_name *cn, struct coredump_params *
->  	 */
->  	pidfs_coredump(cprm);
->  
-> -	retval = kernel_connect(socket, (struct sockaddr_unsized *)(&addr), addr_len,
-> -				O_NONBLOCK | SOCK_COREDUMP);
-> +	/*
-> +	 * Resolve the socket path relative to init's root and with kernel
-> +	 * credentials, and with symlinks, magic links and escaping the
-> +	 * root all forbidden, so the dumping process cannot use its own
-> +	 * filesystem view to redirect its core to an arbitrary socket.
-> +	 */
-> +	task_lock(&init_task);
-> +	get_fs_root(init_task.fs, &root);
-> +	task_unlock(&init_task);
-> +
-> +	scoped_with_kernel_creds()
-> +		retval = vfs_path_lookup(root.dentry, root.mnt, cn->corename,
-> +					 LOOKUP_BENEATH | LOOKUP_NO_SYMLINKS |
-> +					 LOOKUP_NO_MAGICLINKS, &path);
-> +	path_put(&root);
-> +	if (retval)
-> +		return false;
-> +
-> +	/* Connect directly to the socket bound there, by fd not by name. */
-> +	sk = unix_lookup_bsd_path(&path, SOCK_STREAM);
-> +	path_put(&path);
-> +	if (IS_ERR(sk))
-> +		return false;
->  
-> +	retval = kernel_unix_connect_direct(sk, socket, O_NONBLOCK);
+> It could be worth it checking if this increases the likelyhood that an
+> agent would include a disclosure statement in patches. I would have
+> assumed that the "Attribution" section in this file to be enough. Has
+> anyone ever tried to understand why it doesn't work and if it can be
+> improved ?
 
-I don't think dragging the bowels of net/ into fs/coredump.c just for
-the sake of getting a purely internal SOCK_COREDUMP flag out of the way
-is the right way to go.
+I don't think so AFAIK.
 
-The two helpers also make no sense to me and force a bunch of cleanup on
-the caller as well.
+I think people generally are aware of the Assisted-by as a thing, but perhaps
+less so of the generated content guidelines, so hopefully this helps that a
+little!
 
-I suspect the saner thing to do would be to introduce a primitive for
-connecting to an AF_UNIX path-based socket directly instead of this
-weird dance here, no?
+>
+> Maybe a stronger statement would help here:
+>
+> "Furthermore, AI tools must follow the guidelines for generated content
+> documented in Documentation/process/generated-content.rst."
 
-int kernel_unix_connect(const char *path, struct socket *socket, unsigned int o_flags, int type)
+I mean I would like that actually, _but_, I wanted to keep this as neutral as
+possible for the time being so we can first establish the links without
+controversy ;)
 
-then my kthread changes would collapse this into:
+Then we can perhaps separately think about making the language a little more
+insistent :)
 
-scoped_with_init_fs()
-	retval = kernel_unix_connect(path, socket, O_NONBLOCK, SOCK_STREAM);
+>
+> >  Licensing and Legal Requirements
+> >  ================================
+> >
+> > diff --git a/Documentation/process/generated-content.rst b/Documentation/process/generated-content.rst
+> > index 08621e50a462..aad2caad9f8b 100644
+> > --- a/Documentation/process/generated-content.rst
+> > +++ b/Documentation/process/generated-content.rst
+> > @@ -107,3 +107,10 @@ the resulting changes.
+> >
+> >  If you do so anyway, maintainers are entitled to reject your series
+> >  without detailed review.
+> > +
+> > +References
+> > +==========
+> > +
+> > +For specific guidelines on AI coding assistants, see:
+> > +
+> > +* Documentation/process/coding-assistants.rst
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
-> +	sock_put(sk);
->  	if (retval) {
->  		if (retval == -EAGAIN)
-> -			coredump_report_failure("Coredump socket %s receive queue full", addr.sun_path);
-> +			coredump_report_failure("Coredump socket %s receive queue full", cn->corename);
->  		else
-> -			coredump_report_failure("Coredump socket connection %s failed %d", addr.sun_path, retval);
-> +			coredump_report_failure("Coredump socket connection %s failed %d", cn->corename, retval);
->  		return false;
->  	}
->  
-> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-> index 65c9609ec207..3d6fbb6d2628 100644
-> --- a/include/linux/lsm_hook_defs.h
-> +++ b/include/linux/lsm_hook_defs.h
-> @@ -323,8 +323,7 @@ LSM_HOOK(int, 0, watch_key, struct key *key)
->  #endif /* CONFIG_SECURITY && CONFIG_KEY_NOTIFICATIONS */
->  
->  #if defined(CONFIG_SECURITY_NETWORK) && defined(CONFIG_SECURITY_PATH)
-> -LSM_HOOK(int, 0, unix_find, const struct path *path, struct sock *other,
-> -	 int flags)
-> +LSM_HOOK(int, 0, unix_find, const struct path *path, struct sock *other)
-
-I'm not sure why we would go on altering all kinds of LSM hooks as well.
-
--- 
-Christian Brauner <brauner@kernel.org>
+Cheers, Lorenzo
