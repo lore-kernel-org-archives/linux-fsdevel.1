@@ -1,145 +1,121 @@
-Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74A817C203
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 00:59:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783040369; cv=none; b=gjowQa8dcsMoPZKCHSbyFfnsz/TxCsAtyaASw0JR2sJ5BfnVj124PJmgTr/K+tt7wigeZG/enlB9Kw+c7TeduKpAXAsW3Vd8Qy+pW0mo+VFPPQ+GXo4Owv640U3mdM94j/ZBmMP0tiAIYiLQ7QQYODK9KM+b2iYton3PEMJzo1Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783040369; c=relaxed/simple;
-	bh=o4RYHInGgXGh6dvOC7ZwK3AhvRtpsXn8fwtOJ4yqTeo=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=GZQj7j1+QM1f65Hwrvoqjo7Bdk8Vp+rxKSx1DAJtd9d94JvtcMZ2E2CXlKDkCos8AB/YtIPZE2cy8pNDxuvkHRXSctgozW2alm7+hgOeKECRd6sP0n9fIPEzWPD1mqhv7WQFd9qdEKr+HkHb4D6dNJiR6lA5cn/mPJDS4oAiSMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-497da470d3aso3235b6e.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Jul 2026 17:59:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CEF201113
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 01:09:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783040954; cv=pass; b=KUmdr+jYkMPoJEMkyz4KzRgVZtuXr1R73kZpUugCVJCjeCqeImJSPcJGVtcW5q3dk56bQ3ZbOPpuuLu8HQWirH2tyF6kSeG+73GdimZ0pans3VFJ/iV2MlxGZ5jM+hyUch9Mel51Xzmqa8NN9t6jigNihVsBOvOJYVPoJR4I7Ts=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783040954; c=relaxed/simple;
+	bh=+PeQLIUmmmMgIHSXGFK8qpsgRcvLGFGUUJJHkFN2P34=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iaZTSw0V/QXGCKpxKHCBYvVO0f8UzhemDjWcBgy1II61YE6vl4ycI0Uci7+S/PzTsF/on5SeEB9OMrYoxpjImkhFZfc6NdikS9w0TXhsWMvp4G5kzCRm8wql+aNzwo8boRkbCMrTtmnXJKeinvlB3AC5l1VxCGx8SsECDTym2rI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YaW6y+B1; arc=pass smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YaW6y+B1"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-493b68b4643so25115e9.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Jul 2026 18:09:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783040951; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Pczyipv0q5Gom50JQkL5pVUKyvY1T0gfsWuY8tkbGNVr6HQKYDqCe11QN7E560qe9V
+         Ewvm7ex17gognaiSbKsunjANeeg3Pw0NPOBpcXjg7Unhc/SEZdheuR0S1bJzrb1XUCfm
+         B8a8KC0runqaNQrerIK7B3pmSVwtVR1LOs87FH9KjRfJEtUtDjJsrzTGVRODcnLCYYkZ
+         lJSQek7pFM8NGB2bfKEEK7uaoY7bxGH/BA3Dg1MZPbotG6698DaLmUHeYOrXQ9krbGDO
+         EdDUby9TT1OkBPdBPzdmMDXgl7CnHRuo9HZewFxdev2vz/KECNC90Kb8g9GG7L1cjOS0
+         opow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=mKtUjpcLEtae9EYATJ2n3P73/k/uWxtMsjVu1YWxYyc=;
+        fh=Be93fckRd0upT+6AzKOnHpeRxJzG8sKXuh0yVTDpCmk=;
+        b=r+VyqXfRH/bL96Hfy8iAno9JQh1qec7nK1Jbagrv4sOiJIFt+FAQz90O5pOV4QCyHU
+         LRT4u/EkBRv2PkeNO/0ZGX9YW5v8hxZy7UM4mp83os1gjMNjFWxhSGFbfk/JypCG36s6
+         kVUVL5cpMm7IIsuRU41H8AvuZHI97YHPI5F17znaghdjjAMbHFXsGwAQTBQq906vyFna
+         yq5Z5AOsza2quPDYlVborTuGHm2fiV55Ho11UYo3LgB8MmTF47hAzzrRbN0FaoakdOFC
+         pAveyLL++5pEQeuo0PfuNz3Tgm1fnnH1evOAgPsQzHP9NNgsVWDLP7fQprKZsVGobxyi
+         /I7A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783040951; x=1783645751; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=mKtUjpcLEtae9EYATJ2n3P73/k/uWxtMsjVu1YWxYyc=;
+        b=YaW6y+B1f0dDuqfUYmvofIB/SSkroGSQTUh4VfJRbYVTEi8dzX8L7iNQ00YXWCY9nw
+         CJ3UmSwQMeFvC5HoMrOHsjaq0Yxqb0APyjZnC0y9el9e5JkkuAGwKzdQyUpJRIDFkyf9
+         e9yTuGExnyNHOZnmDEsKxUyb5RfV9WbK7Qi0D6WFu+eU5XGe3d08VGpBs22Cf64UJyDy
+         /L9JvAmOu4WYOZZMUGvCbnCZ1wChP3ls+f8tYAQI5S2m8zD3cGEjCaVVkHh1fihLxHYP
+         dXFDfP2drv2GcDqTUdTXVLIzxxE9KZRqg4pNG4Pd4z+qZAWIgfxE4PTtIpeGar3GrOJv
+         zGlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783040367; x=1783645167;
-        h=content-type:to:from:subject:message-id:date:mime-version
+        d=1e100.net; s=20251104; t=1783040951; x=1783645751;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=dcfKlMRqKsuU6sd6tH3oRNAVXTaxMiP1Kfwe4kGN8Fk=;
-        b=RyPW0xGwXBgmzpcaVyR2dJErt+pjZJk5/P7msfgP6IT6n5pPO2Rs0yfZIRRIbDbRtZ
-         bxAAefw9mmnTfAHYVwkyFEnhAGr/VpCLTcz+BhJGGjv1OjdFq6mvlBilu1dTvJR83gw1
-         k2Fm4QGFLLNJUWLdii4yFtGjRRZDDrkpl1UO4jm8uZXwTOwqeTCsW0ENVzsZMnnD91C6
-         mgtmUjrHs/d17qjXDOv+J0EibfdLVg66hC82V07c/tWtjUIMO/wHW8ewm0UOmu0u4x60
-         07LTmAUXIfSFGJHT66DFj8jG2O+fBGYYG/U5YHyNHCfti8P60EJuLyLWh5+FRBNnpMSm
-         rcjQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8Zb1pCSoDavROPFJeu0uTA+P2zz8yNZZRXVEjr9ShSMCtbJSgjYrmD01pOE9xcq6ler0PDFB4/qSX9Btlu@vger.kernel.org
-X-Gm-Message-State: AOJu0Yztm14r+8Fe4vH6d0t5votfPYiBzOhXPEatmKsspCj0iIkwTfP+
-	0FXOXvcLfyJmKLEFAEUvpGzfBImDDthy/ZN3AZ2nQ4h5Tiw/qcROYXCEnW0o5Xl/d9xVtcI+bDF
-	xJ4tRiysAvMFiNKThdsgo+WTL2M0zOfoSr62APVj1jWZatPuTc8z9eTEHF6o=
+        bh=mKtUjpcLEtae9EYATJ2n3P73/k/uWxtMsjVu1YWxYyc=;
+        b=ZUxDYN3+zQa0m3CAUmipkNNo4KQNvG4kiFggJgzYKUIXhtbOC5gV242hD1W6aa4+NE
+         OlO1U5IrxhDa5lh+Chp/zrbSkf4o+2UXeJemENCxVTX4dQnzF25+fXsg+Wn1Q3bj/epK
+         4DLjSFNm5t10DsOBot1/FwefHKOjdj6J4Nz4rpjhedaZ7KEMlbCbnu+Y12zCKYH6h2Nq
+         mQqKL4AawAfF+yFXM53aJ4p4RPIBCNaEjIYvU38oXBNnVZLNl11oazSjjhAzfCcm3xrF
+         8vI+jk8pOED/IWDPww7yl5aecjqLwAsoyNeDTqgNS4gl5HX9Ro9GkRm8kyBPj828fkOY
+         g5lg==
+X-Forwarded-Encrypted: i=1; AFNElJ8i0Lt+BqvaMbIe8T+CjvBGnAjPixcMYKmJgPj2y7oKel+QWWxUdtJd9954FT1qQ1Yog67fW53dnyYnm+cp@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2s4VTP5M0knFayRJNUYtpqkMg8xBhMLSBwGPICdP8tjhBC635
+	HDJDjtO+9Ok8InGprmlvQlFHldNobmNVupTYVMfawM1T6ERViD2d32cgfaSUX9T3SyMThju012s
+	dXFZd9bYnKe3Gh0SNMyA5l7+g4sBcmaM=
+X-Gm-Gg: AfdE7cmsAtilq9I+2SX27vv6Bo9cDTQWanQ9XcFYpbia3nZDxCwm3JpS9fxHrRpEnWD
+	iXzd82riXyMjCt26D8O74j5AP6Pr+BAJS20ci2kZq4quiKmd1ybvURg5q4eduvOsheV1cCg49vA
+	dvVvXukIdv8NWQGFTYm45rOsBLrfYNYeXv6Ii2CttsSyb0XZABS8W1/E/h9TLuOWW+tbDVEA48B
+	16Yg/wGkBm2yrbCavuyyWEIaC7AxpOAhF68k/HoqOSKIdKv1g3wuL2UP5fZFTBrauMlHHc7abBX
+	j/jnEnp9tcX5iMxJckyQzjAl/AxURk/zkPaJb6bK4zUjNGjmVEoG
+X-Received: by 2002:a05:600c:35d2:b0:493:c3f9:65a2 with SMTP id
+ 5b1f17b1804b1-493c3f9664bmr124524785e9.5.1783040951341; Thu, 02 Jul 2026
+ 18:09:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1810:b0:495:d0dd:c6d4 with SMTP id
- 5614622812f47-4962d7b5a37mr5357866b6e.13.1783040366964; Thu, 02 Jul 2026
- 17:59:26 -0700 (PDT)
-Date: Thu, 02 Jul 2026 17:59:26 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a47096e.9dc7bc9d.3d5df4.0005.GAE@google.com>
-Subject: [syzbot] [fuse?] WARNING in super_dev_register
-From: syzbot <syzbot+72fe3ea5814121fbc76e@syzkaller.appspotmail.com>
-To: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, miklos@szeredi.hu, 
-	syzkaller-bugs@googlegroups.com
+References: <20260701000949.1666714-1-joannelkoong@gmail.com> <akZsZ2KV_-jsNZl9@infradead.org>
+In-Reply-To: <akZsZ2KV_-jsNZl9@infradead.org>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Thu, 2 Jul 2026 18:08:57 -0700
+X-Gm-Features: AVVi8CcMR_tmj_vpU84RWRMXO0CqEvDgbM61sr0zCq5c_sRYQUpWHXFzI5ZJoX8
+Message-ID: <CAJnrk1ZZCBexaYUCe0s2_kfbAZVKrdhSXFCRv=cy1ggcxRhSPw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/18] iomap: convert to in-iter iomap_next() model
+To: Christoph Hellwig <hch@infradead.org>
+Cc: brauner@kernel.org, hch@lst.de, djwong@kernel.org, willy@infradead.org, 
+	hsiangkao@linux.alibaba.com, linux-fsdevel@vger.kernel.org, 
+	linux-xfs@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Thu, Jul 2, 2026 at 6:49=E2=80=AFAM Christoph Hellwig <hch@infradead.org=
+> wrote:
+>
+> What tree does this apply to?  I tried 7.2-rc1, Linus current
+> master, vfs/vfs.fixes and had slightly different failures to apply
+> with each one.
 
-syzbot found the following issue on:
+This is on top of Christian's vfs iomap tree (vfs-7.3.iomap) on top of
+commit f2727952b21d1.
 
-HEAD commit:    6eb8711ece2c Add linux-next specific files for 20260702
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=144d2c0a580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=bc069df559a09463
-dashboard link: https://syzkaller.appspot.com/bug?extid=72fe3ea5814121fbc76e
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11e32a6e580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10ebaf41580000
+>
+> On Tue, Jun 30, 2026 at 05:09:15PM -0700, Joanne Koong wrote:
+> > This series implements a suggestion by Christoph for finishing the conv=
+ersion
+> > of iomap to an iterator model. This revives Matthew's previous RFC [1],=
+ which
+> > had the same intention.
+>
+> Btw, this evolved from my original suggestion to something that actually
+> looks much better, so don't give me too much credit :)
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/ec0095ca90c5/disk-6eb8711e.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/e30096d3498c/vmlinux-6eb8711e.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/9855bbfe6176/bzImage-6eb8711e.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+72fe3ea5814121fbc76e@syzkaller.appspotmail.com
-
-         and is ignored by this kernel. Remove the mand
-         option from the mount to silence this warning.
-=======================================================
-------------[ cut here ]------------
-!sb->s_dev
-WARNING: fs/super.c:509 at super_dev_register+0xf8/0x250 fs/super.c:509, CPU#1: syz.0.17/5906
-Modules linked in:
-CPU: 1 UID: 0 PID: 5906 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/09/2026
-RIP: 0010:super_dev_register+0xf8/0x250 fs/super.c:509
-Code: 04 38 84 c0 0f 85 34 01 00 00 8b 2b 31 ff 89 ee e8 9d 2a 85 ff 85 ed 0f 85 98 00 00 00 e8 e0 25 85 ff eb 17 e8 d9 25 85 ff 90 <0f> 0b 90 48 85 db 75 c4 e8 cb 25 85 ff 90 0f 0b 90 43 0f b6 04 3c
-RSP: 0018:ffffc90003f3f9d0 EFLAGS: 00010293
-RAX: ffffffff82401307 RBX: ffff888032be2000 RCX: ffff88802d478000
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: ffffffff82401d10 R12: 1ffff11007997402
-R13: dffffc0000000000 R14: ffff88803ccba010 R15: dffffc0000000000
-FS:  0000555563c9e500(0000) GS:ffff888125b00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000200000003000 CR3: 00000000505ae000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- sget_fc+0x12f6/0x1a60 fs/super.c:896
- sget_dev fs/super.c:1480 [inline]
- get_tree_bdev_flags+0x212/0x4f0 fs/super.c:1867
- fuse_get_tree+0x194/0x3b0 fs/fuse/inode.c:1877
- vfs_get_tree+0x92/0x2a0 fs/super.c:1941
- fc_mount fs/namespace.c:1198 [inline]
- do_new_mount_fc fs/namespace.c:3777 [inline]
- do_new_mount+0x319/0xdc0 fs/namespace.c:3853
- do_mount fs/namespace.c:4186 [inline]
- __do_sys_mount fs/namespace.c:4402 [inline]
- __se_sys_mount+0x31d/0x420 fs/namespace.c:4379
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f2ea523de59
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffebb4997a8 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 00007f2ea54c5fa0 RCX: 00007f2ea523de59
-RDX: 0000200000000080 RSI: 00002000000000c0 RDI: 00002000000001c0
-RBP: 00007f2ea52d3e6f R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000040 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f2ea54c5fac R14: 00007f2ea54c5fa0 R15: 00007f2ea54c5fa0
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+This definitely wouldn't have existed without your suggestion and
+guidance :) Thanks for reviewing the series!
