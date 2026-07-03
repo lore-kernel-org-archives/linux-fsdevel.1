@@ -1,92 +1,162 @@
-Received: from mail.ekdawn.com (mail.ekdawn.com [46.225.164.110])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AF03B27CC;
-	Fri,  3 Jul 2026 09:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.225.164.110
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DC7381EBB;
+	Fri,  3 Jul 2026 09:32:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783071068; cv=none; b=hoXuFp6/kNmFe3IQuK4VHZ9dZ++AKM8T3i4AAd8iJxmYl1a6kQg38nCHAOTq8v38gBmWSva9tvvFfRYtt+/epptalvUQUjmT6F2odOnFXI67ZYoe0OjSTkvJAWtYLVg9UWUC6R4qQDIdQ1TQQpi71M/RTvbkEDdnxPETzm/ptvY=
+	t=1783071126; cv=none; b=cIJhCax6Mj3/vWxVNkM3+8b/HtJs9roilF4sbBLaMk+3FrWbKSakv6dMFy/gp+AU0OoskC+qzTMqF+aOdUbTGYQK+vADjVhQq5trEba07VPigWNDiP4RDIJXUyRE4zR58dKbEeABdvZCK/Cy/UmbazdddGYo5mhNiH8VToiazPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783071068; c=relaxed/simple;
-	bh=D3imulWv9RUeQTwUgvoIo8iOKWXUvpeew+2rPBCYZus=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QmwXopbvEo6zMPAYbAzeIDRoUveFGoiE11PSJCZzmG+9imGRCSgFFKQy4rpzMiD/n8LXMQzTo7fAplUsiyKLiZsvBzVbKU5YjRQf6U5hL6C8gw09vNX354Jn3aje/2FwrgfVoq3if4BDTxkKcA3OGtJQxVv3ECU4hevUZxHTP00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=horse64.org; spf=pass smtp.mailfrom=horse64.org; dkim=pass (4096-bit key) header.d=horse64.org header.i=@horse64.org header.b=nIAl3Jpr; arc=none smtp.client-ip=46.225.164.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=horse64.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=horse64.org
+	s=arc-20240116; t=1783071126; c=relaxed/simple;
+	bh=n9XJEkc+DowG9Obr4NUQaCy1/3OPEUMahQYjpJe65oU=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=a+zXmJJC5jywlA2hq6mgI5wiagtiNsLpdiEmmgelvtRsT1/Q12ov0PSEu9CC415dXx2DdBXZdXNE58mrnqVb7xF4V2ZjdHcIuik6Mb+qAQsNs/1dI9KiQLZtGoIoNWhnCPTSEEk7Qi3YM2oW8spvrmFiJqkiOtzswNBQ58rrw9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e9MFh+yA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=horse64.org header.i=@horse64.org header.b="nIAl3Jpr"
-Received: by mail.ekdawn.com (Postfix) id 74F671E0048;
-	Fri, 03 Jul 2026 09:21:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=horse64.org; s=dkim1;
-	t=1783070490; bh=D3imulWv9RUeQTwUgvoIo8iOKWXUvpeew+2rPBCYZus=;
-	h=Message-ID:Date:Subject:To:Cc:From:From:Sender:To:CC:Subject:
-	 Message-Id:Date;
-	b=nIAl3JprrsOPTRzd84n/HsB0UDubDEg/syplYSv0tyqvosddGMAOJ+skzPu9ccAmF
-	 R5koCsJAKV60FwrdBYoz8DpC/heL9pPs9sieclHl161fGmzRKl2FRrqpod3JsktVVm
-	 ZjfljiaUoRzyKzTwLS+ASQOQVqZl2KWVm+nAm/j00OThGKe61eVDSjkxdqrBivCgYl
-	 BuSg0+X+l6JGWL6u3Pn0dNCMCIMbYicXt0XzI65kvW3e7E5fHXzl4PZgzoqH4AzJr7
-	 +XMq+bBxdEQDe2nS8kdG2kMU/yEexIinG0B2VboTdEBLueTkLZ+aZp/2z0xj1F8KDH
-	 Cu/vCLxcDeXKuhUwFErk/vKlDdeH+42RXPN8rnMbTEihs0hcWdr3beB50ia/RlSvAD
-	 Ngpcl5NBzu0RnTsBiEQPOaC44O1h8ENDFv1PCQ14jufsnEYVjFaFFn6OiH5b3dSKIQ
-	 fpCrdOYl3aMmhpIBFjuDpAJ0TWU0ixo7LbboBza9y/PDVU13Pir/buaScHLbJfXbVy
-	 k4MU/OXc6ej8Oyu/2J6o0hyqHD9dZ8wiexGy1ca+h80TSLZwMQ3gNdTumKf11e87UO
-	 XSoiDx1RRZmHv4GxJ/QndtuRq1RdbuXa3zzBepoGgzyL+r8nJtmLec3EimUlD44twV
-	 6cpZyxiSSR4vBgTXDD/qhz/0=
-Message-ID: <53942438-a44d-4578-b1c6-d45c2af1767d@horse64.org>
-Date: Fri, 3 Jul 2026 11:21:28 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e9MFh+yA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C19821F000E9;
+	Fri,  3 Jul 2026 09:32:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783071124;
+	bh=ARJjvdhtSZCnWgEd0trqgpLbvyNLpvUgzO6qa5p73UM=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=e9MFh+yABLy2CPe8HOcWFFQvIivncfb0irowyxUQghRkows1pifnaZW05tS6k7K4a
+	 0on7bvVhK5eZSdywVJLzlsMo3wKv8kymFppmegCgr4r0fcB4t/jxZjQHBoyYeX6vSt
+	 vQlDfcpRVWJ5H7pZEx1h2R7LoSK1OA7fhQa6gmfVtuD9zMYmR3Euri9B7ey7Jf14wf
+	 eFKivx9mqjKYdSNG1UXaem/s9lKgeQ9qac7qs8+ac4TKM3lliutOM5FcAZS/9f2uiB
+	 A09lj9LBbVwsyfxrdPvzVbugEZBbE4SIopUb/K9TLBNTuruASCJrDXoE9m5QISPJle
+	 sOc20WO/NzHxg==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-To: Christian Brauner <brauner@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Jens Axboe <axboe@kernel.dk>, David Hildenbrand <david@kernel.org>,
- Jeff Layton <jlayton@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
-Content-Language: en-US
-From: Ellie <el@horse64.org>
-In-Reply-To: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Subject: Re: [RFC PATCH 3/3] coredump, net: remove `SOCK_COREDUMP`
+From: Christian Brauner <brauner@kernel.org>
+To: John Ericson <mail@johnericson.me>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ John Ericson <John.Ericson@obsidian.systems>, 
+ "David S . Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Cong Wang <cwang@multikernel.io>, 
+ Kuniyuki Iwashima <kuniyu@google.com>, Simon Horman <horms@kernel.org>, 
+ David Rheinsberg <david@readahead.eu>, Andy Lutomirski <luto@kernel.org>, 
+ Sergei Zimmerman <sergei@zimmerman.foo>, 
+ network dev <netdev@vger.kernel.org>, 
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
+ =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
+ =?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+ Paul Moore <paul@paul-moore.com>, linux-security-module@vger.kernel.org, 
+ LKML <linux-kernel@vger.kernel.org>
+In-Reply-To: <7acb650b-a0de-4244-861f-4dda70ca8993@app.fastmail.com>
+References: <20260703073948.2541875-1-John.Ericson@Obsidian.Systems>
+ <20260703073948.2541875-4-John.Ericson@Obsidian.Systems>
+ <20260703-umgehen-auftun-anlagen-826bf59dfcb5@brauner>
+ <7acb650b-a0de-4244-861f-4dda70ca8993@app.fastmail.com>
+Date: Fri, 03 Jul 2026 11:31:58 +0200
+Message-Id: <20260703-karierte-gemolken-restaurant-fb5a0601423c@brauner>
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4247; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=n9XJEkc+DowG9Obr4NUQaCy1/3OPEUMahQYjpJe65oU=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS5N05I/Hj03KVPvdeemq/pa1qy9dqFSff5HoqKHl3zs
+ +pzXeujhI5SFgYxLgZZMUUWh3aTcLnlPBWbjTI1YOawMoEMYeDiFICJNOkw/C/OeRxxsn6jQbXh
+ j2q5vgvxm7pypm/4djB3yZ99ghdX+B5n+GekG3v229WtIfk1AjveWj34nsv+11Wj3WwN25akkyY
+ FR7kA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-
-
-On 7/1/26 5:54 PM, Christian Brauner wrote:
-> I remain very confused by our coding assistant contribution guidelines.
-> I'm going to be a bit polemic now but this seriously in good faith.
+On 2026-07-03 05:08 -0400, John Ericson wrote:
+> On Fri, Jul 3, 2026, at 4:11 AM, Christian Brauner wrote:
+> > I don't think dragging the bowels of net/ into fs/coredump.c just for
+> > the sake of getting a purely internal SOCK_COREDUMP flag out of the way
+> > is the right way to go.
+> >
+> > I suspect the saner thing to do would be to introduce a primitive for
+> > connecting to an AF_UNIX path-based socket directly instead of this
+> > weird dance here, no?
+> >
+> > int kernel_unix_connect(const char *path, struct socket *socket, unsigned int o_flags, int type)
+> >
+> > then my kthread changes would collapse this into:
+> >
+> > scoped_with_init_fs()
+> > retval = kernel_unix_connect(path, socket, O_NONBLOCK, SOCK_STREAM);
 > 
-> Why precisely do we require all this detailed information about what
-> specific coding assistant was used?
+> That works for this case, but the destination I am trying to eventually
+> reach is being allowed (in userspace) to connect to unbound sockets by
+> their fd --- no path, no abstract socket name.
+
+But these are orthogonal changes. It sill doesn't mean we should sprawl
+net internals over coredump code anymore than we already have to. I'm
+fond of kernel_unix_connect() int dfd, const char *path even would be
+fine.
+
+>     unix_connectat(int fd, const char *path, struct socket *socket,
+>                    unsigned int at_flags, unsigned int o_flags,
+>                    int type)
 > 
-> I find it very irritating that our git history has effectively started
-> to function a bit like a free advertising platform for a bunch of AI
-> companies and their proprietary agents and models.
+> is a mouthful, but it would work. Still, there is a subtlety about the
+> retry logic. When one does something like:
 > 
-> And it reamins unclear to me what exactly we do get out of this detailed
-> information: Do we want to run statistical analysis on what agent and
-> model is used the most and publish that on LWN at some point?
+> > connect(..."/dev/fd/N",...)
 > 
-> I acknowledge that my stance is even more radical: imho we would just
-> stop it with any disclosure requirements completely.
-Sorry to drop in as a relatively uninformed person, but it seems like 
-the following mails would be relevant for that discussion:
+> it will repeatedly re-lookup "/dev/fd/N" until the timeout is reached. I
+> consider that pretty terrible --- the rest of the program could race to
+> change what that file descriptor (number) refers to. Therefore, I think
+> table stakes to make a good `unix_connectat` is to make the
+> `AT_EMPTY_PATH` case not re-lookup the socket.
 
-https://lore.kernel.org/lkml/e12330b9-c29e-45ca-9375-9e3d13426d85@horse64.org/T/
+I have no idea how this has any bearong on the three helper split.
 
-If LLM code were no longer committed to the kernel, which wouldn't 
-exclude using an LLM to pinpoint problem spots and security bugs as long 
-as it's not used to produce the fix itself, then the commits also would 
-no longer need an attribution.
+> (making a sockfs file descriptor work is separate, I already have the
+> patch for that, I can include it.)
+> 
+> > The two helpers also make no sense to me and force a bunch of cleanup on
+> > the caller as well.
+> 
+> I am fine with `unix_connectat`, but just for reference, me breaking up
+> the steps is because I generally like the decomposition of `fverb`
+> rather than `verbat` system calls, since the latter would typically be
+> used with `openat` or so. It seems the `kernel_*` "syscalls" generally
+> take `struct path` rather than strings, which seems good and in the
 
-Regards,
+There's a time to follow precedence and there's a time to do what the
+maintainability demands. I think here clearly we don't want to pass a
+struct path. That makes no sense because we don't care about using that
+object at all. It's merely an intermediate jumping point. This is
+fundamentally about connecting from the kernel to a specific pathname
+that functions as a socket address. Intermediary objects don't matter
+(yet).
 
-Ellie
+> spirit of that decomposition, but then even `struct path` is overkill to
+> refer to a socket. So putting all that together, the final composition I
+> had was:
+> 
+> 1. string path (from /proc/...) -> `struct path`
+> 2. `struct path` -> `struct sock *`
+> 3. connect to `struct sock *`
+> 
+> So I quite liked those 3 orthogonal knobs, vs an all-singing-all-dancing
+> `unix_connectat`. (I suppose making it `struct socket *` would make it
+> slightly less internals-y?) But again, anything that puts us on track to
+> being able to connect to an unbound socket without procfs is good enough
+> for me.
+
+To me this reads like you're introducing moving parts for the sake of a
+philosophical argument. I couldn't care less about that. What matters is
+maintainability. Having three knobs that introduce potentially three
+separate cleanup requirements and exposing three different objects when
+it's not needed is just a burden.
+
+> 
+> > I'm not sure why we would go on altering all kinds of LSM hooks as well.
+> 
+> That's in the commit message, it is because without `SOCK_COREDUMP`
+> those are all dead code. Instead of removing them in this commit, I can
+> just keep those flags, or remove them in a separate commit. Fine
+
+Do it as a separte commit once we've decided to do this, I think.
 
