@@ -1,126 +1,78 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC877233937
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 03:05:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783047958; cv=pass; b=jIodZgUH/HDQwWTMXAjArvJdUHF28Z0kN1tzwniljA1ZIkU1Xrxb1jjyXq1S6losQ4enZfaaLlU/OZbHXb4f4ceOG5oTqYkm9bIWn+5YClYuNaVfdEO/s+vmb9Nu4Rfn5o4li4rxZu3q8qsaAGdsTFcC3U/SL3vH0mkgwG/w2vQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783047958; c=relaxed/simple;
-	bh=L+H3GdulcKLSn6s39Xisy3yxUPpEpZqQt/6NPjm2hT4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RiUNjLkF+p8IjQtl5XWl7XVecbdv0d83Ke5PovXb7RybrHlitzJvrT7DFgzdxanXbSqY3rnmEGsP27HvjkPbJSEM7YLcKowpuKGYbXFDRJwIcVtpPaCRA9unfh/GcR9BR/thPAehoKEMPd/0/5/M2RFwXOlV3iAGgjO4QnuyLF8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EeDkho1p; arc=pass smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932EC29D265
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 03:15:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783048533; cv=none; b=svkk9G2G14fi6vj/MXBJS0nTsiFV8goQmbUL0vp2EBOxGoHWCIzpIGgp0ojsc8Dp+pZiEHzZtsW1a8Rb4KBxxLGBuIFPeNYmc+Ml5lzllUZo0FATc7sYm9Z6hQz2vWifDrzwAZDcgcJhvBj7ZZvD6/5Iugdct2PRflRyrv/ZAyI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783048533; c=relaxed/simple;
+	bh=w7pHXPxe9GWZYt4ua8IS7f/4OyXOtIG9kiHA52yse6Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fDlJarYFRXWdSuvpnPJ3oxJAW+0PBDc93D8U0CAKqdrgrf8sdDfMajaKqL+59e5Xo7NKwbmcoEUYsyvPcD9yho+a9fEb/lxT7avh7HSpDcRXcg/jGzu1plftdD2Mg41cZThNIeEkVm28OEmaWoMy6PHfeMyyyRMZBSsqiTvOX8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Xy76dg7Y; arc=none smtp.client-ip=91.218.175.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EeDkho1p"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-493c5220cb7so367125e9.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Jul 2026 20:05:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783047956; cv=none;
-        d=google.com; s=arc-20260327;
-        b=IJ9KA54B6ExAR3hR5cerFGQg/DlVP3drOi3Jj1g48+qqOepGGw/IzOZtNUjWBqhDpa
-         whi/IEm6ldESMWz+xln/u1OM2bspIL3kZN3GANo31RgS7i5QlMfj85ttgcKaN2a+2V6B
-         weWoYsRxInO3/YYgiErMOgVvV9uS79tFA+U4J+geuB+ZIEKDajahPL+Avr6/vuQcDPoP
-         HNN/DnrKh6/8/0eOx7C1O7WguxpT6QQfZWj7bNOb17LAR2Q7wv6y2G6RPDZk1cdhFDWE
-         K48ldFMp+96HvHpnpnvDf5/QpDOiS26sovNzPlLEsanG6/zRCrGoVW6qb53y68tXLLQ/
-         WTEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=L+H3GdulcKLSn6s39Xisy3yxUPpEpZqQt/6NPjm2hT4=;
-        fh=TAtfCxP2SklztdMeiwB+AZM36Ir2Cxp4oWm2NtN7joE=;
-        b=G8TReJ4jHG4dL/pfc8DCi6mt1S3yu+dlEPQnm8/hKXAt6xuxqRDL93SxxXWjUagTF4
-         w38EZMRHWwMKJiyqt3uNSTChTNMotJM5tNmPM4FeRPgva9QUB7/I54pV8zqYtJ32/b7Y
-         AFcE3GzJez6vlZtdM6uiurc8eRW/mZ8lH6vbSZl4qsr/UnaECCNhW/0hQXkrzJvV7aVG
-         coXsbC8q1b/y5/EjP4fywHum7kMCWuNoeEewHMxnMtdNkECyi0J/uzYDpY98zwQJYeZt
-         1vq7lnyZA1eM6yFXJQe9u19uWc7t2GEGAjX0evVUmuHj+BWSsRZBSHfjK7dyZ0OASdwm
-         UsKA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783047956; x=1783652756; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L+H3GdulcKLSn6s39Xisy3yxUPpEpZqQt/6NPjm2hT4=;
-        b=EeDkho1p38ZO22WDSFypik9GdRJBnA+hMGgltuEEi7yE5dOIEj9CVMtTfHZXnCeeh5
-         5S3nGoLhb/sTUnk5InAuevla/JvQUID/1utipgwbUYEX0iHlWRZtgVke6p//pqLHct1N
-         BeLworJR14NmtSnzoMrQjZDD7QNBrCWnJVT9EsYFsyOVGXxL6760xBoOp/3PtYJgEYay
-         4LkzdbbfFhtCIq5Zulul3GTsnoTlZijODF8NTQy0/q9919N14dHXs3fRvTY/yFx7LSIM
-         jVYnCfrOrRnwp/WCXDXecj4nyLPui8a+HFQ2IDvL/fLLQiFRfbbB58e6wrwns24iukZH
-         gg6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783047956; x=1783652756;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=L+H3GdulcKLSn6s39Xisy3yxUPpEpZqQt/6NPjm2hT4=;
-        b=BvcfU9Etr9/TWuMBPlJbNjUMK1zZrS8naUQRIQ1DsQfQBAvHMdVC8ZoLJsQvpZ6r+9
-         SPqS9leEk9ql550IzNB+E8xJPz076dEAiycsvZ61obgCkLia4hxgpCr5mWsl0ASQ/eTM
-         42qifHJtOPx+XdRtJeBKSYyzgHpiiIbohx8VcV35SUShH4vO9OI/1OCtZRIiOYNoytAa
-         9WwZqHjysOWfRvIarYtvFmyzHU6nAvovb3BNQvhzozTFDnuo75k36b7bScyGXWS+rJ5L
-         i+sHKRXdGqMpFpl9S13xm+2kgXZDXjn7DbfYWEX6Jccy/quXPnNzD+dj/CLWACKvT5ty
-         qMrQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9jgJCvY51VYhmxTN9kWJAdJzVTXTnuXy5Y8K8AVn4BSN3V0ktHjwIqnpjePfbkXX/B4BmbzOQxtuHNWL+5@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuIW8AJ1Whowi07rnp4T03aqilR6EyEfhEiN1wAJpCYYk2GaJp
-	pfMSWkNyXdkpJ9gSRJcY0t8l0NK5IRgkgavBMfzRUN4YLrUjHhjBT9xmvilnAMe4nuICXevMD58
-	L+6FA4cXeyfZ21EP5FXwJWO2bmZuxvgs=
-X-Gm-Gg: AfdE7cmUewStvIhtYqbVxzxbmGxnaeemKRD4TySlZyoiPJdDoqt2e/NX4BNfqsqIzSD
-	JBxDreqNT4WnLp0K4DwnKzOKZ7SSedL8EFVglyoAX7y8XhBij/UjCgS0jrnZW89XpIxh3ZlkbFL
-	01HnIKuoU8Qz8gEX+iM/PUaIQ+ZTY5qOxddRLZG7iEew+Yul1wJNc8Km+Kq0/vlPYhYZVwcDWuC
-	k0+lBzP9O8n+QmiJ+FK12ZJ9cgZHQMLP1/+7M0P7vtluD/jx0pabKIKDOhmDVnU4f1HAVt8C7nn
-	9d7S1QSqXoB/LFwUem49pIHTApkuJa71pQJr2D+JZ06SShMtUzlr
-X-Received: by 2002:a05:600d:840c:10b0:493:b9cd:1272 with SMTP id
- 5b1f17b1804b1-493c3cf2f50mr85170315e9.23.1783047955834; Thu, 02 Jul 2026
- 20:05:55 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Xy76dg7Y"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1783048519;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=/i5UabH/z5TDJpi5vIu5zBGX7hYzPOStSLEinAkorgU=;
+	b=Xy76dg7Yd6fw6OcBvIGF1PcXa1sRCC9zSpaK4TqkLvZe+F3xx/EAltE/PKoehMHCVmkigJ
+	sdYtKfeHVSjM9DtnCOVoyb3XdqfIn0zpxgJzkx3jLBmrJ5JfkfrLCS5gw9ycvt3ooovls8
+	VIdOxxloNUhfLrXNTdOzbAyriDVJiyA=
+From: xuanqiang.luo@linux.dev
+To: linux-fsdevel@vger.kernel.org
+Cc: Jan Kara <jack@suse.cz>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Joanne Koong <repnop@google.com>,
+	Miklos Szeredi <mszeredi@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	Xuanqiang Luo <luoxuanqiang@kylinos.cn>
+Subject: [PATCH] fanotify: initialize permission event watchdog state
+Date: Fri,  3 Jul 2026 11:13:45 +0800
+Message-ID: <20260703031345.9354-1-xuanqiang.luo@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260701033253.46420-1-changfengnan@bytedance.com>
- <20260701033253.46420-4-changfengnan@bytedance.com> <akT4tJzFSfrBxqdq@infradead.org>
- <CAJnrk1Y3yPeXBeBNo+DjTt8eRN-mc2F9apBCUn+j=GV7GMzi4g@mail.gmail.com> <akZ3GErzJSTtOn-H@infradead.org>
-In-Reply-To: <akZ3GErzJSTtOn-H@infradead.org>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 2 Jul 2026 20:05:42 -0700
-X-Gm-Features: AVVi8CfZKbXMpL8snbpx3vl7cTayO8vf5li7UT5PBriPQUNElwm8EQYO8_inLP4
-Message-ID: <CAJnrk1ZijiWYU8YOmRf24xxwX0kH6vCe3ta89LfoX7v7j_JYLQ@mail.gmail.com>
-Subject: Re: [PATCH v6 3/3] iomap: add simple dio path for small direct I/O
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Fengnan Chang <changfengnan@bytedance.com>, brauner@kernel.org, djwong@kernel.org, 
-	ojaswin@linux.ibm.com, dgc@kernel.org, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, lidiangang@bytedance.com, 
-	pankaj.raghav@linux.dev, Brian Foster <bfoster@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Jul 2, 2026 at 7:35=E2=80=AFAM Christoph Hellwig <hch@infradead.org=
-> wrote:
->
-> On Wed, Jul 01, 2026 at 12:35:24PM -0700, Joanne Koong wrote:
-> > I think it ends up being pretty simple to get it integrated since
-> > ->iomap_next already contains the logic to only begin the mapping at
-> > the start and only finish the mapping when the iter has been fully
-> > consumed, eg
->
-> I wonder if this adds overhead that the simple path removed.
+From: Xuanqiang Luo <luoxuanqiang@kylinos.cn>
 
-Ah I see now, the whole point of Fengnan's series is to k eep the
-logic minimal...
+fanotify permission events are allocated with kmem_cache_alloc(), but
+fanotify_alloc_perm_event() does not initialize watchdog_cnt.
 
-Fengnan, I think you had mentioned earlier [1] that enabling
-iomap_next brought the simple-read gain down from 10% to 7%? Thanks
-for running those numbers. Would you be able to share the changes you
-made to iomap_dio_rw to support iomap_next for those benchmarks you
-ran?
+The watchdog reads watchdog_cnt after the event is moved to access_list.
+A stale value can make it warn too early or skip the warning.
 
-Thanks,
-Joanne
+Initialize watchdog_cnt when allocating a permission event.
 
-[1] https://lore.kernel.org/linux-fsdevel/e85e73bd-5fbe-4d11-89ba-7b42c237d=
-d34@bytedance.com/
+Fixes: b8cf8fda522d ("fanotify: add watchdog for permission events")
+Signed-off-by: Xuanqiang Luo <luoxuanqiang@kylinos.cn>
+---
+ fs/notify/fanotify/fanotify.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
+index a3555bebad63e..b59f0aa43c4be 100644
+--- a/fs/notify/fanotify/fanotify.c
++++ b/fs/notify/fanotify/fanotify.c
+@@ -599,6 +599,7 @@ static struct fanotify_event *fanotify_alloc_perm_event(const void *data,
+ 	pevent->hdr.pad = 0;
+ 	pevent->hdr.len = 0;
+ 	pevent->state = FAN_EVENT_INIT;
++	pevent->watchdog_cnt = 0;
+ 	pevent->path = *path;
+ 	/* NULL ppos means no range info */
+ 	pevent->ppos = range ? &range->pos : NULL;
+-- 
+2.43.0
+
