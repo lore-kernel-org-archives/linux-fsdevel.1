@@ -1,512 +1,326 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68123256C61
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 18:32:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783103574; cv=pass; b=BYdMfUcBO5YNX9rpwiOL+LVNenVoUwnCKFBfpgBGiIirhxT4YZ5JpyoL+3lWf0PzbzkgQfqH51IEt7SfkgjRsq6Xij40SK/vO8n+MIFH99raJqImp6/HvR7n/OX0C5Ie+pPYADKyZfYCK+r76FjQdj7NnE3oPQv5KxHCkNHMW/o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783103574; c=relaxed/simple;
-	bh=5kW7D966yJD4XNrJla9R2uSsmGdJPEDWuthJIMMyVSM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HrMXxGYjMl/yYUUJMABzVkHo4uFCNN1m0JXYKvzRFqM2yPtGis6Fq5RBqPp1UWjzsAOBMiPxrV5xDpiknS+p8d99BKRBzag3r2dfcx3pA6im+Y20rd1uNKo/TMQpyKz34UZyq8lB0z86780AqgW45MuJb7AaprX8aluxN3AYen0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PMhEV0VP; arc=pass smtp.client-ip=209.85.167.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFC12F6596
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 19:08:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783105698; cv=none; b=qUQSkISZt8FoHn15H3xHuOUb1YZUMaAPASKDqPL9OoNn2leJPtjpQYJhFiXVWQVXvDIiHk3TAGjOibaicCw+rhnOE1+kH/1LU54BDB4QmoigniFER+te0+d8dFJHSAmHYLZYCPKQqIWevVaR+n0IRkR1pB3xpDu2w28q/TItzTw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783105698; c=relaxed/simple;
+	bh=e5BqYn9wHF2Ld/RRtFFEJL7hi18fIddMxA6pOUJx4iU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=NEl///zgppSo1jdy28qvBP3Km7srDgSSoBlLECqzC7fN+G8o/lv8VSXFF9Gtlm7/evSLULdpYrLGwdXcSPN5WWFGyrxRcMt//vl5ASt+XOdH9sRjNSW31A4GXxabizr/07SAigqZcCwM7M0Ku6oRKhDvLhZmj0OMBmr/6eXmfII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=bVZAwTUx; arc=none smtp.client-ip=74.125.224.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PMhEV0VP"
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-495ecb0de70so488904b6e.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Jul 2026 11:32:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783103571; cv=none;
-        d=google.com; s=arc-20260327;
-        b=qE25wf1942M0alO7R6UUs9W3pGgnW04PXjqgDuj4pzXCrq8xDE46H+CBAeGtrBHMtZ
-         Jpn7qtcrFl6FLWdNDEcIRrIpD6m7DWYIDjBv7LXGx9zADJdQHH/2UXMgEU+wAChh5xBt
-         wAUy53fddxi0P4BxpsIHqDwgj+5ls7dZdlQfChuyIl4txXBnT6GxZPCnzc7/ZJbMzeh2
-         bImMMmiTokZ0OG+7aoX04aSeACtEHfLC/pYC902sx2G+e4ATsLK3I3wLxJmmfMbpn3FQ
-         TP7247VT0O14Hotb6/kRziP0k0nYQ+pTAqCb+SdQqfMTB7p1F6C05g142DgugVsLzy3R
-         W8aA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=jGxxuYIICA4XkrM04fmbBq4SZy/bQdrB/PRjF642fak=;
-        fh=1tkRGG86lB2ew92TindWI0dnHo1cqnZwHBgEngSzgns=;
-        b=If1KZGxM7UcZ+TIxdbFb4vZS0NRr3yNcNTDDqmGvW/4V2vj04FHKLmEgyrT7sFzlts
-         d7/hVnHFcV8iP+3SvRIa+PQncHuSwp9aM17j8yGN8P+zNMkAEsziZvl/tX2j3yD6f+nz
-         Z0Qojy7oIPOnUP4WFDCoW62v0ql3C82aG3+3wZHwrQLvCmF/IlW11FC8+NeBHbq+QI5N
-         XM7fNHGuIzT03RhcLlozEeAtO9Hl/rqJ4JkWvPui9UEPProCHeQvSGWfUIMeLrnG4ley
-         HS1SybE1OrHmJMJ6BW8YmLWNwQLs6VwWF42NR+7Ka9OLMColUa0RHeY2wr6W8IJ+7e/f
-         Kxyg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="bVZAwTUx"
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-664db84f074so997613d50.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Jul 2026 12:08:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783103571; x=1783708371; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=jGxxuYIICA4XkrM04fmbBq4SZy/bQdrB/PRjF642fak=;
-        b=PMhEV0VP7+0kMgRiKBF13pJQ02jVUYcv1+B+CzeV7GqCgsnwS+43D4qDU95YT/ouKy
-         3btpAiPKNbWwr92TGZgRN/yfhGMFzdgGVkMiZj3sYGJLoGKjPUuurZzGWQvk9a5tSK+J
-         q1Pp/vFpLMvbYsxs7GV8UcbDsj3W44UvLpbnTl5BxWBAddK29ZQ4rZXUfOVY3t+K9mTX
-         NulnrinfrVFW/UEv1rGqjKPYQlTLNyKXEUCP8EfNaEUuUQobb4XxgCcndcVlvifRVKiE
-         tZzwHm72h9GmG0dSiT/f0h5mbytWeXDpMGVpKtAE6TnDSmbJ2p3+bEcuSqy3MN3UWpXN
-         XBEw==
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1783105695; x=1783710495; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=N0meiPLPJp8cTrqmLd8F8mhyoylaiQ+uixkllcFYx4k=;
+        b=bVZAwTUxCRANVc1P4Bf3WBgokMTMwwj4OZmtXk1mFBIlbDhtfDD84ymfm5FL68nFuu
+         WpXEX2AGy0AXXqSUp5AgEcx1o5TZAU9DySCVWdnKToOJpsXEgrDJKjUWvQTc89G0RNbO
+         MSu5oH+/EkGAdXQbpPDuLGd6VtSYHSOerwvwhw11A90ouJdrRac27NneXLaWMOwdRFwn
+         M/JVmuZj+90Fat/KbQ+fyb5AW0mNBilAjfxD9ueWN1wZZRLUMH+5nT1w8naqRlJFY0or
+         ry5DgiJVJz24nJlRlLfG9V3/N47O7adupMFcsAdtrAuU6SpaDyXq8x4g49tl71wxpfji
+         vI8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783103571; x=1783708371;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jGxxuYIICA4XkrM04fmbBq4SZy/bQdrB/PRjF642fak=;
-        b=WzEw+87HH6Ogu1mj6grcsf0sH6Mqgdp04zF1DAoJysUzZTSjCXawHDOGfHYUlE5ZKd
-         hvYW2Ellex3xyp494kpHORn7bDvpq3jTp5rqqRLeIcIOoVVHyVa/NcQ1qFtV2pzFUjfJ
-         ZIs0K3gj4XWy/cM0gpftO5zX7a2VP0rlJVB0unv1aMnNg2AirnK/Z3VN2rkd9g09X2Pd
-         qlxdbRuUmgxgBW/g1k6oX5Y1vFZ9u1Picl1DgMRGZHG9yL7lck0Ev5I+Gu/4OydrBmu7
-         lVxWnkx6Ku9twr7xK7pHrUuLQt0u7znSBQLn3cXvPTYHHWkgcA6T5edd2/vF9qlKzx6/
-         E0XA==
-X-Forwarded-Encrypted: i=1; AFNElJ8WwrFEybnNpRt2jiNnZ7OK7lTZ97y8wCx+ChYbmvgFUrzxBYM3f6F15Hp6KIT4yvmvYDTd+46NOj712Ddr@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuyVzcXOpHz2LtUuDr3OS4cq1sdiBcxhQVJH4TSHaoBz+3QDjD
-	IEGrDdzcVTFyzw3Y3ekcp59Ui6f2BQ3oVgHtNgnhRgMqieROozpwQoVCjB6hl7InWfHLP7E21MV
-	ZwOKGIi30RtHxBNYnK90E9U21m0zNb9g=
-X-Gm-Gg: AfdE7cmwyelRieUtSX4WNzyIh2NAvMCxX/IjaxykNhoNTTBO/ny/fCBJm4bxrLHZ4aT
-	DUYgJKsy8m0+3Y96n+npG3MHRV5GAHCN+R9iqGj1QZVB57TkffSlaAeQqHkzhLGiO3GJl7ryvto
-	KC2CCug/uSMmT1kIcrJRNEEtS1l3e+3IGzATIhlZqWHxTPx4l0Of/eytWDdkUNf7d3n/Xa95ZeD
-	BDTgXNH7FkHyFtnDO4OKjEHVLlR+Vtbs3C2QoRM4NOv5v8MCOeyqdcwwA2HwY6w21CDpGIEMyC3
-	CA1C
-X-Received: by 2002:a05:6808:c145:b0:492:8920:81b7 with SMTP id
- 5614622812f47-499b6477461mr229466b6e.8.1783103571184; Fri, 03 Jul 2026
- 11:32:51 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783105695; x=1783710495;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=N0meiPLPJp8cTrqmLd8F8mhyoylaiQ+uixkllcFYx4k=;
+        b=cKUuZQZg8rdaLsxYzl+uNaRVHA5Pt0g97EIIDH1RoJqRiCsHTAi5wYpzvbhM6UwQ2G
+         Dp5XtoRT0+O8hbdBLG1jPbus+X8zUYac6S+pTv3dn7dhlvFG+tsdoWZ56ZLWlFFm54xh
+         rvWE52Gb0mr64AE773u6pN7NU0aIlmyiZ0/M+/+E6JmnKfaaTMoj2gk/jhbnlROQyTQl
+         90Bn0YsuFMETTVtMQUT4zysohUis92dOhkrPNYS2umZc7IBqN2TGbPpJl9yMYZWpAdsD
+         ziejSTfWRmbUIMkXwMUzJeqGAoEV8oLAY2ox80U4axx06Jtsgm/ynQ3G+Z2a1Sx6d/Zj
+         92fw==
+X-Forwarded-Encrypted: i=1; AHgh+RrWwK8xMhZYkBPixIOt5o2zOOvubnLNegwkaj0v9XqVh6rE227Y7NMtBuQTSyqp5B3qJX4SOLkYz+ZyV6k4@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjwDlZklWGQh57SLqU7v9mW3+1jNu5CSouu1iy7/obS25c4WoW
+	2BccEVoYui+sqkwHi2NRhrih2sFNH+fy9li/m7vuIJKBpOV3Fq9Gwm3jX3Vlzsd+7FS6cTy8TOB
+	ZO93CbQS/YA==
+X-Gm-Gg: AfdE7clpFtptxVuxRvJaWY9hX/qym+U/BYC6VJODy5aAhQIH+so3jkJEhh9x3BYKjWK
+	S43nmGTDS7HOxLrikMq/eDyJK4ZcmTbCtrkEu1uySZJFsxvyzFsTxAEe33ztcOVoRgoRfMfAzxw
+	m796oedoZ4Ua40qpEqtd5zZsxiZxFPIyPu8W1LGu1YlMH4qpr6tTWzcMUI/LdC6qavrv9sCgNoo
+	QrxBB7ofNAhhQg4J80BuCNTf8azriEoF0xfd3iISnZcfraRMGr8vNXQc3g61Qh0vMKYHbUJe23+
+	LLvNL7X/DMcHk9/9v2N8q4eEwp7evxO6jaxG5V3BtPPzh6sWDgbbnhbkRMX9ZezP8kLo0qXZ1R7
+	L7eUsdlEKjt36cr7+PSCZngbCpiGgNQewOrXAXvYgXsycuIFl4qwH2DdEiXWXrSfv0jFdXZQ37s
+	zPFLHuxwuyq/wG5XDEBYNQE/fzZ0QfHrEHby7W7i+g8h71Tq005mVkc5bNmoSZ6uz30VE8qEtVX
+	It07rMuKoigRoorSvccX2kCsiV2mmwzYfGC/mjRrIzDvUwjISoBNKc9M+kHxl65UmfUo0I4hkz2
+	bh14R0fgTjYwoGPZ
+X-Received: by 2002:a05:690e:14c6:b0:663:593b:e30d with SMTP id 956f58d0204a3-66652e8999cmr315259d50.34.1783105695301;
+        Fri, 03 Jul 2026 12:08:15 -0700 (PDT)
+Received: from ?IPv6:2600:1700:6476:1430:682a:9cbb:a4fb:99f8? ([2600:1700:6476:1430:682a:9cbb:a4fb:99f8])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-666405289f2sm1159596d50.7.2026.07.03.12.08.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jul 2026 12:08:14 -0700 (PDT)
+Message-ID: <466d084104280fd5feced09a54662a30e4b9b739.camel@dubeyko.com>
+Subject: Re: [PATCH v2] hfsplus: validate thread record before delete key
+ rebuild
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Kyle Zeng <kylebot@openai.com>, linux-fsdevel@vger.kernel.org
+Cc: outbounddisclosures@openai.com
+Date: Fri, 03 Jul 2026 12:08:13 -0700
+In-Reply-To: <deaf9198e4e937310f92001628e48bb9d8b88844.camel@dubeyko.com>
+References: <20260701063519.9447-1-kylebot@openai.com>
+	 <deaf9198e4e937310f92001628e48bb9d8b88844.camel@dubeyko.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
+ zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
+ ZcvScAX2n/PlhpTnzJKf3JkHh3nM1ACO3jzSe2/muSQJvqMLG2D71ccekr1RyUh8V+OZdrPtfkDam
+ V6GOT6IvyE+d+55fzmo20nJKecvbyvdikWwZvjjCENsG9qOf3TcCJ9DDYwjyYe1To8b+mQM9nHcxp
+ jUsUuH074BhISFwt99/htZdSgp4csiGeXr8f9BEotRB6+kjMBHaiJ6B7BIlDmlffyR4f3oR/5hxgy
+ dvIxMocqyc03xVyM6tA4ZrshKkwDgZIFEKkx37ec22ZJczNwGywKQW2TGXUTZVbdooiG4tXbRBLxe
+ ga/NTZ52ZdEkSxAUGw/l0y0InTtdDIWvfUT+WXtQcEPRBE6HHhoeFehLzWL/o7w5Hog+0hXhNjqte
+ fzKpI2fWmYzoIb6ueNmE/8sP9fWXo6Av9m8B5hRvF/hVWfEysr/2LSqN+xjt9NEbg8WNRMLy/Y0MS
+ p5fgf9pmGF78waFiBvgZIQNuQnHrM+0BmYOhR0JKoHjt7r5wLyNiKFc8b7xXndyCDYfniO3ljbr0j
+ tXWRGxx4to6FwARAQABtCZWaWFjaGVzbGF2IER1YmV5a28gPHNsYXZhQGR1YmV5a28uY29tPokCVw
+ QTAQoAQQIbAQUJA8JnAAULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBFXDC2tnzsoLQtrbBDlc2cL
+ fhEB1BQJoGl5PAhkBAAoJEDlc2cLfhEB17DsP/jy/Dx19MtxWOniPqpQf2s65enkDZuMIQ94jSg7B
+ F2qTKIbNR9SmsczjyjC+/J7m7WZRmcqnwFYMOyNfh12aF2WhjT7p5xEAbvfGVYwUpUrg/lcacdT0D
+ Yk61GGc5ZB89OAWHLr0FJjI54bd7kn7E/JRQF4dqNsxU8qcPXQ0wLHxTHUPZu/w5Zu/cO+lQ3H0Pj
+ pSEGaTAh+tBYGSvQ4YPYBcV8+qjTxzeNwkw4ARza8EjTwWKP2jWAfA/ay4VobRfqNQ2zLoo84qDtN
+ Uxe0zPE2wobIXELWkbuW/6hoQFPpMlJWz+mbvVms57NAA1HO8F5c1SLFaJ6dN0AQbxrHi45/cQXla
+ 9hSEOJjxcEnJG/ZmcomYHFneM9K1p1K6HcGajiY2BFWkVet9vuHygkLWXVYZ0lr1paLFR52S7T+cf
+ 6dkxOqu1ZiRegvFoyzBUzlLh/elgp3tWUfG2VmJD3lGpB3m5ZhwQ3rFpK8A7cKzgKjwPp61Me0o9z
+ HX53THoG+QG+o0nnIKK7M8+coToTSyznYoq9C3eKeM/J97x9+h9tbizaeUQvWzQOgG8myUJ5u5Dr4
+ 6tv9KXrOJy0iy/dcyreMYV5lwODaFfOeA4Lbnn5vRn9OjuMg1PFhCi3yMI4lA4umXFw0V2/OI5rgW
+ BQELhfvW6mxkihkl6KLZX8m1zcHitCpWaWFjaGVzbGF2IER1YmV5a28gPFNsYXZhLkR1YmV5a29Aa
+ WJtLmNvbT6JAlQEEwEKAD4WIQRVwwtrZ87KC0La2wQ5XNnC34RAdQUCaBpd7AIbAQUJA8JnAAULCQ
+ gHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRA5XNnC34RAdYjFEACiWBEybMt1xjRbEgaZ3UP5i2bSway
+ DwYDvgWW5EbRP7JcqOcZ2vkJwrK3gsqC3FKpjOPh7ecE0I4vrabH1Qobe2N8B2Y396z24mGnkTBbb
+ 16Uz3PC93nFN1BA0wuOjlr1/oOTy5gBY563vybhnXPfSEUcXRd28jI7z8tRyzXh2tL8ZLdv1u4vQ8
+ E0O7lVJ55p9yGxbwgb5vXU4T2irqRKLxRvU80rZIXoEM7zLf5r7RaRxgwjTKdu6rYMUOfoyEQQZTD
+ 4Xg9YE/X8pZzcbYFs4IlscyK6cXU0pjwr2ssjearOLLDJ7ygvfOiOuCZL+6zHRunLwq2JH/RmwuLV
+ mWWSbgosZD6c5+wu6DxV15y7zZaR3NFPOR5ErpCFUorKzBO1nA4dwOAbNym9OGkhRgLAyxwpea0V0
+ ZlStfp0kfVaSZYo7PXd8Bbtyjali0niBjPpEVZdgtVUpBlPr97jBYZ+L5GF3hd6WJFbEYgj+5Af7C
+ UjbX9DHweGQ/tdXWRnJHRzorxzjOS3003ddRnPtQDDN3Z/XzdAZwQAs0RqqXrTeeJrLppFUbAP+HZ
+ TyOLVJcAAlVQROoq8PbM3ZKIaOygjj6Yw0emJi1D9OsN2UKjoe4W185vamFWX4Ba41jmCPrYJWAWH
+ fAMjjkInIPg7RLGs8FiwxfcpkILP0YbVWHiNAabQoVmlhY2hlc2xhdiBEdWJleWtvIDx2ZHViZXlr
+ b0BrZXJuZWwub3JnPokCVAQTAQoAPhYhBFXDC2tnzsoLQtrbBDlc2cLfhEB1BQJoVemuAhsBBQkDw
+ mcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDlc2cLfhEB1GRwP/1scX5HO9Sk7dRicLD/fxo
+ ipwEs+UbeA0/TM8OQfdRI4C/tFBYbQCR7lD05dfq8VsYLEyrgeLqP/iRhabLky8LTaEdwoAqPDc/O
+ 9HRffx/faJZqkKc1dZryjqS6b8NExhKOVWmDqN357+Cl/H4hT9wnvjCj1YEqXIxSd/2Pc8+yw/KRC
+ AP7jtRzXHcc/49Lpz/NU5irScusxy2GLKa5o/13jFK3F1fWX1wsOJF8NlTx3rLtBy4GWHITwkBmu8
+ zI4qcJGp7eudI0l4xmIKKQWanEhVdzBm5UnfyLIa7gQ2T48UbxJlWnMhLxMPrxgtC4Kos1G3zovEy
+ Ep+fJN7D1pwN9aR36jVKvRsX7V4leIDWGzCdfw1FGWkMUfrRwgIl6i3wgqcCP6r9YSWVQYXdmwdMu
+ 1RFLC44iF9340S0hw9+30yGP8TWwd1mm8V/+zsdDAFAoAwisi5QLLkQnEsJSgLzJ9daAsE8KjMthv
+ hUWHdpiUSjyCpigT+KPl9YunZhyrC1jZXERCDPCQVYgaPt+Xbhdjcem/ykv8UVIDAGVXjuk4OW8la
+ nf8SP+uxkTTDKcPHOa5rYRaeNj7T/NClRSd4z6aV3F6pKEJnEGvv/DFMXtSHlbylhyiGKN2Amd0b4
+ 9jg+DW85oNN7q2UYzYuPwkHsFFq5iyF1QggiwYYTpoVXsw
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260630185916.5a694895@pumpkin> <20260702214247.1253741-1-farid.m.zakaria@gmail.com>
- <20260703-meditation-ratsuchende-moratorium-9ecdf1f3f8bb@brauner>
-In-Reply-To: <20260703-meditation-ratsuchende-moratorium-9ecdf1f3f8bb@brauner>
-From: Farid Zakaria <farid.m.zakaria@gmail.com>
-Date: Fri, 3 Jul 2026 11:32:38 -0700
-X-Gm-Features: AVVi8Cd92ozOgdmrIKRm-TUElsCXe-xdr671pT3QnWUHq6iaEWsPZ767F3i70qg
-Message-ID: <CACCo2jkCFdqa1SQ_k1_42x_KYHReqcaGEScKp8ozt3FcAX7f8Q@mail.gmail.com>
-Subject: Re: [RFC PATCH] fs: introduce pluggable ELF interpreter loader registry
-To: Christian Brauner <brauner@kernel.org>
-Cc: david.laight.linux@gmail.com, jack@suse.cz, jannh@google.com, 
-	kees@kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, mail@johnericson.me, 
-	shuah@kernel.org, viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 3, 2026 at 2:22=E2=80=AFAM Christian Brauner <brauner@kernel.or=
-g> wrote:
->
-> > Introduce a pluggable framework for ELF binary loading to allow dynamic
-> > resolution and redirection of program interpreters (PT_INTERP). This is
-> > primarily designed to support hermetic path resolution like NixOS $ORIG=
-IN
-> > relative dynamic linkers without bloating the core ELF loader or compro=
-mising
-> > system execution security.
-> >
-> > Introduce a new registration interface for kernel modules to register
-> > open_interpreter callbacks. Standard ELF loading queries this registry;=
- if a
-> > plugin resolves a custom segment type (like PT_INTERP_NIX), it returns =
-a file
-> > descriptor for the resolved interpreter. Secure execution environments
-> > (bprm->secureexec) bypass relative resolution for safety.
-> >
-> > Signed-off-by: Farid Zakaria <farid.m.zakaria@gmail.com>
-> >
-> > diff --git a/fs/Kconfig.binfmt b/fs/Kconfig.binfmt
-> > index 1949e25c7741..ef4277fd8050 100644
-> > --- a/fs/Kconfig.binfmt
-> > +++ b/fs/Kconfig.binfmt
-> > @@ -38,6 +38,21 @@ config BINFMT_ELF_KUNIT_TEST
-> >         only needed for debugging. Note that with CONFIG_COMPAT=3Dy, th=
-e
-> >         compat_binfmt_elf KUnit test is also created.
-> >
-> > +config BINFMT_ELF_PLUGINS
-> > +     bool "Enable plugin support for ELF interpreter loading"
-> > +     depends on BINFMT_ELF
-> > +     help
-> > +       This option allows kernel modules to register handlers to dynam=
-ically
-> > +       resolve and override the ELF program interpreter (e.g. supporti=
-ng relative
-> > +       interpreter paths with $ORIGIN).
+Hi Kyle,
+
+The xfestests haven't revealed any new issues. So, patch looks good
+but, please, check my remarks below. I see some logical issues in the
+patch that needs to be reworked from my point of view.
+
+On Thu, 2026-07-02 at 17:13 -0700, Viacheslav Dubeyko wrote:
+> On Wed, 2026-07-01 at 00:35 -0600, Kyle Zeng wrote:
+> > hfsplus_delete_cat() is called with str =3D=3D NULL when the last open
+> > reference to an unlinked HFS+ hardlink backing inode is closed. In
+> > that
+> > case, the function finds the catalog thread by CNID and rebuilds
+> > the
+> > catalog key from thread.nodeName.
+> >=20
+> > That reconstruction path reads thread.nodeName.length directly from
+> > the
+> > catalog B-tree into fd.search_key and then copies length * 2 bytes
+> > into
+> > fd.search_key->cat.name.unicode. It does not first check that the
+> > found
+> > record is a thread record, that the record size matches the thread
+> > name
+> > length, or that nodeName.length fits in the fixed HFS+ catalog key
+> > buffer.
+> >=20
+> > A corrupted image can therefore provide an oversized thread name
+> > length
+> > and make hfs_bnode_read() write past the catalog search-key
+> > allocation.
+> >=20
+> > Read the CNID record through hfsplus_brec_read_cat(), which
+> > performs
+> > the
+> > hfs_brec_find() lookup via hfs_brec_read() before validating the
+> > catalog
+> > record. Reject non-thread records and explicitly bound
+> > nodeName.length
+> > before building the delete key from the validated thread name.
+> >=20
+> > Factor the existing thread-type and name-length checks into shared
+> > helpers so hfsplus_find_cat() and hfsplus_delete_cat() use the same
+> > validation.
+> >=20
+> > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> > Assisted-by: Codex:gpt-5.5
+> > Signed-off-by: Kyle Zeng <kylebot@openai.com>
+> > ---
+> > =C2=A0fs/hfsplus/catalog.c=C2=A0=C2=A0=C2=A0 | 38 +++++++++++++++++++++=
++---------------
+> > -
+> > =C2=A0fs/hfsplus/hfsplus_fs.h | 11 +++++++++++
+> > =C2=A02 files changed, 33 insertions(+), 16 deletions(-)
+> >=20
+> > diff --git a/fs/hfsplus/catalog.c b/fs/hfsplus/catalog.c
+> > index 776ce36cf076..c57c3bbb8143 100644
+> > --- a/fs/hfsplus/catalog.c
+> > +++ b/fs/hfsplus/catalog.c
+> > @@ -196,20 +196,20 @@ int hfsplus_find_cat(struct super_block *sb,
+> > u32 cnid,
+> > =C2=A0{
+> > =C2=A0	hfsplus_cat_entry tmp =3D {0};
+> > =C2=A0	int err;
+> > -	u16 type;
+> > +	u16 entry_type;
+>=20
+> I think that this change is not good. The name type is good enough
+> and
+> it is shorter one. It is not critical remark but this change doesn't
+> make sense to me.
+>=20
+> > =C2=A0
+> > =C2=A0	hfsplus_cat_build_key_with_cnid(sb, fd->search_key, cnid);
+> > =C2=A0	err =3D hfsplus_brec_read_cat(fd, &tmp);
+> > =C2=A0	if (err)
+> > =C2=A0		return err;
+> > =C2=A0
+> > -	type =3D be16_to_cpu(tmp.type);
+> > -	if (type !=3D HFSPLUS_FOLDER_THREAD && type !=3D
+> > HFSPLUS_FILE_THREAD) {
+> > +	entry_type =3D be16_to_cpu(tmp.type);
+> > +	if (!is_hfsplus_thread_type(entry_type)) {
+> > =C2=A0		pr_err("found bad thread record in catalog\n");
+> > =C2=A0		return -EIO;
+> > =C2=A0	}
+> > =C2=A0
+> > -	if (be16_to_cpu(tmp.thread.nodeName.length) > 255) {
+> > +	if
+> > (!is_hfsplus_name_length_valid(tmp.thread.nodeName.length)) {
+> > =C2=A0		pr_err("catalog name length corrupted\n");
+> > =C2=A0		return -EIO;
+> > =C2=A0	}
+> > @@ -350,23 +350,29 @@ int hfsplus_delete_cat(u32 cnid, struct inode
+> > *dir, const struct qstr *str)
+> > =C2=A0		goto out;
+> > =C2=A0
+> > =C2=A0	if (!str) {
+> > -		int len;
+> > +		hfsplus_cat_entry entry =3D {0};
+> > +		u16 entry_type;
+> > =C2=A0
+> > =C2=A0		hfsplus_cat_build_key_with_cnid(sb, fd.search_key,
+> > cnid);
+> > -		err =3D hfs_brec_find(&fd, hfs_find_rec_by_key);
+> > +		err =3D hfsplus_brec_read_cat(&fd, &entry);
+> > =C2=A0		if (err)
+> > =C2=A0			goto out;
+> > =C2=A0
+> > -		off =3D fd.entryoffset +
+> > -			offsetof(struct hfsplus_cat_thread,
+> > nodeName);
+> > -		fd.search_key->cat.parent =3D cpu_to_be32(dir-
+> > >i_ino);
+> > -		hfs_bnode_read(fd.bnode,
+> > -			&fd.search_key->cat.name.length, off, 2);
+> > -		len =3D be16_to_cpu(fd.search_key->cat.name.length)
+> > *
+> > 2;
+> > -		hfs_bnode_read(fd.bnode,
+> > -			&fd.search_key->cat.name.unicode,
+> > -			off + 2, len);
+> > -		fd.search_key->key_len =3D cpu_to_be16(6 + len);
+> > +		entry_type =3D be16_to_cpu(entry.type);
+> > +		if (!is_hfsplus_thread_type(entry_type)) {
+> > +			pr_err("found bad thread record in
+> > catalog\n");
+> > +			err =3D -EIO;
+> > +			goto out;
+> > +		}
 > > +
-> > +config BINFMT_ELF_NIX
-> > +     tristate "ELF interpreter plugin for NixOS ($ORIGIN support)"
-> > +     depends on BINFMT_ELF_PLUGINS
-> > +     help
-> > +       This builds the NixOS ELF interpreter plugin. It intercepts PT_=
-INTERP_NIX
-> > +       headers to resolve relative and $ORIGIN interpreter paths.
+> > +		if
+> > (!is_hfsplus_name_length_valid(entry.thread.nodeName.length)) {
+> > +			pr_err("catalog name length corrupted\n");
+> > +			err =3D -EIO;
+> > +			goto out;
+> > +		}
 > > +
-> >  config COMPAT_BINFMT_ELF
-> >       def_bool y
-> >       depends on COMPAT && BINFMT_ELF
-> > diff --git a/fs/Makefile b/fs/Makefile
-> > index 89a8a9d207d1..bd81e7ff64f3 100644
-> > --- a/fs/Makefile
-> > +++ b/fs/Makefile
-> > @@ -35,6 +35,7 @@ obj-$(CONFIG_FILE_LOCKING)      +=3D locks.o
-> >  obj-$(CONFIG_BINFMT_MISC)    +=3D binfmt_misc.o
-> >  obj-$(CONFIG_BINFMT_SCRIPT)  +=3D binfmt_script.o
-> >  obj-$(CONFIG_BINFMT_ELF)     +=3D binfmt_elf.o
-> > +obj-$(CONFIG_BINFMT_ELF_NIX) +=3D binfmt_elf_nix.o
-> >  obj-$(CONFIG_COMPAT_BINFMT_ELF)      +=3D compat_binfmt_elf.o
-> >  obj-$(CONFIG_BINFMT_ELF_FDPIC)       +=3D binfmt_elf_fdpic.o
-> >  obj-$(CONFIG_BINFMT_FLAT)    +=3D binfmt_flat.o
-> > diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
-> > index 16a56b6b3f6c..53fa2681555a 100644
-> > --- a/fs/binfmt_elf.c
-> > +++ b/fs/binfmt_elf.c
-> > @@ -35,6 +35,7 @@
-> >  #include <linux/random.h>
-> >  #include <linux/elf.h>
-> >  #include <linux/elf-randomize.h>
-> > +#include <linux/elf_plugins.h>
-> >  #include <linux/utsname.h>
-> >  #include <linux/coredump.h>
-> >  #include <linux/sched.h>
-> > @@ -870,6 +871,12 @@ static int load_elf_binary(struct linux_binprm *bp=
-rm)
-> >       if (!elf_phdata)
-> >               goto out;
-> >
-> > +     interpreter =3D elf_plugin_open_interpreter(bprm, elf_ex, elf_phd=
-ata);
-> > +     if (IS_ERR(interpreter)) {
-> > +             retval =3D PTR_ERR(interpreter);
-> > +             goto out_free_ph;
-> > +     }
-> > +
-> >       elf_ppnt =3D elf_phdata;
-> >       for (i =3D 0; i < elf_ex->e_phnum; i++, elf_ppnt++) {
-> >               char *elf_interpreter;
-> > @@ -882,6 +889,9 @@ static int load_elf_binary(struct linux_binprm *bpr=
-m)
-> >               if (elf_ppnt->p_type !=3D PT_INTERP)
-> >                       continue;
-> >
-> > +             if (interpreter)
-> > +                     continue;
-> > +
->
->
-> >               /*
-> >                * This is the program interpreter used for shared librar=
-ies -
-> >                * for now assume that this is an a.out format binary.
-> > @@ -935,6 +945,20 @@ static int load_elf_binary(struct linux_binprm *bp=
-rm)
-> >               goto out_free_ph;
-> >       }
-> >
-> > +     if (interpreter && !interp_elf_ex) {
-> > +             interp_elf_ex =3D kmalloc_obj(*interp_elf_ex);
-> > +             if (!interp_elf_ex) {
-> > +                     retval =3D -ENOMEM;
-> > +                     goto out_free_file;
-> > +             }
-> > +
-> > +             /* Get the exec headers */
-> > +             retval =3D elf_read(interpreter, interp_elf_ex,
-> > +                               sizeof(*interp_elf_ex), 0);
-> > +             if (retval < 0)
-> > +                     goto out_free_dentry;
-> > +     }
-> > +
-> >       elf_ppnt =3D elf_phdata;
-> >       for (i =3D 0; i < elf_ex->e_phnum; i++, elf_ppnt++)
-> >               switch (elf_ppnt->p_type) {
-> > diff --git a/fs/binfmt_elf_nix.c b/fs/binfmt_elf_nix.c
-> > new file mode 100644
-> > index 000000000000..d28b92c30939
-> > --- /dev/null
-> > +++ b/fs/binfmt_elf_nix.c
-> > @@ -0,0 +1,108 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +#include <linux/module.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/init.h>
-> > +#include <linux/fs.h>
-> > +#include <linux/path.h>
-> > +#include <linux/namei.h>
-> > +#include <linux/elf.h>
-> > +#include <linux/elf_plugins.h>
-> > +#include <linux/slab.h>
-> > +
-> > +MODULE_DESCRIPTION("ELF Interpreter plugin for NixOS / $ORIGIN");
-> > +MODULE_AUTHOR("Farid Zakaria");
-> > +MODULE_LICENSE("GPL");
-> > +
-> > +/* Mnemonic value for NixOS-specific program interpreter: 'N', 'I', 'X=
-', 3 */
-> > +#define PT_INTERP_NIX  (PT_LOOS + 0x4e49583)
-> > +
-> > +static struct file *nix_open_interpreter(struct linux_binprm *bprm,
-> > +                                      struct elfhdr *elf_ex,
-> > +                                      struct elf_phdr *elf_phdata)
+> > +		hfsplus_cat_build_key_uni(fd.search_key, dir-
+> > >i_ino,
+> > +					=C2=A0 &entry.thread.nodeName);
+> > =C2=A0	} else {
+> > =C2=A0		err =3D hfsplus_cat_build_key(sb, fd.search_key,
+> > dir-
+> > > i_ino, str);
+> > =C2=A0		if (unlikely(err))
+> > diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
+> > index ec04b82ad927..b954b45a1003 100644
+> > --- a/fs/hfsplus/hfsplus_fs.h
+> > +++ b/fs/hfsplus/hfsplus_fs.h
+> > @@ -521,6 +521,17 @@ static inline u32
+> > hfsplus_cat_thread_size(const
+> > struct hfsplus_cat_thread *threa
+> > =C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 be16_to_cpu(thread->nodeNam=
+e.length) *
+> > sizeof(hfsplus_unichr);
+> > =C2=A0}
+> > =C2=A0
+> > +static inline bool is_hfsplus_thread_type(u16 entry_type)
+
+First of all, HFS and HFS+ both use the thread records. Also,
+is_hfsplus_thread_type() sounds slightly confusing. So, I suggest to
+use is_hfs_thread_record_type() name. First of all, we are checking the
+thread record type. And, secondly, we can re-use this function in the
+future. The difference is that HFS uses HFS_CDR_THD/HFS_CDR_FTH
+constants for thread records.
+
 > > +{
-> > +     struct elf_phdr *elf_ppnt;
-> > +     struct file *interpreter =3D NULL;
-> > +     char *elf_interpreter =3D NULL;
-> > +     int i, retval;
-> > +
-> > +     /* Find the custom Nix interpreter header */
-> > +     elf_ppnt =3D elf_phdata;
-> > +     for (i =3D 0; i < elf_ex->e_phnum; i++, elf_ppnt++) {
-> > +             if (elf_ppnt->p_type =3D=3D PT_INTERP_NIX)
-> > +                     break;
-> > +     }
->
->
-> > +
-> > +     if (i =3D=3D elf_ex->e_phnum)
-> > +             return NULL; /* Segment not present; fall back to others =
-*/
-> > +
-> > +     /* Security check: refuse relative interp resolution on secure ex=
-ecution */
-> > +     if (bprm->secureexec) {
-> > +             pr_warn_once("binfmt_elf_nix: secureexec active, refusing=
- custom interpreter lookup\n");
-> > +             return NULL; /* Fallback to standard PT_INTERP */
-> > +     }
-> > +
-> > +     if (elf_ppnt->p_filesz > PATH_MAX || elf_ppnt->p_filesz < 2)
-> > +             return ERR_PTR(-ENOEXEC);
-> > +
-> > +     elf_interpreter =3D kmalloc(elf_ppnt->p_filesz, GFP_KERNEL);
-> > +     if (!elf_interpreter)
-> > +             return ERR_PTR(-ENOMEM);
-> > +
-> > +     /* Read the interpreter path from the executable file */
-> > +     retval =3D kernel_read(bprm->file, elf_interpreter, elf_ppnt->p_f=
-ilesz, &elf_ppnt->p_offset);
->
->
-> > +     if (retval !=3D elf_ppnt->p_filesz) {
-> > +             retval =3D (retval < 0) ? retval : -EIO;
-> > +             goto out_free;
-> > +     }
-> > +
-> > +     if (elf_interpreter[elf_ppnt->p_filesz - 1] !=3D '\0') {
-> > +             retval =3D -ENOEXEC;
-> > +             goto out_free;
-> > +     }
-> > +
-> > +     /* Path Resolution: Absolute vs. $ORIGIN */
-> > +     if (elf_interpreter[0] =3D=3D '/') {
-> > +             interpreter =3D open_exec(elf_interpreter);
-> > +     } else if (strncmp(elf_interpreter, "$ORIGIN/", 8) =3D=3D 0 || st=
-rncmp(elf_interpreter, "${ORIGIN}/", 10) =3D=3D 0) {
-> > +             const char *rel_path =3D (elf_interpreter[0] =3D=3D '$') =
-? (elf_interpreter + 8) : (elf_interpreter + 10);
->
->
-> > +             struct path parent_path;
-> > +
-> > +             /* Reference parent directory of the executed file safely=
- */
-> > +             parent_path.mnt =3D mntget(bprm->file->f_path.mnt);
-> > +             parent_path.dentry =3D dget_parent(bprm->file->f_path.den=
-try);
-> > +
-> > +             /* Open relative to parent directory */
-> > +             interpreter =3D file_open_root(&parent_path, rel_path, O_=
-RDONLY, 0);
->
->
-> > +
-> > +             path_put(&parent_path);
-> > +     } else {
-> > +             /* Naked relative paths are rejected for safety */
-> > +             retval =3D -ENOEXEC;
-> > +             goto out_free;
-> > +     }
-> > +
-> > +     kfree(elf_interpreter);
-> > +     return interpreter;
-> > +
-> > +out_free:
-> > +     kfree(elf_interpreter);
-> > +     return ERR_PTR(retval);
+> > +	return entry_type =3D=3D HFSPLUS_FOLDER_THREAD ||
+> > +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 entry_type =3D=3D HFSPLUS_FILE_T=
+HREAD;
 > > +}
 > > +
-> > +static struct elf_plugin nix_elf_plugin =3D {
-> > +     .owner =3D THIS_MODULE,
-> > +     .open_interpreter =3D nix_open_interpreter,
-> > +};
-> > +
-> > +static int __init binfmt_elf_nix_init(void)
+> > +static inline bool is_hfsplus_name_length_valid(__be16
+> > name_length)
 > > +{
-> > +     return register_elf_plugin(&nix_elf_plugin);
+> > +	return be16_to_cpu(name_length) <=3D HFSPLUS_MAX_STRLEN;
+
+After some consideration, I cannot accept
+is_hfsplus_name_length_valid() as a completely correct check. Because,
+even if name_length is smaller than HFSPLUS_MAX_STRLEN, then it doesn't
+mean that we haven't a record corruption. Because, the name_length can
+be smaller one that HFSPLUS_MAX_STRLEN but still bigger one that the
+real length of the name or the length of record itself. Also, xattr
+name cannot be bigger than HFSPLUS_ATTR_MAX_STRLEN (127) but it still
+HFS+ name. So, I think we need to rework the logic of this function to
+check the name length more carefully. And I believe that function name
+needs to be reworked too slightly.
+
+Thanks,
+Slava.
+
 > > +}
 > > +
-> > +static void __exit binfmt_elf_nix_exit(void)
-> > +{
-> > +     unregister_elf_plugin(&nix_elf_plugin);
-> > +}
-> > +
-> > +module_init(binfmt_elf_nix_init);
-> > +module_exit(binfmt_elf_nix_exit);
-> > diff --git a/fs/exec.c b/fs/exec.c
-> > index b92fe7db176c..45813bbce833 100644
-> > --- a/fs/exec.c
-> > +++ b/fs/exec.c
-> > @@ -46,6 +46,7 @@
-> >  #include <linux/key.h>
-> >  #include <linux/personality.h>
-> >  #include <linux/binfmts.h>
-> > +#include <linux/elf_plugins.h>
-> >  #include <linux/utsname.h>
-> >  #include <linux/pid_namespace.h>
-> >  #include <linux/module.h>
-> > @@ -108,6 +109,52 @@ void unregister_binfmt(struct linux_binfmt * fmt)
-> >
-> >  EXPORT_SYMBOL(unregister_binfmt);
-> >
-> > +#if IS_ENABLED(CONFIG_BINFMT_ELF_PLUGINS)
-> > +static DEFINE_MUTEX(elf_plugins_lock);
-> > +static LIST_HEAD(elf_plugins);
-> > +
-> > +int register_elf_plugin(struct elf_plugin *plugin)
-> > +{
-> > +     mutex_lock(&elf_plugins_lock);
-> > +     list_add_tail(&plugin->list, &elf_plugins);
-> > +     mutex_unlock(&elf_plugins_lock);
-> > +     return 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(register_elf_plugin);
-> > +
-> > +void unregister_elf_plugin(struct elf_plugin *plugin)
-> > +{
-> > +     mutex_lock(&elf_plugins_lock);
-> > +     list_del(&plugin->list);
-> > +     mutex_unlock(&elf_plugins_lock);
-> > +}
-> > +EXPORT_SYMBOL_GPL(unregister_elf_plugin);
-> > +
-> > +struct file *elf_plugin_open_interpreter(struct linux_binprm *bprm,
-> > +                                      struct elfhdr *elf_ex,
-> > +                                      struct elf_phdr *elf_phdata)
-> > +{
-> > +     struct elf_plugin *plugin;
-> > +     struct file *file =3D NULL;
-> > +
-> > +     mutex_lock(&elf_plugins_lock);
-> > +     list_for_each_entry(plugin, &elf_plugins, list) {
-> > +             if (!try_module_get(plugin->owner))
-> > +                     continue;
-> > +             mutex_unlock(&elf_plugins_lock);
-> > +
-> > +             file =3D plugin->open_interpreter(bprm, elf_ex, elf_phdat=
-a);
->
-> I have to say I do not like this at all because it also means you need
-> actual kernel modules for custom binaries. Yeech.
->
-
-Isn't this already true via binfmt for new binary formats?
-ELF support in binfmt itself is also built-in from what I understand.
-
-Anyway, I'm not too attached to the idea, I'm just trying to
-brainstorm on how to get it done.
-
-> I think you should extend binfmt_misc for that, combining it with bpf.
-> When binfmt_misc selects the interpreter a bpf program is run. That bpf
-> program is passed the necessary information to make a decision. It can
-> check whether it's in the right sandbox. Then checks if the interpreter
-> starts with the magic ORIGIN string or whatever. Once it has determined
-> that a binfmt_misc entry applies things progress as usual. Then you can
-> point binfmt_misc at a static binary that finds the right loader to use.
->
-
-My audit of this shows it might be doable, but it's definitely
-confusing, and I'm still not clear it solves the problem -- I will
-work through an example on my NixOS machine. I think I can patch
-https://github.com/nix-community/nix-ld to maybe act as this
-trampoline for binfmt_misc to read PT_INTERP_NIX. I will try that and
-respond back if it works conceptually at least to maybe keep the
-discussion moving forward and to explore the space more.
-
-If binfmt_misc has to point to a wrapper binary, that wrapper must
-live at a fixed, hardcoded absolute path.
-I guess we could bootstrap it for NixOS only but one other problem I
-forsee: /proc/self/exe is now something else than expected
-
-The entire goal of relocatability is to allow binaries to run on any
-host machine without relying on global, hardcoded system paths.
-Just to demo how Nix is designed to let you copy code from a machine
-to another with *ideally* no assumptions.
-Here is a simple hello world:
-
-#hello.nix
-with import <nixpkgs> {};
-runCommandCC "hello" {} ''
-  mkdir -p $out/bin
-  gcc -x c -o $out/bin/hello - <<\INNER_EOF
-#include <stdio.h>
-int main() {
-    printf("Hello, World!\n");
-    return 0;
-}
-INNER_EOF
-''
-
-We can then build it:
-> nix build -f hello.nix
-
-My machine uses the default /nix/store prefix, so the interpreter is
-set to there.
-> patchelf --print-interpreter ./result/bin/hello
-/nix/store/7nbi22pcc92y2fqbkyp7h3srvvklmckb-glibc-2.40-224/lib/ld-linux-x86=
--64.so.2
-
-If I were to use a machine with a different prefix
-/home/fmzakari/.local/nix then I couldn't "substitute" (download from
-the cache), this binary.
-I would have to build it and the whole graph down to our bootstrap
-seeds with the new store prefix.
-
-Nix then let's us then query the graph and copy it, including ld.so
-and glibc to any other machine to ideally run.
-
-> nix-store --query --tree $(realpath result)
-/nix/store/adbwpmzwgdcmk5qcskyqwygmxbkffb32-hello
-=E2=94=9C=E2=94=80=E2=94=80=E2=94=80/nix/store/7nbi22pcc92y2fqbkyp7h3srvvkl=
-mckb-glibc-2.40-224
-=E2=94=82   =E2=94=9C=E2=94=80=E2=94=80=E2=94=80/nix/store/fv5lgysa3hmf3l3d=
-kkpwvndcg6xwhy8m-xgcc-14.3.0-libgcc
-=E2=94=82   =E2=94=9C=E2=94=80=E2=94=80=E2=94=80/nix/store/qywg7bxskvihq62m=
-s2g51fkzkrdnyfkh-libidn2-2.3.8
-=E2=94=82   =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80=E2=94=80/nix/store/hjwp=
-pd89fk8781xl4r35xqlddwqi5f66-libunistring-1.4.1
-=E2=94=82   =E2=94=82   =E2=94=82   =E2=94=94=E2=94=80=E2=94=80=E2=94=80/ni=
-x/store/hjwppd89fk8781xl4r35xqlddwqi5f66-libunistring-1.4.1
-[...]
-=E2=94=82   =E2=94=82   =E2=94=94=E2=94=80=E2=94=80=E2=94=80/nix/store/qywg=
-7bxskvihq62ms2g51fkzkrdnyfkh-libidn2-2.3.8 [...]
-=E2=94=82   =E2=94=94=E2=94=80=E2=94=80=E2=94=80/nix/store/7nbi22pcc92y2fqb=
-kyp7h3srvvklmckb-glibc-2.40-224 [...]
-=E2=94=9C=E2=94=80=E2=94=80=E2=94=80/nix/store/ybp235ps7m4yd85v0pgvqkhd4xmx=
-f6jq-gcc-14.3.0-lib
-=E2=94=82   =E2=94=9C=E2=94=80=E2=94=80=E2=94=80/nix/store/7nbi22pcc92y2fqb=
-kyp7h3srvvklmckb-glibc-2.40-224 [...]
-=E2=94=82   =E2=94=9C=E2=94=80=E2=94=80=E2=94=80/nix/store/phpq5h7cp6y1w84a=
-ysy29548irqy5dd9-gcc-14.3.0-libgcc
-=E2=94=82   =E2=94=94=E2=94=80=E2=94=80=E2=94=80/nix/store/ybp235ps7m4yd85v=
-0pgvqkhd4xmxf6jq-gcc-14.3.0-lib [...]
-=E2=94=94=E2=94=80=E2=94=80=E2=94=80/nix/store/adbwpmzwgdcmk5qcskyqwygmxbkf=
-fb32-hello [...]
-
-I appreciate you engaging me on this topic -- thank you.
-
-> --
-> Christian Brauner <brauner@kernel.org>
+> > =C2=A0int hfsplus_brec_read_cat(struct hfs_find_data *fd,
+> > hfsplus_cat_entry *entry);
+> > =C2=A0
+> > =C2=A0/*
+>=20
+>=20
