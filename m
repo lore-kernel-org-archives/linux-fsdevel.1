@@ -1,91 +1,85 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD4C23C8AE
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 02:58:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B5B2798F8
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 03:00:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783047517; cv=none; b=DxSVhkDsRIqQeO5kjBHKWi2pJs547uFokWh2bLuDN2A+cbVVm91dI0K0Yr0eqte7EYi0/TcL2B2h8e0TfhbnSqF/5DQgsMncYyVVdBNrqlFOW725oVn50oBkH7PIw3Ii0lm92zdy4Kqqwqbc8lVQnCgYNaclJ7GZBJFm4HY5R30=
+	t=1783047659; cv=none; b=kw5vaK4pIfHHwXOfFdYBeLX6i5d2N7TKzPTaLh7fvXyEX35zRH/t4CH7puf0Fdsqedd+3uE8WZQR7A3r5ZYcBYmmvLALRXPLEZ1M+mI6oZFbgTqC9UlTP8FVMyprmk7dSYVtYenLkN1daA2sT/sNQg5DPTtSbO5FB//6bgKXCHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783047517; c=relaxed/simple;
-	bh=NeqCj5wMW66AGlGCvKSpFk6GVc1xgE71/ar2/fdtHN8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ry2oS6P6dv8S8VY0s1ISP8u1ZOuRplNxjp7UGCzCQJ27wj/eRJ3kqYa3e9cHvcsIC5OO9ZA5rgYQI+41HF8kD3XmYXoAnedkPEqKJkZjuNUbvbajwmGda9fJX2QaRL5S9yLf7DAVwHEL+urqcU2ozrbV9VTqpjWkfv9F4SS5FTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
-Received: from macsyma.thunk.org (syn-072-043-125-131.biz.spectrum.com [72.43.125.131])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 6632vgIH012892
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 2 Jul 2026 22:57:43 -0400
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 6412189308C; Thu,  2 Jul 2026 22:57:42 -0400 (EDT)
-Date: Thu, 2 Jul 2026 22:57:42 -0400
-From: "Theodore Tso" <tytso@mit.edu>
-To: Andreas Dilger <adilger@dilger.ca>
-Cc: Jonathan Corbet <corbet@lwn.net>, Greg KH <gregkh@linuxfoundation.org>,
-        Jeff Layton <jlayton@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Justin Stitt <justinstitt@google.com>,
-        Lorenzo Stoakes <ljs@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-        Jori Koolstra <jkoolstra@xs4all.nl>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Brian Foster <bfoster@redhat.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
-        Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
-        David Hildenbrand <david@kernel.org>,
-        Vlastimil Babka <vbabka@kernel.org>,
-        "Christian Brauner (Amutable)" <brauner@kernel.org>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-Message-ID: <akcji3OuxXz3FqSD@mit.edu>
-References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
- <2026070224-unholy-commode-cf45@gregkh>
- <87cxx5l900.fsf@trenco.lwn.net>
- <7C39A5C8-EA03-4C8D-9BE5-5097101B71D6@dilger.ca>
+	s=arc-20240116; t=1783047659; c=relaxed/simple;
+	bh=4bxq2yeKxZGnAf8D3UK3N3gyeY1jHATYeTe9AmeYXsg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=K/TMAfqblA3A04CwW4AzCntpvBtX8egOgrXvIMQQwJ7rG568bG824b8rNlaD1sga9tPUULCUXvdiL2XwpmZHypVcBYmOdr4Fm2jySHkSIsF0MivjigSLOK4yBF6LAqs5HJ+czoJPbl0DAxbsggLW97LUi3eT7Eema+Yvp3UxUfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=jwVQfYYX; arc=none smtp.client-ip=113.46.200.221
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="jwVQfYYX"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=4bxq2yeKxZGnAf8D3UK3N3gyeY1jHATYeTe9AmeYXsg=;
+	b=jwVQfYYXk4TTuhdrDvt53GPiM7wL7RYZTPRovI/DjV/PaigRmtY6FAhXhIOY6TlOvAw0u22sX
+	ZVo1D/Cqynjq64QjVVQhKejgIV3qmJyc8IkD3D9hXOYKl6rqU3DdB7W4OlIweO8lnS7mWzVlSh3
+	2WZEf5VwYRGfPvhBsUVgKVc=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4gryvF5L83zRhWb;
+	Fri,  3 Jul 2026 10:51:37 +0800 (CST)
+Received: from kwepemr500001.china.huawei.com (unknown [7.202.194.229])
+	by mail.maildlp.com (Postfix) with ESMTPS id 31BC940561;
+	Fri,  3 Jul 2026 11:00:47 +0800 (CST)
+Received: from [10.174.178.9] (10.174.178.9) by kwepemr500001.china.huawei.com
+ (7.202.194.229) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 3 Jul
+ 2026 11:00:46 +0800
+Message-ID: <5a4fc514-107d-403c-9e22-a25660651700@huawei.com>
+Date: Fri, 3 Jul 2026 11:00:45 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7C39A5C8-EA03-4C8D-9BE5-5097101B71D6@dilger.ca>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] fs: stable_page_flags(): use folio_test_*() helpers
+To: "David Hildenbrand (Arm)" <david@kernel.org>, <akpm@linux-foundation.org>,
+	<ziy@nvidia.com>, <luizcap@redhat.com>, <willy@infradead.org>,
+	<linmiaohe@huawei.com>, <svetly.todorov@memverge.com>, <xu.xin16@zte.com.cn>,
+	<chengming.zhou@linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-mm@kvack.org>
+CC: <wangkefeng.wang@huawei.com>, <sunnanyong@huawei.com>
+References: <20260702110614.2176986-1-tujinjiang@huawei.com>
+ <61157b05-b22a-4bcf-942b-05225837b57b@kernel.org>
+From: Jinjiang Tu <tujinjiang@huawei.com>
+In-Reply-To: <61157b05-b22a-4bcf-942b-05225837b57b@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ kwepemr500001.china.huawei.com (7.202.194.229)
 
-On Thu, Jul 02, 2026 at 12:46:19PM -0500, Andreas Dilger wrote:
-> It would make sense IMHO to address the ignorance in the most expedient manner,
-> namely by telling the *LLM itself* to add this tag when it generates the commit
-> message and/or reviews the code.
-> 
-> This could be achieved by adding a statement in "AGENTS.md" in the root of the
-> source tree to this effect, or telling the agent to reference and follow rules
-> in Documentation/process/coding-assistants.rst regarding the Assisted-by: tag.
 
-This presupposes a particular workflow where the developer allows the
-LLM to generate git commits.  I don't do that.  I'll ask the LLM to
-modify the code, but then I'll generally fix it up --- very often by
-hand because I can edit the sources than entering a prompt and waiting
-for the LLM to figure out how to make the change.  I'll often run the
-test cases myself, since if it takes 24 hours of VM time, and 2 hours
-of wall clock time, I'm going to kick off the regression tests myself,
-and verify the test results.
+在 2026/7/2 20:03, David Hildenbrand (Arm) 写道:
+> On 7/2/26 13:06, Jinjiang Tu wrote:
+>> This series cleans up stable_page_flags(), removing the remaining direct
+>> flag manipulation and replacing with folio helpers.
+>>
+>> Patch 1 replaces the "1 << KPF_*" expressions with BIT_ULL() marco, to
+>> avoid -Wshift-count-overflow warning for KPF_* values larger than 32.
+>>
+>> Patch 2 replaces direct accesses to folio->flags.f with the standard
+>> folio_test_*() helper functions, which cleans up stable_page_flags() and
+>> hides internal implementation details.
+>>
+>> This series is based on [1].
+>>
+>> [1] https://lore.kernel.org/all/20260629033122.774318-1-tujinjiang@huawei.com/
+> You should explain the history a bit, and why we converted to the manual checks
+> in the first place.
+>
+> Now that we take a folio+page snapshot, the values cannot change concurrently
+> anymore.
 
-And I almost always write the commit description myself.  So when I
-say, "Assisted-by" it literally is "Assisted by".  It is not "vibe
-coded where the LLM generates thousands of lines of code that the
-human being doesn't understand before sending ta pull request."  And
-that's probably why you'll see people asserting that LLM generated
-code can't possibly be accepted due to copyright reasons.  There's a
-big difference between asking an LLM to modify already existing code
-to add a feature, or to fix a bug, and to vibe code a new OS from
-scratch.  One is far less likely to be a copyright violation than the
-other.
+Yes, I only metioned commit 476d87d6a061 ("fs: stable_page_flags(): use snapshot_page()")
+in patch2. I will update to explain the history in detail.
 
-						- Ted
