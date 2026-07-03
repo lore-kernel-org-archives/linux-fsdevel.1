@@ -1,126 +1,139 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1043CAA57
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 11:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B86E3CBE7E;
+	Fri,  3 Jul 2026 11:53:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783079437; cv=none; b=kqKMkXtgU1LMTASuv7uv/U/Mnsny7uleSzeJ7dq1/JudUPzVmROdkLqB+xGPMLn8F4mMCsJnN0n/zh1oAKPTYCTaWgRdnROVhIc9aIQoEzmjUao+P2W3Tel/FlU6JXBu/0aQK/6rlL2XX3kbItDcxd30vfJ2EsK5U/RwJ5/jp/A=
+	t=1783079632; cv=none; b=PujiqMCIXVFmGFQgZAMvywcGGblS75i++noGXZc+XIb+vf+2zXFT3v3pzT4UhPK1gEQ0OpotHSGgnR+JZKMsY7QFrI01mkcznadjophMerX53N9PzllQI3xrA4P9GAS6kLWWB+W3n2D9AONSeVWCl4Y5M1yT40YoR/ucmh+3J2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783079437; c=relaxed/simple;
-	bh=Q/6dlt78NaEXeED6i3DLDaGFD9U6vLH2J96PCO9F388=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=tXbPJO7rKEHk/lA81LLcpXGZUo1nhtSp+QPdjVFDsQvvS8LHkNuZacwG77aizBOR2JINXYlxMIDBqCaF69ILt9SUqjANJmu6paSwhPYgYFpUJekguLwxkEo4mk4XhYD/BBq4ma3Se4MNp4hnK2d4pbm8lfSpBUP4XgQxD1c8tR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=X3Oj5Iro; arc=none smtp.client-ip=195.121.94.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1783079632; c=relaxed/simple;
+	bh=pf71b/AVgEKRQp/LCupa+IHFkhKe7lSe68g9vfscOwc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sOCOgTyaH+Ai43L4HSxhij6EWNy2FnT6g3FUoWmHSuviBSvWFLWUBd7G4OTRg//Qup9uThZOOajgQp0gqVL3e1CP/qKMni7cGhOe5Lc7Qa9y4yNGt39XTvw17hWLAI0tjtRnE2exh3O9rt1g3vmfYRl++GCKK8UEraDPZkbN7eE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Uge/SPsL; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="X3Oj5Iro"
-X-KPN-MessageId: 661a3516-76d5-11f1-a59f-005056994fde
-Received: from mta.kpnmail.nl (unknown [10.31.161.189])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 661a3516-76d5-11f1-a59f-005056994fde;
-	Fri, 03 Jul 2026 13:50:33 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 6618dfba-76d5-11f1-ae68-0050569981f5;
-	Fri, 03 Jul 2026 13:50:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=zYAPAZo9AEw6S98ZXl5oEdhdn2uVZwRn94QHg/qLykQ=;
-	b=X3Oj5IroZIg4l2MNnL0Z6/Ww+eSkhLwciX9tjHunWELf4fQGKkndKccVjiL30hlnPmZfHjYPS9Scj
-	 ck+fnWmPSOFFl4rbHwSTWUrZC5uBo3Ozs8uHk0pVtaKdft2hL+Ebk2/TeBqoFp++3m9Ca31ciNNti4
-	 N3UCBXHdRfmdAfDe7Z+SuManGDV8QEcREYAhEccBAW30eXVYgpqBNLHTg+cakO6EzqJH6hqUdQEpuS
-	 J80KnGCbc4eFk8eXpDLTlbRebQ0EBDWLmgaSTe+1MkmNcj9KQnoJijzN0CCNrM7pVknrZ0nWGTzuHy
-	 wKDbo8XicdARNzTmhNJMzlT4e7W3tVQ==
-X-KPN-MID: 33|i6gomIxEawBeKoBLoEbNigVfC++/JFbje3EEQP7ShatBd2mrn3JS6+tekYQ/YBP
- JpgPQT9qdAv5k52lBpPxXBkZLdrV5yZEvYH4lIhChBZY=
-X-CMASSUN: 33|FTtagk2aGYIBwh6+n4RmkU5m6qpRgMd19lFNEQDGRwQbeb/YbQTqdiIy6YiV6B9
- PQeLYubTlYiRwOIrt93/3Qw==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh05 (cpxoxapps-mh05.personalcloud.so.kpn.org [10.128.135.211])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 660ad342-76d5-11f1-916a-005056995d6c;
-	Fri, 03 Jul 2026 13:50:33 +0200 (CEST)
-Date: Fri, 3 Jul 2026 13:50:33 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Theodore Tso <tytso@mit.edu>, Andreas Dilger <adilger@dilger.ca>
-Cc: Jonathan Corbet <corbet@lwn.net>, Greg KH <gregkh@linuxfoundation.org>,
-	Jeff Layton <jlayton@kernel.org>,
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Uge/SPsL"
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84C351121;
+	Fri,  3 Jul 2026 13:53:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1783079581;
+	bh=pf71b/AVgEKRQp/LCupa+IHFkhKe7lSe68g9vfscOwc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Uge/SPsLAzlN0O/55kXzsg2q6gWLaJTsTKWUVZ25fOxY2SBFovxwM1bX0kzhhpsTt
+	 S4W4+L3IrXlPAk01cvaiffK3XNrrKOygVH4JsQ77n4qroCM/VuFM4fgjngpU/6wFKS
+	 T2Lkmf9zlegdElKxwWMAxw3We1RMTH/rFbrosD58=
+Date: Fri, 3 Jul 2026 14:53:45 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Theodore Tso <tytso@mit.edu>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+	"David Hildenbrand (Arm)" <david@kernel.org>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jeff Layton <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
 	Justin Stitt <justinstitt@google.com>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>, Carlos Maiolino <cem@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
 	Brian Foster <bfoster@redhat.com>,
 	Christoph Hellwig <hch@infradead.org>,
 	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
 	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
-	David Hildenbrand <david@kernel.org>,
 	Vlastimil Babka <vbabka@kernel.org>,
 	"Christian Brauner (Amutable)" <brauner@kernel.org>,
 	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Message-ID: <692060611.3935473.1783079433726@kpc.webmail.kpnmail.nl>
-In-Reply-To: <akcji3OuxXz3FqSD@mit.edu>
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+Message-ID: <20260703115345.GB3659451@killaraus.ideasonboard.com>
 References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
- <2026070224-unholy-commode-cf45@gregkh> <87cxx5l900.fsf@trenco.lwn.net>
- <7C39A5C8-EA03-4C8D-9BE5-5097101B71D6@dilger.ca> <akcji3OuxXz3FqSD@mit.edu>
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM
- attribution
+ <2026070224-unholy-commode-cf45@gregkh>
+ <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
+ <20260702161330.GH3534761@killaraus.ideasonboard.com>
+ <2026070227-payroll-eradicate-8f66@gregkh>
+ <20260702163215.GC3559965@killaraus.ideasonboard.com>
+ <2026070350-drown-untreated-5835@gregkh>
+ <a095d9b4-f774-47d9-affd-d519d8acfb34@kernel.org>
+ <2026070343-copied-quarters-1e2a@gregkh>
+ <akeaouJETPWpE838@mit.edu>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <akeaouJETPWpE838@mit.edu>
 
-
-> Op 03-07-2026 04:57 CEST schreef Theodore Tso <tytso@mit.edu>:
-> 
->  
-> On Thu, Jul 02, 2026 at 12:46:19PM -0500, Andreas Dilger wrote:
-> > It would make sense IMHO to address the ignorance in the most expedient manner,
-> > namely by telling the *LLM itself* to add this tag when it generates the commit
-> > message and/or reviews the code.
+On Fri, Jul 03, 2026 at 07:42:35AM -0400, Theodore Tso wrote:
+> On Fri, Jul 03, 2026 at 09:30:28AM -0500, Greg KH wrote:
+> > > So clarifying there that a "Assisted-by: LLM" is also good enough would make
+> > > sense if we agree on that.
 > > 
-> > This could be achieved by adding a statement in "AGENTS.md" in the root of the
-> > source tree to this effect, or telling the agent to reference and follow rules
-> > in Documentation/process/coding-assistants.rst regarding the Assisted-by: tag.
+> > If we all agree on that, I'm saying that _I_ don't care, but others
+> > might.
 > 
-> This presupposes a particular workflow where the developer allows the
-> LLM to generate git commits.  I don't do that.  I'll ask the LLM to
-> modify the code, but then I'll generally fix it up --- very often by
-> hand because I can edit the sources than entering a prompt and waiting
-> for the LLM to figure out how to make the change.  I'll often run the
-> test cases myself, since if it takes 24 hours of VM time, and 2 hours
-> of wall clock time, I'm going to kick off the regression tests myself,
-> and verify the test results.
+> I agree that requiring the model name is not a good idea, because some
+> developers might be using unreleased products where the name itself
+> might not be public.  So allowing the version number of the LLM to be
+> elided would be a good change.
 > 
-> And I almost always write the commit description myself.  So when I
-> say, "Assisted-by" it literally is "Assisted by".  It is not "vibe
-> coded where the LLM generates thousands of lines of code that the
-> human being doesn't understand before sending ta pull request."  And
-> that's probably why you'll see people asserting that LLM generated
-> code can't possibly be accepted due to copyright reasons.  There's a
-> big difference between asking an LLM to modify already existing code
-> to add a feature, or to fix a bug, and to vibe code a new OS from
-> scratch.  One is far less likely to be a copyright violation than the
-> other.
+> I'll also note that it's starting to be the case where tool is
+> actually quite relevant.  So it's not just about the LLM Model, but
+> whether you're using Codex, Claude Code, OpenCode, or Shahiko.  You
+> can use the tool or the harness with different models.
 > 
-> 						- Ted
+> So whether the tag is:
+> 
+> Assisted-By: OpenCode:Gemini 3.5 Pro
+> Assisted-By: Claude Code
+> Assisted-By: LLM
+> 
+> I'd be fine with reviewing patches with any of the above.  However, to
+> me that's actually not the most interesting part.  See below....
+> 
+> > For me, the info after "Assisted-by:" doesn't matter, it's the first
+> > part.
+> 
+> For me, what I care most about is *how* the LLM was used.  For
+> example, if someone just used the output of Sashiko to fix a problem
+> in their commit, that's one kind of "Assisted-by".  If Sahsiko
+> identifies a pre-existing bug, and the developer addes a patch to the
+> patch series, or creates a new patch series, that's a different kind
+> of "Assisted-by".  A third kind of "Assisted-by" might include asking
+> the LLM to create a Coccinelle semantic patches (because I'm not smart
+> enough to create semantic patches).
+> 
+> And of course, all of this is quite different from the stereotypical
+> "vibe coding" where the LLM generates thousands of lines of code which
+> the human doesn't understand before sending the pull request.  :-)
+> 
+> So for me, adding something after a #-sign comment explaning how the
+> LLM was used would be very useful.
+> 
+> > > My kids should clean up their room; doesn't work.
+> > 
+> > But, if you notice that your kids didn't clean up their room, and you
+> > had told them to, you can then talk to them about doing it properly
+> > based on what they are supposed to be doing.
+> 
+> Another metaphor might be that people shouldn't try to evade paying
+> their taxes; merely passing a law saying they have to file correct tax
+> returns doesn't guarantee this.  But it was specifically the law
+> against tax evasion is how US Law Enforcement arrested the Chicago mob
+> boss Al Capone.
+> 
+> Just because some people might lie doesn't mean that we shouldn't
+> bother to ask everyone to fill out tax returns.
 
-Just curious if you know about any quantifiable insight into this. I do know
-that the issues also plays up in smaller requests. I once asked an LLM to
-give me boilerplate for a FUSE fs, and it took almost verbatim the example
-hello.c from the repo (which I only recognized because I had looked at that code)
-but stripped the copyright info. And this is only like 100 lines of code or so.
+I think we're digressing here. The original point, if I understood it
+carefully, is that "must" would convey a requirement better than
+"should", and I agree with that.
 
-Best,
-Jori.
+-- 
+Regards,
+
+Laurent Pinchart
