@@ -1,189 +1,114 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E70E305E10;
-	Fri,  3 Jul 2026 16:32:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0DE30171C
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 17:33:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783096378; cv=none; b=uERaFn4Ofd7g56j9AsLrHjm4Bmod227PZeFrAAHegPD3fvdmi22NRLbZHkphPwxWE2M2Ee1g9nels5BoW3FcIW3vAs+mdcdbPirOTv2baax0IyxgBelXPFVOp90QLOxAz75RuHWJVKM0AMky8Eh9JrxiFOEACVJnFJDOK+bZvaY=
+	t=1783100011; cv=none; b=kZMpGxS0Jz1yD6ZS3GOhp+SH23dRmDs/vF0eln+gT/UUE/Yg/3GFpwkaXWoKG78AxBcLAlVuB15Tsci8t3lPF49/ozQRkyp9hYK7Mbnl2Sr9/wV6W0pt73wJZEbub4NCGKujQW9FfEbQGIC03LU/Qj+UUYA1apZ/XCRHRa1lbAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783096378; c=relaxed/simple;
-	bh=i6TVWHWqQQudxIMe0+xzj3AFPAlFnTOKf5VgUwJrtu8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KR19RlHmyjnLD5pBLHOuYRfrghQTAE+IMqqMsyaUy/qWfToBiSwjqt1jO4gvGBSHJmu02tEd5TbYPRIy1fkMRvwVYAMNe0b/eseaiHkS9yrEgbo2wErL1inIsCahkBzV0tICn/8ss2q1Jc0u1ZU/pniM7XxoxFLhw7+CgPtSlpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cog6V7xo; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1783100011; c=relaxed/simple;
+	bh=4OaN38/+Ic68kJglERCsr+iFMu+H0uZi+FVKvPvEwcw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uxEbnZxgxzOSlA7nChqDyBaJxKiumSagkWT3Q5FLMDRsf2XQO/NAyu5ouAi51V+UfOHWLgOPIAwYw712m25c/XRRXlveQ911FnegTyNGTxPqzDhAvZCVRSnonuRpf5eQ9ixj9lKKgLmpmRVP3R96HgVAm8YGnVG0RiCLhYH/2Kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sRHak4Qo; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cog6V7xo"
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DF3FA11DD;
-	Fri,  3 Jul 2026 18:32:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1783096327;
-	bh=i6TVWHWqQQudxIMe0+xzj3AFPAlFnTOKf5VgUwJrtu8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cog6V7xozYBDGu5dRA4fDh2oxyhep48ghjhVee8mCVA3DzavrXI16kNBD2bt2nnyp
-	 obDQJb7dZtUpmR5RDV1jE69ggoiA9FgVvHentCXJaq6cBfLcCSN2TuyT98JzPp+z/5
-	 HADOtt1f6FNs1N+SAaH7JskENQrGq697BYYmO2mE=
-Date: Fri, 3 Jul 2026 19:32:51 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Justin Stitt <justinstitt@google.com>,
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Brian Foster <bfoster@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-Message-ID: <20260703163251.GB3734786@killaraus.ideasonboard.com>
-References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
- <2026070224-unholy-commode-cf45@gregkh>
- <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
- <20260702161330.GH3534761@killaraus.ideasonboard.com>
- <2026070227-payroll-eradicate-8f66@gregkh>
- <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
- <akaWnQ5Pkg_676B-@lucifer>
- <20260702211740.GA639365@zen.localdomain>
- <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
- <akez23ZhLRSGMFQ1@lucifer>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sRHak4Qo"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cae134bdc8so3476375ad.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Jul 2026 10:33:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783100010; x=1783704810; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=C6YIq9wieNEB248qZbJUVWSlhdHzHlBQDkP0JzLpC+s=;
+        b=sRHak4Qo6LRNxw26HWbNjou0IZR2MZ6uOgN9/yAiDLUfSzPHPc/7qDCIbhcmc0Muaa
+         /vkHqo19nwHCG+I0kCO4NKqbW8hAioDKxN39ftQy+Y3Jo0HodgDv2vbjdFHttRSdAl3T
+         nGP6wczVIpwMx7JhsoUxLOoN6BniKRf0I6/NjWit2TIzNP7GyScg/sFRqckOkEFDGRIB
+         iYDjF4VNfhf3iodx6p2lCoDX0X9O38NZS2w8Te5uEYYI8FGLHr+PPslEtR/FAvdD1QBu
+         Yi3vvyD6b3x3ogcxfMpfU8Gk+1JX/+Xi2Yai18OfTQ6YN92dC+KeMwatSZhTK3JmX5yt
+         mmKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783100010; x=1783704810;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C6YIq9wieNEB248qZbJUVWSlhdHzHlBQDkP0JzLpC+s=;
+        b=lnwPO6SVRw60mhCBUph3k9y+u01ju2uX8BWxzFXGdBH2cnBrIdSm4blzp8TmgCFkF1
+         u0uy1OI5GixMgTn84/XhuiNuQu5szWP8WckH/aTwoUTlP11pVebS2AYHDwqyhptC5+Pk
+         U8B34lS24k2lAmDn0LUskQSnJBP5FNSRRHNKon9Xq8E6f61n+e7gQB0iMATD/KBbMnQY
+         8BcvgUQI4TEhkKiXgtZf2r1tmxxA6hoWszVD3qSlXMafDXvGdceKu9+NCQxE7q/+4VQa
+         JBQxOM3taZ5weXPAvICgnMk7cMa5mLQ8EEkYkUiZh88aFol5p9Fu4hBp/+QE8HOZ73GN
+         qUfQ==
+X-Gm-Message-State: AOJu0YxSE49gI01s37ousSFwM+xsR3V+8K9dg3A8AoM0b9cfrAzeIJwZ
+	JAvpJbtIqKMrMz+I4f3l9U2d93JDfc9uCeBtih3V3Vr5gZp7mvjKoxxB
+X-Gm-Gg: AfdE7cmf6YITVQdmrql9p34akjKwj9NFD5iCMsyyHsBizBHmkPL47ZVqcFr4I24gv75
+	6YYAMOtH0TYcGg8Kz4N8/9jpKdhA0frIoT58IF/cpN1k6IDAFUrJIGUz2vJJK5AuwYT5Fu9FEO7
+	pYnxVXBIbQS9QNGmnG3SD8E0TGnDLAD0G/VcTkX/7Pi+iFdBxuYhXPuRw4JxfmoYZXJmwu2jbsG
+	g+Dxtmq7BEBrqVVdOSSUb5IUSep1g7waUQPQhdP1Pb4LIo8CdS9jkriNA56p1NCnd/fdj65S4Jb
+	RpFmWpwGaJu1XgA5tEDWn/L2mTSQtaODo4vU5pMM/vVK3tLv5bZ9uHeYNbo3OvHbmL2tcq5GMbQ
+	qADBVzyMRofNP9zwc1hyKkPwIcMWXkTs7vBtbIKD2bs43xPSAOz/yQJL/JGF0TEHLizW1HO5tED
+	0wVqHlgqc0TA==
+X-Received: by 2002:a17:903:28e:b0:2c9:b8b7:5d1c with SMTP id d9443c01a7336-2cbb9e254c3mr2131065ad.16.1783100009626;
+        Fri, 03 Jul 2026 10:33:29 -0700 (PDT)
+Received: from ubuntu.. ([2405:201:8026:213e:4288:f1d2:acae:80f])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b3c85bde6sm36353799c88.9.2026.07.03.10.33.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jul 2026 10:33:29 -0700 (PDT)
+From: mdshahid03@gmail.com
+To: Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mohammad Shahid <mdshahid03@gmail.com>
+Subject: [PATCH] ntfs: reparse: remove redundant NULL checks before kvfree()
+Date: Fri,  3 Jul 2026 23:03:01 +0530
+Message-ID: <20260703173301.89289-1-mdshahid03@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <akez23ZhLRSGMFQ1@lucifer>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 03, 2026 at 02:12:40PM +0100, Lorenzo Stoakes wrote:
-> On Fri, Jul 03, 2026 at 09:05:58AM +0200, David Hildenbrand (Arm) wrote:
-> > On 7/2/26 23:17, Boris Burkov wrote:
-> > > On Thu, Jul 02, 2026 at 05:50:15PM +0100, Lorenzo Stoakes wrote:
-> > >> On Thu, Jul 02, 2026 at 12:48:22PM -0400, Jeff Layton wrote:
-> > >>>
-> > >>> Do we need a tag for this though?
-> > >>>
-> > >>> This seems like the kind of information that we would always require in
-> > >>> the cover letter of a series (or the little place in an individual
-> > >>> patch for comments that don't get merged). That would also allow you to
-> > >>> convey a lot more nuance about how it was used.
-> > >>>
-> > >>> ISTM asking people to disclose LLM usage in a cover letter would give
-> > >>> everyone what they want: Information about whether and possibly how an
-> > >>> LLM was used, and it also wouldn't clutter up the changelogs with these
-> > >>> tags.
-> > >>
-> > >> It's much much clearer and easier to just have a standardised tag for that.
-> > >>
-> > >> You can see that (and grep for that) immediately, vague paragraphs not so much.
-> > >>
-> > >
-> > > At the risk of being pedantic on a point where I think the document is
-> > > kind of lacking:
-> > >
-> > > What level of assistance crosses the bar for an "Assisted-by: LLM" tag?
-> > >
-> > > Some sample levels of assistance to illustrate the point:
-> > >
-> > > 1. I used an llm to one-shot vibe-code a patch
-> > > 2. I used an llm to write a patch but carefully reviewed every line
-> > > 3. I used an llm to explore the design space for a patch but wrote it
-> > > manually
-> > > 4. I used an llm to debug or reproduce a kernel issue but then wrote the
-> > > fix manually after fully understanding the defect
-> > > 5. I used an llm to review a patch I wrote
-> > > 6. I used an llm to research some chunk of code while writing a patch
-> > > 7. I used Google while writing a patch and learned something valuable
-> > > from the AI overview at the top
-> > >
-> > > I personally would 100% use the tag for 1 or 2, and have already done
-> > > so. I have not been doing it for 3-5, as I think that will basically
-> > > make every patch llm-assisted to the point of the distinction being
-> > > meaningless. If we should be doing it for 3-5 (or some subset thereof)
-> > > then my mistake and I will certainly start doing so. I would hope most
-> > > people agree 6-7 and similar need no tag.
-> 
-> I personally think 1-2 are the only relevant cases.
-> 
-> > >
-> > > Similar questions abound if you use an llm to help with writing the
-> > > English text in the patch or emails.
-> > >
-> > > I have a feeling that this ambiguity is part of the reason we aren't all
-> > > agreeing on the value of the tag?
-> >
-> > Yes, I raised something similar as reply to Christian's RFC [1], where I said
-> > that for me the information *how* it was used is much more important:
-> >
-> > "
-> > Assisted-by: LLM # translate commit message
-> > Assisted-by: LLM # generate some test cases
-> > Assisted-by: LLM # cleanup logic
-> > Assisted-by: LLM # everything and I have no clue what any in here does
-> > "
-> 
-> Yup, and we don't need complicated rules for that just 'document what you used
-> it for and give a sense of how much'.
-> 
-> It's fuzzy but useful.
-> 
-> >
-> > That tag is it stands is pretty useless, really.
-> 
-> Not to go over it all again but I disagree, even as it stands, it allows us to
-> engage in conversation about the LLM usage if admitted, and to point those who
-> are misbehaving at the rules if not.
-> 
-> And it is a clear way to get the boolean 'is this person saying they used an
-> LLM'.
-> 
-> But I agree with you it'd be MUCH more useful if we did the above.
-> 
-> I wonder if we could get consensus on adding a section to the doc saying that
-> it'd be _useful_ to add a comment explaining _what_ you did, and explaining the
-> concept with some examples?
+From: Mohammad Shahid <mdshahid03@gmail.com>
 
-I'd support a patch that replaces
+kvfree() safely handles NULL pointers, so the explicit NULL checks
+before calling kvfree() are unnecessary.
 
-Assisted-by: Claude:claude-3-opus coccinelle sparse
+This issue was reported by ifnullfree.cocci.
 
-with
+Signed-off-by: Mohammad Shahid <mdshahid03@gmail.com>
+---
+ fs/ntfs/reparse.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-Assisted-by: LLM # generate some test cases
-
-and rewrites the Attribution section of
-Documentation/process/coding-assistants.rst accordingly.
-
-I think most people in this mail thread have expressed that how
-generative AI was used is the most important information, and several
-people (including myself) have expressed a desire to stop the free
-advertising. Unless I missed something, I don't think anyone has
-expressed an interest in keeping the agent name and model.
-
-> I can't imagine anybody would disagree with that, and that would get us positive
-> forward progress.
-> 
-> Then later we could debate the details further?
-> 
-> > I assume most people only really use it for something in-between 1 and 2, but
-> > *who knows*.
-> >
-> > [1] https://lore.kernel.org/r/5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org
-
+diff --git a/fs/ntfs/reparse.c b/fs/ntfs/reparse.c
+index fa523dc3691e..ced4c675d91f 100644
+--- a/fs/ntfs/reparse.c
++++ b/fs/ntfs/reparse.c
+@@ -317,8 +317,7 @@ unsigned int ntfs_make_symlink(struct ntfs_inode *ni)
+ 	} else
+ 		ni->flags &= ~FILE_ATTR_REPARSE_POINT;
+ 
+-	if (reparse_attr)
+-		kvfree(reparse_attr);
++	kvfree(reparse_attr);
+ 
+ 	return mode;
+ }
+@@ -358,8 +357,7 @@ unsigned int ntfs_reparse_tag_dt_types(struct ntfs_volume *vol, unsigned long mr
+ 		}
+ 	}
+ 
+-	if (reparse_attr)
+-		kvfree(reparse_attr);
++	kvfree(reparse_attr);
+ 
+ 	iput(vi);
+ 	return dt_type;
 -- 
-Regards,
+2.43.0
 
-Laurent Pinchart
