@@ -1,115 +1,146 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1F231353C
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 03:39:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB9F314B73;
+	Fri,  3 Jul 2026 03:50:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783049967; cv=none; b=S+vFqE5wDWEPz30s1mhGQVnzkJJOJwtoYQKzRuwAE5D+xZ6bzmSErsitZMz9uQydat347GwY9MKZ2OoGS9tcs866II2gZ06z8gA+G4A+QB4hWr7yrn1HzhKDA711hR5QxE+wThcx6dCiVS73qt52ZrPyEiVZVdFfuXrRg83go5g=
+	t=1783050615; cv=none; b=lnr8S3bvDMzApCDZgg2JL1G5johc0ZS6O5VVvRhHeRFgVt6ICUcFH9Hc5vrFeEaMmI2ax5gf1qPREZNFPdSe2xTxkgMBRKKQu3hamPDBRGcQ417EnGKYPVoCPLfeYVMTrS4cvkUp8nvRK44wKe/le3mKPfynNr7BFmVyYxyHwEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783049967; c=relaxed/simple;
-	bh=EmOCe3dlmsY/xqj/qF3riy9y/Z0aLuKXGFjXqRSS+rw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AkbIvu91bV4FH/ZgV8UrRyfIez6XfYiK4qrx/yWNYhfllmx/HR6aL8F+1HbdjRAiEOCQX5Qz1KM6JmJzJ60SaHseErvq/gRVHMHXsL/jJsctSBNvQlfkSsVMKpB2wX/HCiQhmAkjXho4IuSggdMEbeyMdfuPRdhm6MDgOIBOhV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZZFvXZE1; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783050615; c=relaxed/simple;
+	bh=C1Dk6PWrUq2lHI+FnCZhVqWbxD0AEvUeWEEaklxKxC8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ug8g4Gp/unsOw2YZqixa2z6eNJzJMM/pdWzlUnk/uHnOM2vJpAn5Oq96wjRFT9TDANQjiStdbQ+X91YXrBrtkn5WLDAWG/tT8EtDuFqgrea1KoV4PNnWiFhTbTcylhzQEXb7bs58nniKAtZQJA/g6v+uStCOAWkg3GazrZT/zTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=IudMrMT9; arc=none smtp.client-ip=115.124.30.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZZFvXZE1"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3812c718debso72446a91.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Jul 2026 20:39:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783049959; x=1783654759; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LGEbmGBP95wGa6K79zSaf3K/rpb1ObdZEZ70xmn01LU=;
-        b=ZZFvXZE1BFoZEamCiMK1NBl+Y3rhpPSD9pr3qvZOOTabVfDRoVfEDi0MwUQxPyoo+x
-         2WtOqpj4biO8dfXVp7jwGqt6AlAH4LJcj7nS4OhJ2vy96nQzbV5akKwUVqeuKkl4mGbS
-         HANdLp+eraffZHVc3b32ZzpBhiFPX2Rq+Ya+MgjOMWaw01VB9DA1l+nGb0KSLyyVwC58
-         A16SY9qB5aQsFmXCqRLeslbEMcS/1HIX2Uw+1Wha1ba649Wx3KF0uC7QfPUg4QVft4gX
-         3du/k4jW2hu+QPeUF46LltqmR1nrzjgxUtBL8LkBMMTe8kSlxlvKTY+Cv9/bdPi5blLH
-         aNzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783049959; x=1783654759;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LGEbmGBP95wGa6K79zSaf3K/rpb1ObdZEZ70xmn01LU=;
-        b=ZrGkeN2fyGB5zWx1ieISw0lXBMPgdyYlzVxQlMs32xlek2RUCZc6LtO6NSF0l3ZbIg
-         hFEsHS2FyRJi879Ev0CDlOKyCNK1c81uAur1kM3nnY+uygTxvPHCNw/f8PSp+cv/ykbC
-         qRc/82XbSjzMt7h6cbkSJ2jgaoD/iVd9QjYv0aZzVg+BHGFtkRYdgEStIyA0Vc1n0tbu
-         2nc4kuo3gGq/G7iepJla6B+QT8DrHfUTFV8VUVsxXSZ+3UAFiCaVoU7+m8yPIz4bsczT
-         Z64Snx0+htbajLEVz2aKHtPM6oG6TF4VzRuau2gYYLPj75+BHOUcv4UNKE0f+wVy5Iuy
-         +j1Q==
-X-Forwarded-Encrypted: i=1; AHgh+Rp0TkgsVNe0EG7FBFHiUq0ixUV3EaLiTnKKU1AbI010tFy2qRZ5634QJ8t+gRXwVD40n2oORLJ4OMaKL5m9@vger.kernel.org
-X-Gm-Message-State: AOJu0YzN+K5FPPXT3/gjjIFNdXUbdal/tAvxbQMxB8Nbuu+kO2+mg46V
-	vqA69kHOG491U4nXUPo6GdCDtF2LXlaF/KMZyhKnvPdQJDl1jPD2dgjl
-X-Gm-Gg: AfdE7clU1342bgG1Uw3kOSg/O7WcecNnbd4/UUaszMApEY4DjQ9Xkj+tiaL0QBXN2YA
-	FcPFZdhbhUC+8p85EOXUvRLZczYb+WHpZeYP0/XuNbBRZmfeiihpci/E3Qz40GIYeFy9g1NLxnX
-	heeB144RnTbf5u2kcOBH2EEFXxg43nUyA+TbtiLwzy3UoNN8h6NTSZPFfc0/O128PHS3qU9NDGb
-	IU4Kp+47g83RsCzDg2wS+/e7dRaMdvuC5kJ3kdUcwe8xdwUVyb03FLXabjkgBX0u+Uc61y3ZGly
-	Itxefp+QlJ+1QfQ3lW5RwRYyBRZy0M5xTG/PQYiLiXHi1cHVAbw+HyB/P9qjIHqXEY+nG9VwEgU
-	aYXk8JTKQtFd4sITMSl+0t0hASrriq686GtmrKESWWDbEuHfo0AXZQZTvf/jV/PI4cJOuJ/KlAQ
-	ZHj+W4FWRTuFtEAwlEUNIHiC04o5pFjZCteA9TQTauEPcPnP1n5keAWlA71ua10lo=
-X-Received: by 2002:a17:90b:4d12:b0:36d:66d4:270e with SMTP id 98e67ed59e1d1-380aa0a8048mr9587437a91.5.1783049959073;
-        Thu, 02 Jul 2026 20:39:19 -0700 (PDT)
-Received: from DESKTOP-L3Q0GIV.localdomain ([203.230.195.19])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38127c56b7dsm294728a91.9.2026.07.02.20.39.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 20:39:18 -0700 (PDT)
-From: =?UTF-8?q?=EC=9D=B4=EC=83=81=ED=98=B8?= <kudo3228@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: Sangho Lee <kudo3228@gmail.com>,
-	Hyunchul Lee <hyc.lee@gmail.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [BUG/RFC] ntfs: crafted image triggers WARN_ON in ntfs_map_runlist_nolock()
-Date: Fri,  3 Jul 2026 12:39:14 +0900
-Message-ID: <20260703033914.98698-1-kudo3228@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <CAKYAXd_zqD8dGrApqpR-ZRvqU1JnVYaXLM9JH2PjJXaekgJgEQ@mail.gmail.com>
-References: <20260701221237.822167-1-kudo3228@gmail.com> <CAKYAXd-+EKp98S2WMWNfhX0+fNfq1_3QrdSsnw7uav0hWXdtNg@mail.gmail.com> <CAKYAXd_zqD8dGrApqpR-ZRvqU1JnVYaXLM9JH2PjJXaekgJgEQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="IudMrMT9"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1783050596; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=XG2onznUxb2a1bjAl7eu7EX+0tUl3lnnp+uaCTwK2zc=;
+	b=IudMrMT9+lPk1sjRVPyycDCCyf5DE6rFfCYTLCCHBEhqu4HBFQRp3hZpI+loW/JaeuHt2TARZBBjgm/m+aejPG6mpROYxCORikNgIFDBsQdeSILWGIVmNuetTBL3Y/v6wedKyB6XteJlkOhYRzbBcwGVwujQOvc0/b1ghi0QQkQ=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R631e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=22;SR=0;TI=SMTPD_---0X6Hnc.J_1783050593;
+Received: from 30.74.144.118(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0X6Hnc.J_1783050593 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 03 Jul 2026 11:49:54 +0800
+Message-ID: <110e92b2-f7a6-487a-94a2-25ef1242afb7@linux.alibaba.com>
+Date: Fri, 3 Jul 2026 11:49:52 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH stable] mm/khugepaged: write all dirty file folios when
+ collapsing
+To: Pedro Falcato <pfalcato@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>
+Cc: "Liam R. Howlett" <liam@infradead.org>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, stable@vger.kernel.org,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Matthew Wilcox <willy@infradead.org>, Song Liu <song@kernel.org>,
+ Eric Hagberg <ehagberg@janestreet.com>, Zi Yan <ziy@nvidia.com>,
+ Gregg Leventhal <gleventhal@janestreet.com>
+References: <20260702165409.164568-1-pfalcato@suse.de>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <20260702165409.164568-1-pfalcato@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Sangho Lee <kudo3228@gmail.com>
 
-Hi Namjae,
 
-Thanks for the patch.
+On 7/3/26 12:54 AM, Pedro Falcato wrote:
+> As-is, khugepaged and writable-file opening exclude each other. A file
+> cannot be open writeable and have THPs (because the filesystem is not aware
+> of them). khugepaged will never collapse file pages for files that are
+> opened writeable. On an open(O_RDWR/O_WRONLY), the page cache for that
+> particular file is dropped. This is fine because nothing could've been
+> dirtied.
+> 
+> However, there is an edge-case: collapse_file() might not be able to
+> coexist with concurrent writers, but it can coexist with dirty folios
+> (from previous writers). Therefore, the following can happen:
+> 
+> open(file, O_RDWR)
+> write(file)
+> close(file)
+> madvise(file_mapping, MADV_COLLAPSE, some non-dirty range)
+> open(file, O_RDWR)
+>   nr_thps > 0
+>    truncate_inode_pages()
+>      /* THPs are cleared out, but so are the dirty folios */
+> 
+> When this edge-case happens, there is data loss, as the dirty folios are
+> fully discarded.
+> 
+> Fix it by fully writing back the page cache (and waiting) when collapsing
+> file THPs. Doing so provides the guarantee that no dirty folio will be
+> observed while there are active THPs. To fully ensure this is safe, the
+> invalidate_lock needs to be held while doing the writeout, so that
+> do_dentry_open()'s page cache truncation excludes this write-and-wait.
 
-I applied it to my NTFS test tree and rebuilt the kernel. I then reran
-syz-repro with the same syzkaller crash log that reproduced the original
-WARN_ON in ntfs_map_runlist_nolock() on the unpatched kernel.
+Thanks for explaining the race, and it looks reasonable to me. One nit 
+below.
 
-Result:
-- unpatched kernel: the same log reproduced the WARN_ON in
-  ntfs_map_runlist_nolock()
-- patched kernel: syz-repro ran through all extraction phases for 29m28s
-  and failed to reproduce the warning:
-  - 15s single runs: no crash
-  - 15s grouped/bisect: did not crash
-  - 1m40s single runs: no crash
-  - 1m55s grouped/bisect: did not crash
-  - 6m single runs: no crash
-  - 6m15s grouped/bisect: did not crash
-  - no kernel WARNING/Oops/BUG lines were observed
+> Cc: stable@vger.kernel.org
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Song Liu <song@kernel.org>
+> Cc: Eric Hagberg <ehagberg@janestreet.com>
+> Cc: Zi Yan <ziy@nvidia.com>
+> Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
+> Reported-by: Gregg Leventhal <gleventhal@janestreet.com>
+> Closes: https://lore.kernel.org/linux-mm/CAFN_u7H_0ECF3jixP=T=U7AH5=Q3wQNvJMo8an3VqUDMerQfUw@mail.gmail.com/
+> Tested-by: Zi Yan <ziy@nvidia.com>
+> Signed-off-by: Pedro Falcato <pfalcato@suse.de>
+> ---
+> This patch is written against 7.1.0 (because the code no longer exists in mainline).
+> 
+> Zi, I kept your Tested-by, but I had to move some things around and
+> use the invalidate lock. Please re-test if you can.
+> 
+>   mm/khugepaged.c | 39 +++++++++++++++++++++++++--------------
+>   1 file changed, 25 insertions(+), 14 deletions(-)
+> 
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index b8452dbdb043..0707d719a270 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -2094,32 +2094,43 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
+>   		goto xa_unlocked;
+>   	}
+>   
+> -	if (!is_shmem) {
+> +xa_locked:
+> +	xas_unlock_irq(&xas);
+> +xa_unlocked:
+> +
+> +	/*
+> +	 * If collapse is successful, flush must be done now before copying.
+> +	 * If collapse is unsuccessful, does flush actually need to be done?
+> +	 * Do it anyway, to clear the state.
+> +	 */
+> +	try_to_unmap_flush();
+> +
+> +	if (result == SCAN_SUCCEED && !is_shmem) {
 
-The change also matches the root cause I saw: when ctx_needs_reset is true,
-ntfs_map_runlist_nolock() can reach the runlist mapping path for a resident
-attribute. Returning -EIO before using the non-resident mapping fields avoids
-triggering the WARN_ON and prevents the invalid path.
+Actually, the operations below only for those mappings that do not 
+support large folios. For mappings with large folio support, 
+filemap_nr_thps() always returns 0, so the race described in the commit 
+message won't happen. We can add mapping_large_folio_support() here to 
+filter them out.
 
-So yes, this patch fixes the issue from my side.
+if (result == SCAN_SUCCEED && !is_shmem && 
+!mapping_large_folio_support(mapping)) {
 
-Tested-by: Sangho Lee <kudo3228@gmail.com>
-
-Thanks,
-Sangho
+Otherwise LGTM.
