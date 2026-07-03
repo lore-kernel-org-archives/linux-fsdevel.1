@@ -1,290 +1,174 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E30F30B53A
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 17:35:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0CE31618C;
+	Fri,  3 Jul 2026 18:22:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783100153; cv=none; b=e/NWMJiV/XNoQIIWgq3GXp9j6EnUy/Z4dtRQeHOnHwZSlfQ7HfAljMH+QxZMJ6TQuyLJdBrjg6ar4wZXAxPqiDSN2j7138Oi1eVJ1S3L+JuCs34KEs48+uFN9zp7yorbgcny1RiQ1S1dzGcY0nwc5vRwxLyH2EyV291cMrVc5Po=
+	t=1783102949; cv=none; b=AOzBPPf9OJqQcVXrOm+UC48fB/dRFLQlr9ttFdGiUGRiHpUC9ws835UFN9CGNIj2Voipx4XoqY+sOz2K4r67wc7pVFkOFRUfbQ49XJnVtBpTuOy9MpnbgoeJgR/j+mu6Bq+pLzMp24bzx6mum/Kj/idCcUpuXNbQL7oFJvD2onA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783100153; c=relaxed/simple;
-	bh=AbEmXxgy/FDmbds8Ppv+0UauIp43P/HY1boqMBn225U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=h6QddRpMVJnwfQNa56o3IdZ8b3nOtmcRmjY/zjQlgbKxDD5z5jjFCnZP7rJii6P5cDFG8oht3y/B+M1BcwKanXOJ55tExU1kymAI19gCgF8txqwtiaeEW7H8tKH9Fzp0xaRe1Df+EoxlrIXeWdLd4Z4mWVymBBt0SelyYWIvf6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mO0zYr2i; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783102949; c=relaxed/simple;
+	bh=FGGmIX/mKtWxhwvXCj6PR1fkJ44syenNK+NDoOTo7c0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pmOowNNJ0Ji8Ge/HKk+0dyKC3lF6+JVrWjzPy8pPghhS/GgQU5GXTDUawtspqNS51gzXp61otPOTz9SmyzhRoOovH7t5RVA7BKJWpkCwByJZ21wXSb3bDjQxCVNIm85AsKLIQipvNC6qis2VOWQtVpcW8RA6OE5Ckqet/vGV9SY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ciZxoSwb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mO0zYr2i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3AD51F00A3E
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 17:35:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ciZxoSwb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB8A01F000E9;
+	Fri,  3 Jul 2026 18:22:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783100150;
-	bh=h6pMdw59YeAPW8oCGL6skH/PxCmKpbckddnagWCxG8g=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=mO0zYr2iAksadMVlcSFH+oTsGEHRq6izb8vXeC66nG6KepwsAoNNoFD9BahlOZ5xS
-	 W6yUqe2Hj0tAEAeM9ox1ap2hMl6PV5d77AOmwiyu2+c5o04fyPJCqMPjdTPOcRwmxv
-	 buCRm5qLkqI13T0uBFAAsBVRoUcfbXM2DjdtKiGzpPtOACwpvjUUn2X1ULFea3tIyA
-	 fML83/pJLS4zTMeSqPMMFXAGiDlUUTFOM9jHp9Yn/9uIuLs6aw8krbLAP9VOwPSZXI
-	 UQC4NvwkgP+xSnomxCKYks7kzQLFii9sdAqYv1Zq46Z89TGg50WZDQ9K+SCSAma2aX
-	 qS+V7DZqo453Q==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5aeb89359a3so669696e87.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Jul 2026 10:35:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RqH+W33RkbLqYaH1kW9jkjU6FhthYgRhY0cjF8fzFn25G8uALCEzyJJASSc747i8UbwtKu9bvpgSvAq6Yo4@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFUW8e64gqDjRj7yGToJIqyySBQAO738HkJAszwFIMC+cyFHgl
-	22fdtdI8mk/bu8N+ZN7Gjt1qa4ooU6jg4HBwXEYoFzb43k+qBeRibDQWKO94BroCj1HWsQRDDfT
-	Ca+F7TTEigts9AMUbMcubYw/Ru/MqR3hWTEEHAt2z
-X-Received: by 2002:a05:6512:224e:b0:5ae:bf17:c4e2 with SMTP id
- 2adb3069b0e04-5aed452e549mr161744e87.9.1783100149019; Fri, 03 Jul 2026
- 10:35:49 -0700 (PDT)
+	s=k20260515; t=1783102948;
+	bh=WmMmpkORNs97pYFUZCo2EC47DaLH9PCLV52WM66pSIg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=ciZxoSwbYsNA/Z6KD7nJ/utifoY/pT0yYRUW6+2H7B9Y2fOtUJA3HYH6E4XhESeXp
+	 otH4QDVvMYaH0ww5rvcPoekmzyuRC/Vt1oIIif3BwQwo9MQ5ROzX7zoQTD1g3LZ1/y
+	 4NcogTpeyRAoSI/FoPBmP0NZQ6e9NLjrapOn4zdSkPMm/RWJ/ECvjK/CznQ183wefV
+	 SuY+PrshOGdkOl65st2KNkxD4rE6DXv0JUGrTwDQaG1PWJyNrHLb6lhyuHyY6Zxh5w
+	 gBHeNemNyCnyd6i1ufTEduUwfbqCm75jQ7RgelFr1wJQJZ/dtywtxK2q2PD1LRQqbV
+	 fXu3vs2frtmQg==
+Message-ID: <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
+Date: Fri, 3 Jul 2026 20:22:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
- <20260629-hauer-erhitzen-sobald-96d3dff68707@brauner> <CALCETrVuh0-biOw=TgYN9ERTFAoiki57XeZ3S2T3dO2+hL54gA@mail.gmail.com>
- <20260702-entladen-farbkombinationen-klarheit-fe24cb608f23@brauner>
-In-Reply-To: <20260702-entladen-farbkombinationen-klarheit-fe24cb608f23@brauner>
-From: Andy Lutomirski <luto@kernel.org>
-Date: Fri, 3 Jul 2026 10:35:35 -0700
-X-Gmail-Original-Message-ID: <CALCETrXLBw0DxtYa_ipaSQRbkptphEonsq3CojFv7NJk9pFOzA@mail.gmail.com>
-X-Gm-Features: AVVi8CcIFTahLBIuvl-mgzlcM0nbdwIDoF801puOt51jvhgWAPRDcVEllZN1QQg
-Message-ID: <CALCETrXLBw0DxtYa_ipaSQRbkptphEonsq3CojFv7NJk9pFOzA@mail.gmail.com>
-Subject: Directory capability brain dump (Re: [RFC] Null Namespaces)
-To: Christian Brauner <brauner@kernel.org>
-Cc: Andy Lutomirski <luto@kernel.org>, John Ericson <mail@johnericson.me>, Li Chen <me@linux.beauty>, 
-	Cong Wang <cwang@multikernel.io>, linux-arch <linux-arch@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, 
-	Linux FS Devel <linux-fsdevel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	"H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Kees Cook <kees@kernel.org>, Sergei Zimmerman <sergei@zimmerman.foo>, 
-	Farid Zakaria <farid.m.zakaria@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Lorenzo Stoakes <ljs@kernel.org>
+Cc: Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>,
+ Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>,
+ David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+ Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ Vlastimil Babka <vbabka@kernel.org>,
+ "Christian Brauner (Amutable)" <brauner@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+ <2026070224-unholy-commode-cf45@gregkh>
+ <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
+ <20260702161330.GH3534761@killaraus.ideasonboard.com>
+ <2026070227-payroll-eradicate-8f66@gregkh>
+ <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
+ <akaWnQ5Pkg_676B-@lucifer> <20260702211740.GA639365@zen.localdomain>
+ <3f447113-4407-471f-878f-e6d6edafee71@kernel.org> <akez23ZhLRSGMFQ1@lucifer>
+ <20260703163251.GB3734786@killaraus.ideasonboard.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260703163251.GB3734786@killaraus.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 2, 2026 at 3:02=E2=80=AFAM Christian Brauner <brauner@kernel.or=
-g> wrote:
->
-> On Mon, Jun 29, 2026 at 02:06:55PM -0700, Andy Lutomirski wrote:
-> > On Mon, Jun 29, 2026 at 4:45=E2=80=AFAM Christian Brauner <brauner@kern=
-el.org> wrote:
-> > >
-> >
-> > > But I guess the even simpler model would be to copy what I've been do=
-ing
-> > > for pidfs:
-> > >
-> > > +static struct path nullfs_root_path =3D {};
-> > > +
-> > > +void nullfs_get_root(struct path *path)
-> > > +{
-> > > +       *path =3D nullfs_root_path;
-> > > +       path_get(path);
-> > > +}
-> > > +
-> > >  static void __init init_mount_tree(void)
-> > >  {
-> > >         struct vfsmount *mnt, *nullfs_mnt;
-> > > @@ -6209,6 +6217,8 @@ static void __init init_mount_tree(void)
-> > >         /* Mount mutable rootfs on top of nullfs. */
-> > >         root.mnt                =3D nullfs_mnt;
-> > >         root.dentry             =3D nullfs_mnt->mnt_root;
-> > > +       nullfs_root_path.mnt    =3D nullfs_mnt;
-> > > +       pidfs_root_path.dentry  =3D nullfs_mnt->mnt_root;
-> > >
-> > >         LOCK_MOUNT_EXACT(mp, &root);
-> > >         if (unlikely(IS_ERR(mp.parent)))
-> > > diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
-> > > index aadfbf6e0cb3..f55c87c70b78 100644
-> > > --- a/include/uapi/linux/fcntl.h
-> > > +++ b/include/uapi/linux/fcntl.h
-> > > @@ -124,6 +124,7 @@ struct delegation {
-> > >
-> > >  #define FD_PIDFS_ROOT                  -10002 /* Root of the pidfs f=
-ilesystem */
-> > >  #define FD_NSFS_ROOT                   -10003 /* Root of the nsfs fi=
-lesystem */
-> > > +#define FD_NULLFS_ROOT                 -10004 /* Root of the nullfs =
-filesystem */
-> > >  #define FD_INVALID                     -10009 /* Invalid file descri=
-ptor: -10000 - EBADF =3D -10009 */
-> > >
-> > >  /* Generic flags for the *at(2) family of syscalls. */
-> > >
-> > > we then add fchroot() (overdue anyway) and then teach both fchdir() a=
-nd
-> > > fchroot() to honor FD_NULLFS_ROOT. Then a process may shed its fs sta=
-te
-> > > and move itself into nullfs. Restrict *chdir() and *chroot() for said
-> > > process via seccomp and it's locked in forever as well.
-> > >
-> >
-> > One thing comes to mind that might need a bit of care: this would give
-> > an API for any task to get an fd to a directory that lives in the init
-> > mount namespace.  It's not at all obvious to me that this is dangerous
-> > or even observable (you're not about to find a setuid program in
-> > nullfs), but I think it's at least worth a tiny bit of consideration.
->
-> Yes, I thought about this as well. But it doesn't have to be this way.
-> Every mount namespaces has nullfs as it's root ever since I introduced
-> it. Which means FD_NULLFS_ROOT can also just mean "nullfs within that
-> specific mount namespace". That's fine.
->
-> For my FD_FAILFS_ROOT proposal it would be enough if we make failfs
-> SB_KERNMOUNT which means it's logically distinct from every mount
-> namespace. I think that might be the right thing to do. I need to spend
-> one or more brain cycles on this though.
->
-> >
-> > But if this happens, maybe we could finally land one of the patches to
-> > enable unprivileged chroot?  It's been tried a few times.
-> >
-> > https://lore.kernel.org/lkml/0e2f0f54e19bff53a3739ecfddb4ffa9a6dbde4d.1=
-327858005.git.luto@amacapital.net/
-> >
-> > https://lore.kernel.org/all/20210316203633.424794-2-mic@digikod.net/
-> >
-> > I think the need for it has reduced a tiny bit with user namespaces,
-> > as you can sort of emulate it by unsharing your user namespace and
-> > thus getting enough privilege, but this is rather heavyweight and
-> > limiting.
->
-> I think we could make that work with both FD_NULLFS_ROOT and
-> FD_FAILFS_ROOT...
->
-> >
-> >
-> > If all of the above landed, then the old chroot /var/empty kludge that
-> > security-minded programs have done for decades could finally be
-> > modernized and not require any privilege :)
->
-> I think I like it.
->
-> > Hmm, thinking aloud: every now and then someone brings up the idea of
-> > having an fd (really an OFD) that points to a file or a directory but
-> > carries less in the way of permissions/capabilities than the usual
-> > OFDs.  If we had a way to make an OFD to a directory that forced
-> > RESOLVE_BENEATH (or RESOLVE_IN_ROOT) and that propagated that
-> > restriction to anything you open using it, and if an unprivileged
-> > process could chroot itself to nullfs, then we would be getting quite
-> > close to what Capsicum can do.
->
-> Next steps. I hear you volunteering...
->
+On 7/3/26 18:32, Laurent Pinchart wrote:
+> On Fri, Jul 03, 2026 at 02:12:40PM +0100, Lorenzo Stoakes wrote:
+>> On Fri, Jul 03, 2026 at 09:05:58AM +0200, David Hildenbrand (Arm) wrote:
+>>
+>> I personally think 1-2 are the only relevant cases.
+>>
+>>>
+>>> Yes, I raised something similar as reply to Christian's RFC [1], where I said
+>>> that for me the information *how* it was used is much more important:
+>>>
+>>> "
+>>> Assisted-by: LLM # translate commit message
+>>> Assisted-by: LLM # generate some test cases
+>>> Assisted-by: LLM # cleanup logic
+>>> Assisted-by: LLM # everything and I have no clue what any in here does
+>>> "
+>>
+>> Yup, and we don't need complicated rules for that just 'document what you used
+>> it for and give a sense of how much'.
+>>
+>> It's fuzzy but useful.
+>>
+>>>
+>>> That tag is it stands is pretty useless, really.
+>>
+>> Not to go over it all again but I disagree, even as it stands, it allows us to
+>> engage in conversation about the LLM usage if admitted, and to point those who
+>> are misbehaving at the rules if not.
+>>
+>> And it is a clear way to get the boolean 'is this person saying they used an
+>> LLM'.
+>>
+>> But I agree with you it'd be MUCH more useful if we did the above.
+>>
+>> I wonder if we could get consensus on adding a section to the doc saying that
+>> it'd be _useful_ to add a comment explaining _what_ you did, and explaining the
+>> concept with some examples?
+> 
+> I'd support a patch that replaces
+> 
+> Assisted-by: Claude:claude-3-opus coccinelle sparse
+> 
+> with
+> 
+> Assisted-by: LLM # generate some test cases
+> 
+> and rewrites the Attribution section of
+> Documentation/process/coding-assistants.rst accordingly.
+> 
+> I think most people in this mail thread have expressed that how
+> generative AI was used is the most important information, and several
+> people (including myself) have expressed a desire to stop the free
+> advertising. Unless I missed something, I don't think anyone has
+> expressed an interest in keeping the agent name and model.
 
-Haha.  I volunteer to give somewhat of a brain dump, which is very
-incomplete.  Doing a decent job of this would be maybe 90% figuring
-out nasty details and 10% implementation.  I might even volunteer to
-do some implementation if there is anything resembling agreement on a
-design.
+Yes, that's something I would enjoy seeing. Who reading along has a problem with
+that? (assuming that the tag must stay)
 
-First of all, I was way too glib with "OFD", because OFD doesn't cover
-cwd, root, or any of the magic links in /proc, nor does OFD cover
-mountpoints.
+-- 
+Cheers,
 
-Second, I confess to having my brain dump be hopelessly polluted by a
-substantial ulterior motive: I want fds (or whatevers)-as-capabilities
-to go both ways, which means that I want to be able to open an fd that
-captures certain of my privileges such that someone with different
-current->cred can use it.  And I want *that* ability to work with bind
-mounts and such.  The main motivation for this is that I *despise* the
-way that outside-a-container filesystem modes interact with
-containers.  It makes me extremely disappointed that I can take an
-ordinary subdirectory of my home directory and mount it into a Linux
-container on a Mac running MacOS without mucking with permissions at
-all, but trying to do the same thing on the average Linux distro plus
-the average container runtime is an exercise in hair pulling,
-especially when SELinux is involved.  *Why* can't it just work?
-
-So let's call the directory version of this thing a "directory
-capability", and directory capabilities can live in OFDs or in cwd,
-root, or a vfsmount.
-
-The default directory capability (IMO) ought to be exactly equivalent
-to O_PATH or a cwd.  But I think one should be able to make a
-restricted one with bits like:
-
-- read: if not set, you can't read the files in here. executing
-unconditionally counts as reading for this purpose.
-
-- execute: If not set, you can't execute the files in here.  (This
-kind of "execute" has nothing to do with opening subdirectories.
-we're not talking about POSIX.)  Everyone can argue about whether
-running a shell script and/or loading a shared library counts as
-executing.
-
-- write: If not set, you can't write the files in here.
-
-- create: If not set, you can't create files in here.  (How does this
-interact with write?)
-
-- maybe some bits to prevent writing metadata, fs-specific ioctls, etc.
-
-- dotdot and/or ancestor: needs thought.  One way would be what I
-mentioned above: any path resolution starting at this directory
-capability or anything derived from it forces RESOLVE_BENEATH.
-
-- open question: what happens if i open a directory and then unmount
-something that was mounted on one of its subdirectories?  Does this
-matter?
-
-The general idea of using these things is that one might open an fd
-with constraints:
-
-fd =3D open_with_constraints(..., read | execute);
-
-Now using fd in openat forces RESOLVE_BENEATH (because I didn't say
-dotdot), and any attempt to open a file for write or to create a new
-file will fail.  And if I fchdir or fchroot to fd, then those
-constraints still apply.  And if I do:
-
-fd =3D open_with_constraints(..., read);
-fd2 =3D open_with_constraints(fd, ..., read | execute);
-
-then we need to decide whether to fail outright or to return something
-that doesn't have execute.
-
-If I do:
-
-fd =3D open_with_constraints(..., read);
-fchdir(fd);
-open("/proc/self/cwd/../foo") needs to fail (or perhaps just open ~/foo?)
-
-If I take that same fd and bind-mount it on /mnt/restricted, then I
-should not be able to find its ancestors via /mnt/restricted/..
-(obviously -- that doesn't work anyway).  (But maybe there should be
-an extra flag "seethrough" which, if not set, would prevent a
-non-recursive bind mount like that, since it would let someone see
-through mounts on the tree referred to by fd.)  And I should also not
-be able to write to /mnt/restricted/foo.
-
-
-For added fun (see above), I want an ability to "delegate" my own
-permissions into an fd.
-
-fd =3D open_delegate(..., read);
-
-Now *anyone* with a copy of fd (or access via cwd, etc) can read files
-in the subtree using my credentials, as captured when I called
-open_delegate.  And this should survive bind mounting, so I could
-finally do:
-
-my_favorite_container_tool --delegate /home/username/foo,/mnt/mountpoint,re=
-ad
-
-and the things in the container, even if they use a dynamic subuid or
-have some funky SELinux context, could actually read via
-/mnt/mountpoint, and I could stop cursing at my computer.
-
-- Open question: what happens to /proc/.../exe?  IMO it would be
-*really* nice if we could get away with applying this sort of system
-to /proc/.../exe.  There are ABI compatibility concerns here.  A whole
-class of old nasty vulnerabilities would go away if writing through
-/proc/.../exe were simply impossible.
-
-
-Okay, there's my brain dump.  Feel free to make fun of it.  No LLMs
-were roused from their slumber in the writing of this email :)
+David
