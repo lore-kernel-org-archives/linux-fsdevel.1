@@ -1,291 +1,152 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA3BF1A6816
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 00:47:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783039677; cv=pass; b=Bm8S29B4/lElYX/hAfc9R6wZfOEtSHA+KLiF61v82zHCwk7e8qxm22cLZN3oIGvHKDrxu/kDgiiMUF3Sc8EVXvYLsI+8SCvz+sh2+2C9aa0dLwIv61XfxmCDxNR+ZadK09XAA8pdghAdAHqEp1E4YzPb7noFhcGV9tnsYe2mpdM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783039677; c=relaxed/simple;
-	bh=XxQQayjzAMUk4qmYjq4zmwN9Ud0QEtqyPATE+A2Dk6E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E/MivzZGkqBH0N29E85P4IBdyVJgSgIjsob990+FW8R00/PSH6NVJG0VY9kOc//XVsteCfGDLh6bKwSQz3ozAj9IPxf33kyfUyEPbvg6Ue4I6EMRFXa9JmhJyQQV5BLgUujEd+wXnPYazZft562VFG8r74sUqTYXDb3vJs31AcQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sx30gFFL; arc=pass smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sx30gFFL"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5aebd52488cso54851e87.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Jul 2026 17:47:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783039674; cv=none;
-        d=google.com; s=arc-20260327;
-        b=W41uwylF6SZ8KU9AQsGiPGZqlaL1sgM0YeTA8E+ERE+KeH438YoSzOJXS1O/FcMw1G
-         3EHdo2W9o2y/qqsLYnXW0Fxc+LEp1+ugIgHzvtVVyGQ+u6uDQ/KvoKwC/1e2nDXZ+0bP
-         Mg7pnDcmQLmqRWd7ZvSDdj1vasgr8qE2sXA9MSXVMuWQwwWlmgE/WLojQB/G11x/Gi+q
-         Fosbl5Xt563t30J47Obr/2tY2S/b+wiPlAR5LVwojKm5PAgR9U5oWK0fLu3ahcHpaalf
-         gEnWdfgMMoORhvAV5oh8OajXuzUzl/BPDSbmtyjBC8GCQ7Iy72xY4MtNsYX8odNXYC9o
-         5mgQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=DhGHPyuXZn7SKjMJa/lcf1ft6RupMaimdVhfB5JWkaw=;
-        fh=Z4RpIEJ/QD2iMKuRYI89jIZb2UuKJMw7LzNSCB2RHkI=;
-        b=SHUnl2i8r2WkMXaMSzj4BqQ6wcL/cJ8mypnCTvf9dgkIagUI65/fBtOke20ovrmF+H
-         HVkZmxMOe9emCvh6YRHlD2kxDbCfe4xnit1P3XyE4szIa1TnFpkO79rEqbVoiId9BOB+
-         5Bl0XSPCAeqAwQCafBkfnVXebbG2qQLY7y277X6eIDsh5/HSBYInHT8NilwuFyDEt0nf
-         hEKxmlxa+yJuQrzWbySHUiq13FF+mMzOKDouf1RwfcYIfKJEWwdvOpvEiLgXgVVZ/0tf
-         DXQGFo9EDUPnPnayU1/xwWlOBGml8xvyW9lL8+S3Dhy/c8HT/HakmeLWao0mAcTDUCoP
-         Iv1w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783039674; x=1783644474; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DhGHPyuXZn7SKjMJa/lcf1ft6RupMaimdVhfB5JWkaw=;
-        b=Sx30gFFL/+ZDWfUQHjhwAr2eDMPkWM9ew4MMtzFhYk0T+6OKrI+vxqqiCFdrUs6VLz
-         VMzyBkfCfc6l8izGm5VZ7uLi87bGgnIW9HyqqbVUVZjZ1lmO6YeYYb3DJq4xWZ/tvljo
-         oBiVQUJV5IFAJiTf0P0nUVzPbanlUbJvaO/PPM3SDf+BNOGJoT12RBqfZoA+5WepXMFT
-         DM6QxYkCrVXEWoxvMTm4v9vlWV961KhjnC51y3NdEgcQTU4IVBOA/jtgw1V8tFG5/xeW
-         cYBJp6uhU1tVMoNm9cqvPVCs14Q8KkrRIvdYkdrAcg7nDBn+X45EKj1jhIWRu7URvWp4
-         RJgg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0230384039
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 00:49:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.206
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783039771; cv=none; b=IRpjxEGD5CxzgRDeA+3TDLaQcfqnsz0c/5gTTsulf3CdhDMpTHwrZWodqAiegCqTu7vByfxfgBVgKf2roMUBTJqF9SXFm0u25Tmz0bxfNat8uE8ctlH5IdZaHt1uSQ9BuosKf8qD818TCgvs4GLTCP5XfZfZEJ3M8Fnfhj+apgs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783039771; c=relaxed/simple;
+	bh=zfkKAi23sFHuTQtbw/16iaKd/hbewsaa/oEMWcA8IR8=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=c0Dywlxc2LHHoAVbRzCf/21pGB5/vkF0Z7CY9aZjFkVhRsTJoooagIQ4U9Ilwug9rBvryXZwE0zE5BoHFsJFzE2j0zWrV/XDdKuOsEijCPmoDPOfAxjugxHQTrgTo9OMADmuGHsmc16ri5/NkowxqKhDRWH9GPvheAxLJVJA2PE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-48e5de5a23cso17210b6e.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Jul 2026 17:49:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783039674; x=1783644474;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=DhGHPyuXZn7SKjMJa/lcf1ft6RupMaimdVhfB5JWkaw=;
-        b=lLw/QfNCS7w12C7reFu+S6tdHE2Ud1mU46kktj7GOSRyBbWQV2JwwQYZvWJUj2ZAGn
-         WU+mqpUxlynKInVfQ824SbI6GZkRN0L0cAcT4csnEJPdD65yb+LUsA2X2p5lKu/Pom4D
-         ekeO8o8FvDj95cADFsqIMN/O4KqtLuJUBAM4yvMcGf+mj5jA9W+JFe9yivFAySpmRHhF
-         fy4e3RcZQ9xjuseO+kzNVcridX6Bx2XqbA8Uw3gdZ8WBPLGVJnEq00IICs9luzV+uIrQ
-         ty+Nn1JTGVrwxNJCOQkfBKbYVX5Q3lrV1zYRi7foChaWWnPd+ToH6cFRuSh7BhjxAe4p
-         qbiA==
-X-Forwarded-Encrypted: i=1; AHgh+RrlwphRTunteewDMSXyVDubYz/LVauJzPZ/1uXq2G32U4MkasZV44aGL8gPEj7xpqolEgry9ARy9DBCcp0z@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUceVmKOwgTQszGDIL/2ktI8EKnowOl3xIlN6uCCcqHtRstNeP
-	68hv5WaClxp85XqveIVFhueqitdtKwu1JdHZD/ePD0gSAsqatwcmLtPG2rIDUaqrMhe4XkliO8o
-	T7xmnRJR3yNt0yjeSSxocGN4S4MP9SU0=
-X-Gm-Gg: AfdE7cmvUQoh5w4hodyn93BWRO48kl5edsXihKkCRdQrJ1OOZPE80yjALYtcyr0jlW7
-	pjgIWKwzox4eNzwubaBOiI5qymf9N5ZpDFHD63Le/37xVQUr6OirGkw7mFpCIW/aD1CO8IZs6up
-	K5h62BlWhfltrDLIyDyvl5mg/OxSIKwbpm8J9thlkmRBhYdiNPLVbi/jSpnTe0EVAyo6bIjQBha
-	LufGRY5GLSJf5s3V+xhq149OjP8ccNFfVSreTgJ5i7KvF8mfAF/DZkMnhaWZdauWl9CnqjH
-X-Received: by 2002:a05:6512:6407:b0:5ae:af9c:c064 with SMTP id
- 2adb3069b0e04-5aec742fa3fmr1830169e87.60.1783039673506; Thu, 02 Jul 2026
- 17:47:53 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783039769; x=1783644569;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=72vkMoAkyO/RjRcmBneuTlcd8PRMwwf4g5+yF9K2ubE=;
+        b=D78cljdqLRIWUsyirjmkGo+um22N8in2Ug6Dhbisb7zZwTwM40UTNrUTAyN3h2foNW
+         dUqnX/PzqDFBrJ9ZpcdYymnwavvXrOZdL2likKri8uQb20jkLpLj9AlLGGfr/EeZg5Vg
+         C1hYKN/jUt3chSu1SsAZObtZKSXhkHww9EtadIwETHbEerTOfsDhrpmVvRiN+XSUGuA7
+         CP2Ev+jqUDJiLAGXdg4Q2Q6f+yTD7hKdaUVF+OnnVdiWQ1QrmxEPOq4HID8HdbN2Cx+S
+         lg7tO1fltVWlepod8qtbvixrbPx8wBOZ02sd+9lxcJRh5QWSoXZnYCUYm3ijnNXh3hiX
+         su3Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9ovgi1gQlq40iHEAbtWbuIkiPA+9tuZL6LDNXCD5UviH3pMpu6YOxwl9TpTggdap+zWncjq+8XWJUTSZj/@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJjdapAw/q9qjMMzhqxJNDM+N9skGf5d3aTnWWlLFtCcNnJDDt
+	T/7IQSi7afQ6ISFRRzmlWPbLNNeVSOq8SDAbkvgiEo7ZFqtgqOCk9bZ2OVc6IKBfrUhvcBggnUX
+	W3a8xC4p3VRXoQCYdTpzQM/+MKthbUQlXBZvr9vCDN8XNYWcxnqLoLH7UNIc=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <AB8D5E603E6EA856+ae5f622a-dd3a-4e38-bdd2-42276ae0e1a8@smail.nju.edu.cn>
- <CANFS6bYZprQi2J6EbDe-vPh7K9Uvw8tj3YfUZfTnnUHJzH1kpA@mail.gmail.com> <5B2B2B9FB5B21F9B+19d04fd2-4dc7-4593-b5a3-04610c16bced@smail.nju.edu.cn>
-In-Reply-To: <5B2B2B9FB5B21F9B+19d04fd2-4dc7-4593-b5a3-04610c16bced@smail.nju.edu.cn>
-From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Fri, 3 Jul 2026 09:47:41 +0900
-X-Gm-Features: AVVi8CcHIhPJ5l4LX0t3U67zYxGiU6BljD_pq2INzimxMCS8CrCX1fqrE46TLuw
-Message-ID: <CANFS6bZfcugQNWkgDX2gg6FWRLT5scfcwKAy4mv1Hc_Y_Q+AcQ@mail.gmail.com>
-Subject: Re: [BUG] ntfs: task hung in find_inode due to self-deadlock in
- ntfs_attrlist_update() during unmount
-To: Peiyang He <peiyang_he@smail.nju.edu.cn>
-Cc: Namjae Jeon <linkinjeon@kernel.org>, syzkaller@googlegroups.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+X-Received: by 2002:a05:6808:2209:b0:497:da7f:179c with SMTP id
+ 5614622812f47-497da7f2670mr2635291b6e.27.1783039769019; Thu, 02 Jul 2026
+ 17:49:29 -0700 (PDT)
+Date: Thu, 02 Jul 2026 17:49:29 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a470719.6912059f.e0473.0007.GAE@google.com>
+Subject: [syzbot] [exfat?] KCSAN: data-race in copy_folio_from_iter_atomic /
+ fat12_ent_put (5)
+From: syzbot <syzbot+e9aa2f4bc3623d1be5cf@syzkaller.appspotmail.com>
+To: hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	sj1557.seo@samsung.com, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-2026=EB=85=84 7=EC=9B=94 2=EC=9D=BC (=EB=AA=A9) =EC=98=A4=ED=9B=84 2:01, Pe=
-iyang He <peiyang_he@smail.nju.edu.cn>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1=
-:
->
->
->
-> On 2026/7/2 08:58, Hyunchul Lee wrote:
-> > Hi Peiyang,
-> >
-> >> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >> Root cause
-> >> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>
-> >> A =3D the NTFS base inode whose delayed allocation / mapping pairs are=
- being
-> >>     written back.
-> >>
-> >> B =3D the fake NTFS attribute inode for A's unnamed $ATTRIBUTE_LIST at=
-tribute,
-> >>     i.e. the inode returned by ntfs_attr_iget(VFS_I(A), AT_ATTRIBUTE_L=
-IST, AT_UNNAMED, 0)
-> >>
-> >> Timeflow (all code should be executed within one task):
-> >>
-> >> 1. The task starts unmounting the NTFS filesystem that contains A:
-> >>
-> >>         cleanup_mnt()                    fs/namespace.c:1292
-> >>         --> deactivate_super()           fs/super.c:505
-> >>         --> deactivate_locked_super()    fs/super.c:471
-> >>             --> fs->kill_sb(s)           fs/super.c:476
-> >>                 /* ntfs_fs_type.kill_sb is kill_block_super. */
-> >>                                            fs/ntfs/super.c:2645
-> >>         --> kill_block_super()           fs/super.c:1721
-> >>         --> generic_shutdown_super()     fs/super.c:618
-> >>
-> >>    generic_shutdown_super() clears SB_ACTIVE and then evicts cached in=
-odes:
-> >>
-> >>         sb->s_flags &=3D ~SB_ACTIVE        fs/super.c:626
-> >>         evict_inodes(sb)                 fs/super.c:632
-> >>
-> >> 2. evict_inodes(sb) selects B, marks it I_FREEING, and the same task s=
-tarts
-> >>    evicting B:
-> >>
-> >>         evict_inodes(sb)                 fs/inode.c:897
-> >>         --> inode_state_set(B, I_FREEING)
-> >>                                            fs/inode.c:918
-> >>         --> dispose_list(&dispose)       fs/inode.c:875
-> >>         --> evict(B)                     fs/inode.c:883
-> >>         --> ntfs_evict_big_inode(B)      fs/ntfs/inode.c:2261
-> >>
-> >>    B is a fake attribute inode.  During its eviction, NTFS drops B's r=
-eference
-> >>    on its base inode A:
-> >>
-> >>         iput(VFS_I(B->ext.base_ntfs_ino))
-> >>                                            fs/ntfs/inode.c:2307
-> >>
-> >>    At this point B is still in the inode hash.  VFS removes B from the=
- hash
-> >>    and wakes __wait_on_freeing_inode() waiters only after
-> >>    ntfs_evict_big_inode(B) returns:
-> >>
-> >>         remove_inode_hash(B)             fs/inode.c:849
-> >>         inode_wake_up_bit(B, __I_NEW)    fs/inode.c:862
-> >>
-> >> 3. The iput(A) from ntfs_evict_big_inode(B) starts synchronous writeba=
-ck of A:
-> >>
-> >>         iput(A)                         fs/inode.c:1972
-> >>         --> iput_final(A)               fs/inode.c:1916
-> >>         --> write_inode_now(A, 1)       fs/fs-writeback.c:2961
-> >>         --> ntfs_writepages(A->i_mapping)
-> >>                                           fs/ntfs/aops.c:244
-> >>         --> ntfs_writeback_range(... A ...)
-> >>                                           fs/ntfs/iomap.c:861
-> >>
-> >>    SB_ACTIVE is already clear, so iput_final(A) cannot keep A on the i=
-node LRU.
-> >>    It has to write and evict A.
-> >>
-> >> 4. A's writeback updates mapping pairs and then updates A's attribute =
-list:
-> >>
-> >>         __ntfs_write_iomap_begin(A, ...)
-> >>                                           fs/ntfs/iomap.c:868
-> >>         --> ntfs_attr_map_cluster(A, ...)
-> >>                                           fs/ntfs/attrib.c:4948
-> >>         --> ntfs_attr_update_mapping_pairs(A, 0)
-> >>                                           fs/ntfs/attrib.c:3535
-> >>         --> ntfs_attrlist_update(A)      fs/ntfs/attrib.c:3712
-> >>         --> ntfs_attr_iget(VFS_I(A),
-> >>                            AT_ATTRIBUTE_LIST, AT_UNNAMED, 0)
-> >>                                           fs/ntfs/attrlist.c:60
-> >>                                           fs/ntfs/inode.c:209
-> >>
-> >>    This attempts to get B *again* while B is still being evicted.
-> >>
-> >> 5. ntfs_attr_iget() reaches find_inode().  find_inode() finds B, sees =
-that B
-> >>    already has I_FREEING set, and sleeps waiting for B's eviction to f=
-inish:
-> >>
-> >>         iget5_locked()                  fs/ntfs/inode.c:224
-> >>                                          fs/inode.c:1375
-> >>         --> find_inode()                fs/inode.c:1040
-> >>         --> __wait_on_freeing_inode(B)  fs/inode.c:1061
-> >>                                          fs/inode.c:2537
-> >>         --> schedule()                  fs/inode.c:2560
-> >>
-> >>    This is a self-deadlock.  The task waits for B's eviction to comple=
-te, but
-> >>    the only code that can complete B's eviction is the later part of e=
-vict(B),
-> >>    after ntfs_evict_big_inode(B) returns.  The same task cannot return=
- there
-> >>    because it is now sleeping in the nested find_inode() path.
-> >
-> > Thank you for the detailed root cause analysis.
-> >
-> > Your analysis looks correct. However we would like to discuss whether
-> > there is another way to handle this situation.
-> >
-> > The call stack you provided seems unlikely to occur under normal condit=
-ions,
-> > because generic_shutdown_super() unconditionally runs sync_filesystems(=
-)
-> > before calling evict_inodes().
-> >
-> > Does this issue occur when sync_filesystem() fails, for example due to
-> > I/O errors or disk removal?
->
-> Hi Hyunchul, thanks for your reply.
->
-> I have looked into the kernel log, and YES, this issue occurred because s=
-ync_filesystem() hit an unusual path.
-> (BTW sorry for not including the kernel log in the attachments at first)
->
-> From the kernel log (line 1992~1993), ntfs_attr_add() somehow failed and =
-executed
-> ntfs_error(sb, "Failed to add resident attribute"); (fs/ntfs/attrib.c:275=
-7).
->
-> ntfs_handle_error() was then called, and when ON_ERRORS_REMOUNT_RO was se=
-t, it set the file system to *read-only* (fs/ntfs/super.c:310),
-> which matches line 1994~1995 of the kernel log.
->
-> (from line 307 and 356 of the kernel log, we can indeed see that `@errors=
-_remount` was enabled in two Syzkaller testcases and thus ON_ERRORS_REMOUNT=
-_RO was set:
-> https://github.com/google/syzkaller/blob/27192279868f7027c85197e80335f160=
-406d6280/sys/linux/filesystem.txt#L612.
-> But since multiple testcases were running concurrently, we cannot confirm=
- which testcase triggers the task hung)
->
-> When the file system is read-only, sync_filesystem() would return *direct=
-ly* without writing back (fs/sync.c:43) so inodes are still dirty.
-> All functions in the call stack of this task hung don't check if the file=
- system is read-only.
->
-> >
-> > If so, would it make sense to mark volume as shutdown (NVolShutdown) or
-> Yes, I think marking volume as NVolShutdown would be better. ntfs_writepa=
-ges() already checks this.> switch the filesystem to read-only when a write=
-back error is encountered?
-> >
+Hello,
 
-> Do you mean we check the return value of sync_filesystem() in generic_shu=
-tdown_super()?
-> For now the return value of sync_filesystem() is indeed ignored in this f=
-unction.
-> But only checking 'error' may not be enough, since sync_filesystem() retu=
-rns 0 directly when the file system is read-only.
->
+syzbot found the following issue on:
 
-I initially considered setting NV_Shutdown inside ntfs_handle_error().
-However, the flag also blocks open() and readdir() and does not align
-with the "errors=3Dcontinue" policy.
+HEAD commit:    665159e24674 Merge tag 'probes-fixes-v7.2-rc1' of git://gi..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1484b146580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=84b3039e8461eef5
+dashboard link: https://syzkaller.appspot.com/bug?extid=e9aa2f4bc3623d1be5cf
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
 
-Because of these side effects, we will need to redesign the error
-handling policy in the long term.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-For now, to resolve this deadlock, I suggest we proceed with your
-proposed patch with returning -EIO.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/31c1c90dee17/disk-665159e2.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/d073e04a63f4/vmlinux-665159e2.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/0421e67defd8/bzImage-665159e2.xz
 
-> Best,
-> Peiyang
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+e9aa2f4bc3623d1be5cf@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KCSAN: data-race in copy_folio_from_iter_atomic / fat12_ent_put
+
+write to 0xffff888121f76082 of 1 bytes by task 6014 on cpu 1:
+ fat12_ent_put+0x74/0x180 fs/fat/fatent.c:168
+ fat_alloc_clusters+0x55e/0xc40 fs/fat/fatent.c:508
+ fat_add_cluster fs/fat/inode.c:108 [inline]
+ __fat_get_block fs/fat/inode.c:155 [inline]
+ fat_get_block+0x252/0x5e0 fs/fat/inode.c:190
+ __block_write_begin_int+0x400/0xf90 fs/buffer.c:2123
+ block_write_begin fs/buffer.c:2234 [inline]
+ cont_write_begin+0x5bf/0x920 fs/buffer.c:2596
+ fat_write_begin+0x52/0xe0 fs/fat/inode.c:230
+ cont_expand_zero fs/buffer.c:2524 [inline]
+ cont_write_begin+0x18d/0x920 fs/buffer.c:2586
+ fat_write_begin+0x52/0xe0 fs/fat/inode.c:230
+ generic_cont_expand_simple+0xb0/0x150 fs/buffer.c:2487
+ fat_cont_expand+0x3e/0x170 fs/fat/file.c:227
+ fat_fallocate+0x177/0x1c0 fs/fat/file.c:305
+ vfs_fallocate+0x3ac/0x400 fs/open.c:338
+ ksys_fallocate fs/open.c:362 [inline]
+ __do_sys_fallocate fs/open.c:367 [inline]
+ __se_sys_fallocate fs/open.c:365 [inline]
+ __x64_sys_fallocate+0x7a/0xd0 fs/open.c:365
+ x64_sys_call+0x298e/0x3020 arch/x86/include/generated/asm/syscalls_64.h:286
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x136/0x3c0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+read to 0xffff888121f76000 of 512 bytes by task 49 on cpu 0:
+ memcpy_from_iter lib/iov_iter.c:85 [inline]
+ iterate_bvec include/linux/iov_iter.h:123 [inline]
+ iterate_and_advance2 include/linux/iov_iter.h:306 [inline]
+ iterate_and_advance include/linux/iov_iter.h:330 [inline]
+ __copy_from_iter lib/iov_iter.c:261 [inline]
+ copy_folio_from_iter_atomic+0x728/0x10a0 lib/iov_iter.c:491
+ generic_perform_write+0x2c4/0x490 mm/filemap.c:4376
+ shmem_file_write_iter+0xc5/0xf0 mm/shmem.c:3414
+ lo_rw_aio+0x6a9/0x760 drivers/block/loop.c:-1
+ do_req_filebacked drivers/block/loop.c:-1 [inline]
+ loop_handle_cmd drivers/block/loop.c:1921 [inline]
+ loop_process_work+0x567/0xac0 drivers/block/loop.c:1956
+ loop_workfn+0x31/0x40 drivers/block/loop.c:1980
+ process_one_work kernel/workqueue.c:3322 [inline]
+ process_scheduled_works+0x4d4/0x9a0 kernel/workqueue.c:3405
+ worker_thread+0x569/0x750 kernel/workqueue.c:3486
+ kthread+0x221/0x270 kernel/kthread.c:436
+ ret_from_fork+0x146/0x330 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+Reported by Kernel Concurrency Sanitizer on:
+CPU: 0 UID: 0 PID: 49 Comm: kworker/u8:3 Tainted: G        W           syzkaller #0 PREEMPT(lazy) 
+Tainted: [W]=WARN
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/09/2026
+Workqueue: loop6 loop_workfn
+==================================================================
 
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
---=20
-Thanks,
-Hyunchul
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
