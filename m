@@ -1,114 +1,290 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0DE30171C
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 17:33:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E30F30B53A
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 17:35:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783100011; cv=none; b=kZMpGxS0Jz1yD6ZS3GOhp+SH23dRmDs/vF0eln+gT/UUE/Yg/3GFpwkaXWoKG78AxBcLAlVuB15Tsci8t3lPF49/ozQRkyp9hYK7Mbnl2Sr9/wV6W0pt73wJZEbub4NCGKujQW9FfEbQGIC03LU/Qj+UUYA1apZ/XCRHRa1lbAw=
+	t=1783100153; cv=none; b=e/NWMJiV/XNoQIIWgq3GXp9j6EnUy/Z4dtRQeHOnHwZSlfQ7HfAljMH+QxZMJ6TQuyLJdBrjg6ar4wZXAxPqiDSN2j7138Oi1eVJ1S3L+JuCs34KEs48+uFN9zp7yorbgcny1RiQ1S1dzGcY0nwc5vRwxLyH2EyV291cMrVc5Po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783100011; c=relaxed/simple;
-	bh=4OaN38/+Ic68kJglERCsr+iFMu+H0uZi+FVKvPvEwcw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uxEbnZxgxzOSlA7nChqDyBaJxKiumSagkWT3Q5FLMDRsf2XQO/NAyu5ouAi51V+UfOHWLgOPIAwYw712m25c/XRRXlveQ911FnegTyNGTxPqzDhAvZCVRSnonuRpf5eQ9ixj9lKKgLmpmRVP3R96HgVAm8YGnVG0RiCLhYH/2Kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sRHak4Qo; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783100153; c=relaxed/simple;
+	bh=AbEmXxgy/FDmbds8Ppv+0UauIp43P/HY1boqMBn225U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=h6QddRpMVJnwfQNa56o3IdZ8b3nOtmcRmjY/zjQlgbKxDD5z5jjFCnZP7rJii6P5cDFG8oht3y/B+M1BcwKanXOJ55tExU1kymAI19gCgF8txqwtiaeEW7H8tKH9Fzp0xaRe1Df+EoxlrIXeWdLd4Z4mWVymBBt0SelyYWIvf6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mO0zYr2i; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sRHak4Qo"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cae134bdc8so3476375ad.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Jul 2026 10:33:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783100010; x=1783704810; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=C6YIq9wieNEB248qZbJUVWSlhdHzHlBQDkP0JzLpC+s=;
-        b=sRHak4Qo6LRNxw26HWbNjou0IZR2MZ6uOgN9/yAiDLUfSzPHPc/7qDCIbhcmc0Muaa
-         /vkHqo19nwHCG+I0kCO4NKqbW8hAioDKxN39ftQy+Y3Jo0HodgDv2vbjdFHttRSdAl3T
-         nGP6wczVIpwMx7JhsoUxLOoN6BniKRf0I6/NjWit2TIzNP7GyScg/sFRqckOkEFDGRIB
-         iYDjF4VNfhf3iodx6p2lCoDX0X9O38NZS2w8Te5uEYYI8FGLHr+PPslEtR/FAvdD1QBu
-         Yi3vvyD6b3x3ogcxfMpfU8Gk+1JX/+Xi2Yai18OfTQ6YN92dC+KeMwatSZhTK3JmX5yt
-         mmKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783100010; x=1783704810;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C6YIq9wieNEB248qZbJUVWSlhdHzHlBQDkP0JzLpC+s=;
-        b=lnwPO6SVRw60mhCBUph3k9y+u01ju2uX8BWxzFXGdBH2cnBrIdSm4blzp8TmgCFkF1
-         u0uy1OI5GixMgTn84/XhuiNuQu5szWP8WckH/aTwoUTlP11pVebS2AYHDwqyhptC5+Pk
-         U8B34lS24k2lAmDn0LUskQSnJBP5FNSRRHNKon9Xq8E6f61n+e7gQB0iMATD/KBbMnQY
-         8BcvgUQI4TEhkKiXgtZf2r1tmxxA6hoWszVD3qSlXMafDXvGdceKu9+NCQxE7q/+4VQa
-         JBQxOM3taZ5weXPAvICgnMk7cMa5mLQ8EEkYkUiZh88aFol5p9Fu4hBp/+QE8HOZ73GN
-         qUfQ==
-X-Gm-Message-State: AOJu0YxSE49gI01s37ousSFwM+xsR3V+8K9dg3A8AoM0b9cfrAzeIJwZ
-	JAvpJbtIqKMrMz+I4f3l9U2d93JDfc9uCeBtih3V3Vr5gZp7mvjKoxxB
-X-Gm-Gg: AfdE7cmf6YITVQdmrql9p34akjKwj9NFD5iCMsyyHsBizBHmkPL47ZVqcFr4I24gv75
-	6YYAMOtH0TYcGg8Kz4N8/9jpKdhA0frIoT58IF/cpN1k6IDAFUrJIGUz2vJJK5AuwYT5Fu9FEO7
-	pYnxVXBIbQS9QNGmnG3SD8E0TGnDLAD0G/VcTkX/7Pi+iFdBxuYhXPuRw4JxfmoYZXJmwu2jbsG
-	g+Dxtmq7BEBrqVVdOSSUb5IUSep1g7waUQPQhdP1Pb4LIo8CdS9jkriNA56p1NCnd/fdj65S4Jb
-	RpFmWpwGaJu1XgA5tEDWn/L2mTSQtaODo4vU5pMM/vVK3tLv5bZ9uHeYNbo3OvHbmL2tcq5GMbQ
-	qADBVzyMRofNP9zwc1hyKkPwIcMWXkTs7vBtbIKD2bs43xPSAOz/yQJL/JGF0TEHLizW1HO5tED
-	0wVqHlgqc0TA==
-X-Received: by 2002:a17:903:28e:b0:2c9:b8b7:5d1c with SMTP id d9443c01a7336-2cbb9e254c3mr2131065ad.16.1783100009626;
-        Fri, 03 Jul 2026 10:33:29 -0700 (PDT)
-Received: from ubuntu.. ([2405:201:8026:213e:4288:f1d2:acae:80f])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b3c85bde6sm36353799c88.9.2026.07.03.10.33.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 10:33:29 -0700 (PDT)
-From: mdshahid03@gmail.com
-To: Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mohammad Shahid <mdshahid03@gmail.com>
-Subject: [PATCH] ntfs: reparse: remove redundant NULL checks before kvfree()
-Date: Fri,  3 Jul 2026 23:03:01 +0530
-Message-ID: <20260703173301.89289-1-mdshahid03@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mO0zYr2i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3AD51F00A3E
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 17:35:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783100150;
+	bh=h6pMdw59YeAPW8oCGL6skH/PxCmKpbckddnagWCxG8g=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=mO0zYr2iAksadMVlcSFH+oTsGEHRq6izb8vXeC66nG6KepwsAoNNoFD9BahlOZ5xS
+	 W6yUqe2Hj0tAEAeM9ox1ap2hMl6PV5d77AOmwiyu2+c5o04fyPJCqMPjdTPOcRwmxv
+	 buCRm5qLkqI13T0uBFAAsBVRoUcfbXM2DjdtKiGzpPtOACwpvjUUn2X1ULFea3tIyA
+	 fML83/pJLS4zTMeSqPMMFXAGiDlUUTFOM9jHp9Yn/9uIuLs6aw8krbLAP9VOwPSZXI
+	 UQC4NvwkgP+xSnomxCKYks7kzQLFii9sdAqYv1Zq46Z89TGg50WZDQ9K+SCSAma2aX
+	 qS+V7DZqo453Q==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5aeb89359a3so669696e87.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Jul 2026 10:35:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RqH+W33RkbLqYaH1kW9jkjU6FhthYgRhY0cjF8fzFn25G8uALCEzyJJASSc747i8UbwtKu9bvpgSvAq6Yo4@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFUW8e64gqDjRj7yGToJIqyySBQAO738HkJAszwFIMC+cyFHgl
+	22fdtdI8mk/bu8N+ZN7Gjt1qa4ooU6jg4HBwXEYoFzb43k+qBeRibDQWKO94BroCj1HWsQRDDfT
+	Ca+F7TTEigts9AMUbMcubYw/Ru/MqR3hWTEEHAt2z
+X-Received: by 2002:a05:6512:224e:b0:5ae:bf17:c4e2 with SMTP id
+ 2adb3069b0e04-5aed452e549mr161744e87.9.1783100149019; Fri, 03 Jul 2026
+ 10:35:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
+ <20260629-hauer-erhitzen-sobald-96d3dff68707@brauner> <CALCETrVuh0-biOw=TgYN9ERTFAoiki57XeZ3S2T3dO2+hL54gA@mail.gmail.com>
+ <20260702-entladen-farbkombinationen-klarheit-fe24cb608f23@brauner>
+In-Reply-To: <20260702-entladen-farbkombinationen-klarheit-fe24cb608f23@brauner>
+From: Andy Lutomirski <luto@kernel.org>
+Date: Fri, 3 Jul 2026 10:35:35 -0700
+X-Gmail-Original-Message-ID: <CALCETrXLBw0DxtYa_ipaSQRbkptphEonsq3CojFv7NJk9pFOzA@mail.gmail.com>
+X-Gm-Features: AVVi8CcIFTahLBIuvl-mgzlcM0nbdwIDoF801puOt51jvhgWAPRDcVEllZN1QQg
+Message-ID: <CALCETrXLBw0DxtYa_ipaSQRbkptphEonsq3CojFv7NJk9pFOzA@mail.gmail.com>
+Subject: Directory capability brain dump (Re: [RFC] Null Namespaces)
+To: Christian Brauner <brauner@kernel.org>
+Cc: Andy Lutomirski <luto@kernel.org>, John Ericson <mail@johnericson.me>, Li Chen <me@linux.beauty>, 
+	Cong Wang <cwang@multikernel.io>, linux-arch <linux-arch@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, 
+	Linux FS Devel <linux-fsdevel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	"H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Kees Cook <kees@kernel.org>, Sergei Zimmerman <sergei@zimmerman.foo>, 
+	Farid Zakaria <farid.m.zakaria@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Mohammad Shahid <mdshahid03@gmail.com>
+On Thu, Jul 2, 2026 at 3:02=E2=80=AFAM Christian Brauner <brauner@kernel.or=
+g> wrote:
+>
+> On Mon, Jun 29, 2026 at 02:06:55PM -0700, Andy Lutomirski wrote:
+> > On Mon, Jun 29, 2026 at 4:45=E2=80=AFAM Christian Brauner <brauner@kern=
+el.org> wrote:
+> > >
+> >
+> > > But I guess the even simpler model would be to copy what I've been do=
+ing
+> > > for pidfs:
+> > >
+> > > +static struct path nullfs_root_path =3D {};
+> > > +
+> > > +void nullfs_get_root(struct path *path)
+> > > +{
+> > > +       *path =3D nullfs_root_path;
+> > > +       path_get(path);
+> > > +}
+> > > +
+> > >  static void __init init_mount_tree(void)
+> > >  {
+> > >         struct vfsmount *mnt, *nullfs_mnt;
+> > > @@ -6209,6 +6217,8 @@ static void __init init_mount_tree(void)
+> > >         /* Mount mutable rootfs on top of nullfs. */
+> > >         root.mnt                =3D nullfs_mnt;
+> > >         root.dentry             =3D nullfs_mnt->mnt_root;
+> > > +       nullfs_root_path.mnt    =3D nullfs_mnt;
+> > > +       pidfs_root_path.dentry  =3D nullfs_mnt->mnt_root;
+> > >
+> > >         LOCK_MOUNT_EXACT(mp, &root);
+> > >         if (unlikely(IS_ERR(mp.parent)))
+> > > diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+> > > index aadfbf6e0cb3..f55c87c70b78 100644
+> > > --- a/include/uapi/linux/fcntl.h
+> > > +++ b/include/uapi/linux/fcntl.h
+> > > @@ -124,6 +124,7 @@ struct delegation {
+> > >
+> > >  #define FD_PIDFS_ROOT                  -10002 /* Root of the pidfs f=
+ilesystem */
+> > >  #define FD_NSFS_ROOT                   -10003 /* Root of the nsfs fi=
+lesystem */
+> > > +#define FD_NULLFS_ROOT                 -10004 /* Root of the nullfs =
+filesystem */
+> > >  #define FD_INVALID                     -10009 /* Invalid file descri=
+ptor: -10000 - EBADF =3D -10009 */
+> > >
+> > >  /* Generic flags for the *at(2) family of syscalls. */
+> > >
+> > > we then add fchroot() (overdue anyway) and then teach both fchdir() a=
+nd
+> > > fchroot() to honor FD_NULLFS_ROOT. Then a process may shed its fs sta=
+te
+> > > and move itself into nullfs. Restrict *chdir() and *chroot() for said
+> > > process via seccomp and it's locked in forever as well.
+> > >
+> >
+> > One thing comes to mind that might need a bit of care: this would give
+> > an API for any task to get an fd to a directory that lives in the init
+> > mount namespace.  It's not at all obvious to me that this is dangerous
+> > or even observable (you're not about to find a setuid program in
+> > nullfs), but I think it's at least worth a tiny bit of consideration.
+>
+> Yes, I thought about this as well. But it doesn't have to be this way.
+> Every mount namespaces has nullfs as it's root ever since I introduced
+> it. Which means FD_NULLFS_ROOT can also just mean "nullfs within that
+> specific mount namespace". That's fine.
+>
+> For my FD_FAILFS_ROOT proposal it would be enough if we make failfs
+> SB_KERNMOUNT which means it's logically distinct from every mount
+> namespace. I think that might be the right thing to do. I need to spend
+> one or more brain cycles on this though.
+>
+> >
+> > But if this happens, maybe we could finally land one of the patches to
+> > enable unprivileged chroot?  It's been tried a few times.
+> >
+> > https://lore.kernel.org/lkml/0e2f0f54e19bff53a3739ecfddb4ffa9a6dbde4d.1=
+327858005.git.luto@amacapital.net/
+> >
+> > https://lore.kernel.org/all/20210316203633.424794-2-mic@digikod.net/
+> >
+> > I think the need for it has reduced a tiny bit with user namespaces,
+> > as you can sort of emulate it by unsharing your user namespace and
+> > thus getting enough privilege, but this is rather heavyweight and
+> > limiting.
+>
+> I think we could make that work with both FD_NULLFS_ROOT and
+> FD_FAILFS_ROOT...
+>
+> >
+> >
+> > If all of the above landed, then the old chroot /var/empty kludge that
+> > security-minded programs have done for decades could finally be
+> > modernized and not require any privilege :)
+>
+> I think I like it.
+>
+> > Hmm, thinking aloud: every now and then someone brings up the idea of
+> > having an fd (really an OFD) that points to a file or a directory but
+> > carries less in the way of permissions/capabilities than the usual
+> > OFDs.  If we had a way to make an OFD to a directory that forced
+> > RESOLVE_BENEATH (or RESOLVE_IN_ROOT) and that propagated that
+> > restriction to anything you open using it, and if an unprivileged
+> > process could chroot itself to nullfs, then we would be getting quite
+> > close to what Capsicum can do.
+>
+> Next steps. I hear you volunteering...
+>
 
-kvfree() safely handles NULL pointers, so the explicit NULL checks
-before calling kvfree() are unnecessary.
+Haha.  I volunteer to give somewhat of a brain dump, which is very
+incomplete.  Doing a decent job of this would be maybe 90% figuring
+out nasty details and 10% implementation.  I might even volunteer to
+do some implementation if there is anything resembling agreement on a
+design.
 
-This issue was reported by ifnullfree.cocci.
+First of all, I was way too glib with "OFD", because OFD doesn't cover
+cwd, root, or any of the magic links in /proc, nor does OFD cover
+mountpoints.
 
-Signed-off-by: Mohammad Shahid <mdshahid03@gmail.com>
----
- fs/ntfs/reparse.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Second, I confess to having my brain dump be hopelessly polluted by a
+substantial ulterior motive: I want fds (or whatevers)-as-capabilities
+to go both ways, which means that I want to be able to open an fd that
+captures certain of my privileges such that someone with different
+current->cred can use it.  And I want *that* ability to work with bind
+mounts and such.  The main motivation for this is that I *despise* the
+way that outside-a-container filesystem modes interact with
+containers.  It makes me extremely disappointed that I can take an
+ordinary subdirectory of my home directory and mount it into a Linux
+container on a Mac running MacOS without mucking with permissions at
+all, but trying to do the same thing on the average Linux distro plus
+the average container runtime is an exercise in hair pulling,
+especially when SELinux is involved.  *Why* can't it just work?
 
-diff --git a/fs/ntfs/reparse.c b/fs/ntfs/reparse.c
-index fa523dc3691e..ced4c675d91f 100644
---- a/fs/ntfs/reparse.c
-+++ b/fs/ntfs/reparse.c
-@@ -317,8 +317,7 @@ unsigned int ntfs_make_symlink(struct ntfs_inode *ni)
- 	} else
- 		ni->flags &= ~FILE_ATTR_REPARSE_POINT;
- 
--	if (reparse_attr)
--		kvfree(reparse_attr);
-+	kvfree(reparse_attr);
- 
- 	return mode;
- }
-@@ -358,8 +357,7 @@ unsigned int ntfs_reparse_tag_dt_types(struct ntfs_volume *vol, unsigned long mr
- 		}
- 	}
- 
--	if (reparse_attr)
--		kvfree(reparse_attr);
-+	kvfree(reparse_attr);
- 
- 	iput(vi);
- 	return dt_type;
--- 
-2.43.0
+So let's call the directory version of this thing a "directory
+capability", and directory capabilities can live in OFDs or in cwd,
+root, or a vfsmount.
 
+The default directory capability (IMO) ought to be exactly equivalent
+to O_PATH or a cwd.  But I think one should be able to make a
+restricted one with bits like:
+
+- read: if not set, you can't read the files in here. executing
+unconditionally counts as reading for this purpose.
+
+- execute: If not set, you can't execute the files in here.  (This
+kind of "execute" has nothing to do with opening subdirectories.
+we're not talking about POSIX.)  Everyone can argue about whether
+running a shell script and/or loading a shared library counts as
+executing.
+
+- write: If not set, you can't write the files in here.
+
+- create: If not set, you can't create files in here.  (How does this
+interact with write?)
+
+- maybe some bits to prevent writing metadata, fs-specific ioctls, etc.
+
+- dotdot and/or ancestor: needs thought.  One way would be what I
+mentioned above: any path resolution starting at this directory
+capability or anything derived from it forces RESOLVE_BENEATH.
+
+- open question: what happens if i open a directory and then unmount
+something that was mounted on one of its subdirectories?  Does this
+matter?
+
+The general idea of using these things is that one might open an fd
+with constraints:
+
+fd =3D open_with_constraints(..., read | execute);
+
+Now using fd in openat forces RESOLVE_BENEATH (because I didn't say
+dotdot), and any attempt to open a file for write or to create a new
+file will fail.  And if I fchdir or fchroot to fd, then those
+constraints still apply.  And if I do:
+
+fd =3D open_with_constraints(..., read);
+fd2 =3D open_with_constraints(fd, ..., read | execute);
+
+then we need to decide whether to fail outright or to return something
+that doesn't have execute.
+
+If I do:
+
+fd =3D open_with_constraints(..., read);
+fchdir(fd);
+open("/proc/self/cwd/../foo") needs to fail (or perhaps just open ~/foo?)
+
+If I take that same fd and bind-mount it on /mnt/restricted, then I
+should not be able to find its ancestors via /mnt/restricted/..
+(obviously -- that doesn't work anyway).  (But maybe there should be
+an extra flag "seethrough" which, if not set, would prevent a
+non-recursive bind mount like that, since it would let someone see
+through mounts on the tree referred to by fd.)  And I should also not
+be able to write to /mnt/restricted/foo.
+
+
+For added fun (see above), I want an ability to "delegate" my own
+permissions into an fd.
+
+fd =3D open_delegate(..., read);
+
+Now *anyone* with a copy of fd (or access via cwd, etc) can read files
+in the subtree using my credentials, as captured when I called
+open_delegate.  And this should survive bind mounting, so I could
+finally do:
+
+my_favorite_container_tool --delegate /home/username/foo,/mnt/mountpoint,re=
+ad
+
+and the things in the container, even if they use a dynamic subuid or
+have some funky SELinux context, could actually read via
+/mnt/mountpoint, and I could stop cursing at my computer.
+
+- Open question: what happens to /proc/.../exe?  IMO it would be
+*really* nice if we could get away with applying this sort of system
+to /proc/.../exe.  There are ABI compatibility concerns here.  A whole
+class of old nasty vulnerabilities would go away if writing through
+/proc/.../exe were simply impossible.
+
+
+Okay, there's my brain dump.  Feel free to make fun of it.  No LLMs
+were roused from their slumber in the writing of this email :)
