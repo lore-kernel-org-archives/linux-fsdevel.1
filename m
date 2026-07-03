@@ -1,160 +1,164 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41ACC220F2A
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 16:12:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E5B2E173D
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 16:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783095131; cv=none; b=PMklBKeM99wIoagyF4p7hncA2wjkjIIsjKfz8LBGIelDnvFnzyuqkv41K2KKk66+ldP/hl8ayrD6jLfXsoDRmtufO3HsXSRTyEz0YjeOxnSiIMc5eVHUR2mgwT+3wf5WWO3RduxfEj//dezZlCuMMMWpICjrJ34WUfRgMmOPSRE=
+	t=1783095169; cv=none; b=dvtj2pk11q5CNcyCYfldQm5DD+z9QmUpHqL2n94D+b5i7To7J+KI1+SVGxYZJ5Uv4OE+qmIQgX9uSz7HruqGWBFlfSkVq2alJmRfAmSgV6kB4/Fb1Q0OezdHFUT+qzVSXBYawcco/fPZZW+EUNxVa1KS39Cj7eGpBuzijjJTnYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783095131; c=relaxed/simple;
-	bh=vRzj5Flh5u+C5ern6lzsIE9rix1S1n2DW5JsYl+5qkc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TaXLVMUzKeyBfP3aj0fMFnGWzGnLwT0puBlM8l6Eog4XOCl6zE3k2MsjBnMtJ3RbtrGLxZkpFtKqy7UvozoGeTofujjmrCa6EUPzOuo5MwSPKG3DXFPrLEZ5jzw5/04Ma2XcZIVZWZ73+ANOpxEBZAX+0Z2+MLA/8n0T6N7XL+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=vTwkZoVz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=u/wHFMc+; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=vTwkZoVz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=u/wHFMc+; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1783095169; c=relaxed/simple;
+	bh=DDlppR72ZofS0gwf7T++swSGldaFduoIiD3WPtJRbEY=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=n134BcoHj4TmAcWAvT3+QyJur8B5ikkHxyhqGF8lDbjyVrRXfYfnIelkD/SGJ3bh1l0g41mjBOlN6Lzfn8Ug0VhgSApVM2meZog4QHU5s/Zi+WeoHkYbLbM3Pirnf3o8YKxD8kkh/wmqPQEO4rpPl3zuwpH6ri0bXs6+X7TwDV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca; spf=pass smtp.mailfrom=dilger.ca; dkim=pass (2048-bit key) header.d=dilger-ca.20251104.gappssmtp.com header.i=@dilger-ca.20251104.gappssmtp.com header.b=S+Oes1Aj; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dilger.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="vTwkZoVz";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="u/wHFMc+";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="vTwkZoVz";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="u/wHFMc+"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7328D749DF;
-	Fri,  3 Jul 2026 16:12:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1783095128; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ijMtc3MCBHGNOviCoWJsWrc7FWeY40uHwWhK+MEoRA0=;
-	b=vTwkZoVzpGLu2AJifs6k5D87jzoN03Eoq9YSel5GpDQKUBQcYPf+gUEn0Mve9ZtWrBcYwd
-	tUGGMAsx77ofnLG2Zuc4i1UoLbijh6T6gmfcRfO0Qp+qQUz9xEKyvlxtiBSx+pkP4QDmvS
-	KnjcxapUOt/FY0K9blDxvUE2zL5VPvA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1783095128;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ijMtc3MCBHGNOviCoWJsWrc7FWeY40uHwWhK+MEoRA0=;
-	b=u/wHFMc+jC5mJ3GYVfq4ZGPYnWhHClXiC3lua/CLdum/oZxn9ehREW9LHZci7SbXiLQSC+
-	0gaNTlJjK+g44qCg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=vTwkZoVz;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="u/wHFMc+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1783095128; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ijMtc3MCBHGNOviCoWJsWrc7FWeY40uHwWhK+MEoRA0=;
-	b=vTwkZoVzpGLu2AJifs6k5D87jzoN03Eoq9YSel5GpDQKUBQcYPf+gUEn0Mve9ZtWrBcYwd
-	tUGGMAsx77ofnLG2Zuc4i1UoLbijh6T6gmfcRfO0Qp+qQUz9xEKyvlxtiBSx+pkP4QDmvS
-	KnjcxapUOt/FY0K9blDxvUE2zL5VPvA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1783095128;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ijMtc3MCBHGNOviCoWJsWrc7FWeY40uHwWhK+MEoRA0=;
-	b=u/wHFMc+jC5mJ3GYVfq4ZGPYnWhHClXiC3lua/CLdum/oZxn9ehREW9LHZci7SbXiLQSC+
-	0gaNTlJjK+g44qCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 69C50779AA;
-	Fri,  3 Jul 2026 16:12:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LtzQGVjfR2qKfQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 03 Jul 2026 16:12:08 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 2C007A12D4; Fri, 03 Jul 2026 18:12:08 +0200 (CEST)
-Date: Fri, 3 Jul 2026 18:12:08 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	aivazian.tigran@gmail.com, Ted Tso <tytso@mit.edu>, linux-ext4@vger.kernel.org, 
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-Subject: Re: [PATCH v3 07/19] fs: Provide way for filesystem to wait for
- metadata writeback
-Message-ID: <htrzdu5r74ge6o5i3iwiznz6gdrdnhxtvvlzga6hywpgyehwbx@uy74ybyggrvf>
-References: <20260702175436.12226-1-jack@suse.cz>
- <20260702182057.2832980-26-jack@suse.cz>
- <20260703-erdumlaufbahn-sippenhaft-windungen-c95dd273fffc@brauner>
+	dkim=pass (2048-bit key) header.d=dilger-ca.20251104.gappssmtp.com header.i=@dilger-ca.20251104.gappssmtp.com header.b="S+Oes1Aj"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3812c718debso580185a91.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Jul 2026 09:12:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dilger-ca.20251104.gappssmtp.com; s=20251104; t=1783095167; x=1783699967; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LuYdqZO6P8sYYUQnX9Vmulsb3aoIphpVLP6QakGqXqA=;
+        b=S+Oes1Ajap0efry0Bu0qQXu9w1jj2g7qfPWJBpzSsuKaT/q/2ke5vxfs9dt9wfLFS8
+         CPt/5W4b4k7wU8qqpDRwQkTZH1EAS1ZROM1f69lKWKazWdOwajOixfQq+lWL4Cmf53Ko
+         qZ9fRuG2tsDXbKtDXyRvjZK6mx7fyc/xLVfexT9c+TS1Cn+Pqc6fenniyzFiHzHz7rTK
+         TaRvgEGKOhVDEVDD+Rl9In7gVcfFYRaFeeyUydLXmmxLnWR+/eFPyOVqtlFx6um/mpaE
+         c7zbDfepqqOXVijMJBXhsBVKaoYJaa5uCXi7yBNNFwMWw/Z1JUgez52KxtkZ6LYzWE6C
+         moLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783095167; x=1783699967;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LuYdqZO6P8sYYUQnX9Vmulsb3aoIphpVLP6QakGqXqA=;
+        b=PZ4uB7z4VKkOs8rgwkxA8+rA7vvTEWWy3lZQ/dnWcM5gRqg6eAjYhGys48LPphifKt
+         0Dipg2iwTo2dGwWHFzv/fBUY27TtHt039uTr1J4JBYf6mAlreIzYGZFG5WIvvh1mJQoA
+         um0KP+JRYHIXOY8rSY0u3ZYYqbK52y9bxcq1oaowT+5fLa6katB1+SpJZi351eV950Xi
+         DQQOxrSVgdprVwGbDrlC/z/AQ2qhEmdrwQjoN+WeF9pSAT0+CjGUFSFK0NmxOAvQVakW
+         0oG+gp6RtJ/dspZTN8oq86tA2/Pka9mwkKsVaqx/kGCkdy8u4yDHSO2GgnMnIQjrYcMI
+         ma9w==
+X-Forwarded-Encrypted: i=1; AHgh+RpHFXrLdhu1HVyEEZwlPq9TPAAuFSk0VYHIf+dTZDjHGlxAvWMPTclQaVtfzX7vtz13UoSyGwo15a8h4C6p@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz67ZiLz2mkVb4g+08MUQLhGE7+Ums7d22hh41Rwm5WeQbe6z8s
+	zQrdHIYmvg96nXL1IbeXOWgJqI2k0hUO39je080o/za3+ZlcQcVwgx2KhEfPq7aVsCE=
+X-Gm-Gg: AfdE7ckK3v3a4oEEZ5wqED3kmJLShtKYFpkrRgKinCi1DgetIlIlMZhTDCvfDSnSNBy
+	eEOmK9JS0G8p4tHeS0m5Y9iGFUeupB9jVWRaqb/jqrMau2byrvc5+1pBwUDHblYbLTxkQFyN0/m
+	mSWNwWQoBbaabenj2d+UIvzm5lDiwHcNIzPoyi/vl3aieBpjr2g8rbnDLoTTrTJhhfX+9vAjpVu
+	3kJHOZwpJle9pQea6eFePQh80bbeDY+ByWktUNV5CIGmYOAu1A8pyPZG1QBN2DoEAGhfSIxWH6j
+	1BJPcPcqXuPF41udCPteuqm6X1vFI/6Iwa02LUcirNbQPWVEOWnf3M9IMy045T95HChojVwg/Hu
+	Xqd0iJ/0VJsOHqufIRWJB/gQGMNx3PluK3Yd7PNMyge/lvuVsYUGRxfvhW/6nMnH1zkV7f0VX9a
+	bs/QnWMI0QVoP16lKM9a1CJY02vQDk6bqQxH7sxbFwzAWZqXm2l0CrQ9oD3NpOhIQhNQ==
+X-Received: by 2002:a17:90b:50:b0:37f:9ce2:348d with SMTP id 98e67ed59e1d1-3829fddab93mr148112a91.30.1783095166730;
+        Fri, 03 Jul 2026 09:12:46 -0700 (PDT)
+Received: from smtpclient.apple (S0106a0ff70715ac6.ek.shawcable.net. [174.0.84.146])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38097d81bd9sm3194250a91.1.2026.07.03.09.12.44
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 03 Jul 2026 09:12:46 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260703-erdumlaufbahn-sippenhaft-windungen-c95dd273fffc@brauner>
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 7328D749DF
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[suse.cz,vger.kernel.org,gmail.com,mit.edu,mail.parknet.co.jp];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.100.1.1.5\))
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+From: Andreas Dilger <adilger@dilger.ca>
+In-Reply-To: <akcji3OuxXz3FqSD@mit.edu>
+Date: Fri, 3 Jul 2026 10:12:34 -0600
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ Jeff Layton <jlayton@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Justin Stitt <justinstitt@google.com>,
+ Lorenzo Stoakes <ljs@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Carlos Maiolino <cem@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>,
+ Jori Koolstra <jkoolstra@xs4all.nl>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Brian Foster <bfoster@redhat.com>,
+ Christoph Hellwig <hch@infradead.org>,
+ David Disseldorp <ddiss@suse.de>,
+ Mark Brown <broonie@kernel.org>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Jens Axboe <axboe@kernel.dk>,
+ David Hildenbrand <david@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>,
+ "Christian Brauner (Amutable)" <brauner@kernel.org>,
+ workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <19942440-EB87-4D3E-B37F-3146500BED8C@dilger.ca>
+References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+ <2026070224-unholy-commode-cf45@gregkh> <87cxx5l900.fsf@trenco.lwn.net>
+ <7C39A5C8-EA03-4C8D-9BE5-5097101B71D6@dilger.ca> <akcji3OuxXz3FqSD@mit.edu>
+To: Theodore Tso <tytso@mit.edu>
+X-Mailer: Apple Mail (2.3864.100.1.1.5)
 
-On Fri 03-07-26 12:06:05, Christian Brauner wrote:
-> > diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-> > index fdb8766d275a..9d96357731a3 100644
-> > --- a/fs/fs-writeback.c
-> > +++ b/fs/fs-writeback.c
-> > @@ -1851,6 +1851,22 @@ __writeback_single_inode(struct inode *inode, struct writeback_control *wbc)
-> >  		if (ret == 0)
-> >  			ret = err;
-> >  	}
-> > +
-> > +	/*
-> > +	 * Do we need to wait for inode metadata IO possibly submitted
-> > +	 * by previous WB_SYNC_NONE writeback?
-> > +	 */
-> > +	if (wbc->sync_mode == WB_SYNC_ALL && !wbc->for_sync &&
-> 
-> Does this patch need to come earlier in the series before the ext2 and
-> ext4 changes? I'm asking because ext2 - I think - changes behavior in a
-> similar manner in an earlier patch.
+On Jul 2, 2026, at 20:57, Theodore Tso <tytso@mit.edu> wrote:
+>=20
+> On Thu, Jul 02, 2026 at 12:46:19PM -0500, Andreas Dilger wrote:
+>> It would make sense IMHO to address the ignorance in the most =
+expedient manner,
+>> namely by telling the *LLM itself* to add this tag when it generates =
+the commit
+>> message and/or reviews the code.
+>>=20
+>> This could be achieved by adding a statement in "AGENTS.md" in the =
+root of the
+>> source tree to this effect, or telling the agent to reference and =
+follow rules
+>> in Documentation/process/coding-assistants.rst regarding the =
+Assisted-by: tag.
+>=20
+> This presupposes a particular workflow where the developer allows the
+> LLM to generate git commits.  I don't do that.  I'll ask the LLM to
+> modify the code, but then I'll generally fix it up --- very often by
+> hand because I can edit the sources than entering a prompt and waiting
+> for the LLM to figure out how to make the change.  I'll often run the
+> test cases myself, since if it takes 24 hours of VM time, and 2 hours
+> of wall clock time, I'm going to kick off the regression tests myself,
+> and verify the test results.
 
-There's no strict ordering between these changes. But logically I agree it
-makes sense to put ext2 changes together after this patch so I'll reorder
-them.
+Sure, and that holds true for many kernel developers, myself included.
+I don't think you or any of the senior maintainers are the audience.
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+The point of my comment is that this is more likely to help contributors
+who do *not* know/follow standard development practices and are more
+likely to contribute AI-coded patches, which is AFAICS the main issue
+in this discussion.
+
+Also, the effort of doing so is very minimal and has no real downside.
+Having the AI contribution policy clearly spelled out where an AI agent
+can find it can only have a positive effect, even if not always =
+followed.
+
+Cheers, Andreas
+
+> And I almost always write the commit description myself.  So when I
+> say, "Assisted-by" it literally is "Assisted by".  It is not "vibe
+> coded where the LLM generates thousands of lines of code that the
+> human being doesn't understand before sending ta pull request."  And
+> that's probably why you'll see people asserting that LLM generated
+> code can't possibly be accepted due to copyright reasons.  There's a
+> big difference between asking an LLM to modify already existing code
+> to add a feature, or to fix a bug, and to vibe code a new OS from
+> scratch.  One is far less likely to be a copyright violation than the
+> other.
+>=20
+> - Ted
+
+
+Cheers, Andreas
+
+
+
+
+
