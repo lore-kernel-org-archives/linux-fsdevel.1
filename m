@@ -1,426 +1,148 @@
-Received: from flow-a4-smtp.messagingengine.com (flow-a4-smtp.messagingengine.com [103.168.172.139])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B4336F411;
-	Fri,  3 Jul 2026 07:40:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F3003655E2;
+	Fri,  3 Jul 2026 08:09:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783064454; cv=none; b=kS4TBWpRvrwbhvJiVS+lDsZ9V9c+znG+vf3eTiYiuw3tU2puErSz4kTrRwWCI1CGJrBIs0P/QFbXYR4morTlQmHBNJjQt72+6BH0ZYJ8oVoKqR3wJ8vnLnBAjSN4KRrH77R+lauVzcId44qXgn9j2upW4m/qTgiI3vw55h8fKaU=
+	t=1783066162; cv=none; b=FqSLRTl45tIe6taoxZcZwK9C7hU6hyZvjVpZiUVfQoU+EcIWemYs9nXRbJ0en8aL1CvD2K1QN8ESCyKVoKQJLQXlZGqp4NN4+243LbTHixNqctZyNQHcUdVFpx2+zXZs4VMnkSOPUbAk7UJL4X6VQ1UjMpKt/TrX2/zHLX+0Eac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783064454; c=relaxed/simple;
-	bh=mm7P2sqBAF6bXKS3oZrmBAByBli5vv7qn3sSyLLB2G8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uWSUSeq/WStjfC85pS8h4D7FVhJkqOsOBZR967jyMOeumKj8vuyKd1OH8LDP6z/xIF+MZejFmAbxcrPSRxaPygG7v9mpi0dKey1I6XTm1rJazWZvux2nBIuGwjFddUqWsuA3GjyrJLQGhoUmhSo3/PL+HGviLYxgK9mZEei1RLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=Obsidian.Systems; spf=fail smtp.mailfrom=Obsidian.Systems; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=keHmE7Lx; arc=none smtp.client-ip=103.168.172.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=Obsidian.Systems
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=Obsidian.Systems
+	s=arc-20240116; t=1783066162; c=relaxed/simple;
+	bh=S9BXyV05udQ/hHCID7P5amfZugfVKwXtWgXI+MG8+AI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=n/j/L/ECO9J1AyCbHI8QwcCAcafFyIlKqZMilozjzpHzQoCaKPe0DkLx6UQCx5pGfl9CiSlFeJyFndJrZqzbj+VsevoHgJh9RSUAXUICIxsiTtsOmwZkkFsCaPAGmk535toHXgvUog3tCD2eNyLaYeHbYiIYGX4o1V9Ru0MVkBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=axecER4f; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="keHmE7Lx"
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailflow.phl.internal (Postfix) with ESMTP id BA575138025A;
-	Fri,  3 Jul 2026 03:40:51 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-08.internal (MEProxy); Fri, 03 Jul 2026 03:40:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1783064451; x=1783071651; bh=G
-	5IdncEZMttblUkdvDrma7vZ1fMX6xFFr5IUmHWIufs=; b=keHmE7LxlimZWhiDp
-	HalzhOiSqZ+LL53trdkqZ8Wd76H8b3ERTGWdLo8udomhsBgxGdJhh7lcFufwlF/l
-	NXxZSyOhvKyTKUZbJ7ViRwh86VdBEM8boyfmRKHn3GysEmiSwLrE0daDSsG+SABc
-	7NEud9nsMkY4xNzJa/FIf7M9QdbwLJg+2eskWWeF3qCjNXPtcI8yHJ0SUzbEBURX
-	ZZYnUBLTVtagpxVgtpcv9m3wIjPESvpCeUn8I1vDuINeGCZozeZyIT2M4mxDo+Ng
-	4cOTpip5t97/0cbdk02e+qIxIphAH938ssz6P6tGtQgcK9Lp4g6Vx9ZS/oUHjdTo
-	VmIUw==
-X-ME-Sender: <xms:g2dHavx0c1Fe7m2Nn1ps4LkAPn9VUaBoRZhwnn56il7NmEC90J1keg>
-    <xme:g2dHauOUdt7-ZzAi5edF8o62XjZ9V8gjoF-oKpQdkVmNK4zrWv3mibI5AHVu15F3S
-    9R29S-5539O03GyoPra2rMS52XNTz95DBqAx2aR6JeDwqQei0luBeg>
-X-ME-Received: <xmr:g2dHauaodA-zPB2IgBuPkYFFCqkn4I_JPD1sxniHRsB84I-zb7mVwCtqH0KUjYFOWq447O8zy2V4ic0lThdGOXzylj84dHEpPEoHTA>
-X-ME-Proxy-Cause: dmFkZTGD+55Le//f3h8RLTETwVa3bWav1dX8jX0sV5Dck/InRGicx/GeEaHwqqbxMviI6N
-    J4Rea78NzJDlLaY60f+CVXfCs8Fg3Y5Cj+iTaTnWbo1ZA1zfFl+/deVfj6Sx7MBhcLuoUf
-    1TRfB2c4wSGdKmPVmKaM/8miAneWrUINp9zV+LGN/NRIiyitqqExNDSbDFTI1l7pjIIX55
-    gRvZ7TIcOkkZ+HtVWGJk7fOJgyWuHezOnrtpQZEnWIemAOLNlzSb88VMbbYhPEx5dpvfSX
-    VpT7QCtPf88Qdki/FMnoISyPb+gXe0xwNYQyO+kTF+erVXDOhNquzZcEaIby0s7Z+TYTmm
-    x4L1dtVnooR12YB9B4VjPYqPV6Uj2VCUbKSChFIWCfhRhOAAwFGdTplQUpLcl1OI5sEbBZ
-    xZbXHacJrTJqbT+WFbP52p3pUZPMQaP0OJy+VDVJMFYLBGvr20WhETfZVW+HtMFvh3VkRc
-    qwh9kb5O7GG8AHIuKrWeM8GLe2rlmWrkfxGAM2j1fmHms5J3ne+8Ar5wM7EzAQMFLIkC38
-    B6ZoBzMp73aSGQoGre1Ea9wTLz9oQ/+P1A5hLv5/Y6PT6qZVrv995WjzREfG3d1OVurcBV
-    nco+ItqNmrCJtZHE9pJ1iy1tYCprxGoOzKhfPHkXj7QNnnCudTSppbQ578lQ
-X-ME-Proxy: <xmx:g2dHagrGKLEXZ3DLaLzb0uxFH38uoUa3V9kTfX9vK2DivLiatG7gzQ>
-    <xmx:g2dHarxC4GdklIRng3P7ED1MKaVvsLXC6BjBv-0ksmaUek3uZAJdpQ>
-    <xmx:g2dHaoIpk8CVizG0v0mH7LsRtFoL_EykU5tcdWI8Zwqrm_2siUCYpA>
-    <xmx:g2dHat7AF2mvkNZBjWZtjSg_vqiYZOw892uHcaICYSqV_ksMWZoQew>
-    <xmx:g2dHapSIwNlvuBaQ0Zy6DfttWG3UF6LlzNJkLTwoprkCqPLxHnmj06Tn>
-Feedback-ID: i91b946ab:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Jul 2026 03:40:50 -0400 (EDT)
-From: John Ericson <John.Ericson@Obsidian.Systems>
-To: "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: John Ericson <mail@JohnEricson.me>,
-	Cong Wang <cwang@multikernel.io>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Simon Horman <horms@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	David Rheinsberg <david@readahead.eu>,
-	Andy Lutomirski <luto@kernel.org>,
-	Sergei Zimmerman <sergei@zimmerman.foo>,
-	netdev@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
-	Paul Moore <paul@paul-moore.com>,
-	linux-security-module@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 3/3] coredump, net: remove `SOCK_COREDUMP`
-Date: Fri,  3 Jul 2026 03:39:44 -0400
-Message-ID: <20260703073948.2541875-4-John.Ericson@Obsidian.Systems>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260703073948.2541875-1-John.Ericson@Obsidian.Systems>
-References: <20260703073948.2541875-1-John.Ericson@Obsidian.Systems>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="axecER4f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A336E1F000E9;
+	Fri,  3 Jul 2026 08:09:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783066160;
+	bh=SIEmNk45zTtgwkOp0n4jdIr85VqxwB6JyzY1Q3tUzXw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=axecER4fJmtykW0nvcQnViaUeg3V8Q9YYMA9YvXxkpGA73cS/9zA14uBqGY3+AQUi
+	 +31tcfJBbCJVa4tgf8OSuqtOUR5+4ejIu4owrs0wuszZSglVH7CbDGRaUPKhcxJ5B4
+	 WrfmNmQ+LjIZAkiHQc5F0PrNNFdde3dIKol3nHOQfBXRYBSw1rqbq9hgsLHxQh5+qG
+	 NEWggfVG5JbDhSbN5Xg1tNsShv5enrp/qdMaBn+Tz6L4P2AQhSwz6zp0K1q4k1bFZ2
+	 zr4SpHchBNuDDEpgmCUxAYGPFX89qJDhh7DYx25WOhDMVTAZJz4eIOezqIIlZnZmlV
+	 qkBM3+tXnrSag==
+Message-ID: <96141a02-b845-4f0f-a351-473fc7698b69@kernel.org>
+Date: Fri, 3 Jul 2026 10:09:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: link AI coding assistants and tool-generated
+ content pages
+To: Lorenzo Stoakes <ljs@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Justin Stitt <justinstitt@google.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>,
+ David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+ Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ David Hildenbrand <david@kernel.org>, Christian Brauner
+ <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20260702164901.121128-1-ljs@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20260702164901.121128-1-ljs@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: John Ericson <mail@JohnEricson.me>
+On 7/2/26 18:49, Lorenzo Stoakes wrote:
+> Both of these guidelines are complimentary to one another - one specifying
+> guidelines on AI coding assistants, and the other specifying those for
+> tool-generated content.
+> 
+> Since they are complimentary to one another, provide a link to each in the
+> other.
+> 
+> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 
-The utility of the refactors of the last two commits is demonstrated by
-fixing this glaring layer violation: the unix socket implementation
-knowing about the coredump socket caller.
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-Before, when the only way to connect to a socket was via the UAPI
-`struct sockaddr_un`, the only way to implement the proper logic that
-the kernel needs to resolve the coredump socket path was via hacking it
-into the socket implementation.
-
-In addition to being quite ugly, this layer violation is not great for
-security. The intent is that `SOCK_COREDUMP` can only be used by the
-kernel, and to be clear, I have no reason to believe this is not
-correctly enforced today. But because of the many functions with flags
-arguments, this is not a locally-enforced invariant. Some change, at
-some point, could mess up, and allow user-provided flags to sneak in,
-and this strikes me as a mistake waiting to happen. At that point, a
-user could exploit this to connect to any socket it likes, bypassing
-permission checks.
-
-Now, with the two functions we've just previously factored out, we can
-fix the layering. The custom path lookup logic lives with the coredump
-caller, where it belongs. Once the right `struct path` is found
-(actually just the inode is needed), the coredump caller can resolve a
-`struct sock *` from it, and then directly connect to it. With this
-change, `SOCK_COREDUMP` is no longer needed at all, and can be deleted.
-The layer violation is gone, and the security footgun is gone with it.
-
-As an added bonus, remove `flags` parameters from a number of internal
-functions that no longer need them. They were just taking flags
-parameters for the sake of `SOCK_COREDUMP`, and so with that gone, those
-flag parameters are also no longer needed. If or when there is a new
-flag that motivates them, they can be added back.
-
-Tested that `coredump_socket_protocol_test` still passes.
-
-Assisted-by: Claude:claude-opus-4-8
-Signed-off-by: John Ericson <mail@JohnEricson.me>
----
- fs/coredump.c                 | 47 ++++++++++++++++++++++++-----------
- include/linux/lsm_hook_defs.h |  3 +--
- include/linux/net.h           |  1 -
- include/linux/security.h      |  4 +--
- net/unix/af_unix.c            | 42 ++++++++++---------------------
- security/landlock/fs.c        |  7 +-----
- security/security.c           |  5 ++--
- 7 files changed, 51 insertions(+), 58 deletions(-)
-
-diff --git a/fs/coredump.c b/fs/coredump.c
-index e68a76ff92a3..e1452021218e 100644
---- a/fs/coredump.c
-+++ b/fs/coredump.c
-@@ -14,6 +14,7 @@
- #include <linux/perf_event.h>
- #include <linux/highmem.h>
- #include <linux/spinlock.h>
-+#include <linux/cred.h>
- #include <linux/key.h>
- #include <linux/personality.h>
- #include <linux/binfmts.h>
-@@ -21,6 +22,7 @@
- #include <linux/sort.h>
- #include <linux/sched/coredump.h>
- #include <linux/sched/signal.h>
-+#include <linux/sched/task.h>
- #include <linux/sched/task_stack.h>
- #include <linux/utsname.h>
- #include <linux/pid_namespace.h>
-@@ -50,7 +52,6 @@
- #include <net/net_namespace.h>
- #include <net/sock.h>
- #include <uapi/linux/pidfd.h>
--#include <uapi/linux/un.h>
- #include <uapi/linux/coredump.h>
- 
- #include <linux/uaccess.h>
-@@ -668,17 +669,10 @@ static int umh_coredump_setup(struct subprocess_info *info, struct cred *new)
- static bool coredump_sock_connect(struct core_name *cn, struct coredump_params *cprm)
- {
- 	struct file *file __free(fput) = NULL;
--	struct sockaddr_un addr = {
--		.sun_family = AF_UNIX,
--	};
--	ssize_t addr_len;
--	int retval;
-+	struct path root, path;
- 	struct socket *socket;
--
--	addr_len = strscpy(addr.sun_path, cn->corename);
--	if (addr_len < 0)
--		return false;
--	addr_len += offsetof(struct sockaddr_un, sun_path) + 1;
-+	struct sock *sk;
-+	int retval;
- 
- 	/*
- 	 * It is possible that the userspace process which is supposed
-@@ -710,14 +704,37 @@ static bool coredump_sock_connect(struct core_name *cn, struct coredump_params *
- 	 */
- 	pidfs_coredump(cprm);
- 
--	retval = kernel_connect(socket, (struct sockaddr_unsized *)(&addr), addr_len,
--				O_NONBLOCK | SOCK_COREDUMP);
-+	/*
-+	 * Resolve the socket path relative to init's root and with kernel
-+	 * credentials, and with symlinks, magic links and escaping the
-+	 * root all forbidden, so the dumping process cannot use its own
-+	 * filesystem view to redirect its core to an arbitrary socket.
-+	 */
-+	task_lock(&init_task);
-+	get_fs_root(init_task.fs, &root);
-+	task_unlock(&init_task);
-+
-+	scoped_with_kernel_creds()
-+		retval = vfs_path_lookup(root.dentry, root.mnt, cn->corename,
-+					 LOOKUP_BENEATH | LOOKUP_NO_SYMLINKS |
-+					 LOOKUP_NO_MAGICLINKS, &path);
-+	path_put(&root);
-+	if (retval)
-+		return false;
-+
-+	/* Connect directly to the socket bound there, by fd not by name. */
-+	sk = unix_lookup_bsd_path(&path, SOCK_STREAM);
-+	path_put(&path);
-+	if (IS_ERR(sk))
-+		return false;
- 
-+	retval = kernel_unix_connect_direct(sk, socket, O_NONBLOCK);
-+	sock_put(sk);
- 	if (retval) {
- 		if (retval == -EAGAIN)
--			coredump_report_failure("Coredump socket %s receive queue full", addr.sun_path);
-+			coredump_report_failure("Coredump socket %s receive queue full", cn->corename);
- 		else
--			coredump_report_failure("Coredump socket connection %s failed %d", addr.sun_path, retval);
-+			coredump_report_failure("Coredump socket connection %s failed %d", cn->corename, retval);
- 		return false;
- 	}
- 
-diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-index 65c9609ec207..3d6fbb6d2628 100644
---- a/include/linux/lsm_hook_defs.h
-+++ b/include/linux/lsm_hook_defs.h
-@@ -323,8 +323,7 @@ LSM_HOOK(int, 0, watch_key, struct key *key)
- #endif /* CONFIG_SECURITY && CONFIG_KEY_NOTIFICATIONS */
- 
- #if defined(CONFIG_SECURITY_NETWORK) && defined(CONFIG_SECURITY_PATH)
--LSM_HOOK(int, 0, unix_find, const struct path *path, struct sock *other,
--	 int flags)
-+LSM_HOOK(int, 0, unix_find, const struct path *path, struct sock *other)
- #endif /* CONFIG_SECURITY_NETWORK && CONFIG_SECURITY_PATH */
- 
- #ifdef CONFIG_SECURITY_NETWORK
-diff --git a/include/linux/net.h b/include/linux/net.h
-index f268f395ce47..285cb67927f0 100644
---- a/include/linux/net.h
-+++ b/include/linux/net.h
-@@ -102,7 +102,6 @@ enum sock_type {
- #ifndef SOCK_NONBLOCK
- #define SOCK_NONBLOCK	O_NONBLOCK
- #endif
--#define SOCK_COREDUMP	O_NOCTTY
- 
- /**
-  * enum sock_shutdown_cmd - Shutdown types
-diff --git a/include/linux/security.h b/include/linux/security.h
-index 153e9043058f..9797bd29c916 100644
---- a/include/linux/security.h
-+++ b/include/linux/security.h
-@@ -1957,10 +1957,10 @@ static inline int security_mptcp_add_subflow(struct sock *sk, struct sock *ssk)
- 
- #if defined(CONFIG_SECURITY_NETWORK) && defined(CONFIG_SECURITY_PATH)
- 
--int security_unix_find(const struct path *path, struct sock *other, int flags);
-+int security_unix_find(const struct path *path, struct sock *other);
- 
- #else /* CONFIG_SECURITY_NETWORK && CONFIG_SECURITY_PATH */
--static inline int security_unix_find(const struct path *path, struct sock *other, int flags)
-+static inline int security_unix_find(const struct path *path, struct sock *other)
- {
- 	return 0;
- }
-diff --git a/net/unix/af_unix.c b/net/unix/af_unix.c
-index aa94da1f8c24..7cb537b404cc 100644
---- a/net/unix/af_unix.c
-+++ b/net/unix/af_unix.c
-@@ -1220,7 +1220,7 @@ struct sock *unix_lookup_bsd_path(const struct path *path, int type)
- EXPORT_SYMBOL_GPL(unix_lookup_bsd_path);
- 
- static struct sock *unix_find_bsd(struct sockaddr_un *sunaddr, int addr_len,
--				  int type, int flags)
-+				  int type)
- {
- 	struct path path;
- 	struct sock *sk;
-@@ -1228,29 +1228,13 @@ static struct sock *unix_find_bsd(struct sockaddr_un *sunaddr, int addr_len,
- 
- 	unix_mkname_bsd(sunaddr, addr_len);
- 
--	if (flags & SOCK_COREDUMP) {
--		struct path root;
--
--		task_lock(&init_task);
--		get_fs_root(init_task.fs, &root);
--		task_unlock(&init_task);
--
--		scoped_with_kernel_creds()
--			err = vfs_path_lookup(root.dentry, root.mnt, sunaddr->sun_path,
--					      LOOKUP_BENEATH | LOOKUP_NO_SYMLINKS |
--					      LOOKUP_NO_MAGICLINKS, &path);
--		path_put(&root);
--		if (err)
--			goto fail;
--	} else {
--		err = kern_path(sunaddr->sun_path, LOOKUP_FOLLOW, &path);
--		if (err)
--			goto fail;
-+	err = kern_path(sunaddr->sun_path, LOOKUP_FOLLOW, &path);
-+	if (err)
-+		goto fail;
- 
--		err = path_permission(&path, MAY_WRITE);
--		if (err)
--			goto path_put;
--	}
-+	err = path_permission(&path, MAY_WRITE);
-+	if (err)
-+		goto path_put;
- 
- 	sk = unix_lookup_bsd_path(&path, type);
- 	if (IS_ERR(sk)) {
-@@ -1258,7 +1242,7 @@ static struct sock *unix_find_bsd(struct sockaddr_un *sunaddr, int addr_len,
- 		goto path_put;
- 	}
- 
--	err = security_unix_find(&path, sk, flags);
-+	err = security_unix_find(&path, sk);
- 	if (err)
- 		goto sock_put;
- 
-@@ -1297,12 +1281,12 @@ static struct sock *unix_find_abstract(struct net *net,
- 
- static struct sock *unix_find_other(struct net *net,
- 				    struct sockaddr_un *sunaddr,
--				    int addr_len, int type, int flags)
-+				    int addr_len, int type)
- {
- 	struct sock *sk;
- 
- 	if (sunaddr->sun_path[0])
--		sk = unix_find_bsd(sunaddr, addr_len, type, flags);
-+		sk = unix_find_bsd(sunaddr, addr_len, type);
- 	else
- 		sk = unix_find_abstract(net, sunaddr, addr_len, type);
- 
-@@ -1558,7 +1542,7 @@ static int unix_dgram_connect(struct socket *sock, struct sockaddr_unsized *addr
- 		}
- 
- restart:
--		other = unix_find_other(sock_net(sk), sunaddr, alen, sock->type, 0);
-+		other = unix_find_other(sock_net(sk), sunaddr, alen, sock->type);
- 		if (IS_ERR(other)) {
- 			err = PTR_ERR(other);
- 			goto out;
-@@ -1897,7 +1881,7 @@ static int unix_stream_connect(struct socket *sock, struct sockaddr_unsized *uad
- 	 * unix_stream_connect_commit() means "retry": the peer had died,
- 	 * or its backlog was full and we slept -- so re-resolve the name.
- 	 */
--	other = unix_find_other(net, sunaddr, addr_len, sk->sk_type, flags);
-+	other = unix_find_other(net, sunaddr, addr_len, sk->sk_type);
- 	if (IS_ERR(other)) {
- 		err = PTR_ERR(other);
- 		goto out_free;
-@@ -2330,7 +2314,7 @@ static int unix_dgram_sendmsg(struct socket *sock, struct msghdr *msg,
- 	if (msg->msg_namelen) {
- lookup:
- 		other = unix_find_other(sock_net(sk), msg->msg_name,
--					msg->msg_namelen, sk->sk_type, 0);
-+					msg->msg_namelen, sk->sk_type);
- 		if (IS_ERR(other)) {
- 			err = PTR_ERR(other);
- 			goto out_free;
-diff --git a/security/landlock/fs.c b/security/landlock/fs.c
-index f7e5e4ef9eac..d77080438c01 100644
---- a/security/landlock/fs.c
-+++ b/security/landlock/fs.c
-@@ -1641,8 +1641,7 @@ static void unmask_scoped_access(const struct landlock_ruleset *const client,
- 	}
- }
- 
--static int hook_unix_find(const struct path *const path, struct sock *other,
--			  int flags)
-+static int hook_unix_find(const struct path *const path, struct sock *other)
- {
- 	const struct landlock_ruleset *dom_other;
- 	const struct landlock_cred_security *subject;
-@@ -1652,10 +1651,6 @@ static int hook_unix_find(const struct path *const path, struct sock *other,
- 		.fs = LANDLOCK_ACCESS_FS_RESOLVE_UNIX,
- 	};
- 
--	/* Lookup for the purpose of saving coredumps is OK. */
--	if (unlikely(flags & SOCK_COREDUMP))
--		return 0;
--
- 	subject = landlock_get_applicable_subject(current_cred(),
- 						  fs_resolve_unix, NULL);
- 
-diff --git a/security/security.c b/security/security.c
-index 71aea8fdf014..fabb75c88254 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -4839,16 +4839,15 @@ int security_mptcp_add_subflow(struct sock *sk, struct sock *ssk)
-  * security_unix_find() - Check if a named AF_UNIX socket can connect
-  * @path: path of the socket being connected to
-  * @other: peer sock
-- * @flags: flags associated with the socket
-  *
-  * This hook is called to check permissions before connecting to a named
-  * AF_UNIX socket. The caller does not hold any locks on @other.
-  *
-  * Return: Returns 0 if permission is granted.
-  */
--int security_unix_find(const struct path *path, struct sock *other, int flags)
-+int security_unix_find(const struct path *path, struct sock *other)
- {
--	return call_int_hook(unix_find, path, other, flags);
-+	return call_int_hook(unix_find, path, other);
- }
- EXPORT_SYMBOL(security_unix_find);
- 
--- 
-2.54.0
+> ---
+>  Documentation/process/coding-assistants.rst | 4 ++++
+>  Documentation/process/generated-content.rst | 7 +++++++
+>  2 files changed, 11 insertions(+)
+> 
+> diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+> index 899f4459c52d..6125ee4914c5 100644
+> --- a/Documentation/process/coding-assistants.rst
+> +++ b/Documentation/process/coding-assistants.rst
+> @@ -15,6 +15,10 @@ kernel development process:
+>  * Documentation/process/coding-style.rst
+>  * Documentation/process/submitting-patches.rst
+> 
+> +For guidelines on content generated by AI coding assistants see:
+> +
+> +* Documentation/process/generated-content.rst
+> +
+>  Licensing and Legal Requirements
+>  ================================
+> 
+> diff --git a/Documentation/process/generated-content.rst b/Documentation/process/generated-content.rst
+> index 08621e50a462..aad2caad9f8b 100644
+> --- a/Documentation/process/generated-content.rst
+> +++ b/Documentation/process/generated-content.rst
+> @@ -107,3 +107,10 @@ the resulting changes.
+> 
+>  If you do so anyway, maintainers are entitled to reject your series
+>  without detailed review.
+> +
+> +References
+> +==========
+> +
+> +For specific guidelines on AI coding assistants, see:
+> +
+> +* Documentation/process/coding-assistants.rst
+> --
+> 2.55.0
 
