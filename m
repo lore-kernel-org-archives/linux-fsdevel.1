@@ -1,74 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7E7146588;
-	Fri,  3 Jul 2026 15:50:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659EB28469B;
+	Fri,  3 Jul 2026 15:55:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783093820; cv=none; b=oi8ghzgKUWYVIrgxZDgDfGUtwSKXe9e94fh96vw8Mcm5+F3JkJp0rhxWRUjiMenbEcYw2hVakHgorfnxrcufP8JMcG//49n8ex3IPY3w2gIdLKhpfCs6S0G9FVh3RxCFm6bR7dto1hAwDUUBLqdLNs6onKFsWtVSmQtLasRBQ30=
+	t=1783094128; cv=none; b=o+9H+VWU3dTwyQP1XFWDav01r9ErExRfqXtt/eeva0+y9rzRtjxRPX4cSzjwnp7J4YpvE93OScEUGgROGrLdClzuNOqWngzLWVzz5xorKmjvo2t0k+wid/AcTC9i15kvlh4PZGvSd26CUPIOvL5PJhX5vj6tdqncXYVe3ozJqmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783093820; c=relaxed/simple;
-	bh=2diKGbWyA/BZAV6oHrtBt8/JtkLVuPiQgkVkpmINydw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UA75sr3sjEHAiFSy55qlHWhFQ5Bm0AO9/4xC20YE6ETpP3GBGsqdGj/FRsQgxp3MQrYe5ICzC7myqBzueVMjO5nP8Fgk0GQl8dqmNhaF/1+uTwWA9yFZB8b9WVsTXAlB17Ycw9jXTes6np21TfvGSg6n+vlwJ1AD0AUi3rat/go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a2WAliqF; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783094128; c=relaxed/simple;
+	bh=WvEGoZfrrpIounL74xEPpFTz04cSO+xGSo8fLpNFwvM=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=mQhAomYfkezg+b+iWmiPWSzxEw/RuHkmdxvy5WwCm/sgdGjzyUcGAo8fOtsg1dMKPqzm/sCZ7iBzAl6AvqJcrChX1WzR+LXRTfXlMEbC6w5ch6HHhP9QaLVi3lEAR+nWoNoe5nH8+h0q6zs/2nShHiXs6hcsVe0mFs/VtJs+mtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IJTfVQ7i; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a2WAliqF"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 5E4991F000E9;
-	Fri,  3 Jul 2026 15:50:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IJTfVQ7i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C1B91F000E9;
+	Fri,  3 Jul 2026 15:55:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783093819;
-	bh=UVUyVklTsq1sfhF6yM/Q6F0+MAV6Eqzi8rV2Y7Lbzyw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=a2WAliqFDxSW4KgDkfmGHxyTL0cMpEQmos9nm/EWIYdK36HGJn9ixjRNXdV+XNPR9
-	 Mq3JBeODANgcwG/11dnR6OY+99Cvuuz5k7ANH/j0N9vMaXTU/LtmNRzlTFcY8ce7Gj
-	 eTqpHynS2musu5kz8/mq7lQy3PlyUbCuwnKUMUOS4DJTe7FAxOLbsst3Pt6VEhKZzu
-	 hVglCEI6tuTdfEX9UKJSyQ/Jgi9V3dVBVxbploWI2EzQmIa9fNLF/cNsie2ZGP5jHU
-	 8hbjj39XUBtwvo94dkAj3qOR+4aJ3+W1JxZ2eOyTr9QmUsyWXOzGvDwCdVW265Xr2y
-	 M7vuH1MZyPO3g==
-Date: Fri, 3 Jul 2026 08:50:19 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Joanne Koong <joannelkoong@gmail.com>, brauner@kernel.org,
-	willy@infradead.org, hsiangkao@linux.alibaba.com,
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
-	Carlos Maiolino <cem@kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 02/18] xfs: convert iomap ops to ->iomap_next()
-Message-ID: <20260703155019.GV9392@frogsfrogsfrogs>
-References: <20260701000949.1666714-1-joannelkoong@gmail.com>
- <20260701000949.1666714-3-joannelkoong@gmail.com>
- <20260702140301.GB21339@lst.de>
- <20260702164806.GJ9392@frogsfrogsfrogs>
- <20260703123340.GB25849@lst.de>
+	s=k20260515; t=1783094127;
+	bh=7D2AGfC+s/cr0yZIN39J0ne0MYD3KLWN+TLUxw+9q9Q=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=IJTfVQ7iKZIDXzrZk+v4LBPx0P6YFE/KZcguy4Va0AfAMS3ld8qUrVXlFFWqeFUh5
+	 uW/Sg5E1g4Tz1yzC848+Lmdq4xI0PCIzXzwwK6fiEUp1cPvMqq5mdMCKAveEHtzz8P
+	 GQWSrffU410xLqNDbu5gQvGknMAEq64PSaxno7hh9GVxzy76c11A5aLaub9iIeopL1
+	 LtyxAedWvgAwvMHbPdF8nYKM5yyx1hrBumWXIQhKg4EElrfvDRNDLnG2lUcMJcknh9
+	 YzugHCWLU2IW/EABnGrY0bZFwIdtnHzbCOdk0OMsq5U0BPZjqw2cIgXnIB49x3Opy/
+	 Y53UX/Shdm3yg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D099A3939347;
+	Fri,  3 Jul 2026 15:55:10 +0000 (UTC)
+Subject: Re: [GIT PULL for v7.2] vfs fixes
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20260703-vfs-7.2-rc2.fixes-115a53229423@brauner>
+References: <20260703-vfs-7.2-rc2.fixes-115a53229423@brauner>
+X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20260703-vfs-7.2-rc2.fixes-115a53229423@brauner>
+X-PR-Tracked-Remote: git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.2-rc2.fixes
+X-PR-Tracked-Commit-Id: 5c6ce05e406520290c1d89da97fb3cd70c09137d
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 71dfdfb0209b43dfd6f494f84f5548e4cfd18cb5
+Message-Id: <178309410937.2776291.3289179489768587307.pr-tracker-bot@kernel.org>
+Date: Fri, 03 Jul 2026 15:55:09 +0000
+To: Christian Brauner <brauner@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260703123340.GB25849@lst.de>
 
-On Fri, Jul 03, 2026 at 02:33:40PM +0200, Christoph Hellwig wrote:
-> On Thu, Jul 02, 2026 at 09:48:06AM -0700, Darrick J. Wong wrote:
-> > You /could/ use a bunch of fugly macros to simulate a default NULL
-> > iomap_end_fn parameter.
-> > 
-> > #define __default_iomap_end(a,b,...) b
-> > #define default_iomap_end(...) __default_iomap_end(,##__VA_ARGS,NULL)
-> > 
-> > #define iomap_process(iter, iomap, srcmap, iomap_begin, ...) \
-> > 	__iomap_process((iter), (iomap), (srcmap), (iomap_begin),
-> > 			default_iomap_end(__VA_ARGS__))
-> 
-> Don't go there.  These variable number or argument macros are a
-> complete pain to undestand and generate horrible compiler warnings
-> whenever someone messes up their first attempt at writing some
-> code (guess who never gets the first pass right? :))
+The pull request you sent on Fri,  3 Jul 2026 13:32:02 +0200:
 
-I /did/ label that as 'fugly'; I barely understand the subtlety that
-goes on in __define_iomap_end. :)
+> git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.2-rc2.fixes
 
---D
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/71dfdfb0209b43dfd6f494f84f5548e4cfd18cb5
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
