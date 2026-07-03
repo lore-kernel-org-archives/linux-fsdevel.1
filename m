@@ -1,135 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m16.mail.126.com (m16.mail.126.com [117.135.210.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8512DFA4A;
-	Fri,  3 Jul 2026 08:18:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF91D33F8B7;
+	Fri,  3 Jul 2026 08:25:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783066739; cv=none; b=gFI1t/X7frXUqTpB5BC8jBGY0ZH53mu4CCtxSrVYT1UHykf3pzn8FJFjJcIhM/C5fB+6gaX3OHwMe3kIf9kBSnJjf2mL8kgrYrHUr08C943MVFD8GqrDy47ycclgnBMe3LnBIXyY9sLRw08yy0Ksi6mmrZdRU9Fz1yakJR++hK8=
+	t=1783067145; cv=none; b=ouokCJMVJea7ykRsbdaY/kiFHDwA1DSkbUg6leXdAYaEe2p7rnJ+uD/E0yOJiUPQeA8lgDFrzmt8vJrc2SQZhy1W12Nl/EHjuH/q5N591vn/11CSBBSWtjxlTD4CdCG1Mhm5fr6E45xLZ0RTQ/6EEd1UAPxiPpv56Ncf39EaTmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783066739; c=relaxed/simple;
-	bh=7xiCS+LW/hpUxAtoORyHdSsXhPaej2VMVnF4af3E7zw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fHCRrusME3EWCAl+P5EclqaHeMXLMz37BqOZgRwOfcmbtqWzbnkDPZOJC4SAjJbfcUY24iXhXrFScMg7eObUoeW5y5+SqerkQ+CwHH2eTq/yfAYaqnvVAr2inEQC2E61RDO3blgyNJqg+pZc+OY4cHp7WLNuTOLA4bJqD8+v7bo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fxrGGfNm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783067145; c=relaxed/simple;
+	bh=oIg4UTeySBY5NZswH6VTdOEtrzzm2uZy5zXM6quIj7E=;
+	h=Message-ID:Date:From:MIME-Version:To:CC:Subject:References:
+	 In-Reply-To:Content-Type; b=YVBKB1En9VpX3JXj3I257YQiVX0ZccyaU74tT0PUXpshey4BvGeTL6kCL9gm5i2fypn59H2XM7htVHogIiNFK76btCHz5IH1HIIi0rZ5ES9qKl+ul74186gVG27gDlhgzt1J8LTRSD1cltAQiN5WINEs4Q0N5NzinqfEQ23LTmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com; spf=pass smtp.mailfrom=126.com; dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b=jUwmaPdH; arc=none smtp.client-ip=117.135.210.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=126.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fxrGGfNm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE4881F000E9;
-	Fri,  3 Jul 2026 08:18:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783066738;
-	bh=mxu4stcCENodA3+tKKQflfouRvjUw7ufWxrAbD2T02M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fxrGGfNme8F5iyNhEvWIFJ3Iv1sPdlQzCHHKSTMyxLE1V3yCs/6uP+ZdLnycl50Oe
-	 NMsmKsTmR8zwEdZCT15UF3wJmwVuKKYj8kLmBNvQ3DQaNI4XU2n8ITHLemoprY77AO
-	 PWqENCPgcPsZcx/CBr5fF59WFdOzvU5WAM40YxBlyZZh5l2aVXcAUrBmiiHTHDbuFK
-	 ArFL5ZT4AWQDzCQGpK+egl9AJ0aaO6SI7QhGKTfvrE2R4Dj4Zf4hjNV0qJzOirePbb
-	 W3L80ediaU0K1AVRpep5gnCXig4Kop5QRdXgG01V4ZWT9eDQCsS3Ydlpr9Gds/l87y
-	 KI3uen+03j+Tg==
-Date: Fri, 3 Jul 2026 09:18:46 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Justin Stitt <justinstitt@google.com>, 
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, 
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
-	David Hildenbrand <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] docs: link AI coding assistants and tool-generated
- content pages
-Message-ID: <akdv9GCjOrs_6DM6@lucifer>
-References: <20260702164901.121128-1-ljs@kernel.org>
- <20260702182632.GK3534761@killaraus.ideasonboard.com>
+	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b="jUwmaPdH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+	s=s110527; h=Message-ID:Date:From:MIME-Version:To:Subject:
+	Content-Type; bh=oIg4UTeySBY5NZswH6VTdOEtrzzm2uZy5zXM6quIj7E=;
+	b=jUwmaPdHdgraDZ2cXIWTN+NrPhBZKbQC9QsZ5eCuM+uN+jI6L0EQfd5s0Hp5ma
+	vfyhhgQebh4UEmP5KRdcfv0S45K0oBM9vTlgZwNJeAJ26QRQabZ5jJGDcUyaY5JR
+	ZGC6nypzOdRMQek5bkJx3B4xa/BwQzVvnI7Sv/J8TlF5A=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wDXb4HpcUdqXXvnCg--.46753S2;
+	Fri, 03 Jul 2026 16:25:14 +0800 (CST)
+Message-ID: <6A4771DC.3030301@126.com>
+Date: Fri, 03 Jul 2026 16:25:00 +0800
+From: Hongling Zeng <zhongling0719@126.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260702182632.GK3534761@killaraus.ideasonboard.com>
+To: Namjae Jeon <linkinjeon@kernel.org>, 
+ Hongling Zeng <zenghongling@kylinos.cn>
+CC: hyc.lee@gmail.com, charsyam@gmail.com, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] ntfs: validate error codes in check_windows_hibernation_status()
+References: <20260702033656.23048-1-zenghongling@kylinos.cn> <CAKYAXd-2nR9-=O5DYiw6x9R4KpuiV9eqH+HwiYxdAmihw4PvYw@mail.gmail.com>
+In-Reply-To: <CAKYAXd-2nR9-=O5DYiw6x9R4KpuiV9eqH+HwiYxdAmihw4PvYw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDXb4HpcUdqXXvnCg--.46753S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxAr4ktr13Wr4UCFWkXF1UKFg_yoW5XF1DpF
+	W7Krn0kr4DGFWIkas2kayfAa4Sv3s3JF45Gr98Jws3urs8KF1SyF43t34j9F1akrWDua1j
+	qa1jy34UWas0vaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j-sqJUUUUU=
+X-CM-SenderInfo: x2kr0wpolqwiqxrzqiyswou0bp/xtbBoQoD02pHceqh9QAA3Z
 
-On Thu, Jul 02, 2026 at 09:26:32PM +0300, Laurent Pinchart wrote:
-> On Thu, Jul 02, 2026 at 05:49:01PM +0100, Lorenzo Stoakes wrote:
-> > Both of these guidelines are complimentary to one another - one specifying
-> > guidelines on AI coding assistants, and the other specifying those for
-> > tool-generated content.
-> >
-> > Since they are complimentary to one another, provide a link to each in the
-> > other.
-> >
-> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
-> > ---
-> >  Documentation/process/coding-assistants.rst | 4 ++++
-> >  Documentation/process/generated-content.rst | 7 +++++++
-> >  2 files changed, 11 insertions(+)
-> >
-> > diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
-> > index 899f4459c52d..6125ee4914c5 100644
-> > --- a/Documentation/process/coding-assistants.rst
-> > +++ b/Documentation/process/coding-assistants.rst
-> > @@ -15,6 +15,10 @@ kernel development process:
-> >  * Documentation/process/coding-style.rst
-> >  * Documentation/process/submitting-patches.rst
-> >
-> > +For guidelines on content generated by AI coding assistants see:
-> > +
-> > +* Documentation/process/generated-content.rst
-> > +
+Looking at ntfs_lookup_inode_by_name() more carefully:
+
+All error return paths inside the function use hardcoded kernel errnos
+(MREF_ERR(-ENOENT), MREF_ERR(-EIO), MREF_ERR(-ENOMEM)) - these are
+already valid by construction.
+
+The actual risk occurs when the function returns a "successful" MFT
+reference from disk (ie->data.dir.indexed_file) that happens to have
+bit 47 set - making IS_ERR_MREF() true at the caller. In this case,
+MREF_ERR() extracts garbage from untrusted disk data.
+
+This cannot be fixed inside ntfs_lookup_inode_by_name() without
+changing its return value semantics, because from the function's
+perspective it found a matching index entry and returned it. Only
+the caller, after IS_ERR_MREF() triggers, is in a position to
+validate that the extracted error code is a legitimate errno.
+
+Restructuring the function to distinguish "real errors I generated"
+from "disk data that looks like an error" would require a more
+invasive API change (e.g., returning int + out-parameter), which
+seems inappropriate for a legacy filesystem in maintenance mode.
+
+在 2026年07月03日 15:06, Namjae Jeon 写道:
+> On Thu, Jul 2, 2026 at 12:37 PM Hongling Zeng <zenghongling@kylinos.cn> wrote:
+>> check_windows_hibernation_status() calls ntfs_lookup_inode_by_name()
+>> which returns MFT references read directly from disk (untrusted data).
+>> The current code extracts error codes via MREF_ERR() without proper
+>> validation, allowing maliciously crafted NTFS images to trigger
+>> incorrect error handling.
+>>
+>> The MFT reference encoding uses bit 47 as an error indicator, but the
+>> lower 32 bits can contain arbitrary values. If a malicious image sets
+>> the error bit with a positive integer (e.g., 1), MREF_ERR() returns
+>> that positive value. This can cause the function to incorrectly
+>> interpret the error as "Windows is hibernated" status, potentially
+>> leading to the filesystem being mounted read-only (denial of service).
+>>
+>> Fix by strictly validating error codes: only accept negative values
+>> in the valid errno range [-MAX_ERRNO, -1]. Convert all other values
+>> (positive, zero, or out-of-range) to -EIO to indicate disk corruption.
+>>
+>> This prevents potential security issues and ensures proper error handling
+>> for corrupted or malicious NTFS filesystems.
+>>
+>> Fixes: 1e9ea7e04472d ("Revert \"fs: Remove NTFS classic\"")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
+> I think this should be fixed in ntfs_lookup_inode_by_name(), rather
+> than in the caller.
+> And I will revert your previous patch ("ntfs: validate error codes
+> from untrusted disk data").
 >
-> It could be worth it checking if this increases the likelyhood that an
-> agent would include a disclosure statement in patches. I would have
-> assumed that the "Attribution" section in this file to be enough. Has
-> anyone ever tried to understand why it doesn't work and if it can be
-> improved ?
+> Thanks.
 
-I don't think so AFAIK.
-
-I think people generally are aware of the Assisted-by as a thing, but perhaps
-less so of the generated content guidelines, so hopefully this helps that a
-little!
-
->
-> Maybe a stronger statement would help here:
->
-> "Furthermore, AI tools must follow the guidelines for generated content
-> documented in Documentation/process/generated-content.rst."
-
-I mean I would like that actually, _but_, I wanted to keep this as neutral as
-possible for the time being so we can first establish the links without
-controversy ;)
-
-Then we can perhaps separately think about making the language a little more
-insistent :)
-
->
-> >  Licensing and Legal Requirements
-> >  ================================
-> >
-> > diff --git a/Documentation/process/generated-content.rst b/Documentation/process/generated-content.rst
-> > index 08621e50a462..aad2caad9f8b 100644
-> > --- a/Documentation/process/generated-content.rst
-> > +++ b/Documentation/process/generated-content.rst
-> > @@ -107,3 +107,10 @@ the resulting changes.
-> >
-> >  If you do so anyway, maintainers are entitled to reject your series
-> >  without detailed review.
-> > +
-> > +References
-> > +==========
-> > +
-> > +For specific guidelines on AI coding assistants, see:
-> > +
-> > +* Documentation/process/coding-assistants.rst
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
-Cheers, Lorenzo
