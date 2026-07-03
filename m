@@ -1,82 +1,56 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68935221F2F
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 12:47:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B9832E729;
+	Fri,  3 Jul 2026 13:12:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783082826; cv=none; b=Hf7KhvmnH+BUGW/hfyy4J+3ATUcywFHC8vanMrIpDz4MXZKpTOLkZfs/uLKMSL+kDz5afCVdcV6RYvet1vOgE74PFeKN0SKobQxFMov6quL36KkupjmlYiD5FPnQQfR7AeIDU9LQZhTIBqw16k9o9Y/giuSyXBWxWLWhn6RMkgA=
+	t=1783084374; cv=none; b=GVtJBNBRztmT1AlJIX4QsNCnrfx5tXIVPeFsD5UMREkgkt6uP+9DhleQmdkucx4QjmH3lhN6U87xCm+dMchIj8NMRVQlQD5SY/w9y+ZgpqfhMZCo4Z2+gNfQ61Q/+aLYxSo0jOYdoj5GQUqNLDTJtp68tsQIQzEq+e+WEFcIR2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783082826; c=relaxed/simple;
-	bh=2jYG6Xf32+cEtSY72Mc1PL+l5rCSf2q04Wdaw1jcsok=;
+	s=arc-20240116; t=1783084374; c=relaxed/simple;
+	bh=1AJyYsh/c1jJdX+l1lh7yZDTMOmkUxIKHo/Rj9FGWM0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H57AcCu3+Lh2gduemsskEh08WgzfttTCvGOuaLTpX1SH+GNyIWIHkCT/E/GwmkYJJ1VMbQINqe94JNehJVHCccS+UXoweWwUHN/fXNfb/iAe717ytXRSpNzZOhWYdhr/BBHw6qYSMHQSCUAD9qEA+VHlbBggrksb5rV824BqZgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kOfnuRGT; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=uG2WCi/t0rF13NXzkE1WCZdV6xQDLFUUsqeIT7JmMipUg7wUYInBxqKSmJCJky6j+2wWHqu0rA7iJsDoONfcPQrnctEu2nNbGrGAg3h5tptCHlb7peZmhEHmR/BTDNfq27IsoOlcfsG0XSrpuiOksYMskhjDGu6ZdkOHXd5sZCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=duZC2bL3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kOfnuRGT"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2c9b1db4964so281695ad.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Jul 2026 05:47:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783082824; x=1783687624; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=I4FlisNClq+WLU9VmGBotriJLcRO/uQKg32SCiTN5SY=;
-        b=kOfnuRGTIe3RuyAyUsHbaPXc6stAIb40rnHVNsNA0HssJkwcDQo+qgk8mfgK45QsPi
-         mOH9EHBey/G+l62zaFImJpU2g5ttzK6pyEDiNwTytn0yhBpyJoWSnsld3rm82R+gNbLj
-         nqjdpMXdI9HHG8xWyW2y3yuNzYtlDAc9rnhVtm68SPcFIbuj13mglKzdbkN99GyJ7Ej9
-         z8ZBypR2NdsSAXzXiE+znRWopG2mqhmGJzInL22fUtjdhX27EPU+VWTIJApzQmABVR8o
-         ZoZyRSrHOesWW9O7UYxdt7WSjh7DqW/9RDCHe0nrVkd1nDKcLl1J2s3LNQoH/bLXh9FW
-         IxoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783082824; x=1783687624;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=I4FlisNClq+WLU9VmGBotriJLcRO/uQKg32SCiTN5SY=;
-        b=JyeN5dTepiLvsMbTs5LxPqAIg8EW24H8Ui6CXNJjyvDLhjQD053rnHr6tue8swZwYy
-         0T+sNMuk+kVG0er42UB+ADJD4rnDXpWlTv1QxxZZS4LzWeDKJx/UqlkFjsCsL0FLIgiH
-         V8NscvAHQcfzIGJE2yagtlC5nbub8X/j7J/La+cL486t9+kaAaF7yxq9xxyojnjeffhm
-         KI12DpqjMI4ATt7O5W5N/5C2Mc0jrggGvkXNPjw3iRQcdl6yF5rNUA+VLNi+flxRliZr
-         qmb8CzOwwfQwUJGeoNrxwwVlkBp5TiYKAoAZm7u+dfs1QpH7p681o/0IWklWslP2oE8T
-         unHw==
-X-Forwarded-Encrypted: i=1; AHgh+RoXBmQMETLvca1rUUmcYe1HGUr0SprVGm3Et6nMxzMHmJqd8giENWuBLbxO4h5Mbql91UQ6WpQFhgPfQLgH@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCsJ9Ny+YPqO57yCTbJkbWw5Qre88o0uDMtaiARuAp8ZbCvUG6
-	9YwiiewqM3s7HYZ3Idhe9ZpV1wshAwuv3FMTJrveMLTxFYtTqDCM4KiHjrT4btlhIQ==
-X-Gm-Gg: AfdE7cmazOw8Z+ujg8v1sD965g4EeJiloNFPxHOFtNMctjF5sFbH4Ba5DIZJIIX1Uds
-	40L+DRlBnGH80rj+MPjV0r9NNL/AQGOU7MPav9a22MtAHfN/kCgEM6BTY8dLFMlk11jQanEmU0Z
-	0bc0CFImG04VXD1/kEJXp5DP8kweZo0fpN3Q6Bq6L7YIikgCUEhRi1CwuqFU1lJURor6BEoo3JH
-	f6bl6aKbUznmONCV+j/DNxT0c0OM5p8lTj8LbYXoyBI3s9iL/Gqe26HdxLoWzYy59o1pnWlT7vV
-	WCOucljuo1L5HIU4wjS39RMu4HPRzin+dwDszaZDoAA/g40aOMpv6pWdV4VUdigL0wdjkcSFJoH
-	co6PhNnYg2aKcQwA+CiZfbefzON9ZLJVWr4frggNcjBcGh8mVDyPcF7qt+JIFahVKb7EiG8tZqZ
-	MKTviWCyJSXVDlkd4TzIZh1cfpnUlB9NEGm4EsNqYI75mrgMI=
-X-Received: by 2002:a17:902:d581:b0:2ba:73c3:49b0 with SMTP id d9443c01a7336-2caa3942d30mr5410005ad.14.1783082824027;
-        Fri, 03 Jul 2026 05:47:04 -0700 (PDT)
-Received: from google.com (10.129.124.34.bc.googleusercontent.com. [34.124.129.10])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c9e8f3d74ccsm2728907a12.9.2026.07.03.05.47.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 05:47:03 -0700 (PDT)
-Date: Fri, 3 Jul 2026 12:46:58 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Matthew Wilcox <willy@infradead.org>,
-	Trond Myklebust <trondmy@kernel.org>, linux-nfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Anna Schumaker <anna@kernel.org>,
-	Shivaji Kant <shivajikant@google.com>, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 6/7] nfs: Optimize direct I/O to use folios for
- requests
-Message-ID: <akevQfFVteCOD6LM@google.com>
-References: <20260616134000.2733403-1-praan@google.com>
- <20260616134000.2733403-7-praan@google.com>
- <7ee3bcfdd6126c93cbb1c219bf601182b95c10d9.camel@kernel.org>
- <ajGGpDvzZdkGtSbN@google.com>
- <ajP8ZTTLYkICFTO_@infradead.org>
- <ajQ21kH1ZVajS2Y7@casper.infradead.org>
- <aj4iiD5C_yyLeb3U@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="duZC2bL3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACC881F000E9;
+	Fri,  3 Jul 2026 13:12:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783084372;
+	bh=1AJyYsh/c1jJdX+l1lh7yZDTMOmkUxIKHo/Rj9FGWM0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=duZC2bL3NTYEhQEHILunhqPj5g8AJk37UXkw7Duo4nMoSz3JcKzzUXL6rK7fMfzDx
+	 TbRe5MThH7ESYdH4189LpIUJLKoeoNzG9LfQCmrHgrmNm5E6LxgydSwsBgj3OMNWMo
+	 06BcKUHzyOL497TgG+qqGh6uWXmftHl+LSI5qEJFwC66KGbSkAOOybVS/iuJfUD6n7
+	 UNritGZzjEOXikbbrve4Ayc89bvlVgZQOgn/Nc76FuFp2+2WMkdwPEtcL17F/QmJdX
+	 W2fRWXgv5MSeiaCZ+sybM8rwa38AnV1NmEGCl432Ubw89+hQpPdmSG4zi/Vg4wNPo2
+	 E3c/AFCJFNUvQ==
+Date: Fri, 3 Jul 2026 14:12:40 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>, 
+	Greg KH <gregkh@linuxfoundation.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Justin Stitt <justinstitt@google.com>, Carlos Maiolino <cem@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Brian Foster <bfoster@redhat.com>, 
+	Christoph Hellwig <hch@infradead.org>, David Disseldorp <ddiss@suse.de>, 
+	Mark Brown <broonie@kernel.org>, Jani Nikula <jani.nikula@intel.com>, 
+	Jens Axboe <axboe@kernel.dk>, Vlastimil Babka <vbabka@kernel.org>, 
+	"Christian Brauner (Amutable)" <brauner@kernel.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+Message-ID: <akez23ZhLRSGMFQ1@lucifer>
+References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+ <2026070224-unholy-commode-cf45@gregkh>
+ <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
+ <20260702161330.GH3534761@killaraus.ideasonboard.com>
+ <2026070227-payroll-eradicate-8f66@gregkh>
+ <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
+ <akaWnQ5Pkg_676B-@lucifer>
+ <20260702211740.GA639365@zen.localdomain>
+ <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -85,44 +59,109 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aj4iiD5C_yyLeb3U@infradead.org>
+In-Reply-To: <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
 
-On Thu, Jun 25, 2026 at 11:56:08PM -0700, Christoph Hellwig wrote:
-> [sorry, dropped the ball a bit on this due to overload]
-> 
-> On Thu, Jun 18, 2026 at 07:20:06PM +0100, Matthew Wilcox wrote:
-> > On Thu, Jun 18, 2026 at 07:10:45AM -0700, Christoph Hellwig wrote:
-> > > On Tue, Jun 16, 2026 at 05:23:48PM +0000, Pranjal Shrivastava wrote:
-> > > > AFAIU, the MM subsystem explicitly ensures that every valid struct page
-> > > > is part of a folio.
-> > > 
-> > > It is definitively not what the vision for the folio is, although if
-> > > I'm not mistaken it actually is still true right now.
-> > 
-> > It's not true, eg, for slab.  While there's still a struct page there
-> > for slab, there's no refcount and flags like PG_locked have different
-> > meanings.  You'll get into a lot of trouble trying to treat slabs as
-> > folios (and that will include assertions tripping).
-> 
-> True.  But also not relevant for direct I/O user pinning.  If we stopped
-> having valid folios for anything mapped into userspace,
-> iov_iter_extract_bvecs would run into problems, and we had the discussion
-> before that at least right now it would be hard to fix.
-> 
+On Fri, Jul 03, 2026 at 09:05:58AM +0200, David Hildenbrand (Arm) wrote:
+> On 7/2/26 23:17, Boris Burkov wrote:
+> > On Thu, Jul 02, 2026 at 05:50:15PM +0100, Lorenzo Stoakes wrote:
+> >> On Thu, Jul 02, 2026 at 12:48:22PM -0400, Jeff Layton wrote:
+> >>>
+> >>> Do we need a tag for this though?
+> >>>
+> >>> This seems like the kind of information that we would always require in
+> >>> the cover letter of a series (or the little place in an individual
+> >>> patch for comments that don't get merged). That would also allow you to
+> >>> convey a lot more nuance about how it was used.
+> >>>
+> >>> ISTM asking people to disclose LLM usage in a cover letter would give
+> >>> everyone what they want: Information about whether and possibly how an
+> >>> LLM was used, and it also wouldn't clutter up the changelogs with these
+> >>> tags.
+> >>
+> >> It's much much clearer and easier to just have a standardised tag for that.
+> >>
+> >> You can see that (and grep for that) immediately, vague paragraphs not so much.
+> >>
+> >
+> > At the risk of being pedantic on a point where I think the document is
+> > kind of lacking:
+> >
+> > What level of assistance crosses the bar for an "Assisted-by: LLM" tag?
+> >
+> > Some sample levels of assistance to illustrate the point:
+> >
+> > 1. I used an llm to one-shot vibe-code a patch
+> > 2. I used an llm to write a patch but carefully reviewed every line
+> > 3. I used an llm to explore the design space for a patch but wrote it
+> > manually
+> > 4. I used an llm to debug or reproduce a kernel issue but then wrote the
+> > fix manually after fully understanding the defect
+> > 5. I used an llm to review a patch I wrote
+> > 6. I used an llm to research some chunk of code while writing a patch
+> > 7. I used Google while writing a patch and learned something valuable
+> > from the AI overview at the top
+> >
+> > I personally would 100% use the tag for 1 or 2, and have already done
+> > so. I have not been doing it for 3-5, as I think that will basically
+> > make every patch llm-assisted to the point of the distinction being
+> > meaningless. If we should be doing it for 3-5 (or some subset thereof)
+> > then my mistake and I will certainly start doing so. I would hope most
+> > people agree 6-7 and similar need no tag.
 
-+1. I see that extract_bvecs also rely on user memory to have valid
-folios even if we were to re-use parts of it (get_contig_folio_len) it
-still relies on page_folio() as detailed in the other reply.
+I personally think 1-2 are the only relevant cases.
 
-> Also if iov_iter_extract_bvecs was used on kvec or bvec iters we could
-> run into the slab problem.  The block usage currently makes sure bvec
-> iters are not handed to iov_iter_extract_bvecs, but there is no such
-> thing for kvec vectors, although no one is using them for direct I/O
-> right now.  Not that I'd want to rely on that in the long run.
-> 
+> >
+> > Similar questions abound if you use an llm to help with writing the
+> > English text in the patch or emails.
+> >
+> > I have a feeling that this ambiguity is part of the reason we aren't all
+> > agreeing on the value of the tag?
+>
+> Yes, I raised something similar as reply to Christian's RFC [1], where I said
+> that for me the information *how* it was used is much more important:
+>
+> "
+> Assisted-by: LLM # translate commit message
+> Assisted-by: LLM # generate some test cases
+> Assisted-by: LLM # cleanup logic
+> Assisted-by: LLM # everything and I have no clue what any in here does
+> "
 
-Do we have use-cases for a kernel user for direct I/O ? (Just curious to
-know if there's something on the horizon).
+Yup, and we don't need complicated rules for that just 'document what you used
+it for and give a sense of how much'.
 
-Thanks,
-Praan
+It's fuzzy but useful.
+
+>
+> That tag is it stands is pretty useless, really.
+
+Not to go over it all again but I disagree, even as it stands, it allows us to
+engage in conversation about the LLM usage if admitted, and to point those who
+are misbehaving at the rules if not.
+
+And it is a clear way to get the boolean 'is this person saying they used an
+LLM'.
+
+But I agree with you it'd be MUCH more useful if we did the above.
+
+I wonder if we could get consensus on adding a section to the doc saying that
+it'd be _useful_ to add a comment explaining _what_ you did, and explaining the
+concept with some examples?
+
+I can't imagine anybody would disagree with that, and that would get us positive
+forward progress.
+
+Then later we could debate the details further?
+
+>
+> I assume most people only really use it for something in-between 1 and 2, but
+> *who knows*.
+>
+> [1] https://lore.kernel.org/r/5e7b9d23-4291-48fb-bdc6-47db82d33c80@kernel.org
+>
+> --
+> Cheers,
+>
+> David
+
+Thanks, Lorenzo
