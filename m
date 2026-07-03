@@ -1,127 +1,128 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B1B3B3C11
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 11:43:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783078993; cv=none; b=BmIp1v8ijnqUYQL9jmbXpa6e1h+gUzu70coedvpnnH750Tt9EmtRrbNpxsfyna8OfcM7Q7AlWz80UvAZxqc+WIY6JbIBph87XzRF5YQ9jZFhTOJjKifWFQULFC3/nP1ZDq0Anc8YPJPynPeei+Lu475DTrd+mhMkQJjPPGu1tcQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783078993; c=relaxed/simple;
-	bh=MbTATmy8I9xcBWQF5hOY0p0TNMj7Drl4a0Js/q64axE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bDyynsTBNP34g3cP2o64OPusIu9xlg65QGzJE3GuZAUQ2SJSBMUDK8ME2AK99jfg4Jun+tUmfDR1lY5eNzGtg1XhQcIIwktCn91LJu/Hb2YO/Wwj/8HMDUPTBFI6TSze5lyRxaTwcn+SKZyGPunIL12dh64PyVO5AIo5+KaD/FI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
-Received: from macsyma.thunk.org (syn-072-043-125-131.biz.spectrum.com [72.43.125.131])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 663BgZYu001670
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 3 Jul 2026 07:42:36 -0400
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 3437289CB1E; Fri,  3 Jul 2026 07:42:35 -0400 (EDT)
-Date: Fri, 3 Jul 2026 07:42:35 -0400
-From: "Theodore Tso" <tytso@mit.edu>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jeff Layton <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Justin Stitt <justinstitt@google.com>,
-        Lorenzo Stoakes <ljs@kernel.org>, Carlos Maiolino <cem@kernel.org>,
-        Jakub Kicinski <kuba@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Brian Foster <bfoster@redhat.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
-        Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
-        Vlastimil Babka <vbabka@kernel.org>,
-        "Christian Brauner (Amutable)" <brauner@kernel.org>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-Message-ID: <akeaouJETPWpE838@mit.edu>
-References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
- <2026070224-unholy-commode-cf45@gregkh>
- <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
- <20260702161330.GH3534761@killaraus.ideasonboard.com>
- <2026070227-payroll-eradicate-8f66@gregkh>
- <20260702163215.GC3559965@killaraus.ideasonboard.com>
- <2026070350-drown-untreated-5835@gregkh>
- <a095d9b4-f774-47d9-affd-d519d8acfb34@kernel.org>
- <2026070343-copied-quarters-1e2a@gregkh>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8257343D80
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 11:45:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783079152; cv=pass; b=Ms0MQ9P1FHKFMYcguI2+7xo4byhPh8j35PsrBjzKAyTEaHpzKrbBRVd0rAxCMZxRkItGkyLrQ9BL9cvoBIHPRP/F6SW01u2kGiMXgHtAXrkKjVY+Er6ISulmlOBXdQIaI7VLzNzMsD6euOIZf6QMGlIK9EVvvtEFX3Gz8C22+lI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783079152; c=relaxed/simple;
+	bh=GeUDSjrHAWkuRRsR++4INezbx04TBh6B1L1rO/GgWvo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jy2LdsmMKhe+RaGF4aARhiY8b0DI6QlJ+5bEpUVfSJiJAIYTbhFoEeuLLcWCBlAgMX1bDAM3+BfyQmXcMeG2x1WgSYX312LS3OhtJk5K9t89ILJ6r1WVVUbPJ3WdDj2ZoABfrFsQJOOzjGFaxmPFr2l8jlqXuXJweGAIQdGzKoA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fLyBr8UH; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=gpVlvvjN; arc=pass smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fLyBr8UH";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="gpVlvvjN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1783079150;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GeUDSjrHAWkuRRsR++4INezbx04TBh6B1L1rO/GgWvo=;
+	b=fLyBr8UHrSEqg9mX1jWuNKlo7oMOf4wjm4nQy29h5hs9u9Q2mYus9sOv08VUwyflg3FS1m
+	eLvdaR6OqWFv67rXVtlEvgWjTVCPX2CRI5vXnVRrfC2LzJalZNr69iFMeLwg90Oe7TmAh9
+	WPB6CmlvLK7W5vcSlNnmyZhSUQvl3bk=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-554-l0_wSH49NE6C8u7DHCrP-g-1; Fri, 03 Jul 2026 07:45:49 -0400
+X-MC-Unique: l0_wSH49NE6C8u7DHCrP-g-1
+X-Mimecast-MFC-AGG-ID: l0_wSH49NE6C8u7DHCrP-g_1783079149
+Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-808a9e51918so12605057b3.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Jul 2026 04:45:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783079149; cv=none;
+        d=google.com; s=arc-20260327;
+        b=e9yEQwqdcHY0PQEejpLueJwgmzIzUmftGPo9DT2GnD83wx0bXaWqBxiFM7YzJPfgMQ
+         PpEKTsiL0fRccPq/XcAcimXY1H5DbSfiyVbD6taAVnaNHJtbDEkZfDbOKMwjEsq441GL
+         jMAjd7upJ1ZEHs/O62aXOYIDBKYPf7ErXnt+fYdjXV/L+s0VL+n+iTzgr+UZOnESuvid
+         hCJ5pmF7+jf7RvbUrrbmAhM+uYoO/rBjlzsKYbIgp4H1vlWNuLolbdoXSMFiewcozvGW
+         TJyfFIjQ4wJSYZRuxRrky6/cpPx8BQEUKi7k3r+tqJX2lrV/ZLmfBe12xRo5r/bttmxU
+         m0VQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=GeUDSjrHAWkuRRsR++4INezbx04TBh6B1L1rO/GgWvo=;
+        fh=7oHEz1QToukC0k8QBBf4nz6+N839i09v/fjQvT5puAM=;
+        b=EzkEMEDhb6EOcPdcZ95uDhADOP6FQth0Gr9G+Ywv1FnWnLi739nb8Hi5dMl7y6N8qX
+         hcd+Su6E39XpRG9HeRBcrKba1LqEOpV125SDejmrq6CqtIS3GBBsxVNyqab5RGMOANBZ
+         O3jMKnm3mLg+uHHywlz3f9GRWm1BuTrB3vmr73pVEtXFiEPZXzIIogGZm2tsI3Wc9PMy
+         6y9uRCOxni0XiH5WSctMVgEDi81bRJ2JEhdF/T10KbLSBZPljFcOqtFOsbUOmbBcVI60
+         HuXNu1NeHOkFztk1THTeOjSsJmK2JKTxOdF7B4mn66KlXNdyXMzceY0Bh14ibthrZGb+
+         CEuw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1783079149; x=1783683949; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GeUDSjrHAWkuRRsR++4INezbx04TBh6B1L1rO/GgWvo=;
+        b=gpVlvvjNWqv6inkXDAzUGekF7rJksIpyQSqAz1/JeiPQZAyAdKiRY1TRQr+ZsEQTDa
+         dOvrnHlHNk2uaYstKxwjyDSXbUqclwp3hfmAJQnGydMtQz0FPre5xpoVEWVMgszZTdSB
+         b9CteiS+gWE4/uqwr86+KkDj1kWqiVwzUJtwYfERaZZBjC7n0xMubtHQXSAYlWzanc3y
+         rbOMUYpQ83tZ2fad4vMOnkztzjk0zE01NwQy+ys5zwdnaGtMQaTVFc2grTLEea62qkoC
+         SfSr7tduEQPybp0pxJYUvGKgbHJpzqXgrgxD9BLroJ+MmEQovsPbKcOYcdF1ZZotr1UQ
+         rpeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783079149; x=1783683949;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GeUDSjrHAWkuRRsR++4INezbx04TBh6B1L1rO/GgWvo=;
+        b=ewJHt/6W9tKszCLs4h9IIS6dnokeF/C/adVanbSLEfnRvTtCmcdsut9GZjLYM8E+Lv
+         Q2CUbndyskGqCgZ4jEeJjczFdSoYkbb/cITh1KKNo3nzlYKrKTgTjiIzRg8PkXFGnfLW
+         3KrDgq2hRxYEFji86NXG1xQaOrT4GVLTWrZnTiNlx9zIQZCXmSA/RX0pfN6uaPIHXWGs
+         /Nu29fvolNHi9QS0HuHVJ6lJLz7PMX+o0MfeR1oY7h40mPvkpEmyq2Cl0oBcW5SBydo6
+         bWNGp806Xqsp8SGOBa6TjpfNLlR2txZeqh22N42qdBheOm2XTFVsPL8IvKe/OEJefVh8
+         0eCQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrM6HEJz210GzEz1cylHC5oQwZjEMUrhOrqODYNCmBNYrE/oYsHQ1LAiPWkuBw9hmnxQktDLY79xGIuxat5@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbZnpsy644zQ0NAf1cQH8weshJGB1xoEqzewEK33gYaIRhURWQ
+	jWAiROD34Pfp9zfuRwTlqyTYvzIfeXEMVPlkxgNzOh8qgyVtNNsqoI2cE3hPTOzODb9nQQ75wz+
+	CkYk2c+6wdTHGgCxbdGMifPGxfMA+AqutYMVL548xxS1wOp7dpJnCvrJjnWoUlslE5Hx4fsoUGA
+	n6uztUc5F6x0oEcYLOL/4ob4X2GwgYfNmbYRKYw+u3Og==
+X-Gm-Gg: AfdE7cn0Ng6fXfh649bHHDiYpm9PFdEhIN/umGfrH09hkCc/BKu24WUwRngAEvt5O7A
+	0vzDl6tHTjiIoOwCKeG+euTUyHcZfnKDxgckPJZ+RHWZGQcF5gcCu7IJJ/KcERv05267Ic7sadd
+	YOaTOXEXuMiAMZxBr6sBDTU4RjevhdLVpidPGeuuGJm1EkteO9ELC/Qas/VrGaO75y1ZPfGR6Cc
+	LnwlJrxymJPxSCplw7Hexp/qRZ0Q55J2yE89PFK1V2M+pQ+P5CAy8c=
+X-Received: by 2002:a05:690c:6e0f:b0:806:1ec8:9626 with SMTP id 00721157ae682-812eae80545mr104664827b3.39.1783079148650;
+        Fri, 03 Jul 2026 04:45:48 -0700 (PDT)
+X-Received: by 2002:a05:690c:6e0f:b0:806:1ec8:9626 with SMTP id
+ 00721157ae682-812eae80545mr104664337b3.39.1783079148147; Fri, 03 Jul 2026
+ 04:45:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026070343-copied-quarters-1e2a@gregkh>
+References: <20260701000949.1666714-1-joannelkoong@gmail.com> <20260701000949.1666714-13-joannelkoong@gmail.com>
+In-Reply-To: <20260701000949.1666714-13-joannelkoong@gmail.com>
+From: Andreas Gruenbacher <agruenba@redhat.com>
+Date: Fri, 3 Jul 2026 13:45:36 +0200
+X-Gm-Features: AVVi8CdOnoIEUsSqGG1Lvbx5AQnAbjO-BXv_ely4Zi6OZQFZeWID1WZjNQSTcpA
+Message-ID: <CAHc6FU76J-YYRd2B=ZPN2DMabQjkzgG9qSzbP_S1s9AsSJNh=w@mail.gmail.com>
+Subject: Re: [PATCH v2 12/18] gfs2: convert iomap ops to ->iomap_next()
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: brauner@kernel.org, hch@lst.de, djwong@kernel.org, willy@infradead.org, 
+	hsiangkao@linux.alibaba.com, linux-fsdevel@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, 
+	"open list:GFS2 FILE SYSTEM" <gfs2@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 03, 2026 at 09:30:28AM -0500, Greg KH wrote:
-> > So clarifying there that a "Assisted-by: LLM" is also good enough would make
-> > sense if we agree on that.
-> 
-> If we all agree on that, I'm saying that _I_ don't care, but others
-> might.
+Joanne,
 
-I agree that requiring the model name is not a good idea, because some
-developers might be using unreleased products where the name itself
-might not be public.  So allowing the version number of the LLM to be
-elided would be a good change.
+you say in the cover letter that
 
-I'll also note that it's starting to be the case where tool is
-actually quite relevant.  So it's not just about the LLM Model, but
-whether you're using Codex, Claude Code, OpenCode, or Shahiko.  You
-can use the tool or the harness with different models.
+>This series is submitted against Christian's vfs iomap tree, and is based
+> on top of the current head of his tree (commit f2727952b21d1).
 
-So whether the tag is:
+which repository and branch is that? It's not vfs.iomap in
+git://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git; I don't
+have a proper merge point.
 
-Assisted-By: OpenCode:Gemini 3.5 Pro
-Assisted-By: Claude Code
-Assisted-By: LLM
+Thanks,
+Andreas
 
-I'd be fine with reviewing patches with any of the above.  However, to
-me that's actually not the most interesting part.  See below....
-
-> For me, the info after "Assisted-by:" doesn't matter, it's the first
-> part.
-
-For me, what I care most about is *how* the LLM was used.  For
-example, if someone just used the output of Sashiko to fix a problem
-in their commit, that's one kind of "Assisted-by".  If Sahsiko
-identifies a pre-existing bug, and the developer addes a patch to the
-patch series, or creates a new patch series, that's a different kind
-of "Assisted-by".  A third kind of "Assisted-by" might include asking
-the LLM to create a Coccinelle semantic patches (because I'm not smart
-enough to create semantic patches).
-
-And of course, all of this is quite different from the stereotypical
-"vibe coding" where the LLM generates thousands of lines of code which
-the human doesn't understand before sending the pull request.  :-)
-
-So for me, adding something after a #-sign comment explaning how the
-LLM was used would be very useful.
-
-> > My kids should clean up their room; doesn't work.
-> 
-> But, if you notice that your kids didn't clean up their room, and you
-> had told them to, you can then talk to them about doing it properly
-> based on what they are supposed to be doing.
-
-Another metaphor might be that people shouldn't try to evade paying
-their taxes; merely passing a law saying they have to file correct tax
-returns doesn't guarantee this.  But it was specifically the law
-against tax evasion is how US Law Enforcement arrested the Chicago mob
-boss Al Capone.
-
-Just because some people might lie doesn't mean that we shouldn't
-bother to ask everyone to fill out tax returns.
-
-Cheers,
-
-						- Ted
