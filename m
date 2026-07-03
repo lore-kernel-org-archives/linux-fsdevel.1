@@ -1,218 +1,225 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E4E3D25C2
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 14:03:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6E63DB321
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 14:19:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783087383; cv=none; b=U2iMOUzhmsDRAHKKodx7hHm5AuPQ6sD/kzcqCYiJ3vxGDakPGl+3AFeXvw9zoMD9zQUrqCTanjeLRbRPJPe3+CzWBOFYgnyPci4uI95XzsdcsZexTroKboEZczV4kEsSVaVz334j+BwOZO/LixOF6IumV2qmy/8/a2ltOop9q3E=
+	t=1783088375; cv=none; b=ltkfEdhjfNUutat0C5tsK7LYDHGdRztMenSxyCtFGWaRmaYD/ciW/cdoHaZLSQydy0HNQ6j/tjjSDx3GoEw/2Igk+mfELtKRfxU+en6AZFadcv3NE201gxuM6Tm1+rGPYiN35bH5P9q3UupPxwhAeRkRGUUAY1SMB0pUAPGzI7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783087383; c=relaxed/simple;
-	bh=r+1g86x5w1iz7AjRAKcvSu5Bt6QNB714Yq6uNdhjKmQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JU1ryhAuzFpT6s9N3zIkw0dbLYQJEjiNhbAaBos0cdDa094wG6EQlZEVX/l4UsHuhwoZ55Jdl04m8zUE4mJ1jW1FXLh0rO8UAoD3Mnig781wyaDoppO8DDZuDW9rjUwoo5ZoIY3IVyccxxI6lIABlNT811jHrKMv+JwOvACJ9/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=QEEyDsky; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vKQIxjvC; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=22Czi7Oy; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=onIX2XSn; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1783088375; c=relaxed/simple;
+	bh=fwBNMGsGRW7LvE0wmMyeo41PuP5/RmLAB5AFTN8r+GQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Orm6IhC0IOpD+F/X93sChpLpBSHT72NOVHCU8Pa51dVJlAAn3BH9NAlfm+D2pZTJV9BGlaAKeW79Li8NtvR3GkwLM3n/JTAJsNZE4Z3ADop4fTWpKRr3q2l9g3x8jpJUlWjYv+6dFERCPkPCnncrA3Tmw2dsZVqBf6nOyTfcZxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=VXa2HykD; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="QEEyDsky";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vKQIxjvC";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="22Czi7Oy";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="onIX2XSn"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1A8C97493D;
-	Fri,  3 Jul 2026 14:02:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1783087379; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QmZwDvrRQTCnaJSp+eE3NA6vo/hUHvooFMtbTe+XW2U=;
-	b=QEEyDskyHAhoPEe94NhP4sSKyqGLqb4IffL8urC3C6TMKu6RXLSHjsXAA/6CEbhz9q+McR
-	45MozlkHv4rH11q8EhSEe+jctSg3D0j47ZZXKo+EpySVz1pe2WwMKB3xmMa8VAgvD+tyIf
-	/dvmdqNn6Z2Pd3K2gJArfG0xuK/ba+0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1783087379;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QmZwDvrRQTCnaJSp+eE3NA6vo/hUHvooFMtbTe+XW2U=;
-	b=vKQIxjvCMQD7btVXTLIITGCfefComxh/WKV0uEi2TDgVSTlBChK1FJnzkpemgIAfL3UHwK
-	DDA//g3p0oIP0sBQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=22Czi7Oy;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=onIX2XSn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1783087378; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QmZwDvrRQTCnaJSp+eE3NA6vo/hUHvooFMtbTe+XW2U=;
-	b=22Czi7Oy2ZSDZx0BVXGKjEV7faq3PcMU6pZK+KmMEnAviXp/xD93enV+x4fot2Qgt7siTR
-	AD9PxuDxvhDHy+/87WCfq2ZQsifQJ5Z3xJmeQD6KUdUPgYFp0hP1x2ewh4+uE+xolU96IL
-	DhQhaizsNZB3IxD+u98dDixoW+9lfOw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1783087378;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QmZwDvrRQTCnaJSp+eE3NA6vo/hUHvooFMtbTe+XW2U=;
-	b=onIX2XSn2kDueODlAlfEHM3yQeJUTV34nWNx6TWAftDZWMKyVSGoO1ULE7IBhZnshpzeiA
-	LTsoFH+93fho3IBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 08652779AA;
-	Fri,  3 Jul 2026 14:02:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oLGTARLBR2pMAQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 03 Jul 2026 14:02:58 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 8B8FAA12D4; Fri, 03 Jul 2026 16:02:53 +0200 (CEST)
-Date: Fri, 3 Jul 2026 16:02:53 +0200
-From: Jan Kara <jack@suse.cz>
-To: yun.zhou@windriver.com
-Cc: adilger.kernel@dilger.ca, brauner@kernel.org, jack@suse.cz, 
-	libaokun@linux.alibaba.com, linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ojaswin@linux.ibm.com, ritesh.list@gmail.com, tytso@mit.edu, 
-	viro@zeniv.linux.org.uk, yi.zhang@huawei.com, syzbot@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com, syzbot ci <syzbot+ciadd810ddf4701c1b@syzkaller.appspotmail.com>
-Subject: Re: [syzbot ci] Re: ext4: deferred iput framework for EA inodes
-Message-ID: <j6ftvy7a3w7js4whqps3fipbah452xhro37kxvkruoeobtlonb@zrp2pwoif3pc>
-References: <20260702152225.4071746-1-yun.zhou@windriver.com>
- <6a46ecbd.52c20a74.1f8b39.000b.GAE@google.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="VXa2HykD"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-4629324e267so78245f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Jul 2026 07:19:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1783088371; x=1783693171; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :references:cc:to:content-language:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7AtJfCkfnFMyzgye8dfK/HYrK6u/oQ9FNgRgisJiufQ=;
+        b=VXa2HykDu7tPrzRJFgLIlJuq6R9LgUv/0gSGCTICAf+Xvq4sNQ+JJwhgrB47bepXw1
+         TzI+Bhn3ERoBZllGBFTtB0XHQYVsVCqnsyoO0Ntdgux1y2LJlaxmuIsaj19Ty2ma2jvG
+         kMUqQBrPsH7FFUjr7p1j96S+dYep2FWx4hJ8RiviFBz4/xPH2uwCKhYmZc1PEUu9R2ax
+         RougdRAiZVmUoE78yW+N6U4LU3d4atY0z6U0/mD0gLGa30dQtSbbgBufn2wVvg0MiQL9
+         yTfk9YvWxPBu+ryhAS63jrmbWtStA4Q76QO26aaBtqf6BTNqBwAuj8EWRM58FSMzK23A
+         MgbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783088371; x=1783693171;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :references:cc:to:content-language:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7AtJfCkfnFMyzgye8dfK/HYrK6u/oQ9FNgRgisJiufQ=;
+        b=mPbrmw++8AqcotKHR+/+e8qlI9+ymKK/fp58Ezr9Q37PHzi1y2Npc8o5gZY2eOX3oN
+         sjntDmZzDHpcTwu0/PZYGocmC0sGXCFTtlmvP2053nVXXh3s2mNavpHaRIKqJviguYOc
+         3l+gzmpsD/DRAc1FI2YA6MaJqfPy8e8eC4SVzejYZbOH+oQUEFgVNWJrFIYotL8l5l+P
+         4OztAWH86CnNIDzfDcYcTpDU4Pw4YhZM20iM0tN+cNunb6alprsTu3i4SgX7UJSnIQpn
+         8W7bkBwHbLJeyqM2M1H/XvevtIOQ6aPjHUuesqvyF4acS+yIk+GAhvQwDaZ7ZgjbrbGR
+         8aiQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/btmdLXcq7LjPchIjmduP+r61+LeBxPpm6KdUFgQmgkebZ8zywijYDLgbZFpxB3Q0/Ok9AAXtC04wCRJu7@vger.kernel.org
+X-Gm-Message-State: AOJu0YyeVVVk9HzlqABpo9YWwzDQ75JkJ68f6cwo8M0iM5v1x2GxOjDr
+	6Y79r6IKOzni3nhWfdK/SyFDq9G5mF7u/G4rUbT4YflFZH2YCaEU8AlpTW4NI3QFk+U=
+X-Gm-Gg: AfdE7cmhnb+ybzHt0aavokAb9YwPBDCiHN55xY0w1aq5f0wyLG2YHBVP5UE8ohiZuC8
+	Sh9Yji9bo3hzfJCSmTajMDBENQ8v9JRZ9aGh+LZeV6XVIXn48/FOq96bAluHijYgyY0u7C+0+x3
+	mefOXYY6XJ9GZjsUXr/YLttbay+NUtltSiVDF+8qegNrlWBdY4mW1forhhsaysCqURgaeJ3F/zo
+	Fafl3io5tDfjXfkS9YopFf+QKksX34jiOXvhj8fYUT2kNyUsOZOgrRD26YiRdB79nfsazBPs+ap
+	bZfi9MSu2uKSe/AR1r3UkIP2a4qCqvS1CetEoe89orbFkUd/SNSpMP5B219d/HkTZqdfRMM5XOa
+	Ak1WVlcBHWflO1usdG+LGiOjO5ChZkuRspL4aK43BPz3Mb6UZ50Qvc7baffqwWz3teQqeSYeoNS
+	XHQ5Sk9o0=
+X-Received: by 2002:a05:600c:3596:b0:493:bda2:8d92 with SMTP id 5b1f17b1804b1-493d0f3dfa7mr471185e9.5.1783088371071;
+        Fri, 03 Jul 2026 07:19:31 -0700 (PDT)
+Received: from ?IPV6:2001:1a48:8:903::e14? ([2001:1a48:8:903::e14])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493bef23feasm171149305e9.2.2026.07.03.07.19.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Jul 2026 07:19:30 -0700 (PDT)
+Message-ID: <458898c9-cfe6-4be5-ba83-f7961ed84329@suse.com>
+Date: Fri, 3 Jul 2026 16:19:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6a46ecbd.52c20a74.1f8b39.000b.GAE@google.com>
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 1A8C97493D
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[ciadd810ddf4701c1b];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[dilger.ca,kernel.org,suse.cz,linux.alibaba.com,vger.kernel.org,linux.ibm.com,gmail.com,mit.edu,zeniv.linux.org.uk,huawei.com,lists.linux.dev,googlegroups.com,syzkaller.appspotmail.com];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[googlegroups.com:email,syzbot.org:url,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,googlesource.com:url,suse.com:email,appspotmail.com:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/30] mm: add kdoc comments for vma_start/last_pgoff()
+Content-Language: en-US
+To: Lorenzo Stoakes <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>,
+ Simon Schuster <schuster.simon@siemens-energy.com>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, Ian Abbott <abbotti@mev.co.uk>,
+ H Hartley Sweeten <hsweeten@visionengravers.com>,
+ Lucas Stach <l.stach@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Thierry Reding <thierry.reding@kernel.org>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Ankit Agrawal <ankita@nvidia.com>, Alex Williamson <alex@shazbot.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Dan Williams <djbw@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ David Hildenbrand <david@kernel.org>, Suren Baghdasaryan
+ <surenb@google.com>, "Liam R . Howlett" <liam@infradead.org>,
+ Matthew Wilcox <willy@infradead.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Oleg Nesterov <oleg@redhat.com>, Steven Rostedt <rostedt@goodmis.org>,
+ SeongJae Park <sj@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>,
+ Hugh Dickins <hughd@google.com>, Mike Rapoport <rppt@kernel.org>,
+ Kees Cook <kees@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, kvm@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-mm@kvack.org,
+ iommu@lists.linux.dev, linux-perf-users@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+ damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+ Jann Horn <jannh@google.com>
+References: <cover.1782735110.git.ljs@kernel.org>
+ <8c618dfd7de419e3b797b8bd1cd921d4c5b8878b.1782735110.git.ljs@kernel.org>
+From: Vlastimil Babka <vbabka@suse.com>
+Autocrypt: addr=vbabka@suse.com; keydata=
+ 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
+ pYekxJujNeEDkUlky0Y=
+In-Reply-To: <8c618dfd7de419e3b797b8bd1cd921d4c5b8878b.1782735110.git.ljs@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu 02-07-26 15:57:01, syzbot ci wrote:
-> syzbot ci has tested the following series
+On 6/29/26 14:23, Lorenzo Stoakes wrote:
+> Describe what vma_start_pgoff() and vma_last_pgoff() actually provide in
+> detail.
 > 
-> [v13] ext4: deferred iput framework for EA inodes
-> https://lore.kernel.org/all/20260702152225.4071746-1-yun.zhou@windriver.com
-> * [PATCH v13 1/4] fs: add iput_if_not_last() helper
-> * [PATCH v13 2/4] ext4: introduce ext4_put_ea_inode() for safe deferred iput
-> * [PATCH v13 3/4] ext4: convert all EA inode iput() calls to ext4_put_ea_inode()
-> * [PATCH v13 4/4] ext4: remove ea_inode_array mechanism in favor of ext4_put_ea_inode()
+> This is in order that we can differentiate this between functions that will
+> be added in a subsequent patch which provide a different page offset.
 > 
-> and found the following issue:
-> WARNING in ext4_journal_check_start
+> No functional change intended.
+> 
+> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 
-Good catch. We need to flush the pending work with iputs also in
-ext4_sync_fs() which should also take care of this race with remount
-read-only (and the same issue with filesystem freezing etc.).
+Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-								Honza
-
-> 
-> Full report is available here:
-> https://ci.syzbot.org/series/ce304d7b-7f32-44b5-bf6f-e579abb42a5c
-> 
-> ***
-> 
-> WARNING in ext4_journal_check_start
-> 
-> tree:      torvalds
-> URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
-> base:      4a50a141f05a8d1737661b19ee22ff8455b94409
-> arch:      amd64
-> compiler:  Debian clang version 22.1.6 (++20260514074242+fc4aad7b5db3-1~exp1~20260514074407.73), Debian LLD 22.1.6
-> config:    https://ci.syzbot.org/builds/e5413370-cf09-4540-b9d3-7d280f314ae0/config
-> syz repro: https://ci.syzbot.org/findings/e7cd69b7-8bb9-4554-bd84-b5ebcd7a8089/syz_repro
-> 
-> ------------[ cut here ]------------
-> sb_rdonly(sb)
-> WARNING: fs/ext4/ext4_jbd2.c:75 at ext4_journal_check_start+0x24f/0x2b0 fs/ext4/ext4_jbd2.c:75, CPU#0: kworker/0:5/5860
-> Modules linked in:
-> CPU: 0 UID: 0 PID: 5860 Comm: kworker/0:5 Not tainted syzkaller #0 PREEMPT(full) 
-> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-> Workqueue: events ext4_ea_inode_work
-> RIP: 0010:ext4_journal_check_start+0x24f/0x2b0 fs/ext4/ext4_jbd2.c:75
-> Code: 5b 41 5c 41 5d 41 5e 41 5f 5d c3 cc cc cc cc cc e8 06 75 42 ff 41 bf fb ff ff ff eb e0 e8 f9 74 42 ff eb d3 e8 f2 74 42 ff 90 <0f> 0b 90 eb c8 e8 e7 74 42 ff 90 0f 0b 90 43 80 7c 25 00 00 0f 85
-> RSP: 0018:ffffc900036bf888 EFLAGS: 00010293
-> RAX: ffffffff8283ecce RBX: ffff888170078000 RCX: ffff888107390000
-> RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
-> RBP: 00000000000000ef R08: ffff8881bb53440f R09: 1ffff110376a6881
-> R10: dffffc0000000000 R11: ffffed10376a6882 R12: dffffc0000000000
-> R13: 1ffff1102e00f0cd R14: ffff888170078668 R15: 0000000000000001
-> FS:  0000000000000000(0000) GS:ffff88818dc20000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 000055557b325a28 CR3: 0000000114bfe000 CR4: 00000000000006f0
-> Call Trace:
->  <TASK>
->  __ext4_journal_start_sb+0x147/0x5d0 fs/ext4/ext4_jbd2.c:107
->  __ext4_journal_start fs/ext4/ext4_jbd2.h:242 [inline]
->  ext4_evict_inode+0x7cb/0xf70 fs/ext4/inode.c:238
->  evict+0x624/0xb50 fs/inode.c:825
->  ext4_ea_inode_work+0x5c/0x90 fs/ext4/xattr.c:2974
->  process_one_work kernel/workqueue.c:3322 [inline]
->  process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
->  worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
->  kthread+0x388/0x470 kernel/kthread.c:436
->  ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
->  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
->  </TASK>
-> 
-> 
-> ***
-> 
-> If these findings have caused you to resend the series or submit a
-> separate fix, please add the following tag to your commit message:
->   Tested-by: syzbot@syzkaller.appspotmail.com
-> 
 > ---
-> This report is generated by a bot. It may contain errors.
-> syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+>  include/linux/mm.h | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
 > 
-> To test a patch for this bug, please reply with `#syz test`
-> (should be on a separate line).
-> 
-> The patch should be attached to the email.
-> Note: arguments like custom git repos and branches are not supported.
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 059144435729..2f00c75e66bd 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -4278,11 +4278,37 @@ static inline unsigned long vma_pages(const struct vm_area_struct *vma)
+>  	return (vma->vm_end - vma->vm_start) >> PAGE_SHIFT;
+>  }
+>  
+> +/**
+> + * vma_start_pgoff() - Get the page offset of the start of @vma
+> + * @vma: The VMA whose page offset is required.
+> + *
+> + * If the VMA is file-backed, this is the page offset into the file.
+> + *
+> + * If the VMA is anonymous, this is the virtual page offset of the start of the
+> + * VMA - if unfaulted, then vma->vm_start >> PAGE_SHIFT, if faulted then the
+> + * virtual page offset at the time of first fault.
+> + *
+> + * Note that if @vma is a MAP_PRIVATE file-backed mapping, then this returns the
+> + * file offset.
+> + *
+> + * Returns: The page offset of the start of @vma.
+> + */
+>  static inline pgoff_t vma_start_pgoff(const struct vm_area_struct *vma)
+>  {
+>  	return vma->vm_pgoff;
+>  }
+>  
+> +/**
+> + * vma_last_pgoff() - Get the page offset of the last page in @vma
+> + * @vma: The VMA whose last page offset is required.
+> + *
+> + * This returns the last page offset contained within @vma.
+> + *
+> + * See the description of vma_start_pgoff() for a description of VMA page
+> + * offsets.
+> + *
+> + * Returns: The last page offset of @vma.
+> + */
+>  static inline pgoff_t vma_last_pgoff(const struct vm_area_struct *vma)
+>  {
+>  	return vma_start_pgoff(vma) + vma_pages(vma) - 1;
+
