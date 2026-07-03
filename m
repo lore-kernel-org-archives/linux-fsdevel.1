@@ -1,76 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06FEC37883D;
-	Fri,  3 Jul 2026 10:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DED938F945
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 10:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783073997; cv=none; b=CR0Uw8NNtwGugwhD0ImnC1Vi+Ao89E17xBZtwa8ZfZJ3P2sIQJFjk8FS6lAHw891S+Ql73ccqDFzeqSwG9GXGh0dIbudSfbLGza85qrzKRrVGdTvFzCb6L/QOnT8Rg72IfdS5aMj/XJ3/LNUS8l/MZrcz73oYOc0ZL97J+6qzzM=
+	t=1783074211; cv=none; b=Xz4jm1uOK3pvJnKg8xV3QrogrXbW21A3TqOebredh/qzqS6q6Vh3qJbjF4T1F0DfX6Mlw3fobEKl6OEfqxCRa2O+2o4xWUYJ7MHyXjAJXRjSJ7rsgKgBT7/LolF/wN3aCXHxVAut1oTgiNW5lJ9sd1ACtMwl6eOVg95tX0u9bcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783073997; c=relaxed/simple;
-	bh=QkiATXld3lyhEheGjSMWfj8L2+fCYz5ZiStZfWTGZUM=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=KYfV5KBe5zgbjTHKsiP7HkqXyvL78neTdwt03Z2UoLeqZm3F+gpC9610DbKBps39AY/PI28HsjmM1KL9VexmhLYXCqyHtaVFIQGAce/btrTOMgHnBPll3ZkKA/LNlyw9trT+iow9XucWJXsCFAd/WWRdxxOSy7e6yWCvRdB48iE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QOHPi6rb; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783074211; c=relaxed/simple;
+	bh=N9+QbAUPaPXmQUpTCidHoZEU0HdMC1BH/xbdtpe2YFY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f/PFAV8eLYrNcNE9y6/4ar1PusM6W9xeyd3xq1P2j3eIXQlodqPkXSGtON+c2kjHuTM9+Pnh6gU29kxpi8C6uWuKd6GECxeVLB5JkrKqdw8Q1m0q8dHUJk3qOlvLsGcWoXsPMG7Q/5ywat9Jh1n347ZimqJ3ow/UkKtA6pXolEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fTtqo1Se; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QOHPi6rb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA8A41F000E9;
-	Fri,  3 Jul 2026 10:19:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783073995;
-	bh=75piOD1kjbKyc2rjDDeSKr4ySgkmI+tNdp7VVYdPp0E=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=QOHPi6rb8DaX76VnfT/ah/oDzHWq+KAqdukLVycb+096TV7FKIBzOvhvdumrUptQ7
-	 xLGlZMb3nQ5kLqYHuY/fQrN1BdfcyIwS9Uhh+ZJ+QwsY1mssCLQlM5AJWVS2fKdtGm
-	 litdDjgrinpqZli0IJ6bIGltqD+gY/YkZQ9+tG+/XDVZrXJSOV+zn2L6hXPALSubX9
-	 yCo6/eeilJzdNbw9/ei5Ca9xPuBhwDYqVX9f93sQUHyNG045WGVeecYXo9vBFTkInD
-	 i6BruXcM6Pg/V6Gww5lfqTGon2qR4PE8KmTYFfNzymmdNdGd6nq5a04KJFvrPmuIng
-	 uiSLBH/W2uBSA==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fTtqo1Se"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-380cda7f00cso391523a91.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Jul 2026 03:23:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783074210; x=1783679010; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=o2F8eP/jjp9Ke0LSHUP1E0ukxaqDAr6L35/n8rcUGLw=;
+        b=fTtqo1Seyg19DDf2TI5VJzajTz34gxHOCKAZWzCsYmKiWfx6GKHA6GAzXTigmOPxt5
+         OCgkvK+2i4071PnhvFEYXUQ1rYCiJroZXd2bi9AmU0RILnqxxozV2jrPKKpAKt/NWD48
+         YO9nwc6+F0LcK4VbdGjPoxCgaspIpHOVGgSbrugaFoEdUQRxb+3FXj5sPnz19mTfn8DY
+         UDfn1daxOKm09AxMZREachvace280NpxOgrh2tnYTUmEv1JY7HdENAwIurXWEniR26pd
+         qYAYqvbArjBmbOvn7G3ejjuliqkCy2pSj5JEsJvkhYUrLET3YlIWqctmnAqpVsgI6ZX/
+         7A+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783074210; x=1783679010;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o2F8eP/jjp9Ke0LSHUP1E0ukxaqDAr6L35/n8rcUGLw=;
+        b=PizuiiJ5rgO/lL++lIevXM0qlzeKPxS5wsBjDXR3nZ/p3b8IdO6PCqFQAV3FzFagJf
+         jtrvtgVKWnd2td0I/6bkkoEKkRkaGkQbmA+Nb3pP1d7a/Fg4DSgD0eyHCiNPFZdtg/+L
+         o7SymDB51G+SKbX6SkdY+WT5u/crTogJlljPYP8woXhYIwjb+6nnPedxJB4y9rL1bx+2
+         BP4v3Knx6JVU8HMMF4Tgpxm/z3ZWm+4wDRczzdjRA5O/kYpZ2tUq8lgVPIpAlR/WY0ns
+         MwQBMR9j3E0qCq9uv+CSlKz1MwmxpT6nLfS5tSlDOxViILYwXwh6j+fNavgIEAhggQ9Z
+         WJlw==
+X-Gm-Message-State: AOJu0Yyr1R45OB9zxrH/aA9dkxswcSb5RM5Uhgmctj2n7f1gv2iCXPxm
+	mXiQ8+lpaR7Z6PhLMzK1TsJ2rE9wmTGiIH774nLue0lp6qhpivh4x+3QMeXZ1r5jFrQ=
+X-Gm-Gg: AfdE7ck+D7wzLbzXsCMToepO8MY52FSvopN8p1OiIBAjL/MzuQX3Ar25zPxtHENqKOA
+	Fo94GbErW5nJv8CDBt1hwnLidVbgD2hJaQNljNWuXo+2GMbdYQRahCCti+BmFPLir2xud0rJ7NJ
+	F2yACAFCeK3q/nGkUgrK/rrAhKgf7i0d5Gq6hlkb7Th4uXmjtg3sHw9jaBfr7idd3imPVY6cBH5
+	SKeC68udjPN6OVjop4VsgHAL3ELZj6HlxFtB0c0dmTLybnQH0d1HvGJMOh6V7/BuHf8rXlY4AqD
+	UyHh2EqbIGvsrCJ6TsJeJaxW9n+DwGA10r5Cr9hb+7jIFf7y6tDkFIb/ps2df1XSD+U1dWQt3yI
+	JcPYmdjaAeiDBLjEuin9yf1nr1+q6FY3fm0EpVv5XcpujGl1oWg3Twk2qUuOqbZa77oFEmLdPOX
+	bxA2C2iXHnwVR+WdFVfvdpTA==
+X-Received: by 2002:a17:90b:582c:b0:37d:ac3a:2f4f with SMTP id 98e67ed59e1d1-380ba8d079dmr10435698a91.13.1783074209607;
+        Fri, 03 Jul 2026 03:23:29 -0700 (PDT)
+Received: from ubuntu.. ([2405:201:8026:213e:185d:def2:c823:8e8c])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f0bc27ae7sm17931678eec.26.2026.07.03.03.23.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jul 2026 03:23:28 -0700 (PDT)
+From: mdshahid03@gmail.com
+To: Viacheslav Dubeyko <slava@dubeyko.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mohammad Shahid <mdshahid03@gmail.com>
+Subject: [PATCH] fs: hfsplus: remove redundant NULL check before kfree()
+Date: Fri,  3 Jul 2026 15:52:56 +0530
+Message-ID: <20260703102256.58959-1-mdshahid03@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH RFC 0/4] fs/pipe: unify the page pools into a single
- per-pipe pool
-From: Christian Brauner <brauner@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, oleg@redhat.com, mjguzik@gmail.com, 
- josh@joshtriplett.org, Jan Kara <jack@suse.cz>, jlayton@kernel.org, 
- axboe@kernel.dk, shakeel.butt@linux.dev, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel-team@meta.com
-In-Reply-To: <20260626-b4-pipe-unification-v1-0-d23fa6b1ee27@debian.org>
-References: <20260626-b4-pipe-unification-v1-0-d23fa6b1ee27@debian.org>
-Date: Fri, 03 Jul 2026 12:19:50 +0200
-Message-Id: <20260703-dutzend-endabrechnung-mensaessen-1e020014ecba@brauner>
-X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=621; i=brauner@kernel.org;
- h=from:subject:message-id; bh=QkiATXld3lyhEheGjSMWfj8L2+fCYz5ZiStZfWTGZUM=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS595xIOnRFPOvhobnnk4xcpyztE8tzWj9jv8mWjj+zX
- 5wU+Wzt3VHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjARlTWMDO2dByVeL9l9oHL7
- bRah5JLLPfGigrWx995e5b1W9DKi/jvDP/OA9yFtMfKGW5qrzRe4rpJ1nrvMUfHk8dlvFX/OFW0
- V5wIA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 2026-06-26 03:26 -0700, Breno Leitao wrote:
-> TL;DR: This simplifies the pipe code, unify the page pools, reduce the
-> code by 11 lines, and improves the microbenchmark by up to 23% — so it's
-> probably wrong (!?).
-> 
-> Summary:
-> =======
-> 
-> I've spent some time converging tmp_page[] and the on-stack
-> anon_pipe_prealloc pool of pages into a single per-pipe pool, as
-> discussed previously in a few places, most recently at:
-> 
-> https://lore.kernel.org/all/ajLA_zxsYyKISkwp@redhat.com/
+From: Mohammad Shahid <mdshahid03@gmail.com>
 
-I think this makes sense. Sashiko has some comments on missing trim for
-readers you might want to consider.
+kfree() safely handles NULL pointers, so the explicit NULL check
+before calling kfree() is unnecessary.
+
+This issue was reported by ifnullfree.cocci.
+
+Signed-off-by: Mohammad Shahid <mdshahid03@gmail.com>
+---
+ fs/hfsplus/unicode_test.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/fs/hfsplus/unicode_test.c b/fs/hfsplus/unicode_test.c
+index 83737c9bafa0..7f6b2a3c69d9 100644
+--- a/fs/hfsplus/unicode_test.c
++++ b/fs/hfsplus/unicode_test.c
+@@ -39,8 +39,7 @@ static struct test_mock_string_env *setup_mock_str_env(u32 buf_size)
+ 
+ static void free_mock_str_env(struct test_mock_string_env *env)
+ {
+-	if (env->buf)
+-		kfree(env->buf);
++	kfree(env->buf);
+ 	kfree(env);
+ }
+ 
+-- 
+2.43.0
 
