@@ -1,121 +1,183 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE583CDBD6
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 12:04:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929573D093E
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 12:26:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783080286; cv=none; b=siJn982bIwDdI4Bq+Jtdz8rV2rmH0PITNoRDDjvi9Oq+GIQSkslUT7IklnL8l0lGjjbEhtbOssR4UT8/DSwAfxfxRABwUc0jvtH+2uvKXkSOg+oyzelO5CloCUfBPeCuM2rw8BkFVvNbZ4OmBfr9BdRLR3vROoWQHDW5+uZSM4w=
+	t=1783081597; cv=none; b=BDjM+yP3dbPqk+w9KlBwDkUqvrKDxWoGT27eERlIOTakpHMe6tcD30b3UMNsfuWZx0Y3V2dEWmsbmjZHXF9+tIUj399mSB7+xyWfEUER8txxVXgoASOw0Os90JgePw2H8I6sv/+AsqouaXrSDgUtODGriMMoWwR9o60NF4r9x7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783080286; c=relaxed/simple;
-	bh=QL/JbmM3C+Gj3wW0n+ny8fxiavIYHib+hONzQqSLcfE=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=h4P25koYGfiyiFb+Bymgp9JB7AV6DoPdxlyB+gII8zH+emNptXjC3I+TNPvWvWBYyHWlVddsLVDdeLbu3LILTM/FanUT31J+DBHYwV1el+JoKDQD6T+YnbAZHXTp302cGmcsbF8mMheUQ9BzbM0KLKwcMfXYFBRukA2Ev8eUvXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=R65ji+jQ; arc=none smtp.client-ip=195.121.94.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1783081597; c=relaxed/simple;
+	bh=KuXKXW+/ESq7QQvhE4aqDlbngtzI88Dcz0VFbFiOw4I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tm7PgaIpkQCrVFVB78TvPnf5JCO0XOcq5oyF66e3hFWWF2ti1QOeU2vCPSgWPkYjM+2PacTC2VM5nbhYp9t5guLOEG7RcIlyGE37ncyuV5FOEr9+6XZg4av0OMkHKdHFrWxl9eNWR/hnQR9LLbg4FDtwG2RzEIFVD5Ejhqjvy+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gqQC1glC; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="R65ji+jQ"
-X-KPN-MessageId: 5c0e38d1-76d7-11f1-9e8e-005056999439
-Received: from mta.kpnmail.nl (unknown [10.31.161.189])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 5c0e38d1-76d7-11f1-9e8e-005056999439;
-	Fri, 03 Jul 2026 14:04:35 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 5c0d1f70-76d7-11f1-ae68-0050569981f5;
-	Fri, 03 Jul 2026 14:04:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=ShKuearSCixOYAeSxjNsXyZsTRzB90Z7PdTAP8O3Zdc=;
-	b=R65ji+jQyBHXZuYMNGloUNd6hr3KUSK3DVSj7ixoLx8pyyzR0ZAeP2BUFFD7ciihipLr6fl+4tpIm
-	 EhrfcIWJ7ZOOoefq04TWLKq6Nkf9jVUPS1l1BCGtHI4G3v1UtWQGRFVTxRoUXlrUdIaltDZRu+CDxo
-	 QQ7pjY21v5uEd5Dp7gpZCb48PCNG4BF3DrmSo5kdxvcS5dSvvoQrIGdfWHbZbGB6uXymD1aTopFkG0
-	 Rxs9tA7ZLRoDatLyuWp1BWgViudIEohOf7RzYbERcxsAgRmgI18tT2ZSPrN9HJxcuIZ1mFU6Al7EaL
-	 oeIOR3xDZr/uY8dKWkm1G/U0DUj3wYQ==
-X-KPN-MID: 33|i553sxXguCOuWlvSms49Rao/AC5ZGcUTriItsg+4v+Kq9/XUC5N2/8ZsrrzaSaV
- f1LQe50ouABx3MMhLgYW1tebxM0XakbYH2nwibPOk5aY=
-X-CMASSUN: 33|maPTHT/kMkQTBE6kjGhKEgp2bFHu29e7whvnZBQDCFcnBWN53c5M4Z0kY8ItD5K
- x6Ah+lzf/1sAzdfs/HFoUVQ==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh05 (cpxoxapps-mh05.personalcloud.so.kpn.org [10.128.135.211])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 5c00487c-76d7-11f1-916a-005056995d6c;
-	Fri, 03 Jul 2026 14:04:35 +0200 (CEST)
-Date: Fri, 3 Jul 2026 14:04:35 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Theodore Tso <tytso@mit.edu>, Greg KH <gregkh@linuxfoundation.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jeff Layton <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Justin Stitt <justinstitt@google.com>,
-	Lorenzo Stoakes <ljs@kernel.org>, Carlos Maiolino <cem@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Brian Foster <bfoster@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Message-ID: <1886933652.3937738.1783080275874@kpc.webmail.kpnmail.nl>
-In-Reply-To: <akeaouJETPWpE838@mit.edu>
-References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
- <2026070224-unholy-commode-cf45@gregkh>
- <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
- <20260702161330.GH3534761@killaraus.ideasonboard.com>
- <2026070227-payroll-eradicate-8f66@gregkh>
- <20260702163215.GC3559965@killaraus.ideasonboard.com>
- <2026070350-drown-untreated-5835@gregkh>
- <a095d9b4-f774-47d9-affd-d519d8acfb34@kernel.org>
- <2026070343-copied-quarters-1e2a@gregkh> <akeaouJETPWpE838@mit.edu>
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM
- attribution
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gqQC1glC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1783081594;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=5hqGqMq8u2GihOWhvtoDCphdtM6GWjTzbBwzRoiZQ8w=;
+	b=gqQC1glC6zPdsJILBh9Toi4roqnneVZ4L51YYM49ktoRbW7pVN1MHXQ9WQOo8rKMhqo114
+	EWwe71BMzKrpJziSdrwDkD0JPdzXod7HKQxp0ZbepPkFU+P7ijeHmVBbToxXaUKgmMWLfT
+	L5knRyaCGu5/NB+M5C9EiBpt16p/iNA=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-107-C2Lu73WUN2GRO-7A2rsLJA-1; Fri,
+ 03 Jul 2026 08:26:31 -0400
+X-MC-Unique: C2Lu73WUN2GRO-7A2rsLJA-1
+X-Mimecast-MFC-AGG-ID: C2Lu73WUN2GRO-7A2rsLJA_1783081590
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 989E2196C434;
+	Fri,  3 Jul 2026 12:26:29 +0000 (UTC)
+Received: from wsxc.redhat.com (unknown [10.22.64.112])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1BAE630030D6;
+	Fri,  3 Jul 2026 12:26:25 +0000 (UTC)
+From: Ricardo Robaina <rrobaina@redhat.com>
+To: audit@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: paul@paul-moore.com,
+	eparis@redhat.com,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	Ricardo Robaina <rrobaina@redhat.com>
+Subject: [PATCH v2] audit: add FSOPEN record to log filesystem name
+Date: Fri,  3 Jul 2026 09:25:49 -0300
+Message-ID: <20260703122548.1623981-2-rrobaina@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
+Modern mount tools (util-linux >= 2.39.1) use the new mount API
+(fsopen, fsconfig, fsmount, move_mount) instead of the legacy mount(2)
+syscall. The generic SYSCALL audit record logs the fsopen syscall but
+does not capture the filesystem name string, creating an audit gap for
+filesystem mount operations.
 
-> Op 03-07-2026 13:42 CEST schreef Theodore Tso <tytso@mit.edu>:
-> 
-> Another metaphor might be that people shouldn't try to evade paying
-> their taxes; merely passing a law saying they have to file correct tax
-> returns doesn't guarantee this.  But it was specifically the law
-> against tax evasion is how US Law Enforcement arrested the Chicago mob
-> boss Al Capone.
-> 
-> Just because some people might lie doesn't mean that we shouldn't
-> bother to ask everyone to fill out tax returns.
-> 
-> Cheers,
-> 
-> 						- Ted
+Add an FSOPEN auxiliary record that logs the dereferenced filesystem
+name string passed to fsopen(2).
 
-I think the point that some people who are more negative on keeping the tag
-in were trying to make is not that we expect everyone to follow the rules, but
-that having rules with no consequences are bad rules in general. And this is
-illustrated by your example.
+  type=SYSCALL ... : arch=x86_64 syscall=fsopen ... a1=FSOPEN_CLOEXEC
+  type=FSOPEN  ... : fs_name="tmpfs"
 
-But I see there is quite a bit of consensus on the general needs:
+Link: https://github.com/linux-audit/audit-kernel/issues/152
+Signed-off-by: Ricardo Robaina <rrobaina@redhat.com>
+---
+Changes in v2:
+- Better placement of audit_log_fsopen() call to avoid UAF.
 
-- it's more relevant to know how an LLM was used than that it was used (and the
-  tag is just a quick indication of this)
-- advertising for particular corporations does not really serve any purpose to
-  the community, so just say "LLM"
-- the tags may be used to prevent arguing
-- the requirement to be open about LLM use (whether by tags or whatever) makes
-  it easier for maintainers (if they feel the need) to de-prioritize patches
-  by someone unwilling to abide by these rules whenever the maintainer perceives
-  or suspects prior undeclared LLM use. This prevents an asymmetrical situation
-  of LLM slop being produced much faster that what can be reviewed.
+ fs/fsopen.c                |  3 +++
+ include/linux/audit.h      | 10 ++++++++++
+ include/uapi/linux/audit.h |  1 +
+ kernel/auditsc.c           | 13 +++++++++++++
+ 4 files changed, 27 insertions(+)
+
+diff --git a/fs/fsopen.c b/fs/fsopen.c
+index ae19e5136598..70024870fefa 100644
+--- a/fs/fsopen.c
++++ b/fs/fsopen.c
+@@ -15,6 +15,7 @@
+ #include <linux/namei.h>
+ #include <linux/file.h>
+ #include <uapi/linux/mount.h>
++#include <linux/audit.h>
+ #include "internal.h"
+ #include "mount.h"
+ 
+@@ -134,6 +135,8 @@ SYSCALL_DEFINE2(fsopen, const char __user *, _fs_name, unsigned int, flags)
+ 	if (IS_ERR(fs_name))
+ 		return PTR_ERR(fs_name);
+ 
++	audit_log_fsopen(fs_name);
++
+ 	fs_type = get_fs_type(fs_name);
+ 	kfree(fs_name);
+ 	if (!fs_type)
+diff --git a/include/linux/audit.h b/include/linux/audit.h
+index 45abb3722d30..077b2667180d 100644
+--- a/include/linux/audit.h
++++ b/include/linux/audit.h
+@@ -449,6 +449,7 @@ extern void __audit_tk_injoffset(struct timespec64 offset);
+ extern void __audit_ntp_log(const struct audit_ntp_data *ad);
+ extern void __audit_log_nfcfg(const char *name, u8 af, unsigned int nentries,
+ 			      enum audit_nfcfgop op, gfp_t gfp);
++extern void __audit_log_fsopen(const char *fs_name);
+ 
+ static inline void audit_ipc_obj(struct kern_ipc_perm *ipcp)
+ {
+@@ -598,6 +599,12 @@ static inline void audit_log_nfcfg(const char *name, u8 af,
+ 		__audit_log_nfcfg(name, af, nentries, op, gfp);
+ }
+ 
++static inline void audit_log_fsopen(const char *fs_name)
++{
++	if (!audit_dummy_context())
++		__audit_log_fsopen(fs_name);
++}
++
+ extern int audit_n_rules;
+ extern int audit_signals;
+ #else /* CONFIG_AUDITSYSCALL */
+@@ -730,6 +737,9 @@ static inline void audit_log_nfcfg(const char *name, u8 af,
+ 				   enum audit_nfcfgop op, gfp_t gfp)
+ { }
+ 
++static inline void audit_log_fsopen(const char *fs_name)
++{ }
++
+ #define audit_n_rules 0
+ #define audit_signals 0
+ #endif /* CONFIG_AUDITSYSCALL */
+diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
+index e8f5ce677df7..abae0524746e 100644
+--- a/include/uapi/linux/audit.h
++++ b/include/uapi/linux/audit.h
+@@ -122,6 +122,7 @@
+ #define AUDIT_OPENAT2		1337	/* Record showing openat2 how args */
+ #define AUDIT_DM_CTRL		1338	/* Device Mapper target control */
+ #define AUDIT_DM_EVENT		1339	/* Device Mapper events */
++#define AUDIT_FSOPEN		1340	/* Record showing fsopen fs_name arg */
+ 
+ #define AUDIT_AVC		1400	/* SE Linux avc denial or grant */
+ #define AUDIT_SELINUX_ERR	1401	/* Internal SE Linux Errors */
+diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+index 6610e667c728..c82fd5606de5 100644
+--- a/kernel/auditsc.c
++++ b/kernel/auditsc.c
+@@ -2882,6 +2882,19 @@ void __audit_log_nfcfg(const char *name, u8 af, unsigned int nentries,
+ }
+ EXPORT_SYMBOL_GPL(__audit_log_nfcfg);
+ 
++void __audit_log_fsopen(const char *fs_name)
++{
++	struct audit_buffer *ab;
++
++	ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_FSOPEN);
++	if (!ab)
++		return;
++
++	audit_log_format(ab, "fs_name=");
++	audit_log_untrustedstring(ab, fs_name);
++	audit_log_end(ab);
++}
++
+ static void audit_log_task(struct audit_buffer *ab)
+ {
+ 	kuid_t auid, uid;
+-- 
+2.53.0
+
