@@ -1,120 +1,254 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D9E343D75;
-	Fri,  3 Jul 2026 05:12:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9D31990C7
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 05:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783055530; cv=none; b=HNwE13ZjxYoSMN/+1SlOJKCN+ykQFENgNxHRk6KLpT35EFDLehuPlw+xdNz+CKk3EdC7gRO0skOBI9VTe8zGh7e6icBhmc6uN9mQheWavs3IQSBighUOXkBzLjEXb1CZDisYyOsoe9AfHrbUgvurxTBXIftXjEWrPmk9afQ2CCw=
+	t=1783055814; cv=none; b=KAjiDiUI5Z8nscnaGLTCyEjM5hSnorVgYShrGVcnBkVlcFnduRmnW17NTFfA1zPpfF1JOS93whoXV9BIGUEFsyShaWzzPaNDnTI5I+CtTmF+5g16fQGTCX7tY7E+CzO0HhOm2dh1LI9TAceXVh1TrqNmto13rp1fBLAevOgZBNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783055530; c=relaxed/simple;
-	bh=QodELRbfsPAagFSQb+Am3TLMBlWvPzqHiUnCbRYCO9Q=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OUdoX38Uvz79qBCSJ5npaMtZ5yf98jhhd+3u6L9emOqBWX4vYXthax5itxy84nwZxGF6CMFTVeuvvJRmRJOS8BIOIU4TT4/JfYxgf9Do2xbygAN2yZxpjmouUeu9Aycf+wke4AOPR7mLVTWb/fJOYXy/zT1ozR35lH6nFFV5NFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mt3Z6RcJ; arc=none smtp.client-ip=95.215.58.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1783055814; c=relaxed/simple;
+	bh=YfHUT/51C/G8HybR7+5gnb3uFvfE+SYPBQ+X0BnNrqE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Yoqmbgz8X9GKxoaXMGFL6A7X2bwjtpYXtQQhqLFTsuXbah4mH6tYwMExDBbqEb8Fjrpk2rlGHwX7ctwxjIfaMOgo+kqvHxtunPwYZhoJSMdxbzl4JhCDqTjkIIlLs61SE0aozk1dYURU/YT29xI3v4dGNhz/bHMdb8Tn4PmoHF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QXiCbL6N; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mt3Z6RcJ"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1783055506;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TclDFaPZdaXfZinZztmQXDY2osmC9ohL82aKjMqnljA=;
-	b=mt3Z6RcJAbFH5qjmNSVJr9og3cANnog5yCm8KOSikIlNWnWUdlzBYYJRAxJJYQPrB9K2v2
-	t/yidQofXCp8zmiyWOyphesT3hGz9lnz5aI/EeO8GKygjhDt0FxJZTf68vKAwDGvFvHdqj
-	xkCSEJlXdSaVC7mi91P395B1Vyr2Als=
-From: Lance Yang <lance.yang@linux.dev>
-To: pfalcato@suse.de
-Cc: akpm@linux-foundation.org,
-	david@kernel.org,
-	ljs@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	liam@infradead.org,
-	npache@redhat.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	baohua@kernel.org,
-	lance.yang@linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QXiCbL6N"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-37cab825ec9so169280a91.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Jul 2026 22:16:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783055802; x=1783660602; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/g5oqTclMT+T1wVMz3AxcVhkZS5DAHk35im4ms5RkQY=;
+        b=QXiCbL6Ntu7Fo1rw7bY0WUTfnJ+/xuSy75jOMdMTS4gGup6LQSBrLhu8nDNeGqQ3r/
+         L0nJMXEf8RYfUzJOSSn9CBCntXRmOorzJGykEkyVsDPLqluXPruWY30e92Q9dHalpnE0
+         ncc7XjnqVGLggNscvRK/83ZQwZyWA7TGRS8Ppg5v2IbouidKu+E8q7nzS0x+RJFWEy+t
+         Si25FV2ftBFuAet9Om7Io+XjAcLUoWBUWMIQ6ktY0mFw/Li/9k3Vwi8taWnAn7PddRd1
+         xpEQdisBIUiiUSHt4tslWn7QjkruK3OEXWcL0HbcQvjpj7AumrTjs9pjmw8/RjxBwm/P
+         Hu7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783055802; x=1783660602;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/g5oqTclMT+T1wVMz3AxcVhkZS5DAHk35im4ms5RkQY=;
+        b=GY6hCLGjrfGhjCQe/tjPZutUNWeHoRFWIwSnVsyrLbgz1zW3AirjXdFJH6Ifo0C+fD
+         tX93GcKYIa3UJI3a2bXiuYoLaUREqR0iG8V8dqBmZpSFBBtaPX43eoruNCfmkPWal+5i
+         DjFxemuC5WsePPo1i3UTxEjZSXqoNBIkHACxDKGzQRk/fsTROq7BcIBTU1xFfgtQ79uD
+         uRfZYgLWdESoe2VoJjiKUyGTWkGKN+VHj8ngPEGkjeUznaWWQva2Z06CbhZIBAuzd7lE
+         z3kxIPfGD4mNn+OvS8WKe2S78Hz6C86fFBu3l+R7tuRPlsZ06PQwVj3ZY6ZhucohkDaC
+         tA5A==
+X-Forwarded-Encrypted: i=1; AHgh+RpO5BR4uS43UgDa/B6aLgOdMijnSmbeb+E3nTjmM0zZ/1VDnwFoJR8HNm5fdE07uS29uXQLyzf32xl0Gk5M@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywlf3R729SxczFJST1uIkw/aFiaVnokW8bqRZ5hJdKmLXzhhaCg
+	kP00mixHxMvM742GesEu+GS41nauhRF+vRRWLvbrtJynBiJXLIuZkN4x
+X-Gm-Gg: AfdE7cmpVzDcUOZnF8O/2tpNCyChILj+w4Kl9kLjfhQSYSa/aA411Kbcv0AYHBS5mYT
+	3GyPNGxN0QP0fGCSGk5VWIbsTw5cDXeoNeAavmnz8PQdn1/cBCcY2JOCm2ncJilx3u0xFG5amwO
+	oDKxsOwz/+tJDJKTfc8qfKduGip3FOjaZNrcmq+u/vu+mjU29EiUGY97tbyHGNXHF9E+mBmfWH6
+	RlGliMTxqQfDmi98apBoXv1fYw9Byqf5h7sZzJxSX1hNe9lQE8fiVgmLnQyQnI9Uysx5T1E4lt2
+	NdT/hROybpCiBjuCHft9R+D6AmOg43cNRmBaR4szWbBczeQxgmMfy8cEJqOVVky6LUUObOEXD1n
+	vJSvpiXl76rWI206Td5hXPknFxTnbkoKQ3/cckhXyGMZi2SBgHLui/igh77r4ggRhKX0PVZcyCK
+	w8p8qF7lMrr9nlmXCopoUEqFe9cexNfm9BYkmnk5gmHKMpxD3+VYMcqHcFwJVOpMBpDbbf6/WCw
+	xnQpdNWhLMOXT/U1EMdz4qnJ1YJ7ip6x/6xG2mAvcRFaG1LLYcr4lfhQmlrVdQHwN6csq7PY3kB
+	IiV7g+fUzHW2Tv1Rtutzr5hSEhH9cpEndg==
+X-Received: by 2002:a17:90b:3cce:b0:380:9ef6:e8cc with SMTP id 98e67ed59e1d1-380aa07e1f3mr9139156a91.5.1783055802297;
+        Thu, 02 Jul 2026 22:16:42 -0700 (PDT)
+Received: from cs-1047136853211-default.asia-southeast1-a.c.d33bddc1d573818c7-tp.internal (213.28.87.34.bc.googleusercontent.com. [34.87.28.213])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38127cf2ba7sm412485a91.16.2026.07.02.22.16.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jul 2026 22:16:41 -0700 (PDT)
+From: Aditya Srivastava <aditya.ansh182@gmail.com>
+To: slava@dubeyko.com
+Cc: glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com,
 	linux-fsdevel@vger.kernel.org,
-	stable@vger.kernel.org,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	willy@infradead.org,
-	song@kernel.org,
-	ehagberg@janestreet.com,
-	ziy@nvidia.com,
-	gleventhal@janestreet.com
-Subject: Re: [PATCH stable] mm/khugepaged: write all dirty file folios when collapsing
-Date: Fri,  3 Jul 2026 13:11:29 +0800
-Message-Id: <20260703051129.88453-1-lance.yang@linux.dev>
-In-Reply-To: <20260702165409.164568-1-pfalcato@suse.de>
-References: <20260702165409.164568-1-pfalcato@suse.de>
+	linux-kernel@vger.kernel.org,
+	Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+Subject: [PATCH v2] hfs: port HFS+ b-tree bitmap corruption check
+Date: Fri,  3 Jul 2026 05:16:17 +0000
+Message-ID: <20260703051617.1832-1-aditya.ansh182@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
+From: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
 
-On Thu, Jul 02, 2026 at 05:54:09PM +0100, Pedro Falcato wrote:
->As-is, khugepaged and writable-file opening exclude each other. A file
->cannot be open writeable and have THPs (because the filesystem is not aware
->of them). khugepaged will never collapse file pages for files that are
->opened writeable. On an open(O_RDWR/O_WRONLY), the page cache for that
->particular file is dropped. This is fine because nothing could've been
->dirtied.
->
->However, there is an edge-case: collapse_file() might not be able to
->coexist with concurrent writers, but it can coexist with dirty folios
->(from previous writers). Therefore, the following can happen:
->
->open(file, O_RDWR)
->write(file)
->close(file)
->madvise(file_mapping, MADV_COLLAPSE, some non-dirty range)
->open(file, O_RDWR)
-> nr_thps > 0
->  truncate_inode_pages()
->    /* THPs are cleared out, but so are the dirty folios */
->
->When this edge-case happens, there is data loss, as the dirty folios are
->fully discarded.
+In HFS+ filesystems, during b-tree open (hfs_btree_open()), the code
+verifies that the allocation map bit for the tree header (node 0) is
+set. If not, it indicates a corrupted map record/bitmap and mounts
+the volume as read-only (SB_RDONLY) to prevent further damage.
 
-Well spotted, thanks!
+HFS filesystems share the same b-tree structure but currently lack
+this corruption detection check.
 
->
->Fix it by fully writing back the page cache (and waiting) when collapsing
->file THPs. Doing so provides the guarantee that no dirty folio will be
->observed while there are active THPs. To fully ensure this is safe, the
->invalidate_lock needs to be held while doing the writeout, so that
->do_dentry_open()'s page cache truncation excludes this write-and-wait.
->
->Cc: stable@vger.kernel.org
->Cc: Alexander Viro <viro@zeniv.linux.org.uk>
->Cc: Christian Brauner <brauner@kernel.org>
->Cc: Jan Kara <jack@suse.cz>
->Cc: Matthew Wilcox <willy@infradead.org>
->Cc: Song Liu <song@kernel.org>
->Cc: Eric Hagberg <ehagberg@janestreet.com>
->Cc: Zi Yan <ziy@nvidia.com>
->Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
->Reported-by: Gregg Leventhal <gleventhal@janestreet.com>
->Closes: https://lore.kernel.org/linux-mm/CAFN_u7H_0ECF3jixP=T=U7AH5=Q3wQNvJMo8an3VqUDMerQfUw@mail.gmail.com/
->Tested-by: Zi Yan <ziy@nvidia.com>
->Signed-off-by: Pedro Falcato <pfalcato@suse.de>
->---
+Port this check to HFS, aligning its implementation with HFS+ to
+maintain consistent b-tree logic across both filesystems:
+1. Define struct hfs_bmap_ctx and the relevant map record indices.
+2. Port hfs_bmap_get_map_page() and the necessary offset and length
+   validation helpers.
+3. Implement hfs_bmap_test_bit() to inspect the B-tree bitmap using the
+   new get_map_page helper.
+4. In hfs_btree_open(), retrieve the header node via hfs_bnode_find(),
+   test its allocation bit with hfs_bmap_test_bit(), and release it
+   using hfs_bnode_put().
 
-Tested on v7.1.2. I no longer see the data loss with this patch applied.
+Suggested-by: Viacheslav Dubeyko <slava@dubeyko.com>
+Link: https://lore.kernel.org/all/6a36101b.be22b350.2a3e9.0001.GAE@google.com/T/#r446d0fed2a2900bd805534bbcb799d86619ae2ea
+Signed-off-by: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+---
+Changes in v2:
+- Port struct hfs_bmap_ctx and hfs_bmap_get_map_page() helpers to
+  fs/hfs/btree.c, keeping HFS and HFS+ logic unified and easy to
+  library-ize.
+- Re-implement hfs_bmap_test_bit() to take struct hfs_bnode and
+  node_bit_idx, matching HFS+ perfectly.
+- In hfs_btree_open(), use hfs_bnode_find() to retrieve the header
+  node and put it safely after the bitwise verification check.
 
-Tested-by: Lance Yang <lance.yang@linux.dev>
+ fs/hfs/btree.c | 96 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ fs/hfs/btree.h |  2 ++
+ 2 files changed, 98 insertions(+)
+
+diff --git a/fs/hfs/btree.c b/fs/hfs/btree.c
+index 2eb37a2f64e8..36dc8735d01a 100644
+--- a/fs/hfs/btree.c
++++ b/fs/hfs/btree.c
+@@ -23,6 +23,7 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id, btree_keycmp ke
+ 	struct address_space *mapping;
+ 	struct folio *folio;
+ 	struct buffer_head *bh;
++	struct hfs_bnode *node;
+ 	unsigned int size;
+ 	u16 dblock;
+ 	sector_t start_block;
+@@ -155,6 +156,20 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id, btree_keycmp ke
+ 	kunmap_local(head);
+ 	folio_unlock(folio);
+ 	folio_put(folio);
++
++	node = hfs_bnode_find(tree, 0);
++	if (IS_ERR(node))
++		goto free_inode;
++
++	if (!hfs_bmap_test_bit(node, 0)) {
++		pr_warn("(%s): %s (cnid 0x%x) map record invalid or bitmap corruption detected, forcing read-only.\n",
++			sb->s_id, id == HFS_EXT_CNID ? "extents" : "catalog", id);
++		pr_warn("Run fsck.hfs to repair.\n");
++		sb->s_flags |= SB_RDONLY;
++	}
++
++	hfs_bnode_put(node);
++
+ 	return tree;
+ 
+ fail_folio:
+@@ -356,6 +371,87 @@ struct hfs_bnode *hfs_bmap_alloc(struct hfs_btree *tree)
+ 	}
+ }
+ 
++struct hfs_bmap_ctx {
++	unsigned int page_idx;
++	unsigned int off;
++	u16 len;
++};
++
++#define HFS_BTREE_HDR_MAP_REC_INDEX	2
++#define HFS_BTREE_MAP_NODE_REC_INDEX	0
++
++static inline bool is_bnode_offset_valid(struct hfs_bnode *node, u32 off)
++{
++	return off < node->tree->node_size;
++}
++
++static inline u32 check_and_correct_requested_length(struct hfs_bnode *node, u32 off, u32 len)
++{
++	if (off >= node->tree->node_size)
++		return 0;
++	if ((u64)off + len > node->tree->node_size)
++		return node->tree->node_size - off;
++	return len;
++}
++
++static struct page *hfs_bmap_get_map_page(struct hfs_bnode *node,
++					  struct hfs_bmap_ctx *ctx,
++					  u32 byte_offset)
++{
++	u16 rec_idx, off16;
++	unsigned int page_off;
++
++	if (node->this == 0) {
++		if (node->type != HFS_NODE_HEADER) {
++			pr_err("hfs: invalid btree header node\n");
++			return ERR_PTR(-EIO);
++		}
++		rec_idx = HFS_BTREE_HDR_MAP_REC_INDEX;
++	} else {
++		if (node->type != HFS_NODE_MAP) {
++			pr_err("hfs: invalid btree map node\n");
++			return ERR_PTR(-EIO);
++		}
++		rec_idx = HFS_BTREE_MAP_NODE_REC_INDEX;
++	}
++
++	ctx->len = hfs_brec_lenoff(node, rec_idx, &off16);
++	if (!ctx->len)
++		return ERR_PTR(-ENOENT);
++
++	if (!is_bnode_offset_valid(node, off16))
++		return ERR_PTR(-EIO);
++
++	ctx->len = check_and_correct_requested_length(node, off16, ctx->len);
++
++	if (byte_offset >= ctx->len)
++		return ERR_PTR(-EINVAL);
++
++	page_off = (u32)off16 + node->page_offset + byte_offset;
++	ctx->page_idx = page_off >> PAGE_SHIFT;
++	ctx->off = page_off & ~PAGE_MASK;
++
++	return node->page[ctx->page_idx];
++}
++
++bool hfs_bmap_test_bit(struct hfs_bnode *node, u32 node_bit_idx)
++{
++	struct hfs_bmap_ctx ctx;
++	struct page *page;
++	u8 *bmap, byte, mask;
++
++	page = hfs_bmap_get_map_page(node, &ctx, node_bit_idx / BITS_PER_BYTE);
++	if (IS_ERR(page))
++		return false;
++
++	bmap = kmap_local_page(page);
++	byte = bmap[ctx.off];
++	kunmap_local(bmap);
++
++	mask = 1 << (7 - (node_bit_idx % BITS_PER_BYTE));
++	return (byte & mask) != 0;
++}
++
+ void hfs_bmap_free(struct hfs_bnode *node)
+ {
+ 	struct hfs_btree *tree;
+diff --git a/fs/hfs/btree.h b/fs/hfs/btree.h
+index 99be858b2446..86036e18095f 100644
+--- a/fs/hfs/btree.h
++++ b/fs/hfs/btree.h
+@@ -93,6 +93,8 @@ extern void hfs_btree_write(struct hfs_btree *tree);
+ extern int hfs_bmap_reserve(struct hfs_btree *tree, u32 rsvd_nodes);
+ extern struct hfs_bnode *hfs_bmap_alloc(struct hfs_btree *tree);
+ extern void hfs_bmap_free(struct hfs_bnode *node);
++struct hfs_bmap_ctx;
++extern bool hfs_bmap_test_bit(struct hfs_bnode *node, u32 node_bit_idx);
+ 
+ /* bnode.c */
+ extern void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32 off, u32 len);
+-- 
+2.47.3
+
