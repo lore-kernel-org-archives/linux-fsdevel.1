@@ -1,128 +1,126 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8257343D80
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 11:45:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783079152; cv=pass; b=Ms0MQ9P1FHKFMYcguI2+7xo4byhPh8j35PsrBjzKAyTEaHpzKrbBRVd0rAxCMZxRkItGkyLrQ9BL9cvoBIHPRP/F6SW01u2kGiMXgHtAXrkKjVY+Er6ISulmlOBXdQIaI7VLzNzMsD6euOIZf6QMGlIK9EVvvtEFX3Gz8C22+lI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783079152; c=relaxed/simple;
-	bh=GeUDSjrHAWkuRRsR++4INezbx04TBh6B1L1rO/GgWvo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jy2LdsmMKhe+RaGF4aARhiY8b0DI6QlJ+5bEpUVfSJiJAIYTbhFoEeuLLcWCBlAgMX1bDAM3+BfyQmXcMeG2x1WgSYX312LS3OhtJk5K9t89ILJ6r1WVVUbPJ3WdDj2ZoABfrFsQJOOzjGFaxmPFr2l8jlqXuXJweGAIQdGzKoA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fLyBr8UH; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=gpVlvvjN; arc=pass smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1043CAA57
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 11:50:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783079437; cv=none; b=kqKMkXtgU1LMTASuv7uv/U/Mnsny7uleSzeJ7dq1/JudUPzVmROdkLqB+xGPMLn8F4mMCsJnN0n/zh1oAKPTYCTaWgRdnROVhIc9aIQoEzmjUao+P2W3Tel/FlU6JXBu/0aQK/6rlL2XX3kbItDcxd30vfJ2EsK5U/RwJ5/jp/A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783079437; c=relaxed/simple;
+	bh=Q/6dlt78NaEXeED6i3DLDaGFD9U6vLH2J96PCO9F388=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=tXbPJO7rKEHk/lA81LLcpXGZUo1nhtSp+QPdjVFDsQvvS8LHkNuZacwG77aizBOR2JINXYlxMIDBqCaF69ILt9SUqjANJmu6paSwhPYgYFpUJekguLwxkEo4mk4XhYD/BBq4ma3Se4MNp4hnK2d4pbm8lfSpBUP4XgQxD1c8tR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=X3Oj5Iro; arc=none smtp.client-ip=195.121.94.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fLyBr8UH";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="gpVlvvjN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783079150;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GeUDSjrHAWkuRRsR++4INezbx04TBh6B1L1rO/GgWvo=;
-	b=fLyBr8UHrSEqg9mX1jWuNKlo7oMOf4wjm4nQy29h5hs9u9Q2mYus9sOv08VUwyflg3FS1m
-	eLvdaR6OqWFv67rXVtlEvgWjTVCPX2CRI5vXnVRrfC2LzJalZNr69iFMeLwg90Oe7TmAh9
-	WPB6CmlvLK7W5vcSlNnmyZhSUQvl3bk=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-554-l0_wSH49NE6C8u7DHCrP-g-1; Fri, 03 Jul 2026 07:45:49 -0400
-X-MC-Unique: l0_wSH49NE6C8u7DHCrP-g-1
-X-Mimecast-MFC-AGG-ID: l0_wSH49NE6C8u7DHCrP-g_1783079149
-Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-808a9e51918so12605057b3.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Jul 2026 04:45:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783079149; cv=none;
-        d=google.com; s=arc-20260327;
-        b=e9yEQwqdcHY0PQEejpLueJwgmzIzUmftGPo9DT2GnD83wx0bXaWqBxiFM7YzJPfgMQ
-         PpEKTsiL0fRccPq/XcAcimXY1H5DbSfiyVbD6taAVnaNHJtbDEkZfDbOKMwjEsq441GL
-         jMAjd7upJ1ZEHs/O62aXOYIDBKYPf7ErXnt+fYdjXV/L+s0VL+n+iTzgr+UZOnESuvid
-         hCJ5pmF7+jf7RvbUrrbmAhM+uYoO/rBjlzsKYbIgp4H1vlWNuLolbdoXSMFiewcozvGW
-         TJyfFIjQ4wJSYZRuxRrky6/cpPx8BQEUKi7k3r+tqJX2lrV/ZLmfBe12xRo5r/bttmxU
-         m0VQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=GeUDSjrHAWkuRRsR++4INezbx04TBh6B1L1rO/GgWvo=;
-        fh=7oHEz1QToukC0k8QBBf4nz6+N839i09v/fjQvT5puAM=;
-        b=EzkEMEDhb6EOcPdcZ95uDhADOP6FQth0Gr9G+Ywv1FnWnLi739nb8Hi5dMl7y6N8qX
-         hcd+Su6E39XpRG9HeRBcrKba1LqEOpV125SDejmrq6CqtIS3GBBsxVNyqab5RGMOANBZ
-         O3jMKnm3mLg+uHHywlz3f9GRWm1BuTrB3vmr73pVEtXFiEPZXzIIogGZm2tsI3Wc9PMy
-         6y9uRCOxni0XiH5WSctMVgEDi81bRJ2JEhdF/T10KbLSBZPljFcOqtFOsbUOmbBcVI60
-         HuXNu1NeHOkFztk1THTeOjSsJmK2JKTxOdF7B4mn66KlXNdyXMzceY0Bh14ibthrZGb+
-         CEuw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="X3Oj5Iro"
+X-KPN-MessageId: 661a3516-76d5-11f1-a59f-005056994fde
+Received: from mta.kpnmail.nl (unknown [10.31.161.189])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 661a3516-76d5-11f1-a59f-005056994fde;
+	Fri, 03 Jul 2026 13:50:33 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 6618dfba-76d5-11f1-ae68-0050569981f5;
+	Fri, 03 Jul 2026 13:50:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1783079149; x=1783683949; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GeUDSjrHAWkuRRsR++4INezbx04TBh6B1L1rO/GgWvo=;
-        b=gpVlvvjNWqv6inkXDAzUGekF7rJksIpyQSqAz1/JeiPQZAyAdKiRY1TRQr+ZsEQTDa
-         dOvrnHlHNk2uaYstKxwjyDSXbUqclwp3hfmAJQnGydMtQz0FPre5xpoVEWVMgszZTdSB
-         b9CteiS+gWE4/uqwr86+KkDj1kWqiVwzUJtwYfERaZZBjC7n0xMubtHQXSAYlWzanc3y
-         rbOMUYpQ83tZ2fad4vMOnkztzjk0zE01NwQy+ys5zwdnaGtMQaTVFc2grTLEea62qkoC
-         SfSr7tduEQPybp0pxJYUvGKgbHJpzqXgrgxD9BLroJ+MmEQovsPbKcOYcdF1ZZotr1UQ
-         rpeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783079149; x=1783683949;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GeUDSjrHAWkuRRsR++4INezbx04TBh6B1L1rO/GgWvo=;
-        b=ewJHt/6W9tKszCLs4h9IIS6dnokeF/C/adVanbSLEfnRvTtCmcdsut9GZjLYM8E+Lv
-         Q2CUbndyskGqCgZ4jEeJjczFdSoYkbb/cITh1KKNo3nzlYKrKTgTjiIzRg8PkXFGnfLW
-         3KrDgq2hRxYEFji86NXG1xQaOrT4GVLTWrZnTiNlx9zIQZCXmSA/RX0pfN6uaPIHXWGs
-         /Nu29fvolNHi9QS0HuHVJ6lJLz7PMX+o0MfeR1oY7h40mPvkpEmyq2Cl0oBcW5SBydo6
-         bWNGp806Xqsp8SGOBa6TjpfNLlR2txZeqh22N42qdBheOm2XTFVsPL8IvKe/OEJefVh8
-         0eCQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrM6HEJz210GzEz1cylHC5oQwZjEMUrhOrqODYNCmBNYrE/oYsHQ1LAiPWkuBw9hmnxQktDLY79xGIuxat5@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbZnpsy644zQ0NAf1cQH8weshJGB1xoEqzewEK33gYaIRhURWQ
-	jWAiROD34Pfp9zfuRwTlqyTYvzIfeXEMVPlkxgNzOh8qgyVtNNsqoI2cE3hPTOzODb9nQQ75wz+
-	CkYk2c+6wdTHGgCxbdGMifPGxfMA+AqutYMVL548xxS1wOp7dpJnCvrJjnWoUlslE5Hx4fsoUGA
-	n6uztUc5F6x0oEcYLOL/4ob4X2GwgYfNmbYRKYw+u3Og==
-X-Gm-Gg: AfdE7cn0Ng6fXfh649bHHDiYpm9PFdEhIN/umGfrH09hkCc/BKu24WUwRngAEvt5O7A
-	0vzDl6tHTjiIoOwCKeG+euTUyHcZfnKDxgckPJZ+RHWZGQcF5gcCu7IJJ/KcERv05267Ic7sadd
-	YOaTOXEXuMiAMZxBr6sBDTU4RjevhdLVpidPGeuuGJm1EkteO9ELC/Qas/VrGaO75y1ZPfGR6Cc
-	LnwlJrxymJPxSCplw7Hexp/qRZ0Q55J2yE89PFK1V2M+pQ+P5CAy8c=
-X-Received: by 2002:a05:690c:6e0f:b0:806:1ec8:9626 with SMTP id 00721157ae682-812eae80545mr104664827b3.39.1783079148650;
-        Fri, 03 Jul 2026 04:45:48 -0700 (PDT)
-X-Received: by 2002:a05:690c:6e0f:b0:806:1ec8:9626 with SMTP id
- 00721157ae682-812eae80545mr104664337b3.39.1783079148147; Fri, 03 Jul 2026
- 04:45:48 -0700 (PDT)
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=zYAPAZo9AEw6S98ZXl5oEdhdn2uVZwRn94QHg/qLykQ=;
+	b=X3Oj5IroZIg4l2MNnL0Z6/Ww+eSkhLwciX9tjHunWELf4fQGKkndKccVjiL30hlnPmZfHjYPS9Scj
+	 ck+fnWmPSOFFl4rbHwSTWUrZC5uBo3Ozs8uHk0pVtaKdft2hL+Ebk2/TeBqoFp++3m9Ca31ciNNti4
+	 N3UCBXHdRfmdAfDe7Z+SuManGDV8QEcREYAhEccBAW30eXVYgpqBNLHTg+cakO6EzqJH6hqUdQEpuS
+	 J80KnGCbc4eFk8eXpDLTlbRebQ0EBDWLmgaSTe+1MkmNcj9KQnoJijzN0CCNrM7pVknrZ0nWGTzuHy
+	 wKDbo8XicdARNzTmhNJMzlT4e7W3tVQ==
+X-KPN-MID: 33|i6gomIxEawBeKoBLoEbNigVfC++/JFbje3EEQP7ShatBd2mrn3JS6+tekYQ/YBP
+ JpgPQT9qdAv5k52lBpPxXBkZLdrV5yZEvYH4lIhChBZY=
+X-CMASSUN: 33|FTtagk2aGYIBwh6+n4RmkU5m6qpRgMd19lFNEQDGRwQbeb/YbQTqdiIy6YiV6B9
+ PQeLYubTlYiRwOIrt93/3Qw==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh05 (cpxoxapps-mh05.personalcloud.so.kpn.org [10.128.135.211])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 660ad342-76d5-11f1-916a-005056995d6c;
+	Fri, 03 Jul 2026 13:50:33 +0200 (CEST)
+Date: Fri, 3 Jul 2026 13:50:33 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Theodore Tso <tytso@mit.edu>, Andreas Dilger <adilger@dilger.ca>
+Cc: Jonathan Corbet <corbet@lwn.net>, Greg KH <gregkh@linuxfoundation.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Brian Foster <bfoster@redhat.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+	David Hildenbrand <david@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Message-ID: <692060611.3935473.1783079433726@kpc.webmail.kpnmail.nl>
+In-Reply-To: <akcji3OuxXz3FqSD@mit.edu>
+References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
+ <2026070224-unholy-commode-cf45@gregkh> <87cxx5l900.fsf@trenco.lwn.net>
+ <7C39A5C8-EA03-4C8D-9BE5-5097101B71D6@dilger.ca> <akcji3OuxXz3FqSD@mit.edu>
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM
+ attribution
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260701000949.1666714-1-joannelkoong@gmail.com> <20260701000949.1666714-13-joannelkoong@gmail.com>
-In-Reply-To: <20260701000949.1666714-13-joannelkoong@gmail.com>
-From: Andreas Gruenbacher <agruenba@redhat.com>
-Date: Fri, 3 Jul 2026 13:45:36 +0200
-X-Gm-Features: AVVi8CdOnoIEUsSqGG1Lvbx5AQnAbjO-BXv_ely4Zi6OZQFZeWID1WZjNQSTcpA
-Message-ID: <CAHc6FU76J-YYRd2B=ZPN2DMabQjkzgG9qSzbP_S1s9AsSJNh=w@mail.gmail.com>
-Subject: Re: [PATCH v2 12/18] gfs2: convert iomap ops to ->iomap_next()
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: brauner@kernel.org, hch@lst.de, djwong@kernel.org, willy@infradead.org, 
-	hsiangkao@linux.alibaba.com, linux-fsdevel@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, 
-	"open list:GFS2 FILE SYSTEM" <gfs2@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-Joanne,
 
-you say in the cover letter that
+> Op 03-07-2026 04:57 CEST schreef Theodore Tso <tytso@mit.edu>:
+> 
+>  
+> On Thu, Jul 02, 2026 at 12:46:19PM -0500, Andreas Dilger wrote:
+> > It would make sense IMHO to address the ignorance in the most expedient manner,
+> > namely by telling the *LLM itself* to add this tag when it generates the commit
+> > message and/or reviews the code.
+> > 
+> > This could be achieved by adding a statement in "AGENTS.md" in the root of the
+> > source tree to this effect, or telling the agent to reference and follow rules
+> > in Documentation/process/coding-assistants.rst regarding the Assisted-by: tag.
+> 
+> This presupposes a particular workflow where the developer allows the
+> LLM to generate git commits.  I don't do that.  I'll ask the LLM to
+> modify the code, but then I'll generally fix it up --- very often by
+> hand because I can edit the sources than entering a prompt and waiting
+> for the LLM to figure out how to make the change.  I'll often run the
+> test cases myself, since if it takes 24 hours of VM time, and 2 hours
+> of wall clock time, I'm going to kick off the regression tests myself,
+> and verify the test results.
+> 
+> And I almost always write the commit description myself.  So when I
+> say, "Assisted-by" it literally is "Assisted by".  It is not "vibe
+> coded where the LLM generates thousands of lines of code that the
+> human being doesn't understand before sending ta pull request."  And
+> that's probably why you'll see people asserting that LLM generated
+> code can't possibly be accepted due to copyright reasons.  There's a
+> big difference between asking an LLM to modify already existing code
+> to add a feature, or to fix a bug, and to vibe code a new OS from
+> scratch.  One is far less likely to be a copyright violation than the
+> other.
+> 
+> 						- Ted
 
->This series is submitted against Christian's vfs iomap tree, and is based
-> on top of the current head of his tree (commit f2727952b21d1).
+Just curious if you know about any quantifiable insight into this. I do know
+that the issues also plays up in smaller requests. I once asked an LLM to
+give me boilerplate for a FUSE fs, and it took almost verbatim the example
+hello.c from the repo (which I only recognized because I had looked at that code)
+but stripped the copyright info. And this is only like 100 lines of code or so.
 
-which repository and branch is that? It's not vfs.iomap in
-git://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git; I don't
-have a proper merge point.
-
-Thanks,
-Andreas
-
+Best,
+Jori.
