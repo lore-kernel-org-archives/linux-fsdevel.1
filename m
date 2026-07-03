@@ -1,127 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D953E1CEAC2;
-	Fri,  3 Jul 2026 02:01:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C64253340
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 02:53:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783044108; cv=none; b=Y3pB91pDMba1dq9/LH2vvbduEWbjqa3MnQQWoR+xYBvUJ5vciwF2b0aCc9NbuuOsT3vSAFM20RV+v5iYlM5fYyQSkew0ZVY6z78gYsW6t0hArC6XdWz8tYjI980FSEcJ6aj1Z8M2eQXLI9u+mHgzUlWvJIFe8sf4c84FkiKPYOQ=
+	t=1783047221; cv=none; b=awRHqsnTwQ9vTDUIOTuVLniVuYwWkX3iQYfHQhr9Qbju53t4+DFo7wLbxLYQcGyA+k1jkX5cJjk7dCNVsDfTOacCeOxFX+5bz56gGxjVaTzw78VtEX5gLvmM1cvUikfmkMbL2Q8tFwA2pPv+Z+g4Vbrw12/ybuLoi7MeunoUXyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783044108; c=relaxed/simple;
-	bh=GAM+m6cWDuuutfc0N8W+w2qobBwH4/jAJw4LN4feaPw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZBMK6lqVEJUkp9s3QRpDbj5E/jMMgqbH+RjFDXZjocw85+YOtssYt9NVdYmR+hTt92dxtzsLBRxyBkSoI4r32j1kfRI5EgPmopJ6vT0AmiGvu5Pgw6+TlFwM8eO92675hlogxVPvo/ZqAh1Uzefnz1DT+Rw1X2pVLeb/ebYlhio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UZ+G2Lxb; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783047221; c=relaxed/simple;
+	bh=nP5hD1SwsOP3aNiLxhpn5TxWp22qeFxDQPceHF0SoVk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ifLX5iQVRjSWJSOUVgMsxx4he1xcTieYjIC34JRQ2asHYrUhg0KbcLAGoRMP6zuYijCIjs3n4njWoUNMVFcw6kLXgrcq1XUIPLnjHmHAoPiDY0RsUomyMLqtfY1SyxVkcTrUaztSWmC9fsqOM5/WSkAIxSsCyLpbMSaJtXL/2is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DBXgN7QK; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UZ+G2Lxb"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 74CBF1F000E9;
-	Fri,  3 Jul 2026 02:01:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783044107;
-	bh=oMB68yM9vnc03sy1HjctW2y/WonQpK4WbJis7WinceA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UZ+G2LxbC6hyyPY45gChM82kirEdP2W1cjQ9cB8OMLYUlkgPJvcmz/MIwlujeZotn
-	 4R/Zvspof7xaAk0X3wOEeMxwWctRoLV4NTsc8rCCvYPFhVb70Q3E9WueaPYWgiO166
-	 2xfbkdD8pCO8AIcoqCOfLU0RCSAZUSynWck7z/YdMGgn6CidZh7U3ECdLyiqSYmIa8
-	 M5P1TAt9IbsmnguwJe2hbJNiSXqqC63NyKcHW0pu+qG7lIvuTSoTWo9hiMZTxGrVTP
-	 BJg1wFffSxulJHs9pt/+Ff8RV8ItkGlqOI2T/5xJPdCI7Mb+FwKTLrcrnQUpxeWmfr
-	 1in1VDEBLw3PA==
-Date: Thu, 2 Jul 2026 19:01:47 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>, brauner@kernel.org, willy@infradead.org,
-	hsiangkao@linux.alibaba.com, linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Dan Williams <djbw@kernel.org>, Gao Xiang <xiang@kernel.org>,
-	Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>,
-	Jeffle Xu <jefflexu@linux.alibaba.com>,
-	Sandeep Dhavale <dhavale@google.com>,
-	Hongbo Li <lihongbo22@huawei.com>,
-	Chunhai Guo <guochunhai@vivo.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>, Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Baokun Li <libaokun@linux.alibaba.com>,
-	Ojaswin Mujoo <ojaswin@linux.ibm.com>,
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
-	Zhang Yi <yi.zhang@huawei.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
-	Hyunchul Lee <hyc.lee@gmail.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Carlos Maiolino <cem@kernel.org>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Naohiro Aota <naohiro.aota@wdc.com>,
-	Johannes Thumshirn <jth@kernel.org>,
-	"open list:BLOCK LAYER" <linux-block@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:BTRFS FILE SYSTEM" <linux-btrfs@vger.kernel.org>,
-	"open list:FILESYSTEM DIRECT ACCESS (DAX)" <nvdimm@lists.linux.dev>,
-	"open list:EROFS FILE SYSTEM" <linux-erofs@lists.ozlabs.org>,
-	"open list:EXT2 FILE SYSTEM" <linux-ext4@vger.kernel.org>,
-	"open list:F2FS FILE SYSTEM" <linux-f2fs-devel@lists.sourceforge.net>,
-	"open list:FUSE FILESYSTEM [CORE]" <fuse-devel@lists.linux.dev>,
-	"open list:GFS2 FILE SYSTEM" <gfs2@lists.linux.dev>,
-	"open list:NTFS3 FILESYSTEM" <ntfs3@lists.linux.dev>
-Subject: Re: [PATCH v2 17/18] iomap: pass iomap_next_fn directly instead of
- struct iomap_ops
-Message-ID: <20260703020147.GT9392@frogsfrogsfrogs>
-References: <20260701000949.1666714-1-joannelkoong@gmail.com>
- <20260701000949.1666714-18-joannelkoong@gmail.com>
- <20260702140705.GE21339@lst.de>
- <20260702165117.GK9392@frogsfrogsfrogs>
- <CAJnrk1b8j5WHtbHOWNXc4=QBFOxde1f2QxTOeui7Ta8O-xWcTA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DBXgN7QK"
+Message-ID: <d38263c7-b1ea-4709-8d75-2f2355ca38a6@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1783047216;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RvxaaOeMrCU2lWQVKAZ3wsLKjHq/cc0kdYy6Bt76nnw=;
+	b=DBXgN7QKlULmpihfVgbSTPhw1UekcupRyz0tFrKWObdxrsUClw4DMFYnLpf1Rycp9oYv5X
+	XQeZtwGX58b65D62s/ZV8rZBsurIxExQ5tp1eVpN19KW86iJsFQdbjWJgseF2UWX4B4Ao3
+	OyqU3/6bA7dIEONEN6KlUnG4t3gT5J8=
+Date: Fri, 3 Jul 2026 10:53:24 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1b8j5WHtbHOWNXc4=QBFOxde1f2QxTOeui7Ta8O-xWcTA@mail.gmail.com>
+Subject: Re: [PATCH stable] mm/khugepaged: write all dirty file folios when
+ collapsing
+To: Zi Yan <ziy@nvidia.com>, Pedro Falcato <pfalcato@suse.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ stable@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Matthew Wilcox <willy@infradead.org>, Song Liu <song@kernel.org>,
+ Eric Hagberg <ehagberg@janestreet.com>,
+ Gregg Leventhal <gleventhal@janestreet.com>
+References: <20260702165409.164568-1-pfalcato@suse.de>
+ <2DA84662-F9E4-4ED3-A225-71054FEC3849@nvidia.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+In-Reply-To: <2DA84662-F9E4-4ED3-A225-71054FEC3849@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Jul 02, 2026 at 06:47:43PM -0700, Joanne Koong wrote:
-> On Thu, Jul 2, 2026 at 9:51 AM Darrick J. Wong <djwong@kernel.org> wrote:
-> >
-> > On Thu, Jul 02, 2026 at 04:07:05PM +0200, Christoph Hellwig wrote:
-> > > Looks good:
-> > >
-> > > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> > >
-> > > In terms of merge logistics, I wonder if we should delay this and
-> > > the previous patch to the next merge window so that we can minimize the
-> > > cross-subsystem merge pain with more file system iomap conversion.
-> > > If none of them actually happen until rc6 or so, orif  the merges aren't
-> > > painful we could still pick them up late in the merge window.
-> >
-> > I'd say everything but this patch should go in during the merge window
-> > for 7.3, along with clear instructions to brauner/torvalds to expect
-> > this patch to appear right before 7.3-rc1 gets tagged, to clean up all
-> > the other changes that come in.
+
+
+On 2026/7/3 01:24, Zi Yan wrote:
+> On 2 Jul 2026, at 12:54, Pedro Falcato wrote:
 > 
-> Just to clarify, did you mean this patch and the previous one? If i'm
-
-Er, yes, patches 16-18 in this series.
-
-> interpreting Christoph's concern correctly, I think he's worried about
-> other filesystems converting to iomap using the ->iomap_begin() /
-> ->iomap_end() functions still? That sounds like a good plan to me, for
-> v3 I'll submit everything but this patch and the last one and then
-> submit these patches (and any cleanup ones that become necessary) to
-> Christian right before 7.3-rc1 gets tagged (which as I understand it,
-> is when the merge window is about to close).
-
-Yes.  And be sure to ask both of them beforehand so there aren't any
-youknowwho-style surprises/outrages.
-
---D
-
-> Thanks,
-> Joanne
+>> As-is, khugepaged and writable-file opening exclude each other. A file
+>> cannot be open writeable and have THPs (because the filesystem is not aware
+>> of them). khugepaged will never collapse file pages for files that are
+>> opened writeable. On an open(O_RDWR/O_WRONLY), the page cache for that
+>> particular file is dropped. This is fine because nothing could've been
+>> dirtied.
+>>
+>> However, there is an edge-case: collapse_file() might not be able to
+>> coexist with concurrent writers, but it can coexist with dirty folios
+>> (from previous writers). Therefore, the following can happen:
+>>
+>> open(file, O_RDWR)
+>> write(file)
+>> close(file)
+>> madvise(file_mapping, MADV_COLLAPSE, some non-dirty range)
+>> open(file, O_RDWR)
+>>   nr_thps > 0
+>>    truncate_inode_pages()
+>>      /* THPs are cleared out, but so are the dirty folios */
+>>
+>> When this edge-case happens, there is data loss, as the dirty folios are
+>> fully discarded.
+>>
+>> Fix it by fully writing back the page cache (and waiting) when collapsing
+>> file THPs. Doing so provides the guarantee that no dirty folio will be
+>> observed while there are active THPs. To fully ensure this is safe, the
+>> invalidate_lock needs to be held while doing the writeout, so that
+>> do_dentry_open()'s page cache truncation excludes this write-and-wait.
+>>
+>> Cc: stable@vger.kernel.org
+>> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+>> Cc: Christian Brauner <brauner@kernel.org>
+>> Cc: Jan Kara <jack@suse.cz>
+>> Cc: Matthew Wilcox <willy@infradead.org>
+>> Cc: Song Liu <song@kernel.org>
+>> Cc: Eric Hagberg <ehagberg@janestreet.com>
+>> Cc: Zi Yan <ziy@nvidia.com>
+>> Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
+>> Reported-by: Gregg Leventhal <gleventhal@janestreet.com>
+>> Closes: https://lore.kernel.org/linux-mm/CAFN_u7H_0ECF3jixP=T=U7AH5=Q3wQNvJMo8an3VqUDMerQfUw@mail.gmail.com/
+>> Tested-by: Zi Yan <ziy@nvidia.com>
+>> Signed-off-by: Pedro Falcato <pfalcato@suse.de>
+>> ---
+>> This patch is written against 7.1.0 (because the code no longer exists in mainline).
+>>
+>> Zi, I kept your Tested-by, but I had to move some things around and
+>> use the invalidate lock. Please re-test if you can.
 > 
+> Tested it again on top of v6.12 (the patch applied cleanly) and the issue
+> is gone. My Tested-by still holds. :)
+
+Since READ_ONLY_THP_FOR_FS is gone from mainline, just to confirm: does this
+only affect stable kernels, right?
