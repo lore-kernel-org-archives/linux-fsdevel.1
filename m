@@ -1,138 +1,181 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55F22367D9
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 01:41:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783042877; cv=pass; b=XNFv1EhBftphtAI3o2vtXTQE/HT6WHTnBPaf22Q7GAVXkTSdPm/GxRhNlb1FtIHmbMYTmupcdMgdwk67HvaA5cJKRuE8OwLZp0WC+DqVh0vbZdGdkPnj3l7hRmchPwp/0u7Mw4htbyOVTsUOFFIt25gzYaaQt23JL9uJJquFiVM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783042877; c=relaxed/simple;
-	bh=GjnQcsugbzq7pSMN61WDGKezW96ZpqpWXqGhawt2wI0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cZvTmRGn4mL+X7YLPOvUDVffoVidwXwhNK4ipCrAcmDy5d7agakFD7G+n+iD6SXUP5P63NsxYI/jKE2z7ZRjfK7dsAPKfBPrgU03fHJf1XkIWytMGrqQ0rlGacy6mw8owF4eShYQ3YYwBrv1G/ty3otQ4YurCP6DYH87vD0Ad9E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sm6SRKYs; arc=pass smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB04238D52;
+	Fri,  3 Jul 2026 01:41:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783042884; cv=none; b=ns/arCSxAQpa8jiXNx3jgYecn5hGsj9qJBFD1iRJVJY2QsTz+WyfB8vwGJoSlRftLcjVZrX9Fb+FP9b0G58WU7e+ihLM48YlHrGhdMTrXRO/0EmZ46FM9WWUdQtFTDIHJlt4OAx6kPymvU6qYYJfFdam6m9iRIuNQioXQQh0m0I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783042884; c=relaxed/simple;
+	bh=bjNUCZE7eqMrZdYmdedXf80XPW399626ejmeo3cYt1A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KAHfGJtrjySMpaQfBOLtIv3uowNRcZ3NIADTFYiUInZlkM7MvsDMuyvnPs90jmvVPaQthi/sXBWCNx+9gnun6bHDI0yp0s6bs7XP8I2ZIlpy1Yug5G0egRAbJ9bxajeo4MQ97eLyqPaZdnmy0CRQ//9ocEtZwNPJXSbd4nYoB+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dqpI2wMI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sm6SRKYs"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5aeb91c003eso89576e87.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Jul 2026 18:41:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783042874; cv=none;
-        d=google.com; s=arc-20260327;
-        b=s2KGcT5rtkT+Mg6zPacbq1XVkPhEstKwC2oouAQZXxqqwMjJ9n+g1vhmPG8O8WfT9D
-         N0YtCj71hpLTUq0Hks+iE+oSjnOXKCBMLhNG/3ALRjAi0118QEmJcSj3aKIvQ/IHmBKd
-         GtpmDL0zIyiWg5dbDHPhS07Dcm8QsyOxT5vgI85+YI1s6h+UupYLm1D88BXrHywTnbcA
-         ar4c6uY4vnRbEHx3k35304zB5pkbCg+SpZ/rMmTNgexI0d/a/DtcV/yCFufVqyrN/f/f
-         fvdkuVo1312YfEC5Xim5JPyGLTjwUIBRmdx33qSqf1gwWD9obyoH93MGfYNCFXB0fG1o
-         3eQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Tm8cgihkDfE/U9ZOxUrysshJ9BVxEukGQxToeu32U5E=;
-        fh=zHhdE63tAc+TpSTPP1ir8tmkeLVotSKg1LuaLVITXao=;
-        b=hx78wJeOAKkcdoGV7Yi5PBrYSecD1UQnYVjvYLyS1bZBmnG+5zX1fq1SrzJGgDiGeq
-         LWDlydpDWWZJJwiIeEpe5MitPHK/naewP9xSq3M9VJUJvCa/3BORwkm+UT8cPMpQ3Q8A
-         kxvGflRibydZYan8sYIk13AwgWwuHA+8iy6lw2MMh5+yAvkltOfLMstqeKVBIdQwBVJM
-         Kuzp3xcB761VTdJi8YOKvVNGF1jj323HmjphYzRDv+xhpCCQ5H1HGR6GE3ZiuMjah4iQ
-         olPcoWYcjD3D588YTY6q7fgSGOyIIFnSnAwLe3iQO4WEiZbYeKxceZylqUBpAjT6l4zA
-         MpSw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783042874; x=1783647674; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tm8cgihkDfE/U9ZOxUrysshJ9BVxEukGQxToeu32U5E=;
-        b=sm6SRKYsQMA1lB3fAUHJGnwso7vzTjABHRcmroEzKrgxdU0BqaUs0puGWbq48QEHAU
-         bjt9qqq1hA2gXAUHYe3qcq3ExF+4I0dQqh3Ctc3YJonc4jQMXHaplP7X5Pf0qfx5pQ78
-         gPINf0y5Yuha1S140QrHeLbMqkSpQRnCGzGa8O/s7n+meEHjVAGTto7NWYvS5zZIThta
-         l8pCmFmIUMSL328neK+DoZh76r6pIvzJJCD5Ljsu9AUzIgc/b4VjazmTnIi731nUDIZo
-         FtTUTxtRDADr45mDF6j0TCphng+Il8R2hih8eCtctMgm4usDJoZIGrmH8ep683kUdZWQ
-         6vKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783042874; x=1783647674;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tm8cgihkDfE/U9ZOxUrysshJ9BVxEukGQxToeu32U5E=;
-        b=EKU9gxBoVonAcBdnBfuMcFKfDdDudXli/UukK/GDcmoDibwBDfhaQJ9clyczaqE0rW
-         75E97X8Jb5JfqSOxJVyp++bkzU3ZUkrDDGKONiM8M+G9kaU8GXSb0DkTVjqkYlOmUzdH
-         fGCRIr34bFwCij3POq/F8r8YLprNgOUXI40L46MWV34iNMpp30mgqLkgUXGf/tdO1wNQ
-         VXemFExN3iS24sXnEzDEvfKrP1eofSNJC4zbL8yHAmmGIY3b5/GPhlO7QwHLXChDtKpR
-         TtemCSH/FHXtEtTLB7yFMI6QCwU471nxpybKONRpX7McLjDQI9rvldvwqqlEpS+ZWcYq
-         mNDg==
-X-Forwarded-Encrypted: i=1; AHgh+Rr/YHKGcpe7pf7lNbWsqBLqG0OQiA/mSWTkNN7L1XcYZuyp8zCzE6mlodnXfv8d2wXa6ILFOAz3+9yG0u7D@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxo7+rD2Yq5IxCvGeic0/8jdjB0QmU8TNIsHPxgYIDr1T+7d+e3
-	PVAP/ycD87d/4BVWikjgGcFhLBNccM8LMrLJRrvkxUFfmfcoshrQw4OSi71uPN1XZ6PezVsXXxi
-	//qJjVWghteFgxHXtxjFBLcLRY/iMkRC7zal9
-X-Gm-Gg: AfdE7cmVTH/ybkAQSPwY/XIcNZzIexgNBf1gQhwJWwLdEsef36F8VinuZjwTJnANUq1
-	Tk5QlYMf19i+tC0uRNiB2Dr+UMQuV6k5uikiuh0SL6fsCgIViWjzHU8SzmKMWAUa2XAEaC+yFXW
-	5Bz4HuOr+PhqFq8FmaRpuKtR2LZtbr5gSn8WntSmOV/4dTGIgVoqDPwOCoqsaA5qFQF8tSp27Wg
-	lC7BY3wPoTIy/kpm2frd0ZPTQGT0KIpTDQ0dfROnkFwekZBSCBBwmMDAVwwTh9Lm0pEMlOL
-X-Received: by 2002:a05:6512:6381:b0:5ae:b0aa:8f07 with SMTP id
- 2adb3069b0e04-5aec67a2d1dmr1912012e87.16.1783042874015; Thu, 02 Jul 2026
- 18:41:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dqpI2wMI"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 1B8081F000E9;
+	Fri,  3 Jul 2026 01:41:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783042882;
+	bh=lMDzafkUat12ZiI7OV4+Kal9LS3XYBbc3Pl9VS2Ujeo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dqpI2wMId8VmtKqYtsRBnyfi1uRVfCCIroI0qIO8JgHg8QaA6Ojw1ZdGrpXkROqou
+	 I/HQuCxjQf5bn5y6jbfRdrC3f5qh89O87EHptAr1UaVjW6XuKtvKm528vCYI8KArG/
+	 XnSB2AAA678ECGrpnoXShd4PFocFUmDy1j2WpN1AgNbB0Cz5JDkV+pMRDNHpfVJiRH
+	 Az5sp0ObV9P31pLQHTrdzbPYWscBJQL70isAaCF3HYPXhbY/q1GyvcwbsLqIG3K7dY
+	 orzln+uOwUE3Zm8I3+FQ/mQ/rii5DohIt6LOxhDBr1ZGikkj5CTmp7c3DMJq7HH6PZ
+	 eZTzg46TPYRug==
+Date: Thu, 2 Jul 2026 18:41:21 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: brauner@kernel.org, hch@lst.de, willy@infradead.org,
+	hsiangkao@linux.alibaba.com, linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, Carlos Maiolino <cem@kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 02/18] xfs: convert iomap ops to ->iomap_next()
+Message-ID: <20260703014121.GQ9392@frogsfrogsfrogs>
+References: <20260701000949.1666714-1-joannelkoong@gmail.com>
+ <20260701000949.1666714-3-joannelkoong@gmail.com>
+ <20260702164339.GI9392@frogsfrogsfrogs>
+ <CAJnrk1ZRQaFseAnz3zm31oR3KmQWje5HDJjhNbAQSAQyK9_PMA@mail.gmail.com>
+ <CAJnrk1bj4pLpAzLhehrbDJuKWa=WMq-3XOAm9dhsEVDF9WCBPQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260702161710.2606853-1-zzzccc427@gmail.com>
-In-Reply-To: <20260702161710.2606853-1-zzzccc427@gmail.com>
-From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Fri, 3 Jul 2026 10:41:02 +0900
-X-Gm-Features: AVVi8CfDq3-O7UZsGSYo4zpc4uGr8Z6DnzHTxqQZyJBTeN8oXZFoTjjgKbCvZaA
-Message-ID: <CANFS6bY-GKojmuLMRKoh9r83iHT7_wQQM=SKZH3vB88QFzg11A@mail.gmail.com>
-Subject: Re: [PATCH v4] ntfs: serialize attribute-list replacement with lookups
-To: Cen Zhang <zzzccc427@gmail.com>
-Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1bj4pLpAzLhehrbDJuKWa=WMq-3XOAm9dhsEVDF9WCBPQ@mail.gmail.com>
 
-Hi Cen,
+On Thu, Jul 02, 2026 at 06:21:00PM -0700, Joanne Koong wrote:
+> On Thu, Jul 2, 2026 at 4:59 PM Joanne Koong <joannelkoong@gmail.com> wrote:
+> >
+> > On Thu, Jul 2, 2026 at 9:43 AM Darrick J. Wong <djwong@kernel.org> wrote:
+> > >
+> > > On Tue, Jun 30, 2026 at 05:09:17PM -0700, Joanne Koong wrote:
+> > > > Convert xfs iomap_ops to the new ->iomap_next() callback. This uses the
+> > > > iomap_process() helper, which finishes the previous mapping if needed
+> > > > and produces the next one. No functional changes are intended.
+> > > >
+> > > > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> > > > ---
+> > > >  fs/xfs/xfs_file.c  |  4 +-
+> > > >  fs/xfs/xfs_iomap.c | 96 +++++++++++++++++++++++++++++++++++++++++-----
+> > > >  2 files changed, 88 insertions(+), 12 deletions(-)
+> > > >
+> > > > diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+> > > > index 845a97c9b063..7f8bef1a9954 100644
+> > > > --- a/fs/xfs/xfs_file.c
+> > > > +++ b/fs/xfs/xfs_file.c
+> > > > @@ -857,9 +857,9 @@ xfs_file_dio_write_atomic(
+> > > >                       NULL, 0);
+> > > >
+> > > >       /*
+> > > > -      * The retry mechanism is based on the ->iomap_begin method returning
+> > > > +      * The retry mechanism is based on the ->iomap_next method returning
+> > > >        * -ENOPROTOOPT, which would be when the REQ_ATOMIC-based write is not
+> > > > -      * possible. The REQ_ATOMIC-based method typically not be possible if
+> > > > +      * possible. The REQ_ATOMIC-based method is typically not possible if
+> > > >        * the write spans multiple extents or the disk blocks are misaligned.
+> > > >        */
+> > > >       if (ret == -ENOPROTOOPT && dops == &xfs_direct_write_iomap_ops) {
+> > > > diff --git a/fs/xfs/xfs_iomap.c b/fs/xfs/xfs_iomap.c
+> > > > index 225c3de88d03..4fa1a5c985db 100644
+> > > > --- a/fs/xfs/xfs_iomap.c
+> > > > +++ b/fs/xfs/xfs_iomap.c
+> > > > @@ -1037,8 +1037,18 @@ xfs_direct_write_iomap_begin(
+> > > >       return error;
+> > > >  }
+> > > >
+> > > > +static int
+> > > > +xfs_direct_write_iomap_next(
+> > > > +     const struct iomap_iter *iter,
+> > > > +     struct iomap            *iomap,
+> > > > +     struct iomap            *srcmap)
+> > >
+> > > <unvarnished brainstream ahead>
+> > >
+> > > Now that I see the callsites, I think the "next" name could use some
+> > > bikeshedding <cough>.  The purpose of this function is either
+> > >
+> > > (a) to look up the first mapping to start iterating;
+> > > (b) to release whatever resources were attached during the current
+> > >     iteration and look up the next mapping to continue iterating; or
+> > > (c) to decide that it's time to stop iterating.
+> > >
+> > > From that it seems obvious to me that xfs_direct_write_iomap_next yields
+> > > iomaps for iteration.  In Python those are called generator functions;
+> > > in Rust they're called objects that implement the Iterator trait (or
+> > > iterators for short).
+> > >
+> > > How about s/iomap_next/iomap_iter/ ?
+> > >
+> > > Then this function would be called xfs_direct_write_iomap_iter, which
+> > > IMO is a closer description of what the function does, which is to say
+> > > iterates iomaps for direct writes.
+> > >
+> > > (Yes, my brain might be polluted with thinking that "iomap next" refers
+> > > to a major shift, in the sense of "linux next". :P)
+> >
+> > Thanks for sharing your thoughts. The idea makes sense to me in theory
+> > but I think in rust and python the "iter" naming is reserved for the
+> > iterator object itself and the method / callback for advancing and
+> > yielding the next item in the iteration is named "next" (eg
+> > Iterator::next in rust and __next__() in python)? I wonder if the
+> > s/_next/_iter gets confusing with multiple things in iomap already
+> > called iter (eg the struct iomap_iter, the iomap_iter() function). I'm
+> > not sure, I'm happy to rename this if that's the preference.
+> >
+> 
+> Ahh okay, I think I see the point you were trying to make. The
+> callsite functions are like:
+> 
+> ssize_t iomap_file_buffered_write(struct kiocb *iocb, struct iov_iter *from,
+>                 iomap_next_fn iomap_next,
+>                 const struct iomap_write_ops *write_ops, void *private);
+> 
+> int iomap_fsverity_write(struct file *file, loff_t pos, size_t length,
+>                 const void *buf, iomap_next_fn iomap_next,
+>                 const struct iomap_write_ops *write_ops);
+> 
+> void iomap_read_folio(iomap_next_fn iomap_next,
+>                 struct iomap_read_folio_ctx *ctx, void *private);
+> 
+> void iomap_readahead(iomap_next_fn iomap_next,
+>                 struct iomap_read_folio_ctx *ctx, void *private);
+> 
+> etc, so it's not clear from the "iomap_next_fn iomap_next" naming that
+> it handles per-iteration logic, whereas renaming it to "iomap_iter_fn
+> iomap_iter" makes it more explicit. Am I interpreting this correctly?
 
-While running generic/013 from xfstests, I observed the following hung
-task warning:
+Yes.
 
-[  492.533956] INFO: task fsstress:934 blocked for more than 122 seconds.
-[  492.534445]       Tainted: G           O        7.1.0-g81fe702ff176 #2
-[  492.534870] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
-disables this message.
-[  492.535914] INFO: task fsstress:934 <reader> blocked on an
-rw-semaphore likely owned by task fsstress:934 <writer>
-[  492.536788] INFO: lockdep is turned off.
+> I think this is a good idea. If no one has an objection, I'll make
+> this change for v3.
 
-# ps -eo pid,comm,stat | grep " D"
-    460 kworker/u16:4+f D
-    934 fsstress        D+
+Ok by me.  Ignore the email I just sent, please :)
 
-# cat /proc/934/stack
-[<0>] ntfs_attr_list_lock+0x2a/0x60 [ntfs]
-[<0>] ntfs_attr_get_search_ctx+0x97/0x100 [ntfs]
-[<0>] ntfs_resident_attr_resize+0x64/0x610 [ntfs]
-[<0>] ntfs_ir_truncate+0x82/0x120 [ntfs]
-[<0>] ntfs_ie_add+0x35/0x200 [ntfs]
-[<0>] ntfs_index_add_filename+0xca/0x120 [ntfs]
-[<0>] __ntfs_create+0xa9a/0xd80 [ntfs]
-[<0>] ntfs_create+0xbd/0x170 [ntfs]
-[<0>] path_openat+0x1014/0x1400
-[<0>] do_file_open+0xdf/0x1a0
-[<0>] do_sys_openat2+0x7b/0xe0
-[<0>] __x64_sys_creat+0x45/0x70
-[<0>] do_syscall_64+0x101/0x6a0
-[<0>] entry_SYSCALL_64_after_hwframe+0x77/0x7f
+--D
 
-# cat /proc/460/stack
-[<0>] __ntfs_write_inode+0x7b/0x6b0 [ntfs]
-[<0>] __writeback_single_inode+0x3f1/0x580
-[<0>] writeback_sb_inodes+0x25b/0x8c0
-[<0>] __writeback_inodes_wb+0x47/0xf0
-[<0>] wb_writeback+0x216/0x440
-[<0>] wb_workfn+0x3e6/0x510
-[<0>] process_one_work+0x200/0x5e0
-[<0>] worker_thread+0x1a0/0x370
-[<0>] kthread+0xef/0x120
-[<0>] ret_from_fork+0x270/0x330
-[<0>] ret_from_fork_asm+0x1a/0x30
+> Thanks,
+> Joanne
+> 
+> >
+> > >
+> > > > +{
+> > > > +     return iomap_process(iter, iomap, srcmap, xfs_direct_write_iomap_begin,
+> > > > +                     NULL);
+> > >
+> > > But then "iomap_iter" sets up a new problem: should iomap_process have a
+> > > new name that goes along with that?  iomap_iter is already taken for the
+> > > legacy path.  If we were emulating python I'd suggest iomap_iter_yield
+> > > but this is C so we get to reinvent everything from scratch so who
+> > > knows.
+> > >
+> > > --D
+> > >
+> 
