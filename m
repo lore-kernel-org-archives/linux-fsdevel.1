@@ -1,220 +1,120 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79BA30C15F
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 04:54:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D9E343D75;
+	Fri,  3 Jul 2026 05:12:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783054495; cv=none; b=lnXGzXy5YgA5rNq65iZBLBgW0AgYqJ0gTGYrceyrKnodKVKCN6xj72wwVG8aFLlmCnpAWd9xBQtohd67N94dR0pbB86b+8ssZuDPDkxyC+G3BVRNEBTUU5zdzE/8jqGnclewIRGFv58U3XS+IHP83PQ5hApFPMC7ZnOw+c+XKvc=
+	t=1783055530; cv=none; b=HNwE13ZjxYoSMN/+1SlOJKCN+ykQFENgNxHRk6KLpT35EFDLehuPlw+xdNz+CKk3EdC7gRO0skOBI9VTe8zGh7e6icBhmc6uN9mQheWavs3IQSBighUOXkBzLjEXb1CZDisYyOsoe9AfHrbUgvurxTBXIftXjEWrPmk9afQ2CCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783054495; c=relaxed/simple;
-	bh=HDzAhATYxRzS5JprzltqSD7mNW7p2WeIZkiPo4++51Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dfX7voiCR4qtbAOHsq/ynBgyIS/ZAwErG3uJFPxpWqPW8spTnzm3GE8rB66U4NUsIwXHFrofUxJjeqohCxC9LYC7Z+XmrsrtfpLHXddJTjc49V0aUHVKV9mE5M1L0F9A3N+l4IXdLP/7HugdeO2Alg10B+vE4vUKe9ghTDGzUc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ouMUC7os; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783055530; c=relaxed/simple;
+	bh=QodELRbfsPAagFSQb+Am3TLMBlWvPzqHiUnCbRYCO9Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OUdoX38Uvz79qBCSJ5npaMtZ5yf98jhhd+3u6L9emOqBWX4vYXthax5itxy84nwZxGF6CMFTVeuvvJRmRJOS8BIOIU4TT4/JfYxgf9Do2xbygAN2yZxpjmouUeu9Aycf+wke4AOPR7mLVTWb/fJOYXy/zT1ozR35lH6nFFV5NFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mt3Z6RcJ; arc=none smtp.client-ip=95.215.58.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ouMUC7os"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2cace91f112so1169055ad.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 02 Jul 2026 21:54:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783054483; x=1783659283; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D5ikfH7B/13WQxyOlzL4BmCTKB0fEMAdj0mk6w9hYYE=;
-        b=ouMUC7osSfvsueO9wzApQdql1lbQOuf8A5/i2NjBwTjHVbF9WnI3cSajNerXwhcnlQ
-         MSB8C+cMt2rDVCd0KahkG+unDuZM0gVrZK/ey3DmphS5yvFD2b8c051NdM4Zjuo3ltFy
-         T5pyQ3Qpw2J/J9oXfp/PDerKjitdAkzd8q2EKvTXwrjUYW1gs5eznB+fXswQOsBRy4g3
-         +fNkcWQDJya8/v/MFvagnM3IoBHouvVyhKK3dQAwyOMSn1/XsdSDsyln1ayh2zKU5ost
-         NYLpMCiluJiYEk9iXddEMZk9vkha8JsGPS2loT0nXWEmWomfAsLvcx38r5Stb2qEg0iR
-         Fn9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783054483; x=1783659283;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=D5ikfH7B/13WQxyOlzL4BmCTKB0fEMAdj0mk6w9hYYE=;
-        b=Ug/CYC9ZvutDU33nQuqS3VROjdAXPi53SfE+emMvOXJI7FiFY/lONwgqxrRJW0Dux5
-         LUyiHvUng4UYBZAb9nC5dVOMrBB9+RDEU7IZpEUeC0bimSRvrLgm7InbI6m2oMZ4XQ8T
-         8QBWldI+7UUdjP537d/TJ0fjalSqeqs70qZ1RQHjOLsFYS/TKHvIcB3CUgB11u1eOzhl
-         ZadkckHIU4256U7Nvf/ecYW4+rISMU9KS2xRBPYPEKp3QeBOAtcKvuUOVwkoQDCNLw+E
-         dd+ans6VIUIYJiRwJMWeALOh8k8F3EaJblMeIEZMVJRolXEpqjGO+1wkMeg5D+CSc3u4
-         poyw==
-X-Forwarded-Encrypted: i=1; AHgh+RoenaUBUE/VQApBcYga8tswloy4adk8lutYegfF/hf+jZoh+It6/7vEJdl+XiaisouFHGvXSvFaYAPHoa3Q@vger.kernel.org
-X-Gm-Message-State: AOJu0YyazVDbeSk3vnSYe5XNW+UfeQ/LphpmfDe8xA4u9axHQ0MwI5sb
-	ZJYZ1BuPf6t7lVwPEW8oUHqWGQoH+oUGNzSuQP359unXBrfm5U8rznfr
-X-Gm-Gg: AfdE7cl5+gDe773BZnbXPxIm4buWGS0NE6Wpjk1uYVGyHd4ZsrcbfscojyjdvHdEJ8w
-	2ds/wMMset+/nuTCGg1dV2HC6rXf4qgyVQ9VATvU/lNIuW4GVYm3dJIwbGRMQQEXXTsAazh7h1H
-	MWMzxw6qwQceCVgHydZDyrLb64shRHcpx4BE59GOM1V5sXNeWNlageohuOp+AszRCbDRWr5LQZA
-	1y9yn96qBggoHSU3qgteVLH00G1IniP1lBDwsGYED/i4+XW/JKgVQKohJNm6aql9uRuza8ZNfM1
-	s4cOYw6PxFAf3Pi4ikdJN75l7R2JUdLpJbW7tgKNp/KCcCByWHW+Gp49ymH5kA4xrjRWLNlJsNy
-	/go3K2vLKXoZxrtqu8dr3o5KBWnWFsL1ufLozp9oFaYSc4YpqFyi7cF0fV1ReTszQbUHDsncaff
-	/ZnN3O3wnKTZq6KnhzjjsJxaV5x0x9b28gQZJnax7/YsKU6SEfChK8e+XGC0FBqBEY+sxPrDisR
-	OuhD9wTGFH1782BQyMRWkQKTrq5wJbmSrURiqizoqdXFXVtmrRyNCZNAd0rloobhvaqTL8ql6o/
-	mSDnArfOeesxnmMEQFeQzjg=
-X-Received: by 2002:a17:902:e5c1:b0:2ca:c68:c554 with SMTP id d9443c01a7336-2ca7e90cea8mr96189345ad.38.1783054482619;
-        Thu, 02 Jul 2026 21:54:42 -0700 (PDT)
-Received: from cs-1047136853211-default.asia-southeast1-a.c.d33bddc1d573818c7-tp.internal (213.28.87.34.bc.googleusercontent.com. [34.87.28.213])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b3c7fa65asm15615643c88.6.2026.07.02.21.54.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 21:54:42 -0700 (PDT)
-From: Aditya Srivastava <aditya.ansh182@gmail.com>
-To: Theodore Ts'o <tytso@mit.edu>
-Cc: Andreas Dilger <adilger.kernel@dilger.ca>,
-	Jan Kara <jack@suse.cz>,
-	Baokun Li <libaokun@linux.alibaba.com>,
-	Ojaswin Mujoo <ojaswin@linux.ibm.com>,
-	Ritesh Harjani <ritesh.list@gmail.com>,
-	Zhang Yi <yi.zhang@huawei.com>,
-	Tao Ma <boyu.mt@taobao.com>,
-	syzbot+0c89d865531d053abb2d@syzkaller.appspotmail.com,
-	linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mt3Z6RcJ"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1783055506;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TclDFaPZdaXfZinZztmQXDY2osmC9ohL82aKjMqnljA=;
+	b=mt3Z6RcJAbFH5qjmNSVJr9og3cANnog5yCm8KOSikIlNWnWUdlzBYYJRAxJJYQPrB9K2v2
+	t/yidQofXCp8zmiyWOyphesT3hGz9lnz5aI/EeO8GKygjhDt0FxJZTf68vKAwDGvFvHdqj
+	xkCSEJlXdSaVC7mi91P395B1Vyr2Als=
+From: Lance Yang <lance.yang@linux.dev>
+To: pfalcato@suse.de
+Cc: akpm@linux-foundation.org,
+	david@kernel.org,
+	ljs@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	liam@infradead.org,
+	npache@redhat.com,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
-	Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
-Subject: [PATCH v4 2/2] ext4: cleanup unused CONVERT_INLINE_DATA flag
-Date: Fri,  3 Jul 2026 04:54:13 +0000
-Message-ID: <20260703045414.1768-2-aditya.ansh182@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260703045414.1768-1-aditya.ansh182@gmail.com>
-References: <20260703045414.1768-1-aditya.ansh182@gmail.com>
+	linux-fsdevel@vger.kernel.org,
+	stable@vger.kernel.org,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	willy@infradead.org,
+	song@kernel.org,
+	ehagberg@janestreet.com,
+	ziy@nvidia.com,
+	gleventhal@janestreet.com
+Subject: Re: [PATCH stable] mm/khugepaged: write all dirty file folios when collapsing
+Date: Fri,  3 Jul 2026 13:11:29 +0800
+Message-Id: <20260703051129.88453-1-lance.yang@linux.dev>
+In-Reply-To: <20260702165409.164568-1-pfalcato@suse.de>
+References: <20260702165409.164568-1-pfalcato@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-From: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
 
-After implementing bitwise flags for tracking the inline data write
-state in the address space fsdata parameter, the CONVERT_INLINE_DATA
-state flag is left unused and can be removed.
+On Thu, Jul 02, 2026 at 05:54:09PM +0100, Pedro Falcato wrote:
+>As-is, khugepaged and writable-file opening exclude each other. A file
+>cannot be open writeable and have THPs (because the filesystem is not aware
+>of them). khugepaged will never collapse file pages for files that are
+>opened writeable. On an open(O_RDWR/O_WRONLY), the page cache for that
+>particular file is dropped. This is fine because nothing could've been
+>dirtied.
+>
+>However, there is an edge-case: collapse_file() might not be able to
+>coexist with concurrent writers, but it can coexist with dirty folios
+>(from previous writers). Therefore, the following can happen:
+>
+>open(file, O_RDWR)
+>write(file)
+>close(file)
+>madvise(file_mapping, MADV_COLLAPSE, some non-dirty range)
+>open(file, O_RDWR)
+> nr_thps > 0
+>  truncate_inode_pages()
+>    /* THPs are cleared out, but so are the dirty folios */
+>
+>When this edge-case happens, there is data loss, as the dirty folios are
+>fully discarded.
 
-Perform this clean-up by:
-1) Deleting the CONVERT_INLINE_DATA definition from ext4.h.
-2) Removing the void **fsdata argument from both the forward
-   declaration and the definition of the internal helper
-   ext4_da_convert_inline_data_to_extent().
-3) Removing the void **fsdata argument from the declaration and
-   definition of ext4_generic_write_inline_data() and updating
-   the caller ext4_try_to_write_inline_data() and the internal
-   re-alloc retry logic accordingly.
-4) Updating ext4_da_write_begin() to call
-   ext4_generic_write_inline_data() without the fsdata parameter.
+Well spotted, thanks!
 
-Suggested-by: Jan Kara <jack@suse.cz>
-Signed-off-by: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
----
-Changes in v4:
-- Resent as Patch 2/2 of the v4 series, as suggested by Jan Kara.
+>
+>Fix it by fully writing back the page cache (and waiting) when collapsing
+>file THPs. Doing so provides the guarantee that no dirty folio will be
+>observed while there are active THPs. To fully ensure this is safe, the
+>invalidate_lock needs to be held while doing the writeout, so that
+>do_dentry_open()'s page cache truncation excludes this write-and-wait.
+>
+>Cc: stable@vger.kernel.org
+>Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+>Cc: Christian Brauner <brauner@kernel.org>
+>Cc: Jan Kara <jack@suse.cz>
+>Cc: Matthew Wilcox <willy@infradead.org>
+>Cc: Song Liu <song@kernel.org>
+>Cc: Eric Hagberg <ehagberg@janestreet.com>
+>Cc: Zi Yan <ziy@nvidia.com>
+>Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
+>Reported-by: Gregg Leventhal <gleventhal@janestreet.com>
+>Closes: https://lore.kernel.org/linux-mm/CAFN_u7H_0ECF3jixP=T=U7AH5=Q3wQNvJMo8an3VqUDMerQfUw@mail.gmail.com/
+>Tested-by: Zi Yan <ziy@nvidia.com>
+>Signed-off-by: Pedro Falcato <pfalcato@suse.de>
+>---
 
-Changes in v3:
-- Initial version of the cleanup patch.
+Tested on v7.1.2. I no longer see the data loss with this patch applied.
 
- fs/ext4/ext4.h   |  5 ++---
- fs/ext4/inline.c | 13 +++++--------
- fs/ext4/inode.c  |  2 +-
- 3 files changed, 8 insertions(+), 12 deletions(-)
-
-diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-index 9e6f6467bdeb..c2e4262406a7 100644
---- a/fs/ext4/ext4.h
-+++ b/fs/ext4/ext4.h
-@@ -3137,8 +3137,7 @@ int do_journal_get_write_access(handle_t *handle, struct inode *inode,
- 				struct buffer_head *bh);
- void ext4_set_inode_mapping_order(struct inode *inode);
- #define FALL_BACK_TO_NONDELALLOC 1
--#define CONVERT_INLINE_DATA	 2
--#define EXT4_WRITE_DATA_INLINE	 4
-+#define EXT4_WRITE_DATA_INLINE	 2
- 
- typedef enum {
- 	EXT4_IGET_NORMAL =	0,
-@@ -3749,7 +3748,7 @@ extern int ext4_generic_write_inline_data(struct address_space *mapping,
- 					  struct inode *inode,
- 					  loff_t pos, unsigned len,
- 					  struct folio **foliop,
--					  void **fsdata, bool da);
-+					  bool da);
- extern int ext4_try_add_inline_entry(handle_t *handle,
- 				     struct ext4_filename *fname,
- 				     struct inode *dir, struct inode *inode);
-diff --git a/fs/ext4/inline.c b/fs/ext4/inline.c
-index cfd591dc1d9c..0cb2dc195d23 100644
---- a/fs/ext4/inline.c
-+++ b/fs/ext4/inline.c
-@@ -22,8 +22,7 @@
- 
- 
- static int ext4_da_convert_inline_data_to_extent(struct address_space *mapping,
--						 struct inode *inode,
--						 void **fsdata);
-+						 struct inode *inode);
- 
- static int ext4_get_inline_size(struct inode *inode)
- {
-@@ -697,7 +696,7 @@ int ext4_generic_write_inline_data(struct address_space *mapping,
- 					  struct inode *inode,
- 					  loff_t pos, unsigned len,
- 					  struct folio **foliop,
--					  void **fsdata, bool da)
-+					  bool da)
- {
- 	int ret;
- 	handle_t *handle;
-@@ -728,7 +727,7 @@ int ext4_generic_write_inline_data(struct address_space *mapping,
- 			return ext4_convert_inline_data_to_extent(mapping, inode);
- 		}
- 
--		ret = ext4_da_convert_inline_data_to_extent(mapping, inode, fsdata);
-+		ret = ext4_da_convert_inline_data_to_extent(mapping, inode);
- 		if (ret == -ENOSPC &&
- 		    ext4_should_retry_alloc(inode->i_sb, &retries))
- 			goto retry_journal;
-@@ -788,7 +787,7 @@ int ext4_try_to_write_inline_data(struct address_space *mapping,
- 	if (pos + len > ext4_get_max_inline_size(inode))
- 		return ext4_convert_inline_data_to_extent(mapping, inode);
- 	return ext4_generic_write_inline_data(mapping, inode, pos, len,
--					      foliop, NULL, false);
-+					      foliop, false);
- }
- 
- int ext4_write_inline_data_end(struct inode *inode, loff_t pos, unsigned len,
-@@ -895,8 +894,7 @@ int ext4_write_inline_data_end(struct inode *inode, loff_t pos, unsigned len,
-  *    need to start the journal since the file's metadata isn't changed now.
-  */
- static int ext4_da_convert_inline_data_to_extent(struct address_space *mapping,
--						 struct inode *inode,
--						 void **fsdata)
-+						 struct inode *inode)
- {
- 	int ret = 0, inline_size;
- 	struct folio *folio;
-@@ -934,7 +932,6 @@ static int ext4_da_convert_inline_data_to_extent(struct address_space *mapping,
- 	folio_mark_dirty(folio);
- 	folio_mark_uptodate(folio);
- 	ext4_clear_inode_state(inode, EXT4_STATE_MAY_INLINE_DATA);
--	*fsdata = (void *)CONVERT_INLINE_DATA;
- 
- out:
- 	up_read(&EXT4_I(inode)->xattr_sem);
-diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index 4e1bf54e511d..9a0fbaf73ce2 100644
---- a/fs/ext4/inode.c
-+++ b/fs/ext4/inode.c
-@@ -3160,7 +3160,7 @@ static int ext4_da_write_begin(const struct kiocb *iocb,
- 
- 	if (ext4_test_inode_state(inode, EXT4_STATE_MAY_INLINE_DATA)) {
- 		ret = ext4_generic_write_inline_data(mapping, inode, pos, len,
--						     foliop, fsdata, true);
-+						     foliop, true);
- 		if (ret < 0)
- 			return ret;
- 		if (ret == 1) {
--- 
-2.47.3
-
+Tested-by: Lance Yang <lance.yang@linux.dev>
