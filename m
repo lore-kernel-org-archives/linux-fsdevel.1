@@ -1,151 +1,158 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B76E3E0081;
-	Fri,  3 Jul 2026 15:08:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4283BCD33
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 15:17:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783091324; cv=none; b=SiBB20Y3PM2UEhHNpADjhypcYfdN7zTz2L/A025w+gMJNI0wAgn6+KvFbt00HxQJpgnYiHVINAVYOCCrBKSFxauAyZ3sCckBIB/pJHyvysu2f60i5zaSPc0Tgm0rC+4or1yjUIgBEagMSFFanT1lpbL0sO1FdvFvdLJkA4tsgX8=
+	t=1783091830; cv=none; b=L04y1kCngvaGshhe5aog7Yx4sqPqlILAWMuHtiwG4YLhJ6VJou3ClZtA4w60J3QmZbkCg61o61kF235jvPbFLTT4fToa1UjcFgogrJ//T2Wct5+VxaQ6VYwb9HHj1eKKLSZp5UpcMFlMGQqK0MjFEWKGrR2hd8KvFyE8WZSx89s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783091324; c=relaxed/simple;
-	bh=EatkHwGiINJvh8y+G+TYGlWEAfX3X9SjxnXDjq5DWGY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sxMFwMI/7BxrBVW48SOO6Q9yMj/WzrYBgdzHYrTUOcO48iLtfXX7UnvcqgRZAGGCIHaO3Ajnqr9ObG6JaxXlWegPz9aWGe4dU8wm9g7OcUJ9mKByxbROzVzNWoWvx0PqzXplu4wCZmEzsR2JM8J+X54L4d0hLT0ZyiGo2oajAKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=W+yNG8Yo; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1783091830; c=relaxed/simple;
+	bh=dLaePOdwiDrwl5tNNLkgfohBT9iDAfP69qtAPsKox5U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=skvckAmITHR3Gcb/naKkg1zrkFx9SH2AIkM68ekmSj16xSyJPYCqk4sCwE6WvkD8bMBtFPFAUdmRNf9Lldy7nniElF6921sQDJVzubdtHvj+AZoIybxXZrZI9j9ClkxYmkMCuFOG4q5iDEwz7lZ4NxhlGZytJtyt0zTFbnHYfI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hKL667Sl; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=jmQehgLf; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=L6QU4ACI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pWgrwsqG; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="W+yNG8Yo"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6636J59R1814320;
-	Fri, 3 Jul 2026 15:08:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=pp1; bh=m9vBeFOx9VmUPzIweBpa39fiiZs7qpA2wGQJ2FLtW
-	OE=; b=W+yNG8YotbVqaqa1TggKGTNBl1CS8AIVvfrXir1pQhYuFonn/FqKAXk59
-	E36UOumbwaZSQGYAk4xRATRcDSoGvrqHKJb60AyA1FFOX3iMVnGhNdYcSxTD48SJ
-	mzsM9FlDnt4jmqx3/OXEqDzhhDY3KBtrzDuSRVszG1NMm1wml8m4GBEsyXtyJMOQ
-	nCcw87Pj0PuT+x+AIY245AEh1muAj3d5S11oBaTdZd/H/pOopQpFYrepZuZ+8Hvd
-	2pAB4+uIzU+Nl25//xqgTJaer0pAEVlvz/doh2XVlygEiuyEtxpiNTe1IgkS3REA
-	dFG+r4gaWJmyAONBxFn2pBHHxdC6g==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f26qafe91-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 03 Jul 2026 15:08:27 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 663F4a5o023728;
-	Fri, 3 Jul 2026 15:08:27 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4f2uhys5ca-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 03 Jul 2026 15:08:27 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 663F8PON50528762
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 3 Jul 2026 15:08:25 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 388B020043;
-	Fri,  3 Jul 2026 15:08:25 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3017220040;
-	Fri,  3 Jul 2026 15:08:21 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.39.22.216])
-	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri,  3 Jul 2026 15:08:20 +0000 (GMT)
-From: Disha Goel <disgoel@linux.ibm.com>
-To: shuah@kernel.org
-Cc: wenyang.linux@foxmail.com, akpm@linux-foundation.org, jlayton@kernel.org,
-        brauner@kernel.org, jack@suse.cz, djwong@kernel.org,
-        aleksa@amutable.com, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Disha Goel <disgoel@linux.ibm.com>
-Subject: [PATCH] selftests/filesystems: fix missing and stale TARGETS entries
-Date: Fri,  3 Jul 2026 20:37:42 +0530
-Message-ID: <20260703150742.58991-1-disgoel@linux.ibm.com>
-X-Mailer: git-send-email 2.45.1
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hKL667Sl";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="jmQehgLf";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="L6QU4ACI";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pWgrwsqG"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8C04B749B5;
+	Fri,  3 Jul 2026 15:17:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1783091827; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g6ZTzcF2Wk/f1hulDIdKAQEiBnKUGcoKK8hraQSPc6U=;
+	b=hKL667SlVX9pu0ozpjgdU0KAmaQNv5cYkpmRFiA3JtN1WK4LpplfF5VDaTL6/9+9dV+4es
+	k64qKiYKtZ//GkTf1d9JOBZNaX791xLRe8v/ryuSGLFXiisfIhJ/tCU1wwAm0uUeYoyazJ
+	h7zTqQE2Knfb0wRRf1zjyE+xwKgy0qY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1783091827;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g6ZTzcF2Wk/f1hulDIdKAQEiBnKUGcoKK8hraQSPc6U=;
+	b=jmQehgLfGRO3Ml6PiE88V40ibIQ1wFAy2K3cirRc3eaq8oIbdscGK2s8KaAet187Wd4969
+	GgUYlLlL7KvB3kCg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1783091826; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g6ZTzcF2Wk/f1hulDIdKAQEiBnKUGcoKK8hraQSPc6U=;
+	b=L6QU4ACIC4ENv3OMywFJ+zbu3JSTMI+wTtRrceZWxO5EZeQVVKLlPCHlQ5vq0bDqlCX0S4
+	pF7FZL5Yx6XiXOMcYVIK8GZGL5RC1sCE8vzuhvGSqIRKeT+mQPnIlSJsrEaYiMZx25mER/
+	Efjr+fsCdhNXL61cjRMlE9RzNbFJHVY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1783091826;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g6ZTzcF2Wk/f1hulDIdKAQEiBnKUGcoKK8hraQSPc6U=;
+	b=pWgrwsqGVNcz7xU0zFH4GDnzEoAY8Pkbt9iZ7BzQ3R0SpdlWfQArAJt0MxbJw2vIOv3iTY
+	seXZ513f/CpanVAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7CE3B779AA;
+	Fri,  3 Jul 2026 15:17:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id cm56HnLSR2oRSQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 03 Jul 2026 15:17:06 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 1F800A12D4; Fri, 03 Jul 2026 17:17:02 +0200 (CEST)
+Date: Fri, 3 Jul 2026 17:17:02 +0200
+From: Jan Kara <jack@suse.cz>
+To: xuanqiang.luo@linux.dev
+Cc: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>, 
+	Amir Goldstein <amir73il@gmail.com>, Joanne Koong <repnop@google.com>, 
+	Miklos Szeredi <mszeredi@redhat.com>, linux-kernel@vger.kernel.org, 
+	Xuanqiang Luo <luoxuanqiang@kylinos.cn>
+Subject: Re: [PATCH] fanotify: initialize permission event watchdog state
+Message-ID: <ysqodebormqzyedilys3fut64yrdn5lnxgyd64xu6ims5nd3ic@4fwuwhf7dekz>
+References: <20260703031345.9354-1-xuanqiang.luo@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAzMDE0NiBTYWx0ZWRfXzifltJwzJ5Gj
- NAaFzh02SZsFeVHot9l7XAXJNW5QKoc51bCvhK8hmxhGYHRY9ghda75dAHODPYzoocZU6+0JIrj
- Sy1sc6NrSQ4bU5A0wOVP/JQriYGoWurhb7U9rxZSlqHluZkWkODF5ApO41XG+n9PZgv/rpuuwG5
- tWxFfe7d3r/dhuUBJfPB6+yFu9MkHeMup8lnwAJyTV+eTIo+igXv6KV/uOb5d6QTUbp3Cb++vhv
- 47nEa/Er9LDZlkAsilB5/kkOXDbLStIyY9EnOtKT4juWh+eHMtOK8+f4aJ26bJb+ChR+QMLfeU6
- LMBiBIVolrkShFjh7fgMDit8hTnQP4NFOy+xKkC9xQYzOkZno8EPlx8RODceL2DZmhEH4naRylA
- AtoTZZNksGBoCmKtTGa9uALdZE/jVuI2q5e6Y4LSZxBE/G/50bxDl4u64HbqiLMDKO4byMOTjq2
- ADiMV0J5Ze94lcbCIOA==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAzMDE0NiBTYWx0ZWRfX7EmTt8t+MCVW
- dQZfslt7xQgAquj2OAEgCrJDYjAmOmMI6QxuntHIHrwlNBB1Ao4PyHJLWXBet1yKe8f9le35ERL
- QlUQttvGUPNxFZEkVudjdC6rOp/7YZ4=
-X-Proofpoint-GUID: HTpnxO-XLNYvnb0nXnYrtUjWCKTuGZEc
-X-Proofpoint-ORIG-GUID: V1UzGahCg_FONDGsUfdQ7lZUS475iEhJ
-X-Authority-Analysis: v=2.4 cv=WZ88rUhX c=1 sm=1 tr=0 ts=6a47d06c cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8 a=2UpccJByY7zQxxB6lQIA:9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-07-03_02,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 phishscore=0 clxscore=1011 bulkscore=0
- impostorscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607030146
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260703031345.9354-1-xuanqiang.luo@linux.dev>
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,suse.cz,gmail.com,google.com,redhat.com,kylinos.cn];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,suse.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
 
-filesystems/eventfd, filesystems/open_tree_ns and filesystems/xattr
-were never added to TARGETS when introduced. filesystems/openat2 was
-moved from selftests/openat2/ but the TARGETS entry was never updated,
-leaving a stale entry pointing at a directory that no longer exists.
+On Fri 03-07-26 11:13:45, xuanqiang.luo@linux.dev wrote:
+> From: Xuanqiang Luo <luoxuanqiang@kylinos.cn>
+> 
+> fanotify permission events are allocated with kmem_cache_alloc(), but
+> fanotify_alloc_perm_event() does not initialize watchdog_cnt.
+> 
+> The watchdog reads watchdog_cnt after the event is moved to access_list.
+> A stale value can make it warn too early or skip the warning.
+> 
+> Initialize watchdog_cnt when allocating a permission event.
+> 
+> Fixes: b8cf8fda522d ("fanotify: add watchdog for permission events")
+> Signed-off-by: Xuanqiang Luo <luoxuanqiang@kylinos.cn>
 
-Fix this by adding the four missing subdirectories to TARGETS and
-removing the stale openat2 entry.
+Thanks. I've added the patch to my tree.
 
-Fixes: 7c37857fc23a ("selftests: add eventfd selftests")
-Fixes: b8f7622aa6e3 ("selftests/open_tree: add OPEN_TREE_NAMESPACE tests")
-Fixes: 7e28fef5d4db ("selftests/xattr: path-based AF_UNIX socket xattr tests")
-Fixes: fe087927046c ("selftests: move openat2 tests to selftests/filesystems/")
-Signed-off-by: Disha Goel <disgoel@linux.ibm.com>
----
- tools/testing/selftests/Makefile | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+								Honza
 
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 8d4db2241cc2..4c4df65a6f91 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -33,7 +33,10 @@ TARGETS += fchmodat2
- TARGETS += filesystems
- TARGETS += filesystems/binderfs
- TARGETS += filesystems/epoll
-+TARGETS += filesystems/eventfd
- TARGETS += filesystems/fat
-+TARGETS += filesystems/openat2
-+TARGETS += filesystems/open_tree_ns
- TARGETS += filesystems/overlayfs
- TARGETS += filesystems/statmount
- TARGETS += filesystems/mount-notify
-@@ -42,6 +45,7 @@ TARGETS += filesystems/fuse
- TARGETS += filesystems/move_mount
- TARGETS += filesystems/empty_mntns
- TARGETS += filesystems/fsmount_ns
-+TARGETS += filesystems/xattr
- TARGETS += firmware
- TARGETS += fpu
- TARGETS += ftrace
-@@ -98,7 +102,6 @@ TARGETS += prctl
- TARGETS += proc
- TARGETS += pstore
- TARGETS += ptrace
--TARGETS += openat2
- TARGETS += rdma
- TARGETS += resctrl
- TARGETS += riscv
+> ---
+>  fs/notify/fanotify/fanotify.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
+> index a3555bebad63e..b59f0aa43c4be 100644
+> --- a/fs/notify/fanotify/fanotify.c
+> +++ b/fs/notify/fanotify/fanotify.c
+> @@ -599,6 +599,7 @@ static struct fanotify_event *fanotify_alloc_perm_event(const void *data,
+>  	pevent->hdr.pad = 0;
+>  	pevent->hdr.len = 0;
+>  	pevent->state = FAN_EVENT_INIT;
+> +	pevent->watchdog_cnt = 0;
+>  	pevent->path = *path;
+>  	/* NULL ppos means no range info */
+>  	pevent->ppos = range ? &range->pos : NULL;
+> -- 
+> 2.43.0
+> 
 -- 
-2.45.1
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
