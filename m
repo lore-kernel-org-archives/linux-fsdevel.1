@@ -1,164 +1,159 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E5B2E173D
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 16:12:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D307428488F;
+	Fri,  3 Jul 2026 16:17:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783095169; cv=none; b=dvtj2pk11q5CNcyCYfldQm5DD+z9QmUpHqL2n94D+b5i7To7J+KI1+SVGxYZJ5Uv4OE+qmIQgX9uSz7HruqGWBFlfSkVq2alJmRfAmSgV6kB4/Fb1Q0OezdHFUT+qzVSXBYawcco/fPZZW+EUNxVa1KS39Cj7eGpBuzijjJTnYU=
+	t=1783095446; cv=none; b=WdR41GH4RGSHXL0l+PxZ13Nzy/gKeBxhf3E4L+BsY9TZ/WrVInXp+wFuQpCCWJicynR0gtZDwdHPYhADE50VeS9nl2n+nKoBFLaWAmDsT3+5KhSZdLLrTC3XrBNaevPYSKefxoxygv59MDGnE8Px1sNhjql6gxehkR1SL/qvt+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783095169; c=relaxed/simple;
-	bh=DDlppR72ZofS0gwf7T++swSGldaFduoIiD3WPtJRbEY=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=n134BcoHj4TmAcWAvT3+QyJur8B5ikkHxyhqGF8lDbjyVrRXfYfnIelkD/SGJ3bh1l0g41mjBOlN6Lzfn8Ug0VhgSApVM2meZog4QHU5s/Zi+WeoHkYbLbM3Pirnf3o8YKxD8kkh/wmqPQEO4rpPl3zuwpH6ri0bXs6+X7TwDV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca; spf=pass smtp.mailfrom=dilger.ca; dkim=pass (2048-bit key) header.d=dilger-ca.20251104.gappssmtp.com header.i=@dilger-ca.20251104.gappssmtp.com header.b=S+Oes1Aj; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dilger.ca
+	s=arc-20240116; t=1783095446; c=relaxed/simple;
+	bh=K1t3DU4zFcvSE8I0dwtDprBpNqurf09pmHflUdwBuys=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=H2rYNX0pvbTnQZIUUsw9bEtGHqAVje11mVQpMsw/ZB7ZdKKLD7gt6j3l89IrGbpb8Ru2XsdOnjCoVvkMTDQUKvbdfh04DqlvuyRDy6IrG8jAyVdHhEO5hc+FeUhXlR1SbeZBa32JEumWn2pFEAnGiNo0+Hg5Stfbd9e57Whw4oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=cfsKI79L; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PQ6I+9kD; arc=none smtp.client-ip=202.12.124.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=johnericson.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dilger-ca.20251104.gappssmtp.com header.i=@dilger-ca.20251104.gappssmtp.com header.b="S+Oes1Aj"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3812c718debso580185a91.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Jul 2026 09:12:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dilger-ca.20251104.gappssmtp.com; s=20251104; t=1783095167; x=1783699967; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LuYdqZO6P8sYYUQnX9Vmulsb3aoIphpVLP6QakGqXqA=;
-        b=S+Oes1Ajap0efry0Bu0qQXu9w1jj2g7qfPWJBpzSsuKaT/q/2ke5vxfs9dt9wfLFS8
-         CPt/5W4b4k7wU8qqpDRwQkTZH1EAS1ZROM1f69lKWKazWdOwajOixfQq+lWL4Cmf53Ko
-         qZ9fRuG2tsDXbKtDXyRvjZK6mx7fyc/xLVfexT9c+TS1Cn+Pqc6fenniyzFiHzHz7rTK
-         TaRvgEGKOhVDEVDD+Rl9In7gVcfFYRaFeeyUydLXmmxLnWR+/eFPyOVqtlFx6um/mpaE
-         c7zbDfepqqOXVijMJBXhsBVKaoYJaa5uCXi7yBNNFwMWw/Z1JUgez52KxtkZ6LYzWE6C
-         moLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783095167; x=1783699967;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LuYdqZO6P8sYYUQnX9Vmulsb3aoIphpVLP6QakGqXqA=;
-        b=PZ4uB7z4VKkOs8rgwkxA8+rA7vvTEWWy3lZQ/dnWcM5gRqg6eAjYhGys48LPphifKt
-         0Dipg2iwTo2dGwWHFzv/fBUY27TtHt039uTr1J4JBYf6mAlreIzYGZFG5WIvvh1mJQoA
-         um0KP+JRYHIXOY8rSY0u3ZYYqbK52y9bxcq1oaowT+5fLa6katB1+SpJZi351eV950Xi
-         DQQOxrSVgdprVwGbDrlC/z/AQ2qhEmdrwQjoN+WeF9pSAT0+CjGUFSFK0NmxOAvQVakW
-         0oG+gp6RtJ/dspZTN8oq86tA2/Pka9mwkKsVaqx/kGCkdy8u4yDHSO2GgnMnIQjrYcMI
-         ma9w==
-X-Forwarded-Encrypted: i=1; AHgh+RpHFXrLdhu1HVyEEZwlPq9TPAAuFSk0VYHIf+dTZDjHGlxAvWMPTclQaVtfzX7vtz13UoSyGwo15a8h4C6p@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz67ZiLz2mkVb4g+08MUQLhGE7+Ums7d22hh41Rwm5WeQbe6z8s
-	zQrdHIYmvg96nXL1IbeXOWgJqI2k0hUO39je080o/za3+ZlcQcVwgx2KhEfPq7aVsCE=
-X-Gm-Gg: AfdE7ckK3v3a4oEEZ5wqED3kmJLShtKYFpkrRgKinCi1DgetIlIlMZhTDCvfDSnSNBy
-	eEOmK9JS0G8p4tHeS0m5Y9iGFUeupB9jVWRaqb/jqrMau2byrvc5+1pBwUDHblYbLTxkQFyN0/m
-	mSWNwWQoBbaabenj2d+UIvzm5lDiwHcNIzPoyi/vl3aieBpjr2g8rbnDLoTTrTJhhfX+9vAjpVu
-	3kJHOZwpJle9pQea6eFePQh80bbeDY+ByWktUNV5CIGmYOAu1A8pyPZG1QBN2DoEAGhfSIxWH6j
-	1BJPcPcqXuPF41udCPteuqm6X1vFI/6Iwa02LUcirNbQPWVEOWnf3M9IMy045T95HChojVwg/Hu
-	Xqd0iJ/0VJsOHqufIRWJB/gQGMNx3PluK3Yd7PNMyge/lvuVsYUGRxfvhW/6nMnH1zkV7f0VX9a
-	bs/QnWMI0QVoP16lKM9a1CJY02vQDk6bqQxH7sxbFwzAWZqXm2l0CrQ9oD3NpOhIQhNQ==
-X-Received: by 2002:a17:90b:50:b0:37f:9ce2:348d with SMTP id 98e67ed59e1d1-3829fddab93mr148112a91.30.1783095166730;
-        Fri, 03 Jul 2026 09:12:46 -0700 (PDT)
-Received: from smtpclient.apple (S0106a0ff70715ac6.ek.shawcable.net. [174.0.84.146])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38097d81bd9sm3194250a91.1.2026.07.03.09.12.44
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 03 Jul 2026 09:12:46 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b="cfsKI79L";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PQ6I+9kD"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 082EE7A00F6;
+	Fri,  3 Jul 2026 12:17:24 -0400 (EDT)
+Received: from phl-imap-16 ([10.202.2.88])
+  by phl-compute-05.internal (MEProxy); Fri, 03 Jul 2026 12:17:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
+	 t=1783095443; x=1783181843; bh=/QkTsC6xUCqstWYZjMorpu7FsivaniwM
+	rj3YB4WHzmo=; b=cfsKI79L64bxgB2ZcJAK1CbGnDSLy2vUki9GL8slWLaZ/aWX
+	LidakxnQpqpYtO+54qsr2aqF7YNAg2RXZBdSI84S5HljSiznbQjXbuWVTRuNE0VE
+	J1kUOcZlJv5LQs4+OjcKifB7xd0WZTnD8YkVjM0a0GD5AovKopNWvM1YcmIpmVSp
+	VYSS32vokAx/g2fP1o/Lj6kmMKdKbMI2RRnX0Lv34saG1t6fiyI3/23ohR6bhnyA
+	4SYU+lRON0BTxgqLYDXKsvojQqnmunDP48tH+1Y7K9LD8nb1TPs411dEmqcMzaV0
+	ynOTh+b+VVk+Vft+OvjzYxfYYwnjEIhoUfUPfw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1783095443; x=
+	1783181843; bh=/QkTsC6xUCqstWYZjMorpu7FsivaniwMrj3YB4WHzmo=; b=P
+	Q6I+9kD3wRrmPqYjdP3gsMfH7ZEEucHm/uMDCyDvsvtKTOD+GG0wtkRcrKfkonDm
+	3l6Mtq/9UY6LRywL0vSME/zMLboz5MeEfsV0w2w3QXo3jTteyU4jPSH7EFDDbcUe
+	eQY1RS/GOg0wY3yfO4IQPchVQYe3HvIysqc7I9Wlqe/WLUaRZjF5IR51xkMMygns
+	kmum/pvDNmDV5qHonKmGx6b78JPq1pC6co1Yl81hA+FhayrEyDi96yA4ASDryGWP
+	GJRVuNZmqSkvHfTw8ZmUMx+/oIKv+FnRhidRDaey1j+nT9z6G6i/WasPfkYnWGNt
+	yKa0kqc6C8X25E8GVeu+Q==
+X-ME-Sender: <xms:k-BHalN8nVmWy9qyXGkLmJp8fH_qAuOXmt26m4vN_6KmxSicSNgoPA>
+    <xme:k-BHaixV0xebXUsHD1J-YadkGLqNnWru-vaT-CCjNXAN77j7S5N7npoDTb1_1kJvq
+    6FYWQ6hNmtwm0yBT58N-Bk0L8pLBA0qVbBte7lmHGAxD01eMXA2Ew>
+X-ME-Proxy-Cause: dmFkZTEHAn6vndmOrj8IzKI2Nn3VxCG9OTqVQkt3NAfPiyVOpRMCwxACZcym0E6KH1SVfT
+    KSwRVE1Moc8ZkzCS4inuCam+9NFdxD0BRVJALPF5sfR2v18mVzRGEZMO05pLvfRpJFW3TQ
+    /QwLTKLvlXoW8uYIMwNG7/sWYd1ljrXF7AmqkGQo3n+0/FX8CXgpiH3ZUsnc1s/nTjeT3I
+    jl/xWsSJ7qnH5jHfctA80WM2pTu3g8+btt2M1wlMn0171BAkv6CCFjPwuoeIlAzdo2plBW
+    rwQC5NKpuj3Ia1PQd6xr2zbdeJmFeZbntI6Nmael1LDPrqWdc2sIPx/9z3J4L+AbjY/zql
+    NgNYZXPycBAtn4Gfi7e1RmQ85qkjuSxrxBfT8DPn307Hu7ZV35ZPQbZwnei8Hqa7kF1QDz
+    pvAQfieRL4drk4A/KnQkl2hkNX6YfhWTRRT6KIoTkXNULDMxPUcRlRx8D/msEpSLZXZQII
+    FXl84qmHJnv0dK8apxUgDKhwK1xGkyKzmOTk3+cL1DrW1MQr04NBzxxAk7FT+4o3LC96dy
+    FE+tKBE+7ObnmY5IT6yd23ElaFhAnP/kuHXVCyC04Hpgnfedml72X1cV3tVvfo4BRm5uwb
+    moLYJ9Bi+ShSdYHFVdxk68hdwW3dgeZPMPyysABPzK0b6Gr0/YwSeTyZYq+A
+X-ME-Proxy: <xmx:k-BHast_yMGc90-_Bk77eTn32SA9hSt45a9Ji5t-F5CMytjvFxBJJA>
+    <xmx:k-BHalfJCl8H2Uvwf7z4TtHFBKjaM_vsOvXpLQuGSh2iQlF46g0dYQ>
+    <xmx:k-BHap80c7ltQz3UaTf7eoVrRNALcapkByBo2-MyLEUPwDdXPHYLiQ>
+    <xmx:k-BHagQinA6A6nztAm3YEtMTM8B8JU_JnR8u3PHIA-dH8Khu_-npSw>
+    <xmx:k-BHagUJaVIamL4C0eghZycH9ShgTTDHMlHQOkyjyA4P2iiX8V_pEjnV>
+Feedback-ID: ieb4144f1:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id EBEBB2CC0083; Fri,  3 Jul 2026 12:17:22 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.100.1.1.5\))
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-From: Andreas Dilger <adilger@dilger.ca>
-In-Reply-To: <akcji3OuxXz3FqSD@mit.edu>
-Date: Fri, 3 Jul 2026 10:12:34 -0600
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Greg KH <gregkh@linuxfoundation.org>,
- Jeff Layton <jlayton@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Justin Stitt <justinstitt@google.com>,
- Lorenzo Stoakes <ljs@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Carlos Maiolino <cem@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>,
- Jori Koolstra <jkoolstra@xs4all.nl>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Brian Foster <bfoster@redhat.com>,
- Christoph Hellwig <hch@infradead.org>,
- David Disseldorp <ddiss@suse.de>,
- Mark Brown <broonie@kernel.org>,
- Jani Nikula <jani.nikula@intel.com>,
- Jens Axboe <axboe@kernel.dk>,
- David Hildenbrand <david@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>,
- "Christian Brauner (Amutable)" <brauner@kernel.org>,
- workflows@vger.kernel.org,
- linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <19942440-EB87-4D3E-B37F-3146500BED8C@dilger.ca>
-References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
- <2026070224-unholy-commode-cf45@gregkh> <87cxx5l900.fsf@trenco.lwn.net>
- <7C39A5C8-EA03-4C8D-9BE5-5097101B71D6@dilger.ca> <akcji3OuxXz3FqSD@mit.edu>
-To: Theodore Tso <tytso@mit.edu>
-X-Mailer: Apple Mail (2.3864.100.1.1.5)
+MIME-Version: 1.0
+X-ThreadId: Aqzxz9K-cSE-
+Date: Fri, 03 Jul 2026 12:17:02 -0400
+From: "John Ericson" <mail@johnericson.me>
+To: "Christian Brauner" <brauner@kernel.org>
+Cc: "Cong Wang" <cwang@multikernel.io>, "Li Chen" <me@linux.beauty>,
+ "Andy Lutomirski" <luto@kernel.org>, "Jens Axboe" <axboe@kernel.dk>,
+ "network dev" <netdev@vger.kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ "Sergei Zimmerman" <sergei@zimmerman.foo>
+Message-Id: <6b7eadeb-5b4d-482c-972b-bfb9f6b56548@app.fastmail.com>
+In-Reply-To: <20260703-teamgeist-ganoven-kundig-eff19aa92e38@brauner>
+References: <b1af80fc-a57c-408d-bdfe-fa6bae26eaca@app.fastmail.com>
+ <aicbyQIC2qEveNd-@pop-os.localdomain>
+ <455281ec-3ee1-4f27-989b-c239f0690d8b@app.fastmail.com>
+ <aixU_RccxS_BKhgX@pop-os.localdomain>
+ <66eb8227-85b6-4684-a4fa-e3e17ac2fa45@app.fastmail.com>
+ <e396ce86-ec84-4189-9da2-98af7cfa6c41@app.fastmail.com>
+ <20260703-teamgeist-ganoven-kundig-eff19aa92e38@brauner>
+Subject: Re: [RFC] connectat()/bindat() or an alternative design
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Jul 2, 2026, at 20:57, Theodore Tso <tytso@mit.edu> wrote:
->=20
-> On Thu, Jul 02, 2026 at 12:46:19PM -0500, Andreas Dilger wrote:
->> It would make sense IMHO to address the ignorance in the most =
-expedient manner,
->> namely by telling the *LLM itself* to add this tag when it generates =
-the commit
->> message and/or reviews the code.
->>=20
->> This could be achieved by adding a statement in "AGENTS.md" in the =
-root of the
->> source tree to this effect, or telling the agent to reference and =
-follow rules
->> in Documentation/process/coding-assistants.rst regarding the =
-Assisted-by: tag.
->=20
-> This presupposes a particular workflow where the developer allows the
-> LLM to generate git commits.  I don't do that.  I'll ask the LLM to
-> modify the code, but then I'll generally fix it up --- very often by
-> hand because I can edit the sources than entering a prompt and waiting
-> for the LLM to figure out how to make the change.  I'll often run the
-> test cases myself, since if it takes 24 hours of VM time, and 2 hours
-> of wall clock time, I'm going to kick off the regression tests myself,
-> and verify the test results.
+On Fri, Jul 3, 2026, at 9:35 AM, Christian Brauner wrote:
+> Please stop sending a bunch of disparate patch series that all do
+> slightly related or overlapping things and point back at each other.
+> 
+> It's completely impossible to follow for anyone what's going on without
+> chasing down discussion state across multiple subsystems. The net people
+> have zero insight onto the fs struct discussions and it's completely
+> pointless to try and design all of this based on thin air. Nothing is
+> locked-in yet. This is not how this goes.
+> 
+> This frantic pushing of various features doesn't scale. It is requesting
+> costly review time for multiple RFC series
 
-Sure, and that holds true for many kernel developers, myself included.
-I don't think you or any of the senior maintainers are the audience.
+I'm sorry for the confusion and the demands on your review time from
+concurrently spreading my various Capsicum-like ideas across too many
+threads. I can hereafter make things more single-threaded, as I'll
+propose below. I hope that helps.
 
-The point of my comment is that this is more likely to help contributors
-who do *not* know/follow standard development practices and are more
-likely to contribute AI-coded patches, which is AFAICS the main issue
-in this discussion.
+Just so we are all on the same page, at the moment I believe I have
+created two RFC discussion threads, and submitted one RFC patch series:
 
-Also, the effort of doing so is very minimal and has no real downside.
-Having the AI contribution policy clearly spelled out where an AI agent
-can find it can only have a positive effect, even if not always =
-followed.
+- discussion thread: [RFC] Null Namespaces
+  URL: https://lore.kernel.org/all/a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com/
+  Current status:
+    - You (Christian) are writing nullfs/failfs FDs.
+    - I am submitting nothing else (e.g. the actual null namespaces)
+      until that is done.
 
-Cheers, Andreas
+- discussion thread: [RFC] connectat()/bindat() or an alternative design
+  (this one)
+  URL: https://lore.kernel.org/all/b1af80fc-a57c-408d-bdfe-fa6bae26eaca@app.fastmail.com/
+  Current status: Working on one patch:
+    - Patch Series: [RFC PATCH 0/3] coredump, net: fix layer violation
+      with direct connection
+      URL: https://lore.kernel.org/all/20260703073948.2541875-1-John.Ericson@Obsidian.Systems/
+    - I am not submitting any UAPI changes until that is done.
+  (Note: This thread had some code in the first message, but I never
+  meant for that to be a formal submission, just a discussion aid, and
+  the conversation moved on from that original design anyways.)
 
-> And I almost always write the commit description myself.  So when I
-> say, "Assisted-by" it literally is "Assisted by".  It is not "vibe
-> coded where the LLM generates thousands of lines of code that the
-> human being doesn't understand before sending ta pull request."  And
-> that's probably why you'll see people asserting that LLM generated
-> code can't possibly be accepted due to copyright reasons.  There's a
-> big difference between asking an LLM to modify already existing code
-> to add a feature, or to fix a bug, and to vibe code a new OS from
-> scratch.  One is far less likely to be a copyright violation than the
-> other.
->=20
-> - Ted
+To make things maximally single-threaded, I could pause working on
+"coredump, net: fix layer violation" (i.e. preparing a v2 based on what
+you requested in your review) until you are done implementing
+nullfs/failfs FDs. I am actually quite happy to do that if you want; I
+should spend less time on the computer the next few days anyways, so the
+timing is very good for that.
 
+Either way, I can also henceforth not refer to yet-unwritten and
+-unmerged patches like nullfs/failfs FDs in the motivation for other
+things.
 
-Cheers, Andreas
+John
 
+P.S. There is also my non-RFC bugfix series:
 
+[PATCH net] af_unix: fix listen() succeeding on sockets in the wrong state
+URL: https://lore.kernel.org/all/20260703081416.2583118-1-John.Ericson@Obsidian.Systems/
 
-
-
+but I don't believe you were referring to that one, since I think
+bugfixes are supposed to be submitted separately and immediately. Do
+correct me if I am wrong.
