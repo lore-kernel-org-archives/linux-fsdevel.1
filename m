@@ -1,262 +1,124 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A523D16F8
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 10:33:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC913161A4;
+	Fri,  3 Jul 2026 10:37:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783074810; cv=none; b=Smg+OX3/UFoJliI1BgB1Z+fkNbqXO3dZPSzq3v9IXnDeYpvDkYNnWPLPBApT9ekNuM400oNVm3JeJkh4KYjD/yiib2X6IrbMoHa32eF/0CruyeifVqi+HzZr4dAv9+DiVzpKALqxXxNn14d/OLQVdvyrqWKXZMXIrwd7RMxNY6A=
+	t=1783075048; cv=none; b=NBkBuqmD3Z5C6dTQsW77a+YcJFPPOziPoA3ob4nzYFi0JXEIw8x2g9QYDQmozRLcLVEA0UJGuHjbeCObklCztB8zGF1djZxm3mAj3mTlR9BmgBVbwzmjfhW2VoAYsaSveP50I99WnYb+0O/azEyB85v2gFiRxUEHMbc4w5uyiCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783074810; c=relaxed/simple;
-	bh=0jJl7FjeKdeO5Z8e/1HOSFQcDv/Gnzu7kM9Y7fZ7Lqg=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=bNmCBmDSFQ+5jtYjEfB+nmv78gq17dBHDu9BRon4NKS4DYnWBI77UlbuC6ng+VbNBx8VevIvDifarizX2YUa2j9Y3l3quXVDTG8BG+2K6TyEa8cVpA+do+N3JZvqA8fY7RXUmrnqFtpECbAPsDH42HTrZjXfwClTn8KD5tZtDr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=caQbr238; arc=none smtp.client-ip=195.121.94.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1783075048; c=relaxed/simple;
+	bh=d4s4dMLniDIuK4LTsTNvbrHzQ5sC7wrFJBhb2lMg/u0=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=hzO8GDLQc6WIhHSjeerGPh7k8fUjKV3P+oVBPa2o1gs+zNEJx+gYtkqBlQQ5HUpwLj+7mv44jiOXvB/4BAY5MGZeeyRc4VvUXBxU5NC1yv16WkrII7ia2zP+UU3CK1ipCkODCRnJj6SEesA7ax/OBI8S6aVfKX1GgUs4K/JiFvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W8LzFtRD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="caQbr238"
-X-KPN-MessageId: 9edb3cfe-76ca-11f1-bfba-00505699b430
-Received: from mta.kpnmail.nl (unknown [10.31.161.188])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 9edb3cfe-76ca-11f1-bfba-00505699b430;
-	Fri, 03 Jul 2026 12:33:24 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 9ed9b62a-76ca-11f1-9b09-00505699693e;
-	Fri, 03 Jul 2026 12:33:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=KnwI1nS5288aqn8fzJzizQFdyHQHdtHyqtj4JVI3128=;
-	b=caQbr238uMwLj4z/GjpiT+bNjoluS9Myn8BE2TUQ2c3WgWQT2WSGEdYl0iRekataXVBLK/HP7JwIy
-	 L++rG9sCwWvjh8vpOOG5QbVm31Ha0naupl8LRJC49pdgQ737nTkqVaWIOZZY7rnrHZS+uOb8IlCtLJ
-	 O2iT0dtQ1SUT0vSxGjo/Bt5UNe2DE1VuZOEH+PxHjXiyXE4vIZZaFCDVYD84M1W6o+DxalDSFNqUjp
-	 sukjw0jgLlZ6fa+YNZMFt5FEK1Z++b3efctJnucBJ+e9RWNbhS2WyxXXQBJLL8NZ7ks0lUKoMXK48H
-	 mqCW+UHKd+ibHoBtRH3oY43yMp+x2vw==
-X-KPN-MID: 33|Ztw3HoObkvfgn6+RbFPw9NQDhtHNg2peb+etfNybYl9tCIWOAvbsgh5/9d7QV0z
- ijuA/iThDm63Mpre9qfB2jbsgT9zqP5iJxabyBe7OQlA=
-X-CMASSUN: 33|fvFwNQZQaUZo5NHyBM6Ixl2hG9UZci98t2faILK5L6tWVMQLVHirYpuFwHMRdc5
- aYr6nJSq7mnDYtN+Vs3IRew==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh04 (cpxoxapps-mh04.personalcloud.so.kpn.org [10.128.135.210])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 9ecdf985-76ca-11f1-916a-005056995d6c;
-	Fri, 03 Jul 2026 12:33:24 +0200 (CEST)
-Date: Fri, 3 Jul 2026 12:33:24 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: NeilBrown <neil@brown.name>, NeilBrown <neilb@ownmail.net>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
-Message-ID: <1231841341.3912063.1783074804485@kpc.webmail.kpnmail.nl>
-In-Reply-To: <20260702111529.3559835-2-neilb@ownmail.net>
-References: <[PATCH 0/3] VFS: replace dentry_create>
- <20260702111529.3559835-1-neilb@ownmail.net>
- <20260702111529.3559835-2-neilb@ownmail.net>
-Subject: Re: [PATCH 1/3] VFS: move mnt_want_write() and locking into
- lookup_open()
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W8LzFtRD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6CFA1F000E9;
+	Fri,  3 Jul 2026 10:37:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783075047;
+	bh=ibq5yGoOYYUKiAiXchC0WA0gL3l+/26cw0R84LkFjaY=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=W8LzFtRDEJ+LA4ga+f6QzIP5wIjhPrvbgSkeN5H9fdUp8ldRpYac+VP2pbFWqLIaZ
+	 VOZRYcIErzh7ZZVI1opgKNPyPdXZNYzLlXZRZvIfpIEGsP8CRSvmh6dp1f1DUAQ8eT
+	 REmssNKn6FgP95Nylwk1jyDskOejoq/ZtxJV6+SZMcueW6AmnmkTRlSc0afIY2ZaY4
+	 0j6EQgUmekHKxLsbkP1RtsOiATrm0qsMc/rLKl6p2+xyg60HQXm8THGcRmHmGEbsA5
+	 +KIVTrOUxI8EdD77tZ08aAlBNDaVgctnhdPNMu6u++MTrLUeeidjuDh4Pwu7QdGwKu
+	 L34A4eoQ9xeiA==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 17/18] iomap: pass iomap_next_fn directly instead of
+ struct iomap_ops
+From: Christian Brauner <brauner@kernel.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+ brauner@kernel.org, willy@infradead.org, hsiangkao@linux.alibaba.com, 
+ linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, 
+ Jens Axboe <axboe@kernel.dk>, Chris Mason <clm@fb.com>, 
+ David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Jan Kara <jack@suse.cz>, Dan Williams <djbw@kernel.org>, 
+ Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
+ Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>, 
+ Sandeep Dhavale <dhavale@google.com>, Hongbo Li <lihongbo22@huawei.com>, 
+ Chunhai Guo <guochunhai@vivo.com>, Namjae Jeon <linkinjeon@kernel.org>, 
+ Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+ Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
+ Baokun Li <libaokun@linux.alibaba.com>, 
+ Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
+ "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
+ Zhang Yi <yi.zhang@huawei.com>, Jaegeuk Kim <jaegeuk@kernel.org>, 
+ Miklos Szeredi <miklos@szeredi.hu>, 
+ Andreas Gruenbacher <agruenba@redhat.com>, 
+ Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, 
+ Hyunchul Lee <hyc.lee@gmail.com>, 
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+ Carlos Maiolino <cem@kernel.org>, Damien Le Moal <dlemoal@kernel.org>, 
+ Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
+ "open list:BLOCK LAYER" <linux-block@vger.kernel.org>, 
+ open list <linux-kernel@vger.kernel.org>, 
+ "open list:BTRFS FILE SYSTEM" <linux-btrfs@vger.kernel.org>, 
+ "open list:FILESYSTEM DIRECT ACCESS (DAX)" <nvdimm@lists.linux.dev>, 
+ "open list:EROFS FILE SYSTEM" <linux-erofs@lists.ozlabs.org>, 
+ "open list:EXT2 FILE SYSTEM" <linux-ext4@vger.kernel.org>, 
+ "open list:F2FS FILE SYSTEM" <linux-f2fs-devel@lists.sourceforge.net>, 
+ "open list:FUSE FILESYSTEM [CORE]" <fuse-devel@lists.linux.dev>, 
+ "open list:GFS2 FILE SYSTEM" <gfs2@lists.linux.dev>, 
+ "open list:NTFS3 FILESYSTEM" <ntfs3@lists.linux.dev>
+In-Reply-To: <CAJnrk1b8j5WHtbHOWNXc4=QBFOxde1f2QxTOeui7Ta8O-xWcTA@mail.gmail.com>
+References: <20260701000949.1666714-1-joannelkoong@gmail.com>
+ <20260701000949.1666714-18-joannelkoong@gmail.com>
+ <20260702140705.GE21339@lst.de> <20260702165117.GK9392@frogsfrogsfrogs>
+ <CAJnrk1b8j5WHtbHOWNXc4=QBFOxde1f2QxTOeui7Ta8O-xWcTA@mail.gmail.com>
+Date: Fri, 03 Jul 2026 12:37:14 +0200
+Message-Id: <20260703-nachrangig-gegeben-befestigen-8219a53648c7@brauner>
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1636; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=d4s4dMLniDIuK4LTsTNvbrHzQ5sC7wrFJBhb2lMg/u0=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS5T7iz7fS6t1kzwm8fcparv3KDyXRbpMKKF15fNPbwT
+ dVe5OMk1lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRtgxGhmMbHf76zT147eA7
+ nZiMnzu9Q+v+PNtl5pjYUP6f6/XP/z8YGe7siubVVw14xJBz7G+cn2VOrNK0S08/rfgQ3Ddj8wq
+ eCi4A
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-
-> Op 02-07-2026 13:09 CEST schreef NeilBrown <neilb@ownmail.net>:
+On 2026-07-02 18:47 -0700, Joanne Koong wrote:
+> On Thu, Jul 2, 2026 at 9:51 AM Darrick J. Wong <djwong@kernel.org> wrote:
+> >
+> > On Thu, Jul 02, 2026 at 04:07:05PM +0200, Christoph Hellwig wrote:
+> > > Looks good:
+> > >
+> > > Reviewed-by: Christoph Hellwig <hch@lst.de>
+> > >
+> > > In terms of merge logistics, I wonder if we should delay this and
+> > > the previous patch to the next merge window so that we can minimize the
+> > > cross-subsystem merge pain with more file system iomap conversion.
+> > > If none of them actually happen until rc6 or so, orif  the merges aren't
+> > > painful we could still pick them up late in the merge window.
+> >
+> > I'd say everything but this patch should go in during the merge window
+> > for 7.3, along with clear instructions to brauner/torvalds to expect
+> > this patch to appear right before 7.3-rc1 gets tagged, to clean up all
+> > the other changes that come in.
 > 
->  
-> From: NeilBrown <neil@brown.name>
-> 
-> The mnt_want_write() call and the parent inode locking in
-> open_last_lookups() are only needed for lookup_open().  So we can move
-> them and all the got_write handling into lookup_open().
-> 
-> Note that we need to also check create_error when determining whether to
-> unlock shared or not, as O_CREAT can be cleared, but create_error is
-> only set of O_CREAT was set.
-> 
-> The fsnotify calls come too as they must be in the locked region.
-> 
-> Also use the existing dir_inode uniformly for dir->d_inode.
-> 
-> This is a step towards exporting an better "open/create" interface to nfsd.
-> 
-> Signed-off-by: NeilBrown <neil@brown.name>
-> ---
->  fs/namei.c | 77 +++++++++++++++++++++++++++++-------------------------
->  1 file changed, 41 insertions(+), 36 deletions(-)
-> 
-> diff --git a/fs/namei.c b/fs/namei.c
-> index 7ead3db55be2..55404fe0e269 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -4398,7 +4398,7 @@ static struct dentry *atomic_open(const struct path *path, struct dentry *dentry
->   */
->  static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
->  				  const struct open_flags *op,
-> -				  bool got_write, struct delegated_inode *delegated_inode)
-> +				  struct delegated_inode *delegated_inode)
->  {
->  	struct mnt_idmap *idmap;
->  	struct dentry *dir = nd->path.dentry;
-> @@ -4407,9 +4407,25 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
->  	struct dentry *dentry;
->  	int error, create_error = 0;
->  	umode_t mode = op->mode;
-> +	bool got_write = false;
->  
-> -	if (unlikely(IS_DEADDIR(dir_inode)))
-> -		return ERR_PTR(-ENOENT);
-> +	if (open_flag & (O_CREAT | O_TRUNC | O_WRONLY | O_RDWR)) {
-> +		got_write = !mnt_want_write(nd->path.mnt);
-> +		/*
-> +		 * do _not_ fail yet - we might not need that or fail with
-> +		 * a different error; let lookup_open() decide; we'll be
-> +		 * dropping this one anyway.
-> +		 */
-> +	}
-> +	if (open_flag & O_CREAT)
-> +		inode_lock(dir_inode);
-> +	else
-> +		inode_lock_shared(dir_inode);
-> +
-> +	if (unlikely(IS_DEADDIR(dir_inode))) {
-> +		dentry = ERR_PTR(-ENOENT);
-> +		goto out;
-> +	}
->  
->  	file->f_mode &= ~FMODE_CREATED;
->  	dentry = d_lookup(dir, &nd->last);
-> @@ -4417,7 +4433,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
->  		if (!dentry) {
->  			dentry = d_alloc_parallel(dir, &nd->last);
->  			if (IS_ERR(dentry))
-> -				return dentry;
-> +				goto out;
->  		}
->  		if (d_in_lookup(dentry))
->  			break;
-> @@ -4433,7 +4449,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
->  	}
->  	if (dentry->d_inode) {
->  		/* Cached positive dentry: will open in f_op->open */
-> -		return dentry;
-> +		goto out;
->  	}
->  
->  	if (open_flag & O_CREAT)
-> @@ -4454,7 +4470,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
->  	if (open_flag & O_CREAT) {
->  		if (open_flag & O_EXCL)
->  			open_flag &= ~O_TRUNC;
-> -		mode = vfs_prepare_mode(idmap, dir->d_inode, mode, mode, mode);
-> +		mode = vfs_prepare_mode(idmap, dir_inode, mode, mode, mode);
->  		if (likely(got_write))
->  			create_error = may_o_create(idmap, &nd->path,
->  						    dentry, mode);
-> @@ -4469,7 +4485,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
->  		dentry = atomic_open(&nd->path, dentry, file, open_flag, mode);
->  		if (unlikely(create_error) && dentry == ERR_PTR(-ENOENT))
->  			dentry = ERR_PTR(create_error);
-> -		return dentry;
-> +		goto out;
->  	}
->  
->  	if (d_in_lookup(dentry)) {
-> @@ -4508,11 +4524,27 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
->  		error = create_error;
->  		goto out_dput;
->  	}
-> +out:
-> +	if (!IS_ERR(dentry)) {
-> +		if (file->f_mode & FMODE_CREATED)
-> +			fsnotify_create(dir_inode, dentry);
-> +		if (file->f_mode & FMODE_OPENED)
-> +			fsnotify_open(file);
-> +	}
-> +	if ((open_flag & O_CREAT) || create_error)
-> +		inode_unlock(dir_inode);
-> +	else
-> +		inode_unlock_shared(dir_inode);
-> +
-> +	if (got_write)
-> +		mnt_drop_write(nd->path.mnt);
-> +
->  	return dentry;
->  
->  out_dput:
->  	dput(dentry);
-> -	return ERR_PTR(error);
-> +	dentry = ERR_PTR(error);
-> +	goto out;
->  }
+> Just to clarify, did you mean this patch and the previous one? If i'm
+> interpreting Christoph's concern correctly, I think he's worried about
+> other filesystems converting to iomap using the ->iomap_begin() /
+> ->iomap_end() functions still? That sounds like a good plan to me, for
+> v3 I'll submit everything but this patch and the last one and then
 
-I know this is kernel code and an established pattern that is quite
-useful. But jumping back with gotos just reads confusingly to my brain,
-however, I don't have any better suggestion that is less confusing.
+Ok, so we'll do the prep for vfs-7.3.iomap (aka to be merged in the
+v7.3-rc1 cycle)...
 
-Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> submit these patches (and any cleanup ones that become necessary) to
+> Christian right before 7.3-rc1 gets tagged (which as I understand it,
+> is when the merge window is about to close).
 
->  
->  static inline bool trailing_slashes(struct nameidata *nd)
-> @@ -4555,9 +4587,7 @@ static const char *open_last_lookups(struct nameidata *nd,
->  		   struct file *file, const struct open_flags *op)
->  {
->  	struct delegated_inode delegated_inode = { };
-> -	struct dentry *dir = nd->path.dentry;
->  	int open_flag = op->open_flag;
-> -	bool got_write = false;
->  	struct dentry *dentry;
->  	const char *res;
->  
-> @@ -4587,32 +4617,7 @@ static const char *open_last_lookups(struct nameidata *nd,
->  		}
->  	}
->  retry:
-> -	if (open_flag & (O_CREAT | O_TRUNC | O_WRONLY | O_RDWR)) {
-> -		got_write = !mnt_want_write(nd->path.mnt);
-> -		/*
-> -		 * do _not_ fail yet - we might not need that or fail with
-> -		 * a different error; let lookup_open() decide; we'll be
-> -		 * dropping this one anyway.
-> -		 */
-> -	}
-> -	if (open_flag & O_CREAT)
-> -		inode_lock(dir->d_inode);
-> -	else
-> -		inode_lock_shared(dir->d_inode);
-> -	dentry = lookup_open(nd, file, op, got_write, &delegated_inode);
-> -	if (!IS_ERR(dentry)) {
-> -		if (file->f_mode & FMODE_CREATED)
-> -			fsnotify_create(dir->d_inode, dentry);
-> -		if (file->f_mode & FMODE_OPENED)
-> -			fsnotify_open(file);
-> -	}
-> -	if (open_flag & O_CREAT)
-> -		inode_unlock(dir->d_inode);
-> -	else
-> -		inode_unlock_shared(dir->d_inode);
-> -
-> -	if (got_write)
-> -		mnt_drop_write(nd->path.mnt);
-> +	dentry = lookup_open(nd, file, op, &delegated_inode);
->  
->  	if (IS_ERR(dentry)) {
->  		if (is_delegated(&delegated_inode)) {
-> -- 
-> 2.50.0.107.gf914562f5916.dirty
+and merge these _after_ v7.3-rc1 has been tagged...
 
-
-
-I'll review your comments on v2 of O_CREAT|O_DIRECTORY and send a v3 this
-weekend. I can work from your merge branch, but since this isn't in yet,
-maybe I should just work from Christian's branch instead? What can I do
-to make this the least amount of extra work for you?
-
-Thanks, for thinking of me and doing some of the merge work already :)
