@@ -1,124 +1,144 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC913161A4;
-	Fri,  3 Jul 2026 10:37:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610DB3DA5B6
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 10:40:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783075048; cv=none; b=NBkBuqmD3Z5C6dTQsW77a+YcJFPPOziPoA3ob4nzYFi0JXEIw8x2g9QYDQmozRLcLVEA0UJGuHjbeCObklCztB8zGF1djZxm3mAj3mTlR9BmgBVbwzmjfhW2VoAYsaSveP50I99WnYb+0O/azEyB85v2gFiRxUEHMbc4w5uyiCk=
+	t=1783075255; cv=none; b=JqvR7wGFRA90Zj8Ma4Ejw8GvGZ+uVl7vRACYMaW6QFLJ3grY/2riBrDureo9aaq74DnLWMiXZwgsk2SnFcC63qInaswdCpBp0yQY3QLLjRbskCCcac3MOoI2itVQiegNX3yWO4ZI+VDaxkOx4xrQ1rwKqw42IYS2UQsqH/hkkNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783075048; c=relaxed/simple;
-	bh=d4s4dMLniDIuK4LTsTNvbrHzQ5sC7wrFJBhb2lMg/u0=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=hzO8GDLQc6WIhHSjeerGPh7k8fUjKV3P+oVBPa2o1gs+zNEJx+gYtkqBlQQ5HUpwLj+7mv44jiOXvB/4BAY5MGZeeyRc4VvUXBxU5NC1yv16WkrII7ia2zP+UU3CK1ipCkODCRnJj6SEesA7ax/OBI8S6aVfKX1GgUs4K/JiFvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W8LzFtRD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783075255; c=relaxed/simple;
+	bh=AkoWR+AdiXPTUx4iCETHb/H8DfHnbsY9fjNrVoKT+DE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qumqTcCjriuQlb+fQlyZcRLWioKgB+NcY1d2IGP/dJMuP5e5AbhKBbPaKLiWjObsKizSR/r9EkaMr/samBtw2Ddw9TJNoaRHCWhZTLt1+J1z+zZM2meE5mB5VbsIS46raTc7FZpq24l+rBzL/XMTbV5TQ+o5w65SEfpQPnbay9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cFTYdUWN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W8LzFtRD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6CFA1F000E9;
-	Fri,  3 Jul 2026 10:37:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cFTYdUWN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A23D1F000E9
+	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 10:40:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783075047;
-	bh=ibq5yGoOYYUKiAiXchC0WA0gL3l+/26cw0R84LkFjaY=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=W8LzFtRDEJ+LA4ga+f6QzIP5wIjhPrvbgSkeN5H9fdUp8ldRpYac+VP2pbFWqLIaZ
-	 VOZRYcIErzh7ZZVI1opgKNPyPdXZNYzLlXZRZvIfpIEGsP8CRSvmh6dp1f1DUAQ8eT
-	 REmssNKn6FgP95Nylwk1jyDskOejoq/ZtxJV6+SZMcueW6AmnmkTRlSc0afIY2ZaY4
-	 0j6EQgUmekHKxLsbkP1RtsOiATrm0qsMc/rLKl6p2+xyg60HQXm8THGcRmHmGEbsA5
-	 +KIVTrOUxI8EdD77tZ08aAlBNDaVgctnhdPNMu6u++MTrLUeeidjuDh4Pwu7QdGwKu
-	 L34A4eoQ9xeiA==
+	s=k20260515; t=1783075254;
+	bh=qG7seIUwNEkDWm+Y5e7nT7Gnpb5llLOL25VCASREZDg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=cFTYdUWNs11Flhjkty44dJdMenmOmExA+tKvnX5kwY8wdfBHbEf/ULuI4MwmRnAxD
+	 r2vxuovf6EEtoEF4HxPjwoZ2ixaPzfEqcuYvLexELFzAyK7Ra/h+9L/lSFT8d2dtL0
+	 Fzarz1T6+jMPUEZyos2sKs/aoQ1xYo4O+vBZH0Pj8hs10lgDBKBmWQQkGiz0LHtPB7
+	 UTtH1Btp0bZ+8ttESGH6RJ238+5CB+PInzibXFo3J+mMeVTKGM4nnW+7uAP5OnALDG
+	 1E0hyRofOegUBIeccpsREvgUQ56W4ntCO1vNxCS3cAMjjZnwMnOyvBECc78DjDMfTH
+	 QrUnkCsu8R3EA==
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c125ba77577so35473366b.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Jul 2026 03:40:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RqpwOgj84g/sMN8Xbw3ZdF4DxOO+7eT3igDF46f5eIPTRD3xXA96NnsREDfW3F/LEvPfhLOQWJ6TsjAlasZ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5q6ZnL03mk0LatwO/5qIYGJol0wqtUwtpCTiBiZ93edQfJRnU
+	iEzPmOOfA2NDnlS7y3U1cyashCPRdl9vswwxqAddVfXMjUl9A6O10zSOKnD4rIKu0ShM+NrWWOA
+	PK9oNFHAB4Ids4gnj0g1WajQ+AOr04go=
+X-Received: by 2002:a17:907:7a8e:b0:c12:5bd0:b9a6 with SMTP id
+ a640c23a62f3a-c12ae8b4756mr412088366b.64.1783075252789; Fri, 03 Jul 2026
+ 03:40:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 17/18] iomap: pass iomap_next_fn directly instead of
- struct iomap_ops
-From: Christian Brauner <brauner@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, Christoph Hellwig <hch@lst.de>, 
- brauner@kernel.org, willy@infradead.org, hsiangkao@linux.alibaba.com, 
- linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, 
- Jens Axboe <axboe@kernel.dk>, Chris Mason <clm@fb.com>, 
- David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Jan Kara <jack@suse.cz>, Dan Williams <djbw@kernel.org>, 
- Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
- Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>, 
- Sandeep Dhavale <dhavale@google.com>, Hongbo Li <lihongbo22@huawei.com>, 
- Chunhai Guo <guochunhai@vivo.com>, Namjae Jeon <linkinjeon@kernel.org>, 
- Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
- Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
- Baokun Li <libaokun@linux.alibaba.com>, 
- Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
- "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
- Zhang Yi <yi.zhang@huawei.com>, Jaegeuk Kim <jaegeuk@kernel.org>, 
- Miklos Szeredi <miklos@szeredi.hu>, 
- Andreas Gruenbacher <agruenba@redhat.com>, 
- Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, 
- Hyunchul Lee <hyc.lee@gmail.com>, 
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
- Carlos Maiolino <cem@kernel.org>, Damien Le Moal <dlemoal@kernel.org>, 
- Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
- "open list:BLOCK LAYER" <linux-block@vger.kernel.org>, 
- open list <linux-kernel@vger.kernel.org>, 
- "open list:BTRFS FILE SYSTEM" <linux-btrfs@vger.kernel.org>, 
- "open list:FILESYSTEM DIRECT ACCESS (DAX)" <nvdimm@lists.linux.dev>, 
- "open list:EROFS FILE SYSTEM" <linux-erofs@lists.ozlabs.org>, 
- "open list:EXT2 FILE SYSTEM" <linux-ext4@vger.kernel.org>, 
- "open list:F2FS FILE SYSTEM" <linux-f2fs-devel@lists.sourceforge.net>, 
- "open list:FUSE FILESYSTEM [CORE]" <fuse-devel@lists.linux.dev>, 
- "open list:GFS2 FILE SYSTEM" <gfs2@lists.linux.dev>, 
- "open list:NTFS3 FILESYSTEM" <ntfs3@lists.linux.dev>
-In-Reply-To: <CAJnrk1b8j5WHtbHOWNXc4=QBFOxde1f2QxTOeui7Ta8O-xWcTA@mail.gmail.com>
-References: <20260701000949.1666714-1-joannelkoong@gmail.com>
- <20260701000949.1666714-18-joannelkoong@gmail.com>
- <20260702140705.GE21339@lst.de> <20260702165117.GK9392@frogsfrogsfrogs>
- <CAJnrk1b8j5WHtbHOWNXc4=QBFOxde1f2QxTOeui7Ta8O-xWcTA@mail.gmail.com>
-Date: Fri, 03 Jul 2026 12:37:14 +0200
-Message-Id: <20260703-nachrangig-gegeben-befestigen-8219a53648c7@brauner>
-X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1636; i=brauner@kernel.org;
- h=from:subject:message-id; bh=d4s4dMLniDIuK4LTsTNvbrHzQ5sC7wrFJBhb2lMg/u0=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS5T7iz7fS6t1kzwm8fcparv3KDyXRbpMKKF15fNPbwT
- dVe5OMk1lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRtgxGhmMbHf76zT147eA7
- nZiMnzu9Q+v+PNtl5pjYUP6f6/XP/z8YGe7siubVVw14xJBz7G+cn2VOrNK0S08/rfgQ3Ddj8wq
- eCi4A
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+References: <20260702033656.23048-1-zenghongling@kylinos.cn>
+ <CAKYAXd-2nR9-=O5DYiw6x9R4KpuiV9eqH+HwiYxdAmihw4PvYw@mail.gmail.com> <6A4771DC.3030301@126.com>
+In-Reply-To: <6A4771DC.3030301@126.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Fri, 3 Jul 2026 19:40:40 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd9jk3QH=JbOk-79apX6X-v+Yi0ixs4JtkaUGUP723LPDw@mail.gmail.com>
+X-Gm-Features: AVVi8Cd7Hgcb0DpvUBYDe4waQfwCm5ZMg4nnBNzmhtrXTC4kjqkTv4Pxv-lFGEc
+Message-ID: <CAKYAXd9jk3QH=JbOk-79apX6X-v+Yi0ixs4JtkaUGUP723LPDw@mail.gmail.com>
+Subject: Re: [PATCH] ntfs: validate error codes in check_windows_hibernation_status()
+To: Hongling Zeng <zhongling0719@126.com>
+Cc: Hongling Zeng <zenghongling@kylinos.cn>, hyc.lee@gmail.com, charsyam@gmail.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2026-07-02 18:47 -0700, Joanne Koong wrote:
-> On Thu, Jul 2, 2026 at 9:51 AM Darrick J. Wong <djwong@kernel.org> wrote:
-> >
-> > On Thu, Jul 02, 2026 at 04:07:05PM +0200, Christoph Hellwig wrote:
-> > > Looks good:
-> > >
-> > > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> > >
-> > > In terms of merge logistics, I wonder if we should delay this and
-> > > the previous patch to the next merge window so that we can minimize the
-> > > cross-subsystem merge pain with more file system iomap conversion.
-> > > If none of them actually happen until rc6 or so, orif  the merges aren't
-> > > painful we could still pick them up late in the merge window.
-> >
-> > I'd say everything but this patch should go in during the merge window
-> > for 7.3, along with clear instructions to brauner/torvalds to expect
-> > this patch to appear right before 7.3-rc1 gets tagged, to clean up all
-> > the other changes that come in.
-> 
-> Just to clarify, did you mean this patch and the previous one? If i'm
-> interpreting Christoph's concern correctly, I think he's worried about
-> other filesystems converting to iomap using the ->iomap_begin() /
-> ->iomap_end() functions still? That sounds like a good plan to me, for
-> v3 I'll submit everything but this patch and the last one and then
+On Fri, Jul 3, 2026 at 5:25=E2=80=AFPM Hongling Zeng <zhongling0719@126.com=
+> wrote:
+>
+> Looking at ntfs_lookup_inode_by_name() more carefully:
+>
+> All error return paths inside the function use hardcoded kernel errnos
+> (MREF_ERR(-ENOENT), MREF_ERR(-EIO), MREF_ERR(-ENOMEM)) - these are
+> already valid by construction.
+>
+> The actual risk occurs when the function returns a "successful" MFT
+> reference from disk (ie->data.dir.indexed_file) that happens to have
+> bit 47 set - making IS_ERR_MREF() true at the caller. In this case,
+> MREF_ERR() extracts garbage from untrusted disk data.
+>
+> This cannot be fixed inside ntfs_lookup_inode_by_name() without
+> changing its return value semantics, because from the function's
+> perspective it found a matching index entry and returned it. Only
+> the caller, after IS_ERR_MREF() triggers, is in a position to
+> validate that the extracted error code is a legitimate errno.
+>
+> Restructuring the function to distinguish "real errors I generated"
+> from "disk data that looks like an error" would require a more
+> invasive API change (e.g., returning int + out-parameter), which
+> seems inappropriate for a legacy filesystem in maintenance mode.
 
-Ok, so we'll do the prep for vfs-7.3.iomap (aka to be merged in the
-v7.3-rc1 cycle)...
+I think it would be good to fix it like this. Let me know your opinion.
 
-> submit these patches (and any cleanup ones that become necessary) to
-> Christian right before 7.3-rc1 gets tagged (which as I understand it,
-> is when the merge window is about to close).
+diff --git a/fs/ntfs/dir.c b/fs/ntfs/dir.c
+index 4b6bd5f30c65..6fa9ae3377cb 100644
+--- a/fs/ntfs/dir.c
++++ b/fs/ntfs/dir.c
+@@ -23,6 +23,13 @@
+ __le16 I30[5] =3D { cpu_to_le16('$'), cpu_to_le16('I'),
+                cpu_to_le16('3'),       cpu_to_le16('0'), 0 };
 
-and merge these _after_ v7.3-rc1 has been tagged...
-
++static inline u64 ntfs_check_mref(u64 mref)
++{
++       if (IS_ERR_MREF(mref))
++               return ERR_MREF(-EIO);
++       return mref;
++}
++
+ /*
+  * ntfs_lookup_inode_by_name - find an inode in a directory given its name
+  * @dir_ni:    ntfs inode of the directory in which to search for the name
+@@ -178,7 +185,7 @@ u64 ntfs_lookup_inode_by_name(struct ntfs_inode
+*dir_ni, const __le16 *uname,
+                        mref =3D le64_to_cpu(ie->data.dir.indexed_file);
+                        ntfs_attr_put_search_ctx(ctx);
+                        unmap_mft_record(dir_ni);
+-                       return mref;
++                       return ntfs_check_mref(mref);
+                }
+                /*
+                 * For a case insensitive mount, we also perform a case
+@@ -273,7 +280,7 @@ u64 ntfs_lookup_inode_by_name(struct ntfs_inode
+*dir_ni, const __le16 *uname,
+                if (name) {
+                        ntfs_attr_put_search_ctx(ctx);
+                        unmap_mft_record(dir_ni);
+-                       return name->mref;
++                       return ntfs_check_mref(name->mref);
+                }
+                ntfs_debug("Entry not found.");
+                err =3D -ENOENT;
+@@ -413,7 +420,7 @@ u64 ntfs_lookup_inode_by_name(struct ntfs_inode
+*dir_ni, const __le16 *uname,
+                        mref =3D le64_to_cpu(ie->data.dir.indexed_file);
+                        kfree(kaddr);
+                        iput(ia_vi);
+-                       return mref;
++                       return ntfs_check_mref(mref);
+                }
+                /*
+                 * For a case insensitive mount, we also perform a case
+@@ -538,7 +545,7 @@ u64 ntfs_lookup_inode_by_name(struct ntfs_inode
+*dir_ni, const __le16 *uname,
+        if (name) {
+                kfree(kaddr);
+                iput(ia_vi);
+-               return name->mref;
++               return ntfs_check_mref(name->mref);
+        }
+        ntfs_debug("Entry not found.");
+        err =3D -ENOENT;
