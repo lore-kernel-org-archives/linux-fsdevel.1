@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0CE31618C;
-	Fri,  3 Jul 2026 18:22:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6804530D41B;
+	Fri,  3 Jul 2026 18:26:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783102949; cv=none; b=AOzBPPf9OJqQcVXrOm+UC48fB/dRFLQlr9ttFdGiUGRiHpUC9ws835UFN9CGNIj2Voipx4XoqY+sOz2K4r67wc7pVFkOFRUfbQ49XJnVtBpTuOy9MpnbgoeJgR/j+mu6Bq+pLzMp24bzx6mum/Kj/idCcUpuXNbQL7oFJvD2onA=
+	t=1783103186; cv=none; b=K2ry5cRAUfJQ6O1RhFOBF8sGe3zhlmUZVeCOOfEEZ9/Uybpnag01hQ+JDxEqbrebTIs+YfZtvmLrfzPxpWnrHpyoxiKNLsug7iKSUb7Kuvsog/3h40UWv4ktPp5V7oTRwf7HU01g0iblvGC/N7WwiACwmfKThSSPQuaKHj5kvf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783102949; c=relaxed/simple;
-	bh=FGGmIX/mKtWxhwvXCj6PR1fkJ44syenNK+NDoOTo7c0=;
+	s=arc-20240116; t=1783103186; c=relaxed/simple;
+	bh=3sG+6pM28FcEmThoROo3anbCHNtoBGLXKQK5HQKLP6c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pmOowNNJ0Ji8Ge/HKk+0dyKC3lF6+JVrWjzPy8pPghhS/GgQU5GXTDUawtspqNS51gzXp61otPOTz9SmyzhRoOovH7t5RVA7BKJWpkCwByJZ21wXSb3bDjQxCVNIm85AsKLIQipvNC6qis2VOWQtVpcW8RA6OE5Ckqet/vGV9SY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ciZxoSwb; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=KFVQDSjVpNZ0nI8SSkfOieVMT+5hp78Ki/AfCMBeXYcyI7qc45qV7FI3Keb5JMRj7hnAF8FQZevX9RQxSbhd+dhXQU0jVr3HNz/IVWsgKJ+R2l6uXl3cabbJo/8gQRiu5TwE6nJeUZtBUCdSf0ZjjIXIbYVvpeZsX/A1koAo4Is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XObThWRV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ciZxoSwb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB8A01F000E9;
-	Fri,  3 Jul 2026 18:22:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XObThWRV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FE2F1F000E9;
+	Fri,  3 Jul 2026 18:26:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783102948;
-	bh=WmMmpkORNs97pYFUZCo2EC47DaLH9PCLV52WM66pSIg=;
+	s=k20260515; t=1783103185;
+	bh=iTuTT+001P56g6YbIPoGv9mFzhbzhhXuwGrfVvqwFtk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=ciZxoSwbYsNA/Z6KD7nJ/utifoY/pT0yYRUW6+2H7B9Y2fOtUJA3HYH6E4XhESeXp
-	 otH4QDVvMYaH0ww5rvcPoekmzyuRC/Vt1oIIif3BwQwo9MQ5ROzX7zoQTD1g3LZ1/y
-	 4NcogTpeyRAoSI/FoPBmP0NZQ6e9NLjrapOn4zdSkPMm/RWJ/ECvjK/CznQ183wefV
-	 SuY+PrshOGdkOl65st2KNkxD4rE6DXv0JUGrTwDQaG1PWJyNrHLb6lhyuHyY6Zxh5w
-	 gBHeNemNyCnyd6i1ufTEduUwfbqCm75jQ7RgelFr1wJQJZ/dtywtxK2q2PD1LRQqbV
-	 fXu3vs2frtmQg==
-Message-ID: <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
-Date: Fri, 3 Jul 2026 20:22:20 +0200
+	b=XObThWRVqp3jIVoAJp5uj/hTedJ+GdsRuj6V/s+/6avmFeflDeBY5fpAtMnpyz951
+	 m9dyEIIefIgPjqSFtpBO5HIQ0351WLdVwSI7UwnCbovhSmxKlJzYmqBdvVtXnp+9gs
+	 tyQzDsS1Y6yUqMiUDJkqBuKNxT4n15shchTID2bRwBFeLq742Jq+tLDXl7Zzthkm7T
+	 8ho4NkiVjyC9eiSCeQyBa1mVBOZMGp2glj2m//wIChQ6UsrPT2rk6tIcR6lRww9z5G
+	 vA5kkX+UvFo51q9TzP4vErvoip3b9pKjeApdTXKCmHEMCwylASoUx7bFyGMAf50RKY
+	 pT3iL+yxOatUA==
+Message-ID: <62c621fb-01b1-473a-9482-34ec4bc9da74@kernel.org>
+Date: Fri, 3 Jul 2026 20:26:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -36,10 +36,10 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Lorenzo Stoakes <ljs@kernel.org>
+To: Lorenzo Stoakes <ljs@kernel.org>
 Cc: Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>,
  Greg KH <gregkh@linuxfoundation.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Linus Torvalds <torvalds@linux-foundation.org>,
  Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>,
  Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
@@ -59,7 +59,6 @@ References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
  <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
  <akaWnQ5Pkg_676B-@lucifer> <20260702211740.GA639365@zen.localdomain>
  <3f447113-4407-471f-878f-e6d6edafee71@kernel.org> <akez23ZhLRSGMFQ1@lucifer>
- <20260703163251.GB3734786@killaraus.ideasonboard.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -106,67 +105,27 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260703163251.GB3734786@killaraus.ideasonboard.com>
+In-Reply-To: <akez23ZhLRSGMFQ1@lucifer>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/3/26 18:32, Laurent Pinchart wrote:
-> On Fri, Jul 03, 2026 at 02:12:40PM +0100, Lorenzo Stoakes wrote:
->> On Fri, Jul 03, 2026 at 09:05:58AM +0200, David Hildenbrand (Arm) wrote:
 >>
->> I personally think 1-2 are the only relevant cases.
->>
->>>
->>> Yes, I raised something similar as reply to Christian's RFC [1], where I said
->>> that for me the information *how* it was used is much more important:
->>>
->>> "
->>> Assisted-by: LLM # translate commit message
->>> Assisted-by: LLM # generate some test cases
->>> Assisted-by: LLM # cleanup logic
->>> Assisted-by: LLM # everything and I have no clue what any in here does
->>> "
->>
->> Yup, and we don't need complicated rules for that just 'document what you used
->> it for and give a sense of how much'.
->>
->> It's fuzzy but useful.
->>
->>>
->>> That tag is it stands is pretty useless, really.
->>
->> Not to go over it all again but I disagree, even as it stands, it allows us to
->> engage in conversation about the LLM usage if admitted, and to point those who
->> are misbehaving at the rules if not.
->>
->> And it is a clear way to get the boolean 'is this person saying they used an
->> LLM'.
->>
->> But I agree with you it'd be MUCH more useful if we did the above.
->>
->> I wonder if we could get consensus on adding a section to the doc saying that
->> it'd be _useful_ to add a comment explaining _what_ you did, and explaining the
->> concept with some examples?
+>> That tag is it stands is pretty useless, really.
 > 
-> I'd support a patch that replaces
-> 
-> Assisted-by: Claude:claude-3-opus coccinelle sparse
-> 
-> with
-> 
-> Assisted-by: LLM # generate some test cases
-> 
-> and rewrites the Attribution section of
-> Documentation/process/coding-assistants.rst accordingly.
-> 
-> I think most people in this mail thread have expressed that how
-> generative AI was used is the most important information, and several
-> people (including myself) have expressed a desire to stop the free
-> advertising. Unless I missed something, I don't think anyone has
-> expressed an interest in keeping the agent name and model.
+> Not to go over it all again but I disagree, even as it stands, it allows us to
+> engage in conversation about the LLM usage if admitted, and to point those who
+> are misbehaving at the rules if not.
 
-Yes, that's something I would enjoy seeing. Who reading along has a problem with
-that? (assuming that the tag must stay)
+Just to comment on that
+
+When I don't see the tag I am clueless *if and how* LLMs were used, in
+particular as some subsystems seem to encourage not using them and we even
+document it as a "rather nice to have" -- "should".
+
+And if I see the tag, I am clueless *how* LLMs were used.
+
+So I see your point that the tag as it stands helps a little bit, for my
+day-to-day work, however, not much, as I really care about the "how". :(
 
 -- 
 Cheers,
