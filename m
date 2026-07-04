@@ -1,112 +1,165 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65211F2B88
-	for <linux-fsdevel@vger.kernel.org>; Sat,  4 Jul 2026 14:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783176447; cv=none; b=egbw1XzUwCVFE31a8X0rfFcR3iEXGsIfW8yaEqxU32KBX1+8flqElG/j+EE70mlw8Vv0kIXM0USRFXDe+JhmIdryxSaoA/IzlFHpSj40WOYOmdKTS9kIjm9k1IBYGmqZa75d61YJkcc5X1Q5NWSM0HizE57d3MTDHzLUvp9q7sk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783176447; c=relaxed/simple;
-	bh=WfMU2urwJqwt+ljkL3l90nyQNyUWmMUFUVbvWRyAm2s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YIfY/i12fUPzljWHR0vG8ehub35fLFk1/o5mDmsgjH+EHkrjxQnKZB0r1LX4sYSl7usRKx6WDN0QzuOF+m/hXEBydbC8TcSZiZtlwQymmhEB3j7WFGFFLmQIOGq2GyXQADEdVivFVaSQrr72FtYO1sPYXaWdINoRqYlb63jynfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LZJFcthH; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB89A379C5E
+	for <linux-fsdevel@vger.kernel.org>; Sat,  4 Jul 2026 15:46:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783180013; cv=pass; b=aPSG50Nt4/6FjcuOOwng5mS1MxX1U9Y1o6IAVf5dDeSLQ86o/pK+7lHmusgH4mL5OBNhi4ddBtfJ+ne07yv5cfDdOxjaJs5RNDr3ED0P5HsOCU9HLHl1Es+L+qJgyws9hlSJYNYc9x4BclFKlJHa44QYH+P86tGqpO1Cx0RH6LE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783180013; c=relaxed/simple;
+	bh=cgBaoxyiObdfUVqeVAH++A5XNz3ZbZ97NMrtgp9Vnac=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IjYeIAoVnIJ33zl2htrRUQZrjSlS+zv6lBfzVH5qLm+/FRHYlh0SfvN3Z+MjWAJbl55wgPgaAVsyaY9/w9+gQc7+qdmGHNgjMhwbNXnzXYzwVIQs5m5R9iV4/MUfyrK1hsZeClybK6FuI2FBlm/JG7Z6Aj/12cyfoJaxTcRYh5E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UDAiyleg; arc=pass smtp.client-ip=209.85.222.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LZJFcthH"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-84780c95e2eso1094693b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 04 Jul 2026 07:47:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UDAiyleg"
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-9696570e34fso1088398241.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 04 Jul 2026 08:46:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783180010; cv=none;
+        d=google.com; s=arc-20260327;
+        b=p2hmvL9RrmcNr9U3zhpvNgF7lC3hS7EGfOTkqIdCSYwUCcvqsmFDZwMIykO0+XoymJ
+         TdCG+rtZjOsPAvGALujKABYSIwivMNTKDQPA07bUr3FZraGjarStHpesgn4tzt/P0inY
+         EKxH+v+kh6qLN7R/wyjEWIh2VgzNAF8N4FgOIYaTmgOFVeP/J5stq5N9rOtqGKFufEeh
+         D6gw+IjhXHZWXHJBcxIbAA2Dt+CFEgC2MjHCUD9DYinQquSSgmWJ6XpQH6CSSzx+yoS2
+         A0AQBlTgZDBNv6X2ecTa+ifEZbWiPTcUTPknWNgw3c+ELgxIv2BRKuhnNTcL7Xv3kkr/
+         tVxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=pANbksp+ZiawQpzxWOX+bmT/yeRrApX59wkeUxgkzQ8=;
+        fh=xb1soKA3Yw6wtrjpqkDGUTYZ5EWB2g9PpB3jr2Qm5aw=;
+        b=QzbMMoQXHqZ/X4Wg3mNVG+H5tKB2NUVYneRs1DmdmZwHSE3hNXQTFKQZXNmTeAhH4L
+         0GQUUaVJbr8UAplkKbGNHKcEh9TgBDWXiXFds+FSgYYYhwdN4lvFSxjy7+2qNek2+fR4
+         b31p+vq0TtyPN6aeLLYKmFQBuPbfGTxaEf3UcuGcb4pWKGbhw3wnnacYehpdVcQpXCjX
+         bhQQyB845qHwAokvFmbxo6pnRtUl+t3ChovoMwDYdYtNpl8Xuh1UEh+cPixFUd2QJ15Y
+         lC+5y0JUA5Nr2+a+svWBu1i4SKQTpfjZvhewR9VIz6v8TMY25utZd7p8jBHhIIax4oLF
+         Y8gA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783176445; x=1783781245; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=q/toZW9ACpEDlU3/MZ7E+GMiXFZ3Ph30hMbw/9t5kqk=;
-        b=LZJFcthH1MjEBKq9EyDWZJ1zmd/nKQERynnnNg1ZMz6YOISDLULzfVvqS1uwtqMLMn
-         1YYxf6AqgM1/K+G8o78Jl4dXoAj2aVlGEBQCibOOvY9veAATBNSLaVBAwk87O7YnfKq1
-         xwlKIAhM7Kto1wGu4MDzrPNz4oKdfah3ab3R9jMxKrlTkQRhrDTxO4DP0T3m3OBBBBje
-         ET2djXwRWWgFPWZ6YKp9mzJZAOO82EbQRX/rq41JFBYaXv0V9pSbdkSq+BcgJ1u+mRrg
-         TVLghgUv5cNWo+hmtkrufP/JfsGrCaAJ7zokJA6jIR+RM80RiMY0dYoAdDm3F5ADYe+0
-         44TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783176445; x=1783781245;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1783180010; x=1783784810; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=q/toZW9ACpEDlU3/MZ7E+GMiXFZ3Ph30hMbw/9t5kqk=;
-        b=FQsQ1AeQwa0+SgtrJJrQHeyQJ/yHqw4jD+BhClAwOYHn/BTv1cApXi6YpzlMNNfLJt
-         k8Oqf+4srbJK2R1Y1ho5Vgu20thTWLucdwVpy7Vr8djA6TeCBxOqiCENFtWctGTe5Y3K
-         kqLbZx4YF2uJ8YcGPEguB9UWocVvGGOFL0RYso5va5KSiW1oMqKFMz+laocIeYYp0bPL
-         m995/KDVawZ/6sGOCxnAhP+AbtmeryojuG3TaUe6ckI80lSev/4WnwLl3gQFMRQ94Bzw
-         eP0g73OJ5EagtBoxLWpWNbMFbkbrfZEWKZqDJ8jhJ22ZXpHDZ630BYmlx0uDL7XuebMr
-         9kFg==
-X-Gm-Message-State: AOJu0Yz3NYuWKX0aDzoSAdxIhyOa2KI35FuMABNa20nuHILy95Z2BRx4
-	Fij4knJRa95HYqQU93OdoBDK/+0a8e4JP7PHBsFZk7tl/VV4riYy1mE7
-X-Gm-Gg: AfdE7cnMjQgRVCW5M/Kc7riyFsrun7PgeuvKdCnXrtrNErkiPbX7PUgfYZtE0u+8SVa
-	p/8P446WVqxGSfHTq9L8t3WH/ffdf3WB9ddm2shboxRl28zC/yV7M2ZHwcAFuhnjSgQzW43ZcZP
-	i3FibQt5s3QGRBhPXp7a/QKRd/LfXnKLZS5ben5FxK2dU3JDDytPm9qB6+mwy2YzHON9AA1OxPA
-	pz7mvK4XCwBgCN2QXHo1G8X+L8xIwd6WeCMm1o0TgpCE35Me65pP7ya6vaw6rDaLqd+aSj1ml1K
-	LByqoNF3Uz8sAoNQMAAFVuSPZRdtxf1zhpZ2wKS2uGewrif8TtWfSleBINLb+KVKJxRi+2YnUe+
-	mo9lZlS1SlOoun+ytVNaceRhhIiWegbuSdYmoA5ereAF5igIqF2z3g07ZOrsl6o5V2qFTuMYLkr
-	GPKCfX0Rqj5Q==
-X-Received: by 2002:a05:6a00:8d1:b0:846:169c:d815 with SMTP id d2e1a72fcca58-847f6fa81f3mr3617443b3a.60.1783176445109;
-        Sat, 04 Jul 2026 07:47:25 -0700 (PDT)
-Received: from ubuntu.. ([2405:201:8026:213e:8cdb:2215:c871:e5f])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6dddf8bsm1315445b3a.61.2026.07.04.07.47.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jul 2026 07:47:24 -0700 (PDT)
-From: mdshahid03@gmail.com
-To: Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mohammad Shahid <mdshahid03@gmail.com>
-Subject: [PATCH] ntfs: dir: use kmemdup() instead of kmalloc() and memcpy()
-Date: Sat,  4 Jul 2026 20:16:54 +0530
-Message-ID: <20260704144654.126437-1-mdshahid03@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=pANbksp+ZiawQpzxWOX+bmT/yeRrApX59wkeUxgkzQ8=;
+        b=UDAiylegDTG9/13N6Ew/tyB4q5QDAeV3ZuzL84XwsDPJOMuVsB1UHYwLTp8CRCmGDb
+         sTmxIj99L+QHF9ax76VPV4pK7hL/lYQgToTkbYMYDx29SE+sROb/NmVIpgP7niVanjDj
+         kuM6kpNZzNej72cUebANkcq2IreUIk3M0grIYDOlUF7aohcc1ZkLUM6FwAsIgaIJVxks
+         lIFcz4/WmrpIhdArIT2okAaQ2anh500C/PQQjWYPyqwiefC4daFggx7Y7r2ouJH8G9V1
+         6XFbvm0VBJrWhHHm7fcjuoAHfuAaMRA+EEWBKa+GDUPBw9ILuRlRxOR/JfYBdFrdeJn5
+         BfdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783180010; x=1783784810;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pANbksp+ZiawQpzxWOX+bmT/yeRrApX59wkeUxgkzQ8=;
+        b=UqspJJIb9QK434VNkZHnOWzmkvP6AsnKYcsbSnUCCm3kMwfbNiUf8hzvnbQOzz2ZfE
+         6O1eYvM/VoqLQ3Px5bFHT5rDWVYEPn11asX47wI0JNZMUmtMuIrFl01JwYEHnNDYq0e9
+         yw+QHvs91I6fbXdVLH0vyycZ/HdncmRDBAXZ0FyH1cThLgHLQ9gkYG5b4YH9o/jrKgpO
+         M/xhKEN+otBybZQw81NbDrWSSIlzLWx99ZCqNM4RKVoLg3k1ibKhI5RpKlIX0x5Zk1Vk
+         dVHbzQ9df3vcVOGRog9D79rPkXRZrbIdg4ANT3MCv29KPOnDzzMQhBck16LBJ7IgyzpR
+         uF6A==
+X-Forwarded-Encrypted: i=1; AHgh+Ro1DqO5/lSDoCe/v+yrcooNw/HiNhaYgPyJkmfkDBi8J407c13m4MYNPIlJGnsUa7f682aLKcwg1qGrnN2p@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJdVAAzKXwpzF7KUWJdroHrEo9Auab64vTit5UH9PNIvfliqT1
+	C3cs/jgrZl3A01njd+EE9RkKUaLNaVTJC/QTLmFzJjF29Ok1NioFZVNY6G1u8n5xCkGJMWWRfC7
+	zr8bKEGP5NUWR+ng2ZpquvADAtilntf8aSj9C/gmwsA==
+X-Gm-Gg: AfdE7clatZlQQinASDqa0IxqwZZ6tCDD4phLcQ6GPTkJG0YCG+MH2wju8zVAhOd+VV2
+	ak6ZdmlabDXHzo8b780jtJSuHB3YMOk3EdabiTppb9HrDs0N8SVLOXJAoKbHdevqzco2FV0WHDs
+	iwSebNHm3ygfefwIJOeF+IVPL1BnkAoUVvwryxTg6BxnFSVFgu1tOONrdCSUVaw1Jkhf01JpYLl
+	RpyUkKZTQMABKC7/ooKnA0conE2zeiWGT0dRZZkYc6yqQGP3pDp8ZoEZ9X7wrP7AxuL+O9LBhYM
+	Eswznn4+gw==
+X-Received: by 2002:a05:690c:6184:b0:80b:aef9:bc12 with SMTP id
+ 00721157ae682-817442169fdmr35132077b3.25.1783179605035; Sat, 04 Jul 2026
+ 08:40:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260702161710.2606853-1-zzzccc427@gmail.com> <CANFS6bY-GKojmuLMRKoh9r83iHT7_wQQM=SKZH3vB88QFzg11A@mail.gmail.com>
+In-Reply-To: <CANFS6bY-GKojmuLMRKoh9r83iHT7_wQQM=SKZH3vB88QFzg11A@mail.gmail.com>
+From: Cen Zhang <zzzccc427@gmail.com>
+Date: Sat, 4 Jul 2026 23:39:53 +0800
+X-Gm-Features: AVVi8CfS1nbxamMPTZo20QaMYj82ym8W6BZyWAv-sIBzEyp5oEJm44cr4_UlM_Y
+Message-ID: <CAFRLqsX6CM1D3F4AvYSNj3rT8YbOn2Ah4M73B0W1FCUVNOdj3w@mail.gmail.com>
+Subject: Re: [PATCH v4] ntfs: serialize attribute-list replacement with lookups
+To: Hyunchul Lee <hyc.lee@gmail.com>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Mohammad Shahid <mdshahid03@gmail.com>
+Hi, Hyunchul
 
-Use kmemdup() instead of a separate kmalloc() and memcpy()
-pair, simplifying the code while preserving the existing
-behavior.
+Hyunchul Lee <hyc.lee@gmail.com> =E4=BA=8E2026=E5=B9=B47=E6=9C=883=E6=97=A5=
+=E5=91=A8=E4=BA=94 09:41=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Hi Cen,
+>
+> While running generic/013 from xfstests, I observed the following hung
+> task warning:
+>
+> [  492.533956] INFO: task fsstress:934 blocked for more than 122 seconds.
+> [  492.534445]       Tainted: G           O        7.1.0-g81fe702ff176 #2
+> [  492.534870] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
+> disables this message.
+> [  492.535914] INFO: task fsstress:934 <reader> blocked on an
+> rw-semaphore likely owned by task fsstress:934 <writer>
+> [  492.536788] INFO: lockdep is turned off.
+>
+> # ps -eo pid,comm,stat | grep " D"
+>     460 kworker/u16:4+f D
+>     934 fsstress        D+
+>
+> # cat /proc/934/stack
+> [<0>] ntfs_attr_list_lock+0x2a/0x60 [ntfs]
+> [<0>] ntfs_attr_get_search_ctx+0x97/0x100 [ntfs]
+> [<0>] ntfs_resident_attr_resize+0x64/0x610 [ntfs]
+> [<0>] ntfs_ir_truncate+0x82/0x120 [ntfs]
+> [<0>] ntfs_ie_add+0x35/0x200 [ntfs]
+> [<0>] ntfs_index_add_filename+0xca/0x120 [ntfs]
+> [<0>] __ntfs_create+0xa9a/0xd80 [ntfs]
+> [<0>] ntfs_create+0xbd/0x170 [ntfs]
+> [<0>] path_openat+0x1014/0x1400
+> [<0>] do_file_open+0xdf/0x1a0
+> [<0>] do_sys_openat2+0x7b/0xe0
+> [<0>] __x64_sys_creat+0x45/0x70
+> [<0>] do_syscall_64+0x101/0x6a0
+> [<0>] entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>
+> # cat /proc/460/stack
+> [<0>] __ntfs_write_inode+0x7b/0x6b0 [ntfs]
+> [<0>] __writeback_single_inode+0x3f1/0x580
+> [<0>] writeback_sb_inodes+0x25b/0x8c0
+> [<0>] __writeback_inodes_wb+0x47/0xf0
+> [<0>] wb_writeback+0x216/0x440
+> [<0>] wb_workfn+0x3e6/0x510
+> [<0>] process_one_work+0x200/0x5e0
+> [<0>] worker_thread+0x1a0/0x370
+> [<0>] kthread+0xef/0x120
+> [<0>] ret_from_fork+0x270/0x330
+> [<0>] ret_from_fork_asm+0x1a/0x30
 
-This issue was reported by memdup.cocci.
+Thanks for the review and test.
 
-Signed-off-by: Mohammad Shahid <mdshahid03@gmail.com>
----
- fs/ntfs/dir.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+I tried to solve this crash, then kept refining the locking after testing
+it with xfstests.  During that process I ran into more and more issues,
+which forced me to keep changing and expanding the patch.  As a result,
+the current patch has become quite large and complex, although I have not
+found new issues with the current version under xfstests.
 
-diff --git a/fs/ntfs/dir.c b/fs/ntfs/dir.c
-index 4b6bd5f30c65..df94603ec102 100644
---- a/fs/ntfs/dir.c
-+++ b/fs/ntfs/dir.c
-@@ -959,13 +959,14 @@ static int ntfs_readdir(struct file *file, struct dir_context *actor)
- 			 */
- 			private = file->private_data;
- 			kfree(private->key);
--			private->key = kmalloc(le16_to_cpu(next->key_length), GFP_KERNEL);
-+			private->key = kmemdup(&next->key.file_name,
-+					le16_to_cpu(next->key_length),
-+					GFP_KERNEL);
- 			if (!private->key) {
- 				err = -ENOMEM;
- 				goto out;
- 			}
- 
--			memcpy(private->key, &next->key.file_name, le16_to_cpu(next->key_length));
- 			private->key_length = next->key_length;
- 			break;
- 		}
--- 
-2.43.0
+However, this version was also prepared with LLM assistance, and although
+I reviewed and tested the result, I am not fully confident that this is
+already the best or complete solution.  I am therefore sending it as an RFC
+first.  I would appreciate your review on whether this direction and lock
+ordering look reasonable, or whether you would prefer a smaller/different
+approach.  It would also be great if you could help solve this together;
+I may have made it more complicated than it needed to be.
 
+Best Regards,
+Cen Zhang
