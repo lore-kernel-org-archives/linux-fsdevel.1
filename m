@@ -1,71 +1,70 @@
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1DD30F958
-	for <linux-fsdevel@vger.kernel.org>; Sat,  4 Jul 2026 09:39:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 713EB2E2663
+	for <linux-fsdevel@vger.kernel.org>; Sat,  4 Jul 2026 11:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783157943; cv=none; b=tqSQS0vTYue/PvEOcbx+tK3bpIraJp+LARteutGQXCQfSZdMoI8ZsqIK0NpkxCQ+OB+BnmChJv6LDa9QaH7smiekwYlBQ0nXsGm4zLjK+Cu4OZf89sQyIedMYLYh2bDbLuBJ/V8uLlU+EEr+HrKMV33+kSSk1lyKoD4fpKu2EBs=
+	t=1783163483; cv=none; b=lZSVDmc/VS2NEoZVPAadaRx0hHucf5Oh5xAsS5i59LvHmhEDgviELYBQLAuPA26WM9V+Ghd7NH62qovIiwMsp2md/7PBzwmfzCaGEQqn7BKvYKUmyoT1jVfXiu0biPOPWDkeJyC1JlaNSI/pqSv3bxychgWV8u3/T2QOtclv1j4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783157943; c=relaxed/simple;
-	bh=0WY4lujUoW+8t9RPZRyrWC9DAATMKinYMCIbcmBY9IY=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=VkK14IC0VB8QVlXKubazhFu7q/pYcIO3HTn/B39PEx2tK2SzbHA9TDIVzDJRORBIDBiI5uSR5Q3FFCKMh/dekbwTiFSbYO1AZ2uqPSwNriv5AxNybLTyZL4owa29owQz1rRzcIDm5rl9GItjLzG3HUFPBNWqwPBpq6BE7Nhb3Hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L9QfppNY; arc=none smtp.client-ip=209.85.128.175
+	s=arc-20240116; t=1783163483; c=relaxed/simple;
+	bh=lI04ZQUKahw75zIM8C4klSzCTtmR11ZJA6K/keIiiv8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OUnser9Fzao5giCWRzSkuNsVBZPiMrnNtzG3WwP75KSQSR3DSdbS5WYRVzqZweKZbTlrfpMNIxA09fD6JVDJSzc89ZthezlSjM2d+AoE/v21M3I01YBFPlFgVroMKAp3qFMFSZT/Krg5L7X1sexHAmmunxw6rOzHiDYw6l1D7NE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b98f6CWv; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L9QfppNY"
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-804e46366d7so19991867b3.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 04 Jul 2026 02:39:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b98f6CWv"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-381065a7a03so1034497a91.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 04 Jul 2026 04:11:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783157941; x=1783762741; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=M+wFC810afrczCAEG00O7cfnbSsokPgX0e3PuC6Ayj8=;
-        b=L9QfppNYlpC5gVzeFf41XMnBCkW7KsKe2auo4u9Xf0+WLRlkFC7Qv6ixFeVUS34gQq
-         ywoVehvbGk+zk3/Nh1SEakM0DcGCoya0JeYt+SxPKJlW03gqfz6nqSiTeLN680P/1sbM
-         JuLeJddk2UPnO2gIeA19gkOJ5heaDxXtRmYEuu17Fm9f/0jH4iCuETdlMZDvh8qc+fyB
-         Qcci81n+jtWeHypcs/Ni2ITUl6kQtC+rypTz/ULx1EZvkneTkLNpoaZyZz/agzPMwYpG
-         nF/3eLBhdGMB34vL87rWTJAVJ/uosTNWYnNjp5zs+iSAZ3kx78X5YDVHzMY2EvQ/fX2R
-         yVBQ==
+        d=gmail.com; s=20251104; t=1783163482; x=1783768282; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GCK+oncUKNOX6lhkOj6L4mSHBvEYFKVkwKqfBGA5JCo=;
+        b=b98f6CWvsjAClRuSOOljtzxUbBfhu1q8YDjt6vkp2BNj0NJDf9PqpxWQFViExxYiWF
+         piocDnMoanHd19zhPw8Vm6M2Z1Q9LkfSSyHKSr/UIPuUr5NcjFCvwJhzSxApQvVPkxsG
+         ef9Z6TpQ7gO7pCMQ4YoBNEMMr4bdAhMsPhiPzS0OPSIq1kejhCdxusNT3yZDUASZ6oUp
+         nb9Wb6XIVGIlbPYpWCDiA4xoNixp92hJQ+DHO0C+hMXf1zHmFN7HJ+JCIRztkq1xlXfx
+         CuNnC+35X9+Lgwn7MKRWioOs7ag+MnpKNYbVgIIhBv+UKDnehq6MXiCQhTx/LzER0fPk
+         o38A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783157941; x=1783762741;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=M+wFC810afrczCAEG00O7cfnbSsokPgX0e3PuC6Ayj8=;
-        b=hJq5NcEtX3Jtr/Rt7VrfBRcsWAr3JqFFEXuo/TVJC4RowjgxnNjvbXKEUbQReNMuOQ
-         BcIJ1Jbf1tjmariY/MChUPIWOKLQtBL6McXAjTIw77huLHtFOefIQKUHqkO6X0SkzDea
-         pX6Fj57gZ1IKDtQWUBwcoFQNFtC6G1l/WD1Ow7U0q9yl1kwC2xz71HSum6Y7Fe+XgYU1
-         qnKm1yMHxNfD71EV26WOwPNBPRiRlQpSNRdz9NtftopOk+siu3DF6/UbuYM9DEp+Bvws
-         58VB9DMgRgt7umPMlL0m1w0DuNProYApI6mT4izYpFYdUyuhRhhZDNQ0js7jwVR0Bbs2
-         YQiA==
-X-Forwarded-Encrypted: i=1; AHgh+RpoutYXG82HDnVsnUg4TZDKSaUzD36Ygqo103RoV4HHbbdbLuoLWWp/UECBySq6I2m/T5RWwUCbHU/hdRuu@vger.kernel.org
-X-Gm-Message-State: AOJu0YwoMK2pFanugWxiBvsMuAPrelzx+veV0T6Bkv8yFUwlO0fgpGk2
-	jC4WfkMYrBP47T9TV96aVH+8HHoLDbNFYWxo4azCmrcm8XDo9RQmNmyC
-X-Gm-Gg: AfdE7cnMyQKwL9PD7dXRhKtXr7kYMd1vfHHUXzDbwztB8M0Ox13zzH3pxibmUSVtHXP
-	fsBmwLpaXzjTX3jkRcS6YiO0iFiBynQrc18sMYCLLQGgriuOzmzxEclF6EajOtCb9jcWNFO9E8a
-	yr/gs2cKfyvPt8JJJqlP3OjBCwYUryE6E2rupLJA4KIafIo2VZyPG2Ab37DuBFYTVguWquQO1d3
-	t2GxHA65eCjCw1TJWsdJ4PHKguJTK1RRl5naDSxTIPR3xa7thfyvYMNbqltrqiYthW6fU0Cq/bV
-	TPaa3jSgn4WEa4+Dq55AcYikAAQW8Qdpnk/LMU8PwNwy1DjZRAnBxFP89ZCfEPNTQC6sK8AomYc
-	HI60Sod6NNLclvngIPHnYZyJveGLE951V/QOKr+P6SDfcGa6XzZeGEUp4gTEMzbm3GUwo50IUDp
-	YztnoOTpbNJqRN4cQ78E+yBpFmOCix8FdsfIFn
-X-Received: by 2002:a05:690c:6513:b0:812:d768:72c4 with SMTP id 00721157ae682-817398edff9mr27380027b3.58.1783157941447;
-        Sat, 04 Jul 2026 02:39:01 -0700 (PDT)
-Received: from localhost ([109.110.46.40])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8144b049939sm33421027b3.32.2026.07.04.02.38.58
+        d=1e100.net; s=20251104; t=1783163482; x=1783768282;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GCK+oncUKNOX6lhkOj6L4mSHBvEYFKVkwKqfBGA5JCo=;
+        b=SO9Lq5iAIkMc40VQiW1bmDCaU9r+fNhiCdeb4fuColfJpEcukKa3uz0qGQZq1YXBaY
+         95flFZwHoA9IDD+QZUj2iQVeXSOeEdBrig0FK7dVKJGIJSf3VvMf2LMFsjOk0YAWGBql
+         JHQikB+iXOfL9aKHT+S4A6bbNOltgE39yWM3PlqULMur0/Uk07+ngzLXBrHUNboruX85
+         EH2vRm7VYQ/EojblFQfUcgKzDTQw3Y7s44VGqZU1u3uTGX4Uoclicvf98b9ygZ0M1nVr
+         GNfI91hq04xicbWA9E4pjyGvar//BzxN9pKjRvYZArayrt4SmnnWUGYQXdsep5CXHarB
+         c3Bg==
+X-Gm-Message-State: AOJu0Yz7IBD+88/1dVrsKanvRsMEidzcFuXeuEUh8PEf8Cc8NvxVciD2
+	GF6cqIIu5t8+a8JCzvEA7lEAdZ70/iUVTbFOrTzgSCkz/4eTayi9YNwS
+X-Gm-Gg: AfdE7cm1aIqLIixXaxOdJH7es2D/dcsWtsbjfFh4YBYDmVIzttKLwgwfzTwiQUe1EgG
+	gx+VKTLUxCNrn2rt74TPkHPL0nefHpaa0crR7VLsbCqWpeCTZaou04d1HbuWuNDNa5BWklrzGWm
+	YtGpgqiXYm9bT7DqeZmwmR2mwkLq05a3awARJGS2/R7+D1Iu5C2Scoy7IGp9SkLi+hDt3dibvNQ
+	t8A/Kli6nTXSNsVupLHyxAm4IQ9jMUnYX39FsR9EB4TgHaied6jb1HJL1pkv8e6oEXG9zkxIW+n
+	8irtAiAUGRrYNZUX0GwrzPOvhmXLkj8WkPS6tUOkRvUlvot0001LZ76KR9Po9XQmS06bGht/0MN
+	GClGEECMd7CICQB/K5/Mp8Z+KlDh0EH4wLYgeJZS1etqG5xfIlVnpakeQDqoWkQTrsSD+43cVuZ
+	iSaq2Ufl6yU1E=
+X-Received: by 2002:a17:90b:2243:b0:380:ced0:ecf9 with SMTP id 98e67ed59e1d1-382802bbe2dmr3234795a91.4.1783163481544;
+        Sat, 04 Jul 2026 04:11:21 -0700 (PDT)
+Received: from ubuntu.. ([2405:201:8026:213e:6162:d178:1f74:3068])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f0bc2e119sm30335125eec.28.2026.07.04.04.11.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jul 2026 02:39:01 -0700 (PDT)
-From: Valeriy Yashnikov <yashnikov.valeriy@gmail.com>
+        Sat, 04 Jul 2026 04:11:20 -0700 (PDT)
+From: mdshahid03@gmail.com
 To: Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>,
-	linux-fsdevel@vger.kernel.org,
+	Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	yashnikov.valeriy@gmail.com
-Subject: [PATCH] ntfs: avoid calling post_write_mst_fixup() for invalid index_block
-Date: Sat,  4 Jul 2026 19:38:57 +1000
-Message-ID: <20260704094007.426882-1-yashnikov.valeriy@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	Mohammad Shahid <mdshahid03@gmail.com>
+Subject: [PATCH] ntfs: mft: use kmemdup() instead of kmalloc() and memcpy()
+Date: Sat,  4 Jul 2026 16:40:57 +0530
+Message-ID: <20260704111057.114173-1-mdshahid03@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -74,98 +73,40 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ntfs_icx_ib_sync_write() calls post_write_mst_fixup() when ntfs_ib_write()
-returns an error, intending to restore the buffer after a failed write.
+From: Mohammad Shahid <mdshahid03@gmail.com>
 
-However, ntfs_ib_write() returns an error immediately if
-pre_write_mst_fixup() validation fails. The caller,
-ntfs_icx_ib_sync_write(), interprets any error as a write failure
-requiring rollback. It does not differentiate between I/O errors and
-validation failures, and calls post_write_mst_fixup() anyway.
+Use kmemdup() instead of a separate kmalloc() and memcpy()
+pair, simplifying the code while preserving the existing
+behavior.
 
-Since post_write_mst_fixup() assumes that the index_block contents is
-correct, it doesn't perform the boundary checks, which results in
-out-of-bounds memory access.
+This issue was reported by memdup.cocci.
 
-An attacker can craft a malicious NTFS image with:
-  - large index_block.usa_ofs offset, pointing outside the ntfs_record
-  - index_block.usa_count = 0, causing integer underflow
-  - or index_block.usa_count larger than actual number of sectors in the
-    ntfs_record, causing out-of-bounds access
-
-KASAN reports describing the memory corruption:
-  ==================================================================
-  BUG: KASAN: slab-out-of-bounds in post_write_mst_fixup+0x19c/0x1d0
-  Read of size 2 at addr ffff8881586c9018 by task p/9428
-  Call Trace:
-   <TASK>
-   dump_stack_lvl+0x100/0x190
-   print_report+0x139/0x4ad
-   ? post_write_mst_fixup+0x19c/0x1d0
-   ? __virt_addr_valid+0x262/0x500
-   ? post_write_mst_fixup+0x19c/0x1d0
-   kasan_report+0xe4/0x1d0
-   ? post_write_mst_fixup+0x19c/0x1d0
-   post_write_mst_fixup+0x19c/0x1d0
-   ntfs_icx_ib_sync_write+0x179/0x220
-   ntfs_inode_sync_filename+0x83d/0x1080
-   __ntfs_write_inode+0x1049/0x1480
-   ntfs_file_fsync+0x131/0x9b0
-  ==================================================================
-  BUG: KASAN: slab-out-of-bounds in post_write_mst_fixup+0x1aa/0x1d0
-  Write of size 2 at addr ffff8881586c91fe by task p/9428
-  Call Trace:
-   <TASK>
-   dump_stack_lvl+0x100/0x190
-   print_report+0x139/0x4ad
-   ? post_write_mst_fixup+0x1aa/0x1d0
-   ? __virt_addr_valid+0x262/0x500
-   ? post_write_mst_fixup+0x1aa/0x1d0
-   kasan_report+0xe4/0x1d0
-   ? post_write_mst_fixup+0x1aa/0x1d0
-   post_write_mst_fixup+0x1aa/0x1d0
-   ntfs_icx_ib_sync_write+0x179/0x220
-   ntfs_inode_sync_filename+0x83d/0x1080
-   __ntfs_write_inode+0x1049/0x1480
-   ntfs_file_fsync+0x131/0x9b0
-  ==================================================================
-
-Let's move the post_write_mst_fixup() call to ntfs_ib_write().
-The ntfs_ib_write() function calls pre_write_mst_fixup() at the beginning.
-If the index_block contents is invalid, pre_write_mst_fixup() fails and
-ntfs_ib_write() returns early without calling post_write_mst_fixup() on
-bad index_block.
-
-Fixes: 0a8ac0c1fa0b ("ntfs: update directory operations")
-Cc: stable@vger.kernel.org
-Signed-off-by: Valeriy Yashnikov <yashnikov.valeriy@gmail.com>
+Signed-off-by: Mohammad Shahid <mdshahid03@gmail.com>
 ---
- fs/ntfs/index.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ fs/ntfs/mft.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/fs/ntfs/index.c b/fs/ntfs/index.c
-index c5f2cf75b750..faa7ee920a3a 100644
---- a/fs/ntfs/index.c
-+++ b/fs/ntfs/index.c
-@@ -110,6 +110,10 @@ static int ntfs_ib_write(struct ntfs_index_context *icx, struct index_block *ib)
- 	ret = ntfs_inode_attr_pwrite(VFS_I(icx->ia_ni),
- 			ntfs_ib_vcn_to_pos(icx, vcn), icx->block_size,
- 			(u8 *)ib, icx->sync_write);
-+
-+	/* Perform data restoration before returning */
-+	post_write_mst_fixup((struct ntfs_record *)ib);
-+
- 	if (ret != icx->block_size) {
- 		ntfs_debug("Failed to write index block %lld, inode %llu",
- 				vcn, (unsigned long long)icx->idx_ni->mft_no);
-@@ -147,7 +151,6 @@ int ntfs_icx_ib_sync_write(struct ntfs_index_context *icx)
- 		icx->ib = NULL;
- 		icx->ib_dirty = false;
- 	} else {
--		post_write_mst_fixup((struct ntfs_record *)icx->ib);
- 		icx->sync_write = false;
- 	}
+diff --git a/fs/ntfs/mft.c b/fs/ntfs/mft.c
+index a5019e80951b..fd07d41c2741 100644
+--- a/fs/ntfs/mft.c
++++ b/fs/ntfs/mft.c
+@@ -2420,7 +2420,7 @@ int ntfs_mft_record_alloc(struct ntfs_volume *vol, const int mode,
+ 		 * record.
+ 		 */
  
+-		(*ni)->mrec = kmalloc(vol->mft_record_size, GFP_NOFS);
++		(*ni)->mrec = kmemdup(m, vol->mft_record_size, GFP_NOFS);
+ 		if (!(*ni)->mrec) {
+ 			folio_unlock(folio);
+ 			kunmap_local(m);
+@@ -2429,7 +2429,6 @@ int ntfs_mft_record_alloc(struct ntfs_volume *vol, const int mode,
+ 			goto undo_mftbmp_alloc;
+ 		}
+ 
+-		memcpy((*ni)->mrec, m, vol->mft_record_size);
+ 		post_read_mst_fixup((struct ntfs_record *)(*ni)->mrec, vol->mft_record_size);
+ 		ntfs_mft_mark_dirty(folio);
+ 		folio_unlock(folio);
 -- 
-2.54.0
+2.43.0
 
