@@ -1,66 +1,66 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B36212550
-	for <linux-fsdevel@vger.kernel.org>; Sat,  4 Jul 2026 01:32:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42F6823504B
+	for <linux-fsdevel@vger.kernel.org>; Sat,  4 Jul 2026 02:34:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783128775; cv=none; b=b1/f3uHHcCvfJrd3Bdl3H8z5TPOmHoHzCy/+p8VwclJmeiRWASumsa2wjAj9O5qqN0lJDEgJPP1JooN9hgoeaw6YryZOuu6J1cwDaxAsm4ev7T/YbO5Nk4PtQry56T6agNJilvWUT9XM2pF/wF8NShCM8WHRC8tncmU3pYzSkA0=
+	t=1783132463; cv=none; b=e4fojtt34H+G+t58dJUJ+Wi+nCaoC9vP7GLYmzsKqLgQh22tqgClER+CK+2MQXcX4xpSYKtGejZpoE7Bcoke588oKtIOCmiNS2K0D4eBRJDcymFjw7PGLw7zVZTKQ/EqB3dO3yE8BfdrJD2HrvY7ZKAp8IvtcOAfBpOwuZGXRKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783128775; c=relaxed/simple;
-	bh=PI6QHQ10gncI8iXr+eap0a9BBdLmaZP18K9Ipw+Rkzw=;
+	s=arc-20240116; t=1783132463; c=relaxed/simple;
+	bh=pGsoEyAm3bZoDe6VREwnlPvdgL3+EACVmm0N6rqdyTs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bMcIk8PDTlDRh7fKme/lal35uZqzCazKwLtJOBPAdbgwnDfE2JCAA2Z7FWxBFJulyzXV+gM3XACSN4UK01NjDoeYw+YJpvqwZBf4usWMwhJ4j02o3tUX04UzXMYjKQKzu2DfrJZ+orK0dfZ+vXONmykLYjtL4HW+vPOV2ccnqlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xl3byqru; arc=none smtp.client-ip=209.85.214.178
+	 In-Reply-To:Content-Type; b=rg8Z8FS6AOZ2ro+YF24eVU7AO2AGhW0lPnag2B4ayqdSc5n2Sl/ZcHAB3oFKGfbz1+iemkME9oW0x6PMauPgygrZLg+ycsWCtRFA9s732AHbNN0m7yVIoB6JT0bSUdP4Y3XdWzkeIHljTEgrnxMTS0cwDhVKCYE0ObX2FWbk8kE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kY4UdbFU; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xl3byqru"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2cad4170e8eso11912795ad.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Jul 2026 18:32:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kY4UdbFU"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2ca1479dfe0so12392765ad.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Jul 2026 19:34:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783128773; x=1783733573; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783132460; x=1783737260; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=2mKH1GnYzZzalxj3rDwtaiSEPq9o/l0Xt0lGrmA5F2k=;
-        b=Xl3byqruJVPtHR/FMZteUkSxqVZoENoexhKjP7yk2l0t0KOft+DWjzxBQPJ008mfQp
-         OpcvDntDDn4r3NkyPJvGrGXbf4ygn5VfbwHUISZxENdZDJeNKV+/qdxpOkcImhyOiy5c
-         FLLtAK2OHqeLOCGkdBSggL4CoA0zPQ0b0m3Yd8/xo1Ap1VFilEzz/lOmp2koWgYjcZpr
-         VuekDZwgCA6J0b1PbA0kaYda+u6uHrJjzGnzqtNaejW8AChYJe1EVzvyFB9Sw1jLsUVv
-         +gc/EcFh6LT5RN3KTuyA5jfHPd7W57EieAAa6kh6gGdcynbYB5TVFRCMgivfHLsmS/PS
-         OxKQ==
+        bh=D5gdjEAhM6JnJ4nxg59m1hX+aKZvrIYJN+Eey2wy5DM=;
+        b=kY4UdbFUIypbpfqJAB+JcvrY3g4hBcno+TfXGLUcuJaWqbKp8EDs7wQ8Ey8Vk5n+Q4
+         uC4str+IUQAAUEnJGfltJDbeqjrWao2jSYALWRHIg+9p/FZSrlECH/iyQO4kYMxLT13S
+         MsL/x7w6xmGHvhBuory7KATiEAMkC0/mC4bknm/U/vJkHZ/mGVZ1gIiu1ZWv9wiO/k7X
+         zFH711XdP8vKZ1sLelYVDw4G4Fp/WKbSp8JiKK1F7dvLJmYks2GTg8Vm9kZYSDrO7KGd
+         vrZ85g+at45RF0cq6CCG1uyv/lRfNznE94JHYe/cN+E7/9HOBNIfOXvFn03iEyDsaOsk
+         7QQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783128773; x=1783733573;
+        d=1e100.net; s=20251104; t=1783132460; x=1783737260;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2mKH1GnYzZzalxj3rDwtaiSEPq9o/l0Xt0lGrmA5F2k=;
-        b=DWT+v+/zU/D20Y/HGuiLjIOWs+K4g6ho5WBQ9Oq3UBhY32fbjw7eyiIvVZyHZ2Fyrs
-         ViHkCOcsb+lHpQp1g428xMQmCCtHuMsx+Q2LHaDV3f5s3SRiA/sueEg9kZzEv/6c2+UN
-         iBaH35H4g5227ju+PDXQoEl81Olm3gvQwr6ldUasNhGg2HKiQzg16c4gsLR85uqi3i9T
-         ZvRsxo+e1rzj5v2asrKN6CvpmYb/QqunWtbZT1xgwgmw0dmcIttT0sbUhaRY3plhNtSf
-         9ZNRa79SFqiXCm08kJTAOWVpWEHRwiJkfOxfCebOGCbIdkiDk6ehQ57JQlJEv4Iip6EJ
-         Sq8Q==
-X-Forwarded-Encrypted: i=1; AHgh+RpLu3zp5hF5dFtNHheHq8uqOhUh5pMxkdSCcho5ChdkuabLzhNFfcsHX765z/KqHU1FT/juCL/swTU49EJn@vger.kernel.org
-X-Gm-Message-State: AOJu0YzK8ztMv1/8Qmsutt/YAHGGYd+SR0LV+DLOBihSI3zUYM7pk3+P
-	1dwFbONRmwdooibhfK78aUJ9A3iT4K5Eqb+lLQbczHHqt+xER5rYueHG
-X-Gm-Gg: AfdE7cnRsxAP1yXBlj+6znAzonQCOMFYJcfGPPAOQ3M0gOAiAqQD5gLgZEVfawOD3nR
-	piSYsF1BvVVQ2wv++BrfLnrQHEGaPHO6YwpuYlHIkVYpOoaSD2cD6fc2TAQwh9LgeyON2RqOiqI
-	aHmquW0u1ToSz9Kd7+cIrH8S6HzHa7BLdqG+U5X+2EUo7rGEi+7ilELfXl0zkP1MutNdjGHoakF
-	cAxmvIVXoAzGW9l0nbP/G7lMM660SJig7Bh0nCekm6T1b05fEFg22eDZY4jTW6gOzVkGq2PCMs2
-	YbKhGb4MZOy5XVNiqVUNgKyAcc8G3fdZ/UsUJo85+2NM7LjuV0tVb/kLDC29pmaNdETExGIQpKm
-	8T32oo2WOtX0pbQgUSPl7EQTME9ypqZO4IXY9WRHDEp0QsQZ8WxJiyLQSWKNzxoNImw1PTe+mE0
-	/SJQ4LzZ9z08xqN2i6YbYhdp0iTvi1sjXC
-X-Received: by 2002:a17:902:e790:b0:2c8:1f58:55dd with SMTP id d9443c01a7336-2cbb808b0b0mr14513745ad.9.1783128773001;
-        Fri, 03 Jul 2026 18:32:53 -0700 (PDT)
+        bh=D5gdjEAhM6JnJ4nxg59m1hX+aKZvrIYJN+Eey2wy5DM=;
+        b=Cf76YKUIFu7pcSQdKZMuwt9LEXjSYFTV4T1xft6Ecc+5Ag9OxBbiNO0rspQTnpO+1m
+         K2k14Y8its5onVR8N63o/ex4ibQ5Kn7ab4eJX6tBn8juhypTAPc1Wl/5xTzZjvPNH8Zf
+         nSXFPQ2kfiuLd5UkZLgxQpVuiH0iyQZZ4J7I6tgWO2MtyujQpqr2YCurS2wLpAGK3dhl
+         vfSUugCkEbwfbqsahMF2NA3RfyEw/xh0ZdZutdjNZ18XMkFIr9jYV7K1KH1Nrwkk2Mfe
+         teBOyeTA4OJZy+nvHAIGbCBGmv+olkky8d7N9Nh4ScGZtpCOX7EPi73hXLyQgSpRgUGV
+         2tNA==
+X-Forwarded-Encrypted: i=1; AHgh+Rpr/x+xrCVE/DoEKpAAgjnqVdWHJnZoxO6oYaDqgQkg4LAFxLoYa59cFJDlDIGtwrIZ3Mp3N9u3k1Em0K33@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwIu9YmgdzO/jVvHslOClS+9B9+KX/ADH7YXBMtlaNaowJctmN
+	YQlfZbKSI5K52MrZ7T25px2C/aAGdtbwgfhmWkCSXT2WKI65NPeLZUOB
+X-Gm-Gg: AfdE7ck2xYoOimYloLuW7vs7zGoldebmH/ERYBlgLX3pFuDTHWTjiMyJd18gE7LQCZE
+	uQa4eYpeJWhf4MRpsADVVFNfp1iIcbYJyeQiuWcHROMc9l+7+OH224i8HWWfOHpE1DZn/K5O2w1
+	XN/roY/s7QCZNx/tns5UXBl1PRykFID0uDjdMZUgTlXpBGfRicsQgvVEGK/nrOjobX6s0BRQ1pJ
+	SqvawdGIsuB/tTorJyFK8h5McRvbtqTetrUZ+VRrSmnkKJjeHI6WA1oSpMzmCk6/KhdD8s4guvz
+	EqXd0je2fbYua2FZrxgakllJORs1zq7YjTgyz1WEUj4HWIsMHwgr2KQC/KXualK02Zs8Aj74ow6
+	MTsAOq4avHJdzefDQYI+MI+dEvA4LdQfbrXff2ptZrEv7nTqPx1E2VoMnkco6uUNeHJLWysxkfj
+	AMVz7KsZ2WUEIjCBvV84n9hz6GzsCcstzI
+X-Received: by 2002:a17:903:230b:b0:2c9:de53:f84f with SMTP id d9443c01a7336-2cbb9e4dd31mr15058825ad.19.1783132460069;
+        Fri, 03 Jul 2026 19:34:20 -0700 (PDT)
 Received: from [100.125.248.95] ([124.70.231.46])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cad6bd7611sm16419865ad.0.2026.07.03.18.32.45
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cad712b12fsm16798695ad.25.2026.07.03.19.34.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jul 2026 18:32:52 -0700 (PDT)
-Message-ID: <7e2c6b5f-6135-4772-9618-e064f8a59ee0@gmail.com>
-Date: Sat, 4 Jul 2026 09:32:20 +0800
+        Fri, 03 Jul 2026 19:34:19 -0700 (PDT)
+Message-ID: <d30ebe91-a5e4-4ee8-a3f7-c965e623535f@gmail.com>
+Date: Sat, 4 Jul 2026 10:34:07 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -68,180 +68,325 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] ext4: clarify return semantics of ext4_load_tail_bh()
-To: Jan Kara <jack@suse.cz>, Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
- libaokun@linux.alibaba.com, ojaswin@linux.ibm.com, ritesh.list@gmail.com,
- yi.zhang@huawei.com, chengzhihao1@huawei.com, yangerkun@huawei.com
-References: <20260701142009.1510104-1-yizhang089@gmail.com>
- <20260701142009.1510104-3-yizhang089@gmail.com>
- <qpxvjsdnq6jgigjnwzkxny6lms6gi6t4bq5l33rr2f6m6l4oum@5e6ayymrgcbd>
- <a54c9df2-63e6-41ad-b32f-54d2f0356d5c@gmail.com>
- <5xgyaw3ufsymz7tqoyrkwo64a2uup75hnuaudtrejozhb2qnox@owzep3gkgf2v>
- <89a20f31-39e5-4592-9bc5-d444b6c1c7f4@huaweicloud.com>
- <qbrrym4b6tsstu5lqdlxvwp67tvkfp4xufre6v7llan7xgiw3k@qieeaqvt75ns>
+Subject: Re: [PATCH v4 18/23] ext4: wait for ordered I/O in the iomap buffered
+ I/O path
+To: Jan Kara <jack@suse.cz>
+Cc: Zhang Yi <yi.zhang@huaweicloud.com>, linux-ext4@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, tytso@mit.edu,
+ adilger.kernel@dilger.ca, libaokun@linux.alibaba.com, ojaswin@linux.ibm.com,
+ ritesh.list@gmail.com, djwong@kernel.org, hch@infradead.org,
+ yi.zhang@huawei.com, yangerkun@huawei.com, yukuai@fnnas.com
+References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
+ <20260511072344.191271-19-yi.zhang@huaweicloud.com>
+ <k3w5c3cyg2py4kums7nhdwjg6b6pm43qtweepuolk57xtmnotz@yxkm2k6sqfc6>
+ <9ab9281d-c5dc-4183-8bc9-b53b5a4ac9c0@gmail.com>
+ <3n6ge2tfe4bd65eicc7l2csxkzupcjtdtc4ojpl6bvtf7cwll6@sxmlt3uciw4c>
+ <8999aa70-073c-47f9-ae6e-39af3cc1fe32@gmail.com>
+ <c6zpjk3gml5lj72cagu7sncswqeea2e3h7gc2ie5qnwwe6qdft@6qoaz7zccmem>
 Content-Language: en-US
 From: Zhang Yi <yizhang089@gmail.com>
-In-Reply-To: <qbrrym4b6tsstu5lqdlxvwp67tvkfp4xufre6v7llan7xgiw3k@qieeaqvt75ns>
+In-Reply-To: <c6zpjk3gml5lj72cagu7sncswqeea2e3h7gc2ie5qnwwe6qdft@6qoaz7zccmem>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 7/4/2026 12:01 AM, Jan Kara wrote:
-> On Fri 03-07-26 11:39:03, Zhang Yi wrote:
->> On 7/3/2026 12:43 AM, Jan Kara wrote:
->>> On Thu 02-07-26 22:40:17, Zhang Yi wrote:
->>>> On 7/2/2026 5:53 PM, Jan Kara wrote:
->>>>> On Wed 01-07-26 22:20:05, yizhang089@gmail.com wrote:
+On 7/2/2026 10:20 PM, Jan Kara wrote:
+> On Tue 30-06-26 20:06:55, Zhang Yi wrote:
+>> On 6/25/2026 5:42 PM, Jan Kara wrote:
+>>> On Mon 22-06-26 11:32:16, Zhang Yi wrote:
+>>>> On 6/18/2026 9:48 PM, Jan Kara wrote:
+>>>>> On Mon 11-05-26 15:23:38, Zhang Yi wrote:
 >>>>>> From: Zhang Yi <yi.zhang@huawei.com>
 >>>>>>
->>>>>> ext4_load_tail_bh() returns NULL for both holes and clean unwritten
->>>>>> buffers, but the conditions that lead to this are not obvious from the
->>>>>> code alone. Document this behavior to clarify the return value, so that
->>>>>> readers do not mistakenly assume that only holes result in a NULL
->>>>>> return.
+>>>>>> For append writes, wait for ordered I/O to complete before updating
+>>>>>> i_disksize. This ensures that zeroed data is flushed to disk before the
+>>>>>> metadata update, preventing stale data from being exposed during
+>>>>>> unaligned post-EOF append writes.
 >>>>>>
->>>>>> Also update the inline comment following the ext4_get_block() call to
->>>>>> reflect this: both holes and clean unwritten buffers fall through to the
->>>>>> "nothing to do" path.
->>>>>>
+>>>>>> Suggested-by: Jan Kara <jack@suse.cz>
 >>>>>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->>>>>> ---
->>>>>>    fs/ext4/inode.c | 6 +++++-
->>>>>>    1 file changed, 5 insertions(+), 1 deletion(-)
->>>>>>
->>>>>> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
->>>>>> index c2c2d6ac7f3d..0b31fa873743 100644
->>>>>> --- a/fs/ext4/inode.c
->>>>>> +++ b/fs/ext4/inode.c
->>>>>> @@ -4026,6 +4026,10 @@ void ext4_set_aops(struct inode *inode)
->>>>>>     * because it might have data in pagecache (eg, if called from ext4_zero_range,
->>>>>>     * ext4_punch_hole, etc) which needs to be properly zeroed out. Otherwise a
->>>>>>     * racing writeback can come later and flush the stale pagecache to disk.
->>>>>> + *
->>>>>> + * Return the loaded bh if it actually needs zeroing - in written, dirty
->>>>>> + * unwritten, or delalloc state. Return NULL if it's clean (i.e., a hole or
->>>>>> + * a clean unwritten block).
->>>>>>     */
 >>>>>
->>>>> Great that you're adding this comment because when I was reading previous
->>>>> patch, I've spent like 10 minutes trying to figure that out :). But as far
->>>>> as I'm reading the code, ext4_load_tail_bh() will return the unwritten bh
->>>>> even if it is clean - map_bh() in _ext4_get_block() will set
->>>>> buffer_mapped() even for unwritten extent. What am I missing? BTW, it also
->>>>> seems to be ext4_load_tail_bh() could attempt to ext4_read_bh_lock() on
->>>>> unwritten bh if things align wrongly...
+>>>>> Frankly, this all looks too complex to me. Plus your are adding 32-bytes to
+>>>>> struct ext4_inode_info which isn't great either. Why don't you just do
+>>>>> filemap_fdatawait() for the byte at old i_disksize and be done with it?
+>>>>>
+>>>>> I believe we have to simplify this. All this complexity (and thus
+>>>>> maintenance burden) across several patches for the corner case of zeroing
+>>>>> tail block on extention is in my opinion difficult to justify.
 >>>>>
 >>>>> 								Honza
 >>>>
->>>> Thank you for the review!
+>>>> Hi, Jan!
 >>>>
->>>> Please note the ext4_update_bh_state(bh, map.m_flags) call in
->>>> _ext4_get_block() — it restores the mapped flag back to unwritten. As a
->>>> result, the !buffer_mapped(bh) check will evaluate to true for a clean
->>>> unwritten block, the function will return NULL.
+>>>> Thanks for the review. I understand the concern about complexity and the
+>>>> 32-byte increase to ext4_inode_info. I tried using
+>>>> filemap_fdatawait_range() as you suggested, but found two issues where
+>>>> this solution doesn't work.
+>>>>
+>>>> 1. ioend worker deadlock
+>>>>
+>>>> Since worker concurrency resources are limited, we cannot wait for
+>>>> another ioend worker to complete within one ioend worker with the same
+>>>> work_struct. If the worker calls
+>>>> filemap_fdatawait_range(byte_at_old_disksize) to wait for the zeroed
+>>>> block's folio writeback to complete, it sleeps holding the only worker
+>>>> slot. If the folio contains blocks requiring extent conversion, its
+>>>> writeback bit is cleared by iomap_finish_ioends() running inside
+>>>> another worker -- which can only run after the current worker finishes
+>>>> its batch.
+>>>>
+>>>> Concretely:
+>>>>     - Worker W1 processes ioend A, calls filemap_fdatawait_range() on
+>>>>       the old EOF byte, sleeps.
+>>>>     - The zeroed data is in ioend B. bio_endio defers it to
+>>>>       i_iomap_ioend_list and calls queue_work().
+>>>>     - queue_work() on i_iomap_ioend_work is idempotent: it returns false
+>>>>       because the work is currently executing (even though sleeping).
+>>>>     - ioend B sits in the list, never gets processed.
+>>>>     - The folio writeback bit is only cleared by processing ioend B.
+>>>>     - W1 sleeps forever -> deadlock.
 >>>
->>> Argh, right. But ext4_ext_map_blocks() sets both BH_Unwritten and BH_Mapped
->>> in the returned map->m_flags for unwritten extents. So I think my comment
->>> still applies.
+>>> Yes, good point. We cannot wait for folio writeback completion from end_io
+>>> processing for another folio.
+>>>
+>>>> Therefore, I think we have to put the wakeup logic in
+>>>> ext4_iomap_end_bio() that runs in interrupt context without consuming
+>>>> a worker thread. The ordered range tracking and wait queue are what
+>>>> make that possible.
+>>>>
+>>>> 2. Truncate-up needs an accurate state query
+>>>>
+>>>> In the follow-up patch 19, ext4_set_inode_size() must make a precise
+>>>> decision when updating i_disksize during truncate up.
+>>>>
+>>>> This needs a state query: "is there ordered zero I/O in flight right
+>>>> now?" If yes, the i_disksize update is deferred to
+>>>> ext4_iomap_wb_update_disksize(is_ordered=true), which advances
+>>>> i_disksize to i_size when the ordered I/O completes. If no, we must
+>>>> advance i_disksize immediately, otherwise we will lose the updating
+>>>> forever.
+>>>>
+>>>> Therefore, we need to track the state of the ordered range. Simply
+>>>> using filemap_fdatawait_range() doesn't work. i_ordered_len serves as
+>>>> a maintained state flag that both the ioend completion path and the
+>>>> setattr path can read atomically without sleeping.
+>>>>
+>>>> Suggestions?
+>>>
+>>> I see. Thanks for explanation. I went back to our discussion back from
+>>> February to remind myself about the constraints on the tail block zeroing
+>>> and the i_disksize update mechanism. And in the light of complexity of the
+>>> current mechanism, I think we've discarded the following possibility too
+>>> easily:
+>>>
+>>> * On file extend / truncate up just zero tail folio in the page cache, mark
+>>>     it dirty, keep i_disksize at old value, update i_size to the new value,
+>>>     add inode to orphan list.
+>>>     If the i_disksize was block aligned (and so we skip zeroing), we just
+>>>     update i_disksize rightaway.
+>>>
+>>> * In io end processing if the folio for which we end io has a block which
+>>>     straddles i_disksize, we update i_disksize to current i_size. We defer
+>>>     removing inode from orphan list e.g. to file close time (doing it from
+>>>     end_io processing is problematic locking wise as we need i_rwsem for it).
+>>>
+>>> This is a very simple scheme with very good performace. It makes sure stale
+>>> data in the tail block cannot be seen on disk after a crash.
 >>
->> Because ext4_get_block() is called with create = 0, this is purely a
->> lookup operation. Therefore, in ext4_ext_map_blocks() ->
->> ext4_ext_handle_unwritten_extents(), only EXT4_MAP_UNWRITTEN is set,
->> and EXT4_MAP_MAPPED is not (please see the branch where
->> if (flags & EXT4_GET_BLOCKS_CREATE) == 0)). So at this point, whether
->> the lookup is served from the extent status cache or from the on-disk
->> query, it works correctly now.
+>> Hmm, I think this solution has a problem. Since i_disksize is advanced
+>> to i_size only when the ioend covering the i_disksize block completes,
+>> we must ensure that i_size is updated before the zeroed folio's
+>> writeback completes. Otherwise the ioend worker reads the old i_size,
+>> advances i_disksize to the old value (a no-op), and i_disksize stays
+>> stale forever after i_size is updated.
+>>
+>> Currently, neither truncate-up nor file-extend paths guarantee this
+>> ordering -- in both, ext4_block_zero_eof() runs before the i_size
+>> update.
 > 
-> Aah, now I remember. Yes, we have a catch in the mapping code like that.
-> Thanks for reminding me again. Now back to my original question: So
-> ext4_load_tail_bh() returns unwritten bh when it is dirty because someone
-> must have called ext4_get_block() on it with EXT4_GET_BLOCKS_CREATE and at
-> that point we set the BH_Mapped flag on it? 
-
-Yes.
-
-> Subtle... It would be worth to
-> write this explanation to that comment as well.
-
-OK, sure, I will add this in my next iteration.
-
+> Good point, that needs to be handled.
 > 
->>> Plus there's a very strange inconsistency between this and
->>> the lookup in extent status tree in ext4_map_blocks() where (as you
->>> indicate) we only set BH_Unwritten but *not* BH_Mapped. AFAICT there's
->>> something buggy in here :) Note that when we don't set BH_Mapped flag e.g.
->>> from ext4_get_block_unwritten() (which gets used when delalloc is disabled),
->>> then writes to unwritten extent will get lost because
->>> ext4_bio_write_folio() will just treat them as holes...
+>> For truncate-up and fallocate, we might be able to split
+>> ext4_update_inode_size() / ext4_set_inode_size() so that i_size is
+>> updated before ext4_block_zero_eof(), and then decide whether to
+>> update i_disksize based on whether i_disksize is block-aligned. I'm
+>> not yet sure what side effects this reordering would have, but I feel
+>> uneasy about this.
 >>
->> In fact, there is no real problem here. For the write path that gets an
->> unwritten block, EXT4_GET_BLOCKS_UNWRIT_EXT and
->> EXT4_GET_BLOCKS_CREATE are always passed together. This ensures that
->> even if we find the unwritten extent in the extent status cache, we
->> still call ext4_map_create_blocks() (due to EXT4_GET_BLOCKS_CREATE)
->> and go through ext4_ext_handle_unwritten_extents(). Inside that
->> function, because the flags contain EXT4_GET_BLOCKS_UNWRIT_EXT,
->> EXT4_MAP_MAPPED is set. So for the write path, ext4_bio_write_folio()
->> still writes back correctly.
->>
->> That said, the semantic inconsistency between the lookup-only and
->> allocation paths has been bothering me for a while. I had to be very
->> careful about this when developing the buffered I/O iomap path, because
->> this semantics also differs from the iomap infrastructure. In iomap, for
->> an unwritten extent, IOMAP_UNWRITTEN and IOMAP_MAPPED are not set
->> simultaneously; IOMAP_MAPPED always represents a written extent. The
->> good news is that this conversion is not complicated.
->>
->> I asked an agent to look into the historical reasons, and here is what
->> he told me:
->>
->>    When ext4 introduced fallocate + delalloc in 2008-2009, it followed
->>    the XFS convention that "unwritten is not mapped." However, ext4's
->>    writeback path (mpage_da_submit_io) depended on BH_MAPPED to issue
->>    I/O, which meant that unwritten buffers would never be written out.
->>    Commit bf068ee266f9 was the first fix - it converted unwritten to
->>    mapped during the writepages stage. Commit 29fa89d08894 was the
->>    second fix - it made unwritten carry mapped at the write-begin stage.
->>    Commit 2a8964d63d50 was a revert patch - it cleared the unwritten
->>    flag in the create = 1 path to avoid duplicate get_block() calls.
->>
->>    Then the extent status cache was introduced in 2013. Commits
->>    a25a4e1a5d5d (Zheng Liu, 2013-02) and d100eef2440f (2013) added the
->>    ES-cache lookup path. In that path, ext4_es_is_unwritten returns
->>    EXT4_MAP_UNWRITTEN without EXT4_MAP_MAPPED - this was not a new
->>    design decision, but rather a continuation of the old 2009 convention
->>    that "unwritten is not mapped." Zheng Liu's commit message did not
->>    discuss whether MAPPED should be set at the same time; it only said
->>    "ext4_map_blocks needs to use this flag to determine the extent
->>    status." He was simply implementing the ES-cache lookup, and the
->>    status semantics followed the old implementation.
->>
->>    The comment in ext4_map_blocks() - which says "if blocks have been
->>    preallocated ext4_ext_map_blocks() returns with buffer head unmapped"
->>    - was inherited from Aneesh's 2009 code. It was not a new decision
->>    made in 2013.
->>
->> So my understanding is that this inconsistency in ext4_map_blocks() is
->> a historical legacy problem. There are many places where handling these
->> two flags is also semantically ambiguous. Some may treat those with the
->> BH_mapped flag set as written, such as ext4_load_tail_bh(). Therefore,
->> setting the mapped flag may cause many issues, and it can only be done
->> by setting the unwritten flag when performing a query. If I am wrong
->> about any of this, please correct me.
->>
->> Going forward, I think we should revisit and clearly redefine the
->> semantics of these two flags, and unify the behavior of ext4_get_block().
->> Otherwise, carrying this historical baggage will only hinder future
->> development. :-)
+>> The append-write case is hard to solve. We can't know the final i_size
+>> before the write completes, so we can't update i_size ahead of
+>> ext4_block_zero_eof(). When the zeroed folio is later written back, it's
+>> treated as an ordinary overwriting write -- i_disksize is not advanced.
+>> And when the subsequent buffered-write data is written back, i_disksize
+>> still isn't advanced either. The size update is lost.
 > 
-> Yeah, frankly I think it would be good to cleanup. But as you say it is
-> currently working correctly.
+> One thing we need to do is to perform i_size updates in append write,
+> truncate, etc. under i_data_sem (similarly to i_disksize updates) so that
+> we can properly synchronize i_size + i_disksize updates from IO completion
+> and these paths.
 > 
+> How we could then handle the races between writeback of folio straddling
+> i_disksize and the i_size updates from the i_size extending paths is that
+> we'd set EXT4_STATE_DISKSIZE_GROW_PENDING bit when zeroing the folio
+> straddling i_disksize and clear this (under i_data_sem) in IO completion
+> when updating i_disksize to i_size. And when setting new i_size after
+> append write, truncate up, etc. we will also update i_disksize when this
+> state bit is not set (again all happening under i_data_sem). This should
+> also automatically include the case where i_disksize was block aligned and
+> thus no zeroing was needed and we need to update i_disksize together with
+> i_size. Sounds good?
+> 
+> 								Honza
 
-Yes, this cleanup work requires checking many places, and there's no
-rush to carry it out at the moment.
+Ha, yeah. This overall looks good to me now. Your solution doesn't look
+significantly different from mine currently implementation. My approach
+uses i_ordered_len to precisely track the pending state of whether a
+zeroed folio is awaiting submission, while you choose to use
+EXT4_STATE_DISKSIZE_GROW_PENDING to represent this, which completely
+eliminates the 32-byte bloat in ext4_inode_info.
+
+However, I'd prefer we should still be able to keep the IO-completion
+waiting logic instead of adding the orphan list. We can precisely
+determine whether an IO is a "cross-i_disksize IO" by checking whether
+its position straddles i_disksize, and when it completes, wake up the
+worker waiting for it in interrupt context -- this won't deadlock (bio
+end_io doesn't consume a worker thread). Besides, Since we plan to use
+the EXT4_STATE_DISKSIZE_GROW_PENDING bit, the waiting doesn't require a
+dedicated wait queue; wait_on_bit / wake_up_bit(&ei->i_state_flags,
+EXT4_STATE_DISKSIZE_GROW_PENDING) should suffice.
+
+Moreover, if we use the orphan list approach, it seems difficult to
+decide when to release the orphan list entries. I'm concerned that
+there may be concurrency issues that would need careful consideration
+(For example, if the orphan list is deleted when the file is closed,
+then after the last opener closes the file, is it necessary to wait for
+synchronous writeback? If there is concurrent file expansion during the
+writeback process, are there concurrency issues?) The original waiting
+scheme is more straightforward to me.
+
+In short, For v5, I think we should:
+1) Track state via EXT4_STATE_DISKSIZE_GROW_PENDING instead of checking
+    whether i_ordered_len is 0;
+2) Determine the I/O type during writeback by checking i_disksize
+    instead of the i_ordered_lblk parameter;
+3) No longer use a dedicated wait queue; instead wait on
+    EXT4_STATE_DISKSIZE_GROW_PENDING.
+
+Thereforer, I think this solution won't simplify the logic much compared
+to my current one; it will likely still require changes in quite a few
+patches. The benefit is saving memory. I can't think of any other
+potential issues for now, So I'm glad to have a try.
+
+In addition, I'll need to address a few more details in v5:
+
+1. Following earlier discussions with Ojaswin, I plan to drop the
+    patch 07 "ext4: submit zeroed post-EOF data immediately in the iomap
+    buffered I/O path" in the next version -- no longer submitting I/O
+    immediately after zeroing the EOF block, to improve concurrency.
+    Then, in ext4_iomap_writepages() we check the writeback range:
+    if it behind the zeroed folio, we explicitly submit the zeroed folio
+    to prevent the appending I/O from being wait too long.
+
+2. We also need to handle the case where the zeroed folio is
+    truncated before being written back. In that case, i_disksize must
+    be updated directly since the folio no longer has a chance to be
+    written back.
+
+3. In the SYNC mode of fallocate and zero range, the zeroed folio
+    needs to be submitted synchronously as well; otherwise i_disksize
+    won't be updated immediately (which would violate SYNC semantics).
+
+
+What do you think?
+
+
+Besides, I've been revisiting why the iomap buffered I/O series disables
+data=ordered mode these days. If we can directly solve the deadlock
+problem in data=ordered mode, things would be much simpler. However,
+IIRC, I recall that Ted previously mentioned planning to deprecate the
+data=ordered mode in the future, so I'm not sure whether exploring this
+direction is worthwhile. In any case, let me share my thoughts:
+
+The root cause of this deadlock is that, during writeback, we cannot
+start a new handle/transaction without stalling on the currently
+committing transaction (T_N) to finish. Please see the Patch 07 with the
+deadlock call graph:
+
+  
+https://github.com/zhangyi089/linux/commit/c1a0e32ebf134411edb600b9b602b4af9420d25d
+
+When writeback tries to start T_{N+1}, it has two stalls involved:
+
+   [ T_0 | T_1 | ... | T_N-1 |  T_N  ]
+
+1. Waiting for the T_N to enter T_FLUSH if it has start committing, so a
+    new running transaction can be created. This is one-directional
+    waiting, not part of the deadlock cycle.
+2. Waiting for log space, which is where the deadlock cycle below
+    closes.
+
+    T_{N+1} start  ->  waits for  ->  T_0/1/... checkpoint completion
+    T_0 checkpoint ->  waits for  ->  T_N commit completion if it
+                                      contians the same bh
+    T_N commit     ->  waits for  ->  ordered data writeback
+    ordered writeback = T_{N+1} start path  ->  (cycle)
+
+Only case 2 is the actual deadlock. So what I'm thinking is could we try
+to break the cycle at the T_0 checkpoint -> T_N commit edge? That is
+when checkpoint hits a bh that T_N has adopted, write the pre-T_N
+contents to the original on-disk location instead of waiting for T_N to
+commit. To avoid excessive copying, this requires:
+
+- Identifying T_N as the last transaction that can start without
+   blocking on log space reclamation — once T_N starts, the remaining
+   log space is enough to fit T_N's own handle credits, but not enough to
+   fit another full j_max_transaction_buffers after that.
+- When T_N adopts a bh still on an older checkpoint list, snapshot the
+   bh contents at adoption time, so the older checkpoint can write that
+   snapshot to disk independently of T_N's commit progress.
+
+   [ T_0 | T_1 | ... | T_N-1 |    T_N    ]
+                             |<--     -->|  -> T_N
+                              (j_max_transaction_buffers)
+
+1. Mark T_N as the last TX that started without obstruction. When a new
+    handle joins a running transaction, evaluate whether the remaining
+    log space, after subtracting this handle's credits, can still fit a
+    full j_max_transaction_buffers. If not, the current transaction is
+    committed immediately and the handle joins the next one, which
+    becomes T_N — the last transaction that can start without log-space
+    reclamation, T_N is then marked.
+2. Snapshotting on adoption. In do_get_write_access(), when the current
+    handle's transaction is T_N and the bh is still on an older
+    checkpoint list, copy the bh contents into a new
+    jh->b_checkpoint_data pointer(like b_frozen_data does);
+3. Consuming the snapshot at checkpoint. In jbd2_log_do_checkpoint(),
+    the current branch that handles an adopted bh by starting and waiting
+    for T_N's commit is extended: if b_checkpoint_data is present, write
+    it to the original block location and remove the bh from the
+    checkpoint list — without waiting for T_N to commit.
+4. Releasing b_checkpoint_data. Freed when the bh is unlinked from its
+    checkpoint list or T_N is finished to commit.
+
+This keeps the snapshot granularity at a minimum, only T_N's adopted
+buffers get the extra copy. When metadata changes are light, T_N rarely
+adopts such buffers, and the cost is unnoticeable; when metadata changes
+are heavy , the dominant cost is the metadata writeback itself, and the
+extra in-memory copy is unlikely to be the bottleneck. However, the
+downside is that there may be some memory overhead, especially in the
+metadata-intensive cases.
+
+Another possible optimization: at T_N start, opportunistically try to
+push the checkpoint tail. If enough space is reclaimed that another full
+j_max_transaction_buffers fits after T_N's handle credits, T_N is no
+longer "last" and the snapshotting can be skipped entirely.
+
+If this scheme works, I think we should be able to completely remove the
+limitation that writeback cannot start a handle in data=ordered mode.
+This would also benefit the buffer_head path — perhaps we could
+deprecate the reserved handle mechanism.
+
+This is just a preliminary idea. What do you think of this approach?
 
 Thanks,
-Yi.
+Yl.
 
