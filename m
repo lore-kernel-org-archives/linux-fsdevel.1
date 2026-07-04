@@ -1,116 +1,112 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 025406FBF;
-	Sat,  4 Jul 2026 13:21:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783171287; cv=pass; b=DOBVbGztOqtBq30szUxzcSELQt5HPHtsoNGSGtlf/jJOU9HqwniFefIiomM7X+rz5kVLE+YDOqOaEmwUNEBHMXu5AL7qisJ57YCjr+CnERJqXvc6gDeicuLPrKxi74lecw4MBlbijpl6fhqC5OJRLw9KjsF3IoEd5/WH835Py/E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783171287; c=relaxed/simple;
-	bh=mDzTIdZazAIkO+ZIeXqTNrPNl0f5rj/73pijf4BO9pc=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=sDETOOiSKsPAWBRCsxN1qxrm9/a7Mq11cP8Jihbq57QrnfPQmr8FhF+DT7Vxjg+mNb9w8DqV6qU5cH1S3OR3hj86Eeyhz9V5fooIje0VMsmtaFz5+HV/OTINBeFq/DFO0yIsKsrfiCK/ay+6NyfySw/qvFcYpy9Mov7pB+xCZZM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=fHNX0rg6; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.beauty
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65211F2B88
+	for <linux-fsdevel@vger.kernel.org>; Sat,  4 Jul 2026 14:47:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783176447; cv=none; b=egbw1XzUwCVFE31a8X0rfFcR3iEXGsIfW8yaEqxU32KBX1+8flqElG/j+EE70mlw8Vv0kIXM0USRFXDe+JhmIdryxSaoA/IzlFHpSj40WOYOmdKTS9kIjm9k1IBYGmqZa75d61YJkcc5X1Q5NWSM0HizE57d3MTDHzLUvp9q7sk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783176447; c=relaxed/simple;
+	bh=WfMU2urwJqwt+ljkL3l90nyQNyUWmMUFUVbvWRyAm2s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YIfY/i12fUPzljWHR0vG8ehub35fLFk1/o5mDmsgjH+EHkrjxQnKZB0r1LX4sYSl7usRKx6WDN0QzuOF+m/hXEBydbC8TcSZiZtlwQymmhEB3j7WFGFFLmQIOGq2GyXQADEdVivFVaSQrr72FtYO1sPYXaWdINoRqYlb63jynfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LZJFcthH; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="fHNX0rg6"
-ARC-Seal: i=1; a=rsa-sha256; t=1783171244; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=dHNyqRIT7IQ0kr5zYrqM0mKfXavHvMTsYaRzLl0DjpxUbjsXtN0CQpFwiLm7yu0rL+H1CDEf39XX8wuRYXYBQ/UnAmvDg4cLWdtn7l9E6POwJaoXP4sqVhixKgsP4aBc74DsXAItIPpLt12pZhOvno3Punn/i/uUqFS9H5iK9KY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1783171244; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=mDzTIdZazAIkO+ZIeXqTNrPNl0f5rj/73pijf4BO9pc=; 
-	b=MCglm6GRXlPD5hcCbftTbiMpdT+rkleIZRVITBt1zP2bXYlU5EgkA1kmQqkIg85qGj6LeRWCvAguz0oCDZ8lTodRYI7OTOi5YvTNIsJBaTCoIBV1rlyKL0IEoECqqesc1qrKxzZqmu1pzuTABNCLlcfrRC39QugdsedHfgm2LHc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=linux.beauty;
-	spf=pass  smtp.mailfrom=me@linux.beauty;
-	dmarc=pass header.from=<me@linux.beauty>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783171244;
-	s=zmail; d=linux.beauty; i=me@linux.beauty;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=mDzTIdZazAIkO+ZIeXqTNrPNl0f5rj/73pijf4BO9pc=;
-	b=fHNX0rg6NtqLgEQOrIwZHz2DSvFrCVB/YZptvfSMMUa5UQhWu4ogy7VBNSCHLUmR
-	zoLMo6ztX8tlxZVTGZSsh/S4MGoU+z4uSXe9PdGy08HFgFCqJ9LVcUeXgg/1Rjc8Kwf
-	FwUr6htfNrR6Wq/azfLFsjjgL+2Hetcz9xf3JFyg=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1783171244368989.4027705624679; Sat, 4 Jul 2026 06:20:44 -0700 (PDT)
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1783171242006432.66307911146623; Sat, 4 Jul 2026 06:20:42 -0700 (PDT)
-Date: Sat, 04 Jul 2026 21:20:41 +0800
-From: Li Chen <me@linux.beauty>
-To: "John Ericson" <mail@johnericson.me>
-Cc: "Cong Wang" <cwang@multikernel.io>,
-	"Christian Brauner" <brauner@kernel.org>,
-	"linux-arch" <linux-arch@vger.kernel.org>,
-	"linux-kernel" <linux-kernel@vger.kernel.org>,
-	"linux-fsdevel" <linux-fsdevel@vger.kernel.org>,
-	"linux-api" <linux-api@vger.kernel.org>,
-	"Arnd Bergmann" <arnd@arndb.de>, "Andy Lutomirski" <luto@kernel.org>,
-	"Thomas Gleixner" <tglx@kernel.org>,
-	"Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-	"Dave Hansen" <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
-	"Jonathan Corbet" <corbet@lwn.net>,
-	"Shuah Khan" <skhan@linuxfoundation.org>,
-	"Alexander Viro" <viro@zeniv.linux.org.uk>,
-	"Kees Cook" <kees@kernel.org>,
-	"Sergei Zimmerman" <sergei@zimmerman.foo>,
-	"Farid Zakaria" <farid.m.zakaria@gmail.com>
-Message-ID: <19f2d49d806.2efa03c49662153.3517116418763791597@linux.beauty>
-In-Reply-To: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
-References: <a49ce818-f38d-41b0-bbf7-80b8aad998b1@app.fastmail.com>
-Subject: Re: [RFC] Null Namespaces
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LZJFcthH"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-84780c95e2eso1094693b3a.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 04 Jul 2026 07:47:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783176445; x=1783781245; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=q/toZW9ACpEDlU3/MZ7E+GMiXFZ3Ph30hMbw/9t5kqk=;
+        b=LZJFcthH1MjEBKq9EyDWZJ1zmd/nKQERynnnNg1ZMz6YOISDLULzfVvqS1uwtqMLMn
+         1YYxf6AqgM1/K+G8o78Jl4dXoAj2aVlGEBQCibOOvY9veAATBNSLaVBAwk87O7YnfKq1
+         xwlKIAhM7Kto1wGu4MDzrPNz4oKdfah3ab3R9jMxKrlTkQRhrDTxO4DP0T3m3OBBBBje
+         ET2djXwRWWgFPWZ6YKp9mzJZAOO82EbQRX/rq41JFBYaXv0V9pSbdkSq+BcgJ1u+mRrg
+         TVLghgUv5cNWo+hmtkrufP/JfsGrCaAJ7zokJA6jIR+RM80RiMY0dYoAdDm3F5ADYe+0
+         44TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783176445; x=1783781245;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q/toZW9ACpEDlU3/MZ7E+GMiXFZ3Ph30hMbw/9t5kqk=;
+        b=FQsQ1AeQwa0+SgtrJJrQHeyQJ/yHqw4jD+BhClAwOYHn/BTv1cApXi6YpzlMNNfLJt
+         k8Oqf+4srbJK2R1Y1ho5Vgu20thTWLucdwVpy7Vr8djA6TeCBxOqiCENFtWctGTe5Y3K
+         kqLbZx4YF2uJ8YcGPEguB9UWocVvGGOFL0RYso5va5KSiW1oMqKFMz+laocIeYYp0bPL
+         m995/KDVawZ/6sGOCxnAhP+AbtmeryojuG3TaUe6ckI80lSev/4WnwLl3gQFMRQ94Bzw
+         eP0g73OJ5EagtBoxLWpWNbMFbkbrfZEWKZqDJ8jhJ22ZXpHDZ630BYmlx0uDL7XuebMr
+         9kFg==
+X-Gm-Message-State: AOJu0Yz3NYuWKX0aDzoSAdxIhyOa2KI35FuMABNa20nuHILy95Z2BRx4
+	Fij4knJRa95HYqQU93OdoBDK/+0a8e4JP7PHBsFZk7tl/VV4riYy1mE7
+X-Gm-Gg: AfdE7cnMjQgRVCW5M/Kc7riyFsrun7PgeuvKdCnXrtrNErkiPbX7PUgfYZtE0u+8SVa
+	p/8P446WVqxGSfHTq9L8t3WH/ffdf3WB9ddm2shboxRl28zC/yV7M2ZHwcAFuhnjSgQzW43ZcZP
+	i3FibQt5s3QGRBhPXp7a/QKRd/LfXnKLZS5ben5FxK2dU3JDDytPm9qB6+mwy2YzHON9AA1OxPA
+	pz7mvK4XCwBgCN2QXHo1G8X+L8xIwd6WeCMm1o0TgpCE35Me65pP7ya6vaw6rDaLqd+aSj1ml1K
+	LByqoNF3Uz8sAoNQMAAFVuSPZRdtxf1zhpZ2wKS2uGewrif8TtWfSleBINLb+KVKJxRi+2YnUe+
+	mo9lZlS1SlOoun+ytVNaceRhhIiWegbuSdYmoA5ereAF5igIqF2z3g07ZOrsl6o5V2qFTuMYLkr
+	GPKCfX0Rqj5Q==
+X-Received: by 2002:a05:6a00:8d1:b0:846:169c:d815 with SMTP id d2e1a72fcca58-847f6fa81f3mr3617443b3a.60.1783176445109;
+        Sat, 04 Jul 2026 07:47:25 -0700 (PDT)
+Received: from ubuntu.. ([2405:201:8026:213e:8cdb:2215:c871:e5f])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6dddf8bsm1315445b3a.61.2026.07.04.07.47.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Jul 2026 07:47:24 -0700 (PDT)
+From: mdshahid03@gmail.com
+To: Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mohammad Shahid <mdshahid03@gmail.com>
+Subject: [PATCH] ntfs: dir: use kmemdup() instead of kmalloc() and memcpy()
+Date: Sat,  4 Jul 2026 20:16:54 +0530
+Message-ID: <20260704144654.126437-1-mdshahid03@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Transfer-Encoding: 8bit
 
-Hi John,
+From: Mohammad Shahid <mdshahid03@gmail.com>
 
-Sorry for the silence. I got pulled into some work stuff recently and
-only caught up with these threads now. I still have not studied every
-patch line by line, but I wanted to say that I really appreciate you
-pushing on this.
+Use kmemdup() instead of a separate kmalloc() and memcpy()
+pair, simplifying the code while preserving the existing
+behavior.
 
-The embryonic-process framing lines up well with the direction I have
-been trying to move toward after the earlier feedback: make the
-not-yet-runnable state explicit, and keep task creation separate from the
-state installed into the new task.
+This issue was reported by memdup.cocci.
 
-For my next process-builder RFC, I plan to keep the first step small: a
-pidfd-based builder for posix_spawn-style semantics, with limited action
-support; it will not yet have the pristine/no-source backend.=20
-So cwd/root, non-CLOEXEC fds, and
-other selected source state can still be inherited unless actions or
-attributes say otherwise.
+Signed-off-by: Mohammad Shahid <mdshahid03@gmail.com>
+---
+ fs/ntfs/dir.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-I think the lower-authority/null-namespace side should be an explicit
-mode, not the default for the posix_spawn-compatible path. Otherwise it
-would change existing expectations around cwd/root, inherited fds, and
-other source state.
-
-Longer term, I would like to add that lower-authority side as follow-up
-work: pristine/no-source process creation, where resources are installed
-deliberately instead of starting from the parent's fs/fd/mm state. I had
-an earlier experimental local branch that tried to separate pristine task
-allocation from source-state installation, but that is not the RFC I plan
-to send first.
-
-For that later mode, Christian's nullfs/failfs direction also looks like
-the more practical way to express the low-authority fs state.
-
-Thanks again for pushing this forward.
-
-Regards,
-Li=E2=80=8B
-
+diff --git a/fs/ntfs/dir.c b/fs/ntfs/dir.c
+index 4b6bd5f30c65..df94603ec102 100644
+--- a/fs/ntfs/dir.c
++++ b/fs/ntfs/dir.c
+@@ -959,13 +959,14 @@ static int ntfs_readdir(struct file *file, struct dir_context *actor)
+ 			 */
+ 			private = file->private_data;
+ 			kfree(private->key);
+-			private->key = kmalloc(le16_to_cpu(next->key_length), GFP_KERNEL);
++			private->key = kmemdup(&next->key.file_name,
++					le16_to_cpu(next->key_length),
++					GFP_KERNEL);
+ 			if (!private->key) {
+ 				err = -ENOMEM;
+ 				goto out;
+ 			}
+ 
+-			memcpy(private->key, &next->key.file_name, le16_to_cpu(next->key_length));
+ 			private->key_length = next->key_length;
+ 			break;
+ 		}
+-- 
+2.43.0
 
