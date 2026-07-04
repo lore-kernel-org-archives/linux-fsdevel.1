@@ -1,326 +1,130 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFC12F6596
-	for <linux-fsdevel@vger.kernel.org>; Fri,  3 Jul 2026 19:08:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783105698; cv=none; b=qUQSkISZt8FoHn15H3xHuOUb1YZUMaAPASKDqPL9OoNn2leJPtjpQYJhFiXVWQVXvDIiHk3TAGjOibaicCw+rhnOE1+kH/1LU54BDB4QmoigniFER+te0+d8dFJHSAmHYLZYCPKQqIWevVaR+n0IRkR1pB3xpDu2w28q/TItzTw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783105698; c=relaxed/simple;
-	bh=e5BqYn9wHF2Ld/RRtFFEJL7hi18fIddMxA6pOUJx4iU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=NEl///zgppSo1jdy28qvBP3Km7srDgSSoBlLECqzC7fN+G8o/lv8VSXFF9Gtlm7/evSLULdpYrLGwdXcSPN5WWFGyrxRcMt//vl5ASt+XOdH9sRjNSW31A4GXxabizr/07SAigqZcCwM7M0Ku6oRKhDvLhZmj0OMBmr/6eXmfII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=bVZAwTUx; arc=none smtp.client-ip=74.125.224.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AEAB288BA
+	for <linux-fsdevel@vger.kernel.org>; Sat,  4 Jul 2026 00:07:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783123651; cv=pass; b=qVjTJKYanH9WLKLQZQUanvoP2fDJu3Aey4YGQyNjfCpGjwcUs7eq328iym0NmIEgutjUVwmeO+owXTN48tw1vHIJ/LhhtyCeh+sEXU/hS9nHWbtimZ9oESleujxbZ6Ipy78qjIReDz8pKT4aGt8s6Ksuwqwm7fE1/Rx3KYGpu68=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783123651; c=relaxed/simple;
+	bh=vDHlcWmL4Cd5UT42ugQTjRnKNbXE5dy2ocFAsQoM96Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LD72R5dNcYbvQvGNyUWFSlZy8w+vPXzyEERDZDpCZWU89J9xzBFz773aNWu92FTbA5Y91A05WUqv9N5bAPcIF3W2aqKkLQWbLFvLtb1qxhub41QWuh1I/YBlJDTQfgzygnGVC+1un5ArVc+qLzyrou9A4aMhHhqu96zD38dgGgU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ki+A0bbK; arc=pass smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="bVZAwTUx"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-664db84f074so997613d50.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Jul 2026 12:08:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ki+A0bbK"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4728c12ba97so636608f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Jul 2026 17:07:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783123648; cv=none;
+        d=google.com; s=arc-20260327;
+        b=n/JZst18Ud5ZX8nEd7Gkznd/s4S3BZPqS3jexXjLWP69xYzkKnr4liIkJCP0Jb3wde
+         jVioOA7JcuoUrAW3soh8BZjR6WGQqdPo71rpnXNUh077oykPq/fieoBzl7Cv6+vqW84R
+         9nNgzGk0vpbjjsoYeVMpJ/NZ7+Yri9OQIO8Sad2Koo53W53WOsQL6BFn8QlizrhFL7Sd
+         Hpuc87FKA6k5kpNuqpFOOtOp9i4mnQj38hc42ptl/AUHywYvWg/O0KdU0PAyx8YGblgR
+         y0YXoGioLhCxQtRttPXRKFAZzv6ERh+7daSKG3j6G+H5QD1TreGDNdVv2iSpTBOgwJLO
+         0/pA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=vDHlcWmL4Cd5UT42ugQTjRnKNbXE5dy2ocFAsQoM96Q=;
+        fh=NsbnGy4a1ce/VhLcLW8RU5+LZ6NRp8I/uFKcdwqwAfE=;
+        b=rxWeu/2OQFQ4AniO5A1cFKhSvKs+kPxMp31EWQ9CwN+fhA9Ga5pa7LG89lnKwQH6ZX
+         5oxk1IKkhF22++oa6RzKD70TEw9EjZyss2ARmySXHd/ZiGrdwx4mgEY74Jduji93BuZl
+         Wj9jVHArAhwYyMFjrt6buiyprVB3ZBNAyw+yz09lnmZ7QFwmMt2T5Rmz8VrgPj132aNt
+         55IzZPUr2di4nEVMy267+9lkWUWGCOYKKeHZIaa8MDvFNbgLSLHfunfxRCsKzMC24636
+         S5annAlY/kPcfSzJTub2xgXoF2SyDUL/YM6Ey+3RBOC5rGPmReiDFIT5vMDxxdXVNp2L
+         IB6w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1783105695; x=1783710495; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=N0meiPLPJp8cTrqmLd8F8mhyoylaiQ+uixkllcFYx4k=;
-        b=bVZAwTUxCRANVc1P4Bf3WBgokMTMwwj4OZmtXk1mFBIlbDhtfDD84ymfm5FL68nFuu
-         WpXEX2AGy0AXXqSUp5AgEcx1o5TZAU9DySCVWdnKToOJpsXEgrDJKjUWvQTc89G0RNbO
-         MSu5oH+/EkGAdXQbpPDuLGd6VtSYHSOerwvwhw11A90ouJdrRac27NneXLaWMOwdRFwn
-         M/JVmuZj+90Fat/KbQ+fyb5AW0mNBilAjfxD9ueWN1wZZRLUMH+5nT1w8naqRlJFY0or
-         ry5DgiJVJz24nJlRlLfG9V3/N47O7adupMFcsAdtrAuU6SpaDyXq8x4g49tl71wxpfji
-         vI8Q==
+        d=gmail.com; s=20251104; t=1783123648; x=1783728448; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vDHlcWmL4Cd5UT42ugQTjRnKNbXE5dy2ocFAsQoM96Q=;
+        b=Ki+A0bbKzGZisB5V1frmhFAWaHUmml0lSbQaVT4Wc5AmhzhtZiLEbRZGydmphq8WNu
+         WrbBGAVeEXZVheyQIXek9+iwrKEFyjDmDNjeQ1/NyvUuQ5dsYdUtXTjABn+tjaAB/nM+
+         S0Wt95GY8YCt3jDhTRz8W7Q1099fwMbIhKWJ932bivc1pLQOIYh19ZE3SztF0jA7Ml2b
+         XH+TxsMIt1sDuEMNW3dxNJALZl6oiW0wYrC4CsLSyo2jPbJpAZNQcObp88gjMG61DavX
+         GCmbL0ElaaG9yqIIMsqfxzSqiMiROvFy0wb9rXwTnnpTlND5XlVL6vJf6zgLpsXYLko+
+         RYjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783105695; x=1783710495;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=N0meiPLPJp8cTrqmLd8F8mhyoylaiQ+uixkllcFYx4k=;
-        b=cKUuZQZg8rdaLsxYzl+uNaRVHA5Pt0g97EIIDH1RoJqRiCsHTAi5wYpzvbhM6UwQ2G
-         Dp5XtoRT0+O8hbdBLG1jPbus+X8zUYac6S+pTv3dn7dhlvFG+tsdoWZ56ZLWlFFm54xh
-         rvWE52Gb0mr64AE773u6pN7NU0aIlmyiZ0/M+/+E6JmnKfaaTMoj2gk/jhbnlROQyTQl
-         90Bn0YsuFMETTVtMQUT4zysohUis92dOhkrPNYS2umZc7IBqN2TGbPpJl9yMYZWpAdsD
-         ziejSTfWRmbUIMkXwMUzJeqGAoEV8oLAY2ox80U4axx06Jtsgm/ynQ3G+Z2a1Sx6d/Zj
-         92fw==
-X-Forwarded-Encrypted: i=1; AHgh+RrWwK8xMhZYkBPixIOt5o2zOOvubnLNegwkaj0v9XqVh6rE227Y7NMtBuQTSyqp5B3qJX4SOLkYz+ZyV6k4@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjwDlZklWGQh57SLqU7v9mW3+1jNu5CSouu1iy7/obS25c4WoW
-	2BccEVoYui+sqkwHi2NRhrih2sFNH+fy9li/m7vuIJKBpOV3Fq9Gwm3jX3Vlzsd+7FS6cTy8TOB
-	ZO93CbQS/YA==
-X-Gm-Gg: AfdE7clpFtptxVuxRvJaWY9hX/qym+U/BYC6VJODy5aAhQIH+so3jkJEhh9x3BYKjWK
-	S43nmGTDS7HOxLrikMq/eDyJK4ZcmTbCtrkEu1uySZJFsxvyzFsTxAEe33ztcOVoRgoRfMfAzxw
-	m796oedoZ4Ua40qpEqtd5zZsxiZxFPIyPu8W1LGu1YlMH4qpr6tTWzcMUI/LdC6qavrv9sCgNoo
-	QrxBB7ofNAhhQg4J80BuCNTf8azriEoF0xfd3iISnZcfraRMGr8vNXQc3g61Qh0vMKYHbUJe23+
-	LLvNL7X/DMcHk9/9v2N8q4eEwp7evxO6jaxG5V3BtPPzh6sWDgbbnhbkRMX9ZezP8kLo0qXZ1R7
-	L7eUsdlEKjt36cr7+PSCZngbCpiGgNQewOrXAXvYgXsycuIFl4qwH2DdEiXWXrSfv0jFdXZQ37s
-	zPFLHuxwuyq/wG5XDEBYNQE/fzZ0QfHrEHby7W7i+g8h71Tq005mVkc5bNmoSZ6uz30VE8qEtVX
-	It07rMuKoigRoorSvccX2kCsiV2mmwzYfGC/mjRrIzDvUwjISoBNKc9M+kHxl65UmfUo0I4hkz2
-	bh14R0fgTjYwoGPZ
-X-Received: by 2002:a05:690e:14c6:b0:663:593b:e30d with SMTP id 956f58d0204a3-66652e8999cmr315259d50.34.1783105695301;
-        Fri, 03 Jul 2026 12:08:15 -0700 (PDT)
-Received: from ?IPv6:2600:1700:6476:1430:682a:9cbb:a4fb:99f8? ([2600:1700:6476:1430:682a:9cbb:a4fb:99f8])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-666405289f2sm1159596d50.7.2026.07.03.12.08.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 12:08:14 -0700 (PDT)
-Message-ID: <466d084104280fd5feced09a54662a30e4b9b739.camel@dubeyko.com>
-Subject: Re: [PATCH v2] hfsplus: validate thread record before delete key
- rebuild
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Kyle Zeng <kylebot@openai.com>, linux-fsdevel@vger.kernel.org
-Cc: outbounddisclosures@openai.com
-Date: Fri, 03 Jul 2026 12:08:13 -0700
-In-Reply-To: <deaf9198e4e937310f92001628e48bb9d8b88844.camel@dubeyko.com>
-References: <20260701063519.9447-1-kylebot@openai.com>
-	 <deaf9198e4e937310f92001628e48bb9d8b88844.camel@dubeyko.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+        d=1e100.net; s=20251104; t=1783123648; x=1783728448;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=vDHlcWmL4Cd5UT42ugQTjRnKNbXE5dy2ocFAsQoM96Q=;
+        b=QVL//oBlkx+RoDvXOK5HeiH+1ic1kX3su9vqHucOYOuvGEKFlK2jEHMlvIZjX4yZWn
+         LDTpejXDyXrR4RluptdGamsXann4L0UIUBR71i5fiH9jqfMs5Xg0AAUJrMNxxiYu1tom
+         sf6uEO2U2wYF6GSAjgEQX0WLnRgxg1iNd8KANEUkuMjz1vSPFDPaiXZ37lnH68jJdbhh
+         NZJNQBUosg5NHMwu/obYgHzM2Ls75C3qmhx1tUex7rKmsFR212BxvH4DRXnmEoWE6DPI
+         T0hSoZ/+zLf5W5oH/lfIzuEXJ0xFvK+7HsNt/XfpvabI3AYTM+ovDE+8SToR8z7zc5yw
+         w00Q==
+X-Forwarded-Encrypted: i=1; AHgh+RpcqUck9j95JtC8H361ZqmpYqTHBt059QDA3FpRBgINgAfHgHKrd2Afi7ePRBukHuohUFG9r/PgpGksUvTc@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2GW6gGNnbR6PJIQ2DpDXfyqlk2hY1aREiFXqqV/nlK3im8mDS
+	mrEQ6/zaT4Nb8wjih4fJ5EicowWcYU3XsJrSAvBlIhmyoTEAQ92lkRGjbVQGD0qtCC/NawBXPGA
+	T/jMW2LeSLu3kWb+UczRd8KUUAa9xChOICyfVtAg=
+X-Gm-Gg: AfdE7cl2RL8X3A+KJh4eggEHmy/mFJXCuoVlerCH9YPcKQrhqqbnxtsBWwqC88QzYVO
+	8ilwM7gx8XXGYoZ9Qo9UtcYElVUfAmlgmvs0iFs1IncTP38JmZ5fvoGhlV2B+9d360b8EEziuPQ
+	gmlZbKEaYAUCgbeQ+oRB2zagGRZGR3/jj/B6KwvyQGqnXt5zTJxwvDXij+YB65CwlCJ8PnpULQX
+	rF+GS0S0Pf1eQHdu5Wc26HcKdPDz4PxYg4KnBZz6TiuRTEyTWg69BJ4t6InpXZAlE59O/2hQtX+
+	jyGVdMMyfWtiDC51ke6xavIo3bYtA9lgtKHPR3eGfcRFjUr1CwSe
+X-Received: by 2002:a5d:64c8:0:b0:472:c426:2ce9 with SMTP id
+ ffacd0b85a97d-47aa9699811mr1527073f8f.12.1783123647923; Fri, 03 Jul 2026
+ 17:07:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260701000949.1666714-1-joannelkoong@gmail.com>
+ <20260701000949.1666714-13-joannelkoong@gmail.com> <CAHc6FU76J-YYRd2B=ZPN2DMabQjkzgG9qSzbP_S1s9AsSJNh=w@mail.gmail.com>
+In-Reply-To: <CAHc6FU76J-YYRd2B=ZPN2DMabQjkzgG9qSzbP_S1s9AsSJNh=w@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Fri, 3 Jul 2026 17:07:15 -0700
+X-Gm-Features: AVVi8CdQdofMwGUqV4tTaAHxeI2fygjInGMJJOumzbFcOuGU31GOE644YhYA5nA
+Message-ID: <CAJnrk1YmAjfSvkX5M0mu_ts_7APbp+Zfrz0KU6BMgM5fxN568g@mail.gmail.com>
+Subject: Re: [PATCH v2 12/18] gfs2: convert iomap ops to ->iomap_next()
+To: Andreas Gruenbacher <agruenba@redhat.com>
+Cc: brauner@kernel.org, hch@lst.de, djwong@kernel.org, willy@infradead.org, 
+	hsiangkao@linux.alibaba.com, linux-fsdevel@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, 
+	"open list:GFS2 FILE SYSTEM" <gfs2@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Kyle,
+On Fri, Jul 3, 2026 at 4:45=E2=80=AFAM Andreas Gruenbacher <agruenba@redhat=
+.com> wrote:
+>
+> Joanne,
+>
+> you say in the cover letter that
+>
+> >This series is submitted against Christian's vfs iomap tree, and is base=
+d
+> > on top of the current head of his tree (commit f2727952b21d1).
+>
+> which repository and branch is that? It's not vfs.iomap in
+> git://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git; I don't
+> have a proper merge point.
 
-The xfestests haven't revealed any new issues. So, patch looks good
-but, please, check my remarks below. I see some logical issues in the
-patch that needs to be reworked from my point of view.
+Hi Andreas,
 
-On Thu, 2026-07-02 at 17:13 -0700, Viacheslav Dubeyko wrote:
-> On Wed, 2026-07-01 at 00:35 -0600, Kyle Zeng wrote:
-> > hfsplus_delete_cat() is called with str =3D=3D NULL when the last open
-> > reference to an unlinked HFS+ hardlink backing inode is closed. In
-> > that
-> > case, the function finds the catalog thread by CNID and rebuilds
-> > the
-> > catalog key from thread.nodeName.
-> >=20
-> > That reconstruction path reads thread.nodeName.length directly from
-> > the
-> > catalog B-tree into fd.search_key and then copies length * 2 bytes
-> > into
-> > fd.search_key->cat.name.unicode. It does not first check that the
-> > found
-> > record is a thread record, that the record size matches the thread
-> > name
-> > length, or that nodeName.length fits in the fixed HFS+ catalog key
-> > buffer.
-> >=20
-> > A corrupted image can therefore provide an oversized thread name
-> > length
-> > and make hfs_bnode_read() write past the catalog search-key
-> > allocation.
-> >=20
-> > Read the CNID record through hfsplus_brec_read_cat(), which
-> > performs
-> > the
-> > hfs_brec_find() lookup via hfs_brec_read() before validating the
-> > catalog
-> > record. Reject non-thread records and explicitly bound
-> > nodeName.length
-> > before building the delete key from the validated thread name.
-> >=20
-> > Factor the existing thread-type and name-length checks into shared
-> > helpers so hfsplus_find_cat() and hfsplus_delete_cat() use the same
-> > validation.
-> >=20
-> > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> > Assisted-by: Codex:gpt-5.5
-> > Signed-off-by: Kyle Zeng <kylebot@openai.com>
-> > ---
-> > =C2=A0fs/hfsplus/catalog.c=C2=A0=C2=A0=C2=A0 | 38 +++++++++++++++++++++=
-+---------------
-> > -
-> > =C2=A0fs/hfsplus/hfsplus_fs.h | 11 +++++++++++
-> > =C2=A02 files changed, 33 insertions(+), 16 deletions(-)
-> >=20
-> > diff --git a/fs/hfsplus/catalog.c b/fs/hfsplus/catalog.c
-> > index 776ce36cf076..c57c3bbb8143 100644
-> > --- a/fs/hfsplus/catalog.c
-> > +++ b/fs/hfsplus/catalog.c
-> > @@ -196,20 +196,20 @@ int hfsplus_find_cat(struct super_block *sb,
-> > u32 cnid,
-> > =C2=A0{
-> > =C2=A0	hfsplus_cat_entry tmp =3D {0};
-> > =C2=A0	int err;
-> > -	u16 type;
-> > +	u16 entry_type;
->=20
-> I think that this change is not good. The name type is good enough
-> and
-> it is shorter one. It is not critical remark but this change doesn't
-> make sense to me.
->=20
-> > =C2=A0
-> > =C2=A0	hfsplus_cat_build_key_with_cnid(sb, fd->search_key, cnid);
-> > =C2=A0	err =3D hfsplus_brec_read_cat(fd, &tmp);
-> > =C2=A0	if (err)
-> > =C2=A0		return err;
-> > =C2=A0
-> > -	type =3D be16_to_cpu(tmp.type);
-> > -	if (type !=3D HFSPLUS_FOLDER_THREAD && type !=3D
-> > HFSPLUS_FILE_THREAD) {
-> > +	entry_type =3D be16_to_cpu(tmp.type);
-> > +	if (!is_hfsplus_thread_type(entry_type)) {
-> > =C2=A0		pr_err("found bad thread record in catalog\n");
-> > =C2=A0		return -EIO;
-> > =C2=A0	}
-> > =C2=A0
-> > -	if (be16_to_cpu(tmp.thread.nodeName.length) > 255) {
-> > +	if
-> > (!is_hfsplus_name_length_valid(tmp.thread.nodeName.length)) {
-> > =C2=A0		pr_err("catalog name length corrupted\n");
-> > =C2=A0		return -EIO;
-> > =C2=A0	}
-> > @@ -350,23 +350,29 @@ int hfsplus_delete_cat(u32 cnid, struct inode
-> > *dir, const struct qstr *str)
-> > =C2=A0		goto out;
-> > =C2=A0
-> > =C2=A0	if (!str) {
-> > -		int len;
-> > +		hfsplus_cat_entry entry =3D {0};
-> > +		u16 entry_type;
-> > =C2=A0
-> > =C2=A0		hfsplus_cat_build_key_with_cnid(sb, fd.search_key,
-> > cnid);
-> > -		err =3D hfs_brec_find(&fd, hfs_find_rec_by_key);
-> > +		err =3D hfsplus_brec_read_cat(&fd, &entry);
-> > =C2=A0		if (err)
-> > =C2=A0			goto out;
-> > =C2=A0
-> > -		off =3D fd.entryoffset +
-> > -			offsetof(struct hfsplus_cat_thread,
-> > nodeName);
-> > -		fd.search_key->cat.parent =3D cpu_to_be32(dir-
-> > >i_ino);
-> > -		hfs_bnode_read(fd.bnode,
-> > -			&fd.search_key->cat.name.length, off, 2);
-> > -		len =3D be16_to_cpu(fd.search_key->cat.name.length)
-> > *
-> > 2;
-> > -		hfs_bnode_read(fd.bnode,
-> > -			&fd.search_key->cat.name.unicode,
-> > -			off + 2, len);
-> > -		fd.search_key->key_len =3D cpu_to_be16(6 + len);
-> > +		entry_type =3D be16_to_cpu(entry.type);
-> > +		if (!is_hfsplus_thread_type(entry_type)) {
-> > +			pr_err("found bad thread record in
-> > catalog\n");
-> > +			err =3D -EIO;
-> > +			goto out;
-> > +		}
-> > +
-> > +		if
-> > (!is_hfsplus_name_length_valid(entry.thread.nodeName.length)) {
-> > +			pr_err("catalog name length corrupted\n");
-> > +			err =3D -EIO;
-> > +			goto out;
-> > +		}
-> > +
-> > +		hfsplus_cat_build_key_uni(fd.search_key, dir-
-> > >i_ino,
-> > +					=C2=A0 &entry.thread.nodeName);
-> > =C2=A0	} else {
-> > =C2=A0		err =3D hfsplus_cat_build_key(sb, fd.search_key,
-> > dir-
-> > > i_ino, str);
-> > =C2=A0		if (unlikely(err))
-> > diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
-> > index ec04b82ad927..b954b45a1003 100644
-> > --- a/fs/hfsplus/hfsplus_fs.h
-> > +++ b/fs/hfsplus/hfsplus_fs.h
-> > @@ -521,6 +521,17 @@ static inline u32
-> > hfsplus_cat_thread_size(const
-> > struct hfsplus_cat_thread *threa
-> > =C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 be16_to_cpu(thread->nodeNam=
-e.length) *
-> > sizeof(hfsplus_unichr);
-> > =C2=A0}
-> > =C2=A0
-> > +static inline bool is_hfsplus_thread_type(u16 entry_type)
-
-First of all, HFS and HFS+ both use the thread records. Also,
-is_hfsplus_thread_type() sounds slightly confusing. So, I suggest to
-use is_hfs_thread_record_type() name. First of all, we are checking the
-thread record type. And, secondly, we can re-use this function in the
-future. The difference is that HFS uses HFS_CDR_THD/HFS_CDR_FTH
-constants for thread records.
-
-> > +{
-> > +	return entry_type =3D=3D HFSPLUS_FOLDER_THREAD ||
-> > +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 entry_type =3D=3D HFSPLUS_FILE_T=
-HREAD;
-> > +}
-> > +
-> > +static inline bool is_hfsplus_name_length_valid(__be16
-> > name_length)
-> > +{
-> > +	return be16_to_cpu(name_length) <=3D HFSPLUS_MAX_STRLEN;
-
-After some consideration, I cannot accept
-is_hfsplus_name_length_valid() as a completely correct check. Because,
-even if name_length is smaller than HFSPLUS_MAX_STRLEN, then it doesn't
-mean that we haven't a record corruption. Because, the name_length can
-be smaller one that HFSPLUS_MAX_STRLEN but still bigger one that the
-real length of the name or the length of record itself. Also, xattr
-name cannot be bigger than HFSPLUS_ATTR_MAX_STRLEN (127) but it still
-HFS+ name. So, I think we need to rework the logic of this function to
-check the name length more carefully. And I believe that function name
-needs to be reworked too slightly.
+This is on the vfs-7.3.iomap branch [1] on the vfs tree. This was on
+top of commit f2727952b21d1 ("iomap: add a separate bio_set for
+iomap_split_ioend") but it looks like that branch has since been
+rebased, as I don't see that commit hash there anymore. If it makes it
+easier, I've pushed the changes to a github repo [2] that's on top of
+v7.2-rc1 in the main linux tree. Sorry for the confusion, I'll include
+a link to a pullable branch in future versions.
 
 Thanks,
-Slava.
+Joanne
 
-> > +}
-> > +
-> > =C2=A0int hfsplus_brec_read_cat(struct hfs_find_data *fd,
-> > hfsplus_cat_entry *entry);
-> > =C2=A0
-> > =C2=A0/*
->=20
->=20
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/log/?h=3Dvf=
+s-7.3.iomap
+[2] https://github.com/joannekoong/linux/commits/iomap_iter_next_v2/
