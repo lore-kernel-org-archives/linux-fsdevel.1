@@ -1,392 +1,115 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42F6823504B
-	for <linux-fsdevel@vger.kernel.org>; Sat,  4 Jul 2026 02:34:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0623E28CF77;
+	Sat,  4 Jul 2026 04:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783132463; cv=none; b=e4fojtt34H+G+t58dJUJ+Wi+nCaoC9vP7GLYmzsKqLgQh22tqgClER+CK+2MQXcX4xpSYKtGejZpoE7Bcoke588oKtIOCmiNS2K0D4eBRJDcymFjw7PGLw7zVZTKQ/EqB3dO3yE8BfdrJD2HrvY7ZKAp8IvtcOAfBpOwuZGXRKg=
+	t=1783139896; cv=none; b=m+yxxha2ZjlCaLS3/JPwJQ4cs8n+2ufD7vI3THEmshcQjP4EQTzLyy32pWvHkkzM1YTd+RXT0Mab2D6LRGzrBS0IsiKDXkcMEvTNHEJSP6DnGzIwco72kB0b5ULO854SH5u3Fw8GASSfeF9KtT50b2hGlQlILAz88xuXbkC4BdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783132463; c=relaxed/simple;
-	bh=pGsoEyAm3bZoDe6VREwnlPvdgL3+EACVmm0N6rqdyTs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rg8Z8FS6AOZ2ro+YF24eVU7AO2AGhW0lPnag2B4ayqdSc5n2Sl/ZcHAB3oFKGfbz1+iemkME9oW0x6PMauPgygrZLg+ycsWCtRFA9s732AHbNN0m7yVIoB6JT0bSUdP4Y3XdWzkeIHljTEgrnxMTS0cwDhVKCYE0ObX2FWbk8kE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kY4UdbFU; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783139896; c=relaxed/simple;
+	bh=yRJWIPYU7x9O4o82CkNjHV3Q+ojcQHdhKbof/8IUxkI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AyhRY0e0tksHKei9UsszKPgE0ycNqZcf5OgxyZ19KwbpUqRaUE3/xZh4qWzKsUGJMcDAs8b8XiJyko9Z74noHoOTCNCkLTBj6LR3idUljpMRDjzA3FPLNdSN1CExdF1pPiyNs/IUNgW4qAFNcG6/LPNW6a5QeXfIh7r7lBfT9nI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DXfbiV6g; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kY4UdbFU"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2ca1479dfe0so12392765ad.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 03 Jul 2026 19:34:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783132460; x=1783737260; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=D5gdjEAhM6JnJ4nxg59m1hX+aKZvrIYJN+Eey2wy5DM=;
-        b=kY4UdbFUIypbpfqJAB+JcvrY3g4hBcno+TfXGLUcuJaWqbKp8EDs7wQ8Ey8Vk5n+Q4
-         uC4str+IUQAAUEnJGfltJDbeqjrWao2jSYALWRHIg+9p/FZSrlECH/iyQO4kYMxLT13S
-         MsL/x7w6xmGHvhBuory7KATiEAMkC0/mC4bknm/U/vJkHZ/mGVZ1gIiu1ZWv9wiO/k7X
-         zFH711XdP8vKZ1sLelYVDw4G4Fp/WKbSp8JiKK1F7dvLJmYks2GTg8Vm9kZYSDrO7KGd
-         vrZ85g+at45RF0cq6CCG1uyv/lRfNznE94JHYe/cN+E7/9HOBNIfOXvFn03iEyDsaOsk
-         7QQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783132460; x=1783737260;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=D5gdjEAhM6JnJ4nxg59m1hX+aKZvrIYJN+Eey2wy5DM=;
-        b=Cf76YKUIFu7pcSQdKZMuwt9LEXjSYFTV4T1xft6Ecc+5Ag9OxBbiNO0rspQTnpO+1m
-         K2k14Y8its5onVR8N63o/ex4ibQ5Kn7ab4eJX6tBn8juhypTAPc1Wl/5xTzZjvPNH8Zf
-         nSXFPQ2kfiuLd5UkZLgxQpVuiH0iyQZZ4J7I6tgWO2MtyujQpqr2YCurS2wLpAGK3dhl
-         vfSUugCkEbwfbqsahMF2NA3RfyEw/xh0ZdZutdjNZ18XMkFIr9jYV7K1KH1Nrwkk2Mfe
-         teBOyeTA4OJZy+nvHAIGbCBGmv+olkky8d7N9Nh4ScGZtpCOX7EPi73hXLyQgSpRgUGV
-         2tNA==
-X-Forwarded-Encrypted: i=1; AHgh+Rpr/x+xrCVE/DoEKpAAgjnqVdWHJnZoxO6oYaDqgQkg4LAFxLoYa59cFJDlDIGtwrIZ3Mp3N9u3k1Em0K33@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwIu9YmgdzO/jVvHslOClS+9B9+KX/ADH7YXBMtlaNaowJctmN
-	YQlfZbKSI5K52MrZ7T25px2C/aAGdtbwgfhmWkCSXT2WKI65NPeLZUOB
-X-Gm-Gg: AfdE7ck2xYoOimYloLuW7vs7zGoldebmH/ERYBlgLX3pFuDTHWTjiMyJd18gE7LQCZE
-	uQa4eYpeJWhf4MRpsADVVFNfp1iIcbYJyeQiuWcHROMc9l+7+OH224i8HWWfOHpE1DZn/K5O2w1
-	XN/roY/s7QCZNx/tns5UXBl1PRykFID0uDjdMZUgTlXpBGfRicsQgvVEGK/nrOjobX6s0BRQ1pJ
-	SqvawdGIsuB/tTorJyFK8h5McRvbtqTetrUZ+VRrSmnkKJjeHI6WA1oSpMzmCk6/KhdD8s4guvz
-	EqXd0je2fbYua2FZrxgakllJORs1zq7YjTgyz1WEUj4HWIsMHwgr2KQC/KXualK02Zs8Aj74ow6
-	MTsAOq4avHJdzefDQYI+MI+dEvA4LdQfbrXff2ptZrEv7nTqPx1E2VoMnkco6uUNeHJLWysxkfj
-	AMVz7KsZ2WUEIjCBvV84n9hz6GzsCcstzI
-X-Received: by 2002:a17:903:230b:b0:2c9:de53:f84f with SMTP id d9443c01a7336-2cbb9e4dd31mr15058825ad.19.1783132460069;
-        Fri, 03 Jul 2026 19:34:20 -0700 (PDT)
-Received: from [100.125.248.95] ([124.70.231.46])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cad712b12fsm16798695ad.25.2026.07.03.19.34.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jul 2026 19:34:19 -0700 (PDT)
-Message-ID: <d30ebe91-a5e4-4ee8-a3f7-c965e623535f@gmail.com>
-Date: Sat, 4 Jul 2026 10:34:07 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DXfbiV6g"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id F35141F000E9;
+	Sat,  4 Jul 2026 04:38:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783139889;
+	bh=qRAmcRU3owZQdAAKakvkU8W3SwpcXOWxnb6DylVdk9c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=DXfbiV6gKXNj8Wvs9hw5qkDLynuSYspyuLQhy00fnh1MqDD/O1hx1PQASm1qyaIDy
+	 diUZyrCsQRk1bp93hnlAfbd1FTZT6khHhBvtenlfMxl0CuH6U/Na71wHsu9K0f4fZn
+	 UXwB4GH0XiZ3KdAAqrbQHIvWhTmfpjGsW7mj/f31qSQnQ9LH6XUGPKYrHNf5/AZVVw
+	 D2atEWFNjynMkgF0r00OkSjCntE8Wccsc9OXtF0Pb5Yo56hhKTK71daRZSpVB0zg4H
+	 BsP41jGwa8i/K0kfC9JXAKJ8h2da/qjBaWTXWEk9ZtRliYRbHiTK0ZNK85I5pw1YZv
+	 MkS/8BYN0ApjQ==
+Date: Fri, 3 Jul 2026 21:38:08 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>, brauner@kernel.org, willy@infradead.org,
+	hsiangkao@linux.alibaba.com, linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 18/18] Documentation: iomap: update docs to reflect
+ iomap_next model
+Message-ID: <20260704043808.GC9407@frogsfrogsfrogs>
+References: <20260701000949.1666714-1-joannelkoong@gmail.com>
+ <20260701000949.1666714-19-joannelkoong@gmail.com>
+ <20260702192658.GN9392@frogsfrogsfrogs>
+ <CAJnrk1YZQOQ0D6p6qYx1BPvKQaDgZsrKzLbGZzaH8tUkj_OoOQ@mail.gmail.com>
+ <20260703020020.GS9392@frogsfrogsfrogs>
+ <20260703124331.GA26440@lst.de>
+ <20260703161147.GB9407@frogsfrogsfrogs>
+ <CAJnrk1Zv8FEAD+T=1+ZLi6q8ztHVY1zray019QNdeLpYjTNQAQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 18/23] ext4: wait for ordered I/O in the iomap buffered
- I/O path
-To: Jan Kara <jack@suse.cz>
-Cc: Zhang Yi <yi.zhang@huaweicloud.com>, linux-ext4@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, tytso@mit.edu,
- adilger.kernel@dilger.ca, libaokun@linux.alibaba.com, ojaswin@linux.ibm.com,
- ritesh.list@gmail.com, djwong@kernel.org, hch@infradead.org,
- yi.zhang@huawei.com, yangerkun@huawei.com, yukuai@fnnas.com
-References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
- <20260511072344.191271-19-yi.zhang@huaweicloud.com>
- <k3w5c3cyg2py4kums7nhdwjg6b6pm43qtweepuolk57xtmnotz@yxkm2k6sqfc6>
- <9ab9281d-c5dc-4183-8bc9-b53b5a4ac9c0@gmail.com>
- <3n6ge2tfe4bd65eicc7l2csxkzupcjtdtc4ojpl6bvtf7cwll6@sxmlt3uciw4c>
- <8999aa70-073c-47f9-ae6e-39af3cc1fe32@gmail.com>
- <c6zpjk3gml5lj72cagu7sncswqeea2e3h7gc2ie5qnwwe6qdft@6qoaz7zccmem>
-Content-Language: en-US
-From: Zhang Yi <yizhang089@gmail.com>
-In-Reply-To: <c6zpjk3gml5lj72cagu7sncswqeea2e3h7gc2ie5qnwwe6qdft@6qoaz7zccmem>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1Zv8FEAD+T=1+ZLi6q8ztHVY1zray019QNdeLpYjTNQAQ@mail.gmail.com>
 
-On 7/2/2026 10:20 PM, Jan Kara wrote:
-> On Tue 30-06-26 20:06:55, Zhang Yi wrote:
->> On 6/25/2026 5:42 PM, Jan Kara wrote:
->>> On Mon 22-06-26 11:32:16, Zhang Yi wrote:
->>>> On 6/18/2026 9:48 PM, Jan Kara wrote:
->>>>> On Mon 11-05-26 15:23:38, Zhang Yi wrote:
->>>>>> From: Zhang Yi <yi.zhang@huawei.com>
->>>>>>
->>>>>> For append writes, wait for ordered I/O to complete before updating
->>>>>> i_disksize. This ensures that zeroed data is flushed to disk before the
->>>>>> metadata update, preventing stale data from being exposed during
->>>>>> unaligned post-EOF append writes.
->>>>>>
->>>>>> Suggested-by: Jan Kara <jack@suse.cz>
->>>>>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->>>>>
->>>>> Frankly, this all looks too complex to me. Plus your are adding 32-bytes to
->>>>> struct ext4_inode_info which isn't great either. Why don't you just do
->>>>> filemap_fdatawait() for the byte at old i_disksize and be done with it?
->>>>>
->>>>> I believe we have to simplify this. All this complexity (and thus
->>>>> maintenance burden) across several patches for the corner case of zeroing
->>>>> tail block on extention is in my opinion difficult to justify.
->>>>>
->>>>> 								Honza
->>>>
->>>> Hi, Jan!
->>>>
->>>> Thanks for the review. I understand the concern about complexity and the
->>>> 32-byte increase to ext4_inode_info. I tried using
->>>> filemap_fdatawait_range() as you suggested, but found two issues where
->>>> this solution doesn't work.
->>>>
->>>> 1. ioend worker deadlock
->>>>
->>>> Since worker concurrency resources are limited, we cannot wait for
->>>> another ioend worker to complete within one ioend worker with the same
->>>> work_struct. If the worker calls
->>>> filemap_fdatawait_range(byte_at_old_disksize) to wait for the zeroed
->>>> block's folio writeback to complete, it sleeps holding the only worker
->>>> slot. If the folio contains blocks requiring extent conversion, its
->>>> writeback bit is cleared by iomap_finish_ioends() running inside
->>>> another worker -- which can only run after the current worker finishes
->>>> its batch.
->>>>
->>>> Concretely:
->>>>     - Worker W1 processes ioend A, calls filemap_fdatawait_range() on
->>>>       the old EOF byte, sleeps.
->>>>     - The zeroed data is in ioend B. bio_endio defers it to
->>>>       i_iomap_ioend_list and calls queue_work().
->>>>     - queue_work() on i_iomap_ioend_work is idempotent: it returns false
->>>>       because the work is currently executing (even though sleeping).
->>>>     - ioend B sits in the list, never gets processed.
->>>>     - The folio writeback bit is only cleared by processing ioend B.
->>>>     - W1 sleeps forever -> deadlock.
->>>
->>> Yes, good point. We cannot wait for folio writeback completion from end_io
->>> processing for another folio.
->>>
->>>> Therefore, I think we have to put the wakeup logic in
->>>> ext4_iomap_end_bio() that runs in interrupt context without consuming
->>>> a worker thread. The ordered range tracking and wait queue are what
->>>> make that possible.
->>>>
->>>> 2. Truncate-up needs an accurate state query
->>>>
->>>> In the follow-up patch 19, ext4_set_inode_size() must make a precise
->>>> decision when updating i_disksize during truncate up.
->>>>
->>>> This needs a state query: "is there ordered zero I/O in flight right
->>>> now?" If yes, the i_disksize update is deferred to
->>>> ext4_iomap_wb_update_disksize(is_ordered=true), which advances
->>>> i_disksize to i_size when the ordered I/O completes. If no, we must
->>>> advance i_disksize immediately, otherwise we will lose the updating
->>>> forever.
->>>>
->>>> Therefore, we need to track the state of the ordered range. Simply
->>>> using filemap_fdatawait_range() doesn't work. i_ordered_len serves as
->>>> a maintained state flag that both the ioend completion path and the
->>>> setattr path can read atomically without sleeping.
->>>>
->>>> Suggestions?
->>>
->>> I see. Thanks for explanation. I went back to our discussion back from
->>> February to remind myself about the constraints on the tail block zeroing
->>> and the i_disksize update mechanism. And in the light of complexity of the
->>> current mechanism, I think we've discarded the following possibility too
->>> easily:
->>>
->>> * On file extend / truncate up just zero tail folio in the page cache, mark
->>>     it dirty, keep i_disksize at old value, update i_size to the new value,
->>>     add inode to orphan list.
->>>     If the i_disksize was block aligned (and so we skip zeroing), we just
->>>     update i_disksize rightaway.
->>>
->>> * In io end processing if the folio for which we end io has a block which
->>>     straddles i_disksize, we update i_disksize to current i_size. We defer
->>>     removing inode from orphan list e.g. to file close time (doing it from
->>>     end_io processing is problematic locking wise as we need i_rwsem for it).
->>>
->>> This is a very simple scheme with very good performace. It makes sure stale
->>> data in the tail block cannot be seen on disk after a crash.
->>
->> Hmm, I think this solution has a problem. Since i_disksize is advanced
->> to i_size only when the ioend covering the i_disksize block completes,
->> we must ensure that i_size is updated before the zeroed folio's
->> writeback completes. Otherwise the ioend worker reads the old i_size,
->> advances i_disksize to the old value (a no-op), and i_disksize stays
->> stale forever after i_size is updated.
->>
->> Currently, neither truncate-up nor file-extend paths guarantee this
->> ordering -- in both, ext4_block_zero_eof() runs before the i_size
->> update.
+On Fri, Jul 03, 2026 at 05:34:59PM -0700, Joanne Koong wrote:
+> On Fri, Jul 3, 2026 at 9:11 AM Darrick J. Wong <djwong@kernel.org> wrote:
+> >
+> > On Fri, Jul 03, 2026 at 02:43:31PM +0200, Christoph Hellwig wrote:
+> > > On Thu, Jul 02, 2026 at 07:00:20PM -0700, Darrick J. Wong wrote:
+> > > > The ->begin method can still set iomap::private and the ->end method can
+> > > > dispose of it, right?  Oh, wait, no, that doesn't work because you're
+> > > > talking about ->begin/->end passing something to the next ->begin.
+> > >
+> > > Should we move ->private from struct iomap to struct iomap_iter?
+> > > That'll deal with the constness and the fact that private data
+> > > really is a per-operation thing.
 > 
-> Good point, that needs to be handled.
+> I'm not sure I understand. Doesn't struct iomap_iter already have a
+> private field that holds caller-supplied per-operation context?
+> afaics, the users of iomap->private (gfs2, ntfs3, fuse-dax) do use it
+> for per-mapping data and release it in the same iteration.
+
+Oh right, iomap_iter::private is a private pointer that the filesystem
+can sometimes set to pass per-file-operation data to ->iomap_{begin,end}
+... that is tortuously extracted from the iomap_iter via the iomap
+pointer.
+
+iomap::private is a private pointer that the filesystem can set to pass
+per-mapping data from ->iomap_begin to ->iomap_end.
+
+IOWS, never mind, I'm babbling nonsense.
+
+--D
+
+> > I dunno -- towards the end of the fuse-iomap development work I actually
+> > had started using iomap.private to store per-mapping private data.  But
+> > that work is dead now, so that's not a strong argument.
+> >
+> > > That also reminds me that now that we actually still keep the low-level
+> > > begin/end ops we need to switch them to a calling convention that
+> > > passes the iter instead of the ugly container_of.  This is something
+> > > I wanted deferred until we get the iter conversion, but it turns out
+> > > that now leaves them untouched..
 > 
->> For truncate-up and fallocate, we might be able to split
->> ext4_update_inode_size() / ext4_set_inode_size() so that i_size is
->> updated before ext4_block_zero_eof(), and then decide whether to
->> update i_disksize based on whether i_disksize is block-aligned. I'm
->> not yet sure what side effects this reordering would have, but I feel
->> uneasy about this.
->>
->> The append-write case is hard to solve. We can't know the final i_size
->> before the write completes, so we can't update i_size ahead of
->> ext4_block_zero_eof(). When the zeroed folio is later written back, it's
->> treated as an ordinary overwriting write -- i_disksize is not advanced.
->> And when the subsequent buffered-write data is written back, i_disksize
->> still isn't advanced either. The size update is lost.
+> That's a good point. Do you think it'd be better to include those
+> changes as part of this series or do that as a separate follow-up
+> series that targets the same merge window timeline as this one?
 > 
-> One thing we need to do is to perform i_size updates in append write,
-> truncate, etc. under i_data_sem (similarly to i_disksize updates) so that
-> we can properly synchronize i_size + i_disksize updates from IO completion
-> and these paths.
+> >
+> > Oh, you mean changing the signature to:
+> >
+> > typedef int (iomap_begin_fn)(struct iomap_iter *iter...);
+> >
+> > instead of passing parts of the iter as separate arguments?
+> > Yeah, that would be nice.
 > 
-> How we could then handle the races between writeback of folio straddling
-> i_disksize and the i_size updates from the i_size extending paths is that
-> we'd set EXT4_STATE_DISKSIZE_GROW_PENDING bit when zeroing the folio
-> straddling i_disksize and clear this (under i_data_sem) in IO completion
-> when updating i_disksize to i_size. And when setting new i_size after
-> append write, truncate up, etc. we will also update i_disksize when this
-> state bit is not set (again all happening under i_data_sem). This should
-> also automatically include the case where i_disksize was block aligned and
-> thus no zeroing was needed and we need to update i_disksize together with
-> i_size. Sounds good?
+> Agreed.
 > 
-> 								Honza
-
-Ha, yeah. This overall looks good to me now. Your solution doesn't look
-significantly different from mine currently implementation. My approach
-uses i_ordered_len to precisely track the pending state of whether a
-zeroed folio is awaiting submission, while you choose to use
-EXT4_STATE_DISKSIZE_GROW_PENDING to represent this, which completely
-eliminates the 32-byte bloat in ext4_inode_info.
-
-However, I'd prefer we should still be able to keep the IO-completion
-waiting logic instead of adding the orphan list. We can precisely
-determine whether an IO is a "cross-i_disksize IO" by checking whether
-its position straddles i_disksize, and when it completes, wake up the
-worker waiting for it in interrupt context -- this won't deadlock (bio
-end_io doesn't consume a worker thread). Besides, Since we plan to use
-the EXT4_STATE_DISKSIZE_GROW_PENDING bit, the waiting doesn't require a
-dedicated wait queue; wait_on_bit / wake_up_bit(&ei->i_state_flags,
-EXT4_STATE_DISKSIZE_GROW_PENDING) should suffice.
-
-Moreover, if we use the orphan list approach, it seems difficult to
-decide when to release the orphan list entries. I'm concerned that
-there may be concurrency issues that would need careful consideration
-(For example, if the orphan list is deleted when the file is closed,
-then after the last opener closes the file, is it necessary to wait for
-synchronous writeback? If there is concurrent file expansion during the
-writeback process, are there concurrency issues?) The original waiting
-scheme is more straightforward to me.
-
-In short, For v5, I think we should:
-1) Track state via EXT4_STATE_DISKSIZE_GROW_PENDING instead of checking
-    whether i_ordered_len is 0;
-2) Determine the I/O type during writeback by checking i_disksize
-    instead of the i_ordered_lblk parameter;
-3) No longer use a dedicated wait queue; instead wait on
-    EXT4_STATE_DISKSIZE_GROW_PENDING.
-
-Thereforer, I think this solution won't simplify the logic much compared
-to my current one; it will likely still require changes in quite a few
-patches. The benefit is saving memory. I can't think of any other
-potential issues for now, So I'm glad to have a try.
-
-In addition, I'll need to address a few more details in v5:
-
-1. Following earlier discussions with Ojaswin, I plan to drop the
-    patch 07 "ext4: submit zeroed post-EOF data immediately in the iomap
-    buffered I/O path" in the next version -- no longer submitting I/O
-    immediately after zeroing the EOF block, to improve concurrency.
-    Then, in ext4_iomap_writepages() we check the writeback range:
-    if it behind the zeroed folio, we explicitly submit the zeroed folio
-    to prevent the appending I/O from being wait too long.
-
-2. We also need to handle the case where the zeroed folio is
-    truncated before being written back. In that case, i_disksize must
-    be updated directly since the folio no longer has a chance to be
-    written back.
-
-3. In the SYNC mode of fallocate and zero range, the zeroed folio
-    needs to be submitted synchronously as well; otherwise i_disksize
-    won't be updated immediately (which would violate SYNC semantics).
-
-
-What do you think?
-
-
-Besides, I've been revisiting why the iomap buffered I/O series disables
-data=ordered mode these days. If we can directly solve the deadlock
-problem in data=ordered mode, things would be much simpler. However,
-IIRC, I recall that Ted previously mentioned planning to deprecate the
-data=ordered mode in the future, so I'm not sure whether exploring this
-direction is worthwhile. In any case, let me share my thoughts:
-
-The root cause of this deadlock is that, during writeback, we cannot
-start a new handle/transaction without stalling on the currently
-committing transaction (T_N) to finish. Please see the Patch 07 with the
-deadlock call graph:
-
-  
-https://github.com/zhangyi089/linux/commit/c1a0e32ebf134411edb600b9b602b4af9420d25d
-
-When writeback tries to start T_{N+1}, it has two stalls involved:
-
-   [ T_0 | T_1 | ... | T_N-1 |  T_N  ]
-
-1. Waiting for the T_N to enter T_FLUSH if it has start committing, so a
-    new running transaction can be created. This is one-directional
-    waiting, not part of the deadlock cycle.
-2. Waiting for log space, which is where the deadlock cycle below
-    closes.
-
-    T_{N+1} start  ->  waits for  ->  T_0/1/... checkpoint completion
-    T_0 checkpoint ->  waits for  ->  T_N commit completion if it
-                                      contians the same bh
-    T_N commit     ->  waits for  ->  ordered data writeback
-    ordered writeback = T_{N+1} start path  ->  (cycle)
-
-Only case 2 is the actual deadlock. So what I'm thinking is could we try
-to break the cycle at the T_0 checkpoint -> T_N commit edge? That is
-when checkpoint hits a bh that T_N has adopted, write the pre-T_N
-contents to the original on-disk location instead of waiting for T_N to
-commit. To avoid excessive copying, this requires:
-
-- Identifying T_N as the last transaction that can start without
-   blocking on log space reclamation — once T_N starts, the remaining
-   log space is enough to fit T_N's own handle credits, but not enough to
-   fit another full j_max_transaction_buffers after that.
-- When T_N adopts a bh still on an older checkpoint list, snapshot the
-   bh contents at adoption time, so the older checkpoint can write that
-   snapshot to disk independently of T_N's commit progress.
-
-   [ T_0 | T_1 | ... | T_N-1 |    T_N    ]
-                             |<--     -->|  -> T_N
-                              (j_max_transaction_buffers)
-
-1. Mark T_N as the last TX that started without obstruction. When a new
-    handle joins a running transaction, evaluate whether the remaining
-    log space, after subtracting this handle's credits, can still fit a
-    full j_max_transaction_buffers. If not, the current transaction is
-    committed immediately and the handle joins the next one, which
-    becomes T_N — the last transaction that can start without log-space
-    reclamation, T_N is then marked.
-2. Snapshotting on adoption. In do_get_write_access(), when the current
-    handle's transaction is T_N and the bh is still on an older
-    checkpoint list, copy the bh contents into a new
-    jh->b_checkpoint_data pointer(like b_frozen_data does);
-3. Consuming the snapshot at checkpoint. In jbd2_log_do_checkpoint(),
-    the current branch that handles an adopted bh by starting and waiting
-    for T_N's commit is extended: if b_checkpoint_data is present, write
-    it to the original block location and remove the bh from the
-    checkpoint list — without waiting for T_N to commit.
-4. Releasing b_checkpoint_data. Freed when the bh is unlinked from its
-    checkpoint list or T_N is finished to commit.
-
-This keeps the snapshot granularity at a minimum, only T_N's adopted
-buffers get the extra copy. When metadata changes are light, T_N rarely
-adopts such buffers, and the cost is unnoticeable; when metadata changes
-are heavy , the dominant cost is the metadata writeback itself, and the
-extra in-memory copy is unlikely to be the bottleneck. However, the
-downside is that there may be some memory overhead, especially in the
-metadata-intensive cases.
-
-Another possible optimization: at T_N start, opportunistically try to
-push the checkpoint tail. If enough space is reclaimed that another full
-j_max_transaction_buffers fits after T_N's handle credits, T_N is no
-longer "last" and the snapshotting can be skipped entirely.
-
-If this scheme works, I think we should be able to completely remove the
-limitation that writeback cannot start a handle in data=ordered mode.
-This would also benefit the buffer_head path — perhaps we could
-deprecate the reserved handle mechanism.
-
-This is just a preliminary idea. What do you think of this approach?
-
-Thanks,
-Yl.
-
+> Thanks,
+> Joanne
