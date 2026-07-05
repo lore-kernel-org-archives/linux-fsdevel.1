@@ -1,83 +1,62 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34166211A14;
-	Sun,  5 Jul 2026 15:30:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36F87258EE9;
+	Sun,  5 Jul 2026 19:11:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783265462; cv=none; b=eBpsPC1EShbwAOqFWxl15RXNmp2XDXBx6L51ahuDbK6rYqCrQH3CKGsr0OlfQ1H+CzyYPp6pGfBclPY6i6XfX4+MvJUVpfjVUCA8XnXRRgy5L5gftolsp75PVkhzwgaM7t/jguLkHgbcpr+JqrnKRsGHV+k6qvImC5TjJoQOmKE=
+	t=1783278671; cv=none; b=h9QpTQZA0x1J0eO331NzwB694Pfx9NoQkRDf5rxJzzBMSvw9MJLrfifcXbaOJyQgiJ6SAJoGHj3ZDHvPFEciLjfMG2Y3KKIIeu00FE8hce9dKTwmS3GtvWvITGIn9uA2b4ByHnhguurcGUO8Dtz9Sb1nfbPH9UToqEMUre0bziA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783265462; c=relaxed/simple;
-	bh=KhaeSJ8H2dcBuR4zI/JKQBsMdLeiuOkRa7tc4VYCiZo=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=auBFHZ3XsIIf48y3gi7W/D8wU6frOLEN9NHg+k4XgtHvyNFP+ehDmI8RBiINdLKlq0JdEBR9HnAgGjHtoMczZAFXbNtl8a/Gv1H+kWc2cnqHhBRdHpggwIf/7/svRbxLYoGvhoi1MTL3KcbSsTO1Y09ftyYVPVZvoGfHkg+5fpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kEopeywY; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1783278671; c=relaxed/simple;
+	bh=nEbUL8VzNGr2cV2A+r8SXhMi1vSeK8Q4oSPypjUXT3c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nAMeDJSMyTCl5EdXUI6lc7W/RPlf9bxe+et+R3fLc1YIld7yeNbApOv9b3358Lg+b64q3dST0N5S4CFl9Vph0R20E4FhnUjz4L5Bn9qXqzzp2SHTm0hBGdJQQ2ksAyfYPrl88DrSppRGet8CxhyJ9jJlvKUkHwmzBf8P3P0LqXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SemxVThV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kEopeywY"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=WL4lDo2YGrNjgURafNClWjvuTQQ9JaX4Xxd5HPv51NY=; b=kEopeywYiDYHx+3LQ6UHzOQZQD
-	XL9oVHpIFpuVb2IKU7K2tcedGpxmL6bpHjloHu80THx396ATta6u3BK6wE9sdXxgGt+PWRzE6NTSW
-	CaiHkX0101iM1k1xneknqs7Sy+P1GjuTTbngy+6KMgXtK13sNhRc6gD/oYQJYrYu+8B5tKAwNzW0y
-	CzkUwUBI4ivUqO0pyKqw+92QbdCjusQqMe4km6SXbtb2he9F/bI7uNZ14ROSBcfv0GbJdZUHio3oz
-	12p+2o2sTd6ui7+Jv2raiXwqtYmaihrtUueyRhxT1df+LgLwRVj/fFlnSruVjwozSKNJhtaM3RtJW
-	r2ee9snA==;
-Received: from [129.95.232.135] (helo=ehlo.thunderbird.net)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wgOnv-0000000EIsf-0UWY;
-	Sun, 05 Jul 2026 15:30:47 +0000
-Date: Sun, 05 Jul 2026 08:30:42 -0700
-From: Randy Dunlap <rdunlap@infradead.org>
-To: Yuhong Cheng <ceohunk@gmail.com>, corbet@lwn.net
-CC: linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_docs=3A_filesystems=3A_porting?=
- =?US-ASCII?Q?=3A_fix_spelling_of_returned_and_instead?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20260705072609.1692-1-ceohunk@gmail.com>
-References: <20260705072609.1692-1-ceohunk@gmail.com>
-Message-ID: <3009A727-CB8E-40FF-971A-E0FD4D955547@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SemxVThV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACE771F000E9;
+	Sun,  5 Jul 2026 19:11:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783278669;
+	bh=axwfpVNbAgEBwVQMUNeeaZnKAq8IlWldmJIEc03VvgU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=SemxVThVD2kkA0yw2lb5tTxJMQkt8Vkv1t5D1djaka36Y31B2hPpuBE0NzvXeOeJB
+	 7E6w+Mm6dXT7y+jg9B+prfb7kggOPQM3Pe3No3EOlSRtt3TJBoId9wDwDAK1rjD994
+	 8QneKpwpAPE3QFFrd8oFuodHD+eRQDBXF3u9Wsk0rCIKNRkiiJKws+6SPdDUvg9Ewt
+	 3MFrPO/NPvNJCsSyf5M9HBQq+CX62da97AmiYlh0NEIOMFb8/tm8JGSbffk1l6A+KJ
+	 oy/GU8cePEAuKzVHzUamSuhB5w6SyJLMOok3T4DZHXbkbpe3Cz97KkJLGeJiU3XXYH
+	 zbwSmfiXTH85Q==
+Date: Sun, 5 Jul 2026 12:11:07 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: linux-fscrypt@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fscrypt: Use lock guards for mutexes
+Message-ID: <20260705191107.GA41916@quark>
+References: <20260618184852.3469301-1-ebiggers@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260618184852.3469301-1-ebiggers@kernel.org>
 
-On July 5, 2026 12:26:09 AM PDT, Yuhong Cheng <ceohunk@gmail=2Ecom> wrote:
->Fix the spelling of 'rreturned' and 'instread' in the LOOKUP_EXCL section=
-=2E
->
->Signed-off-by: Yuhong Cheng <ceohunk@gmail=2Ecom>
+On Thu, Jun 18, 2026 at 06:48:52PM +0000, Eric Biggers wrote:
+> Replace all remaining calls to mutex_lock() and mutex_unlock() in
+> fs/crypto/ with lock guards.  No functional change.
+> 
+> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+> ---
+> 
+> This is intended to be taken through the fscrypt tree for 7.3
+> 
+>  fs/crypto/crypto.c   | 13 ++++---------
+>  fs/crypto/keyring.c  |  3 +--
+>  fs/crypto/keysetup.c | 23 +++++++++++------------
+>  3 files changed, 16 insertions(+), 23 deletions(-)
 
-Acked-by: Randy Dunlap <rdunlap@infradead=2Eorg>
-Thanks=2E
+Applied to https://git.kernel.org/pub/scm/fs/fscrypt/linux.git/log/?h=for-next
 
->---
-> Documentation/filesystems/porting=2Erst | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
->diff --git a/Documentation/filesystems/porting=2Erst b/Documentation/file=
-systems/porting=2Erst
->index d13f0a23c=2E=2Ee040b0ff4 100644
->--- a/Documentation/filesystems/porting=2Erst
->+++ b/Documentation/filesystems/porting=2Erst
->@@ -1173,7 +1173,7 @@ these conditions don't require explicit checks:
->  - if LOOKUP_CREATE is NOT given, then the dentry won't be negative,
->    ERR_PTR(-ENOENT) is returned instead
->  - if LOOKUP_EXCL IS given, then the dentry won't be positive,
->-   ERR_PTR(-EEXIST) is rreturned instread
->+   ERR_PTR(-EEXIST) is returned instead
->=20
-> LOOKUP_EXCL now means "target must not exist"=2E  It can be combined wit=
-h
-> LOOK_CREATE or LOOKUP_RENAME_TARGET=2E
-
-
-~Randy
+- Eric
