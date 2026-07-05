@@ -1,69 +1,45 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF89713C918
-	for <linux-fsdevel@vger.kernel.org>; Sun,  5 Jul 2026 07:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C775419E7F7;
+	Sun,  5 Jul 2026 10:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783236387; cv=none; b=pESKVYkB/l/shlMJfSRnnPpVKzeKsIwODDXuQLsaeSrBgM8YK5IbkzAKkiyeKYlwgNB9zJuiNDbO1vNp24W2GmkNqqrLeeYWmxVLTV/9gRdrax4ubcCxPA30WzTSJorI59L27dDr+ZOCRXfsEMLdjnQtGW7jN3hYdPPbOgX/7cs=
+	t=1783246020; cv=none; b=mvXI3JeOCNWOXTm4SndfrFUQhV0mYMO35WgaKCFSToGZfqAlowkUQS9/W42URZ6G5Maaw51Mw4b2rYJP0jSIMo2YXjk+1Bx91ENTtRE7y7R2LSJGhx3CQZjnRkI8a9M+5GsVa6pH77QrulyGRdRBw8x3nXZ1ZJTBaKn7mN1x++w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783236387; c=relaxed/simple;
-	bh=cgPO41zzNjU6O93UEwyAVluafD2uWIUQA0Cpobu+O/0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J06WStzug/xmK17CMT1Ly/e+CdUNp56wooQG4M14yd1a0a0omXABeMRGFk95lIiUL71zjWntf3Do4RrIyUpVm+NHo/DnJqIUPjiUH/Ddt4lgVFx3L94qcCo9RIpuVx9l5Ic3dC/WL641Mg+ff1o+WaoiWM6BA1EEHwkRSdxfBug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mN0ofP31; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783246020; c=relaxed/simple;
+	bh=D/BslCccLispeoVpuIZDyoYMBtPgiDfj5O6/0eKk15o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rvvHoD7/Y3RuWeQbM9BI5wZCEVqvYt78lVF4hj7eml75WEozbRmvFG49SyIAaXAmB/pyymovp3RCZ/rCWhn+2bdpwJQjqiNIKwKatn8+N6wTt5Bj/gARFihf6ffqmI6ZTW1QryDAc5nmzBAunFFePvgJMeeSJeHRU6bgHUD45GY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smail.nju.edu.cn; spf=pass smtp.mailfrom=smail.nju.edu.cn; dkim=pass (1024-bit key) header.d=smail.nju.edu.cn header.i=@smail.nju.edu.cn header.b=pit0Hm+6; arc=none smtp.client-ip=54.204.34.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smail.nju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smail.nju.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mN0ofP31"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2cab973140bso23028515ad.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 05 Jul 2026 00:26:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783236385; x=1783841185; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FBdctp38/9wGuY0f0rzSmIXPq8MzNuRFKf2gmiFzvrY=;
-        b=mN0ofP31v7zgdXd+raxmbds9SWjevxNkHn8pZIe0Wc/YMfF11kb8NZI4hIvKOlacnn
-         uglQeW+9+WaSkKMlzya7XPgm6LtsXTyXzCj1wsVjz2f42DWjlTpea2SrJATBaA9PcQZV
-         VkVaS84lTtDkcgowXPj2OZmF0bnm6dCNUeefvf25nSPSdBsSoWhY2zbq1tERqQ1CniB7
-         RIyG4eoPHq9xIoYkNrrNX4bnusMdnPBfHRcHI+4YvBX1LHk91BTPgYoqOk/ngAZuLAXw
-         PtfF0PuDa2tFDU/rsrSRDoJcU62bcT0qiMFj80emNSQzWIYUsaUzsSytd5AjPH83nNJe
-         Ek7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783236385; x=1783841185;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FBdctp38/9wGuY0f0rzSmIXPq8MzNuRFKf2gmiFzvrY=;
-        b=J/YYwbteLctOv+Dyz4djWOYqsvcWX6w2aW4MAnaz8NGvgATx8Avl2emmfJyMPm6FzK
-         C7tkfuV0J7rktcq9cmxD/fd0Z5zYg/2HQxJ69Pu8dS4Ov2jJ3VgxT12Pg+JnTh5xA15k
-         XgS91d4yh1+uYl06lwVp6niksRJp60vcys6x8wH+yAYhAlqoYqKEzKc930T9SUFNld0n
-         x/cWTbn/axX1iAQ8gysDjdTzQzuq11nkKqQjtCgqTWnwUkCADMW9+Xni6T1WmMHn+v5S
-         fEZC+Klxy9qYAml9r41ZXPHB25buJ8CBSSiPntM+oEBa2E/+akLhz7aEMA90Hz4N/7dg
-         Fo2Q==
-X-Gm-Message-State: AOJu0YyDXtzGP3ScYtrHo0dav9FpV+DGsLC7MiUX9yEdozoHF+j3aqt/
-	DiOI1vlYTmzHvOfHZaUDGrzzUWqQQLp8aTbk88qEK2POLCTxKUH/EiVpGdmQ6QS6mMVl+g==
-X-Gm-Gg: AfdE7cn+69TfNBNACJ+fYvXzGJDKXSI7SKSkYw4qZY/DG12BiEQE/M6NE9NMywf3yKq
-	az6Vpf+9l1GUY5g42dQJo+jgzLXsAThT/IVfa+Z8lj7cfY+HPISK5gwC50Y1kKWwl7lHneb6UzS
-	uxRUz56jHA1t1N+Cq6p8RH/dKaalrE9BCgrMmhvPQ+JroPvlsSjjiW7Q/L2ziNWzcMozwTEpYK8
-	FnuG6CXXOMT710U4R2oDKLt2hwuTMWAwbBdTCNqAlVTLyftDfCXV3AMLHLW6OKek5rMpriSoeHJ
-	kmYNgIIhiZQiXkCu9zVsdEyrbI1kwgHWJ486sspeYLEDWLRDDYDAeGvonxAdoTnDBhFJgmQoNkZ
-	HSxhpyeWpUp4uKi8PE4vd1+3WsYh7evDrVCe+2UlG81gAyi7dH3PAgK4q+u4pqQZ3Lib6l0AWAU
-	MdXVHS1ScBedJ0xfNkwFj0
-X-Received: by 2002:a17:902:f68a:b0:2cb:2b50:d9e5 with SMTP id d9443c01a7336-2cbb9f06719mr61270415ad.45.1783236385283;
-        Sun, 05 Jul 2026 00:26:25 -0700 (PDT)
-Received: from localhost.localdomain ([138.199.21.246])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cad7765810sm31224625ad.53.2026.07.05.00.26.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2026 00:26:25 -0700 (PDT)
-From: Yuhong Cheng <ceohunk@gmail.com>
-To: corbet@lwn.net
+	dkim=pass (1024-bit key) header.d=smail.nju.edu.cn header.i=@smail.nju.edu.cn header.b="pit0Hm+6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smail.nju.edu.cn;
+	s=iohv2404; t=1783245981;
+	bh=Bu2RbYJiLRXJooGrlsiHZm0pAPVf7UmQEIwLmVCISpY=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=pit0Hm+6KsJ4dayrQL+VvG2+3KD8ZxRi3pWQGN0OtsYGaXr6eROce5d08yxZxtIIQ
+	 tkyz4mCBwgvDdLxaHG8SEVUooyVZARrFOBiCIfmyzcAO008+TSd613WyGLWrEfscHo
+	 hI8jjjzFqO+Pj7sLCzDD09txz0IpEivPrYY9ixVU=
+X-QQ-mid: esmtpgz13t1783245976tb64a4809
+X-QQ-Originating-IP: N2J/2ZOqWZo1Bb/znBgORj0PvU2aBr17tCYIibhWubM=
+Received: from hepeiyang-vm.wu.lxd ( [218.94.142.195])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Sun, 05 Jul 2026 18:06:14 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 14034554521175312704
+From: Peiyang He <peiyang_he@smail.nju.edu.cn>
+To: Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>
 Cc: linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Yuhong Cheng <ceohunk@gmail.com>
-Subject: [PATCH] docs: filesystems: porting: fix spelling of returned and instead
-Date: Sun,  5 Jul 2026 15:26:09 +0800
-Message-ID: <20260705072609.1692-1-ceohunk@gmail.com>
-X-Mailer: git-send-email 2.46.0.windows.1
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] ntfs: fix hole runlist memory leak in insert range error path
+Date: Sun,  5 Jul 2026 18:05:54 +0800
+Message-ID: <5A2D944D5FE68879+20260705100554.3797781-1-peiyang_he@smail.nju.edu.cn>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -71,27 +47,55 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:smail.nju.edu.cn:qybglogicsvrsz:qybglogicsvrsz4b-0
+X-QQ-XMAILINFO: NUTz4BkILuKLqvjEQlq56M9xIQjGP2kd/uKqIf5roOMUDuBaMg+zIZkd
+	vdyuNJ2qHsR8yhw1tHi4Rep2leNVrHUgufBRf8D72QSKRPEXvZeA4/jGJe+d8eNsWyKEbY0
+	NCkuWQ0gjZesQnBwtC+WR+vjX3X6pl0bp7chuJJa4nETfwbXhC62swxbAUooJjyIQSrq8QT
+	7F/jMxbFGxkru9RE79s1cjNeSVAPS1X6ltFd8eDeSwM77MG7zH7RXRs/94wD6v5HPVGylgQ
+	Mn9rY5tixIdAFWYAUHiUWKj9Q6sTomWoqiJo/hqGV8VioWCkFrXo2tY1aIP5wiw67b5FXPP
+	SR0FZoMa8+7PJ9uTkaqkIQySAt6EXTc7EWgUWApd0pfUKwEXlFb3nffAI63IDtPpHRhToy/
+	6Rt87HqcGxljDqzZ54KKymhbWMEFUcKIsoBh9ME5NI8aZ4Lt7AnGoPiX7MYpIGF8a8VNBP8
+	dZo69XYMLYNxXIp2S7q0agwvud0dLVCoYTxDPVlcoWjVlF6FDoQF3mV6wfSZc5CnPjRb8yc
+	M5yfuttav+WY7kvpOrL7mRCq8gN9BCyPMqmltrkZyz1wH2AAF+qBilgVpa37zgrGEyR5WdW
+	zsoRK7/lPCMA1tFzGy8iRamOFAvKohd/5BV0HQOu1xOnMArCH7XDO9PadMitXpH+WPakBHN
+	uaIGGaSnL6kfevGPG0RTzJjxFCT2Vznpdv9eG5kn41HdsCWxtHHLpVrABu6fc6E3q7/M3JJ
+	Ffs9lb0UcAy+bSl1lX7G+75wHGEJ2TsfaPq/9MW2Nd+9Y+kR3DFgskTe8H8YBtuDx6fFkUq
+	HEBxlTDh1bbsktrOD120Ce/JtXRBfQzTFevfAbo0B/LmDshR1HmwtrPh9o8hkwCThlhRPuw
+	4CgsNJ06lPWjevRB+Yt+2i1dtcziqiKR1/zBVmLy4DB98Z4SYqKUntWm2DsyLw4XUJU99UJ
+	llq/LfdU8reEDW7OWXNEdzYDrSc2WD1kU2XD8mZQe2NRAkmXQMTFjKIKMTTHN2RPOIQ/yCF
+	N6MvrLBkz3P+l/Z4wJ
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+X-QQ-RECHKSPAM: 0
 
-Fix the spelling of 'rreturned' and 'instread' in the LOOKUP_EXCL section.
+ntfs_non_resident_attr_insert_range() allocates hole_rl before mapping the
+whole runlist. If ntfs_attr_map_whole_runlist() fails, the error path drops
+ni->runlist.lock and returns without freeing hole_rl. This causes memory leak
+of sizeof(*hole_rl) * 2 bytes.
 
-Signed-off-by: Yuhong Cheng <ceohunk@gmail.com>
+Fix this memory leak by freeing hole_rl before returning from that error path,
+matching the later error paths in the same function.
+
+Fixes: 495e90fa3348 ("ntfs: update attrib operations")
+Signed-off-by: Peiyang He <peiyang_he@smail.nju.edu.cn>
 ---
- Documentation/filesystems/porting.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/ntfs/attrib.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesystems/porting.rst
-index d13f0a23c..e040b0ff4 100644
---- a/Documentation/filesystems/porting.rst
-+++ b/Documentation/filesystems/porting.rst
-@@ -1173,7 +1173,7 @@ these conditions don't require explicit checks:
-  - if LOOKUP_CREATE is NOT given, then the dentry won't be negative,
-    ERR_PTR(-ENOENT) is returned instead
-  - if LOOKUP_EXCL IS given, then the dentry won't be positive,
--   ERR_PTR(-EEXIST) is rreturned instread
-+   ERR_PTR(-EEXIST) is returned instead
+diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
+index dd8828098511..55603df0a2ed 100644
+--- a/fs/ntfs/attrib.c
++++ b/fs/ntfs/attrib.c
+@@ -5325,6 +5325,7 @@ int ntfs_non_resident_attr_insert_range(struct ntfs_inode *ni, s64 start_vcn, s6
+ 	ret = ntfs_attr_map_whole_runlist(ni);
+ 	if (ret) {
+ 		up_write(&ni->runlist.lock);
++		kfree(hole_rl);
+ 		return ret;
+ 	}
  
- LOOKUP_EXCL now means "target must not exist".  It can be combined with
- LOOK_CREATE or LOOKUP_RENAME_TARGET.
+
+base-commit: 1a3746ccbb0a97bed3c06ccde6b880013b1dddc1
 -- 
-2.46.0.windows.1
+2.43.0
 
