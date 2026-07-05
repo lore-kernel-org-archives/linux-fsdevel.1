@@ -1,63 +1,77 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF83737F8A1
-	for <linux-fsdevel@vger.kernel.org>; Sun,  5 Jul 2026 12:38:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDB133F8D9
+	for <linux-fsdevel@vger.kernel.org>; Sun,  5 Jul 2026 12:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783255130; cv=none; b=P+VvVPLCAJKqp4GtOR/vlHsdovXlEkQ8QazYwluNWQVKSve+G0iRjmysBARG7biWXbltfc2RKorF6G8SUipmBsft01Sc2nePccnSOphj6qdHx3JbBPZWtuuJNsTQC8ZiZTlzs/FSdeb/zyGnNQ4uowfWn3MiwiX84mhT79OIsek=
+	t=1783256259; cv=none; b=JdpREuT7t6+LccIZAtikhozZAp9+hukHGvdbxYTEuKktcNgU5JGEtDgh+36J5TW7hq6f79HFT0jww3WrmzcLmdRLvpmVbP7gcCKgQOPTevOZrwwK/rUHp98vC2MdgBGb0WeNKX23qh5GRQjoCJ30AxAcNEQBJA5gu7f8tc4EuWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783255130; c=relaxed/simple;
-	bh=B56YrWWXw9P3iC5+z2vli1IqStsttZLxfEHKdn1H5WE=;
+	s=arc-20240116; t=1783256259; c=relaxed/simple;
+	bh=cW4B+RgqYWn7EqVQ/177xDYC+CH9X9rVzpcB0f1YwtY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EkEGTzjrtJoGzgvDh8NCRuswn1jwtP9mwEwjV/HhjdTiAZ6lObFqrHpT23K9RfwKui+YWyZc67BDgySUpZ6KoQraPXlrsDBrZXOZUo6OaHzbIlkHo11cVYoAlZV+5TFTAHqvqAinZr5xQlRaoRUlm5MfgzXTtJhS2Suiiy7eYdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=p4AqOvhY; arc=none smtp.client-ip=195.121.94.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	 MIME-Version; b=JiDGM4AZlETGXn5XlWsCAkkq2WqNuv+5ZPY/gujvtuXxtKtBdESkXhmXuFSQKbyOHKSgEXVH0un6g4gxCu639IcXlIfmcC2RfkdV2kHXbfbz/da6WTf7taDzMv4Nc93Wh8Ibc+wSyuAMLSuRgnrTZtqLu0594l4Az0WRYm0hKvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QwWaUXgB; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="p4AqOvhY"
-X-KPN-MessageId: 4f3ce838-786e-11f1-8f53-005056992ed3
-Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 4f3ce838-786e-11f1-8f53-005056992ed3;
-	Sun, 05 Jul 2026 14:37:39 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QwWaUXgB"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-490cf3000f0so20648185e9.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 05 Jul 2026 05:57:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=mime-version:message-id:date:subject:to:from;
-	bh=/1jQMEOIMU0nG48WEssFJeubrMgO1kzgAe1EwRaHMOc=;
-	b=p4AqOvhYuGij/Ni0XsVcxtKRWBGBaRYRz9o5uJSIxBAu7CrVQ91KIrCgWf5STQy5Vjz4Po8WuONXA
-	 6CzIg9vy0X9+wym0CPI6510O80Ab+mLKBqbrMJYavQ8W8sZaRrCeQI/RFZ+V92xImiuSQ+3to8cj0l
-	 tRxFuAaNKWGwVuX/bb53o2R2yQTRn1Ph8P1Ug4uBN2Ts3p8N188GJ6+6xERGYBOHFVOWDG50Dfebua
-	 AWfkapcoCy6wnVaXdO8cJcSJ9keBzEABPTsxTsSRproWymrRM3tmKyZBtbl7WNp5l0EHRkK3+49TH7
-	 faudZf9uKkeFosylcBJLA3HRZ6ihMVw==
-X-KPN-MID: 33|veM4IDth/M3zn9qlpGqYQj9UZFnv4UeoQZf/DTv0qCMro9MXZzGHjA9fkeXw1Uo
- 0pCVYlx4K1vsMBg/g+3xZGJ+G9IC61N/4c0gJIRy9Hoc=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|zav5i++Omwc+d453UmZ/oLe4dX+gnS+sDM4VXX8q15bNrvPdgSxmmIW5mw485ca
- fHO3EyMEc3A8ohiui/VjXug==
-Received: from daedalus.home (unknown [178.231.11.83])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 4ef9d2fa-786e-11f1-807b-005056998788;
-	Sun, 05 Jul 2026 14:37:39 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>,
-	Aleksa Sarai <cyphar@cyphar.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>
-Cc: netdev@vger.kernel.org,
+        d=gmail.com; s=20251104; t=1783256257; x=1783861057; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lAYUJGMfYh/BJn1YwzwjYIE3heddiUOoScF80A+TDdQ=;
+        b=QwWaUXgBK8TTORURuP4nmX/x21HxeOy7FMPJfWg+ufwggRQfM8kl1/vdwaZXztJn4S
+         fYtWctdOyB05F37eEbCtvJxsvb+ONuFikaMt5M1Ap0oKkHf75B2NibjyUN3zDrrQjXbU
+         6+ADDMy7dHGVvWuuxEK2lr4eR+XJHcW4CG6qo48fn8M8pdPoKJ1btj3SWHRZ3oxo927W
+         Igq6eYaaM3bZhO07y6hRRiS2nI1+XvCLME0tLwqY2feCNFchTrynzj/pEt0D7oiiAs29
+         6dgMZD0m7QE3DiQwjI20VLPzxu0tTnxVxzE0v0L0W3LFdujSuh8jqog2slx7x8PSJzpY
+         X/bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783256257; x=1783861057;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lAYUJGMfYh/BJn1YwzwjYIE3heddiUOoScF80A+TDdQ=;
+        b=g4SZ/5Vfk8dtsaUJMBtPopnzwOvminAg6PdC2U4H3MADbcKnyj9cCaybtl27NSnOew
+         n0FQxfIfNijf59OzV7WKY3yU+MTuX130wkALeSrYNqaBYdn80mI6BM50Nd9ae1Bd5Tb6
+         CY0CmubDTgGGc6NjNpP1/VMWy6RGD5iExj2ngCkBpdDQoUgYaMDxI1AmIoYwYTfrBZ3k
+         VYaXmvIT9UYcT5/yL1M/hQoFYftjqNxd9xPOvnBkNHWgXKC95d7fiMsl9QOoAYhQ8el/
+         3Dia1KCbs0y8PfBkmHE/20qbbz1I49nCp3uX21jeW4BT3B8oZghOzGaNqb5lw4lkCJYB
+         0QCA==
+X-Forwarded-Encrypted: i=1; AFNElJ8GrdxFC63bm0kG9gfaoEkKO/VqA7tt41PGIGqBXJV0bcrrdfr9eyXR77LsIskJJsEpaWw8wCoG7QCGxk/1@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUiFeqUJq9myXXvjeDP9I6sLLxL6+ZSunoJO9Cj7q/rC4SmAfe
+	QtvAEalx+l8fAbh5xW1LP68BSSeZf9nmcRVoVNN2PqHQ0PI/mvxxvGBn
+X-Gm-Gg: AfdE7ckWGEz5MR6cWty+2CZ0dtvBt9RAdUOu7N550q4XH3UwH72mUMWu/OXDjhdVI8Z
+	fE0zTWEvlAC8/5yQkLP/qNTbqu9O2CG4rHZWWGMcyiD5qECz22SG2OTx+4qj0Xbu2UqqOW9+jT4
+	9UD/cUl6+IjYNVPv2PGOJrsdOopqVfsSwsKkA2E/wkfvEIralcSL2Zt8vOdWkNyoJIqSNIzoTmP
+	fnCqZjZN09F4iVS7PKDyo2waW38o7w9ASU7+Sjjaec0D8COip0Cfk5E0C0bH3b97Jjy9QU7OyLv
+	utNUKJ4zsJVePN7I9niqeY2yjwFOmqrCzxYUbYXHBYsfMXgzHDsddVwxUVINzdwlndH19km8KD/
+	c+yytCbWT3HmNcXDk2T1KH/qBAKbWsdVRlsfo26PNSice87jU+ydb4Xb2MJmTGB4yWeS3X9p9Ch
+	X2Eop8AwGd33fvj8RajRA=
+X-Received: by 2002:a05:600c:46cb:b0:490:9588:bdb6 with SMTP id 5b1f17b1804b1-493d11f6b4fmr86422645e9.33.1783256256490;
+        Sun, 05 Jul 2026 05:57:36 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47a9de1e736sm17876979f8f.7.2026.07.05.05.57.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 05 Jul 2026 05:57:36 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: brauner@kernel.org
+Cc: jack@suse.cz,
+	jannh@google.com,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Jori Koolstra <jkoolstra@xs4all.nl>
-Subject: [PATCH net-next v4 3/3] selftest: Add tests for useful handling of LSM denials on SCM_RIGHTS
-Date: Sun,  5 Jul 2026 14:38:26 +0200
-Message-ID: <20260705123826.3818443-4-jkoolstra@xs4all.nl>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260705123826.3818443-1-jkoolstra@xs4all.nl>
-References: <20260705123826.3818443-1-jkoolstra@xs4all.nl>
+	torvalds@linux-foundation.org,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH RFC v4 00/25] fs,kthread: start all kthreads in nullfs
+Date: Sun,  5 Jul 2026 15:57:13 +0300
+Message-ID: <20260705125714.764184-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260601-work-kthread-nullfs-v4-0-77ee053060e0@kernel.org>
+References: <20260601-work-kthread-nullfs-v4-0-77ee053060e0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -66,368 +80,34 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Tests SCM_RIGHTS fd passing on a socket with the new socket option
-SO_RIGHTS_NOTRUNC turned on. To hook into the security_file_receive()
-call, BPF is used. The BPF program shares a hashmap with userspace that
-lists the inos to be blocked (of the receiver tgid).
+Christian Brauner <brauner@kernel.org>:
+> So this is a bit of a crazy series. When the kernel is started it
+> roughly goes like this:
 
-Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
-Assisted-by: LLM # used LLM to get skeleton BPF and libbpf code
----
- .../testing/selftests/net/af_unix/.gitignore  |   2 +
- tools/testing/selftests/net/af_unix/Makefile  |   8 +
- .../net/af_unix/scm_rights_denial_lsm.bpf.c   |  36 +++
- .../net/af_unix/scm_rights_denial_lsm.c       | 263 ++++++++++++++++++
- 4 files changed, 309 insertions(+)
- create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c
- create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c
+You mention "nullfs" in comments. But we now have two nullfses:
+for kthreads and for userspace. And it is not obvious which you mean.
 
-diff --git a/tools/testing/selftests/net/af_unix/.gitignore b/tools/testing/selftests/net/af_unix/.gitignore
-index 240b26740c9e..5034482f8864 100644
---- a/tools/testing/selftests/net/af_unix/.gitignore
-+++ b/tools/testing/selftests/net/af_unix/.gitignore
-@@ -3,6 +3,8 @@ msg_oob
- scm_inq
- scm_pidfd
- scm_rights
-+scm_rights_denial_lsm
-+scm_rights_denial_lsm.bpf.o
- so_peek_off
- unix_connect
- unix_connreset
-diff --git a/tools/testing/selftests/net/af_unix/Makefile b/tools/testing/selftests/net/af_unix/Makefile
-index 4c0375e28bbe..594cd26ec398 100644
---- a/tools/testing/selftests/net/af_unix/Makefile
-+++ b/tools/testing/selftests/net/af_unix/Makefile
-@@ -11,9 +11,17 @@ TEST_GEN_PROGS := \
- 	scm_inq \
- 	scm_pidfd \
- 	scm_rights \
-+	scm_rights_denial_lsm \
- 	so_peek_off \
- 	unix_connect \
- 	unix_connreset \
- # end of TEST_GEN_PROGS
- 
-+TEST_GEN_FILES := scm_rights_denial_lsm.bpf.o
-+
- include ../../lib.mk
-+include ../bpf.mk
-+
-+$(OUTPUT)/scm_rights_denial_lsm: $(BPFOBJ)
-+$(OUTPUT)/scm_rights_denial_lsm: CFLAGS += -I$(SCRATCH_DIR)/include
-+$(OUTPUT)/scm_rights_denial_lsm: LDLIBS += -lelf -lz
-diff --git a/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c b/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c
-new file mode 100644
-index 000000000000..4f2414465bfd
---- /dev/null
-+++ b/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c
-@@ -0,0 +1,36 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/bpf.h>
-+#include <linux/errno.h>
-+#include <bpf/bpf_helpers.h>
-+#include <bpf/bpf_tracing.h>
-+
-+char _license[] SEC("license") = "GPL";
-+
-+struct inode {
-+	unsigned long i_ino;
-+} __attribute__((preserve_access_index));
-+
-+struct file {
-+	struct inode *f_inode;
-+} __attribute__((preserve_access_index));
-+
-+struct {
-+	__uint(type, BPF_MAP_TYPE_HASH);
-+	__uint(max_entries, 16);
-+	__type(key, __u64);	/* inode number */
-+	__type(value, __u32);	/* tgid of the receiver being tested */
-+} denied_inodes SEC(".maps");
-+
-+SEC("lsm/file_receive")
-+int BPF_PROG(scm_rights_deny, struct file *file)
+For example:
+
++ * Be aggressive about this: We simply reject operating on stale
++ * fs_struct state by reverting to nullfs. Every kworker that does
+
+
++void __init init_userspace_fs(void)
 +{
-+	__u32 tgid = bpf_get_current_pid_tgid() >> 32;
-+	__u64 ino = file->f_inode->i_ino;
-+	__u32 *owner;
++	struct mount *m;
++	struct path root;
 +
-+	owner = bpf_map_lookup_elem(&denied_inodes, &ino);
-+	if (owner && *owner == tgid)
-+		return -EPERM;
-+
-+	return 0;
-+}
-diff --git a/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c b/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c
-new file mode 100644
-index 000000000000..b8656de86efe
---- /dev/null
-+++ b/tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c
-@@ -0,0 +1,263 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <sys/socket.h>
-+#include <sys/stat.h>
-+#include <sys/types.h>
-+
-+#include <bpf/bpf.h>
-+#include <bpf/libbpf.h>
-+
-+#include "kselftest_harness.h"
-+
-+#ifndef SO_RIGHTS_NOTRUNC
-+#define SO_RIGHTS_NOTRUNC 85
-+#endif
-+
-+#define NR_FILES 2
-+
-+/* Per-file content, so a received fd can be matched to the file sent */
-+#define SECRET(n) "secret %d", (n)
-+
-+/* Indices into the socketpair */
-+#define SK_SENDER 0
-+#define SK_RECEIVER 1
-+
-+FIXTURE(scm_rights_denial_bpf)
-+{
-+	struct bpf_object *obj;
-+	struct bpf_link *link;
-+	int map_fd;
-+	int sk[2];
-+	int files[NR_FILES];
-+	__u64 inos[NR_FILES];
-+	char paths[NR_FILES][64];
-+};
-+
-+FIXTURE_SETUP(scm_rights_denial_bpf)
-+{
-+	struct bpf_program *prog;
-+	char lsms[256] = {};
-+	int i, fd;
-+
-+	if (geteuid() != 0)
-+		SKIP(return, "requires root");
-+
-+	fd = open("/sys/kernel/security/lsm", O_RDONLY);
-+	ASSERT_LE(0, fd);
-+	ASSERT_LT(0, read(fd, lsms, sizeof(lsms) - 1));
-+	close(fd);
-+
-+	if (!strstr(lsms, "bpf"))
-+		SKIP(return, "BPF LSM not active (boot with lsm=...,bpf)");
-+
-+	self->obj = bpf_object__open_file("scm_rights_denial_lsm.bpf.o", NULL);
-+	ASSERT_NE(NULL, self->obj);
-+	ASSERT_EQ(0, bpf_object__load(self->obj));
-+
-+	prog = bpf_object__find_program_by_name(self->obj, "scm_rights_deny");
-+	ASSERT_NE(NULL, prog);
-+
-+	self->link = bpf_program__attach_lsm(prog);
-+	ASSERT_NE(NULL, self->link);
-+
-+	self->map_fd = bpf_object__find_map_fd_by_name(self->obj,
-+						       "denied_inodes");
-+	ASSERT_LE(0, self->map_fd);
-+
-+	ASSERT_EQ(0, socketpair(AF_UNIX, SOCK_STREAM, 0, self->sk));
-+
-+	for (i = 0; i < NR_FILES; i++) {
-+		struct stat st;
-+
-+		snprintf(self->paths[i], sizeof(self->paths[i]),
-+			 "/tmp/scm_rights_denial_bpf.%d.XXXXXX", i);
-+		self->files[i] = mkstemp(self->paths[i]);
-+		ASSERT_LE(0, self->files[i]);
-+
-+		ASSERT_LT(0, dprintf(self->files[i], SECRET(i)));
-+
-+		ASSERT_EQ(0, fstat(self->files[i], &st));
-+		self->inos[i] = st.st_ino;
-+	}
-+}
-+
-+FIXTURE_TEARDOWN(scm_rights_denial_bpf)
-+{
-+	bpf_link__destroy(self->link);
-+	bpf_object__close(self->obj);
-+
-+	for (int i = 0; i < NR_FILES; i++) {
-+		if (self->files[i] >= 0) {
-+			close(self->files[i]);
-+			unlink(self->paths[i]);
-+		}
-+	}
-+
-+	close(self->sk[SK_SENDER]);
-+	close(self->sk[SK_RECEIVER]);
-+}
-+
-+static int deny_inode(int map_fd, __u64 ino)
-+{
-+	__u32 tgid = getpid();
-+	return bpf_map_update_elem(map_fd, &ino, &tgid, BPF_ANY);
-+}
-+
-+static int set_notrunc(int sk)
-+{
-+	int one = 1;
-+	return setsockopt(sk, SOL_SOCKET, SO_RIGHTS_NOTRUNC,
-+			  &one, sizeof(one));
-+}
-+
-+static int send_fds(int sk, int *fds, int n)
-+{
-+	char ctrl[CMSG_SPACE(NR_FILES * sizeof(int))] = {};
-+	char data = 'x';
-+	struct iovec iov = {
-+		.iov_base = &data,
-+		.iov_len = sizeof(data),
-+	};
-+	struct msghdr msg = {
-+		.msg_iov = &iov,
-+		.msg_iovlen = 1,
-+		.msg_control = ctrl,
-+		.msg_controllen = CMSG_SPACE(n * sizeof(int)),
-+	};
-+	struct cmsghdr *cmsg = CMSG_FIRSTHDR(&msg);
-+
-+	cmsg->cmsg_level = SOL_SOCKET;
-+	cmsg->cmsg_type = SCM_RIGHTS;
-+	cmsg->cmsg_len = CMSG_LEN(n * sizeof(int));
-+	memcpy(CMSG_DATA(cmsg), fds, n * sizeof(int));
-+
-+	return sendmsg(sk, &msg, 0);
-+}
-+
-+static int recv_fd_slots(int sk, int *slots, int *msg_flags)
-+{
-+	int nr_slots;
-+	char ctrl[CMSG_SPACE(NR_FILES * sizeof(int))];
-+	char data;
-+	struct iovec iov = {
-+		.iov_base = &data,
-+		.iov_len = sizeof(data),
-+	};
-+	struct msghdr msg = {
-+		.msg_iov = &iov,
-+		.msg_iovlen = 1,
-+		.msg_control = ctrl,
-+		.msg_controllen = sizeof(ctrl),
-+	};
-+	struct cmsghdr *cmsg;
-+
-+	if (recvmsg(sk, &msg, 0) < 0)
-+		return -1;
-+
-+	*msg_flags = msg.msg_flags;
-+
-+	cmsg = CMSG_FIRSTHDR(&msg);
-+	if (!cmsg)
-+		return 0;
-+
-+	nr_slots = (cmsg->cmsg_len - CMSG_LEN(0)) / sizeof(int);
-+	memcpy(slots, CMSG_DATA(cmsg), nr_slots * sizeof(int));
-+
-+	return nr_slots;
-+}
-+
-+/* Prove a received fd works by reading back the file's content. */
-+static int check_secret(int fd, int idx)
-+{
-+	char want[32], got[32] = {};
-+
-+	snprintf(want, sizeof(want), SECRET(idx));
-+	if (pread(fd, got, sizeof(got) - 1, 0) < 0)
-+		return -1;
-+
-+	return strcmp(want, got);
-+}
-+
-+TEST_F(scm_rights_denial_bpf, all_allowed)
-+{
-+	int slots[NR_FILES], nr_slots, flags, i;
-+
-+	ASSERT_EQ(0, set_notrunc(self->sk[SK_RECEIVER]));
-+	ASSERT_NE(-1, send_fds(self->sk[SK_SENDER], self->files, NR_FILES));
-+	nr_slots = recv_fd_slots(self->sk[SK_RECEIVER], slots, &flags);
-+
-+	ASSERT_EQ(NR_FILES, nr_slots);
-+	EXPECT_EQ(0, flags & MSG_CTRUNC);
-+
-+	for (i = 0; i < NR_FILES; i++) {
-+		ASSERT_LE(0, slots[i]);
-+		EXPECT_EQ(0, check_secret(slots[i], i));
-+		close(slots[i]);
-+	}
-+}
-+
-+TEST_F(scm_rights_denial_bpf, first_denied)
-+{
-+	int slots[NR_FILES], nr_slots, flags;
-+
-+	ASSERT_EQ(0, deny_inode(self->map_fd, self->inos[0]));
-+
-+	ASSERT_EQ(0, set_notrunc(self->sk[SK_RECEIVER]));
-+	ASSERT_NE(-1, send_fds(self->sk[SK_SENDER], self->files, NR_FILES));
-+	nr_slots = recv_fd_slots(self->sk[SK_RECEIVER], slots, &flags);
-+
-+	ASSERT_EQ(NR_FILES, nr_slots);
-+	EXPECT_EQ(0, flags & MSG_CTRUNC);
-+	EXPECT_EQ(-EPERM, slots[0]);
-+
-+	ASSERT_LE(0, slots[1]);
-+	EXPECT_EQ(0, check_secret(slots[1], 1));
-+	close(slots[1]);
-+}
-+
-+TEST_F(scm_rights_denial_bpf, all_denied)
-+{
-+	int slots[NR_FILES], nr_slots, flags, i;
-+
-+	for (i = 0; i < NR_FILES; i++)
-+		ASSERT_EQ(0, deny_inode(self->map_fd, self->inos[i]));
-+
-+	ASSERT_EQ(0, set_notrunc(self->sk[SK_RECEIVER]));
-+	ASSERT_NE(-1, send_fds(self->sk[SK_SENDER], self->files, NR_FILES));
-+	nr_slots = recv_fd_slots(self->sk[SK_RECEIVER], slots, &flags);
-+
-+	ASSERT_EQ(NR_FILES, nr_slots);
-+	EXPECT_EQ(0, flags & MSG_CTRUNC);
-+
-+	for (i = 0; i < NR_FILES; i++)
-+		EXPECT_EQ(-EPERM, slots[i]);
-+}
-+
-+TEST_F(scm_rights_denial_bpf, denied_without_notrunc)
-+{
-+	int slots[NR_FILES], nr_slots, flags;
-+
-+	/*
-+	 * Baseline behaviour without SO_RIGHTS_NOTRUNC: the fd array is
-+	 * truncated at the first denied fd and MSG_CTRUNC is set.
-+	 */
-+	ASSERT_EQ(0, deny_inode(self->map_fd, self->inos[1]));
-+
-+	ASSERT_NE(-1, send_fds(self->sk[SK_SENDER], self->files, NR_FILES));
-+	nr_slots = recv_fd_slots(self->sk[SK_RECEIVER], slots, &flags);
-+
-+	ASSERT_EQ(1, nr_slots);
-+	EXPECT_NE(0, flags & MSG_CTRUNC);
-+
-+	ASSERT_LE(0, slots[0]);
-+	EXPECT_EQ(0, check_secret(slots[0], 0));
-+	close(slots[0]);
-+}
-+
-+TEST_HARNESS_MAIN
++	/* Move PID 1 from nullfs into the initramfs. */
++	m = topmost_overmount(current->nsproxy->mnt_ns->root);
+
+
+So, please, create two terms for referring to these two nullfses and
+use them everywhere.
+
+Okay, I have to admit: I found two uses of "nullfs" in comments only.
+But I still think that having terminology is valuable. For example,
+for documentation.
+
 -- 
-2.55.0
-
+Askar Safin
