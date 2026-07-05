@@ -1,77 +1,60 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89BC43783AC
-	for <linux-fsdevel@vger.kernel.org>; Sun,  5 Jul 2026 12:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AAEE377575
+	for <linux-fsdevel@vger.kernel.org>; Sun,  5 Jul 2026 12:37:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783254920; cv=none; b=SbJgomcb7Ew58mPc0hbv4cIOEBbtp+Ct9oumCrzXrAJtdhoRXpA555q0hPBY4MlFNBLK/33TuowoIMxlYq+jlgQ+xjFQyW51yBvhM3v7Ate+bTWFt32hWozCk8fspRarRRIqxBnq3BLhTIqY70gl3FfO4GstMjjxlsWqalNLHJg=
+	t=1783255067; cv=none; b=TK63UmYpt7Ztu/ikPN6bOrC6uohfeXp7MOqpSVDAIM2DGBJz+xQprwsPB3VtqsgT08SaUi76MxpNPBjmizpqSnRaVdg2HG+btG6teGle59u/WkJ8nXXGLllngEiucydKh1rIN2X8Xh1eoiuSPCx+kz2sMLUNDmaIafATYl+vZjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783254920; c=relaxed/simple;
-	bh=og4tc1Ixbb1Lb87pDD0lVguCyg/WWoBV34QfrHngqM0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FhCtnKQtRsI4koLrJ+2gjZHeK5xLpCkinEIkzYxJfHfsPKolJUnMlkLuqnEWfGIfOJaNYC1SOowpPfuhWUxSPBvQqmqR+iXP3QAXo00T6WplHdbS1D0uzf2eGcd0aUnuKv/wrAkBk66IxPFpcSnP61gyhky5q/mK7stANkYDZyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C5G9fj/Q; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783255067; c=relaxed/simple;
+	bh=5528LQnXY4DgziEWBAr/+cyM2Z7L2cB6bboVdxg3mZ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CxGk8lyB/IsasK4MJzZcHvzJWhD2aIJYLov7rpsXk0L13Vukcun52PENF69NU+w0vOJrvOqixm/Oz19xYWjfSyu424xrPXzVQMQncczokcaBXhfrqWiSrruJBNs2XZBze22lxe1G213l+XhwI5knHHfdFSKsSU8rR2oc56Kmw44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=MWu0WN1D; arc=none smtp.client-ip=195.121.94.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C5G9fj/Q"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-490cf3000f0so20519515e9.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 05 Jul 2026 05:35:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="MWu0WN1D"
+X-KPN-MessageId: 4d355043-786e-11f1-9e8e-005056999439
+Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 4d355043-786e-11f1-9e8e-005056999439;
+	Sun, 05 Jul 2026 14:37:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783254918; x=1783859718; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wHxGta1pA0jKEWoTfFEAv0UuPjTotnZKIGieZiQ/ujc=;
-        b=C5G9fj/Qk4JA36wV8lVRwuNWzthXBpoHoiqfsxne1KU+UoDE2/HbqK4EVDUVkl0LdZ
-         uBhYLZdXuzWfnFtd/IT1nBeeMGHPI0XYiPiL395QwPFV6U8zoQAhRL2n0S1DLvU9GiZ5
-         ksuVUuN2rUsywHdiIqyCT2Yh1mP4oKBoBCIe6pF43dl0BM1suWy1Rn/RBD007sw8e3Ew
-         v/TCrJ5YJ88aych/qWH7ZHJHdQ0TzDmTnOkONOWBebHNED3LzEqvF6re5TrRa6Fq/eNx
-         rA2Ti3aO7PBhthvKO2sIZAj9G5SaGCT0Z83xWcOwAqga8mg21fraFy5gH7JhiCtDMVfE
-         49Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783254918; x=1783859718;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wHxGta1pA0jKEWoTfFEAv0UuPjTotnZKIGieZiQ/ujc=;
-        b=R4psmbOl1h+2vX4fv6N83pqQ9rRQLyGUAb1GN10q7GGO7SHz8EUvqMCJQwQ4anmPRe
-         jQtU9s4mfJ/M4Q/lN3OUp3MG6gyHnF8PMaXwnAk7N72WgfZS2F7JrtwUWeiQ01P3Oco8
-         IAsvhAx9/VMu01046QeQtcMg3H6v+C7AIslWT6CvxOJ418q8f5SpEvydfCKS6Re3w9bM
-         jeqRXr90JRUgt3Pva/bwzwQf1FCk7G/+hjokOiJmF7Mzrv8T8MA5eqS8Qy5LvxzEh7dc
-         WfY+5zOUlb/VqMyzJ6xQ2DwJqQjO10ab5fn+zhIi4MNKaZIUnjk+qv3/Lo3H7WXw7iLk
-         taUQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+eb0E2FqMdGBK8ZUX+6ySLemULNAkU2UaH+JCWIpsC6BdjhUU/FESiDnmY8dRLgVQ5qZAEj4qlv9ITNvfa@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3+1TLxxgR85h5bMicAWcUan120xZQgMk35qiSftz1OSQcT+lw
-	+F6Uo0qU6XsakS5vDqEMXN43/zVHBLxhPKo58vhcei6M9vS9q9rRaU/b
-X-Gm-Gg: AfdE7ckuUY6Tl9M5xfBGHMAgjnRVp49GoHUX+hRappABKCXWWqZGQzqGNcghLBDX6Hj
-	FF7uSkLR/QpiIhIh0xfYkDl8S1Gh66yFahlXtuTJ+E/ksldkhTZgXFOFEIRu2p8gJEVLX5jvxsO
-	FrqP7MuyOWPlh65+vFPm85YcOqYFZa9mIXDKQfCAtmnZutD4ZhlN1wyO16q5/yMK3iYLhj9dSXc
-	jcscIXv2Vx2yXQz8xr41j1IKPBZrGY6Q4HvnRJfT3qfSm8oNJ4WmhfYlBjtC3b5IS8mRESAVOM2
-	thl2KFfTUFE6Ov2KSWmQyOv3pW9OR7GghJdb0nOblnCt4rMSHGw+fMDBKtFk1wwgdR/os6LR03L
-	LlH0yPsx3DAcfTuQh+R2ka9eBEffNQKRg7NXf4uL0bzcExHu2iDeIB5IOZ9UMIqBgCPz9vpFbSH
-	/MylWLTbAg
-X-Received: by 2002:a05:600c:b8d:b0:493:ad1b:b38d with SMTP id 5b1f17b1804b1-493d5ff8f97mr30004695e9.37.1783254917425;
-        Sun, 05 Jul 2026 05:35:17 -0700 (PDT)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-493c636e9e9sm275072695e9.2.2026.07.05.05.35.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Jul 2026 05:35:16 -0700 (PDT)
-From: Askar Safin <safinaskar@gmail.com>
-To: brauner@kernel.org
-Cc: jack@suse.cz,
-	jannh@google.com,
+	d=xs4all.nl; s=xs4all01;
+	h=mime-version:message-id:date:subject:to:from;
+	bh=wdFpwB+D4BEZw72dTeQ35EIL70JhkCEnJqFkXB6VJI0=;
+	b=MWu0WN1DfggNYoyoIfXoHA4oQUPxpX83J170BBi4bQLKw4ipL0SAw191lF026wXbvG5SDlFSVJd85
+	 MlmMcBk2LTBcLSHylyOP/j4+/Btaqyf3IXKyXV8tTCHbLayGiY0av9ZZIt09l/GF62prd4oAXIOzx4
+	 XczFcMfelAw2OYD6RobU2/AsxvPaEPDDeVJ55lsPfCLSrrjCF9TcZwvHTRwCFzaoUIXOxOYgcB4shv
+	 2dvzmFtBwi4cl7XyqDEI3M08ysS7VFuAK5BB1sKqJshAdUkOMX2imjhNqcH5qR+CzL0pGW5B9gJbF+
+	 G/CB5mjDJGjllgCZqPfDyWH0yslY2EQ==
+X-KPN-MID: 33|p5HVcgMt1RE1Llurp2Eo7RnIftjFYaGW5kkgxx5XE72NO3hGoSlMO2gMwzRm1bM
+ PL6wC5ASm8kge3LqFegzUuw==
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|Jx6NSeSoukrFATFvUBO2qRFdr4CWYH1BGsN5+kZG6jnhDHjsXsYKrDSZhtMsN5S
+ VbU8iFE21BkGLiJVE8UNMQw==
+Received: from daedalus.home (unknown [178.231.11.83])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 487b75b7-786e-11f1-807b-005056998788;
+	Sun, 05 Jul 2026 14:37:36 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>,
+	Aleksa Sarai <cyphar@cyphar.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>
+Cc: netdev@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	torvalds@linux-foundation.org,
-	viro@zeniv.linux.org.uk
-Subject: Re: [PATCH RFC v4 00/25] fs,kthread: start all kthreads in nullfs
-Date: Sun,  5 Jul 2026 15:34:47 +0300
-Message-ID: <20260705123447.742980-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260601-work-kthread-nullfs-v4-0-77ee053060e0@kernel.org>
-References: <20260601-work-kthread-nullfs-v4-0-77ee053060e0@kernel.org>
+	Jori Koolstra <jkoolstra@xs4all.nl>
+Subject: [PATCH net-next v4 0/3] net: af_unix: useful handling of LSM denials on SCM_RIGHTS
+Date: Sun,  5 Jul 2026 14:38:23 +0200
+Message-ID: <20260705123826.3818443-1-jkoolstra@xs4all.nl>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -80,35 +63,63 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Christian Brauner <brauner@kernel.org>:
-> We now also warn and notice when pid 1 simply stops sharing filesystem
-> state with us, i.e., abandons it's userspace_init_fs.
-> 
-> On older kernels if PID 1 unshared its filesystem state with us the
-> kernel simply used the stale fs_struct state implicitly pinning
-> anything that PID 1 had last used. Even if PID 1 might've moved on to
-> some completely different fs_struct state and might've even unmounted
-> the old root.
-> 
-> This has hilarious consequences: Think continuing to dump coredump
-> state into an implicitly pinned directory somewhere. Calling random
-> binaries in the old rootfs via usermodehelpers.
-> 
-> Be aggressive about this: We simply reject operating on stale
-> fs_struct state by reverting userspace_init_fs to nullfs. Every kworker
-> that does lookups after this point will fail. Every usermodehelper call
-> will fail. This is a lot stronger but I wouldn't know what it means for
-> pid 1 to simply stop sharing its fs state with the kernel. Clearly it
-> wanted to separate so cut all ties.
+Right now if some LSM denies an AF_UNIX socket peer to receive a
+SCM_RIGHTS fd, the SCM_RIGHTS fd array will be cut short at
+that point, and MSG_CTRUNC is set on return of recvmsg(2). This is
+highly problematic behaviour, because it leaves the receiver
+wondering what happened. As per man page MSG_CTRUNC is supposed to
+indicate that the control buffer was sized too short, but suddenly
+a permission error might result in the exact same flag being set.
+Moreover, the receiver has no chance to determine how many fds got
+originally sent and how many were suppressed.[1]
 
-Your approach means that you introduced new degraded system state:
-"PID 1 unshared its fs_struct, so we switched all kernel threads to nullfs".
+Add a SO_RIGHTS_NOTRUNC option to UNIX sockets to enable more useful
+handling of LSM denials when receiving SCM_RIGHTS messages: instead of
+truncating the message at the first blocked fd, keep every fd slot
+and store the LSM errno in the blocked slot.
 
-I don't like this. If PID 1 tries to unshare its fs_struct, then, please,
-just do nothing and return error to userspace.
+[1]: https://github.com/uapi-group/kernel-features#useful-handling-of-lsm-denials-on-scm_rights
 
-(I already said this in one of previous threads about this. It seems
-you missed this, so I'm saying this again.)
+Changes:
+v4:
+  - Removed the __receive_fd() helper and moved logic into
+    scm_recv_one_fd() directly (suggested by Brauner).
+  - Moved selftest from Smack to BPF (LLM assisted).
+  - Add arch specific socket option values for SO_RIGHTS_NOTRUNC.
+  - Undo patch that replaced copy_from_sockptr() with
+    copy_safe_from_sockptr().
+v3:
+  - Separated net and vfs changes.
+  - Use kselftest_harness.h and system() to call the test script.
+v2: https://lore.kernel.org/netdev/20260616143020.3458085-2-jkoolstra@xs4all.nl/
+  - Reimplemented as a UNIX socket option instead of a per recvmsg(2) flag.
+v1: https://lore.kernel.org/netdev/20260428175125.2705296-1-jkoolstra@xs4all.nl/
 
+Jori Koolstra (3):
+  net: scm: move scm_detach_fds() from common path to scm_recv_unix()
+  net: af_unix: useful handling of LSM denials on SCM_RIGHTS
+  selftest: Add tests for useful handling of LSM denials on SCM_RIGHTS
+
+ arch/alpha/include/uapi/asm/socket.h          |   2 +
+ arch/mips/include/uapi/asm/socket.h           |   2 +
+ arch/parisc/include/uapi/asm/socket.h         |   2 +
+ arch/sparc/include/uapi/asm/socket.h          |   2 +
+ include/net/af_unix.h                         |   1 +
+ include/net/scm.h                             |  13 +-
+ include/uapi/asm-generic/socket.h             |   2 +
+ net/compat.c                                  |   4 +-
+ net/core/scm.c                                |  42 ++-
+ net/unix/af_unix.c                            |   9 +
+ .../testing/selftests/net/af_unix/.gitignore  |   2 +
+ tools/testing/selftests/net/af_unix/Makefile  |   8 +
+ .../net/af_unix/scm_rights_denial_lsm.bpf.c   |  36 +++
+ .../net/af_unix/scm_rights_denial_lsm.c       | 263 ++++++++++++++++++
+ 14 files changed, 371 insertions(+), 17 deletions(-)
+ create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c
+ create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c
+
+
+base-commit: b73bc9ca3686b78b642fb35dcc1fdf874ecb74a1
 -- 
-Askar Safin
+2.55.0
+
