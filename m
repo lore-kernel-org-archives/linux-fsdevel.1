@@ -1,86 +1,101 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11D142CAEF
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 15:52:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B696B31F9BA;
+	Mon,  6 Jul 2026 16:01:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783353125; cv=none; b=gyMjasebEFLUYrhcoNlLo2YKXehuTOWnfiaua4rfuuxooyiG4QeWb7QqrCqcoDRHFkiuR0F+DztkD7zQPUkULuNKsKmD6hMwHJLPGL2ScF6XtJ9NUBPCSOV25FHA1hECiu0t4RFXPKVhFMm9gG5e7RGcZV9b1VaS4sTpBQBz8Qk=
+	t=1783353686; cv=none; b=t/MXksuE5yuf9SdPHRBRflGpFbfSgo1Swn0NWiI+w07ElTXGLbO1Qse+Ob4mykMAlhc2T9yI6iX9Dq9Ym595VyYte+uF+m7rzFwj51OX6mRZFMwK/oaXyfUxSPvsPQ1IjvL5IASPyY8zJKWQa7HJQsT0Zl47ha9OTodsy3Fn6YY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783353125; c=relaxed/simple;
-	bh=RfbiN6+a8nTS5a6ju5aNp5of3WLEVBvd+s+Kdr5yXak=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
-	 Content-Type:Date:Message-ID; b=iILBANV7CdqLGaKYcsFpRoGbhqc+3zoY9ZBv0dWov2s2p/k/Wsp6K+KgcRnXnG0uDtqpRZUrnnGXGM7n8xpprljfH4512YpYc9DS+vGKLUqSkdeM7k+DdPCxuTURYsLXrd4fHRrZUXSh7zMfHGq28Pny/JFonmeS5Z7irWKqgpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fga/hupV; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1783353686; c=relaxed/simple;
+	bh=vCKa3tHYjrHa3FtjHkl8GSix2F/vIqRMdeiR5urB4iY=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=hI0otXHOKzG/iVi0RUh7CDC3CE64O/Chx7ORH+9k+q9rWxzrRTLPq2LEd1CCSfD45c6FVEIAhOL13pkpsaJnD4RtXYyBglHYZcw8bERUilzdaPCKnwaU7qveIAJGpGC/D7PKWFKHKevIjwmEBBrPUL0BvnlNv28tghcaXZTG3Pk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=okefVVjP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fga/hupV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783353120;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=URQzIFfS1/Haxdbz2Ns3BTAOv0VzNelQyqgK4lKywjc=;
-	b=fga/hupVM206q9p7PHoy5TMS6l2BmxxmlpqhHroJtGytZZs+Rz+QTBd/+pUdaEh5ek71wV
-	flCyj6snOLRADok9RBAn2SYbNbYc2yp9l7kISPZgp+/BXL+DwsWwODHLF+c32X3UgOH43S
-	aFIUnWHEzj0mlJaIW1uS2rwX0007Tjs=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-65-GUd2VfxQPRuPQ_RMGkZGbw-1; Mon,
- 06 Jul 2026 11:51:55 -0400
-X-MC-Unique: GUd2VfxQPRuPQ_RMGkZGbw-1
-X-Mimecast-MFC-AGG-ID: GUd2VfxQPRuPQ_RMGkZGbw_1783353112
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CED291955DE7;
-	Mon,  6 Jul 2026 15:51:51 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.33.159])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E3E741956053;
-	Mon,  6 Jul 2026 15:51:45 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <20260706152737.1231312-1-dhowells@redhat.com>
-References: <20260706152737.1231312-1-dhowells@redhat.com>
-To: Christian Brauner <christian@brauner.io>
-Cc: dhowells@redhat.com, Matthew Wilcox <willy@infradead.org>,
-    Christoph Hellwig <hch@infradead.org>,
-    Paulo Alcantara <pc@manguebit.org>, Jens Axboe <axboe@kernel.dk>,
-    Leon Romanovsky <leon@kernel.org>, Steve French <sfrench@samba.org>,
-    ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
-    Marc Dionne <marc.dionne@auristor.com>,
-    Stefan Metzmacher <metze@samba.org>,
-    Eric Van Hensbergen <ericvh@kernel.org>,
-    Dominique Martinet <asmadeus@codewreck.org>,
-    Ilya Dryomov <idryomov@gmail.com>, netfs@lists.linux.dev,
-    linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org,
-    linux-nfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-    v9fs@lists.linux.dev, linux-erofs@lists.ozlabs.org,
-    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 00/21] netfs: Keep track of folios in a segmented bio_vec[] chain
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="okefVVjP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87E671F000E9;
+	Mon,  6 Jul 2026 16:01:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783353685;
+	bh=zIjsvZIGtDb45yOCtzuITMhCZIXsn/rA4+SmB8HdYiE=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=okefVVjPOvMtHSgZqi2LcJfAfJkW74KQqZku3zSnBXSyjlCmqe9KJoEheA1JNDmWa
+	 kQ0jbGkAdaakorgQF1UuIQyCN0/dt95BjlXgTJyQZk792sDw6TIAgBlITpL3P/aZc2
+	 sSAy2ylA+7R80ZTW7k8GNzAtWFXjj22FDWktB/TgoYVOeXiScTv2Lg7/+NbDK+j3H/
+	 QsZXlB569wdyYIOy7CXF+3jfqmqXhmtWlonHwz63z/DNFy2xO04JEkwkJ/fV2tPXjk
+	 4E09L/U4YOhPiSOg+iETgj2CXxZyygHAgfn5VARj2dix+DJkKJhR7yskyg1yrh7U6v
+	 muMvUHAqXU54A==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1232536.1783353104.1@warthog.procyon.org.uk>
-Date: Mon, 06 Jul 2026 16:51:44 +0100
-Message-ID: <1232537.1783353104@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [RFC PATCH] fs: binfmt_misc: introduce eBPF-based matching and
+ interpreter selection
+From: Christian Brauner <brauner@kernel.org>
+To: Farid Zakaria <farid.m.zakaria@gmail.com>
+Cc: brauner@kernel.org, david.laight.linux@gmail.com, jack@suse.cz, 
+ jannh@google.com, kees@kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-mm@kvack.org, mail@johnericson.me, shuah@kernel.org, 
+ viro@zeniv.linux.org.uk, Gemini <assistant@google.com>
+In-Reply-To: <20260704211409.1978485-1-farid.m.zakaria@gmail.com>
+References: <20260704-kochkunst-hauswand-blass-7226e9443a9f@brauner>
+ <20260704211409.1978485-1-farid.m.zakaria@gmail.com>
+Date: Mon, 06 Jul 2026 18:01:19 +0200
+Message-Id: <20260706-uhren-raubbau-sinnkrise-e40a8337414b@brauner>
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2085; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=vCKa3tHYjrHa3FtjHkl8GSix2F/vIqRMdeiR5urB4iY=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR5XwxStPp6qOYYR5k0Iytj7zmukvqTzkzVBhPVDDPXX
+ 7hl95Sxo5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCKfVjD84WuOE9jCfejZzJNC
+ LZ7JfKdd23v/b1lxJVdS+52jyh5OPUaGe+yr2ft+SZgxavO2Nb3jbS3WTLe+nWA5q+rtbaNfdZG
+ 8AA==
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Apologies...  The outgoing MX decided to go offline in the middle of that:
+> Historically binfmt_misc has only matched binaries by magic bytes or file
+> extension, and always redirects a match to a fixed interpreter recorded in
+> the registration. This is insufficient when the match requires parsing the
+> binary header (e.g. inspecting ELF program headers) or when the interpreter
+> must be computed per-binary rather than hard-coded.
+> 
+> Introduce a new 'B' (BPF) handler type. A pinned SOCKET_FILTER program is
+> registered in place of the magic/mask, and no interpreter is recorded:
+> 
+>   echo ':name:B:<bpf_pinned_path>::::<flags>' \
+>       > /proc/sys/fs/binfmt_misc/register
+> 
+> When a binary is executed, binfmt_misc runs the program with the
+> BINPRM_BUF_SIZE file-header buffer as context. Returning 1 selects the
+> handler; returning 0 falls through to the remaining handlers.
+> 
+> Unlike magic/extension handlers, a 'B' handler carries no interpreter of its
+> own: the program chooses it via a new helper, bpf_binprm_set_interp(). This
+> lets the program compute the interpreter path however it sees fit (for example
+> relative to the binary). A 'B' handler is therefore a strict superset of the
+> existing magic handlers -- any of them can be expressed as a program that
+> matches on the header and sets a fixed interpreter.
+> 
+> bpf_binprm_set_interp() is exposed to SOCKET_FILTER programs and stashes the
+> chosen path on a per-CPU area that binfmt_misc reads back immediately after
+> the run under migrate_disable(); only a match that set an interpreter
+> allocates.
+> 
+> Signed-off-by: Farid Zakaria <farid.m.zakaria@gmail.com>
 
-	error: `git send-email`: 4.7.1 Service unavailable - try again later
+Ignoring the blatant bpf abuse here I think this is quite workable. So
+this can be turned into an actual design and patch imho...
 
-So I've re-sent it.
+Note that binfmt_misc is namespaced and can be mounted inside of user
+namespace + mount namespaces fwiw. So a container mounting binfmt_misc
+(a fresh instance - few do) would escape that bpf program. On the other
+hand it would allow to register a custom bpf program per container if
+needed...
 
-David
-
+-- 
+Christian Brauner <brauner@kernel.org>
