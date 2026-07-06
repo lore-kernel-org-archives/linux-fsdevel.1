@@ -1,70 +1,71 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6483955D7
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 22:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05663955D7
+	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 22:18:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783376276; cv=none; b=nNK3JjKkl/gexwnPT6B/zguhvPuve6bpSUsp4VyzDHVr7isJ8O6liRi0UXCRM0z9rurxJh9+q7rY1Dyro58kbV61bVnvWn2MCR2NQlE0H+TTLRduonaCJqoILCXD/z9quU5mvM+CQXVKRQrN6xLBl7SOKHs0npbIGoKI3ecwEqg=
+	t=1783376300; cv=none; b=WP+F/i8wX8cuz07EmbwNSCcS/hRJIpS7i9sJf+LReeT6K0x8Tq8+NSJMCHZ8AMkkmOH6OfLSlhqiBxcqRGoklW9dgg2KL+1VY9rI/yf53BZnCNBj4boGOc9KrT8AUNArNEVV6INxvdffAVzFxtonHJ2m2mM3yj15zSzLiWpNaAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783376276; c=relaxed/simple;
-	bh=V5NH9kQ7fLZj/BAFGQy9vW3pnLVjShqWn6KWzcKAxh8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OucP4eqCxnKxSEAoZI29yNKGNN2IbkHuFfMKgeF2BuAS/Axx83rlxiC6ginqGUfGI8bqBIg7Iis93T0PtI8EY7yJtblWYHsFJXuzzyFgVqYdihbthpTawbZUWX12RMMgY57wtKqa1HvWh3SPPibQCPaSKyl7L7k3FEpX5B+dhs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=zTgxdch/; arc=none smtp.client-ip=209.85.128.171
+	s=arc-20240116; t=1783376300; c=relaxed/simple;
+	bh=vVu1/ZfusyWyUlXSHFbQ33ZMYcoaMsuREt0pDNgM/Xk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fvIV0eDjhAZhC+ghsfWkNSYP73Z8Apc6xGmdepmO4TyIf7nSDxwbVljnk7dkeYez9AKfb9szL6jc117j2NX6E/pKm0eVBoOhBhSlMiwu/C0ZQPa3GclAmTK946Q/1m5mi+rEs1ijta9BTFY3Ahjza4P3fjwhrlKJKeq9RgV6t0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=dkyqEz79; arc=none smtp.client-ip=209.85.128.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="zTgxdch/"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-8143daf89c7so33051317b3.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 15:17:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="dkyqEz79"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-80e46c00f3bso42562267b3.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 15:18:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1783376274; x=1783981074; darn=vger.kernel.org;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1783376298; x=1783981098; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OYu197rgwP+qERFJvSPlFQquNeD8TuB+n5Qa36zU6LY=;
-        b=zTgxdch/UEIm9M6kmN/QvGknYewzlg9x1iMgKSQYiCP4Vf+sKZTD6YNc5e4NSKDN6s
-         G5PNLYqqdsYPQBrb/FVFWb85H6741szYCnjeHPXoWkuoGWCxyDYtvXWEn8sWD8uRCHiG
-         zEkw71fFA9AVyvUsQYNXHx5xCvP45z/WDhHLFIxB34UOPtYoTf7yYnLJol/eb6i9zZbW
-         zFV0qtjAa9BI/ZDPON1tcCbZpWIF5PRt+PflcI1wiuOQoIuA/2f+EFCPv1o0E/Xucayj
-         yoQzma7g/0tqA1v88XOT79gqwsFgoeDaY/LQKaogGzdPAPimgyyCLUBRVUwdiczWkvil
-         /WXw==
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=V8kit//p+j7fVOKhkkd89j29XfkkpMx1ayw70tlBpbA=;
+        b=dkyqEz79md2PPAaHVCeF0b1xteyeuSXkuYIm31R8pW+1ySTwM7grRVyhnTtl8F9P4d
+         wMYEH23CiLNaZxr+sGLQXiTB/KSia9YaLl9Ssr68J2YUt3ZOj4JE8ANjr5E6J0i9w2MG
+         SYkwchVroPyAQVGaVVxnzpPMxU7OFneAoHi1w8lD66gU5ySY/ailV4sGZesv95EiIIyY
+         U5MIvU9oe20p68jevaitMVUTW+6ek9Hcy3rqwAcq98WmwjCC3//wa/qrmFZbw5puN9qL
+         jYlW/RKsrh4Iybc4s8EmPngSiA6o1IbaNnhKMHNE3tLqxiYOQjQI/96CKu3BHCcFghiv
+         kaNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783376274; x=1783981074;
+        d=1e100.net; s=20251104; t=1783376298; x=1783981098;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=OYu197rgwP+qERFJvSPlFQquNeD8TuB+n5Qa36zU6LY=;
-        b=pzavaxQDw2vu4WCEhbMI1+JKbqKSXYnB+UPeG4twxzGiDFdpkvaRzBFD47WcKvJrgn
-         qlJeiKFg4IYSuKpqyntikNhLD5h1u45/ckevrtBC0rGM4RkzLNEOiYCWWu3iDGr2H7+v
-         KQI3YJnCxl6qmGF+OaSM4gipfrVOsx2jBNbRS8S5zy7Q6BDKYfH+J4XLyvYKHBYBApfQ
-         t7WZoqOVkuUkBDNnBahNrgJrAIjnJdWdZdQ6iDvEn+mKz/pHp0UXGZiqrHRYV7BlmEUI
-         9rQpKqFqIH+gtsvVJE1IqdmAZhAsEWPXpg71HMDZrIDFJ2TgwmQSxy43Mz3+L9hqXRfo
-         0JqA==
-X-Forwarded-Encrypted: i=1; AHgh+RqjjZi9MCt5nhce5SbydLkn5ufcdHBI6uF5xm4yg7rXvx3haBkOPhPexXuSwAzJCc1ijKFYyQS1Jrl9Sajp@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxufzBeNKslMMZ3nMvego7ayf5rpbYrVEiwdELSLSrZo9xJSVr
-	KBXOB8M9sqS+RWj5jGzge+mTAeDCSAvKP9Yy7Ikf9+QxIstZwCguEIPJnWsi99zN5ao=
-X-Gm-Gg: AfdE7cmkyWdmIzXk8XHAW/l67Vq79BUfssXW3WW14jOxtn1G/mHkFwKp2xsPdaRir6C
-	H5mvpQHyYt+vSUPTjoGz1rGcPpHQq3bKZ5pPIz+G9NlL3RKFqQ3wFw+BKVMiXgfIqjf1VJf5BOm
-	9uUhR7h4GP//KOnwA7qBODKYU4hjG0R5zrgxd136NuIWCrYPyErvVKHRv/PmBefkOUHSPL7V0ii
-	PM2tE8lzpFHJer+D5faEKQ0Arhr+CTB8qJQLjoxEZcp1rZA78yFnWn21YONHn59fmzGrY7E/E9U
-	86I/+m1Mme+kV3jjCrLyrB8hbGMcv4ugFtvxzMOLZebMQ/BiCpzxT2YvujFvQuqm0wRQNOggrlb
-	VAYCgpoFuoym02r4TJt0ot1gz8M3eZSWR6MT5dWKj6Uhyroh4LJz5LpEEWi6hqNbpq9STBmdBQc
-	hhmNy7N+0LAWjehGhN1qeBdhZT6Eo/Fb8GS05I+cNLb1IvaQ9FKI3XOmONASv7+9lCH3D/3KY9T
-	+uOB5rX40kKBRLuGC9WELJ39OAsn7I2KaKav74Z1+l7TInjcDmQ
-X-Received: by 2002:a05:690c:2784:b0:814:5f6c:5ba with SMTP id 00721157ae682-81be06393d8mr19124817b3.15.1783376273736;
-        Mon, 06 Jul 2026 15:17:53 -0700 (PDT)
+         :message-id:reply-to;
+        bh=V8kit//p+j7fVOKhkkd89j29XfkkpMx1ayw70tlBpbA=;
+        b=LMtjLl3gQCqCRO3a5zWtTm9X9hvpaYOIjF9cx8IaIjVmyhle3UENUp5vajCCIDUVno
+         bIN3el2nZ60lynn/tkB6Dae4jIPOPXYj/6qwL00s1TZOftsD/e+dp4pDL/enSDrNStst
+         Q3cmqpzwYUpIcgOXK+5A/+M4nr39Ez0Ki28EDwKfw7ol9PDrvEQj8RSOLkVncPr8dC4T
+         QDdUBcslQc1U1BBG7szXkykd7uPT3rDE3MOei0XgsJlFGwOa7a3hene1lRwpGjXZ6GJ0
+         W7AP0S2OAOmk0SDuMtn33DiZv91wrs9DqW45yTI7AQMfa5hwpK0Dz3GMGg4LZlu5CVmI
+         M1tQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqcSUlS4a7ewPbtsWKANrFArqdZ8Cww4IqeYSMQvoWk257+IsEhmiTkszL0taVpSE8qexEZETmqDe5s//6U@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTB/OUyABNwvdcd5BcIX5Wrw3Yd/9TUVpGLJEA9N4rMeeEC6lD
+	jUTZ0Ad3HFhhfzcHk8M6xz+aZ5qIlVZQUVyDNw860Gw1KubeCI32gVhnlA7A2c304a83veGcVEe
+	22HlfixA=
+X-Gm-Gg: AfdE7cmGDkMZE9c/EMzG03AbzPtiqL7O5FTjf3hyR22h17y7+0RTBu15aiLbEUgz3Di
+	zZ9DevkrLMFfYwIDXBork0H+9hHlm9nzxc3SWk5lkAedtza49KCa+dn5S5mtsUVeWVZ82E7hJeh
+	Fbh5kWOD8Eka5n84gkVKi0J5pVqbZ95AVUi2ubKOYHBIkAHGjYi8JGpXDqy0ghZknwmWjFn4QiI
+	yiMc/f6bImVTF1SGhXxYFvM0ZRxDfpsEgYGbmtDVygtaHHQ8QnaDymTNGRnUjQBVS8X8G6LaFqN
+	V2hfAmF8gw+iR9MP7uylEOI8KepS+9N+RkpmpB3yXbJSFPSnRtcN5jbpvaZ1fPHUc8B5daw1Uja
+	OJ1NLXp+qYCbI2xQ3+7WNk8z8+1g6GbLaboowIlfx+7ha7h98j6vNkKLqaWTOfqOkllEhOUnN12
+	UsW/MhMPjnWYHWylynmJWH1noAqsLKNKEX2vbAAffNcaVCXiaboPto2I6xl95FEpco9uiQsXarm
+	eJI4U1SO/2TWu/en5/1nwML9tbxw8SwH563AZtVJ7k6S5Hz8K/V+lsPKb0vE/w=
+X-Received: by 2002:a05:690c:6a10:b0:812:a784:9989 with SMTP id 00721157ae682-81be2668beemr18102757b3.43.1783376297609;
+        Mon, 06 Jul 2026 15:18:17 -0700 (PDT)
 Received: from system76-pc.attlocal.net ([2600:1700:6476:1430:fc23:ea94:e881:d8a4])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81c424b024esm1644927b3.31.2026.07.06.15.17.52
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8144af52027sm63692437b3.25.2026.07.06.15.18.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 15:17:53 -0700 (PDT)
+        Mon, 06 Jul 2026 15:18:16 -0700 (PDT)
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: glaubitz@physik.fu-berlin.de,
 	linux-fsdevel@vger.kernel.org,
 	frank.li@vivo.com
 Cc: Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH] hfsplus: fix error code when writing beyond volume capacity
-Date: Mon,  6 Jul 2026 15:17:39 -0700
-Message-ID: <20260706221738.140271-2-slava@dubeyko.com>
+Subject: [PATCH] hfs: fix error code when writing beyond volume capacity
+Date: Mon,  6 Jul 2026 15:18:05 -0700
+Message-ID: <20260706221804.140295-2-slava@dubeyko.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -74,69 +75,57 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The xfstests' test-case generic/564 fails for
-the case of HFS+ file system. Test-case expects that
-file system driver reports -EFBIG error code in the case
-if there is the effort to write beyond 8TiB. However, HFS+
-file system driver returns -ENOSPC instead.
+Likewise HFS+, HFS has the same issue of returning
+the -ENOSPC error code instead of -EFBIG in the case
+if there is the effort to write beyond 8TiB.
 
-The root cause is that hfsplus_fill_super() sets s_maxbytes
+The root cause is that hfs_fill_super() sets s_maxbytes
 as MAX_LFS_FILESIZE. VFS therefore considers the write
-position valid and calls into the filesystem. Because HFS+
+position valid and calls into the filesystem. Because HFS
 does not support holes, cont_write_begin() zero-fills
 the entire intermediate range from the current end-of-file
 to the target offset. On a small test volume this exhausts
 free space long before any block-number overflow is detected,
 producing -ENOSPC instead of -EFBIG.
 
-This patch fixes the issue by adding a bounds check at
-the top of hfsplus_write_begin(). If the requested write
+This patch fixes the issue by adding a bounds check
+at the top of hfs_write_begin(). If the requested write
 position is at or beyond the actual capacity of the volume
 in bytes, return -EFBIG immediately before cont_write_begin()
 is entered and before any zero-fill I/O is attempted.
-
-sudo ./check generic/564
-FSTYP         -- hfsplus
-PLATFORM      -- Linux/x86_64 hfsplus-testing-0001 7.2.0-rc1-dirty #50 SMP PREEMPT_DYNAMIC Fri Jul  3 16:22:27 PDT 2026
-MKFS_OPTIONS  -- /dev/loop51
-MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
-
-generic/564  13s ...  43s
-Ran: generic/564
-Passed all 1 tests
 
 Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
 cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 cc: Yangtao Li <frank.li@vivo.com>
 cc: linux-fsdevel@vger.kernel.org
 ---
- fs/hfsplus/inode.c | 10 +++++++++-
+ fs/hfs/inode.c | 10 +++++++++-
  1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/fs/hfsplus/inode.c b/fs/hfsplus/inode.c
-index 1c57c873f05d..2ce6de574fa6 100644
---- a/fs/hfsplus/inode.c
-+++ b/fs/hfsplus/inode.c
-@@ -43,11 +43,19 @@ int hfsplus_write_begin(const struct kiocb *iocb,
- 			unsigned len, struct folio **foliop,
- 			void **fsdata)
+diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
+index ac4a9055c5c0..a630a6c14ee9 100644
+--- a/fs/hfs/inode.c
++++ b/fs/hfs/inode.c
+@@ -49,11 +49,19 @@ int hfs_write_begin(const struct kiocb *iocb, struct address_space *mapping,
+ 		    loff_t pos, unsigned int len, struct folio **foliop,
+ 		    void **fsdata)
  {
 +	struct inode *inode = mapping->host;
-+	struct hfsplus_sb_info *sbi = HFSPLUS_SB(inode->i_sb);
++	struct hfs_sb_info *sbi = HFS_SB(inode->i_sb);
 +	loff_t total_capacity;
  	int ret;
  
-+	total_capacity = (loff_t)sbi->total_blocks << sbi->alloc_blksz_shift;
++	total_capacity = (loff_t)sbi->fs_ablocks * sbi->alloc_blksz;
 +
 +	if (pos >= total_capacity)
 +		return -EFBIG;
 +
  	ret = cont_write_begin(iocb, mapping, pos, len, foliop, fsdata,
- 				hfsplus_get_block,
--				&HFSPLUS_I(mapping->host)->phys_size);
-+				&HFSPLUS_I(inode)->phys_size);
+ 				hfs_get_block,
+-				&HFS_I(mapping->host)->phys_size);
++				&HFS_I(inode)->phys_size);
  	if (unlikely(ret))
- 		hfsplus_write_failed(mapping, pos + len);
+ 		hfs_write_failed(mapping, pos + len);
  
 -- 
 2.43.0
