@@ -1,145 +1,210 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00CC4406820;
-	Mon,  6 Jul 2026 08:44:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783327482; cv=none; b=BvR8gJaxhs7xi1pl1SXoQoTJ5vLhV2w1LA15S9Zt50AJSuelb5UAtfpNIzurTNkE/UdD/8bek6ZHtjA3oEyKc9gSWVL1tj1fYBFW+dLrbkKXNfPskVxMx6QF+aGLLf3hNEgbAmr6Muv/X4t/N4mBoDehWwipufWK0XYZhNtZ3PM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783327482; c=relaxed/simple;
-	bh=rth18z6YaOz5QBWEWwHDUQ0tPO1BwJ6C7TuIlFhrhws=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IMNePCA1tc3bEVCo2I3MnW1yt3hrYZcpP6p5Aa4TPLoly9FoSh8eWXM5QhIKFK7C521zcrVJTMAFQ957/OYaREFrDN63ZL/TQ+chCcYXAI6ryxis9rbPCxQBja01ny1Uo2CWvyOlswPV/xMcIoxsZMsO8xsleh7n1psaz8o0kYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iu29N5iR; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08138480DCB
+	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 08:53:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783328034; cv=pass; b=SHHig932IDYs/5OrNTB0A/lcZtRnlZ8VP5dJJ6SFE8xX6n+zfVlFOu577JuTFoeb5Roze1xBcxVgpoA3ioHbzF3eYv0sCAy3wjQE8b+pE/tDdvW6pPKEMhDKxckqc1q9P09NbXGyroDxkdw3/SwzMUx+sBiWOxSlHQUrnfjUZoM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783328034; c=relaxed/simple;
+	bh=G8kFUhSD6mwmYZxeZbUQFBZz/9en6idDe5g+2iZdf30=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=C/i02UNXxJcKemtjn2YLJ2phEv0MpL7vJ7Ljgdz26qdUvXsE5fSPedp3SRquD3Tm6XrlANKGPa8WB6LzZ3RQ+JrVTwe9GWUXZPvZqcFHpNjC9jtZa4bilIP5DcKiYnecREUeABDiwG38rE0QTnz+j/3qGK4qrW30Cv5g26NAeew=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fc2KkTHy; arc=pass smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iu29N5iR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADA521F00A3D;
-	Mon,  6 Jul 2026 08:44:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783327460;
-	bh=Q68xeEYlRpvZZ3fJWppuzDYXgw2sArSGKp7zyhZSU+s=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Iu29N5iR7ntPSqbTbtXU7u9y3w6oVk1s/Tz9jj7UtZps2hQUhhq98i5vEwppxu6EB
-	 VXluEesnbbyMWBitf/QjJPBqqgCgRdZJZi3IBEnXoTup9nHOeasVETgB1Mx1dGHMuk
-	 uINFp67z5uv/eA1AE90sxUC4O5/OhMabdcV09llf4aYxt+BY2pQBAVKNlfmguBjHb1
-	 arsbaUBH5Bapz1fx2eEIIxzgkhjZPnxf1Pa1Js05tel94A6bKkCVe6JUOqUye/UudK
-	 7kBlSo8rTpHZR4qb+OlasPLUevd7G5jnGgiMTWUtBGBnPwMCxEAfwcoy+vOOXN+MZk
-	 iEngu7WUe0HPg==
-Received: from localhost ([::1])
-	by mail.kernel.org with esmtp (Exim 4.99.4)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1wgew6-0000000Dh4e-27NY;
-	Mon, 06 Jul 2026 10:44:18 +0200
-Date: Mon, 6 Jul 2026 10:44:17 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: "Theodore Tso" <tytso@mit.edu>
-Cc: Greg KH <gregkh@linuxfoundation.org>, "David Hildenbrand (Arm)"
- <david@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, Jeff Layton
- <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Justin Stitt
- <justinstitt@google.com>, Lorenzo Stoakes <ljs@kernel.org>, Carlos Maiolino
- <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Jori Koolstra
- <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>, Brian Foster
- <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, David
- Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, Jani Nikula
- <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, Vlastimil Babka
- <vbabka@kernel.org>, "Christian Brauner (Amutable)" <brauner@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM
- attribution
-Message-ID: <20260706104417.0cc72156@localhost>
-In-Reply-To: <akeaouJETPWpE838@mit.edu>
-References: <20260702-aidoc-v1-1-735572dfb995@kernel.org>
-	<2026070224-unholy-commode-cf45@gregkh>
-	<2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
-	<20260702161330.GH3534761@killaraus.ideasonboard.com>
-	<2026070227-payroll-eradicate-8f66@gregkh>
-	<20260702163215.GC3559965@killaraus.ideasonboard.com>
-	<2026070350-drown-untreated-5835@gregkh>
-	<a095d9b4-f774-47d9-affd-d519d8acfb34@kernel.org>
-	<2026070343-copied-quarters-1e2a@gregkh>
-	<akeaouJETPWpE838@mit.edu>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fc2KkTHy"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5aeb91c003eso2967016e87.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 01:53:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783328021; cv=none;
+        d=google.com; s=arc-20260327;
+        b=EU02zz++QYTZFOqwGCaZ6pBSN+HTUasyvhj4oYVQct6Wts9lR0p9YgV/zabt/haDGs
+         HkFuO0VYuWwbRviaZoypTah4tNT3kGjbte+MoK3xkm6v93sTD1KjapwXy3DIajUYBLiq
+         SAF78X8R50/i8R24euo5LWMTP1YMnh1/qeR+6Q85b5znPht3VqyJFlwFzbxwEQWmxhrg
+         guQYPRzRlwt1QDT/brVVVHI4XhbhwgMwCV4+LIsGxN3bcgNG3fB+al/LeWsQwZsgwraL
+         fCdTf3LtvBxMPjMGlYSDIOtDe1VzosWFVfkd1O2cfzpzy1xmyOAHeH0H6u9PdVksPYIW
+         uPVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=SMlqwe25h3RpyADH7goCEFp4DheUHmwSZ6Owz1SwkyM=;
+        fh=unlXR7PTn7ECRD54vRJxylM6ytAMIPSVp+OBt9ana3A=;
+        b=auXvkMaQ2fvaVhWqwtxeoMmuv18YVXFlKQApUFszBWqk9cvrWDoyMdQ3wu5Zr1CR3T
+         q8xwirIgx4MXBJW+gRAtU7aSfaytjD16uD6ShI31YahNRczse+mxezD339Fwtq4LTPkB
+         fPZztNVx51kIxnkPUFZow5dkLpvQHnHqap8JNqRf1G4D4YbX37RWAP62s66AsjWHyr0m
+         RHaxKZl5aGUk6TINHkTZxJE31yXBi36wQmGTfdSRM+ZlbXxmPvjQfQr1UmpMubrysp0V
+         d+B2vRmnSnI7CJ/umn5i6w+2TST6IRlx3KY2p+7vY91/NqYcnR7M3hvZ+fKss9P2fTzZ
+         y6vQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783328021; x=1783932821; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=SMlqwe25h3RpyADH7goCEFp4DheUHmwSZ6Owz1SwkyM=;
+        b=fc2KkTHy3fD1zCegIx2An6xQKN8d2d0Ge8G5GOQprqjGSia1sU0g27nqddpixGOdZy
+         U9kzzYKlqWf34A6DllJfL80/z+ljuKvXz5b2QT4lOyLjqX8uVAqLecdEcp/S/ksFiso/
+         VOil2+Ze11cLV4oHfaMqVrEbqRVYmqi/Y6AQZSIv2gXldvjyQrCK3OXy3hQE2OQ04TjO
+         vngk4PpNkPCERqz5MAHJ+cG3+vBKtUw80iCKt8ZnxeYh0ZzkEnUf8rzXZZfYL3cIa//U
+         z/UJi4E9v0/RJcdO+/g1S2fwsTkopFiO723nsN+8Ue/N9lh94zQ475WCvj4MwCH4tR4L
+         Gdqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783328021; x=1783932821;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SMlqwe25h3RpyADH7goCEFp4DheUHmwSZ6Owz1SwkyM=;
+        b=T/8oD6N9brMI3Wq41AbkhufBw2x69n4bQezWRgrMWtvLcOvW0J9o++Zlipt/IXsXe+
+         IM5nSTczqX0tU+j897eaDgwxm/T2uEA3F5jFNb1QLBC3vMMzXmYtKXS4qqnintn9YcqB
+         89bT6QWNqjjsU+8HITjRhgYyPZHkvET2YU3AU32xWx4/LSFgklElyE2/so59REZf6cbL
+         WRk4WaeLZgHVGBw/2dZYsNyIQzj0/N1YoKYBhOK4A6bS4lZ3rSGXHwfK5Nf6WbHNdGLj
+         NaGg+hHnYQ+2rAUx1l9x8Tx7Mk+ohXJymFBtzEKJafCgE3eWqPfBKS9V3Rqf+RXugVnf
+         tvkA==
+X-Forwarded-Encrypted: i=1; AHgh+RoIwBv0rKwwgpLAxF26wKLvmy9PD1JbacRywrkhtqsrkRcV140MXW3a4NngrUZztblBFMaE2HWNNxnUcc8c@vger.kernel.org
+X-Gm-Message-State: AOJu0YziAfRcuMwQaGXnb+pZT/r8BRwkwNTXcV00XQR8PMifweHzxzdm
+	5hYnzZjKga9v0MR7GBQ7FR1FAIx1dHY8LpsuJK5QkSk8yuVRsLHjQKt4GLEuRWFqDBDFJPqF62M
+	G4+L9+0nxorjUHfgjz8NI6UlnVSEOxgk=
+X-Gm-Gg: AfdE7cn09F4bwurggiqqcJTUwIV2IZa2LdjAIjYKbos0ctomnkClTCe6yOUeNGlrb5y
+	3Ru+qBeqS9PB8v2vq9F8MFDepvezgb3azSfnL6+4tRqGfbvEcI/3SCLrDNQgEKsCBMZ1J8L28BG
+	qb3nDlbE0FJlJomcnTuaypStrK9bJIxefdTwYBRn0UaCBCpdUBd+KajghL8QFw7abYAK/7RnIXE
+	zFfUBrFHKx6EJNYVx8PeIb4q52LkhcwN6pdgVHegW1E21q1iMHl4f6gZhT8gwMwP4rPGXywcFq7
+	eirZXC8=
+X-Received: by 2002:a05:6512:3a93:b0:5ae:bce4:b696 with SMTP id
+ 2adb3069b0e04-5aed5096974mr1926455e87.15.1783328020196; Mon, 06 Jul 2026
+ 01:53:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+From: Chengfeng Lin <lin2530632123@gmail.com>
+Date: Mon, 6 Jul 2026 16:53:28 +0800
+X-Gm-Features: AVVi8Cc_OfaHslnZme8xzf47fmyoGRsBqHSwSB2ST9Aa0oZI50Fn18GQQCYwEb0
+Message-ID: <CANGjgdm=gbQj=tmakUipHz9wR-mUvMVECfvJbTm=sEufxOe20g@mail.gmail.com>
+Subject: [REGRESSION] tmpfs: flistxattr(fd) small-list slowdown after
+ simple_xattrs rhashtable conversion
+To: Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 3 Jul 2026 07:42:35 -0400
-"Theodore Tso" <tytso@mit.edu> wrote:
+Hi,
 
-> On Fri, Jul 03, 2026 at 09:30:28AM -0500, Greg KH wrote:
-> > > So clarifying there that a "Assisted-by: LLM" is also good enough wou=
-ld make
-> > > sense if we agree on that. =20
-> >=20
-> > If we all agree on that, I'm saying that _I_ don't care, but others
-> > might. =20
->=20
-> I agree that requiring the model name is not a good idea, because some
-> developers might be using unreleased products where the name itself
-> might not be public.  So allowing the version number of the LLM to be
-> elided would be a good change.
->=20
-> I'll also note that it's starting to be the case where tool is
-> actually quite relevant.  So it's not just about the LLM Model, but
-> whether you're using Codex, Claude Code, OpenCode, or Shahiko.  You
-> can use the tool or the harness with different models.
->=20
-> So whether the tag is:
->=20
-> Assisted-By: OpenCode:Gemini 3.5 Pro
-> Assisted-By: Claude Code
-> Assisted-By: LLM
+I found a small-list flistxattr(fd) slowdown on tmpfs while looking at FS
+performance regressions.  This is a performance regression report.
 
-I don't think an assisted-by for LLM actually helps.
+The scope is intentionally narrow:
 
-I can't see any difference on adding it or doing something like:
+  tmpfs + user xattrs + flistxattr(fd) + small xattr lists
 
-	Assisted-By: smath
-	Assisted-By: sparse
-	Assisted-By: coverity
-	Assisted-By: gcc
-	...
-	Assisted-By: my-favorite-web-search-engine
+The cleanest reproducer creates a tmpfs file, sets one or more `user.*`
+xattrs, and repeatedly measures:
 
-=46rom my side, I don't care about whatever tool/process a developer has
-to produce a patch. All I want is a proper patch that passes my review
-criteria.
+  flistxattr(fd, list, list_size)
 
-Also, identifying bad vibe-coding patches is usually easy: their=20
-descriptions look like written by a former literature professor that just=20
-took his first job as junior programmer: they come with useless comments,
-random variable renames, unneeded code rewrites, etc.
+The single-xattr scenario checks that the returned list is non-empty; the
+count-gradient scenario also checks the exact returned list length.
 
-Btw, if one wants them to be tagged as AI-produced, perhaps we can teach=20
-Sashiko to identify it and add a big warning on its review. This will
-probably be more reliable than asking people to add a LLM tag.
+The bare-metal test machine is an x86-64 Intel Core i7-14700 system with 28
+logical CPUs and 30 GiB RAM.  The benchmark was pinned to CPU 2, and the test
+filesystem was tmpfs.
 
-What I think we should do, instead, is to let it clear that vibe coding
-is forbidden - e.g. just asking AI to do something and sending it as-is
-(*).
-So, I would add something like this at
-Documentation/process/coding-assistants.rst:
+On bare metal, the parent/child A/B around:
 
-	"All patches shall be written or reviewed and modified by a human.
-	 You should be able to understand exactly what the patch is doing,
-	 why it is taking such approach and how. Pure non-trivial
-	 machine-generated patches will be rejected."
+  52b364fed6e1 shmem: adapt to rhashtable-based simple_xattrs with
+lazy allocation
 
-(*) There are of course exceptions for it: typo fix patches for instance
-    can be pure machine-generated. Even before AI, we have patches like
-    that where people used some spell checker to fix typos. Again, they
-    need human review before submission, as sometimes, spell checker fails
-    when, for instance, it tries to replace an acronym with resembles
-    a word.
+shows a clear jump.  The parent has the rhashtable infrastructure but tmpfs
+still uses the old rbtree path.  The child switches tmpfs to the lazy
+rhashtable-based simple_xattrs path.  I understand that the lazy allocation
+part is meant to avoid per-inode rhashtable overhead for tmpfs inodes that do
+not use xattrs; this report focuses on the small-list listxattr cost for tmpfs
+inodes that already have user xattrs.
 
---=20
+With one xattr, skipping the first round:
+
+  kernel / state                         flistxattr_ns_per_op
+  parent A, tmpfs old rbtree path         135.754
+  child,  tmpfs lazy rhashtable path      229.663
+  parent B, tmpfs old rbtree path         135.335
+
+That is about +69.4% for the child vs the average of the two parent runs.
+The two parent runs agree closely, and the skip-first-round ranges were:
+
+  parent A: 134.451..140.153 ns/op
+  child:   217.758..239.498 ns/op
+  parent B: 134.273..138.098 ns/op
+
+All of these runs reported `expected_match_ratio=100` and
+`unexpected_results=0`.
+
+This run used 15 rounds and 65536 iterations per target, pinned to one CPU.
+The parent and child kernels were built with the same GCC 13.3 toolchain and
+their `.config` files differ only in `CONFIG_LOCALVERSION`.
+`CONFIG_TMPFS_XATTR` was enabled, `CONFIG_KASAN` was disabled, and the configs
+had `CONFIG_DEBUG_KERNEL=y` / `CONFIG_SLUB_DEBUG=y`.
+
+I also reran the same parent/child/parent A/B with `CONFIG_SLUB_DEBUG` and
+`CONFIG_KASAN` disabled.  `CONFIG_DEBUG_KERNEL` remained enabled in this
+config because it is selected by `CONFIG_EXPERT=y`, so I am not treating this
+as a full `DEBUG_KERNEL=n` build.  In that matched production-like run,
+skipping the first round:
+
+  kernel / state                         flistxattr_ns_per_op
+  parent A, tmpfs old rbtree path         148.536
+  child,  tmpfs lazy rhashtable path      223.866
+  parent B, tmpfs old rbtree path         149.178
+
+So the child was still about +50.4% slower than the average of the two parent
+runs (`223.866 ns/op` vs `148.857 ns/op`).  This is a smaller absolute delta
+than the debug-config A/B, but it still shows the same direction after
+removing the heavier SLUB/KASAN debug options.
+
+I also ran a count gradient on the same parent/child pair:
+
+  xattr_count   parent A ns/op   child ns/op   parent B ns/op   child vs avg
+  1             156.102          242.886       156.872          +55.2%
+  4             185.109          273.756       181.206          +49.5%
+  16            312.894          378.211       315.962          +20.3%
+  64            885.222          934.356       870.759          +6.4%
+
+So this looks like a small-list fixed-cost regression rather than a claim that
+rhashtable-based xattrs are slower for every workload or every list size.  As
+the number of xattrs grows, the extra fixed cost is amortized by the list walk
+itself.  These are tight-loop microbenchmark numbers, so the absolute per-op
+cost is small; I am reporting it as a fixed-cost regression in this
+enumeration path, not as measured impact on a specific application.  I am also
+not claiming that setxattr/getxattr or non-tmpfs xattr workloads have the same
+behavior.
+
+Earlier attribution runs pointed in the same direction:
+
+  - the signal narrowed to flistxattr(fd), not fsetxattr(fd) or fgetxattr(fd);
+  - bpftrace layer timing did not point at security_inode_listxattr();
+  - the growing part was around shmem_listxattr() / simple_xattr_list();
+  - a diagnostic rbtree-backend probe recovered most of the old timing for this
+    workload, although it changes the backend shape and is only attribution
+    evidence.
+
+I am not sending the diagnostic probe as a patch, because it is only
+attribution evidence.  I wanted to ask whether this small-list tmpfs
+flistxattr(fd) slowdown is expected/acceptable from the rhashtable conversion,
+or whether a small-list fast path would be worth exploring without weakening
+the original lazy-allocation goal.
+
+Evidence bundle:
+
+  https://github.com/lcf0399/linux-regression-evidence/tree/f0a07aa70b79219bd9f47f577357d673b3a06dae/tmpfs-flistxattr-small-list
+
+Bare-metal summaries:
+
+  https://github.com/lcf0399/linux-regression-evidence/tree/f0a07aa70b79219bd9f47f577357d673b3a06dae/tmpfs-flistxattr-small-list/bare-metal
+
+Standalone reproducer:
+
+  https://github.com/lcf0399/linux-regression-evidence/tree/f0a07aa70b79219bd9f47f577357d673b3a06dae/tmpfs-flistxattr-small-list/reproducer
+
 Thanks,
-Mauro
+Chengfeng
