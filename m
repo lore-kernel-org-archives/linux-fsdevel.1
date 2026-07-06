@@ -1,73 +1,73 @@
 Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8EA6436BD1
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 22:41:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95EB83C10B3;
+	Mon,  6 Jul 2026 23:02:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783377701; cv=none; b=rNgLMA/S/yRC6tPL7O2OVq1sVR72Sk4RcSeF9N5nUpXJK+SRi6gozeuCYNhpRcqpiZo98XrcsbHH3fqc5U5U4UvNqDYhb5JlqJqQvhsLJ/TtxtxknmND8GGVlG9RTPjQPmUQeT/le6WEXIkWvckxVO+gGswFj/VfNgK6OM1dwyo=
+	t=1783378977; cv=none; b=mL5FqqiWbPDrnbwJXYA/ZHoUtadlMQWhGuQLpjcPu/K/ZaIsDsRpGQ/eTdchV/Kabql/64Y2SOHA7Ep9drtrfWtcaNuyVmxcF5rdaM2VLgaZzc81k0SOFJCiWtJBhvkwRGiMBTMVvH1DsPuL6uA6FSV5WmZnpm8d03XOdy/SQxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783377701; c=relaxed/simple;
-	bh=GFKzdY0843AuSUbW7GZto0cgB/MKkg0xNGP/mK36/G8=;
+	s=arc-20240116; t=1783378977; c=relaxed/simple;
+	bh=4JNre7mKevnsAAlGyNAVhlTMHT0ZwkA+r4j3Ktsnpu0=;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=R4ZlwO8A8DBBj9mdtq49rYcDcppToSAVaLU7mzluznj1X1kYrAVD4E3/h5WP032Tnr7jMFu4E3LCUt/H/CBomj67kJ8+NrTW2k8o+DPzlSPJ8gkrl9tgVyXOtwwavuc96P54UlFNsQe5rwEABvBgG2NkGBa4yEAVVkyYV6WwwAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=JzK3fXBJ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=W5glCzt+; arc=none smtp.client-ip=103.168.172.149
+	 References:Date:Message-id; b=EAWhlda5p8gGbif07rd6jSeE+DlwvDzk0XAM+5HU+IFum66k9Q0Lm+oFDSqyWI6GDl1lQYmm3T6JP/16Ev7CLfwhPfa4zMegwC8oZnXbO0cKyEEquamPl5/8EC8Yc889HasZvtgjg8sy/QqVGrbdVEjYQEMdHTuD1P4MnjypMdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=Gnea10ri; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=B+3I5uED; arc=none smtp.client-ip=103.168.172.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="JzK3fXBJ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="W5glCzt+"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id E5DD8EC007A;
-	Mon,  6 Jul 2026 18:41:38 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Mon, 06 Jul 2026 18:41:38 -0400
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="Gnea10ri";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="B+3I5uED"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id C4121EC0079;
+	Mon,  6 Jul 2026 19:02:54 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Mon, 06 Jul 2026 19:02:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
-	1783377698; x=1783464098; bh=SXlowPF1LlJcBOx7BmUBlMua0eL+AJqzICY
-	igsOJbco=; b=JzK3fXBJT80tkV6GRTkIkrAghpVzJslDVp34dQFmUL+MvJpHKoy
-	bcQII38Ld1/E9vYjlKv0f0AFruvI9J2AmtFN4eig2/ng5pUOaiVr78o8sqrHCtD/
-	pWkuIvX4DSBIyxIxQBocOSI2aDk/7TJZ32qqWEEmHO1HOvvFaw83ctPJt/9wNJ+7
-	HAuf6HpG+d3rvpV5E5k6rvMce7Y22dA25YNaY4P9YayFOBJWuVhzyF+2IV5r7km8
-	0hW74Np6RaLqLAF6wKqb3Dv/qe105vr8skd8Lb2DGXNU3dXX/1JiAaGMQLI331iQ
-	ZWzoiLo0qjQXSlJpVC7wVYF7goN7Zmks+5g==
+	1783378974; x=1783465374; bh=pgJZ7ysRQ9r1ny4uD1qhi/ZDvsRiJjE6sRx
+	2V2bukUQ=; b=Gnea10riyxWlZ69XxTA0S8iJt45HdEHAoJqjQSLSEebk/cYOMOr
+	3iU3vK3JyjFcJ7lkMGthfFOhvRvOj46GnlEMG88KRvOjHAyTsc/+FZ9uQ7sgB5lb
+	TCU2ZYjXbDr6B2RGYsyN8R8MDWUjOYkLr77IAKDSNzL/evEtfZ5SM+P1STp8tMLs
+	puKmPjwQe8ygItUrl/AM8J0vEmre38UlQUOnvOmfOIdz526SYJ6lPSmlCcw7WYVS
+	n8Dk4uDTjsQ3Ad/XHrjg1jP12YuJuU5IeNezc5ZvDIHiodlP3/bXV8lGABNnRBoV
+	kGl6kuivi4KouhwM2i0pNaog2hitKjI6Cjw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1783377698; x=
-	1783464098; bh=SXlowPF1LlJcBOx7BmUBlMua0eL+AJqzICYigsOJbco=; b=W
-	5glCzt+HCIdBag5NjvKbBUH4YqF9nYZLvEeyaQNtt3sfwjefCDbT4bNjir0ku5ov
-	RA+FlOPqhXRq99bCqrVxURakuPGnYiN8MnBdwHOhmLFuzjam08siN6EdvmW6zjH0
-	6PF1T8Nu7CrzyjExItF3UPEKaLP78bpjIPUMCE7V6qu413uKKL3/v/xlQxsYqscs
-	jQsfUUIMHrPbJssxHWxzmK01kSiMmtUX6GVXuWC0FmyDbJlrWSQB0Xmdjf/nNbLy
-	x4QrlGIXranfN+2jrxc6Cu6JVsPwyteyg9AvM9RWChV1LLuSZDOLlrl12+KFNc5S
-	DwHqiUSd81kFfxVi3UmKQ==
-X-ME-Sender: <xms:Ii9MarDSO-618gmhPpng2dzUEiq2bcqIXRnd-6CeHjrQMuvU-Y1kjg>
-    <xme:Ii9Maqcu_wzalWKI8DR7TxhdDgOw2nsfL0BOTecS8H1ePeC6oB_n-Vk5b9H7-dfos
-    8WkXGJIlsHGQu0QgHK2-RlfkzKu3wcWzJHrNl4Xr9_XoJrMuw>
-X-ME-Received: <xmr:Ii9MaiIvvvZfUSitjD-INjq_pRwD8AcWAKThIHTzXpPPy122sE8CIsX-tBe3CRQIQ-3whBAQIhkkxdMbHBOdgax4624wwEo>
-X-ME-Proxy-Cause: dmFkZTExtKNnqrm6HdLtpxRdzr3NGNGSLcIjSnE1WnIVVal/NQrfZop6HKzbCVFmacHV7L
-    gGBJ51/81D5Kf1jdQrjhm6mBXU34k9r/9Vz7ID4Np3vwdVM2p5n6xe65Ek8xvlcRKVK9un
-    UwElRJi/buqrNsSEXR0SQbpYw68ljHd2XKSRat3RoXCjZx2WStvhvJxkTrpBytuOVscsHC
-    t7V+2n6y9m9ZgPyUkv5OkWLGmmyY72I+FIEUuLca3unt7cwvsoEsJLc6dNtZ1dh9ItGF4z
-    loJwES2ug1i3MQ7dmDH7XxMMV9tPSUPj2RG/1S5YcYEXCWYhWNPTX4nUKTywy5qDdsMIG1
-    qKvQqqyN5GE20zgTYx4rGUScQ2GarfIJ+ANRJ6RutRgI6SM99QErg9sg0EDLE63yYJlb7V
-    ZWQVaIOG/6WezdrdQMJBmlGH6yHgBLLibE/MHn4GGdTDA8vNFsPlF5dzrl+28chuCGxmtS
-    VTP3sVziEgSqGQ1C7fPqqmExtXHq5HI3yxZ1sHQ1vVtFTIrz6WMaCh/sa+b5mAkNmEEkUd
-    JIBc15L7SEbLUXYojOHUt9P8fycFZIzunbK6j/ZwDmI6/GfosYSPqXMN65iQxRlix266Vr
-    UI7P2gwSpE8kuPXfAN+Fh5c3KQ1ytjgqdDxYNeNn9i0BqsdFuvds1zb14ZBg
-X-ME-Proxy: <xmx:Ii9Mat3eG9RPcAjWh59yi4NrvN1Ado0l2P6wSBvMtaGyRDBw26cj_w>
-    <xmx:Ii9MasjMl7zQv9Jo-A06fto2n9onpnEMFMx1oxRDv6IZJHnc6h-nEg>
-    <xmx:Ii9MauVQ68pOCcDtMkQvZVWyaLZrxbWvTjA7iAFaz_KTasCh1Gvq0w>
-    <xmx:Ii9MarX-cGA_6_X_JzrdMzn5rbTaT8l9odRSPhM_r1FUuyITBoA1Og>
-    <xmx:Ii9Mai9bQiqxTFAO17DYOb1-H0fNc1eM-jHtOa5o0mfwuN8zR4FFsmKt>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1783378974; x=
+	1783465374; bh=pgJZ7ysRQ9r1ny4uD1qhi/ZDvsRiJjE6sRx2V2bukUQ=; b=B
+	+3I5uEDdZSTU5HvlxqUzTjH1Lg7eDHQxWz7aOXPiUINKhY7R+kCwAy12aRvFM+OO
+	z8jfia2n1OwByxNQE+INJQrSd/IdJ/hreqTtutNmLp+7KEfgLPNz+cTIiU2scpss
+	3EjU5xA4KjmzRk0wzHm6mH+nEwHZblAkCWVX8/30w3Qr8gQEy8M9BBDpYbPOB9yO
+	9EJcEJpO3gqXaBcnQ8VzaNKvrXM4vRcgiSGRGTaSdS4XwoOkqrm6hgw350KSaOUz
+	OoitsPHtIz3JSTY4YJMlcsxJ2p9n/UgtcImtxwuwrd1f6XbBS5pqsdh5PXKvoFSR
+	VEhOIWUFW4ef9KJ+sJx+A==
+X-ME-Sender: <xms:HTRManZoCRzdx9aGBQ1DCrhzwrYsG_6CaaCrVGqUw8EvbejVwO33lA>
+    <xme:HTRMai9lb3zD7v0WEO-h_XgxY-l8N1FI0hV4gemU9q_w1x9FFBjhcYSTXn2GyK4NT
+    X0t0mWm--dIBAFNhnIsKvRvPrGjMJeozjiifmvD9Z5BSQXqSg>
+X-ME-Received: <xmr:HTRMauaHUI2VtuKy9UOzFlPlvjP2AReM_B9226WKq5itFuXUXovb_gi05KeaLLIzmKkBOiP5CTbAZmmaHJ4itnUuer-dDKo>
+X-ME-Proxy-Cause: dmFkZTFLJ1kpcKC2knDz1hiuF057O2M2gf7P0+MxqhAdp8xjXvJASg4o7YR7B5bHZyCYal
+    UMBIKf63vu1CPHjcuWSWUBrcaUKVJKM5bzvQsf9FDuO7Ht6A3wbXdDG/zQIUFaOHH/IMHc
+    ITmb8GoZkbtH5az9w8GYc26CwsmGTeoKft765495++v1PxF6OvU6eRdOoidA+3B/h4vB9C
+    AWh6oKqngWgUZM7ShrOfSdIKXOEWUAEN3/+1s8sSLBQ8f/94zyP54mSQiaUMj+a8sGDaFo
+    g+G8XLcQO7i1f4KVA3L0rXMOSmc1ZrLw5+Uf8090+SfdxB2kCgJrFwJNq7yw1DKDXz4Isw
+    9P6VNP0GYjz45Da6OxSPaz9VNAC6KVLPO3Dl2eOmf7xaLHmKAFDzxWgU8+WWsxt5v/fVFB
+    PY5HFylNNAGGqEhcKL1eonJ1hC8EaamPsd5/oGV3huRPfmpuPdprHpJPfI24tUpgkJEebd
+    bOkUoA0Yq1/nFDMPHtKws1AZ/lz8rdaZNTjN2w8nyrmZCKaTFyaAqh8aMREZqA7nJA6xM+
+    1FsJCNo8R8HnQwIjJYpxIprLHc7WMunNkGR7CWLj22bCE0bnCfZh5k9kMgF7bmiTRojI/H
+    MRifCBt1OMS7A2SKjIUVIZPrnbTZl3Qpybr/lz/OK8YfiZlvlBftUP+4rvew
+X-ME-Proxy: <xmx:HTRMakeC33HXJ9wIjDJcOLGPWgTLq4chqkaMPSBnYnEriZ9XV6fwMw>
+    <xmx:HjRMajkayFI7_qIJkLS-ktAIpvhnIKZD9ZoVuJwADT_QwVSxohAk0A>
+    <xmx:HjRMas3XUHrtuucQ3ktOxOev37xiNFC9qO7VGjjJIsWmmvYQE_4JyA>
+    <xmx:HjRMakd5CgEYmDO2AZ0LF8-7VBIiagX3X-hyO6xguUZG51ABkbtUhg>
+    <xmx:HjRMaksPeS-Toiq8lllBLNCN7vPiIqf6XRHIklndM72nkDfxI0BX4dVb>
 Feedback-ID: i9d664b8f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 6 Jul 2026 18:41:36 -0400 (EDT)
+ 6 Jul 2026 19:02:51 -0400 (EDT)
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -78,147 +78,262 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 From: NeilBrown <neilb@ownmail.net>
 To: "Jori Koolstra" <jkoolstra@xs4all.nl>
-Cc: "Christian Brauner" <brauner@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] VFS: add vfs_lookup_open() for nfsd
-In-reply-to: <1991496397.134753.1783375817781@kpc.webmail.kpnmail.nl>
-References: <20260705235447.1322365-1-neilb@ownmail.net>
-  <20260705235447.1322365-4-neilb@ownmail.net>
-  <20260706-steril-fragil-worunter-f48995ef1b29@brauner>
-  <1991496397.134753.1783375817781@kpc.webmail.kpnmail.nl>
-Date: Tue, 07 Jul 2026 08:41:34 +1000
-Message-id: <178337769441.27465.695048090001126516@noble.neil.brown.name>
+Cc: "Jeff Layton" <jlayton@kernel.org>,
+ "Christian Brauner" <brauner@kernel.org>, "Al Viro" <viro@zeniv.linux.org.uk>,
+ "Aleksa Sarai" <aleksa@amutable.com>, "Amir Goldstein" <amir73il@gmail.com>,
+ "Jan Kara" <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 04/14] vfs: call audit_inode_child() in lookup_open()
+ on failure too
+In-reply-to: <110549453.130215.1783372824255@kpc.webmail.kpnmail.nl>
+References: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
+  <20260704164149.3480051-5-jkoolstra@xs4all.nl>
+  <178331600416.27465.18425637255026621428@noble.neil.brown.name>
+  <110549453.130215.1783372824255@kpc.webmail.kpnmail.nl>
+Date: Tue, 07 Jul 2026 09:02:49 +1000
+Message-id: <178337896915.27465.4232973361763487091@noble.neil.brown.name>
 Reply-To: NeilBrown <neil@brown.name>
 
 On Tue, 07 Jul 2026, Jori Koolstra wrote:
-> > Op 06-07-2026 15:33 CEST schreef Christian Brauner <brauner@kernel.org>:
+> > Op 06-07-2026 07:33 CEST schreef NeilBrown <neilb@ownmail.net>:
 > >=20
 > > =20
-> > > vfs_lookup_open() is a limited version of lookup_open() which is
-> > > exported for nfsd to use - to replace dentry_create().
+> > On Sun, 05 Jul 2026, Jori Koolstra wrote:
+> > > audit_inode_child() is called in may_create_dentry() so that failed
+> > > filesystem operations still register an audit entry. On success, the
+> > > entry is overwritten when, for instance, fsnotify_create() is called.
+> > > This is the calling convention in vfs_create() and vfs_mkdir().
+> > > In lookup_open(), however, when atomic_open() should have created a
+> > > file but didn't, no call to audit_inode_child() is made. The same is
+> > > true for the regular ->create() path.
 > > >=20
-> > > It is limited in that no filename is given (thus no auditing) and no
-> > > LOOKUP_ flags are passed.  A few "intent" LOOKUP flags are deduced from
-> > > the open flags.
+> > > Fix the calling of audit_inode_child() in lookup_open() to match the
+> > > vfs_create() path. For the ->atomic_open() filesystems this logic has
+> > > been pushed into atomic_open(). This function is also reordered a bit
+> > > to make the case distinction of the possible returns from
+> > > ->atomic_open() more explicit (i.e. finish_open() or finish_no_open()).
 > > >=20
-> > > If a non-regular file is found, an O_PATH file is returned.  This allows
-> > > the caller to see what was found and to return an appropriate error
-> > > code.  However if ->atomic_open was used, it may return an error rather
-> > > then provide a dentry.
+> > > When retrying delegation breaking, audit_inode_child() could be called
+> > > more than once, but this is OK because those entries are reused.
 > > >=20
-> > > Signed-off-by: NeilBrown <neil@brown.name>
-> > >
+> > > Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> > > ---
+> > >  fs/namei.c | 75 ++++++++++++++++++++++++++++++++----------------------
+> > >  1 file changed, 45 insertions(+), 30 deletions(-)
+> > >=20
 > > > diff --git a/fs/namei.c b/fs/namei.c
-> > > index 1ca738401afa..002ffae7083d 100644
+> > > index ee47d3f5159f..956adcd14c4a 100644
 > > > --- a/fs/namei.c
 > > > +++ b/fs/namei.c
-> > > @@ -4568,6 +4568,76 @@ static struct dentry *lookup_open(struct nameida=
-ta *nd, struct file *file,
-> > >  	goto out;
-> > >  }
+> > > @@ -4369,10 +4369,11 @@ static int may_o_create(struct mnt_idmap *idmap,
+> > >   */
+> > >  static struct dentry *atomic_open(const struct path *path, struct dent=
+ry *dentry,
+> > >  				  struct file *file,
+> > > -				  int open_flag, umode_t mode)
+> > > +				  int open_flag, umode_t mode, bool create_error)
+> > >  {
+> > >  	struct dentry *const DENTRY_NOT_SET =3D (void *) -1UL;
+> > >  	struct inode *dir =3D  path->dentry->d_inode;
+> > > +	bool failed_create =3D false;
+> > >  	int error;
 > > > =20
-> > > +/**
-> > > + * vfs_lookup_open - open and possibly create a regular file
-> > > + * @parent: directory to contain file
-> > > + * @last: final component of file name
-> > > + * @open_flag: O_flags
-> > > + * @mode: initial permissions for file
-> > > + *
-> > > + * Open a file after lookup and/or create.  This provides similar
-> > > + * functionality open_last_lookups() for in-kernel users, particularly
-> > > + * nfsd.
-> > > + * It uses ->atomic_open or ->lookup / ->create / ->open as appropriat=
-e.
-> > > + *
-> > > + * Returns: the opened struct file, or an error.
-> > > + *     Caller should check that the file opened is regular,
-> > > + *     if something else was found, an O_PATH file is provided.
-> > > + *     Caller should validate FMODE_CREATED if O_EXCL was requested.
-> > > + */
-> > > +struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
-> > > +			     int open_flag, umode_t mode)
-> > > +{
-> > > +	struct file *file __free(fput) =3D NULL;
-> > > +	struct nameidata nd =3D {};
-> > > +	struct open_flags op =3D {};
-> > > +	struct dentry *dentry;
-> > > +	int error =3D 0;
-> > > +
-> > > +	WARN_ONCE(mode & !S_IALLUGO, "mode must only have permission bits");
->=20
-> Typo here.
-
-Thanks.
-
->=20
-> > > +	error =3D lookup_noperm_common(last, parent->dentry);
-> > > +	if (error)
-> > > +		return ERR_PTR(error);
-> > > +
-> > > +	file =3D alloc_empty_file(open_flag, current_cred());
-> > > +	if (IS_ERR(file))
-> > > +		return file;
-> > > +
-> > > +	nd.path =3D *parent;
-> > > +	nd.last =3D *last;
-> > > +	nd.flags =3D LOOKUP_OPEN;
-> > > +	if (open_flag & O_CREAT) {
-> > > +		nd.flags |=3D LOOKUP_CREATE;
-> > > +		if (open_flag & O_EXCL)
-> > > +			nd.flags |=3D LOOKUP_EXCL;
-> > > +	}
-> > > +	op.open_flag =3D open_flag;
-> > > +	op.mode =3D S_IFREG | mode;
-> > > +	dentry =3D lookup_open(&nd, file, &op);
-> > > +
-> > > +	if (IS_ERR(dentry))
-> > > +		return ERR_CAST(dentry);
-> > > +
-> > > +	if (d_really_is_negative(dentry)) {
-> > > +		error =3D -ENOENT;
-> > > +	} else if (!(file->f_mode & FMODE_OPENED)) {
-> > > +		nd.path.dentry =3D dentry;
-> > > +		if (!d_is_reg(dentry))
-> > > +			/*
-> > > +			 * allow caller to see dentry and choose
-> > > +			 * correct error code
-> > > +			 */
-> > > +			file->f_flags |=3D O_PATH;
-> > > +		error =3D vfs_open(&nd.path, file);
+> > >  	file->__f_path.dentry =3D DENTRY_NOT_SET;
+> > > @@ -4382,23 +4383,33 @@ static struct dentry *atomic_open(const struct =
+path *path, struct dentry *dentry
+> > >  	d_lookup_done(dentry);
+> > >  	if (!error) {
+> > >  		if (file->f_mode & FMODE_OPENED) {
+> > > -			if (unlikely(dentry !=3D file->f_path.dentry)) {
+> > > +			// finish_open() called
+> > > +			struct dentry *opened =3D file->f_path.dentry;
+> > > +			if (unlikely(opened !=3D dentry)) {
+> > >  				dput(dentry);
+> > > -				dentry =3D dget(file->f_path.dentry);
+> > > +				dentry =3D dget(opened);
+> > >  			}
+> > > -		} else if (WARN_ON(file->f_path.dentry =3D=3D DENTRY_NOT_SET)) {
+> > > -			error =3D -EIO;
+> > > -		} else {
+> > > -			if (file->f_path.dentry) {
+> > > +		} else if (likely(file->f_path.dentry !=3D DENTRY_NOT_SET)) {
+> > > +			// finish_no_open() called
+> > > +			struct dentry *replaced =3D file->f_path.dentry;
+> > > +			if (replaced) {
+> > >  				dput(dentry);
+> > > -				dentry =3D file->f_path.dentry;
+> > > +				dentry =3D replaced;
+> > >  			}
+> > >  			if (unlikely(d_is_negative(dentry)))
+> > >  				error =3D -ENOENT;
 > >=20
-> > Imho, that really throws a wrench into this function. I'd rather just
-> > fail with well-known error codes in that case:
-> >=20
-> > /* directory */ -> EISDIR
-> > /* device */    -> ENODEV
-> >=20
-> > Also, why does the caller need to know details here? Because of the
-> > O_DIRECTORY work? But even so, EFTYPE would be enough afaict, I think?
+> > I think this can now be
+> >    if (unlikely(d_is_negative(dentry))
+> >          error =3D create_error ?: -ENOENT;
+> > or something similar if people don't like "?:".
 > >=20
 >=20
-> If that is the reason it would be easier to just ban O_DIRECTORY from the
-> start here, if vfs_lookup_open() is meant to only ever open/create regular
-> files.
->=20
-> Is that the case, Neil?
+> create_error is a bool, and the caller still expects -ENOENT because we have
 
-nfsd would never pass O_DIRECTORY to vfs_lookup_open() (unless the
-protocol were extended one day of course) so banning O_DIRECTORY would
-be best as accepting it could never be tested.
+Oh, is it?  So it is, I missed that.  I would much rather it was an int.
 
 >=20
-> Now that I think about it, I think you also want to restrict the O_* flags.
-> lookup_open() normally does not get passed __O_TMPFILE or O_PATH afaik, and
-> it would probably a bad idea to start passing it these flags. Maybe also do=
-n't
-> want to allow O_TRUNC.
+> 		dentry =3D atomic_open(&nd->path, dentry, file, open_flag, mode);
+> 		if (unlikely(create_error) && dentry =3D=3D ERR_PTR(-ENOENT))
+> 			dentry =3D ERR_PTR(create_error);
 
-Well nfsd is never going to send an illegal flag, but making it explicit
-in the code what is supported would be sensible.
-O_TRUNC needs to be supported because ->atomic_open can handle that.  An
-NFSv4 OPEN request can indicate that if the file wasn't created, it
-should be truncated.
+You wouldn't need this 'if" any more if you made the change I suggested.
 
-Thanks,
+>=20
+> > > +			if (error && create_error) // should have created, but errored befo=
+re
+> > > +				failed_create =3D true;
+> >=20
+> > Why have 'failed_create' ? Why not just put the audit_inode_child() like
+> > here?
+> >=20
+>=20
+> Because I am a doofus and didn't notice during several rewrites.
+
+Happens to everyone :-)
+
+>=20
+> If we reach the point where you propose we move audit_inode_child() to, the=
+n error
+> is true and so we reach audit_inode_child(). Conversely, if we reached
+> audit_inode_child() then failed_create is true, and this is only set at the=
+ proposed
+> place to move the function to. So this is indeed equivalent.
+>=20
+> The failed_create name is terrible anyway and it tripped Sashiko over. It w=
+as meant
+> to convey rather "we know for sure that we should have created a file."
+>=20
+> Thanks a lot for taking the time to review and the helpful feedback!
+
+A pleasure.
+
 NeilBrown
+
+>=20
+> Best,
+> Jori.
+>=20
+> > There rest of the patch look pretty good.
+> >=20
+> > Thanks,
+> > NeilBrown
+> >=20
+> >=20
+> > > +		} else {
+> > > +			const char *fsname =3D dentry->d_sb->s_type->name;
+> > > +			WARN(1, "%s: ->atomic_open() left file->f_path.dentry unset!\n", fs=
+name);
+> > > +			error =3D -EIO;
+> > >  		}
+> > >  	}
+> > > =20
+> > >  	if (error) {
+> > > +		if (failed_create)
+> > > +			audit_inode_child(dir, dentry, AUDIT_TYPE_CHILD_CREATE);
+> > >  		dput(dentry);
+> > >  		dentry =3D ERR_PTR(error);
+> > >  	} else {
+> > > @@ -4462,7 +4473,7 @@ static struct dentry *lookup_open(struct nameidat=
+a *nd, struct file *file,
+> > >  		dentry =3D NULL;
+> > >  	}
+> > >  	if (dentry->d_inode) {
+> > > -		/* Cached positive dentry: will open in f_op->open */
+> > > +		/* Cached positive dentry: will open in do_open(). */
+> > >  		return dentry;
+> > >  	}
+> > > =20
+> > > @@ -4496,7 +4507,7 @@ static struct dentry *lookup_open(struct nameidat=
+a *nd, struct file *file,
+> > >  	if (dir_inode->i_op->atomic_open) {
+> > >  		if (nd->flags & LOOKUP_DIRECTORY)
+> > >  			open_flag |=3D O_DIRECTORY;
+> > > -		dentry =3D atomic_open(&nd->path, dentry, file, open_flag, mode);
+> > > +		dentry =3D atomic_open(&nd->path, dentry, file, open_flag, mode, cre=
+ate_error);
+> > >  		if (unlikely(create_error) && dentry =3D=3D ERR_PTR(-ENOENT))
+> > >  			dentry =3D ERR_PTR(create_error);
+> > >  		return dentry;
+> > > @@ -4515,33 +4526,37 @@ static struct dentry *lookup_open(struct nameid=
+ata *nd, struct file *file,
+> > >  			dentry =3D res;
+> > >  		}
+> > >  	}
+> > > +	if (dentry->d_inode || !(op->open_flag & O_CREAT)) {
+> > > +		/* No need to create a file. If lookup returned a positive
+> > > +		 * dentry, the file will be opened in do_open(). */
+> > > +		return dentry;
+> > > +	}
+> > > +
+> > > +	/* Negative dentry with O_CREAT flag set */
+> > > +	audit_inode_child(dir->d_inode, dentry, AUDIT_TYPE_CHILD_CREATE);
+> > > =20
+> > > -	if (unlikely(create_error) && !dentry->d_inode) {
+> > > +	if (unlikely(create_error)) {
+> > > +		/* Should have done a create, but we already errored */
+> > >  		error =3D create_error;
+> > >  		goto out_dput;
+> > >  	}
+> > > =20
+> > > -	/* Negative dentry, just create the file */
+> > > -	if (!dentry->d_inode && (open_flag & O_CREAT)) {
+> > > -		/* but break the directory lease first! */
+> > > -		error =3D try_break_deleg(dir_inode, LEASE_BREAK_DIR_CREATE, delegat=
+ed_inode);
+> > > -		if (error)
+> > > -			goto out_dput;
+> > > +	error =3D try_break_deleg(dir_inode, LEASE_BREAK_DIR_CREATE, delegate=
+d_inode);
+> > > +	if (error)
+> > > +		goto out_dput;
+> > > =20
+> > > -		file->f_mode |=3D FMODE_CREATED;
+> > > -		audit_inode_child(dir_inode, dentry, AUDIT_TYPE_CHILD_CREATE);
+> > > -		if (!dir_inode->i_op->create) {
+> > > -			error =3D -EACCES;
+> > > -			goto out_dput;
+> > > -		}
+> > > +	file->f_mode |=3D FMODE_CREATED;
+> > > +	if (!dir_inode->i_op->create) {
+> > > +		error =3D -EACCES;
+> > > +		goto out_dput;
+> > > +	}
+> > > =20
+> > > -		error =3D dir_inode->i_op->create(idmap, dir_inode, dentry,
+> > > -						mode, open_flag & O_EXCL);
+> > > -		if (error)
+> > > -			goto out_dput;
+> > > +	error =3D dir_inode->i_op->create(idmap, dir_inode, dentry,
+> > > +					mode, open_flag & O_EXCL);
+> > > +	if (error)
+> > > +		goto out_dput;
+> > > =20
+> > > -		fsnotify_create(dir_inode, dentry);
+> > > -	}
+> > > +	fsnotify_create(dir_inode, dentry);
+> > > =20
+> > >  	return dentry;
+> > > =20
+> > > @@ -5071,7 +5086,7 @@ struct file *dentry_create(struct path *path, int=
+ flags, umode_t mode,
+> > > =20
+> > >  		/* atomic_open will dput(dentry) on error */
+> > >  		dget(orig_dentry);
+> > > -		dentry =3D atomic_open(path, dentry, file, flags, mode);
+> > > +		dentry =3D atomic_open(path, dentry, file, flags, mode, create_error=
+);
+> > >  		error =3D PTR_ERR_OR_ZERO(dentry);
+> > > =20
+> > >  		if (IS_ERR(dentry))
+> > > --=20
+> > > 2.55.0
+> > >=20
+> > >
+>=20
+
