@@ -1,102 +1,604 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from va-1-115.ptr.blmpb.com (va-1-115.ptr.blmpb.com [209.127.230.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3970D3F0773
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 11:05:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783335939; cv=pass; b=jF12avywr5DanxcJ01CNwJiN8vIQxUXGpcRrydM6+BJgCxhXTSu0eIefQvb5G2X672vXg3+psvR2+x0UYFEtMYKRxUcDYk/Fi2rEide295sHRjwJVb97H+oEdLFtdkXJu4liqPrHKzHAcvJCRMx1DDWW4W/3+n+7CnTB9c378dE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783335939; c=relaxed/simple;
-	bh=/hNkRgqeQVbmzvlwRmP3/2RYGVe1oSFSJkX3H5Zcdt8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MtHcZORGZyIQp5kgxbeoVwUHTgwqrMtemvZJ3Cd5tk/gFWNHZNf51msaBIM8YShvtwDVXVuQD8nkKHMkqUgc67VEYabtb0okuyrGgT0D4DJf/C2KDTeHOcvRl2qcr7R7+zVA0VOT2LDSTwJrInj3BeYx+ObG0Phq7POOdoc0cts=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=L7kbB6Wc; arc=pass smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72EA83EDAB3
+	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 11:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.115
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783336204; cv=none; b=Iazwu/RXmadlmSqqJguIfxJRleoYND9YDx0JpltedcdO/FYfNgmh6R+7AadXsR8oN+iq4qfYTK46yPJa5wh/IiIenKAfjsGnst/vOZxV2d7jricCGtHHO/jc7K6bmq3Vjm3bJSfZeNUCQzKOBa77Y7nO5uGmdJ7CQkgkQ4v46h8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783336204; c=relaxed/simple;
+	bh=kXOnXCoq0g6EQzEYEp/gegMS/8R08YlA8Lx1pYwtJf8=;
+	h=Cc:Mime-Version:In-Reply-To:References:Date:Message-Id:To:Subject:
+	 From:Content-Type; b=SoOnjsm3K3/V06bfjkVcSW9A+PDYo9RybtuogJxeSr+8T0V+zPGCUBk73jnGcuTkNjvO0Ol8lVj4LLHebpSK15pqfNQoCqW5uVaMQIQy+xDuhTKFE7EjEVPC7r4Y9po55K6k6Rb5B3p93b1R0aFIDmxgXjOWVz81rZMq87pl71U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=dLbjWLHe; arc=none smtp.client-ip=209.127.230.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="L7kbB6Wc"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51bfad59921so20618621cf.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 04:05:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783335936; cv=none;
-        d=google.com; s=arc-20260327;
-        b=sPa+d1/NzwhhnKcFBMkut7ZsEtLAb/cu4ZrE9uDxHgfq0F2tjTjNGV8zaFkz7kT4NW
-         xL4fRlY8l7w1FagSwPorxNl9JkYjdJ9KHt0AAT/Hr2uRAOskhxTjdIGH+Aw232VhXSdL
-         +c5mZlulX1g5w514czRr0/Ziq7SfzcrVSHatDi1RmdrsvTfCLSpNxSQGGBDML02XYVe7
-         UzKD5NSGxLnJvYwfMx6fgAyxVlJ59rppw02mn5bXazAPyyjr3QOJhGNJIQUH4OgPJQcC
-         l3PZjjF/gt2fGX8UqJaWjV6wJWAn7Q4k+BMDMXa6kf3CmQ6PUeV8YnQ4q8INFmgAABi2
-         DVxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=5N9xOz7IuFoWi/YP9UdZnMaOav6tflAjjK/V30R04Xw=;
-        fh=kyofVaBzCGlOZvi5JbbkfFoGalBWIzTk7fjiQ/68yq0=;
-        b=C+YnAz+30zo0Fyn2iYcjRuoPH/F6IUr+Xgbk9Y8nbKVCdxYW8i9rJlG0NQel2HQ4sq
-         rQlpKu8ZB7fJ6Se6ANRw5JE9AQwW4yPqKo6JScg5e/ZYkXJm8o56hH2hKirg/Zwed9ts
-         IO5nB0n+ghcwaXYDS+M4oDtKX0bB73CjJWk2sYCHr+OWpbl07GNVj3SfgQTN+4fdoXat
-         4Gi0i2Ya2LiW/PKBYN8i5sHADlQv+JB8g13QHLsPQQupTaMFWluYcFAT9mnPOnkFziIG
-         k/irH4rL/dcLYY47TY8HWCETt8pnvqWfxm/YS9yLtGOnUrygJL2h0aiqRHyXcIVEFMQ/
-         HU3A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1783335936; x=1783940736; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5N9xOz7IuFoWi/YP9UdZnMaOav6tflAjjK/V30R04Xw=;
-        b=L7kbB6WcHUV6HryxojFgeaun/MQ6kjrsBcAqV+yFpS2C9zHYxYE0AnI/mL+PM9VF44
-         ur6rJteTLgKQNtRVXVv7dkrf8+W6qeFnqKNbE+nA/plr7sNWyKKOikW7n1UyVJ9+fttA
-         W9tqDW2bVZXB4GuHXBbwsX1eIYoBWEokArOQs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783335936; x=1783940736;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5N9xOz7IuFoWi/YP9UdZnMaOav6tflAjjK/V30R04Xw=;
-        b=Fy4UICifT0ANjT7u9RjPQGJ/3Vw0h3d1+dwFLG/Z4CK+bwVa4AOTN5PR2Lwv1H0TLA
-         v1hvO/YSu/adJbNHOOmC8QnGpkN1+Ou1k0x1CdC8JvnyCfzltJ3MipkZcE9qavXgRS8d
-         ctRCNDEzeY2Rubb02Uyb2b36uZw3PlkWz3VywBNxeMmuwZ8VXYnA35lk+hb2HfgACIRq
-         qotkRw+85T4oivcd43jb2QCBi2DLO9cSZblo2LKxURPz0FsgHh6iMepByBxYq/Da5L3p
-         oXDqFjq9WuVANDbzygqGMbatJU8TPAgVl3i18VJUasOyK3Z8o0DJyGeNBh7r9ENgQLG1
-         L0lA==
-X-Forwarded-Encrypted: i=1; AHgh+RoabjjXaZmtQ2Dkv9/pDKUBksqndR6n39hZpyc65GfEjnQnCAz7ao8mEIt5D3vsOMnv4OiNRufomC1a5bzl@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx03y+en+MEdi5ff8BgcDEU+VamZyvvAgxqCYKx11gJGJuMNdg3
-	784XfRGesY8MXk0onaz3ehE50VjUrq5oP0imBAd+NGgUdZCj3/gDoLVJFee74pcOKXyrBoXMD45
-	FzrvKBuugfUfCDMbLgiLPRh+Dymlboa/gpx3YvpKuLA==
-X-Gm-Gg: AfdE7clMu8BlEOPQgGPmM97kI0hRVTpURGM0Ejp3SuYQgpbc+IDg5MqeuMwuq0Hg9z3
-	IRhhVGqpzwWeHjEMejCntwVhlhCv63eWr0KYHnXXsFiiZgi9CHs1oCjgdcMdr3ZU4Q0/hXGWPeC
-	tjLvroGYxWDP4KlkoYU/QOs9DWrMUB/gaBdBPN40IX8ktRBdr5mtERyM31qxd2OKoNrKTmq6Anu
-	8TEwh3iaYBR5639zvh/XXHtvf1Fs6jC4naBQO+kwAsRtVxjxZdWq0AweJj7T308Mp7k+LDIJ2Rc
-	BQYQJ6tA7MMXx+txub7sfsMOgmk=
-X-Received: by 2002:a05:622a:1453:b0:517:7e26:36a4 with SMTP id
- d75a77b69052e-51c4c2c14b9mr140647271cf.34.1783335935865; Mon, 06 Jul 2026
- 04:05:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="dLbjWLHe"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1783336195; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=kXOnXCoq0g6EQzEYEp/gegMS/8R08YlA8Lx1pYwtJf8=;
+ b=dLbjWLHeSiqJs7vXogZ2udnyJJ/gHwJ5DkWVvR8ZTVUDwwXP1k1UbDzgBQSyVpMdpzvf09
+ +j8NRm83t+qZPc0+KfB5dRaqM3qIKTlaIcs93yQYT0ajWLdvHn3X0qrjX00gzyC/kV2Kyx
+ 9icyXLW6c/5HaVUbH3qoUZXnU9vImNDGxrFI8OnGkfemxlNZku251eTMtqHH1GMRbQkkaT
+ jmYhsQ9WZKkqhrBQ73iQqyvC1mIVkGvxCi4VBzoZdx4evB26PUhy149HnaidetZMcuu2Tf
+ hzuGJOg+DtTd09yi3Z8mQsQ16DN/3wJ8jF8/qF6c1n5t1wZ23OUQhDDQaXv/fg==
+Cc: "Joanne Koong" <joannelkoong@gmail.com>, 
+	"Christoph Hellwig" <hch@infradead.org>, "brauner" <brauner@kernel.org>, 
+	"djwong" <djwong@kernel.org>, "ojaswin" <ojaswin@linux.ibm.com>, 
+	"dgc" <dgc@kernel.org>, "linux-xfs" <linux-xfs@vger.kernel.org>, 
+	"linux-fsdevel" <linux-fsdevel@vger.kernel.org>, 
+	"linux-ext4" <linux-ext4@vger.kernel.org>, 
+	"linux-kernel" <linux-kernel@vger.kernel.org>, 
+	<lidiangang@bytedance.com>, "pankaj.raghav" <pankaj.raghav@linux.dev>, 
+	"Brian Foster" <bfoster@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260702021105.3406439-1-neilb@ownmail.net>
-In-Reply-To: <20260702021105.3406439-1-neilb@ownmail.net>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Mon, 6 Jul 2026 13:05:23 +0200
-X-Gm-Features: AVVi8CffNWtFbcBvs13jifF0StaOc8_tnG8CKCFcb9gVjjy93J7qwqRMN2Yb6cc
-Message-ID: <CAJfpegtCL8S=zjv-pwxrX-9YXL0HLGb8Dsw_XWFF_H4Ui3MTZA@mail.gmail.com>
-Subject: Re:
-To: NeilBrown <neil@brown.name>
-Cc: Steve French <sfrench@samba.org>, Steve French <smfrench@gmail.com>, linux-cifs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+In-Reply-To: <akettUm5gBD8nj56@infradead.org>
+X-Lms-Return-Path: <lba+16a4b8d01+e2b9a2+vger.kernel.org+changfengnan@bytedance.com>
+References: <20260701033253.46420-1-changfengnan@bytedance.com> <20260701033253.46420-4-changfengnan@bytedance.com> <akT4tJzFSfrBxqdq@infradead.org> <CAJnrk1Y3yPeXBeBNo+DjTt8eRN-mc2F9apBCUn+j=GV7GMzi4g@mail.gmail.com> <akZ3GErzJSTtOn-H@infradead.org> <CAJnrk1ZijiWYU8YOmRf24xxwX0kH6vCe3ta89LfoX7v7j_JYLQ@mail.gmail.com> <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.e3ea485f.90a4.4656.9103.275b1cd29206@bytedance.com>
+	<akettUm5gBD8nj56@infradead.org>
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 06 Jul 2026 19:09:50 +0800
+Message-Id: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.a1148d7a.4a0d.4c6a.b14d.4583b6b728ce@bytedance.com>
+To: "Christoph Hellwig" <hch@infradead.org>
+Subject: Re: [PATCH v6 3/3] iomap: add simple dio path for small direct I/O
+From: "changfengnan" <changfengnan@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, 2 Jul 2026 at 04:11, NeilBrown <neilb@ownmail.net> wrote:
 
-> 10 years ago cifs *did* use ->d_time but was changed to use ->d_fsdata
-> by Miklos with no justification (a00be0e31f8d).  Miklos: do you have any
-> memory of why that was done?
+> From: "Christoph Hellwig"<hch@infradead.org>
+> Date:=C2=A0 Fri, Jul 3, 2026, 20:40
+> Subject:=C2=A0 Re: [PATCH v6 3/3] iomap: add simple dio path for small di=
+rect I/O
+> To: "changfengnan"<changfengnan@bytedance.com>
+> Cc: "Joanne Koong"<joannelkoong@gmail.com>, "Christoph Hellwig"<hch@infra=
+dead.org>, "brauner"<brauner@kernel.org>, "djwong"<djwong@kernel.org>, "oja=
+swin"<ojaswin@linux.ibm.com>, "dgc"<dgc@kernel.org>, "linux-xfs"<linux-xfs@=
+vger.kernel.org>, "linux-fsdevel"<linux-fsdevel@vger.kernel.org>, "linux-ex=
+t4"<linux-ext4@vger.kernel.org>, "linux-kernel"<linux-kernel@vger.kernel.or=
+g>, <lidiangang@bytedance.com>, "pankaj.raghav"<pankaj.raghav@linux.dev>, "=
+Brian Foster"<bfoster@redhat.com>
+> On Fri, Jul 03, 2026 at 05:13:12PM +0800, changfengnan wrote:
+> > taken, which introduced some overhead.=C2=A0
+> > I implemented some optimizations based on Christoph=E2=80=99s suggestio=
+ns and
+> > made some modifications to `iomap_process`;=C2=A0
+> > Now, XFS performance is essentially unchanged, while ext4 still shows a
+> > 1.5% drop; I will continue to investigate the cause.. =C2=A0 I=E2=80=99=
+ve attached the patch.
+> > Actually, I had expected that switching to `iomap_next` would improve
+> > performance, since it avoids an indirect call.
+>=C2=A0
+> I don't think it will for you - the direct I/O readers don't have
+> iomap_end methods, so you still have the same number of indirect
+> calls. =C2=A0What could help is to inline the iterator as seen in Joannes=
+'
+> fist demo series. =C2=A0We could even look into doing that only for simpl=
+e
+> dio in a first step, shifting the burden to use the simple method
+> to the callers (at least for the POC).
 
-Wanted to get rid of d_time, as it is no longer used by VFS, only a
-handful of filesystems.   Still a worthwhile goal, IMO.
+I'm not sure if this is what you had in mind, but I made some
+adjustments referencing Joannes' first patch, and using this approach,=C2=
+=A0
+there was no performance degradation.
 
-Thanks,
-Miklos
+diff --git a/fs/exfat/file.c b/fs/exfat/file.c
+index c05849d305ae4..fd2aeabca892a 100644
+--- a/fs/exfat/file.c
++++ b/fs/exfat/file.c
+@@ -809,8 +809,8 @@ static ssize_t exfat_file_read_iter(struct kiocb *iocb,=
+ struct iov_iter *iter)
+=C2=A0
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (iocb->ki_flags & IOCB_DIRECT) {
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file_accessed=
+(iocb->ki_filp);
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 ret =3D iomap_dio_=
+rw(iocb, iter, exfat_iomap_next, NULL, 0,
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 NULL, 0);
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 ret =3D iomap_dio_=
+rw(iocb, iter, exfat_iomap_next, NULL,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 IOMAP_DIO_NO_IOMAP_END, NULL,=
+ 0);
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D gener=
+ic_file_read_iter(iocb, iter);
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 }
+diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+index 755fde1baf036..cf1be36fdb177 100644
+--- a/fs/ext4/ext4.h
++++ b/fs/ext4/ext4.h
+@@ -4004,6 +4004,9 @@ static inline void ext4_clear_io_unwritten_flag(ext4_=
+io_end_t *io_end)
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 io_end->flag =
+&=3D ~EXT4_IO_END_UNWRITTEN;
+=C2=A0}
+=C2=A0
++int ext4_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uns=
+igned int flags, struct iomap *iomap,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 str=
+uct iomap *srcmap);
+=C2=A0int ext4_iomap_next(const struct iomap_iter *iter, struct iomap *ioma=
+p,
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct iomap =
+*srcmap);
+=C2=A0int ext4_iomap_next_report(const struct iomap_iter *iter, struct ioma=
+p *iomap,
+diff --git a/fs/ext4/file.c b/fs/ext4/file.c
+index dbe073e181a7a..e08edabcdeaa0 100644
+--- a/fs/ext4/file.c
++++ b/fs/ext4/file.c
+@@ -91,7 +91,8 @@ static ssize_t ext4_dio_read_iter(struct kiocb *iocb, str=
+uct iov_iter *to)
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return generi=
+c_file_read_iter(iocb, to);
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 }
+=C2=A0
+- =C2=A0 =C2=A0 =C2=A0=C2=A0 ret =3D iomap_dio_rw(iocb, to, ext4_iomap_next=
+, NULL, 0, NULL, 0);
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 ret =3D iomap_dio_rw_begin(iocb, to, ext4_ioma=
+p_begin, ext4_iomap_next,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, IOMAP_DIO_NO_IOMAP_END, NULL, =
+0);
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 inode_unlock_shared(inode);
+=C2=A0
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 file_accessed(iocb->ki_filp);
+diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+index 4c30dd8dbec7a..479406c84ff61 100644
+--- a/fs/ext4/inode.c
++++ b/fs/ext4/inode.c
+@@ -3770,9 +3770,9 @@ static int ext4_iomap_alloc(struct inode *inode, stru=
+ct ext4_map_blocks *map,
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;
+=C2=A0}
+=C2=A0
+-
+-static int ext4_iomap_begin(struct inode *inode, loff_t offset, loff_t len=
+gth,
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 unsigned flags, st=
+ruct iomap *iomap, struct iomap *srcmap)
++int ext4_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uns=
+igned int flags, struct iomap *iomap,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 str=
+uct iomap *srcmap)
+=C2=A0{
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 int ret;
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct ext4_map_blocks map;
+diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+index d08b7d3c52710..fa17e249b0b03 100644
+--- a/fs/iomap/direct-io.c
++++ b/fs/iomap/direct-io.c
+@@ -1000,6 +1000,40 @@ iomap_dio_simple_supported(struct kiocb *iocb, struc=
+t iov_iter *iter,
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 return true;
+=C2=A0}
+=C2=A0
++static inline void
++iomap_dio_simple_iter_done(struct iomap_iter *iomi)
++{
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 WARN_ON_ONCE(iomi->iomap.offset > iomi->pos);
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 WARN_ON_ONCE(iomi->iomap.length =3D=3D 0);
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 WARN_ON_ONCE(iomi->iomap.offset + iomi->iomap.=
+length <=3D iomi->pos);
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 WARN_ON_ONCE(iomi->iomap.flags & IOMAP_F_STALE=
+);
++
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 iomi->iter_start_pos =3D iomi->pos;
++
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 trace_iomap_iter_dstmap(iomi->inode, &iomi->io=
+map);
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 if (iomi->srcmap.type !=3D IOMAP_HOLE)
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 trace_iomap_iter_s=
+rcmap(iomi->inode, &iomi->srcmap);
++}
++
++static inline int
++iomap_dio_simple_begin_iter(struct iomap_iter *iomi,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0=C2=A0 iomap_begin_fn iomap_begin,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0=C2=A0 iomap_next_fn iomap_next)
++{
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 int ret;
++
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 trace_iomap_iter(iomi, iomap_next, _RET_IP_);
++
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 ret =3D iomap_begin(iomi->inode, iomi->pos, io=
+mi->len, iomi->flags,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0=C2=A0 &iomi->iomap, &iomi->srcmap);
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 iomi->status =3D 0;
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 if (ret < 0)
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 return ret;
++
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 iomap_dio_simple_iter_done(iomi);
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 return 1;
++}
++
+=C2=A0static int
+=C2=A0iomap_dio_simple_finish_iter(struct iomap_iter *iomi,
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 iomap_next_fn=
+ iomap_next, size_t done)
+@@ -1053,8 +1087,8 @@ iomap_dio_simple_finish_iter(struct iomap_iter *iomi,
+=C2=A0 */
+=C2=A0static ssize_t
+=C2=A0iomap_dio_simple(struct kiocb *iocb, struct iov_iter *iter,
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 iomap_next_fn iom=
+ap_next, void *private,
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned int dio_=
+flags)
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 iomap_next_fn iom=
+ap_next, iomap_begin_fn iomap_begin,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *private, un=
+signed int dio_flags)
+=C2=A0{
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct inode *inode =3D file_inode(iocb->=
+ki_filp);
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 size_t count =3D iov_iter_count(iter);
+@@ -1080,7 +1114,11 @@ iomap_dio_simple(struct kiocb *iocb, struct iov_iter=
+ *iter,
+=C2=A0
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 inode_dio_begin(inode);
+=C2=A0
+- =C2=A0 =C2=A0 =C2=A0=C2=A0 ret =3D iomap_iter(&iomi, iomap_next);
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 if (iomap_begin)
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 ret =3D iomap_dio_=
+simple_begin_iter(&iomi, iomap_begin,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0=C2=A0 iomap_next);
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 else
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 ret =3D iomap_iter=
+(&iomi, iomap_next);
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret <=3D 0) {
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 inode_dio_end=
+(inode);
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret ?:=
+ -ENOTBLK;
+@@ -1142,9 +1180,18 @@ iomap_dio_simple(struct kiocb *iocb, struct iov_iter=
+ *iter,
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 WRITE_ONCE(io=
+cb->private, bio);
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 }
+=C2=A0
+- =C2=A0 =C2=A0 =C2=A0=C2=A0 ret =3D iomap_dio_simple_finish_iter(&iomi, io=
+map_next, count);
+- =C2=A0 =C2=A0 =C2=A0=C2=A0 if (ret)
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 goto out_bio_relea=
+se_pages_no_end;
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 /*
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 * The finishing iomap_iter() only runs the fi=
+lesystem's ->iomap_end()
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 * work and releases any attached folio batch.=
+=C2=A0 When the caller promised
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 * neither applies (IOMAP_DIO_NO_IOMAP_END), s=
+kip it to avoid an extra
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 * indirect ->iomap_next() call and the iomap_=
+iter() frames on the hot
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 * read path.
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 */
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 if (!(dio_flags & IOMAP_DIO_NO_IOMAP_END)) {
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 ret =3D iomap_dio_=
+simple_finish_iter(&iomi, iomap_next, count);
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 if (ret)
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0=C2=A0 goto out_bio_release_pages_no_end;
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 }
+=C2=A0
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!wait_for_completion) {
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bio->bi_end_i=
+o =3D iomap_dio_simple_end_io;
+@@ -1161,7 +1208,8 @@ iomap_dio_simple(struct kiocb *iocb, struct iov_iter =
+*iter,
+=C2=A0out_bio_put:
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 bio_put(bio);
+=C2=A0out_iomap_end:
+- =C2=A0 =C2=A0 =C2=A0=C2=A0 iomap_dio_simple_finish_iter(&iomi, iomap_next=
+, 0);
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 if (!(dio_flags & IOMAP_DIO_NO_IOMAP_END))
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 iomap_dio_simple_f=
+inish_iter(&iomi, iomap_next, 0);
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 inode_dio_end(inode);
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;
+=C2=A0out_bio_release_pages_no_end:
+@@ -1181,8 +1229,8 @@ iomap_dio_rw(struct kiocb *iocb, struct iov_iter *ite=
+r,
+=C2=A0
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (iomap_dio_simple_supported(iocb, iter=
+, dops, dio_flags,
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 done_=
+before)) {
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 ret =3D iomap_dio_=
+simple(iocb, iter, iomap_next, private,
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 dio_flags);
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 ret =3D iomap_dio_=
+simple(iocb, iter, iomap_next, NULL, private,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dio_flags);
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret !=3D =
+-ENOTBLK)
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 return ret;
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 }
+@@ -1195,6 +1243,32 @@ iomap_dio_rw(struct kiocb *iocb, struct iov_iter *it=
+er,
+=C2=A0}
+=C2=A0EXPORT_SYMBOL_GPL(iomap_dio_rw);
+=C2=A0
++ssize_t
++iomap_dio_rw_begin(struct kiocb *iocb, struct iov_iter *iter,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 iomap_begi=
+n_fn iomap_begin, iomap_next_fn iomap_next,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 const stru=
+ct iomap_dio_ops *dops, unsigned int dio_flags,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *priv=
+ate, size_t done_before)
++{
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 struct iomap_dio *dio;
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 ssize_t ret;
++
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 if ((dio_flags & IOMAP_DIO_NO_IOMAP_END) &&
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 iomap_dio_simple_supported(iocb,=
+ iter, dops, dio_flags,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 done_before)) {
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 ret =3D iomap_dio_=
+simple(iocb, iter, iomap_next, iomap_begin,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 private, dio_fl=
+ags);
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 if (ret !=3D -ENOT=
+BLK)
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0=C2=A0 return ret;
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 }
++
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 dio =3D __iomap_dio_rw(iocb, iter, iomap_next,=
+ dops, dio_flags, private,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 done_before);
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 if (IS_ERR_OR_NULL(dio))
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 return PTR_ERR_OR_=
+ZERO(dio);
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 return iomap_dio_complete(dio);
++}
++EXPORT_SYMBOL_GPL(iomap_dio_rw_begin);
++
+=C2=A0static int __init iomap_dio_init(void)
+=C2=A0{
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 return bioset_init(&iomap_dio_simple_pool=
+, 4,
+diff --git a/fs/iomap/iter.c b/fs/iomap/iter.c
+index 984045af310a1..7dee4a7944071 100644
+--- a/fs/iomap/iter.c
++++ b/fs/iomap/iter.c
+@@ -15,16 +15,6 @@ static inline void iomap_iter_clean_fbatch(struct iomap_=
+iter *iter)
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 }
+=C2=A0}
+=C2=A0
+-/* Advance the current iterator position and decrement the remaining lengt=
+h */
+-int iomap_iter_advance(struct iomap_iter *iter, u64 count)
+-{
+- =C2=A0 =C2=A0 =C2=A0=C2=A0 if (WARN_ON_ONCE(count > iomap_length(iter)))
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 return -EIO;
+- =C2=A0 =C2=A0 =C2=A0=C2=A0 iter->pos +=3D count;
+- =C2=A0 =C2=A0 =C2=A0=C2=A0 iter->len -=3D count;
+- =C2=A0 =C2=A0 =C2=A0=C2=A0 return 0;
+-}
+-
+=C2=A0static inline void iomap_iter_done(struct iomap_iter *iter)
+=C2=A0{
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 WARN_ON_ONCE(iter->iomap.offset > iter->p=
+os);
+diff --git a/fs/iomap/trace.h b/fs/iomap/trace.h
+index e1ea8392cf47d..e43ca419b13a8 100644
+--- a/fs/iomap/trace.h
++++ b/fs/iomap/trace.h
+@@ -127,7 +127,8 @@ DEFINE_RANGE_EVENT(iomap_zero_iter);
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 {IOMAP_DIO_FORCE_WAIT, =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 "DIO_FORCE_WAIT" }, \
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 {IOMAP_DIO_OVERWRITE_ONLY, =C2=A0 =C2=A0 =
+=C2=A0=C2=A0 "DIO_OVERWRITE_ONLY" }, \
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 {IOMAP_DIO_PARTIAL, =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 "DIO_PARTIAL" }, \
+- =C2=A0 =C2=A0 =C2=A0=C2=A0 {IOMAP_DIO_FSBLOCK_ALIGNED, =C2=A0 =C2=A0 =C2=
+=A0=C2=A0 "DIO_FSBLOCK_ALIGNED" }
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 {IOMAP_DIO_FSBLOCK_ALIGNED, =C2=A0 =C2=A0 =C2=
+=A0=C2=A0 "DIO_FSBLOCK_ALIGNED" }, \
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 {IOMAP_DIO_NO_IOMAP_END, =C2=A0 =C2=A0 =C2=A0=
+=C2=A0 "DIO_NO_IOMAP_END" }
+=C2=A0
+=C2=A0DECLARE_EVENT_CLASS(iomap_class,
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 TP_PROTO(struct inode *inode, struct ioma=
+p *iomap),
+diff --git a/fs/ntfs/file.c b/fs/ntfs/file.c
+index a4f99128b46c5..babdfd0eff4f9 100644
+--- a/fs/ntfs/file.c
++++ b/fs/ntfs/file.c
+@@ -458,8 +458,8 @@ static ssize_t ntfs_file_read_iter(struct kiocb *iocb, =
+struct iov_iter *to)
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }
+=C2=A0
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file_accessed=
+(iocb->ki_filp);
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 ret =3D iomap_dio_=
+rw(iocb, to, ntfs_read_iomap_next, NULL, 0,
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 NULL, 0);
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 ret =3D iomap_dio_=
+rw(iocb, to, ntfs_read_iomap_next, NULL,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 IOMAP_DIO_NO_IOMAP_END, NULL,=
+ 0);
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D gener=
+ic_file_read_iter(iocb, to);
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 }
+diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+index a987ffbf3c023..2d4dbd9fac7b4 100644
+--- a/fs/xfs/xfs_file.c
++++ b/fs/xfs/xfs_file.c
+@@ -251,7 +251,7 @@ xfs_file_dio_read(
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct iov_iter =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 *to)
+=C2=A0{
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct xfs_inode =C2=A0 =C2=A0 =C2=A0=C2=
+=A0 *ip =3D XFS_I(file_inode(iocb->ki_filp));
+- =C2=A0 =C2=A0 =C2=A0=C2=A0 unsigned int =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0=C2=A0 dio_flags =3D 0;
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 unsigned int =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0=C2=A0 dio_flags =3D IOMAP_DIO_NO_IOMAP_END;
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 const struct iomap_dio_ops *dio_ops =3D N=
+ULL;
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 ssize_t =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 ret;
+=C2=A0
+@@ -269,8 +269,9 @@ xfs_file_dio_read(
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dio_ops =3D &=
+xfs_dio_read_bounce_ops;
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dio_flags |=
+=3D IOMAP_DIO_BOUNCE;
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 }
+- =C2=A0 =C2=A0 =C2=A0=C2=A0 ret =3D iomap_dio_rw(iocb, to, xfs_read_iomap_=
+next, dio_ops, dio_flags,
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0=C2=A0 NULL, 0);
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 ret =3D iomap_dio_rw_begin(iocb, to, xfs_read_=
+iomap_begin,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 xfs_read_iomap_next, dio_ops, dio_fl=
+ags,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, 0);
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 xfs_iunlock(ip, XFS_IOLOCK_SHARED);
+=C2=A0
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;
+diff --git a/fs/xfs/xfs_iomap.c b/fs/xfs/xfs_iomap.c
+index 71c4bb024f042..dcc7f1fe2d52b 100644
+--- a/fs/xfs/xfs_iomap.c
++++ b/fs/xfs/xfs_iomap.c
+@@ -2203,7 +2203,7 @@ xfs_buffered_write_iomap_next(
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 xfs_buffered_write_iomap_end);
+=C2=A0}
+=C2=A0
+-static int
++int
+=C2=A0xfs_read_iomap_begin(
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct inode =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0=C2=A0 *inode,
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 loff_t =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 offset,
+diff --git a/fs/xfs/xfs_iomap.h b/fs/xfs/xfs_iomap.h
+index 01875d20fb669..3db533e977e09 100644
+--- a/fs/xfs/xfs_iomap.h
++++ b/fs/xfs/xfs_iomap.h
+@@ -55,6 +55,9 @@ int xfs_direct_write_iomap_next(const struct iomap_iter *=
+iter,
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct iomap =
+*iomap, struct iomap *srcmap);
+=C2=A0int xfs_zoned_direct_write_iomap_next(const struct iomap_iter *iter,
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct iomap =
+*iomap, struct iomap *srcmap);
++int xfs_read_iomap_begin(struct inode *inode, loff_t offset, loff_t length=
+,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 unsigned int flags, struct iomap *iomap,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 struct iomap *srcmap);
+=C2=A0int xfs_read_iomap_next(const struct iomap_iter *iter, struct iomap *=
+iomap,
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct iomap =
+*srcmap);
+=C2=A0int xfs_seek_iomap_next(const struct iomap_iter *iter, struct iomap *=
+iomap,
+diff --git a/include/linux/iomap.h b/include/linux/iomap.h
+index 3b41f123a92d4..060051fc79b1f 100644
+--- a/include/linux/iomap.h
++++ b/include/linux/iomap.h
+@@ -266,7 +266,6 @@ struct iomap_iter {
+=C2=A0};
+=C2=A0
+=C2=A0int iomap_iter(struct iomap_iter *iter, iomap_next_fn iomap_next);
+-int iomap_iter_advance(struct iomap_iter *iter, u64 count);
+=C2=A0
+=C2=A0/**
+=C2=A0 * iomap_length_trim - trimmed length of the current iomap iteration
+@@ -298,6 +297,16 @@ static inline u64 iomap_length(const struct iomap_iter=
+ *iter)
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 return iomap_length_trim(iter, iter->pos,=
+ iter->len);
+=C2=A0}
+=C2=A0
++/* Advance the current iterator position and decrement the remaining lengt=
+h */
++static inline int iomap_iter_advance(struct iomap_iter *iter, u64 count)
++{
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 if (WARN_ON_ONCE(count > iomap_length(iter)))
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 return -EIO;
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 iter->pos +=3D count;
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 iter->len -=3D count;
++ =C2=A0 =C2=A0 =C2=A0=C2=A0 return 0;
++}
++
+=C2=A0/**
+=C2=A0 * iomap_iter_advance_full - advance by the full length of current ma=
+p
+=C2=A0 */
+@@ -605,9 +614,23 @@ struct iomap_dio_ops {
+=C2=A0 */
+=C2=A0#define IOMAP_DIO_BOUNCE =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0=C2=A0 (1 << 4)
+=C2=A0
++/*
++ * The caller's ->iomap_next() has no ->iomap_end() work to run and this I=
+/O
++ * does not use a folio batch, so the iomap_dio_simple() fast path may ski=
+p
++ * the finishing iomap_iter() call entirely.=C2=A0 Only meaningful on the =
+simple
++ * read fast path; ignored by the generic __iomap_dio_rw() slow path.
++ */
++#define IOMAP_DIO_NO_IOMAP_END =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0=C2=A0 BIT(5)
++
+=C2=A0ssize_t iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 iomap_next_fn=
+ iomap_next, const struct iomap_dio_ops *dops,
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned int =
+dio_flags, void *private, size_t done_before);
++ssize_t iomap_dio_rw_begin(struct kiocb *iocb, struct iov_iter *iter,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 iomap_begin_fn iomap_begin,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 iomap_next_fn iomap_next,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 const struct iomap_dio_ops *dops,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 unsigned int dio_flags, void *private,
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 size_t done_before);
+=C2=A0struct iomap_dio *__iomap_dio_rw(struct kiocb *iocb, struct iov_iter =
+*iter,
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 iomap_next_fn=
+ iomap_next, const struct iomap_dio_ops *dops,
+=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned int =
+dio_flags, void *private, size_t done_before);
+>=C2=A0
