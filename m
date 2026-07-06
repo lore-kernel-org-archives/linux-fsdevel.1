@@ -1,81 +1,94 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D816A42CB0D
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 10:00:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E464936F42B;
+	Mon,  6 Jul 2026 10:43:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783332003; cv=none; b=GCmDs3o80lAUTTveV05GlcX/VRdKlCi3BTVYi1Q+1Eeh9jfRrhT6B+hvs6vDZ9hxrMNP++udtHV8hEwgufiXzitVT6/vsKnni/Ns/bpj3srZM5l/94oB2K3MTN3iS8rmIWID34QdQwmXcY1OkKw++KN5NsDQrIUPX3LSyaFI3Ro=
+	t=1783334594; cv=none; b=CBdJ+ZunW4ZfjCrqutn/EbnjT5QsJoPeNhaoxeC4R7TEt307/xlqaCpF51dEpkVPn73mZ7yn8PPyHLb1QC+VV0OP4QqLy877bAcSnjIc2AVaGmYZBdqVESvRcBmY04uyjaENEo6NIlYKN5EwylZGh6fwuY9f/tHP+QNtmcPXJP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783332003; c=relaxed/simple;
-	bh=w6sZ8dlNxqGW/t2mjusQAMjI+NuYcFsMQW/LXcBprC4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mnbLRaXAsM0blXWREmvfEwYilsgxZGab43t9xRmlUwMr6hf4gtBeuPMnOg7Qo8S/ADDEnNHY7ttuZ01Q4dDisOU9/D/FXccfbl/sM56hLtwAgu11V9ftzelS8UFowJdZA3wonAnjtIPe4c9LynIp/vLJ9WO6R9pdn+pOQGa0CjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PoP1RFaZ; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783334594; c=relaxed/simple;
+	bh=5GQvjyKk3pmOp61K3CWBv3LYpE/yv0RBbg0QcueUGsk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LhL4b4qXcppWatF5bqDfzojy1p1F/PKEMTYPXWLFjvD17xzpGSFwWYNs4zxfuF+guwl6vllyXRxeV26QRmYouR6oKbEO89cJ0AdDOnUmxjL8To6D3JkHi5hAgJ0HMuhF4NH0oK1V7gKGHjEOWfSGbazAbPlK25zLTN5yG7Co8co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name; spf=pass smtp.mailfrom=shutemov.name; dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b=11ruPhqW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kpzctZV/; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PoP1RFaZ"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-493d28b1930so20774825e9.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 03:00:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783332000; x=1783936800; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=v40kMaQLD/Lmdy1Knawwn7CoV1pGwsDRx2YycJTqKJw=;
-        b=PoP1RFaZUUcI6Hl38ERbtxnw8mXPiXvtBBki9ljdJGkcV3Kb/aL2mOY+6AOgAQ2OhZ
-         eIEhhm2V/oP4/zHWhV9uq8ee7Wij+lPKFULq4cigLbbUfxMKDBJTBsB1siBb61XlN2rR
-         1zIUe/pCk274JbylwuhERt654JBg2ghC/frMQ39ro703lDHz/cLgcLBO8oShYlzYyc05
-         pW39zg6RS7nvDGUTo4B7cY8Fc794nsQbZ+OdtSvEol9Lk6+HMqVV6t414AcG82r6NreZ
-         Sx2h23AaIogBeTSwtFkUCbUQ0IqXqZnalTSdpPDi0WESzpTp159EAxFXMiuOl4MvD9Y4
-         2U8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783332000; x=1783936800;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=v40kMaQLD/Lmdy1Knawwn7CoV1pGwsDRx2YycJTqKJw=;
-        b=ARPJR0klRL1zj/tnjLQ3vvSdm1Slyr7DiBPDoYLNAW6mm5KrUHNn+Nax6FT3giEykP
-         aUGpEUgHnW3o53CT1f4hMAOcqUJ8Iap23NnJ/XEJPxf/4c8PRcdXomPK17m2GOGopEu8
-         SYYH0f6Mx5BGgNJh1juq7qwIAoFGSkqEuA1GPsgJ3E4c0cBv378O9xh0I/VyaTASjldy
-         ytW+60f/SJQcjTz5amu+m8Ukj4gfjHb5MRg17m9xtHEI44CUra9CDYoEKx6U9yaJaXcr
-         hD7usMhYAJX3apG7zhpmtrzm/CitSGr+q/ovNE5Sd+WgGCaZchnEgMIBM1TM+yXkZrSp
-         hLQg==
-X-Forwarded-Encrypted: i=1; AHgh+RoQc0un21TDdthcqj1Pfeg8/In20hY0OyUVe49FvTk1sqect/qp7GZYxf0y9kwLyAA57hU3p/VuRXVN71Tr@vger.kernel.org
-X-Gm-Message-State: AOJu0YwX64Wck3+PXVRDewUfs3WIsz2C5ywK268qQFIXBlzvoRK7OR+5
-	VkQU3FKyoUVib2ZzePwTFMnxoUqJ8J5en6rYforxQfrA3/SA1G6udwKV
-X-Gm-Gg: AfdE7cnX/lPdB0S71+m0EwaaR4xbo1HbGGkc3uLhLEYKjQRGYC1zH4inRYSVf3nNMqq
-	2kCgjPktlF2QJmMAS+wivLlW2K89dRzuCslaAWJkAlSJzPnbilCD5uc1dqISXN06rA3NpQyNQWn
-	kWH/drdYRHk4UjuGNEHr72fttreV3RWghCRm3CpnXNt6JePsX8vidz09cL/6OBrNyNDFFAWhYYd
-	MRSPFhPn89WBpTg11WpkEJzm6wRDIHWZUIgub982yl9SjHx1+DbQWVhNk4oZkIWyuT/Se+URb3i
-	h4rPyHVsDUTI4i7xkNm8MvvKkF411SsLxebgExF+BxabhEP1m2tffaF0K4WOASa8ex9Z1VKDR3n
-	x6hAx0RTtXZcxsItUHXVSkPGnHWeQWXDM6CaQkcTfNpD/yJ3Nh58MiCvl/3pngGDGwwL0Vmn04O
-	/ukzVS37Zxc+UXrEV/L88l5VpB0ZmNumhR4M56KZoBjU9oJu6N3VgXxPglF0AwADN5Sf5Zsoae/
-	liGtV17fh1Rp3kYec/Nq0ll/hF1CLm3MCykVyTQ5+xS5D51PNtH/IRJLzH6LkFfrfoaWo9YF28=
-X-Received: by 2002:a05:600c:4686:b0:493:c42c:7e88 with SMTP id 5b1f17b1804b1-493d11fecddmr108286315e9.34.1783331999577;
-        Mon, 06 Jul 2026 02:59:59 -0700 (PDT)
-Received: from instance-20260604-012959.europe-west1-b.c.project-2c9d95d2-bf4e-4d5a-ac6.internal (250.69.76.34.bc.googleusercontent.com. [34.76.69.250])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa039b126sm22931218f8f.24.2026.07.06.02.59.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 02:59:59 -0700 (PDT)
-From: David Maximiliano Hermitte <davemadmaxxx@gmail.com>
-To: Viacheslav Dubeyko <slava@dubeyko.com>,
-	Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: George Anthony Vernon <contact@gvernon.com>,
-	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>,
-	linux-fsdevel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b="11ruPhqW";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kpzctZV/"
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfout.stl.internal (Postfix) with ESMTP id A24171D000F7;
+	Mon,  6 Jul 2026 06:43:10 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-10.internal (MEProxy); Mon, 06 Jul 2026 06:43:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm3; t=1783334590; x=1783420990; bh=eV/9alPWS8
+	ElGqEhPLcVMrChiDA40ZmyFXIEDHgejGQ=; b=11ruPhqWi+gRLBt/DOpMRs+VB9
+	c88OCV08j/eTOF+kQWpqSrR4UFoQO6x9iuIxHlcjN+4UaB0uMoYpWP1S7cvWfkfm
+	TySuq1LjXaEtuOTbCnDoVd/7lJGCg3Vjof4twe77qJB84BpLKbR1lJPSiCXn1W57
+	9Z0DzJ2vW1+pmG37cpoQeJmEZa+Vych4seJsibFGa/1dqdVbHzUQPAd+8qPJIIYc
+	N1VdIvXYadS0Ky0XU6McP5NYa2rr0KPwMA4LLLUC+Ht3sk/B19XDA8shGgGk0Usd
+	ig9FW3ky56aIYT4sSHVO2Nur1CmAtiCs/1ptUcOzI2p0skvKwvaiB7EOSFYA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1783334590; x=1783420990; bh=eV/9alPWS8ElGqEhPLcVMrChiDA40ZmyFXI
+	EDHgejGQ=; b=kpzctZV/IWAhQ71XrUSRAbj3a9CwzIk1s48NpSIe+Mb6hL9Qm95
+	cvhZEF4ifOcQvFulwMKQ+V9nBNwI1BwA5j4jAka8N2Kt6z0DRcif8Id4RXU7vJu5
+	xn+3pQqPCy69OtJabyGRhBmw8AEm3dSuMcCFf4kc4OZx6eDy5T5FpPp3ChB2edgp
+	xqez8ppcvPH/Z4DLdzva40TokvP2MOGRbEOuSba/ELeftfJBV67T3pyzxsz97oPq
+	gIYZh8/couKP0QcDV1ETRRpDcTYvlZIcnJZGdEjuy0QJbubQdSCpxzsL082cVYAY
+	EEX45bSp+kU/YjrbHrPLEKqKbRT+4bP5VDA==
+X-ME-Sender: <xms:vYZLalawRMGJGRfL0jCDBViPEJdOzZAXKHFZgScdU5COTXleVsYynA>
+    <xme:vYZLat2q49XorsjGXtWTvyByiUJP6ThFu6mLF-3cOUELnwKltuUJpGhFbenI5Av7k
+    jeNdZczhirHwivdly-c0eABeHhNRIodjSmObV2Fr2P0BmDs_8S-mro>
+X-ME-Received: <xmr:vYZLajWG5OullFblYLdL1sH6QsMr-9xi15akicSUL5fKpEZtXEeLJ5nOPLs1Kg>
+X-ME-Proxy-Cause: dmFkZTE59eE0a8v92zvMt2CZRWlI+3piJHg5kS4n5Ij9aa8GawoG4+qulLS96Kun/O16B7
+    wkCscgn2uFgvPJ0vvjLjF/OvSijQNoCmJKrMH0kJdxorhmid7e2jGKg0oTanAelyO1yN/u
+    NBe5aO3gZ3S3h5sR9c7l3epWPYbDBI1kUi/L9wjXUTJIrC03wKamtizkalYNeG3n3VsnNs
+    xeGgUqYSzV60mrCS2pP3viLogAEVHgNs1vgFISbbuNc6iQyV0uJXE/wTKcpo+N2hc4F/uY
+    Y9m3N9+FGt9DhIuVe4lHp9Shw4xR21m3aAHGM2Cheqzgf62jSy9xB9iW6y/t0CslHR0Ccu
+    yyGZymsqnYP//sL4RVCkbCMT0cDaEmE5HBUEBS76/CkerFzEb0Ck45pR+5Heg5Dpeyt7Ly
+    F4V3Ykx64gMeGQ3Pb56r/E2uV12kMggljpR2HmJX7T3acHGIzYoU+dksbKkxoTrD4Ynsfl
+    +X+WrGX/5eSChHv32oUfX0JEK0tTPb71l4CKgu7H0wgBDLS3nPnFrSgkkZWQIZs9952YrM
+    N46dsJcoqW/lspps/qk56P8nbkv088ChChz23Z1ehBpzzV9au9+aWAZoMP2ANNaA6etRpb
+    3Qkew/Q3KXsHEDDaya20rgPaYLJtgsYdukxUtPHsj1amVrZcM0Ta0eVGeFxA
+X-ME-Proxy: <xmx:vYZLagu3G4p79s9FvMZ-hZFwFzJkeiXf5IRll00PpnRGhh70vvKWbw>
+    <xmx:vYZLaiWpNnktHknJFUg-y7vfZhoGnGSByfe0GrR9fv18S6JqGFK4YQ>
+    <xmx:vYZLakWLpe9_QX-y3hvmkZND8t7u1UYxKkptHR6B25H8cuZUGvg_bA>
+    <xmx:vYZLakeZO9rGDkK5lH3vZm4-8uEOMJU_Y_r-JzcebEUhR58GDtTMEQ>
+    <xmx:voZLauCuA_ivlEqjXGxH7r_0HbUontP3qVcVL9GGNvtiY_nnkUdzko8L>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 6 Jul 2026 06:43:09 -0400 (EDT)
+From: Kiryl Shutsemau <kirill@shutemov.name>
+To: akpm@linux-foundation.org
+Cc: usama.anjum@collabora.com,
+	peterx@redhat.com,
+	liam@infradead.org,
+	ljs@kernel.org,
+	vbabka@kernel.org,
+	jannh@google.com,
+	pfalcato@suse.de,
+	david@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	shuah@kernel.org,
+	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
-	syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com,
-	David Maximiliano Hermitte <davemadmaxxx@gmail.com>
-Subject: [PATCH v3 RESEND] hfs: validate catalog CNIDs before instantiating inodes
-Date: Mon,  6 Jul 2026 09:59:43 +0000
-Message-ID: <20260706095943.258065-1-davemadmaxxx@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260702183800.1119202-1-davemadmaxxx@gmail.com>
-References: <20260702183800.1119202-1-davemadmaxxx@gmail.com>
+	linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	stable@vger.kernel.org,
+	kernel-team@meta.com
+Subject: [PATCH] fs/proc/task_mmu: fix PAGEMAP_SCAN written state for unpopulated ptes
+Date: Mon,  6 Jul 2026 11:43:08 +0100
+Message-ID: <20260706104308.34741-1-kirill@shutemov.name>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -84,203 +97,149 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-hfs_cat_find_brec() first resolves a catalog thread record by CNID and
-then looks up the corresponding catalog record by parent/name. On a
-corrupted filesystem image, the second lookup may find a record whose
-CNID does not match the CNID that was requested.
+From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 
-Validate the catalog record found by the second lookup before returning
-it to callers. Inspect the already-found record with hfs_bnode_read(),
-not hfs_brec_read(), and reject records whose CNID is invalid for their
-record type or does not match the requested CNID.
+PAGEMAP_SCAN reports an unpopulated pte on a uffd-wp VMA differently
+depending on which path serves the request. The PAGE_IS_WRITTEN fast
+path in pagemap_scan_pmd_entry() treats a pte_none (no uffd-wp marker)
+as written and, under PM_SCAN_WP_MATCHING, arms a marker. The generic
+path does not: pagemap_page_category() returns 0 for pte_none, so a
+request that cannot use the fast path (extra category bit,
+category_anyof_mask or category_inverted) reports the same pte as clean
+and skips arming it.
 
-Also validate CNIDs in hfs_read_inode() before the inode is populated,
-and propagate hfs_read_inode() errors from the resource-fork lookup path.
-For the root inode path, require the root catalog record to be a directory
-with DirID == HFS_ROOT_CNID, and drop the root inode reference if it was
-instantiated as a bad inode.
+So a range that was populated and then MADV_DONTNEED'd reads as written
+via one mask and clean via another, and in the latter case is not
+re-armed for the next round -- an incremental-dump consumer (e.g. CRIU)
+using a richer mask drops the zapped range and stops tracking writes to
+it.
 
-This keeps hfs_write_inode() unchanged and prevents corrupted catalog
-records from reaching the existing reserved-CNID BUG() path during
-writeback.
+Return PAGE_IS_WRITTEN for a pte_none on a uffd-wp VMA, mirroring the
+present and swap branches just below which already report it whenever the
+entry is not write-protected.
 
-Reported-by: syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=97e301b4b82ae803d21b
-Cc: George Anthony Vernon <contact@gvernon.com>
-Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Signed-off-by: David Maximiliano Hermitte <davemadmaxxx@gmail.com>
+Add a pagemap_ioctl selftest that asserts the two paths agree over a
+MADV_DONTNEED'd range.
+
+Fixes: 12f6b01a0bcb ("fs/proc/task_mmu: add fast paths to get/clear PAGE_IS_WRITTEN flag")
+Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+Assisted-by: Claude:claude-fable-5
 ---
-Changes in v3:
-- Drop the stray blank line before assigning the hfs_read_inode() result
-  in hfs_file_lookup().
+ fs/proc/task_mmu.c                         | 14 +++++-
+ tools/testing/selftests/mm/pagemap_ioctl.c | 55 +++++++++++++++++++++-
+ 2 files changed, 67 insertions(+), 2 deletions(-)
 
-Changes in v2:
-- Use size_t for the catalog record length.
-- Return -EIO when fd->entrylength is larger than hfs_cat_rec instead of
-  truncating the record length.
-- Compare catalog record lengths against sizeof(struct hfs_cat_file) and
-  sizeof(struct hfs_cat_dir).
-- Drop the hfs_is_valid_cnid() call from the found-record CNID
-  comparison; found_cnid != cnid is enough there.
-- Treat non-file/non-directory records found by the second lookup as
-  invalid for this path.
-- Check is_bad_inode() in the resource-fork lookup error path.
-- Drop the redundant root DirID check from hfs_fill_super().
-
- fs/hfs/catalog.c | 44 +++++++++++++++++++++++++++++++++++++++++++-
- fs/hfs/hfs_fs.h  | 19 +++++++++++++++++++
- fs/hfs/inode.c   | 12 +++++++++---
- fs/hfs/super.c   |  5 +++++
- 4 files changed, 76 insertions(+), 4 deletions(-)
-
-diff --git a/fs/hfs/catalog.c b/fs/hfs/catalog.c
-index 1bfa36d71e24..50ee709d966f 100644
---- a/fs/hfs/catalog.c
-+++ b/fs/hfs/catalog.c
-@@ -182,6 +182,43 @@ int hfs_cat_keycmp(const btree_key *key1, const btree_key *key2)
- 			  key2->cat.CName.name, key2->cat.CName.len);
- }
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index d32408f7cd5e..a5f5d2e04257 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -2432,8 +2432,20 @@ static unsigned long pagemap_page_category(struct pagemap_scan_private *p,
+ {
+ 	unsigned long categories;
  
-+static int hfs_cat_validate_found_cnid(struct hfs_find_data *fd, u32 cnid)
-+{
-+	hfs_cat_rec rec;
-+	u32 found_cnid;
-+	size_t rec_len;
-+
-+	if (fd->entrylength <= 0)
-+		return -EIO;
-+
-+	rec_len = fd->entrylength;
-+	if (rec_len > sizeof(rec))
-+		return -EIO;
-+
-+	memset(&rec, 0, sizeof(rec));
-+	hfs_bnode_read(fd->bnode, &rec, fd->entryoffset, rec_len);
-+
-+	switch (rec.type) {
-+	case HFS_CDR_FIL:
-+		if (rec_len < sizeof(struct hfs_cat_file))
-+			return -EIO;
-+		found_cnid = be32_to_cpu(rec.file.FlNum);
-+		break;
-+	case HFS_CDR_DIR:
-+		if (rec_len < sizeof(struct hfs_cat_dir))
-+			return -EIO;
-+		found_cnid = be32_to_cpu(rec.dir.DirID);
-+		break;
-+	default:
-+		return -EIO;
+-	if (pte_none(pte))
++	if (pte_none(pte)) {
++		/*
++		 * An unpopulated pte carries no uffd-wp marker, so like any
++		 * other entry that is not write-protected it reads as written
++		 * on a uffd-wp VMA. This matches the PAGE_IS_WRITTEN fast path
++		 * in pagemap_scan_pmd_entry(); without it a scan forced onto
++		 * this generic path (extra category bits, anyof or inverted
++		 * masks) would report the same pte differently and, under
++		 * PM_SCAN_WP_MATCHING, skip arming its marker.
++		 */
++		if (userfaultfd_wp(vma))
++			return PAGE_IS_WRITTEN;
+ 		return 0;
 +	}
-+
-+	if (found_cnid != cnid)
-+		return -EIO;
-+
-+	return 0;
-+}
-+
- /* Try to get a catalog entry for given catalog id */
- // move to read_super???
- int hfs_cat_find_brec(struct super_block *sb, u32 cnid,
-@@ -208,7 +245,12 @@ int hfs_cat_find_brec(struct super_block *sb, u32 cnid,
- 		return -EIO;
- 	}
- 	memcpy(fd->search_key->cat.CName.name, rec.thread.CName.name, len);
--	return hfs_brec_find(fd);
-+
-+	res = hfs_brec_find(fd);
-+	if (res)
-+		return res;
-+
-+	return hfs_cat_validate_found_cnid(fd, cnid);
- }
  
- static inline
-diff --git a/fs/hfs/hfs_fs.h b/fs/hfs/hfs_fs.h
-index f3624514fcb0..670638f17438 100644
---- a/fs/hfs/hfs_fs.h
-+++ b/fs/hfs/hfs_fs.h
-@@ -155,6 +155,25 @@ extern int hfs_cat_move(u32 cnid, struct inode *src_dir,
- extern void hfs_cat_build_key(struct super_block *sb, btree_key *key,
- 			      u32 parent, const struct qstr *name);
+ 	if (pte_present(pte)) {
+ 		struct page *page;
+diff --git a/tools/testing/selftests/mm/pagemap_ioctl.c b/tools/testing/selftests/mm/pagemap_ioctl.c
+index 762306177ad8..78fa2d1e3719 100644
+--- a/tools/testing/selftests/mm/pagemap_ioctl.c
++++ b/tools/testing/selftests/mm/pagemap_ioctl.c
+@@ -1051,6 +1051,56 @@ static void test_simple(void)
+ 	ksft_test_result(i == TEST_ITERATIONS, "Test %s\n", __func__);
+ }
  
 +/*
-+ * Validate the CNID of a catalog record.
++ * A range that was populated and then MADV_DONTNEED'd is genuine pte_none
++ * with no uffd-wp marker. Such a pte must read the same regardless of which
++ * PAGEMAP_SCAN path serves the request: the PAGE_IS_WRITTEN fast path and the
++ * generic path (reached e.g. via category_anyof_mask) must agree.
 + */
-+static inline bool hfs_is_valid_cnid(u32 cnid, u8 type)
++static void unpopulated_scan_test(void)
 +{
-+	if (likely(cnid >= HFS_FIRSTUSER_CNID))
-+		return true;
++	int npages = 16, i;
++	long mem_size = npages * page_size;
++	struct page_region regions[16];
++	long fast = 0, slow = 0, ret;
++	char *mem;
 +
-+	switch (cnid) {
-+	case HFS_ROOT_CNID:
-+		return type == HFS_CDR_DIR;
-+	case HFS_EXT_CNID:
-+	case HFS_CAT_CNID:
-+		return type == HFS_CDR_FIL;
-+	default:
-+		return false;
-+	}
++	mem = mmap(NULL, mem_size, PROT_READ | PROT_WRITE,
++		   MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++	if (mem == MAP_FAILED)
++		ksft_exit_fail_msg("%s mmap failed\n", __func__);
++
++	wp_init(mem, mem_size);
++
++	/* Populate, then drop: the ptes become pte_none without a marker. */
++	memset(mem, 1, mem_size);
++	if (madvise(mem, mem_size, MADV_DONTNEED))
++		ksft_exit_fail_msg("%s MADV_DONTNEED failed\n", __func__);
++
++	/* Fast path: category_mask == return_mask == PAGE_IS_WRITTEN. */
++	ret = pagemap_ioctl(mem, mem_size, regions, npages, 0, 0,
++			    PAGE_IS_WRITTEN, 0, 0, PAGE_IS_WRITTEN);
++	if (ret < 0)
++		ksft_exit_fail_msg("%s fast scan failed\n", __func__);
++	for (i = 0; i < ret; i++)
++		fast += LEN(regions[i]);
++
++	/* Generic path: same query expressed via category_anyof_mask. */
++	ret = pagemap_ioctl(mem, mem_size, regions, npages, 0, 0,
++			    0, PAGE_IS_WRITTEN, 0, PAGE_IS_WRITTEN);
++	if (ret < 0)
++		ksft_exit_fail_msg("%s generic scan failed\n", __func__);
++	for (i = 0; i < ret; i++)
++		slow += LEN(regions[i]);
++
++	ksft_test_result(fast == slow,
++			 "%s unpopulated ptes agree across scan paths (%ld vs %ld)\n",
++			 __func__, fast, slow);
++
++	wp_free(mem, mem_size);
++	munmap(mem, mem_size);
 +}
 +
- /* dir.c */
- extern const struct file_operations hfs_dir_operations;
- extern const struct inode_operations hfs_dir_inode_operations;
-diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
-index ac4a9055c5c0..ee10a9257a13 100644
---- a/fs/hfs/inode.c
-+++ b/fs/hfs/inode.c
-@@ -367,6 +367,9 @@ static int hfs_read_inode(struct inode *inode, void *data)
- 	rec = idata->rec;
- 	switch (rec->type) {
- 	case HFS_CDR_FIL:
-+		if (!hfs_is_valid_cnid(be32_to_cpu(rec->file.FlNum), rec->type))
-+			return -EIO;
-+
- 		if (!HFS_IS_RSRC(inode)) {
- 			hfs_inode_read_fork(inode, rec->file.ExtRec, rec->file.LgLen,
- 					    rec->file.PyLen, be16_to_cpu(rec->file.ClpSize));
-@@ -390,6 +393,9 @@ static int hfs_read_inode(struct inode *inode, void *data)
- 		inode->i_mapping->a_ops = &hfs_aops;
- 		break;
- 	case HFS_CDR_DIR:
-+		if (!hfs_is_valid_cnid(be32_to_cpu(rec->dir.DirID), rec->type))
-+			return -EIO;
-+
- 		inode->i_ino = be32_to_cpu(rec->dir.DirID);
- 		inode->i_size = be16_to_cpu(rec->dir.Val) + 2;
- 		HFS_I(inode)->fs_blocks = 0;
-@@ -571,12 +577,12 @@ static struct dentry *hfs_file_lookup(struct inode *dir, struct dentry *dentry,
- 	res = hfs_brec_read(&fd, &rec, sizeof(rec));
- 	if (!res) {
- 		struct hfs_iget_data idata = { NULL, &rec };
--		hfs_read_inode(inode, &idata);
-+		res = hfs_read_inode(inode, &idata);
- 	}
- 	hfs_find_exit(&fd);
--	if (res) {
-+	if (res || is_bad_inode(inode)) {
- 		iput(inode);
--		return ERR_PTR(res);
-+		return ERR_PTR(-EIO);
- 	}
- 	HFS_I(inode)->rsrc_inode = dir;
- 	HFS_I(dir)->rsrc_inode = inode;
-diff --git a/fs/hfs/super.c b/fs/hfs/super.c
-index a466c401f6bb..98b80795bcde 100644
---- a/fs/hfs/super.c
-+++ b/fs/hfs/super.c
-@@ -372,6 +372,11 @@ static int hfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	if (!root_inode)
- 		goto bail_no_root;
+ int sanity_tests(void)
+ {
+ 	unsigned long long mem_size, vec_size;
+@@ -1559,7 +1609,7 @@ int main(int __attribute__((unused)) argc, char *argv[])
+ 	if (!hugetlb_setup_default(4))
+ 		ksft_print_msg("HugeTLB test will be skipped\n");
  
-+	if (is_bad_inode(root_inode)) {
-+		iput(root_inode);
-+		goto bail_no_root;
-+	}
+-	ksft_set_plan(117);
++	ksft_set_plan(118);
+ 
+ 	page_size = getpagesize();
+ 	hpage_size = read_pmd_pagesize();
+@@ -1737,6 +1787,9 @@ int main(int __attribute__((unused)) argc, char *argv[])
+ 	/* 17. ZEROPFN tests */
+ 	zeropfn_tests();
+ 
++	/* 18. Unpopulated pte scan-path consistency */
++	unpopulated_scan_test();
 +
- 	set_default_d_op(sb, &hfs_dentry_operations);
- 	res = -ENOMEM;
- 	sb->s_root = d_make_root(root_inode);
+ 	close(pagemap_fd);
+ 	ksft_finished();
+ }
+
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
 -- 
-2.43.0
+2.54.0
 
