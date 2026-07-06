@@ -1,73 +1,73 @@
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57A73AFCF4;
-	Mon,  6 Jul 2026 05:51:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F2E3B27F3;
+	Mon,  6 Jul 2026 05:52:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783317075; cv=none; b=XjFNBY0ceBJ/lqSoccSe8XhEEJJ9+5Y2RqGn+sUIc4wRiv02Obt4ACXEVLfQvtWLyGCBsL7J8Mbn/1xzY+3nk3SdtRquBI2h+TD4x7j48EgAKegul3eqH7WjGm/iuZ8vdBBp07GWQG7Lg8pCqeM89oyQ/v8O/Eo3k1LawXCESUA=
+	t=1783317121; cv=none; b=ZhmAjhGHDpyExqJARlo+d6UOSWnnKr9YwU0/Hq/v8QWZTCuk5x4bg1D+Uph3ktJEriuAB3DuwSbjM04ERkPMf0pyA7BxVYFh0758EPat1SdmzyRlQr7iu4nLFQNYLc3O+he3selfwiolaSTSlzM9fGkG/Zye5PEvX4ATQ63GUH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783317075; c=relaxed/simple;
-	bh=fvfWPS03cG4/TZKIVsnZMukbOnOzhpbj39fIRdWM/TM=;
+	s=arc-20240116; t=1783317121; c=relaxed/simple;
+	bh=fBA4q37u052szX2pL17hE8taDIlFfqtGKtN0RXiju8Q=;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=GenjOeuKdn9Nlnygo9gk/ijzXz3kNbpUIuLoaYeQUd2KCFFvDQ/NmqluEZZ+Z8Sml4ajSbB6/K7zlnEdnXbYdaqSA1WhJuuTD2IqPUyG0vE4WieJqz9Se+cc2YSLTslGDuHBWBKad7uh+z8OE4izwfx1jyZ0KiISNqF6J1N6Xo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=j4Pj2r6m; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gEE+W9o5; arc=none smtp.client-ip=202.12.124.148
+	 References:Date:Message-id; b=gv9hlgcuLqOldhfeEj0coGor4lgnOIV0goC2Hkc47uhoMvMjBICUmfkLhvrFc0aJxh5PLRjnET+14WCSeZgMWKUoD8WxJiJ1OJHrW/rJImOx0amlaFoZNyW1qkkFd55ibvGNck084NmiNgKlrg7oBjOaYH6b2guVp2GDORi7vsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=g58avU/+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=q+oIiD8r; arc=none smtp.client-ip=202.12.124.154
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="j4Pj2r6m";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gEE+W9o5"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.stl.internal (Postfix) with ESMTP id E45611D0005E;
-	Mon,  6 Jul 2026 01:51:12 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Mon, 06 Jul 2026 01:51:13 -0400
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="g58avU/+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="q+oIiD8r"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 96C467A00DC;
+	Mon,  6 Jul 2026 01:51:59 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Mon, 06 Jul 2026 01:51:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
-	1783317072; x=1783403472; bh=NiXXqkZNAy64FEtjIcjMnyoUgWwFD/MXlLT
-	+Y6uEDzE=; b=j4Pj2r6mxTR/WdXxmd1ccQtV1KmdjQZq+luBpAVmbC7utpyrRgO
-	THLnwadDbSUD8FN5neA6ny63FRH8EBIueqC6heH9FVfRKrw1uR0BtrmLxt2vbRMc
-	4opLWj5wO1Cf2fSGT3hpVb5EXuM3JS4WHNv3NcErC7zC5cx1idFTdLVad+NMhIPZ
-	SZRFy0xOxfqMQgSTTEbg7x5EIT4huXcIOvP8MmeBwaS5z/NVDNx6YhoNwWT/lK+F
-	Kn+iH/G+IrWHZGEdRIXgPflQEQFWpnQice8DWO17TKlqy9fDKSdcJePP6kPoi5rF
-	bfDyQ0CRMGx/naWQPN1Ynv7rIAyrK1hoTaQ==
+	1783317119; x=1783403519; bh=/oz0J2oDTi4/GxxeASivLTC5knUP7AWNvB5
+	Q6rgM188=; b=g58avU/+v2x8o2pNq1w4Betq/1HnMR/darqyvZr8CrgwJnMCbki
+	kboigL8GqyfHKwmc2ZJ2iBu+9+oiqVrej8pjk/VrX6EFGMnsY1+ZH4G2yft5ajJD
+	g/icLtJC286beocmFvlmQcTYzMRppKpHMkVbJkXwQL7/gnOUQ/bhOmFWVTu/avL7
+	4jg9qvILyLBE1g+yFtOME2v/8Tl6EA3xXl28kervwBuKFzfIrSMrKovYmsDsgGbz
+	9N2zxYwULq8E17bnY+kmYJS316bp1QG4MDwqQSU8+Vz3phg6Ko3TmWAb/u4hXgR1
+	Aa4mEIiGP6XAhIgAL0MJN+Uwp+KvTP9CQTQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1783317072; x=
-	1783403472; bh=NiXXqkZNAy64FEtjIcjMnyoUgWwFD/MXlLT+Y6uEDzE=; b=g
-	EE+W9o53Ts++DQd15rgCyGpdYvH5NR8ajqEl2jV+4jn/q2hlhjzotNQB81HWGt9S
-	r1U0nHQfDNraSIdHWPqU1CWVJA9gJzOpU7IjPa7qN9Rw1VdvG1Fiyg5sxbMbyj0U
-	u++hfouEvwh5zwLxolZZDDa2j9urUSFelyqpULsn9uR/AFpFtV6PGQkNLPVYBONG
-	G/pVp2umYs8xHwDtiuQ+uekcdHnwjY4oCd5VOo1wYDGHxTGJZcPKXpzcpiCt3dL8
-	6Ss45ECTcs/kLj1KYSU8J4bkF+nEsMVHesNR1dOO1QHWedFFKbaj7/csUrEGKdAF
-	auvqdKJ6RK7eK0K55Ye7g==
-X-ME-Sender: <xms:UEJLakZgdf4M5xqOuDURRNY7xHlzrJlvLl_rC1V9sxmxtDCUd6X1Vg>
-    <xme:UEJLarEap7SyAaYxY3gPVhT5-78mXP0EyQA9arpsnY5GVmSwComX0VI6zrXAd0bkR
-    YlshldHbPJn0fBmQOMBdq16maki9zsxDlJnkAOr5UIiiD9gHA>
-X-ME-Received: <xmr:UEJLarZkwlYE4fpS9xp73q2XIyDWjLPYDzF-9RvLReMqCh3-XkszYWNcksk2-6ZElvw47j4S8tY4CWCd0ajR8jaXMhahVL4>
-X-ME-Proxy-Cause: dmFkZTEi4gFgSXZ1Buqb38D/V9Y4CZdYez94bFbR4XeR2jsO9lv5wGWReoYji6JHjuwtT8
-    oYAuGGbD4VBvOb9Zh8wx+IWLe3/TyJePkJ+9cqWj/OJR1OhQlL57oiiNknmJLxnUQg/GoO
-    7k3OE8k1KaFjA/POjVAXDGH/+QMv3hcyIMJxHu2SCGttJvVQKy3egbp5M+TSwosb0xNsnZ
-    paenvU2aTFoR43QYOhxDsAa8uWUBl2kSvOzuwp/gGBkFIkbwsMGHyjdcgFrwakY69sdlRZ
-    8pNJzatV2D8TFp2DULTwWwKjIrFagnntYUT9LWTJ5i8/4kAXZ+FN9YsnM/+qLtxCI99HIO
-    BmzYAlNVTAjUUXKcVwBzVBB71pa4FenMxF00Ie/epDdo5VFbwIgsNT1Zkte7LHJW7UvEZK
-    q45lvx3h35EnUZDjZtOexsHvs8/VkRJoPWzbPydMLjdN6Hb7iOT0EtmRrU5nqqV4deMOxC
-    Q4fpCsxmGRJpNdsbxRwuLgyw1bZE359PbXH0VVJs5VF8ibpsNiGTX2kX9KpQ+O0RUwTdsq
-    yn7yI2Y5kCSac+aA43MjY648SCiChDawaxuXZPk05AJ/bJKTCQFrAoTpByVjYCf+r2SvqO
-    Q+YzjMa9ZyyO/j92HNGgDA9Mn2eeeXTRoMCknOxa0C+HHKj1lU3ZgqtKkCNA
-X-ME-Proxy: <xmx:UEJLanw9Jp9yH2hFyGWnjb7TEqzSfrTvhUApSozqS5HrL5DXVZs5wg>
-    <xmx:UEJLalQN2C2q_MdwovFwiynja2XnRrqcOs4CdBCA8kHeCPLefch52g>
-    <xmx:UEJLasKNJ1YWMZgqISFs70s9_KZR0JOV6EW2gLf0oUPC108eVl5sUg>
-    <xmx:UEJLakW4feU8eP0ni1T0XEdTL21wKn1dKRMFu8-Ccxyh6TyTRVgJqw>
-    <xmx:UEJLatj_R_vvDnLXj8pbnE6eJNo_CX0YS6u2qVvHNMFxm3uFDhnqKRhs>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1783317119; x=
+	1783403519; bh=/oz0J2oDTi4/GxxeASivLTC5knUP7AWNvB5Q6rgM188=; b=q
+	+oIiD8r9UV71DMkh6MgV6uemp7hANjkVrMEePbTHfK2U4hy60O3Plr+B87COF+2x
+	f0/u67/rvvJvRsEgGEbQAeOvfiJcnUEJ9+AbHKdukzRuxQx3MQpfraPDKC89Bh4T
+	/e6PB4juHr0JR0GDFaOXQ2CcNpl7WcJfgvUGEHMoff4YPfuanxJV5+BfI8MwYsqj
+	Kk+k21jk2SkYaBHI4B6ZYW6vFJigV7O6epkRnHeybWLkef8Xg6f1+3o2A8XHlIpg
+	kPyGEqWNbDhNgTzHNYPtKql8raRQroXqIDlxHPAtpWLt58rSPd674PDml6Vx02xy
+	h6WgrnLYwBLwCRTzT1Kkw==
+X-ME-Sender: <xms:f0JLaqcWOpcp3S5uFOKIoE2rsUqjwGFMbIFsd-pU0aU0_pGy1J856g>
+    <xme:f0JLav7nr7uqNuaDGt25o4lTB0kBAhtV89IesMmYVB-u4AxqICpMDCTJN7ASQ0IaS
+    NBrbccrAZE_OqJN68S3OZi61zdGqbpWRlX9DKcSD4Y02rbFZg>
+X-ME-Received: <xmr:f0JLan_88EZNRUH5HgMNvEewjFTIEIkCktXoQO-JwJE1JsoKeeX5PoR2ON2a5mBkdooxfLgRwHvcoowjo76yAYU1rZoPevE>
+X-ME-Proxy-Cause: dmFkZTGr5s8+228ljllYeqtSfpbnAxP616BmLcVVReD9PAkVrq1Frpv/sEaNpfyOzMAaCg
+    tDffg3VTtiq10NkzSOxhu6bMiiw5uFmmwfOj4Yo6yV7RBbwxWCXYeP2DPlPy6BrG14dnIh
+    WsJxzZj9pX0nBjBwzNf34a3+HLLMeM6LoBqxcXmY2PDdweouIm6cpX7JXKBtUjZuDhyvhf
+    m5wJnMDQfCkallwgMlOs0XJpa4UG6jOsU9vEGHIE69Ml1gk2D34dgmX/0VVyMPOtuOq0Mp
+    h1FVEWf5IHRKc303PeqIUH7faHd2KmuPuUOEDAqzt9DOhOZSPqPoJr/oTq1JKDJwEaCITK
+    OB6Ly3g4YPVon0BYsPJBmJ9KlPkSkm14T6nLoQX9x4wIKOAusWT3NddKADBaGH0uvtt5KC
+    A0uzwhTt+4t+ysCag3QNkn2BW1Q5/CsuwT4y2xEIkGAhbT2Z2LkOZz8vYdKqSsPqyUmtc4
+    6bVWMOZgk1eQT4x1b/GeGa7YrI5Q0W7ZE4u75XzaIYYGq18/O40iATPRG5qpx39+QHUIg5
+    3jJan9CiZio7iWAZXU9LvymicD9O9Uxp8LaZFESxPGuVuBWWzD+z6hyDmgNdGWE91SMyz1
+    5E8SbAeeyA51UIjuP4P2pVQd6YzoPxu9YCoFai6nppV689IXj7PvsCeiEhVA
+X-ME-Proxy: <xmx:f0JLahF0p_oPdF6LhpN3n9JaIT6WRPo_tQ7wTgieemr-MSnOrpJGBg>
+    <xmx:f0JLasUoQsL95ZkeY1x_r-zFqAc9jnHufWvwvoHVNurTstz_vsbw-w>
+    <xmx:f0JLat_CKCbKesZ8mk4ci_kNZL6p3IxmnkEdeerFSSZZ6HUJGkygPg>
+    <xmx:f0JLap5jdaiZT8Vq4rvHysciQWVV3HHQGAcbwGxGOn-FnhY0o9aciA>
+    <xmx:f0JLatln9Lr0Sdr3reT-IqSjeIbYUB7CTxlC6AUToI-pOX6iodLWey_y>
 Feedback-ID: i9d664b8f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 6 Jul 2026 01:51:09 -0400 (EDT)
+ 6 Jul 2026 01:51:56 -0400 (EDT)
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -83,58 +83,72 @@ Cc: "Jeff Layton" <jlayton@kernel.org>,
  "Aleksa Sarai" <aleksa@amutable.com>, "Amir Goldstein" <amir73il@gmail.com>,
  "Jan Kara" <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
  linux-kernel@vger.kernel.org, "Jori Koolstra" <jkoolstra@xs4all.nl>
-Subject: Re: [PATCH v3 11/14] vfs: refuse O_CREAT for directories through a
- dangling symlink
-In-reply-to: <20260704164149.3480051-12-jkoolstra@xs4all.nl>
+Subject: Re: [PATCH v3 12/14] vfs: short-circuit MAY_WRITE access for
+ O_DIRECTORY opens
+In-reply-to: <20260704164149.3480051-13-jkoolstra@xs4all.nl>
 References: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
-  <20260704164149.3480051-12-jkoolstra@xs4all.nl>
-Date: Mon, 06 Jul 2026 15:51:07 +1000
-Message-id: <178331706789.27465.16191131997490012539@noble.neil.brown.name>
+  <20260704164149.3480051-13-jkoolstra@xs4all.nl>
+Date: Mon, 06 Jul 2026 15:51:54 +1000
+Message-id: <178331711459.27465.5575151912695180298@noble.neil.brown.name>
 Reply-To: NeilBrown <neil@brown.name>
 
 On Sun, 05 Jul 2026, Jori Koolstra wrote:
-> open(O_CREAT) without O_EXCL follows a trailing symlink and, when the
-> symlink target does not exist, creates it. Refuse to create through a
-> dangling symlink for directories.
+> Requesting write access on a directory can never succeed. Rather
+> than performing a path-walk to determine whether the target is
+> actually a directory (-EISDIR) or not (-ENOTDIR), or does not exist
+> (-ENOENT), etc., we short-circuit to -ENOTDIR.
 >=20
-> In lookup_open() a negative target reached with nd->depth > 0 was
-> arrived at by following a trailing symlink; since the dentry is negative
-> the symlink is dangling. Set create_error to -EEXIST in that case
-> (matching the errorno returned by mkdir(2).) Reusing the existing
-> create_error path strips O_CREAT for both the generic and
-> ->atomic_open create paths and only reports the error when the target is
-> actually negative. Thus opening an existing target through a symlink,
-> interior symlinks, and O_EXCL (which never follows the trailing link)
-> are all unaffected.
+> Currently O_WRONLY for directories is only blocked in may_open(),
+> which happens after we have the inode for the target, so after any
+> create via O_CREAT|O_DIRECTORY.
+>=20
+> The advantage of short-circuiting is that we don't have to add even
+> more logic to lookup_open() to differentiate -EISDIR/-ENOTDIR. Also,
+> for filesystems that define atomic_open(), handling this cannot even be
+> done at the VFS level, as we can't know ahead of calling
+> ->atomic_open() what the result of the lookup is.
 >=20
 > Suggested-by: Christian Brauner (Amutable) <brauner@kernel.org>
 > Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
 > ---
->  fs/namei.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  fs/open.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/fs/namei.c b/fs/namei.c
-> index 76916caa264d..030cac4fbe55 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -4546,6 +4546,11 @@ static struct dentry *lookup_open(struct nameidata *=
-nd, struct file *file,
->  						    dentry, mode, create_dir);
->  		else
->  			create_error =3D -EROFS;
-> +		/* Refuse to create a directory through a dangling (trailing)
-> +		 * symlink. For regular files this has been allowed historically
-> +		 * on O_CREAT without O_EXCL. */
-> +		if (unlikely(nd->depth) && create_dir && !create_error)
-> +			create_error =3D -EEXIST;
->  	}
->  	if (create_error)
->  		open_flag &=3D ~O_CREAT;
+> diff --git a/fs/open.c b/fs/open.c
+> index 9121aece78bc..87e8864d9480 100644
+> --- a/fs/open.c
+> +++ b/fs/open.c
+> @@ -1270,9 +1270,16 @@ inline int build_open_flags(const struct open_how *h=
+ow, struct open_flags *op)
+> =20
+>  	op->intent =3D flags & O_PATH ? 0 : LOOKUP_OPEN;
+> =20
+> +	/*
+> +	 * Requesting write access on a directory can never succeed. Rather
+> +	 * than performing a path-walk to determine whether the target is
+> +	 * actually a directory (-EISDIR) or not (-ENOTDIR), we short-circuit
+> +	 * to -ENOTDIR.
+> +	 */
+> +	if ((flags & O_DIRECTORY) && !(flags & __O_TMPFILE) && (acc_mode & MAY_WR=
+ITE))
+> +		return -ENOTDIR;
+> +
+
+Nice simple approach.
+
+Reviewed-by: NeilBrown <neil@brown.name>
+
+NeilBrown
+
+
+>  	if (flags & O_CREAT) {
+> -		if ((flags & O_DIRECTORY) && (acc_mode & MAY_WRITE))
+> -			return -EISDIR;
+>  		op->intent |=3D LOOKUP_CREATE;
+>  		if (flags & O_EXCL) {
+>  			op->intent |=3D LOOKUP_EXCL;
 > --=20
 > 2.55.0
 >=20
 >=20
 
-Reviewed-by: NeilBrown <neilbrown.name>
-
-NeilBrown
