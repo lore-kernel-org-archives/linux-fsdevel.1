@@ -1,181 +1,143 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A229D3A9013
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 22:10:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6483955D7
+	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 22:17:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783375828; cv=none; b=RfHcJNfdMa+Ll4uZSZhk2i4Bg/m4nDVvwK3rAAo7pDLD7Cg+ioxMDoIwCk5bO1C5xSfpYQlaOYB6gVF+WHPKk+Gi0M4DDTFy5kMQ78yQDqOU4XAth8a2sqkAqQDomXGumgwrwYpbdscyAKMn39eD7FacdsKQCyAbWcaBnwmxZ5I=
+	t=1783376276; cv=none; b=nNK3JjKkl/gexwnPT6B/zguhvPuve6bpSUsp4VyzDHVr7isJ8O6liRi0UXCRM0z9rurxJh9+q7rY1Dyro58kbV61bVnvWn2MCR2NQlE0H+TTLRduonaCJqoILCXD/z9quU5mvM+CQXVKRQrN6xLBl7SOKHs0npbIGoKI3ecwEqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783375828; c=relaxed/simple;
-	bh=bWal4tda9gP/2bfQfOevnJOENyFr15IVRN3Qf4Dzz3g=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=ZCyjastvto46IYsOcd7605JHXclylb02p9tWY8tzBpTqSakpOjh16nBCZm8tlP3702+bqkMH3ojndu0UdQ/v+S7ttb4GU+h6VqwpbxYRJSUHWkQFT+94ps7DPWPcVF4XG1mey32lkgwx8ls0nXlj+QSW4dUwtq/Dz+mayoAyQWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=NVIMNSqf; arc=none smtp.client-ip=195.121.94.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1783376276; c=relaxed/simple;
+	bh=V5NH9kQ7fLZj/BAFGQy9vW3pnLVjShqWn6KWzcKAxh8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OucP4eqCxnKxSEAoZI29yNKGNN2IbkHuFfMKgeF2BuAS/Axx83rlxiC6ginqGUfGI8bqBIg7Iis93T0PtI8EY7yJtblWYHsFJXuzzyFgVqYdihbthpTawbZUWX12RMMgY57wtKqa1HvWh3SPPibQCPaSKyl7L7k3FEpX5B+dhs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=zTgxdch/; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="NVIMNSqf"
-X-KPN-MessageId: 78bb1a12-7987-11f1-bfba-00505699b430
-Received: from mta.kpnmail.nl (unknown [10.31.161.190])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 78bb1a12-7987-11f1-bfba-00505699b430;
-	Tue, 07 Jul 2026 00:10:17 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 78ba2283-7987-11f1-b2fe-0050569977a2;
-	Tue, 07 Jul 2026 00:10:17 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="zTgxdch/"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-8143daf89c7so33051317b3.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 15:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=UNQ8WJpi2ryzyBfIjlBVgT3cvMuDODARX54BM6UC+Z4=;
-	b=NVIMNSqfL0egWMQKf+vmVxFaJMmg0+H6t8HBI3K6amVRvXnYLnW55tFQTt2GWaz721BueeS8V4WOQ
-	 rJiqOjXTBsNJ//JOlkDVl6zB8sGggHM7+ItvgKW1R0BJ1hw5ccjTOz9Qa7Y5TGd+USgn3FAv198ebr
-	 hdGYPjH1Hh+20h/OjL/SjieRs2mk0ZrPMVyXG4XWxyh8M/qlZrBuyWlekVqApO6CS6tfOi9x8FFAUQ
-	 8rIZpRRntRudd3LwL3Y/69zeo8THLh4dSIiMwtZfRsjZ41LBeUUpjtX+EJNfJuaYXjWdEZRFaYIj9k
-	 FDuNewyPjm0/XMVa88Y+BHuw61ZRf2Q==
-X-KPN-MID: 33|nQGKXVHvONsZbAvoljBKhjz9A3taWBjzyuUhD+jTC7XlFwEvHx6ngmV/pa1vpiC
- 0JRIKLXRErqPmoUSuD3lIfmr3YHTjoUxUN0XY9hmtv1A=
-X-CMASSUN: 33|Jf8sE3uqAWNopZGHM5My1ZuLWUdGem7SqhJ5Ek92vve9XVAdPA6viALyuOUrfUr
- VfbdFpgAnOccUo4YyDYT6ZQ==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh04 (cpxoxapps-mh04.personalcloud.so.kpn.org [10.128.135.210])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 78b4a1c8-7987-11f1-916a-005056995d6c;
-	Tue, 07 Jul 2026 00:10:17 +0200 (CEST)
-Date: Tue, 7 Jul 2026 00:10:17 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>, NeilBrown <neil@brown.name>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org
-Message-ID: <1991496397.134753.1783375817781@kpc.webmail.kpnmail.nl>
-In-Reply-To: <20260706-steril-fragil-worunter-f48995ef1b29@brauner>
-References: <20260705235447.1322365-1-neilb@ownmail.net>
- <20260705235447.1322365-4-neilb@ownmail.net>
- <20260706-steril-fragil-worunter-f48995ef1b29@brauner>
-Subject: Re: [PATCH v2 3/3] VFS: add vfs_lookup_open() for nfsd
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1783376274; x=1783981074; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OYu197rgwP+qERFJvSPlFQquNeD8TuB+n5Qa36zU6LY=;
+        b=zTgxdch/UEIm9M6kmN/QvGknYewzlg9x1iMgKSQYiCP4Vf+sKZTD6YNc5e4NSKDN6s
+         G5PNLYqqdsYPQBrb/FVFWb85H6741szYCnjeHPXoWkuoGWCxyDYtvXWEn8sWD8uRCHiG
+         zEkw71fFA9AVyvUsQYNXHx5xCvP45z/WDhHLFIxB34UOPtYoTf7yYnLJol/eb6i9zZbW
+         zFV0qtjAa9BI/ZDPON1tcCbZpWIF5PRt+PflcI1wiuOQoIuA/2f+EFCPv1o0E/Xucayj
+         yoQzma7g/0tqA1v88XOT79gqwsFgoeDaY/LQKaogGzdPAPimgyyCLUBRVUwdiczWkvil
+         /WXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783376274; x=1783981074;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OYu197rgwP+qERFJvSPlFQquNeD8TuB+n5Qa36zU6LY=;
+        b=pzavaxQDw2vu4WCEhbMI1+JKbqKSXYnB+UPeG4twxzGiDFdpkvaRzBFD47WcKvJrgn
+         qlJeiKFg4IYSuKpqyntikNhLD5h1u45/ckevrtBC0rGM4RkzLNEOiYCWWu3iDGr2H7+v
+         KQI3YJnCxl6qmGF+OaSM4gipfrVOsx2jBNbRS8S5zy7Q6BDKYfH+J4XLyvYKHBYBApfQ
+         t7WZoqOVkuUkBDNnBahNrgJrAIjnJdWdZdQ6iDvEn+mKz/pHp0UXGZiqrHRYV7BlmEUI
+         9rQpKqFqIH+gtsvVJE1IqdmAZhAsEWPXpg71HMDZrIDFJ2TgwmQSxy43Mz3+L9hqXRfo
+         0JqA==
+X-Forwarded-Encrypted: i=1; AHgh+RqjjZi9MCt5nhce5SbydLkn5ufcdHBI6uF5xm4yg7rXvx3haBkOPhPexXuSwAzJCc1ijKFYyQS1Jrl9Sajp@vger.kernel.org
+X-Gm-Message-State: AOJu0YwxufzBeNKslMMZ3nMvego7ayf5rpbYrVEiwdELSLSrZo9xJSVr
+	KBXOB8M9sqS+RWj5jGzge+mTAeDCSAvKP9Yy7Ikf9+QxIstZwCguEIPJnWsi99zN5ao=
+X-Gm-Gg: AfdE7cmkyWdmIzXk8XHAW/l67Vq79BUfssXW3WW14jOxtn1G/mHkFwKp2xsPdaRir6C
+	H5mvpQHyYt+vSUPTjoGz1rGcPpHQq3bKZ5pPIz+G9NlL3RKFqQ3wFw+BKVMiXgfIqjf1VJf5BOm
+	9uUhR7h4GP//KOnwA7qBODKYU4hjG0R5zrgxd136NuIWCrYPyErvVKHRv/PmBefkOUHSPL7V0ii
+	PM2tE8lzpFHJer+D5faEKQ0Arhr+CTB8qJQLjoxEZcp1rZA78yFnWn21YONHn59fmzGrY7E/E9U
+	86I/+m1Mme+kV3jjCrLyrB8hbGMcv4ugFtvxzMOLZebMQ/BiCpzxT2YvujFvQuqm0wRQNOggrlb
+	VAYCgpoFuoym02r4TJt0ot1gz8M3eZSWR6MT5dWKj6Uhyroh4LJz5LpEEWi6hqNbpq9STBmdBQc
+	hhmNy7N+0LAWjehGhN1qeBdhZT6Eo/Fb8GS05I+cNLb1IvaQ9FKI3XOmONASv7+9lCH3D/3KY9T
+	+uOB5rX40kKBRLuGC9WELJ39OAsn7I2KaKav74Z1+l7TInjcDmQ
+X-Received: by 2002:a05:690c:2784:b0:814:5f6c:5ba with SMTP id 00721157ae682-81be06393d8mr19124817b3.15.1783376273736;
+        Mon, 06 Jul 2026 15:17:53 -0700 (PDT)
+Received: from system76-pc.attlocal.net ([2600:1700:6476:1430:fc23:ea94:e881:d8a4])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81c424b024esm1644927b3.31.2026.07.06.15.17.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2026 15:17:53 -0700 (PDT)
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: glaubitz@physik.fu-berlin.de,
+	linux-fsdevel@vger.kernel.org,
+	frank.li@vivo.com
+Cc: Viacheslav Dubeyko <slava@dubeyko.com>
+Subject: [PATCH] hfsplus: fix error code when writing beyond volume capacity
+Date: Mon,  6 Jul 2026 15:17:39 -0700
+Message-ID: <20260706221738.140271-2-slava@dubeyko.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Transfer-Encoding: 8bit
 
+The xfstests' test-case generic/564 fails for
+the case of HFS+ file system. Test-case expects that
+file system driver reports -EFBIG error code in the case
+if there is the effort to write beyond 8TiB. However, HFS+
+file system driver returns -ENOSPC instead.
 
-> Op 06-07-2026 15:33 CEST schreef Christian Brauner <brauner@kernel.org>:
-> 
->  
-> > vfs_lookup_open() is a limited version of lookup_open() which is
-> > exported for nfsd to use - to replace dentry_create().
-> > 
-> > It is limited in that no filename is given (thus no auditing) and no
-> > LOOKUP_ flags are passed.  A few "intent" LOOKUP flags are deduced from
-> > the open flags.
-> > 
-> > If a non-regular file is found, an O_PATH file is returned.  This allows
-> > the caller to see what was found and to return an appropriate error
-> > code.  However if ->atomic_open was used, it may return an error rather
-> > then provide a dentry.
-> > 
-> > Signed-off-by: NeilBrown <neil@brown.name>
-> >
-> > diff --git a/fs/namei.c b/fs/namei.c
-> > index 1ca738401afa..002ffae7083d 100644
-> > --- a/fs/namei.c
-> > +++ b/fs/namei.c
-> > @@ -4568,6 +4568,76 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
-> >  	goto out;
-> >  }
-> >  
-> > +/**
-> > + * vfs_lookup_open - open and possibly create a regular file
-> > + * @parent: directory to contain file
-> > + * @last: final component of file name
-> > + * @open_flag: O_flags
-> > + * @mode: initial permissions for file
-> > + *
-> > + * Open a file after lookup and/or create.  This provides similar
-> > + * functionality open_last_lookups() for in-kernel users, particularly
-> > + * nfsd.
-> > + * It uses ->atomic_open or ->lookup / ->create / ->open as appropriate.
-> > + *
-> > + * Returns: the opened struct file, or an error.
-> > + *     Caller should check that the file opened is regular,
-> > + *     if something else was found, an O_PATH file is provided.
-> > + *     Caller should validate FMODE_CREATED if O_EXCL was requested.
-> > + */
-> > +struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
-> > +			     int open_flag, umode_t mode)
-> > +{
-> > +	struct file *file __free(fput) = NULL;
-> > +	struct nameidata nd = {};
-> > +	struct open_flags op = {};
-> > +	struct dentry *dentry;
-> > +	int error = 0;
-> > +
-> > +	WARN_ONCE(mode & !S_IALLUGO, "mode must only have permission bits");
+The root cause is that hfsplus_fill_super() sets s_maxbytes
+as MAX_LFS_FILESIZE. VFS therefore considers the write
+position valid and calls into the filesystem. Because HFS+
+does not support holes, cont_write_begin() zero-fills
+the entire intermediate range from the current end-of-file
+to the target offset. On a small test volume this exhausts
+free space long before any block-number overflow is detected,
+producing -ENOSPC instead of -EFBIG.
 
-Typo here.
+This patch fixes the issue by adding a bounds check at
+the top of hfsplus_write_begin(). If the requested write
+position is at or beyond the actual capacity of the volume
+in bytes, return -EFBIG immediately before cont_write_begin()
+is entered and before any zero-fill I/O is attempted.
 
-> > +	error = lookup_noperm_common(last, parent->dentry);
-> > +	if (error)
-> > +		return ERR_PTR(error);
-> > +
-> > +	file = alloc_empty_file(open_flag, current_cred());
-> > +	if (IS_ERR(file))
-> > +		return file;
-> > +
-> > +	nd.path = *parent;
-> > +	nd.last = *last;
-> > +	nd.flags = LOOKUP_OPEN;
-> > +	if (open_flag & O_CREAT) {
-> > +		nd.flags |= LOOKUP_CREATE;
-> > +		if (open_flag & O_EXCL)
-> > +			nd.flags |= LOOKUP_EXCL;
-> > +	}
-> > +	op.open_flag = open_flag;
-> > +	op.mode = S_IFREG | mode;
-> > +	dentry = lookup_open(&nd, file, &op);
-> > +
-> > +	if (IS_ERR(dentry))
-> > +		return ERR_CAST(dentry);
-> > +
-> > +	if (d_really_is_negative(dentry)) {
-> > +		error = -ENOENT;
-> > +	} else if (!(file->f_mode & FMODE_OPENED)) {
-> > +		nd.path.dentry = dentry;
-> > +		if (!d_is_reg(dentry))
-> > +			/*
-> > +			 * allow caller to see dentry and choose
-> > +			 * correct error code
-> > +			 */
-> > +			file->f_flags |= O_PATH;
-> > +		error = vfs_open(&nd.path, file);
-> 
-> Imho, that really throws a wrench into this function. I'd rather just
-> fail with well-known error codes in that case:
-> 
-> /* directory */ -> EISDIR
-> /* device */    -> ENODEV
-> 
-> Also, why does the caller need to know details here? Because of the
-> O_DIRECTORY work? But even so, EFTYPE would be enough afaict, I think?
-> 
+sudo ./check generic/564
+FSTYP         -- hfsplus
+PLATFORM      -- Linux/x86_64 hfsplus-testing-0001 7.2.0-rc1-dirty #50 SMP PREEMPT_DYNAMIC Fri Jul  3 16:22:27 PDT 2026
+MKFS_OPTIONS  -- /dev/loop51
+MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
 
-If that is the reason it would be easier to just ban O_DIRECTORY from the
-start here, if vfs_lookup_open() is meant to only ever open/create regular
-files.
+generic/564  13s ...  43s
+Ran: generic/564
+Passed all 1 tests
 
-Is that the case, Neil?
+Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
+cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+cc: Yangtao Li <frank.li@vivo.com>
+cc: linux-fsdevel@vger.kernel.org
+---
+ fs/hfsplus/inode.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-Now that I think about it, I think you also want to restrict the O_* flags.
-lookup_open() normally does not get passed __O_TMPFILE or O_PATH afaik, and
-it would probably a bad idea to start passing it these flags. Maybe also don't
-want to allow O_TRUNC.
+diff --git a/fs/hfsplus/inode.c b/fs/hfsplus/inode.c
+index 1c57c873f05d..2ce6de574fa6 100644
+--- a/fs/hfsplus/inode.c
++++ b/fs/hfsplus/inode.c
+@@ -43,11 +43,19 @@ int hfsplus_write_begin(const struct kiocb *iocb,
+ 			unsigned len, struct folio **foliop,
+ 			void **fsdata)
+ {
++	struct inode *inode = mapping->host;
++	struct hfsplus_sb_info *sbi = HFSPLUS_SB(inode->i_sb);
++	loff_t total_capacity;
+ 	int ret;
+ 
++	total_capacity = (loff_t)sbi->total_blocks << sbi->alloc_blksz_shift;
++
++	if (pos >= total_capacity)
++		return -EFBIG;
++
+ 	ret = cont_write_begin(iocb, mapping, pos, len, foliop, fsdata,
+ 				hfsplus_get_block,
+-				&HFSPLUS_I(mapping->host)->phys_size);
++				&HFSPLUS_I(inode)->phys_size);
+ 	if (unlikely(ret))
+ 		hfsplus_write_failed(mapping, pos + len);
+ 
+-- 
+2.43.0
 
-> -- 
-> Christian Brauner <brauner@kernel.org>
