@@ -1,95 +1,146 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A27D3328FA
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 21:07:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2605241DEC5
+	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 21:10:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.47
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783372060; cv=pass; b=ImbvawR0ijOxIpCyQXL+oE61YdPX3x8h+fG5Xr1EjsSz2dKfqIh6XWUuyZ6vC9MVAtcrnee79HFhx74Jt7GRmxqNxZBYGXP+5vbs2pmTjiBwXj57UVdgvJEFVCSQRrvrcyqz80sKXDe1hE/8kAm6sadGIUwvFv6bAEvFxYEZNEs=
+	t=1783372226; cv=pass; b=TCVkKBwUQ7IDxGcNcmvzoDSiPWuMOSFnXZnpzP/ioDfVDGvtBkEUcxFvsPA08DB5Lbp4hpKNJKDgGzQKdaRH85S5bnRehsijSQhKz2eLV2L0FPwYCEoAfY/Az8Foyy8z4wNTxbyc0R2gbANbFgkji0aRsnAyfHR6ggKHv8CCxLg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783372060; c=relaxed/simple;
-	bh=PEhg8dPymL6XcC38iB9GMzSdyc6pi8g+t0gQGZtO+AU=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=H61RBf7rIkcLo5v1FlYjJ1eH05PtCczBVVddSTJHk+J9XFqXvVU6dg0797zUkfpydz1nEzfPqsMvyEPtV3bFO2JQQhjwO3ARf0Tlz/Yj47hcrdHPGk3plFfQYNO1OP5MpMItwZ5Iop6EoiXHHdSbhRrzSWMpu1Hdnb+azao9MvQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kOmRo71F; arc=pass smtp.client-ip=209.85.218.54
+	s=arc-20240116; t=1783372226; c=relaxed/simple;
+	bh=G1PsgoNk8ZRW3MpWx+p3EgHcNI5RrHxdJM7/y1Oj4XM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Lgg2SrihWkUl6QJGIonf8DiG43/XLdm4klTQoquUWY0wbLK+Xz9sJ49om+FCep6M9Eu4UE2Yx52L77XasddgSLx1regvqb3K0yqemaHm+Fxb2yu+iTSrOV4+UQpD/96POy8yLQ8uPHyHraxB2vD1r8AN5wdvpHA8SAyfjdqFdUc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VOZ0wH69; arc=pass smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kOmRo71F"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c126e47a82cso418873166b.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 14:07:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783372057; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VOZ0wH69"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-47ddf7b09e5so1527022f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 14:10:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783372222; cv=none;
         d=google.com; s=arc-20260327;
-        b=qwZKF3wyCcuMEnPWjwFPu9W6Typ34jWWEbLj8FoOOnyADohumtkzauXPvt0nN405eZ
-         rYnVXtTLg75P3vdYnlFKsGCjywAT8l4oFPNz/CUZqIlUJLnGhuLB80hIPvjKWpM8cVpf
-         pPDnUTDNupnR0TMeebpzEwhuX4TlgB6xktdByALmV8LBsWwsFXb0G9K7syVBrwnbjrGP
-         V3JyZHDOGnC1uom/ccypto8/AhLG76eM54US7NG8ng0u5YOt6aNrNYI8mojSZd1Ftv9k
-         C4AbwqdSD9BwN04ZxQp1TS5ttvYRCgOvvuQ16t0KZqxt5TEWkhWQkcKi1JgVToB5jXZU
-         MKkw==
+        b=qKwQrSODIfqh8dK7uIh/m5Jlk4+x3woE2SBDJqn6SJGjIxhmsx0EO4Rdsf27B/6Pk4
+         Xv/PI5i5pv7nAeyGIjbx2onuOQlp3FyDaOGW+ase41JMAVzWKHH0pXlMetnCju+MRPY5
+         IZ3m9jSVT7igTks0wmUQ2ipgA+1pKuQO0YosbG8yr5qKry5cDU+in0XAeU7r4fAb2n56
+         dPQgsNWiQJL0jkhm7uWHwb2VATS17oF9CtydqfEg4HpxYN6WQCIrrJ3DbPsNBESIXwZl
+         iXQKG9Nu9iADQ13uKsswnAD/qT3Erg4cT8WmtI4B7t2rKjV1pLcyhv2EcrMzmD90EZsX
+         Zk3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=PEhg8dPymL6XcC38iB9GMzSdyc6pi8g+t0gQGZtO+AU=;
-        fh=ToO8m2MH8Cq5TITnTtlQSyp0IoR7i2HM/rF03CjdZdw=;
-        b=oMzsS7PGzJuy2QzU2fVSqww/NstBqnqYbN2YvNXtEPiY8wVOwzad461DQ10Zw+bNvU
-         N3j1JtWO1U2e5iSxSgYf0mDqcLDBZ6CjChWAAGtv9G82P3m0lPvfPPxvIn/X3B5gd1Fe
-         qnBpGJmTUE184E3sAeWFSPD9xOWsDC5mfx2Kt015yzUbjuC92YgeXYVzcNxE4R1OVX6L
-         UYIVjLYMzbbsDDgd57uuqfA1SrEF3/mq3/QqVAwI7znWShX08egErWKavNTimaUbdy4s
-         narqthcAgt/0+SAAStj0Hl5eONheSF3TaUSrcH6NiV6PkaJrxngVLlR4sPdyQpXFjIA5
-         Ul0g==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=nTPTVUtdS4k47QUOBTcq39fwXmGTETu3cEn0VEiXrKk=;
+        fh=Ln/2H1PZdIyGu9pZnLHp19WnAWEuOyOvk52wtPNWoS8=;
+        b=pEUHsGxHul5nYStrWQ6HAVUCrDsmjNxHm+ojrW3ueJe/OEOHFIgNb01EY1str56c8m
+         2V0MA9SW2s4VyoXEqdXrAAbZBDHI0QkSkeAGvSRTefGF0pooY7/AjeJQpd9Y9nv+SOdr
+         ABdhUWQJqjqlxPopoaAQEqNLh+LzHoRWjJCG+bTd8rj6svUKpKq+WHmcwALZ1txEhrie
+         SAk/oIUPXEGrjUiVzpwpzpQ0q+DupP6QD6kGS7IQ642cCM5+f+VHW52XtZl1uEGblFhq
+         WeBwI2Xs9a1qwpVSf9XHTQ0a9+CZ9PGgo8ACchI2sAk9TmQDhV6ezGhpDy6rcSLJL874
+         cHgw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783372057; x=1783976857; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=PEhg8dPymL6XcC38iB9GMzSdyc6pi8g+t0gQGZtO+AU=;
-        b=kOmRo71FkRWGZ8dY5VYHTLUzwG+FSW9yP//VcC98z7KV5p2C0FBwnt8/6t6G/UTx6C
-         W+gOyvQk+a6zNHa7JIp1XJM+4T/9Wp4VFrTSiT6fgPjbWJKMSE10SEqFpxNKa2tcHt2M
-         RQhL3fBjU1FZc1T9FHMC40X0GmUIJnXKD6gcTRST1FzTQZh4S0ix2VtNgeoIZO74qBjN
-         e5Vr+vRATPxD6/PROeWHkN+62SwpuPUBACKQwptFil6z0+YmoVInHHXnWLpa0KLzietJ
-         LfYF8IQrfFr+pCHLx79zH7PX+bzoo05nx3FcVMWFy2KrEcoAxCogISzqt/UROoJokE1g
-         m6Ag==
+        d=gmail.com; s=20251104; t=1783372222; x=1783977022; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=nTPTVUtdS4k47QUOBTcq39fwXmGTETu3cEn0VEiXrKk=;
+        b=VOZ0wH69JPBnCKNsnqanOS+g2tRBf9/0VnD/6iC2DC6A6beW++SlokfHcz2gFlp1X/
+         7+/MFuOYN21AOJg9dTk+4/qTttZ1iSFZ+yIf8WSGYo97gW4/KCjPXcz+kMDdP9yfoB6C
+         gJxXGJMut8RlOhsbq17CvUsSpdXEB4HYbYKDdEZwcdbUnUDuc2YB1TJ0aHXQdQI2GWV2
+         M7fB1OEFFSQpOl5Uyfe7PLPGxZlVdIjhVL6aLZ+X7rpS1PKa9Kv6b5bNcINVqDCoew+p
+         74mm+amMYcrM4zPD37RBvhDLbyCSEEfxqHNy3y+G2OhnNJ8O8guZU7QKrx9BDTo/2aEy
+         X/rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783372057; x=1783976857;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=PEhg8dPymL6XcC38iB9GMzSdyc6pi8g+t0gQGZtO+AU=;
-        b=OzrMzi63WAERmsBzyeax/hgo4W4JTviMynAM/8AwJHXbZh7VdoDlanEMFc0cvjrFom
-         sYTR5zxNY+uUvq6UoWGLcnu+LsqRbU3WS+fKPfmz5+rz0b7C6VS0uAaavWjiToVjLGg1
-         dE70RkAyq8x6s2S5lvnjOR2Czymc0Ifh7u65mj6yBd2sK0vVvQqinul8xJtPGle/yOY6
-         Zxsl+lkl3uWBBNgeAJ1W6dO2AlSKE8eOjCei9iRMAIbuiNDkPb1VUFJOqzfWGhuZro8s
-         f0z6eervZcIcmc8yQfwUY5IXRtx2z3VPWHsmYndfSeLKQAmt6MhI5ZxZUnW/b/shwnbc
-         pP1w==
-X-Gm-Message-State: AOJu0YyeII2U8kMI0xI5JVRm14jPwWx/d3B1dSO5r/WO2jTbuNPYdq5R
-	I4fr3v0aVI2KrKJeUKlyIccoLlzsNBAZzlPzaJzGLfadZY0i1xp+7KF2Ouf0PW9zN6g6TbZ5JWv
-	4mKeJHD8b4xi86Zk0zItD+SuCYOpbd8Y=
-X-Gm-Gg: AfdE7cn992YI9eSGXh68La+KBYeHIhMiwpCw8vbRiSrfq7ZZEetJLanq6kBhMm6Cm4L
-	11In7GAmEtoxTdGkxu/6iWgiIYwG/xub+J8c8FooONJIiPzAvLyOUdheEI2W5FMRyNBXYTRt1O8
-	Yc8CahJYQLdwCkJ8cVHjN1WAm1OTGBKk40z7OfBuvtV6Fh2L1M1kR2jbDIfFJ8lNJAMwhk1DEfG
-	FbcKJMhF4l1g3rMDoVyp43bJ3lXJzwLffLGgIdaiQCpxrkY0IuboHW/YWVT7cf1Rna7VGDU5/oz
-	dLP9/P4GmtcYHNb0kp/eZWdBJ+oY
-X-Received: by 2002:a17:907:25c5:b0:c12:9a13:47c with SMTP id
- a640c23a62f3a-c15a66b3206mr171003666b.2.1783372057347; Mon, 06 Jul 2026
- 14:07:37 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783372222; x=1783977022;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nTPTVUtdS4k47QUOBTcq39fwXmGTETu3cEn0VEiXrKk=;
+        b=cCy2UFH+yBcaXw1c6i2HNdDbwUEArap5qvTiwlTAezY0zOKVltISpEBItlz/pTUtDM
+         oVZKcb5MW9/F/B5UWems5lWzpSXKXZrSQ6wy8UIPtHlFGEe4J8l2CgkLxJwAM+mdBIGl
+         ty9nM/ymL/AWyFHulDjRs5djthbmA1qFKbpDo50UpU0W0h0IbDMtOeuHqWIn+XncPh+W
+         Z8ok9gXxh353kcjP4U0pF07Vay3gmptIkefE+jngIJLkJIdoC6t+ormr5WP/0afP2rce
+         xF+OtlegJW4j08xdCqQtfKw4eGlsrq1sbljSvUD5Pz3SDig3XKfVSRiBEmVw66voxXld
+         YNGA==
+X-Forwarded-Encrypted: i=1; AHgh+RoNSDaRavQf2bsHK/891TYmRB1r1FfIpsw9P1FhWoqSogM8J9uhDkN5H0glw9DL7Yam7dtd3EJfqxuozB8f@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw00vmNQo2Av4lLoT8QkzUOYJrcgoQmEn/0nymL//WAkn5q5wOw
+	IKK3ETg5pcrwM18O8gcAeU29xA2h0Janm5+4IRTZ3g7tdSByxbV4i0idh0yTEkY2FT5Q9p9XRX+
+	0S827NO8F/sVGUIVgwidiA+Osv9UPsPA=
+X-Gm-Gg: AfdE7ck5GZv6H9IblhIrUHQUg6cC7W6R+AoNeaaUWvcPI+7J5nzl/HGoQ+PK8XuGwFH
+	XL8b7VUmqGWQH1zjm0/RX4jo3KvRGwETPEgX2G7Ldr1ft/DFvdeOfWAKv7l97bePWZD/0Ca/iXb
+	AjMsquUWeLs6tCRx3ieLZGYU75RoS3lSYi2ZAOJQ0DP65s4R5cwV8TmE0Oru0z29eeTMOyC4Y3H
+	g6udaQm/2FdJbZFTtZNihLr5KGCgI80XwKK3PH0lcjSWXgjcPTiNW0RcezybL/dgaxTrLLxWb4W
+	hdIMt5iIx5lztseeeA3kBDPJXvOoeT5G5PC+x465yHHyL+HtigJn/XCveKGnWRU=
+X-Received: by 2002:a5d:6608:0:b0:472:55a:ef90 with SMTP id
+ ffacd0b85a97d-47de6697c81mr1703222f8f.8.1783372221848; Mon, 06 Jul 2026
+ 14:10:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Mon, 6 Jul 2026 23:07:24 +0200
-X-Gm-Features: AVVi8Cd1VjAgnTVTL5SuzGj8be87p_ud_K4weZLU_Frc6V3gOW9hpPJjjpWZ5lo
-Message-ID: <CAGudoHGokvqDNBz8EW5fwudfz_q-0+2eeon7-hyxZ5k=QOpF0A@mail.gmail.com>
-Subject: how about enabling Sashiko responses on this list
-To: Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>
+References: <20260703092815.4602-1-swethav0411@gmail.com>
+In-Reply-To: <20260703092815.4602-1-swethav0411@gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 6 Jul 2026 14:10:09 -0700
+X-Gm-Features: AVVi8Cd-dyt7Ii0P9xpbxtCjFtS5iCPO5yJeLQKlWwBTmbKjagmt7tI5wcFyw0M
+Message-ID: <CAJnrk1bxAfK0QJQtQ213T0ZKhXu4Pi=2wfRfZ5u0_frC8bucDw@mail.gmail.com>
+Subject: Re: [PATCH] fuse: add folio_max_order and folio_min_order controls in fusectl
+To: Vadlakonda Swetha <swethav0411@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I think everyone agrees by now Sashiko reviews are a net win.
+On Fri, Jul 3, 2026 at 2:31=E2=80=AFAM Vadlakonda Swetha <swethav0411@gmail=
+.com> wrote:
+>
+> Expose `folio_max_order` and `folio_min_order` entries under the FUSE
+> control filesystem (`/sys/fs/fuse/connections/<connection_id>/`).
+>
+> Motivation:
+> For fuse based systems like GCSFuse (Google Cloud Storage Fuse), large
+> folios gives a significant boost to the read performance.
+> - Without large folios, single file read perf is capped at 3GiB/s
+> - With large folios, we are able to achieve 12GiB/s, 1MB blocksize
+> - Writes:2GiB/s with large folios vs 1.6GiB/s without folios for 1MB bs
+>
+> We understand that subfolio dirty page tracking is not available for
+> writeback cache with large folios. However this is not a blocker for
 
-The bot is able to respond with concerns over e-mail, see
-https://github.com/sashiko-dev/sashiko/blob/main/sashiko.dev/email_policy.toml
+The buffered write and writeback paths in fuse go through iomap which
+tracks subfolio dirty state.
 
-Seems like a good idea to enable the feature for the list so that
-people don't have to explicitly look for the feedback.
+> GCSFuse and similar cloud/network-based filesystems for the following
+> reasons:
+>
+> 1. We generally recommend applications to use larger io sizes (>1MB)
+>    for writes because of the latency involved with the network calls.
+> 2. Random writes & small overwrites are also not recommended for cloud
+>    based filesystems.
+> 3. Beneficial when write back cache is explicitly disabled. Incase of
+>    GCSFuse, write back cache is disabled for different other reasons.
+>
+> Providing these controls allow individual filesystems to explicitly opt
+> into large folios once they evaluate their specific workload patterns.
+
+Could you explain the use case of this granularity? The page cache
+already adjusts folio size adaptively (eg small/random i/o still has
+small orders, high-order allocations fall back gracefully to
+lower-order allocations under memory pressure, etc) so it's a bit
+unclear to me why a tunable would be needed. It also won't enforce the
+order for any inodes that are already in the cache.
+
+There's a patch to enable large folios by default [1] and the
+benchmark numbers showed improvements all around, so I don't think
+this would be something individual filesystems would have to
+explicitly opt into. Does the change in [1] suffice for your use case?
+
+Thanks,
+Joanne
+
+[1] https://lore.kernel.org/fuse-devel/20260624012132.1719941-1-joannelkoon=
+g@gmail.com/
