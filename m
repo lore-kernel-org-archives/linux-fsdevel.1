@@ -1,79 +1,79 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7838F37BE7D
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 02:20:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9FF9378D71
+	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 02:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.180
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783304440; cv=pass; b=FyZ4d7yyU2wfnpTK+fTdgoKd347pf7bxYa/Oy4364RD4Uigmifn0emo+DmfOW0FEetf4YtFnFedK/J+qjEBfI4mUZGT47RdmGUirecNZ/c+VdICcE+NW+Xg0+CyZLojbDzGzWOQnWDy7CueJYQ6yfmIlG8tBfmTVqHvsSpqqv2c=
+	t=1783305099; cv=pass; b=j+sABic/FOt8dB+Jht5TlFeKfro/jPeyomiPt5d4UEREn5YwUys9efhxWiO2SFfAUGr93CPO5VUfznVLKUmXFP3LTybDGcwxylCnjpTo3Iq01JL44YhPyQcQMm17N5iMwajcztfCA4XZMNkUtgnTi6ModupEsbpegIhR92Io1LA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783304440; c=relaxed/simple;
-	bh=DgzsF0b8/ammgmq5bjSdH0azN79qHDRIyckReh5EH50=;
+	s=arc-20240116; t=1783305099; c=relaxed/simple;
+	bh=n9TNeAQbgI8UxjwXpE8Z4TjGdt+dY786AbaS43p6XAk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TqnNQOhsMwD/mY6NLI+qvs8AKpHbRuPRjaTdt291IBkLEKl8DHR7KFFkJ4LUptiPGX2MP7zIaMv/eRKT8psNEsD1NDnkP0JvMZbk5mdJNnkaA89ssJaDAyo/gLh6L9lYStDkc/IKobSiFAkbixDEE2jqVQFBxnxDClA7E0d6UP0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pp9javvx; arc=pass smtp.client-ip=209.85.167.49
+	 To:Cc:Content-Type; b=pVoT/XN/oYwViXxy0E90PHsOaxe0eGnbxNsuv+y5jvYwf3H5qwM9dtvzRHaO7GdNqcjYNfilh2CsuyklLOdxto/TWs9cNQwI9dj2p+d2S0xJS6QVHL2X9F87UPx5MPU4+D3fazLoJOQEXhXHP47ctmYJD0B93lC//ZKG0MJlxLc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aS/lQBCN; arc=pass smtp.client-ip=209.85.128.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pp9javvx"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5aec201b582so2579530e87.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 05 Jul 2026 19:20:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783304437; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aS/lQBCN"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-80bd5b5b3afso16155207b3.3
+        for <linux-fsdevel@vger.kernel.org>; Sun, 05 Jul 2026 19:31:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783305097; cv=none;
         d=google.com; s=arc-20260327;
-        b=ktuFmRWiFfrKNNJY4Iyp0PYkkmRgDIRasCwvz8d2D+GVrAyHiuvJlHPBfuT+BxgBRi
-         sJQjxWflI+QncH9QCv2RPDR8jzi1lr2g/3gvjpPF1XQnLcLcOHGN6jw2w7LjYnq6V2q2
-         r+dBw3T4qNB9x1Jb/XSLH6vGbX0BQkI4UoLVKXeqHay2c0SN45D37IoWE+27d69fbOVy
-         c0J1fipFFvR6Lf229xzQSPQ9sIelia1Yb+TRheKHMefhAMrZD4JskD1x0NsL6//+qNFB
-         Z357RJayeuTH5zaXInoPQg3hI/RQ84aCAlvkMFMRUPISpO47gLshoVZfErpHD6E7f6WK
-         OTHQ==
+        b=TXPBwFb9J/5DAKyFcT7InV7tgFsnNlewkXM1jT4kKCf3jiUbwJykmIiWmtBc2s/kKA
+         FrBw4ENMWg+tva2BCEPv+XegeOuofK/myUEyR4zI9twy16dDQcRz+2sPTE1G9VQEFADi
+         +aFJE1jzco/ZfscxVoYIZnYAUBhv/m9mHqo6SdO6Xzr2oGQp8nB5DXXTMKRXISDeucuH
+         J8EndU9nJiD7VMu5kiDtLqHBGhjvMxpAsDRdjtpjjGY47wKczWR3L1YJTT3C/hMlIRQL
+         wOvXwVKd/KAeiXinY/CGVXIGIzBGgnttmN8S7NAgtPD2HxjtCRPS4VYds+T/TjXnwyF7
+         GpLg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Z4YUa2YRVjs9VvwkcIvLVBsRAhUSH+1Dac1kZxht8Dk=;
-        fh=Jl1+IW0Bk5vpw7UqL+8kpk5iKL4avF92LazrW5dBBfI=;
-        b=Odf7iLuBIdc6+4JAukCBBhkiY9paQrxWJbTPwqaGml4h6ZwYeQHaNh5YuoQePvR4TZ
-         d8lRGGmOlQ8EE/Gndt0jBvqYDoJkIJLo6l3xxvGhQ08Tv/sFEbBCInzSdifXIrbk0hd6
-         KaS1yqn5Zo/H0BCXgDnIyss/ApKcSXvZCGVJ5+t4d0AE18hd1S6cHcC1rwakbG4Ye5hg
-         1+/k6txs8mfOhpeneVK4nYwTlHwAkVkjXCrUFJHmIpWRBASzNqH+14mxN3c5p5SED0X6
-         MujMdEDPs2aJXsHO4J+XRcc5LXP+5k8b9MedRQV9iH4pXwaDLOaNWejiPcObqrcVoVmJ
-         4mrA==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=boftlstDcYrBJu7Iu482+D0cKVytNFUrB+cQh+eW748=;
+        fh=4xPotoCTH1FED8oAISnXa8vgo2JYKpwRJZlVoqbtMmw=;
+        b=jQuayWU2Q9X9+i78LRwwXwWOsl09HDrAFzkbvFMTKKELcnZOOgAOTxjEGmAqJI5Usi
+         CszrVUHnq9jwmUF1gTCROHhylMzVwn0uY++nmjKuRa7QIDv3BThMdeehOno3zzhrthOR
+         3UT6LuudHSIptblCrIPoNdxbGbvtKRAFq8c+h4lznFeFyE6dqCjNi+aBczKfhEaVBlZM
+         c6iLEACSTqr4cFbYC3l7pQW/Dk3vDrI5vYSZjleVNEOBtOZ3S1zuDpKch580f3o29doe
+         zbCW2udXFZz2t/+2xO2svo4HXdxQdbMfgegObF+2vdr4l1wLFjlZo4kM8DxgKg3i//Qc
+         IN9Q==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783304437; x=1783909237; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z4YUa2YRVjs9VvwkcIvLVBsRAhUSH+1Dac1kZxht8Dk=;
-        b=Pp9javvxqU7/RcIdQLrldbLNd0gK1qxtaoDP+aSF3qEKHS333uz29aYNZdlzrc6KzX
-         TmHGFZggQ88qKTkkEi3dTh3o5SRG7kl6KgXH/ic1giKxm2JBZTEYsi4Hk/79sp910WH1
-         G+TvMmVUlV3qIg8mDSNv2hp4hBpph3Bk6W2omtlTTr8AUdo8d5rhoE5UBI0/Iv1jW5z1
-         7DbOqeRJ3q6EvbGrrcSY/lPDELgRFy5l+nqcV047oIt0uMiigRYxKLQ2IvyZRA38z4Bh
-         +j0smj8JmciNSXIlRdzZYNnod2Gz1jJK17rCZahTJn3hGvuhlRtRVae88UyoEpabnAA4
-         te8Q==
+        d=gmail.com; s=20251104; t=1783305097; x=1783909897; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=boftlstDcYrBJu7Iu482+D0cKVytNFUrB+cQh+eW748=;
+        b=aS/lQBCNezh0WdffuJAgxhAMTami0gjpH6W8b5J4k+tVkOv8rzvhLxYl6+jBKktFaf
+         lQOr4YrNre7c5FjTzkzcIZ275l85aflgCGIlBE1oTZL9nXWjX1h6qyPhCzrKWFn5rqBt
+         0KibuIbfQUnK9js3GME1VdIasDFuH8LfOmZGgQoE2wB+jQ+h9u/Ss+pUQ0daqEe5H9HG
+         e7VqCzPA4v2mrz6Uqvt4si7cQfvO8v7ldTNQiw+Tn8BIBSwo8oxICmxv+pzxi0ywrWZI
+         sJ5gx3ehMVkhoeW5eMBjqZE9Uvpgh5UnIJKuITX9khipynO0EpZi7OXH7ORjE4fYIsux
+         VNDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783304437; x=1783909237;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Z4YUa2YRVjs9VvwkcIvLVBsRAhUSH+1Dac1kZxht8Dk=;
-        b=GG6eM3Qi/gQ6JbRpAJpgpVI6ntn+hrJM5V/HFXXGtGjMEVvuzIT5ELxriqpHdgjq8o
-         Tx66zJwj26SGdbZtwxY18ymUdVFyz7L/zFtKTGR5ZgDAoRQn8T6x/C27Ibkv4XTKppFu
-         omws61ZqVPhdRFXy0ThmcxOJKyT5DoK/3VpbDUt4aMUR56jvBUk0jQ4IqzeYzv7i7W8K
-         CqPKsa2g72NW+9L6kbw361HQFqJFspe3vbzD8sut01+rK3MA6b0d3POfdNIQ+9yqUmSC
-         pt/QATC8abeAjyiybBjeYy5WuDVnt5vrbtTibPEk9+tjV+pKsB3+tYGmYB4og0fAiNmY
-         WBMQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoJHppCV7q6DIxNeXybH4423xplZiewO+qp7PmzD1PRWLjoq6/FD7gfj+1touiwAAhOvBBc63XkS/Nu5rIv@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw15rD2eFhcEMnFSNfCakbZOgxl0t9W0D3X5mMGeDaC6EAtNCyy
-	NE9+8X4IFaYXDxd2StjhPUKws0JE8PksSXMbGLL/HZShzMctHmUmG6GkULc94Z61lpFtMJ1tuib
-	KFZ0lS0W7TQUPHhMtdC+M5Ids1JC425w=
-X-Gm-Gg: AfdE7cmMXfqjjFni4hnFI6XetDp6CW7mRNXOIGgoiCIhccPEL0buyTRajAYRHVSFe6M
-	+9JFfP5B4r8uFD6xUN1RqnV6aOFgTlX+jMBgtIlbkXfHavaFmX1gCaVL6TmGoNpQQMFor6r+Q1a
-	b5ypuMdDWUUCoF+EtsaGNh+ueE9S5L3qmwZFIV06rFmwosUWQ8eajJqdDMpJT87GMe5nMSSbk2V
-	hecXGQoYhj/H6ah3r6SnDetw+DhbfX70/8obfCJEvEdGhFzHglreWXIsTB69P9KIZUBJIIu
-X-Received: by 2002:a05:6512:3990:b0:5ae:b88f:311e with SMTP id
- 2adb3069b0e04-5aed4f8090fmr1329444e87.15.1783304436650; Sun, 05 Jul 2026
- 19:20:36 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783305097; x=1783909897;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=boftlstDcYrBJu7Iu482+D0cKVytNFUrB+cQh+eW748=;
+        b=eT2GrYnjtXmacmXBIrec7bFYQ9R6jjLgoZoL50PGuWNKgxYptMTP0rXsnaLvVsMDOl
+         KOT/xjUxkA1gAwumoFMmPmuyt8ep0F717kPKYqnxz16pzr+R+oP4NYzuOYTazeGxgJFr
+         eQKF0avj8PhA6TFspYK6yIKVQTSnQ5wdCLVfqIdKXlqDs3BqY6goZeA4jyKp957orvQ8
+         Ob2yh9DVhA9JMA2co6x1dDC+89YtLVbPwEab2nOW699DLDkY2KeWCXy8kuZwRxwsZWgQ
+         fEcsHBjengebsSkQnsFPTdRSwatXE4SYSeIc1ruLKjW8bhODjNKrxg+zMg0H6hemkr10
+         ISng==
+X-Forwarded-Encrypted: i=1; AHgh+RrNEwuavXqWZDEmcZZ1LAbEocWbLVK7pT1BS8OLZGIf82ySMpXmO9HfHvYG4IlD+V5kbGls/ZfNVhutiBma@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz35oePbZjnJ8dmGS6GVPV+PT5cFQYodKj3zcSJet2OeUBpccwA
+	u2MuUJS9+dIUeMrND2rlCj9J4gvNkasSBXKOID8b6a1Su6FU/SuavpJoOyoKXdDB6DI/PLb9eCK
+	nxCnVJsK5Q4ZnXLuGlLUr8Q6NP1d/s9EF4ExLRJX0dw==
+X-Gm-Gg: AfdE7clwSfcJPDgWIDw/4UlkS7EUKwBD54TTBBFgJPDFW18Ibn8HOV8+b9VWVkOHCZy
+	GAmje0EDCmTTWNdG+LJ1/P5eo4t/JPIhvcwpd31fX7HM4tLB32EfXkA4r9uOqlxNSL19r1rZgGW
+	ZhUkjLC3IpbTVav5rhuGD4hsMiU3kKqqmvjrvqebb+OHotShKjMqq+x5EDq+8JfZbWKYKKFMMBY
+	IlarMrP906J19UN0fyGl4Py+aZgIU9/Edzg8sIm26RGLs+9zDqG3W42hoi3LZIhYAFpST9wgMU=
+X-Received: by 2002:a05:690c:660f:b0:809:28e1:d50c with SMTP id
+ 00721157ae682-81737c36470mr93913467b3.26.1783305096874; Sun, 05 Jul 2026
+ 19:31:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -81,104 +81,87 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260702161710.2606853-1-zzzccc427@gmail.com> <CANFS6bY-GKojmuLMRKoh9r83iHT7_wQQM=SKZH3vB88QFzg11A@mail.gmail.com>
- <CAFRLqsX6CM1D3F4AvYSNj3rT8YbOn2Ah4M73B0W1FCUVNOdj3w@mail.gmail.com>
-In-Reply-To: <CAFRLqsX6CM1D3F4AvYSNj3rT8YbOn2Ah4M73B0W1FCUVNOdj3w@mail.gmail.com>
-From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Mon, 6 Jul 2026 11:20:24 +0900
-X-Gm-Features: AVVi8CfbV25k2EwS-o7WswJXBUu8J59l1licQmKFtB_yu3_6YOmZEy4NN0BrGyY
-Message-ID: <CANFS6bZY3yfocFbAyg2FQqijQ4jjyXA-fprE-eQMcU5xKOS+eg@mail.gmail.com>
+ <CAFRLqsX6CM1D3F4AvYSNj3rT8YbOn2Ah4M73B0W1FCUVNOdj3w@mail.gmail.com> <CANFS6bZY3yfocFbAyg2FQqijQ4jjyXA-fprE-eQMcU5xKOS+eg@mail.gmail.com>
+In-Reply-To: <CANFS6bZY3yfocFbAyg2FQqijQ4jjyXA-fprE-eQMcU5xKOS+eg@mail.gmail.com>
+From: Cen Zhang <zzzccc427@gmail.com>
+Date: Mon, 6 Jul 2026 10:31:23 +0800
+X-Gm-Features: AVVi8CfYBclYVT9YnwILG1DbmyOeSEf70QSTp-RxzGFh4RZcSPyuoqdhc3XKprs
+Message-ID: <CAFRLqsXw9FD60pvU6-_JKfXMBqcfvagszUuTP4VtiN3ZNwzbfw@mail.gmail.com>
 Subject: Re: [PATCH v4] ntfs: serialize attribute-list replacement with lookups
-To: Cen Zhang <zzzccc427@gmail.com>
+To: Hyunchul Lee <hyc.lee@gmail.com>
 Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-2026=EB=85=84 7=EC=9B=94 5=EC=9D=BC (=EC=9D=BC) =EC=98=A4=EC=A0=84 12:40, C=
-en Zhang <zzzccc427@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> Hi, Hyunchul
->
-> Hyunchul Lee <hyc.lee@gmail.com> =E4=BA=8E2026=E5=B9=B47=E6=9C=883=E6=97=
-=A5=E5=91=A8=E4=BA=94 09:41=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > Hi Cen,
-> >
-> > While running generic/013 from xfstests, I observed the following hung
-> > task warning:
-> >
-> > [  492.533956] INFO: task fsstress:934 blocked for more than 122 second=
-s.
-> > [  492.534445]       Tainted: G           O        7.1.0-g81fe702ff176 =
-#2
-> > [  492.534870] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
-> > disables this message.
-> > [  492.535914] INFO: task fsstress:934 <reader> blocked on an
-> > rw-semaphore likely owned by task fsstress:934 <writer>
-> > [  492.536788] INFO: lockdep is turned off.
-> >
-> > # ps -eo pid,comm,stat | grep " D"
-> >     460 kworker/u16:4+f D
-> >     934 fsstress        D+
-> >
-> > # cat /proc/934/stack
-> > [<0>] ntfs_attr_list_lock+0x2a/0x60 [ntfs]
-> > [<0>] ntfs_attr_get_search_ctx+0x97/0x100 [ntfs]
-> > [<0>] ntfs_resident_attr_resize+0x64/0x610 [ntfs]
-> > [<0>] ntfs_ir_truncate+0x82/0x120 [ntfs]
-> > [<0>] ntfs_ie_add+0x35/0x200 [ntfs]
-> > [<0>] ntfs_index_add_filename+0xca/0x120 [ntfs]
-> > [<0>] __ntfs_create+0xa9a/0xd80 [ntfs]
-> > [<0>] ntfs_create+0xbd/0x170 [ntfs]
-> > [<0>] path_openat+0x1014/0x1400
-> > [<0>] do_file_open+0xdf/0x1a0
-> > [<0>] do_sys_openat2+0x7b/0xe0
-> > [<0>] __x64_sys_creat+0x45/0x70
-> > [<0>] do_syscall_64+0x101/0x6a0
-> > [<0>] entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> >
-> > # cat /proc/460/stack
-> > [<0>] __ntfs_write_inode+0x7b/0x6b0 [ntfs]
-> > [<0>] __writeback_single_inode+0x3f1/0x580
-> > [<0>] writeback_sb_inodes+0x25b/0x8c0
-> > [<0>] __writeback_inodes_wb+0x47/0xf0
-> > [<0>] wb_writeback+0x216/0x440
-> > [<0>] wb_workfn+0x3e6/0x510
-> > [<0>] process_one_work+0x200/0x5e0
-> > [<0>] worker_thread+0x1a0/0x370
-> > [<0>] kthread+0xef/0x120
-> > [<0>] ret_from_fork+0x270/0x330
-> > [<0>] ret_from_fork_asm+0x1a/0x30
->
-> Thanks for the review and test.
->
-> I tried to solve this crash, then kept refining the locking after testing
-> it with xfstests.  During that process I ran into more and more issues,
-> which forced me to keep changing and expanding the patch.  As a result,
-> the current patch has become quite large and complex, although I have not
-> found new issues with the current version under xfstests.
->
-> However, this version was also prepared with LLM assistance, and although
-> I reviewed and tested the result, I am not fully confident that this is
-> already the best or complete solution.  I am therefore sending it as an R=
-FC
-> first.  I would appreciate your review on whether this direction and lock
-> ordering look reasonable, or whether you would prefer a smaller/different
-> approach.  It would also be great if you could help solve this together;
-> I may have made it more complicated than it needed to be.
-
-Could you summarize what issues were found and how they were resolved?
-
-There are so many changes in the v5 patch, it is difficult to understand th=
-e
-overall picture.
+Hi, Hyunchul
 
 >
-> Best Regards,
-> Cen Zhang
+> Could you summarize what issues were found and how they were resolved?
+>
+> There are so many changes in the v5 patch, it is difficult to understand the
+> overall picture.
+>
 
+Thanks.
 
+I attempted to create the following summary with the help of LLM.
 
---=20
-Thanks,
-Hyunchul
+Compared with v4, the main changes are not for a different original crash,
+but for the locking problems I found while trying to validate the same
+attr-list lifetime fix with xfstests.
+
+The rough summary is:
+
+1. generic/013 self-deadlock
+
+   The stack you reported showed a path already holding attr_list_lock for
+   writing and then re-entering ntfs_attr_get_search_ctx(), which tried to
+   take the same rwsem again for reading.
+
+   In v4 I tried to address that by adding LOCK_NONE/nolock paths for callers
+   that already control attr_list_lock.
+
+2. Nested index/$BITMAP locking
+
+   Later, generic/467 reported a recursive locking problem.  The nested
+   directory/index path propagated nested attr-list locking to the index
+   search context, but the later $BITMAP attribute inode open still used the
+   normal ntfs_attr_iget() path.
+
+   v5 propagates the nested lock mode through the index open and the related
+   $BITMAP attribute open.
+
+3. attr_list_lock vs runlist.lock ordering
+
+   Some paths reached attr-list lookup/update while runlist.lock was already
+   held, or updated mapping pairs while still depending on the runlist lock.
+   That conflicted with the intended order:
+
+     mrec_lock => attr_list_lock => runlist.lock
+
+   v5 adds explicit nolock/runlist-locked variants so callers that already
+   hold one side do not acquire the locks again in the wrong order.
+
+4. Mapping-pairs update paths
+
+   Some mapping-pairs updates needed to be moved out of runlist-locked
+   sections.  v5 snapshots the runlist where needed and defers mapping-pairs
+   updates in write/fallocate/writeback paths until after runlist.lock is
+   dropped.
+
+5. Propagating the lock mode through helper layers
+
+   Once the search-context lock mode was used to protect ctx->al_entry for the
+   whole context lifetime, related helpers also had to carry the same mode:
+   ntfs_attr_iget(), ntfs_index_iget(), iomap/aops, inode attr read/write, and
+   some index/reparse paths.  This is the main reason v5 became much larger
+   than v4.
+
+So the high-level picture is: v4 fixed the first obvious re-entry/deadlock
+case, but wider xfstests coverage exposed that the lock mode had to be carried
+through more NTFS helper paths to keep the attr-list cursor lifetime and lock
+ordering consistent.  That is why I sent v5 as RFC rather than as a final
+patch.
+
+Best regards
+Cen Zhang.
