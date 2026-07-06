@@ -1,70 +1,92 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C1A41DEDA
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 11:32:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED9C3F8235
+	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 11:33:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783337572; cv=none; b=lufrEs8dY8DsTkSanTVu6Rxq2QwpoBgUwwIjaJlkG3crAHqmTW2uw3dCpXjcJIJq6MfK3krqTlgpB/MCyDp0T96wA5N8lhVQD5YDEFiJtjf8s8CRdeOIuxP2PEZYJxGp0gEiXN7GfhZLA0rZe005kK8O/LUCe/jNVCLWef+lh0Y=
+	t=1783337636; cv=none; b=k2QAKw6lFHImZNA/zmfwJXnViwS34xXctDc9makWIWN4lKV+6HuCdpMfZSt/+ZftGQBe1N8t6dpCHuU5c2R3EiFbUiuy73HakpBFmehNst6qDOVl28nmJ7YPhdWMx144WuFsgFSJurOrcnqdyQqbKLcMu3NNhKgurrBMjUChUAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783337572; c=relaxed/simple;
-	bh=OdR9Hn/1z5uZgCbGkXNB4LtFlNoV84HckzAwBSIr/eY=;
+	s=arc-20240116; t=1783337636; c=relaxed/simple;
+	bh=T6ff1X1gPU9qIbDk2ANvJa5G+nOvML8L/09s0oqCN2Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=W1rSQMPM46puffiQhIZzYUwEeWZ+NaKHGHSXSjDuXephxFEPf1HYgxk2vYeEMoiJlHgqeAF7SpDO1g5tDssRQDwqnyjPfWqOk7jI6bOGe7OHhuccw1ibiouSbP5NZEcLI9j0qfjKXybJlh7elzgAWyYCG20snuLX7gngKSJA0D0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D0YH++gJ; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=HFdlE9KTQn9EZOGgQ3t6KxEVMrBmI+N48eFmsSyoHy2pw+yb69EXqbQ/0TxB0HGWaV67RRPoDdSf+e0NtBXmA0p+7QAyb6cABjVsg3JEyQzSAy3XZjgn0722hqX9gNPmBeHblLTwJ7fzW+VZlOSrejIqO8a5cyfowN4dJ+bAbEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q0hK6KJK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D0YH++gJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D78D1F00A3E
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 11:32:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q0hK6KJK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7FAB1F000E9
+	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 11:33:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783337571;
-	bh=OdR9Hn/1z5uZgCbGkXNB4LtFlNoV84HckzAwBSIr/eY=;
+	s=k20260515; t=1783337633;
+	bh=T6ff1X1gPU9qIbDk2ANvJa5G+nOvML8L/09s0oqCN2Y=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=D0YH++gJMjHRIxz1rUQXwA+shS/yzxNngZRA/YI2LLt2zx83MP0c52UhTU6nIoH/O
-	 YBEu04axIGaX4t9J7jSTDWFenu18UWMHyiMhz+GL7Kc5mOirod80d3ZW5jJsDnTZNn
-	 ytfSuM+f8IhISeOEXedmRMpVSAUJYJJuMljd3uaPZGCvQywHmaKn7z84VcAR0ZB9ie
-	 /WuIIiPgVoWOIQFwj5NG+oYp0dcc2wQUU8KBru/ISVQMKgOI4TzYZ1UGJ2tZP7MNNG
-	 9+7Cg0E8Q0nXI2/LK8W3d7R9mHjQIBLgpPnJHby74gbmFF3S5NlEO/SoQfcORaKucb
-	 X1ddSx/VX8V2Q==
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c0c15bd6b8fso273729466b.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 04:32:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8VXqro+m28710EdtB7l+/Knk+TuyMw+9hMnRlRbh1MkZXNulJ2GDhdEysOwwdCopAcEE0BXSktDpRTtgQY@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRMJHIFYghUfnQqVhk618hhBb29Yo5fmHCm1tbpmqHTZWAvoMJ
-	31mmqgLSI1uJX29mHbiBLSAxEWb6a7MmwGQmVLN5j61lITSEc1GB+PirEDfmIyok+mcherLmmj7
-	89dA+uRS3WtIzjQpGprM2gPRVwZ+3vC4=
-X-Received: by 2002:a17:906:1d5a:b0:c12:1e33:8590 with SMTP id
- a640c23a62f3a-c15a681ac88mr5099366b.14.1783337569866; Mon, 06 Jul 2026
- 04:32:49 -0700 (PDT)
+	b=Q0hK6KJKokE4qVK3fqqUG0/fMy+XEEZ219WY0O/VkHNtAPvXfGcErEO/wl28KrXgU
+	 kGbnLNjBr38jmLIGUd/OKm/9rMBh5dteTEUWTt++H3eU/COHFYRvdqOA3+DrYqk4+E
+	 87rxvKTWOqkG0pvTPMvT+u3LzdQV/v/5RdEmLVuIkWeBZ1942NqWbtFuAsudUzF3CX
+	 5I575zFMPNEC3KHpofCA7yOx88fcEc7WQQ8d7B5KDST+qUoqkQ25MxnUdxeVfGhw0P
+	 b95I6kmKFJH2mTXzLZKkTO020R0TSR+rJUNTPLLaQHRkqYoaPxL72/991qS4lue+U8
+	 0IQV8ehOMKR7A==
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-691c5776f35so4496632a12.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 04:33:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RpwOUHkeD9VO9cZXDI3VW0Wr1YLOfqjpMgKKq7cesbf11nBgTCOcAWqIbK5lj6a6t+CJelsu718l69B27SM@vger.kernel.org
+X-Gm-Message-State: AOJu0YyI01ufqrIVcSR0B55Q/EWVsgVIPEjcKgSwvd8jDRFuW7leFX/I
+	t9VU1flMOgyXIZAvR8ogNce3ETO5vJKwxFK3plCMkgrftxLKiQrwzfe2LK6FSd5AMnzZZly8OAZ
+	STtKf/Vz6Kk27frlXpTJGij8uoA2xjn4=
+X-Received: by 2002:a17:906:6b1a:b0:c12:8e66:cf58 with SMTP id
+ a640c23a62f3a-c15a68ea862mr4305766b.30.1783337632575; Mon, 06 Jul 2026
+ 04:33:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260704144654.126437-1-mdshahid03@gmail.com>
-In-Reply-To: <20260704144654.126437-1-mdshahid03@gmail.com>
+References: <0B853B9F28048C99+20260703054528.2798189-1-peiyang_he@smail.nju.edu.cn>
+ <A82793FCC5832BB2+20260706040015.58048-1-peiyang_he@smail.nju.edu.cn>
+In-Reply-To: <A82793FCC5832BB2+20260706040015.58048-1-peiyang_he@smail.nju.edu.cn>
 From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Mon, 6 Jul 2026 20:32:37 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd8+tTDk0UZu=AEo_inzOE+g1OWXnFoygxdmDKG6oetr3g@mail.gmail.com>
-X-Gm-Features: AVVi8CfclKAed0yUYKtGkGeItj6a_cTdvT4cGYJWmEUTI2AvkooRpxnN_ijPsxs
-Message-ID: <CAKYAXd8+tTDk0UZu=AEo_inzOE+g1OWXnFoygxdmDKG6oetr3g@mail.gmail.com>
-Subject: Re: [PATCH] ntfs: dir: use kmemdup() instead of kmalloc() and memcpy()
-To: mdshahid03@gmail.com
+Date: Mon, 6 Jul 2026 20:33:40 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd-Q_DuR9LxgabRmu8yVkvP-ma_-+VdganL81o19tVs3_A@mail.gmail.com>
+X-Gm-Features: AVVi8CcFdYL_OySHhNVWhC7cySF0ibSWgpl9gQcAL90fDZjRArwRYgH2cCW-hzQ
+Message-ID: <CAKYAXd-Q_DuR9LxgabRmu8yVkvP-ma_-+VdganL81o19tVs3_A@mail.gmail.com>
+Subject: Re: [PATCH v2] ntfs: fail attrlist updates when the superblock is inactive
+To: Peiyang He <peiyang_he@smail.nju.edu.cn>
 Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 4, 2026 at 11:47=E2=80=AFPM <mdshahid03@gmail.com> wrote:
+On Mon, Jul 6, 2026 at 1:01=E2=80=AFPM Peiyang He <peiyang_he@smail.nju.edu=
+.cn> wrote:
 >
-> From: Mohammad Shahid <mdshahid03@gmail.com>
+> generic_shutdown_super() clears SB_ACTIVE before evicting cached inodes.
+> If eviction selects the fake inode for a base inode's unnamed
+> $ATTRIBUTE_LIST attribute, ntfs_evict_big_inode() drops the fake inode's
+> reference on the base inode while the fake inode is still hashed and mark=
+ed
+> I_FREEING.
 >
-> Use kmemdup() instead of a separate kmalloc() and memcpy()
-> pair, simplifying the code while preserving the existing
-> behavior.
+> That iput can synchronously write back the base inode. The writeback path
+> may update mapping pairs and call ntfs_attrlist_update(), which
+> unconditionally calls ntfs_attr_iget() for the same $ATTRIBUTE_LIST fake
+> inode. VFS then finds the I_FREEING inode and waits for eviction to finis=
+h,
+> but the current task is still inside that eviction path, causing a
+> self-deadlock in find_inode().
 >
-> This issue was reported by memdup.cocci.
+> Fix this by mirroring the teardown guard used by __ntfs_write_inode():
+> once SB_ACTIVE has been cleared, do not try to iget the attribute-list fa=
+ke inode.
+> Return -EIO so teardown aborts the update instead of waiting on the inode=
+ it is evicting.
 >
-> Signed-off-by: Mohammad Shahid <mdshahid03@gmail.com>
+> Reported-by: Peiyang He <peiyang_he@smail.nju.edu.cn>
+> Closes: https://lore.kernel.org/all/AB8D5E603E6EA856+ae5f622a-dd3a-4e38-b=
+dd2-42276ae0e1a8@smail.nju.edu.cn/
+> Fixes: 495e90fa3348 ("ntfs: update attrib operations")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Peiyang He <peiyang_he@smail.nju.edu.cn>
+> Assisted-by: Codex:gpt-5.5
+> Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
 Applied it to #ntfs-next.
 Thanks!
