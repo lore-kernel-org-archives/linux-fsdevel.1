@@ -1,219 +1,112 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E3F43786D
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 18:22:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783362180; cv=none; b=fk5cUenP15MMY92yXQN3b9TSnFXkTFDGyTAXBBpGtI6N8GnkkAkdKvjKdZbTsozLNDcYIs397QaQPh0DP+lvJ8xFE/Cc2/RJMqGSmwT5d1jIIj51fRtl78ftHaia63Tr7f9kryOwFctdMN8QK7d8tgk10Yzw0J8rgsmVxoL1OWQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783362180; c=relaxed/simple;
-	bh=sE+XIPbKjFOl4uFuweH0KT2tpzHoCd94c07RjdbnZd0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hV0hvssquOhscRqvSkTXpAahugb/1X6mpT6D5u3pHGtgwK0itIJYVYrV745przlZD7fVsGcX3yQyBgpk9pgjXLDdCjrzbS02UcOiyQ1e44ABq5DgHWuUqUQhMwSN4pEGb7KKvb1iDZQXKwjcxOkEsRdLZk5Ihn2dOmYUCeGpgwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kDWJN86N; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5069B436BF1
+	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 18:25:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783362324; cv=pass; b=ZeQXVeg90pCnHs2PLNcAtzXxS5yJkbCscpokhL4mCJxCq94pZiu54j26sWDT1IRHRyVnFEHWtIKvLBFGV58eERaj/qEnNWDTacalj/IcMIce7U0Edrvpgxs8wPneUeq6pYNnUtQIe76sR/N98S3ETgfYA3AxKMp5wHhhzxiOaPA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783362324; c=relaxed/simple;
+	bh=Cn4wawG4GsG/KOE07esR3I5RCnLM2n9QtBSsL+V5LS8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ttu6rhTTkWGZyTEazVQ5cVBLYygDy3c00tTCTCrowpDpLxjdFNGwcyTsvaUKaBo9P2y+ohEZ9zse0zXwxSmgEKZj1nTD06VvnTvKf0PP6g5RxT9MkqWDxtDCEa7owqxG4/oZAamUgeFCIR9ym/AAvbXFk9aBBFhh6svuV/MhQjs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RDBvTw8T; arc=pass smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kDWJN86N"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-38759bcd877so370876a91.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 11:22:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RDBvTw8T"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-698411099d6so2934a12.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 11:25:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783362322; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Wjq8+d7cFVXgC09XYi7A1V7WNfp/oQ17/bcYyZynUEpJpl8oRl9tIxYZPbGp7KBj6Z
+         bQJtFoZ1QHHYaffFbH9wCN+OrPX3L7Ad10ftKE/9O6jsdiniNa8ilVRTANIy7zHRAFYa
+         9T/PJW8l/9AYo8i2GL1QEhk41r0kzhUDa9D5EpCp+XB9Ic3XuuBS24dMxrNJmrtSj4cd
+         dy3lbHIEIV7R+ncBR2OLpwohZvqrqOOoaqOq33CgsL0uo+LFYehOmtqv1hBEtuULTsxJ
+         V3WX2PWbImebsLXNy2PnPmR8uCABz47S8C13VIWByr+0B/7I1OhsskOT3eQ/WtVNAUFR
+         L4aA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Cn4wawG4GsG/KOE07esR3I5RCnLM2n9QtBSsL+V5LS8=;
+        fh=r6BjS1zATrQm0l85fkBJm4q5KTWk7JawLmrDoczIUjU=;
+        b=AVW38yyjdJQlYEzdXHp0stOVGv02vdry5RZEEfbLYKUNhlrYqlq/oJHWGx3AulI56+
+         yJFHb5mDsozqsGkNRyyFXek1Vhkxm+MiSdjcncowa1C0iKxToaeA3CHla5Zxfoqzrba0
+         HrfDvCyBL4KaUCFy+ZnGhOAECphXa9+q9ecvcEQnTTO68GYi6JpEMOJdoASBNgJLU1UF
+         NESIMIo1Y+zjDdA1TAi1AvU+lOmcQgvCSUkGPrtSVZ7rGzaA+syNKB1BVdsFbZnwBF4V
+         wLqJlOWno127YomwJEJ5DgJ9NpHBzapI3b54E7U0Bkw4tOJ25FDbiVY1ABBCbTT/m3Ju
+         zM1Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783362177; x=1783966977; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3GMDfk/cscIlL88JTWUBOd5FcSvUX50AhqoTnh79o+U=;
-        b=kDWJN86N0VIsG677QBiyoE+jtKZjFHonZoFiqQPwzH7JMOfr1ZQZdpgJCz4+xyLYWx
-         0R1FGUDaAtgwvy0qTz5bzh6qonRyb8BZgNW+aiWmAZLnti/Oy5SauLbpU4NG1llZt+De
-         bbxENzHZa/9SEPsfadtgikMXdvZp7ZHKOoZd/2CX2yNcen8fKu6Fa6JCsvrlsvwoshm3
-         QlD15J57qS9xR1mf9fcpAc5ZSGay0VpzSHAvXwlFeBzdyj7h7+94o/LH84sacIxl+q4l
-         iuRM2LhFC/iAJRQAeNZua0YYdlPeAofO5Rn3Y/4pd+DDuo+10ZZG2ZfEAjdFvRr2/VAs
-         mcjA==
+        d=google.com; s=20251104; t=1783362322; x=1783967122; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Cn4wawG4GsG/KOE07esR3I5RCnLM2n9QtBSsL+V5LS8=;
+        b=RDBvTw8TEpkyYCmXKjA98k5lZ0tH2NsPI1Y73XNQ0KnV42ILURMBGEN+yLK0g1ZS2M
+         /taOsi5ppvUSbg2ef4aGcIS5kxHo4AGhKCxqLQLvp9XyzPj5DrX0Z5ESDAqpZ3y8wy/I
+         jv9+XjR7801lDuz9hcQQNgXBWAd0P7eY/oSiBVqLetPCW+DNTUDjctKyRVbHzL96763H
+         wsRh7H6GtgKZ4h1bj81RXwiK/6v2z/tn8AuT95cyTTUlp5nJeLcFS6aspBDY4e2JADME
+         2w+/Nw6lZuAenBFiS6alFHJr67hZMeFvUuxyPo+oSXz9lTuqu3p2BeV6DLY+v3FJDG56
+         0wFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783362177; x=1783966977;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3GMDfk/cscIlL88JTWUBOd5FcSvUX50AhqoTnh79o+U=;
-        b=TZE7Ps70JXre1PMUznoSCY1qd+sFIu8VUoerU021xek9Znqm9pUFPgfEOpmsOoQnXU
-         wFBY+TlxPoLl5xnl2APCKxoTIEn7TDXEdd+Y+HR6ZFnUxUSDsZZqS7mNXpPK/SchJKwv
-         9Qg/pwLETUEzg2kUnvpBU88odKy+I8vDt0kgcX36H/v87hT2BnhotjDoprsf88s4pzsY
-         RkA5EWhsW+t7t5uuTUTSj/ENn0S/0WNT0zTqzEx/baBhVs6sn0YuigkiOEpm+co3DPfM
-         cGkwplgFZemqVNZnF25FnfbEc9bBRLL59D0HwvGNn32Mb8l/pkgHPea3ophYjJ9F7j1/
-         Wd6g==
-X-Gm-Message-State: AOJu0Yw8qQgSPihjOFk44W701mJa2VOuFh5gfxAg6k779qayt4JHglMi
-	xtleRkq7bLx/4LjBuH+i4G0+iAiCSzEGafXBsoeLEHRJuCfD+xfSEHxywKiqVA==
-X-Gm-Gg: AfdE7cnwzp4zXZ9d2ovzo4dtsaZC/VsqetIKfwgTfWARAdu0xADuUb7VErrzs04PeyG
-	M4/uP15j7BAuVKlIt0Jinedj2chwDDp5m7sW3qbwFTIkb9uGChYYYejKAd0pK7uhgG0tQozxtyS
-	i0F5phQ+mLCYZddj3qwaw0u/r3tWPsFAzSs8IeRZ2awyYbeMjMxaO90UAhghTfZ/keDwjgAHt+M
-	tvR+pOj7eW1n61CSKgF3OB4xmovI/7ifSz55RQMSCUrCOO0ZcMMNajtkfvibIcmxzrHzMpc856t
-	w1wB0bbUoPJsQ7KIDZxZhSu0eVCfixo6iU5stAm94ytvkWvh/3f7Y1LgRipmlGBQuCURbQ8S9Pw
-	oioUJYa/ea7rLpUkBkGeysWYdXY/5rz0YcSOCdkZu2VuhnxsbVTnl4bCGZARplPCkdgFT463gog
-	==
-X-Received: by 2002:a17:90b:2e87:b0:37f:9ce0:af35 with SMTP id 98e67ed59e1d1-38757b81efamr1875061a91.32.1783362177151;
-        Mon, 06 Jul 2026 11:22:57 -0700 (PDT)
-Received: from nineveh.sos.local ([131.191.24.68])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-387a83fb23csm21238a91.0.2026.07.06.11.22.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 11:22:56 -0700 (PDT)
-From: Jeremy Bingham <jbingham@gmail.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	brauner@kernel.org,
-	jkoolstra@xs4all.nl,
-	jack@suse.cz,
-	Jeremy Bingham <jbingham@gmail.com>
-Subject: [PATCH 2/2] minix: modernize function declarations in minix.h
-Date: Mon,  6 Jul 2026 11:22:44 -0700
-Message-ID: <9f17d0773dd24fff5cb77bf32d1ec9ed3e941e30.1783360491.git.jbingham@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1783360491.git.jbingham@gmail.com>
-References: <cover.1783360491.git.jbingham@gmail.com>
+        d=1e100.net; s=20251104; t=1783362322; x=1783967122;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Cn4wawG4GsG/KOE07esR3I5RCnLM2n9QtBSsL+V5LS8=;
+        b=OJu74FkyXH+gwBdNgD6/IU2MfOoNlU3tzMYuhO4gz2uoU9w2pgZk80SlgxzsIZ8e0E
+         6esj1FEhjzjFJ0fDnCr0XxSFpy1bDLnpZkO1fLuxphk/zvkt1leihnldc6r/MQqRZzQN
+         9/+8G4JOz1xhVEGFXATVpIzAkNjNEz6Z0FxlmSYMzhGxmSd1AtQXtPgDHDxDTSBFM/OX
+         MAEpOtxzJ7HsxOJb4MLOhiae1oPHF+0Y/l0+YhqJQLiJ4lWCFR3LjRIcffD0T+mBplK5
+         OFcnfZsONcEY/R+4d5/okOBBZWLGZYD1rCRaT+TVv8fzgvtJaM44j9KbLwgtU6LQKjo1
+         U9AA==
+X-Forwarded-Encrypted: i=1; AHgh+Rr83i2sHSI8RymphJ0Nu0Wv5G2qUcVq3VMIRbcsP9lYoOK+3YaCBVicXidIVAnf9wuqN2/e04F7NQik1/qA@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0dPEx3OxhG5eVQZJxQrl8ZhWIymR4W0vHdf66vppJY6rhOR8n
+	dmcGo/N1Q6Oy1cEO4wPsFe/2hdNkDENJHpCWAi+f9uADTg6Ox/NbTQr3LSHkLiKodxmYygrhQpM
+	IXdl+SbXyCJIbHxF96pvAp9uptJ7T+FvKiRT9dgV1MhtKAkm9OKwQ7MFF
+X-Gm-Gg: AfdE7cn1vmww3/E3ymjlqGKppSdO7fXnRPD95mmd1f84uwmO+J2Di4c7M0qyduBSGjb
+	oMtR53g7aIL5PR18TgFT5vwSfoKaKKTRpgm2Bg1PhA1z+m/DY4OTcAiPVeyaH90P+nRMmAUz6TD
+	AP5qq8GOm+G7dgsnR5lQJsA9FGr55/wqSih/L+jV7iV0BQwxPM5LbqLMZXdOJRF6nJEE26/aTl/
+	yrbWIVYCWPQfuM+PAHNJ8EByaQm6xA7tcc3fw6N8OkLztKmIt8GjHkqGmdIvdachBfhcsXAzU5j
+	wNtxrdvts72KvDu4NwSGiJlbxRWpWd7erLYoJm1+iSSfUvkzepd9jI+XMw==
+X-Received: by 2002:a05:6402:3045:10b0:695:4751:c044 with SMTP id
+ 4fb4d7f45d1cf-69a8d5af200mr12049a12.8.1783362321335; Mon, 06 Jul 2026
+ 11:25:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260518-procfs-lockfix-part1-v1-1-5c3d20e0ac33@google.com>
+ <20260706170735.2941493-1-linmag7@gmail.com> <CAG48ez0ebrMy8QGKLuz0Qwao_Eiav6e5pAJ5f6GrUPJLRkwNnw@mail.gmail.com>
+ <CA+=Fv5R=mUW_p_AFFr-588F_b1hB=7RhMbtODya-gby=_fjBgg@mail.gmail.com>
+In-Reply-To: <CA+=Fv5R=mUW_p_AFFr-588F_b1hB=7RhMbtODya-gby=_fjBgg@mail.gmail.com>
+From: Jann Horn <jannh@google.com>
+Date: Mon, 6 Jul 2026 20:24:45 +0200
+X-Gm-Features: AVVi8Cc7kCan3qAeIhO9q8vMrkV7_74C6sIMx7nz-yuT58X80UFcpE6GMOhG30E
+Message-ID: <CAG48ez094Bu70b6CjfV4jGK+T5ihnprFY2wtBYa4AZf8iHJsow@mail.gmail.com>
+Subject: Re: [PATCH] proc: protect ptrace_may_access() with exec_update_lock
+ (part 1)
+To: Magnus Lindholm <linmag7@gmail.com>
+Cc: arjan@linux.intel.com, brauner@kernel.org, ebiederm@xmission.com, 
+	jack@suse.cz, jake@lwn.net, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, regressions@lists.linux.dev, 
+	stable@vger.kernel.org, viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The function prototypes in minix.h were a mix of current and historic
-standards. Some functions had arguments with types and names while
-others had just the types. Some functions were also still prefixed with
-extern, and there were a few uses of bare 'unsigned' still as well.
+On Mon, Jul 6, 2026 at 8:00=E2=80=AFPM Magnus Lindholm <linmag7@gmail.com> =
+wrote:
+> I'll retest the strace pidns-translation tests once your fix is available=
+.
 
-This brings fs/minix/minix.h up to speed with the current formatting
-standards. Function declarations are consistent with types and names
-both declared, and the bare 'unsigned' variables are now declared as
-'unsigned int'.
-
-There are no functional changes with this patch.
-
-Signed-off-by: Jeremy Bingham <jbingham@gmail.com>
----
- fs/minix/itree_v1.c |  2 +-
- fs/minix/itree_v2.c |  2 +-
- fs/minix/minix.h    | 55 +++++++++++++++++++++++++--------------------
- 3 files changed, 33 insertions(+), 26 deletions(-)
-
-diff --git a/fs/minix/itree_v1.c b/fs/minix/itree_v1.c
-index 1fed906042aa..3433f50e2de2 100644
---- a/fs/minix/itree_v1.c
-+++ b/fs/minix/itree_v1.c
-@@ -61,7 +61,7 @@ void V1_minix_truncate(struct inode * inode)
- 	truncate(inode);
- }
- 
--unsigned V1_minix_blocks(loff_t size, struct super_block *sb)
-+unsigned int V1_minix_blocks(loff_t size, struct super_block *sb)
- {
- 	return nblocks(size, sb);
- }
-diff --git a/fs/minix/itree_v2.c b/fs/minix/itree_v2.c
-index 9d00f31a2d9d..a18b6e1f9ed5 100644
---- a/fs/minix/itree_v2.c
-+++ b/fs/minix/itree_v2.c
-@@ -69,7 +69,7 @@ void V2_minix_truncate(struct inode * inode)
- 	truncate(inode);
- }
- 
--unsigned V2_minix_blocks(loff_t size, struct super_block *sb)
-+unsigned int V2_minix_blocks(loff_t size, struct super_block *sb)
- {
- 	return nblocks(size, sb);
- }
-diff --git a/fs/minix/minix.h b/fs/minix/minix.h
-index 972a71c5b481..d124145850e9 100644
---- a/fs/minix/minix.h
-+++ b/fs/minix/minix.h
-@@ -67,39 +67,44 @@ struct minix_sb_info {
- void __minix_error_inode(struct inode *inode, const char *function,
- 			 unsigned int line, const char *fmt, ...);
- 
--struct inode *minix_iget(struct super_block *, unsigned long);
--struct minix_inode *minix_V1_raw_inode(struct super_block *, ino_t, struct buffer_head **);
--struct minix2_inode *minix_V2_raw_inode(struct super_block *, ino_t, struct buffer_head **);
--struct inode *minix_new_inode(const struct inode *, umode_t);
-+struct inode *minix_iget(struct super_block *sb, unsigned long ino);
-+struct minix_inode *minix_V1_raw_inode(struct super_block *sb, ino_t ino,
-+		struct buffer_head **bh);
-+struct minix2_inode *minix_V2_raw_inode(struct super_block *sb, ino_t ino,
-+		struct buffer_head **bh);
-+struct inode *minix_new_inode(const struct inode *dir, umode_t mode);
- void minix_free_inode(struct inode *inode);
- unsigned long minix_count_free_inodes(struct super_block *sb);
- int minix_new_block(struct inode *inode);
- void minix_free_block(struct inode *inode, unsigned long block);
- unsigned long minix_count_free_blocks(struct super_block *sb);
--int minix_getattr(struct mnt_idmap *, const struct path *,
--		struct kstat *, u32, unsigned int);
-+int minix_getattr(struct mnt_idmap *idmap, const struct path *path,
-+		struct kstat *stat, u32 request_mask, unsigned int flags);
- int minix_prepare_chunk(struct folio *folio, loff_t pos, unsigned len);
- struct mapping_metadata_bhs *minix_get_metadata_bhs(struct inode *inode);
- int minix_fsync(struct file *file, loff_t start, loff_t end, int datasync);
- 
--extern void V1_minix_truncate(struct inode *);
--extern void V2_minix_truncate(struct inode *);
--extern void minix_truncate(struct inode *);
--extern void minix_set_inode(struct inode *, dev_t);
--extern int V1_minix_get_block(struct inode *, long, struct buffer_head *, int);
--extern int V2_minix_get_block(struct inode *, long, struct buffer_head *, int);
--extern unsigned V1_minix_blocks(loff_t, struct super_block *);
--extern unsigned V2_minix_blocks(loff_t, struct super_block *);
--
--struct minix_dir_entry *minix_find_entry(struct dentry *, struct folio **);
--int minix_add_link(struct dentry*, struct inode*);
--int minix_delete_entry(struct minix_dir_entry *, struct folio *);
--int minix_make_empty(struct inode*, struct inode*);
--int minix_empty_dir(struct inode*);
-+void V1_minix_truncate(struct inode *inode);
-+void V2_minix_truncate(struct inode *inode);
-+void minix_truncate(struct inode *inode);
-+void minix_set_inode(struct inode *inode, dev_t rdev);
-+int V1_minix_get_block(struct inode *inode, long block,
-+		struct buffer_head *bh, int create);
-+int V2_minix_get_block(struct inode *inode, long block,
-+		struct buffer_head *bh, int create);
-+unsigned int V1_minix_blocks(loff_t size, struct super_block *sb);
-+unsigned int V2_minix_blocks(loff_t size, struct super_block *sb);
-+
-+struct minix_dir_entry *minix_find_entry(struct dentry *dentry,
-+	struct folio **foliop);
-+int minix_add_link(struct dentry *dentry, struct inode *inode);
-+int minix_delete_entry(struct minix_dir_entry *de, struct folio *folio);
-+int minix_make_empty(struct inode *inode, struct inode *dir);
-+int minix_empty_dir(struct inode *inode);
- int minix_set_link(struct minix_dir_entry *de, struct folio *folio,
- 		struct inode *inode);
--struct minix_dir_entry *minix_dotdot(struct inode*, struct folio **);
--ino_t minix_inode_by_name(struct dentry*);
-+struct minix_dir_entry *minix_dotdot(struct inode *dir, struct folio **foliop);
-+ino_t minix_inode_by_name(struct dentry *dentry);
- 
- extern const struct inode_operations minix_file_inode_operations;
- extern const struct inode_operations minix_dir_inode_operations;
-@@ -116,7 +121,8 @@ static inline struct minix_inode_info *minix_i(struct inode *inode)
- 	return container_of(inode, struct minix_inode_info, vfs_inode);
- }
- 
--static inline unsigned minix_blocks_needed(unsigned bits, unsigned blocksize)
-+static inline unsigned int minix_blocks_needed(unsigned int bits,
-+		unsigned int blocksize)
- {
- 	return DIV_ROUND_UP(bits, blocksize * 8);
- }
-@@ -150,7 +156,8 @@ static inline unsigned minix_blocks_needed(unsigned bits, unsigned blocksize)
-  * big-endian 16bit indexed bitmaps
-  */
- 
--static inline int minix_find_first_zero_bit(const void *vaddr, unsigned size)
-+static inline int minix_find_first_zero_bit(const void *vaddr,
-+		unsigned int size)
- {
- 	const unsigned short *p = vaddr, *addr = vaddr;
- 	unsigned short num;
--- 
-2.47.3
-
+I've posted the fix now,
+https://lore.kernel.org/r/20260706-procfs-ns-eacces-fix-v1-1-a69ab14c02e6@g=
+oogle.com
+.
+Thanks for reporting this!
