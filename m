@@ -1,207 +1,140 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA7137F00C
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 07:29:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3129A3B3888
+	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 08:35:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783323002; cv=none; b=YP4nw0gEKkNG58tUXs2iWKFNUgCBZvkhK7vcL584+JtLc3EFJc+0mQRE+zs1muhs72HOnpIRbc/6f+rxHimnUgy928joFM8E44CUMGSHPppNNWF6QA0Jgn+E6IZntvR+qzuq09TTRj+dIG2tM4jowappZjnv62AwOIoAblbbSvI=
+	t=1783326961; cv=none; b=hJMq6njCQJyQo1olzewPahD2zKNZiDHagJ0yMRmzFT22XGVk7tSd5tPlffCh6Jfg1aDOhqf2PN1PVpg08UsdYhz+gxWAKujto1R59zZhQSkcUwGxXcl872X++klmfPeI47c9YzoogUzvw3+3hW3RgQY1hYEovjBdRlPIQ9KkBN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783323002; c=relaxed/simple;
-	bh=YIfKh4z0etB3dhrOOFVp+iIv9yRAHwumgSMzjtU3VE0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sVwNfOB/aClXjZCYEcgnprfyRRU8N7u2dVrtzNPyi0zT2P7YvUm50jDqEQUK6yg8BhU6gDg9nvCFqL2AlviR3UwNHJRdBk8orsN7Sm4FOuskTlnv4czDfStg4Ls7lsUxX4lL12cNOAQgBlo6/NclYQhZA+RChXB1y3ViC72wiS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ou4qUnAP; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1783326961; c=relaxed/simple;
+	bh=N/hXUKDFTtzj092Go8yLO/kZjznf4SO/lsSm3Dn0G9E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UmFyYIwSiMzA25E78MduTz+061Vt3itk/3hozyLdRlU65eWirrxtXpTilTuSdJ2T9rTUmFnOEmIK1UvXv4M31vDS61sbEO5M2F6dF8aj01jUjGqpEW5kIZirgLqjvbNgUPu4cycoAjOW+irJMo97FBZ2CfZVz4hCpI9efM00mBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KWSaUzaZ; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ou4qUnAP"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-493c59f740cso18046035e9.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 00:29:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KWSaUzaZ"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cca24023edso8580795ad.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 01:35:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783322990; x=1783927790; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2gk/h+4f6MUXqGijdtmTGfvBn38IT9YErIxRtJmutDk=;
-        b=Ou4qUnAPwm4JX9FxnRv4o3ZpZjjkbTSyELHf1GMu4bMw8xBuP8GiQlLVojKdA1bEoA
-         xd/FTmomejKknONTtTz19VZF8Vf5D+eWfCY/ywxljCBuLaa8BI+UnftJcnkVx35uoJFF
-         9vghy7L5cHvyyre5MBrnHmitabtIgROWwXr2PwOym1mG8tzP0fIozNtyVdVNTg4GFyUR
-         eh2ahJLbmeIsAbabrbbFJiNeCy5yMjRxA0lWTDzU6B6g+gPxOIEMVieA1ZaV+f/v0jx8
-         5mlpDF+hVK8BQvZc8Eyzarg0gtLqE4g7EaHmD/NoXRwPG6zBOHo8mY01eGIE6L/5DiDY
-         omJg==
+        d=gmail.com; s=20251104; t=1783326946; x=1783931746; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7p60FQdKaKNOxLAc40FMD98dlWIjxkI8C1nOoFeA1CU=;
+        b=KWSaUzaZ5PCnUY5EXybOCyIBq7W2gCpjQygTPADXZaz4rw6C0k0dBCHGccn5LZcsZF
+         XW6gdOMzs7x5suzQg8DGhUoL9xNKsKjpjT93YhrFKAYDjl57nmkaHqDJLA/kRc6hnNa0
+         k/XqM7eQeLsmtNnMIe17wvlpAZDm+m8ugv3GTlA0hr0ZTlcN5HxNCahtynkq9IL7u6mv
+         B4sCNaZZiPE90d26ESDoxdT/MzQP5Ynm+4H9hVJ7EsI4AtFBUBIECh5T1BUMrjbl4zvq
+         KNNySBHM0bPBYU6GBiVY7Vf8DLIllavfLTDN0+BnvJrPafD34Q1Vy0oVayHDURAoFHey
+         uPnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783322990; x=1783927790;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2gk/h+4f6MUXqGijdtmTGfvBn38IT9YErIxRtJmutDk=;
-        b=mLuZuPHNm0+8nxHzgvnPGfuTuwoC6Ff7HYATZc15Bk3pe3eatnQMBtMwEqVqwtmzcz
-         8bTIzhJ180aYV7RaDrrG6JKXXOhX22XYXVP2tztwf8T/hwbJ+OhA8h6CzyjHQ8ZWMFoI
-         atRyDqk2B1dUW12HW+wIkAO3Zy8WndAywO++WBR6BWiKB0+BeCxMiux4TictkTDcUl7g
-         IY3XFVejTR1UA7M2YHVB1Va6Lv5mM0wHif0+TY1cWy+rduoPawXpLTTbOfkyxVfO9q0H
-         /ekgdWTp60E6lI2JJTj3GHtvzA+xAOSwaqW/4cZ/1OTByL0ygt/7tN4iL6ZFzyJJIxBM
-         x6nQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqTtLmrVOtkFICaTdOtQz5pslECmwjhN0K8JhAR2Vrpflj8QOcMIqlLn2PW2LHX0LXk2yi+gRvAVShNouJY@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIGbCITGZ3TG5a7YUp6zeYSVG932G0EDqF5p5VEdiWvua6asA0
-	kivRiyqMOEkXBVDHu7qXkQRSZGjQqCu9+l7kRzo0iSAVD5/8QYVU1OsN
-X-Gm-Gg: AfdE7clLThKC3VlHoIc2uJ36a2AX0QMAnH96N8ELzrHa7K0pNMVm44SO1K1HwfemQiB
-	7qwCoUxpfWWj+9M9Wn63uXI0mbJ2gKmHMcLbP3ONFUUhl9T5S9Jc461UYGWI1zWOwabxBsuBeeI
-	Opw9Xd+/t7/eRyd5idC96s8tQzTo3yd5lo6oq7uiJxjcsohs5g03fn+Uu+F5bZmVKL76BC8qPl3
-	GCf01YVm0XJkHhLR5kZvX3ErnD8pQ4rx4NCeo0V7p6ltU5butu4uxgdpNseVNCaBsy/wZWmhfWn
-	GE8H7tpRtDgQ4g4ygHizPf61jaaMILW46pXKWgCm/7KKiEr3kl0jJkwbZfC73pskuBVdAQQVATJ
-	GHzJkbvZ9yermCFRk2Qr/xj2htvSpHe5H1IiQLtt00D+CGGPS4Ocr3imjlUv7zpZWCVGUGfiBe6
-	mn9tFPBo/6N+jRmrTFJSpTDjQHypebgy5fKfviOLY+DloRFA==
-X-Received: by 2002:a05:600c:5296:b0:493:d741:5d72 with SMTP id 5b1f17b1804b1-493d7415e1bmr58494515e9.38.1783322989313;
-        Mon, 06 Jul 2026 00:29:49 -0700 (PDT)
-Received: from pumpkin (host-92-21-50-228.as13285.net. [92.21.50.228])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c6381e4fsm404764895e9.8.2026.07.06.00.29.48
+        d=1e100.net; s=20251104; t=1783326946; x=1783931746;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7p60FQdKaKNOxLAc40FMD98dlWIjxkI8C1nOoFeA1CU=;
+        b=GT5ceuuLfS4SRYMXl1m9ttPOMQ55uQG0163H7K1Dbza54olRzZd4WOWy+jwYGLo6Y3
+         ETvdkIlHD0fHAid7nfIis+4QQoymbVeMr8ik3FEUeUE3cLcE+Vb/okDFqfbwhjE3rpuJ
+         HxBZITAGOlby3cfY1dImmmcmWpCqw+dwauv9HUAu6s7gOIhwWXZOzvA8Nyi2r5rQOLug
+         vpu+HcihEizuIuMqK9TXkpQmXodLgwwpd6JhXO9fZFv+usjrL+lQiGCAIaxoY/oeiQop
+         td74Svdc5To9UDW8uFRByz9QV6EuwHiQKdMZKXy0PL29yu2sDnKSM1sx/SfePgnSjLJn
+         Ytlg==
+X-Gm-Message-State: AOJu0YwLhY27N2cKtnpXhUuM3/4g51521HGqv1rO+6b1W8pCOBMJbBha
+	Su5w2Pf+LBdzS9y3lVPquLGj7gw/qIDrCaFB4YU8se8xs+Wr75s9x5g9F4zrFQ==
+X-Gm-Gg: AfdE7clVnRxcN8e+KoHtvSICywYEyIQeQg5yNETD4qTxn/zwWGVx+nsWhmROeNrkNne
+	/QOWC28o7M9iSzFYAtok0LGdcRrB7zLFO/9S6USZwZz7XeBZn3Gwr7/bLs4NOB6NZwBO/4P5oxS
+	9WXknTUbRXF2Js9XBsQnsPYxutdRzmxAtPGz8B/uN1YojCGpftRo1ZEeWDnOM3s+GDnyC44jkoD
+	6V2RjX8zMOdFZ6NL9SxdlkHu261+IjRgDQAkDvXBxSz/SpywwWFLCqV2scrHxOzswzjt4DHLdQ9
+	t7SJMMP4qqLdBNeMwgO4Y7IEkaj6tCI9HIl6kVHNlWl+HV1r6142kAVUF/LlrMrh25pX4GqNL3R
+	Yzwm36ea74J9d4j3+WZ1tFK6PzzVMJotee9LmjRt7VMmM+NaMtxefvmfWf29N2I0=
+X-Received: by 2002:a17:903:b10:b0:2ca:bad4:33a2 with SMTP id d9443c01a7336-2cbb9e38d70mr92253795ad.11.1783326946375;
+        Mon, 06 Jul 2026 01:35:46 -0700 (PDT)
+Received: from nineveh.sos.local ([131.191.24.68])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccb0e77725sm5109815ad.71.2026.07.06.01.35.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 00:29:48 -0700 (PDT)
-Date: Mon, 6 Jul 2026 08:29:47 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: NeilBrown <neilb@ownmail.net>
-Cc: NeilBrown <neil@brown.name>, "Jori Koolstra" <jkoolstra@xs4all.nl>,
- "Jeff Layton" <jlayton@kernel.org>, "Christian Brauner"
- <brauner@kernel.org>, "Al Viro" <viro@zeniv.linux.org.uk>, "Aleksa Sarai"
- <aleksa@amutable.com>, "Amir Goldstein" <amir73il@gmail.com>, "Jan Kara"
- <jack@suse.cz>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 01/14] fs/namei.c: use trailing_slashes()
-Message-ID: <20260706082947.248bcd17@pumpkin>
-In-Reply-To: <178331016004.27465.14624469599238469373@noble.neil.brown.name>
-References: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
-	<20260704164149.3480051-2-jkoolstra@xs4all.nl>
-	<178331016004.27465.14624469599238469373@noble.neil.brown.name>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        Mon, 06 Jul 2026 01:35:45 -0700 (PDT)
+From: Jeremy Bingham <jbingham@gmail.com>
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	brauner@kernel.org,
+	jkoolstra@xs4all.nl,
+	jack@suse.cz,
+	djwong@kernel.org,
+	Jeremy Bingham <jbingham@gmail.com>
+Subject: [RFC PATCH 0/1] minix: unify itree_v1, itree_v2, and itree_common
+Date: Mon,  6 Jul 2026 01:35:35 -0700
+Message-ID: <cover.1783324260.git.jbingham@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 06 Jul 2026 13:56:00 +1000
-NeilBrown <neilb@ownmail.net> wrote:
+For as far back as the git history goes and then some, minix's itree
+functions have been split across three files: itree_v1.c, itree_v2.c,
+and itree_common.c. The first two of these files had defines, types, static
+helper functions, and some wrapper functions tailored for version 1 and
+versions 2 and 3 of the Minix file systems respectively. Each of these
+files then included itree_common.c.
 
-> On Sun, 05 Jul 2026, Jori Koolstra wrote:
-> > There are several places in fs/namei.c that can use the
-> > trailing_slashes() function to improve intent.  
-> 
-> I think it would help to state here that trailing_slashes() is changed
-> to take a qstr instead of a nameidata as that is useful in more places.
+The reason for this odd arrangement is that there are some stark
+differences between version 1 and versions 2 and 3 of the Minix fs.
+Version 1 has doubly indirect blocks and 16 bit block pointers, while
+versions 2 and 3 have trebly indirect blocks and 32 bit block pointers.
+By having the separate itree_v1.c and itree_v2.c files that then
+included itree_common.c, DIRECT, DEPTH, block_t, and Indirect could be
+defined differently for the two broad types of Minix filesystems while
+sharing the bulk of their code because the same code in itree_common.c
+would be treated differently by the preprocessor and compiler depending
+on which file included it. In other words, DEPTH could mean 3 or 4
+depending on if it had been included from itree_v1.c or itree_v2.c.
 
-It is also taking the struct 'by value' so should really be always_inline
-before something makes a compiler decide it should be a real function.
+This whole thing came up while some patches I submitted recently to move
+minix over to use iomap were being reviewed. Having the two separate
+code paths and includes made that task much more difficult, and a
+reviewer commented at one part about how it was one way to avoid keeping
+disk geometry information in the superblock info struct. Parts of this
+code do not seem to have been modified for a very, very long time,
+possibly since 1991, but that's no reason necessarily to keep it in place.
 
-(Or make it take a pointer)
+This patch unifies the two code paths previously used for itree
+functions. Most of it runs the same no matter what version of the
+filesystem is being used, but in the places where it doesn't version
+checks, information stored in the superblock, dynamically allocating
+formerly static arrays, careful pointer casting, and judicious use of
+accessor functions for more type safety handle the different cases while
+still keeping the code more contained and hopefully less confusing to
+others.
 
-	David
+As this is an RFC patch, there are many more comments explaning my
+thought processes and what's going on than would usually be found in a
+kernel patch submission. Depending on how this is received, I will clean
+out excessive comments before submitting it for real.
 
-> 
-> Reviewed-by: NeilBrown <neil@brown.name>
-> 
-> Thanks,
-> NeilBrown
-> 
-> 
-> > 
-> > Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
-> > ---
-> >  fs/namei.c | 26 +++++++++++++-------------
-> >  1 file changed, 13 insertions(+), 13 deletions(-)
-> > 
-> > diff --git a/fs/namei.c b/fs/namei.c
-> > index 19ce43c9a6e6..a8890bc0ae21 100644
-> > --- a/fs/namei.c
-> > +++ b/fs/namei.c
-> > @@ -2781,9 +2781,14 @@ static const char *path_init(struct nameidata *nd, unsigned flags)
-> >  	return s;
-> >  }
-> >  
-> > +static inline bool trailing_slashes(const struct qstr last)
-> > +{
-> > +	return (bool)last.name[last.len];
-> > +}
-> > +
-> >  static inline const char *lookup_last(struct nameidata *nd)
-> >  {
-> > -	if (nd->last_type == LAST_NORM && nd->last.name[nd->last.len])
-> > +	if (nd->last_type == LAST_NORM && trailing_slashes(nd->last))
-> >  		nd->flags |= LOOKUP_FOLLOW | LOOKUP_DIRECTORY;
-> >  
-> >  	return walk_component(nd, WALK_TRAILING);
-> > @@ -4521,17 +4526,12 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
-> >  	return ERR_PTR(error);
-> >  }
-> >  
-> > -static inline bool trailing_slashes(struct nameidata *nd)
-> > -{
-> > -	return (bool)nd->last.name[nd->last.len];
-> > -}
-> > -
-> >  static struct dentry *lookup_fast_for_open(struct nameidata *nd, int open_flag)
-> >  {
-> >  	struct dentry *dentry;
-> >  
-> >  	if (open_flag & O_CREAT) {
-> > -		if (trailing_slashes(nd))
-> > +		if (trailing_slashes(nd->last))
-> >  			return ERR_PTR(-EISDIR);
-> >  
-> >  		/* Don't bother on an O_EXCL create */
-> > @@ -4539,7 +4539,7 @@ static struct dentry *lookup_fast_for_open(struct nameidata *nd, int open_flag)
-> >  			return NULL;
-> >  	}
-> >  
-> > -	if (trailing_slashes(nd))
-> > +	if (trailing_slashes(nd->last))
-> >  		nd->flags |= LOOKUP_FOLLOW | LOOKUP_DIRECTORY;
-> >  
-> >  	dentry = lookup_fast(nd);
-> > @@ -4950,7 +4950,7 @@ static struct dentry *filename_create(int dfd, struct filename *name,
-> >  	 * Do the final lookup.  Suppress 'create' if there is a trailing
-> >  	 * '/', and a directory wasn't requested.
-> >  	 */
-> > -	if (last.name[last.len] && !want_dir)
-> > +	if (trailing_slashes(last) && !want_dir)
-> >  		create_flags &= ~LOOKUP_CREATE;
-> >  	dentry = start_dirop(path->dentry, &last, reval_flag | create_flags);
-> >  	if (IS_ERR(dentry))
-> > @@ -5569,7 +5569,7 @@ int filename_unlinkat(int dfd, struct filename *name)
-> >  		goto exit_drop_write;
-> >  
-> >  	/* Why not before? Because we want correct error value */
-> > -	if (unlikely(last.name[last.len])) {
-> > +	if (unlikely(trailing_slashes(last))) {
-> >  		if (d_is_dir(dentry))
-> >  			error = -EISDIR;
-> >  		else
-> > @@ -6171,16 +6171,16 @@ int filename_renameat2(int olddfd, struct filename *from,
-> >  	if (flags & RENAME_EXCHANGE) {
-> >  		if (!d_is_dir(rd.new_dentry)) {
-> >  			error = -ENOTDIR;
-> > -			if (new_last.name[new_last.len])
-> > +			if (trailing_slashes(new_last))
-> >  				goto exit_unlock;
-> >  		}
-> >  	}
-> >  	/* unless the source is a directory trailing slashes give -ENOTDIR */
-> >  	if (!d_is_dir(rd.old_dentry)) {
-> >  		error = -ENOTDIR;
-> > -		if (old_last.name[old_last.len])
-> > +		if (trailing_slashes(old_last))
-> >  			goto exit_unlock;
-> > -		if (!(flags & RENAME_EXCHANGE) && new_last.name[new_last.len])
-> > +		if (!(flags & RENAME_EXCHANGE) && trailing_slashes(new_last))
-> >  			goto exit_unlock;
-> >  	}
-> >  
-> > -- 
-> > 2.55.0
-> > 
-> >   
-> 
-> 
+This file unavoidably lands as one relatively large patch, but it ended
+up not breaking down well into smaller chunks that would still build a
+working kernel.
+
+Jeremy Bingham (1):
+  minix: unify the v1 and v2/v3 itree code paths
+
+ fs/minix/Makefile       |   2 +-
+ fs/minix/inode.c        |  35 +-
+ fs/minix/itree.c        | 744 ++++++++++++++++++++++++++++++++++++++++
+ fs/minix/itree_common.c | 374 --------------------
+ fs/minix/itree_v1.c     |  67 ----
+ fs/minix/itree_v2.c     |  75 ----
+ fs/minix/minix.h        |  26 +-
+ 7 files changed, 774 insertions(+), 549 deletions(-)
+ create mode 100644 fs/minix/itree.c
+ delete mode 100644 fs/minix/itree_common.c
+ delete mode 100644 fs/minix/itree_v1.c
+ delete mode 100644 fs/minix/itree_v2.c
+
+-- 
+2.47.3
 
