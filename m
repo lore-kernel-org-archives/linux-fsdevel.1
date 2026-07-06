@@ -1,145 +1,148 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6431919ABD8
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 00:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7075C21D596
+	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 01:58:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783298248; cv=pass; b=Zu1ZAstE8rZ1aDBVi+ksVuxMU5w5hjl15rvge5hYNWkaeb7Q10q4SCokqOeTFBek6d6yq1oxfvTOBpA6h02uAohjYBOYRS+gL/hp/LhA5hKFC+QdgKr17XryestB3I6FAdtReKUuxFlO/+cBcarlfctv4O+m1Q+zPVv0WHATFVY=
+	t=1783303113; cv=pass; b=dGNXDHEOGsh2fy8peDWNTOQ5s4dYjGWTvfVE/89QVT3AkHsB9MnEickW7vHWfdSu6JG5zjc4IiBba6tzv1/DE8C2zgeEXjRPiZm0hS15vUeKaWnvWz6jAy2Gnsu+RxGfSL+zaw3CJ238hNPnjZDFp1wmma6VfH0H+zVBGxnO2vo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783298248; c=relaxed/simple;
-	bh=a1sNFlemSnst5DRwn6HVfhGLDjDBTrBHz7XyuMQ5Jz0=;
+	s=arc-20240116; t=1783303113; c=relaxed/simple;
+	bh=ujy0JkK1tlZdf3p4IFVek3ozFaGityqkuakLhMqO7xA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uBVXq94iZul0jtHVzjkWhdIwWmT0cO7gNkh74K62G8iwM27Tt+lM5HP51Ck4cY1SVSLI2uU39w/kTqvIkJ4r9sUesECkmjg3La9S9oInA6VG8HmOEi6dIVofNem0eVb+bM5Iu2unDyQIG72oO/7ZrXKBX7DIcRaZw3YSeSJJuk0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gZMjikGj; arc=pass smtp.client-ip=209.85.167.41
+	 To:Cc:Content-Type; b=MVLxgEvMnQccRPjurAnVmWLDLQjaUIcHrnZTFfWOstajdzRQROP/lc0ktjcopdyGk6sWaIYPa07kXo7swAxXq5EzWLOAZ1ZpXW5kiocZknY9fO/jameNIbYXXS6pxSdu4VdtDrWbPu5GCfHAaWthSb0xFciG3kNbjfEaPJlYN3Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RdsLYbNZ; arc=pass smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gZMjikGj"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5aeb8c19017so2325471e87.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 05 Jul 2026 17:37:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783298246; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RdsLYbNZ"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5aeb77b3afbso2290949e87.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 05 Jul 2026 18:58:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783303111; cv=none;
         d=google.com; s=arc-20260327;
-        b=DOg/1GjL/LqKuSfU7/REV6omEsm93huPfxgYjP7S+Bx18WSIh8iTVrxQNS30FnPcgH
-         /l9rHKNK4H5UokKdsmDO/9nsFSaX0mFAyu1Ead8/O8F808jSH+0WTdXhJVXRtNO4C7Qy
-         lj6tiYH7Yl3hFdQgnJk70qDyr7Mzz2TsYgC3b3NGTaXm7+SoidsKsBML9jV3itKJUl/D
-         PAF2EXPE+VwuRoz2YEB0zEjrkjEoBwZzZjGwUbR1d8JQ5hTuWYXDG1mEZCsmVe8gB1T1
-         2EouLdlbOBA1pPK5GpfJPyStAec5xi+v38WjOAeKknIam3TdlQNya/KBG7OYZMY+SYwC
-         IENA==
+        b=oOdm4egTS5c4Xlgsxv5SZJPDLK8FKzaUbnJBaO0bWpxq8NpMrF6NDacC7PAJ8zn4VC
+         6CUxKdTCzc8gltDj7F8EeXs4f2qyySN4JQE5NXmc3EG92C2p06ZO3m0NUj8q/jCxzmDg
+         IurNxY/fgnRXNni3XCNepz27emDb4sY8Jm/OmOuB55fV8I4Ap8Zdw3ztaj2rjgcpdHbT
+         Krkm67wPgmDXNIxrhyyEKBbnCIfIC0nu2MU7multc7+yezuL9adI27oFjNOiHE16jw2z
+         mCiy1B9VPeVPr1dJsb07xBdqNXN8aRvC6wTaczpf1QBURK7R23mAad6H4tSDIDOdH53e
+         LUhw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=UWAKyDynv8RXTv9tuUKB2vZhyQ2pIsxntV6zpFRP4JA=;
-        fh=AzCbImhbNTmsogTqfUT90Zpd5y0N0i5+tRpZmADxAHk=;
-        b=dKNRwt7fvyKe1xwkFefFq53NTvbVvPxtnLkJ7/WoFviwOPE20QXtlPEh0lbkH4FRRS
-         CLRL/NUB1lBJHnfVV7A26be7Cz+W2QCsyprQBBFTDBwBt0ryoRn1qphB9PTfZjL/g1Jv
-         ndY9tw52vTMCeu0HH5HVgAnmakDj2l065dfnN9Zpo/N+kEmvmgeBAo+ZfH7r29AXqZh+
-         gJ8JyH6oKHGZTQEKNk6vCV9MbIHIx/dOpsWMTTPzjzbMNFsMcLjamdNK/xRXOlRh9lrZ
-         gtopRm4NvrrwolDfnwN8jgTgYaxgldiGvAkg0TfLBf33oESQH9oN4sgLwtaVl4XKGnRv
-         D8gw==;
+        bh=hfeozLc8lfROroWi4fuwydRuWdXvG6VBqX8p8xBH/ZA=;
+        fh=KO8PAlXJek2Oz/MHMOqHtJbiK4gPRfr1iqdHImnlP9A=;
+        b=Ja65YNqTFETlZ65MqR/IKTw4PvBXIflRpkejC5YdiBzd5i7h5sTFNyrM4F3reZ9wKX
+         QOh/Q0UA0DX8cU7ir+aVvEYypibgWsCOSwIcGSkXvrRU8Y9xmi2aluKdg0GomE8PkdK8
+         ldXeMSjOettH96REwiB4vzlr79YZXDIfRw6xPMtbaaA9BuKJ6p7TKBDGW3fEXO8h5T0P
+         X7VhD5+P5/Qy8AP2TmIUda253OzrZ1mpQRe+crUkRJRn5xQ7CurdsAaNCKk2HIqhQ9Rp
+         n/Ze5AaddHKaXTiO2CTgsFYlhXpBOazS0CkeJS1HO8WMZvUXp9kSAoeaGW70qMWErmEI
+         BFtA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783298246; x=1783903046; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783303111; x=1783907911; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UWAKyDynv8RXTv9tuUKB2vZhyQ2pIsxntV6zpFRP4JA=;
-        b=gZMjikGjnMOd/ACfXbM9WVzQ37fcDFX3F71GzTDM05J1hR/xFg2rLsdbPstmaPt7R4
-         Rl3yIXERvME/Yw+r4/406wMOEzfD/Zz4mjI/cnwuSCPb32NZquDGPKJAzal+5VlOCCWv
-         ebBt2/d3U7b/gHBi/LhOb+W3xExDU1pHsXGd9JdnGm6qxRlVQIjvAEqQu9uAlSMYWvEc
-         eBShiFzBSbciB6Uv7KFChVSpKJI8dYWIEjJ2L9Qa1/6HuAZA+373UVgGGDiy2VdM9mhp
-         yvEv+XpNddA86t4j2GBqcBrrSzrH1Nn09/DZGqFW4lWm+GEFv3TfyNG1ETr86eylXiy7
-         vEjA==
+        bh=hfeozLc8lfROroWi4fuwydRuWdXvG6VBqX8p8xBH/ZA=;
+        b=RdsLYbNZ8Gj9ZtEy5tkDHw4kvEcUErebFoSQn5ZcB/lwW8E81wzGk9pPg2uIJPoBJi
+         dcJrKBGYWRnT65Ggo10O6b8aKCcuYbqSLOJXD3D0MgX2hgJNhPvWkR2/G0+lYxRssHUp
+         CqL6QaU64HpTJyN972st74AM+x0wNcmv94KyDZbW4ALp0EGzZbo4zwzRorKzJj7mVwSU
+         WdB06MB+EfLuN++D5UIs0F6Q8qxrjSmpBSi2aGtcs7GSSQ8r0jQhqKduCudcqykeN32R
+         sv65ai8wkDrPg3DJ2xhQMLpeRQxuhImol6HwuKjqCRf0AKaBSkbtWXe47Pkn5dufFDdr
+         1heQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783298246; x=1783903046;
+        d=1e100.net; s=20251104; t=1783303111; x=1783907911;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=UWAKyDynv8RXTv9tuUKB2vZhyQ2pIsxntV6zpFRP4JA=;
-        b=WF5Jd0uby7ncLHdZYan3L0jqXureFGMnwHYAqV4cBIUIq/55qmRjQFRL5uy3s6ogXz
-         7sCBmwDqcdrJ272le7vslLHvMS5/yBIi43fYXCF2brR+UdufmNpnteUwQOjfkywNZ8lm
-         fLa1R+Be+jZliVuQuqMTUIK16NAWXEDPcw9MhojxqYJqRc/5uB8MXl5sFQ8DXIf0iuH2
-         HHnptzbxus8tImU5hzql2yFMIl6SjK93GAFH0q9V9mhXxWibGWhuCoVjR88REnaXdVhO
-         nKI9Gd1uOcl/tuCJeKjgjpVQ3nwQG26KXYCTB9vxP6G/rvs/i4f3VG4YouOx9YCKcVQX
-         0ENQ==
-X-Forwarded-Encrypted: i=1; AHgh+Roj5gpPEaPGRWmtU9UFcUiBcTVoJu2WA+PWHN2Mzv8T6MBYhgMjWKbRnmQsLP8y2NCFqjivzivLF0RahcNY@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyn6Cb4JB8aV7tvOyDJ8uGtYF0JQQyQHuhrXrr8ztdgAwhCYxcg
-	850DUNVJ9WSiJbi2wK+GIJZJwZCeaGMMuhi9Kig+RNPJHlTObaFopRa514euQ/SHD4Q01HaDni2
-	Oq/HsSop11epylxJnf4/l/KBuGcqnqokpkA==
-X-Gm-Gg: AfdE7cl73rVENoRGcayt8VwTK01C6T8wclUcs+UFJX5rAQxZHaOVxxEdpbdro0WO5B9
-	YEu0SwoR6gmozhrnaorsBsUt51oeE69wKoAtF3XEmP9xQNL2UVYyRf6HsipKnk6L81pUec2NW3d
-	s4cTgjWUcs48I4p5b7QMG3iWPAUePLh2kdBaHP8idDRdXZcj0fgjSnD6verLKFpl4cYSYgxzL22
-	hsTiw5wNGjAfMltgYzqXxWnGMBWDkUHB5s/ID4pnT2wgHHjVTARXkQ8QL1aPZZ47s76+HOv
-X-Received: by 2002:a05:6512:2252:b0:5ae:ae6f:1f20 with SMTP id
- 2adb3069b0e04-5aed50c73d1mr1547894e87.54.1783298245674; Sun, 05 Jul 2026
- 17:37:25 -0700 (PDT)
+        bh=hfeozLc8lfROroWi4fuwydRuWdXvG6VBqX8p8xBH/ZA=;
+        b=SGmN86EbkvrWCbewaZprrHJVwuOpyWLQ1MY6WhdbJrgYu47EivHURnzaaxeqPL1L1P
+         CE6xyuVYEAA2NT8DYK72Lto2lgdlz2wwxBuaWBPY0XJh3g7Uvoh03PNuK2tLAxMwSZIr
+         SxUsOKyvUFsyJOUWMVF7J8MexeVdpUoIkR4OUy5YGFyj/tuSXs/qQKAnXpDxr6Ljkt2j
+         eNc7yCm7dURTCW6/zX/+q+qo+rJ+YIhWHlsjn5ROB8n0t447hBSadFxDaCnEpsV42nJt
+         q+AYAdij6a7s0EQDqP9QQuMNBKiu5rFT3ik7H5RDXY0P7v1TzTIg1u2OnDdyE1LstlwU
+         Wggg==
+X-Forwarded-Encrypted: i=1; AHgh+Ro7KvRh4CiNMiLcnEN4wU7A86hxeTv82wkyxeAQdNdBYCK0bW8JfS5dMvC8fsv7k8EE2pE0RwklLTFDcjYJ@vger.kernel.org
+X-Gm-Message-State: AOJu0YzivoFbntkkH2Vb18qXCADMSMwLZEj9XKkM50vJbxytEbmCTNHS
+	yFymncq1YpiqSw30YjEGhtFb/MTyzXrFLZHk7eBLcJaw7Or9bKpkNHM1yoFvbEpxEqVhdl9Esgr
+	RQSoOcOHMDik11GZXDBJ0TsLMJy6jpv4=
+X-Gm-Gg: AfdE7cll5P2QbMIDx6ZOpqcgj6INYf33Sd0BnbQ/oykeZmINWmUaV3wsDLD6TUj1v+q
+	gJZKHb7uurBEaYJoE519wRynVCW+78uuQbPJtBMfesdJvbhAEn0FMCbIaQmPLagKDIfF+AJOTnr
+	zgP7kDbeVy9b8vs4PEau8bBRHKp7ZzFJeqtzBplHS8lowLOFKHtUNtniHVymFMmyRzQukaew3NU
+	t2cnbY9u8FmVRaFHjRU6j4SO9HQlI+oQB1g2ryU3MTfO9oidVQ/25xKrRT0QgBdMNLhXLkZ
+X-Received: by 2002:a05:6512:8358:b0:5ae:bd5b:c68b with SMTP id
+ 2adb3069b0e04-5aed50b80b8mr920536e87.37.1783303110567; Sun, 05 Jul 2026
+ 18:58:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260704144654.126437-1-mdshahid03@gmail.com>
-In-Reply-To: <20260704144654.126437-1-mdshahid03@gmail.com>
+References: <20260608210618.3437216-1-willy@infradead.org> <20260608210618.3437216-3-willy@infradead.org>
+In-Reply-To: <20260608210618.3437216-3-willy@infradead.org>
 From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Mon, 6 Jul 2026 09:37:14 +0900
-X-Gm-Features: AVVi8CdFYBKDrHLkOdQQ2z7lU6f1iyvGvE6jFuOLv15ZZVflC6Wf3Vr7n_kR3B4
-Message-ID: <CANFS6ba=oS28Le1sPEamAzmz9mUwFWacukRJztwE2UTB6DPaBg@mail.gmail.com>
-Subject: Re: [PATCH] ntfs: dir: use kmemdup() instead of kmalloc() and memcpy()
-To: mdshahid03@gmail.com
-Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+Date: Mon, 6 Jul 2026 10:58:18 +0900
+X-Gm-Features: AVVi8CeDqc8BYSLiYYk2lLX6apbCk_RkRARPEBX1R5X1hq38Hbtq6M6jPVakieI
+Message-ID: <CANFS6bYc5uSSYWvwJZ4BgjzF0_bO9rkcFNvX2vVHnzWDi3kpuw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] ntfs: Remove use of __folio_index in handle_bounds_compressed_page()
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, Namjae Jeon <linkinjeon@kernel.org>, usama.arif@linux.dev, 
+	lance.yang@linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-2026=EB=85=84 7=EC=9B=94 4=EC=9D=BC (=ED=86=A0) =EC=98=A4=ED=9B=84 11:47, <=
-mdshahid03@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> From: Mohammad Shahid <mdshahid03@gmail.com>
->
-> Use kmemdup() instead of a separate kmalloc() and memcpy()
-> pair, simplifying the code while preserving the existing
-> behavior.
->
-> This issue was reported by memdup.cocci.
->
-> Signed-off-by: Mohammad Shahid <mdshahid03@gmail.com>
+Hi Matthew,
 
-Looks good to me.
-
-Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
-
+2026=EB=85=84 6=EC=9B=94 9=EC=9D=BC (=ED=99=94) =EC=98=A4=EC=A0=84 6:06, Ma=
+tthew Wilcox (Oracle) <willy@infradead.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
+=84=B1:
+>
+> Nobody is supposed to use page->__folio_index.  Use page_offset()
+> instead, and simplify by working exclusively in loff_t instead of mixing
+> up loff_t and pgoff_t.
+>
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 > ---
->  fs/ntfs/dir.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  fs/ntfs/compress.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 >
-> diff --git a/fs/ntfs/dir.c b/fs/ntfs/dir.c
-> index 4b6bd5f30c65..df94603ec102 100644
-> --- a/fs/ntfs/dir.c
-> +++ b/fs/ntfs/dir.c
-> @@ -959,13 +959,14 @@ static int ntfs_readdir(struct file *file, struct d=
-ir_context *actor)
->                          */
->                         private =3D file->private_data;
->                         kfree(private->key);
-> -                       private->key =3D kmalloc(le16_to_cpu(next->key_le=
-ngth), GFP_KERNEL);
-> +                       private->key =3D kmemdup(&next->key.file_name,
-> +                                       le16_to_cpu(next->key_length),
-> +                                       GFP_KERNEL);
->                         if (!private->key) {
->                                 err =3D -ENOMEM;
->                                 goto out;
->                         }
+> diff --git a/fs/ntfs/compress.c b/fs/ntfs/compress.c
+> index c904858dff3d..b279f38636d6 100644
+> --- a/fs/ntfs/compress.c
+> +++ b/fs/ntfs/compress.c
+> @@ -105,13 +105,14 @@ void free_compression_buffers(void)
+>  static inline void handle_bounds_compressed_page(struct page *page,
+>                 const loff_t i_size, const s64 initialized_size)
+>  {
+> -       if ((page->__folio_index >=3D (initialized_size >> PAGE_SHIFT)) &=
+&
+> -                       (initialized_size < i_size)) {
+> +       loff_t pos =3D page_offset(page);
+> +
+> +       if ((pos >=3D initialized_size) && (initialized_size < i_size)) {
+
+I think the following change would address the review comments for
+this patch and patch 3/6.
+
+if ((pos + PAGE_SIZE > initialized_size) && (initialized_size < i_size)) {
+
+>                 u8 *kp =3D page_address(page);
+>                 unsigned int kp_ofs;
 >
-> -                       memcpy(private->key, &next->key.file_name, le16_t=
-o_cpu(next->key_length));
->                         private->key_length =3D next->key_length;
->                         break;
+>                 ntfs_debug("Zeroing page region outside initialized size.=
+");
+> -               if (((s64)page->__folio_index << PAGE_SHIFT) >=3D initial=
+ized_size) {
+> +               if (pos >=3D initialized_size) {
+>                         clear_page(kp);
+>                         return;
 >                 }
 > --
-> 2.43.0
+> 2.47.3
+>
 >
 
 
