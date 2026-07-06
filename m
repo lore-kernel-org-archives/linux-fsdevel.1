@@ -1,112 +1,695 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5069B436BF1
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 18:25:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C25F3D7D97
+	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 19:27:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783362324; cv=pass; b=ZeQXVeg90pCnHs2PLNcAtzXxS5yJkbCscpokhL4mCJxCq94pZiu54j26sWDT1IRHRyVnFEHWtIKvLBFGV58eERaj/qEnNWDTacalj/IcMIce7U0Edrvpgxs8wPneUeq6pYNnUtQIe76sR/N98S3ETgfYA3AxKMp5wHhhzxiOaPA=
+	t=1783366056; cv=pass; b=Yk5WPL3DtZ+aC2P9GeF2jEejlhxTSsQxLdY3Iz5otBYoqbl2pwz2XNHZZACl33+WroqSn86ozl8rTzQCSJl/psPx1XW5jYZoghTYdEzWsN2J+DJXAxdGybGr8ueeUgZOOv+KcmrPb4VDOkY14p40IkcuRvsbgQiiUbAPSR/GTOY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783362324; c=relaxed/simple;
-	bh=Cn4wawG4GsG/KOE07esR3I5RCnLM2n9QtBSsL+V5LS8=;
+	s=arc-20240116; t=1783366056; c=relaxed/simple;
+	bh=UEp1H297s8BL6RXQN/cEh9zJy/urjediMCl/3GCsJfk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ttu6rhTTkWGZyTEazVQ5cVBLYygDy3c00tTCTCrowpDpLxjdFNGwcyTsvaUKaBo9P2y+ohEZ9zse0zXwxSmgEKZj1nTD06VvnTvKf0PP6g5RxT9MkqWDxtDCEa7owqxG4/oZAamUgeFCIR9ym/AAvbXFk9aBBFhh6svuV/MhQjs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RDBvTw8T; arc=pass smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=igMZjG5G15TXC6wYAp0yQ/qic/1in2ZoGE1XBX4YVhN3zjtD8umMT8+ydz6IC5z1pNDSgPqncNxbVHV0oQb8G8Akm/avv8LH9ky3uQ+6r3EMGUWfMTncaT9I6G/ihqI//jg3yve2BM15Zghv8XBfqNqSwAphJAsI3RDumYOZ7i4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MZ7Aogcs; arc=pass smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RDBvTw8T"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-698411099d6so2934a12.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 11:25:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783362322; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MZ7Aogcs"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so21806195e9.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 12:27:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783366052; cv=none;
         d=google.com; s=arc-20260327;
-        b=Wjq8+d7cFVXgC09XYi7A1V7WNfp/oQ17/bcYyZynUEpJpl8oRl9tIxYZPbGp7KBj6Z
-         bQJtFoZ1QHHYaffFbH9wCN+OrPX3L7Ad10ftKE/9O6jsdiniNa8ilVRTANIy7zHRAFYa
-         9T/PJW8l/9AYo8i2GL1QEhk41r0kzhUDa9D5EpCp+XB9Ic3XuuBS24dMxrNJmrtSj4cd
-         dy3lbHIEIV7R+ncBR2OLpwohZvqrqOOoaqOq33CgsL0uo+LFYehOmtqv1hBEtuULTsxJ
-         V3WX2PWbImebsLXNy2PnPmR8uCABz47S8C13VIWByr+0B/7I1OhsskOT3eQ/WtVNAUFR
-         L4aA==
+        b=oFD+j7ZapHJkVSLV50UU+qxgyEzD16TUGxVcI5dCeOzZrbuhkFys4harOVT8LsONFj
+         FrEKAreGqmRsTSFg3GU69wnEX1Pu/nil+c3JlWEiyOrMyrAs05nklLjKE4kjJFK1rjd+
+         hi+q4mU8wroyahDQAFwFlF94ypcOeODvi/k/guaiUelVg79A1v+I8gSr9zwD+lMz3inF
+         MoCmQRjpXEgQInPoOyrAcPKnoDGM/TW91awdx8qGYErlavSKG48rVvMjzar3dI0r4gfE
+         EABLwgdKS//Fjb8e6dvl9Lnce3qNBGllOVqJkzXHZjV18LA4CmTOd2774o/VIKO0vzWn
+         cziQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Cn4wawG4GsG/KOE07esR3I5RCnLM2n9QtBSsL+V5LS8=;
-        fh=r6BjS1zATrQm0l85fkBJm4q5KTWk7JawLmrDoczIUjU=;
-        b=AVW38yyjdJQlYEzdXHp0stOVGv02vdry5RZEEfbLYKUNhlrYqlq/oJHWGx3AulI56+
-         yJFHb5mDsozqsGkNRyyFXek1Vhkxm+MiSdjcncowa1C0iKxToaeA3CHla5Zxfoqzrba0
-         HrfDvCyBL4KaUCFy+ZnGhOAECphXa9+q9ecvcEQnTTO68GYi6JpEMOJdoASBNgJLU1UF
-         NESIMIo1Y+zjDdA1TAi1AvU+lOmcQgvCSUkGPrtSVZ7rGzaA+syNKB1BVdsFbZnwBF4V
-         wLqJlOWno127YomwJEJ5DgJ9NpHBzapI3b54E7U0Bkw4tOJ25FDbiVY1ABBCbTT/m3Ju
-         zM1Q==;
+        bh=iyQHcU6V6Cxqv2PDXzv1or+GFLINi1F+iyT8k1hYsa0=;
+        fh=2kHou9+w0NK/cMW2WAvRwoEtilTM9DCFhf8/VftCgJQ=;
+        b=TJkdYl60tFla9U5ea1PMy4mHvl9ltpKKWUjX0QT7aXF+qzXvU6pjRa7yWxC0PL51Y6
+         G+04+yZ6IVLi73BtBCee+34XHc+bIOImAnKNm0EyGxz22zpgtUG0JtD++IbmCv1RxPbY
+         XN1nTVghPOKhwu9/RbZ3Cxszxe8uKhXaQCDHIQkhYHpCXq2USP9yqpjaohNDYOh5BTUx
+         Vixd8USgJAtkPPqWvDiBH+NmIE/kIqqa05k+HyvjvUgE2Op+p6FK6641STjfwTD6ZKI9
+         tIIP2KUEtaDQJla7DooHzoNMcAM5a/ntLoGPNrU0AuiS71YHeTvqZHGqIG5w6aaukjM1
+         MTiA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783362322; x=1783967122; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783366052; x=1783970852; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=Cn4wawG4GsG/KOE07esR3I5RCnLM2n9QtBSsL+V5LS8=;
-        b=RDBvTw8TEpkyYCmXKjA98k5lZ0tH2NsPI1Y73XNQ0KnV42ILURMBGEN+yLK0g1ZS2M
-         /taOsi5ppvUSbg2ef4aGcIS5kxHo4AGhKCxqLQLvp9XyzPj5DrX0Z5ESDAqpZ3y8wy/I
-         jv9+XjR7801lDuz9hcQQNgXBWAd0P7eY/oSiBVqLetPCW+DNTUDjctKyRVbHzL96763H
-         wsRh7H6GtgKZ4h1bj81RXwiK/6v2z/tn8AuT95cyTTUlp5nJeLcFS6aspBDY4e2JADME
-         2w+/Nw6lZuAenBFiS6alFHJr67hZMeFvUuxyPo+oSXz9lTuqu3p2BeV6DLY+v3FJDG56
-         0wFw==
+        bh=iyQHcU6V6Cxqv2PDXzv1or+GFLINi1F+iyT8k1hYsa0=;
+        b=MZ7AogcswF4Njo8VlaKLqkHLaVTzqkHUouDQymedsXaZmXiwNaYf2F1GrUz1LW2UJm
+         i452/LX5gX1hY0dEuRIaLQWxkku5q9ringgByhjXHUGKf0Qsv5HYRr5QLK9Oh6/L49w6
+         YjcV+FaD4BnryQg6fc137M1BOcfFQRXLAc+TeshRTWUhn5lYUVHqdJOgolJvEq/5Zae8
+         MAjgQ37AXpUMhwKxzHMTn8SiBq3HhAneEG/mBhHNK/Pt6DCzP5G8M1XHdLMj0h3SHeU7
+         5mGtW/UlKWv4mpPoG7AwrrNiXP3BYVS/3HyXU+iI7snxvsb2UYT3JHqw13/WgsAw+OHR
+         2GCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783362322; x=1783967122;
+        d=1e100.net; s=20251104; t=1783366052; x=1783970852;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Cn4wawG4GsG/KOE07esR3I5RCnLM2n9QtBSsL+V5LS8=;
-        b=OJu74FkyXH+gwBdNgD6/IU2MfOoNlU3tzMYuhO4gz2uoU9w2pgZk80SlgxzsIZ8e0E
-         6esj1FEhjzjFJ0fDnCr0XxSFpy1bDLnpZkO1fLuxphk/zvkt1leihnldc6r/MQqRZzQN
-         9/+8G4JOz1xhVEGFXATVpIzAkNjNEz6Z0FxlmSYMzhGxmSd1AtQXtPgDHDxDTSBFM/OX
-         MAEpOtxzJ7HsxOJb4MLOhiae1oPHF+0Y/l0+YhqJQLiJ4lWCFR3LjRIcffD0T+mBplK5
-         OFcnfZsONcEY/R+4d5/okOBBZWLGZYD1rCRaT+TVv8fzgvtJaM44j9KbLwgtU6LQKjo1
-         U9AA==
-X-Forwarded-Encrypted: i=1; AHgh+Rr83i2sHSI8RymphJ0Nu0Wv5G2qUcVq3VMIRbcsP9lYoOK+3YaCBVicXidIVAnf9wuqN2/e04F7NQik1/qA@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0dPEx3OxhG5eVQZJxQrl8ZhWIymR4W0vHdf66vppJY6rhOR8n
-	dmcGo/N1Q6Oy1cEO4wPsFe/2hdNkDENJHpCWAi+f9uADTg6Ox/NbTQr3LSHkLiKodxmYygrhQpM
-	IXdl+SbXyCJIbHxF96pvAp9uptJ7T+FvKiRT9dgV1MhtKAkm9OKwQ7MFF
-X-Gm-Gg: AfdE7cn1vmww3/E3ymjlqGKppSdO7fXnRPD95mmd1f84uwmO+J2Di4c7M0qyduBSGjb
-	oMtR53g7aIL5PR18TgFT5vwSfoKaKKTRpgm2Bg1PhA1z+m/DY4OTcAiPVeyaH90P+nRMmAUz6TD
-	AP5qq8GOm+G7dgsnR5lQJsA9FGr55/wqSih/L+jV7iV0BQwxPM5LbqLMZXdOJRF6nJEE26/aTl/
-	yrbWIVYCWPQfuM+PAHNJ8EByaQm6xA7tcc3fw6N8OkLztKmIt8GjHkqGmdIvdachBfhcsXAzU5j
-	wNtxrdvts72KvDu4NwSGiJlbxRWpWd7erLYoJm1+iSSfUvkzepd9jI+XMw==
-X-Received: by 2002:a05:6402:3045:10b0:695:4751:c044 with SMTP id
- 4fb4d7f45d1cf-69a8d5af200mr12049a12.8.1783362321335; Mon, 06 Jul 2026
- 11:25:21 -0700 (PDT)
+        bh=iyQHcU6V6Cxqv2PDXzv1or+GFLINi1F+iyT8k1hYsa0=;
+        b=n6tSquxkfQOzQSFrQtMUbMGP99bq5PLTHhaJC07HJrEHiqwdLmRt8Cafl8i9tVWxXH
+         6cBHPl9BWAAXCPdKdNFjcii8mj97b9cdTOPerlfk622LEqajnJ50KKxE5vGMRf1y4rR3
+         edGy1Hohflh3WlnqkvyzHY0rRFMGedvw2ULLR5xrXJepXyOOj17knty1LvsRGCT1R1vA
+         jgo3oZ65TWiejeIspc/FZEUEz5l1Ycm+CGeEl6fH1e+gX6IpWJ5BnoawL9+jQv5YeiSd
+         Sgkp93OYd74+ZT+Ag1ilXKofTQNNB7amXroFWN7lq3/E8Q1YD0ouMssizhKXY0jZqxej
+         0wUQ==
+X-Forwarded-Encrypted: i=1; AHgh+RokfQhtvfE9HQujmmPMwQs1zSdynEdLhhI+p0jsIshvVrYTbln2PS8vQ0/p8EcQydOSxEJME2Bl3WbLkUpV@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0JA5aavcmIL5EEIi+0K8IX9LZ/XHaZmVM8RAIgKrgGs0RT3vm
+	f+75/2fSuhVQJKi3fxMlGXWeI0AVG2eR8kFAUStxXGLvfC0zzbLGinBPPdmwdLKFJuOP0n4Mg62
+	VSM+fBGFdye83NtaMv5EDpbHExRcUOSg=
+X-Gm-Gg: AfdE7ckj2cmI+kffVsoUVtcVon2xcVWvr93KFRxtBNO+kyd5d/Hd20huQVmNb7z2w+X
+	7as5Cw5VkqHXQ7ROGH9mKoxP3IYBIjPNDi01DFp3mPBPDZNOb/typINNArwO8Sf2cqdT8bYDRFK
+	63RjV6nTOLouwydCAZO7ucSLa7RvVivzfELIo0t053rJnN+r+Zn1kAVbTKMJ+y4Mc2ZqUGvV9S+
+	uLnN5/C3bd3kmYlA9zo/3K/3mQ0CfQaK0CUsP8h0JSQ5kt9FBH6swUzGCrQ5XOY2xxQd22Ce4Uc
+	todyGWqkcyQUvzHNlGnfZVWom9NBcMMBQtuhv7VCMmodvY9abjEj
+X-Received: by 2002:a05:600c:3e1b:b0:493:bd66:3efb with SMTP id
+ 5b1f17b1804b1-493df09601dmr20498655e9.29.1783366052372; Mon, 06 Jul 2026
+ 12:27:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260518-procfs-lockfix-part1-v1-1-5c3d20e0ac33@google.com>
- <20260706170735.2941493-1-linmag7@gmail.com> <CAG48ez0ebrMy8QGKLuz0Qwao_Eiav6e5pAJ5f6GrUPJLRkwNnw@mail.gmail.com>
- <CA+=Fv5R=mUW_p_AFFr-588F_b1hB=7RhMbtODya-gby=_fjBgg@mail.gmail.com>
-In-Reply-To: <CA+=Fv5R=mUW_p_AFFr-588F_b1hB=7RhMbtODya-gby=_fjBgg@mail.gmail.com>
-From: Jann Horn <jannh@google.com>
-Date: Mon, 6 Jul 2026 20:24:45 +0200
-X-Gm-Features: AVVi8Cc7kCan3qAeIhO9q8vMrkV7_74C6sIMx7nz-yuT58X80UFcpE6GMOhG30E
-Message-ID: <CAG48ez094Bu70b6CjfV4jGK+T5ihnprFY2wtBYa4AZf8iHJsow@mail.gmail.com>
-Subject: Re: [PATCH] proc: protect ptrace_may_access() with exec_update_lock
- (part 1)
-To: Magnus Lindholm <linmag7@gmail.com>
-Cc: arjan@linux.intel.com, brauner@kernel.org, ebiederm@xmission.com, 
-	jack@suse.cz, jake@lwn.net, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, regressions@lists.linux.dev, 
-	stable@vger.kernel.org, viro@zeniv.linux.org.uk
+References: <20260701033253.46420-1-changfengnan@bytedance.com>
+ <20260701033253.46420-4-changfengnan@bytedance.com> <akT4tJzFSfrBxqdq@infradead.org>
+ <CAJnrk1Y3yPeXBeBNo+DjTt8eRN-mc2F9apBCUn+j=GV7GMzi4g@mail.gmail.com>
+ <akZ3GErzJSTtOn-H@infradead.org> <CAJnrk1ZijiWYU8YOmRf24xxwX0kH6vCe3ta89LfoX7v7j_JYLQ@mail.gmail.com>
+ <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.e3ea485f.90a4.4656.9103.275b1cd29206@bytedance.com>
+ <akettUm5gBD8nj56@infradead.org> <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.a1148d7a.4a0d.4c6a.b14d.4583b6b728ce@bytedance.com>
+In-Reply-To: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.a1148d7a.4a0d.4c6a.b14d.4583b6b728ce@bytedance.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 6 Jul 2026 12:27:19 -0700
+X-Gm-Features: AVVi8Cep-qYKB7UFrbHJ6w1Ew_1ghih7o438HvX1-Pe_dluBLItJigcVM8wP9QA
+Message-ID: <CAJnrk1avS6qra8OvJdbexqM0xGT-FVZxVKe+TH4ZkFgfFv_oEQ@mail.gmail.com>
+Subject: Re: [PATCH v6 3/3] iomap: add simple dio path for small direct I/O
+To: changfengnan <changfengnan@bytedance.com>
+Cc: Christoph Hellwig <hch@infradead.org>, brauner <brauner@kernel.org>, djwong <djwong@kernel.org>, 
+	ojaswin <ojaswin@linux.ibm.com>, dgc <dgc@kernel.org>, 
+	linux-xfs <linux-xfs@vger.kernel.org>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
+	linux-ext4 <linux-ext4@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, 
+	lidiangang@bytedance.com, "pankaj.raghav" <pankaj.raghav@linux.dev>, 
+	Brian Foster <bfoster@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 6, 2026 at 8:00=E2=80=AFPM Magnus Lindholm <linmag7@gmail.com> =
-wrote:
-> I'll retest the strace pidns-translation tests once your fix is available=
-.
+On Mon, Jul 6, 2026 at 4:10=E2=80=AFAM changfengnan <changfengnan@bytedance=
+.com> wrote:
+>
+> > From: "Christoph Hellwig"<hch@infradead.org>
+> > Date:  Fri, Jul 3, 2026, 20:40
+> > Subject:  Re: [PATCH v6 3/3] iomap: add simple dio path for small direc=
+t I/O
+> > To: "changfengnan"<changfengnan@bytedance.com>
+> > Cc: "Joanne Koong"<joannelkoong@gmail.com>, "Christoph Hellwig"<hch@inf=
+radead.org>, "brauner"<brauner@kernel.org>, "djwong"<djwong@kernel.org>, "o=
+jaswin"<ojaswin@linux.ibm.com>, "dgc"<dgc@kernel.org>, "linux-xfs"<linux-xf=
+s@vger.kernel.org>, "linux-fsdevel"<linux-fsdevel@vger.kernel.org>, "linux-=
+ext4"<linux-ext4@vger.kernel.org>, "linux-kernel"<linux-kernel@vger.kernel.=
+org>, <lidiangang@bytedance.com>, "pankaj.raghav"<pankaj.raghav@linux.dev>,=
+ "Brian Foster"<bfoster@redhat.com>
+> > On Fri, Jul 03, 2026 at 05:13:12PM +0800, changfengnan wrote:
+> > > taken, which introduced some overhead.
+> > > I implemented some optimizations based on Christoph=E2=80=99s suggest=
+ions and
+> > > made some modifications to `iomap_process`;
+> > > Now, XFS performance is essentially unchanged, while ext4 still shows=
+ a
+> > > 1.5% drop; I will continue to investigate the cause..   I=E2=80=99ve =
+attached the patch.
+> > > Actually, I had expected that switching to `iomap_next` would improve
+> > > performance, since it avoids an indirect call.
+> >
+> > I don't think it will for you - the direct I/O readers don't have
+> > iomap_end methods, so you still have the same number of indirect
+> > calls.  What could help is to inline the iterator as seen in Joannes'
+> > fist demo series.  We could even look into doing that only for simple
+> > dio in a first step, shifting the burden to use the simple method
+> > to the callers (at least for the POC).
+>
+> I'm not sure if this is what you had in mind, but I made some
+> adjustments referencing Joannes' first patch, and using this approach,
+> there was no performance degradation.
 
-I've posted the fix now,
-https://lore.kernel.org/r/20260706-procfs-ns-eacces-fix-v1-1-a69ab14c02e6@g=
-oogle.com
-.
-Thanks for reporting this!
+Thanks, Fengnan. This is awesome that it got the degradation down to zero.
+
+Would you be able to test how this change performs on your benchmarks?:
+
+diff --git a/fs/ext4/file.c b/fs/ext4/file.c
+index dbe073e181a7..bf0c18cf1017 100644
+--- a/fs/ext4/file.c
++++ b/fs/ext4/file.c
+@@ -91,7 +91,8 @@ static ssize_t ext4_dio_read_iter(struct kiocb
+*iocb, struct iov_iter *to)
+                return generic_file_read_iter(iocb, to);
+        }
+
+-       ret =3D iomap_dio_rw(iocb, to, ext4_iomap_next, NULL, 0, NULL, 0);
++       ret =3D iomap_dio_rw(iocb, to, ext4_iomap_next, NULL,
++                          IOMAP_DIO_NO_IOMAP_END, NULL, 0);
+        inode_unlock_shared(inode);
+
+        file_accessed(iocb->ki_filp);
+diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+index bcd3d4223464..bc3b87e57592 100644
+--- a/fs/iomap/direct-io.c
++++ b/fs/iomap/direct-io.c
+@@ -968,115 +968,38 @@ static void iomap_dio_simple_end_io(struct bio *bio)
+        iocb->ki_complete(iocb, iomap_dio_simple_complete(sr));
+ }
+
+-static inline bool
+-iomap_dio_simple_supported(struct kiocb *iocb, struct iov_iter *iter,
+-                          const struct iomap_dio_ops *dops,
+-                          unsigned int dio_flags, size_t done_before)
++static inline void
++iomap_dio_simple_finish(struct iomap_iter *iomi, iomap_next_fn iomap_next,
++               size_t written)
+ {
+-       struct inode *inode =3D file_inode(iocb->ki_filp);
+-       size_t count =3D iov_iter_count(iter);
+-
+-       if (dops || done_before)
+-               return false;
+-       if (iov_iter_rw(iter) !=3D READ)
+-               return false;
+-       if (!count)
+-               return false;
+-       /*
+-        * Simple dio is an optimization for small IO. Filter out large IO
+-        * early as it's the most common case to fail for typical direct IO
+-        * workloads.
+-        */
+-       if (count > inode->i_sb->s_blocksize)
+-               return false;
+-       if (dio_flags & (IOMAP_DIO_FORCE_WAIT | IOMAP_DIO_PARTIAL |
+-                        IOMAP_DIO_BOUNCE))
+-               return false;
+-       if (iocb->ki_pos + count > i_size_read(inode))
+-               return false;
+-       if (IS_ENCRYPTED(inode))
+-               return false;
+-
+-       return true;
++       iomi->iter_start_pos =3D iomi->pos;
++       iomi->pos +=3D written;
++       iomi->len -=3D written;
++       iomap_next(iomi, &iomi->iomap, &iomi->srcmap);
+ }
+
+-/*
+- * Fast path for small, block-aligned direct I/Os that map to a single
+- * contiguous on-disk extent.
+- *
+- * iomap_dio_simple_supported() enforces the cheap up-front constraints be=
+fore
+- * entering this path.
+- *
+- * @dops must be NULL: a non-NULL @dops means the caller wants its
+- * ->end_io / ->submit_io hooks invoked, and in particular wants its bios =
+to be
+- * allocated from the filesystem-private @dops->bio_set (whose
+front_pad sizes a
+- * filesystem-private wrapper around the bio).  The fast path instead allo=
+cates
+- * from the shared iomap_dio_simple_pool, whose front_pad matches struct
+- * iomap_dio_simple; the two wrappers are not interchangeable, so we must =
+fall
+- * back to __iomap_dio_rw() in that case.
+- *
+- * @done_before must be zero: a non-zero caller-accumulated residual canno=
+t be
+- * carried through a single-bio inline completion.
+- *
+- * @iter must describe a non-empty READ no larger than the inode block siz=
+e:
+- * writes, zero-length I/O, and larger requests need the generic iomap dir=
+ect
+- * I/O path.
+- *
+- * @dio_flags must not request IOMAP_DIO_FORCE_WAIT, IOMAP_DIO_PARTIAL, or
+- * IOMAP_DIO_BOUNCE: this path does not support forced waiting, partial di=
+rect
+- * I/O, or bouncing.  The range must also stay within i_size and encrypted
+- * inodes must use the generic iomap direct I/O path.
+- *
+- * -ENOTBLK is the private sentinel returned by iomap_dio_simple() when it
+- * decides the request does not fit the fast path.  In that case we procee=
+d to
+- * the generic __iomap_dio_rw() slow path.  Any other errno is a real
+result and
+- * is propagated as-is, in particular -EAGAIN for IOCB_NOWAIT must reach t=
+he
+- * caller.
+- */
+-static ssize_t
+-iomap_dio_simple(struct kiocb *iocb, struct iov_iter *iter,
+-                iomap_next_fn iomap_next, void *private,
+-                unsigned int dio_flags)
++ssize_t
++__iomap_dio_simple(struct kiocb *iocb, struct iov_iter *iter,
++               struct iomap_iter *iomi, iomap_next_fn iomap_next,
++               unsigned int dio_flags)
+ {
+        struct inode *inode =3D file_inode(iocb->ki_filp);
+        size_t count =3D iov_iter_count(iter);
+        bool wait_for_completion =3D is_sync_kiocb(iocb);
+-       struct iomap_iter iomi =3D {
+-               .inode          =3D inode,
+-               .pos            =3D iocb->ki_pos,
+-               .len            =3D count,
+-               .flags          =3D IOMAP_DIRECT,
+-               .private        =3D private,
+-       };
+        struct iomap_dio_simple *sr;
+        unsigned int alignment;
+        struct bio *bio;
+        ssize_t ret;
+
+-       if (iocb->ki_flags & IOCB_NOWAIT)
+-               iomi.flags |=3D IOMAP_NOWAIT;
+-
+-       ret =3D kiocb_write_and_wait(iocb, count);
+-       if (ret)
+-               return ret;
+-
+-       inode_dio_begin(inode);
+-
+-       ret =3D iomap_iter(&iomi, iomap_next);
+-       if (ret <=3D 0) {
+-               inode_dio_end(inode);
+-               return ret ? ret : -EFAULT;
+-       }
+-
+-       if (iomi.iomap.type !=3D IOMAP_MAPPED ||
+-           iomi.iomap.offset + iomi.iomap.length < iomi.pos + count ||
+-           (iomi.iomap.flags & IOMAP_F_INTEGRITY)) {
++       if (iomi->iomap.type !=3D IOMAP_MAPPED ||
++           iomi->iomap.offset + iomi->iomap.length < iomi->pos + count ||
++           (iomi->iomap.flags & IOMAP_F_INTEGRITY)) {
+                ret =3D -ENOTBLK;
+                goto out_iomap_end;
+        }
+
+-       alignment =3D iomap_dio_alignment(inode, iomi.iomap.bdev, dio_flags=
+);
+-       if ((iomi.pos | count) & (alignment - 1)) {
++       alignment =3D iomap_dio_alignment(inode, iomi->iomap.bdev, dio_flag=
+s);
++       if ((iomi->pos | count) & (alignment - 1)) {
+                ret =3D -EINVAL;
+                goto out_iomap_end;
+        }
+@@ -1092,14 +1015,14 @@ iomap_dio_simple(struct kiocb *iocb, struct
+iov_iter *iter,
+        if (user_backed_iter(iter))
+                dio_flags |=3D IOMAP_DIO_USER_BACKED;
+
+-       bio =3D bio_alloc_bioset(iomi.iomap.bdev,
++       bio =3D bio_alloc_bioset(iomi->iomap.bdev,
+                               bio_iov_vecs_to_alloc(iter, BIO_MAX_VECS),
+                               REQ_OP_READ, GFP_KERNEL, &iomap_dio_simple_p=
+ool);
+        sr =3D container_of(bio, struct iomap_dio_simple, bio);
+        sr->iocb =3D iocb;
+        sr->dio_flags =3D dio_flags;
+
+-       bio->bi_iter.bi_sector =3D iomap_sector(&iomi.iomap, iomi.pos);
++       bio->bi_iter.bi_sector =3D iomap_sector(&iomi->iomap, iomi->pos);
+        bio->bi_ioprio =3D iocb->ki_ioprio;
+
+        ret =3D bio_iov_iter_get_pages(bio, iter, alignment - 1);
+@@ -1124,8 +1047,8 @@ iomap_dio_simple(struct kiocb *iocb, struct
+iov_iter *iter,
+                WRITE_ONCE(iocb->private, bio);
+        }
+
+-       iomap_iter_advance(&iomi, count);
+-       iomap_iter(&iomi, iomap_next);
++       if (!(dio_flags & IOMAP_DIO_NO_IOMAP_END))
++               iomap_dio_simple_finish(iomi, iomap_next, count);
+
+        if (!wait_for_completion) {
+                bio->bi_end_io =3D iomap_dio_simple_end_io;
+@@ -1142,33 +1065,12 @@ iomap_dio_simple(struct kiocb *iocb, struct
+iov_iter *iter,
+ out_bio_put:
+        bio_put(bio);
+ out_iomap_end:
+-       iomap_iter(&iomi, iomap_next);
++       if (!(dio_flags & IOMAP_DIO_NO_IOMAP_END))
++               iomap_dio_simple_finish(iomi, iomap_next, 0);
+        inode_dio_end(inode);
+        return ret;
+ }
+-
+-ssize_t
+-iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
+-               iomap_next_fn iomap_next, const struct iomap_dio_ops *dops,
+-               unsigned int dio_flags, void *private, size_t done_before)
+-{
+-       struct iomap_dio *dio;
+-       ssize_t ret;
+-
+-       if (iomap_dio_simple_supported(iocb, iter, dops, dio_flags,
+-                                      done_before)) {
+-               ret =3D iomap_dio_simple(iocb, iter, iomap_next,
+private, dio_flags);
+-               if (ret !=3D -ENOTBLK)
+-                       return ret;
+-       }
+-
+-       dio =3D __iomap_dio_rw(iocb, iter, iomap_next, dops, dio_flags, pri=
+vate,
+-                            done_before);
+-       if (IS_ERR_OR_NULL(dio))
+-               return PTR_ERR_OR_ZERO(dio);
+-       return iomap_dio_complete(dio);
+-}
+-EXPORT_SYMBOL_GPL(iomap_dio_rw);
++EXPORT_SYMBOL_GPL(__iomap_dio_simple);
+
+ static int __init iomap_dio_init(void)
+ {
+diff --git a/fs/iomap/iter.c b/fs/iomap/iter.c
+index 984045af310a..1128f5b526ef 100644
+--- a/fs/iomap/iter.c
++++ b/fs/iomap/iter.c
+@@ -89,9 +89,6 @@ int iomap_iter_continue(const struct iomap_iter
+*iter, struct iomap *iomap,
+        bool stale =3D iomap->flags & IOMAP_F_STALE;
+        ssize_t advanced =3D iter->pos - iter->iter_start_pos;
+
+-       if (!iomap->length)
+-               return 1;
+-
+        /*
+         * Use iter->len to determine whether to continue onto the next map=
+ping.
+         * Explicitly terminate on error status or if the current iter has =
+not
+diff --git a/fs/iomap/trace.h b/fs/iomap/trace.h
+index e1ea8392cf47..e43ca419b13a 100644
+--- a/fs/iomap/trace.h
++++ b/fs/iomap/trace.h
+@@ -127,7 +127,8 @@ DEFINE_RANGE_EVENT(iomap_zero_iter);
+        {IOMAP_DIO_FORCE_WAIT,          "DIO_FORCE_WAIT" }, \
+        {IOMAP_DIO_OVERWRITE_ONLY,      "DIO_OVERWRITE_ONLY" }, \
+        {IOMAP_DIO_PARTIAL,             "DIO_PARTIAL" }, \
+-       {IOMAP_DIO_FSBLOCK_ALIGNED,     "DIO_FSBLOCK_ALIGNED" }
++       {IOMAP_DIO_FSBLOCK_ALIGNED,     "DIO_FSBLOCK_ALIGNED" }, \
++       {IOMAP_DIO_NO_IOMAP_END,        "DIO_NO_IOMAP_END" }
+
+ DECLARE_EVENT_CLASS(iomap_class,
+        TP_PROTO(struct inode *inode, struct iomap *iomap),
+diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+index a987ffbf3c02..6a551efff66f 100644
+--- a/fs/xfs/xfs_file.c
++++ b/fs/xfs/xfs_file.c
+@@ -251,7 +251,7 @@ xfs_file_dio_read(
+        struct iov_iter         *to)
+ {
+        struct xfs_inode        *ip =3D XFS_I(file_inode(iocb->ki_filp));
+-       unsigned int            dio_flags =3D 0;
++       unsigned int            dio_flags =3D IOMAP_DIO_NO_IOMAP_END;
+        const struct iomap_dio_ops *dio_ops =3D NULL;
+        ssize_t                 ret;
+
+diff --git a/include/linux/iomap.h b/include/linux/iomap.h
+index 3b41f123a92d..6213a3b1a0b9 100644
+--- a/include/linux/iomap.h
++++ b/include/linux/iomap.h
+@@ -10,6 +10,7 @@
+ #include <linux/mm_types.h>
+ #include <linux/blkdev.h>
+ #include <linux/folio_batch.h>
++#include <linux/pagemap.h>
+
+ struct address_space;
+ struct fiemap_extent_info;
+@@ -605,15 +606,136 @@ struct iomap_dio_ops {
+  */
+ #define IOMAP_DIO_BOUNCE               (1 << 4)
+
+-ssize_t iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
+-               iomap_next_fn iomap_next, const struct iomap_dio_ops *dops,
+-               unsigned int dio_flags, void *private, size_t done_before);
++/* optimization hint for the simple fast path */
++#define IOMAP_DIO_NO_IOMAP_END         (1 << 5)
++
+ struct iomap_dio *__iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter=
+,
+                iomap_next_fn iomap_next, const struct iomap_dio_ops *dops,
+                unsigned int dio_flags, void *private, size_t done_before);
+ ssize_t iomap_dio_complete(struct iomap_dio *dio);
+ void iomap_dio_bio_end_io(struct bio *bio);
+
++static inline bool
++iomap_dio_simple_supported(struct kiocb *iocb, struct iov_iter *iter,
++                          const struct iomap_dio_ops *dops,
++                          unsigned int dio_flags, size_t done_before)
++{
++       struct inode *inode =3D file_inode(iocb->ki_filp);
++       size_t count =3D iov_iter_count(iter);
++
++       if (dops || done_before)
++               return false;
++       if (iov_iter_rw(iter) !=3D READ)
++               return false;
++       if (!count)
++               return false;
++       if (count > inode->i_sb->s_blocksize)
++               return false;
++       if (dio_flags & (IOMAP_DIO_FORCE_WAIT | IOMAP_DIO_PARTIAL |
++                        IOMAP_DIO_BOUNCE))
++               return false;
++       if (iocb->ki_pos + count > i_size_read(inode))
++               return false;
++       if (IS_ENCRYPTED(inode))
++               return false;
++       return true;
++}
++
++ssize_t __iomap_dio_simple(struct kiocb *iocb, struct iov_iter *iter,
++               struct iomap_iter *iomi, iomap_next_fn iomap_next,
++               unsigned int dio_flags);
++
++/*
++ * Fast path for small, block-aligned direct I/Os that map to a single
++ * contiguous on-disk extent.
++ *
++ * iomap_dio_simple_supported() enforces the cheap up-front constraints be=
+fore
++ * entering this path.
++ *
++ * @dops must be NULL: a non-NULL @dops means the caller wants its
++ * ->end_io / ->submit_io hooks invoked, and in particular wants its bios =
+to be
++ * allocated from the filesystem-private @dops->bio_set (whose
+front_pad sizes a
++ * filesystem-private wrapper around the bio).  The fast path instead allo=
+cates
++ * from the shared iomap_dio_simple_pool, whose front_pad matches struct
++ * iomap_dio_simple; the two wrappers are not interchangeable, so we must =
+fall
++ * back to __iomap_dio_rw() in that case.
++ *
++ * @done_before must be zero: a non-zero caller-accumulated residual canno=
+t be
++ * carried through a single-bio inline completion.
++ *
++ * @iter must describe a non-empty READ no larger than the inode block siz=
+e:
++ * writes, zero-length I/O, and larger requests need the generic iomap dir=
+ect
++ * I/O path.
++ *
++ * @dio_flags must not request IOMAP_DIO_FORCE_WAIT, IOMAP_DIO_PARTIAL, or
++ * IOMAP_DIO_BOUNCE: this path does not support forced waiting, partial di=
+rect
++ * I/O, or bouncing.  The range must also stay within i_size and encrypted
++ * inodes must use the generic iomap direct I/O path. IOMAP_DIO_NO_IOMAP_E=
+ND is
++ * a fast-path optimization the caller can set if there is no work
+that needs to
++ * be done after a mapping.
++ *
++ * -ENOTBLK is the private sentinel returned by iomap_dio_simple() when it
++ * decides the request does not fit the fast path.  In that case we procee=
+d to
++ * the generic __iomap_dio_rw() slow path.  Any other errno is a real
+result and
++ * is propagated as-is, in particular -EAGAIN for IOCB_NOWAIT must reach t=
+he
++ * caller.
++ */
++static __always_inline ssize_t
++iomap_dio_simple(struct kiocb *iocb, struct iov_iter *iter,
++               iomap_next_fn iomap_next, void *private, unsigned int dio_f=
+lags)
++{
++       struct inode *inode =3D file_inode(iocb->ki_filp);
++       size_t count =3D iov_iter_count(iter);
++       struct iomap_iter iomi =3D {
++               .inode          =3D inode,
++               .pos            =3D iocb->ki_pos,
++               .len            =3D count,
++               .flags          =3D IOMAP_DIRECT,
++               .private        =3D private,
++       };
++       ssize_t ret;
++
++       if (iocb->ki_flags & IOCB_NOWAIT)
++               iomi.flags |=3D IOMAP_NOWAIT;
++
++       ret =3D kiocb_write_and_wait(iocb, count);
++       if (ret)
++               return ret;
++
++       inode_dio_begin(inode);
++
++       ret =3D iomap_next(&iomi, &iomi.iomap, &iomi.srcmap);
++       if (ret <=3D 0) {
++               inode_dio_end(inode);
++               /* a zero return means no mapping, which should never happe=
+n */
++               return ret ? ret : -EFAULT;
++       }
++
++       return __iomap_dio_simple(iocb, iter, &iomi, iomap_next, dio_flags)=
+;
++}
++
++static __always_inline ssize_t
++iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter, iomap_next_fn
+iomap_next,
++               const struct iomap_dio_ops *dops, unsigned int dio_flags,
++               void *private, size_t done_before)
++{
++       struct iomap_dio *dio;
++       ssize_t ret;
++
++       if (iomap_dio_simple_supported(iocb, iter, dops, dio_flags,
+done_before)) {
++               ret =3D iomap_dio_simple(iocb, iter, iomap_next, private,
++                               dio_flags);
++               if (ret !=3D -ENOTBLK)
++                       return ret;
++       }
++
++       dio =3D __iomap_dio_rw(iocb, iter, iomap_next, dops, dio_flags, pri=
+vate,
++                            done_before);
++       if (IS_ERR_OR_NULL(dio))
++               return PTR_ERR_OR_ZERO(dio);
++       return iomap_dio_complete(dio);
++}
++
+ #ifdef CONFIG_SWAP
+ struct file;
+ struct swap_info_struct;
+@@ -678,21 +800,22 @@ static __always_inline int iomap_process(const
+struct iomap_iter *iter,
+ {
+        int ret =3D 0;
+
+-       if (iomap->length && end) {
+-               ssize_t advanced =3D iter->pos - iter->iter_start_pos;
+-               loff_t len;
++       if (iomap->length) {
++               if (end) {
++                       ssize_t advanced =3D iter->pos - iter->iter_start_p=
+os;
++                       loff_t len;
+
+-               len =3D iomap_length_trim(iter, iter->iter_start_pos,
+-                               iter->len + advanced);
++                       len =3D iomap_length_trim(iter, iter->iter_start_po=
+s,
++                                       iter->len + advanced);
+
+-               ret =3D end(iter->inode, iter->iter_start_pos, len, advance=
+d,
+-                               iter->flags, iomap);
++                       ret =3D end(iter->inode, iter->iter_start_pos,
+len, advanced,
++                                       iter->flags, iomap);
++               }
++               ret =3D iomap_iter_continue(iter, iomap, srcmap, ret);
++               if (ret <=3D 0)
++                       return ret;
+        }
+
+-       ret =3D iomap_iter_continue(iter, iomap, srcmap, ret);
+-       if (ret <=3D 0)
+-               return ret;
+-
+        ret =3D begin(iter->inode, iter->pos, iter->len, iter->flags, iomap=
+,
+                        srcmap);
+
+I put the changes in a git tree [1] in case that's is more convenient
+for you. I think this ends up devirtualizing the iomap_next callback:
+
+before:
+$ objdump -dr fs/xfs/xfs.ko | awk '/<xfs_file_dio_read>:/{f=3D1}
+f{print} f&&/^$/{exit}'  | grep -E 'iomap_next|iomap_begin|thunk'
+                          a9ac3: R_X86_64_PLT32   __x86_return_thunk-0x4
+                          a9b4b: R_X86_64_32S     xfs_read_iomap_next
+                          a9b9c: R_X86_64_PLT32   __x86_return_thunk-0x4
+
+after:
+$ objdump -dr fs/xfs/xfs_iomap_next_inlined.ko | awk
+'/<xfs_file_dio_read>:/{f=3D1} f{print} f&&/^$/{exit}' | grep -E
+'iomap_next|iomap_begin|thunk'
+                          aa083: R_X86_64_PLT32   __x86_return_thunk-0x4
+                          aa1d4: R_X86_64_PLT32   xfs_read_iomap_next-0x4
+                          aa1ec: R_X86_64_32S     xfs_read_iomap_next
+                          aa232: R_X86_64_32S     xfs_read_iomap_next
+
+
+I was unsure how much bloat this adds but I didn't see a noticable
+impact when I ran ./scripts/bloat-o-meter:
+
+$ ./scripts/bloat-o-meter fs/xfs/xfs.ko fs/xfs/xfs_iomap_next_inlined.ko
+add/remove: 0/0 grow/shrink: 11/1 up/down: 589/-4 (585)
+Function                                     old     new   delta
+xfs_file_dio_read                            309     685    +376
+xfs_file_dio_write_aligned                   355     402     +47
+xfs_file_dio_write_unaligned                 545     591     +46
+xfs_file_dio_write_atomic                    457     502     +45
+xfs_dax_write_iomap_next                     267     291     +24
+xfs_atomic_write_cow_iomap_next             1151    1175     +24
+xfs_zoned_direct_write_iomap_next            217     224      +7
+xfs_direct_write_iomap_next                   77      84      +7
+xfs_buffered_write_iomap_next                373     379      +6
+xfs_xattr_iomap_next                         360     365      +5
+xfs_seek_iomap_next                          665     667      +2
+xfs_read_iomap_next                          681     677      -4
+Total: Before=3D1977941, After=3D1978526, chg +0.03%
+
+where the baseline xfs.ko was built at the commit in [2] and the
+xfs_iomap_next_inlined.ko was built at the commit in [3].  If these
+changes are acceptable to you, then I'll put this into v3 of the
+iomap_next series.
+
+Thanks,
+Joanne
+
+[1] https://github.com/joannekoong/linux/commits/iomap_simple_dio_iomap_nex=
+t/
+[2] https://github.com/joannekoong/linux/commit/1e82c8988ee56e9e7202d5ee09c=
+7f7ea7ac7a832
+[3] https://github.com/joannekoong/linux/commit/86ecc9de53bb1b8b1287950fbb7=
+45a5a8e49f736
