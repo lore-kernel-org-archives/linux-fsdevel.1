@@ -1,169 +1,183 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33253EC2EA
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 20:45:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783370716; cv=pass; b=oVI41wPhaGhnM5IwJTdyu2MFOZcd8cXxo3Jm0WCzx4eGxOGdDIyaO5vahD2FF2U/tQKeLuAFf/KRbpJz3o5tkTEazlCZ4iMHGEb4jFIFDDTcckK7ec3YpDSRSNwCQVWPOfz5JHUf1kW34vGkFRpDqfXdRtO7t8OKPOEzBFoUQxA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783370716; c=relaxed/simple;
-	bh=phi6SQmy+4cONU1PL1vQPLQEFyLKyQT86aaovfKBpOc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YMLM04VVYf6Z8uMFTGQ85R+eCodNNpLucJDaayq094wDDVxz+0I00qsbDpNmNkylG5imKIYQx49/7HFlTN4D4948RqMUrl4wVBUK/Qz/06Da1NX7f4QbaQ1l9jjZUM4Kq9RFfnraKapDl3WEQapbGRXf8/ga/cEYoYr89+jdEZA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qomqa6f1; arc=pass smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D03287257
+	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 20:47:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783370864; cv=none; b=Ai7xkORjjDGRrckVlBLL8fgsf5Msmn8bfclsk94W/u3p7OdaKLRUkThwhkAnYVXcMKYZljvsbzphkk+JkGs6OLcBrKD829g+y6I1GPDG4usgcjLORpMk4U9/iICo4Eh++OWukF7ceba0cfPd7YqJGOXF6HylWyjDoQFqm15yUak=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783370864; c=relaxed/simple;
+	bh=Lf93dUdHxBVLUDJymnZHFJwRoBGrs7hdj6qLUcfZ+fs=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=na8mlort7UlOQxS/cesjUwq16tCRjhDu2dO6GDlBySse14c2ZbPLtyD8aa41AJy3oOeh9HRcmoGFJhaRE1RsRSQLaO/ROJQN1O4bUxsjbmpAWrclq7T+c3zU7j0iaN/2iBRo/38SvmMMftgOslg7eEmHKUB40zaLZDT8zYUMLYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=ifcKmAwV; arc=none smtp.client-ip=195.121.94.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qomqa6f1"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-697bd21fdc2so5673158a12.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 13:45:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783370713; cv=none;
-        d=google.com; s=arc-20260327;
-        b=QlpIJVoTp8jgWgiN7E1wsVlHSUZd7WfnGOlIjHdWm1f2p6+MUdA1rXMQr1LK4jIcgC
-         N9Imxm9UrL6Xwoqbf6sW0tzSEiTIjlsKnoyzm0BQEWPjSAK13zYOKmPt5K/oh2vQ+dcb
-         GKYXrQhghtFsuiEZIG9+yTRyJLZG6ll5JcvgZFgggMgu9mv/4a4wwkmbzmlurYLZY2jS
-         SrceClJbnxRv/D+oPj39Ru65Z/jNq1n1eel7eWw4t0COCpCMAdTvbE2Dv2nF/htupV+F
-         tTmF4jfQiWP/f9JYZySuXGeoZjc/rm/qKP0tsA3LMmd+OP28i7xEza5hGyUiqEm6TnkI
-         yQyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=5mn0WIFY0QbIYXoHQHCik87iyafQr85dBmRqdJZRASE=;
-        fh=SmNcpIshSqVsf8DLvEh8X8V34DEAeu2cxmXHpLgsDh4=;
-        b=S1oLrjeQY9QQHaP4tlZhnnD2Q3MZAlInpS/erD6Wq7K+rriDZooyGANTATqtoMLyPR
-         jsYeMMmKnyeNasVuIVAv9I0VpUeADr7kkK01nHzo07kx49ZE2SO3PcHlS4YRFlgCdewz
-         /QIzqgceQt1Ajp4b9x7tRTRdT9TUg5lxhGdpCQxN+RN6bvAzoCSHHu0kLcdElWAhMZe2
-         lEZ5awq9E7h1GwxwSw62S0+XEbx+XemSSHHczPfVsBDHWG7dIP8XHiQcgUt4HmeQezXr
-         Vrco7bWOcwLnVdwwdWPZw2V0cYNtymRKAt0vUBqCfLmJlk2oOPE8aLVfw7sHTaWGfS1U
-         jEPg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="ifcKmAwV"
+X-KPN-MessageId: e96977e5-797b-11f1-a59f-005056994fde
+Received: from mta.kpnmail.nl (unknown [10.31.161.189])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id e96977e5-797b-11f1-a59f-005056994fde;
+	Mon, 06 Jul 2026 22:47:32 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id e9687087-797b-11f1-ae6a-0050569981f5;
+	Mon, 06 Jul 2026 22:47:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783370713; x=1783975513; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=5mn0WIFY0QbIYXoHQHCik87iyafQr85dBmRqdJZRASE=;
-        b=Qomqa6f1aE+5m1kWkNQT0C8Uziy/I+Z6fdFXgvPXWM5TA76yu/9wUgo97e+QmEhaXO
-         mnZksb9fHB/C7oTQBRpPFjA559rBvH0Aq6XiQtuTR9EzJNWJmBH2sLIVkh+pDXw0T9uh
-         3GRX7pRJRrId9NefK5MEGRdZ7brSc5TMOkpqK+AOQbZjS1BsnYhkVwAO4k8wUZqznv2e
-         SWpls4mnJvnn8hdzU9ZrCCvzUEbJoMZDHpSO1w8SUdSE+mAoaS+eOdvY+Vj+QH3ZgR8a
-         rl+t9tKUL/PWON97p4wKMUgeGUl8slEgmB81B23BzVGEMr+U7Pw9k+U820A7Nz+n2wB3
-         2wYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783370713; x=1783975513;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5mn0WIFY0QbIYXoHQHCik87iyafQr85dBmRqdJZRASE=;
-        b=rRWZhzI3x+XPfQDe3c39ktzqQd8FRoPAn2zYmiPMWN6HEVoX92gI2ys4fW+XfJbn28
-         LsLw5hd4j33No8wOKiFnz0I20fKDJO8W0PGRC8m1ZihToqnGPtCd11k/jJyjhMQwgXDL
-         GEnmMx2m8EIoL0n/uF/Tkxj31N+kJ21EnlK0MI87B0lsFtLSNZrI8sKL0nk8y22ZZw1q
-         sfTqB7lgsfgcgVRy3XAh3+vLWF/EspmauVlCkM5Lmbw7z7yLnGzhKzet57IMw+JaJQfk
-         VjjzwbnQaH+RVxD0XojUHTd6hRtAjojXyHDZGzPCwqsApoigoF0Vo9aA8kZY/8KDW2dJ
-         yGVg==
-X-Forwarded-Encrypted: i=1; AHgh+RoQ2ca8UNT5O24HfRSbJRAmr2hbgyMV8w3K0Uny1DcFtxUduqHy69sTR0oRUlgquglhq9OY63oYymEgr3F1@vger.kernel.org
-X-Gm-Message-State: AOJu0YymVCxhxvf2klL6opiv/AMHT+6EIBhJFOzyv5bEADpeEDTPaLVl
-	TtMLwW5X5Sd94rGsJ5Bb5VnjM6ZbTT68veZNPZM8gJCIVGaRAFIWmx/1K6DE15HCzlLbKoj/l8e
-	llyj9SbQ/GkFsN/eDR05DgqpJ/tv9lVo=
-X-Gm-Gg: AfdE7ckHIhKYyySP3H7b2EHnmFoDIBIqa1grOcoAa/AhSqrCoM6GoGVEmiqnkEBauyX
-	AuR+ZYWDvNi9v0P+vb2CZyv//YSnLYeGQ9dNdBpM4T0ykLtyKf0jBasozCCbuboJfWbEbD+4TQn
-	u6I+N2DBcmep1yzyuvSOEO7D49skdJU7f8k9p+eoGcWk4SLv7WlQiOU8PD5yVuldsj6HRQkWWcl
-	z9lOPDLG35gCZeFqjPyHZvUc9XvOl5G6c8LEQFDHfvSSU10CUUDCqMMGEunilmgsoIWTAWBTR5b
-	ja2ivjG+R29n8jH/rzaAtaKj05M48W4=
-X-Received: by 2002:a05:6402:24a1:b0:69a:4372:72ed with SMTP id
- 4fb4d7f45d1cf-69a85bd4a3cmr1152947a12.13.1783370713265; Mon, 06 Jul 2026
- 13:45:13 -0700 (PDT)
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=gf7ZbOddbbb1kDXO7xeT4kT27RWicQybeKhWT4sl+sI=;
+	b=ifcKmAwVCmzhz5GF6a/bFNh54i+MS8rgyN+Wl3BjkSlAvj0pfGtlSJA23UES8Ij5xnZR7RUnA59fm
+	 K0R0V4A/nBS4c1RqGxNtJLS54gqeDum6kMuMHHwU99+PWl5BJ28hQhiyycHq5lw+YwBRiTPHCJ38pP
+	 e03rYhGb+swwMPKH3gPGpfjwJUtBGRFE2PV59MUAlEwo2qm6vTBuVMRUbn8gAiEoyn3xcr2TPzktld
+	 BKC5v/jrSgJLcEceg4AC0L6wfSUpa2fI8RAIKPBrEuh2CjF+G9/rt7N4DHmMte/mh8+20ZEZEbkXAL
+	 Vh1HApbpo1EqiO72DvSM5tbQmZfOrmw==
+X-KPN-MID: 33|qpoOXjdBbpHAHqy/MiySwHleOCtEnYeXtEGtcqJQyUFrsFXCDFdnTFcZPeeuARN
+ fpsOZYREibiO+ZOnlroB2Ag==
+X-CMASSUN: 33|0XNythghk88H6Uf/HdyRbBMKNhYRKgG//TXVDnUFUABkP6l3y/OAbhFl0iZmyp8
+ VryUgRO0ZFiYpuNNK9yBoXQ==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh05 (cpxoxapps-mh05.personalcloud.so.kpn.org [10.128.135.211])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id e9545efe-797b-11f1-916a-005056995d6c;
+	Mon, 06 Jul 2026 22:47:32 +0200 (CEST)
+Date: Mon, 6 Jul 2026 22:47:32 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Jeremy Bingham <jbingham@gmail.com>, linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, brauner@kernel.org, jack@suse.cz
+Message-ID: <942891560.128364.1783370852771@kpc.webmail.kpnmail.nl>
+In-Reply-To: <7d62598a8be99c6218d05bfca56bc37f1e634a49.1783360491.git.jbingham@gmail.com>
+References: <cover.1783360491.git.jbingham@gmail.com>
+ <7d62598a8be99c6218d05bfca56bc37f1e634a49.1783360491.git.jbingham@gmail.com>
+Subject: Re: [PATCH 1/2] minix: define constants for dirsize and namelen
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260706-procfs-ns-eacces-fix-v1-1-a69ab14c02e6@google.com>
-In-Reply-To: <20260706-procfs-ns-eacces-fix-v1-1-a69ab14c02e6@google.com>
-From: Magnus Lindholm <linmag7@gmail.com>
-Date: Mon, 6 Jul 2026 22:45:01 +0200
-X-Gm-Features: AVVi8CcP74r82J481LtHNQ1kGkYmJsU-XepWM118pq-iMPREWKQZMjoT--4KfpM
-Message-ID: <CA+=Fv5Q1nhB4cWZvNVaA66FFkovpOe9DZu=k6fxrSyvNose5Vg@mail.gmail.com>
-Subject: Re: [PATCH] proc: Fix broken error paths for namespace links
-To: Jann Horn <jannh@google.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	"Christian Brauner (Amutable)" <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-On Mon, Jul 6, 2026 at 8:22=E2=80=AFPM Jann Horn <jannh@google.com> wrote:
->
-> Don't return the return value of down_read_killable() (0) when a ptrace
-> access check fails, return -EACCES as intended.
->
-> Reported-by: Magnus Lindholm <linmag7@gmail.com>
-> Closes: https://lore.kernel.org/r/20260706170735.2941493-1-linmag7@gmail.=
-com
-> Fixes: 6650527444da ("proc: protect ptrace_may_access() with exec_update_=
-lock (part 1)")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Jann Horn <jannh@google.com>
+
+> Op 06-07-2026 20:22 CEST schreef Jeremy Bingham <jbingham@gmail.com>:
+> 
+>  
+> The different versions of the minix fs have different values for
+> directory size and name length. Versions 1 and 2 each have two possible
+> values for each of those, while version 3 has one set of values for
+> each. Add defines for all of these to minix.h so we don't need to set
+> those values as magic numbers in minix_fill_super() in inode.c
+> 
+> Before:
+> 	sbi->s_dirsize = 16;
+> After:
+> 	sbi->s_dirsize = MINIX_V1_DIRSIZE;
+> 
+> There are no functional changes with this patch.
+> 
+> Signed-off-by: Jeremy Bingham <jbingham@gmail.com>
 > ---
->  fs/proc/namespaces.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/fs/proc/namespaces.c b/fs/proc/namespaces.c
-> index 2f46f1396744..ea6ec61a0430 100644
-> --- a/fs/proc/namespaces.c
-> +++ b/fs/proc/namespaces.c
-> @@ -46,7 +46,7 @@ static const char *proc_ns_get_link(struct dentry *dent=
-ry,
->         const struct proc_ns_operations *ns_ops =3D PROC_I(inode)->ns_ops=
-;
->         struct task_struct *task;
->         struct path ns_path;
-> -       int error =3D -EACCES;
-> +       int error;
->
->         if (!dentry)
->                 return ERR_PTR(-ECHILD);
-> @@ -59,6 +59,7 @@ static const char *proc_ns_get_link(struct dentry *dent=
-ry,
->         if (error)
->                 goto out_put_task;
->
-> +       error =3D -EACCES;
->         if (!ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS))
->                 goto out;
->
-> @@ -90,6 +91,7 @@ static int proc_ns_readlink(struct dentry *dentry, char=
- __user *buffer, int bufl
->         if (res)
->                 goto out_put_task;
->
-> +       res =3D -EACCES;
->         if (ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS)) {
->                 res =3D ns_get_name(name, sizeof(name), task, ns_ops);
->                 if (res >=3D 0)
->
-> ---
-> base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
-> change-id: 20260706-procfs-ns-eacces-fix-3abd8e307936
->
-> Best regards,
-> --
-> Jann Horn <jannh@google.com>
->
+>  fs/minix/inode.c | 20 ++++++++++----------
+>  fs/minix/minix.h | 23 ++++++++++++++++++++++-
+>  2 files changed, 32 insertions(+), 11 deletions(-)
+> 
+> diff --git a/fs/minix/inode.c b/fs/minix/inode.c
+> index c30cc590698d..95fa8371e4ea 100644
+> --- a/fs/minix/inode.c
+> +++ b/fs/minix/inode.c
+> @@ -258,25 +258,25 @@ static int minix_fill_super(struct super_block *s, struct fs_context *fc)
+>  	s->s_magic = ms->s_magic;
+>  	if (s->s_magic == MINIX_SUPER_MAGIC) {
+>  		sbi->s_version = MINIX_V1;
+> -		sbi->s_dirsize = 16;
+> -		sbi->s_namelen = 14;
+> +		sbi->s_dirsize = MINIX_V1_DIRSIZE;
+> +		sbi->s_namelen = MINIX_V1_NAMELEN;
+>  		s->s_max_links = MINIX_LINK_MAX;
+>  	} else if (s->s_magic == MINIX_SUPER_MAGIC2) {
+>  		sbi->s_version = MINIX_V1;
+> -		sbi->s_dirsize = 32;
+> -		sbi->s_namelen = 30;
+> +		sbi->s_dirsize = MINIX_V1_DIRSIZE2;
+> +		sbi->s_namelen = MINIX_V1_NAMELEN2;
+>  		s->s_max_links = MINIX_LINK_MAX;
+>  	} else if (s->s_magic == MINIX2_SUPER_MAGIC) {
+>  		sbi->s_version = MINIX_V2;
+>  		sbi->s_nzones = ms->s_zones;
+> -		sbi->s_dirsize = 16;
+> -		sbi->s_namelen = 14;
+> +		sbi->s_dirsize = MINIX_V2_DIRSIZE;
+> +		sbi->s_namelen = MINIX_V2_NAMELEN;
+>  		s->s_max_links = MINIX2_LINK_MAX;
+>  	} else if (s->s_magic == MINIX2_SUPER_MAGIC2) {
+>  		sbi->s_version = MINIX_V2;
+>  		sbi->s_nzones = ms->s_zones;
+> -		sbi->s_dirsize = 32;
+> -		sbi->s_namelen = 30;
+> +		sbi->s_dirsize = MINIX_V2_DIRSIZE2;
+> +		sbi->s_namelen = MINIX_V2_NAMELEN2;
+>  		s->s_max_links = MINIX2_LINK_MAX;
+>  	} else if ( *(__u16 *)(bh->b_data + 24) == MINIX3_SUPER_MAGIC) {
+>  		m3s = (struct minix3_super_block *) bh->b_data;
+> @@ -288,8 +288,8 @@ static int minix_fill_super(struct super_block *s, struct fs_context *fc)
+>  		s->s_maxbytes = m3s->s_max_size;
+>  		sbi->s_ninodes = m3s->s_ninodes;
+>  		sbi->s_nzones = m3s->s_zones;
+> -		sbi->s_dirsize = 64;
+> -		sbi->s_namelen = 60;
+> +		sbi->s_dirsize = MINIX_V3_DIRSIZE;
+> +		sbi->s_namelen = MINIX_V3_NAMELEN;
+>  		sbi->s_version = MINIX_V3;
+>  		sbi->s_mount_state = MINIX_VALID_FS;
+>  		if (!sb_set_blocksize(s, m3s->s_blocksize))
+> diff --git a/fs/minix/minix.h b/fs/minix/minix.h
+> index f2025c9b5825..972a71c5b481 100644
+> --- a/fs/minix/minix.h
+> +++ b/fs/minix/minix.h
+> @@ -11,6 +11,27 @@
+>  #define MINIX_V2		0x0002		/* minix V2 fs */
+>  #define MINIX_V3		0x0003		/* minix V3 fs */
+>  
+> +/* Define version and sub-version specific values for dirsize and name length.
+> + * These are not as clear-cut as having different values for versions 1, 2, and
+> + * 3, unfortunately, but rather there two possible values for each for versions
+> + * 1 and 2 and one possible set of values for version 3.
+> + *
+> + * These have separate defines for each subversion value for versions 1 and 2,
+> + * though; even though they duplicate each other, it will be more clear to have
+> + * them separate than trying to come up with a name that encompasses both
+> + * versions yet not be totally confusing.
+> + */
+> +#define MINIX_V1_DIRSIZE	16
+> +#define MINIX_V1_NAMELEN	14
+> +#define MINIX_V1_DIRSIZE2	32
+> +#define MINIX_V1_NAMELEN2	30
+> +#define MINIX_V2_DIRSIZE	16
+> +#define MINIX_V2_NAMELEN	14
+> +#define MINIX_V2_DIRSIZE2	32
+> +#define MINIX_V2_NAMELEN2	30
+> +#define MINIX_V3_DIRSIZE	64
+> +#define MINIX_V3_NAMELEN	60
+> +
+>  /*
+>   * minix fs inode data in memory
+>   */
+> -- 
+> 2.47.3
 
-Hi Jann,
+Hi Jeremy,
 
-Thanks for the quick fix. I applied this on top of v7.2-rc1 together with
-my Alpha generic-entry series, and the strace testsuite is back to the
-expected state. In particular, the --pidns-translation tests that previousl=
-y
-failed due to strace seeing ENOTTY from the namespace fd now pass again.
+Thanks for taking the time to look at minix. I have a particular fondness of the
+filesystem, so I am happy someone takes an interest.
 
-Tested-by: Magnus Lindholm linmag7@gmail.com
+However, I don't like this series. There is no reason for all this churn or the
+exorbitant amount of comments. If you can get iomap to work that would be great,
+but please don't do this.
 
 Thanks,
-Magnus
+Jori.
