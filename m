@@ -1,148 +1,181 @@
-Received: from mail-oo1-f77.google.com (mail-oo1-f77.google.com [209.85.161.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EDE3803D1
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 21:44:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A229D3A9013
+	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 22:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783374261; cv=none; b=P7HrlBCedKNEB+Dlp2Ce66kh6wen4rG7VGnxtoNtip0KTSyMnYq2UOFAf61DRgb43zAiq7j7c/YpDz58eonvZDwm97qDXlzMob549y98ONQfSD1yMFJXVteJ9oPKQx6MXdnHElWdjXlX/K/XcF58l/qJ0iLRFsZsiBsUBL2HC9Q=
+	t=1783375828; cv=none; b=RfHcJNfdMa+Ll4uZSZhk2i4Bg/m4nDVvwK3rAAo7pDLD7Cg+ioxMDoIwCk5bO1C5xSfpYQlaOYB6gVF+WHPKk+Gi0M4DDTFy5kMQ78yQDqOU4XAth8a2sqkAqQDomXGumgwrwYpbdscyAKMn39eD7FacdsKQCyAbWcaBnwmxZ5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783374261; c=relaxed/simple;
-	bh=e1SF7iWuEYA7wT1vRotUpCtzMz+9DM8Fel8wN4Y9PmI=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=UC8Iwszq/O9Z0MUB3sGJWCxFScuFdc0uLr83lXnQLW/v1ILprDwFHnmgmkET5wVAckOEgdPFC3MN6mg7nI6d82Os6u/IvOyWrRrMEG9YeEun8ZR/evrPONlEN/YmDh01pybl57UJj2W0IaNJJnIue/SpgWMZHGdbKVnM0hTzlKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f77.google.com with SMTP id 006d021491bc7-6a17baa4d18so4184751eaf.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 14:44:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783374259; x=1783979059;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DvmabBm/M9qkJJFMc6B6+g0RDsgWnVpyxWpzSORwHSo=;
-        b=fg/H76Y2hjhUI94tGiu2Mr6G9SxDLaGupiLP8UnfPAU78QEuAWfv1OBU21nAuopccz
-         rl3l4Su3GRdqYsQ2Kzb9GLhG/l/BDzQ5zr1TICZo4ML1l9Uqpr4eDGIIM3jqjeMLtZsL
-         IPFAqk9g+WYO6diwFDt1xijhqbdN5a3nQWTRPpjdRKoI9zCMae+YpLvcBdHWAoFU11C6
-         IApwUhhWvTSJ0fq+wAT4uJC9zbChnE/i2CavCEu1uPXUZZFC2gmA6duceQMQhni/XicI
-         lMnu7GdIP0hhDeJR+CLjL3JsVkv14hvjzr6qQZfczqRSYgfoqGvyBtISR2WheFd9V8VV
-         IjfQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/qz1S1gWFUX+uROLFV7nY7+dKFwTGc1+7SQSDPHo4fRk7QQayZsWd04auZz+48Z5mbURqCH4QV7eLOkwb1@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxe67NVXCSGQYpW2Ap48uCnf7ZEQyltFN4CCDUdkTI6REeocMyg
-	ngZu50e+pOS9PoMWV2ShreU5sUx4BzKmietVIm0rABCytzYeTdLy4wtwHr1F6+rrNhES0I4qu/2
-	+hQxtMBXmVudsOTlkAsIOPt+gznsJNI99teqAaKty03HWQuT9d1oIlkT4A1o=
+	s=arc-20240116; t=1783375828; c=relaxed/simple;
+	bh=bWal4tda9gP/2bfQfOevnJOENyFr15IVRN3Qf4Dzz3g=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=ZCyjastvto46IYsOcd7605JHXclylb02p9tWY8tzBpTqSakpOjh16nBCZm8tlP3702+bqkMH3ojndu0UdQ/v+S7ttb4GU+h6VqwpbxYRJSUHWkQFT+94ps7DPWPcVF4XG1mey32lkgwx8ls0nXlj+QSW4dUwtq/Dz+mayoAyQWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=NVIMNSqf; arc=none smtp.client-ip=195.121.94.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="NVIMNSqf"
+X-KPN-MessageId: 78bb1a12-7987-11f1-bfba-00505699b430
+Received: from mta.kpnmail.nl (unknown [10.31.161.190])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 78bb1a12-7987-11f1-bfba-00505699b430;
+	Tue, 07 Jul 2026 00:10:17 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 78ba2283-7987-11f1-b2fe-0050569977a2;
+	Tue, 07 Jul 2026 00:10:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=UNQ8WJpi2ryzyBfIjlBVgT3cvMuDODARX54BM6UC+Z4=;
+	b=NVIMNSqfL0egWMQKf+vmVxFaJMmg0+H6t8HBI3K6amVRvXnYLnW55tFQTt2GWaz721BueeS8V4WOQ
+	 rJiqOjXTBsNJ//JOlkDVl6zB8sGggHM7+ItvgKW1R0BJ1hw5ccjTOz9Qa7Y5TGd+USgn3FAv198ebr
+	 hdGYPjH1Hh+20h/OjL/SjieRs2mk0ZrPMVyXG4XWxyh8M/qlZrBuyWlekVqApO6CS6tfOi9x8FFAUQ
+	 8rIZpRRntRudd3LwL3Y/69zeo8THLh4dSIiMwtZfRsjZ41LBeUUpjtX+EJNfJuaYXjWdEZRFaYIj9k
+	 FDuNewyPjm0/XMVa88Y+BHuw61ZRf2Q==
+X-KPN-MID: 33|nQGKXVHvONsZbAvoljBKhjz9A3taWBjzyuUhD+jTC7XlFwEvHx6ngmV/pa1vpiC
+ 0JRIKLXRErqPmoUSuD3lIfmr3YHTjoUxUN0XY9hmtv1A=
+X-CMASSUN: 33|Jf8sE3uqAWNopZGHM5My1ZuLWUdGem7SqhJ5Ek92vve9XVAdPA6viALyuOUrfUr
+ VfbdFpgAnOccUo4YyDYT6ZQ==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh04 (cpxoxapps-mh04.personalcloud.so.kpn.org [10.128.135.210])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 78b4a1c8-7987-11f1-916a-005056995d6c;
+	Tue, 07 Jul 2026 00:10:17 +0200 (CEST)
+Date: Tue, 7 Jul 2026 00:10:17 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>, NeilBrown <neil@brown.name>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org
+Message-ID: <1991496397.134753.1783375817781@kpc.webmail.kpnmail.nl>
+In-Reply-To: <20260706-steril-fragil-worunter-f48995ef1b29@brauner>
+References: <20260705235447.1322365-1-neilb@ownmail.net>
+ <20260705235447.1322365-4-neilb@ownmail.net>
+ <20260706-steril-fragil-worunter-f48995ef1b29@brauner>
+Subject: Re: [PATCH v2 3/3] VFS: add vfs_lookup_open() for nfsd
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:1797:b0:6a1:50e9:d586 with SMTP id
- 006d021491bc7-6a35556394fmr1504720eaf.67.1783374259504; Mon, 06 Jul 2026
- 14:44:19 -0700 (PDT)
-Date: Mon, 06 Jul 2026 14:44:19 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a4c21b3.c76b52dc.34afef.0002.GAE@google.com>
-Subject: [syzbot] [netfs?] WARNING in netfs_writepages (3)
-From: syzbot <syzbot+0da43efa72f88bd3a8af@syzkaller.appspotmail.com>
-To: dhowells@redhat.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netfs@lists.linux.dev, pc@manguebit.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    7404ce516372 Merge tag 's390-7.2-3' of git://git.kernel.or..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=119f1661580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=48ef5c5c0f192153
-dashboard link: https://syzkaller.appspot.com/bug?extid=0da43efa72f88bd3a8af
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1727ebde580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=172dbec1580000
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-7404ce51.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/e63433d84892/vmlinux-7404ce51.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/7542fae0615e/bzImage-7404ce51.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+0da43efa72f88bd3a8af@syzkaller.appspotmail.com
-
-R10: 0000000000028011 R11: 0000000000000246 R12: 0000000000000001
-R13: 00007fe029a25fac R14: 00007fe029a25fa0 R15: 00007fe029a25fa0
- </TASK>
-------------[ cut here ]------------
-folio != NULL
-WARNING: fs/netfs/write_issue.c:603 at netfs_writepages+0x883/0xa10 fs/netfs/write_issue.c:603, CPU#3: syz.0.17/5919
-Modules linked in:
-CPU: 3 UID: 0 PID: 5919 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:netfs_writepages+0x883/0xa10 fs/netfs/write_issue.c:603
-Code: 48 89 df e8 3f 8b 7b ff 48 8b 4c 24 08 48 89 da 4c 89 e6 4c 89 f7 e8 ec 34 7f ff 48 85 c0 0f 84 c1 fe ff ff e8 0e c7 3d ff 90 <0f> 0b 90 e9 b3 fe ff ff e8 00 c7 3d ff 48 b8 00 00 00 00 00 fc ff
-RSP: 0018:ffffc9000415f178 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffffea00014f2580 RCX: ffffffff824b4bda
-RDX: ffff88802bcea540 RSI: ffffffff82cc0992 RDI: ffff88802bcea540
-RBP: fffffffffffffff4 R08: 0000000000000001 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000000 R12: ffffc9000415f348
-R13: ffff888046848bc0 R14: ffff888046848dd8 R15: dffffc0000000000
-FS:  0000555567857500(0000) GS:ffff8880d60ec000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000200000002901 CR3: 0000000025ac6000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- do_writepages+0x278/0x600 mm/page-writeback.c:2571
- filemap_writeback+0x22d/0x2e0 mm/filemap.c:387
- v9fs_mmap_vm_close fs/9p/vfs_file.c:496 [inline]
- v9fs_mmap_vm_close+0x137/0x1e0 fs/9p/vfs_file.c:489
- vma_close mm/internal.h:190 [inline]
- vms_clean_up_area mm/vma.c:1318 [inline]
- __mmap_setup mm/vma.c:2476 [inline]
- __mmap_region+0x890/0x2db0 mm/vma.c:2756
- mmap_region+0x527/0x620 mm/vma.c:2860
- do_mmap+0xc63/0x12f0 mm/mmap.c:560
- vm_mmap_pgoff+0x29e/0x470 mm/util.c:581
- ksys_mmap_pgoff+0x3cb/0x610 mm/mmap.c:606
- __do_sys_mmap arch/x86/kernel/sys_x86_64.c:89 [inline]
- __se_sys_mmap arch/x86/kernel/sys_x86_64.c:82 [inline]
- __x64_sys_mmap+0x125/0x190 arch/x86/kernel/sys_x86_64.c:82
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fe02979de59
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fff3ad0a858 EFLAGS: 00000246 ORIG_RAX: 0000000000000009
-RAX: ffffffffffffffda RBX: 00007fe029a25fa0 RCX: 00007fe02979de59
-RDX: 0000000000000002 RSI: 0000000000b36000 RDI: 0000200000000000
-RBP: 00007fff3ad0a8c0 R08: 0000000000000004 R09: 0000000000000000
-R10: 0000000000028011 R11: 0000000000000246 R12: 0000000000000001
-R13: 00007fe029a25fac R14: 00007fe029a25fa0 R15: 00007fe029a25fa0
- </TASK>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+> Op 06-07-2026 15:33 CEST schreef Christian Brauner <brauner@kernel.org>:
+> 
+>  
+> > vfs_lookup_open() is a limited version of lookup_open() which is
+> > exported for nfsd to use - to replace dentry_create().
+> > 
+> > It is limited in that no filename is given (thus no auditing) and no
+> > LOOKUP_ flags are passed.  A few "intent" LOOKUP flags are deduced from
+> > the open flags.
+> > 
+> > If a non-regular file is found, an O_PATH file is returned.  This allows
+> > the caller to see what was found and to return an appropriate error
+> > code.  However if ->atomic_open was used, it may return an error rather
+> > then provide a dentry.
+> > 
+> > Signed-off-by: NeilBrown <neil@brown.name>
+> >
+> > diff --git a/fs/namei.c b/fs/namei.c
+> > index 1ca738401afa..002ffae7083d 100644
+> > --- a/fs/namei.c
+> > +++ b/fs/namei.c
+> > @@ -4568,6 +4568,76 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+> >  	goto out;
+> >  }
+> >  
+> > +/**
+> > + * vfs_lookup_open - open and possibly create a regular file
+> > + * @parent: directory to contain file
+> > + * @last: final component of file name
+> > + * @open_flag: O_flags
+> > + * @mode: initial permissions for file
+> > + *
+> > + * Open a file after lookup and/or create.  This provides similar
+> > + * functionality open_last_lookups() for in-kernel users, particularly
+> > + * nfsd.
+> > + * It uses ->atomic_open or ->lookup / ->create / ->open as appropriate.
+> > + *
+> > + * Returns: the opened struct file, or an error.
+> > + *     Caller should check that the file opened is regular,
+> > + *     if something else was found, an O_PATH file is provided.
+> > + *     Caller should validate FMODE_CREATED if O_EXCL was requested.
+> > + */
+> > +struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
+> > +			     int open_flag, umode_t mode)
+> > +{
+> > +	struct file *file __free(fput) = NULL;
+> > +	struct nameidata nd = {};
+> > +	struct open_flags op = {};
+> > +	struct dentry *dentry;
+> > +	int error = 0;
+> > +
+> > +	WARN_ONCE(mode & !S_IALLUGO, "mode must only have permission bits");
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Typo here.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+> > +	error = lookup_noperm_common(last, parent->dentry);
+> > +	if (error)
+> > +		return ERR_PTR(error);
+> > +
+> > +	file = alloc_empty_file(open_flag, current_cred());
+> > +	if (IS_ERR(file))
+> > +		return file;
+> > +
+> > +	nd.path = *parent;
+> > +	nd.last = *last;
+> > +	nd.flags = LOOKUP_OPEN;
+> > +	if (open_flag & O_CREAT) {
+> > +		nd.flags |= LOOKUP_CREATE;
+> > +		if (open_flag & O_EXCL)
+> > +			nd.flags |= LOOKUP_EXCL;
+> > +	}
+> > +	op.open_flag = open_flag;
+> > +	op.mode = S_IFREG | mode;
+> > +	dentry = lookup_open(&nd, file, &op);
+> > +
+> > +	if (IS_ERR(dentry))
+> > +		return ERR_CAST(dentry);
+> > +
+> > +	if (d_really_is_negative(dentry)) {
+> > +		error = -ENOENT;
+> > +	} else if (!(file->f_mode & FMODE_OPENED)) {
+> > +		nd.path.dentry = dentry;
+> > +		if (!d_is_reg(dentry))
+> > +			/*
+> > +			 * allow caller to see dentry and choose
+> > +			 * correct error code
+> > +			 */
+> > +			file->f_flags |= O_PATH;
+> > +		error = vfs_open(&nd.path, file);
+> 
+> Imho, that really throws a wrench into this function. I'd rather just
+> fail with well-known error codes in that case:
+> 
+> /* directory */ -> EISDIR
+> /* device */    -> ENODEV
+> 
+> Also, why does the caller need to know details here? Because of the
+> O_DIRECTORY work? But even so, EFTYPE would be enough afaict, I think?
+> 
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+If that is the reason it would be easier to just ban O_DIRECTORY from the
+start here, if vfs_lookup_open() is meant to only ever open/create regular
+files.
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+Is that the case, Neil?
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+Now that I think about it, I think you also want to restrict the O_* flags.
+lookup_open() normally does not get passed __O_TMPFILE or O_PATH afaik, and
+it would probably a bad idea to start passing it these flags. Maybe also don't
+want to allow O_TRUNC.
 
-If you want to undo deduplication, reply with:
-#syz undup
+> -- 
+> Christian Brauner <brauner@kernel.org>
