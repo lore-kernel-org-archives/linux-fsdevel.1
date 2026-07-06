@@ -1,464 +1,225 @@
-Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0F9F21638D;
-	Mon,  6 Jul 2026 04:35:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783312515; cv=none; b=XBu2FoIfHrSFcguG8wmXQgl0e9txAR7wC41LK0ygLFZFF656VnhPGAln24DUZ6wsWQHv7THidar3F1xWyu2R6kr7obk/sdjoZ2oHZVsUlzIlyJ6QGqXvbFWdhb8wH/1AM/vzAINZrSfaAwcx6B+i+VGDiGpWYHHvMnlLAA2ThGk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783312515; c=relaxed/simple;
-	bh=loDCywPA4hp+nOW5Q3cYmG5I2jthQ44KkogZ2DLaJhs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=krdm5SxZy6EtGM4G9YC5bUfaX9/eb1ka90Y/JfpNsHXRRwEEzqdSY4y3IRwVhddj6zIxbrnDJz0R0ABKepxduitV16ZXR1SQ9d+Z4LX5RjreIiBbWv24h6YhLX+pcdYEMnMRHt8wkB8mUPvm69TlyPlCN3ci7meVdReszsQXY5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c2dff70000001609-ab-6a4b2cf160ad
-Date: Mon, 6 Jul 2026 13:19:55 +0900
-From: Byungchul Park <byungchul@sk.com>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
-	damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
-	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
-	mingo@redhat.com, peterz@infradead.org, will@kernel.org,
-	tglx@linutronix.de, rostedt@goodmis.org, joel@joelfernandes.org,
-	sashal@kernel.org, daniel.vetter@ffwll.ch, duyuyang@gmail.com,
-	johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
-	willy@infradead.org, david@fromorbit.com, amir73il@gmail.com,
-	gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
-	akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
-	hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org,
-	jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
-	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
-	ngupta@vflare.org, linux-block@vger.kernel.org,
-	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
-	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
-	djwong@kernel.org, dri-devel@lists.freedesktop.org,
-	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
-	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
-	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
-	max.byungchul.park@gmail.com, boqun.feng@gmail.com,
-	longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
-	yeoreum.yun@arm.com, netdev@vger.kernel.org,
-	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
-	catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org,
-	hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
-	gustavo@padovan.org, christian.koenig@amd.com,
-	andi.shyti@kernel.org, arnd@arndb.de, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, rppt@kernel.org, surenb@google.com,
-	mcgrof@kernel.org, da.gomez@kernel.org, samitolvanen@google.com,
-	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
-	joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
-	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
-	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
-	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
-	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
-	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
-	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
-	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
-	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
-	yuzhao@google.com, baolin.wang@linux.alibaba.com,
-	usamaarif642@gmail.com, joel.granados@kernel.org,
-	richard.weiyang@gmail.com, geert+renesas@glider.be,
-	tim.c.chen@linux.intel.com, linux@treblig.org,
-	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
-	chenhuacai@kernel.org, francesco@valla.it,
-	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
-	masahiroy@kernel.org, brauner@kernel.org,
-	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
-	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, 2407018371@qq.com, dakr@kernel.org,
-	miguel.ojeda.sandonis@gmail.com, neilb@ownmail.net,
-	bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
-	dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
-	alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
-	lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
-	tmgross@umich.edu, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v18 34/42] dept: add module support for struct
- dept_event_site and dept_event_site_dep
-Message-ID: <20260706041955.GA23385@system.software.com>
-References: <20251205071855.72743-1-byungchul@sk.com>
- <20251205071855.72743-35-byungchul@sk.com>
- <7afb6666-43b6-4d17-b875-e585c7a5ac99@suse.com>
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3E43B3BEB
+	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 04:40:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783312820; cv=pass; b=dqepzcYBBp7Q+jz9AxFAowuLixrzwAcaXBhPQ9lnok7E1QhjYHahv+oSP6XP2IB0KqPeuEF7S6zV2kwY/SU5WRqDDaDP3S2lTTxlczuMnkT0c2IefjjSHaPwkN89/b4tknAjS+Vs88tFsu27ZoZPTvwtNWdnIbr/JS2T7xrzEoY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783312820; c=relaxed/simple;
+	bh=D8AkvWV8LRM0dC6Ir9apda1Q/tm0zhoQFQDn1KfjrmQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eV5QVoXl3OcBC24wh4UtSZxOFV5vqWsdNP5dewgRz4O9CzyBJIttg/RxUlyvMLA3okptEkVxFXL6qE9wLly5bquYqDouDCfKwpZRgYYPoApCOmy54aIbS+z/zhP9PafKvkkdHzQS3Z9fPM1pXxtBOO79YWc6V6SJJmbSlAD+HwQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V01S6z/X; arc=pass smtp.client-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V01S6z/X"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-806449d108aso36772627b3.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 05 Jul 2026 21:40:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783312818; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Gs/a6Cw2LhKoWxYDKbu6OkwX2PHPGc1eAi0UvW3YmbwELcfO0byVLgSmpdlRqP60fN
+         fhexKxLyGleb58X0Gy7+POa1yX2osVarI14RUz3q+DtjXZsHrODdLAcakgi/Mm5nQorw
+         XNTudojGniOkWvDRQcTe1Ez0qaKewCix1JhODZH0vXw0iElKdpjCGltIF/sQNAeEFSCd
+         iH4Y+Jon/RRXp2gvN0wKjEtjoDkZt19YnKMpqayABNSzehgFfJuG9nGNZYgf6pv4KrTZ
+         QP/7BopHjgWtuDXoawhPGOKebAteuU1gps+94wV05BAcAZfYzQZmGl++q97cxn1Q0kH3
+         155Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=zOnXzH4IyieCY63L0SRNfR4gFdrJzI9y1M82tOjINV4=;
+        fh=ATtGLBTydaCERBQ/a04GvxhvZSKE4fzVFZ2aJcxNa8M=;
+        b=d1LqWeIu4PM2VS205W+ojin93gjTQ4Si9v5a8ytnuNmegOePALQuEfBBITDjY7RBi8
+         rAzlpwQkiTDY8xgP9B/RR7SfdQ4VyzrepL387USk/cZ5rpTjBAgyp+uDpbF6/KcpWNP6
+         O7pjEh0+W8JvP1J5kbEnX/LXRd4uw1E+uhRhNgedutj6/qy664+mR0/ZQFZqZYdjd9IE
+         O2HaWKJz16EdCUEZ03mEvMyWy3GwQk4IJ0LpMwdkEp/nG5hVHFClDfX27O1lNad2lQGC
+         dBEJbln7ZctNkzfK0N/smXeNweTo/gV1syjUDX11101RjDZsyK5JrnAKKQNWPp3HjBrX
+         sSwQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783312818; x=1783917618; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=zOnXzH4IyieCY63L0SRNfR4gFdrJzI9y1M82tOjINV4=;
+        b=V01S6z/Xl+POpqvfWm5K/hsT/sWbOnQMOHVT1kFFkHrFUeRu/hQ4K07eveWawgchPn
+         vGZq4+t5eAdR6vY7sImbFtqKMF5ZD1Y/wp1bL7tFrcH3kNwf42CE8FKdUDnueEwKShFv
+         yn1rQ64TQUXDzUSsywP5+mvVjJBgZ8kOjlBTruyytKEQuQbxCwKEkcbkVGGEXoWxoka9
+         0sW1E2srUvjTTR3VWSdAopYrJcUdCHXTJfUyTF/YjEOi0expNs2MfKmSpaq8/QVsimcO
+         rhKHcwvIWOCVjvxxPfMvTi/3sVyoXDWfnPPkS3OqM9V5JuFyXikAtY/qgme4Uwioj3NJ
+         h9IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783312818; x=1783917618;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zOnXzH4IyieCY63L0SRNfR4gFdrJzI9y1M82tOjINV4=;
+        b=KRsWGuCQcGZy3JQBOB/kwaUUeP3aX/1qayx4Iu9ZAgpwhCXC1lHW2l7yOBJgV6v8Zd
+         VfTnyi0RLCnm365eBh/Dg7yXDs31suauosX0y97/fzKirR6A/XVaakcLV3E/0IbHw7IQ
+         XIiBJ1A6DrUte7wDYuvcSAPy0dYScAd3EJzWYezFysHSTUrIMeacCi6D5XaPU1/1+lAB
+         FNIdWdFK2fGN+OC7fFrKQj8NRtyqPWeGGLqKOOXYAghCp71f7xB/2qGFe6LrYqnXuy7c
+         qbgO+JEvoS4pPC5xN1ehOk3V+S0u6Jhtlv442ZuEvyHJfQfN+eioT7rSX1dir0GPv1Eg
+         1z+Q==
+X-Forwarded-Encrypted: i=1; AHgh+Rr9+0vnzNHumRGivlHQnZzHbdKsVdbtu8gEfdQ+fYRMpkPJmjBOO4AzkfJg13zHUVDztkaVmP76iRqQw4Hy@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSdDqWVQLhPV/4+0Pfafpq+M+9Z2GnSroGLkm7IXcihHhWj/kk
+	MsecPUiAlAUDi3870pcE2c/MJdMl+XAk9p8Pg+umbUslbK1lxJ9nEbcVI3DHEUKmXbJeDcJR5vh
+	/b++XvQUQklJ1CnloHvWp6zL71kkCqE0=
+X-Gm-Gg: AfdE7ckzA1Ij0ICTqzjuySG+JeLMMxFpQifSsxSzVnwusHkxB9l+1FVQANQbk8wjHA7
+	IUyiWDuPuUHv8CKq0TrkqaiAZA2iZCY9BtNwStEOD6Dz1zrNJasnNYcZrb9wKdk3OL2KwCUsfmq
+	oMPLIKKbTM0Hr8OuBVqkH7Di+wXHEb+PrgoHWGA4MAgZvBsyNAPglDu1EYr9Ku7PGHjiEnPSYYd
+	/Med3KkdDx/eOIMbfyy2Ifb0TFys5sWKY6V303sLCzBGkci7xtreWFvXMlDAnh2wxO3z3HCzqlq
+	Qk8COpI0ftfekpA=
+X-Received: by 2002:a05:690c:730a:b0:80f:9998:e614 with SMTP id
+ 00721157ae682-8173861628amr91069697b3.28.1783312817771; Sun, 05 Jul 2026
+ 21:40:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7afb6666-43b6-4d17-b875-e585c7a5ac99@suse.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTVxiAc+4996ONXe46jGeybLGbHyFD0Wny4tzC9mPe6JKZ7MeiaFwj
-	N6NYCivKZMYMWEpqhUoYZbMsE/zA0laoJQgY2JDv4iQMGHbDusJYGSOgsApCoVtLZua/J+c8
-	5znvj5enlRfZ9bxGd0LS69RaFSvH8uk1lfGzr+9PS/jxXgIYDV9Az718DP01DgS/PTYiWAiV
-	07BS0sVBcHGEA0segn9auhD87QqzMNU+h+BhVSGCyc69UDUepmBu0o9gcPw58FjOsTDjYqEi
-	v4WBwK8tFDT5b3Fwp/gSBcuj26HLMcGB77wFg+fBMANTgRIWGnL9HLh/6UQQHBqlwFkYoKGy
-	4AqG5hYPBuNKMNK+9S0Lha56Bvpb7zAw4OjHUDvhpcBjrcYw6vcycH3mEgsDrRUU5N2+jME2
-	+3VkgJ8LKOguaqXgvvkvDB21DRS4ncMsLPkaGehd6qVgzDzNgaFwkQPHTxgsy0YWyvPMCIwd
-	8zTUdy5wEHoS+dvctxeeuH5nIOiwR4zOB1xSkrhgMGPR+Z0TiaGlEiQaiiPUZPVxYoX7pFhn
-	ixMvN09Sott+lhUrQ3/Soml6iBLvDzez4kxfHyf2fBPCYlu7MfJoNPHAhkPyPSmSVpMt6be9
-	/bE89Wq1DWfWpJ5y9g3iXPRonwnJeCLsJI9GwtRTNn+fz0UZC6+RwJUAjjIrbCZe7yJtQjwf
-	EzkfGHvHhOQ8LZS9TDx1RibqvCBoSftXs1TUUQhABrsPRh2lUIqI5VrNakchPE88F8ZXmRbi
-	iDc8uerTQiy5FuajKBP2EHPZrqixVniVtN7spqIZIgRk5OHd+f/GfJHctnlxMRKsz1Stz1St
-	/1crEG1HSo0uO12t0e7cmpqj05zaeiwj3Y0ia1t1Zjm5Ec31f9iGBB6p1iggaV+aklFnZ+Wk
-	tyHC06oYxaYt+9OUihR1zueSPuOo/qRWympDsTxWrVPsmP8sRSl8oj4hHZekTEn/9JbiZetz
-	0acG+Rsz8VKw/I/a2Eyf/b3SqR03Pripr5PuHhMyEimmKHPj8ZXqUELD7p6x0+cO5Vi3lO26
-	YD+8/MPjl5oKNLZ1m08X7X7/oyOvOCe+DL+ZvOEGYzk/Ijvj080dcSbHmY4GD/vdBzTzCs1Q
-	B+Ths+9y8b2NpcmmjdWJfL0sxjX0lgpnpaq3x9H6LPW/m7IatLIDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxTH8zz36e2lWL2rLNxpXJY6xbDh5jaS40uMfuIJZEazqNlLMju9
-	kZaCpmVMXAyW2ghlNlBtO1sVRKgMKjpwKppqB5OXiRtYN8mUVU1XJbwL1fBSsCVZ9MvJ/5z/
-	739yPhyOUUxLFnHqnFxRl6PSKlkZkW1aa0wZfT9D82FLmRSKTAXwIBCUwN8GH4HweBGBE+c9
-	LERcl6Nmw3EJtN8rJNBVX4cgEC5C8GLKxYCpaZZAxNoqhfGJ+1KwGRDMelsR2LutDPR03WDA
-	c9GAYezCDAv9Lc8Q2B4FWXD0GQgMu39A4Ay5pNB3Mw0GA9ckMNv7BMO95wMI3MEZDEHfYQQR
-	exaUVzZG4/YRFqZu/8mAw9aF4PSjXgae9T1EcLH1XwTemkIW/iv9hQF/cD7cDQ+z0GErYWGw
-	+wSGoQssVBR6JdDd2Y/gpMuKIPSPF4PxzHkW7CcbCDQ9vCqF7v5pDA/sVgx1DZ9CwB0icKu0
-	EkfPjVI/J4LLYcTR8hSD7dw1DBPuWumGakRfmCyE1jZewtR0J8JSzykPolOTVkTHq40MNZVG
-	25aBYYYeavyOVt8aYOlk+C+Wep9XEPp7pUCriicxLbudQpucvdLNG7+QrdslatV5ou6D9Ttk
-	mdU/1ZC99Zn7PH/4yUE0km5GcZzAfyJYrhdKY5rw7wqhqhCJaZZPEnp6Jhgz4riE6PzO441m
-	JOMY3v620NFYJIkxC3mt0HJ0FMcYOQ+Cv+3zGKPgjyHBdrZ+bo+cf0PoOB6c0wyfLPTM9M3x
-	DL9YODvDxWQcv06w2FNjxJv8UsF3qQ2XIrnztbDztbDzVbgCMbUoQZ2Tl61Sa1NX6rMy83PU
-	+1bu3JPdgKI/6T4wXXYFjfvTmhHPIeU8OWxI1ygkqjx9fnYzEjhGmSBfviJDo5DvUuXvF3V7
-	vtZ9qxX1zWgxR5SJ8vTt4g4Fv1uVK2aJ4l5R97+LubhFB1E53XrloyVflozeLWm7uXw+OYws
-	W8wRTa1vTI7rBosP/Xauqrxy2YKkjPurtcbZ+NyrQ/vfqypoHx06Yo7b9vRAxabdGkOid82v
-	nd6wMeGYs1NVnNpeQMc+OypYPr6xos6X5k/+vis+MPJN63BNkvGtr9agBY4lP4ZSOtNTHKse
-	x7+jJPpM1apkRqdXvQRKKENIjwMAAA==
-X-CFilter-Loop: Reflected
+References: <20260625031932.9412-1-skyexpoc@gmail.com>
+In-Reply-To: <20260625031932.9412-1-skyexpoc@gmail.com>
+From: =?UTF-8?B?SEUgV0VJ77yI44Ku44Kr44Kv77yJ?= <skyexpoc@gmail.com>
+Date: Mon, 6 Jul 2026 13:40:06 +0900
+X-Gm-Features: AVVi8Ce43FfU1cKW-FBAZHSrlCukoxXFF6_BDnfgxzzWAyZckTsskWpZDHXvtdQ
+Message-ID: <CAOC0qyLj55itFPEurfNddWpzzcPJ4j3bvDxfWBRev_GzPLL+mw@mail.gmail.com>
+Subject: Re: [PATCH v2] fs/ntfs3: fix slab-out-of-bounds write in ni_create_attr_list()
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 07, 2026 at 01:19:00PM +0100, Petr Pavlu wrote:
-> On 12/5/25 8:18 AM, Byungchul Park wrote:
-> > struct dept_event_site and struct dept_event_site_dep have been
-> > introduced to track dependencies between multi event sites for a single
-> > wait, that will be loaded to data segment.  Plus, a custom section,
-> > '.dept.event_sites', also has been introduced to keep pointers to the
-> > objects to make sure all the event sites defined exist in code.
-> >
-> > dept should work with the section and segment of module.  Add the
-> > support to handle the section and segment properly whenever modules are
-> > loaded and unloaded.
-> >
-> > Signed-off-by: Byungchul Park <byungchul@sk.com>
-> 
-> Below are a few comments from the module loader perspective.
-> 
-> > ---
-> >  include/linux/dept.h     | 14 +++++++
-> >  include/linux/module.h   |  5 +++
-> >  kernel/dependency/dept.c | 79 +++++++++++++++++++++++++++++++++++-----
-> >  kernel/module/main.c     | 15 ++++++++
-> >  4 files changed, 103 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/include/linux/dept.h b/include/linux/dept.h
-> > index 44083e6651ab..c796cdceb04e 100644
-> > --- a/include/linux/dept.h
-> > +++ b/include/linux/dept.h
-> > @@ -166,6 +166,11 @@ struct dept_event_site {
-> >       struct dept_event_site          *bfs_parent;
-> >       struct list_head                bfs_node;
-> >
-> > +     /*
-> > +      * for linking all dept_event_site's
-> > +      */
-> > +     struct list_head                all_node;
-> > +
-> >       /*
-> >        * flag indicating the event is not only declared but also
-> >        * actually used in code
-> > @@ -182,6 +187,11 @@ struct dept_event_site_dep {
-> >        */
-> >       struct list_head                dep_node;
-> >       struct list_head                dep_rev_node;
-> > +
-> > +     /*
-> > +      * for linking all dept_event_site_dep's
-> > +      */
-> > +     struct list_head                all_node;
-> >  };
-> >
-> >  #define DEPT_EVENT_SITE_INITIALIZER(es)                                      \
-> > @@ -193,6 +203,7 @@ struct dept_event_site_dep {
-> >       .bfs_gen = 0,                                                   \
-> >       .bfs_parent = NULL,                                             \
-> >       .bfs_node = LIST_HEAD_INIT((es).bfs_node),                      \
-> > +     .all_node = LIST_HEAD_INIT((es).all_node),                      \
-> >       .used = false,                                                  \
-> >  }
-> >
-> > @@ -202,6 +213,7 @@ struct dept_event_site_dep {
-> >       .recover_site = NULL,                                           \
-> >       .dep_node = LIST_HEAD_INIT((esd).dep_node),                     \
-> >       .dep_rev_node = LIST_HEAD_INIT((esd).dep_rev_node),             \
-> > +     .all_node = LIST_HEAD_INIT((esd).all_node),                     \
-> >  }
-> >
-> >  struct dept_event_site_init {
-> > @@ -225,6 +237,7 @@ extern void dept_init(void);
-> >  extern void dept_task_init(struct task_struct *t);
-> >  extern void dept_task_exit(struct task_struct *t);
-> >  extern void dept_free_range(void *start, unsigned int sz);
-> > +extern void dept_mark_event_site_used(void *start, void *end);
-> 
-> Nit: The coding style recommends not using the extern keyword with
-> function declarations.
-> 
-> https://www.kernel.org/doc/html/v6.19-rc4/process/coding-style.html#function-prototypes
-> 
-> >
-> >  extern void dept_map_init(struct dept_map *m, struct dept_key *k, int sub_u, const char *n);
-> >  extern void dept_map_reinit(struct dept_map *m, struct dept_key *k, int sub_u, const char *n);
-> > @@ -288,6 +301,7 @@ struct dept_event_site { };
-> >  #define dept_task_init(t)                            do { } while (0)
-> >  #define dept_task_exit(t)                            do { } while (0)
-> >  #define dept_free_range(s, sz)                               do { } while (0)
-> > +#define dept_mark_event_site_used(s, e)                      do { } while (0)
-> >
-> >  #define dept_map_init(m, k, su, n)                   do { (void)(n); (void)(k); } while (0)
-> >  #define dept_map_reinit(m, k, su, n)                 do { (void)(n); (void)(k); } while (0)
-> > diff --git a/include/linux/module.h b/include/linux/module.h
-> > index d80c3ea57472..29885ba91951 100644
-> > --- a/include/linux/module.h
-> > +++ b/include/linux/module.h
-> > @@ -29,6 +29,7 @@
-> >  #include <linux/srcu.h>
-> >  #include <linux/static_call_types.h>
-> >  #include <linux/dynamic_debug.h>
-> > +#include <linux/dept.h>
-> >
-> >  #include <linux/percpu.h>
-> >  #include <asm/module.h>
-> > @@ -588,6 +589,10 @@ struct module {
-> >  #ifdef CONFIG_DYNAMIC_DEBUG_CORE
-> >       struct _ddebug_info dyndbg_info;
-> >  #endif
-> > +#ifdef CONFIG_DEPT
-> > +     struct dept_event_site **dept_event_sites;
-> > +     unsigned int num_dept_event_sites;
-> > +#endif
-> >  } ____cacheline_aligned __randomize_layout;
-> >  #ifndef MODULE_ARCH_INIT
-> >  #define MODULE_ARCH_INIT {}
-> 
-> My understanding is that entries in the .dept.event_sites section are
-> added by the dept_event_site_used() macro and they are pointers to the
-> dept_event_site_init struct, not dept_event_site.
-> 
-> > diff --git a/kernel/dependency/dept.c b/kernel/dependency/dept.c
-> > index b14400c4f83b..07d883579269 100644
-> > --- a/kernel/dependency/dept.c
-> > +++ b/kernel/dependency/dept.c
-> > @@ -984,6 +984,9 @@ static void bfs(void *root, struct bfs_ops *ops, void *in, void **out)
-> >   * event sites.
-> >   */
-> >
-> > +static LIST_HEAD(dept_event_sites);
-> > +static LIST_HEAD(dept_event_site_deps);
-> > +
-> >  /*
-> >   * Print all events in the circle.
-> >   */
-> > @@ -2043,6 +2046,33 @@ static void del_dep_rcu(struct rcu_head *rh)
-> >       preempt_enable();
-> >  }
-> >
-> > +/*
-> > + * NOTE: Must be called with dept_lock held.
-> > + */
-> > +static void disconnect_event_site_dep(struct dept_event_site_dep *esd)
-> > +{
-> > +     list_del_rcu(&esd->dep_node);
-> > +     list_del_rcu(&esd->dep_rev_node);
-> > +}
-> > +
-> > +/*
-> > + * NOTE: Must be called with dept_lock held.
-> > + */
-> > +static void disconnect_event_site(struct dept_event_site *es)
-> > +{
-> > +     struct dept_event_site_dep *esd, *next_esd;
-> > +
-> > +     list_for_each_entry_safe(esd, next_esd, &es->dep_head, dep_node) {
-> > +             list_del_rcu(&esd->dep_node);
-> > +             list_del_rcu(&esd->dep_rev_node);
-> > +     }
-> > +
-> > +     list_for_each_entry_safe(esd, next_esd, &es->dep_rev_head, dep_rev_node) {
-> > +             list_del_rcu(&esd->dep_node);
-> > +             list_del_rcu(&esd->dep_rev_node);
-> > +     }
-> > +}
-> > +
-> >  /*
-> >   * NOTE: Must be called with dept_lock held.
-> >   */
-> > @@ -2384,6 +2414,8 @@ void dept_free_range(void *start, unsigned int sz)
-> >  {
-> >       struct dept_task *dt = dept_task();
-> >       struct dept_class *c, *n;
-> > +     struct dept_event_site_dep *esd, *next_esd;
-> > +     struct dept_event_site *es, *next_es;
-> >       unsigned long flags;
-> >
-> >       if (unlikely(!dept_working()))
-> > @@ -2405,6 +2437,24 @@ void dept_free_range(void *start, unsigned int sz)
-> >       while (unlikely(!dept_lock()))
-> >               cpu_relax();
-> >
-> > +     list_for_each_entry_safe(esd, next_esd, &dept_event_site_deps, all_node) {
-> > +             if (!within((void *)esd, start, sz))
-> > +                     continue;
-> > +
-> > +             disconnect_event_site_dep(esd);
-> > +             list_del(&esd->all_node);
-> > +     }
-> > +
-> > +     list_for_each_entry_safe(es, next_es, &dept_event_sites, all_node) {
-> > +             if (!within((void *)es, start, sz) &&
-> > +                 !within(es->name, start, sz) &&
-> > +                 !within(es->func_name, start, sz))
-> > +                     continue;
-> > +
-> > +             disconnect_event_site(es);
-> > +             list_del(&es->all_node);
-> > +     }
-> > +
-> >       list_for_each_entry_safe(c, n, &dept_classes, all_node) {
-> >               if (!within((void *)c->key, start, sz) &&
-> >                   !within(c->name, start, sz))
-> > @@ -3337,6 +3387,7 @@ void __dept_recover_event(struct dept_event_site_dep *esd,
-> >
-> >       list_add(&esd->dep_node, &es->dep_head);
-> >       list_add(&esd->dep_rev_node, &rs->dep_rev_head);
-> > +     list_add(&esd->all_node, &dept_event_site_deps);
-> >       check_recover_dl_bfs(esd);
-> >  unlock:
-> >       dept_unlock();
-> > @@ -3347,6 +3398,23 @@ EXPORT_SYMBOL_GPL(__dept_recover_event);
-> >
-> >  #define B2KB(B) ((B) / 1024)
-> >
-> > +void dept_mark_event_site_used(void *start, void *end)
-> 
-> Nit: I suggest that dept_mark_event_site_used() take pointers to
-> dept_event_site_init, which would catch the type mismatch with
-> module::dept_event_sites.
-> 
-> > +{
-> > +     struct dept_event_site_init **evtinitpp;
-> > +
-> > +     for (evtinitpp = (struct dept_event_site_init **)start;
-> > +          evtinitpp < (struct dept_event_site_init **)end;
-> > +          evtinitpp++) {
-> > +             (*evtinitpp)->evt_site->used = true;
-> > +             (*evtinitpp)->evt_site->func_name = (*evtinitpp)->func_name;
-> > +             list_add(&(*evtinitpp)->evt_site->all_node, &dept_event_sites);
-> > +
-> > +             pr_info("dept_event_site %s@%s is initialized.\n",
-> > +                             (*evtinitpp)->evt_site->name,
-> > +                             (*evtinitpp)->evt_site->func_name);
-> > +     }
-> > +}
-> > +
-> >  extern char __dept_event_sites_start[], __dept_event_sites_end[];
-> 
-> Related to the above, __dept_event_sites_start and
-> __dept_event_sites_end can already be properly typed here.
-> 
-> >
-> >  /*
-> > @@ -3356,20 +3424,11 @@ extern char __dept_event_sites_start[], __dept_event_sites_end[];
-> >  void __init dept_init(void)
-> >  {
-> >       size_t mem_total = 0;
-> > -     struct dept_event_site_init **evtinitpp;
-> >
-> >       /*
-> >        * dept recover dependency tracking works from now on.
-> >        */
-> > -     for (evtinitpp = (struct dept_event_site_init **)__dept_event_sites_start;
-> > -          evtinitpp < (struct dept_event_site_init **)__dept_event_sites_end;
-> > -          evtinitpp++) {
-> > -             (*evtinitpp)->evt_site->used = true;
-> > -             (*evtinitpp)->evt_site->func_name = (*evtinitpp)->func_name;
-> > -             pr_info("dept_event %s@%s is initialized.\n",
-> > -                             (*evtinitpp)->evt_site->name,
-> > -                             (*evtinitpp)->evt_site->func_name);
-> > -     }
-> > +     dept_mark_event_site_used(__dept_event_sites_start, __dept_event_sites_end);
-> >       dept_recover_ready = true;
-> >
-> >       local_irq_disable();
-> > diff --git a/kernel/module/main.c b/kernel/module/main.c
-> > index 03ed63f2adf0..82448cdb8ed7 100644
-> > --- a/kernel/module/main.c
-> > +++ b/kernel/module/main.c
-> > @@ -2720,6 +2720,11 @@ static int find_module_sections(struct module *mod, struct load_info *info)
-> >                                               &mod->dyndbg_info.num_classes);
-> >  #endif
-> >
-> > +#ifdef CONFIG_DEPT
-> > +     mod->dept_event_sites = section_objs(info, ".dept.event_sites",
-> > +                                     sizeof(*mod->dept_event_sites),
-> > +                                     &mod->num_dept_event_sites);
-> > +#endif
-> >       return 0;
-> >  }
-> >
-> > @@ -3346,6 +3351,14 @@ static int early_mod_check(struct load_info *info, int flags)
-> >       return err;
-> >  }
-> >
-> > +static void dept_mark_event_site_used_module(struct module *mod)
-> > +{
-> > +#ifdef CONFIG_DEPT
-> > +     dept_mark_event_site_used(mod->dept_event_sites,
-> > +                          mod->dept_event_sites + mod->num_dept_event_sites);
-> > +#endif
-> > +}
-> > +
-> 
-> It seems to me that the .dept.event_sites section can be discarded after
-> the module is initialized. In this case, the section should be prefixed
-> by ".init" and its address can be obtained at the point of use in
-> dept_mark_event_site_used_module(), without needing to store it inside
-> the module struct.
-> 
-> Additionally, what is the reason that the dept_event_site_init data is
-> not stored in the .dept.event_sites section directly and it requires
-> a level of indirection?
-> 
-> In general, for my own understanding, I also wonder whether the check to
-> determine that a dept_event_site is used needs to be done at runtime, or
-> if it could be done at build time by objtool/modpost.
+Hi Konstantin,
 
-I appreciate your feedback and it was so helpful, but I decided to defer
-the part supporting recover events tracking - 33/42 ~ 35/42 in this
-series - to a follow-up patch later with the feedback applied, as it
-unnecessarily complicates the initial DEPT patchset and significantly
-increases the review burden.
+Gentle ping on this v2. It's an attacker-controlled on-disk image heap
+out-of-bounds write in ni_create_attr_list(),
+reachable via setxattr on a crafted, loop-mounted NTFS image (KASAN
+trace is in the commit message), which is why it's Cc'd to stable.
 
-	Byungchul
+For the record, the fix was first posted as v1 on 2026-06-10:
+https://lore.kernel.org/ntfs3/20260610002929.51765-1-skyexpoc@gmail.com/
+This v2 (2026-06-25) only adds Cc: stable and widens review to
+linux-fsdevel; the fix itself is unchanged from v1.
 
-> >  /*
-> >   * Allocate and load the module: note that size of section 0 is always
-> >   * zero, and we rely on this for optional sections.
-> > @@ -3508,6 +3521,8 @@ static int load_module(struct load_info *info, const char __user *uargs,
-> >       /* Done! */
-> >       trace_module_load(mod);
-> >
-> > +     dept_mark_event_site_used_module(mod);
-> > +
-> >       return do_init_module(mod);
-> >
-> >   sysfs_cleanup:
-> 
+Could you let me know if you'd like any changes, or whether it can be
+queued for a future bugfix pull? I'm happy to rebase or adjust as
+needed.
+
+Thanks,
+HE WEI (=E3=82=AE=E3=82=AB=E3=82=AF)
+
+hewei-gikaku <skyexpoc@gmail.com> =E4=BA=8E2026=E5=B9=B46=E6=9C=8825=E6=97=
+=A5=E5=91=A8=E5=9B=9B 12:19=E5=86=99=E9=81=93=EF=BC=9A
+>
+> From: HE WEI (=E3=82=AE=E3=82=AB=E3=82=AF) <skyexpoc@gmail.com>
+>
+> ni_create_attr_list() allocates a fixed buffer of al_aligned(record_size)
+> (=3D=3D record_size) bytes and then walks every attribute of the primary =
+MFT
+> record, writing one ATTR_LIST_ENTRY per attribute and advancing the curso=
+r
+> by le_size(name_len), with no check against the end of the buffer; the
+> total size is only computed after the loop.
+>
+> A minimum-size resident attribute occupies SIZEOF_RESIDENT (0x18 =3D 24)
+> bytes on disk, but an unnamed attribute expands to le_size(0) (0x20 =3D 3=
+2)
+> bytes in the list.  Because the number of attributes in a record is not
+> bounded (mi_enum_attr() accepts arbitrarily many equal-type, nameless
+> minimum-size attributes), a crafted record packed with such attributes
+> produces a list larger than record_size and overflows the heap buffer.
+>
+> This is reachable from a crafted, loop-mounted NTFS image: opening the fi=
+le
+> and adding an attribute (e.g. via setxattr) drives ntfs_set_ea() ->
+> ni_insert_resident() -> ni_insert_attr() -> ni_ins_attr_ext() ->
+> ni_create_attr_list().
+>
+>   BUG: KASAN: slab-out-of-bounds in ni_create_attr_list+0xc48/0x1058
+>   Write of size 4 at addr ffff000008984c00 by task setfattr/345
+>    ni_create_attr_list+0xc48/0x1058
+>    ni_ins_attr_ext+0x510/0x7c0
+>    ni_insert_attr+0x3f8/0x70c
+>    ni_insert_resident+0xc8/0x3b0
+>    ntfs_set_ea+0x66c/0xd28
+>    ntfs_setxattr+0x4d8/0x5b0
+>    __arm64_sys_setxattr+0xa4/0x124
+>   Allocated by task 345:
+>    ni_create_attr_list+0x188/0x1058
+>   The buggy address belongs to the cache kmalloc-1k of size 1024
+>   (the write lands at object+1024).
+>
+> Size the buffer from the actual attributes instead of assuming a single
+> record_size is always enough.
+>
+> Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: HE WEI (=E3=82=AE=E3=82=AB=E3=82=AF) <skyexpoc@gmail.com>
+> ---
+> v2:
+>  - Add Cc: stable@vger.kernel.org: this is an attacker-controlled on-disk
+>    image heap out-of-bounds write and should be backported.
+>  - No functional change from v1; widening Cc (linux-fsdevel, VFS) for
+>    review, as the v1 posting received no response.
+>  - Drop a redundant self Reported-by.
+>
+> v1: https://lore.kernel.org/all/20260610002929.51765-1-skyexpoc@gmail.com=
+/
+> ---
+>  fs/ntfs3/frecord.c | 20 ++++++++++++++++----
+>  1 file changed, 16 insertions(+), 4 deletions(-)
+>
+> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+> index 2e901d073fe9..6488d7a415c0 100644
+> --- a/fs/ntfs3/frecord.c
+> +++ b/fs/ntfs3/frecord.c
+> @@ -768,10 +768,23 @@ int ni_create_attr_list(struct ntfs_inode *ni)
+>         rs =3D sbi->record_size;
+>
+>         /*
+> -        * Skip estimating exact memory requirement.
+> -        * Looks like one record_size is always enough.
+> +        * Compute the exact size of the attribute list.  Each attribute =
+in the
+> +        * record yields one ATTR_LIST_ENTRY of le_size(name_len) bytes. =
+ The
+> +        * minimum on-disk attribute is SIZEOF_RESIDENT (0x18) bytes, but=
+ an
+> +        * unnamed one expands to le_size(0) (0x20) here, so a record cra=
+fted
+> +        * with many such attributes needs more than a single record_size=
+; the
+> +        * previous fixed kzalloc(record_size) could therefore be overflo=
+wed by
+> +        * an attacker-controlled record.
+>          */
+> -       le =3D kzalloc(al_aligned(rs), GFP_NOFS);
+> +       lsize =3D 0;
+> +       attr =3D NULL;
+> +       while ((attr =3D mi_enum_attr(ni, &ni->mi, attr)))
+> +               lsize +=3D le_size(attr->name_len);
+> +
+> +       if (!lsize)
+> +               return -EINVAL;
+> +
+> +       le =3D kzalloc(al_aligned(lsize), GFP_NOFS);
+>         if (!le)
+>                 return -ENOMEM;
+>
+> @@ -781,7 +794,6 @@ int ni_create_attr_list(struct ntfs_inode *ni)
+>         attr =3D NULL;
+>         nb =3D 0;
+>         free_b =3D 0;
+> -       attr =3D NULL;
+>
+>         for (; (attr =3D mi_enum_attr(ni, &ni->mi, attr)); le =3D Add2Ptr=
+(le, sz)) {
+>                 sz =3D le_size(attr->name_len);
 > --
-> Thanks,
-> Petr
+> 2.43.0
