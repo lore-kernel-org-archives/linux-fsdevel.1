@@ -1,132 +1,216 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05663955D7
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 22:18:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E701389110
+	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 22:33:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783376300; cv=none; b=WP+F/i8wX8cuz07EmbwNSCcS/hRJIpS7i9sJf+LReeT6K0x8Tq8+NSJMCHZ8AMkkmOH6OfLSlhqiBxcqRGoklW9dgg2KL+1VY9rI/yf53BZnCNBj4boGOc9KrT8AUNArNEVV6INxvdffAVzFxtonHJ2m2mM3yj15zSzLiWpNaAg=
+	t=1783377189; cv=none; b=ozTZF4ahAKKFYmteTzdfk4OcdsFC6tSTLD2RN3I+LbY6RRA1UU9/88x65oHT1CtWoXnFyNugr/JrXgYhbfK6n59MXbHSIbq/YyPB8cSBwZ1Jx65unC0LhY4PWzBG2YOqvG/6zvnakoASzSomreR5kboHtTtvduh6Pl+FKH2NqMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783376300; c=relaxed/simple;
-	bh=vVu1/ZfusyWyUlXSHFbQ33ZMYcoaMsuREt0pDNgM/Xk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fvIV0eDjhAZhC+ghsfWkNSYP73Z8Apc6xGmdepmO4TyIf7nSDxwbVljnk7dkeYez9AKfb9szL6jc117j2NX6E/pKm0eVBoOhBhSlMiwu/C0ZQPa3GclAmTK946Q/1m5mi+rEs1ijta9BTFY3Ahjza4P3fjwhrlKJKeq9RgV6t0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=dkyqEz79; arc=none smtp.client-ip=209.85.128.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1783377189; c=relaxed/simple;
+	bh=d6x5aXsouUYJ2R6gZe/7V7EIijEyalChJZWZHRCr+wA=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=k6Di32eVOBIa3mWKiAK1lcQO/w/RiYAz5B+rPOuHMtYo/wPKUVRitSCihlEhF0DBHQnp0RaRH+myjLzdrBBPjLxo2Wu45gHN4887tJUrkmjLfs3Z7LVVns1s+FZ9btpZ9QxP1cadV4VWiAlzP353Ch5FM8+DTE7YDPrUoQy5Maw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=ik4oI3Fe; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KX8MttXS; arc=none smtp.client-ip=103.168.172.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="dkyqEz79"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-80e46c00f3bso42562267b3.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 15:18:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1783376298; x=1783981098; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=V8kit//p+j7fVOKhkkd89j29XfkkpMx1ayw70tlBpbA=;
-        b=dkyqEz79md2PPAaHVCeF0b1xteyeuSXkuYIm31R8pW+1ySTwM7grRVyhnTtl8F9P4d
-         wMYEH23CiLNaZxr+sGLQXiTB/KSia9YaLl9Ssr68J2YUt3ZOj4JE8ANjr5E6J0i9w2MG
-         SYkwchVroPyAQVGaVVxnzpPMxU7OFneAoHi1w8lD66gU5ySY/ailV4sGZesv95EiIIyY
-         U5MIvU9oe20p68jevaitMVUTW+6ek9Hcy3rqwAcq98WmwjCC3//wa/qrmFZbw5puN9qL
-         jYlW/RKsrh4Iybc4s8EmPngSiA6o1IbaNnhKMHNE3tLqxiYOQjQI/96CKu3BHCcFghiv
-         kaNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783376298; x=1783981098;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V8kit//p+j7fVOKhkkd89j29XfkkpMx1ayw70tlBpbA=;
-        b=LMtjLl3gQCqCRO3a5zWtTm9X9hvpaYOIjF9cx8IaIjVmyhle3UENUp5vajCCIDUVno
-         bIN3el2nZ60lynn/tkB6Dae4jIPOPXYj/6qwL00s1TZOftsD/e+dp4pDL/enSDrNStst
-         Q3cmqpzwYUpIcgOXK+5A/+M4nr39Ez0Ki28EDwKfw7ol9PDrvEQj8RSOLkVncPr8dC4T
-         QDdUBcslQc1U1BBG7szXkykd7uPT3rDE3MOei0XgsJlFGwOa7a3hene1lRwpGjXZ6GJ0
-         W7AP0S2OAOmk0SDuMtn33DiZv91wrs9DqW45yTI7AQMfa5hwpK0Dz3GMGg4LZlu5CVmI
-         M1tQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqcSUlS4a7ewPbtsWKANrFArqdZ8Cww4IqeYSMQvoWk257+IsEhmiTkszL0taVpSE8qexEZETmqDe5s//6U@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTB/OUyABNwvdcd5BcIX5Wrw3Yd/9TUVpGLJEA9N4rMeeEC6lD
-	jUTZ0Ad3HFhhfzcHk8M6xz+aZ5qIlVZQUVyDNw860Gw1KubeCI32gVhnlA7A2c304a83veGcVEe
-	22HlfixA=
-X-Gm-Gg: AfdE7cmGDkMZE9c/EMzG03AbzPtiqL7O5FTjf3hyR22h17y7+0RTBu15aiLbEUgz3Di
-	zZ9DevkrLMFfYwIDXBork0H+9hHlm9nzxc3SWk5lkAedtza49KCa+dn5S5mtsUVeWVZ82E7hJeh
-	Fbh5kWOD8Eka5n84gkVKi0J5pVqbZ95AVUi2ubKOYHBIkAHGjYi8JGpXDqy0ghZknwmWjFn4QiI
-	yiMc/f6bImVTF1SGhXxYFvM0ZRxDfpsEgYGbmtDVygtaHHQ8QnaDymTNGRnUjQBVS8X8G6LaFqN
-	V2hfAmF8gw+iR9MP7uylEOI8KepS+9N+RkpmpB3yXbJSFPSnRtcN5jbpvaZ1fPHUc8B5daw1Uja
-	OJ1NLXp+qYCbI2xQ3+7WNk8z8+1g6GbLaboowIlfx+7ha7h98j6vNkKLqaWTOfqOkllEhOUnN12
-	UsW/MhMPjnWYHWylynmJWH1noAqsLKNKEX2vbAAffNcaVCXiaboPto2I6xl95FEpco9uiQsXarm
-	eJI4U1SO/2TWu/en5/1nwML9tbxw8SwH563AZtVJ7k6S5Hz8K/V+lsPKb0vE/w=
-X-Received: by 2002:a05:690c:6a10:b0:812:a784:9989 with SMTP id 00721157ae682-81be2668beemr18102757b3.43.1783376297609;
-        Mon, 06 Jul 2026 15:18:17 -0700 (PDT)
-Received: from system76-pc.attlocal.net ([2600:1700:6476:1430:fc23:ea94:e881:d8a4])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8144af52027sm63692437b3.25.2026.07.06.15.18.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 15:18:16 -0700 (PDT)
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: glaubitz@physik.fu-berlin.de,
-	linux-fsdevel@vger.kernel.org,
-	frank.li@vivo.com
-Cc: Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH] hfs: fix error code when writing beyond volume capacity
-Date: Mon,  6 Jul 2026 15:18:05 -0700
-Message-ID: <20260706221804.140295-2-slava@dubeyko.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="ik4oI3Fe";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KX8MttXS"
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 23D351400043;
+	Mon,  6 Jul 2026 18:33:06 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-09.internal (MEProxy); Mon, 06 Jul 2026 18:33:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
+	1783377186; x=1783463586; bh=h93AkcpJm1mOpYXO4SLEktKUvXqhZ2+KlWw
+	MA0doleU=; b=ik4oI3Fe8ATwdJGqx/hpW8KL/Rfr2mGK23pkZHIRdso8LuzO9yy
+	1PN45Knyz99RLt8ETeAENAYaskdkF5UPmOwXFdQI//cP0FVOhRMHAWM5ih/IJk2s
+	I0xep1ds4Z8AvhGnl0Kjh6ib0nJpWpgQQuIWzNAFjbc40dggN3zWg8yOzGq0EE6m
+	sK+vkAFM/BIgEQwrqnpHTijwARVe/QRMps6kRtMrTuoe7gnUuQ8Fx9Lf0V/oMZEo
+	LZWvjlj8vQyVJj/ynwdNau9d7Q/7pMYWZWarxvGfLMpwlDRhqv6QBxXBp1ktmt2V
+	ZYGas91y+X5CqAN61rNyXCsua98k/XQnEWg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1783377186; x=
+	1783463586; bh=h93AkcpJm1mOpYXO4SLEktKUvXqhZ2+KlWwMA0doleU=; b=K
+	X8MttXSQqSKXmhCfGwIfvQSJ5u3nW8r9ncxWi+52mfAMIUj83du+Fkj6I8MbxPg4
+	1ByY9CJa1HmUnVbDUTcXZRj10/ScNQTlM181EpB7bNCWl5RTRsH2mbjcLpeiv/qj
+	rrTRsDOygoWD7w9pbsZCyc5czesg0OTD6HnI6fVPj7i5nRjkuglChdnyFkCCa5CR
+	MpIfMxliDkoxiEKjJWX3NxEulRo/7jHK2JzfRzB0v9WEBHiwXj5WdWMkCETNlOgR
+	KOPe6l3pUxt6U5zYrHvr9cq/emVLUBkcXzWwwRoSicd9IhzTjG0rITSN7MGExVgw
+	u5fImdvA9HxqLaKy9MraA==
+X-ME-Sender: <xms:IS1MagFoThSwyq5jPjvTJlfB1tg2SjJgPNQa51U9HG7kn10PQgti8g>
+    <xme:IS1MaiSIu9nzLbwSHLyE_Ivv19yXmxsQHvss8i9tKZfxE_I7UicYoItjWjp9WQBkt
+    eKbx5dislbFR6Lg7xyA19-02-hF8pGKJXCtZNXh9fr1whfaTA>
+X-ME-Received: <xmr:IS1MaluXkkBhADTF6rg1FAW0IxxhofcQyNi-6wcaT7VGZv6pBrrKjdb70Pu8AQrFW5gUnAzeEnxb-lSIe-KjsocF1IbMuGQ>
+X-ME-Proxy-Cause: dmFkZTGN55WnGXiNZoY68+aValxyEB/zHn5MrZ78WLxzeLzW/teiv0X6OSixUbniUEWQI6
+    ulBamtOoSsPJB/YijL13SjOc+Fhu8oFTrDsWJTmG9i+etDrUHrN0t9jmZSBjEoM6LxISoZ
+    yhPiaF81+TBxOanGObic/lMHO7WjSFvL6AfttLOjQPTalHz05noU27FSyNav5SOppH5N6G
+    9palY+PdBpwmqG6CRQeaPss5XQvpJ9fY5Zbw9msy0mNmGRLRf89ndZyXcO6W6R/ymzbQRR
+    nbPGXhJY2FLsCXwQtSa6S75pqvhe2IXj+XXLvALdEBccZNB60xrQCthM48LWDEJfrKfai8
+    YqVgUyivuetSsUkAZgYAIjYw0ypA/72CLhuvc8UIuDJ3hQCNiISuALOjMsnQcRuKldKvYv
+    n/NhduxY56yoA1R5l31JHEQKmz+OrgxoAerS5oqYoHInl7bbY6mWbS4drrdbI4LKrnzidC
+    sGYrFa14XrFJMRxAAB8KIbLO90DKx6ZhsC9cmqhKsJPF3dwfRA7QxHXcd/VKX3SQxNuEpS
+    HW/Q4l+MRjOjRfGce3JahlZUTejfqm7RsV6sm8LVjKosr1rbAXWq6yFQtc0l0Lrd/qY1Jl
+    JuG5s/I3AOF6vV8bM8qkfyL67SIszC93dHXHSujmtSAzqIWLC2QCo6cW7axw
+X-ME-Proxy: <xmx:IS1MaiJ1u5uIz-LazEnVwOPvqEAfx2If27tq-7xFTWGjgONtJruLug>
+    <xmx:IS1MainGKHohAPz1v-em07cSbnaeKWTv5e04PUIva1FJH1kKSBqaew>
+    <xmx:IS1MajKlHsXs7aqH_jTxphxket_-Yk0zAqtQHnCYNF2d2o1z1Q7OMQ>
+    <xmx:IS1Man4RBYObJXEK3xi8kTzEO3K3QKVwXkWLC8p8cfZucOIzwfE2jg>
+    <xmx:Ii1ManQ-ehhFWaKpok6yQJObVHgrE4AMIorZxrBD-_y20OPWyt9ILPSc>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 6 Jul 2026 18:33:03 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: NeilBrown <neilb@ownmail.net>
+To: "Christian Brauner" <brauner@kernel.org>
+Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, "Jori Koolstra" <jkoolstra@xs4all.nl>
+Subject: Re: [PATCH v2 3/3] VFS: add vfs_lookup_open() for nfsd
+In-reply-to: <20260706-steril-fragil-worunter-f48995ef1b29@brauner>
+References: <20260705235447.1322365-1-neilb@ownmail.net>
+  <20260705235447.1322365-4-neilb@ownmail.net>
+  <20260706-steril-fragil-worunter-f48995ef1b29@brauner>
+Date: Tue, 07 Jul 2026 08:32:59 +1000
+Message-id: <178337717986.27465.590457544263750759@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-Likewise HFS+, HFS has the same issue of returning
-the -ENOSPC error code instead of -EFBIG in the case
-if there is the effort to write beyond 8TiB.
+On Mon, 06 Jul 2026, Christian Brauner wrote:
+> > vfs_lookup_open() is a limited version of lookup_open() which is
+> > exported for nfsd to use - to replace dentry_create().
+> >=20
+> > It is limited in that no filename is given (thus no auditing) and no
+> > LOOKUP_ flags are passed.  A few "intent" LOOKUP flags are deduced from
+> > the open flags.
+> >=20
+> > If a non-regular file is found, an O_PATH file is returned.  This allows
+> > the caller to see what was found and to return an appropriate error
+> > code.  However if ->atomic_open was used, it may return an error rather
+> > then provide a dentry.
+> >=20
+> > Signed-off-by: NeilBrown <neil@brown.name>
+> >
+> > diff --git a/fs/namei.c b/fs/namei.c
+> > index 1ca738401afa..002ffae7083d 100644
+> > --- a/fs/namei.c
+> > +++ b/fs/namei.c
+> > @@ -4568,6 +4568,76 @@ static struct dentry *lookup_open(struct nameidata=
+ *nd, struct file *file,
+> >  	goto out;
+> >  }
+> > =20
+> > +/**
+> > + * vfs_lookup_open - open and possibly create a regular file
+> > + * @parent: directory to contain file
+> > + * @last: final component of file name
+> > + * @open_flag: O_flags
+> > + * @mode: initial permissions for file
+> > + *
+> > + * Open a file after lookup and/or create.  This provides similar
+> > + * functionality open_last_lookups() for in-kernel users, particularly
+> > + * nfsd.
+> > + * It uses ->atomic_open or ->lookup / ->create / ->open as appropriate.
+> > + *
+> > + * Returns: the opened struct file, or an error.
+> > + *     Caller should check that the file opened is regular,
+> > + *     if something else was found, an O_PATH file is provided.
+> > + *     Caller should validate FMODE_CREATED if O_EXCL was requested.
+> > + */
+> > +struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
+> > +			     int open_flag, umode_t mode)
+> > +{
+> > +	struct file *file __free(fput) =3D NULL;
+> > +	struct nameidata nd =3D {};
+> > +	struct open_flags op =3D {};
+> > +	struct dentry *dentry;
+> > +	int error =3D 0;
+> > +
+> > +	WARN_ONCE(mode & !S_IALLUGO, "mode must only have permission bits");
+> > +	error =3D lookup_noperm_common(last, parent->dentry);
+> > +	if (error)
+> > +		return ERR_PTR(error);
+> > +
+> > +	file =3D alloc_empty_file(open_flag, current_cred());
+> > +	if (IS_ERR(file))
+> > +		return file;
+> > +
+> > +	nd.path =3D *parent;
+> > +	nd.last =3D *last;
+> > +	nd.flags =3D LOOKUP_OPEN;
+> > +	if (open_flag & O_CREAT) {
+> > +		nd.flags |=3D LOOKUP_CREATE;
+> > +		if (open_flag & O_EXCL)
+> > +			nd.flags |=3D LOOKUP_EXCL;
+> > +	}
+> > +	op.open_flag =3D open_flag;
+> > +	op.mode =3D S_IFREG | mode;
+> > +	dentry =3D lookup_open(&nd, file, &op);
+> > +
+> > +	if (IS_ERR(dentry))
+> > +		return ERR_CAST(dentry);
+> > +
+> > +	if (d_really_is_negative(dentry)) {
+> > +		error =3D -ENOENT;
+> > +	} else if (!(file->f_mode & FMODE_OPENED)) {
+> > +		nd.path.dentry =3D dentry;
+> > +		if (!d_is_reg(dentry))
+> > +			/*
+> > +			 * allow caller to see dentry and choose
+> > +			 * correct error code
+> > +			 */
+> > +			file->f_flags |=3D O_PATH;
+> > +		error =3D vfs_open(&nd.path, file);
+>=20
+> Imho, that really throws a wrench into this function. I'd rather just
+> fail with well-known error codes in that case:
+>=20
+> /* directory */ -> EISDIR
+> /* device */    -> ENODEV
 
-The root cause is that hfs_fill_super() sets s_maxbytes
-as MAX_LFS_FILESIZE. VFS therefore considers the write
-position valid and calls into the filesystem. Because HFS
-does not support holes, cont_write_begin() zero-fills
-the entire intermediate range from the current end-of-file
-to the target offset. On a small test volume this exhausts
-free space long before any block-number overflow is detected,
-producing -ENOSPC instead of -EFBIG.
+What if the dentry is a symlink?  May ELOOP could be used?
 
-This patch fixes the issue by adding a bounds check
-at the top of hfs_write_begin(). If the requested write
-position is at or beyond the actual capacity of the volume
-in bytes, return -EFBIG immediately before cont_write_begin()
-is entered and before any zero-fill I/O is attempted.
+>=20
+> Also, why does the caller need to know details here? Because of the
+> O_DIRECTORY work? But even so, EFTYPE would be enough afaict, I think?
 
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
-cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-cc: Yangtao Li <frank.li@vivo.com>
-cc: linux-fsdevel@vger.kernel.org
----
- fs/hfs/inode.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+fs/nfsd/nfs4proc.c:
 
-diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
-index ac4a9055c5c0..a630a6c14ee9 100644
---- a/fs/hfs/inode.c
-+++ b/fs/hfs/inode.c
-@@ -49,11 +49,19 @@ int hfs_write_begin(const struct kiocb *iocb, struct address_space *mapping,
- 		    loff_t pos, unsigned int len, struct folio **foliop,
- 		    void **fsdata)
- {
-+	struct inode *inode = mapping->host;
-+	struct hfs_sb_info *sbi = HFS_SB(inode->i_sb);
-+	loff_t total_capacity;
- 	int ret;
- 
-+	total_capacity = (loff_t)sbi->fs_ablocks * sbi->alloc_blksz;
-+
-+	if (pos >= total_capacity)
-+		return -EFBIG;
-+
- 	ret = cont_write_begin(iocb, mapping, pos, len, foliop, fsdata,
- 				hfs_get_block,
--				&HFS_I(mapping->host)->phys_size);
-+				&HFS_I(inode)->phys_size);
- 	if (unlikely(ret))
- 		hfs_write_failed(mapping, pos + len);
- 
--- 
-2.43.0
+
+	if (S_ISREG(mode))
+		return nfs_ok;
+	if (S_ISDIR(mode))
+		return nfserr_isdir;
+	if (S_ISLNK(mode))
+		return nfserr_symlink;
+
+	/* RFC 7530 - 16.16.6 */
+	if (minor_version =3D=3D 0)
+		return nfserr_symlink;
+	else
+		return nfserr_wrong_type;
+
+The spec requires specific errors which are different between versions
+and S_ISLNK seemed problematic.  I thought that keeping the VFS
+completely out of that issue seemed best: simply return the dentry found
+and let the caller handle it.  But if you are OK with ELOOP for symlinks
+(and EFTYPE for sockets and named pipes), or can suggest an alternate
+error code, I'm happy to work with that.
+
+Thanks,
+NeilBrown
 
