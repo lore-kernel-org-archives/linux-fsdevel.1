@@ -1,130 +1,102 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D083E832C
-	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 10:54:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783335297; cv=none; b=FIAYoTvsH5n+wuORjrwVw88f2AFglBiBGafY6Ux6HjMobCoAigLf+UU8s5oaEk+fSAVndxNABgJYfXy7eOWUirG2cFBiJmQi2ooRFC6K2Y+6A70VkDg7LC5k4RPGZEHFRQ7PC+kBv57CG1QS1TA0/a1ZzpWd4t5CAypmgNtn2DI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783335297; c=relaxed/simple;
-	bh=XqCqpSZS98NyRn13H2la06YTHqXp341yaZoaSW48bYY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HsaSCPBD8yReBhgtXa0bRbu4ZwgJkYMoFhOVWItxeO3D0/yljbZx6W1Q7xRk9PA0fF10LbAfJB9PZZAUe5e1DL9gQ+V8C2sYegBoA+Hg+DPn5AeyExr7LxKN8t1TXvcjXGcVOV1/NBcbW9bsggxVQOjzr7IvRetdgr7ysp1EDtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=gqnYvEUO; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3970D3F0773
+	for <linux-fsdevel@vger.kernel.org>; Mon,  6 Jul 2026 11:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783335939; cv=pass; b=jF12avywr5DanxcJ01CNwJiN8vIQxUXGpcRrydM6+BJgCxhXTSu0eIefQvb5G2X672vXg3+psvR2+x0UYFEtMYKRxUcDYk/Fi2rEide295sHRjwJVb97H+oEdLFtdkXJu4liqPrHKzHAcvJCRMx1DDWW4W/3+n+7CnTB9c378dE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783335939; c=relaxed/simple;
+	bh=/hNkRgqeQVbmzvlwRmP3/2RYGVe1oSFSJkX3H5Zcdt8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MtHcZORGZyIQp5kgxbeoVwUHTgwqrMtemvZJ3Cd5tk/gFWNHZNf51msaBIM8YShvtwDVXVuQD8nkKHMkqUgc67VEYabtb0okuyrGgT0D4DJf/C2KDTeHOcvRl2qcr7R7+zVA0VOT2LDSTwJrInj3BeYx+ObG0Phq7POOdoc0cts=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=L7kbB6Wc; arc=pass smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="gqnYvEUO"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4720f3bf164so1906230f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 03:54:55 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="L7kbB6Wc"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51bfad59921so20618621cf.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 04:05:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783335936; cv=none;
+        d=google.com; s=arc-20260327;
+        b=sPa+d1/NzwhhnKcFBMkut7ZsEtLAb/cu4ZrE9uDxHgfq0F2tjTjNGV8zaFkz7kT4NW
+         xL4fRlY8l7w1FagSwPorxNl9JkYjdJ9KHt0AAT/Hr2uRAOskhxTjdIGH+Aw232VhXSdL
+         +c5mZlulX1g5w514czRr0/Ziq7SfzcrVSHatDi1RmdrsvTfCLSpNxSQGGBDML02XYVe7
+         UzKD5NSGxLnJvYwfMx6fgAyxVlJ59rppw02mn5bXazAPyyjr3QOJhGNJIQUH4OgPJQcC
+         l3PZjjF/gt2fGX8UqJaWjV6wJWAn7Q4k+BMDMXa6kf3CmQ6PUeV8YnQ4q8INFmgAABi2
+         DVxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=5N9xOz7IuFoWi/YP9UdZnMaOav6tflAjjK/V30R04Xw=;
+        fh=kyofVaBzCGlOZvi5JbbkfFoGalBWIzTk7fjiQ/68yq0=;
+        b=C+YnAz+30zo0Fyn2iYcjRuoPH/F6IUr+Xgbk9Y8nbKVCdxYW8i9rJlG0NQel2HQ4sq
+         rQlpKu8ZB7fJ6Se6ANRw5JE9AQwW4yPqKo6JScg5e/ZYkXJm8o56hH2hKirg/Zwed9ts
+         IO5nB0n+ghcwaXYDS+M4oDtKX0bB73CjJWk2sYCHr+OWpbl07GNVj3SfgQTN+4fdoXat
+         4Gi0i2Ya2LiW/PKBYN8i5sHADlQv+JB8g13QHLsPQQupTaMFWluYcFAT9mnPOnkFziIG
+         k/irH4rL/dcLYY47TY8HWCETt8pnvqWfxm/YS9yLtGOnUrygJL2h0aiqRHyXcIVEFMQ/
+         HU3A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1783335294; x=1783940094; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dWF1/Saj/bM6aomyyXupOgtj5nhmQ0EIDabewEY3qyk=;
-        b=gqnYvEUOL0D1sp2mxeFDSvSO3YGP+NUNPHFRNto3D9nFfv5+maLFUgyYv02ifr6suL
-         AjF+UioJFl/8gTb7PJgomlhlm6rp5bHaufC/a32vY5noUQCIXjfSh6hhNk9pd2ugkoJD
-         yqLh5BJNxi01pxjsxPmBNJSCEyNOz46M+jHlh8xoaX3aGAaLODOfwYFmQCQDhG4AA9yD
-         fTPzFNkmtTvXrEsb5Ai2LKMvfTDP6LEpmW/U2krrSBRtLnLGyzyMJ35XBXinz6lysHdV
-         XAgBeda1hr/FmFzGfF84SHwe1O/EzdEq/f7gtDKZ8kMWe7wQ1oGXR7hGByXQcYfGKu/W
-         dDcA==
+        d=szeredi.hu; s=google; t=1783335936; x=1783940736; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5N9xOz7IuFoWi/YP9UdZnMaOav6tflAjjK/V30R04Xw=;
+        b=L7kbB6WcHUV6HryxojFgeaun/MQ6kjrsBcAqV+yFpS2C9zHYxYE0AnI/mL+PM9VF44
+         ur6rJteTLgKQNtRVXVv7dkrf8+W6qeFnqKNbE+nA/plr7sNWyKKOikW7n1UyVJ9+fttA
+         W9tqDW2bVZXB4GuHXBbwsX1eIYoBWEokArOQs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783335294; x=1783940094;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dWF1/Saj/bM6aomyyXupOgtj5nhmQ0EIDabewEY3qyk=;
-        b=fcU+t6tJPiIDUdquHspTgh8udkIUcAK5qJGMFC1BaiGBy8ilE1HF4fYG5OkmYs30gE
-         GLty95mF9wgOdHc2WRjo1lsRx2JRUK4ssHn2wGffLq+K5byN8IZZRUj1YtvYDsoWUjaw
-         IgrD2WrdzQa6PrjM2TZzrFsKa2TzM8ezk/K33CjADbu6KYCB5HF2vVjQEBJLAUqwzJ1L
-         dn199rwmIT8cgMZCimSQanNYNCOm+bBLqJEoYvmOjM8k5zBYtiRrszMtg7WNoBkkBBs7
-         BUEsxwT5tsfZx9jQVLmFphfkB3LShB9kFL+sZMsUUSOGvlLiZwtT7torlNTvlSHXu55V
-         PBAQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rpip/adumGdzxgZq/rMH6Uy6r00g+A+6HOT45O1xveB898aGdQbxq+RB4SDGGzZHMm9fyFbWY6jKTfflmag@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywox2ImPE0nzjjTBh1jhSEpyucvgvXtWwJqXvgQ1INBVRgUR2RM
-	4mrYiQDw3qgjbYOOoHWK9T6G+IhXEORnPUaAEkoTt3sOYoKMM7rHO5ewWSHHnZFU8JY=
-X-Gm-Gg: AfdE7cmKmZJXwDhIK6E3Ya12FJX3KMhZhkAL7b6knGYTYROz/S96MXt+SGG6EgUvex3
-	JELzU0Vyc7PvdhVigypp9fvl1WdtuoIyfEVvuqMxK8w4rXn+7AEkK2TN1LIl9SiPFMlLPZqKUlW
-	0jTQ4tIm1LOP5zfswaLoJE4Et+BsX2OstS5iw7QrQX2DdsN0lbqq806NZ47OGzS8FZC1YaZcwN4
-	nuOwHk/DKfypkoNjpTc/LmjGoCMlTc/tR3J6s3LxBdMgBqzTWBT2pJAhXC1K9m1bgKaR7FG5lB1
-	LjJ72YzLK+MhvUb6LNDDI6DNyQCgZ/BqQrr/IIdj5lOGfKdI0WTQHkaBLKaus8WhiMmc/KunFxC
-	4sTNOtdxd/I6IoIrqH4BUP1Gjt9Tc9Wcsgll0zxuPe4NkHIkvB+7iOyAwiouWN1m8UgS0lHBpVG
-	dZHGsVIKyusulEArRBguSyl3iIs2Ek/eHC1Zl7
-X-Received: by 2002:adf:e348:0:b0:475:f0c2:75af with SMTP id ffacd0b85a97d-47de61b7f5dmr129663f8f.26.1783335294621;
-        Mon, 06 Jul 2026 03:54:54 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0a55be4sm21607506f8f.31.2026.07.06.03.54.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 03:54:54 -0700 (PDT)
-From: Marco Crivellari <marco.crivellari@suse.com>
-To: linux-kernel@vger.kernel.org
-Cc: Tejun Heo <tj@kernel.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Michal Hocko <mhocko@suse.com>,
-	David Sterba <dsterba@suse.com>,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 5/5] affs: Move long delayed work on system_dfl_long_wq
-Date: Mon,  6 Jul 2026 12:54:37 +0200
-Message-ID: <20260706105443.173697-6-marco.crivellari@suse.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260706105443.173697-1-marco.crivellari@suse.com>
-References: <20260706105443.173697-1-marco.crivellari@suse.com>
+        d=1e100.net; s=20251104; t=1783335936; x=1783940736;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5N9xOz7IuFoWi/YP9UdZnMaOav6tflAjjK/V30R04Xw=;
+        b=Fy4UICifT0ANjT7u9RjPQGJ/3Vw0h3d1+dwFLG/Z4CK+bwVa4AOTN5PR2Lwv1H0TLA
+         v1hvO/YSu/adJbNHOOmC8QnGpkN1+Ou1k0x1CdC8JvnyCfzltJ3MipkZcE9qavXgRS8d
+         ctRCNDEzeY2Rubb02Uyb2b36uZw3PlkWz3VywBNxeMmuwZ8VXYnA35lk+hb2HfgACIRq
+         qotkRw+85T4oivcd43jb2QCBi2DLO9cSZblo2LKxURPz0FsgHh6iMepByBxYq/Da5L3p
+         oXDqFjq9WuVANDbzygqGMbatJU8TPAgVl3i18VJUasOyK3Z8o0DJyGeNBh7r9ENgQLG1
+         L0lA==
+X-Forwarded-Encrypted: i=1; AHgh+RoabjjXaZmtQ2Dkv9/pDKUBksqndR6n39hZpyc65GfEjnQnCAz7ao8mEIt5D3vsOMnv4OiNRufomC1a5bzl@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx03y+en+MEdi5ff8BgcDEU+VamZyvvAgxqCYKx11gJGJuMNdg3
+	784XfRGesY8MXk0onaz3ehE50VjUrq5oP0imBAd+NGgUdZCj3/gDoLVJFee74pcOKXyrBoXMD45
+	FzrvKBuugfUfCDMbLgiLPRh+Dymlboa/gpx3YvpKuLA==
+X-Gm-Gg: AfdE7clMu8BlEOPQgGPmM97kI0hRVTpURGM0Ejp3SuYQgpbc+IDg5MqeuMwuq0Hg9z3
+	IRhhVGqpzwWeHjEMejCntwVhlhCv63eWr0KYHnXXsFiiZgi9CHs1oCjgdcMdr3ZU4Q0/hXGWPeC
+	tjLvroGYxWDP4KlkoYU/QOs9DWrMUB/gaBdBPN40IX8ktRBdr5mtERyM31qxd2OKoNrKTmq6Anu
+	8TEwh3iaYBR5639zvh/XXHtvf1Fs6jC4naBQO+kwAsRtVxjxZdWq0AweJj7T308Mp7k+LDIJ2Rc
+	BQYQJ6tA7MMXx+txub7sfsMOgmk=
+X-Received: by 2002:a05:622a:1453:b0:517:7e26:36a4 with SMTP id
+ d75a77b69052e-51c4c2c14b9mr140647271cf.34.1783335935865; Mon, 06 Jul 2026
+ 04:05:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260702021105.3406439-1-neilb@ownmail.net>
+In-Reply-To: <20260702021105.3406439-1-neilb@ownmail.net>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Mon, 6 Jul 2026 13:05:23 +0200
+X-Gm-Features: AVVi8CffNWtFbcBvs13jifF0StaOc8_tnG8CKCFcb9gVjjy93J7qwqRMN2Yb6cc
+Message-ID: <CAJfpegtCL8S=zjv-pwxrX-9YXL0HLGb8Dsw_XWFF_H4Ui3MTZA@mail.gmail.com>
+Subject: Re:
+To: NeilBrown <neil@brown.name>
+Cc: Steve French <sfrench@samba.org>, Steve French <smfrench@gmail.com>, linux-cifs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Currently the code enqueue work items using {queue|mod}_delayed_work(),
-using system_long_wq. This workqueue should be used when long works are
-expected and it is a per-cpu workqueue.
+On Thu, 2 Jul 2026 at 04:11, NeilBrown <neilb@ownmail.net> wrote:
 
-The function(s) end up calling __queue_delayed_work(), which set a global
-timer that could fire anywhere, enqueuing the work where the timer fired.
+> 10 years ago cifs *did* use ->d_time but was changed to use ->d_fsdata
+> by Miklos with no justification (a00be0e31f8d).  Miklos: do you have any
+> memory of why that was done?
 
-Unbound works could benefit from scheduler task placement, to optimize
-performance and power consumption. Long work shouldn't stick to a single
-CPU.
+Wanted to get rid of d_time, as it is no longer used by VFS, only a
+handful of filesystems.   Still a worthwhile goal, IMO.
 
-Recently, a new unbound workqueue specific for long running work has
-been added:
-
-    c116737e972e ("workqueue: Add system_dfl_long_wq for long unbound works")
-
-Since the workqueue work doesn't rely on per-cpu variables, there is no
-obvious reason that justify the use of a per-cpu workqueue. So change
-system_long_wq with system_dfl_long_wq so that the work may benefit from
-scheduler task placement.
-
-Cc: David Sterba <dsterba@suse.com>
-Cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
-Acked-by: David Sterba <dsterba@suse.com>
----
- fs/affs/super.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/affs/super.c b/fs/affs/super.c
-index b232251aa7bb..4f331f784db2 100644
---- a/fs/affs/super.c
-+++ b/fs/affs/super.c
-@@ -88,7 +88,7 @@ void affs_mark_sb_dirty(struct super_block *sb)
- 	spin_lock(&sbi->work_lock);
- 	if (!sbi->work_queued) {
- 	       delay = msecs_to_jiffies(dirty_writeback_interval * 10);
--	       queue_delayed_work(system_long_wq, &sbi->sb_work, delay);
-+	       queue_delayed_work(system_dfl_long_wq, &sbi->sb_work, delay);
- 	       sbi->work_queued = 1;
- 	}
- 	spin_unlock(&sbi->work_lock);
--- 
-2.54.0
-
+Thanks,
+Miklos
