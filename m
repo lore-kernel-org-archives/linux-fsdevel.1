@@ -1,153 +1,208 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429833DAC02
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 10:06:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD9253DD504;
+	Tue,  7 Jul 2026 10:15:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783418810; cv=none; b=RgMiMelrHBkqkrnw2VjOKN27+q0wHd/n21wWJB5iEo46fJQDqlqSVX9Z4ElsjsQheFYJ1SpoxoLgF8rsTPKgrKeP/DI52ZL4rN/xlcmpjK75zQ53qvGTrjWSiCkmr858NNk/wpEDE4CCdZFticKa2fvCkP9Og+51EcrUtZZD97U=
+	t=1783419328; cv=none; b=eB9+R/HCOzOr0ZGaj65BTk+wSOIRluxYb3jTZnWadgkV66rtmD/4egceGbq1DvtxWbc942NdFjTXr5mqKOuzlwcxbGzk66nq+6sLXUmGbj/kMps72+kcC7JNmRaZxKVv0Gewf/RRsgi7FGQ5RYZ6WcPQk9SnQa2wQB1DM4nIJZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783418810; c=relaxed/simple;
-	bh=D3rn0DtPYmuCF6e0GquOC9YrnF7/feVXEFfmrPrLxtA=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=CfwVeE8mPyUlm7v9/WneZ1yDU/EAp7+Mu6iqprXMGWIgAr+xb+r9nLeqIjayLo3V5QGkeZSpdxn9sj0XYXbd1fcSVvTDSYdCCmnf3VG5RFaFcvevUBx3Aiurf+xTwrPmI6istcs2ytb7oZ/HIw7W0q6YJd2kzYYw9r4pP41l8co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=VebXnUm3; arc=none smtp.client-ip=195.121.94.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1783419328; c=relaxed/simple;
+	bh=8lt2sVofaybpU6Pf7XUgVnI/rV2AbbnENR18ng/RjYo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bh+YxBkg+Ce85kTjaVevQI69BHa58O+6KtflOi/krt4+y9i/6gtaknodm8T+iMts72PzZnt9vZwWIs6ZIDByeTnT4zBwfFCHmVB7UGeQX34Dl0znBdwzIxy43+UQq9+UJifU6c+yb5J6siN1VUpfoI8DDFScA6FlgxbavJ5HdgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HluYhwOW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="VebXnUm3"
-X-KPN-MessageId: 8f451d7a-79eb-11f1-bfba-00505699b430
-Received: from mta.kpnmail.nl (unknown [10.31.161.188])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 8f451d7a-79eb-11f1-bfba-00505699b430;
-	Tue, 07 Jul 2026 12:06:45 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 8f43e2b7-79eb-11f1-9b0b-00505699693e;
-	Tue, 07 Jul 2026 12:06:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=in+iHQH9wOy6U46pyL9cAT+porItx3t0Z29fgwgfggY=;
-	b=VebXnUm3AB9qhjqXC5ty3ogulQdygqRwcMliwflr1DM/A8xvP97VL4UPYMiIybmAtxvmcQyZeQPL8
-	 Py7Bfd3DEIEqMbQXMEELzP49djUNO267OfT8moYQ7SenDhEqh9rwLUMfnIW6kVO6imC/U8TF7nqU2g
-	 mfeO9Rzey1GbsGWTWhp+H21ouyVss+E6awBNbWbvParFXijZ8nkPp1eqS3NAxuR/E/9NbsMuYQH8On
-	 RmgDEO/licqe/JJl1nyRdWhxgFmB1mcR2D/kjW6GiSSAJhTBb9zeKQmAvt8Q5TaqnYZiUrU2uRVUpd
-	 d4yPW7UXud28wFaYMChkLNnYP/2uKYQ==
-X-KPN-MID: 33|WCGtEvvHeqy3H296w34MMV1+9acNTr5DEAMa68zH8/MoDGhzDEhbZA4Qw7+2cMl
- gNv48BHlg8bIYGMbydCeFk5TdBYjrfGUR0EjqwIXoNmE=
-X-CMASSUN: 33|DLWlW11503ggDpue8mwEjLIjnWukaXzI3rmmTFWfv9GzRGXGftGLT1Gq8/l6Fsx
- Zr70Bdo5Npe1Sn1OEI6YofQ==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh06 (cpxoxapps-mh06.personalcloud.so.kpn.org [10.128.135.212])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 8f3566c7-79eb-11f1-8edb-00505699eff2;
-	Tue, 07 Jul 2026 12:06:45 +0200 (CEST)
-Date: Tue, 7 Jul 2026 12:06:44 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Pedro Falcato <pfalcato@suse.de>, Aleksa Sarai <aleksa@amutable.com>
-Cc: Jeff Layton <jlayton@kernel.org>, Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>, NeilBrown <neil@brown.name>,
-	Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <1464441345.181098.1783418805206@kpc.webmail.kpnmail.nl>
-In-Reply-To: <akyyqnv9EpY7xVdC@pedro-suse.lan>
-References: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
- <20260704164149.3480051-10-jkoolstra@xs4all.nl>
- <akyyqnv9EpY7xVdC@pedro-suse.lan>
-Subject: Re: [PATCH v3 09/14] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HluYhwOW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDAC81F00A3D;
+	Tue,  7 Jul 2026 10:15:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783419327;
+	bh=mNSla9Czr4vFeuTIzrP/cHDzh+yx/IrTUvaJ5OnP34U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=HluYhwOWRqwjbw9mnNEjPVnyh7tR+UBSnSv/otgjpUQBigWOwZUJOYkpU0LnGQPOd
+	 9JWuafQR68ncbIWqn0jW8jTfwPafpmeDnt2Wvr8VLfjDqTgkyFdLwQrzBX5aGYlPBy
+	 bdDr9uov5pNq61DLoYMBBHIrYLPaluS9cGGvVLuwrNNgpnc0PxTOy1Y4Jv6WgqJLPU
+	 g8L2HsabDqHedwwaZisYTmwsI8Liu2LIO7hoQNV8VhXPReqA934JiUn5O3mwQK8rxr
+	 zZFBy1M3lH7Q7XggDkvTulkUo1eG7DFZ7mTqdd75PKoMBF8VkjG7TCZVSFf+WpnFzU
+	 vO+QqUik5Cd9A==
+Date: Tue, 7 Jul 2026 11:15:02 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Lucas Stach <l.stach@pengutronix.de>, Inki Dae <inki.dae@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Peter Griffin <peter.griffin@linaro.org>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Thierry Reding <thierry.reding@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>, Zack Rusin <zack.rusin@broadcom.com>, 
+	Matthew Brost <matthew.brost@intel.com>, Thomas Hellstrom <thomas.hellstrom@linux.intel.com>, 
+	Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>, Helge Deller <deller@gmx.de>, Benjamin LaHaise <bcrl@kvack.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	"Liam R . Howlett" <liam@infradead.org>, Nico Pache <npache@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, Kees Cook <kees@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+	nouveau@lists.freedesktop.org, linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org, 
+	virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org, 
+	linux-fbdev@vger.kernel.org, linux-aio@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 02/13] mm/vma: update do_mmap() to use vma_flags_t
+Message-ID: <akzRdIS8ZotxIOFR@lucifer>
+References: <cover.1782760670.git.ljs@kernel.org>
+ <e0ac58ad2b88ff7e2f0024e3286b2e786f79ca32.1782760670.git.ljs@kernel.org>
+ <DJRZ2QCEIVA6.1AZF5S891NKS4@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DJRZ2QCEIVA6.1AZF5S891NKS4@nvidia.com>
 
-Hi Pedro,
+On Mon, Jul 06, 2026 at 10:10:32PM -0400, Zi Yan wrote:
+> On Mon Jun 29, 2026 at 3:25 PM EDT, Lorenzo Stoakes wrote:
+> > The core do_mmap() function accepts a vm_flags_t parameter which it then
+> > manipulates before passing to mmap_region() to do the heavy lifting of the
+> > memory mapping.
+> >
+> > Update do_mmap() to instead accept a vma_flags_t parameter, and adjust all
+> > the logic within do_mmap() to manipulate this instead.
+> >
+> > This is as part of the ongoing effort to convert VMA flags from a system
+> > word size to a bitmap type which allows us to unrestrict the number of VMA
+> > flags, as well as gain control over how VMA flag manipulation occurs.
+> >
+> > We do not cascade these changes to all functions which accept vm_flags_t,
+> > but rather use vma_flags_to_legacy() where necessary, specifically
+> > deferring converting calc_vm_prot_bits(), calc_vm_flag_bits() and
+> > __get_unmapped_area() to vma_flags_t.
+> >
+> > Also utilise the new vma_flags_can_grow() predicate which correctly handles
+> > the case of architectures without upward growing stacks.
+> >
+> > As part of this change, introduce VMA_SHADOW_STACK so we can correctly
+> > handle the case of the shadow stack not being defined.
+> >
+> > No functional change intended.
+> >
+> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+> > ---
+> >  arch/mips/kernel/vdso.c |  4 +--
+> >  fs/aio.c                |  2 +-
+> >  include/linux/memfd.h   |  6 ++--
+> >  include/linux/mm.h      |  6 ++--
+> >  ipc/shm.c               |  3 +-
+> >  mm/memfd.c              | 15 ++++-----
+> >  mm/mmap.c               | 67 ++++++++++++++++++++++++-----------------
+> >  mm/nommu.c              |  3 +-
+> >  mm/util.c               | 10 +++---
+> >  mm/vma.c                |  7 ++---
+> >  mm/vma.h                |  2 +-
+> >  11 files changed, 69 insertions(+), 56 deletions(-)
+> >
+>
+> <snip>
+>
+> >
+> > -static int check_write_seal(vm_flags_t *vm_flags_ptr)
+> > +static int check_write_seal(vma_flags_t *vma_flags_ptr)
+> >  {
+> > -	vm_flags_t vm_flags = *vm_flags_ptr;
+> > -	vm_flags_t mask = vm_flags & (VM_SHARED | VM_WRITE);
+> > -
+> >  	/* If a private mapping then writability is irrelevant. */
+> > -	if (!(mask & VM_SHARED))
+> > +	if (!vma_flags_test(vma_flags_ptr, VMA_SHARED_BIT))
+> >  		return 0;
+> >
+> >  	/*
+> >  	 * New PROT_WRITE and MAP_SHARED mmaps are not allowed when
+> >  	 * write seals are active.
+> >  	 */
+> > -	if (mask & VM_WRITE)
+> > +	if (vma_flags_test(vma_flags_ptr, VMA_WRITE_BIT))
+> >  		return -EPERM;
+> >
+> >  	/*
+> >  	 * This is a read-only mapping, disallow mprotect() from making a
+> >  	 * write-sealed mapping writable in future.
+> >  	 */
+> > -	*vm_flags_ptr &= ~VM_MAYWRITE;
+> > +	vma_flags_clear(vma_flags_ptr, VMA_MAYWRITE_BIT);
+> >
+> >  	return 0;
+> >  }
+>
+> This function alone changed its original behavior, since vm_flags is a
+> snapshot of *vm_flags_ptr, but after the change this snapshot is gone.
+> But its only caller memfd_check_seals_mmap() gets vm_flags_ptr from the
+> input parameter of do_mmap(), so the overall behavior does not change.
 
-> Op 07-07-2026 10:35 CEST schreef Pedro Falcato <pfalcato@suse.de>:
-> 
-> Ok so I genuinely don't see how users are supposed to use O_CREAT | O_DIRECTORY.
-> Lets think about the portability here. This is undefined by POSIX (meaning you
-> cannot rely on a O_CREAT | O_DIRECTORY having particular semantics). FreeBSD
-> and NetBSD each have different semantics (my investigation stopped there
-> ~3 years ago; I vaguely remember that macOS/Darwin does not/did not support
-> O_DIRECTORY. I don't remember what's the deal with OpenBSD/Solaris/Illumos
-> here).
-> 
-> So, essentially you can't rely on _any_ common behavior between platforms.
-> Ok. Now, you may say "it's 2026 lol who cares about BSD". So lets look at Linux:
-> - Linux for most of its lifetime had "return open directory, or create
->   a regular file".
-> - It later had the above, with the added caveat that it always returned
->   ENOTDIR.
-> - In 2023 I then found the bug and Christian changed it to always return
->   EINVAL on that combination.
-> 
-> Ok. So Linux had 3 behaviors and 2 of them do not make any kind of sense. But
-> that's fine, we return EINVAL now. Except that the other behaviors existed.
-> 
-> So, lets say this feature lands as-is. If you're writing something *for Linux*,
-> you have to contend with the previous *3 behaviors* for a grand total of 4
-> behaviors. Including bizarre runtime tests, lest you are running on something
-> pre-6.4 (system calls can be similarly problematic, but at least there its a
-> simple ENOSYS test).
-> 
+Right yeah, the snapshot was always just a convenience thing :)
 
-But isn't this a problem with all UAPI design? You introduce a new feature that
-does not exist on old kernels, then userspace can use that feature but must
-provide fallback behaviors for any older kernel that the userspace program wants
-to support. Ideally, this is abstracted away by some library. Then, at some point
-this library raises its minimal supported kernel version bar, and it can clean-up
-the now obsolete fallback code.
+>
+> <snip>
+>
+> > +		case MAP_DROPPABLE: {
+> > +			vma_flags_t droppable = VMA_DROPPABLE;
+> > +
+> > +			if (vma_flags_empty(&droppable))
+> >  				return -EOPNOTSUPP;
+> > +			vma_flags_set_mask(&vma_flags, droppable);
+> > +
+> >  			/*
+> >  			 * A locked or stack area makes no sense to be droppable.
+> >  			 *
+> > @@ -515,23 +527,24 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
+> >  			 */
+> >  			if (flags & (MAP_LOCKED | MAP_HUGETLB))
+> >  			        return -EINVAL;
+> > -			if (vm_flags & (VM_GROWSDOWN | VM_GROWSUP))
+> > +			if (vma_flags_can_grow(&vma_flags))
+> >  			        return -EINVAL;
+> >
+> > -			vm_flags |= VM_DROPPABLE;
+> > -
+>
+> Lance pointed out the reordering of setting VMA_DROPPABLE and checking
+> of can_grow, but these flags are not overlapped and there is no parallel
+> writer to vma_flags. So it is still no functional change, just not
+> mechanical changes. :)
 
-I am fairly positive for instance that libpathrs would like to use O_CREAT | O_DIRECTORY,
-but it is not going to demand kernel > 7.x anytime soon.
+Right yes exactly :)
 
+>
+> Otherwise, LGTM.
+>
+> Reviewed-by: Zi Yan <ziy@nvidia.com>
 
-> If you're writing something that wants to be portable, or that intends to
-> standardize on something, you have some 5 different behaviors all across
-> the FOSS UNIX landscape, not considering everything else. It's also something
-> that will, FWIW, probably never be included in POSIX because no one can agree
-> on the semantics here.
-> 
+Thanks!
 
-I have no idea how POSIX standardizes things. Does a committee get together and
-revisit old syscalls every now and then?
+>
+> --
+> Best Regards,
+> Yan, Zi
+>
 
-But yeah, I think POSIX compliance isn't something we are really doing anymore.
-Afaik there's nothing in POSIX about openat2(2) either, and we definitely wish
-people would move to that instead of keep relying on open(2) (or even better,
-use libpathrs!)
-
-> TL;DR I don't see, given the reasons above, how users are supposed to use
-> this without it being a total minefield.
-> 
-> If you're intent on the open() path, I would suggest that perhaps openat2()
-> would be a nice alternative, although definitely not as beautiful as
-> open(O_CREAT | O_DIRECTORY).
-> 
-
-Christian told me (somewhere on this list) that at LSFMMBPF all vfs maintainers
-agreed on the O_CREAT | O_DIRECTORY direction. It allows to use all the neat
-options from openat2(2) at the cost of a bit of multiplexing in lookup_open().
-The question remains whether we also want the other things like mknodat_fd().
-
-> Just my 2c. And I feel horrible typing this out because you clearly spent
-> a great amount of time and effort between v2 and v3 as you redid this :/
-> 
-
-It's been a lot of work, yes :)
-
-But luckily it has allowed me to study path resolution and the open()/mkdir()/etc.
-syscalls in a fun and educative way.
-
-> -- 
-> Pedro
-
-Best,
-Jori.
+Cheers, Lorenzo
