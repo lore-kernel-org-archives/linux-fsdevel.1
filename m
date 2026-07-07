@@ -1,56 +1,56 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88683AB26A
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 06:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BD73A9DA3
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 06:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783406564; cv=none; b=nwmSTEBON5q2/Srlgzthlv1oYTEEiQQCzwBCBOZEzw9MuLZxuunrkj0VBhXm1bodQMR1pAHBICAoDIVDcDv3Uy4ZU0kOgUz55VOYTaBFUXXtRMEEWaqbstV1GBKGRHUY5Fh6JxUndw5CcGKZH1i9/1NHebKeeF1RfglAmTvsymo=
+	t=1783406565; cv=none; b=dLUba/A8J2gMSlojiiVlGGP/sIepiCoK23Dl42NaRYRVkQRjqsmc/hKLtoxPRrbF+kxbc1C4tSOMhFibW5F9iEU8gtVEW4fncDtDCiV9Zyu9Mejx7bGXtePO6rNHydwe/ZyyBYmT3MXcK8NeEZBGEzElyTKEohxoqtnrSG3c7p0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783406564; c=relaxed/simple;
-	bh=2lLGZPZ12t2H2bDJsmFjZT9bYckblK5ShT/m5eK8VdI=;
+	s=arc-20240116; t=1783406565; c=relaxed/simple;
+	bh=6v+ghItK7ul3adjRGUNabgeElM/A5NB7kggjLSChwns=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=AiAXW4z+hMglmkBTvLDAEc9nnUG3FYxjhfKd4hAotKYChLNRaD54WxgT8/E3IfQ7lnT4GT4bRDeuUWGOMRJtApZ4GDKAS8sq88N7FtGb4q7hjuLm0QhkcV3AVHEG74ODlVveosl0iopgnNZ56BgfuIUDSRggHFlEkYwTL7URzik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--souravpanda.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=E6btGgr4; arc=none smtp.client-ip=209.85.210.202
+	 To:Cc:Content-Type; b=qIiRstbWd54Q8gbpS0r8wPgG/eiHTk2/vAgQf3cGUufFuP6B11Z7urt7q5tsfxVjJzPxHJrV5MgBweYvfrNXiEhUDbpwjVaUKd3QD0LCm7Tq3s65VPu0KS/3MgpJM9DcCu0C+JzDiXdojHOzzttBrKQGe7cl2xY8ElIOS3xs/dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--souravpanda.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ODB2sXvq; arc=none smtp.client-ip=209.85.216.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--souravpanda.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="E6btGgr4"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-845bc2e658aso3514145b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 23:42:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ODB2sXvq"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-38108fb9d83so2682626a91.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 23:42:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783406562; x=1784011362; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1783406564; x=1784011364; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=zbIFtySlJ/B4vAMWak3mVgchLPUkdC1Nvsmy15z5aNM=;
-        b=E6btGgr4mF2t+fLaS8rqg1jE9huXAzRNduXoPqKj75e8XZBjkToshRI8XCyu+qUHJq
-         2dVttij7jEOE15yB/VchawjduzJIcZRp861rAxE9UGylkIGeceAdkXh6Ch9LDnxYdsrk
-         I45NgjC/1OAx9Icj+79iHof/OmugMXFIYebXdN+KAj/WjumS2BnIv+QrGm+I0wnqYt+8
-         Zgg3qEZ4QFBBAGl3xMalEXdgzQvPG2pPbNLlt/vrwZWDT00XN//FL2y+/W5DxsgrfS5K
-         maImdeD7KYVTe5JWb3lpIzOojMaDJY7yFxNkMGoQ51JCnzmMqy31pYyDXv8SsKfSCAwC
-         K3ng==
+        bh=Mr0Imss8jl6Lql5T0sFpczm9SFtWuez0AZQ8VASrGcw=;
+        b=ODB2sXvq/FKHS7Nfs7qksDH1zvy1bzy6TSBzHUifsqtU4mGJEwLRNDmt+Ujgw/e0Gq
+         UZtY87RLnNY5runMMeMY1sOq3ulvg2cFMpog2nj4ORm8pBnmCmHpL9pjXSRYQpdSHppB
+         hWPYzU8g7eVskRlmGBcQWReHK992tOGAiMCGvHRfSytG/zMgTPLMgEbtVJWxlackULfc
+         WJ7585bYzfsT7Eix6Sik1CK7PpmsVnqAHh/Puwm5MQvpS8eKB2jLw57xguGIV4ri4pin
+         M0JFh45Lhyl/Kye09fPCHcDNmhEi4Ykr5SrM3rs5FlBNAsIY5jOKvDVjeF/IYQnKok7U
+         YKmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783406562; x=1784011362;
+        d=1e100.net; s=20251104; t=1783406564; x=1784011364;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=zbIFtySlJ/B4vAMWak3mVgchLPUkdC1Nvsmy15z5aNM=;
-        b=CnBpwp8mKJB5fJLiTeuj2NUkTJXIlMF5lb3P4asL6QZwQhqqo+xSVhV2m3JY5Fuq76
-         2ZF86zOxgFM8jPLm9lm3PC6Q10vFEr1BF/tcII8xuPLROTChTEAFRb2N84Vz0Dc9Y0NU
-         XEu/UQk2/CmxIdiQ6qQ8EJyZ9M2D6Uz0cQaJSD4p8EjXukZ0zFJ9Tf3/M0cDxbjKMdbg
-         CJTkekS/xlsceET8uZag3CrFAjnQaMrV2Ag4AhEiWmEr/GjKtTTzZNMiuNEp2CItkzS8
-         nS6aDzecYCr+95qBhUOo4AVzBeexkgLuW94y8pE2KRYSgxS5yuWVg8nbMFIYtutgdZ2r
-         ThUw==
-X-Forwarded-Encrypted: i=1; AHgh+Rp3ZKUY+brlMDSCgcL2T8DI4uJqxbTwLrJHUXLa7hoggXPGQRFS8lFmiS+oZS3UTns7sIapQq/HCUU/Cbxo@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGyZP4/S2sOGA56f/xdrfPAURfX7si5zHeh1Df4pFhNvo4m6T2
-	jMzse7XiOxbBSWc5Pfabsts8gbcoejfTed2iOEToumLB3kEi6HFUjXH8N8fKBp0QNetXu/iRtgn
-	UJszszx2g1fXZOgdzbdaC2JWQcA==
-X-Received: from pfbbx25.prod.google.com ([2002:a05:6a00:4299:b0:847:82b3:aca])
+        bh=Mr0Imss8jl6Lql5T0sFpczm9SFtWuez0AZQ8VASrGcw=;
+        b=lvkOn9idHPl6sNmftZtHF+7wRp37gQVmgAau+aLbFjI12FdrQmDYxylhgx5E1glK3/
+         T4WehJPXlI9RP5Uy1Ufp+BGFYv4Am3aUgnHzR+5vKF1jgBoBHLd7wDvZpR1E3Hz0Ryds
+         97pHWsKintd7eAhwjQ9P2Urx9rbykyn2JUOufX1RDznjscnNylUTUEbV/aAMwHjMdL04
+         xr6fD00af2Aqpv5dKfeCCHnR0Yqls4N4UV+vmXQ32iXG70L/Q2vk/fMJpOXMlu6QXFYy
+         bgzi1gtVryYaXZPrjvvmsAB6kEKdsh8ssvAqcAAqbjuRd9+hY+x0+F/YEkB/S6eq0FBQ
+         u5wA==
+X-Forwarded-Encrypted: i=1; AHgh+RrpOubRUJRT3YkCPxfO6Uq1mEb0d+2niK/hrTNeFwDtmEdyzx1qwCb7hOQQWlcVayvAndlCDgVdj20iv2cR@vger.kernel.org
+X-Gm-Message-State: AOJu0YzH6XUadZairlJpI0AxDwEsNNtAorwgFl8PodS2NTSCc4Fb2x1k
+	CdpDc2RVs3OOUDoMCP3LHQ1HbDzI+5R/1dvoBeewSwpKyKf7vj6LNSOkGTssPuV4Ek+hZFv0LHU
+	SmfqLQJvJCooTuv0Q8WQAAPszYg==
+X-Received: from pjui23.prod.google.com ([2002:a17:90a:cf97:b0:382:3fe5:7a9b])
  (user=souravpanda job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a00:94a4:b0:848:2e3c:9955 with SMTP id d2e1a72fcca58-8482e3c9a98mr1470448b3a.4.1783406561929;
- Mon, 06 Jul 2026 23:42:41 -0700 (PDT)
-Date: Tue,  7 Jul 2026 06:42:33 +0000
+ 2002:a17:90b:570d:b0:37f:eaf9:4682 with SMTP id 98e67ed59e1d1-3875586394cmr3986337a91.14.1783406563403;
+ Mon, 06 Jul 2026 23:42:43 -0700 (PDT)
+Date: Tue,  7 Jul 2026 06:42:34 +0000
 In-Reply-To: <20260707064235.1386552-1-souravpanda@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -60,8 +60,9 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260707064235.1386552-1-souravpanda@google.com>
 X-Mailer: git-send-email 2.55.0.rc2.803.g1fd1e6609c-goog
-Message-ID: <20260707064235.1386552-5-souravpanda@google.com>
-Subject: [PATCH 4/6] mm/hugetlb: add memory shrinker for cache
+Message-ID: <20260707064235.1386552-6-souravpanda@google.com>
+Subject: [PATCH 5/6] Documentation/admin-guide/mm/hugetlbpage.rst: document
+ cache interfaces
 From: Sourav Panda <souravpanda@google.com>
 To: muchun.song@linux.dev, osalvador@suse.de, akpm@linux-foundation.org
 Cc: david@kernel.org, ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, 
@@ -73,115 +74,85 @@ Cc: david@kernel.org, ljs@kernel.org, liam@infradead.org, vbabka@kernel.org,
 	linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Register a memory shrinker for the HugeTLB dynamic cache to
-reclaim cached pages under memory pressure.
-
-Implement hugetlb_shrinker_count to report the number of cached pages
-(currently limited to gigantic pages in the shrinker) and
-hugetlb_shrinker_scan to free them back to the buddy allocator.
-
-The shrinker scan uses LRU policy to reclaim the coldest pages first.
+Document the newly introduced sysfs interfaces for the HugeTLB
+dynamic cache. This includes max_cached_huge_pages,
+nr_cached_hugepages and their NUMA/mempolicy variants.
 
 Signed-off-by: Sourav Panda <souravpanda@google.com>
 ---
- mm/hugetlb.c | 77 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
+ Documentation/admin-guide/mm/hugetlbpage.rst | 34 ++++++++++++++++++--
+ 1 file changed, 32 insertions(+), 2 deletions(-)
 
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index f18a3123cbcb..1bc0198a695c 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -4399,6 +4399,68 @@ ssize_t __max_cached_huge_pages_store_common(bool obey_mempolicy,
+diff --git a/Documentation/admin-guide/mm/hugetlbpage.rst b/Documentation/admin-guide/mm/hugetlbpage.rst
+index 67a941903fd2..6b96779e2584 100644
+--- a/Documentation/admin-guide/mm/hugetlbpage.rst
++++ b/Documentation/admin-guide/mm/hugetlbpage.rst
+@@ -264,6 +264,10 @@ pages may exist::
+ 	free_hugepages
+ 	resv_hugepages
+ 	surplus_hugepages
++	max_cached_huge_pages
++	max_cached_huge_pages_mempolicy
++	nr_cached_hugepages
++	nr_cached_hugepages_mempolicy
  
- 	return err ? err : len;
- }
-+
-+static unsigned long hugetlb_shrinker_count(struct shrinker *shrink,
-+					    struct shrink_control *sc)
-+{
-+	struct hstate *h;
-+	unsigned long count = 0;
-+	int nid = sc->nid;
-+
-+	for_each_hstate(h) {
-+		count += h->nr_cached_hugepages_node[nid];
-+	}
-+	return count;
-+}
-+
-+static unsigned long hugetlb_shrinker_scan(struct shrinker *shrink,
-+					   struct shrink_control *sc)
-+{
-+	struct hstate *h;
-+	int nid = sc->nid;
-+	unsigned long freed = 0;
-+	unsigned long to_scan = sc->nr_to_scan;
-+
-+	for_each_hstate(h) {
-+		while (freed < to_scan) {
-+			struct folio *folio = NULL;
-+			bool atomic = true;
-+
-+			/*
-+			 * Only do synchronous vmemmap restoration if the caller
-+			 * context allows blocking and FS reclaim (GFP_KERNEL compatible).
-+			 * Otherwise, defer to workqueue to avoid lock inversion.
-+			 */
-+			if (gfpflags_allow_blocking(sc->gfp_mask) &&
-+			    (sc->gfp_mask & __GFP_FS))
-+				atomic = false;
-+
-+			spin_lock_irq(&hugetlb_lock);
-+			if (list_empty(&h->hugepage_cache_lists[nid])) {
-+				spin_unlock_irq(&hugetlb_lock);
-+				break;
-+			}
-+
-+			folio = list_first_entry(&h->hugepage_cache_lists[nid],
-+						 struct folio, lru);
-+
-+			remove_hugetlb_folio(h, folio, false);
-+			spin_unlock_irq(&hugetlb_lock);
-+
-+			update_and_free_hugetlb_folio(h, folio, atomic);
-+
-+			freed++;
-+			if (current->reclaim_state)
-+				current->reclaim_state->reclaimed += pages_per_huge_page(h);
-+		}
-+		if (freed >= to_scan)
-+			break;
-+	}
-+
-+	return freed;
-+}
-+
-+static struct shrinker *hugetlb_cached_pages_shrinker;
- #endif /* CONFIG_HUGETLB_CACHE */
+ The demote interfaces provide the ability to split a huge page into
+ smaller huge pages.  For example, the x86 architecture supports both
+@@ -286,8 +290,28 @@ demote
+         actually demoted, compare the value of nr_hugepages before and after
+         writing to the demote interface.  demote is a write only interface.
  
- ssize_t __nr_hugepages_store_common(bool obey_mempolicy,
-@@ -4502,6 +4564,21 @@ static int __init hugetlb_init(void)
+-The interfaces which are the same as in ``/proc`` (all except demote and
+-demote_size) function as described above for the default huge page-sized case.
++max_cached_huge_pages
++        is the maximum number of cached hugepages for this size (global).
++        Surplus hugepages freed by applications are recycled into this cache
++        instead of being released back to the buddy allocator immediately.
++        Subsequent allocations for surplus pages will prefer this cache.
++        A user with root privileges can write to this file to set the limit.
++        This interface accepts absolute values as well as relative adjustments
++        using +1 or -1.
++
++max_cached_huge_pages_mempolicy
++        is the same as max_cached_huge_pages, but the nodes from which pages
++        are cached are controlled by the memory policy of the task.
++
++nr_cached_hugepages
++        reports the current number of cached hugepages. Writing to this file
++        allows manual expansion or contraction of the cache.
++        A user with root privileges can write to this file.
++        This interface accepts absolute values as well as relative adjustments
++        using +1 or -1.
++
++nr_cached_hugepages_mempolicy
++        is the same as nr_cached_hugepages, but obeys the memory policy.
++
++The interfaces which are the same as in ``/proc`` (all except demote,
++demote_size, and the cache interfaces) function as described above
++for the default huge page-sized case.
  
- 	for (i = 0; i < num_fault_mutexes; i++)
- 		mutex_init(&hugetlb_fault_mutex_table[i]);
+ .. _mem_policy_and_hp_alloc:
+ 
+@@ -372,6 +396,8 @@ contains the following attribute files::
+ 	nr_hugepages
+ 	free_hugepages
+ 	surplus_hugepages
++	nr_cached_hugepages
++	max_cached_huge_pages
+ 
+ The free\_' and surplus\_' attribute files are read-only.  They return the number
+ of free and surplus [overcommitted] huge pages, respectively, on the parent
+@@ -382,6 +408,10 @@ specified node.  When this attribute is written, the number of persistent huge
+ pages on the parent node will be adjusted to the specified value, if sufficient
+ resources exist, regardless of the task's mempolicy or cpuset constraints.
+ 
++The ``nr_cached_hugepages`` and ``max_cached_huge_pages`` attributes return the
++number of cached huge pages and the max limit on the specified node, respectively.
++Writing to these attributes adjusts the cache on the parent node.
 +
-+#ifdef CONFIG_HUGETLB_CACHE
-+	hugetlb_cached_pages_shrinker = shrinker_alloc(SHRINKER_NUMA_AWARE |
-+						       SHRINKER_NONSLAB,
-+						       "hugetlb-cached-pages");
-+	if (!hugetlb_cached_pages_shrinker) {
-+		pr_warn("HugeTLB: Failed to allocate shrinker\n");
-+	} else {
-+		hugetlb_cached_pages_shrinker->count_objects = hugetlb_shrinker_count;
-+		hugetlb_cached_pages_shrinker->scan_objects = hugetlb_shrinker_scan;
-+		hugetlb_cached_pages_shrinker->batch = 1;
-+		shrinker_register(hugetlb_cached_pages_shrinker);
-+	}
-+#endif
-+
- 	return 0;
- }
- subsys_initcall(hugetlb_init);
+ Note that the number of overcommit and reserve pages remain global quantities,
+ as we don't know until fault time, when the faulting task's mempolicy is
+ applied, from which node the huge page allocation will be attempted.
 -- 
 2.55.0.rc0.799.gd6f94ed593-goog
 
