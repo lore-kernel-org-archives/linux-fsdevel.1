@@ -1,30 +1,30 @@
-Received: from mta21.hihonor.com (mta21.hihonor.com [81.70.160.142])
+Received: from mta20.hihonor.com (mta20.honor.com [81.70.206.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5356D3D3326;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B233D47CE;
 	Tue,  7 Jul 2026 06:57:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.160.142
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.206.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783407459; cv=none; b=BgOuZ9l8J9LP6bJ8CUzNk02XRhnoUv/1Bw5PvsgqkTtmPmQG7ppUB8SPllYs7GwofoRDAaKkjKkan8sn+78kPwDTzi+WC1JIlf9+bMxGEVQ8ZG1uK7AXUZ7oa/hJAFHBc/uyCAd33AHoff7ryGMzCC9a3TaJZImtqy0dp9S1v6I=
+	t=1783407460; cv=none; b=TKFsXSVykBhJglmAxkULN0XaEtTGpIBmxfTGsCDW/GO95q9vpPCQ0ckRtcl2DxLp3K8+C7De24ZnPmwMoG+SdbGmmI4XQBSruQ+S7TMxqqnb0RGUTX41f/9QhjnLLJDugBs7R4UL+/e3AKgWp0wl5PVJbzA7vO5+n5LMz7oDv3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783407459; c=relaxed/simple;
-	bh=fwXfFr9I8Qrv7AsTjkGpQNNTSx/ObgqQdRPomKbX3tY=;
+	s=arc-20240116; t=1783407460; c=relaxed/simple;
+	bh=LyNVozLq8/ZnLFj3fReKD56dwCtjRBT0y1oDo2YKZjc=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tUjTgWFZsLiNMKpU3FetIxq5xsYo74oLVdUSWH0UhvY8UykGbRcokPmov+tGvxi/0z3Xusg3ueXuwRIg3W5Kw2sDHU5OLbr/cD/n3ESrEO804wPC0BJE0mnPQXZVC5o5w/rI30ypKVPckTj4gj331jOwt5eJPvN/vQPOuxOEhjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.160.142
+	 MIME-Version:Content-Type; b=Nua/FTa2x+dMgls9xBHN3AafS0Ae7AWV96CKKEx7x4mSRo9vV6j8nAhHK6Wj6ZQwCTu9Ydj/92dHWCHgL8xyvRNJ6xfOjk4u5txzdFcPCzDet8htWqrBWmtLhhPZATHPZiEZQa1n2nqHBz2qFRpVc02wbzIP7jfRauqXcDMIZVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.206.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
-Received: from TW001.hihonor.com (unknown [10.77.229.151])
-	by mta21.hihonor.com (SkyGuard) with ESMTPS id 4gvWnJ5jTJzYmWKW;
-	Tue,  7 Jul 2026 14:40:20 +0800 (CST)
-Received: from TA003.hihonor.com (10.72.0.43) by TW001.hihonor.com
- (10.77.229.151) with Microsoft SMTP Server (version=TLS1_2,
+Received: from TW003.hihonor.com (unknown [10.77.199.161])
+	by mta20.hihonor.com (SkyGuard) with ESMTPS id 4gvWnG3lZLzYm43k;
+	Tue,  7 Jul 2026 14:40:18 +0800 (CST)
+Received: from TA003.hihonor.com (10.72.0.43) by TW003.hihonor.com
+ (10.77.199.161) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Tue, 7 Jul
- 2026 14:40:20 +0800
+ 2026 14:40:16 +0800
 Received: from localhost.localdomain (10.144.18.117) by TA003.hihonor.com
  (10.72.0.43) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Tue, 7 Jul
- 2026 14:40:20 +0800
+ 2026 14:40:17 +0800
 From: tao <tao.wangtao@honor.com>
 To: <akpm@linux-foundation.org>, <david@kernel.org>,
 	<catalin.marinas@arm.com>, <will@kernel.org>, <tglx@kernel.org>,
@@ -47,9 +47,9 @@ CC: <hpa@zytor.com>, <liam@infradead.org>, <vbabka@kernel.org>,
 	<linux-mm@kvack.org>, <damon@lists.linux.dev>, <shakeel.butt@linux.dev>,
 	<ryncsn@gmail.com>, <jparsana@google.com>, <dvander@google.com>,
 	<zhangji1@honor.com>, <wangzicheng@honor.com>, tao <tao.wangtao@honor.com>
-Subject: [RFC PATCH v2 11/13] mm: optimize rmap for ANON_VMA_FRACTAL with PVL
-Date: Tue, 7 Jul 2026 14:33:06 +0800
-Message-ID: <20260707063308.29176-12-tao.wangtao@honor.com>
+Subject: [RFC PATCH v2 03/13] mm: implement __anon_node_prepare for ANON_VMA_FRACTAL
+Date: Tue, 7 Jul 2026 14:32:58 +0800
+Message-ID: <20260707063308.29176-4-tao.wangtao@honor.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20260707063308.29176-1-tao.wangtao@honor.com>
 References: <20260707063308.29176-1-tao.wangtao@honor.com>
@@ -63,172 +63,112 @@ Content-Type: text/plain
 X-ClientProxiedBy: TW002-1.hihonor.com (10.72.0.137) To TA003.hihonor.com
  (10.72.0.43)
 
-Leaf anon_nodes have no children, and a given address can belong to at
-most one VMA. In this case, PVL can protect the rmap.
+Add anon_node APIs corresponding to existing anon_vma operations:
+
+- anon_node_clone() corresponds to anon_vma_clone()
+- __anon_node_prepare() corresponds to __anon_vma_prepare()
+- anon_node_fork_with_prev() corresponds to anon_vma_fork()
+- unlink_anon_nodes() corresponds to unlink_anon_vmas()
+
+Implement __anon_node_prepare() first to keep the patch small.
 
 Signed-off-by: tao <tao.wangtao@honor.com>
 ---
- mm/internal.h | 22 ++++++++++++++++++
- mm/rmap.c     | 64 ++++++++++++++++++++++++++++++++++++++++++++++++---
- 2 files changed, 83 insertions(+), 3 deletions(-)
+ mm/internal.h | 11 ++++++++++
+ mm/rmap.c     | 58 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 69 insertions(+)
 
 diff --git a/mm/internal.h b/mm/internal.h
-index 205f1b5226aa..f8dd2120b780 100644
+index c1b3961b9d3e..710baf02575b 100644
 --- a/mm/internal.h
 +++ b/mm/internal.h
-@@ -354,6 +354,23 @@ int anon_node_trylock_rmap(struct anon_node *anon_nod);
- void anon_node_lock_rmap(struct anon_node *anon_nod);
- void anon_node_unlock_rmap(struct anon_node *anon_nod);
+@@ -314,6 +314,17 @@ int anon_vma_fork(struct vm_area_struct *vma, struct vm_area_struct *pvma);
+ int  __anon_vma_prepare(struct vm_area_struct *vma);
+ void unlink_anon_vmas(struct vm_area_struct *vma);
  
-+#define ANON_RMAP_LEAF_VMA	1
-+#define ANON_RMAP_FLAGS 	(ANON_RMAP_LEAF_VMA)
++#ifdef CONFIG_ANON_VMA_FRACTAL
++int anon_node_clone(struct vm_area_struct *vma, struct vm_area_struct *src,
++	enum vma_operation operation);
++int anon_node_fork_with_prev(struct vm_area_struct *vma,
++	struct vm_area_struct *pvma, struct vm_area_struct *vma_prev,
++	struct vm_area_struct *pvma_prev);
++int __anon_node_prepare(struct vm_area_struct *vma);
++void unlink_anon_nodes(struct vm_area_struct *vma);
 +
-+static inline bool anon_rmap_is_leaf_vma(void *anon_rmap)
-+{
-+#ifdef CONFIG_PER_VMA_LOCK
-+	return ((unsigned long)anon_rmap & ANON_RMAP_FLAGS) == ANON_RMAP_LEAF_VMA;
-+#else
-+	return false;
 +#endif
-+}
 +
-+static inline struct vm_area_struct *anon_rmap_to_leaf_vma(void *anon_rmap)
-+{
-+	return (void *)((unsigned long)anon_rmap & ~ANON_RMAP_FLAGS);
-+}
-+
- #define ANON_RMAP_FOREACH_VMA(anon_vma, addr, start, last, rmap_proc_vma) \
- do { \
- 	struct vm_area_struct *vma = NULL; /* must be named vma */ \
-@@ -362,6 +379,11 @@ do { \
- 	unsigned long _pgoff = (start); \
- 	unsigned long _nr = 0, _total = 1; \
- 	\
-+	if (anon_rmap_is_leaf_vma(_anon_nod)) { \
-+		vma = anon_rmap_to_leaf_vma(_anon_nod); \
-+		(rmap_proc_vma); \
-+		break; \
-+	} \
- 	while (_nod) { \
- 		vma = anon_node_lookup_vma(_nod, (addr), _pgoff); \
- 		if (vma) \
+ static inline int anon_vma_prepare(struct vm_area_struct *vma)
+ {
+ 	if (likely(vma->anon_vma))
 diff --git a/mm/rmap.c b/mm/rmap.c
-index 11239838b722..d1099a2fef0a 100644
+index fa9d82271005..b98ba6a83272 100644
 --- a/mm/rmap.c
 +++ b/mm/rmap.c
-@@ -572,6 +572,8 @@ void __put_anon_vma(struct anon_vma *anon_vma)
- 
- static struct kmem_cache *anon_node_cachep;
- 
-+
-+
- static inline struct rw_semaphore *anon_node_rmap_sem(struct anon_node *node)
- {
- 	return &node->root->rwsem;
-@@ -1035,9 +1037,48 @@ void anon_node_lock_rmap(struct anon_node *anon_nod)
- 
- void anon_node_unlock_rmap(struct anon_node *anon_nod)
- {
-+#ifdef CONFIG_PER_VMA_LOCK
-+	/* Corresponds to folio_lock_anon_vma_read(). */
-+	if (anon_rmap_is_leaf_vma(anon_nod)) {
-+		vma_refcount_put(anon_rmap_to_leaf_vma(anon_nod));
-+		return;
-+	}
-+#endif
-+
- 	up_read(anon_node_rmap_sem(anon_nod));
+@@ -645,6 +645,64 @@ static inline struct anon_node *anon_node_alloc(struct vm_area_struct *vma,
+ 	return anon_nod;
  }
  
-+static struct vm_area_struct *trylock_leaf_vma_rmap(
-+		struct anon_node *anon_nod, const struct folio *folio,
-+		struct mm_struct **other_mm)
++static bool try_track_rmap(struct anon_node *anon_nod, unsigned long rmap_base)
 +{
-+	unsigned long pgoff_start = folio_pgoff(folio);
-+	unsigned long pgoff_end = pgoff_start + folio_nr_pages(folio) - 1;
-+	unsigned long addr = anon_node_rmap_address(anon_nod, pgoff_start);
-+	struct mm_struct *mm = anon_nod->mm;
-+	struct vm_area_struct *vma;
-+	int oldcnt;
++	const unsigned long rbc_max = rmap_base + ANON_RMAP_BASE_COUNT_MAX;
 +
-+	if (anon_nod->nr_children)
-+		return NULL;
++	return rmap_base == anon_node_rmap_base(anon_nod) &&
++		atomic_long_add_unless(&anon_nod->rbc, 1, rbc_max);
++}
 +
-+	if (!addr || !mm || !mmget_not_zero(mm))
-+		return NULL;
++static inline bool try_untrack_rmap(struct anon_node *anon_nod,
++		unsigned long rmap_base, bool *test_empty)
++{
++	const unsigned long rbc_max = rmap_base + ANON_RMAP_BASE_COUNT_MAX;
++	unsigned long rbc = atomic_long_read(&anon_nod->rbc);
 +
-+	vma = vma_lookup(mm, addr);
-+	mmput_async(mm);
-+	if (!vma || vma_last_pgoff(vma) < pgoff_end)
-+		return NULL;
++	if (rbc > rmap_base && rbc <= rbc_max) {
++		rbc = atomic_long_dec_return(&anon_nod->rbc);
++		*test_empty = (rbc == rmap_base);
++		return true;
++	}
++	return false;
++}
 +
-+	if (!__refcount_inc_not_zero_limited_acquire(&vma->vm_refcnt, &oldcnt,
-+						     VM_REFCNT_LIMIT)) {
-+		return NULL;
++/* attach an anon_node to the VMA. */
++int __anon_node_prepare(struct vm_area_struct *vma)
++{
++	struct mm_struct *mm = vma->vm_mm;
++	unsigned long rmap_base = vma_rmap_base(vma);
++	struct anon_node *anon_nod;
++	struct anon_vma *anon_old = NULL, *anon_new;
++	bool test_empty = false;
++
++	mmap_assert_locked(mm);
++	might_sleep();
++
++	anon_nod = NULL; /* Fix find_mergeable_anon_vma(vma) later. */
++	if (anon_nod) {
++		anon_new = (struct anon_vma *)anon_nod;
++		if (try_track_rmap(anon_nod, rmap_base) &&
++		    !try_cmpxchg(&vma->anon_vma, &anon_old, anon_new))
++			try_untrack_rmap(anon_nod, rmap_base, &test_empty);
++		if (vma->anon_vma)
++			return 0;
 +	}
 +
-+	*other_mm = (vma->vm_mm == mm) ? NULL : vma->vm_mm;
-+	return vma;
++	anon_nod = anon_node_alloc(vma, NULL, false);
++	if (unlikely(!anon_nod))
++		return -ENOMEM;
++
++	anon_new = (struct anon_vma *)anon_nod;
++	/* maybe prepared by another thread */
++	if (!try_cmpxchg(&vma->anon_vma, &anon_old, anon_new)) {
++		try_untrack_rmap(anon_nod, rmap_base, &test_empty);
++		put_anon_node(anon_nod);
++	}
++
++	return 0;
 +}
 +
  #endif
  
  /*
-@@ -1117,6 +1158,8 @@ struct anon_vma *folio_lock_anon_vma_read(const struct folio *folio,
- {
- 	struct anon_vma *anon_vma = NULL;
- 	struct anon_vma *root_anon_vma;
-+	struct vm_area_struct *leaf_vma = NULL;
-+	struct mm_struct *other_mm = NULL;
- 	unsigned long anon_mapping;
- 
- 	VM_WARN_ON_FOLIO(!folio_test_locked(folio), folio);
-@@ -1130,6 +1173,15 @@ struct anon_vma *folio_lock_anon_vma_read(const struct folio *folio,
- 
- 	anon_vma = (struct anon_vma *) (anon_mapping - FOLIO_MAPPING_ANON);
- 	root_anon_vma = READ_ONCE(anon_vma->root);
-+#if defined(CONFIG_PER_VMA_LOCK) && defined(CONFIG_ANON_VMA_FRACTAL)
-+	leaf_vma = trylock_leaf_vma_rmap(anon_vma, folio, &other_mm);
-+	if (leaf_vma && !other_mm && folio_mapped(folio)) {
-+		rcu_read_unlock();
-+		return (void *)leaf_vma + ANON_RMAP_LEAF_VMA;
-+	}
-+	if (unlikely(other_mm))
-+		mmgrab(other_mm); /* put vma after unlock. */
-+#endif
- 	if (down_read_trylock(&root_anon_vma->rwsem)) {
- 		/*
- 		 * If the folio is still mapped, then this anon_vma is still
-@@ -1156,9 +1208,8 @@ struct anon_vma *folio_lock_anon_vma_read(const struct folio *folio,
- 	}
- 
- 	if (!folio_mapped(folio)) {
--		rcu_read_unlock();
- 		put_anon_vma(anon_vma);
--		return NULL;
-+		goto out;
- 	}
- 
- 	/* we pinned the anon_vma, its safe to sleep */
-@@ -1176,10 +1227,17 @@ struct anon_vma *folio_lock_anon_vma_read(const struct folio *folio,
- 		anon_vma = NULL;
- 	}
- 
--	return anon_vma;
-+	goto out_unlocked;
- 
- out:
- 	rcu_read_unlock();
-+out_unlocked:
-+#ifdef CONFIG_PER_VMA_LOCK
-+	if (leaf_vma)
-+		vma_refcount_put(leaf_vma);
-+#endif
-+	if (other_mm)
-+		mmdrop(other_mm);
- 	return anon_vma;
- }
- 
 -- 
 2.17.1
 
