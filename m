@@ -1,134 +1,214 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA48414A0C
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 13:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783429501; cv=pass; b=gBHm0/kNvsMrMhC15CFIeMLzRRhPsj1W/uSKBTCzK5M3tbm6hXt4cDT/TXAzMUHCzcYO5GDvILFSdWJkjKfLB+CFxhd/xJ5VPGtgh1S9yzpZ6sqiCEzy/k8d1+CxQMATRIMtcdSNqE88rib5Knv8A/uvPBxPiSU9m32+QdmEwz4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783429501; c=relaxed/simple;
-	bh=Qa3HvUOBiikHOm2hv7akwkWqjggqpxhg4jyWQbcbbM4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TrrGfTVPqJHUz5nT4xCj+Eqxrx9XudmeaZ2mMk2Ut+KSl79D+CD7hK/+D9ZDhdjcexHVzaicNy68W9kAcABGZN7vx7iIQIF9abfW/kxzKsmt+pzOF4asdPY4M+BsQ5nguTcwIAZ2AD2RABQI1kUvV8Zy4904IN1kgFfFlqY0kyk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nwFqpWQm; arc=pass smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B7841736F;
+	Tue,  7 Jul 2026 13:28:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783430937; cv=none; b=HImNuZFBpaM+Ti5A9B9xggGU86vKVB1tJzcHXg9uON/jwjV4rkKB0T5sQ8Q3ympYxN9mjtG1MRYx+A7cULXcC3V7JNZmj8tANZ0Kaxv51tE5grg3ml/7e/ZE6DTqERkBKQ8/tdC5rCnWClhpBTWtmORSaQSp4vSPFu+Sqv2BMD0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783430937; c=relaxed/simple;
+	bh=QxuthDG6C7EaZuCmhHEyzx4mRVYzNX4KrA34zWouSMs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Uwudvas5nmdyMtyjCvwRCwa0v4zAojvPeYuprqOvsoSXuXW9o3q1vhpRmn5mpbRobOroL6jlqfuO3E2M2QhUfDaJDKJfFhlZ9HkvT/X6eeCMB3gnddoz27PnsfEffMYihkIoOQIKUDt1joHo9Ip6Scafx6rEhyHrne7fm6td7qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GaZCBpRZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nwFqpWQm"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-493c19bad03so39168635e9.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 06:04:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783429498; cv=none;
-        d=google.com; s=arc-20260327;
-        b=BMTcs9c2EwaQVp5n8iDMPJHJLaBRO1s+cZH+JsFdCL5yED7XL91mdwNEnE9RYWy6Si
-         Wc0UthH1zMqMO57b0vxAvxLWn/6/KswiG8Z+YitzfG6PLAbZYNAVCnKMSbxPpK1tknDk
-         DL+PFb8PuoTM46kXicWfwhsFTDSuM//wVGbtCZ9WEuKJWWTGdEjUxsGvAzdpwoPsedzw
-         wPUL5kP+ItCUETBzRzHTBPMVB0Jim8usaOFPbe8YaGbI8o2qVzJLRvhI2N6+21evoNuj
-         K8OhsXJ01r4OAGw4ZGdjEp5bQno32Gs56h2vksrjrZ0wAc0pNtt5xejVlFb1EguJgxLV
-         Ps7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Qa3HvUOBiikHOm2hv7akwkWqjggqpxhg4jyWQbcbbM4=;
-        fh=T0wGFuFPyZwMW5oBQzbJW6kCRS1w5qGuO+dyM80krGI=;
-        b=Ij0zpPAS93tUhgJaQaSLkxtqRW2Q0QzDfV6GlZE7si/B0NCYwyzr3OUVqhbabauYHi
-         sc8ydfmKxEAPf1zXnIiB6bpTVEm6rgdQYo8Nc7py64UzOip8wFml9QbFUreZ9lAYOEGx
-         C5IKwlZXkBU9SaSYjVW0acXosfgXhxt0iohJdOe/T+djX1EpisvYDDR3HJgn00p9N3lc
-         cYXE7yKTzoKR4JuWdtvM7HAptANRrXZBH4kVbb1xRENvbtQPgpoMUsxw2f5qfcclTkJ8
-         /h4rWDRoRFbQJg5joqOhiO1/C2nD066l3vq/CfxqXDMVPOLlK0A+49pCXEBpVMv9RF12
-         WY9Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783429498; x=1784034298; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Qa3HvUOBiikHOm2hv7akwkWqjggqpxhg4jyWQbcbbM4=;
-        b=nwFqpWQmjpkhT5N166ROjlsHRUNBKTRpXMHaTMJhkX1rzisW+j8ZNBgqb0gt0uMyFK
-         kJBGogIRdGOCv+IfwKTap7nCADTIGP8KSe2axCh/K7UPtN3Y/fPn4dG6mxglUfb5sjDe
-         z9wuNw/bh4mOjkdHneFd2IGooWxjn53QI3Stm22mJIjhjpbdYFfbUmPDdJ+o5ujoCGZU
-         Eb2D+u6aPJP/dPUUL3BCwxU8hiDgJqf3hxk/zmzS8CtdaNnPAk27A0y9mKwZuZGJ8UZk
-         RsXJ0igYAos9Lsjb5CO7DSUU9QppF9kBmRG78Ibkhp9dKy3x75qDooky2A3617Q50Udn
-         s5oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783429498; x=1784034298;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Qa3HvUOBiikHOm2hv7akwkWqjggqpxhg4jyWQbcbbM4=;
-        b=lAoZKTPEyMqiKaxfbiqSodX5tTUz8385WpIkqU3cMhtUh+iObvyyioLhv8SWnxC7QF
-         5uLxVC1StbHBYHNUu7XhjDFFVtvYvux5ha5YJrFNqm7PV86WIdjGxHkrR81aNZblddUc
-         oR4Zp0g1j2kNBXOGI3uYl5j4hQ9S4Pq1xJDMNJuJmBsuEMw8tae6rMUnnFh4wUO0Rznu
-         StMdstFvQSUelMmvBb7hwK4DEL0iLIFhwPmpriaNtL5Le139Td5M2nKRKEd+rk2SHilR
-         31uXvptbZxPRETnaz185uL2hCZcqUtF8unyRUhYH8kyX1ltdlqQLUO/ljykuUZFaU79y
-         I1YQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoCTeb7sveex12TxqFHwYYZvnmB5Yhyf91t3UaCiq3ai1uUyGaOhwNI8BECIDNftaAiFarLs915bFTQFU5U@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTsTcIvv/Il74R0Z2q9XDBI0ZTaPvZBkHzBQSieXdH5h7xBUsj
-	5pWhm3vLEnOF2Q7piLlp/IXxQ9NrPFc6brUY7iYzLblnccvkDs6DhQHzpQHeWafwjOPj6am8Lmi
-	8Dc70lzE3LAImF/x0t/S1Yo/+eV1h+D/FsSr2ngEj
-X-Gm-Gg: AfdE7ck8wuL22dhUSE5xDmGSiG/wBqvSwNIoIZW3QBYpvMKGyfhr+isSLPtuIbIgvaw
-	wMaTsALlXO8xjANweC+HVtlFLw61Ruo8sjxMyc4LIdtKMu5TY2Zco+CgcdgO5UqITeXNAF6S8+8
-	2fvGoLGcX9DfE0h2bZpTSXJU0fFg0bfrM79vW1N7Pm0iH/dxHNJGVKDMGa/TpRoIeGuDGdvi322
-	Ce4JnNoEKIgy2E/H6VizIzZngCnW95aZKRK5WWrm+DPXQ5XxfraUaxKvEoUYn76bf8zPrOcsaBe
-	YnZ+i7SqcF6JwEzJue29bFhC8OE=
-X-Received: by 2002:a05:600c:8b70:b0:493:b6e4:fb2b with SMTP id
- 5b1f17b1804b1-493df06e943mr52096855e9.25.1783429497735; Tue, 07 Jul 2026
- 06:04:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GaZCBpRZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 313981F000E9;
+	Tue,  7 Jul 2026 13:28:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783430936;
+	bh=hVa/2y67lDjegAbH+jNz4FW3OMYPmgBfp2z3AdNmSOA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=GaZCBpRZQD7fv589ihWWgzl4Vy+vRwdwpglZhxbA5Ks3qJ/HXhCAGkM8dUltQdM73
+	 4ZRL1O3uIOhBxlAhVAhIH7FuS5N5BKylI26gith4cUpQ2tlszjpLK4kmfplZAo0UCA
+	 aQWuvo8sDjZirhLnQE11KWdtdGSaK64i8rebA4G6rJgJrBAC+XonLjcifGOi4nF788
+	 eI6mCX+/3XPsBTva62Gtqw/1+JOqBZr6fErogm8EgPsSjHLt4C7ARyfsdqaVkeCXCe
+	 9JicW54uQrhIolqDwDXHiXGBADzKB89KsyUO4/BQ4gXIqqzTL9LXgG9yhAbYH6SGxg
+	 2QmKBGvLvfdPQ==
+Message-ID: <ebc1f034-7297-459e-975d-5c143567392f@kernel.org>
+Date: Tue, 7 Jul 2026 15:28:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260626-unique-ref-v19-0-2607ca88dfdf@kernel.org> <20260626-unique-ref-v19-3-2607ca88dfdf@kernel.org>
-In-Reply-To: <20260626-unique-ref-v19-3-2607ca88dfdf@kernel.org>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Tue, 7 Jul 2026 15:04:45 +0200
-X-Gm-Features: AVVi8Cd8GrEsrkEwxzhRkanTcpbMUA7MU6OpTudOnt7DIfIGqhosSlF_BI7LYTM
-Message-ID: <CAH5fLggMeHUgXj7JGYSJejUrR2PdWymOOb+3E1VmHokzcox4hg@mail.gmail.com>
-Subject: Re: [PATCH v19 3/8] rust: implement `ForeignOwnable` for `Owned`
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Lyude Paul <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	=?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
-	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
-	Carlos Llamas <cmllamas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
-	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
-	Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, driver-core@lists.linux.dev, 
-	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-pwm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, Boris Burkov <boris@bur.io>,
+ Jeff Layton <jlayton@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>,
+ Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>,
+ David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+ Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+ Vlastimil Babka <vbabka@kernel.org>,
+ "Christian Brauner (Amutable)" <brauner@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <2026070227-payroll-eradicate-8f66@gregkh>
+ <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
+ <akaWnQ5Pkg_676B-@lucifer> <20260702211740.GA639365@zen.localdomain>
+ <3f447113-4407-471f-878f-e6d6edafee71@kernel.org> <akez23ZhLRSGMFQ1@lucifer>
+ <20260703163251.GB3734786@killaraus.ideasonboard.com>
+ <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org> <akzETpsps4TMfqpC@lucifer>
+ <0ba6bf66-e48f-40df-a953-503d317b3dbe@kernel.org>
+ <20260707124031.GC211515@killaraus.ideasonboard.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
+ ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
+ AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
+ 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
+ g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
+ ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
+ 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
+ /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
+ jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
+ DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
+ HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
+ 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
+ LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
+ 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
+ VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
+ /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
+ iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
+ 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
+ zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
+ azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
+ FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
+ sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
+ 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
+ EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
+ IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
+ 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
+ Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
+ sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
+ yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
+ 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
+ r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
+ 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
+ CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
+ qIws/H2t
+In-Reply-To: <20260707124031.GC211515@killaraus.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 26, 2026 at 1:55=E2=80=AFPM Andreas Hindborg <a.hindborg@kernel=
-.org> wrote:
->
-> Implement `ForeignOwnable` for `Owned<T>`. This allows use of `Owned<T>` =
-in
-> places such as the `XArray`.
->
-> Note that `T` does not need to implement `ForeignOwnable` for `Owned<T>` =
-to
-> implement `ForeignOwnable`.
->
-> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
-> Reviewed-by: Gary Guo <gary@garyguo.net>
+On 7/7/26 14:40, Laurent Pinchart wrote:
+> On Tue, Jul 07, 2026 at 11:49:31AM +0200, David Hildenbrand (Arm) wrote:
+>> On 7/7/26 11:20, Lorenzo Stoakes wrote:
+>>>
+>>> I think the silence suggests nobody :)
+>>>
+>>> What we could do is send a patch to simply add a section on adding a comment
+>>> explaining _what_ used an LLM and strongly suggesting it would be helpful to do
+>>> so.
+>>>
+>>> That should hopefully be uncontroversial, then later (or alongside that?) we
+>>> could submit an RFC for making the language move to 'you MUST do this', as that
+>>> will probably be the more controversial bit.
+>>
+>> Maybe we should just spell out about which scenario we care about where we really
+>> expect the disclosure.
+>>
+>> Sure, it might be more controversial and we could have that in a separate patch.
+>>
+>> I was thinking of the following end result:
+>>
+>> diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+>> index 899f4459c52d2..4c2ab4dfc6da7 100644
+>> --- a/Documentation/process/coding-assistants.rst
+>> +++ b/Documentation/process/coding-assistants.rst
+>> @@ -40,20 +40,37 @@ Attribution
+>>  ===========
+>>  
+>>  When AI tools contribute to kernel development, proper attribution
+>> -helps track the evolving role of AI in the development process.
+>> -Contributions should include an Assisted-by tag in the following format::
+>> +helps track the evolving role of AI in the development process. Further,
+>> +for reviewers and maintainers it is also crucially important to know how
+>> +AI tools were used.
+>>  
+>> -  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
+>> +Contributions that used AI to generate significant portions of code,
+>> +comments, or patch descriptions must include an Assisted-by tag in the
+>> +following format::
+>>  
+>> -Where (preferred):
+>> +  Assisted-by: LLM # brief description of usage
+>> +
+>> +Or alternatively::
+>> +
+>> +  Assisted-by: AGENT_NAME:MODEL_VERSION # brief description of usage
+> 
+> I would like to drop this one. As I understand, several people objected
+> to including the product name in the git history as it is just free
+> adverising, and nobody objected to dropping it.
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Yeah. I mean, we could go the following direction (dropping the models and
+encouraging also a description of usage for other tools), but not sure how
+much pushback we will get:
+
+
+diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+index 899f4459c52d2..a085a15d59990 100644
+--- a/Documentation/process/coding-assistants.rst
++++ b/Documentation/process/coding-assistants.rst
+@@ -40,20 +40,26 @@ Attribution
+ ===========
+ 
+ When AI tools contribute to kernel development, proper attribution
+-helps track the evolving role of AI in the development process.
+-Contributions should include an Assisted-by tag in the following format::
++helps track the evolving role of AI in the development process. Further,
++for reviewers and maintainers it is also crucially important to know how
++AI tools were used.
+ 
+-  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
++Contributions that used AI to generate significant portions of code,
++comments, or patch descriptions must include an Assisted-by tag in the
++following format::
+ 
+-Where:
++  Assisted-by: LLM # mandatory brief description of usage
+ 
+-* ``AGENT_NAME`` is the name of the AI tool or framework
+-* ``MODEL_VERSION`` is the specific model version used
+-* ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
+-  (e.g., coccinelle, sparse, smatch, clang-tidy)
++Similarly, usage of other specialized analysis tools should be
++indicated through an Assisted-by tag in the following format::
+ 
+-Basic development tools (git, gcc, make, editors) should not be listed.
++  Assisted-by: [TOOL1] [TOOL2] # optional brief description of usage
+ 
+-Example::
++Examples for ``[TOOL1] [TOOL2]`` are coccinelle, sparse, smatch, and
++clang-tidy. Basic development tools (git, gcc, make, editors) should not
++be listed.
+ 
+-  Assisted-by: Claude:claude-3-opus coccinelle sparse
++Examples::
++
++  Assisted-by: LLM # translate patch description
++  Assisted-by: coccinelle # batch conversion with small manual fixups
+davhil01@e142025:~/git/linux$ 
+
+-- 
+Cheers,
+
+David
