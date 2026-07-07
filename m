@@ -1,75 +1,81 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FD33932F1
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 19:48:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 624E63D5252
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 20:02:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783453687; cv=none; b=jV+oG8S73vXFTcq7MHAwfFFEdVwT5H00g3lTjjQUcbEpL8+wt3STd+5SCQzPoYYPKfdR7kM9QsTQFOBNHxXX4de+rK1SkR2M80eUENKfmpn0sgDuu3YxA9ik8MbiTkTt0f5MUjTUno+JjhjgfZVaxyMCLJYnKE9sRzn1QKfsXBQ=
+	t=1783454573; cv=none; b=pe95AEY/0KNHSyQatZPmfcFNxjCt4opDjap5x1CTkpazNFKFxiy8cCldVhJJCxizK6G/ofDa8s4a2xuDW9EQIeyKrG+1FLIOUvyXT9bOHBM/8ZEsmY+B/K++YCXEEaQvhKsHubdjUJs4ATR5FaAf7iqaZHtOv2PzC4Qg3prwk3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783453687; c=relaxed/simple;
-	bh=LxNcaK4vXIuE5cQviBJK/E1swzFTVIU8x+3GxWsK0dY=;
+	s=arc-20240116; t=1783454573; c=relaxed/simple;
+	bh=wj3WodX6GQdGP1WGyeQ7jc3Sj3uf42d9UeIOrihnPZ4=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=h+grpcDIDUEjd9FGRzKIEXLr69dJh1eOMTNf3OnrhgysNIj5DlNJ3Mo3WYSUUFDk7B/30t5TanmIuxmT7wD3OX3zSs1Opij3ShZal1M48uNLaoqbrx5aoXelkOOuT1gXMA9VzJ6kFey4o5Pj7UYWYZBV/eYpMfvZEsUS05JWlVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=zIZf5vQ+; arc=none smtp.client-ip=209.85.128.180
+	 Content-Type:MIME-Version; b=Tls1TOq4JaD8OKP92iafTxyHnKTBq8GW2fALsGaph3dC/nQbb3U7LSLE8h3R38idzUIJPHVAWj/U/aaJHAp4Ti9kyKoXZjGVKblwWs810FRnWmvx8VTIBJDF/e8V3FJJwiVSyPv2aTm+TXzFK2P7dsmjB+iD0S/ab0obkaLKvL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=r8hBjwWv; arc=none smtp.client-ip=74.125.224.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="zIZf5vQ+"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-7dbcb505578so41816107b3.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 12:48:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="r8hBjwWv"
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-664cdeab266so6935710d50.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 13:02:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1783453685; x=1784058485; darn=vger.kernel.org;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1783454569; x=1784059369; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=aLFn4LffXjts2fvbUwfMoYEaq+LjCaJSArAHkHvbD4s=;
-        b=zIZf5vQ+gYZlukR/koTjmUweoyew24upIZlAPSWektlHwKH0TXufwQ0CNQSbQJg4/d
-         x3kx5dpk5DEg6mOOcls5H6sukP/jWsbBfi+YxN78yElXAFBtuockag6r/U7ckWfBJgSR
-         okp+9PSFUIBotq3KQwXwIHmgD/qRGibELOY2i0Zcj0SbSwRqaZHbYKgDUOeVZRfIheaP
-         fvcUSvX6SaRVaqt/Qh0luAkGtaLsJWlSpB3jXXSyO49+p6RdlWwveqm1oavTL/o/hDrt
-         OdnjmbMjexbHK8pnqLmF0kZl4f4h0hueMZ7hqLPCooGJFdyFO/hvujqvjMwuWXPoL87k
-         tjDw==
+        bh=VmXvPBXUWn7bf8/27y4wkrYXlio6oyuAlI5wIu+uQjM=;
+        b=r8hBjwWvCN0RIiXnW/KNXR/tDxdXie2dJtx4nT1cTB+vcD/v7MqRzaZhjSchdTIofa
+         BtJSzxidh0TK/mt252ZGbL4knPhNUmpTHlVz6OXUkFrMWXJwPPkut0h9jU6QI+8/ew2F
+         YrFqpv+f8HpIiy0Qd3dNu0oARfq0tIUkg3fFbd72bXyNTlvRdl1mldmGG/v4VwIGcvWm
+         mkOzpGHyXL5xUtFbJNBzJhT5Rm3ExHcshM4t94JEUpmFJPpIrLeXxOL8/rzind6jvWPs
+         vrQ9ipmD0OHIb65x84VVnvkgShFlcMa062YJlLIweP0xolpA4HDEmJXFTfBxmSFjrvtN
+         jMVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783453685; x=1784058485;
+        d=1e100.net; s=20251104; t=1783454569; x=1784059369;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=aLFn4LffXjts2fvbUwfMoYEaq+LjCaJSArAHkHvbD4s=;
-        b=tX4GJahZ6qO/X4xaEtCD6EpoTOI7nnWI9qVjk5XwVTr+guibtkF1RenSQtgRmPZ56Y
-         tqivJQO3SO2bNn6SArKQyaKCvxZ58LvlJ7oBNKyz3SSpALYq1tTsGZXmBE0HLrzvbUq3
-         EqOwgsHCzPC7VtOIIzlMJtCblvWNkY7xuFLujKsAytCw3sIMqsJCAdRM5g+xE2k3WnOw
-         uU7crVbi7zq4glwCLPz4l9O6XZLHeXyZiA+iK8D1KQJTDqkRot6YepJHYWVI/auz8KEt
-         8VOVlDA7Opw1wFsyxhnB7Tim03kprGtsHRnftkhFC8I53rRMG7FZXP62qXjGXLeJ5yw1
-         4MYA==
-X-Forwarded-Encrypted: i=1; AHgh+Rpf5pF2SA3RA39ZnWHuovPhTCTE5N97DJcXeB77WJXaJ9xankh5SL12+A4HJjbaw7sMpgVM6FGrWyq35XuR@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEtJ/3SbpWfonCg+6+eBpyU/li6YgpzcTJBrPCjVwj2wFStj7h
-	c6CyG/2roO6HBd8qPhGhQuJj0PZtGXecDlkuEukI0e5TRehKUS3CU/vvtCrg7u+1LF4=
-X-Gm-Gg: AfdE7cnwdrbeCve5pvYAYWIaM8HSpL7fXBnO6Zal5NeJT16Qy8Ns0afNXR1F+HZ3T+Y
-	YFAF/WklmbgVYo8jcO2ofEMgevPC9VHbK2wT/tHT3qXy67OoKKiWQGtFiu/4R69a2mPuVSqd4OG
-	QGOSbyIiSdOCOLgR10DvXxWv3/zCAlDpe8G3/Yw5oYf4va1fwpmIJ5dbFn/DEQVm2HWb6EY7KYC
-	RvS1oVwOya1rwIBLR0I2+khcnCXKa2lfN0NC/7DRTTDMDBxEBDkFfRBlpnXhc1a3cNHVDPogdHG
-	RopQFaFSfyVXjDqUthivDNMy/RKY13BocJJDUwI1okgNhyvwTo/gPC6Rr0mSSsYWpJInCwH+Czg
-	ST9V4S6rnhKzhoaTBKKrEWJumTiN9Lr+Xi5bSESuYr1wDUmQx9ApnPB8m1ipaGkh7un1FO5utHN
-	Wd1DQiiaf0Jfjjwyk+bSeax6Ak0nqNMGpoMVMNcV/n1WJxz9+7BRwZvhneIo6pY219StTz8QSEd
-	mlnq+XHaux0jWZPJJqRyqY/eF4DuyoNrFBZMs2SB+B/R4Kjv9xcXRMq1wDl6Obt+sxWzPC8dDeE
-	n9fKFA==
-X-Received: by 2002:a05:690c:67ca:b0:80c:85b6:7651 with SMTP id 00721157ae682-81be42fad4bmr51618397b3.70.1783453684830;
-        Tue, 07 Jul 2026 12:48:04 -0700 (PDT)
+        bh=VmXvPBXUWn7bf8/27y4wkrYXlio6oyuAlI5wIu+uQjM=;
+        b=T65PfPSYAEAHArIa0LmYGMvW1fJ5uZ76rmXGKqpRK79UHr8qV0y6SODeaRwj2ttYrj
+         ydSJ7NfEwKyrBEZoVi0cyncrVnY43C7O69X4n9UU5JlgICI0n/tnyf4Jrv//I8f5Oxhh
+         ehX5pNTzNRnigsoP6Tyja+gnulaYL96Py1+8yM3wyu4OGdJFXgBxhJugIvLRmZPeg2sg
+         7QhLX1g1k7SE4jzGxJYMUxGI57ZOWIQxkpyWVkTIAevH5ZMjk0yrLgtHI/xV9ccjgCzE
+         /dBH3xt2XaYTt+z0v8p/vOH4vJxl4hyDfK4FJrvfQGueaqus3ncSv3SoJ0Lye4fXJ99u
+         b9uQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrWpKsxUodNaXLMIWto5rvz7gFT98+st2YOPT9MTkznF1C09FXZZHTXeZSuXc8Ts+F3E7XLEDen+uL0aHSH@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz84taIp2wDNJsUBufXRTsQyfQ00vxPEd4LWJsWN4nXOaV+kSov
+	KJSV4R3O3kBs5KYdLNTzK/EenHY2EWsk3xLbfHrk3h8VSPgmBJBzYCrAHfesghR2oPU=
+X-Gm-Gg: AfdE7clsKQoEkA57YcvwI0gl7y7D0+JLoX+G+aJ9Lk6/1acu6D0snJbZVZi1udXw1cV
+	ftF5SySNNumU6NkTA6dGSQK+FSf+F7O9CXWi7QYofGVDJVn/XJghevqOu0WyLR2ZJE9aUTOxjrz
+	Mi8ydl0bqdz3uPJGLkwV2J/wjqIw/FZFHUBMJcE//kilbR00GfAbur06ETugO4PkZMBRZzNxuz7
+	URs0cNd2Dol71umfTpmEfy/GMaV90GioFn9AFE2yH4omigecy+9tnVJcFr9nVu5BSsSoC2ykx1V
+	ON2RPtSImpvIL/SD237iKpQPftpI4bViKYn25WOkLfUItXgC7nlAzJVbgIs7U3n4vLWfq+QwYJR
+	lSAR7xhUl7BAj2T0nUn+hxjXkd0/9P7/7p2P7X+9/gas+hPfyeqF/PnxBgS0mlXrw8ckKAeskQg
+	0rs7b+HlgDDYUI9LVcIyKbLk8gcPtNvtjqthk7ACrt0k28gMb0DRq4wLLCKBNITZJLAXppcMk95
+	ZWOmi23Q0XikZPvuhWvzh62VRqnRhkZpej386IUgGCJmZSWiCt/Qcx9V11sH7DfizLbG1LGBElU
+	4tZaJRRfbQGitFpR
+X-Received: by 2002:a05:690e:1a9f:b0:667:8b90:3572 with SMTP id 956f58d0204a3-6678b90517bmr1856512d50.100.1783454569060;
+        Tue, 07 Jul 2026 13:02:49 -0700 (PDT)
 Received: from ?IPv6:2600:1700:6476:1430:daa5:7e29:8095:10b2? ([2600:1700:6476:1430:daa5:7e29:8095:10b2])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-817212bd978sm48636657b3.37.2026.07.07.12.48.03
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6678775d505sm1291599d50.1.2026.07.07.13.02.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 12:48:04 -0700 (PDT)
-Message-ID: <5221d48185069c1c21284d3fbe85a28a50f14567.camel@dubeyko.com>
-Subject: Re: [PATCH v3] hfsplus: validate thread record before delete key
- rebuild
+        Tue, 07 Jul 2026 13:02:48 -0700 (PDT)
+Message-ID: <7f700f4bc68de5daf4d5d28e574a486a04806fb9.camel@dubeyko.com>
+Subject: Re: [PATCH v3 RESEND] hfs: validate catalog CNIDs before
+ instantiating inodes
 From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Kyle Zeng <kylebot@openai.com>, linux-fsdevel@vger.kernel.org
-Cc: outbounddisclosures@openai.com
-Date: Tue, 07 Jul 2026 12:48:03 -0700
-In-Reply-To: <20260707190238.44998-1-kylebot@openai.com>
-References: <20260707190238.44998-1-kylebot@openai.com>
+To: David Maximiliano Hermitte <davemadmaxxx@gmail.com>, Jori Koolstra
+	 <jkoolstra@xs4all.nl>
+Cc: George Anthony Vernon <contact@gvernon.com>, Tetsuo Handa
+	 <penguin-kernel@I-love.SAKURA.ne.jp>, John Paul Adrian Glaubitz
+	 <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
+Date: Tue, 07 Jul 2026 13:02:46 -0700
+In-Reply-To: <20260706095943.258065-1-davemadmaxxx@gmail.com>
+References: <20260702183800.1119202-1-davemadmaxxx@gmail.com>
+	 <20260706095943.258065-1-davemadmaxxx@gmail.com>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -124,168 +130,248 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Tue, 2026-07-07 at 12:02 -0700, Kyle Zeng wrote:
-> hfsplus_delete_cat() is called with str =3D=3D NULL when the last open
-> reference to an unlinked HFS+ hardlink backing inode is closed. In
-> that
-> case, the function finds the catalog thread by CNID and rebuilds the
-> catalog key from thread.nodeName.
->=20
-> That reconstruction path reads thread.nodeName.length directly from
-> the
-> catalog B-tree into fd.search_key and then copies length * 2 bytes
-> into
-> fd.search_key->cat.name.unicode. It does not first check that the
-> found
-> record is a thread record, that the record size matches the thread
-> name
-> length, or that nodeName.length fits in the fixed HFS+ catalog key
-> buffer.
->=20
-> A corrupted image can therefore provide an oversized thread name
-> length
-> and make hfs_bnode_read() write past the catalog search-key
-> allocation.
->=20
-> Read the CNID record through hfsplus_brec_read_cat(), which performs
-> the
-> hfs_brec_find() lookup via hfs_brec_read() before validating the
-> catalog
-> record. Reject non-thread records before building the delete key from
-> the validated thread name.
->=20
-> Move the HFS+ catalog thread name bound into hfsplus_brec_read_cat()
-> so
-> it is checked together with the record-size consistency validation,
+On Mon, 2026-07-06 at 09:59 +0000, David Maximiliano Hermitte wrote:
+> hfs_cat_find_brec() first resolves a catalog thread record by CNID
 > and
-> factor the thread-record-type check into a shared HFS/HFS+ helper.
+> then looks up the corresponding catalog record by parent/name. On a
+> corrupted filesystem image, the second lookup may find a record whose
+> CNID does not match the CNID that was requested.
 >=20
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Assisted-by: Codex:gpt-5.5
-> Signed-off-by: Kyle Zeng <kylebot@openai.com>
+> Validate the catalog record found by the second lookup before
+> returning
+> it to callers. Inspect the already-found record with
+> hfs_bnode_read(),
+> not hfs_brec_read(), and reject records whose CNID is invalid for
+> their
+> record type or does not match the requested CNID.
+>=20
+> Also validate CNIDs in hfs_read_inode() before the inode is
+> populated,
+> and propagate hfs_read_inode() errors from the resource-fork lookup
+> path.
+> For the root inode path, require the root catalog record to be a
+> directory
+> with DirID =3D=3D HFS_ROOT_CNID, and drop the root inode reference if it
+> was
+> instantiated as a bad inode.
+>=20
+> This keeps hfs_write_inode() unchanged and prevents corrupted catalog
+> records from reaching the existing reserved-CNID BUG() path during
+> writeback.
+>=20
+> Reported-by: syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3D97e301b4b82ae803d21b
+> Cc: George Anthony Vernon <contact@gvernon.com>
+> Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> Signed-off-by: David Maximiliano Hermitte <davemadmaxxx@gmail.com>
 > ---
-> =C2=A0fs/hfsplus/bfind.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-|=C2=A0 5 +++++
-> =C2=A0fs/hfsplus/catalog.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 30 +++++=
-+++++++------------------
-> =C2=A0include/linux/hfs_common.h |=C2=A0 5 +++++
-> =C2=A03 files changed, 22 insertions(+), 18 deletions(-)
+> Changes in v3:
+> - Drop the stray blank line before assigning the hfs_read_inode()
+> result
+> =C2=A0 in hfs_file_lookup().
 >=20
-> diff --git a/fs/hfsplus/bfind.c b/fs/hfsplus/bfind.c
-> index 9a55fa6d5294..417c3014f4c7 100644
-> --- a/fs/hfsplus/bfind.c
-> +++ b/fs/hfsplus/bfind.c
-> @@ -322,6 +322,11 @@ int hfsplus_brec_read_cat(struct hfs_find_data
-> *fd, hfsplus_cat_entry *entry)
-> =C2=A0			pr_err("thread record too short (got %u)\n",
-> fd->entrylength);
-> =C2=A0			return -EIO;
-> =C2=A0		}
-> +		if (be16_to_cpu(entry->thread.nodeName.length) >
-> +		=C2=A0=C2=A0=C2=A0 HFSPLUS_MAX_STRLEN) {
-> +			pr_err("catalog name length corrupted\n");
-> +			return -EIO;
-> +		}
-
-I was not against the function that v2 has. :) We simply need to have
-more smart checking logic. We are trying to check the thread record and
-hfsplus_brec_read_cat() operates by fd->entrylength. So, the entry-
->thread.nodeName.length should be consistent with fd->entrylength. Does
-it make sense to you?
-
-> =C2=A0		expected_size =3D hfsplus_cat_thread_size(&entry-
-> >thread);
-> =C2=A0		break;
-> =C2=A0	default:
-> diff --git a/fs/hfsplus/catalog.c b/fs/hfsplus/catalog.c
-> index 776ce36cf076..1a4b0beae135 100644
-> --- a/fs/hfsplus/catalog.c
-> +++ b/fs/hfsplus/catalog.c
-> @@ -204,16 +204,11 @@ int hfsplus_find_cat(struct super_block *sb,
-> u32 cnid,
-> =C2=A0		return err;
+> Changes in v2:
+> - Use size_t for the catalog record length.
+> - Return -EIO when fd->entrylength is larger than hfs_cat_rec instead
+> of
+> =C2=A0 truncating the record length.
+> - Compare catalog record lengths against sizeof(struct hfs_cat_file)
+> and
+> =C2=A0 sizeof(struct hfs_cat_dir).
+> - Drop the hfs_is_valid_cnid() call from the found-record CNID
+> =C2=A0 comparison; found_cnid !=3D cnid is enough there.
+> - Treat non-file/non-directory records found by the second lookup as
+> =C2=A0 invalid for this path.
+> - Check is_bad_inode() in the resource-fork lookup error path.
+> - Drop the redundant root DirID check from hfs_fill_super().
+>=20
+> =C2=A0fs/hfs/catalog.c | 44 +++++++++++++++++++++++++++++++++++++++++++-
+> =C2=A0fs/hfs/hfs_fs.h=C2=A0 | 19 +++++++++++++++++++
+> =C2=A0fs/hfs/inode.c=C2=A0=C2=A0 | 12 +++++++++---
+> =C2=A0fs/hfs/super.c=C2=A0=C2=A0 |=C2=A0 5 +++++
+> =C2=A04 files changed, 76 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/fs/hfs/catalog.c b/fs/hfs/catalog.c
+> index 1bfa36d71e24..50ee709d966f 100644
+> --- a/fs/hfs/catalog.c
+> +++ b/fs/hfs/catalog.c
+> @@ -182,6 +182,43 @@ int hfs_cat_keycmp(const btree_key *key1, const
+> btree_key *key2)
+> =C2=A0			=C2=A0 key2->cat.CName.name, key2-
+> >cat.CName.len);
+> =C2=A0}
 > =C2=A0
-> =C2=A0	type =3D be16_to_cpu(tmp.type);
-> -	if (type !=3D HFSPLUS_FOLDER_THREAD && type !=3D
-> HFSPLUS_FILE_THREAD) {
-> +	if (!is_hfs_thread_record_type(type)) {
-> =C2=A0		pr_err("found bad thread record in catalog\n");
+> +static int hfs_cat_validate_found_cnid(struct hfs_find_data *fd, u32
+> cnid)
+> +{
+> +	hfs_cat_rec rec;
+> +	u32 found_cnid;
+> +	size_t rec_len;
+> +
+> +	if (fd->entrylength <=3D 0)
+> +		return -EIO;
+> +
+> +	rec_len =3D fd->entrylength;
+> +	if (rec_len > sizeof(rec))
+> +		return -EIO;
+
+Why do not have one check?
+
+rec_len =3D fd->entrylength;
+if (rec_len <=3D 0 || rec_len > sizeof(rec))
+    return -EIO;
+
+> +
+> +	memset(&rec, 0, sizeof(rec));
+> +	hfs_bnode_read(fd->bnode, &rec, fd->entryoffset, rec_len);
+> +
+> +	switch (rec.type) {
+> +	case HFS_CDR_FIL:
+> +		if (rec_len < sizeof(struct hfs_cat_file))
+
+rec_len !=3D sizeof(struct hfs_cat_file)?
+
+> +			return -EIO;
+> +		found_cnid =3D be32_to_cpu(rec.file.FlNum);
+> +		break;
+> +	case HFS_CDR_DIR:
+> +		if (rec_len < sizeof(struct hfs_cat_dir))
+
+rec_len !=3D sizeof(struct hfs_cat_dir)?
+
+> +			return -EIO;
+> +		found_cnid =3D be32_to_cpu(rec.dir.DirID);
+> +		break;
+> +	default:
+> +		return -EIO;
+> +	}
+> +
+> +	if (found_cnid !=3D cnid)
+> +		return -EIO;
+> +
+> +	return 0;
+> +}
+> +
+> =C2=A0/* Try to get a catalog entry for given catalog id */
+> =C2=A0// move to read_super???
+> =C2=A0int hfs_cat_find_brec(struct super_block *sb, u32 cnid,
+> @@ -208,7 +245,12 @@ int hfs_cat_find_brec(struct super_block *sb,
+> u32 cnid,
 > =C2=A0		return -EIO;
 > =C2=A0	}
-> =C2=A0
-> -	if (be16_to_cpu(tmp.thread.nodeName.length) > 255) {
-> -		pr_err("catalog name length corrupted\n");
-> -		return -EIO;
-> -	}
-> -
-> =C2=A0	hfsplus_cat_build_key_uni(fd->search_key,
-> =C2=A0		be32_to_cpu(tmp.thread.parentID),
-> =C2=A0		&tmp.thread.nodeName);
-> @@ -350,23 +345,22 @@ int hfsplus_delete_cat(u32 cnid, struct inode
-> *dir, const struct qstr *str)
-> =C2=A0		goto out;
-> =C2=A0
-> =C2=A0	if (!str) {
-> -		int len;
-> +		hfsplus_cat_entry entry =3D {0};
-> =C2=A0
-> =C2=A0		hfsplus_cat_build_key_with_cnid(sb, fd.search_key,
-> cnid);
-> -		err =3D hfs_brec_find(&fd, hfs_find_rec_by_key);
-> +		err =3D hfsplus_brec_read_cat(&fd, &entry);
-> =C2=A0		if (err)
-> =C2=A0			goto out;
-> =C2=A0
-> -		off =3D fd.entryoffset +
-> -			offsetof(struct hfsplus_cat_thread,
-> nodeName);
-> -		fd.search_key->cat.parent =3D cpu_to_be32(dir->i_ino);
-> -		hfs_bnode_read(fd.bnode,
-> -			&fd.search_key->cat.name.length, off, 2);
-> -		len =3D be16_to_cpu(fd.search_key->cat.name.length) *
-> 2;
-> -		hfs_bnode_read(fd.bnode,
-> -			&fd.search_key->cat.name.unicode,
-> -			off + 2, len);
-> -		fd.search_key->key_len =3D cpu_to_be16(6 + len);
-> +		type =3D be16_to_cpu(entry.type);
-> +		if (!is_hfs_thread_record_type(type)) {
-> +			pr_err("found bad thread record in
-> catalog\n");
-> +			err =3D -EIO;
-> +			goto out;
-> +		}
+> =C2=A0	memcpy(fd->search_key->cat.CName.name,
+> rec.thread.CName.name, len);
+> -	return hfs_brec_find(fd);
 > +
-> +		hfsplus_cat_build_key_uni(fd.search_key, dir->i_ino,
-> +					=C2=A0 &entry.thread.nodeName);
-> =C2=A0	} else {
-> =C2=A0		err =3D hfsplus_cat_build_key(sb, fd.search_key, dir-
-> >i_ino, str);
-> =C2=A0		if (unlikely(err))
-> diff --git a/include/linux/hfs_common.h b/include/linux/hfs_common.h
-> index 45fb4c9ff9f5..c4862166efc9 100644
-> --- a/include/linux/hfs_common.h
-> +++ b/include/linux/hfs_common.h
-> @@ -92,6 +92,11 @@
-> =C2=A0#define HFS_CDR_THD		0x03	/* folder (directory) thread
-> */
-> =C2=A0#define HFS_CDR_FTH		0x04	/* file thread */
+> +	res =3D hfs_brec_find(fd);
+> +	if (res)
+> +		return res;
+> +
+> +	return hfs_cat_validate_found_cnid(fd, cnid);
+> =C2=A0}
 > =C2=A0
-> +static inline bool is_hfs_thread_record_type(u16 type)
+> =C2=A0static inline
+> diff --git a/fs/hfs/hfs_fs.h b/fs/hfs/hfs_fs.h
+> index f3624514fcb0..670638f17438 100644
+> --- a/fs/hfs/hfs_fs.h
+> +++ b/fs/hfs/hfs_fs.h
+> @@ -155,6 +155,25 @@ extern int hfs_cat_move(u32 cnid, struct inode
+> *src_dir,
+> =C2=A0extern void hfs_cat_build_key(struct super_block *sb, btree_key
+> *key,
+> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u32 parent, const struct qstr *na=
+me);
+> =C2=A0
+> +/*
+> + * Validate the CNID of a catalog record.
+> + */
+> +static inline bool hfs_is_valid_cnid(u32 cnid, u8 type)
 > +{
-> +	return type =3D=3D HFS_CDR_THD || type =3D=3D HFS_CDR_FTH;
+> +	if (likely(cnid >=3D HFS_FIRSTUSER_CNID))
+> +		return true;
+> +
+> +	switch (cnid) {
+> +	case HFS_ROOT_CNID:
+> +		return type =3D=3D HFS_CDR_DIR;
+> +	case HFS_EXT_CNID:
+> +	case HFS_CAT_CNID:
+> +		return type =3D=3D HFS_CDR_FIL;
+> +	default:
+> +		return false;
+> +	}
 > +}
+> +
+> =C2=A0/* dir.c */
+> =C2=A0extern const struct file_operations hfs_dir_operations;
+> =C2=A0extern const struct inode_operations hfs_dir_inode_operations;
+> diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
+> index ac4a9055c5c0..ee10a9257a13 100644
+> --- a/fs/hfs/inode.c
+> +++ b/fs/hfs/inode.c
+> @@ -367,6 +367,9 @@ static int hfs_read_inode(struct inode *inode,
+> void *data)
 
-I don't want to place this function in linux/hfs_common.h. And I don't
-mean to use HFS_CDR_THD/HFS_CDR_FTH (HFS based constants) instead of
-HFS+ specific ones. It looks not correct to me. Currently, I suggest to
-use is_hfs_thread_record_type() name, to employ HFS+ specific constants
-and to place it into fs/hfsplus/hfsplus_fs.h.
+Have you decided not to have the hfs_is_valid_cnid() for the case of
+hfs_write_inode()?
 
 Thanks,
 Slava.
 
+> =C2=A0	rec =3D idata->rec;
+> =C2=A0	switch (rec->type) {
+> =C2=A0	case HFS_CDR_FIL:
+> +		if (!hfs_is_valid_cnid(be32_to_cpu(rec->file.FlNum),
+> rec->type))
+> +			return -EIO;
 > +
-> =C2=A0/* legal values for hfs_ext_key.FkType and hfs_file.fork */
-> =C2=A0#define HFS_FK_DATA		0x00
-> =C2=A0#define HFS_FK_RSRC		0xFF
+> =C2=A0		if (!HFS_IS_RSRC(inode)) {
+> =C2=A0			hfs_inode_read_fork(inode, rec->file.ExtRec,
+> rec->file.LgLen,
+> =C2=A0					=C2=A0=C2=A0=C2=A0 rec->file.PyLen,
+> be16_to_cpu(rec->file.ClpSize));
+> @@ -390,6 +393,9 @@ static int hfs_read_inode(struct inode *inode,
+> void *data)
+> =C2=A0		inode->i_mapping->a_ops =3D &hfs_aops;
+> =C2=A0		break;
+> =C2=A0	case HFS_CDR_DIR:
+> +		if (!hfs_is_valid_cnid(be32_to_cpu(rec->dir.DirID),
+> rec->type))
+> +			return -EIO;
+> +
+> =C2=A0		inode->i_ino =3D be32_to_cpu(rec->dir.DirID);
+> =C2=A0		inode->i_size =3D be16_to_cpu(rec->dir.Val) + 2;
+> =C2=A0		HFS_I(inode)->fs_blocks =3D 0;
+> @@ -571,12 +577,12 @@ static struct dentry *hfs_file_lookup(struct
+> inode *dir, struct dentry *dentry,
+> =C2=A0	res =3D hfs_brec_read(&fd, &rec, sizeof(rec));
+> =C2=A0	if (!res) {
+> =C2=A0		struct hfs_iget_data idata =3D { NULL, &rec };
+> -		hfs_read_inode(inode, &idata);
+> +		res =3D hfs_read_inode(inode, &idata);
+> =C2=A0	}
+> =C2=A0	hfs_find_exit(&fd);
+> -	if (res) {
+> +	if (res || is_bad_inode(inode)) {
+> =C2=A0		iput(inode);
+> -		return ERR_PTR(res);
+> +		return ERR_PTR(-EIO);
+> =C2=A0	}
+> =C2=A0	HFS_I(inode)->rsrc_inode =3D dir;
+> =C2=A0	HFS_I(dir)->rsrc_inode =3D inode;
+> diff --git a/fs/hfs/super.c b/fs/hfs/super.c
+> index a466c401f6bb..98b80795bcde 100644
+> --- a/fs/hfs/super.c
+> +++ b/fs/hfs/super.c
+> @@ -372,6 +372,11 @@ static int hfs_fill_super(struct super_block
+> *sb, struct fs_context *fc)
+> =C2=A0	if (!root_inode)
+> =C2=A0		goto bail_no_root;
+> =C2=A0
+> +	if (is_bad_inode(root_inode)) {
+> +		iput(root_inode);
+> +		goto bail_no_root;
+> +	}
+> +
+> =C2=A0	set_default_d_op(sb, &hfs_dentry_operations);
+> =C2=A0	res =3D -ENOMEM;
+> =C2=A0	sb->s_root =3D d_make_root(root_inode);
