@@ -1,64 +1,65 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE79226CF6
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 06:42:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F7D3AA51F
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 06:42:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783406559; cv=none; b=X/jjVMr7+XlWk9ZAw8PVTg3V8bXLgzwhyl0PLYTO9TNyRkNIIfI2Q2X44ykLv+oawiF96sCcfWixOuBjqs09sCj4YWOcGkeob6ioJDPXiHCzRS2KPK/K0XQbu1ANjF0AYRVk0xj6Y2sRUfdaeifBMCUfQX8jnL1ufVAkSyUnBJU=
+	t=1783406560; cv=none; b=VgqIv/Rye0U0+fPvQiSKxQxuglv6K4I5x9IeMTf2rk7GH9j+xHZe1o5Cyq28DYSXvFkD6MYZBiTW8/5CV/odyhAV4fSWlszXMDGIDc8QIKxEKlsEXv2OHsv6UIGREtCbm9B8wwr0qPHJkvQPy+wVywulUPlwECqmWsNtkFqYl+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783406559; c=relaxed/simple;
-	bh=B/v3yD3THr5KLSeciELWEn01erDJ+vQR61nouTY3vQs=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=LaVwOBsp+/Al1v/sxSx3EawZOqhPHcZrVGHp1S5hwhLwxi6TLPWk03TXq5qDqBohB2MIYENmW3MFd5Hdy2MwRfAjDVFCa26pAUN/4B8a14RJbVdAMxn8VJ549YSy4MnxXDvl09j7WxKW/1gkSUlLtLd6GZOCGUrDPyor9BFKemc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--souravpanda.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MKfxB/qE; arc=none smtp.client-ip=209.85.214.201
+	s=arc-20240116; t=1783406560; c=relaxed/simple;
+	bh=yNyjp0U3kTl2omwalIA3XiRnZM3ad/rt4OmY4yaWlTc=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=ciEIOxpZNz7Cs+l65jQ8vVFpOjx9ppbxHG/h9htl4VmX34XGgXcTMSedPrIoFfVap8XCyy6uzV7RAyWICXo80gt4kt66H5ksaM43Q08GHs6S4k2LORJRudJxmGo+pXc/YZM+FKbylYEm8SU5s6oUyWjztkuPRN4XfY2YetrpX/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--souravpanda.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pmWOj3xm; arc=none smtp.client-ip=209.85.210.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--souravpanda.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MKfxB/qE"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2ccd1958e8fso1960565ad.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 23:42:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pmWOj3xm"
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-8478ff5d801so7178687b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 23:42:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783406557; x=1784011357; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xeJmdcEDb3hj4kjTojGe7izWAUg4e6NWPJspG9L+qV0=;
-        b=MKfxB/qE5Uhvgr4iMlZw+NshbtkAaGXjtxwexssYpIbyaVTYUtZgGUrlUQ4Y+8XbVp
-         Ik/BHEkvqiOlF67bRAm3T/iYk7WZNzPUptKl+wN+Dqonkc8WReQcgNlla/vF9IZFdlxO
-         WoCGSAqjG0kdvqFcYMXBoWKy9h3fTv3gqX7T+7GmLvg74+cMpfvrCrIFRVlXK1rFrcOx
-         6jRXaRfjMmz2nIfbY2vjmfvxnEUMJkf0jk6WEpjWWflv6C7+PKDx9TNHE/IAtdHQjkvJ
-         PVyJlaismplp+yxcI1h3Bmp1Rk3tilzCHbjw08H4QsyswO581OJcj1pbUSZtZxo6KqeO
-         R0Hg==
+        d=google.com; s=20251104; t=1783406558; x=1784011358; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=S2+6BMS1LET88hmhEtqV37vGf+7f7OZkNHnFc4ohCrA=;
+        b=pmWOj3xmma9B1UrhgUF8y3HXooYWSIq5H+WQtUryaQSrAcezLgcbPBPVTe7DAFBYSw
+         L+UjChNMUATpqzLA7nnZ9T51Y3t2ePt7kaQ7k+Lc1zLPwHxSHdRDEbmhzn6qHR5G74lM
+         IL1WH1ei1pJORt4DKTdLVRXSsl6N54Q2iHUHUshUcqDNgIFq4fz/q7q5CvJk75R8e4/8
+         QWMyVSFJTAGAyCwc8h72ELDppc+sYtFXVLFtgXJ3ilw24w8uI/vbvQ8jOtWJz1uifoBe
+         4TiKJcKXTfUIcD6hnGIPe1wKs29SoK5umyUD7PoMeg+xATIc7A9rRAcgoFlMfcY94r/Y
+         bW1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783406557; x=1784011357;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xeJmdcEDb3hj4kjTojGe7izWAUg4e6NWPJspG9L+qV0=;
-        b=jh0iimQs6zbGEG2EF+irk1hrpnHvSAL5Bg8g1Uue3DSah3k4HM/5w7ePVuj7dVE0iq
-         j2y3cayE31i2glnDSMoo0CiE4lwMcvxTcnndUwFBFGI/60X8RXJJw/RYK0oW9/VBnRHA
-         z+NqdcN/EDRhMX+NTG1D7lkBuaS80n9o1cu8kQoE9ymWeamqzuILDdeKbeSmKX/8Ouph
-         dM49YkvyadW88E5RacxYT+VdHCVgin39XMPAGC6tkGgXAkJeMFjqNHatVv4uwhzvh9Jp
-         cl/+Toyh4IwXr5W/UJzR4q8qYqfTfxmjm3nSo8jdWvHCJmNjFIBgQX0VVSDsSbrA6oRn
-         ZvKA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq2ecGXcWD0kOFod2IYvLb6Q+JjjMe7loja+HiIZ3ucpATb7GNac9AqaZCDgVpfX2v54pUfFWdkyDjeP8za@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy76Kc2H9Tv5u9dvu8mgDTOjPPhoVYOP7wEzR/E2IFXXDfOGv3s
-	L8yCAHsDYlUpuzpqmLN8qWW0gtNgWL5NcKhRRsaZ3F76Lzb3nyiL+y0svhEE7Cimb85Pm5bPPri
-	fOlGVbH1yWdqdpSPY7ay3eZfieQ==
-X-Received: from plblk15.prod.google.com ([2002:a17:903:8cf:b0:2c6:bce1:2477])
+        d=1e100.net; s=20251104; t=1783406558; x=1784011358;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=S2+6BMS1LET88hmhEtqV37vGf+7f7OZkNHnFc4ohCrA=;
+        b=Hl3SlPEMWdF+gode00lWj6QRCIVoHbmD3FgkQ58GtYZ8Nn//oFQvZSgL3Ias5C+Pt7
+         lgdZ7JIPQeb+yGyIN3PXwCywBObb2vtJuE/9ljpT1R/e2TL7WBr6nB2K/k8b29yF7fci
+         E2SN7G/VTv1MapdsatOUpKBrchaIBZdM4JQtBAuqocI0Y1emQ3u5Tcn0GUe6cH5/u9+D
+         mj6i7LbX7NP3k/dIR5d7xiXXDcoLgPW0e6F/OBqi7+iJfKZxt4kkNc3agjFnarC06UvI
+         gnX5rQPL/1f+cHAlkQMrkekFDjxjyf6m79aC50X0pJshZTmGkb1LtMp81tI+hzR5eXn5
+         +gtQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqoCG4KI6Ys99arHXw19nO/oc/vznO0y8njpQY0dKJbtNjaAdC9S63YBk3EJqIkAXk47CloJaVVL8i9KT2Y@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0gqhveKPWxHI/7nqBZ0m01Qo+r4/dDQmk1z34hk+LvlNrbBgW
+	BObPUefCh15RhmtIFYpjBMkgnAdHY2v1ZXjewxIaAlHV9V3xGghrkiUhyhL3EVDx0O3yCyg2b7R
+	F4i/23/iYMuHhC0rqCGv7VWqTuA==
+X-Received: from pfhh1.prod.google.com ([2002:a05:6a00:2301:b0:845:e874:e087])
  (user=souravpanda job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:903:388b:b0:2ca:d463:27fc with SMTP id d9443c01a7336-2ccbf076ebdmr41254245ad.45.1783406556649;
- Mon, 06 Jul 2026 23:42:36 -0700 (PDT)
-Date: Tue,  7 Jul 2026 06:42:29 +0000
+ 2002:a05:6a00:2350:b0:847:9367:e054 with SMTP id d2e1a72fcca58-84826e226d0mr3798373b3a.57.1783406557455;
+ Mon, 06 Jul 2026 23:42:37 -0700 (PDT)
+Date: Tue,  7 Jul 2026 06:42:30 +0000
+In-Reply-To: <20260707064235.1386552-1-souravpanda@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
+References: <20260707064235.1386552-1-souravpanda@google.com>
 X-Mailer: git-send-email 2.55.0.rc2.803.g1fd1e6609c-goog
-Message-ID: <20260707064235.1386552-1-souravpanda@google.com>
-Subject: [RFC PATCH 0/6] mm/hugetlb: Dynamic, NUMA-aware HugePage Cache & Free
- Page Reporting
+Message-ID: <20260707064235.1386552-2-souravpanda@google.com>
+Subject: [PATCH 1/6] mm/hugetlb: add Kconfig and basic cache infrastructure
 From: Sourav Panda <souravpanda@google.com>
 To: muchun.song@linux.dev, osalvador@suse.de, akpm@linux-foundation.org
 Cc: david@kernel.org, ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, 
@@ -70,111 +71,195 @@ Cc: david@kernel.org, ljs@kernel.org, liam@infradead.org, vbabka@kernel.org,
 	linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Overview
-This patch series introduces a dynamic, NUMA-aware HugePage Cache,
-backed by a kernel shrinker to safely return memory under pressure, and
-integrates it with Free Page Reporting (virtio-balloon) for HugeTLB,
-specifically targeting gigantic (1GB) hugepages. The goal is to solve
-the tradeoff between allocation latency and memory
-fungibility in virtualized and heterogeneous cloud environments.
+Introduce CONFIG_HUGETLB_CACHE Kconfig option and add the basic
+infrastructure for the HugeTLB dynamic cache.
 
+This includes:
+- Adding new fields to struct hstate to track cached pages
+  (nr_cached_hugepages, max_cached_huge_pages, and node-specific versions)
+  and initializing them.
+- Introducing a new hugetlb page flag HPG_cached to track cached folios.
+- Updating remove_hugetlb_folio() to be cache-aware: if the folio has
+  HPG_cached set, decrement cache counters instead of the free page
+  counters. This prevents leaks during memory hotplug
+  (dissolve_free_hugetlb_folios).
+- Preventing inflation of free_huge_pages by cached pages to protect
+  memory reservation guarantees.
+
+Signed-off-by: Sourav Panda <souravpanda@google.com>
 ---
+ fs/Kconfig              |  9 +++++
+ include/linux/hugetlb.h | 14 +++++++
+ mm/hugetlb.c            | 82 +++++++++++++++++++++++++++++++++++++----
+ 3 files changed, 98 insertions(+), 7 deletions(-)
 
-The Core Problem: Allocation Latency vs. Memory Fungibility
-
-With highly heterogeneous workloads, latency-critical applications demand
-gigantic hugepages. However, dynamic runtime allocation of 1GB pages
-from the buddy allocator (via CMA) is slow.
-
-To bypass this latency, operators often pre-allocate hugepages
-statically. However, this locks up the memory: when the HugeTLB
-workloads are idle, that memory is completely unavailable for other
-buddy-allocator workloads (e.g., page cache, anonymous memory). If buddy
-memory is exhausted, the system will OOM even if gigabytes of HugeTLB
-pages are sitting idle.
-
-This series resolves this challenge by delivering Dynamic Fungibility:
-
-1.  Dynamic Caching: Intercepts freed surplus hugepages and recycles
-    them into a NUMA-aware cache instead of dissolving them immediately.
-2.  Fast Allocations: Satisfies subsequent dynamic allocations
-    instantly from this warm, local hugepage cache.
-3.  Kernel Shrinker Integration: Registers a NUMA-aware kernel shrinker
-    to dynamically dissolve cached pages back to the buddy allocator
-    under memory pressure, restoring host/guest memory fungibility.
-4.  Free Page Reporting Integration: For virtualized environments (Guest
-    VMs), cached pages trigger background Free Page Reporting via
-    virtio-balloon. This allows the host to reclaim the physical memory
-    while the guest retains its Vmemmap Optimization (HVO) metadata
-    savings (~14GB saved per 1TB VM)!
-
-  +---------------+   Slow Allocate  +---------------------+
-  | Buddy         | ---------------> | Active HugeTLB Page |
-  | Allocator     |                  +---------------------+
-  +---------------+                    |                ^
-    ^                                  | (1) Free to    | (2) Fast
-    | (3) Under                        v     Cache      |     Allocate
-    | Pressure                       +---------------------+
-    | Shrink()  <------------------- | HugeTLB Cache       |
-                                     +---------------------+
-                                       |
-                                       v (4) Free Page Reporting
-                                         (Host Reclaim in the case
-                                          of virtualization)
-
----
-
-Patch Series Structure
-
-Patch 1/6: mm/hugetlb: add Kconfig and basic cache infrastructure
-  - Introduces the CONFIG_HUGETLB_CACHE option, hstate tracking fields,
-    and the HPG_cached page flag.
-  - Establishes the clean helper API (hugetlb_folio_is_cached(),
-    hugetlb_cache_remove(), hugetlb_cache_add()) and updates
-    remove_hugetlb_folio() to be cache-aware, eliminating inline #ifdef
-    blocks.
-Patch 2/6: mm/hugetlb: implement cache recycling and allocation
-  - Hooks up recycling in free_huge_folio() (up to the cache limit) and
-    allocation in alloc_surplus_hugetlb_folio().
-  - Implements MRU allocation policy for maximum warmth, poison safety
-    checks, and MTE/dcache cleaning.
-Patch 3/6: mm/hugetlb: add sysfs interfaces for cache
-  - Exposes global and per-node sysfs attributes (max_cached_huge_pages,
-    nr_cached_hugepages) for dynamic userspace control, including NUMA
-    memory policy scaling.
-  - Supports dynamic delta adjustments (+1/-1) to safely scale cache
-    sizes alongside concurrent background reclaim operations.
-Patch 4/6: mm/hugetlb: add memory shrinker for cache
-  - Registers a NUMA-aware kernel shrinker to evict and dissolve cached
-    gigantic pages back to buddy under memory pressure.
-Patch 5/6: Documentation/admin-guide/mm/hugetlbpage.rst: document cache
-    interfaces
-  - Documents the Kconfig option, sysfs attributes, and shrinker
-    behavior in the admin guide.
-Patch 6/6: mm/hugetlb: support free page reporting for cached hugepages
-  - Integrates the cache with the Free Page Reporting framework (virtio-
-    balloon), introducing the HPG_reported flag and the
-    reporting/isolation/draining lifecycle.
-Sourav Panda (6):
-  mm/hugetlb: add Kconfig and basic cache infrastructure
-  mm/hugetlb: implement cache recycling and allocation
-  mm/hugetlb: add sysfs interfaces for cache
-  mm/hugetlb: add memory shrinker for cache
-  Documentation/admin-guide/mm/hugetlbpage.rst: document cache
-    interfaces
-  mm/hugetlb: support free page reporting for cached hugepages
-
- Documentation/admin-guide/mm/hugetlbpage.rst |  34 +-
- fs/Kconfig                                   |   9 +
- include/linux/hugetlb.h                      |  45 ++
- include/linux/page_reporting.h               |   1 +
- mm/hugetlb.c                                 | 590 ++++++++++++++++++-
- mm/hugetlb_internal.h                        |   9 +
- mm/hugetlb_sysfs.c                           | 158 +++++
- mm/page_reporting.c                          |  10 +-
- mm/page_reporting.h                          |   6 +
- 9 files changed, 844 insertions(+), 18 deletions(-)
-
+diff --git a/fs/Kconfig b/fs/Kconfig
+index 43cb06de297f..d33d1973ce8f 100644
+--- a/fs/Kconfig
++++ b/fs/Kconfig
+@@ -268,6 +268,15 @@ config HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON
+ 	  The HugeTLB Vmemmap Optimization (HVO) defaults to off. Say Y here to
+ 	  enable HVO by default. It can be disabled via hugetlb_free_vmemmap=off
+ 	  (boot command line) or hugetlb_optimize_vmemmap (sysctl).
++
++config HUGETLB_CACHE
++	bool "HugeTLB dynamic cache"
++	help
++	  Enables a dynamic, NUMA-aware hugepage cache for
++	  gigantic hugepages to allow faster allocation of surplus pages.
++	  Surplus pages are recycled into this cache upon release
++	  instead of being freed back to the buddy allocator immediately.
++	  Subsequent hugetlb allocations will prefer this cache.
+ endif # HUGETLBFS
+ 
+ config HUGETLB_PAGE
+diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+index 2abaf99321e9..4768f52ddd35 100644
+--- a/include/linux/hugetlb.h
++++ b/include/linux/hugetlb.h
+@@ -585,6 +585,9 @@ enum hugetlb_page_flags {
+ 	HPG_vmemmap_optimized,
+ 	HPG_raw_hwp_unreliable,
+ 	HPG_cma,
++#ifdef CONFIG_HUGETLB_CACHE
++	HPG_cached,
++#endif
+ 	__NR_HPAGEFLAGS,
+ };
+ 
+@@ -645,6 +648,9 @@ HPAGEFLAG(Freed, freed)
+ HPAGEFLAG(VmemmapOptimized, vmemmap_optimized)
+ HPAGEFLAG(RawHwpUnreliable, raw_hwp_unreliable)
+ HPAGEFLAG(Cma, cma)
++#ifdef CONFIG_HUGETLB_CACHE
++HPAGEFLAG(Cached, cached)
++#endif
+ 
+ #ifdef CONFIG_HUGETLB_PAGE
+ 
+@@ -670,6 +676,14 @@ struct hstate {
+ 	unsigned int nr_huge_pages_node[MAX_NUMNODES];
+ 	unsigned int free_huge_pages_node[MAX_NUMNODES];
+ 	unsigned int surplus_huge_pages_node[MAX_NUMNODES];
++
++#ifdef CONFIG_HUGETLB_CACHE
++	unsigned long nr_cached_hugepages;
++	unsigned int nr_cached_hugepages_node[MAX_NUMNODES];
++	struct list_head hugepage_cache_lists[MAX_NUMNODES];
++	unsigned long max_cached_huge_pages;
++	unsigned int max_cached_huge_pages_node[MAX_NUMNODES];
++#endif
+ 	char name[HSTATE_NAME_LEN];
+ };
+ 
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index c921287489de..15be3cf54606 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -1381,6 +1381,60 @@ static struct folio *alloc_gigantic_frozen_folio(int order, gfp_t gfp_mask, int
+ }
+ #endif
+ 
++#ifdef CONFIG_HUGETLB_CACHE
++static inline bool hugetlb_folio_is_cached(struct folio *folio)
++{
++	return folio_test_hugetlb_cached(folio);
++}
++
++static void hugetlb_cache_add(struct hstate *h, struct folio *folio, bool from_surplus)
++{
++	int nid = folio_nid(folio);
++
++	list_move_tail(&folio->lru, &h->hugepage_cache_lists[nid]);
++	folio_set_hugetlb_freed(folio);
++	folio_set_hugetlb_cached(folio);
++	h->nr_cached_hugepages++;
++	h->nr_cached_hugepages_node[nid]++;
++	if (from_surplus) {
++		h->surplus_huge_pages--;
++		h->surplus_huge_pages_node[nid]--;
++	}
++}
++
++static void hugetlb_cache_remove(struct hstate *h, struct folio *folio, bool to_surplus)
++{
++	int nid = folio_nid(folio);
++
++	list_del_init(&folio->lru);
++	folio_clear_hugetlb_freed(folio);
++	folio_clear_hugetlb_cached(folio);
++	h->nr_cached_hugepages--;
++	h->nr_cached_hugepages_node[nid]--;
++	if (to_surplus) {
++		h->surplus_huge_pages++;
++		h->surplus_huge_pages_node[nid]++;
++	}
++}
++#else
++static inline bool hugetlb_folio_is_cached(struct folio *folio)
++{
++	return false;
++}
++
++static inline void hugetlb_cache_add(struct hstate *h,
++				     struct folio *folio,
++				     bool from_surplus)
++{
++}
++
++static inline void hugetlb_cache_remove(struct hstate *h,
++					struct folio *folio,
++					bool to_surplus)
++{
++}
++#endif
++
+ /*
+  * Remove hugetlb folio from lists.
+  * If vmemmap exists for the folio, clear the hugetlb flag so that the
+@@ -1401,12 +1455,16 @@ void remove_hugetlb_folio(struct hstate *h, struct folio *folio,
+ 	if (hstate_is_gigantic_no_runtime(h))
+ 		return;
+ 
+-	list_del(&folio->lru);
+-
+-	if (folio_test_hugetlb_freed(folio)) {
+-		folio_clear_hugetlb_freed(folio);
+-		h->free_huge_pages--;
+-		h->free_huge_pages_node[nid]--;
++	if (hugetlb_folio_is_cached(folio)) {
++		if (folio_test_hugetlb_freed(folio))
++			hugetlb_cache_remove(h, folio, false);
++	} else {
++		list_del(&folio->lru);
++		if (folio_test_hugetlb_freed(folio)) {
++			folio_clear_hugetlb_freed(folio);
++			h->free_huge_pages--;
++			h->free_huge_pages_node[nid]--;
++		}
+ 	}
+ 	if (adjust_surplus) {
+ 		h->surplus_huge_pages--;
+@@ -4169,8 +4227,18 @@ void __init hugetlb_add_hstate(unsigned int order)
+ 	__mutex_init(&h->resize_lock, "resize mutex", &h->resize_key);
+ 	h->order = order;
+ 	h->mask = ~(huge_page_size(h) - 1);
+-	for (i = 0; i < MAX_NUMNODES; ++i)
++	for (i = 0; i < MAX_NUMNODES; ++i) {
+ 		INIT_LIST_HEAD(&h->hugepage_freelists[i]);
++#ifdef CONFIG_HUGETLB_CACHE
++		INIT_LIST_HEAD(&h->hugepage_cache_lists[i]);
++		h->nr_cached_hugepages_node[i] = 0;
++		h->max_cached_huge_pages_node[i] = 0;
++#endif
++	}
++#ifdef CONFIG_HUGETLB_CACHE
++	h->nr_cached_hugepages = 0;
++	h->max_cached_huge_pages = 0;
++#endif
+ 	INIT_LIST_HEAD(&h->hugepage_activelist);
+ 	snprintf(h->name, HSTATE_NAME_LEN, "hugepages-%lukB",
+ 					huge_page_size(h)/SZ_1K);
 -- 
 2.55.0.rc0.799.gd6f94ed593-goog
 
