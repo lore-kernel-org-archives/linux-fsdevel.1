@@ -1,158 +1,114 @@
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com [209.85.210.71])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838F5390229
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 21:33:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D75943F4B3
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 21:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783459985; cv=none; b=SOUn+WoyZ5SkZlL3GA5MBF7DHtcbN+e4bfCTzcRM5BmzCswP1ql1Xvq0QyVITAekDNgisDIn0DnYiN0rBonb8AFsUpVRZbUmvXVzYI+2+K6Pzn6QpiglHuLjc1BsRNJ63uCtFFDq9Vu4545voX8zDVp2zE1wpWfu6jg4JsgFF2U=
+	t=1783460335; cv=none; b=HwIyEwYs/ZY3PCv5om5mxAqJr+Q/5MCdXOFhwvxvfNozswTraFyR0pMVzWqrYpASx90m+n4sMG/9BM61DMIZw+oSPJV6vUsyd0oPsEkSN5qyUX4wLm6vv7OrUvlIVqJt7rfDbToYImOt5G64II0snTbtY5pnML3XmMAdYGuP4C4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783459985; c=relaxed/simple;
-	bh=jEqvd4EuPiFtruMx0AmvgitV0rlHUlhXdIoQyGq9uo0=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=S0yfAyd/xzMIfmAqI7wTCn41VDl1AZzxDUWrUEgKcEn1ujBUNR5iAWQga1rLDtjl8Koljr0pidkWv3acwRosrFxPv26ptPd1x23WCuRwnx4cTSrN/ZmQO4KwFBGP9HrBXX4JKty9gAcfYb6weN6slXnTXgqoxMU0uCcMmkKKPKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-7e9fa2cd5c9so77461a34.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 14:33:01 -0700 (PDT)
+	s=arc-20240116; t=1783460335; c=relaxed/simple;
+	bh=brot3bU627eibPuK843dIWAZGselX2YxoaJySxQF6fY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PA9HvpM2VW1VIFAndxP3fVnFgYFWr8CaVYgXQt43wK3VjugVS70KjsrM/bIIvKOd5B9PIL9KsG4C4PqqxLkL1+kThhyWzYJ4c3+sd+aTcln6bskqvbDKTxDXOa4yPPqvAywYRiB4LpH8HMAdRINZTrM8TmI3zLZud+3wQJB7jv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E3KWzwq9; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E3KWzwq9"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47122683cf3so17394f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 14:38:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783460333; x=1784065133; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=bNwYc1cJ0kqQCz9PMZarBbXYOPfgykvOIERr/DpxJTw=;
+        b=E3KWzwq9FyvGUL5wXmhI7BQZspOvg8Awnrhy5AiFELw+YGrrxzC6GRnz1+nHZKLhW1
+         n27xQ4j7krISP1hITTvPWYrseSp8LDi2PevxMvzyKHkqSxKXpRalJUOUM4+YpZf65U0R
+         FSoYZiQNQcIn5fWQogMPmvKyN5TQ2xodgFBihqbA8ZmbGQHRis5nIfVNghQ6bXuh+ACW
+         zKUdFWqp+X9e+rWd2soiKibwUzSV2+NgTyQOJmjRObjMCdgDabRGcrk2K/yoKf2lQh2a
+         hqLbwsDGcl1DatapjCoO0kv226jhePz6zNk2HCAMu7M18pCOKke8exfX6zoS83Qm4t6a
+         1dAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783459979; x=1784064779;
-        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ZbjaYNNT/DAa2ZgxKUTDH5wk4uWoo8h75GUG/OWPB4w=;
-        b=PMWuUV5+0gwI5csqTl/8hlQFC1TM/ts99Cd3I4lWQgSbmmkCbKdnu5L+aePF0MpKYI
-         h7nyS5JWp4WpywE9ykx43Mf681Q1g34yC5viw2Jn1dcJDsXibGk1tJ0zRv7ywP3PIcW0
-         W4MJ4MX41TWkoIxZRC8BgTbxBVWmN8w19E7uHtG1y94nV+F5SCJZiErijfIPMMQEBGht
-         DqJce/UhgwEn7IlQGxw60436OXwKFLbY63VnVlFaHbyVZ00qiTIKF6MiQ43vo/9KXm5i
-         mkCmDZE49nWF/AacrH3j3qStvrRtHoT/JucJ4mwN/zR/EGxfsYD+bH9tOKeNHye2zKDP
-         OjEg==
-X-Forwarded-Encrypted: i=1; AFNElJ8iDvoNNzEnH3L+nsAN6gDQfDXbqtvWVPHU9lMF1ykUBsjw3ZL5WJnDIl54amxZ7ZZPuwSXbe+bNAYJvClF@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoGZD0BDEZVk761DS4amQD8njk73DDcVDCcqErKEbCGVtrw9KY
-	vhp0x3hYQ+pn/Tekc+Ps2OiDFRyW0uV31XJJWZzx03ltFf57EtjfTOkGlDaguVUrWTuQmP2KeQ7
-	++NNoj/E0qj9XSWO/0UlNws2SgIyFxcHCWyehMKU3NTfzY4ok1wdKrREcpyI=
+        d=1e100.net; s=20251104; t=1783460333; x=1784065133;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=bNwYc1cJ0kqQCz9PMZarBbXYOPfgykvOIERr/DpxJTw=;
+        b=frnbMak1/49N3Eqv2748zc7VV0XN+edk5V4dadlfUibfppackK7awHjKTWZsH649cp
+         2vfb/O26f2y++LXRDeoCoYOk4EK9cnzzB/zygbwbq5onuc5Epkc2kyeA/oEjz0uWGgqu
+         yF8DVcapmnX3LgZlFm5LJZb2OhDNaOI5JqrjZr1LN3UeDoGpaOX19oND80v9Jws3Cz/s
+         WsRdAQtXZ+AkLusI05mzVuLranTjW05jY07caDb2rfP1wKJWkO2bhfXQuIKmSEG1qWsA
+         6eq96VzO2pn+c16ChT9a0zG6gUOam0ecBUXt89pLEvkHULY2PBuPG8UK8TuHtLOh+XCq
+         NTfw==
+X-Forwarded-Encrypted: i=1; AHgh+Rq/eAPAeg+NVUKUhUPFXtsmCloLpDJEH7h5FSjouC/SyGVK9+1l85N7iukeKggzdGN5LLgDNeeGMbbzTdoX@vger.kernel.org
+X-Gm-Message-State: AOJu0YyN2Gh+Roa8XqVrRpsZ3F6AlRaSEa9JruMeC/CNbpUxlOyrCp4/
+	xeygb1ywvA96fAk26zoj54oFH+SkzdIBa6h8b0iYOMMrBZpeXyT2bWv9
+X-Gm-Gg: AfdE7ckyhSYV6W4A9gPT1Oln+AOFBAMtvfGUk/X9f9AjIyBSmT1v7LJzL+kQEPvU2F3
+	uBGgQ02RRAhMrCCEpsWFKJncL3Jk9BmaXF6mcAFjIID+fiw6/ZGha3IfE3O2RdG4Bwhj3ttavAI
+	N//H0v0Q7+1skOLgq2WuvphEZVZrqbfSrdoyv9pWF5e4ruvMsu9ZAg+I90hcZC7RLLZOdqIDfOV
+	NBS7s3PCmPMEq2ojLjbLszn55Rzycju1Q8w+nBn0CvegxyKdOxi0xO326SvWIVsJJf7q49ju3C9
+	iShyCVxV6YZZtkvC1i2e28oZwCvZfJM11yJdHqJQQDnJrefha1l4xuatvtLp94B647D3QfW0tsY
+	DQSTeQhYrrJ90+998KmLy/UL5lvYCgO22XjkfKUW6yRUnNJxpGBY4Ne7O5nT1HG+BJUgTTPDXwB
+	jJQn479OgTifrrDs/ld5RHRdRI3BLcnKZL6I4X4tKLnGoU7cFQq5B9QZVYkHh8gLxaVu+xGhJ9/
+	AqZqH/S9e2odhDYo3djtUV5Mm0Pvs6UYnb49k4yiyRCGeTIWtjzoWQX6SgWxT2CSHUS8VUkRcg=
+X-Received: by 2002:a05:6000:461e:b0:47d:df96:c9f4 with SMTP id ffacd0b85a97d-47de6667871mr8403779f8f.10.1783460332789;
+        Tue, 07 Jul 2026 14:38:52 -0700 (PDT)
+Received: from instance-20260604-012959.europe-west1-b.c.project-2c9d95d2-bf4e-4d5a-ac6.internal (250.69.76.34.bc.googleusercontent.com. [34.76.69.250])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa039bcdasm38086196f8f.21.2026.07.07.14.38.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 14:38:52 -0700 (PDT)
+From: David Maximiliano Hermitte <davemadmaxxx@gmail.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>,
+	George Anthony Vernon <contact@gvernon.com>,
+	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
+Subject: Re: [PATCH v3 RESEND] hfs: validate catalog CNIDs before instantiating inodes
+Date: Tue,  7 Jul 2026 21:38:34 +0000
+Message-ID: <20260707213834.431563-1-davemadmaxxx@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:1995:b0:6a1:5ca0:d52e with SMTP id
- 006d021491bc7-6a355246c2emr4441088eaf.7.1783459978731; Tue, 07 Jul 2026
- 14:32:58 -0700 (PDT)
-Date: Tue, 07 Jul 2026 14:32:58 -0700
-In-Reply-To: <20260707063308.29176-1-tao.wangtao@honor.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a4d708a.a1ad617e.25832.000c.GAE@google.com>
-Subject: [syzbot ci] Re: mm: rework anon_vma and remove anon_vma_chain
-From: syzbot ci <syzbot+cie73eac57e65eaf28@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, apopple@nvidia.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, baoquan.he@linux.dev, bp@alien8.de, 
-	byungchul@sk.com, catalin.marinas@arm.com, chengming.zhou@linux.dev, 
-	damon@lists.linux.dev, dave.hansen@linux.intel.com, david@kernel.org, 
-	dev.jain@arm.com, dvander@google.com, gourry@gourry.net, harry@kernel.org, 
-	hpa@zytor.com, jack@suse.cz, jannh@google.com, jgg@ziepe.ca, 
-	jhubbard@nvidia.com, joshua.hahnjy@gmail.com, jparsana@google.com, 
-	kas@kernel.org, kees@kernel.org, lance.yang@linux.dev, liam@infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, ljs@kernel.org, 
-	luizcap@redhat.com, matthew.brost@intel.com, mhocko@suse.com, 
-	mingo@redhat.com, muchun.song@linux.dev, nao.horiguchi@gmail.com, 
-	npache@redhat.com, peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, 
-	riel@surriel.com, rppt@kernel.org, ryan.roberts@arm.com, ryncsn@gmail.com, 
-	shakeel.butt@linux.dev, sj@kernel.org, surenb@google.com, 
-	tao.wangtao@honor.com
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-syzbot ci has tested the following series
+Hi Slava,
 
-[v2] mm: rework anon_vma and remove anon_vma_chain
-https://lore.kernel.org/all/20260707063308.29176-1-tao.wangtao@honor.com
-* [RFC PATCH v2 01/13] mm: add CONFIG_ANON_VMA_FRACTAL
-* [RFC PATCH v2 02/13] mm: implement helpers for ANON_VMA_FRACTAL
-* [RFC PATCH v2 03/13] mm: implement __anon_node_prepare for ANON_VMA_FRACTAL
-* [RFC PATCH v2 04/13] mm: implement anon_node_clone for ANON_VMA_FRACTAL
-* [RFC PATCH v2 05/13] mm: implement anon_node_fork_with_prev for ANON_VMA_FRACTAL
-* [RFC PATCH v2 06/13] mm: implement unlink_anon_nodes for ANON_VMA_FRACTAL
-* [RFC PATCH v2 07/13] mm: handle rmap_base changes for ANON_VMA_FRACTAL
-* [RFC PATCH v2 08/13] mm: implement anonymous folio rmap for ANON_VMA_FRACTAL
-* [RFC PATCH v2 09/13] mm: prepare anon_node replacement for ANON_VMA_FRACTAL
-* [RFC PATCH v2 10/13] mm: replace anon_vma with anon_node for ANON_VMA_FRACTAL
-* [RFC PATCH v2 11/13] mm: optimize rmap for ANON_VMA_FRACTAL with PVL
-* [RFC PATCH v2 12/13] mm: shared semaphores for ANON_VMA_FRACTAL
-* [RFC PATCH v2 13/13] mm: Enable CONFIG_ANON_VMA_FRACTAL by default
+Thank you for the review.
 
-and found the following issue:
-WARNING: bad unlock balance in exc_page_fault
+Yes, I agree that the initial length validation can be simplified to:
 
-Full report is available here:
-https://ci.syzbot.org/series/39466cf1-707b-420e-8f1e-11735bea6c66
+        rec_len = fd->entrylength;
+        if (rec_len <= 0 || rec_len > sizeof(rec))
+                return -EIO;
 
-***
+I also agree that, for the fixed-size file and directory catalog records,
+the checks should require the exact record size:
 
-WARNING: bad unlock balance in exc_page_fault
+        rec_len != sizeof(struct hfs_cat_file)
 
-tree:      mm-new
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/akpm/mm.git
-base:      8ff49efd1cf18086320f3b43d1bd483c0b9e7e58
-arch:      amd64
-compiler:  Debian clang version 22.1.6 (++20260514074242+fc4aad7b5db3-1~exp1~20260514074407.73), Debian LLD 22.1.6
-config:    https://ci.syzbot.org/builds/c3a229e4-b949-4889-b309-dbdd1fadd95f/config
-syz repro: https://ci.syzbot.org/findings/29b52ad4-b463-41da-877c-4138356e3960/syz_repro
+and:
 
-=====================================
-WARNING: bad unlock balance detected!
-syzkaller #0 Not tainted
--------------------------------------
-sshd/5593 is trying to release lock (vm_lock) at:
-[<ffffffff8bb5032a>] handle_page_fault arch/x86/mm/fault.c:1483 [inline]
-[<ffffffff8bb5032a>] exc_page_fault+0x6a/0xc0 arch/x86/mm/fault.c:1536
-but there are no more locks to release!
+        rec_len != sizeof(struct hfs_cat_dir)
 
-other info that might help us debug this:
-no locks held by sshd/5593.
+Regarding hfs_write_inode(), I intentionally left it unchanged because
+the patch was trying to reject invalid CNIDs at the catalog lookup and
+inode-instantiation boundaries, before a corrupted inode could reach
+writeback.
 
-stack backtrace:
-CPU: 1 UID: 0 PID: 5593 Comm: sshd Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_unlock_imbalance_bug+0xdc/0xf0 kernel/locking/lockdep.c:5298
- __lock_release kernel/locking/lockdep.c:5527 [inline]
- lock_release+0x1f1/0x3c0 kernel/locking/lockdep.c:5889
- vma_refcount_put include/linux/mmap_lock.h:216 [inline]
- vma_end_read include/linux/mmap_lock.h:264 [inline]
- do_user_addr_fault+0xab0/0x1340 arch/x86/mm/fault.c:1345
- handle_page_fault arch/x86/mm/fault.c:1483 [inline]
- exc_page_fault+0x6a/0xc0 arch/x86/mm/fault.c:1536
- asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:595
-RIP: 0033:0x5583206de68b
-Code: 04 25 28 00 00 00 48 89 44 24 08 31 c0 48 89 e2 e8 8c 5b ff ff 85 c0 78 13 31 c0 4d 85 e4 74 0c 48 8b 3c 24 48 89 de 4c 89 e1 <f3> a4 48 8b 54 24 08 64 48 2b 14 25 28 00 00 00 74 05 e8 5e 17 fc
-RSP: 002b:00007fff02a37e60 EFLAGS: 00010206
-RAX: 0000000000000000 RBX: 000055835a20d6fe RCX: 0000000000008000
-RDX: 0000000000000000 RSI: 000055835a20d6fe RDI: 00007fac5106c010
-RBP: 000055832073df00 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000008000
-R13: 000000000000005e R14: 00000000000000b3 R15: 00007fff02a37f88
- </TASK>
+However, I agree that an additional validation there may be useful as
+defense in depth. Would you prefer hfs_is_valid_cnid() to be checked in
+hfs_write_inode() as well, and should that check precede the existing
+BUG path while otherwise leaving its behavior unchanged?
 
+I will prepare the next revision after your guidance on that point.
 
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
-
-To test a patch for this bug, please reply with `#syz test`
-(should be on a separate line).
-
-The patch should be attached to the email.
-Note: arguments like custom git repos and branches are not supported.
+Thanks,
+David
