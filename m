@@ -1,73 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948B037F72C
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 16:47:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B9F22A1D4
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 16:54:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783442875; cv=none; b=oE7jePvUmOM7oT3j4eW4wRcMeWJXMPGtk4bfBOBKoBudeudlAJmgP6VkuD+zoMAtLMSKfvLTTU+DHFBhxb7WUKvi/SdDd/oDxvJzAi+SM2/f7GWFe/gRxCBj4LQQm0F/mW+FZjjixhuF01a2/uBf6WuS0RoPQsQqC3xOJZgHct0=
+	t=1783443281; cv=none; b=ZwTyx23GEi4GZpXfhue5v9psTyIujXHvrGheG3FNpoRHGGYdh9DarNLdSLloD0rkL2bQ0Dfa+yMdrMNnITgWXb6V8HgvTMG5XkQewgXmNcX99/h7+JJ5/ECPGQhdPdvazz2T8GvMzJg6mUrTELnppvcwxdcDSH/AdVByZx1511A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783442875; c=relaxed/simple;
-	bh=cp3/6kyEE4pO7F7Yc1BGY94tYD4E9LlmMjPvqIrG+GI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p3m/8zus/o5N508ZBLpPYiChzDD9MKt6sKKWBfqZmT4xOloPi3qFXskmURIK2dYI2vT/eFgAcX71t+JInl0g4NdetMXE9HlPSeQIb0m7tHMMbeXQHkpNjjYZRfaXCKgkLmd23iTEowgWYL5aUzBIeZmTRi6xA+brFCuHzcGhm18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WRilzDE6; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783443281; c=relaxed/simple;
+	bh=Omuhh4w/zf0SDooRU/V40J3YBdkMf6Hj+qafJjaEjQA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ksQr6ZnoGmQT5TfsOA6VkIFOsIO9TLDtig/ot7/UUsCMGWrIASFGEw6Mdjoq0BKVNG7CgOe35uNwkKnr7TYeyHhNM2UhflSppEY8UIC9TM0oVAJHTXPAWKjIIiGza171Jp9y38wzG268zE+mWY84b8Oeo0ifrI4pSoxEcYwml3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DCmxXxDo; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WRilzDE6"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 205201F000E9;
-	Tue,  7 Jul 2026 16:47:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783442874;
-	bh=ceKJW9BF4E+apHmoSmshxaIsqzstusKYIBnXt0B4n+Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WRilzDE6T0I1cuUWynm43c0Evpu0h6xGxT6F9zNBhP24pViDCsANgFF5gXWHqlCin
-	 ObyDxtkkC1swm2rw4itSRFEztAxKU+ucb3bumn3LEo1JJ/CANwBmaLugSpB01lBDIj
-	 NrBNeLhrg3012JDk21id3IshhSzE5jDswKtu4uQsx0PFQjpScUSpujp3kpMS1qta8N
-	 ksZBjY0juMB/ACCIpI6faY8xzxMI2MlkdgnHyHVUzA458i6I48SkfhjHSYD4liFsZz
-	 mst5Cgn7Uf/q6Fc0v/3ratDMI5mD9liiApW8K3IzlxSCaRqUHi9AjNDNGluEmeF3l4
-	 jP9towt6AfzZA==
-Date: Tue, 7 Jul 2026 09:47:53 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH 1/2] fs: refuse O_TMPFILE creation with an unmapped fsuid
- or fsgid
-Message-ID: <20260707164753.GC9368@frogsfrogsfrogs>
-References: <20260615-work-idmapped-tmpfile-v1-0-754a94d81f83@kernel.org>
- <20260615-work-idmapped-tmpfile-v1-1-754a94d81f83@kernel.org>
- <akju9Nag-jhIoVq9@infradead.org>
- <20260707021838.GB9368@frogsfrogsfrogs>
- <20260707-villen-clubhaus-postleitzahl-60a67025879a@brauner>
- <20260707-babynahrung-gruft-sirenen-6e791a5f086c@brauner>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DCmxXxDo"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-37e0a189b0bso3324097a91.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 09:54:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783443280; x=1784048080; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Omuhh4w/zf0SDooRU/V40J3YBdkMf6Hj+qafJjaEjQA=;
+        b=DCmxXxDoXiTPGO9W16Lj6ZceO2K+2U3Myn40bky7TMfi91+2OF4Zu6cEIBZVCiQbMY
+         jEbbSv0i7kHmi8D4fkGH2eI6FPqh9xVsB5b7IWSYczjTyL2zA2ynf/tW/DzR/WnFV0XC
+         W81zawoIApArNSPIDYejJYUieiD3u9VHmiLgXvbm0fJgq6NEPRwp7cBOt7J4mVofhTVS
+         UOnbzzaFlOwcf5Q8cATNY+b65WHSm00ofb/WmrRD4XtYjUpmM2McucO9KOFdM20+I6I0
+         0ydhzz1GGTXOi9EiG2PZeFRm7/u1lHlRdBZxr9pl9IoFwX4/PJ8dR8jFpKCxC05Gn9e9
+         aKIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783443280; x=1784048080;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Omuhh4w/zf0SDooRU/V40J3YBdkMf6Hj+qafJjaEjQA=;
+        b=Exb+TgSgCs9v4f9Ht3st0bHQBX+29XIJ9MsHydjYo/vpTeE49eoaVuvueOei2xTjIU
+         ktarut3hd+YOfjkXm7ln8zQy96/uCVpIEtzd9f3WMO3fBvkUrepRIA46wUTu4TkbYx6d
+         pQrTGvowsDTtHpT7gevCqdnq31Pns1j303JeqjOGwv1BxpRpdJE67wS5/RdpGdkvywwU
+         ka2GfSTR5nLrvp3C+ApCZALAOHcTGD5P/bcHPQL6vU2/4FeEmc5YpYezMDB14rlFfExx
+         1Zboo9jykb4QANb2pigk78Q5c7ngw+sghkJgCmt54/HPRiZh3pRSkl3NnxRXNuydPTnf
+         0xGQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqwjBcW9d3ZlgtmP0b0H3gtUuBGfM+odfgicnw/AeqlGTbcPqmgpmuvu325FuMFvcl0G5TXVQUSQ6Z7KfOT@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHJTujiaefDSSiuFnovOrJwFT2wv1BVs8ugsDIGuU4X1rZWi4S
+	mkDhh31brQP2LgAW8fVPQHVMOgiqxVvShxAabB29vFlYR8qN6B9Klmun
+X-Gm-Gg: AfdE7cld0WUyXUJPIW9cOWG3ofVTtIGIrmG6YfGBjmMC0eRZJTRQD8FIiNBzfbOibDS
+	61AU2sjeErrTWjiuBczpuSLtyDjhM+AibTh6NNuvmx2LzlElAfwbonL9o8O2ZptNOC5Q1yhG/h6
+	ZAevHjTEgrB9uQdJ+O5YvG3tOkA0XrIN9FIIXecWt59kjJGcmZcpziKoRaWGnQKpUFvTIdcw1Tw
+	51DPQijXlocRu0JG5ZnGQ3RH96TFusujgzPKjngICE7nSqhEU7kT0O7OeYBj2/QECBWYA6C5W3Z
+	QuVAVg0wnQd1hH4N8CaSDiRDlhZHTXuA7RusiDjTGL6h2oyeK4PkvGJz7VdAsRVIXGaQ92A4FLp
+	pVEFcenWlT4WYt78uB1LeB7455/Dz1qQN0wfOovYupH7zyiB5aI7842PSKdf+3lg=
+X-Received: by 2002:a17:90b:2551:b0:37f:e1b6:4c7d with SMTP id 98e67ed59e1d1-38754ea7913mr6387958a91.6.1783443279804;
+        Tue, 07 Jul 2026 09:54:39 -0700 (PDT)
+Received: from nineveh.sos.local ([131.191.24.68])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-387d36676desm1443261a91.10.2026.07.07.09.54.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 09:54:39 -0700 (PDT)
+From: Jeremy Bingham <jbingham@gmail.com>
+To: jkoolstra@xs4all.nl
+Cc: brauner@kernel.org,
+	jack@suse.cz,
+	jbingham@gmail.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] minix: define constants for dirsize and namelen
+Date: Tue,  7 Jul 2026 09:54:38 -0700
+Message-ID: <20260707165438.590667-1-jbingham@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <942891560.128364.1783370852771@kpc.webmail.kpnmail.nl>
+References: <942891560.128364.1783370852771@kpc.webmail.kpnmail.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260707-babynahrung-gruft-sirenen-6e791a5f086c@brauner>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 07, 2026 at 01:20:51PM +0200, Christian Brauner wrote:
-> On Tue, Jul 07, 2026 at 09:20:48AM +0200, Christian Brauner wrote:
-> > On Mon, Jul 06, 2026 at 07:18:38PM -0700, Darrick J. Wong wrote:
-> > > On Sat, Jul 04, 2026 at 04:31:00AM -0700, Christoph Hellwig wrote:
-> > > > This commit causes failures in xfstests generic/633 generic/696 and
-> > > > generic/697 with messages like:
-> > > > 
-> > > > utils.c: 948: openat_tmpfile_supported - Value too large for defined data type - failure: create
-> > > 
-> > > Seconded, I also see these test regressions now.
-> > 
-> > Yes, that's expected. It needs a fix in the idmapped mount feature test
-> > portion. I thought I had sent a fix for that though.
-> 
-> And so I did:
-> 
-> https://lore.kernel.org/20260615-overlay-idmapped-vfstest-v1-1-c6b3b2228092@kernel.org
+On Mon, Jul 6, 2026 at 1:47 PM Jori Koolstra <jkoolstra@xs4all.nl> wrote:
+>
+>> Op 06-07-2026 20:22 CEST schreef Jeremy Bingham <jbingham@gmail.com>:
+> Hi Jeremy,
+>
+> Thanks for taking the time to look at minix. I have a particular fondness of the
+> filesystem, so I am happy someone takes an interest.
 
-Ah, thank you!
+Thanks. I think it's kind of neat to have it around too.
 
---D
+> However, I don't like this series. There is no reason for all this churn or the
+> exorbitant amount of comments. If you can get iomap to work that would be great,
+> but please don't do this.
+>
+> Thanks,
+> Jori.
+
+These two patch series were the only other things I had besides the iomap
+patch series. This one in particular I'm not super attached to, but I had
+noticed the bare numbers there while working on iomap. I wrote the minix.h
+patch in this same series because checkpatch.pl kept griping about the
+function declarations on the lines I had changed, and since it was a bit
+of a hodgepodge of different styles I thought it might be worth doing
+something about it. Changing all the function declarations was out of
+scope for the iomap series, though, which is why I did it separately here.
+
+The other RFC patch, which unifies the itree_v1.c, itree_v2.c, and
+itree_common.c files, was inspired by Darrick's comment in the iomap patch
+series about how the way the v1 and v2 files have specific definitions and
+include the common file was "/one/ way to avoid having a geometry struct
+capturing those details". That got me thinking about how not having to
+worry about the different v1 and v2 definitions and just unifying those
+three files into one, but since that would also be (very) out of scope
+with iomap I made that RFC patch separately.
+
+In re: the exorbitant comments, I had those in the RFC to explain what
+I was doing and why. If the RFC patch was well received, I would of course
+resubmit it with the comments significantly pared down. That patch would
+make the iomap conversion easier, but it isn't required. Since that RFC
+patch would be nice, but isn't necessary, I wanted to put it out there and
+get comments on it separately rather than trying to fold it in to the
+iomap patches. In the future, though, should I find myself submitting
+another RFC patch I'll keep the explanations in the cover letters and
+commit messages unless absolutely necessary.
+
+Iomap and minix do work now. I just need to address Darrick's critiques of
+it before submitting it again. Since these two most recent patch series of
+mine were indirectly related but not required for iomap support, I broke
+them out into their own patches.
+
+Thank you for the comments, and if there's anything else you think I
+should address I would love to hear it.
+
+-j
