@@ -1,269 +1,211 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017CE3F8240;
-	Tue,  7 Jul 2026 10:51:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783421517; cv=none; b=Cyvzs0iehVpn/4HbbR1Y4nOFslCkOhPJ5RG0X3Cezbd73ljJBZKek1yYNQQbvgYDU2pktU6xZiAZcAx5V+esHr22a+qVDZgrpT3+sOjjv2aowv3Um8341uZMYHdKzNyhqiwGBH15h6M6h6TR+4o+8ESBwRr1mHhqS7+mZmVRa18=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783421517; c=relaxed/simple;
-	bh=LNdeppuuz/4GWgY6kCsvQgCKRxpUpTVUUPhmRVHH3/0=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=sS+HUG1e+u820tucJrgPGKfC8+D/7AZ4Xb1HyyIMeI4FZ32P4ru2nUl4SUqvnXgMWHfsKXcx3R/4S+X3AWFXO9GGjmLs+ZNSlK5gZn9PeGUA6vBazfD2vqNSaEWeHRAeBLf0aRX+M1IZqw3BvMmw9NUv9fYOkkKiyuis9QtjiYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GF54CK+R; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA7C3F4DD1;
+	Tue,  7 Jul 2026 11:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.178.238
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783422096; cv=fail; b=E/ujQYGCJxruTvgu/psAXyrNGlZ62KdZYlcFavD4Cyzl6P4DPGRpASCdQl5qWKLq7BOHGdR0e9MIGl1h4vE6gqjdeFH0PfIIbUZXPU4YgAvZtHQHxaNDcMoQ2FUKMM/xFmaz0JjJywLCEseqy5YXcpx849T6qN+GPXWCbPqCTNA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783422096; c=relaxed/simple;
+	bh=vOYFMYwVPCUiEj2jBs8zbeMeRF/mOkImjUfIfkG0Tl4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=kgzsRkFixaM2wJGe2WnHrLO6PJ132r9H8om42T0i1ON0LDjvkvgSQGfhHGajDyrO8s7iBt2+OMuAZlLdtswfHRqoGeSw+YZcZgRiec22Z5O8WMfCQikRAMH6A8K/YgzkNx8hA+57DyirPQJjQ3zFP/eXvM3jyxnQARwcydzAsmw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=WFY12eU1; arc=fail smtp.client-ip=205.220.178.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GF54CK+R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D50FE1F00A3A;
-	Tue,  7 Jul 2026 10:51:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783421515;
-	bh=5YhGZybwXI2mJdTWHoWGVvorQh1v0twSgj9Alzpe6q8=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=GF54CK+RN1agHBErn8I/Z88KCJldb3721ugkN8Fi315gDTZ9zgJCRaeFHhjpAXxKF
-	 +sJlA6ipj91HvR+UOp7jeVzv2yNeHfAsh060iqLMExokeW6ZkwV2+6EZt2fWOZ5Lr6
-	 EVZS2bj6NBG85KyG0s/0/L45Hj4J/ILz06fvSqdHgKDFm/T50e8VTz1iNr7gjtP8PP
-	 eP3DsKLGwHZLVt+yJVmXmanyE4ofDlqpyuzha1dBSXubavLl4birIaVUHTx/16vWvx
-	 xzIKWmtvcKFfxT05Z+MS6v2r/S68XHNr8CnJQ6t9CpBKD7re2x4Ywt5xD6EAdbBd8W
-	 cR0HSpZDeLK3A==
+	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="WFY12eU1"
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6678InFP1012280;
+	Tue, 7 Jul 2026 11:01:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=YwkiN0/HyQpNU51O5mE53spcXMshSFVdp6rUDToL9j0=; b=
+	WFY12eU1/WmYtu64SVzo/mTdCMi58bXG8RX71xtHNKZhPgpb2bv7q2+gFUFKJfzP
+	MxhZySlt6O6mdvXqfIdkScnb4xqOETSTQ4HXakpvMmoHUzC2fiL2iGQdToOcCJOw
+	43lHHMTNvys864lDiffylf7zEOiRanXj/IUolQSQnSU1XydvrzjlP7uMAV2GGB3I
+	pB1FsdSGBxzvHse5c2zwR0Lj11SlMMOavRExqCzc58P24tAqnw4jEAa56vS4UP8l
+	N15q9tz6uuxH8FiGynImhe56JT+dBhRLPKLzOaZhbLhHn3ZM4VMQnfv55YrL2Vdl
+	XX+dpEgW/QdEttM9C8cqLg==
+Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11011063.outbound.protection.outlook.com [52.101.62.63])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4f6s58c1kg-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 07 Jul 2026 11:01:00 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YXfPnDBUYxT9N8zyll/HqBhRdefl2qotY3kVy3RwFQvkklA/vzYhDamO2Rtv05Fd0MviMnNHmtQWw2+RsC+7yOU8InlBs+nUmL5gdh+ukeN2UO1dZ2Rzl0YRXFfIwOBugvJ9+RmQgfsNWCG+8mmMOUa0hvEi//UpqQFCtS7lR9op/qhVXCrkmxfAVKzIFs2q20seMg+ah+jsdOz20A6+CckVp5uUHvdv7quVWB/IHEM05V/ogGZgqvNjh2DLzJ+WeJtc8DcThUF+mmLS0ohSazlYUt7jfWhIJEd2fV7fVxVWWNaX18rwBZNurM0xSVO/bwU1i+Ou483qksrc+0C/BA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YwkiN0/HyQpNU51O5mE53spcXMshSFVdp6rUDToL9j0=;
+ b=v+Zf6zIBY7QTqSidMsLFYKzs6SE9XA7xX66IdZE+YKc3Q2DjH0PUXTMGZT9WUOat8yOkQEB+uQlqUX1FcWUOsdUvG24/RrLWj0PUlfIxs5qVF3hZEsVOi0GggKZC6VNG3QJtitTGiCu1bPo3ee2k9Yb9xJg2U63+3GQVEBGoXHjhlTfszzvSd2GtWq0XjI1hjnluF7WX5LuOpXc67FRTiZiN3PaxPBxqPcjTrc/mvDvEAug8uxEZnux/o7OORWaoSXA32K3BUlm/PdxHpSoVVo+3y+MNd3aaPXA1/d+aOStsHrlf8/FuC4eoSrqxJBjz1Ngc3wUbVJnyJ80wKlrcjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH0PR11MB5332.namprd11.prod.outlook.com (2603:10b6:610:bf::17)
+ by SJ0PR11MB5054.namprd11.prod.outlook.com (2603:10b6:a03:2d3::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.13; Tue, 7 Jul
+ 2026 11:00:57 +0000
+Received: from CH0PR11MB5332.namprd11.prod.outlook.com
+ ([fe80::8f86:8d08:45bf:ec13]) by CH0PR11MB5332.namprd11.prod.outlook.com
+ ([fe80::8f86:8d08:45bf:ec13%6]) with mapi id 15.21.0181.012; Tue, 7 Jul 2026
+ 11:00:57 +0000
+Message-ID: <9bb5dbfe-bb82-4ca6-8a14-5c434bd54051@windriver.com>
+Date: Tue, 7 Jul 2026 19:00:47 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot ci] Re: ext4: deferred iput framework for EA inodes
+To: Jan Kara <jack@suse.cz>
+Cc: adilger.kernel@dilger.ca, brauner@kernel.org, libaokun@linux.alibaba.com,
+        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ojaswin@linux.ibm.com,
+        ritesh.list@gmail.com, tytso@mit.edu, viro@zeniv.linux.org.uk,
+        yi.zhang@huawei.com, syzbot@lists.linux.dev,
+        syzkaller-bugs@googlegroups.com,
+        syzbot ci <syzbot+ciadd810ddf4701c1b@syzkaller.appspotmail.com>
+References: <20260702152225.4071746-1-yun.zhou@windriver.com>
+ <6a46ecbd.52c20a74.1f8b39.000b.GAE@google.com>
+ <j6ftvy7a3w7js4whqps3fipbah452xhro37kxvkruoeobtlonb@zrp2pwoif3pc>
+Content-Language: en-US
+From: "Zhou, Yun" <yun.zhou@windriver.com>
+In-Reply-To: <j6ftvy7a3w7js4whqps3fipbah452xhro37kxvkruoeobtlonb@zrp2pwoif3pc>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SE2P216CA0084.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2c6::8) To CH0PR11MB5332.namprd11.prod.outlook.com
+ (2603:10b6:610:bf::17)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v3 14/14] selftest: add tests for
- open*(O_CREAT|O_DIRECTORY)
-From: Christian Brauner <brauner@kernel.org>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: Jeff Layton <jlayton@kernel.org>, 
- Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
- Aleksa Sarai <aleksa@amutable.com>, NeilBrown <neil@brown.name>, 
- Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260704164149.3480051-15-jkoolstra@xs4all.nl>
-References: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
- <20260704164149.3480051-15-jkoolstra@xs4all.nl>
-Date: Tue, 07 Jul 2026 12:51:23 +0200
-Message-Id: <20260707-plexiglas-latten-bequem-a6688e299df0@brauner>
-X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6665; i=brauner@kernel.org;
- h=from:subject:message-id; bh=LNdeppuuz/4GWgY6kCsvQgCKRxpUpTVUUPhmRVHH3/0=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT53DJIZ31u7XrlS5WtXYb9x3eTVv5y3aJn9MDqJYPXp
- 4qJsbG7O0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACayIIKR4fU+Dc/sctlN15vM
- /nGu+rzralGAbeLulVOso6J2p0Rsvcvw369JlvnC147/u5sMt5snduXLG/PtXbjiFGvMBMbXWZ4
- zOQA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR11MB5332:EE_|SJ0PR11MB5054:EE_
+X-MS-Office365-Filtering-Correlation-Id: c4fb8a6a-9d45-4459-94da-08dedc17058e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|23010399003|22082099003|18002099003|4143699003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	zfy+twmzH9feuQKoSxDa9u45U1eeEx5xIuYeXrpjSmOrsBQF4vFQrqa24GxsKTCz53FgUziFKxZsxuXlu/wTEec3I5YKdwjyxTWexxSHZ/DPirFp8TQhLWOOpcfIeUsISn13m81Ddntg2+16++1ZMRNVMcTRBuv3ZT1ZyPWlVOydTxITcDiVaXXX9qqI6KpqSDK3Tmc4PXg6Fgihn+71PdCEz/j/ig3K89Md5M3S6gjNJgvRNB98nDd99D/D1m/Tyf0+iyWpeCeZWKkg0q/7i2oD9qpump1XwFGYsvtl3yO0NH29H7W/ebcPAHO3LUyDlr4pTohsrmg5uWeoe8cAgfJtf1k7xgqhIBWox6AJSIgUTCTPPN9Yzx8VFuIW6mlooegJMF5ztZQQRX3YMvrpzhP5Ti3HjXT2Y08y1YyIYd6raTr8r+nZxlFhV6EIf133BJLgAi77GyjRNQq2+pDjR3CQHLKCISLH2eTiv6cCcSEGLckTULP0uAFFBCP+RFBgDwJ3O4VAyZb4P43p2WjhhLzVUItWoiw7WUJGteV3ADv7J6MkNUpQ7gTuDRw5fHeYMC3+xH+VyLO+BwzbDMOvNBVtdaT/vSa7jExVPXq8ZvfBRhLH3UtD1kZ9Sgw2WWbUQhAwAfOC6z7C7QdH3YGp4f4v5PLnFnE4YK7WZQzcbRw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR11MB5332.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(23010399003)(22082099003)(18002099003)(4143699003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?T0x6dkpYZVhGVTVQSnpmbnlTaG5yc3lwbUVLS2JsckJYV3MwM3UxWTFDckdF?=
+ =?utf-8?B?UHBSZnJ3RS9HTHA1UGpCMWRPNXJYbElkZCtrUnhVMlRIZnhueEpldFRsMGh5?=
+ =?utf-8?B?TVVtRmp4SkJsTDlUSFI0RWExU0xJTXNuUzVReGJZRThseSswbHR5ZGVEZjlP?=
+ =?utf-8?B?OXlOcTYwVlhrWEhPY1BodGpjMFR3U2JVYkdDbVZQWEZMalhOUjJub1J5VUti?=
+ =?utf-8?B?ZnhZWTJRdW9Na3dPZ0huVkkrNmFaamk5Mzg3MDEvRUtVOGtjOEpwUDZ1QnRV?=
+ =?utf-8?B?NS83ZUhPZitVT3VYRUZudUlwSUVyQTljUGNOSnhRRThadjFERFBxTHNwd2Z2?=
+ =?utf-8?B?SEZzeGlXQmh5OHNRbTRLMzRlV1VsakRvN0Faa0dEeG04djJPbDlKS0dPNUFm?=
+ =?utf-8?B?VXgyQ25QdnJlL0l2VFV6bnFzRCtHQk1wSEJjVVowWmVrMHhZbzNUdWxlMVhM?=
+ =?utf-8?B?Q2FKbUhhekFSYzJkSlJDelRMN3d0SUx2ZGpTWFUweEw0Njd2Sk8ySlE4Sm9u?=
+ =?utf-8?B?SlNYZjFwQnBjYWJNUytPYk03dHhRQkVSYlhiQWh4dC9ZOHkzUitjK3hUcVBB?=
+ =?utf-8?B?VnlrYllTQWdLb2d5emRZYUpXeHVrMDUrbHhZUVJOTGdQRmEzVDhxdVJGUTI2?=
+ =?utf-8?B?dkFtTm5ZeVdUbzNnQTVia1ZGcXVBMVlldm9TMWlrQlI1VWNJdEFzMHRXaXNz?=
+ =?utf-8?B?S0MwZmYyWGkyQmNBVVIyYlFjdWQ2SG1yM1orYWZXbWgva2FSeHlSYldTams0?=
+ =?utf-8?B?U0Ywb0NuWUJxSnVNdWtrT2NKOUNxQzFNektjRVQxdis3dHZvOCthYU5BT3JO?=
+ =?utf-8?B?LzIrK0xPa0RUbzVUYUc4c2wyWTNIemgxK01wUjB5VVQ0b2RqRmN5ckVRemFC?=
+ =?utf-8?B?TjdjNWVSQUUxRVNSZUxNM1hPdUF0cnZHTVZlLzVaVitmb3NhdzhyUGJqbXRC?=
+ =?utf-8?B?TU1HUTNIWlo0VEIyTHFpby9EajduVDNsZjVXWDAvcW5lM2FCb2VoaUV5K1JL?=
+ =?utf-8?B?ZU9zaHkxQWNyTCtDSFV3ek5BdU9CSjRKRWp4dVJwS3ZtSVNKcVJQckZNSnJE?=
+ =?utf-8?B?R1dnUDVKQWJRSHgreTFia3l4R3Nud2d1VnVBY3ViRWFobnd2dWhuajJINUJz?=
+ =?utf-8?B?bHkza2lrRnJTZXRMSW9WbnBWTjhMSUhrT0NvVUlmTkxTWlhjV3NTZW1DeVNz?=
+ =?utf-8?B?R0tYcGNwd0dlTzBJT2tFT0hXd2lwcHFMVWRQaXZFQTB3SnlEdWhRb3RFdCtI?=
+ =?utf-8?B?dnV6V2ltRXJqNFNLZFJFcTRLTUQ3TmFWaVZ1MGI0WkxkWklJdUh6YWpKamJY?=
+ =?utf-8?B?QWY0aHVCYU1wNEdRQURuK2NjRHFLMjZDR2d3RE9QVDZVQ3duUFVKaUREMnhT?=
+ =?utf-8?B?QXplaks2aFpDcUYyQk5iR0t2aWI5SWtReUMxWGtXSXh1QytHZi9EbXZ6L0tK?=
+ =?utf-8?B?VEYydkxhem1RVHRVMThTcWZIRGtYc1RYejZ0UzJzYmxhOG9IUXdQb3Q0WE81?=
+ =?utf-8?B?UkU5Nk81R05WTkYxVXBQZEw2enVRQmFRWDFBb21lM1RmLzZOeVZLQ1ZUUkhG?=
+ =?utf-8?B?cXdvNWdtQlJNclpkcUJUQ2pBaWN5MTUrcFpqanJoclJBUGtRSEJBZVRhSWRB?=
+ =?utf-8?B?aGZVRXhmbEM5NVdtUlBGK0FOUHRXaFlsZG1tN0RJckhFY05oZEdtSWxvUkdn?=
+ =?utf-8?B?bWEvb21IVWlwNlBZSTMvLzFzYmFNbzFaR2x0WjlDL2tMbE1DOUZVMmFsNWM5?=
+ =?utf-8?B?YThZMTVkbFgwY2hSUko2c3hhTGdtZmRxdWFOZEFrQVZRNURpbHdaTWptb3N6?=
+ =?utf-8?B?WktzamFWTVAwaGZkbXN1Q3lBZTU5OGQrRVZubmFHUzQ0M2RQUmhpeUV3Y0Q5?=
+ =?utf-8?B?czgrM2U3cnRtZ0hmUjV2QnMyUE0zaHhkbzl0dVhGKzZxTjVVZ3BMUEpHTmVH?=
+ =?utf-8?B?QmNTL3RPZUpVKzBhUXlhTWx2MEszTTJCWjNCeEdNMzB2bWVScEVtRmJFUDg1?=
+ =?utf-8?B?SUpzUHJiemJOWXB0NUNMR2JuTlc2S0ZMQ0dIOENLSCt5ZGQrSmdIV1BlT1ly?=
+ =?utf-8?B?TDhTSTZTT1BGWEhmZDEzWXgwWVh2TVBjNzNaOG82RHMrbjd2NGoyQ2lmSjkr?=
+ =?utf-8?B?ZGtuUFZ5czZsQk1qUURnQmRKd0ljcG9aMXNBb1dtcElwdUxGSXdFcDhvYlZ0?=
+ =?utf-8?B?NTU3RktVWmpkSWF2T0hYd1VyUjJ4VDNJUGcvVUlGR2RBUDQxeWN6SHpJUGp4?=
+ =?utf-8?B?Q1hPb3FnY3R6aXN5RlRCVThYeGFTWkxlYUFVVzg2a0lUK0JKL3hreFVTdHF6?=
+ =?utf-8?B?ZzhhZDBmNHhKZm5pcko5NmZ0TmpRWWFUZ2RMeTlrNFRDdkFMQWlSQT09?=
+X-Exchange-RoutingPolicyChecked:
+	QSkEUI0Z1A59lH/3A4ho9pecfncoD+MSRoWTqIVhUOTR2Zr56k8hCKfag4SlnnX/FjtvyijNvLFSLoSCW6cfgDlRV8XNGF7aIrbwkq/V9dGFJLl9gea189+UQGcUU0TONCjkjkMBeyU0zSrdxnb53QQSHdZXkwmNrVSggvrNHsO2f+BWLJuaISliinq8rzYFT2nKqNXdyz0y6baZu3KCb5vr3wYMC86i3waufgx+agPb5wQv4cOVvd/iN5P+CE5SXAbXRJLVW0R2dqXqe0hU8yFFYI+O5XBn7/zCvHgTe78d9863InFsGg8hH87YD0XOEO0g/CHxQ24+KDGUBi1vUA==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4fb8a6a-9d45-4459-94da-08dedc17058e
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5332.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 11:00:57.2063
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UD1JvolIhb8jjkvL7Mxk3X9JrjumyuNr1P9ARna8Pvqs/BZZ6rzLyg+BhPj6mDlen6OAb8m3YPCH97uc7UAzBw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5054
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA3MDEwNiBTYWx0ZWRfX6i/570nNLAik
+ kdz+FuBpvyqNO1qFpcVf/sOJc2uSf0cEYYltojI4U3iCACi9ZEESCx8fpytJFzHU5mh7rHJN0HM
+ kiwAI3atsH127fBboYp7JMCG7Nse59lppqH86gkERMt9N+6Stfyg
+X-Proofpoint-ORIG-GUID: E1YCnlJFj5Jpf1l7eFHEs_G-FsLPPIHO
+X-Proofpoint-GUID: E1YCnlJFj5Jpf1l7eFHEs_G-FsLPPIHO
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA3MDEwNiBTYWx0ZWRfX5xtKHhP+2z52
+ +QVZVbeo2RZOEUgTOHyRZ1BvZDMkWzqk2CqF8H30XWJ+gTxRNAsiJmEF4H2lAdjHhOQ1IUm7jHp
+ AQxL9bZE4cO1Pce4I67NnxFej5q6n8gIhq322XhM23KxgAUgECkeNvIn2vkKcnxL2Llcy+FQ/xF
+ GCfn61Jfp58+Sp2JrgfiQRgTZPe6bh8lBWEocIDDHsaJUGgPZu0erxCV0tAMdXyl+1bGubT2FT0
+ 3o54fm2hDrBWXqPA7+eOaQ0Hbp7iYn5QXucfbZOcy6uVqf88XYs1YaUI6PBW5yflMCKIFFhV8S4
+ zBoHuPWPes/4Gd+e1RBxQwTwFQJiq7vB+Jl+DZAktvtN/cHH+LCoYFqbWJzzDSgR34Uq9bXYaeE
+ vaVCxKL5UyE0ZaazG+1Kvg48MFRIwMzaBujZHGUs6M7ue9yavCMFgE4sVgyyinXl1Zxoj+TuZBk
+ VMAbk3qU9C70Y5Usevg==
+X-Authority-Analysis: v=2.4 cv=H5frBeYi c=1 sm=1 tr=0 ts=6a4cdc6c cx=c_pps
+ a=1HqfSBmQQ8HGCHze6/9uFg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22
+ a=VwQbUJbxAAAA:8 a=t7CeM3EgAAAA:8 a=HDdffg7VFn7s3dtop9IA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-07_02,2026-07-06_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 adultscore=0 phishscore=0 suspectscore=0 impostorscore=0
+ malwarescore=0 spamscore=0 bulkscore=0 priorityscore=1501 clxscore=1011
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607070106
 
-> Add some tests for the new valid O_CREAT|O_DIRECTORY flag combination for
-> open*(2) to test compliance and to showcase its behaviour.
+Hi Jan,
+
+On 7/3/26 22:02, Jan Kara wrote:
 > 
-> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> On Thu 02-07-26 15:57:01, syzbot ci wrote:
+>> syzbot ci has tested the following series
+>>
+>> [v13] ext4: deferred iput framework for EA inodes
+>> https://lore.kernel.org/all/20260702152225.4071746-1-yun.zhou@windriver.com
+>> * [PATCH v13 1/4] fs: add iput_if_not_last() helper
+>> * [PATCH v13 2/4] ext4: introduce ext4_put_ea_inode() for safe deferred iput
+>> * [PATCH v13 3/4] ext4: convert all EA inode iput() calls to ext4_put_ea_inode()
+>> * [PATCH v13 4/4] ext4: remove ea_inode_array mechanism in favor of ext4_put_ea_inode()
+>>
+>> and found the following issue:
+>> WARNING in ext4_journal_check_start
+> 
+> Good catch. We need to flush the pending work with iputs also in
+> ext4_sync_fs() which should also take care of this race with remount
+> read-only (and the same issue with filesystem freezing etc.).
+> 
 
-Thanks for the selftests!
+Sorry for the late reply—I missed it because I receive too many emails 
+from syzbot. I've now reconfigured my filtering rules.
 
-> diff --git a/tools/testing/selftests/filesystems/.gitignore b/tools/testing/selftests/filesystems/.gitignore
-> index a78f894157de..d779a7945cf8 100644
-> --- a/tools/testing/selftests/filesystems/.gitignore
-> +++ b/tools/testing/selftests/filesystems/.gitignore
-> @@ -1,4 +1,5 @@
->  # SPDX-License-Identifier: GPL-2.0-only
-> +open_o_creat_o_dir
->  dnotify_test
->  devpts_pts
->  fclog
-> diff --git a/tools/testing/selftests/filesystems/Makefile b/tools/testing/selftests/filesystems/Makefile
-> index a7ec2ba2dd83..b60950f8b15c 100644
-> --- a/tools/testing/selftests/filesystems/Makefile
-> +++ b/tools/testing/selftests/filesystems/Makefile
-> @@ -1,7 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0
->  
->  CFLAGS += $(KHDR_INCLUDES)
-> -TEST_GEN_PROGS := devpts_pts file_stressor anon_inode_test kernfs_test fclog
-> +TEST_GEN_PROGS := open_o_creat_o_dir devpts_pts file_stressor anon_inode_test kernfs_test fclog
->  TEST_GEN_PROGS += idmapped_tmpfile
->  TEST_GEN_PROGS_EXTENDED := dnotify_test
->  
-> diff --git a/tools/testing/selftests/filesystems/open_o_creat_o_dir.c b/tools/testing/selftests/filesystems/open_o_creat_o_dir.c
-> new file mode 100644
-> index 000000000000..df3cdbae2c85
-> --- /dev/null
-> +++ b/tools/testing/selftests/filesystems/open_o_creat_o_dir.c
-> @@ -0,0 +1,197 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +#include <sys/stat.h>
-> +#include <sys/syscall.h>
-> +#include <errno.h>
-> +#include <limits.h>
-> +#include <fcntl.h>
-> +
-> +#include "kselftest_harness.h"
-> +
-> +static inline int open_o_creat_o_dir(int dfd, const char *pathname,
-> +				     mode_t mode, unsigned int flags)
-> +{
-> +	return syscall(__NR_openat, dfd, pathname,
-> +		       flags | O_DIRECTORY | O_CREAT, mode);
-> +}
+Regarding the issue reported by syzbot CI, would it be better to add 
+flush_delayed_work in __ext4_remount before sb->s_flags |= SB_RDONLY? 
+That would make the race window smaller.
 
-I'm not going to insist on it but this should probably move into a
-shared header. Possibly wrappers.h which already has a bunch of similar
-stuff.
+Also, should I resend the v14 series, or submit a separate patch 
+specifically for this fix?
 
-> +
-> +#define open_o_creat_o_dir_checked_flags(dfd, pathname, flags) ({	\
-> +	struct stat __st;						\
-> +	int __fd = open_o_creat_o_dir(dfd, pathname, S_IRWXU, flags);	\
-> +	ASSERT_GE(__fd, 0);						\
-> +	ASSERT_EQ(fstat(__fd, &__st), 0);				\
-> +	EXPECT_TRUE(S_ISDIR(__st.st_mode));				\
-> +	__fd;								\
-> +})
-> +
-> +#define open_o_creat_o_dir_checked(dfd, pathname) \
-> +	open_o_creat_o_dir_checked_flags(dfd, pathname, 0)
-> +
-> +FIXTURE(open_o_creat_o_dir) {
-> +	char dirpath[PATH_MAX];
-> +	int dfd;
-> +};
-> +
-> +FIXTURE_SETUP(open_o_creat_o_dir)
-> +{
-> +	strcpy(self->dirpath, "/tmp/open_o_creat_o_dir_test.XXXXXX");
-> +	ASSERT_NE(mkdtemp(self->dirpath), NULL);
-> +	self->dfd = open(self->dirpath, O_DIRECTORY);
-> +	ASSERT_GE(self->dfd, 0);
-> +}
-> +
-> +FIXTURE_TEARDOWN(open_o_creat_o_dir)
-> +{
-> +	close(self->dfd);
-> +	rmdir(self->dirpath);
-> +}
-> +
-> +/* Does open_o_creat_o_dir return a fd at all? */
-> +TEST_F(open_o_creat_o_dir, returns_fd)
-> +{
-> +	int fd = open_o_creat_o_dir_checked(self->dfd, "newdir");
-> +	EXPECT_EQ(close(fd), 0);
-> +	EXPECT_EQ(unlinkat(self->dfd, "newdir", AT_REMOVEDIR), 0);
-> +}
-> +
-> +/* The fd must refer to the directory that was just created. */
-> +TEST_F(open_o_creat_o_dir, fd_is_created_dir)
-> +{
-> +	int fd;
-> +	struct stat st_via_fd, st_via_path;
-> +	char path[PATH_MAX];
-> +
-> +	fd = open_o_creat_o_dir_checked(self->dfd, "checkdir");
-> +
-> +	ASSERT_EQ(fstat(fd, &st_via_fd), 0);
-> +
-> +	snprintf(path, sizeof(path), "%s/checkdir", self->dirpath);
-> +	ASSERT_EQ(stat(path, &st_via_path), 0);
-> +
-> +	EXPECT_EQ(st_via_fd.st_ino, st_via_path.st_ino);
-> +	EXPECT_EQ(st_via_fd.st_dev, st_via_path.st_dev);
-> +
-> +	EXPECT_EQ(close(fd), 0);
-> +	EXPECT_EQ(rmdir(path), 0);
-> +}
-> +
-> +/* Missing parent component must fail with ENOENT. */
-> +TEST_F(open_o_creat_o_dir, enoent_missing_parent)
-> +{
-> +	EXPECT_EQ(open_o_creat_o_dir(self->dfd, "nonexistent/child", S_IRWXU, 0), -1);
-> +	EXPECT_EQ(errno, ENOENT);
-> +}
-> +
-> +/* An invalid dfd must fail with EBADF. */
-> +TEST_F(open_o_creat_o_dir, ebadf)
-> +{
-> +	EXPECT_EQ(open_o_creat_o_dir(-42, "badfdir", S_IRWXU, 0), -1);
-
-Use FD_INVALID which is a uapi constant.
-
-> +	EXPECT_EQ(errno, EBADF);
-> +}
-> +
-> +/* A dfd that points to a file (not a directory) must fail with ENOTDIR. */
-> +TEST_F(open_o_creat_o_dir, enotdir_dfd)
-> +{
-> +	int file_fd;
-> +
-> +	file_fd = openat(self->dfd, "file",
-> +			 O_CREAT | O_WRONLY, S_IRWXU);
-> +	ASSERT_GE(file_fd, 0);
-> +
-> +	EXPECT_EQ(open_o_creat_o_dir(file_fd, "subdir", S_IRWXU, 0), -1);
-> +	EXPECT_EQ(errno, ENOTDIR);
-> +
-> +	EXPECT_EQ(close(file_fd), 0);
-> +	EXPECT_EQ(unlinkat(self->dfd, "file", 0), 0);
-> +}
-> +
-> +/*
-> + * O_EXCL together with O_CREAT|O_DIRECTORY must fail with EEXIST when
-> + * the target directory already exists.
-> + */
-> +TEST_F(open_o_creat_o_dir, o_excl_eexist)
-> +{
-> +	int fd;
-> +
-> +	fd = open_o_creat_o_dir_checked_flags(self->dfd, "excldir", O_EXCL);
-> +	EXPECT_EQ(close(fd), 0);
-> +
-> +	EXPECT_EQ(open_o_creat_o_dir(self->dfd, "excldir", S_IRWXU, O_EXCL), -1);
-> +	EXPECT_EQ(errno, EEXIST);
-
-I assume this only ran on non-atomic-open filesystems.
-
-> +
-> +	EXPECT_EQ(unlinkat(self->dfd, "excldir", AT_REMOVEDIR), 0);
-> +}
-> +
-> +/*
-> + * O_CREAT|O_DIRECTORY on a path that already exists as a regular file
-> + * must fail with ENOTDIR.
-> + */
-> +TEST_F(open_o_creat_o_dir, existing_file_enotdir)
-> +{
-> +	int file_fd;
-> +
-> +	file_fd = openat(self->dfd, "regfile",
-> +			 O_CREAT | O_WRONLY, S_IRWXU);
-> +	ASSERT_GE(file_fd, 0);
-> +	EXPECT_EQ(close(file_fd), 0);
-> +
-> +	EXPECT_EQ(open_o_creat_o_dir(self->dfd, "regfile", S_IRWXU, 0), -1);
-> +	EXPECT_EQ(errno, ENOTDIR);
-> +
-> +	EXPECT_EQ(unlinkat(self->dfd, "regfile", 0), 0);
-> +}
-> +
-> +/*
-> + * O_CREAT|O_DIRECTORY combined with a writable access mode must be
-> + * rejected: a directory cannot be opened for writing.
-> + */
-> +TEST_F(open_o_creat_o_dir, rejects_writable_acc_mode)
-> +{
-> +	EXPECT_EQ(open_o_creat_o_dir(self->dfd, "rdwrdir", S_IRWXU, O_RDWR), -1);
-> +	EXPECT_EQ(errno, ENOTDIR);
-> +	/* Clean up if the kernel created the directory anyway. */
-> +	unlinkat(self->dfd, "rdwrdir", AT_REMOVEDIR);
-> +}
-> +
-> +/*
-> + * openat(O_CREAT) with a trailing slash but without O_DIRECTORY
-> + * must fail with EISDIR and must not create anything at the path.
-
-Do you also have a test _with_ trailing slash?
-
--- 
-Christian Brauner <brauner@kernel.org>
+BR,
+Yun
