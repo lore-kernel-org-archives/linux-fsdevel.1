@@ -1,122 +1,120 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+Received: from mta22.hihonor.com (mta22.hihonor.com [81.70.192.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29612D3733
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 08:10:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A5330F543;
+	Tue,  7 Jul 2026 08:21:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.192.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783411820; cv=none; b=Lm22IPte775/dShzNWY8qqFiy6Ua39UOnkLaGDzmpM05Ipqzuowsh50TX1NHF1WwfOSESFQWQgamY3oUb94J2yWnk3RKqKbzt+fxITXDuE1mg6jVGiS+KQuYuABlxHp3fbdWP6m+AO6o1XhEbflYU9voeLV6ehlT14czG6H44Xw=
+	t=1783412494; cv=none; b=P3DufaoNldoOwI0deT9uaNfaW92Q0mwDo0zT9pXMYEoCtrtojcHb2oaiYHwvromRPG6Yv5J6rt80SaiqKWW/aBiLA01j9xcnuw5fSfrETYMaSr1khyv3CQoLJDryIJfSZgIb/bEtoSp9BOh1BWCa65TJei9Lgja48uxUoUfEjK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783411820; c=relaxed/simple;
-	bh=JoijE4uJCyq2j4khlPNuxF9JMy8fYGszG7NSw2HhBR4=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=tR6BYzrEo0wRzcpQ+28pyEiNd9zwT6ec4OK0qv2xW1gnzzv6ZIOQgLixETsLj+Ih9pTUvxfuuOcUvAtyLjjVd6anGQW9kyfdxWMNTsDZNSjJjl3U73TiOTox/adt/votesvx+NkvNj0nLkzbKNrFqh9lDGgygRKwoQH6NV0Ku14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Mr2sA5O2; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1783412494; c=relaxed/simple;
+	bh=0qEYw/kORu+CHB2h/1PvcuGa9W8zXV/BEp8uiX+ijrc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=fBNU4Dk1DWDzCxPZxykBav0hsYfZG2GStuSfYw1dEhCYOGwMwk/qy18SXUKQMKbHLuqnnfLG8FGQQR3UcVRXyp4YX0CHJTl1hpZKwltTn+5RzVkX08haDdF6hViaqkwndp/szgViy/iyjkuHCAxPXCzaZaN7D8kFnfCOJaXPQs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; dkim=pass (1024-bit key) header.d=honor.com header.i=@honor.com header.b=Pz4JCC5j; arc=none smtp.client-ip=81.70.192.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Mr2sA5O2"
-Content-Type: text/plain;
-	charset=us-ascii
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1783411814;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JoijE4uJCyq2j4khlPNuxF9JMy8fYGszG7NSw2HhBR4=;
-	b=Mr2sA5O2fwOZH+tdJVJbtFshcbUt3g6menEXK/k6fjP66J6bIxXN/uaF0WmGzyaLj2b2VW
-	cY7kl73i6uSScBXlAmniWx4i6iDgVdgQJxt9MsQIpFlyQva0MSuZ1QtqGe3FGadARI53GI
-	anr7Vxi7SJDpzawCZrnJt5t0V6M76zg=
+	dkim=pass (1024-bit key) header.d=honor.com header.i=@honor.com header.b="Pz4JCC5j"
+dkim-signature: v=1; a=rsa-sha256; d=honor.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=To:From;
+	bh=0qEYw/kORu+CHB2h/1PvcuGa9W8zXV/BEp8uiX+ijrc=;
+	b=Pz4JCC5jlXSi5X4B42t+HBGZjPXcu07/0QJzKOkROww8hc0n+LYFEueKq+YzBskjWdDfC7gwn
+	1H8vo4WsTs7uC2COJRcfMc7GyyM70t22qbv7XheS4lp/S98A3iFUlPsg7YpllfaEsbjXdOzLvM/
+	EmvokN6FPkEekmuGMpxr08g=
+Received: from TW004-1.hihonor.com (unknown [10.77.232.85])
+	by mta22.hihonor.com (SkyGuard) with ESMTPS id 4gvZ1x4kQfzYm4Nv;
+	Tue,  7 Jul 2026 16:21:25 +0800 (CST)
+Received: from TA001.hihonor.com (10.77.210.32) by TW004-1.hihonor.com
+ (10.77.232.85) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Tue, 7 Jul
+ 2026 16:21:25 +0800
+Received: from TA003.hihonor.com (10.72.0.43) by TA001.hihonor.com
+ (10.77.210.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Tue, 7 Jul
+ 2026 16:21:24 +0800
+Received: from TA003.hihonor.com ([fe80::998f:47ec:980d:bdf1]) by
+ TA003.hihonor.com ([fe80::998f:47ec:980d:bdf1%7]) with mapi id
+ 15.02.2562.037; Tue, 7 Jul 2026 16:21:25 +0800
+From: wangtao <tao.wangtao@honor.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>, "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>, "catalin.marinas@arm.com"
+	<catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>,
+	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
+	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>,
+	"willy@infradead.org" <willy@infradead.org>, "sj@kernel.org" <sj@kernel.org>,
+	"kees@kernel.org" <kees@kernel.org>, "luizcap@redhat.com"
+	<luizcap@redhat.com>, "zhangjiao2@cmss.chinamobile.com"
+	<zhangjiao2@cmss.chinamobile.com>, "kas@kernel.org" <kas@kernel.org>,
+	"ljs@kernel.org" <ljs@kernel.org>
+CC: "hpa@zytor.com" <hpa@zytor.com>, "liam@infradead.org"
+	<liam@infradead.org>, "vbabka@kernel.org" <vbabka@kernel.org>,
+	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>,
+	"mhocko@suse.com" <mhocko@suse.com>, "jack@suse.cz" <jack@suse.cz>,
+	"riel@surriel.com" <riel@surriel.com>, "harry@kernel.org" <harry@kernel.org>,
+	"jannh@google.com" <jannh@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
+	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com"
+	<peterx@redhat.com>, "ziy@nvidia.com" <ziy@nvidia.com>,
+	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
+	"npache@redhat.com" <npache@redhat.com>, "ryan.roberts@arm.com"
+	<ryan.roberts@arm.com>, "dev.jain@arm.com" <dev.jain@arm.com>,
+	"baohua@kernel.org" <baohua@kernel.org>, "lance.yang@linux.dev"
+	<lance.yang@linux.dev>, "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>,
+	"chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
+	"muchun.song@linux.dev" <muchun.song@linux.dev>, "baoquan.he@linux.dev"
+	<baoquan.he@linux.dev>, "nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>,
+	"matthew.brost@intel.com" <matthew.brost@intel.com>,
+	"joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>, "rakie.kim@sk.com"
+	<rakie.kim@sk.com>, "byungchul@sk.com" <byungchul@sk.com>,
+	"gourry@gourry.net" <gourry@gourry.net>, "ying.huang@linux.alibaba.com"
+	<ying.huang@linux.alibaba.com>, "apopple@nvidia.com" <apopple@nvidia.com>,
+	"pfalcato@suse.de" <pfalcato@suse.de>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"damon@lists.linux.dev" <damon@lists.linux.dev>, "shakeel.butt@linux.dev"
+	<shakeel.butt@linux.dev>, "ryncsn@gmail.com" <ryncsn@gmail.com>,
+	"jparsana@google.com" <jparsana@google.com>, "dvander@google.com"
+	<dvander@google.com>, zhangji <zhangji1@honor.com>, wangzicheng
+	<wangzicheng@honor.com>
+Subject: RE: [RFC PATCH v2 00/13] mm: rework anon_vma and remove
+ anon_vma_chain
+Thread-Topic: [RFC PATCH v2 00/13] mm: rework anon_vma and remove
+ anon_vma_chain
+Thread-Index: AQHdDdtOKxyL+IwP/0+o3I4bi0Jgh7ZhGu0AgACbXoA=
+Date: Tue, 7 Jul 2026 08:21:24 +0000
+Message-ID: <b00a03d62c53430ca22b3f3c5e5327b5@honor.com>
+References: <20260707063308.29176-1-tao.wangtao@honor.com>
+ <08c001ab-320f-4676-830b-8e4ba6a05dee@kernel.org>
+In-Reply-To: <08c001ab-320f-4676-830b-8e4ba6a05dee@kernel.org>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.600.51.1.1\))
-Subject: Re: [RFC PATCH 0/6] mm/hugetlb: Dynamic, NUMA-aware HugePage Cache &
- Free Page Reporting
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <9624988a-366e-4884-9408-3f3b88c27290@kernel.org>
-Date: Tue, 7 Jul 2026 16:09:35 +0800
-Cc: Sourav Panda <souravpanda@google.com>,
- osalvador@suse.de,
- akpm@linux-foundation.org,
- ljs@kernel.org,
- liam@infradead.org,
- vbabka@kernel.org,
- rppt@kernel.org,
- surenb@google.com,
- mhocko@suse.com,
- mst@redhat.com,
- mhklinux@outlook.com,
- fvdl@google.com,
- gthelen@google.com,
- mike.kravetz@oracle.com,
- pasha.tatashin@soleen.com,
- rientjes@google.com,
- riel@surriel.com,
- linux-mm@kvack.org,
- linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <48E0B0E2-4CE2-40B5-A7C3-9DEEF9F49C41@linux.dev>
-References: <20260707064235.1386552-1-souravpanda@google.com>
- <9624988a-366e-4884-9408-3f3b88c27290@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
 
-
-
-> On Jul 7, 2026, at 15:29, David Hildenbrand (Arm) <david@kernel.org> =
-wrote:
->=20
-> On 7/7/26 08:42, Sourav Panda wrote:
->> Overview
->> This patch series introduces a dynamic, NUMA-aware HugePage Cache,
->> backed by a kernel shrinker to safely return memory under pressure, =
-and
->> integrates it with Free Page Reporting (virtio-balloon) for HugeTLB,
->> specifically targeting gigantic (1GB) hugepages. The goal is to solve
->> the tradeoff between allocation latency and memory
->> fungibility in virtualized and heterogeneous cloud environments.
->=20
-> Hi,
->=20
-> in general, we consider hugetlb nowadays to be mostly in feature =
-freeze, as we
-> realized a while ago that adding more special casing on top of =
-something too
-> special for all of MM is only going to hurt us more in the long run.
->=20
-> We want to have less special casing and less special sauce, not more.
->=20
-> Now, there is nothing wrong in making hugetlb be less special, by =
-making it use
-> more of core infrastructure etc.
-
-+1
-
-HugeTLB is already complex today, and the last thing we want is to =
-compound
-this complexity by piling more features on top of it. I fully share your =
-view
-that we should avoid going down this direction.
-
-Thanks,
-Muchun
-
->=20
-> But optimizing for surplus hugetlb pages by teaching hugetlb about new =
-caches
-> and its custom free-page-reporting support rather looks like the wrong =
-direction
-> for me?
->=20
-> --=20
-> Cheers,
->=20
-> David
-
+PiANCj4gT24gNy83LzI2IDA4OjMyLCB0YW8gd3JvdGU6DQo+ID4gSGkgYWxsLA0KPiA+DQo+ID4g
+U2luY2UgdjEgd2FzIHJlbGF0aXZlbHkgY29tcGxleCBhbmQgZGlmZmljdWx0IHRvIGV4dGVuZCwg
+dGhpcyB2ZXJzaW9uDQo+ID4gYWRvcHRzIGEgc2ltcGxlciBhbm9uX3ZtYSBpbXBsZW1lbnRhdGlv
+biBhcHByb2FjaC4NCj4gDQo+IEkgcmVhbGx5IGhhdGUgdG8gcmVwZWF0IG15c2VsZiwgYnV0IHlv
+dSBzZWVtZWQgdG8gaGF2ZSBtaXNzZWQgbXkgbWFpbiBwb2ludA0KPiBbMV0NCj4gDQpJIHNhdyBp
+dCwgYW5kIEnigJl2ZSB3YWl0ZWQgZm9yIGEgd2hpbGUgYXMgd2VsbC4NCg0KSWYgdGhlcmUgYXJl
+IHRlY2huaWNhbCBpc3N1ZXMsIHBsZWFzZSBwb2ludCB0aGVtIG91dCBkaXJlY3RseS4NCk9yIGlz
+IHRoaXMgc2ltcGx5IGhvdyB0ZWNobmljYWwgZGlzY3Vzc2lvbnMgYXJlIHVzdWFsbHkgY29uZHVj
+dGVkIGluIHRoZSBMaW51eCBjb21tdW5pdHkgb3IgdGhlIG1tIHN1YnN5c3RlbT8NCg0KVGhhbmtz
+LA0KVGFvDQoNCj4gIkxvcmVuem8gaGFzIGJlZW4gaGFyZCBhdCB3b3JrIGV4cGxvcmluZyB2YXJp
+b3VzIGRlc2lnbiBvcHRpb25zIChhbmQgSSdtDQo+IGFmcmFpZCBoZSBtaWdodCBiZSBvbmUgb2Yg
+dGhlIDMgcGVvcGxlIG9uIHRoaXMgcGxhbmV0IHRoYXQgdW5kZXJzdGFuZA0KPiBhbm9uX3ZtYSBp
+biBmdWxsIGRldGFpbCksIHNvIEkgc3VnZ2VzdCB3ZSB3YWl0IGZvciBhIHJlZGVzaWduIHByb3Bv
+c2FsIGZyb20NCj4gaGltIGFuZCBzZWUgaWYgdGhhdCBpcyBkb2FibGU/Ig0KPiANCj4gWzFdIGh0
+dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC83MDM3NzYyNi01MDBkLTQ2ZjItYTNmNS0NCj4gYTBk
+MjkxNGNlMzY1QGtlcm5lbC5vcmcvDQo+IA0KPiAtLQ0KPiBDaGVlcnMsDQo+IA0KPiBEYXZpZA0K
