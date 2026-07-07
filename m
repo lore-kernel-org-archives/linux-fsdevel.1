@@ -1,112 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3173C39A801;
-	Tue,  7 Jul 2026 09:55:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2273D9537
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 10:01:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783418151; cv=none; b=oKlpnrfa2vFNZlCe14CAFCjWEdoqNpZoAA1qlIe5Zal7a01u45dpxqtanC32hGlgP0fLNfKv03x8nae2P19hmn8FeeEonYrmjIObMysFLuDA4fDdwTRgxl+tT1nItHQi6R3y4extTzUZIRhScAuwTaraJsi47fswYMNjp+6BQKQ=
+	t=1783418516; cv=none; b=PXlbbYGoo8sl4qYoVQuoKV6J0DGiA764pofleDnnRDVbyXaEcxAVjwCAle7GhrNsKrnSqGFdSkXShKN6ur5EwTSQifJeVt13xoG82n/eIvUJz5NOGniVkw6aj+U6HzsHCY6dA92eNWNrxboRc1zue65wMTP451Fq7OdaFpd01tQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783418151; c=relaxed/simple;
-	bh=bRXijf6pN8R3U02xRaYPPiarq8OJih9lODmiR0gQ0zA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MLS7SDBgPcd/SVnrxgxMrD/5qrzSYTD5uJ2rshWZaaHpi5koRk72eBMSdVnsp4+R6iYnuw69m6SABXuw1nMqIEzfupnZfLQFR6KkFTRVQS9pMhReu5BlylbsF+v8ZSoK0SnBk6Lp9pc3/LD3pFgFen9WC2ckkcUigBLgJdh9iZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UtT/TmHl; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UtT/TmHl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02F0A1F000E9;
-	Tue,  7 Jul 2026 09:55:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783418149;
-	bh=4eShXnZjQrBZzD7tSod9FxJY+zcWPKsuMcAi+5dgtOo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UtT/TmHlfkXLJe1+62NT4v9iduzzRGtwma0XqhhBGhnDvlO3aJcxbtTDD4PCsqBQ9
-	 ETU+7p2tLcI766xFLMiIbBhqPXoTvlXRvCDIo/cfk5nVTBubHJRFUNxLGGrh0vfepn
-	 1UMn5R/vbQK1qk1ctZkiZoqJgdR/7LOJ5Z43QvGt1QRsvohYgwqngKP3pEt//sSSsR
-	 7SbT+toOSlDvbPhyPOeYGCs7s9TOE278MxMOnbLvktUxDbd2gP1qENRHs6kFg4LOJK
-	 yYDFGB0hUGZKTQh9skRJ3l+2B/1gqP97UFK6axfdiKjb5IMiYodF2QAvVecw0r1P6o
-	 79hsf72IJFrkw==
-Date: Tue, 7 Jul 2026 10:55:35 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>, 
-	Greg KH <gregkh@linuxfoundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>, 
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, 
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Christian Brauner (Amutable)" <brauner@kernel.org>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-Message-ID: <akzMh-ySQ2fN0d8R@lucifer>
-References: <2026070227-payroll-eradicate-8f66@gregkh>
- <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
- <akaWnQ5Pkg_676B-@lucifer>
- <20260702211740.GA639365@zen.localdomain>
- <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
- <akez23ZhLRSGMFQ1@lucifer>
- <20260703163251.GB3734786@killaraus.ideasonboard.com>
- <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
- <akzETpsps4TMfqpC@lucifer>
- <0ba6bf66-e48f-40df-a953-503d317b3dbe@kernel.org>
+	s=arc-20240116; t=1783418516; c=relaxed/simple;
+	bh=7r4FNXz3y2SeMtN857p6fIJ0YRE5//VC9c/D4GkSxkc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aXa0L6VmE6YqU2AqTDoXUpRL7U5fiYyeSxff16F8fxmjFl9OLKJUo6S5YpaVqUonvxHo7JzTJZP8dzBWK6UDf0XJD18gzbQB2Hoj0xuCPzIP24Vf8NUZvFnqlutlG0f206pS/6C0pZJw/Ehh7AfLLkk3wKEucaQrfyD+4YYFhZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-5bdc4fc26bfso296227e0c.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 03:01:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783418514; x=1784023314;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4/8oL4ZxZEt7wgfC7AXxJt5fFWTGlq2rIUB5JaRFMzY=;
+        b=n8W9e4ODwujtnvxrHxcQc+d8SLlQJnpCA8LA28q9XIc23VERjG6Yha5cVgvHUDMfEf
+         GggIAgAqPmeMFXRFrmfY5m7ynKiMcqUk51qnSz/aUq/foAp+/IyOoIllv1uUXn5vCOjI
+         bABFjiXBxI7IAweRz+fFfh7rX0zCk5qG0SfwCjuO/RE4RDgsqPPErMJ5shFZZHi4qHr6
+         +hmHq9mTlng/uxSGHc1qjKunq7K+9xZp4A6LhPIDhFOdQEF1OHxNKttuV9wNi84o0ZjD
+         MERBG3GWpyZGwGhh6953PJHO2MbBHa/d0CSI6ogcHk6oXCbfoUoNS/1CHewQGwQcBuEy
+         ep+g==
+X-Forwarded-Encrypted: i=1; AHgh+RqXgVFCS1PE3iv+PxB36/UJ4LmBUsd2OdwbzlQ6nhZoRMitYLWVHkp0ZfBhGT/s8zcEmgoFdAQAmP6DVmbv@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrwX8VgxopthIGh6K6kja6cnkN0881tix5ahmr4YQAWB9qSg/b
+	owpRSrHzxRdA4XeRHKdkuR6mTZpQNPirqTB2XrJeRK9scqcVrgT7iPbHWfonYOG2
+X-Gm-Gg: AfdE7cnXvMp50tHWvhuOPh9+CwvTS/Ted/YCF/0jOfXeBudC65MuMOh8IjX+e6E/KCj
+	9gHV8pKxl6o9l6mZPGfEHZ7aiGYviwv3WlgwNlc2scAGqo/98kYEn6aa1W0fkgpx7gJB2g/KrfW
+	q10cC0rtJ8wWcsN/O8U7+LNvvuZBg9uWDUQF0QqlnTbByJByzAozB3iFpOAy6gRWgJNAfICvIcl
+	72pm3Wl7L/JIxf7AU1DoLc7Q9MoNHLC7UODV3Nx+taP2KsLS31b+kEtzIo0zkuFFhjYmpLVIGdZ
+	lJLpiDzgHy00Cw4BqCKJLMuIJJlNIiKh3Ib8Y9Lnm//mKvvLdMq24O9dnd72hKbwiM14+h9WvJL
+	JBfqK9HcN86X03nxGT1Tk/GLmNMxS7U+lWwDInpvZV6yYnBl4ckz/D3MKFANLXiwRkP6WVZNiv3
+	If04MvD7dRFMMDnT5X+LjZSAmilHGP38qhHUlPTqakTQonENRGxIRGTDBVy/5qGlld
+X-Received: by 2002:ac5:cad0:0:b0:5bd:9317:9670 with SMTP id 71dfb90a1353d-5bf5d4eb0f8mr740445e0c.6.1783418514402;
+        Tue, 07 Jul 2026 03:01:54 -0700 (PDT)
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com. [209.85.221.174])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-96983898f81sm6660274241.2.2026.07.07.03.01.52
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Jul 2026 03:01:53 -0700 (PDT)
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5bdbd631a6aso320627e0c.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 03:01:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RpmKs9UKIPckOpPj6zrs8R9YWw/L4IP3edgB3/f4uDBf3KGlEK/lMfXTz5CpglBK8yzS9pd97knnzx0NQ70@vger.kernel.org
+X-Received: by 2002:a05:6122:a1b:b0:5bd:b19a:f7f8 with SMTP id
+ 71dfb90a1353d-5bf5d253f06mr1049634e0c.2.1783418512547; Tue, 07 Jul 2026
+ 03:01:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
+ <20260702161330.GH3534761@killaraus.ideasonboard.com> <2026070227-payroll-eradicate-8f66@gregkh>
+ <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
+ <akaWnQ5Pkg_676B-@lucifer> <20260702211740.GA639365@zen.localdomain>
+ <3f447113-4407-471f-878f-e6d6edafee71@kernel.org> <akez23ZhLRSGMFQ1@lucifer>
+ <20260703163251.GB3734786@killaraus.ideasonboard.com> <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
+ <akzETpsps4TMfqpC@lucifer> <0ba6bf66-e48f-40df-a953-503d317b3dbe@kernel.org>
 In-Reply-To: <0ba6bf66-e48f-40df-a953-503d317b3dbe@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 7 Jul 2026 12:01:40 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUPe=Lv+_KcUV8S6aNrwBFxP2AaU7Oq9J6PMjhuXDn-ZQ@mail.gmail.com>
+X-Gm-Features: AVVi8CePvv2v_fHi093eoEEy2a9Qf_HkTTE0sUWj6yZ-0WNa75KMlBmez4XW1WE
+Message-ID: <CAMuHMdUPe=Lv+_KcUV8S6aNrwBFxP2AaU7Oq9J6PMjhuXDn-ZQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>, Greg KH <gregkh@linuxfoundation.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Justin Stitt <justinstitt@google.com>, Carlos Maiolino <cem@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Brian Foster <bfoster@redhat.com>, 
+	Christoph Hellwig <hch@infradead.org>, David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Christian Brauner (Amutable)" <brauner@kernel.org>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jul 07, 2026 at 11:49:31AM +0200, David Hildenbrand (Arm) wrote:
-> On 7/7/26 11:20, Lorenzo Stoakes wrote:
-> > On Fri, Jul 03, 2026 at 08:22:20PM +0200, David Hildenbrand (Arm) wrote:
-> >> On 7/3/26 18:32, Laurent Pinchart wrote:
-> >>>
-> >>> I'd support a patch that replaces
-> >>>
-> >>> Assisted-by: Claude:claude-3-opus coccinelle sparse
-> >>>
-> >>> with
-> >>>
-> >>> Assisted-by: LLM # generate some test cases
-> >>>
-> >>> and rewrites the Attribution section of
-> >>> Documentation/process/coding-assistants.rst accordingly.
-> >>>
-> >>> I think most people in this mail thread have expressed that how
-> >>> generative AI was used is the most important information, and several
-> >>> people (including myself) have expressed a desire to stop the free
-> >>> advertising. Unless I missed something, I don't think anyone has
-> >>> expressed an interest in keeping the agent name and model.
-> >>
-> >> Yes, that's something I would enjoy seeing. Who reading along has a problem with
-> >> that? (assuming that the tag must stay)
-> >
-> > I think the silence suggests nobody :)
-> >
-> > What we could do is send a patch to simply add a section on adding a comment
-> > explaining _what_ used an LLM and strongly suggesting it would be helpful to do
-> > so.
-> >
-> > That should hopefully be uncontroversial, then later (or alongside that?) we
-> > could submit an RFC for making the language move to 'you MUST do this', as that
-> > will probably be the more controversial bit.
->
-> Maybe we should just spell out about which scenario we care about where we really
-> expect the disclosure.
->
-> Sure, it might be more controversial and we could have that in a separate patch.
->
-> I was thinking of the following end result:
->
-> diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
-> index 899f4459c52d2..4c2ab4dfc6da7 100644
+Hi David,
+
+Thanks for your patch!
+
+On Tue, 7 Jul 2026 at 11:53, David Hildenbrand (Arm) <david@kernel.org> wrote:
 > --- a/Documentation/process/coding-assistants.rst
 > +++ b/Documentation/process/coding-assistants.rst
 > @@ -40,20 +40,37 @@ Attribution
@@ -145,40 +128,22 @@ On Tue, Jul 07, 2026 at 11:49:31AM +0200, David Hildenbrand (Arm) wrote:
 > +
 > +Where ``[TOOL1] [TOOL2]`` are specialized analysis tools used
 > +(e.g., coccinelle, sparse, smatch, clang-tidy)
+
+Unlike LLMs above, all of these are deterministic...
+
 >
 >  Basic development tools (git, gcc, make, editors) should not be listed.
->
-> -Example::
-> +Examples::
->
-> -  Assisted-by: Claude:claude-3-opus coccinelle sparse
-> +  Assisted-by: LLM # translate patch description
-> +  Assisted-by: Claude:claude-3-opus # generate most of the code
-> +  Assisted-by: coccinelle sparse
 
-LGTM! Do you want to send that then? People can comment on the actual path then
-(probably worth cc'ing everybody here on that also).
+... just like these.
+So why treat them different?
 
->
->
-> But I am not really sure why we should specify other tools here, really.
-> People usually do that as part of the patch description, including sharing
-> coccinelle scripts etc.
->
-> Because looking at the history:
->
+Gr{oetje,eeting}s,
 
-(for succinctness :P)
+                        Geert
 
-$ git log | grep "Assisted-by" | grep -Ei "(coccinelle|sparse|smatch|clang)" | wc -l
-30
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Yeah, doesn't seem much used, but I guess for the non-controversial version
-worth keeping that stuff around in the doc.
-
-> --
-> Cheers,
->
-> David
-
-Cheers, Lorenzo
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
