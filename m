@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219A23E92A9;
-	Tue,  7 Jul 2026 10:51:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CEF23EB0EE;
+	Tue,  7 Jul 2026 10:51:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783421492; cv=none; b=tJAjpx4/KfJI8uwsIotbroNabVzekyxXQq5d2nbAWAiQxA8Vz3bm0joq9sgJCwmGdU5MvcsKZ3EdyHSrtNDn68b2+qbNJARHwEEaWL6ngcDRAUWhTXQrRQ+Az/3GyjFdhXttsTEk2VNIvSQ7f0uu5/nWHQ6lglpHRV00yAP7YM8=
+	t=1783421495; cv=none; b=GcPxA7uKgDr5bt0xKIp7ytwZ4micwnFAYr79M04WXWi0vj+/azSZQi1WuGzedx6JOJjJBv7Kz4EGVJcK2JGtDAwNmqUHtjx8iN3rkffPdORQF4iyqNj75W4OUj4W2RkXe1kUpckCYBiVbfCkJNmlZRXxMFqSRAOgLA0EhzjW89Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783421492; c=relaxed/simple;
-	bh=l7blwHWSro9yb0JCARbYGND7M67aUutBuqI/wvIQmXc=;
+	s=arc-20240116; t=1783421495; c=relaxed/simple;
+	bh=UzHvsy25R0l0O1aEqyNn4wy5BFvKhPAW+/Fcx4OrWZU=;
 	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=NGmtxe8/lGoU1SV799dpQlIKMNpZ3e8swgAqEMPLm5/uwyNaT8QcBe/rUFj/gTZ6/mlEzrYt02evIXHTWVwcykNTPL8cYXQKTOdJqIF+tLtOOJquXz2MwMgUchXIoHE/+Xclq2/8c08QkUYW6t76gvY9vqaL5MffmD/7xFCKJzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ilTuBiJw; arc=none smtp.client-ip=100.103.45.18
+	 References:Date:Message-Id; b=kyyzCtZZxBYnWz+RataNMl/0zx8wWireDsgr6cPRhFezW9nERcctzJ/IuoDpbmPCn8P88y68VK/4x9rmsBS3F4JUMig7KuY4BPqC9SjEb7JlmbJ3UwbNbCR+MegVCJmeAIzwYPl0IYi2H38jzfz3HVUjA7as3ok67cZGBE3MFMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i+6UHwj7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ilTuBiJw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA21C1F000E9;
-	Tue,  7 Jul 2026 10:51:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i+6UHwj7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7561D1F00A3A;
+	Tue,  7 Jul 2026 10:51:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783421491;
-	bh=2VPwyJdACuWrDEmnXy+N/+QMonkk1QedWeM/tRVPlFc=;
+	s=k20260515; t=1783421493;
+	bh=gcI18mRj4BWBkHflAmuv8EUf09cQd+2K4mChxMOQvRY=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=ilTuBiJwfs0gc2X+Nyajg0q8xx8UNJikFfG9oadEz/REEWM1elt6e4t7hPioA8010
-	 PFzxFjOi9PmKnnd6enxg3nJX2sYvK0SQpB0vOb2a+zezIRNJcn/VSnuIlUNKYYKhdp
-	 2KCwUuBROOoPZKSHKlS/lX/23dk6KDK6lAYfn1pAFhpAHMDed6LS/RiaBAwzm7V7xt
-	 Zi8dYR3VgoWmUPAN56tfx9iNud11W7nC/RTeFoz5GBDBwc5a2udmZ/0PuZ8pZ9FuiG
-	 GRlHzSq1g71KN88cDhITWcBJFUawJAM6ihH57e9xl6YzyKNIqK+xfSZdiSiGncus7R
-	 3QFBoT6Eux+cg==
+	b=i+6UHwj7RiXGKmyRCAHfNI+jkDDlGb8oeuiwKIGujmqVT6xI6G3epyUCqDk198sBR
+	 kUkmYsMsoYIKyubu0LaDFBCUr00x1tPxBKfzH1ySj1MzzeGmF9K34H2J1sj64QQQQA
+	 8ba/29gqKwx7BYUctI1qhZ4sN83ds3Y4e4WoJSHYaq0WzfBghW7Hy4O2pDwiq+yktF
+	 HYtHDQy3NosuZhg/6ZhZtgVusd8P5QUVC3cCGsf+niusPZIpHLhI17+3TMrpLwHxUt
+	 VdvDMAiFn3Z+qV9NKQJekAFCZWTNiEYPAFthAeoz6mGNboBiG27OT8WLa0TEw99oOc
+	 LK5iD9vxY4c6g==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,7 +34,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v3 00/14] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+Subject: Re: [PATCH v3 01/14] fs/namei.c: use trailing_slashes()
 From: Christian Brauner <brauner@kernel.org>
 To: Jori Koolstra <jkoolstra@xs4all.nl>
 Cc: Jeff Layton <jlayton@kernel.org>, 
@@ -42,44 +42,37 @@ Cc: Jeff Layton <jlayton@kernel.org>,
  Aleksa Sarai <aleksa@amutable.com>, NeilBrown <neil@brown.name>, 
  Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>, 
  linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
+In-Reply-To: <20260704164149.3480051-2-jkoolstra@xs4all.nl>
 References: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
+ <20260704164149.3480051-2-jkoolstra@xs4all.nl>
 Date: Tue, 07 Jul 2026 12:51:22 +0200
-Message-Id: <20260707-wimpel-sparbuch-erworben-28cb064256d3@brauner>
+Message-Id: <20260707-global-wachhalten-nummer-ccb6f8d736ac@brauner>
 X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1497; i=brauner@kernel.org;
- h=from:subject:message-id; bh=l7blwHWSro9yb0JCARbYGND7M67aUutBuqI/wvIQmXc=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT53NKPLuX3FAyOWiQtn/v9rP6HzJ0vJY5d3Sv9lcVMx
- v6D0CzbjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIm8+sfwTznyLc/80+WHSlzm
- 82QL3E54rzYptudQ9mKxuTG10rKz9zMyrNZKCn/rrL7rD+ezojMSRz9+mae+omrVyQecjAI/217
- OYAIA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=563; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=UzHvsy25R0l0O1aEqyNn4wy5BFvKhPAW+/Fcx4OrWZU=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT53NJfFbfx7KKQLrXoJGeOGZxT7FfbXHrD9a7F4t6Nr
+ dXcS5/2d5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzk2kNGhqlTT+9Y2CXLdJUh
+ ZklmMu+Gxd+es7Zvb2a5rPIv0L95PifD/zwPAe/0jbZLznktvraE34lDeB2nWIQBj+ZxjZzbO39
+ sZgAA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-> This series implements new semantics for the O_CREAT|O_DIRECTORY flag
-> combination for open*(2): perform a mkdir and open the resulting
-> directory; return a pinning fd (which mkdir does not).
+> There are several places in fs/namei.c that can use the
+> trailing_slashes() function to improve intent.
 > 
-> Most of the work happens in "vfs: add O_CREAT|O_DIRECTORY to open*(2),"
-> as may be expected. Before that there is some clean-up work and
-> preparation. Also, the inconsistency in calling audit_inode_child() in
-> lookup_open() versus vfs_create() path is addressed. The
-> "vfs: short-circuit MAY_WRITE access for O_DIRECTORY opens" patch is
-> also worth paying extra attention to as it short-circuits doomed opening
-> of directories as writable. This check for regular files is now done
-> very late in do_open(), but for O_CREAT|O_DIRECTORY this is unacceptable
-> as this would create the directory and then still fail.
+> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+>
+> diff --git a/fs/namei.c b/fs/namei.c
+> index 19ce43c9a6e6..a8890bc0ae21 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -2781,9 +2781,14 @@ static const char *path_init(struct nameidata *nd, unsigned flags)
+>  	return s;
+>  }
+>  
+> +static inline bool trailing_slashes(const struct qstr last)
 
-Please make sure that the series doesn't contain unrelated fixes.
-Ideally just sent them as standalone cleanups/fixes. If you move a bunch
-of code around to fix something else it makes it harder to keep track of
-the actual changes that are required to make the feature work. That
-should only be done if the fix is really small-ish. The
-audit_inode_child() thing seems poised to cause a lot of churn and it
-also requires some form of agreement what precisely should be audited.
-
-That in turn means you need to get audit people involved. That means you
-making your series harder to merge as a side-effect.
+Should take a const pointer instead.
 
 -- 
 Christian Brauner <brauner@kernel.org>
