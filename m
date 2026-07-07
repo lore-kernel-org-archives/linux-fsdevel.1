@@ -1,133 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f74.google.com (mail-ej1-f74.google.com [209.85.218.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C5283DBD77;
-	Tue,  7 Jul 2026 10:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC843BE17D
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 10:43:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783420885; cv=none; b=gsfwuHd0VZ7pNgyx+zLrNIJVudQzoZvcyuwZwKcskNlTCtP35li0U6IohLr7l1J1TX35XXDIvGcXyf7fGztV0SobrxZPxSgpVJ1KT+dkN92LWA4RjKbmNya+ho695okUVLTH35Vc1bUwF6Vqsjysssy3X44A+tfTMdgKZcv24w8=
+	t=1783421005; cv=none; b=tytLPPpyCzbaDO014d/iwxcsjGHUk/1ysO3ec0ifrJDHxriZuifILq7kxNjj9abuYoNZfuKF7lETo1QcP3lDcQThRk376yatPWIz18gjIk/5OakaGWakGTxPUDnPMFt6mJn/cPikCUOCBM6nvO2rscrfZfVW6y1keHLEU/2JwOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783420885; c=relaxed/simple;
-	bh=Xw6iul3GAEVFXG85MeigwE1P9l/tr49Q8V+TfN4+fXE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iUDXuab3gEAT6jgyYfp2qYPHZhPKfaGItMAXmxZUgQVDH192qigg6TPv97+yub9wbNPPgeZW78zpobmV9En3SaH4ANaLQ34h3lJfyazfCIty5cZDkurGC6AMyuD8o0/G9Vg363cd8Zg6Qp197rLt/XqybbwXt0nH2LXd6gMN0as=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C4xQ1MLY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783421005; c=relaxed/simple;
+	bh=2645WC39iqVWp1F+aIZ6lof+K4fnDDgaPY8BZnzy1Xk=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=DfWKj4aNaRvzMUnoDGibrv7/dwok2NFw1KgO2XwrDxAw4fsUxvMzh6mNlu11CbGZyLbkF5sGG3W6w6wcEvRroMj5+27U6gsNHSuu+sofcmGwwneJBEd6H85LnH3g5DrbOJoPb5SdH8NorqBK9SXlw0TfATBFg35fct7sCdCNvd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ORE5Jpy4; arc=none smtp.client-ip=209.85.218.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C4xQ1MLY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DBB51F000E9;
-	Tue,  7 Jul 2026 10:41:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783420884;
-	bh=oJf9TD7SQDB5FPJJW2/ET84adS4IbuPC7yAGQona0w4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=C4xQ1MLYDSpZyJ9vErhP7qHq91i9ikXGv0t5hCWrCl9eUTArSekW8IgLF8XGmtWKd
-	 xTIGCAyh1qfIlIufd5l17Cgwg4WqZiF4dc+/TCPc8HvDG1fNFYGWBlF0ToYxYrqjvN
-	 YneV9/r2ute74xY+Q+roObPcxwoMMhJLENuNjhLyPISKLBSurogQ/rIw6E73c+hLlm
-	 hTTkc75Ea9WO07vhZSUrk0zIjjA/Vuj7oO0Rk/wliB+L2u0OvPNR67ir9nUGC/aRRp
-	 HRIxrduui2kRQb/MqDuhLQSFwpD8S/oxg/5H6IXHtt0/ADede4e0LeTLhY0Ts2D2mS
-	 8/Zlwql9MxhGA==
-Date: Tue, 7 Jul 2026 11:41:00 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Simon Schuster <schuster.simon@siemens-energy.com>, 
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Ian Abbott <abbotti@mev.co.uk>, 
-	H Hartley Sweeten <hsweeten@visionengravers.com>, Lucas Stach <l.stach@pengutronix.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Thierry Reding <thierry.reding@kernel.org>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>, 
-	Alex Williamson <alex@shazbot.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Dan Williams <djbw@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	"Liam R . Howlett" <liam@infradead.org>, Matthew Wilcox <willy@infradead.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Hugh Dickins <hughd@google.com>, Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org, linux-sgx@vger.kernel.org, 
-	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-mm@kvack.org, 
-	iommu@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, damon@lists.linux.dev, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 27/30] mm/vma: correct incorrect vma.h inclusion
-Message-ID: <akzWq08xwXKqwwtq@lucifer>
-References: <cover.1782735110.git.ljs@kernel.org>
- <22d0f4e3fe11f6fd1312734e242d008267ad142c.1782735110.git.ljs@kernel.org>
- <akZNiN5Y9fPk8bZH@pedro-suse.lan>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ORE5Jpy4"
+Received: by mail-ej1-f74.google.com with SMTP id a640c23a62f3a-bf481a6e4e6so308133266b.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 03:43:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1783421002; x=1784025802; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=gY/mfybR7oSID2qqjoFG3uS6cVnnTWpssUKZTNDWjHs=;
+        b=ORE5Jpy46V4F6xqzlJOAoEmlkoPsNE+BIQrXCIDLj8h0kEKtB0B9KpIwkYXSJHwHZc
+         wURJB4/5W4TM7OHDhN58n90EX/kBCV3Nfm5YlxB4R2c8H3QGXDkEW5KQ48YuN1FOkQXo
+         Y1HxtUFE0jNiitH/msHNNOYEhY/WbemTa340XBrTng0BFFKKHMaXBDBu+yud4qqLk4+0
+         AtqC99Fj6f21tx9rB4QtfZVAlfna3n3ees6ksxnC7hXW0b1NBg1V6CjpemK71aeZt42q
+         IVlMRXVLjY3djEs31BTFVW4rDpznZBqzB+sZg5pDnEa/24dQO98IzHDt9U2z75ZinCuP
+         +DZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783421002; x=1784025802;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gY/mfybR7oSID2qqjoFG3uS6cVnnTWpssUKZTNDWjHs=;
+        b=U15vP+YM14fo2mOw03VkvKw3vIbfm/agFci6NHXGHs1lxXMM3dYT3tZgdSPO/I4/t7
+         6vcp6wmB1M8KS9RUXW3rvyyiKLzFoOLOzEGiz5vkGU66AIPTbupdKs0cVLQaT+ulv1+b
+         OiwsMcE7XCj0lDVS5oj2AoqFrc+7EMSriDL3G+/9HQCMl8Ea+6lkXu7JvWE/mxNwhAqu
+         9+/IOkuviYIlbY0F98n4Ga24pXYLd7YRF0Gc5XD78ADNkKykYu95CvWPvSmUkE/CSnwU
+         c1VCBGeFOnBxGCr/m7Y3csM6y3+7N1u7VWFwCBfUGzThemRvlXNVjPAdMpgelDPm0JAx
+         ivHQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpSWG/lEhQQQZm8xWs6bDx5sIHvCmSnc7GUK229KV44+CtVH9Deo9ikDGGS1v3Qc0VMOSagX3CZmLwFqwKV@vger.kernel.org
+X-Gm-Message-State: AOJu0YziGUzn4W/fL2gL1jHjJcN/Mx3UpS+Zu36iEFl08vEbqYcMoe3N
+	yONquV/+9w3oIG/SRzWzliM9qZvrrmix2c1mlbuzrd9OQqqlQDkuTpoafnJ6z4ycvI7I4+6ZkAT
+	R722iV3FFlp7EIdI+WQ==
+X-Received: from ejft20.prod.google.com ([2002:a17:906:c54:b0:c12:6e7a:35e1])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:906:9c90:b0:c12:5c08:279 with SMTP id a640c23a62f3a-c15a67dd064mr211727066b.1.1783421002256;
+ Tue, 07 Jul 2026 03:43:22 -0700 (PDT)
+Date: Tue, 07 Jul 2026 10:43:11 +0000
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <akZNiN5Y9fPk8bZH@pedro-suse.lan>
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAD/YTGoC/3XRy07DMBAF0F+pvMbIYzt+sOI/EAs/xqmlUAenj
+ UBV/h23IAUSsbwjnTvSzJVMWDNO5OlwJRXnPOVyakE9HEg4ulOPNMeWCWdcMQBNL2NfXUQ6lmG
+ gQiNyp522MZJGxoopf9zrXl5bPubpXOrnvX2G2/Sfohkoo6CtFNprH6V97kvpB3wM5Y3cmma+a
+ g5io3nT1kjHkgcjk99pseqOmY0WTbOgwCY0UqHZaflL8+1u2XTqvAxaanSB73S3agWw0V3T0mo HEJgy/O/u5fukFd8v7THnn7suyxeSKPa8tgEAAA==
+X-Change-Id: 20260117-upgrade-poll-37ee2a7a79dd
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2436; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=2645WC39iqVWp1F+aIZ6lof+K4fnDDgaPY8BZnzy1Xk=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBqTNhEkGszY+XyyHRj4QACFA6fJ332Ro9Y/u5Fk
+ 8R8warESEuJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCakzYRAAKCRAEWL7uWMY5
+ RnVGD/wLtraz50p9Bzs0KX1tOTrhIDz0jplwCoG7coJoXJsP8AN0DW0qoAsRgs+UQC+ZNMONuwD
+ YTV2MQ5D0W5X7iU7ex/CRo/zXuSsfX05GwPsUcOVvU4XpkK0IZf8hoWUldEJWMWeHnl9tdjfh33
+ phkXSLP/863VS1KTgbGQ7bzMDu4QrcXpJvT1FJIgh+iYvkR6GD5GWAe7UxjKbhyH9mt1lX08XlL
+ nSVxfZIkjxWPd4QCcvS87eBB7g5TPGT7Fuukf80/tsL1+gSzjlSlz3MAOFtAidzoZio/4DumN83
+ SV6bjef/Zu20x7BLHTG+RFvKKckSDgVp8EF8vnAdwldlZgbxvvdlCnyf/h5TW2N8IaUvb7J8f0T
+ 5ZcdhqpbZxerzn+kGZ/5j77/RqyyqbwGIAF5EinEf4BR6AED3ZVMn3fWJdgbaWemdugJQM0XlVk
+ iGY6g85swsiYOeh7uPj2VrPT9szgUyC/fk5f0+RvrmVp/alhTHXeJe9Q3USa4gNeP23F4YNFS4T
+ YHKUtxOaY4KGn8rnb68LKbAiVB3IavA0+nb1MZnNEPFHxvOnRw1ZHRDIwT3SDiN3+UXoA+2dgbc
+ Gkb17i07uuckjaOdMx0u+rU5A1vQeZfbnKJ8KfivcCiM4Mer+I1VUb7TRabDNdFJbfo4EeUdVBU PfNqSaMOb7k67TA==
+X-Mailer: b4 0.14.3
+Message-ID: <20260707-upgrade-poll-v6-0-4b8fae7bf1d9@google.com>
+Subject: [PATCH v6 0/2] Avoid synchronize_rcu() for every thread drop in Rust Binder
+From: Alice Ryhl <aliceryhl@google.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Carlos Llamas <cmllamas@google.com>, 
+	Christian Brauner <brauner@kernel.org>, Boqun Feng <boqun@kernel.org>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	"=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>, linux-fsdevel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Alice Ryhl <aliceryhl@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-On Thu, Jul 02, 2026 at 12:40:30PM +0100, Pedro Falcato wrote:
-> On Mon, Jun 29, 2026 at 01:23:38PM +0100, Lorenzo Stoakes wrote:
-> > The only files which should be including vma.h are the implementation files
-> > for the core VMA logic - vma.c, vma_init.c, and vma_exec.c.
-> >
-> > This is in order to allow for userland testing of core VMA logic. In this
-> > cases, vma_internal.h and vma.h are included, providing both the
-> > dependencies upon which the core VMA logic requires and its declarations.
-> >
-> > Userland testable VMA logic is achieved by having separate vma_internal.h
-> > implementations for userland and kernel.
-> >
-> > Callers other than the core VMA implementation should include internal.h
-> > instead. This header does not need to include vma_internal.h as it only
-> > contains the vma.h declarations, for which the includes already present
-> > suffice.
-> >
-> > Update code to reflect this, update comments to reflect the fact there are
-> > 3 VMA implementation files and document things more clearly.
-> >
-> > While we're here, slightly improve the language of the comment describing
-> > vma_exec.c.
->
-> Two random thoughts:
-> 1) perhaps vma.h -> vma_private.h
+Right now Rust Binder calls synchronize_rcu() more often than is
+necessary. Most processes do not use epoll at all, so they don't require
+rcu here. Back in Kangrejos I came up with a way to avoid this. Idea is
+to move the value that needs rcu to a separate allocation that's easy to
+kfree_rcu(). We pay the allocation only when the proc uses epoll using
+an "upgrade" strategy - most processes don't.
 
-Not a bad idea thanks!
+Based on top of:
+https://lore.kernel.org/rust-for-linux/20260707-binder-noderefs-spin-v4-0-7c3c8bc16339@google.com/
 
-> 2) https://lore.kernel.org/all/CAHk-=wghMm2c+AYEcwYY7drSVXB27DYqc-ZXpFiq=XFs-w59wA@mail.gmail.com/
->    mm/vma/whatever.c :) would PROBABLY solve the issue of people snooping vma.h
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+---
+Changes in v6:
+- Rebase on v7.2-rc2 and node_ref spinlock change.
+- Fix conflict with commit 77bfebf11077 ("rust_binder: fix BINDER_GET_EXTENDED_ERROR")
+- Link to v5: https://lore.kernel.org/r/20260611-upgrade-poll-v5-0-497a11c06828@google.com
 
-I think a vma/ subdir would probably confuse things further, I think renaming to
-vma_private.h neatly solves it actually, along with a comment maybe in the
-header itself?
+Changes in v5:
+- Rebase on top of series converting node_refs to spinlock.
+- Reword comment claiming node_refs is a mutex.
+- Link to v4: https://lore.kernel.org/r/20260523-upgrade-poll-v4-0-f5b4c747eac2@google.com
 
-Then again mm/vma/{vma.c,init.c, exec.c, private.h} isn't too crazy
-either. Though vma.h is the actual 'shared' bit, and vma_internal.h is the
-private bit that the userland changes. But could switch things around vma.h ->
-mm/vma/internal.h that mm/internal.h imports, and mm/vma_internal.h becomes
-mm/vma/private.h.
+Changes in v4:
+- Use SetOnce for PollCondVar variable instead of storing inside
+  spinlock. This avoids calling poll_wait() under the spinlock.
+- Link to v3: https://lore.kernel.org/r/20260508-upgrade-poll-v3-0-0c619fe846e8@google.com
 
-I think that could work but definitely a follow-up!
+Changes in v3:
+- This series was almost entirely rewritten to use a different
+  implementation strategy. By moving the PollCondVar to the process we
+  can avoid the upgrade logic entirely.
+- Link to v2: https://lore.kernel.org/r/20260213-upgrade-poll-v2-0-984a0fb184fb@google.com
 
->
-> >
-> > No functional change intended.
-> >
-> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
->
-> Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+Changes in v2:
+- Change how Rust Binder handles the lock class key.
+- Rebase.
+- Link to v1: https://lore.kernel.org/r/20260117-upgrade-poll-v1-0-179437b7bd49@google.com
 
-Thanks!
+---
+Alice Ryhl (2):
+      rust: poll: use kfree_rcu() for PollCondVar
+      rust_binder: move (e)poll wait queue to Process
 
-Cheers, Lorenzo
+ drivers/android/binder/node.rs        |  4 +-
+ drivers/android/binder/process.rs     | 67 ++++++++++++++++++++++--------
+ drivers/android/binder/thread.rs      | 78 +++++++++++++++++------------------
+ drivers/android/binder/transaction.rs |  6 ++-
+ rust/kernel/sync/poll.rs              | 73 +++++++++++++++++++++++++++++++-
+ 5 files changed, 167 insertions(+), 61 deletions(-)
+---
+base-commit: 0e77a935cf137e791c672d21bb80441043017ff2
+change-id: 20260117-upgrade-poll-37ee2a7a79dd
+
+Best regards,
+-- 
+Alice Ryhl <aliceryhl@google.com>
+
