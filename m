@@ -1,175 +1,128 @@
-Received: from mta21.hihonor.com (mta21.hihonor.com [81.70.160.142])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282CA3E4C69;
-	Tue,  7 Jul 2026 06:57:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.160.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09EFD1A316E;
+	Tue,  7 Jul 2026 07:01:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783407464; cv=none; b=OEhilfTm88iKccb2pOlBkEOrF67aQ0Jl1TEkv7xYN9kXNTrvM+QhEnIq85oOCIMfKWpD3pEw+3XTJfpWmYpAnXb44gcZgTjcf9RMPKLgzkr4MqxYyyoHCjTqIAOXwsq4KsfL+fi6F0wIKSQgHlbOT1pXCdk9xrQQ/MzyRGw8V9s=
+	t=1783407683; cv=none; b=RK7LmVh2PnRPHYKQfMR62/BsRgv/UYgueVS9HU8OE5AcoiKcw278t9HCxJsn3vK/UYVNuh/nCHO8y0pZOxoRmjB3hSjnfVrDmxCps4Yurlb7uAgFJH+OVW2u2V4FPr4NOyZITnf6A5AajS7pB0gMXtHVarLWNDFHlo6pa0hrWyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783407464; c=relaxed/simple;
-	bh=NCeN+XjamdXRlv4aSYJ4/A5Aw4jYENapGFozitIo3Co=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gSyb2ZdK7vkCbVa7cK7os6lC3BHapykm3h82+69GPHjC5ygl22bkdpM/FmicEW+xGl+2xvaH2Rg2rR5Fcy/Khf2pqHacnhNJR4UrrGNFFSQvZxMms6P4utWrpuz97ncagy9Lb+NQQsbYDc/FR6U2MdmHKbClgZpj+GUG3qFVt0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.160.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
-Received: from TW001.hihonor.com (unknown [10.77.229.151])
-	by mta21.hihonor.com (SkyGuard) with ESMTPS id 4gvWnG5QqZzYmSQd;
-	Tue,  7 Jul 2026 14:40:18 +0800 (CST)
-Received: from TA003.hihonor.com (10.72.0.43) by TW001.hihonor.com
- (10.77.229.151) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Tue, 7 Jul
- 2026 14:40:18 +0800
-Received: from localhost.localdomain (10.144.18.117) by TA003.hihonor.com
- (10.72.0.43) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Tue, 7 Jul
- 2026 14:40:18 +0800
-From: tao <tao.wangtao@honor.com>
-To: <akpm@linux-foundation.org>, <david@kernel.org>,
-	<catalin.marinas@arm.com>, <will@kernel.org>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<x86@kernel.org>, <willy@infradead.org>, <sj@kernel.org>, <kees@kernel.org>,
-	<luizcap@redhat.com>, <zhangjiao2@cmss.chinamobile.com>, <kas@kernel.org>,
-	<ljs@kernel.org>
-CC: <hpa@zytor.com>, <liam@infradead.org>, <vbabka@kernel.org>,
-	<rppt@kernel.org>, <surenb@google.com>, <mhocko@suse.com>, <jack@suse.cz>,
-	<riel@surriel.com>, <harry@kernel.org>, <jannh@google.com>, <jgg@ziepe.ca>,
-	<jhubbard@nvidia.com>, <peterx@redhat.com>, <ziy@nvidia.com>,
-	<baolin.wang@linux.alibaba.com>, <npache@redhat.com>, <ryan.roberts@arm.com>,
-	<dev.jain@arm.com>, <baohua@kernel.org>, <lance.yang@linux.dev>,
-	<xu.xin16@zte.com.cn>, <chengming.zhou@linux.dev>, <muchun.song@linux.dev>,
-	<baoquan.he@linux.dev>, <nao.horiguchi@gmail.com>, <matthew.brost@intel.com>,
-	<joshua.hahnjy@gmail.com>, <rakie.kim@sk.com>, <byungchul@sk.com>,
-	<gourry@gourry.net>, <ying.huang@linux.alibaba.com>, <apopple@nvidia.com>,
-	<pfalcato@suse.de>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <damon@lists.linux.dev>, <shakeel.butt@linux.dev>,
-	<ryncsn@gmail.com>, <jparsana@google.com>, <dvander@google.com>,
-	<zhangji1@honor.com>, <wangzicheng@honor.com>, tao <tao.wangtao@honor.com>
-Subject: [RFC PATCH v2 04/13] mm: implement anon_node_clone for ANON_VMA_FRACTAL
-Date: Tue, 7 Jul 2026 14:32:59 +0800
-Message-ID: <20260707063308.29176-5-tao.wangtao@honor.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20260707063308.29176-1-tao.wangtao@honor.com>
-References: <20260707063308.29176-1-tao.wangtao@honor.com>
+	s=arc-20240116; t=1783407683; c=relaxed/simple;
+	bh=B7v0qCDdW1i4EQzSPifX1KM5ShPQX1Smvakw3W17q8w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ok5nSCPI4N6fRt+tEQNLJDbI1y3oBxC9VulNuFfwZ0YLrXPOYe9Kv0JC1PYDp6iLmj19R5teroW7brJx9DitQ1bTlp82FwoQvcYUf+FdOrVVhtDFr4k8DwCJm9hHUvIdWCI2bMqBtjeNm0sAuJvmbu1+MbUxlBYKNDLXOAV6ago=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RoZG+FAi; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RoZG+FAi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61CD71F000E9;
+	Tue,  7 Jul 2026 07:01:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783407681;
+	bh=8nMQF9iK728jaHfWKAl1oxb3wEavhMGIGIQQBs08uWU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=RoZG+FAiYOh7N/YyQC+cC7CslMmQU2SOM06P5nPWu1gu2qX2Ye3qHB0GWnn7sIBVt
+	 7NLWJ2C9ORJQKRRKgoXoaB2KFiaBFu5gkdfNewh/Y+HO0NAQJOg4K3FpOWyMCkvSEf
+	 oDz3UESvJxy4dJcABhpe8VUAjM7/MIVkVWBaLpMXUF+vKN60NZeiBfyfvrdhgzL9Qx
+	 YVemSw8dsdOHBqyABeulcUCCtEVqqLEEZB9dGtAXq5zzcD8kL+DjkJJHr2DlS0N1bX
+	 6Uylhickpd+JF3duYPoAueIzC0jgRPQw6vqjmYvKycbMktocEwWvSg7H5NwaEazYZI
+	 KQ9WDnMScRCEw==
+Message-ID: <08c001ab-320f-4676-830b-8e4ba6a05dee@kernel.org>
+Date: Tue, 7 Jul 2026 09:01:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: TW002-1.hihonor.com (10.72.0.137) To TA003.hihonor.com
- (10.72.0.43)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 00/13] mm: rework anon_vma and remove
+ anon_vma_chain
+To: tao <tao.wangtao@honor.com>, akpm@linux-foundation.org,
+ catalin.marinas@arm.com, will@kernel.org, tglx@kernel.org, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+ willy@infradead.org, sj@kernel.org, kees@kernel.org, luizcap@redhat.com,
+ zhangjiao2@cmss.chinamobile.com, kas@kernel.org, ljs@kernel.org
+Cc: hpa@zytor.com, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
+ surenb@google.com, mhocko@suse.com, jack@suse.cz, riel@surriel.com,
+ harry@kernel.org, jannh@google.com, jgg@ziepe.ca, jhubbard@nvidia.com,
+ peterx@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
+ npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com,
+ baohua@kernel.org, lance.yang@linux.dev, xu.xin16@zte.com.cn,
+ chengming.zhou@linux.dev, muchun.song@linux.dev, baoquan.he@linux.dev,
+ nao.horiguchi@gmail.com, matthew.brost@intel.com, joshua.hahnjy@gmail.com,
+ rakie.kim@sk.com, byungchul@sk.com, gourry@gourry.net,
+ ying.huang@linux.alibaba.com, apopple@nvidia.com, pfalcato@suse.de,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, damon@lists.linux.dev,
+ shakeel.butt@linux.dev, ryncsn@gmail.com, jparsana@google.com,
+ dvander@google.com, zhangji1@honor.com, wangzicheng@honor.com
+References: <20260707063308.29176-1-tao.wangtao@honor.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
+ ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
+ AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
+ 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
+ g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
+ ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
+ 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
+ /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
+ jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
+ DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
+ HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
+ 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
+ LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
+ 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
+ VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
+ /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
+ iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
+ 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
+ zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
+ azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
+ FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
+ sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
+ 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
+ EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
+ IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
+ 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
+ Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
+ sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
+ yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
+ 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
+ r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
+ 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
+ CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
+ qIws/H2t
+In-Reply-To: <20260707063308.29176-1-tao.wangtao@honor.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Prefer using anon_node for tracking in anon_node_clone.
-If the VMA is remapped or the VMA count exceeds
-ANON_RMAP_BASE_COUNT_MAX, create a child anon_node.
+On 7/7/26 08:32, tao wrote:
+> Hi all,
+> 
+> Since v1 was relatively complex and difficult to extend, this version
+> adopts a simpler anon_vma implementation approach.
 
-Newly created anon_node are inserted at the tail of the rbc children.
+I really hate to repeat myself, but you seemed to have missed my main point [1]
 
-Signed-off-by: tao <tao.wangtao@honor.com>
----
- mm/rmap.c | 85 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 85 insertions(+)
+"Lorenzo has been hard at work exploring various design options (and I'm afraid
+he might be one of the 3 people on this planet that understand anon_vma in full
+detail), so I suggest we wait for a redesign proposal from him and see if that
+is doable?"
 
-diff --git a/mm/rmap.c b/mm/rmap.c
-index b98ba6a83272..74817876107a 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -703,6 +703,91 @@ int __anon_node_prepare(struct vm_area_struct *vma)
- 	return 0;
- }
- 
-+static inline struct anon_node *vma_anon_node(struct vm_area_struct *vma)
-+{
-+	return vma ? (struct anon_node *)vma->anon_vma : NULL;
-+}
-+
-+static inline void vma_set_anon_node(struct vm_area_struct *vma,
-+		struct anon_node *anon_nod, bool is_locked)
-+{
-+	struct rw_semaphore *rmap_sem = anon_node_rmap_sem(anon_nod);
-+
-+	if (is_locked) {
-+		vma->anon_vma = (struct anon_vma *)anon_nod;
-+		return;
-+	}
-+	down_write(rmap_sem);
-+	vma->anon_vma = (struct anon_vma *)anon_nod;
-+	up_write(rmap_sem);
-+}
-+
-+static int anon_node_add_child(struct anon_node *anon_nod,
-+	struct vm_area_struct *vma, bool is_fork)
-+{
-+	struct anon_node *child;
-+	struct anon_node *root = anon_nod->root;
-+	struct rw_semaphore *rmap_sem = anon_node_rmap_sem(root);
-+	struct anon_node *rbc_ch = anon_nod, *next;
-+
-+	if (root->depth == 0)
-+		root->depth = 1;
-+	child = anon_node_alloc(vma, anon_nod, is_fork);
-+	if (!child)
-+		return -ENOMEM;
-+
-+	rmap_sem = anon_node_rmap_sem(root);
-+	down_write(rmap_sem);
-+	/* Add new child to the tail of rbc children. */
-+	while ((next = anon_node_next_rbc_child(anon_nod, rbc_ch)) != NULL) {
-+		rbc_ch = next;
-+	}
-+	list_add(&child->fractal_list, &rbc_ch->fractal_list);
-+	++anon_nod->nr_children;
-+
-+	if (is_fork)
-+		vma_set_anon_node(vma, child, true);
-+	up_write(rmap_sem);
-+	return 0;
-+}
-+
-+/* Returns 0 on success, non-zero on failure. */
-+static int anon_node_track_rmap(struct anon_node *anon_nod,
-+		struct vm_area_struct *vma)
-+{
-+	struct rw_semaphore *rmap_sem = anon_node_rmap_sem(anon_nod);
-+	unsigned long rmap_base = vma_rmap_base(vma);
-+	struct anon_node *rbc_ch = anon_nod;
-+
-+	if (try_track_rmap(anon_nod, rmap_base))
-+		return 0;
-+
-+	down_read(rmap_sem);
-+	while ((rbc_ch = anon_node_next_rbc_child(anon_nod, rbc_ch)) != NULL) {
-+		if (try_track_rmap(rbc_ch, rmap_base))
-+			break;
-+	}
-+	up_read(rmap_sem);
-+	if (rbc_ch)
-+		return 0;
-+
-+	return anon_node_add_child(anon_nod, vma, false);
-+}
-+
-+/* vma clones src anon_node and increments the count. */
-+int anon_node_clone(struct vm_area_struct *vma,  struct vm_area_struct *src,
-+	enum vma_operation operation)
-+{
-+	struct anon_node *anon_nod = vma_anon_node(src);
-+
-+	mmap_assert_write_locked(vma->vm_mm);
-+	if (!anon_nod)
-+		return 0;
-+
-+	VM_BUG_ON_VMA(vma->anon_vma != (void *)anon_nod, vma);
-+	return anon_node_track_rmap(anon_nod, vma);
-+}
-+
- #endif
- 
- /*
+[1] https://lore.kernel.org/all/70377626-500d-46f2-a3f5-a0d2914ce365@kernel.org/
+
 -- 
-2.17.1
+Cheers,
 
+David
