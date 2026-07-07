@@ -1,67 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF0230BF5C
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 11:20:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFC6303A35;
+	Tue,  7 Jul 2026 11:23:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783423255; cv=none; b=I1i+Llh6XgxCQ6ZJdWvbxTEuW3U2lXBnjHsfrwstsAjWvjXaInHRsSLc32ItwxOerJ7UaCHobcD11YtoiZlmCCTeUxukfMDKmzh3EU64JrJa/pQ/y/fBVNIxRYdnG1NswsJ4jCV6qwOm34iEIv2ZX24dWqyFUwSlyFs65HHpTfU=
+	t=1783423388; cv=none; b=G2wvyM6tg6/D/xsjWQzx8U6aIJ6LfHTxE6dgS8GCqBHxx1rZS4AnbAfYXmpxp2ztvOx578K0M2PiYcnDwyo58603OAIJRy3rRZC0xexv5fZEGR/8LJMBnCijcdoCi7y4mO0VZFOgrz6MLAc7C42IcTucNm4CilSvn+VoyjhNOVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783423255; c=relaxed/simple;
-	bh=izSPWuLPOZVAq8xk5Utd7jq47zupgxxm8C9iBUb4rzY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qVXkdiGf7/3lbT/gh+H4ooC3U/aKY2MA2fLO6vGFKn9YKOCyjV0O/+VFjk4pUI33+HjookGTbBa0ynyKKx+m2Q+pOQy68HP9TEcQTUJT1qyFrvG3QkMakVEgfR2aYrGf1eezTJg+qqCy3Nx+0dkDTlRBn0pi1VPkF9fWJY3MngY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mPAnpCQN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783423388; c=relaxed/simple;
+	bh=pOS1DBjTiGsMjMY0jt0SNGg541Ers7gyWHbpeFfD1Cw=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=tpb0XoCeT5viZdNcFJHqxoKz6W77plVE8oytX5d9PGBOCGfFR7hvDfRE4kirBC0im/6TB/2yY2zC/3Cqcl4l8zAvj2iYRWnQDpBDPllli1X7dwh/KxltixpfBwTp126qHYduPbPk9ar5Bgo7EWDjM9A4RtZa4lDSwBcblKaA2ZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VPsZu7t3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mPAnpCQN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A0A01F000E9;
-	Tue,  7 Jul 2026 11:20:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VPsZu7t3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00A341F000E9;
+	Tue,  7 Jul 2026 11:23:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783423254;
-	bh=YnRI00zL/gOHlvKY0jNWzG/FazkqMKFJEGfMlEkPQKw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mPAnpCQNpyOSa5D2bJiO56jNV0mx9z/X1fsmvwweABJlaX+txQWDzYlQx82wSEKuV
-	 UpP66Krll54peLUpcT6t5ZKcT0ni7VZ/Q9sSgRGjUKkb8Pt20YdRo3NjXsdrN5epFk
-	 lAWetKe1Wnqd3OyZxbM2DZNes/Ade+cT88PrCcqLoN4aP50mew+U/fO0LNj5apQCcA
-	 sK4NfN4jDjcKslx03S3Jbuif7qd3okouxkryd1Ga9neFIaPM3WWx/i2gPDz2LRfoiA
-	 Apx9t4ZIyAKTWMlhAFlPeH6LvlVcHgZwS4evMh+T4knznVdApd5Ag2GvgAOD6KEf3o
-	 ie2jH+o3wrDfg==
-Date: Tue, 7 Jul 2026 13:20:51 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH 1/2] fs: refuse O_TMPFILE creation with an unmapped fsuid
- or fsgid
-Message-ID: <20260707-babynahrung-gruft-sirenen-6e791a5f086c@brauner>
-References: <20260615-work-idmapped-tmpfile-v1-0-754a94d81f83@kernel.org>
- <20260615-work-idmapped-tmpfile-v1-1-754a94d81f83@kernel.org>
- <akju9Nag-jhIoVq9@infradead.org>
- <20260707021838.GB9368@frogsfrogsfrogs>
- <20260707-villen-clubhaus-postleitzahl-60a67025879a@brauner>
+	s=k20260515; t=1783423386;
+	bh=VGMEcV3Oc2li5QVYZHUZ3eC2NQvwavPm9nW9Zo8pKVM=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=VPsZu7t3rNi83aISUDXW1PP1nYIpeaD/C30aMHzRdcNx41FI8VKd/a8hkDwN7wXU2
+	 4Ppn8qEUCUYQL55ETJ5K12gyEfqY8vzAAYPt6RCgpw8eq6C1WF0qaa93SOICj5NEhZ
+	 HhIWiYhVxWE6gByITeQohpVuOrXSdYQALN6m7MT5JVbAjT7uJ/brQWDxhmJe3lpN9U
+	 IJHKmFwo8UH3NC1HoVo8qjnuEkh4/YeVCe4wCoM3d3xjTOzwI/66XTJqMvVLIa4P2M
+	 TcOq/6olQ3QChErV1xmf0vty0SHvHU5iWVHjzzmeoWxGxUAatMVYMcGiqOX9Mxx0rr
+	 YM4C+kjLlTreQ==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260707-villen-clubhaus-postleitzahl-60a67025879a@brauner>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2] audit: add FSOPEN record to log filesystem name
+From: Christian Brauner <brauner@kernel.org>
+To: Ricardo Robaina <rrobaina@redhat.com>
+Cc: audit@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, paul@paul-moore.com, eparis@redhat.com, 
+ viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz
+In-Reply-To: <20260703122548.1623981-2-rrobaina@redhat.com>
+References: <20260703122548.1623981-2-rrobaina@redhat.com>
+Date: Tue, 07 Jul 2026 13:23:02 +0200
+Message-Id: <20260707-sippenhaft-teufel-bergbahn-87d9652bea7f@brauner>
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=788; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=pOS1DBjTiGsMjMY0jt0SNGg541Ers7gyWHbpeFfD1Cw=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT5PJzhEL+p4q3lwV/xh/zXrmTl1n+Y8dXhhIf7Op4mv
+ Ve+XCItHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABOpncPIcGiSDpvLm+XKjCpp
+ by4UaQk/eyS6duP0rYdiU//FeXpcP8PwT89vWn2+6cxNH+s8xVSvyuWk9lokvp3fuPq57tNTM0u
+ iOAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Tue, Jul 07, 2026 at 09:20:48AM +0200, Christian Brauner wrote:
-> On Mon, Jul 06, 2026 at 07:18:38PM -0700, Darrick J. Wong wrote:
-> > On Sat, Jul 04, 2026 at 04:31:00AM -0700, Christoph Hellwig wrote:
-> > > This commit causes failures in xfstests generic/633 generic/696 and
-> > > generic/697 with messages like:
-> > > 
-> > > utils.c: 948: openat_tmpfile_supported - Value too large for defined data type - failure: create
-> > 
-> > Seconded, I also see these test regressions now.
+> Modern mount tools (util-linux >= 2.39.1) use the new mount API
+> (fsopen, fsconfig, fsmount, move_mount) instead of the legacy mount(2)
+> syscall. The generic SYSCALL audit record logs the fsopen syscall but
+> does not capture the filesystem name string, creating an audit gap for
+> filesystem mount operations.
 > 
-> Yes, that's expected. It needs a fix in the idmapped mount feature test
-> portion. I thought I had sent a fix for that though.
+> Add an FSOPEN auxiliary record that logs the dereferenced filesystem
+> name string passed to fsopen(2).
+> 
+>   type=SYSCALL ... : arch=x86_64 syscall=fsopen ... a1=FSOPEN_CLOEXEC
+>   type=FSOPEN  ... : fs_name="tmpfs"
+> 
+> Link: https://github.com/linux-audit/audit-kernel/issues/152
+> Signed-off-by: Ricardo Robaina <rrobaina@redhat.com>
 
-And so I did:
+I need a hint from the audit people whether this is ok or not...
 
-https://lore.kernel.org/20260615-overlay-idmapped-vfstest-v1-1-c6b3b2228092@kernel.org
+-- 
+Christian Brauner <brauner@kernel.org>
