@@ -1,175 +1,251 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF1A41D4EC;
-	Tue,  7 Jul 2026 13:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4644041DEF7
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 13:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783431121; cv=none; b=qlKJxZlIY4qklahBdnR0MG42RaxV6bCHw9UhGeaVzHP3E0HrLy8y+OOhSrvrz/zJnGLFovfcgeVsgSuom0OiqHOgxM9+UfCHs7s/90b8fIQ4+sQuQdLeeZ/nvWI+TcykH52aNHLeY4DOT+SqOhyFVqN7+DHKdb2eqxgRdm+sY2M=
+	t=1783432542; cv=none; b=R1re0z/uvH4JUy0+4WTh1hmziwDKWLFZ7w0U8hTHpTlTccEOtsgHVrSy1WWmqahJU1erJoJSrxl2D1cuawBY1VXaeIRdydsVFUWzPwxyL9rwVoZb6ejB+pjySX+zJ+caqqFu0oLFhaaRIWl5gaqBbEd3jVxOI2ib7W+gaOlD40I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783431121; c=relaxed/simple;
-	bh=85W4BQQMRH7uyR5ypUifeOstNP9LFb7E313ONgRCOaM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j+KYYWNMZ7+C+DH48H6SlDjbZrxaGgo0896wQtxe/BT57zxqyVLSN4pbNEH5DKk+h/rcmvLTzXOOlJgfZ8Bpng8LHpEDOysLC1GGIvMQ95zoXPD7VzxG3ldgrQShWQws7U4wdQc+t95liIEIp1RYFdjW0W3OLVctdGdZs/REJtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RLqpbfLg; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783432542; c=relaxed/simple;
+	bh=4oaxy6bT1jWcE/uPUMiI+9n4Sg+TK2snSvYlG0JZf70=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m+FHKWsWfA8V7pkieKy98T16JTBFHOvpWNQVXI964n2wTzI5hCqBvwwh2CnH29Gg9W1zU7y8gBhiVEYSdlCoRUsrdZjCJdL3/c9obsSqavIrntBMCgoSpYcxdNv2xGyMFXJE/as3RHfpl93n3watkLpOH20MlM6AB1EyuOml+OI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=12s9b6/J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nPl9tdS6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=12s9b6/J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nPl9tdS6; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RLqpbfLg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6653A1F000E9;
-	Tue,  7 Jul 2026 13:31:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783431119;
-	bh=IU6GNE1uO7XpbB98v8vNtQtI8hv6c6QGcLRCntB2xmg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=RLqpbfLgLzWH/+9gA5YTiy68Sh0Qv5ZOWFBDwQ3f42FGUajEpaUtQBXzYMIiBO9qi
-	 zU3+0Cc1wqhoCkkylr+Wf1IX/Mek7JERaKNefPqdkz/1vihVACwvgfeEfICe0qou0v
-	 QkCm50OCmPXr2+NKj+6Lf73ZivI9nMRDNMU/2/Z1Fgqs7JsIoTnykYrs73gojxpw6M
-	 gE7gg6Xz+0bFPK7KSWJzBqmlAZOZTRLfI4v0pQXt4e8r+U1eexIsjS+hrn2x9pPN78
-	 SUAvRc+ZEafM2vH17dgbB6Kiw2O76jFe3UTUUN58UBliJhjnDsSmD4LYolkVYiO0/l
-	 44jrjnPdGniyQ==
-Message-ID: <395a3587-a49a-41c2-b5ca-88d15d90e23a@kernel.org>
-Date: Tue, 7 Jul 2026 15:31:52 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="12s9b6/J";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nPl9tdS6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="12s9b6/J";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nPl9tdS6"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 95F8E75D25;
+	Tue,  7 Jul 2026 13:55:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783432538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gOzFNv/JdSO0/cxvymA2DV/I37x3Xd4ZS3LvN1Wbd5M=;
+	b=12s9b6/Jje2MlwFRqlao13viZGxtInCNEFLUWU+PeMi7OlaEWYej3mHLJWkZs92Zrd/OFm
+	1zFwVkPFvur3tn/aenOnAQdHtnnVylAutuYWUUzu6Tb93dOZCTM+kRMSUApSiW2xQ7RGmF
+	1l0QPt+XZ7BfHi7vP1C72Q2jUhiNW58=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783432538;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gOzFNv/JdSO0/cxvymA2DV/I37x3Xd4ZS3LvN1Wbd5M=;
+	b=nPl9tdS6BxkQG/8YNQDNNNSgr97W1FDCLU59cOlxkA1t18Z+VibVqsA7xmUv3Eobuxkuwb
+	NrDPnl+WomVoH8Aw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783432538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gOzFNv/JdSO0/cxvymA2DV/I37x3Xd4ZS3LvN1Wbd5M=;
+	b=12s9b6/Jje2MlwFRqlao13viZGxtInCNEFLUWU+PeMi7OlaEWYej3mHLJWkZs92Zrd/OFm
+	1zFwVkPFvur3tn/aenOnAQdHtnnVylAutuYWUUzu6Tb93dOZCTM+kRMSUApSiW2xQ7RGmF
+	1l0QPt+XZ7BfHi7vP1C72Q2jUhiNW58=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783432538;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gOzFNv/JdSO0/cxvymA2DV/I37x3Xd4ZS3LvN1Wbd5M=;
+	b=nPl9tdS6BxkQG/8YNQDNNNSgr97W1FDCLU59cOlxkA1t18Z+VibVqsA7xmUv3Eobuxkuwb
+	NrDPnl+WomVoH8Aw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DC738779AE;
+	Tue,  7 Jul 2026 13:55:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id zEaFMlkFTWp4SAAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Tue, 07 Jul 2026 13:55:37 +0000
+Date: Tue, 7 Jul 2026 14:55:35 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Aleksa Sarai <aleksa@amutable.com>, Jeff Layton <jlayton@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, NeilBrown <neil@brown.name>, 
+	Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 09/14] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+Message-ID: <akz_Ik8_eTnXav1H@pedro-suse>
+References: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
+ <20260704164149.3480051-10-jkoolstra@xs4all.nl>
+ <akyyqnv9EpY7xVdC@pedro-suse.lan>
+ <1464441345.181098.1783418805206@kpc.webmail.kpnmail.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>,
- Greg KH <gregkh@linuxfoundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>,
- Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>,
- Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>,
- David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
- Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
- Vlastimil Babka <vbabka@kernel.org>,
- "Christian Brauner (Amutable)" <brauner@kernel.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
- <20260702161330.GH3534761@killaraus.ideasonboard.com>
- <2026070227-payroll-eradicate-8f66@gregkh>
- <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
- <akaWnQ5Pkg_676B-@lucifer> <20260702211740.GA639365@zen.localdomain>
- <3f447113-4407-471f-878f-e6d6edafee71@kernel.org> <akez23ZhLRSGMFQ1@lucifer>
- <20260703163251.GB3734786@killaraus.ideasonboard.com>
- <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org> <akzETpsps4TMfqpC@lucifer>
- <0ba6bf66-e48f-40df-a953-503d317b3dbe@kernel.org>
- <CAMuHMdUPe=Lv+_KcUV8S6aNrwBFxP2AaU7Oq9J6PMjhuXDn-ZQ@mail.gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <CAMuHMdUPe=Lv+_KcUV8S6aNrwBFxP2AaU7Oq9J6PMjhuXDn-ZQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1464441345.181098.1783418805206@kpc.webmail.kpnmail.nl>
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[xs4all.nl];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,xs4all.nl];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[amutable.com,kernel.org,zeniv.linux.org.uk,brown.name,gmail.com,suse.cz,vger.kernel.org];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
+X-Spam-Score: -3.80
 
-On 7/7/26 12:01, Geert Uytterhoeven wrote:
-> Hi David,
+On Tue, Jul 07, 2026 at 12:06:44PM +0200, Jori Koolstra wrote:
+> Hi Pedro,
 > 
-> Thanks for your patch!
+> > Op 07-07-2026 10:35 CEST schreef Pedro Falcato <pfalcato@suse.de>:
+> > 
+> > Ok so I genuinely don't see how users are supposed to use O_CREAT | O_DIRECTORY.
+> > Lets think about the portability here. This is undefined by POSIX (meaning you
+> > cannot rely on a O_CREAT | O_DIRECTORY having particular semantics). FreeBSD
+> > and NetBSD each have different semantics (my investigation stopped there
+> > ~3 years ago; I vaguely remember that macOS/Darwin does not/did not support
+> > O_DIRECTORY. I don't remember what's the deal with OpenBSD/Solaris/Illumos
+> > here).
+> > 
+> > So, essentially you can't rely on _any_ common behavior between platforms.
+> > Ok. Now, you may say "it's 2026 lol who cares about BSD". So lets look at Linux:
+> > - Linux for most of its lifetime had "return open directory, or create
+> >   a regular file".
+> > - It later had the above, with the added caveat that it always returned
+> >   ENOTDIR.
+> > - In 2023 I then found the bug and Christian changed it to always return
+> >   EINVAL on that combination.
+> > 
+> > Ok. So Linux had 3 behaviors and 2 of them do not make any kind of sense. But
+> > that's fine, we return EINVAL now. Except that the other behaviors existed.
+> > 
+> > So, lets say this feature lands as-is. If you're writing something *for Linux*,
+> > you have to contend with the previous *3 behaviors* for a grand total of 4
+> > behaviors. Including bizarre runtime tests, lest you are running on something
+> > pre-6.4 (system calls can be similarly problematic, but at least there its a
+> > simple ENOSYS test).
+> > 
 > 
-> On Tue, 7 Jul 2026 at 11:53, David Hildenbrand (Arm) <david@kernel.org> wrote:
->> --- a/Documentation/process/coding-assistants.rst
->> +++ b/Documentation/process/coding-assistants.rst
->> @@ -40,20 +40,37 @@ Attribution
->>  ===========
->>
->>  When AI tools contribute to kernel development, proper attribution
->> -helps track the evolving role of AI in the development process.
->> -Contributions should include an Assisted-by tag in the following format::
->> +helps track the evolving role of AI in the development process. Further,
->> +for reviewers and maintainers it is also crucially important to know how
->> +AI tools were used.
->>
->> -  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
->> +Contributions that used AI to generate significant portions of code,
->> +comments, or patch descriptions must include an Assisted-by tag in the
->> +following format::
->>
->> -Where (preferred):
->> +  Assisted-by: LLM # brief description of usage
->> +
->> +Or alternatively::
->> +
->> +  Assisted-by: AGENT_NAME:MODEL_VERSION # brief description of usage
->> +
->> +Where::
->>
->>  * ``AGENT_NAME`` is the name of the AI tool or framework
->>  * ``MODEL_VERSION`` is the specific model version used
->> -* ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
->> -  (e.g., coccinelle, sparse, smatch, clang-tidy)
->> +
->> +If other tools were used, they should be specified through a dedicated
->> +Assisted-by tag in the following format::
->> +
->> +  Assisted-by: [TOOL1] [TOOL2]
->> +
->> +Where ``[TOOL1] [TOOL2]`` are specialized analysis tools used
->> +(e.g., coccinelle, sparse, smatch, clang-tidy)
-> 
-> Unlike LLMs above, all of these are deterministic...
-> 
->>
->>  Basic development tools (git, gcc, make, editors) should not be listed.
-> 
-> ... just like these.
-> So why treat them different?
+> But isn't this a problem with all UAPI design? You introduce a new feature that
+> does not exist on old kernels, then userspace can use that feature but must
+> provide fallback behaviors for any older kernel that the userspace program wants
+> to support. Ideally, this is abstracted away by some library. Then, at some point
+> this library raises its minimal supported kernel version bar, and it can clean-up
+> the now obsolete fallback code.
 
-I didn't write that original paragraph, so I really can't tell ... I mean, it is
-good practice to document usage of coccinelle at least, or when a problem was
-found through sparse.
+Correct, but usually most new UAPIs have very simple checks:
+
+if (syscall(SYS_ponies) < 0 && errno == ENOSYS) {
+	fallback();
+}
+
+or
+
+if (ponies(NEW_FLAG) < 0 && errno == EINVAL) {
+	fallback();
+}
+
+(in fact, many system calls out there can even be silently emulated by the
+libc if need be; this one can't, but that's besides the point)
+
+My problem isn't with adding a new uapi, it's that the flag combination has
+so horrifically overloaded with weird semantics that it's pretty non-trivial
+to find out conclusively whether or not you have the feature, across the recent
+lifetime of Linux. I'm not even concerned with repurposing the flags because the
+old semantics were so obviously BS.
+
+> 
+> I am fairly positive for instance that libpathrs would like to use O_CREAT | O_DIRECTORY,
+> but it is not going to demand kernel > 7.x anytime soon.
+
+so it will handroll its own tests for the feature which may or may not be
+wrong.
+
+> 
+> 
+> > If you're writing something that wants to be portable, or that intends to
+> > standardize on something, you have some 5 different behaviors all across
+> > the FOSS UNIX landscape, not considering everything else. It's also something
+> > that will, FWIW, probably never be included in POSIX because no one can agree
+> > on the semantics here.
+> > 
+> 
+> I have no idea how POSIX standardizes things. Does a committee get together and
+> revisit old syscalls every now and then?
+
+In theory: System X thinks up a useful feature, systems Y, Z think it's
+useful and also implement it. Once there is some sort of consensus, it's
+added to POSIX. Remaining systems implement it.
+
+(this is how stuff like O_DIRECTORY and OFD locks landed from Linux to POSIX to
+every other UNIX-like)
+
+> 
+> But yeah, I think POSIX compliance isn't something we are really doing anymore.
+
+The vast majority of the kernel is compliant, and a great portion of software
+uses mostly/only portable interfaces.
+
+> Afaik there's nothing in POSIX about openat2(2) either, and we definitely wish
+> people would move to that instead of keep relying on open(2) (or even better,
+> use libpathrs!)
+
+Hah, good luck! :)
+
+> 
+> > TL;DR I don't see, given the reasons above, how users are supposed to use
+> > this without it being a total minefield.
+> > 
+> > If you're intent on the open() path, I would suggest that perhaps openat2()
+> > would be a nice alternative, although definitely not as beautiful as
+> > open(O_CREAT | O_DIRECTORY).
+> > 
+> 
+> Christian told me (somewhere on this list) that at LSFMMBPF all vfs maintainers
+> agreed on the O_CREAT | O_DIRECTORY direction. It allows to use all the neat
+> options from openat2(2) at the cost of a bit of multiplexing in lookup_open().
+> The question remains whether we also want the other things like mknodat_fd().
+
+
+FWIW, thinking about this a bit more, it's possible that openat2() could serve
+as a stricter check for the UAPI in open() in general. Making this less
+footgunny to use.
+
+> 
+> > Just my 2c. And I feel horrible typing this out because you clearly spent
+> > a great amount of time and effort between v2 and v3 as you redid this :/
+> > 
+> 
+> It's been a lot of work, yes :)
+> 
+> But luckily it has allowed me to study path resolution and the open()/mkdir()/etc.
+> syscalls in a fun and educative way.
+
+Yay!
 
 -- 
-Cheers,
-
-David
+Pedro
