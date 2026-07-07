@@ -1,93 +1,85 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A1D3A1693;
-	Tue,  7 Jul 2026 19:03:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 025053148D9;
+	Tue,  7 Jul 2026 19:05:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783451034; cv=none; b=t6nq0QiOPtWxMmMfRfCxLXThqacunBkKt91ZobHtWyy+Qs/OdijOKfVYLfV3Er+ZDoGbEJWl3rFazJHe+4tgKYQYp/nGI8+/5Dgp0Y4Pf8XYesqbzhuI6IEj+PhuzCwpphT2V1fAhOva4+8Breas94ZSwxeLOGqwEBRh5TjJaEk=
+	t=1783451136; cv=none; b=Low3a715Nmt2TJnmD1lpXYbRBuNfdCS8xLg4IT2x+owahT1vWuJLFpx8USN9zOSrORI539O49SOay55z6ApUPotdQmxWD5fprrpc1QqtAM535yb1GV+09hmSU1OM23CS/gt/uISAeGMrhRIDAbycNyV1Z3lDcZZGEDP3CnM8Awc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783451034; c=relaxed/simple;
-	bh=62qobkfwgb/I1gOvXBP5Qfc7oMKhVS8eaJ/kQvZ6WWo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=gjKM8XziS1oL8Oel1R6Pmapsq9J3J+xAK84yGY8vNY5sn2rjabjVfJpLGlaGXPvgy85kJK52V8RP/HjhxgkNnv7aAk6aUBYmKw7a4BIrkM/1t1vTDLrKyTz1SBz48NMVqfeb0ax4d+L8EWahWz/6VcbQWXKtZNIIDCJSYSONllI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=IzZw73A0; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1783451136; c=relaxed/simple;
+	bh=VIAVGByRbKVmnQ9qZjpf7nj0iyuTpXOWR2qikgwD6N8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e9gz6OWwddv2z4GTuLgspfzuTEO6xLGJwPSQckTnRiwrBj8RUydQoc5E40qKZnerGuN0Z/B4PHeUUAi9sOZiAEOOgLle+EkF0QqLNBNNh93a4PZkruQnXD4C/LnZEG1Dl16HdTjyg8v8phWAXgFdtcGAf0kygeXrdn0wrzJzWcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TFTDc4mh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="IzZw73A0"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 94CDE40430
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1783451032; bh=EJszX5eNF4dlP8trcZdSt3w2lkANfhcDNIvg9VWnzVY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=IzZw73A043nmFG6dyet8VMLSKaUzm/fCZpd6Q4FGDU75IWRK7it1frNuobeAVu9Uu
-	 yIAyvn+LZOqbrsumXt6N7ePmds/WwVQ1sZWzPUKIhFYv8bU5dirLfDOEX/fKU/Zvv5
-	 2lT4saAdgOLpV4MQ1b6ertmzY3fBjzD3x2YnX6/OQaWBpSkYcfmb9EE9ewxz4L9HTS
-	 BHSvPjD13ipOZ9ClwjRmZw2UTZtk6h2B/j1ibsARu+QpxseP97C3rrnrkfIAMtsRZI
-	 DXgX6pS4LWFCTvCFDUY9crWGNksKnlQWokQxb0SQ8bvH007cQuDBLrpKjfbp7SGeD4
-	 HOwBs7FPeVh1g==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 94CDE40430;
-	Tue,  7 Jul 2026 19:03:52 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Christian Brauner <brauner@kernel.org>, Christian Brauner
- <brauner@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, "David Hildenbrand
- (Arm)" <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Boris Burkov
- <boris@bur.io>, Jeff Layton <jlayton@kernel.org>, Greg KH
- <gregkh@linuxfoundation.org>, Linus Torvalds
- <torvalds@linux-foundation.org>, Justin Stitt <justinstitt@google.com>,
- Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Jori
- Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>,
- Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>,
- David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, Jani
- Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, Vlastimil
- Babka <vbabka@kernel.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-In-Reply-To: <20260707-impfschutz-lerngruppen-klubhaus-7aabcc82f3b4@brauner>
-References: <akaWnQ5Pkg_676B-@lucifer>
- <20260702211740.GA639365@zen.localdomain>
- <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
- <akez23ZhLRSGMFQ1@lucifer>
- <20260703163251.GB3734786@killaraus.ideasonboard.com>
- <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
- <akzETpsps4TMfqpC@lucifer>
- <0ba6bf66-e48f-40df-a953-503d317b3dbe@kernel.org>
- <20260707124031.GC211515@killaraus.ideasonboard.com>
- <ebc1f034-7297-459e-975d-5c143567392f@kernel.org>
- <20260707141803.GA254690@killaraus.ideasonboard.com>
- <20260707-siebzehn-geleast-gastmahl-4889a8f6b474@brauner>
- <20260707-impfschutz-lerngruppen-klubhaus-7aabcc82f3b4@brauner>
-Date: Tue, 07 Jul 2026 13:03:51 -0600
-Message-ID: <878q7mr59k.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TFTDc4mh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEF4C1F000E9;
+	Tue,  7 Jul 2026 19:05:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783451134;
+	bh=9he0Lj8iGDsoUDXw1lOp97qkLyYrbq1eZsl8g12jV34=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=TFTDc4mhN56We/IKn+QePPnsSN5M0B6gg7xg2xFmQna9Dwe1FhqI9ptIzapqikXuN
+	 +51UhcvKiu2Zvg1FvVM5Amn2OW3e0LxFyq44+lOsPeSIwnFYCazpKq1SBWaXfOWlsV
+	 A6EeBcJtr9dRoZpYhcBWC3KB6xXfn4r2F6K6PFr8The7SueZZAPFHwDbHaVg4wEDAN
+	 2yoPMWfwnLl4ErAu0M4s7Wqi0sh5zsB+3ce4yqQVxEKplWKCUMGq0kOqw0+IKg08N4
+	 0PcaS3sbba0dXQpgj3vuuhNyMtXFntih59fHWcdsJLYkByMMDi6EQJIKzSHw5iT4kX
+	 BKnUMHwME4hrA==
+Date: Wed, 8 Jul 2026 03:05:30 +0800
+From: Gao Xiang <xiang@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Gao Xiang <xiang@kernel.org>, David Howells <dhowells@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>, linux-kernel@vger.kernel.org,
+	netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	Jingbo Xu <jefflexu@linux.alibaba.com>
+Subject: Re: [PATCH] cachefiles,netfs: sunset ondemand mode
+Message-ID: <ak1N-lyu5YZSM_99@debian>
+Mail-Followup-To: Christian Brauner <brauner@kernel.org>,
+	Gao Xiang <xiang@kernel.org>, David Howells <dhowells@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>, linux-kernel@vger.kernel.org,
+	netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	Jingbo Xu <jefflexu@linux.alibaba.com>
+References: <20260706030439.14212-1-xiang@kernel.org>
+ <20260707-irrweg-errechnen-matten-dae8db86b437@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260707-irrweg-errechnen-matten-dae8db86b437@brauner>
 
-Christian Brauner <brauner@kernel.org> writes:
+Hi Christian,
 
->> Then someone can basically just merge the original patch I sent since
->> everyone seems to agree on that front. And then the extension to include
->> how the LLM was used can be discussed in a separate patch.
->
-> https://patch.msgid.link/20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org
+On Tue, Jul 07, 2026 at 08:59:17PM +0200, Christian Brauner wrote:
+> > It was an effort to enhance fscache as a kernel cache for lazy
+> > pulling (at least according to previous Incremental FS discussion [1])
+> > and EROFS over fscache was the in-tree user of this mode.
+> > 
+> > fscache has since evolved to be netfslib-oriented, serving network
+> > filesystem inodes via the netfs library, but EROFS never acts as a
+> > network filesystem and we need to cache golden filesystem images rather
+> > than individual EROFS inodes.
+> > 
+> > Since EROFS over fscache is now removed, clean up netfs/fscache/
+> > cachefiles upstream too.
+> > 
+> > [1] https://lore.kernel.org/r/CAOQ4uxi4dzxArY24YO=+kBCK2gGoq3Ptb8WkzCqSogPgU_R3dQ@mail.gmail.com
+> > 
+> > Signed-off-by: Gao Xiang <xiang@kernel.org>
+> 
+> Seems sensible to me. So I'll take it unless David has objections.
 
-I still have it around :)  I can apply it if that's truly the
-consensus... I'll confess to having not entirely kept up with the
-conversation over the holiday weekend, though, and needing to review
-things.
-
-If you object, do let me know.
+I hope David can ack it too. I didn't test this patch
+seriously since I have no proper environment to set up
+netfs although it should be a trivial removal.
 
 Thanks,
+Gao Xiang
 
-jon
+> 
+> -- 
+> Christian Brauner <brauner@kernel.org>
