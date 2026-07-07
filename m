@@ -1,168 +1,205 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC1F31E847;
-	Tue,  7 Jul 2026 08:31:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89019325494
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 08:35:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783413115; cv=none; b=ajIKrIo5iAjleLTFb0m4reT0owrXKBaNQvD29zXrxG+oOsoznjfOi7DyhSdBWmnaHoGrIrczHrdpARn4QLokuY0e1TYmzcFwKMONgszgQNBwJ3+YVlZBrBvIAAWmDV7j422OawSxellVShu9vbasZShfh0jL1dbn/YHtvVaxejc=
+	t=1783413315; cv=none; b=heHClOHLTRX+b2pFOX0HcLgCGlmZaN7psVXIReX2XfHhrb51zW87EdxbKuRGJBa2QgB713PyRycOFPKZSVkY/IpOxCm7xgWM9kGDMI8itxCvz+xdSfakS3QoPbWmcvl1FvanrRXCJ8IUw2xJ+xmfdQneQHpKe01rIDUvpKClV9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783413115; c=relaxed/simple;
-	bh=ydKoEj/3SVKMHAZ/9ILFGU07tS+On64wYwentMi0E8s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XCzgoUEU+wmbaC5VRb0ko8s+JrCY6yUUeuc0v5Ww9xsYm8MN2tI9CeakPKsn8H2gnQm4RgasBIaSR4BzSo6DqBBjbd3Idw4P/fA8Vf/etZgu1mK8xwb2d+jFf4o2RcaseWG5BrbF23coQ0oAuvjSPJksQOIsrFlpD9GVKANz/ZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eggo2rgi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783413315; c=relaxed/simple;
+	bh=gkMVOpBJGxXTADkur3l2V4Y+JGvViJ0AVHCKFaIfAIU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h5bjEAnWxRepf2vF4PiIGnw9q4OR1hoZyYqMRQ2/7Qn1/WpcDwZBkkYi8M1miSkZ6wCnEnuo6LZot+EJslZBnlXkr6Z/sqW6MStUTfHcO9vKyXttaQ3rTO5TBktUOOZ4Qt85MQm438XhHqPEdie+9FUuCzR6hO8PgBADHFuLN9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cOvLxyjJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=r/sHz3bL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cOvLxyjJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=r/sHz3bL; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eggo2rgi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4D571F000E9;
-	Tue,  7 Jul 2026 08:31:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783413114;
-	bh=fzX7mzeA1AC6coQRpZsiU7J4pYqQofYIQYGr1P5+3wo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=eggo2rgiLbJFk1vCjCUu/Dz28j26GN6Yu8vt3wmgUN2a3/ieZTz1zPjKBfib9h6xy
-	 h1kW0Kun/1QSnKKMyh0ugyQqkx2lPDUFRNoZxx+9cgkxggHn1SyFT9G/thAGmjP5rI
-	 6hiWA4RUk0otidjZMkPV1iBpjb+ZUFHYFC/1T8/ykz4bEULihjbdg0uaapwovv/uYI
-	 xmHOFwYd08Qs+bHg40UHoMAn//hmg4nif2GwDTXChpwsRiLkil+2Nywtilwf0gH2tO
-	 uuTaifCgJO4uHlEWrO/JRc/XMrIpjQeYwFsBWlF0tj/wqeCrN1j3UOXCGVPg2V91R8
-	 Nz3pjSIB/IlNQ==
-Message-ID: <0e8e5a28-1111-4b81-b04f-b81e749eb3dd@kernel.org>
-Date: Tue, 7 Jul 2026 10:31:39 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cOvLxyjJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="r/sHz3bL";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cOvLxyjJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="r/sHz3bL"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B4CC175ABC;
+	Tue,  7 Jul 2026 08:35:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783413305; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=474jpl+ZGhYm9oK23xJUrPj+p82PJeVlVSVezw3V0oo=;
+	b=cOvLxyjJzMtsWVV/3MRk0VhIUt+tuzScsO+krcbG7XYEXziL7CyWN8C2xI6kGiDmsiZNl7
+	BVtJ7ZQQi9OkxEc60eY5rzuRpETbGNjd2mYFX0c7psBARxSn6HSBwJqv1N9eE05tkTgSrJ
+	F+V9uEPeDaZ+f8McZ0VkFn7DC8Wc3JQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783413305;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=474jpl+ZGhYm9oK23xJUrPj+p82PJeVlVSVezw3V0oo=;
+	b=r/sHz3bLDu/gJzOlUood0KiNJfabRe8S11EI6ukT4+yFFvoGoNpe9/VbfYqdUXlHnIi+rA
+	c5unYwhJGpTnLGBw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cOvLxyjJ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="r/sHz3bL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783413305; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=474jpl+ZGhYm9oK23xJUrPj+p82PJeVlVSVezw3V0oo=;
+	b=cOvLxyjJzMtsWVV/3MRk0VhIUt+tuzScsO+krcbG7XYEXziL7CyWN8C2xI6kGiDmsiZNl7
+	BVtJ7ZQQi9OkxEc60eY5rzuRpETbGNjd2mYFX0c7psBARxSn6HSBwJqv1N9eE05tkTgSrJ
+	F+V9uEPeDaZ+f8McZ0VkFn7DC8Wc3JQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783413305;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=474jpl+ZGhYm9oK23xJUrPj+p82PJeVlVSVezw3V0oo=;
+	b=r/sHz3bLDu/gJzOlUood0KiNJfabRe8S11EI6ukT4+yFFvoGoNpe9/VbfYqdUXlHnIi+rA
+	c5unYwhJGpTnLGBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 04872779AE;
+	Tue,  7 Jul 2026 08:35:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 2+5tOTi6TGrJDAAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Tue, 07 Jul 2026 08:35:04 +0000
+Date: Tue, 7 Jul 2026 09:35:03 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Jeff Layton <jlayton@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Aleksa Sarai <aleksa@amutable.com>, NeilBrown <neil@brown.name>, Amir Goldstein <amir73il@gmail.com>, 
+	Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 09/14] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+Message-ID: <akyyqnv9EpY7xVdC@pedro-suse.lan>
+References: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
+ <20260704164149.3480051-10-jkoolstra@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 00/13] mm: rework anon_vma and remove
- anon_vma_chain
-To: wangtao <tao.wangtao@honor.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "will@kernel.org" <will@kernel.org>, "tglx@kernel.org" <tglx@kernel.org>,
- "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "x86@kernel.org" <x86@kernel.org>, "willy@infradead.org"
- <willy@infradead.org>, "sj@kernel.org" <sj@kernel.org>,
- "kees@kernel.org" <kees@kernel.org>, "luizcap@redhat.com"
- <luizcap@redhat.com>,
- "zhangjiao2@cmss.chinamobile.com" <zhangjiao2@cmss.chinamobile.com>,
- "kas@kernel.org" <kas@kernel.org>, "ljs@kernel.org" <ljs@kernel.org>
-Cc: "hpa@zytor.com" <hpa@zytor.com>, "liam@infradead.org"
- <liam@infradead.org>, "vbabka@kernel.org" <vbabka@kernel.org>,
- "rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com"
- <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>,
- "jack@suse.cz" <jack@suse.cz>, "riel@surriel.com" <riel@surriel.com>,
- "harry@kernel.org" <harry@kernel.org>, "jannh@google.com"
- <jannh@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
- "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
- "peterx@redhat.com" <peterx@redhat.com>, "ziy@nvidia.com" <ziy@nvidia.com>,
- "baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
- "npache@redhat.com" <npache@redhat.com>,
- "ryan.roberts@arm.com" <ryan.roberts@arm.com>,
- "dev.jain@arm.com" <dev.jain@arm.com>, "baohua@kernel.org"
- <baohua@kernel.org>, "lance.yang@linux.dev" <lance.yang@linux.dev>,
- "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>,
- "chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
- "muchun.song@linux.dev" <muchun.song@linux.dev>,
- "baoquan.he@linux.dev" <baoquan.he@linux.dev>,
- "nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>,
- "matthew.brost@intel.com" <matthew.brost@intel.com>,
- "joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>,
- "rakie.kim@sk.com" <rakie.kim@sk.com>, "byungchul@sk.com"
- <byungchul@sk.com>, "gourry@gourry.net" <gourry@gourry.net>,
- "ying.huang@linux.alibaba.com" <ying.huang@linux.alibaba.com>,
- "apopple@nvidia.com" <apopple@nvidia.com>,
- "pfalcato@suse.de" <pfalcato@suse.de>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "damon@lists.linux.dev" <damon@lists.linux.dev>,
- "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>,
- "ryncsn@gmail.com" <ryncsn@gmail.com>,
- "jparsana@google.com" <jparsana@google.com>,
- "dvander@google.com" <dvander@google.com>, zhangji <zhangji1@honor.com>,
- wangzicheng <wangzicheng@honor.com>
-References: <20260707063308.29176-1-tao.wangtao@honor.com>
- <08c001ab-320f-4676-830b-8e4ba6a05dee@kernel.org>
- <b00a03d62c53430ca22b3f3c5e5327b5@honor.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <b00a03d62c53430ca22b3f3c5e5327b5@honor.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260704164149.3480051-10-jkoolstra@xs4all.nl>
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,xs4all.nl];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[xs4all.nl];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,zeniv.linux.org.uk,amutable.com,brown.name,gmail.com,suse.cz,vger.kernel.org];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: B4CC175ABC
+X-Spam-Score: -4.51
 
-On 7/7/26 10:21, wangtao wrote:
->>
->> On 7/7/26 08:32, tao wrote:
->>> Hi all,
->>>
->>> Since v1 was relatively complex and difficult to extend, this version
->>> adopts a simpler anon_vma implementation approach.
->>
->> I really hate to repeat myself, but you seemed to have missed my main point
->> [1]
->>
-> I saw it, and I’ve waited for a while as well.
+Hi,
 
-Apparently you saw it but you didn't read my reply about slapping more
-complexity on something complicated.
+Sorry for comenting so late...
 
- 12 files changed, 1056 insertions(+), 54 deletions(-)
-
+On Sat, Jul 04, 2026 at 06:41:43PM +0200, Jori Koolstra wrote:
+> Currently there is no way to race-freely create and open a directory.
+> For regular files we have open(O_CREAT) for creating a new file inode,
+> and returning a pinning fd to it. The lack of such functionality for
+> directories means that when populating a directory tree there's always
+> a race involved: the inodes first need to be created, and then opened
+> to adjust their permissions/ownership/labels/timestamps/acls/xattrs/...,
+> but in the time window between the creation and the opening they might
+> be replaced by something else.
 > 
-> If there are technical issues, please point them out directly.
-> Or is this simply how technical discussions are usually conducted in the Linux community or the mm subsystem?
+> Addressing this race without proper APIs is possible (by immediately
+> fstat()ing what was opened, to verify that it has the right inode type),
+> but difficult to get right. Hence, adding support for a new flag combo
+> O_CREAT|O_DIRECTORY to open*(2) that creates a directory (if it does not
+> exist already) and returns an O_DIRECTORY fd is very useful.
+> 
+> Historically, the O_CREAT|O_DIRECTORY behaviour was to return ENOTDIR if
+> a regular file exists at the open path; EISDIR if a directory exists at
+> the path; and to create a regular file if no file exists at the path.
+> This behaviour changed accidentally with 973d4b73fbaf ("do_last(): rejoin
+> the common path even earlier in FMODE_{OPENED,CREATED} case") causing
+> ENOTDIR to return in the last case while still creating the file. As
+> this change was not detected for a long time, Brauner proposed to adopt
+> the more consistent NetBSD behaviour, i.e. to return EINVAL on the the
+> O_CREAT|O_DIRECTORY combination. This change was applied in 43b450632676
+> ("open: return EINVAL for O_DIRECTORY | O_CREAT") in March, 2023. As
+> the EINVAL behaviour has been in the kernel for about 3 year now, no
+> rollback is expected as a result of userspace reliance on old
+> behaviour, leaving us free to reassign the O_CREAT|O_DIRECTORY semantics.
 
-I suggest you go back and read my email.
+Ok so I genuinely don't see how users are supposed to use O_CREAT | O_DIRECTORY.
+Lets think about the portability here. This is undefined by POSIX (meaning you
+cannot rely on a O_CREAT | O_DIRECTORY having particular semantics). FreeBSD
+and NetBSD each have different semantics (my investigation stopped there
+~3 years ago; I vaguely remember that macOS/Darwin does not/did not support
+O_DIRECTORY. I don't remember what's the deal with OpenBSD/Solaris/Illumos
+here).
+
+So, essentially you can't rely on _any_ common behavior between platforms.
+Ok. Now, you may say "it's 2026 lol who cares about BSD". So lets look at Linux:
+- Linux for most of its lifetime had "return open directory, or create
+  a regular file".
+- It later had the above, with the added caveat that it always returned
+  ENOTDIR.
+- In 2023 I then found the bug and Christian changed it to always return
+  EINVAL on that combination.
+
+Ok. So Linux had 3 behaviors and 2 of them do not make any kind of sense. But
+that's fine, we return EINVAL now. Except that the other behaviors existed.
+
+So, lets say this feature lands as-is. If you're writing something *for Linux*,
+you have to contend with the previous *3 behaviors* for a grand total of 4
+behaviors. Including bizarre runtime tests, lest you are running on something
+pre-6.4 (system calls can be similarly problematic, but at least there its a
+simple ENOSYS test).
+
+If you're writing something that wants to be portable, or that intends to
+standardize on something, you have some 5 different behaviors all across
+the FOSS UNIX landscape, not considering everything else. It's also something
+that will, FWIW, probably never be included in POSIX because no one can agree
+on the semantics here.
+
+TL;DR I don't see, given the reasons above, how users are supposed to use
+this without it being a total minefield.
+
+If you're intent on the open() path, I would suggest that perhaps openat2()
+would be a nice alternative, although definitely not as beautiful as
+open(O_CREAT | O_DIRECTORY).
+
+Just my 2c. And I feel horrible typing this out because you clearly spent
+a great amount of time and effort between v2 and v3 as you redid this :/
+
 -- 
-Cheers,
-
-David
+Pedro
