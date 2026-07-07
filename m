@@ -1,87 +1,102 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4644041DEF7
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 13:55:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652271C84BC
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 14:02:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783432542; cv=none; b=R1re0z/uvH4JUy0+4WTh1hmziwDKWLFZ7w0U8hTHpTlTccEOtsgHVrSy1WWmqahJU1erJoJSrxl2D1cuawBY1VXaeIRdydsVFUWzPwxyL9rwVoZb6ejB+pjySX+zJ+caqqFu0oLFhaaRIWl5gaqBbEd3jVxOI2ib7W+gaOlD40I=
+	t=1783432925; cv=none; b=dosUsZ1xV/PFULpZGx91O8A3YNDNPKtEVJ52zA7MtrxaVrJwciIg29Hc3/3IQgF8/ShP7aKEomEsoyfKseAWfytpxa+IhSdVl5rZAV94Pk2+XAr7/FxWuxrC4qeeSkYMaHxvhZ8iSbA6I6D9bL6laWAymmHRduP2dtatkFZOaBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783432542; c=relaxed/simple;
-	bh=4oaxy6bT1jWcE/uPUMiI+9n4Sg+TK2snSvYlG0JZf70=;
+	s=arc-20240116; t=1783432925; c=relaxed/simple;
+	bh=MJKZMdNzs5NYzNY696wPqhLLq50VnJ6AsyX8VhbYT/Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m+FHKWsWfA8V7pkieKy98T16JTBFHOvpWNQVXI964n2wTzI5hCqBvwwh2CnH29Gg9W1zU7y8gBhiVEYSdlCoRUsrdZjCJdL3/c9obsSqavIrntBMCgoSpYcxdNv2xGyMFXJE/as3RHfpl93n3watkLpOH20MlM6AB1EyuOml+OI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=12s9b6/J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nPl9tdS6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=12s9b6/J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nPl9tdS6; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=LN+/cN4SHiKn8ushdQhRtdurWxLxQAfFVjfp+rgAoO0U9lWfL2w0XcoF2mCdlmUN8dYmY73Y8hJY0j9n//U4Hl66q2v3DgMnKfB7FmPvzl8HDmAQfmwNKcdycRKGBWvO1qawBVA5CoDXC18KkqGJQGmo3cBjXf+T5G/2QNkBTgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=h6pTFk4I; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=FRSLEy2d; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="12s9b6/J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nPl9tdS6";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="12s9b6/J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nPl9tdS6"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 95F8E75D25;
-	Tue,  7 Jul 2026 13:55:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783432538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="h6pTFk4I";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="FRSLEy2d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1783432923;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gOzFNv/JdSO0/cxvymA2DV/I37x3Xd4ZS3LvN1Wbd5M=;
-	b=12s9b6/Jje2MlwFRqlao13viZGxtInCNEFLUWU+PeMi7OlaEWYej3mHLJWkZs92Zrd/OFm
-	1zFwVkPFvur3tn/aenOnAQdHtnnVylAutuYWUUzu6Tb93dOZCTM+kRMSUApSiW2xQ7RGmF
-	1l0QPt+XZ7BfHi7vP1C72Q2jUhiNW58=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783432538;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gOzFNv/JdSO0/cxvymA2DV/I37x3Xd4ZS3LvN1Wbd5M=;
-	b=nPl9tdS6BxkQG/8YNQDNNNSgr97W1FDCLU59cOlxkA1t18Z+VibVqsA7xmUv3Eobuxkuwb
-	NrDPnl+WomVoH8Aw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783432538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gOzFNv/JdSO0/cxvymA2DV/I37x3Xd4ZS3LvN1Wbd5M=;
-	b=12s9b6/Jje2MlwFRqlao13viZGxtInCNEFLUWU+PeMi7OlaEWYej3mHLJWkZs92Zrd/OFm
-	1zFwVkPFvur3tn/aenOnAQdHtnnVylAutuYWUUzu6Tb93dOZCTM+kRMSUApSiW2xQ7RGmF
-	1l0QPt+XZ7BfHi7vP1C72Q2jUhiNW58=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783432538;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gOzFNv/JdSO0/cxvymA2DV/I37x3Xd4ZS3LvN1Wbd5M=;
-	b=nPl9tdS6BxkQG/8YNQDNNNSgr97W1FDCLU59cOlxkA1t18Z+VibVqsA7xmUv3Eobuxkuwb
-	NrDPnl+WomVoH8Aw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DC738779AE;
-	Tue,  7 Jul 2026 13:55:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zEaFMlkFTWp4SAAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Tue, 07 Jul 2026 13:55:37 +0000
-Date: Tue, 7 Jul 2026 14:55:35 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: Aleksa Sarai <aleksa@amutable.com>, Jeff Layton <jlayton@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, NeilBrown <neil@brown.name>, 
-	Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 09/14] vfs: add O_CREAT|O_DIRECTORY to open*(2)
-Message-ID: <akz_Ik8_eTnXav1H@pedro-suse>
-References: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
- <20260704164149.3480051-10-jkoolstra@xs4all.nl>
- <akyyqnv9EpY7xVdC@pedro-suse.lan>
- <1464441345.181098.1783418805206@kpc.webmail.kpnmail.nl>
+	bh=WDvld2BXpFSwdt9ItbR9zFXv+7W3dhSsVabE1vNaiZo=;
+	b=h6pTFk4IYH123/K/KTC7KimTVl1BYb/sJW1NtNarASBYiJeCudKCx4J13GF4445H0YAy5S
+	n1KJyrGOLdbhqvTPLvGsIYD1mp+Xu/gQiv+PvnPZmzpSP6TCqcTLjdjUPq+pOy6S5T6iJP
+	OdRfa9DwsuoCls/clrfJ7VrTgrpeXoc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-261-IcQY1PG2M4aQFYfA-eFReg-1; Tue, 07 Jul 2026 10:02:02 -0400
+X-MC-Unique: IcQY1PG2M4aQFYfA-eFReg-1
+X-Mimecast-MFC-AGG-ID: IcQY1PG2M4aQFYfA-eFReg_1783432921
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-493ce4b7777so29215175e9.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 07:02:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1783432921; x=1784037721; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=WDvld2BXpFSwdt9ItbR9zFXv+7W3dhSsVabE1vNaiZo=;
+        b=FRSLEy2d41x5QTGW6Q28zHdpB5yLQcoiwqgij5su0NoywF2LEULjSufCjBeoMrss8W
+         sGNyltT5xY5lqpNbQuvZg/V1xtaBS0v7JOnzxNkuDtpjgIl6yDDOgpz7Gm2Z8OHGkp0Z
+         jmNjJNOjqohFWEtvqS1RjL4FG4CEhdVyVSkiWxj66RhrvN18Fd82dpCe67qb8UcJ1uU1
+         EgTdWtNcQSpvy3C6qT+YZTjxSWW7BpNuMHaUU2NhndJHldDhnqPYtxLsoF8Co3iIJOTm
+         FBGaEzxEZbk5JX2mldfht/xh1RWS27AirOPah2cAEsJkY0grGUhZXfbcuGLNIeHDPYke
+         9UUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783432921; x=1784037721;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WDvld2BXpFSwdt9ItbR9zFXv+7W3dhSsVabE1vNaiZo=;
+        b=hkF3/udsBHtwra8SIaIsl4FAo11CfYGgKPmHSfLfafeYiD6iOoWSp3z8AtVdyQw+sV
+         /0pPjyxAgxP4ssobrMSlZXHne0jdAqNBX0l44gwHU3V2ogtYfsX4ZTeB74EhCKjdpDOb
+         6tY0kiuZSuY+L+aq52iCtxbQQBW/AoNWFVu3ksYu/DV41P4D1NA/xKGNjFF7XnIA4qC5
+         UvvXblb+VdZU/BJrOAsEeJ0PUlAt8pzZDO65h0sxPQ+AqmqdgEO2nCcVSIdEfcbe4fov
+         CHov81PRMb82jqHRpIepcL/VWDvdnLDMQb8m03TcuzvcZ2WYbDBdixb7xE8idstTj2Nl
+         ocNg==
+X-Forwarded-Encrypted: i=1; AHgh+RpFrfTP9rQqvCWAWU1/IZOPLJK3iA0b4KqNms4bu0bbbGkATOcVhRoit34TseSQ64yLSvx2+7tjTCu1FVVz@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxxl6SHkhW/SmjuNtpSIZymk7YcX0OB0Ina48hUICOBKJ4yyQmf
+	+10R1Z7YjZppqCic759e2LXiLl/7H1IJHRRuNXmx0vMXQf4IolIN8d0Yf9US0yfHN1Hlb2n7WEF
+	uq1LWdH4kN8lXmwARh/urxAeCNnRqO9GezZcyIXYqUS72a9J6uPJdeU3WYreAUa9r9Mc=
+X-Gm-Gg: AfdE7ckI7OL9GMsFtXvs6PX0mU+BtKh1CT9zmJOkZdfOx5PVRM49KnQ0d68Ktk2ppBu
+	TLuEZdu0aLth6R/NkCA+Ua/n4CTxn1Ome6y8E/0XFAubrZSUh0ETsDG03WmR09sWg7tE4R3vV6J
+	f2WUvukY4h5x3AGSJL778RvhJIHiwEQclwtTsMlWlfEB0rG7HWgMVlaxQYiuXyR3Mi/2gK0f2qK
+	NDSBDRnkOQXiRkiFalSXTGhJJUyHGLcEpNOixSfrk3ckaMJKcNFQ+xR4ZLaL1+tw/Bpv7TKotZz
+	xD/CIvM7wIc2RAgsHPkyKCsIV81vPUDBdotkSsYZxHOWkshQ2GPkGvXu/xEEttbGW948ADzWNBR
+	i7W1z5iqoillQKurRPc3W6ndQsnAKCsGL
+X-Received: by 2002:a05:600c:198e:b0:493:bed6:85e6 with SMTP id 5b1f17b1804b1-493df0711f9mr63762705e9.15.1783432920483;
+        Tue, 07 Jul 2026 07:02:00 -0700 (PDT)
+X-Received: by 2002:a05:600c:198e:b0:493:bed6:85e6 with SMTP id 5b1f17b1804b1-493df0711f9mr63761815e9.15.1783432919826;
+        Tue, 07 Jul 2026 07:01:59 -0700 (PDT)
+Received: from redhat.com (IGLD-80-230-68-31.inter.net.il. [80.230.68.31])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0f214d2sm33176455f8f.33.2026.07.07.07.01.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 07:01:59 -0700 (PDT)
+Date: Tue, 7 Jul 2026 10:01:55 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
+	Sourav Panda <souravpanda@google.com>, muchun.song@linux.dev,
+	osalvador@suse.de, akpm@linux-foundation.org, liam@infradead.org,
+	vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
+	mhocko@suse.com, mhklinux@outlook.com, fvdl@google.com,
+	gthelen@google.com, mike.kravetz@oracle.com,
+	pasha.tatashin@soleen.com, rientjes@google.com, riel@surriel.com,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH 0/6] mm/hugetlb: Dynamic, NUMA-aware HugePage Cache &
+ Free Page Reporting
+Message-ID: <20260707095843-mutt-send-email-mst@kernel.org>
+References: <20260707064235.1386552-1-souravpanda@google.com>
+ <9624988a-366e-4884-9408-3f3b88c27290@kernel.org>
+ <20260707062428-mutt-send-email-mst@kernel.org>
+ <b9a48d89-74f1-43d4-b7bb-be988b6855c9@kernel.org>
+ <akzZr2jfJ0J8zox4@lucifer>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -90,162 +105,98 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1464441345.181098.1783418805206@kpc.webmail.kpnmail.nl>
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[xs4all.nl];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,xs4all.nl];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[amutable.com,kernel.org,zeniv.linux.org.uk,brown.name,gmail.com,suse.cz,vger.kernel.org];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Score: -3.80
+In-Reply-To: <akzZr2jfJ0J8zox4@lucifer>
 
-On Tue, Jul 07, 2026 at 12:06:44PM +0200, Jori Koolstra wrote:
-> Hi Pedro,
+On Tue, Jul 07, 2026 at 12:06:34PM +0100, Lorenzo Stoakes wrote:
+> On Tue, Jul 07, 2026 at 12:28:44PM +0200, David Hildenbrand (Arm) wrote:
+> > On 7/7/26 12:25, Michael S. Tsirkin wrote:
+> > > On Tue, Jul 07, 2026 at 09:29:07AM +0200, David Hildenbrand (Arm) wrote:
+> > >> On 7/7/26 08:42, Sourav Panda wrote:
+> > >>> Overview
+> > >>> This patch series introduces a dynamic, NUMA-aware HugePage Cache,
+> > >>> backed by a kernel shrinker to safely return memory under pressure, and
+> > >>> integrates it with Free Page Reporting (virtio-balloon) for HugeTLB,
+> > >>> specifically targeting gigantic (1GB) hugepages. The goal is to solve
+> > >>> the tradeoff between allocation latency and memory
+> > >>> fungibility in virtualized and heterogeneous cloud environments.
+> > >>
+> > >> Hi,
+> > >>
+> > >> in general, we consider hugetlb nowadays to be mostly in feature freeze, as we
+> > >> realized a while ago that adding more special casing on top of something too
+> > >> special for all of MM is only going to hurt us more in the long run.
+> > >>
+> > >> We want to have less special casing and less special sauce, not more.
+> > >>
+> > >> Now, there is nothing wrong in making hugetlb be less special, by making it use
+> > >> more of core infrastructure etc.
+> > >>
+> > >> But optimizing for surplus hugetlb pages by teaching hugetlb about new caches
+> > >> and its custom free-page-reporting support rather looks like the wrong direction
+> > >> for me?
+> > >>
+> > >> --
+> > >> Cheers,
+> > >>
+> > >> David
+> > >
+> > >
+> > > It is currently bypassing free-page-reporting completely.
+> > > Making existing free lists not ignore free-page-reporting would
+> > > maybe considered "making it be less special"?
+> > >
 > 
-> > Op 07-07-2026 10:35 CEST schreef Pedro Falcato <pfalcato@suse.de>:
-> > 
-> > Ok so I genuinely don't see how users are supposed to use O_CREAT | O_DIRECTORY.
-> > Lets think about the portability here. This is undefined by POSIX (meaning you
-> > cannot rely on a O_CREAT | O_DIRECTORY having particular semantics). FreeBSD
-> > and NetBSD each have different semantics (my investigation stopped there
-> > ~3 years ago; I vaguely remember that macOS/Darwin does not/did not support
-> > O_DIRECTORY. I don't remember what's the deal with OpenBSD/Solaris/Illumos
-> > here).
-> > 
-> > So, essentially you can't rely on _any_ common behavior between platforms.
-> > Ok. Now, you may say "it's 2026 lol who cares about BSD". So lets look at Linux:
-> > - Linux for most of its lifetime had "return open directory, or create
-> >   a regular file".
-> > - It later had the above, with the added caveat that it always returned
-> >   ENOTDIR.
-> > - In 2023 I then found the bug and Christian changed it to always return
-> >   EINVAL on that combination.
-> > 
-> > Ok. So Linux had 3 behaviors and 2 of them do not make any kind of sense. But
-> > that's fine, we return EINVAL now. Except that the other behaviors existed.
-> > 
-> > So, lets say this feature lands as-is. If you're writing something *for Linux*,
-> > you have to contend with the previous *3 behaviors* for a grand total of 4
-> > behaviors. Including bizarre runtime tests, lest you are running on something
-> > pre-6.4 (system calls can be similarly problematic, but at least there its a
-> > simple ENOSYS test).
-> > 
+> You have this completely backwards.
 > 
-> But isn't this a problem with all UAPI design? You introduce a new feature that
-> does not exist on old kernels, then userspace can use that feature but must
-> provide fallback behaviors for any older kernel that the userspace program wants
-> to support. Ideally, this is abstracted away by some library. Then, at some point
-> this library raises its minimal supported kernel version bar, and it can clean-up
-> the now obsolete fallback code.
-
-Correct, but usually most new UAPIs have very simple checks:
-
-if (syscall(SYS_ponies) < 0 && errno == ENOSYS) {
-	fallback();
-}
-
-or
-
-if (ponies(NEW_FLAG) < 0 && errno == EINVAL) {
-	fallback();
-}
-
-(in fact, many system calls out there can even be silently emulated by the
-libc if need be; this one can't, but that's besides the point)
-
-My problem isn't with adding a new uapi, it's that the flag combination has
-so horrifically overloaded with weird semantics that it's pretty non-trivial
-to find out conclusively whether or not you have the feature, across the recent
-lifetime of Linux. I'm not even concerned with repurposing the flags because the
-old semantics were so obviously BS.
-
+> You're advocating making hugetlb _more special_ by duplicating functionality that
+> core mm already supports.
 > 
-> I am fairly positive for instance that libpathrs would like to use O_CREAT | O_DIRECTORY,
-> but it is not going to demand kernel > 7.x anytime soon.
-
-so it will handroll its own tests for the feature which may or may not be
-wrong.
-
+> I mean:
 > 
+> mm/hugetlb.c                                 | 590 ++++++++++++++++++-
 > 
-> > If you're writing something that wants to be portable, or that intends to
-> > standardize on something, you have some 5 different behaviors all across
-> > the FOSS UNIX landscape, not considering everything else. It's also something
-> > that will, FWIW, probably never be included in POSIX because no one can agree
-> > on the semantics here.
-> > 
+> Tells the whole story right?
 > 
-> I have no idea how POSIX standardizes things. Does a committee get together and
-> revisit old syscalls every now and then?
-
-In theory: System X thinks up a useful feature, systems Y, Z think it's
-useful and also implement it. Once there is some sort of consensus, it's
-added to POSIX. Remaining systems implement it.
-
-(this is how stuff like O_DIRECTORY and OFD locks landed from Linux to POSIX to
-every other UNIX-like)
-
+> The whole issue with hugetlb is the very fact that it's a parallel
+> implementation of a bunch of mm stuff in its own little world.
 > 
-> But yeah, I think POSIX compliance isn't something we are really doing anymore.
-
-The vast majority of the kernel is compliant, and a great portion of software
-uses mostly/only portable interfaces.
-
-> Afaik there's nothing in POSIX about openat2(2) either, and we definitely wish
-> people would move to that instead of keep relying on open(2) (or even better,
-> use libpathrs!)
-
-Hah, good luck! :)
-
+> We make it less special by mm/hugetlb.c smaller and smaller and implementing
+> what it does sanely elsewhere in _core mm_.
 > 
-> > TL;DR I don't see, given the reasons above, how users are supposed to use
-> > this without it being a total minefield.
-> > 
-> > If you're intent on the open() path, I would suggest that perhaps openat2()
-> > would be a nice alternative, although definitely not as beautiful as
-> > open(O_CREAT | O_DIRECTORY).
-> > 
+> >
+> > Depends. We don't really want an orthogonal implementation of something we have
+> > in core-mm.
 > 
-> Christian told me (somewhere on this list) that at LSFMMBPF all vfs maintainers
-> agreed on the O_CREAT | O_DIRECTORY direction. It allows to use all the neat
-> options from openat2(2) at the cost of a bit of multiplexing in lookup_open().
-> The question remains whether we also want the other things like mknodat_fd().
-
-
-FWIW, thinking about this a bit more, it's possible that openat2() could serve
-as a stricter check for the UAPI in open() in general. Making this less
-footgunny to use.
-
+> Yes, exactly.
 > 
-> > Just my 2c. And I feel horrible typing this out because you clearly spent
-> > a great amount of time and effort between v2 and v3 as you redid this :/
-> > 
+> Feature freeze means feature freeze, not 'feature that core mm doesn't support
+> feature freeze'.
 > 
-> It's been a lot of work, yes :)
+> Hugetlb is a poster child for poor decision making in mm that has left us
+> saddled with maintenance nightmares because we allowed 'just one more feature
+> in' (TM) with little to no thought to the future.
 > 
-> But luckily it has allowed me to study path resolution and the open()/mkdir()/etc.
-> syscalls in a fun and educative way.
+> And we've all learned from that and don't want to repeat these kinds of
+> mistakes, nor make existing mistakes worse.
+> 
+> And work to improve hugetlbfs and make changes like the above are VERY welcome
+> :)
 
-Yay!
+Fair enough.
 
--- 
-Pedro
+> Laying a foundation for hugetlbfs to be more of a sane mm citizen through rework
+> series is really the asking price for stuff like this in my opinion.
+
+Lorenzo, do you know *how* you want it reworked? Could you write it up
+at a high level?
+Because if not, it's not really practical to make it the asking price.
+
+
+> >
+> > --
+> > Cheers,
+> >
+> > David
+> 
+> Thanks, Lorenzo
+
