@@ -1,185 +1,143 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978B9331A5B
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 09:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D6632860B;
+	Tue,  7 Jul 2026 09:20:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783415286; cv=none; b=Rd+Yffv4eKpHUXKaOqC3mNNa4q4rARzQzscW3tAlLDxsDiMBB/ErnfGSdbULXt+TS6cEWK6u5KEQo/iDahIJ+J8B5iJ+pHCU2SCBTRyriuh66qLEl7881kF6nNZOKPwpCGOpTjuOeDJGxzkCn02SflKzYy6WnxgfGG9wlWutiTs=
+	t=1783416018; cv=none; b=DlvsU/4fzg4o75rmyevGNjLy/O8JTq1Ekisex8fbr3mP1vHzZn5y/0UQXJ6fYJecT3M+Sy99682l/FZk9edSjQvh/vWyGZ4TRs1fxGzJTMwzxfE8RawADLydJIbwo5r9lPnkYm3Z7h0I9nZWkbfpS0z6dhF8oZ/LIBTkH1Iy0u8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783415286; c=relaxed/simple;
-	bh=C0C4IH830hmQ7uGSsM1fQXuo43b8aFwf8//gFJZFkO8=;
+	s=arc-20240116; t=1783416018; c=relaxed/simple;
+	bh=XfW5DENqOA3L5d9hgUctKtHR0rM0RosCcOlLerb+5rI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p0vsFAnOM3lhFgNagpI+uAPwn4dw2KuoI3fKx5PS5pl8Syovs2L/LD3CxwkIjWoBX/qkRs1zKxCzOJWZrJGNDiNKWIIFtWudKpWu9CTeNNNBANI0Kz9K/ErZWMCfI4YXUaQGy+07wXb+GexSwpU9IVeDdh3LShZ5/JprIhVghGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0QmhPMcU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4+urEO7G; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=B0UgCNFj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0reR7q/r; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=U3KTMBbYKG+DyF9dgR9XYk5ij3qx4p5XVzDDFz3T84bx4EOqHlYJFExWQ3iNrpiecn3gYFVNAwHm+lu75t4NAJ8/iSlT2SAqdbTGISOTkTeYyF/f73Mg3REc3g5y1FRwe38sL3b3Hvt/CTZ6oDTj3wiF5CNe/sCzt3P7xuNgfkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ubv1xlhp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0QmhPMcU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4+urEO7G";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="B0UgCNFj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0reR7q/r"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DEBFF73F59;
-	Tue,  7 Jul 2026 09:08:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783415284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aHv4kahBeNrmd8/qDWoJFBecT8vqZhiAuIMjLHee1tY=;
-	b=0QmhPMcUlwUDUqtm6987poHzhjQ8wXsPRNp0+n13eKN3ld5nfEJgqx9qWJ0BO2OcvPyihX
-	Y5LZcYYUizapk2mYXJA2Noo30bt2T7tP0lLiSJJdfrwRsfq9FO1jV49favkoCXnL2k0e8g
-	52OmzxBlNN+PCDx+4Z//UQDjp03W0zw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783415284;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aHv4kahBeNrmd8/qDWoJFBecT8vqZhiAuIMjLHee1tY=;
-	b=4+urEO7GVf92z+DsHyXVZab1QdBA96SV/AA0Osw+aQt51NWZV2NXLRds473Iu1ASwtgwGI
-	yay7jI/HYfqk7DCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783415283; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aHv4kahBeNrmd8/qDWoJFBecT8vqZhiAuIMjLHee1tY=;
-	b=B0UgCNFjqqBLJx83yWDQjZgu5HLThcnZsNyKZs2umLaATtGQ2G6EvKRzMDn8C17Sq8DWVc
-	m6giXIX97v+3xoGls6zmGqh2aioRQdV+6LD0KU4hPkzZ4yRw5NRnIFunKM8sMsHBIWjhTB
-	LAE83bdJ0+M130kHjXQ4LTSK8gE+6Ys=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783415283;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aHv4kahBeNrmd8/qDWoJFBecT8vqZhiAuIMjLHee1tY=;
-	b=0reR7q/r1BjXy9ySDjT5PUxjfbC7i7JijwrJKygtr6MhGaL8F22+rXsYWeATnSPJH/xhI7
-	yq0sfLIvmjkR5iDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2F97D779AE;
-	Tue,  7 Jul 2026 09:08:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rPc4CPDBTGo6LAAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Tue, 07 Jul 2026 09:08:00 +0000
-Date: Tue, 7 Jul 2026 10:07:58 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: wangtao <tao.wangtao@honor.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
-	"will@kernel.org" <will@kernel.org>, "tglx@kernel.org" <tglx@kernel.org>, 
-	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
-	"willy@infradead.org" <willy@infradead.org>, "sj@kernel.org" <sj@kernel.org>, 
-	"kees@kernel.org" <kees@kernel.org>, "luizcap@redhat.com" <luizcap@redhat.com>, 
-	"zhangjiao2@cmss.chinamobile.com" <zhangjiao2@cmss.chinamobile.com>, "kas@kernel.org" <kas@kernel.org>, 
-	"ljs@kernel.org" <ljs@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, 
-	"liam@infradead.org" <liam@infradead.org>, "vbabka@kernel.org" <vbabka@kernel.org>, 
-	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>, 
-	"mhocko@suse.com" <mhocko@suse.com>, "jack@suse.cz" <jack@suse.cz>, 
-	"riel@surriel.com" <riel@surriel.com>, "harry@kernel.org" <harry@kernel.org>, 
-	"jannh@google.com" <jannh@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
-	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
-	"ziy@nvidia.com" <ziy@nvidia.com>, "baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>, 
-	"npache@redhat.com" <npache@redhat.com>, "ryan.roberts@arm.com" <ryan.roberts@arm.com>, 
-	"dev.jain@arm.com" <dev.jain@arm.com>, "baohua@kernel.org" <baohua@kernel.org>, 
-	"lance.yang@linux.dev" <lance.yang@linux.dev>, "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>, 
-	"chengming.zhou@linux.dev" <chengming.zhou@linux.dev>, "muchun.song@linux.dev" <muchun.song@linux.dev>, 
-	"baoquan.he@linux.dev" <baoquan.he@linux.dev>, "nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>, 
-	"matthew.brost@intel.com" <matthew.brost@intel.com>, "joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>, 
-	"rakie.kim@sk.com" <rakie.kim@sk.com>, "byungchul@sk.com" <byungchul@sk.com>, 
-	"gourry@gourry.net" <gourry@gourry.net>, "ying.huang@linux.alibaba.com" <ying.huang@linux.alibaba.com>, 
-	"apopple@nvidia.com" <apopple@nvidia.com>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	"damon@lists.linux.dev" <damon@lists.linux.dev>, "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>, 
-	"ryncsn@gmail.com" <ryncsn@gmail.com>, "jparsana@google.com" <jparsana@google.com>, 
-	"dvander@google.com" <dvander@google.com>, zhangji <zhangji1@honor.com>, 
-	wangzicheng <wangzicheng@honor.com>
-Subject: Re: [RFC PATCH v2 00/13] mm: rework anon_vma and remove
- anon_vma_chain
-Message-ID: <aky_oySdi6YhtJWW@pedro-suse.lan>
-References: <20260707063308.29176-1-tao.wangtao@honor.com>
- <08c001ab-320f-4676-830b-8e4ba6a05dee@kernel.org>
- <b00a03d62c53430ca22b3f3c5e5327b5@honor.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ubv1xlhp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 456D91F000E9;
+	Tue,  7 Jul 2026 09:20:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783416017;
+	bh=XfW5DENqOA3L5d9hgUctKtHR0rM0RosCcOlLerb+5rI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Ubv1xlhpcHWZLUuL6aG2ncV9JwQM74D/Key5E7JIQ4AiUqr7MaQSx4WMIv+7ilKWU
+	 /lACjXOA6DuS87yBG6c9VI4Tfvx9CB5N/BXTUSGlN8Qbe5GNhcwBgOosScD3Yllaqz
+	 LViD5QICoOwOa+CFRX0Xyq18HEyjoeD6uQi7qNUfk50gwGOh0uMzDAjIPHz58AgmY/
+	 SlIF0ZaPMfEyd9jQxbg7HI98TjfywUpMOQiKS2PCeeWmn0LPIYsjM9eOHBvHXZil95
+	 UmMPQuvMoimGh8eAhNsVgMrwp5fzisUstmUYs+D4lnDYnnXM76NE7vf+a0wQ/izBVm
+	 9lL2gxhxr/06Q==
+Date: Tue, 7 Jul 2026 10:20:04 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>, 
+	Greg KH <gregkh@linuxfoundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>, 
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	Jori Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, 
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Christian Brauner (Amutable)" <brauner@kernel.org>, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+Message-ID: <akzETpsps4TMfqpC@lucifer>
+References: <2114bb79bb5b6e5584a8236de3590e2f4bf0899f.camel@kernel.org>
+ <20260702161330.GH3534761@killaraus.ideasonboard.com>
+ <2026070227-payroll-eradicate-8f66@gregkh>
+ <16c507cea8f2873766e1de586d9a0d73234a3038.camel@kernel.org>
+ <akaWnQ5Pkg_676B-@lucifer>
+ <20260702211740.GA639365@zen.localdomain>
+ <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
+ <akez23ZhLRSGMFQ1@lucifer>
+ <20260703163251.GB3734786@killaraus.ideasonboard.com>
+ <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b00a03d62c53430ca22b3f3c5e5327b5@honor.com>
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_RCPT(0.00)[];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,pedro-suse.lan:mid];
-	RCPT_COUNT_GT_50(0.00)[60];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linux-foundation.org,arm.com,redhat.com,alien8.de,linux.intel.com,infradead.org,cmss.chinamobile.com,zytor.com,google.com,suse.com,suse.cz,surriel.com,ziepe.ca,nvidia.com,linux.alibaba.com,linux.dev,zte.com.cn,gmail.com,intel.com,sk.com,gourry.net,lists.infradead.org,vger.kernel.org,kvack.org,lists.linux.dev,honor.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,pedro-suse.lan:mid]
-X-Spam-Level: 
-X-Spam-Score: -2.80
+In-Reply-To: <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
 
-On Tue, Jul 07, 2026 at 08:21:24AM +0000, wangtao wrote:
-> > 
-> > On 7/7/26 08:32, tao wrote:
-> > > Hi all,
-> > >
-> > > Since v1 was relatively complex and difficult to extend, this version
-> > > adopts a simpler anon_vma implementation approach.
-> > 
-> > I really hate to repeat myself, but you seemed to have missed my main point
-> > [1]
-> > 
-> I saw it, and I’ve waited for a while as well.
+On Fri, Jul 03, 2026 at 08:22:20PM +0200, David Hildenbrand (Arm) wrote:
+> On 7/3/26 18:32, Laurent Pinchart wrote:
+> > On Fri, Jul 03, 2026 at 02:12:40PM +0100, Lorenzo Stoakes wrote:
+> >> On Fri, Jul 03, 2026 at 09:05:58AM +0200, David Hildenbrand (Arm) wrote:
+> >>
+> >> I personally think 1-2 are the only relevant cases.
+> >>
+> >>>
+> >>> Yes, I raised something similar as reply to Christian's RFC [1], where I said
+> >>> that for me the information *how* it was used is much more important:
+> >>>
+> >>> "
+> >>> Assisted-by: LLM # translate commit message
+> >>> Assisted-by: LLM # generate some test cases
+> >>> Assisted-by: LLM # cleanup logic
+> >>> Assisted-by: LLM # everything and I have no clue what any in here does
+> >>> "
+> >>
+> >> Yup, and we don't need complicated rules for that just 'document what you used
+> >> it for and give a sense of how much'.
+> >>
+> >> It's fuzzy but useful.
+> >>
+> >>>
+> >>> That tag is it stands is pretty useless, really.
+> >>
+> >> Not to go over it all again but I disagree, even as it stands, it allows us to
+> >> engage in conversation about the LLM usage if admitted, and to point those who
+> >> are misbehaving at the rules if not.
+> >>
+> >> And it is a clear way to get the boolean 'is this person saying they used an
+> >> LLM'.
+> >>
+> >> But I agree with you it'd be MUCH more useful if we did the above.
+> >>
+> >> I wonder if we could get consensus on adding a section to the doc saying that
+> >> it'd be _useful_ to add a comment explaining _what_ you did, and explaining the
+> >> concept with some examples?
+> >
+> > I'd support a patch that replaces
+> >
+> > Assisted-by: Claude:claude-3-opus coccinelle sparse
+> >
+> > with
+> >
+> > Assisted-by: LLM # generate some test cases
+> >
+> > and rewrites the Attribution section of
+> > Documentation/process/coding-assistants.rst accordingly.
+> >
+> > I think most people in this mail thread have expressed that how
+> > generative AI was used is the most important information, and several
+> > people (including myself) have expressed a desire to stop the free
+> > advertising. Unless I missed something, I don't think anyone has
+> > expressed an interest in keeping the agent name and model.
+>
+> Yes, that's something I would enjoy seeing. Who reading along has a problem with
+> that? (assuming that the tag must stay)
 
-what?
+I think the silence suggests nobody :)
 
-A good part of software engineering (and FOSS in general) is collaboration.
-People have their own work responsibilities & personal lives. If you had
-questions, you could've raised them on-list or directly to Lorenzo and
-could've helped him drive it forward (which he is, and he's posting careful
-precursor patches).
+What we could do is send a patch to simply add a section on adding a comment
+explaining _what_ used an LLM and strongly suggesting it would be helpful to do
+so.
 
-> 
-> If there are technical issues, please point them out directly.
-> Or is this simply how technical discussions are usually conducted in the Linux community or the mm subsystem?
+That should hopefully be uncontroversial, then later (or alongside that?) we
+could submit an RFC for making the language move to 'you MUST do this', as that
+will probably be the more controversial bit.
 
-There is no technical discussion to be had. Lorenzo is doing a large,
-careful rework of anon rmap (and rmap in general). You don't get to override
-his work because you decided to ignore the "community outreach and
-collaboration" step.
+I don't see any reason why we can't just send the softer version right away.
 
--- 
-Pedro
+>
+> --
+> Cheers,
+>
+> David
+
+Cheers, Lorenzo
