@@ -1,128 +1,145 @@
-Received: from mta20.hihonor.com (mta20.hihonor.com [81.70.206.69])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B7431A55E;
-	Tue,  7 Jul 2026 09:20:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.206.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CA92E2EEE;
+	Tue,  7 Jul 2026 09:25:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783416030; cv=none; b=DPNcpWg1CHumy8RXFHKs6sADRcnC+QIc3bQ9aFQjckG63kw0QgfhKI/WZj8FRJpYAhX5d4BWPVwR1Rsz0OwdnSTcAdYKaKj1+H2LBBo7blsBksbIxDVE8yWQyrcIvTkTUcxb8edaRz+qcJDGeLv/XjK7LlbCNftNoU7ovG6BB4k=
+	t=1783416337; cv=none; b=I2wGwsE6G7Asz0UjbvPD8bdRLyJ9aX7qHlawZtFDBrVkWZi/Pc3/AETdNQV3sPhnG0BQXpEnBfRQnLpzTp1IuBlqK2YiO81TTluNVXdHOdTPIiM77jImvyUXrHK8L9pE2z+RHs3A5kZ+K1F6YesXly+366OJGjmYsMGa+bUhO+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783416030; c=relaxed/simple;
-	bh=J25m0TwW8o74ZimHAzHNjY7M1tg1RLD5s4C8q+gek5s=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=b/MIndAZOaBQpjE3spEYUEUrxf7rDB3o850HItOtnY0BR+GND2xeqpsDIaZ86Zrhf6cv7ZsSvi/Q/ORcbtxzbMZvLx2LsaKlw6Ql6pgYEvhlyqehKt6wonIc4jqBR5VLIqF6zpNTNLApwmrxUEHpPfrEUM6gB94sILA20pnzJ5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.206.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
-Received: from TW002-1.hihonor.com (unknown [10.72.0.137])
-	by mta20.hihonor.com (SkyGuard) with ESMTPS id 4gvbL11GHLzYmBHn;
-	Tue,  7 Jul 2026 17:20:25 +0800 (CST)
-Received: from TA003.hihonor.com (10.72.0.43) by TW002-1.hihonor.com
- (10.72.0.137) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Tue, 7 Jul
- 2026 17:20:24 +0800
-Received: from TA003.hihonor.com (10.72.0.43) by TA003.hihonor.com
- (10.72.0.43) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Tue, 7 Jul
- 2026 17:20:24 +0800
-Received: from TA003.hihonor.com ([fe80::998f:47ec:980d:bdf1]) by
- TA003.hihonor.com ([fe80::998f:47ec:980d:bdf1%7]) with mapi id
- 15.02.2562.037; Tue, 7 Jul 2026 17:20:24 +0800
-From: wangtao <tao.wangtao@honor.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "catalin.marinas@arm.com"
-	<catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>,
-	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>,
-	"willy@infradead.org" <willy@infradead.org>, "sj@kernel.org" <sj@kernel.org>,
-	"kees@kernel.org" <kees@kernel.org>, "luizcap@redhat.com"
-	<luizcap@redhat.com>, "zhangjiao2@cmss.chinamobile.com"
-	<zhangjiao2@cmss.chinamobile.com>, "kas@kernel.org" <kas@kernel.org>,
-	"ljs@kernel.org" <ljs@kernel.org>
-CC: "hpa@zytor.com" <hpa@zytor.com>, "liam@infradead.org"
-	<liam@infradead.org>, "vbabka@kernel.org" <vbabka@kernel.org>,
-	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>,
-	"mhocko@suse.com" <mhocko@suse.com>, "jack@suse.cz" <jack@suse.cz>,
-	"riel@surriel.com" <riel@surriel.com>, "harry@kernel.org" <harry@kernel.org>,
-	"jannh@google.com" <jannh@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
-	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com"
-	<peterx@redhat.com>, "ziy@nvidia.com" <ziy@nvidia.com>,
-	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
-	"npache@redhat.com" <npache@redhat.com>, "ryan.roberts@arm.com"
-	<ryan.roberts@arm.com>, "dev.jain@arm.com" <dev.jain@arm.com>,
-	"baohua@kernel.org" <baohua@kernel.org>, "lance.yang@linux.dev"
-	<lance.yang@linux.dev>, "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>,
-	"chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
-	"muchun.song@linux.dev" <muchun.song@linux.dev>, "baoquan.he@linux.dev"
-	<baoquan.he@linux.dev>, "nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>,
-	"matthew.brost@intel.com" <matthew.brost@intel.com>,
-	"joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>, "rakie.kim@sk.com"
-	<rakie.kim@sk.com>, "byungchul@sk.com" <byungchul@sk.com>,
-	"gourry@gourry.net" <gourry@gourry.net>, "ying.huang@linux.alibaba.com"
-	<ying.huang@linux.alibaba.com>, "apopple@nvidia.com" <apopple@nvidia.com>,
-	"pfalcato@suse.de" <pfalcato@suse.de>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"damon@lists.linux.dev" <damon@lists.linux.dev>, "shakeel.butt@linux.dev"
-	<shakeel.butt@linux.dev>, "ryncsn@gmail.com" <ryncsn@gmail.com>,
-	"jparsana@google.com" <jparsana@google.com>, "dvander@google.com"
-	<dvander@google.com>, zhangji <zhangji1@honor.com>, wangzicheng
-	<wangzicheng@honor.com>
-Subject: RE: [RFC PATCH v2 00/13] mm: rework anon_vma and remove
- anon_vma_chain
-Thread-Topic: [RFC PATCH v2 00/13] mm: rework anon_vma and remove
- anon_vma_chain
-Thread-Index: AQHdDdtOKxyL+IwP/0+o3I4bi0Jgh7ZhGu0AgACbXoD//33xgIAAiIWw
-Date: Tue, 7 Jul 2026 09:20:24 +0000
-Message-ID: <f640c89d9722462098bf1b7a0a6854c2@honor.com>
-References: <20260707063308.29176-1-tao.wangtao@honor.com>
- <08c001ab-320f-4676-830b-8e4ba6a05dee@kernel.org>
- <b00a03d62c53430ca22b3f3c5e5327b5@honor.com>
- <0e8e5a28-1111-4b81-b04f-b81e749eb3dd@kernel.org>
-In-Reply-To: <0e8e5a28-1111-4b81-b04f-b81e749eb3dd@kernel.org>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1783416337; c=relaxed/simple;
+	bh=l8zBeiHHt9RNtbBVObyGS4iR7B3WMMT8bULwgsn2SAk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D7COoRVaCRtF/2y3F4422l8wbYBzy3KOY6CqAR3gU6NJP9DTdKeUmgunNgMZfYwfO9/SY5PdKkm/VETTFpSHFuWkl+pXfqUygxvwVwaZxeXFGrvk/p43x8YEzF4bTkJe2fKSGW9y2CxkOvMaYVbGvdUXYZxR35fB5tn4Qnt+9Rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lsdf7uUC; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lsdf7uUC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7BD71F000E9;
+	Tue,  7 Jul 2026 09:25:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783416336;
+	bh=/s6dQCG8Vq9qzFkSO18vHf5c+R2dhjuaEKt5KWL8DuA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lsdf7uUCABm3bz8vixwqLG3XO8rFvp2hj/PR3FvHClBF58wwlXutRul2MEEU6UJaU
+	 FiS6x4imxyW8nS+tPJksBN/rAo2IeIrNCc7syoSCjqfpFu6B3W6oAWvzeLDT0fSHek
+	 mBXkp436ZSLiSrOObWXIGAmhiPc6xYSHi6yNB2K/tFT+W8hD9JeOFSIq9MBChaA5JT
+	 16DPf7bf1pLs2tc6j/dQtwmK38PkMhdp/o+PygTNjPwwezQ8jOYP5+5jau1yVpo58J
+	 KbyZBjST0s+BqTD8/QIEfx95XBjaFJV18L0oCe55gByuhekcnEaMJer1OolosHzIOp
+	 L5i2OeAMPFThA==
+Date: Tue, 7 Jul 2026 11:25:30 +0200
+From: Carlos Maiolino <cem@kernel.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Dave Chinner <david@fromorbit.com>, 
+	Eric Sandeen <sandeen@redhat.com>, linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
+	Serge Hallyn <serge@hallyn.com>
+Subject: Re: [PATCH v3 2/5] capability: Add new capable_noaudit
+Message-ID: <akzF7UJj4xZqVpHO@nidhogg.toxiclabs.cc>
+References: <20260702093324.127450-1-cem@kernel.org>
+ <20260702093324.127450-5-cem@kernel.org>
+ <20260702155605.GE9392@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260702155605.GE9392@frogsfrogsfrogs>
 
-PiA+PiBPbiA3LzcvMjYgMDg6MzIsIHRhbyB3cm90ZToNCj4gPj4+IEhpIGFsbCwNCj4gPj4+DQo+
-ID4+PiBTaW5jZSB2MSB3YXMgcmVsYXRpdmVseSBjb21wbGV4IGFuZCBkaWZmaWN1bHQgdG8gZXh0
-ZW5kLCB0aGlzDQo+ID4+PiB2ZXJzaW9uIGFkb3B0cyBhIHNpbXBsZXIgYW5vbl92bWEgaW1wbGVt
-ZW50YXRpb24gYXBwcm9hY2guDQo+ID4+DQo+ID4+IEkgcmVhbGx5IGhhdGUgdG8gcmVwZWF0IG15
-c2VsZiwgYnV0IHlvdSBzZWVtZWQgdG8gaGF2ZSBtaXNzZWQgbXkgbWFpbg0KPiA+PiBwb2ludCBb
-MV0NCj4gPj4NCj4gPiBJIHNhdyBpdCwgYW5kIEnigJl2ZSB3YWl0ZWQgZm9yIGEgd2hpbGUgYXMg
-d2VsbC4NCj4gDQo+IEFwcGFyZW50bHkgeW91IHNhdyBpdCBidXQgeW91IGRpZG4ndCByZWFkIG15
-IHJlcGx5IGFib3V0IHNsYXBwaW5nIG1vcmUNCj4gY29tcGxleGl0eSBvbiBzb21ldGhpbmcgY29t
-cGxpY2F0ZWQuDQpUaGlzIHYyIGlzIGEgY29tcGxldGUgcmV3cml0ZSByZXBsYWNpbmcgdGhlIG9y
-aWdpbmFsIGFub25fdm1hIGFuZCBhbm9ueW1vdXMtcGFnZQ0KcmV2ZXJzZS1tYXBwaW5nIHRyYXZl
-cnNhbC4NCg0KVGhlIG5ldyBhbm9uX3ZtYSBoaWVyYXJjaHkgaXMgcmVwcmVzZW50ZWQgdXNpbmcg
-YSBzaW1wbGUgZG91Ymx5IGxpbmtlZCBsaXN0IHdpdGggZGVwdGggaW5mb3JtYXRpb24sDQpyZXBs
-YWNpbmcgdGhlIGNvbXBsZXggdG9wb2xvZ3kgb2YgcmVkLWJsYWNrIHRyZWVzIG1haW50YWluZWQg
-YnkgZWFjaCBhbm9uX3ZtYSBpbiB0aGUgb3JpZ2luYWwgZGVzaWduLA0KYW5kIGFsc28gcmVtb3Zp
-bmcgYW5vbl92bWFfY2hhaW4uDQoNCkV4Y2x1ZGluZyBwYXRjaCAxMSwgd2hpY2ggb3B0aW1pemVz
-IGxlYWYgVk1BIHJtYXAgd2l0aCBQVkwsIGFuZCBwYXRjaCAxMiwgd2hpY2ggb3B0aW1pemVzIG1l
-bW9yeQ0KdXNhZ2UgdGhyb3VnaCBzaGFyZWQgc2VtYXBob3JlcywgdGhlIGJhc2UgdmVyc2lvbiBj
-b250YWlucyByb3VnaGx5IDgwMCBsaW5lcyBvZiBjb2RlLCBpbmNsdWRpbmcgdGhlDQpjb21wYXRp
-YmlsaXR5IHBhcnQgcmVwbGFjaW5nIHRoZSBvcmlnaW5hbCBhbm9uX3ZtYSBpbXBsZW1lbnRhdGlv
-bi4NCg0KPiANCj4gIDEyIGZpbGVzIGNoYW5nZWQsIDEwNTYgaW5zZXJ0aW9ucygrKSwgNTQgZGVs
-ZXRpb25zKC0pDQo+IA0KPiA+DQo+ID4gSWYgdGhlcmUgYXJlIHRlY2huaWNhbCBpc3N1ZXMsIHBs
-ZWFzZSBwb2ludCB0aGVtIG91dCBkaXJlY3RseS4NCj4gPiBPciBpcyB0aGlzIHNpbXBseSBob3cg
-dGVjaG5pY2FsIGRpc2N1c3Npb25zIGFyZSB1c3VhbGx5IGNvbmR1Y3RlZCBpbiB0aGUNCj4gTGlu
-dXggY29tbXVuaXR5IG9yIHRoZSBtbSBzdWJzeXN0ZW0/DQo+IA0KPiBJIHN1Z2dlc3QgeW91IGdv
-IGJhY2sgYW5kIHJlYWQgbXkgZW1haWwuDQoNCkF0IGZpcnN0LCBJIHRob3VnaHQgSSB3YXMgdGhl
-IG9ubHkgb25lIHdobyBmb3VuZCBhbm9uX3ZtYSBoYXJkIHRvIHVuZGVyc3RhbmQuIEFmdGVyIHJl
-YWRpbmcgeW91ciBlYXJsaWVyIGVtYWlsLA0KSSByZWFsaXplZCB0aGF0IG1hbnkgcGVvcGxlIGFs
-c28gY29uc2lkZXIgaXQgZGlmZmljdWx0IHRvIGZvbGxvdy4gU28gSSB0cmllZCBhIGRpZmZlcmVu
-dCBhcHByb2FjaCBhbmQgaW1wbGVtZW50ZWQNCmFub25fdm1hIHJtYXAgdXNpbmcgYSBzaW1wbGVy
-IGRvdWJseSBsaW5rZWQgbGlzdCBwbHVzIGRlcHRoIG1lY2hhbmlzbS4NCg0KVGhhbmtzLA0KVGFv
-DQoNCj4gLS0NCj4gQ2hlZXJzLA0KPiANCj4gRGF2aWQNCg==
+On Thu, Jul 02, 2026 at 08:56:05AM -0700, Darrick J. Wong wrote:
+> On Thu, Jul 02, 2026 at 11:33:19AM +0200, cem@kernel.org wrote:
+> > From: Carlos Maiolino <cem@kernel.org>
+> > 
+> > In some situations (quota enforcement bypass in this case) we'd like to
+> > check for a specific capability without triggering spurious audit
+> > messages from security modules like selinux.
+> > 
+> > Add a new helper so we don't need to use ns_capable_noaudit() directly.
+> > 
+> > V3: remove the extern declaration
+> > 
+> > Signed-off-by: Carlos Maiolino <cmaiolino@redhat.com>
+> > Cc: Jan Kara <jack@suse.cz>
+> > Cc: Darrick J. Wong <djwong@kernel.org>
+> > Cc: Dave Chinner <david@fromorbit.com>
+> > Cc: Eric Sandeen <sandeen@redhat.com>
+> > Cc: Dr. Thomas Orgis" <thomas.orgis@uni-hamburg.de>
+> > Cc: linux-xfs@vger.kernel.org
+> > Cc: linux-fsdevel@vger.kernel.org
+> > Cc: linux-security-module@vger.kernel.org
+> > Cc: linux-kernel@vger.kernel.org
+> > Reviewed-by: Christoph Hellwig <hch@lst.de>
+> > Reviewed-by: Serge Hallyn <serge@hallyn.com>
+> > ---
+> >  include/linux/capability.h |  5 +++++
+> >  kernel/capability.c        | 17 +++++++++++++++++
+> >  2 files changed, 22 insertions(+)
+> > 
+> > diff --git a/include/linux/capability.h b/include/linux/capability.h
+> > index 37db92b3d6f8..f8532d92fcad 100644
+> > --- a/include/linux/capability.h
+> > +++ b/include/linux/capability.h
+> > @@ -145,6 +145,7 @@ extern bool has_capability_noaudit(struct task_struct *t, int cap);
+> >  extern bool has_ns_capability_noaudit(struct task_struct *t,
+> >  				      struct user_namespace *ns, int cap);
+> >  extern bool capable(int cap);
+> > +bool capable_noaudit(int cap);
+> >  extern bool ns_capable(struct user_namespace *ns, int cap);
+> >  extern bool ns_capable_noaudit(struct user_namespace *ns, int cap);
+> >  extern bool ns_capable_setid(struct user_namespace *ns, int cap);
+> > @@ -167,6 +168,10 @@ static inline bool capable(int cap)
+> >  {
+> >  	return true;
+> >  }
+> > +static inline bool capable_noaudit(int cap)
+> > +{
+> > +	return true;
+> > +}
+> >  static inline bool ns_capable(struct user_namespace *ns, int cap)
+> >  {
+> >  	return true;
+> > diff --git a/kernel/capability.c b/kernel/capability.c
+> > index 829f49ae07b9..2c2d1e8300bd 100644
+> > --- a/kernel/capability.c
+> > +++ b/kernel/capability.c
+> > @@ -416,6 +416,23 @@ bool capable(int cap)
+> >  	return ns_capable(&init_user_ns, cap);
+> >  }
+> >  EXPORT_SYMBOL(capable);
+> > +
+> > +/**
+> > + * capable_noaudit - Determine if the current task has a superior
+> > + * capability in effect (unaudited).
+> > + * @cap: The capability to be tested for
+> > + *
+> > + * This is the same as capable(), except it uses CAP_OPT_NOAUDIT as to prevent
+> > + * issuing spurious audit messages.
+> > + *
+> > + * This sets PF_SUPERPRIV on the task if the capability is available on the
+> > + * assumption that it's about to be used.
+> 
+> Same complaint about the documentation as last time:
+> https://lore.kernel.org/linux-fsdevel/20260626151656.GT6078@frogsfrogsfrogs/
+
+Right. I assumed "capability in effect" would suffice that, but I can
+add some extra comment here.
+
+> 
+> --D
+> 
+> > + */
+> > +bool capable_noaudit(int cap)
+> > +{
+> > +	return ns_capable_noaudit(&init_user_ns, cap);
+> > +}
+> > +EXPORT_SYMBOL(capable_noaudit);
+> >  #endif /* CONFIG_MULTIUSER */
+> >  
+> >  /**
+> > -- 
+> > 2.54.0
+> > 
+> > 
+> 
