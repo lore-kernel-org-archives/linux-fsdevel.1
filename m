@@ -1,116 +1,142 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33A727EC7C
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 03:46:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A5735898;
+	Tue,  7 Jul 2026 05:01:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783395978; cv=none; b=NyvgGANNr9wbymnBn3Ehi08KOrQtEz3Kgyx9w6SdAja8Lu/8BlLNTOrctfyn0bRgYe4PyAtlh2bjfVg1WX9t2xFbwVaeT14N1vCUd8xJIUki4a8a7RJlPH9/gAOsUUPIxBAENZv3cv0IejvMR8chOCUvLq6pTeUKYPEYL0gp0jQ=
+	t=1783400513; cv=none; b=Dhz/cOrtzWEx8FxAx1rRGooAh6fp0JjDhH8cjCxKAxN+cvpDESkUYd+HkHyCA2Wt2UGa4nH5LX2pAHEJrNRVruusP1dhGqCnTLq+yLntC04tMfs5ElSLHmajz5LWWwuZ2Rv8AjoWhywDsPrrZH9cwhMnC+YdvUWw+eDZLMb79hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783395978; c=relaxed/simple;
-	bh=3/wwhEu28nkdVTDD/T5U9vZxv0p8SIblnza4bO+PVno=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Rfu1w/VdgRQFtDpQD59/5qiFrDK4IZZu+qx55/4RTnpe3c2k92vn+Qn33ZEgPmWi43WU9VCqVObSPOSnvdOIFW1d+bCEEmsNkbWVUfjofiS4IRrjtG+yD2ESEpxjOmHv0WGMjTUAWlZs42i5hfQZBn0S17VkrCRdvKw2T67rK/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AUKUEzps; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AUKUEzps"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-84532e3dbf7so3873962b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 20:46:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783395976; x=1784000776; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jxoBHu26cugQjl6s+Ybwegp6gdyBHcQpjlaT1Gt5g40=;
-        b=AUKUEzpsiYBIVbLhgnYEGc7NA6UPhCae6ujSflNTHOYzY0/PHNsEKrGxgxcPqirj7f
-         5Cv/LyD1FYVnfZGCVLop9NZ97Uy/X4aStTFHH6u87R73YtVL7D7hiKlrzjyT9HquD4pD
-         3phbx9Jc+uXgTkhJZKqtvJocYo4V/3wzg7Si1O1NMWwhNiakkYeTbB80DmaYfrFG1stn
-         CQGImk6ShtFqSNYBetzTwcpXv+98v2NPydMB6M7khzr5UnAttaPfuQ6moZwguiFn754U
-         CNsKird+wfMskdthpj4Vl8rjD1AY9t7FIsdTMFDECMW6+ZhtEpFuPFLQc1DK/v8xmCNQ
-         l+3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783395976; x=1784000776;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jxoBHu26cugQjl6s+Ybwegp6gdyBHcQpjlaT1Gt5g40=;
-        b=cQN620DEUqFaoeNfcm+Av0eNWRGke7Mn3KelGoq2Es848iGJ2IaON2onGd5ULCAQeV
-         ve6OUV2h8yZH90CJ4hXrMn/AJbmYcwl0mQ/4oN18giWUzjXHDyITlcSYSyeYHmJLPXJY
-         LyC6YlkbOtE0dPfHiNQevnSr6i+x4kNpVzK+zfXfCA3/RJGsyWxQtLFSqS4mbm5Befqm
-         wbo9supUnwI0eGp1Ykw2B+LOudXTtz2gl+qbQIe0ij20J3bG1IDESn04+RunQEK5mKym
-         /tB/4CEpGXkoE7TwfAeBIY4VxueakVG6jp4UCUKPyHlU1hMgjm0NXI0lKS27tRDqVDNe
-         tapw==
-X-Forwarded-Encrypted: i=1; AHgh+RqQ/jgmCChQF0eMafRAo+mRD79crs7otBfSpA3j25O4VefjIBcsy7xKqMgecWss3P81H/dUtoNH/+beMImB@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWH133RDb12avi0u4uxcuJ3cFIvzS0JG+JywKNy72CFz5zQETv
-	6gDnHxIcYJsOSIzOW9rCCYuog2xmeMcaN9TafwhzZPHCjfwcY6yHhYvZ
-X-Gm-Gg: AfdE7cnG07Ibdk2mjmPXE0giEbF+OGe5YEtFshEUyBhNXkSFWL9nH1qeepbwzHhfBCN
-	zcRAznghmd9Q13yVmjfZ03UUNZZkB7DdSI0c2rHy/i5kY+Mh8ShIRrGSXDO6JC/vIB4/XJGgXIQ
-	tJTMsZ4uFRFeMpOZ9OLEZUmesjeApI93LVOmAiVQjR/h0s5zkqSzYj2zMaC1YWJmGH9DVgUIVsl
-	LCvrZWcRXzvi+lNkRtpzLRlUYqYTInmRVnfmsV0d4iCZUOY0FeyNTdfh+HhWlBRRt0SjU2rh1Zj
-	0Q646C8KSmtCm1hYOpdS5h4SSYo5Ymym6mP2YAcAsmCzLyDVfHvrwaw0YOO3DyTYKaYwUOZeeIJ
-	dIApN5P94epIpS1VNNqUC+kgTWwzDlqSXDRzXRwzB2x7ihzx4n46gWZnKq7+X3/8Cj6DexyuI24
-	vX47ZGEH+Z
-X-Received: by 2002:a05:6a00:951c:b0:848:2f7a:2e5d with SMTP id d2e1a72fcca58-8482f7a378cmr909241b3a.76.1783395975991;
-        Mon, 06 Jul 2026 20:46:15 -0700 (PDT)
-Received: from localhost ([218.76.62.144])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ca5af6e04fcsm306097a12.4.2026.07.06.20.46.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 20:46:15 -0700 (PDT)
-From: Qian Zuo <zuoqian113@gmail.com>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org
-Cc: gregkh@linuxfoundation.org,
-	oleg@redhat.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Qian Zuo <zuoqian113@gmail.com>
-Subject: [PATCH 6.6.y] coredump: fix pidfs file refcount leak in umh_coredump_setup
-Date: Tue,  7 Jul 2026 03:46:08 +0000
-Message-ID: <20260707034608.912-1-zuoqian113@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1783400513; c=relaxed/simple;
+	bh=7WX4PHBIySfrsuooDvN9lGBFokgvvnaQnBQpFTjQUVg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lmV2jA584QxtozlK55JgPSwaV0hkjg+rxdqesa3OHPj5VV5oT6RgwX8DZR7Mav71lWMNGZ6p9SEFeY35TqwfOrc0hJztbuCUlzHB8qSbb2nrNGcCHpdtYzdUOK+hhiKCJ8Fq4EBl+gEauL4rPXTw2HAx7QqBKZHRYOR1Z5NCmlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.198])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4gvTbT4SX1zYQth6;
+	Tue,  7 Jul 2026 13:01:41 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id 627A340584;
+	Tue,  7 Jul 2026 13:01:44 +0800 (CST)
+Received: from [10.174.178.253] (unknown [10.174.178.253])
+	by APP1 (Coremail) with UTF8SMTPSA id cCh0CgDH1nI2iExqgpJeAQ--.63493S3;
+	Tue, 07 Jul 2026 13:01:44 +0800 (CST)
+Message-ID: <247ecf85-5053-4d36-b34c-318e7096ca33@huaweicloud.com>
+Date: Tue, 7 Jul 2026 13:01:41 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/6] ext4: move partial block zeroing earlier in
+ ext4_zero_range()
+To: Zhang Yi <yi.zhang@huawei.com>, linux-ext4@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ tytso@mit.edu, adilger.kernel@dilger.ca, libaokun@linux.alibaba.com,
+ jack@suse.cz, ojaswin@linux.ibm.com, ritesh.list@gmail.com,
+ yizhang089@gmail.com, chengzhihao1@huawei.com, yangerkun@huawei.com,
+ yukuai@fnnas.com
+References: <20260707021338.1182268-1-yi.zhang@huawei.com>
+ <20260707021338.1182268-2-yi.zhang@huawei.com>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <20260707021338.1182268-2-yi.zhang@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:cCh0CgDH1nI2iExqgpJeAQ--.63493S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxXry7Jr18uryxur4Dtw4kXrb_yoW5Wryxpr
+	W3GF13KF4fWrWq9FWxKF1Yvr1rC3ZrGF48CryfKryjvF95XryxKF98KF1FgF4jqrZ7AF48
+	ZF4Yyry2gF15ZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
+	wI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
+	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IU1
+	7KsUUUUUU==
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-The backport of upstream commit b5325b2a270f introduced a reference
-count leak for pidfs_file.
+On 7/7/2026 10:13 AM, Zhang Yi wrote:
+> In ext4_zero_range(), move the ext4_zero_partial_blocks() call, which
+> handles unaligned edges, into the same branch where the unaligned range
+> is preallocated, immediately after ext4_alloc_file_blocks(). This is
+> safe because there is no dependency between partial block handling and
+> the subsequent full block handling.
+> 
+> This change will be used by later patches that handle unaligned
+> FALLOC_FL_WRITE_ZEROES operations, which will need to check the partial
+> zeroed result.
+> 
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> ---
+>  fs/ext4/extents.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
+> index 125f628e738a..27ca641e701b 100644
+> --- a/fs/ext4/extents.c
+> +++ b/fs/ext4/extents.c
+> @@ -4734,10 +4734,16 @@ static long ext4_zero_range(struct file *file, loff_t offset,
+>  	}
+>  
+>  	flags = EXT4_GET_BLOCKS_CREATE_UNWRIT_EXT;
+> -	/* Preallocate the range including the unaligned edges */
+> +	/*
+> +	 * Preallocate the range including the unaligned edges, and zero
+> +	 * out partial blocks if they already contain data.
+> +	 */
+>  	if (!IS_ALIGNED(offset | end, blocksize)) {
+>  		ret = ext4_alloc_file_blocks(file, offset, len, new_size,
+>  					     flags);
+> +		if (!ret)
+> +			ret = ext4_zero_partial_blocks(inode, offset, len,
+> +						       &partial_zeroed);
+>  		if (ret)
+>  			return ret;
 
-In the upstream implementation, pidfs_file is declared with
-__free(fput), which automatically drops the initial file reference when
-leaving the scope. During the backport, the code was rewritten to manage
-the file pointer manually, but after a successful replace_fd(),
-pidfs_file was simply cleared without dropping the initial reference.
+Sashiko pointed out below:
 
-As a result, the pidfs file keeps an extra reference and is never
-released after the usermode helper exits, leaving associated objects,
-such as struct pid, permanently allocated and triggering kmemleak
-reports.
+>Is it safe to modify these folios before calling
+>ext4_truncate_page_cache_block_range()?
 
-Fix this by explicitly calling fput(pidfs_file) after replace_fd().
+>Previously, ext4_zero_range() called ext4_truncate_page_cache_block_range()
+>first, which waits for writeback on the boundary folios via
+>truncate_pagecache_range() -> truncate_inode_pages_range() ->
+>truncate_inode_partial_folio().
 
-Fixes: cdb61a705f5f ("coredump: hand a pidfd to the usermode coredump helper")
-Signed-off-by: Qian Zuo <zuoqian113@gmail.com>
----
- fs/coredump.c | 1 +
- 1 file changed, 1 insertion(+)
+>By zeroing the partial blocks earlier, ext4_block_do_zero_range() might
+>acquire the folio lock and mutate the folio data while PG_writeback is still
+>set, potentially causing data corruption or checksum mismatches if the block
+>layer is actively DMA-ing it to disk.
 
-diff --git a/fs/coredump.c b/fs/coredump.c
-index d3a4f5dc2..2f1f66f42 100644
---- a/fs/coredump.c
-+++ b/fs/coredump.c
-@@ -560,6 +560,7 @@ static int umh_coredump_setup(struct subprocess_info *info, struct cred *new)
- 		if (err < 0)
- 			goto out_fail;
- 
-+		fput(pidfs_file);
- 		pidfs_file = NULL;
- 	}
- 
--- 
-2.43.0
+I think this issue is confined to stable devices. The proposed fix is
+to modify the fgf_flags passed to the folio lookup function in
+ext4_load_tail_bh() by setting them to FGP_WRITEBEGIN | FGP_ACCESSED.
+
+Thanks,
+Yi.
+
+>  	}
+> @@ -4770,10 +4776,6 @@ static long ext4_zero_range(struct file *file, loff_t offset,
+>  	if (IS_ALIGNED(offset | end, blocksize))
+>  		return ret;
+>  
+> -	/* Zero out partial block at the edges of the range */
+> -	ret = ext4_zero_partial_blocks(inode, offset, len, &partial_zeroed);
+> -	if (ret)
+> -		return ret;
+>  	if (((file->f_flags & O_SYNC) || IS_SYNC(inode)) && partial_zeroed) {
+>  		ret = filemap_write_and_wait_range(inode->i_mapping, offset,
+>  						   end - 1);
 
