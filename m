@@ -1,98 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411993DA5D9;
-	Tue,  7 Jul 2026 10:04:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429833DAC02
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 10:06:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783418664; cv=none; b=ha8GmqrEaMoyOzYPRBWv+z1lLGF1OSlAGAPbsJCiR/5h5PGlQfkxEIprb9Z/8MIGy+fhv7/pKUeQ6lp034jum4UK1h9YTNEQrA6HMNJygitXRXbYitb8JLT0EphujVxOa7tmSUku3x/l6SjqGEYn6Y9coMKoF97UBc5Yp3/qHa0=
+	t=1783418810; cv=none; b=RgMiMelrHBkqkrnw2VjOKN27+q0wHd/n21wWJB5iEo46fJQDqlqSVX9Z4ElsjsQheFYJ1SpoxoLgF8rsTPKgrKeP/DI52ZL4rN/xlcmpjK75zQ53qvGTrjWSiCkmr858NNk/wpEDE4CCdZFticKa2fvCkP9Og+51EcrUtZZD97U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783418664; c=relaxed/simple;
-	bh=PMagzmiCPMKaOFZX7o5788vQkF4JSrZpQYAOaUrCw1Y=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=DaJ+0l3i/lWR8FoJzDhxz0DLzdOYfyuFcFzmS4qN2xXzXYK+PiitC7+Gmr0hkyLEWkKqWJukUbwYS4NXE7Bp4a2eFyNyr7z0WRudAbYJl+ByOpCqaBd9lLNq3GU4DrOpQtwUPzNy1G42/gFZf3+Pb35AMzp7zftQJ6XiKRa1FO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jjqeKAzu; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783418810; c=relaxed/simple;
+	bh=D3rn0DtPYmuCF6e0GquOC9YrnF7/feVXEFfmrPrLxtA=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=CfwVeE8mPyUlm7v9/WneZ1yDU/EAp7+Mu6iqprXMGWIgAr+xb+r9nLeqIjayLo3V5QGkeZSpdxn9sj0XYXbd1fcSVvTDSYdCCmnf3VG5RFaFcvevUBx3Aiurf+xTwrPmI6istcs2ytb7oZ/HIw7W0q6YJd2kzYYw9r4pP41l8co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=VebXnUm3; arc=none smtp.client-ip=195.121.94.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jjqeKAzu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C61AF1F000E9;
-	Tue,  7 Jul 2026 10:04:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783418663;
-	bh=OFQdohNFbeLUZg63QqP9bpyGq18hvXGFTSyRwECPrjU=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=jjqeKAzuCio5rMUpO/3PgPrPqNiVaOdjK5jyW25lupYU4UA8dDHpx/zWqeiijLgxr
-	 sAh9fEGV6ysoiDlF2nQXg6FCEcl4h1Ljb8j8+ycn/TZILsH4ya77W98OcYk1yfTqNn
-	 uKeSLt7lqANi0+VgWpL2spekMgf3h9TabazvJdpR1Da85w6mAzIYKHLJDMufDooUJ5
-	 8JyDW+6HN8BZ8iYziUldOlfFcu2NFxeug98gNaL1VMwVwuVngJEP84L/O6Vr5Wa2CD
-	 4fWF6OUr1KVEFdjpNOvvX3y1GglTgfSWxuwg7eqYVA4T5EU3Av1RDCC4eaWuVHlNiS
-	 29UHDtSZa43xg==
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="VebXnUm3"
+X-KPN-MessageId: 8f451d7a-79eb-11f1-bfba-00505699b430
+Received: from mta.kpnmail.nl (unknown [10.31.161.188])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 8f451d7a-79eb-11f1-bfba-00505699b430;
+	Tue, 07 Jul 2026 12:06:45 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 8f43e2b7-79eb-11f1-9b0b-00505699693e;
+	Tue, 07 Jul 2026 12:06:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=in+iHQH9wOy6U46pyL9cAT+porItx3t0Z29fgwgfggY=;
+	b=VebXnUm3AB9qhjqXC5ty3ogulQdygqRwcMliwflr1DM/A8xvP97VL4UPYMiIybmAtxvmcQyZeQPL8
+	 Py7Bfd3DEIEqMbQXMEELzP49djUNO267OfT8moYQ7SenDhEqh9rwLUMfnIW6kVO6imC/U8TF7nqU2g
+	 mfeO9Rzey1GbsGWTWhp+H21ouyVss+E6awBNbWbvParFXijZ8nkPp1eqS3NAxuR/E/9NbsMuYQH8On
+	 RmgDEO/licqe/JJl1nyRdWhxgFmB1mcR2D/kjW6GiSSAJhTBb9zeKQmAvt8Q5TaqnYZiUrU2uRVUpd
+	 d4yPW7UXud28wFaYMChkLNnYP/2uKYQ==
+X-KPN-MID: 33|WCGtEvvHeqy3H296w34MMV1+9acNTr5DEAMa68zH8/MoDGhzDEhbZA4Qw7+2cMl
+ gNv48BHlg8bIYGMbydCeFk5TdBYjrfGUR0EjqwIXoNmE=
+X-CMASSUN: 33|DLWlW11503ggDpue8mwEjLIjnWukaXzI3rmmTFWfv9GzRGXGftGLT1Gq8/l6Fsx
+ Zr70Bdo5Npe1Sn1OEI6YofQ==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh06 (cpxoxapps-mh06.personalcloud.so.kpn.org [10.128.135.212])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 8f3566c7-79eb-11f1-8edb-00505699eff2;
+	Tue, 07 Jul 2026 12:06:45 +0200 (CEST)
+Date: Tue, 7 Jul 2026 12:06:44 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Pedro Falcato <pfalcato@suse.de>, Aleksa Sarai <aleksa@amutable.com>
+Cc: Jeff Layton <jlayton@kernel.org>, Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>, NeilBrown <neil@brown.name>,
+	Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-ID: <1464441345.181098.1783418805206@kpc.webmail.kpnmail.nl>
+In-Reply-To: <akyyqnv9EpY7xVdC@pedro-suse.lan>
+References: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
+ <20260704164149.3480051-10-jkoolstra@xs4all.nl>
+ <akyyqnv9EpY7xVdC@pedro-suse.lan>
+Subject: Re: [PATCH v3 09/14] vfs: add O_CREAT|O_DIRECTORY to open*(2)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v3 09/14] vfs: add O_CREAT|O_DIRECTORY to open*(2)
-From: Christian Brauner <brauner@kernel.org>
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Jeff Layton <jlayton@kernel.org>, 
- Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
- Aleksa Sarai <aleksa@amutable.com>, NeilBrown <neil@brown.name>, 
- Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <akyyqnv9EpY7xVdC@pedro-suse.lan>
-References: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
- <20260704164149.3480051-10-jkoolstra@xs4all.nl>
- <akyyqnv9EpY7xVdC@pedro-suse.lan>
-Date: Tue, 07 Jul 2026 12:04:18 +0200
-Message-Id: <20260707-vorteil-unhaltbar-apotheke-47bb105161ff@brauner>
-X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5318; i=brauner@kernel.org;
- h=from:subject:message-id; bh=PMagzmiCPMKaOFZX7o5788vQkF4JSrZpQYAOaUrCw1Y=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT5nFcxPePGaHkr6tXx7Hli7xXPN4WxlUiusKrcs4/5i
- 9Ne/cf5HaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABOp2sbwV+LU2ymRZ6fmvun/
- mlL3otsm536tsaDrzvcV8aEf5R3LLjEyTF7m2bI0cf5JP5+t/C+j5tR3CGy/HxCzJvBTq2V3zJd
- yXgA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+X-Priority: 3
+Importance: Normal
 
-On 2026-07-07 09:35:03+01:00, Pedro Falcato wrote:
-> Hi,
-> 
-> Sorry for comenting so late...
-> 
-> On Sat, Jul 04, 2026 at 06:41:43PM +0200, Jori Koolstra wrote:
-> 
-> > Currently there is no way to race-freely create and open a directory.
-> > For regular files we have open(O_CREAT) for creating a new file inode,
-> > and returning a pinning fd to it. The lack of such functionality for
-> > directories means that when populating a directory tree there's always
-> > a race involved: the inodes first need to be created, and then opened
-> > to adjust their permissions/ownership/labels/timestamps/acls/xattrs/...,
-> > but in the time window between the creation and the opening they might
-> > be replaced by something else.
-> > 
-> > Addressing this race without proper APIs is possible (by immediately
-> > fstat()ing what was opened, to verify that it has the right inode type),
-> > but difficult to get right. Hence, adding support for a new flag combo
-> > O_CREAT|O_DIRECTORY to open*(2) that creates a directory (if it does not
-> > exist already) and returns an O_DIRECTORY fd is very useful.
-> > 
-> > Historically, the O_CREAT|O_DIRECTORY behaviour was to return ENOTDIR if
-> > a regular file exists at the open path; EISDIR if a directory exists at
-> > the path; and to create a regular file if no file exists at the path.
-> > This behaviour changed accidentally with 973d4b73fbaf ("do_last(): rejoin
-> > the common path even earlier in FMODE_{OPENED,CREATED} case") causing
-> > ENOTDIR to return in the last case while still creating the file. As
-> > this change was not detected for a long time, Brauner proposed to adopt
-> > the more consistent NetBSD behaviour, i.e. to return EINVAL on the the
-> > O_CREAT|O_DIRECTORY combination. This change was applied in 43b450632676
-> > ("open: return EINVAL for O_DIRECTORY | O_CREAT") in March, 2023. As
-> > the EINVAL behaviour has been in the kernel for about 3 year now, no
-> > rollback is expected as a result of userspace reliance on old
-> > behaviour, leaving us free to reassign the O_CREAT|O_DIRECTORY semantics.
+Hi Pedro,
+
+> Op 07-07-2026 10:35 CEST schreef Pedro Falcato <pfalcato@suse.de>:
 > 
 > Ok so I genuinely don't see how users are supposed to use O_CREAT | O_DIRECTORY.
 > Lets think about the portability here. This is undefined by POSIX (meaning you
@@ -101,6 +78,7 @@ On 2026-07-07 09:35:03+01:00, Pedro Falcato wrote:
 > ~3 years ago; I vaguely remember that macOS/Darwin does not/did not support
 > O_DIRECTORY. I don't remember what's the deal with OpenBSD/Solaris/Illumos
 > here).
+> 
 > So, essentially you can't rely on _any_ common behavior between platforms.
 > Ok. Now, you may say "it's 2026 lol who cares about BSD". So lets look at Linux:
 > - Linux for most of its lifetime had "return open directory, or create
@@ -119,12 +97,33 @@ On 2026-07-07 09:35:03+01:00, Pedro Falcato wrote:
 > pre-6.4 (system calls can be similarly problematic, but at least there its a
 > simple ENOSYS test).
 > 
+
+But isn't this a problem with all UAPI design? You introduce a new feature that
+does not exist on old kernels, then userspace can use that feature but must
+provide fallback behaviors for any older kernel that the userspace program wants
+to support. Ideally, this is abstracted away by some library. Then, at some point
+this library raises its minimal supported kernel version bar, and it can clean-up
+the now obsolete fallback code.
+
+I am fairly positive for instance that libpathrs would like to use O_CREAT | O_DIRECTORY,
+but it is not going to demand kernel > 7.x anytime soon.
+
+
 > If you're writing something that wants to be portable, or that intends to
 > standardize on something, you have some 5 different behaviors all across
 > the FOSS UNIX landscape, not considering everything else. It's also something
 > that will, FWIW, probably never be included in POSIX because no one can agree
 > on the semantics here.
 > 
+
+I have no idea how POSIX standardizes things. Does a committee get together and
+revisit old syscalls every now and then?
+
+But yeah, I think POSIX compliance isn't something we are really doing anymore.
+Afaik there's nothing in POSIX about openat2(2) either, and we definitely wish
+people would move to that instead of keep relying on open(2) (or even better,
+use libpathrs!)
+
 > TL;DR I don't see, given the reasons above, how users are supposed to use
 > this without it being a total minefield.
 > 
@@ -132,27 +131,23 @@ On 2026-07-07 09:35:03+01:00, Pedro Falcato wrote:
 > would be a nice alternative, although definitely not as beautiful as
 > open(O_CREAT | O_DIRECTORY).
 > 
+
+Christian told me (somewhere on this list) that at LSFMMBPF all vfs maintainers
+agreed on the O_CREAT | O_DIRECTORY direction. It allows to use all the neat
+options from openat2(2) at the cost of a bit of multiplexing in lookup_open().
+The question remains whether we also want the other things like mknodat_fd().
+
 > Just my 2c. And I feel horrible typing this out because you clearly spent
 > a great amount of time and effort between v2 and v3 as you redid this :/
+> 
 
-I don't think any of this is really an argument worth considering.
+It's been a lot of work, yes :)
 
-This is a lot of handwaving for the sake of portability and concerns
-about past API mistakes. To both: so what. If an API is useful it's
-useful, POSIX be damned. We're not going to be fenced in by some
-standard.
+But luckily it has allowed me to study path resolution and the open()/mkdir()/etc.
+syscalls in a fun and educative way.
 
-90% of our interfaces blow way past POSIX already - in most subsystems.
-If we'd back down ever time someone shows up with "what about POSIX"
-Linux would be irrelevant.
+> -- 
+> Pedro
 
-It's been years since O_DIRECTORY | O_CREAT has been made consistent
-which means all LTS kernels have consistent behavior. We often make flag
-combinations work that didn't work or where inconsisent before. Nothing
-here is special at all.
-
-I appreciate the concern but even if this were to fall flat then
-worst-case we'd add a new flag and we'd still make that work. But I see
-no reason to not try the semantically obvious thing and make
-O_DIRECTORY | O_CREAT work.
-
+Best,
+Jori.
