@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A765357D10
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 11:26:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271C2264FBD;
+	Tue,  7 Jul 2026 11:34:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783423619; cv=none; b=Sz3etHJn6F/sW/iVS36PpwtywXDMM/a5wXQKsorsLprc6uhRpzF58EJJ3NQ9ARF3hC1JfC0rUgh9ZCRys5WVtsb56vgAF6BlxhhoBGpGg41P5tROf/kXvXz7VjeX+/IKIUvzFvazOBr39P1Mb5VlV8aHQ3nyO/tRwq386kqngCs=
+	t=1783424092; cv=none; b=eEEStXzlhuUynMEwVfbk7hKPyqCpLJjATHFHMyKzDH4OzOp8xuiMqY0Cl8cIzpNZis3uTi/N67spt5gSP8Ig5mO5XlxwNe0etEMYJ7XenLZdA5bXrrluWb0kwgvyJ44swY5O8T062qWONTSfjA9cuvLQzVgVk2nEXuwj5x/YgCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783423619; c=relaxed/simple;
-	bh=0hG5KmJW7gTj64FLw23Xmo1PpbEoDq4btppErXGHpDw=;
+	s=arc-20240116; t=1783424092; c=relaxed/simple;
+	bh=zBPUW+WQ/GjuRupYdwz/7FHmp89KGxrLyUS9t0y2NyU=;
 	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=niT8DT3nupe/UV0EMG4GdekoHOe3VrvjpAK1tKu/TzfpfhasnZwF/YSinOqLi5KOCOAGMiu+ipUQeTn9yycNDLFTdg5+fuVVJf1xPr1bBvKmRL2YlWWoPuPOHN8DLEsPtFIO54lq7OTb4rUIoF2z52hVovoufb8br787beFH0PU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d3zC9plk; arc=none smtp.client-ip=100.103.45.18
+	 References:Date:Message-Id; b=si+YwiR8P42BiX8Fa9XFtIneVgTbq3tdEWjrbRnlUJKmt+03BN81b0F2DlLsmwbQn9bFLzIVQ7rJVcnnnvUFQiLjvx6Zt8WVOerdIp0fcs/6ckpCp0M1HzFYAX+oG3iCCcsq+6CPeSiZvrPmcN1ZyF0P3DmCZrRVoqxn79A5yv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KxElatQY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d3zC9plk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82A841F000E9;
-	Tue,  7 Jul 2026 11:26:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KxElatQY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 386571F000E9;
+	Tue,  7 Jul 2026 11:34:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783423617;
-	bh=Q1xAiFCwUpSQ4gYCqn7Qy1LgkfQCD8xtZPeH/VFu1Vk=;
+	s=k20260515; t=1783424090;
+	bh=xD7a/PykFMk76eX8/Vohs5LQ/Ovej1+QHxfa9aUv6iI=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=d3zC9plkBKqJ1vh7qQmhmqe+cDBL1CKeDxmQZs3A16LWjhUp1SEmgd2ksrNTyLd81
-	 Qo9EVNbO5gd8jNpxdkFqsyFDsEhLvYjuaScjJnW6JLzsas8x96nFkhJoTn8BFbKE4a
-	 i+mGRF85oVgAv3LQkrZ065hSGP6qP+QZ/6yxYvqa0H0lbpHXRcXiEoyUIT5bjvOYbm
-	 EaRLHgh0v+Fs36FTcXXNMAAsy+s50SV9913Nn98HIWEthtyYwftiYUQf9zT0JQmc39
-	 v07AlRGtOGsmgDYkjVCcDDRyDKi7WO/Q7uxXM+jhwDC8ghzdbXT7/A5FBjN9gmZq9W
-	 kFpGOZo3Fpsow==
+	b=KxElatQYxv1NDV7ZRp28MI4mwxdFDntYF6Wepqb+KQ0fCpXULtGhYLd1ZwhCpwE5t
+	 smUsPY7tDXC1bPg67nofX7s8Zo74QTynRz1eShZn35qt2duFR5eYxL6JmgjGjMtXhv
+	 zsMPeiuJAJi1POB0mFeQRQynkJe56KdkvaxghcaRLcFsNZOHNBnnXqmO+380NF0w0z
+	 MlrXBWM5TER/rH5e6S4PzGWlxXoSKiQnmgXK3blzKFGetTn5VZlGGnH0Pn7GRKNSOk
+	 Dxpmkz2e1ZSjzv43OudYSdCbrS5nXC1YDfyJVuKikpnW7HN1XZIx/uCusz4ZEFkQzD
+	 boLajUpNZhiiw==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -33,154 +33,74 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v2 3/3] VFS: add vfs_lookup_open() for nfsd
+Content-Transfer-Encoding: 8bit
+Subject: Re: [RFC PATCH] fs: binfmt_misc: introduce eBPF-based matching and
+ interpreter selection
 From: Christian Brauner <brauner@kernel.org>
-To: NeilBrown <neil@brown.name>
-Cc: Christian Brauner <brauner@kernel.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- linux-fsdevel@vger.kernel.org, Jori Koolstra <jkoolstra@xs4all.nl>
-In-Reply-To: <178337717986.27465.590457544263750759@noble.neil.brown.name>
-References: <20260705235447.1322365-1-neilb@ownmail.net>
- <20260705235447.1322365-4-neilb@ownmail.net>
- <20260706-steril-fragil-worunter-f48995ef1b29@brauner>
- <178337717986.27465.590457544263750759@noble.neil.brown.name>
-Date: Tue, 07 Jul 2026 13:26:54 +0200
-Message-Id: <20260707-efeubewachsen-sukzessiv-innig-290e94d05ca8@brauner>
+To: Farid Zakaria <farid.m.zakaria@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, david.laight.linux@gmail.com, 
+ jack@suse.cz, jannh@google.com, kees@kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org, mail@johnericson.me, 
+ shuah@kernel.org, viro@zeniv.linux.org.uk, Gemini <assistant@google.com>
+In-Reply-To: <CACCo2jm5=xrQNfak=TdO=2oh0DC5pe+atj=UfuTa8Y9s8GVkqg@mail.gmail.com>
+References: <20260704-kochkunst-hauswand-blass-7226e9443a9f@brauner>
+ <20260704211409.1978485-1-farid.m.zakaria@gmail.com>
+ <20260706-uhren-raubbau-sinnkrise-e40a8337414b@brauner>
+ <CACCo2jm5=xrQNfak=TdO=2oh0DC5pe+atj=UfuTa8Y9s8GVkqg@mail.gmail.com>
+Date: Tue, 07 Jul 2026 13:34:46 +0200
+Message-Id: <20260707-campieren-fingen-himbeeren-e4b682bd8e63@brauner>
 X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4638; i=brauner@kernel.org;
- h=from:subject:message-id; bh=0hG5KmJW7gTj64FLw23Xmo1PpbEoDq4btppErXGHpDw=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT5PGroqGn84pT7qkRXsrdVujukmrFIttm5aj8DQwnjG
- +bll+I6SlkYxLgYZMUUWRzaTcLllvNUbDbK1ICZw8oEMoSBi1MAJtKuyPC/rN9gx7mHf75eZD35
- 91n3E0neKYa7jhUsubfltf3Pe2yVigz/bE6aXVvlc8z+oZZrUm9uUZ5JyAw3tVcTfv5ZVG/w9YI
- 3KwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1976; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=zBPUW+WQ/GjuRupYdwz/7FHmp89KGxrLyUS9t0y2NyU=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT5PAm/Ib/tm2Wn+4vyDv75We5Ws38unHZes8Mkw9zG6
+ JnkzP62jlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIm8/cnIcGRNwrINtdMr/8eX
+ hyzkbDET+dxxbnX9Zz5vrp1LRfL2rWT4Z7Dz3jdV9ijN8xOEfghc5k3QOpNw8bz073THWa7T38i
+ asgAA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 2026-07-07 08:32 +1000, NeilBrown wrote:
-> On Mon, 06 Jul 2026, Christian Brauner wrote:
-> > > vfs_lookup_open() is a limited version of lookup_open() which is
-> > > exported for nfsd to use - to replace dentry_create().
-> > > 
-> > > It is limited in that no filename is given (thus no auditing) and no
-> > > LOOKUP_ flags are passed.  A few "intent" LOOKUP flags are deduced from
-> > > the open flags.
-> > > 
-> > > If a non-regular file is found, an O_PATH file is returned.  This allows
-> > > the caller to see what was found and to return an appropriate error
-> > > code.  However if ->atomic_open was used, it may return an error rather
-> > > then provide a dentry.
-> > > 
-> > > Signed-off-by: NeilBrown <neil@brown.name>
-> > >
-> > > diff --git a/fs/namei.c b/fs/namei.c
-> > > index 1ca738401afa..002ffae7083d 100644
-> > > --- a/fs/namei.c
-> > > +++ b/fs/namei.c
-> > > @@ -4568,6 +4568,76 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
-> > >  	goto out;
-> > >  }
-> > >  
-> > > +/**
-> > > + * vfs_lookup_open - open and possibly create a regular file
-> > > + * @parent: directory to contain file
-> > > + * @last: final component of file name
-> > > + * @open_flag: O_flags
-> > > + * @mode: initial permissions for file
-> > > + *
-> > > + * Open a file after lookup and/or create.  This provides similar
-> > > + * functionality open_last_lookups() for in-kernel users, particularly
-> > > + * nfsd.
-> > > + * It uses ->atomic_open or ->lookup / ->create / ->open as appropriate.
-> > > + *
-> > > + * Returns: the opened struct file, or an error.
-> > > + *     Caller should check that the file opened is regular,
-> > > + *     if something else was found, an O_PATH file is provided.
-> > > + *     Caller should validate FMODE_CREATED if O_EXCL was requested.
-> > > + */
-> > > +struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
-> > > +			     int open_flag, umode_t mode)
-> > > +{
-> > > +	struct file *file __free(fput) = NULL;
-> > > +	struct nameidata nd = {};
-> > > +	struct open_flags op = {};
-> > > +	struct dentry *dentry;
-> > > +	int error = 0;
-> > > +
-> > > +	WARN_ONCE(mode & !S_IALLUGO, "mode must only have permission bits");
-> > > +	error = lookup_noperm_common(last, parent->dentry);
-> > > +	if (error)
-> > > +		return ERR_PTR(error);
-> > > +
-> > > +	file = alloc_empty_file(open_flag, current_cred());
-> > > +	if (IS_ERR(file))
-> > > +		return file;
-> > > +
-> > > +	nd.path = *parent;
-> > > +	nd.last = *last;
-> > > +	nd.flags = LOOKUP_OPEN;
-> > > +	if (open_flag & O_CREAT) {
-> > > +		nd.flags |= LOOKUP_CREATE;
-> > > +		if (open_flag & O_EXCL)
-> > > +			nd.flags |= LOOKUP_EXCL;
-> > > +	}
-> > > +	op.open_flag = open_flag;
-> > > +	op.mode = S_IFREG | mode;
-> > > +	dentry = lookup_open(&nd, file, &op);
-> > > +
-> > > +	if (IS_ERR(dentry))
-> > > +		return ERR_CAST(dentry);
-> > > +
-> > > +	if (d_really_is_negative(dentry)) {
-> > > +		error = -ENOENT;
-> > > +	} else if (!(file->f_mode & FMODE_OPENED)) {
-> > > +		nd.path.dentry = dentry;
-> > > +		if (!d_is_reg(dentry))
-> > > +			/*
-> > > +			 * allow caller to see dentry and choose
-> > > +			 * correct error code
-> > > +			 */
-> > > +			file->f_flags |= O_PATH;
-> > > +		error = vfs_open(&nd.path, file);
-> > 
-> > Imho, that really throws a wrench into this function. I'd rather just
-> > fail with well-known error codes in that case:
-> > 
-> > /* directory */ -> EISDIR
-> > /* device */    -> ENODEV
+On 2026-07-06 09:47:53-07:00, Farid Zakaria wrote:
+> On Mon, Jul 6, 2026 at 9:01 AM Christian Brauner <brauner@kernel.org> wrote:
 > 
-> What if the dentry is a symlink?  May ELOOP could be used?
+> > Ignoring the blatant bpf abuse here I think this is quite workable. So
+> > this can be turned into an actual design and patch imho...
+> 
+> Glad to see you think this proposal is in the right direction.
+> Just for my edification, when you say "balatant bpf abuse", you mean
+> how it abuses the socket bpf type?
+> If so, do you have any guidance on a new type or should I just take a
+> stab at it.
+> 
+> For the proper RFC patch unbastardized with tests, should I start a
+> new thread or is
+> the convention to keep attaching it to this same thread?
 
-Sure.
+Always start a new thread and bump the version number. So we're at v3
+now, if I'm counting correctly.
 
-> > 
-> > Also, why does the caller need to know details here? Because of the
-> > O_DIRECTORY work? But even so, EFTYPE would be enough afaict, I think?
-> 
-> fs/nfsd/nfs4proc.c:
-> 
-> 
-> 	if (S_ISREG(mode))
-> 		return nfs_ok;
-> 	if (S_ISDIR(mode))
-> 		return nfserr_isdir;
-> 	if (S_ISLNK(mode))
-> 		return nfserr_symlink;
-> 
-> 	/* RFC 7530 - 16.16.6 */
-> 	if (minor_version == 0)
-> 		return nfserr_symlink;
-> 	else
-> 		return nfserr_wrong_type;
-> 
-> The spec requires specific errors which are different between versions
-> and S_ISLNK seemed problematic.  I thought that keeping the VFS
-> completely out of that issue seemed best: simply return the dentry found
-> and let the caller handle it.  But if you are OK with ELOOP for symlinks
-> (and EFTYPE for sockets and named pipes), or can suggest an alternate
-> error code, I'm happy to work with that.
+Fwiw, if you have access to an LLM you can try and setup b4 to manage
+patch series. It's quite easy once you get the hang of it.
 
-I think ELOOP and EFTYPE is fine. I just don't really like that we open
-something that is of the wrong type - even with O_PATH. That seems ripe
-for accidental bugs imho.
+> > Note that binfmt_misc is namespaced and can be mounted inside of user
+> > namespace + mount namespaces fwiw. So a container mounting binfmt_misc
+> > (a fresh instance - few do) would escape that bpf program. On the other
+> > hand it would allow to register a custom bpf program per container if
+> > needed...
+> 
+> That makes sense -- but you will need CAP_BPF etc.. to load the new
+> programs though
+> if inside a userns.
+
+Right, bpf tokens exist to delegate bpf access to containers. Not always
+ideal but it works for such cases. My main point was to communicate that
+containers are able to disconnect themselves from being able to execute
+binaries by mounting an empty binfmt_misc instance, iirc. I should
+remember that as I did that work but I kinda don't exactly. :)
+
+In any case, I think it wouldn't be crazy to allow registering "default"
+handlers that appear in all binfmt_misc instances if needed so
+containers with separate binfmt_misc always have the bpf program
+available. Just thinking out loud...
+
 
