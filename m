@@ -1,238 +1,212 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1B0374A0C
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 19:32:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A769238D27;
+	Tue,  7 Jul 2026 19:37:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783452771; cv=none; b=NxmGei3gwE65PhhG18gPbio5vAgYLYpdSgwWpqOiHwyfBfmOxcEhw1gp9rDfnAF2iJUebfe2mCnzrStgw31SYgiSqKZBX2mBgJb9vC/a0Z68YncIuI6ZEJaIS3+a0l7KVICKpR6lM3V19kh1smIiZ9HWUo++Z05+OYaYufWmNvw=
+	t=1783453028; cv=none; b=nJF0fNjSJBNd8Dca9nibeTXkibiXQl1jdNKM9dq9J0PuScVtb1r9u0T29VxqyWbTsxWCCGLBkqLWLRg2QSgLN1FpC0UEWx0nVPVNwDFsHoR3dSqT2xtHP6hHXZMCEvyUPJlnc+He5uPjgyXnikUNVdlQZqe49t/T4zfYV68o2GE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783452771; c=relaxed/simple;
-	bh=GCFa/EGRir/SGPnCH71IKTYnXPPpRa9/eIZJUWju1Lo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tzGNKf8SKEpSGBP6PktAYA5lax68O8ezCbM1G9Jx8RXn+w3i/bv6HfEWKJu3xoGecvr1vT3Hhu+uylMHr+cDScSZZoI6OQ0V4Mx0pnfg2UiQV4TgLCUwh9XknEGTJBvQz2TIz215LCzUiGshb82KbJsJyuDfSk2m98W+h4K1G48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=c5ElvzbZ; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=AQ1FRqSK; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1783453028; c=relaxed/simple;
+	bh=yKu5qj7eKjA1JXXIoGTmnPEVv3FdKvaF/LpZwd0PtMw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=u2Z6M54eMeCQU6Dj/7XkPX4uTtsbQyKPP9F9tZDVEN10JnU+1iG7OwValiZNhc97PwIw2Fg3E3YK/W8C1P0Gn7175xohFm6MSla8oAWd0XJj6xGzOFVy8Kn7AXez5RWuMMyT9EVIx/QFNIXDMafCDzRdZhz2wXHRVJvKyG9lbAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IaMgFmqU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c5ElvzbZ";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="AQ1FRqSK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783452768;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UXZp/HypJus1dyeVVJpONiQNeq38HK6Hd4EzEcMoqME=;
-	b=c5ElvzbZGmQpwIrD8qJVocWYiss+MOuUsGfvH8r6wsSdJQISPZBelx+BBG4lYhUFGCxi2r
-	/ZVIYDhDuxxmQ5GwY3dU4kQKaJGRMoTVRiCg9XfonVXrFqTdMUr6SIxxI4Gu9EUPBt7oTe
-	8YQX/qqYVLbMtHkP7AGJTl0pOYVWd18=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-648-nvvPnqggP2qW_Iw--NuPyA-1; Tue, 07 Jul 2026 15:32:47 -0400
-X-MC-Unique: nvvPnqggP2qW_Iw--NuPyA-1
-X-Mimecast-MFC-AGG-ID: nvvPnqggP2qW_Iw--NuPyA_1783452766
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-493bc2b376fso24507645e9.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 12:32:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1783452766; x=1784057566; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UXZp/HypJus1dyeVVJpONiQNeq38HK6Hd4EzEcMoqME=;
-        b=AQ1FRqSKa2B9e7zIne6csKjJqyizEzEiMAIgUee+K9YpsINytm0ixC8OA6Z91E6eXo
-         Acd8bdJbbaHtrPiDjWLNcbjHGhMk35bbLG2wKgFB5StAqlvSrAze5Vd/ljLbCZq9+eZ+
-         nj8P+hi8NWOvHA0aYesHc4Hh7CgiAO4E0vV8OUWKY51zbUnSfQItRq7nl8IASAFRx1BV
-         NLRseMT/nIf4hf/4N7FH0NfsLllKzJEch6vjGpA16lvYbjEiyRfqtJhlN6LULa/HVBQX
-         8P03iXBxTq20gWzPiEeJrhjFbaJS7IEYOUJXUMGAGL3wZicR0oAX9ugbZ/fVdDyXRvUs
-         a9qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783452766; x=1784057566;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=UXZp/HypJus1dyeVVJpONiQNeq38HK6Hd4EzEcMoqME=;
-        b=aKsZPEBNMQ+NVo+UZQ3Bcf3nfMocV758F7WcEHzh61qnRdNCQ9DBdCtEeI/axuTyao
-         zJE6bfVS1SMcFSDDGNtu8ETjpwyr5Bx04ACkdcC4Yw6COynf+m0S7p4OaguFJBaVnZO9
-         aUfk5tLqgGO7hYV4mZVN3d1iB660S27ylBxRrWU6XEh39G3r00TviRuTB35WjPwTVlId
-         WASpqKwcAnzjMPJrO2I9Td/ZAZuFceDp9qm7qXKbsh8ett7B1rweJz6IMXskpycrvcNQ
-         wdWW5qUr0nNgVdLoknB20mbCO1IlhMdOhWEHTUVMieXN2z8kt4fKGOJAUR88wjcRbOqz
-         VVJA==
-X-Forwarded-Encrypted: i=1; AHgh+Rr1OjCZzX635fu9wme7wqhu/Ct0J6ybW7ZuLkXSBX0mgBHBMi7b+cm715q5aTFufTvwlO7FpX7v46uSn3J1@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQeejjLBu1pAZTi+e0RY46X77WMuYGd9ffAIRCswqySMdx8l3u
-	ThXTARhwtpFTNHAXsGEucUs7K7OS1tPBkX89tO1IH1yvAm0dWnYmygLRmlnveV2kvlLCb8eePMM
-	wCM1SEjNv1wiGWUCeuB09KnjFEQH4Kislu1JAPKXStx85EPY4Vh4JrSv92MJZ8T4mnqo=
-X-Gm-Gg: AfdE7cmLjHIcjH8Lh8M2BtuthVZJci/w/j0PV30E+1okIpYw6csXxjOVSn8XTDzw/kc
-	Is48lI/UjTuuz+imujIvtMhU4wb+ZeU6HEfJhE/W7A0pk2dmQhw/THa/a4rWSJpb8SLRBbq0IXM
-	2io6w2AphofGc0NzzbkzELCoEDFoSj2ZSjTJ7HYGxZhCJJjHoBN5K7YZHCXFAN2KaElfx+zDEii
-	L4dWxijU5H3dVLafM3l8hQPkY8OVJaigOTTR9Uu5AxwK5FCwNsNpyiT8Bmssh59gz9GInI8OXB8
-	6eHa18VBOlMaC4Yp88kGznWWCm/FUYBrzjnxwyWIMo+l3bl+VjhTrlp4Jc3v/QaeHesGdla0N5e
-	GMNhIsmIbeeWtJV6foxczQE60Bxm3JSds
-X-Received: by 2002:a05:600c:8286:b0:493:c412:b806 with SMTP id 5b1f17b1804b1-493df04241amr74640015e9.0.1783452766064;
-        Tue, 07 Jul 2026 12:32:46 -0700 (PDT)
-X-Received: by 2002:a05:600c:8286:b0:493:c412:b806 with SMTP id 5b1f17b1804b1-493df04241amr74639615e9.0.1783452765524;
-        Tue, 07 Jul 2026 12:32:45 -0700 (PDT)
-Received: from redhat.com (IGLD-80-230-68-31.inter.net.il. [80.230.68.31])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e5a572c3sm2863305e9.1.2026.07.07.12.32.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 12:32:44 -0700 (PDT)
-Date: Tue, 7 Jul 2026 15:32:41 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	Sourav Panda <souravpanda@google.com>, muchun.song@linux.dev,
-	osalvador@suse.de, akpm@linux-foundation.org, liam@infradead.org,
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
-	mhocko@suse.com, mhklinux@outlook.com, fvdl@google.com,
-	gthelen@google.com, mike.kravetz@oracle.com,
-	pasha.tatashin@soleen.com, rientjes@google.com, riel@surriel.com,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH 0/6] mm/hugetlb: Dynamic, NUMA-aware HugePage Cache &
- Free Page Reporting
-Message-ID: <20260707152755-mutt-send-email-mst@kernel.org>
-References: <20260707064235.1386552-1-souravpanda@google.com>
- <9624988a-366e-4884-9408-3f3b88c27290@kernel.org>
- <20260707062428-mutt-send-email-mst@kernel.org>
- <b9a48d89-74f1-43d4-b7bb-be988b6855c9@kernel.org>
- <akzZr2jfJ0J8zox4@lucifer>
- <20260707095843-mutt-send-email-mst@kernel.org>
- <ak0xWgpJPSaNWPsl@lucifer>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IaMgFmqU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEEFD1F000E9;
+	Tue,  7 Jul 2026 19:37:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783453027;
+	bh=gPg3vEkTcsR+KYYDQEQ2rLyjD9CYaZB6AwFxCwPiuy0=;
+	h=From:Subject:Date:To:Cc;
+	b=IaMgFmqU5pubSutB4iA1G7DbzzM5RtlUJsfqzS2sQXdzTzfjZMrYd20PogFsSLOBc
+	 p8qBZ+n50ZcMzHX3QujgzaxCBEqACvFhoEQx972siupx1b4zBAKPcZSS7eOoocx3Hr
+	 /+G2/b/La0Rvtfl/RonslsVnGXwyOFVTr3yKIPxGf7dTs3KVD3ABUtS/2uArK2ZK3F
+	 3BB7ahSY0kTShyiXiJldj61HeTt2Md+01Tpf3MYJKpvqBS8TSMuyvC9wEZRm752n3E
+	 DHkW2RP0vTvgN4PZ2iMGLLezxFtd5qM31XAk5iRuRjHmAbPGP+2k81K1ZMSoV14GCQ
+	 SMFe37CVIsftQ==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH RFC POC 0/4] binfmt_misc: bpf-backed binary type handlers
+Date: Tue, 07 Jul 2026 21:36:44 +0200
+Message-Id: <20260707-work-bpf-binfmt_misc-v1-0-74b995c84ec1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ak0xWgpJPSaNWPsl@lucifer>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAE1VTWoC/yWMTQuCQBCG/4rMuZFVq4WuQteia0TsbmNO4SozZ
+ oH439M6Pu/HM4KSMCnskhGEBlZu4wzZKoFQu3gn5NvMkJt8a6yx+G7lib6r0HOsmv7asAYk4+2
+ mWGe2KAjmaydU8eenPcNpXybHQwmXf6Ev/6DQL9Jl6p0SenEx1EvUOO1J0sGmOUrIYJq+9tK5e
+ aMAAAA=
+X-Change-ID: 20260707-work-bpf-binfmt_misc-e0b75341733e
+To: Farid Zakaria <farid.m.zakaria@gmail.com>
+Cc: Daniel Borkmann <daniel@iogearbox.net>, 
+ Alexei Starovoitov <ast@kernel.org>, Kees Cook <kees@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+ jannh@google.com, linux-mm@kvack.org, mail@johnericson.me, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6770; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=yKu5qj7eKjA1JXXIoGTmnPEVv3FdKvaF/LpZwd0PtMw=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT5hiZs5W7tKJ86Sab+qgaX08U2icTV382fiCZbKzimH
+ WJnurGlo5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCIm/Ax/BW0mZEgy+pvWLWA+
+ OfXUJ9Hvy1e8kdP/eH9pwEY2n6AHCQz/0+f8uSTUkeh/9LbzblEJdvsU+6kv1HhvXhGzOKcc/N2
+ ZHQA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Tue, Jul 07, 2026 at 07:46:28PM +0100, Lorenzo Stoakes wrote:
-> On Tue, Jul 07, 2026 at 10:01:55AM -0400, Michael S. Tsirkin wrote:
-> > On Tue, Jul 07, 2026 at 12:06:34PM +0100, Lorenzo Stoakes wrote:
-> > > On Tue, Jul 07, 2026 at 12:28:44PM +0200, David Hildenbrand (Arm) wrote:
-> > > > On 7/7/26 12:25, Michael S. Tsirkin wrote:
-> > > > > On Tue, Jul 07, 2026 at 09:29:07AM +0200, David Hildenbrand (Arm) wrote:
-> > > > >> On 7/7/26 08:42, Sourav Panda wrote:
-> > > > >>> Overview
-> > > > >>> This patch series introduces a dynamic, NUMA-aware HugePage Cache,
-> > > > >>> backed by a kernel shrinker to safely return memory under pressure, and
-> > > > >>> integrates it with Free Page Reporting (virtio-balloon) for HugeTLB,
-> > > > >>> specifically targeting gigantic (1GB) hugepages. The goal is to solve
-> > > > >>> the tradeoff between allocation latency and memory
-> > > > >>> fungibility in virtualized and heterogeneous cloud environments.
-> > > > >>
-> > > > >> Hi,
-> > > > >>
-> > > > >> in general, we consider hugetlb nowadays to be mostly in feature freeze, as we
-> > > > >> realized a while ago that adding more special casing on top of something too
-> > > > >> special for all of MM is only going to hurt us more in the long run.
-> > > > >>
-> > > > >> We want to have less special casing and less special sauce, not more.
-> > > > >>
-> > > > >> Now, there is nothing wrong in making hugetlb be less special, by making it use
-> > > > >> more of core infrastructure etc.
-> > > > >>
-> > > > >> But optimizing for surplus hugetlb pages by teaching hugetlb about new caches
-> > > > >> and its custom free-page-reporting support rather looks like the wrong direction
-> > > > >> for me?
-> > > > >>
-> > > > >> --
-> > > > >> Cheers,
-> > > > >>
-> > > > >> David
-> > > > >
-> > > > >
-> > > > > It is currently bypassing free-page-reporting completely.
-> > > > > Making existing free lists not ignore free-page-reporting would
-> > > > > maybe considered "making it be less special"?
-> > > > >
-> > >
-> > > You have this completely backwards.
-> > >
-> > > You're advocating making hugetlb _more special_ by duplicating functionality that
-> > > core mm already supports.
-> > >
-> > > I mean:
-> > >
-> > > mm/hugetlb.c                                 | 590 ++++++++++++++++++-
-> > >
-> > > Tells the whole story right?
-> > >
-> > > The whole issue with hugetlb is the very fact that it's a parallel
-> > > implementation of a bunch of mm stuff in its own little world.
-> > >
-> > > We make it less special by mm/hugetlb.c smaller and smaller and implementing
-> > > what it does sanely elsewhere in _core mm_.
-> > >
-> > > >
-> > > > Depends. We don't really want an orthogonal implementation of something we have
-> > > > in core-mm.
-> > >
-> > > Yes, exactly.
-> > >
-> > > Feature freeze means feature freeze, not 'feature that core mm doesn't support
-> > > feature freeze'.
-> > >
-> > > Hugetlb is a poster child for poor decision making in mm that has left us
-> > > saddled with maintenance nightmares because we allowed 'just one more feature
-> > > in' (TM) with little to no thought to the future.
-> > >
-> > > And we've all learned from that and don't want to repeat these kinds of
-> > > mistakes, nor make existing mistakes worse.
-> > >
-> > > And work to improve hugetlbfs and make changes like the above are VERY welcome
-> > > :)
-> >
-> > Fair enough.
-> >
-> > > Laying a foundation for hugetlbfs to be more of a sane mm citizen through rework
-> > > series is really the asking price for stuff like this in my opinion.
-> >
-> > Lorenzo, do you know *how* you want it reworked? Could you write it up
-> > at a high level?
-> > Because if not, it's not really practical to make it the asking price.
-> 
-> Michael, you're an experienced maintainer, I'm surprised I have to tell you that
-> the burden for that lands on the submitter.
+This is a POC for the nix people and Farid and Eric in particular. I
+would take my hands off the wheel now that I POCed this and hand it to
+Farid if he likes to take it forward.
 
-Oh sure, "fix bugs A,B,C before you add to this mess" is a classic way
-to actually not end up with even more of a mess.  But I usually do try
-to be explicit of what are specific issues I want submitter to address.
-I don't really feel figuring that out lands on the submitter.
+VL;MR (very long, must read):
 
-> Nor does a no from a maintainer require an alternative be provided.
-> 
-> In any case, I felt I was clear above but to reiterate - do the opposite of what
-> the issues are:
-> 
-> - Implement things in core mm without it being treated as a separate entity.
-> 
-> - Reduce the propagation of if (hugetlb) { ... something specific ... } strewn
->   through the code base.
-> 
-> - De-duplicate the appalling parallel implementations — and not by pulling
->   things out 'just for hugetlb', but by making it ordinary.
-> 
-> There are a WHOLE HOST of issues and problems and difficulties with doing all of
-> that. But that's just the reality of it - again, the burden of figuring that out
-> is on the submitter.
+For a while now Farid has been trying to make relocatable, hermetic
+binaries (think Nix-style store layouts) work without patchelf tricks
+or wrapper scripts. For such binaries the right dynamic loader can only
+be determined relative to the location of the binary itself, which
+neither PT_INTERP nor a fixed binfmt_misc interpreter string can
+express.
 
-Thanks, I hope the above is specific enough for Sourav.
+The first attempt was $ORIGIN expansion in PT_INTERP [1]. I pushed back
+on that. Userspace guards $ORIGIN behind AT_SECURE so the kernel would
+have to make the used loader depend on the type of binary, LSMs would
+need a say, it changes long-standing behavior in ways that are ripe for
+loader injection attacks, and bprm->file may not have a usable path at
+all (memfds, deleted files, unresolvable paths). Making the kernel
+splice bprm->file back together with PT_INTERP is terrible. The second
+attempt was a pluggable ELF interpreter loader registry [2] which would
+mean actual kernel modules for custom binary formats. Also no.
+binfmt_misc was invented to kill exactly this horrendous past.
 
-> So the price for entry is high, very high, but that doesn't make the no any less
-> emphatic - we're not going to accept the problem being made any worse.
-> 
-> Note that I'm currently working on reworking the anon rmap which is similarly
-> problematic. I didn't get nor expect detailed guidelines on how to do so. The
-> burden's on me, and it's equally a high price to pay.
-> 
-> But setting the bar such that the codebase is as good and robust as it can be
-> both now and in the future is what maintainership is about.
-> 
-> Thanks, Lorenzo
+What I suggested instead [3] was to put this where delegating binary
+formats to userspace already lives: binfmt_misc. The only things
+binfmt_misc cannot do today are matching programmatically and computing
+the interpreter per binary instead of using a fixed string recorded at
+registration time. Farid prototyped that with an eBPF program [4] and
+it turned out quite workable, but the prototype ran a SOCKET_FILTER
+program over bprm->buf, added a new helper to the frozen uapi helper
+list, and returned the computed path through per-CPU memory.
+
+This series is the proposal turned into what I think the bpf side
+{c,sh}ould actually look like. It is a POC: it builds, the design is
+what I want to discuss, selftests and runtime testing are still missing.
+
+A handler is an instance of the new binfmt_misc_ops struct_ops with a
+single sleepable op and a name:
+
+	struct binfmt_misc_ops {
+		int (*load)(struct linux_binprm *bprm);
+		char name[BINFMT_MISC_OPS_NAME_MAX];
+	};
+
+The load program receives the bprm as a trusted BTF pointer, so it can
+match on the header in bprm->buf, read arbitrary file content through
+bpf_dynptr_from_file() (e.g. to parse ELF program headers), and resolve
+the binary's location via bpf_path_d_path() on &bprm->file->f_path. That
+also solves the prototype's limitation of only seeing the first 256
+bytes of the file.
+
+The one genuinely new piece of bpf surface is a single kfunc:
+
+	int bpf_binprm_set_interp(struct linux_binprm *bprm,
+				  const char *path, size_t path__sz);
+
+which stages an absolute path in the bprm. It cannot go through
+bprm_change_interp() directly because load_misc_binary() copies
+bprm->interp into argv[1] after the program ran, hence the staging field
+added in patch 1.
+
+Registering (attaching) the struct_ops map publishes the handler under
+its name in a registry keyed by the registering task's user namespace.
+Activation reuses the existing text interface with a new 'B' type where
+the offset field carries the handler name and magic, mask, and
+interpreter must be empty:
+
+	echo ':origin:B:nix::::' > /proc/sys/fs/binfmt_misc/register
+
+This keeps the existing permission and namespacing model completely
+intact. Activating a handler requires the same write access to a
+binfmt_misc instance as any other registration, a container mounting
+its own instance escapes the host's entries exactly as before, and
+shadowing e.g. all ELF binaries takes the same privilege as a static
+'M' entry matching \x7fELF does today.
+
+The only novelty is that matching becomes programmable. Handler lookup
+walks the user namespace hierarchy upwards, mirroring how binfmt_misc
+instances themselves are resolved, so a handler registered on the host
+can be activated from a container's own instance without being forced
+upon it.
+
+The computed interpreter is opened with open_exec() under the caller's
+credentials and goes through the full LSM vetting as the next binprm
+level, exactly like a statically registered interpreter, so the program
+cannot widen access. It only ever redirects the caller to something the
+caller could exec anyway.
+
+The 'C' and 'F' flags are rejected for 'B' entries. 'F' has no fixed
+interpreter to pre-open and 'C' would let a program-chosen interpreter
+run with a setuid binary's credentials. AT_EXECVE_CHECK never invokes
+programs and interpreter chains stay capped by the usual ELOOP depth.
+
+A handler for the Nix case then looks roughly like:
+
+	SEC("struct_ops.s/load")
+	int BPF_PROG(nix_load, struct linux_binprm *bprm)
+	{
+		char path[256];
+		long n;
+
+		if (bpf_strncmp(bprm->buf, 4, "\x7f" "ELF"))
+			return 0;
+
+		n = bpf_path_d_path(&bprm->file->f_path, path, sizeof(path));
+		if (n < 0)
+			return 0;
+
+		/* derive the loader location from the binary's path */
+
+		return bpf_binprm_set_interp(bprm, path, sizeof(path)) ?: 1;
+	}
+
+	SEC(".struct_ops.link")
+	struct binfmt_misc_ops nix = {
+		.load = (void *)nix_load,
+		.name = "nix",
+	};
+
+Farid, this should slot underneath your qemu demo from [4] with the
+program ported to struct_ops. Feel free to take it from here.
+
+[1]: https://lore.kernel.org/20260622043934.179879-1-farid.m.zakaria@gmail.com
+[2]: https://lore.kernel.org/20260702214247.1253741-1-farid.m.zakaria@gmail.com
+[3]: https://lore.kernel.org/20260703-meditation-ratsuchende-moratorium-9ecdf1f3f8bb@brauner
+[4]: https://lore.kernel.org/20260704211409.1978485-1-farid.m.zakaria@gmail.com
+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Christian Brauner (4):
+      exec: stash a bpf-selected interpreter in struct linux_binprm
+      binfmt_misc: add binfmt_misc_ops bpf struct_ops
+      binfmt_misc: wire up bpf-backed 'B' entries
+      bpf: allow fs kfuncs for binfmt_misc_ops programs
+
+ Documentation/admin-guide/binfmt-misc.rst |  40 ++++-
+ fs/Kconfig.binfmt                         |  14 ++
+ fs/Makefile                               |   1 +
+ fs/binfmt_misc.c                          | 143 ++++++++++++++--
+ fs/binfmt_misc_bpf.c                      | 275 ++++++++++++++++++++++++++++++
+ fs/bpf_fs_kfuncs.c                        |  23 ++-
+ fs/exec.c                                 |   1 +
+ include/linux/binfmt_misc.h               |  49 ++++++
+ include/linux/binfmts.h                   |   1 +
+ 9 files changed, 529 insertions(+), 18 deletions(-)
+---
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+change-id: 20260707-work-bpf-binfmt_misc-e0b75341733e
 
