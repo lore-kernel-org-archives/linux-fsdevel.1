@@ -1,128 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B22238F252;
-	Tue,  7 Jul 2026 19:03:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A1D3A1693;
+	Tue,  7 Jul 2026 19:03:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783451034; cv=none; b=Uzld4q4R9huxnH40FZlXnE4rI7Q18OMFsf1SlBDMhQKIDXliv93HYMOF/pdP3QlUxUFkyGmUIFaPBIJOa09y1V/z7x9gs5lWfp5MsMRA1RU5VYwwBewNJXi07I+gPWn5EXydIQFLJCCJn46cxzCXJu8R5J+KaHmxbZZ/ba1jQEY=
+	t=1783451034; cv=none; b=t6nq0QiOPtWxMmMfRfCxLXThqacunBkKt91ZobHtWyy+Qs/OdijOKfVYLfV3Er+ZDoGbEJWl3rFazJHe+4tgKYQYp/nGI8+/5Dgp0Y4Pf8XYesqbzhuI6IEj+PhuzCwpphT2V1fAhOva4+8Breas94ZSwxeLOGqwEBRh5TjJaEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1783451034; c=relaxed/simple;
-	bh=0VJ6cuRJTTQnnxSz8DchgznATTLiy2kRi3FMEm1nmDY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tkIBxADkuvKVYZoXUx721+YCgQ6AawOGGCzcGHHg5ssoENyWTmNfjgFHSitIaA1FsT2pbCxEGENRHuqhfenlUAYmVTIESjvklxQJk+Q9Jk1YBWGbir5vk7lhB7b/6bK5LRX1Uo9GqWcMwZwRx7NdMFNR4nFjKxAYIsTml5YMtfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VLQKCfWj; arc=none smtp.client-ip=100.103.45.18
+	bh=62qobkfwgb/I1gOvXBP5Qfc7oMKhVS8eaJ/kQvZ6WWo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=gjKM8XziS1oL8Oel1R6Pmapsq9J3J+xAK84yGY8vNY5sn2rjabjVfJpLGlaGXPvgy85kJK52V8RP/HjhxgkNnv7aAk6aUBYmKw7a4BIrkM/1t1vTDLrKyTz1SBz48NMVqfeb0ax4d+L8EWahWz/6VcbQWXKtZNIIDCJSYSONllI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=IzZw73A0; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VLQKCfWj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21CC91F000E9;
-	Tue,  7 Jul 2026 19:03:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783451032;
-	bh=YyKq/KokqVzrbkpjbywEAWWCk+N/clH4+72CIChvAuM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VLQKCfWjqAoYWXdnpatWLCxMTS1RBAuuunMGSLnlobAGaJQhMiCJEmU8t3zK83GzM
-	 LAdtUOdUrEwp4rXeaP+TGMKEuajRmGJ9xf6n5BTIWLBt1j8omSbuZIiF553DfMe5TG
-	 7+BGzOV4OwLn+UWPrQDhNy9TeE8HNcf5qMze5CucwlD0YfttMaAef6UfxjGgOYpP10
-	 ZsU4jHwcKRVd4dxXLCdkbvs8ighiaZ2Wml8rrC3YIoxP7h8/mJOMdhJOUNrhTkhqee
-	 bXkfZgkjOrG2AT5hzFbyUqkHpQ+ZhabVe404evZLo09A4ofb9sbJPDwkwPST6D8/Tm
-	 xM44EHLVA67pA==
-Date: Tue, 7 Jul 2026 20:03:44 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
-	David Hildenbrand <david@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
-Message-ID: <ak1NTrmM2YaMW5Nr@lucifer>
-References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="IzZw73A0"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 94CDE40430
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1783451032; bh=EJszX5eNF4dlP8trcZdSt3w2lkANfhcDNIvg9VWnzVY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=IzZw73A043nmFG6dyet8VMLSKaUzm/fCZpd6Q4FGDU75IWRK7it1frNuobeAVu9Uu
+	 yIAyvn+LZOqbrsumXt6N7ePmds/WwVQ1sZWzPUKIhFYv8bU5dirLfDOEX/fKU/Zvv5
+	 2lT4saAdgOLpV4MQ1b6ertmzY3fBjzD3x2YnX6/OQaWBpSkYcfmb9EE9ewxz4L9HTS
+	 BHSvPjD13ipOZ9ClwjRmZw2UTZtk6h2B/j1ibsARu+QpxseP97C3rrnrkfIAMtsRZI
+	 DXgX6pS4LWFCTvCFDUY9crWGNksKnlQWokQxb0SQ8bvH007cQuDBLrpKjfbp7SGeD4
+	 HOwBs7FPeVh1g==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 94CDE40430;
+	Tue,  7 Jul 2026 19:03:52 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Christian Brauner <brauner@kernel.org>, Christian Brauner
+ <brauner@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, "David Hildenbrand
+ (Arm)" <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Boris Burkov
+ <boris@bur.io>, Jeff Layton <jlayton@kernel.org>, Greg KH
+ <gregkh@linuxfoundation.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Justin Stitt <justinstitt@google.com>,
+ Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Jori
+ Koolstra <jkoolstra@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>,
+ David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, Jani
+ Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, Vlastimil
+ Babka <vbabka@kernel.org>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+In-Reply-To: <20260707-impfschutz-lerngruppen-klubhaus-7aabcc82f3b4@brauner>
+References: <akaWnQ5Pkg_676B-@lucifer>
+ <20260702211740.GA639365@zen.localdomain>
+ <3f447113-4407-471f-878f-e6d6edafee71@kernel.org>
+ <akez23ZhLRSGMFQ1@lucifer>
+ <20260703163251.GB3734786@killaraus.ideasonboard.com>
+ <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
+ <akzETpsps4TMfqpC@lucifer>
+ <0ba6bf66-e48f-40df-a953-503d317b3dbe@kernel.org>
+ <20260707124031.GC211515@killaraus.ideasonboard.com>
+ <ebc1f034-7297-459e-975d-5c143567392f@kernel.org>
+ <20260707141803.GA254690@killaraus.ideasonboard.com>
+ <20260707-siebzehn-geleast-gastmahl-4889a8f6b474@brauner>
+ <20260707-impfschutz-lerngruppen-klubhaus-7aabcc82f3b4@brauner>
+Date: Tue, 07 Jul 2026 13:03:51 -0600
+Message-ID: <878q7mr59k.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
+Content-Type: text/plain
 
-On Wed, Jul 01, 2026 at 05:54:48PM +0200, Christian Brauner wrote:
-> I remain very confused by our coding assistant contribution guidelines.
-> I'm going to be a bit polemic now but this seriously in good faith.
->
-> Why precisely do we require all this detailed information about what
-> specific coding assistant was used?
->
-> I find it very irritating that our git history has effectively started
-> to function a bit like a free advertising platform for a bunch of AI
-> companies and their proprietary agents and models.
->
-> And it reamins unclear to me what exactly we do get out of this detailed
-> information: Do we want to run statistical analysis on what agent and
-> model is used the most and publish that on LWN at some point?
->
-> I acknowledge that my stance is even more radical: imho we would just
-> stop it with any disclosure requirements completely. It's useless imho.
-> We already see that other than core contributors most people don't care
-> and will just not disclose their usage of AI. I think this is entirely
-> pointless and worse it brings in undefined legal status as well. It's
-> not like recent events of pulling certain models from the face of the
-> earth have made this any less concerning.
->
-> But fine, if we want to do this can we please just dumb it down to
->
-> Assisted-by: LLM
->
-> or
->
-> Assisted-by: Coding Assistant
->
-> or something else. That still gives the "careful review" signal to
-> reviewers that want to pay special attention to LLM generated work while
-> avoiding this slew of metadata.
->
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Christian Brauner <brauner@kernel.org> writes:
 
-FWIW I'm fine with this. We can always send the comment stuff as a follow up. So:
+>> Then someone can basically just merge the original patch I sent since
+>> everyone seems to agree on that front. And then the extension to include
+>> how the LLM was used can be discussed in a separate patch.
+>
+> https://patch.msgid.link/20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org
 
-Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
+I still have it around :)  I can apply it if that's truly the
+consensus... I'll confess to having not entirely kept up with the
+conversation over the holiday weekend, though, and needing to review
+things.
 
-Maybe send it non-RFC with a cleaned up commit msg? Feel free to add my tag to
-that.
+If you object, do let me know.
 
-> ---
->  Documentation/process/coding-assistants.rst | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
-> index 899f4459c52d..fe34f3e7e828 100644
-> --- a/Documentation/process/coding-assistants.rst
-> +++ b/Documentation/process/coding-assistants.rst
-> @@ -43,12 +43,8 @@ When AI tools contribute to kernel development, proper attribution
->  helps track the evolving role of AI in the development process.
->  Contributions should include an Assisted-by tag in the following format::
->
-> -  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
-> +  Assisted-by: LLM [TOOL1] [TOOL2]
->
-> -Where:
-> -
-> -* ``AGENT_NAME`` is the name of the AI tool or framework
-> -* ``MODEL_VERSION`` is the specific model version used
->  * ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
->    (e.g., coccinelle, sparse, smatch, clang-tidy)
->
-> @@ -56,4 +52,4 @@ Basic development tools (git, gcc, make, editors) should not be listed.
->
->  Example::
->
-> -  Assisted-by: Claude:claude-3-opus coccinelle sparse
-> +  Assisted-by: LLM coccinelle sparse
->
-> ---
-> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-> change-id: 20260701-work-coding-assistants-650ae1202ee0
->
+Thanks,
 
-Cheers, Lorenzo
+jon
