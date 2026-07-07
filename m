@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B7841736F;
-	Tue,  7 Jul 2026 13:28:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69E02419316;
+	Tue,  7 Jul 2026 13:29:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783430937; cv=none; b=HImNuZFBpaM+Ti5A9B9xggGU86vKVB1tJzcHXg9uON/jwjV4rkKB0T5sQ8Q3ympYxN9mjtG1MRYx+A7cULXcC3V7JNZmj8tANZ0Kaxv51tE5grg3ml/7e/ZE6DTqERkBKQ8/tdC5rCnWClhpBTWtmORSaQSp4vSPFu+Sqv2BMD0=
+	t=1783430992; cv=none; b=hLKjzIzGZeddMAQ6+mhwRm0uFKoQxcVS/h07We1Ug/wjWMsRFw0pG//w7WyBAuN8A82Pz3IG2XNRFKYn+NR00G2IckXXnkAHacpyUrfEaYwGoVr9UMSKKWpwwTVH9qEUX97jrVwQF0b38YR23QhXt1ll6mTa61rvnDXrHPuJnjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783430937; c=relaxed/simple;
-	bh=QxuthDG6C7EaZuCmhHEyzx4mRVYzNX4KrA34zWouSMs=;
+	s=arc-20240116; t=1783430992; c=relaxed/simple;
+	bh=AeKOkDF9KGVYq4U5w3QsAhAQbcjRdhpOhvBrDm5NH0s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Uwudvas5nmdyMtyjCvwRCwa0v4zAojvPeYuprqOvsoSXuXW9o3q1vhpRmn5mpbRobOroL6jlqfuO3E2M2QhUfDaJDKJfFhlZ9HkvT/X6eeCMB3gnddoz27PnsfEffMYihkIoOQIKUDt1joHo9Ip6Scafx6rEhyHrne7fm6td7qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GaZCBpRZ; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=Zvvi4U8ahMX5UiA30KdfU0Nob7XFu8FC89gruVRJ7qqCT/cx47V4lRxVkBgXbQuaynI1arLsALRsXEddoMS3riqpSLYj5fWYSQxqGYDTTkmBvkU4OmK8wW1yz0jcIQ9ul0Gkf59fapx46DeWaPQU3NsDqBr8VTd9mguKpF1PKZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aM3Y5ZPL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GaZCBpRZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 313981F000E9;
-	Tue,  7 Jul 2026 13:28:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aM3Y5ZPL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31DE31F000E9;
+	Tue,  7 Jul 2026 13:29:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783430936;
-	bh=hVa/2y67lDjegAbH+jNz4FW3OMYPmgBfp2z3AdNmSOA=;
+	s=k20260515; t=1783430991;
+	bh=RwhAjGAolw0zONtLEbzGNkoSidQtU6ZdwCG/czr8kKQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=GaZCBpRZQD7fv589ihWWgzl4Vy+vRwdwpglZhxbA5Ks3qJ/HXhCAGkM8dUltQdM73
-	 4ZRL1O3uIOhBxlAhVAhIH7FuS5N5BKylI26gith4cUpQ2tlszjpLK4kmfplZAo0UCA
-	 aQWuvo8sDjZirhLnQE11KWdtdGSaK64i8rebA4G6rJgJrBAC+XonLjcifGOi4nF788
-	 eI6mCX+/3XPsBTva62Gtqw/1+JOqBZr6fErogm8EgPsSjHLt4C7ARyfsdqaVkeCXCe
-	 9JicW54uQrhIolqDwDXHiXGBADzKB89KsyUO4/BQ4gXIqqzTL9LXgG9yhAbYH6SGxg
-	 2QmKBGvLvfdPQ==
-Message-ID: <ebc1f034-7297-459e-975d-5c143567392f@kernel.org>
-Date: Tue, 7 Jul 2026 15:28:49 +0200
+	b=aM3Y5ZPLPmZl3utiUy9AFqp742MEu9aVemQtD00lcYnAvsMSDgWXybIqqo1IggL46
+	 JNmdmachMsxB7nmaG6ZG47pCMCvTzO360DLv3nRm8rrupcG/A1tCmsgayDgaADsSTL
+	 Pzp8JeyYQ1XIZ+KuQIs4LK7DdlVEYijc7vPHdJxLVeqkay+RyOz28p+fQJN8eigLZU
+	 dW5C2L7CeBwRK4MsCxe2OEFiQfT++TnznicitgsxOVRYq5fzO+oGTdDPVrnpSknUtA
+	 1jFUzQQwkNtKpICQ7+R/INvt2Gl5JM3tKMihpDbBtH2XdlGn4U4hgqY6G/bbOcaz/m
+	 Dbl/TAczdvuLw==
+Message-ID: <5ccbb28a-171e-40c1-9a6b-9ac7b6b7777d@kernel.org>
+Date: Tue, 7 Jul 2026 15:29:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -36,9 +36,10 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, Boris Burkov <boris@bur.io>,
- Jeff Layton <jlayton@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>,
+ Greg KH <gregkh@linuxfoundation.org>,
  Linus Torvalds <torvalds@linux-foundation.org>,
  Jonathan Corbet <corbet@lwn.net>, Justin Stitt <justinstitt@google.com>,
  Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
@@ -56,8 +57,7 @@ References: <2026070227-payroll-eradicate-8f66@gregkh>
  <3f447113-4407-471f-878f-e6d6edafee71@kernel.org> <akez23ZhLRSGMFQ1@lucifer>
  <20260703163251.GB3734786@killaraus.ideasonboard.com>
  <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org> <akzETpsps4TMfqpC@lucifer>
- <0ba6bf66-e48f-40df-a953-503d317b3dbe@kernel.org>
- <20260707124031.GC211515@killaraus.ideasonboard.com>
+ <0ba6bf66-e48f-40df-a953-503d317b3dbe@kernel.org> <akzMh-ySQ2fN0d8R@lucifer>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -104,11 +104,11 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260707124031.GC211515@killaraus.ideasonboard.com>
+In-Reply-To: <akzMh-ySQ2fN0d8R@lucifer>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/7/26 14:40, Laurent Pinchart wrote:
+On 7/7/26 11:55, Lorenzo Stoakes wrote:
 > On Tue, Jul 07, 2026 at 11:49:31AM +0200, David Hildenbrand (Arm) wrote:
 >> On 7/7/26 11:20, Lorenzo Stoakes wrote:
 >>>
@@ -135,78 +135,56 @@ On 7/7/26 14:40, Laurent Pinchart wrote:
 >> +++ b/Documentation/process/coding-assistants.rst
 >> @@ -40,20 +40,37 @@ Attribution
 >>  ===========
->>  
+>>
 >>  When AI tools contribute to kernel development, proper attribution
 >> -helps track the evolving role of AI in the development process.
 >> -Contributions should include an Assisted-by tag in the following format::
 >> +helps track the evolving role of AI in the development process. Further,
 >> +for reviewers and maintainers it is also crucially important to know how
 >> +AI tools were used.
->>  
+>>
 >> -  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
 >> +Contributions that used AI to generate significant portions of code,
 >> +comments, or patch descriptions must include an Assisted-by tag in the
 >> +following format::
->>  
+>>
 >> -Where (preferred):
 >> +  Assisted-by: LLM # brief description of usage
 >> +
 >> +Or alternatively::
 >> +
 >> +  Assisted-by: AGENT_NAME:MODEL_VERSION # brief description of usage
+>> +
+>> +Where::
+>>
+>>  * ``AGENT_NAME`` is the name of the AI tool or framework
+>>  * ``MODEL_VERSION`` is the specific model version used
+>> -* ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
+>> -  (e.g., coccinelle, sparse, smatch, clang-tidy)
+>> +
+>> +If other tools were used, they should be specified through a dedicated
+>> +Assisted-by tag in the following format::
+>> +
+>> +  Assisted-by: [TOOL1] [TOOL2]
+>> +
+>> +Where ``[TOOL1] [TOOL2]`` are specialized analysis tools used
+>> +(e.g., coccinelle, sparse, smatch, clang-tidy)
+>>
+>>  Basic development tools (git, gcc, make, editors) should not be listed.
+>>
+>> -Example::
+>> +Examples::
+>>
+>> -  Assisted-by: Claude:claude-3-opus coccinelle sparse
+>> +  Assisted-by: LLM # translate patch description
+>> +  Assisted-by: Claude:claude-3-opus # generate most of the code
+>> +  Assisted-by: coccinelle sparse
 > 
-> I would like to drop this one. As I understand, several people objected
-> to including the product name in the git history as it is just free
-> adverising, and nobody objected to dropping it.
+> LGTM! Do you want to send that then? People can comment on the actual path then
+> (probably worth cc'ing everybody here on that also).
 
-Yeah. I mean, we could go the following direction (dropping the models and
-encouraging also a description of usage for other tools), but not sure how
-much pushback we will get:
-
-
-diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
-index 899f4459c52d2..a085a15d59990 100644
---- a/Documentation/process/coding-assistants.rst
-+++ b/Documentation/process/coding-assistants.rst
-@@ -40,20 +40,26 @@ Attribution
- ===========
- 
- When AI tools contribute to kernel development, proper attribution
--helps track the evolving role of AI in the development process.
--Contributions should include an Assisted-by tag in the following format::
-+helps track the evolving role of AI in the development process. Further,
-+for reviewers and maintainers it is also crucially important to know how
-+AI tools were used.
- 
--  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
-+Contributions that used AI to generate significant portions of code,
-+comments, or patch descriptions must include an Assisted-by tag in the
-+following format::
- 
--Where:
-+  Assisted-by: LLM # mandatory brief description of usage
- 
--* ``AGENT_NAME`` is the name of the AI tool or framework
--* ``MODEL_VERSION`` is the specific model version used
--* ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
--  (e.g., coccinelle, sparse, smatch, clang-tidy)
-+Similarly, usage of other specialized analysis tools should be
-+indicated through an Assisted-by tag in the following format::
- 
--Basic development tools (git, gcc, make, editors) should not be listed.
-+  Assisted-by: [TOOL1] [TOOL2] # optional brief description of usage
- 
--Example::
-+Examples for ``[TOOL1] [TOOL2]`` are coccinelle, sparse, smatch, and
-+clang-tidy. Basic development tools (git, gcc, make, editors) should not
-+be listed.
- 
--  Assisted-by: Claude:claude-3-opus coccinelle sparse
-+Examples::
-+
-+  Assisted-by: LLM # translate patch description
-+  Assisted-by: coccinelle # batch conversion with small manual fixups
-davhil01@e142025:~/git/linux$ 
+Let's first gather some more thoughts on the rough direction before spinning of
+yet another discussion. :)
 
 -- 
 Cheers,
