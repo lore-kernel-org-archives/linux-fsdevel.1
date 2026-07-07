@@ -1,395 +1,91 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E163AE195
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 06:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB583876DE;
+	Tue,  7 Jul 2026 06:50:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783406566; cv=none; b=gyzTjkR46Wikyq3Ye/aEk9oE7kzh+MQzwB+W2ChAroWgwTcJJajy54rRGBCsGS3XYU3cHViaTFU0kBJPPTWMZxBiyrc2sIiY87QxOAWEzu0LjIy0oD5yuyx85J5CNauTjcpnxGge+7he92mkGw9mLEd2qUEMsbNZtglzq86mJu4=
+	t=1783407013; cv=none; b=aHypo9sM9r4H00dNnY3t2Ng3bop2r+wVNWKLGQjQDPIVpLuvsEUT8wbFkcVPSXM988xjaks0R44Ak2qMwp4H5LbYpcury3X27aYrRkRzIZGJlMM47LVLqLZLP9PX4iLGjKbTvaWy7TTW9H3SQFikU+1e//Zk8S4Y9Vi1zK7kbx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783406566; c=relaxed/simple;
-	bh=bACI+1p7dWUgOc9CiEORGW8gR6VAgYkgPmefTHvT2VA=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=dl21W6QKJ+fcpvlHVUYV4Qw4wEYfYiodqbZp1wbpQLJXrxytbqFuQvQ+CXQhJb+ZJV1eo4w1DnaK1b6T24s6uALcUcFWg/SRNd43gdR/Fs8wYB/qhHUKXdxjgutojxc+FAjpv4DBPFd+3ZYQzdJvfUDgCWBX/39Kk/abP7w/4BQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--souravpanda.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=A1dbaDFH; arc=none smtp.client-ip=209.85.210.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--souravpanda.bounces.google.com
+	s=arc-20240116; t=1783407013; c=relaxed/simple;
+	bh=vsxPsF69P5mxW2qFyfvdTU1ZMPuvG2A+BKk4EQd5uX4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=g0c9E+Yg9mMSOmxz2gXILHv84yL8B2YCHoB0j633W2dSLquZUFmN9NSGWL0XnRzUJD3ChNzHwNXPYQLYjAUoqgej2wB03vO3lCCqyOc7m33MfD6aDH2rVH9xPpk4UMJjAN19uO/8n5hrD+b/Fkp5BUGksiMmWtKvcCReLgssSeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=i5pyCbM1; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="A1dbaDFH"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-84770f89b99so6203623b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 23:42:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783406564; x=1784011364; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pw6BVJ/QVNzRTvmuXXHDf40tgOrCadUtgbpK+Kq2rCY=;
-        b=A1dbaDFHoahtc5Jvi4HGZMU8QxT2fQAh8e7cIP8xZAB14tOJyFMOP0F2CssDnEjgPu
-         v+L+JiiR/6jsiSDJU4bhMjtWl4zuRg4/xY3xKC2/FWsBE5uBU4ORZru3qlyLk/Oaq6Bq
-         ZGmmoWnOKDYPwvEeiUtD4BeHjQ0h1sEGdiYXmCQTBekIwDBLhx/YO21v5HWCiB4Ohvuh
-         8IGy491nItv4NJASb0O50qyeRRi6VWM5LKDJV+LdrG7rpl7E+ZNtDEWuHoV2iQolz0Ov
-         rdgWFG5AeLirYfol3depzhXBzLdC8ys0unjXQzxQj/xwPqahtRyAvnzyO02+ZKIIDe5A
-         9Jlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783406564; x=1784011364;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pw6BVJ/QVNzRTvmuXXHDf40tgOrCadUtgbpK+Kq2rCY=;
-        b=G7w55Zw8lWq+8BCwx9jWrREKTm3wfbdhHtRSftbrXSAZ+DN1b1ovIxm81WdTaNBtgG
-         b0I7sxqXoQcM5HuYPKMCt6ZkLliUj5ukw6JeJziULaDQKW2ZAre0w1I5d1qxlGyGl8Wk
-         fNrBAVt5kesK8E01XF0kSjMz4TRxUa7dxKFJpVXRiDtrGPFikAXuIj74T444V9ywFRJO
-         OvgkAxQc+i85MC6m3OOvOnMX0kxiQdb5FRMGbw2gvHTi2SVD6ox6UhOoTN5YGROt+aln
-         ODghP+u7eAQo6klcIph2oksZa+YC+VuSVT0C6KvOBe/7wfsi4+70/LbsfJGAs2uzS1SV
-         ghNA==
-X-Forwarded-Encrypted: i=1; AHgh+RqNIAZQ144GBnHoi9bw3bvehGA6gq7qiUXpscFiX3QXgNSaA1XiZfEpV4zBsPNRYABnaw52QAHQoMCvSVVW@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSlsd9msv7q7i/PB+4vrWbR2GHY9hyMmJz2QvPtktgyOAnEcSU
-	yaXo9Hq2R3SHbXSfB/9ioUG/YOBO9zKKtA3VYjIOr9VRQBEgMJsF6JIOphSi24TAkQEzUhbsAnl
-	TLfhZmoPuSuz2ORl3/84vP+1Q4w==
-X-Received: from pfbbj20.prod.google.com ([2002:a05:6a00:3194:b0:847:74c2:35f5])
- (user=souravpanda job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a00:8085:b0:846:8b21:6304 with SMTP id d2e1a72fcca58-84826bb949bmr3922339b3a.14.1783406564179;
- Mon, 06 Jul 2026 23:42:44 -0700 (PDT)
-Date: Tue,  7 Jul 2026 06:42:35 +0000
-In-Reply-To: <20260707064235.1386552-1-souravpanda@google.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="i5pyCbM1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=vsxPsF69P5mxW2qFyfvdTU1ZMPuvG2A+BKk4EQd5uX4=; b=i
+	5pyCbM1CgGTXmOhHTw8n+VNrVn+Ceo4qvH2xE4DHP8+jyfcgeNut4qslHYqnrOGT
+	Hffp5xu6mgJSB12LmWeWu4wfCD+8craolyxyhFFDpHC9XT1gi12gIGWbOJNAOWtU
+	KaP+kCWn0rsIdCK8Cg4kGxOdyXFspwdkmkBERxQy7M=
+Received: from fuqingshuang$kylinos.cn ( [116.128.244.169] ) by
+ ajax-webmail-wmsvr-40-111 (Coremail) ; Tue, 7 Jul 2026 14:49:34 +0800 (CST)
+Date: Tue, 7 Jul 2026 14:49:34 +0800 (CST)
+From: "Qingshuang Fu" <fuqingshuang@kylinos.cn>
+To: "Jan Kara" <jack@suse.cz>
+Cc: viro@zeniv.linux.org.uk, brauner@kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re:Re: [PATCH v1] fs: fix two spelling mistakes in comments
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20260511(2e539873) Copyright (c) 2002-2026 www.mailtech.cn 163com
+Sender: fffsqian@163.com
+In-Reply-To: <iqp6gjxl7qohnxn7rle62zovyiedmw7nnfhjk5mpmq4azx7v5m@llgoenjgzgbf>
+References: <20260527033102.824028-1-fffsqian@163.com>
+ <iqp6gjxl7qohnxn7rle62zovyiedmw7nnfhjk5mpmq4azx7v5m@llgoenjgzgbf>
+X-NTES-SC: AL_Qu2TAfibuUEs4iefYOkckk4Vhu49Xcq2vvQv34Fec/kEsg/Pxj47bHtAL33fwuumBguCmxSrcgRW6spxb4pAJ1140m4p9odSouTRjBRWKg==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260707064235.1386552-1-souravpanda@google.com>
-X-Mailer: git-send-email 2.55.0.rc2.803.g1fd1e6609c-goog
-Message-ID: <20260707064235.1386552-7-souravpanda@google.com>
-Subject: [PATCH 6/6] mm/hugetlb: support free page reporting for cached hugepages
-From: Sourav Panda <souravpanda@google.com>
-To: muchun.song@linux.dev, osalvador@suse.de, akpm@linux-foundation.org
-Cc: david@kernel.org, ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, 
-	rppt@kernel.org, surenb@google.com, mhocko@suse.com, mst@redhat.com, 
-	mhklinux@outlook.com, souravpanda@google.com, fvdl@google.com, 
-	gthelen@google.com, mike.kravetz@oracle.com, pasha.tatashin@soleen.com, 
-	rientjes@google.com, riel@surriel.com, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Message-ID: <2fd64e26.5358.19f3b56d73f.Coremail.fuqingshuang@kylinos.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:bygvCgDX_69_oUxqxR8ZAA--.1634W
+X-CM-SenderInfo: 5iii21xldqqiywtou0bp/xtbC6R81AGpMoX9hRwAA3d
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-Implement free page reporting for the HugeTLB dynamic cache.
-
-Register HugeTLB hstates with the page reporting framework if they
-support caching.
-
-When pages are added to the cache (either via recycling in
-free_huge_folio or direct population via sysfs nr_cached_hugepages),
-trigger a page reporting cycle.
-
-Page reporting isolates pages from the cache list, reports them to the
-hypervisor via virtio-balloon, and then drains them back to the cache
-list, marking them as reported (HPG_reported).
-
-If a page is allocated from the cache, or reclaimed, clear the reported
-flag.
-
-Signed-off-by: Sourav Panda <souravpanda@google.com>
----
- include/linux/hugetlb.h        |  27 +++++++
- include/linux/page_reporting.h |   1 +
- mm/hugetlb.c                   | 125 +++++++++++++++++++++++++++++++++
- mm/page_reporting.c            |  10 ++-
- mm/page_reporting.h            |   6 ++
- 5 files changed, 163 insertions(+), 6 deletions(-)
-
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index e882c99780b6..bde23edcb803 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -587,6 +587,7 @@ enum hugetlb_page_flags {
- 	HPG_cma,
- #ifdef CONFIG_HUGETLB_CACHE
- 	HPG_cached,
-+	HPG_reported,
- #endif
- 	__NR_HPAGEFLAGS,
- };
-@@ -650,10 +651,14 @@ HPAGEFLAG(RawHwpUnreliable, raw_hwp_unreliable)
- HPAGEFLAG(Cma, cma)
- #ifdef CONFIG_HUGETLB_CACHE
- HPAGEFLAG(Cached, cached)
-+HPAGEFLAG(Reported, reported)
- #else
- static inline bool folio_test_hugetlb_cached(const struct folio *folio) { return false; }
- static inline void folio_clear_hugetlb_cached(struct folio *folio) { }
- static inline void folio_set_hugetlb_cached(struct folio *folio) { }
-+static inline bool folio_test_hugetlb_reported(const struct folio *folio) { return false; }
-+static inline void folio_clear_hugetlb_reported(struct folio *folio) { }
-+static inline void folio_set_hugetlb_reported(struct folio *folio) { }
- #endif
- 
- #ifdef CONFIG_HUGETLB_PAGE
-@@ -1093,6 +1098,20 @@ void hugetlb_unregister_node(struct node *node);
-  */
- bool is_raw_hwpoison_page_in_hugepage(struct page *page);
- 
-+#ifdef CONFIG_HUGETLB_CACHE
-+struct page_reporting_dev_info;
-+int hugetlb_page_reporting(struct page_reporting_dev_info *prdev,
-+			   struct scatterlist *sgl);
-+#else /* !CONFIG_HUGETLB_CACHE */
-+struct page_reporting_dev_info;
-+struct scatterlist;
-+static inline int hugetlb_page_reporting(struct page_reporting_dev_info *prdev,
-+					 struct scatterlist *sgl)
-+{
-+	return 0;
-+}
-+#endif /* CONFIG_HUGETLB_CACHE */
-+
- static inline unsigned long huge_page_mask_align(struct file *file)
- {
- 	return PAGE_MASK & ~huge_page_mask(hstate_file(file));
-@@ -1311,6 +1330,14 @@ static inline bool hugetlbfs_pagecache_present(
- static inline void hugetlb_bootmem_alloc(void)
- {
- }
-+
-+struct page_reporting_dev_info;
-+struct scatterlist;
-+static inline int hugetlb_page_reporting(struct page_reporting_dev_info *prdev,
-+					 struct scatterlist *sgl)
-+{
-+	return 0;
-+}
- #endif	/* CONFIG_HUGETLB_PAGE */
- 
- static inline spinlock_t *huge_pte_lock(struct hstate *h,
-diff --git a/include/linux/page_reporting.h b/include/linux/page_reporting.h
-index 9d4ca5c218a0..bd5a5a293dc3 100644
---- a/include/linux/page_reporting.h
-+++ b/include/linux/page_reporting.h
-@@ -27,4 +27,5 @@ struct page_reporting_dev_info {
- /* Tear-down and bring-up for page reporting devices */
- void page_reporting_unregister(struct page_reporting_dev_info *prdev);
- int page_reporting_register(struct page_reporting_dev_info *prdev);
-+extern unsigned int page_reporting_order;
- #endif /*_LINUX_PAGE_REPORTING_H */
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 1bc0198a695c..110c566efc3b 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -46,7 +46,9 @@
- #include <linux/io.h>
- #include <linux/node.h>
- #include <linux/page_owner.h>
-+#include <linux/page_reporting.h>
- #include "internal.h"
-+#include "page_reporting.h"
- #include "hugetlb_vmemmap.h"
- #include "hugetlb_cma.h"
- #include "hugetlb_internal.h"
-@@ -1414,6 +1416,7 @@ static void hugetlb_cache_remove(struct hstate *h, struct folio *folio, bool to_
- 	list_del_init(&folio->lru);
- 	folio_clear_hugetlb_freed(folio);
- 	folio_clear_hugetlb_cached(folio);
-+	folio_clear_hugetlb_reported(folio);
- 	h->nr_cached_hugepages--;
- 	h->nr_cached_hugepages_node[nid]--;
- 	if (to_surplus) {
-@@ -1806,6 +1809,7 @@ void free_huge_folio(struct folio *folio)
- 		    !folio_test_hwpoison(folio)) {
- 			arch_clear_hugetlb_flags(folio);
- 			hugetlb_cache_add(h, folio, true);
-+			page_reporting_notify_free(h->order);
- 			spin_unlock_irqrestore(&hugetlb_lock, flags);
- 			return;
- 		}
-@@ -4231,6 +4235,7 @@ static int adjust_cached_huge_pages(struct hstate *h, long count, bool is_delta,
- 			account_new_hugetlb_folio(h, folio);
- 
- 			hugetlb_cache_add(h, folio, false);
-+			page_reporting_notify_free(h->order);
- 			spin_unlock_irq(&hugetlb_lock);
- 			cond_resched();
- 		}
-@@ -4310,6 +4315,7 @@ static int adjust_cached_huge_pages(struct hstate *h, long count, bool is_delta,
- 			account_new_hugetlb_folio(h, folio);
- 
- 			hugetlb_cache_add(h, folio, false);
-+			page_reporting_notify_free(h->order);
- 			spin_unlock_irq(&hugetlb_lock);
- 			cond_resched();
- 		}
-@@ -7763,3 +7769,122 @@ void fixup_hugetlb_reservations(struct vm_area_struct *vma)
- 	if (is_vm_hugetlb_page(vma))
- 		clear_vma_resv_huge_pages(vma);
- }
-+
-+#ifdef CONFIG_HUGETLB_CACHE
-+static void page_reporting_drain_hugetlb(struct hstate *h,
-+					 struct scatterlist *sgl, unsigned int nents, bool reported)
-+{
-+	struct scatterlist *sg = sgl;
-+	unsigned int left = nents;
-+
-+	spin_lock_irq(&hugetlb_lock);
-+	do {
-+		struct page *page = sg_page(sg);
-+		struct folio *folio = page_folio(page);
-+
-+		hugetlb_cache_add(h, folio, false);
-+
-+		if (reported)
-+			folio_set_hugetlb_reported(folio);
-+	} while (--left && (sg = sg_next(sg)));
-+	spin_unlock_irq(&hugetlb_lock);
-+
-+	sg_init_table(sgl, nents);
-+}
-+
-+static int hugetlb_page_reporting_cycle(struct page_reporting_dev_info *prdev,
-+					struct hstate *h, int nid,
-+					struct scatterlist *sgl, unsigned int *offset)
-+{
-+	struct list_head *list = &h->hugepage_cache_lists[nid];
-+	unsigned int page_len = huge_page_size(h);
-+	struct folio *folio, *next;
-+	long budget = 100; /* Limit */
-+	int err = 0;
-+
-+	if (list_empty(list))
-+		return err;
-+
-+	spin_lock_irq(&hugetlb_lock);
-+
-+	list_for_each_entry_safe(folio, next, list, lru) {
-+		if (folio_test_hugetlb_reported(folio))
-+			continue;
-+
-+		if (budget < 0) {
-+			atomic_set(&prdev->state, PAGE_REPORTING_REQUESTED);
-+			break;
-+		}
-+
-+		if (*offset) {
-+			/* Isolate */
-+			hugetlb_cache_remove(h, folio, false);
-+
-+			--(*offset);
-+			sg_set_page(&sgl[*offset], &folio->page, page_len, 0);
-+			continue;
-+		}
-+
-+		spin_unlock_irq(&hugetlb_lock);
-+
-+		err = prdev->report(prdev, sgl, PAGE_REPORTING_CAPACITY);
-+		if (!err) {
-+			pr_info("HugeTLB page reporting: reported %u pages of size %luKB\n",
-+				PAGE_REPORTING_CAPACITY, huge_page_size(h) / 1024);
-+		}
-+
-+		*offset = PAGE_REPORTING_CAPACITY;
-+		budget--;
-+
-+		page_reporting_drain_hugetlb(h, sgl, PAGE_REPORTING_CAPACITY, !err);
-+
-+		spin_lock_irq(&hugetlb_lock);
-+
-+		if (list_empty(list))
-+			break;
-+		next = list_first_entry(list, struct folio, lru);
-+
-+		if (err)
-+			break;
-+	}
-+
-+	spin_unlock_irq(&hugetlb_lock);
-+	return err;
-+}
-+
-+int hugetlb_page_reporting(struct page_reporting_dev_info *prdev,
-+			   struct scatterlist *sgl)
-+{
-+	struct hstate *h;
-+	int err = 0;
-+	int nid;
-+
-+	for_each_hstate(h) {
-+		if (h->order < page_reporting_order)
-+			continue;
-+
-+		for_each_online_node(nid) {
-+			unsigned int offset = PAGE_REPORTING_CAPACITY;
-+
-+			err = hugetlb_page_reporting_cycle(prdev, h, nid, sgl, &offset);
-+			if (err)
-+				return err;
-+
-+			/* Report leftovers */
-+			unsigned int leftover = PAGE_REPORTING_CAPACITY - offset;
-+
-+			if (leftover) {
-+				struct scatterlist *sg = &sgl[offset];
-+
-+				err = prdev->report(prdev, sg, leftover);
-+				page_reporting_drain_hugetlb(h, sg, leftover, !err);
-+				if (err)
-+					return err;
-+				pr_info("HugeTLB page reporting: reported %u pages of size %luKB\n",
-+					leftover, huge_page_size(h) / 1024);
-+			}
-+		}
-+	}
-+	return 0;
-+}
-+#endif
-diff --git a/mm/page_reporting.c b/mm/page_reporting.c
-index 7418f2e500bb..882496b8b2c9 100644
---- a/mm/page_reporting.c
-+++ b/mm/page_reporting.c
-@@ -2,6 +2,7 @@
- #include <linux/mm.h>
- #include <linux/mmzone.h>
- #include <linux/page_reporting.h>
-+#include <linux/hugetlb.h>
- #include <linux/gfp.h>
- #include <linux/export.h>
- #include <linux/module.h>
-@@ -50,12 +51,6 @@ EXPORT_SYMBOL_GPL(page_reporting_order);
- #define PAGE_REPORTING_DELAY	(2 * HZ)
- static struct page_reporting_dev_info __rcu *pr_dev_info __read_mostly;
- 
--enum {
--	PAGE_REPORTING_IDLE = 0,
--	PAGE_REPORTING_REQUESTED,
--	PAGE_REPORTING_ACTIVE
--};
--
- /* request page reporting */
- static void
- __page_reporting_request(struct page_reporting_dev_info *prdev)
-@@ -334,6 +329,9 @@ static void page_reporting_process(struct work_struct *work)
- 			break;
- 	}
- 
-+	if (!err)
-+		err = hugetlb_page_reporting(prdev, sgl);
-+
- 	kfree(sgl);
- err_out:
- 	/*
-diff --git a/mm/page_reporting.h b/mm/page_reporting.h
-index c51dbc228b94..74e05af4bac1 100644
---- a/mm/page_reporting.h
-+++ b/mm/page_reporting.h
-@@ -11,6 +11,12 @@
- #include <linux/scatterlist.h>
- 
- #ifdef CONFIG_PAGE_REPORTING
-+enum {
-+	PAGE_REPORTING_IDLE = 0,
-+	PAGE_REPORTING_REQUESTED,
-+	PAGE_REPORTING_ACTIVE
-+};
-+
- DECLARE_STATIC_KEY_FALSE(page_reporting_enabled);
- extern unsigned int page_reporting_order;
- void __page_reporting_notify(void);
--- 
-2.55.0.rc0.799.gd6f94ed593-goog
-
+CkF0IDIwMjYtMDUtMjggMTk6NTI6MTksICJKYW4gS2FyYSIgPGphY2tAc3VzZS5jej4gd3JvdGU6
+Cj5PbiBXZWQgMjctMDUtMjYgMTE6MzE6MDIsIGZmZnNxaWFuQDE2My5jb20gd3JvdGU6Cj4+IEZy
+b206IFFpbmdzaHVhbmcgRnUgPGZ1cWluZ3NodWFuZ0BreWxpbm9zLmNuPgo+PiAKPj4gRml4IHR3
+byBzcGVsbGluZyBlcnJvcnMgaW4gZnMvOgo+PiAtIGNoaWxkZW4gIKH6ICBjaGlsZHJlbgo+PiAt
+IHBvc3Rpb24gofogcG9zaXRpb24KPj4gCj4+IFNpZ25lZC1vZmYtYnk6IFFpbmdzaHVhbmcgRnUg
+PGZ1cWluZ3NodWFuZ0BreWxpbm9zLmNuPgo+Cj5Mb29rcyBnb29kLiBGZWVsIGZyZWUgdG8gYWRk
+Ogo+Cj5SZXZpZXdlZC1ieTogSmFuIEthcmEgPGphY2tAc3VzZS5jej4KPgo+CQkJCQkJCQlIb256
+YQo+Cj4+IC0tLQo+PiAgZnMvY29yZWR1bXAuYyB8IDQgKystLQo+PiAgMSBmaWxlIGNoYW5nZWQs
+IDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPj4gCj4+IGRpZmYgLS1naXQgYS9mcy9j
+b3JlZHVtcC5jIGIvZnMvY29yZWR1bXAuYwo+PiBpbmRleCBiYjZmZGIxZjQ1OGUuLmY4MmY2ZGM0
+Zjc3MyAxMDA2NDQKPj4gLS0tIGEvZnMvY29yZWR1bXAuYwo+PiArKysgYi9mcy9jb3JlZHVtcC5j
+Cj4+IEBAIC02MzcsNyArNjM3LDcgQEAgc3RhdGljIGludCB1bWhfY29yZWR1bXBfc2V0dXAoc3Ry
+dWN0IHN1YnByb2Nlc3NfaW5mbyAqaW5mbywgc3RydWN0IGNyZWQgKm5ldykKPj4gIAkJcGlkZnNf
+Y29yZWR1bXAoY3ApOwo+PiAgCj4+ICAJCS8qCj4+IC0JCSAqIFVzZXJtb2RlIGhlbHBlcnMgYXJl
+IGNoaWxkZW4gb2YgZWl0aGVyCj4+ICsJCSAqIFVzZXJtb2RlIGhlbHBlcnMgYXJlIGNoaWxkcmVu
+IG9mIGVpdGhlcgo+PiAgCQkgKiBzeXN0ZW1fZGZsX3dxIG9yIG9mIGt0aHJlYWRkLiBTbyB3ZSBr
+bm93IHRoYXQKPj4gIAkJICogd2UncmUgc3RhcnRpbmcgb2ZmIHdpdGggYSBjbGVhbiBmaWxlIGRl
+c2NyaXB0b3IKPj4gIAkJICogdGFibGUuIFNvIHdlIHNob3VsZCBhbHdheXMgYmUgYWJsZSB0byB1
+c2UKPj4gQEAgLTEwNTMsNyArMTA1Myw3IEBAIHN0YXRpYyBib29sIGNvcmVkdW1wX3dyaXRlKHN0
+cnVjdCBjb3JlX25hbWUgKmNuLAo+PiAgCWNuLT5jb3JlX2R1bXBlZCA9IGJpbmZtdC0+Y29yZV9k
+dW1wKGNwcm0pOwo+PiAgCS8qCj4+ICAJICogRW5zdXJlcyB0aGF0IGZpbGUgc2l6ZSBpcyBiaWcg
+ZW5vdWdoIHRvIGNvbnRhaW4gdGhlIGN1cnJlbnQKPj4gLQkgKiBmaWxlIHBvc3Rpb24uIFRoaXMg
+cHJldmVudHMgZ2RiIGZyb20gY29tcGxhaW5pbmcgYWJvdXQKPj4gKwkgKiBmaWxlIHBvc2l0aW9u
+LiBUaGlzIHByZXZlbnRzIGdkYiBmcm9tIGNvbXBsYWluaW5nIGFib3V0Cj4+ICAJICogYSB0cnVu
+Y2F0ZWQgZmlsZSBpZiB0aGUgbGFzdCAid3JpdGUiIHRvIHRoZSBmaWxlIHdhcwo+PiAgCSAqIGR1
+bXBfc2tpcC4KPj4gIAkgKi8KPj4gCj4+IGJhc2UtY29tbWl0OiBlYjNmNGI3NDI2Y2ZkMmI3OWQ2
+NWI3ZDM3MTU1NDgwYjMyMjU5YTExCj4+IC0tIAo+PiAyLjI1LjEKPj4gCj4tLSAKPkphbiBLYXJh
+IDxqYWNrQHN1c2UuY29tPgo+U1VTRSBMYWJzLCBDUgoKCkhpIEphbiwgQWwsIENocmlzdGlhbiwK
+ClRoYW5rcyBKYW4gZm9yIHByb3ZpZGluZyB0aGUgUmV2aWV3ZWQtYnkgdGFnIG9uIG15IG9yaWdp
+bmFsIHBhdGNoLgpJIHNlbnQgb3V0IHYyIG9uZSBtb250aCBhZ28gd2hpY2ggY2FycmllcyB5b3Vy
+IHJldmlld2VkLWJ5IHRhZywgYnV0IHRoZXJlIGhhcyBiZWVuIG5vIGZ1cnRoZXIgZmVlZGJhY2su
+CgpUaGlzIHBhdGNoIG9ubHkgZml4ZXMgdHdvIHRyaXZpYWwgc3BlbGxpbmcgdHlwb3MgaW4gY29y
+ZWR1bXAgY29tbWVudCwgbm8gZnVuY3Rpb25hbCBsb2dpYyBjaGFuZ2VzLgpDb3VsZCB5b3UgaGVs
+cCByZXZpZXcvbWVyZ2UgaXQgd2hlbiB5b3UgaGF2ZSBzcGFyZSB0aW1lPwoKUmVmZXJlbmNlIHYy
+IHBhdGNoOgpodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyNjA1MjkwNDA3MDEuMTgyNTIz
+OC0xLWZmZnNxaWFuQDE2My5jb20vCgpCZXN0IHJlZ2FyZHMsClFpbmdzaHVhbmcgRnUgPGZ1cWlu
+Z3NodWFuZ0BreWxpbm9zLmNuPg==
