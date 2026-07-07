@@ -1,72 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E5A3DC861;
-	Tue,  7 Jul 2026 10:23:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962FC3BD225
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 10:25:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783419787; cv=none; b=ppULIfLNeoOZXdly94D2vzSbEPZB3Ow0TR0HY7fb/C3zHQx0Z58kcRHXn4+OeLRINLpFvVaKGMS/q2Lhj5thIYNmUo6ud0nchG93lGlVYJNNfCM0DAbTfhSyrnJQvCd7HxEoimeWgHf/ghsXvNnOkl+aVuYobU55bqPM1djcL5o=
+	t=1783419951; cv=none; b=hIeJBgD1y3D0Rx/vUImDHjDLSAr4hVWg//nlVgori9GvFql/uUM+8yOMd7be1KvxMxhC4KBMZ6FRPxjeOxvP/PCJ9hU3Xd2c4UkVl7dqx55JBoFVxLypdnhPW3t7Pj/CYYX8BdDJsMht/FYhv4U5tW+PISsW7A2LPn+pTEM3mCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783419787; c=relaxed/simple;
-	bh=v8FgcP/f2W7m0pP7PolC2zvUEFXbUmBTndmaaqJYyAc=;
+	s=arc-20240116; t=1783419951; c=relaxed/simple;
+	bh=gqOFLV/X0owYRcnHzvrsp/DH0uPVs/VkzGR4wK4JoEk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aAXMpzC5WKcqXD26GA2xTX55f8lcbFHNtTbxSaUAVnNahROOdQo1aBjgIj0REOdLH8psXry71AEg1ZYw20SqCq1UIqmKaY2+7vg+v5/dmXyqbOVwpUzCZC/g1CxzfR+DUGpFb9KxFbMlv7v9uCLLQei7AcTdY5UI/AcJ9S5EgKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MwBekEDD; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=CXj+nc2McgLxZd+nplgQVe3Npv1mwd38WvPiM1DQzG2kMxl7NrAfDAUZf4UbBfWtNAtvpVsVTLJgyyX1z3DNetiXjAT23BcDRMANMBJIfSQEmAjksK0XspzwnSA+Qnt+Ws1pRgAk+vdo88hOx0Bt6+wqUHbWZmBv22PE/Rtw2KQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CosTi2hp; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=H80CHPz7; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MwBekEDD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3940D1F000E9;
-	Tue,  7 Jul 2026 10:22:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783419785;
-	bh=uO9n1BXbcFKpE0ytmifaDUpJQYF7fOJjd6hhXMsbhnw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MwBekEDDrqDWUBl7OB2GiRJo9KVaANF531LqDSCiYXdCwUfPfgV15P9ZY/fY6CVA6
-	 F8ic/FjF/V4shqvt1ft98lkWSY+mj6ovzE4pr5gR635QrF0JPDro+njddQUcumSdQh
-	 kZ2VtL+NJM1IHpwBv5iKE1Mc7Oizq03fbEHOGyZREuLCbOunsQHWCjKQPfsYIeYhTn
-	 nkzNe0/N0Uo+DMFOtkRTMhjaVVt0gFL67IW/5ZfXccVzW25bfqi117JnWf+/k8p1+/
-	 tBKgrRhHBxTqzBMhkUG4DH3unKVaBJ/A7PbihSPTdfDg8mw0xEEWq1UREm34Vk39Dl
-	 CNZCNxZb4WFjQ==
-Date: Tue, 7 Jul 2026 11:22:41 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Simon Schuster <schuster.simon@siemens-energy.com>, 
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Ian Abbott <abbotti@mev.co.uk>, 
-	H Hartley Sweeten <hsweeten@visionengravers.com>, Lucas Stach <l.stach@pengutronix.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Thierry Reding <thierry.reding@kernel.org>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>, 
-	Alex Williamson <alex@shazbot.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Dan Williams <djbw@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	"Liam R . Howlett" <liam@infradead.org>, Matthew Wilcox <willy@infradead.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Hugh Dickins <hughd@google.com>, Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org, linux-sgx@vger.kernel.org, 
-	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-mm@kvack.org, 
-	iommu@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, damon@lists.linux.dev, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 21/30] mm/vma: add and use vma_[add/sub]_pgoff()
-Message-ID: <akzTTCgF1_d7DDZZ@lucifer>
-References: <cover.1782735110.git.ljs@kernel.org>
- <794044881e454fd8ac13e59d5ff5fc86fca08b03.1782735110.git.ljs@kernel.org>
- <akZI0n1U32Ptd0ye@pedro-suse.lan>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CosTi2hp";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="H80CHPz7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1783419946;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VR1L8Tfvs37DPjneOYKS8+jqtMz73BhJHMeN7x0oADU=;
+	b=CosTi2hpCzSkvSZZrCmpw95mibtDmdwOVSHWDvx1pp0cLhllPd4sFcgDLxeCwPhQgMy0gf
+	BV31sVf2ZwlviwtAei81BFKZVoHXywBf1smbi2I+HbSnO9iDeqIuruFzOaWx3yHKQfmIqx
+	LvS31DOstIiiyGiimCIfSSuzNHqk9Dk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-121-boSt3-o5MQeQsrIW0ylrIA-1; Tue, 07 Jul 2026 06:25:45 -0400
+X-MC-Unique: boSt3-o5MQeQsrIW0ylrIA-1
+X-Mimecast-MFC-AGG-ID: boSt3-o5MQeQsrIW0ylrIA_1783419944
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-493c20d0468so54496585e9.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 03:25:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1783419944; x=1784024744; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=VR1L8Tfvs37DPjneOYKS8+jqtMz73BhJHMeN7x0oADU=;
+        b=H80CHPz7hdZ4YxDRwymNtvbd3cxqfw38gmdOX40ME8Rs8xS0s30rtLGkA3/gAyWU5z
+         ViHr0FeMjbWGPnJebiWzyIai/YOlhaB4x6JWlHYF0/sEo65hQyIU4C9P2UdJ1TaO2to3
+         /elUZ/mCHYw2b45lIQlpjJmmue/vNZ+5lOCowJSJs/qWIVAR3n8Anubep6loai3m5aL5
+         +rf+t8+E7mLtnIu3FQc8+KYZbvGfPKvaA/R9WtV+dmSNCG6c7qeDVCMKM+gL76mxBFkW
+         w+J73PL/kNmNriEUzhq4LV7eaHzI12BLNAvfdZouzws66GzhUSSZ8t9dbtyNTcj8n1jO
+         6wIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783419944; x=1784024744;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VR1L8Tfvs37DPjneOYKS8+jqtMz73BhJHMeN7x0oADU=;
+        b=AAegLwJ5EDR/oNqNV5B8IqIAipG7BLrDk01ZGmAj6XbzbdmwcGIXr9fiK4UE5Pi+Gl
+         eN+EHRP86wRF8dAMOnnZ6dopmOYkp2rRWxrE5UqBAdd+aXZU3K0/iPctWfbJRMxX7LI8
+         iYAVk/n6Hf+pqU5ViEYkqwkdFfjTOTnzlE8IPjLnXOH6QkquOBnSSG8e5mSIOdcVygu/
+         5B7Vn2sYVge5TVgGprPI8vDUURA2TItPio3uvfzRqai3S95BAj4rSaE/63vbxvHWubaQ
+         cCk2o9chLq+lOwSvX90czmz+rGDvbrIj7YGZAUKEPw4rtw4fDPrMdBi60DaU8UnN3Jdn
+         3Fgg==
+X-Forwarded-Encrypted: i=1; AHgh+Rr+V5uh8D/CeVersdgB9H4lHLZj0UxxhPvI8mR/TRHwjs/l4qQrz/mCZ3tWLD8YS6sQRZ1hJMuohPNXcZjs@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbkmzHM095SSn510hHRxAhAScMgU5XqhtAxhouf7AlqdezxcY5
+	HncR3srrRfjBK592xjnFJVNRF7TgwIabvjEjQQ4DH6ii1CbVEnxUCrn/SxYNxmC+7KqxzNIysTB
+	mp6Rcytsh8NykjMKYjzQeEr8D1KOOb3IR8uGj30HsJsKapK9YWj+qHzwf+x2teCXi22M=
+X-Gm-Gg: AfdE7clT+FKUE+Zj+41gAlJ0B/T7mOak0aGeil/hr/a46yiZf825fL3ncHeURb4rl2M
+	uj7YcFFT80LyqTFWPpqx6mxIlos8tSO6miPv3VfvF6T9qy/q0+kDQw4XqXhNdWkkQlaxxiN4m9o
+	r41Gxa9KVW3EX1aLgU2/65xSJjeg9Od4Ek6+5oQ8aUsDbYrgxrUKLeY+RFywUgCkoWkE7muAfxE
+	u3A+sSSzytDh5tQsFeAAVShz1TxC2HbNTtojzyZx5LHaa4ayz9lGewXHckbl6+LDm/McIOGlYxt
+	XnxjhJHC2Rje4xvLaI6uKhOkIjrdhnUevDfl70l9gvu1irWhZLIazpRspyHuKHuG9kdPhentZfz
+	Cg7GMZsCzMV2fLsZl00HkkC44pY09uxQ4
+X-Received: by 2002:a05:600c:1383:b0:493:b647:1acd with SMTP id 5b1f17b1804b1-493df090a95mr49449445e9.36.1783419942328;
+        Tue, 07 Jul 2026 03:25:42 -0700 (PDT)
+X-Received: by 2002:a05:600c:1383:b0:493:b647:1acd with SMTP id 5b1f17b1804b1-493df090a95mr49448105e9.36.1783419940603;
+        Tue, 07 Jul 2026 03:25:40 -0700 (PDT)
+Received: from redhat.com (IGLD-80-230-68-31.inter.net.il. [80.230.68.31])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa039b126sm32286020f8f.24.2026.07.07.03.25.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 03:25:40 -0700 (PDT)
+Date: Tue, 7 Jul 2026 06:25:36 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Sourav Panda <souravpanda@google.com>, muchun.song@linux.dev,
+	osalvador@suse.de, akpm@linux-foundation.org, ljs@kernel.org,
+	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
+	surenb@google.com, mhocko@suse.com, mhklinux@outlook.com,
+	fvdl@google.com, gthelen@google.com, mike.kravetz@oracle.com,
+	pasha.tatashin@soleen.com, rientjes@google.com, riel@surriel.com,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH 0/6] mm/hugetlb: Dynamic, NUMA-aware HugePage Cache &
+ Free Page Reporting
+Message-ID: <20260707062428-mutt-send-email-mst@kernel.org>
+References: <20260707064235.1386552-1-souravpanda@google.com>
+ <9624988a-366e-4884-9408-3f3b88c27290@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -75,162 +101,40 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <akZI0n1U32Ptd0ye@pedro-suse.lan>
+In-Reply-To: <9624988a-366e-4884-9408-3f3b88c27290@kernel.org>
 
-On Thu, Jul 02, 2026 at 12:20:10PM +0100, Pedro Falcato wrote:
-> On Mon, Jun 29, 2026 at 01:23:32PM +0100, Lorenzo Stoakes wrote:
-> > Add helpers for adding or subtracting to a VMA's page offset, exposed
-> > internally for VMA users within mm in mm/vma.h.
-> >
-> > This is to lay the foundations for tracking anonymous page offset for
-> > MAP_PRIVATE file-backed mappings, where adding and subtracting from this
-> > value must be reflected in both the file and anonymous offsets.
-> >
-> > These are used on VMA split and downward stack expansion.
-> >
-> > No functional change intended.
-> >
-> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
-> > ---
-> >  mm/nommu.c                      |  6 ++++--
-> >  mm/vma.c                        |  6 +++---
-> >  mm/vma.h                        | 12 ++++++++++++
-> >  tools/testing/vma/include/dup.h | 13 ++++++++++++-
-> >  4 files changed, 31 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/mm/nommu.c b/mm/nommu.c
-> > index 7333d855e974..c7fafcd87c14 100644
-> > --- a/mm/nommu.c
-> > +++ b/mm/nommu.c
-> > @@ -41,6 +41,7 @@
-> >  #include <asm/tlbflush.h>
-> >  #include <asm/mmu_context.h>
-> >  #include "internal.h"
-> > +#include "vma.h"
-> >
-> >  unsigned long highest_memmap_pfn;
-> >  int heap_stack_gap = 0;
-> > @@ -1338,7 +1339,8 @@ static int split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
-> >  		region->vm_top = region->vm_end = new->vm_end = addr;
-> >  	} else {
-> >  		region->vm_start = new->vm_start = addr;
-> > -		region->vm_pgoff = new->vm_pgoff += npages;
-> > +		vma_add_pgoff(new, npages);
-> > +		region->vm_pgoff = vma_start_pgoff(new);
-> >  	}
-> >
-> >  	vma_iter_config(vmi, new->vm_start, new->vm_end);
-> > @@ -1355,7 +1357,7 @@ static int split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
-> >  	delete_nommu_region(vma->vm_region);
-> >  	if (new_below) {
-> >  		vma->vm_region->vm_start = vma->vm_start = addr;
-> > -		vma->vm_pgoff += npages;
-> > +		vma_add_pgoff(vma, npages);
-> >  		vma->vm_region->vm_pgoff = vma_start_pgoff(vma);
-> >  	} else {
-> >  		vma->vm_region->vm_end = vma->vm_end = addr;
-> > diff --git a/mm/vma.c b/mm/vma.c
-> > index 185d07397ca6..cb7222e20c93 100644
-> > --- a/mm/vma.c
-> > +++ b/mm/vma.c
-> > @@ -517,7 +517,7 @@ __split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
-> >  		new->vm_end = addr;
-> >  	} else {
-> >  		new->vm_start = addr;
-> > -		new->vm_pgoff += linear_page_delta(vma, addr);
-> > +		vma_add_pgoff(new, linear_page_delta(vma, addr));
-> >  	}
-> >
-> >  	err = -ENOMEM;
-> > @@ -556,7 +556,7 @@ __split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
-> >
-> >  	if (new_below) {
-> >  		vma->vm_start = addr;
-> > -		vma->vm_pgoff += (addr - new->vm_start) >> PAGE_SHIFT;
-> > +		vma_add_pgoff(vma, (addr - new->vm_start) >> PAGE_SHIFT);
-> >  	} else {
-> >  		vma->vm_end = addr;
-> >  	}
-> > @@ -3305,7 +3305,7 @@ int expand_downwards(struct vm_area_struct *vma, unsigned long address)
-> >  				vm_stat_account(mm, vma->vm_flags, grow);
-> >  				anon_vma_interval_tree_pre_update_vma(vma);
-> >  				vma->vm_start = address;
-> > -				vma->vm_pgoff -= grow;
-> > +				vma_sub_pgoff(vma, grow);
-> >  				/* Overwrite old entry in mtree. */
-> >  				vma_iter_store_overwrite(&vmi, vma);
-> >  				anon_vma_interval_tree_post_update_vma(vma);
-> > diff --git a/mm/vma.h b/mm/vma.h
-> > index 2342516ce00e..47fe35e5307e 100644
-> > --- a/mm/vma.h
-> > +++ b/mm/vma.h
-> > @@ -247,6 +247,18 @@ static inline pgoff_t vmg_end_pgoff(const struct vma_merge_struct *vmg)
-> >  	return vmg_start_pgoff(vmg) + vmg_pages(vmg);
-> >  }
-> >
-> > +static inline void vma_add_pgoff(struct vm_area_struct *vma, pgoff_t delta)
-> > +{
-> > +	vma_assert_can_modify(vma);
-> > +	vma->vm_pgoff += delta;
-> > +}
-> > +
-> > +static inline void vma_sub_pgoff(struct vm_area_struct *vma, pgoff_t delta)
-> > +{
-> > +	vma_assert_can_modify(vma);
-> > +	vma->vm_pgoff -= delta;
-> > +}
-> > +
-> >  #define VMG_STATE(name, mm_, vmi_, start_, end_, vma_flags_, pgoff_)	\
-> >  	struct vma_merge_struct name = {				\
-> >  		.mm = mm_,						\
-> > diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
-> > index 7ed165c8d9bc..41fea90a344d 100644
-> > --- a/tools/testing/vma/include/dup.h
-> > +++ b/tools/testing/vma/include/dup.h
-> > @@ -1163,6 +1163,11 @@ static inline struct vm_area_struct *vma_next(struct vma_iterator *vmi)
-> >  	return mas_find(&vmi->mas, ULONG_MAX);
-> >  }
-> >
-> > +static inline bool vma_is_attached(struct vm_area_struct *vma)
-> > +{
-> > +	return refcount_read(&vma->vm_refcnt);
-> > +}
-> > +
-> >  /*
-> >   * WARNING: to avoid racing with vma_mark_attached()/vma_mark_detached(), these
-> >   * assertions should be made either under mmap_write_lock or when the object
-> > @@ -1170,7 +1175,13 @@ static inline struct vm_area_struct *vma_next(struct vma_iterator *vmi)
-> >   */
-> >  static inline void vma_assert_attached(struct vm_area_struct *vma)
-> >  {
-> > -	WARN_ON_ONCE(!refcount_read(&vma->vm_refcnt));
-> > +	WARN_ON_ONCE(!vma_is_attached(vma));
-> > +}
-> > +
-> > +static inline void vma_assert_can_modify(struct vm_area_struct *vma)
-> > +{
-> > +	if (vma_is_attached(vma))
-> > +		vma_assert_write_locked(vma);
-> >  }
->
-> These hunks in dup.h look lost. Should perhaps be on the previous patch
-> (adding the helpers).
+On Tue, Jul 07, 2026 at 09:29:07AM +0200, David Hildenbrand (Arm) wrote:
+> On 7/7/26 08:42, Sourav Panda wrote:
+> > Overview
+> > This patch series introduces a dynamic, NUMA-aware HugePage Cache,
+> > backed by a kernel shrinker to safely return memory under pressure, and
+> > integrates it with Free Page Reporting (virtio-balloon) for HugeTLB,
+> > specifically targeting gigantic (1GB) hugepages. The goal is to solve
+> > the tradeoff between allocation latency and memory
+> > fungibility in virtualized and heterogeneous cloud environments.
+> 
+> Hi,
+> 
+> in general, we consider hugetlb nowadays to be mostly in feature freeze, as we
+> realized a while ago that adding more special casing on top of something too
+> special for all of MM is only going to hurt us more in the long run.
+> 
+> We want to have less special casing and less special sauce, not more.
+> 
+> Now, there is nothing wrong in making hugetlb be less special, by making it use
+> more of core infrastructure etc.
+> 
+> But optimizing for surplus hugetlb pages by teaching hugetlb about new caches
+> and its custom free-page-reporting support rather looks like the wrong direction
+> for me?
+> 
+> -- 
+> Cheers,
+> 
+> David
 
-Yeah, it's because the VMA code starts actually using them in a way that
-otherwise breaks the tests at this point, but you're right, functionally it'd be
-nicer to add them at the point they're introduced.
 
-Will fix that up on respin!
+It is currently bypassing free-page-reporting completely.
+Making existing free lists not ignore free-page-reporting would
+maybe considered "making it be less special"?
 
->
-> Anyway, Obviously Correct(tm).
->
-> Reviewed-by: Pedro Falcato <pfalcato@suse.de>
-
-Thanks!
-
->
-> --
-> Pedro
-
-Cheers, Lorenzo
