@@ -1,238 +1,126 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAFB35BDA4
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 07:21:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783408903; cv=pass; b=bwoyvC43H1Q7L1vPN8uFKKDIjAo988zgLhVF/84VPklQH4HZtvGMKtC8RUgjXkMD7U7xKNz/O+IUSNYrgEjOXgpO4LLMR3d09XQQRyv1tiEozTtY4HQSNTUSIrAhaUOa1YMGZQUuWjVmUHGmEojoK1KY8XjdmtAtWlIEPV1acIg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783408903; c=relaxed/simple;
-	bh=qcg4RcF0mT1TEuo/6J21ZVBADngE4CsURMKwvYL8kvI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TtJ/m8SvsVkmP8d086wCsZeCOZys5sZT8Ahakr1XBLdViaq60/AVIQeFtQA0yvX/x0nqA0FO+Msd5NdtGVPgtUSi6SlY1p8mo8fJJFPxcBLQsTyy12zIBXm5Eqtg4t6xI284Yet/g6lnmn8uQdDYPCryHPY0o/7NOdnTZmmCauc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=plMzQfR9; arc=pass smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90BFB3B95EC;
+	Tue,  7 Jul 2026 07:29:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783409356; cv=none; b=uerO8Jx2dPwkyPqQxfmcXUACuAv1l9CYx6QGkUGnEVbKwIcHS9uRV9rAgTgIPZ0eIEYLyw8NhKtrDRGB80B6ck1vNrzjKvxQH44qT6roUXDHucLhAHtyBuWIJQ3SrLL4GgPMWfzgYmhWtPWV5akyr02Mj727pxHuLtqqfJt1wBw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783409356; c=relaxed/simple;
+	bh=OwnkEzV4xCSE7QMHzGXAOZb6zYuK429uP0AU2wJjcvQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dJP+CzXZGV8pN3GFlC96opN3YLu+2EKmFd9h630ZD6fp2JJKY8HphKgKDsfMzmBpHf0nU56wzwJPKO8X7NyiaO4jkzb2a1W8VWtQ/gVDjFKLMA815JiEq5863AW9T2XJqSc8Wa6DN7O2uUUH5WoCSbG6j9yCPPHWaB3xxBOB0WE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WuKDqQaG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="plMzQfR9"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5aeb6bdeaeaso3018e87.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 00:21:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783408894; cv=none;
-        d=google.com; s=arc-20260327;
-        b=PwMY6ht+/t1n+dMFa4j9ELEAI7/5FXgHuZIygoQdT65bsOZUbGTZ+4l4lKa7LPvvIt
-         3KjroRZni+hV3qgAdfuW7YM4HuSh9/8pgZi/xoaC2oMSoHb/gRm8v4x3vmSg4q2Mg+Qy
-         CLC8OAz6wnmXcv0wKfXPnqD6rwjWlBGgZ9kE2knGH8IJ2oSBu4ysDJSr909Xey1AVfXK
-         94j+hTG1f6JglIX//aONSGeIUODK/4ElnS1Pw8Rj3tZk7pUm5FHUCBJiWf15xeWrT+9+
-         qa+kwl/UTHWdcsnR8xeDXPiA2jMyL+itfChRmaSyUuKqpJMncGfT8MhUALjQ5Y9t8uCl
-         hFJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=RuL7lrFAhFFbC0DaxVnYi7IkQ87nYE6lxKOGL6gGHpI=;
-        fh=5VpppvSj7eV8rEcgz1caUqP+KS7ymkWfRzAZeNW2utM=;
-        b=WZlwFbWQX/FGal9D31jRi0KVE2hTqO4oaM1hJsOwaPdG9eKFRzBnHXMUFivM9WOIDq
-         PeA42kRMG2DZqVM8+ZOPlNOQZJHIiiKdrJ+leCMYHQWEnnFlMPJzskwQYB6iHUgIOyrz
-         wOZ2i/eKiGX+kAQaiGPtcd9yCOwREHEnbHh/xFPZiYTXue+WdGAsWqqy/i1umdBczPjw
-         wTXT7VPQ9B3EIzJI/K/BD7ZcNLwRyFxVMSdl7EjdWkAoV5Qz9HXIZqxqHH+QVpEcF0ru
-         sugXYSJ4CwcprNCV7dOHtqLQaX0f3HGMl/YwL/kpqZsZMik2MINjnkdMVHnADFFH9urE
-         m0vQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783408894; x=1784013694; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=RuL7lrFAhFFbC0DaxVnYi7IkQ87nYE6lxKOGL6gGHpI=;
-        b=plMzQfR922PtFnGS5XA2VJfL6RDVBLwf0PZzoxkLAca0PRT7FLyXmraU00QlJug3IN
-         cLt+bzRgR9BldahYGoennkm3SBHH/mTwNKhd6WucaikwGTB0X/5vHDtDD4LR8jqBEMXg
-         cVYxEslyJIiuasj9zdeDHEpOafrV9kDl4nhgNh8m0SCnvqjMi00eJkJkPbnka6pU2LBu
-         plVg5ZcRfnlhA/QdwpWsnXG9X/0C0PVJO7AKZKQkWX7yqzd4JtZrWr1omfiCvh07Ww1X
-         ybwIdITVQgJkOEjI7OXUnR5pI81QZqYTby0b+M0/gUxv7D25q4YeIlFwa/sIx2R17//N
-         sNNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783408894; x=1784013694;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=RuL7lrFAhFFbC0DaxVnYi7IkQ87nYE6lxKOGL6gGHpI=;
-        b=a9Q39o/xV9pr6Bs1nRkiQSXtjDps6ZfwxFclRaOel8q42mCueDZc/yW9BAZ9cvn5Rl
-         q8x+DbwX+iR6I1hH3YxW7e8PROIoFzsUBcCXaKfxci4RcuLi05iWfGSPZJg0AULJmnD/
-         LZYRaQxs31helMtPzbAjoJxOq+37FjrcpUgyKWbXXZMlUTDT1KhBNPlwwMKKHLwHbkis
-         qhselGJDPPt6usHvPVp0Ov477zNr8f8Lw6XB7g78xkCMfCtjznzqAbzeR1RYj9H3ALdm
-         oyt85NsVQrxStcFv7WvSmwo1NUgXNljGl+4od1gVUlYnkBw+3TJ2J0Wnah+HTlIezRSy
-         LBbQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqzOu0F6lb3O0YxgArCoCdkudC7fR1XHKSd3LUTOIoj5Y+bJFQ5y61GATg61QmwDRyt0SD/NUnEA/hldeTZ@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGg3Xd1BP1m7Mstbi62aFZmd7LtpbV0hymBhqOYSi50qzeL86j
-	wdeML+4T0Do8pVMTsQN3vP37yWT0CbrSUpXzcWloBUACSpQn4JPuU5+88NpftE/aViNZNcSndKy
-	2usLtRvLVEFiYsW4aPemE3AH1i0pq8xuZs7FGPCh/
-X-Gm-Gg: AfdE7ckVVKUYfF4YK5US5NdPkM0vOgApydhdav9HyqNc7fWR+uDvcRuoPt1HBK80b43
-	+qfNERqf9GADI8Wm5A58yQBHd63aGs32FqnWOAzT3ygwOBkdqn4ejI4NgBlIXC3spjOoIetQI2f
-	v99ruiajtv91uYJFQtzoDVWSoDpLIlbjPYvItAvCf5Tl3KNof/Afa9QSsLPXZ0BIQLMzlzS0qIl
-	WoL+z4XSMzrk3Xzt9vFYUbF56LZvtv27tw40j+bJF2D5Yjccvm7AeJjUkD7hv9xBv4yQqOMPKeV
-	Td0V0uDkjvVHGznVDtGwzgFK05qjYBYviQECY6n+u8pli0Q49aUJMHdU00FEBg==
-X-Received: by 2002:ac2:4f05:0:b0:5ae:aff3:3eab with SMTP id
- 2adb3069b0e04-5b00ad136f4mr95410e87.3.1783408894149; Tue, 07 Jul 2026
- 00:21:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WuKDqQaG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5458D1F000E9;
+	Tue,  7 Jul 2026 07:29:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783409354;
+	bh=hJDNsjgFUpkRMskGPiCnPSMfapFTgDn+0BKOC6J68lo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=WuKDqQaGsh3exMZdBNebudRylTlw0zWYmjonKHJt4f73TjWF0Gt5pCe1etLqyE2/M
+	 rz/EoU64diSdXVCoKQYJxyhJdUA4wHslBpuzvRux4FZf3nAQrmvNd/x2Vooxtx494W
+	 VwAVxTrOC8XguIMqZ6H3H9RRobbvmFWwcmHpZyCU2in3sTSHU5zs6Ik2VoZtY9a4qR
+	 Zs2i6VKu5IlUeTpZoSabjz4z7AYwj6kY58PkH0qk4eaa9hUevjbR4Jm7HO3ew9CRgk
+	 UnSX5qFYIxoOJsTnDDmELNhLn9CV1sYUle4MFGZUVaN+L3X/EwBxxXGVOpUTHu1mBA
+	 xgW9UIq3SU4EQ==
+Message-ID: <9624988a-366e-4884-9408-3f3b88c27290@kernel.org>
+Date: Tue, 7 Jul 2026 09:29:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260707064235.1386552-1-souravpanda@google.com> <20260707024744-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20260707024744-mutt-send-email-mst@kernel.org>
-From: Sourav Panda <souravpanda@google.com>
-Date: Tue, 7 Jul 2026 00:21:22 -0700
-X-Gm-Features: AVVi8CfKV_0_sx6GsBkVajWa1tfSd9GrFQw1r5LpgNz3KY7jvpoCzYNvR5XKQh4
-Message-ID: <CANruzcTiDCi_xg=FyykAgnrstvwGqzRDOeHQxu6LAJ_LdYDygw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH 0/6] mm/hugetlb: Dynamic, NUMA-aware HugePage Cache &
  Free Page Reporting
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: muchun.song@linux.dev, osalvador@suse.de, akpm@linux-foundation.org, 
-	david@kernel.org, ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, 
-	rppt@kernel.org, surenb@google.com, mhocko@suse.com, mhklinux@outlook.com, 
-	fvdl@google.com, gthelen@google.com, mike.kravetz@oracle.com, 
-	pasha.tatashin@soleen.com, rientjes@google.com, riel@surriel.com, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Sourav Panda <souravpanda@google.com>, muchun.song@linux.dev,
+ osalvador@suse.de, akpm@linux-foundation.org
+Cc: ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
+ surenb@google.com, mhocko@suse.com, mst@redhat.com, mhklinux@outlook.com,
+ fvdl@google.com, gthelen@google.com, mike.kravetz@oracle.com,
+ pasha.tatashin@soleen.com, rientjes@google.com, riel@surriel.com,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260707064235.1386552-1-souravpanda@google.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260707064235.1386552-1-souravpanda@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 6, 2026 at 11:57=E2=80=AFPM Michael S. Tsirkin <mst@redhat.com>=
- wrote:
->
-> On Tue, Jul 07, 2026 at 06:42:29AM +0000, Sourav Panda wrote:
-> > Overview
-> > This patch series introduces a dynamic, NUMA-aware HugePage Cache,
-> > backed by a kernel shrinker to safely return memory under pressure, and
-> > integrates it with Free Page Reporting (virtio-balloon) for HugeTLB,
-> > specifically targeting gigantic (1GB) hugepages. The goal is to solve
-> > the tradeoff between allocation latency and memory
-> > fungibility in virtualized and heterogeneous cloud environments.
-> >
-> > ---
-> >
-> > The Core Problem: Allocation Latency vs. Memory Fungibility
-> >
-> > With highly heterogeneous workloads, latency-critical applications dema=
-nd
-> > gigantic hugepages. However, dynamic runtime allocation of 1GB pages
-> > from the buddy allocator (via CMA) is slow.
-> >
-> > To bypass this latency, operators often pre-allocate hugepages
-> > statically. However, this locks up the memory: when the HugeTLB
-> > workloads are idle, that memory is completely unavailable for other
-> > buddy-allocator workloads (e.g., page cache, anonymous memory). If budd=
-y
-> > memory is exhausted, the system will OOM even if gigabytes of HugeTLB
-> > pages are sitting idle.
-> >
-> > This series resolves this challenge by delivering Dynamic Fungibility:
-> >
-> > 1.  Dynamic Caching: Intercepts freed surplus hugepages and recycles
-> >     them into a NUMA-aware cache instead of dissolving them immediately=
-.
-> > 2.  Fast Allocations: Satisfies subsequent dynamic allocations
-> >     instantly from this warm, local hugepage cache.
-> > 3.  Kernel Shrinker Integration: Registers a NUMA-aware kernel shrinker
-> >     to dynamically dissolve cached pages back to the buddy allocator
-> >     under memory pressure, restoring host/guest memory fungibility.
-> > 4.  Free Page Reporting Integration: For virtualized environments (Gues=
-t
-> >     VMs),
->
-> I was going to look into this part, thanks for working on this.
->
-> > cached pages trigger background Free Page Reporting via
-> >     virtio-balloon. This allows the host to reclaim the physical memory
-> >     while the guest retains its Vmemmap Optimization (HVO) metadata
-> >     savings (~14GB saved per 1TB VM)!
->
-> Why "!" - that's 1.5%, seems surprisingly modest.
-> Are you sure it's working as intended?
+On 7/7/26 08:42, Sourav Panda wrote:
+> Overview
+> This patch series introduces a dynamic, NUMA-aware HugePage Cache,
+> backed by a kernel shrinker to safely return memory under pressure, and
+> integrates it with Free Page Reporting (virtio-balloon) for HugeTLB,
+> specifically targeting gigantic (1GB) hugepages. The goal is to solve
+> the tradeoff between allocation latency and memory
+> fungibility in virtualized and heterogeneous cloud environments.
 
-I phrased it poorly, my bad! Thanks for pointing out Michael :)
+Hi,
 
-That ~14GB is only the guest struct page savings. Meanwhile, the host
-is reclaiming the full underlying physical memory of the cached
-hugepages via FPR. I do not have a number for this yet.
+in general, we consider hugetlb nowadays to be mostly in feature freeze, as we
+realized a while ago that adding more special casing on top of something too
+special for all of MM is only going to hurt us more in the long run.
 
-Let me reword this in the next iteration.
+We want to have less special casing and less special sauce, not more.
 
+Now, there is nothing wrong in making hugetlb be less special, by making it use
+more of core infrastructure etc.
 
->
-> >   +---------------+   Slow Allocate  +---------------------+
-> >   | Buddy         | ---------------> | Active HugeTLB Page |
-> >   | Allocator     |                  +---------------------+
-> >   +---------------+                    |                ^
-> >     ^                                  | (1) Free to    | (2) Fast
-> >     | (3) Under                        v     Cache      |     Allocate
-> >     | Pressure                       +---------------------+
-> >     | Shrink()  <------------------- | HugeTLB Cache       |
-> >                                      +---------------------+
-> >                                        |
-> >                                        v (4) Free Page Reporting
-> >                                          (Host Reclaim in the case
-> >                                           of virtualization)
-> >
-> > ---
-> >
-> > Patch Series Structure
-> >
-> > Patch 1/6: mm/hugetlb: add Kconfig and basic cache infrastructure
-> >   - Introduces the CONFIG_HUGETLB_CACHE option, hstate tracking fields,
-> >     and the HPG_cached page flag.
-> >   - Establishes the clean helper API (hugetlb_folio_is_cached(),
-> >     hugetlb_cache_remove(), hugetlb_cache_add()) and updates
-> >     remove_hugetlb_folio() to be cache-aware, eliminating inline #ifdef
-> >     blocks.
-> > Patch 2/6: mm/hugetlb: implement cache recycling and allocation
-> >   - Hooks up recycling in free_huge_folio() (up to the cache limit) and
-> >     allocation in alloc_surplus_hugetlb_folio().
-> >   - Implements MRU allocation policy for maximum warmth, poison safety
-> >     checks, and MTE/dcache cleaning.
-> > Patch 3/6: mm/hugetlb: add sysfs interfaces for cache
-> >   - Exposes global and per-node sysfs attributes (max_cached_huge_pages=
-,
-> >     nr_cached_hugepages) for dynamic userspace control, including NUMA
-> >     memory policy scaling.
-> >   - Supports dynamic delta adjustments (+1/-1) to safely scale cache
-> >     sizes alongside concurrent background reclaim operations.
-> > Patch 4/6: mm/hugetlb: add memory shrinker for cache
-> >   - Registers a NUMA-aware kernel shrinker to evict and dissolve cached
-> >     gigantic pages back to buddy under memory pressure.
-> > Patch 5/6: Documentation/admin-guide/mm/hugetlbpage.rst: document cache
-> >     interfaces
-> >   - Documents the Kconfig option, sysfs attributes, and shrinker
-> >     behavior in the admin guide.
-> > Patch 6/6: mm/hugetlb: support free page reporting for cached hugepages
-> >   - Integrates the cache with the Free Page Reporting framework (virtio=
--
-> >     balloon), introducing the HPG_reported flag and the
-> >     reporting/isolation/draining lifecycle.
-> > Sourav Panda (6):
-> >   mm/hugetlb: add Kconfig and basic cache infrastructure
-> >   mm/hugetlb: implement cache recycling and allocation
-> >   mm/hugetlb: add sysfs interfaces for cache
-> >   mm/hugetlb: add memory shrinker for cache
-> >   Documentation/admin-guide/mm/hugetlbpage.rst: document cache
-> >     interfaces
-> >   mm/hugetlb: support free page reporting for cached hugepages
-> >
-> >  Documentation/admin-guide/mm/hugetlbpage.rst |  34 +-
-> >  fs/Kconfig                                   |   9 +
-> >  include/linux/hugetlb.h                      |  45 ++
-> >  include/linux/page_reporting.h               |   1 +
-> >  mm/hugetlb.c                                 | 590 ++++++++++++++++++-
-> >  mm/hugetlb_internal.h                        |   9 +
-> >  mm/hugetlb_sysfs.c                           | 158 +++++
-> >  mm/page_reporting.c                          |  10 +-
-> >  mm/page_reporting.h                          |   6 +
-> >  9 files changed, 844 insertions(+), 18 deletions(-)
-> >
-> > --
-> > 2.55.0.rc0.799.gd6f94ed593-goog
->
+But optimizing for surplus hugetlb pages by teaching hugetlb about new caches
+and its custom free-page-reporting support rather looks like the wrong direction
+for me?
+
+-- 
+Cheers,
+
+David
