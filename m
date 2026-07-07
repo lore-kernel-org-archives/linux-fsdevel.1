@@ -1,129 +1,128 @@
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4385B388384
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 19:02:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B22238F252;
+	Tue,  7 Jul 2026 19:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783450978; cv=none; b=BTPzzC4VG3BoMVbLI1AL3uOaIfLwac2UawOa/t0BAeW5e66mFRLi+KcTRGaU9Oq6WMIntoe1FP6JGUhypiuvBWcDyjNqPVJV4AEgHJaJOm8wzvWRiMCFceXeXidij5k1b/ZeKsujRoKmj8CqBcpuwv1Gz94RT9AnR1im284+urY=
+	t=1783451034; cv=none; b=Uzld4q4R9huxnH40FZlXnE4rI7Q18OMFsf1SlBDMhQKIDXliv93HYMOF/pdP3QlUxUFkyGmUIFaPBIJOa09y1V/z7x9gs5lWfp5MsMRA1RU5VYwwBewNJXi07I+gPWn5EXydIQFLJCCJn46cxzCXJu8R5J+KaHmxbZZ/ba1jQEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783450978; c=relaxed/simple;
-	bh=cn5OgquvyHmmTfuS6yY9g9u0Q8DGsi/v7UJNAWes30I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nr08m+Xh70si/j5ummWZnOmZWriOfrELDLGXGAPIan0G1zTPJRI1NBJXhsUWbvSrGfAYnb0wzxEw32efRj3hKg50Ioj/GI+krxm9VAdlkwsCg4VjdZFXsS2ZYXUnAQR5IaPNfzvmVSEl4LNKzkEoWqSAM3VzfQTg6rvdjiKXuuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jy/gp4sU; arc=none smtp.client-ip=95.215.58.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1783451034; c=relaxed/simple;
+	bh=0VJ6cuRJTTQnnxSz8DchgznATTLiy2kRi3FMEm1nmDY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tkIBxADkuvKVYZoXUx721+YCgQ6AawOGGCzcGHHg5ssoENyWTmNfjgFHSitIaA1FsT2pbCxEGENRHuqhfenlUAYmVTIESjvklxQJk+Q9Jk1YBWGbir5vk7lhB7b/6bK5LRX1Uo9GqWcMwZwRx7NdMFNR4nFjKxAYIsTml5YMtfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VLQKCfWj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jy/gp4sU"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1783450974;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=OCFn6p6im/88hiIgxaX0LFOOfYGXGRLooMDP19gcOLc=;
-	b=jy/gp4sUXlnBKzG+MiakkBMHtLIvtv5dc5dng1ImvxdwKLPNfKuXgYd8t0ssZF1cOPYALG
-	GcCH2K0HrTa2CbFcKt7LuaL1fVGWrKYIdgzQfiKFKVIz7qIca2d2SVaVhVvkYq9RL3j6x+
-	T8I6GfavlLvQMoK+kSgPAR6BPMNF/hI=
-From: Usama Arif <usama.arif@linux.dev>
-To: brauner@kernel.org,
-	jack@suse.cz,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	d@ilvokhin.com,
-	shakeel.butt@linux.dev,
-	hannes@cmpxchg.org,
-	riel@surriel.com,
-	kernel-team@meta.com
-Cc: Usama Arif <usama.arif@linux.dev>
-Subject: [PATCH] eventpoll: compute timer slack lazily in ep_poll()
-Date: Tue,  7 Jul 2026 12:02:38 -0700
-Message-ID: <20260707190238.3478608-1-usama.arif@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VLQKCfWj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21CC91F000E9;
+	Tue,  7 Jul 2026 19:03:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783451032;
+	bh=YyKq/KokqVzrbkpjbywEAWWCk+N/clH4+72CIChvAuM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VLQKCfWjqAoYWXdnpatWLCxMTS1RBAuuunMGSLnlobAGaJQhMiCJEmU8t3zK83GzM
+	 LAdtUOdUrEwp4rXeaP+TGMKEuajRmGJ9xf6n5BTIWLBt1j8omSbuZIiF553DfMe5TG
+	 7+BGzOV4OwLn+UWPrQDhNy9TeE8HNcf5qMze5CucwlD0YfttMaAef6UfxjGgOYpP10
+	 ZsU4jHwcKRVd4dxXLCdkbvs8ighiaZ2Wml8rrC3YIoxP7h8/mJOMdhJOUNrhTkhqee
+	 bXkfZgkjOrG2AT5hzFbyUqkHpQ+ZhabVe404evZLo09A4ofb9sbJPDwkwPST6D8/Tm
+	 xM44EHLVA67pA==
+Date: Tue, 7 Jul 2026 20:03:44 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
+	David Hildenbrand <david@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC] coding-assistants: simplify attribution
+Message-ID: <ak1NTrmM2YaMW5Nr@lucifer>
+References: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org>
 
-ep_poll() computes the timer slack via select_estimate_accuracy() up front,
-before checking whether events are already available.
-select_estimate_accuracy() reads the clock (ktime_get_ts64()), and the
-resulting slack is only consumed by the schedule_hrtimeout_range() call on
-the blocking path.
+On Wed, Jul 01, 2026 at 05:54:48PM +0200, Christian Brauner wrote:
+> I remain very confused by our coding assistant contribution guidelines.
+> I'm going to be a bit polemic now but this seriously in good faith.
+>
+> Why precisely do we require all this detailed information about what
+> specific coding assistant was used?
+>
+> I find it very irritating that our git history has effectively started
+> to function a bit like a free advertising platform for a bunch of AI
+> companies and their proprietary agents and models.
+>
+> And it reamins unclear to me what exactly we do get out of this detailed
+> information: Do we want to run statistical analysis on what agent and
+> model is used the most and publish that on LWN at some point?
+>
+> I acknowledge that my stance is even more radical: imho we would just
+> stop it with any disclosure requirements completely. It's useless imho.
+> We already see that other than core contributors most people don't care
+> and will just not disclose their usage of AI. I think this is entirely
+> pointless and worse it brings in undefined legal status as well. It's
+> not like recent events of pulling certain models from the face of the
+> earth have made this any less concerning.
+>
+> But fine, if we want to do this can we please just dumb it down to
+>
+> Assisted-by: LLM
+>
+> or
+>
+> Assisted-by: Coding Assistant
+>
+> or something else. That still gives the "careful review" signal to
+> reviewers that want to pay special attention to LLM generated work while
+> avoiding this slew of metadata.
+>
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-A busy poller such as an L7 proxy event loop calls epoll_wait() at a very
-high rate and often finds events already pending, returning via
-ep_try_send_events() without ever blocking.  In that case the up-front
-slack estimation - including its clock read - is pure overhead.  read_tsc()
-attributable to select_estimate_accuracy() sometimes shows up in perf profiles
-of such a workload via the epoll_wait() path.
+FWIW I'm fine with this. We can always send the comment stuff as a follow up. So:
 
-Move the slack estimation to the point where the thread is actually about
-to sleep.  The timeout passed to ep_poll() is already an absolute deadline
-(ep_timeout_to_timespec()), so deferring the estimate does not change the
-wakeup time; taken closer to the sleep it is, if anything, marginally more
-accurate.  On the common non-blocking path the clock read is skipped
-entirely.
+Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
 
-Measured on a host running a Meta production workload with the following
-bpftrace script:
+Maybe send it non-RFC with a cleaned up commit msg? Feel free to add my tag to
+that.
 
-  #!/usr/bin/bpftrace
-  fentry:__x64_sys_epoll_wait,
-  fentry:__x64_sys_epoll_pwait   { @in[tid] = 1; }
-  fexit:__x64_sys_epoll_wait,
-  fexit:__x64_sys_epoll_pwait    { delete(@in, tid); }
-  fentry:select_estimate_accuracy /@in[tid]/ { @sea++; }
-  fentry:schedule_hrtimeout_range /@in[tid]/ { @shr++; }
-  interval:s:30 {
-      printf("sea=%lld shr=%lld wasted=%lld (%d%%)\n",
-             @sea, @shr, @sea - @shr, (@sea - @shr) * 100 / @sea);
-      exit();
-  }
+> ---
+>  Documentation/process/coding-assistants.rst | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+>
+> diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+> index 899f4459c52d..fe34f3e7e828 100644
+> --- a/Documentation/process/coding-assistants.rst
+> +++ b/Documentation/process/coding-assistants.rst
+> @@ -43,12 +43,8 @@ When AI tools contribute to kernel development, proper attribution
+>  helps track the evolving role of AI in the development process.
+>  Contributions should include an Assisted-by tag in the following format::
+>
+> -  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
+> +  Assisted-by: LLM [TOOL1] [TOOL2]
+>
+> -Where:
+> -
+> -* ``AGENT_NAME`` is the name of the AI tool or framework
+> -* ``MODEL_VERSION`` is the specific model version used
+>  * ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
+>    (e.g., coccinelle, sparse, smatch, clang-tidy)
+>
+> @@ -56,4 +52,4 @@ Basic development tools (git, gcc, make, editors) should not be listed.
+>
+>  Example::
+>
+> -  Assisted-by: Claude:claude-3-opus coccinelle sparse
+> +  Assisted-by: LLM coccinelle sparse
+>
+> ---
+> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+> change-id: 20260701-work-coding-assistants-650ae1202ee0
+>
 
-Over a 30s window:
-
-sea=3,587,704 shr=3,003,920 wasted=583,784 (16%)
-
-So ~16% of ep_poll invocations of select_estimate_accuracy have no
-consumer.
-
-Signed-off-by: Usama Arif <usama.arif@linux.dev>
----
- fs/eventpoll.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-index 0e65c7431dfc..128d7fd3d0ea 100644
---- a/fs/eventpoll.c
-+++ b/fs/eventpoll.c
-@@ -2248,7 +2248,6 @@ static int ep_poll(struct eventpoll *ep, struct epoll_event __user *events,
- 	lockdep_assert_irqs_enabled();
- 
- 	if (timeout && (timeout->tv_sec | timeout->tv_nsec)) {
--		slack = select_estimate_accuracy(timeout);
- 		to = &expires;
- 		*to = timespec64_to_ktime(*timeout);
- 	} else if (timeout) {
-@@ -2327,10 +2326,13 @@ static int ep_poll(struct eventpoll *ep, struct epoll_event __user *events,
- 
- 		spin_unlock_irq(&ep->lock);
- 
--		if (!eavail)
-+		if (!eavail) {
-+			if (to)
-+				slack = select_estimate_accuracy(timeout);
- 			timed_out = !ep_schedule_timeout(to) ||
- 				!schedule_hrtimeout_range(to, slack,
- 							  HRTIMER_MODE_ABS);
-+		}
- 		__set_current_state(TASK_RUNNING);
- 
- 		/*
--- 
-2.53.0-Meta
-
+Cheers, Lorenzo
