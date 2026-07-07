@@ -1,127 +1,45 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57DDF434E45
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 16:26:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948B037F72C
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 16:47:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783441615; cv=none; b=og2Rb/e5haOpwLwN9/Lza1f5hlLgNyO7vfO/TmU8Ghr2mAzQh8OP5LR5nRKZNNUQ/kxmRfRFT7Jpv7p+mvvMxckbmCSBM+Aju/yea6Qf18+gy5uriRL3lKXCpmEQB/LH2xaXFbLbOTwKDtNPZ5bAk4IcWK9tE8go9mjp7AhAG8E=
+	t=1783442875; cv=none; b=oE7jePvUmOM7oT3j4eW4wRcMeWJXMPGtk4bfBOBKoBudeudlAJmgP6VkuD+zoMAtLMSKfvLTTU+DHFBhxb7WUKvi/SdDd/oDxvJzAi+SM2/f7GWFe/gRxCBj4LQQm0F/mW+FZjjixhuF01a2/uBf6WuS0RoPQsQqC3xOJZgHct0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783441615; c=relaxed/simple;
-	bh=YNUiKnsVmS0YnEoi5UBidfFcsIdy4Lv/4umM1P9hbyY=;
+	s=arc-20240116; t=1783442875; c=relaxed/simple;
+	bh=cp3/6kyEE4pO7F7Yc1BGY94tYD4E9LlmMjPvqIrG+GI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mtY/FXeGiQhRLjD2snjl+OtTRCoWns/QmeSmRiCBftdxAopOQ+dqlbpPvrUgg6cJFG6ZtwYFOEB2sCsxdvDIsWvUqN8JuXWFFzf6uARbHObyHxyGpfRSpdzYGU349W/V4JlimN2cr5f3duwbaxVKiXxF0NLEvPz3B+D01oH32og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=u9XK5Da4; arc=none smtp.client-ip=209.85.222.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=p3m/8zus/o5N508ZBLpPYiChzDD9MKt6sKKWBfqZmT4xOloPi3qFXskmURIK2dYI2vT/eFgAcX71t+JInl0g4NdetMXE9HlPSeQIb0m7tHMMbeXQHkpNjjYZRfaXCKgkLmd23iTEowgWYL5aUzBIeZmTRi6xA+brFCuHzcGhm18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WRilzDE6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="u9XK5Da4"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-9204711e831so370307885a.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 09:26:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1783441611; x=1784046411; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=3pPJvCom7n6xLJkZnxYC/ipfbqNHo6N+N3CeZviAw0k=;
-        b=u9XK5Da4IKO5YCa7r9wRdeAZRbdN+BblJr6cMTVoKzAXJiBI2XpI+81GYJqI3wwNEf
-         ltCrKtUyPdrgJVwskmyo7KsshDiCu2+FHddX7vy/fhe2g1z+PvsiOcCNBcCnsMWcu8lp
-         +CiD2I7O8xxySLq/J64ifb9NGk1cJqsvti9BUmDXr/ReF8IhV0x3gmjIus6+hcPzgAZz
-         MyDClWncjmMN6+RT262effEyciC7qzg74LLcJJ47ODH+lqgBpNwOTFZx8749gZk+5bxg
-         8+zmp+HJAccni27zzrj/r1tFAj3Bf/qyhoMbmkJb9EazJVlrQxigXnRAkGfYol/geJ7e
-         2xBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783441611; x=1784046411;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3pPJvCom7n6xLJkZnxYC/ipfbqNHo6N+N3CeZviAw0k=;
-        b=i3BmCWqNX1kNBO05Lf6dm209dsIuT71GdX+yLxPbffe2l7Xw2NhUNzJfM+LjFuhcDq
-         7juxWsS/VP973vFOG87BdK8dOjZimQS5mVZPnNe0DHpb49cKzm3KBWtApYQ5tHRofbk5
-         MmJVVwaSuz3umXNchjuQMl/vKZeQTSMsbFytiS64mASpqGjJilxgaPahrwZLhSNC4zOd
-         FckWDXkPZu8QH60wnVXXAtZbgOydv+0lsJsppUMs0ozvIBnOHOcuIfvgbS3UdOYwAI2E
-         ssTZeb2fJbK1qsdutnKxGZh58rfNBhhB8ZqtIL6ojvYS9CK4e8rqGDDTLn4LMSs+AHF2
-         Qs9Q==
-X-Forwarded-Encrypted: i=1; AHgh+RqdirZZjLpdP+xzP4q2bJDa3Nfxx6xxWO1qXItLQijL5FxdP09ArD5MHbUxwcKdrczXrfXK2ms2MS625I8j@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDw/Y0JR5rdqjo2bODuP5C7ckLsyES7r8GMCHbu30R1u3u5vpi
-	jHlzNuNzTMKCSSmdVSALm6aQQ8sEWt8DHpY9gFrbjR1SDMKL2iWOsZwJsBRlS7zeohk=
-X-Gm-Gg: AfdE7cnGfiSi3MZsvi8mwmRNoU28GXnKgX3ewdZQGW5Tn+0HEergYlJiNanbHCieqNP
-	YVRvpPAMz3W0ovZncQ/DgB9yUeU6gpuAFX0sSlqaKQKYRM9zqYNSibG5QRcyJcQyu6xR0YIfRTL
-	kqd4VQLdF9z7PDLm2nOSD/nsrOWm6eCVQ7VU3ShFxY3ngkl9tgiz+gl7rjKjXAk1zCkI3U5mIgB
-	+TPlKBZ1ZBLp8MnwiUnBCS/c7iyAwkwLcuAEmjOGNVP1OTobI140xKkCSWyaGFZtaI7G1VEcONb
-	qghCLljMf26e/j4agX9EtfhDp2uejtfSqys0qSKxdcXh+B32Qq8jiZLMv99Me4wzLhYI9al6kCb
-	cgEAnc7wVm3kQDZ7D/0juFvtJXjCLBEQiSUvbWPdCpW2TOthViipe+vdlDK7apb4GQ5SpHq8b0U
-	+pTqmZfvZotVPetTupVVNM7wVJNXlvp6nSqP9S4m7nmSSxy5kyu9/w5XSvVMYjF/LxZz9u8M7rj
-	5eUs28=
-X-Received: by 2002:a05:620a:a807:b0:92e:c118:18b9 with SMTP id af79cd13be357-92ec1181fa1mr324497185a.88.1783441610850;
-        Tue, 07 Jul 2026 09:26:50 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e90ba41fesm1231337385a.17.2026.07.07.09.26.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 09:26:49 -0700 (PDT)
-Date: Tue, 7 Jul 2026 12:26:43 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Simon Schuster <schuster.simon@siemens-energy.com>,
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Christian Koenig <christian.koenig@amd.com>,
-	Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Dan Williams <djbw@kernel.org>, Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>,
-	Miaohe Lin <linmiaohe@huawei.com>, Hugh Dickins <hughd@google.com>,
-	Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
-	linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-	kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-mm@kvack.org, iommu@lists.linux.dev,
-	linux-perf-users@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
-	Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 12/30] mm/vma: clean up anon_vma_compatible()
-Message-ID: <ak0owyNkHX6mw4pe@gourry-fedora-PF4VCD3F>
-References: <cover.1782735110.git.ljs@kernel.org>
- <5a7a07bd2a774989849b0fea84f758059ed914df.1782735110.git.ljs@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WRilzDE6"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 205201F000E9;
+	Tue,  7 Jul 2026 16:47:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783442874;
+	bh=ceKJW9BF4E+apHmoSmshxaIsqzstusKYIBnXt0B4n+Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WRilzDE6T0I1cuUWynm43c0Evpu0h6xGxT6F9zNBhP24pViDCsANgFF5gXWHqlCin
+	 ObyDxtkkC1swm2rw4itSRFEztAxKU+ucb3bumn3LEo1JJ/CANwBmaLugSpB01lBDIj
+	 NrBNeLhrg3012JDk21id3IshhSzE5jDswKtu4uQsx0PFQjpScUSpujp3kpMS1qta8N
+	 ksZBjY0juMB/ACCIpI6faY8xzxMI2MlkdgnHyHVUzA458i6I48SkfhjHSYD4liFsZz
+	 mst5Cgn7Uf/q6Fc0v/3ratDMI5mD9liiApW8K3IzlxSCaRqUHi9AjNDNGluEmeF3l4
+	 jP9towt6AfzZA==
+Date: Tue, 7 Jul 2026 09:47:53 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH 1/2] fs: refuse O_TMPFILE creation with an unmapped fsuid
+ or fsgid
+Message-ID: <20260707164753.GC9368@frogsfrogsfrogs>
+References: <20260615-work-idmapped-tmpfile-v1-0-754a94d81f83@kernel.org>
+ <20260615-work-idmapped-tmpfile-v1-1-754a94d81f83@kernel.org>
+ <akju9Nag-jhIoVq9@infradead.org>
+ <20260707021838.GB9368@frogsfrogsfrogs>
+ <20260707-villen-clubhaus-postleitzahl-60a67025879a@brauner>
+ <20260707-babynahrung-gruft-sirenen-6e791a5f086c@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -130,14 +48,26 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5a7a07bd2a774989849b0fea84f758059ed914df.1782735110.git.ljs@kernel.org>
+In-Reply-To: <20260707-babynahrung-gruft-sirenen-6e791a5f086c@brauner>
 
-On Mon, Jun 29, 2026 at 01:23:23PM +0100, Lorenzo Stoakes wrote:
-> Break up the existing very large conditional, add comments and use
-> vma_[start/end]_pgoff() to make clearer what we're doing here.
+On Tue, Jul 07, 2026 at 01:20:51PM +0200, Christian Brauner wrote:
+> On Tue, Jul 07, 2026 at 09:20:48AM +0200, Christian Brauner wrote:
+> > On Mon, Jul 06, 2026 at 07:18:38PM -0700, Darrick J. Wong wrote:
+> > > On Sat, Jul 04, 2026 at 04:31:00AM -0700, Christoph Hellwig wrote:
+> > > > This commit causes failures in xfstests generic/633 generic/696 and
+> > > > generic/697 with messages like:
+> > > > 
+> > > > utils.c: 948: openat_tmpfile_supported - Value too large for defined data type - failure: create
+> > > 
+> > > Seconded, I also see these test regressions now.
+> > 
+> > Yes, that's expected. It needs a fix in the idmapped mount feature test
+> > portion. I thought I had sent a fix for that though.
 > 
-> No functional change intended.
+> And so I did:
 > 
-> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+> https://lore.kernel.org/20260615-overlay-idmapped-vfstest-v1-1-c6b3b2228092@kernel.org
 
-Reviewed-by: Gregory Price <gourry@gourry.net>
+Ah, thank you!
+
+--D
