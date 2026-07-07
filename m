@@ -1,232 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE9C1F8AC5;
-	Mon,  6 Jul 2026 23:51:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783381909; cv=none; b=aoASu/MUkkCAGbOyLRN1+T6Mh2fBs9a6PB7FLdu3daYOK9QIOHI5d07Eg6Qyo/VHu+kErEN4y4BWqTwoBMEVWCgaCEyGgTVqJET3jKBBV5X9aRlr2zYWa/u3TgNrPDVcP7SESs6GOVjHq6BQxh2GPnpDUCOAxzwFlr4Yc2GcqCw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783381909; c=relaxed/simple;
-	bh=EHxPTP95mANj4rpuEmYs618cJ2uP3IvPee3gU9yrtZA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EUegT94O6y/oLFnY/xFllgtadu3tCxCTmvnjXwkdTp39H6GVf7Mbl0NpGGQY5w7GKaN2tKl6Z98CglJjlIyoWCOsx+cOJ8vdw04G+RGZkEM2QhbGsCfEfMPfBowDfijBe0nO80vbdpcGff6HJ9rSRh2VUrOHsnAzwCJ/KBstliM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eaa+doSV; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF7C282F03
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 01:06:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783386376; cv=pass; b=AN31A2S+R5Zn+qS83cJtP/yDFZUZiJtfzihBUO7PtlxBK96yTfbYtw04NJpWyNtyKH9mFe67YBJldPNzawHNDCllWL25sgUT6H8DjClneXqkWhfq3QNFRy5EpvCQXh9Vkpi76eNyMf+9OFA4JKB1OXe2TQ3WAJuAV/ltNWJ5pjI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783386376; c=relaxed/simple;
+	bh=1cVUMFMBeoUz0Y8dmZcg+CAn0nZ3hquYpnV4AN1MMHM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lZUMVvbcWJ+CfWXb9Ms1y72yL5J6nS7oOIYyRz0ph9iajiyrBseodLM8GRuWfdcUMq6+Yb5N8MSqI54cnG+Qh/YFnaBK0p/jQrbiA8ygX0nUKmBUnP/lbVtrkffqhVSKOxXcxQoXrflKP2yq9HN8AvByN2ImWKESTJOrNoKpW2w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BANOuUAI; arc=pass smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eaa+doSV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DD351F000E9;
-	Mon,  6 Jul 2026 23:51:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783381908;
-	bh=5hhl8bdTpP0RsT+ma5bYN0eXdk0MqbMfiX3ZJdwj/90=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Eaa+doSVM6sgdpj5wKKwA1LLUsFBEkJBZghgEXrj5Xg7EvjrWd+p6Rv4wj96bq0kH
-	 s/0wQ9cjEbzUme38wyh3tm2JpKOOe9bHOih9ndLQlWTLijc4ToWd7qjtnTn/QlDVNV
-	 uG8pMOQquwzfxpXlKGWoHDf+X7oTd68P4pP64MFMKUsiSCA2d2bEhwgnD0bGawLw0r
-	 mhMWNIM2AY+ThwcouTqVMiATjujdBpONH9D2KLszlS7AWO+Kp3NB2o93Lp3CqQWsRV
-	 zpagWybXNNbUZbT8rQbNH8tu+xJE0/h5/PJ1nRvhPEuzysWqyfsOOGjmnQsdhd9oNQ
-	 Mf4XkciPT+UIA==
-From: Song Liu <song@kernel.org>
-To: linux-security-module@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	selinux@vger.kernel.org,
-	apparmor@lists.ubuntu.com
-Cc: paul@paul-moore.com,
-	jmorris@namei.org,
-	serge@hallyn.com,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	john.johansen@canonical.com,
-	stephen.smalley.work@gmail.com,
-	omosnace@redhat.com,
-	mic@digikod.net,
-	gnoack@google.com,
-	takedakn@nttdata.co.jp,
-	penguin-kernel@I-love.SAKURA.ne.jp,
-	herton@canonical.com,
-	kernel-team@meta.com,
-	Song Liu <song@kernel.org>
-Subject: [PATCH v6 8/8] lsm: Remove security_sb_mount and security_move_mount
-Date: Mon,  6 Jul 2026 16:50:53 -0700
-Message-ID: <20260706235053.4104951-9-song@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260706235053.4104951-1-song@kernel.org>
-References: <20260706235053.4104951-1-song@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BANOuUAI"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-698aa7ba3e6so6255984a12.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 06 Jul 2026 18:06:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783386373; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Zx8OV3x8FhY81CmDBKEtxHfBiffgn7EYktSziiNCLJ8FAlRIuXuzZ1jBeJO2Nb9RCo
+         8GCfN2QaQsoQcL97hePuy1t0HPTeEDrU5a0Pxz0iZgOW3a6R4I6WJH6/GY/Rlb9VYSpu
+         T97eAajA5MDGNvPMlGHy918oKh70lf7r2WBNM903XGY9qhv4WpgYzvqRX432VQI8A2yp
+         oUAnBUUoKIsSV8+E41Gvxp0eydBhq9dhYztAQ+f10Oh2VRhaLNh4K9s7bw5h3u/Cgi3W
+         Wyhflr/M+dasBcX4R4eROcJAo0UltE6W/Y9A3DgYaFlPVjGM27lXLGEeFlaWILJ93Cdb
+         WJPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=e0WA+1xWMmwxJhQG3lcP+OMC81WDVxu32cEwJ7yzLdU=;
+        fh=izkOpUwV00e2PT6hxLVnG0xXvAjUUWOEkgw1wIIedMc=;
+        b=SOZtRK1L69qx2FYRLgNZ3deY902pm0XAF6whm1dGgDo08W4ysUBM7/ami+BQmbpAOt
+         WmTbvRxvrniGONJNX8fUljpvo4/28QZ+mD1CJ2q+1Oof9qLzQjt5EdmVlvsyHhwdL+z1
+         E/jguERn6NenY7OfPDno5H0N+f2TjxNaYgZ4TBf8axYK+22QqQl8XgVkoLgrxG4/IBD6
+         kVGA7rDvc3HHGqGViIK/CE9WeEVII6dtNjMI39BgjKhQaQMQ/H7RNYXUvEDHnP5IDLTc
+         0zKJQCBffpGSQV35a8f+GaWedw0GD2N42Z1VMnp+HdrRm6pkt4cXhqekBe6u/SEvpZCa
+         IRmw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783386373; x=1783991173; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e0WA+1xWMmwxJhQG3lcP+OMC81WDVxu32cEwJ7yzLdU=;
+        b=BANOuUAIXh0wEwFJ190NYWVKiiudeeVuwHrZrZyjj5hhHBbwPKPMB2FI0dK4Xsr7vo
+         PdRqJp3/OjG0/fuu1A+aqCXJSkTrh5KGGso1//+hTSug/cscGSYmMcCVrbj7Eew+ji+i
+         suPjk/fysWD2J29k0ARC/DXpSb/ltzsrIN+TFQZzUGkVsvHLtne9arLIfuYHYvfRyYRV
+         uodpvLFlT1K5hGSeDfJ6wkyyhhKUmwbvyG9oOqzyvJZs7XLzzzEdeVtV12UISTUYah37
+         /UAORNeVTCsacd1GpMPCgbtwDzhM+7NcKMQGbcdtCXSSN1zkig9sWZGvcMVaz201fC5L
+         6j6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783386373; x=1783991173;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=e0WA+1xWMmwxJhQG3lcP+OMC81WDVxu32cEwJ7yzLdU=;
+        b=SRNjZ6UkOyTGVYqnK/7+BblCnAfRAhbe54ue8PU5/m7TdoQbhbhCrYgQh6fPC+oKGs
+         44mrKrdn8nEuHFNtVMG5lAS61rRrQLlRvafNmDBm+CCr3+ZTAhvC4cAClwUC3EePQD0u
+         Km20+hdon/73HbIOxJheWC1FdEISsIfBHFsgxfT6P4UPaTCSpSvaHS+e3BkJ8Q3dpmej
+         a3exCE9UBGu1w8MtzsFCiENc3CXFdIk3Bqtw52X4hgEK2IzK5bFNm1xJWN5VXfdellnF
+         c8vuvdwZwOMDjxvY75/NfuG1N+/3Iw84F67aSDT7qfyrsLXftVqVD9fD5DLrKck059KL
+         PKQg==
+X-Forwarded-Encrypted: i=1; AHgh+RqbugitTmhJNYgJKmXjVDDd7og44t+9VB6gjlUrN9yD/ankZelvS7EH5aENU5Aw08YE5v3zeVmOdHh6PQaj@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlcfsiMKrgwlT5wAIUxzduJ5QRxbsvxvU/ANTjBw89IHMZgg66
+	7ydodsZ5VBAannOJuNRup4XzcHqobUwWl+rUartG9qLcgavSpJZgRINKdLG850wsif8gSCQ5WHW
+	eZX5hfd0QyELuBz2/v7vhi0M8uotpdED+FQ==
+X-Gm-Gg: AfdE7cn4RKrjmvKHW0PcbDrYw7vKb9o23xWTtgVIQERMx+HdDoIyHiiQ80zbWC2uV+5
+	VdhIz72Kf1s9Qgonl1DnGNioWxIMMOUzlIhfsCnGIQ98UVu6xua2yha7X5E3E4zSdBrNbwKiIAN
+	QU54SnlZLcnPgHgHxxBFNaVzRFDvHnfR+sfZUNAXO6nRxVbBBIJ9lJsufYnWrrfwikGYrlmug+t
+	dQuyDWMCQFqoxfPXT9BRyJnohTfa5x+ISAtHh/uYKxO8ft1fZLbaoDcDLm8Q9tkPr82ziwDrJTE
+	RGxl4JCeBGkyGb/YEHKRaNZo/Okhx7U796Tb76UL4yIjn3LDxcjXEhew2GBhCFfmrZdQUzMzxA=
+	=
+X-Received: by 2002:a17:906:a2d9:b0:c12:cacc:92c6 with SMTP id
+ a640c23a62f3a-c15a699604bmr108442866b.59.1783386372722; Mon, 06 Jul 2026
+ 18:06:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260703092815.4602-1-swethav0411@gmail.com> <CAJnrk1bxAfK0QJQtQ213T0ZKhXu4Pi=2wfRfZ5u0_frC8bucDw@mail.gmail.com>
+In-Reply-To: <CAJnrk1bxAfK0QJQtQ213T0ZKhXu4Pi=2wfRfZ5u0_frC8bucDw@mail.gmail.com>
+From: Swetha Vadlakonda <swethav0411@gmail.com>
+Date: Tue, 7 Jul 2026 06:36:01 +0530
+X-Gm-Features: AVVi8CeXlaZFCuhFG6NwSUSQ8oaTkB5rs31sBMoBozWu9soJY8C4jbsGkGRjM28
+Message-ID: <CAAoLz1fpotiSjFcthTEMZEAaKbhtd0poHC2w++eWMCa-euoKbQ@mail.gmail.com>
+Subject: Re: [PATCH] fuse: add folio_max_order and folio_min_order controls in fusectl
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Now that all LSMs have been converted to granular mount hooks and
-fs/namespace.c calls the new hooks, remove the old hooks:
+On Tue, Jul 7, 2026 at 2:40=E2=80=AFAM Joanne Koong <joannelkoong@gmail.com=
+> wrote:
+>
+> On Fri, Jul 3, 2026 at 2:31=E2=80=AFAM Vadlakonda Swetha <swethav0411@gma=
+il.com> wrote:
+> >
+> > Expose `folio_max_order` and `folio_min_order` entries under the FUSE
+> > control filesystem (`/sys/fs/fuse/connections/<connection_id>/`).
+> >
+> > Motivation:
+> > For fuse based systems like GCSFuse (Google Cloud Storage Fuse), large
+> > folios gives a significant boost to the read performance.
+> > - Without large folios, single file read perf is capped at 3GiB/s
+> > - With large folios, we are able to achieve 12GiB/s, 1MB blocksize
+> > - Writes:2GiB/s with large folios vs 1.6GiB/s without folios for 1MB bs
+> >
+> > We understand that subfolio dirty page tracking is not available for
+> > writeback cache with large folios. However this is not a blocker for
+>
+> The buffered write and writeback paths in fuse go through iomap which
+> tracks subfolio dirty state.
 
-- security_sb_mount(): removed from lsm_hook_defs.h, security.h,
-  security.c.
-- security_move_mount(): removed from lsm_hook_defs.h, security.h,
-  security.c, and bpf_lsm.c.
+Thanks for the review and update. I was under the impression that not
+all changes
+related to subfolio dirty page tracking are done.
+>
+> > GCSFuse and similar cloud/network-based filesystems for the following
+> > reasons:
+> >
+> > 1. We generally recommend applications to use larger io sizes (>1MB)
+> >    for writes because of the latency involved with the network calls.
+> > 2. Random writes & small overwrites are also not recommended for cloud
+> >    based filesystems.
+> > 3. Beneficial when write back cache is explicitly disabled. Incase of
+> >    GCSFuse, write back cache is disabled for different other reasons.
+> >
+> > Providing these controls allow individual filesystems to explicitly opt
+> > into large folios once they evaluate their specific workload patterns.
+>
+> Could you explain the use case of this granularity? The page cache
+> already adjusts folio size adaptively (eg small/random i/o still has
+> small orders, high-order allocations fall back gracefully to
+> lower-order allocations under memory pressure, etc) so it's a bit
+> unclear to me why a tunable would be needed. It also won't enforce the
+> order for any inodes that are already in the cache.
 
-Code generated with the assistance of Claude, reviewed by human.
+Our primary motivation was to give fine-grained control and users can set
+it as per their workload requirements. But agreed on the fallback strategy =
+and
+have a single on/off switch.
+>
+> There's a patch to enable large folios by default [1] and the
+> benchmark numbers showed improvements all around, so I don't think
+> this would be something individual filesystems would have to
+> explicitly opt into. Does the change in [1] suffice for your use case?
 
-Reviewed-by: Stephen Smalley <stephen.smalley.work@gmail.com>
-Tested-by: Stephen Smalley <stephen.smalley.work@gmail.com> # for selinux only
-Signed-off-by: Song Liu <song@kernel.org>
----
- include/linux/lsm_hook_defs.h |  4 ----
- include/linux/security.h      | 16 ---------------
- kernel/bpf/bpf_lsm.c          |  2 --
- security/security.c           | 38 -----------------------------------
- 4 files changed, 60 deletions(-)
-
-diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-index 06c904cb478e..4015f6b579c3 100644
---- a/include/linux/lsm_hook_defs.h
-+++ b/include/linux/lsm_hook_defs.h
-@@ -69,8 +69,6 @@ LSM_HOOK(int, 0, sb_remount, struct super_block *sb, void *mnt_opts)
- LSM_HOOK(int, 0, sb_kern_mount, const struct super_block *sb)
- LSM_HOOK(int, 0, sb_show_options, struct seq_file *m, struct super_block *sb)
- LSM_HOOK(int, 0, sb_statfs, struct dentry *dentry)
--LSM_HOOK(int, 0, sb_mount, const char *dev_name, const struct path *path,
--	 const char *type, unsigned long flags, void *data)
- LSM_HOOK(int, 0, sb_umount, struct vfsmount *mnt, int flags)
- LSM_HOOK(int, 0, sb_pivotroot, const struct path *old_path,
- 	 const struct path *new_path)
-@@ -79,8 +77,6 @@ LSM_HOOK(int, 0, sb_set_mnt_opts, struct super_block *sb, void *mnt_opts,
- LSM_HOOK(int, 0, sb_clone_mnt_opts, const struct super_block *oldsb,
- 	 struct super_block *newsb, unsigned long kern_flags,
- 	 unsigned long *set_kern_flags)
--LSM_HOOK(int, 0, move_mount, const struct path *from_path,
--	 const struct path *to_path)
- LSM_HOOK(int, 0, mount_bind, const struct path *from, const struct path *to,
- 	 bool recurse)
- LSM_HOOK(int, 0, mount_new, struct fs_context *fc, const struct path *mp,
-diff --git a/include/linux/security.h b/include/linux/security.h
-index 5e207e38c004..ff16831e8064 100644
---- a/include/linux/security.h
-+++ b/include/linux/security.h
-@@ -373,8 +373,6 @@ int security_sb_remount(struct super_block *sb, void *mnt_opts);
- int security_sb_kern_mount(const struct super_block *sb);
- int security_sb_show_options(struct seq_file *m, struct super_block *sb);
- int security_sb_statfs(struct dentry *dentry);
--int security_sb_mount(const char *dev_name, const struct path *path,
--		      const char *type, unsigned long flags, void *data);
- int security_sb_umount(struct vfsmount *mnt, int flags);
- int security_sb_pivotroot(const struct path *old_path, const struct path *new_path);
- int security_sb_set_mnt_opts(struct super_block *sb,
-@@ -385,7 +383,6 @@ int security_sb_clone_mnt_opts(const struct super_block *oldsb,
- 				struct super_block *newsb,
- 				unsigned long kern_flags,
- 				unsigned long *set_kern_flags);
--int security_move_mount(const struct path *from_path, const struct path *to_path);
- int security_mount_bind(const struct path *from, const struct path *to,
- 			bool recurse);
- int security_mount_new(struct fs_context *fc, const struct path *mp,
-@@ -826,13 +823,6 @@ static inline int security_sb_statfs(struct dentry *dentry)
- 	return 0;
- }
- 
--static inline int security_sb_mount(const char *dev_name, const struct path *path,
--				    const char *type, unsigned long flags,
--				    void *data)
--{
--	return 0;
--}
--
- static inline int security_sb_umount(struct vfsmount *mnt, int flags)
- {
- 	return 0;
-@@ -860,12 +850,6 @@ static inline int security_sb_clone_mnt_opts(const struct super_block *oldsb,
- 	return 0;
- }
- 
--static inline int security_move_mount(const struct path *from_path,
--				      const struct path *to_path)
--{
--	return 0;
--}
--
- static inline int security_mount_bind(const struct path *from,
- 				      const struct path *to, bool recurse)
- {
-diff --git a/kernel/bpf/bpf_lsm.c b/kernel/bpf/bpf_lsm.c
-index 4b1ee9c67d6f..9cece66a0c49 100644
---- a/kernel/bpf/bpf_lsm.c
-+++ b/kernel/bpf/bpf_lsm.c
-@@ -353,7 +353,6 @@ BTF_ID(func, bpf_lsm_release_secctx)
- BTF_ID(func, bpf_lsm_sb_alloc_security)
- BTF_ID(func, bpf_lsm_sb_eat_lsm_opts)
- BTF_ID(func, bpf_lsm_sb_kern_mount)
--BTF_ID(func, bpf_lsm_sb_mount)
- BTF_ID(func, bpf_lsm_sb_remount)
- BTF_ID(func, bpf_lsm_sb_set_mnt_opts)
- BTF_ID(func, bpf_lsm_sb_show_options)
-@@ -385,7 +384,6 @@ BTF_ID(func, bpf_lsm_task_setscheduler)
- BTF_ID(func, bpf_lsm_userns_create)
- BTF_ID(func, bpf_lsm_bdev_alloc_security)
- BTF_ID(func, bpf_lsm_bdev_setintegrity)
--BTF_ID(func, bpf_lsm_move_mount)
- BTF_ID(func, bpf_lsm_mount_bind)
- BTF_ID(func, bpf_lsm_mount_new)
- BTF_ID(func, bpf_lsm_mount_remount)
-diff --git a/security/security.c b/security/security.c
-index 1ede060db3ca..0456680738f2 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -1065,29 +1065,6 @@ int security_sb_statfs(struct dentry *dentry)
- 	return call_int_hook(sb_statfs, dentry);
- }
- 
--/**
-- * security_sb_mount() - Check permission for mounting a filesystem
-- * @dev_name: filesystem backing device
-- * @path: mount point
-- * @type: filesystem type
-- * @flags: mount flags
-- * @data: filesystem specific data
-- *
-- * Check permission before an object specified by @dev_name is mounted on the
-- * mount point named by @nd.  For an ordinary mount, @dev_name identifies a
-- * device if the file system type requires a device.  For a remount
-- * (@flags & MS_REMOUNT), @dev_name is irrelevant.  For a loopback/bind mount
-- * (@flags & MS_BIND), @dev_name identifies the	pathname of the object being
-- * mounted.
-- *
-- * Return: Returns 0 if permission is granted.
-- */
--int security_sb_mount(const char *dev_name, const struct path *path,
--		      const char *type, unsigned long flags, void *data)
--{
--	return call_int_hook(sb_mount, dev_name, path, type, flags, data);
--}
--
- /**
-  * security_sb_umount() - Check permission for unmounting a filesystem
-  * @mnt: mounted filesystem
-@@ -1167,21 +1144,6 @@ int security_sb_clone_mnt_opts(const struct super_block *oldsb,
- }
- EXPORT_SYMBOL(security_sb_clone_mnt_opts);
- 
--/**
-- * security_move_mount() - Check permissions for moving a mount
-- * @from_path: source mount point
-- * @to_path: destination mount point
-- *
-- * Check permission before a mount is moved.
-- *
-- * Return: Returns 0 if permission is granted.
-- */
--int security_move_mount(const struct path *from_path,
--			const struct path *to_path)
--{
--	return call_int_hook(move_mount, from_path, to_path);
--}
--
- /**
-  * security_mount_bind() - Check permissions for a bind mount
-  * @from: source path
--- 
-2.53.0-Meta
-
+Yes, the change in [1] completely suffices for GCSFuse.
