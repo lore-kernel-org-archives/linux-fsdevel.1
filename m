@@ -1,134 +1,220 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B9F22A1D4
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 16:54:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A530372ED6;
+	Tue,  7 Jul 2026 17:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783443281; cv=none; b=ZwTyx23GEi4GZpXfhue5v9psTyIujXHvrGheG3FNpoRHGGYdh9DarNLdSLloD0rkL2bQ0Dfa+yMdrMNnITgWXb6V8HgvTMG5XkQewgXmNcX99/h7+JJ5/ECPGQhdPdvazz2T8GvMzJg6mUrTELnppvcwxdcDSH/AdVByZx1511A=
+	t=1783444198; cv=none; b=oACstvpdT9IUoMJ+2hLWiP2WpghKkKrNmQajr6qrvVwBx78sSfrZ5N1+RZaKCtsAg5tIe8h9mY2HceyTpI1HHvjTkBj6YUocrknpZk35wjyxFKYUnE7Fs/kZsk6PCQBbRKJbPMmbyXTLpipNlMTSJPuCv9h9w9T+nNef6Tf/RuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783443281; c=relaxed/simple;
-	bh=Omuhh4w/zf0SDooRU/V40J3YBdkMf6Hj+qafJjaEjQA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ksQr6ZnoGmQT5TfsOA6VkIFOsIO9TLDtig/ot7/UUsCMGWrIASFGEw6Mdjoq0BKVNG7CgOe35uNwkKnr7TYeyHhNM2UhflSppEY8UIC9TM0oVAJHTXPAWKjIIiGza171Jp9y38wzG268zE+mWY84b8Oeo0ifrI4pSoxEcYwml3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DCmxXxDo; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783444198; c=relaxed/simple;
+	bh=Fli7YaSv2y6c6B2aCq4qlf+CIVVBRtRvVhuHOeOvDso=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ooNgo+30wL1/BbNezwdRM1agTfceoId5Zy2IViZiQrh0ropWFMVFkG3qPAZF0ltSZ+10jiVq5C9QgevAHKhAdEloF5eB6Oa/jnmcwGiHFz72xZbWMfb8mgw20UIV1ovSNhkB+bYOQLsz+K4Rwtttcse+S1xEvFIOojgzKnSV/Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ilfmc06F; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DCmxXxDo"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-37e0a189b0bso3324097a91.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 09:54:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783443280; x=1784048080; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Omuhh4w/zf0SDooRU/V40J3YBdkMf6Hj+qafJjaEjQA=;
-        b=DCmxXxDoXiTPGO9W16Lj6ZceO2K+2U3Myn40bky7TMfi91+2OF4Zu6cEIBZVCiQbMY
-         jEbbSv0i7kHmi8D4fkGH2eI6FPqh9xVsB5b7IWSYczjTyL2zA2ynf/tW/DzR/WnFV0XC
-         W81zawoIApArNSPIDYejJYUieiD3u9VHmiLgXvbm0fJgq6NEPRwp7cBOt7J4mVofhTVS
-         UOnbzzaFlOwcf5Q8cATNY+b65WHSm00ofb/WmrRD4XtYjUpmM2McucO9KOFdM20+I6I0
-         0ydhzz1GGTXOi9EiG2PZeFRm7/u1lHlRdBZxr9pl9IoFwX4/PJ8dR8jFpKCxC05Gn9e9
-         aKIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783443280; x=1784048080;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Omuhh4w/zf0SDooRU/V40J3YBdkMf6Hj+qafJjaEjQA=;
-        b=Exb+TgSgCs9v4f9Ht3st0bHQBX+29XIJ9MsHydjYo/vpTeE49eoaVuvueOei2xTjIU
-         ktarut3hd+YOfjkXm7ln8zQy96/uCVpIEtzd9f3WMO3fBvkUrepRIA46wUTu4TkbYx6d
-         pQrTGvowsDTtHpT7gevCqdnq31Pns1j303JeqjOGwv1BxpRpdJE67wS5/RdpGdkvywwU
-         ka2GfSTR5nLrvp3C+ApCZALAOHcTGD5P/bcHPQL6vU2/4FeEmc5YpYezMDB14rlFfExx
-         1Zboo9jykb4QANb2pigk78Q5c7ngw+sghkJgCmt54/HPRiZh3pRSkl3NnxRXNuydPTnf
-         0xGQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqwjBcW9d3ZlgtmP0b0H3gtUuBGfM+odfgicnw/AeqlGTbcPqmgpmuvu325FuMFvcl0G5TXVQUSQ6Z7KfOT@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHJTujiaefDSSiuFnovOrJwFT2wv1BVs8ugsDIGuU4X1rZWi4S
-	mkDhh31brQP2LgAW8fVPQHVMOgiqxVvShxAabB29vFlYR8qN6B9Klmun
-X-Gm-Gg: AfdE7cld0WUyXUJPIW9cOWG3ofVTtIGIrmG6YfGBjmMC0eRZJTRQD8FIiNBzfbOibDS
-	61AU2sjeErrTWjiuBczpuSLtyDjhM+AibTh6NNuvmx2LzlElAfwbonL9o8O2ZptNOC5Q1yhG/h6
-	ZAevHjTEgrB9uQdJ+O5YvG3tOkA0XrIN9FIIXecWt59kjJGcmZcpziKoRaWGnQKpUFvTIdcw1Tw
-	51DPQijXlocRu0JG5ZnGQ3RH96TFusujgzPKjngICE7nSqhEU7kT0O7OeYBj2/QECBWYA6C5W3Z
-	QuVAVg0wnQd1hH4N8CaSDiRDlhZHTXuA7RusiDjTGL6h2oyeK4PkvGJz7VdAsRVIXGaQ92A4FLp
-	pVEFcenWlT4WYt78uB1LeB7455/Dz1qQN0wfOovYupH7zyiB5aI7842PSKdf+3lg=
-X-Received: by 2002:a17:90b:2551:b0:37f:e1b6:4c7d with SMTP id 98e67ed59e1d1-38754ea7913mr6387958a91.6.1783443279804;
-        Tue, 07 Jul 2026 09:54:39 -0700 (PDT)
-Received: from nineveh.sos.local ([131.191.24.68])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-387d36676desm1443261a91.10.2026.07.07.09.54.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 09:54:39 -0700 (PDT)
-From: Jeremy Bingham <jbingham@gmail.com>
-To: jkoolstra@xs4all.nl
-Cc: brauner@kernel.org,
-	jack@suse.cz,
-	jbingham@gmail.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] minix: define constants for dirsize and namelen
-Date: Tue,  7 Jul 2026 09:54:38 -0700
-Message-ID: <20260707165438.590667-1-jbingham@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <942891560.128364.1783370852771@kpc.webmail.kpnmail.nl>
-References: <942891560.128364.1783370852771@kpc.webmail.kpnmail.nl>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ilfmc06F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84A401F000E9;
+	Tue,  7 Jul 2026 17:09:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783444196;
+	bh=6CUF4r7uPib5/E2O+eq3hGHhL62QsV+tEaoDwEyllTY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=ilfmc06FAFeATNBCfn3m2SaaaswmEuje9O4YPqE8sB9iRfOk/k8OX0VfmqDNRhP6F
+	 qm33s5+R7gsznyaFV/hM/pgRlfTDt3Z5jY6ANbJ7DBq5ynoVzGPdeFfGkXQP4pXSrB
+	 nWYyaG7n4i/eZatWysf8ih7R/aI/s3c1kJKNe7LDPMlBRhSSK5Ld4oVqd7IEFI4TLX
+	 7Rp0AfrrEN8+4u0LSC6IFY366eDcJHezNpreBLRis6DlGPQK9ZkiLGZKI9RbUnWxA1
+	 XuS7ffBN/zsdFdZHlfNUkcXDKGYn3JQ0nX7QDgtQcuuTL7P8NC8klsHAiXAkzBvuVn
+	 k6Dxp4ektc7ug==
+Message-ID: <66e8d008-5eaf-4a9a-9cca-e9b2bd8c9f9a@kernel.org>
+Date: Tue, 7 Jul 2026 19:09:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 00/13] mm: rework anon_vma and remove
+ anon_vma_chain
+To: wangtao <tao.wangtao@honor.com>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "will@kernel.org" <will@kernel.org>, "tglx@kernel.org" <tglx@kernel.org>,
+ "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "x86@kernel.org" <x86@kernel.org>, "willy@infradead.org"
+ <willy@infradead.org>, "sj@kernel.org" <sj@kernel.org>,
+ "kees@kernel.org" <kees@kernel.org>, "luizcap@redhat.com"
+ <luizcap@redhat.com>,
+ "zhangjiao2@cmss.chinamobile.com" <zhangjiao2@cmss.chinamobile.com>,
+ "kas@kernel.org" <kas@kernel.org>, "ljs@kernel.org" <ljs@kernel.org>
+Cc: "hpa@zytor.com" <hpa@zytor.com>, "liam@infradead.org"
+ <liam@infradead.org>, "vbabka@kernel.org" <vbabka@kernel.org>,
+ "rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com"
+ <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>,
+ "jack@suse.cz" <jack@suse.cz>, "riel@surriel.com" <riel@surriel.com>,
+ "harry@kernel.org" <harry@kernel.org>, "jannh@google.com"
+ <jannh@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
+ "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
+ "peterx@redhat.com" <peterx@redhat.com>, "ziy@nvidia.com" <ziy@nvidia.com>,
+ "baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
+ "npache@redhat.com" <npache@redhat.com>,
+ "ryan.roberts@arm.com" <ryan.roberts@arm.com>,
+ "dev.jain@arm.com" <dev.jain@arm.com>, "baohua@kernel.org"
+ <baohua@kernel.org>, "lance.yang@linux.dev" <lance.yang@linux.dev>,
+ "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>,
+ "chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
+ "muchun.song@linux.dev" <muchun.song@linux.dev>,
+ "baoquan.he@linux.dev" <baoquan.he@linux.dev>,
+ "nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>,
+ "matthew.brost@intel.com" <matthew.brost@intel.com>,
+ "joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>,
+ "rakie.kim@sk.com" <rakie.kim@sk.com>, "byungchul@sk.com"
+ <byungchul@sk.com>, "gourry@gourry.net" <gourry@gourry.net>,
+ "ying.huang@linux.alibaba.com" <ying.huang@linux.alibaba.com>,
+ "apopple@nvidia.com" <apopple@nvidia.com>,
+ "pfalcato@suse.de" <pfalcato@suse.de>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "damon@lists.linux.dev" <damon@lists.linux.dev>,
+ "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>,
+ "ryncsn@gmail.com" <ryncsn@gmail.com>,
+ "jparsana@google.com" <jparsana@google.com>,
+ "dvander@google.com" <dvander@google.com>, zhangji <zhangji1@honor.com>,
+ wangzicheng <wangzicheng@honor.com>
+References: <20260707063308.29176-1-tao.wangtao@honor.com>
+ <08c001ab-320f-4676-830b-8e4ba6a05dee@kernel.org>
+ <b00a03d62c53430ca22b3f3c5e5327b5@honor.com>
+ <0e8e5a28-1111-4b81-b04f-b81e749eb3dd@kernel.org>
+ <f640c89d9722462098bf1b7a0a6854c2@honor.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <f640c89d9722462098bf1b7a0a6854c2@honor.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 6, 2026 at 1:47 PM Jori Koolstra <jkoolstra@xs4all.nl> wrote:
->
->> Op 06-07-2026 20:22 CEST schreef Jeremy Bingham <jbingham@gmail.com>:
-> Hi Jeremy,
->
-> Thanks for taking the time to look at minix. I have a particular fondness of the
-> filesystem, so I am happy someone takes an interest.
+On 7/7/26 11:20, wangtao wrote:
+>>> I saw it, and I’ve waited for a while as well.
+>>
+>> Apparently you saw it but you didn't read my reply about slapping more
+>> complexity on something complicated.
+> This v2 is a complete rewrite replacing the original anon_vma and anonymous-page
+> reverse-mapping traversal.
 
-Thanks. I think it's kind of neat to have it around too.
+Okay, it leaves the old code in place for now. Just as a general node without
+going into details: that won't fly. We don't need another MGLRU.
 
-> However, I don't like this series. There is no reason for all this churn or the
-> exorbitant amount of comments. If you can get iomap to work that would be great,
-> but please don't do this.
->
-> Thanks,
-> Jori.
+> 
+> The new anon_vma hierarchy is represented using a simple doubly linked list with depth information,
+> replacing the complex topology of red-black trees maintained by each anon_vma in the original design,
+> and also removing anon_vma_chain.
 
-These two patch series were the only other things I had besides the iomap
-patch series. This one in particular I'm not super attached to, but I had
-noticed the bare numbers there while working on iomap. I wrote the minix.h
-patch in this same series because checkpatch.pl kept griping about the
-function declarations on the lines I had changed, and since it was a bit
-of a hodgepodge of different styles I thought it might be worth doing
-something about it. Changing all the function declarations was out of
-scope for the iomap series, though, which is why I did it separately here.
+Okay, but anon_vma fundamentally remains. Using a lipstick on a pig.
 
-The other RFC patch, which unifies the itree_v1.c, itree_v2.c, and
-itree_common.c files, was inspired by Darrick's comment in the iomap patch
-series about how the way the v1 and v2 files have specific definitions and
-include the common file was "/one/ way to avoid having a geometry struct
-capturing those details". That got me thinking about how not having to
-worry about the different v1 and v2 definitions and just unifying those
-three files into one, but since that would also be (very) out of scope
-with iomap I made that RFC patch separately.
+> 
+> Excluding patch 11, which optimizes leaf VMA rmap with PVL, and patch 12, which optimizes memory
+> usage through shared semaphores, the base version contains roughly 800 lines of code, including the
+> compatibility part replacing the original anon_vma implementation.
+> 
+>>
+>>  12 files changed, 1056 insertions(+), 54 deletions(-)
+>>
+>>>
+>>> If there are technical issues, please point them out directly.
+>>> Or is this simply how technical discussions are usually conducted in the
+>> Linux community or the mm subsystem?
+>>
+>> I suggest you go back and read my email.
+> 
+> At first, I thought I was the only one who found anon_vma hard to understand. After reading your earlier email,
+> I realized that many people also consider it difficult to follow. 
 
-In re: the exorbitant comments, I had those in the RFC to explain what
-I was doing and why. If the RFC patch was well received, I would of course
-resubmit it with the comments significantly pared down. That patch would
-make the iomap conversion easier, but it isn't required. Since that RFC
-patch would be nice, but isn't necessary, I wanted to put it out there and
-get comments on it separately rather than trying to fold it in to the
-iomap patches. In the future, though, should I find myself submitting
-another RFC patch I'll keep the explanations in the cover letters and
-commit messages unless absolutely necessary.
+Right, that's how Lorenzo started his work, trying to replace/remove anon_vma
+entirely.
 
-Iomap and minix do work now. I just need to address Darrick's critiques of
-it before submitting it again. Since these two most recent patch series of
-mine were indirectly related but not required for iomap support, I broke
-them out into their own patches.
+So I tried a different approach and implemented
+> anon_vma rmap using a simpler doubly linked list plus depth mechanism.
 
-Thank you for the comments, and if there's anything else you think I
-should address I would love to hear it.
+And this is what I don't understand. You were told that Lorenzo is working on
+removing anon_vma, yet you decided to work on + send something that reworks
+anon_vma?
 
--j
+Also, I am really curious about your expectation: not having a single patch
+contributed to MM, even worse, not a single RB tag or anything, yet you rework
+one of the most complicated part of MM repeatedly using other complicated
+approaches, and immediately start demand technical discussions? After sending an
+absolute horrible v1?
+
+I really try to be a nice person, but really, am I dreaming?
+
+
+Obviously, Lorenzo is still working om his approach, about which there were
+discussions at conferences and LWN articles.
+
+Stating "that you waited for a while" is ludicrous given that your old patch set
+was posted around one month ago, and a complete redesign -- moving away from
+anon_vma -- is not expected to be a short-term thing.
+
+Meanwhile, Lorenzo is sending real cleanups [1] as preparation for bigger
+changes. ... which is what we usually expect on such fundamental reworks.
+
+I'm really left clueless here why we anyone should spend time trying to thing
+through yet another data structure and yet another locking scheme, for something
+we want to remove entirely?
+
+Again, I really try to be a nice person, but something here just doesn't add up.
+
+[1] https://lore.kernel.org/r/cover.1782735110.git.ljs@kernel.org
+
+-- 
+Cheers,
+
+David
