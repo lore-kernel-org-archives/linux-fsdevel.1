@@ -1,106 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271C2264FBD;
-	Tue,  7 Jul 2026 11:34:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A973FA5FA
+	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 12:08:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783424092; cv=none; b=eEEStXzlhuUynMEwVfbk7hKPyqCpLJjATHFHMyKzDH4OzOp8xuiMqY0Cl8cIzpNZis3uTi/N67spt5gSP8Ig5mO5XlxwNe0etEMYJ7XenLZdA5bXrrluWb0kwgvyJ44swY5O8T062qWONTSfjA9cuvLQzVgVk2nEXuwj5x/YgCU=
+	t=1783426121; cv=none; b=gRqz/xFAC3hpEz7pdfZ7WTazxEH0V57wa7j8go7igI8aqQ6+bW18Se/6vXPWhcUNlfrIpvVGtNa8Ga8FvFzzmDIOevOhYigmFLtHJM69KFkUWHCVD5Q3EKfJGs4igXkfu+Qn5GzfgT0u3W9qT+tBQUFcCBxQdveP3pQ0BExeYLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783424092; c=relaxed/simple;
-	bh=zBPUW+WQ/GjuRupYdwz/7FHmp89KGxrLyUS9t0y2NyU=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=si+YwiR8P42BiX8Fa9XFtIneVgTbq3tdEWjrbRnlUJKmt+03BN81b0F2DlLsmwbQn9bFLzIVQ7rJVcnnnvUFQiLjvx6Zt8WVOerdIp0fcs/6ckpCp0M1HzFYAX+oG3iCCcsq+6CPeSiZvrPmcN1ZyF0P3DmCZrRVoqxn79A5yv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KxElatQY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783426121; c=relaxed/simple;
+	bh=tKdep5wfqWGXsqqgVoSBFgRw0T+jxm3tufE3mG6gaic=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tihIwGV1PrXHPyxgt/qEjGHp2DupKRalajLM2LjO/As9SfjD5UdDFmYo3MhxpHmA8yJlZsfswJ0T4o2yd+GxKZMxJgN1gh+4rG6E0k5tA60c+yD6+CRa124HQeUQXwDVRIyxJk4t6BHx1fn3bigGuq4JGLxnWyD8okJ5KFwnxDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gMVztAxd; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KxElatQY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 386571F000E9;
-	Tue,  7 Jul 2026 11:34:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783424090;
-	bh=xD7a/PykFMk76eX8/Vohs5LQ/Ovej1+QHxfa9aUv6iI=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=KxElatQYxv1NDV7ZRp28MI4mwxdFDntYF6Wepqb+KQ0fCpXULtGhYLd1ZwhCpwE5t
-	 smUsPY7tDXC1bPg67nofX7s8Zo74QTynRz1eShZn35qt2duFR5eYxL6JmgjGjMtXhv
-	 zsMPeiuJAJi1POB0mFeQRQynkJe56KdkvaxghcaRLcFsNZOHNBnnXqmO+380NF0w0z
-	 MlrXBWM5TER/rH5e6S4PzGWlxXoSKiQnmgXK3blzKFGetTn5VZlGGnH0Pn7GRKNSOk
-	 Dxpmkz2e1ZSjzv43OudYSdCbrS5nXC1YDfyJVuKikpnW7HN1XZIx/uCusz4ZEFkQzD
-	 boLajUpNZhiiw==
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gMVztAxd"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2cb59f6ba26so71295ad.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 05:08:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1783426120; x=1784030920; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4cV7wjZF91JZABaQ5nRkxwcAf75ivPZaWcSLuu/chBY=;
+        b=gMVztAxd2Jfqy1RmjrW24cwvTf3F2LvNMJEX4HyIqR7zh/5nsqunTvWzWD23A5Nhme
+         YmH0pDrXIJL8pDbAxWSiHT/HfNLdLPjrqQXjANDKiK3aqdeRs6qEy/SKa7yVC8jlZGda
+         Ns5/cxuY62yGf1J3cIFqY/q+bjSJ3qDAq1t/wGK/CBsOdVYiukyKUElmG++oLBrY7Gda
+         L0a/ISVVW9czicljMVhthdnz9ifHNziwHxUnLLbrrjV5aSgnsF1bGVSaRNowIEzllMvr
+         mr7/sMYFfZOF41ckz/LnXbHZu3VnGv7BSIn/61RizU5BSpD7i2c5QcodR2AdTz9ClMy1
+         Rkxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783426120; x=1784030920;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4cV7wjZF91JZABaQ5nRkxwcAf75ivPZaWcSLuu/chBY=;
+        b=HwTjR3/XtIpSgxmJtiLzb9uhb2to9+kry7k8Heu4PqF0XhTcf+uEDE2GjtVRiBfPSQ
+         XSC5SGh6C7hFku/JKrqXx6cf9UZAaizNyECYepLCyJFtpg0EDHtcvrEQ3wgwECwav9gb
+         JQzBUzH83+0ASPw5pf/oqMZwAX76OpdVfO5S+D1+SzoGD+d293LxOBheJphb4c4dCCWT
+         8GchDFTbSYbXzSclyWFgJnmZ/OSAwWWJiaK5qWCvTK/y43K0TNXenDiX8+TQgcf4rjLd
+         XrC4h8FhVoFjCriuGi+TcFjpmyD5dZ9mT6saDlAHdBSp0sMEZcr9xcSEFzpV4lW3RXmg
+         Y//Q==
+X-Forwarded-Encrypted: i=1; AHgh+Rpcr1an4KADhLFfngTbwIk401UKziuPP0EVgFlBLTSqOwq7X/Zd1QXRMd3HTCgaNEx+tHek92SqMacjQjqD@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjAodlDHRZhzJwbA7xBj/EXAfm39LoWvlFVVVsPU2jL81yq4VW
+	+P1P9oDXIYJehW/qirS0lDvMmI4FTg6CfNOdPdR3gZq0z95mBlxtc7Un051VMKKoUg==
+X-Gm-Gg: AfdE7clcbvQuFOhTy+pJRf5GrL3oHfu+0DTI/WWXJ0mWpJyTtEp9Bq0AAZ3H186cVCc
+	dWhvtWP/H3ST5827vdq9eRwO4v7oQ+XUUODSxMLhRjrSGPCxGvdGM7E+7jjhzekVu2Qky+IcPmZ
+	y+BPrYal8Gg7QKSe7zp7/y5UToWl8CCySvavbnta/l/RWTLS9OkgFs1CEUJZmPzwCmTk3xKX/Hy
+	vNT3ot6I8hEhjcp7Ifs5rMZq6jm1PSGeexso8ie3hUUdp+oiDgH5HSpq6sUksmP0n/mrjdOyZfy
+	3b4OxVPuQUhDOmClL+eTiBSaLDcXxCH1SOt/BIWQ2j4nqPrYxbmk4OfWHU+ONQRCDKo7H07aW/E
+	GnCIXr5Bc3xCO5pY8TL3GgIO405HKbT0mZ5bG8VyOgBELHKGwbZ+wrl6ZPALvGOcPypSFyt/F6s
+	ZijU2w1rER5kuc7hgYgAZ/WoizWY+LUUs63A+W0aZfDAaEFvg=
+X-Received: by 2002:a17:902:e889:b0:2c7:f688:f22f with SMTP id d9443c01a7336-2ccc9d7593bmr2658275ad.13.1783426119230;
+        Tue, 07 Jul 2026 05:08:39 -0700 (PDT)
+Received: from google.com (10.129.124.34.bc.googleusercontent.com. [34.124.129.10])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ca5af7d58f3sm853302a12.1.2026.07.07.05.08.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 05:08:38 -0700 (PDT)
+Date: Tue, 7 Jul 2026 12:08:27 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Matthew Wilcox <willy@infradead.org>,
+	Trond Myklebust <trondmy@kernel.org>, linux-nfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Anna Schumaker <anna@kernel.org>,
+	Shivaji Kant <shivajikant@google.com>, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 6/7] nfs: Optimize direct I/O to use folios for
+ requests
+Message-ID: <akzsO_vmYX_7Umjd@google.com>
+References: <20260616134000.2733403-1-praan@google.com>
+ <20260616134000.2733403-7-praan@google.com>
+ <7ee3bcfdd6126c93cbb1c219bf601182b95c10d9.camel@kernel.org>
+ <ajGGpDvzZdkGtSbN@google.com>
+ <ajP8ZTTLYkICFTO_@infradead.org>
+ <ajQ21kH1ZVajS2Y7@casper.infradead.org>
+ <aj4iiD5C_yyLeb3U@infradead.org>
+ <akevQfFVteCOD6LM@google.com>
+ <akfAgy52s_Gch2KG@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Subject: Re: [RFC PATCH] fs: binfmt_misc: introduce eBPF-based matching and
- interpreter selection
-From: Christian Brauner <brauner@kernel.org>
-To: Farid Zakaria <farid.m.zakaria@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, david.laight.linux@gmail.com, 
- jack@suse.cz, jannh@google.com, kees@kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org, mail@johnericson.me, 
- shuah@kernel.org, viro@zeniv.linux.org.uk, Gemini <assistant@google.com>
-In-Reply-To: <CACCo2jm5=xrQNfak=TdO=2oh0DC5pe+atj=UfuTa8Y9s8GVkqg@mail.gmail.com>
-References: <20260704-kochkunst-hauswand-blass-7226e9443a9f@brauner>
- <20260704211409.1978485-1-farid.m.zakaria@gmail.com>
- <20260706-uhren-raubbau-sinnkrise-e40a8337414b@brauner>
- <CACCo2jm5=xrQNfak=TdO=2oh0DC5pe+atj=UfuTa8Y9s8GVkqg@mail.gmail.com>
-Date: Tue, 07 Jul 2026 13:34:46 +0200
-Message-Id: <20260707-campieren-fingen-himbeeren-e4b682bd8e63@brauner>
-X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1976; i=brauner@kernel.org;
- h=from:subject:message-id; bh=zBPUW+WQ/GjuRupYdwz/7FHmp89KGxrLyUS9t0y2NyU=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT5PAm/Ib/tm2Wn+4vyDv75We5Ws38unHZes8Mkw9zG6
- JnkzP62jlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIm8/cnIcGRNwrINtdMr/8eX
- hyzkbDET+dxxbnX9Zz5vrp1LRfL2rWT4Z7Dz3jdV9ijN8xOEfghc5k3QOpNw8bz073THWa7T38i
- asgAA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <akfAgy52s_Gch2KG@infradead.org>
 
-On 2026-07-06 09:47:53-07:00, Farid Zakaria wrote:
-> On Mon, Jul 6, 2026 at 9:01 AM Christian Brauner <brauner@kernel.org> wrote:
+On Fri, Jul 03, 2026 at 07:00:35AM -0700, Christoph Hellwig wrote:
+> On Fri, Jul 03, 2026 at 12:46:58PM +0000, Pranjal Shrivastava wrote:
+> > Do we have use-cases for a kernel user for direct I/O ? (Just curious to
+> > know if there's something on the horizon).
 > 
-> > Ignoring the blatant bpf abuse here I think this is quite workable. So
-> > this can be turned into an actual design and patch imho...
+> Plenty.  Basically any storage on file driver, or storage / file system
+> server:  loop, zloop, nvmet, scsi target and nfsd ar the ones I know off
+> by head.
 > 
-> Glad to see you think this proposal is in the right direction.
-> Just for my edification, when you say "balatant bpf abuse", you mean
-> how it abuses the socket bpf type?
-> If so, do you have any guidance on a new type or should I just take a
-> stab at it.
-> 
-> For the proper RFC patch unbastardized with tests, should I start a
-> new thread or is
-> the convention to keep attaching it to this same thread?
 
-Always start a new thread and bump the version number. So we're at v3
-now, if I'm counting correctly.
+Ack. I see! Thanks!
 
-Fwiw, if you have access to an LLM you can try and setup b4 to manage
-patch series. It's quite easy once you get the hang of it.
+Regarding the page_folio impasse, how do you suggest we proceed? Should
+I expose and use get_contig_folio_len() from bvec? Or should I move the
+NFS helper into the iov_iter lib? (or both).
 
-> > Note that binfmt_misc is namespaced and can be mounted inside of user
-> > namespace + mount namespaces fwiw. So a container mounting binfmt_misc
-> > (a fresh instance - few do) would escape that bpf program. On the other
-> > hand it would allow to register a custom bpf program per container if
-> > needed...
-> 
-> That makes sense -- but you will need CAP_BPF etc.. to load the new
-> programs though
-> if inside a userns.
+Also, do you suggest sending the Folio move as a standalone patch if it
+is blocking the rest of the series or do we prefer keeping these in a
+single series?
 
-Right, bpf tokens exist to delegate bpf access to containers. Not always
-ideal but it works for such cases. My main point was to communicate that
-containers are able to disconnect themselves from being able to execute
-binaries by mounting an empty binfmt_misc instance, iirc. I should
-remember that as I did that work but I kinda don't exactly. :)
-
-In any case, I think it wouldn't be crazy to allow registering "default"
-handlers that appear in all binfmt_misc instances if needed so
-containers with separate binfmt_misc always have the bpf program
-available. Just thinking out loud...
-
-
+Thanks,
+Praan
