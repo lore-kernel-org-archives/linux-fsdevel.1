@@ -1,157 +1,132 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-wm2-f0.google.com (mail-wm2-f0.google.com [74.125.225.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752C92E3FE
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 02:46:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783478796; cv=pass; b=g7u540TR3e3g//wlMsVPMruUPijz1hYnswBBWvODOVFOJGHZxiVJKmuUq22wfGf+dLmGXUFSHSY6HSZNHjCBvCb7hwsjwMAghiXk9xtYJ584D0OBQVW4h/nJsuEhctxQfsL97GBwjfH1g7ZwL/qkGfbcLGzfNgRqMTPunqlUHSU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783478796; c=relaxed/simple;
-	bh=lZeKcVP5n5d1tdfP9Qo97u25G/PeW5B5/8MmklyL72o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VUVRv7ppqlzs0C3jsKI6CDCAoqO6I7ZKS88HmDl5pR807tSUugQKTm3i2ZRRFnJibh7iRy4D5LfLwaBBhEOermAvHBvjLU90tSVDDwxb44j6gp+33fLdWiVkAABHHx8fMLK1PvvKRImdrxZqz1iJEP42+B1aw0qSGFppOZ+c4Hk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UN2tXiHg; arc=pass smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6199353EF3
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 03:12:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.128
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783480352; cv=none; b=iGU4D6NoT0nXzNu2An4kpL4s7uAjEdziW77jc7GVxA2LXMdANMs14ta8JlKWA0iB96heAjYBZy/1kvKuO1gBXAhlhaMuYJebsSus1rxGWoNKwXLw+vyrDAppdDzazVXA77Kpg2Ficg2MrSVRhLXy3r3FJPIzN9FYtr9U3HQL1jc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783480352; c=relaxed/simple;
+	bh=Pfob3D8mbkTTmUhLmKjlXVr2c00IRc98rAq6J6IGM8w=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=AD2ZZZ4PO7ie4Si9xwcVc1nyq/7uhvEELlY1eDeeJj7lt1j7Lkb9zlk/rBuxKr2lcx1CjHwdE2JOtfWYWqmYdhCajGQ3hNsQybW4zf5fkjnoZJ/IgMv1B/Nws73dEX0WVwStEQCS0jlBiDJdIDqEeE6MgMZf7KOMPO7ffCQcg6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k/Fkq1VY; arc=none smtp.client-ip=74.125.225.128
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UN2tXiHg"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-806449d108aso3763477b3.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 19:46:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783478794; cv=none;
-        d=google.com; s=arc-20260327;
-        b=JHAQCOS/IT3K+nbcr6y8acNr5aEicnqvCittR3+JmMS7ZH1jt+QpcIBnTsOkK/KOMT
-         +OrvLjzJ4vdAMwovVZ88TCeiSSbz+T6vCKivJXpR2alvl3ayCEGT7bzlCKzce7ugWBAl
-         u1S1wrvKQ8kxgSdZH9DKDXBrIOXG9X0ebzkC2rN+CpaRMx3B02EepSeJ2Q/ieUljpWkk
-         0FkwTiA9yCAkgvb89sATAQv8lpkZk4avmnpEjRPbfHgqRFe4D1IwzTLv+Cb8UETvp9r4
-         ESlne/gIKi3HrJPRT5McV4EX9bXV4m8kXcx03WTOO61qgwj5YFZnXV7Qr3Rgk0Gwbjft
-         dVmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=DAqLHrk+9TdVQrrOVG5vJ8eFuY+Wniky/ctCdzFa8Co=;
-        fh=NZdpUm3a4IEYzczY8Bazspqx/j5EyaTnSeL/7jq6kXE=;
-        b=pctZGFFl2IUppYj6MhVCx3Jma94Md3d4fiZ2JvUonCAYxQR7oVEzEic5Ia5YHFRNUm
-         EBbGQdiv+NoUSQCWscoBNJqZ3HQ7VK0cj/EJVJ3zZGPWU6v+ys0+1yAGSdeB6a9R9N9l
-         9fGJY249nf3vCD5N9nEX75iV5URjDY8ApZlr1DJTVj81LnVV+gnbMBsFBh81qxxRL0ix
-         3vWrlMAEJ0XXXsHt4SCoKWj+fzDk0uOwErN8YCTLJwM/pXnliNgytHpWXLJEPKlNX3r+
-         0zYZtTrfsvG6Gg3ETRJtRsD/VXDS2DXJrPLyfe/cpRevvtw92wprA0V4i/0Kt/2fil94
-         RphQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k/Fkq1VY"
+Received: by mail-wm2-f0.google.com with SMTP id 5b1f17b1804b1-493c234fba7so433475e9.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 20:12:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783478794; x=1784083594; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DAqLHrk+9TdVQrrOVG5vJ8eFuY+Wniky/ctCdzFa8Co=;
-        b=UN2tXiHghCXlqUxpvqN9DPnVNVWDcKjRrXV9M9pEHljISrYO9clG/akjWEV6aum6Sj
-         1O/RPgNQF7DL1e1NPF66IQC8FsY6bWVQrfES6zx99xGNoh3l2OZ99CqT+nJBFg7P2z1b
-         ZP6p2KUmxuiWWn0HjIngffjWOKsXdz0P8p0r36d8UxUSTV3izyomkmJsShI2rRG5YQrx
-         7J0ofgmPxg6TWSotOcMgySeoOEIVMdpUBU7aYP9zMLyq4t3iMSlFYyRmKy5ksvcrpom6
-         B1MlhQ6sqvGbH0CRpUfEb2tcbKF5HsSrac/A1iR6crlMVSDHvZQ2o/1QCTCKRYhXds7x
-         phaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783478794; x=1784083594;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+        d=gmail.com; s=20251104; t=1783480349; x=1784085149; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=DAqLHrk+9TdVQrrOVG5vJ8eFuY+Wniky/ctCdzFa8Co=;
-        b=bQyg5bbVE4oZmvIoCLLszGAG7I+nlSC+iZI3p/64t2WEiBk6ZI3k5aJHRB8I2laLJz
-         1tK6ZUmOrW04rtRNc4qSJNPcSaqwPAfrNeCDdjSgJ/KTrvXatNqRcHCqyDDxHtfPr96f
-         j7hyZnSiCzqjn8Yp9m8xlDy21L9BpgmOszGLFxD9CqjAvpgDHtIZSx7P07HhrbrcL7ru
-         NfvQzui60vrAm0AAjSdaSDZheH6rvuBa7kZqIDHAvEeG1dGS0K8dPkYaxWISKFTCqaKM
-         XpEAd4f5X1Hu3AvrHKS/7M6hqi7E0MH6oUFa03s6WBQweR+R6lRkqMHPhU8SvYh9O6Jm
-         3+ZA==
-X-Forwarded-Encrypted: i=1; AHgh+RoP9cM27ZaVFWDHl5ou9mjifQ4bkxzIN3mJSPOc/HBTL1NgI01SvJnK3hxBaeYwrIYZK7SGT6cfmJmUowfQ@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYHjHCRw+WD1UkcNmH+aLaYFgSHzCjrPekhfpbqNmbLyUtpWbc
-	Fl+5Pfz7EHFb28EhfuqDF6oOX1OX25YeWWOnmi6iFYfWQO/jJHRo1lnCCQ0tQqfDc4HVmSQdT7H
-	yXhB1T8ePnAcD2ymBVx5BhEBRe0gWgtS2iQa53vw=
-X-Gm-Gg: AfdE7cnX3vAlBDQkn72FHme3mi5RE+x5cahjvzcSrYioLMFxJNJRz9l0ST8XXJss7ck
-	MZ4MhcKZM3Dba7SRRrzzA9yln9eqy+3pD5czUgUNYIkC2Ycihk+kU7f12reJpTAl85NBMiXHxiQ
-	ypsDRQKCYvTRrOnfvgHAIJIbCcZFzJjjLtsYp72H/3eSL+TpRRCIlJYRoFJ+3Ucao13cxk4lQiw
-	SSueojQVy/FImo2N+bA5mllNfmJZyQRrMhS+vuiMVzeWaFtITCwhiLqEkd6RB3vjNRxfNmJPZeS
-	oI36jgh4Mw==
-X-Received: by 2002:a05:690c:6088:b0:80e:bd63:178b with SMTP id
- 00721157ae682-81dbbc40ac2mr5679297b3.10.1783478794353; Tue, 07 Jul 2026
- 19:46:34 -0700 (PDT)
+        bh=Pfob3D8mbkTTmUhLmKjlXVr2c00IRc98rAq6J6IGM8w=;
+        b=k/Fkq1VY6aeB5pCEiugfcDxREjIseLxREzoYRra3lE9/nqbw3tzGUDUwgcfTQhdPsO
+         6YRANdwssFS43X6i5wjYdG1mWrE/DRmgirvreyqiSlkwWfdz4a5eCsDpZRC+RTdSPmw0
+         s+W5PsJt+eRo2JyW4vt8cm8j6o18Bwrkmz2tCwBaIMcyksROnhGmOYOIVuwU8XGA3Wqy
+         P9nmOlHdFf5X58K68DiuTgf7FFiW5HMU1uSojZ53q8h1A6VVKcR3ii21saKSMp6KCCIm
+         4KgFIa31hmpuSnLYxbi7pq9tr33pEdk0kCkz2ENTEr0iq5VKs6yKz183SaDGqJl8eQ5U
+         mB8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783480349; x=1784085149;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Pfob3D8mbkTTmUhLmKjlXVr2c00IRc98rAq6J6IGM8w=;
+        b=OY/DGvg9B07BIC7UySD1ZhxPxoJXfGN6NCvkS2MCn2Mx8/BC6q7WayOeJxH4yJrMwt
+         COzYyIdcPqz7rCw2zClrdrX7ZQZK1c727XzIGCECkg2O/dlDOPG5k83aJIJTPnbUSGGa
+         eXzxBqRsAayelxOqtYXrmk76Pqd0725t2wHdzHAjDnJ3TxQq1JJ6fCRNSLNmO/GL1Qhc
+         Cdg12+YakoQu+rdcd0yjolsFc3roGY0Fn9sLMaR2NABMY1tz/5kjNxMe8GT8G+OKRw+j
+         koedD9jFSBM8WEOIS0Il+Qd92YCKDuLBPfZNACrRmUU5pQ+79F+tWchZxE2K6AwCsYM7
+         +/ug==
+X-Forwarded-Encrypted: i=1; AHgh+Rqh6Qag/oLHkkCcDOoEy8VuBykxMOCePlhOeKlq1lh/JPupyN6heCXtQP/8XhBK8jKdV3ZhdSspn5JS5EyG@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHAc/uzGUtHaM8oPFW6zYs/8lk9pLlrfXm/fq46ZA7y+evGGtS
+	NFHxRFRuEDOEwIf6cq/PL5iu3XXleXyLsgX9+BYEbjb/IsnBQ96hP7Pg
+X-Gm-Gg: AfdE7clpg9i4GDu/YFM/XG2kZb9dDEjNIc6fxMr8QQMn8eS6HclPekBoI/LyDlHvjm1
+	jT2lhycOpAHWgUolp/H4YCvhDxESMBawFFLaL0cyB0Dz2aQcKzkemThPMQloCw+bOAF8ujJhkTj
+	ULwRGb2sRD0+VA+SOmQVRYx7MMPIazPPMeRhO1Oyhi3F9RkXfsNzTHspX0iuH4NqS7YZuAKF+Z1
+	frMJNyiX2oeZrzWLBpRJdbWSH5f9S9g6AaKTVYaq3cbZN4yVoG0c8+YogNNiCshJFTv1Dbr8/p9
+	pn92ryYnmnu4MfJnOaSe7tnNlrvztVeHAI39qrzqv8HROMyd8H9jJ1ne882+tNQpCoh/SXpqf1W
+	BaHHzhyBYoqNJeIoK4htEYLpEzj3xHWApUyGXvHzdQpFvGYRi5ELQtwwxljvafpjr1GLbHWgpz7
+	B3rLS8bs4TC45vct+jlshod0rq1WuS66RLr24/yuj1DJsWkJHFfkTNt+b/rwRUHsyOWK0uylzVG
+	jyIH6Dw6DuweOiOCz0t0WjtQdW4gT6uDcOl7Zu6HImDtUwxCMnW8LI=
+X-Received: by 2002:a05:600c:6085:b0:492:454c:347c with SMTP id 5b1f17b1804b1-493e6859969mr4220535e9.7.1783480348874;
+        Tue, 07 Jul 2026 20:12:28 -0700 (PDT)
+Received: from localhost (nat-icclus-192-26-29-3.epfl.ch. [192.26.29.3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e610532fsm19286465e9.0.2026.07.07.20.12.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 20:12:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260704160229.1725504-1-zzzccc427@gmail.com> <CANFS6bbdYdn=1rt1W4aPue4RqLLxFhHHOG9eTX2Sj0gcs+QH9A@mail.gmail.com>
-In-Reply-To: <CANFS6bbdYdn=1rt1W4aPue4RqLLxFhHHOG9eTX2Sj0gcs+QH9A@mail.gmail.com>
-From: Cen Zhang <zzzccc427@gmail.com>
-Date: Wed, 8 Jul 2026 10:46:21 +0800
-X-Gm-Features: AVVi8Cf9W0LaLs6ah_RgGQAv74s_H4YRMPfWpiUfyiPIRS6BF43YxOcpddV9Rfc
-Message-ID: <CAFRLqsUC3Mb35efqcXTrkhxUDVpNx__rfeNoKOG4QDvL-phdhQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v5] ntfs: serialize attribute-list replacement with lookups
-To: Hyunchul Lee <hyc.lee@gmail.com>
-Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 08 Jul 2026 05:12:28 +0200
+Message-Id: <DJSV0P2OINKE.34OCOC34KFEEF@gmail.com>
+Cc: <bpf@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
+ <linux-fsdevel@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
+ <selinux@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5 bpf-next 0/3] bpf: add bpf_init_inode_xattr kfunc for
+ atomic inode labeling
+From: "Kumar Kartikeya Dwivedi" <memxor@gmail.com>
+To: "David Windsor" <dwindsor@gmail.com>, "Alexei Starovoitov"
+ <ast@kernel.org>, "Daniel Borkmann" <daniel@iogearbox.net>, "Andrii
+ Nakryiko" <andrii@kernel.org>, "Martin KaFai Lau" <martin.lau@linux.dev>,
+ "Eduard Zingerman" <eddyz87@gmail.com>, "Song Liu" <song@kernel.org>,
+ "Yonghong Song" <yonghong.song@linux.dev>, "John Fastabend"
+ <john.fastabend@gmail.com>, "KP Singh" <kpsingh@kernel.org>, "Jiri Olsa"
+ <jolsa@kernel.org>, "Kumar Kartikeya Dwivedi" <memxor@gmail.com>, "Emil
+ Tsalapatis" <emil@etsalapatis.com>, "Matt Bobrowski"
+ <mattbobrowski@google.com>, "Paul Moore" <paul@paul-moore.com>, "James
+ Morris" <jmorris@namei.org>, "Serge E . Hallyn" <serge@hallyn.com>, "Casey
+ Schaufler" <casey@schaufler-ca.com>, "Stephen Smalley"
+ <stephen.smalley.work@gmail.com>, "Ondrej Mosnacek" <omosnace@redhat.com>,
+ "Mimi Zohar" <zohar@linux.ibm.com>, "Roberto Sassu"
+ <roberto.sassu@huawei.com>, "Dmitry Kasatkin" <dmitry.kasatkin@gmail.com>,
+ "Eric Snowberg" <eric.snowberg@oracle.com>, "Alexander Viro"
+ <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>, "Jan
+ Kara" <jack@suse.cz>, "Shuah Khan" <shuah@kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260708000956.46138-1-dwindsor@gmail.com>
+In-Reply-To: <20260708000956.46138-1-dwindsor@gmail.com>
 
-Hi Hyunchul.
-
-Thanks.
-
-> Design A:
->   * Eliminates the raw pointer (ctx->al_entry) entirely from search_ctx.
->   * Instead, it tracks the cursor using 'al_cursor.off' (offset within
->     the buffer) and 'al_cursor.gen' (generation counter matching
->     base_ni->attr_list_gen).
->   * If the generation counter changes, the lookup detects this and
->     restarts safely using an exact search key (al_exact).
->   * Since we no longer carry raw pointers, attr_list_lock only needs to
->     be held briefly during in-memory list operations.
->   * To strictly maintain the lock order (runlist.lock -> attr_list_lock)
->     and prevent deadlocks, functions that previously held attr_list_lock
->     while calling runlist-locking operations must be refactored.
->   * Pros:
->     - Short-lived locks.
->     - Narrow lock scope makes it easy to maintain codes.
->   * Cons:
->     - More complex implementation.
+On Wed Jul 8, 2026 at 2:09 AM CEST, David Windsor wrote:
+> Many in-kernel LSMs (SELinux, Smack, IMA) store security labels in
+> extended attributes. For these LSMs, atomic labeling during inode
+> creation is critical: if the inode becomes accessible before its xattr
+> is set, it is briefly unlabeled, which can disrupt LSMs making policy
+> decisions based on file labels.
 >
-> Design B (runlist.lock style):
->   * Retains ctx->al_entry (raw pointers), but manages attr_list_lock as
->     a top-level coarse-grained lock similar to runlist.lock.
->   * We must establish a strict global lock hierarchy: runlist.lock ->
->     attr_list_lock.
->   * Pros:
->     - Simpler implementation.
->   * Cons:
->     - Could reduce performance.
->     - Wide lock scope makes it difficult to maintain codes.
->     - May introduce a lot of '_nolock' helper functions to avoid
->       self-deadlock.
+> Existing LSMs solve this by setting xattrs directly in the
+> inode_init_security hook, which runs before the inode becomes
+> accessible. BPF LSM programs currently lack this capability because
+> the hook uses an output parameter (xattr_count) that BPF programs
+> cannot write to, and existing kfuncs like bpf_set_dentry_xattr
+> require a dentry that isn't available until after the inode is
+> accessible.
 >
-> Which approaches do you think would be better, or other approaches?
+> This series introduces the bpf_init_inode_xattr() kfunc, which takes
+> the combined inode_init_security xattr context argument and claims a
+> slot in it via the new security_lsmxattr_add() LSM helper.
+>
 
+There are various CI failures in newly added tests, I don't think any of th=
+em
+are passing. Please fix before respinning.
 
-I think Design A is the better long-term direction.
+https://github.com/kernel-patches/bpf/pull/12730
 
-Design B is simpler at first glance, but I think v5 already shows its main
-problem.  As long as search_ctx keeps ctx->al_entry as a raw pointer into
-base_ni->attr_list, the lock has to cover the whole lifetime of that pointer.
-Then attr_list_lock starts to spread through many helper layers, and we need
-more _nolock variants or nested-lock variants to avoid self-deadlocks and lock
-ordering problems.  That makes the patch large and hard to maintain.
+E.g. both test_init_inode_xattr and test_init_inode_xattr_slot do not have
+expected results.
 
-Design A looks more complex internally, but it avoids the root problem: the
-search context would no longer carry a raw pointer into a replaceable buffer.
-Using an offset plus generation counter, and restarting the lookup when the
-generation changes, seems easier to reason about than keeping a wide
-attr_list_lock scope across many NTFS paths.
+pw-bot: cr
 
-> And please let me know if you would like me to implement it.
-
-I have limited bandwidth at the moment, and you know this code much better
-than I do.  So if you are willing to take the implementation side, I would
-really appreciate it.  I will also help review and test it so we can move
-this larger fix forward together. :)
-
-Best regards,
-Cen Zhang
+> [...]
