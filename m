@@ -1,64 +1,64 @@
 Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01445E555
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 00:10:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD6F19E96D
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 00:10:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783469406; cv=none; b=gJcmRk0x+3cExegitIgDEVzgIGJ7aVv0DdDhNffMrB7toMGmyndUXvtb0AkWTruRDfWNcay0ClnL2qq+TWwOT4wLEr75v2SwfnV0CZlmJY2S+xkzrxNAINZPdsaZg1Ea3GCFnL4MxWi75r7CYex6XJ4nwR7q8YGrxftPlsQeEK4=
+	t=1783469408; cv=none; b=VMoyOx2xTI63A7fkkohp9wQXiLae7NywAUvD4Y+0k+8AHYYSDIBfEjVc5NZMrEfczLF+6zPnuSfEt3Ym27F6jDxPsIOzZ3H6tUfyzo4BDPjHU1ZZ3NaYrLOFrIp8Wo8ByXEdron1kcQoQbROP1BwFJletzRzrob125Kf1exTwUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783469406; c=relaxed/simple;
-	bh=5paAE7FcwR2EAGMv6ATIvCwCHK8moB/MJ/jdRXtXdK8=;
+	s=arc-20240116; t=1783469408; c=relaxed/simple;
+	bh=eux8V6ATnM5qD+SFUwkQpmSQRn1Yojgb3lZ0S3GrT30=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=B6O/darolTCDr1hNPvJeSHlzuM+wcvv22gl6I3+dS9lX1/32hx4B9owsRP/JMA7MFJeakSGPmQ9lMtOEiNcbu89p4yTbS/gOciyeYUmC3cwWXOyqakx/wbaifAj4ju8ZcjdHT36TndRvvwbEuPGN9w2vjIvA39P3Oa6sPqp2rOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UuAn6QDg; arc=none smtp.client-ip=209.85.222.181
+	 MIME-Version; b=Su1OLToNC9BhyvM3BHEUKChOQkKoozKLUc8x7PpBQ0QiZbedi9bHhS7PNyqhR4ivX2RzujMarOlUuWpyu2piX8G/gcFbZ+FuO3ICAj1bcC/SHexRucq3aqT7Ag1kTzRg0ppS4o2sux8P7+zm7AePp57Z5Les09EqFwaEmQiAgbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A521NSc9; arc=none smtp.client-ip=209.85.222.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UuAn6QDg"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-9217d13c276so1645785a.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 17:10:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A521NSc9"
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-92e663c828dso6078085a.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 17:10:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783469403; x=1784074203; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783469404; x=1784074204; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=H5d7fbQwym2HIgVRnDv1JutJFyLmAUJ8aFrpYmfGtZs=;
-        b=UuAn6QDg7TzhKkdh0r7yGQXXc3Uq+WJb9ODMXtF6L17F4PL1UWjCZl3Uw25JjIhGht
-         QBvIw6FC6dz0zTcQ+pgOleJY5gjbuMrKzjJR2kLYFG/NVsz/9KbOS6vBCtHyfaGw0RH+
-         GezOXCtCDkWLZ2qaeDO9KKPQkvRvxvRJJxVnmCxsB40eJMmwnpdBlBN+CQH8RweOYAIy
-         hw4rUrrzVFqq+wSAQfDfNRIwq0FF3FjyXonh6AimYjWWtzVsJmer8erzylurjvN6ZHLM
-         KAQV8Cj6C3/xXUwOe6FNc3UATVxC90S0r0BXZ+dNK1YuSg9xq2x7Y6NfV/HWvxdnkCCu
-         2Nkg==
+        bh=2f2t60Bq3DQP7+8XiXelpBwbMQBxvJVb0y8RBgvfr0g=;
+        b=A521NSc9wmRJQ53eHHPwtxZKFWGT04GDfxqaub2fra21WhCR/FTNAWWvOktd89rRhH
+         NgXh01liVtTgTo9TpJKJmdxA308kJK/BswvOTR4FGWzkaHCSUhlwtSFRAvg+VI/L4/tJ
+         q4RSGAGaVbTiXHk+90A0Mk5LwgZYKRSamkn3ywluPZpwyT4Mt4rVPRFpKb1Zf+f7d2c1
+         SO0ZCrZSj6Y1hHS6Pgd1pbKx9QOfjbV1RHvhyG9ES9ofA4khsOYXudXGt9n0YuNBJHOY
+         6t+KQvYLypdByyqOs/I46T5sn2YbvT/34PWWK1yXiWwMSqqQVGUkZOUSvZgX07S+WIhJ
+         MTGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783469403; x=1784074203;
+        d=1e100.net; s=20251104; t=1783469404; x=1784074204;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=H5d7fbQwym2HIgVRnDv1JutJFyLmAUJ8aFrpYmfGtZs=;
-        b=bFKVkJohyILTaM9v/DT/rF0CQzDxFRFd9rC4/eWLtb55deW4W0WmOolyrCaLlzyqam
-         /jhsHxKazbn9GagS2W1izoNTymzmh8TPwGjaVJYgy8uOplTTFLif2nWgYM8+qtf6ij5R
-         Mw2bEIozbfb9e1XEwmG5w/e02f3HFrl0CReFh64Prg3UpE/T9KyKS/v5Uh7LMMdf3JfQ
-         3CDgcEvRsonruCUYT9Y3eOwWeQ6kF6DwXP273lyEr45Xez8oRL25QhHrV53CUzL52vKk
-         u2I/8WLCEbi0kWQWrPAAWHfS/zUHxwwFgotC9AvLfaueokH4gXBvK4a2GX7dxJpD2qca
-         Mh3A==
-X-Forwarded-Encrypted: i=1; AHgh+RrLZFcAB9hT35y5/9InspwppgXAPFHojS8h/x1qGiFtctga9aec+iiNfW6cyXptY8JRHh4RyvBhRl4oX2Ee@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyp/Jz86/v9bVNlXYKnaHxt5N1DQ6PXwr3h6O0Yi/mDXp4C6RwP
-	hGNmGxeESau13lprbyGuD2yEBwrTr+T1dcgWp4+cFPps47sLd1lnkWP6
-X-Gm-Gg: AfdE7ckgQKhsBpqRzpFILhAKOstFQl0T9XeYWPAHs/tVpjaFqWTCGOihYOymkuE0K5o
-	hAf5vENP4hUVfZS1TkECmDynWAc0a9mo85OErvUzzcn1jyOZZ28R+c7hpcuPOeNRSvi3qix0b/H
-	cb/Uxvxte67GV28G31+zT84H0ZPBYQoRVHSGgy9p/GSvHWDpHr7+csWMupSWRh/2HdcvJuKdH8/
-	NOc9A9o/6LEGSVR/dEQecOti3TSRq/owDnyBbEgPMkU7sQjBHAkwyIb/cV4Jsg8N5vJtmr8YmrA
-	7TBkFnf7Pnl1h0rSb/i3ebOMEmnSqIefCHNX1Hcy8SA0svj6QGRqB5a4ZgCK5FwiAC7UzhYBbf4
-	Ik1e9DrQlCDrdrRpxDvTSuiU6QWOK/OUgxNhtzg6W8ZHk53X1vg4G0DRH9RZEpdykP4SKuLaxoH
-	verQh2wwgyI8J+mXw5hPNRTGCxwJqt/cHxBuuUvJzmZ7oo3eVEDZ8bFxcAAJ/cohEZAcEnbjNVd
-	TISxhvO+ihoVbM=
-X-Received: by 2002:a05:620a:8804:b0:92e:59b0:df08 with SMTP id af79cd13be357-92ecf5bf0d2mr8803585a.3.1783469402697;
-        Tue, 07 Jul 2026 17:10:02 -0700 (PDT)
+        bh=2f2t60Bq3DQP7+8XiXelpBwbMQBxvJVb0y8RBgvfr0g=;
+        b=kxdhurHJJuBDj/MZ4jdk71u+6eRf7vIgLyoxaGDbirJ8SP1EaGtb/xK8OhzBBZ3R6X
+         yfXlaYKvVK3A2evcPhHxZA6lHAvFRQQxpbPNMv2RF2UqFINyIRFBrJUQ/NVqYsZYHINY
+         yKwvqiUVs18fxZ+mpgZXdtvvaYVxd6emevSnCXpjld/CRqzCYUL2nvT+X9DRDLETzSY8
+         pZNSvacZIROrSb5rtNBw9XexO9LXoXIBuJqVehkelrKFl5rZ1mg+fl/+qRPBEyUxGii6
+         I5tD5AID48etVTxdf/EUe07r6FiV6JZOjigbkGuo5N0xdn5K1t1JKwv9aSY/W81QY/E8
+         2Z0A==
+X-Forwarded-Encrypted: i=1; AHgh+RqBrRf7hY9DoRV/6Q1UhlcQlOQLXJBE6jOimWchhIj6sb/8uJNSogwpU6pCTNnDWhUUmAtG1+jnU1nWEMi4@vger.kernel.org
+X-Gm-Message-State: AOJu0YzC2s6Gbxes1aslUz8gtAbkjJUwbYgqb566lDlZlEnmfYAjAZup
+	P4HxheH7BecoP7h6WuN+LDASmpod62/o3nD6yQdkx/pKlOknnDo6XvMN
+X-Gm-Gg: AfdE7ckornyVezgVTmwM6jseBefAMt67v2+DMf3hYypSX7cElsirm2S57OGrOy1j9Tb
+	y9bHWeeqI4L5fi1h5J9hNFJdSadM/Wx35hK2TB72GbMz3++0iXIfQusBI3nsucMJ+AVVJmv8LO9
+	UVB3QC8Jv9iHsRU2GuHmSY1KvnnxVRqfhREwj6JBw10LDccwHcBx+EQE1vsFv6iAhOSqA+wN1vN
+	KkOfqsewjdE14gJggoU3ZfC1vS3pApwpnqptmNHbSEezS+Z2Q+w8QNhTsrjDyCGSttBSd90Za0g
+	gLmQDq7EYIkDHPCid9HWA1Xh4MOhCzln8sF/7JuAHqvPdcdJwGGb343l8wI/pYd7bjgUZYgKV3P
+	fmt1k/6gQnnkOqEqM+OqUI4DI9GZnotp1HHRSKRQwo/W6RjQ5r6nPVa5p3kY+Rgy/xghyA5Pn9e
+	QMmzNFM1g3KNmVd6COEa8I7FiMIY3VQ9P9fyT4Tcf84nqUazsGqMazTE2bVlAl/KJeggnCHsGaw
+	2DMkWlRl6GUMx0=
+X-Received: by 2002:a05:620a:4612:b0:929:f78f:6bf9 with SMTP id af79cd13be357-92ece91e652mr42005085a.16.1783469403670;
+        Tue, 07 Jul 2026 17:10:03 -0700 (PDT)
 Received: from battery.lan (pool-138-88-31-60.washdc.fios.verizon.net. [138.88.31.60])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e93ea5ed3sm1191281885a.29.2026.07.07.17.10.01
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e93ea5ed3sm1191281885a.29.2026.07.07.17.10.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 17:10:02 -0700 (PDT)
+        Tue, 07 Jul 2026 17:10:03 -0700 (PDT)
 From: David Windsor <dwindsor@gmail.com>
 To: Alexei Starovoitov <ast@kernel.org>,
 	Daniel Borkmann <daniel@iogearbox.net>,
@@ -95,9 +95,9 @@ Cc: bpf@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	David Windsor <dwindsor@gmail.com>
-Subject: [PATCH v5 bpf-next 2/3] bpf: add bpf_init_inode_xattr kfunc for atomic inode labeling
-Date: Tue,  7 Jul 2026 20:09:55 -0400
-Message-ID: <20260708000956.46138-3-dwindsor@gmail.com>
+Subject: [PATCH v5 bpf-next 3/3] selftests/bpf: add tests for bpf_init_inode_xattr kfunc
+Date: Tue,  7 Jul 2026 20:09:56 -0400
+Message-ID: <20260708000956.46138-4-dwindsor@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260708000956.46138-1-dwindsor@gmail.com>
 References: <20260708000956.46138-1-dwindsor@gmail.com>
@@ -109,89 +109,214 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add bpf_init_inode_xattr() kfunc for BPF LSM programs to atomically set
-xattrs via the inode_init_security hook using security_lsmxattr_add().
-The hook now passes its xattr state as a single struct lsm_xattrs
-object, which the kfunc takes directly.
+Test bpf atomic inode xattr labeling in inode_init_security.
 
-This kfunc is only callable from inode_init_security; the verifier
-rejects attempts to call it elsewhere.
-
-A previous attempt [1] required a kmalloc string output protocol for
-the xattr name. Since commit 6bcdfd2cac55 ("security: Allow all LSMs to
-provide xattrs for inode_init_security hook") [2], the xattr name is no
-longer allocated; it is a static constant.
-
-Link: https://kernsec.org/pipermail/linux-security-module-archive/2022-October/034878.html [1]
-Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6bcdfd2cac55 [2]
-Suggested-by: Song Liu <song@kernel.org>
 Signed-off-by: David Windsor <dwindsor@gmail.com>
 ---
- fs/bpf_fs_kfuncs.c | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ tools/testing/selftests/bpf/bpf_kfuncs.h      |   5 +
+ .../selftests/bpf/prog_tests/fs_kfuncs.c      | 124 ++++++++++++++++++
+ .../bpf/progs/test_init_inode_xattr.c         |  31 +++++
+ 3 files changed, 160 insertions(+)
+ create mode 100644 tools/testing/selftests/bpf/progs/test_init_inode_xattr.c
 
-diff --git a/fs/bpf_fs_kfuncs.c b/fs/bpf_fs_kfuncs.c
-index 768aca2dc0f0..ad0025f2264a 100644
---- a/fs/bpf_fs_kfuncs.c
-+++ b/fs/bpf_fs_kfuncs.c
-@@ -11,7 +11,9 @@
- #include <linux/file.h>
- #include <linux/kernfs.h>
- #include <linux/mm.h>
-+#include <linux/security.h>
- #include <linux/xattr.h>
-+#include <uapi/linux/lsm.h>
+diff --git a/tools/testing/selftests/bpf/bpf_kfuncs.h b/tools/testing/selftests/bpf/bpf_kfuncs.h
+index ae71e9b69051..2639f9f94195 100644
+--- a/tools/testing/selftests/bpf/bpf_kfuncs.h
++++ b/tools/testing/selftests/bpf/bpf_kfuncs.h
+@@ -92,4 +92,9 @@ extern int bpf_set_dentry_xattr(struct dentry *dentry, const char *name__str,
+ 				const struct bpf_dynptr *value_p, int flags) __ksym __weak;
+ extern int bpf_remove_dentry_xattr(struct dentry *dentry, const char *name__str) __ksym __weak;
  
- __bpf_kfunc_start_defs();
++struct lsm_xattrs;
++extern int bpf_init_inode_xattr(struct lsm_xattrs *xattrs,
++				const char *name__str,
++				const struct bpf_dynptr *value_p) __ksym __weak;
++
+ #endif
+diff --git a/tools/testing/selftests/bpf/prog_tests/fs_kfuncs.c b/tools/testing/selftests/bpf/prog_tests/fs_kfuncs.c
+index 43a26ec69a8e..10be0ab91e70 100644
+--- a/tools/testing/selftests/bpf/prog_tests/fs_kfuncs.c
++++ b/tools/testing/selftests/bpf/prog_tests/fs_kfuncs.c
+@@ -10,6 +10,7 @@
+ #include "test_get_xattr.skel.h"
+ #include "test_set_remove_xattr.skel.h"
+ #include "test_fsverity.skel.h"
++#include "test_init_inode_xattr.skel.h"
  
-@@ -374,6 +376,39 @@ __bpf_kfunc struct inode *bpf_real_inode(struct dentry *dentry)
- 	return d_real_inode(dentry);
+ static const char testfile[] = "/tmp/test_progs_fs_kfuncs";
+ 
+@@ -268,6 +269,123 @@ static void test_fsverity(void)
+ 	remove(testfile);
  }
  
-+/**
-+ * bpf_init_inode_xattr - set an xattr on a new inode from inode_init_security
-+ * @xattrs: inode_init_security xattr state from the hook context
-+ * @name__str: xattr name (e.g., "bpf.file_label")
-+ * @value_p: dynptr containing the xattr value
-+ *
-+ * Only callable from lsm/inode_init_security programs.
-+ *
-+ * Return: 0 on success, negative error on failure.
-+ */
-+__bpf_kfunc int bpf_init_inode_xattr(struct lsm_xattrs *xattrs,
-+				     const char *name__str,
-+				     const struct bpf_dynptr *value_p)
++static void test_init_inode_xattr(void)
 +{
-+	struct bpf_dynptr_kern *value_ptr = (struct bpf_dynptr_kern *)value_p;
-+	const void *value;
-+	u32 value_len;
++	struct test_init_inode_xattr *skel = NULL;
++	int fd = -1, err;
++	char value_out[64];
++	const char *testfile_new = "/tmp/test_progs_fs_kfuncs_new";
 +
-+	if (!name__str)
-+		return -EINVAL;
-+	if (strncmp(name__str, XATTR_BPF_LSM_SUFFIX,
-+		    sizeof(XATTR_BPF_LSM_SUFFIX) - 1))
-+		return -EPERM;
++	skel = test_init_inode_xattr__open_and_load();
++	if (!ASSERT_OK_PTR(skel, "test_init_inode_xattr__open_and_load"))
++		return;
 +
-+	value_len = __bpf_dynptr_size(value_ptr);
-+	value = __bpf_dynptr_data(value_ptr, value_len);
-+	if (!value)
-+		return -EINVAL;
++	skel->bss->monitored_pid = getpid();
++	err = test_init_inode_xattr__attach(skel);
++	if (!ASSERT_OK(err, "test_init_inode_xattr__attach"))
++		goto out;
 +
-+	return security_lsmxattr_add(xattrs, LSM_ID_BPF, name__str, value,
-+				     value_len);
++	/* Trigger inode_init_security */
++	fd = open(testfile_new, O_CREAT | O_RDWR, 0644);
++	if (!ASSERT_GE(fd, 0, "create_file"))
++		goto out;
++
++	ASSERT_EQ(skel->data->init_result, 0, "init_result");
++
++	/* initxattrs prepends "security." to the name. */
++	err = getxattr(testfile_new, "security.bpf.test_label", value_out,
++		       sizeof(value_out));
++	if (err < 0 && errno == ENODATA) {
++		printf("%s:SKIP:filesystem did not apply LSM xattrs\n",
++		       __func__);
++		test__skip();
++		goto out;
++	}
++	if (!ASSERT_GE(err, 0, "getxattr"))
++		goto out;
++
++	ASSERT_EQ(err, (int)sizeof(skel->data->xattr_value), "xattr_size");
++	ASSERT_EQ(strncmp(value_out, "unconfined_u:object_r:user_home_t:s0",
++			  sizeof("unconfined_u:object_r:user_home_t:s0")), 0,
++		  "xattr_value");
++
++out:
++	close(fd);
++	test_init_inode_xattr__destroy(skel);
++	remove(testfile_new);
 +}
 +
- __bpf_kfunc_end_defs();
++/* Keep in sync with BPF_LSM_INODE_INIT_XATTRS in include/linux/bpf_lsm.h. */
++#define INIT_INODE_XATTR_MAX 4
++
++/*
++ * Programs may attach to inode_init_security without an attach-time limit, but
++ * the kfunc only lets BPF claim INIT_INODE_XATTR_MAX xattr slots per inode.
++ * Calls beyond that budget are rejected at runtime with -ENOSPC.
++ */
++static void test_init_inode_xattr_slot_limit(void)
++{
++	struct test_init_inode_xattr *skel[INIT_INODE_XATTR_MAX + 1] = {};
++	struct bpf_link *link[INIT_INODE_XATTR_MAX + 1] = {};
++	const char *testfile_slot = "/tmp/test_progs_fs_kfuncs_slot";
++	int ok = 0, nospc = 0, other = 0;
++	int i, fd = -1;
++
++	/* All programs attach successfully; there is no attach-time cap. */
++	for (i = 0; i <= INIT_INODE_XATTR_MAX; i++) {
++		skel[i] = test_init_inode_xattr__open();
++		if (!ASSERT_OK_PTR(skel[i], "open"))
++			goto out;
++
++		snprintf(skel[i]->rodata->xattr_name,
++			 sizeof(skel[i]->rodata->xattr_name), "bpf.label_%d",
++			 i);
++
++		if (!ASSERT_OK(test_init_inode_xattr__load(skel[i]), "load"))
++			goto out;
++
++		skel[i]->bss->monitored_pid = getpid();
++
++		link[i] = bpf_program__attach_lsm(skel[i]->progs.test_init_inode_xattr);
++		if (!ASSERT_OK_PTR(link[i], "attach"))
++			goto out;
++	}
++
++	/* Trigger inode_init_security once with all programs attached. */
++	fd = open(testfile_slot, O_CREAT | O_RDWR, 0644);
++	if (!ASSERT_GE(fd, 0, "create_file"))
++		goto out;
++
++	/*
++	 * Exactly INIT_INODE_XATTR_MAX programs claim a slot; the program past
++	 * the budget gets -ENOSPC. The order in which programs run is not
++	 * guaranteed, so count results instead of indexing.
++	 */
++	for (i = 0; i <= INIT_INODE_XATTR_MAX; i++) {
++		int res = skel[i]->data->init_result;
++
++		if (res == 0)
++			ok++;
++		else if (res == -ENOSPC)
++			nospc++;
++		else
++			other++;
++	}
++
++	ASSERT_EQ(ok, INIT_INODE_XATTR_MAX, "slots_within_budget");
++	ASSERT_EQ(nospc, 1, "slot_over_budget");
++	ASSERT_EQ(other, 0, "unexpected_result");
++
++out:
++	if (fd >= 0)
++		close(fd);
++	for (i = 0; i <= INIT_INODE_XATTR_MAX; i++) {
++		bpf_link__destroy(link[i]);
++		test_init_inode_xattr__destroy(skel[i]);
++	}
++	remove(testfile_slot);
++}
++
+ void test_fs_kfuncs(void)
+ {
+ 	/* Matches xattr_names in progs/test_get_xattr.c */
+@@ -288,4 +406,10 @@ void test_fs_kfuncs(void)
  
- BTF_KFUNCS_START(bpf_fs_kfunc_set_ids)
-@@ -385,6 +420,7 @@ BTF_ID_FLAGS(func, bpf_get_file_xattr, KF_SLEEPABLE)
- BTF_ID_FLAGS(func, bpf_set_dentry_xattr, KF_SLEEPABLE)
- BTF_ID_FLAGS(func, bpf_remove_dentry_xattr, KF_SLEEPABLE)
- BTF_ID_FLAGS(func, bpf_real_inode, KF_SLEEPABLE | KF_RET_NULL)
-+BTF_ID_FLAGS(func, bpf_init_inode_xattr)
- BTF_KFUNCS_END(bpf_fs_kfunc_set_ids)
- 
- static int bpf_fs_kfuncs_filter(const struct bpf_prog *prog, u32 kfunc_id)
+ 	if (test__start_subtest("fsverity"))
+ 		test_fsverity();
++
++	if (test__start_subtest("init_inode_xattr"))
++		test_init_inode_xattr();
++
++	if (test__start_subtest("init_inode_xattr_slot_limit"))
++		test_init_inode_xattr_slot_limit();
+ }
+diff --git a/tools/testing/selftests/bpf/progs/test_init_inode_xattr.c b/tools/testing/selftests/bpf/progs/test_init_inode_xattr.c
+new file mode 100644
+index 000000000000..caade53b87e3
+--- /dev/null
++++ b/tools/testing/selftests/bpf/progs/test_init_inode_xattr.c
+@@ -0,0 +1,31 @@
++// SPDX-License-Identifier: GPL-2.0
++/* Copyright (c) 2026 Cisco Systems, Inc. */
++
++#include "vmlinux.h"
++#include <bpf/bpf_tracing.h>
++#include "bpf_kfuncs.h"
++
++char _license[] SEC("license") = "GPL";
++
++__u32 monitored_pid;
++int init_result = -1;
++
++const char xattr_name[16] = "bpf.test_label";
++char xattr_value[] = "unconfined_u:object_r:user_home_t:s0";
++
++SEC("lsm/inode_init_security")
++int BPF_PROG(test_init_inode_xattr, struct inode *inode, struct inode *dir,
++	     const struct qstr *qstr, struct lsm_xattrs *xattrs)
++{
++	struct bpf_dynptr value_ptr;
++	__u32 pid;
++
++	pid = bpf_get_current_pid_tgid() >> 32;
++	if (pid != monitored_pid)
++		return 0;
++
++	bpf_dynptr_from_mem(xattr_value, sizeof(xattr_value), 0, &value_ptr);
++	init_result = bpf_init_inode_xattr(xattrs, xattr_name, &value_ptr);
++
++	return 0;
++}
 -- 
 2.53.0
 
