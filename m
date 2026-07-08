@@ -1,122 +1,158 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68EF3B7747
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 14:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783522540; cv=pass; b=inmJU+UaJNwVkG3AOa8O6sTQgJZGcIprzpI++xrY7KEz5+hpPc+09BlZn1sLhWwZ3m5+LWqLg6ICv9t6xVtxJujH7yi1s/R6NmLFohG6Y+LaTprKVxcJEN7ctDKoj9tjIj7KGFE0580v+X9jT+XHoYj/hqYb+ZchLKCSiVEXv8A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783522540; c=relaxed/simple;
-	bh=n90YfTOdmUl7zWpqdxsCFHko/DVT+Qm+JbT9gK4fWzs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HBic805e/1kQ+WVxSdUsAm3EuQn6m1gLfGgx9ACxyJK5y6h93gm1Q4qk+Ioig6IOuEVsH8SuROZhuZQF35YQT33juh0+c/ZY2ZWrYuiMEUUn8Ku5/5z883I6H3rPZ43/LvDdQGwIQvb4QmCgab5t+eVy7yXutE7oqsF/LOeeOIM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=Dz7ZCOdl; arc=pass smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A974543933A;
+	Wed,  8 Jul 2026 15:11:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783523491; cv=none; b=dDmywzyvgt54v6PUwV+UHIzY+5cBJlb5bGXAn2X5UjGaxcQeBrA7DR9mYN+FHLcU2Q0GBZEOsCgQOqpcEfO8PAWBsBf/dmrPbUU1qGcW/Q3UtXPJBgxOX6LNjp2dYGZV5c/dYggoUkAIZPd0nHvzJUBm/PL6p+25PmwCFavgtqo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783523491; c=relaxed/simple;
+	bh=e9Pwqi3HUHnU2PuAXg/qt6DJChuZLGaMD4MRDQMpSUk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k8T+lmne7uNwRQMjjZ/KID3vwkUrxuoYNmktVWoZyeSS1ovxcxp+to4j4rktS8mh83vgTvMghyjwT552TaXe/s2fD6U3VhEs4EPQdWEvW1XqHeH45S+iWyR6fkQYS2iRmbPp1rd20n4cQOrF+TjZB58vVFisX+KUCMIandtSQpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=Qb/RHv7i; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="Dz7ZCOdl"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5aebd77cbb4so640289e87.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Jul 2026 07:55:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783522537; cv=none;
-        d=google.com; s=arc-20260327;
-        b=I6M4AS/tJMWJou0pLV9/yZEm6ersyqu/X68t7yBZcXG8rk7XJFpcyvZMXhdbM5o9NU
-         7blIXUj8tj0DtXeGs+gEl+qLGKcsPj6+Einy3D25p5NuIkO1IgMqBaLyTLJQQ36L1tN8
-         DVh1UuUeIln7Tbpy3A6GvSa4LOaGdjYC0T+1OQrPqzIprM4o6LIAVtFQXFQHjZDs9U5d
-         iTNNCBbPUB7cogoDn95YPrOg9EThZehGP9564vlyvoNcRFM1j+5MPHOHXuq7XTWl2O6I
-         rGxps88N7Zps5gS9/w/gRFRhIByxDYDRjNS76z29aQFAbjyorGJNlQAUAangQw4d+hxO
-         u4Tw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=HNUyOLDVIp+0zKTGoz+OqkdsD7McKB6c6W+fqiostx4=;
-        fh=7/mak5NLz6H0V6t5zzwD3+NvCBGKAOfg1cu4h/+Qy1Q=;
-        b=o1IXaiDBy4T3DN/ImDPSPlRL99WoYqUHGj8vmBGGYkTki7jANcNZdZ8i9GYUyNbYnp
-         YHcE/yWTa7RvA34tHPyxDHw5HL4fDxH2EwA++m2x6mu5SqAniskJymwvadXW9CspuvqH
-         NoAM0WPr2SS7YN77yn4Fd3dc+kmU3of/YKfDVHdgmPGVxe9eqWaZAc8hfkPUVvpKVJWv
-         adeys7tpsew59bHxjksYgKT7G9Wi2/7ltcjqyIDt4beaBLw+zwWtbSl/yf5zLyD21SVh
-         SbOXaTDGEvxFsEA0+StRzb5vD8JtkZ6P+E5uKLK6+uv3nfJ+2ETSLhbTD7/XyAgT10XL
-         a9+w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1783522537; x=1784127337; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=HNUyOLDVIp+0zKTGoz+OqkdsD7McKB6c6W+fqiostx4=;
-        b=Dz7ZCOdl+uMJPCmheUkJ0ljOMgnz+kZe5+lpXto5XQi/DgnTD6D+gSU2h8JlTknTv7
-         gYmhy4/PpfyEOwPTZTvy4pMpJvA+UR/rp1pAVaHy2d6kbh18MujqcTu2xiTPaZ0Sclot
-         vPDEHclRmjR54QG7iR10cgcRGV6w8Dgw5Vb0RTh1UaYtSB7svNvzGyNw9a1YsXjkCeJc
-         1Yl98bdfdRvTgZZb7DHiUojDOBP9rr9QersBRD2rGFGocQq+PWJmy8jjrEN67lPz1FCH
-         2ohZeMAaO5Iiqxiozac+wmnKX48uALopXjma/FtKZ/w/q3BTkQGuVYtuyEnev2VsrTpX
-         YzSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783522537; x=1784127337;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HNUyOLDVIp+0zKTGoz+OqkdsD7McKB6c6W+fqiostx4=;
-        b=qjT7gzxOSFHgNTMMac/neJO7WXAzSr6oDmwLCAiv2L41x2envdjKJ3osDpS+MK9UgH
-         trzdvvTUHCgsQILxUSoQlFJEHTozAYOr+U0Ml5aMJ49sDnqAlNkmRIV07P7m/RwjdoSq
-         K7QY51I2URFbl/T5utpi2aCvnmKj+VpW3MO4zMO/UaYMKnJa38bagAsmB8Z/xIr7PIBP
-         XZiVGuFeAyVIqVjqQHk0mLpKeR4Z2pNR23uL0MzxlDLwWlpHXeIzrL2WjuYBdogEpyt/
-         mcxtkz2syvIiO9BKSCWakHozBOgfWZ4SaF4PndsuinbK6N5zWvjZmSMUYgTihbVCDt+S
-         /1+w==
-X-Forwarded-Encrypted: i=1; AHgh+RoVoIcGVEwSDftjmi5IGpp/R+3f5hWZJlEyRPXSfqtG7OccskHP2vKtGFA+62OxWrIttrf2t+nyr6cNTcRj@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywd52dcfHuPuEvGsF40WmVbhJ+JgLKUXhcbzpPU45EI8wDxt4ZI
-	+7hAkawNZcRLBzKCFHuzOLD9Xb/QQx7JhohQyWOkEsNNfyR5SLYB8WmdSAxqLrGOXRfOK7Nrk61
-	4WJnXt2ErZMIpTWtLUqZnG1eautJsVybSDqYnQdie
-X-Gm-Gg: AfdE7ckTS4pJ2tJERs/AOV/0Rn/iMMm0v800FwYtQiXpRJVNIrF5mQDm8msnRqs9qa0
-	xAi83JjG9ueuRIM7Ci7T55PGi6llBS6reTGpk+ISqsa5Kzx8Hlu+Oo8SeHL1InOJD8zBV1ghTlP
-	ORjZxhgWfuLkECA+pka6MM1thf67ZsFXuVAqdKXqinkAuBSFXeeUYtF7h92wH4DsagSQoJ2jeWF
-	W58czbsxeNdExwwD/+CC1P53IvuNKUXqzvHIU7Csjk9wWlR27CSNdguSJMLhJiJQWxH0w==
-X-Received: by 2002:a05:6512:8348:b0:5ae:b5d0:9da2 with SMTP id
- 2adb3069b0e04-5b011462b7emr693309e87.38.1783522536822; Wed, 08 Jul 2026
- 07:55:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="Qb/RHv7i"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description;
+	bh=J/pxFY9i2H1uIH3qn2WpI5uESSkpNo34KEyz12tu0PU=; b=Qb/RHv7i1+F4sr7MQhDRn3uu+I
+	8L+loRdJTb+yr7Y0MHO1DU23FhxCmJhKEtIcDAW0ukpfcVstplEJaZchJiJc6if1n+jApqVUsmtQT
+	Sf/1O6FSem4VnEgSFarNmSGraxSvHmefjp1iQNF7zgbhWyTzpR0jh7F1euvF+Lv4/rffxHCrqjmLd
+	5K+vl7GSG8uYR8jVsbOVdQSFlNtO2iZDdithih6+EJ5G4ZE4RpzdhYEhLMFLbZoF+pmTO6q9bVTpb
+	fVNDerc41HdFxY/pqnY4+bs5lrNDB6XnHUONGr0i96fdk4ClPwdw3BpoqZ4dFtWJIzpbcm9kop/H5
+	aLGfjczg==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1whTvZ-0032EZ-0G;
+	Wed, 08 Jul 2026 15:11:09 +0000
+Date: Wed, 8 Jul 2026 08:11:03 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, oleg@redhat.com, josh@joshtriplett.org, Jan Kara <jack@suse.cz>, 
+	jlayton@kernel.org, axboe@kernel.dk, shakeel.butt@linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v2 0/4] fs/pipe: unify the page pools into a single
+ per-pipe pool
+Message-ID: <ak5nXRnSSXfA2B75@gmail.com>
+References: <20260707-b4-pipe-unification-v2-0-eb52bddeeefd@debian.org>
+ <CAGudoHFGFJZ_j-osEKnLvGYGai+SKVAJKy8B_PChWms7SN7xoA@mail.gmail.com>
+ <ak4rSEAwV-RoG1MO@gmail.com>
+ <rac56njg4yorvhc5oyrme6bt7ej2vs64umbqkz2np32wpjbcjj@wohli2ntub4s>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260708093446.3370200-1-gscrivan@redhat.com> <20260708093446.3370200-3-gscrivan@redhat.com>
-In-Reply-To: <20260708093446.3370200-3-gscrivan@redhat.com>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Wed, 8 Jul 2026 07:55:25 -0700
-X-Gm-Features: AUfX_mxOfC8JmvatfXCPy4TV9OGzLE6zGNnyTgpXNYag_FZ0rPhcjgOvQmXLouo
-Message-ID: <CALCETrVE0g-qKC079K4Ch=26VH6R+q1tXVU7HiN_Og9o1zzpow@mail.gmail.com>
-Subject: Re: [PATCH 2/2] erofs: add ioctl to retrieve the backing source file descriptor
-To: Giuseppe Scrivano <gscrivan@redhat.com>
-Cc: linux-erofs@lists.ozlabs.org, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <rac56njg4yorvhc5oyrme6bt7ej2vs64umbqkz2np32wpjbcjj@wohli2ntub4s>
+X-Debian-User: leitao
 
-On Wed, Jul 8, 2026 at 2:36=E2=80=AFAM Giuseppe Scrivano <gscrivan@redhat.c=
-om> wrote:
->
-> Add EROFS_IOC_GET_SOURCE_FD ioctl that returns a file descriptor to the
-> backing image file for file-backed erofs mounts.
+On Wed, Jul 08, 2026 at 03:18:58PM +0200, Mateusz Guzik wrote:
+> On Wed, Jul 08, 2026 at 05:09:19AM -0700, Breno Leitao wrote:
+> > On Tue, Jul 07, 2026 at 05:29:20PM +0200, Mateusz Guzik wrote:
+> > > On Tue, Jul 7, 2026 at 5:05 PM Breno Leitao <leitao@debian.org> wrote:
+> > > >
+> > > > TL;DR: This simplifies the pipe code, unify the page pools, reduce the
+> > > > code by 9 lines (not counting comments), and no regressions are seen in
+> > > > terms of performance.
+> > > >
+> > > 
+> > > This adds an additional acquire + release cycle on the mutex for every
+> > > write which preallocates, so I don't see how that's supposed to *not*
+> > > slow things down in some capacity.
+> > 
+> > Thanks a lot for the benchmark and the numbers -- a write-heavy pipe
+> > workload with the reader and writer on separate CPUs is exactly the case
+> > I wanted to make sure doesn't regress.
+> > 
+> > I double-checked it again with your test on different setups and page sizes I
+> > don't see the regression you are seeing: the bare-metal numbers are
+> > flat-to-positive at your size.
+> > 
+> > I couldn't get my hands on a Sapphire Rapids box easily, so the bare-metal runs
+> > are on a Cooper Lake Xeon (the same class I used for the cover letter) and
+> > NVIDIA Grace (arm64). Both hosts are completely idle.
+> > 
+> > 1) X86 test
+> > 
+> > CPU:  Intel(R) Xeon(R) Platinum 8321HC @ 1.40GHz (Cooper Lake)
+> >       1 socket / 26 cores / 2 threads = 52 CPUs
+> >       L3 35.8 MiB (1 instance), single NUMA node (0-51)
+> >       max freq == base 1.40GHz (no turbo), so the clock is steady
+> > 
+> > Bare metal, Intel(R) Xeon(R) Platinum 8321HC, your pipen.c
+> >    (writer on CPU0, reader on CPU1 -- separate physical cores, same
+> >    socket, shared L3), blocking pipe, 12 x 8s per point, median MB/s:
+> > 
+> >      PIPEN_SIZE   baseline   patched    delta
+> >        4096         2658       2531      -4.8%   (noise?)
+> >        32678        3517       3527      +0.3%   (your size -- flat)
+> >        65536        3072       3358      +9.3%
+> > 
+> >    4096 is a single-page write that barely touches the pool; the swing
+> >    there is inside the run-to-run variance (sd ~100 MB/s on a ~2600
+> >    median), so I read it as neutral, not a regression. At 32678/65536
+> >    the variance is small (sd 18-58 MB/s), so those deltas are real.
+> > 
+> > 
+> >  
+> > 2) Arm64 test:
+> > 
+> >  Machine / build:
+> >     - NVIDIA Grace (Neoverse-V2), 72 cores, 1 socket, no SMT,
+> >       single NUMA node, ~256 GB RAM
+> >     - Kernel using 64k pages.
+> > 
+> > Results (baseline vs patched):
+> > 
+> >   PIPEN_SIZE   pages   baseline   patched   delta    regime
+> >      65536       1       17759     17683    -0.4%    want=1 → pool covers it, NO extra lock (no-op)
+> >     131072       2       17583     19734   +12.2%    prefill + extra lock taken
+> >     262144       4       18781     21017   +11.9%    prefill + extra lock taken
+> >     524288       8       19061     20886    +9.6%    = pool max; == Similar to Guzik's 32678 (8 pages)
+> >    1048576      16       16842     17110    +1.6%    pool overflows; == Guzik's 65536 (16 pages)
+> 
+> I verified the extra lock acquires *do* show up on the profile for me
+> (with bpftrace -e 'kprobe:osq_lock { @[kstack()] = count(); }'), so this
+> has to be leaving perf on the table.
+> 
+> However, looking at the diff it seems the extra acquires can be
+> trivially avoided? See below (untested, consider it an illustration of
+> what I mean -- if it works as is I'm fine if it gets folded into your
+> patchset without credit).
 
-What=E2=80=99s the use case?
+That is a very nice improvement, thanks for thinking about it and proposing the
+patch.
 
-In any event, this seems to have potential security and API-oddity implicat=
-ions.
+In my quick check on arm64, I haven't seen a big improvement in my Grace arm64
+host, These are the numbers I got now:
 
-1. That capable(CAP_SYS_ADMIN) seems critical =E2=80=94 otherwise a task th=
-at
-is admin in a userns can get an fd to a backing file *outside* its
-container or to an otherwise inaccessible file.  It at least needs a
-comment IMO.
+  3-way comparison — arm64 Grace, 64K pages
 
-2.  This series appears to fully round-trip the struct file. That
-means that f_cred and mode are preserved. This seems strange and may
-have all kinds of accidental effects. For mode in parallel, if the
-program that mounts the backing store opened it for write, then this
-API gives a writable fd, which seems like an odd choice for a
-filesystem that literally has read only in the name.
+    SIZE     pg    base  mypatch  guzik    v2/base   guzik/base   guzik/mypatch
+    65536     1   17759   17683   17598     -0.4%       -0.9%        -0.5%
+   131072     2   17583   19734   19953    +12.2%      +13.5%        +1.1%
+   262144     4   18781   21017   20998    +11.9%      +11.8%        -0.1%
+   524288     8   19061   20886   20569     +9.6%       +7.9%        -1.5%
+  1048576    16   16842   17110   16920     +1.6%       +0.5%        -1.1%
 
-The OVL variant has these issues to a lesser extent due to the fact
-that it returns an O_PATH fd instead of an actual open file.
+So, basically just noise compared to this patch in here for that given
+CPU/platform.
+
+That said, your approach is better than what I had, and I would like to
+integrate it to this patch set. Os it OK if I give a Co-developed-with:
+tag?
+
+Thanks for your help here,
+--breno
