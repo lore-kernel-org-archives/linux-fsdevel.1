@@ -1,143 +1,122 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEBC42E8E9
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 16:29:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79CE343079C;
+	Wed,  8 Jul 2026 16:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783528176; cv=none; b=YhXYwvdayFIHLpeFukMb/yqv/gYwTHLtU5XxiU+dTIfnFnZNazT0t7zf3Erbg5pd1rgQpe95uWM6RORKovV8csRpRRW1d4D6FQHWIHFAISnsqHb1FEYV16rcIpDz9V3Gl80mbGsSa5Ir/sfI81LbWvOQksOm5lAJuOdnNeo4nL8=
+	t=1783529287; cv=none; b=Zf6loPz5dUKa3YHxxAjhCD+PUtPPc/CQtFki+fIlJidI8LFLFhvks0xwxB5wH0wSF2cFjuy/VVjgvSay5WsWBYC/i7xlL0Ldx3HcvAt8jTFIRaScdXRyJ+np3foghSI+fx2FriqyzXvwwGD3RXks3hMk0AyGL0Nu20aaUfze84k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783528176; c=relaxed/simple;
-	bh=3lSdyCLeUGu19piqkuUHLgWw74UGkM3eShfZ48QoXxs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kZ5I/vISHGuqS9dYR2fyNbKQnI78V3+zBlj9+WIO1W+wZOBQidJMIXqaLhlVJBEvdlIqPZQ7kuMv2tuQ6tXlUohVDbUiVCVEtI+7fnSPT4mmAmStDbRyNDRR5UqwYyVbFsg5LXhIizI2RWKuQYXCGiSoA2zIKVF/9YNJnSvHAUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EaOYvba+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YMvQUPMc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EaOYvba+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YMvQUPMc; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1783529287; c=relaxed/simple;
+	bh=YVFc7rBcDlwHKlUCwVkxog+6bJNAmkg4ZND22quLdcs=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=ZKgG8c7mrsIhArYQHHPLKejDVCz7vYqHUuiD5pHF73COiSrQoz8FPuuXsNZcP6MyY8Rs+ppwUpgeEo/11f8Zr3sLtX2WSStsLxbFeVXSHHc4GeRdQVVaPEKXLiY+yO5TcTEQmzxgF601INa7WXluxEqmCpntUdl+ppOd/oh3luM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WS8hkoF+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EaOYvba+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YMvQUPMc";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EaOYvba+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YMvQUPMc"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9207C75E8A;
-	Wed,  8 Jul 2026 16:29:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783528173; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j/5vL0gtxnVlH2N135h4PQDZCX0YmGfUctk3tp3zRJI=;
-	b=EaOYvba+ARiTsxtWUrYDBPR91BTRtXJsdTCLw0wNxhImLHwujj3dJv3h6cCGHlzp977dwE
-	dIFixPE0pstyi4E9xED3cWLPtkgkfPJlBRlLF7KoOoeIks09dRwL71VB5xwNHvOu19Ks7M
-	f6YOoObWR6FseQ6/IWOt8xy1k9VtSCA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783528173;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j/5vL0gtxnVlH2N135h4PQDZCX0YmGfUctk3tp3zRJI=;
-	b=YMvQUPMc+wnAmpwZbJQ/e5jUHFTTPHF8iv6B8qO+/rMFuQCGHrdiC6JQ6JXIlbiMj+vuvf
-	ZWYh9doHo6nNVsDA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783528173; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j/5vL0gtxnVlH2N135h4PQDZCX0YmGfUctk3tp3zRJI=;
-	b=EaOYvba+ARiTsxtWUrYDBPR91BTRtXJsdTCLw0wNxhImLHwujj3dJv3h6cCGHlzp977dwE
-	dIFixPE0pstyi4E9xED3cWLPtkgkfPJlBRlLF7KoOoeIks09dRwL71VB5xwNHvOu19Ks7M
-	f6YOoObWR6FseQ6/IWOt8xy1k9VtSCA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783528173;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j/5vL0gtxnVlH2N135h4PQDZCX0YmGfUctk3tp3zRJI=;
-	b=YMvQUPMc+wnAmpwZbJQ/e5jUHFTTPHF8iv6B8qO+/rMFuQCGHrdiC6JQ6JXIlbiMj+vuvf
-	ZWYh9doHo6nNVsDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8B315779AE;
-	Wed,  8 Jul 2026 16:29:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id r222Hux6TmpHdwAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Wed, 08 Jul 2026 16:29:32 +0000
-Date: Wed, 8 Jul 2026 17:29:30 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, stable@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Song Liu <song@kernel.org>, Eric Hagberg <ehagberg@janestreet.com>, Zi Yan <ziy@nvidia.com>, 
-	Gregg Leventhal <gleventhal@janestreet.com>, Lance Yang <lance.yang@linux.dev>, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH stable v2] mm/khugepaged: write all dirty file folios
- when collapsing
-Message-ID: <ak56uatKoDR-TAIn@pedro-suse.lan>
-References: <20260708151357.353173-1-pfalcato@suse.de>
- <ak5tKPfX99kdkhIG@casper.infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WS8hkoF+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5E2D1F000E9;
+	Wed,  8 Jul 2026 16:48:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783529284;
+	bh=oLOlOo9U2JyqXVHzHsOC0fR47gawe6tnhfJUIDf4Krc=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=WS8hkoF+jWFjItBjVm8PU6EB+hB7Uyw+tLXaueXy3NNaD9qM3FKyfYhClKqMe/2ZM
+	 nSaRsO2HVyBZnDRKpDGZwiTo2dHKJLR70Oqt8vp97BSEOcgnMXpwV18xpYdcfXghKy
+	 vN16vY+MrXfNiZ+2Fa12amxazjJRsJ6hdt2/PCZezYzxvuX/BFSogRh6aA8UWvt7tf
+	 auTgCSyZ2M6fOgGcg5IhuDBAldpmy4vsKtRLWCh7brOYkBa9NMJeShb3lMjjDYlC34
+	 GrhiANtyOOVy/1IAsaSrS7rPE3vdkLM7fF1WC+C4d4m0PLiokRbMhAtq0P0J64+NdZ
+	 l/hd468SygJ1Q==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ak5tKPfX99kdkhIG@casper.infradead.org>
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:email,pedro-suse.lan:mid,suse.cz:email,janestreet.com:email,nvidia.com:email,linux.dev:email,suse.de:email,linux.org.uk:email]
-X-Spam-Level: 
-X-Spam-Score: -4.30
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Subject: Re: [RFC PATCH] fs: binfmt_misc: introduce eBPF-based matching and
+ interpreter selection
+From: Christian Brauner <brauner@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Farid Zakaria <farid.m.zakaria@gmail.com>, david.laight.linux@gmail.com, 
+ jack@suse.cz, jannh@google.com, kees@kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org, mail@johnericson.me, 
+ shuah@kernel.org, viro@zeniv.linux.org.uk, Gemini <assistant@google.com>
+In-Reply-To: <20260708-welken-dystopie-ertrugen-56a3b5f7ab66@brauner>
+References: <20260704-kochkunst-hauswand-blass-7226e9443a9f@brauner>
+ <20260704211409.1978485-1-farid.m.zakaria@gmail.com>
+ <20260706-uhren-raubbau-sinnkrise-e40a8337414b@brauner>
+ <CACCo2jm5=xrQNfak=TdO=2oh0DC5pe+atj=UfuTa8Y9s8GVkqg@mail.gmail.com>
+ <20260707-campieren-fingen-himbeeren-e4b682bd8e63@brauner>
+ <20260707-wortreich-kanal-zensor-9386ef4f38f7@brauner>
+ <DJSPBVXTF02G.3SKLB9EO89GPT@gmail.com>
+ <20260708-welken-dystopie-ertrugen-56a3b5f7ab66@brauner>
+Date: Wed, 08 Jul 2026 18:47:59 +0200
+Message-Id: <20260708-kordel-laben-kopfhaar-1c0dd234aae5@brauner>
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2698; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=YVFc7rBcDlwHKlUCwVkxog+6bJNAmkg4ZND22quLdcs=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT51TvOyDgpsaRyy4rE1SbJIR7Kt7OaV/baLolc77ioa
+ sGPhdcfdJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzk7G6Gf5YRcy4tEGQ31Yt0
+ 93KTyTBrPeu14c/OstKoT/NEv3HmyjEyPLwm/1Ei7PHfmydzLq5+sJ6rpoL5YYTrFK+uJRdtde+
+ L8wMA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Wed, Jul 08, 2026 at 04:30:48PM +0100, Matthew Wilcox wrote:
-> On Wed, Jul 08, 2026 at 04:13:57PM +0100, Pedro Falcato wrote:
-> > [There is no upstream commit, as this code was removed by upstream
-> >  commit 044925f9b565 ("mm: fs: remove filemap_nr_thps*() functions and their users")]
+On 2026-07-08 11:14 +0200, Christian Brauner wrote:
+> On 2026-07-07 15:44 -0700, Farid Zakaria wrote:
+> > On Tue Jul 7, 2026 at 12:45 PM PDT, Christian Brauner wrote:
+> > > On 2026-07-07 13:34 +0200, Christian Brauner wrote:
+> > >> On 2026-07-06 09:47:53-07:00, Farid Zakaria wrote:
+> > >> > On Mon, Jul 6, 2026 at 9:01 AM Christian Brauner <brauner@kernel.org> wrote:
+> > >> > 
+> > >> > > Ignoring the blatant bpf abuse here I think this is quite workable. So
+> > >> > > this can be turned into an actual design and patch imho...
+> > >> > 
+> > >> > Glad to see you think this proposal is in the right direction.
+> > >> > Just for my edification, when you say "balatant bpf abuse", you mean
+> > >> > how it abuses the socket bpf type?
+> > >> > If so, do you have any guidance on a new type or should I just take a
+> > >> > stab at it.
+> > >
+> > > I drafted a POC for you that should be closer to how this should look
+> > > like with the bpf people in Cc. I'll let you lead from now on. I just
+> > > wanted to help you out and illustrate a more viable direction. Might be
+> > > that the bpf people want it done differentely. Let's see.
 > > 
-> > Cc: stable@vger.kernel.org
-> > Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> > Cc: Christian Brauner <brauner@kernel.org>
-> > Cc: Jan Kara <jack@suse.cz>
-> > Cc: Matthew Wilcox <willy@infradead.org>
-> > Cc: Song Liu <song@kernel.org>
-> > Cc: Eric Hagberg <ehagberg@janestreet.com>
-> > Cc: Zi Yan <ziy@nvidia.com>
-> > Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
-> > Reported-by: Gregg Leventhal <gleventhal@janestreet.com>
-> > Closes: https://lore.kernel.org/linux-mm/CAFN_u7H_0ECF3jixP=T=U7AH5=Q3wQNvJMo8an3VqUDMerQfUw@mail.gmail.com/
-> > Tested-by: Zi Yan <ziy@nvidia.com>
-> > Tested-by: Lance Yang <lance.yang@linux.dev>
-> > Signed-off-by: Pedro Falcato <pfalcato@suse.de>
+> > Cool. I just saw the POC.
+> > (I'm trying out aerc to view the patch series. I will also try b4, I've
+> > never set it up before)
+> > I will rework my qemu demo to use the struct_ops and go through my own
+> > testing to see it work.
+> > 
+> > That looks very similar to what I was researching with an LLM. I was
+> > just going over the idea of struct_ops bpf (a new concept to me) and
+> > using traditional bpftool load, a new bpf program type and kfuncs.
+> > 
+> > You put out a surprising amount of polished code -- thank you.
 > 
-> Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> I would not call this polished and it also lacks any tests... I've not
+> given the locking much thought and maybe there's easy wins on the table
+> I haven't been considering.
+> 
+> > I would have had to lean on an LLM (heavily) and from the patches I've
+> > put up so far they still have quite the gap to cover in terms of polish.
+> 
+> This isn't my first bpf ride in both kernel and userspace.
+> 
+> > What does "take it from here" mean in practicality?
+> 
+> Bring it over the finish line so I can merge it into my tree. :)
+> If the bpf people have no comments or worries than we're done. If they
+> want changes I'd appreciate if you could make them and slap you
+> Co-developed-by onto the whole thing as necessary.
+> 
+> Also, please ensure that this works for all the cases you're
+> considering.
 
-Thanks!
+I have another cleanup series for binfmt_misc btw. That code is quite
+old. There might be a few additional series coming out of this work that
+we base the bpf bits on.
 
--- 
-Pedro
