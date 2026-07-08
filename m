@@ -1,185 +1,112 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201532EF64F
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 15:35:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783524961; cv=none; b=I86oUB3owM49+ILJTMmthHWSbL/Du+KwvfjMwRrGi4qBwjlhCk+DAChbO9qkS+c5f+9MDc3BkTgkST7zDjh3It448dMhIVXB2NjGQ7o+0I7P6O8V+0EeDb1z4EvkYx4paIniqsstSKP9xm+7QxNOo99sqGuhzl/MN0vhoAx1DZw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783524961; c=relaxed/simple;
-	bh=F4o3Q+oxrkD8nJHhgpPehokzu8kRYy2jTvH9ghISvUI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f8cXaIWlWGFYqgYXaFBLJw1xIAhWW8Zj7TpW1Zn7EyJSNPFlUfZD2cc2+taDef1RSY6jSxbrEfw6l/xlHCn08YZ1yBBIP9gjzfqvRoh8LXDm5jsdegcKqbS6Mhe9V4HOGdPEp8sqduxMWcyJZJefVB2HROt/USy1Z+g1vA7Xm2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=j0nO5I/Y; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ECHABPJ+; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=j0nO5I/Y; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ECHABPJ+; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D61F439354
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 15:37:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783525073; cv=pass; b=o8ftyQRF8bLMA+6SWAPk8lWq/fINuRjaxcjELwEd01hhGG/6cpUNw1ZSJDeT7Vk5W3pAl96XU4MVV1o/ALjGGodcWkvDKd/KUw8Z0jghEq3kix0k0zST5KZGZdZtWICrFsRMR36YXqHhC53he5zqdQbr8RkzsEof8ihBNBp9elo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783525073; c=relaxed/simple;
+	bh=WEa0OR9IElvwaCWw2siqSbeNFwXC1Rtf30r1klHV9/Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tMYZYVdRI5fqv/Tx6jhNEcRpgQj3JYnDtpOrGrx/K8WZB8OGGqMHJJ1gMefYkyrv5n1BLakZlsAOoGzzbGXO4IGEE94i9i9xpNydGDLbQ/AYKOXBR5JJnE4bnyJNtB5w8cBQO+y6K0RbqMXXYzj+m+hjhZS1EgPsCDQewhJdc6o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=CfxeooCZ; arc=pass smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="j0nO5I/Y";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ECHABPJ+";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="j0nO5I/Y";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ECHABPJ+"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6BB7275EA6;
-	Wed,  8 Jul 2026 15:35:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1783524958; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pw/8BDZ6LGRuZucYyhvMpqDQYWnG5v/FH181Zmf6pJk=;
-	b=j0nO5I/YFB4ZVedZG/MLBmRJYok4sAZD1sazV8AmGRqIlWqgph7O31tw6OzPw4tvGmVw2e
-	4Fnja96aXVJaKkzVmgQlY4SE4gLuxvzwDsrOrWzICTiKM0UFVUZrczpaQUDLUknnZdAt9m
-	LGLsNNRup+Hfs9keolT5Sp4Ge2k8IWE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1783524958;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pw/8BDZ6LGRuZucYyhvMpqDQYWnG5v/FH181Zmf6pJk=;
-	b=ECHABPJ+owFQvD6K5NC68SjjfF6My23+EoBFgtwbPXdZsk3BKAtEi2AIfi9Tqhx6cHvReq
-	nKPWJtSX8jse06BQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1783524958; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pw/8BDZ6LGRuZucYyhvMpqDQYWnG5v/FH181Zmf6pJk=;
-	b=j0nO5I/YFB4ZVedZG/MLBmRJYok4sAZD1sazV8AmGRqIlWqgph7O31tw6OzPw4tvGmVw2e
-	4Fnja96aXVJaKkzVmgQlY4SE4gLuxvzwDsrOrWzICTiKM0UFVUZrczpaQUDLUknnZdAt9m
-	LGLsNNRup+Hfs9keolT5Sp4Ge2k8IWE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1783524958;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pw/8BDZ6LGRuZucYyhvMpqDQYWnG5v/FH181Zmf6pJk=;
-	b=ECHABPJ+owFQvD6K5NC68SjjfF6My23+EoBFgtwbPXdZsk3BKAtEi2AIfi9Tqhx6cHvReq
-	nKPWJtSX8jse06BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4DE3C779AE;
-	Wed,  8 Jul 2026 15:35:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4vUCE15uTmozQwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 08 Jul 2026 15:35:58 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C8252A12D6; Wed, 08 Jul 2026 17:35:57 +0200 (CEST)
-Date: Wed, 8 Jul 2026 17:35:57 +0200
-From: Jan Kara <jack@suse.cz>
-To: Zhang Yi <yi.zhang@huawei.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca, 
-	libaokun@linux.alibaba.com, jack@suse.cz, ojaswin@linux.ibm.com, ritesh.list@gmail.com, 
-	yi.zhang@huaweicloud.com, yizhang089@gmail.com, chengzhihao1@huawei.com, 
-	yangerkun@huawei.com, yukuai@fnnas.com
-Subject: Re: [PATCH v2 4/6] ext4: zero out whole block for clean edges in
- WRITE_ZEROES
-Message-ID: <fxtlzytlgn5gnj5mtvo3x3e4g4eri7yhpaawketmsmhrhehj4e@pwqhyod4kezm>
-References: <20260707021338.1182268-1-yi.zhang@huawei.com>
- <20260707021338.1182268-5-yi.zhang@huawei.com>
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="CfxeooCZ"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-51bfe810293so4010091cf.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Jul 2026 08:37:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783525071; cv=none;
+        d=google.com; s=arc-20260327;
+        b=HnODiHV1SUugqZM6gNnWZXPrvQxxuFR3f+vfyK5epuYSRkC0nW9UJ6ZQgu4FwR69Qa
+         2XCQNbZ/NAbxbVOoWU6hH7VrcI2dWLaID1mTcfpEVgIPtxjYGtvkuhWfUswhgD76BAnw
+         ZseidqAXIHwtYA7WEF6TqxCXfJVADSFhYTEMOdAvNLXpn4Arc97N9dKTbTHmxJGYmqpA
+         RPjH3L+YTfnEkeGTofwI83Z8wgH8eiVy7TfTTaIq7FIJXblsPJaASf4UPHVZzATznUWr
+         nbuq6b1h1cBD2Lm8z8xSfK72xrH5ghj+jtrqcF/Ol0FQEDR6kOPcChtHuLSP91ajUkAu
+         R+yA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=qkeAjSrfipPZ3gYTMXBLe77/aSlGkx1MoDJPCEzD0Ok=;
+        fh=lc4O4hpj33VYMIWk8hx/1AFpCTicqRCNiePSvvWaDNM=;
+        b=PV1DqwdUFUW9JRg/m5NvKNMZV365OLdQ7Y827le6Q1TFHmylR51Fabar0h6QImoHEN
+         MWEGdxif/oMIBVJL0qOfWQ/LwfaTufG9iaVlIxUhraFRuJPTQ6+AP9vlw43Czt8tg6A7
+         bQabJQqFTHvC1546/wakprIYA/Se3+l+712KSmHsEM94iXfu2TwC/53xIgM45eP17stU
+         uJmEdLthvgihvfUp0l/xXXAIaQprnXnOr/zLFHor/wH9FAmLebdTtvhrTDDIgRGF/lIm
+         pZWXQq20yJAO+QAKAcWXFkFCfUZrhJ3f0rBVqke4D4ZYWmF+CSlK6zmLxgz6Wpd/IZBf
+         oQTg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1783525071; x=1784129871; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qkeAjSrfipPZ3gYTMXBLe77/aSlGkx1MoDJPCEzD0Ok=;
+        b=CfxeooCZqaSrdwi28QEVCapXEmZ+UNJ9JNHRzdjYh9wEyoLuNv8bVSqQKlXPuf4bs6
+         E2Mczkycu1BZMmfcskfPLiv/3x1KoTLz9ENujsVPqj9ANro42Ffa1s+71ilozzYwtrAi
+         JwbKK5HtKlBOjxiIBgiMqzuhA9ilvgig/Lo4s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783525071; x=1784129871;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=qkeAjSrfipPZ3gYTMXBLe77/aSlGkx1MoDJPCEzD0Ok=;
+        b=stwfa+ZnmjNywM7MY8rgLNA/qBJd/mFqRsAELhhQLtcbSBpqqStv9aeE2ofXBXBR5p
+         zQBE9lyx/e0iZaBLQNPgDc4ugSHjv/RsyWYomKwNzSSo7TkuXFl27ynbtz5VQYhZ8Hej
+         9XOZ4mCWnHOUpwFB0K2sXCzWqI5yk38RDiBz4RQBvR0rxqovPEo2FerchtPits6O7ZKq
+         exvAlqoOY8gByt1Jsy3vQn0n/c53ZjfoIT7K4DUAKdUnCAwRY5kdh1h6wLWAxHa9qxQ/
+         KHjBYzNkHaBseuHC/FPEiUcMM5YZxBmryoss9FvlETiKfM5T6etvMajhsohu2nsCstue
+         YLwg==
+X-Forwarded-Encrypted: i=1; AHgh+Rpy0bN/BTS2L2JstA+FMzqpWjw/UQLnWw2I8kmzdMgC8y2MVeDlO5U6w4aekcuUYT6V8aHmeKG/A1XqQ8gZ@vger.kernel.org
+X-Gm-Message-State: AOJu0YyncRuhNacz3rBQ4stcKxkT9LmNiyDQ2p19dhD73ymQgut5kMPz
+	yaIYJAt3yCX+3sgp2uvJzke2BbYdvi5+KLkohcbZjxSVBjCjJhomV6zJqgmeMT7quHuSIMOs570
+	2RgRDRQ0DuDdk+ndaXTDInWUPCQG6QyQML3V1tRIFAA==
+X-Gm-Gg: AfdE7cmqGV+ySnnBhZS/8q3SIp3HF4AXieW1mbnKg59fYP5IGazdZI8mrzaJ1J0d7Tc
+	lSJo+7R7R++E6JPsTL1OziiL//1K7ULPVXaVDnFDgfrobJaNv8faEOzWHKdAO3iM1fmxihz/4ef
+	xuGBt5btyUnGUp7mP0OjDHp7lnEAkpZruepBGu3WInmLo+63IO5018WpM1VG2RlN0OLIpnSJ9Ol
+	IXWXmpg4AE3xUIGL2pprBLsRi/sJPH9Jb5GHxQXlli790qLiN4W4CYiRKZpWoWI0CtVBValKJ9D
+	bgepEjjoGYQldDwS7GtV5x0zePtNAcTcS0BtOA==
+X-Received: by 2002:a05:622a:410d:b0:51b:ff78:f221 with SMTP id
+ d75a77b69052e-51c8b2f174dmr33523261cf.29.1783525071383; Wed, 08 Jul 2026
+ 08:37:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260707021338.1182268-5-yi.zhang@huawei.com>
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	TAGGED_RCPT(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,mit.edu,dilger.ca,linux.alibaba.com,suse.cz,linux.ibm.com,gmail.com,huaweicloud.com,huawei.com,fnnas.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,huawei.com:email,suse.cz:email]
-X-Spam-Level: 
-X-Spam-Score: -2.30
+References: <20260708095831.3381978-1-gscrivan@redhat.com> <CAJfpegsJON=1_84PCGMjASYPFL=Wqsz7dnTAbO3Tdz5DfRQU+g@mail.gmail.com>
+ <878q7l8y4y.fsf@redhat.com> <CAJfpegvQ06=2E0V_ADgxwmo7e5weTfOMozmBB-QVNLLWYAm8WQ@mail.gmail.com>
+ <87wlv57dt1.fsf@redhat.com>
+In-Reply-To: <87wlv57dt1.fsf@redhat.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 8 Jul 2026 17:37:40 +0200
+X-Gm-Features: AVVi8CfqzC9eOvDm8nHA-5UYAS5HPZI131ACQtCWE5J--FkjXHyF6qlMxysQysU
+Message-ID: <CAJfpegtTixwWSh9M-9NbwP0nUbJJ9rh0rxqO7BzgK7Su_RpM+A@mail.gmail.com>
+Subject: Re: [PATCH] ovl: add ioctls to retrieve layer file descriptors
+To: Giuseppe Scrivano <gscrivan@redhat.com>
+Cc: linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue 07-07-26 10:13:36, Zhang Yi wrote:
-> FALLOC_FL_WRITE_ZEROES requires that all blocks in the requested range
-> end up as written extents with zeroed content. For unaligned edges that
-> were already allocated, ext4_zero_partial_blocks() zeros them directly.
-> However, for unaligned edges whose underlying extent is a clean
-> unwritten extent or a hole, the extent type remains unwritten after
-> partial zeroing, which does not align with the semantics of
-> WRITE_ZEROES.
-> 
-> Therefore, when ext4_zero_partial_blocks() skips partial zeroing, it
-> indicates that the corresponding edges are clean unwritten extents or
-> holes. In this case, we need to expand the aligned allocation range
-> outward to cover such edges, so that ext4_alloc_file_blocks() can
-> correctly allocate blocks for the unaligned range. Edges that were
-> partial-zeroed (i.e., written or dirty) are left untouched.
-> 
-> Fixes: f4265b8d32c4 ("ext4: add FALLOC_FL_WRITE_ZEROES support")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+On Wed, 8 Jul 2026 at 16:32, Giuseppe Scrivano <gscrivan@redhat.com> wrote:
 
-Looks good. Feel free to add:
+> Amir suggested to add that functionality when I've asked for some
+> feedback before sending the patch here.  I am fine to drop it if this is
+> the consensus although I see its utility from user space.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+How about a completely different interface:
 
-								Honza
+int get_fd_opt(const char *name, unsigned int index, unsigned int flags);
 
-> ---
->  fs/ext4/extents.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
-> index 7a8f9f188a29..c34505765521 100644
-> --- a/fs/ext4/extents.c
-> +++ b/fs/ext4/extents.c
-> @@ -4760,6 +4760,21 @@ static long ext4_zero_range(struct file *file, loff_t offset,
->  	/* Zero range excluding the unaligned edges */
->  	align_start = round_up(offset, blocksize);
->  	align_end = round_down(end, blocksize);
-> +
-> +	/*
-> +	 * In WRITE_ZEROES mode, edges that were not partial-zeroed (clean
-> +	 * unwritten or hole) must be allocated and zeroed as whole blocks.
-> +	 * Expand the aligned range outward to cover them.
-> +	 */
-> +	if (mode & FALLOC_FL_WRITE_ZEROES) {
-> +		if (!IS_ALIGNED(offset, blocksize) &&
-> +		    !(partial_zeroed & EXT4_PARTIAL_ZERO_START))
-> +			align_start = round_down(offset, blocksize);
-> +		if (!IS_ALIGNED(end, blocksize) &&
-> +		    !(partial_zeroed & EXT4_PARTIAL_ZERO_END))
-> +			align_end = round_up(end, blocksize);
-> +	}
-> +
->  	if (align_end > align_start) {
->  		if (mode & FALLOC_FL_WRITE_ZEROES)
->  			flags = EXT4_GET_BLOCKS_CREATE_ZERO | EXT4_EX_NOCACHE;
-> -- 
-> 2.52.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Enumerating layers would be as easy as passing an index stating from
+zero and stopping when -ERANGE is received.
+
+It would work for all filesystems that use files as options.  No more
+fs specific ioctls.
+
+Thanks,
+Miklos
