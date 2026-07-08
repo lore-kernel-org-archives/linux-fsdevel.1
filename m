@@ -1,124 +1,127 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D5843849B
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 18:29:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F564C8FEB
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 18:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.181
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783535398; cv=pass; b=qxNxahVfQGnVuTWLbmDEDt45dW3SlGM4YlWMMrfHNU3lvoLSjap3swLv17rjOB/r/RqnndXfjBSUVr6ijABiGfjL9uVj0Y2D9VkQE1ZaV87uCuxsvYjUfmUmQyj7U0bR2NQnhgORbBM3QQ+GBrTCBy9/CgjZzGfYp8SvpFaBo4o=
+	t=1783535964; cv=pass; b=Q7WvkgYf0rn08sI9I/6OIT6Faz3/vRqX7biQaMgSZrpxxfOmFCdKQuEcG8Yu/XnaEjqKvmXIcl0EK977ZcemmN5f9SRG68mRQcqm25LrghoKmApD26NSmdc2TowzatjA99w0N+TepChuMYOmdNtr4n58x4BbtV4BEwSynUw86gA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783535398; c=relaxed/simple;
-	bh=pQeqcIXmxeqjoaVrCDS04nFvHctcdWxWhJguSVtNa6o=;
+	s=arc-20240116; t=1783535964; c=relaxed/simple;
+	bh=c3cUMPycIthFm5eN5Dw/xA8VZfZ1Cc4kpX6g1gpgWa0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qqK+5ohVSqBHWdkn06rF3yEv1cpta9pUpgorBp8kAe7qMnlFf9/b8aHSJeYP3VFYLaqSZ0VskE2qghXcHJVAMID/PlJBWi2xnxsA9tzeIzk5Qw/3hGxwtKtnIqScgwuIVdA3BozdtCrzJx529qA33lO1ocyKFZvl4iuCGcrG47c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RZKU2kPb; arc=pass smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=Z7a5qt+xLQ+qDYgGe2t2XB8wM50D+W8xIz2Jn0mAaT7JzCPznNc3sa/umeMDfpKsrxjB7lg4kFfzhV1EMn/h7P0usO7APDoXV+KfbfrTXk//1bFxbskDGEZQMOjoTWHLt8lKtZVjA38JGr535Af1ttrpviUeSr+iWSOluXzXjeI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=OZOBUFi2; arc=pass smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RZKU2kPb"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-47ddf7b09e5so950946f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Jul 2026 11:29:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783535395; cv=none;
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="OZOBUFi2"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2cacd69a9c0so13551765ad.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Jul 2026 11:39:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783535962; cv=none;
         d=google.com; s=arc-20260327;
-        b=ZpFhDOe6wgj0H0fwS34/YfMiQzhMpwLKTmoVPgp0tsKDkKNhPFtFDiMUZjsVWMqugw
-         5idstWpiKfm50KaEQGamt4xHMz/ZbinvYe6nC/g3qNU4STtm/AxwGS1ZhzxM0ACqdWsT
-         N3j2UWZysXWSuf1Rkd3Btd4JYmx23xMOqwBfAXpBl3fBG7Gh4QOC2J1YtBTdrI9h9q5a
-         AaDFbrG1LqwkF7S9Hw8OetPFuecZuYlc0crikgUBIw38taYFTRurlaUKS4HlxsASWi89
-         mEBxnopEnEsaMzm+tbadcE/zePNVdUtvqPsRdJPWM28yqRpuqH+vu6vvOXY1TvZ3XeyK
-         851g==
+        b=WbX7ZrltsJN1wPI6rwBRVNT00iPwv/4i6o+I7F3D+Li/CpOiD+k7kTcGl1On80l0tq
+         EVxK0OXTTRN8M5LVXXzA12Yw+9Oiq+YDltODQL28C6rj2kkN8OblABuw1p8fPoaQ2/Ax
+         s1Q5YgdYLJ0+dP+kRB7auPMvGLffuTFFWywnpa6/gLPEbZGJSHr+c7C2Bk+vGT9n/IW3
+         zszRO9PEqqwfXyH47LZ5ROrqBfkvX/6NKFAfNXxD6s/1VgtB1Du38CQCBhJ8zJyooaM2
+         KRGqpZMfRm3s/T8TIj3bqtgGqZyyS2pdQH6OTOHrX2U6ym2YTRVbrvG54GFyU/z4VT7o
+         Uw0A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=pQeqcIXmxeqjoaVrCDS04nFvHctcdWxWhJguSVtNa6o=;
-        fh=47RDgLaJUvxfy+9haJVy7AQGTDjAvInnRQx5JiE73Z8=;
-        b=efxXZQS5/Fg15/5sOz4iRQLUzzdw47Xksqcq7hHrasZshyzzIuy5DXSQ2zbs8MAiD9
-         laHwRjjbpwgNe+n/yc/lBd73EI6C8TmriNMQtMktJoHnMrSwnnjNJ+ZmhMZO5q9CZi9g
-         ATfLJ9DidRFeHhl7xHLBT/f5QIpQ4dhcF+iEztiX/v1X3+ItCam+QgNdwyefC5FtOyoT
-         ZCS6m6ZL3fvYJzP3kWZag5NBqZ+8b0W+caRg2/vZuSPfAQh5mdbdUdHevk//LUDlmKup
-         YTJfxF4Nx9Zo7mPZV/3j2ALPXXimVHMYXlpMiy1/Aer+Bt4z2h2Kl+AjubcHHH3UGljf
-         nqkg==;
+        bh=FO6fRPnytPJsy9hAepaBBlcDqYaDGVgFnlUAoMBAKps=;
+        fh=n5rRYWTxtRbHi37Y+Hbsv5Dyq5LLe8Q27Juf+s6ivfY=;
+        b=PzC9AKCCS4oP4jwJaSupl/8Ywnwbyd4yM0KGezgSQUstNBHVsqXROVXczR027WBSgt
+         L9TCKYNdXrDnQKjnPcKxKhozzOgZUuQncqyRcGbC3yZlfijhfNnXGZBBVmJgbXmInnj0
+         TYvANHYhIIP1qW9TiLbEK+Krwf9Y2OhnAb6Pg1mFgD8aMYaU783Sjx+CmzSZkUNAewqZ
+         umE1KKekbZ5WOjxfJGpAyoUjA/JKds3N7cKvyG+KEZeVLNxrwH6vVpoORaQvG+xTZWl+
+         GSdPixhnVcicInNYVo3w03WuC43WyrKYZjprx4XTfQyEGPD43IDSBMCFCS3vqansgaRn
+         R68g==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783535395; x=1784140195; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1783535962; x=1784140762; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=pQeqcIXmxeqjoaVrCDS04nFvHctcdWxWhJguSVtNa6o=;
-        b=RZKU2kPbw8HHHfhWfZb863+Ls9xMdtYHkeCYY02EqepU2VT4ymi9a2+kxMtYlaP1zu
-         piIEfcVSDknSdhM/JN3edfsPoXLG3sHKf0xaL5JGo6UOulVIsDPXnYwjg/O/NO3FDKJs
-         uDyRzTbEh9xZH7MOVBEXaVsS0xjnEqyaGUGQDi7mdaBv5G4SYtTshPPTT7m301+NuRd/
-         l7Ovupmtt1jBzoUmqCKDLxYxqzSwR4WBugXVu5WJh28LtJ0Q96wqxePI9p61mZLOMAMK
-         Ej39FY7rywNQ2+WtPFbQVEh2H5PHp3FASqcEArT9XkQHEsObJG1BodECeow53KmP+81j
-         SCHA==
+        bh=FO6fRPnytPJsy9hAepaBBlcDqYaDGVgFnlUAoMBAKps=;
+        b=OZOBUFi2nOxOyWFF6X5PcisOuYDaA9thqv2n/j7r55Buh2PMzjx+HxrdjZGeKfNEWK
+         71umOK/lDiyfp5jZ4vcfEQ7Y6mDYOWTbtpETCpBRuTOfpGEaXXf0Q3EADYhEXMEcY/Bu
+         A41jFsS7O+nxGmaRJLFKvNEIlWLgMr538FXSrqa7nZEhaDDPPtb2YK0uN98wWkWb4J01
+         C5OY/IAj6HsFmQxcouZZjV521KdQoQQv3EmD5qWFzkvjKZjfAFogNCmRpMkA+4smsfB6
+         Re3m6rRGOG/miZCLw1vLLeQF/BswiuTWpgQX0szf2kz4q+kvIzSjbx9VboeQSXxacN6z
+         VECQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783535395; x=1784140195;
+        d=1e100.net; s=20251104; t=1783535962; x=1784140762;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=pQeqcIXmxeqjoaVrCDS04nFvHctcdWxWhJguSVtNa6o=;
-        b=U9Qs5gjXfTofpeCmGqDKVxrHqQlf/rSi08a6LHjLukMX11UflEqO1iJiY5rsAwx6QG
-         enXk0W+gVomxNuMWHGmriaWsxGQJ0EhaMNIDwLAtPPiyZpSmGUJGeKkux5F8U85ae2gF
-         TFSgyvsPH62Hcm2NcwRzNAyb5IXglu/GGOAmg5HP6E1b231K5K7/t2V6hwSFiOyYhs5/
-         Nw6zighpZSqeOsJJaOSGg437NSZqRzZU+GwFXS4OprDekFLFAjIDb0Vz6kOm563m8x1b
-         /yoQ+0FlGxl6Ew/+X6sdVaXAFmzTBOzroMwYTuTT9Hhaz386CnLpcZwkK9b4djlBuI7i
-         JArA==
-X-Forwarded-Encrypted: i=1; AHgh+RrSLRZYMoe23cgpBR806PnTybVTXn8468zFxf5p0Qhjw3jyAntzQHtjqz1lSb91thclfJU4t5dXJhr9RWEb@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnKoV47OpbDXSonB3NQTxaanmc8jKJqMQiAjotV8MT4AoRrcyw
-	hmhTqFyoiFjK8zP+p4d/mITYAiiPp6saf7CAvw3v2IFDPcPj9vuON/w1E0VdTgyZ8WvR/dxdgrJ
-	TjBL7sHxmKy28PrR8ml2j+MyNKNEb5L0=
-X-Gm-Gg: AfdE7ckk/WoAyLPy+5vsPp7bx6PPhx2Qeypp2RliOvDCy6Ejwa0AG0JQcUV6jpq9B4X
-	qgQYExIwUU0guXUVArB2xE3fASZ+KglPOSluNsGIvi5UboIa0zFIKpk45SCfy5vSeLSAP1tJv07
-	N7H0PboZbCTAAstrGcB8WKyCPjks3ngX+ahR8dQ/J1XwTbRI1lsi0cyDm0E/0Pw0RaMymyAihzn
-	POLbQLTHx+gnmTndarZQJD4/oNQ5mo86wclKJd09gIT2qSHFD+MFtP/seli8pJA6bPPNHjrt68m
-	dxDa3UaEH//Bq7rZfJu1BGDPmsJkjyiqwokRxmm+MQupA3b/hp35
-X-Received: by 2002:a05:6000:4387:b0:477:80fa:f44d with SMTP id
- ffacd0b85a97d-47df0767064mr4043753f8f.40.1783535395354; Wed, 08 Jul 2026
- 11:29:55 -0700 (PDT)
+        bh=FO6fRPnytPJsy9hAepaBBlcDqYaDGVgFnlUAoMBAKps=;
+        b=VkbpMYca35K22rwVtpjej5umJlDUpXd9iZtNUGvrUihnSgMUZ8Fq8vOiLqV7mxD+5x
+         ykOYOMbto7oiQgPLVD3W9A5GrWe8dgLoOK9eW0jQoEuUWc5vhwpq7jPUTO1rhZDIX4FW
+         7Q3o6CXs8RE2GJPdeUouc0FCLOFJDZTIN4a+l5zNc7YwDL0ZoyybtitJ4g8u4YkufoPL
+         sk8tBht8uNuSc8E28nbl8c1AofZHEC2c7/vgqkSVXO8l1Jpw9npKKmlvsrQW7zzaf6ep
+         rXszi0Hf0jdMp38e0lIv/Dn9GzzX8Tb9f/Dn3hHkIcdkIErkUX5B4wKNzCSqQqbuVSQL
+         xUnw==
+X-Forwarded-Encrypted: i=1; AHgh+RrGDWn/lrwe+Yp7Tgwl16Oh20Cv49ydqGtz0ouRl3+8NZ0VAB+vhiEbgT5V40Zpw7Ihh2SJXABxawvDxaL/@vger.kernel.org
+X-Gm-Message-State: AOJu0YwU361Vwg9hWoa6Q//LXWjOnSH1fHDI8ra87tvD6y9ZI/HMDG/t
+	tRCPS/yQYEWxpitYRaxdewXrhnLgw4ciozSfaws5WAXDuTmjasCbTwObMkmkII0+RZhLl1I8eEl
+	iKHxPQqyE5Xkt+td4kgh5c53zWJ/OiUmkE0oSkJfhq1nu3eI1kCJQgA==
+X-Gm-Gg: AfdE7ckgO5yVkFaPtlDuDfYoTorEzzLrEUEKW/tiyPdbuTyiFjmp10ifqvqXmg1gcK1
+	HkCF34AnXarNTz72ea3zeVpFh+KnyXhAQCFB1sM1xse/druho2fIsabHqVB7L/XwnrBITButO3A
+	zHqNcTJ4kq+5sYwDOVVj50WpC7yEBTGRT9KFf/MDpqpBMitUKBWcqQluThlemhPIdNu+4pzQKC4
+	QbRiXMBSOw67Z54pt9NuyGy44sBmms4oNQFqrwr28HimfZ3HErDTwFLRLWBddn7oefwxQPH
+X-Received: by 2002:a17:903:1247:b0:2ca:eea:eb5c with SMTP id
+ d9443c01a7336-2ccea373170mr39018785ad.18.1783535961899; Wed, 08 Jul 2026
+ 11:39:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260707220450.1200943-1-joannelkoong@gmail.com>
- <20260707220450.1200943-3-joannelkoong@gmail.com> <CAJfpegv4t3GBU9efQXTWgPSEsGRRaL0OAeZeph5-84eoyRyFqA@mail.gmail.com>
-In-Reply-To: <CAJfpegv4t3GBU9efQXTWgPSEsGRRaL0OAeZeph5-84eoyRyFqA@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 8 Jul 2026 11:29:43 -0700
-X-Gm-Features: AUfX_mx27aKltMWTZ9oFz9G-tRcUlVFiaV8_kmOpuUyW1ZdshqDZiXadYtlPtPg
-Message-ID: <CAJnrk1bP8K_LVWOHwiQ_PGw_27HnO9O=XVm4L7UR4+0zvZW0Bw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] iomap: add helper to mark folio uptodate
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: brauner@kernel.org, djwong@kernel.org, hch@lst.de, willy@infradead.org, 
-	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	Zhang Yi <yi.zhang@huawei.com>
+References: <20260703122548.1623981-2-rrobaina@redhat.com> <20260707-sippenhaft-teufel-bergbahn-87d9652bea7f@brauner>
+In-Reply-To: <20260707-sippenhaft-teufel-bergbahn-87d9652bea7f@brauner>
+From: Paul Moore <paul@paul-moore.com>
+Date: Wed, 8 Jul 2026 14:39:10 -0400
+X-Gm-Features: AVVi8CcEwmTgxMe4KntKbfOspAEW6pn_CHMrD03qsp2cS17938sLsIdKxqVA-tw
+Message-ID: <CAHC9VhTpoOaQhw293UNJ58TP5=qYuNNNvJSQ3tzT=uJ4MmXwXw@mail.gmail.com>
+Subject: Re: [PATCH v2] audit: add FSOPEN record to log filesystem name
+To: Christian Brauner <brauner@kernel.org>
+Cc: Ricardo Robaina <rrobaina@redhat.com>, audit@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	eparis@redhat.com, viro@zeniv.linux.org.uk, jack@suse.cz
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 8, 2026 at 2:17=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu> w=
-rote:
+On Tue, Jul 7, 2026 at 7:23=E2=80=AFAM Christian Brauner <brauner@kernel.or=
+g> wrote:
 >
-> On Wed, 8 Jul 2026 at 00:05, Joanne Koong <joannelkoong@gmail.com> wrote:
+> > Modern mount tools (util-linux >=3D 2.39.1) use the new mount API
+> > (fsopen, fsconfig, fsmount, move_mount) instead of the legacy mount(2)
+> > syscall. The generic SYSCALL audit record logs the fsopen syscall but
+> > does not capture the filesystem name string, creating an audit gap for
+> > filesystem mount operations.
 > >
-> > Add an exported helper iomap_folio_mark_uptodate() to mark a folio as
-> > uptodate and update its uptodate bitmap if the folio has iomap state
-> > data attached.
+> > Add an FSOPEN auxiliary record that logs the dereferenced filesystem
+> > name string passed to fsopen(2).
+> >
+> >   type=3DSYSCALL ... : arch=3Dx86_64 syscall=3Dfsopen ... a1=3DFSOPEN_C=
+LOEXEC
+> >   type=3DFSOPEN  ... : fs_name=3D"tmpfs"
+> >
+> > Link: https://github.com/linux-audit/audit-kernel/issues/152
+> > Signed-off-by: Ricardo Robaina <rrobaina@redhat.com>
 >
-> Sashiko has a non-regression comment about this:
->
-> https://sashiko.dev/#/patchset/20260707220450.1200943-1-joannelkoong%40gm=
-ail.com
->
-> Can you have a look, please?
+> I need a hint from the audit people whether this is ok or not...
 
-I think this underflow issue was fixed by Zhang's patch in [1] that he
-sent out in May but I don't think that has been merged yet. I'll
-follow up on his series about the status of it.
+It's in the queue to take a closer look, need to get the stable-7.2
+stuff out first.
 
-Thanks,
-Joanne
+Are you okay with the VFS addition Christian?  If so, an ACK would be
+appreciated as this is something we would want to merge via the audit
+tree and not the VFS tree.
 
-[1] https://lore.kernel.org/linux-fsdevel/20260514062955.1183976-5-yi.zhang=
-@huaweicloud.com/
+--=20
+paul-moore.com
