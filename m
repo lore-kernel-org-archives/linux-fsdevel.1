@@ -1,131 +1,119 @@
-Received: from mta20.hihonor.com (mta20.honor.com [81.70.206.69])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14EEA2147F9;
-	Wed,  8 Jul 2026 03:26:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.206.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 231323BFAE0;
+	Wed,  8 Jul 2026 06:28:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783481179; cv=none; b=qytBZcphdmoC8R4XE68tVoSlex0qRQA20C7jVNG9Dlm8q2Qk2XsKe7xCJ9Wp0U1DX+v7BAkyzMGCoSbHnMRDSN68QKHFcrSa6tRAzBzlS1VYiln/j/xXjOEdDrGdms5o+CuG7sxR6ip7kDtX8llZhNALOfkH33wwLdcx4RomULo=
+	t=1783492132; cv=none; b=sW3Bbcnzc5kgdfgMsXJGT8lXO3f+DCki2u2D/hJZwMfFlOk8XYKd7etKLg7QjQkeDHkNnESjqgz59Zc5tmeQLCvh1fc3EgcJcAyZU9S6zdo93y7RSDuHmkIaWVj9BkPTVP4xW5uFatXmt490kvsKu7K+4toRS5R4SwEqfq6vhLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783481179; c=relaxed/simple;
-	bh=NLJ62wJnOM/CYSwYpHvcAWjyOBzMkili30m5Qc5O84A=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=lpzHtENV6WsC3uLEXcde7nAGXsqqvmklc5V5BfPI5ThdmY9SYpYNh1NZhrDjXAtHKjSwXssuCUMZDmMrFbHzLyUBuRFvXUZsvyFfqCl+KfZis95Zt4mroiU9m46c+dvizH7rvdOO1cyxUdrD3H4JQW07mRgRp3oQ+fio0S+LmmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.206.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
-Received: from TW001.hihonor.com (unknown [10.77.229.151])
-	by mta20.hihonor.com (SkyGuard) with ESMTPS id 4gw3Qt5ydyzYmMBf;
-	Wed,  8 Jul 2026 11:26:14 +0800 (CST)
-Received: from TA002.hihonor.com (10.77.230.8) by TW001.hihonor.com
- (10.77.229.151) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Wed, 8 Jul
- 2026 11:26:14 +0800
-Received: from TA003.hihonor.com (10.72.0.43) by TA002.hihonor.com
- (10.77.230.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 8 Jul
- 2026 11:26:01 +0800
-Received: from TA003.hihonor.com ([fe80::998f:47ec:980d:bdf1]) by
- TA003.hihonor.com ([fe80::998f:47ec:980d:bdf1%7]) with mapi id
- 15.02.2562.037; Wed, 8 Jul 2026 11:26:14 +0800
-From: wangtao <tao.wangtao@honor.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "will@kernel.org" <will@kernel.org>,
-	"mingo@redhat.com" <mingo@redhat.com>, "sj@kernel.org" <sj@kernel.org>,
-	"kees@kernel.org" <kees@kernel.org>, "luizcap@redhat.com"
-	<luizcap@redhat.com>, "zhangjiao2@cmss.chinamobile.com"
-	<zhangjiao2@cmss.chinamobile.com>, "kas@kernel.org" <kas@kernel.org>,
-	"ljs@kernel.org" <ljs@kernel.org>
-CC: "hpa@zytor.com" <hpa@zytor.com>, "liam@infradead.org"
-	<liam@infradead.org>, "vbabka@kernel.org" <vbabka@kernel.org>,
-	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>,
-	"mhocko@suse.com" <mhocko@suse.com>, "jack@suse.cz" <jack@suse.cz>,
-	"riel@surriel.com" <riel@surriel.com>, "harry@kernel.org" <harry@kernel.org>,
-	"jannh@google.com" <jannh@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
-	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com"
-	<peterx@redhat.com>, "ziy@nvidia.com" <ziy@nvidia.com>,
-	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
-	"npache@redhat.com" <npache@redhat.com>, "ryan.roberts@arm.com"
-	<ryan.roberts@arm.com>, "dev.jain@arm.com" <dev.jain@arm.com>,
-	"baohua@kernel.org" <baohua@kernel.org>, "lance.yang@linux.dev"
-	<lance.yang@linux.dev>, "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>,
-	"chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
-	"muchun.song@linux.dev" <muchun.song@linux.dev>, "baoquan.he@linux.dev"
-	<baoquan.he@linux.dev>, "nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>,
-	"matthew.brost@intel.com" <matthew.brost@intel.com>,
-	"joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>, "rakie.kim@sk.com"
-	<rakie.kim@sk.com>, "byungchul@sk.com" <byungchul@sk.com>,
-	"gourry@gourry.net" <gourry@gourry.net>, "ying.huang@linux.alibaba.com"
-	<ying.huang@linux.alibaba.com>, "apopple@nvidia.com" <apopple@nvidia.com>,
-	"pfalcato@suse.de" <pfalcato@suse.de>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"damon@lists.linux.dev" <damon@lists.linux.dev>, "shakeel.butt@linux.dev"
-	<shakeel.butt@linux.dev>, "ryncsn@gmail.com" <ryncsn@gmail.com>,
-	"jparsana@google.com" <jparsana@google.com>, "dvander@google.com"
-	<dvander@google.com>, zhangji <zhangji1@honor.com>, wangzicheng
-	<wangzicheng@honor.com>
-Subject: RE: [RFC PATCH v2 00/13] mm: rework anon_vma and remove
- anon_vma_chain
-Thread-Topic: [RFC PATCH v2 00/13] mm: rework anon_vma and remove
- anon_vma_chain
-Thread-Index: AQHdDdtOKxyL+IwP/0+o3I4bi0Jgh7ZhGu0AgACbXoD//33xgIAAiIWwgAAIOQCAAS4i8A==
-Date: Wed, 8 Jul 2026 03:26:13 +0000
-Message-ID: <104a258dcf2f4e4387199b62a66141a6@honor.com>
-References: <20260707063308.29176-1-tao.wangtao@honor.com>
- <08c001ab-320f-4676-830b-8e4ba6a05dee@kernel.org>
- <b00a03d62c53430ca22b3f3c5e5327b5@honor.com>
- <0e8e5a28-1111-4b81-b04f-b81e749eb3dd@kernel.org>
- <f640c89d9722462098bf1b7a0a6854c2@honor.com>
- <66e8d008-5eaf-4a9a-9cca-e9b2bd8c9f9a@kernel.org>
-In-Reply-To: <66e8d008-5eaf-4a9a-9cca-e9b2bd8c9f9a@kernel.org>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1783492132; c=relaxed/simple;
+	bh=gi0hgWFkKIc5QLNT/ucok7g/HdEgmfTQbnGEoSB45/k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=uKWvcP8mOXrSF7t6YOCKCdFxTYuQMUqsWPH4aWReSQUbskTB1BRUjfa9tQe/F/Einv5it3LweIfjH3//kW06HTQPjwkVo9tqHl6cR9fYYnTN7Csw+dIDU1+ikei3PNEB83j5Y79iZVWm37T7aZgEb4FACH1oUTB3YrVXIvOTUGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.198])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4gw7TQ5Th6zYQtlK;
+	Wed,  8 Jul 2026 14:28:42 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id 5979540A24;
+	Wed,  8 Jul 2026 14:28:47 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.50.85.155])
+	by APP1 (Coremail) with UTF8SMTPSA id cCh0CgCnt3MT7k1q4VPeAQ--.18748S12;
+	Wed, 08 Jul 2026 14:28:47 +0800 (CST)
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+To: linux-ext4@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	tytso@mit.edu,
+	adilger.kernel@dilger.ca,
+	libaokun@linux.alibaba.com,
+	jack@suse.cz,
+	ojaswin@linux.ibm.com,
+	ritesh.list@gmail.com,
+	yi.zhang@huawei.com,
+	yi.zhang@huaweicloud.com,
+	yizhang089@gmail.com,
+	chengzhihao1@huawei.com,
+	yangerkun@huawei.com,
+	yukuai@fnnas.com
+Subject: [PATCH v3 8/9] ext4: write back partial-zeroed edges in WRITE_ZEROES
+Date: Wed,  8 Jul 2026 14:20:48 +0800
+Message-ID: <20260708062049.1982410-9-yi.zhang@huaweicloud.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260708062049.1982410-1-yi.zhang@huaweicloud.com>
+References: <20260708062049.1982410-1-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:cCh0CgCnt3MT7k1q4VPeAQ--.18748S12
+X-Coremail-Antispam: 1UD129KBjvJXoW7ur4kury7GrWkKw18WrWxJFb_yoW8AF48pa
+	y3Gr1UKrWUW3y7u393CF1093Wqk3Z3GrW7CrW3Gw4jvay5Xr15KFyjgF1jgF10gFWrC3y8
+	ZFsxK345Kr43Aa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmq14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
+	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
+	z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
+	4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE
+	3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2I
+	x0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8
+	JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2
+	ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Y
+	z7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
+	AF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1l
+	IxAIcVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r
+	1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIY
+	CTnIWIevJa73UjIFyTuYvjfUriihUUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-PiA+IEF0IGZpcnN0LCBJIHRob3VnaHQgSSB3YXMgdGhlIG9ubHkgb25lIHdobyBmb3VuZCBhbm9u
-X3ZtYSBoYXJkIHRvDQo+ID4gdW5kZXJzdGFuZC4gQWZ0ZXIgcmVhZGluZyB5b3VyIGVhcmxpZXIg
-ZW1haWwsIEkgcmVhbGl6ZWQgdGhhdCBtYW55IHBlb3BsZQ0KPiBhbHNvIGNvbnNpZGVyIGl0IGRp
-ZmZpY3VsdCB0byBmb2xsb3cuDQo+IA0KPiBSaWdodCwgdGhhdCdzIGhvdyBMb3JlbnpvIHN0YXJ0
-ZWQgaGlzIHdvcmssIHRyeWluZyB0byByZXBsYWNlL3JlbW92ZQ0KPiBhbm9uX3ZtYSBlbnRpcmVs
-eS4NCj4gDQo+IFNvIEkgdHJpZWQgYSBkaWZmZXJlbnQgYXBwcm9hY2ggYW5kIGltcGxlbWVudGVk
-DQo+ID4gYW5vbl92bWEgcm1hcCB1c2luZyBhIHNpbXBsZXIgZG91Ymx5IGxpbmtlZCBsaXN0IHBs
-dXMgZGVwdGggbWVjaGFuaXNtLg0KPiANCj4gQW5kIHRoaXMgaXMgd2hhdCBJIGRvbid0IHVuZGVy
-c3RhbmQuIFlvdSB3ZXJlIHRvbGQgdGhhdCBMb3JlbnpvIGlzIHdvcmtpbmcgb24NCj4gcmVtb3Zp
-bmcgYW5vbl92bWEsIHlldCB5b3UgZGVjaWRlZCB0byB3b3JrIG9uICsgc2VuZCBzb21ldGhpbmcg
-dGhhdA0KPiByZXdvcmtzIGFub25fdm1hPw0KPiANCj4gQWxzbywgSSBhbSByZWFsbHkgY3VyaW91
-cyBhYm91dCB5b3VyIGV4cGVjdGF0aW9uOiBub3QgaGF2aW5nIGEgc2luZ2xlIHBhdGNoDQo+IGNv
-bnRyaWJ1dGVkIHRvIE1NLCBldmVuIHdvcnNlLCBub3QgYSBzaW5nbGUgUkIgdGFnIG9yIGFueXRo
-aW5nLCB5ZXQgeW91DQo+IHJld29yayBvbmUgb2YgdGhlIG1vc3QgY29tcGxpY2F0ZWQgcGFydCBv
-ZiBNTSByZXBlYXRlZGx5IHVzaW5nIG90aGVyDQo+IGNvbXBsaWNhdGVkIGFwcHJvYWNoZXMsIGFu
-ZCBpbW1lZGlhdGVseSBzdGFydCBkZW1hbmQgdGVjaG5pY2FsIGRpc2N1c3Npb25zPw0KPiBBZnRl
-ciBzZW5kaW5nIGFuIGFic29sdXRlIGhvcnJpYmxlIHYxPw0KPiANCj4gSSByZWFsbHkgdHJ5IHRv
-IGJlIGEgbmljZSBwZXJzb24sIGJ1dCByZWFsbHksIGFtIEkgZHJlYW1pbmc/DQo+IA0KDQpJdOKA
-mXMgc2ltcGxlOiBvcHRpbWl6ZSBtZW1vcnkgdXNhZ2UgYW5kIHNoYXJlIGl0IHdpdGggdGhlIGNv
-bW11bml0eS4NCg0KV2lzaCB5b3UgYWxsIHRoZSBiZXN0Lg0KDQo+IA0KPiBPYnZpb3VzbHksIExv
-cmVuem8gaXMgc3RpbGwgd29ya2luZyBvbSBoaXMgYXBwcm9hY2gsIGFib3V0IHdoaWNoIHRoZXJl
-IHdlcmUNCj4gZGlzY3Vzc2lvbnMgYXQgY29uZmVyZW5jZXMgYW5kIExXTiBhcnRpY2xlcy4NCj4g
-DQo+IFN0YXRpbmcgInRoYXQgeW91IHdhaXRlZCBmb3IgYSB3aGlsZSIgaXMgbHVkaWNyb3VzIGdp
-dmVuIHRoYXQgeW91ciBvbGQgcGF0Y2ggc2V0DQo+IHdhcyBwb3N0ZWQgYXJvdW5kIG9uZSBtb250
-aCBhZ28sIGFuZCBhIGNvbXBsZXRlIHJlZGVzaWduIC0tIG1vdmluZyBhd2F5DQo+IGZyb20gYW5v
-bl92bWEgLS0gaXMgbm90IGV4cGVjdGVkIHRvIGJlIGEgc2hvcnQtdGVybSB0aGluZy4NCj4gDQo+
-IE1lYW53aGlsZSwgTG9yZW56byBpcyBzZW5kaW5nIHJlYWwgY2xlYW51cHMgWzFdIGFzIHByZXBh
-cmF0aW9uIGZvciBiaWdnZXINCj4gY2hhbmdlcy4gLi4uIHdoaWNoIGlzIHdoYXQgd2UgdXN1YWxs
-eSBleHBlY3Qgb24gc3VjaCBmdW5kYW1lbnRhbCByZXdvcmtzLg0KPiANCj4gSSdtIHJlYWxseSBs
-ZWZ0IGNsdWVsZXNzIGhlcmUgd2h5IHdlIGFueW9uZSBzaG91bGQgc3BlbmQgdGltZSB0cnlpbmcg
-dG8gdGhpbmcNCj4gdGhyb3VnaCB5ZXQgYW5vdGhlciBkYXRhIHN0cnVjdHVyZSBhbmQgeWV0IGFu
-b3RoZXIgbG9ja2luZyBzY2hlbWUsIGZvcg0KPiBzb21ldGhpbmcgd2Ugd2FudCB0byByZW1vdmUg
-ZW50aXJlbHk/DQo+IA0KPiBBZ2FpbiwgSSByZWFsbHkgdHJ5IHRvIGJlIGEgbmljZSBwZXJzb24s
-IGJ1dCBzb21ldGhpbmcgaGVyZSBqdXN0IGRvZXNuJ3QgYWRkIHVwLg0KPiANCj4gWzFdIGh0dHBz
-Oi8vbG9yZS5rZXJuZWwub3JnL3IvY292ZXIuMTc4MjczNTExMC5naXQubGpzQGtlcm5lbC5vcmcN
-Cj4gDQo+IC0tDQo+IENoZWVycywNCj4gDQo+IERhdmlkDQo=
+From: Zhang Yi <yi.zhang@huawei.com>
+
+FALLOC_FL_WRITE_ZEROES requires that all blocks in the requested range
+end up as written extents with zeroed content. For unaligned edges that
+were partial-zeroed in dirty unwritten or delalloc state, the buffer
+is left dirty while the underlying extent may not yet be converted to
+written. As a result, a subsequent SYNC write to this range would still
+trigger metadata changes, which violates the semantics of WRITE_ZEROES.
+
+Fix this by calling filemap_write_and_wait_range() for partial-zeroed
+edges to flush out the zeroed data and ensure the extent conversion
+is complete.
+
+Fixes: f4265b8d32c4 ("ext4: add FALLOC_FL_WRITE_ZEROES support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+Reviewed-by: Jan Kara <jack@suse.cz>
+---
+ fs/ext4/extents.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
+index c34505765521..c083703bf704 100644
+--- a/fs/ext4/extents.c
++++ b/fs/ext4/extents.c
+@@ -4791,7 +4791,15 @@ static long ext4_zero_range(struct file *file, loff_t offset,
+ 	if (IS_ALIGNED(offset | end, blocksize))
+ 		return ret;
+ 
+-	if (((file->f_flags & O_SYNC) || IS_SYNC(inode)) && partial_zeroed) {
++	/*
++	 * In FALLOC_FL_WRITE_ZEROES mode, edges that have been partially
++	 * zeroed must be written back to ensure the entire zeroed range
++	 * is converted to the written state. In SYNC mode, writeback is
++	 * also required to persist the zeroed data to disk.
++	 */
++	if (partial_zeroed &&
++	    ((mode & FALLOC_FL_WRITE_ZEROES) ||
++	     (file->f_flags & O_SYNC) || IS_SYNC(inode))) {
+ 		ret = filemap_write_and_wait_range(inode->i_mapping, offset,
+ 						   end - 1);
+ 		if (ret)
+-- 
+2.52.0
+
