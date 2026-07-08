@@ -1,150 +1,114 @@
-Received: from mxout1.mail.janestreet.com (mxout1.mail.janestreet.com [38.105.200.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 116CF43F4DA
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 14:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=38.105.200.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DFA744BC91
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 14:09:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783519590; cv=fail; b=LtGjlLzJJmt3EV+0skWh1AcEaUiQvpoNvVcU/H9uuTv7gHOis9RpLeQGBY4UHTTavPhSwjYxO2IIZhD1cfYOHMmIh2Uj5RzLhcAM3qVu3lRlmVsTj1JNeHViOe9rp4AKZx4Q9sLpLSugR/u0mfOzcE0DYSzNcmuqmhVevWKIgpk=
+	t=1783519754; cv=pass; b=ds1ErI4LMzr5Hotwle6Qv3fs3rb+84XV16V9O9D8pAGnM1q3qvvlb9NIB6yHn2s17u7GlQ0HK0PkR5p0eGhPr71ZSazmnpo1anmfmri/tMmsJPBrNFhQ4MFXsx2NAW0tzpL713KTFeNuM4Ua1vEbux6fd+VFcShFGyLfigtcgP8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783519590; c=relaxed/simple;
-	bh=r6qkoDFD72aNqg7YZ/TcrCwk9wBfbwfACZvk0C3Ml6g=;
+	s=arc-20240116; t=1783519754; c=relaxed/simple;
+	bh=GiebgX43JHl1XQjvBe1+RPmR9h/Aa96mgIB3IChL5tA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YUuiwCuSUKZt69fZsYOjiC8Fh+6G0VRzcF9CUIUlkNUjJFCqN4d/6juf5tP509Zs7FuBTC0NhlelAO2PtjehFYNSwDE9O0XoeCS3neAeivFXlw4qc5Rc/Kn9j1v+UdcGgh8VufjUaSLyiZAJz2Nz/8FYaKYlq0JFnSlx6IiM35Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=janestreet.com; spf=pass smtp.mailfrom=janestreet.com; dkim=pass (1024-bit key) header.d=janestreet.com header.i=@janestreet.com header.b=lE8Z2gv7; dkim=pass (2048-bit key) header.d=janestreet.com header.i=@janestreet.com header.b=R7F3XTsL; arc=fail smtp.client-ip=38.105.200.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=janestreet.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=janestreet.com
+	 To:Cc:Content-Type; b=jzJPDHHZ7D4MG8pclqCi5Jd2T7khfTTlxZPx48LeeqPLV/SqKHTZ4BLPZHeFI9PylaPvQDCMq1B0m+H2roI/p1IUF5jBv+X70/Y+o5cAHI2JEBWb8FMHKVliwDDb6KVXwur4qaQyVr5YxlleKtNmHhDLpv6uTWzaDEQmuZ7zEpA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=FNUcYtVK; arc=pass smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=janestreet.com header.i=@janestreet.com header.b="lE8Z2gv7";
-	dkim=pass (2048-bit key) header.d=janestreet.com header.i=@janestreet.com header.b="R7F3XTsL"
-Received: from mail-lf1-f69.google.com ([209.85.167.69])
- 	by mxgoog2.mail.janestreet.com with esmtps (TLS1.3:TLS_AES_128_GCM_SHA256:128)
- 	(Exim 4.99.4)
- 	id 1whSur-00000009bPQ-0cPE
- 	for linux-fsdevel@vger.kernel.org;
- 	Wed, 08 Jul 2026 10:06:21 -0400
-Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-5aeba7dc09cso600803e87.1
-         for <linux-fsdevel@vger.kernel.org>; Wed, 08 Jul 2026 07:06:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783519580; cv=none;
-         d=google.com; s=arc-20260327;
-         b=NfMsU4I6MB789Rz6GnfUYsOhUjzdqs8l4D2j1q3l01cHzdiv5NMNLp/u8ZFuI4eEdW
-          vY7Rvk6a9cCDc2WAv04BoSZ6cQyrJM8iyNiVMP+GGqz5AWAJmOk7JN6oPOqPZD2/FZGt
-          KELyDuZxhfDksQqJUOYrwv/7aokaXpEohdyVbQY/FX2Xb0XP2TjaNiTTQVY+QWqKcNxj
-          hJ4o37ZnuPvFHl1slggt3UjxmT9CjwMULaXv0R8wESaHSXvPuOlLJ9Weg5UKWIgOFSoq
-          cfoZWbIgE8O1b+PIeplV8+bIE8mQyBqvFjlcTgXdkbN5a/yz2zqVNbV1aghxE8xKtNwf
-          sH7w==
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="FNUcYtVK"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-51c0a81d286so10525251cf.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Jul 2026 07:09:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783519752; cv=none;
+        d=google.com; s=arc-20260327;
+        b=SXBWlepsP19Ciz/sUwMqZy1DvtXMdONNRWPQngOinTtH3Y3kjEEPjHXKjqEdj43LXn
+         Ns2aGeM/bA5Y2ieVH4IHsrt4ZVbZoAWtI1iDoH7ubwKmhdQzAw82bnuYjt5Hew1rXefz
+         EdFtrZrAVqShVp86MOTOqkzMjJSXA1k8N3xOKpYWVT5o2e3UJ9qvIwGbYAydzErm3/XK
+         zH30+ls+FO8wUnDW/1sjzEyYcHDKN4om76Mf9x1ws7Juf5z1Y38gYLttM6Yl1InOOPag
+         AId9xkeJJ/wyc01ARbWezOfX+KbS31ZeMEFaix1ECmIXSQTAcs1koLNauig56Tr/PoW/
+         0mzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-         h=content-transfer-encoding:cc:to:subject:message-id:date:from
-          :in-reply-to:references:mime-version:dkim-signature;
-         bh=PXZNu0Za/OOMa318wr8xs0J+7OvkEgNoNQGLM6QdaVo=;
-         fh=fyjMTqX+gj0ZyWswys20/zMTrCaoNwLjPRpq3Px8mxU=;
-         b=ESfdN1OW3bleVI4Gb4DZEJXjfi2HVpThyFG05ss+YU4FXZdqDvhexssTVq4kpXLzf8
-          dngWULBc0F8fk957Qygnu5p6cquKYgU0pJV+FcXu6DeGADZRZHGd1/J36GDtEUGWpXa+
-          kn0tMBWqDwmJicc1Ukwikm5NYKgfIqfC3+Tz3ItIlC5BOwIxfLqQgejorOqsj5U/k/T/
-          j5XplBSXAT4DfAzExd7JNyOeFXa3LwlGb2hhJa6kvA8QeZDjeGIRlQKQWMy/HNaH51fS
-          cZWN7td44QRYL3CVCBleV+iOy+LAkYunsqv5cwcw99gwgMd94OfsaB45oKYqSApXYNWA
-          Gzmg==;
-         darn=vger.kernel.org
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=z+GhnGa9iy5ZTH9B//oC3EDENHUg5DrCxZ+5xNsaoQU=;
+        fh=y629vg7nqktb5q1GbZm7YhBki5oQ7Wu6i4Vb6/1bDzg=;
+        b=jOaOjVP7gKSdTogBezZr4FzzXGgURq6lh0kfaNhcRCD5RqWZ39neYVzCcDFt8UBN8p
+         t0g3Gj7q7Pi9BnBVnVM/imiAUPwjCL2SnR0RNA1AfvWqRPuz00QoQXsVY3Pg5QXdPbFl
+         yWYv5jhyvzyC2VgrF2VmtRZOwYxSwonO0Gg9JTdg5fE2xSDEpvuqcXKyjSMoNlWdcwmn
+         oTnnFv2sEOhvNFM/JICASeC20BLT0CaTClj4WrvDdBdYaHau6vX0z9W9LrxjubFe6Poq
+         pH6wCbC9w3l92PkDtJoqVqiSg0z+aSDlfR3xNMkkpBRSFX4urLgYUJjEtz5Wk9g+8Hz+
+         o7/Q==;
+        darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-         d=janestreet.com; s=google; t=1783519580; x=1784124380; darn=vger.kernel.org;
-         h=content-transfer-encoding:cc:to:subject:message-id:date:from
-          :in-reply-to:references:mime-version:from:to:cc:subject:date
-          :message-id:reply-to;
-         bh=PXZNu0Za/OOMa318wr8xs0J+7OvkEgNoNQGLM6QdaVo=;
-         b=lE8Z2gv7oj5Ovk3l/pFTmLrZRpu7sQE2mBQhJe7OcfbAg1B6TTeRF/zoF2s4ydpLxD
-          SB8oCZAtyz1M8fdaHpfyG5vADe3FuhNqQCXfqK9Bmwzij63hcrnEADZJtg8xsjlz6Em/
-          n8YnZSkFaj67oW1KJ9m8X7sptrgvwQB5igpf4=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=janestreet.com;
-  s=waixah; t=1783519582;
-  bh=PXZNu0Za/OOMa318wr8xs0J+7OvkEgNoNQGLM6QdaVo=;
-  h=References:In-Reply-To:From:Date:Subject:To:Cc;
-  b=R7F3XTsLVilWOG5j51JgnNa4E1RW7g7V5i5n+KyWK1lC+JwddXhuqDtExr13RgPjY
-  2djTLbL1jIhcrloBUo1SSKYFs9YyZrVjr9wWmXR+51u7CnOQpcUcFliA5vRZkhKfri
-  kFmvPx3nKp30YQjYohLinCkG6uM54x6wfmTu+2+Q4gPddPeB/R+3iMfRd+2MSIhwN/
-  Ja3Tu6WFm0ZB7Ii/4bS16cp0NopsOIGva81VaZS11GdjAiWYT02BJA39W8yYk661Fx
-  cJovsgdpkQvGiWJyuFnLc5vdGdO+lT32pVMiCfCPZnQQQKU4h23TrafbSzeeyUUsBn
-  otr1wHt6V6Kyw==
+        d=szeredi.hu; s=google; t=1783519752; x=1784124552; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=z+GhnGa9iy5ZTH9B//oC3EDENHUg5DrCxZ+5xNsaoQU=;
+        b=FNUcYtVK52u1sDCR1S5JRV19Zz+RV7UddNqE4lIUbniy0GD82UMuDDrqY1iYKLl/Bf
+         mmdpWdY97k+Mubny93gSbC9ykroLB6Z7TYUfyDERuj/JJrhpUalTjuD8K9aMhjh/4tjR
+         2TMi5OAc5sIP62mGbcTLwSNLnGHT8g6Aqm7/8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-         d=1e100.net; s=20251104; t=1783519580; x=1784124380;
-         h=content-transfer-encoding:cc:to:subject:message-id:date:from
-          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-          :to:cc:subject:date:message-id:reply-to;
-         bh=PXZNu0Za/OOMa318wr8xs0J+7OvkEgNoNQGLM6QdaVo=;
-         b=NvuHbuTVyuWpNAb7BSuWF2wJnR2GVtNQZ17q78hJokGp0oEoCPgHIeHmeUOn4ggad+
-          L/XdppwSg81yiXcIvLtSGR9qvkcaHfoB4gsrS4SEDxB0jFjdsHHCk7+lgSwXTE2njbNg
-          e+1CBr2Y3iMg+Hr4XDErWL54ax0y/86A7D8rjCeVGyJv7YaM3zQON248gu0CegfrlZbq
-          kjXsAF4Ef85z13CZ/211oDgyPohooqbyWITYkVF1JwpqEGD8qCzI7QGnYe0kt5SD8qDx
-          WuXp4+B9M3FkM0NvWZ//lb/bFxbEMsoIkt5l+2/i0lybFxTKYWOlscqy+GXS8sn73X1t
-          GMdQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqaCXnUCnOZhtl7zQKfcav5aJshqnyUBDBffaIB0sSCy1LbemEl2DbBD9VGuyPcBWTf+G5GN3FwWWHtfsYZ@vger.kernel.org
-X-Gm-Message-State: AOJu0YwyodzLNXp6a5FlPVwCuxD6MNY2+IA/Dd41t7aa9L8Uf6Bb01XS
- 	Xtk+Ef/Mq8MFXJMoUwZ9AswsqweaFlW7+xBOT6cTzYbZLsTAjvigU29goUsozqym5PXnorhEk7W
- 	WlR1tQutrr+AEksosno8B+oTsmCv3kMHBaaFR9dZ2K/52y0VmMHxjUvUVP36lSKyjGdJP1iyhG0
- 	EFWJwSj9B34kxJ0xW+VHcXTZ3EoH+xH6cRtkW6wZDs
-X-Gm-Gg: AfdE7ck1qRFqGphWpAhGkzP0xrykMlgtc+OXQbuhveAI/c3KzULLTT8Q3jdEuJnByuz
- 	9I2MjKgfxCiCRECc74e+qDeOb/4q8dAdbzUR65lQsLPgaDXuOd2Gk8Ou3dYWVb5D2gRQdT6FLoQ
- 	RDEc1EZxsu6zvki/+H2ArE3GfE2qZLuXNCaN8h2UQVf92mxoDjfAUFTnbWMCacf572Mqo=
-X-Received: by 2002:a05:6512:340b:b0:5b0:11cc:2284 with SMTP id 2adb3069b0e04-5b011cc2571mr701633e87.21.1783519580564;
-         Wed, 08 Jul 2026 07:06:20 -0700 (PDT)
-X-Received: by 2002:a05:6512:340b:b0:5b0:11cc:2284 with SMTP id
-  2adb3069b0e04-5b011cc2571mr701620e87.21.1783519580206; Wed, 08 Jul 2026
-  07:06:20 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783519752; x=1784124552;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z+GhnGa9iy5ZTH9B//oC3EDENHUg5DrCxZ+5xNsaoQU=;
+        b=HlKeTdtfnD5s3ESK7zTDt5i99cm6Qv+AZ+iT0nZzVQLXwA/BjtTODSk5yhG8cSN7Ms
+         vijc70BP5aPl/ySL51ZDwQ17pqRCE9EpvWSliPADyZKIkExzX2d+9vCOdUWxMs9/vaXE
+         /HiHLkmjfA7wikCoJy5mKuSCGUJBk7yIP9/JJMxlD1PKpehtK9bDE0vP13J+K8ZnpQp5
+         yfGCnsO52w8Y45wrHU1VyqlJeaghL1eoRy9AW/Jkg6BpZXGNTdLnqFECtuyk2KoSylHE
+         WXSsvykLxgGrzUIV154dqM1NRTp7BB56GzPxAx6dwzMMz5Egd/hikavpIQH/AOKEgYOG
+         wUPg==
+X-Forwarded-Encrypted: i=1; AHgh+Ro73cgOjosgUdi4nMse15TMq89wbYnZrnlM/cS3kMIPiuLVAzkso7CbrbMFjyz18Abtlx+ztz8mqgryNsfU@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3F/860i8CLKFNFeghIuq4fQLjoqDu8iTeRypk7W0KNvid2Af3
+	FTcMWFS73D2UoxtpvNbgZnOQp+YM5Q0jusoW6o6ml4VQ31+3ntJAgMGwsoPMDJwpvQAgxbz5e+S
+	ijjurBPQVRin8m82TdLFCgFi6guVKWRdK92F7QTGtZA==
+X-Gm-Gg: AfdE7cmsmQq6e9Cowh/9SPgWGPZu9xFLlZXz4HN05Qwx32ikWHRcsRZ2f9c8o+36lea
+	q/2Y1BpIKcgPePkdMOdSRk6TX/1UfiJ4v7ir744NMxH8UITM/66LXjGfV3SIm1ovEm92mKzk+OR
+	HRDHom5q17vCtKxkQGA4rzTFcf8WHMedbt/flFm7j67rfWntZ20oPXPBQY1liouU76N/KjdynhB
+	o640jwtjr1KGGqE3XrmF0BXiy2RITZhm6fGk5bFyqbNt89SNUuk+OTIaaWQOetXMoPlik+J7TtI
+	5SH2MGhUWmcWqNEeEtucy112gLbJgjWE/+baUA==
+X-Received: by 2002:a05:622a:3c9:b0:51c:f8f:13b with SMTP id
+ d75a77b69052e-51c7a7516b0mr72139411cf.23.1783519747404; Wed, 08 Jul 2026
+ 07:09:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260702165409.164568-1-pfalcato@suse.de> <akhYu66GmjyM8l6a@casper.infradead.org>
-In-Reply-To: <akhYu66GmjyM8l6a@casper.infradead.org>
-From: Gregg Leventhal <gleventhal@janestreet.com>
-Date: Wed, 8 Jul 2026 10:05:43 -0400
-X-Gm-Features: AVVi8CeMh2pp3lqKg47ZNV-_AiaErtleKM17gc2gMeTGtO_5NCmQTr7BfEwc8Wc
-Message-ID: <CAFN_u7HkJry=iFLbZ2vjzv5C=HnrptHfFJBLOqRq2m4LyhqV_w@mail.gmail.com>
-Subject: Re: [PATCH stable] mm/khugepaged: write all dirty file folios when collapsing
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Pedro Falcato <pfalcato@suse.de>, Andrew Morton <akpm@linux-foundation.org>, 
- 	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- 	Baolin Wang <baolin.wang@linux.alibaba.com>, "Liam R. Howlett" <liam@infradead.org>, 
- 	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
- 	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, linux-mm@kvack.org, 
- 	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- 	stable@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
- 	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Song Liu <song@kernel.org>, 
- 	Eric Hagberg <ehagberg@janestreet.com>, Zi Yan <ziy@nvidia.com>
+References: <20260708095831.3381978-1-gscrivan@redhat.com> <CAJfpegsJON=1_84PCGMjASYPFL=Wqsz7dnTAbO3Tdz5DfRQU+g@mail.gmail.com>
+ <878q7l8y4y.fsf@redhat.com>
+In-Reply-To: <878q7l8y4y.fsf@redhat.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 8 Jul 2026 16:08:56 +0200
+X-Gm-Features: AVVi8Cct3OYBryqlcikbWlWdxAzz_Gr4yKGpmk-iVfq-KrBGvr4PWPMuDYrvjcY
+Message-ID: <CAJfpegvQ06=2E0V_ADgxwmo7e5weTfOMozmBB-QVNLLWYAm8WQ@mail.gmail.com>
+Subject: Re: [PATCH] ovl: add ioctls to retrieve layer file descriptors
+To: Giuseppe Scrivano <gscrivan@redhat.com>
+Cc: linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi there, just checking on the next steps here.
+On Wed, 8 Jul 2026 at 14:27, Giuseppe Scrivano <gscrivan@redhat.com> wrote:
 
-@Pedro Falcato Are you currently working on this patch (mentioned
-above, re: holding invalidate lock), or are we perhaps stalled on
-something?
+> is there any existing user of such a mechanism?  I don't see any mount
+> specific info under /proc or /sys.
 
-Thanks!
+Not yet, but I think it would be good to have one.  It's definitely a
+bigger bite than adding an ioctl(), though.
 
-On Fri, Jul 3, 2026 at 8:50=E2=80=AFPM Matthew Wilcox <willy@infradead.org>=
- wrote:
->
-> On Thu, Jul 02, 2026 at 05:54:09PM +0100, Pedro Falcato wrote:
-> > +++ b/mm/khugepaged.c
-> > @@ -2094,32 +2094,43 @@ static enum scan_result collapse_file(struct mm=
-_struct *mm, unsigned long addr,
-> >               goto xa_unlocked;
-> >       }
+> >> OVL_IOC_GET_LAYERS_INFO: copy a struct ovl_layers_info to userspace
+> >>                         with numlower, numlowerdata, and has_upper.
 > >
-> > -     if (!is_shmem) {
-> > +xa_locked:
-> > +     xas_unlock_irq(&xas);
-> > +xa_unlocked:
+> > Isn't this info obtainable via statmount(2) already?  If not, it
+> > should be there, instead of a specialized ioctl.
 >
-> Hmm.  Before this patch, we increment nr_thps while holding the i_pages
-> lock.  Now we aren't holding it, but we are holding the invalidate lock.
-> Can you put something in the commit message that notes this change and
-> argues that it's totally fine actually?
->
-> You were good enough to not point out that my suggestion of calling
-> write_and_wait in the existing !is_shmem condition would result in
-> sleeping with a spinlock held.  Silly me ;-)
->
+
+> no that is not exposed by statmount
+
+I mean, you should be able to get that info by counting the lowerdir+,
+datadir+ and upperdir options, no?
+
+Thanks,
+Miklos
