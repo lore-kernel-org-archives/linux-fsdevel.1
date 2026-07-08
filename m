@@ -1,122 +1,194 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ADE533E360
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 15:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783524302; cv=pass; b=qJ4xQousSuitCMfM1n/aiPPwHxav39Ch+DK969UWroU4ZcfdnQcjD2YQfc/RjRqCrTA4+8cueqwUAen6IkWiZTMveqBMKzkAukDMCgl+Dym9XCXvVKlfLs08CKvxhq/9yILrHtaQJcbP+SUAXvCUHNleZFVIfQThjfsHGSaXvc8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783524302; c=relaxed/simple;
-	bh=F+RZasg/xR/5J+KDjHvYV2UkgEMCQBTFv6+LQc9hMbc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cz6S7gqmDwF0AvYeXeeVEiBOnMWAtXmt3O9qL2LH5gAqkakbf1AfmrZenAFCvZolnmmqIBXMPuNyXOfvH/+mXCSwIv4uUifbRcX8OF7bnBJ2wjRtYLmsmDMwLG9pXmY4+D6j2zc9WWIXAGYhKP5DEqfz37NuyLFbieH9cBdVlMA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fEBhZOnZ; arc=pass smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AED53B813A
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 15:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783524392; cv=none; b=Hc8uMqop11JNdvMyYoJ82xWX5Mou9Ri/n8j1UAD5E9U7yEZSBqpDu+vzLvkggs5Iuo4UV1tsU0HFRvKIJzn645zg41/Rlj5h0VgnZ9FqsIYZi1iFodLVeVnFLMjFbmm/sIOQ8UmJMpYdYRDajW0EW9tLrBLyL6ABBcqYkIUJ8mI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783524392; c=relaxed/simple;
+	bh=/O9WSHyOMk5miS3ARsyouSLfQOQaim2uDnbGOvBmcdg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s65zcI1TficpTYk4LmQNUpnOhLkfUpLlddmWqM0BcAE2oaV154G9D5GZU6WEf2372KVTchFHFY4MQj/wfIzqNsPW8H2XvZX2VPUb+6SN2K/ZG610SlEwR/9SYOwrauT3rHOcZAs8pvrwr5jd5DQr1y5+NLgpTUTaaFbkP9IUfnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=lF2+iYcA; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=S/cxUuJc; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=lF2+iYcA; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=S/cxUuJc; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fEBhZOnZ"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c126fe7d0f3so104114866b.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Jul 2026 08:25:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783524299; cv=none;
-        d=google.com; s=arc-20260327;
-        b=hKm84aYmyBm8ueducISOiUEIvqLqTID+nn+Xzol1LubkY3euWWHQm0gLI/jbHRH78L
-         iNrcOTZ+b4X5+Cw5DM3p+pyFLiqyZfNbv6fVRxoxrpHE96ioIcNe94QMAspb7BkL1TXp
-         g3gs6AHB9Mdt/Xjxg5NhaI19N4a4J/zhRiO6/Jnu/mvabducxLmtbyb//iCsr8LenwLk
-         YvDYStmkHJ90SRsYZ2U/rbETr1yFcg1mA3+yTzOtZddZtMbL3M7DawqfoCLySNOULbXD
-         9w4zgEZCUZ+1ANq5A12TwxXydlnWfv2XXL1v5o93bg245qNKqLYv4DqeZa7LiKESd08p
-         WX3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=F+RZasg/xR/5J+KDjHvYV2UkgEMCQBTFv6+LQc9hMbc=;
-        fh=sZHAdi5k5TBTIymBrgIrciSfWwl0lJmfNdrUaMZw7G4=;
-        b=j7gouv5+qvBFH5uL/pCmIZZwPJaOORYm/SpubfEw9ubGjWSRgqDwYuRIwKMEfi/NZM
-         B8fzd/AkvZBaj7nFII7IyoTtsth8LaqIbZRzu11v2VpW+zVWr1kiArPE8pVOrT5L0v6S
-         z9iNrMfLYD+Z33deXPbugni2NIwjtvFH30d/+sjHOaDdW0RTVoYbwlrYNrn0P8LKqBrj
-         zgkMzNmBWW66FWqn1FbqTL7S0UhCMoAv6sdEZ0wII6NzJFzdoveijskxIkss2hygY+9v
-         ZdiAgeOpoZfuWoHT5NAL+WfdzyA+5Ytqky+wJGt23TO/RcIojwtxzGYqJAu0LfCB193u
-         mebQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783524299; x=1784129099; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=F+RZasg/xR/5J+KDjHvYV2UkgEMCQBTFv6+LQc9hMbc=;
-        b=fEBhZOnZ9Qiv/UilA9ojsaeiQYkrZ3iQH+cpcS1oRsbhqrKsYlwYWDhpaOjlD5DUBO
-         Be+sBwal48A2NPlj+BGqzYFnRUdsBXBlv6wqvi39Uc22kxD+fyupI2sF7PC9BAVQsPsD
-         TSWX3ptK9mB94dAMNPgapKRwNUdVifOlCTYl7cFgZXWmxltsevKEuPkAED/1vBhsu85R
-         DGRTeCQiGvzJHc9nOd7fVJfcIEJz+8DTbatRQ3wHnHdpa0/oLWDxQNNwY9gWwk1NQCv8
-         uzc+W6EEpi/Z6cIxxW6+lL37DLVHgsGHGu0qN9YcArnllEnCH44dRJdRbOc46bI2vYtY
-         yewg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783524299; x=1784129099;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=F+RZasg/xR/5J+KDjHvYV2UkgEMCQBTFv6+LQc9hMbc=;
-        b=R0wp8KS9QVjXyxiPWbUJ/CTMk8Abal6dXSo9hD6V9clcA6TGSPNRiKzc/U8/eUeTok
-         dQygTsx2RKlQBVnEIoVtDHc5mn+FLxHeTGoqANLc5dBWgfZoO8egpiZGJXJF9gAZnsZR
-         F8zrjkUFoXvWahgkc0Q3HR+tLindy36DqaUGPpNAQB5u5cCq/6j8Zgq1fOJ3L5bzVxkR
-         25PkScuDnKTFFyLdNvAPIHXLc/5WDzPtD4nzd9PQ0lEEa+jILecJdHQyMyz6mir2fUKS
-         GZJH93Ps4y0h0UFwz5YoHSNe0+9tyKm2UN5O4+DgDN9Nz66CmLKGtxXnTnJ2PkaeELNT
-         A8eg==
-X-Forwarded-Encrypted: i=1; AHgh+RrCU/XQ5lLFpWMj/mFKnP7G99UTu+Iev+kDD6Juv/IqHUpbMHR6H0ev0byhqov1DFUgW7lg6u85G4O74TPI@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzl50K/g9DHBGSZLF1J/szjqaIBRa2bMcan8jdSDPJaP1XNVFj7
-	QzKhzqi31tiBaMAL0OLjFiMIknlc+92NY6iZaVzfw38CzCJj1zu/V+VnX/hMablwP+5gmO1mgbj
-	EKWVkJYxxxAlwWZACpRXcNir5NneKfyM=
-X-Gm-Gg: AfdE7cmisf6ye6qeZs4qAQ/H0/Mv2nNG3TPLkp6hIaMdYwgtZKLhoDvYEg/n1rmYydY
-	+n1hIRgKVV4EkXN4KLGdeyMewI7sE6Hp8y9HudmK2AYt2SDXU9uPkYi8JjOYrdyVBs/pIMx2nzS
-	Ey+niHYvXdw+IULNfjD1qgD8EdTpHFz6l1s0JMXtgbZUiGy9hxF61wulVZZ7j7Sf58w9aCiWfHu
-	TAmbRQdxoanwTGCf4r4Ex11a9q+6eYl/mhN+/v3Yt3zTrFeBVeoQsTMzQKkA9uWpLx41agubYfz
-	fsYmXf1ZYwas4DmeBC6+1OrD7oj7
-X-Received: by 2002:a17:907:6088:b0:baa:1d9:66ff with SMTP id
- a640c23a62f3a-c15ce05ca06mr142606466b.20.1783524299404; Wed, 08 Jul 2026
- 08:24:59 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="lF2+iYcA";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="S/cxUuJc";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="lF2+iYcA";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="S/cxUuJc"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6EDD2758C9;
+	Wed,  8 Jul 2026 15:26:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1783524389; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=j7w8809JcR4Hp53COwFxsh4x5LkRdnIWSgD5jjeN01k=;
+	b=lF2+iYcAj1kZNF+r5DndXd4EZyZ0u4OHn/JOjZX3uC/MneyI1mEgWqBDc1ktrj/BpN/c3z
+	1zzYgdiefm8Pdo0u23Nt5QsJoNoz4C8vjKfV6q6A2lBdYMkWztu3n/q3x+SDDB9Y12N7NP
+	DRBv+zWEAVlyFSob+MY5gNFEgEIKt7Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1783524389;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=j7w8809JcR4Hp53COwFxsh4x5LkRdnIWSgD5jjeN01k=;
+	b=S/cxUuJc56rDBZ6q73J9v6yCgCkcR34In02q0/hg/BoESwlknoxAHdxmJHDEVSDzaGNK9T
+	gdr7CzuT1Cl5VWBg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=lF2+iYcA;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="S/cxUuJc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1783524389; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=j7w8809JcR4Hp53COwFxsh4x5LkRdnIWSgD5jjeN01k=;
+	b=lF2+iYcAj1kZNF+r5DndXd4EZyZ0u4OHn/JOjZX3uC/MneyI1mEgWqBDc1ktrj/BpN/c3z
+	1zzYgdiefm8Pdo0u23Nt5QsJoNoz4C8vjKfV6q6A2lBdYMkWztu3n/q3x+SDDB9Y12N7NP
+	DRBv+zWEAVlyFSob+MY5gNFEgEIKt7Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1783524389;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=j7w8809JcR4Hp53COwFxsh4x5LkRdnIWSgD5jjeN01k=;
+	b=S/cxUuJc56rDBZ6q73J9v6yCgCkcR34In02q0/hg/BoESwlknoxAHdxmJHDEVSDzaGNK9T
+	gdr7CzuT1Cl5VWBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 57749779AE;
+	Wed,  8 Jul 2026 15:26:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 7wVWFSVsTmqVOQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 08 Jul 2026 15:26:29 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id DAFF7A12D6; Wed, 08 Jul 2026 17:26:20 +0200 (CEST)
+Date: Wed, 8 Jul 2026 17:26:20 +0200
+From: Jan Kara <jack@suse.cz>
+To: Zhang Yi <yi.zhang@huawei.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca, 
+	libaokun@linux.alibaba.com, jack@suse.cz, ojaswin@linux.ibm.com, ritesh.list@gmail.com, 
+	yi.zhang@huaweicloud.com, yizhang089@gmail.com, chengzhihao1@huawei.com, 
+	yangerkun@huawei.com, yukuai@fnnas.com
+Subject: Re: [PATCH v2 2/6] ext4: clarify return semantics of
+ ext4_load_tail_bh()
+Message-ID: <fn6frodirjc2zvd3sl5zwh4h7q5dfbbha2le3eylq2sne4k7fm@upemtxsqhsz3>
+References: <20260707021338.1182268-1-yi.zhang@huawei.com>
+ <20260707021338.1182268-3-yi.zhang@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260707-b4-pipe-unification-v2-0-eb52bddeeefd@debian.org>
- <CAGudoHFGFJZ_j-osEKnLvGYGai+SKVAJKy8B_PChWms7SN7xoA@mail.gmail.com>
- <ak4rSEAwV-RoG1MO@gmail.com> <rac56njg4yorvhc5oyrme6bt7ej2vs64umbqkz2np32wpjbcjj@wohli2ntub4s>
- <ak5nXRnSSXfA2B75@gmail.com>
-In-Reply-To: <ak5nXRnSSXfA2B75@gmail.com>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Wed, 8 Jul 2026 17:24:47 +0200
-X-Gm-Features: AVVi8CdwQx-NRnrBfyPwbTObTl95LfP59afLotzE-t0ShWh1g1QNhkDv3vlnQS4
-Message-ID: <CAGudoHGAg2s37LeJzZTKTyQS4fARSdipcis-76b25x7XnWoZiw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] fs/pipe: unify the page pools into a single
- per-pipe pool
-To: Breno Leitao <leitao@debian.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, oleg@redhat.com, 
-	josh@joshtriplett.org, Jan Kara <jack@suse.cz>, jlayton@kernel.org, axboe@kernel.dk, 
-	shakeel.butt@linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260707021338.1182268-3-yi.zhang@huawei.com>
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	RCVD_TLS_LAST(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,mit.edu,dilger.ca,linux.alibaba.com,suse.cz,linux.ibm.com,gmail.com,huaweicloud.com,huawei.com,fnnas.com];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[huawei.com:email,suse.cz:email,suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 6EDD2758C9
+X-Spam-Score: -2.51
 
-On Wed, Jul 8, 2026 at 5:11=E2=80=AFPM Breno Leitao <leitao@debian.org> wro=
-te:
-> That said, your approach is better than what I had, and I would like to
-> integrate it to this patch set. Os it OK if I give a Co-developed-with:
-> tag?
+On Tue 07-07-26 10:13:34, Zhang Yi wrote:
+> ext4_load_tail_bh() returns NULL for both holes and clean unwritten
+> buffers, but the conditions that lead to this are not obvious from the
+> code alone. Document this behavior to clarify the return value, so that
+> readers do not mistakenly assume that only holes result in a NULL
+> return.
+> 
+> Also update the inline comment following the ext4_get_block() call to
+> reflect this, and note that a lookup-only get_block (without
+> EXT4_GET_BLOCKS_CREATE) never sets BH_Mapped for clean unwritten
+> extents, which is why a clean unwritten bh falls through to the
+> "nothing to do" path.
+> 
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 
-imo this is too trivial compared to the entirety of the patchset to
-warrant attribution. Just take it.
+Looks good. Feel free to add:
 
-To be clear, I just now verified avoidance of the extra trip resolved
-the regression for me so I have no objections to the patchset.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-For completeness I note I failed to remove the lock acquire in
-anon_pipe_trim_pool_and_unlock, but I presume you noticed (at worst
-while testing).
+								Honza
 
-One suggestion I have is to post the entire thing as one patch as I
-don't think the split here buys anything, but I'm not going to insist
-one way or the other.
+> ---
+>  fs/ext4/inode.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+> index c2c2d6ac7f3d..45a7e6cdb2a1 100644
+> --- a/fs/ext4/inode.c
+> +++ b/fs/ext4/inode.c
+> @@ -4026,6 +4026,10 @@ void ext4_set_aops(struct inode *inode)
+>   * because it might have data in pagecache (eg, if called from ext4_zero_range,
+>   * ext4_punch_hole, etc) which needs to be properly zeroed out. Otherwise a
+>   * racing writeback can come later and flush the stale pagecache to disk.
+> + *
+> + * Return the loaded bh if it actually needs zeroing - in written, dirty
+> + * unwritten, or delalloc state. Return NULL if it's clean (i.e., a hole or
+> + * a clean unwritten block).
+>   */
+>  static struct buffer_head *ext4_load_tail_bh(struct inode *inode, loff_t from)
+>  {
+> @@ -4065,7 +4069,12 @@ static struct buffer_head *ext4_load_tail_bh(struct inode *inode, loff_t from)
+>  	if (!buffer_mapped(bh)) {
+>  		BUFFER_TRACE(bh, "unmapped");
+>  		ext4_get_block(inode, iblock, bh, 0);
+> -		/* unmapped? It's a hole - nothing to do */
+> +		/*
+> +		 * It's a hole or a clean unwritten block - nothing to do.
+> +		 * Note that a lookup-only get_block (without
+> +		 * EXT4_GET_BLOCKS_CREATE) never sets BH_Mapped for clean
+> +		 * unwritten extents.
+> +		 */
+>  		if (!buffer_mapped(bh)) {
+>  			BUFFER_TRACE(bh, "still unmapped");
+>  			goto unlock;
+> -- 
+> 2.52.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
