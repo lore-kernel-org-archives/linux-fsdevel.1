@@ -1,95 +1,144 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5FF3B71A0
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 14:32:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F5E34D3B9
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 14:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783521155; cv=none; b=bt5b1krPMX1khcyCb8xll/kMy/oM4LFpyrFhVRvuJsW4iN5wulnRKfxMpxjjVoVom024xpf5SIetJ5z7khi5nPdIy3m2cqGDoxPRxm79B44xHTy/b4LZfXPxQMoRM8gvR/fusV3PRKSiQJ7nxi3SlcW64CtQu1RFMi0n86LZP7s=
+	t=1783521615; cv=none; b=VRWFAAO3qpIBTbijhwHkc+1n+b/ain3mGGfE/JiKukM7hKkKz1DuSA1T6fMxDcq8leuZE8PLYBYhb4T/3yr3ltIbsPJWAVzraxc2w+x+LZks/91kwKDXfvKe0pEWhrWcvq0KT9sDrzgNtiZtYXCz1D8Ki8hCo5LUVNpOOIx9X0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783521155; c=relaxed/simple;
-	bh=LOeEllHoi+TWL4E3SItVJM1jMccA7PR2St6wIBOhIZ8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=fLvE+m+DATZDCYh26mTpwfFMUpWWknNciKOQWsgFqi9VewDM4AHwCwHvcgZ8v/fHKXqvnWjr0YtfM936LhBpx9lDeK88EMLNRodO7eA+vrTP6HfdgwZsmIUQugZ57zWDooMIAQj6ErTNUZOHOm1IqgRCgUZHUiSmj1emOPDTdCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IQaCwDvN; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1783521615; c=relaxed/simple;
+	bh=yuUVo46TPY5851lOHKupGp3FOepxlvwfEUBm91MEh4Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K3LOdpUHp5MRqcFKh6Ol4K3Xlu6d/TUdh1EF34YgiN8cTGsukQ9tRYrFo2cSfJ9IMuIhUXYfxkcHumeXBTbzAjXZB0YbisBdxXvIw2cfXuiKfr+APjcVHfn5qdGRqrNpi1gMilBU5V3l2lxXfosYx8KQggolLcDg4gY93z7MnMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=x6mCiXdN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8N9SpLHj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=x6mCiXdN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8N9SpLHj; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IQaCwDvN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783521152;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+JLlRmFoV/9EpXUUB3MyVbYbqU3NmpLcJQ510IuP4ZY=;
-	b=IQaCwDvN1CWMqS67Se9SKTAhhqCa4NQS4ZuUdWvRpGWzgR4BWH1hEwCY2eZ9bnEprV7db1
-	MhcPX2PeQe9XJDYI9NZroYVX56MVkjtIzShtrOtXv6IvU4xJWQLEGINlbdzxAEd1UiqaK8
-	A5G74aMEtr1zEluKDuCnJPJvMB9Q6Ag=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-311-EmUh0cirPC-88CyMqHzsXA-1; Wed,
- 08 Jul 2026 10:32:28 -0400
-X-MC-Unique: EmUh0cirPC-88CyMqHzsXA-1
-X-Mimecast-MFC-AGG-ID: EmUh0cirPC-88CyMqHzsXA_1783521147
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="x6mCiXdN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8N9SpLHj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="x6mCiXdN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8N9SpLHj"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7498D18EC1DA;
-	Wed,  8 Jul 2026 14:31:57 +0000 (UTC)
-Received: from localhost (unknown [10.44.33.4])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3443E1955D86;
-	Wed,  8 Jul 2026 14:31:55 +0000 (UTC)
-From: Giuseppe Scrivano <gscrivan@redhat.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-unionfs@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  linux-api@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>
-Subject: Re: [PATCH] ovl: add ioctls to retrieve layer file descriptors
-In-Reply-To: <CAJfpegvQ06=2E0V_ADgxwmo7e5weTfOMozmBB-QVNLLWYAm8WQ@mail.gmail.com>
-	(Miklos Szeredi's message of "Wed, 8 Jul 2026 16:08:56 +0200")
-References: <20260708095831.3381978-1-gscrivan@redhat.com>
-	<CAJfpegsJON=1_84PCGMjASYPFL=Wqsz7dnTAbO3Tdz5DfRQU+g@mail.gmail.com>
-	<878q7l8y4y.fsf@redhat.com>
-	<CAJfpegvQ06=2E0V_ADgxwmo7e5weTfOMozmBB-QVNLLWYAm8WQ@mail.gmail.com>
-Date: Wed, 08 Jul 2026 16:31:54 +0200
-Message-ID: <87wlv57dt1.fsf@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0A2157590D;
+	Wed,  8 Jul 2026 14:40:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783521612; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IT6R9JdS1qWXaSJz8T2OAGJP2kCrD5Fj7NESw4gwF7U=;
+	b=x6mCiXdNKicWFg2CWsB0PFahRQukGvEJqVl0pHyQO8vxsIq4rWrrJ0uTtGc3978stNW/tD
+	QBGGLFNiFo+QM2KbLpRE2FjKeyWqKBIiXRa1qlnbqSDjGv7/YoP9m0ooYH8RZEu4nSIndW
+	x6fDIgJoc+sEt7PKUCOrW1uQaZLASew=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783521612;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IT6R9JdS1qWXaSJz8T2OAGJP2kCrD5Fj7NESw4gwF7U=;
+	b=8N9SpLHjhnDgpzT3KIggZCKa66Eeff4e1lNIH0LMvT/rVyhaaL6FBbW68MUOHw6ju+8Su6
+	JMfdF9zbYgVyJeDQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=x6mCiXdN;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=8N9SpLHj
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783521612; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IT6R9JdS1qWXaSJz8T2OAGJP2kCrD5Fj7NESw4gwF7U=;
+	b=x6mCiXdNKicWFg2CWsB0PFahRQukGvEJqVl0pHyQO8vxsIq4rWrrJ0uTtGc3978stNW/tD
+	QBGGLFNiFo+QM2KbLpRE2FjKeyWqKBIiXRa1qlnbqSDjGv7/YoP9m0ooYH8RZEu4nSIndW
+	x6fDIgJoc+sEt7PKUCOrW1uQaZLASew=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783521612;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IT6R9JdS1qWXaSJz8T2OAGJP2kCrD5Fj7NESw4gwF7U=;
+	b=8N9SpLHjhnDgpzT3KIggZCKa66Eeff4e1lNIH0LMvT/rVyhaaL6FBbW68MUOHw6ju+8Su6
+	JMfdF9zbYgVyJeDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A099D779AE;
+	Wed,  8 Jul 2026 14:40:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 9OPdI0phTmqNDAAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Wed, 08 Jul 2026 14:40:10 +0000
+Date: Wed, 8 Jul 2026 15:40:08 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Gregg Leventhal <gleventhal@janestreet.com>
+Cc: Matthew Wilcox <willy@infradead.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Nico Pache <npache@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Song Liu <song@kernel.org>, 
+	Eric Hagberg <ehagberg@janestreet.com>, Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH stable] mm/khugepaged: write all dirty file folios when
+ collapsing
+Message-ID: <ak5g9h3FuVn3bZ1G@pedro-suse>
+References: <20260702165409.164568-1-pfalcato@suse.de>
+ <akhYu66GmjyM8l6a@casper.infradead.org>
+ <CAFN_u7HkJry=iFLbZ2vjzv5C=HnrptHfFJBLOqRq2m4LyhqV_w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFN_u7HkJry=iFLbZ2vjzv5C=HnrptHfFJBLOqRq2m4LyhqV_w@mail.gmail.com>
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 0A2157590D
+X-Spam-Score: -4.01
 
-Miklos Szeredi <miklos@szeredi.hu> writes:
+On Wed, Jul 08, 2026 at 10:05:43AM -0400, Gregg Leventhal wrote:
+> Hi there, just checking on the next steps here.
+> 
+> @Pedro Falcato Are you currently working on this patch (mentioned
+> above, re: holding invalidate lock), or are we perhaps stalled on
+> something?
 
-> On Wed, 8 Jul 2026 at 14:27, Giuseppe Scrivano <gscrivan@redhat.com> wrote:
->
->> is there any existing user of such a mechanism?  I don't see any mount
->> specific info under /proc or /sys.
->
-> Not yet, but I think it would be good to have one.  It's definitely a
-> bigger bite than adding an ioctl(), though.
->
->> >> OVL_IOC_GET_LAYERS_INFO: copy a struct ovl_layers_info to userspace
->> >>                         with numlower, numlowerdata, and has_upper.
->> >
->> > Isn't this info obtainable via statmount(2) already?  If not, it
->> > should be there, instead of a specialized ioctl.
->>
->
->> no that is not exposed by statmount
->
-> I mean, you should be able to get that info by counting the lowerdir+,
-> datadir+ and upperdir options, no?
+I was waiting for some actual tags from people, but given the comments and
+no tags, I'll respin a v2 before sending to Greg KH.
 
-Amir suggested to add that functionality when I've asked for some
-feedback before sending the patch here.  I am fine to drop it if this is
-the consensus although I see its utility from user space.
-
-Regards,
-Giuseppe
-
+-- 
+Pedro
