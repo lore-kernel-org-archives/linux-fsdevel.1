@@ -1,232 +1,199 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1269B3F12E1
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 15:42:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40423370D7D
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 15:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783525377; cv=none; b=mNNYKKgNTfVA0n7iB9Sp4BggfVhhQzRE1cO2v0BkvKxYqqt8SOGPeuU9aTz3kmuWEsRVca1Zufk4GptgMsajZGrbk6rkWddCvZD0aBJXZelUUuQlQE9mUZ4vRGZ1SnwFdGoj7QQHbmyQTMrASkdkTa8Ol4DqIGtL9pYcvz0W7bw=
+	t=1783525566; cv=none; b=nvJZLtVSq0ym+RS8LYimeh3JeF5LpsuUYvX5rlF7U3/xMW+Z6Uihc1gZQmvI3U1I98/P2ftQudgfOfQR9R7lxHwiSzAykxqee0STgU4kQE+v9N5kfioGNg7zgbuOgomy4x7JSzuEGmDL9KMNNsmJ1vhUIMEh/a87upzg5Eb3tWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783525377; c=relaxed/simple;
-	bh=DY5GW2q2uGqEgN9lC0IhzkOQSrAEyJas1t4ul7/stO0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V3ruchryo0ppUtVQF5aFINcDzVroea5OuuPqN2y58gHxEAtyMJcGxUWG+hkYqKOFnI92P2pnKrs+C+UrX0PIy06GlwtChXQnuXXDQy0NEOhzJCv4vgHqdxD2U0R3gQIy/qiSEO4L7yGE/Ya2ZJDxrUlg03hpu3qVBN0hPpjDFqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=z5gFNlUZ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uZxHjsXP; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=z5gFNlUZ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uZxHjsXP; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1783525566; c=relaxed/simple;
+	bh=9vHkvbT9qGw6XnwnbsV8mVwKGJQJ6h+q3CIzqn5nO9A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cmHn0dePec10n7Kqimh/zjTLUylU2vHPitM3V1cJ1CKIjl2RJRMkqAYLSUHZ3nw9seW30gd1dCME82rs4fMsPe7mZr7rdZOqvXBPhlQcM/iOHCwWM2QRgH6QhuNCr1BWJvyMr9Hd6QPTLpCbn99Kt9JXSNFo6V/Z64wxrxPY0Mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=V9o0/GIU; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="z5gFNlUZ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uZxHjsXP";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="z5gFNlUZ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uZxHjsXP"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4401B75EC6;
-	Wed,  8 Jul 2026 15:42:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1783525374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NJLwUaAIVAcptqIka4KK8J+8JYL2SJ6cpLBYS6arEbo=;
-	b=z5gFNlUZAXVCf+nLrI1PVgBTqsgh2c/ccc//K0pVHtleRsDDMzfKp0EZAiOyKaNGHQXaVn
-	LqHTGRK+4qM/QdLtQEO/uB7Rxf6afNRfxxuTIkSZpPoHxtekfbpEN+qNfvYK/LK0fYb2+m
-	xsA48YRzGh0UK6PFsi1Vz3UAIE5rFuQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1783525374;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NJLwUaAIVAcptqIka4KK8J+8JYL2SJ6cpLBYS6arEbo=;
-	b=uZxHjsXPwqOKHDlipdYdaKJru+VwXXmprNMAhFdXbDQgvMqw2kc96qkpnwGR1PLG5nSqJO
-	ooKixU0eAVpYoSDg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=z5gFNlUZ;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=uZxHjsXP
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1783525374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NJLwUaAIVAcptqIka4KK8J+8JYL2SJ6cpLBYS6arEbo=;
-	b=z5gFNlUZAXVCf+nLrI1PVgBTqsgh2c/ccc//K0pVHtleRsDDMzfKp0EZAiOyKaNGHQXaVn
-	LqHTGRK+4qM/QdLtQEO/uB7Rxf6afNRfxxuTIkSZpPoHxtekfbpEN+qNfvYK/LK0fYb2+m
-	xsA48YRzGh0UK6PFsi1Vz3UAIE5rFuQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1783525374;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NJLwUaAIVAcptqIka4KK8J+8JYL2SJ6cpLBYS6arEbo=;
-	b=uZxHjsXPwqOKHDlipdYdaKJru+VwXXmprNMAhFdXbDQgvMqw2kc96qkpnwGR1PLG5nSqJO
-	ooKixU0eAVpYoSDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 39814779AE;
-	Wed,  8 Jul 2026 15:42:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5l8GDv5vTmqcSgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 08 Jul 2026 15:42:54 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C12E4A12D6; Wed, 08 Jul 2026 17:42:49 +0200 (CEST)
-Date: Wed, 8 Jul 2026 17:42:49 +0200
-From: Jan Kara <jack@suse.cz>
-To: Zhang Yi <yi.zhang@huawei.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca, 
-	libaokun@linux.alibaba.com, jack@suse.cz, ojaswin@linux.ibm.com, ritesh.list@gmail.com, 
-	yi.zhang@huaweicloud.com, yizhang089@gmail.com, chengzhihao1@huawei.com, 
-	yangerkun@huawei.com, yukuai@fnnas.com
-Subject: Re: [PATCH v2 6/6] ext4: protect WRITE_ZEROES written extents with
- orphan list
-Message-ID: <j67fqc5rlwtu2pdfcn6ufv4jdoindgrvc5j7uyhyxalqcvo6gw@ihflfbhxduqo>
-References: <20260707021338.1182268-1-yi.zhang@huawei.com>
- <20260707021338.1182268-7-yi.zhang@huawei.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="V9o0/GIU"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-474560436c3so803963f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Jul 2026 08:46:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1783525562; x=1784130362; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=f/mdlbu7kxNAYQt2PwbA0grJPU5KW1EejarCbBPlRO8=;
+        b=V9o0/GIUUfwXKE6Si0vT9XcZGfRtCEAITKFydTRSMtxOkifhRtmp/MtdeuBSvQjlah
+         GKs0jcAl1dbNwep3X2epdX94A1E2PRCE/RJiQzscSyYA+100AJlBrKKtfaJDQR7m4qkR
+         MweaN2SaoTQVXZzo+CbE6iStSMIrM4q/CBP5yJG7R81GdmoVDUVD+GVaUICIey6oYKd8
+         c0/nveapDqgLkjDAcqEvEelk984mV+G/mTYHz2PA9ukpzmVGFCRmoyUTJUuTmnoF/KXq
+         /H2ps2dV9sdcW0mO39x4tQ2SC1Bv8NBxCJ8uQ5aycxoeyR9m8B7y7ZQSTbchyM/Rw7cS
+         uAKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783525562; x=1784130362;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=f/mdlbu7kxNAYQt2PwbA0grJPU5KW1EejarCbBPlRO8=;
+        b=aCZJd6z9TKCtkNx8cUbtRhVAjFyjeBluH5Clt+1Oqiea4E8k0A74BhfCh+gcJ1w7WP
+         WUnjRoyWPu5ma6eb/1B59i0QItV7VKZEC+TiZL5xYCJF8Ka/xDoAa4guPOJ6VdzeUpnq
+         DI6lPJHCC22dNni4HhiEzRd8CbCyr4LHrMuXvAhPMdVh+b3GoIncLQAyryrL3dDlqY0E
+         bnNU6kvs7cJ8SWWmobDFC6q6/sAqu0hEc5lTc4FTXPZfLjdWUsOvPp7fYFTemoIwWgXk
+         o8uJsK6jFdIUHyFosdONEMf5bZdfV66ViZtPcI3uiZc8EvwwpgHdk8uJokPAmWxdLxZ7
+         HjoQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr+v4AW3l7m8GhdHoDwo1iXSC6jfczL+yIKh+en5FXP7/ccpwEYkwUpHfdU9VQrQ4q3qcU6zIBE1a5jPT8a@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJ/6XW1JfydmyTwEA9oFLkPBc+QzmDUhZQ/c1eU4jyjKwMKVnm
+	0Nz45f3I/k0yI5Kg7/diA3n1V9ZS+LxFDD7PM/Lrp7MnridmiaTjP/KNXDHipVzdd+Y=
+X-Gm-Gg: AfdE7ckV2mpO5M3t191OtkTZ7TXUfv4nHiSp//7F+gWgcsXP6VtNvMnoYheBCOymbzG
+	MK8Xog2PnaYcFKSqI8nlYuDb28Dheu8xrQu7sdTDoFvZOfawt57B4g8I7eW9u7ylVBaNwsz+Vby
+	Bhr3EKyIzTVakWIBbZFFZ6WY/VWhuQuoHdD1AcfDOFkOtOmZd3FUHVyO3gvOdaU/dfZ+fsP+XfJ
+	h65PSpoIn4cd1vhQosN22ZuGJZeymzPy/rizjAZydhpoGpWJF3sBspp5RguNMSp9RBvLnyjytNr
+	E3FfuJcxRWcSWg1G6B3RzcLj2r7u8UPAK7AohCnprCMOWFrwpMdT3/uIWrkBgNIgRuWqLXcwJsR
+	hKqgaYZQwjPPimu/IV3SX4mqCOcx4XSTNpZB+p9Ou0leg1rVxe9mxuHk4gwYDox1+obzg83ekyE
+	clCI+Yu/3RKlLkmKCXqI156wvgfT9iyoALJXgQZQzU
+X-Received: by 2002:a05:6000:4304:b0:46d:55a5:8ec5 with SMTP id ffacd0b85a97d-47df078bbffmr3378920f8f.33.1783525561596;
+        Wed, 08 Jul 2026 08:46:01 -0700 (PDT)
+Received: from zovi.suse.cz (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9e4d780csm44806847f8f.11.2026.07.08.08.45.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2026 08:46:01 -0700 (PDT)
+From: Petr Pavlu <petr.pavlu@suse.com>
+To: Tony Luck <tony.luck@intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Michal Januszewski <spock@gentoo.org>,
+	Helge Deller <deller@gmx.de>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Chuck Lever <cel@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>,
+	Mark Fasheh <mark@fasheh.com>,
+	Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Pavel Machek <pavel@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Cc: linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	drbd-dev@lists.linux.dev,
+	linux-block@vger.kernel.org,
+	greybus-dev@lists.linaro.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-acpi@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	ocfs2-devel@lists.linux.dev,
+	cgroups@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	bridge@lists.linux.dev,
+	netdev@vger.kernel.org,
+	keyrings@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: [PATCH 0/2] Bring includes in linux/kmod.h up to date
+Date: Wed,  8 Jul 2026 17:44:28 +0200
+Message-ID: <20260708154510.6794-1-petr.pavlu@suse.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260707021338.1182268-7-yi.zhang@huawei.com>
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,mit.edu,dilger.ca,linux.alibaba.com,suse.cz,linux.ibm.com,gmail.com,huaweicloud.com,huawei.com,fnnas.com];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[huawei.com:email,suse.cz:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 4401B75EC6
-X-Spam-Score: -2.51
+Content-Transfer-Encoding: 8bit
 
-On Tue 07-07-26 10:13:38, Zhang Yi wrote:
-> In ext4_alloc_file_blocks(), the WRITE_ZEROES path converts unwritten
-> extents to written in one transaction while i_disksize is updated to
-> cover them only in a later transaction. A crash in between leaves
-> written extents beyond i_disksize on disk, which fsck will complain
-> about this.
-> 
-> Add the inode to the orphan list in the same handle that does the
-> conversion, and remove it once i_disksize has caught up. Fold
-> ext4_convert_unwritten_extents() into the same handle so the orphan
-> add and the conversion are atomic. Also add a check before conversion
-> to ensure the conversion does not extend beyond the end of the file.
-> 
-> Reported-by: Jan Kara <jack@suse.cz>
-> Closes: https://lore.kernel.org/linux-ext4/3f6ao5amv7glbgigndtegcucgo3n34ij3lau6l3da3hgdxgn3v@ev66wv3r5umt/
-> Fixes: f4265b8d32c4 ("ext4: add FALLOC_FL_WRITE_ZEROES support")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+The usermode helper declarations were previously provided by linux/kmod.h
+but commit c1f3fa2a4fde ("kmod: split off umh headers into its own file")
+moved them to linux/umh.h in 2017. Add explicit includes of linux/umh.h to
+files that use usermode helpers and remove linux/kmod.h where it is no
+longer needed.
 
-Looks good. Feel free to add:
+Then clean up linux/kmod.h so that it includes only the headers that it
+actually requires, importantly removing the compat linux/umh.h include.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Apologies for the wide distribution.
 
-								Honza
+This cleanup is motivated by trying to reduce the preprocessed size of
+linux/module.h, which includes linux/kmod.h. The linux/module.h header is
+included by every *.mod.c file to provide `struct module` and other related
+definitions, so it should avoid pulling in unnecessary dependencies. Note
+that this series doesn't immediately improve the situation, since most of
+the files included by linux/kmod.h are, for now, also included by
+linux/module.h through other paths.
 
-> ---
->  fs/ext4/extents.c | 32 ++++++++++++++++++++++++++++----
->  1 file changed, 28 insertions(+), 4 deletions(-)
-> 
-> diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
-> index c083703bf704..8c7a98405a64 100644
-> --- a/fs/ext4/extents.c
-> +++ b/fs/ext4/extents.c
-> @@ -4585,6 +4585,7 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
->  	loff_t epos = 0, old_size = i_size_read(inode);
->  	unsigned int blkbits = inode->i_blkbits;
->  	bool alloc_zero = false;
-> +	bool orphan = false;
->  
->  	BUG_ON(!ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS));
->  	map.m_lblk = offset >> blkbits;
-> @@ -4659,12 +4660,30 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
->  
->  		if (alloc_zero &&
->  		    (map.m_flags & (EXT4_MAP_MAPPED | EXT4_MAP_UNWRITTEN))) {
-> +			WARN_ON_ONCE(map.m_lblk + map.m_len >
-> +				EXT4_B_TO_LBLK(inode, new_size ?: old_size));
-> +
->  			ret = ext4_issue_zeroout(inode, map.m_lblk, map.m_pblk,
->  						 map.m_len);
-> -			if (likely(!ret))
-> -				ret = ext4_convert_unwritten_extents(NULL,
-> +			if (unlikely(ret))
-> +				break;
-> +
-> +			handle = ext4_journal_start(inode, EXT4_HT_MAP_BLOCKS,
-> +						    credits);
-> +			if (IS_ERR(handle)) {
-> +				ret = PTR_ERR(handle);
-> +				break;
-> +			}
-> +
-> +			ret = ext4_convert_unwritten_extents(handle,
->  					inode, (loff_t)map.m_lblk << blkbits,
->  					(loff_t)map.m_len << blkbits);
-> +			if (!ret && new_size) {
-> +				ret = ext4_orphan_add(handle, inode);
-> +				orphan = true;
-> +			}
-> +			ret2 = ext4_journal_stop(handle);
-> +			ret = ret ? ret : ret2;
->  			if (ret)
->  				break;
->  		}
-> @@ -4687,12 +4706,17 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
->  	if (epos > new_size)
->  		epos = new_size;
->  
-> -	handle = ext4_journal_start(inode, EXT4_HT_MISC, 1);
-> -	if (IS_ERR(handle))
-> +	handle = ext4_journal_start(inode, EXT4_HT_MISC, 2);
-> +	if (IS_ERR(handle)) {
-> +		if (orphan && inode->i_nlink)
-> +			ext4_orphan_del(NULL, inode);
->  		return ret ? ret : PTR_ERR(handle);
-> +	}
->  
->  	ext4_update_inode_size(inode, epos);
->  	ret2 = ext4_mark_inode_dirty(handle, inode);
-> +	if (orphan && inode->i_nlink)
-> +		ext4_orphan_del(handle, inode);
->  	ext4_update_inode_fsync_trans(handle, inode, 1);
->  	ret3 = ext4_journal_stop(handle);
->  	ret2 = ret3 ? ret3 : ret2;
-> -- 
-> 2.52.0
-> 
+Petr Pavlu (2):
+  umh, treewide: Explicitly include linux/umh.h where needed
+  module: Bring includes in linux/kmod.h up to date
+
+ arch/x86/kernel/cpu/mce/dev-mcelog.c |  2 +-
+ drivers/block/drbd/drbd_nl.c         |  1 +
+ drivers/greybus/svc_watchdog.c       |  1 +
+ drivers/macintosh/windfarm_core.c    |  1 +
+ drivers/pnp/pnpbios/core.c           |  2 +-
+ drivers/video/fbdev/uvesafb.c        |  1 +
+ fs/coredump.c                        |  2 +-
+ fs/nfs/cache_lib.c                   |  2 +-
+ fs/nfsd/nfs4layouts.c                |  2 +-
+ fs/nfsd/nfs4recover.c                |  1 +
+ fs/ocfs2/stackglue.c                 |  1 +
+ include/linux/kmod.h                 | 12 ++----------
+ kernel/cgroup/cgroup-v1.c            |  1 +
+ kernel/module/kmod.c                 |  1 +
+ kernel/power/process.c               |  2 +-
+ kernel/reboot.c                      |  2 +-
+ kernel/umh.c                         |  2 +-
+ lib/kobject_uevent.c                 |  2 +-
+ net/bridge/br_stp_if.c               |  2 +-
+ security/keys/request_key.c          |  2 +-
+ security/tomoyo/common.h             |  2 +-
+ 21 files changed, 22 insertions(+), 22 deletions(-)
+
+
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.54.0
+
