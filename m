@@ -1,333 +1,361 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38CF638837B;
-	Wed,  8 Jul 2026 11:15:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C4D42668B
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 11:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783509358; cv=none; b=fekwy0wYB10QnFS13IowpluB1ue0kSOP2gTmDy99nGM1SbDqdMV1+SDWZbp2OyJWruGd0KANiemWCiC7IJzInWxWDeISXdaJoP1fwcofCWhVOvUP9/jiEQKUad6C2VoRDUZ9/owmmQbmBVAbNRWO55czFaEibIWmUha3AEIrJKo=
+	t=1783510125; cv=none; b=euo3J0evAi2SdPsFfwDtGPahd6ixuCmICsSLCXNXr6R7LJ8j19Lu8Etq93TW0GfpIEVc9p67fR+4vCzEM0HNggn4g3L9DrCtC80OUgkpHxtnurv9CNNbkb/O/1VnBQDzWQLWgd2J6b7hcyCrrttdEK0oTJOKvFWJtmo7Q+CTFHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783509358; c=relaxed/simple;
-	bh=wM7XB9I3Qi69y+GncOvyk1kZ7fyHBUWteP2W6l8MfAY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cQLcsCFgw/dt9f4Xtl54ZJSpoZ9H0B/nkTNP+jMu0+UyV1V8naVaF7ZIcxM+764MENdrTAkW7zkeb9QzQyaK0a/yM1EpUMDmXIJA4sXRyBhd+2EvEjvWjdw91zKQzdcTkfkczR30TZSgchcIzlbkFJCoGcm6mzUO7y5cXrHDkNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lxrpSd07; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783510125; c=relaxed/simple;
+	bh=IZw8dGxuG9/TYAnP5tUpbCRgXZ5O+Yu2KAgAhdTnrhA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KnsPu3LnQ5N/O5GiNV/eLlfZW4NuoVtgPXyIAVqEfxINgI/e4NsgVAvRv2Eg4CVOFHnBhF5kKtaODxvlCqw3fnzlg6rvXBOAeKYT3gw+0gLuR7RDh4l0/nGXLPdEyIygs/Lbd6aZxn6DDCXOEE0KUDzRNoFNKH62BXNkI5nJYKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=AAJJ3j0u; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=WnfmBtvo; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=AAJJ3j0u; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=WnfmBtvo; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lxrpSd07"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 394D01F000E9;
-	Wed,  8 Jul 2026 11:15:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783509356;
-	bh=vlbeyqSbZXl0WKwCQPAtV0QLo4URkUFXPOS3zKZ17LE=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=lxrpSd07r2T3I/A4bLljmB/z0jvAluRexRilPsQKuX0nLE3EVOb6xAHuxxFJ9ZEE7
-	 ms13bWj3/3tJFSmyMd9mS2twEMGGWxIY5Zfg3JmDq3/VCfx+IYD27ragAVYlr9SLWM
-	 v2VYTgYeIGEDjbKxxme7dNVYeXNQR9R5Ya4kHmZQXbV3tJgJxwkBuuCytMUzfre9ci
-	 pM1gPi8Jq2mBF5YadD1MxLGPerCcvHhO9YAKGjPtLNviKodzmgkUuoxMsnOYfXv37u
-	 0bKPrljJ+ieJPc6osKOdlrzF4a0tEKhPQoq1Z9QRCKGqaDCUnGpjqpRJHvDG1bS+PP
-	 f0LcsMGtgDTNw==
-Message-ID: <67fb179754d4d69a9342ca86ce89d659c7704895.camel@kernel.org>
-Subject: Re: [PATCH] fs: annotate inode timestamp accessors
-From: Jeff Layton <jlayton@kernel.org>
-To: Yu Peng <pengyu@kylinos.cn>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner
-	 <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	syzbot+8b3bd9f8a06658479d4a@syzkaller.appspotmail.com
-Date: Wed, 08 Jul 2026 07:15:54 -0400
-In-Reply-To: <20260708080232.2564807-1-pengyu@kylinos.cn>
-References: <20260708080232.2564807-1-pengyu@kylinos.cn>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="AAJJ3j0u";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="WnfmBtvo";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="AAJJ3j0u";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="WnfmBtvo"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 68D8B75854;
+	Wed,  8 Jul 2026 11:28:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1783510120; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E8G4cQ5KPp2FtsM+Cpmc5cESI4mpl4QjKwZ86cSdBEE=;
+	b=AAJJ3j0uO4aWI69G0qVlJNXSvunOVV6eu+0ECLN3sVK7Lf0jAfS4X8DmLEUA76OD4+f7wt
+	zm/hN6Hs+HzT6oDCvyR3LLrkhGyw+YU2TQESu1IoirQfPmdTuASAfkstXk+nyMu9D0U6yA
+	ikKKWj2wHEQqNdEWnJdAZqrMKpBJzv8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1783510120;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E8G4cQ5KPp2FtsM+Cpmc5cESI4mpl4QjKwZ86cSdBEE=;
+	b=WnfmBtvok2fpUo+cbe7l35srioNhY1W0Y2arZgJ3fA5QpUkaxhcdMRV52VpKCnVX7NQKUz
+	Ym4MSDxHuaytTCCg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=AAJJ3j0u;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=WnfmBtvo
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1783510120; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E8G4cQ5KPp2FtsM+Cpmc5cESI4mpl4QjKwZ86cSdBEE=;
+	b=AAJJ3j0uO4aWI69G0qVlJNXSvunOVV6eu+0ECLN3sVK7Lf0jAfS4X8DmLEUA76OD4+f7wt
+	zm/hN6Hs+HzT6oDCvyR3LLrkhGyw+YU2TQESu1IoirQfPmdTuASAfkstXk+nyMu9D0U6yA
+	ikKKWj2wHEQqNdEWnJdAZqrMKpBJzv8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1783510120;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E8G4cQ5KPp2FtsM+Cpmc5cESI4mpl4QjKwZ86cSdBEE=;
+	b=WnfmBtvok2fpUo+cbe7l35srioNhY1W0Y2arZgJ3fA5QpUkaxhcdMRV52VpKCnVX7NQKUz
+	Ym4MSDxHuaytTCCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 516E8779AE;
+	Wed,  8 Jul 2026 11:28:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id feHYE2g0TmoaTQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 08 Jul 2026 11:28:40 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id D9CBBA12D6; Wed, 08 Jul 2026 13:28:32 +0200 (CEST)
+Date: Wed, 8 Jul 2026 13:28:32 +0200
+From: Jan Kara <jack@suse.cz>
+To: Zhang Yi <yizhang089@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Zhang Yi <yi.zhang@huaweicloud.com>, 
+	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	tytso@mit.edu, adilger.kernel@dilger.ca, libaokun@linux.alibaba.com, 
+	ojaswin@linux.ibm.com, ritesh.list@gmail.com, djwong@kernel.org, hch@infradead.org, 
+	yi.zhang@huawei.com, yangerkun@huawei.com, yukuai@fnnas.com
+Subject: Re: [PATCH v4 18/23] ext4: wait for ordered I/O in the iomap
+ buffered I/O path
+Message-ID: <upstctpx7ouy6hwo3tsrhagprldt63c55qazcenhiwh5zkgwpk@dh2yyv6dlxsz>
+References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
+ <20260511072344.191271-19-yi.zhang@huaweicloud.com>
+ <k3w5c3cyg2py4kums7nhdwjg6b6pm43qtweepuolk57xtmnotz@yxkm2k6sqfc6>
+ <9ab9281d-c5dc-4183-8bc9-b53b5a4ac9c0@gmail.com>
+ <3n6ge2tfe4bd65eicc7l2csxkzupcjtdtc4ojpl6bvtf7cwll6@sxmlt3uciw4c>
+ <8999aa70-073c-47f9-ae6e-39af3cc1fe32@gmail.com>
+ <c6zpjk3gml5lj72cagu7sncswqeea2e3h7gc2ie5qnwwe6qdft@6qoaz7zccmem>
+ <d30ebe91-a5e4-4ee8-a3f7-c965e623535f@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d30ebe91-a5e4-4ee8-a3f7-c965e623535f@gmail.com>
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 68D8B75854
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,huaweicloud.com,vger.kernel.org,mit.edu,dilger.ca,linux.alibaba.com,linux.ibm.com,gmail.com,kernel.org,infradead.org,huawei.com,fnnas.com];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-On Wed, 2026-07-08 at 16:02 +0800, Yu Peng wrote:
-> syzbot reported a KCSAN race between fill_mg_cmtime() and
-> inode_set_ctime_to_ts() on inode->i_ctime_{sec,nsec}.
->=20
-> stat/getattr can sample inode timestamps while update paths store new
-> values concurrently, so KCSAN can report benign races on these fields.
->=20
-> Annotate the timestamp accessors with READ_ONCE()/WRITE_ONCE(), and use
-> the ctime accessor for the remaining ctime loads.  This avoids the KCSAN
-> reports without changing timestamp semantics.
->=20
-> Fixes: 4e40eff0b573 ("fs: add infrastructure for multigrain timestamps")
-> Reported-by: syzbot+8b3bd9f8a06658479d4a@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D8b3bd9f8a06658479d4a
-> Signed-off-by: Yu Peng <pengyu@kylinos.cn>
-> ---
->  fs/inode.c         | 18 +++++++++---------
->  fs/stat.c          |  2 +-
->  include/linux/fs.h | 20 ++++++++++----------
->  3 files changed, 20 insertions(+), 20 deletions(-)
->=20
-> diff --git a/fs/inode.c b/fs/inode.c
-> index 31c5b9ee3a81..95e981b4e19c 100644
-> --- a/fs/inode.c
-> +++ b/fs/inode.c
-> @@ -2833,8 +2833,8 @@ struct timespec64 inode_set_ctime_to_ts(struct inod=
-e *inode, struct timespec64 t
->  {
->  	trace_inode_set_ctime_to_ts(inode, &ts);
->  	set_normalized_timespec64(&ts, ts.tv_sec, ts.tv_nsec);
-> -	inode->i_ctime_sec =3D ts.tv_sec;
-> -	inode->i_ctime_nsec =3D ts.tv_nsec;
-> +	WRITE_ONCE(inode->i_ctime_sec, ts.tv_sec);
-> +	WRITE_ONCE(inode->i_ctime_nsec, ts.tv_nsec);
->  	return ts;
->  }
->  EXPORT_SYMBOL(inode_set_ctime_to_ts);
-> @@ -2908,7 +2908,7 @@ struct timespec64 inode_set_ctime_current(struct in=
-ode *inode)
->  	 */
->  	cns =3D smp_load_acquire(&inode->i_ctime_nsec);
->  	if (cns & I_CTIME_QUERIED) {
-> -		struct timespec64 ctime =3D { .tv_sec =3D inode->i_ctime_sec,
-> +		struct timespec64 ctime =3D { .tv_sec =3D inode_get_ctime_sec(inode),
->  					    .tv_nsec =3D cns & ~I_CTIME_QUERIED };
-> =20
->  		if (timespec64_compare(&now, &ctime) <=3D 0) {
-> @@ -2920,7 +2920,7 @@ struct timespec64 inode_set_ctime_current(struct in=
-ode *inode)
->  	mgtime_counter_inc(mg_ctime_updates);
-> =20
->  	/* No need to cmpxchg if it's exactly the same */
-> -	if (cns =3D=3D now.tv_nsec && inode->i_ctime_sec =3D=3D now.tv_sec) {
-> +	if (cns =3D=3D now.tv_nsec && inode_get_ctime_sec(inode) =3D=3D now.tv_=
-sec) {
->  		trace_ctime_xchg_skip(inode, &now);
->  		goto out;
->  	}
-> @@ -2929,7 +2929,7 @@ struct timespec64 inode_set_ctime_current(struct in=
-ode *inode)
->  	/* Try to swap the nsec value into place. */
->  	if (try_cmpxchg(&inode->i_ctime_nsec, &cur, now.tv_nsec)) {
->  		/* If swap occurred, then we're (mostly) done */
-> -		inode->i_ctime_sec =3D now.tv_sec;
-> +		WRITE_ONCE(inode->i_ctime_sec, now.tv_sec);
->  		trace_ctime_ns_xchg(inode, cns, now.tv_nsec, cur);
->  		mgtime_counter_inc(mg_ctime_swaps);
->  	} else {
-> @@ -2944,7 +2944,7 @@ struct timespec64 inode_set_ctime_current(struct in=
-ode *inode)
->  			goto retry;
->  		}
->  		/* Otherwise, keep the existing ctime */
-> -		now.tv_sec =3D inode->i_ctime_sec;
-> +		now.tv_sec =3D inode_get_ctime_sec(inode);
->  		now.tv_nsec =3D cur & ~I_CTIME_QUERIED;
->  	}
->  out:
-> @@ -2977,7 +2977,7 @@ struct timespec64 inode_set_ctime_deleg(struct inod=
-e *inode, struct timespec64 u
->  	/* pairs with try_cmpxchg below */
->  	cur =3D smp_load_acquire(&inode->i_ctime_nsec);
->  	cur_ts.tv_nsec =3D cur & ~I_CTIME_QUERIED;
-> -	cur_ts.tv_sec =3D inode->i_ctime_sec;
-> +	cur_ts.tv_sec =3D inode_get_ctime_sec(inode);
-> =20
->  	/* If the update is older than the existing value, skip it. */
->  	if (timespec64_compare(&update, &cur_ts) <=3D 0)
-> @@ -3003,7 +3003,7 @@ struct timespec64 inode_set_ctime_deleg(struct inod=
-e *inode, struct timespec64 u
->  retry:
->  	old =3D cur;
->  	if (try_cmpxchg(&inode->i_ctime_nsec, &cur, update.tv_nsec)) {
-> -		inode->i_ctime_sec =3D update.tv_sec;
-> +		WRITE_ONCE(inode->i_ctime_sec, update.tv_sec);
->  		mgtime_counter_inc(mg_ctime_swaps);
->  		return update;
->  	}
-> @@ -3019,7 +3019,7 @@ struct timespec64 inode_set_ctime_deleg(struct inod=
-e *inode, struct timespec64 u
->  		goto retry;
-> =20
->  	/* Otherwise, it was a new timestamp. */
-> -	cur_ts.tv_sec =3D inode->i_ctime_sec;
-> +	cur_ts.tv_sec =3D inode_get_ctime_sec(inode);
->  	cur_ts.tv_nsec =3D cur & ~I_CTIME_QUERIED;
->  	return cur_ts;
->  }
-> diff --git a/fs/stat.c b/fs/stat.c
-> index 89909746bed1..c461c3054234 100644
-> --- a/fs/stat.c
-> +++ b/fs/stat.c
-> @@ -53,7 +53,7 @@ void fill_mg_cmtime(struct kstat *stat, u32 request_mas=
-k, struct inode *inode)
->  	}
-> =20
->  	stat->mtime =3D inode_get_mtime(inode);
-> -	stat->ctime.tv_sec =3D inode->i_ctime_sec;
-> +	stat->ctime.tv_sec =3D inode_get_ctime_sec(inode);
->  	stat->ctime.tv_nsec =3D (u32)atomic_read(pcn);
->  	if (!(stat->ctime.tv_nsec & I_CTIME_QUERIED))
->  		stat->ctime.tv_nsec =3D ((u32)atomic_fetch_or(I_CTIME_QUERIED, pcn));
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index d10897b3a1e3..e5b97e324db1 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -1598,12 +1598,12 @@ struct timespec64 inode_set_ctime_deleg(struct in=
-ode *inode,
-> =20
->  static inline time64_t inode_get_atime_sec(const struct inode *inode)
->  {
-> -	return inode->i_atime_sec;
-> +	return READ_ONCE(inode->i_atime_sec);
->  }
-> =20
->  static inline long inode_get_atime_nsec(const struct inode *inode)
->  {
-> -	return inode->i_atime_nsec;
-> +	return READ_ONCE(inode->i_atime_nsec);
->  }
-> =20
->  static inline struct timespec64 inode_get_atime(const struct inode *inod=
-e)
-> @@ -1617,8 +1617,8 @@ static inline struct timespec64 inode_get_atime(con=
-st struct inode *inode)
->  static inline struct timespec64 inode_set_atime_to_ts(struct inode *inod=
-e,
->  						      struct timespec64 ts)
->  {
-> -	inode->i_atime_sec =3D ts.tv_sec;
-> -	inode->i_atime_nsec =3D ts.tv_nsec;
-> +	WRITE_ONCE(inode->i_atime_sec, ts.tv_sec);
-> +	WRITE_ONCE(inode->i_atime_nsec, ts.tv_nsec);
->  	return ts;
->  }
-> =20
-> @@ -1633,12 +1633,12 @@ static inline struct timespec64 inode_set_atime(s=
-truct inode *inode,
-> =20
->  static inline time64_t inode_get_mtime_sec(const struct inode *inode)
->  {
-> -	return inode->i_mtime_sec;
-> +	return READ_ONCE(inode->i_mtime_sec);
->  }
-> =20
->  static inline long inode_get_mtime_nsec(const struct inode *inode)
->  {
-> -	return inode->i_mtime_nsec;
-> +	return READ_ONCE(inode->i_mtime_nsec);
->  }
-> =20
->  static inline struct timespec64 inode_get_mtime(const struct inode *inod=
-e)
-> @@ -1651,8 +1651,8 @@ static inline struct timespec64 inode_get_mtime(con=
-st struct inode *inode)
->  static inline struct timespec64 inode_set_mtime_to_ts(struct inode *inod=
-e,
->  						      struct timespec64 ts)
->  {
-> -	inode->i_mtime_sec =3D ts.tv_sec;
-> -	inode->i_mtime_nsec =3D ts.tv_nsec;
-> +	WRITE_ONCE(inode->i_mtime_sec, ts.tv_sec);
-> +	WRITE_ONCE(inode->i_mtime_nsec, ts.tv_nsec);
->  	return ts;
->  }
-> =20
-> @@ -1677,12 +1677,12 @@ static inline struct timespec64 inode_set_mtime(s=
-truct inode *inode,
-> =20
->  static inline time64_t inode_get_ctime_sec(const struct inode *inode)
->  {
-> -	return inode->i_ctime_sec;
-> +	return READ_ONCE(inode->i_ctime_sec);
->  }
-> =20
->  static inline long inode_get_ctime_nsec(const struct inode *inode)
->  {
-> -	return inode->i_ctime_nsec & ~I_CTIME_QUERIED;
-> +	return READ_ONCE(inode->i_ctime_nsec) & ~I_CTIME_QUERIED;
->  }
-> =20
->  static inline struct timespec64 inode_get_ctime(const struct inode *inod=
-e)
+On Sat 04-07-26 10:34:07, Zhang Yi wrote:
+> On 7/2/2026 10:20 PM, Jan Kara wrote:
+> > On Tue 30-06-26 20:06:55, Zhang Yi wrote:
+> > > On 6/25/2026 5:42 PM, Jan Kara wrote:
+> > > > I see. Thanks for explanation. I went back to our discussion back from
+> > > > February to remind myself about the constraints on the tail block zeroing
+> > > > and the i_disksize update mechanism. And in the light of complexity of the
+> > > > current mechanism, I think we've discarded the following possibility too
+> > > > easily:
+> > > > 
+> > > > * On file extend / truncate up just zero tail folio in the page cache, mark
+> > > >     it dirty, keep i_disksize at old value, update i_size to the new value,
+> > > >     add inode to orphan list.
+> > > >     If the i_disksize was block aligned (and so we skip zeroing), we just
+> > > >     update i_disksize rightaway.
+> > > > 
+> > > > * In io end processing if the folio for which we end io has a block which
+> > > >     straddles i_disksize, we update i_disksize to current i_size. We defer
+> > > >     removing inode from orphan list e.g. to file close time (doing it from
+> > > >     end_io processing is problematic locking wise as we need i_rwsem for it).
+> > > > 
+> > > > This is a very simple scheme with very good performace. It makes sure stale
+> > > > data in the tail block cannot be seen on disk after a crash.
+> > > 
+> > > Hmm, I think this solution has a problem. Since i_disksize is advanced
+> > > to i_size only when the ioend covering the i_disksize block completes,
+> > > we must ensure that i_size is updated before the zeroed folio's
+> > > writeback completes. Otherwise the ioend worker reads the old i_size,
+> > > advances i_disksize to the old value (a no-op), and i_disksize stays
+> > > stale forever after i_size is updated.
+> > > 
+> > > Currently, neither truncate-up nor file-extend paths guarantee this
+> > > ordering -- in both, ext4_block_zero_eof() runs before the i_size
+> > > update.
+> > 
+> > Good point, that needs to be handled.
+> > 
+> > > For truncate-up and fallocate, we might be able to split
+> > > ext4_update_inode_size() / ext4_set_inode_size() so that i_size is
+> > > updated before ext4_block_zero_eof(), and then decide whether to
+> > > update i_disksize based on whether i_disksize is block-aligned. I'm
+> > > not yet sure what side effects this reordering would have, but I feel
+> > > uneasy about this.
+> > > 
+> > > The append-write case is hard to solve. We can't know the final i_size
+> > > before the write completes, so we can't update i_size ahead of
+> > > ext4_block_zero_eof(). When the zeroed folio is later written back, it's
+> > > treated as an ordinary overwriting write -- i_disksize is not advanced.
+> > > And when the subsequent buffered-write data is written back, i_disksize
+> > > still isn't advanced either. The size update is lost.
+> > 
+> > One thing we need to do is to perform i_size updates in append write,
+> > truncate, etc. under i_data_sem (similarly to i_disksize updates) so that
+> > we can properly synchronize i_size + i_disksize updates from IO completion
+> > and these paths.
+> > 
+> > How we could then handle the races between writeback of folio straddling
+> > i_disksize and the i_size updates from the i_size extending paths is that
+> > we'd set EXT4_STATE_DISKSIZE_GROW_PENDING bit when zeroing the folio
+> > straddling i_disksize and clear this (under i_data_sem) in IO completion
+> > when updating i_disksize to i_size. And when setting new i_size after
+> > append write, truncate up, etc. we will also update i_disksize when this
+> > state bit is not set (again all happening under i_data_sem). This should
+> > also automatically include the case where i_disksize was block aligned and
+> > thus no zeroing was needed and we need to update i_disksize together with
+> > i_size. Sounds good?
+> > 
+> > 								Honza
+> 
+> Ha, yeah. This overall looks good to me now. Your solution doesn't look
+> significantly different from mine currently implementation. My approach
+> uses i_ordered_len to precisely track the pending state of whether a
+> zeroed folio is awaiting submission, while you choose to use
+> EXT4_STATE_DISKSIZE_GROW_PENDING to represent this, which completely
+> eliminates the 32-byte bloat in ext4_inode_info.
 
-Nice catch. We could also do this with data_race(), I suppose, which
-would allow the compiler to do a bit more optimization, but I don't
-think it'll make any significant difference to the generated code.
+Good :)
 
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
+> However, I'd prefer we should still be able to keep the IO-completion
+> waiting logic instead of adding the orphan list. We can precisely
+> determine whether an IO is a "cross-i_disksize IO" by checking whether
+> its position straddles i_disksize, and when it completes, wake up the
+> worker waiting for it in interrupt context -- this won't deadlock (bio
+> end_io doesn't consume a worker thread). Besides, Since we plan to use
+> the EXT4_STATE_DISKSIZE_GROW_PENDING bit, the waiting doesn't require a
+> dedicated wait queue; wait_on_bit / wake_up_bit(&ei->i_state_flags,
+> EXT4_STATE_DISKSIZE_GROW_PENDING) should suffice.
+
+OK, but if you want to avoid adding to orphan list, then where exactly you
+want to wait for the writeback of the folio straddling i_disksize? Because
+as we have discussed i_disksize needs to be updated in the same transaction
+in which we convert unwritten extents beyond current i_disksize to written
+ones (otherwise you could get inconsistent fs after crash with written
+extents beyond i_disksize). And you cannot update i_disksize until the
+writeback of the folio straddling current i_disksize is completed. We
+discussed you cannot wait in the end_io handler doing the extent conversion
+and i_disksize update because that blocks the conversion worker thread. So
+you want to wait earlier on IO submission?
+
+> Moreover, if we use the orphan list approach, it seems difficult to
+> decide when to release the orphan list entries. I'm concerned that
+> there may be concurrency issues that would need careful consideration
+> (For example, if the orphan list is deleted when the file is closed,
+> then after the last opener closes the file, is it necessary to wait for
+> synchronous writeback? If there is concurrent file expansion during the
+> writeback process, are there concurrency issues?) The original waiting
+> scheme is more straightforward to me.
+
+I think the concurrently should be dealt with the synchronization on
+i_data_sem. At least in my mind that is relatively straightforward :). But
+I agree that the deletion of the inode from orphan is subtle and needs some
+careful thought.
+
+> In short, For v5, I think we should:
+> 1) Track state via EXT4_STATE_DISKSIZE_GROW_PENDING instead of checking
+>    whether i_ordered_len is 0;
+> 2) Determine the I/O type during writeback by checking i_disksize
+>    instead of the i_ordered_lblk parameter;
+> 3) No longer use a dedicated wait queue; instead wait on
+>    EXT4_STATE_DISKSIZE_GROW_PENDING.
+> 
+> Thereforer, I think this solution won't simplify the logic much compared
+> to my current one; it will likely still require changes in quite a few
+> patches. The benefit is saving memory. I can't think of any other
+> potential issues for now, So I'm glad to have a try.
+
+I'm OK with waiting on completion of the writeback of the folio straddling
+i_disksize if we have a place where we can safely wait and it will not hurt
+small append cases badly.
+
+> In addition, I'll need to address a few more details in v5:
+> 
+> 1. Following earlier discussions with Ojaswin, I plan to drop the
+>    patch 07 "ext4: submit zeroed post-EOF data immediately in the iomap
+>    buffered I/O path" in the next version -- no longer submitting I/O
+>    immediately after zeroing the EOF block, to improve concurrency.
+>    Then, in ext4_iomap_writepages() we check the writeback range:
+>    if it behind the zeroed folio, we explicitly submit the zeroed folio
+>    to prevent the appending I/O from being wait too long.
+
+Sounds good although we have to be careful about deadlocks. The lock
+ordering of folio locks is in the ascending order of folio indices. Now you
+potentially need to lock previous folio to submit it for writeback. So this
+will have to be handled relatively early in our ->writepages implementation
+before we start locking any other folios.
+
+> 2. We also need to handle the case where the zeroed folio is
+>    truncated before being written back. In that case, i_disksize must
+>    be updated directly since the folio no longer has a chance to be
+>    written back.
+
+If we truncate the zeroed folio (i.e., truncate down), we will set i_size
+and i_disksize to a value before this zeroed folio and then remove it from
+the page cache. So I don't see why we'd want to still update i_disksize to
+some larger value due to writeback of the zeroed folio?
+
+> 3. In the SYNC mode of fallocate and zero range, the zeroed folio
+>    needs to be submitted synchronously as well; otherwise i_disksize
+>    won't be updated immediately (which would violate SYNC semantics).
+
+I agree.
+
+> Besides, I've been revisiting why the iomap buffered I/O series disables
+> data=ordered mode these days. If we can directly solve the deadlock
+> problem in data=ordered mode, things would be much simpler. However,
+> IIRC, I recall that Ted previously mentioned planning to deprecate the
+> data=ordered mode in the future, so I'm not sure whether exploring this
+> direction is worthwhile.
+
+Yes, eventually we'd like to transition to this mode where we allocate
+blocks before IO submission in memory only, write data to them, and on IO
+completion we allocate these blocks on disk and attach them to the inode.
+This will remove the need of data=ordered mode as well.
+
+> In any case, let me share my thoughts:
+> 
+> The root cause of this deadlock is that, during writeback, we cannot
+> start a new handle/transaction without stalling on the currently
+> committing transaction (T_N) to finish. Please see the Patch 07 with the
+> deadlock call graph:
+> 
+> https://github.com/zhangyi089/linux/commit/c1a0e32ebf134411edb600b9b602b4af9420d25d
+> 
+> When writeback tries to start T_{N+1}, it has two stalls involved:
+> 
+>   [ T_0 | T_1 | ... | T_N-1 |  T_N  ]
+> 
+> 1. Waiting for the T_N to enter T_FLUSH if it has start committing, so a
+>    new running transaction can be created. This is one-directional
+>    waiting, not part of the deadlock cycle.
+
+I agree.
+
+> 2. Waiting for log space, which is where the deadlock cycle below
+>    closes.
+> 
+>    T_{N+1} start  ->  waits for  ->  T_0/1/... checkpoint completion
+>    T_0 checkpoint ->  waits for  ->  T_N commit completion if it
+>                                      contians the same bh
+>    T_N commit     ->  waits for  ->  ordered data writeback
+>    ordered writeback = T_{N+1} start path  ->  (cycle)
+> 
+> Only case 2 is the actual deadlock. So what I'm thinking is could we try
+> to break the cycle at the T_0 checkpoint -> T_N commit edge? That is
+> when checkpoint hits a bh that T_N has adopted, write the pre-T_N
+> contents to the original on-disk location instead of waiting for T_N to
+> commit.
+
+I think I get the idea but I'm not sure it works. You have a transaction
+T_N that is doing a commit. To do that it needs to writeout and thus lock
+some folio F_N. The lock on F_N is held by writeback that wants to start a
+new transaction handle. Now you cannot guarantee that handle can be added
+to the transaction T_{N+1} that is currently running - other operations may
+have already filled that transaction as well. So without some kind of
+reservation scheme (like we currently have for conversion of unwritten
+extents on IO completion) that is impossible to resolve.
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
