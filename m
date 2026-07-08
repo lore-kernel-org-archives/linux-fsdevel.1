@@ -1,122 +1,165 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9940D409E0F
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 09:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783502153; cv=pass; b=N4mug8upFh7MFWyl+Sn8FD7hZXAlDcAtu73brWaN9jongdFyo57noZl0hKBjhZY0Uj68BqaqJ/+cepGxaP1cZZ0Mh1suC3GJLp9Emobt4Gwdr26n6GXGsvPAzvfLG67/CNOeNn7sb6ineXFx+QB7Kr1m2WvinAXufMJppXZflLc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783502153; c=relaxed/simple;
-	bh=IwpWTUyl/wKVtXYyUbdgDiW9bK6re2kyezxjswM8xj0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lvT338r/DMzeb5H1f2lrsKY6TF7B22PWopwcY71r+EFqUlHaT5iYxibobjaLvOigBOi81zZRdcJZBK+BmQWC+Xcsd/9QNm68w0qBMEzhPFAQkAglDC7CnxpF0vfAwL7LaA3x6dt+aRJgivZDB2SAlyUuq1/F9i+ofhB4LQV/2L4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=LfsgaD/g; arc=pass smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A6940861D
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 09:16:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783502170; cv=none; b=R0A2acskkujadPySLIpbb7j51PScCU/EyihERQzfTZg8HPjpGu7z6sM1RfMdsXrMwP+D+t9bMWEAtElKdlajmvQ1M0PyNDxDPcxhZNbDHlfYEnyhUP49hiHMUDT235FsC2v+OhdQFaPL0AtmpxHGU+h10wjB6SKSb/7bXOaDTQo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783502170; c=relaxed/simple;
+	bh=sQOlJyYK7iAm5eS9zDGCitM6vWVm4bMYnRlB2QL6l8E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UY9ncJwX9kYvxkLHrOaXh5jiOs67zY7mSWEHjFBwDv3XeSDNnp1Eln/b1iJKUonIpR08k5FWkWoqw10QeWLVrayrztYxGLTpuaMAirmZQINCZzfGhV1c1R1dchAYHFsbZLLqPcSYdvAXukEp8twnWoz0+DQbly+QjhvWMsShp5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LGjEPZee; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=PoTPdlpW; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="LfsgaD/g"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-51c0a81d286so8854891cf.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Jul 2026 02:15:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783502149; cv=none;
-        d=google.com; s=arc-20260327;
-        b=IJcC8kF7RXL0n7fzo7CWMSkF7e+2bJtBU59yBONzwijfGS27Pg2LoSYbdhcx2VxwVa
-         oqV9/zqLdRpjxMvex/Swvu7RJuG1xva0o1+AaNm7YwxaRCbZ/iuxToDry87dJ7punqqG
-         hKA7dagtfYJwAn4fopnk6yA0QhxkUTSkE3UGf1TlxGfpoTL9ODQ+VlmP8ZnU6MiRgjKv
-         FlgJuqHwpwO/9fWHOq3pHuUMFsJMHWiz7g1LC/hMMolDLMjg/DWarVd8EutCM4iJm6fB
-         cCRTewaRYFwmx89I8N75E5vgiXm1HVM+82fMugD+nMP72quQt/hQkzshuUvwInSX9Z8e
-         sIWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=IwpWTUyl/wKVtXYyUbdgDiW9bK6re2kyezxjswM8xj0=;
-        fh=w/1UIVez6nlTyzU8iW2Bh60c4w4qxiDf5nfJaD5kRCY=;
-        b=bYNG26+QT2h0mAl6w27m35rYJjOO5h5t/qDxvbaYd7zX5zy3QHs0rpTbiV6TTh8Xv5
-         H8TJWrQMRBwLlB2tOwycZwvtE1q4Ciop0CDDnt5PzGIO8PnHByeAwR+9sYtuWIeSbZQV
-         KLEKLM8oBWDlb7lQyEwywGafBlmjJrjUnr7CWqoy/27LXlGwIGro/+lUhxso3wE+a6YL
-         w08ivdq25W3F2cMYqX9tHowFq7QJfOXGzKsj53o9YRzH9FuCMT4dmWlOZv0TeKAygK2b
-         alWOSfdGxnvNgcazlsLOuwTdZW8d5qrYVJG0ER8v42OPTvrpvGF/52wUPA4D79kwN63p
-         6XVQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LGjEPZee";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="PoTPdlpW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1783502168;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b4K/HdwkKVaSF1+rIVNyQiESO9vsDqggAz/6RtbS1nI=;
+	b=LGjEPZeemMuviSF8/bhZlfMQTgmkFE+YUdZqkODW5rQPn7C84+mM+ybu9UAzNSmVdnMRv9
+	XpuK55P/d2vf4Ku14X/yVVtM10YwR/GVrqogheNr2YMNq4EepfAfu99AbrLaI3VI6J5Cfv
+	O6oT1mSLsB6LyChaqjF0HflLVFJY+2E=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-681-tdhi0ITDNG2ZE3SVgUP4sg-1; Wed, 08 Jul 2026 05:16:07 -0400
+X-MC-Unique: tdhi0ITDNG2ZE3SVgUP4sg-1
+X-Mimecast-MFC-AGG-ID: tdhi0ITDNG2ZE3SVgUP4sg_1783502166
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-c15cec1ccb6so41587166b.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Jul 2026 02:16:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1783502149; x=1784106949; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=IwpWTUyl/wKVtXYyUbdgDiW9bK6re2kyezxjswM8xj0=;
-        b=LfsgaD/gDtXnhmUeUL1cL2pgAxPlVfpU5gdJVxOaOFnM8Zc8nyEAHdevpB55UWm0Oh
-         r/wS4zm4UH5eARK0jICja64JClVv/1gWL9vJO+B5SqI7Cbg2eqyudujAa1MCnjMZgdbl
-         IXRS4PRSISreXCDAes6Jv3EB8eYc5UbrxP1Tg=
+        d=redhat.com; s=google; t=1783502166; x=1784106966; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=b4K/HdwkKVaSF1+rIVNyQiESO9vsDqggAz/6RtbS1nI=;
+        b=PoTPdlpWkuUHRNm7Ix5YIE4eUzJMeeiOHmm5qyxDErRjPOaCyC0WPG0ikKKbTxIsc2
+         7/uPna9Ibuy/sK+WMbv+bZvg463MdRkWlrmtRy0s88APevASmVlSFrCGibNadHOj/jSQ
+         ghMVAGozWSjO3RhxTXzeFaee9IuI0c76tDhheKn+c33VTz7VHOsXChgl6dAcBjPzM9vm
+         39R6ZHFDDuJo+3Ypte1XFPlpPgn01PFKyYMTZ3fXoEFq7lqmcjetG8M4LVJriU1JLkli
+         89j+wjYNOs8SaIRTwfizG4mFLe3Sx4tp3yPBe298LpciCmJidDhE0FLYOUUhvAu4Xjcw
+         uMdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783502149; x=1784106949;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=IwpWTUyl/wKVtXYyUbdgDiW9bK6re2kyezxjswM8xj0=;
-        b=WclXtRshzLrTE5N7yAN46mrpa0SP1uUsW66sJ9SdRt8YZaJViJvhTCp4hGttGlqGhC
-         mD2vom4/EHcDDLLv7BkcNzMA0rUuExWof4PeC5UUtPo2QUFjNVD1SUR6aBT+UTUy79wo
-         /DO1qDyBNnBk5clwjsN3S8AGdr8n/m0FBzrkZAk9uh7hpDBo91fGjqU/7AXgilq/y4OS
-         gaReizBrn0p2Y07aBusVOyfER6ofiW11CU2Eu/6rkImi27fcdAvyIODd7cEa48PrR/N3
-         i5qcaY/ISgtZTAaM6Aw6CFyk7dtVR0OGRyQR6TxCG6Yy+wu3XDUoLK+lOdk7epsw7aTU
-         fPHg==
-X-Forwarded-Encrypted: i=1; AHgh+RrMd6U4XN1QzxxXUdUW8NE8bvy3TLJkSfckcOgG/cIiCAmLhRLKvQASDIUVvwnEQZr/2Yc0eyVmYEHkttal@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWz2V7soiRFsMI75/g1q4NtKGqXxfcYm7fMeKvSX0giZQwX/dk
-	B8VYVBZe0v8Lo0QH3YCJf0cObS0fK3xG/5gpOCAJ+t3TLFtOI/ONS4G8HuA1KcoYq+rNDzeIft+
-	/7WVq9n4OPIk1VCfbz66AuwrdMalqmwD0outMG/XTFQ==
-X-Gm-Gg: AfdE7clP4DweR7Muc66wDNWILgHNm+tMA51n7iil3Fwk2nNObGgMhgImyo3jp3qkn4o
-	AclPUO1oznrpsz+IiLsT1AbHZaYH8veQbfJdAmHs33GIziVkdUtRfxMUiBYfD7a3o6HhdwHUWTG
-	dJKZwz5XKTTwL0i/oHCEnNVfIbrl8r8cUIXU2R6BuYRSXQX5hPWQktuZJtckwhKIEXW80z3+8me
-	vlqMthy+AGC2Vhl+ayHlG96XPyNbrZMQ9ZMJfXV2wL9XzlnTl8N/CMW8hwVtSk7Xxsc7j18Kjkz
-	Kr0gcp8xaKa9LnAcP5UY46bhC08=
-X-Received: by 2002:a05:622a:942:20b0:51c:7aa7:e0f0 with SMTP id
- d75a77b69052e-51c7aa7e5fcmr41689831cf.43.1783502149300; Wed, 08 Jul 2026
- 02:15:49 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783502166; x=1784106966;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=b4K/HdwkKVaSF1+rIVNyQiESO9vsDqggAz/6RtbS1nI=;
+        b=XYLDszOgz5Nh06kFmzYhvQRtWsrkucpNQQnbHLYjUAT2SnakR2m4k4OfPqP3wyaNUY
+         yZ7kg6AABA9+xvKwWGWWXXomMe93AWl7jlSl4SsDt4Cxt9CvdLY6/Qb7kNrfESnKnlYR
+         qSnreVZjGow4+nfQjoABWsfhgMG6yEy9DcE0dobRHosgmjW1szj0RvA+R9DOWkGvhfR1
+         v9mNaoab18s6/Vc/pOrNrjQbBs2dsyt3VHf9gaLdX09xuMKenzMjuvDR6le/2cAWHya8
+         w/O+F7ShpimLipvqjWm3zLaSFBzROZvHjdxUjXerdsQ5udCIbkIWHm7LCl6YYRszr3y3
+         kA4w==
+X-Forwarded-Encrypted: i=1; AHgh+Rr804n6qG3omKhKmw5LNZnvQd7jzkzHownit8pAGpywHbp1jDklpCdBJ/swmSdUKNsKyBcmeDsWCKyNTVD6@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOp5LqyiRx2XLeh5+5iTRoaiXq7/CnDT+lrSTmwm0/vZUX++ev
+	jpX9UHFqJkB3wa0RduCrDIOVa8cj0rYt5ZRFAWfNvCbmAaQp3jNtl5d+SVPo1jHT4MBgyym4JW4
+	KuqHyKJruu7gGguimVkXHAzKvhp4/Tna/jv567NQ4KbZ8dncuErLgTasuptV39mi3JKM=
+X-Gm-Gg: AfdE7cnVCNYUgw+QV4VowHjLpAe55HDjCJ+nnl45dWzbfL/+5+h+gZF850ZRVilaf2Y
+	NCbWp0JcGvsuAGedgE5RHB6cNUvqGTBK0PfldNvxY6dTouiPmXrw63OOuJB9GgOBzD6wy36ucd7
+	1FMKcGQREAw18MCl5HWQYC0zwz2jBaIfZ6pzzHPW5SkWJmGCJDFsMjZ4M5ot20aEmjtRpYoZJ5w
+	LDjc7c6ORpIloRTEtFo2V43W3IxsT0UQccK/7fTLd9AfGCj4vtpIpDlXmnoShSXuR8cY5XeOhXT
+	62EudyOKcb5arirqZxwx0L/2ixFWnODg0EJk5ULyQLZMU1cH6gx+XqnVQeGVOyJWjG/Us+vyux3
+	0U+LcWpVhlVj6Zscsrws/HOflyhgN22Bx
+X-Received: by 2002:a17:907:1003:b0:c15:9709:fb9b with SMTP id a640c23a62f3a-c15ce0f880emr64101366b.44.1783502166156;
+        Wed, 08 Jul 2026 02:16:06 -0700 (PDT)
+X-Received: by 2002:a17:907:1003:b0:c15:9709:fb9b with SMTP id a640c23a62f3a-c15ce0f880emr64098866b.44.1783502165600;
+        Wed, 08 Jul 2026 02:16:05 -0700 (PDT)
+Received: from redhat.com (IGLD-80-230-68-31.inter.net.il. [80.230.68.31])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c15ad9bca25sm286808266b.35.2026.07.08.02.16.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2026 02:16:04 -0700 (PDT)
+Date: Wed, 8 Jul 2026 05:16:00 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
+	Sourav Panda <souravpanda@google.com>, muchun.song@linux.dev,
+	osalvador@suse.de, akpm@linux-foundation.org, liam@infradead.org,
+	vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
+	mhocko@suse.com, mhklinux@outlook.com, fvdl@google.com,
+	gthelen@google.com, mike.kravetz@oracle.com,
+	pasha.tatashin@soleen.com, rientjes@google.com, riel@surriel.com,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH 0/6] mm/hugetlb: Dynamic, NUMA-aware HugePage Cache &
+ Free Page Reporting
+Message-ID: <20260708050547-mutt-send-email-mst@kernel.org>
+References: <20260707064235.1386552-1-souravpanda@google.com>
+ <9624988a-366e-4884-9408-3f3b88c27290@kernel.org>
+ <20260707062428-mutt-send-email-mst@kernel.org>
+ <b9a48d89-74f1-43d4-b7bb-be988b6855c9@kernel.org>
+ <akzZr2jfJ0J8zox4@lucifer>
+ <20260707095843-mutt-send-email-mst@kernel.org>
+ <ak0xWgpJPSaNWPsl@lucifer>
+ <20260707152755-mutt-send-email-mst@kernel.org>
+ <f9bad4b3-93ee-4daf-84d5-97f6ca305240@kernel.org>
+ <ak4JiBcvi29sYx0v@lucifer>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260707220450.1200943-1-joannelkoong@gmail.com> <20260707220450.1200943-2-joannelkoong@gmail.com>
-In-Reply-To: <20260707220450.1200943-2-joannelkoong@gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 8 Jul 2026 11:15:38 +0200
-X-Gm-Features: AVVi8Cdp1-AfPxeHhgZc9FUYYy-gsHRYFV4a2GSWjiwCq8piIMWPikl7ZjEBuYg
-Message-ID: <CAJfpegvoUdYToRnKQEkdrSGshwpOFt2Aw30QjoY3zuR-0kLJ4g@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] fuse: don't clear folio uptodate on writethrough errors
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: brauner@kernel.org, djwong@kernel.org, hch@lst.de, willy@infradead.org, 
-	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ak4JiBcvi29sYx0v@lucifer>
 
-On Wed, 8 Jul 2026 at 00:05, Joanne Koong <joannelkoong@gmail.com> wrote:
->
-> In the writethrough path (fuse_send_write_pages()), if the write to the
-> server failed or was a short write, the uptodate flag on the folios are
-> cleared.
->
-> As explained by Matthew in [1], this is dangerous because the folio may
-> be mapped into userspace. The mm code has the invariant that a
-> non-uptodate folio must never be visible to userspace (to avoid
-> potentially leaking confidental information to userspace) and has checks
-> in place for this that if violated can bring down the whole machine.
->
-> Practically speaking, the effect of this change for the fuse
-> writethrough error path is that if an application does a write and then
-> the server fails to persist the data or only services a short write, the
-> page cache folio keeps the data the application wrote instead of being
-> reverted to the server's contents on the next read. The failure is still
-> reported to the application synchronously through the short count /
-> error return of the write() syscall. Folios that were only partially
-> written are unaffected since they were never marked uptodate in the
-> first place (fuse_fill_write_page() only marks a folio as uptodate if
-> the whole folio was written to).
->
-> [1] https://lore.kernel.org/linux-fsdevel/ajtPMgO65FA1TXhi@casper.infradead.org/
->
-> Suggested-by: Matthew Wilcox <willy@infradead.org>
-> Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+On Wed, Jul 08, 2026 at 09:26:18AM +0100, Lorenzo Stoakes wrote:
+> On Tue, Jul 07, 2026 at 09:46:14PM +0200, David Hildenbrand (Arm) wrote:
+> > On 7/7/26 21:32, Michael S. Tsirkin wrote:
+> > > On Tue, Jul 07, 2026 at 07:46:28PM +0100, Lorenzo Stoakes wrote:
+> > >> On Tue, Jul 07, 2026 at 10:01:55AM -0400, Michael S. Tsirkin wrote:
+> > >>>
+> > >>> Fair enough.
+> > >>>
+> > >>>
+> > >>> Lorenzo, do you know *how* you want it reworked? Could you write it up
+> > >>> at a high level?
+> > >>> Because if not, it's not really practical to make it the asking price.
+> > >>
+> > >> Michael, you're an experienced maintainer, I'm surprised I have to tell you that
+> > >> the burden for that lands on the submitter.
+> > >
+> > > Oh sure, "fix bugs A,B,C before you add to this mess" is a classic way
+> > > to actually not end up with even more of a mess.  But I usually do try
+> > > to be explicit of what are specific issues I want submitter to address.
+> > > I don't really feel figuring that out lands on the submitter.
+> >
+> > Sometimes it's certainly easier. With things like hugetlb there often just isn't
+> > a feasible way to integrate it nicely into core-mm. It's just too special.
+> 
+> Yeah exactly :) once you reach a certain level of 'specialness' it is more like
+> pointing at a flaming trash pile and crying ;)
+> 
+> >
+> > --
+> > Cheers,
+> >
+> > David
+> 
+> Cheers, Lorenzo
 
-Acked-by: Miklos Szeredi <mszeredi@redhat.com>
+Well as long as I'm not the one being asked to put it out ... it is just
+hard for me to get motivated to do cleanups if there's no actual bug to
+fix, or a feature to develop somewhat proportional in size to the
+cleanup.  But for example, and without calling anything trash, after poking
+at memory-failure.c, *I* want to cry, because either there's multiple
+races, or I just don't understand the code.  Some of these we discussed
+here already.
+
+It seems to boil down to the fact that when people start getting lots of
+these errors they rush out and buy a new system, so hey. But maybe with
+RAM prices spiking it will become less practical. I'll put together an
+email with a list later, maybe.
+
+-- 
+MST
+
