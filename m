@@ -1,51 +1,61 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A974543933A;
-	Wed,  8 Jul 2026 15:11:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441A33451AF
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 15:20:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783523491; cv=none; b=dDmywzyvgt54v6PUwV+UHIzY+5cBJlb5bGXAn2X5UjGaxcQeBrA7DR9mYN+FHLcU2Q0GBZEOsCgQOqpcEfO8PAWBsBf/dmrPbUU1qGcW/Q3UtXPJBgxOX6LNjp2dYGZV5c/dYggoUkAIZPd0nHvzJUBm/PL6p+25PmwCFavgtqo=
+	t=1783524049; cv=none; b=JJZ/lc3oVp0+zzgm+33AaEwkSYUt6ZR12B9a42qfJIBYq64+xn24DXpNuM821IcbJI4rt6fqnstKqmIhNC4uogFNL/x2wwpuw4KuiODlGb7n8/MVmFqA4R4/jhmojy3FCwoC9XkhQVoq2QWi0q5KIdBGT0ZjT1itML7FPokxmZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783523491; c=relaxed/simple;
-	bh=e9Pwqi3HUHnU2PuAXg/qt6DJChuZLGaMD4MRDQMpSUk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k8T+lmne7uNwRQMjjZ/KID3vwkUrxuoYNmktVWoZyeSS1ovxcxp+to4j4rktS8mh83vgTvMghyjwT552TaXe/s2fD6U3VhEs4EPQdWEvW1XqHeH45S+iWyR6fkQYS2iRmbPp1rd20n4cQOrF+TjZB58vVFisX+KUCMIandtSQpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=Qb/RHv7i; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1783524049; c=relaxed/simple;
+	bh=egXNSArxmifD0d1+HC2SRs4++zil4J0Ar3ohlCyBw8g=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Sg6J73/LG46m88AHnLedZ1E5hjRg0PedZKylFYf6WM9HiarMRSHDQRKD7CY+o9K5XMMSR2JGgK0X1hI673soUf4rSb/TIS24CH6+rSt9/P4lW3HawL8DuaS6dWMv8Vg6n7R49UbZB8/pp+8E4Vha+NaCwOLsN0Pj3xXRXw+hUnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=P6k2jwoj; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="Qb/RHv7i"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description;
-	bh=J/pxFY9i2H1uIH3qn2WpI5uESSkpNo34KEyz12tu0PU=; b=Qb/RHv7i1+F4sr7MQhDRn3uu+I
-	8L+loRdJTb+yr7Y0MHO1DU23FhxCmJhKEtIcDAW0ukpfcVstplEJaZchJiJc6if1n+jApqVUsmtQT
-	Sf/1O6FSem4VnEgSFarNmSGraxSvHmefjp1iQNF7zgbhWyTzpR0jh7F1euvF+Lv4/rffxHCrqjmLd
-	5K+vl7GSG8uYR8jVsbOVdQSFlNtO2iZDdithih6+EJ5G4ZE4RpzdhYEhLMFLbZoF+pmTO6q9bVTpb
-	fVNDerc41HdFxY/pqnY4+bs5lrNDB6XnHUONGr0i96fdk4ClPwdw3BpoqZ4dFtWJIzpbcm9kop/H5
-	aLGfjczg==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1whTvZ-0032EZ-0G;
-	Wed, 08 Jul 2026 15:11:09 +0000
-Date: Wed, 8 Jul 2026 08:11:03 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, oleg@redhat.com, josh@joshtriplett.org, Jan Kara <jack@suse.cz>, 
-	jlayton@kernel.org, axboe@kernel.dk, shakeel.butt@linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v2 0/4] fs/pipe: unify the page pools into a single
- per-pipe pool
-Message-ID: <ak5nXRnSSXfA2B75@gmail.com>
-References: <20260707-b4-pipe-unification-v2-0-eb52bddeeefd@debian.org>
- <CAGudoHFGFJZ_j-osEKnLvGYGai+SKVAJKy8B_PChWms7SN7xoA@mail.gmail.com>
- <ak4rSEAwV-RoG1MO@gmail.com>
- <rac56njg4yorvhc5oyrme6bt7ej2vs64umbqkz2np32wpjbcjj@wohli2ntub4s>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="P6k2jwoj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1783524047;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HURSYDykY8k1L24raC+Jwe3BrV0VQrzse+Bwrd/cOZI=;
+	b=P6k2jwojHxI51JIUnvnH5jB87KTgaJ0kqslqgI1yMarcFZUpLILtkfomdMzA+6DeHSdP4c
+	i9/39LuriH5iMvEHcQDjNCqA3ENAYHR6NSXkWXkb8Tt971YOWjOlb4SE+3AzSY5ElCsdn/
+	BL8z6n5ucrQpC7AGHKPKbc14j8f45tM=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-630-vDRzEdaNORW7ILXOiYMtLQ-1; Wed,
+ 08 Jul 2026 11:20:42 -0400
+X-MC-Unique: vDRzEdaNORW7ILXOiYMtLQ-1
+X-Mimecast-MFC-AGG-ID: vDRzEdaNORW7ILXOiYMtLQ_1783524042
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7F1D8195604D;
+	Wed,  8 Jul 2026 15:20:41 +0000 (UTC)
+Received: from localhost (unknown [10.44.33.4])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B25A81955F7B;
+	Wed,  8 Jul 2026 15:20:40 +0000 (UTC)
+From: Giuseppe Scrivano <gscrivan@redhat.com>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: linux-erofs@lists.ozlabs.org,  linux-fsdevel@vger.kernel.org,
+  linux-api@vger.kernel.org
+Subject: Re: [PATCH 2/2] erofs: add ioctl to retrieve the backing source
+ file descriptor
+In-Reply-To: <CALCETrVE0g-qKC079K4Ch=26VH6R+q1tXVU7HiN_Og9o1zzpow@mail.gmail.com>
+	(Andy Lutomirski's message of "Wed, 8 Jul 2026 07:55:25 -0700")
+References: <20260708093446.3370200-1-gscrivan@redhat.com>
+	<20260708093446.3370200-3-gscrivan@redhat.com>
+	<CALCETrVE0g-qKC079K4Ch=26VH6R+q1tXVU7HiN_Og9o1zzpow@mail.gmail.com>
+Date: Wed, 08 Jul 2026 17:20:39 +0200
+Message-ID: <87se5t7bjs.fsf@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -53,106 +63,48 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <rac56njg4yorvhc5oyrme6bt7ej2vs64umbqkz2np32wpjbcjj@wohli2ntub4s>
-X-Debian-User: leitao
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On Wed, Jul 08, 2026 at 03:18:58PM +0200, Mateusz Guzik wrote:
-> On Wed, Jul 08, 2026 at 05:09:19AM -0700, Breno Leitao wrote:
-> > On Tue, Jul 07, 2026 at 05:29:20PM +0200, Mateusz Guzik wrote:
-> > > On Tue, Jul 7, 2026 at 5:05 PM Breno Leitao <leitao@debian.org> wrote:
-> > > >
-> > > > TL;DR: This simplifies the pipe code, unify the page pools, reduce the
-> > > > code by 9 lines (not counting comments), and no regressions are seen in
-> > > > terms of performance.
-> > > >
-> > > 
-> > > This adds an additional acquire + release cycle on the mutex for every
-> > > write which preallocates, so I don't see how that's supposed to *not*
-> > > slow things down in some capacity.
-> > 
-> > Thanks a lot for the benchmark and the numbers -- a write-heavy pipe
-> > workload with the reader and writer on separate CPUs is exactly the case
-> > I wanted to make sure doesn't regress.
-> > 
-> > I double-checked it again with your test on different setups and page sizes I
-> > don't see the regression you are seeing: the bare-metal numbers are
-> > flat-to-positive at your size.
-> > 
-> > I couldn't get my hands on a Sapphire Rapids box easily, so the bare-metal runs
-> > are on a Cooper Lake Xeon (the same class I used for the cover letter) and
-> > NVIDIA Grace (arm64). Both hosts are completely idle.
-> > 
-> > 1) X86 test
-> > 
-> > CPU:  Intel(R) Xeon(R) Platinum 8321HC @ 1.40GHz (Cooper Lake)
-> >       1 socket / 26 cores / 2 threads = 52 CPUs
-> >       L3 35.8 MiB (1 instance), single NUMA node (0-51)
-> >       max freq == base 1.40GHz (no turbo), so the clock is steady
-> > 
-> > Bare metal, Intel(R) Xeon(R) Platinum 8321HC, your pipen.c
-> >    (writer on CPU0, reader on CPU1 -- separate physical cores, same
-> >    socket, shared L3), blocking pipe, 12 x 8s per point, median MB/s:
-> > 
-> >      PIPEN_SIZE   baseline   patched    delta
-> >        4096         2658       2531      -4.8%   (noise?)
-> >        32678        3517       3527      +0.3%   (your size -- flat)
-> >        65536        3072       3358      +9.3%
-> > 
-> >    4096 is a single-page write that barely touches the pool; the swing
-> >    there is inside the run-to-run variance (sd ~100 MB/s on a ~2600
-> >    median), so I read it as neutral, not a regression. At 32678/65536
-> >    the variance is small (sd 18-58 MB/s), so those deltas are real.
-> > 
-> > 
-> >  
-> > 2) Arm64 test:
-> > 
-> >  Machine / build:
-> >     - NVIDIA Grace (Neoverse-V2), 72 cores, 1 socket, no SMT,
-> >       single NUMA node, ~256 GB RAM
-> >     - Kernel using 64k pages.
-> > 
-> > Results (baseline vs patched):
-> > 
-> >   PIPEN_SIZE   pages   baseline   patched   delta    regime
-> >      65536       1       17759     17683    -0.4%    want=1 → pool covers it, NO extra lock (no-op)
-> >     131072       2       17583     19734   +12.2%    prefill + extra lock taken
-> >     262144       4       18781     21017   +11.9%    prefill + extra lock taken
-> >     524288       8       19061     20886    +9.6%    = pool max; == Similar to Guzik's 32678 (8 pages)
-> >    1048576      16       16842     17110    +1.6%    pool overflows; == Guzik's 65536 (16 pages)
-> 
-> I verified the extra lock acquires *do* show up on the profile for me
-> (with bpftrace -e 'kprobe:osq_lock { @[kstack()] = count(); }'), so this
-> has to be leaving perf on the table.
-> 
-> However, looking at the diff it seems the extra acquires can be
-> trivially avoided? See below (untested, consider it an illustration of
-> what I mean -- if it works as is I'm fine if it gets folded into your
-> patchset without credit).
+Andy Lutomirski <luto@amacapital.net> writes:
 
-That is a very nice improvement, thanks for thinking about it and proposing the
-patch.
+> On Wed, Jul 8, 2026 at 2:36=E2=80=AFAM Giuseppe Scrivano <gscrivan@redhat=
+.com> wrote:
+>>
+>> Add EROFS_IOC_GET_SOURCE_FD ioctl that returns a file descriptor to the
+>> backing image file for file-backed erofs mounts.
+>
+> What=E2=80=99s the use case?
 
-In my quick check on arm64, I haven't seen a big improvement in my Grace arm64
-host, These are the numbers I got now:
+the use case is to reuse EROFS mounts across multiple composefs mounts
+without needing a user space daemon to keep the fd alive.  The advantage
+is that we can share the same superblock across multiple overlay mounts,
+instead of limiting the sharing to the same backing file.
 
-  3-way comparison — arm64 Grace, 64K pages
+> In any event, this seems to have potential security and API-oddity implic=
+ations.
+>
+> 1. That capable(CAP_SYS_ADMIN) seems critical =E2=80=94 otherwise a task =
+that
+> is admin in a userns can get an fd to a backing file *outside* its
+> container or to an otherwise inaccessible file.  It at least needs a
+> comment IMO.
 
-    SIZE     pg    base  mypatch  guzik    v2/base   guzik/base   guzik/mypatch
-    65536     1   17759   17683   17598     -0.4%       -0.9%        -0.5%
-   131072     2   17583   19734   19953    +12.2%      +13.5%        +1.1%
-   262144     4   18781   21017   20998    +11.9%      +11.8%        -0.1%
-   524288     8   19061   20886   20569     +9.6%       +7.9%        -1.5%
-  1048576    16   16842   17110   16920     +1.6%       +0.5%        -1.1%
+thanks, I'll add that.
 
-So, basically just noise compared to this patch in here for that given
-CPU/platform.
+> 2.  This series appears to fully round-trip the struct file. That
+> means that f_cred and mode are preserved. This seems strange and may
+> have all kinds of accidental effects. For mode in parallel, if the
+> program that mounts the backing store opened it for write, then this
+> API gives a writable fd, which seems like an odd choice for a
+> filesystem that literally has read only in the name.
+> The OVL variant has these issues to a lesser extent due to the fact
+> that it returns an O_PATH fd instead of an actual open file.
 
-That said, your approach is better than what I had, and I would like to
-integrate it to this patch set. Os it OK if I give a Co-developed-with:
-tag?
+I didn't think much of the file mode as I assumed requiring
+CAP_SYS_ADMIN was enough.  I'll change the file mode to O_RDONLY and use
+current_cred() to open it.  Would that be enough?
 
-Thanks for your help here,
---breno
+Thanks,
+Giuseppe
+
