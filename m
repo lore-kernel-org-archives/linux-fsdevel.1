@@ -1,128 +1,293 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD5738F232
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 10:25:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783506311; cv=pass; b=JTxaTs61TocNKJFLqduojDVcxl7e9l0jmRSAmOuohnWXMeMxUq6V2+F88Yq6KzEW+RliowIxBKT8kfrBK7yKbmlMYaa7iEcpuoroA2nCs2c7UDPSZDlJo5VtGX0BQaoPHrZgRwYCa58dh+cTiWBm9uHWq+Gqgx+rStg0DdRJkVk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783506311; c=relaxed/simple;
-	bh=v2iptkwSmC7pfjv/tAPSoVfRUn3ZZPHoGdlB4QA7hqs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZXO6gvX1X0tLgOj/jULJ/TA6TTF6e4crelX8vIeYgwWcpqdOs6/gVVrrzb1SKRfqNKD3J/tgAQceKDJgdoh1i3NJ1hCGwn6htNJgyXqfA0sZkHQIVoOOm/Zt1G9pfxlooH6daIzSRwloW71AQZWHRO25dEqv0Y/1ewb3choge2g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=Mg3hHQdB; arc=pass smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D752240913C;
+	Wed,  8 Jul 2026 10:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783506884; cv=none; b=l1NRLwQ7aXS9NCAT87IXC/WfeIKY1eiBSY0EUI7XkD6fyk3hWfS+FsgspLW/TYeNeD853DdOb4OqUkzFD5JttgSDZxjClENdyhvB5alsKUdif+V+BOwN1IMmF2Ruu2FT/MUixLwygg5NlvOXmhQsnGlgSmzG2sLlflZCCOEuid8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783506884; c=relaxed/simple;
+	bh=sB5GmOPx9Utf7L6/OTIi4AFfWeCPHcUN4T5nv0kMOhI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j6eTa93hkRqbR5FX4dbXZ5Kz9U5hn4+nKCutLeDKLwhbNQsGy2pNLQMsCK0VK6snGVAvzhbS6KV9Kt4M+aPDLcWLC8tmf6g2hkZ7fBmQjqa7gLItpdESZro8rAoXRW38sa+nHXPgWLTNODWaXx1KHxsGPApUAw6yZBUvm0XEZ0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name; spf=pass smtp.mailfrom=shutemov.name; dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b=kIUtDK6S; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=mMMCYaSE; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="Mg3hHQdB"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51c04bf4711so3726041cf.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Jul 2026 03:25:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783506308; cv=none;
-        d=google.com; s=arc-20260327;
-        b=YG9UxY1NuoKaxFDrLDjhNS2HfNCxepzP1Ky6iPG/fdTkpDYhJoE8QlZqfkW50WdbfY
-         xbZ8IwaRo9wvkrTFjY6w8zAjr3NTMNhFqeax61zHdB0t/B6F/1G7mzw0YX6xDJp3gKCA
-         ao/0xG9Nt8gIQylSjxrlQk/LKwqnIIl8DvT2Brih552CQw7uqyiPoE+ZJVGNskB+pL1o
-         1CAEgA1fB9y2G0TcAu0sazTHcmKN+BeaiO7eE3nyl11IlJdP2fy3z4BTZvE9fYIJCQTt
-         tAECjbmi8W1o9unGIoxrJslxU/iMsgGPk/dpXDr44/NV1/qpEdB/OM8ua4NCek5YlXF/
-         hseA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=yQ494GWLnZ57cIKhXAy1AeNd/Rccg66OrqluMTPjUdM=;
-        fh=KZkblFZLoTvHkXku+xNaKXWbjVBz1Vqnm9lKrpAX/Ck=;
-        b=e3OOhXR+0Z6KfDBTTkYj5VdgLI0ybjFmvkR2ssumm2HIYtH8gffzoSt0cl9MVubIDP
-         NGlxtFtk2TXCV2tH9nye/v177iWgTd3WbsY9hZguxOzRQcWslXtv8TjJrXgjoAPFumDA
-         kjmlz4cSw+KzMWY5FUXhmATGkJ1n7mfGlIPV4mTwsP1lBhgRYf43Jvs3ExOvFJE+nxU5
-         7tMm3phOMxIkpgCbEGTO6QrCYZFVT9Ro5pJswNOqv+QS12bpzd4jcS3Op2T/fX6DidBU
-         ocRLZbyjUp+Lbt28nohlhpSBNkKvppfdTu5s1XwyyilgW3smuFvsfG2dBkNrWJ0JkEqE
-         ISSA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1783506308; x=1784111108; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yQ494GWLnZ57cIKhXAy1AeNd/Rccg66OrqluMTPjUdM=;
-        b=Mg3hHQdBKffZVJhW6YLkcvGtjjXB91BMFTVl6H2iE5b/QH5Nbmgx3zo8BP4c3l7kM6
-         SwmNstjdVPqU+3PweEYhncYDXK508yMmQiWHh8TaZ73FZsseRKxhoUBvVNr6tNaG3sox
-         ympDg+MP7NgjdQpTjAu0GQw/nUN38fegAoPLM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783506308; x=1784111108;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=yQ494GWLnZ57cIKhXAy1AeNd/Rccg66OrqluMTPjUdM=;
-        b=Iae54QtzquaQFoaV09WyAHTNV9QW6u2uQvn5uPwzR20rVgA9MI1dXUAu8zUkni4ZYX
-         VJJpwy7u9yAwYIHu3UVu7q2xc1zFroDPnbWDeCIkrQzsn5CiCbL6sTnS121bZ/w3z/2+
-         Q75KkVY7eNfPm0jZD5gS6+7iNR15ykQ9i2wORJvadmfYqx8AzeUv9rIa3cIlVRurP6wo
-         GZq+DcP794gM2HR/k8s+lmNpwM1nJfPlXuinfqX8oLtLsn11DEUGLlQFemIFnkYRrK16
-         f00QctEVOZCSXdjIE5X3fZo9ubS7n1mzm5RLArOpzLPQpbB0FspJkB0D+Xybeu8wD0aU
-         mWNw==
-X-Forwarded-Encrypted: i=1; AHgh+RrZ3RVr6kry222X/WPWed2uN+WWjHJWFk2WwOSmlQMGmYVCAj8tFOgJNd0CFbRdUr7HviytHPSQhbnsOhYU@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGBvK6WeqF3NV9icmLXJMNLtX0ATaX0A2CzaaDwJIB7bbrO9eA
-	r94KEG6rM8Ng178hqBomvOga0vjbEIU+pCxpEciaseGvX/1yzpi3kmOcEUqD8KkgpoOYOhfbkB1
-	ajbvBgxXBtk6y5d8gPa09SnXUQ1y6rJ8hxDBDLofCrw==
-X-Gm-Gg: AfdE7cnj0/BkxOZjZM3WEtgvg+hsmIAZDWz4qPz7zJRN5LvGXUSdCkByRVqOzqsJAcf
-	8GykHoIPXn+/Pm6Wz8cYt0urx/vsvmQz+SNTp5WYXx3MwH3wa6JZCQiCZWQoNXXlgYfe4OYCBH1
-	th6EiMvlY+6/Uhc8TVP3zquRsc/0Y9t8QhHTCpUR52sNYY011bKp7Ke7l20d+zzR7cmTkV658c8
-	oZuWwXAlivl+mJ4LKz8yqwaHJq220wyK3CehKKiF4MW3IDQspvMEJ6r4+Tk2fwaSIbkz9qUw52J
-	nYH/7dP8uXCuS3Uv4iqdHm/4Jpc=
-X-Received: by 2002:a05:622a:2282:b0:51c:7b12:5fcd with SMTP id
- d75a77b69052e-51c8b40a23amr19083641cf.73.1783506308598; Wed, 08 Jul 2026
- 03:25:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b="kIUtDK6S";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mMMCYaSE"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 000777A0118;
+	Wed,  8 Jul 2026 06:34:31 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Wed, 08 Jul 2026 06:34:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm3; t=1783506871; x=1783593271; bh=2h8jyIfaVx
+	T1n76UeixMaq5PQ/5hlh5CP4XoQBQpKN0=; b=kIUtDK6S2SV3BHIbHpNl7150il
+	Xcjgv7aU6Ne6bpWk7peFRq8DpfiAEmxYjBzx/XXbAU2KgVnb+iZ1UbJ2eU5dtSrc
+	fcefdE+1n0c+zBEvVir1GmyozLbViF414gqRnsIQcHU7sQLhbVQVSa4r44chvEqk
+	4xftnLFdx+c1kEeUnHl5DD4ZwU3akEK3phC7EuZeG9NAsCyaOn6cVNBEZod6/CQO
+	BpcOVEwAG7IDLFde3Snx6jebdnaE8pdgtI7qS04rAcS4wkhdrBu/8xytKsJdfSbK
+	TKUXNs+EmH/nqoprbNafhoSFyvE7IUl6lix20ooD83w91KXIAI7+tKqRgfpA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1783506871; x=1783593271; bh=2h8jyIfaVxT1n76UeixMaq5PQ/5hlh5CP4X
+	oQBQpKN0=; b=mMMCYaSEWrHESHn4kTMSGlkrX7InDtJHWZfYd8n2TD4PxeT8I+b
+	VJGPpZl0yUjjURUx7znzca6Ddmk7KZrUT0tzigfm4qqqutBgDLuzVQpCZ8s+BNP8
+	smDa47wzd7nihw9YiSMY7mdeDEnrpPoZiQeFrqtLI2aD82iXZirOl1qsrmt9EKaD
+	6h4Xij7HHOQk3egZbQMoOtxydMIOn9LiZDVgYjrwuQqpfSMWqWRzy0qxRVj0iyEW
+	oqbwchMkGXCwzeL/ZcM6P5eBY7bymWW3ujGm7mLrbzM8HjnqniJKI9s5qhvoJPea
+	sM/rY2K0S+N3DpZhA9jNhUgozs9xVK2QzAg==
+X-ME-Sender: <xms:tidOartV0wIEmIOf0xW-mAYOFIVHVU3Iqa7Up9AKyQA8bQu4G0bLWw>
+    <xme:tidOajbgSFrrObj0ODgBCl0jv1EV_XrMCzLe6K_KpgyMZYUQq7GPrRmjNIEN7lst5
+    M_VpBAA7fio8N7durg3-Mtk11GADrp3ozBsrcBE5VSGbmamU8TeYe0>
+X-ME-Received: <xmr:tidOaj1NLyKGtfVtk3H-JYqehPwbSJ8c00zNDRb4H8fqkp-cQRCtDfAnhZf5Wg>
+X-ME-Proxy-Cause: dmFkZTFi9VmUiW6GoSgieIDCNHZMP6Q4DB8+o7rZTrkdeg57rA0WNV4UEMbgfG0zqEFRUN
+    bXrFMDzJDmZVhoVTGiGO/YRZN4+1ov2mMJFLC5jX/nlhFoDFmzTj8HNBkDkHBGBbyyKNkf
+    xZyAkkud2L2K5Av8QUdjQ5XYi8pC5FMJ9A1ss/qdDvFmJlh+CQ6jFJwaNX0ej5Siij9oFZ
+    cP0MKYvpt39/1cQ3CBE3x8ZOPmF/uGsecIgtn1+CV1GNHhyQ4cOMS01XDL40bu5rWXZprv
+    BWtgM3ddnbRujsfBq+Fby5hiFsr6MLJ86Q8b7L7JJxrVIwGb0u9jFP9lAv+zowk++T7YB6
+    HOp4mtnq70dVslAGbj3R2UOMUBNZYJPdTV0DnCz3sQCR0Ek0+QQxnRlIF3JB58ygEszI25
+    p4oYA5aFORyfRBSBqv1I8QCaPHQPsfLaYbWOLk2WrRj8Y79U/KL6Nx/tsXtaMydAm9Tes5
+    Mc1/rFgMwhq6lPUtSoiJpgHrFify7+Xbn+wbI+hSH74ekV6owJG2yDPKf7PDin/JadrBDa
+    CCy2A3i7dD+EkUwWBamz61NVgNQCCLDmfhurQjHdOlK0YdpinJ79m3XCX999cNur+mPXji
+    DuqIyzIZE1sjoMgFv/Fwp5bD2A/vxM0aPV9PThvHFbmin+zESmqICQg5mu9A
+X-ME-Proxy: <xmx:tidOahXpekzdcOJWgMsRZQaihlEpSI84kMkNVgBSEc2QCHz6j74NVQ>
+    <xmx:tidOamsQeS1_J8zdCYwbRdXomYM9AymNteYnMTnTj6V-0BrXlKLorw>
+    <xmx:tidOagX3wYp3u8_ZPY3-tqCV2NjE0KHtChFS14L2dc320tsRm3TpUw>
+    <xmx:tidOaqXzbJrykAwT5pEjXxVYvh2ZmPuDHw6-j9gZqiMBGo-CKJaomw>
+    <xmx:tydOarwHV-PCon1kFV8UbIIIzFdPO9Y-Wi8ZAokZAu8erJB6G63gxMh_>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 8 Jul 2026 06:34:30 -0400 (EDT)
+From: Kiryl Shutsemau <kirill@shutemov.name>
+To: akpm@linux-foundation.org
+Cc: usama.anjum@collabora.com,
+	peterx@redhat.com,
+	liam@infradead.org,
+	ljs@kernel.org,
+	vbabka@kernel.org,
+	jannh@google.com,
+	pfalcato@suse.de,
+	david@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	shuah@kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	stable@vger.kernel.org,
+	kernel-team@meta.com
+Subject: [PATCH v2] fs/proc/task_mmu: fix PAGEMAP_SCAN written state for PMD holes
+Date: Wed,  8 Jul 2026 11:34:29 +0100
+Message-ID: <20260708103429.150655-1-kirill@shutemov.name>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260708095831.3381978-1-gscrivan@redhat.com>
-In-Reply-To: <20260708095831.3381978-1-gscrivan@redhat.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 8 Jul 2026 12:24:56 +0200
-X-Gm-Features: AVVi8CfCXklAzPR7aDHbzayp-qscildNngPjuk9ohznhtjXLzwjf1tF6bysoZxo
-Message-ID: <CAJfpegsJON=1_84PCGMjASYPFL=Wqsz7dnTAbO3Tdz5DfRQU+g@mail.gmail.com>
-Subject: Re: [PATCH] ovl: add ioctls to retrieve layer file descriptors
-To: Giuseppe Scrivano <gscrivan@redhat.com>
-Cc: linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, 8 Jul 2026 at 12:00, Giuseppe Scrivano <gscrivan@redhat.com> wrote:
->
-> Add two ioctls to overlay filesystem to allow userspace to retrieve
-> information about the overlay layers:
->
-> OVL_IOC_OPEN_LAYER:     return an O_PATH fd to the root of a layer.
->                         arg == 0 returns the upper layer (-ENOENT if
->                         no upper is configured), arg >= 1 returns
->                         lower layers (-ENOENT if index is out of
->                         range).
+From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 
-We could do this with a plain open() call.  Something like the magic
-symlinks we have under /proc/PID/fd/.   Question is where could these
-live...
+PAGEMAP_SCAN reports an unpopulated PTE in a uffd-wp VMA as written
+(pagemap_page_category() and the PAGE_IS_WRITTEN fast path), but a range
+with no page table at all -- a PMD hole -- is skipped.
+pagemap_scan_pte_hole() evaluates the hole against p->cur_vma_category,
+which pagemap_scan_test_walk() builds from only PAGE_IS_WPALLOWED and
+PAGE_IS_SOFT_DIRTY, so PAGE_IS_WRITTEN is never set: the hole is neither
+reported nor, under PM_SCAN_WP_MATCHING, armed.
 
-> OVL_IOC_GET_LAYERS_INFO: copy a struct ovl_layers_info to userspace
->                         with numlower, numlowerdata, and has_upper.
+This is reachable. An anonymous THP is write-protected in place as a huge
+PMD (change_huge_pmd(), anon is not split), and a full-PMD MADV_DONTNEED
+clears it to pmd_none. A WP-async consumer such as CRIU then misses the
+2MB drop -- the range is not reported written and the next incremental
+dump keeps stale data. (A file/shmem THP is split on write-protect, so a
+later DONTNEED leaves a populated page table of pte_none entries, which
+are already reported; only anon THP reaches the hole path.)
 
-Isn't this info obtainable via statmount(2) already?  If not, it
-should be there, instead of a specialized ioctl.
+Add PAGE_IS_WRITTEN to the categories evaluated for a hole in a
+non-hugetlb uffd-wp VMA, matching the pte_none handling in
+pagemap_page_category(). The existing PM_SCAN_WP_MATCHING path then also
+arms the range: uffd_wp_range() allocates the page table and installs
+markers under WP_UNPOPULATED, so the next scan sees it clean until
+re-written.
 
-> --- a/fs/overlayfs/ovl_entry.h
-> +++ b/fs/overlayfs/ovl_entry.h
-> @@ -35,6 +35,8 @@ struct ovl_layer {
->         struct vfsmount *mnt;
->         /* Trap in ovl inode cache */
->         struct inode *trap;
-> +       /* Keeps the original fsmount file alive for OVL_IOC_OPEN_LAYER */
-> +       struct file *origin;
+hugetlb is excluded on purpose: an allocated-but-empty huge entry reads
+as not-written via pagemap_hugetlb_category(), so reporting an
+unallocated hugetlb hole (which also reaches this path) as written would
+be inconsistent within the same VMA. hugetlb hole handling is left as-is.
 
-Don't need to keep the file open: the only info missing is the
-original vfsmount, everything else is already there to reconstruct the
-file.
+Add a pagemap_ioctl selftest that forms an anon THP, drops it with
+MADV_DONTNEED and checks the resulting PMD hole is reported written.
 
-Thanks,
-Miklos
+Fixes: 2bad466cc9d9 ("mm/uffd: UFFD_FEATURE_WP_UNPOPULATED")
+Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+Assisted-by: Claude:claude-fable-5
+---
+
+Changes since v1 [1], addressing Sashiko AI review:
+  - Exclude hugetlb from the hole PAGE_IS_WRITTEN report. An unallocated
+    hugetlb slot also reaches pagemap_scan_pte_hole(), and reporting it
+    written while an allocated-but-empty huge entry reads not-written
+    (pagemap_hugetlb_category()) would be inconsistent within the VMA.
+    This also keeps the pre-existing pagemap_scan_hugetlb_hole_wp() range
+    concern out of scope here.
+
+Based on the pte_none fix [2] (same selftest file).
+
+[1] https://lore.kernel.org/all/20260708093444.145566-1-kirill@shutemov.name/
+[2] https://lore.kernel.org/all/20260707151349.92143-1-kirill@shutemov.name/
+ fs/proc/task_mmu.c                         | 25 ++++++++-
+ tools/testing/selftests/mm/pagemap_ioctl.c | 60 +++++++++++++++++++++-
+ 2 files changed, 82 insertions(+), 3 deletions(-)
+
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index d45c729ab6bb..fad648f9a40c 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -3049,12 +3049,33 @@ static int pagemap_scan_pte_hole(unsigned long addr, unsigned long end,
+ {
+ 	struct pagemap_scan_private *p = walk->private;
+ 	struct vm_area_struct *vma = walk->vma;
++	unsigned long categories;
+ 	int ret, err;
+ 
+-	if (!vma || !pagemap_scan_is_interesting_page(p->cur_vma_category, p))
++	if (!vma)
+ 		return 0;
+ 
+-	ret = pagemap_scan_output(p->cur_vma_category, p, addr, &end);
++	/*
++	 * An unpopulated range with no page table -- e.g. a 2MB anon THP
++	 * dropped via MADV_DONTNEED, which pagemap_page_category() never sees
++	 * -- reads as written on a uffd-wp VMA, matching the pte_none case
++	 * there. Reporting it also lets the PM_SCAN_WP_MATCHING arming below
++	 * install markers (uffd_wp_range() allocates the page table under
++	 * WP_UNPOPULATED), so the next scan sees it clean until re-written.
++	 *
++	 * hugetlb is excluded: an allocated-but-empty huge entry reads as
++	 * not-written via pagemap_hugetlb_category(), so reporting an
++	 * unallocated hugetlb hole as written here would be inconsistent
++	 * within the same VMA.
++	 */
++	categories = p->cur_vma_category;
++	if (userfaultfd_wp(vma) && !is_vm_hugetlb_page(vma))
++		categories |= PAGE_IS_WRITTEN;
++
++	if (!pagemap_scan_is_interesting_page(categories, p))
++		return 0;
++
++	ret = pagemap_scan_output(categories, p, addr, &end);
+ 	if (addr == end)
+ 		return ret;
+ 
+diff --git a/tools/testing/selftests/mm/pagemap_ioctl.c b/tools/testing/selftests/mm/pagemap_ioctl.c
+index 550d1f2c059b..c0e45d0f7478 100644
+--- a/tools/testing/selftests/mm/pagemap_ioctl.c
++++ b/tools/testing/selftests/mm/pagemap_ioctl.c
+@@ -25,6 +25,10 @@
+ #include "kselftest.h"
+ #include "hugepage_settings.h"
+ 
++#ifndef MADV_COLLAPSE
++#define MADV_COLLAPSE 25
++#endif
++
+ #define PAGEMAP_BITS_ALL		(PAGE_IS_WPALLOWED | PAGE_IS_WRITTEN |	\
+ 					 PAGE_IS_FILE | PAGE_IS_PRESENT |	\
+ 					 PAGE_IS_SWAPPED | PAGE_IS_PFNZERO |	\
+@@ -1102,6 +1106,59 @@ static void unpopulated_scan_test(void)
+ 	munmap(mem, mem_size);
+ }
+ 
++/*
++ * A 2MB anon THP dropped with MADV_DONTNEED leaves a pmd_none hole with no
++ * page table, which pagemap_page_category() never sees. PAGEMAP_SCAN must
++ * still report it as written on a uffd-wp VMA, via pagemap_scan_pte_hole().
++ */
++static void unpopulated_thp_hole_test(void)
++{
++	long npages, written = 0, ret, i;
++	struct page_region regions[16];
++	char *area, *mem;
++
++	if (!hpage_size) {
++		ksft_test_result_skip("%s THP not supported\n", __func__);
++		return;
++	}
++	npages = hpage_size / page_size;
++
++	/* Get a PMD-aligned range so the range can be a single THP. */
++	area = mmap(NULL, 2 * hpage_size, PROT_READ | PROT_WRITE,
++		    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++	if (area == MAP_FAILED)
++		ksft_exit_fail_msg("%s mmap failed\n", __func__);
++	mem = (char *)(((unsigned long)area + hpage_size - 1) & ~(hpage_size - 1));
++
++	memset(mem, 1, hpage_size);
++	if (madvise(mem, hpage_size, MADV_COLLAPSE) ||
++	    !check_huge_anon(mem, 1, hpage_size)) {
++		ksft_test_result_skip("%s could not form a THP\n", __func__);
++		munmap(area, 2 * hpage_size);
++		return;
++	}
++
++	wp_init(mem, hpage_size);
++
++	/* Drop the whole PMD: it is cleared to a pmd_none hole. */
++	if (madvise(mem, hpage_size, MADV_DONTNEED))
++		ksft_exit_fail_msg("%s MADV_DONTNEED failed\n", __func__);
++
++	ret = pagemap_ioctl(mem, hpage_size, regions, 16, 0, 0,
++			    PAGE_IS_WRITTEN, 0, 0, PAGE_IS_WRITTEN);
++	if (ret < 0)
++		ksft_exit_fail_msg("%s scan failed\n", __func__);
++	for (i = 0; i < ret; i++)
++		written += LEN(regions[i]);
++
++	ksft_test_result(written == npages,
++			 "%s pmd-hole reported written (%ld of %ld)\n",
++			 __func__, written, npages);
++
++	wp_free(mem, hpage_size);
++	munmap(area, 2 * hpage_size);
++}
++
+ int sanity_tests(void)
+ {
+ 	unsigned long long mem_size, vec_size;
+@@ -1610,7 +1667,7 @@ int main(int __attribute__((unused)) argc, char *argv[])
+ 	if (!hugetlb_setup_default(4))
+ 		ksft_print_msg("HugeTLB test will be skipped\n");
+ 
+-	ksft_set_plan(118);
++	ksft_set_plan(119);
+ 
+ 	page_size = getpagesize();
+ 	hpage_size = read_pmd_pagesize();
+@@ -1790,6 +1847,7 @@ int main(int __attribute__((unused)) argc, char *argv[])
+ 
+ 	/* 18. Unpopulated pte scan-path consistency */
+ 	unpopulated_scan_test();
++	unpopulated_thp_hole_test();
+ 
+ 	close(pagemap_fd);
+ 	ksft_finished();
+
+base-commit: 9795ad96d277c4af049fe30de1cebd4e39d7bcbe
+-- 
+2.54.0
+
