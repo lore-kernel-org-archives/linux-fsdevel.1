@@ -1,144 +1,122 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F5E34D3B9
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 14:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783521615; cv=none; b=VRWFAAO3qpIBTbijhwHkc+1n+b/ain3mGGfE/JiKukM7hKkKz1DuSA1T6fMxDcq8leuZE8PLYBYhb4T/3yr3ltIbsPJWAVzraxc2w+x+LZks/91kwKDXfvKe0pEWhrWcvq0KT9sDrzgNtiZtYXCz1D8Ki8hCo5LUVNpOOIx9X0A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783521615; c=relaxed/simple;
-	bh=yuUVo46TPY5851lOHKupGp3FOepxlvwfEUBm91MEh4Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K3LOdpUHp5MRqcFKh6Ol4K3Xlu6d/TUdh1EF34YgiN8cTGsukQ9tRYrFo2cSfJ9IMuIhUXYfxkcHumeXBTbzAjXZB0YbisBdxXvIw2cfXuiKfr+APjcVHfn5qdGRqrNpi1gMilBU5V3l2lxXfosYx8KQggolLcDg4gY93z7MnMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=x6mCiXdN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8N9SpLHj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=x6mCiXdN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8N9SpLHj; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68EF3B7747
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 14:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783522540; cv=pass; b=inmJU+UaJNwVkG3AOa8O6sTQgJZGcIprzpI++xrY7KEz5+hpPc+09BlZn1sLhWwZ3m5+LWqLg6ICv9t6xVtxJujH7yi1s/R6NmLFohG6Y+LaTprKVxcJEN7ctDKoj9tjIj7KGFE0580v+X9jT+XHoYj/hqYb+ZchLKCSiVEXv8A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783522540; c=relaxed/simple;
+	bh=n90YfTOdmUl7zWpqdxsCFHko/DVT+Qm+JbT9gK4fWzs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HBic805e/1kQ+WVxSdUsAm3EuQn6m1gLfGgx9ACxyJK5y6h93gm1Q4qk+Ioig6IOuEVsH8SuROZhuZQF35YQT33juh0+c/ZY2ZWrYuiMEUUn8Ku5/5z883I6H3rPZ43/LvDdQGwIQvb4QmCgab5t+eVy7yXutE7oqsF/LOeeOIM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=Dz7ZCOdl; arc=pass smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="x6mCiXdN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8N9SpLHj";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="x6mCiXdN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8N9SpLHj"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0A2157590D;
-	Wed,  8 Jul 2026 14:40:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783521612; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IT6R9JdS1qWXaSJz8T2OAGJP2kCrD5Fj7NESw4gwF7U=;
-	b=x6mCiXdNKicWFg2CWsB0PFahRQukGvEJqVl0pHyQO8vxsIq4rWrrJ0uTtGc3978stNW/tD
-	QBGGLFNiFo+QM2KbLpRE2FjKeyWqKBIiXRa1qlnbqSDjGv7/YoP9m0ooYH8RZEu4nSIndW
-	x6fDIgJoc+sEt7PKUCOrW1uQaZLASew=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783521612;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IT6R9JdS1qWXaSJz8T2OAGJP2kCrD5Fj7NESw4gwF7U=;
-	b=8N9SpLHjhnDgpzT3KIggZCKa66Eeff4e1lNIH0LMvT/rVyhaaL6FBbW68MUOHw6ju+8Su6
-	JMfdF9zbYgVyJeDQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=x6mCiXdN;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=8N9SpLHj
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783521612; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IT6R9JdS1qWXaSJz8T2OAGJP2kCrD5Fj7NESw4gwF7U=;
-	b=x6mCiXdNKicWFg2CWsB0PFahRQukGvEJqVl0pHyQO8vxsIq4rWrrJ0uTtGc3978stNW/tD
-	QBGGLFNiFo+QM2KbLpRE2FjKeyWqKBIiXRa1qlnbqSDjGv7/YoP9m0ooYH8RZEu4nSIndW
-	x6fDIgJoc+sEt7PKUCOrW1uQaZLASew=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783521612;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IT6R9JdS1qWXaSJz8T2OAGJP2kCrD5Fj7NESw4gwF7U=;
-	b=8N9SpLHjhnDgpzT3KIggZCKa66Eeff4e1lNIH0LMvT/rVyhaaL6FBbW68MUOHw6ju+8Su6
-	JMfdF9zbYgVyJeDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A099D779AE;
-	Wed,  8 Jul 2026 14:40:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9OPdI0phTmqNDAAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Wed, 08 Jul 2026 14:40:10 +0000
-Date: Wed, 8 Jul 2026 15:40:08 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Gregg Leventhal <gleventhal@janestreet.com>
-Cc: Matthew Wilcox <willy@infradead.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	"Liam R. Howlett" <liam@infradead.org>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Song Liu <song@kernel.org>, 
-	Eric Hagberg <ehagberg@janestreet.com>, Zi Yan <ziy@nvidia.com>
-Subject: Re: [PATCH stable] mm/khugepaged: write all dirty file folios when
- collapsing
-Message-ID: <ak5g9h3FuVn3bZ1G@pedro-suse>
-References: <20260702165409.164568-1-pfalcato@suse.de>
- <akhYu66GmjyM8l6a@casper.infradead.org>
- <CAFN_u7HkJry=iFLbZ2vjzv5C=HnrptHfFJBLOqRq2m4LyhqV_w@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="Dz7ZCOdl"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5aebd77cbb4so640289e87.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Jul 2026 07:55:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783522537; cv=none;
+        d=google.com; s=arc-20260327;
+        b=I6M4AS/tJMWJou0pLV9/yZEm6ersyqu/X68t7yBZcXG8rk7XJFpcyvZMXhdbM5o9NU
+         7blIXUj8tj0DtXeGs+gEl+qLGKcsPj6+Einy3D25p5NuIkO1IgMqBaLyTLJQQ36L1tN8
+         DVh1UuUeIln7Tbpy3A6GvSa4LOaGdjYC0T+1OQrPqzIprM4o6LIAVtFQXFQHjZDs9U5d
+         iTNNCBbPUB7cogoDn95YPrOg9EThZehGP9564vlyvoNcRFM1j+5MPHOHXuq7XTWl2O6I
+         rGxps88N7Zps5gS9/w/gRFRhIByxDYDRjNS76z29aQFAbjyorGJNlQAUAangQw4d+hxO
+         u4Tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=HNUyOLDVIp+0zKTGoz+OqkdsD7McKB6c6W+fqiostx4=;
+        fh=7/mak5NLz6H0V6t5zzwD3+NvCBGKAOfg1cu4h/+Qy1Q=;
+        b=o1IXaiDBy4T3DN/ImDPSPlRL99WoYqUHGj8vmBGGYkTki7jANcNZdZ8i9GYUyNbYnp
+         YHcE/yWTa7RvA34tHPyxDHw5HL4fDxH2EwA++m2x6mu5SqAniskJymwvadXW9CspuvqH
+         NoAM0WPr2SS7YN77yn4Fd3dc+kmU3of/YKfDVHdgmPGVxe9eqWaZAc8hfkPUVvpKVJWv
+         adeys7tpsew59bHxjksYgKT7G9Wi2/7ltcjqyIDt4beaBLw+zwWtbSl/yf5zLyD21SVh
+         SbOXaTDGEvxFsEA0+StRzb5vD8JtkZ6P+E5uKLK6+uv3nfJ+2ETSLhbTD7/XyAgT10XL
+         a9+w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1783522537; x=1784127337; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=HNUyOLDVIp+0zKTGoz+OqkdsD7McKB6c6W+fqiostx4=;
+        b=Dz7ZCOdl+uMJPCmheUkJ0ljOMgnz+kZe5+lpXto5XQi/DgnTD6D+gSU2h8JlTknTv7
+         gYmhy4/PpfyEOwPTZTvy4pMpJvA+UR/rp1pAVaHy2d6kbh18MujqcTu2xiTPaZ0Sclot
+         vPDEHclRmjR54QG7iR10cgcRGV6w8Dgw5Vb0RTh1UaYtSB7svNvzGyNw9a1YsXjkCeJc
+         1Yl98bdfdRvTgZZb7DHiUojDOBP9rr9QersBRD2rGFGocQq+PWJmy8jjrEN67lPz1FCH
+         2ohZeMAaO5Iiqxiozac+wmnKX48uALopXjma/FtKZ/w/q3BTkQGuVYtuyEnev2VsrTpX
+         YzSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783522537; x=1784127337;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HNUyOLDVIp+0zKTGoz+OqkdsD7McKB6c6W+fqiostx4=;
+        b=qjT7gzxOSFHgNTMMac/neJO7WXAzSr6oDmwLCAiv2L41x2envdjKJ3osDpS+MK9UgH
+         trzdvvTUHCgsQILxUSoQlFJEHTozAYOr+U0Ml5aMJ49sDnqAlNkmRIV07P7m/RwjdoSq
+         K7QY51I2URFbl/T5utpi2aCvnmKj+VpW3MO4zMO/UaYMKnJa38bagAsmB8Z/xIr7PIBP
+         XZiVGuFeAyVIqVjqQHk0mLpKeR4Z2pNR23uL0MzxlDLwWlpHXeIzrL2WjuYBdogEpyt/
+         mcxtkz2syvIiO9BKSCWakHozBOgfWZ4SaF4PndsuinbK6N5zWvjZmSMUYgTihbVCDt+S
+         /1+w==
+X-Forwarded-Encrypted: i=1; AHgh+RoVoIcGVEwSDftjmi5IGpp/R+3f5hWZJlEyRPXSfqtG7OccskHP2vKtGFA+62OxWrIttrf2t+nyr6cNTcRj@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywd52dcfHuPuEvGsF40WmVbhJ+JgLKUXhcbzpPU45EI8wDxt4ZI
+	+7hAkawNZcRLBzKCFHuzOLD9Xb/QQx7JhohQyWOkEsNNfyR5SLYB8WmdSAxqLrGOXRfOK7Nrk61
+	4WJnXt2ErZMIpTWtLUqZnG1eautJsVybSDqYnQdie
+X-Gm-Gg: AfdE7ckTS4pJ2tJERs/AOV/0Rn/iMMm0v800FwYtQiXpRJVNIrF5mQDm8msnRqs9qa0
+	xAi83JjG9ueuRIM7Ci7T55PGi6llBS6reTGpk+ISqsa5Kzx8Hlu+Oo8SeHL1InOJD8zBV1ghTlP
+	ORjZxhgWfuLkECA+pka6MM1thf67ZsFXuVAqdKXqinkAuBSFXeeUYtF7h92wH4DsagSQoJ2jeWF
+	W58czbsxeNdExwwD/+CC1P53IvuNKUXqzvHIU7Csjk9wWlR27CSNdguSJMLhJiJQWxH0w==
+X-Received: by 2002:a05:6512:8348:b0:5ae:b5d0:9da2 with SMTP id
+ 2adb3069b0e04-5b011462b7emr693309e87.38.1783522536822; Wed, 08 Jul 2026
+ 07:55:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFN_u7HkJry=iFLbZ2vjzv5C=HnrptHfFJBLOqRq2m4LyhqV_w@mail.gmail.com>
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 0A2157590D
-X-Spam-Score: -4.01
+References: <20260708093446.3370200-1-gscrivan@redhat.com> <20260708093446.3370200-3-gscrivan@redhat.com>
+In-Reply-To: <20260708093446.3370200-3-gscrivan@redhat.com>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Wed, 8 Jul 2026 07:55:25 -0700
+X-Gm-Features: AUfX_mxOfC8JmvatfXCPy4TV9OGzLE6zGNnyTgpXNYag_FZ0rPhcjgOvQmXLouo
+Message-ID: <CALCETrVE0g-qKC079K4Ch=26VH6R+q1tXVU7HiN_Og9o1zzpow@mail.gmail.com>
+Subject: Re: [PATCH 2/2] erofs: add ioctl to retrieve the backing source file descriptor
+To: Giuseppe Scrivano <gscrivan@redhat.com>
+Cc: linux-erofs@lists.ozlabs.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 08, 2026 at 10:05:43AM -0400, Gregg Leventhal wrote:
-> Hi there, just checking on the next steps here.
-> 
-> @Pedro Falcato Are you currently working on this patch (mentioned
-> above, re: holding invalidate lock), or are we perhaps stalled on
-> something?
+On Wed, Jul 8, 2026 at 2:36=E2=80=AFAM Giuseppe Scrivano <gscrivan@redhat.c=
+om> wrote:
+>
+> Add EROFS_IOC_GET_SOURCE_FD ioctl that returns a file descriptor to the
+> backing image file for file-backed erofs mounts.
 
-I was waiting for some actual tags from people, but given the comments and
-no tags, I'll respin a v2 before sending to Greg KH.
+What=E2=80=99s the use case?
 
--- 
-Pedro
+In any event, this seems to have potential security and API-oddity implicat=
+ions.
+
+1. That capable(CAP_SYS_ADMIN) seems critical =E2=80=94 otherwise a task th=
+at
+is admin in a userns can get an fd to a backing file *outside* its
+container or to an otherwise inaccessible file.  It at least needs a
+comment IMO.
+
+2.  This series appears to fully round-trip the struct file. That
+means that f_cred and mode are preserved. This seems strange and may
+have all kinds of accidental effects. For mode in parallel, if the
+program that mounts the backing store opened it for write, then this
+API gives a writable fd, which seems like an odd choice for a
+filesystem that literally has read only in the name.
+
+The OVL variant has these issues to a lesser extent due to the fact
+that it returns an O_PATH fd instead of an actual open file.
