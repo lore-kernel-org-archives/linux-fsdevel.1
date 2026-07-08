@@ -1,95 +1,89 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEACC3B1022
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 15:55:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72DE040927A;
+	Wed,  8 Jul 2026 15:55:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783526113; cv=none; b=IVWNVdvxpcT+i6aY7Jt71vPQFYFTYfLegTar5YbyUUdiNqdjNkK+afX4ppFrHbgkbtq0lIatiqq40YlKNi5IctrXA6bm/MYvtu7o8Q77Hhsi+h37E1xFmaUaSuiky9m7R6HHGlFdQZDmroDkeLU3kdjet1ztzXNb6k1R2DiGgDc=
+	t=1783526114; cv=none; b=p4DGR8le2fNJ8vue9jt9iq/wqvdSr7B31H7eDAPUdoiSpZK5TZCitZHsC7uE7m1Blik97ms3Pa0A4JQPhKV4ecBAeXpqetjgvE2TmdeoheBDW/tn78Ykrvygzt+e3zDkthFFaKYDcuCKg3Yt85jrZTR3ZNcXcPGQL9YOkCm3MPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783526113; c=relaxed/simple;
-	bh=TWucN5P0Ti+W3Qif6YE00wVcOOt4TVZc4gsyZWfX5oA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=eyNWoI5MfCPeLV8t9j8/dyVH81Hqb+cgfqSUA2S3n42hDQXffKdS5LJHCmN55vEbrjBZhBYkfg/BC++sNWkyYJm1kyY3+Lc3ajmVaCB/+IEelbxZqK4FNs6Q8m0tqnGTTPzYNd058S3I9g7u5VRsRvuUY8iNys0/2S+ydkMdnrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=I5eIxUcR; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1783526114; c=relaxed/simple;
+	bh=oYUkap13H/ljKeh7prqaskPz/1kSTD389KTXQSfGjxY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UdBHRNwsiIx4h13YWhB8KMoKEUbyoKUMfUVrsFrHOYKpasuzp+3FRwc0Znh4DbaxwZgbyAT8GiwCNC6mgzGLGaX+6ujrqCJRyHTB8+MtIsy298QiyQ9SCTK9C9a3yhqnZ+xOJGlKp0FY5qXbJ97hZi8XX8EHSSot+GioDLgUZ1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=qiOgDbiE; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="I5eIxUcR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783526110;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0/KFHgfI1XWGP945B9IcYPGes3Xdr4VTjWMSrp9BtfU=;
-	b=I5eIxUcRvQkskR0BvG9Mats27FCRco0mZmgKZ2Jzj0IKI3l46PxMAIKxB+edtUl9WURy31
-	FDP/8TVXc6VeuiRL9G4APa8J85sfn6DMZm8yoaAjp1Z0UOMlwekO4K2QKNg6FLF+OSrQC7
-	KHx9qAvbCeMvtfC6AQaF/uGjhj8LJNo=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-651-uqPD4Yu3PFi4legkiUCjhQ-1; Wed,
- 08 Jul 2026 11:55:05 -0400
-X-MC-Unique: uqPD4Yu3PFi4legkiUCjhQ-1
-X-Mimecast-MFC-AGG-ID: uqPD4Yu3PFi4legkiUCjhQ_1783526104
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E38E91956044;
-	Wed,  8 Jul 2026 15:55:03 +0000 (UTC)
-Received: from localhost (unknown [10.44.33.4])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 335E11955F7B;
-	Wed,  8 Jul 2026 15:55:02 +0000 (UTC)
-From: Giuseppe Scrivano <gscrivan@redhat.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-unionfs@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  linux-api@vger.kernel.org,  Amir Goldstein <amir73il@gmail.com>, Al Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH] ovl: add ioctls to retrieve layer file descriptors
-In-Reply-To: <CAJfpegtTixwWSh9M-9NbwP0nUbJJ9rh0rxqO7BzgK7Su_RpM+A@mail.gmail.com>
-	(Miklos Szeredi's message of "Wed, 8 Jul 2026 17:37:40 +0200")
-References: <20260708095831.3381978-1-gscrivan@redhat.com>
-	<CAJfpegsJON=1_84PCGMjASYPFL=Wqsz7dnTAbO3Tdz5DfRQU+g@mail.gmail.com>
-	<878q7l8y4y.fsf@redhat.com>
-	<CAJfpegvQ06=2E0V_ADgxwmo7e5weTfOMozmBB-QVNLLWYAm8WQ@mail.gmail.com>
-	<87wlv57dt1.fsf@redhat.com>
-	<CAJfpegtTixwWSh9M-9NbwP0nUbJJ9rh0rxqO7BzgK7Su_RpM+A@mail.gmail.com>
-Date: Wed, 08 Jul 2026 17:55:01 +0200
-Message-ID: <87o6gh79yi.fsf@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="qiOgDbiE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description;
+	bh=9uzo/+ZMsI9AE8BH3oP33g11nkLTRuU3D045+coURXo=; b=qiOgDbiEUagj3suhyQZJYFHimT
+	fiJaBOWAPs9dYl6uMoND4iBrSHrp0KWBmTSiRfdSyOxwP1fLmvA8Qf5XBDYRR/TkGjJGr/dsDVXKm
+	9hZwaO/KTJ1YvFbVcOx38ewL1fDNHch4sDD4gjDH43QI6JwC8G6hrZno2vMhpOLJeQRCA2t0ZmZPo
+	Y5dtBvm0sMKBWmzeENzFoorJ2VCSmaw3g6gpg9A4qis41U8BRhNdgC+g4vHmS1Hd5dGN+OasvmIYw
+	NLIOVsLLD0Qwwk6aBW/yehkoJJuurHSvH0GA04DYegBOYiKi6jsB7AAxIlKAntJAzKLnXfrFjSRWC
+	PV4KBAnw==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1whUc2-0033ej-04;
+	Wed, 08 Jul 2026 15:55:02 +0000
+Date: Wed, 8 Jul 2026 08:54:57 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, oleg@redhat.com, josh@joshtriplett.org, Jan Kara <jack@suse.cz>, 
+	jlayton@kernel.org, axboe@kernel.dk, shakeel.butt@linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v2 0/4] fs/pipe: unify the page pools into a single
+ per-pipe pool
+Message-ID: <ak5yfhm1qA2E4ntV@gmail.com>
+References: <20260707-b4-pipe-unification-v2-0-eb52bddeeefd@debian.org>
+ <CAGudoHFGFJZ_j-osEKnLvGYGai+SKVAJKy8B_PChWms7SN7xoA@mail.gmail.com>
+ <ak4rSEAwV-RoG1MO@gmail.com>
+ <rac56njg4yorvhc5oyrme6bt7ej2vs64umbqkz2np32wpjbcjj@wohli2ntub4s>
+ <ak5nXRnSSXfA2B75@gmail.com>
+ <CAGudoHGAg2s37LeJzZTKTyQS4fARSdipcis-76b25x7XnWoZiw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGudoHGAg2s37LeJzZTKTyQS4fARSdipcis-76b25x7XnWoZiw@mail.gmail.com>
+X-Debian-User: leitao
 
-Miklos Szeredi <miklos@szeredi.hu> writes:
+On Wed, Jul 08, 2026 at 05:24:47PM +0200, Mateusz Guzik wrote:
+> On Wed, Jul 8, 2026 at 5:11 PM Breno Leitao <leitao@debian.org> wrote:
+> > That said, your approach is better than what I had, and I would like to
+> > integrate it to this patch set. Os it OK if I give a Co-developed-with:
+> > tag?
+> 
+> imo this is too trivial compared to the entirety of the patchset to
+> warrant attribution. Just take it.
+> 
+> To be clear, I just now verified avoidance of the extra trip resolved
+> the regression for me so I have no objections to the patchset.
+> 
+> For completeness I note I failed to remove the lock acquire in
+> anon_pipe_trim_pool_and_unlock, but I presume you noticed (at worst
+> while testing).
 
-> On Wed, 8 Jul 2026 at 16:32, Giuseppe Scrivano <gscrivan@redhat.com> wrote:
->
->> Amir suggested to add that functionality when I've asked for some
->> feedback before sending the patch here.  I am fine to drop it if this is
->> the consensus although I see its utility from user space.
->
-> How about a completely different interface:
->
-> int get_fd_opt(const char *name, unsigned int index, unsigned int flags);
->
-> Enumerating layers would be as easy as passing an index stating from
-> zero and stopping when -ERANGE is received.
->
-> It would work for all filesystems that use files as options.  No more
-> fs specific ioctls.
+yes, otherwise it was self deadlocking it self in AA scenario.
 
-Is a new syscall really justified for such a narrow use case?
+> One suggestion I have is to post the entire thing as one patch as I
+> don't think the split here buys anything, but I'm not going to insist
+> one way or the other.
 
-On the other hand, it would cover both ioctl's I am working on right
-now.
+Ack, I splitted the changes hoping it would make the review easier.
 
-Regards,
-Giuseppe
+So, I will respin this with your suggestion in a single patch, after
+some bake time (probably tomorrow).
 
