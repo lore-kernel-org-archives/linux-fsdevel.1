@@ -1,195 +1,201 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8A3372662
-	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 15:46:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE6D372EDD
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 15:50:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783525573; cv=none; b=omXr3O2qnQOTtikFMljkygfb8nWEIBjrZATvMoc53IiwZYGMaBQvtAf8nohat6VUZn5oZy3leVV6VvIjoNCFPcqXGtHTIH8h6ZflzFTED6xVGX7yCYV3v4IeE+UxGREc//i8CZ8A/+zBoDGpgReV0tp44XPzMh4I30DZ6ywPf7o=
+	t=1783525839; cv=none; b=sJFU+9OQeCbWrPtNkkqEI3+9pGGGpv99zyYvoWiKlcyG2NutDxZfQMnT9gTbI4h7NeJAxqeMzs/reajq7QNqrMiLLAGmvn14EO/Yla8OMZ57R2vI2e5p0PWDg3K8RuRGSxxnSZCguZ0iZo6R/PxfEokl8MhCEa0pMWIbaz2yXHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783525573; c=relaxed/simple;
-	bh=6o/Os/YHoHLpbGBJ/Oz87lOS4kylKBP062qGBWElKsY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JDuBpsqFwGllXoEyjb0OboKEuA6WfoREX6Fk0K4Q4eARul3XoNDm8CGMgJhC0eL3bHcgKWOXId+JcOz1qjnXZP3N7Eg7ORBlNo0FhMBJnHRAD+aP0yI5DAeaUlYiZ6zW5ym/OLqO36Lm9JlkxqMJdjACzJSDnbWWBSMx+builJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=F/xDcraq; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1783525839; c=relaxed/simple;
+	bh=GSqVOF5FdHGVGJEPxgkwgT6GsULiB/JmxdpZmY6edow=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b+IU9pe1G1hE4XQV9HOM4wyl8WEtR1a+iAnEUWxbepiMOP24DiCnh+46oBWa+CVXzPzxMt0PvPEeGxQSQK3YB+JNUbkhCf0m0p3C41AtCLqdrL6X1E3Q/W1w+vRzAMXpgSUrjGMFH6vOv2ct8iuDoe7r5CK42oZg2G7tprh5bLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=V6kvgugn; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=CE2kNZJa; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=V6kvgugn; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=CE2kNZJa; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="F/xDcraq"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-47de0093c42so881852f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Jul 2026 08:46:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1783525566; x=1784130366; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DFzX8ayLrWD5LLPflyw5iQn6+h660qomUnmCAVS4si0=;
-        b=F/xDcraqE7zjRny9dGpElvcrYP+TvLHulDUmHNdZhg0hx4k/ecCY84wCOji4oou5cz
-         VXJpUOkuokde7MMu0flycEjUugRu4z0NFWPcqjYItrQ3J4nRTl3+vzC1w1b3HnpGNxdf
-         H64963aqUef7jrOhAPDPzwH79R8InoYlihBzie9t14dqKK4Fl1xxfHrt+T3uIIp5iYi4
-         gfE2K5QZBbk3aiPJN4k0Xu9STGQab/mn2KuaphtmU3Nl1u9Dmd/gQc4sqc0+srk3Dgcr
-         JHFdBIBj+w+scyPJLw/BVf9V6UaVNl407BpnFBOfTrzUF22wnSL5rqwEUY1MvfPw1fLm
-         ueMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783525566; x=1784130366;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DFzX8ayLrWD5LLPflyw5iQn6+h660qomUnmCAVS4si0=;
-        b=pE59OXmHBI+spxu52+Vs3sHttPVEJ/0WVlWl1Du9I9nsFLBR/xLMLbQ9AMuauBwYo2
-         fr9YoEJX7+6dpJRQTpfhcgUswk4tqQKS5ug2qpkOG4fTsNn+rPe1X9FyRt8kzL9iPYQX
-         1NBDCGul2L3Rn3G515+26w9b7yLkyMIYl80CD3aCjVNwgvbcB8HUs7c5KGGoYgTw2cRL
-         Smh85av1htKPXVFZNX32V5PuXQg5PeGlxWJU/hZF5IzBtxHmIY3iwaEbdkT4Y4G+fudu
-         5YI9r52yvssa/QjzfMoTPMZuz6vqWTgMBHrrEGyIlx3nNPzczs5BV9Je14jYvMLO6w5a
-         WqOw==
-X-Forwarded-Encrypted: i=1; AHgh+RoBpuVRX8EbR6xFszuYY6njcXTdTNrw6HMk6SAWL0jbPLvd/HSkcQ1CYmviCizLESZX80+pEC2rI9zV6IcD@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0BYT8W3QjL57aDPvh73RFimNRZy/02mARqUFITv3YK6eCe9AM
-	r3/4RRq+msADa+sFLadt3TSahw4WpyviefEcPvlUoSVwSSQ6XB18U20AAnu1S0CkwrI=
-X-Gm-Gg: AfdE7clVziLQVGKzMgSKJ8L1CC7CRtH9a4wP1YZBaPHse9NzfcrSn7sN8qet1QzaSjJ
-	dvBiUZlLWjpKdOvRvoCSo38Jn/MSPU3K55Kdq6niwpoeUUclz+BXRsEia3EWSE/RuiIczr92uQH
-	rk8gV/VQzkpEVhg47COLBrFhEPXxoM+/TnevOr9x00CTK75p2knuN4XBMzACSM12XldB/477fuL
-	cgOFXM6MeaM9smoePI6S6dxD+EeD6b0cCc9IgX4l/rcLloUb+Dvz0woGBcqsYlDvENWynCQeUpp
-	XXnOSBFL1Eg244U8IjPhZ8GqTWxYE0ZA3fbyXQTnqQK76I1+c+5Cwe4YT2PtXJMnt67U+Dby0FL
-	ZHbKPPOaK0FWca1Wx0PjQcH5LNTCigNKN3+2ityfd+8QPqgexMuCIB/CIzMmfUElZF09yHiVHpZ
-	LAl2xhbCCocQS1xfSX6nMK9pmY4/LKyw==
-X-Received: by 2002:a05:6000:26d0:b0:473:673e:3836 with SMTP id ffacd0b85a97d-47df078bb73mr3861713f8f.28.1783525565920;
-        Wed, 08 Jul 2026 08:46:05 -0700 (PDT)
-Received: from zovi.suse.cz (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9e4d780csm44806847f8f.11.2026.07.08.08.46.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 08:46:05 -0700 (PDT)
-From: Petr Pavlu <petr.pavlu@suse.com>
-To: Tony Luck <tony.luck@intel.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Michal Januszewski <spock@gentoo.org>,
-	Helge Deller <deller@gmx.de>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Chuck Lever <cel@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	Mark Fasheh <mark@fasheh.com>,
-	Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Pavel Machek <pavel@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Ido Schimmel <idosch@nvidia.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Kentaro Takeda <takedakn@nttdata.co.jp>,
-	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	drbd-dev@lists.linux.dev,
-	linux-block@vger.kernel.org,
-	greybus-dev@lists.linaro.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-acpi@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	ocfs2-devel@lists.linux.dev,
-	cgroups@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	bridge@lists.linux.dev,
-	netdev@vger.kernel.org,
-	keyrings@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: [PATCH 2/2] module: Bring includes in linux/kmod.h up to date
-Date: Wed,  8 Jul 2026 17:44:30 +0200
-Message-ID: <20260708154510.6794-3-petr.pavlu@suse.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260708154510.6794-1-petr.pavlu@suse.com>
-References: <20260708154510.6794-1-petr.pavlu@suse.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="V6kvgugn";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CE2kNZJa";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="V6kvgugn";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CE2kNZJa"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 15F4075F21;
+	Wed,  8 Jul 2026 15:50:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1783525836; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5Q7kxwCbd44mF+etD0hvPMr2LSv1SOszwIwfwIod8vw=;
+	b=V6kvgugnDl3YNn8sj7xW5Q13LfL1DQP5uNv4CaKNJ3ZhdEg9UhHaDH3dmKj7hlIqGOlZTv
+	LPUG2jRbU0zBJ14FTmc3OdziILcdmquQaudYJtSABV9ugXeoo2Urp0Z3AR3c+uKuK6ktk8
+	uDNd7netO0z0a1nK9+/jCOlRIw12HQs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1783525836;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5Q7kxwCbd44mF+etD0hvPMr2LSv1SOszwIwfwIod8vw=;
+	b=CE2kNZJaeeyVuncJnT9NK49ko1GlAabEbYZ8s6rvbvl/hIkRkQ572UgAK8Pd6MS+kVzI55
+	1qjxbQwIpygBIxBQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=V6kvgugn;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=CE2kNZJa
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1783525836; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5Q7kxwCbd44mF+etD0hvPMr2LSv1SOszwIwfwIod8vw=;
+	b=V6kvgugnDl3YNn8sj7xW5Q13LfL1DQP5uNv4CaKNJ3ZhdEg9UhHaDH3dmKj7hlIqGOlZTv
+	LPUG2jRbU0zBJ14FTmc3OdziILcdmquQaudYJtSABV9ugXeoo2Urp0Z3AR3c+uKuK6ktk8
+	uDNd7netO0z0a1nK9+/jCOlRIw12HQs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1783525836;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5Q7kxwCbd44mF+etD0hvPMr2LSv1SOszwIwfwIod8vw=;
+	b=CE2kNZJaeeyVuncJnT9NK49ko1GlAabEbYZ8s6rvbvl/hIkRkQ572UgAK8Pd6MS+kVzI55
+	1qjxbQwIpygBIxBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0D232779AE;
+	Wed,  8 Jul 2026 15:50:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id FGstA8xxTmqqUQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 08 Jul 2026 15:50:36 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id A5BCFA12D6; Wed, 08 Jul 2026 17:50:31 +0200 (CEST)
+Date: Wed, 8 Jul 2026 17:50:31 +0200
+From: Jan Kara <jack@suse.cz>
+To: Qingshuang Fu <fuqingshuang@kylinos.cn>
+Cc: Jan Kara <jack@suse.cz>, viro@zeniv.linux.org.uk, brauner@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] fs: fix two spelling mistakes in comments
+Message-ID: <q3qjcmhu2mwvx62rv5yr3uflqhbfv7go7f6ihegommntgvo5cv@yvfyveatbuoj>
+References: <20260527033102.824028-1-fffsqian@163.com>
+ <iqp6gjxl7qohnxn7rle62zovyiedmw7nnfhjk5mpmq4azx7v5m@llgoenjgzgbf>
+ <2fd64e26.5358.19f3b56d73f.Coremail.fuqingshuang@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <2fd64e26.5358.19f3b56d73f.Coremail.fuqingshuang@kylinos.cn>
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.cz:email,suse.cz:dkim];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 15F4075F21
+X-Spam-Score: -4.01
 
-Including linux/kmod.h alone results in 1.5 MB of preprocessed output, even
-though it provides only a few functions and macros.
+On Tue 07-07-26 14:49:34, Qingshuang Fu wrote:
+> 
+> At 2026-05-28 19:52:19, "Jan Kara" <jack@suse.cz> wrote:
+> >On Wed 27-05-26 11:31:02, fffsqian@163.com wrote:
+> >> From: Qingshuang Fu <fuqingshuang@kylinos.cn>
+> >> 
+> >> Fix two spelling errors in fs/:
+> >> - childen  →  children
+> >> - postion → position
+> >> 
+> >> Signed-off-by: Qingshuang Fu <fuqingshuang@kylinos.cn>
+> >
+> >Looks good. Feel free to add:
+> >
+> >Reviewed-by: Jan Kara <jack@suse.cz>
+> >
+> >								Honza
+> >
+> >> ---
+> >>  fs/coredump.c | 4 ++--
+> >>  1 file changed, 2 insertions(+), 2 deletions(-)
+> >> 
+> >> diff --git a/fs/coredump.c b/fs/coredump.c
+> >> index bb6fdb1f458e..f82f6dc4f773 100644
+> >> --- a/fs/coredump.c
+> >> +++ b/fs/coredump.c
+> >> @@ -637,7 +637,7 @@ static int umh_coredump_setup(struct subprocess_info *info, struct cred *new)
+> >>  		pidfs_coredump(cp);
+> >>  
+> >>  		/*
+> >> -		 * Usermode helpers are childen of either
+> >> +		 * Usermode helpers are children of either
+> >>  		 * system_dfl_wq or of kthreadd. So we know that
+> >>  		 * we're starting off with a clean file descriptor
+> >>  		 * table. So we should always be able to use
+> >> @@ -1053,7 +1053,7 @@ static bool coredump_write(struct core_name *cn,
+> >>  	cn->core_dumped = binfmt->core_dump(cprm);
+> >>  	/*
+> >>  	 * Ensures that file size is big enough to contain the current
+> >> -	 * file postion. This prevents gdb from complaining about
+> >> +	 * file position. This prevents gdb from complaining about
+> >>  	 * a truncated file if the last "write" to the file was
+> >>  	 * dump_skip.
+> >>  	 */
+> >> 
+> >> base-commit: eb3f4b7426cfd2b79d65b7d37155480b32259a11
+> >> -- 
+> >> 2.25.1
+> >> 
+> >-- 
+> >Jan Kara <jack@suse.com>
+> >SUSE Labs, CR
+> 
+> Hi Jan, Al, Christian,
+> 
+> Thanks Jan for providing the Reviewed-by tag on my original patch.
+> I sent out v2 one month ago which carries your reviewed-by tag, but there has been no further feedback.
+> 
+> This patch only fixes two trivial spelling typos in coredump comment, no functional logic changes.
+> Could you help review/merge it when you have spare time?
+> 
+> Reference v2 patch:
+> https://lore.kernel.org/all/20260529040701.1825238-1-fffsqian@163.com/
 
-The header currently depends on:
+Yeah, I believe it has fallen through the cracks in Christian's mailbox. I
+guess he'll pick it up after this ping.
 
-* __printf() -> linux/compiler_attributes.h,
-* ENOSYS -> linux/errno.h,
-* bool -> linux/types.h.
-
-Include only these files, reducing the preprocessed output to 10 kB.
-
-Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
----
- include/linux/kmod.h | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
-
-diff --git a/include/linux/kmod.h b/include/linux/kmod.h
-index 9a07c3215389..b9474a62a568 100644
---- a/include/linux/kmod.h
-+++ b/include/linux/kmod.h
-@@ -2,17 +2,9 @@
- #ifndef __LINUX_KMOD_H__
- #define __LINUX_KMOD_H__
- 
--/*
-- *	include/linux/kmod.h
-- */
--
--#include <linux/umh.h>
--#include <linux/gfp.h>
--#include <linux/stddef.h>
-+#include <linux/compiler_attributes.h>
- #include <linux/errno.h>
--#include <linux/compiler.h>
--#include <linux/workqueue.h>
--#include <linux/sysctl.h>
-+#include <linux/types.h>
- 
- #ifdef CONFIG_MODULES
- /* modprobe exit status on success, -ve on error.  Return value
+								Honza
 -- 
-2.54.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
