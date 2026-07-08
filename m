@@ -1,208 +1,173 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9AED331EC7
-	for <linux-fsdevel@vger.kernel.org>; Tue,  7 Jul 2026 23:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783467698; cv=none; b=BR4a736/cCzoGWuVMIWyowN3p5CK0WGEopFQTL/qFDRNR9eCzGHCt+OtahunVPBIUzo6Yq62RG3px5OQsqTHR2igsBRZ/NUycg9qubgcDuv3/s4gZvcyllUflL/PoXBixTMMwWPhpISKwI9rCQnyeeJreUQ4sKxcqty9a/E+OoM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783467698; c=relaxed/simple;
-	bh=v89doh3Nde/7vGIf4lCw7H/GgLBxMIXwT61LxeFYvwc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=esfwte1K9s6e5kSiTzc8z9cQVI/2CBw1N6TOodsedETdH36700uDwf1oJORWugC/l5gR55q2BE3z+NXMr/HSyKchPGE+T+gwcP0sTUwyoqG2CB038rQprmIavzk8gYa7a4vpO3s4z2e8C5y7r4cXd8eLnUC1R9+2PTvYJnYVdlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openai.com; spf=pass smtp.mailfrom=openai.com; dkim=pass (1024-bit key) header.d=openai.com header.i=@openai.com header.b=NUpbilrU; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openai.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=openai.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D545D4A33
+	for <linux-fsdevel@vger.kernel.org>; Wed,  8 Jul 2026 00:08:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783469322; cv=pass; b=umHocdMjR1MQLXS7eDnlaAJQ9aR4ilg4uduHcrF0oIf4C+iz4Cyb0TDGdPBWX9/+a1JVcOIwSwMTKwLPEknI6m3w9ujQltfKAqQ66H+265pkfJLLrDbMzpRUlMo7R/kr5veNGBxU65YDxfzieRAVR0DmZtWn+apcv8rLtmGxqA0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783469322; c=relaxed/simple;
+	bh=wrCxhT9q5NGhmorul0PiyOdgEDEIBVXjSk0TxVXo0/I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cg/v5/+k7kLW3vNyoErM3NmGgTjD3Rdyg4c6sH8hlEpvykSmwyrsRTPJ6rA1vrHL3k6MX+Cy+EsGBY4xLUKwPjTZJpVm3ZJu6j4dvBBNQY7rawTnJMZ7NqmQMtBWQpc3uY+XfE9rdzeyGZPOAv/tm/YZgAtZYnoR7hSHkd5CRbM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ck3uRqrx; arc=pass smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=openai.com header.i=@openai.com header.b="NUpbilrU"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-51c1d487f2cso206301cf.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 16:41:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ck3uRqrx"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5aebba706b3so126689e87.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 07 Jul 2026 17:08:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783469319; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ZMA2XXyaNUfQn5reoguQfO0eYvCkhDoM3rWGMdwJpS1bxiCqxGB9ihjY9nAVsN5v/S
+         OIOUC5nOK0NXlZLEBHNFB31XCfYE/36TDhaKV+qulp/dq7wIi/+otlcaLb6PNI73VM3Q
+         gfiYWk2nMBNNytew0DhmrakJKK+B/DkVuhBH6mVSws0iWafBaJ6FJrGFG+SsG4S+/5XW
+         zGaFWjMuTDwalVyyUlHb1AIFJpciskDvHjlGEc5NtQJqVFvGzAjdN/1ja9k+SeCH005c
+         g9ARFVTW9PlzR1mnkT4HrUc4Nv7L3iIbKsCnSG1fPxwEHJMRjYfvB8COaxHWbHThO5Wb
+         A8xA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=kb/xvVbvZ2c9F92U8pIkmxcQRFXF7zJtJ9eluQJqJNk=;
+        fh=G1f65XRtcAnGPwo5ZC2zQWTG7G4SZYhOQowlONVXRBA=;
+        b=PDgfMPkNxrNuKHLZXe8pdQJVby4/D3Uf3QfkkfvY+BX8Ik/givxr7wu4yZ7WzILPQs
+         cW2+06ixnVFekE/ZMfCvidogwoYd4/pGdEwEykVRrWEIPv7NGFUWaayGLBXQAEJFQM60
+         SCMWIoAnsmkSiP/WNAX5++7ILJOTzjyzlhZMdgG5P+qtRI018+Sk/Ua6zFEL0qFhMzW8
+         JTd3Jq7e2N4NoQ3QqeCHNjNMstivYwDJvWABroTG/t1FCDhQZCeUtqbL3iw4ZZY2s7s1
+         ifp1dWzYwtn5zrrW4ZAAhILdqB59XnNhrIiqGmE48Wwwu/5AxvPl4J5lDuxfTMqMtESr
+         iz9Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=openai.com; s=google; t=1783467696; x=1784072496; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OugduowrYxrDl/GZ+uKmR6/kIpiYKm0OZa5fo8adeo8=;
-        b=NUpbilrU/+Zd5YRrNdAAYI2pSTvQyFubhrX87m4WxAl1MR1kojbKHgaUj41pdJxT0M
-         RtqsA4tTnhVYlaePObCGibC4+Wsr0py4n5Z9mGPto8CqvLNZqh1VprztvtZ7Xmqqm4Cj
-         hPv0/RQw3mi7qqDbVpAMz98YWgHCEUiP5gjCw=
+        d=gmail.com; s=20251104; t=1783469319; x=1784074119; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=kb/xvVbvZ2c9F92U8pIkmxcQRFXF7zJtJ9eluQJqJNk=;
+        b=ck3uRqrxnmVl44gidlAEU1/NA4yTTQVPQlmgtH67aF32cBtpoBhJl8+EjjmlD2Y8Zb
+         1gasXJ9vxv7I8RmAdnEWjXkinE4e/zzdWKVf8lgEooTyUY1AZSC9pV+9GexT5RQh3fXv
+         R2+jKAdCPjMqp8/FJoUY7zdwWHq6NaThNMnbKkToMSBC5W+2A9VGYMEUbwCaTuJS/bdB
+         aofEFCYzmZ0kLSUdInxe4X/68wEDOLdqBIU6wVYttaYpvDm1eqy3aEv5LZ6Wic69xUeH
+         aIxEqkscJh12WUYPKFjodP5n5cZLLgEd1+WcMNeu7kLJTmnqI2JjSf9hyhyywc3SbIcw
+         bOAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783467696; x=1784072496;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=OugduowrYxrDl/GZ+uKmR6/kIpiYKm0OZa5fo8adeo8=;
-        b=iz+LQuFdi2VMp16+yvqdyLnf1jcilvq9doHGqWolziIfXGNE+f+Q9vWX/lN8GDzbIE
-         fTlCGga1fODRXRGIIXX9yrqdgONLF2kr1D0JjX6ItAYQn/9h5lAFhQL3r1EwZo7a3LNG
-         ZDXN5mjjtZKJ04dbSJ4DTSsBgDpWyMycAqRljJWuVIslU28tXYCQ+A16JQ6wZuD0ncld
-         8zmdYvKtZhLBE1YeOKvF8lWBqBf+8uZQ0ehmFff5ncIjjGdrJZFmCTm2c9kcInxI+2Bh
-         J6H9g+AEMwKlNBruIKR9wzxSNBnZyRVPOdkS3rHQf6S9HPDXz7IRhcMCZHPNjZPsX82t
-         R9fw==
-X-Gm-Message-State: AOJu0YwvpOGSZLOEsBkCxXs/zpWjPrPJfwswQZad1Ag4CFFxO5c8hm44
-	/CEzDddu5y/e8lL6Nfg8BGIH0lPWYuj5gJeKOlAtpZk8F8EuJlryTwS9Y07xXCZNARkHsyOjmfO
-	Ka+BcClE=
-X-Gm-Gg: AfdE7ck3Gqq7qJhX8T2GvZ4Tqm3C4wFcMzYfkvXosDLiN/Qkb+Eso0l3Q45y8c2jpzh
-	c2mGQ/S8fo14FIXeyOORD/GgSUeSZZIaYCVDbiFTlkTfX0llvQPG+2fhaWTnPZHgIKuWuqlfg2G
-	KtBq/u5gMDS+CWz9epAhcpx7qQlMdFKwQPU7UGdMuqerH7gIGLF84A2FremgThVxmuYWweLkCKV
-	iMAa0+JNeRSzAWN4mNuCeOmq07sXdQVYvox3SpRQXsEjbf54A/mje+EJQa0Kc+FflCvtBL2i+iR
-	zDPHrK8OUKyDarSYXwLtfXLugdFtVM3fELTEVRRLmabolZQ0Ur3WIJteuylUoBkJAE8Fm/l99wu
-	aNQiQQsWwE/2mfyzSpaPFX9D5z1qUkcUmm76a7hHw9au7gr2EVi56X3/excOTRPcR2YoVb4RPNA
-	XKC3J+2caNByNM/SXdFQMlX3nNduvqnHtZXcI79UXYMLXSqcWYc0ghdNr+pInKf3zje1wSrPSoh
-	JivJ1yz625e8y+h13k=
-X-Received: by 2002:a05:622a:4185:b0:51c:fc4:a144 with SMTP id d75a77b69052e-51c8b398ff7mr4032801cf.4.1783467695634;
-        Tue, 07 Jul 2026 16:41:35 -0700 (PDT)
-Received: from com-75606.corp.openai.org ([209.249.37.146])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51c41decc5csm123120651cf.26.2026.07.07.16.41.34
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 07 Jul 2026 16:41:35 -0700 (PDT)
-From: Kyle Zeng <kylebot@openai.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: Viacheslav Dubeyko <slava@dubeyko.com>,
-	Kyle Zeng <kylebot@openai.com>
-Subject: [PATCH v4] hfsplus: validate thread record before delete key rebuild
-Date: Tue,  7 Jul 2026 16:41:30 -0700
-Message-ID: <20260707234130.23524-1-kylebot@openai.com>
-X-Mailer: git-send-email 2.54.0
+        d=1e100.net; s=20251104; t=1783469319; x=1784074119;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kb/xvVbvZ2c9F92U8pIkmxcQRFXF7zJtJ9eluQJqJNk=;
+        b=bJrMwZR5kJbQE1cNe2rOUuxrxj4Z+Oh/uM1VJ56n2nTCc5TuAw+etO4xqrMbgBfuLr
+         oIF9VfHuFkrPUY4/7LbdRP9Kut+3EiouXwh7B/N+SS+d1ken3rdUtPwIY/05ZDZLih1R
+         92M+Gq9qtxfSBXng+7fMhjr4Ylh+Zsm0dEU3ohwiJMDO3NOt2zd/uLnnswzlceoEKwLv
+         iPO1ZBd8VYlnyqIEIT4ifXywcEWdjYRCAmfNles5A/nw+CjybvRwXddQBPzDD0qo9J1h
+         yuSucuP2+KoKZmUlTwyHKLMoRRvkO5/i8ASFlC3yGPRKP5k8NM8DXCdFzR6p9v4CEOwE
+         1Cuw==
+X-Forwarded-Encrypted: i=1; AHgh+Rp6OYJgJlutvSgkA+zgrtx7mFQg5ZURKNfYIUXJkhM/xyZhpd+DjobdxHJX8/Tu8Jxj+bh7kCRo1u5dnzSI@vger.kernel.org
+X-Gm-Message-State: AOJu0Yytrz7bMU/rCQ9+1z/9895eyTyaUEPrUWvs4EI23m44FSjX2f9L
+	e265daHMb7BXJW8rPAxYaTTwmyqAorzcBHmz+/UXq29k7guL4P/T26RjEqWylwXUBUGzF7tw80n
+	59m3AorH7EcUB5Q9YE1znEcAQAtU9azE=
+X-Gm-Gg: AfdE7cmfhjaIEp1o93PTZk8OKtZ/tUpoqeE1O7t3Suelv8N03HJ7UIhEUAt2I2smDj9
+	LjTMoDmNZSlaf/6gvo7LRjSpu7//0fdkECn+HzJ6zhHhOoiYdwOFV2GgaQlYB0W47YiruKQiLKU
+	2NmX0R1mmWVhTN5rQwFfXHSSyF8rQcHFGve8vlmVnXiQQNsu40GOTODyv6Kd+OeFRUyJBk6yi06
+	bNdlOlIABWSWgyn1CdT0RqVik629/P4XA4MNGkt9lBZZMcE3mfTZwvVlDnF1R1Fvvj7WUZh
+X-Received: by 2002:a05:6512:8046:b0:5a8:8db6:b3d with SMTP id
+ 2adb3069b0e04-5b01147f555mr40151e87.24.1783469318736; Tue, 07 Jul 2026
+ 17:08:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260608210618.3437216-1-willy@infradead.org> <20260608210618.3437216-3-willy@infradead.org>
+ <CANFS6bYc5uSSYWvwJZ4BgjzF0_bO9rkcFNvX2vVHnzWDi3kpuw@mail.gmail.com>
+In-Reply-To: <CANFS6bYc5uSSYWvwJZ4BgjzF0_bO9rkcFNvX2vVHnzWDi3kpuw@mail.gmail.com>
+From: Hyunchul Lee <hyc.lee@gmail.com>
+Date: Wed, 8 Jul 2026 09:08:27 +0900
+X-Gm-Features: AVVi8CdGi_C6rE3txMZQnG-e3IT5Ry6oWBkUYMiraSxo4xYpBWUS0o-T89fKM6o
+Message-ID: <CANFS6bZZN6455QLhPE=yYi5fAHMt+MuqumtW6BCg__pESLiLaQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] ntfs: Remove use of __folio_index in handle_bounds_compressed_page()
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, Namjae Jeon <linkinjeon@kernel.org>, usama.arif@linux.dev, 
+	lance.yang@linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-hfsplus_delete_cat() is called with str == NULL when the last open
-reference to an unlinked HFS+ hardlink backing inode is closed. In that
-case, the function finds the catalog thread by CNID and rebuilds the
-catalog key from thread.nodeName.
+Hi Matthew,
 
-That reconstruction path reads thread.nodeName.length directly from the
-catalog B-tree into fd.search_key and then copies length * 2 bytes into
-fd.search_key->cat.name.unicode. It does not first check that the found
-record is a thread record, that the record size matches the thread name
-length, or that nodeName.length fits in the fixed HFS+ catalog key
-buffer.
+2026=EB=85=84 7=EC=9B=94 6=EC=9D=BC (=EC=9B=94) =EC=98=A4=EC=A0=84 10:58, H=
+yunchul Lee <hyc.lee@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> Hi Matthew,
+>
+> 2026=EB=85=84 6=EC=9B=94 9=EC=9D=BC (=ED=99=94) =EC=98=A4=EC=A0=84 6:06, =
+Matthew Wilcox (Oracle) <willy@infradead.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=
+=EC=84=B1:
+> >
+> > Nobody is supposed to use page->__folio_index.  Use page_offset()
+> > instead, and simplify by working exclusively in loff_t instead of mixin=
+g
+> > up loff_t and pgoff_t.
+> >
+> > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> > ---
+> >  fs/ntfs/compress.c | 7 ++++---
+> >  1 file changed, 4 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/fs/ntfs/compress.c b/fs/ntfs/compress.c
+> > index c904858dff3d..b279f38636d6 100644
+> > --- a/fs/ntfs/compress.c
+> > +++ b/fs/ntfs/compress.c
+> > @@ -105,13 +105,14 @@ void free_compression_buffers(void)
+> >  static inline void handle_bounds_compressed_page(struct page *page,
+> >                 const loff_t i_size, const s64 initialized_size)
+> >  {
+> > -       if ((page->__folio_index >=3D (initialized_size >> PAGE_SHIFT))=
+ &&
+> > -                       (initialized_size < i_size)) {
+> > +       loff_t pos =3D page_offset(page);
+> > +
+> > +       if ((pos >=3D initialized_size) && (initialized_size < i_size))=
+ {
+>
+> I think the following change would address the review comments for
+> this patch and patch 3/6.
+>
 
-A corrupted image can therefore provide an oversized thread name length
-and make hfs_bnode_read() write past the catalog search-key allocation.
+Would you mind if I continue working on this series?
+I would fix the above if-condition and add Co-developed-by for my changes.
 
-Read the CNID record through hfsplus_brec_read_cat(), which performs the
-hfs_brec_find() lookup via hfs_brec_read() before validating the catalog
-record. Reject non-thread records before building the delete key from
-the validated thread name.
+Please let me know if that's okay with you.
 
-Make hfsplus_brec_read_cat() validate that a thread nodeName length both
-fits HFSPLUS_MAX_STRLEN and exactly matches fd->entrylength, then share
-the HFS+ thread-record-type helper between hfsplus_find_cat() and
-hfsplus_delete_cat().
+> if ((pos + PAGE_SIZE > initialized_size) && (initialized_size < i_size)) =
+{
+>
+> >                 u8 *kp =3D page_address(page);
+> >                 unsigned int kp_ofs;
+> >
+> >                 ntfs_debug("Zeroing page region outside initialized siz=
+e.");
+> > -               if (((s64)page->__folio_index << PAGE_SHIFT) >=3D initi=
+alized_size) {
+> > +               if (pos >=3D initialized_size) {
+> >                         clear_page(kp);
+> >                         return;
+> >                 }
+> > --
+> > 2.47.3
+> >
+> >
+>
+>
+> --
+> Thanks,
+> Hyunchul
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Assisted-by: Codex:gpt-5.5
-Signed-off-by: Kyle Zeng <kylebot@openai.com>
----
- fs/hfsplus/bfind.c      |  8 ++++++--
- fs/hfsplus/catalog.c    | 30 ++++++++++++------------------
- fs/hfsplus/hfsplus_fs.h | 12 ++++++++++++
- 3 files changed, 30 insertions(+), 20 deletions(-)
 
-diff --git a/fs/hfsplus/bfind.c b/fs/hfsplus/bfind.c
-index 9a55fa6d5294..d5e41e1c70b3 100644
---- a/fs/hfsplus/bfind.c
-+++ b/fs/hfsplus/bfind.c
-@@ -322,8 +322,12 @@ int hfsplus_brec_read_cat(struct hfs_find_data *fd, hfsplus_cat_entry *entry)
- 			pr_err("thread record too short (got %u)\n", fd->entrylength);
- 			return -EIO;
- 		}
--		expected_size = hfsplus_cat_thread_size(&entry->thread);
--		break;
-+		if (!is_hfsplus_cat_thread_name_length_valid(&entry->thread,
-+							     fd->entrylength)) {
-+			pr_err("catalog thread name length corrupted\n");
-+			return -EIO;
-+		}
-+		return 0;
- 	default:
- 		pr_err("unknown catalog record type %d\n",
- 		       be16_to_cpu(entry->type));
-diff --git a/fs/hfsplus/catalog.c b/fs/hfsplus/catalog.c
-index 776ce36cf076..1a4b0beae135 100644
---- a/fs/hfsplus/catalog.c
-+++ b/fs/hfsplus/catalog.c
-@@ -204,16 +204,11 @@ int hfsplus_find_cat(struct super_block *sb, u32 cnid,
- 		return err;
- 
- 	type = be16_to_cpu(tmp.type);
--	if (type != HFSPLUS_FOLDER_THREAD && type != HFSPLUS_FILE_THREAD) {
-+	if (!is_hfs_thread_record_type(type)) {
- 		pr_err("found bad thread record in catalog\n");
- 		return -EIO;
- 	}
- 
--	if (be16_to_cpu(tmp.thread.nodeName.length) > 255) {
--		pr_err("catalog name length corrupted\n");
--		return -EIO;
--	}
--
- 	hfsplus_cat_build_key_uni(fd->search_key,
- 		be32_to_cpu(tmp.thread.parentID),
- 		&tmp.thread.nodeName);
-@@ -350,23 +345,22 @@ int hfsplus_delete_cat(u32 cnid, struct inode *dir, const struct qstr *str)
- 		goto out;
- 
- 	if (!str) {
--		int len;
-+		hfsplus_cat_entry entry = {0};
- 
- 		hfsplus_cat_build_key_with_cnid(sb, fd.search_key, cnid);
--		err = hfs_brec_find(&fd, hfs_find_rec_by_key);
-+		err = hfsplus_brec_read_cat(&fd, &entry);
- 		if (err)
- 			goto out;
- 
--		off = fd.entryoffset +
--			offsetof(struct hfsplus_cat_thread, nodeName);
--		fd.search_key->cat.parent = cpu_to_be32(dir->i_ino);
--		hfs_bnode_read(fd.bnode,
--			&fd.search_key->cat.name.length, off, 2);
--		len = be16_to_cpu(fd.search_key->cat.name.length) * 2;
--		hfs_bnode_read(fd.bnode,
--			&fd.search_key->cat.name.unicode,
--			off + 2, len);
--		fd.search_key->key_len = cpu_to_be16(6 + len);
-+		type = be16_to_cpu(entry.type);
-+		if (!is_hfs_thread_record_type(type)) {
-+			pr_err("found bad thread record in catalog\n");
-+			err = -EIO;
-+			goto out;
-+		}
-+
-+		hfsplus_cat_build_key_uni(fd.search_key, dir->i_ino,
-+					  &entry.thread.nodeName);
- 	} else {
- 		err = hfsplus_cat_build_key(sb, fd.search_key, dir->i_ino, str);
- 		if (unlikely(err))
-diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
-index ec04b82ad927..01e5f1246ff6 100644
---- a/fs/hfsplus/hfsplus_fs.h
-+++ b/fs/hfsplus/hfsplus_fs.h
-@@ -521,6 +521,18 @@ static inline u32 hfsplus_cat_thread_size(const struct hfsplus_cat_thread *threa
- 	       be16_to_cpu(thread->nodeName.length) * sizeof(hfsplus_unichr);
- }
- 
-+static inline bool is_hfs_thread_record_type(u16 type)
-+{
-+	return type == HFSPLUS_FOLDER_THREAD || type == HFSPLUS_FILE_THREAD;
-+}
-+
-+static inline bool is_hfsplus_cat_thread_name_length_valid(
-+		const struct hfsplus_cat_thread *thread, u32 entrylength)
-+{
-+	return be16_to_cpu(thread->nodeName.length) <= HFSPLUS_MAX_STRLEN &&
-+	       entrylength == hfsplus_cat_thread_size(thread);
-+}
-+
- int hfsplus_brec_read_cat(struct hfs_find_data *fd, hfsplus_cat_entry *entry);
- 
- /*
--- 
-2.54.0
 
+--=20
+Thanks,
+Hyunchul
