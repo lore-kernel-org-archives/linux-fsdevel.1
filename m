@@ -1,149 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E507F28CF5D;
-	Thu,  9 Jul 2026 03:08:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D6E331EB1;
+	Thu,  9 Jul 2026 03:14:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783566527; cv=none; b=F9lBRzNqNhgrEpzB0fis0BfJww4AuhTN2+fw+0yRsC+e4uY+QLGmFdHOCZ/fX2GVQcDmhuWy8Ni/qPTX8gsw9hBq9edeDPlgeGnXPMdwqJOIdZ8dCfsSIzT+Lj+Svw4snqkJBMNII1nT/dWrnnhC00lseEBkrdtSGPx6RDiAmac=
+	t=1783566856; cv=none; b=n5BPYKZSnCl7PrSpB4EdSPpWLYw71seQU6Oh8KRGD+n3X/NiDAD3cK8qiU9Rx3V3ZhqWmUakQKrBgZDsG7zGOM/jIYYOw4UCH4+ZSJ07aFVxSTFe47tURVkVMzmLmsWqF9K2Bj4bjZs6toZNOF4fhGgC52x5ziSBOy7EyQLtcag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783566527; c=relaxed/simple;
-	bh=NLc4X44T9Vce74ZKNgbX4isMukjGLWN6HzsJ+ZFZyl8=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=AUHzXIagCotnik6To7+n8vtpXQnYUE71tsCmh7j5sbv+0JCMWBRxN9rI2JyNzjv9yPi+iM/GVdaX0N0ASBhSB6XdkWCidwbBibyNfBQasrCEaaG7Qc0NVA/dOn1T4fE69rsTfgenwSQ1ibfp6AHEG7CRC/rx7i9HFrSWQGxdjDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=vnxP+MdO; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="vnxP+MdO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1ADE1F000E9;
-	Thu,  9 Jul 2026 03:08:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1783566525;
-	bh=0C50gLb1Rx6vC8vebMbmFW9FfipWim9v9MXHOz8ZbLA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=vnxP+MdOVlsjmHdBRs/H3ZPG+GDpJbCcjRF7ezT70sAgYv93ijEZxuZWrm8S0+ANX
-	 FbaMuA0+VH2nxPVMoyyzfLg/UhgWU/OdctHjIpZ8t33pWjwEQCCd/zM6pj/e7oilT3
-	 ZKTtxEKk3Nem7wh4ixtq6Uc8ZA7wIn8oc7jimZo8=
-Date: Wed, 8 Jul 2026 20:08:44 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Kiryl Shutsemau <kirill@shutemov.name>
-Cc: usama.anjum@collabora.com, peterx@redhat.com, liam@infradead.org,
- ljs@kernel.org, vbabka@kernel.org, jannh@google.com, pfalcato@suse.de,
- david@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com,
- shuah@kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- stable@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v2] fs/proc/task_mmu: fix PAGEMAP_SCAN written state for
- PMD holes
-Message-Id: <20260708200844.09b42937d19bf733849d2886@linux-foundation.org>
-In-Reply-To: <20260708103429.150655-1-kirill@shutemov.name>
-References: <20260708103429.150655-1-kirill@shutemov.name>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1783566856; c=relaxed/simple;
+	bh=sFY3IJPLB3VCnBY4TSr/pQh+xXRRB+4VSytgWoW3MrU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=q3VGKMbTHnaBajrsBpnZzYuhQPkhZyFTTYziPIYFDwAlHVCGvh8uQvruetbChcl9uyO8Svzo/6B4FwOq3lwufX7C+9A447JSfOlohI33h19j1ZsNxMoWgZbZ70PA6Zq40ixmpBRd47dvFlxVIUVAXd9tQJmhhsuTAUPFFmW420I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.177])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gwfjz0CYLzKHMN1;
+	Thu,  9 Jul 2026 10:56:23 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id E48AC4058F;
+	Thu,  9 Jul 2026 10:56:44 +0800 (CST)
+Received: from [10.174.178.253] (unknown [10.174.178.253])
+	by APP1 (Coremail) with UTF8SMTPSA id cCh0CgCntnLrDU9qnd1EAg--.32414S3;
+	Thu, 09 Jul 2026 10:56:44 +0800 (CST)
+Message-ID: <8a980822-fe8f-4497-8202-0eda40f627a9@huaweicloud.com>
+Date: Thu, 9 Jul 2026 10:56:43 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/6] ext4: clarify return semantics of
+ ext4_load_tail_bh()
+To: Jan Kara <jack@suse.cz>, Zhang Yi <yi.zhang@huawei.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
+ libaokun@linux.alibaba.com, ojaswin@linux.ibm.com, ritesh.list@gmail.com,
+ yizhang089@gmail.com, chengzhihao1@huawei.com, yangerkun@huawei.com,
+ yukuai@fnnas.com
+References: <20260707021338.1182268-1-yi.zhang@huawei.com>
+ <20260707021338.1182268-3-yi.zhang@huawei.com>
+ <fn6frodirjc2zvd3sl5zwh4h7q5dfbbha2le3eylq2sne4k7fm@upemtxsqhsz3>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <fn6frodirjc2zvd3sl5zwh4h7q5dfbbha2le3eylq2sne4k7fm@upemtxsqhsz3>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:cCh0CgCntnLrDU9qnd1EAg--.32414S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxCw4UuF45Jr45XFyftr47Arb_yoW5GrWrp3
+	s8KasrGr4rWa4v9a1xJ3W7Xr1YgasxGr4UWFWrK3W2yas0gr1IvF1IkFyS9F42yrWfKrWY
+	qFWjgFy3Ga1DArDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvFb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6x
+	kF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02
+	F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4I
+	kC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAa
+	w2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
+	Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q
+	6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
+	kF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AK
+	xVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj
+	xUOBMKDUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-On Wed,  8 Jul 2026 11:34:29 +0100 Kiryl Shutsemau <kirill@shutemov.name> wrote:
-
-> From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+On 7/8/2026 11:26 PM, Jan Kara wrote:
+> On Tue 07-07-26 10:13:34, Zhang Yi wrote:
+>> ext4_load_tail_bh() returns NULL for both holes and clean unwritten
+>> buffers, but the conditions that lead to this are not obvious from the
+>> code alone. Document this behavior to clarify the return value, so that
+>> readers do not mistakenly assume that only holes result in a NULL
+>> return.
+>>
+>> Also update the inline comment following the ext4_get_block() call to
+>> reflect this, and note that a lookup-only get_block (without
+>> EXT4_GET_BLOCKS_CREATE) never sets BH_Mapped for clean unwritten
+>> extents, which is why a clean unwritten bh falls through to the
+>> "nothing to do" path.
+>>
+>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 > 
-> PAGEMAP_SCAN reports an unpopulated PTE in a uffd-wp VMA as written
-> (pagemap_page_category() and the PAGE_IS_WRITTEN fast path), but a range
-> with no page table at all -- a PMD hole -- is skipped.
-> pagemap_scan_pte_hole() evaluates the hole against p->cur_vma_category,
-> which pagemap_scan_test_walk() builds from only PAGE_IS_WPALLOWED and
-> PAGE_IS_SOFT_DIRTY, so PAGE_IS_WRITTEN is never set: the hole is neither
-> reported nor, under PM_SCAN_WP_MATCHING, armed.
+> Looks good. Feel free to add:
 > 
-> This is reachable. An anonymous THP is write-protected in place as a huge
-> PMD (change_huge_pmd(), anon is not split), and a full-PMD MADV_DONTNEED
-> clears it to pmd_none. A WP-async consumer such as CRIU then misses the
-> 2MB drop -- the range is not reported written and the next incremental
-> dump keeps stale data. (A file/shmem THP is split on write-protect, so a
-> later DONTNEED leaves a populated page table of pte_none entries, which
-> are already reported; only anon THP reaches the hole path.)
+> Reviewed-by: Jan Kara <jack@suse.cz>
 > 
-> Add PAGE_IS_WRITTEN to the categories evaluated for a hole in a
-> non-hugetlb uffd-wp VMA, matching the pte_none handling in
-> pagemap_page_category(). The existing PM_SCAN_WP_MATCHING path then also
-> arms the range: uffd_wp_range() allocates the page table and installs
-> markers under WP_UNPOPULATED, so the next scan sees it clean until
-> re-written.
+> 								Honza
+
+Hi, Jan!
+
+Thank you for the review. I have already sent out v3 of this series.
+Sorry I forgot to mention it earlier. It includes fixes for some
+pre-existing issues in Sashiko. Could you please take a look at that
+version?
+
+https://lore.kernel.org/linux-ext4/20260708062049.1982410-1-yi.zhang@huaweicloud.com/
+
+Thanks,
+Yi.
+
 > 
-> hugetlb is excluded on purpose: an allocated-but-empty huge entry reads
-> as not-written via pagemap_hugetlb_category(), so reporting an
-> unallocated hugetlb hole (which also reaches this path) as written would
-> be inconsistent within the same VMA. hugetlb hole handling is left as-is.
-> 
-> Add a pagemap_ioctl selftest that forms an anon THP, drops it with
-> MADV_DONTNEED and checks the resulting PMD hole is reported written.
+>> ---
+>>  fs/ext4/inode.c | 11 ++++++++++-
+>>  1 file changed, 10 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+>> index c2c2d6ac7f3d..45a7e6cdb2a1 100644
+>> --- a/fs/ext4/inode.c
+>> +++ b/fs/ext4/inode.c
+>> @@ -4026,6 +4026,10 @@ void ext4_set_aops(struct inode *inode)
+>>   * because it might have data in pagecache (eg, if called from ext4_zero_range,
+>>   * ext4_punch_hole, etc) which needs to be properly zeroed out. Otherwise a
+>>   * racing writeback can come later and flush the stale pagecache to disk.
+>> + *
+>> + * Return the loaded bh if it actually needs zeroing - in written, dirty
+>> + * unwritten, or delalloc state. Return NULL if it's clean (i.e., a hole or
+>> + * a clean unwritten block).
+>>   */
+>>  static struct buffer_head *ext4_load_tail_bh(struct inode *inode, loff_t from)
+>>  {
+>> @@ -4065,7 +4069,12 @@ static struct buffer_head *ext4_load_tail_bh(struct inode *inode, loff_t from)
+>>  	if (!buffer_mapped(bh)) {
+>>  		BUFFER_TRACE(bh, "unmapped");
+>>  		ext4_get_block(inode, iblock, bh, 0);
+>> -		/* unmapped? It's a hole - nothing to do */
+>> +		/*
+>> +		 * It's a hole or a clean unwritten block - nothing to do.
+>> +		 * Note that a lookup-only get_block (without
+>> +		 * EXT4_GET_BLOCKS_CREATE) never sets BH_Mapped for clean
+>> +		 * unwritten extents.
+>> +		 */
+>>  		if (!buffer_mapped(bh)) {
+>>  			BUFFER_TRACE(bh, "still unmapped");
+>>  			goto unlock;
+>> -- 
+>> 2.52.0
+>>
 
-hoo boy, that was heavy going.
-
-> Assisted-by: Claude:claude-fable-5
-
-OK ;)
-
-But what do our users see?  afaict the result of the bug is "the next
-incremental CRIU dump keeps stale data".  Why is this a problem?  How
-would operators look at a user bug report and figure out that this
-patch will address it?  Is there some Reported-by/Closes?
-
-In other words, (please train Claude to) always describe the userspace
-visible effects of a bug when fixing it.
-
->
-> --- a/tools/testing/selftests/mm/pagemap_ioctl.c
-> +++ b/tools/testing/selftests/mm/pagemap_ioctl.c
-> @@ -25,6 +25,10 @@
->  #include "kselftest.h"
->  #include "hugepage_settings.h"
->  
-> +#ifndef MADV_COLLAPSE
-> +#define MADV_COLLAPSE 25
-> +#endif
-
-Why would this be undefined?  It's right there in mman-common.h?
-
-> +/*
-> + * A 2MB anon THP dropped with MADV_DONTNEED leaves a pmd_none hole with no
-> + * page table, which pagemap_page_category() never sees. PAGEMAP_SCAN must
-> + * still report it as written on a uffd-wp VMA, via pagemap_scan_pte_hole().
-> + */
-> +static void unpopulated_thp_hole_test(void)
-> +{
-> +	long npages, written = 0, ret, i;
-> +	struct page_region regions[16];
-> +	char *area, *mem;
-> +
-> +	if (!hpage_size) {
-> +		ksft_test_result_skip("%s THP not supported\n", __func__);
-> +		return;
-> +	}
-> +	npages = hpage_size / page_size;
-> +
-> +	/* Get a PMD-aligned range so the range can be a single THP. */
-> +	area = mmap(NULL, 2 * hpage_size, PROT_READ | PROT_WRITE,
-> +		    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-> +	if (area == MAP_FAILED)
-> +		ksft_exit_fail_msg("%s mmap failed\n", __func__);
-> +	mem = (char *)(((unsigned long)area + hpage_size - 1) & ~(hpage_size - 1));
-
-Do selftests not have ALIGN and friends?  Seems not, given how many of
-them have own implementations.
-
-> +
-> +	memset(mem, 1, hpage_size);
-> +	if (madvise(mem, hpage_size, MADV_COLLAPSE) ||
-> +	    !check_huge_anon(mem, 1, hpage_size)) {
-> +		ksft_test_result_skip("%s could not form a THP\n", __func__);
-> +		munmap(area, 2 * hpage_size);
-> +		return;
-> +	}
->
-> ...
->
