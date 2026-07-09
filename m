@@ -1,131 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC0C36DA14;
-	Wed,  8 Jul 2026 23:26:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783553197; cv=none; b=IW0UfzOT5yunrkyBGmNv2yU/fQ3VmFyjx6hjeOGcjkHmVXIS1b64IgKRmcGDGeuthQKq+6N3Mbwj1aDvFj6KE5EssVKoVtyVmTCvfGoRKp+FzKTLkHBChzrszZFInKyEuiqOBH4Wp2u+abE/50SpFFbnMWqZsVEqU4okrxtIwBI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783553197; c=relaxed/simple;
-	bh=Y5CdGuK7MUx+xQgtzWCUoAnNDaIbM6/CFvsIMWPxOlk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uASuvac9Ehe1DQ9cHLAWx23Db224xFLkLfh2VySD/12rvyoskFKSqM/6k5gFEhJyO+bT7gB8J19RTHaK6ULhrpgZ0jc/Ous74WpJazZIFDKJK0DE92XAyMHpbYtiFKSGQ7zdpyiYFd7syrCjw1wy97asqRCDArCJKiEzlc52UMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I8bG1kHF; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1650F17BA6
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 00:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783555568; cv=pass; b=Hl1YcotmVmZ4vEZ9OcsdRTzDs3I/IRj8NIPQ/+L3YxH1JyUGAWJVfMVzHJvCnBj4IgXHiofD29q6mU5sO78bAOjp/gIzGlQIhXtbSQKkc1+IPABOOCUZlRLyYT90hkFFBIRlhxJjf+JNrN8t3FjR6kSEqTgQBfmJToqp8dXN/Yk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783555568; c=relaxed/simple;
+	bh=yJaHiIAKdt59/nUs88AHXAG1seHCynr9U+jmRjUBOEg=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Xr8I7gO+FBZwTiL8OSr00MP+2+VWZooOFx912C0lL86rIGo2mBSyp540K2GSgFj8qb3BhxqLjFM0s/A8e5kA9Mu+WIO4IgR5FbHTESxTpmY0WZu3Evb69KzgQiwJ7rjJN+fIHul5UObb8eal5IhQe27HjmpuYpdAmm6PauxsI6g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=km73nMuQ; arc=pass smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I8bG1kHF"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 717E11F000E9;
-	Wed,  8 Jul 2026 23:26:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783553195;
-	bh=8hnhw8l6Qm33KE+spI9ZQByeqJv2VCvqDGE2V1gF+j4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=I8bG1kHFVgAKiYAHFKihBlxXApoBsqhpnRi7RjpXrHkUvuvMfvdOXPxOTMbohGIui
-	 buhMbyVS0m8rPfeK77Wu5OOGHgVsmGREFzODr4uCFxe5Lt8cOJOlTvtqm2/RYdHcCK
-	 nxo5NeJTN40Y/VGcHEFBfZIj3/NtteSgRF5ZpMtvLgkSi1f5TtNXdWTasKutA8eBGf
-	 YRZ71KdbXanThu9GSIyquwNac1Tp8/zWkkCi1q9ycHKN3UpOcZwj2Q42hqx+U+bZJM
-	 jutl0neByxqdLABDI4Bs+kP7GUEdPIKlm73+0PvI4xpjrCCO7JOehCl8NJBIDLV1my
-	 YI+r3DcHNpF+Q==
-Date: Wed, 8 Jul 2026 16:26:34 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-ext4@vger.kernel.org, brauner@kernel.org, hch@infradead.org,
-	joannelkoong@gmail.com, yi.zhang@huawei.com, yizhang089@gmail.com,
-	yangerkun@huawei.com, yukuai@fnnas.com
-Subject: Re: [PATCH v2 4/5] iomap: fix out-of-bounds bitmap_set() with
- zero-length range
-Message-ID: <20260708232634.GJ9392@frogsfrogsfrogs>
-References: <20260520030357.679687-1-yi.zhang@huaweicloud.com>
- <20260520030357.679687-5-yi.zhang@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="km73nMuQ"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2cabc0a1ab6so18010635ad.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Jul 2026 17:06:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783555565; cv=none;
+        d=google.com; s=arc-20260327;
+        b=U8tcln6cOJkOQKWCoyWVe5JE/8hzT7sqQApKpbpvgvS9LGdkH6/VCncWTSaCbfU8kC
+         hOeiTCkaLZuMVw1koCHmaLfaO5qLDZuOqeAfcEjSo/Bjh0nY/Hn1EGa+WqWkAojO9qQi
+         jj/Vz3MfgIYtrFiV3P6oSjXIsh8u1TTtm07elYxrO+C5RnilK21EbcKT9yt1DvhllYtP
+         Na7oqDoMdoSa5K5bbHkObh8mVk7kIb9XCBSzGiv/uqXpIrporvyXZI04HR55uGDzFXiI
+         gqOYn89RjZah6GYftFba7/zUSGq5xIgtxsr1/RHSQjlu/4yeixmibZF2ZTNWwKwjCHny
+         +dXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=yJaHiIAKdt59/nUs88AHXAG1seHCynr9U+jmRjUBOEg=;
+        fh=2N8LiR5FZut3241tjE/OEJJiiJ3iKm/Mx6RcASAP/EM=;
+        b=jEPrRhvKQPlFftTENzojxwHrOo9amUzKhke6FC06PI1B861pl/mqe9oVQynMgKKfPg
+         lMrKqfStLznfzJYa+DsYMIOq8OXvgN8G6UpNFwcDqM2o2feF+nAtRfZVM9ZxdLzVTlfo
+         SnbOtUbLir4kwLPDi0UaDnqZvPQr0xppWaKydvXO1BKzYEvTkBYtW3r8jlzz3XWBm8Sx
+         Z32O+ojXG5hqI7vtGwB97AxCXJ0mP6KI5zQtAp3QvYGkkCZLJmVY4wKxNX0Ll8rYtipJ
+         gfJAIEjlcfwRhoop2FqGONcNCO8si2Z0VnjrzMVGu4331p/jTPfAOrvyUFiJlgB2zog/
+         K4vg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1783555565; x=1784160365; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yJaHiIAKdt59/nUs88AHXAG1seHCynr9U+jmRjUBOEg=;
+        b=km73nMuQirX6WkgaiDewtefUUpLqHsLA9lhojmRVu/O5GWXI+qspHLrIcP28hPedd1
+         IdrQ4w2WUGkGZnfsvZbX4i/0vv+f8zy6UYrbx+r+6VAltUS4BsKAcMEEAqGPcoKiR6RJ
+         oJPaYYcMOCkbcbYn6DUg2jPj6RwRgKn8b5KjbPN0LTaLwabP3wAFOO6JrbWd8+/V2xJm
+         8qmB+NxqEb/SagF5FxCEtMVuCK+ov8IPbs0gvdfNk2TGZa0FvtOnzr4ElVQGCDXTFRjv
+         zpPIU07tYAE6O/XcExlihB295hDnRUteCnX4/vklcg+GnLTnFl9WQaUB6cAitmsgQsSS
+         bmvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783555565; x=1784160365;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=yJaHiIAKdt59/nUs88AHXAG1seHCynr9U+jmRjUBOEg=;
+        b=LGknlTUwDBaFr9yUm/CkGjC1YNGxPFITgkfF9R+g7kZK289Obh8GBSexde0KCroZ6o
+         yCEasGjMm2RivbT8raG7QI8WFKmJujrYqrW21/30WlNDuOmxGLCC89ojgduiDDQ8pKhF
+         RerV7BNxMB6dECoX4lJ1tItLQXTytNpDiS6eEcw20gCci+PBDm3ezJ4cHCZSvI55245W
+         oFyQFfzrU2AMyMhon0oQptePEND4IfDYt1I6akn/TtgyT4Kyfk2DmIfCTki28zbg3Abq
+         KLUXkt5VwHVHlxUcqQRF9hhgvn3f1iq0A79RV7WLOK3CsS6AK/sHy2U8+EYGeAur1pKn
+         20sA==
+X-Forwarded-Encrypted: i=1; AHgh+RoJesS7FxRarhTetr7PYwlVfIq2y+Tsqym/T7aK9FcUTm0lrTuXbO3ru+mmokzaaE0xtrdY7ED0d6jvrSU1@vger.kernel.org
+X-Gm-Message-State: AOJu0YzO6Pi0s3of8YJd3NkkoQg0a0l8oTd34AI2dZNWbcsz+KEZ5BdP
+	YUdUIzX7/4h4BKqBhQx8bDhoZim4XkZxlo+Z4lQKvF76l9h/hjxRZlfop92+LLqxPMTIskdz5B6
+	JkFk/AHXZVTsjs+R6P8vKMVsqnKSGfddwjm5ea7Q4
+X-Gm-Gg: AfdE7ck74AhitORObKJHNr3nYlf5OAwXIwG/r6XR13AKrqkJ/hBUtMq/t7YPaEVl7MC
+	F4/a/PJYy0+S8NeH97AUQhI2qGDl1yQSDMAmPEMoLR7fEwJfvkoL1kMBIXSjzoRjgc4/5EJToNi
+	UYaCaBF8rkpDJCt5i01wxUsJh/hSl0szXTlMN16yYjzJXKrzPprqk74alF80lCvSY4JFUvKsYsD
+	DLINttlvg5/DOFH76IDIodSCP/gHRCHRrOslyQ2fgbXKdv5WOmepP1/76EGm2JhoJ7b3cnWzjSE
+	VAeRs4+dUk+KEDhZXmgwCCGuQ8ocBbBZynsEyAzedyvjwWJncBSig3/Fbt3UluJxCWTeHQ==
+X-Received: by 2002:a05:6a21:7482:b0:3b4:669c:ee32 with SMTP id
+ adf61e73a8af0-3c0bcbc1353mr5760887637.37.1783555564841; Wed, 08 Jul 2026
+ 17:06:04 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 8 Jul 2026 17:06:04 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 8 Jul 2026 17:06:03 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <eedf589778aaab33e6df2ad6556dcde536e13460.1782735110.git.ljs@kernel.org>
+References: <cover.1782735110.git.ljs@kernel.org> <eedf589778aaab33e6df2ad6556dcde536e13460.1782735110.git.ljs@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260520030357.679687-5-yi.zhang@huaweicloud.com>
+Date: Wed, 8 Jul 2026 17:06:03 -0700
+X-Gm-Features: AVVi8Ceg-PSWltTScKU18ZF0mdbBsNHDv0s-VKhIaqzjwQ-q80D6zfZMKk_VWII
+Message-ID: <CAEvNRgE-JJAzC0jp+bY8+e1+gYSH+MjT6JqX_DfCcpaxOM-Dtw@mail.gmail.com>
+Subject: Re: [PATCH 15/30] mm: introduce and use linear_page_delta()
+To: Lorenzo Stoakes <ljs@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>, 
+	Simon Schuster <schuster.simon@siemens-energy.com>, 
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	Ian Abbott <abbotti@mev.co.uk>, H Hartley Sweeten <hsweeten@visionengravers.com>, 
+	Lucas Stach <l.stach@pengutronix.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Thierry Reding <thierry.reding@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Christian Koenig <christian.koenig@amd.com>, 
+	Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>, 
+	Alex Williamson <alex@shazbot.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Dan Williams <djbw@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	"Liam R . Howlett" <liam@infradead.org>, Matthew Wilcox <willy@infradead.org>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
+	Hugh Dickins <hughd@google.com>, Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org, 
+	linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, 
+	kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, 
+	linux-mm@kvack.org, iommu@lists.linux.dev, linux-perf-users@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+	damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>, Rik van Riel <riel@surriel.com>, 
+	Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, May 20, 2026 at 11:03:56AM +0800, Zhang Yi wrote:
-> From: Zhang Yi <yi.zhang@huawei.com>
-> 
-> ifs_set_range_dirty() and ifs_set_range_uptodate() compute last_blk
-> as (off + len - 1) >> i_blkbits.  When off is 0 and len is 0, the
-> unsigned subtraction underflows to SIZE_MAX, producing a huge
-> last_blk and nr_blks value that causes bitmap_set() to write far
-> beyond the ifs->state allocation.
-> 
-> Regarding ifs_set_range_uptodate(), it is temporarily safe because len
-> cannot be passed in as 0. However, for ifs_set_range_dirty() this is
-> reachable from __iomap_write_end(): when copy_folio_from_iter_atomic()
-> returns 0 (e.g. user buffer fault) and the folio is already uptodate,
-> the guard at the top of __iomap_write_end() does not trigger because
-> !folio_test_uptodate() is false, and iomap_set_range_dirty() is called
-> with copied == 0.
-> 
-> Add a !len guard to both functions before the computation, so that a
-> zero-length range is a no-op.
-> 
-> Fixes: 4ce02c679722 ("iomap: Add per-block dirty state tracking to improve performance")
-> Cc: <stable@vger.kernel.org> # v6.6
-> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+Lorenzo Stoakes <ljs@kernel.org> writes:
 
-Looks good!
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+> It's often useful to obtain the number of pages a given address lies at
+> within a VMA.
+>
+> Add linear_page_delta() to determine this and update linear_page_index() to
+> make use of it.
+>
+> Add comments to describe both linear_page_delta() and linear_page_index().
+>
+> No functional change intended.
+>
+> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 
---D
+Reviewed-by: Ackerley Tng <ackerleytng@google.com>
 
-> ---
->  fs/iomap/buffered-io.c | 22 ++++++++++++++--------
->  1 file changed, 14 insertions(+), 8 deletions(-)
-> 
-> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> index 27ab33edbdee..76f9a43e283c 100644
-> --- a/fs/iomap/buffered-io.c
-> +++ b/fs/iomap/buffered-io.c
-> @@ -67,11 +67,13 @@ static bool ifs_set_range_uptodate(struct folio *folio,
->  		struct iomap_folio_state *ifs, size_t off, size_t len)
->  {
->  	struct inode *inode = folio->mapping->host;
-> -	unsigned int first_blk = off >> inode->i_blkbits;
-> -	unsigned int last_blk = (off + len - 1) >> inode->i_blkbits;
-> -	unsigned int nr_blks = last_blk - first_blk + 1;
-> +	unsigned int first_blk, last_blk;
->  
-> -	bitmap_set(ifs->state, first_blk, nr_blks);
-> +	if (len) {
-> +		first_blk = off >> inode->i_blkbits;
-> +		last_blk = (off + len - 1) >> inode->i_blkbits;
-> +		bitmap_set(ifs->state, first_blk, last_blk - first_blk + 1);
-> +	}
->  	return ifs_is_fully_uptodate(folio, ifs);
->  }
->  
-> @@ -203,13 +205,17 @@ static void ifs_set_range_dirty(struct folio *folio,
->  {
->  	struct inode *inode = folio->mapping->host;
->  	unsigned int blks_per_folio = i_blocks_per_folio(inode, folio);
-> -	unsigned int first_blk = (off >> inode->i_blkbits);
-> -	unsigned int last_blk = (off + len - 1) >> inode->i_blkbits;
-> -	unsigned int nr_blks = last_blk - first_blk + 1;
-> +	unsigned int first_blk, last_blk;
->  	unsigned long flags;
->  
-> +	if (!len)
-> +		return;
-> +
-> +	first_blk = off >> inode->i_blkbits;
-> +	last_blk = (off + len - 1) >> inode->i_blkbits;
->  	spin_lock_irqsave(&ifs->state_lock, flags);
-> -	bitmap_set(ifs->state, first_blk + blks_per_folio, nr_blks);
-> +	bitmap_set(ifs->state, first_blk + blks_per_folio,
-> +		   last_blk - first_blk + 1);
->  	spin_unlock_irqrestore(&ifs->state_lock, flags);
->  }
->  
-> -- 
-> 2.52.0
-> 
-> 
+>
+> [...snip...]
+>
