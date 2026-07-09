@@ -1,202 +1,943 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010034.outbound.protection.outlook.com [52.101.46.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-1-114.ptr.blmpb.com (va-1-114.ptr.blmpb.com [209.127.230.114])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949C428466C;
-	Thu,  9 Jul 2026 01:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.34
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783561347; cv=fail; b=K9SBYn6tWqJJHpvpFXcNsWvHyQoCM+c//2/juRfqBzYhCB/vSfPnF7E3DVSLDKjlR25rtmVwR6Tb6+q+iuUSW1xo92y4PsWgVwvP16YncKgelgO6FiLZD22iDi9peylW3S2KhTgv4+tIOBUxcGWKUF0B5HZTkhI/aDfFMzL4ihY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783561347; c=relaxed/simple;
-	bh=Egi5j4mQ/bRECGCpK0E7xSaArl0NcyLvCkV1NENPvH8=;
-	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
-	 In-Reply-To:MIME-Version; b=FnDuos1BblAEpQBf00RnEwxnDixRQu7Vzav4FnZ4i4eQ2Nr2ckRt5yuF6e3CwoZWTelWgAKeQqImLYltNPyTqYhW/rRCvpq6/rVyQw4aE1SsMjDpIyCPUBFApFqI+lvYP866FV1vbfKmH0QcmNhY2ohK+zoT8vHItA8Wgn89jJI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=iFipjYQT; arc=fail smtp.client-ip=52.101.46.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87342EEE6E
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 01:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.114
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783561412; cv=none; b=a4PmOWSFnLGLz51sd1VQBesoL3CTJUuqCCe9oXG8PemouczwBvdTAubqU/IHPa2uka1i8AbeUV86prUxQQsK1bF0wDfMnpiSzc+Jl2VwMvlRdmWAFNHy1KUnd/DJLxCpUNLqnm8FNuZ5OvepUc0ATbB1ewfeyRdB0DnGFC100bw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783561412; c=relaxed/simple;
+	bh=G9yqSNa2eE70upp1NnNj+2+nZssGJYIsab/6LRbhiGo=;
+	h=References:Date:Message-Id:Cc:From:Mime-Version:In-Reply-To:To:
+	 Subject:Content-Type; b=Gx9Gb/uuLZGeByUceENiDaXY/LjVK9gaNu1aJxt0iX97q8rZQdTemoUDIiAoyVbQBP1Cm8X/5k/xe+Minxi6r7gayyV7Fz9NQw9FdajoeyDxpHM137oShbOdaWANGQwnWaBMNX0S1N5b9gegATRERo8cnAHe33XMw0elHcGZv8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=BmpkevdA; arc=none smtp.client-ip=209.127.230.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="iFipjYQT"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fCnCdcuem4tBr4eLP8PMKQdgNKerX7CgiAvMpDZWUsFdk1Jxp46amCYW+dY/3Ll9YaHbMzPHFm9bOjBZhJ6nsTBt9qYKvJW172gTm2VBLleTAEASxXBBAHqg3SxHkxY9wo9fV8mG2iDmS/LFN5D+ydAxn8E42UEVk/VKFvGWpmc7BTIrTYvB7KjDMoT/rhFWDqr61GgPyFDQVgagQITqsjUdoV8g27Dn3rf9sRBbE3xtcJdYivpOBgb1VibUMwNrtIWZHUCg7jvm4/EJQSPu3v/xh8YJylqhD2+K3s5KXUWpGV2JSIipS5lYs4l53Wx3InTLhqx1Ulk4D2FHku6mIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IVIBhTpOaROuHvF6ahUTy2dAvqf31/mKwSHQfgbL6Lc=;
- b=j/oiZbB/M25WbfMqsPt6SHbr5JQ4GB+AFyLON/P31iBmGtiboVQqMcWOnU50MfRNEO5eSOJ3vysQLSXiZW8Qcq89GP/smkMMQyjEm61vls/3G6kCaiqFSLCzZIULoEdz/5XYa8cb8+EvfPr1XxsY4eAGdARFI2g34P6zjrRol6sLUVGM4NEXvC/nEIm6LbOFPveDkZWOP+vQLK5s+lHfONxstZVvqkSGT1ZpUI/slvs7nboryTufpF0enGgASfw3TrSctSQO9d9okCYmrNHz+lXvx4QOstkpSSmKH7HQy7Ii245pFrqnKZk440zWN704ujQcN+xWTUTN6i0M5n8eYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IVIBhTpOaROuHvF6ahUTy2dAvqf31/mKwSHQfgbL6Lc=;
- b=iFipjYQTQqq5fs3iPcZaoPZB2RpRe/63nnG/HHtinAA4RbJ74R5DDWhY3HfUrZ5j3vtkxu9apljHFFcztnDLUoLK5xYC0wjSNrdKtvtO3Z6Hb4BRYYwXhZrD21VKBWo+L9xKO+9HB5oTIj3mUDOb43IAIx6bshVIy6tf3uvKDG3dadt//2SlIErRR1mGmgVVPprXfECxL14IBBU/xxoIcOMwSGV7ccroZbIrZbFD3SnLuq7MerZQjR22Q6fmZyaBvf1qBrO5iyQkji/D2s2DexANMU6g/XHjeBMEBWKd4UKx1kUwLoJTIJkZlRBZcwy0pRsCT7YSgnKEVi8jbG7FMw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB8371.namprd12.prod.outlook.com (2603:10b6:8:e9::18) by
- DS0PR12MB7581.namprd12.prod.outlook.com (2603:10b6:8:13d::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.10; Thu, 9 Jul 2026 01:42:13 +0000
-Received: from DS7PR12MB8371.namprd12.prod.outlook.com
- ([fe80::23d7:9e07:1de8:d80a]) by DS7PR12MB8371.namprd12.prod.outlook.com
- ([fe80::23d7:9e07:1de8:d80a%3]) with mapi id 15.21.0181.009; Thu, 9 Jul 2026
- 01:42:12 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 08 Jul 2026 21:42:08 -0400
-Message-Id: <DJTNQ2XBNZRN.1BXP2OD707H1Z@nvidia.com>
-Subject: Re: [PATCH 09/13] mm/vma: update create_init_stack_vma() to use
- vma_flags_t
-Cc: "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>, "Madhavan Srinivasan"
- <maddy@linux.ibm.com>, "Michael Ellerman" <mpe@ellerman.id.au>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Lucas
- Stach" <l.stach@pengutronix.de>, "Inki Dae" <inki.dae@samsung.com>,
- "Seung-Woo Kim" <sw0312.kim@samsung.com>, "Kyungmin Park"
- <kyungmin.park@samsung.com>, "Krzysztof Kozlowski" <krzk@kernel.org>,
- "Peter Griffin" <peter.griffin@linaro.org>, "Jani Nikula"
- <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
- <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
- "Tvrtko Ursulin" <tursulin@ursulin.net>, "Rob Clark"
- <robin.clark@oss.qualcomm.com>, "Dmitry Baryshkov" <lumag@kernel.org>,
- "Lyude Paul" <lyude@redhat.com>, "Danilo Krummrich" <dakr@kernel.org>,
- "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>, "Sandy Huang"
- <hjc@rock-chips.com>, =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- "Andy Yan" <andy.yan@rock-chips.com>, "Thierry Reding"
- <thierry.reding@kernel.org>, "Mikko Perttunen" <mperttunen@nvidia.com>,
- "Jonathan Hunter" <jonathanh@nvidia.com>, "Gerd Hoffmann"
- <kraxel@redhat.com>, "Dmitry Osipenko" <dmitry.osipenko@collabora.com>,
- "Zack Rusin" <zack.rusin@broadcom.com>, "Matthew Brost"
- <matthew.brost@intel.com>, "Thomas Hellstrom"
- <thomas.hellstrom@linux.intel.com>, "Oleksandr Andrushchenko"
- <oleksandr_andrushchenko@epam.com>, "Helge Deller" <deller@gmx.de>,
- "Benjamin LaHaise" <bcrl@kvack.org>, "Alexander Viro"
- <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
- "Muchun Song" <muchun.song@linux.dev>, "Oscar Salvador"
- <osalvador@suse.de>, "David Hildenbrand" <david@kernel.org>, "Baolin Wang"
- <baolin.wang@linux.alibaba.com>, "Liam R . Howlett" <liam@infradead.org>,
- "Nico Pache" <npache@redhat.com>, "Ryan Roberts" <ryan.roberts@arm.com>,
- "Dev Jain" <dev.jain@arm.com>, "Barry Song" <baohua@kernel.org>, "Lance
- Yang" <lance.yang@linux.dev>, "Hugh Dickins" <hughd@google.com>, "Vlastimil
- Babka" <vbabka@kernel.org>, "Mike Rapoport" <rppt@kernel.org>, "Suren
- Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Jann
- Horn" <jannh@google.com>, "Pedro Falcato" <pfalcato@suse.de>, "Kees Cook"
- <kees@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
- <tiwai@suse.com>, <linux-mips@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
- <dri-devel@lists.freedesktop.org>, <etnaviv@lists.freedesktop.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-samsung-soc@vger.kernel.org>, <intel-gfx@lists.freedesktop.org>,
- <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
- <nouveau@lists.freedesktop.org>, <linux-rockchip@lists.infradead.org>,
- <linux-tegra@vger.kernel.org>, <virtualization@lists.linux.dev>,
- <intel-xe@lists.freedesktop.org>, <xen-devel@lists.xenproject.org>,
- <linux-fbdev@vger.kernel.org>, <linux-aio@kvack.org>,
- <linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
- <linux-sound@vger.kernel.org>
-To: "Lorenzo Stoakes" <ljs@kernel.org>, "Andrew Morton"
- <akpm@linux-foundation.org>
-From: "Zi Yan" <ziy@nvidia.com>
-X-Mailer: aerc 0.21.0
-References: <cover.1782760670.git.ljs@kernel.org>
- <34689784ee6856f100c02ad4eabeaa4db643713a.1782760670.git.ljs@kernel.org>
-In-Reply-To: <34689784ee6856f100c02ad4eabeaa4db643713a.1782760670.git.ljs@kernel.org>
-X-ClientProxiedBy: CH0PR03CA0432.namprd03.prod.outlook.com
- (2603:10b6:610:10e::20) To DS7PR12MB8371.namprd12.prod.outlook.com
- (2603:10b6:8:e9::18)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="BmpkevdA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1783561398; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=G9yqSNa2eE70upp1NnNj+2+nZssGJYIsab/6LRbhiGo=;
+ b=BmpkevdAavmO7oOFBQ4uYyBWqnhi7zfa47tRIJCKSzPFSiOUVbPyM1ujo4/FErcp6C7DVx
+ oUs1NzmQIkc1q5FqHIl3JNgHWSFa2442y+/D8vyTy3PtPVdsGa7p/uAbtaH9iI/r1ej7X3
+ dbt8ECN8O20asdAkkeotdov26/hgbnDnNGULzeaiCoQHkyMyWX89j0XkuAgK7uZOInR5U+
+ X/gd48e6DZff5ulQxNRjzIQcvhdP01UHORA8YLHGIZjR8ocw5n3grF/t4JOFp2K6wwQ21C
+ 2KsJ/ANEDitac5PiWZZSn3O0UnpkZo4LPRHUumfcjJaYT2yGuqOQxsnHCjA5OA==
+References: <20260701033253.46420-1-changfengnan@bytedance.com> <20260701033253.46420-4-changfengnan@bytedance.com> <akT4tJzFSfrBxqdq@infradead.org> <CAJnrk1Y3yPeXBeBNo+DjTt8eRN-mc2F9apBCUn+j=GV7GMzi4g@mail.gmail.com> <akZ3GErzJSTtOn-H@infradead.org> <CAJnrk1ZijiWYU8YOmRf24xxwX0kH6vCe3ta89LfoX7v7j_JYLQ@mail.gmail.com> <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.e3ea485f.90a4.4656.9103.275b1cd29206@bytedance.com> <akettUm5gBD8nj56@infradead.org> <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.a1148d7a.4a0d.4c6a.b14d.4583b6b728ce@bytedance.com> <CAJnrk1avS6qra8OvJdbexqM0xGT-FVZxVKe+TH4ZkFgfFv_oEQ@mail.gmail.com> <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.20f172db.1248.4925.882c.ef1d31b23985@bytedance.com> <CAJnrk1aPS3Z_N+6Fto_B=Sgo6Wt62Cr6XHEwa-KzqjtQWyJ4Vg@mail.gmail.com> <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.415a9a6d.e936.40be.8db9.f087f85da92f@bytedance.com>
+	<CAJnrk1ZfkewVA2qwLAmDi2GGH0Djv6OM-ch3bB1ftkhqtDeJfQ@mail.gmail.com>
+X-Lms-Return-Path: <lba+16a4efcb3+27947e+vger.kernel.org+changfengnan@bytedance.com>
+Date: Thu, 09 Jul 2026 09:43:13 +0800
+Message-Id: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.ee558e00.2d82.48c2.92bc.c198c9a30faf@bytedance.com>
+Cc: "Christoph Hellwig" <hch@infradead.org>, "brauner" <brauner@kernel.org>, 
+	"djwong" <djwong@kernel.org>, "ojaswin" <ojaswin@linux.ibm.com>, 
+	"dgc" <dgc@kernel.org>, "linux-xfs" <linux-xfs@vger.kernel.org>, 
+	"linux-fsdevel" <linux-fsdevel@vger.kernel.org>, 
+	"linux-ext4" <linux-ext4@vger.kernel.org>, 
+	"linux-kernel" <linux-kernel@vger.kernel.org>, 
+	<lidiangang@bytedance.com>, "pankaj.raghav" <pankaj.raghav@linux.dev>, 
+	"Brian Foster" <bfoster@redhat.com>
+From: "changfengnan" <changfengnan@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB8371:EE_|DS0PR12MB7581:EE_
-X-MS-Office365-Filtering-Correlation-Id: ddd5ea09-0887-4050-e353-08dedd5b4c5d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|7416014|1800799024|366016|22082099003|11063799006|18002099003|4143699003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	iDiRatKBFoWIm6T/kdGH9JywwyvyG75N7yZRXTZbHUKMqVc1qvxFNnu68X5+uwN/CjEuQ/Gw4UQyVdn3yPjee0lKSj3nPN0fRsAGEm0qrb2gg0JD5HsexinLGxYmgz6ZDgQrTUZHs4hticK3iPXOEsmSSZWI+QJjB69HSJhpgX7LABIju2O45PgqIV7mwRtn7BuieWeENDld82vKJ5quL9UZbWAgFwVzV+JKsQplbNdprqYOJd3W/pzhsJC6svOh9PUCIJtYeCk/ts2Q82cDX9GTUwc/JC9t9UcihbiGycxMgiU4F9bZdineBrPg4OWunXCQ+i9EKyBPuU2qPap/SI9uygh17IuNdAepzg4MmYWVjX/HhXKHaezFVLJtOJau15rsp+xzeLXw9xRruLFMdPB9gjA6Z/E8ET8XQ5U8AyMrley3aFby3Lg5u3ZJRN4wVteOIUdj/nMJ7QvkDtDg3t09r8cA64L26IX3mbbJr+dulpy+jxVUlO86ayU4Uijf1dkmRabMWJjK14R92nUawQJtPIISmKO6wlT7eaosuRmbLQSZaGt9tA7sXgfKUQt9O2eBQXO7sLJ5/5lW141ItfXF8avRCEClgkd+rj9mDlpuKbXJMcdMdCKotMToohdv2kB2KZH8CSX3mTG166Mf9ji5/yobdynoNa6Ptg34DNU=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB8371.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(1800799024)(366016)(22082099003)(11063799006)(18002099003)(4143699003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UTJiUVhXUkZOSklCZnAxQ2xvNng0VXhpNDhucmorb1Nac0lUNXJlUzczaWRO?=
- =?utf-8?B?NERqb3NXaHZ1Z3pEZ0RLVU5TUCtyS3ZqR3VWWVpBRGpvckVCNnlmalIrcUFY?=
- =?utf-8?B?eWdzd2tlOWNuNGxsM29oZDZneFZXcVJkK1g5R3M3L3BHSU91aWZmZ01NOXkv?=
- =?utf-8?B?Sm1ncTNyZTREb3lrOGxEaDRqWnR3bTRSekZQdmxoTTZYQ0FjYTc2SHhkUTA1?=
- =?utf-8?B?dTNoclVkUzRHWnhUM09Ka1VHQmZ6c1p1SkdIQ1dhOFBJVmpQZDluSlJxdVhn?=
- =?utf-8?B?WXgrQ2R3TjBIK1NROEUwU3BEK3I3dDZ6WlpkWEdNZDh5UisyZDczMlowT1Zz?=
- =?utf-8?B?LzFHa0hKVyszeUxNaFlOZkhMcUcwbEt4YkdrVXMwcHR6dnVPQ1l3ZFFkdk9i?=
- =?utf-8?B?YThWdHR5a3RUSTFMaFVRQS9wZW5YRjlOSE1YUGowanU2bGE4RjQ2MitSZlAw?=
- =?utf-8?B?eUFQZ2lXOU92TVBHQ1Y1bTZIZEpCcHFJSlB6WTcxYWJtL05MZ2lvV3BsY3c3?=
- =?utf-8?B?Y2x5TzhjcWhzYmlGYmtsT21sb1d6clpJS3FBQmFiRGg0VTJ5dWwwbklXeWVy?=
- =?utf-8?B?STN6QzE5SStYNzVUekNaYmwrWGJvT2pTZGNrdERuck9JRklHQ2NsaHN0SXY5?=
- =?utf-8?B?SmhOTERHNWpCcEF1QnRIZkRzSTk0SXROb2QxQmRKTURDa3JnZFBWMStpVGhP?=
- =?utf-8?B?bjU1bUtyT0N1Q0tXeTJEZDhCTERZWG9HSWtmb3ZNNUF4b0FUVXJGeXozZnU4?=
- =?utf-8?B?RGlreWlBKys4OXVnNmYvNjl6MU8zTk9qdjlIS3dHcm45WGtsQlNMR2pkVGEx?=
- =?utf-8?B?UzgvUDdDVUFvV0dKdWlrRU9MdDFPaVpMQUFCa1d4N0FnelhFTVR5ZjJSOVc4?=
- =?utf-8?B?b0xtZncwWm8xSmlTRHZTNERJcEpYb0lTZWF2enByY2tvNFdVaWhuUmVyWHpF?=
- =?utf-8?B?WUFtSGs5SUhzY1NnTjYzL2xRRlJDK3ZNakovUXZBTUZ3TkVDMCtMQjNMbU8z?=
- =?utf-8?B?WHVLVEoyL21NWkYybzBHM0Y4czA3VWtMNWM3aEVzdnY5R0NlR3E3RDhxR0lD?=
- =?utf-8?B?TzBXN29XQzFBelMyNWhNUy85R0pDbk44RFFOeXFvdDF6Y3pwTWZNRHhUSHA2?=
- =?utf-8?B?M25tb1pMN01mSDd2Zm5Ycjd4RlhiVkJNV1l0Njg4K1djN01ldHkzdEZLQTk4?=
- =?utf-8?B?SUFjU0FpZ3dLcmtmSDN5QzRKOHRFZkhGZWI3eHgzVi9TV1c5bG5EWkNzditM?=
- =?utf-8?B?UVZhcTFCMWEvaTJRTVdrdmExSDdWRlZ2aXNUdjVBVVZFajZFRG5RT0RTMFh6?=
- =?utf-8?B?cS9HK25CRDlWeGVMTFBHbW1KRGxFOXlQbFRvV0g3TEI1QVBGTzJOaDFzdlVU?=
- =?utf-8?B?NThMSUJ4ek95dS9XZ1BhamxrRE5JRHkycW1ZeDdVa28wYnlzRXpGcVhuT3ZN?=
- =?utf-8?B?YnEwMVNmOGx6SVB1dzZjM3dseUthVE1RQ1hMd2ZjUE1wdGdkWVlzSmNSK0Vl?=
- =?utf-8?B?eVZnZzVmcTJkV285WUlIZHJPWXZVcHBoeTVRNGhIWkxXbDRaOUJWOVFqVyty?=
- =?utf-8?B?WHRTRGNMc01hRWlSZ2ZvU0Z3K0ZsY055dHRvTjUweC9jblBleVJoQ29tamFs?=
- =?utf-8?B?UVZXcjdKUjc0bDJHQlBSWFBTSUN6S0RVcFJDdFdtTmkraWRCMWhRY3ladjdJ?=
- =?utf-8?B?S1h6UGFKV3ZqUmxCeWtPdnRvazM5eTltUHpBWkpVL2lEcExDNWF4ZmhLN3lt?=
- =?utf-8?B?UVZtS1J4bHY0bm5UT1VDL2tWMmZHR3dEbEltak9TQ1B3SFJzemVuc2VnNGdI?=
- =?utf-8?B?TmxzRTZOTmVDeSsweGFBNkpUMC9qVk0yWkZuSitNYjI0bTVmSXp3NXRpajM2?=
- =?utf-8?B?MWNlTThqc3F3M2JQcXJuR3FGUmtxSGFWbXZkQkNEc05pcG8raHZhQzlzVHBm?=
- =?utf-8?B?UmNOZlloOW93Vnp4czdEbzhYN3FKd3pDenMxeUg2OXBQeTAwVlJjVm5sQm02?=
- =?utf-8?B?ZVBNeE5Dbyt6Z3Nxa09DMGEzYnNML2NRc2lsMnBJSGlnQURkKzZSMEF1WCtE?=
- =?utf-8?B?LzFCbWhNS1pnUERGVHBtTDg5Q3dKZHhGcEYvZFNCeXF6Z21nQmpWVDM3bi9n?=
- =?utf-8?B?dzNaYTN2RDJZMFFhM3BrbjVPVHlab01EbHJveTh5aGtyS3BLcEF0MytHd1c4?=
- =?utf-8?B?V3F6bWg1eWlZMEs5ZVFHOUtIVjdoTFdPSmxTVUpPOHBFV0R3RW9kSzc0R1Y4?=
- =?utf-8?B?Ym4xWS9PWXZ6dVhTRjBiSG45V3VIZE1aRHdXN3ZvZ3paRkpheDY3V2JQaTNz?=
- =?utf-8?Q?YkDc304XKvg8CW2By8?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ddd5ea09-0887-4050-e353-08dedd5b4c5d
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB8371.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2026 01:42:12.8101
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: koNURsUO6db1sQKHwoSjxAarTfnslf461+ZBpMIr7QAlsBVvHV1isp9f2QO8THZW
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7581
+Mime-Version: 1.0
+In-Reply-To: <CAJnrk1ZfkewVA2qwLAmDi2GGH0Djv6OM-ch3bB1ftkhqtDeJfQ@mail.gmail.com>
+To: "Joanne Koong" <joannelkoong@gmail.com>
+Subject: Re: [PATCH v6 3/3] iomap: add simple dio path for small direct I/O
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon Jun 29, 2026 at 3:25 PM EDT, Lorenzo Stoakes wrote:
-> Replace use of the legacy vm_flags_t flags with vma_flags_t values in
-> create_init_stack_vma().
+
+> From: "Joanne Koong"<joannelkoong@gmail.com>
+> Date:=C2=A0 Thu, Jul 9, 2026, 09:40
+> Subject:=C2=A0 Re: [PATCH v6 3/3] iomap: add simple dio path for small di=
+rect I/O
+> To: "changfengnan"<changfengnan@bytedance.com>
+> Cc: "Christoph Hellwig"<hch@infradead.org>, "brauner"<brauner@kernel.org>=
+, "djwong"<djwong@kernel.org>, "ojaswin"<ojaswin@linux.ibm.com>, "dgc"<dgc@=
+kernel.org>, "linux-xfs"<linux-xfs@vger.kernel.org>, "linux-fsdevel"<linux-=
+fsdevel@vger.kernel.org>, "linux-ext4"<linux-ext4@vger.kernel.org>, "linux-=
+kernel"<linux-kernel@vger.kernel.org>, <lidiangang@bytedance.com>, "pankaj.=
+raghav"<pankaj.raghav@linux.dev>, "Brian Foster"<bfoster@redhat.com>
+> On Wed, Jul 8, 2026 at 1:42=E2=80=AFAM changfengnan <changfengnan@bytedan=
+ce.com> wrote:
+> >
+> >
+> > > From: "Joanne Koong"<joannelkoong@gmail.com>
+> > > Date: =C2=A0Wed, Jul 8, 2026, 10:07
+> > > Subject: =C2=A0Re: [PATCH v6 3/3] iomap: add simple dio path for smal=
+l direct I/O
+> > > To: "changfengnan"<changfengnan@bytedance.com>
+> > > Cc: "Christoph Hellwig"<hch@infradead.org>, "brauner"<brauner@kernel.=
+org>, "djwong"<djwong@kernel.org>, "ojaswin"<ojaswin@linux.ibm.com>, "dgc"<=
+dgc@kernel.org>, "linux-xfs"<linux-xfs@vger.kernel.org>, "linux-fsdevel"<li=
+nux-fsdevel@vger.kernel.org>, "linux-ext4"<linux-ext4@vger.kernel.org>, "li=
+nux-kernel"<linux-kernel@vger.kernel.org>, <lidiangang@bytedance.com>, "pan=
+kaj.raghav"<pankaj.raghav@linux.dev>, "Brian Foster"<bfoster@redhat.com>
+> > > On Mon, Jul 6, 2026 at 11:57=E2=80=AFPM changfengnan <changfengnan@by=
+tedance.com> wrote:
+> > > >
+> > > >
+> > > > > From: "Joanne Koong"<joannelkoong@gmail.com>
+> > > > > Date: =C2=A0Tue, Jul 7, 2026, 03:27
+> > > > > Subject: =C2=A0Re: [PATCH v6 3/3] iomap: add simple dio path for =
+small direct I/O
+> > > > > To: "changfengnan"<changfengnan@bytedance.com>
+> > > > > Cc: "Christoph Hellwig"<hch@infradead.org>, "brauner"<brauner@ker=
+nel.org>, "djwong"<djwong@kernel.org>, "ojaswin"<ojaswin@linux.ibm.com>, "d=
+gc"<dgc@kernel.org>, "linux-xfs"<linux-xfs@vger.kernel.org>, "linux-fsdevel=
+"<linux-fsdevel@vger.kernel.org>, "linux-ext4"<linux-ext4@vger.kernel.org>,=
+ "linux-kernel"<linux-kernel@vger.kernel.org>, <lidiangang@bytedance.com>, =
+"pankaj.raghav"<pankaj.raghav@linux.dev>, "Brian Foster"<bfoster@redhat.com=
 >
-> As part of this change we add VMA_STACK_EARLY and VMA_STACK_INCOMPLETE
-> vma_flags_t defines, and slightly rework create_init_stack_vma() for
-> clarity.
->
-> No functional change intended.
->
-> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
-> ---
->  include/linux/mm.h |  4 ++++
->  mm/vma_exec.c      | 18 +++++++++++-------
->  2 files changed, 15 insertions(+), 7 deletions(-)
->
+> > > > > On Mon, Jul 6, 2026 at 4:10=E2=80=AFAM changfengnan <changfengnan=
+@bytedance.com> wrote:
+> > > > > >
+> > > > > > > From: "Christoph Hellwig"<hch@infradead.org>
+> > > > > > > Date: =C2=A0Fri, Jul 3, 2026, 20:40
+> > > > > > > Subject: =C2=A0Re: [PATCH v6 3/3] iomap: add simple dio path =
+for small direct I/O
+> > > > > > > To: "changfengnan"<changfengnan@bytedance.com>
+> > > > > > > Cc: "Joanne Koong"<joannelkoong@gmail.com>, "Christoph Hellwi=
+g"<hch@infradead.org>, "brauner"<brauner@kernel.org>, "djwong"<djwong@kerne=
+l.org>, "ojaswin"<ojaswin@linux.ibm.com>, "dgc"<dgc@kernel.org>, "linux-xfs=
+"<linux-xfs@vger.kernel.org>, "linux-fsdevel"<linux-fsdevel@vger.kernel.org=
+>, "linux-ext4"<linux-ext4@vger.kernel.org>, "linux-kernel"<linux-kernel@vg=
+er.kernel.org>, <lidiangang@bytedance.com>, "pankaj.raghav"<pankaj.raghav@l=
+inux.dev>, "Brian Foster"<bfoster@redhat.com>
+> > > > > > > On Fri, Jul 03, 2026 at 05:13:12PM +0800, changfengnan wrote:
+> > > > > > > > taken, which introduced some overhead.
+> > > > > > > > I implemented some optimizations based on Christoph=E2=80=
+=99s suggestions and
+> > > > > > > > made some modifications to `iomap_process`;
+> > > > > > > > Now, XFS performance is essentially unchanged, while ext4 s=
+till shows a
+> > > > > > > > 1.5% drop; I will continue to investigate the cause.. =C2=
+=A0 I=E2=80=99ve attached the patch.
+> > > > > > > > Actually, I had expected that switching to `iomap_next` wou=
+ld improve
+> > > > > > > > performance, since it avoids an indirect call.
+> > > > > > >
+> > > > > > > I don't think it will for you - the direct I/O readers don't =
+have
+> > > > > > > iomap_end methods, so you still have the same number of indir=
+ect
+> > > > > > > calls. =C2=A0What could help is to inline the iterator as see=
+n in Joannes'
+> > > > > > > fist demo series. =C2=A0We could even look into doing that on=
+ly for simple
+> > > > > > > dio in a first step, shifting the burden to use the simple me=
+thod
+> > > > > > > to the callers (at least for the POC).
+> > > > > >
+> > > > > > I'm not sure if this is what you had in mind, but I made some
+> > > > > > adjustments referencing Joannes' first patch, and using this ap=
+proach,
+> > > > > > there was no performance degradation.
+> > > > >
+> > > > > Thanks, Fengnan. This is awesome that it got the degradation down=
+ to zero.
+> > > > >
+> > > > > Would you be able to test how this change performs on your benchm=
+arks?:
+> > > >
+> > > > XFS basically has no performance degradation, while ext4 experience=
+s
+> > > > a 1-1.5% performance degradation.
+> > > >
+> > > > Round 1:
+> > > > =C2=A0 =C2=A0 d67 =C2=A0 =C2=A0 =C2=A0xfs : 2.04M, 2.05M, 2.04M, 2.=
+04M, 2.04M =C2=A0avg=3D2.042M
+> > > > =C2=A0 =C2=A0 d67 =C2=A0 =C2=A0 =C2=A0ext4: 2.12M, 2.12M, 2.12M, 2.=
+12M, 2.12M =C2=A0avg=3D2.120M
+> > > > =C2=A0 =C2=A0 joanne86 xfs : 2.13M, 2.05M, 2.04M, 2.05M, 2.05M =C2=
+=A0avg=3D2.064M
+> > > > =C2=A0 =C2=A0 joanne86 ext4: 2.11M, 2.11M, 2.11M, 2.11M, 2.11M =C2=
+=A0avg=3D2.110M
+> > > >
+> > > > =C2=A0 Round 2:
+> > > > =C2=A0 =C2=A0 d67 =C2=A0 =C2=A0 =C2=A0xfs : 2.05M, 2.05M, 2.05M, 2.=
+05M, 2.05M =C2=A0avg=3D2.050M
+> > > > =C2=A0 =C2=A0 d67 =C2=A0 =C2=A0 =C2=A0ext4: 2.12M, 2.12M, 2.12M, 2.=
+12M, 2.12M =C2=A0avg=3D2.120M
+> > > > =C2=A0 =C2=A0 joanne86 xfs : 2.04M, 2.04M, 2.04M, 2.04M, 2.05M =C2=
+=A0avg=3D2.042M
+> > > > =C2=A0 =C2=A0 joanne86 ext4: 2.09M, 2.08M, 2.09M, 2.10M, 2.09M =C2=
+=A0avg=3D2.090M
+> > > >
+> > > > =C2=A0 Round 3:
+> > > > =C2=A0 =C2=A0 d67 =C2=A0 =C2=A0 =C2=A0xfs : 2.04M, 2.04M, 2.04M, 2.=
+04M, 2.05M =C2=A0avg=3D2.042M
+> > > > =C2=A0 =C2=A0 d67 =C2=A0 =C2=A0 =C2=A0ext4: 2.12M, 2.12M, 2.11M, 2.=
+12M, 2.12M =C2=A0avg=3D2.118M
+> > > > =C2=A0 =C2=A0 joanne86 xfs : 2.04M, 2.05M, 2.04M, 2.04M, 2.04M =C2=
+=A0avg=3D2.042M
+> > > > =C2=A0 =C2=A0 joanne86 ext4: 2.09M, 2.09M, 2.08M, 2.09M, 2.09M =C2=
+=A0avg=3D2.088M
+> > > >
+> > >
+> > > Thanks. I'm not sure why it makes ext4 worse. Maybe it being inlined
+> > > bloats it too much so it leads to more frontend stalls/icache misses
+> > > than what the devirtualization helps with? Looking at the begin
+> > > functions, ext4's is around 2.5x larger than xfs's. It also looks lik=
+e
+> > > ext4's read_iomap_begin function has 2 callers, so I think that may
+> > > not get automatically inlined whereas xfs's will since
+> > > xfs_read_iomap_begin just has 1 caller, though I don't know if that
+> > > ends up mattering.
+> >
+> > I ran two rounds of tests using your patch, and ext4 still showed a 1.5=
+%
+> > performance drop.
+> > However, I think your analysis is correct=E2=80=94it=E2=80=99s likely c=
+aused by too many
+> > inline functions. =C2=A0Inlining the simple DIO wrappers expands the fi=
+lesystem
+> > read_iter hot path and increases frontend/register pressure. Keeping th=
+e
+> > wrappers out of line adds only a cheap direct call, while preserving a =
+smaller
+> > and better laid-out filesystem hot path.
+> > So I made some changes, reverting `iomap_dio_rw()` and `iomap_dio_simpl=
+e()`
+> > to non-inline versions, and performance returned to normal.
+> >
+>=C2=A0
+> Thanks for tracking this down, I'm glad it doesn't regress the fast
+> path anymore.
+>=C2=A0
+> I'll put your name as the author of the patch, especially since you
+> did all the benchmarking too. I think I just need your legal
+> permission to add your Signed-off-by. Is that ok? I'll add a
+> Suggested-by: for christoph since he came up with a lot of the ideas
+> with IOMAP_DIO_NO_IOMAP_END, moving some of the iteration logic into
+> iomap_process, etc. I'll carry this in v3 of the iomap_next series.
 
-LGTM.
+Sure.
 
-Reviewed-by: Zi Yan <ziy@nvidia.com>
-
---=20
-Best Regards,
-Yan, Zi
-
+>=C2=A0
+> Thanks,
+> Joanne
+>=C2=A0
+> > Patch based on https://github.com/joannekoong/linux/commits/iomap_simpl=
+e_dio_iomap_next_ext4/
+> > diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+> > index bc3b87e57592a..d0f7ef8ac140a 100644
+> > --- a/fs/iomap/direct-io.c
+> > +++ b/fs/iomap/direct-io.c
+> > @@ -968,6 +968,33 @@ static void iomap_dio_simple_end_io(struct bio *bi=
+o)
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iocb->ki_complete(iocb, iomap_dio_sim=
+ple_complete(sr));
+> > =C2=A0}
+> >
+> > +static bool iomap_dio_simple_supported(struct kiocb *iocb,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct iov_=
+iter *iter,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 const struc=
+t iomap_dio_ops *dops,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned in=
+t dio_flags,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size_t done=
+_before)
+> > +{
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct inode *inode =3D file_inode(iocb->k=
+i_filp);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0size_t count =3D iov_iter_count(iter);
+> > +
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (dops || done_before)
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (iov_iter_rw(iter) !=3D READ)
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!count)
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (count > inode->i_sb->s_blocksize)
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (dio_flags & (IOMAP_DIO_FORCE_WAIT | IO=
+MAP_DIO_PARTIAL |
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 IOMAP_DIO_BOUNCE))
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (iocb->ki_pos + count > i_size_read(ino=
+de))
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_ENCRYPTED(inode))
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0return true;
+> > +}
+> > +
+> > =C2=A0static inline void
+> > =C2=A0iomap_dio_simple_finish(struct iomap_iter *iomi, iomap_next_fn io=
+map_next,
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0size_t wr=
+itten)
+> > @@ -978,7 +1005,7 @@ iomap_dio_simple_finish(struct iomap_iter *iomi, i=
+omap_next_fn iomap_next,
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iomap_next(iomi, &iomi->iomap, &iomi-=
+>srcmap);
+> > =C2=A0}
+> >
+> > -ssize_t
+> > +static ssize_t
+> > =C2=A0__iomap_dio_simple(struct kiocb *iocb, struct iov_iter *iter,
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct io=
+map_iter *iomi, iomap_next_fn iomap_next,
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned =
+int dio_flags)
+> > @@ -1070,7 +1097,97 @@ __iomap_dio_simple(struct kiocb *iocb, struct io=
+v_iter *iter,
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0inode_dio_end(inode);
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;
+> > =C2=A0}
+> > -EXPORT_SYMBOL_GPL(__iomap_dio_simple);
+> > +
+> > +/*
+> > + * Fast path for small, block-aligned direct I/Os that map to a single
+> > + * contiguous on-disk extent.
+> > + *
+> > + * iomap_dio_simple_supported() enforces the cheap up-front constraint=
+s before
+> > + * entering this path.
+> > + *
+> > + * @dops must be NULL: a non-NULL @dops means the caller wants its
+> > + * ->end_io / ->submit_io hooks invoked, and in particular wants its b=
+ios to be
+> > + * allocated from the filesystem-private @dops->bio_set (whose front_p=
+ad sizes a
+> > + * filesystem-private wrapper around the bio). =C2=A0The fast path ins=
+tead allocates
+> > + * from the shared iomap_dio_simple_pool, whose front_pad matches stru=
+ct
+> > + * iomap_dio_simple; the two wrappers are not interchangeable, so we m=
+ust fall
+> > + * back to __iomap_dio_rw() in that case.
+> > + *
+> > + * @done_before must be zero: a non-zero caller-accumulated residual c=
+annot be
+> > + * carried through a single-bio inline completion.
+> > + *
+> > + * @iter must describe a non-empty READ no larger than the inode block=
+ size:
+> > + * writes, zero-length I/O, and larger requests need the generic iomap=
+ direct
+> > + * I/O path.
+> > + *
+> > + * @dio_flags must not request IOMAP_DIO_FORCE_WAIT, IOMAP_DIO_PARTIAL=
+, or
+> > + * IOMAP_DIO_BOUNCE: this path does not support forced waiting, partia=
+l direct
+> > + * I/O, or bouncing. =C2=A0The range must also stay within i_size and =
+encrypted
+> > + * inodes must use the generic iomap direct I/O path. IOMAP_DIO_NO_IOM=
+AP_END is
+> > + * a fast-path optimization the caller can set if there is no work tha=
+t needs to
+> > + * be done after a mapping.
+> > + *
+> > + * -ENOTBLK is the private sentinel returned by iomap_dio_simple() whe=
+n it
+> > + * decides the request does not fit the fast path. =C2=A0In that case =
+we proceed to
+> > + * the generic __iomap_dio_rw() slow path. =C2=A0Any other errno is a =
+real result and
+> > + * is propagated as-is, in particular -EAGAIN for IOCB_NOWAIT must rea=
+ch the
+> > + * caller.
+> > + */
+> > +static ssize_t iomap_dio_simple(struct kiocb *iocb,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct iov_iter *iter, iomap_next=
+_fn iomap_next,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0void *private, unsigned int dio_f=
+lags)
+> > +{
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct inode *inode =3D file_inode(iocb->k=
+i_filp);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0size_t count =3D iov_iter_count(iter);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct iomap_iter iomi =3D {
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.inode =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D inode,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.pos =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D iocb->ki_pos,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.len =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D count,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.flags =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D IOMAP_DIRECT,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.private =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0=3D private,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0};
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0ssize_t ret;
+> > +
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (iocb->ki_flags & IOCB_NOWAIT)
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iomi.flags |=
+=3D IOMAP_NOWAIT;
+> > +
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D kiocb_write_and_wait(iocb, count);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret)
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;
+> > +
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0inode_dio_begin(inode);
+> > +
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D iomap_next(&iomi, &iomi.iomap, &io=
+mi.srcmap);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret <=3D 0) {
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0inode_dio_end(=
+inode);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* a zero retu=
+rn means no mapping, which should never happen */
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret ? r=
+et : -EFAULT;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> > +
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0return __iomap_dio_simple(iocb, iter, &iom=
+i, iomap_next, dio_flags);
+> > +}
+> > +
+> > +ssize_t iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ iomap_next_fn iomap_next, const struct iomap_dio_ops *dops,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ unsigned int dio_flags, void *private, size_t done_before)
+> > +{
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0struct iomap_dio *dio;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0ssize_t ret;
+> > +
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (iomap_dio_simple_supported(iocb, iter,=
+ dops, dio_flags, done_before)) {
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D iomap_=
+dio_simple(iocb, iter, iomap_next, private,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dio_flags);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret !=3D -=
+ENOTBLK)
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0return ret;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> > +
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0dio =3D __iomap_dio_rw(iocb, iter, iomap_n=
+ext, dops, dio_flags,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 private, done_before);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_ERR_OR_NULL(dio))
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return PTR_ERR=
+_OR_ZERO(dio);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0return iomap_dio_complete(dio);
+> > +}
+> > +EXPORT_SYMBOL_GPL(iomap_dio_rw);
+> >
+> > =C2=A0static int __init iomap_dio_init(void)
+> > =C2=A0{
+> > diff --git a/include/linux/iomap.h b/include/linux/iomap.h
+> > index 6213a3b1a0b93..d6028722c54b2 100644
+> > --- a/include/linux/iomap.h
+> > +++ b/include/linux/iomap.h
+> > @@ -615,126 +615,9 @@ struct iomap_dio *__iomap_dio_rw(struct kiocb *io=
+cb, struct iov_iter *iter,
+> > =C2=A0ssize_t iomap_dio_complete(struct iomap_dio *dio);
+> > =C2=A0void iomap_dio_bio_end_io(struct bio *bio);
+> >
+> > -static inline bool
+> > -iomap_dio_simple_supported(struct kiocb *iocb, struct iov_iter *iter,
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 const struct iomap_dio_ops *dops,
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 unsigned int dio_flags, size_t done_before)
+> > -{
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0struct inode *inode =3D file_inode(iocb->k=
+i_filp);
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0size_t count =3D iov_iter_count(iter);
+> > -
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (dops || done_before)
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (iov_iter_rw(iter) !=3D READ)
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!count)
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (count > inode->i_sb->s_blocksize)
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (dio_flags & (IOMAP_DIO_FORCE_WAIT | IO=
+MAP_DIO_PARTIAL |
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 IOMAP_DIO_BOUNCE))
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (iocb->ki_pos + count > i_size_read(ino=
+de))
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_ENCRYPTED(inode))
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0return true;
+> > -}
+> > -
+> > -ssize_t __iomap_dio_simple(struct kiocb *iocb, struct iov_iter *iter,
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct iomap_i=
+ter *iomi, iomap_next_fn iomap_next,
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int d=
+io_flags);
+> > -
+> > -/*
+> > - * Fast path for small, block-aligned direct I/Os that map to a single
+> > - * contiguous on-disk extent.
+> > - *
+> > - * iomap_dio_simple_supported() enforces the cheap up-front constraint=
+s before
+> > - * entering this path.
+> > - *
+> > - * @dops must be NULL: a non-NULL @dops means the caller wants its
+> > - * ->end_io / ->submit_io hooks invoked, and in particular wants its b=
+ios to be
+> > - * allocated from the filesystem-private @dops->bio_set (whose front_p=
+ad sizes a
+> > - * filesystem-private wrapper around the bio). =C2=A0The fast path ins=
+tead allocates
+> > - * from the shared iomap_dio_simple_pool, whose front_pad matches stru=
+ct
+> > - * iomap_dio_simple; the two wrappers are not interchangeable, so we m=
+ust fall
+> > - * back to __iomap_dio_rw() in that case.
+> > - *
+> > - * @done_before must be zero: a non-zero caller-accumulated residual c=
+annot be
+> > - * carried through a single-bio inline completion.
+> > - *
+> > - * @iter must describe a non-empty READ no larger than the inode block=
+ size:
+> > - * writes, zero-length I/O, and larger requests need the generic iomap=
+ direct
+> > - * I/O path.
+> > - *
+> > - * @dio_flags must not request IOMAP_DIO_FORCE_WAIT, IOMAP_DIO_PARTIAL=
+, or
+> > - * IOMAP_DIO_BOUNCE: this path does not support forced waiting, partia=
+l direct
+> > - * I/O, or bouncing. =C2=A0The range must also stay within i_size and =
+encrypted
+> > - * inodes must use the generic iomap direct I/O path. IOMAP_DIO_NO_IOM=
+AP_END is
+> > - * a fast-path optimization the caller can set if there is no work tha=
+t needs to
+> > - * be done after a mapping.
+> > - *
+> > - * -ENOTBLK is the private sentinel returned by iomap_dio_simple() whe=
+n it
+> > - * decides the request does not fit the fast path. =C2=A0In that case =
+we proceed to
+> > - * the generic __iomap_dio_rw() slow path. =C2=A0Any other errno is a =
+real result and
+> > - * is propagated as-is, in particular -EAGAIN for IOCB_NOWAIT must rea=
+ch the
+> > - * caller.
+> > - */
+> > -static __always_inline ssize_t
+> > -iomap_dio_simple(struct kiocb *iocb, struct iov_iter *iter,
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iomap_next_fn =
+iomap_next, void *private, unsigned int dio_flags)
+> > -{
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0struct inode *inode =3D file_inode(iocb->k=
+i_filp);
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0size_t count =3D iov_iter_count(iter);
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0struct iomap_iter iomi =3D {
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.inode =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D inode,
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.pos =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D iocb->ki_pos,
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.len =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D count,
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.flags =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D IOMAP_DIRECT,
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.private =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0=3D private,
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0};
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0ssize_t ret;
+> > -
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (iocb->ki_flags & IOCB_NOWAIT)
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iomi.flags |=
+=3D IOMAP_NOWAIT;
+> > -
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D kiocb_write_and_wait(iocb, count);
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret)
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;
+> > -
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0inode_dio_begin(inode);
+> > -
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D iomap_next(&iomi, &iomi.iomap, &io=
+mi.srcmap);
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret <=3D 0) {
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0inode_dio_end(=
+inode);
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* a zero retu=
+rn means no mapping, which should never happen */
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret ? r=
+et : -EFAULT;
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> > -
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0return __iomap_dio_simple(iocb, iter, &iom=
+i, iomap_next, dio_flags);
+> > -}
+> > -
+> > -static __always_inline ssize_t
+> > -iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter, iomap_next_fn =
+iomap_next,
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const struct i=
+omap_dio_ops *dops, unsigned int dio_flags,
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0void *private,=
+ size_t done_before)
+> > -{
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0struct iomap_dio *dio;
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0ssize_t ret;
+> > -
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (iomap_dio_simple_supported(iocb, iter,=
+ dops, dio_flags, done_before)) {
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D iomap_=
+dio_simple(iocb, iter, iomap_next, private,
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dio_flags);
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret !=3D -=
+ENOTBLK)
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0return ret;
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+> > -
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0dio =3D __iomap_dio_rw(iocb, iter, iomap_n=
+ext, dops, dio_flags, private,
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 done_before);
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_ERR_OR_NULL(dio))
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return PTR_ERR=
+_OR_ZERO(dio);
+> > - =C2=A0 =C2=A0 =C2=A0 =C2=A0return iomap_dio_complete(dio);
+> > -}
+> > +ssize_t iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ iomap_next_fn iomap_next, const struct iomap_dio_ops *dops,
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ unsigned int dio_flags, void *private, size_t done_before);
+> >
+> > =C2=A0#ifdef CONFIG_SWAP
+> > =C2=A0struct file;
+> > --
+> >
+> > >
+> > > I'm seeing that ext4_iomap_begin is ~1570 bytes vs.
+> > > xfs_read_iomap_begin is ~635 bytes. It looks like though
+> > > ext4_iomap_begin is a combined read + write begin, whereas xfs's is a
+> > > dedicated read-only begin. If we separate ext4_iomap_begin into
+> > > dedicated read vs write begins, then I think this gets
+> > > ext4_read_iomap_begin down to ~230 bytes.
+> > >
+> > > Would you be able to test if this improves the ext4 performance you'r=
+e seeing?:
+> > >
+> > > change #1: separate out ext4_iomap_begin into ext4_read/write_iomap_b=
+egin
+> > >
+> > > diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+> > > index 4c30dd8dbec7..54cdecbc7539 100644
+> > > --- a/fs/ext4/inode.c
+> > > +++ b/fs/ext4/inode.c
+> > > @@ -3771,8 +3771,46 @@ static int ext4_iomap_alloc(struct inode
+> > > *inode, struct ext4_map_blocks *map,
+> > > =C2=A0}
+> > >
+> > >
+> > > -static int ext4_iomap_begin(struct inode *inode, loff_t offset, loff=
+_t length,
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned flags, st=
+ruct iomap *iomap, struct iomap *srcmap)
+> > > +static int ext4_read_iomap_begin(struct inode *inode, loff_t offset,
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 loff_t length, uns=
+igned int flags, struct iomap *iomap,
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct iomap *srcm=
+ap)
+> > > +{
+> > > + =C2=A0 =C2=A0 =C2=A0 int ret;
+> > > + =C2=A0 =C2=A0 =C2=A0 struct ext4_map_blocks map;
+> > > + =C2=A0 =C2=A0 =C2=A0 u8 blkbits =3D inode->i_blkbits;
+> > > +
+> > > + =C2=A0 =C2=A0 =C2=A0 if ((offset >> blkbits) > EXT4_MAX_LOGICAL_BLO=
+CK)
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EINVAL;
+> > > +
+> > > + =C2=A0 =C2=A0 =C2=A0 if (WARN_ON_ONCE(ext4_has_inline_data(inode)))
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -ERANGE;
+> > > +
+> > > + =C2=A0 =C2=A0 =C2=A0 /*
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0* Calculate the first and last logical b=
+locks respectively.
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0*/
+> > > + =C2=A0 =C2=A0 =C2=A0 map.m_lblk =3D offset >> blkbits;
+> > > + =C2=A0 =C2=A0 =C2=A0 map.m_len =3D min_t(loff_t, (offset + length -=
+ 1) >> blkbits,
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 EXT4_MAX_LOGICAL_BLOCK) - map.m_lblk + 1;
+> > > +
+> > > + =C2=A0 =C2=A0 =C2=A0 ret =3D ext4_map_blocks(NULL, inode, &map, 0);
+> > > + =C2=A0 =C2=A0 =C2=A0 if (ret < 0)
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;
+> > > +
+> > > + =C2=A0 =C2=A0 =C2=A0 /*
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0* When inline encryption is enabled, som=
+etimes I/O to an encrypted file
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0* has to be broken up to guarantee DUN c=
+ontiguity. =C2=A0Handle this by
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0* limiting the length of the mapping ret=
+urned.
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0*/
+> > > + =C2=A0 =C2=A0 =C2=A0 map.m_len =3D fscrypt_limit_io_blocks(inode, m=
+ap.m_lblk, map.m_len);
+> > > +
+> > > + =C2=A0 =C2=A0 =C2=A0 ext4_set_iomap(inode, iomap, &map, offset, len=
+gth, flags);
+> > > +
+> > > + =C2=A0 =C2=A0 =C2=A0 return 0;
+> > > +}
+> > > +
+> > > +static int ext4_write_iomap_begin(struct inode *inode, loff_t offset=
+,
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 loff_t length, uns=
+igned int flags, struct iomap *iomap,
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct iomap *srcm=
+ap)
+> > > =C2=A0{
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 int ret;
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct ext4_map_blocks map;
+> > > @@ -3793,37 +3831,33 @@ static int ext4_iomap_begin(struct inode
+> > > *inode, loff_t offset, loff_t length,
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 EXT4_MAX_LOGICAL_BLOCK) - map.m_lblk + 1;
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 orig_mlen =3D map.m_len;
+> > >
+> > > - =C2=A0 =C2=A0 =C2=A0 if (flags & IOMAP_WRITE) {
+> > > + =C2=A0 =C2=A0 =C2=A0 /*
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0* We check here if the blocks are alread=
+y allocated, then we
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0* don't need to start a journal txn and =
+we can directly return
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0* the mapping information. This could bo=
+ost performance
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0* especially in multi-threaded overwrite=
+ requests.
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0*/
+> > > + =C2=A0 =C2=A0 =C2=A0 if (offset + length <=3D i_size_read(inode)) {
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D ext4_map_b=
+locks(NULL, inode, &map, 0);
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* We check h=
+ere if the blocks are already allocated, then we
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* don't need=
+ to start a journal txn and we can directly return
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* the mappin=
+g information. This could boost performance
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* especially=
+ in multi-threaded overwrite requests.
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* For DAX we=
+ convert extents to initialized ones before
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* copying th=
+e data, otherwise we do it after I/O so
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* there's no=
+ need to call into ext4_iomap_alloc().
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (offset + lengt=
+h <=3D i_size_read(inode)) {
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 ret =3D ext4_map_blocks(NULL, inode, &map, 0);
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((map.m_flags &=
+ EXT4_MAP_MAPPED) ||
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (!(f=
+lags & IOMAP_DAX) &&
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0(map.m_flags & EXT4_MAP_UNWRITTEN))) {
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 /*
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0* For DAX we convert extents to initialized ones before
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0* copying the data, otherwise we do it after I/O so
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0* there's no need to call into ext4_iomap_alloc().
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0* For atomic writes the entire requested
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0* length should be mapped.
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0*/
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if ((map.m_flags & EXT4_MAP_MAPPED) ||
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 (!(flags & IOMAP_DAX) &&
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(map.m_flags & EXT4_MAP_UNWRITTEN))) {
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* For atomic writes the entire=
+ requested
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* length should be mapped.
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret =3D=3D orig_mlen ||
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (!(flags & IOMAP_ATOMI=
+C) && ret > 0))
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out=
+;
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 }
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 map.m_len =3D orig_mlen;
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if (ret =3D=3D orig_mlen ||
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 (!(flags & IOMAP_ATOMIC) && ret > 0))
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D ext4_iomap=
+_alloc(inode, &map, flags);
+> > > - =C2=A0 =C2=A0 =C2=A0 } else {
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D ext4_map_b=
+locks(NULL, inode, &map, 0);
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 map.m_len =3D orig=
+_mlen;
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 }
+> > > + =C2=A0 =C2=A0 =C2=A0 ret =3D ext4_iomap_alloc(inode, &map, flags);
+> > >
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret < 0)
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;
+> > > @@ -3850,6 +3884,16 @@ static int ext4_iomap_begin(struct inode
+> > > *inode, loff_t offset, loff_t length,
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;
+> > > =C2=A0}
+> > >
+> > > +static int ext4_iomap_begin(struct inode *inode, loff_t offset, loff=
+_t length,
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned flags, st=
+ruct iomap *iomap, struct iomap *srcmap)
+> > > +{
+> > > + =C2=A0 =C2=A0 =C2=A0 if (flags & IOMAP_WRITE)
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ext4_write_=
+iomap_begin(inode, offset, length, flags,
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 iomap, srcmap);
+> > > + =C2=A0 =C2=A0 =C2=A0 return ext4_read_iomap_begin(inode, offset, le=
+ngth, flags, iomap,
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0srcmap);
+> > > +}
+> > > +
+> > > =C2=A0int ext4_iomap_next(const struct iomap_iter *iter, struct iomap=
+ *iomap,
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0struct iomap *srcmap)
+> > > =C2=A0{
+> > >
+> > >
+> > > change #2: use ext4_read_iomap_next in iomap_dio_rw
+> > >
+> > > diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+> > > index 755fde1baf03..bef2851d5466 100644
+> > > --- a/fs/ext4/ext4.h
+> > > +++ b/fs/ext4/ext4.h
+> > > @@ -4006,6 +4006,8 @@ static inline void
+> > > ext4_clear_io_unwritten_flag(ext4_io_end_t *io_end)
+> > >
+> > > =C2=A0int ext4_iomap_next(const struct iomap_iter *iter, struct iomap=
+ *iomap,
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct iomap =
+*srcmap);
+> > > +int ext4_read_iomap_next(const struct iomap_iter *iter, struct iomap=
+ *iomap,
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct iomap *srcm=
+ap);
+> > > =C2=A0int ext4_iomap_next_report(const struct iomap_iter *iter, struc=
+t iomap *iomap,
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct iomap =
+*srcmap);
+> > >
+> > > diff --git a/fs/ext4/file.c b/fs/ext4/file.c
+> > > index bf0c18cf1017..48c6a76a16a1 100644
+> > > --- a/fs/ext4/file.c
+> > > +++ b/fs/ext4/file.c
+> > > @@ -91,7 +91,7 @@ static ssize_t ext4_dio_read_iter(struct kiocb
+> > > *iocb, struct iov_iter *to)
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return generi=
+c_file_read_iter(iocb, to);
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 }
+> > >
+> > > - =C2=A0 =C2=A0 =C2=A0 ret =3D iomap_dio_rw(iocb, to, ext4_iomap_next=
+, NULL,
+> > > + =C2=A0 =C2=A0 =C2=A0 ret =3D iomap_dio_rw(iocb, to, ext4_read_iomap=
+_next, NULL,
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0IOMAP_DIO_NO_IOMAP_END, NULL, 0);
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 inode_unlock_shared(inode);
+> > >
+> > > diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+> > > index 54cdecbc7539..6e7c77276d58 100644
+> > > --- a/fs/ext4/inode.c
+> > > +++ b/fs/ext4/inode.c
+> > > @@ -3771,9 +3771,9 @@ static int ext4_iomap_alloc(struct inode *inode=
+,
+> > > struct ext4_map_blocks *map,
+> > > =C2=A0}
+> > >
+> > >
+> > > -static int ext4_read_iomap_begin(struct inode *inode, loff_t offset,
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 loff_t length, uns=
+igned int flags, struct iomap *iomap,
+> > > - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct iomap *srcm=
+ap)
+> > > +static __always_inline int ext4_read_iomap_begin(struct inode *inode=
+,
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 loff_t offset, lof=
+f_t length, unsigned int flags,
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct iomap *ioma=
+p, struct iomap *srcmap)
+> > > =C2=A0{
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 int ret;
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct ext4_map_blocks map;
+> > > @@ -3900,6 +3900,12 @@ int ext4_iomap_next(const struct iomap_iter
+> > > *iter, struct iomap *iomap,
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 return iomap_process(iter, iomap, srcmap,=
+ ext4_iomap_begin, NULL);
+> > > =C2=A0}
+> > >
+> > > +int ext4_read_iomap_next(const struct iomap_iter *iter, struct iomap=
+ *iomap,
+> > > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0struct iomap *srcmap)
+> > > +{
+> > > + =C2=A0 =C2=A0 =C2=A0 return iomap_process(iter, iomap, srcmap, ext4=
+_read_iomap_begin, NULL);
+> > > +}
+> > > +
+> > > =C2=A0static int ext4_iomap_begin_report(struct inode *inode, loff_t =
+offset,
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0loff_t length, unsi=
+gned int flags,
+> > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct iomap *iomap=
+, struct iomap *srcmap)
+> > >
+> > > The github link for the changes are in [1].
+> > >
+> > > Thanks for your patience with this!
+> > >
+> > > [1] https://github.com/joannekoong/linux/commits/iomap_simple_dio_iom=
+ap_next_ext4/
+> > >
+>=C2=A0
