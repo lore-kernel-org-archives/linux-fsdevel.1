@@ -1,33 +1,33 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2443B8D70
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 18:47:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA2C3C1098
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 18:47:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783622878; cv=none; b=nMMEAsfZafg5I+p/YT1qHfV6XdSY4T6ekBFPBp70mpWMAGZPOPAfph/QW1xSZEwlk4ytY0BYwx/B0oPRGN6xSytZSK7Q1zWqAlU1MJX7Qg5IMm3rjJGtRYkOxkx3nyG0OdgH+Nk+yJiR20+b7t8YoS3yzCpiJ9NJH5bETNVpGnk=
+	t=1783622880; cv=none; b=AfdBL3f/VrXzEWg8pbmt7FIX+hwEoXvJtcAVAA1mX3lOCOcKVUbxYDD7uDN3j4ok2lKP+hmel9Xh8NvqtUYiyoLyfkOdqn4q6XBpgFSItx8nWGK+A2EBk/aJGMEyvHGDT6BHkAjVFd1u8WuFZ2NMZtZtq6H8C9uVBEZ8JgJKIAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783622878; c=relaxed/simple;
-	bh=8yp0puiSlOvP+Dj8zMKMa8JLMEE8gQiLDQIxK46Gplg=;
+	s=arc-20240116; t=1783622880; c=relaxed/simple;
+	bh=4UW+uEhoT+kLzpc7ecwpYrVADVfX1+fbpFb350TBm3g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZuKR+0WoadhHktFk7hNXuFX3S8Gjcp+iWsT7oV/WBoXvkvz4obS3yHj7Zk5YpnzjG/Hk7/WV4o3dUNKO5lIBuhwhOT1PSW70aoRKQAnwOqjVNFvFa318yE0g0wBuj43D81qrNsN4xfHBH/7c6SI2fHGUCWHPtLUAJM+RNeqpMJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MtyA5ZeV; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=T9VXbnCIAo7ARZe7RKlkp5HmhmN1DAAm3TsOy9UpnwJVwC5gbld/Ir3rMuz1OQ7fEoE/qhqjAUTu0KO1ef5fkDoYLyC2N+YO41FGL9/3ZoB5QcBzS+lJ8Dzsn9LV4nxfWRVtlvoQ3fZIEnC7+ewBlkYZjba012vgt8LLW5uuC+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=S4Tv8EGY; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MtyA5ZeV"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="S4Tv8EGY"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=XL9R1G3dyEaarb6lw/J5PyiVcp4sbNIv8CdXMAaDtfk=; b=MtyA5ZeVXBoOI9psFl/B6HoT/N
-	V01G58BuNmT8GstWVG1FiMNABoQol2IzmRPjkGijyG8Lm3fko6OZIeiSvHRklLpQNr37tgXpRdnA4
-	b+Zy16wA1dpzOswIq4OZ1wBMAuV53brj/gSlxHZWgXdtmqLBLGOl45XulW/IlWimg/Sl9B6lpANr4
-	3ds6DlXcaCTRml1eITRAeCSzg/Zh7piv9JImW6YReDeiGGpIeJLLzboH288qk+pKzIsPJsIVDgSQG
-	HULkwx79D2q9XdIumJ76OW/tDTn8l4oFeikaxUTN073NQ5tNBln6Q9Lr+nYMx39JlpvxL6lwM87DQ
-	+o52shXg==;
+	bh=PI1T4q5X682UwZ4EURsA+/ZoxJRVoodZbOrIQIJ/AVQ=; b=S4Tv8EGYY++NwAF0kQcSLoL7pl
+	xpLZ+uLJ+mYVW+wldiNH1mumhaYiNq18TnXsgdn00W/sPi4z2fCK5BFyC9oy2ImTlRoJQjDVCWq12
+	YrM8gLGbm43taDEpT/2SehGvMlcEfT37cCHY4EOIZm7l+Fl8eJlO+C3TyI8+kn7O1hD3LQCQDuPSl
+	MH4712qCgzpmr92zpIAxIJqS+Q+N3Ot9qXR3dixU4xvysHFCw/m1DIYoQBySffGmp67h670cRaKus
+	ZvW0iJwfhPpdG0ESw/lh1/lx1r8jJs6tH3R+mKFDxrnNaR/bkNFb80IVha5piCLK7XJmp6zX9TuDH
+	6DJxB3Ig==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whtmg-00000005OhL-3lje;
+	id 1whtmg-00000005OhJ-3Fk9;
 	Thu, 09 Jul 2026 18:47:42 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
@@ -42,9 +42,9 @@ Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
 	Christian Brauner <christian@brauner.io>
-Subject: [PATCH v2 06/10] memory-failure: Prevent UAF in raw_hwp_page list
-Date: Thu,  9 Jul 2026 19:47:34 +0100
-Message-ID: <20260709184740.1286561-7-willy@infradead.org>
+Subject: [PATCH v2 05/10] memory-failure: Remove raw_hwp_list_head()
+Date: Thu,  9 Jul 2026 19:47:33 +0100
+Message-ID: <20260709184740.1286561-6-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260709184740.1286561-1-willy@infradead.org>
 References: <20260709184740.1286561-1-willy@infradead.org>
@@ -56,58 +56,110 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Most accesses to the raw_hwp_page list are protected by mf_mutex.
-However, the call to folio_clear_hugetlb_hwpoison() in mm/hugetlb.c
-does not.  This is probably OK today as this is in the freeing path and
-I think all current calls to is_raw_hwpoison_page_in_hugepage() hold a
-reference to the folio.  However, the next patch will call this function
-without holding a reference on the folio, which will expose this race.
-
-Rename the current folio_clear_hugetlb_hwpoison() to
-__folio_clear_hugetlb_hwpoison() and wrap it with a new
-folio_clear_hugetlb_hwpoison() for the benefit of external callers.
+There's no need to hide the llist_head; we can just declare it
+directly in struct folio and do away with raw_hwp_list_head().
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
- mm/memory-failure.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ include/linux/mm_types.h |  4 ++--
+ mm/memory-failure.c      | 19 +++++--------------
+ 2 files changed, 7 insertions(+), 16 deletions(-)
 
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index b18c2b2e7d2c..d46f81f94848 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -387,7 +387,7 @@ typedef unsigned short mm_id_t;
+  * @_hugetlb_subpool: Do not use directly, use accessor in hugetlb.h.
+  * @_hugetlb_cgroup: Do not use directly, use accessor in hugetlb_cgroup.h.
+  * @_hugetlb_cgroup_rsvd: Do not use directly, use accessor in hugetlb_cgroup.h.
+- * @_hugetlb_hwpoison: Do not use directly, call raw_hwp_list_head().
++ * @_hugetlb_hwpoison: Raw error pages, see struct raw_hwp_page.
+  * @_deferred_list: Folios to be split under memory pressure.
+  * @_unused_slab_obj_exts: Placeholder to match obj_exts in struct slab.
+  *
+@@ -499,7 +499,7 @@ struct folio {
+ 			void *_hugetlb_subpool;
+ 			void *_hugetlb_cgroup;
+ 			void *_hugetlb_cgroup_rsvd;
+-			void *_hugetlb_hwpoison;
++			struct llist_head hugetlb_hwpoison;
+ 	/* private: the union with struct page is transitional */
+ 		};
+ 		struct page __page_3;
 diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-index 53063e2a1f97..353288cce1b2 100644
+index 51508a55c405..53063e2a1f97 100644
 --- a/mm/memory-failure.c
 +++ b/mm/memory-failure.c
-@@ -1935,7 +1935,7 @@ static unsigned long folio_free_raw_hwp(struct folio *folio, bool move_flag)
- 	return __folio_free_raw_hwp(folio, move_flag);
- }
+@@ -1810,21 +1810,15 @@ EXPORT_SYMBOL_GPL(mf_dax_kill_procs);
  
--void folio_clear_hugetlb_hwpoison(struct folio *folio)
-+static void __folio_clear_hugetlb_hwpoison(struct folio *folio)
+ /*
+  * Struct raw_hwp_page represents information about "raw error page",
+- * constructing singly linked list from ->_hugetlb_hwpoison field of folio.
++ * constructing singly linked list from folio->hugetlb_hwpoison field.
+  */
+ struct raw_hwp_page {
+ 	struct llist_node node;
+ 	struct page *page;
+ };
+ 
+-static inline struct llist_head *raw_hwp_list_head(struct folio *folio)
+-{
+-	return (struct llist_head *)&folio->_hugetlb_hwpoison;
+-}
+-
+ bool is_raw_hwpoison_page_in_hugepage(struct page *page)
  {
+-	struct llist_head *raw_hwp_head;
+ 	struct raw_hwp_page *p;
+ 	struct folio *folio = page_folio(page);
+ 	bool ret = false;
+@@ -1844,8 +1838,7 @@ bool is_raw_hwpoison_page_in_hugepage(struct page *page)
+ 
+ 	mutex_lock(&mf_mutex);
+ 
+-	raw_hwp_head = raw_hwp_list_head(folio);
+-	llist_for_each_entry(p, raw_hwp_head->first, node) {
++	llist_for_each_entry(p, folio->hugetlb_hwpoison.first, node) {
+ 		if (page == p->page) {
+ 			ret = true;
+ 			break;
+@@ -1863,7 +1856,7 @@ static unsigned long __folio_free_raw_hwp(struct folio *folio, bool move_flag)
+ 	struct raw_hwp_page *p, *next;
+ 	unsigned long count = 0;
+ 
+-	head = llist_del_all(raw_hwp_list_head(folio));
++	head = llist_del_all(&folio->hugetlb_hwpoison);
+ 	llist_for_each_entry_safe(p, next, head, node) {
+ 		if (move_flag)
+ 			SetPageHWPoison(p->page);
+@@ -1887,7 +1880,6 @@ static unsigned long __folio_free_raw_hwp(struct folio *folio, bool move_flag)
+  */
+ static int hugetlb_update_hwpoison(struct folio *folio, struct page *page)
+ {
+-	struct llist_head *head;
+ 	struct raw_hwp_page *raw_hwp;
+ 	struct raw_hwp_page *p;
+ 	int ret = folio_test_set_hwpoison(folio) ? MF_HUGETLB_FOLIO_PRE_POISONED : 0;
+@@ -1899,8 +1891,7 @@ static int hugetlb_update_hwpoison(struct folio *folio, struct page *page)
+ 	 */
  	if (folio_test_hugetlb_raw_hwp_unreliable(folio))
- 		return;
-@@ -1945,6 +1945,13 @@ void folio_clear_hugetlb_hwpoison(struct folio *folio)
- 	folio_free_raw_hwp(folio, true);
- }
- 
-+void folio_clear_hugetlb_hwpoison(struct folio *folio)
-+{
-+	mutex_lock(&mf_mutex);
-+	__folio_clear_hugetlb_hwpoison(folio);
-+	mutex_unlock(&mf_mutex);
-+}
-+
- static int get_huge_page_for_hwpoison(unsigned long pfn, int flags,
- 				 bool *migratable_cleared)
- {
-@@ -2051,7 +2058,7 @@ static int try_memory_failure_hugetlb(unsigned long pfn, int flags)
- 	folio_lock(folio);
- 
- 	if (hwpoison_filter(p)) {
--		folio_clear_hugetlb_hwpoison(folio);
-+		__folio_clear_hugetlb_hwpoison(folio);
- 		if (migratable_cleared)
- 			folio_set_hugetlb_migratable(folio);
- 		folio_unlock(folio);
+ 		return MF_HUGETLB_FOLIO_PRE_POISONED;
+-	head = raw_hwp_list_head(folio);
+-	llist_for_each_entry(p, head->first, node) {
++	llist_for_each_entry(p, folio->hugetlb_hwpoison.first, node) {
+ 		if (p->page == page)
+ 			return MF_HUGETLB_PAGE_PRE_POISONED;
+ 	}
+@@ -1908,7 +1899,7 @@ static int hugetlb_update_hwpoison(struct folio *folio, struct page *page)
+ 	raw_hwp = kmalloc_obj(struct raw_hwp_page, GFP_ATOMIC);
+ 	if (raw_hwp) {
+ 		raw_hwp->page = page;
+-		llist_add(&raw_hwp->node, head);
++		llist_add(&raw_hwp->node, &folio->hugetlb_hwpoison);
+ 	} else {
+ 		/*
+ 		 * Failed to save raw error info.  We no longer trace all
 -- 
 2.47.3
 
