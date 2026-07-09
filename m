@@ -1,149 +1,148 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-bc08.mail.infomaniak.ch (smtp-bc08.mail.infomaniak.ch [45.157.188.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FBFF3F0765
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 15:57:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE7A332917
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 15:58:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783612639; cv=none; b=IijnYjitJpqzv1IqpCgSuI/Wl3ajyOtlE1MSxqMjQuB59i9ui5wd+JLMyvPJL5i29XDNNS59RSXVJj7K9OweX4mVHQdQ2Xm/JC4Tegsk3sbauORA12zN38MI51g+DXD7BcM+iDD0jkg88VrLutN5QweWfltU9qOzz/5WTL0YFfw=
+	t=1783612740; cv=none; b=pCa5Sb2UvS9zRShIzG4vO87WldlrB2npttYMmaYncAYAYqpTzzqNJvKFkqtr56IVDy5SRq8Y+amythsOAPP+5Ft3J70QUHkHP89bOrVVHFIVfYS3HWPKfBDIFwepeerhoByBYmBtf1GvGydT9Ok+49013c4nPVyH+BJGZuz7NhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783612639; c=relaxed/simple;
-	bh=zOqJj5IGDkUHkuE0A0VjkQNttgCPQIdWlZYAcSbicnE=;
+	s=arc-20240116; t=1783612740; c=relaxed/simple;
+	bh=WLMCSNzgVya1yeI6VB6MkC7/cWl4E3NA6H2zOiNlt34=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DqywsLQGB01ctpOSHBmkg+nzvXhtp39CNwDI8g5CyOGNrayYh2i31zBuTYujdNe9AngF+FtCYuktZaV2/yX40PDCLZSuEa9rEkp9ZmfVvxaStK+bo11q46Exb7gFl1AzbS0rD+RDe/7j3MM1/SdJ4q5KYMiMzvhMtHcQJuMlKrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=JaiPRMxW; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=gJUUVWFhCCTp/0U7ETSx5jagVVrKyWQd46IUxWMUnKe/33qNwPqkBp3b6J9Qwz+6DFVwHUKdA5/DKOGf2c5Brur0Dd3lkbmI4uZCb8tDFFjVTNGv1CKAMUtkpVLAdjU26cDWqLeElzZ15axGvVqp0RUwh4hiIi/38GB9/7Ib7ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=UcKgIg2O; arc=none smtp.client-ip=45.157.188.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="JaiPRMxW"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8f18d92172aso760216d6.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Jul 2026 08:57:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1783612635; x=1784217435; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=T5BtG8ZZnILhla7gs7f63UlRSUpFIkMkPS04TXxov0k=;
-        b=JaiPRMxWcQcvwomxKrNgkR+V+GW/eBHpnGZNau6MH5y450xJl98VMTJJHAF9jRsuXC
-         Xt7mR7KeawTZPVnKboCCSGbsxow5a2PgFeiSY8/XWddVDWFrEWmFXtO5W/Dl0nrr5olU
-         FHib07hylrfhwz/tO61AsseU9KRqyHxGgKPeBcjHWB/NVjmWrN59d0H3M1NQXERgA5Mw
-         SBvOCnVFfjsbezQ1DAbcIXDOTZgXYgBqCjS4/QI1RF06UoQPY6hmEkM7zoDzdAY2dn+j
-         Mu9hGDFmirDa4O7n5AJQfExMa5HZRVOJt/+stBKx4vf5W+gioGtJL2bg1Fid5qnDWQi0
-         ldYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783612635; x=1784217435;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=T5BtG8ZZnILhla7gs7f63UlRSUpFIkMkPS04TXxov0k=;
-        b=T34JZZ9PeD12dMfyYWAFd7HlSlsQ3lyR37Q5ArtmQBI3ngp0QDzy9nNdDbi/VeRwwv
-         4PQXdpaWDxP49a74fysL6KgrA/oZ7J6IAE558Y3gyB/NYW3lvEzoXf0Mt9umXZgM7/bM
-         5BrgKfOZPV7yW5kVwm+Iv9sERuoGvXjoa6iT328hJfxTkxfSRlRiOo83h8BlLGJOR4GC
-         XaAraXulxOLaBTMzetPXjC9y9FYPphEGGpxA6iMchL25pe8Xg/P/IsDc4dbk4JkRaeqq
-         lPlte7pP9aHgnKtWy1aE7VwbZ7hED0uJbc07uR58oZ12Jz3J5N+WYM9/XQkuCNhobX6x
-         +nNg==
-X-Forwarded-Encrypted: i=1; AHgh+Rq1+DwBJkxGuf1cR2FlMx86F7ED8phq+AfppJjOoXYt8e1+tUQBWpDPkkUrZSBQNfqdu1dpykhuzJ+5iyA5@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxFdax9kboxz4HL3350r08XMiRSL84Z5K7dme2TKdKcSjmGxGm
-	Si/oOx8+WO7SEzUO0HjAd+3p9nwRZRrYOTiWubRZeZmjMXPuFBhuL9bb7wtm+h7cvh0=
-X-Gm-Gg: AfdE7cmbkGWHM0TnhtuFLzcsEDqWlui7x2mIy/vNLKWpQl0S7vH1aBTQa1tIEs8zgT3
-	F8zalSGI7fYDClaCcx+Y82eWxDtyPvItp85OX5WgidwRlORzomgQjryUM++AonfozK5qq5YKFtb
-	3CduvArjhtbfigbIySRodmRuzvVUiCOvfBLZDMS3AgZVrK8SEK/c5q48RHgEBn1KwWqfGojH0ns
-	3Njfnq2y/aGfiugURirsEseGM7CDUIrKvpL56phUC4+73KWmDw/Y/ovtTn1UkQkuP+JYWd8DtO5
-	GR+OxK5gb0IPGBxyIvgLdD8wjhjl5OfFTNRwatBAz7CTzG6lRnxLz8YoJyu5y5Vx+VkOMlz9N6y
-	3mDdWMjxxH/1JNalhiGwcKSMCJFLBrb7LejFJOY8ROX1AUN+gNgQMx/LM2hc5ymtsIExFJlng+D
-	0PSmP0KwsSm0z+tOY1aVyBL48Nbn0eNpUkA7vOSkwsLcGdpNVO/JOBNTCjFbPDPAQ6K8D9xlxIn
-	8P7nYE=
-X-Received: by 2002:a05:6214:2aa6:b0:8f3:e0ce:6119 with SMTP id 6a1803df08f44-8fec0ead52amr91789316d6.21.1783612635560;
-        Thu, 09 Jul 2026 08:57:15 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ffd86d43e2sm20317526d6.43.2026.07.09.08.57.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 08:57:15 -0700 (PDT)
-Date: Thu, 9 Jul 2026 11:57:09 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Simon Schuster <schuster.simon@siemens-energy.com>,
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Christian Koenig <christian.koenig@amd.com>,
-	Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Dan Williams <djbw@kernel.org>, Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>,
-	Miaohe Lin <linmiaohe@huawei.com>, Hugh Dickins <hughd@google.com>,
-	Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
-	linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-	kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-mm@kvack.org, iommu@lists.linux.dev,
-	linux-perf-users@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
-	Jann Horn <jannh@google.com>
-Subject: Re: [PATCH 19/30] mm: use linear_page_[index, delta]() consistently
-Message-ID: <ak_E1Y-D2Twykusr@gourry-fedora-PF4VCD3F>
-References: <cover.1782735110.git.ljs@kernel.org>
- <bf56e2e98b512962a2fb88900d535a0e9e6769d8.1782735110.git.ljs@kernel.org>
- <ak_EivwcDDdn1Xvp@gourry-fedora-PF4VCD3F>
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="UcKgIg2O"
+Received: from smtp-4-0001.mail.infomaniak.ch (smtp-4-0001.mail.infomaniak.ch [10.7.10.108])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4gx04p3XxVz26g;
+	Thu,  9 Jul 2026 17:58:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1783612730;
+	bh=D/YfQO1l9+oQRMO6pfoOvhmNceuKQjV5WSxJDG7oUXo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UcKgIg2OSQGCZaU15LNI14ytZFUzBtCTaHSLuzhFoVoSLELIpHIKmTWBYZUR3UW2+
+	 EaQjuaB1ss7KuBuDX7hMFHhWj+qIsCAdPpf9a3mUYr6XlivQTjd3z5z40oSxf6Llsm
+	 X/uumWaE9Yd8irkRkmX2JcbZ078bT/tyYaHmM2kA=
+Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4gx04m3St2zBWK;
+	Thu,  9 Jul 2026 17:58:48 +0200 (CEST)
+Date: Thu, 9 Jul 2026 17:58:44 +0200
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Paul Moore <paul@paul-moore.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, "Serge E . Hallyn" <serge@hallyn.com>, 
+	Daniel Durning <danieldurning.work@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Justin Suess <utilityemal77@gmail.com>, Lennart Poettering <lennart@poettering.net>, 
+	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
+	Shervin Oloumi <enlightened@google.com>, Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v2 1/9] security: add LSM blob and hooks for namespaces
+Message-ID: <20260709.paitheut7Ief@digikod.net>
+References: <3d4fe99cd1665a1be0b36636aeeaf4ab@paul-moore.com>
+ <20260709.kaemaiTia6Li@digikod.net>
+ <CAHC9VhSVQ0MLwU=C90FmohAThwaQj-mfB7L03fvkB5A0-J2jCg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ak_EivwcDDdn1Xvp@gourry-fedora-PF4VCD3F>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHC9VhSVQ0MLwU=C90FmohAThwaQj-mfB7L03fvkB5A0-J2jCg@mail.gmail.com>
+X-Infomaniak-Routing: alpha
 
-On Thu, Jul 09, 2026 at 11:55:54AM -0400, Gregory Price wrote:
-> > @@ -2462,7 +2463,7 @@ static int comedi_vm_access(struct vm_area_struct *vma, unsigned long addr,
-> >  {
-> >  	struct comedi_buf_map *bm = vma->vm_private_data;
-> >  	unsigned long offset =
-> > -	    addr - vma->vm_start + (vma->vm_pgoff << PAGE_SHIFT);
-> > +	    addr - vma->vm_start + (vma_start_pgoff(vma) << PAGE_SHIFT);
-> >  
+On Thu, Jul 09, 2026 at 09:03:58AM -0400, Paul Moore wrote:
+> On Thu, Jul 9, 2026 at 5:12 AM Mickaël Salaün <mic@digikod.net> wrote:
+> > On Wed, Jul 08, 2026 at 11:22:17PM -0400, Paul Moore wrote:
+> > > On May 27, 2026 =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net> wrote:
+> > > >
+> > > > All namespace types now share the same ns_common infrastructure. Extend
+> > > > this to include a security blob so LSMs can start managing namespaces
+> > > > uniformly without having to add one-off hooks or security fields to
+> > > > every individual namespace type.
 > 
-> Obviously correct, but was this intended for a different patch?
+> ...
 > 
-> ~Gregory
+> > > > @@ -91,7 +103,10 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
+> > > >
+> > > >  void __ns_common_free(struct ns_common *ns)
+> > > >  {
+> > > > -   proc_free_inum(ns->inum);
+> > > > +   security_namespace_free(ns);
+> > > > +
+> > > > +   if (ns->inum > MNT_NS_INO_SPECIAL_MAX)
+> > > > +           proc_free_inum(ns->inum);
+> > >
+> > > The ns->inum check in the if-conditional above isn't quite the same as
+> > > the is_anon_ns() check it replaces in free_mnt_ns().  You touch on this
+> > > a bit in the changelog, but that really should be explained in the
+> > > commit description.
+> > >
+> > > ... or honestly, should that change be a separate patch?
+> >
+> > I think it's fine, but it's Christian's patch, so I'll let him answer
+> > and propose a new commit description.
+> 
+> I don't have a strong opinion on either approach, either a separate
+> patch or doc update, but one of the two needs to happen.
 
-bleh already caught, sorry for the noise :]
+Noted, I'll follow on this with Christian.
+
+> 
+> > > > diff --git a/kernel/nsproxy.c b/kernel/nsproxy.c
+> > > > index d9d3d5973bf5..0f1b208d8eef 100644
+> > > > --- a/kernel/nsproxy.c
+> > > > +++ b/kernel/nsproxy.c
+> > > > @@ -385,6 +385,12 @@ static int prepare_nsset(unsigned flags, struct nsset *nsset)
+> > > >
+> > > >  static inline int validate_ns(struct nsset *nsset, struct ns_common *ns)
+> > > >  {
+> > > > +   int ret;
+> > > > +
+> > > > +   ret = security_namespace_install(nsset, ns);
+> > > > +   if (ret)
+> > > > +           return ret;
+> > > > +
+> > > >     return ns->ops->install(nsset, ns);
+> > > >  }
+> > >
+> > > In the previous revision to the patchset I asked about a
+> > > security_namespace_switch() hook as we don't know if a namespace is
+> > > actually attached to a process until we get to switch_task_namespaces().
+> > > Perhaps that was answered, but I don't recall reading any mail about that
+> > > and I'm not able to uncover any responses on lore.
+> >
+> > From the cover letter:
+> >
+> >   no security_namespace_switch() post-hook is
+> >   added in this series: such a hook would only serve LSMs that maintain
+> >   per-task state derived from the active namespace set (SELinux-style
+> >   state tracking), and no current LSM (including this series) needs that.
+> >   Landlock enforces at namespace_install() and namespace_init(), before
+> >   the task-to-nsproxy switch.  The hook is left for a separate LSM
+> >   infrastructure proposal once a concrete user emerges.
+> >
+> > This follows the guidance of adding new hooks: there must be at least
+> > one user.
+> 
+> I'm aware of the new hook guidance, I was the one who documented it :)
+
+I know.  I guess that means you're ok with that?
+
+> 
+> In the future, it's both helpful and polite to reply to the email
+> asking the question with your response.  Adding it to the cover letter
+> is fine, but to be perfectly honest, once we get past v1 of a
+> patchset, I don't often read the cover letter very closely unless
+> there is a significant change.  However, I do look back at the
+> previous posting to ensure all the feedback from everyone has been
+> either answered or incorporated into the current revision.
+
+I forgot to reply to your email, I didn't mean to be impolite, sorry for
+the inconvenience.  It's useful to know that the cover letter is not
+always part of your review process.
