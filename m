@@ -1,126 +1,361 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp-42a9.mail.infomaniak.ch (smtp-42a9.mail.infomaniak.ch [84.16.66.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38073EFD15
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 08:51:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79A83FF889
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 09:12:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783587109; cv=none; b=f9AfSv3dzpYDpLvVg5KcP/Fy8hGXwGBfk1WGnTAHIWJKfQX4WypGIIQ0Tb3dA6UNG24c/rMG7EVP7IVHrS7pKa4mc/DNvlRWovtSX3/3BC72Avp9aexXIXSOqYYQzD9+stVrRpTzziEut+pMIbt/FupwH6iU7Nb0ea2vsRqOXDE=
+	t=1783588352; cv=none; b=erAvndesStNo95ygkXvONJR76A9RBgqPfMgtP+EPBEEAu8QFpceyBc7LggZ080YXxipOnWOnIjyiFQ4GT4DawF0m3c85VIRwVTecqVgjfYLUXgWzKHTV+35SqovTM6sS42r8lznHgPeqALdW4DYqb4BDpt/nc2SEM4Lyi3puwzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783587109; c=relaxed/simple;
-	bh=znq26plhwxInEG6rMm+26AmDR8mHesOo4g2XGqxnm+E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aSbsG5Rjeuaa2AVDLThKpUTWkUprRcJ99LNtWEqlTD5ZAq1EKVDVK7pcrah2wIfbxzNk8ccQuteSIq1+/beoC5vxjUrJYKPdYlDXo9qw4v02BEhYsWrInX4kydfqup+xmHj1JALnSqT4shel2ZmVuUDzdm6Kf2WWgSUTtB3lDl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iza834L5; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=mb9tmnJO; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1783588352; c=relaxed/simple;
+	bh=odxmvaaTBTHa/N/VxCEKfs89fFIzWDl9u1LmixE69ys=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=JI2SCdHajculB+iDV0iwTH5WvlxB4NWusF6fWW6DVwuIZOl0QMoQMhZd7DcjLs9VGKrWkCxtpeWNq4/4kpfx1hAxTwsCjUnRPouzafxVaxBnt8Msf205weWA6URy+cm8zMH61WRqsKoNCtWXOAB0oQjs++bsL3Z1F5hGLJppdAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=1Yy7t0Xn; arc=none smtp.client-ip=84.16.66.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iza834L5";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="mb9tmnJO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783587106;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eb5jDTkXBTPOE342mmNfwm5lDoBFxjZ2KPIK/Aydl/0=;
-	b=iza834L5VL4ghd3uS/qwfK26v06iCDCHiZ2z7zsaJ0ylLcpa1eWADTc9i9X/fWm19bl264
-	QgI4N5jNYKNxZTzfat48yOmrhvb4Ppip5zPTruRZhbA8nwMVjFxHxJrVCipqrgHMlrH0Qy
-	8cA6E9aJVUxYbReHXlmNFov4FiM2kHE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-681--PPxiEaLON6q4odSo9Yy3g-1; Thu, 09 Jul 2026 04:51:44 -0400
-X-MC-Unique: -PPxiEaLON6q4odSo9Yy3g-1
-X-Mimecast-MFC-AGG-ID: -PPxiEaLON6q4odSo9Yy3g_1783587104
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-493ce4b7777so11770265e9.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Jul 2026 01:51:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1783587104; x=1784191904; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=eb5jDTkXBTPOE342mmNfwm5lDoBFxjZ2KPIK/Aydl/0=;
-        b=mb9tmnJOxe0IeNGz8lpg27hc0lZao0ZDKiErb8gR+oA1BiN/M0lEjw703xzD/rhdRo
-         TaSzi7ZFGw/M/gLoZmBUquUvTfTEgo2gjYfqZCYRAwgnL4AcnzmZgKGTVcBjfSPNICEJ
-         vMO/w0GLOdKHabVF0gAlcG/BYJTV7A3tnSIsrfa9HFGiOWHaZtf9scgQobSq7VK4r+ls
-         JBC7nremmJR/3XtQewg5q4xDZAyFrZZ1z6/VziesNr59dPCAdH2KnmhMv8DWF678Rr8P
-         2NPcS4x3HD36QI0TsD3LLrsUcKdPimzk5uINsuWpHb5o59TzVu79mfEziF+zBU4e+pbs
-         mu5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783587104; x=1784191904;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eb5jDTkXBTPOE342mmNfwm5lDoBFxjZ2KPIK/Aydl/0=;
-        b=Zfp0htZ+GWwjs6nW4A2TWkVp6N+CgLLhR7JvQlFuz5mRUc4FcGat3i971xqgthf5zV
-         1GDpMuV8EyOd23Nyhng7+SjyP9K/oICpqmfbJb3wWJQlIabA+c66oyKuyeVbd6uo4CBN
-         vBzvWbzml1G7LI6lDYLjjw7KJvI6d0iWBGFy0+jsXmqZk2uLvijWUKRWKEcwxSrKRZQ7
-         8ccocHShVNMGxeSvYmDSUrRYk9AGnnVPQqtQAGM71ALtZibz5StguVsSe+an3BlaT1M9
-         XjK4WbIrSxFGAkHcH/PWUEVs04i0REjxfVnPURM/RBXOzO9J1i7l29ddOFOQBy/DjX5m
-         cKqA==
-X-Forwarded-Encrypted: i=1; AHgh+RrKdQaE16FTmFhUo1eKW9SMLUrl1tLNq1j8IxlpRtbGXGNm2Hd1tHr79yLkR+JucNffLs9X0/BYpJ/mpNlC@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxnjf/Z8Gu4/s3zwqjMwT9dNs6vfL/IPDm/nY43NDUqTann3Lwe
-	6OFm/7vyQllM9TtVVcjN9m++tTUxXjLJApxgpS40bpLuVR+DPnUwdeFMJRs869pgK2TSPZ+c0LY
-	rRTQr6Ia74RDJ43FOgP9TBkAazL1P4jJAmHrc3rOpMraH/94ObhNErcDYw/2tbZ1Ihw==
-X-Gm-Gg: AfdE7cl19iOqxm+r4vI0SBXIUDKXtrgH+SgXGNWmzPxMPwQWfqgjW4Vei9RcSgyHUdN
-	qNgbdyN2aFjraRNAvUMzBXKBZrJJ8TvuhptkjBwiMbKnL4BmxQeyNjUvhrRenaVbxBzS9fKUMlM
-	f5ZKgjwBAj9vjJQq6fiHTigaBoRE1frIP2nzokBLIJS0ldQUS/+1njTmgf9i3JeHlMq6kp2mij0
-	k544yppwzlnFFMSYNaTwBIj/SxfucZlABNKmnyUOeXhBD7PeUQwYPJ6RfzHL2ifUzldn6kI8Wpo
-	2kLTwy5+EtraXfcW+WOKEQi2YH82UE4/j/kbd78vI6z/0hEO0utHhTLqF+pqmNPpG+cpTIZbtRw
-	3lRekCV4aFWW/b+MnS8QmBKVNAoa52lQO7nLNtQXfHlr37A==
-X-Received: by 2002:a05:600c:628d:b0:493:bcef:5646 with SMTP id 5b1f17b1804b1-493e6862b68mr57369715e9.12.1783587103536;
-        Thu, 09 Jul 2026 01:51:43 -0700 (PDT)
-X-Received: by 2002:a05:600c:628d:b0:493:bcef:5646 with SMTP id 5b1f17b1804b1-493e6862b68mr57369285e9.12.1783587102989;
-        Thu, 09 Jul 2026 01:51:42 -0700 (PDT)
-Received: from aalbersh-thinkpadx1carbongen13.rmtcz.csb ([217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e5a5d174sm144100205e9.2.2026.07.09.01.51.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 01:51:41 -0700 (PDT)
-Date: Thu, 9 Jul 2026 10:51:39 +0200
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, axboe@kernel.dk, jack@suse.cz, 
-	brauner@kernel.org, cem@kernel.org, jaegeuk@kernel.org, aalbersh@kernel.org, 
-	tytso@mit.edu, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH] fs: report direct io constraints through file_getattr
-Message-ID: <ak9f0CXSegLq8l5w@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-References: <20260708011843.1036846-1-kbusch@meta.com>
- <20260709071352.GA20180@lst.de>
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="1Yy7t0Xn"
+Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4gwq3j0HzmzHWf;
+	Thu,  9 Jul 2026 11:12:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1783588336;
+	bh=bpRixxfeLPO8/IIBrQSTv4rgan2tSVU3TO6cS36uoEg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=1Yy7t0Xn/+yJPMrqTDIL8ItYpu4g/Fz6bA8/s00HP7+kTPy6foeWk11fl9JiGgyF5
+	 BhfsvSG6sbJQga0rfcWiDd1vFVU0mq6VTvA/eenAbOsi61S0brw+fhuP17VlB9U1t7
+	 manEyV9Fca7ACI9JBHnXiPfFtmIzlT6lxJT+88l0=
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4gwq3g1q46zly2;
+	Thu,  9 Jul 2026 11:12:15 +0200 (CEST)
+Date: Thu, 9 Jul 2026 11:12:11 +0200
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Paul Moore <paul@paul-moore.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, "Serge E . Hallyn" <serge@hallyn.com>, 
+	Daniel Durning <danieldurning.work@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Justin Suess <utilityemal77@gmail.com>, Lennart Poettering <lennart@poettering.net>, 
+	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
+	Shervin Oloumi <enlightened@google.com>, Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v2 1/9] security: add LSM blob and hooks for namespaces
+Message-ID: <20260709.kaemaiTia6Li@digikod.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260709071352.GA20180@lst.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3d4fe99cd1665a1be0b36636aeeaf4ab@paul-moore.com>
+X-Infomaniak-Routing: alpha
 
-On 2026-07-09 09:13:52, Christoph Hellwig wrote:
-> On Tue, Jul 07, 2026 at 06:18:43PM -0700, Keith Busch wrote:
-> > From: Keith Busch <kbusch@kernel.org>
+On Wed, Jul 08, 2026 at 11:22:17PM -0400, Paul Moore wrote:
+> On May 27, 2026 =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net> wrote:
 > > 
-> > Memory alignment constraints for direct io can vary depending on the
-> > backing storage hardware. Provide support through file_getattr to report
-> > the attributes necessary for applications to know how to construct valid
-> > read and write requests.
+> > All namespace types now share the same ns_common infrastructure. Extend
+> > this to include a security blob so LSMs can start managing namespaces
+> > uniformly without having to add one-off hooks or security fields to
+> > every individual namespace type.
+> > 
+> > Add a ns_security pointer to ns_common and the corresponding lbs_ns blob
+> > size to lsm_blob_sizes. Allocation and freeing hooks are called from the
+> > common __ns_common_init() and __ns_common_free() paths so every
+> > namespace type gets covered in one go. All information about the
+> > namespace type and the appropriate casting helpers to get at the
+> > containing namespace are available via ns_common making it
+> > straightforward for LSMs to differentiate when they need to.
+> > 
+> > A namespace_install hook is called from validate_ns() during setns(2)
+> > giving LSMs a chance to enforce policy on namespace transitions.  The
+> > LSM check runs before ns->ops->install() so the security module can deny
+> > the operation before any type-specific installation effects.
+> > 
+> > Individual namespace types can still have their own specialized security
+> > hooks when needed. This is just the common baseline that makes it easy
+> > to track and manage namespaces from the security side without requiring
+> > every namespace type to reinvent the wheel.
+> > 
+> > Cc: Günther Noack <gnoack@google.com>
+> > Cc: Paul Moore <paul@paul-moore.com>
+> > Cc: Serge E. Hallyn <serge@hallyn.com>
+> > Signed-off-by: Christian Brauner <brauner@kernel.org>
+> > Link: https://lore.kernel.org/r/20260216-work-security-namespace-v1-1-075c28758e1f@kernel.org
+> > Signed-off-by: Mickaël Salaün <mic@digikod.net>
+> > ---
+> > Changes since v1:
+> > https://lore.kernel.org/r/20260312100444.2609563-2-mic@digikod.net
+> > - Move security_namespace_install() before ns->ops->install() in
+> >   validate_ns() (suggested by Christian Brauner).
+> > - Only call proc_free_inum() on security_namespace_alloc() failure
+> >   when inum was allocated by this function (suggested by Christian
+> >   Brauner).
+> > - Fix anonymous mount namespace blob leak: move
+> >   security_namespace_free() into __ns_common_free() and make
+> >   proc_free_inum() conditional on dynamically allocated inums
+> >   via MNT_NS_INO_SPECIAL_MAX, so free_mnt_ns() can call
+> >   ns_common_free() unconditionally (suggested by Christian
+> >   Brauner).  Also reported by Daniel Durning while working on
+> >   SELinux support for these hooks:
+> >   https://lore.kernel.org/r/20260318201747.4477-1-danieldurning.work@gmail.com
+> > - Rename security_namespace_alloc() to security_namespace_init()
+> >   to match the caller-name convention and reflect that the hook
+> >   initialises LSM state attached to a constructed ns_common rather
+> >   than allocating the ns_common itself (suggested by Paul Moore).
+> > - Refine the security_namespace_free() kdoc to clarify that
+> >   RCU-safe blob freeing is required only if an LSM exposes data
+> >   within the blob to concurrent RCU readers, and document that
+> >   the blob memory itself is released with kfree() after the
+> >   namespace_free hooks return (suggested by Paul Moore).
+> > - Günther Noack's v1 Reviewed-by is not carried forward to v2:
+> >   the validate_ns() reordering and the anonymous-mount-namespace
+> >   blob-leak fix are semantic changes that were not part of his
+> >   review.  Cc'd instead.
+> > ---
+> >  fs/namespace.c                     |  3 +-
+> >  include/linux/lsm_hook_defs.h      |  3 ++
+> >  include/linux/lsm_hooks.h          |  1 +
+> >  include/linux/ns/ns_common_types.h |  3 ++
+> >  include/linux/security.h           | 20 ++++++++
+> >  include/uapi/linux/nsfs.h          |  1 +
+> >  kernel/nscommon.c                  | 17 ++++++-
+> >  kernel/nsproxy.c                   |  6 +++
+> >  security/lsm_init.c                |  2 +
+> >  security/security.c                | 77 ++++++++++++++++++++++++++++++
+> >  10 files changed, 130 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/fs/namespace.c b/fs/namespace.c
+> > index fe919abd2f01..031ef3fafa48 100644
+> > --- a/fs/namespace.c
+> > +++ b/fs/namespace.c
+> > @@ -4179,8 +4179,7 @@ static void dec_mnt_namespaces(struct ucounts *ucounts)
+> >  
+> >  static void free_mnt_ns(struct mnt_namespace *ns)
+> >  {
+> > -	if (!is_anon_ns(ns))
+> > -		ns_common_free(ns);
+> > +	ns_common_free(ns);
+> >  	dec_mnt_namespaces(ns->ucounts);
+> >  	mnt_ns_tree_remove(ns);
+> >  }
 > 
-> This probably wants to be split in one patch for the new UAPI,
-> one for the helper and one for each user.
+> ...
 > 
-> And especially the UAPI one needs a much more detailed commit log
-> explaining it, including why this duplicates some of the informastion
-> already in statx and documenting the semantics for all the fields.
+> > diff --git a/kernel/nscommon.c b/kernel/nscommon.c
+> > index 3166c1fd844a..e72426bba29a 100644
+> > --- a/kernel/nscommon.c
+> > +++ b/kernel/nscommon.c
+> > @@ -4,6 +4,7 @@
+> >  #include <linux/ns_common.h>
+> >  #include <linux/nstree.h>
+> >  #include <linux/proc_ns.h>
+> > +#include <linux/security.h>
+> >  #include <linux/user_namespace.h>
+> >  #include <linux/vfsdebug.h>
+> >  
+> > @@ -59,6 +60,9 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
+> >  
+> >  	refcount_set(&ns->__ns_ref, 1);
+> >  	ns->stashed = NULL;
+> > +#ifdef CONFIG_SECURITY
+> > +	ns->ns_security = NULL;
+> > +#endif
+> >  	ns->ops = ops;
+> >  	ns->ns_id = 0;
+> >  	ns->ns_type = ns_type;
+> > @@ -77,6 +81,14 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
+> >  		ret = proc_alloc_inum(&ns->inum);
+> >  	if (ret)
+> >  		return ret;
+> > +
+> > +	ret = security_namespace_init(ns);
+> > +	if (ret) {
+> > +		if (!inum)
+> > +			proc_free_inum(ns->inum);
+> > +		return ret;
+> > +	}
+> > +
+> >  	/*
+> >  	 * Tree ref starts at 0. It's incremented when namespace enters
+> >  	 * active use (installed in nsproxy) and decremented when all
+> > @@ -91,7 +103,10 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
+> >  
+> >  void __ns_common_free(struct ns_common *ns)
+> >  {
+> > -	proc_free_inum(ns->inum);
+> > +	security_namespace_free(ns);
+> > +
+> > +	if (ns->inum > MNT_NS_INO_SPECIAL_MAX)
+> > +		proc_free_inum(ns->inum);
 > 
-> Andrey, is there a man page or other official documentation for
-> file_setattr/file_getattr?
+> The ns->inum check in the if-conditional above isn't quite the same as
+> the is_anon_ns() check it replaces in free_mnt_ns().  You touch on this
+> a bit in the changelog, but that really should be explained in the
+> commit description.
+> 
+> ... or honestly, should that change be a separate patch?
 
-No, I had a draft in cover letter but haven't got to sending it to
-man-pages. I will prepare a man page.
+I think it's fine, but it's Christian's patch, so I'll let him answer
+and propose a new commit description.
 
--- 
-- Andrey
+> 
+> >  }
+> >  
+> >  struct ns_common *__must_check ns_owner(struct ns_common *ns)
+> > diff --git a/kernel/nsproxy.c b/kernel/nsproxy.c
+> > index d9d3d5973bf5..0f1b208d8eef 100644
+> > --- a/kernel/nsproxy.c
+> > +++ b/kernel/nsproxy.c
+> > @@ -385,6 +385,12 @@ static int prepare_nsset(unsigned flags, struct nsset *nsset)
+> >  
+> >  static inline int validate_ns(struct nsset *nsset, struct ns_common *ns)
+> >  {
+> > +	int ret;
+> > +
+> > +	ret = security_namespace_install(nsset, ns);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> >  	return ns->ops->install(nsset, ns);
+> >  }
+> 
+> In the previous revision to the patchset I asked about a
+> security_namespace_switch() hook as we don't know if a namespace is
+> actually attached to a process until we get to switch_task_namespaces().
+> Perhaps that was answered, but I don't recall reading any mail about that
+> and I'm not able to uncover any responses on lore.
 
+From the cover letter:
+
+  no security_namespace_switch() post-hook is
+  added in this series: such a hook would only serve LSMs that maintain
+  per-task state derived from the active namespace set (SELinux-style
+  state tracking), and no current LSM (including this series) needs that.
+  Landlock enforces at namespace_install() and namespace_init(), before
+  the task-to-nsproxy switch.  The hook is left for a separate LSM
+  infrastructure proposal once a concrete user emerges.
+
+This follows the guidance of adding new hooks: there must be at least
+one user.
+
+
+> 
+> > diff --git a/security/security.c b/security/security.c
+> > index 4e999f023651..21cc45d4bbd0 100644
+> > --- a/security/security.c
+> > +++ b/security/security.c
+> > @@ -26,6 +26,7 @@
+> >  #include <linux/string.h>
+> >  #include <linux/xattr.h>
+> >  #include <linux/msg.h>
+> > +#include <linux/ns_common.h>
+> >  #include <linux/overflow.h>
+> >  #include <linux/perf_event.h>
+> >  #include <linux/fs.h>
+> > @@ -381,6 +382,19 @@ static int lsm_superblock_alloc(struct super_block *sb)
+> >  			      GFP_KERNEL);
+> >  }
+> >  
+> > +/**
+> > + * lsm_ns_alloc - allocate a composite namespace blob
+> > + * @ns: the namespace that needs a blob
+> > + *
+> > + * Allocate the namespace blob for all the modules
+> > + *
+> > + * Returns 0, or -ENOMEM if memory can't be allocated.
+> > + */
+> > +static int lsm_ns_alloc(struct ns_common *ns)
+> > +{
+> > +	return lsm_blob_alloc(&ns->ns_security, blob_sizes.lbs_ns, GFP_KERNEL);
+> > +}
+> > +
+> >  /**
+> >   * lsm_fill_user_ctx - Fill a user space lsm_ctx structure
+> >   * @uctx: a userspace LSM context to be filled
+> > @@ -3358,6 +3372,69 @@ int security_create_user_ns(const struct cred *cred)
+> >  	return call_int_hook(userns_create, cred);
+> >  }
+> >  
+> > +/**
+> > + * security_namespace_init() - Initialize LSM security data for a namespace
+> > + * @ns: the namespace being initialized
+> > + *
+> > + * Initialize the LSM security blob attached to the namespace. The namespace type
+> > + * is available via ns->ns_type, and the owning user namespace (if any)
+> > + * via ns->ops->owner(ns).
+> > + *
+> > + * Return: Returns 0 if successful, otherwise < 0 error code.
+> > + */
+> > +int security_namespace_init(struct ns_common *ns)
+> > +{
+> > +	int rc;
+> > +
+> > +	rc = lsm_ns_alloc(ns);
+> > +	if (unlikely(rc))
+> > +		return rc;
+> > +
+> > +	rc = call_int_hook(namespace_init, ns);
+> > +	if (unlikely(rc))
+> > +		security_namespace_free(ns);
+> > +
+> > +	return rc;
+> > +}
+> > +
+> > +/**
+> > + * security_namespace_free() - Release LSM security data from a namespace
+> > + * @ns: the namespace being freed
+> > + *
+> > + * Release security data attached to the namespace. Called before the
+> > + * namespace structure is freed.
+> > + *
+> > + * Note: If an LSM exposes data within the security blob to concurrent
+> > + * RCU readers, it must use RCU-safe freeing for that data.  The blob
+> > + * memory itself is released with kfree() after the namespace_free
+> > + * hooks return.
+> 
+> I appreciate that you revised the "Note:" based on my previous comments,
+> but now it reads just like normal guidance on RCU and object lifetimes.
+> Do we need this "Note:" at all?
+
+Indeed, it's normal guidance, I'll remove it.
+
+> 
+> > + */
+> > +void security_namespace_free(struct ns_common *ns)
+> > +{
+> > +	if (!ns->ns_security)
+> > +		return;
+> > +
+> > +	call_void_hook(namespace_free, ns);
+> > +
+> > +	kfree(ns->ns_security);
+> > +	ns->ns_security = NULL;
+> > +}
+> > +
+> > +/**
+> > + * security_namespace_install() - Check permission to install a namespace
+> > + * @nsset: the target nsset being configured
+> > + * @ns: the namespace being installed
+> > + *
+> > + * Check permission before allowing a namespace to be installed into the
+> > + * process's set of namespaces via setns(2).
+> > + *
+> > + * Return: Returns 0 if permission is granted, otherwise < 0 error code.
+> > + */
+> > +int security_namespace_install(const struct nsset *nsset, struct ns_common *ns)
+> > +{
+> > +	return call_int_hook(namespace_install, nsset, ns);
+> > +}
+> > +
+> >  /**
+> >   * security_ipc_permission() - Check if sysv ipc access is allowed
+> >   * @ipcp: ipc permission structure
+> > -- 
+> > 2.54.0
+> 
+> --
+> paul-moore.com
+> 
