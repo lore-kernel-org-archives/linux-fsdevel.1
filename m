@@ -1,224 +1,254 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E15E394497
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 22:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1E438758E
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 22:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783636263; cv=none; b=vDb89d8apG4YFYM07DXYYslXkuJ4F+BNvGRpPFpx9RBosB7GWx0yRnubVZSH9uG0EBgouH1G/dWno3sa/9ufhr4knrRhKDAUH5VintnfiNLE2do1jj+6eZg87zIgSLkj8ammXVQc8lHqWAt2KSEnu+wynK0ZAsrXGocv9U6swXk=
+	t=1783637436; cv=none; b=L6TVOUUJmTg0+pRFQzFE1G7KcGriITrx5uCgyeJlClLs5u8+eTnQr3Puce+EpTxc+WTO6Po0YQM9ilHq+0ejh9DFvaLTPHf037stxibSkk4IhLiX4mzX3eokNts1ssUUnufPhDbyjWB2/gDR1Qj8Kv+8FoX5J/ZdBwhU8J4Irl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783636263; c=relaxed/simple;
-	bh=czVNxbYOn/Z4KLAOUtsNHhzfabwg/POKSJCkyAyGIXo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=PRhKc7l9ralCLpbAOHfhcXksuJRXvIO+fSHhPSSQhp0OCukjev4EUTOtzWAFR2kwXVTIw0rdCushUYpo0bC5ffF3O0hJwgRWrVomQ16tS/HbvcJFqAZmmRmYxJ/s13301UDRFInmumo2eU9S8cdYvtSu88TI2Tqp07o7jac0s4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CqOplBzm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783637436; c=relaxed/simple;
+	bh=lKyL9gz3vBNCA/mVzw/ecXvm4uelP6Vm9InVblcJais=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sq7vZKLkCLZAfKMUtHPWqnahdjR44/zwPW5EWSCsSCCRrfPqsNb4K4Rn1Svq91qoH869dQ9/LVZv/NpvOuBMvz4x/KWScMHRyR+j1niZX8NLemzfZrmbIlS5EayBvWiEFrOACJ8UAOHF0AV0twy8aL/tWqRFUMfqBLnex/eUL64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=H6KAqSrv; arc=none smtp.client-ip=74.125.224.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CqOplBzm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 187241F000E9;
-	Thu,  9 Jul 2026 22:30:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783636261;
-	bh=Rbxx9zwzvoYVUg2MhgQJhVj1WtUp6dQC5l9a8+ptJPY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=CqOplBzm5ixcd3m0jZ9NfZ7QM83JFmug69l8+VXyX7TvALeDoqHUmT2zRFQgYb+aS
-	 UXtNGTg77W9aahNav+H0kctjgiGiGlWT1eLT3GSPjguk3AHIXdG2LEZYzZ1xFPLQjF
-	 GR3Y2ynLN1Sy4JrBf9iLBpauaRQwqAjAP9WTBSWAqAaYHpnGOKZxJM0q8UYZV1Pw06
-	 zyiPxlVBRnjHK6hV3rb1m8I/rcJemrhN0qYxOlVwiuPjy2oWprFyvYu7mzJjzwZ2A+
-	 WvgIiguDoHYf66MkLMb5hJTa/mdXYVss0hmjsMQtODyWhHgFTxgXpoE+zpJLM0/fq0
-	 pTIN8CUtcFCKA==
-From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 10 Jul 2026 00:30:18 +0200
-Subject: [PATCH v2 23/23] binfmt_misc: allow removing entries via unlink(2)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="H6KAqSrv"
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-664cdeab266so459073d50.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Jul 2026 15:50:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1783637433; x=1784242233; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Q3VWenFIyTPKXPjl/2eGbBJPh7tSwc/FJpGNTYnREL4=;
+        b=H6KAqSrvj4DBhGWEB/YotXutSCHcFbAtprrEJ7O72gU6/OwQIHu5/NYCqTRGG+DOZV
+         tq4cjMcexFcHoO1KFLLqi+DkTUa0CbsRODGMZtiqHHNf3Y6PLWmxotwkvnXYUccs5bQ6
+         tit2EiebpQQZ+vc2QUVK6Z4UwI59o3po50qKCR+sroIVZy1KhZOy6XGgr7qGaRJYcCLD
+         Ejb99StIbXKEGziDlSYfvpRJ14T2i+/aQSfO80zAg53i/Q0Q6KiCjF81pfaFjl5xyszL
+         /SwitCDUZjOE9TEKIsJrVLF9CQ6vcbmBgfRyyoY4AEtt/4XjFSdzhkTkZGqzfl9brdCP
+         oxCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783637433; x=1784242233;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Q3VWenFIyTPKXPjl/2eGbBJPh7tSwc/FJpGNTYnREL4=;
+        b=Eenb4rnnCtMNHG5Wiyfq9+fgS1ceNGc5HtPFiULRWeecdhv+mjUqBjkVIWitqhlqyi
+         35Trj8qJBviZQ3oce+TJWUpwvagfsrkMXhiPIeegVrzRWk1+NLhv/F44iGRwxd/lcJGM
+         ye3s8ipvMpPZevEaLcUGwEYKjNq+hFr6k9oSzQO5r8onhiPbGmtMlE0t79F8JYEHMfjx
+         BMQURaG1AG2MzSmeuWiIUh6QB2QHdoMuDpv7WCEdSWOrrUBj7EXl5aYOCctmTMZZHnxN
+         9B2VF3jODSnqOeQHXATCRAWSPAtxej238KBSVqg78wbAJl3nkZQrVvbKMj8qWnfIgesf
+         zB+g==
+X-Forwarded-Encrypted: i=1; AHgh+RoiO+1jQk0b0RmkZjyCPJkm3FBlsto0MbuRwO1M/0pr+lvwsBu2aydMHoc9aLoCi4TUQPc5PEhfG4mt7fIN@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUzaHcxAx5B7nKDfJPvJaPwauFEZYPz00DBmP4Zt92e7/kww8S
+	fjVC3ldBfH+TFYK2r5axMW3hJuhwnxL3/yGdRC1mauWdqGx5ki5gdQg9834wcrdc1qI=
+X-Gm-Gg: AfdE7cmcdMrzk7p7pG4lILVP8OQdBYY+PVxTiPZP0Xmwp620f5YX+Dqbkqq3GvMR4TJ
+	3vuGIEc4eFYxjfMgkl/737suOnBRw0jOOT9JvKfxwjR1c0A/a8kANxHUj/4WojV32IdYB2gq9c3
+	sk3bA5ADgjg4Z197hp7oj/mkrLGvcFJAQVusEEl77g3Q25o46OB3te5vPLjfZDVXByBTDGVNTjR
+	+Thfv7glSW7IwSGDutfrfZ2kpEMTJSKFTtI0VJTZ+bV9NocXqtUaM4gsVFrBYpdqBYTxV0Qq0Tb
+	hVqFewtAOPUUoo09RdmCyZwzkHypskztF6niVb+MjkF++GX6QeETRTygTuYFsuY5lLydgLhbc68
+	I1TKDStMNft7lo7BZ7HDfKDnT96sTswtTMueNaU/1ndi4W3LlTc0zK2RTEQTB9b+M1fOoIDDBs3
+	NX+Cg5qyEyDCSJW2V+zGGZw3GkmlfQNCaeSw5z1mJOe/SOX+LW54sWNr77IitXBG5v99UAtVnUg
+	TRUGKfhRPAYtMCFGlSz7mcvHAk5o61Mo2z3txs0rOexJWYQt5Q=
+X-Received: by 2002:a05:690e:128a:b0:665:2100:990 with SMTP id 956f58d0204a3-6679f03ce42mr7141055d50.28.1783637431504;
+        Thu, 09 Jul 2026 15:50:31 -0700 (PDT)
+Received: from system76-pc.attlocal.net ([2600:1700:6476:1430:a1d2:68f:12b6:e18d])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-667c2efa583sm1231466d50.15.2026.07.09.15.50.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2026 15:50:30 -0700 (PDT)
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: glaubitz@physik.fu-berlin.de,
+	linux-fsdevel@vger.kernel.org,
+	frank.li@vivo.com
+Cc: Viacheslav Dubeyko <slava@dubeyko.com>,
+	syzbot+c149ad75e9633be0c1ad@syzkaller.appspotmail.com
+Subject: [PATCH] hfs: don't re-dirty MDB buffers after a write failure
+Date: Thu,  9 Jul 2026 15:50:02 -0700
+Message-ID: <20260709225001.473320-2-slava@dubeyko.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-work-binfmt_misc-locking-v2-23-2a1c3d4126a7@kernel.org>
-References: <20260710-work-binfmt_misc-locking-v2-0-2a1c3d4126a7@kernel.org>
-In-Reply-To: <20260710-work-binfmt_misc-locking-v2-0-2a1c3d4126a7@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- linux-mm@kvack.org, Farid Zakaria <farid.m.zakaria@gmail.com>, 
- jannh@google.com
-X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6632; i=brauner@kernel.org;
- h=from:subject:message-id; bh=czVNxbYOn/Z4KLAOUtsNHhzfabwg/POKSJCkyAyGIXo=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQFKHwzLlt1spfd+aHCjTdTreKqHnQsfOvPY+nbsOFjd
- f702ZdrOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACbyYTkjQ/MOsaXS6w/wr4+f
- 46bSknJN6gzbtomupjcmcIQsPVhQdYHhn37SjhgN68vt5XGbnt/nt3ztsT+a+eORdtkwN/mC4C3
- 72QA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-Removing a binary type handler requires echoing -1 into its entry
-file which works but is an odd interface to discover for something
-that already looks like a plain file in a filesystem. The comment on
-remove_binfmt_handler() has been suggesting a proper ->unlink()
-method for years, so add one: unlinking an entry file unhashes the
-entry from the handler list and removes the file, exactly like
-writing -1 to it does. The status and register control files refuse
-removal with EPERM the same way binderfs protects binder-control.
-Writing -1 keeps working.
+hfs_mdb_commit() and hfs_mdb_close() keep the MDB and alternate-MDB
+buffer heads (mdb_bh, alt_mdb_bh) pinned for the lifetime of the
+mount and write into them in place. If a write against the backing
+device fails, the block layer clears BH_Uptodate on the buffer
+(end_buffer_write_sync(), fs/buffer.c) to mark its contents as no
+longer trustworthy.
 
-Permission-wise nothing new is exposed: unlink(2) requires write
-access to the root directory which is owned by the (user namespace)
-root with mode 0755, matching the privilege needed to write to the
-0644 entry files. The VFS calls ->unlink() with the root inode lock
-held so the existing writer serialization scheme applies unchanged,
-and eviction of the unlinked inode drops the entry reference exactly
-as for the write based removal.
+!buffer_uptodate(bh)
+WARNING: fs/buffer.c:1093 at mark_buffer_dirty+0x299/0x410 fs/buffer.c:1093, CPU#0: syz.1.1033/6784
+Modules linked in:
+CPU: 0 UID: 0 PID: 6784 Comm: syz.1.1033 Not tainted syzkaller #0 PREEMPT(full)
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:mark_buffer_dirty+0x299/0x410 fs/buffer.c:1093
+Code: 4c 89 f7 e8 f9 0d d9 ff 49 8b 3e be 40 00 00 00 5b 41 5c 41 5e 41 5f 5d e9 d4 5e fb ff e8 af e7 69 ff eb 8c e8 a8 e7 69 ff 90 <0f> 0b 90 e9 a5 fd ff ff e8 9a e7 69 ff 90 0f 0b 90 e9 cf fd ff ff
+RSP: 0018:ffffc90005d379a8 EFLAGS: 00010293
+RAX: ffffffff825c9ae8 RBX: ffff8880123aa700 RCX: ffff888034a30000
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
+RBP: 1ffff1100a45f401 R08: ffff8880123aa707 R09: 1ffff110024754e0
+R10: dffffc0000000000 R11: ffffed10024754e1 R12: dffffc0000000000
+R13: ffff8880522fa668 R14: ffff888045ba945b R15: ffff888045ba9400
+FS:  000055556b366500(0000) GS:ffff88808c54e000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b31a63fff CR3: 0000000034b1d000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ hfs_mdb_commit+0x503/0x1160 fs/hfs/mdb.c:309
+ hfs_sync_fs+0x1d/0x30 fs/hfs/super.c:38
+ sync_filesystem+0x1cf/0x230 fs/sync.c:66
+ fs_bdev_sync+0x2c/0x50 fs/super.c:1433
+ blkdev_flushbuf block/ioctl.c:520 [inline]
+ blkdev_common_ioctl+0x12e1/0x3250 block/ioctl.c:658
+ blkdev_ioctl+0x528/0x740 block/ioctl.c:791
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:583
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f1d9239de59
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fffd0ece148 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f1d92625fa0 RCX: 00007f1d9239de59
+RDX: 0000000000000000 RSI: 0000000000001261 RDI: 0000000000000004
+RBP: 00007f1d92433e6f R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f1d92625fac R14: 00007f1d92625fa0 R15: 00007f1d92625fa0
+ </TASK>
 
-Document the new way in admin-guide/binfmt-misc.rst.
+This was found by fuzzing an HFS image on a loop device backed by a
+memfd; under memory pressure the shmem write-back path returned
+-ENOSPC (mm/shmem.c, shmem_acct_blocks()), which surfaced as a plain
+write error on the block device. The call path: ioctl(BLKFLSBUF) ->
+blkdev_common_ioctl() -> sync_filesystem() -> hfs_sync_fs() ->
+hfs_mdb_commit().
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Check buffer_uptodate() on mdb_bh/alt_mdb_bh before dirtying them.
+If either has gone stale, mark the volume read-only and skip the
+write instead of asserting on it. Also, hfs_mdb_commit() returns
+-EIO error code in such situation. As a result, hfs_sync_fs() can
+report the failure instead of always returning 0.
+The sync()/fsync()/BLKFLSBUF now observe -EIO instead of silently
+succeeding while the volume goes read-only underneath them.
+
+Reported-by: syzbot+c149ad75e9633be0c1ad@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=c149ad75e9633be0c1ad
+Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
+cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+cc: Yangtao Li <frank.li@vivo.com>
+cc: linux-fsdevel@vger.kernel.org
 ---
- Documentation/admin-guide/binfmt-misc.rst |  3 +-
- fs/binfmt_misc.c                          | 77 ++++++++++++++++++++++---------
- 2 files changed, 58 insertions(+), 22 deletions(-)
+ fs/hfs/hfs_fs.h |  2 +-
+ fs/hfs/mdb.c    | 28 +++++++++++++++++++++++++---
+ fs/hfs/super.c  |  3 +--
+ 3 files changed, 27 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/admin-guide/binfmt-misc.rst b/Documentation/admin-guide/binfmt-misc.rst
-index c0a34fbf8022..306ef48f5de6 100644
---- a/Documentation/admin-guide/binfmt-misc.rst
-+++ b/Documentation/admin-guide/binfmt-misc.rst
-@@ -133,7 +133,8 @@ or 1 (to enable) to ``/proc/sys/fs/binfmt_misc/status`` or
- Catting the file tells you the current status of ``binfmt_misc/the_entry``.
+diff --git a/fs/hfs/hfs_fs.h b/fs/hfs/hfs_fs.h
+index f3624514fcb0..8e9a1673a142 100644
+--- a/fs/hfs/hfs_fs.h
++++ b/fs/hfs/hfs_fs.h
+@@ -201,7 +201,7 @@ extern const struct xattr_handler * const hfs_xattr_handlers[];
+ /* mdb.c */
+ extern bool is_hfs_cnid_counts_valid(struct super_block *sb);
+ extern int hfs_mdb_get(struct super_block *sb);
+-extern void hfs_mdb_commit(struct super_block *sb);
++extern int hfs_mdb_commit(struct super_block *sb);
+ extern void hfs_mdb_close(struct super_block *sb);
+ extern void hfs_mdb_put(struct super_block *sb);
  
- You can remove one entry or all entries by echoing -1 to ``/proc/.../the_name``
--or ``/proc/sys/fs/binfmt_misc/status``.
-+or ``/proc/sys/fs/binfmt_misc/status``. A single entry can also be removed
-+by simply unlinking (``rm``) ``/proc/.../the_name``.
- 
- 
- Hints
-diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-index 050e83c8533f..f51d27269861 100644
---- a/fs/binfmt_misc.c
-+++ b/fs/binfmt_misc.c
-@@ -635,8 +635,8 @@ static struct binfmt_misc *i_binfmt_misc(struct inode *inode)
-  * entry is removed or the filesystem is unmounted and the super block is
-  * shutdown.
-  *
-- * If the ->evict call was not caused by a super block shutdown but by a write
-- * to remove the entry or all entries via bm_{entry,status}_write() the entry
-+ * If the ->evict call was not caused by a super block shutdown but by
-+ * removing the entry via bm_{entry,status}_write() or unlink(2) the entry
-  * will have already been removed from the list. We keep the hlist_unhashed()
-  * check to make that explicit.
- */
-@@ -658,6 +658,26 @@ static void bm_evict_inode(struct inode *inode)
- 	}
- }
- 
-+/**
-+ * unlink_binfmt_handler - unhash a binary type handler
-+ * @misc: handle to binfmt_misc instance
-+ * @e: binary type handler to unhash
-+ *
-+ * Adding and removing entries via bm_{entry,register,status}_write() and
-+ * unlink(2) happens under the exclusively held inode lock of the root
-+ * dentry keeping the list stable for writers. load_misc_binary() walks it
-+ * concurrently under RCU. The entries_lock is only held around the actual
-+ * unlink to serialize against bm_evict_inode() which unlinks entries
-+ * during umount without holding the root inode lock.
-+ */
-+static void unlink_binfmt_handler(struct binfmt_misc *misc,
-+				  struct binfmt_misc_entry *e)
-+{
-+	spin_lock(&misc->entries_lock);
-+	hlist_del_init_rcu(&e->node);
-+	spin_unlock(&misc->entries_lock);
-+}
-+
- /**
-  * remove_binfmt_handler - remove a binary type handler
-  * @misc: handle to binfmt_misc instance
-@@ -665,29 +685,15 @@ static void bm_evict_inode(struct inode *inode)
-  *
-  * Remove a binary type handler from the list of binary type handlers and
-  * remove its associated dentry.
-- *
-- * Adding and removing entries via bm_{entry,register,status}_write()
-- * happens under the exclusively held inode lock of the root dentry keeping
-- * the list stable for writers. load_misc_binary() walks it concurrently
-- * under RCU. The entries_lock is only held around the actual unlink to
-- * serialize against bm_evict_inode() which unlinks entries during umount
-- * without holding the root inode lock.
-- *
-- * In the future, we might want to think about adding a proper ->unlink()
-- * method to binfmt_misc instead of forcing callers to use writes to files
-- * in order to delete binary type handlers. But it has worked for so long
-- * that it's not a pressing issue.
+diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
+index a97cea35ca2e..f4578f634302 100644
+--- a/fs/hfs/mdb.c
++++ b/fs/hfs/mdb.c
+@@ -274,7 +274,9 @@ int hfs_mdb_get(struct super_block *sb)
+  * Output Variable(s):
+  *   NONE
+  * Returns:
+- *   void
++ *   0 on success, -EIO if the MDB or alternate MDB buffer is no longer
++ *   valid (e.g. after a prior write error), in which case the volume is
++ *   remounted read-only.
+  * Preconditions:
+  *   'mdb' points to a "valid" (struct hfs_mdb).
+  * Postconditions:
+@@ -284,12 +286,19 @@ int hfs_mdb_get(struct super_block *sb)
+  *   If 'backup' is non-zero then the alternate MDB is also written
+  *   and the function doesn't return until it is actually on disk.
   */
- static void remove_binfmt_handler(struct binfmt_misc *misc,
- 				  struct binfmt_misc_entry *e)
+-void hfs_mdb_commit(struct super_block *sb)
++int hfs_mdb_commit(struct super_block *sb)
  {
--	spin_lock(&misc->entries_lock);
--	hlist_del_init_rcu(&e->node);
--	spin_unlock(&misc->entries_lock);
-+	unlink_binfmt_handler(misc, e);
- 	locked_recursive_removal(e->dentry, NULL);
+ 	struct hfs_mdb *mdb = HFS_SB(sb)->mdb;
++	int ret = 0;
+ 
+ 	if (sb_rdonly(sb))
+-		return;
++		return 0;
++
++	if (!buffer_uptodate(HFS_SB(sb)->mdb_bh)) {
++		pr_err("primary MDB is corrupt, mounting read-only\n");
++		sb->s_flags |= SB_RDONLY;
++		return -EIO;
++	}
+ 
+ 	lock_buffer(HFS_SB(sb)->mdb_bh);
+ 	if (test_and_clear_bit(HFS_FLG_MDB_DIRTY, &HFS_SB(sb)->flags)) {
+@@ -314,6 +323,13 @@ void hfs_mdb_commit(struct super_block *sb)
+ 	 * files grow. */
+ 	if (test_and_clear_bit(HFS_FLG_ALT_MDB_DIRTY, &HFS_SB(sb)->flags) &&
+ 	    HFS_SB(sb)->alt_mdb) {
++		if (!buffer_uptodate(HFS_SB(sb)->alt_mdb_bh)) {
++			pr_err("alternate MDB is corrupt, mounting read-only\n");
++			sb->s_flags |= SB_RDONLY;
++			ret = -EIO;
++			goto out;
++		}
++
+ 		hfs_inode_write_fork(HFS_SB(sb)->ext_tree->inode, mdb->drXTExtRec,
+ 				     &mdb->drXTFlSize, NULL);
+ 		hfs_inode_write_fork(HFS_SB(sb)->cat_tree->inode, mdb->drCTExtRec,
+@@ -360,7 +376,9 @@ void hfs_mdb_commit(struct super_block *sb)
+ 			size -= len;
+ 		}
+ 	}
++out:
+ 	unlock_buffer(HFS_SB(sb)->mdb_bh);
++	return ret;
  }
  
--/* Remove @e unless a concurrent write already unlinked it. */
-+/* Remove @e unless it was already removed. */
- static void bm_remove_entry(struct binfmt_misc_entry *e, struct super_block *sb)
+ void hfs_mdb_close(struct super_block *sb)
+@@ -368,6 +386,10 @@ void hfs_mdb_close(struct super_block *sb)
+ 	/* update volume attributes */
+ 	if (sb_rdonly(sb))
+ 		return;
++
++	if (!buffer_uptodate(HFS_SB(sb)->mdb_bh))
++		return;
++
+ 	HFS_SB(sb)->mdb->drAtrb |= cpu_to_be16(HFS_SB_ATTRIB_UNMNT);
+ 	HFS_SB(sb)->mdb->drAtrb &= cpu_to_be16(~HFS_SB_ATTRIB_INCNSTNT);
+ 	mark_buffer_dirty(HFS_SB(sb)->mdb_bh);
+diff --git a/fs/hfs/super.c b/fs/hfs/super.c
+index a466c401f6bb..67eca6f80746 100644
+--- a/fs/hfs/super.c
++++ b/fs/hfs/super.c
+@@ -35,8 +35,7 @@ MODULE_LICENSE("GPL");
+ static int hfs_sync_fs(struct super_block *sb, int wait)
  {
- 	struct inode *root = d_inode(sb->s_root);
-@@ -712,6 +718,32 @@ static void bm_remove_all_entries(struct binfmt_misc *misc,
- 	inode_unlock(root);
+ 	is_hfs_cnid_counts_valid(sb);
+-	hfs_mdb_commit(sb);
+-	return 0;
++	return hfs_mdb_commit(sb);
  }
  
-+/**
-+ * bm_unlink - remove a binary type handler via unlink(2)
-+ * @dir: inode of the root directory
-+ * @dentry: entry file to remove
-+ *
-+ * Removing the entry file removes its binary type handler, exactly like
-+ * writing -1 to it does. The status and register control files can't be
-+ * removed. The VFS calls this with the root inode lock held which
-+ * serializes against the write based add and remove paths.
-+ */
-+static int bm_unlink(struct inode *dir, struct dentry *dentry)
-+{
-+	struct binfmt_misc_entry *e = d_inode(dentry)->i_private;
-+
-+	if (!e)
-+		return -EPERM;
-+
-+	unlink_binfmt_handler(i_binfmt_misc(dir), e);
-+	return simple_unlink(dir, dentry);
-+}
-+
-+static const struct inode_operations bm_dir_inode_operations = {
-+	.lookup		= simple_lookup,
-+	.unlink		= bm_unlink,
-+};
-+
- /* /<entry> */
- 
- static int bm_entry_open(struct inode *inode, struct file *file)
-@@ -962,9 +994,12 @@ static int bm_fill_super(struct super_block *sb, struct fs_context *fc)
- 	WRITE_ONCE(misc->enabled, true);
- 
- 	err = simple_fill_super(sb, BINFMTFS_MAGIC, bm_files);
--	if (!err)
--		sb->s_op = &bm_super_ops;
--	return err;
-+	if (err)
-+		return err;
-+
-+	sb->s_op = &bm_super_ops;
-+	d_inode(sb->s_root)->i_op = &bm_dir_inode_operations;
-+	return 0;
- }
- 
- static void bm_free(struct fs_context *fc)
-
+ /*
 -- 
-2.53.0
+2.43.0
 
