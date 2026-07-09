@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7CE93B0ACE
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 22:30:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95E630C179
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 22:30:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783636259; cv=none; b=lQ2X47T3n3F5zUrvDc14IuTmY2Fw+eP0FOGJKqkdDb2/REQjPez6vNJ4Rz5nRvYJWXHSC87m1pXbID1U+nQVarn+tbDYQr4ZQVoh5z5H3zM8ZVearUbMh+Z4AbHvHpFr83nFI/uQPlA2jhuoe0NmrClda2pP7Z5qOy9kU66Ayhg=
+	t=1783636261; cv=none; b=Rglyu25avItFPACWugJTJG/HLfQhEz3P8Bv1on/DnczzVFkHNPOvf3Fqn1xSEbwtF4OnPV/Ad+kjV8cjv14ZTewChICCKm25iJfMqwZhz4cuo8uk80Jy8LECNjhkqrQI5YRutIL6r74OO8fwQVYHrqssNelTAXNHoSNoHa7QuRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783636259; c=relaxed/simple;
-	bh=TPnsqAazRKakxSbfyYI+7zYmksgk7UgLHJazmbDQvTs=;
+	s=arc-20240116; t=1783636261; c=relaxed/simple;
+	bh=zjcToFTi/b8LBXp7pn3SKXOJi5PklAi6PPGbhZqIVt4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=T3kZQKPT/IZpoogHkEO/9WGqCJfl6cIvoS8ughuJiMtHOCDiMQrMZ0vnh73wwp/rRwb5PajAeq2chVyh4WXl0A9oBCebHL1mv2weF4Fe1sqf7TG0x1RZKK/crvt3SWpZXA008yyxCjKLl6IZw2hRxePp1cWLY+s11/zRN2IYALg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dE5kgrOB; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=AuBg9IsV9H2KOFPUMYFjBmoBcjxyiKGFi5nXM338rQQS0AqyNBLIwf9N3G0Wb7qYmAQ52A8mjHgWKxV6rpr+3JAo9mV3bSuEgd8Yd9QBZjXed3ixqoRmir0uNqwk/PoUwA5ttgXE20EwuzC57/0cy5O618gyctjQE35yN8pPZWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AwM3V6va; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dE5kgrOB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C3541F000E9;
-	Thu,  9 Jul 2026 22:30:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AwM3V6va"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36B4B1F00A3A;
+	Thu,  9 Jul 2026 22:30:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783636257;
-	bh=skdAyX3970evMrszUKHQM7y2G4dAmG1JVxtNPswg6y4=;
+	s=k20260515; t=1783636259;
+	bh=DPDx1vQrB1AgHb6k+MV04TDD1FmulFHOlgEYVxZySHA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=dE5kgrOBcfaEPwffUaYtkQz1jiXWh3rBnQq6uGWTZXRwY+QNO+3T2cms2tHyhIRe7
-	 VDucru3IgqCvSZttfAq9Ech+k6ayknA4s5x5YKNWOjLSCm+SiEEGBf/sTl+W3CEg0p
-	 EcFuW+DzUMMZW3yEoVEYmc8Na0KGSRvCVqIdjwNkS9g8F7lUEuwgwelvGIy23S/dqE
-	 jyGGsbhdIWm71KhgmHn2KdmPn+9H/c4W7G8gTspUVbnW9Hja1dvTm2m33bhIV5No4/
-	 Ml6EQ03jQJOKS75u6+L0BYpy8Aw54+v46DZfSB8Iy2YNK1Kjh9BjpDadXEuIeTHZKk
-	 kjakhjRaCiCsw==
+	b=AwM3V6vagPHO+whU7hM1PBJbul2gJsXD/5TBEUtSaX3pvxNDeU7GvYydu/FrgczCH
+	 t3NDO0JRYc5Lep8ZGfIfVFA/UNgIOIkE610FnlJxc0x5rrlUwfqDvJmIvC0Q2ZUIZ3
+	 B8m39v7VxzyBa841xmWM30FuDGNpsi2RjN1Pxb2w97vf18l0WpxZ8HLYFY+BsbYPo2
+	 U2HHSYjMJCYboAepPZ/BIrIioCsIFtsuGyF4c7vv53CXW6za/i8eLPY1eF4BLsAbUI
+	 ZanfbI24GPFGticXgVvsFGQS7RixCFQVtotrxuShMded4oBcND0roqgqcWEvOpDC6X
+	 enW9U0GDkMnNw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 10 Jul 2026 00:30:16 +0200
-Subject: [PATCH v2 21/23] binfmt_misc: assorted small cleanups
+Date: Fri, 10 Jul 2026 00:30:17 +0200
+Subject: [PATCH v2 22/23] binfmt_misc: include what is used
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-work-binfmt_misc-locking-v2-21-2a1c3d4126a7@kernel.org>
+Message-Id: <20260710-work-binfmt_misc-locking-v2-22-2a1c3d4126a7@kernel.org>
 References: <20260710-work-binfmt_misc-locking-v2-0-2a1c3d4126a7@kernel.org>
 In-Reply-To: <20260710-work-binfmt_misc-locking-v2-0-2a1c3d4126a7@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -46,101 +46,89 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
  linux-mm@kvack.org, Farid Zakaria <farid.m.zakaria@gmail.com>, 
  jannh@google.com
 X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2839; i=brauner@kernel.org;
- h=from:subject:message-id; bh=TPnsqAazRKakxSbfyYI+7zYmksgk7UgLHJazmbDQvTs=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQFKHxbt+K25EYb+fDw6etUPjWIt85LD5mZsixV4PVFv
- oVf9hlJdJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzkcCTDP/MzFxtlTI5GSW2q
- Feh02fXZ99WJnt9p3748C4np+njy7B6GfzYetUyHsiWZ73tWp+i+XNN2XDnu25dbqWXTP4c55DL
- ocwAA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2398; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=zjcToFTi/b8LBXp7pn3SKXOJi5PklAi6PPGbhZqIVt4=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQFKHzjf1rBbcnSoXqLxaur+7PAp1UH6hLm1r7ftuARQ
+ z1PnfGijlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIk8E2b4HzNFOmqKciyP77LL
+ Pcu+LVPe4a3ZnqYyN2Ha0g8Bhx1XBzD8j5srcDkm66uMuGDupd1fIq/+63gy78akpRnvVzo1NH8
+ 05wUA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Use umode_t for the mode argument of bm_get_inode(), constify the
-fixed status strings in bm_status_read(), give the super_operations
-the bm_ prefix everything else in this file uses, replace the stale
-scanarg() comment which still described parameters and an err
-variable it lost decades ago and fix the delimiter typo plus a
-missing space nearby.
-
-No functional change.
+The include list still reflects code that left this file years ago:
+nothing here uses sched/mm.h, pagemap.h, namei.h, syscalls.h or
+anything from fs/internal.h anymore, mount.h and the bm_fs_type
+forward declaration lost their last user when the pinned bm_mnt
+machinery was removed. Drop all of that and instead spell out the
+headers the file actually relies on but so far pulled in
+transitively: bitops, bits, bug, cleanup, cred, kstrtox, printk,
+refcount, string and user_namespace. With that nothing needs the
+kernel.h grab bag anymore, so it goes too, and the list is sorted
+alphabetically.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/binfmt_misc.c | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ fs/binfmt_misc.c | 34 +++++++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
 
 diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-index 6acce58ce405..4c641cacdcc9 100644
+index 4c641cacdcc9..050e83c8533f 100644
 --- a/fs/binfmt_misc.c
 +++ b/fs/binfmt_misc.c
-@@ -291,10 +291,9 @@ static int load_misc_binary(struct linux_binprm *bprm)
- /* Command parsers */
+@@ -10,27 +10,29 @@
  
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
+-#include <linux/kernel.h>
+-#include <linux/module.h>
+-#include <linux/init.h>
+-#include <linux/sched/mm.h>
+-#include <linux/magic.h>
+ #include <linux/binfmts.h>
+-#include <linux/slab.h>
++#include <linux/bitops.h>
++#include <linux/bits.h>
++#include <linux/bug.h>
++#include <linux/cleanup.h>
++#include <linux/cred.h>
+ #include <linux/ctype.h>
+-#include <linux/string_helpers.h>
+ #include <linux/file.h>
+-#include <linux/pagemap.h>
+-#include <linux/namei.h>
+-#include <linux/mount.h>
++#include <linux/fs.h>
++#include <linux/fs_context.h>
++#include <linux/init.h>
++#include <linux/kstrtox.h>
++#include <linux/magic.h>
++#include <linux/module.h>
++#include <linux/printk.h>
+ #include <linux/rculist.h>
++#include <linux/refcount.h>
+ #include <linux/seq_file.h>
+-#include <linux/fs_context.h>
+-#include <linux/syscalls.h>
+-#include <linux/fs.h>
++#include <linux/slab.h>
++#include <linux/string.h>
++#include <linux/string_helpers.h>
+ #include <linux/uaccess.h>
+-
+-#include "internal.h"
++#include <linux/user_namespace.h>
+ 
+ /* Entry status and match type bit numbers. */
+ enum binfmt_misc_entry_bits {
+@@ -62,8 +64,6 @@ struct binfmt_misc_entry {
+ 	char buf[];			/* register string, fields point in here */
+ };
+ 
+-static struct file_system_type bm_fs_type;
+-
  /*
-- * parses and copies one argument enclosed in del from *sp to *dp,
-- * recognising the \x special.
-- * returns pointer to the copied argument or NULL in case of an
-- * error (and sets err) or null argument length.
-+ * Scan the argument starting at @s up to the delimiter @del, recognising
-+ * the \x escape. Terminates the argument with a NUL and returns a pointer
-+ * past it or NULL on a malformed escape.
-  */
- static char *scanarg(char *s, char del)
- {
-@@ -309,7 +308,7 @@ static char *scanarg(char *s, char del)
- 				return NULL;
- 		}
- 	}
--	s[-1] ='\0';
-+	s[-1] = '\0';
- 	return s;
- }
- 
-@@ -458,7 +457,7 @@ static struct binfmt_misc_entry *create_entry(const char __user *buffer,
- 	if (copy_from_user(buf, buffer, count))
- 		return ERR_PTR(-EFAULT);
- 
--	del = *p++;	/* delimeter */
-+	del = *p++;	/* delimiter */
- 
- 	pr_debug("register: delim: %#x {%c}\n", del, del);
- 
-@@ -600,7 +599,7 @@ static int bm_entry_show(struct seq_file *m, void *unused)
- 	return 0;
- }
- 
--static struct inode *bm_get_inode(struct super_block *sb, int mode)
-+static struct inode *bm_get_inode(struct super_block *sb, umode_t mode)
- {
- 	struct inode *inode = new_inode(sb);
- 
-@@ -848,7 +847,7 @@ static ssize_t
- bm_status_read(struct file *file, char __user *buf, size_t nbytes, loff_t *ppos)
- {
- 	struct binfmt_misc *misc;
--	char *s;
-+	const char *s;
- 
- 	misc = i_binfmt_misc(file_inode(file));
- 	s = READ_ONCE(misc->enabled) ? "enabled\n" : "disabled\n";
-@@ -895,7 +894,7 @@ static void bm_put_super(struct super_block *sb)
- 	put_user_ns(user_ns);
- }
- 
--static const struct super_operations s_ops = {
-+static const struct super_operations bm_super_ops = {
- 	.statfs		= simple_statfs,
- 	.evict_inode	= bm_evict_inode,
- 	.put_super	= bm_put_super,
-@@ -964,7 +963,7 @@ static int bm_fill_super(struct super_block *sb, struct fs_context *fc)
- 
- 	err = simple_fill_super(sb, BINFMTFS_MAGIC, bm_files);
- 	if (!err)
--		sb->s_op = &s_ops;
-+		sb->s_op = &bm_super_ops;
- 	return err;
- }
- 
+  * Max length of the register string.  Determined by:
+  *  - 7 delimiters
 
 -- 
 2.53.0
