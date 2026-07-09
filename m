@@ -1,105 +1,193 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E4533A702
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 14:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB82364053
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 15:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783607688; cv=none; b=Urrqy8B85dPtA2+C2ZX4XvDkydvfecu0atn+zCEaCQC5dJZ5g6JhmYIsLUEJwvPJSp6shzcFA8CpCNMcqhNm2wtC5ze9Vk7NyW4ls0Yo1oGT3oX0hs42w8y0KYTQAiaCpTE+RbxAvC1vhAQoik0hppxuPGGv+0Zj0baHk4/J0y8=
+	t=1783610330; cv=none; b=s4/TUltb0xKRJOX203ElZfn1wc+M87HeAWWmakCwB3kCXL2IBY1xxVaPF47kEVbW4e6RKlSf4e7mINlWdgZVZS0LhGeOSe0qSQVgqSe4VyRtUJFNFKYVgWGQGI9KcuRyeSMFra+4pzuXqEMEJbGH/OsVAaJDMxR/HyNLA5pv/Ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783607688; c=relaxed/simple;
-	bh=0p/7ww8JBy7cbSlbKm2upA/IE3s1NoNmFIQh49k5aVo=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=g7ecfwIvGtOs8wf/xMPp/yes5qmeLa3n0LSsYklseye1D5ImCKtuTo9LlRQ+T+5xRoxkKiZpurHmEH8A+mHqD0Mp2jbJijhUzJEzP0lzFa8Yb5ExotHXGiPp2a++oGS6goKNpTV/fNd+75kh+R6Jt0LgV1BfW5M3umhliFdGWik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=T5aDoE5J; arc=none smtp.client-ip=195.121.94.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1783610330; c=relaxed/simple;
+	bh=EmhDmZEzfDqtz+/wM5OYtSnBNKhNR5z6WmgKAnKqYZg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G1IB/esb2iqQQWF/ewb2aMBEZtuPUryKZSy+rm2ZQX/yjyuoDZRlM76qCgnp+6owr2JHiTTqVIDdM+iDqymP3M7riI66PSXF/cP0Xk8uG48Ilir/bgY2Kxo5kgcw/fv7Behy/CAgL6Qw2N2TkW4QOaEN9w+OOyjtiOmiTy3QZ4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=XYuSc5IC; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="T5aDoE5J"
-X-KPN-MessageId: 4fd05d54-7ba3-11f1-8f54-005056992ed3
-Received: from mta.kpnmail.nl (unknown [10.31.161.189])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 4fd05d54-7ba3-11f1-8f54-005056992ed3;
-	Thu, 09 Jul 2026 16:34:37 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 4fcf3695-7ba3-11f1-ae72-0050569981f5;
-	Thu, 09 Jul 2026 16:34:37 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="XYuSc5IC"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-51c08df8513so11890201cf.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Jul 2026 08:18:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=HmJxCdiosIJ3y1MPHG8bWTSHcdqZkbcDMk52XYEuI1k=;
-	b=T5aDoE5JzS7XP2YIbicr5RVR+84W90G5lpVPKtDqLOyuYv+ZJpxtivhBn3DKt0oVKwaORLi0KfUMI
-	 tvK3EgTWWf9FyvkX3jvxIu8MKWNAultz0IsFhfgR7735UPwsyKF+DzdBdqtF/u3I0o+XyYwJRYqxVQ
-	 onzlMzE7wnJuBMAFGGL8CqmdyV6QotkglGjWhORh2+pfhu/0lbPyzxb/IbyvplITGFNcmFmrrD2ZkA
-	 crd4dWRfCSncPeTdaq+j22IKvEhtA+o2xei+wcjSI7ntuvhre/m59NQL9r3uFAGbRrXB4DYQ28z9DF
-	 gBdxqkRFpUPn0qdwOjQKS/FXYSj+cxw==
-X-KPN-MID: 33|MOIVPITTR6aAJM4RK8cGZYdPwGh8zZ5oz7LvLztV25V18QPYpphx4CYzDw6qMdR
- T+uv9C6E87FEaSyC38TBBAjWSf+b+XeVutrZfwv1OzKE=
-X-CMASSUN: 33|c5FOAAFCmcfJX4CCkUgQJr6x0KQeC+xUHY8mer6AJXnADDWukLHRTC8gQSGh+hs
- QEe8C+TdXig5B10yKGl3Adg==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh07 (cpxoxapps-mh07.personalcloud.so.kpn.org [10.128.135.213])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 4fc46956-7ba3-11f1-8edb-00505699eff2;
-	Thu, 09 Jul 2026 16:34:37 +0200 (CEST)
-Date: Thu, 9 Jul 2026 16:34:37 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Pedro Falcato <pfalcato@suse.de>,
-	Aleksa Sarai <aleksa@amutable.com>, Jeff Layton <jlayton@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>, NeilBrown <neil@brown.name>,
-	Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <331565565.497684.1783607677333@kpc.webmail.kpnmail.nl>
-In-Reply-To: <20260709-skigebiet-fakten-galopp-29f4f1170f61@brauner>
-References: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
- <20260704164149.3480051-10-jkoolstra@xs4all.nl>
- <akyyqnv9EpY7xVdC@pedro-suse.lan>
- <1464441345.181098.1783418805206@kpc.webmail.kpnmail.nl>
- <akz_Ik8_eTnXav1H@pedro-suse>
- <1400609680.217714.1783433931054@kpc.webmail.kpnmail.nl>
- <ak5rHOsvtMX1j7S3@pedro-suse> <ak8-lSfOy0oL78N9@infradead.org>
- <111142800.451666.1783594280454@kpc.webmail.kpnmail.nl>
- <20260709-skigebiet-fakten-galopp-29f4f1170f61@brauner>
-Subject: Re: [PATCH v3 09/14] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+        d=gourry.net; s=google; t=1783610327; x=1784215127; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=D66HPeIJnm5ZDnK+VorUOpyiniaZPeUCt2fPIKMnyb4=;
+        b=XYuSc5IC+EVJbDWikpVPC9cDKrnWwVwEAM4vxRerghx9T5cLKor0lZn/3xvEy8MYvH
+         P4G8QPzYbfEZ/SuD19iQ/Y1IHWEN8FQYvrl4gGGNvM85yYx5CoTWRnrwozvd8buW/yZu
+         rTLr0Kl5kFm/eeBRVjl2lZuNMDx5WC8PeGDIx78E6vBCLlaGrNT+PUtAJ/u8INBmJnMf
+         RbCmKrzJydlT8MQRk1duN94/X88hvDTJtAhpiVN/Uddledvv9UkLMBn9POBFDX+NJflU
+         wUwaXNQ4tD3o84h7GQtBbwvEsPtUxnWPlr1FHKAANE+13sbK/9le7ZhU64POCONVaFwl
+         Syjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783610327; x=1784215127;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=D66HPeIJnm5ZDnK+VorUOpyiniaZPeUCt2fPIKMnyb4=;
+        b=Me4T6TSCglc0FdjvvO3FSh1nuCgu09kxb99f8N8cMxSrQZvFVsPTXRTN593vyL5Ftc
+         Kp6Xgd68bdTj81ylfsJSPaKyOP6JNGyJnkA5TWONHBTkeQWit+YY/EKmtTWkONKRZUaE
+         edLbyE1meFrgOfYxgoj1HVrB+C1RMPxWdUnnhXfXfRwtSAM487QxLivR8y3bpa/betlA
+         CbY9xtaClCBkROSRXUHdbvB/ZyjOjHM55uujK3zXAUzeis5jIeV2qGcImN5nvLeDE8tQ
+         uf/3eAeSK1xahc8QWMF57JJm3j7VL5XOoASHFeu9TtC9Yk1/6CBLIJT/x5dOdbcC2YcE
+         IwnA==
+X-Forwarded-Encrypted: i=1; AHgh+RoSPc4g6uzO73PGHeP6QWUHswaluN7+mVJOEvz5IOF0cSXSqHDdYqfAVI3VgHEuDVw2/XAIO+7nbLcsO/0o@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxe8k7tAg4eVDMh5QZxEFiJS3rpc+vuAHTS8i9w7DJymMe8qtoM
+	VZ2CWrGRkwSxzhYC6jApEBhd/qBoAFSm/mTpIH2qvJx4nhKVi+7SBPyvgIqFuVPsrqM=
+X-Gm-Gg: AfdE7cn5tOuPaZgzIrmpERW8x9Sag2VSk+Cb8dgkoJ3J/FuCg6pXhm6sjMJUrPcy9Aa
+	hqcYiWgYpJSm84oIVC5HKKxhh3XIUC7mCSDxNefle1sZKDgkOqNITJISsgJ9LofDj+/6Uoou49J
+	HhewaXrfixci6oYnkCb7kn59ABuBGmiFYzFHdXE+dKdEmMkExg7pgyya9s+rQFiOkziLIc1zfd3
+	6DLv9u8ZQuMYiY+Wsh1EooBxFabwq5EjfSgGZKz4QewuDB1T4NpoSCOmsI6o92dvLryUJlho/8b
+	n2d8i3LnoTSafliH+Kr3/u6PXZ06ap/gUjPmEiUA6vSIsjBKSVS7b973HkIPuQTEYPDR4WBGABU
+	4t9GE7EaqrsJ/Kl9RnXeAyt4MqbN30UL9IH0cGg1NhYRoTtGeMKyYJEiIpO4QIiPujnSse/lgpY
+	U15KnrqDpktSICYeDKt4+CEqKjU9iGW/8G0R/DIRJbRI00LVlTn7QSgohpXbbtv3HjcL6b4ZPhs
+	t66kUw=
+X-Received: by 2002:ac8:5cd4:0:b0:51c:1c2c:a8c9 with SMTP id d75a77b69052e-51c8b3e2e32mr79753441cf.43.1783610327278;
+        Thu, 09 Jul 2026 08:18:47 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51c41db4fb5sm158006781cf.25.2026.07.09.08.18.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2026 08:18:45 -0700 (PDT)
+Date: Thu, 9 Jul 2026 11:18:40 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Simon Schuster <schuster.simon@siemens-energy.com>,
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Christian Koenig <christian.koenig@amd.com>,
+	Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Dan Williams <djbw@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>, Hugh Dickins <hughd@google.com>,
+	Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+	linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+	kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-mm@kvack.org, iommu@lists.linux.dev,
+	linux-perf-users@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+	Jann Horn <jannh@google.com>
+Subject: Re: [PATCH 13/30] mm/vma: refactor vmg_adjust_set_range() for clarity
+Message-ID: <ak-70CHGujkI5jJI@gourry-fedora-PF4VCD3F>
+References: <cover.1782735110.git.ljs@kernel.org>
+ <ada7972f49ea7f1ff1df6d11e4651f270444f8fd.1782735110.git.ljs@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ada7972f49ea7f1ff1df6d11e4651f270444f8fd.1782735110.git.ljs@kernel.org>
 
-
-> Op 09-07-2026 16:21 CEST schreef Christian Brauner <brauner@kernel.org>:
+On Mon, Jun 29, 2026 at 01:23:24PM +0100, Lorenzo Stoakes wrote:
+> Add comments with ASCII diagrams to describe what we're doing, avoid
+> dubious use of PHYS_PFN(), and use vma_start_pgoff().
 > 
->  
-> > Maybe just backport -EINVAL to every kernel since introducing openat2(2) then
-> > that can be used as a test.
-> > 
-> > But that is an issue if openat2 is blocked. I don't know enough about blocking
-> > syscalls to know if that is a big issue or not or whether it can be worked around.
-> > But something like this seems reasonable.
+> The most complicated scenario represented here is vmg->__adjust_next_start
+> - when this is set, vmg->[start, end] actually indicate the range to be
+> retained, so take special care to describe this accurately.
 > 
-> Please just send a new version with the relevant issues addressed.
-> The last comment clearly didn't even bother to figure out that nearly
-> all LTSes return -EINVAL for the combination. 5.10 and 5.15 fail as well
-> but are broken because apparently they didn't get the actual backport
-> years ago. They die in December. And upstream doesn't care about
-> Back-To-The-Future Frankenstein kernels.
+> No functional change intended.
+> 
+> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 
-Yes I will this weekend. I'll address your and Neil's feedback (thanks for that!)
-and also split it up, so that the faulty audit handling does not block the rest.
-But I have to be careful as lookup_open() code is a bit finicky and easy to
-miss stupid stuff (Sashiko caught me a couple times). 
+Reviewed-by: Gregory Price <gourry@gourry.net>
 
-I also still need to prepare my OSS talk and I have a full-time non-Linux job
-(hopefully not forever), plus trying to do some reviews. So I just didn't get
-around to it yet :(
+> +		/*
+> +		 * vmg->start    vmg->end
+> +		 * |             |
+> +		 * v    merge    v
+> +		 * <------------->
+> +		 *         delta
+> +		 *        <------>
+> +		 * |------|----------------|
+> +		 * | prev |    middle      |
+> +		 * |------|----------------|
+> +		 *        ^
+> +		 *        |
+> +		 *        middle->vm_start
+> +		 */
 
-Best,
-Jori.
+Even with these diagrams, it's a bit difficult to understand what the
+actual intent/result of this chunk is (but that may be a limitation of
+me not spending enough time reading the surrounding code, not a comment
+of your work here).
+
+~Gregory
+
+> +		/*
+> +		 *                Originally:
+> +		 *
+> +		 *            vmg->start   vmg->end
+> +		 *            |            |
+> +		 *            v    merge   v
+> +		 *            <------------>
+> +		 *            .            .
+> +		 * merge_existing_range() updates to:
+> +		 *            .            .
+> +		 * vmg->start vmg->end     .
+> +		 * |          |            .
+> +		 * v  retain  v            .
+> +		 * <---------->            .
+> +		 *             delta       .
+> +		 *            <----->      .
+> +		 * |----------------|------|
+> +		 * |    middle      | next |
+> +		 * |----------------|------|
+> +		 *                  ^
+> +		 *                  |
+> +		 *                  next->vm_start
+> +		 */
