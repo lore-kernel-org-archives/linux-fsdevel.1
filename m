@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513AF1A9FA8
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 22:30:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FC21A9FA8
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 22:30:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783636249; cv=none; b=PnjGEkmEAIpRBVvM2tpiaftm+/Mdit7tpS4I/hUGYTudcHEPsh8q0LE7djDqy9M8ByvCiX0zhOukE6QpfnCvMUMq/x0fRUDGL4iuZW3+6inCyOpPiICr/brv/yNSYYtpmygZTRH6/HOdjG1sI5nDlBZ9xt9LWBb9lhE4ja4spRE=
+	t=1783636251; cv=none; b=ffh//6K6ARweWQza5hXWLPEToC/cc3LRZcHllytHB2epLWBnqDrzbhuRpVyvwKhQigP4wBbnuTXBzlQvCUm4mDfqD0x0bLdvPrWuFYIC2d0c3NiN2ujMwOAGVGApdjiUD4C3o2TlCnPFg2qxUs+nHkaXWLaa5DZY0tsDmmYMcuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783636249; c=relaxed/simple;
-	bh=cyHkmmDfiEKgpVxkufJ06j5rYo5ZpvYalwvx7n/HkSE=;
+	s=arc-20240116; t=1783636251; c=relaxed/simple;
+	bh=OfGZ7AUeiJPcjTa/NY6QLIM4LTPZbuaFgV6FGA1KtY4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SMZTrXGihyGhwJrbqeuZwbwgcAzzTXiRi7nxytBTrKuTwQDzpsa7C8Voc8OkG2jpo5t216d6iOowl2W3VSL4dfJZN1o1Vt93sdDDDWYVqy2nwOTum37R0lZQRY+fFbv064YyQos8Nrszyo0j+gFIO3u3Uwl8rfNfW+IfultCfHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SvLHDCTF; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=EaPcvxZ/1FyFawpb2HGb6v75KtvoWmYCLEFGsHGYSActNOy7mDnyKiWUAKbcHHUW4SC8kNR4Po/DPSgSjZkLS8MqjRUaG9pBmpQPstfZAXJIbs3Q4xHKeifq7FFl223s2sNyXpbVzeqS/IgcO2OhvkuTFl+OZYtkTZpYzrLZMZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cqF042L7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SvLHDCTF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F7B41F00A3D;
-	Thu,  9 Jul 2026 22:30:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cqF042L7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C06A41F000E9;
+	Thu,  9 Jul 2026 22:30:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783636248;
-	bh=o//3Wih6kSQ9SPV0MLA8r8h1Tfx37FGOuDRdL1ZjK3Q=;
+	s=k20260515; t=1783636250;
+	bh=Tj/MAvnir9DeW5WYFzT8Cvq+bgAVa01TFneC7nh31P0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=SvLHDCTF++3dv2LSDQOuRo6G5cYBywHSVMKtjT/VYmM/luH3NY4oeFevsYUMN6WEt
-	 +f3/Py91jcpK+2wdjxOBjzJymZMJ5289+woOYPXsMORHTybuHJvu82MDDEAEbYYeuJ
-	 1pp7gOE8+C9/RNhJwKXUOjOpA9d0YPDF9hAUtdUfYjBOKvSlYJcjmOmN+3tCwdU1CR
-	 zHQ64AfGxE+0mpI87PX0NgwW4AsmRxx16E0K14zIt25qwMK9ScQzUjS/HnHeYJ1Q4a
-	 Ww1At403wkoaKjoVBztB3pxGuo5R1CVOQj6YaPxtezEPIzD3PwcrcrL6CUKczIzX8j
-	 yTQyoWtnJvsaw==
+	b=cqF042L7BqakCLlYwb9cXOQ2dCQjhAM1UWP4msLDijM/GmT1AWdQws+P4X1qa9+JP
+	 KlBy2uBdLp039jZ+CwJ+c65qgmJn2OZdOwKami5I7u2SnZGuNszWyTyfefxrcycMMQ
+	 8UxxjWjIP/Ez/199K3Mb3CdcG9BS4X96A3lOIH1A74muHU1t1U5UD9+rtTpIBKet4/
+	 CBKkdIXPuudvdkzT0JhturKae3ZZvCT/LLe8J3uEZ+QNe0Q9gkllt6Ce7JNfA+yblW
+	 iqulgfeXcDMPTJVzh5YWVeVyXqFQX69DEhQ9UMMhHj/5mhqDVhWmj8ZXjMLjo5CWuD
+	 rMyLQxMt7lOvw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 10 Jul 2026 00:30:11 +0200
-Subject: [PATCH v2 16/23] binfmt_misc: factor out the entry removal
+Date: Fri, 10 Jul 2026 00:30:12 +0200
+Subject: [PATCH v2 17/23] binfmt_misc: simplify check_special_flags()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-work-binfmt_misc-locking-v2-16-2a1c3d4126a7@kernel.org>
+Message-Id: <20260710-work-binfmt_misc-locking-v2-17-2a1c3d4126a7@kernel.org>
 References: <20260710-work-binfmt_misc-locking-v2-0-2a1c3d4126a7@kernel.org>
 In-Reply-To: <20260710-work-binfmt_misc-locking-v2-0-2a1c3d4126a7@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -46,153 +46,79 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
  linux-mm@kvack.org, Farid Zakaria <farid.m.zakaria@gmail.com>, 
  jannh@google.com
 X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5585; i=brauner@kernel.org;
- h=from:subject:message-id; bh=cyHkmmDfiEKgpVxkufJ06j5rYo5ZpvYalwvx7n/HkSE=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQFKHxbfXMZx3vxnhpjzQlPpJMEQ+tbL2ZEM8qeCz2TE
- RkgGb2xo5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCJr3jD84V60d95fqae516QZ
- r9XonTj52UVuR/aj5Wbvz0v6qn708mBkWPQ0IPBP+7FjXzvjee8bn7j8S+3NnXdiRT9+NL7+nSf
- XygAA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1679; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=OfGZ7AUeiJPcjTa/NY6QLIM4LTPZbuaFgV6FGA1KtY4=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQFKHy7nhRstWOBmoNyDLPSOeWe2wZL+PQP6C1bX/l8+
+ z3BCe8+dZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExE4DgjQ3fQ/8W7Ao9sLBAo
+ nlttdiQi2j/lTzXv/4s6fBLfxKocwhkZLqev/3bJy+l4w5LNl3OqD3oel7/wv8xlmU+HSNT9rDd
+ mzAA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Both write handlers open-code the same removal dance - grab the root
-inode lock, unlink, unlock - each carrying a verbatim copy of the
-same eleven-line locking comment, and bm_entry_write() reuses its
-inode variable for the root inode halfway through to pull it off.
-Move the dance into bm_remove_entry() and bm_remove_all_entries()
-and the locking rules into the kernel-doc of remove_binfmt_handler()
-which both helpers wrap.
+Replace the cont flag and the pointer increment repeated in every
+case with a for loop that returns from the default case, and shrink
+the multi-line 'C implies O' remark to one line.
 
 No functional change.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/binfmt_misc.c | 84 +++++++++++++++++++++++++++-----------------------------
- 1 file changed, 40 insertions(+), 44 deletions(-)
+ fs/binfmt_misc.c | 22 +++++-----------------
+ 1 file changed, 5 insertions(+), 17 deletions(-)
 
 diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-index 83f84934d57c..4267f66128c4 100644
+index 4267f66128c4..1536e398aa67 100644
 --- a/fs/binfmt_misc.c
 +++ b/fs/binfmt_misc.c
-@@ -682,11 +682,19 @@ static void bm_evict_inode(struct inode *inode)
-  * @e: binary type handler to remove
-  *
-  * Remove a binary type handler from the list of binary type handlers and
-- * remove its associated dentry. This is called from
-- * binfmt_{entry,status}_write(). In the future, we might want to think about
-- * adding a proper ->unlink() method to binfmt_misc instead of forcing caller's
-- * to use writes to files in order to delete binary type handlers. But it has
-- * worked for so long that it's not a pressing issue.
-+ * remove its associated dentry.
-+ *
-+ * Adding and removing entries via bm_{entry,register,status}_write()
-+ * happens under the exclusively held inode lock of the root dentry keeping
-+ * the list stable for writers. load_misc_binary() walks it concurrently
-+ * under RCU. The entries_lock is only held around the actual unlink to
-+ * serialize against bm_evict_inode() which unlinks entries during umount
-+ * without holding the root inode lock.
-+ *
-+ * In the future, we might want to think about adding a proper ->unlink()
-+ * method to binfmt_misc instead of forcing callers to use writes to files
-+ * in order to delete binary type handlers. But it has worked for so long
-+ * that it's not a pressing issue.
-  */
- static void remove_binfmt_handler(struct binfmt_misc *misc,
- 				  struct binfmt_misc_entry *e)
-@@ -697,6 +705,31 @@ static void remove_binfmt_handler(struct binfmt_misc *misc,
- 	locked_recursive_removal(e->dentry, NULL);
+@@ -309,43 +309,31 @@ static char *scanarg(char *s, char del)
+ 	return s;
  }
  
-+/* Remove @e unless a concurrent write already unlinked it. */
-+static void bm_remove_entry(struct binfmt_misc_entry *e, struct super_block *sb)
-+{
-+	struct inode *root = d_inode(sb->s_root);
-+
-+	inode_lock_nested(root, I_MUTEX_PARENT);
-+	if (!hlist_unhashed(&e->node))
-+		remove_binfmt_handler(i_binfmt_misc(root), e);
-+	inode_unlock(root);
-+}
-+
-+/* Remove all entries of the binfmt_misc instance @misc belonging to @sb. */
-+static void bm_remove_all_entries(struct binfmt_misc *misc,
-+				  struct super_block *sb)
-+{
-+	struct inode *root = d_inode(sb->s_root);
-+	struct binfmt_misc_entry *e;
-+	struct hlist_node *next;
-+
-+	inode_lock_nested(root, I_MUTEX_PARENT);
-+	hlist_for_each_entry_safe(e, next, &misc->entries, node)
-+		remove_binfmt_handler(misc, e);
-+	inode_unlock(root);
-+}
-+
- /* /<entry> */
- 
- static int bm_entry_open(struct inode *inode, struct file *file)
-@@ -728,24 +761,7 @@ static ssize_t bm_entry_write(struct file *file, const char __user *buffer,
- 		set_bit(MISC_FMT_ENABLED_BIT, &e->flags);
- 		break;
- 	case BM_CMD_REMOVE:
--		inode = d_inode(inode->i_sb->s_root);
--		inode_lock_nested(inode, I_MUTEX_PARENT);
--
--		/*
--		 * In order to add new element or remove elements from the list
--		 * via bm_{entry,register,status}_write() inode_lock() on the
--		 * root inode must be held.
--		 * The lock is exclusive ensuring that the list can't be
--		 * modified. Only load_misc_binary() can access the list
--		 * concurrently and it does so under RCU. So entries_lock only
--		 * needs to be held when an entry is actually unlinked to
--		 * serialize against bm_evict_inode() during umount which
--		 * unlinks without holding inode_lock.
--		 */
--		if (!hlist_unhashed(&e->node))
--			remove_binfmt_handler(i_binfmt_misc(inode), e);
--
--		inode_unlock(inode);
-+		bm_remove_entry(e, inode->i_sb);
- 		break;
- 	default:
- 		return res;
-@@ -861,9 +877,6 @@ static ssize_t bm_status_write(struct file *file, const char __user *buffer,
+-static char *check_special_flags(char *sfs, struct binfmt_misc_entry *e)
++static char *check_special_flags(char *p, struct binfmt_misc_entry *e)
  {
- 	struct binfmt_misc *misc;
- 	int res = parse_command(buffer, count);
--	struct hlist_node *next;
--	struct inode *inode;
--	struct binfmt_misc_entry *e;
+-	char *p = sfs;
+-	int cont = 1;
+-
+-	/* special flags */
+-	while (cont) {
++	for (;; p++) {
+ 		switch (*p) {
+ 		case 'P':
+ 			pr_debug("register: flag: P (preserve argv0)\n");
+-			p++;
+ 			e->flags |= MISC_FMT_PRESERVE_ARGV0;
+ 			break;
+ 		case 'O':
+ 			pr_debug("register: flag: O (open binary)\n");
+-			p++;
+ 			e->flags |= MISC_FMT_OPEN_BINARY;
+ 			break;
+ 		case 'C':
+ 			pr_debug("register: flag: C (preserve creds)\n");
+-			p++;
+-			/* this flags also implies the
+-			   open-binary flag */
+-			e->flags |= (MISC_FMT_CREDENTIALS |
+-					MISC_FMT_OPEN_BINARY);
++			/* C implies O */
++			e->flags |= MISC_FMT_CREDENTIALS | MISC_FMT_OPEN_BINARY;
+ 			break;
+ 		case 'F':
+ 			pr_debug("register: flag: F: open interpreter file now\n");
+-			p++;
+ 			e->flags |= MISC_FMT_OPEN_FILE;
+ 			break;
+ 		default:
+-			cont = 0;
++			return p;
+ 		}
+ 	}
+-
+-	return p;
+ }
  
- 	misc = i_binfmt_misc(file_inode(file));
- 	switch (res) {
-@@ -874,24 +887,7 @@ static ssize_t bm_status_write(struct file *file, const char __user *buffer,
- 		WRITE_ONCE(misc->enabled, true);
- 		break;
- 	case BM_CMD_REMOVE:
--		inode = d_inode(file_inode(file)->i_sb->s_root);
--		inode_lock_nested(inode, I_MUTEX_PARENT);
--
--		/*
--		 * In order to add new element or remove elements from the list
--		 * via bm_{entry,register,status}_write() inode_lock() on the
--		 * root inode must be held.
--		 * The lock is exclusive ensuring that the list can't be
--		 * modified. Only load_misc_binary() can access the list
--		 * concurrently and it does so under RCU. So entries_lock only
--		 * needs to be held when an entry is actually unlinked to
--		 * serialize against bm_evict_inode() during umount which
--		 * unlinks without holding inode_lock.
--		 */
--		hlist_for_each_entry_safe(e, next, &misc->entries, node)
--			remove_binfmt_handler(misc, e);
--
--		inode_unlock(inode);
-+		bm_remove_all_entries(misc, file_inode(file)->i_sb);
- 		break;
- 	default:
- 		return res;
+ /*
 
 -- 
 2.53.0
