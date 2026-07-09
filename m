@@ -1,33 +1,32 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E8E3C3458
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 18:48:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FDF3C3458
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 18:48:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783622893; cv=none; b=XWgtKScbKF84HLhuWMuKfagLcw39YRrJoql1J3frbSoxXoXg1JThQUhFaOGdj9ZG5A8RY6E171/Tu2hfXLCOnBxA5RKhTZMxLth0dNtyUBFU6WGj/u/hDksUGszZ/X3xu8AmQi4PcEqXFtp83+o9H2UNWiS/gmU3q1ZZ1bRhjw8=
+	t=1783622896; cv=none; b=K8y7MPoaff/n2ks8tz1o+8iRXYdctnAXcz6OLOIWtfrPmKn1IXDbXReXA4OQSQwMqaOuMnNW33GiDADeUqX8f79KbbtFIn3WD1pHgn76P9efuVg1kE34WHp77aKD7sPqN9wiA0dmhbKYlo/bLTQFrWrRj7BdVWNNZTSZ6Jw0sq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783622893; c=relaxed/simple;
-	bh=v+T3wWZh4rlmUqQ6YOfh51xo1hMamxYbjmGSvlBouos=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XP9DtIF3NGQCXxJ2u4XJ7FlgEJ/q6dEfQnULEmUBdPQIVSA9gqilJ38L9ghSSKfyB7Fra3oqbNnrM2eiqt2aa770JrDc2Clxyhs1uFQ0LRnK43MDJTiDQZ3DyQhAHSZ3WXBZLrR6+OO9Eiy8ZUy+2W1IFu4JfJdQxFzdl9SUXtk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Dl48xbCl; arc=none smtp.client-ip=90.155.50.34
+	s=arc-20240116; t=1783622896; c=relaxed/simple;
+	bh=0takknVpbv6eKl/Di9EMt/HX4aw3+XDSeR0v8UJC1H0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WNHZBvpueRquueQn9Yl/RUvJl69QIMNgbELKTmY1w34LVMR2jv5liGurVHs3StkwZQX8xmp9OIDW6VFhL8wyTDeDluNr59EAF4HLEM2zSxWVjzkbbuAFVI5bE2pIL398oZI1tLoHfZALAvcyqgQt/cYLs6L/2gbYXiAJIKYt5ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BRu1AQYd; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Dl48xbCl"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BRu1AQYd"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=ajN0xgR99tv6l81DifCTyf3GY/vdZ+aOfksjFBPqRjY=; b=Dl48xbClpVu3psx+V80MUjtdAj
-	8UQmYnc7eQGd+BeTLmmFz2KJOj3scPE4gecweu+K4OOAbSU+sJ1XMhPmvPnyRtPpVE/6lxE2QbN5q
-	QC0f4GcS1SPL84JylUphQeFB1MjI1Va1lykEtf6uaoy0b/g0Tux8mlBKh2eBZd/5bD2iw7wKbhWAN
-	aEMbWYHUM3H//nHywxQRAusIG3NLZVtxA2N8YW3TIcPW1oSzdCBBjTbyoncB/7W3p8rwZ2cEGuJE6
-	IKmeGYJoif7IpRMChYalBoM5/1ttpCXboUv8NRC/n3T2Pl75ocYZi25l7xc/70OT+Nvm5AV3Vcc0a
-	YoLB3uZA==;
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=6DkfM0ynaDTwpMKXO2jTjsFjcq8c046BhsnBelGIuf8=; b=BRu1AQYdLlfhUAtc4vKYCvLVJp
+	Rj0eZ2FVn9YbIqQUDCQFd1O9FjxTcQ/UcUG5PsFMZ+d630tg2ROSE6CfBs/Au5ctjnlmHw4QuhHQ1
+	hgzVNcr9L/lqtgzlIUB7b7hZCI7r8s9V1Il8nps+xV1FkzI4I/sa8IRAxBcB7Bm/DH5KgRaJiG9Eq
+	nGD8efn30vfM/eqoyre+tfKvSKCfmcwiM0aIIxDjzecUhWds23MoXd2DyKVx9Cw7Z1QRkQ+qDMZvh
+	1qh1OSs2CU5sS1w4JRbTh+SuXLM/tksILwxQCT2aVQkoD0RYu/BAShdoMclsYdmEIYb0RDz+A8bdY
+	xpf34lMA==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whtmg-00000005OhH-2kju;
+	id 1whtmg-00000005Oh9-0kjm;
 	Thu, 09 Jul 2026 18:47:42 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
@@ -42,12 +41,10 @@ Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
 	Christian Brauner <christian@brauner.io>
-Subject: [PATCH v2 04/10] hugetlb: Set mapping folio order
-Date: Thu,  9 Jul 2026 19:47:32 +0100
-Message-ID: <20260709184740.1286561-5-willy@infradead.org>
+Subject: [PATCH v2 00/10] Use generic_file_read_iter() in hugetlbfs
+Date: Thu,  9 Jul 2026 19:47:28 +0100
+Message-ID: <20260709184740.1286561-1-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260709184740.1286561-1-willy@infradead.org>
-References: <20260709184740.1286561-1-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -56,50 +53,47 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-hugetlbfs currently uses an fs-specific way to determine the size of
-the folios in its page cache.  Thanks to the support of block sizes
-larger than page sizes, we now support this as part of the page cache.
-It's somewhat more efficient as we have this information directly in the
-mapping rather than going from inode->i_sb->s_fs_info.  We can convert
-the rest of the hugetlb code to use this at our leisure; this is needed
-now so that we can use filemap_get_pages() unmodified.
+This set of patches are separated out from Jane's earlier series.
+https://lore.kernel.org/linux-mm/20260617172534.1740152-1-jane.chu@oracle.com/
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
- fs/hugetlbfs/inode.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+There's enough potentially controversial things in here that I think
+it's worth considering them by themselves.  First, handling hwpoison
+in filemap_read().  I want this for shmem as well as for hugetlbfs (a
+later patchset, maybe).  Second, handling misses in the pagecache as
+holes rather than opportunities to populate the pagecache.
 
-diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
-index 216e1a0dd0b2..1760df6f2709 100644
---- a/fs/hugetlbfs/inode.c
-+++ b/fs/hugetlbfs/inode.c
-@@ -883,6 +883,16 @@ static struct inode *hugetlbfs_get_root(struct super_block *sb,
- 	return inode;
- }
- 
-+static void hugetlbfs_init_regular_inode(struct inode *inode)
-+{
-+	struct hstate *hstate = hstate_inode(inode);
-+	unsigned int order = huge_page_order(hstate);
-+
-+	inode->i_op = &hugetlbfs_inode_operations;
-+	inode->i_fop = &hugetlbfs_file_operations;
-+	mapping_set_folio_order_range(inode->i_mapping, order, order);
-+}
-+
- /*
-  * Hugetlbfs is not reclaimable; therefore its i_mmap_rwsem will never
-  * be taken from reclaim -- unlike regular filesystems. This needs an
-@@ -926,8 +936,7 @@ static struct inode *hugetlbfs_get_inode(struct super_block *sb,
- 			init_special_inode(inode, mode, dev);
- 			break;
- 		case S_IFREG:
--			inode->i_op = &hugetlbfs_inode_operations;
--			inode->i_fop = &hugetlbfs_file_operations;
-+			hugetlbfs_init_regular_inode(inode);
- 			break;
- 		case S_IFDIR:
- 			inode->i_op = &hugetlbfs_dir_inode_operations;
+v1 here: https://lore.kernel.org/linux-mm/20260707181713.208282-1-willy@infradead.org/
+Sashiko had a lot of valuable feedback on that, and that's all addressed
+here except for the things that I don't think are relevant.
+
+Jane Chu (2):
+  filemap: Add hwpoison handling to filemap_read()
+  hugetlb: replace hugetlbfs_read_iter() with generic_file_read_iter()
+
+Matthew Wilcox (Oracle) (8):
+  mm: Rename folio_contain_hwpoison_page() to folio_has_hwpoison_page()
+  hugetlb: Mark some function arguments as const
+  filemap: Remove checks in mapping_set_folio_order_range()
+  hugetlb: Set mapping folio order
+  memory-failure: Remove raw_hwp_list_head()
+  memory-failure: Prevent UAF in raw_hwp_page list
+  mm: Handle hugetlb correctly in is_page_hwpoison()
+  filemap: Add support for authoritative mappings
+
+ fs/hugetlbfs/inode.c       | 122 ++++---------------------------------
+ include/linux/hugetlb.h    |  24 +++-----
+ include/linux/mm_types.h   |   4 +-
+ include/linux/page-flags.h |  28 ++++++---
+ include/linux/pagemap.h    |  32 +++++-----
+ mm/filemap.c               |  46 +++++++++++++-
+ mm/huge_memory.c           |   2 +-
+ mm/hugetlb.c               |   2 +-
+ mm/memory-failure.c        |  39 ++++++------
+ mm/memory_hotplug.c        |   2 +-
+ mm/shmem.c                 |   2 +-
+ mm/vmscan.c                |   2 +-
+ 12 files changed, 128 insertions(+), 177 deletions(-)
+
 -- 
 2.47.3
 
