@@ -1,169 +1,108 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0E42D8378
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 04:07:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783570080; cv=none; b=DM0EAWmi0P4aTVW0RAIWdzBXRj1BnJQPQXR2Pr2rUKt/OOqLv3L83OGEqGrBy2XMtkLZcIJshdwCaygP6yovarbxuFuua+RA0BZRPNjuwRoVH9q0MjQ2rYHpyYPYf1XAemdJk9kuks/rFKfQ8peKS/oaZOdEAzeAhAgm01tFzL4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783570080; c=relaxed/simple;
-	bh=Crtfz5KV1Al7PMtvIhrkTgnEZORSLTlbXnKkW2fA9FY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=gc93/cWTiYYqx2OQpehG5EDcpXDvLO+5UkBLSLnK8vooySHUHXQ/4cXyMx4q2ruRpb3AsoAX2XgyaOJPOiss1OhtOpbezx47bRoFvFiNVvNPa2G10R2rvyO4FPIY76BhAyFb7L2yizohgnbvhHLuDfQxXXRbIVjXvfNQdWh7/Zo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oy0Ly8sn; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3898A3AFAF4
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 06:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783577493; cv=pass; b=JXFhIljsPJcgAZmZx/hrsyTMFqT/csZMves8WDXUgy+ovTmRnDHoq46JOby04pQFNOJJdAR8W81b1EiUTp6mtfvHYMAviFdgpiLoZGawjgdwysOKv+s4XdyoDsaH/h/l7nIt53uDqruShA5JfNSF3tnpXXrdl5/IkWBXam+dIG0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783577493; c=relaxed/simple;
+	bh=9b1pHcb4tDFl3SXA5D25rB9XkxaOPF8WHE8yxdA4mAY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Sg+MWjAtGTN+ib9+w+qD8uSeN8WHql1c9gIb+UciOV3JHyBk6tCJFGH1kpWnrB/WybhIwqptvFsaUolxDr67KILq3A+EhpevrcGOKzyhOsFADxoPurPVP/kCbbu1AtcP4Tg34LAXjZcSknNtctqMAXTHfxiDjScZxFeVQ6ztR+c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=NFAqoqmz; arc=pass smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oy0Ly8sn"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-c96c92c0980so866499a12.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Jul 2026 21:07:58 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="NFAqoqmz"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51c0ecfaee7so8577941cf.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Jul 2026 23:11:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783577490; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ZIuWswpm6NaxJMCFNKJkC0psjAsT6irUu3U6SJTEErKdWx62QF1O8gFuMnzcS05yZl
+         db1WyuJIoLxDCmhrYC4+aIMk/8JqL7/YiHbtGbQa97DzjdUMDfDyHcIjkTpIR8G1/ZMh
+         /NVLui+TWGYnzUUI6HhC5x94a0p2jpSXekeiWpeb55SNEafggNhLO/XX2NBIIF4VE0m1
+         6dliJIl9jh8bsLCsp0jN58t2Puiuoa2YuXH7TCDZ80qDW5TzSMIGgxXvi0YpOM4OghHt
+         Jtv8O6NmNmO7reCMzjnE0OTnJ0gM8RgHYhEi8OYk6EDhanIMBaGYyYKJ8YlqKA0D4kmB
+         iHwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=dQTwiRoPjnPhFOLmv3RgpTRjzP1fhVs+pKfZMaiYyTw=;
+        fh=eh+v7IaNqXLzDKzr+kVipQqdlOVQLJbIwkj5SdIvcL4=;
+        b=OqYOv+OM0vddIX4IF+B2jLn0aIGCfIhMhZDQsA/oiEBgaS+eo9C/1pIrMEHUp1fqEt
+         hJ8/nWAv23mnn+EBMmWref46jt0zWVpUPBYBMfGaHKGYSvtRPLjiu9ja6A41UsLv/qTa
+         rIgNaRC/XTqyRqpDW0QSOiHI4zjfZl742WHGQC8y7UpFeA5hlntbtu1ndQM80ILWEtFq
+         ngeEcAT4HM/xp6U8DbamWsDvbuR2ix0k6vNAydvzMAuXLDKv1DR6Z3SIA7vK6b6cYzhs
+         aTOzAh21fWJ2fPAhKjNCUdj1Bo2SPRuJrfO2jhZPc6hpf6geiremdRa/hpCBtEyuEers
+         YE8A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783570078; x=1784174878; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=HyZ+lDUPV2qqTCzi6+PUCRvlBqToBMfsYAo+J6mLUsA=;
-        b=oy0Ly8sndgAs8L5ihF4YwVqkhMvfxEWnBxhWZAgJHduZnywoeMJos6nSs9oNKk/aOK
-         GgC99jD2Jb0JM8t78/qL7pwBxNjPoqUVIm6zit75VdB34UVVFTnJbNX4Iz2Aq72emlp7
-         6citr+t1WHpxJe0HHN1dyVrZdMHAC6MO1/8X3FGi16vJ4xF3JZeqxbAbeWjxTI+lwyHg
-         M0ucKnP1OC9FCimv+6Mhz2u2jgz91m6D1Kg45XFamw+jNlaPx2SBkQ2cDcOvYePlWYyJ
-         BJE159/DjZj0hi3vrPKrrw4t6aAwya++YGirFayUyS8OhxpgOy9+qme8QfIFa8EF659Y
-         3TkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783570078; x=1784174878;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=szeredi.hu; s=google; t=1783577490; x=1784182290; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=HyZ+lDUPV2qqTCzi6+PUCRvlBqToBMfsYAo+J6mLUsA=;
-        b=VFwS8WrHVWubeOV6xoBN/j9UJ21crfShvQAQvCR73Iaj+CLOi7Cq6MShN7j0lp1nby
-         j/LMx78LhUm339GTBet9Agw2iGJg6CR9TZqypFkKaZ+in/D/7mxcwdu5hLrBr0tuJYOh
-         PsOOmuANBboN0JWTUE6Eyg16JDyWWaxu6LOOolkBkZzencqml6ouQP3dqbMNwb3dVlRs
-         cc2kHweRgexfL9qVxDNI8AjCmmMpxmsMrsMHp2zI5vjUsKCOp0q9BYmj4HftIABJx+WB
-         T7ESwQ8EfJRHxKXfKD8Nr5JvIErhyt7mw5zmRa8WP2vOxNugvQJZDHHjfKlfznFo17q5
-         HFUQ==
-X-Forwarded-Encrypted: i=1; AHgh+RriFwcBZR0ZzdpIqz9Wtn5+OIVL/dusUKmnzIQEyzpWB9ZwpDijXPg+KyLMdiybZYuiQn62vTpOMxMYRq0G@vger.kernel.org
-X-Gm-Message-State: AOJu0YypZKjD9jriacLbj+4tA2cVH5XNOvaH1PNMFpq38UkiphGHP0d8
-	ADmcrmdyVM/zjtRu5H3KR6N26u3a+uVip+mGSe86uaJFeDmUR2AKEyI2
-X-Gm-Gg: AfdE7cmKbOCJef0Du/XNub7VPBCvJrTWKyp4o/ANpJq9LH7yNlUYtYvEJ6accJ0fXcE
-	+En2EPUskPuPUfF7IznaYBYGh7aI5paGYM1lTk4qkAlOpJYWEIWk9+rhOkulTvhZD0x699YjVf9
-	v9q+uazLeAnpoDUb8Ji5Ni05aaxoUmQmLQmYvEM5iwkOjzFC5YSuWruja+ld9P69cpOG/iuYff+
-	7M2LmBW05WzCeO0zmH9LPVTEFkRDSTPdFv7ylqihNqu9SBWgI1TDra3VPJuLG5FsbrDz5vtNa6K
-	c/uVwA653ltaCUD+R/uW2ss/EpnZzk9ftO2zHpRn/2kOgyHknP7VNWrm5b/jc8t2bFnyJveqGde
-	jwdR0+fJSBzl9Xg3x0t64MjfNPec/RUkscTuG4aBqLJvvGJDkdx791128HFdIxD4LmRDz+Q+R/3
-	7/4LPBf3EI4lIqhw==
-X-Received: by 2002:a05:6a21:690:b0:3b3:fc6:622d with SMTP id adf61e73a8af0-3c0bcb7e418mr5738391637.38.1783570077959;
-        Wed, 08 Jul 2026 21:07:57 -0700 (PDT)
-Received: from localhost ([98.35.8.117])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b65960d88sm22118188c88.6.2026.07.08.21.07.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jul 2026 21:07:57 -0700 (PDT)
+        bh=dQTwiRoPjnPhFOLmv3RgpTRjzP1fhVs+pKfZMaiYyTw=;
+        b=NFAqoqmzRE+v4seoIqH9pEOna0l9VfjuaIKSQx/vXdYmNcQjtGl9v5loyKJWQtQjOg
+         YI9YzoSz6bD7CRsfmfRXInTQ9QcnPVcbUGLg0/1eJ/zdUm7vHyrHNTglOBqZo36HrWUk
+         orSqDqWGcruhNcI0qT2gS+OzJRTG33wCbHxy4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783577490; x=1784182290;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=dQTwiRoPjnPhFOLmv3RgpTRjzP1fhVs+pKfZMaiYyTw=;
+        b=CwVwif7u+aeBpflrrajwQXm/vtcBam1zKsDXcuJzYvNum04UM2cQCUsaDamHG0QOVG
+         eE6cZr4EVyE9RnlVfhRDTLAbUXTemrXGNP/JtszDOzmr406iYNdUPtIXhjHqDBgQK90R
+         P1OPkxHwfNCDTKOcKoDoXRCHmeGoj6ZxjmQPAtJDzVoIDDSayrwvmmlI7E/Lh6oMOY8P
+         La56QHfgAtx63vsRwZ9V7RoWD9zYKC1y3RYAiTRAhjfwnN+gf8qKRrChskoWzzfpKrX4
+         tY9F73Tj7PZrZVFqQ0MHDefBUD3ok1FU7yvgiUPzHe0pa8Q3p24uyGxy7aOXMPCHuqLe
+         hsCA==
+X-Forwarded-Encrypted: i=1; AHgh+RqzDimk4Gwae5rxy36zAVp0IaIDcm/UGKofCKaVD/oN0V8h0UXPL3q2PfNo0GF6XKtnbBs+Z7k8qZArmWEp@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiuNJTTDwnn08w2gQFfNcqRPPqQyoaMHufLZdxqIk8+WZLlme6
+	A9jtH3x/R2F0h2ABN99YLAc2iA9C/D5M5TeLnCfuitaZlvHAyeTa4kRs9fB7NAy986EHKx7dvff
+	v3ZP+6FXlaaKacjHPaksnc3kndTRXtkr4G+7Eo9paxVMzIKbGOdS5
+X-Gm-Gg: AfdE7cn7P+pUwuM9rwzHUtyiMh6tQaJyJp3lxGOKjiOJ7Pjd8WzMiJ5czwfaUyw9fLt
+	1v34Z9PRb+VvfqexoXRweViV3jIHiWKjT2M/OxCpBfezAoRHcO46cNIXIcSOQfGGMdCgv7ltufY
+	o5Pg7qzmHIHUwKKJILgS3sh0AU+A/yeBpD4Z3bUBZO+C9fhoaMs5mDbLsQ0APVJ6PNDcsDDyIDb
+	Jhenvi/otUyAo1f/tCnYe5TUQxug7/qL9QoMTHktUeNgsmTRVWisAwqa01lzZb+EVquEPAAiczN
+	qMjBKumouqwspaf814G3SmuPkKA=
+X-Received: by 2002:a05:622a:2cd:b0:51a:126c:c6d9 with SMTP id
+ d75a77b69052e-51c8b431bf6mr60467911cf.26.1783577489970; Wed, 08 Jul 2026
+ 23:11:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 08 Jul 2026 21:07:55 -0700
-Message-Id: <DJTQTPG7QZSH.1YIDYKL3O985U@gmail.com>
-Cc: "Farid Zakaria" <farid.m.zakaria@gmail.com>,
- <david.laight.linux@gmail.com>, <jack@suse.cz>, <jannh@google.com>,
- <kees@kernel.org>, <linux-fsdevel@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <linux-mm@kvack.org>, <mail@johnericson.me>, <shuah@kernel.org>,
- <viro@zeniv.linux.org.uk>, "Gemini" <assistant@google.com>
-Subject: Re: [RFC PATCH] fs: binfmt_misc: introduce eBPF-based matching and
- interpreter selection
-From: "Farid Zakaria" <farid.m.zakaria@gmail.com>
-To: "Christian Brauner" <brauner@kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260704-kochkunst-hauswand-blass-7226e9443a9f@brauner>
- <20260704211409.1978485-1-farid.m.zakaria@gmail.com>
- <20260706-uhren-raubbau-sinnkrise-e40a8337414b@brauner>
- <CACCo2jm5=xrQNfak=TdO=2oh0DC5pe+atj=UfuTa8Y9s8GVkqg@mail.gmail.com>
- <20260707-campieren-fingen-himbeeren-e4b682bd8e63@brauner>
- <20260707-wortreich-kanal-zensor-9386ef4f38f7@brauner>
- <DJSPBVXTF02G.3SKLB9EO89GPT@gmail.com>
- <20260708-welken-dystopie-ertrugen-56a3b5f7ab66@brauner>
- <20260708-kordel-laben-kopfhaar-1c0dd234aae5@brauner>
-In-Reply-To: <20260708-kordel-laben-kopfhaar-1c0dd234aae5@brauner>
+MIME-Version: 1.0
+References: <20260708095831.3381978-1-gscrivan@redhat.com> <CAJfpegsJON=1_84PCGMjASYPFL=Wqsz7dnTAbO3Tdz5DfRQU+g@mail.gmail.com>
+ <878q7l8y4y.fsf@redhat.com> <CAJfpegvQ06=2E0V_ADgxwmo7e5weTfOMozmBB-QVNLLWYAm8WQ@mail.gmail.com>
+ <87wlv57dt1.fsf@redhat.com> <CAJfpegtTixwWSh9M-9NbwP0nUbJJ9rh0rxqO7BzgK7Su_RpM+A@mail.gmail.com>
+ <87o6gh79yi.fsf@redhat.com> <CAJfpegvUEEbFnCa1N9k3gMXpw46YFpWuta=G6brON1=xU36bgw@mail.gmail.com>
+ <87fr1t6wyt.fsf@redhat.com>
+In-Reply-To: <87fr1t6wyt.fsf@redhat.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Thu, 9 Jul 2026 08:11:17 +0200
+X-Gm-Features: AVVi8CcVEq2J0Va4XFUVsVlovcTwuzY96sGW-KM_Jfd0atcnoi0NWAC1g8xQ0Hc
+Message-ID: <CAJfpeguPzVqm7JqJhe2CpfHMcAiETGT4_e84cFBEWESr5RpEGg@mail.gmail.com>
+Subject: Re: [PATCH] ovl: add ioctls to retrieve layer file descriptors
+To: Giuseppe Scrivano <gscrivan@redhat.com>
+Cc: linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed Jul 8, 2026 at 9:47 AM PDT, Christian Brauner wrote:
-> On 2026-07-08 11:14 +0200, Christian Brauner wrote:
->> On 2026-07-07 15:44 -0700, Farid Zakaria wrote:
->> > On Tue Jul 7, 2026 at 12:45 PM PDT, Christian Brauner wrote:
->> > > On 2026-07-07 13:34 +0200, Christian Brauner wrote:
->> > >> On 2026-07-06 09:47:53-07:00, Farid Zakaria wrote:
->> > >> > On Mon, Jul 6, 2026 at 9:01=E2=80=AFAM Christian Brauner <brauner=
-@kernel.org> wrote:
->> > >> >=20
->> > >> > > Ignoring the blatant bpf abuse here I think this is quite worka=
-ble. So
->> > >> > > this can be turned into an actual design and patch imho...
->> > >> >=20
->> > >> > Glad to see you think this proposal is in the right direction.
->> > >> > Just for my edification, when you say "balatant bpf abuse", you m=
-ean
->> > >> > how it abuses the socket bpf type?
->> > >> > If so, do you have any guidance on a new type or should I just ta=
-ke a
->> > >> > stab at it.
->> > >
->> > > I drafted a POC for you that should be closer to how this should loo=
-k
->> > > like with the bpf people in Cc. I'll let you lead from now on. I jus=
-t
->> > > wanted to help you out and illustrate a more viable direction. Might=
- be
->> > > that the bpf people want it done differentely. Let's see.
->> >=20
->> > Cool. I just saw the POC.
->> > (I'm trying out aerc to view the patch series. I will also try b4, I'v=
-e
->> > never set it up before)
->> > I will rework my qemu demo to use the struct_ops and go through my own
->> > testing to see it work.
->> >=20
->> > That looks very similar to what I was researching with an LLM. I was
->> > just going over the idea of struct_ops bpf (a new concept to me) and
->> > using traditional bpftool load, a new bpf program type and kfuncs.
->> >=20
->> > You put out a surprising amount of polished code -- thank you.
->>=20
->> I would not call this polished and it also lacks any tests... I've not
->> given the locking much thought and maybe there's easy wins on the table
->> I haven't been considering.
->>=20
->> > I would have had to lean on an LLM (heavily) and from the patches I've
->> > put up so far they still have quite the gap to cover in terms of polis=
-h.
->>=20
->> This isn't my first bpf ride in both kernel and userspace.
->>=20
->> > What does "take it from here" mean in practicality?
->>=20
->> Bring it over the finish line so I can merge it into my tree. :)
->> If the bpf people have no comments or worries than we're done. If they
->> want changes I'd appreciate if you could make them and slap you
->> Co-developed-by onto the whole thing as necessary.
->>=20
->> Also, please ensure that this works for all the cases you're
->> considering.
->
-> I have another cleanup series for binfmt_misc btw. That code is quite
-> old. There might be a few additional series coming out of this work that
-> we base the bpf bits on.
+On Wed, 8 Jul 2026 at 22:35, Giuseppe Scrivano <gscrivan@redhat.com> wrote:
 
-Sounds good. I just saw the patch series.
-My plan at the least by the weekend is to:
-* apply your binfmt_misc cleanup series
-  * I will try b4 with aerc. Here  is my config if anyone wants to crib it =
-[1].
-* apply your POC series for the bpf to validate
-* make any changes if necessary or just add selftests if it works as is
+> Would you be OK with the ioctl as a solution that works today, and
+> duplicate it when an alternative API materializes?
 
-[1]: https://github.com/fzakaria/nix-home/blob/aaee67c3a6d035d06a62cb753926=
-57563de58f4a/users/fmzakari/aerc.nix=20
+Let me have a go at the pseudo fs interface first.  I can probably do
+a quick 'n dirty prototype within a couple of days and see what
+reaction it gets...
+
+Thanks,
+Miklos
