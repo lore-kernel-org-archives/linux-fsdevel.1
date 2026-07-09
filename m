@@ -1,170 +1,119 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F73438038
-	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 17:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783617651; cv=pass; b=Et1jiSGSHVT6kLWlYMnc7+NGWWs0hITF3wolOdnwG7pXUPPgU5P2AoDPv3kpC9i+pUQtjW+dVnZy7umxgMF5QnoGfTO6ltx+lEipbqyBTmn8/JsVIzgVEIe0V6ZgcFdV7Vp/NrKTxOoDw3KFUDsPM2gybTBa0E71r1/iQVVxnbw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783617651; c=relaxed/simple;
-	bh=hZEcX9rblnHI1tsJplsNee/jZEe49yUqRXD5BZMzDas=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iObnZWH0D1ERCOYa6069pTWcaLBHeYRl1uERupl0lpowwLLs1IOxO38czXtQqzU/CGXHURI1qWUR1ckdldyyWyBmFSRgnwLXxApZEoIz+0Wucv2Ccopde/Fo/jt8WUOrtB5M1FOQW3UbxjyUV7JICmsvvFVllq+dS0tqECB/0mw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hGO/Yqow; arc=pass smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93DD14D9900
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 17:32:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783618345; cv=none; b=AgcRgvRNJk/3VierjvfH5EQlbAKONuCgbn9s4ocIa8MbgKPzDTkek3LEZpob34XIK4RlaeR9vQ9RBnKiaRF1ALXwyjAfnyPwmK45sFWdsUj7EzPvzEbgMsXwux6lXWoS+jduJh5HZLcdfEqp1Q+ek5rqjTkaTNfdIyc9d8tRE1M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783618345; c=relaxed/simple;
+	bh=OJblW/zJ/WS9mfpHNcYitjgBnj1lEOBcfj7Gnv08iwM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kIGjyY1wrlx3VdEb3Jjd5iKv+7SoShYyMQxEIXOD8vbYN0lO3dR0JL1YRA7wIo65Vyef9iHSLbki14w5cSaC17Wmj4L0S1XF0AfTEy5ZW0fCbHCjreojPu7R1XhZU0fzib1+4B7ygmIt20ne1x58+MgSlD0tFGu45JdkE7zki/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=XWfSiQti; arc=none smtp.client-ip=209.85.222.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hGO/Yqow"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-51c2b2c9eccso70821cf.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Jul 2026 10:20:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783617646; cv=none;
-        d=google.com; s=arc-20260327;
-        b=oFUv/7LitGPYs2ZEU9viGCVx51DPhl7XgPN0nKggD8pFTtW4DjOXKFquE21g47+MSl
-         1B4h78WEh4r2exaPYsyBeNcgWy5YGFC4wpjiUzvNvSpicVpCSpYtWTAWNtNSDbfIgAqm
-         Xh+BNl05hDz4ZiWL0HEJXGRlpmUGA42EeHKLclPkxBrCy2EvyEzVELq/pjgmCeALNWCk
-         keh5N0dTvnOlK3wM/qenJ43SCg872GXQwiYbS2/MbPc/rBmRi772eWHEK7BA5WPDpFzd
-         OQcFCdA2KTSHg/w11kGZgH14khJIysNcRb1K97RankjQJttiBmhYHjaVmwpjwTyBM/DB
-         6yrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=jQaRVb2grf2n8MZJwInN/ZiH3PD15ePDY6cdHPu1aO4=;
-        fh=yH5tSxLXxN0Rv3Ins+LOOMWAnXK/WMtbiuu16/prZro=;
-        b=KuDaCczmOnn0149CcKMK0N4+Athn667MaYsoWvh3ysrNa21uPGsBg2o8DqB9Yu85+2
-         DyrURCrqr+1VCAwUxLWZvSIq8cabpmoJfsvFgAdmjGZ9Yg85dUV5nX1Vb3r8aQKZMXgG
-         Yl7YXSeZncZUcTOOdGLFclLLJCIcez/erbOyVtnYcQ8itb19mZ43ROsEHexTp6Bs68D8
-         5jblYdqSz7vDTKQD6it7JzFwNFyDc+4YqnG2+CFgG9imrudtmWqBU8IfCaJOb1/0Z9dR
-         ngvvkIl21fkXCxnOcz2E1vlaWGNbyx3KwZnQoi80eNzM9rONYo4Bx9Eso+2P/sjb85zx
-         8+tQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="XWfSiQti"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-92e50a650a0so1447385a.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Jul 2026 10:32:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783617646; x=1784222446; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=gourry.net; s=google; t=1783618342; x=1784223142; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=jQaRVb2grf2n8MZJwInN/ZiH3PD15ePDY6cdHPu1aO4=;
-        b=hGO/Yqowmf+zfdOA3xkz0XnaQv9IVvY9bBvb7K1wrmz0BAb/00wVT4hLSJC3bD5xbt
-         Zsgx7+nenuQdcPjghInQFPPlsC74wZsB4fW6ONEp7hKspjxomUpw6gJvzo4FEvmJ7zpA
-         NVY4eXkDMcxvEVJLVNkBT44ZtLwzhGIbYrZ8TsWrfWzzO53Uf0TqyLeVYcaOL+yOJAmp
-         vXacGI2LsJZkh2R2yhDc524gDPx1TOENsP5QltEcPL1O4tlHJYxqR9WhzMdIdnXQ2W8C
-         p5CpAaQLsAE/rpkm5Z2Ih9nIsTnY1b3HNQJdk/XZCeD1JzePWnuEVH3XsW2ifmZM+Kxy
-         xAqA==
+        bh=+iygNm+vh0afSLVE9tfBUkC6Dh/o/QFksTzffYOLwxY=;
+        b=XWfSiQtiSAfSqHfwyc3/MQdxI8wukJnQj0m7m9GRj7sht7lEes0ETejdEQk9LSlUgN
+         RC2PKWeVZpmKOTeZ8T6UrLkUlYs3VWDGvdAHNMDEQn2o4fbEPoSuvHt18jjSuyZ0l4oX
+         QEzQ7qJQcQbCz/tL4OTCtFhxp+f3LyEBcyX9jrP3pDXFQ0Ks8idk501NgekjshYylMtC
+         1Lktl/1Zf3jE0qW4o6fpdakaGrWKubDZJoNZNXCtL4dHxQHQEog24l26y7N4dNIXHpPB
+         AsTa/LyUfpoMR/hj42ZNhddzDnu7zFEWqHzI4aqbDgv8BTOa9z1PIVeXNAT9RKmXn6fA
+         evRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783617646; x=1784222446;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1783618343; x=1784223143;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=jQaRVb2grf2n8MZJwInN/ZiH3PD15ePDY6cdHPu1aO4=;
-        b=n4CX0rCUMNBMfJ+bSzqKI7iRDsYGLnH4x+i14RviUC0I5mkVzh09ioH8OAMSlLO3c6
-         aQLUvedwmyISuPWgXqx7QtWD4L11M1SX/yYdlYnfsJ1RSjG5lmdTDNFqHWqSOKnE3G01
-         iTCrV5C71WndH7+yvY81KdaVMrw89b2vD3CV/J0qayUzHxdnOR1mYmSkWp/rUdnwzvnk
-         1L8RnNnqy8r2R3Yvy4hgKiFWjgnbsNsjOoIpN9ncPgs3cv7bcUVJT5go9K3uUiO2M1LX
-         ojVDxeYCqKu37WRlAHzAl1zkdO3fGBpOZ43wl3E7QujG2XmO9euETk5RvNEr7RXVjCRQ
-         ZU/g==
-X-Forwarded-Encrypted: i=1; AHgh+Rq5jnUQq1sNiMqHO9W0U1JnI0CG0BddRmLgG2+gTgfUgXZZjHbWAR+NccY2Fw5Y9ie8YTlHRNsqT0GaQJqH@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRvdY+uN+qzmE2HL0WdHR0zQj6VV7mt5TOTooBXuyZQdnhJN9h
-	7Kn+XXwhLjHijoyJIcKRx1OiRGeJw4dkSwccBk4ObFnREb+iTW6ygc6kKes6XXhtDjDHFywt07K
-	MiKKp8qaGrW2x9TBkQN3leqbfK6b/UAgaLOiGs/U=
-X-Gm-Gg: AfdE7cl5DHZSLuh2Pb7avh9BNx89sAJjl+w6AatEOIN4Hv+tsyrZQNC6TfgVlIOP+S+
-	nyAMKLI3BWdEFfIYz29HRbmSO1H+ToDeUS1NMbW+rO4weizKhn0GgSEdmc6ceOTOdBH+IP8rd4w
-	biN98xnqiGufH/VTU9MHUMTNV/K73XF2vdgsrc+aHctB3bNdaYfigId5M50In3SuOK2/4tOuRpk
-	Qgy7XAV6n1pIVNYBhiFE1+SJcSA12ZV7tZpLd3XZgG+Wf3P6FSrKtFmSNbh+B782ue3AjCOuagK
-	1ZA898BxjgllHQYFZHSMHxjyXcyDNm9dV4SJb30xRsiM3n8K9Cs8DQMoPFYjQystKcyer6lVn6A
-	5Leqr9jJAkPDGsYZgR2u7E51m8M67+zhf6mWS85dknSSh46ixoADcHC1bwk/tBZ8iu8tM57V2AX
-	9X07Bdtmb4Smg=
-X-Received: by 2002:a05:622a:5812:b0:51c:241f:a6ee with SMTP id
- d75a77b69052e-51c8b3f5885mr82413791cf.62.1783617645460; Thu, 09 Jul 2026
- 10:20:45 -0700 (PDT)
+        bh=+iygNm+vh0afSLVE9tfBUkC6Dh/o/QFksTzffYOLwxY=;
+        b=VZsj1l2AlHaodsgpXPI7L+pFlsAoycK0pXmRkKfDXPjzD61scC0ITdqsHXRC97URvn
+         scfGaCLueJjjrWVy1i9Dd0bPcn6CTGj42UGZp8SD4RNOxAwKTJivqJlZ+Lzs09+jqijM
+         2oLpbYz8NGcrnKBpWTxFIZeeANkyAA9zaKAbdQkdWb1iry9yHLwBm1lKnc+iUcPaVNyv
+         A9T7fFikWmJ7IeaSXCY4xtbPydsNdeBN2/xWyb8M5pC74zwm4x9KCax0h1oXAMk8uW5B
+         DEID/iZrbvctHQdgGYhOUs9Xzl4tN85wKfAiVoXmXokTG/abuaE20GuzHUvOV/3rYUfl
+         IsbQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqTUmqBOgiO3gmZju49CwBKaBa0uHGOEy7XUQxAlTSGBSXxsAG76DLVMqmtzGCEwbb9UToHiQyVK8yT3rYt@vger.kernel.org
+X-Gm-Message-State: AOJu0YzuA1xbd/dzYpmut7xJWBy3+qilDhrglnMOgMO9zJKEBwkzX6jt
+	g3WqQGxh0/CMfDzooHvos8+Y4nqpn8nDGT2B0BlxDnSOalP1nVWfmsgXojCQqVoVwCHEeiEJyXc
+	Zce0/
+X-Gm-Gg: AfdE7cn5voOY0wfbeh3X/ApQ3EernB2rMLMULGPphzUIuSVYhNjTKXC/9valG4wUcNj
+	+rqNhE0pnXyyBZYLGrv4F1VEneDsHP+5DkWKEYUTUfmqX1uwdOSmHaTQg63KQl0xD1WljaHDuig
+	WejA7gStNXcs8NHBaphEFpmV2yyS30N1slcJ+bYFzbnIDz93QiZS13qE2XFbnTEqmZ/qMt9x+7S
+	B1BoliDIUwB2MeKcHROgAKmLfDNwODgQN7C5x7ytRsM5hFzCPgKjt6CLaFbSm031lChER1eGxP9
+	Mv8ppOkh1OeAT4pFUOlmFaytAeKaPjbsba34XE0YMn2V7GX0lO07Tqw+5WmUay+2GGsf6xV+WCS
+	Z4qurOj480sDpExDJSUA7+uLcZB4UiHedgMRKdxKeMO/ger4KcCIqzmBcFX6CcOYryr0xqCvGbu
+	DQ4AJTVvzma2a505uyibv5hQhvkXumEpmyJR2t9f/0MHXe+DiZBxe9gcMbz589MqvBF9X6
+X-Received: by 2002:a05:620a:890b:b0:92e:7c3e:26fe with SMTP id af79cd13be357-92ecf67b0f3mr805067985a.64.1783618342643;
+        Thu, 09 Jul 2026 10:32:22 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e90bb91adsm1705974285a.20.2026.07.09.10.32.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2026 10:32:22 -0700 (PDT)
+Date: Thu, 9 Jul 2026 13:32:18 -0400
+From: Gregory Price <gourry@gourry.net>
+To: "Huang, Ying" <ying.huang@linux.alibaba.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
+	willy@infradead.org, jack@suse.cz, akpm@linux-foundation.org,
+	david@kernel.org, ziy@nvidia.com, matthew.brost@intel.com,
+	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com,
+	apopple@nvidia.com, Johannes Weiner <hannes@cmpxchg.org>
+Subject: Re: [PATCH 0/2] mm: don't apply task mempolicy to unmovable kernel
+ allocations
+Message-ID: <ak_bIlYWJsEWx1P1@gourry-fedora-PF4VCD3F>
+References: <20260701222112.2820098-1-gourry@gourry.net>
+ <87echco1w6.fsf@DESKTOP-5N7EMDA>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260709155440.2132459-3-doebel@amazon.de>
-In-Reply-To: <20260709155440.2132459-3-doebel@amazon.de>
-From: Steve French <smfrench@gmail.com>
-Date: Thu, 9 Jul 2026 12:20:33 -0500
-X-Gm-Features: AUfX_mxl_KFuVChnk7HcmXkZiK3KIvyhwjAH-myKz4uegSqaarxusCibAKEfqT4
-Message-ID: <CAH2r5msvEGdEJvyV5sWcZjQ0SjMOwXP_Ad4eKN7etHtXS1vwbA@mail.gmail.com>
-Subject: Re: [PATCH] smb: client: set SB_I_NODEV to prevent device node injection
-To: Bjoern Doebel <doebel@amazon.de>
-Cc: Paulo Alcantara <pc@manguebit.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
-	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, 
-	Bharath SM <bharathsm@microsoft.com>, linux-cifs@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, samba-technical@lists.samba.org, 
-	stable@vger.kernel.org, nmanthey@amazon.de, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87echco1w6.fsf@DESKTOP-5N7EMDA>
 
-Setting SB_I_NODEV is apparently not done for any remote filesystems,
-and AI search confirmed that it probably isn't a good idea to set it
-for remote fs.  It is more of a thing in pseudofilesystems and not
-needed for network filesystems.
+On Thu, Jul 09, 2026 at 07:09:29PM +0800, Huang, Ying wrote:
+> Gregory Price <gourry@gourry.net> writes:
+> 
+> > The unmovable unaccounted kernel allocations stop following the
+> > task policy and place node-local. With no policy set, both place
+> > node-local as before.
+> 
+> Personally, I think this should be the right thing to do theoretically.
+> However, you may need to find some practical issues that this resolves.
+> 
 
-e.g.
+I don't entirely disagree, but there is at least one scenario where this
+is an obvious improvement:
 
-"Is there any benefit to setting SB_I_NODEV?
+  BIOS-configured CXL memory brought up in ZONE_NORMAL. 
 
-Today, probably not.If you grep the kernel, you'll find SB_I_NODEV is
-used in only a handful of places, and those places generally involve
-pseudo-filesystems or internal VFS assumptions rather than remote
-storage.  Setting it on CIFS or NFS is unlikely to change behavior,
-because those filesystems have worked correctly for decades without
-it. Most remote filesystems don't set s_iflags because almost none of
-the SB_I_* flags are intended as generic filesystem capability flags.
-They're mostly internal VFS state, and SB_I_NODEV in particular has a
-very specific purpose.  SB_I_NODEV does not mean "this filesystem
-contains no device nodes." It means something closer to:  This
-superblock is not associated with a block device.
-or more precisely: The VFS should not expect a backing struct
-block_device for this superblock."
+An task interleave policy on such a system will end up with unaccounted
+kernel allocations landing on the remote node, which is just not
+preferable at all (and uncorrectable).
 
-Has something changed?  How did this question about SB_I_NODEV come up?
-
-On Thu, Jul 9, 2026 at 11:05=E2=80=AFAM Bjoern Doebel <doebel@amazon.de> wr=
-ote:
->
-> From: Norbert Manthey <nmanthey@amazon.de>
->
-> Set SB_I_NODEV on the superblock by default for CIFS mounts. This is
-> consistent with how other filesystems handle untrusted remote content
-> and prevents the server side from injecting device nodes on the client.
->
-> Fixes: 2e4564b31b645 ("smb3: add support for stat of WSL reparse points f=
-or special file types")
-> Signed-off-by: Norbert Manthey <nmanthey@amazon.de>
-> Assisted-by: Kiro:claude-opus-4.6
-> Cc: stable@vger.kernel.org
-> ---
->  fs/smb/client/cifsfs.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/fs/smb/client/cifsfs.c b/fs/smb/client/cifsfs.c
-> index ea4fc0fa68cac..35eee2f9899d5 100644
-> --- a/fs/smb/client/cifsfs.c
-> +++ b/fs/smb/client/cifsfs.c
-> @@ -208,6 +208,9 @@ cifs_read_super(struct super_block *sb)
->         if (sbflags & CIFS_MOUNT_POSIXACL)
->                 sb->s_flags |=3D SB_POSIXACL;
->
-> +       /* Prevent device node opens from remote filesystem by default */
-> +       sb->s_iflags |=3D SB_I_NODEV;
-> +
->         if (tcon->snapshot_time)
->                 sb->s_flags |=3D SB_RDONLY;
->
-> --
-> 2.50.1
->
->
+It's not a complete fix (fallbacks can still occur under pressure), but
+it's one piece of the puzzle.
 
 
---=20
-Thanks,
+Forward looking:  This patch makes private-node's with ZONE_NORMAL
+reliably hot-un-pluggable.  But that improvement is obviously predicated
+on work that isn't upstream (yet :] ).
 
-Steve
+I need to send a v2 of this with SLAB_ACCOUNT fixed up, and some numbers
+to justify dropping the pagecache fix.  But I will probably sandbag this
+a bit until i finally send out v5 of private nodes.
+
+~Gregory
