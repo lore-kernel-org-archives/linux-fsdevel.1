@@ -1,448 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235CF3F8243;
-	Thu,  9 Jul 2026 08:46:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38073EFD15
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 08:51:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783586821; cv=none; b=cydUjkAU2z2q3Ku2FglJhDi5+GirEXmik6fsf0PVfH1suBCxlqQPSBnOfPF8k9qHqZZOgDkPxyaCJjkic4ickC7Lh1Pou8sz9tzwu24wjTT6HQrGaxrnEpVfs2fgDTHLdyijDBGmg4EkXuczNNvCMRMVh5IZUV7qLC7k2Je6Vwg=
+	t=1783587109; cv=none; b=f9AfSv3dzpYDpLvVg5KcP/Fy8hGXwGBfk1WGnTAHIWJKfQX4WypGIIQ0Tb3dA6UNG24c/rMG7EVP7IVHrS7pKa4mc/DNvlRWovtSX3/3BC72Avp9aexXIXSOqYYQzD9+stVrRpTzziEut+pMIbt/FupwH6iU7Nb0ea2vsRqOXDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783586821; c=relaxed/simple;
-	bh=AzAQtl4Trv2My5JPBvdfgIXHoc/Oeyu9y0cA3CW67k4=;
+	s=arc-20240116; t=1783587109; c=relaxed/simple;
+	bh=znq26plhwxInEG6rMm+26AmDR8mHesOo4g2XGqxnm+E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j3W26FhipaEEgLyJgGgViQbbUuZG8ZowlsOEJNZBZko4E+WVeoVpsNi1JZ05GHks78OnoJYDU5JUEPGY9WwxhRcOg4cdxBrAnZUu31cAnfsAsI9ZWPZ6kwytcMbVYnlZ82k5lfPQ8XMQJjQaK3OFo54BWc7pKFz/rBc8dHALjHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HBSldxOd; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=aSbsG5Rjeuaa2AVDLThKpUTWkUprRcJ99LNtWEqlTD5ZAq1EKVDVK7pcrah2wIfbxzNk8ccQuteSIq1+/beoC5vxjUrJYKPdYlDXo9qw4v02BEhYsWrInX4kydfqup+xmHj1JALnSqT4shel2ZmVuUDzdm6Kf2WWgSUTtB3lDl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iza834L5; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=mb9tmnJO; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HBSldxOd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78B1E1F00A3F;
-	Thu,  9 Jul 2026 08:46:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783586818;
-	bh=mRZq5csL5hUNDy0QIxQvRraRTIooykr0ndYA3Ihtjl4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HBSldxOd1OT5zXPN3a1odB2dmyiw8TrN+4d1Gw7m3d/CL9q66iVrXfGiiTtI9wiCO
-	 EeFUp5cVScV+TNykS0qn9JfgUMavTojFnkakG28zvB9WDrXLadsrV95yPNDySkp/iP
-	 hwQfAQsUZOqTJ1t/yChGxMqchDFohGzCwJKID7Wbt75x17NVBqZpj3Yt18U8c6yUTP
-	 1Wp4TjpxUysxyteciKfm6Q/RXCSk2Ddhm03NiDFqzxGrpIL5ZiY0OwBX/Nba+YLTqN
-	 2QZgNe2XSyKOfhnbRYf8/vaauCmhJsk5YfnmZPF6qlVLOcZx+IcL8WsyzhWdPAh9HQ
-	 47khgETVRVZEw==
-Date: Thu, 9 Jul 2026 10:46:52 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Farid Zakaria <farid.m.zakaria@gmail.com>
-Cc: david.laight.linux@gmail.com, jack@suse.cz, jannh@google.com, 
-	kees@kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, mail@johnericson.me, shuah@kernel.org, 
-	viro@zeniv.linux.org.uk, Gemini <assistant@google.com>
-Subject: Re: [RFC PATCH] fs: binfmt_misc: introduce eBPF-based matching and
- interpreter selection
-Message-ID: <20260709-quizsendung-glasdach-ausmerzen-05ebd412a86d@brauner>
-References: <20260704-kochkunst-hauswand-blass-7226e9443a9f@brauner>
- <20260704211409.1978485-1-farid.m.zakaria@gmail.com>
- <20260706-uhren-raubbau-sinnkrise-e40a8337414b@brauner>
- <CACCo2jm5=xrQNfak=TdO=2oh0DC5pe+atj=UfuTa8Y9s8GVkqg@mail.gmail.com>
- <20260707-campieren-fingen-himbeeren-e4b682bd8e63@brauner>
- <20260707-wortreich-kanal-zensor-9386ef4f38f7@brauner>
- <DJSPBVXTF02G.3SKLB9EO89GPT@gmail.com>
- <20260708-welken-dystopie-ertrugen-56a3b5f7ab66@brauner>
- <20260708-kordel-laben-kopfhaar-1c0dd234aae5@brauner>
- <DJTQTPG7QZSH.1YIDYKL3O985U@gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iza834L5";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="mb9tmnJO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1783587106;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eb5jDTkXBTPOE342mmNfwm5lDoBFxjZ2KPIK/Aydl/0=;
+	b=iza834L5VL4ghd3uS/qwfK26v06iCDCHiZ2z7zsaJ0ylLcpa1eWADTc9i9X/fWm19bl264
+	QgI4N5jNYKNxZTzfat48yOmrhvb4Ppip5zPTruRZhbA8nwMVjFxHxJrVCipqrgHMlrH0Qy
+	8cA6E9aJVUxYbReHXlmNFov4FiM2kHE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-681--PPxiEaLON6q4odSo9Yy3g-1; Thu, 09 Jul 2026 04:51:44 -0400
+X-MC-Unique: -PPxiEaLON6q4odSo9Yy3g-1
+X-Mimecast-MFC-AGG-ID: -PPxiEaLON6q4odSo9Yy3g_1783587104
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-493ce4b7777so11770265e9.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Jul 2026 01:51:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1783587104; x=1784191904; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=eb5jDTkXBTPOE342mmNfwm5lDoBFxjZ2KPIK/Aydl/0=;
+        b=mb9tmnJOxe0IeNGz8lpg27hc0lZao0ZDKiErb8gR+oA1BiN/M0lEjw703xzD/rhdRo
+         TaSzi7ZFGw/M/gLoZmBUquUvTfTEgo2gjYfqZCYRAwgnL4AcnzmZgKGTVcBjfSPNICEJ
+         vMO/w0GLOdKHabVF0gAlcG/BYJTV7A3tnSIsrfa9HFGiOWHaZtf9scgQobSq7VK4r+ls
+         JBC7nremmJR/3XtQewg5q4xDZAyFrZZ1z6/VziesNr59dPCAdH2KnmhMv8DWF678Rr8P
+         2NPcS4x3HD36QI0TsD3LLrsUcKdPimzk5uINsuWpHb5o59TzVu79mfEziF+zBU4e+pbs
+         mu5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783587104; x=1784191904;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eb5jDTkXBTPOE342mmNfwm5lDoBFxjZ2KPIK/Aydl/0=;
+        b=Zfp0htZ+GWwjs6nW4A2TWkVp6N+CgLLhR7JvQlFuz5mRUc4FcGat3i971xqgthf5zV
+         1GDpMuV8EyOd23Nyhng7+SjyP9K/oICpqmfbJb3wWJQlIabA+c66oyKuyeVbd6uo4CBN
+         vBzvWbzml1G7LI6lDYLjjw7KJvI6d0iWBGFy0+jsXmqZk2uLvijWUKRWKEcwxSrKRZQ7
+         8ccocHShVNMGxeSvYmDSUrRYk9AGnnVPQqtQAGM71ALtZibz5StguVsSe+an3BlaT1M9
+         XjK4WbIrSxFGAkHcH/PWUEVs04i0REjxfVnPURM/RBXOzO9J1i7l29ddOFOQBy/DjX5m
+         cKqA==
+X-Forwarded-Encrypted: i=1; AHgh+RrKdQaE16FTmFhUo1eKW9SMLUrl1tLNq1j8IxlpRtbGXGNm2Hd1tHr79yLkR+JucNffLs9X0/BYpJ/mpNlC@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxnjf/Z8Gu4/s3zwqjMwT9dNs6vfL/IPDm/nY43NDUqTann3Lwe
+	6OFm/7vyQllM9TtVVcjN9m++tTUxXjLJApxgpS40bpLuVR+DPnUwdeFMJRs869pgK2TSPZ+c0LY
+	rRTQr6Ia74RDJ43FOgP9TBkAazL1P4jJAmHrc3rOpMraH/94ObhNErcDYw/2tbZ1Ihw==
+X-Gm-Gg: AfdE7cl19iOqxm+r4vI0SBXIUDKXtrgH+SgXGNWmzPxMPwQWfqgjW4Vei9RcSgyHUdN
+	qNgbdyN2aFjraRNAvUMzBXKBZrJJ8TvuhptkjBwiMbKnL4BmxQeyNjUvhrRenaVbxBzS9fKUMlM
+	f5ZKgjwBAj9vjJQq6fiHTigaBoRE1frIP2nzokBLIJS0ldQUS/+1njTmgf9i3JeHlMq6kp2mij0
+	k544yppwzlnFFMSYNaTwBIj/SxfucZlABNKmnyUOeXhBD7PeUQwYPJ6RfzHL2ifUzldn6kI8Wpo
+	2kLTwy5+EtraXfcW+WOKEQi2YH82UE4/j/kbd78vI6z/0hEO0utHhTLqF+pqmNPpG+cpTIZbtRw
+	3lRekCV4aFWW/b+MnS8QmBKVNAoa52lQO7nLNtQXfHlr37A==
+X-Received: by 2002:a05:600c:628d:b0:493:bcef:5646 with SMTP id 5b1f17b1804b1-493e6862b68mr57369715e9.12.1783587103536;
+        Thu, 09 Jul 2026 01:51:43 -0700 (PDT)
+X-Received: by 2002:a05:600c:628d:b0:493:bcef:5646 with SMTP id 5b1f17b1804b1-493e6862b68mr57369285e9.12.1783587102989;
+        Thu, 09 Jul 2026 01:51:42 -0700 (PDT)
+Received: from aalbersh-thinkpadx1carbongen13.rmtcz.csb ([217.30.74.39])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e5a5d174sm144100205e9.2.2026.07.09.01.51.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2026 01:51:41 -0700 (PDT)
+Date: Thu, 9 Jul 2026 10:51:39 +0200
+From: Andrey Albershteyn <aalbersh@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, axboe@kernel.dk, jack@suse.cz, 
+	brauner@kernel.org, cem@kernel.org, jaegeuk@kernel.org, aalbersh@kernel.org, 
+	tytso@mit.edu, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH] fs: report direct io constraints through file_getattr
+Message-ID: <ak9f0CXSegLq8l5w@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+References: <20260708011843.1036846-1-kbusch@meta.com>
+ <20260709071352.GA20180@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="7accz5oj66ddjm3r"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <DJTQTPG7QZSH.1YIDYKL3O985U@gmail.com>
+In-Reply-To: <20260709071352.GA20180@lst.de>
 
-
---7accz5oj66ddjm3r
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-On Wed, Jul 08, 2026 at 09:07:55PM -0700, Farid Zakaria wrote:
-> On Wed Jul 8, 2026 at 9:47 AM PDT, Christian Brauner wrote:
-> > On 2026-07-08 11:14 +0200, Christian Brauner wrote:
-> >> On 2026-07-07 15:44 -0700, Farid Zakaria wrote:
-> >> > On Tue Jul 7, 2026 at 12:45 PM PDT, Christian Brauner wrote:
-> >> > > On 2026-07-07 13:34 +0200, Christian Brauner wrote:
-> >> > >> On 2026-07-06 09:47:53-07:00, Farid Zakaria wrote:
-> >> > >> > On Mon, Jul 6, 2026 at 9:01 AM Christian Brauner <brauner@kernel.org> wrote:
-> >> > >> > 
-> >> > >> > > Ignoring the blatant bpf abuse here I think this is quite workable. So
-> >> > >> > > this can be turned into an actual design and patch imho...
-> >> > >> > 
-> >> > >> > Glad to see you think this proposal is in the right direction.
-> >> > >> > Just for my edification, when you say "balatant bpf abuse", you mean
-> >> > >> > how it abuses the socket bpf type?
-> >> > >> > If so, do you have any guidance on a new type or should I just take a
-> >> > >> > stab at it.
-> >> > >
-> >> > > I drafted a POC for you that should be closer to how this should look
-> >> > > like with the bpf people in Cc. I'll let you lead from now on. I just
-> >> > > wanted to help you out and illustrate a more viable direction. Might be
-> >> > > that the bpf people want it done differentely. Let's see.
-> >> > 
-> >> > Cool. I just saw the POC.
-> >> > (I'm trying out aerc to view the patch series. I will also try b4, I've
-> >> > never set it up before)
-> >> > I will rework my qemu demo to use the struct_ops and go through my own
-> >> > testing to see it work.
-> >> > 
-> >> > That looks very similar to what I was researching with an LLM. I was
-> >> > just going over the idea of struct_ops bpf (a new concept to me) and
-> >> > using traditional bpftool load, a new bpf program type and kfuncs.
-> >> > 
-> >> > You put out a surprising amount of polished code -- thank you.
-> >> 
-> >> I would not call this polished and it also lacks any tests... I've not
-> >> given the locking much thought and maybe there's easy wins on the table
-> >> I haven't been considering.
-> >> 
-> >> > I would have had to lean on an LLM (heavily) and from the patches I've
-> >> > put up so far they still have quite the gap to cover in terms of polish.
-> >> 
-> >> This isn't my first bpf ride in both kernel and userspace.
-> >> 
-> >> > What does "take it from here" mean in practicality?
-> >> 
-> >> Bring it over the finish line so I can merge it into my tree. :)
-> >> If the bpf people have no comments or worries than we're done. If they
-> >> want changes I'd appreciate if you could make them and slap you
-> >> Co-developed-by onto the whole thing as necessary.
-> >> 
-> >> Also, please ensure that this works for all the cases you're
-> >> considering.
-> >
-> > I have another cleanup series for binfmt_misc btw. That code is quite
-> > old. There might be a few additional series coming out of this work that
-> > we base the bpf bits on.
+On 2026-07-09 09:13:52, Christoph Hellwig wrote:
+> On Tue, Jul 07, 2026 at 06:18:43PM -0700, Keith Busch wrote:
+> > From: Keith Busch <kbusch@kernel.org>
+> > 
+> > Memory alignment constraints for direct io can vary depending on the
+> > backing storage hardware. Provide support through file_getattr to report
+> > the attributes necessary for applications to know how to construct valid
+> > read and write requests.
 > 
-> Sounds good. I just saw the patch series.
-> My plan at the least by the weekend is to:
-> * apply your binfmt_misc cleanup series
->   * I will try b4 with aerc. Here  is my config if anyone wants to crib it [1].
-> * apply your POC series for the bpf to validate
-> * make any changes if necessary or just add selftests if it works as is
+> This probably wants to be split in one patch for the new UAPI,
+> one for the helper and one for each user.
 > 
-> [1]: https://github.com/fzakaria/nix-home/blob/aaee67c3a6d035d06a62cb75392657563de58f4a/users/fmzakari/aerc.nix 
+> And especially the UAPI one needs a much more detailed commit log
+> explaining it, including why this duplicates some of the informastion
+> already in statx and documenting the semantics for all the fields.
+> 
+> Andrey, is there a man page or other official documentation for
+> file_setattr/file_getattr?
 
-I hade some vibe-coded tests somewhere. Let me see if I can find them...
-Ok, appending them. There's an elf-section parsing test and a $ORIGIN
-test.
+No, I had a draft in cover letter but haven't got to sending it to
+man-pages. I will prepare a man page.
 
---7accz5oj66ddjm3r
-Content-Type: text/x-csrc; charset=utf-8
-Content-Disposition: attachment; filename="elf_sections.bpf.c"
+-- 
+- Andrey
 
-// SPDX-License-Identifier: GPL-2.0
-/*
- * elf_sections.bpf.c - walking ELF section headers from a binfmt_misc_ops
- * program.
- *
- * Demonstrates full section-table parsing via the file dynptr: locate a
- * section by name (through e_shstrndx/shstrtab) and read its contents.
- * The demo looks up ".comment" and dumps it, then declines so the binary
- * is loaded normally.
- */
-#include "vmlinux.h"
-#include <bpf/bpf_helpers.h>
-#include <bpf/bpf_tracing.h>
-
-char _license[] SEC("license") = "GPL";
-
-#define EI_CLASS	4
-#define ELFCLASS64	2
-#define SHT_NOBITS	8
-#define SHN_UNDEF	0
-#define SHN_LORESERVE	0xff00
-#define MAX_SHDRS	64
-#define SEC_NAME_MAX	64
-#define DUMP_MAX	64
-
-extern int bpf_dynptr_from_file(struct file *file, __u32 flags,
-				struct bpf_dynptr *ptr__uninit) __ksym;
-extern int bpf_dynptr_file_discard(struct bpf_dynptr *dynptr) __ksym;
-
-/* Look up a section by name; @name_len includes the NUL. */
-static __always_inline int find_section(struct bpf_dynptr *dp,
-					const struct elf64_hdr *ehdr,
-					const char *name, __u32 name_len,
-					struct elf64_shdr *out)
-{
-	char nbuf[SEC_NAME_MAX];
-	struct elf64_shdr sh;
-	__u64 shoff = ehdr->e_shoff;
-	__u32 shnum = ehdr->e_shnum;
-	__u64 stroff, strsz;
-	int i, j;
-
-	if (!shoff || !shnum || shnum >= SHN_LORESERVE)
-		return -1;
-	if (ehdr->e_shentsize != sizeof(sh))
-		return -1;
-	if (ehdr->e_shstrndx == SHN_UNDEF || ehdr->e_shstrndx >= shnum)
-		return -1;
-	if (!name_len || name_len > sizeof(nbuf))
-		return -1;
-
-	/* The section-name string table. */
-	if (bpf_dynptr_read(&sh, sizeof(sh), dp,
-			    shoff + ehdr->e_shstrndx * sizeof(sh), 0))
-		return -1;
-	stroff = sh.sh_offset;
-	strsz = sh.sh_size;
-
-	bpf_for(i, 0, shnum) {
-		bool match = true;
-
-		if (i >= MAX_SHDRS)
-			break;
-		if (bpf_dynptr_read(&sh, sizeof(sh), dp,
-				    shoff + i * sizeof(sh), 0))
-			return -1;
-		/* Name (incl. NUL) must fit inside shstrtab. */
-		if (sh.sh_name >= strsz || strsz - sh.sh_name < name_len)
-			continue;
-		if (bpf_dynptr_read(nbuf, name_len, dp, stroff + sh.sh_name, 0))
-			continue;
-		bpf_for(j, 0, name_len) {
-			if (j >= SEC_NAME_MAX || nbuf[j] != name[j]) {
-				match = false;
-				break;
-			}
-		}
-		if (!match)
-			continue;
-		*out = sh;
-		return 0;
-	}
-	return -1;
-}
-
-#define FIND_SECTION(dp, ehdr, lit, out) \
-	find_section(dp, ehdr, lit, sizeof(lit), out)
-
-SEC("struct_ops.s/load")
-int BPF_PROG(elf_sections_load, struct linux_binprm *bprm)
-{
-	char data[DUMP_MAX] = {};
-	struct elf64_hdr ehdr;
-	struct elf64_shdr sh;
-	struct bpf_dynptr dp;
-	__u32 n;
-
-	if (bprm->buf[0] != 0x7f || bprm->buf[1] != 'E' ||
-	    bprm->buf[2] != 'L' || bprm->buf[3] != 'F' ||
-	    bprm->buf[EI_CLASS] != ELFCLASS64)
-		return 0;
-
-	if (bpf_dynptr_from_file(bprm->file, 0, &dp))
-		goto out;
-	if (bpf_dynptr_read(&ehdr, sizeof(ehdr), &dp, 0, 0))
-		goto out;
-
-	if (FIND_SECTION(&dp, &ehdr, ".comment", &sh))
-		goto out;
-	/* SHT_NOBITS (.bss-like) sections have no file content. */
-	if (sh.sh_type == SHT_NOBITS || !sh.sh_size)
-		goto out;
-
-	n = sh.sh_size;
-	if (n > sizeof(data) - 1)
-		n = sizeof(data) - 1;
-	if (bpf_dynptr_read(data, n, &dp, sh.sh_offset, 0))
-		goto out;
-
-	bpf_printk("elf_sections: .comment @%llu +%llu: %s",
-		   (__u64)sh.sh_offset, (__u64)sh.sh_size, data);
-out:
-	bpf_dynptr_file_discard(&dp);
-	return 0;	/* observer only: always decline */
-}
-
-SEC(".struct_ops.link")
-struct binfmt_misc_ops elf_sections = {
-	.load = (void *)elf_sections_load,
-	.name = "elf_sections",
-};
-
---7accz5oj66ddjm3r
-Content-Type: text/x-csrc; charset=utf-8
-Content-Disposition: attachment; filename="nix_origin.bpf.c"
-
-// SPDX-License-Identifier: GPL-2.0
-/*
- * nix_origin.bpf.c - $ORIGIN-relative PT_INTERP resolution
- *
- * A binfmt_misc_ops handler that makes relocatable (Nix-style) ELF
- * binaries work: if PT_INTERP starts with "$ORIGIN/", the loader is
- * resolved relative to the directory of the binary being executed and
- * selected via bpf_binprm_set_interp(). Anything else is declined so
- * regular binaries fall through untouched.
- *
- * Activate with:
- *   bpftool struct_ops register nix_origin.bpf.o /sys/fs/bpf
- *   echo ':nix-origin:B:nix_origin::::' > /proc/sys/fs/binfmt_misc/register
- */
-#include "vmlinux.h"
-#include <bpf/bpf_helpers.h>
-#include <bpf/bpf_tracing.h>
-
-char _license[] SEC("license") = "GPL";
-
-#define PATH_MAX	4096
-#define EI_CLASS	4
-#define ELFCLASSXX	2	/* ELFCLASS64; flip to 1 for 32-bit */
-#define PT_INTERP	3
-#define MAX_PHDRS	64
-
-#define ORIGIN		"$ORIGIN"
-#define ORIGIN_LEN	(sizeof(ORIGIN) - 1)
-
-#define ENOENT		2
-#define ENAMETOOLONG	36
-
-extern int bpf_dynptr_from_file(struct file *file, __u32 flags,
-				struct bpf_dynptr *ptr__uninit) __ksym;
-extern int bpf_dynptr_file_discard(struct bpf_dynptr *dynptr) __ksym;
-extern int bpf_path_d_path(const struct path *path, char *buf,
-			   size_t buf__sz) __ksym;
-extern int bpf_binprm_set_interp(struct linux_binprm *bprm, const char *path,
-				 size_t path__sz) __ksym;
-
-struct scratch {
-	char interp[PATH_MAX];	/* PT_INTERP as embedded in the binary */
-	char path[PATH_MAX];	/* d_path of the binary, becomes the result */
-};
-
-/* Keyed by pid: execs run concurrently and the program can sleep. */
-struct {
-	__uint(type, BPF_MAP_TYPE_HASH);
-	__uint(max_entries, 512);
-	__type(key, __u64);
-	__type(value, struct scratch);
-} scratch_map SEC(".maps");
-
-static const struct scratch zero_scratch;
-
-SEC("struct_ops.s/load")
-int BPF_PROG(nix_origin_load, struct linux_binprm *bprm)
-{
-	__u32 isz, sfx, rsz, slash;
-	struct elf64_phdr phdr;
-	struct elf64_hdr ehdr;
-	struct bpf_dynptr dp;
-	struct scratch *sc;
-	bool found = false;
-	__u64 id;
-	int ret = 0, len, i;
-
-	/* Cheap reject from the prefetched header. */
-	if (bprm->buf[0] != 0x7f || bprm->buf[1] != 'E' ||
-	    bprm->buf[2] != 'L' || bprm->buf[3] != 'F' ||
-	    bprm->buf[EI_CLASS] != ELFCLASSXX)
-		return 0;
-
-	if (bpf_dynptr_from_file(bprm->file, 0, &dp))
-		goto out;
-
-	if (bpf_dynptr_read(&ehdr, sizeof(ehdr), &dp, 0, 0))
-		goto out;
-	if (ehdr.e_phentsize != sizeof(struct elf64_phdr))
-		goto out;
-
-	bpf_for(i, 0, ehdr.e_phnum) {
-		if (i >= MAX_PHDRS)
-			break;
-		if (bpf_dynptr_read(&phdr, sizeof(phdr), &dp,
-				    ehdr.e_phoff + i * sizeof(phdr), 0))
-			goto out;
-		if (phdr.p_type == PT_INTERP) {
-			found = true;
-			break;
-		}
-	}
-	if (!found)
-		goto out;
-
-	isz = phdr.p_filesz;
-	if (isz <= ORIGIN_LEN + 1 || isz > sizeof(sc->interp))
-		goto out;
-
-	id = bpf_get_current_pid_tgid();
-	if (bpf_map_update_elem(&scratch_map, &id, &zero_scratch, BPF_ANY))
-		goto out;
-	sc = bpf_map_lookup_elem(&scratch_map, &id);
-	if (!sc)
-		goto out_del;
-
-	if (bpf_dynptr_read(sc->interp, isz, &dp, phdr.p_offset, 0))
-		goto out_del;
-	if (sc->interp[isz - 1] != '\0')
-		goto out_del;
-
-	/* Not "$ORIGIN/..."? Decline, the elf loader owns it. */
-	if (sc->interp[0] != '$' || sc->interp[1] != 'O' ||
-	    sc->interp[2] != 'R' || sc->interp[3] != 'I' ||
-	    sc->interp[4] != 'G' || sc->interp[5] != 'I' ||
-	    sc->interp[6] != 'N' || sc->interp[7] != '/')
-		goto out_del;
-
-	/*
-	 * From here on the binary is ours: resolution failures fail the
-	 * exec instead of falling back to binfmt_elf, which would resolve
-	 * the literal "$ORIGIN/..." relative to the caller's cwd.
-	 */
-	ret = -ENOENT;
-	len = bpf_path_d_path(&bprm->file->f_path, sc->path, sizeof(sc->path));
-	if (len <= 0 || len > sizeof(sc->path))
-		goto out_del;
-	/* Unreachable or unlinked ("... (deleted)") binaries can't resolve. */
-	if (sc->path[0] != '/')
-		goto out_del;
-
-	/* $ORIGIN = dirname of the binary. */
-	slash = 0;
-	bpf_for(i, 1, len - 1) {
-		if (i >= sizeof(sc->path))
-			break;
-		if (sc->path[i] == '/')
-			slash = i;
-	}
-
-	/* Splice the suffix (leading '/' and NUL included) onto the dir. */
-	sfx = isz - ORIGIN_LEN;
-	rsz = slash + sfx;
-	if (rsz > sizeof(sc->path)) {
-		ret = -ENAMETOOLONG;
-		goto out_del;
-	}
-	bpf_for(i, 0, sfx) {
-		__u32 s = ORIGIN_LEN + i, d = slash + i;
-
-		if (s >= sizeof(sc->interp) || d >= sizeof(sc->path))
-			break;
-		sc->path[d] = sc->interp[s];
-	}
-
-	ret = bpf_binprm_set_interp(bprm, sc->path, rsz);
-	if (!ret)
-		ret = 1;
-out_del:
-	bpf_map_delete_elem(&scratch_map, &id);
-out:
-	bpf_dynptr_file_discard(&dp);
-	return ret;
-}
-
-SEC(".struct_ops.link")
-struct binfmt_misc_ops nix_origin = {
-	.load = (void *)nix_origin_load,
-	.name = "nix_origin",
-};
-
---7accz5oj66ddjm3r--
