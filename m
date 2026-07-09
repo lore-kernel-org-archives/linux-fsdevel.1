@@ -1,141 +1,361 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D6E331EB1;
-	Thu,  9 Jul 2026 03:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A88741607A4
+	for <linux-fsdevel@vger.kernel.org>; Thu,  9 Jul 2026 03:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783566856; cv=none; b=n5BPYKZSnCl7PrSpB4EdSPpWLYw71seQU6Oh8KRGD+n3X/NiDAD3cK8qiU9Rx3V3ZhqWmUakQKrBgZDsG7zGOM/jIYYOw4UCH4+ZSJ07aFVxSTFe47tURVkVMzmLmsWqF9K2Bj4bjZs6toZNOF4fhGgC52x5ziSBOy7EyQLtcag=
+	t=1783567343; cv=none; b=apobMqbrQvyPiEJZQGN2TJTfaFwIDqclNR6ye2DGU699GksldXLwJ2fYFjVtXlzZl9jEw2iKnbLCnR7MF6tBaMaPun490Xw65QeuwSP44LG7DUyn9csgKha+e7YQvNSqW8i4b7yDkESoXUky2yG98O2xqAM+4UnINH7NWRRrFlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783566856; c=relaxed/simple;
-	bh=sFY3IJPLB3VCnBY4TSr/pQh+xXRRB+4VSytgWoW3MrU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q3VGKMbTHnaBajrsBpnZzYuhQPkhZyFTTYziPIYFDwAlHVCGvh8uQvruetbChcl9uyO8Svzo/6B4FwOq3lwufX7C+9A447JSfOlohI33h19j1ZsNxMoWgZbZ70PA6Zq40ixmpBRd47dvFlxVIUVAXd9tQJmhhsuTAUPFFmW420I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gwfjz0CYLzKHMN1;
-	Thu,  9 Jul 2026 10:56:23 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id E48AC4058F;
-	Thu,  9 Jul 2026 10:56:44 +0800 (CST)
-Received: from [10.174.178.253] (unknown [10.174.178.253])
-	by APP1 (Coremail) with UTF8SMTPSA id cCh0CgCntnLrDU9qnd1EAg--.32414S3;
-	Thu, 09 Jul 2026 10:56:44 +0800 (CST)
-Message-ID: <8a980822-fe8f-4497-8202-0eda40f627a9@huaweicloud.com>
-Date: Thu, 9 Jul 2026 10:56:43 +0800
+	s=arc-20240116; t=1783567343; c=relaxed/simple;
+	bh=ApWLrt3ItscwYdkqzNUs0xXhwY2Jfqh1s1l/ANzi+q8=;
+	h=Date:Message-ID:MIME-Version:Content-Type:From:To:Cc:Subject:
+	 References:In-Reply-To; b=mUUxh9ttGIjuygfFYboh9PRqFpvXaHc3as0+GrV77l1WZuZE3epdr4jz7j6mSSJDFLQjh8XM1zNV4CWlN/LcTvwLwwqhflyCaZm3YgVXfdLMHqCctAMmNgdOEoG+M0xu754Dh3PUOdW6cGTAFUvsATTquWSu/Kmp2ZzsqKpEO2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=XlC1/7dy; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="XlC1/7dy"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-51c05dcdf49so12864741cf.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 08 Jul 2026 20:22:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1783567340; x=1784172140; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
+         :content-type:mime-version:message-id:date:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kAbs0EahdnJaXnlyAWxuTPKuZ/aNyK//eRMWFG0Hz/g=;
+        b=XlC1/7dyJw2jiEiaqKML1Ur5KeD1Py7A86cJUfSIOM6xWutBcRUDf+z/rHf5T5BdnQ
+         7LpPGTav2WZGDcxFBQogaxcO5xZJcXJFlej+Q/j9Um1ioIeE92CtGIiyFsKdfwlzVf3M
+         LhaOWUbI7cuW1pz9bBJoCZ7j8aoxUUz5fhmLTlgSvB+JjtZHFsoPo+43wtWd4yw82HMp
+         txiAAp8r6cl8gNdZiyKnyklHo9IYNlH82PpGwjbhFZOOvE8lFssxAD27N0Ezio3oB4Xs
+         5+EgCVdBQG94di2hbL1B6/TFqJA3KDaF6LYev/9cq/LoPvkb1lmGfqr5Eb5FT2VVfrJs
+         av+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783567340; x=1784172140;
+        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
+         :content-type:mime-version:message-id:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kAbs0EahdnJaXnlyAWxuTPKuZ/aNyK//eRMWFG0Hz/g=;
+        b=gt6gdyKYFHKwPucXa8bJ4xNOzuaS5iVnvyQcqOqdzfpRCFGmAPZYtbx25qt2njAtFm
+         LEitBZ4kClN6tPqqRdcMUthTW6DFeTFEakg9gMiENBPgCTviP/rMMjwSpEfazLFfRhls
+         +RZR/9p7mMAWb3CmBT5QaTDTHXMbdp9C/+OZNoPgvsGzHLb7v+EFs0d7oL2WuLa/z+IC
+         9JnW4irzMrNVafqafqiXVy/bn5PSMTqHzxFuOGHf8/j0JbjLZvO8q4cwnbDP3yFGtNEU
+         vj4HNBOURwk590sOd8xsYT3751s8t7ObFqtySEp87ZkrsGCHR1N5MVQd4nnity6BjuzR
+         XuDg==
+X-Forwarded-Encrypted: i=1; AHgh+Rpwzy4B5hPq/whwmpriGcJ/8VX6UEuBIH1T7h4gpJ+l82UtAfMEnrShhl8ry5kD6Rzb+8w6FdtljxTwxOU/@vger.kernel.org
+X-Gm-Message-State: AOJu0YysUV91K8T0L0HpgqbUswtUV9EH2cOHCoWEB7o675NXwhea7X4n
+	yjczvmYTrALcwhpmw1TRVdZXnYeir2XgEHk/NZD4H4w2nYM2bPzG86ex4W2CF/faXw==
+X-Gm-Gg: AfdE7clID3UVLSKSwmIo84sps1cDYkPNlgsN2Lre2CE71fLnd75eg6VHfkyGrq7xj7u
+	ojZ0ao0sMbxamwyWobLkyBBkgcKeQBrdsuH03km8t3kWH1HZsYQaiN6q7XEYDEHOhrt7WZhGDhR
+	DQhkWFV2eh6KvjZ6OpdTFru0wLcwItngaIUog3KbTs7SApcHzWo15hBQMBun00H+5dUGqVlH9/f
+	2tZ0EwAfrUre1wlIkXcTejnsoJSIUiBhKhzDWCaQRWXxfiAttraaGsjqHqeWsgAf53BuZmAtJL/
+	N3Hpbko5FxGfvllGiCmw85VRMUo6I7Ec6lZQCMUUNkJ2t2LuNSeb97lBJUFn4QlQdkp+TtHRAhd
+	aUcP0yqI9xIqU/lqLh8GGjesW/TKrq50DmRqBf7x2hrSopxI9HqvHVi+MafElX+a/XXGBSAyMoN
+	15z/yGj+UQa/6Ab5jOzXSciMngjArfnf9qTFnrXHS9AlQEI/QAyqUS3w0XRw==
+X-Received: by 2002:ac8:5989:0:b0:51c:83ee:e43e with SMTP id d75a77b69052e-51c8b422024mr71720241cf.75.1783567339597;
+        Wed, 08 Jul 2026 20:22:19 -0700 (PDT)
+Received: from localhost (pool-71-126-255-178.bstnma.fios.verizon.net. [71.126.255.178])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51c9b0d4519sm5544311cf.10.2026.07.08.20.22.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2026 20:22:18 -0700 (PDT)
+Date: Wed, 08 Jul 2026 23:22:17 -0400
+Message-ID: <3d4fe99cd1665a1be0b36636aeeaf4ab@paul-moore.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/6] ext4: clarify return semantics of
- ext4_load_tail_bh()
-To: Jan Kara <jack@suse.cz>, Zhang Yi <yi.zhang@huawei.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
- libaokun@linux.alibaba.com, ojaswin@linux.ibm.com, ritesh.list@gmail.com,
- yizhang089@gmail.com, chengzhihao1@huawei.com, yangerkun@huawei.com,
- yukuai@fnnas.com
-References: <20260707021338.1182268-1-yi.zhang@huawei.com>
- <20260707021338.1182268-3-yi.zhang@huawei.com>
- <fn6frodirjc2zvd3sl5zwh4h7q5dfbbha2le3eylq2sne4k7fm@upemtxsqhsz3>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <fn6frodirjc2zvd3sl5zwh4h7q5dfbbha2le3eylq2sne4k7fm@upemtxsqhsz3>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:cCh0CgCntnLrDU9qnd1EAg--.32414S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxCw4UuF45Jr45XFyftr47Arb_yoW5GrWrp3
-	s8KasrGr4rWa4v9a1xJ3W7Xr1YgasxGr4UWFWrK3W2yas0gr1IvF1IkFyS9F42yrWfKrWY
-	qFWjgFy3Ga1DArDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvFb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6x
-	kF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02
-	F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4I
-	kC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAa
-	w2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
-	Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q
-	6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
-	kF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AK
-	xVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj
-	xUOBMKDUUUU
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+MIME-Version: 1.0 
+Content-Type: text/plain; charset=UTF-8 
+Content-Transfer-Encoding: 8bit 
+X-Mailer: pstg-pwork:20260708_2258/pstg-lib:20260708_1328/pstg-pwork:20260708_2258
+From: Paul Moore <paul@paul-moore.com>
+To: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>, Christian Brauner <brauner@kernel.org>, =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>, "Serge E . Hallyn" <serge@hallyn.com>
+Cc: Daniel Durning <danieldurning.work@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Justin Suess <utilityemal77@gmail.com>, Lennart Poettering <lennart@poettering.net>, =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>, Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, Shervin Oloumi <enlightened@google.com>, Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v2 1/9] security: add LSM blob and hooks for namespaces
+References: <20260527181127.879771-2-mic@digikod.net>
+In-Reply-To: <20260527181127.879771-2-mic@digikod.net>
 
-On 7/8/2026 11:26 PM, Jan Kara wrote:
-> On Tue 07-07-26 10:13:34, Zhang Yi wrote:
->> ext4_load_tail_bh() returns NULL for both holes and clean unwritten
->> buffers, but the conditions that lead to this are not obvious from the
->> code alone. Document this behavior to clarify the return value, so that
->> readers do not mistakenly assume that only holes result in a NULL
->> return.
->>
->> Also update the inline comment following the ext4_get_block() call to
->> reflect this, and note that a lookup-only get_block (without
->> EXT4_GET_BLOCKS_CREATE) never sets BH_Mapped for clean unwritten
->> extents, which is why a clean unwritten bh falls through to the
->> "nothing to do" path.
->>
->> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+On May 27, 2026 =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net> wrote:
 > 
-> Looks good. Feel free to add:
+> All namespace types now share the same ns_common infrastructure. Extend
+> this to include a security blob so LSMs can start managing namespaces
+> uniformly without having to add one-off hooks or security fields to
+> every individual namespace type.
 > 
-> Reviewed-by: Jan Kara <jack@suse.cz>
+> Add a ns_security pointer to ns_common and the corresponding lbs_ns blob
+> size to lsm_blob_sizes. Allocation and freeing hooks are called from the
+> common __ns_common_init() and __ns_common_free() paths so every
+> namespace type gets covered in one go. All information about the
+> namespace type and the appropriate casting helpers to get at the
+> containing namespace are available via ns_common making it
+> straightforward for LSMs to differentiate when they need to.
 > 
-> 								Honza
-
-Hi, Jan!
-
-Thank you for the review. I have already sent out v3 of this series.
-Sorry I forgot to mention it earlier. It includes fixes for some
-pre-existing issues in Sashiko. Could you please take a look at that
-version?
-
-https://lore.kernel.org/linux-ext4/20260708062049.1982410-1-yi.zhang@huaweicloud.com/
-
-Thanks,
-Yi.
-
+> A namespace_install hook is called from validate_ns() during setns(2)
+> giving LSMs a chance to enforce policy on namespace transitions.  The
+> LSM check runs before ns->ops->install() so the security module can deny
+> the operation before any type-specific installation effects.
 > 
->> ---
->>  fs/ext4/inode.c | 11 ++++++++++-
->>  1 file changed, 10 insertions(+), 1 deletion(-)
->>
->> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
->> index c2c2d6ac7f3d..45a7e6cdb2a1 100644
->> --- a/fs/ext4/inode.c
->> +++ b/fs/ext4/inode.c
->> @@ -4026,6 +4026,10 @@ void ext4_set_aops(struct inode *inode)
->>   * because it might have data in pagecache (eg, if called from ext4_zero_range,
->>   * ext4_punch_hole, etc) which needs to be properly zeroed out. Otherwise a
->>   * racing writeback can come later and flush the stale pagecache to disk.
->> + *
->> + * Return the loaded bh if it actually needs zeroing - in written, dirty
->> + * unwritten, or delalloc state. Return NULL if it's clean (i.e., a hole or
->> + * a clean unwritten block).
->>   */
->>  static struct buffer_head *ext4_load_tail_bh(struct inode *inode, loff_t from)
->>  {
->> @@ -4065,7 +4069,12 @@ static struct buffer_head *ext4_load_tail_bh(struct inode *inode, loff_t from)
->>  	if (!buffer_mapped(bh)) {
->>  		BUFFER_TRACE(bh, "unmapped");
->>  		ext4_get_block(inode, iblock, bh, 0);
->> -		/* unmapped? It's a hole - nothing to do */
->> +		/*
->> +		 * It's a hole or a clean unwritten block - nothing to do.
->> +		 * Note that a lookup-only get_block (without
->> +		 * EXT4_GET_BLOCKS_CREATE) never sets BH_Mapped for clean
->> +		 * unwritten extents.
->> +		 */
->>  		if (!buffer_mapped(bh)) {
->>  			BUFFER_TRACE(bh, "still unmapped");
->>  			goto unlock;
->> -- 
->> 2.52.0
->>
+> Individual namespace types can still have their own specialized security
+> hooks when needed. This is just the common baseline that makes it easy
+> to track and manage namespaces from the security side without requiring
+> every namespace type to reinvent the wheel.
+> 
+> Cc: Günther Noack <gnoack@google.com>
+> Cc: Paul Moore <paul@paul-moore.com>
+> Cc: Serge E. Hallyn <serge@hallyn.com>
+> Signed-off-by: Christian Brauner <brauner@kernel.org>
+> Link: https://lore.kernel.org/r/20260216-work-security-namespace-v1-1-075c28758e1f@kernel.org
+> Signed-off-by: Mickaël Salaün <mic@digikod.net>
+> ---
+> Changes since v1:
+> https://lore.kernel.org/r/20260312100444.2609563-2-mic@digikod.net
+> - Move security_namespace_install() before ns->ops->install() in
+>   validate_ns() (suggested by Christian Brauner).
+> - Only call proc_free_inum() on security_namespace_alloc() failure
+>   when inum was allocated by this function (suggested by Christian
+>   Brauner).
+> - Fix anonymous mount namespace blob leak: move
+>   security_namespace_free() into __ns_common_free() and make
+>   proc_free_inum() conditional on dynamically allocated inums
+>   via MNT_NS_INO_SPECIAL_MAX, so free_mnt_ns() can call
+>   ns_common_free() unconditionally (suggested by Christian
+>   Brauner).  Also reported by Daniel Durning while working on
+>   SELinux support for these hooks:
+>   https://lore.kernel.org/r/20260318201747.4477-1-danieldurning.work@gmail.com
+> - Rename security_namespace_alloc() to security_namespace_init()
+>   to match the caller-name convention and reflect that the hook
+>   initialises LSM state attached to a constructed ns_common rather
+>   than allocating the ns_common itself (suggested by Paul Moore).
+> - Refine the security_namespace_free() kdoc to clarify that
+>   RCU-safe blob freeing is required only if an LSM exposes data
+>   within the blob to concurrent RCU readers, and document that
+>   the blob memory itself is released with kfree() after the
+>   namespace_free hooks return (suggested by Paul Moore).
+> - Günther Noack's v1 Reviewed-by is not carried forward to v2:
+>   the validate_ns() reordering and the anonymous-mount-namespace
+>   blob-leak fix are semantic changes that were not part of his
+>   review.  Cc'd instead.
+> ---
+>  fs/namespace.c                     |  3 +-
+>  include/linux/lsm_hook_defs.h      |  3 ++
+>  include/linux/lsm_hooks.h          |  1 +
+>  include/linux/ns/ns_common_types.h |  3 ++
+>  include/linux/security.h           | 20 ++++++++
+>  include/uapi/linux/nsfs.h          |  1 +
+>  kernel/nscommon.c                  | 17 ++++++-
+>  kernel/nsproxy.c                   |  6 +++
+>  security/lsm_init.c                |  2 +
+>  security/security.c                | 77 ++++++++++++++++++++++++++++++
+>  10 files changed, 130 insertions(+), 3 deletions(-)
+> 
+> diff --git a/fs/namespace.c b/fs/namespace.c
+> index fe919abd2f01..031ef3fafa48 100644
+> --- a/fs/namespace.c
+> +++ b/fs/namespace.c
+> @@ -4179,8 +4179,7 @@ static void dec_mnt_namespaces(struct ucounts *ucounts)
+>  
+>  static void free_mnt_ns(struct mnt_namespace *ns)
+>  {
+> -	if (!is_anon_ns(ns))
+> -		ns_common_free(ns);
+> +	ns_common_free(ns);
+>  	dec_mnt_namespaces(ns->ucounts);
+>  	mnt_ns_tree_remove(ns);
+>  }
 
+...
+
+> diff --git a/kernel/nscommon.c b/kernel/nscommon.c
+> index 3166c1fd844a..e72426bba29a 100644
+> --- a/kernel/nscommon.c
+> +++ b/kernel/nscommon.c
+> @@ -4,6 +4,7 @@
+>  #include <linux/ns_common.h>
+>  #include <linux/nstree.h>
+>  #include <linux/proc_ns.h>
+> +#include <linux/security.h>
+>  #include <linux/user_namespace.h>
+>  #include <linux/vfsdebug.h>
+>  
+> @@ -59,6 +60,9 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
+>  
+>  	refcount_set(&ns->__ns_ref, 1);
+>  	ns->stashed = NULL;
+> +#ifdef CONFIG_SECURITY
+> +	ns->ns_security = NULL;
+> +#endif
+>  	ns->ops = ops;
+>  	ns->ns_id = 0;
+>  	ns->ns_type = ns_type;
+> @@ -77,6 +81,14 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
+>  		ret = proc_alloc_inum(&ns->inum);
+>  	if (ret)
+>  		return ret;
+> +
+> +	ret = security_namespace_init(ns);
+> +	if (ret) {
+> +		if (!inum)
+> +			proc_free_inum(ns->inum);
+> +		return ret;
+> +	}
+> +
+>  	/*
+>  	 * Tree ref starts at 0. It's incremented when namespace enters
+>  	 * active use (installed in nsproxy) and decremented when all
+> @@ -91,7 +103,10 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
+>  
+>  void __ns_common_free(struct ns_common *ns)
+>  {
+> -	proc_free_inum(ns->inum);
+> +	security_namespace_free(ns);
+> +
+> +	if (ns->inum > MNT_NS_INO_SPECIAL_MAX)
+> +		proc_free_inum(ns->inum);
+
+The ns->inum check in the if-conditional above isn't quite the same as
+the is_anon_ns() check it replaces in free_mnt_ns().  You touch on this
+a bit in the changelog, but that really should be explained in the
+commit description.
+
+... or honestly, should that change be a separate patch?
+
+>  }
+>  
+>  struct ns_common *__must_check ns_owner(struct ns_common *ns)
+> diff --git a/kernel/nsproxy.c b/kernel/nsproxy.c
+> index d9d3d5973bf5..0f1b208d8eef 100644
+> --- a/kernel/nsproxy.c
+> +++ b/kernel/nsproxy.c
+> @@ -385,6 +385,12 @@ static int prepare_nsset(unsigned flags, struct nsset *nsset)
+>  
+>  static inline int validate_ns(struct nsset *nsset, struct ns_common *ns)
+>  {
+> +	int ret;
+> +
+> +	ret = security_namespace_install(nsset, ns);
+> +	if (ret)
+> +		return ret;
+> +
+>  	return ns->ops->install(nsset, ns);
+>  }
+
+In the previous revision to the patchset I asked about a
+security_namespace_switch() hook as we don't know if a namespace is
+actually attached to a process until we get to switch_task_namespaces().
+Perhaps that was answered, but I don't recall reading any mail about that
+and I'm not able to uncover any responses on lore.
+
+> diff --git a/security/security.c b/security/security.c
+> index 4e999f023651..21cc45d4bbd0 100644
+> --- a/security/security.c
+> +++ b/security/security.c
+> @@ -26,6 +26,7 @@
+>  #include <linux/string.h>
+>  #include <linux/xattr.h>
+>  #include <linux/msg.h>
+> +#include <linux/ns_common.h>
+>  #include <linux/overflow.h>
+>  #include <linux/perf_event.h>
+>  #include <linux/fs.h>
+> @@ -381,6 +382,19 @@ static int lsm_superblock_alloc(struct super_block *sb)
+>  			      GFP_KERNEL);
+>  }
+>  
+> +/**
+> + * lsm_ns_alloc - allocate a composite namespace blob
+> + * @ns: the namespace that needs a blob
+> + *
+> + * Allocate the namespace blob for all the modules
+> + *
+> + * Returns 0, or -ENOMEM if memory can't be allocated.
+> + */
+> +static int lsm_ns_alloc(struct ns_common *ns)
+> +{
+> +	return lsm_blob_alloc(&ns->ns_security, blob_sizes.lbs_ns, GFP_KERNEL);
+> +}
+> +
+>  /**
+>   * lsm_fill_user_ctx - Fill a user space lsm_ctx structure
+>   * @uctx: a userspace LSM context to be filled
+> @@ -3358,6 +3372,69 @@ int security_create_user_ns(const struct cred *cred)
+>  	return call_int_hook(userns_create, cred);
+>  }
+>  
+> +/**
+> + * security_namespace_init() - Initialize LSM security data for a namespace
+> + * @ns: the namespace being initialized
+> + *
+> + * Initialize the LSM security blob attached to the namespace. The namespace type
+> + * is available via ns->ns_type, and the owning user namespace (if any)
+> + * via ns->ops->owner(ns).
+> + *
+> + * Return: Returns 0 if successful, otherwise < 0 error code.
+> + */
+> +int security_namespace_init(struct ns_common *ns)
+> +{
+> +	int rc;
+> +
+> +	rc = lsm_ns_alloc(ns);
+> +	if (unlikely(rc))
+> +		return rc;
+> +
+> +	rc = call_int_hook(namespace_init, ns);
+> +	if (unlikely(rc))
+> +		security_namespace_free(ns);
+> +
+> +	return rc;
+> +}
+> +
+> +/**
+> + * security_namespace_free() - Release LSM security data from a namespace
+> + * @ns: the namespace being freed
+> + *
+> + * Release security data attached to the namespace. Called before the
+> + * namespace structure is freed.
+> + *
+> + * Note: If an LSM exposes data within the security blob to concurrent
+> + * RCU readers, it must use RCU-safe freeing for that data.  The blob
+> + * memory itself is released with kfree() after the namespace_free
+> + * hooks return.
+
+I appreciate that you revised the "Note:" based on my previous comments,
+but now it reads just like normal guidance on RCU and object lifetimes.
+Do we need this "Note:" at all?
+
+> + */
+> +void security_namespace_free(struct ns_common *ns)
+> +{
+> +	if (!ns->ns_security)
+> +		return;
+> +
+> +	call_void_hook(namespace_free, ns);
+> +
+> +	kfree(ns->ns_security);
+> +	ns->ns_security = NULL;
+> +}
+> +
+> +/**
+> + * security_namespace_install() - Check permission to install a namespace
+> + * @nsset: the target nsset being configured
+> + * @ns: the namespace being installed
+> + *
+> + * Check permission before allowing a namespace to be installed into the
+> + * process's set of namespaces via setns(2).
+> + *
+> + * Return: Returns 0 if permission is granted, otherwise < 0 error code.
+> + */
+> +int security_namespace_install(const struct nsset *nsset, struct ns_common *ns)
+> +{
+> +	return call_int_hook(namespace_install, nsset, ns);
+> +}
+> +
+>  /**
+>   * security_ipc_permission() - Check if sysv ipc access is allowed
+>   * @ipcp: ipc permission structure
+> -- 
+> 2.54.0
+
+--
+paul-moore.com
