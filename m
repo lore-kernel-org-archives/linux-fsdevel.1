@@ -1,186 +1,132 @@
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232B5408014;
-	Fri, 10 Jul 2026 12:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.133.104.62
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B6D377544;
+	Fri, 10 Jul 2026 13:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783685853; cv=none; b=EqoFQ70/RoseaWxUGGi2DpDGpI9K43Umy62ErG3kWTnMqe4vxFPCSB43uKxirNIWEyxPXXWO07EAkeOayWpaozlMRrkeOmFwOayUVKnRIvthsoBIB8ZZReKiVAEPJncQihHSdm479DTvkXNYPfS4K60JyeAZcbxl9OXcPkQ0hq4=
+	t=1783690767; cv=none; b=q4Sd47eeuC/Pr9rX0DQfdHOq+ljWD1gAYy3StiL2oSaEOSaYd1STgDJohmyWs/BC6rUIYJA3XBkKEl+ntCDuB0bn8l90aJL9lK+xnmAdAoLxCIlCIiHJtdpXhe0Ow1IziWtxrtfTn+kBY6j2Zl4ytPkhl/UxE3GXduUcUb7YU4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783685853; c=relaxed/simple;
-	bh=QH3ypTBThWLx2yzXbQtsMjbM9zD9szUxg1+lAOb70GM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WzjXH5DrMisjfuzbbcSzJereUiGLYgOUNPHzSnTNJhM14ws1/mkEAN0gVdF1ltN9XbzJxvoWu/y79vVdHiOwkqakop6KqyaSfBNg03n5qGuGsjKp3vN1Pkd4zZbJDE3Y0JcIiZ1dgC2ZIbZvJgoe/ljMKszPHwR73aZ8U86IKUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net; spf=pass smtp.mailfrom=iogearbox.net; dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b=fxZPDxOg; arc=none smtp.client-ip=213.133.104.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iogearbox.net
+	s=arc-20240116; t=1783690767; c=relaxed/simple;
+	bh=1zOgBPuUrXPvOJucK7GyHI1L3i2YRBy6YlCIQgSIRNM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uCCCam7JJ+bGLls+yV+6sAzqo+QGyEBBt5ltXIDLZCPAIXGa6TP+wguwbhEQ3fsZq8/319Hgp5pkBF/opR2ou+foI1Mph94u6D91xhLpeOoynPWrdTozYYh2E5C/BZaB7Nwu1YgTZ7JgPh5BOsFiDJ43Zc8XAsGXumIWeXU2nWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fydQPaDx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b="fxZPDxOg"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=fgmRBpjGBlz4D8Ta3gytmcGGk/kFhfjPCclltIQNQxM=; b=fxZPDxOgsDn4BOI4RxZCxcfihD
-	oKyxBcwoBfKtl98B8qq499qYUqTAwBMytwi2UoZq0flwE0v9+n8bDSdVQKg6UqZ6X6J7GU5i58yX3
-	k6IVgvmVYQl802JiqXRYHFOoO+OmplN6hNdI7AEfp26KvHT9UjYteYLx7C/h3xkFOVhpPM2ZaPXRg
-	A2quFzV3zW59QLeJAGSuUcK18i8sICD+PDb2npqYKmmkzz1Y1Z53Vn4VT6SPSJkSz56haFnFgDZdX
-	pfeozxdQ6FplFW9I0/CQtr+q8li5qbJrViB/9LMnd+p3ok/AI4QGfbOKRfBamolUERaEhK0NQ14lT
-	Zcw1n0sA==;
-Received: from sslproxy07.your-server.de ([78.47.199.104])
-	by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1wiAAZ-000Fub-2B;
-	Fri, 10 Jul 2026 14:17:27 +0200
-Received: from localhost ([127.0.0.1])
-	by sslproxy07.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1wiAAZ-0003f2-2q;
-	Fri, 10 Jul 2026 14:17:27 +0200
-Message-ID: <01421d53-c379-4044-9da3-5990186303ef@iogearbox.net>
-Date: Fri, 10 Jul 2026 14:17:26 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fydQPaDx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82F051F000E9;
+	Fri, 10 Jul 2026 13:39:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783690762;
+	bh=hWe5y0XfVr4QQQGo0kaEF8UGbBWB4HZz8UbrXKM7Z28=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fydQPaDxS/hHGLVdvf977qUXBNSF6t19lqQW/RqVTS+Xk5pgKo0deA+cWIFhyYRvv
+	 IeSezmg4COMZrohE1QJ6gnvclo/bOnA8j2IrdEmxinGMPa0Cv9pB6NQzVtyWt96x//
+	 6dNWU5GX7waS+2jwE8BVZ3WNZw/wsfy0C0SSKxIKb3QlnIRCNzHVm3c5Ps0q8mrTgW
+	 zsWArKYrCmnfDcrebwcipzmYNQ0mhqZJQQZSGHykLDKtejNlCDmPcno/dc/3rjzGeu
+	 kuxVdLjqHCE3kyZgIMxt9Re36Qo0mzOOVMmO0ZdfPfAx62l26oANlEaaJo1XHJjjzR
+	 MdqLjT6QyxJDg==
+Date: Fri, 10 Jul 2026 14:38:58 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>, 
+	Simon Schuster <schuster.simon@siemens-energy.com>, 
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Ian Abbott <abbotti@mev.co.uk>, 
+	H Hartley Sweeten <hsweeten@visionengravers.com>, Lucas Stach <l.stach@pengutronix.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Thierry Reding <thierry.reding@kernel.org>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>, 
+	Alex Williamson <alex@shazbot.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Dan Williams <djbw@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	Suren Baghdasaryan <surenb@google.com>, "Liam R . Howlett" <liam@infradead.org>, 
+	Matthew Wilcox <willy@infradead.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Oleg Nesterov <oleg@redhat.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	SeongJae Park <sj@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
+	Hugh Dickins <hughd@google.com>, Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org, linux-sgx@vger.kernel.org, 
+	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-mm@kvack.org, 
+	iommu@lists.linux.dev, linux-perf-users@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, damon@lists.linux.dev, 
+	Pedro Falcato <pfalcato@suse.de>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+	Jann Horn <jannh@google.com>
+Subject: Re: [PATCH 02/30] mm: add kdoc comments for vma_start/last_pgoff()
+Message-ID: <alD1h7kHZdX_0I-0@lucifer>
+References: <cover.1782735110.git.ljs@kernel.org>
+ <8c618dfd7de419e3b797b8bd1cd921d4c5b8878b.1782735110.git.ljs@kernel.org>
+ <03762de9-c695-4cdd-8c25-4fc31335ea15@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH vfs/vfs-7.2.xattr v3] bpf: Add simple xattr support to
- bpffs
-To: Carlos Llamas <cmllamas@google.com>,
- Christian Brauner <brauner@kernel.org>
-Cc: bpf@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Alexei Starovoitov <ast@kernel.org>
-References: <20260602074012.416289-1-daniel@iogearbox.net>
- <20260603-abwenden-plagiat-abtropfen-31bd59c3140b@brauner>
- <akWdcp6P0FkNDzBk@google.com>
-Content-Language: en-US
-From: Daniel Borkmann <daniel@iogearbox.net>
-Autocrypt: addr=daniel@iogearbox.net; keydata=
- xsFNBGNAkI0BEADiPFmKwpD3+vG5nsOznvJgrxUPJhFE46hARXWYbCxLxpbf2nehmtgnYpAN
- 2HY+OJmdspBntWzGX8lnXF6eFUYLOoQpugoJHbehn9c0Dcictj8tc28MGMzxh4aK02H99KA8
- VaRBIDhmR7NJxLWAg9PgneTFzl2lRnycv8vSzj35L+W6XT7wDKoV4KtMr3Szu3g68OBbp1TV
- HbJH8qe2rl2QKOkysTFRXgpu/haWGs1BPpzKH/ua59+lVQt3ZupePpmzBEkevJK3iwR95TYF
- 06Ltpw9ArW/g3KF0kFUQkGXYXe/icyzHrH1Yxqar/hsJhYImqoGRSKs1VLA5WkRI6KebfpJ+
- RK7Jxrt02AxZkivjAdIifFvarPPu0ydxxDAmgCq5mYJ5I/+BY0DdCAaZezKQvKw+RUEvXmbL
- 94IfAwTFA1RAAuZw3Rz5SNVz7p4FzD54G4pWr3mUv7l6dV7W5DnnuohG1x6qCp+/3O619R26
- 1a7Zh2HlrcNZfUmUUcpaRPP7sPkBBLhJfqjUzc2oHRNpK/1mQ/+mD9CjVFNz9OAGD0xFzNUo
- yOFu/N8EQfYD9lwntxM0dl+QPjYsH81H6zw6ofq+jVKcEMI/JAgFMU0EnxrtQKH7WXxhO4hx
- 3DFM7Ui90hbExlFrXELyl/ahlll8gfrXY2cevtQsoJDvQLbv7QARAQABzSZEYW5pZWwgQm9y
- a21hbm4gPGRhbmllbEBpb2dlYXJib3gubmV0PsLBkQQTAQoAOxYhBCrUdtCTcZyapV2h+93z
- cY/jfzlXBQJjQJCNAhsDBQkHhM4ACAsJCAcNDAsKBRUKCQgLAh4BAheAAAoJEN3zcY/jfzlX
- dkUQAIFayRgjML1jnwKs7kvfbRxf11VI57EAG8a0IvxDlNKDcz74mH66HMyhMhPqCPBqphB5
- ZUjN4N5I7iMYB/oWUeohbuudH4+v6ebzzmgx/EO+jWksP3gBPmBeeaPv7xOvN/pPDSe/0Ywp
- dHpl3Np2dS6uVOMnyIsvmUGyclqWpJgPoVaXrVGgyuer5RpE/a3HJWlCBvFUnk19pwDMMZ8t
- 0fk9O47HmGh9Ts3O8pGibfdREcPYeGGqRKRbaXvcRO1g5n5x8cmTm0sQYr2xhB01RJqWrgcj
- ve1TxcBG/eVMmBJefgCCkSs1suriihfjjLmJDCp9XI/FpXGiVoDS54TTQiKQinqtzP0jv+TH
- 1Ku+6x7EjLoLH24ISGyHRmtXJrR/1Ou22t0qhCbtcT1gKmDbTj5TcqbnNMGWhRRTxgOCYvG0
- 0P2U6+wNj3HFZ7DePRNQ08bM38t8MUpQw4Z2SkM+jdqrPC4f/5S8JzodCu4x80YHfcYSt+Jj
- ipu1Ve5/ftGlrSECvy80ZTKinwxj6lC3tei1bkI8RgWZClRnr06pirlvimJ4R0IghnvifGQb
- M1HwVbht8oyUEkOtUR0i0DMjk3M2NoZ0A3tTWAlAH8Y3y2H8yzRrKOsIuiyKye9pWZQbCDu4
- ZDKELR2+8LUh+ja1RVLMvtFxfh07w9Ha46LmRhpCzsFNBGNAkI0BEADJh65bNBGNPLM7cFVS
- nYG8tqT+hIxtR4Z8HQEGseAbqNDjCpKA8wsxQIp0dpaLyvrx4TAb/vWIlLCxNu8Wv4W1JOST
- wI+PIUCbO/UFxRy3hTNlb3zzmeKpd0detH49bP/Ag6F7iHTwQQRwEOECKKaOH52tiJeNvvyJ
- pPKSKRhmUuFKMhyRVK57ryUDgowlG/SPgxK9/Jto1SHS1VfQYKhzMn4pWFu0ILEQ5x8a0RoX
- k9p9XkwmXRYcENhC1P3nW4q1xHHlCkiqvrjmWSbSVFYRHHkbeUbh6GYuCuhqLe6SEJtqJW2l
- EVhf5AOp7eguba23h82M8PC4cYFl5moLAaNcPHsdBaQZznZ6NndTtmUENPiQc2EHjHrrZI5l
- kRx9hvDcV3Xnk7ie0eAZDmDEbMLvI13AvjqoabONZxra5YcPqxV2Biv0OYp+OiqavBwmk48Z
- P63kTxLddd7qSWbAArBoOd0wxZGZ6mV8Ci/ob8tV4rLSR/UOUi+9QnkxnJor14OfYkJKxot5
- hWdJ3MYXjmcHjImBWplOyRiB81JbVf567MQlanforHd1r0ITzMHYONmRghrQvzlaMQrs0V0H
- 5/sIufaiDh7rLeZSimeVyoFvwvQPx5sXhjViaHa+zHZExP9jhS/WWfFE881fNK9qqV8pi+li
- 2uov8g5yD6hh+EPH6wARAQABwsF8BBgBCgAmFiEEKtR20JNxnJqlXaH73fNxj+N/OVcFAmNA
- kI0CGwwFCQeEzgAACgkQ3fNxj+N/OVfFMhAA2zXBUzMLWgTm6iHKAPfz3xEmjtwCF2Qv/TT3
- KqNUfU3/0VN2HjMABNZR+q3apm+jq76y0iWroTun8Lxo7g89/VDPLSCT0Nb7+VSuVR/nXfk8
- R+OoXQgXFRimYMqtP+LmyYM5V0VsuSsJTSnLbJTyCJVu8lvk3T9B0BywVmSFddumv3/pLZGn
- 17EoKEWg4lraXjPXnV/zaaLdV5c3Olmnj8vh+14HnU5Cnw/dLS8/e8DHozkhcEftOf+puCIl
- Awo8txxtLq3H7KtA0c9kbSDpS+z/oT2S+WtRfucI+WN9XhvKmHkDV6+zNSH1FrZbP9FbLtoE
- T8qBdyk//d0GrGnOrPA3Yyka8epd/bXA0js9EuNknyNsHwaFrW4jpGAaIl62iYgb0jCtmoK/
- rCsv2dqS6Hi8w0s23IGjz51cdhdHzkFwuc8/WxI1ewacNNtfGnorXMh6N0g7E/r21pPeMDFs
- rUD9YI1Je/WifL/HbIubHCCdK8/N7rblgUrZJMG3W+7vAvZsOh/6VTZeP4wCe7Gs/cJhE2gI
- DmGcR+7rQvbFQC4zQxEjo8fNaTwjpzLM9NIp4vG9SDIqAm20MXzLBAeVkofixCsosUWUODxP
- owLbpg7pFRJGL9YyEHpS7MGPb3jSLzucMAFXgoI8rVqoq6si2sxr2l0VsNH5o3NgoAgJNIg=
-In-Reply-To: <akWdcp6P0FkNDzBk@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: Clear (ClamAV 1.4.3/28056/Fri Jul 10 08:24:04 2026)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <03762de9-c695-4cdd-8c25-4fc31335ea15@kernel.org>
 
-On 7/2/26 1:06 AM, Carlos Llamas wrote:
-> On Wed, Jun 03, 2026 at 09:07:55AM +0200, Christian Brauner wrote:
->> On Tue, 02 Jun 2026 09:40:12 +0200, Daniel Borkmann wrote:
->>> Add support for extended attributes on bpffs inodes so that user space
->>> and BPF LSM programs can attach metadata, for example, a content hash
->>> or a security label - to a pinned object or directory. BPF LSM or user
->>> space tooling can then uniformly look at this (e.g. security.bpf.*) in
->>> similar way to other fs'es. The store is in-memory and non-persistent:
->>> it lives only for the lifetime of the mount, like everything else in
->>> bpffs. The modelling is similar to tmpfs.
->>>
->>> [...]
->>
->> Applied to the vfs-7.2.xattr branch of the vfs/vfs.git tree.
->> Patches in the vfs-7.2.xattr branch should appear in linux-next soon.
->>
->> Please report any outstanding bugs that were missed during review in a
->> new review to the original patch series allowing us to drop it.
->>
->> It's encouraged to provide Acked-bys and Reviewed-bys even though the
->> patch has now been applied. If possible patch trailers will be updated.
->>
->> Note that commit hashes shown below are subject to change due to rebase,
->> trailer updates or similar. If in doubt, please check the listed branch.
->>
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
->> branch: vfs-7.2.xattr
->>
->> [1/1] bpf: Add simple xattr support to bpffs
->>        https://git.kernel.org/vfs/vfs/c/a146500e1144
-> 
-> Hey Christian / Daniel,
-> 
-> I'm getting a regression with this patch when using genfs for bpffs. It
-> seems like calling selinux_inode_init_security() with !SBLABEL_MNT will
-> leave the isec->initialized before doing the EOPNOTSUPP exit.
-> 
-> The genfs path is later skipped because inode_doinit_with_dentry() sees
-> the inode initialized and I get denials in userspace.
-> 
-> I don't know if this would be correct but doing the check for
-> SBLABEL_MNT before marking the isec as initialized worked for me.
-> 
-> Any thoughts? Should I send a formal patch?
+On Tue, Jul 07, 2026 at 04:46:13PM +0200, David Hildenbrand (Arm) wrote:
+> On 6/29/26 14:23, Lorenzo Stoakes wrote:
+> > Describe what vma_start_pgoff() and vma_last_pgoff() actually provide in
+> > detail.
+> >
+> > This is in order that we can differentiate this between functions that will
+> > be added in a subsequent patch which provide a different page offset.
+> >
+> > No functional change intended.
+> >
+> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+> > ---
+> >  include/linux/mm.h | 26 ++++++++++++++++++++++++++
+> >  1 file changed, 26 insertions(+)
+> >
+> > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > index 059144435729..2f00c75e66bd 100644
+> > --- a/include/linux/mm.h
+> > +++ b/include/linux/mm.h
+> > @@ -4278,11 +4278,37 @@ static inline unsigned long vma_pages(const struct vm_area_struct *vma)
+> >  	return (vma->vm_end - vma->vm_start) >> PAGE_SHIFT;
+> >  }
+> >
+> > +/**
+> > + * vma_start_pgoff() - Get the page offset of the start of @vma
+> > + * @vma: The VMA whose page offset is required.
+> > + *
+> > + * If the VMA is file-backed, this is the page offset into the file.
+> > + *
+> > + * If the VMA is anonymous, this is the virtual page offset of the start of the
+> > + * VMA - if unfaulted, then vma->vm_start >> PAGE_SHIFT, if faulted then the
+> > + * virtual page offset at the time of first fault.
+> > + *
+> > + * Note that if @vma is a MAP_PRIVATE file-backed mapping, then this returns the
+> > + * file offset.
+>
+> There is the ugly case of @vma being a MAP_PRIVATE PFNMAP mapping, where it
+> returns something different.
 
-Yeap, sorry for the delay; fwiw looks reasonable.
+Yup, the pfn  I will update doc to mention this abomination too.
 
-> Carlos Llamas
-> 
-> ---
-> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> index 0f704380a8c8..9cb1724d2bbc 100644
-> --- a/security/selinux/hooks.c
-> +++ b/security/selinux/hooks.c
-> @@ -2980,6 +2980,10 @@ static int selinux_inode_init_security(struct inode *inode, struct inode *dir,
->   	if (rc)
->   		return rc;
->   
-> +	if (!selinux_initialized() ||
-> +	    !(sbsec->flags & SBLABEL_MNT))
-> +		return -EOPNOTSUPP;
-> +
->   	/* Possibly defer initialization to selinux_complete_init. */
->   	if (sbsec->flags & SE_SBINITIALIZED) {
->   		struct inode_security_struct *isec = selinux_inode(inode);
-> @@ -2988,10 +2992,6 @@ static int selinux_inode_init_security(struct inode *inode, struct inode *dir,
->   		isec->initialized = LABEL_INITIALIZED;
->   	}
->   
-> -	if (!selinux_initialized() ||
-> -	    !(sbsec->flags & SBLABEL_MNT))
-> -		return -EOPNOTSUPP;
-> -
->   	xattr = lsm_get_xattr_slot(xattrs, xattr_count);
->   	if (xattr) {
->   		rc = security_sid_to_context_force(newsid,
+The virt pgoff stuff in the RFC fixes this also.
 
+>
+> (remap_pfn_range_prepare_vma() -> vma->vm_pgoff set to PFN)
+>
+> --
+> Cheers,
+>
+> David
+
+Cheers, Lorenzo
