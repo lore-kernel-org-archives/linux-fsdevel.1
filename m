@@ -1,56 +1,51 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437CD4307A3;
-	Fri, 10 Jul 2026 14:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC163B83FC
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 14:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783694774; cv=none; b=iTPHoHS+J5pQJCVGsoZB3CPe4veBo8sfuD6f8xhQMXylYuJ/oyGBNS49rjcZi9meWUGIU3qDTBdsdZjPEHJViwsKkZzP9fI6bzqgRUHsvJEeKxUKN22+oK10u98SAb4g+eEsIArYtMsew9LcU56YG1PTD4+gSc+aqfpoiNn7zk8=
+	t=1783694986; cv=none; b=EOCl5/uF74wcWO8CntVy7XL2TYcKIV9WpPCoKMwCCsuVjvDztorSI/0Msfi2m8HDLbI+pe1MCSNaxEeJvQclh1qT/L4/3I3ob8Ou0GM2knAirPgDlCm8xCqUimfqJprCKTEG5tU4Nwo2O9//vHW6HOLhOEHwtb2o8ymnIT/+heI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783694774; c=relaxed/simple;
-	bh=Dw9xdEGg9wTCqFqxiSyXD+ZhJ66SK/WH3omelNAvHto=;
+	s=arc-20240116; t=1783694986; c=relaxed/simple;
+	bh=14XUhcKvhhsH3tjfWwUuL2DZp/rZswDqj++URGzSeCA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Uz1QgYjsso1fgcgdehPd5NbmoLNU0+morbn4IYxuVMtyJXuAf/GWC3ca2X6PqVwnmT0zoPk6laDlGEEYeUPRM7HUiP9WniHx2AcXTTIesjFrMUtAtr/z42Go5lr9/dIoSDGSnulh2lV9LQMV/UXKTWo0E7LRhyRa4ma0OhGOoOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=s2bOTWyw; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bo4CTDLZ; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 MIME-Version; b=I+SYfWNj6yp0jbEAvTGuQpP+xJCJ8GYj0+uy45yABPgxYqduG+rM5Qzzemx+e52JnTtdHIj0cbyFBHZBd6FYnRY19B2UcqgSIjhcvIdjxisMOe23WAlbh/5llEMAq3zs4Nld1fIyR4ncodTem06kBZM0Q/s0QD8s65bVzr4GkIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=JmU/jn0G; arc=none smtp.client-ip=95.215.58.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="s2bOTWyw";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bo4CTDLZ"
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1783694771;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="JmU/jn0G"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1783694978;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=oVbhUuCZle+3NabaAPt71woodETjuGi3B30OSytnWs8=;
-	b=s2bOTWyw+HMWtsyfRjhgPcKx0k3aLHP2TE1E8XelbSxB2Zkg52XR6hFajYll6wgXUWJHyI
-	F0mvenJubaEmWBi3utySOD7tpDiDoyXTd01gZWTLY6UX/jIAfPllCI6ewbmEtoo1U7D9Fk
-	FcjExIM83oJfYEyoU1nrhT4mQxRFBxgaQ96AUZbAsEZigv/tf9wI4gVPNS88SnAyOcxzxD
-	3DHmIZXDd/zRACCb09xmndgMyEV7MTaRNFQflqWbRlN/b11iK2ZlGDdkDeOGeF0c1Pg5Gl
-	N+++a5ulZ9EqyUhCe0uMm+orsnxCCL0oUbvqve2xO4oh1XAMOZFFN0+F32xbzQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1783694771;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oVbhUuCZle+3NabaAPt71woodETjuGi3B30OSytnWs8=;
-	b=bo4CTDLZw2UXHbL6PmUhs1IKnjsu1/uEXLf3Eb21N0+OYQiVN9FU5JPEPK/IvekCGpYTiU
-	lUOTmk2AGR25fEBQ==
-To: Petr Mladek <pmladek@suse.com>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andrew Murray <amurray@thegoodpenguin.co.uk>,
-	Chris Down <chris@chrisdown.name>,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH printk 2/3] proc: Add console sync support for /proc/consoles
-Date: Fri, 10 Jul 2026 16:51:52 +0206
-Message-ID: <20260710144609.194487-3-john.ogness@linutronix.de>
-In-Reply-To: <20260710144609.194487-1-john.ogness@linutronix.de>
-References: <20260710144609.194487-1-john.ogness@linutronix.de>
+	bh=fXZlxSO/l92LMpl6/wSr5Uj7XlqGnryB8RQYDio6xSg=;
+	b=JmU/jn0Gt4Y7cqKt/pqB4N9AsbtjK+l0fkxsrbznBJ3RTnlOfTULLd4rAPCSiGh2BKcRnG
+	RCr2Ox90kU/lZ+DtVvdN8Y/5+HoUrU581oMSjuaESOaHkPBQCJnleBEuxLk1WCTwFv17OY
+	sqDUnPxa9wuAI/XuzwBXgPDmRnKAFfM=
+From: Usama Arif <usama.arif@linux.dev>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Usama Arif <usama.arif@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jane Chu <jane.chu@oracle.com>,
+	linux-mm@kvack.org,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <christian@brauner.io>
+Subject: Re: [PATCH v2 04/10] hugetlb: Set mapping folio order
+Date: Fri, 10 Jul 2026 07:49:32 -0700
+Message-ID: <20260710144932.1582955-1-usama.arif@linux.dev>
+In-Reply-To: <20260709184740.1286561-5-willy@infradead.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -58,27 +53,61 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Update /proc/consoles output to show 's' if a console is
-running in sync mode.
+On Thu,  9 Jul 2026 19:47:32 +0100 "Matthew Wilcox (Oracle)" <willy@infradead.org> wrote:
 
-Signed-off-by: John Ogness <john.ogness@linutronix.de>
----
- fs/proc/consoles.c | 1 +
- 1 file changed, 1 insertion(+)
+> hugetlbfs currently uses an fs-specific way to determine the size of
+> the folios in its page cache.  Thanks to the support of block sizes
+> larger than page sizes, we now support this as part of the page cache.
+> It's somewhat more efficient as we have this information directly in the
+> mapping rather than going from inode->i_sb->s_fs_info.  We can convert
+> the rest of the hugetlb code to use this at our leisure; this is needed
+> now so that we can use filemap_get_pages() unmodified.
+> 
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> ---
+>  fs/hugetlbfs/inode.c | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+> index 216e1a0dd0b2..1760df6f2709 100644
+> --- a/fs/hugetlbfs/inode.c
+> +++ b/fs/hugetlbfs/inode.c
+> @@ -883,6 +883,16 @@ static struct inode *hugetlbfs_get_root(struct super_block *sb,
+>  	return inode;
+>  }
+>  
+> +static void hugetlbfs_init_regular_inode(struct inode *inode)
+> +{
+> +	struct hstate *hstate = hstate_inode(inode);
+> +	unsigned int order = huge_page_order(hstate);
+> +
+> +	inode->i_op = &hugetlbfs_inode_operations;
+> +	inode->i_fop = &hugetlbfs_file_operations;
+> +	mapping_set_folio_order_range(inode->i_mapping, order, order);
 
-diff --git a/fs/proc/consoles.c b/fs/proc/consoles.c
-index b7cab1ad990da..f9af07d161412 100644
---- a/fs/proc/consoles.c
-+++ b/fs/proc/consoles.c
-@@ -25,6 +25,7 @@ static int show_console_dev(struct seq_file *m, void *v)
- 		{ CON_PRINTBUFFER,	'p' },
- 		{ CON_BRL,		'b' },
- 		{ CON_ANYTIME,		'a' },
-+		{ CON_SYNC,		's' },
- 	};
- 	char flags[ARRAY_SIZE(con_flags) + 1];
- 	struct console *con = v;
--- 
-2.47.3
+We are setting mapping_set_folio_order_range(), but mapping_min_folio_order()
+and mapping_max_folio_order() will still return 0 if CONFIG_TRANSPARENT_HUGEPAGE
+is disabled but hugetlb is enabled. I am guessing this will be tackled in
+one of the following patches in the series.
 
+> +}
+> +
+>  /*
+>   * Hugetlbfs is not reclaimable; therefore its i_mmap_rwsem will never
+>   * be taken from reclaim -- unlike regular filesystems. This needs an
+> @@ -926,8 +936,7 @@ static struct inode *hugetlbfs_get_inode(struct super_block *sb,
+>  			init_special_inode(inode, mode, dev);
+>  			break;
+>  		case S_IFREG:
+> -			inode->i_op = &hugetlbfs_inode_operations;
+> -			inode->i_fop = &hugetlbfs_file_operations;
+> +			hugetlbfs_init_regular_inode(inode);
+>  			break;
+>  		case S_IFDIR:
+>  			inode->i_op = &hugetlbfs_dir_inode_operations;
+> -- 
+> 2.47.3
+> 
+> 
