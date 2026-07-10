@@ -1,149 +1,153 @@
-Received: from mout.web.de (mout.web.de [212.227.15.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA883D3D09;
-	Fri, 10 Jul 2026 07:52:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA653AE6E9;
+	Fri, 10 Jul 2026 07:58:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783669940; cv=none; b=PP5VQ8Ja3Uvt96AzqKyW/GV4SNn2u3aYXgIb35CIQ/KEMk0rjGM3b3jTcmHXnZKnzJ4n+wclTtDOaVe/SmC5cCpEZt5z/ecN6VPzsuBg1XLTlvyccB9mkM+TnfQ3zg2XOe/OBp0LBdx3wRYhXgumdn013cFgmNcIJq4XyCgFdSA=
+	t=1783670340; cv=none; b=s+AkAnsTredLalGgb7XYjWriJKY6UNi9fhC2+Yk5mDNFjxZlpWgbqfUP3r9t9pyIFsvKG2kxCVeVTQd3lqusjYKMdlQJ3hbi4kRmyyJMjyfO8IJkGO6wAjG3ykoQkge+iX9EkR5cZTydqd1C6fvQHvvTadvuib/4c7FtUkk5euU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783669940; c=relaxed/simple;
-	bh=uWmsIYTRdAY8EC7qmdc94Rh0bih6B0GWRiGI+/a4cd8=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=Hv4dMfmKj6XubNU968IERYNAw8X/KWsW+YbIFDopqeGHCOWUg3Mu5ttifM1VWBG2Q3LsV1Rn6bWeeE82RWvkBQz/2JK4pYBrOKtQQA5DDf8NfchHWjibRlMzCPqhEgxXjEs/iuk+CPdEa67smj6nc7W5XjuKDUjxG3PMu+Tca7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=vFu9oHCh; arc=none smtp.client-ip=212.227.15.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1783670340; c=relaxed/simple;
+	bh=i+9k/qCZC42axD9e/Q5BsbX8vqk8Mlzz3oda8wQw/FE=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=X/IXIPO7nR/6MVem3MSR3HnGKzf5/5nMUh4lVA/ya/l5s1oLZnSCaBuscSSs9A2Li1V8LZAlHXDmgy7cHkcPHJ4PJO2EFxWChqHNN7ygikdq9mbjVkbguvNroERiFR3ll816BkWw+Z0JN1owyzxm+Tu1iXxXnjEgmzCz0LNQVfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XT9ruq9V; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="vFu9oHCh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1783669913; x=1784274713; i=markus.elfring@web.de;
-	bh=1Iu00rCKH+m4f7RYlDaRd2j210yRjvPsEnyltwIPMSM=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=vFu9oHChJ0QukYplHDxsJcfFpWWsHCrCoDtpIFJ+IddPgfQbMss+MeRnwpb4WQJY
-	 uR0sQAWZGA7htAOzINrDfsW5yW3Toxx2AyTdjaEnxzzktxyeiMbgcEmt/tNAddTaB
-	 +ESyuHGnczuv29Rl9qbrJHHIWqDcpoF/8PLksplGhFX2ngFhSeQJfuV0UWFHVB5fQ
-	 6TnQWL42nHLG+Nb6oq1xor8qWUr9sYIqn0qbADncSTOr0dQ9fgoihJ569oxxfyL2Z
-	 LKjfFDXqmfYiacMrPPHbuY+iqCtN6Nhg8tVseXPNEyGfZrslEmjw/+b+BVUIqpDRs
-	 VAqUZBZebrgSzc2psw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N3Gkg-1x8wY73DNq-017FgL; Fri, 10
- Jul 2026 09:51:53 +0200
-Message-ID: <222b41c0-24e2-4ddf-b323-3c81403e3603@web.de>
-Date: Fri, 10 Jul 2026 09:51:43 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XT9ruq9V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D39F11F000E9;
+	Fri, 10 Jul 2026 07:58:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783670339;
+	bh=7z64Yjh6oprdYOkOccqXqa+zyIEaBTLMckJTU03fgvM=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=XT9ruq9VLPkDmgX6GaPHCeU92R+VAHAxOgUyPGuxt/IgDJuTSU+rJO8dxJUNP7oWm
+	 f4qi9Wt1H8sn0KRTRJoQHNDNDF5YgfZnE1XEwPFLQkGwimI1HMTAcFRFK+5zRT+cWt
+	 DzlY1CmYhH7cncVFJhzjeNYgKGWjxrh5SjcvRzGRX+XNirRHPgnU59ODeSJ2fyaGfB
+	 k75/kXY3FuJedD7aZEXU0cpMRutjOM4MHXuNINZ20BnW+Spgu8OrEV9gzCsz+T1s2D
+	 Bpb2Cj+6bEH2zMEaovvnpBRJt6d8H9aaUYPHYl9hxnRSjc6xmzqwct99h8wIHWG4EF
+	 zz1TnhESfcQHQ==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Yi Xie <xieyi@kylinos.cn>, linux-fsdevel@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>, Chuck Lever <cel@kernel.org>,
- Jeff Layton <jlayton@kernel.org>
-References: <20260519010140.37251-1-xieyi@kylinos.cn>
-Subject: Re: [PATCH] exportfs: fix error handling in expfs.c
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20260519010140.37251-1-xieyi@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:3cWkmXS/N9eKhEZMX1rH+XW46yjeKoQLCCcL7cD+yTW+csJ5Ilr
- YAd1UQzVukluE8Bvl2THffP4Tvko6vK3kCRQMTDsMbkJv0/A6eEnxODf9VWGvnAabq9OE1V
- zNCB8KOEc3uZ/2hEJcvewYvFzwAjjCyIc7M6f+uWVfU/N+eqlLQAdM9MuUTyyfHpcNFwmH4
- T2lFsj6tffpPsDo3KDQBA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:NJDkla4m7vY=;Advy51a/nlRI3FMi/7k5bjB/95b
- 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
+Subject: Re: [PATCH v2 00/23] binfmt_misc: write access fixes, RCU handler
+ lookup and cleanups
+From: Christian Brauner <brauner@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Jan Kara <jack@suse.cz>, linux-mm@kvack.org, 
+ Farid Zakaria <farid.m.zakaria@gmail.com>, jannh@google.com, 
+ stable@vger.kernel.org
+In-Reply-To: <20260710-work-binfmt_misc-locking-v2-0-2a1c3d4126a7@kernel.org>
+References: <20260710-work-binfmt_misc-locking-v2-0-2a1c3d4126a7@kernel.org>
+Date: Fri, 10 Jul 2026 09:58:54 +0200
+Message-Id: <20260710-holzweg-berechenbar-unbeirrbar-83c525ecee0a@brauner>
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5229; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=i+9k/qCZC42axD9e/Q5BsbX8vqk8Mlzz3oda8wQw/FE=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQFLHOMVJHT6usLvxh7edclrWmb14Qe+vnAVnrDj3vzf
+ wgdP/f1U0cpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBEzNwZGc7v+TShIvdgeWX9
+ Y5+dTdJdU1er5RoeKl8gG5ilGOnptYeR4R93y7wHErWqnr/9uHa+keKK2iByu+vSutdxhzhWLF7
+ yjxcA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-> dentry_open() and fh_to_parent() were calling PTR_ERR() before
-> checking IS_ERR().  Drop the redundant sched.h include too, cred.h
-> already pulls it in.
+> The first two patches fix two i_writecount imbalances on
+> MISC_FMT_OPEN_FILE interpreter files that turned up while auditing
+> the file for the rework below and are marked for stable: removing an
+> entry never restored the write access denied by open_exec() at
+> registration, leaving the interpreter unwritable until its inode gets
+> evicted, and the write denial taken on the interpreter clone during
+> exec is not paired with the FMODE_FSNOTIFY_HSM aware release the exec
+> machinery uses, so pre-content watches make execs leak write denials.
+> 
+> The rest reworks the locking and tidies the file up.
+> 
+> Once binfmt_misc is loaded load_misc_binary() runs for every execve()
+> on the system since binfmt_misc registers at the head of the formats
+> list. Every exec therefore performs read_lock() and read_unlock() on
+> the entries_lock of the relevant binfmt_misc instance, i.e., two
+> atomic read-modify-writes on a shared cacheline, in the common case
+> just to conclude that the binary matches no handler. User namespaces
+> without their own binfmt_misc mount fall back to an ancestor's
+> instance so on container-heavy systems every exec on the machine
+> typically ends up hammering the cacheline of init_binfmt_misc. On
+> PREEMPT_RT the rwlock additionally turns the handler lookup into a
+> sleeping lock on the exec fast path.
+> 
+> The lock protects very little. Entries are immutable after publication
+> except for the Enabled bit which is already toggled locklessly via
+> set_bit()/clear_bit() and entry lifetime is already handled by the
+> users refcount. The read lock's only remaining job is to make "the
+> entry is still linked" and "take a reference" atomic with respect to
+> the unlink sites.
+> 
+> So make the lookup an RCU walk that acquires a reference via
+> refcount_inc_not_zero() and free entries via kfree_rcu(). The removal
+> paths need to detect whether an entry has already been unlinked and
+> rely on list_del_init() reinitialization for that today, but
+> reinitializing the forward pointer of a removed entry would make a
+> concurrent lockless walker standing on it loop indefinitely. hlists
+> support exactly this pattern: hlist_del_init_rcu() keeps the forward
+> pointer of a removed entry intact for concurrent walkers and only
+> zeroes ->pprev with hlist_unhashed() serving as the linked test. Hence
+> the third patch converts the entry list to an hlist so the RCU
+> conversion in the fourth is a pure locking change.
+> 
+> Writers remain serialized by the inode lock of the root dentry with
+> one exception: bm_evict_inode() unlinks entries during umount without
+> holding it. A spinlock stays around the unlink sites to make that
+> exclusion explicit instead of relying on superblock lifetime rules to
+> provide it implicitly.
+> 
+> Handler removal semantics are unchanged. An exec that acquired a
+> reference just before its handler was unregistered already completes
+> with the removed handler today. The read lock never protected against
+> that, it only made the window smaller.
+> 
+> With this an exec that matches no binfmt_misc entry no longer writes
+> to any shared cacheline at all. The fifth patch annotates the
+> long-standing lockless ->enabled accesses for KCSAN and the three
+> patches after it make the entry flags proper enums and give struct
+> binfmt_misc_entry a name that isn't Node.
+> 
+> The remaining patches are a cleanup pass over the whole file: remove
+> the VERBOSE_STATUS and USE_DEBUG compile-time toggles, convert the
+> entry file to seq_file, factor out entry matching, entry removal and
+> the register string field parsing, make the entry/register string
+> allocation a flexible array member, give the parse_command() results
+> names, let cleanup.h unwind the entry registration and exec error paths
+> and prune the include list down to what is used. Aside from
+> seq_lseek() now bounding seeks on entry files and the ETXTBSY
+> propagation in the second patch the cleanups have no user-visible
+> effect.
+> 
+> The last patch adds what the comment in remove_binfmt_handler() had
+> been suggesting for years: entries can now be removed via unlink(2)
+> in addition to the -1 write. The status and register control files
+> refuse removal.
+> 
+> ---
+> Changes in v2:
+> - Allow removing entries via unlink(2).
+> - Add two stable-marked fixes restoring i_writecount balance for
+>   MISC_FMT_OPEN_FILE interpreter files, first so they apply to
+>   mainline directly.
+> - Turn the entry bit numbers and behavior flags into proper enums and
+>   rename Node to struct binfmt_misc_entry.
+> - Add a cleanup pass over the whole file: remove the VERBOSE_STATUS
+>   and USE_DEBUG toggles, convert the entry file to seq_file, factor
+>   out entry matching, entry removal and register string parsing, use
+>   a flexible array member for the register string, name the
+>   parse_command() results, use cleanup.h for the entry error
+>   unwinding in registration and exec and prune the include list.
+> - Link to v1: https://patch.msgid.link/20260708-work-binfmt_misc-locking-v1-0-a009dd5b56db@kernel.org
 
-See also once more:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v7.2-rc2#n81
+I'll send a v3 in a bit with one more fix.
 
-Regards,
-Markus
+-- 
+Christian Brauner <brauner@kernel.org>
