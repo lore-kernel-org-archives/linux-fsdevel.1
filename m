@@ -1,34 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ABF93F65F9
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 09:33:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5786D3F86F0
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 09:33:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783676014; cv=none; b=Jo5hD7I5Pv4pknIc3dQjnqX54lTuDSceXbSVnfI60tl3KDgC9babvIPOlqHaMQRMyEQcXzoH1RS8XCi9rUQeVwrFRY9pdGWpg+03isnyD7ahmzlSPodn7/p3vMaXXdTxcRjuoj+wS9K0rdXqMTz8usJo7Qr6kLhjXR6TUnbGXpw=
+	t=1783676016; cv=none; b=ndPCBGqrqr0Lv55O3cfW8oQ6Ho4ZG8pFGDEvdpuUyYalUlI6HZV0pNZZVBzQgimH1TvEATeEdoEnlWenddXQOZAKGNpRSsNnR0TODbmfQaXNot/eKXFxf2EPwkWQs+x6dGabNnop3CiYz3jOvZhVjxMuLYmsff6qI3afSQqb7t0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783676014; c=relaxed/simple;
-	bh=ElK+yid1mO76xrksl5KOw97v5Pu0FLPrm8Gxu0pXJ8k=;
+	s=arc-20240116; t=1783676016; c=relaxed/simple;
+	bh=Dcrt+QSqAlata86DaTvTin1H3ls8seBaxje2cS4eFWk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=k9mphi/rEnno085cx9oiP23LFbYry70peMJpl57u5bCstcKPLjy/qIom1fTzbOAJB3qo1L0tXMe/SCm1RslbL/SXd+SydoVU26TumCIJMtNtSo/4tJrCEdV9hizgR+xR9OvGPx//fcCT4tvS3oEB1y4ibCV93+YTbHsMqglmhy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RHUvkILI; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=MUxclay5s00SRpwZX3kCQE++Ugv1FnK1FjpwS8DZFW0XEfbHEwfX2hRr71ZzZqtEcN0f98oja8T6PJ66cqrNWC02BBiX3wJWhuHkZULKR0Xx+ccGjz314h4JIplHi7cGw8AZtAtpwOAoC0GdDNZl391cVP765HKV5dntfc9Rq/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WrEvJv4d; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RHUvkILI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C32991F000E9;
-	Fri, 10 Jul 2026 09:33:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WrEvJv4d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 973441F00A3F;
+	Fri, 10 Jul 2026 09:33:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783676013;
-	bh=XXSRrY10BTWWPTtPApZMsCLKyKaoPsSPVdND+noa2X0=;
+	s=k20260515; t=1783676015;
+	bh=m89br04tyLYQ4I/MwspJogYMJTjB4GK+VbNn92eUW0o=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=RHUvkILIimAD00TXQtkOHsCfX6EzzGvIr5/UnqBBfrZy2J2sQG3wyAdlE4qeHy6RV
-	 9Nspx5EjRwkCSl0MzQzobHoVu2/YFohqhiiBkzTaTt7LZkdXPeyfyn0+fTZBiMqYcp
-	 o4tlpvm92DX5uYuqaxaJ9gn+OtuSKhO3n4JoymrU/dpVXjPdu7NbSIkr9aV/H1RlVR
-	 WXJCZUWSBJ96I6zOGA1KQBU0EiiDkAXQw3bkErYZfj9CXk6teUFyC33/FYH7B/oNKb
-	 pDb+46QVgx6G+5uHBouvlNNPFh0KzwysQxJOqc70YKTQCF8dZj/eFjzWw0AH0c50hd
-	 pFPG6Uvt+vSTw==
+	b=WrEvJv4dawq0XTUD22FYy4GaQKuvTC/DFfO/ZywhSl3RTMbyy28JLhjxg6Pb5zE83
+	 qVJqZAkPeTM8ykGx6C+ZXOh/cZ/a47HSJ+K6A3cYEJsZH3UkU6GhyhDSE0yvBY+Px/
+	 F8MOCEkRaSrrlE+REf2yqCvlP9EHL/KRFUiQiqONr6EL/ZS0dlEMEaPOiYUQnLm4Q/
+	 n0/PAsn/eqjPVnCAv9T8tn5P4YutxcN7E//zAOCHAUoiRx30wEBdLXwv3EtCuFDaQ5
+	 LrqQ5rQEVjaz5JvuziSnC1EBUhjzmCaFbpAeLw4EvdAQnXu9bu0i2IPUzJnMLsEiV+
+	 9ypru71iVq12A==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 10 Jul 2026 11:33:07 +0200
-Subject: [PATCH v3 06/24] binfmt_misc: annotate racy accesses to ->enabled
+Date: Fri, 10 Jul 2026 11:33:08 +0200
+Subject: [PATCH v3 07/24] binfmt_misc: turn the entry bit numbers into a
+ proper enum
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-work-binfmt_misc-locking-v3-6-a162f7cb58d6@kernel.org>
+Message-Id: <20260710-work-binfmt_misc-locking-v3-7-a162f7cb58d6@kernel.org>
 References: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
 In-Reply-To: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -46,71 +47,114 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
  linux-mm@kvack.org, Farid Zakaria <farid.m.zakaria@gmail.com>, 
  jannh@google.com
 X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1991; i=brauner@kernel.org;
- h=from:subject:message-id; bh=ElK+yid1mO76xrksl5KOw97v5Pu0FLPrm8Gxu0pXJ8k=;
- b=kA0DAAoWkcYbwGV43KIByyZiAGpQvF7I9pE35k3wYvU8CAl5OQ9tSMLRCQINJ2fDN12qZb1D0
- Ih1BAAWCgAdFiEEQIc0Vx6nDHizMmkokcYbwGV43KIFAmpQvF4ACgkQkcYbwGV43KIRIAEAm8Yl
- 2XP4FmaYgZ87VnCLwf1CEuR7ODGiFx8zAYC3YxQBAPqAoXg9ntG0soCp1E5df1nGe3sYkVwSWWo
- sfd9T0JYO
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3324; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=Dcrt+QSqAlata86DaTvTin1H3ls8seBaxje2cS4eFWk=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQF7Inr3zDlkv6eQD65A41Bq/TyjwmbnduQbHHFd4P1M
+ vEky85ZHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABNZ/YWR4VO6zg4H4Y83jp+9
+ e2XB4i+/mXX3TbaZVXzIcLb4+7CFkWqMDM9/fzydvY6r0+TfkgkezFV93WZXM8vuWB1Y/v+hYTz
+ fTSYA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-->enabled has always been read and written locklessly: every exec
-reads it in load_misc_binary() while bm_status_write() or a concurrent
-remount via bm_fill_super() may flip it. That is fine as it is an
-independent boolean toggle but the accesses should be marked
-accordingly for KCSAN. Annotate them with READ_ONCE()/WRITE_ONCE().
+Enabled and Magic are bit numbers in the flags word of an entry but
+are declared as bare, unprefixed enumerators with implicit values in
+a style that predates the git history. Give the enum a name, explicit
+bit numbers and namespaced names and use BIT() instead of open-coding
+the shifts when building the initial flags word in create_entry().
+
+No functional change.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/binfmt_misc.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ fs/binfmt_misc.c | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
 
 diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-index bd7790a1317b..0b9758da1f88 100644
+index 0b9758da1f88..90962044d19e 100644
 --- a/fs/binfmt_misc.c
 +++ b/fs/binfmt_misc.c
-@@ -217,7 +217,7 @@ static int load_misc_binary(struct linux_binprm *bprm)
- 	struct binfmt_misc *misc;
+@@ -42,7 +42,11 @@ enum {
+ 	VERBOSE_STATUS = 1 /* make it zero to save 400 bytes kernel memory */
+ };
  
- 	misc = load_binfmt_misc();
--	if (!misc->enabled)
-+	if (!READ_ONCE(misc->enabled))
- 		return retval;
+-enum {Enabled, Magic};
++/* Entry status and match type bit numbers. */
++enum binfmt_misc_entry_bits {
++	MISC_FMT_ENABLED_BIT	= 0,
++	MISC_FMT_MAGIC_BIT	= 1,
++};
+ #define MISC_FMT_PRESERVE_ARGV0 (1UL << 31)
+ #define MISC_FMT_OPEN_BINARY (1UL << 30)
+ #define MISC_FMT_CREDENTIALS (1UL << 29)
+@@ -104,11 +108,11 @@ static Node *search_binfmt_handler(struct binfmt_misc *misc,
+ 		int j;
  
- 	fmt = get_binfmt_handler(misc, bprm);
-@@ -875,7 +875,7 @@ bm_status_read(struct file *file, char __user *buf, size_t nbytes, loff_t *ppos)
- 	char *s;
+ 		/* Make sure this one is currently enabled. */
+-		if (!test_bit(Enabled, &e->flags))
++		if (!test_bit(MISC_FMT_ENABLED_BIT, &e->flags))
+ 			continue;
  
- 	misc = i_binfmt_misc(file_inode(file));
--	s = misc->enabled ? "enabled\n" : "disabled\n";
-+	s = READ_ONCE(misc->enabled) ? "enabled\n" : "disabled\n";
- 	return simple_read_from_buffer(buf, nbytes, ppos, s, strlen(s));
- }
+ 		/* Do matching based on extension if applicable. */
+-		if (!test_bit(Magic, &e->flags)) {
++		if (!test_bit(MISC_FMT_MAGIC_BIT, &e->flags)) {
+ 			if (p && !strcmp(e->magic, p + 1))
+ 				return e;
+ 			continue;
+@@ -417,11 +421,11 @@ static Node *create_entry(const char __user *buffer, size_t count)
+ 	switch (*p++) {
+ 	case 'E':
+ 		pr_debug("register: type: E (extension)\n");
+-		e->flags = 1 << Enabled;
++		e->flags = BIT(MISC_FMT_ENABLED_BIT);
+ 		break;
+ 	case 'M':
+ 		pr_debug("register: type: M (magic)\n");
+-		e->flags = (1 << Enabled) | (1 << Magic);
++		e->flags = BIT(MISC_FMT_ENABLED_BIT) | BIT(MISC_FMT_MAGIC_BIT);
+ 		break;
+ 	default:
+ 		goto einval;
+@@ -429,7 +433,7 @@ static Node *create_entry(const char __user *buffer, size_t count)
+ 	if (*p++ != del)
+ 		goto einval;
  
-@@ -892,11 +892,11 @@ static ssize_t bm_status_write(struct file *file, const char __user *buffer,
+-	if (test_bit(Magic, &e->flags)) {
++	if (test_bit(MISC_FMT_MAGIC_BIT, &e->flags)) {
+ 		/* Handle the 'M' (magic) format. */
+ 		char *s;
+ 
+@@ -599,7 +603,7 @@ static void entry_status(Node *e, char *page)
+ 	char *dp = page;
+ 	const char *status = "disabled";
+ 
+-	if (test_bit(Enabled, &e->flags))
++	if (test_bit(MISC_FMT_ENABLED_BIT, &e->flags))
+ 		status = "enabled";
+ 
+ 	if (!VERBOSE_STATUS) {
+@@ -621,7 +625,7 @@ static void entry_status(Node *e, char *page)
+ 		*dp++ = 'F';
+ 	*dp++ = '\n';
+ 
+-	if (!test_bit(Magic, &e->flags)) {
++	if (!test_bit(MISC_FMT_MAGIC_BIT, &e->flags)) {
+ 		sprintf(dp, "extension .%s\n", e->magic);
+ 	} else {
+ 		dp += sprintf(dp, "offset %i\nmagic ", e->offset);
+@@ -745,11 +749,11 @@ static ssize_t bm_entry_write(struct file *file, const char __user *buffer,
  	switch (res) {
  	case 1:
- 		/* Disable all handlers. */
--		misc->enabled = false;
-+		WRITE_ONCE(misc->enabled, false);
+ 		/* Disable this handler. */
+-		clear_bit(Enabled, &e->flags);
++		clear_bit(MISC_FMT_ENABLED_BIT, &e->flags);
  		break;
  	case 2:
- 		/* Enable all handlers. */
--		misc->enabled = true;
-+		WRITE_ONCE(misc->enabled, true);
+ 		/* Enable this handler. */
+-		set_bit(Enabled, &e->flags);
++		set_bit(MISC_FMT_ENABLED_BIT, &e->flags);
  		break;
  	case 3:
- 		/* Delete all handlers. */
-@@ -1007,7 +1007,7 @@ static int bm_fill_super(struct super_block *sb, struct fs_context *fc)
- 	 * someone mounts binfmt_misc for the first time or again we simply
- 	 * reset ->enabled to true.
- 	 */
--	misc->enabled = true;
-+	WRITE_ONCE(misc->enabled, true);
- 
- 	err = simple_fill_super(sb, BINFMTFS_MAGIC, bm_files);
- 	if (!err)
+ 		/* Delete this handler. */
 
 -- 
 2.53.0
