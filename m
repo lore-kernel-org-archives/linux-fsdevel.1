@@ -1,141 +1,187 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D36367283
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 05:43:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783662208; cv=pass; b=qymsuCkuPZLHpIqatKwOG71n4lcZg2RULKA3F4WkHsPtcGpc/4voGDnzCSPJebH9hld0WQpqgF39dtuMsl6zKxtKnSJTW5/FkUbAi4Vg4pMheeob1B3PGJq7mET+dB+weErFkgCg15asTgLltdtHg914o3SRE9U69Gc62SWYA8Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783662208; c=relaxed/simple;
-	bh=2YVgkG1gnJMkfaa3owHYhG2Umuahx4FRmcOq2yBAdmY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Wqpo/0RTv8Rw3eaO36X25ij7yqo8ELDo9wlCKKItp43QXbr8cC+TmivUzjY5rY42VZ8sg4KNIxRoG9azT9K3Y6xUGRWn+XgdE0U39W3/IOom4eqYx6L9GR7LOpef4CuqLJVPc+X+FrCvPLu2x4uzBdFX5a8HhueEx8ED8yqUvHU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aCo0ijbA; arc=pass smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aCo0ijbA"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5b018fe8318so442084e87.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 09 Jul 2026 22:43:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783662206; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RjMd0J3g9fBoxCx72JI+oXz9p9DhOdVCKWEtp9aAxqQkxWwlzM1ctsbP7RHG6HJqhH
-         C3fGX2Z+qas7w31+6GZDdBdHalAjqQjq+mvAeSAaFF9ZJ3AYfa8WuUm0Zpe/ORrPlt5k
-         nJG5wiFooXa0b8YJzNVsL5CvOtRsYYNW9wxoNmQb4GtIx4e6Gwgngh+IVMe1OVUXEcjx
-         cEOxKFIVhQPlm4JpTyUg0sNh2XKrJhm16sshqKSXKx2hMkQ/P3/kE5SFRhxtiOe64F4G
-         br98qSLVgVkm/uegeLHZ0QybBuHzbbH+OiVR5y2YvsspdYx5NTUIpqE2M1cnZHgmpcTn
-         xZ2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=+9Re/KEsDNt2sGvpo1jBpc9Dd0Ptp7s8KPI1kfDwE2A=;
-        fh=y2z/ewxQnT7zfMpi5+i/YDqC+ltcAmsjjru3ziOsAXo=;
-        b=B10OdEyLqncF7UE8HXIUjlROpAmVnzulpPV9S/gTdlLjRJqzdw8iA+kYX+vchEFAD/
-         kQQxSQLTq75W4ylwWW7C6I3lttOABLVXrIncHuvlgEuy7XrDxZ/d6xPVhCX09E9gEg+Y
-         j7q+Vh444nMP7SZImiNDDCgruRlSTK80eEWeTHlD9+15DBdm9G3onXWJ7N+JM9oAMOwn
-         pnWDN+pQRNzQBYVCr+LOmRoBhJU32RKJ/7INW5rEk4gl1JplwBGAsPYoW5nyraHkAcxD
-         JSaWqD8/y0L22ZRj9Sj2M19FoQtKJ0KCsPI8UMhVGJ51S9cMqCarUSDgqLkyIpz3s8xi
-         wtdA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783662206; x=1784267006; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=+9Re/KEsDNt2sGvpo1jBpc9Dd0Ptp7s8KPI1kfDwE2A=;
-        b=aCo0ijbARciycCDOoN2iExphXvTSTDmrLtniA3kDSmk4/6/J08Va1BcTq1VFhejiEd
-         IPEV9VYhJsd9PcGiE75yZZFNYOJlPxfXj0+zOdDCPzezMflshKr8ysjbk8hynLjHvFgk
-         QI6T/Uy5XgOEtTFKe0kmnE7fjey+f0M1oUlZXuNZ4m7ryRqt9nLC24FbVO2UQmKSZrOt
-         5+3f8vJgSBmUZlqeJZhTn9LX1hqo/L3UCTCjmHAY1euGcAXNtCM+hhk4rgYgP9wagls5
-         2JI+dvz1+UW6l2KSo4mImMi2cwKYzKnHPVfyTkGEMXxCNgUt7k3bogt2QlPoVi8UFHcV
-         b1QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783662206; x=1784267006;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+9Re/KEsDNt2sGvpo1jBpc9Dd0Ptp7s8KPI1kfDwE2A=;
-        b=duG6/MY6rJWSHGP/nkZ2d7zuzDMNQXh8t8R2CRxjDVtLFtAE/z9OfbT+RkR352fJI1
-         RYh0G7IK8/MbyBHKQsX69+MJr+8Bhzg2LJVXH5+r4Ja9vnL+D+IFIJ+IPRrS8cm5b+vD
-         NzBD0H8/XN63IuIoY2xgf+AO+3OTLvrHrJI1ab+hj+POcXJvrxePr083auAx7hK3kuBs
-         R5wxzYMtIgqtX7F3pU9eqBSwdtTEneodNvz1toxSKf72CymKB6Mrm5JCZbokwrLXl8f4
-         jsCn3/ijMuzDf5lX2Us7Q4+bRtXxtm/BvNT9hK5M9T0VApDtxlXA1Ug+5HnRxwDpdkPh
-         Yheg==
-X-Forwarded-Encrypted: i=1; AHgh+RpwCSRn+4iv3uUXFw8BQD+tB0Pdinqi5lwvbc/I0arQeNP2/QbOv/KWaEFpSqAiXbSZwbZNS4smEECXIXgV@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLw1jiJi6WOfC9pGT+B7l1J9UfjHWi+ylxFl+1du83dgmqV92g
-	1r/XKCT4wdZI6k50cihUfYBvtAP5ngrfRBvpM0sVzeFi/KGj27WMxVc7+cB3UVZSy5LYUqAHSYk
-	+Fvo/DzFD3IKhhqxpjlAQjzTZm95HD/g=
-X-Gm-Gg: AfdE7clhnu4WkLDADuVjBl7di93Cjr4QWJ5AGThmhmOPmpVABp/DlKdKhJWIfz1TlwB
-	SW9WvRk4qwp2w88+89uPx+VCI1QiQabtX7DThorlAARFdSbcnyLC1r6/cD9ZxrhHtHka/blQPIS
-	MWaDuGkEEbIJ6pFgwsQ9hkbj1zLRnUx6W+H0ZK5qEn9NHOTV70MKAd9cgQf2vOi5z8DmCK4JMkJ
-	Y12pGh4T14FqbV/NV2tBJRXzyx2TOk0CZ22DU/Fdj3rCn49Qpx4xbpltEpa7KQYuaPPh1ZKkTyv
-	s3fCers=
-X-Received: by 2002:a05:6512:641c:b0:5ae:ba7a:1789 with SMTP id
- 2adb3069b0e04-5b011464f5emr2122074e87.13.1783662205315; Thu, 09 Jul 2026
- 22:43:25 -0700 (PDT)
+Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCC1E230BE9;
+	Fri, 10 Jul 2026 05:54:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783662853; cv=none; b=ueCD2zFrv+MdlRfIJHrHCJdhZo9HanZ55ZK/uRY8v2OQNFNLp5ENywz/DMih1EI0vWDe8BbiGhjXkG2ncSCxwBLfLaw5NJcTj2rAwjnC1i+C7132BtbKDJVFuKva1RfsB2+DHWa+gBYpoEqEGKsy/0rpIvbhwPnmwYTsjY2SClo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783662853; c=relaxed/simple;
+	bh=nyDBnktELM+hz7RvTSyEr5tTXDizK+ufnQXY3jTKq48=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HHnNTng40LYlxMTCqM6XcjVREF4/k/oaH9ahfyy5Arw+jpXnGc2i8Ro68QoH8dv0kZTkQHDUG5mFrx9Gx8Rpj42bJHAz2j5bVoS/6hG1WcF2kODfR8+yWe798+pf5Lz/2Ys5KXyOkrwWnt1aveZUFtJtjAV3PUMe3YYQo+V6YOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-c2dff70000001609-c3-6a5088f7d053
+Date: Fri, 10 Jul 2026 14:53:54 +0900
+From: Byungchul Park <byungchul@sk.com>
+To: Gary Guo <gary@garyguo.net>
+Cc: linux-kernel@vger.kernel.org, max.byungchul.park@gmail.com,
+	kernel_team@skhynix.com, torvalds@linux-foundation.org,
+	damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
+	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
+	mingo@redhat.com, peterz@infradead.org, will@kernel.org,
+	tglx@linutronix.de, rostedt@goodmis.org, joel@joelfernandes.org,
+	sashal@kernel.org, daniel.vetter@ffwll.ch, duyuyang@gmail.com,
+	johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
+	willy@infradead.org, david@fromorbit.com, amir73il@gmail.com,
+	gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
+	akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
+	hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org,
+	jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+	ngupta@vflare.org, linux-block@vger.kernel.org,
+	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+	djwong@kernel.org, dri-devel@lists.freedesktop.org,
+	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+	boqun.feng@gmail.com, longman@redhat.com, yunseong.kim@ericsson.com,
+	ysk@kzalloc.com, yeoreum.yun@arm.com, netdev@vger.kernel.org,
+	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
+	catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org,
+	hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
+	gustavo@padovan.org, christian.koenig@amd.com,
+	andi.shyti@kernel.org, arnd@arndb.de, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, rppt@kernel.org, surenb@google.com,
+	mcgrof@kernel.org, petr.pavlu@suse.com, da.gomez@kernel.org,
+	samitolvanen@google.com, paulmck@kernel.org, frederic@kernel.org,
+	neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
+	josh@joshtriplett.org, urezki@gmail.com,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
+	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
+	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
+	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
+	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
+	yuzhao@google.com, baolin.wang@linux.alibaba.com,
+	usamaarif642@gmail.com, joel.granados@kernel.org,
+	richard.weiyang@gmail.com, geert+renesas@glider.be,
+	tim.c.chen@linux.intel.com, linux@treblig.org,
+	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+	chenhuacai@kernel.org, francesco@valla.it,
+	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
+	masahiroy@kernel.org, brauner@kernel.org,
+	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
+	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, 2407018371@qq.com, dakr@kernel.org,
+	miguel.ojeda.sandonis@gmail.com, neilb@ownmail.net,
+	bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
+	dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
+	alex.gaynor@gmail.com, bjorn3_gh@protonmail.com, lossin@kernel.org,
+	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v19 31/40] dept: assign unique dept_key to each distinct
+ wait_for_completion() caller
+Message-ID: <20260710055354.GA37630@system.software.com>
+References: <20260706061928.66713-1-byungchul@sk.com>
+ <20260706061928.66713-32-byungchul@sk.com>
+ <DJSEK3KA2ECQ.1512A4KGOBSCV@garyguo.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260608210618.3437216-1-willy@infradead.org> <20260608210618.3437216-3-willy@infradead.org>
- <CANFS6bYc5uSSYWvwJZ4BgjzF0_bO9rkcFNvX2vVHnzWDi3kpuw@mail.gmail.com>
- <CANFS6bZZN6455QLhPE=yYi5fAHMt+MuqumtW6BCg__pESLiLaQ@mail.gmail.com> <CAKYAXd8qPHHNrDkJ29NwR7NrOj7Ny05vRPKzjUPckC870ULeRA@mail.gmail.com>
-In-Reply-To: <CAKYAXd8qPHHNrDkJ29NwR7NrOj7Ny05vRPKzjUPckC870ULeRA@mail.gmail.com>
-From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Fri, 10 Jul 2026 14:43:13 +0900
-X-Gm-Features: AUfX_mzwF_1VKVPfeVlM4SLysK1qhzKRkOCuoUWfDc1HQMXWox3yF9t2IeaLpaI
-Message-ID: <CANFS6bZZjBx5GQxu+ZYVYAL5T5mG1ZRtMo9TEqEYC2FfNbdCpA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] ntfs: Remove use of __folio_index in handle_bounds_compressed_page()
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, usama.arif@linux.dev, 
-	lance.yang@linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DJSEK3KA2ECQ.1512A4KGOBSCV@garyguo.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0xTZxzG857zngsdHYdO4ztrNlNHWJhTt7jln+gu2RdPspmxkS1u+zCb
+	9QTKVVvlssSsKKhBcAzXMtqJXFxtAFktDgfSBYt0NmjWakJqp7OSBlML6DqEIdjuUGPmt1+e
+	53mf5//h5WlVK7ua15fukQyl2mINq8CK6fT2V/89nFu46YcZNdy4FWFgvHoYw4PZwxge2c5x
+	4O/tRjC/aKOhdiApa01eDmYX/uTAXI0g6fYisASaaPjHmWAhNhJHYL4dYaE5Wo3hnr0eQXR0
+	GyRv3qHAHklQELPcl02zH0E8Gkbgduxn4VrkWfCZj7AwHfiRghknC2373QxMhtwUWI67MAyE
+	BzkIxJYo6HZth1v2SQxjjR2UPMKC5cwqsDUfoMB8+jwFC/YuDi533sBgN2WB7co1BiYcVg6S
+	bWXg+2ucgXOmMAeu66PydOgVaD94EsOQ24eh3vkLAybbPAP+4TEGrnb7Mfx8J0jBmPcShr4r
+	l2mYO6oG/3cNDJye6WDh2MwkgticnX5XJ87XHsViV18/Jfa09iBx8WETEmsbZRqZukeLNX0V
+	4k9jU6w4YL3JiTW/hTixzbVXrLk4zYh9jhyxcyhKie3xB4wYir2V+/Lniq06qVhfLhk2vr1T
+	UTB6sh/vas2sHJwcok3ob2UdSuOJsJlEL52in/DExSFmmbGQRaYPTHHLzArZJBhcSGVWCC8S
+	V1cHVYcUPC20vECuzvlSD54TisiSI5oKKQUgI+OdqZBKaEDE+9DGPDYyia8lgpeZFnJIMBGV
+	Q7zManIqwS/LacIb5P7ZeGp4pbCODPf/nuohwkQa+f5sEj++9HlywRHEjUiwPlVrfarW+n9t
+	G6K7kEpfWl6i1Rdv3lBQVaqv3PBVWYkLyb/Wvm/pi19R3J/nQQKPNOnKTd98WKhitOXGqhIP
+	IjytWaEMr5ElpU5b9bVkKPvSsLdYMnqQmseaVcrX5yp0KiFfu0cqkqRdkuGJS/Fpq01IO5G+
+	bfexuy25RxZbErfzQmcKF/Kuf2LJL6rgwp7eWemjei9nXGvO3nmionLjt1M7mo/bMg6Onrfm
+	1wWysne8r165fp9ljY6d3f2S2lkXWMoteedCQc9na/9Yt5j5waNPuYZDvYcKleTN97ZnfNzB
+	ntBsHcx4Jr6eOD3m5tot9pq7WzTYWKB9LYc2GLX/Ae5QvRexAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0xTZxjH877n9PTQWT0UCCdek5rFhEyRTZIn2bKLmXpivPCNhCzRRk9G
+	5aJpEWUJU6iN1ampTVqk9QJFKitMsCCOSyMBrUPnbLlIo7DCUuu6giBQCJeWnWKMfnnye57n
+	/8vzfnhpQrYkWk0r8wt4Vb4iV05JSMm+LzWbZ3UZR7bet6aCTnsKBn1+ETwv6SAhPK0j4Wp9
+	HQURyz0x6BzlIvhjoJQE9+1aBL6wDsHsgoUAbcsSCRGDSwzTcy/FYCxBsOR0ITB5DAR43fcJ
+	qGsqwTDVEKUg1DWJwDjip6AsWELCuO0CAnPAIobgw10w5msTwdLQawwDM6MIbP4oBn/HWQQR
+	Uw7csDYKummCgoWnzwgoM7oRVI4METAZHEbQ5PobgbOmlIJX+rsE9PpXQl94nIJu4y8UjHmu
+	YnjTQEFFqVMEnj9DCK5ZDAgCL5wYNFX1FJiuOUhoGW4Vgye0iGHQZMBQ69gLPluAhCd6Kxae
+	K6TuJIOlTIOF8i8G429tGOZsdvG31Yib1V4iOXtjM+a0PRGKq7teh7iFeQPipqs1BKfVC23X
+	6DjBnWk8wVU/GaW4+XA/xTlnKkjusZXlbp6bx9zlp5u5FvOQOOO7LMlXh/lcZSGvSv36oCT7
+	4c1m8tj1+JOtgXbiNHorPY/iaJbZxv7zoF0UY5L5lB3TjIpjTDGbWK93johxIrOBddit+DyS
+	0ARTvp7tmeleFhKYHHaxJrgckjLAdj2vWg7JmIuIdc1bRO8W8Wx3uZ+MMcGksN5oUAjRAq9h
+	b0Xp2DiOSWcnmiaXDycxG9mO5kdYj6Tmj2zzR7b5g12BCDtKVOYX5imUuelb1DnZRfnKk1sO
+	Hc1zIOFb2ooXL/+Opnt3dSKGRvIV0q2n9h+RiRSF6qK8TsTShDxROrxWGEkPK4p+4lVHD6iO
+	5/LqTrSGJuXJ0t2Z/EEZ86OigM/h+WO86v0W03GrT6NNrXcKip9lq88W7zBMeONTd//X03ku
+	lLh36pXsojnl5aNP0jrazUWRAcnaK+4+Q8iV3PD5TllCZtKqxuTt4YxfM+9VfpEU/N7zwD5Y
+	2+/ybf+mH+uyVuzYqV73Q3Pv20D6SNvdqopV6/V861Rl9K8+RVZC8DO38/XjffXMngvlB9J+
+	lpPqbEVaCqFSK/4HtzJC/ZIDAAA=
+X-CFilter-Loop: Reflected
 
-2026=EB=85=84 7=EC=9B=94 10=EC=9D=BC (=EA=B8=88) =EC=98=A4=EC=A0=84 8:28, N=
-amjae Jeon <linkinjeon@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> > > > diff --git a/fs/ntfs/compress.c b/fs/ntfs/compress.c
-> > > > index c904858dff3d..b279f38636d6 100644
-> > > > --- a/fs/ntfs/compress.c
-> > > > +++ b/fs/ntfs/compress.c
-> > > > @@ -105,13 +105,14 @@ void free_compression_buffers(void)
-> > > >  static inline void handle_bounds_compressed_page(struct page *page=
-,
-> > > >                 const loff_t i_size, const s64 initialized_size)
-> > > >  {
-> > > > -       if ((page->__folio_index >=3D (initialized_size >> PAGE_SHI=
-FT)) &&
-> > > > -                       (initialized_size < i_size)) {
-> > > > +       loff_t pos =3D page_offset(page);
-> > > > +
-> > > > +       if ((pos >=3D initialized_size) && (initialized_size < i_si=
-ze)) {
-> > >
-> > > I think the following change would address the review comments for
-> > > this patch and patch 3/6.
-> > >
+On Tue, Jul 07, 2026 at 03:18:29PM +0100, Gary Guo wrote:
+> On Mon Jul 6, 2026 at 7:19 AM BST, Byungchul Park wrote:
+> > wait_for_completion() can be used at various points in the code and it's
+> > very hard to distinguish wait_for_completion()s between different usages.
+> > Using a single dept_key for all the wait_for_completion()s could trigger
+> > false positive reports.
 > >
-> > Would you mind if I continue working on this series?
-> > I would fix the above if-condition and add Co-developed-by for my chang=
-es.
+> > Assign unique dept_key to each distinct wait_for_completion() caller to
+> > avoid false positive reports.
 > >
-> > Please let me know if that's okay with you.
-> Could you please provide the updated ntfs patches so I can apply them
-> to the ntfs tree?
+> > While at it, add a rust helper for wait_for_completion() to avoid build
+> > errors.
+> 
+> This will cause Rust code to share the same dept_key, so it will have all the
+> false positives that the change is trying to avoid.
 
-Okay, I will send those patches.
+Thank you for the input.
 
-> Thanks.
+> In general it is easy to create Rust bindings for static inline C functions
+> because it'll be just some computation, while creating bindings for C
+> function-like macros that define additional statics can be challenging.
+> 
+> Is dept_key similar to lock_class_key, where only the address matters? If so,
+> the approach that I use in
+> https://lore.kernel.org/rust-for-linux/DJP0CDOR98N5.29BK8PUFRWRUK@garyguo.net
 
+Yes, dept_key is similar to lock_class_key.  IIUC, the way you tried for
+lock_class_key can be applied to DEPT too.  I will do:
 
+   1) add 'key' parameter to sdt_might_sleep_start_timeout()
+   2) introduce init_completion_dkey() to allow custom keys
+   3) remove init_completion_dmap() and adjust the existing users
 
---=20
-Thanks,
-Hyunchul
+Just in case, it's worth noting that the custom keys must be
+well-managed using e.g. dept_key_destroy() when the key gets freed.
+
+	Byungchul
+
+> could be used for dept_key as well, then we can keep Rust `wait_for_completion`
+> still a function; otherwise we have to turn it into a macro too on the Rust side
+> to create such statics, which isn't ideal.
+> 
+> Best,
+> Gary
+> 
+> >
+> > Signed-off-by: Byungchul Park <byungchul@sk.com>
+> > ---
+> >  include/linux/completion.h | 100 +++++++++++++++++++++++++++++++------
+> >  kernel/sched/completion.c  |  60 +++++++++++-----------
+> >  rust/helpers/completion.c  |   5 ++
+> >  3 files changed, 120 insertions(+), 45 deletions(-)
