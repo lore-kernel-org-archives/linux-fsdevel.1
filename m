@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED103F823A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 09:33:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ABF93F65F9
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 09:33:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783676012; cv=none; b=o2GFDrlg4ctrEZ9z+1cN8SHhOrgjizytIk6spiUvAJde2Ux73zk2oV6AI8+pSY1nAXcRKsJLqBTYxVLsfv3cnQKfOetHRR+aABJ8+ZocneVqPb5+wHflkJtMOlrEBNB2gTaGhYcmsRZYN0l3h6g7olk3rO0kNeIC2uS35yYHypI=
+	t=1783676014; cv=none; b=Jo5hD7I5Pv4pknIc3dQjnqX54lTuDSceXbSVnfI60tl3KDgC9babvIPOlqHaMQRMyEQcXzoH1RS8XCi9rUQeVwrFRY9pdGWpg+03isnyD7ahmzlSPodn7/p3vMaXXdTxcRjuoj+wS9K0rdXqMTz8usJo7Qr6kLhjXR6TUnbGXpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783676012; c=relaxed/simple;
-	bh=TEEUTIIJoNSveJEFGAOJGCFzUCyJC8jT1qjqGXDnCsA=;
+	s=arc-20240116; t=1783676014; c=relaxed/simple;
+	bh=ElK+yid1mO76xrksl5KOw97v5Pu0FLPrm8Gxu0pXJ8k=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FY7OfYpAOeTJ/jwTHB79m1gv3VQJqSJqb/QUK7GYA3abmgWLzvrMLo+NyWldiTb1PXs1DY53UZt9ScTVmoitGzurAwF4jZ0Y691cL/AYg9xC5/eTt4RknVO63wjF/qVfSF3YzdxxaTbCQy7YsO4gKafLWyr0x7z2gQY4J45/ABI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IOyOOyCz; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=k9mphi/rEnno085cx9oiP23LFbYry70peMJpl57u5bCstcKPLjy/qIom1fTzbOAJB3qo1L0tXMe/SCm1RslbL/SXd+SydoVU26TumCIJMtNtSo/4tJrCEdV9hizgR+xR9OvGPx//fcCT4tvS3oEB1y4ibCV93+YTbHsMqglmhy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RHUvkILI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IOyOOyCz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C03E51F00A3A;
-	Fri, 10 Jul 2026 09:33:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RHUvkILI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C32991F000E9;
+	Fri, 10 Jul 2026 09:33:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783676011;
-	bh=Sp44KTW2xY5cnb3oWEQNPAWSe8roimC1ezkKPm0YOlM=;
+	s=k20260515; t=1783676013;
+	bh=XXSRrY10BTWWPTtPApZMsCLKyKaoPsSPVdND+noa2X0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=IOyOOyCzgWnjdVGlAvjW8nfhhvEwEKGohkKTrwiTsmKuVGI4woEivbm0ajojE9Q9W
-	 e3iOxR1q6bo9wpXXPJkTBfLyyBq2n+PNZLtBAe+oceVXMaDt2e1oZ+W7InFvGvNiSw
-	 nFasB7cB5+zLEBnIMDb2E2tV6eAM4h8TEYjpFvZfl6RC5fRBSF5pb30bZ+QF86FANv
-	 5Rq477JjdcGUYnHRuwwvCtihaT2nH9zTCc/ZCnQWF8ZXfm6ID6pBs2/6b0dNSInjOG
-	 qtiUMJ7oWw3RFkHTqtSo1ZHT2DAbS/XRdQIJTcBf4LgUMe4EbYL5t65B1f7GRsbhgM
-	 vqzcFH7J0sucw==
+	b=RHUvkILIimAD00TXQtkOHsCfX6EzzGvIr5/UnqBBfrZy2J2sQG3wyAdlE4qeHy6RV
+	 9Nspx5EjRwkCSl0MzQzobHoVu2/YFohqhiiBkzTaTt7LZkdXPeyfyn0+fTZBiMqYcp
+	 o4tlpvm92DX5uYuqaxaJ9gn+OtuSKhO3n4JoymrU/dpVXjPdu7NbSIkr9aV/H1RlVR
+	 WXJCZUWSBJ96I6zOGA1KQBU0EiiDkAXQw3bkErYZfj9CXk6teUFyC33/FYH7B/oNKb
+	 pDb+46QVgx6G+5uHBouvlNNPFh0KzwysQxJOqc70YKTQCF8dZj/eFjzWw0AH0c50hd
+	 pFPG6Uvt+vSTw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 10 Jul 2026 11:33:06 +0200
-Subject: [PATCH v3 05/24] binfmt_misc: use RCU for the handler lookup
+Date: Fri, 10 Jul 2026 11:33:07 +0200
+Subject: [PATCH v3 06/24] binfmt_misc: annotate racy accesses to ->enabled
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-work-binfmt_misc-locking-v3-5-a162f7cb58d6@kernel.org>
+Message-Id: <20260710-work-binfmt_misc-locking-v3-6-a162f7cb58d6@kernel.org>
 References: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
 In-Reply-To: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -46,254 +46,71 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
  linux-mm@kvack.org, Farid Zakaria <farid.m.zakaria@gmail.com>, 
  jannh@google.com
 X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9608; i=brauner@kernel.org;
- h=from:subject:message-id; bh=TEEUTIIJoNSveJEFGAOJGCFzUCyJC8jT1qjqGXDnCsA=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQF7ImbF+De8/lNvKblFL5zxzTCGYN53qtPNKsry1721
- X79mWr1jlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIkoMjP8T1gif9qnTsDiiubp
- r6dbfRd2bjfYF+8ncTmvYdFWkfxbBQx/+K/Xs1TKOcifUKjUDpi4qdfGfM6NS5J1n32e7X6tkKT
- GBwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1991; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=ElK+yid1mO76xrksl5KOw97v5Pu0FLPrm8Gxu0pXJ8k=;
+ b=kA0DAAoWkcYbwGV43KIByyZiAGpQvF7I9pE35k3wYvU8CAl5OQ9tSMLRCQINJ2fDN12qZb1D0
+ Ih1BAAWCgAdFiEEQIc0Vx6nDHizMmkokcYbwGV43KIFAmpQvF4ACgkQkcYbwGV43KIRIAEAm8Yl
+ 2XP4FmaYgZ87VnCLwf1CEuR7ODGiFx8zAYC3YxQBAPqAoXg9ntG0soCp1E5df1nGe3sYkVwSWWo
+ sfd9T0JYO
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Once binfmt_misc is loaded load_misc_binary() runs for every execve()
-on the system since binfmt_misc registers at the head of the formats
-list. Every exec therefore performs read_lock() and read_unlock() on
-the entries_lock of the relevant binfmt_misc instance, i.e., two
-atomic read-modify-writes on a shared cacheline. User namespaces
-without their own binfmt_misc mount fall back to an ancestor's
-instance so on container-heavy systems every exec on the machine
-typically ends up hammering the cacheline of init_binfmt_misc. On
-PREEMPT_RT the rwlock additionally turns the handler lookup into a
-sleeping lock on the exec fast path.
-
-The lock protects very little. Entries are immutable after publication
-except for the Enabled bit which is already toggled locklessly via
-set_bit()/clear_bit() and entry lifetime is already handled by the
-users refcount via get_binfmt_handler()/put_binfmt_handler(). The read
-lock's only remaining job is to make "the entry is still linked" and
-"take a reference" atomic with respect to the unlink sites.
-
-Switch the lookup to an RCU walk:
-
-* Lookup walks the entry list under rcu_read_lock() and acquires a
-  reference via refcount_inc_not_zero(). The refcount can only drop to
-  zero after an entry has been unlinked so a failed increment means
-  the walk raced with an unlink. Restarting the search is bounded
-  because an unlinked entry cannot be found again.
-
-* The unlink sites use hlist_del_init_rcu() which keeps the forward
-  pointer intact for concurrent walkers and preserves hlist_unhashed()
-  as the protection against double removal.
-
-* The final put frees the entry via kfree_rcu() as a concurrent walker
-  may still dereference its flags, magic, mask, and inline strings.
-  They all live in the entry allocation itself and thus stay valid
-  until a grace period has elapsed. Closing the interpreter file stays
-  synchronous. It is only used with a reference already held and all
-  final puts run in process context.
-
-* Writers remain serialized by the inode lock of the root dentry with
-  one exception. bm_evict_inode() called from generic_shutdown_super()
-  during umount unlinks entries without holding it. Keep a spinlock
-  around the unlink sites instead of relying on superblock lifetime
-  rules to make that exclusion implicit.
-
-Handler removal semantics are unchanged. An exec that acquired a
-reference just before its handler was unregistered already completes
-with the removed handler today. The read lock never protected against
-that, it only made the window smaller.
-
-With this an exec that matches no binfmt_misc entry, the common case,
-no longer writes to any shared cacheline at all.
+->enabled has always been read and written locklessly: every exec
+reads it in load_misc_binary() while bm_status_write() or a concurrent
+remount via bm_fill_super() may flip it. That is fine as it is an
+independent boolean toggle but the accesses should be marked
+accordingly for KCSAN. Annotate them with READ_ONCE()/WRITE_ONCE().
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/binfmt_misc.c        | 59 +++++++++++++++++++++++++++++--------------------
- include/linux/binfmts.h |  2 +-
- kernel/user.c           |  2 +-
- 3 files changed, 37 insertions(+), 26 deletions(-)
+ fs/binfmt_misc.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-index 89da2d4e7f91..bd7790a1317b 100644
+index bd7790a1317b..0b9758da1f88 100644
 --- a/fs/binfmt_misc.c
 +++ b/fs/binfmt_misc.c
-@@ -24,6 +24,7 @@
- #include <linux/pagemap.h>
- #include <linux/namei.h>
- #include <linux/mount.h>
-+#include <linux/rculist.h>
- #include <linux/fs_context.h>
- #include <linux/syscalls.h>
- #include <linux/fs.h>
-@@ -59,6 +60,7 @@ typedef struct {
- 	struct dentry *dentry;
- 	struct file *interp_file;
- 	refcount_t users;		/* sync removal with load_misc_binary() */
-+	struct rcu_head rcu;
- } Node;
+@@ -217,7 +217,7 @@ static int load_misc_binary(struct linux_binprm *bprm)
+ 	struct binfmt_misc *misc;
  
- static struct file_system_type bm_fs_type;
-@@ -86,6 +88,8 @@ static struct file_system_type bm_fs_type;
-  * Search for a binary type handler for @bprm in the list of registered binary
-  * type handlers.
-  *
-+ * The caller must hold the RCU read lock.
-+ *
-  * Return: binary type list entry on success, NULL on failure
-  */
- static Node *search_binfmt_handler(struct binfmt_misc *misc,
-@@ -95,7 +99,7 @@ static Node *search_binfmt_handler(struct binfmt_misc *misc,
- 	Node *e;
+ 	misc = load_binfmt_misc();
+-	if (!misc->enabled)
++	if (!READ_ONCE(misc->enabled))
+ 		return retval;
  
- 	/* Walk all the registered handlers. */
--	hlist_for_each_entry(e, &misc->entries, node) {
-+	hlist_for_each_entry_rcu(e, &misc->entries, node) {
- 		char *s;
- 		int j;
+ 	fmt = get_binfmt_handler(misc, bprm);
+@@ -875,7 +875,7 @@ bm_status_read(struct file *file, char __user *buf, size_t nbytes, loff_t *ppos)
+ 	char *s;
  
-@@ -134,7 +138,10 @@ static Node *search_binfmt_handler(struct binfmt_misc *misc,
-  * @bprm: binary for which we are looking for a handler
-  *
-  * Try to find a binfmt handler for the binary type. If one is found take a
-- * reference to protect against removal via bm_{entry,status}_write().
-+ * reference to protect against removal via bm_{entry,status}_write(). The
-+ * refcount of an entry can only drop to zero once it has been unlinked and
-+ * a restarted search cannot find an unlinked entry again so the retry loop
-+ * is bounded.
-  *
-  * Return: binary type list entry on success, NULL on failure
-  */
-@@ -143,11 +150,10 @@ static Node *get_binfmt_handler(struct binfmt_misc *misc,
- {
- 	Node *e;
- 
--	read_lock(&misc->entries_lock);
--	e = search_binfmt_handler(misc, bprm);
--	if (e)
--		refcount_inc(&e->users);
--	read_unlock(&misc->entries_lock);
-+	guard(rcu)();
-+	do {
-+		e = search_binfmt_handler(misc, bprm);
-+	} while (e && !refcount_inc_not_zero(&e->users));
- 	return e;
+ 	misc = i_binfmt_misc(file_inode(file));
+-	s = misc->enabled ? "enabled\n" : "disabled\n";
++	s = READ_ONCE(misc->enabled) ? "enabled\n" : "disabled\n";
+ 	return simple_read_from_buffer(buf, nbytes, ppos, s, strlen(s));
  }
  
-@@ -166,7 +172,8 @@ static void put_binfmt_handler(Node *e)
- 			exe_file_allow_write_access(e->interp_file);
- 			filp_close(e->interp_file, NULL);
- 		}
--		kfree(e);
-+		/* Lockless walkers may still dereference this entry. */
-+		kfree_rcu(e, rcu);
- 	}
- }
+@@ -892,11 +892,11 @@ static ssize_t bm_status_write(struct file *file, const char __user *buffer,
+ 	switch (res) {
+ 	case 1:
+ 		/* Disable all handlers. */
+-		misc->enabled = false;
++		WRITE_ONCE(misc->enabled, false);
+ 		break;
+ 	case 2:
+ 		/* Enable all handlers. */
+-		misc->enabled = true;
++		WRITE_ONCE(misc->enabled, true);
+ 		break;
+ 	case 3:
+ 		/* Delete all handlers. */
+@@ -1007,7 +1007,7 @@ static int bm_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	 * someone mounts binfmt_misc for the first time or again we simply
+ 	 * reset ->enabled to true.
+ 	 */
+-	misc->enabled = true;
++	WRITE_ONCE(misc->enabled, true);
  
-@@ -679,10 +686,10 @@ static void bm_evict_inode(struct inode *inode)
- 		struct binfmt_misc *misc;
- 
- 		misc = i_binfmt_misc(inode);
--		write_lock(&misc->entries_lock);
-+		spin_lock(&misc->entries_lock);
- 		if (!hlist_unhashed(&e->node))
--			hlist_del_init(&e->node);
--		write_unlock(&misc->entries_lock);
-+			hlist_del_init_rcu(&e->node);
-+		spin_unlock(&misc->entries_lock);
- 		put_binfmt_handler(e);
- 	}
- }
-@@ -701,9 +708,9 @@ static void bm_evict_inode(struct inode *inode)
-  */
- static void remove_binfmt_handler(struct binfmt_misc *misc, Node *e)
- {
--	write_lock(&misc->entries_lock);
--	hlist_del_init(&e->node);
--	write_unlock(&misc->entries_lock);
-+	spin_lock(&misc->entries_lock);
-+	hlist_del_init_rcu(&e->node);
-+	spin_unlock(&misc->entries_lock);
- 	locked_recursive_removal(e->dentry, NULL);
- }
- 
-@@ -754,9 +761,11 @@ static ssize_t bm_entry_write(struct file *file, const char __user *buffer,
- 		 * via bm_{entry,register,status}_write() inode_lock() on the
- 		 * root inode must be held.
- 		 * The lock is exclusive ensuring that the list can't be
--		 * modified. Only load_misc_binary() can access but does so
--		 * read-only. So we only need to take the write lock when we
--		 * actually remove the entry from the list.
-+		 * modified. Only load_misc_binary() can access the list
-+		 * concurrently and it does so under RCU. So entries_lock only
-+		 * needs to be held when an entry is actually unlinked to
-+		 * serialize against bm_evict_inode() during umount which
-+		 * unlinks without holding inode_lock.
- 		 */
- 		if (!hlist_unhashed(&e->node))
- 			remove_binfmt_handler(i_binfmt_misc(inode), e);
-@@ -801,9 +810,9 @@ static int add_entry(Node *e, struct super_block *sb)
- 
- 	d_make_persistent(dentry, inode);
- 	misc = i_binfmt_misc(inode);
--	write_lock(&misc->entries_lock);
--	hlist_add_head(&e->node, &misc->entries);
--	write_unlock(&misc->entries_lock);
-+	spin_lock(&misc->entries_lock);
-+	hlist_add_head_rcu(&e->node, &misc->entries);
-+	spin_unlock(&misc->entries_lock);
- 	simple_done_creating(dentry);
- 	return 0;
- }
-@@ -899,9 +908,11 @@ static ssize_t bm_status_write(struct file *file, const char __user *buffer,
- 		 * via bm_{entry,register,status}_write() inode_lock() on the
- 		 * root inode must be held.
- 		 * The lock is exclusive ensuring that the list can't be
--		 * modified. Only load_misc_binary() can access but does so
--		 * read-only. So we only need to take the write lock when we
--		 * actually remove the entry from the list.
-+		 * modified. Only load_misc_binary() can access the list
-+		 * concurrently and it does so under RCU. So entries_lock only
-+		 * needs to be held when an entry is actually unlinked to
-+		 * serialize against bm_evict_inode() during umount which
-+		 * unlinks without holding inode_lock.
- 		 */
- 		hlist_for_each_entry_safe(e, next, &misc->entries, node)
- 			remove_binfmt_handler(misc, e);
-@@ -979,7 +990,7 @@ static int bm_fill_super(struct super_block *sb, struct fs_context *fc)
- 			return -ENOMEM;
- 
- 		INIT_HLIST_HEAD(&misc->entries);
--		rwlock_init(&misc->entries_lock);
-+		spin_lock_init(&misc->entries_lock);
- 
- 		/* Pairs with smp_load_acquire() in load_binfmt_misc(). */
- 		smp_store_release(&user_ns->binfmt_misc, misc);
-diff --git a/include/linux/binfmts.h b/include/linux/binfmts.h
-index 071da63f2b48..7e7333b7bb0f 100644
---- a/include/linux/binfmts.h
-+++ b/include/linux/binfmts.h
-@@ -102,7 +102,7 @@ struct linux_binfmt {
- #if IS_ENABLED(CONFIG_BINFMT_MISC)
- struct binfmt_misc {
- 	struct hlist_head entries;
--	rwlock_t entries_lock;
-+	spinlock_t entries_lock;
- 	bool enabled;
- } __randomize_layout;
- 
-diff --git a/kernel/user.c b/kernel/user.c
-index c6a2bfb4d918..21bafdc11379 100644
---- a/kernel/user.c
-+++ b/kernel/user.c
-@@ -25,7 +25,7 @@
- struct binfmt_misc init_binfmt_misc = {
- 	.entries = HLIST_HEAD_INIT,
- 	.enabled = true,
--	.entries_lock = __RW_LOCK_UNLOCKED(init_binfmt_misc.entries_lock),
-+	.entries_lock = __SPIN_LOCK_UNLOCKED(init_binfmt_misc.entries_lock),
- };
- EXPORT_SYMBOL_GPL(init_binfmt_misc);
- #endif
+ 	err = simple_fill_super(sb, BINFMTFS_MAGIC, bm_files);
+ 	if (!err)
 
 -- 
 2.53.0
