@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6323F5BC5
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 09:33:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BC33F7A92
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 09:33:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783676025; cv=none; b=JTAFKxkaO7JqFBxtvt75IJXsNjjQk7/0egAnxsei4RpKZhSdU2N6cHyuRiRM9NUP1cp6xyae86PCeKeUQHnl/U150FH/jpKZduCZ/xqeGbH8PGHA6ojCXKiCH8/i8KW6O9N/ll4GQooVeVaKmJIfJd0+hsf61wr8ml89lFMZ0Mw=
+	t=1783676027; cv=none; b=P1jHFzJbQPcosBpgdeMxLj1qh68LPuFxzgX0ILnUMidu9QoZyFc2rj0pFdKly3PiYV6+yqPqzlib+frH+OSDd+/Li1r4+Ck1994xLpqpcGbMz8dv8TtGFokGJzNKRs0OrhaG3r/it7zRBNY9AXLtRHeDFjdPImVvLcwt/pFEhhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783676025; c=relaxed/simple;
-	bh=OTn/NJPM1/XIz6h4f+STHHorCIubSZ3Qj/LONNAc7tA=;
+	s=arc-20240116; t=1783676027; c=relaxed/simple;
+	bh=ZJseZyXlJQP1+LLvZEEAv5492/nOY49aeOFV4Zt+Z7o=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BDsgU6k8r1iBwC2iaq5JUXJUkQVXoUZYxv/dnUPrOTbVy9bJXHUmZ1h9TF/6AJCd3x8I7TL2tsaeUiLW5gRGU7GvxVniwXc2aj5CHgRx9T9R2vlgsDOItKwVyMuF5aKFUvDk8j3tyeLZRRbmF7BNybfEAC2FuboWcpAPUQrArqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jXT2CWXl; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=Zlj8vsaJPG2P2sPttMTskF9ap9EbjQLtAbcBdQdaB0N+IGy2xv7Kc9csuP5HWEvX8pGyBIW5dnNjb43t+Moqh68A1C8zfhdJYpJRtv6qthwzX1Uu3sh7uAEtoP3XrIhYVjUB2s5WAtiICdF6AOKUuyS3m/mMnsM3XAxUlyTKiaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J6ta/uOD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jXT2CWXl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E654F1F000E9;
-	Fri, 10 Jul 2026 09:33:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J6ta/uOD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB5741F00A3D;
+	Fri, 10 Jul 2026 09:33:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783676024;
-	bh=2/BS03uzC+ArmuTiTNxC13ftRdbeXFdsWXea4td0krI=;
+	s=k20260515; t=1783676026;
+	bh=CzdK5DKU6+BMRq52S8bVlI48gl9R/8/1tCY8E7Nw34A=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=jXT2CWXlLXDFdzIiBoKHiZDmIdLAQOnhR0r9It9sEuiJEEZgmXdoZdD+lmRh2QsqV
-	 7AyfjVtUxv/2n2iEKPqdp/NNyijyoUCEHfgm/IAzHt9S3SZYSHAjNgA9AKeWZ1TeUJ
-	 I0Jw/JGV2GN6H9iL1u44XyA+ihL043XQHDEASttWR7iz0uY1gmNKDdd4qlKiiuYEOB
-	 gLbxLxyOPl1WzAOVMv+X1QRVXuZI4fXQzPk/9+9pfIlPokY0TG8XN5dMo+SATGL4n2
-	 IR6JbNAUF9f3MxRiSfuFai3xrmF4jmILMcIqopIN0r/U4twxu1m3oM6B800pu0yjfC
-	 gTGVL89t/zoYg==
+	b=J6ta/uODDijWPnjCfZTHjGhlpURPdKwlSyhurPZRKs8AJqzI6CX8MKCflYZYUiCtQ
+	 EWg0uqC2uUfEfkXJxRrMj83u1rDOpeI+kApEXh8DaL4rOGx1cd/Ko5eiGXTFDQVj87
+	 j2sKFAhxrT4q3KspBdHfkfa39Tzdnm/U9mPh6kcOujxURzrkjpmCJbZR3RR4On75Rd
+	 R+toGr1GvxrM84BAeiGitOa13QEPgd2xzoAKFI8LOqgVBD0gB+24vFm5a4TrjLjwRN
+	 JN9tdQxl5+beYSAcn38gegKaiIIWntSg22rPN/qn1jNn0K0h/5zkbGf/BDFZxQb4z6
+	 Coiq/VsZSnGBQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 10 Jul 2026 11:33:13 +0200
-Subject: [PATCH v3 12/24] binfmt_misc: convert the entry file to seq_file
+Date: Fri, 10 Jul 2026 11:33:14 +0200
+Subject: [PATCH v3 13/24] binfmt_misc: factor out the entry matching
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-work-binfmt_misc-locking-v3-12-a162f7cb58d6@kernel.org>
+Message-Id: <20260710-work-binfmt_misc-locking-v3-13-a162f7cb58d6@kernel.org>
 References: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
 In-Reply-To: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -46,174 +46,107 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
  linux-mm@kvack.org, Farid Zakaria <farid.m.zakaria@gmail.com>, 
  jannh@google.com
 X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5017; i=brauner@kernel.org;
- h=from:subject:message-id; bh=OTn/NJPM1/XIz6h4f+STHHorCIubSZ3Qj/LONNAc7tA=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQF7InbYpzJqfhCW6XtpqbG3vv6eUGhyyMUfgnd/Hj21
- 8sPWx10OkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYyv4vhn57BqogM7onWe1bm
- 5fXU9TZ4vY+69v7qtuZ+u/nVc797sjP8j5aPU3hdZ/X7b+DilOqvW14asO88n2u6q/nlq/RgLZZ
- 6BgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2880; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=ZJseZyXlJQP1+LLvZEEAv5492/nOY49aeOFV4Zt+Z7o=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQF7InbbOdkoVX25Nuav40TJtx0ef1Kd4/MOXbmayuTz
+ htz688V7ihlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZiI4wSG/64SIWu7O1df1Gxg
+ 17VlMJxz42igQ5KZx7rJXYFHlorOUWb4Z3xVfQendlNTwHSOZ5o1GwVvhqh8vOjpIKNmsiJAYdN
+ lHgA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Reading an entry file allocates a whole page and formats the status
-into it with a chain of manually advanced sprintf() calls, silently
-relying on MAX_REGISTER_LENGTH plus the hex-expanded magic and mask
-always staying below PAGE_SIZE. Convert the read side to seq_file
-which sizes its buffer as needed and gets rid of the open-coded
-pointer arithmetic including the last bin2hex() user in the file.
-The output is byte for byte identical.
+search_binfmt_handler() open-codes both match types in one loop body
+with the maskless magic comparison spelled as a manual xor loop that
+is just memcmp() in disguise. Move the extension and magic checks
+into helpers so the walk reads as policy - skip disabled entries,
+match by entry type - and the maskless case actually uses memcmp().
 
-seq_open() clears FMODE_PWRITE for historical reasons and would
-silently turn pwrite() on entry files into -ESPIPE even though
-bm_entry_write() accepts writes at any offset. Restore the flag in
-bm_entry_open() the same way kernfs does for its seq_file backed
-files so pwrite() keeps working.
-
-The only user-visible difference is that seeking is now bound by
-seq_lseek() instead of default_llseek(), i.e. SEEK_END stops working
-on entry files, which nothing can sensibly use anyway.
-
-The status file keeps its simple_read_from_buffer() as it only ever
-returns one of two fixed strings.
+No functional change.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/binfmt_misc.c | 74 +++++++++++++++++++++++++++++---------------------------
- 1 file changed, 39 insertions(+), 35 deletions(-)
+ fs/binfmt_misc.c | 50 +++++++++++++++++++++++++++++---------------------
+ 1 file changed, 29 insertions(+), 21 deletions(-)
 
 diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-index 252e1f2a8347..23a2020d9266 100644
+index 23a2020d9266..6a56f40f23ae 100644
 --- a/fs/binfmt_misc.c
 +++ b/fs/binfmt_misc.c
-@@ -12,7 +12,6 @@
+@@ -78,6 +78,29 @@ static struct file_system_type bm_fs_type;
+  */
+ #define MAX_REGISTER_LENGTH 1920
  
- #include <linux/kernel.h>
- #include <linux/module.h>
--#include <linux/hex.h>
- #include <linux/init.h>
- #include <linux/sched/mm.h>
- #include <linux/magic.h>
-@@ -25,6 +24,7 @@
- #include <linux/namei.h>
- #include <linux/mount.h>
- #include <linux/rculist.h>
-+#include <linux/seq_file.h>
- #include <linux/fs_context.h>
- #include <linux/syscalls.h>
- #include <linux/fs.h>
-@@ -577,40 +577,47 @@ static int parse_command(const char __user *buffer, size_t count)
- 
- /* generic stuff */
- 
--static void entry_status(struct binfmt_misc_entry *e, char *page)
-+static void bm_seq_hex(struct seq_file *m, const u8 *data, int size)
- {
--	char *dp = page;
--	const char *status = "disabled";
-+	for (int i = 0; i < size; i++)
-+		seq_printf(m, "%02x", data[i]);
++/* Check if @e's magic matches @bprm's buffer, applying the mask if set. */
++static bool entry_matches_magic(const struct binfmt_misc_entry *e,
++				const struct linux_binprm *bprm)
++{
++	const char *s = bprm->buf + e->offset;
++	int i;
++
++	if (!e->mask)
++		return !memcmp(s, e->magic, e->size);
++
++	for (i = 0; i < e->size; i++)
++		if ((s[i] ^ e->magic[i]) & e->mask[i])
++			return false;
++	return true;
 +}
 +
-+static int bm_entry_show(struct seq_file *m, void *unused)
++/* Check if @e's registered extension matches @ext, NULL if there is none. */
++static bool entry_matches_extension(const struct binfmt_misc_entry *e,
++				    const char *ext)
 +{
-+	struct binfmt_misc_entry *e = m->private;
- 
- 	if (test_bit(MISC_FMT_ENABLED_BIT, &e->flags))
--		status = "enabled";
-+		seq_puts(m, "enabled\n");
-+	else
-+		seq_puts(m, "disabled\n");
- 
--	dp += sprintf(dp, "%s\ninterpreter %s\n", status, e->interpreter);
-+	seq_printf(m, "interpreter %s\n", e->interpreter);
- 
- 	/* print the special flags */
--	dp += sprintf(dp, "flags: ");
-+	seq_puts(m, "flags: ");
- 	if (e->flags & MISC_FMT_PRESERVE_ARGV0)
--		*dp++ = 'P';
-+		seq_putc(m, 'P');
- 	if (e->flags & MISC_FMT_OPEN_BINARY)
--		*dp++ = 'O';
-+		seq_putc(m, 'O');
- 	if (e->flags & MISC_FMT_CREDENTIALS)
--		*dp++ = 'C';
-+		seq_putc(m, 'C');
- 	if (e->flags & MISC_FMT_OPEN_FILE)
--		*dp++ = 'F';
--	*dp++ = '\n';
-+		seq_putc(m, 'F');
-+	seq_putc(m, '\n');
- 
- 	if (!test_bit(MISC_FMT_MAGIC_BIT, &e->flags)) {
--		sprintf(dp, "extension .%s\n", e->magic);
-+		seq_printf(m, "extension .%s\n", e->magic);
- 	} else {
--		dp += sprintf(dp, "offset %i\nmagic ", e->offset);
--		dp = bin2hex(dp, e->magic, e->size);
-+		seq_printf(m, "offset %i\nmagic ", e->offset);
-+		bm_seq_hex(m, e->magic, e->size);
- 		if (e->mask) {
--			dp += sprintf(dp, "\nmask ");
--			dp = bin2hex(dp, e->mask, e->size);
-+			seq_puts(m, "\nmask ");
-+			bm_seq_hex(m, e->mask, e->size);
- 		}
--		*dp++ = '\n';
--		*dp = '\0';
-+		seq_putc(m, '\n');
- 	}
-+	return 0;
- }
- 
- static struct inode *bm_get_inode(struct super_block *sb, int mode)
-@@ -695,23 +702,18 @@ static void remove_binfmt_handler(struct binfmt_misc *misc,
- 
- /* /<entry> */
- 
--static ssize_t
--bm_entry_read(struct file *file, char __user *buf, size_t nbytes, loff_t *ppos)
-+static int bm_entry_open(struct inode *inode, struct file *file)
++	return ext && !strcmp(e->magic, ext);
++}
++
+ /**
+  * search_binfmt_handler - search for a binary handler for @bprm
+  * @misc: handle to binfmt_misc instance
+@@ -93,38 +116,23 @@ static struct file_system_type bm_fs_type;
+ static struct binfmt_misc_entry *
+ search_binfmt_handler(struct binfmt_misc *misc, struct linux_binprm *bprm)
  {
--	struct binfmt_misc_entry *e = file_inode(file)->i_private;
--	ssize_t res;
--	char *page;
-+	int ret;
+-	char *p = strrchr(bprm->interp, '.');
++	char *dot = strrchr(bprm->interp, '.');
++	const char *ext = dot ? dot + 1 : NULL;
+ 	struct binfmt_misc_entry *e;
  
--	page = kmalloc(PAGE_SIZE, GFP_KERNEL);
--	if (!page)
--		return -ENOMEM;
+ 	/* Walk all the registered handlers. */
+ 	hlist_for_each_entry_rcu(e, &misc->entries, node) {
+-		char *s;
+-		int j;
 -
--	entry_status(e, page);
+ 		/* Make sure this one is currently enabled. */
+ 		if (!test_bit(MISC_FMT_ENABLED_BIT, &e->flags))
+ 			continue;
+ 
+-		/* Do matching based on extension if applicable. */
+-		if (!test_bit(MISC_FMT_MAGIC_BIT, &e->flags)) {
+-			if (p && !strcmp(e->magic, p + 1))
++		if (test_bit(MISC_FMT_MAGIC_BIT, &e->flags)) {
++			if (entry_matches_magic(e, bprm))
+ 				return e;
+-			continue;
+-		}
 -
--	res = simple_read_from_buffer(buf, nbytes, ppos, page, strlen(page));
-+	ret = single_open(file, bm_entry_show, inode->i_private);
-+	if (ret)
-+		return ret;
+-		/* Do matching based on magic & mask. */
+-		s = bprm->buf + e->offset;
+-		if (e->mask) {
+-			for (j = 0; j < e->size; j++)
+-				if ((*s++ ^ e->magic[j]) & e->mask[j])
+-					break;
+ 		} else {
+-			for (j = 0; j < e->size; j++)
+-				if ((*s++ ^ e->magic[j]))
+-					break;
++			if (entry_matches_extension(e, ext))
++				return e;
+ 		}
+-		if (j == e->size)
+-			return e;
+ 	}
  
--	kfree(page);
--	return res;
-+	/* seq_open() clears FMODE_PWRITE, bm_entry_write() takes any offset */
-+	if (file->f_mode & FMODE_WRITE)
-+		file->f_mode |= FMODE_PWRITE;
-+	return 0;
- }
- 
- static ssize_t bm_entry_write(struct file *file, const char __user *buffer,
-@@ -759,9 +761,11 @@ static ssize_t bm_entry_write(struct file *file, const char __user *buffer,
- }
- 
- static const struct file_operations bm_entry_operations = {
--	.read		= bm_entry_read,
-+	.open		= bm_entry_open,
-+	.read		= seq_read,
- 	.write		= bm_entry_write,
--	.llseek		= default_llseek,
-+	.llseek		= seq_lseek,
-+	.release	= single_release,
- };
- 
- /* /register */
+ 	return NULL;
 
 -- 
 2.53.0
