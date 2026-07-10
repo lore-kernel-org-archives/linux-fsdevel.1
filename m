@@ -1,44 +1,44 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.168])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E07043C041
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA0F1E1A3D
 	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 16:42:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.168
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783701724; cv=none; b=dm0Izo71DEYIUiE3HTZ0YKvSpD2rMNogGCxIjuLd7ArXpWsQVwDlYfIZ1JR2pkkzxHA6j0+wM9MxTa5DxX2eXrAEfRuhimApmE/B2fwqVpcDcL6L1p2ABo3tECUf6APrOlBaCXTxBipA/F79upDxxudOPRXUYf9zkRzPl7aDBQs=
+	t=1783701725; cv=none; b=Jm2WFRw/2i8t6t+kWV8qpjnPHUHvn59EfIX0BZqSCiaNqWUlYF4dGBSLd5gWrvjdv/tdHiB3RQ1CNa7S1LT4qAGnxohBi1re7ux8igl1pFgTvNBBlWzSNfSomRmnHzy76A6+HS8Ol4x/qVDxmicMPazVRbtMmEHjQCGhq4y5k60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783701724; c=relaxed/simple;
-	bh=c5NLeuCRyg/D85do36wYFZn68+i6CPLHdutUNIiftio=;
+	s=arc-20240116; t=1783701725; c=relaxed/simple;
+	bh=X/kXAetW2sPVYfXhfYTYqrxjj0S3DACiT8zM2IYPlxU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dEkOGlIPQxXOWrUA9lbbkFYacG7pdL1YtgGdUCdJZaNiDnTi0G9Jlq70UGnJBM860dMuYb0v3Y6m6u1W7F0Scpl351JL/npjv9hghAq8N2VXv8u8len9Z3q9RSBJ1HC0VHllRuNRvSDXjIA+HsYiLJu24/c/ODhQ9JSbM3tdlD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=diLzhWBx; arc=none smtp.client-ip=195.121.94.168
+	 MIME-Version; b=eFlVRhPysRY/Kh89jpkfaw6k78htzXhYkLbzucfsidR+T3a+FCmGKsQezXAiu+05/6OF/Lklg30KpbNp659/wwjmBo0ZpKw25TJH/mNIt+BVoVl0VFifwMV5ymrQsebAJ+KSVx9MiVfB5w2rJfGDMYWzOQ9d1YREBvkiA/XgeoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=UxMsSInU; arc=none smtp.client-ip=195.121.94.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="diLzhWBx"
-X-KPN-MessageId: 40cbbcd5-7c7e-11f1-861c-005056aba152
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="UxMsSInU"
+X-KPN-MessageId: 41911e9f-7c7e-11f1-83b1-005056ab378f
 Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 40cbbcd5-7c7e-11f1-861c-005056aba152;
-	Fri, 10 Jul 2026 18:41:52 +0200 (CEST)
+	id 41911e9f-7c7e-11f1-83b1-005056ab378f;
+	Fri, 10 Jul 2026 18:41:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=mime-version:message-id:date:subject:to:from;
-	bh=gjoisDfXKw9DGzuiEZ2rIVlOa9uh2ZG9Ti1GuL5VNBM=;
-	b=diLzhWBxBBwGAQoXeuwe0iKglKxYETO8w2NME0/cHqcyXZROe2WCzEO547jI2kmEEzhbIPn6YVdyh
-	 NOAqp5+XlKaprXhl08HWgRsNkALNQ3TvMXx3r3zHr9Pe8Pxx1lDImGtuixBn4UawQO6zZ/XeaxIBms
-	 S+z8JT9sDMDa+Y9KM+cKQjjDgOLw8Q05b9C+JNJFxBu1stmIB6Si68Mu+0PRlSDHVf9aVR5+qybW/C
-	 Us9tJkU8Jx5PLT0Q9zIWeUXWvWA+NEUgCY3tXWcfx/O74qI1CeBJcbofzi1aPhllGJo4NNsgCtkvCn
-	 MjUoLHQLDlvgWNUSEVIJwRQns/K5D2w==
-X-KPN-MID: 33|eA0585xDsxFLyZmSRP6UeYcEV2baMa8B5ZnMCc7wIkzDNri0eKTvW5kauzBZ2pH
- igbfvCZ9DcDwvR52ZYUe83HUU9z+tJpO0SR8y4WlyxYI=
+	bh=EaS0+HBaDnj4tkmHVi48ZsTwA3AYyy9jlZrZreHsuSk=;
+	b=UxMsSInUFHQCRWfuJBdUaaFHYOsp69sEQyhtWsmehz1MX/Sqre4p9z5t/Bkx8PkbvTyqRNa29WvYS
+	 Vd4uf/LYpGI5Vl7ITa8LQDMMUQAaWhSRc/vzIMKaZfeh1O7chPsY9cnUQc1jZkXAUxSd5yTk3PEsei
+	 JsQ2BNRJcByahyKeO1hD4un3b+tS3oJQ1+Ghw5SNeDWTUbgHFCTyYeGLuVKCDwRvueEt1fdfneqjIR
+	 lqFKvkxrXwYonwwOzm4NMBbl7/b0PtBpgUlNaIG1vPgjH0u6XaM0NBIEolGt9Nq4A+QTSdt7XKSlH3
+	 cGoQz+3GZZ62u7wNPvJCdnrz+b9WY6Q==
+X-KPN-MID: 33|ElAlLdLVWS3/cD0+SN9fIexGI2It/EhztNKB+HSJsja6xPUP4btPFvkXIKek4m4
+ XBinfvqBsJWpg2jSK84wWeBL+otkIPryXpnKkpjCEfAs=
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|FA4rqP2NGyrRx/4X9J5wdJdmQIa2Veduhw1wKUOTKbiAgblkrqFfuUG1FitEo1K
- ksXe46eLqbsqcfv64OhujBw==
+X-CMASSUN: 33|Fa8Mq6V4joKmX+J4Mu8wSeW9/PWOJcAKWwzYgUG/DWA0mi35Pk0tXnSGXW6aZK1
+ NKAns7lAhcH3+pGCmVbZLEw==
 Received: from daedalus.home (unknown [178.229.235.145])
 	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 408d6eb2-7c7e-11f1-91ec-005056ab1411;
-	Fri, 10 Jul 2026 18:41:51 +0200 (CEST)
+	id 4154fdea-7c7e-11f1-91ec-005056ab1411;
+	Fri, 10 Jul 2026 18:41:53 +0200 (CEST)
 From: Jori Koolstra <jkoolstra@xs4all.nl>
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>,
@@ -50,9 +50,9 @@ Cc: Jan Kara <jack@suse.cz>,
 	audit@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Jori Koolstra <jkoolstra@xs4all.nl>
-Subject: [PATCH 2/3] vfs: call audit_inode_child() in lookup_open() on failure
-Date: Fri, 10 Jul 2026 18:42:32 +0200
-Message-ID: <20260710164233.827744-3-jkoolstra@xs4all.nl>
+Subject: [PATCH 3/3] fs/namei.c: update kerneldoc of atomic_open()
+Date: Fri, 10 Jul 2026 18:42:33 +0200
+Message-ID: <20260710164233.827744-4-jkoolstra@xs4all.nl>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260710164233.827744-1-jkoolstra@xs4all.nl>
 References: <20260710164233.827744-1-jkoolstra@xs4all.nl>
@@ -64,193 +64,62 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-audit_inode_child() is called in may_create_dentry() so that failed
-filesystem operations still register an audit entry. On success, the
-entry is overwritten when, for instance, fsnotify_create() is called.
-This is the calling convention in vfs_create() and vfs_mkdir().
-In lookup_open(), however, when atomic_open() should have created a
-file but didn't, no call to audit_inode_child() is made. The same is
-true for the regular ->create() path.
+The comments above atomic_open() contain several errors:
 
-Fix the calling of audit_inode_child() in lookup_open() to match the
-vfs_create() path. For the ->atomic_open() filesystems this logic has
-been pushed into atomic_open(). This function is also reordered a bit
-to make the case distinction of the possible returns from
-->atomic_open() more explicit (i.e. finish_open() or finish_no_open()).
+  - atomic_open() does not return 0 if successful
+  - @path is not updated
 
-When retrying delegation breaking, audit_inode_child() could be called
-more than once, but this is OK because those entries are reused.
+Fix those and be more explicit about when FMODE_OPENED and FMODE_CREATED
+are set. Change to a full kerneldoc.
 
 Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
 ---
- fs/namei.c | 92 ++++++++++++++++++++++++++++++++----------------------
- 1 file changed, 55 insertions(+), 37 deletions(-)
+ fs/namei.c | 32 ++++++++++++++++++++------------
+ 1 file changed, 20 insertions(+), 12 deletions(-)
 
 diff --git a/fs/namei.c b/fs/namei.c
-index 447eda7cbe34..fe5d59c6f925 100644
+index fe5d59c6f925..2eef2a49d3f4 100644
 --- a/fs/namei.c
 +++ b/fs/namei.c
-@@ -4351,35 +4351,55 @@ static int may_o_create(struct mnt_idmap *idmap,
+@@ -4336,18 +4336,26 @@ static int may_o_create(struct mnt_idmap *idmap,
+ 	return security_inode_create(dir->dentry->d_inode, dentry, mode);
+ }
+ 
+-/*
+- * Attempt to atomically look up, create and open a file from a negative
+- * dentry.
+- *
+- * Returns 0 if successful.  The file will have been created and attached to
+- * @file by the filesystem calling finish_open().
+- *
+- * If the file was looked up only or didn't need creating, FMODE_OPENED won't
+- * be set.  The caller will need to perform the open themselves.  @path will
+- * have been updated to point to the new dentry.  This may be negative.
+- *
+- * Returns an error code otherwise.
++/**
++ * atomic_open() - attempt to atomically look up, create and open a file
++ * from a negative dentry.
++ * @path:          parent directory path
++ * @dentry:        child to ->atomic_open()
++ * @file:          file to attach child to
++ * @open_flag:     open flags
++ * @mode:          create mode
++ * @create_error:  return value from may_o_create()
++ *
++ * If a non-error dentry is returned then: when FMODE_OPENED is set,
++ * the file will have been attached to @file by the filesystem calling
++ * finish_open(). If FMODE_OPENED isn't set, the filesystem instead called
++ * finish_no_open() and the caller will need to perform the open themselves.
++ *
++ * FMODE_CREATED is set when the call to ->atomic_open() actually created
++ * the file.
++ *
++ * Returns the opened/looked-up dentry on success or ERR_PTR(-E) on failure.
++ * On error, atomic_open() consumes @dentry.
   */
  static struct dentry *atomic_open(const struct path *path, struct dentry *dentry,
  				  struct file *file,
--				  int open_flag, umode_t mode)
-+				  int open_flag, umode_t mode, int create_error)
- {
- 	struct dentry *const DENTRY_NOT_SET = (void *) -1UL;
--	struct inode *dir =  path->dentry->d_inode;
-+	struct inode *dir_inode = path->dentry->d_inode;
- 	int error;
- 
- 	file->__f_path.dentry = DENTRY_NOT_SET;
- 	file->__f_path.mnt = path->mnt;
--	error = dir->i_op->atomic_open(dir, dentry, file,
-+	error = dir_inode->i_op->atomic_open(dir_inode, dentry, file,
- 				       open_to_namei_flags(open_flag), mode);
- 	d_lookup_done(dentry);
-+
- 	if (!error) {
- 		if (file->f_mode & FMODE_OPENED) {
--			if (unlikely(dentry != file->f_path.dentry)) {
-+			/* finish_open() called */
-+			struct dentry *opened = file->f_path.dentry;
-+			if (unlikely(opened != dentry)) {
- 				dput(dentry);
--				dentry = dget(file->f_path.dentry);
-+				dentry = dget(opened);
- 			}
--		} else if (WARN_ON(file->f_path.dentry == DENTRY_NOT_SET)) {
--			error = -EIO;
--		} else {
--			if (file->f_path.dentry) {
-+		} else if (likely(file->f_path.dentry != DENTRY_NOT_SET)) {
-+			/* finish_no_open() called */
-+			struct dentry *replaced = file->f_path.dentry;
-+			if (replaced) {
- 				dput(dentry);
--				dentry = file->f_path.dentry;
-+				dentry = replaced;
- 			}
- 			if (unlikely(d_is_negative(dentry)))
- 				error = -ENOENT;
-+		} else {
-+			const char *fsname = dentry->d_sb->s_type->name;
-+			WARN(1, "%s: ->atomic_open() left file->f_path.dentry unset!\n",
-+			        fsname);
-+			error = -EIO;
- 		}
- 	}
-+
- 	if (error) {
-+		if (unlikely(create_error) && error == -ENOENT) {
-+			/*
-+			 * Should have done a create, but errored before.
-+			 * Some filesystems return -ENOENT directly instead of
-+			 * calling finish_no_open() with a negative dentry;
-+			 * either way it should only mean the child doesn't exist,
-+			 * so a refused create is safe to record here.
-+			 */
-+			audit_inode_child(dir_inode, dentry, AUDIT_TYPE_CHILD_CREATE);
-+			error = create_error;
-+		}
- 		dput(dentry);
- 		dentry = ERR_PTR(error);
- 	}
-@@ -4437,7 +4457,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 		dentry = NULL;
- 	}
- 	if (dentry->d_inode) {
--		/* Cached positive dentry: will open in f_op->open */
-+		/* Cached positive dentry: will open in do_open(). */
- 		return dentry;
- 	}
- 
-@@ -4471,10 +4491,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 	if (dir_inode->i_op->atomic_open) {
- 		if (nd->flags & LOOKUP_DIRECTORY)
- 			open_flag |= O_DIRECTORY;
--		dentry = atomic_open(&nd->path, dentry, file, open_flag, mode);
--		if (unlikely(create_error) && dentry == ERR_PTR(-ENOENT))
--			dentry = ERR_PTR(create_error);
--		return dentry;
-+		return atomic_open(&nd->path, dentry, file, open_flag, mode, create_error);
- 	}
- 
- 	if (d_in_lookup(dentry)) {
-@@ -4490,32 +4507,36 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 			dentry = res;
- 		}
- 	}
-+	if (dentry->d_inode || !(op->open_flag & O_CREAT)) {
-+		/* No need to create a file. If lookup returned a positive
-+		 * dentry, the file will be opened in do_open(). */
-+		return dentry;
-+	}
-+
-+	/* Negative dentry with O_CREAT flag set */
-+	audit_inode_child(dir_inode, dentry, AUDIT_TYPE_CHILD_CREATE);
- 
--	if (unlikely(create_error) && !dentry->d_inode) {
-+	if (unlikely(create_error)) {
-+		/* should have done a create, but we already errored */
- 		error = create_error;
- 		goto out_dput;
- 	}
- 
--	/* Negative dentry, just create the file */
--	if (!dentry->d_inode && (open_flag & O_CREAT)) {
--		/* but break the directory lease first! */
--		error = try_break_deleg(dir_inode, LEASE_BREAK_DIR_CREATE, delegated_inode);
--		if (error)
--			goto out_dput;
--
--		file->f_mode |= FMODE_CREATED;
--		audit_inode_child(dir_inode, dentry, AUDIT_TYPE_CHILD_CREATE);
--		if (!dir_inode->i_op->create) {
--			error = -EACCES;
--			goto out_dput;
--		}
-+	error = try_break_deleg(dir_inode, LEASE_BREAK_DIR_CREATE, delegated_inode);
-+	if (error)
-+		goto out_dput;
- 
--		error = dir_inode->i_op->create(idmap, dir_inode, dentry,
--						mode, open_flag & O_EXCL);
--		if (error)
--			goto out_dput;
-+	file->f_mode |= FMODE_CREATED;
-+	if (!dir_inode->i_op->create) {
-+		error = -EACCES;
-+		goto out_dput;
- 	}
- 
-+	error = dir_inode->i_op->create(idmap, dir_inode, dentry,
-+					mode, open_flag & O_EXCL);
-+	if (error)
-+		goto out_dput;
-+
- 	return dentry;
- 
- out_dput:
-@@ -5053,7 +5074,7 @@ struct file *dentry_create(struct path *path, int flags, umode_t mode,
- 
- 		/* atomic_open will dput(dentry) on error */
- 		dget(orig_dentry);
--		dentry = atomic_open(path, dentry, file, flags, mode);
-+		dentry = atomic_open(path, dentry, file, flags, mode, create_error);
- 		error = PTR_ERR_OR_ZERO(dentry);
- 
- 		if (IS_ERR(dentry))
-@@ -5063,9 +5084,6 @@ struct file *dentry_create(struct path *path, int flags, umode_t mode,
- 			/* Drop the extra reference */
- 			dput(orig_dentry);
- 
--		if (unlikely(create_error) && error == -ENOENT)
--			error = create_error;
--
- 		if (!error) {
- 			if (file->f_mode & FMODE_CREATED)
- 				fsnotify_create(dir->d_inode, dentry);
 -- 
 2.55.0
 
