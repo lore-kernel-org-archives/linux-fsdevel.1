@@ -1,112 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 579CC2E762C;
-	Fri, 10 Jul 2026 14:23:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2495348C5C
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 14:25:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783693390; cv=none; b=nwxcCieSc8LgLwiFn/FRiEDVP8bmMzJs/r9XgkT3mnpO0J8VWhkUqc9ZcWp6ATAxZLgwD9aY3FGWC7HA2ybFCHO3H0fjBGqMv377zJ4lCT4ALGjJuVx4BKSxCWBlMtelw6U7UOVZfUqdSd1jHv/TlnyIqxkjXyOszFtmGC9rCIE=
+	t=1783693541; cv=none; b=KJftIlcshNgr5C+oUlFGQbx1UzkPxwqAu2VBN15dDX1mx0EHtWE8HqSdmwdA6RfomtZ7cdZsDe05JZDXkRFcRDRIyLYPtAg2vzvNUSgorWzpF0pwzcfkv4zvXoWxhu/vn7EXR96C0g00f/WjaLk+iqAVuRi+fPqplSGEJCd85Wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783693390; c=relaxed/simple;
-	bh=oOOKiOVebIlobLMIAKruzvkluU8pmlBRpfWOBD5+Bh8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K4sbw1q7puWFISLD0LDcLIwNc/siAPS6nD1zHdU0J5pt66bxbNASNStBmGSSr+9gny1pb3CbIuAMTWdUW+hgqbxOLwGW++D5bAvr2xv6ZpOap/0jFfwOr8iwoDw9vQ8guapqQUVJIQl3cTNeklXrhyUXs+mGFOl2yKnAHX7Rfp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hDk32fZe; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783693541; c=relaxed/simple;
+	bh=XVflM+LNGOYBHFZueoklJtgP4+Olztt+5YzszSrFYuc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=a26muVxQ23Ch6XhxYtC3iUy20MwtObi3Gn7cKi60aQ0On3j13pl53J3eBT38f9ks3JJNMlpcpowru6iHIUkWgE4f9czZjiUG+SeeiQKqCEU7XXIB+khGq2Xi6EDaKdl2ia/ToKcXv92PS4t1YyadjzJ5/aw1jwDvuff+6Zjne6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=HrOLXIlJ; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hDk32fZe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 576341F000E9;
-	Fri, 10 Jul 2026 14:23:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783693389;
-	bh=4zyigozW2XJuMHxUx1LRwgrRCSh1VLl67e/E7w+QZzU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hDk32fZeMgzmPnGNoP6HeCOWM4GRx0wvzZ7PStQ2TSwlTBXM5ez/tTQKGLxRTl/4I
-	 QkBc0RDv0nD0Lc66yqvsQa0pHvXXNbHYnxrULdE6sqiQXHrOs7CEDy4i0shhDrRvhL
-	 AkOBE98GZT3VYpNtPaq2bLKNc3tGh8h25U95a8qCstIttnk3MdXOHiNU4NC1S8pJiI
-	 5jF41zw/Ud5xKxk0rB4ndtLsriEMDnqTuL8nXJEn1D8EQwyMsqxoWuiWeg0k7MxwCT
-	 PBZFuZgWs6DtmzAVLAZcQU9iE7cf28j4wPp4QAE2BoL/qigac0hAC9jFJl+CkC28Q2
-	 C7OtqdLqj+rXA==
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 9402FF4022A;
-	Fri, 10 Jul 2026 10:23:07 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Fri, 10 Jul 2026 10:23:07 -0400
-X-ME-Sender: <xms:SwBRaiG8_-41vVevjFBAF9twrVMCIM177GgS7Qhb3Su_cbXbRCXoZQ>
-    <xme:SwBRaktXb_Sy-5H8fPfG4CfDLbmSbp4m6H_usVbOz5pIVPcJE0ok3Y4eDV6zXvXgd
-    ssPgrRJZArJUVkzeS6NMxoWJ3qb-sB3OsA6gAxsz_vHyw4egfky>
-X-ME-Received: <xmr:SwBRalZMsDpR2KNxktXhHL77Wv9F5ArDYWNayvgO4t7tkwzNnDZPK4aI40phtlKYh_YyfNHGSJ7r8uyiz2gMnJ-lkGGxlj6k>
-X-ME-Proxy-Cause: dmFkZTED+bREg08T9XRtTY12MliPGRoIPw3CDmOu5rtNcTMSDW3GzkCNIg/FtDVssJV2a1
-    dqIVfYBHtJxne3Yg7lMoliBcR1KtLbfJTL20V8nZnHSpC2uvHsMhrdmObVa4NP+QyrIO8i
-    Kvfc9PEF91GQDLPB1BM1I4m3THqDVgx12CjGKgZ207822CtpBjqbcv2y1z4F9VW8lz4uWp
-    HS8P5V6kYDLoJVU2+mhw3BNNKalT7V6VlJwc2n1O5UnnStNipbZUYO9Hqu7kksb9Wt53wN
-    egKer428tG4GeLL8CNMh+JtV8VRgdudjhMaJ6uWyoS9HjnkKZKdayKw+o/fp6RectpUcFu
-    HzHdRFhUl1b/VgOZyjhTKdQjURFHr+ntHCe/sW2NXyovVe/kg6aKAI1L/eHFbqP7r5tgkS
-    3Ozn585tLvrYaY93qnBcZ9NR8xo4wMzv6aKPrMoKXIY7hnedfbryeIEmygKwl6xD34B2cz
-    TiGcx4sHviBU3Y/zdbIry/pUllz9/gnJNk9i0DEt6x42mu0AUUKkwC8LM7JOef9rSuhstb
-    NMvg/UvONs3u+VqdKJbozNcJCTw9q98WADJJHR/DmsmxJYpPsmsOkePGMJIpKn6zO0cYf3
-    pMZqnwGbQDjcYnJq4OJzCHHnEPJD5lA0l6i9Bj6ZpDzCdzUnGWFCO9B/Tanw
-X-ME-Proxy: <xmx:SwBRakV75Fich9nIFKzlqhX8VXGubIWJOCDI8aMt6LK-2P94f92juQ>
-    <xmx:SwBRavKDSq9It3Xrew99PBkM08usLOQ4fshgYETi3hyZ6_-1RNCWZw>
-    <xmx:SwBRaqH3QCkJEt5Mp3vqyXZuw3en7HgeXA7c18vx3fUL2SpKXJHVLg>
-    <xmx:SwBRasxnf4c2ooVO5Gqp17dng1DCOFFedDm1wcR0qdxCRfyQcSNycg>
-    <xmx:SwBRavixRuVbYTnsJ_zNw4-8UpTNDqZCc9FWwh4DrIDeVI_o-lcCd8Gk>
-Feedback-ID: i8dbe485b:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Jul 2026 10:23:06 -0400 (EDT)
-Date: Fri, 10 Jul 2026 07:23:06 -0700
-From: Boqun Feng <boqun@kernel.org>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Carlos Llamas <cmllamas@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>,
-	linux-fsdevel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 1/2] rust: poll: use kfree_rcu() for PollCondVar
-Message-ID: <alEASpx0UvbYnxqy@tardis.local>
-References: <20260707-upgrade-poll-v6-0-4b8fae7bf1d9@google.com>
- <20260707-upgrade-poll-v6-1-4b8fae7bf1d9@google.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="HrOLXIlJ"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1783693535;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1VlKCpo+tnRr2SOFJ9r1et+U9+XWbDNAx+XfTXQ4ZpM=;
+	b=HrOLXIlJK5byvxMRl92Xt9Qe8BH9aa97sbTEINkk6Tl1g3pRas93d3bcKawXhxT4wPQSH2
+	pUVy4GlMnPr0RDwlU+9UJT9dIuS7ZGqUPO7aQcEEzvGXQBanYYA0jXc9PaBax+GsITsfCw
+	JKZWwia7gUFzCW5BmNzi7XeiOzZU9LU=
+From: Usama Arif <usama.arif@linux.dev>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Usama Arif <usama.arif@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jane Chu <jane.chu@oracle.com>,
+	linux-mm@kvack.org,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <christian@brauner.io>
+Subject: Re: [PATCH v2 00/10] Use generic_file_read_iter() in hugetlbfs
+Date: Fri, 10 Jul 2026 07:25:16 -0700
+Message-ID: <20260710142517.1022940-1-usama.arif@linux.dev>
+In-Reply-To: <20260709184740.1286561-1-willy@infradead.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260707-upgrade-poll-v6-1-4b8fae7bf1d9@google.com>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Jul 07, 2026 at 10:43:12AM +0000, Alice Ryhl wrote:
-> Rust Binder currently uses PollCondVar, but it calls synchronize_rcu()
-> in the destructor, which we would like to avoid. Add a variation of
-> PollCondVar that kfree_rcu() instead.
+On Thu,  9 Jul 2026 19:47:28 +0100 "Matthew Wilcox (Oracle)" <willy@infradead.org> wrote:
+
+> This set of patches are separated out from Jane's earlier series.
+> https://lore.kernel.org/linux-mm/20260617172534.1740152-1-jane.chu@oracle.com/
 > 
-> One could avoid the `rcu` field and allocate the rcu_head on drop using
-> a fallback to synchronize_rcu() on ENOMEM. However, I'd prefer to avoid
-> the potential for synchronize_rcu(), and Binder will only use this for a
-> small fraction of processes, so even if it changes which kmalloc bucket
-> it falls into, the extra memory is not a problem.
+> There's enough potentially controversial things in here that I think
+> it's worth considering them by themselves.  First, handling hwpoison
+> in filemap_read().  I want this for shmem as well as for hugetlbfs (a
+> later patchset, maybe).  Second, handling misses in the pagecache as
+> holes rather than opportunities to populate the pagecache.
 > 
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
-
-
-Let's switch to a better abstraction like RcuFreeBox later, but I don't
-see any issue of this approach in general.
-
-Reviewed-by: Boqun Feng <boqun@kernel.org>
-
-Regards,
-Boqun
-
-> ---
->  rust/kernel/sync/poll.rs | 73 +++++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 72 insertions(+), 1 deletion(-)
+> v1 here: https://lore.kernel.org/linux-mm/20260707181713.208282-1-willy@infradead.org/
+> Sashiko had a lot of valuable feedback on that, and that's all addressed
+> here except for the things that I don't think are relevant.
 > 
-[..]
+> Jane Chu (2):
+>   filemap: Add hwpoison handling to filemap_read()
+>   hugetlb: replace hugetlbfs_read_iter() with generic_file_read_iter()
+> 
+> Matthew Wilcox (Oracle) (8):
+>   mm: Rename folio_contain_hwpoison_page() to folio_has_hwpoison_page()
+>   hugetlb: Mark some function arguments as const
+>   filemap: Remove checks in mapping_set_folio_order_range()
+>   hugetlb: Set mapping folio order
+>   memory-failure: Remove raw_hwp_list_head()
+>   memory-failure: Prevent UAF in raw_hwp_page list
+>   mm: Handle hugetlb correctly in is_page_hwpoison()
+>   filemap: Add support for authoritative mappings
+> 
+>  fs/hugetlbfs/inode.c       | 122 ++++---------------------------------
+
+I really like the deletions here in hugetlbfs :)
+
+>  include/linux/hugetlb.h    |  24 +++-----
+>  include/linux/mm_types.h   |   4 +-
+>  include/linux/page-flags.h |  28 ++++++---
+>  include/linux/pagemap.h    |  32 +++++-----
+>  mm/filemap.c               |  46 +++++++++++++-
+>  mm/huge_memory.c           |   2 +-
+>  mm/hugetlb.c               |   2 +-
+>  mm/memory-failure.c        |  39 ++++++------
+>  mm/memory_hotplug.c        |   2 +-
+>  mm/shmem.c                 |   2 +-
+>  mm/vmscan.c                |   2 +-
+>  12 files changed, 128 insertions(+), 177 deletions(-)
+> 
+> -- 
+> 2.47.3
+> 
+> 
