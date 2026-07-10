@@ -1,35 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3F53F58EF;
-	Fri, 10 Jul 2026 09:33:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2463F7877
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 09:33:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783676009; cv=none; b=fz914eN7LP2M0PG1inauUVb30scve78l1wh58GERWRfq2d+qaoj34wePK2E8i7Pt6UCFzLXZZSLklJ4uGfY80euKopcGq1U0BgYm9IXUdPzx2G+lnG3dDB3q0fSSiCtC+cT5KlApTi0AoQJlsCl2RITHdBTPWcNn0R97/D7xNpw=
+	t=1783676010; cv=none; b=Mf5thpXrycLGiwYxhwiLoM6IO3MWglJAcPo4u+Vlk3RQYrlTuJwCgEQcYtvaUdlllJ8de5adyKjTdophObcPJ5+ynZ5WKQ0z8j71OrcxS8OGsKfELHyRBkioCrVvgH+xUbywWUPsVJ3A5XEHtC2ZaxI/C5bSvGTFbW2tb0bfhBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783676009; c=relaxed/simple;
-	bh=LJghwtw/rZdPZpzGD37v4e9liYjTcIOPdSBYtvPd6LM=;
+	s=arc-20240116; t=1783676010; c=relaxed/simple;
+	bh=5fDg4FRHGjOzb4Oq1vmjh5/iD5qe0IA0aJXniqKPh7c=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YJrxE5GZJTNIgBumwswYqffJdUw/JMijreW2frCF5qXo9e3ZWAUf+Xl/1f68ttv6vqQAWPwHjBwwtlvgMMp3YM+V6u6x5h17P/eMMoGUbrJGvyhwd3my7vdIVdvx53nJDU0FCE8DyLpmH4Z/Hf5e+2/TYnV5m62vuVl2Um/AOoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nN7+0tvZ; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=e7Ej+Y1hkPL936fxf0nRgi4jCTmkJ2XJrVBx0qs4osmtri3dcC3WJGB7Cduu9oZBspRfleEf0MXhAOMH/7yPcP49g2Cx86Ax8zebp+anBiTucwCqb0qdTVw/Qddh4NYsqr+M/V4oBr0D/nB+7KWBnpjJCm7KBsd/fzSSdvXg1Bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kle6o5z1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nN7+0tvZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED2AC1F00A3A;
-	Fri, 10 Jul 2026 09:33:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kle6o5z1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB38C1F000E9;
+	Fri, 10 Jul 2026 09:33:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783676007;
-	bh=xrs5lraalE2UG0MriVBsYhlbNUjZEy2u+I/gnOfdohU=;
+	s=k20260515; t=1783676009;
+	bh=zHZbonjleyir4US03XvVFpkPPdCeIkxBX4Jq3eCRCy0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=nN7+0tvZRI8ao2T+BWyC2xVLZc9ZQ6PLswTiXRS2Z9lqXMUCPS1wpQxTSbT22Exct
-	 K1JLTiwFpJ/XWy5Rf8To66gjwDJBIXlEHoAHCGj8HjSBts4kRQrHj/hUPv/49oukbI
-	 I4MVlqSXSao9gatsjqV9Ttgi6B8iBiGZGJc3QRoFCK/YeKRyoj+uAb67EiQ4CT8hy8
-	 IchSa1/AR8ooDSzLMgxajnyCOF8u1sBMi626J6ze54bXDSIhq+4PMpHnyJXsrj9gtz
-	 zcgrxWBy3LYJXwckMZUfLM5vv2JFNAnyKJ1hgS6YY2ZkGl6OgcE+2tCgTzRzY/3HHN
-	 Z4W3URY0XuuuA==
+	b=Kle6o5z16bvxOO0JAheBnkUMZzXuI19kyZHAu5ukPVfeksKZQVihIR3Qo1q9XWH5/
+	 5FgjIlZmBVM3KNZkVigjM+awEKd1XL20zph4YJ/PZslpc1ewtQr1QxIhE3KdKTEwyk
+	 NVm8Hcw2E84apAbK7QCOP9s5CXvUSoI9kfiOCZijpmHeKAHPqRd5+HoW2N+hXLMFvV
+	 VnQuHjraMlRIPJQwaK7OES1Q8Ia6Xcn15SOto5hq/TYaqWLcXivfW1Rc0+A+xYMw1G
+	 H0vxPdJIifz3698fyNmwExe7olakremOyNOOET8sO1Jew0fgv2DhU9tiGNWiPT37Yx
+	 8KofCmiuonxZw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 10 Jul 2026 11:33:04 +0200
-Subject: [PATCH v3 03/24] binfmt_misc: reject a flag character as the field
- delimiter
+Date: Fri, 10 Jul 2026 11:33:05 +0200
+Subject: [PATCH v3 04/24] binfmt_misc: convert entry list to an hlist
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,80 +37,174 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-work-binfmt_misc-locking-v3-3-a162f7cb58d6@kernel.org>
+Message-Id: <20260710-work-binfmt_misc-locking-v3-4-a162f7cb58d6@kernel.org>
 References: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
 In-Reply-To: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
  Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
  linux-mm@kvack.org, Farid Zakaria <farid.m.zakaria@gmail.com>, 
- jannh@google.com, stable@vger.kernel.org
+ jannh@google.com
 X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2408; i=brauner@kernel.org;
- h=from:subject:message-id; bh=LJghwtw/rZdPZpzGD37v4e9liYjTcIOPdSBYtvPd6LM=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQF7IkLu1Tdkxr3luHWi29BHPxrVucsefmc+cTOA490o
- jfVJmZe6ChlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjIjJOMDCcn+nFPWZjX5ePN
- x7z6tcfrj3NOL9yf+NnnVoTVrgXrSvcyMjQHXBAQvhmS2lkjH2+2O7VxgfSVQKvfBTFB2SnZP37
- 48AMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5590; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=5fDg4FRHGjOzb4Oq1vmjh5/iD5qe0IA0aJXniqKPh7c=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQF7Il7qqSxVEyMxS5LWdlMM3rviqBdjq1NqiuPM6+bE
+ 3jkSdL5jlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIkoxjIyXH4qe1Mq7P2E6W3M
+ k4x3n3duKJ66vlFbfU/Yj43rFv6atIDhv2u3A/e6l8yn/GWqGk30s5e9sjixlrNj7qbH37dLJ20
+ /wQIA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-The registration string starts with a user chosen delimiter that
-separates the individual fields. So that the field parsers terminate
-even on a truncated string create_entry() pads the buffer with that
-same delimiter:
+The upcoming conversion of the handler lookup to RCU walks cannot use
+list_del_init(): reinitializing the forward pointer of a removed entry
+would make a concurrent lockless walker standing on that entry loop
+back onto it indefinitely. The removal paths do rely on
+reinitialization though because bm_{entry,status}_write() and
+bm_evict_inode() need to detect whether an entry has already been
+unlinked.
 
-	memset(buf + count, del, 8);
+hlists support exactly this pattern: hlist_del_init_rcu() keeps the
+forward pointer of the removed entry intact for concurrent walkers and
+only zeroes ->pprev with hlist_unhashed() serving as the linked test.
 
-Most fields are scanned for the delimiter with strchr()/scanarg() and
-happily stop on the padding. The flags field is different: instead of
-scanning for the delimiter check_special_flags() consumes the flag
-characters 'P', 'O', 'C' and 'F' and stops at the first byte that is
-none of them, relying on the trailing delimiter to end the scan.
+Convert the entry list to an hlist now while keeping the rwlock so the
+subsequent RCU conversion is a pure locking change. hlist_add_head()
+inserts at the head just as list_add() did so lookup precedence
+between registered handlers is unchanged.
 
-If the delimiter is itself a flag character the padding no longer acts
-as a terminator. The scan swallows all eight padding bytes and keeps
-reading past the end of the allocation until it hits a byte that is
-not a flag character. For example registering
-
-	PaPEPPxPPiP
-
-with 'P' as the delimiter (name "a", type extension, magic "x",
-interpreter "i", empty flags) leaves the flag scan running off the end
-of the buffer. The registration is rejected in the end because the
-parser does not stop exactly at buf + count, but only after the out of
-bounds read has already happened. With an unlucky allocation layout the
-scan can walk into an unmapped page; under KASAN it is reported as a
-slab out of bounds read. binfmt_misc mounts are available to
-unprivileged users in a user namespace so the read is reachable without
-privileges.
-
-Reject a delimiter that is one of the flag characters up front. Such a
-registration was always rejected anyway, only after the out of bounds
-read, so no valid registration string changes meaning.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/binfmt_misc.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ fs/binfmt_misc.c        | 25 +++++++++++++------------
+ include/linux/binfmts.h |  2 +-
+ kernel/user.c           |  2 +-
+ 3 files changed, 15 insertions(+), 14 deletions(-)
 
 diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-index 24142859658c..b7664d90eb8f 100644
+index b7664d90eb8f..89da2d4e7f91 100644
 --- a/fs/binfmt_misc.c
 +++ b/fs/binfmt_misc.c
-@@ -385,6 +385,10 @@ static Node *create_entry(const char __user *buffer, size_t count)
+@@ -48,7 +48,7 @@ enum {Enabled, Magic};
+ #define MISC_FMT_OPEN_FILE (1UL << 28)
  
- 	pr_debug("register: delim: %#x {%c}\n", del, del);
+ typedef struct {
+-	struct list_head list;
++	struct hlist_node node;
+ 	unsigned long flags;		/* type, status, etc. */
+ 	int offset;			/* offset of magic */
+ 	int size;			/* size of magic/mask */
+@@ -95,7 +95,7 @@ static Node *search_binfmt_handler(struct binfmt_misc *misc,
+ 	Node *e;
  
-+	/* A flag-char delimiter runs the flag scan off the buffer. */
-+	if (del == 'P' || del == 'O' || del == 'C' || del == 'F')
-+		goto einval;
-+
- 	/* Pad the buffer with the delim to simplify parsing below. */
- 	memset(buf + count, del, 8);
+ 	/* Walk all the registered handlers. */
+-	list_for_each_entry(e, &misc->entries, list) {
++	hlist_for_each_entry(e, &misc->entries, node) {
+ 		char *s;
+ 		int j;
  
+@@ -666,8 +666,8 @@ static struct binfmt_misc *i_binfmt_misc(struct inode *inode)
+  *
+  * If the ->evict call was not caused by a super block shutdown but by a write
+  * to remove the entry or all entries via bm_{entry,status}_write() the entry
+- * will have already been removed from the list. We keep the list_empty() check
+- * to make that explicit.
++ * will have already been removed from the list. We keep the hlist_unhashed()
++ * check to make that explicit.
+ */
+ static void bm_evict_inode(struct inode *inode)
+ {
+@@ -680,8 +680,8 @@ static void bm_evict_inode(struct inode *inode)
+ 
+ 		misc = i_binfmt_misc(inode);
+ 		write_lock(&misc->entries_lock);
+-		if (!list_empty(&e->list))
+-			list_del_init(&e->list);
++		if (!hlist_unhashed(&e->node))
++			hlist_del_init(&e->node);
+ 		write_unlock(&misc->entries_lock);
+ 		put_binfmt_handler(e);
+ 	}
+@@ -702,7 +702,7 @@ static void bm_evict_inode(struct inode *inode)
+ static void remove_binfmt_handler(struct binfmt_misc *misc, Node *e)
+ {
+ 	write_lock(&misc->entries_lock);
+-	list_del_init(&e->list);
++	hlist_del_init(&e->node);
+ 	write_unlock(&misc->entries_lock);
+ 	locked_recursive_removal(e->dentry, NULL);
+ }
+@@ -758,7 +758,7 @@ static ssize_t bm_entry_write(struct file *file, const char __user *buffer,
+ 		 * read-only. So we only need to take the write lock when we
+ 		 * actually remove the entry from the list.
+ 		 */
+-		if (!list_empty(&e->list))
++		if (!hlist_unhashed(&e->node))
+ 			remove_binfmt_handler(i_binfmt_misc(inode), e);
+ 
+ 		inode_unlock(inode);
+@@ -802,7 +802,7 @@ static int add_entry(Node *e, struct super_block *sb)
+ 	d_make_persistent(dentry, inode);
+ 	misc = i_binfmt_misc(inode);
+ 	write_lock(&misc->entries_lock);
+-	list_add(&e->list, &misc->entries);
++	hlist_add_head(&e->node, &misc->entries);
+ 	write_unlock(&misc->entries_lock);
+ 	simple_done_creating(dentry);
+ 	return 0;
+@@ -875,8 +875,9 @@ static ssize_t bm_status_write(struct file *file, const char __user *buffer,
+ {
+ 	struct binfmt_misc *misc;
+ 	int res = parse_command(buffer, count);
+-	Node *e, *next;
++	struct hlist_node *next;
+ 	struct inode *inode;
++	Node *e;
+ 
+ 	misc = i_binfmt_misc(file_inode(file));
+ 	switch (res) {
+@@ -902,7 +903,7 @@ static ssize_t bm_status_write(struct file *file, const char __user *buffer,
+ 		 * read-only. So we only need to take the write lock when we
+ 		 * actually remove the entry from the list.
+ 		 */
+-		list_for_each_entry_safe(e, next, &misc->entries, list)
++		hlist_for_each_entry_safe(e, next, &misc->entries, node)
+ 			remove_binfmt_handler(misc, e);
+ 
+ 		inode_unlock(inode);
+@@ -977,7 +978,7 @@ static int bm_fill_super(struct super_block *sb, struct fs_context *fc)
+ 		if (!misc)
+ 			return -ENOMEM;
+ 
+-		INIT_LIST_HEAD(&misc->entries);
++		INIT_HLIST_HEAD(&misc->entries);
+ 		rwlock_init(&misc->entries_lock);
+ 
+ 		/* Pairs with smp_load_acquire() in load_binfmt_misc(). */
+diff --git a/include/linux/binfmts.h b/include/linux/binfmts.h
+index 2c77e383e737..071da63f2b48 100644
+--- a/include/linux/binfmts.h
++++ b/include/linux/binfmts.h
+@@ -101,7 +101,7 @@ struct linux_binfmt {
+ 
+ #if IS_ENABLED(CONFIG_BINFMT_MISC)
+ struct binfmt_misc {
+-	struct list_head entries;
++	struct hlist_head entries;
+ 	rwlock_t entries_lock;
+ 	bool enabled;
+ } __randomize_layout;
+diff --git a/kernel/user.c b/kernel/user.c
+index 7aef4e679a6a..c6a2bfb4d918 100644
+--- a/kernel/user.c
++++ b/kernel/user.c
+@@ -23,7 +23,7 @@
+ 
+ #if IS_ENABLED(CONFIG_BINFMT_MISC)
+ struct binfmt_misc init_binfmt_misc = {
+-	.entries = LIST_HEAD_INIT(init_binfmt_misc.entries),
++	.entries = HLIST_HEAD_INIT,
+ 	.enabled = true,
+ 	.entries_lock = __RW_LOCK_UNLOCKED(init_binfmt_misc.entries_lock),
+ };
 
 -- 
 2.53.0
