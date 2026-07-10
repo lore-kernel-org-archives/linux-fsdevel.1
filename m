@@ -1,55 +1,56 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5741F42F6F2;
-	Fri, 10 Jul 2026 14:46:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437CD4307A3;
+	Fri, 10 Jul 2026 14:46:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783694773; cv=none; b=enQ9hT9FnH4niSletZiZ2kaTIvoa/6J5kXzN3lu87pUoUUn5xEPxTBvKlCSvdtK3XOUpIjj8qNaFgGfpRny6RgCipT2ILA2QSlXSrlY3FjQcHRSspD55sHvHG1nIZlkGnPiYCMEMpqnHgS3/65IpuJ5BXEt/btj0WAbzKEv3WDI=
+	t=1783694774; cv=none; b=iTPHoHS+J5pQJCVGsoZB3CPe4veBo8sfuD6f8xhQMXylYuJ/oyGBNS49rjcZi9meWUGIU3qDTBdsdZjPEHJViwsKkZzP9fI6bzqgRUHsvJEeKxUKN22+oK10u98SAb4g+eEsIArYtMsew9LcU56YG1PTD4+gSc+aqfpoiNn7zk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783694773; c=relaxed/simple;
-	bh=elAE6D5Z++pEyg1DyynZG9mJNbmNvM6lzkncroj9yek=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GHJl6Jz6EQ9qnlNsbXUa1eXxYmD13t7BmicWV6qV7KJJBjxYtL9eW8QVQ/2TVehyvZDD0nGM1HCAbZfOP1OGeYRABDYuh+q36EwLqv/GasWrtHCp5Qmv2gylLXVtYEELJ5JNrcRyGZl82nJRrIe57RUL4aJBBLK/DHAxlwjhET4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=UCvB8fsI; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=i3qdUi3R; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1783694774; c=relaxed/simple;
+	bh=Dw9xdEGg9wTCqFqxiSyXD+ZhJ66SK/WH3omelNAvHto=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Uz1QgYjsso1fgcgdehPd5NbmoLNU0+morbn4IYxuVMtyJXuAf/GWC3ca2X6PqVwnmT0zoPk6laDlGEEYeUPRM7HUiP9WniHx2AcXTTIesjFrMUtAtr/z42Go5lr9/dIoSDGSnulh2lV9LQMV/UXKTWo0E7LRhyRa4ma0OhGOoOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=s2bOTWyw; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bo4CTDLZ; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UCvB8fsI";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="i3qdUi3R"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="s2bOTWyw";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bo4CTDLZ"
 From: John Ogness <john.ogness@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1783694770;
+	s=2020; t=1783694771;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=cNxbM391+Qm3cGBLaONG5xv7fKBiXEdYVvGFwCkYBdE=;
-	b=UCvB8fsIfRz7eQbjSvm6R9nnSsi87XOTbOFr0pgLS61IhnuME60Icy4fA1BuCN0xuA/3Q0
-	pzVTHNMU8hiZsJ7Wdi5x/4WhxuqIGHLpM1L40/8sCUTP4lKc5BJjc7mRpOT5dZC6oEebDH
-	cWee3AYJcwW2Y8mrdA1sJHTQib6RP2Hc6b3+U7lzpzqBs3q7c2Pzi2xN+HvFwAXTOUjzxo
-	jqNlg4TavjdQRSzdTOl8JpsOVOvQMMyuYT43cCjYZyqooX5MeIHh4Bp31pCZJeMTk8uMpp
-	6JSB/OZUB1fHeviN1x1E1bK+jE2A2gb0e+LBH2JOvUKkBpIya9O1Ln6fsamM1g==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oVbhUuCZle+3NabaAPt71woodETjuGi3B30OSytnWs8=;
+	b=s2bOTWyw+HMWtsyfRjhgPcKx0k3aLHP2TE1E8XelbSxB2Zkg52XR6hFajYll6wgXUWJHyI
+	F0mvenJubaEmWBi3utySOD7tpDiDoyXTd01gZWTLY6UX/jIAfPllCI6ewbmEtoo1U7D9Fk
+	FcjExIM83oJfYEyoU1nrhT4mQxRFBxgaQ96AUZbAsEZigv/tf9wI4gVPNS88SnAyOcxzxD
+	3DHmIZXDd/zRACCb09xmndgMyEV7MTaRNFQflqWbRlN/b11iK2ZlGDdkDeOGeF0c1Pg5Gl
+	N+++a5ulZ9EqyUhCe0uMm+orsnxCCL0oUbvqve2xO4oh1XAMOZFFN0+F32xbzQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1783694770;
+	s=2020e; t=1783694771;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=cNxbM391+Qm3cGBLaONG5xv7fKBiXEdYVvGFwCkYBdE=;
-	b=i3qdUi3RLz8QnJDBe0cnUZKhqk+V4oSoxswgo7rphDJqxbGp8JJCmgscnz+QUO3rHyA4Ys
-	+5/Fb4y4A2bMAzCg==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oVbhUuCZle+3NabaAPt71woodETjuGi3B30OSytnWs8=;
+	b=bo4CTDLZw2UXHbL6PmUhs1IKnjsu1/uEXLf3Eb21N0+OYQiVN9FU5JPEPK/IvekCGpYTiU
+	lUOTmk2AGR25fEBQ==
 To: Petr Mladek <pmladek@suse.com>
 Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	Andrew Murray <amurray@thegoodpenguin.co.uk>,
 	Chris Down <chris@chrisdown.name>,
 	linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-fsdevel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH printk 0/3] Introduce sync mode
-Date: Fri, 10 Jul 2026 16:51:50 +0206
-Message-ID: <20260710144609.194487-1-john.ogness@linutronix.de>
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH printk 2/3] proc: Add console sync support for /proc/consoles
+Date: Fri, 10 Jul 2026 16:51:52 +0206
+Message-ID: <20260710144609.194487-3-john.ogness@linutronix.de>
+In-Reply-To: <20260710144609.194487-1-john.ogness@linutronix.de>
+References: <20260710144609.194487-1-john.ogness@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -58,49 +59,26 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+Update /proc/consoles output to show 's' if a console is
+running in sync mode.
 
-As proposed in an LKML thread [0], here is a series to introduce a
-new console feature to use synchronous printing. The feature is
-activated using the keyword "sync" in the console= command line
-argument. For example:
+Signed-off-by: John Ogness <john.ogness@linutronix.de>
+---
+ fs/proc/consoles.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-   console=ttyS0,115200,sync
-
-Sync mode is only available for nbcon consoles that provide a
-safe write_atomic() callback. Specifying it for other consoles
-will have no effect other than a log entry that sync mode is not
-supported.
-
-Patch 3/3 shamelessly copied an implementation from Chris Down
-to parse and update the console options. (Chris's version of 
-find_and_remove_console_option() is here [1]). I slightly extended
-the function to support valueless-options.
-
-At some point we may want to add a sysfs interface to toggle sync
-mode.
-
-John Ogness
-
-[0] https://lore.kernel.org/lkml/87v7aruub1.fsf@jogness.linutronix.de
-[1] https://lore.kernel.org/lkml/77aa59337507e067f3a4ad7e15375893612bcfa3.1763492585.git.chris@chrisdown.name
-
-John Ogness (3):
-  printk: Introduce console sync mode
-  proc: Add console sync support for /proc/consoles
-  printk: Support setting console sync mode via console=
-
- Documentation/admin-guide/serial-console.rst |   8 ++
- fs/proc/consoles.c                           |   1 +
- include/linux/console.h                      |   2 +
- kernel/printk/console_cmdline.h              |   1 +
- kernel/printk/internal.h                     |   2 +
- kernel/printk/nbcon.c                        |  42 ++++++--
- kernel/printk/printk.c                       | 104 +++++++++++++++++++
- 7 files changed, 154 insertions(+), 6 deletions(-)
-
-
-base-commit: 080d60fffa8e0d285871cde8395438006a9b5b0c
+diff --git a/fs/proc/consoles.c b/fs/proc/consoles.c
+index b7cab1ad990da..f9af07d161412 100644
+--- a/fs/proc/consoles.c
++++ b/fs/proc/consoles.c
+@@ -25,6 +25,7 @@ static int show_console_dev(struct seq_file *m, void *v)
+ 		{ CON_PRINTBUFFER,	'p' },
+ 		{ CON_BRL,		'b' },
+ 		{ CON_ANYTIME,		'a' },
++		{ CON_SYNC,		's' },
+ 	};
+ 	char flags[ARRAY_SIZE(con_flags) + 1];
+ 	struct console *con = v;
 -- 
 2.47.3
 
