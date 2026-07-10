@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5786D3F86F0
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 09:33:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C29A3F871E
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 09:33:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783676016; cv=none; b=ndPCBGqrqr0Lv55O3cfW8oQ6Ho4ZG8pFGDEvdpuUyYalUlI6HZV0pNZZVBzQgimH1TvEATeEdoEnlWenddXQOZAKGNpRSsNnR0TODbmfQaXNot/eKXFxf2EPwkWQs+x6dGabNnop3CiYz3jOvZhVjxMuLYmsff6qI3afSQqb7t0=
+	t=1783676018; cv=none; b=TG+QCRar3Ok46OembVJTFXVa2ePyALJ5UR4vPiKu/IEvbfcxELCj4118rxjkeqVJdyqW9MR7jeYFLLEO0v64o6wwBYs6vID7l9WNyfpQ1pGVFPtkJfXZT5Qs6y3/+aDsjfMVeDf1kQA61W0t68jVjvgogTbBuWGPK1FhVR8JeZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783676016; c=relaxed/simple;
-	bh=Dcrt+QSqAlata86DaTvTin1H3ls8seBaxje2cS4eFWk=;
+	s=arc-20240116; t=1783676018; c=relaxed/simple;
+	bh=+MBgYU1GV0umHJMg17ftmyaxlU63xECEjmXgq5k8HHQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MUxclay5s00SRpwZX3kCQE++Ugv1FnK1FjpwS8DZFW0XEfbHEwfX2hRr71ZzZqtEcN0f98oja8T6PJ66cqrNWC02BBiX3wJWhuHkZULKR0Xx+ccGjz314h4JIplHi7cGw8AZtAtpwOAoC0GdDNZl391cVP765HKV5dntfc9Rq/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WrEvJv4d; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=NhfY41cRHtEuHwiVFREcu57o9matHyu6PQr80Wd1TjFJpWPCiisz2xekSevB7tLLEfcc9gqrY4E9i7CZLjUT7FNzK+B9GAXL36cMykY8Isz1JJsYrxfLPJr28+JDwuuJe7lNIRuaarDLEclV0rDwUlJ/YngD4aQCL18nKCOnE0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=An4q1j2G; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WrEvJv4d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 973441F00A3F;
-	Fri, 10 Jul 2026 09:33:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="An4q1j2G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 695771F000E9;
+	Fri, 10 Jul 2026 09:33:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783676015;
-	bh=m89br04tyLYQ4I/MwspJogYMJTjB4GK+VbNn92eUW0o=;
+	s=k20260515; t=1783676016;
+	bh=iwlYheVG6icIHmdmsNMEBkrrzNe9SOaUJzkR1EUgI/4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=WrEvJv4dawq0XTUD22FYy4GaQKuvTC/DFfO/ZywhSl3RTMbyy28JLhjxg6Pb5zE83
-	 qVJqZAkPeTM8ykGx6C+ZXOh/cZ/a47HSJ+K6A3cYEJsZH3UkU6GhyhDSE0yvBY+Px/
-	 F8MOCEkRaSrrlE+REf2yqCvlP9EHL/KRFUiQiqONr6EL/ZS0dlEMEaPOiYUQnLm4Q/
-	 n0/PAsn/eqjPVnCAv9T8tn5P4YutxcN7E//zAOCHAUoiRx30wEBdLXwv3EtCuFDaQ5
-	 LrqQ5rQEVjaz5JvuziSnC1EBUhjzmCaFbpAeLw4EvdAQnXu9bu0i2IPUzJnMLsEiV+
-	 9ypru71iVq12A==
+	b=An4q1j2GaYhe/VG11utIIbx9ZF3sOE20R2NXRqRhdS54DN/TroTMHWLmwPLDBv29S
+	 y1BprT5jdp8tmpe4DdAev4nW+nEEKrWoCqyL5qDaXwLu5u428YlwjFhVWsH2+npjsd
+	 EwHM701o3Rr5ZMj/0oC4PVNEqIB+bmcIk9UXDTKTuH7GUaUzoqz66gKsHIeSsxjLBz
+	 N+9kxriJZxpeKnSz4bvdyf7QFv/cN3VVVclwCvAn7oZbpcCNaMvKL979chf+Fxai73
+	 rIxvEqipoP6/8E2+1sJ6gVdk/1L3FGz8/S/S2wEiJq2TiZGw/8UWq71+H/l1d1sM/x
+	 4cfSmT/ZxOFyw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 10 Jul 2026 11:33:08 +0200
-Subject: [PATCH v3 07/24] binfmt_misc: turn the entry bit numbers into a
- proper enum
+Date: Fri, 10 Jul 2026 11:33:09 +0200
+Subject: [PATCH v3 08/24] binfmt_misc: turn the entry behavior flags into
+ an enum
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-work-binfmt_misc-locking-v3-7-a162f7cb58d6@kernel.org>
+Message-Id: <20260710-work-binfmt_misc-locking-v3-8-a162f7cb58d6@kernel.org>
 References: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
 In-Reply-To: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -47,114 +47,53 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
  linux-mm@kvack.org, Farid Zakaria <farid.m.zakaria@gmail.com>, 
  jannh@google.com
 X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3324; i=brauner@kernel.org;
- h=from:subject:message-id; bh=Dcrt+QSqAlata86DaTvTin1H3ls8seBaxje2cS4eFWk=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQF7Inr3zDlkv6eQD65A41Bq/TyjwmbnduQbHHFd4P1M
- vEky85ZHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABNZ/YWR4VO6zg4H4Y83jp+9
- e2XB4i+/mXX3TbaZVXzIcLb4+7CFkWqMDM9/fzydvY6r0+TfkgkezFV93WZXM8vuWB1Y/v+hYTz
- fTSYA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1363; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=+MBgYU1GV0umHJMg17ftmyaxlU63xECEjmXgq5k8HHQ=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQF7Ilb3TP90MlPzCGiyz/ObrA48e9GotOkRfu2tbae+
+ bld2+SmU0cpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBEqtcz/M8W6f0kYPO8bl8G
+ /8MHr3l+72/w3fJOubkkXWTe8921X20ZGU4vPL5osahB4sRoZpErPbvOXXlx47pA46po42U5hm1
+ tW9gB
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Enabled and Magic are bit numbers in the flags word of an entry but
-are declared as bare, unprefixed enumerators with implicit values in
-a style that predates the git history. Give the enum a name, explicit
-bit numbers and namespaced names and use BIT() instead of open-coding
-the shifts when building the initial flags word in create_entry().
+The MISC_FMT_* behavior flags are macros using unsigned long literals
+while the entry bit numbers right above them are now a proper enum.
+Move the flags into an enum as well so every flags word constant is
+declared in one form and shows up in debuginfo. (1U << N) keeps the
+enumerators within unsigned int range which is well-defined for enum
+constants and the values are unchanged when promoted to the unsigned
+long flags word.
 
 No functional change.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/binfmt_misc.c | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+ fs/binfmt_misc.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-index 0b9758da1f88..90962044d19e 100644
+index 90962044d19e..98ad1383ba6b 100644
 --- a/fs/binfmt_misc.c
 +++ b/fs/binfmt_misc.c
-@@ -42,7 +42,11 @@ enum {
- 	VERBOSE_STATUS = 1 /* make it zero to save 400 bytes kernel memory */
+@@ -47,10 +47,14 @@ enum binfmt_misc_entry_bits {
+ 	MISC_FMT_ENABLED_BIT	= 0,
+ 	MISC_FMT_MAGIC_BIT	= 1,
  };
- 
--enum {Enabled, Magic};
-+/* Entry status and match type bit numbers. */
-+enum binfmt_misc_entry_bits {
-+	MISC_FMT_ENABLED_BIT	= 0,
-+	MISC_FMT_MAGIC_BIT	= 1,
+-#define MISC_FMT_PRESERVE_ARGV0 (1UL << 31)
+-#define MISC_FMT_OPEN_BINARY (1UL << 30)
+-#define MISC_FMT_CREDENTIALS (1UL << 29)
+-#define MISC_FMT_OPEN_FILE (1UL << 28)
++
++/* Entry behavior flags, fixed at registration time. */
++enum binfmt_misc_entry_flags {
++	MISC_FMT_PRESERVE_ARGV0	= (1U << 31),
++	MISC_FMT_OPEN_BINARY	= (1U << 30),
++	MISC_FMT_CREDENTIALS	= (1U << 29),
++	MISC_FMT_OPEN_FILE	= (1U << 28),
 +};
- #define MISC_FMT_PRESERVE_ARGV0 (1UL << 31)
- #define MISC_FMT_OPEN_BINARY (1UL << 30)
- #define MISC_FMT_CREDENTIALS (1UL << 29)
-@@ -104,11 +108,11 @@ static Node *search_binfmt_handler(struct binfmt_misc *misc,
- 		int j;
  
- 		/* Make sure this one is currently enabled. */
--		if (!test_bit(Enabled, &e->flags))
-+		if (!test_bit(MISC_FMT_ENABLED_BIT, &e->flags))
- 			continue;
- 
- 		/* Do matching based on extension if applicable. */
--		if (!test_bit(Magic, &e->flags)) {
-+		if (!test_bit(MISC_FMT_MAGIC_BIT, &e->flags)) {
- 			if (p && !strcmp(e->magic, p + 1))
- 				return e;
- 			continue;
-@@ -417,11 +421,11 @@ static Node *create_entry(const char __user *buffer, size_t count)
- 	switch (*p++) {
- 	case 'E':
- 		pr_debug("register: type: E (extension)\n");
--		e->flags = 1 << Enabled;
-+		e->flags = BIT(MISC_FMT_ENABLED_BIT);
- 		break;
- 	case 'M':
- 		pr_debug("register: type: M (magic)\n");
--		e->flags = (1 << Enabled) | (1 << Magic);
-+		e->flags = BIT(MISC_FMT_ENABLED_BIT) | BIT(MISC_FMT_MAGIC_BIT);
- 		break;
- 	default:
- 		goto einval;
-@@ -429,7 +433,7 @@ static Node *create_entry(const char __user *buffer, size_t count)
- 	if (*p++ != del)
- 		goto einval;
- 
--	if (test_bit(Magic, &e->flags)) {
-+	if (test_bit(MISC_FMT_MAGIC_BIT, &e->flags)) {
- 		/* Handle the 'M' (magic) format. */
- 		char *s;
- 
-@@ -599,7 +603,7 @@ static void entry_status(Node *e, char *page)
- 	char *dp = page;
- 	const char *status = "disabled";
- 
--	if (test_bit(Enabled, &e->flags))
-+	if (test_bit(MISC_FMT_ENABLED_BIT, &e->flags))
- 		status = "enabled";
- 
- 	if (!VERBOSE_STATUS) {
-@@ -621,7 +625,7 @@ static void entry_status(Node *e, char *page)
- 		*dp++ = 'F';
- 	*dp++ = '\n';
- 
--	if (!test_bit(Magic, &e->flags)) {
-+	if (!test_bit(MISC_FMT_MAGIC_BIT, &e->flags)) {
- 		sprintf(dp, "extension .%s\n", e->magic);
- 	} else {
- 		dp += sprintf(dp, "offset %i\nmagic ", e->offset);
-@@ -745,11 +749,11 @@ static ssize_t bm_entry_write(struct file *file, const char __user *buffer,
- 	switch (res) {
- 	case 1:
- 		/* Disable this handler. */
--		clear_bit(Enabled, &e->flags);
-+		clear_bit(MISC_FMT_ENABLED_BIT, &e->flags);
- 		break;
- 	case 2:
- 		/* Enable this handler. */
--		set_bit(Enabled, &e->flags);
-+		set_bit(MISC_FMT_ENABLED_BIT, &e->flags);
- 		break;
- 	case 3:
- 		/* Delete this handler. */
+ typedef struct {
+ 	struct hlist_node node;
 
 -- 
 2.53.0
