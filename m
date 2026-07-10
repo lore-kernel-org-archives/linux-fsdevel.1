@@ -1,102 +1,82 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516E32DF138
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 14:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DECFE2EB859
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 14:06:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783692349; cv=none; b=ABlUPXhFLQA6ne5w4r12KhxdkastpVAvfuMtLJZgSR7cu6JWh/5akB3GU0u/AfLymXgcwwNKabfYeqhAGxXbRs2yJQtpLoOgkzx4EkV5K+/Y2e2ZRxjjOQTFrWqyjGIfcVaSQD3O21C1DV+G8BBBFdkKf1KH2digcqVdgdO5HAY=
+	t=1783692386; cv=none; b=WEm6PMwlhNDfPjzJJNy8aj2XlDaYaN3mNOY2E6pyQdssk03cN+c/nZpI1rKegpc7Dm8CBq7bzHHzRvIKRpOquZGOApoxkNsRFQZhOif/tvpLNL8vtD+0vuobUC+jSkk3HCg9g3bHN6bS4KnMq38MYqm5SnvqjRVyqsrBPicHLrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783692349; c=relaxed/simple;
-	bh=5a953HjukSSyYEvhSnpIbInmzV8jyiHUn0alyHLQwPU=;
+	s=arc-20240116; t=1783692386; c=relaxed/simple;
+	bh=BSeqkT/sEU5VxdBERoioOlbKUWq/F11AD9eueJxDQiA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Or060fbIQjTY27MHGPcHugN0m4uyvIIk1d9rOaAqpFfZYcpy3B+KYGDUMRVT4cP9XsDOFWjhm6TB0MOmnnGQC9hwwYhx5LTIx80MLE2deZUZv9F0uYyOSsckCjHvxI7B/J4TvoEKGtdqol6dQoPNF6IO2qGuTYTAN8qZOrHKr+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WgDIZWX1; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=dCHTo1RGDcOMISQvUCFBGBLr8rGa/0hllS+LqO7NwWa+OhLZhv/ru4xnE4vgr/oR/jUyKJn0hNocwIyKnIV1cMxbaB7RqzsI6R2kIrOjQJGBg4Zsw19Akhh87cRB54g8MlLIZghDL5tEZDgjU25GQxAh98Pvtmc2eZ8TA07+E9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=izD/LZLr; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WgDIZWX1"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493e8d4f4dcso8194345e9.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 07:05:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783692346; x=1784297146; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=IVB60kv94HBipEp5RSQWAY1MglHGhZEQYaHj1G2FyFg=;
-        b=WgDIZWX13x+zvAzx0ACkZKXbwPWjeyNTYZEqoWTmVzt5Vfivhi0GilDxszeb/wVESX
-         fgWtx+VRaWyc+AVXgYSdiJtR8yIMmsmXPcrwAKxZNGi4TMDOoyaExGga+mX0ZdMiRhej
-         5fqghi4epzr1I7o4XA8Rmso+F1QKHpRi0Wy2dkTPcwE38QkLv12zWgxSUrB4X3T4UonP
-         Mm6r/+Q9jH05Oi6sg9QhS5auJPScLb0Lac3Q6/9EOAdoNuyG2VoObyDww1Qi6GpWAUzQ
-         N8RQgRkKaQybqxlziIpGUZGNkZIGLRH+jt0wwvcWAJ7JtE1qTvriiacR7WYvhIT2Scuj
-         pKeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783692346; x=1784297146;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=IVB60kv94HBipEp5RSQWAY1MglHGhZEQYaHj1G2FyFg=;
-        b=RV95HNftInarvtYEwSnuIJkhCBuwdGom3D8rUd6oTkHTdRMabacir5Sh9za7ZVOTi5
-         HAtibOFrE+b7/pBwtO+N8hzA4Jqx/xt6fCtQtvd8mcaZzN5ziwpMK4NUMkM7dUF8wecl
-         xJEbuQSo6/IUhaIRW46DAFW9LnPQDigMQHQDOaQdmF7nnzAEIV/DEJ1+zfSEdBiWhDHK
-         cl7aFSPu+kQUdMzN8C95jlqLckQXqYYIXhksZ6i9QuUIvx8APakFMo+RksAj9eDollsI
-         GpQy6hdhE1xvuegEvx8H4xTqpT0t5lyD3gZmgEdixa7rAVgWUvNw6/cI0Y6Ym4xg0k+r
-         X9wA==
-X-Forwarded-Encrypted: i=1; AHgh+RpAxMnxCCFX3Ku9XtnyclkNOz+IdGaO1lIWv4r8K4pV0PF7/fQwhmc0j37Hm82EmkaUVhBoWcNq7ONqnrHF@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywu39yl7H1HykpCxOSo1UBfXwH7kYKprT4kfUEjCWLqqBXCtkR1
-	fcMTZ6DHkKHb9cMMzh2s1OexvgJozB5D5idj199AKL0HMGYFv++6kNkl
-X-Gm-Gg: AfdE7cmbocCDRfx/RpMYBXFGdmiizJq3akArTBcbUfEtq4aw9NOg5jqxRZUGqMkUiJa
-	BM1F6TLzyqLm8k0PEx0z3VS8/BS+ZekxxWmXLP6gzFv9UdkPvHnqFw07n28P7NA00F3Idq+vf8f
-	LDolAPDiHfCXTLkPRDCgLVDqNqxqaXYc0tAMBgqwRIzXh7r442q4YVWIGhUxSTLVmsq0MlX/t7o
-	+axt7SUS4a9uPfpbE+xHBiZr8S0hmnxSSUGc4DqOOnMvgUYl1AJuaA8ifNKXIeCIYM9clXCD++v
-	1ouIz99Y/piyFLuq7PrzioySDLyG2aSNbgyg4DcqMTROGFRQtn9Sn34yTD9dmKMEIhMY0mFn0D1
-	IEF7qpHIEK00dpCUltXpwb4pXTTy5PilFdLVKE8PPd4X/xu1IPGSdVwEeljYGEHaL5i/2OCTtvH
-	gRW2MbIxo/5d3drV36y+5YWq11ftZiCLxYjufkNtSgRmu7N6rp+N1wkJ8zhdpb
-X-Received: by 2002:a05:600c:1f8e:b0:492:5e22:ef18 with SMTP id 5b1f17b1804b1-493e6861bc8mr105289865e9.9.1783692342549;
-        Fri, 10 Jul 2026 07:05:42 -0700 (PDT)
-Received: from f (cst-prg-85-255.cust.vodafone.cz. [46.135.85.255])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493f4f09f89sm63478545e9.10.2026.07.10.07.05.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 07:05:41 -0700 (PDT)
-Date: Fri, 10 Jul 2026 16:05:33 +0200
-From: Mateusz Guzik <mjguzik@gmail.com>
-To: Can Peng <pengcan@kylinos.cn>
-Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fs: stat: Mark accesses in generic_fillattr
-Message-ID: <yeigo3ck7x6zzwwcm6msvenmy3clsodejvmv2g45oy7bixyybz@ji66r6db2ou3>
-References: <20260710071444.301350-1-pengcan@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="izD/LZLr"
+Received: from macsyma.thunk.org ([151.240.45.41])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 66AE660J028346
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Jul 2026 10:06:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1783692370; bh=3zqoMSC9CKLV7T331cHIk+yii31h/xyMfRSAoEynpd8=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=izD/LZLrNcYJlmA98WB7rJMHDCpuwZoblZaecWzVR7nBh+GXIC4umyXWcURJwfi0O
+	 6WWuP6xzMThrqr7JfhOR6kog63mYv5R4jV/p/+FTxd/4cu8RnmuWtHW12s9koFEwjN
+	 YNh9Mrl01WjMvJJVPmGUR8ZzA4vN3J2OXvT+D/XDES2ClRO/+8O7i1TBRLW9PytlAH
+	 YPkL8fis/pizDGNdhWCqoRPSY3m4lVzwbl/SiRkbm+sBBDmC3kxya1BQJL3D5TtdcE
+	 bAGEMPy20l/7WMYAt5Vep+DWJ1CNX7U3ee2Bs2hB3d3YpsZue3iv3C8RQz28oy/iwR
+	 L9tXi20wtyTuA==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 09B1B9552B1; Fri, 10 Jul 2026 10:06:06 -0400 (EDT)
+Date: Fri, 10 Jul 2026 10:06:05 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Longxing Li <coregee2000@gmail.com>, akpm@linux-foundation.org,
+        linux-ext4@vger.kernel.org, adilger.kernel@dilger.ca,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ext4: fix use-after-free in ext4 delayed I/O completion
+Message-ID: <alD7q_AUlNaUwAup@mit.edu>
+References: <20260709075613.854-1-coregee2000@gmail.com>
+ <ak-mQ2DnbaxIO_WU@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260710071444.301350-1-pengcan@kylinos.cn>
+In-Reply-To: <ak-mQ2DnbaxIO_WU@casper.infradead.org>
 
-On Fri, Jul 10, 2026 at 03:14:43PM +0800, Can Peng wrote:
-> KCSAN reports a data race between generic_fillattr() reading
-> inode->i_nlink while filling st_nlink and inc_nlink() updating
-> the link count during ramfs_mkdir().
+On Thu, Jul 09, 2026 at 02:46:43PM -0500, Matthew Wilcox wrote:
 > 
-> getattr does not take the inode's i_rwsem, so st_nlink
-> is a snapshot and may observe either the old or new link count
-> when it races with directory updates. This is expected and
-> does not require serializing the stat path with link count updates.
-> 
+> (also if this patch isn't AI slop, it's doing a Really Good Job of
+> pretending to be AI slop.  Why would you choose 'unsigned short' as
+> the type?)
 
-The link count is merely one example, several other fields are also
-susceptible (notably i_mode and uid/gid). So I don't believe the patch
-as proposed makes sense.
+It's AI slop that didn't even bother to run it by an AI patch quality
+review process such as Sashiko:
 
-Taking the lock around getattr is out of the question, so data races are
-unavoidable.
+- [High] Skipping `queue_work()` when `igrab()` fails causes a permanent deadlock
+during inode eviction by stranding pages in writeback state.
+- [High] A data race and logical flaw with the 1-bit `i_rsv_need_iput` flag causes
+permanent inode reference leaks during concurrent I/O completions.
 
-I would argue correctness requires a sequence counter around this, but
-afair the vfs folk are opposed to the idea.
+Syzbot also reported the inconsistent igrab state issue.  So it's AI
+slop that wasted resources both with Shashiko and Syzbot....
 
-So if one wants to do anything here, all relevant fields need to be
-annotated. But I don't know if this is worth the effort.
+Longxing Li, whether or not this is AI slop, this patch will tend to
+cause me to distrust any future code submissions form you.  I suggest
+that you test patches and look at the code much more carefully before
+sending, if you don't want to have a bad reputation as a patch
+submitter.
+
+Best regards,
+
+					- Ted
