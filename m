@@ -1,46 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65D23BB104;
-	Fri, 10 Jul 2026 21:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1344B3BB678
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 21:21:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783718462; cv=none; b=qU6dZFIpjBEG7kY8lS33MP73BJRumHyPta34kbPZjECjJUNVeryaGcCp7axIaNT8hFhaP7xQXiO8QHDvhbFYbXlXn/39eqVbffjRMoqXnbGOuZr3XE4yI8x6n/bsTyj9Xv2YVOPVZQBEdiK4IPX8ohsKYQepiBqICR9Kf7f1m+8=
+	t=1783718466; cv=none; b=FEpKVhs+bhJTBTF0EqbzQcomtobcO8xtS5bH5w9fYaZcuqdCv5Y2Zey0xM5NcQovHvmumAQkbQpw8VrnORo1C2QvC3ZAqmTbXK69SqAnCZHsysD41NCPR18I+JUifDw7IDAizV0LCDVonlHGKwyhoaU4p4g9s+2bX6vgOG2y+VE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783718462; c=relaxed/simple;
-	bh=Yu7FaItOyQ97Y3H+g+6UdGzrpiu9kbL3S+vFEvpdqxI=;
+	s=arc-20240116; t=1783718466; c=relaxed/simple;
+	bh=OrArmp546t2joLiGKmZojGNI2jG19j2P4RpxQaXcMQU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qUDp+K5l/HaSYtiQMaISSUv2LIhB1dP8YeE6ZEuvuqfMohCCKEDwDKPCtxSH0SL5QNQLWtMVBany89HZAW5ljhtMS/nDsHGH2YBu6L0SEqpUJ5swMdnOFkt+RWR6UfjF4u7Jx5WutYQlrwHKE2CDSVaP1Dw0JyS/3Ox8aZAnzjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KvOgHlBC; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ojuJzwsAU+8rdR06/zURgCElEyDP1iqul0jHlz1Xmtoz3QT3V+3AcbC0LoFIaTA2SKpD1ooDFhvIqjDuwowhZKn8hE64pZ8pmtVo5tF1D776qAun2RN4KErLVUMgdqBMTnm2+OXlsx64KTyUSQn2iw1MWWc07fYPwxcbGHfhxAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=WrsZLakZ; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KvOgHlBC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A08441F00A3A;
-	Fri, 10 Jul 2026 21:21:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783718461;
-	bh=5BQm0+FF2Y11s+9pd0PZFqqp7gSzrclRG7lcSdtnYbk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KvOgHlBCxTMds7JGf88d1FDy0YLjxJWrUGe88FDcoMMVE9ACDdP836QVj9SdrDLaH
-	 9oUVKLK6vXnvpxnivKL9c6lrKEiPWPpdbMBJZPqEeKxpqwG/8BAWbw7nVEXp+KPTOX
-	 eoAFUhz46f8RgCfAXENpOQlQNb1JLoeB4yEBoMpc13GxbJGSN2zDQUzRE1NhB6942E
-	 ofjSvALajEVdj5j4mr5F0fZpHsGbErhJ3tLVtzm15rlBKvdS9gBbV2Va18Le0QcA1i
-	 xxPB08sFruQQkl7l26toezxuDsEf5GWHmXZRKwawskj8LrmxLPaV01HDJDMS1xGgEM
-	 vCYHjd3jA1Gxw==
-Date: Fri, 10 Jul 2026 17:20:58 -0400
-From: Eric Biggers <ebiggers@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
-	linux-block@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
-	axboe@kernel.dk, brauner@kernel.org, cem@kernel.org,
-	jaegeuk@kernel.org, aalbersh@kernel.org, tytso@mit.edu,
-	Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH] fs: report direct io constraints through file_getattr
-Message-ID: <20260710212058.GA1911@quark>
-References: <20260708011843.1036846-1-kbusch@meta.com>
- <20260709071352.GA20180@lst.de>
- <neamg3phll7hjwd765ddtqebtxasdvkoskff75dqzmgzv2xy5i@mf4agr6yoizn>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="WrsZLakZ"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51bfb91795eso9176241cf.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 14:21:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1783718463; x=1784323263; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=kBOMvPUpfjw5N1/s9nVKhxGNiyKZIoN9dPtD8sVM7ho=;
+        b=WrsZLakZJT/5oETG2Se79/v9kdjkpEQDr7Yp+OGw79X3NAKPcDAh1QSIBTgD1APIk9
+         PcNtWnmXjzVyA/ekAuc9J1Ldf1520O+Ezw0w/Ib2rmg9zLzxvlAdRLVhZhEA8PmWUNiK
+         TQNQjHvefwSfVxq1+ZCz986aNPT/4H/tI61eQYAsQJpO4szsu8Cjyex71k+0GpxpujLy
+         wBnlnlMi5HipUbm2ZzOkDOrRTbcr6VJAyIpY72aJ/E32HuOp1s4SJDdzj0BVE5V3xg8/
+         VUpFjW6w8Fy4sl1gdFaDfoPbhesiNrFc9fyD8+l3IKOSNiiupFoFQbmh3CqhrxND/l+7
+         UddQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783718463; x=1784323263;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kBOMvPUpfjw5N1/s9nVKhxGNiyKZIoN9dPtD8sVM7ho=;
+        b=bHLKNXjPVv7G6KgZreu3/e2O1cXE7M7TJoj5dJK6ufYsloE0d0pgCsgQknrePTQxfm
+         bqbGnp0PXl4Xm7Os8LPx6XV0f/YznO+wxJVSdfRyMGSxEiluinO4zSmdVSl4UE22475V
+         +cnoMPzN0HmiM2CZbVOZaIEwn0eHhFk4WaTpFcx/8y9GcZ6N/MtcXAWSamO8jmU+u1AC
+         2Qae3mRXeFX4NJwr5oBF6T9lpYb+Ro2rPt3YZ1PPj4pg4yVFnqi93Cnc41I0RYgsfZ0j
+         uxXiVkedIluskvJUVvN8XZ4ms1KnyD19Kmd3VkIMmhaXDHulf4tUq7c4n8qKPrBI5Xgj
+         XSEg==
+X-Forwarded-Encrypted: i=1; AHgh+Rpayyfeq522neRzJRz2SHawu09h6CQOhw7hbrJF+NCUeW493JmcwBFi0qC85uLtOF5q738YNORGk4Mb5+Ww@vger.kernel.org
+X-Gm-Message-State: AOJu0YwfP+H5Muqa4DUdO9HMjmrNje41kpNO7GlX5Zwp6kXv638+Dh1S
+	hSPBUtJ0ZzYuF2gxPy/0feF6ULzzk9ZksQO8sjDHjm0vgjnTsKDI8YZyPvdg4519Ccg=
+X-Gm-Gg: AfdE7ckco2bLS18InXl9oOZ+53KQoGL+NwKXcTJcXq/SmQQ3b0APQewSVTgsCRRssVZ
+	DgorScwRHVpf0U9DQaLFlpahZ9u3MJ6ig7HiSotMriKWHBbuRPcqWMjZhNOUKcuCagkeqdzJS+6
+	/JBHONgnKCUG/IdxVe2BasJjexWjmFLcjEzQqJFWUuEDPw6T7gTRKDo4swY6vv5GzWNz9E3okdC
+	D5cf3zvZVxzEjnEzeJdMlWPvOqajpuxwSo9zk+nwys2QHFyb5nzS1T88mBCjFshFqIzbXMsotJm
+	qvLUUBSCoUaa+Bfl4S5VyRRgdv1bB5SImvHoMSGvxL4LWq467Dj3D2yQYeqqWgQjTCdKJtRWNHD
+	jOD3gAfEMpMsM0mW25MdEb+PUferOVfChvxFrhEB8Oj7xTJM7lAYR3tQdEhLD7N5f8DahDF8cnw
+	x2nf1eX8dTlrMLIPhwti/TYacFBFKFwemdLGW/xLxTs3lV4FX1+nfJCap2FIeg03KMi01w
+X-Received: by 2002:ac8:5ace:0:b0:51c:7b11:41ae with SMTP id d75a77b69052e-51cbf2dffb2mr6287721cf.74.1783718463047;
+        Fri, 10 Jul 2026 14:21:03 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51caaf621e6sm23894971cf.24.2026.07.10.14.21.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jul 2026 14:21:01 -0700 (PDT)
+Date: Fri, 10 Jul 2026 17:20:56 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Rik van Riel <riel@surriel.com>,
+	Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>,
+	Lance Yang <lance.yang@linux.dev>, Pedro Falcato <pfalcato@suse.de>,
+	Russell King <linux@armlinux.org.uk>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Simon Schuster <schuster.simon@siemens-energy.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Dan Williams <djbw@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Christian Gmeiner <christian.gmeiner@gmail.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-perf-users@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, damon@lists.linux.dev,
+	iommu@lists.linux.dev, kasan-dev@googlegroups.com,
+	linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+	kvm@vger.kernel.org, Russell King <linux+etnaviv@armlinux.org.uk>
+Subject: Re: [PATCH v2 26/33] mm/vma: update vma_shrink() to not pass start,
+ pgoff parameters
+Message-ID: <alFiODVaGwd_wYl4@gourry-fedora-PF4VCD3F>
+References: <20260710-b4-pre-scalable-cow-v2-0-2a5aa403d977@kernel.org>
+ <20260710-b4-pre-scalable-cow-v2-26-2a5aa403d977@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -49,79 +118,25 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <neamg3phll7hjwd765ddtqebtxasdvkoskff75dqzmgzv2xy5i@mf4agr6yoizn>
+In-Reply-To: <20260710-b4-pre-scalable-cow-v2-26-2a5aa403d977@kernel.org>
 
-On Thu, Jul 09, 2026 at 11:14:47AM +0200, Jan Kara wrote:
-> On Thu 09-07-26 09:13:52, Christoph Hellwig wrote:
-> > On Tue, Jul 07, 2026 at 06:18:43PM -0700, Keith Busch wrote:
-> > > +		u32 dio_align = ext4_dio_alignment(inode);
-> > > +
-> > > +		if (dio_align != 0) {
-> > 
-> > 
-> > > +			struct block_device *bdev = inode->i_sb->s_bdev;
-> > > +
-> > > +			if (dio_align == 1) {
-> > > +				fa->fsx_dio_mem_align = bdev_dma_alignment(bdev) + 1;
-> > > +				fa->fsx_dio_offset_align = bdev_logical_block_size(bdev);
-> > > +				fa->fsx_dio_read_offset_align = bdev_logical_block_size(bdev);
-> > > +			} else {
-> > > +				fa->fsx_dio_mem_align = dio_align;
-> > > +				fa->fsx_dio_offset_align = dio_align;
-> > > +				fa->fsx_dio_read_offset_align = dio_align;
-> > > +			}
-> > 
-> > Call bdev_fileattr and override the relevant field as needed?
-> > 
-> > Question to the ext4 maintainers: why does ext4_dio_alignment
-> > affect the in-memory alignment?  If it does so, it should probably
-> > also affect the virt boundry alignment..
+On Fri, Jul 10, 2026 at 09:17:07PM +0100, Lorenzo Stoakes wrote:
+> vma_shrink() is only used by relocate_vma_down() to shrink the tail of a
+> VMA. Therefore neither the start nor the pgoff parameters make any sense.
 > 
-> I guess that is mostly a historical accident. ext4_dio_alignment() returns
-> 1 (iomap alignment is used and that's different for memory and file offset
-> alignment), 0 (dio not supported, memory and file offset alignment is
-> indeed the same), and blocksize (a special case which can happen for
-> fscrypt if it supports dio and where I believe memory alignment
-> requirements may be in fact different). I'm adding Eric to CC to answer
-> what actual requirements fscrypt has for memory buffers for direct IO. I'd
-> expect with inline encryption we would have the same requirements as
-> ordinary iomap direct IO and for other code paths I'm not sure... Eric?
+> It seemed we were passing the pgoff parameter solely to satisfy
+> vma_set_range()'s requirement for pgoff being specified.
+> 
+> Since vma_set_range() is now isolated to vma.c, we can simply introduce
+> __vma_set_range() which sets only vma->vm_[start, end], and invoke this
+> instead, removing start and pgoff from vma_shrink() altogether.
+> 
+> No functional change intended.
+> 
+> Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 
-Please see Documentation/filesystems/fscrypt.rst:
+Carry over from v1
 
-    The I/O request must be fully aligned to the filesystem block size.
-    This means that the file position the I/O is targeting, the lengths
-    of all I/O segments, and the memory addresses of all I/O buffers
-    must be multiples of this value.  Note that the filesystem block
-    size may be greater than the logical block size of the block device.
+Reviewed-by: Gregory Price <gourry@gourry.net>
 
-We go over this about once a year, whenever someone suggests that the
-memory alignment requirement is not needed.  blk-crypto-fallback needs
-it, the block layer itself needs it, and at least some storage drivers
-need it.
-
-To support less memory alignment, we'd need to:
-
-   - Make some fairly complex updates to blk-crypto-fallback to support
-     en/decrypting data units split across pages.  Note that there's no
-     way to do this with zero overhead on other requests.
-
-   - Update the block layer to not split crypto data units across bvecs,
-     regardless of memory alignment.  This also would add more overhead
-     to all requests.
-
-   - Test the hardware support on each eMMC and UFS host controller
-     individually and opt in the ones that actually correctly handle
-     crypto data units split across DMA segments.  We already know it
-     does *not* work on at least one.
-
-   - And finally update the filesystems as the last step, not the first.
-
-So far I haven't seen the point.  Yes, applications can benefit from the
-lower alignment in theory.  But especially with encryption/decryption,
-it isn't at all easy to support.  This has apparently been getting
-learned the hard way, as (for example) alignment was initially relaxed
-for dm-crypt without testing it, and it had to be reverted
-(https://lore.kernel.org/dm-devel/20221103152559.1909328-1-kbusch@meta.com/).
-
-- Eric
