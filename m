@@ -1,171 +1,167 @@
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+Received: from pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.34.181.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AAE2BF002
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 14:28:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE196146A66;
+	Fri, 10 Jul 2026 14:34:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.34.181.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783693725; cv=none; b=FCz39+uja/zhemKb7RVouasOSSUdDKOC+5GgvOnjFQRb0CE9DHHu8g6r0UYCYYLNR074OrOZZbpYDyblQRBfD4ZtsTO6/WylJGhQMvkYZY1dKDTy4oSod6B9u5hg4U0mai3a45SREx/bPgYabkvbJ0DMNFfcCWp+TJYqyYZ3lvE=
+	t=1783694092; cv=none; b=eUPjrw1YENmxkVewbAcmTnSzIhi3fgAESNkLz00yEP66m+3p4KUSTLKe0GwOD4QzyYyqBEr+r3OA5ksPl1Vbp4J1M69HEBa1YEEqBONhYmciHi0P9myhSFBddf/gEqF/ssSkfg2kDUKG7+kuljZt91vlPgBxLLtump2f4DmiB2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783693725; c=relaxed/simple;
-	bh=sWQZgyUXfkMDValBIcK30eh2A+oq4JHoZURtGaGTSTY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hjoaa7+SyqkcaNvTvi1GZtjtZfaBB6uH+qz0dOsXfIQ54TMpiDAy+qkuVTz+97uZOCYekJsxdYmceAfKs02gXpixLbj9CQX+CuN7KKpm7t7TAp7P5qJGQV7dSyFdGgXDZDDMDvS2ArgAKHGLQJIsX2x7+1bfjfRPCfQXIgGJJW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vImTPeQm; arc=none smtp.client-ip=91.218.175.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1783694092; c=relaxed/simple;
+	bh=hohyGIudVV76Azp7eoofb46r2GHVhkLAECsSkc2AAvQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BvuGy497wDID5Cv/69dS3U2JIH5Jqk5fwrBb+r4NZWsbfqjAgLJgjPDF2q+Kp1Yrjg4k4mD0YOPTss3KPcZ0ArunpiKVSZGYSRm5wTzAZ1nCaGejaNAJUvHjicXBDF+dP9ZM6SW78Wr3w4KckAuuj7bBDCryxFbhSW6G+NN5E60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it; spf=pass smtp.mailfrom=amazon.it; dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b=oDoZdjfY; arc=none smtp.client-ip=52.34.181.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vImTPeQm"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1783693720;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tVI0wKwZcMRAkfFls89Q4leIQKN8++xllYOWwnfSJLA=;
-	b=vImTPeQmG/UA1/fUjhmz3EGnUrwCMZGdexqcLZwqHljlG611QkyO4ie10k3suo/dmLf2e9
-	2fjr7pbnMLtbP2gEz7VUPX/h7tDH3JPzBM/TUojWaL41G2Ur3ViiuTFKK5LPlYnpW6EFCl
-	dzxHo2ByetB/5IS446O8vwMywDGdQBo=
-From: Usama Arif <usama.arif@linux.dev>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Usama Arif <usama.arif@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jane Chu <jane.chu@oracle.com>,
-	linux-mm@kvack.org,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <christian@brauner.io>
-Subject: Re: [PATCH v2 02/10] hugetlb: Mark some function arguments as const
-Date: Fri, 10 Jul 2026 07:28:34 -0700
-Message-ID: <20260710142835.1099904-1-usama.arif@linux.dev>
-In-Reply-To: <20260709184740.1286561-3-willy@infradead.org>
-References: 
+	dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b="oDoZdjfY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.it; i=@amazon.it; q=dns/txt; s=amazoncorp2;
+  t=1783694090; x=1815230090;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=17wN6bI8K7p4bpbOPomGtPmEnN2JA1DpTrObaGoec0I=;
+  b=oDoZdjfYHpnodHF/Bpz4JclbU87AuVjYb6iVpdxb5Qp4DuFWidmFBqNV
+   DC1lEH5ZO1lKVLTLHu/Y0cyUlDe7iAIN5qeMkqII8G0bx9UqqOiIjXraz
+   Qezu2KBIrn+K5iRMZybQaoWu+GER5r0Pb2hVFKnsuQNFUfKZ9Mm8Yk/4K
+   qS0bHsnVn1TVvQBJ2DgyHSZ1N8Ffs1kr89YXvy39orw6fVgzDajQDQJo8
+   Q5hXE1EcUcX8WHClF/JJHC0/bbzCt2C0bmYEBPCxK6QUnWCQeXoMCWlO0
+   KtvTf4C6ud5iCGLTzg631NSYqP6Gs+kP1DVg/GCduV29hnGgFioEKWCd9
+   A==;
+X-CSE-ConnectionGUID: qoQZ4hc2TiOj5y7MNgzhAg==
+X-CSE-MsgGUID: GJ86N9zrRr6DpC/VgnKiDg==
+X-IronPort-AV: E=Sophos;i="6.25,154,1779148800"; 
+   d="scan'208";a="23425232"
+Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
+  by internal-pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 14:34:48 +0000
+Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:26245]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.11.115:2525] with esmtp (Farcaster)
+ id 120982db-2d0e-4772-9af7-73c84f425e33; Fri, 10 Jul 2026 14:34:47 +0000 (UTC)
+X-Farcaster-Flow-ID: 120982db-2d0e-4772-9af7-73c84f425e33
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
+ Fri, 10 Jul 2026 14:34:47 +0000
+Received: from cdd-dev.amazon.com (172.22.139.101) by
+ EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
+ Fri, 10 Jul 2026 14:34:47 +0000
+From: Salvatore Dipietro <dipiets@amazon.it>
+To: <linux-mm@kvack.org>, <hch@infradead.org>, <willy@infradead.org>,
+	<ritesh.list@gmail.com>
+CC: <akpm@linux-foundation.org>, <linux-kernel@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-xfs@vger.kernel.org>,
+	<dgc@kernel.org>, <vbabka@suse.cz>, <djwong@kernel.org>,
+	<brauner@kernel.org>, <alisaidi@amazon.com>, <blakgeof@amazon.com>,
+	<abuehaze@amazon.com>, <dipietro.salvatore@gmail.com>,
+	<stable@vger.kernel.org>, Vlastimil Babka <vbabka@kernel.org>, "Suren
+ Baghdasaryan" <surenb@google.com>, Michal Hocko <mhocko@suse.com>, "Brendan
+ Jackman" <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan
+	<ziy@nvidia.com>
+Subject: [PATCH v3] mm/page_alloc: avoid direct compaction for costly __GFP_NORETRY allocations
+Date: Fri, 10 Jul 2026 14:34:37 +0000
+Message-ID: <20260710143437.12379-1-dipiets@amazon.it>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-ClientProxiedBy: EX19D033UWC003.ant.amazon.com (10.13.139.217) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-On Thu,  9 Jul 2026 19:47:30 +0100 "Matthew Wilcox (Oracle)" <willy@infradead.org> wrote:
+Commit 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
+introduced high-order folio allocations in the iomap buffered write
+path.  When memory is fragmented, each failed costly-order allocation
+enters __alloc_pages_slowpath() which runs direct compaction and
+drain_all_pages(), causing a 0.45x throughput drop on PostgreSQL
+pgbench (simple-update) with 1024 clients on a 96-vCPU arm64 system.
 
-> These functions do not modify their folio argument, so we can mark them
-> as being const which will allow for some minor optimisations and let us
-> mark other function arguments as being const in the future.
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> ---
->  include/linux/hugetlb.h | 19 +++++++++----------
->  mm/hugetlb.c            |  2 +-
->  2 files changed, 10 insertions(+), 11 deletions(-)
-> 
+The root issue is that direct compaction is too expensive for hot
+allocation paths that have fallbacks to smaller allocations.
+__filemap_get_folio_mpol() already marks higher-order allocations with
+__GFP_NORETRY | __GFP_NOWARN, signalling that the caller can handle
+failure.  However, the page allocator still attempts full direct
+compaction for costly orders with __GFP_NORETRY, which is unnecessarily
+aggressive when the caller will simply retry at a lower order.
 
-They all only seem to inspect state.
+For costly-order allocations with __GFP_NORETRY, skip direct compaction
+but wake kcompactd on the preferred node so that background compaction
+can defragment memory for future allocations, and return failure
+immediately so the caller can fall back.
 
-Acked-by: Usama Arif <usama.arif@linux.dev>
+This keeps compaction working for long-term system health while
+removing it from the latency-critical direct allocation path.
+
+Test environment:
+  Hardware:  AWS EC2 m8g.24xlarge (96 vCPU, arm64)
+             12x 1TB IO2 32000 IOPS RAID0 XFS
+  OS:        AL2023
+  Kernel:    next-20260707
+  Database:  PostgreSQL 18.4
+  Workload:  pgbench simple-update, 1024 clients, 96 threads, 1200s
+
+Results (average of 3 runs, TPS):
+
+  Config                   Avg TPS      % vs Baseline
+  baseline (no patch)       70,389.24    -
+  With this patch          154,977.02   +120.17%
 
 
-> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-> index 2abaf99321e9..18661a7cdb37 100644
-> --- a/include/linux/hugetlb.h
-> +++ b/include/linux/hugetlb.h
-> @@ -165,7 +165,7 @@ bool hugetlbfs_pagecache_present(struct hstate *h,
->  				 struct vm_area_struct *vma,
->  				 unsigned long address);
->  
-> -struct address_space *hugetlb_folio_mapping_lock_write(struct folio *folio);
-> +struct address_space *hugetlb_folio_mapping_lock_write(const struct folio *folio);
->  
->  extern int movable_gigantic_pages __read_mostly;
->  extern int sysctl_hugetlb_shm_group __read_mostly;
-> @@ -292,8 +292,7 @@ static inline unsigned long hugetlb_total_pages(void)
->  	return 0;
->  }
->  
-> -static inline struct address_space *hugetlb_folio_mapping_lock_write(
-> -							struct folio *folio)
-> +static inline struct address_space *hugetlb_folio_mapping_lock_write(const struct folio *folio)
->  {
->  	return NULL;
->  }
-> @@ -595,8 +594,8 @@ enum hugetlb_page_flags {
->  #ifdef CONFIG_HUGETLB_PAGE
->  #define TESTHPAGEFLAG(uname, flname)				\
->  static __always_inline						\
-> -bool folio_test_hugetlb_##flname(struct folio *folio)		\
-> -	{	void *private = &folio->private;		\
-> +bool folio_test_hugetlb_##flname(const struct folio *folio)	\
-> +	{	const void *private = &folio->private;		\
->  		return test_bit(HPG_##flname, private);		\
->  	}
->  
-> @@ -616,7 +615,7 @@ void folio_clear_hugetlb_##flname(struct folio *folio)		\
->  #else
->  #define TESTHPAGEFLAG(uname, flname)				\
->  static inline bool						\
-> -folio_test_hugetlb_##flname(struct folio *folio)		\
-> +folio_test_hugetlb_##flname(const struct folio *folio)		\
->  	{ return 0; }
->  
->  #define SETHPAGEFLAG(uname, flname)				\
-> @@ -727,7 +726,7 @@ static inline struct hugepage_subpool *subpool_inode(struct inode *inode)
->  	return HUGETLBFS_SB(inode->i_sb)->spool;
->  }
->  
-> -static inline struct hugepage_subpool *hugetlb_folio_subpool(struct folio *folio)
-> +static inline struct hugepage_subpool *hugetlb_folio_subpool(const struct folio *folio)
->  {
->  	return folio->_hugetlb_subpool;
->  }
-> @@ -857,7 +856,7 @@ static inline bool arch_has_huge_bootmem_alloc(void)
->  }
->  #endif
->  
-> -static inline struct hstate *folio_hstate(struct folio *folio)
-> +static inline struct hstate *folio_hstate(const struct folio *folio)
->  {
->  	VM_BUG_ON_FOLIO(!folio_test_hugetlb(folio), folio);
->  	return size_to_hstate(folio_size(folio));
-> @@ -1088,7 +1087,7 @@ static inline unsigned long huge_page_mask_align(struct file *file)
->  	return 0;
->  }
->  
-> -static inline struct hugepage_subpool *hugetlb_folio_subpool(struct folio *folio)
-> +static inline struct hugepage_subpool *hugetlb_folio_subpool(const struct folio *folio)
->  {
->  	return NULL;
->  }
-> @@ -1157,7 +1156,7 @@ static inline struct hstate *hstate_vma(struct vm_area_struct *vma)
->  	return NULL;
->  }
->  
-> -static inline struct hstate *folio_hstate(struct folio *folio)
-> +static inline struct hstate *folio_hstate(const struct folio *folio)
->  {
->  	return NULL;
->  }
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index 571212b80835..cc8d98399913 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -1775,7 +1775,7 @@ void init_new_hugetlb_folio(struct folio *folio)
->   * stable.  Due to locking order, we can only trylock_write.  If we can
->   * not get the lock, simply return NULL to caller.
->   */
-> -struct address_space *hugetlb_folio_mapping_lock_write(struct folio *folio)
-> +struct address_space *hugetlb_folio_mapping_lock_write(const struct folio *folio)
->  {
->  	struct address_space *mapping = folio_mapping(folio);
->  
-> -- 
-> 2.47.3
-> 
-> 
+Link: https://lore.kernel.org/all/20260403193535.9970-1-dipiets@amazon.it/T/#t [v1]
+Link: https://lore.kernel.org/linux-mm/20260420161404.642-1-dipiets@amazon.it/T/#u [v2]
+Fixes: 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
+Cc: stable@vger.kernel.org
+Signed-off-by: Salvatore Dipietro <dipiets@amazon.it>
+---
+v3: Move to mm/page_alloc.c, wake kcompactd instead of avoiding it
+v2: Move from fs/iomap/buffered-io.c to mm/filemap.c
+v1: Avoid compaction in iomap folio allocation
+
+ mm/page_alloc.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index a63733dac659..2d02703d8f0f 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -4883,6 +4883,26 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
+ 	/* If allocation has taken excessively long, warn about it */
+ 	check_alloc_stall_warn(gfp_mask, ac->nodemask, order, alloc_start_time);
+ 
++	/*
++	 * Costly allocations with __GFP_NORETRY are opportunistic - Don't
++	 * stall on direct compaction or reclaim; instead, kick
++	 * kcompactd on the preferred node so large pages may become
++	 * available for future allocations and let the caller fall back now.
++	 *
++	 * Direct compaction is way too costly for hot allocation paths on
++	 * large systems: each attempt calls drain_all_pages() which IPIs
++	 * every CPU.  Only wake kcompactd on the local node to avoid
++	 * cross-NUMA interference with unrelated workloads.
++	 */
++	if (costly_order && (gfp_mask & __GFP_NORETRY)) {
++		struct zone *preferred_zone = ac->preferred_zoneref->zone;
++
++		if (preferred_zone)
++			wakeup_kcompactd(preferred_zone->zone_pgdat, order,
++					 ac->highest_zoneidx);
++		goto nopage;
++	}
++
+ 	/* Try direct reclaim and then allocating */
+ 	if (!compact_first) {
+ 		page = __alloc_pages_direct_reclaim(gfp_mask, order, alloc_flags,
+-- 
+2.47.3
+
+
+
+
+AMAZON DEVELOPMENT CENTER ITALY SRL, viale Monte Grappa 3/5, 20124 Milano, Italia, Registro delle Imprese di Milano Monza Brianza Lodi REA n. 2504859, Capitale Sociale: 10.000 EUR i.v., Cod. Fisc. e P.IVA 10100050961, Societa con Socio Unico
+
+
+
