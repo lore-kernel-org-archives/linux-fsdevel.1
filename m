@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F7A3F7A88
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 09:33:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB61B3F7ABC
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 09:33:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783676031; cv=none; b=hJn0ojDCw8A9XA6jqjK+qkA++yl1j/n6okaFByutpixGVngspCEVYsoXQd8fL7LND5qpEyjk1Xn6S38gnQRrJMAM6O0vpM9t2vSkM6AkWpQUH5oZwRh8idseFWh2fhkel0A1A3ob86eJUGTgQOtgcqIuleyJne9GS+GLwgV/cPU=
+	t=1783676033; cv=none; b=TlZYVnWUCf7d6pXXXsAOeVRzXDMtc4Ma6p06ksBC22PWAYEp9asDq2HQEqliAuMufUsMHYn1P4o+1g1LBEQBZVUm4Z8fyNawEWmTBztx93LE8PWWenM4pF+nZwpc2iwVqw5LrdPEMrVPkLpsuYHx8d1teRE8yTXxwpVuZ3STI/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783676031; c=relaxed/simple;
-	bh=qqm2eAOnpJr7SnNA4N7fHD6KqzuTB+1Y/9elatuqZGg=;
+	s=arc-20240116; t=1783676033; c=relaxed/simple;
+	bh=6BMjUc9w/nIbssqAzSSWbt7UQK+RLsJW5lTvcPcsYMI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rt0eXTbYvhUf+dIUjWtpcKT1VmCFInetGzZEzJdXFAHKTRVegAvxnb4OUWdJHQ9GoafzqKUZ8Rqu5+BVibWJ/ywkr8rlTlqF9O4hmRKMCvTQe1OGIKQK5hHUcppeIHETxMVThaXm0SzHzu6CKeM7uahM3IY/HP7KgErBQuVB1rc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DD3T941K; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=lqdNJcwb6BvEWlRMsc5xfQcZ2Ch8yBFPlAapzYTCmGbHlsT+SxaQl8J3euExkcJ+oPyChgpohnLzFtxc7Y3Kcj5DF4O4mexq8d96MHIqDe/stz1RgHCPKpnONTcetSyXgbWXL/VaTquhfeoQAS3GlQ5wDf9stllbelzAwQRyYpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h9nN4dNQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DD3T941K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 628021F00A3A;
-	Fri, 10 Jul 2026 09:33:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h9nN4dNQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 378181F000E9;
+	Fri, 10 Jul 2026 09:33:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783676029;
-	bh=bY/IkBdMAIEfddN2BADd+7Pjk9lYCu7pWA7slAVG+oM=;
+	s=k20260515; t=1783676031;
+	bh=SqI8OZlG/qEkd3Fp4TCWyuDAupA8ZhfkeksJ+xznU7w=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=DD3T941KgTOkCLLvij8xkEatOd1D+ZXdtRwvQNX4m1oTUB8mTjGFggS1W8l5p7XdE
-	 MURrHv2tXfEoZSszFNFNVUvBXed/3Y104bogmRI9Mw0Asntgnb79pwIx73ex2RJ8Ae
-	 2VA5a3nRwj3563jKSLhLLQeJCgTqJx5qXziYAT3+NVSBpdl22o/bPFdAKCT8oUiU2f
-	 59f6hTebI5W9+IkLCcKqdYbYtOkKvFS6v7JLRqyt8mlSle6mrak+4V1nj/2Iy0pmQl
-	 +rzVECsTvpfYMyT2cuuJXrgaicIp07r/OxClF3pu3zcK8qk+UXwv1HBo/W8+f7QpqG
-	 FI8fqpQga7kxg==
+	b=h9nN4dNQ0jab3F6gAxhlgpU6YDtlEjQVaYxnX75CJu2KkNGkwQU7L5PxDHesGc0TA
+	 V1TL78BDSnCukRUitvkiBoBo+Md1wyOie/cM51dPOBPi0hOu2lxtYijx2GHdHNrVIX
+	 htJ2VisZ3xc7oJLR6MyX+M1UGgywLmJ+ucAVwBuxPAtrnQjfoWi2jo+tkAJ63VFHqW
+	 JyGvde/xGJzp36TQ0Qzeo6CKTnWVwoC7bqxMUTQjBI2XETAD3JZxrKCDIKcUSxZCHE
+	 zRXcbgVgYwhqG8M3nGw3sT/ITVjUFGZvrecZwm6p3MN8QPpGglk6CAppQOhpv6Fb2M
+	 PFACZZhtzmKvA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 10 Jul 2026 11:33:16 +0200
-Subject: [PATCH v3 15/24] binfmt_misc: return errors directly in
- load_misc_binary()
+Date: Fri, 10 Jul 2026 11:33:17 +0200
+Subject: [PATCH v3 16/24] binfmt_misc: give the parse_command() results
+ names
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-work-binfmt_misc-locking-v3-15-a162f7cb58d6@kernel.org>
+Message-Id: <20260710-work-binfmt_misc-locking-v3-16-a162f7cb58d6@kernel.org>
 References: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
 In-Reply-To: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -47,138 +47,111 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
  linux-mm@kvack.org, Farid Zakaria <farid.m.zakaria@gmail.com>, 
  jannh@google.com
 X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3789; i=brauner@kernel.org;
- h=from:subject:message-id; bh=qqm2eAOnpJr7SnNA4N7fHD6KqzuTB+1Y/9elatuqZGg=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQF7IljXblw5YddikvnVCQ9cn1/cvGBjTy7XxTMfuaSO
- HVxjwlXaUcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBEun8zMnQ/VNM4+t56zYep
- +9knNCrc3GV2K7zZZveTKT7Hy+VnCjQyMrRH5h7Zv0UvgT9RbLF4sPr5LSq9G23Cpf5UHpfbanV
- zCysA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2934; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=6BMjUc9w/nIbssqAzSSWbt7UQK+RLsJW5lTvcPcsYMI=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQF7Ilvd9T7G8T+xvhU6nbbT/vkC05Oay89af3l7LIlV
+ 8N3RrZ7dZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzE6iAjw561qlnHxAReHHTg
+ XMhyK/ntvJ8vJ92o9djoy7+p71mxawnD/5rj2y/E3d65s6SS92zeriNbn4kWy8pVr2O9flz0yN5
+ TPmwA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-load_misc_binary() seeds retval with the error for checks that
-happen further down, reassigns it along the way and funnels every
-exit through a ret label whose only job is dropping the entry
-reference, so figuring out what an early return actually returns
-means replaying the assignment history. Give put_binfmt_handler() a
-cleanup class and take the reference with __free() so every failure
-can return its error right where the condition is checked. The
-comment at the label restated what the put_binfmt_handler()
-kernel-doc already explains, it goes with the label. Drop the dead
-NULL initialization of interp_file which is assigned on all paths
-before use.
+parse_command() maps "0" to 1, "1" to 2 and "-1" to 3 and the write
+handlers switch on those bare numbers, leaving every reader to redo
+the mapping in their head. Name the commands and drop the per-case
+comments that only existed to translate the numbers back.
 
 No functional change.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/binfmt_misc.c | 41 ++++++++++++++---------------------------
- 1 file changed, 14 insertions(+), 27 deletions(-)
+ fs/binfmt_misc.c | 38 ++++++++++++++++++++------------------
+ 1 file changed, 20 insertions(+), 18 deletions(-)
 
 diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-index cd5dbf61771e..06f4849cf1ad 100644
+index 06f4849cf1ad..1f2b1d136819 100644
 --- a/fs/binfmt_misc.c
 +++ b/fs/binfmt_misc.c
-@@ -183,6 +183,8 @@ static void put_binfmt_handler(struct binfmt_misc_entry *e)
- 	}
+@@ -543,9 +543,17 @@ static struct binfmt_misc_entry *create_entry(const char __user *buffer,
+ 	return ERR_PTR(-EINVAL);
  }
  
-+DEFINE_FREE(put_binfmt_handler, struct binfmt_misc_entry *, if (_T) put_binfmt_handler(_T))
++/* Commands accepted by the /status and /<entry> files. */
++enum bm_command {
++	BM_CMD_IGNORE,	/* empty write */
++	BM_CMD_DISABLE,	/* "0" */
++	BM_CMD_ENABLE,	/* "1" */
++	BM_CMD_REMOVE,	/* "-1" */
++};
 +
- /**
-  * current_binfmt_misc - get the binfmt_misc instance of the caller's user namespace
-  *
-@@ -215,30 +217,29 @@ static struct binfmt_misc *current_binfmt_misc(void)
+ /*
+- * Set status of entry/binfmt_misc:
+- * '1' enables, '0' disables and '-1' clears entry/binfmt_misc
++ * Parse what userspace wrote to /status or an entry file: '1' enables,
++ * '0' disables and '-1' removes the entry or all entries.
   */
- static int load_misc_binary(struct linux_binprm *bprm)
+ static int parse_command(const char __user *buffer, size_t count)
  {
--	struct binfmt_misc_entry *fmt;
--	struct file *interp_file = NULL;
--	int retval = -ENOEXEC;
-+	struct binfmt_misc_entry *fmt __free(put_binfmt_handler) = NULL;
-+	struct file *interp_file;
- 	struct binfmt_misc *misc;
-+	int retval;
- 
- 	misc = current_binfmt_misc();
- 	if (!READ_ONCE(misc->enabled))
--		return retval;
-+		return -ENOEXEC;
- 
- 	fmt = get_binfmt_handler(misc, bprm);
- 	if (!fmt)
--		return retval;
-+		return -ENOEXEC;
- 
- 	/* Need to be able to load the file after exec */
--	retval = -ENOENT;
- 	if (bprm->interp_flags & BINPRM_FLAGS_PATH_INACCESSIBLE)
--		goto ret;
-+		return -ENOENT;
- 
- 	if (fmt->flags & MISC_FMT_PRESERVE_ARGV0) {
- 		bprm->interp_flags |= BINPRM_FLAGS_PRESERVE_ARGV0;
- 	} else {
- 		retval = remove_arg_zero(bprm);
- 		if (retval)
--			goto ret;
-+			return retval;
- 	}
- 
- 	if (fmt->flags & MISC_FMT_OPEN_BINARY)
-@@ -247,19 +248,19 @@ static int load_misc_binary(struct linux_binprm *bprm)
- 	/* make argv[1] be the path to the binary */
- 	retval = copy_string_kernel(bprm->interp, bprm);
- 	if (retval < 0)
--		goto ret;
-+		return retval;
- 	bprm->argc++;
- 
- 	/* add the interp as argv[0] */
- 	retval = copy_string_kernel(fmt->interpreter, bprm);
- 	if (retval < 0)
--		goto ret;
-+		return retval;
- 	bprm->argc++;
- 
- 	/* Update interp in case binfmt_script needs it. */
- 	retval = bprm_change_interp(fmt->interpreter, bprm);
- 	if (retval < 0)
--		goto ret;
-+		return retval;
- 
- 	if (fmt->flags & MISC_FMT_OPEN_FILE) {
- 		interp_file = file_clone_open(fmt->interp_file);
-@@ -274,27 +275,13 @@ static int load_misc_binary(struct linux_binprm *bprm)
- 	} else {
- 		interp_file = open_exec(fmt->interpreter);
- 	}
--	retval = PTR_ERR(interp_file);
- 	if (IS_ERR(interp_file))
--		goto ret;
-+		return PTR_ERR(interp_file);
- 
- 	bprm->interpreter = interp_file;
- 	if (fmt->flags & MISC_FMT_CREDENTIALS)
- 		bprm->execfd_creds = 1;
--
--	retval = 0;
--ret:
--
--	/*
--	 * If we actually put the entry here all concurrent calls to
--	 * load_misc_binary() will have finished. We also know
--	 * that for the refcount to be zero someone must have concurently
--	 * removed the binary type handler from the list and it's our job to
--	 * free it.
--	 */
--	put_binfmt_handler(fmt);
--
--	return retval;
-+	return 0;
+@@ -556,15 +564,15 @@ static int parse_command(const char __user *buffer, size_t count)
+ 	if (copy_from_user(s, buffer, count))
+ 		return -EFAULT;
+ 	if (!count)
+-		return 0;
++		return BM_CMD_IGNORE;
+ 	if (s[count - 1] == '\n')
+ 		count--;
+ 	if (count == 1 && s[0] == '0')
+-		return 1;
++		return BM_CMD_DISABLE;
+ 	if (count == 1 && s[0] == '1')
+-		return 2;
++		return BM_CMD_ENABLE;
+ 	if (count == 2 && s[0] == '-' && s[1] == '1')
+-		return 3;
++		return BM_CMD_REMOVE;
+ 	return -EINVAL;
  }
  
- /* Command parsers */
+@@ -717,16 +725,13 @@ static ssize_t bm_entry_write(struct file *file, const char __user *buffer,
+ 	int res = parse_command(buffer, count);
+ 
+ 	switch (res) {
+-	case 1:
+-		/* Disable this handler. */
++	case BM_CMD_DISABLE:
+ 		clear_bit(MISC_FMT_ENABLED_BIT, &e->flags);
+ 		break;
+-	case 2:
+-		/* Enable this handler. */
++	case BM_CMD_ENABLE:
+ 		set_bit(MISC_FMT_ENABLED_BIT, &e->flags);
+ 		break;
+-	case 3:
+-		/* Delete this handler. */
++	case BM_CMD_REMOVE:
+ 		inode = d_inode(inode->i_sb->s_root);
+ 		inode_lock_nested(inode, I_MUTEX_PARENT);
+ 
+@@ -866,16 +871,13 @@ static ssize_t bm_status_write(struct file *file, const char __user *buffer,
+ 
+ 	misc = i_binfmt_misc(file_inode(file));
+ 	switch (res) {
+-	case 1:
+-		/* Disable all handlers. */
++	case BM_CMD_DISABLE:
+ 		WRITE_ONCE(misc->enabled, false);
+ 		break;
+-	case 2:
+-		/* Enable all handlers. */
++	case BM_CMD_ENABLE:
+ 		WRITE_ONCE(misc->enabled, true);
+ 		break;
+-	case 3:
+-		/* Delete all handlers. */
++	case BM_CMD_REMOVE:
+ 		inode = d_inode(file_inode(file)->i_sb->s_root);
+ 		inode_lock_nested(inode, I_MUTEX_PARENT);
+ 
 
 -- 
 2.53.0
