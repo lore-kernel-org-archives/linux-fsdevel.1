@@ -1,86 +1,81 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D99407CCA
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 23:43:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FF9313539;
+	Fri, 10 Jul 2026 23:46:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783726990; cv=none; b=Bp4/IoQAIzCL5yEbQkyO0Su49tBrglaZIbWr+g/43fhaFJM9Gw+yJ62bG41LPhJVoxoNcA4fBkwAFkBcoOZBoInhKZ3FhmP+gzFRz0zbEHJh5Khe5S7/V71i9NO9WXb5pliWkME/VA1v0nO+sm5z0OhFOTIBLqfX16wwiOlPfjw=
+	t=1783727207; cv=none; b=mPzN4TuOuNHGoBE8f8QVuqqanBtdZqIm5T9R3rp/JcHMazejneo77r5lhpOGGu1lDeDGuAMj8AjoO52VQ3I3yrCUc3BvBzZZjqOTX8hJ8FLPhGune8lNaxzoNlvLr7XlhbV8MI8uHV6Shb1i6vcNDWJw7UnzL3DJbhOgpYcCbu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783726990; c=relaxed/simple;
-	bh=hLGg130yIZeslHGPCdPPMzyX+FW2ovnKWvKdYHLDFy8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MbL0bRAKT4lYymPPPERqvWYUYqneLVx3dt92j41oxgE9st1MxhKbPZRsZu9ZA23xSQ2LCsfnKyyQjCrGKKGH3XvmQAP/l2lNV0y/95MyFNi/cnQwiLTuEiQ3GDSV7bLZgt8iG9u5v7RNq9nZkF/5HB8bBE3B+Q48eZE/YindxKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D0LI/J19; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783727207; c=relaxed/simple;
+	bh=c1o4i0yMAiQO42ywmir9kBPguDPE+ayMkOeVSpJ5eNM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qdY5XK5QcnVr7/UV7Pw8FDvft+G+fOq8Z+b67XI9mnh3mpjso8aVV9WMOJGxTpWMxigTjN+ygOrIvhVxupKeC6xPILyO2CR4/KAX200lLrzMhJsc0dpOOSu87AdwjwFYcknXl/nbbRTnGW+KBVsE95H+YVSLzhqbxKLai+DUJII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PWVBCaww; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D0LI/J19"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-493e4ccccc2so10305725e9.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 16:43:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783726988; x=1784331788; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hLGg130yIZeslHGPCdPPMzyX+FW2ovnKWvKdYHLDFy8=;
-        b=D0LI/J19bernF+bwd1nvZQAz9O5gzKbTJ7zkuDnyRBk+VpqufZox5ykLSQy/1EPYFv
-         HDIwVQn9aSqxFn7YXANKTakF1tuZbWv/HCK7gerZvRM6dHoIh0b7+7k5lsvRIs+kadcK
-         OQVROC4TXfXw1e7sS66hU3Dfqakge01U0tatooDQOaQwaspHtGu+2+ZC7g1+sCbJnN/G
-         7QHq+zLxaI1yMhMEnqUht8NUcCS6hGUe/l/+WPUZsy9mv2SxoPCgfFeLvAyoZQmaTk7e
-         MYE+D8wloVO0lmMvG9HHB/P+GLgv8VlvDfR6c9wG1CYMxUaxK2hKnmMMpQm0R87lQ1I3
-         4uVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783726988; x=1784331788;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hLGg130yIZeslHGPCdPPMzyX+FW2ovnKWvKdYHLDFy8=;
-        b=cNOu9rHSFMiw9yW0Aq65+cE55mXfxPYzYIJMVbe5jJuxcSGhsZ0fiDPFBXpsCcHypY
-         irqOWdYwt+A8bC78k65XsLN0snfJ6UMdpnonTb0iry346w+y8jEmKQ4j3Pi1njrYunJ0
-         2ycQWAmH6hw4DiEq1fdtUsz1OT5J4TsIWON5Stv7vwEASwnTnIW/UGEMhTgj/6UVQG85
-         fUbMrkPbwASdbdoI3Mx8k4PyJAecJGdsmmECwPkm2B4w56Sphi6sWaw556FT08T1y+4X
-         euYcdYOIITsWLUcOqBQdJv0sHUp/TW6mUfRSjbb6En5OWRCDuQxd1dIvem7bVi7fLpom
-         xIVA==
-X-Gm-Message-State: AOJu0YwshL/tG+vpS/gF1JDrYpnyURnOJmwFdhckLq34TTkMqXYKWhq6
-	ePdKuE252Tg7bFuwaBEzrEUvS9S1dNfdgAeOGBy6uANCrY36gMFAhWVA
-X-Gm-Gg: AfdE7ckn7WJzjvZA5dJhfksVhk3acKrp3APyFjZ3X7BBBh+hF8MiyTcphmACaZu2qWO
-	OW9EhmLpBmGEK+PVzCn90r7As4dB+x+NgneAeSGE1Yosz1A7mP+NTbuM6qCxnq2QvHkEoRGTbOv
-	YV4wH7y1N96bqlMuQHIHz5AyMurjySNPDDpAx8RNvxQ3dE4rnjeyFh/ob3/KCIbA9ajPqvjX54j
-	TwS9gwQFsFniFxu6TW8DMGbgqffVLmP6DY10Z/B1Pli2N/Jf0cWJwkMvbPSoeUZUFbpstC57BQp
-	93WbTEceJ/wM87sK0pCA8SzkuOUQVltFtGX6POlGbQMU7PoGw1TDM5uIIa84jy+L75s4gj8fVKp
-	xdyDJMepNvzZ8xtCB14brMtHJ/WvMkfYDJUhyMDy02Dja8PBeKhHagjA1Q4vfr0F4E6/5Ey3BRw
-	jsPSRP0euknVQ=
-X-Received: by 2002:a05:600c:8211:b0:493:a5da:e5d2 with SMTP id 5b1f17b1804b1-493f8826f64mr6756675e9.26.1783726987770;
-        Fri, 10 Jul 2026 16:43:07 -0700 (PDT)
-Received: from user ([197.46.176.74])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb6df6d9sm189342285e9.7.2026.07.10.16.43.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 16:43:07 -0700 (PDT)
-From: yahia <yahia.a.abdrabou@gmail.com>
-To: willy@infradead.org,
-	jack@suse.cz,
-	akpm@linux-foundation.org
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH] mm: truncate: exit on empty batches in truncate_folio_batch_exceptionals()
-Date: Sat, 11 Jul 2026 02:43:05 +0300
-Message-ID: <20260710234305.99362-1-yahia.a.abdrabou@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260710231930.93427-1-yahia.a.abdrabou@gmail.com>
-References: <20260710231930.93427-1-yahia.a.abdrabou@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PWVBCaww"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 492571F000E9;
+	Fri, 10 Jul 2026 23:46:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783727206;
+	bh=zAbiTc7SV8WiZhtg1dsCTH30vdfKHqz6tA06wbzCfJc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PWVBCawwijQB/x3en5NPn3juXXtN9ssNB2wEo1g8Hl5QS0+9MAwyDUQ8g1GYPbCky
+	 GVh7NfQh7RDSfNvhDuENXbffBuPwDUsTlebfZuonKA9vYyts+e3wNy3afdXkTn1cpM
+	 ohcgttvVFx1xb2AcGJdSkpCk2DMuLtzRtREuRy8tgZjFz471v0YOjJl/3Nl6/yFZ7X
+	 wCc6Q6Y9d1+8qRLgOqHBkMqH6XmuUtc8CgMkqtqZE18+vWI2wIKHzj+Tyjnbx5d5lQ
+	 jYllwlbEIDK3xm4CkL+6J114aktvnqw5qfk+3JYcc2ea5fM3idvU08Iq1JtAOlJ5g/
+	 J4hKNV5Lc+Z6Q==
+Date: Fri, 10 Jul 2026 19:46:43 -0400
+From: Eric Biggers <ebiggers@kernel.org>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: linux-xfs@vger.kernel.org, fsverity@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, hch@lst.de,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-btrfs@vger.kernel.org, djwong@kernel.org
+Subject: Re: [PATCH v11 06/20] fsverity: don't allow setting DAX file
+ attribute on fsverity files
+Message-ID: <20260710234643.GF1911@quark>
+References: <20260710085256.3464201-1-aalbersh@kernel.org>
+ <20260710085256.3464201-7-aalbersh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260710085256.3464201-7-aalbersh@kernel.org>
 
-Hi,
+On Fri, Jul 10, 2026 at 10:52:34AM +0200, Andrey Albershteyn wrote:
+> When fsverity is enabled on the file, with FS_IOC_ENABLE_VERITY ioctl(),
+> it checks if file has DAX enabled and fails if that's true. However, the
+> opposite case is not checked.
+> 
+> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> ---
+>  fs/file_attr.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/fs/file_attr.c b/fs/file_attr.c
+> index bfb00d256dd5..5424ec4e3949 100644
+> --- a/fs/file_attr.c
+> +++ b/fs/file_attr.c
+> @@ -246,6 +246,11 @@ static int fileattr_set_prepare(struct inode *inode,
+>  	if (fa->fsx_cowextsize == 0)
+>  		fa->fsx_xflags &= ~FS_XFLAG_COWEXTSIZE;
+>  
+> +	/* Can not enable DAX on fsverity file */
+> +	if ((old_ma->fsx_xflags & FS_XFLAG_VERITY) &&
+> +			fa->fsx_xflags & FS_XFLAG_DAX)
+> +		return -EINVAL;
+> +
 
-Please drop this patch as the condition
-i was evaluating can't occur.
+This sounds like a bug fix.  But actually ext4 already checks this in
+dax_compatible(), and the other filesystems that already supported
+fsverity (f2fs and btrfs) don't support DAX.  So I guess this is really
+lifting that to common code?  But the existing check is still being left
+in place because it's still needed for ext4 specific flags anyway?
 
-Best regards,
-yahia
+- Eric
