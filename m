@@ -1,131 +1,213 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EE43AA1A6
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 20:43:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783716193; cv=pass; b=kgAiWrKfo0dW5HkY1uJm4Ujs7kXfAZ8VSPGGHrlj9x0AuyYgrWAz1zHYb7UiopXXkwYjb6X+2gBApzcI1+vO4ruT1gSX7H3cYsEDJDH2p0QeKhh+5K07XGe8fEZTntTEaPvEZhCqcg23gWMiKT+zBckrmLE+fKCXCJcgW3xW4rs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783716193; c=relaxed/simple;
-	bh=AW4FkCD3SUXD8ZrW0GDFymuv20MYfPDUDhkF/gfjkRg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r0qYL9p1LtqvpviPKnF1H807Laj1+ea66l0erSWSdDght6Yb82/hgFo5k5ya8odKiYn8npYjchPziFG6PEkLZJQRYHnnS/U033Wfisc+D/Kuosq4bkbGANJYidm9if051ifRHdHETZJaytMTGYbav+RZlMF0Cj+GB54DN3k8Gjo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=f8RZNMRI; arc=pass smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F286C3A6B8D
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 20:49:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783716548; cv=none; b=AD6XimWmuiCyrok8NJT3d0bURn9hp+38IIofV2UvEHMwuf6vgw6xC3Itau98ZQNTj66Fg+J8fE9+mxw/FN2NCHjst7IgQDUqHgxs1oSXie7xr7BLXwVO+gJgy9HLbx9zRRtf9X7ZcE00gklAz2tJ/OQOqmH0XrSEklscPQikJ1w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783716548; c=relaxed/simple;
+	bh=gC5eUqeAebp3PWfUT6EP2kjPnQImFCyW8H71EpslMQY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EC8eCZ2N3cgpG8G5sGXJzdojgfDHDc3UifWTQ/XJfssEIdP8KNP0NswAS+G2070JQ1r9FXJYuZpHCbf9OJnX3Wb/jXhvLNFzgkIJNDpcCg/837aQrmW8CA+Q3EDx3Cee8+apKhS3nJDHbBuMmcsllQehcq1KbepPNUm0z5VpX2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=fonv6uPz; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="f8RZNMRI"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2ca64c3ce5fso16495515ad.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 13:43:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783716190; cv=none;
-        d=google.com; s=arc-20260327;
-        b=L43YHSVmiLkDyjnoYpDok3dEpIBiEneeHKIPDs9hl/rs5tf7joghO5vXSpKlXAIzce
-         NXgsQswuqsX77HYXV4eJfni+e6cZswEVwBK+LEVy9fDXgFiOKCNRRGatzOCUSbqOq4s/
-         s6tq4djaS7JiImfh6qvA//7kS4FfRkryNBlWV2XbQv8Xl4vS1FnBwg8LIIWsJQdaD9aj
-         +4bFrr774uUWlXeAUQ8Du7sGZ5lsBKrP5FCKcdxmD/m0kyMJFgiXnRKK6gK7q8mwsaRp
-         UO/mlanK+RPOw4ddX7Sq2WpJeOAqBJ2cV+ZpaCmOGN+zeCXr5Ajb9kg2caPaRZpCHST8
-         a9mA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=rij+tAThPG/Dx8x9D29mBGM0V6OzQVOOyrCEOYUJZtQ=;
-        fh=dQv5uffdh8s1i4bqqfpUFZvxBIBUiVbj2ysq23b9pLs=;
-        b=rcz/H/OTxtS575edKSTxuHcMh7kBCnmpB2gMta6M9EpDFbaCH3JKJliE6q1KMa6myb
-         0VEmlq0F/cMu2Npc1xa7j/TslxzrpvGB0/N3vijxedh9XT/azZTKLrke1HjRdyeBz79t
-         1k3Slv3qFeMR1B5228WckXOyLloIyHqxb3dgHfS8xcSK2TzL6Zcx8q3dRvNcdVmOkFf2
-         0PQ5mWqc5Db9bLR+8iyHQg2yoiSO3ingmLUa+ebpP+SqtfxcN18CzVaBUOsQf01WW9Aw
-         6PocZRiFnePNl8vw27LA7I+qLtwkH4LtZgQPxtIkKQLEnlthcqKZzboSPWQagzKtSOCJ
-         LIJw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="fonv6uPz"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-51c2a76536bso12442981cf.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 13:49:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1783716190; x=1784320990; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=gourry.net; s=google; t=1783716545; x=1784321345; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=rij+tAThPG/Dx8x9D29mBGM0V6OzQVOOyrCEOYUJZtQ=;
-        b=f8RZNMRIwV8cXYXWMl7FZYx0azi9koz5gL8rCTdmi1yEDtGU3a48yowexrdENIYP80
-         djFfJ1hBVHR/TlTdJT3yE7WTkhEQlhYtIN8LIBZJqXP4dLaLksWCKarTEKnp5nzEEvxU
-         58NcAFJvwIVNl5imaBIZIYXPxM2swqfxDuhe4Es+YTX8q/LR2fkfcRcxQ1VMEAcadX8G
-         lxYU7423gmaK/tixP+DOxEMGQjU/HZecdKhXkrTK9qlMagerGNzQhZgv2T0prCrGxXey
-         D9kn6+/M9NzUZins1wWGTlmyVR1Si2F6bkaLFWNqyg63+LQLI5cHXJvRxypfQClwhwdd
-         XRGg==
+        bh=fM3Bw1AZy4lAkPPHaL59OrI7vB0RIP/keCGdI0vS7tk=;
+        b=fonv6uPzbSKpXVdHanWV5yL2JqDJx0BGpTTlatVYw7KbdZpIPvlukInSDvuGJzFPvj
+         9Rb6nF6N1V592BAcnYZj+KuIQ6SUkNVw5BFkU33l8++hsxVZYpm6N2yINGX4SeQYz5Pm
+         0uC+wmjY2g/BzoUPQOVBvgQPzF+896+ru9GQ2Bke9PjtSUaYf3ji+w173v1VHl2JDf2D
+         cuZ4xUZCBkOxjsAwjzBGUe8aor3Jv10fASVIo+klHJhyWjemtNaXu9/XAhOtcs6ap+8P
+         tLKZ/vRdwaA27+Rqe3dkWQovqS2cERzk2/CXU2jrO9ebCfwVgJ2tr/qigd8Ad8xNjTbV
+         N9kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783716190; x=1784320990;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1783716545; x=1784321345;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=rij+tAThPG/Dx8x9D29mBGM0V6OzQVOOyrCEOYUJZtQ=;
-        b=Re1gbvowQxygCFDYYUVGICJozwURRtzGkHKHBAprfTHMGF6ONssHVtXRrSD1VKdF9N
-         xIqtvBi5yc6E02BJixK21LHB3DYJNxwJmvTaZMO72cnDgMVi2V+J3Z5UjDHg7xU/c4Es
-         5v/On6cNKVujmFHhuW/5K7KKuZpNLUPumEsj7M+hiqacpi3Fxqq97fTO71ZBvXGn3b+K
-         kDWvZMvgh9P4/xD09WxSZ8V7n3efFdIEPBiwYv8C3CI3IDQj9qJUaLJVVgK7GH16we+W
-         ey4x3XpMpOjKNLd2SGBao0BEM3iwbaWsUh0+FBYWGqlQLbztpmMTmTVcf4DZY4YDLAUF
-         QiLg==
-X-Forwarded-Encrypted: i=1; AHgh+Rpi1e1SvXVdvPiNlQItm9Rr90C+MFzD043qblGrghsMy/a467Qi90LHTBziRlC5e9nriTuxjlOGLz6V+02i@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2DYTEytOZ9Vo6XmUUa6n1C2K11bU+lYDIUqeOOEc6aUGlDvpY
-	NqxGjlH9hjI8w3pjOgMpUKabqLYB1wBMu4Br4Wyz07u+KIouuqJYzbTWVfIMawpSaUS1Zfn1XlM
-	fPF2B4oj3s2QZ9dUPD11UJ6ncNzES/DPRtiQcx7jw
-X-Gm-Gg: AfdE7cnKxuDvGY/SEpwxcbLWoyjIKy2WMKZmT3iGyCbsCp9r+tHWAzuQ/UJ1jX0hPOB
-	C9rOlqkLdN8sxk1/R4qE69k1rKc8BhmlkyPM4BQx71UFPl1wmoPRnGzFDK3lQPCrUanHDDMWwso
-	6g2wh8C9FsT3mdN8bxkDu26wI41L9Luszq+mK+NSj38jOfUWuFshb+BDPOJEO6uYhWjVFk7g1wU
-	bwuf6cUhXpSv9CtS1NVd0ZIJPb5Fl6EEVBgdsy+pg1Xw0yQLwrE68lpT1eEKlNwHbM0GrXW
-X-Received: by 2002:a17:903:94e:b0:2ca:ecf6:9119 with SMTP id
- d9443c01a7336-2ce9e7a508fmr6594825ad.5.1783716190473; Fri, 10 Jul 2026
- 13:43:10 -0700 (PDT)
+        bh=fM3Bw1AZy4lAkPPHaL59OrI7vB0RIP/keCGdI0vS7tk=;
+        b=mZ8yOF3hPs1Sf/6bzSa/qX2N0vqVF+fnsdwDzVVsNsi5+kqKZs3wkQ81UTENeX1sqX
+         GMoKsPytjlU1HC/uAutuAhV3GueGP6il3lC0rzxYEPgm42t0dPUUtTFlwt+k5MO/n/IZ
+         szf/IIQbZQSnz3YqGCGwFnjDuh5wN/8K0dKSOaYPJwpdxhxQIjPAIy9v1x/TF5HAiIYc
+         749WLA1imNJvIxUPKgvVwNZaihZRz3yRIvEsUIq7Ixbim/zH2ftvcPzlvslyeinLvSnx
+         52HuYKeCY1ylJ1VmqPJ5TaosBv2qB4B++kC0yOxoTE2UoTmyjQbgyYFBz/AYHeOqJXK5
+         g7QQ==
+X-Forwarded-Encrypted: i=1; AHgh+RriALBNcHHA8WJU+aVIZo+8uoxSkfNdEeezK+oCvmQZRNrWPIBk459B1lZpZF9H9Y4u66knbwkNzxdgMov1@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYM7T8rBrKz/yFcervIIdCxkAvuJm0zW/39oa67XAD7/D6Mtwe
+	apgYoRgE3S5Wi9ToTLGuuTmcA9v0nRMtQdXydM4n2XVfFrkcE1wyVPMzj2n3uZG/zVI=
+X-Gm-Gg: AfdE7clIj3ntrPgoBwC3K1wNJ8r3dbHdRA5YUXfVfo5JuqqNM16tVd8JymQT0G7jEC2
+	qpH5OsxMwg+8IJdjlgexKtDjNDEp5M39dHNgjeuXhzsQ0t+HEiawlViBycbxYklig7b89fs0ITE
+	MMj9vMUOSix5BMzqoWBDOwBabiEEmWlUu4pkFi0LnEtb+3Q+5Ufl9uTKXwyYWHfJB8XmZbYTkgW
+	4nFRBlPEcVYTx2eV9a+sOrwX9KcUrR7Srk4XSC9S5e4bQYXLrS0cgUdXsv4gDG5gwor4qhytI4Y
+	0ltA1Ov9xxuynfcsi3an6erc1OfG1B/bJBo4E9dWYpQefIQOJ6Bfycz5ND62JxcSjeZqJw0EbR/
+	wYnFV59NLZq+RagdfC9xi/uJF6D8CVMDmkv4sracgdMhyk3m+CB3oJh3vUXiZ9LbrqxFLb9rqxJ
+	ebcrIHkNaUO96nx02s/OyzyjjcNTuAQJWP44Ou617f6vmpGePZFOeXS+rJFr4N3ghXEEt5
+X-Received: by 2002:a05:622a:15c4:b0:51c:7b11:41a3 with SMTP id d75a77b69052e-51cbf361a3bmr5658901cf.80.1783716544856;
+        Fri, 10 Jul 2026 13:49:04 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51caaf5f61csm24147321cf.22.2026.07.10.13.49.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jul 2026 13:49:04 -0700 (PDT)
+Date: Fri, 10 Jul 2026 16:48:58 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Simon Schuster <schuster.simon@siemens-energy.com>,
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Christian Koenig <christian.koenig@amd.com>,
+	Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Dan Williams <djbw@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>, Hugh Dickins <hughd@google.com>,
+	Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+	linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+	kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-mm@kvack.org, iommu@lists.linux.dev,
+	linux-perf-users@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+	Jann Horn <jannh@google.com>
+Subject: Re: [PATCH 30/30] tools/testing/vma: output compared expression on
+ ASSERT_[EQ, NE]()
+Message-ID: <alFausURKttxHUAI@gourry-fedora-PF4VCD3F>
+References: <cover.1782735110.git.ljs@kernel.org>
+ <432444fa4c12ae1c4047550e2b205d3e9bab458f.1782735110.git.ljs@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <3d4fe99cd1665a1be0b36636aeeaf4ab@paul-moore.com>
- <20260709.kaemaiTia6Li@digikod.net> <CAHC9VhSVQ0MLwU=C90FmohAThwaQj-mfB7L03fvkB5A0-J2jCg@mail.gmail.com>
- <20260709.paitheut7Ief@digikod.net>
-In-Reply-To: <20260709.paitheut7Ief@digikod.net>
-From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 10 Jul 2026 16:42:58 -0400
-X-Gm-Features: AVVi8CfYFlCh845UyHEVb8Qr54KnQveNcsFxDbygGSFQDOXSJFwUEPgwYvIp3eE
-Message-ID: <CAHC9VhSrYUWkt0_kbOdEuoeKdj+oSaFcY0Fg8t2SuUwH-=MJXA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/9] security: add LSM blob and hooks for namespaces
-To: =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc: Christian Brauner <brauner@kernel.org>, =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	"Serge E . Hallyn" <serge@hallyn.com>, Daniel Durning <danieldurning.work@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Justin Suess <utilityemal77@gmail.com>, 
-	Lennart Poettering <lennart@poettering.net>, 
-	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, 
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
-	Shervin Oloumi <enlightened@google.com>, Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <432444fa4c12ae1c4047550e2b205d3e9bab458f.1782735110.git.ljs@kernel.org>
 
-On Thu, Jul 9, 2026 at 11:58=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@digik=
-od.net> wrote:
-> On Thu, Jul 09, 2026 at 09:03:58AM -0400, Paul Moore wrote:
-> > On Thu, Jul 9, 2026 at 5:12=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@di=
-gikod.net> wrote:
-> > > On Wed, Jul 08, 2026 at 11:22:17PM -0400, Paul Moore wrote:
-> > > > On May 27, 2026 =3D?UTF-8?q?Micka=3DC3=3DABl=3D20Sala=3DC3=3DBCn?=
-=3D <mic@digikod.net> wrote:
+On Mon, Jun 29, 2026 at 01:23:41PM +0100, Lorenzo Stoakes wrote:
+> -#define ASSERT_TRUE(_expr)						\
+> -	do {								\
+> -		if (!(_expr)) {						\
+> -			fprintf(stderr,					\
+> -				"Assert FAILED at %s:%d:%s(): %s is FALSE.\n", \
+> -				__FILE__, __LINE__, __FUNCTION__, #_expr); \
+> -			return false;					\
+> -		}							\
+> +#define __ASSERT_TRUE(_expr, _fmt, ...)					   \
+> +	do {								   \
+> +		if (!(_expr)) {						   \
+> +			fprintf(stderr,					   \
+> +				"Assert FAILED at %s:%d:%s(): %s is FALSE" \
+> +				_fmt ".\n",				   \
+> +				__FILE__, __LINE__, __FUNCTION__, #_expr   \
+> +				__VA_OPT__(,) __VA_ARGS__);		   \
+> +			return false;					   \
+> +		}							   \
+>  	} while (0)
+> 
+> +#define __TO_SCALAR(x)	((unsigned long long)(uintptr_t)(x))
+> +
+> +#define ASSERT_TRUE(_expr) __ASSERT_TRUE(_expr, "")
 
-...
+Mmmmm... macro madness.... I don't think this is what you want.
 
-> > I'm aware of the new hook guidance, I was the one who documented it :)
->
-> I know.  I guess that means you're ok with that?
+I think you end up double-running the expression in the failure branch.
 
-Yes.
+  ASSERT_EQ(cleanup_mm(&mm, &vmi), 2)
 
-Just a heads-up, and some of this depends on timing, but as we've got
-multiple patchsets (there is a SELinux patchset that depends on these
-hooks) I'll want to take this hook additions via the LSM tree.  I can
-take the associated Landlock patches too if you like, or you base the
-Landlock tree off the LSM branch; no worries either way, we can sort
-out the details once the patchset is ready for merging.
+run through the preprocessor expands to:
 
---=20
-paul-moore.com
+  do {
+      if (!( (cleanup_mm(&mm, &vmi)) == (2) )) {
+              **** first run ****
+
+          fprintf(stderr,
+              "Assert FAILED at %s:%d:%s(): %s is FALSE" " (0x%llx != 0x%llx)" ".\n",
+              "merge.c", 645, __FUNCTION__,
+              "(cleanup_mm(&mm, &vmi)) == (2)",
+              ((unsigned long long)(uintptr_t)(cleanup_mm(&mm, &vmi))),
+                                               **** second run ****
+
+              ((unsigned long long)(uintptr_t)(2)));
+          return false;
+      }
+  } while (0);
+
+
+A bunch of existing ASSERT callers mutate state, so there's no guarantee
+the printed value matches teh actual test value.
+
+I think you want something like:
+
+#define ASSERT_EQ(_val1, _val2) do {	\
+	__auto_type _v1 = (_val1);	\
+	__auto_type _v2 = (_val2);	\
+	__ASSERT_TRUE(_v1 == _v2, " (0x%llx != 0x%llx)",	\
+		__TO_SCALAR(_v1), __TO_SCALAR(_v2));	\
+} while (0)
+
+which expands to:
+
+  do {
+      __auto_type _v1 = (cleanup_mm(&mm, &vmi));
+      __auto_type _v2 = (2);
+      do {
+          if (!(_v1 == _v2)) {
+              fprintf(stderr, "...FALSE (0x%llx != 0x%llx).\n",
+                      "merge.c", 645, __FUNCTION__, "_v1 == _v2",
+                      ((unsigned long long)(uintptr_t)(_v1)),
+                      ((unsigned long long)(uintptr_t)(_v2)));
+              return false;
+          }
+      } while (0);
+  } while (0);
+
+~Gregory
