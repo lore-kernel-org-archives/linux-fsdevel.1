@@ -1,49 +1,78 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DECFE2EB859
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 14:06:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 579CC2E762C;
+	Fri, 10 Jul 2026 14:23:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783692386; cv=none; b=WEm6PMwlhNDfPjzJJNy8aj2XlDaYaN3mNOY2E6pyQdssk03cN+c/nZpI1rKegpc7Dm8CBq7bzHHzRvIKRpOquZGOApoxkNsRFQZhOif/tvpLNL8vtD+0vuobUC+jSkk3HCg9g3bHN6bS4KnMq38MYqm5SnvqjRVyqsrBPicHLrk=
+	t=1783693390; cv=none; b=nwxcCieSc8LgLwiFn/FRiEDVP8bmMzJs/r9XgkT3mnpO0J8VWhkUqc9ZcWp6ATAxZLgwD9aY3FGWC7HA2ybFCHO3H0fjBGqMv377zJ4lCT4ALGjJuVx4BKSxCWBlMtelw6U7UOVZfUqdSd1jHv/TlnyIqxkjXyOszFtmGC9rCIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783692386; c=relaxed/simple;
-	bh=BSeqkT/sEU5VxdBERoioOlbKUWq/F11AD9eueJxDQiA=;
+	s=arc-20240116; t=1783693390; c=relaxed/simple;
+	bh=oOOKiOVebIlobLMIAKruzvkluU8pmlBRpfWOBD5+Bh8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dCHTo1RGDcOMISQvUCFBGBLr8rGa/0hllS+LqO7NwWa+OhLZhv/ru4xnE4vgr/oR/jUyKJn0hNocwIyKnIV1cMxbaB7RqzsI6R2kIrOjQJGBg4Zsw19Akhh87cRB54g8MlLIZghDL5tEZDgjU25GQxAh98Pvtmc2eZ8TA07+E9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=izD/LZLr; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=K4sbw1q7puWFISLD0LDcLIwNc/siAPS6nD1zHdU0J5pt66bxbNASNStBmGSSr+9gny1pb3CbIuAMTWdUW+hgqbxOLwGW++D5bAvr2xv6ZpOap/0jFfwOr8iwoDw9vQ8guapqQUVJIQl3cTNeklXrhyUXs+mGFOl2yKnAHX7Rfp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hDk32fZe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="izD/LZLr"
-Received: from macsyma.thunk.org ([151.240.45.41])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 66AE660J028346
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Jul 2026 10:06:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1783692370; bh=3zqoMSC9CKLV7T331cHIk+yii31h/xyMfRSAoEynpd8=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=izD/LZLrNcYJlmA98WB7rJMHDCpuwZoblZaecWzVR7nBh+GXIC4umyXWcURJwfi0O
-	 6WWuP6xzMThrqr7JfhOR6kog63mYv5R4jV/p/+FTxd/4cu8RnmuWtHW12s9koFEwjN
-	 YNh9Mrl01WjMvJJVPmGUR8ZzA4vN3J2OXvT+D/XDES2ClRO/+8O7i1TBRLW9PytlAH
-	 YPkL8fis/pizDGNdhWCqoRPSY3m4lVzwbl/SiRkbm+sBBDmC3kxya1BQJL3D5TtdcE
-	 bAGEMPy20l/7WMYAt5Vep+DWJ1CNX7U3ee2Bs2hB3d3YpsZue3iv3C8RQz28oy/iwR
-	 L9tXi20wtyTuA==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 09B1B9552B1; Fri, 10 Jul 2026 10:06:06 -0400 (EDT)
-Date: Fri, 10 Jul 2026 10:06:05 -0400
-From: "Theodore Tso" <tytso@mit.edu>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Longxing Li <coregee2000@gmail.com>, akpm@linux-foundation.org,
-        linux-ext4@vger.kernel.org, adilger.kernel@dilger.ca,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ext4: fix use-after-free in ext4 delayed I/O completion
-Message-ID: <alD7q_AUlNaUwAup@mit.edu>
-References: <20260709075613.854-1-coregee2000@gmail.com>
- <ak-mQ2DnbaxIO_WU@casper.infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hDk32fZe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 576341F000E9;
+	Fri, 10 Jul 2026 14:23:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783693389;
+	bh=4zyigozW2XJuMHxUx1LRwgrRCSh1VLl67e/E7w+QZzU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hDk32fZeMgzmPnGNoP6HeCOWM4GRx0wvzZ7PStQ2TSwlTBXM5ez/tTQKGLxRTl/4I
+	 QkBc0RDv0nD0Lc66yqvsQa0pHvXXNbHYnxrULdE6sqiQXHrOs7CEDy4i0shhDrRvhL
+	 AkOBE98GZT3VYpNtPaq2bLKNc3tGh8h25U95a8qCstIttnk3MdXOHiNU4NC1S8pJiI
+	 5jF41zw/Ud5xKxk0rB4ndtLsriEMDnqTuL8nXJEn1D8EQwyMsqxoWuiWeg0k7MxwCT
+	 PBZFuZgWs6DtmzAVLAZcQU9iE7cf28j4wPp4QAE2BoL/qigac0hAC9jFJl+CkC28Q2
+	 C7OtqdLqj+rXA==
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 9402FF4022A;
+	Fri, 10 Jul 2026 10:23:07 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Fri, 10 Jul 2026 10:23:07 -0400
+X-ME-Sender: <xms:SwBRaiG8_-41vVevjFBAF9twrVMCIM177GgS7Qhb3Su_cbXbRCXoZQ>
+    <xme:SwBRaktXb_Sy-5H8fPfG4CfDLbmSbp4m6H_usVbOz5pIVPcJE0ok3Y4eDV6zXvXgd
+    ssPgrRJZArJUVkzeS6NMxoWJ3qb-sB3OsA6gAxsz_vHyw4egfky>
+X-ME-Received: <xmr:SwBRalZMsDpR2KNxktXhHL77Wv9F5ArDYWNayvgO4t7tkwzNnDZPK4aI40phtlKYh_YyfNHGSJ7r8uyiz2gMnJ-lkGGxlj6k>
+X-ME-Proxy-Cause: dmFkZTED+bREg08T9XRtTY12MliPGRoIPw3CDmOu5rtNcTMSDW3GzkCNIg/FtDVssJV2a1
+    dqIVfYBHtJxne3Yg7lMoliBcR1KtLbfJTL20V8nZnHSpC2uvHsMhrdmObVa4NP+QyrIO8i
+    Kvfc9PEF91GQDLPB1BM1I4m3THqDVgx12CjGKgZ207822CtpBjqbcv2y1z4F9VW8lz4uWp
+    HS8P5V6kYDLoJVU2+mhw3BNNKalT7V6VlJwc2n1O5UnnStNipbZUYO9Hqu7kksb9Wt53wN
+    egKer428tG4GeLL8CNMh+JtV8VRgdudjhMaJ6uWyoS9HjnkKZKdayKw+o/fp6RectpUcFu
+    HzHdRFhUl1b/VgOZyjhTKdQjURFHr+ntHCe/sW2NXyovVe/kg6aKAI1L/eHFbqP7r5tgkS
+    3Ozn585tLvrYaY93qnBcZ9NR8xo4wMzv6aKPrMoKXIY7hnedfbryeIEmygKwl6xD34B2cz
+    TiGcx4sHviBU3Y/zdbIry/pUllz9/gnJNk9i0DEt6x42mu0AUUKkwC8LM7JOef9rSuhstb
+    NMvg/UvONs3u+VqdKJbozNcJCTw9q98WADJJHR/DmsmxJYpPsmsOkePGMJIpKn6zO0cYf3
+    pMZqnwGbQDjcYnJq4OJzCHHnEPJD5lA0l6i9Bj6ZpDzCdzUnGWFCO9B/Tanw
+X-ME-Proxy: <xmx:SwBRakV75Fich9nIFKzlqhX8VXGubIWJOCDI8aMt6LK-2P94f92juQ>
+    <xmx:SwBRavKDSq9It3Xrew99PBkM08usLOQ4fshgYETi3hyZ6_-1RNCWZw>
+    <xmx:SwBRaqH3QCkJEt5Mp3vqyXZuw3en7HgeXA7c18vx3fUL2SpKXJHVLg>
+    <xmx:SwBRasxnf4c2ooVO5Gqp17dng1DCOFFedDm1wcR0qdxCRfyQcSNycg>
+    <xmx:SwBRavixRuVbYTnsJ_zNw4-8UpTNDqZCc9FWwh4DrIDeVI_o-lcCd8Gk>
+Feedback-ID: i8dbe485b:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 10 Jul 2026 10:23:06 -0400 (EDT)
+Date: Fri, 10 Jul 2026 07:23:06 -0700
+From: Boqun Feng <boqun@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Carlos Llamas <cmllamas@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>,
+	linux-fsdevel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 1/2] rust: poll: use kfree_rcu() for PollCondVar
+Message-ID: <alEASpx0UvbYnxqy@tardis.local>
+References: <20260707-upgrade-poll-v6-0-4b8fae7bf1d9@google.com>
+ <20260707-upgrade-poll-v6-1-4b8fae7bf1d9@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -52,31 +81,32 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ak-mQ2DnbaxIO_WU@casper.infradead.org>
+In-Reply-To: <20260707-upgrade-poll-v6-1-4b8fae7bf1d9@google.com>
 
-On Thu, Jul 09, 2026 at 02:46:43PM -0500, Matthew Wilcox wrote:
+On Tue, Jul 07, 2026 at 10:43:12AM +0000, Alice Ryhl wrote:
+> Rust Binder currently uses PollCondVar, but it calls synchronize_rcu()
+> in the destructor, which we would like to avoid. Add a variation of
+> PollCondVar that kfree_rcu() instead.
 > 
-> (also if this patch isn't AI slop, it's doing a Really Good Job of
-> pretending to be AI slop.  Why would you choose 'unsigned short' as
-> the type?)
+> One could avoid the `rcu` field and allocate the rcu_head on drop using
+> a fallback to synchronize_rcu() on ENOMEM. However, I'd prefer to avoid
+> the potential for synchronize_rcu(), and Binder will only use this for a
+> small fraction of processes, so even if it changes which kmalloc bucket
+> it falls into, the extra memory is not a problem.
+> 
+> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 
-It's AI slop that didn't even bother to run it by an AI patch quality
-review process such as Sashiko:
 
-- [High] Skipping `queue_work()` when `igrab()` fails causes a permanent deadlock
-during inode eviction by stranding pages in writeback state.
-- [High] A data race and logical flaw with the 1-bit `i_rsv_need_iput` flag causes
-permanent inode reference leaks during concurrent I/O completions.
+Let's switch to a better abstraction like RcuFreeBox later, but I don't
+see any issue of this approach in general.
 
-Syzbot also reported the inconsistent igrab state issue.  So it's AI
-slop that wasted resources both with Shashiko and Syzbot....
+Reviewed-by: Boqun Feng <boqun@kernel.org>
 
-Longxing Li, whether or not this is AI slop, this patch will tend to
-cause me to distrust any future code submissions form you.  I suggest
-that you test patches and look at the code much more carefully before
-sending, if you don't want to have a bad reputation as a patch
-submitter.
+Regards,
+Boqun
 
-Best regards,
-
-					- Ted
+> ---
+>  rust/kernel/sync/poll.rs | 73 +++++++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 72 insertions(+), 1 deletion(-)
+> 
+[..]
