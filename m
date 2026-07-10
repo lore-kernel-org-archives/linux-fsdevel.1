@@ -1,144 +1,154 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6564337C925
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 18:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BF13803E1
+	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 18:57:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783709771; cv=none; b=NEQHOCQpEypDbhraiRVrGYf7NrI9TM9Z2BVGUmAI0ENo8Oyj907VmEUnmgN1ag3lUpVcvfE9/XVqjP+uYgrIKVYdz0Sn79yLr6i/AoMl0nkEAzKhSStLIrRZXBlCXKHVk9wCzq9T7YEHChVvWCdiqv/4CpG3rPdjOXim/Ycg3aQ=
+	t=1783709850; cv=none; b=Y3ZgJdSBK87/uRMdH/Jxizri3Dc2sYKX1lSzfrtz5LYKxeuusJLf3l3WhUgmSQHKN8tNZtQ7U8sPHnZVm4EaLMYG6lhIQUmiDgXU0DJia6AIhSp3YoexvzMFp/KXqJe8lMAP+BUhG+u5VBsGX3OApWb/ffVa4DSCAAy8L4P9XyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783709771; c=relaxed/simple;
-	bh=IYEngjm2u2U8mwA1AsIHeS/HWJN8Lo/RbG0QV9Hs0zI=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=DFVT5jjSgWfyTgkBv76w7l7Hs8sNUa2g5fYAvNMOjHFXHEc1kst+JlmgOKqWP9Obb3Ggztzwu+DpGc77Hu+1poIoIW+nlMzLRJ+iR9pVzy/XZViijH6WpJnvSbMYIKQYRy5XiSoScAHKe6krEF1wSJ56yc1SVXhBNlsirOTbqbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=IuhOkU9j; arc=none smtp.client-ip=195.121.94.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1783709850; c=relaxed/simple;
+	bh=mfAQ6U6Pagde6/OTMZV/3pa3xVR9imBJSf9e6QtJA6o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i/HIL/rR0bxjGukZNyno6JbVL2XWR/voxRT7Pc/wKCFuYxFLI4GwRSRUA65vKEpkxcGhHoPCVrL5i/SUH35UPKzS4ttAkgkrHBw0Ta2GN1j/2GyGebjSOpGjNCanmwqgZ724VmmLVsWdR/TlwettHaSUKNS55h3HimR/5rX48b4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=fxaRVrzr; arc=none smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="IuhOkU9j"
-X-KPN-MessageId: fd92093b-7c90-11f1-9e8e-005056999439
-Received: from mta.kpnmail.nl (unknown [10.31.161.191])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id fd92093b-7c90-11f1-9e8e-005056999439;
-	Fri, 10 Jul 2026 20:55:59 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id fd910505-7c90-11f1-91b6-00505699891e;
-	Fri, 10 Jul 2026 20:55:59 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="fxaRVrzr"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-92e99ef0902so67513585a.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 11:57:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=foQ7N96TTaOBYzh6e+zqiSy3uy81tMUpx53gtSwRZhM=;
-	b=IuhOkU9jOFjXAT59dtLcO1IQQO+kW1DknickgsZEpsO4vA6S+Sgm7s69ELoDOiaE48NFaQ0Qo6liK
-	 CIHva4Om8jgcVv4aztBsySdqFxjE1l/ze+kIihcFsWmR5oUDFOoWBuu4NHVFhsm4Eis8Pm0fg4h4J2
-	 ImrXbH6a5I/M/z3JSkCFHhqZflpy+QWBcNnFwZTO/FXunpndxeck+P20LgAMWjjgFWfRHB6uFdzGEv
-	 ZtZ9ipiFbbLoMs2IFauK5Wda3oF/rmjZV839uhQECDLtoi9XovtcwwHqP5RPdLHOoA5fmLJNLRuEu2
-	 0wqZD/FHyF0Q61fsqupFvbllNcI6/7Q==
-X-KPN-MID: 33|TgsavHs0M8oEKlbFi/gvCntxzOaIS37Gw8FOWXnD3GsPri37lygxdIypnY0O+gn
- 9FyzEk50FNt66tWxK/u6nOQyGWnJbPNlb5TXAMRn6mdI=
-X-CMASSUN: 33|y8sTOXm0NMcKQXyWP1Bugzr2MKcoIa0LfBXTKfHRwembCYOoJbIYqmJ3nGIum5M
- oL2RlHtY+o+ybTVsVbPA6Mw==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh05 (cpxoxapps-mh05.personalcloud.so.kpn.org [10.128.135.211])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id fd866990-7c90-11f1-8edb-00505699eff2;
-	Fri, 10 Jul 2026 20:55:59 +0200 (CEST)
-Date: Fri, 10 Jul 2026 20:55:59 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jeff Layton <jlayton@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
-	Aleksa Sarai <aleksa@amutable.com>, NeilBrown <neil@brown.name>,
-	Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <1944666535.644663.1783709759572@kpc.webmail.kpnmail.nl>
-In-Reply-To: <20260707-zeigen-lachhaft-situiert-1fe7432e21f9@brauner>
-References: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
- <20260704164149.3480051-10-jkoolstra@xs4all.nl>
- <20260707-zeigen-lachhaft-situiert-1fe7432e21f9@brauner>
-Subject: Re: [PATCH v3 09/14] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+        d=gourry.net; s=google; t=1783709847; x=1784314647; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=kUriDsQ9XZtRyYKZZfoXUueFFJuZPgSg6lCZHNic6sM=;
+        b=fxaRVrzr0pu8Uz/SO7/A7nmTf/OpotguYO9NJQKIkwviKFH5uDnq4kTQpYDajWVd+9
+         faZwKB1PVsoYOX/6WOFdDBt5VUDMlX+XBugqcTfI4I+8aywYSLm2Gts3IcALhGIvCG/K
+         hHZgu/Zw6gcJZ+xoWFWQcNmy6X8husI3BglEromZ8sXqN5+EvW/wDw0IrUu+X3nSmczz
+         PE8+czA5trAIhNeulj7pYBJMlBucJKhEzcYLF+F/qHpTTu4+JBGJTqXP18vS9QbjkqOI
+         TaQZUztVq1axOw86ojkd+MdfZfF986LEDKifyKhbCywDWB9d93mAwvELkPXX/paVW27p
+         tzvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783709847; x=1784314647;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kUriDsQ9XZtRyYKZZfoXUueFFJuZPgSg6lCZHNic6sM=;
+        b=dvIamn5J4uVEG5I6hiknSv1SKRwiBgsR0VDDqHrDZ/d0GfJkaCmL8CQ9QMZWKB/VZS
+         t8wI68jxYihwhe1IJ1BSl5jtI12L2IKZiURqoAqf9T3acWj6Ah1n8AjAUrN/Mrkkj8vY
+         iiutYiq4uhQrSJOw4h+JW7TAlLHShF87NeJIWBFD5zhnAeKJENf9AmeXX8tC1QwvhOe6
+         0QwHMJf1pArOBD4wXvIhGhPEbNrQabbiLYWqKYxQGVsh3Yc8dsgJBcURghIYfcLhtsxt
+         QIkvKFg/4+ingJbUgfZxHNWZLK+9ZCgXj+JiV3oq7ov5E7QdCXbx+Yh8eZ3BOYJYsRNs
+         mGGQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrtkIeF9+Ts5APyExf8P8sc/+d1sNJmTq0tAmktGc65deyI/Ql0831qHURyjOy8pa9I/uJAormrv8MFKHQK@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnzJGOLqAvQAcNBtjKlB5yy4kyzuAhswTIFfGtfJCXsmRWGQNZ
+	Fdxs4V4n463V4gzTbvMzU+UvfbT1FXwT70vG0z+bGdzSEINw5JLhjt5y2L3TjjvpDXI=
+X-Gm-Gg: AfdE7clVAM0Ria4L25FTUTSTJjXNJDZAmQQk/iSYT67aT1pIRVjqQOuymhYTc9YUYFw
+	8P7OzGDnKJ5tlBN94evyl2wIu4CizSJJVc8ljyTx8nRA6AUZ+YEb0ErNBXGZhdc+lT0VHjmXDG3
+	u2eLkrxNTRgcy/MPoCdqYN8fNZGo2IeknRsyqYABUYAfTU3EXgNhtlsqQ0GZ78B/RsemFR3CJSA
+	NXYzZW1Ct4b2Ks0p+pzPqqh4Km9Qnm4JVg0Nrw7sNipKJfxVDgJMiZtnTEVuPih9AAUffOnFJD8
+	fjP8Q1EL93+jrPyY/7wE9VucDNlTo3ze8wQTOc/PKrbgQ9V9+h6a9L5lx2pYPPi2HxDoAavsJEK
+	cK87hth2pzbj8l8bOjpnBIbnJQryg/bRaLV3+IVnIMB29H+/kNL5uuCprRqKsNDrwkWiAD038vV
+	uyDvTGLhTGkJ92Y/F9WzhT8PPCTQeJ86BwF3K36+3GEA5WEDdtNq8zikpG1YuEprRaMELP
+X-Received: by 2002:a05:620a:d8e:b0:92e:9d63:a6f2 with SMTP id af79cd13be357-92ef2c1ab7bmr45629785a.70.1783709846741;
+        Fri, 10 Jul 2026 11:57:26 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92ee5cfdf6fsm275995385a.24.2026.07.10.11.57.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jul 2026 11:57:26 -0700 (PDT)
+Date: Fri, 10 Jul 2026 14:57:21 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Simon Schuster <schuster.simon@siemens-energy.com>,
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Christian Koenig <christian.koenig@amd.com>,
+	Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Dan Williams <djbw@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>, Hugh Dickins <hughd@google.com>,
+	Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+	linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+	kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-mm@kvack.org, iommu@lists.linux.dev,
+	linux-perf-users@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	damon@lists.linux.dev, Pedro Falcato <pfalcato@suse.de>,
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+	Jann Horn <jannh@google.com>
+Subject: Re: [PATCH 23/30] mm/vma: make vma_set_range() static, drop
+ insert_vm_struct() decl
+Message-ID: <alFAkWCnkYv--Us0@gourry-fedora-PF4VCD3F>
+References: <cover.1782735110.git.ljs@kernel.org>
+ <62efd70f9f39570724c9552cc7f2aeb5c322b2ff.1782735110.git.ljs@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <62efd70f9f39570724c9552cc7f2aeb5c322b2ff.1782735110.git.ljs@kernel.org>
 
-
-> Op 07-07-2026 12:51 CEST schreef Christian Brauner <brauner@kernel.org>:
+On Mon, Jun 29, 2026 at 01:23:34PM +0100, Lorenzo Stoakes wrote:
+> With __install_special_mapping() moved to vma.c, vma_set_range() can be
+> made into a static function there and is now completely isolated from the
+> rest of mm.
 > 
->  
-> > Currently there is no way to race-freely create and open a directory.
-> > For regular files we have open(O_CREAT) for creating a new file inode,
-> > and returning a pinning fd to it. The lack of such functionality for
-> > directories means that when populating a directory tree there's always
-> > a race involved: the inodes first need to be created, and then opened
-> > to adjust their permissions/ownership/labels/timestamps/acls/xattrs/...,
-> > but in the time window between the creation and the opening they might
-> > be replaced by something else.
-> > 
-> > Addressing this race without proper APIs is possible (by immediately
-> > fstat()ing what was opened, to verify that it has the right inode type),
-> > but difficult to get right. Hence, adding support for a new flag combo
+> While we're here, we can also remove the insert_vm_struct() declaration
+> from mm.h - the function is implemented in vma.c and already declared in
+> vma.h, and has no users outside of mm.
 > 
-> Eh, but that still means someone could've raced you and actually created
-> that directory. When you bring in a shared filesysem state with joint
-> cleanup responsibilities things aren't easily solved by fstat()ing.
+> Also update the VMA userland tests to reflect this change.
 > 
-
-Right, but can't I check with fstat() if the object satisfies all properties
-I need, like owner, group, inode, type, etc.?
-
-If it does, then why care how it was created?
-
-> > O_CREAT|O_DIRECTORY to open*(2) that creates a directory (if it does not
-> > exist already) and returns an O_DIRECTORY fd is very useful.
-> > 
-> > Historically, the O_CREAT|O_DIRECTORY behaviour was to return ENOTDIR if
-> > a regular file exists at the open path; EISDIR if a directory exists at
-> > the path; and to create a regular file if no file exists at the path.
-> > This behaviour changed accidentally with 973d4b73fbaf ("do_last(): rejoin
-> > the common path even earlier in FMODE_{OPENED,CREATED} case") causing
-> > ENOTDIR to return in the last case while still creating the file. As
-> > this change was not detected for a long time, Brauner proposed to adopt
-> > the more consistent NetBSD behaviour, i.e. to return EINVAL on the the
-> > O_CREAT|O_DIRECTORY combination. This change was applied in 43b450632676
-> > ("open: return EINVAL for O_DIRECTORY | O_CREAT") in March, 2023. As
-> > the EINVAL behaviour has been in the kernel for about 3 year now, no
-> > rollback is expected as a result of userspace reliance on old
-> > behaviour, leaving us free to reassign the O_CREAT|O_DIRECTORY semantics.
-> > 
-> > O_CREAT|O_DIRECTORY is made to reduce to a lookup on ->atomic_open()
-> > filesystems. This is implemented by stripping the O_CREAT bit. The other
-> > option of simply returning -EINVAL leads to inconsistent behaviour:
+> No functional change intended.
 > 
-> I think this doesn't spell out why that's done: afaict, netfses can't
-> currently deal with O_CREAT | O_DIRECTORY without protocol extensions.
-> So that means you force it into a fallback mode where it manages to open
-> an existing directory but fails with ENOENT otherwise. This should carry
-> a brief comment why you force that type of fallback.
-> 
-> Also, how do you deal with O_EXCL? If you strip O_CREAT but leave O_EXCL
-> depending on where exactly you do it, might this risk opening a
-> directory giving userspace the impression they exclusively created it?
-> 
+> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+> ---
+>  5 files changed, 8 insertions(+), 24 deletions(-)
 
-I think we're fine, in do_open() we still have:
+Net negative lines of code, the best kind of commit
 
-	if (open_flag & O_CREAT) {
-		if ((open_flag & O_EXCL) && !(file->f_mode & FMODE_CREATED))
-			return -EEXIST;
-
-and I am stripping the local variable O_CREAT bit only. Also, do_open() is
-only reached if we didn't have an -ENOENT return (lookup succeeded).
-
-So it's either -ENOENT if the dir does not exist or if it does -EEXIST
-(with O_EXCL set).
-
-Agree?
-
-> -- 
-> Christian Brauner <brauner@kernel.org>
+Reviewed-by: Gregory Price <gourry@gourry.net>
