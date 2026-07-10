@@ -1,126 +1,47 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36AA3E6DDD
-	for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 21:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E40B3BBA1E;
+	Fri, 10 Jul 2026 21:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783718829; cv=none; b=Ui16uIDnHzGdbruJKkzGZ4XogxOIusvB0cK6m8punw7lytAldn1wcXoqRM+S8U7IVTTCCc0xT398mxAEYLhiefSB+VeLc6FNZEPzEzJ6pZkEj8DIGz/zZQEYotX0KDIkK6W3xaABIidDN+QEJ/C67OBNYmZ3YlmEMsMeE9wCpaI=
+	t=1783718904; cv=none; b=jyH9ogtyXTp9MzY1WWE9TwL4HLQdkzAllrtxwwYss9uN74O9GldQzQMuTzyYpdRjbyxmAB4J+DqtIESQqmK/grrQF+p/TvLZKgexBXKhFcyIsU4vK4KUV0+GLS57nkKcy4K9gsR6Bm/ZxWBH8IFA46UvMPwL/03US6NfncgVfG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783718829; c=relaxed/simple;
-	bh=WA59mEPQS2KZpz5hwZRIhAuqwWCApokXv9AsxSKOvQ4=;
+	s=arc-20240116; t=1783718904; c=relaxed/simple;
+	bh=PJWerdtvHB5S0cqTX7UgTPfBijZIZyJQKkqNm2CtAAU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kVDhtWstUGe8ZWSvdGDyrqlznz/GbkkfWfnCFQPKwKSCMs9jpOMMqPzHRu5OVf8YGIIh3YKWvJa72cvSsWbPB2hmdx1UFWrCxXn2PHacGPzY6AvT7B11+FZz9D1mdtyeWdcGpgOARh+bpMbSWpS1cfrl76aw/NxGiUkWoYgcXX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=nhYo0OJh; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=eDjtc5wBKwkEBBgVezrQBfordVG/DjxJkK6OL66rI20xiGC3wJvH/V5dti6QbRUeFi0ShpbJYkGi2ewtDw/k9g6PwR61TB5fVqL3hROnH5+pddt8YRmfAcWG6deTbI0apw5d9i7fMfhpWRpo59NXLSAq+laCs2ZJtgO8EnEt22Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lKP4VFek; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="nhYo0OJh"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-92e65e18969so106584685a.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 10 Jul 2026 14:27:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1783718826; x=1784323626; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=oXHpiDgBaIEeQKnuJdWSZ8rFz2G2XIdWbRFpuwAJIiw=;
-        b=nhYo0OJhcjieVg+GLl0VaGACf2wtApb6p5NFoPYfJ3MFB81Uk0jAT93VGbHD/HYzFx
-         x0iIlnHKm+fPHeNvTkVRG+kydtCkqPqdRQjIzjZK4+F6R7+zS4vdg5Eiq37/IA0jTvim
-         MWPOtrLGN6TsW5SBj2HQjmjOht63fZLw/WSbMPV+QOplWYLd/Fg26t1gz4Lw6jXPqkEZ
-         6jJwsPu8eyupguGAmDz/agVlqsi3IeXJw1+TLWsvJjCKG8m06B26W6DrWPV5AjCUSLRD
-         mTxzsXm6lp6swrGkIhY4q6XvE3FhBpZmFy6EutES3L0lQJrwD8S0oXfy7XwNV5XXViRT
-         klXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783718826; x=1784323626;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oXHpiDgBaIEeQKnuJdWSZ8rFz2G2XIdWbRFpuwAJIiw=;
-        b=Ay6gxLIUGofOLqtLUqOmEu6OfEYLtKwG+fT9Ek5FiyNb91rrhTMQU4uDQDFuzZ5TL/
-         eZ1qlHhKHz+8AiyIHqO3GA2QpPnUt0qWBjlZuccEYKcyl9PKtx9jgt1XFSs1zoI7zP+N
-         g0RQipTieQZqcG5fKZYpZhnRbi1aR/Zf/AMaBzRtPWF+R/fRffMv2wMAPYQs88BL9zcS
-         B23M7u0eTW0zraRFLCicVOwBYKXkzbxO7u3++/wxuuUzOEfFsJN+pi4671dvFA/k5sSU
-         8eenyfCj6mmjbHWCYdxB8DmvXRnZk+xm/w++6aln3im2KBHBxMw2SllgHLssnmK8s31w
-         Onrg==
-X-Forwarded-Encrypted: i=1; AHgh+Rp32MsDp6qoTmmzsrRdd5+xMwqmUtzb4sI+oLdTgVDWT8XRI8CMEHelzZbxp8yQgvLHu/Y2XwRmsQS15RJ2@vger.kernel.org
-X-Gm-Message-State: AOJu0YwegUahMM19CW5xYHPYhBC30D+DADOcSsaNmblMaxk1JM3ER/UM
-	wNWgDDxiLEUm7WRHWWblGNLDTsqa2S3b08wg2J3FtQ/kYwA6K8VoTh/KfgHdkeVm9JU=
-X-Gm-Gg: AfdE7cl+esVYwsAVWgazRKdGoYXUWk61eOLFrtcd10Y4L4N9ux1nxPpb3+3S8TGRdAd
-	SR3YZtq7tj7u0+89GCtmbCBriOcq11LK/1p1kkOlnsimo79iR6gCK174Tpiro7oI82rSyILiOJs
-	Txj5saXvnD8MxCg8HDY2w5h8zde/W3NMtdZrltU9tuevzJxTZdMYOsbFgYMyJvGzQtr9fTvw/FC
-	9ht+gP84dJbyoYzsLn0Kkgr01bOX/WAQvnayr4yWJPIXPmVP5caZ/++qr1qX1bWBq5UG7/OO8Hv
-	eFHvyoAqFU8DM64yjC93PDKg+18c0SiEHJDekZA2rL9SQN2uXIEl4yN+6ONk+EaaER8C1tBiow8
-	QOlkKcFFFtWYkKbHEUfwzmPhXM3OJlKEdSe2sZ7cYA2elQlh8qH9eEJ26RPZQzywABWofqyvQ/Y
-	rxrzTy4IPYd8ljRfo633CtREQmFwX9iuog1LVOu9LkXElzvorAReOJDaB0uk5gd4HzhgIm
-X-Received: by 2002:a05:620a:4008:b0:92b:856f:3c14 with SMTP id af79cd13be357-92ef3d1792cmr55468485a.11.1783718825767;
-        Fri, 10 Jul 2026 14:27:05 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92ee5d2d68bsm289148485a.33.2026.07.10.14.27.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 14:27:04 -0700 (PDT)
-Date: Fri, 10 Jul 2026 17:26:59 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Rik van Riel <riel@surriel.com>,
-	Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>,
-	Lance Yang <lance.yang@linux.dev>, Pedro Falcato <pfalcato@suse.de>,
-	Russell King <linux@armlinux.org.uk>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Simon Schuster <schuster.simon@siemens-energy.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Dan Williams <djbw@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Thomas Gleixner <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-	Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Christian Gmeiner <christian.gmeiner@gmail.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Shameer Kolothum <skolothumtho@nvidia.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Usama Arif <usama.arif@linux.dev>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-parisc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-perf-users@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, damon@lists.linux.dev,
-	iommu@lists.linux.dev, kasan-dev@googlegroups.com,
-	linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-	kvm@vger.kernel.org, Russell King <linux+etnaviv@armlinux.org.uk>
-Subject: Re: [PATCH v2 29/33] mm/vma: introduce and use vma_set_pgoff()
-Message-ID: <alFjoytGnkjJs7zR@gourry-fedora-PF4VCD3F>
-References: <20260710-b4-pre-scalable-cow-v2-0-2a5aa403d977@kernel.org>
- <20260710-b4-pre-scalable-cow-v2-29-2a5aa403d977@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lKP4VFek"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECFF01F000E9;
+	Fri, 10 Jul 2026 21:28:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783718903;
+	bh=ZCdcaplzXS+st+F9pQrq95mwr9V9sUpfcWrc6HigFVQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lKP4VFekqRrDXMUTynV25kuSERjqn9hJ9Ch0qp7i3OsmYvjVwp0Cgl5OBlQG0zDUV
+	 9HX29Cyg8gnEdC5tCHZxQHWINeS8H3WxYk/C91oaOM0P1m8zoOKuv2z8FeZgcKEFtp
+	 77vpCAn+8eTZ6KsoLUFqwjLhrxldcsj8sHOSpV7/zueTjxNXjALnzm0KavI4TV3ERI
+	 Ac6Bp0WfTi67wQ/AyI20TCSkg7zPnMtmzL6nmRecfZ7QAImIpfVd8L7eD4vaO3Gg0u
+	 mIbhaU4kKik5G5EQE1l6AnZ1u6y4Ir6Uc7cBcUuHBhfvzR1IOSj4U38l1NA/aZ5l1P
+	 CAybVm3D/zbTA==
+Date: Fri, 10 Jul 2026 17:28:20 -0400
+From: Eric Biggers <ebiggers@kernel.org>
+To: Andrey Albershteyn <aalbersh@redhat.com>
+Cc: Christoph Hellwig <hch@lst.de>, axboe@kernel.dk,
+	linux-xfs@vger.kernel.org, brauner@kernel.org, jack@suse.cz,
+	Keith Busch <kbusch@meta.com>, cem@kernel.org, aalbersh@kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, linux-block@vger.kernel.org,
+	Keith Busch <kbusch@kernel.org>, tytso@mit.edu,
+	linux-fsdevel@vger.kernel.org, jaegeuk@kernel.org,
+	linux-ext4@vger.kernel.org
+Subject: Re: [f2fs-dev] [PATCH] fs: report direct io constraints through
+ file_getattr
+Message-ID: <20260710212820.GC1911@quark>
+References: <20260708011843.1036846-1-kbusch@meta.com>
+ <20260709071352.GA20180@lst.de>
+ <ak9f0CXSegLq8l5w@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -129,54 +50,16 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260710-b4-pre-scalable-cow-v2-29-2a5aa403d977@kernel.org>
+In-Reply-To: <ak9f0CXSegLq8l5w@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
 
-On Fri, Jul 10, 2026 at 09:17:10PM +0100, Lorenzo Stoakes wrote:
-> In order to lay the foundation for work that permits us to track the
-> virtual page offset of MAP_PRIVATE file-backed mappings, we abstract the
-> assignment of vma->vm_pgoff to vma_set_pgoff().
+On Thu, Jul 09, 2026 at 10:51:39AM +0200, Andrey Albershteyn via Linux-f2fs-devel wrote:
+> > Andrey, is there a man page or other official documentation for
+> > file_setattr/file_getattr?
 > 
-> We additionally add a lock check here using the newly introduced
-> vma_assert_can_modify(). This asserts the VMA write lock if the VMA is
-> attached.
-> 
-> We also assert that, if this is an anonymous VMA and unfaulted, that its
-> (virtual) page offset is equal to the page offset of the VMA's address.
-> 
-> We must be careful about MAP_PRIVATE-/dev/zero which violates fundamental
-> assumptions about anonymous memory, so we check for !vma->vm_file after
-> using vma_is_anonymous() which these mappings satisfy.
-> 
-> Additionally, we only perform the assert if CONFIG_MMU is defined, as nommu
-> does not set vma->vm_pgoff = addr >> PAGE_SHIFT. This isn't really relevant
-> to rmap as it has no anon rmap (nor needs it), but we must avoid it
-> asserting falsely.
-> 
-> All of this logic is kept in assert_sane_pgoff() to keep things clear.
-> 
-> In order to maintain correctness given this assert, we also update
-> __install_special_mapping() to invoke vma_set_range() after it's set
-> vma->vm_ops (which determine whether the VMA is anonymous or not).
-> 
-> We do not use vma_set_pgoff() in vm_area_init_from(), as at the point of
-> forking, we don't necessarily have correct locking state.
-> 
-> Updating vma_set_range() covers most cases, but in addition to this we also
-> update insert_vm_struct(), compat_set_vma_from_desc() and nommu callers.
-> 
-> We also update vma_add_pgoff() and vma_sub_pgoff() to use vma_set_pgoff().
-> 
-> While we're here, we drop a BUG_ON() and update insert_vm_struct()'s
-> comment to reflect the fact anonymous mappings can be added here.
-> 
-> Finally, we update the CONFIG_MMU, CONFIG_PER_VMA_LOCK defines in the VMA
-> userland tests so IS_ENABLED() will work correctly with them.
-> 
-> No functional change intended.
-> 
-> Reviewed-by: Pedro Falcato <pfalcato@suse.de>
-> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+> No, I had a draft in cover letter but haven't got to sending it to
+> man-pages. I will prepare a man page.
 
-carry-over from v1
+Or just abandon this series, and read the statx(2) man page which
+documents the already-existing UAPI for getting the DIO alignments?
 
-Reviewed-by: Gregory Price <gourry@gourry.net>
+- Eric
