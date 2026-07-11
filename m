@@ -1,168 +1,141 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FD582866
-	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 15:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA6192BE03C
+	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 15:46:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783783609; cv=none; b=UYSW8xkUNP0H3G7fpD8UMb3jAOUsBEp/oN3oVl1OFcdyYQK5ZbZUvt2IQZ1mkCef7MAiV2XRJjck+8TnYZdH505NWxx7UYNH724QawU2Laty7smZlRyysxI5U2uqi+O8Hqi0KUijn+iI41nrwT7B2jJrNXURcyIci51iEIjNBSs=
+	t=1783784776; cv=none; b=LfcW079O8LZjH8IiPrW/Jyh1detH0zdjJF6Hg0oMAmSICSLAFEEtdWIzFGbaryXdXo2Kfp10NUo/ElHKY+Jywdspfq5BakKMNwIeRkOg3Iu/EW1r06NiyuknjPCbJ/UxIeA+aMtpnwLxjMiuS8H0jRJK0KAYsJxZKFepkFNT4Qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783783609; c=relaxed/simple;
-	bh=qu2LqjVG3gwCwIWPHQe2SrI7PA5vY7y+JJc4s9CiPJ0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dWLR651xfJQIWiivVu+HAwFCV6axcxFRQPI6QCfMrFy4WU1yivLPGkg2YJlWeA3HYCsRpT0ykPXNQ8E47xU/e8sc9MwnRW3L3alY5KzvnjmpNSv9I1K/1V96X2BysNoIGVwtIB8lSjW5O9ExS5r/xiQZhbn+IPikRu6ZG0Ab6cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lgc5ovR3; arc=none smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783784776; c=relaxed/simple;
+	bh=IMlHLsqa76DQv38CtqxVW1r80PfJXYDuVLnGnDDB4hw=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=HIkS9EK11AsL8IN+D9f/fLc3Tol7867zolm/uohKd8xkTOsaYdvmkaeALFgYnG4TtAxHcdOX8uxKS/UE8TZNzy3sgDWrLQfvPQ9ahF611c9RV5+6JQLxrP/DM5THK5upbLbhneJlzxKDuDk2BfmyfVQ4tr1+5q+PXCaJeeuDoeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Qj21sLV+; arc=none smtp.client-ip=209.85.128.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lgc5ovR3"
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-922ff615c14so147084685a.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 08:26:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Qj21sLV+"
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-4926fa2cb17so16748295e9.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 08:46:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783783607; x=1784388407; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OGvjcggjuRHrVJRozwL5aIcsoUIst8NdaqhwI9EK350=;
-        b=Lgc5ovR37HI4QAbBbdYChotZWcBl99mvDQVgjxQw8+KssIf/9bUBBj4hdjh6E61nfr
-         yD4AXD4/lZvzFpdFTcSnGxHucPyQ0zct251JRNOyl/dsefg6rIXPcP62mvjlOwbF+4QS
-         2IO6KtPto/gqzp5cP26o+EKYfWlBITqVuXsJ+TX5NBAENRLfouZ2cfYIdV2PKsh9bzE6
-         eBuMKJrijSa+a5uzjxH+ww/U+FNYCEJ3nc+frVpvCwCzHi1tVhktV4FEQY/wljAOn3rR
-         QD66FhcXx8jmbKf8X/OTIPkW5CGWHp6Ob2Q4uYCubkepDcOJ8dAtVlq4aFFNXdzei2W3
-         GYbQ==
+        d=google.com; s=20251104; t=1783784773; x=1784389573; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Ur7NKTJlZDhSFyUo4h9vpOo4v6UgyOoJcKjM9alIk7s=;
+        b=Qj21sLV+p2TtKAFUog4bwoVrpyQ7M6HXcR4fOmVSBsffaZHLqeLOx77mOdNPrqArAi
+         csI/v3f1/Dc7nslG1/3206WMo2nx/dtpnajJnnaElehRSYAs43kNbrBMsgX39rKPI+wM
+         fhjCap6LA5RBueM1WTi/2/VcdQW3JtlbbVBnLDDtYx0IgO080LVqHOT7GQYaFzPQ8zxU
+         zLTpLr4I0f3QIBEBB6cVZb3m391kZofBypIEogvJnfgjKA/rVP97ULHa4ZcnAaQPKhgO
+         FRpTuIhzX23o/V4Z2mj0ZYSdaHrEKzh6/ogb9Y09Cnkys8L5B+GfzbHwjjMXzjxPKxcG
+         hldg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783783607; x=1784388407;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1783784773; x=1784389573;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=OGvjcggjuRHrVJRozwL5aIcsoUIst8NdaqhwI9EK350=;
-        b=dajScQd9y5LWcUhgSx/vBp/LEgVXy0L8YdehgJznCdbfwX+aCuC195mYK9Hhb8wSqY
-         Q4dmTjGzvlPkmTUfoNGkiVdwZRHZak93vXWT2ATcNpHy+5wjTdB+xm+VsrNZd+FYr1M0
-         y2mT9nxJzY9QbjMCD0BChekW3X/YkSjb/5KwoxnZj3pSqD0eCPWpTnyslCOryZ80ri2W
-         EAYqmEu1gaUbyNmReH79hB1OAfZehVeYSFcnCxqaXWGLhqZzARaX0BJazJoXq/BEoSIC
-         eI5w/4mLiw8Abm6uOkJXXOomxAt0YUbRJM1gEf0gUuU2/0PBQtf/8iXa7Msw1SIspav8
-         3Ggw==
-X-Forwarded-Encrypted: i=1; AHgh+RofVJZ9qAtA3s78DCMc5mJB2hYZ7Iq8Jb0B3D8GHf8pB6TMEdT1fvcbERQMZNqG+mYiF1jwOaBApVq4pWgM@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnhDx+ToUfMbY+uWEJ3f1ZX9Vn9Z2tBA+cpj7z1yw8D5RaHVWz
-	lKDArn7kZoLgpjqyBmPT0YAu2/dJAjBlHfeVCu7uOpQHvEz8blpfycmO
-X-Gm-Gg: AfdE7clpRpskM0qx1XPYBPUwXZFqQ1HppXN0fjIlMgXVxA+UBf3sTXBy9MRVE3qRozh
-	5DNw8Kn/S9BJnfstVgXEclX482ZE0LeEl0tuVxvDPSTmecbZJpVPU22Ro32AsWTorhrurtPnrLO
-	28X+0vK0mWZ5+psobTMCjlc1G9vJny/T3IJc2eyN6QxUeLqU74VqQrafy8B3VO5WYEG2o5kWrmh
-	LcGja5Qkpt8z+OSLpKCOjjudQ6uLmKMzUIyC2ucpeCzHXYJbFI2VvwkQF9z/+G1AgBeRYUs3nOi
-	Ybh3zE4xA3v94KCOQOlW/Mcv+roi3E1kKsjA2os1fIPcGJGkilIHagEaITB/oVvhTi5IHJgieJ+
-	yletU4F8yOla2jQWRSBIaLtjRWXv4UBPOs5yE6Qj1SbKTgshKC/efHr7qiHFQxpkVC5ycyUKOWz
-	Fzu9beIAp729O1bDmXyfjQ0LWNgf5ZiSpyIFqs+fgbO2KgHWzL0fYif7nP3u9z+oo5EgohT1O+K
-	juCyNqO8w==
-X-Received: by 2002:a05:620a:2245:10b0:92e:51fc:3f1a with SMTP id af79cd13be357-92ef2c844demr268665485a.67.1783783606862;
-        Sat, 11 Jul 2026 08:26:46 -0700 (PDT)
-Received: from server0 (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92ee5b492ebsm468641285a.9.2026.07.11.08.26.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jul 2026 08:26:46 -0700 (PDT)
-From: Michael Bommarito <michael.bommarito@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev
-Cc: Mihai Brodschi <m.brodschi@gmail.com>,
-	linux-fsdevel@vger.kernel.org,
-	stable@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] fs/ntfs3: reject an oversized resident attribute on the inline iomap path
-Date: Sat, 11 Jul 2026 11:26:30 -0400
-Message-ID: <20260711152630.2975127-1-michael.bommarito@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        bh=Ur7NKTJlZDhSFyUo4h9vpOo4v6UgyOoJcKjM9alIk7s=;
+        b=OxqnX3rOtDV9OaHeLNdTv2iR6pqBlMr10+PZbd92zwfq+NfmhbNzlj78+BxlUepFDD
+         LnmFEL8mVsgnRq5ROJn86EEX+85YhX2BhzT5slVtUW+4aeFg0KId0vULWUOu8sxVdDuw
+         890DwMwFH6N2mz8zyhvAHYocXU1WtrehlUO7O06FFl4P6F1/iY803Ja0iyg6pl33/NAV
+         HmMPXPvoIAUf3CVXXGCFdFokU3DykS6kk8Lr6FKfvAG7tdsR0YAv1zmaeWem4yvCIaU/
+         QmR1i9lG2DnWNNrf49su0CSX7+Pa1VtTHOGqH0QpU08JTIdloRxSneNU7UCEzdoyCj09
+         6uUQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr0iqEv+7UKFTxA10vJy1f/FF9gfMxr1Q4jLnh7TVyntEKyHnoa/Ghas7LiQ15QZE6QDd3eHEI58WWggfiH@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJ7wd7JEbBoqeLKCi2y2Ur+n46rCkjneTcBWZ6Q3SSYHDMCfuX
+	gFeIJ3x9veagBSZxhkvZspiUXWrBlwHOU3qbsllyosMcu/XEqgc1J140WwMm16K9/lNn3nq1AHS
+	D7kSTwrSvX6RqkDcsOg==
+X-Received: from wmpo42.prod.google.com ([2002:a05:600c:33aa:b0:493:d884:f722])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:8b53:b0:493:f13c:9c03 with SMTP id 5b1f17b1804b1-493f88dc201mr26395515e9.19.1783784773040;
+ Sat, 11 Jul 2026 08:46:13 -0700 (PDT)
+Date: Sat, 11 Jul 2026 15:46:12 +0000
+In-Reply-To: <alJHCkMIcnXYPNoJ@tardis.local>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20260707-upgrade-poll-v6-0-4b8fae7bf1d9@google.com>
+ <20260707-upgrade-poll-v6-2-4b8fae7bf1d9@google.com> <alGOptAAFXuHscmG@tardis.local>
+ <alIbx8oav01VLarX@google.com> <alJHCkMIcnXYPNoJ@tardis.local>
+Message-ID: <alJlRDfrvdEhUxX7@google.com>
+Subject: Re: [PATCH v6 2/2] rust_binder: move (e)poll wait queue to Process
+From: Alice Ryhl <aliceryhl@google.com>
+To: Boqun Feng <boqun@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Carlos Llamas <cmllamas@google.com>, 
+	Christian Brauner <brauner@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Miguel Ojeda <ojeda@kernel.org>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>, linux-fsdevel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-attr_data_get_block_locked() maps a resident attribute as a one-page
-IOMAP_INLINE extent: it allocates a single page, copies the resident
-value into it with memcpy(), and hands that page to ntfs_iomap_begin()
-as the inline data.  The copy length is the on-disk resident value
-length (res.data_size), and mi_enum_attr() only bounds that length
-against the MFT record size.  A corrupted volume with MFT records larger
-than a page can therefore present a resident $DATA whose length exceeds
-PAGE_SIZE, and the memcpy() then writes past the single destination page.
+On Sat, Jul 11, 2026 at 06:37:14AM -0700, Boqun Feng wrote:
+> On Sat, Jul 11, 2026 at 10:32:39AM +0000, Alice Ryhl wrote:
+> > On Fri, Jul 10, 2026 at 05:30:30PM -0700, Boqun Feng wrote:
+> > > On Tue, Jul 07, 2026 at 10:43:13AM +0000, Alice Ryhl wrote:
+> > > > +        {
+> > > > +            let poll = loop {
+> > > > +                if let Some(poll) = this.poll.as_ref() {
+> > > > +                    break poll;
+> > > > +                }
+> > > > +
+> > > > +                let poll = PollCondVarBox::new(c"Process::poll", kernel::static_lock_class!())?;
+> > > > +                // Reuse our existing lock to synchronize callers initializing.
+> > > > +                let _guard = this.node_refs.lock();
+> > > > +                this.poll.populate(poll);
+> > > > +            };
+> > > 
+> > > Note sure whether this lock is needed? SetOnce::populate() should be
+> > > atomic, i.e. only one populate() would win?
+> > > 
+> > > Also seems we should have a SetOnce::as_ref_or_populate(&self, default:
+> > > T).
+> > 
+> > I'm taking this lock because I want to ensure that losers only loop
+> > once. The problem is that just because you lost the race in populate(),
+> 
+> Then probably you could add some comment explaining this. For example:
+> 
+>     // Reuse our existing lock to synchronize callers initializing to
+>     // make sure in the next iteration `as_ref()` will return `Some`.
 
-Impact: reading or writing a resident file on a mounted crafted NTFS
-volume whose MFT records are larger than a page overflows the one-page
-inline buffer in attr_data_get_block_locked() with attacker-controlled
-bytes.
+I don't mind adding the comment.
 
-Reject such an attribute in attr_data_get_block_locked(), before the
-page is allocated and the copy is made.
+> > it's not guaranteed that as_ref() will return Some on the next
+> > iteration, since the winner of the race may still be busy executing
+> > populate(). Taking the loop avoids this possibility.
+> > 
+> > With regards to as_ref_or_populate(), I point you to this discussion for
+> > reasons why this is hard:
+> > https://lore.kernel.org/all/aZLZbN5C3wXgt3kL@google.com/
+> > 
+> 
+> Seems to me you really want OnceLock behavior here, and other code may
+> have the same requirement in the future. So maybe we just add OnceLock
+> for it? If the space cost is the concern, we can add a 
+> SetOnce::populate_with_lock(&self, lock: &Lock<..>) to provide users an
+> option. I think it's better than open-code here.
+> 
+> Thoughts?
 
-Fixes: 099ef9ab9203 ("fs/ntfs3: implement iomap-based file operations")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-4-8
-Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
----
-Changes since v1:
-- Reworded the code comment and changelog.  The oversized resident length
-  overflows the single alloc_page() page that attr_data_get_block_locked()
-  copies the resident value into; v1 described the older
-  iomap_write_end_inline() BUG_ON(!iomap_inline_data_valid()), which was
-  removed in 7.2-rc1.  Thanks to Mihai Brodschi for catching the stale
-  reference.  The fix itself is unchanged.
+Well, I don't think it's a bad idea.
 
-The unbounded resident length dates to the iomap conversion; only the
-manifestation changed when the inline buffer became a single alloc_page():
-  - 7.2-rc: the memcpy() into the one-page buffer overflows the page
-    (out-of-bounds write, below).
-  - 7.0..7.1: the buffer was kmemdup()ed at the real size and the oversized
-    length instead tripped BUG_ON(!iomap_inline_data_valid()) in
-    iomap_write_end_inline() (a denial of service).
-The same data_size > PAGE_SIZE check prevents both, so it is the correct fix
-across the stable range.
+The current code drops the value under the spinlock if populate() loses
+the race, and a populate_with_lock() could help avoid that, so that
+seems like a reasonable idea. It's not a big problem in this case (it's
+just a kfree_rcu() call after all), but could be a problem for other
+SetOnce users.
 
-Reproduced under QEMU + KASAN on 7.2-rc2.  A resident $DATA value length
-above PAGE_SIZE, as a volume with MFT records larger than a page presents,
-was supplied while the alloc_page() + memcpy() path ran unchanged; the stock
-kernel faults with a KASAN out-of-bounds write in
-attr_data_get_block_locked():
+I mean, it'd be ideal if SetOnce could just properly support this, but
+like I discussed on the thread, there are a bunch of things to keep in
+mind if we want to actually do that. You want preemption disabled while
+you memcpy() in the value in populate(). I guess preemption doesn't
+matter for as_ref(), though. Not sure how that would interact with
+PREEMPT_RT.
 
-  BUG: KASAN: out-of-bounds in attr_data_get_block_locked
-  Write of size <data_size> by task ...
-   __asan_memcpy
-   attr_data_get_block_locked
-   attr_data_get_block
-   ntfs_iomap_begin
-   iomap_iter
-   iomap_file_buffered_write
-
-With the patch the same access returns -EINVAL and does not fault.  An
-in-bounds resident file (control) and a non-resident file are unaffected on
-both the stock and patched kernels.
- fs/ntfs3/attrib.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-index c621a4c582f9e..2f73714a2db97 100644
---- a/fs/ntfs3/attrib.c
-+++ b/fs/ntfs3/attrib.c
-@@ -1034,6 +1034,21 @@ int attr_data_get_block_locked(struct ntfs_inode *ni, CLST vcn, CLST clen,
- 
- 	if (!attr_b->non_res) {
- 		u32 data_size = le32_to_cpu(attr_b->res.data_size);
-+
-+		/*
-+		 * A resident attribute is copied into a single page below
-+		 * (alloc_page() + memcpy()) and mapped as a one-page
-+		 * IOMAP_INLINE extent by ntfs_iomap_begin().  mi_enum_attr()
-+		 * only bounds the resident value length against the MFT record
-+		 * size, so a corrupted volume whose records are larger than a
-+		 * page can report data_size > PAGE_SIZE; copying that many bytes
-+		 * would overflow the single destination page.  Reject it.
-+		 */
-+		if (data_size > PAGE_SIZE) {
-+			err = -EINVAL;
-+			goto out;
-+		}
-+
- 		*lcn = RESIDENT_LCN;
- 		*len = data_size;
- 		if (res && data_size) {
--- 
-2.53.0
-
+Alice
