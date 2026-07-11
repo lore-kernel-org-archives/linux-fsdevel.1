@@ -1,61 +1,61 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7162314B8C
-	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 20:59:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E2A30E84E
+	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 20:59:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783803561; cv=none; b=fLyHchT1zlG9+rRRcjZNj4p5cvtnm+4yemc6lVYz69eSi5lMxxsjRL/xKAUjY8P/1uBfUgUL7NUIZATue+Qie0+5UhzD3Wr1NwmJmKzDwXdQYH1VsXI2uaYT56FzKpXF7Mdiq4qheQ4EXEPuSdDjeAfZwG2GlDWoOiYPsIaUBSI=
+	t=1783803566; cv=none; b=hlAkL0OauvBT+1KLDJDFMIzAtjHvAqsCz6EBN2OyF4sRTJeEmTDakLdXqbbx4XcdCEfANcW40IJSjF1ST4lXU+C0XJtYpd468cb3pdh1Tm6f0M6m35QNcyiIHhVGugVEE6Z5g1ijwzFmYjJ/+nwuoN6KPyJqFgCF3+6Ey+Wc5Dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783803561; c=relaxed/simple;
-	bh=eimG9XEE0URF2SzaH136zk48Fc7acApR5oefaesDiWA=;
+	s=arc-20240116; t=1783803566; c=relaxed/simple;
+	bh=kw0OMQMrjvlSwGKPOoDzAWrf75ZhL3wz/Mmj/2mK3do=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kQZC7Nu77NIZP3Sh6G/IfQogInoK4MORLzjJVL6lEBtfmyG6gULRw0+RhwUi69C9o1dUMxxRm45P7QwwVAnEbMH8w3pOktggR60Jr6WNaFB14sYj1RdCDHL9V1gxRheJWYTFl0Thrb7+2NzshTYi2W3kt3f48L/iXWMffF5oHPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y66xVp4O; arc=none smtp.client-ip=209.85.210.170
+	 MIME-Version; b=R6KQLiYnVli1h6Qk4lQqsxo4AIqA7DLlX/Njiqll+7jMQzrVxBulthCaSdRJk3LpcqpdSqmwQ2C1mSsFgfPUEcNYjsSbwqw0kY/7VZLzPpgclUX97KeoRalfuOrdoyT1MePO286iups03xm+Njj/ECELRGNQAxXVlmzW/Wed+yM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a2WghIb5; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y66xVp4O"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-848882fdb18so1031598b3a.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 13:59:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a2WghIb5"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8485b358552so2145350b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 13:59:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783803559; x=1784408359; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783803563; x=1784408363; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=OJJSoaUqwCHC2v0nACew6MdUN87VPmOrK8EaocGT768=;
-        b=Y66xVp4O8bggq/neX8dAbEtaCo67rlP6oLdcsP618W8U9cS4v/d07+qtavRxJD98k1
-         LWOtTtWp+OXAMBc2ZCNhKFS/qOe3BNSrfr1BVC1+KucVFNXtaxd1+89KAJBAIwtGF6QQ
-         MKOh4lrgXFgbbIv6PCB6qCP6+1pIHljFawz8xjXIrTez7hPH6DAyOU/KBBEkxwSKbFUb
-         UBjev+l+u0LNvicpAyZctustHcIPDPu0J/OCIEv6ogwjB1xE8eyf3yo/48WgUNOIutze
-         9nP/0h73WxbZzDLMFCFinnKu5eerBTasHSSfNmmuogO9Ldz2E/jCk40NUbxdWDd+DiBe
-         3kfg==
+        bh=e6t8DGVkdCLYUd0OR5aV/ertEnot2rifntCQT4Agz04=;
+        b=a2WghIb5NZ2KYgmDdfhNud/2TV89IhAV3nTHRBAHvoHHRB/k4w7re3CW+YLJhNV+yL
+         scm510K4hoJkkoiJ9PhJM49+0mijT77i2OTzqkOwChCsfAW4YaEFLwsCK62voSleviTK
+         fjEB1llmd5KNpGoEmJq3l1BiIIu12GQAT0lJNHYFe1NA7iwha3F2eOQUdyTGWXA41gA0
+         bzCP7hkPjf9CDUFjdKndiGiaElDOhhrEZcu5x/GCX4O0qjwT3vQihRlF/kTMdIfF0MqY
+         85Yx8SPVhdQv73+SbI5getizQawVQYzzhZ3djhGnIY0jm373Oru39PwhXqgV/qlbVBoB
+         nbJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783803559; x=1784408359;
+        d=1e100.net; s=20251104; t=1783803563; x=1784408363;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OJJSoaUqwCHC2v0nACew6MdUN87VPmOrK8EaocGT768=;
-        b=L12IoIcmmeze/D79s8UXqvsgbMtr49Pj43QqbhbaR9FlAEX3eyrAMCk8QedkJ65ogf
-         i1vyPhgEOLaC/ECI5GH0iIlasn9Tox9MEj5V0s0R8cjX/IythStbcYXYsHqJl9s2dmSV
-         SeW4NCzOwsNTubrlA5sjv/+S7ndwzaVh07aeKjAQjJOxn0d7NXuktUU9Nhq8OWo2gKSg
-         VuCdzypbj3a1seb42C9M3xhBkB59vI0ZeNVX9BQ8H43EVOM50qvhpGV4QyfwlwNWmbG4
-         1Sp6HEn3OY4OWl8cw0hr7uRwyrmNWv3gO+JVzqWs2zfDkl4ItGkdpGHU4w9joiX7599b
-         rgeA==
-X-Gm-Message-State: AOJu0Yxr2pIDsVFKP27qIgnK1vmn4fZAtu8eIFs5xDoCVfiNGHUkR5Vi
-	CktzZf8mr+dNi+KsjK7QcGuKMYrIpnqGExqnHkCgWsk2aczNNTwQDA2Jon7h7A==
-X-Gm-Gg: AfdE7cmj5ANwNRrxkktd/C92G/yHmssW4/sMLy+0DMYXARn3ZaNeDJXZH1KMDfub6Cr
-	S2YoFObg6pwRGyxXH4MwIbtKADaI3h7eWmnUi+qzEgEBsJZ2FHvNFcY2yHphj91QfHS3Lrx83I3
-	Int8ILxqp3l086NAoFN04wHeQKLPcsGbn5R1AY5StBHS8LZN668KiLFPwwW9yjS7b6UHoUQfObs
-	XQrGMDSVf/Ec44nx0o10grL/f1QMyjHGeVWX78/xaE2nlRRxEEihFfDvff7OSQ/PpJJzYA7s3Ry
-	8g1tYYRWDL5A1tvkmJUB9UU9VUkXdFaFb7SR9+rMBNSg/o3MNGhaKOXYCBOw0w/ob2IPdB9Ahsv
-	+uzt1wbN2U8OKOT1mPVd0F6qT6II/UyPtBmRHTMkAVVWcEAyyyaT3L9npGfyj7tA=
-X-Received: by 2002:a05:6a00:3494:b0:842:48ae:1d6c with SMTP id d2e1a72fcca58-8488965bcdfmr3290961b3a.24.1783803558981;
-        Sat, 11 Jul 2026 13:59:18 -0700 (PDT)
+        bh=e6t8DGVkdCLYUd0OR5aV/ertEnot2rifntCQT4Agz04=;
+        b=pNar2Rl7AsFtdjZvcd2Bw9cWyXUoGgQJdSnIKL3hsXOjNpYyzhi3rnI5RGGYksKN44
+         i5soii77tEpTlq6NHgkgUt+WIkI2qZdg6gLBwbNZKd83OjtAByPHNHFoDGMQY4Jk3vH4
+         ALsWKVcT6U5HAuFhfSuPVt2NK9cfemmySSTBc5XkcOhCw5/n6a7PheB3G5SngHKMPk08
+         qPL1J7V8+bzUWdfkg9tZv6w6sSVdkKuQzobvH8QCT6cKVQKqnRfF+o6CmyYyZXkn2Vsv
+         5PpUncRK6eAImAcReBRDOCYBnKRHBvVdFdduI4I7NyzKdsjMhm6gsjbY5ZErLsLptvLz
+         QzIA==
+X-Gm-Message-State: AOJu0YyMXOvl978tqG+RFQc91ZGD9XDjFxUZLVSf5DVEPYBmX7UK0O14
+	PVWhgC2WPTXXrrY7mJT0MTuX7WBN7VX9N5HkAKDYnPdWTTb1cuFT8Sjg6ct5eQ==
+X-Gm-Gg: AfdE7cl3BkFu5qKy/jjXFfQ9rp/mXe1LRb1sM2r3JucrFbKvorjeTd/9685yODKGKQr
+	FMsYjQTb31dGpUCtJjrSfTa6SLlDm8aeCz7DdtVOUCyosEomlsCD1ttiU4q2F8/P2EgeSUgmBFs
+	ZMWK4Z1zf4GLBK5ZkAvszvmgyIyuQuD/yZ/5QCekYwGvlAXEjVotGE4ogbDS0GCLYU51h1ZpZPZ
+	RQ573VAHzpdz3CsKaMPiyipm2ED/Vp50Dr7KCQ1sB8src8VS8IEWDX7Ah0vDJjtO7S7yPiAWVR2
+	pQViZQGVQ50raqEVkBPDag6IEnCNRmYchjqE4u2JBOKwB/hSmd9SbH4HSDNDwKfvEUDudzJNe6D
+	Z4IY0IaHCKsJyfe3kz6gnM6jMMQ6QxEBsQ+w3x5w3NRZ1z9ECtHzAMGZAB1kXb4Q=
+X-Received: by 2002:a05:6a00:802:b0:848:2f84:734 with SMTP id d2e1a72fcca58-8488990c921mr4151313b3a.71.1783803562857;
+        Sat, 11 Jul 2026 13:59:22 -0700 (PDT)
 Received: from nineveh.sos.local ([131.191.24.68])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84880a44feasm2092057b3a.20.2026.07.11.13.59.17
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84880a44feasm2092057b3a.20.2026.07.11.13.59.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jul 2026 13:59:18 -0700 (PDT)
+        Sat, 11 Jul 2026 13:59:22 -0700 (PDT)
 From: Jeremy Bingham <jbingham@gmail.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -65,9 +65,9 @@ Cc: linux-kernel@vger.kernel.org,
 	djwong@kernel.org,
 	viro@zeniv.linux.org.uk,
 	Jeremy Bingham <jbingham@gmail.com>
-Subject: [PATCH v3 1/5] iomap: add iomap_symlink_write
-Date: Sat, 11 Jul 2026 13:59:05 -0700
-Message-ID: <570b47ec69233efcdde6644fc11bc5a8af6a9577.1783707063.git.jbingham@gmail.com>
+Subject: [PATCH v3 2/5] minix: add base iomap begin/end functions
+Date: Sat, 11 Jul 2026 13:59:06 -0700
+Message-ID: <555d199291b37e5c1241df648b3adcd760c1fca6.1783707063.git.jbingham@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783707063.git.jbingham@gmail.com>
 References: <cover.1783707063.git.jbingham@gmail.com>
@@ -79,73 +79,148 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a new iomap_symlink_write function as an iomap based equivalent to
-page_symlink found in fs/namei.c. This implementation was suggested by
-Darrick J. Wong, who also provided the initial implementation that I
-only needed to change slightly to get working.
+Adds a new file, iomap.c, to fs/minix. This provides minix_iomap_begin,
+which is the iomap-based version of get_block in itree_common.c. It also
+provides minix_iomap_end, which is a no-op but required by the iomap_ops
+struct. This also undoes the nest of gotos inherited from get_block and
+uses a set of helper functions instead.
 
 Suggested-by: Darrick J. Wong <djwong@kernel.org>
 
 Signed-off-by: Jeremy Bingham <jbingham@gmail.com>
 ---
- fs/iomap/buffered-io.c | 31 +++++++++++++++++++++++++++++++
- include/linux/iomap.h  |  4 ++++
- 2 files changed, 35 insertions(+)
+ fs/minix/iomap.c | 122 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 122 insertions(+)
+ create mode 100644 fs/minix/iomap.c
 
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index 276720bc18dc..6f3f79fdbd8b 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -2066,3 +2066,34 @@ iomap_writepages(struct iomap_writepage_ctx *wpc)
- 	return error;
- }
- EXPORT_SYMBOL_GPL(iomap_writepages);
+diff --git a/fs/minix/iomap.c b/fs/minix/iomap.c
+new file mode 100644
+index 000000000000..90e016aaa01e
+--- /dev/null
++++ b/fs/minix/iomap.c
+@@ -0,0 +1,122 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * iomap functions for minix.
++ */
 +
-+int iomap_symlink_write(struct inode *inode, const char *target, int len,
-+		const struct iomap_ops *ops,
-+		const struct iomap_write_ops *write_ops, void *private)
++static inline void minix_chain_cleanup(Indirect *chain, Indirect *partial)
 +{
-+	struct kvec vec = {
-+		.iov_base	= (void *)target,
-+		.iov_len	= len,
-+	};
-+	struct iomap_iter iter = {
-+		.inode		= inode,
-+		.pos		= 0,
-+		.len		= len,
-+		.flags		= IOMAP_WRITE,
-+		.private	= private,
-+	};
-+	struct iov_iter iov;
-+	int ret;
++	while (partial > chain) {
++		brelse(partial->bh);
++		partial--;
++	}
++}
 +
-+	iov_iter_kvec(&iov, ITER_SOURCE, &vec, 1, len);
++static inline void minix_iomap_set_mapped(struct iomap *iomap, sector_t phys,
++		unsigned int blkbits, sector_t iblock)
++{
++	iomap->type = IOMAP_MAPPED;
++	iomap->addr = (u64)phys << blkbits;
++	iomap->length = 1 << blkbits;
++	iomap->offset = (u64)iblock << blkbits;
++}
 +
-+	while ((ret = iomap_iter(&iter, ops)) > 0)
-+		iter.status = iomap_write_iter(&iter, &iov, write_ops);
++static inline void minix_iomap_set_hole(struct iomap *iomap,
++		unsigned int blkbits, sector_t iblock)
++{
++	iomap->type = IOMAP_HOLE;
++	iomap->addr = IOMAP_NULL_ADDR;
++	iomap->length = 1 << blkbits;
++	iomap->offset = (u64)iblock << blkbits;
++}
 +
-+	if (unlikely(iter.pos == 0))
-+		return ret;
++/*
++ * minix_iomap_begin - map a file range to disk blocks. It acts as a replacement
++ * for get_block in itree_common.c, at least in the important ways, and is
++ * adapted from it, but it uses iomap instead of buffer_head.
++ */
++static int minix_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
++	unsigned int flags, struct iomap *iomap, struct iomap *srcmap)
++{
++	struct super_block *sb = inode->i_sb;
++	unsigned int blkbits = sb->s_blocksize_bits;
++	sector_t iblock = offset >> blkbits;
++	int create = flags & IOMAP_WRITE;
 +
-+	mark_inode_dirty(inode);
++	int offsets[DEPTH];
++	Indirect chain[DEPTH];
++	Indirect *partial;
++	int depth = block_to_path(inode, iblock, offsets);
++	int left;
++	int err = -EIO;
++
++	sector_t phys;
++
++	/* block is beyond max file size */
++	if (depth == 0)
++		return -EINVAL;
++
++	iomap->bdev = inode->i_sb->s_bdev;
++
++reread:
++	partial = get_branch(inode, depth, offsets, chain, &err);
++
++	/* Simplest case - block found, no allocation needed */
++	if (!partial) {
++		iomap->flags = 0;
++		phys = block_to_cpu(chain[depth - 1].key);
++		partial = chain+depth-1;
++		minix_iomap_set_mapped(iomap, phys, blkbits, iblock);
++		minix_chain_cleanup(chain, partial);
++		return err;
++	}
++
++	/* Next simple case - plain lookup or failed read of indirect block */
++	if (!create || err == -EIO) {
++		minix_iomap_set_hole(iomap, blkbits, iblock);
++		minix_chain_cleanup(chain, partial);
++		return err;
++	}
++
++	/*
++	 * This is held over from the original get_block logic, where it
++	 * acted as a guard in case truncate() deleted blocks from under that
++	 * function. There should not be a race with iomap operations, but
++	 * we're retaining the defensive coding here to be extra safe just in
++	 * case.
++	 */
++	if (err == -EAGAIN) {
++		minix_chain_cleanup(chain, partial);
++		goto reread;
++	}
++
++	left = (chain + depth) - partial;
++	err = alloc_branch(inode, left, offsets + (partial - chain), partial);
++	if (err) {
++		minix_chain_cleanup(chain, partial);
++		return err;
++	}
++
++	if (splice_branch(inode, chain, partial, left) < 0) {
++		minix_chain_cleanup(chain, partial);
++		goto reread;
++	}
++
++	/* Successful allocation, mapping it. */
++	iomap->flags = IOMAP_F_NEW;
++	phys = block_to_cpu(chain[depth - 1].key);
++	minix_iomap_set_mapped(iomap, phys, blkbits, iblock);
++	minix_chain_cleanup(chain, partial);
++
++	return err;
++}
++
++/*
++ * minix_iomap_end ends up being a nop; since minix doesn't have any extents or
++ * transactions to worry about, there isn't anything to update here. The on-disk
++ * indirect blocks get dirtied in minix_iomap_begin.
++ */
++static int minix_iomap_end(struct inode *inode, loff_t offset, loff_t length,
++	ssize_t written, unsigned int flags, struct iomap *iomap)
++{
 +	return 0;
 +}
-+EXPORT_SYMBOL_GPL(iomap_symlink_write);
-diff --git a/include/linux/iomap.h b/include/linux/iomap.h
-index 56b43d594e6e..9274fa256bc9 100644
---- a/include/linux/iomap.h
-+++ b/include/linux/iomap.h
-@@ -393,6 +393,10 @@ loff_t iomap_seek_data(struct inode *inode, loff_t offset,
- sector_t iomap_bmap(struct address_space *mapping, sector_t bno,
- 		const struct iomap_ops *ops);
- 
-+int iomap_symlink_write(struct inode *inode, const char *target, int len,
-+		const struct iomap_ops *ops,
-+		const struct iomap_write_ops *write_ops, void *private);
-+
- /*
-  * Flags for iomap_ioend->io_flags.
-  */
 -- 
 2.47.3
 
