@@ -1,295 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AC630CDAE;
-	Sat, 11 Jul 2026 18:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F04830E84E
+	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 20:59:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783795816; cv=none; b=UzyeQHh9IpO+0u+5nvjOYwq+r3aAXh8V239lXM/dxVVTUbgXE15NNigZ8xlQmdvXFSB7zfbjbCx69ay8+Np88EBbVulTuYMf4aZZhodK5DH52rIEYqW0DdWc709IqisbGkYRQnE4y8/29mIiusGG+gZWSDg1lefGylU0zrqdoKY=
+	t=1783803558; cv=none; b=BSa7M3tRaRe24uFXtASj18uW7HRxuVSrgOR5Z+Gwr5iU8rgXQZABcAlQfUxRiy0jDm6V9mvcYVnbLzl9sw/Y4tT4uC0rqcxqAwFHL66OcS53pq6B32vX19NWPldXAP5iRziYo0ig84co2oFlud2v7JxBH4Xp6L/Erb7iP+ol8Ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783795816; c=relaxed/simple;
-	bh=PIqQBUvFAhhZLltfbuAmGUSiDj9zb0uqnBAJox/uNeE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=faMGCPEwVO9QMpfJFpumIbpgWZuKuEtTnsaj2TIqK4NClBjE6Ar8fBB7vjZyvIoQi+5elRStoUlSuoVuWmlTrLzoosIvuvi84ztkncqzHZskMYBfTD28gpDkbap3dfQGUNDB4FPOt9hgP6KbEmexqndSZlxFzgeEvBpEBOCr9Yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kGl604zO; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783803558; c=relaxed/simple;
+	bh=BdLjvl43qJKYBtpROXoommgDtCOwVioxXPtKnE5U+1A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UekYBMsmiMtdvTuyI4xuqlocme6M8d/llGg7VUJoxJ4MsAMRJ0PAa70Zd6SQYnNXKMZkElHe1V6w+bfxJ/3+bI8cS4nHA6S3i0O3ttVQyYNgHzpFITqvcIR3lArE1xVNceqojlrl7sIr961ncwltIBtvKMiBd3YViGHw8TCWVMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q7MQMv+n; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kGl604zO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2690E1F00A3A;
-	Sat, 11 Jul 2026 18:49:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783795814;
-	bh=VYkDI6h+waLNcPjkBya9DGnDggZvgWVLygEReXlfsZM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=kGl604zOY5i/9BHc7cLc4ryqHD+01SAUicrFqMKwslfHQhi80jDyaMm2MyxhO5qOt
-	 5Pq/TrS3o9h1Q+W/qwP8lSEVI5jCfMdWQHJGOSTzqQxcgi/ZcaaOXqvQkVb1FUVgE6
-	 9YbVEPYs9ZC7WBFyRZhHqrj+/ntYKTZVK3XRtCayQvKHxiWeP6HYUE54e0sI1syKFA
-	 s2zK3U9ax8wTAugutxfyxWaRWS5LrbXoh4d2i5NgoY8R2qopkb5XoFfc+IxgcXnP6J
-	 LumgNfEnvhlL0OZHtdfacxoMtfjedGIBKxF4rKadinDpk8PtJvmtheBqh+pFiShHQX
-	 BbDB2Fj9clkaw==
-From: Lorenzo Stoakes <ljs@kernel.org>
-Date: Sat, 11 Jul 2026 19:45:10 +0100
-Subject: [PATCH v2 13/13] mm/mremap: convert mremap code to use vma_flags_t
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q7MQMv+n"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-848882fdb18so1031587b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 13:59:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783803557; x=1784408357; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=jXbhO14ydDUZIjKR+B3+/kUtANGjzLqAnvpoUD+k32Q=;
+        b=Q7MQMv+nV3ADb9M7RrrMmK2Jp5njqJzv3rvddtwIPKeNRqqkqPBniXslUs5UC8SFOl
+         PcW98CO5u8uy3981972DWpC6xit+dp6Tfnaj1CVBoQ0Zv+7DE7HA4WIushvthZyfrNyc
+         GcxUSJDfgz+88va4KPGsGqdGDAwHl3C8hgiy7JUlswH8KgC6+H+A8Grh9+54AFQsuGiW
+         Gb84Vs1K0EXs5Cx34DF3p5x0Gf3qOx/nXLHyOry21FW0dbcVME3BkdfJ75BwUkVlCtZf
+         59lxdeiahFKTMMJ95f/f24GC5CGBfN7nhYcnsOuR1Bp40EqF56N5ljQ8gxwLbwHXPBBk
+         ee2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783803557; x=1784408357;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=jXbhO14ydDUZIjKR+B3+/kUtANGjzLqAnvpoUD+k32Q=;
+        b=fGIKlBtMAvlSLXwFNDikW1gYAU/jJvi8b9OcODUN4E0AMibkgs05s53YBKjO11nE3a
+         k3iUgBVLTZzuPyvX1Om9UKOVrwz2O/076JLumGXamW//xxU6uz3fsD4dSCHXahYZLgqf
+         aqbClA+U/RYA4QNMa0/uwSzoKCkMArhq3acGESU4T+hknaLhH9BrfD63Vn5cxZucqYd9
+         xRq7NWS+6RPIQYBOx0F6Txsyf81MYnPgLsEnb18XMXQB7Bk1gyRRVXNyO/XKUtxrQtc2
+         1kMm3sCpyyZkL1bgl1JjtvXwYGvGpdJO+DOvc7ELzvtoaljDXTU0Bwp4nTt46190uoPS
+         qQKw==
+X-Gm-Message-State: AOJu0YyQiiILdlU55QOsl+EbSoA31yAFfOHd7+dlqHU/i5cFyd/mJ2Z+
+	QlaCLpS7wxS3YjL0y4T+0OPzMlquY8ZNhLOMkxOeBgvnh1NomJG/rbUGxxqF4w==
+X-Gm-Gg: AfdE7ckB833WL9gQghOrucyfXH5DS0cfQmUm3E7hbH8+Y5IXHruSFmsuVgkx8EmiV5A
+	LYoQ9sh+zJvxODkxNL6YdtrQfQZqV1XrQLMMpFJPgY1zuJQmdTj410qvnPgY5K3LE1l0qJXvdWz
+	l+VMIJWuL2cIFyBrZZuwSRAayZgkH/kt+g14LlTHu18lN36owqFTW1DO5cDB7udVTAVe3qudfDO
+	2X0d8df3xJh2oL6pEef7DnEDK8PCZfXIGQPKMb1kky1nq3vNKeSiBo5092PdtgedAej8+CwD32j
+	aVm26UBh15ASeQ39JN++/DLlSv9XbjeJn9UbyJtAMOtU3OoNMFS9MX0AA3WZOgCtZHWOX70fhrA
+	ZAy7HkDVC4fJ4H5eINf9BmQSmFhPjwX81uWDUI4n/mpup7lEi5+yS3LmYF81Ox7c=
+X-Received: by 2002:a05:6a00:1248:b0:848:4f38:b76f with SMTP id d2e1a72fcca58-8488971cf8amr4051433b3a.43.1783803556655;
+        Sat, 11 Jul 2026 13:59:16 -0700 (PDT)
+Received: from nineveh.sos.local ([131.191.24.68])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84880a44feasm2092057b3a.20.2026.07.11.13.59.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Jul 2026 13:59:15 -0700 (PDT)
+From: Jeremy Bingham <jbingham@gmail.com>
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	brauner@kernel.org,
+	jkoolstra@xs4all.nl,
+	jack@suse.cz,
+	djwong@kernel.org,
+	viro@zeniv.linux.org.uk,
+	Jeremy Bingham <jbingham@gmail.com>
+Subject: [PATCH v3 0/5] minix: convert to iomap and add direct I/O
+Date: Sat, 11 Jul 2026 13:59:04 -0700
+Message-ID: <cover.1783707063.git.jbingham@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260711-b4-vma-flags-mm-v2-13-0fa2357d5431@kernel.org>
-References: <20260711-b4-vma-flags-mm-v2-0-0fa2357d5431@kernel.org>
-In-Reply-To: <20260711-b4-vma-flags-mm-v2-0-0fa2357d5431@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- Benjamin LaHaise <bcrl@kvack.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Hugh Dickins <hughd@google.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, Jann Horn <jannh@google.com>, 
- Pedro Falcato <pfalcato@suse.de>, Muchun Song <muchun.song@linux.dev>, 
- Oscar Salvador <osalvador@suse.de>, Zi Yan <ziy@nvidia.com>, 
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>, 
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, 
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Lucas Stach <l.stach@pengutronix.de>, 
- Russell King <linux+etnaviv@armlinux.org.uk>, 
- Christian Gmeiner <christian.gmeiner@gmail.com>, 
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Peter Griffin <peter.griffin@linaro.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>, 
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
- Gurchetan Singh <gurchetansingh@chromium.org>, 
- Chia-I Wu <olvaffe@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Matthew Brost <matthew.brost@intel.com>, 
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>, 
- Helge Deller <deller@gmx.de>, Kees Cook <kees@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Boris Brezillon <boris.brezillon@collabora.com>, 
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, 
- linux-aio@kvack.org, linux-fsdevel@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, linux-rockchip@lists.infradead.org, 
- linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, 
- intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org, 
- linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6381; i=ljs@kernel.org;
- h=from:subject:message-id; bh=PIqQBUvFAhhZLltfbuAmGUSiDj9zb0uqnBAJox/uNeE=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLKC+q2WCm/T1ymxZjMq/yxer2XvM7/x212H55Myy179n
- RqvN8Gno5SFQYyLQVZMkeX5F/H9QSJh8zov+LvBzGFlAhnCwMUpABPpOszIsGhLcPGPAz1FjgKb
- Jc53v4/W6X/HznOmXdW58Edb+l2lCQz/DLaa7emYsZ9lb/CKY38l3gjvWSW8537dgQvfdvIpbK9
- 8xgIA
-X-Developer-Key: i=ljs@kernel.org; a=openpgp;
- fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
+Content-Transfer-Encoding: 8bit
 
-Replace use of the legacy vm_flags_t flags with vma_flags_t values
-throughout the mremap logic.
+This is version 3 of the minix iomap conversion patch series. Versions 1
+and 2 both had issues that syzbot found while testing, while Darrick J.
+Wong gave some critiques of the version 2 patches that I have addressed
+here.
 
-Note that, in replacing vm_flags_clear() (which takes the VMA write lock)
-with vma_clear_flags() and vma_clear_flags_mask() (which do not)
-respectively in unmap_source_vma() and dontunmap_complete(), we do not add
-a VMA write lock to account for htis.
+This patch series converts the minix filesystem module from using the
+buffer_head based path to the iomap API, and adds direct I/O support in
+the process.
 
-This is because, in both cases, move_vma() is their calling function and
-this has already acquired the VMA write lock on vrm->vma whose VMA flags
-are being cleared.
+Patch 1 adds a new iomap_symlink_write function to
+fs/iomap/buffered-io.c. This allows minix's symlinks to be written and
+read without bypassing iomap entirely. (I considered whether this ought
+to be broken out as its own patch since it's outside of fs/minix, but
+decided that since it was suggested as part of this and is a necessary
+piece that I would include it unless told otherwise.) This was suggested
+by Darrick J. Wong, who also provided an initial implementation that I
+only had to modify slightly.
 
-In the case of vma_set_flags() in unmap_source_vma() we do need to do this
-- as prev and next were not necessarily write locked at this point.
+Patch 2 adds the base iomap functions in fs/minix/iomap.c. This provides
+the iomap begin/end functions which sit at the base of the rest of this.
 
-Additionally update comments to reflect the changes to be consistent.
+Patch 3 wires iomap.c into the itree*.c files, adds version specific
+helper functions, and moves the old buffer_head based functions over to
+new names to support directory operations.
 
-No functional change intended.
+Patch 4 adds the new iomap file operations functions to file.c,
+including the direct i/o functions.
 
-Reviewed-by: Zi Yan <ziy@nvidia.com>
-Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
----
- mm/mremap.c | 38 ++++++++++++++++++++------------------
- 1 file changed, 20 insertions(+), 18 deletions(-)
+Patch 5 updates the inode operations to use iomap, except for directory
+operations which work the old way. The minix_symlink function in namei.c
+is also updated to use the new iomap_write_symlink function.
 
-diff --git a/mm/mremap.c b/mm/mremap.c
-index 384ef4cc2195..b64aa1f6e07e 100644
---- a/mm/mremap.c
-+++ b/mm/mremap.c
-@@ -68,7 +68,7 @@ struct vma_remap_struct {
- 	bool populate_expand;		/* mlock()'d expanded, must populate. */
- 	enum mremap_type remap_type;	/* expand, shrink, etc. */
- 	bool mmap_locked;		/* Is mm currently write-locked? */
--	unsigned long charged;		/* If VM_ACCOUNT, # pages to account. */
-+	unsigned long charged;		/* If VMA_ACCOUNT_BIT, # pgs to account */
- 	bool vmi_needs_invalidate;	/* Is the VMA iterator invalidated? */
- };
- 
-@@ -963,7 +963,7 @@ static unsigned long vrm_set_new_addr(struct vma_remap_struct *vrm)
- 
- 	if (vrm->flags & MREMAP_FIXED)
- 		map_flags |= MAP_FIXED;
--	if (vma->vm_flags & VM_MAYSHARE)
-+	if (vma_test(vma, VMA_MAYSHARE_BIT))
- 		map_flags |= MAP_SHARED;
- 
- 	res = get_unmapped_area(vma->vm_file, new_addr, vrm->new_len, pgoff,
-@@ -985,7 +985,7 @@ static bool vrm_calc_charge(struct vma_remap_struct *vrm)
- {
- 	unsigned long charged;
- 
--	if (!(vrm->vma->vm_flags & VM_ACCOUNT))
-+	if (!vma_test(vrm->vma, VMA_ACCOUNT_BIT))
- 		return true;
- 
- 	/*
-@@ -1012,7 +1012,7 @@ static bool vrm_calc_charge(struct vma_remap_struct *vrm)
-  */
- static void vrm_uncharge(struct vma_remap_struct *vrm)
- {
--	if (!(vrm->vma->vm_flags & VM_ACCOUNT))
-+	if (!vma_test(vrm->vma, VMA_ACCOUNT_BIT))
- 		return;
- 
- 	vm_unacct_memory(vrm->charged);
-@@ -1032,7 +1032,7 @@ static void vrm_stat_account(struct vma_remap_struct *vrm,
- 	struct vm_area_struct *vma = vrm->vma;
- 
- 	vm_stat_account(mm, vma->vm_flags, pages);
--	if (vma->vm_flags & VM_LOCKED)
-+	if (vma_test(vma, VMA_LOCKED_BIT))
- 		mm->locked_vm += pages;
- }
- 
-@@ -1176,7 +1176,7 @@ static void unmap_source_vma(struct vma_remap_struct *vrm)
- 	 * arose, in which case we _do_ wish to unmap the _new_ VMA, which means
- 	 * we actually _do_ want it be unaccounted.
- 	 */
--	bool accountable_move = (vma->vm_flags & VM_ACCOUNT) &&
-+	bool accountable_move = vma_test(vma, VMA_ACCOUNT_BIT) &&
- 		!(vrm->flags & MREMAP_DONTUNMAP);
- 
- 	/*
-@@ -1195,7 +1195,7 @@ static void unmap_source_vma(struct vma_remap_struct *vrm)
- 	 * portions of the original VMA that remain.
- 	 */
- 	if (accountable_move) {
--		vm_flags_clear(vma, VM_ACCOUNT);
-+		vma_clear_flags(vma, VMA_ACCOUNT_BIT);
- 		/* We are about to split vma, so store the start/end. */
- 		vm_start = vma->vm_start;
- 		vm_end = vma->vm_end;
-@@ -1220,8 +1220,8 @@ static void unmap_source_vma(struct vma_remap_struct *vrm)
- 	 * |             |
- 	 * |-------------|
- 	 *
--	 * Having cleared VM_ACCOUNT from the whole VMA, after we unmap above
--	 * we'll end up with:
-+	 * Having cleared VMA_ACCOUNT_BIT from the whole VMA, after we unmap
-+	 * above we'll end up with:
- 	 *
- 	 *    addr  end
- 	 *     |     |
-@@ -1241,13 +1241,15 @@ static void unmap_source_vma(struct vma_remap_struct *vrm)
- 		if (vm_start < addr) {
- 			struct vm_area_struct *prev = vma_prev(&vmi);
- 
--			vm_flags_set(prev, VM_ACCOUNT); /* Acquires VMA lock. */
-+			vma_start_write(prev);
-+			vma_set_flags(prev, VMA_ACCOUNT_BIT);
- 		}
- 
- 		if (vm_end > end) {
- 			struct vm_area_struct *next = vma_next(&vmi);
- 
--			vm_flags_set(next, VM_ACCOUNT); /* Acquires VMA lock. */
-+			vma_start_write(next);
-+			vma_set_flags(next, VMA_ACCOUNT_BIT);
- 		}
- 	}
- }
-@@ -1330,8 +1332,8 @@ static void dontunmap_complete(struct vma_remap_struct *vrm,
- 	unsigned long old_start = vrm->vma->vm_start;
- 	unsigned long old_end = vrm->vma->vm_end;
- 
--	/* We always clear VM_LOCKED[ONFAULT] on the old VMA. */
--	vm_flags_clear(vrm->vma, VM_LOCKED_MASK);
-+	/* We always clear VMA_LOCKED[ONFAULT]_BIT on the old VMA. */
-+	vma_clear_flags_mask(vrm->vma, VMA_LOCKED_MASK);
- 
- 	/*
- 	 * anon_vma links of the old vma is no longer needed after its page
-@@ -1767,14 +1769,14 @@ static int check_prep_vma(struct vma_remap_struct *vrm)
- 	 * based on the original.  There are no known use cases for this
- 	 * behavior.  As a result, fail such attempts.
- 	 */
--	if (!old_len && !(vma->vm_flags & (VM_SHARED | VM_MAYSHARE))) {
-+	if (!old_len && !vma_test_any(vma, VMA_SHARED_BIT, VMA_MAYSHARE_BIT)) {
- 		pr_warn_once("%s (%d): attempted to duplicate a private mapping with mremap.  This is not supported.\n",
- 			     current->comm, current->pid);
- 		return -EINVAL;
- 	}
- 
- 	if ((vrm->flags & MREMAP_DONTUNMAP) &&
--			(vma->vm_flags & (VM_DONTEXPAND | VM_PFNMAP)))
-+	    vma_test_any(vma, VMA_DONTEXPAND_BIT, VMA_PFNMAP_BIT))
- 		return -EINVAL;
- 
- 	/*
-@@ -1804,7 +1806,7 @@ static int check_prep_vma(struct vma_remap_struct *vrm)
- 		return 0;
- 
- 	/* We are expanding and the VMA is mlock()'d so we need to populate. */
--	if (vma->vm_flags & VM_LOCKED)
-+	if (vma_test(vma, VMA_LOCKED_BIT))
- 		vrm->populate_expand = true;
- 
- 	/* Need to be careful about a growing mapping */
-@@ -1812,10 +1814,10 @@ static int check_prep_vma(struct vma_remap_struct *vrm)
- 	if (pgoff + (new_len >> PAGE_SHIFT) < pgoff)
- 		return -EINVAL;
- 
--	if (vma->vm_flags & (VM_DONTEXPAND | VM_PFNMAP))
-+	if (vma_test_any(vma, VMA_DONTEXPAND_BIT, VMA_PFNMAP_BIT))
- 		return -EFAULT;
- 
--	if (!mlock_future_ok(mm, vma->vm_flags & VM_LOCKED, vrm->delta))
-+	if (!mlock_future_ok(mm, vma_test(vma, VMA_LOCKED_BIT), vrm->delta))
- 		return -EAGAIN;
- 
- 	if (!may_expand_vm(mm, &vma->flags, vrm->delta >> PAGE_SHIFT))
+Changes since v2:
+  * Reorganized the patches entirely.
+  * Addressed Darrick Wong's critiques of v2:
+    - Added a new iomap_symlink_write function per his suggestion.
+    - Removed the minix custom __page_symlink function that replaced the
+      usual page_symlink function and the changes to minix_get_link that
+      allowed symlinks to be written and read by bypassing iomap
+      entirely. This ended up also removing both the issue syzbot found
+      in v2 of the patch and the fix for it.
+    - Reworked minix_iomap_begin to remove the nest of gotos inherited
+      from get_block to use helper functions instead.
+    - Pared down some unnecessary comments.
+    - Dropped bmap entirely.
+    - Dropped IOMAP_F_MERGED in minix_iomap_begin since there aren't any
+      merged blocks to worry about.
+    - Removed unneeded manual page cache invalidation.
+
+This patch series has been verified to compile cleanly between each
+patch and has been tested with a script that exercises mounting,
+unmounting, file creation/writing/reading/verification, directory
+creation and listing, symlink creation/reading/following, hard links,
+file truncation (both shrinking and growing), deep directory nesting,
+large files that span multiple blocks and indirect blocks for both size
+and content, deleting files and directories, persistence, and that
+fsck.minix behaves as expected for all versions of the minix filesystem.
+
+Unfortunately, no version of the minix fs module can support an xfstests
+run; all of the tests either fail (seemingly for reasons unrelated to
+the module itself) or aren't run because minix doesn't support the
+features in question. Getting xfstests to run would be nice, but either
+requires or would be greatly helped by making changes to minix's mkfs
+and fsck programs. It would definitely be a nice-to-have, but is outside
+the scope of this series.
+
+Jeremy Bingham (5):
+  iomap: add iomap_symlink_write
+  minix: add base iomap begin/end functions
+  minix: update itree* files to add iomap functions
+  minix: add file operation functions
+  minix: iomap inode operations
+
+ fs/iomap/buffered-io.c  |  31 ++++++++
+ fs/minix/file.c         | 153 ++++++++++++++++++++++++++++++++++++++--
+ fs/minix/inode.c        |  87 +++++++++++++++++++----
+ fs/minix/iomap.c        | 122 ++++++++++++++++++++++++++++++++
+ fs/minix/itree_common.c |  11 ++-
+ fs/minix/itree_v1.c     |  25 ++++++-
+ fs/minix/itree_v2.c     |  17 ++++-
+ fs/minix/minix.h        |  24 ++++++-
+ fs/minix/namei.c        |   8 ++-
+ include/linux/iomap.h   |   4 ++
+ 10 files changed, 457 insertions(+), 25 deletions(-)
+ create mode 100644 fs/minix/iomap.c
 
 -- 
-2.55.0
+2.47.3
 
