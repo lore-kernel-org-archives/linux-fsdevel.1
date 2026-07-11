@@ -1,74 +1,72 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E19D280CE5
-	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 15:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FD582866
+	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 15:26:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783782431; cv=none; b=fgUL8UQvxUoaw9DvBrUfboBEov7HdLcUWU5wib07FM9pG9Qmsu0Qn2uVbL0hAv0v/c3h4pLVZrtrHCPP7A4sN5/PyON4Leot85X2asTwe3rQIuVLH/q+RI/5zQNsRRZIicWQAsn+4Jmi0Gdqd+KL7Aj6mLazUvmuO2kk6gnp2mA=
+	t=1783783609; cv=none; b=UYSW8xkUNP0H3G7fpD8UMb3jAOUsBEp/oN3oVl1OFcdyYQK5ZbZUvt2IQZ1mkCef7MAiV2XRJjck+8TnYZdH505NWxx7UYNH724QawU2Laty7smZlRyysxI5U2uqi+O8Hqi0KUijn+iI41nrwT7B2jJrNXURcyIci51iEIjNBSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783782431; c=relaxed/simple;
-	bh=5aUkxlSIulkhERNeZp4fHGXyOVMGdheq/O6gyd5lrIA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HEAI+UkoClNatFPTJcMVxKttzaRAR6ZnC29GSskGnT1JYNmUamnMmFmigLLcHSgR+S79Mej3NVpWmHMKZ6rPqbGwYUsxVEnq0LGS3vafIjWXHZsLJlLPPpGjssFx/eEljjBNZEhyiauE7ZPLN0iy3JlwCwIf6osHulst/2eu1JY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PtDJR1tI; arc=none smtp.client-ip=209.85.222.181
+	s=arc-20240116; t=1783783609; c=relaxed/simple;
+	bh=qu2LqjVG3gwCwIWPHQe2SrI7PA5vY7y+JJc4s9CiPJ0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dWLR651xfJQIWiivVu+HAwFCV6axcxFRQPI6QCfMrFy4WU1yivLPGkg2YJlWeA3HYCsRpT0ykPXNQ8E47xU/e8sc9MwnRW3L3alY5KzvnjmpNSv9I1K/1V96X2BysNoIGVwtIB8lSjW5O9ExS5r/xiQZhbn+IPikRu6ZG0Ab6cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lgc5ovR3; arc=none smtp.client-ip=209.85.222.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PtDJR1tI"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-92efc443c61so20850985a.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 08:07:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lgc5ovR3"
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-922ff615c14so147084685a.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 08:26:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783782429; x=1784387229; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783783607; x=1784388407; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lTWLgXlcQl8Cccs9msbh22ddO/TiG4mAqMFaTuD2LHY=;
-        b=PtDJR1tIlWmKkiXkJgiHUpjK51g+vMdLJ4Oy59n87baZyHxXwPjZ6bS9n9AWnN6ZJq
-         /9e//4H8NsDdig5cwLLJpX8qc6CsXm1VkfGck6l6BbjD6pZVBafceT06FuP3T6wHkW26
-         Ts8UDBTyx+uV26uD/md4bmlnHcrT7FLR0kKCEFvH3aKZzuGApVqqGledE4A2bzqgd+jI
-         v2xBiIxh8nBVsT0u1AwCB6FTB9ispW2DbLlBBwbewIRe9dihGB3DSlrCgKzxihHZxf3q
-         z9FvXSTvOSsMcYdWJG8B0X+SLvz8XB9jXNzYfMV73OvbFURzbCqVbM20kFc7h7a9bIUQ
-         uGzw==
+        bh=OGvjcggjuRHrVJRozwL5aIcsoUIst8NdaqhwI9EK350=;
+        b=Lgc5ovR37HI4QAbBbdYChotZWcBl99mvDQVgjxQw8+KssIf/9bUBBj4hdjh6E61nfr
+         yD4AXD4/lZvzFpdFTcSnGxHucPyQ0zct251JRNOyl/dsefg6rIXPcP62mvjlOwbF+4QS
+         2IO6KtPto/gqzp5cP26o+EKYfWlBITqVuXsJ+TX5NBAENRLfouZ2cfYIdV2PKsh9bzE6
+         eBuMKJrijSa+a5uzjxH+ww/U+FNYCEJ3nc+frVpvCwCzHi1tVhktV4FEQY/wljAOn3rR
+         QD66FhcXx8jmbKf8X/OTIPkW5CGWHp6Ob2Q4uYCubkepDcOJ8dAtVlq4aFFNXdzei2W3
+         GYbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783782429; x=1784387229;
+        d=1e100.net; s=20251104; t=1783783607; x=1784388407;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=lTWLgXlcQl8Cccs9msbh22ddO/TiG4mAqMFaTuD2LHY=;
-        b=FLygwUahs9oCpoME+WDsWNjZcjUJada8TUQJwBlHR4oHAJEIplH6/xgvOzjVoQHta3
-         358YJ9SlCMbabDHUU7XGJY4+VZ+bXixXxl8x+rlRtoyuT/ECqtXGnlEBQ+Krg8sTriDN
-         H8oSWhhnAze3czswo2EY9XQl7AblbnTK5mlTyyUPOdrlfDAj7MIIfHHey4odRMwmFH/t
-         8genhRBzeFqhBYp0WqnK0CylDBB5K0ClOjA6W97f2zwiaY7sBMUoAZXDxhdxKizMvODb
-         zukPS/1PLQu4HOeqoa61A1f4fxzyg8TVIBjXeZbvIY9HgKG6Dj3QxMtPbZo6oO9g/+M/
-         cOdg==
-X-Forwarded-Encrypted: i=1; AHgh+RpN+1PkPfjMNqewsNtCJtrxWZy8Dw8hc1uMjrEoZqoOU0LQu+GgBTEsSDclWS/tndPDz4BVcii4XuC0xTvK@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUQF8gvFPio7+ISyoiQprsDQZTQgtQIe5FkHgv4hCziZF+W7hi
-	aN2WtEFHbNHEaGUvTdV19N+N3U42Ous3QGjENkFRCUpVNVIZycNUKw71
-X-Gm-Gg: AfdE7cl7cc9XhNf6pZqUmIAy+TxWSCjy3eR4T3yhP+4ifPgWm7DRBRIvxK4DxfPeibY
-	V8YBV0LDY+9HGUn2f5e230KIqeWKtbAWIgSDoF12gpLBIzGwKelqhcFtDZqqRtL215sPbcqvfAD
-	OilRCUPx0Yn1WE5v5ZXqQqcUGeZRUukHUQAPPcL9WIWpaOcGHd+Cl2uLxczqPpeB+KqlkXHPkHY
-	bvQnwH9p6ALTWuzycodyRPrHszuaCN5Q+gVkTE1FDyW8RmGjCnei0aHB7J7NjTPTY3GP7Q9T2uJ
-	PmYGmZL7XNeBFBTbuFRL/Vf/DjlcaIxPljZwG41zlHPf0uK2psEEg5lnIMA2AufU2qb9fX9wE8x
-	8Lx8dpak3RF9czLC3SzYqBLAGY8cH4TLnqvVv5f7XcvqRBH/l9KiYT8kz8Wl149P1MigWZwm476
-	aCmq+paAECKSawXjfHXS+YXzTvZLX5KwVqy9GtSVxXc7sUuHSLTZrzz2ndISoUKumGQ5l42c6YO
-	7E8lq/aRA==
-X-Received: by 2002:a05:620a:394b:b0:92e:e252:bb43 with SMTP id af79cd13be357-92ef2cd093amr367391985a.77.1783782428765;
-        Sat, 11 Jul 2026 08:07:08 -0700 (PDT)
+        bh=OGvjcggjuRHrVJRozwL5aIcsoUIst8NdaqhwI9EK350=;
+        b=dajScQd9y5LWcUhgSx/vBp/LEgVXy0L8YdehgJznCdbfwX+aCuC195mYK9Hhb8wSqY
+         Q4dmTjGzvlPkmTUfoNGkiVdwZRHZak93vXWT2ATcNpHy+5wjTdB+xm+VsrNZd+FYr1M0
+         y2mT9nxJzY9QbjMCD0BChekW3X/YkSjb/5KwoxnZj3pSqD0eCPWpTnyslCOryZ80ri2W
+         EAYqmEu1gaUbyNmReH79hB1OAfZehVeYSFcnCxqaXWGLhqZzARaX0BJazJoXq/BEoSIC
+         eI5w/4mLiw8Abm6uOkJXXOomxAt0YUbRJM1gEf0gUuU2/0PBQtf/8iXa7Msw1SIspav8
+         3Ggw==
+X-Forwarded-Encrypted: i=1; AHgh+RofVJZ9qAtA3s78DCMc5mJB2hYZ7Iq8Jb0B3D8GHf8pB6TMEdT1fvcbERQMZNqG+mYiF1jwOaBApVq4pWgM@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnhDx+ToUfMbY+uWEJ3f1ZX9Vn9Z2tBA+cpj7z1yw8D5RaHVWz
+	lKDArn7kZoLgpjqyBmPT0YAu2/dJAjBlHfeVCu7uOpQHvEz8blpfycmO
+X-Gm-Gg: AfdE7clpRpskM0qx1XPYBPUwXZFqQ1HppXN0fjIlMgXVxA+UBf3sTXBy9MRVE3qRozh
+	5DNw8Kn/S9BJnfstVgXEclX482ZE0LeEl0tuVxvDPSTmecbZJpVPU22Ro32AsWTorhrurtPnrLO
+	28X+0vK0mWZ5+psobTMCjlc1G9vJny/T3IJc2eyN6QxUeLqU74VqQrafy8B3VO5WYEG2o5kWrmh
+	LcGja5Qkpt8z+OSLpKCOjjudQ6uLmKMzUIyC2ucpeCzHXYJbFI2VvwkQF9z/+G1AgBeRYUs3nOi
+	Ybh3zE4xA3v94KCOQOlW/Mcv+roi3E1kKsjA2os1fIPcGJGkilIHagEaITB/oVvhTi5IHJgieJ+
+	yletU4F8yOla2jQWRSBIaLtjRWXv4UBPOs5yE6Qj1SbKTgshKC/efHr7qiHFQxpkVC5ycyUKOWz
+	Fzu9beIAp729O1bDmXyfjQ0LWNgf5ZiSpyIFqs+fgbO2KgHWzL0fYif7nP3u9z+oo5EgohT1O+K
+	juCyNqO8w==
+X-Received: by 2002:a05:620a:2245:10b0:92e:51fc:3f1a with SMTP id af79cd13be357-92ef2c844demr268665485a.67.1783783606862;
+        Sat, 11 Jul 2026 08:26:46 -0700 (PDT)
 Received: from server0 (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92ee5b8b3f2sm471818485a.13.2026.07.11.08.07.07
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92ee5b492ebsm468641285a.9.2026.07.11.08.26.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jul 2026 08:07:08 -0700 (PDT)
+        Sat, 11 Jul 2026 08:26:46 -0700 (PDT)
 From: Michael Bommarito <michael.bommarito@gmail.com>
-To: Ilya Dryomov <idryomov@gmail.com>,
-	Xiubo Li <xiubli@redhat.com>,
-	Alex Markuze <amarkuze@redhat.com>
-Cc: Viacheslav Dubeyko <slava@dubeyko.com>,
-	ceph-devel@vger.kernel.org,
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev
+Cc: Mihai Brodschi <m.brodschi@gmail.com>,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] ceph: bound copied dentry name length in NFS export get_name
-Date: Sat, 11 Jul 2026 11:07:05 -0400
-Message-ID: <20260711150706.2915970-1-michael.bommarito@gmail.com>
+	stable@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] fs/ntfs3: reject an oversized resident attribute on the inline iomap path
+Date: Sat, 11 Jul 2026 11:26:30 -0400
+Message-ID: <20260711152630.2975127-1-michael.bommarito@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -78,87 +76,93 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
-ceph_get_name() copies the MDS-supplied name into the caller's
-NAME_MAX-sized buffer with memcpy(name, rinfo->dname, rinfo->dname_len)
-and then writes name[rinfo->dname_len] = 0, without checking dname_len
-against NAME_MAX. A malicious or buggy MDS that returns a LOOKUPNAME reply
-with dname_len > NAME_MAX overflows the buffer. __get_snap_name() copies
-rde->name / rde->name_len the same unchecked way.
+attr_data_get_block_locked() maps a resident attribute as a one-page
+IOMAP_INLINE extent: it allocates a single page, copies the resident
+value into it with memcpy(), and hands that page to ntfs_iomap_begin()
+as the inline data.  The copy length is the on-disk resident value
+length (res.data_size), and mi_enum_attr() only bounds that length
+against the MFT record size.  A corrupted volume with MFT records larger
+than a page can therefore present a resident $DATA whose length exceeds
+PAGE_SIZE, and the memcpy() then writes past the single destination page.
 
-Impact: a malicious or compromised Ceph MDS overflows the NAME_MAX name
-buffer in a client's NFS-export get_name path, a slab out-of-bounds write
-reported by KASAN. Reachable when a CephFS mount is re-exported over NFS.
+Impact: reading or writing a resident file on a mounted crafted NTFS
+volume whose MFT records are larger than a page overflows the one-page
+inline buffer in attr_data_get_block_locked() with attacker-controlled
+bytes.
 
-Add ceph_export_copy_name(), which rejects lengths above NAME_MAX with
--ENAMETOOLONG before the copy, and use it in both ceph_get_name() and
-__get_snap_name().
+Reject such an attribute in attr_data_get_block_locked(), before the
+page is allocated and the copy is made.
 
-Fixes: 19913b4eac4a ("ceph: add get_name() NFS export callback")
+Fixes: 099ef9ab9203 ("fs/ntfs3: implement iomap-based file operations")
 Cc: stable@vger.kernel.org
 Assisted-by: Claude:claude-opus-4-8
 Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
 ---
- fs/ceph/export.c | 26 +++++++++++++++++---------
- 1 file changed, 17 insertions(+), 9 deletions(-)
+Changes since v1:
+- Reworded the code comment and changelog.  The oversized resident length
+  overflows the single alloc_page() page that attr_data_get_block_locked()
+  copies the resident value into; v1 described the older
+  iomap_write_end_inline() BUG_ON(!iomap_inline_data_valid()), which was
+  removed in 7.2-rc1.  Thanks to Mihai Brodschi for catching the stale
+  reference.  The fix itself is unchanged.
 
-diff --git a/fs/ceph/export.c b/fs/ceph/export.c
-index b2f2af1046791..debb9634b9e3d 100644
---- a/fs/ceph/export.c
-+++ b/fs/ceph/export.c
-@@ -442,6 +442,16 @@ static struct dentry *ceph_fh_to_parent(struct super_block *sb,
- 	return dentry;
- }
+The unbounded resident length dates to the iomap conversion; only the
+manifestation changed when the inline buffer became a single alloc_page():
+  - 7.2-rc: the memcpy() into the one-page buffer overflows the page
+    (out-of-bounds write, below).
+  - 7.0..7.1: the buffer was kmemdup()ed at the real size and the oversized
+    length instead tripped BUG_ON(!iomap_inline_data_valid()) in
+    iomap_write_end_inline() (a denial of service).
+The same data_size > PAGE_SIZE check prevents both, so it is the correct fix
+across the stable range.
+
+Reproduced under QEMU + KASAN on 7.2-rc2.  A resident $DATA value length
+above PAGE_SIZE, as a volume with MFT records larger than a page presents,
+was supplied while the alloc_page() + memcpy() path ran unchanged; the stock
+kernel faults with a KASAN out-of-bounds write in
+attr_data_get_block_locked():
+
+  BUG: KASAN: out-of-bounds in attr_data_get_block_locked
+  Write of size <data_size> by task ...
+   __asan_memcpy
+   attr_data_get_block_locked
+   attr_data_get_block
+   ntfs_iomap_begin
+   iomap_iter
+   iomap_file_buffered_write
+
+With the patch the same access returns -EINVAL and does not fault.  An
+in-bounds resident file (control) and a non-resident file are unaffected on
+both the stock and patched kernels.
+ fs/ntfs3/attrib.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+index c621a4c582f9e..2f73714a2db97 100644
+--- a/fs/ntfs3/attrib.c
++++ b/fs/ntfs3/attrib.c
+@@ -1034,6 +1034,21 @@ int attr_data_get_block_locked(struct ntfs_inode *ni, CLST vcn, CLST clen,
  
-+static int ceph_export_copy_name(char *name, const char *src, u32 len)
-+{
-+	if (len > NAME_MAX)
-+		return -ENAMETOOLONG;
+ 	if (!attr_b->non_res) {
+ 		u32 data_size = le32_to_cpu(attr_b->res.data_size);
 +
-+	memcpy(name, src, len);
-+	name[len] = '\0';
-+	return 0;
-+}
++		/*
++		 * A resident attribute is copied into a single page below
++		 * (alloc_page() + memcpy()) and mapped as a one-page
++		 * IOMAP_INLINE extent by ntfs_iomap_begin().  mi_enum_attr()
++		 * only bounds the resident value length against the MFT record
++		 * size, so a corrupted volume whose records are larger than a
++		 * page can report data_size > PAGE_SIZE; copying that many bytes
++		 * would overflow the single destination page.  Reject it.
++		 */
++		if (data_size > PAGE_SIZE) {
++			err = -EINVAL;
++			goto out;
++		}
 +
- static int __get_snap_name(struct dentry *parent, char *name,
- 			   struct dentry *child)
- {
-@@ -513,9 +523,8 @@ static int __get_snap_name(struct dentry *parent, char *name,
- 			BUG_ON(!rde->inode.in);
- 			if (ceph_snap(inode) ==
- 			    le64_to_cpu(rde->inode.in->snapid)) {
--				memcpy(name, rde->name, rde->name_len);
--				name[rde->name_len] = '\0';
--				err = 0;
-+				err = ceph_export_copy_name(name, rde->name,
-+							    rde->name_len);
- 				goto out;
- 			}
- 		}
-@@ -580,8 +589,8 @@ static int ceph_get_name(struct dentry *parent, char *name,
- 
- 	rinfo = &req->r_reply_info;
- 	if (!IS_ENCRYPTED(dir)) {
--		memcpy(name, rinfo->dname, rinfo->dname_len);
--		name[rinfo->dname_len] = 0;
-+		err = ceph_export_copy_name(name, rinfo->dname,
-+					    rinfo->dname_len);
- 	} else {
- 		struct fscrypt_str oname = FSTR_INIT(NULL, 0);
- 		struct ceph_fname fname = { .dir	= dir,
-@@ -595,10 +604,9 @@ static int ceph_get_name(struct dentry *parent, char *name,
- 			goto out;
- 
- 		err = ceph_fname_to_usr(&fname, NULL, &oname, NULL);
--		if (!err) {
--			memcpy(name, oname.name, oname.len);
--			name[oname.len] = 0;
--		}
-+		if (!err)
-+			err = ceph_export_copy_name(name, oname.name,
-+						    oname.len);
- 		ceph_fname_free_buffer(dir, &oname);
- 	}
- out:
+ 		*lcn = RESIDENT_LCN;
+ 		*len = data_size;
+ 		if (res && data_size) {
 -- 
 2.53.0
 
