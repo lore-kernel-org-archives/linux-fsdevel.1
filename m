@@ -1,63 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DB7625
-	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 00:11:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E1526ACC;
+	Sat, 11 Jul 2026 00:24:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783728707; cv=none; b=RRNw1EIViBCbOA1nCFy/KCfAxQaI9siopt+/1fcF6LcZUOB4rhMVuVlCBtkNy9V3q8Yk+7aRxmqzTMNuHTOgHxEoYng7DOYmboxRd96beu8A0NaSSlglVIyoGNdiMfbp1fiJGgk9vnJJCPYdi+cgCsuRLmY+PLBB6guY7MGlhcU=
+	t=1783729456; cv=none; b=mL7VshNCe+UzG5WxYFXGEeFv5p13A8C7qSPXnGPWbcAbEyGO1R9dR/TMoJjlIpXnzzrPZ4y0uhPu7qap9tBFFolJUfVyHqksmvfdbl1gAPsyjsoCoUmUEObHMfibTUMX2PEfIEx+/XRaqqd3kA6EbVrIQuJP0uTAmnwUsue8D5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783728707; c=relaxed/simple;
-	bh=ytf54I79C79o3jv1eWgW53eSwrpBJFUofzYB8dgQa7A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UuC26SpoLfJHzJB+b+7xam89xbpv9OiTvLPjM2uFyAc3MqJniDNeFl26DmcrYkcpJxtq18vKaes5U/zhAj6tpxK7GDoFoYZgfCh3Dgqy7CvsUAn/0rWhAOuZSauZYNODjxPJ0wflxAiOwOdPmchtRKK1hHFJwLM/kL4b7o0DGm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hzhPKIOz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783729456; c=relaxed/simple;
+	bh=pwcS+JPhE+W/ODtU0qbehIRMPyrOXRiZ+yUqfS2Rkho=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kp1kpEyf/fkzsUQy/SmNvoAZQAUHjk9Oepc9edfKRUf+qBPxvn1huWFsu6MlRzPSPb9KaLfkDMSjfCtobfo4TCDbCfaUMAWFelyxBZmbe/IYTf5dzjvdTyzHMUY7ubyrIeHxkJmmwWAfCXN+935DT088TH6KYlE5BDW+23fUDlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=POsAX31I; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hzhPKIOz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFAD91F000E9;
-	Sat, 11 Jul 2026 00:11:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="POsAX31I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC45D1F000E9;
+	Sat, 11 Jul 2026 00:24:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783728705;
-	bh=GyhyGqRQKroxfW64L6xRU5J7B1yOFnOg9sGO4fxh29w=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=hzhPKIOz1/a5ZgRJtwQJsSVMipKqRsxh4xC1SafTDqvlf9fYPhaRnD06UzykQwSmX
-	 drMaevmaL/tyy5aP0YNVEb9iN+0zBuTr7yb9tKCaPKLsbw5K24Uz9m9N0FefCz8mX3
-	 ka+1TM+AVAGCn0E0mHWuHigsuO6qPCocrN58Cdl8lsehK15UwEP32JmCLhdZZFkL3o
-	 QIgo9+NgIbFO4HmGWWGi0y2dh8ZMvV+zcwUL8TVS3+yIkK+p1b4vPl7ExauR9g444Y
-	 xOgMzG+ChBvEg80rzrcQcrzVyTwiv7tLHMDQfdtnlUDg3XtEG3EM3+Ai4uVVHDD6j5
-	 DaMhRZLa6zrMA==
-From: SJ Park <sj@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: SJ Park <sj@kernel.org>,
-	willy@infradead.org,
-	jack@suse.cz,
-	akpm@linux-foundation.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH] mm: remove wb_writeout_inc
-Date: Fri, 10 Jul 2026 17:11:38 -0700
-Message-ID: <20260711001138.30784-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260710051052.1839523-1-hch@lst.de>
-References: 
+	s=k20260515; t=1783729454;
+	bh=KFEzUaw/g/UY9rxNioMfIoydpjuxUFKK3/1Tvh4wibs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=POsAX31IWu/ZhM35wRUyOQm/LLL5C+CsYCR/eBwvf0NnHgI3lSsEkv8g9ME3OHu+g
+	 5YLPzqT+WkhmOO8rKwKOdERg9WIadWU016pZySHkLwMkUZhyAgxHx5KPCcae34Vc+T
+	 OSfcqyfcZ1GEBpyZ81RULmKvq/ZcxNq7QHO+TFnSvZUML/6mUMAyT23+9zv6Kzei9v
+	 qM9lH81J0rCzK4N/EeBpMfRGOLtMOSzMlyk/CAzOv72ub0kj8eq38+9T8743cVy0be
+	 HWIXZvNI+wMHHulBFG4Yqv+wbdW8Jyl1VqYUdj5AyOEImaan/gQ2P6Y3WTUlEk1JlS
+	 DB5Zm1Ma5jTJA==
+Date: Fri, 10 Jul 2026 20:24:12 -0400
+From: Eric Biggers <ebiggers@kernel.org>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	axboe@kernel.dk, brauner@kernel.org, aalbersh@kernel.org,
+	jack@suse.cz, tytso@mit.edu, jaegeuk@kernel.org, cem@kernel.org
+Subject: Re: [PATCHv2 0/5] direct-io file extended attributes
+Message-ID: <20260711002412.GG1911@quark>
+References: <20260710210646.3576365-1-kbusch@meta.com>
+ <20260710215328.GE1911@quark>
+ <alF5BHEZ5czyJWaY@kbusch-mbp>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alF5BHEZ5czyJWaY@kbusch-mbp>
 
-On Fri, 10 Jul 2026 07:10:52 +0200 Christoph Hellwig <hch@lst.de> wrote:
-
-> Remove this entirely unused but exported function.
+On Fri, Jul 10, 2026 at 04:58:12PM -0600, Keith Busch wrote:
+> On Fri, Jul 10, 2026 at 05:53:28PM -0400, Eric Biggers wrote:
+> > On Fri, Jul 10, 2026 at 02:06:41PM -0700, Keith Busch via Linux-f2fs-devel wrote:
+> > > From: Keith Busch <kbusch@kernel.org>
+> > > 
+> > > The attributes reported through statx are incomplete for applications to
+> > > fully know exactly how IO construction is valid or not. The statx call
+> > > can report minimum memory alignment and total granularity, but it
+> > > doesn't show the underlying gap boundary requirements or max segments
+> > > per granule.
+> > > 
+> > > This series adds the minimum to the extended file attributes through
+> > > file_getattr. I hear this is the preferred interface for reporting such
+> > > things over adding more fields to statx. In order to get everything
+> > > under a single syscall, some of the attributes are duplicated from
+> > > statx.
+> > 
+> > Okay, in v2 we at least now know that the existing statx UAPI was
+> > considered.  Could you give a specific real-world example (with the
+> > actual values of each parameter) where it's not sufficient?  Without
+> > that there isn't really any way to evaluate this proposal.
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Yes, we can consider nvme. This protocol supports two different transfer
+> modes called PRP and SGL. PRP requires 4k aligned segments, though you
+> can have an arbitrary 4-byte aligned offset at the start. SGL on the
+> other hand allows completely arbitrary size and alignments for each
+> segment.
+> 
+> statx reports information sufficient to know that you can have dword
+> aligned page offsets for a virtually contiguous buffer, but it doesn't
+> report PRP's boundary gap requirement, so applications can't tell if the
+> file follows PRP or SGL rules for direct-io.
+> 
+> And if you have a device using SGL, statx doesn't report the max number
+> of sub-sector segments you can submit in a single command.
+> 
+> This series provides both limits so user space has the complete picture.
+> 
+> A typical nvme that supports only PRP has a DMA alignment of 4 bytes, a
+> dio offset alignment of 4k, and a virtual boundary of 4k.
 
-Acked-by: SJ Park <sj@kernel.org>
+So each segment's length has to be a multiple of 4k, *and* it has to end
+on a 4k aligned memory address?  That implies the segment begins at a 4k
+aligned memory address as well, which is just stx_dio_mem_align=4k.
 
+What am I missing?
 
-Thanks,
-SJ
+What is a specific example of an I/O request that you'd like to be able
+to submit that the existing UAPI can't declare support for?
 
-[...]
+> If SGL were supported, there would be no virtual boundary gap, and max
+> segments is 256.
+
+Can you elaborate on why DIO users need to know max_segments?
+
+I'm worried about the UAPI duplication, as well as it going to be very
+difficult for userspace to correctly use this information.  With just
+the two alignments there's at least a chance of them getting it right.
+If we throw virt_boundary_mask and max_segments into the mix, I don't
+think there's much chance.
+
+- Eric
