@@ -1,59 +1,61 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F04830E84E
-	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 20:59:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7162314B8C
+	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 20:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783803558; cv=none; b=BSa7M3tRaRe24uFXtASj18uW7HRxuVSrgOR5Z+Gwr5iU8rgXQZABcAlQfUxRiy0jDm6V9mvcYVnbLzl9sw/Y4tT4uC0rqcxqAwFHL66OcS53pq6B32vX19NWPldXAP5iRziYo0ig84co2oFlud2v7JxBH4Xp6L/Erb7iP+ol8Ac=
+	t=1783803561; cv=none; b=fLyHchT1zlG9+rRRcjZNj4p5cvtnm+4yemc6lVYz69eSi5lMxxsjRL/xKAUjY8P/1uBfUgUL7NUIZATue+Qie0+5UhzD3Wr1NwmJmKzDwXdQYH1VsXI2uaYT56FzKpXF7Mdiq4qheQ4EXEPuSdDjeAfZwG2GlDWoOiYPsIaUBSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783803558; c=relaxed/simple;
-	bh=BdLjvl43qJKYBtpROXoommgDtCOwVioxXPtKnE5U+1A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UekYBMsmiMtdvTuyI4xuqlocme6M8d/llGg7VUJoxJ4MsAMRJ0PAa70Zd6SQYnNXKMZkElHe1V6w+bfxJ/3+bI8cS4nHA6S3i0O3ttVQyYNgHzpFITqvcIR3lArE1xVNceqojlrl7sIr961ncwltIBtvKMiBd3YViGHw8TCWVMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q7MQMv+n; arc=none smtp.client-ip=209.85.210.176
+	s=arc-20240116; t=1783803561; c=relaxed/simple;
+	bh=eimG9XEE0URF2SzaH136zk48Fc7acApR5oefaesDiWA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kQZC7Nu77NIZP3Sh6G/IfQogInoK4MORLzjJVL6lEBtfmyG6gULRw0+RhwUi69C9o1dUMxxRm45P7QwwVAnEbMH8w3pOktggR60Jr6WNaFB14sYj1RdCDHL9V1gxRheJWYTFl0Thrb7+2NzshTYi2W3kt3f48L/iXWMffF5oHPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y66xVp4O; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q7MQMv+n"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-848882fdb18so1031587b3a.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 13:59:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y66xVp4O"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-848882fdb18so1031598b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 13:59:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783803557; x=1784408357; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=jXbhO14ydDUZIjKR+B3+/kUtANGjzLqAnvpoUD+k32Q=;
-        b=Q7MQMv+nV3ADb9M7RrrMmK2Jp5njqJzv3rvddtwIPKeNRqqkqPBniXslUs5UC8SFOl
-         PcW98CO5u8uy3981972DWpC6xit+dp6Tfnaj1CVBoQ0Zv+7DE7HA4WIushvthZyfrNyc
-         GcxUSJDfgz+88va4KPGsGqdGDAwHl3C8hgiy7JUlswH8KgC6+H+A8Grh9+54AFQsuGiW
-         Gb84Vs1K0EXs5Cx34DF3p5x0Gf3qOx/nXLHyOry21FW0dbcVME3BkdfJ75BwUkVlCtZf
-         59lxdeiahFKTMMJ95f/f24GC5CGBfN7nhYcnsOuR1Bp40EqF56N5ljQ8gxwLbwHXPBBk
-         ee2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783803557; x=1784408357;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1783803559; x=1784408359; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=jXbhO14ydDUZIjKR+B3+/kUtANGjzLqAnvpoUD+k32Q=;
-        b=fGIKlBtMAvlSLXwFNDikW1gYAU/jJvi8b9OcODUN4E0AMibkgs05s53YBKjO11nE3a
-         k3iUgBVLTZzuPyvX1Om9UKOVrwz2O/076JLumGXamW//xxU6uz3fsD4dSCHXahYZLgqf
-         aqbClA+U/RYA4QNMa0/uwSzoKCkMArhq3acGESU4T+hknaLhH9BrfD63Vn5cxZucqYd9
-         xRq7NWS+6RPIQYBOx0F6Txsyf81MYnPgLsEnb18XMXQB7Bk1gyRRVXNyO/XKUtxrQtc2
-         1kMm3sCpyyZkL1bgl1JjtvXwYGvGpdJO+DOvc7ELzvtoaljDXTU0Bwp4nTt46190uoPS
-         qQKw==
-X-Gm-Message-State: AOJu0YyQiiILdlU55QOsl+EbSoA31yAFfOHd7+dlqHU/i5cFyd/mJ2Z+
-	QlaCLpS7wxS3YjL0y4T+0OPzMlquY8ZNhLOMkxOeBgvnh1NomJG/rbUGxxqF4w==
-X-Gm-Gg: AfdE7ckB833WL9gQghOrucyfXH5DS0cfQmUm3E7hbH8+Y5IXHruSFmsuVgkx8EmiV5A
-	LYoQ9sh+zJvxODkxNL6YdtrQfQZqV1XrQLMMpFJPgY1zuJQmdTj410qvnPgY5K3LE1l0qJXvdWz
-	l+VMIJWuL2cIFyBrZZuwSRAayZgkH/kt+g14LlTHu18lN36owqFTW1DO5cDB7udVTAVe3qudfDO
-	2X0d8df3xJh2oL6pEef7DnEDK8PCZfXIGQPKMb1kky1nq3vNKeSiBo5092PdtgedAej8+CwD32j
-	aVm26UBh15ASeQ39JN++/DLlSv9XbjeJn9UbyJtAMOtU3OoNMFS9MX0AA3WZOgCtZHWOX70fhrA
-	ZAy7HkDVC4fJ4H5eINf9BmQSmFhPjwX81uWDUI4n/mpup7lEi5+yS3LmYF81Ox7c=
-X-Received: by 2002:a05:6a00:1248:b0:848:4f38:b76f with SMTP id d2e1a72fcca58-8488971cf8amr4051433b3a.43.1783803556655;
-        Sat, 11 Jul 2026 13:59:16 -0700 (PDT)
+        bh=OJJSoaUqwCHC2v0nACew6MdUN87VPmOrK8EaocGT768=;
+        b=Y66xVp4O8bggq/neX8dAbEtaCo67rlP6oLdcsP618W8U9cS4v/d07+qtavRxJD98k1
+         LWOtTtWp+OXAMBc2ZCNhKFS/qOe3BNSrfr1BVC1+KucVFNXtaxd1+89KAJBAIwtGF6QQ
+         MKOh4lrgXFgbbIv6PCB6qCP6+1pIHljFawz8xjXIrTez7hPH6DAyOU/KBBEkxwSKbFUb
+         UBjev+l+u0LNvicpAyZctustHcIPDPu0J/OCIEv6ogwjB1xE8eyf3yo/48WgUNOIutze
+         9nP/0h73WxbZzDLMFCFinnKu5eerBTasHSSfNmmuogO9Ldz2E/jCk40NUbxdWDd+DiBe
+         3kfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783803559; x=1784408359;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OJJSoaUqwCHC2v0nACew6MdUN87VPmOrK8EaocGT768=;
+        b=L12IoIcmmeze/D79s8UXqvsgbMtr49Pj43QqbhbaR9FlAEX3eyrAMCk8QedkJ65ogf
+         i1vyPhgEOLaC/ECI5GH0iIlasn9Tox9MEj5V0s0R8cjX/IythStbcYXYsHqJl9s2dmSV
+         SeW4NCzOwsNTubrlA5sjv/+S7ndwzaVh07aeKjAQjJOxn0d7NXuktUU9Nhq8OWo2gKSg
+         VuCdzypbj3a1seb42C9M3xhBkB59vI0ZeNVX9BQ8H43EVOM50qvhpGV4QyfwlwNWmbG4
+         1Sp6HEn3OY4OWl8cw0hr7uRwyrmNWv3gO+JVzqWs2zfDkl4ItGkdpGHU4w9joiX7599b
+         rgeA==
+X-Gm-Message-State: AOJu0Yxr2pIDsVFKP27qIgnK1vmn4fZAtu8eIFs5xDoCVfiNGHUkR5Vi
+	CktzZf8mr+dNi+KsjK7QcGuKMYrIpnqGExqnHkCgWsk2aczNNTwQDA2Jon7h7A==
+X-Gm-Gg: AfdE7cmj5ANwNRrxkktd/C92G/yHmssW4/sMLy+0DMYXARn3ZaNeDJXZH1KMDfub6Cr
+	S2YoFObg6pwRGyxXH4MwIbtKADaI3h7eWmnUi+qzEgEBsJZ2FHvNFcY2yHphj91QfHS3Lrx83I3
+	Int8ILxqp3l086NAoFN04wHeQKLPcsGbn5R1AY5StBHS8LZN668KiLFPwwW9yjS7b6UHoUQfObs
+	XQrGMDSVf/Ec44nx0o10grL/f1QMyjHGeVWX78/xaE2nlRRxEEihFfDvff7OSQ/PpJJzYA7s3Ry
+	8g1tYYRWDL5A1tvkmJUB9UU9VUkXdFaFb7SR9+rMBNSg/o3MNGhaKOXYCBOw0w/ob2IPdB9Ahsv
+	+uzt1wbN2U8OKOT1mPVd0F6qT6II/UyPtBmRHTMkAVVWcEAyyyaT3L9npGfyj7tA=
+X-Received: by 2002:a05:6a00:3494:b0:842:48ae:1d6c with SMTP id d2e1a72fcca58-8488965bcdfmr3290961b3a.24.1783803558981;
+        Sat, 11 Jul 2026 13:59:18 -0700 (PDT)
 Received: from nineveh.sos.local ([131.191.24.68])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84880a44feasm2092057b3a.20.2026.07.11.13.59.13
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84880a44feasm2092057b3a.20.2026.07.11.13.59.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jul 2026 13:59:15 -0700 (PDT)
+        Sat, 11 Jul 2026 13:59:18 -0700 (PDT)
 From: Jeremy Bingham <jbingham@gmail.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -63,10 +65,12 @@ Cc: linux-kernel@vger.kernel.org,
 	djwong@kernel.org,
 	viro@zeniv.linux.org.uk,
 	Jeremy Bingham <jbingham@gmail.com>
-Subject: [PATCH v3 0/5] minix: convert to iomap and add direct I/O
-Date: Sat, 11 Jul 2026 13:59:04 -0700
-Message-ID: <cover.1783707063.git.jbingham@gmail.com>
+Subject: [PATCH v3 1/5] iomap: add iomap_symlink_write
+Date: Sat, 11 Jul 2026 13:59:05 -0700
+Message-ID: <570b47ec69233efcdde6644fc11bc5a8af6a9577.1783707063.git.jbingham@gmail.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1783707063.git.jbingham@gmail.com>
+References: <cover.1783707063.git.jbingham@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -75,92 +79,73 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is version 3 of the minix iomap conversion patch series. Versions 1
-and 2 both had issues that syzbot found while testing, while Darrick J.
-Wong gave some critiques of the version 2 patches that I have addressed
-here.
+Add a new iomap_symlink_write function as an iomap based equivalent to
+page_symlink found in fs/namei.c. This implementation was suggested by
+Darrick J. Wong, who also provided the initial implementation that I
+only needed to change slightly to get working.
 
-This patch series converts the minix filesystem module from using the
-buffer_head based path to the iomap API, and adds direct I/O support in
-the process.
+Suggested-by: Darrick J. Wong <djwong@kernel.org>
 
-Patch 1 adds a new iomap_symlink_write function to
-fs/iomap/buffered-io.c. This allows minix's symlinks to be written and
-read without bypassing iomap entirely. (I considered whether this ought
-to be broken out as its own patch since it's outside of fs/minix, but
-decided that since it was suggested as part of this and is a necessary
-piece that I would include it unless told otherwise.) This was suggested
-by Darrick J. Wong, who also provided an initial implementation that I
-only had to modify slightly.
+Signed-off-by: Jeremy Bingham <jbingham@gmail.com>
+---
+ fs/iomap/buffered-io.c | 31 +++++++++++++++++++++++++++++++
+ include/linux/iomap.h  |  4 ++++
+ 2 files changed, 35 insertions(+)
 
-Patch 2 adds the base iomap functions in fs/minix/iomap.c. This provides
-the iomap begin/end functions which sit at the base of the rest of this.
-
-Patch 3 wires iomap.c into the itree*.c files, adds version specific
-helper functions, and moves the old buffer_head based functions over to
-new names to support directory operations.
-
-Patch 4 adds the new iomap file operations functions to file.c,
-including the direct i/o functions.
-
-Patch 5 updates the inode operations to use iomap, except for directory
-operations which work the old way. The minix_symlink function in namei.c
-is also updated to use the new iomap_write_symlink function.
-
-Changes since v2:
-  * Reorganized the patches entirely.
-  * Addressed Darrick Wong's critiques of v2:
-    - Added a new iomap_symlink_write function per his suggestion.
-    - Removed the minix custom __page_symlink function that replaced the
-      usual page_symlink function and the changes to minix_get_link that
-      allowed symlinks to be written and read by bypassing iomap
-      entirely. This ended up also removing both the issue syzbot found
-      in v2 of the patch and the fix for it.
-    - Reworked minix_iomap_begin to remove the nest of gotos inherited
-      from get_block to use helper functions instead.
-    - Pared down some unnecessary comments.
-    - Dropped bmap entirely.
-    - Dropped IOMAP_F_MERGED in minix_iomap_begin since there aren't any
-      merged blocks to worry about.
-    - Removed unneeded manual page cache invalidation.
-
-This patch series has been verified to compile cleanly between each
-patch and has been tested with a script that exercises mounting,
-unmounting, file creation/writing/reading/verification, directory
-creation and listing, symlink creation/reading/following, hard links,
-file truncation (both shrinking and growing), deep directory nesting,
-large files that span multiple blocks and indirect blocks for both size
-and content, deleting files and directories, persistence, and that
-fsck.minix behaves as expected for all versions of the minix filesystem.
-
-Unfortunately, no version of the minix fs module can support an xfstests
-run; all of the tests either fail (seemingly for reasons unrelated to
-the module itself) or aren't run because minix doesn't support the
-features in question. Getting xfstests to run would be nice, but either
-requires or would be greatly helped by making changes to minix's mkfs
-and fsck programs. It would definitely be a nice-to-have, but is outside
-the scope of this series.
-
-Jeremy Bingham (5):
-  iomap: add iomap_symlink_write
-  minix: add base iomap begin/end functions
-  minix: update itree* files to add iomap functions
-  minix: add file operation functions
-  minix: iomap inode operations
-
- fs/iomap/buffered-io.c  |  31 ++++++++
- fs/minix/file.c         | 153 ++++++++++++++++++++++++++++++++++++++--
- fs/minix/inode.c        |  87 +++++++++++++++++++----
- fs/minix/iomap.c        | 122 ++++++++++++++++++++++++++++++++
- fs/minix/itree_common.c |  11 ++-
- fs/minix/itree_v1.c     |  25 ++++++-
- fs/minix/itree_v2.c     |  17 ++++-
- fs/minix/minix.h        |  24 ++++++-
- fs/minix/namei.c        |   8 ++-
- include/linux/iomap.h   |   4 ++
- 10 files changed, 457 insertions(+), 25 deletions(-)
- create mode 100644 fs/minix/iomap.c
-
+diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+index 276720bc18dc..6f3f79fdbd8b 100644
+--- a/fs/iomap/buffered-io.c
++++ b/fs/iomap/buffered-io.c
+@@ -2066,3 +2066,34 @@ iomap_writepages(struct iomap_writepage_ctx *wpc)
+ 	return error;
+ }
+ EXPORT_SYMBOL_GPL(iomap_writepages);
++
++int iomap_symlink_write(struct inode *inode, const char *target, int len,
++		const struct iomap_ops *ops,
++		const struct iomap_write_ops *write_ops, void *private)
++{
++	struct kvec vec = {
++		.iov_base	= (void *)target,
++		.iov_len	= len,
++	};
++	struct iomap_iter iter = {
++		.inode		= inode,
++		.pos		= 0,
++		.len		= len,
++		.flags		= IOMAP_WRITE,
++		.private	= private,
++	};
++	struct iov_iter iov;
++	int ret;
++
++	iov_iter_kvec(&iov, ITER_SOURCE, &vec, 1, len);
++
++	while ((ret = iomap_iter(&iter, ops)) > 0)
++		iter.status = iomap_write_iter(&iter, &iov, write_ops);
++
++	if (unlikely(iter.pos == 0))
++		return ret;
++
++	mark_inode_dirty(inode);
++	return 0;
++}
++EXPORT_SYMBOL_GPL(iomap_symlink_write);
+diff --git a/include/linux/iomap.h b/include/linux/iomap.h
+index 56b43d594e6e..9274fa256bc9 100644
+--- a/include/linux/iomap.h
++++ b/include/linux/iomap.h
+@@ -393,6 +393,10 @@ loff_t iomap_seek_data(struct inode *inode, loff_t offset,
+ sector_t iomap_bmap(struct address_space *mapping, sector_t bno,
+ 		const struct iomap_ops *ops);
+ 
++int iomap_symlink_write(struct inode *inode, const char *target, int len,
++		const struct iomap_ops *ops,
++		const struct iomap_write_ops *write_ops, void *private);
++
+ /*
+  * Flags for iomap_ioend->io_flags.
+  */
 -- 
 2.47.3
 
