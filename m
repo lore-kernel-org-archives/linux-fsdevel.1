@@ -1,45 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5B7EED8;
-	Sat, 11 Jul 2026 01:06:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B301BEEC0;
+	Sat, 11 Jul 2026 06:22:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783731972; cv=none; b=iwfUknhkoDp95C/XX6yK1eOdH7kdIhe69ksO8mH59cwzJ4slyAKBQcrl2YpTgLOxmCMPDko9mXxOqseI3HfKmCKXVXTzasxnl7tw+oGOZTU1SHtMLcUoh6tP+Vc7/O706q469ReRKY5mVQDS4xliB0T2nWU+IGIxLeASeAjzT+E=
+	t=1783750929; cv=none; b=DtNKPFWpqxCdYqmVqMfK6OLWlrqUcjlI8O+4aqEyt7K1EvIdqgICLw5WcPrkO5uNxMpogGmxEALRC7aXKVYuMcv9/t2+zM3yS/2DfJxxjwPQzb8BWKRitoIAg+qowIfZ24VfX8PEb86/eLwad1xGXddJY8qSXv1yoRbkNB3dbco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783731972; c=relaxed/simple;
-	bh=uIqPh2KSP9NazaagUlhNW6JsbW9jIMkwWO+OWBL96dk=;
+	s=arc-20240116; t=1783750929; c=relaxed/simple;
+	bh=WbIgITf+aHGNMFdZM2hnYV5tmAqGANAREaGRZ4MOOuY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DHbG3XyrqfAv9kyacOPXbVJPAx+VOIp1SLqy5Bw0N0nwPMo2Q6gNLCBSfginrX/2TqmaP/D4kvxeDVCsANRslp1KMm0uMRET1lyl0x2ua0nt1yWx988ykQR15DPF48gcNBcSTA25Um1GzTNn0g2Hf/rZokCWoxYYKdkTXANTEnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mMcBEoZt; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=iZP3YoTGP7NrVFDSlaGYgCGFgprRK90nxnmdfmiANs3wTe0zh4nDZ3igLEn7sbhIdPnT2PM7j/eFb3x2iswzCzso6ta+gjVBxkh2SBQhXbPxFwvbnqhnSTzmXTdeBentzKPmyFAleJmvfHDKxeMi5lLgrf58i+Yr9l5gOQdOfXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=coo0niBU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mMcBEoZt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E78EB1F000E9;
-	Sat, 11 Jul 2026 01:06:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="coo0niBU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D88FC1F00A3A;
+	Sat, 11 Jul 2026 06:21:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783731971;
-	bh=Z1JsX9peK+DaHBSGxqPCV8pzR9YubUyAgMDuHcT34Uw=;
+	s=k20260515; t=1783750928;
+	bh=WbIgITf+aHGNMFdZM2hnYV5tmAqGANAREaGRZ4MOOuY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mMcBEoZti/qlk5q85oCFNhg5hB8rgjzcrSp/g4Xr2T00+GghMjSubevYIYhM1p2wQ
-	 BwzqSGg0PLLZqtHYZbiWJyu5RyWKnki0m33X3fEv3MaevCjrwxQ7sVQvQq1EYzolz1
-	 M444jLc6MVu8hc/ctEXaimlk2Ifs/vpZPDlQmMAQxPxWvn3MdGToQCueC4DCdUfuAM
-	 yX3NrZfLS7JjMtvb7JXLpgbary8SVf7CON43//x9HZYY0xusUWHToLk7gGxSMXQxfX
-	 bzV9k7CIq7zZUx+3tzO2djkQJ5emGczx8/WnRDFLJdL8o+4b2Rx1KLg5uTxmEvQpmC
-	 Fxyb0jrmT9Ysw==
-Date: Fri, 10 Jul 2026 19:06:09 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
-	axboe@kernel.dk, brauner@kernel.org, aalbersh@kernel.org,
-	jack@suse.cz, tytso@mit.edu, jaegeuk@kernel.org, cem@kernel.org
-Subject: Re: [PATCHv2 0/5] direct-io file extended attributes
-Message-ID: <alGXAan8P6mnbvvz@kbusch-mbp>
-References: <20260710210646.3576365-1-kbusch@meta.com>
- <20260710215328.GE1911@quark>
- <alF5BHEZ5czyJWaY@kbusch-mbp>
- <20260711002412.GG1911@quark>
+	b=coo0niBUkp/gUkbRSatT5EJ6NfiQ7ezfzQNFFEka9gd//4UjxtBzc7RBi4OLd8CJp
+	 zhITxjhwTqPhMy21VbSNO5jlWP62czybhR05pJZTJTb3iv0IdJ+TlpfkpIyIm/4CeK
+	 +n6PGnXcW/v4qnadjp5ztDaRzxkkltVfID9+KdWba4BSS6I4vpCR+8z1NGu7pVTOYK
+	 3SWYJRt3520w13mZ0szu/3x63YnNWVCUI7AtJTClfOv5gpw/pdE0wkv/FwletvuCgz
+	 VSb31m3ojblPokIyzlMhDyaw755+CWsZBp7wZoYS2xjQCz/QLSkvrDwTE0v7OEpi+A
+	 fef8MnSSiqRUg==
+Date: Sat, 11 Jul 2026 07:21:43 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Gregory Price <gourry@gourry.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Russell King <linux@armlinux.org.uk>, Dinh Nguyen <dinguyen@kernel.org>, 
+	Simon Schuster <schuster.simon@siemens-energy.com>, 
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Ian Abbott <abbotti@mev.co.uk>, 
+	H Hartley Sweeten <hsweeten@visionengravers.com>, Lucas Stach <l.stach@pengutronix.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Thierry Reding <thierry.reding@kernel.org>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>, Ankit Agrawal <ankita@nvidia.com>, 
+	Alex Williamson <alex@shazbot.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Dan Williams <djbw@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	"Liam R . Howlett" <liam@infradead.org>, Matthew Wilcox <willy@infradead.org>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, SeongJae Park <sj@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
+	Hugh Dickins <hughd@google.com>, Mike Rapoport <rppt@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org, linux-sgx@vger.kernel.org, 
+	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-mm@kvack.org, 
+	iommu@lists.linux.dev, linux-perf-users@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, damon@lists.linux.dev, 
+	Pedro Falcato <pfalcato@suse.de>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+	Jann Horn <jannh@google.com>
+Subject: Re: [PATCH 27/30] mm/vma: correct incorrect vma.h inclusion
+Message-ID: <alHgvYH3F9FkObri@lucifer>
+References: <cover.1782735110.git.ljs@kernel.org>
+ <22d0f4e3fe11f6fd1312734e242d008267ad142c.1782735110.git.ljs@kernel.org>
+ <alFHR3fg8K1-SITK@gourry-fedora-PF4VCD3F>
+ <alFJUfaGHVnKd-Nb@lucifer>
+ <alFePgFUR52GgBS7@gourry-fedora-PF4VCD3F>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -48,75 +78,24 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260711002412.GG1911@quark>
+In-Reply-To: <alFePgFUR52GgBS7@gourry-fedora-PF4VCD3F>
 
-On Fri, Jul 10, 2026 at 08:24:12PM -0400, Eric Biggers wrote:
-> On Fri, Jul 10, 2026 at 04:58:12PM -0600, Keith Busch wrote:
-> > dio offset alignment of 4k, and a virtual boundary of 4k.
-> 
-> So each segment's length has to be a multiple of 4k, *and* it has to end
-> on a 4k aligned memory address?  That implies the segment begins at a 4k
-> aligned memory address as well, which is just stx_dio_mem_align=4k.
-> 
-> What am I missing?
+On Fri, Jul 10, 2026 at 05:03:58PM -0400, Gregory Price wrote:
+> On Fri, Jul 10, 2026 at 08:35:43PM +0100, Lorenzo Stoakes wrote:
+> > >
+> > > Do you actually need 3 copies of this comment or just one copy in
+> > > vma_internal.h?
+> >
+> > I'd rather have it at a glance, it's a bit silly but C headers are silly :P
+> >
+> > BTW you're kinda racing against time here as I'm on the verge of sending v2
+> > :P
+>
+> :[ i don't refresh my inbox when i get hyperfocused and now i am sad
 
-I'm apparently poorly explaining PRPs, but I hear this is a common
-experience.
+Oh no! But that hyperfocus sounds familiar ;)
 
-Simply put, any virtually contiguous buffer that starts at a dword
-aligned address is a valid io vector, no matter how many pages it spans.
-It doesn't matter where it starts or where it ends, but every page in
-the middle obviously starts and ends on their page boundary.
+Apologies for that, I did hold off some hours. But you can at least see that I
+did all you asked in v1 :)
 
-Simple case: pread/pwrite. You can consult statx to know you can provide
-any dword aligned buffer with an aligned length, and that's a valid
-direct IO.
-
-What I'm trying to enable here is the vectored preadv/pwritev type paths
-for hardware that don't need to subscribe to PRP constraints.
- 
-> What is a specific example of an I/O request that you'd like to be able
-> to submit that the existing UAPI can't declare support for?
-
-I want to support NVMe SGL. This allows virtually *discontiguous*
-segments that we currently can't distinguish with what statx reports.
-I'm trying to report limits that let applications know what constraints
-they're dealing with.
-
-> > If SGL were supported, there would be no virtual boundary gap, and max
-> > segments is 256.
-> 
-> Can you elaborate on why DIO users need to know max_segments?
-
- * Logical block is 4k.
-
- * DMA granule is 4 bytes.
-
- * Max segments is 256.
-
-That's very typical NVMe device contraints under SGL capabilities with
-the linux driver.
-
-You can provide 4 byte vectors as needed, but you'll hit the max
-segments limit before you have a valid IO if they're all that small.
-The average size needs to be larger, so we need to communicate that
-somehow.
-
-To be clear, I'm not interested in trying to enable applications
-dispatching thousands of 4-byte vectors to do an IO. That's a stupid
-application. The applications I'm trying to enable have unpredictable
-offsets such that a tiny fraction of vectors are indeed that small, but
-that's not a typical vector for the payload. But I can't enable just
-some without generically enabling all.
-
-> I'm worried about the UAPI duplication, as well as it going to be very
-> difficult for userspace to correctly use this information.  With just
-> the two alignments there's at least a chance of them getting it right.
-> If we throw virt_boundary_mask and max_segments into the mix, I don't
-> think there's much chance.
-
-The blktests framework test case "block/043" does this with great
-success with these exact parameters, but it takes these paramters from
-the sysfs attributes. The same test works with filesystems too, but I
-haven't gotten around to porting it to fstests because it's gating on
-having this series.
+Cheers, Lorenzo
