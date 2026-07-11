@@ -1,143 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2DD231A3B;
-	Sat, 11 Jul 2026 13:37:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E19D280CE5
+	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 15:07:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783777038; cv=none; b=byS3IM4osfe5ZbiUSpwFqEo0Ne6nIQBag9FKzsV47hF/Zy++fdRFCWVbnkpt18qagR+ZayIC2XDOF+N40dj0ldlrTj2EzqzlQEPil2vZSoTO/+gMKKvTYTfLHaCWRp7OEIf5Gx0V5LKGh2L1/8m5DgorAnU4eljGXqCzrkhSWiY=
+	t=1783782431; cv=none; b=fgUL8UQvxUoaw9DvBrUfboBEov7HdLcUWU5wib07FM9pG9Qmsu0Qn2uVbL0hAv0v/c3h4pLVZrtrHCPP7A4sN5/PyON4Leot85X2asTwe3rQIuVLH/q+RI/5zQNsRRZIicWQAsn+4Jmi0Gdqd+KL7Aj6mLazUvmuO2kk6gnp2mA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783777038; c=relaxed/simple;
-	bh=oCO25h/qzA7JWr1F0G05dCEWeqfzbAVi3ewe79pUxjo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tswfM0KWu9Gnjc1SoF7tv0OUbCJeIcmkv3KciBLY4DAELDpTBgIpHbS2gtvPM/ZbNtWFyL5EE3R0WFRTAhWQ9TPYv+Sr25NrLwPabDoX/2bn6QVKCwGFPGjMYSRRKfqWCNdrVzL8Iu8VE/Ok1qXbdZc42qgFL+LLThiik2sdVEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=buQNiCI8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783782431; c=relaxed/simple;
+	bh=5aUkxlSIulkhERNeZp4fHGXyOVMGdheq/O6gyd5lrIA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HEAI+UkoClNatFPTJcMVxKttzaRAR6ZnC29GSskGnT1JYNmUamnMmFmigLLcHSgR+S79Mej3NVpWmHMKZ6rPqbGwYUsxVEnq0LGS3vafIjWXHZsLJlLPPpGjssFx/eEljjBNZEhyiauE7ZPLN0iy3JlwCwIf6osHulst/2eu1JY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PtDJR1tI; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="buQNiCI8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C25DC1F00A3D;
-	Sat, 11 Jul 2026 13:37:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783777037;
-	bh=kQ2YPpQ+OKvGSxsbGYyc/HdCPslmjSZOQRyttjloA7k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=buQNiCI8AypAeRcAop1S4vytzZRqznSNXHeJUvhibY3OxByKSy7eX8nZOO8rU4FI6
-	 4L40NfBZgqbaTwTQnRvDUAEHHWjZ6Ghm1rM+D2u8AzGvOErrSUmQ7ItxRYcmBaExon
-	 15y6FFIH35x1VnC2YDrKXmktVOBTU/s1MehPXSiPNFrKyPodNnFWvVoFzfe7LhhSms
-	 kVh3+8qYu569zXbtD5U4Z9uh3aYZhqW7yb53SDNTpbwfEIH8Q6aGqNOaccW+tSeof9
-	 N+qPkYCZuONaudPo/RYZto89q9WDOjR+sg6r56cuhUbdpob7lzLLLly3snGVW8rS31
-	 P/VEHD6CB521Q==
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailfauth.phl.internal (Postfix) with ESMTP id F25E0F40072;
-	Sat, 11 Jul 2026 09:37:15 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Sat, 11 Jul 2026 09:37:16 -0400
-X-ME-Sender: <xms:C0dSakSjmJY3jj3jOU6_Q1J64Y_8v5h4OwzvYx8obOf58tS6VqjZew>
-    <xme:C0dSajIzdx5MMZLJ9TNUb2oFYQasiUZdlxC9EQ_z0CgQgFuqrG-5xyo_3PvNTwyHX
-    CsczMYk6Pa6PcMgO1B22Wmz-1ekhZH3KERekBA4kvx53alkCkSI>
-X-ME-Received: <xmr:C0dSarF3jjownAopmEMb7m6fNztLZESBWgpaPeOS6HSPo-zQkUPHAwLTlxiexvCoGsfsZhHicfsa1vD_CGTen3BenDATyLQc>
-X-ME-Proxy-Cause: dmFkZTG3277EaB1eFkbvu0Arda0XdgidpS9HPvv+ZYx54fD/qgK/J54VA/lzP9EBo5m6EK
-    z/YtoFDRFaMwToALFQ5J/32YmBsI4xP/QMM1OBCfc2IgQULQ67VlzIJgL0izRdUbIaQePa
-    qzoRSyebCe9N6Y2saHTWQXpPuDFMu76iPeoSfZ8fGQwHFixWx5dWLYpqpQawkozRSJryRL
-    8K9+iFLNwNFtO+4QdeNXNW90C99mmP3SdRiI7BUKZKRSTiBx1zBbtM0236jJ6AmH/pwlm2
-    /ckBQHzXmj1X2X21YBnlSbO7nAkPdRmivWFHCAwY8bdwp5eyQ6Q2VOsW6A9f//Mf39THZM
-    Y/kD2zxkNO2mDY12ddFLT+hf6/dEFPdDsYxMCu3rxM4rxOQkP5QltC8QfCTCEltnV1WSnh
-    i1wh3kvcwq708wg6O6MsADzVKvSmvGn6FGY3Gn6we/MKnHIx35wR2pHzLyzcyQGExK+pA4
-    7ZLZmgzDw0g+g36NFJIfi910pqqcdwp9wIJyMx9sJQeEHaOjGEMAWPT55+vtFOTtvGKYo4
-    wiGXItorRjSahV+x4pM+KI3PM4/Ib8Ucyjd4QFfTxX9FcSmWNlnsXZ/z0UNqyePo51ZZr8
-    H4oWIGGzqYbF9C9STr7l4VTfWag74YkysG3QsLfThKaCILWutjLKUDefqs7A
-X-ME-Proxy: <xmx:C0dSagSzVMf82prpulOnZUjXNOp0-8naazdHFhZld1jtOc0midP86A>
-    <xmx:C0dSakXaO42VLrJzn0xuXuMwTM8AXv6o1ch4tttQoagpYtLhFmPx_Q>
-    <xmx:C0dSavhKFQsTjpf_TnD8ZrAZPM4rHqbN75-ApyNLi1ycTI2CXUXx3A>
-    <xmx:C0dSatcN-7fmlAPMQrNiwqIWAu4kbPTc8Em32-MtlA43EJ3NsQ_ApA>
-    <xmx:C0dSaqdGPj0ZPq_K8nDuImUJotjPzByJOoKHW5WyW1XBXCU_66m0sNUX>
-Feedback-ID: i8dbe485b:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 11 Jul 2026 09:37:15 -0400 (EDT)
-Date: Sat, 11 Jul 2026 06:37:14 -0700
-From: Boqun Feng <boqun@kernel.org>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Carlos Llamas <cmllamas@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>,
-	linux-fsdevel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 2/2] rust_binder: move (e)poll wait queue to Process
-Message-ID: <alJHCkMIcnXYPNoJ@tardis.local>
-References: <20260707-upgrade-poll-v6-0-4b8fae7bf1d9@google.com>
- <20260707-upgrade-poll-v6-2-4b8fae7bf1d9@google.com>
- <alGOptAAFXuHscmG@tardis.local>
- <alIbx8oav01VLarX@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PtDJR1tI"
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-92efc443c61so20850985a.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 08:07:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783782429; x=1784387229; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=lTWLgXlcQl8Cccs9msbh22ddO/TiG4mAqMFaTuD2LHY=;
+        b=PtDJR1tIlWmKkiXkJgiHUpjK51g+vMdLJ4Oy59n87baZyHxXwPjZ6bS9n9AWnN6ZJq
+         /9e//4H8NsDdig5cwLLJpX8qc6CsXm1VkfGck6l6BbjD6pZVBafceT06FuP3T6wHkW26
+         Ts8UDBTyx+uV26uD/md4bmlnHcrT7FLR0kKCEFvH3aKZzuGApVqqGledE4A2bzqgd+jI
+         v2xBiIxh8nBVsT0u1AwCB6FTB9ispW2DbLlBBwbewIRe9dihGB3DSlrCgKzxihHZxf3q
+         z9FvXSTvOSsMcYdWJG8B0X+SLvz8XB9jXNzYfMV73OvbFURzbCqVbM20kFc7h7a9bIUQ
+         uGzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783782429; x=1784387229;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=lTWLgXlcQl8Cccs9msbh22ddO/TiG4mAqMFaTuD2LHY=;
+        b=FLygwUahs9oCpoME+WDsWNjZcjUJada8TUQJwBlHR4oHAJEIplH6/xgvOzjVoQHta3
+         358YJ9SlCMbabDHUU7XGJY4+VZ+bXixXxl8x+rlRtoyuT/ECqtXGnlEBQ+Krg8sTriDN
+         H8oSWhhnAze3czswo2EY9XQl7AblbnTK5mlTyyUPOdrlfDAj7MIIfHHey4odRMwmFH/t
+         8genhRBzeFqhBYp0WqnK0CylDBB5K0ClOjA6W97f2zwiaY7sBMUoAZXDxhdxKizMvODb
+         zukPS/1PLQu4HOeqoa61A1f4fxzyg8TVIBjXeZbvIY9HgKG6Dj3QxMtPbZo6oO9g/+M/
+         cOdg==
+X-Forwarded-Encrypted: i=1; AHgh+RpN+1PkPfjMNqewsNtCJtrxWZy8Dw8hc1uMjrEoZqoOU0LQu+GgBTEsSDclWS/tndPDz4BVcii4XuC0xTvK@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUQF8gvFPio7+ISyoiQprsDQZTQgtQIe5FkHgv4hCziZF+W7hi
+	aN2WtEFHbNHEaGUvTdV19N+N3U42Ous3QGjENkFRCUpVNVIZycNUKw71
+X-Gm-Gg: AfdE7cl7cc9XhNf6pZqUmIAy+TxWSCjy3eR4T3yhP+4ifPgWm7DRBRIvxK4DxfPeibY
+	V8YBV0LDY+9HGUn2f5e230KIqeWKtbAWIgSDoF12gpLBIzGwKelqhcFtDZqqRtL215sPbcqvfAD
+	OilRCUPx0Yn1WE5v5ZXqQqcUGeZRUukHUQAPPcL9WIWpaOcGHd+Cl2uLxczqPpeB+KqlkXHPkHY
+	bvQnwH9p6ALTWuzycodyRPrHszuaCN5Q+gVkTE1FDyW8RmGjCnei0aHB7J7NjTPTY3GP7Q9T2uJ
+	PmYGmZL7XNeBFBTbuFRL/Vf/DjlcaIxPljZwG41zlHPf0uK2psEEg5lnIMA2AufU2qb9fX9wE8x
+	8Lx8dpak3RF9czLC3SzYqBLAGY8cH4TLnqvVv5f7XcvqRBH/l9KiYT8kz8Wl149P1MigWZwm476
+	aCmq+paAECKSawXjfHXS+YXzTvZLX5KwVqy9GtSVxXc7sUuHSLTZrzz2ndISoUKumGQ5l42c6YO
+	7E8lq/aRA==
+X-Received: by 2002:a05:620a:394b:b0:92e:e252:bb43 with SMTP id af79cd13be357-92ef2cd093amr367391985a.77.1783782428765;
+        Sat, 11 Jul 2026 08:07:08 -0700 (PDT)
+Received: from server0 (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92ee5b8b3f2sm471818485a.13.2026.07.11.08.07.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Jul 2026 08:07:08 -0700 (PDT)
+From: Michael Bommarito <michael.bommarito@gmail.com>
+To: Ilya Dryomov <idryomov@gmail.com>,
+	Xiubo Li <xiubli@redhat.com>,
+	Alex Markuze <amarkuze@redhat.com>
+Cc: Viacheslav Dubeyko <slava@dubeyko.com>,
+	ceph-devel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] ceph: bound copied dentry name length in NFS export get_name
+Date: Sat, 11 Jul 2026 11:07:05 -0400
+Message-ID: <20260711150706.2915970-1-michael.bommarito@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alIbx8oav01VLarX@google.com>
+Content-Transfer-Encoding: 7bit
 
-On Sat, Jul 11, 2026 at 10:32:39AM +0000, Alice Ryhl wrote:
-> On Fri, Jul 10, 2026 at 05:30:30PM -0700, Boqun Feng wrote:
-> > On Tue, Jul 07, 2026 at 10:43:13AM +0000, Alice Ryhl wrote:
-> > > +        {
-> > > +            let poll = loop {
-> > > +                if let Some(poll) = this.poll.as_ref() {
-> > > +                    break poll;
-> > > +                }
-> > > +
-> > > +                let poll = PollCondVarBox::new(c"Process::poll", kernel::static_lock_class!())?;
-> > > +                // Reuse our existing lock to synchronize callers initializing.
-> > > +                let _guard = this.node_refs.lock();
-> > > +                this.poll.populate(poll);
-> > > +            };
-> > 
-> > Note sure whether this lock is needed? SetOnce::populate() should be
-> > atomic, i.e. only one populate() would win?
-> > 
-> > Also seems we should have a SetOnce::as_ref_or_populate(&self, default:
-> > T).
-> 
-> I'm taking this lock because I want to ensure that losers only loop
-> once. The problem is that just because you lost the race in populate(),
+ceph_get_name() copies the MDS-supplied name into the caller's
+NAME_MAX-sized buffer with memcpy(name, rinfo->dname, rinfo->dname_len)
+and then writes name[rinfo->dname_len] = 0, without checking dname_len
+against NAME_MAX. A malicious or buggy MDS that returns a LOOKUPNAME reply
+with dname_len > NAME_MAX overflows the buffer. __get_snap_name() copies
+rde->name / rde->name_len the same unchecked way.
 
-Then probably you could add some comment explaining this. For example:
+Impact: a malicious or compromised Ceph MDS overflows the NAME_MAX name
+buffer in a client's NFS-export get_name path, a slab out-of-bounds write
+reported by KASAN. Reachable when a CephFS mount is re-exported over NFS.
 
-    // Reuse our existing lock to synchronize callers initializing to
-    // make sure in the next iteration `as_ref()` will return `Some`.
+Add ceph_export_copy_name(), which rejects lengths above NAME_MAX with
+-ENAMETOOLONG before the copy, and use it in both ceph_get_name() and
+__get_snap_name().
 
-> it's not guaranteed that as_ref() will return Some on the next
-> iteration, since the winner of the race may still be busy executing
-> populate(). Taking the loop avoids this possibility.
-> 
-> With regards to as_ref_or_populate(), I point you to this discussion for
-> reasons why this is hard:
-> https://lore.kernel.org/all/aZLZbN5C3wXgt3kL@google.com/
-> 
+Fixes: 19913b4eac4a ("ceph: add get_name() NFS export callback")
+Cc: stable@vger.kernel.org
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+---
+ fs/ceph/export.c | 26 +++++++++++++++++---------
+ 1 file changed, 17 insertions(+), 9 deletions(-)
 
-Seems to me you really want OnceLock behavior here, and other code may
-have the same requirement in the future. So maybe we just add OnceLock
-for it? If the space cost is the concern, we can add a 
-SetOnce::populate_with_lock(&self, lock: &Lock<..>) to provide users an
-option. I think it's better than open-code here.
+diff --git a/fs/ceph/export.c b/fs/ceph/export.c
+index b2f2af1046791..debb9634b9e3d 100644
+--- a/fs/ceph/export.c
++++ b/fs/ceph/export.c
+@@ -442,6 +442,16 @@ static struct dentry *ceph_fh_to_parent(struct super_block *sb,
+ 	return dentry;
+ }
+ 
++static int ceph_export_copy_name(char *name, const char *src, u32 len)
++{
++	if (len > NAME_MAX)
++		return -ENAMETOOLONG;
++
++	memcpy(name, src, len);
++	name[len] = '\0';
++	return 0;
++}
++
+ static int __get_snap_name(struct dentry *parent, char *name,
+ 			   struct dentry *child)
+ {
+@@ -513,9 +523,8 @@ static int __get_snap_name(struct dentry *parent, char *name,
+ 			BUG_ON(!rde->inode.in);
+ 			if (ceph_snap(inode) ==
+ 			    le64_to_cpu(rde->inode.in->snapid)) {
+-				memcpy(name, rde->name, rde->name_len);
+-				name[rde->name_len] = '\0';
+-				err = 0;
++				err = ceph_export_copy_name(name, rde->name,
++							    rde->name_len);
+ 				goto out;
+ 			}
+ 		}
+@@ -580,8 +589,8 @@ static int ceph_get_name(struct dentry *parent, char *name,
+ 
+ 	rinfo = &req->r_reply_info;
+ 	if (!IS_ENCRYPTED(dir)) {
+-		memcpy(name, rinfo->dname, rinfo->dname_len);
+-		name[rinfo->dname_len] = 0;
++		err = ceph_export_copy_name(name, rinfo->dname,
++					    rinfo->dname_len);
+ 	} else {
+ 		struct fscrypt_str oname = FSTR_INIT(NULL, 0);
+ 		struct ceph_fname fname = { .dir	= dir,
+@@ -595,10 +604,9 @@ static int ceph_get_name(struct dentry *parent, char *name,
+ 			goto out;
+ 
+ 		err = ceph_fname_to_usr(&fname, NULL, &oname, NULL);
+-		if (!err) {
+-			memcpy(name, oname.name, oname.len);
+-			name[oname.len] = 0;
+-		}
++		if (!err)
++			err = ceph_export_copy_name(name, oname.name,
++						    oname.len);
+ 		ceph_fname_free_buffer(dir, &oname);
+ 	}
+ out:
+-- 
+2.53.0
 
-Thoughts?
-
-Regards,
-Boqun
-
-> > The rest looks good to me. FWIW,
-> > 
-> > Reviewed-by: Boqun Feng <boqun@kernel.org>
-> 
-> Thanks!
-> 
-> Alice
