@@ -1,81 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FF9313539;
-	Fri, 10 Jul 2026 23:46:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DB7625
+	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 00:11:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783727207; cv=none; b=mPzN4TuOuNHGoBE8f8QVuqqanBtdZqIm5T9R3rp/JcHMazejneo77r5lhpOGGu1lDeDGuAMj8AjoO52VQ3I3yrCUc3BvBzZZjqOTX8hJ8FLPhGune8lNaxzoNlvLr7XlhbV8MI8uHV6Shb1i6vcNDWJw7UnzL3DJbhOgpYcCbu8=
+	t=1783728707; cv=none; b=RRNw1EIViBCbOA1nCFy/KCfAxQaI9siopt+/1fcF6LcZUOB4rhMVuVlCBtkNy9V3q8Yk+7aRxmqzTMNuHTOgHxEoYng7DOYmboxRd96beu8A0NaSSlglVIyoGNdiMfbp1fiJGgk9vnJJCPYdi+cgCsuRLmY+PLBB6guY7MGlhcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783727207; c=relaxed/simple;
-	bh=c1o4i0yMAiQO42ywmir9kBPguDPE+ayMkOeVSpJ5eNM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qdY5XK5QcnVr7/UV7Pw8FDvft+G+fOq8Z+b67XI9mnh3mpjso8aVV9WMOJGxTpWMxigTjN+ygOrIvhVxupKeC6xPILyO2CR4/KAX200lLrzMhJsc0dpOOSu87AdwjwFYcknXl/nbbRTnGW+KBVsE95H+YVSLzhqbxKLai+DUJII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PWVBCaww; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783728707; c=relaxed/simple;
+	bh=ytf54I79C79o3jv1eWgW53eSwrpBJFUofzYB8dgQa7A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=UuC26SpoLfJHzJB+b+7xam89xbpv9OiTvLPjM2uFyAc3MqJniDNeFl26DmcrYkcpJxtq18vKaes5U/zhAj6tpxK7GDoFoYZgfCh3Dgqy7CvsUAn/0rWhAOuZSauZYNODjxPJ0wflxAiOwOdPmchtRKK1hHFJwLM/kL4b7o0DGm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hzhPKIOz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PWVBCaww"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 492571F000E9;
-	Fri, 10 Jul 2026 23:46:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hzhPKIOz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFAD91F000E9;
+	Sat, 11 Jul 2026 00:11:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783727206;
-	bh=zAbiTc7SV8WiZhtg1dsCTH30vdfKHqz6tA06wbzCfJc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PWVBCawwijQB/x3en5NPn3juXXtN9ssNB2wEo1g8Hl5QS0+9MAwyDUQ8g1GYPbCky
-	 GVh7NfQh7RDSfNvhDuENXbffBuPwDUsTlebfZuonKA9vYyts+e3wNy3afdXkTn1cpM
-	 ohcgttvVFx1xb2AcGJdSkpCk2DMuLtzRtREuRy8tgZjFz471v0YOjJl/3Nl6/yFZ7X
-	 wCc6Q6Y9d1+8qRLgOqHBkMqH6XmuUtc8CgMkqtqZE18+vWI2wIKHzj+Tyjnbx5d5lQ
-	 jYllwlbEIDK3xm4CkL+6J114aktvnqw5qfk+3JYcc2ea5fM3idvU08Iq1JtAOlJ5g/
-	 J4hKNV5Lc+Z6Q==
-Date: Fri, 10 Jul 2026 19:46:43 -0400
-From: Eric Biggers <ebiggers@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: linux-xfs@vger.kernel.org, fsverity@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, hch@lst.de,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-btrfs@vger.kernel.org, djwong@kernel.org
-Subject: Re: [PATCH v11 06/20] fsverity: don't allow setting DAX file
- attribute on fsverity files
-Message-ID: <20260710234643.GF1911@quark>
-References: <20260710085256.3464201-1-aalbersh@kernel.org>
- <20260710085256.3464201-7-aalbersh@kernel.org>
+	s=k20260515; t=1783728705;
+	bh=GyhyGqRQKroxfW64L6xRU5J7B1yOFnOg9sGO4fxh29w=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=hzhPKIOz1/a5ZgRJtwQJsSVMipKqRsxh4xC1SafTDqvlf9fYPhaRnD06UzykQwSmX
+	 drMaevmaL/tyy5aP0YNVEb9iN+0zBuTr7yb9tKCaPKLsbw5K24Uz9m9N0FefCz8mX3
+	 ka+1TM+AVAGCn0E0mHWuHigsuO6qPCocrN58Cdl8lsehK15UwEP32JmCLhdZZFkL3o
+	 QIgo9+NgIbFO4HmGWWGi0y2dh8ZMvV+zcwUL8TVS3+yIkK+p1b4vPl7ExauR9g444Y
+	 xOgMzG+ChBvEg80rzrcQcrzVyTwiv7tLHMDQfdtnlUDg3XtEG3EM3+Ai4uVVHDD6j5
+	 DaMhRZLa6zrMA==
+From: SJ Park <sj@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: SJ Park <sj@kernel.org>,
+	willy@infradead.org,
+	jack@suse.cz,
+	akpm@linux-foundation.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH] mm: remove wb_writeout_inc
+Date: Fri, 10 Jul 2026 17:11:38 -0700
+Message-ID: <20260711001138.30784-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260710051052.1839523-1-hch@lst.de>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260710085256.3464201-7-aalbersh@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 10, 2026 at 10:52:34AM +0200, Andrey Albershteyn wrote:
-> When fsverity is enabled on the file, with FS_IOC_ENABLE_VERITY ioctl(),
-> it checks if file has DAX enabled and fails if that's true. However, the
-> opposite case is not checked.
+On Fri, 10 Jul 2026 07:10:52 +0200 Christoph Hellwig <hch@lst.de> wrote:
+
+> Remove this entirely unused but exported function.
 > 
-> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-> ---
->  fs/file_attr.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/fs/file_attr.c b/fs/file_attr.c
-> index bfb00d256dd5..5424ec4e3949 100644
-> --- a/fs/file_attr.c
-> +++ b/fs/file_attr.c
-> @@ -246,6 +246,11 @@ static int fileattr_set_prepare(struct inode *inode,
->  	if (fa->fsx_cowextsize == 0)
->  		fa->fsx_xflags &= ~FS_XFLAG_COWEXTSIZE;
->  
-> +	/* Can not enable DAX on fsverity file */
-> +	if ((old_ma->fsx_xflags & FS_XFLAG_VERITY) &&
-> +			fa->fsx_xflags & FS_XFLAG_DAX)
-> +		return -EINVAL;
-> +
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-This sounds like a bug fix.  But actually ext4 already checks this in
-dax_compatible(), and the other filesystems that already supported
-fsverity (f2fs and btrfs) don't support DAX.  So I guess this is really
-lifting that to common code?  But the existing check is still being left
-in place because it's still needed for ext4 specific flags anyway?
+Acked-by: SJ Park <sj@kernel.org>
 
-- Eric
+
+Thanks,
+SJ
+
+[...]
