@@ -1,368 +1,222 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F4827B35B
-	for <linux-fsdevel@vger.kernel.org>; Sun, 12 Jul 2026 06:09:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955E7149DF1;
+	Sun, 12 Jul 2026 11:02:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783836581; cv=none; b=KCIEHIlfeGRhSbZUXO7nb2b0bhB/LwmvkV0oCf4woj0AEMyZ/MpRyveEXK8HN4hn3l9SRFQhOmnr03OodNnTSSu0gygIBORMNZ0Hv7yqUByLvS16K+BMZceZ91/H69hBW0VTR8Z6qvWUf335m3Ar4ojEcLqLho2YILhc2xhhb0o=
+	t=1783854159; cv=none; b=qfR97Md3x03z4XsjxwSfQOSlgkA4VB4cyZjZv3RaebcL1h61Vtp820wjBGfsXSqogsmBgLoqBF3br6ni9Mf82WBzmNAANviLGhpU9VO2LVmFe6GwF5U4k5otZFglnf6gheTc1IrJ2UpQVcise745g5FKBwz8BVxWQaXg2k1QFnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783836581; c=relaxed/simple;
-	bh=psgcux/BufkYGLq3HRwWFkJFQw510Jfw1T4w6WdjkqM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bLoZNGq1dufEKGYxIS6ScYjlkpB4WVZLzMKFh2m92PUq7FUfHzOANOv5cA7BWcaDfE29xejO80s5ebLhjsAjbHOBeMKffe4NRP4mqVajtr+L/67WvzMvPXff6BZSl/6ormSwi7UUwEo+QLfEObrt8ZXbSfHAHjNXCFW6pDtHgMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sb47h+a5; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783854159; c=relaxed/simple;
+	bh=QFAERGkwm7FFeWB0LrovUamDAkSprs7aihtdoZvXuKE=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=NKoWjzE/U9Cg81q8x/q+xGMA4Dju/BDKtzUlmXLX0P+/vgeMv2dgD7brrPKZqRPslrVfKKuG/wygnWi2EbpqE7SpjguHA8X987epUkETbAPw3BX/AP4rrrvLI7lz9cujWCucBJ4cd0qgsBWNkvrEucHW0ECWq80VWQu4vKXYC3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=zpHRfiC5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=l6PtvRhd; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sb47h+a5"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2caf228a910so15919025ad.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 23:09:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783836578; x=1784441378; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ZfbNwDGGQLxQKHl2jHyE48UXXgoid1glH3pjyve2Y9g=;
-        b=sb47h+a5ZxGVGXiNyfEdiOH4HuxoY5/NL4rQ8/vWY8E1GxQ6kfu7gON01tPwIiDJ6Z
-         R5aJwVuIpkWNOXV9rAi/X3CwmQc61TGq9F0tmkPFX3uBO89d692nF8mL0XJfWQH+KEjb
-         FEufpwPPGlkhNNd5qYGvBvYeUh4QaO6gxBvWnM4rVlE4CWYNaWtD+ZPCMKdvIzZhhSHK
-         AjrhvBtZ1vladuwWTlQd+VWmMmI7sDo0oclk8C9LmDuisy3fjdE6z8X84wCGp2y54NyN
-         jcnHSNqtFecuq4dFrEy4Yu8QBcySBjq9TZrFAJIrG3d0ASFTuOCZYVNqtlmmcziKWOkL
-         M1Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783836578; x=1784441378;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZfbNwDGGQLxQKHl2jHyE48UXXgoid1glH3pjyve2Y9g=;
-        b=J465lK0tGMvjONWGRa3E38K/AkEaWSjqg7tUjEEDd7N1wclthZ+J0zPknV5IypVthI
-         +ES54oPo1YqbJ/0YsMP/YHjyFH/4pPPc4s0vqpjto1gzz/AtZYD8OlAOFc8WoTiQWiCF
-         yH0QMyNIWKD8OYJ2DveY64PDZ9almkWm4IZ5VRSvqy1dkgStjC889s5ti3wqa2Ba1J+g
-         FHOkquAatpDvDUaENSu+2QI3aT5CmKacOh9cxkf0vqrPQjoxYnz5lioAQsIH9DYTPFfr
-         bvSw35XuN3zDgO5sQVj9N6JVaHRkRUzFKKUyXK09xvaWWCcbXRZGNKBuB/iuJDVi0WRa
-         uulQ==
-X-Forwarded-Encrypted: i=1; AHgh+RonXLmdfrVTen+DnU0UIVAG+06m9Z+OppovH8N8Jj+RqNuyYIH2dkXRen3UhoqM8yVQHMGK11ykStHkLK1r@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJr0i7q3PP3bg47jCv1Gxj2gQco+y2Hl3ZU3dqDV6fqJsXlXc2
-	KdmhQhRsIG/kmb6ZmgqQNw6yF7Nz3vgDCUdFFNgrhQRzUqF8JsMNfynSUn8ag3gL
-X-Gm-Gg: AfdE7cm4gVOPg+S8QA4g8rpTQtLUfhLTD4QxS2nBJQjQABqqafw6zifo3jzrd2fb64m
-	pB0ReqJmk8RjDZAy55vflSgLwe/4LeJejRLl2rWBV23fMlj+IpiqlmIDpWAmQxtSjuVE8Z5M3O+
-	xstoxwgsN/QkjYs74i+k275R8u8MJol8tKdzILQGVX6zg8cJyCgNgZdebXDQujMX399DH84aZ1v
-	RdjUo1hqxxSqs0oNqLoNiIGcJIEtrPyduMFShv63QJXc5uiX9Lqf6JCoVYgY+TiPmG2vPT0JBQO
-	P2fHCf1/KGt0DtNQxDBrsqnZwJjuNSx3o7ot7ogp4ETkBz7B5Hp0A6+qfEEGHh+dmc0FRT4mcUp
-	QuBBbJvHrfoplwAV78TzlaZ10QdXQJp0pL7sg1mwQ+yMEmOPJ1Mx7voe4SctosJArwkECmVtKlm
-	IyKXXvbgzrcD56f6xbcORCEKc=
-X-Received: by 2002:a17:903:4b2b:b0:2cc:76fd:6537 with SMTP id d9443c01a7336-2ce9e7a53edmr46812605ad.2.1783836577645;
-        Sat, 11 Jul 2026 23:09:37 -0700 (PDT)
-Received: from ustb520lab-MS-7E07.. ([115.25.44.221])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d59e33sm80030335ad.74.2026.07.11.23.09.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jul 2026 23:09:37 -0700 (PDT)
-From: Jiaming Zhang <r772577952@gmail.com>
-To: slava@dubeyko.com
-Cc: frank.li@vivo.com,
-	glaubitz@physik.fu-berlin.de,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	r772577952@gmail.com,
-	syzkaller@googlegroups.com
-Subject: [PATCH v3] hfsplus: validate B-tree record offset table
-Date: Sun, 12 Jul 2026 14:09:28 +0800
-Message-ID: <20260712060928.26430-1-r772577952@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <96beade6e2a14b66e80053df0209598e11eb7986.camel@dubeyko.com>
-References: <96beade6e2a14b66e80053df0209598e11eb7986.camel@dubeyko.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="zpHRfiC5";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="l6PtvRhd"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id B209314000F9;
+	Sun, 12 Jul 2026 07:02:36 -0400 (EDT)
+Received: from phl-imap-05 ([10.202.2.95])
+  by phl-compute-04.internal (MEProxy); Sun, 12 Jul 2026 07:02:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1783854156;
+	 x=1783940556; bh=VmtnK3tqoDU1aIaol+aWaActTb6DTRuQA5S8IlUXC6U=; b=
+	zpHRfiC5EPwl520ahCHYKKw5slNvnULR9f0KFrRT9y/2496pQCwk5KRBRbFgaYwK
+	qG5F+qyc+u6zQHl69ceJPRiSScFtXeE7ZyRSVgJSuprmdrpegDBkSA7FMJ5iWHIW
+	SWlwkvdzIryhehvQjfxl6CaW2ssS7P7s2gf6gPSaRBitFcji6E7w6O+D9MGOTq8e
+	KhN1cpA/Tqcli21P3rrlWr0Xxua3FpQ5R7OFYe9FPdjPs6R+VvBCiyDkT0HtPl2f
+	qii8ZEdh5SWDrMrxQFPHLV29au4QVk00LL5Ct/0KCqib5HX/6aJG4Up8UlRvgkJY
+	nRorXxeir3laErJG81MisA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1783854156; x=
+	1783940556; bh=VmtnK3tqoDU1aIaol+aWaActTb6DTRuQA5S8IlUXC6U=; b=l
+	6PtvRhdAV0qi2d8e9JUkK2fFLlwxNVY88bcJ+5Aj5gdngpmAYCMSgprFJ8wo710r
+	L3GX7fLDfky6/oZ5HVFMbvr3LfslQE3A4w7QmId8Pn6hgVlensKX8wbHDxXJXMEw
+	ljaGdMaWuSttqpLIh1kRGvTz2JKn9ccjs3FegrO0y+RbRlkAzKbQ2dqj069GeO+7
+	KiNB7ReoNHH0ZUF3RSAIMtQSTjbO3t+zGQmSf4gQWGO8/uy+Wvbs6Xl2gDkoDMV7
+	CmCc8Ljjg46b8emiC9vxMTJkV1Aw2OeUhRq5fNYVA+WvlRG7ZcpAMzEUPYx0xvod
+	o+8ewgiMwgBexztrVjN5Q==
+X-ME-Sender: <xms:SXRTar8WT3jXuGcKhip6v_oZ_ev_MYJ3TiCDPsHDGOy_4qyk61nOpA>
+    <xme:SXRTaigdv70_fhLJe4evVFXvY38h-PROEIkCw6nfAYtcRrN4q0volhQFULkdIqZ6L
+    z8_glaP7Vjxtth72FHcVVja1cD22b3GdPb5JUl06P7cs54F9UBgiclm>
+X-ME-Proxy-Cause: dmFkZTGLo78njPg/nVe+uHWg3AzWojEtguj4DH8KNv19gE9YnhOLAIWMCTf4qhQuAaKC9P
+    oqyQsM8pSAEKHb797BqDSo1aNsM3rLblcv7PG7RotKu6L/VmYg2dW8zs2GiGwBQBqITK1u
+    X7zWoJgFJCv+6+BhbAHafVgja8Z3pTN2uEr2UPDO/nE22eQsOCXiJJSQPkNMNg99Cf35b5
+    J+tdL50vwyZ/VB0b7S4W+UsY7ZTc+cfBHJYz0U/kX691quZfggwKD0RgbG/U6czrjHfrvF
+    6fq/4yXwXeSj8YJFVVakjVNKSPD+23ViVy8tbJNIxUaNcajIR7AH0T/de5rCVSDzK344tx
+    U0x24Up+ufBa9p+NAvwC4cO2T9HS+kz0KnK//dY/mOxOe/QpD8tgteUxcBF++TLDigfVC1
+    C3EJFOtWxRFUioYMCn8qg0rQx+yCJX0thmaTY7UEVDucc/9mhpzue03w8Dp+CxjgmXdcGu
+    RSCzsnIT3+hEirvAmIyFtq70pAE1IonG2VSteXv8IfwRKlnb463XanbbZobuFZ9GMPY1GC
+    8nsnv82zjPtzkRalpSto4MmL5kHeehrV6iIR1EmzKUc5FkQFY5TKbxBu61Nz8jJ7suNzU3
+    Cyvv5MNgqU18rt3jpb2tgZMGlm2/SgzvbBaj3jXxb82AJ7qi2ot7EKTwTDoQ
+X-ME-Proxy: <xmx:SXRTapHAhWRiFbB-4amYjFgmwydjtOdojLMQlh0VZZlQEErKhomHig>
+    <xmx:SXRTaoKLDK9Ecbgry1ger4QfqGLLQ1xOkTzua4qZzvVI-kaPbzgKWw>
+    <xmx:SXRTap8dLyvqloUGHlP29AnEVqPiM2OIYq0126wYr_cBo0x_TFVHVA>
+    <xmx:SXRTaqegpYaBne9K3glgOErxceihkfr_b7_lWpHaESTvei9pJ8qgGA>
+    <xmx:THRTagApbQu8pd3LegvnC51UZb7KkVStZc2jhlRfHD_OxzYfyYsDaYFF>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 29B00182007E; Sun, 12 Jul 2026 07:02:33 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: ARmmoW1aQeCk
+Date: Sun, 12 Jul 2026 13:01:52 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Fernando Fernandez Mancera" <fmancera@suse.de>,
+ Netdev <netdev@vger.kernel.org>
+Cc: "David S . Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>, "David Ahern" <dsahern@kernel.org>,
+ "Simon Horman" <horms@kernel.org>, "Ido Schimmel" <idosch@nvidia.com>,
+ "Jason Gunthorpe" <jgg@ziepe.ca>, "Leon Romanovsky" <leon@kernel.org>,
+ "Andrew Lunn" <andrew+netdev@lunn.ch>,
+ "Anthony L Nguyen" <anthony.l.nguyen@intel.com>,
+ "Przemek Kitszel" <przemyslaw.kitszel@intel.com>,
+ "Elad Nachman" <enachman@marvell.com>,
+ "Saeed Mahameed" <saeedm@nvidia.com>, "Tariq Toukan" <tariqt@nvidia.com>,
+ "Mark Bloch" <mbloch@nvidia.com>, "Petr Machata" <petrm@nvidia.com>,
+ "Edward Cree" <ecree.xilinx@gmail.com>,
+ "Maxime Coquelin" <mcoquelin.stm32@gmail.com>,
+ "Alexandre Torgue" <alexandre.torgue@foss.st.com>,
+ "Arend van Spriel" <arend.vanspriel@broadcom.com>,
+ "Miri Korenblit" <miriam.rachel.korenblit@intel.com>,
+ "Keith Busch" <kbusch@kernel.org>, "Jens Axboe" <axboe@kernel.dk>,
+ "Christoph Hellwig" <hch@lst.de>, "Sagi Grimberg" <sagi@grimberg.me>,
+ "Chaitanya Kulkarni" <kch@nvidia.com>,
+ "Saurav Kashyap" <skashyap@marvell.com>,
+ "Javed Hasan" <jhasan@marvell.com>,
+ GR-QLogic-Storage-Upstream@marvell.com,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ "Nilesh Javali" <njavali@marvell.com>,
+ "Manish Rangankar" <mrangankar@marvell.com>,
+ "Varun Prakash" <varun@chelsio.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "David Howells" <dhowells@redhat.com>,
+ "Marc Dionne" <marc.dionne@auristor.com>,
+ "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "Chuck Lever" <cel@kernel.org>,
+ "Jeff Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
+ "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
+ "Marek Lindner" <marek.lindner@mailbox.org>,
+ "Simon Wunderlich" <sw@simonwunderlich.de>,
+ "Antonio Quartulli" <antonio@mandelbit.com>,
+ "Sven Eckelmann" <sven@narfation.org>,
+ "Nikolay Aleksandrov" <razor@blackwall.org>,
+ "Pablo Neira Ayuso" <pablo@netfilter.org>,
+ "Florian Westphal" <fw@strlen.de>, "Phil Sutter" <phil@nwl.cc>,
+ "Johannes Berg" <johannes@sipsolutions.net>,
+ "Matthieu Baerts" <matttbe@kernel.org>,
+ "Mat Martineau" <martineau@kernel.org>,
+ "Geliang Tang" <geliang@kernel.org>, "Julian Anastasov" <ja@ssi.bg>,
+ "Aaron Conole" <aconole@redhat.com>,
+ "Eelco Chaudron" <echaudro@redhat.com>,
+ "Ilya Maximets" <i.maximets@ovn.org>,
+ "Allison Henderson" <achender@kernel.org>,
+ "Jamal Hadi Salim" <jhs@mojatatu.com>, "Jiri Pirko" <jiri@resnulli.us>,
+ "Marcelo Ricardo Leitner" <marcelo.leitner@gmail.com>,
+ "Xin Long" <lucien.xin@gmail.com>,
+ "D. Wythe" <alibuda@linux.alibaba.com>,
+ "Dust Li" <dust.li@linux.alibaba.com>,
+ "Sidraya Jayagond" <sidraya@linux.ibm.com>,
+ "Wenjia Zhang" <wenjia@linux.ibm.com>,
+ "Mahanta Jambigi" <mjambigi@linux.ibm.com>,
+ "Tony Lu" <tonylu@linux.alibaba.com>, "Wen Gu" <guwen@linux.alibaba.com>,
+ "Jon Maloy" <jmaloy@redhat.com>,
+ "Steffen Klassert" <steffen.klassert@secunet.com>,
+ "Herbert Xu" <herbert@gondor.apana.org.au>,
+ "Vikas Gupta" <vikas.gupta@broadcom.com>,
+ "Rajashekar Hudumula" <rajashekar.hudumula@broadcom.com>,
+ "Justin Chen" <justin.chen@broadcom.com>,
+ "Bhargava Marreddy" <bhargava.marreddy@broadcom.com>,
+ "Nicolai Buchwitz" <nb@tipi-net.de>,
+ "Florian Fainelli" <florian.fainelli@broadcom.com>,
+ "Heiner Kallweit" <hkallweit1@gmail.com>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>,
+ "Russell King" <rmk+kernel@armlinux.org.uk>, "Yao Zi" <me@ziyao.cc>,
+ "Yanteng Si" <siyanteng@cqsoftware.com.cn>,
+ "Maxime Chevallier" <maxime.chevallier@bootlin.com>,
+ "Julian Braha" <julianbraha@gmail.com>,
+ "Joey Lu" <a0987203069@gmail.com>,
+ "Shangjuan Wei" <weishangjuan@eswincomputing.com>,
+ "Chen-Yu Tsai" <wens@kernel.org>, "Inochi Amaoto" <inochiama@gmail.com>,
+ "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "Qingfang Deng" <qingfang.deng@linux.dev>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Eric Biggers" <ebiggers@kernel.org>,
+ "Ethan Nelson-Moore" <enelsonmoore@gmail.com>,
+ "Ard Biesheuvel" <ardb@kernel.org>,
+ "Dmitry Safonov" <0x7f454c46@gmail.com>,
+ "Kuniyuki Iwashima" <kuniyu@google.com>, "Alyssa Ross" <hi@alyssa.is>,
+ linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+ "open list:NETRONOME ETHERNET DRIVERS" <oss-drivers@corigine.com>,
+ linux-net-drivers@amd.com, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-wireless@vger.kernel.org,
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
+ b.a.t.m.a.n@lists.open-mesh.org,
+ "open list:ETHERNET BRIDGE" <bridge@lists.linux.dev>,
+ netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+ mptcp@lists.linux.dev, lvs-devel@vger.kernel.org, dev@openvswitch.org,
+ rds-devel@oss.oracle.com, linux-sctp@vger.kernel.org,
+ linux-s390@vger.kernel.org,
+ "open list:TIPC NETWORK LAYER" <tipc-discussion@lists.sourceforge.net>
+Message-Id: <12ffac6a-649a-4e4a-8d12-0b48171e1d95@app.fastmail.com>
+In-Reply-To: <20260712013941.4570-2-fmancera@suse.de>
+References: <20260712013941.4570-1-fmancera@suse.de>
+ <20260712013941.4570-2-fmancera@suse.de>
+Subject: Re: [PATCH 01/13 RFC net-next] net: ipv4: introduce CONFIG_IPV4 to decouple
+ the IPv4 stack
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-A crafted HFS+ image can contain a corrupted B-tree node. The node descriptor
-may contain a record count that does not fit in the node, and record offsets may
-be unordered, unaligned, outside the node, or point into the offset table
-itself.
+On Sun, Jul 12, 2026, at 03:38, Fernando Fernandez Mancera wrote:
+> Historically, the IPv4 protocol has been linked to the core INET
+> subsystem. Because shared infrastructure like the TCP/UDP engine,
+> routing or INET hashtables live inside net/ipv4/, it has been impossible
+> to compile a kernel with only IPv6 support.
+>
+> This patch introduces the CONFIG_IPV4 Kconfig symbol, which is set to
+> 'def_bool y' for now. This does not allow to completely disable the
+> IPv4 stack yet but it lays the necessary build-system work for that
+> goal.
 
-Several B-tree helpers consume these on-disk fields before validating them:
-hfs_bnode_dump() can walk past the offset table when num_recs is corrupted,
-hfs_brec_lenoff() can produce an underflowed length or a record range that
-overlaps the offset table. This can make the unlink/writeback path repeatedly
-call hfs_bnode_read_u16() with invalid offsets while holding the HFS+ B-tree
-lock, producing a flood of "requested invalid offset" messages. Other writeback
-workers then block on tree->tree_lock and the system reports tasks hung in
-hfsplus_write_inode().
+I expect this will cause additional (trivial) build regression in the
+next step when randconfig builds run into obscure corner cases, either
+with INET=y IPV4=n IPV6=y or with INET=y IPV4=n IPV6=n.
 
-Validate num_recs against the node size before walking the record offset table.
-Reject record ranges that are unordered, unaligned, outside the node, or
-overlapping the offset table. Reject invalid record indexes before reading their
-offset entries, and avoid decrementing an already-zero leaf_count.
+I can probably give your patch (with IPV4 visible or disabled) an
+early go on the randconfig tree to find these more quickly.
+If I run into regressions, should I just add more 'depends on IPV4',
+or do you have other plans?
 
-Closes: https://lore.kernel.org/lkml/CANypQFb_2TqKGrztAXj5m0_v+QChxXDnQVeifzV8J25Vuju10Q@mail.gmail.com/
-Assisted-by: Codex:gpt-5.5-xhigh
-Signed-off-by: Jiaming Zhang <r772577952@gmail.com>
----
-Changes in v3:
-- Drop the keylen == len check.
-- Drop the explicit zero-record check in __hfs_brec_find().
-- Move find cursor reset into hfs_find_reset() and call it from hfs_find_init() and hfs_brec_find().
-- Rename helper-local variables as suggested.
+Should we have some logic to ensure that at least one of IPV4 or
+IPV6 is enabled? I think this would work
 
- fs/hfsplus/bfind.c      | 13 ++++----
- fs/hfsplus/bnode.c      | 16 ++++++---
- fs/hfsplus/brec.c       | 35 +++++++++++++-------
- fs/hfsplus/hfsplus_fs.h | 72 +++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 113 insertions(+), 23 deletions(-)
+config IPV4
+      bool "The IPv4 protocol" if IPV6
+      default INET
 
-diff --git a/fs/hfsplus/bfind.c b/fs/hfsplus/bfind.c
-index 9a55fa6d5294..a5391ff07c70 100644
---- a/fs/hfsplus/bfind.c
-+++ b/fs/hfsplus/bfind.c
-@@ -18,6 +18,7 @@ int hfs_find_init(struct hfs_btree *tree, struct hfs_find_data *fd)
- 
- 	fd->tree = tree;
- 	fd->bnode = NULL;
-+	hfs_find_reset(fd);
- 	ptr = kzalloc(tree->max_key_len * 2 + 4, GFP_KERNEL);
- 	if (!ptr)
- 		return -ENOMEM;
-@@ -106,12 +107,14 @@ int __hfs_brec_find(struct hfs_bnode *bnode, struct hfs_find_data *fd,
- 	u16 off, len, keylen;
- 	int rec;
- 	int b, e;
--	int res;
-+	int res = -ENOENT;
- 
- 	BUG_ON(!rec_found);
-+	if (!hfs_bnode_num_recs_valid(bnode))
-+		goto fail;
-+
- 	b = 0;
- 	e = bnode->num_recs - 1;
--	res = -ENOENT;
- 	do {
- 		rec = (e + b) / 2;
- 		len = hfs_brec_lenoff(bnode, rec, &off);
-@@ -158,11 +161,7 @@ int hfs_brec_find(struct hfs_find_data *fd, search_strategy_t do_key_compare)
- 	__be32 data;
- 	int height, res;
- 
--	fd->record = -1;
--	fd->keyoffset = -1;
--	fd->keylength = -1;
--	fd->entryoffset = -1;
--	fd->entrylength = -1;
-+	hfs_find_reset(fd);
- 
- 	tree = fd->tree;
- 	if (fd->bnode)
-diff --git a/fs/hfsplus/bnode.c b/fs/hfsplus/bnode.c
-index d088fb7eb0df..f185c012d090 100644
---- a/fs/hfsplus/bnode.c
-+++ b/fs/hfsplus/bnode.c
-@@ -352,15 +352,22 @@ void hfs_bnode_dump(struct hfs_bnode *node)
- 	struct hfs_bnode_desc desc;
- 	__be32 cnid;
- 	int i, off, key_off;
-+	u16 num_recs;
- 
- 	hfs_dbg("node %d\n", node->this);
- 	hfs_bnode_read(node, &desc, 0, sizeof(desc));
-+	num_recs = node->num_recs;
- 	hfs_dbg("next %d, prev %d, type %d, height %d, num_recs %d\n",
- 		be32_to_cpu(desc.next), be32_to_cpu(desc.prev),
- 		desc.type, desc.height, be16_to_cpu(desc.num_recs));
- 
-+	if (!hfs_bnode_num_recs_valid(node)) {
-+		hfs_dbg("invalid num_recs %u\n", num_recs);
-+		return;
-+	}
-+
- 	off = node->tree->node_size - 2;
--	for (i = be16_to_cpu(desc.num_recs); i >= 0; off -= 2, i--) {
-+	for (i = num_recs; i >= 0; off -= 2, i--) {
- 		key_off = hfs_bnode_read_u16(node, off);
- 		hfs_dbg(" key_off %d", key_off);
- 		if (i && node->type == HFS_NODE_INDEX) {
-@@ -579,6 +586,9 @@ struct hfs_bnode *hfs_bnode_find(struct hfs_btree *tree, u32 num)
- 		goto node_error;
- 	}
- 
-+	if (!hfs_bnode_num_recs_valid(node))
-+		goto node_error;
-+
- 	rec_off = tree->node_size - 2;
- 	off = hfs_bnode_read_u16(node, rec_off);
- 	if (off != sizeof(struct hfs_bnode_desc))
-@@ -586,9 +596,7 @@ struct hfs_bnode *hfs_bnode_find(struct hfs_btree *tree, u32 num)
- 	for (i = 1; i <= node->num_recs; off = next_off, i++) {
- 		rec_off -= 2;
- 		next_off = hfs_bnode_read_u16(node, rec_off);
--		if (next_off <= off ||
--		    next_off > tree->node_size ||
--		    next_off & 1)
-+		if (!hfs_brec_range_valid(node, off, next_off, rec_off))
- 			goto node_error;
- 		entry_size = next_off - off;
- 		if (node->type != HFS_NODE_INDEX &&
-diff --git a/fs/hfsplus/brec.c b/fs/hfsplus/brec.c
-index e3df89284079..3112c3bcf9cf 100644
---- a/fs/hfsplus/brec.c
-+++ b/fs/hfsplus/brec.c
-@@ -20,35 +20,41 @@ static int hfs_btree_inc_height(struct hfs_btree *);
- u16 hfs_brec_lenoff(struct hfs_bnode *node, u16 rec, u16 *off)
- {
- 	__be16 retval[2];
--	u16 dataoff;
-+	u16 data_off;
-+	u16 next_off;
- 
--	dataoff = node->tree->node_size - (rec + 2) * 2;
--	hfs_bnode_read(node, retval, dataoff, 4);
-+	if (!hfs_brec_record_valid(node, rec)) {
-+		*off = 0;
-+		return 0;
-+	}
-+
-+	data_off = node->tree->node_size - (rec + 2) * 2;
-+	hfs_bnode_read(node, retval, data_off, 4);
- 	*off = be16_to_cpu(retval[1]);
--	return be16_to_cpu(retval[0]) - *off;
-+	next_off = be16_to_cpu(retval[0]);
-+	if (!hfs_brec_range_valid(node, *off, next_off, data_off))
-+		return 0;
-+	return next_off - *off;
- }
- 
- /* Get the length of the key from a keyed record */
- u16 hfs_brec_keylen(struct hfs_bnode *node, u16 rec)
- {
--	u16 retval, recoff;
-+	u16 retval, recoff, len;
- 
- 	if (node->type != HFS_NODE_INDEX && node->type != HFS_NODE_LEAF)
- 		return 0;
-+	if (!hfs_brec_record_valid(node, rec))
-+		return 0;
- 
- 	if ((node->type == HFS_NODE_INDEX) &&
- 	   !(node->tree->attributes & HFS_TREE_VARIDXKEYS) &&
- 	   (node->tree->cnid != HFSPLUS_ATTR_CNID)) {
- 		retval = node->tree->max_key_len + 2;
- 	} else {
--		recoff = hfs_bnode_read_u16(node,
--			node->tree->node_size - (rec + 1) * 2);
--		if (!recoff)
--			return 0;
--		if (recoff > node->tree->node_size - 2) {
--			pr_err("recoff %d too large\n", recoff);
-+		len = hfs_brec_lenoff(node, rec, &recoff);
-+		if (len == 0)
- 			return 0;
--		}
- 
- 		retval = hfs_bnode_read_u16(node, recoff) + 2;
- 		if (retval > node->tree->max_key_len + 2) {
-@@ -185,10 +191,15 @@ int hfs_brec_remove(struct hfs_find_data *fd)
- 	tree = fd->tree;
- 	node = fd->bnode;
- again:
-+	if (!hfs_brec_record_valid(node, fd->record))
-+		return -EIO;
-+
- 	rec_off = tree->node_size - (fd->record + 2) * 2;
- 	end_off = tree->node_size - (node->num_recs + 1) * 2;
- 
- 	if (node->type == HFS_NODE_LEAF) {
-+		if (tree->leaf_count == 0)
-+			return -EIO;
- 		tree->leaf_count--;
- 		mark_inode_dirty(tree->inode);
- 	}
-diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
-index ec04b82ad927..d87d55a35d25 100644
---- a/fs/hfsplus/hfsplus_fs.h
-+++ b/fs/hfsplus/hfsplus_fs.h
-@@ -587,6 +587,78 @@ bool is_bnode_offset_valid(struct hfs_bnode *node, u32 off)
- 	return is_valid;
- }
- 
-+static inline
-+bool hfs_bnode_num_recs_valid(struct hfs_bnode *node)
-+{
-+	u32 node_size;
-+	u32 table_size;
-+	u32 area_size;
-+	u32 rec_size = sizeof(__be16);
-+	u32 desc_size = sizeof(struct hfs_bnode_desc);
-+
-+	if (!node || !node->tree)
-+		return false;
-+
-+	node_size = node->tree->node_size;
-+	if (node_size < desc_size)
-+		return false;
-+
-+	area_size = node_size - desc_size;
-+	table_size = ((u32)node->num_recs + 1) * rec_size;
-+
-+	return table_size <= area_size;
-+}
-+
-+static inline
-+bool hfs_brec_record_valid(struct hfs_bnode *node, int record)
-+{
-+	if (!hfs_bnode_num_recs_valid(node))
-+		return false;
-+	if (record < 0)
-+		return false;
-+
-+	return record < node->num_recs;
-+}
-+
-+static inline
-+bool hfs_brec_range_valid(struct hfs_bnode *node, u16 off, u16 next_off,
-+			  u16 rec_off)
-+{
-+	u32 table_size;
-+	u32 table_start;
-+	u32 rec_size = sizeof(__be16);
-+	u32 desc_size = sizeof(struct hfs_bnode_desc);
-+
-+	if (!node || !node->tree)
-+		return false;
-+
-+	if (off < desc_size || (off & 1))
-+		return false;
-+
-+	if (next_off <= off ||
-+		next_off > node->tree->node_size ||
-+		next_off > rec_off ||
-+		(next_off & 1))
-+		return false;
-+
-+	table_size = ((u32)node->num_recs + 1) * rec_size;
-+	table_start = node->tree->node_size - table_size;
-+	if (next_off > table_start)
-+		return false;
-+
-+	return true;
-+}
-+
-+static inline
-+void hfs_find_reset(struct hfs_find_data *fd)
-+{
-+	fd->record = -1;
-+	fd->keyoffset = -1;
-+	fd->keylength = -1;
-+	fd->entryoffset = -1;
-+	fd->entrylength = -1;
-+}
-+
- static inline
- u32 check_and_correct_requested_length(struct hfs_bnode *node, u32 off, u32 len)
- {
--- 
-2.43.0
+which only allows turning IPV4 off if IPV6 has enabled.
 
+       Arnd
