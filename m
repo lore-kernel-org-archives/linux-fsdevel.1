@@ -1,44 +1,43 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A684F35DA43
-	for <linux-fsdevel@vger.kernel.org>; Sun, 12 Jul 2026 17:54:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8D6367B9F
+	for <linux-fsdevel@vger.kernel.org>; Sun, 12 Jul 2026 17:54:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783878900; cv=none; b=Hu6UmcwxqkI8SZs0Zan/9IhZzOnnZjOYGFpG5p8A2oUWaK3fH2SUploBeN25a/zM9kLj0UYQ9mLsaxzmydCztmUsOCh04DaAAleF5VoT4vIhhVa4Ivs7sFDgoPbhzlTLaFAr6IbYXIgn9weoFh1VFPTAa+S0vnf3Uf4eSxUCMWI=
+	t=1783878901; cv=none; b=sqzACqXoOkh3etNNVw4c9xndSyh6T71foUW2UHM93bvmMB+K3Z6J7gtq+NNZvoCrnAkCUZ5VZLk2XuUUTFkve0dxuX/Glo9pCIijZ5yXdaX9jpFxS0aZakRcRvZJ82dTei4QhtZCpw3Qik+tB5vWhuPpVg6zPUG/slMngh1C9FM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783878900; c=relaxed/simple;
-	bh=u1sAIzE3h5PUzpTIElcpRCWWZ35nIPz4LbFFTOiI0Zw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tWI/CUlnlWp0T5Dm5D5ZysmnamI0BK0E5izxUVr1HB7qO/g3Ul1l6YB75NzDdnn6OYTkagmSgAgiMTbo2su6BrW7EOL1d2lWOAOp3/6n/HjLH2ODDoLFVRCpcxOVLFJwVIRlaHJyc7bNQtYKzYcaqniVqLhHWNUiPMsuxEEcQR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=e+P5PPnV; arc=none smtp.client-ip=195.121.94.186
+	s=arc-20240116; t=1783878901; c=relaxed/simple;
+	bh=Gmp49eddTdYUV92s7f6nH6PIauAkiKFwMzz6XbZdzP4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fBlJAH2bwRxa8UHbBWrhaCp/Gd8eDQAhDhFeQJJY2KWuJl4bEhCboMZ8lYWO+9rkw2qnsW+wB6IYPU/n6facgGVEYYc6fxitbwSu/UpReFeGAv2YcQ41oZktFJrt9m16815PqnmIf7x9xXGeOQfQcdQvWxI4AuLoFv6e3guJamQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=oKMPQdUl; arc=none smtp.client-ip=195.121.94.185
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="e+P5PPnV"
-X-KPN-MessageId: ca5380bb-7e1a-11f1-bfba-00505699b430
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="oKMPQdUl"
+X-KPN-MessageId: c88b7fdb-7e1a-11f1-9e8e-005056999439
 Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id ca5380bb-7e1a-11f1-bfba-00505699b430;
-	Sun, 12 Jul 2026 19:54:55 +0200 (CEST)
+	id c88b7fdb-7e1a-11f1-9e8e-005056999439;
+	Sun, 12 Jul 2026 19:54:52 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=mime-version:message-id:date:subject:to:from;
-	bh=fj65mfPONwi6t8foTt9z20F0U/WrZ8/1TJPyfzE1ABI=;
-	b=e+P5PPnV4JALj5a3M4UjASFdcS9dUnAMcNgCWYueDv2e1jxvvCB+CikPyzKBLWApL9QiPAgWVfW3n
-	 SoN7l5hV8Lzai4YxTzfeo3UGedA7Mkr+ZJ6+CTR0lWPbmkfdnjYI9mXLdpHTdMQ9WOatcqbBGe8iRM
-	 V7waLD1gQPKb/RfnzR3qcsW7f8tg/hWhEN1aMMwBLMcze9NQ5GRQn4TrjiKvgKwl6UHBTWLkSoSaSs
-	 ANFZwoaZ2fgVhEsVazVG34S1ZkdzAijhFIRnCvP6LfDk79AFU6pGNBYQ+CwEXvqzA/CKOfFkoJvfFj
-	 nnC6/RpxzetS4o/fR1k2eCTsjl6Ecxw==
-X-KPN-MID: 33|LyvFpbhfi1v5vz2XnhumPU3FSM/IeDFYQhkXJ6Vpdw5ConZBZLD53GzXk6Rnzi/
- WM2zo3QFFOQKBUmGPAI6AVKvab45pKOrLChDxr3HUuKQ=
+	bh=7yRqcaw5+tY9Flm7LMEr7oKXg8wfm4lEpSXG1AcSENY=;
+	b=oKMPQdUlBYmKseO4p/JjXGv56ym8vpI23UkWBs7gWXg7CRHkW6uwZbRBlwKkftD1/WVxRlEkG6LhC
+	 DaZPLDdkhLRs9NjWfgBn88H+41ufBBZqUo3lCAvOifxu1UMxopQpc/VrBoCykUzq3uxXQ2jXKrIzEA
+	 vgkdCnkxV1SvF57CcW+7HroQK8PEYwMmPIOis6RZY+ykbDb3ccs7ivPe/aY2/lUwG2ri38sM1tmb17
+	 5ztYdcGrvvuETXGjFKqowk7kIP1rXk0W5aUKT87Pg5KIUSa0RHZGjc0zK9DOJP+uPjfoeT0KKo7YXr
+	 f2I5u0Zss6S0w9CAhPu/nn+Q9/R5Afw==
+X-KPN-MID: 33|bJdHKc9l8c40WmY5mk0dH55b4l5wiZcArLU9tqi3jHyvD8h+wB1Fsf4hTHmW1gn
+ mjy5G65jQo/yNWsZTz3PyPMp9b4W3fofbkHFt/T/hkQ0=
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|3K4Py3rfcoKEJY202Gyeo26/dkWbX/yq6WSLqwkx6KLZWXS8OeDdJBPzynsa5X3
- t2mBtU4J0fNTZD2JFROlEzw==
+X-CMASSUN: 33|gkIDK6kHM+jFOGkw9+DZTYIsxB6U999Rs4SaWtSrCFYAFVaaCOmR38mljL6ATFj
+ nwoDs6jipV8hX0CQtRH+d/w==
 Received: from daedalus.home (unknown [178.230.226.124])
 	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id ca243084-7e1a-11f1-87f7-00505699b758;
-	Sun, 12 Jul 2026 19:54:55 +0200 (CEST)
+	id c57546ee-7e1a-11f1-87f7-00505699b758;
+	Sun, 12 Jul 2026 19:54:52 +0200 (CEST)
 From: Jori Koolstra <jkoolstra@xs4all.nl>
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>,
@@ -48,12 +47,10 @@ Cc: Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Jori Koolstra <jkoolstra@xs4all.nl>
-Subject: [PATCH 03/10] vfs: lookup_open(): move setting FMODE_CREATED down
-Date: Sun, 12 Jul 2026 19:55:32 +0200
-Message-ID: <20260712175539.1565444-4-jkoolstra@xs4all.nl>
+Subject: [PATCH 00/10] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+Date: Sun, 12 Jul 2026 19:55:29 +0200
+Message-ID: <20260712175539.1565444-1-jkoolstra@xs4all.nl>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260712175539.1565444-1-jkoolstra@xs4all.nl>
-References: <20260712175539.1565444-1-jkoolstra@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -62,50 +59,62 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In preparation for using vfs_create_no_perm() in lookup_open() we need
-to move setting FMODE_CREATED on the file mode to either before or after
-that call, as currently it is in the middle. If try_break_deleg() fails
-it is currently not set, but vfs_create_no_perm() includes a
-try_break_deleg().
+This series implements new semantics for the O_CREAT|O_DIRECTORY flag
+combination for open*(2): perform a mkdir and open the resulting
+directory; return a pinning fd (which mkdir does not).
 
-Going up the call chain of lookup_open() we see that it is only used in
-open_last_lookups() if no error is returned from lookup_open(), so we
-can safely move it to after the filesystem create() call. This also
-makes more sense when reading the code as you don't have to wonder what
-the implications are of setting FMODE_CREATED before the create() call.
+Most of the work happens in "vfs: add O_CREAT|O_DIRECTORY to open*(2),"
+as may be expected. Before that there is some clean-up work and
+preparation. The "vfs: short-circuit MAY_WRITE access for O_DIRECTORY
+opens" patch is also worth paying extra attention to as it
+short-circuits doomed opening of directories as writable. This check for
+regular files is now done very late in do_open(), but for
+O_CREAT|O_DIRECTORY this is unacceptable as this would create the
+directory and then still fail.
 
-Reviewed-by: NeilBrown <neil@brown.name>
-Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
----
- fs/namei.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Changes:
+v3: https://lore.kernel.org/linux-fsdevel/20260704164149.3480051-1-jkoolstra@xs4all.nl/
+   - address the inconsistency in calling audit_inode_child() in
+     lookup_open() versus vfs_create() in a separate series.
+   - fclog.c selftest header fix moved to separate patch.
+   - add a "with trailing slash test" success test to the included
+     selftests. 
+   - pass struct qstr by pointer to trailing_slashes() and add a comment
+     on what it does
+   - changed commit message of "vfs: add O_CREAT|O_DIRECTORY to
+     open*(2)" to address comments of Brauner
 
-diff --git a/fs/namei.c b/fs/namei.c
-index 48ceac6e8848..a43e64717d11 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -4525,7 +4525,6 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 		if (error)
- 			goto out_dput;
- 
--		file->f_mode |= FMODE_CREATED;
- 		audit_inode_child(dir_inode, dentry, AUDIT_TYPE_CHILD_CREATE);
- 		if (!dir_inode->i_op->create) {
- 			error = -EACCES;
-@@ -4538,11 +4537,13 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 			goto out_dput;
- 
- 		fsnotify_create(dir_inode, dentry);
-+		file->f_mode |= FMODE_CREATED;
- 	}
- 	if (unlikely(create_error) && !dentry->d_inode) {
- 		error = create_error;
- 		goto out_dput;
- 	}
-+
- 	return dentry;
- 
- out_dput:
+Jori Koolstra (10):
+  fs/namei.c: use trailing_slashes()
+  vfs: prepare vfs_creat|mkdir_no_perm for reuse in lookup_open()
+  vfs: lookup_open(): move setting FMODE_CREATED down
+  vfs: move ->create check in lookup_open() to before try_break_deleg()
+  vfs: lookup_open(): use vfs_create_no_perm()
+  vfs: add O_CREAT|O_DIRECTORY to open*(2)
+  vfs: move O_IS_MKDIR check from lookup_open() into individual
+    filesystems
+  vfs: refuse O_CREAT for directories through a dangling symlink
+  vfs: short-circuit MAY_WRITE access for O_DIRECTORY opens
+  selftest: add tests for open*(O_CREAT|O_DIRECTORY)
+
+ fs/9p/vfs_inode.c                             |   3 +
+ fs/9p/vfs_inode_dotl.c                        |   3 +
+ fs/ceph/file.c                                |   3 +
+ fs/fuse/dir.c                                 |   3 +
+ fs/gfs2/inode.c                               |   3 +
+ fs/namei.c                                    | 224 ++++++++++++------
+ fs/nfs/dir.c                                  |   6 +
+ fs/open.c                                     |  32 ++-
+ fs/smb/client/dir.c                           |   3 +
+ fs/vboxsf/dir.c                               |   3 +
+ include/linux/fcntl.h                         |   6 +
+ .../testing/selftests/filesystems/.gitignore  |   1 +
+ tools/testing/selftests/filesystems/Makefile  |   2 +-
+ .../filesystems/open_o_creat_o_dir.c          | 201 ++++++++++++++++
+ .../testing/selftests/filesystems/wrappers.h  |  11 +
+ 15 files changed, 419 insertions(+), 85 deletions(-)
+ create mode 100644 tools/testing/selftests/filesystems/open_o_creat_o_dir.c
+
 -- 
 2.55.0
 
