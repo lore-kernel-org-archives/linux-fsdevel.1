@@ -1,132 +1,125 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.169])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266AD29BD9A
-	for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 21:42:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 277EE1D416C
+	for <linux-fsdevel@vger.kernel.org>; Sun, 12 Jul 2026 01:14:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783806176; cv=none; b=IeEA/3sacAWFZhtY9gpcG42qzOvnTjH8QeYxgprTJRkV8v4SQwbziYexrDCt5BxihfQsZv6mnZolVo5KOCk4rXbooQzlTypuvB4VaQycwtTxR5iAf96xmMZJHah3MM1DN/WyDKgQi7ZZ9tjJG+BjGYQWxSQIv+5MAxrR89yg5yE=
+	t=1783818870; cv=none; b=KvISVYpM874B2X7no0UM8OCdLuggM9jEmkdguoWmtuLxgf+YFfhmr/Bw366zoRzF536HAJ7MdcTgBIb6vCN/FHz5pDK0GsCYgromo5kOPvUVpY+479r8UBG1uiMBmYOSDpCT4Yuopjw/SKmFwK6TZKNhZKRqKZLxUdKeRki10EU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783806176; c=relaxed/simple;
-	bh=8LDbRgkC6bfzQz+llSU8iS7MU2C3Ofko5FSJxy2JWpk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y2j7V3Dfa4uAebehF7XGEvC+ULaC7XpiI8jKof8GUZ6POZfGhurLyZH7GCLYyOqKFDhMqsRvn/8hfQyvvzSCeMIoxBmSY3Ya7cnMaCM6FugOdoddPyGtfaHDV5nh4VUHkH59fzwTpBr+OK4QwlHSbVJv2Py4Ciy2Q2cpt9TF6zw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=p1avmPrl; arc=none smtp.client-ip=195.121.94.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1783818870; c=relaxed/simple;
+	bh=GLdRNrfBScn58W+OaBAZaSME4KiOO6jA15XhdGdqKdU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pvWwLTwu4QGiwxq0kQjIfK03xOQg+BSh2H96QHJXTZ9u01euo8HD9l9hzfOrEXPu2XDzr2BKov7SlxikhJ0h6NkZ2eSdOQ/R3TgzgSb2nPpz6Tdk9GUQTLfRDZv3LSgHTM79/yG82OcdbCWBcRsiGxkUBSh4cODQsn+yzTEE9NA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=hEVOCcC5; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="p1avmPrl"
-X-KPN-MessageId: 73b96498-7d71-11f1-a055-005056abad63
-Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 73b96498-7d71-11f1-a055-005056abad63;
-	Sat, 11 Jul 2026 23:42:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:message-id:subject:to:from:date;
-	bh=rtN4lv+1kngkopVJIoncS5mZyRX96lwCtHji1G/RN2c=;
-	b=p1avmPrlNtS0HMXKp4j8Xv2lkdGoFosSruSEqODb3MHJsaExdYYUQwUjEEBY1v5lT0bbn9bXU3261
-	 4AbeCdyzGFQzs/E592hi3mr1maKFc4uOr2abGzckwv2S1tI4QaSjRHTDJFFW/XpEUPqRk/ZqtYzZS1
-	 7NngUHnysjX8WjQqnjnGEkwvkMsust4bSUvd8w19lsRKPulzGwY2xquQROLsb3KnmEvGapj+gcWuJF
-	 A1mMGA2Br2FnisBRq/LRuvt+nCJ/8kJmcV96iO1PdHFGHG+y9A8bGMANGF7ELnw2FPkLMBztCoOfCA
-	 BTDjFRMTQ+FVnfBlV0fQzkF4ylGfgRQ==
-X-KPN-MID: 33|S77Nnj0yvyNWGG/8+Yeki2HcpREekr9q/ExwtnK0GBIaaudvvN3KxJTiGlXLevx
- 7z+Pv73wYo6Yy+74NYOlUPGDUQCkgGwmRVRHCkkykH0E=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|JfWW5ThqMZgwxO+egTXdO/i1sO3iibo5cWX55NlFCVkzFaDphgzBf1kbsHLMyko
- ww4JM0SdJ5g983QhdMkTfxw==
-Received: from localhost (unknown [178.226.150.234])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 72916858-7d71-11f1-a998-005056abf0db;
-	Sat, 11 Jul 2026 23:42:45 +0200 (CEST)
-Date: Sat, 11 Jul 2026 23:42:45 +0200
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-mm@kvack.org, 
-	Farid Zakaria <farid.m.zakaria@gmail.com>, jannh@google.com
-Subject: Re: [PATCH v3 06/24] binfmt_misc: annotate racy accesses to ->enabled
-Message-ID: <alK3zIab-_Hq9JGZ@lt-jori.localdomain>
-Mail-Followup-To: Jori Koolstra <jkoolstra@xs4all.nl>, 
-	Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-mm@kvack.org, 
-	Farid Zakaria <farid.m.zakaria@gmail.com>, jannh@google.com
-References: <20260710-work-binfmt_misc-locking-v3-0-a162f7cb58d6@kernel.org>
- <20260710-work-binfmt_misc-locking-v3-6-a162f7cb58d6@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="hEVOCcC5"
+Message-ID: <88169a4d-157a-4307-8e21-554b122fb411@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1783818865;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xAdjGXolE8bZ9ddc0fiq07hvqt0bNR4iJP1GyPcJcxw=;
+	b=hEVOCcC5p/m7fKRTTlL+957hsqizSlFDzP0U7kz0kjxO2y6Vkr1espBueyl+xR6rd4ZKxj
+	+G+rnXvSaRl0IeWXg76dM1iONq3w5TwjRVeMLSUjwEHWkfdKRTtdg2fm7qT4opDapYquP0
+	V2jHXAvWyeqWQKdWd18SQtEK3qW/QOU=
+Date: Sun, 12 Jul 2026 09:14:12 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260710-work-binfmt_misc-locking-v3-6-a162f7cb58d6@kernel.org>
+Subject: Re: [PATCH v3] fs/proc/task_mmu: fix PAGEMAP_SCAN written state for
+ PMD holes
+To: Kiryl Shutsemau <kirill@shutemov.name>
+Cc: akpm@linux-foundation.org, usama.anjum@collabora.com, peterx@redhat.com,
+ liam@infradead.org, ljs@kernel.org, vbabka@kernel.org, jannh@google.com,
+ pfalcato@suse.de, david@kernel.org, rppt@kernel.org, surenb@google.com,
+ mhocko@suse.com, shuah@kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, stable@vger.kernel.org, kernel-team@meta.com
+References: <20260709121629.205562-1-kirill@shutemov.name>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zenghui Yu <zenghui.yu@linux.dev>
+In-Reply-To: <20260709121629.205562-1-kirill@shutemov.name>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, Jul 10, 2026 at 11:33:07AM +0200, Christian Brauner wrote:
-> ->enabled has always been read and written locklessly: every exec
-> reads it in load_misc_binary() while bm_status_write() or a concurrent
-> remount via bm_fill_super() may flip it. That is fine as it is an
-> independent boolean toggle but the accesses should be marked
+Hi Kiryl,
 
-Right, remounting counts as reenabling.
-
-> accordingly for KCSAN. Annotate them with READ_ONCE()/WRITE_ONCE().
+On 7/9/26 8:16 PM, Kiryl Shutsemau wrote:
+> From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 > 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> PAGEMAP_SCAN reports an unpopulated PTE in a uffd-wp VMA as written, but
+> a range with no page table at all -- a PMD hole -- is skipped:
+> pagemap_scan_pte_hole() tests p->cur_vma_category, which never carries
+> PAGE_IS_WRITTEN, so the hole is neither reported nor (under
+> PM_SCAN_WP_MATCHING) armed.
+> 
+> MADV_DONTNEED has fill-with-zeros semantics: it changes the contents of
+> the range to zeroes (a subsequent read maps the zero page), which write
+> tracking must report as written. An anonymous THP is write-protected in
+> place as a huge PMD, so a full-PMD MADV_DONTNEED clears it to pmd_none --
+> a hole -- and the zeroing goes unreported. A write-tracking
+> checkpoint/migration tool (e.g. CRIU) then treats the range as unchanged
+> and keeps its previous contents, so after restore or live migration the
+> process reads stale data instead of zeroes -- data corruption.
+> 
+> Report a hole in a non-hugetlb uffd-wp VMA as written, matching the
+> pte_none handling in pagemap_page_category(); the existing
+> PM_SCAN_WP_MATCHING path then arms it via uffd_wp_range().
+> 
+> hugetlb is excluded: pagemap_hugetlb_category() reports an empty hugetlb
+> entry (huge_pte_none) as not-written, unlike pagemap_page_category(),
+> which reports pte_none as written. pagemap_scan_pte_hole() fires for a
+> hugetlb slot only when it has no page table; keeping that not-written
+> matches how an allocated-but-empty hugetlb entry reads, so the hole and
+> the empty-entry cases agree within the VMA.
+> 
+> Add a pagemap_ioctl selftest covering the anon-THP PMD-hole case.
+> 
+> Reported-by: Sashiko AI review <sashiko-bot@kernel.org>
+> Closes: https://sashiko.dev/#/patchset/20260707151349.92143-1-kirill@shutemov.name
+> Fixes: 2bad466cc9d9 ("mm/uffd: UFFD_FEATURE_WP_UNPOPULATED")
+> Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+> Assisted-by: Claude:claude-fable-5
 > ---
->  fs/binfmt_misc.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-> index bd7790a1317b..0b9758da1f88 100644
-> --- a/fs/binfmt_misc.c
-> +++ b/fs/binfmt_misc.c
-> @@ -217,7 +217,7 @@ static int load_misc_binary(struct linux_binprm *bprm)
->  	struct binfmt_misc *misc;
->  
->  	misc = load_binfmt_misc();
-> -	if (!misc->enabled)
-> +	if (!READ_ONCE(misc->enabled))
->  		return retval;
->  
->  	fmt = get_binfmt_handler(misc, bprm);
-> @@ -875,7 +875,7 @@ bm_status_read(struct file *file, char __user *buf, size_t nbytes, loff_t *ppos)
->  	char *s;
->  
->  	misc = i_binfmt_misc(file_inode(file));
-> -	s = misc->enabled ? "enabled\n" : "disabled\n";
-> +	s = READ_ONCE(misc->enabled) ? "enabled\n" : "disabled\n";
->  	return simple_read_from_buffer(buf, nbytes, ppos, s, strlen(s));
->  }
->  
-> @@ -892,11 +892,11 @@ static ssize_t bm_status_write(struct file *file, const char __user *buffer,
->  	switch (res) {
->  	case 1:
->  		/* Disable all handlers. */
-> -		misc->enabled = false;
-> +		WRITE_ONCE(misc->enabled, false);
->  		break;
->  	case 2:
->  		/* Enable all handlers. */
-> -		misc->enabled = true;
-> +		WRITE_ONCE(misc->enabled, true);
->  		break;
->  	case 3:
->  		/* Delete all handlers. */
-> @@ -1007,7 +1007,7 @@ static int bm_fill_super(struct super_block *sb, struct fs_context *fc)
->  	 * someone mounts binfmt_misc for the first time or again we simply
->  	 * reset ->enabled to true.
->  	 */
-> -	misc->enabled = true;
-> +	WRITE_ONCE(misc->enabled, true);
->  
->  	err = simple_fill_super(sb, BINFMTFS_MAGIC, bm_files);
->  	if (!err)
-> 
-> -- 
-> 2.53.0
-> 
+> Changes since v2 [1], addressing Andrew's review:
+>   - Describe the user-visible effect: MADV_DONTNEED has fill-with-zeros
+>     semantics, so the range must be reported written; otherwise a
+>     checkpoint/migration tool (CRIU) keeps stale data and the process
+>     reads corrupted contents after restore. Add Reported-by/Closes.
+>   - Reword the hugetlb carve-out to rest on the category functions:
+>     pagemap_hugetlb_category() reads an empty hugetlb entry as
+>     not-written, unlike pagemap_page_category().
+>   - Drop the redundant MADV_COLLAPSE fallback #define; it is in
+>     <asm-generic/mman-common.h> and used directly by other mm selftests.
 
+I hit the following compilation error on mm-new:
 
-Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
+[root@localhost mm]# make
+  CC       pagemap_ioctl
+pagemap_ioctl.c: In function 'unpopulated_thp_hole_test':
+pagemap_ioctl.c:1130:31: error: 'MADV_COLLAPSE' undeclared (first use in this function); did you mean 'MADV_COLD'?
+ 1130 |  if (madvise(mem, hpage_size, MADV_COLLAPSE) ||
+      |                               ^~~~~~~~~~~~~
+      |                               MADV_COLD
+pagemap_ioctl.c:1130:31: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [../lib.mk:225: /root/code/mm/tools/testing/selftests/mm/pagemap_ioctl] Error 1
+
+Could you consider addressing it like fd5295afae91 ("selftests/mm:
+hmm-tests: include linux/mman.h to access MADV_COLLAPSE")?
+
+Thanks,
+Zenghui
