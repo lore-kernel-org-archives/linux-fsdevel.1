@@ -1,43 +1,44 @@
 Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721C134DCD6
-	for <linux-fsdevel@vger.kernel.org>; Sun, 12 Jul 2026 19:29:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C493B2D0A
+	for <linux-fsdevel@vger.kernel.org>; Sun, 12 Jul 2026 19:29:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783884558; cv=none; b=m84ex4NUKcSNgUn+fJvs5QEs0DXQ7XhsXSnyANC0T9re6FTRTIljru7nkVojTx11TbhcovU3+olivwk5PkGRogQk39U34AdHB/WS4iNOwaqQG/DdYNmpSWShmg8M7av8xAXG6cdknA7cRBJmlPSp78ZckvfsR06Y6LItNcDL6NA=
+	t=1783884558; cv=none; b=LNK6ybG1u/FyzmL2/SvLbDs1qe1F94g+HTs/JvU5kRiWjRF32RV17oS6QWxA9iEdmaTMfp62XiJPpbtVVLB3IUBUko5Yx8Xc06Fp6PEl9Ln0lAx/1kOoDLJHXUCV/Ak5oSlWBUZcvNoiABpGxZKcJdjUC7+oc2Pvof3+1TImU+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1783884558; c=relaxed/simple;
-	bh=7FeLZRz1lyQ0XU/V8TTu9YNCIok8MYLB4V1l1DzpssI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e/1ykABlwBwC6uVBPfHC5S4fvPlrMUYkLD5Qk/a19q/sKFRmfYBsyi+GtQnN2rmIOLsn5kqWfsBi+iWNXaLQg60uYF/GQuUyjAyWNL6fXpSfbo+OkNQHT9NnZzPg8Yuf5S6Ls/LgXgd42DlUkK7/40JL+Wl+ffoAbucBJ7z19GE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=Ff76l4VZ; arc=none smtp.client-ip=195.121.94.185
+	bh=QJQE/GXd0K169a8mwkplKKdkmQ5sBJfTjp2LDq9OYG0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=iONYdzOe3gnGj07/ufkiyKFpnn0Si7u99qaxbJ0jiHEUOUEMWeVOlBSm4QHhnCqTmDUlE6S+cARAbVLc7Q6tCH1si7slLyZRRUUnewCrrjYpZOWmz8PjoHgS/pAIrw18yPMSZzR3D3/26w6fAPZ0J8OkNtfKIkSmp7jXGXV94IM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=P4xxHuf9; arc=none smtp.client-ip=195.121.94.185
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="Ff76l4VZ"
-X-KPN-MessageId: f5dfb728-7e27-11f1-9e8e-005056999439
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="P4xxHuf9"
+X-KPN-MessageId: f798f299-7e27-11f1-9e8e-005056999439
 Received: from smtp.kpnmail.nl (unknown [10.31.155.8])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id f5dfb728-7e27-11f1-9e8e-005056999439;
-	Sun, 12 Jul 2026 21:29:11 +0200 (CEST)
+	id f798f299-7e27-11f1-9e8e-005056999439;
+	Sun, 12 Jul 2026 21:29:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=mime-version:message-id:date:subject:to:from;
-	bh=KPf/aoCZlxQz+vFaLELeH6sLcVCRcc/cpJwz2gB1uqY=;
-	b=Ff76l4VZAlo8WoJ/NSgZo7rqkAQLKXflzwa40rgvvddCT1bv4LwYKMs5+TIKFkNxx+4zs+hQ7f0sW
-	 Jaeln7sK+7jPCQPcNfCK4UT2kfH6QJ6u9JqJ2VsViVbHXwyyNSkWlM70kFHiJiuBElbQstlrxmqlw4
-	 jq1bf6dWYhmJ/iU4C+ZTWtntdZHNKy/kGR9Qam+fdL1F9hSIGYQeHP1fc7k1UPuRI2OL3PXGcfIqr+
-	 ri1X5hPv1KZSFRm1J8ZqLicyuyBlABgASKjxH/qWZCaQUDhweMpY0tlmTwcPPH4V2hhuRGKETgepPc
-	 y578Q3lVQp4WHn6jJktMGx2lxZW/vCg==
-X-KPN-MID: 33|NYkvUMlNyR46n+JRRCp856l9S28XqQfb+s46ITKw0XLuvpzEgl2ZEC+qYh6JX+1
- vHqmKoABwQMHh/auUzF9i+FbCL7fl0Ri+TyOaheDxL+Y=
+	bh=jTewONXvFxgGhvbpYUlhsacZJwkbZKyIKe17J6I4b48=;
+	b=P4xxHuf9t62cHKEpGb8t8CYqH1Jo9Yzt4DwnlWQdIvKB5c/bifaVrVkLK21nLkdXiDOEw6J0TrH7u
+	 5X8mBl4JeOjrgEqzn2I5w4BlZYBBGaXZgHxHZd/XMHeChXLIfSjTs29IaLtg8jMzJPDfOXBRYDYxd8
+	 M9FH4lyE+Diyax8ZS2FYC9Do0vGMUGpn4Vunqn0mpLgrV7l9jKRTO9KmP7277dekfVIGO01MTkvAKS
+	 2B1bRypjDG+MahpGNzYoYoi/7uKuin1gAXXcbY2k+5Xs83vTWaCPJgmEZAvxrrdsUXd+jYe6Y58tTf
+	 iEMuUJ/kv3SXrU0pa5ecQeWF7SMcAhg==
+X-KPN-MID: 33|CwIQjKs957AdyUdlOp28+PvDB5Y+7tZPq2VDRTbC4dBudSZCQT7UlPggFgSIGBk
+ 0a9iTxHxpnTlNdDTQVGrIQzku4B7uHbphAiBJbSelbKM=
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|JHIEU+RzsCoWXECWdl/V5mzobVXmY34k9TsvMANEMCsS+nNjc0sUyWXN67sO1LQ
- p0KvKFx6+NwwSTjL1TbbcEw==
+X-CMASSUN: 33|NTLceOVGjkZuZpL9PCIGW5OMiyJ1Uw8ilTMavKGxPBNhuwrZUZcnYJg6hQHzEKF
+ 2D3BmVEg5K2TpefHHy1d+8A==
 Received: from daedalus.home (unknown [178.230.226.124])
 	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id f09634af-7e27-11f1-8dcc-00505699d6e5;
-	Sun, 12 Jul 2026 21:29:11 +0200 (CEST)
+	id f757ec1f-7e27-11f1-8dcc-00505699d6e5;
+	Sun, 12 Jul 2026 21:29:14 +0200 (CEST)
 From: Jori Koolstra <jkoolstra@xs4all.nl>
 To: Christian Brauner <brauner@kernel.org>,
 	Aleksa Sarai <cyphar@cyphar.com>,
@@ -51,10 +52,12 @@ Cc: netdev@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Jori Koolstra <jkoolstra@xs4all.nl>
-Subject: [net-next v5 0/4] net: af_unix: useful handling of LSM denials on SCM_RIGHTS
-Date: Sun, 12 Jul 2026 21:29:54 +0200
-Message-ID: <20260712192958.1631672-1-jkoolstra@xs4all.nl>
+Subject: [net-next v5 2/4] net: scm: move scm_detach_fds() from common path to scm_recv_unix()
+Date: Sun, 12 Jul 2026 21:29:56 +0200
+Message-ID: <20260712192958.1631672-3-jkoolstra@xs4all.nl>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260712192958.1631672-1-jkoolstra@xs4all.nl>
+References: <20260712192958.1631672-1-jkoolstra@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -63,69 +66,40 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Right now if some LSM denies an AF_UNIX socket peer to receive a
-SCM_RIGHTS fd, the SCM_RIGHTS fd array will be cut short at
-that point, and MSG_CTRUNC is set on return of recvmsg(2). This is
-highly problematic behaviour, because it leaves the receiver
-wondering what happened. As per man page MSG_CTRUNC is supposed to
-indicate that the control buffer was sized too short, but suddenly
-a permission error might result in the exact same flag being set.
-Moreover, the receiver has no chance to determine how many fds got
-originally sent and how many were suppressed.[1]
+scm->fp can only be set when using UNIX sockets, therefore we should
+move it out of the common path __scm_recv_common() into
+scm_recv_unix().
 
-Add a SO_RIGHTS_NOTRUNC option to UNIX sockets to enable more useful
-handling of LSM denials when receiving SCM_RIGHTS messages: instead of
-truncating the message at the first blocked fd, keep every fd slot
-and store the LSM errno in the blocked slot.
+Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
+Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+---
+ net/core/scm.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-[1]: https://github.com/uapi-group/kernel-features#useful-handling-of-lsm-denials-on-scm_rights
-
-Changes:
-v5:
-  - Enable SO_RIGHTS_NOTRUNC on all AF_UNIX socket types.
-  - Added required BPF CONFIG_ options to
-    tools/testing/selftests/net/af_unix/config.
-v4: https://lore.kernel.org/netdev/20260705123826.3818443-1-jkoolstra@xs4all.nl/
-  - Removed the __receive_fd() helper and moved logic into
-    scm_recv_one_fd() directly (suggested by Brauner).
-  - Moved selftest from Smack to BPF (LLM assisted).
-  - Add arch specific socket option values for SO_RIGHTS_NOTRUNC.
-  - Undo patch that replaced copy_from_sockptr() with
-    copy_safe_from_sockptr().
-v3:
-  - Separated net and vfs changes.
-  - Use kselftest_harness.h and system() to call the test script.
-v2: https://lore.kernel.org/netdev/20260616143020.3458085-2-jkoolstra@xs4all.nl/
-  - Reimplemented as a UNIX socket option instead of a per recvmsg(2) flag.
-v1: https://lore.kernel.org/netdev/20260428175125.2705296-1-jkoolstra@xs4all.nl/
-
-Jori Koolstra (4):
-  net: af_unix: enable custom setsockopt for all socket types
-  net: scm: move scm_detach_fds() from common path to scm_recv_unix()
-  net: af_unix: useful handling of LSM denials on SCM_RIGHTS
-  selftest: Add tests for useful handling of LSM denials on SCM_RIGHTS
-
- arch/alpha/include/uapi/asm/socket.h          |   2 +
- arch/mips/include/uapi/asm/socket.h           |   2 +
- arch/parisc/include/uapi/asm/socket.h         |   2 +
- arch/sparc/include/uapi/asm/socket.h          |   2 +
- include/net/af_unix.h                         |   1 +
- include/net/scm.h                             |  13 +-
- include/uapi/asm-generic/socket.h             |   2 +
- net/compat.c                                  |   4 +-
- net/core/scm.c                                |  40 ++-
- net/unix/af_unix.c                            |  19 +-
- .../testing/selftests/net/af_unix/.gitignore  |   2 +
- tools/testing/selftests/net/af_unix/Makefile  |   8 +
- tools/testing/selftests/net/af_unix/config    |   7 +
- .../net/af_unix/scm_rights_denial_lsm.bpf.c   |  36 +++
- .../net/af_unix/scm_rights_denial_lsm.c       | 285 ++++++++++++++++++
- 15 files changed, 404 insertions(+), 21 deletions(-)
- create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.bpf.c
- create mode 100644 tools/testing/selftests/net/af_unix/scm_rights_denial_lsm.c
-
-
-base-commit: f6f3b36c15ed44de1fbb44e645e4fae8c4a4453e
+diff --git a/net/core/scm.c b/net/core/scm.c
+index eec13f50ecaf..a73b1eb30fd2 100644
+--- a/net/core/scm.c
++++ b/net/core/scm.c
+@@ -523,9 +523,6 @@ static bool __scm_recv_common(struct sock *sk, struct msghdr *msg,
+ 
+ 	scm_passec(sk, msg, scm);
+ 
+-	if (scm->fp)
+-		scm_detach_fds(msg, scm);
+-
+ 	return true;
+ }
+ 
+@@ -545,6 +542,9 @@ void scm_recv_unix(struct socket *sock, struct msghdr *msg,
+ 	if (!__scm_recv_common(sock->sk, msg, scm, flags))
+ 		return;
+ 
++	if (scm->fp)
++		scm_detach_fds(msg, scm);
++
+ 	if (sock->sk->sk_scm_pidfd)
+ 		scm_pidfd_recv(msg, scm);
+ 
 -- 
 2.55.0
 
