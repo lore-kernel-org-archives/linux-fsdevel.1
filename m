@@ -1,157 +1,149 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A83333A63F2
-	for <linux-fsdevel@vger.kernel.org>; Sun, 12 Jul 2026 12:24:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555B43126B0;
+	Sun, 12 Jul 2026 12:32:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783859066; cv=none; b=M39ANkgDMbMLdh6POkcm8GT+j3QqeJngTgMSbmO3dLgdX58S5Ih8Tm+4NvfoBA478EsQQj8SEPccAbDHGbutzDglRfA+LQZLD15wNO+fCOr7Dac+OLnUYF3gqPw6Tth3wfA4j5o46gK5VvnomFyKISKjZgwpdGErYpAhxa9qrfs=
+	t=1783859557; cv=none; b=iejbJR13mF5KXgRJQEwGaxo85V3BDglLl0gO3o1qp/a77npuAhi/5B2P4UsViSe0etXv2HeLVIXxAzTkdd9zhy9DDzUV1znACCHS1PV+nRU7K7gs19NVkidmQSH/7N2S6DMEu4/rNn+QGuRpZzYiYD25QtKpA9zVsAO/wXX5xes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783859066; c=relaxed/simple;
-	bh=KFEh1PHZXjZn5B6U/ju5cvbBd+QnU5QCQZZjOyrckbM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WETpFzteXhZ0FbLvVb1EGYdGiS7q1BkzC0anJ6nEvP3r2CVJhGbGEl+oGlwOh5p7IpUx4vee+QQA/jluxqCnpbI1fHPcszJ46SXkmRx4nVFvUISl4o8V7VGaB3c/rPEaYMBBY1TGtCGmTu+YhNhQMZxeOOgkP0acuCfeFDyngLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QpkoVoly; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783859557; c=relaxed/simple;
+	bh=VU5CHIyaoqNRjqMq+N8FVvGRvPUNlYegA5+LAVSgSdo=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=EZd9z9xl70ofn07ivkByg8OFQbS/jI6bKzmLdVJ+tHFgic6h6sSaWqedqNFc5LqsWExBC4Hlyqqsr0JkXo01+CZLcAXVCfUcWW8BPESq9+HOgOywKesNsnv25YNq7TEBs7DkgvW4b6UjGgnggKud8KvttRPLsUUX1D8y5JSq8eo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=geJcKo8l; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QpkoVoly"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-69c7ab350e9so896075a12.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 12 Jul 2026 05:24:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783859063; x=1784463863; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=eQ1JDM66k0TFLHCRuDdKDddxOWaCzRzzijLyXFQufg4=;
-        b=QpkoVolyniTWkaDuAt7T9/0+n8ZcJ8IRDcLufcS8tH4izuhFKr4lY9r4LyEB9QZp8R
-         d2oSA0+U7DzMsr0/PBqoT4pLIu2rQiGzhx+531RvKrhNngFVD7atpgQZe9/r4S8eqS1K
-         LTDjOKOBup2GSGqVs++gHb4C9GnLM9zLxg1OQNtlnR4hMBpYTAvM119E9p8t9PFy9VGS
-         FEtK/UTtdlZCULpKfx4UT7a33xzFooWnJq4ptBt7Jm0HXZtqx3Vs9VTzbMlNDq+ZXRSP
-         G0RTyOQVwSEKs2HrnBHQ3LnnkgWMvbAtLcahr1tE+nfzs0Pp6gu6gPAuyO2ilL5Vh1SZ
-         biCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783859063; x=1784463863;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=eQ1JDM66k0TFLHCRuDdKDddxOWaCzRzzijLyXFQufg4=;
-        b=ZgSXebB5FTkweZCD1zXhCk8uJWdtSthUtsCIhlT4m73I7kb6GMNrQol0EBN4hTj+KM
-         kNI8AaKWRPEl3dKgMorigXchy5N7xnaRF0e16d+76EK1a25mVNmp17zy9zm3+cNcHhBT
-         Aqai84/Azju2bQDlKV8gKbvEpXmvMZJc3TgrHqbOOJOmImM0DKgfKhMlBJhdYC+37I3h
-         3rS/rKfU6LXPduzIGgRo3JRvkRtLOA/z3ey01QZwFK2OXuiWPyZ14nXEzcgu0NKakg4J
-         UjmeB3bE5dD2xF+Spb3pWLybF75LXQ5wXgfzXbALxhwrPH33PvZlI11lNUa+ooSdIcn6
-         8hPQ==
-X-Forwarded-Encrypted: i=1; AHgh+RphxO6GjH3TU/coOZCUYViHmd+mI9FTgavq4ZbVod1y2Pqwl2tATDDwZ5baMSlto0OxllkS4fNvL6xix2YK@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYJCZzIaUxf0kprPnII4W9Mgg004urw4Gbw8L3pFFXkik8Lz62
-	oksaV4LqOFkiJ4stWFEkItTqzzkjgz/xeWpR2fsvRRb0/ze9VadEaaQS
-X-Gm-Gg: AfdE7clSmFbLdjmii7jlQ3pHwXUXjhZ+0hvKtF+z6SKcyJ8VgE4B8Xrc4XivFPW2brA
-	dcpFo8DnIcqmpHzFiQy5dsuChmnLT/PMWBHdK+nWMJXgoDBitxHCHozUqvbpCerbulMImCHnLnm
-	4iwkFHdUqvtAe9xLp845TRCMHnxFNpsKx7Ios99HI2m+NUy5ZSMXcVlxrD7q7WfbD5/3keqCg4c
-	EwA7DsmsmDwmIHJzjMnvgSy6lfl1UnSQy/jjlaAd0CbbWUCAjNn2Drmytr27e4LaxotFcbm/moa
-	5VrmvYaxLT7LT58n5WA8EvHV5iZw2OBgkcRplkXi7iL61iJD0J0WGi97RYNRz4cyc7j3nmqFH2h
-	SvMC+FplAlCD60nc7az0nMY1HLt1WMQPk+8WgcQwK95Yvuwdjwk01LzEXUhvcKK41ancejlUM8Y
-	hMkvfIXVlHwzTVWsqLipJY7JWm5/1BxjJx7oLTLQ==
-X-Received: by 2002:a05:6402:2346:b0:69a:a827:7483 with SMTP id 4fb4d7f45d1cf-69c5f0eae44mr2448709a12.25.1783859062731;
-        Sun, 12 Jul 2026 05:24:22 -0700 (PDT)
-Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69aa6dba523sm8106061a12.0.2026.07.12.05.24.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 05:24:22 -0700 (PDT)
-From: Amir Goldstein <amir73il@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,
-	Daan De Meyer <daan.j.demeyer@gmail.com>,
-	linux-unionfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH] ovl: check access to copy_file_range source with src mounter creds
-Date: Sun, 12 Jul 2026 14:24:21 +0200
-Message-ID: <20260712122421.203113-1-amir73il@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="geJcKo8l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 625101F000E9;
+	Sun, 12 Jul 2026 12:32:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783859553;
+	bh=MtkGjiGoIClKqYf6WbMTADgvs1VSC4RCPwgWlBMIBnc=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=geJcKo8lmOCwLH8xvS3pjM6MSkf7G28eQyFiSG6nCT2g2bYC/iGbTzTX5BCP6XbKF
+	 8Rf5ExjwECx/W8ibPyCuvsaX6aIkGQeiXyzKVftKkSGaYcFpgb74pWSYDni7dIY711
+	 YwWiczEPH1l/JKVndl2Wd6OPsX5pkefjuJUQ8pQ58zGRZyM7GKVo50Yg5UJNXFZksh
+	 lgbpBhkNVQtqTbIFDCgXAbTjGE8fS3Ko6ejgWF4SOtfEweQ1AuICRDoUYLG8ex795L
+	 Ib/03fjU59OzPmCxaypFwa3282e1OH6uu7kpx0M0YeW+mz2cd0LFmQ3Pnx4DR9/8gE
+	 qc/wwrqo7bpwA==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 0/5] binfmt_misc: bpf-backed binary type handlers
+From: Christian Brauner <brauner@kernel.org>
+To: Farid Zakaria <farid.m.zakaria@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, Shuah Khan <shuah@kernel.org>, 
+ Andrii Nakryiko <andrii@kernel.org>, Kees Cook <kees@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Jonathan Corbet <corbet@lwn.net>, Jann Horn <jannh@google.com>, 
+ John Ericson <mail@johnericson.me>, linux-fsdevel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+In-Reply-To: <20260711-binfmt-misc-bpf-v2-v2-0-d6591ceaf207@gmail.com>
+References: <20260711-binfmt-misc-bpf-v2-v2-0-d6591ceaf207@gmail.com>
+Date: Sun, 12 Jul 2026 14:32:22 +0200
+Message-Id: <20260712-abluft-brutkasten-aufladen-c8063a4a1a0a@brauner>
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4203; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=VU5CHIyaoqNRjqMq+N8FVvGRvPUNlYegA5+LAVSgSdo=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQFd8ZM3PJB2fnw3h2pDk1m9m0T/M/E6025wn7fzfpOW
+ d7C5AbXjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIkI/GNkeHPQiL3GYesmrc1v
+ tSZ2fPxUztu58LPf8We7040t9978e57hr8j8bbGpuRPkD7t/1zq2+011XTWvyL61nwVVJl7m3fb
+ NmAMA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Commit 5dae222a5ff0c ("vfs: allow copy_file_range to copy across devices")
-allowed filesystems that implement the copy_file_range() f_op to decide
-if they want to access cross-sb copy from/to the same fs type.
+> This is a continuation of Christian's bpf-backed binfmt_misc POC [1], which he offered
+> to hand off to me. I am carrying it forward. The kernel design is his and is
+> unchanged. This series rebases it onto his binfmt_misc locking/cleanup series [2]
+> and adds selftests (+ fixed from the one's shared), and therefore does
+> not apply to mainline alone.
+> 
+> As for motivation for this whole change, Christian did a great VL;MR;
+> write-up [1].
+> 
+> TL;DR: binfmt_misc can match a binary and hand it to a fixed interpreter,
+> but it can't match programmatically or compute the interpreter per binary.
+> The Nix community would love to support relocatable binaries, where the
+> correct loader can only be found relative to the binary itself.
+> This adds a 'B' handler type: a binfmt_misc_ops struct_ops program that
+> inspects the binary and picks the interpreter with one new kfunc,
+> bpf_binprm_set_interp().
+> 
+>   bpftool struct_ops register nix_origin.bpf.o /sys/fs/bpf
+>   echo ':nix-origin:B:nix_origin::::' > /proc/sys/fs/binfmt_misc/register
 
-The same commit added checks to verify same sb copy for filesystems that
-implement ->copy_file_range() and do not support cross-sb copy at the
-time, namely, to ceph, fuse and nfs.
+Thanks! So I've spent some more time working on this because I had some
+future ideas that I needed to make sure could be accomodated by this
+(currently on vacation but hey...). So the version I have givex this a
+better design and has future extensibility in mind:
 
-The two remaining fs which implement ->copy_file_range(), cifs and
-overlayfs started to support cross-sb copy from this time.
+- The single sleepable load op is split into two ops:
 
-While overlayfs does support cross-sb copy when the two underlying files
-are on the same base fs, the copy operation on the two real files from
-two different overalyfs filesystems is performed with the mounter
-creds of the destination overlayfs and the read permission access hook
-for the source file was called with the wrong creds.
+      struct binfmt_misc_ops {
+      	bool (*match)(struct linux_binprm *bprm);
+      	int (*load)(struct linux_binprm *bprm);
+      	char name[BINFMT_MISC_OPS_NAME_MAX];
+      };
 
-This could cause either deny of access to copy which would otherwise be
-allowed (e.g. with splice) or allow read access to file which would
-otherwise be denied.
+  The non-sleepable match program runs from the RCU entry lookup
+  walk itself, exactly like magic and extension matching: same
+  registration order, same first-match-wins semantics, and it can
+  only rely on the prefetched bprm->buf. It must be free of side
+  effects since the walk may be restarted.
 
-Fix the latter case by explicitly verifying read access to source file
-with the source overlayfs mounter creds.
+  The sleepable load program runs once the walk has committed to the
+  entry and does the file reading and the interpreter selection. Both
+  ops are mandatory, the struct_ops plumbing enforces the sleepability
+  of each, and since bpf_binprm_set_interp() is KF_SLEEPABLE a match
+  program cannot select an interpreter by construction.
 
-The former case remains a quirk of cross-sb overlayfs copy, but
-userspace could fall back to regular copy so no harm done.
+- A match is a commitment. A failing load program fails the exec instead
+  of falling through to later entries. -ENOEXEC keeps its usual meaning
+  and hands the binary to the remaining binary formats, for a handler
+  that discovers it cannot serve the binary after all.
 
-Fixes: 5dae222a5ff0c ("vfs: allow copy_file_range to copy across devices")
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
----
+  This kills the part of v1 I disliked the most: the skip cursor and the
+  leave-and-rescan loop in load_misc_binary() are gone. The walk is
+  never left and re-entered, and 'B' entries need no special semantics
+  against concurrent (un)registration anymore.
 
-Christian,
+  Your v2 changelog note about keeping the bpf retry loop in the
+  __free() style is moot as a consequence. The loop no longer exists.
 
-I am no longer surprised finding more things that are wrong with
-copy_file_range().
+- The load return convention flipped: 0 now means success after the
+  program called bpf_binprm_set_interp(). Returning 0 without having
+  selected an interpreter or returning a positive value is treated as
+  -ENOEXEC, other negative errnos fail the exec.
 
-I have a feeling this is not the last time either.
+  So the "return bpf_binprm_set_interp(...) ?: 1" idiom from the v1-era
+  programs becomes plain "return bpf_binprm_set_interp(...)".
 
-Thanks,
-Amir.
+- The handler name moved from the offset field to the interpreter field
+  that field consistently names whoever supplies the interpreter, a path
+  for static entries, a handler for 'B' entries. Offset, magic, and mask
+  must be empty:
 
- fs/overlayfs/file.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+	echo ':nix-origin:B::::nix_origin:' > register
 
-diff --git a/fs/overlayfs/file.c b/fs/overlayfs/file.c
-index 27cc07738f33b..f3d97eb146e85 100644
---- a/fs/overlayfs/file.c
-+++ b/fs/overlayfs/file.c
-@@ -528,6 +528,7 @@ static loff_t ovl_copyfile(struct file *file_in, loff_t pos_in,
- 			    struct file *file_out, loff_t pos_out,
- 			    loff_t len, unsigned int flags, enum ovl_copyop op)
- {
-+	struct inode *inode_in = file_inode(file_in);
- 	struct inode *inode_out = file_inode(file_out);
- 	struct file *realfile_in, *realfile_out;
- 	loff_t ret;
-@@ -551,7 +552,20 @@ static loff_t ovl_copyfile(struct file *file_in, loff_t pos_in,
- 	if (IS_ERR(realfile_in))
- 		goto out_unlock;
- 
--	with_ovl_creds(file_inode(file_out)->i_sb) {
-+	/*
-+	 * For cross-sb copy, vfs_copy_file_range() will verify read access with
-+	 * the mounter creds of the dest fs mounter, so we need to explicitly
-+	 * verify read access with the source mounter creds.
-+	 */
-+	if (unlikely(inode_in->i_sb != inode_out->i_sb)) {
-+		with_ovl_creds(inode_in->i_sb) {
-+			ret = rw_verify_area(READ, realfile_in, &pos_in, len);
-+			if (unlikely(ret))
-+				goto out_unlock;
-+		}
-+	}
-+
-+	with_ovl_creds(inode_out->i_sb) {
- 		switch (op) {
- 		case OVL_COPY:
- 			ret = vfs_copy_file_range(realfile_in, pos_in,
+- 'C' is allowed now, v1 rejected it. It behaves exactly as for a static
+   entry. The setuid transition stays gated by vfsuid_has_mapping() in
+   the caller's user namespace. Which makes 'B' handlers usable for a
+   per-binary loader over setuid binaries. 'F' stays rejected as there
+   is no fixed interpreter to pre-open (I have other ideas how we'll do
+   something like it later.).
+
+Nothing changed in the exec patch, the fs kfuncs patch, the kfunc
+itself, or the registry/namespacing model.
+
+I can send v3 in a bit if that's ok.
+
 -- 
-2.54.0
-
+Christian Brauner <brauner@kernel.org>
