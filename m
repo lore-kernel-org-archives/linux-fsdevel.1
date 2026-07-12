@@ -1,726 +1,368 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D603370D5E
-	for <linux-fsdevel@vger.kernel.org>; Sun, 12 Jul 2026 04:08:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F4827B35B
+	for <linux-fsdevel@vger.kernel.org>; Sun, 12 Jul 2026 06:09:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783829340; cv=none; b=TKPsQjhbHFLvlTdUr2yzfjbXouPPyE5LP6cel1YBC9A6kyvO/2chccS1hKX1t2eOU4iNiHMSseWxgbDe2kTP2Cjc+12jYpPis9HL2c5GkRPvB0ZXC0Ijcl+TkInoitoM3sTU+xyMpuvHkK7UEvXndkpajVoqLeqxaow5C2L1iY4=
+	t=1783836581; cv=none; b=KCIEHIlfeGRhSbZUXO7nb2b0bhB/LwmvkV0oCf4woj0AEMyZ/MpRyveEXK8HN4hn3l9SRFQhOmnr03OodNnTSSu0gygIBORMNZ0Hv7yqUByLvS16K+BMZceZ91/H69hBW0VTR8Z6qvWUf335m3Ar4ojEcLqLho2YILhc2xhhb0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783829340; c=relaxed/simple;
-	bh=UwONQdSIR58AzteSQrmv9kMXhoLqyKx9woojMAMVUUM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tfZIyq0S/CLtNpmoJM0ItBaxBdvmhUXyWZ+xroNCnpW5xH75SyN0f+boVXKInf1Zvi0X+HS9FyTv04emrQYGXAp657pDi4Lly8dQgr1AEnHZp4Yu+Aici0vwYn8k8k8H0YgG3dtqHXncWjW2l293WuEix9aFETiQ7fgoJRCEWJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=USdSJQm+; arc=none smtp.client-ip=209.85.216.46
+	s=arc-20240116; t=1783836581; c=relaxed/simple;
+	bh=psgcux/BufkYGLq3HRwWFkJFQw510Jfw1T4w6WdjkqM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=bLoZNGq1dufEKGYxIS6ScYjlkpB4WVZLzMKFh2m92PUq7FUfHzOANOv5cA7BWcaDfE29xejO80s5ebLhjsAjbHOBeMKffe4NRP4mqVajtr+L/67WvzMvPXff6BZSl/6ormSwi7UUwEo+QLfEObrt8ZXbSfHAHjNXCFW6pDtHgMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sb47h+a5; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="USdSJQm+"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-385ea3ce80dso2406852a91.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 21:08:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sb47h+a5"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2caf228a910so15919025ad.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 11 Jul 2026 23:09:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783829338; x=1784434138; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1783836578; x=1784441378; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=SNMnN6PRNArZolS5V8JiE9hnU6pWFtcLrBR1+3UF0vs=;
-        b=USdSJQm+ZaSXWnLEkdgAN3JwEpOQLBgXgvOrpyo9cVscUsdSTzureuKDaIUbc/KQWM
-         dVMCvNBxtADz/+wsWceW2uXWtyYnU4RHPa4fkJgIPB7WKcK3MPbVy8AmUqwViYklovXS
-         X1GH8ZV+7ijOH53cl1dXCB+36oSL/KfLXOqgplrqPKd3Yu+u9BnCHSU8MCTg9vVDhL3Q
-         vaPNqClixUdWO64mjfQ8aso64bRSjclvhwPvoP8zBbLyrfc11sqXcX64cck0of7hry0o
-         JZuvRIHZ07ba7peHwu3FLSQwzxWhOLZmDuH6v+wav0E9jYdBvZ5t8UaQs8QrP1Vtn3cj
-         arjw==
+        bh=ZfbNwDGGQLxQKHl2jHyE48UXXgoid1glH3pjyve2Y9g=;
+        b=sb47h+a5ZxGVGXiNyfEdiOH4HuxoY5/NL4rQ8/vWY8E1GxQ6kfu7gON01tPwIiDJ6Z
+         R5aJwVuIpkWNOXV9rAi/X3CwmQc61TGq9F0tmkPFX3uBO89d692nF8mL0XJfWQH+KEjb
+         FEufpwPPGlkhNNd5qYGvBvYeUh4QaO6gxBvWnM4rVlE4CWYNaWtD+ZPCMKdvIzZhhSHK
+         AjrhvBtZ1vladuwWTlQd+VWmMmI7sDo0oclk8C9LmDuisy3fjdE6z8X84wCGp2y54NyN
+         jcnHSNqtFecuq4dFrEy4Yu8QBcySBjq9TZrFAJIrG3d0ASFTuOCZYVNqtlmmcziKWOkL
+         M1Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783829338; x=1784434138;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SNMnN6PRNArZolS5V8JiE9hnU6pWFtcLrBR1+3UF0vs=;
-        b=eC944zKKVH+7lSLjSGcN6J5PUq8u7j60nuy0A73bpCyNEHFu6+L1DwNd3jw9DYKAQw
-         xEVOxina2UsDrVnnSnX1GtDcOPt/JNd7F/uLKXswVD4OnV+mE7/FhZkSjvUJuwhJ0dB0
-         g87PhC3UuV3AtcrrbDxtYT8SQwVvv9BSJ7fMMCjZNk2mt39gyOImSrCb84yBOMwltwFi
-         qocDHPAzafp5lET4NLLG6tFEzKSY8fIg1EScUXpw5AVRufXR393Q2Ph7uJe7D970+ojN
-         11rlULfZE+7ii/jSVbdEJBjYyO/eevjfE0Ojonf19DixP7JGYazPf8HRXAAHDis1kxrH
-         2LCw==
-X-Forwarded-Encrypted: i=1; AHgh+Ro55dX1hUKEEF4PwqR7eLigEofTc5Whuz5oUO/SPU+rBn2NfUUOk7qI41T715M2GpZcupVUeWe+7XVmLnfC@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuS0hNUHYz9wI2LcXop/6AA3PsbWYkctowldJKxIX/Ub1ikCqz
-	M9N2avLxvQ/FSivtJVJ7ABIQ2jKnwUso39FXd3FQbg15vf5P3NPea09j
-X-Gm-Gg: AfdE7ckPqbss5qIuC0hhs0kAcVw41zMo5nrmGLOFX1lfOkMpu9qUsG0HwbNxBN2QdIO
-	CL+yDvaqnJi/qTplpYGkkDHujZ4mpjAqEdu+zGTyyl3VP2eEu49nQVtLW8Eq0YwiBgEmCiKERQ3
-	AvhRJA5+adOIg9u3Fij7f1legWOSNmrFHIJj8QF7x1wK3f1sBDyrRW6VK7ubWkJL5QBdLpZQSk1
-	cR5YT7fG0gbOMNQceZJfQHwrwLUjRcQm8JQRszFf/zLip6MZ4eJRHKTDLcnL5oebxu2OUDfJa0Z
-	WPw1n7hApmn/agp8SKGPCGaiH7n1G3eU4v5XGrDclayaL/YPqhwb4qJZhzFz90n0LdJRYEP4QJa
-	NZF/wOOuHuQTDHNFnSqiUDGl4+6zSlmLSR0cXKW7VRUQDKJr6rPjAh8YhZf9xwxaS/8KnZK3PNZ
-	Z6fzzHKspx4134RJwK
-X-Received: by 2002:a17:90a:e70f:b0:387:e0cb:7ee with SMTP id 98e67ed59e1d1-38dc781ce28mr3727842a91.34.1783829337465;
-        Sat, 11 Jul 2026 21:08:57 -0700 (PDT)
-Received: from [127.0.0.2] ([98.35.8.117])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174839f89sm56808928eec.10.2026.07.11.21.08.56
+        d=1e100.net; s=20251104; t=1783836578; x=1784441378;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ZfbNwDGGQLxQKHl2jHyE48UXXgoid1glH3pjyve2Y9g=;
+        b=J465lK0tGMvjONWGRa3E38K/AkEaWSjqg7tUjEEDd7N1wclthZ+J0zPknV5IypVthI
+         +ES54oPo1YqbJ/0YsMP/YHjyFH/4pPPc4s0vqpjto1gzz/AtZYD8OlAOFc8WoTiQWiCF
+         yH0QMyNIWKD8OYJ2DveY64PDZ9almkWm4IZ5VRSvqy1dkgStjC889s5ti3wqa2Ba1J+g
+         FHOkquAatpDvDUaENSu+2QI3aT5CmKacOh9cxkf0vqrPQjoxYnz5lioAQsIH9DYTPFfr
+         bvSw35XuN3zDgO5sQVj9N6JVaHRkRUzFKKUyXK09xvaWWCcbXRZGNKBuB/iuJDVi0WRa
+         uulQ==
+X-Forwarded-Encrypted: i=1; AHgh+RonXLmdfrVTen+DnU0UIVAG+06m9Z+OppovH8N8Jj+RqNuyYIH2dkXRen3UhoqM8yVQHMGK11ykStHkLK1r@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJr0i7q3PP3bg47jCv1Gxj2gQco+y2Hl3ZU3dqDV6fqJsXlXc2
+	KdmhQhRsIG/kmb6ZmgqQNw6yF7Nz3vgDCUdFFNgrhQRzUqF8JsMNfynSUn8ag3gL
+X-Gm-Gg: AfdE7cm4gVOPg+S8QA4g8rpTQtLUfhLTD4QxS2nBJQjQABqqafw6zifo3jzrd2fb64m
+	pB0ReqJmk8RjDZAy55vflSgLwe/4LeJejRLl2rWBV23fMlj+IpiqlmIDpWAmQxtSjuVE8Z5M3O+
+	xstoxwgsN/QkjYs74i+k275R8u8MJol8tKdzILQGVX6zg8cJyCgNgZdebXDQujMX399DH84aZ1v
+	RdjUo1hqxxSqs0oNqLoNiIGcJIEtrPyduMFShv63QJXc5uiX9Lqf6JCoVYgY+TiPmG2vPT0JBQO
+	P2fHCf1/KGt0DtNQxDBrsqnZwJjuNSx3o7ot7ogp4ETkBz7B5Hp0A6+qfEEGHh+dmc0FRT4mcUp
+	QuBBbJvHrfoplwAV78TzlaZ10QdXQJp0pL7sg1mwQ+yMEmOPJ1Mx7voe4SctosJArwkECmVtKlm
+	IyKXXvbgzrcD56f6xbcORCEKc=
+X-Received: by 2002:a17:903:4b2b:b0:2cc:76fd:6537 with SMTP id d9443c01a7336-2ce9e7a53edmr46812605ad.2.1783836577645;
+        Sat, 11 Jul 2026 23:09:37 -0700 (PDT)
+Received: from ustb520lab-MS-7E07.. ([115.25.44.221])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d59e33sm80030335ad.74.2026.07.11.23.09.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jul 2026 21:08:56 -0700 (PDT)
-From: Farid Zakaria <farid.m.zakaria@gmail.com>
-Date: Sat, 11 Jul 2026 21:08:18 -0700
-Subject: [PATCH v2 5/5] selftests/exec: add binfmt_misc bpf-backed handler
- test
+        Sat, 11 Jul 2026 23:09:37 -0700 (PDT)
+From: Jiaming Zhang <r772577952@gmail.com>
+To: slava@dubeyko.com
+Cc: frank.li@vivo.com,
+	glaubitz@physik.fu-berlin.de,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	r772577952@gmail.com,
+	syzkaller@googlegroups.com
+Subject: [PATCH v3] hfsplus: validate B-tree record offset table
+Date: Sun, 12 Jul 2026 14:09:28 +0800
+Message-ID: <20260712060928.26430-1-r772577952@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <96beade6e2a14b66e80053df0209598e11eb7986.camel@dubeyko.com>
+References: <96beade6e2a14b66e80053df0209598e11eb7986.camel@dubeyko.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260711-binfmt-misc-bpf-v2-v2-5-d6591ceaf207@gmail.com>
-References: <20260711-binfmt-misc-bpf-v2-v2-0-d6591ceaf207@gmail.com>
-In-Reply-To: <20260711-binfmt-misc-bpf-v2-v2-0-d6591ceaf207@gmail.com>
-To: Christian Brauner <brauner@kernel.org>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Martin KaFai Lau <martin.lau@linux.dev>, Shuah Khan <shuah@kernel.org>
-Cc: Andrii Nakryiko <andrii@kernel.org>, Kees Cook <kees@kernel.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Jonathan Corbet <corbet@lwn.net>, Jann Horn <jannh@google.com>, 
- John Ericson <mail@johnericson.me>, linux-fsdevel@vger.kernel.org, 
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Farid Zakaria <farid.m.zakaria@gmail.com>
-X-Mailer: b4 0.14.3
+Content-Transfer-Encoding: 8bit
 
-Exercise the bpf-backed ('B') binfmt_misc handlers end to end. A handler
-is a struct binfmt_misc_ops struct_ops map; the test loads and attaches
-it (which publishes it by name), activates it with a 'B' entry, and
-checks that a matched binary is routed to the interpreter the program
-selected via bpf_binprm_set_interp().
+A crafted HFS+ image can contain a corrupted B-tree node. The node descriptor
+may contain a record count that does not fit in the node, and record offsets may
+be unordered, unaligned, outside the node, or point into the offset table
+itself.
 
-Two self-contained cases are covered:
+Several B-tree helpers consume these on-disk fields before validating them:
+hfs_bnode_dump() can walk past the offset table when num_recs is corrupted,
+hfs_brec_lenoff() can produce an underflowed length or a record range that
+overlaps the offset table. This can make the unlink/writeback path repeatedly
+call hfs_bnode_read_u16() with invalid offsets while holding the HFS+ B-tree
+lock, producing a flood of "requested invalid offset" messages. Other writeback
+workers then block on tree->tree_lock and the system reports tasks hung in
+hfsplus_write_inode().
 
-  - bpf_interp: match a synthetic aarch64 ELF header from bprm->buf and
-    route it to a fixed interpreter chosen by the program.
-  - nix_origin: resolve a "$ORIGIN/..."-relative PT_INTERP to an
-    interpreter co-located with the binary -- the relocatable-loader
-    case the kernel ELF loader cannot express. The relocatable binary is
-    linked with PT_INTERP set to the literal "$ORIGIN/binfmt_bpf_interp"
-    (-Wl,--dynamic-linker), which the kernel cannot resolve on its own.
+Validate num_recs against the node size before walking the record offset table.
+Reject record ranges that are unordered, unaligned, outside the node, or
+overlapping the offset table. Reject invalid record indexes before reading their
+offset entries, and avoid decrementing an already-zero leaf_count.
 
-Both route to a small test interpreter that prints a marker, proving the
-program-selected interpreter actually ran.
-
-The bpf objects are compiled against the running kernel's BTF: the
-Makefile generates vmlinux.h with bpftool and the harness links libbpf.
-Override CLANG/BPFTOOL/VMLINUX_BTF/LIBBPF_CFLAGS/LIBBPF_LDLIBS as needed.
-
-Signed-off-by: Farid Zakaria <farid.m.zakaria@gmail.com>
-Assisted-by: Claude:Opus-4.8
+Closes: https://lore.kernel.org/lkml/CANypQFb_2TqKGrztAXj5m0_v+QChxXDnQVeifzV8J25Vuju10Q@mail.gmail.com/
+Assisted-by: Codex:gpt-5.5-xhigh
+Signed-off-by: Jiaming Zhang <r772577952@gmail.com>
 ---
- tools/testing/selftests/exec/Makefile            |  37 ++++
- tools/testing/selftests/exec/binfmt_bpf_app.c    |  12 ++
- tools/testing/selftests/exec/binfmt_bpf_interp.c |  15 ++
- tools/testing/selftests/exec/binfmt_misc_bpf.c   | 260 +++++++++++++++++++++++
- tools/testing/selftests/exec/bpf_interp.bpf.c    |  52 +++++
- tools/testing/selftests/exec/nix_origin.bpf.c    | 179 ++++++++++++++++
- 6 files changed, 555 insertions(+)
+Changes in v3:
+- Drop the keylen == len check.
+- Drop the explicit zero-record check in __hfs_brec_find().
+- Move find cursor reset into hfs_find_reset() and call it from hfs_find_init() and hfs_brec_find().
+- Rename helper-local variables as suggested.
 
-diff --git a/tools/testing/selftests/exec/Makefile b/tools/testing/selftests/exec/Makefile
-index 45a3cfc43..5423e3f7f 100644
---- a/tools/testing/selftests/exec/Makefile
-+++ b/tools/testing/selftests/exec/Makefile
-@@ -21,6 +21,12 @@ TEST_GEN_PROGS += recursion-depth
- TEST_GEN_PROGS += null-argv
- TEST_GEN_PROGS += check-exec
- 
-+# binfmt_misc bpf-backed ('B') handler test: a libbpf harness plus its
-+# struct_ops objects and the test interpreter/app it routes between.
-+TEST_GEN_PROGS += binfmt_misc_bpf
-+TEST_GEN_FILES += bpf_interp.bpf.o nix_origin.bpf.o
-+TEST_GEN_FILES += binfmt_bpf_interp binfmt_bpf_app
-+
- EXTRA_CLEAN := $(OUTPUT)/subdir.moved $(OUTPUT)/execveat.moved $(OUTPUT)/xxxxx*	\
- 	       $(OUTPUT)/S_I*.test
- 
-@@ -55,3 +61,34 @@ $(OUTPUT)/script-exec.inc: $(CHECK_EXEC_SAMPLES)/script-exec.inc
- 	cp $< $@
- $(OUTPUT)/script-noexec.inc: $(CHECK_EXEC_SAMPLES)/script-noexec.inc
- 	cp $< $@
-+
-+# --- binfmt_misc bpf ('B') handler test ---------------------------------
-+# The struct_ops bpf objects are compiled against the running kernel's BTF.
-+# Override CLANG/BPFTOOL/VMLINUX_BTF if they aren't on PATH or the vmlinux
-+# BTF lives elsewhere, and LIBBPF_CFLAGS/LDLIBS to point at a libbpf install.
-+CLANG ?= clang
-+BPFTOOL ?= bpftool
-+VMLINUX_BTF ?= /sys/kernel/btf/vmlinux
-+BPF_CFLAGS ?= -I$(OUTPUT)
-+LIBBPF_CFLAGS ?=
-+LIBBPF_LDLIBS ?= -lbpf -lelf -lz
-+
-+$(OUTPUT)/vmlinux.h:
-+	$(BPFTOOL) btf dump file $(VMLINUX_BTF) format c > $@
-+	sed -i '/__ksym;$$/d' $@
-+
-+$(OUTPUT)/%.bpf.o: %.bpf.c $(OUTPUT)/vmlinux.h
-+	$(CLANG) -g -O2 -target bpf -mcpu=v3 $(BPF_CFLAGS) -c $< -o $@
-+
-+$(OUTPUT)/binfmt_misc_bpf: binfmt_misc_bpf.c
-+	$(CC) $(CFLAGS) $(LIBBPF_CFLAGS) $(LDFLAGS) $< $(LIBBPF_LDLIBS) -o $@
-+
-+$(OUTPUT)/binfmt_bpf_interp: binfmt_bpf_interp.c
-+	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@
-+
-+# PT_INTERP is set to the literal "$ORIGIN/binfmt_bpf_interp"; the nix_origin
-+# handler resolves it relative to the binary at run time.
-+$(OUTPUT)/binfmt_bpf_app: binfmt_bpf_app.c
-+	$(CC) $(CFLAGS) $(LDFLAGS) -Wl,--dynamic-linker,'$$ORIGIN/binfmt_bpf_interp' $< -o $@
-+
-+EXTRA_CLEAN += $(OUTPUT)/vmlinux.h $(OUTPUT)/bpf_interp.bpf.o $(OUTPUT)/nix_origin.bpf.o
-diff --git a/tools/testing/selftests/exec/binfmt_bpf_app.c b/tools/testing/selftests/exec/binfmt_bpf_app.c
-new file mode 100644
-index 000000000..472270f14
---- /dev/null
-+++ b/tools/testing/selftests/exec/binfmt_bpf_app.c
-@@ -0,0 +1,12 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * A relocatable binary for the binfmt_misc_bpf $ORIGIN case. The Makefile
-+ * links it with PT_INTERP set to the literal "$ORIGIN/binfmt_bpf_interp"
-+ * (-Wl,--dynamic-linker), which the kernel ELF loader cannot resolve. The
-+ * nix_origin bpf handler resolves it relative to this binary's directory and
-+ * routes execution to the co-located interpreter.
-+ */
-+int main(void)
-+{
-+	return 0;
-+}
-diff --git a/tools/testing/selftests/exec/binfmt_bpf_interp.c b/tools/testing/selftests/exec/binfmt_bpf_interp.c
-new file mode 100644
-index 000000000..2db205f09
---- /dev/null
-+++ b/tools/testing/selftests/exec/binfmt_bpf_interp.c
-@@ -0,0 +1,15 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Test interpreter for the binfmt_misc_bpf selftest. A bpf-backed 'B' handler
-+ * routes a matched binary here; printing this marker proves the program's
-+ * chosen interpreter actually ran.
-+ */
-+#include <unistd.h>
-+
-+int main(int argc, char **argv)
-+{
-+	(void)argc;
-+	(void)argv;
-+	write(1, "BPF_INTERP_RAN\n", 15);
-+	return 0;
-+}
-diff --git a/tools/testing/selftests/exec/binfmt_misc_bpf.c b/tools/testing/selftests/exec/binfmt_misc_bpf.c
-new file mode 100644
-index 000000000..b3e017ade
---- /dev/null
-+++ b/tools/testing/selftests/exec/binfmt_misc_bpf.c
-@@ -0,0 +1,260 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Selftest for binfmt_misc bpf-backed ('B') handlers.
-+ *
-+ * A handler is a struct binfmt_misc_ops struct_ops map. Attaching it publishes
-+ * it by name in the caller's user namespace; a 'B' entry activates it:
-+ *
-+ *     echo ':name:B:<handler>::::' > /proc/sys/fs/binfmt_misc/register
-+ *
-+ * Two self-contained cases are exercised:
-+ *
-+ *   1. bpf_interp: the handler matches a synthetic aarch64 ELF header and
-+ *      routes it to a fixed interpreter chosen by the program.
-+ *   2. nix_origin: the handler resolves a "$ORIGIN/..."-relative PT_INTERP to
-+ *      an interpreter co-located with the binary (the relocatable-loader case
-+ *      the kernel ELF loader cannot express).
-+ *
-+ * Both route to a test interpreter that prints BPF_INTERP_RAN, proving the
-+ * program's chosen interpreter actually ran.
-+ */
-+#define _GNU_SOURCE
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <fcntl.h>
-+#include <libgen.h>
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+
-+#include <bpf/libbpf.h>
-+
-+#define INTERP_PATH	"/tmp/binfmt_bpf_interp"
-+#define AARCH64_PATH	"/tmp/binfmt_bpf_aarch64"
-+#define RELOC_DIR	"/tmp/binfmt_reloc"
-+#define BINFMT_REG	"/proc/sys/fs/binfmt_misc/register"
-+#define EXPECT		"BPF_INTERP_RAN"
-+
-+static char testdir[512]; /* directory holding this test's built artifacts */
-+
-+static int copy_file(const char *src, const char *dst)
-+{
-+	char buf[4096];
-+	int in, out;
-+	ssize_t n;
-+
-+	in = open(src, O_RDONLY);
-+	if (in < 0)
-+		return -1;
-+	out = open(dst, O_WRONLY | O_CREAT | O_TRUNC, 0755);
-+	if (out < 0) {
-+		close(in);
-+		return -1;
-+	}
-+	while ((n = read(in, buf, sizeof(buf))) > 0) {
-+		if (write(out, buf, n) != n) {
-+			close(in);
-+			close(out);
-+			return -1;
-+		}
-+	}
-+	close(in);
-+	close(out);
-+	return n < 0 ? -1 : 0;
-+}
-+
-+/* A minimal 64-bit little-endian aarch64 ELF header, padded to the read size. */
-+static int create_fake_aarch64(const char *path)
-+{
-+	unsigned char hdr[256] = {0};
-+	int fd;
-+
-+	hdr[0] = 0x7f; hdr[1] = 'E'; hdr[2] = 'L'; hdr[3] = 'F';
-+	hdr[4] = 2;			/* ELFCLASS64 */
-+	hdr[5] = 1;			/* ELFDATA2LSB */
-+	hdr[6] = 1;			/* EV_CURRENT */
-+	hdr[16] = 2;			/* e_type = ET_EXEC */
-+	hdr[18] = 183 & 0xff;		/* e_machine = EM_AARCH64 */
-+	hdr[19] = (183 >> 8) & 0xff;
-+	hdr[20] = 1;			/* e_version */
-+
-+	fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0755);
-+	if (fd < 0)
-+		return -1;
-+	if (write(fd, hdr, sizeof(hdr)) != (ssize_t)sizeof(hdr)) {
-+		close(fd);
-+		return -1;
-+	}
-+	close(fd);
-+	return 0;
-+}
-+
-+static int register_entry(const char *name, const char *handler)
-+{
-+	char rule[128];
-+	int fd;
-+	ssize_t n;
-+
-+	snprintf(rule, sizeof(rule), ":%s:B:%s::::", name, handler);
-+	fd = open(BINFMT_REG, O_WRONLY);
-+	if (fd < 0)
-+		return -1;
-+	n = write(fd, rule, strlen(rule));
-+	close(fd);
-+	return n < 0 ? -1 : 0;
-+}
-+
-+static void unregister_entry(const char *name)
-+{
-+	char path[128];
-+	int fd;
-+
-+	snprintf(path, sizeof(path), "/proc/sys/fs/binfmt_misc/%s", name);
-+	fd = open(path, O_WRONLY);
-+	if (fd >= 0) {
-+		if (write(fd, "-1", 2) < 0)
-+			; /* best effort */
-+		close(fd);
-+	}
-+}
-+
-+static int check_output(const char *cmd, const char *expected)
-+{
-+	char buf[128];
-+	FILE *fp;
-+
-+	fp = popen(cmd, "r");
-+	if (!fp)
-+		return -1;
-+	if (!fgets(buf, sizeof(buf), fp)) {
-+		pclose(fp);
-+		return -1;
-+	}
-+	pclose(fp);
-+	return strncmp(buf, expected, strlen(expected)) ? -1 : 0;
-+}
-+
-+/*
-+ * Load @objfile, attach its struct_ops map @handler (which publishes the
-+ * handler), activate a 'B' entry named @entry that references it, run @target
-+ * and check it produced @expect.
-+ */
-+static int run_case(const char *objfile, const char *handler,
-+		    const char *entry, const char *target, const char *expect)
-+{
-+	struct bpf_object *obj;
-+	struct bpf_map *map;
-+	struct bpf_link *link;
-+	int ret = -1;
-+
-+	obj = bpf_object__open_file(objfile, NULL);
-+	if (!obj || libbpf_get_error(obj)) {
-+		fprintf(stderr, "open %s failed\n", objfile);
-+		return -1;
-+	}
-+	if (bpf_object__load(obj)) {
-+		fprintf(stderr, "load %s failed (check dmesg for the verifier log)\n",
-+			objfile);
-+		goto close;
-+	}
-+	map = bpf_object__find_map_by_name(obj, handler);
-+	if (!map) {
-+		fprintf(stderr, "no struct_ops map '%s' in %s\n", handler, objfile);
-+		goto close;
-+	}
-+	link = bpf_map__attach_struct_ops(map);
-+	if (!link || libbpf_get_error(link)) {
-+		fprintf(stderr, "attach struct_ops '%s' failed\n", handler);
-+		goto close;
-+	}
-+	if (register_entry(entry, handler)) {
-+		fprintf(stderr, "register 'B' entry '%s' failed\n", entry);
-+		goto detach;
-+	}
-+	ret = check_output(target, expect);
-+	unregister_entry(entry);
-+detach:
-+	bpf_link__destroy(link);
-+close:
-+	bpf_object__close(obj);
-+	return ret;
-+}
-+
-+int main(void)
-+{
-+	char src[600], obj[600], appdst[600], interpdst[600];
-+	char exe[512];
-+	ssize_t n;
-+	int fail = 0;
-+	struct stat st;
-+
-+	if (getuid() != 0) {
-+		fprintf(stderr, "Skipping: test must be run as root\n");
-+		return 4; /* KSFT_SKIP */
-+	}
-+
-+	n = readlink("/proc/self/exe", exe, sizeof(exe) - 1);
-+	if (n < 0) {
-+		perror("readlink");
-+		return 1;
-+	}
-+	exe[n] = '\0';
-+	snprintf(testdir, sizeof(testdir), "%s", dirname(exe));
-+
-+	if (stat("/sys/fs/bpf", &st) < 0)
-+		mkdir("/sys/fs/bpf", 0755);
-+	mount("bpf", "/sys/fs/bpf", "bpf", 0, NULL);
-+	if (access(BINFMT_REG, F_OK) < 0)
-+		mount("binfmt_misc", "/proc/sys/fs/binfmt_misc", "binfmt_misc", 0, NULL);
-+
-+	/* Shared test interpreter. */
-+	snprintf(src, sizeof(src), "%s/binfmt_bpf_interp", testdir);
-+	if (copy_file(src, INTERP_PATH)) {
-+		fprintf(stderr, "cannot install %s\n", INTERP_PATH);
-+		return 1;
-+	}
-+
-+	/* Case 1: match a synthetic aarch64 header -> fixed interpreter. */
-+	printf("[*] case 1: match aarch64 header -> program-chosen interpreter\n");
-+	if (create_fake_aarch64(AARCH64_PATH)) {
-+		fprintf(stderr, "cannot create %s\n", AARCH64_PATH);
-+		return 1;
-+	}
-+	snprintf(obj, sizeof(obj), "%s/bpf_interp.bpf.o", testdir);
-+	if (run_case(obj, "bpf_interp", "test_bpf_interp", AARCH64_PATH, EXPECT) == 0)
-+		printf("[+] case 1 passed\n");
-+	else {
-+		printf("[-] case 1 FAILED\n");
-+		fail = 1;
-+	}
-+	unlink(AARCH64_PATH);
-+
-+	/* Case 2: $ORIGIN-relative PT_INTERP -> co-located interpreter. */
-+	printf("[*] case 2: $ORIGIN interpreter resolved relative to the binary\n");
-+	mkdir(RELOC_DIR, 0755);
-+	snprintf(appdst, sizeof(appdst), "%s/app", RELOC_DIR);
-+	snprintf(interpdst, sizeof(interpdst), "%s/binfmt_bpf_interp", RELOC_DIR);
-+	snprintf(src, sizeof(src), "%s/binfmt_bpf_app", testdir);
-+	if (copy_file(src, appdst) ||
-+	    copy_file(INTERP_PATH, interpdst)) {
-+		fprintf(stderr, "cannot set up %s\n", RELOC_DIR);
-+		fail = 1;
-+	} else {
-+		snprintf(obj, sizeof(obj), "%s/nix_origin.bpf.o", testdir);
-+		if (run_case(obj, "nix_origin", "test_bpf_origin", appdst, EXPECT) == 0)
-+			printf("[+] case 2 passed\n");
-+		else {
-+			printf("[-] case 2 FAILED\n");
-+			fail = 1;
-+		}
-+	}
-+	unlink(appdst);
-+	unlink(interpdst);
-+	rmdir(RELOC_DIR);
-+	unlink(INTERP_PATH);
-+
-+	if (!fail)
-+		printf("[*] all binfmt_misc bpf cases passed\n");
-+	return fail;
-+}
-diff --git a/tools/testing/selftests/exec/bpf_interp.bpf.c b/tools/testing/selftests/exec/bpf_interp.bpf.c
-new file mode 100644
-index 000000000..ca98c3716
---- /dev/null
-+++ b/tools/testing/selftests/exec/bpf_interp.bpf.c
-@@ -0,0 +1,52 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * binfmt_misc_ops handler for the selftest's fixed-interpreter case: match a
-+ * 64-bit aarch64 ELF header from the prefetched buffer and route it to a fixed
-+ * interpreter chosen by the program. This is the portable, self-contained
-+ * equivalent of routing a foreign binary to an emulator: it matches
-+ * programmatically and computes the interpreter, but points at a test binary
-+ * the harness installs rather than a system emulator.
-+ */
-+#include "vmlinux.h"
-+#include <bpf/bpf_helpers.h>
-+#include <bpf/bpf_tracing.h>
-+
-+char _license[] SEC("license") = "GPL";
-+
-+#define EI_CLASS	4
-+#define ELFCLASS64	2
-+#define EM_AARCH64	183
-+
-+extern int bpf_binprm_set_interp(struct linux_binprm *bprm, const char *path,
-+				 size_t path__sz) __ksym;
-+
-+SEC("struct_ops.s/load")
-+int BPF_PROG(bpf_interp_load, struct linux_binprm *bprm)
-+{
-+	/*
-+	 * Keep the path on the (writable) stack: bpf_binprm_set_interp() takes
-+	 * a sized memory arg and the verifier rejects a read-only .rodata
-+	 * buffer for it. The harness installs the interpreter at this path.
-+	 */
-+	char interp[] = "/tmp/binfmt_bpf_interp";
-+	__u16 machine;
-+
-+	if (bprm->buf[0] != 0x7f || bprm->buf[1] != 'E' ||
-+	    bprm->buf[2] != 'L' || bprm->buf[3] != 'F' ||
-+	    bprm->buf[EI_CLASS] != ELFCLASS64)
-+		return 0;
-+
-+	/* e_machine is a 16-bit little-endian field at offset 18. */
-+	machine = (__u8)bprm->buf[18] | ((__u16)(__u8)bprm->buf[19] << 8);
-+	if (machine != EM_AARCH64)
-+		return 0;
-+
-+	/* @path__sz includes the terminating NUL. */
-+	return bpf_binprm_set_interp(bprm, interp, sizeof(interp)) ?: 1;
-+}
-+
-+SEC(".struct_ops.link")
-+struct binfmt_misc_ops bpf_interp = {
-+	.load = (void *)bpf_interp_load,
-+	.name = "bpf_interp",
-+};
-diff --git a/tools/testing/selftests/exec/nix_origin.bpf.c b/tools/testing/selftests/exec/nix_origin.bpf.c
-new file mode 100644
-index 000000000..a853d64f4
---- /dev/null
-+++ b/tools/testing/selftests/exec/nix_origin.bpf.c
-@@ -0,0 +1,179 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * nix_origin.bpf.c - $ORIGIN-relative PT_INTERP resolution
-+ *
-+ * A binfmt_misc_ops handler that makes relocatable (Nix-style) ELF
-+ * binaries work: if PT_INTERP starts with "$ORIGIN/", the loader is
-+ * resolved relative to the directory of the binary being executed and
-+ * selected via bpf_binprm_set_interp(). Anything else is declined so
-+ * regular binaries pass through untouched.
-+ *
-+ * Activate with:
-+ *   bpftool struct_ops register nix_origin.bpf.o /sys/fs/bpf
-+ *   echo ':nix-origin:B:nix_origin::::' > /proc/sys/fs/binfmt_misc/register
-+ */
-+#include "vmlinux.h"
-+#include <bpf/bpf_helpers.h>
-+#include <bpf/bpf_tracing.h>
-+
-+char _license[] SEC("license") = "GPL";
-+
-+#define PATH_MAX	4096
-+#define EI_CLASS	4
-+#define ELFCLASSXX	2	/* ELFCLASS64; flip to 1 for 32-bit */
-+#define PT_INTERP	3
-+#define MAX_PHDRS	64
-+
-+#define ORIGIN		"$ORIGIN"
-+#define ORIGIN_LEN	(sizeof(ORIGIN) - 1)
-+
-+#define ENOENT		2
-+#define ENAMETOOLONG	36
-+
-+extern int bpf_dynptr_from_file(struct file *file, __u32 flags,
-+				struct bpf_dynptr *ptr__uninit) __ksym;
-+extern int bpf_dynptr_file_discard(struct bpf_dynptr *dynptr) __ksym;
-+extern int bpf_path_d_path(const struct path *path, char *buf,
-+			   size_t buf__sz) __ksym;
-+extern int bpf_binprm_set_interp(struct linux_binprm *bprm, const char *path,
-+				 size_t path__sz) __ksym;
-+
-+struct scratch {
-+	char interp[PATH_MAX];	/* PT_INTERP as embedded in the binary */
-+	char path[PATH_MAX];	/* d_path of the binary, becomes the result */
-+};
-+
-+/* Keyed by pid: execs run concurrently and the program can sleep. */
-+struct {
-+	__uint(type, BPF_MAP_TYPE_HASH);
-+	__uint(max_entries, 512);
-+	__type(key, __u64);
-+	__type(value, struct scratch);
-+} scratch_map SEC(".maps");
-+
-+static const struct scratch zero_scratch;
-+
-+SEC("struct_ops.s/load")
-+int BPF_PROG(nix_origin_load, struct linux_binprm *bprm)
-+{
-+	__u32 isz, sfx, rsz, slash;
-+	struct elf64_phdr phdr;
-+	struct elf64_hdr ehdr;
-+	struct bpf_dynptr dp;
-+	struct scratch *sc;
-+	bool found = false;
-+	__u64 id;
-+	int ret = 0, len, i;
-+
-+	/* Cheap reject from the prefetched header. */
-+	if (bprm->buf[0] != 0x7f || bprm->buf[1] != 'E' ||
-+	    bprm->buf[2] != 'L' || bprm->buf[3] != 'F' ||
-+	    bprm->buf[EI_CLASS] != ELFCLASSXX)
-+		return 0;
-+
-+	if (bpf_dynptr_from_file(bprm->file, 0, &dp))
-+		goto out;
-+
-+	if (bpf_dynptr_read(&ehdr, sizeof(ehdr), &dp, 0, 0))
-+		goto out;
-+	if (ehdr.e_phentsize != sizeof(struct elf64_phdr))
-+		goto out;
-+
-+	bpf_for(i, 0, ehdr.e_phnum) {
-+		if (i >= MAX_PHDRS)
-+			break;
-+		if (bpf_dynptr_read(&phdr, sizeof(phdr), &dp,
-+				    ehdr.e_phoff + i * sizeof(phdr), 0))
-+			goto out;
-+		if (phdr.p_type == PT_INTERP) {
-+			found = true;
-+			break;
-+		}
-+	}
-+	if (!found)
-+		goto out;
-+
-+	isz = phdr.p_filesz;
-+	if (isz <= ORIGIN_LEN + 1 || isz >= sizeof(sc->interp))
-+		goto out;
-+	/*
-+	 * The range check above compiles to a test on a zero-extended copy of
-+	 * the u64 p_filesz, so the verifier does not carry the bound to the
-+	 * dynptr_read() length below ("unbounded memory access"). Mask isz to
-+	 * the buffer size (a power of two) and force the masked value to be
-+	 * materialized with a barrier so the read uses the bounded register.
-+	 */
-+	isz &= sizeof(sc->interp) - 1;
-+	barrier_var(isz);
-+
-+	id = bpf_get_current_pid_tgid();
-+	if (bpf_map_update_elem(&scratch_map, &id, &zero_scratch, BPF_ANY))
-+		goto out;
-+	sc = bpf_map_lookup_elem(&scratch_map, &id);
-+	if (!sc)
-+		goto out_del;
-+
-+	if (bpf_dynptr_read(sc->interp, isz, &dp, phdr.p_offset, 0))
-+		goto out_del;
-+	if (sc->interp[isz - 1] != '\0')
-+		goto out_del;
-+
-+	/* Not "$ORIGIN/..."? Decline, the elf loader owns it. */
-+	if (sc->interp[0] != '$' || sc->interp[1] != 'O' ||
-+	    sc->interp[2] != 'R' || sc->interp[3] != 'I' ||
-+	    sc->interp[4] != 'G' || sc->interp[5] != 'I' ||
-+	    sc->interp[6] != 'N' || sc->interp[7] != '/')
-+		goto out_del;
-+
-+	/*
-+	 * From here on the binary is ours: resolution failures fail the
-+	 * exec instead of falling back to binfmt_elf, which would resolve
-+	 * the literal "$ORIGIN/..." relative to the caller's cwd.
-+	 */
-+	ret = -ENOENT;
-+	len = bpf_path_d_path(&bprm->file->f_path, sc->path, sizeof(sc->path));
-+	if (len <= 0 || len > sizeof(sc->path))
-+		goto out_del;
-+	/* Unreachable or unlinked ("... (deleted)") binaries can't resolve. */
-+	if (sc->path[0] != '/')
-+		goto out_del;
-+
-+	/* $ORIGIN = dirname of the binary. */
-+	slash = 0;
-+	bpf_for(i, 1, len - 1) {
-+		if (i >= sizeof(sc->path))
-+			break;
-+		if (sc->path[i] == '/')
-+			slash = i;
-+	}
-+
-+	/* Splice the suffix (leading '/' and NUL included) onto the dir. */
-+	sfx = isz - ORIGIN_LEN;
-+	rsz = slash + sfx;
-+	if (rsz > sizeof(sc->path)) {
-+		ret = -ENAMETOOLONG;
-+		goto out_del;
-+	}
-+	bpf_for(i, 0, sfx) {
-+		__u32 s = ORIGIN_LEN + i, d = slash + i;
-+
-+		if (s >= sizeof(sc->interp) || d >= sizeof(sc->path))
-+			break;
-+		sc->path[d] = sc->interp[s];
-+	}
-+
-+	ret = bpf_binprm_set_interp(bprm, sc->path, rsz);
-+	if (!ret)
-+		ret = 1;
-+out_del:
-+	bpf_map_delete_elem(&scratch_map, &id);
-+out:
-+	bpf_dynptr_file_discard(&dp);
-+	return ret;
-+}
-+
-+SEC(".struct_ops.link")
-+struct binfmt_misc_ops nix_origin = {
-+	.load = (void *)nix_origin_load,
-+	.name = "nix_origin",
-+};
+ fs/hfsplus/bfind.c      | 13 ++++----
+ fs/hfsplus/bnode.c      | 16 ++++++---
+ fs/hfsplus/brec.c       | 35 +++++++++++++-------
+ fs/hfsplus/hfsplus_fs.h | 72 +++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 113 insertions(+), 23 deletions(-)
 
+diff --git a/fs/hfsplus/bfind.c b/fs/hfsplus/bfind.c
+index 9a55fa6d5294..a5391ff07c70 100644
+--- a/fs/hfsplus/bfind.c
++++ b/fs/hfsplus/bfind.c
+@@ -18,6 +18,7 @@ int hfs_find_init(struct hfs_btree *tree, struct hfs_find_data *fd)
+ 
+ 	fd->tree = tree;
+ 	fd->bnode = NULL;
++	hfs_find_reset(fd);
+ 	ptr = kzalloc(tree->max_key_len * 2 + 4, GFP_KERNEL);
+ 	if (!ptr)
+ 		return -ENOMEM;
+@@ -106,12 +107,14 @@ int __hfs_brec_find(struct hfs_bnode *bnode, struct hfs_find_data *fd,
+ 	u16 off, len, keylen;
+ 	int rec;
+ 	int b, e;
+-	int res;
++	int res = -ENOENT;
+ 
+ 	BUG_ON(!rec_found);
++	if (!hfs_bnode_num_recs_valid(bnode))
++		goto fail;
++
+ 	b = 0;
+ 	e = bnode->num_recs - 1;
+-	res = -ENOENT;
+ 	do {
+ 		rec = (e + b) / 2;
+ 		len = hfs_brec_lenoff(bnode, rec, &off);
+@@ -158,11 +161,7 @@ int hfs_brec_find(struct hfs_find_data *fd, search_strategy_t do_key_compare)
+ 	__be32 data;
+ 	int height, res;
+ 
+-	fd->record = -1;
+-	fd->keyoffset = -1;
+-	fd->keylength = -1;
+-	fd->entryoffset = -1;
+-	fd->entrylength = -1;
++	hfs_find_reset(fd);
+ 
+ 	tree = fd->tree;
+ 	if (fd->bnode)
+diff --git a/fs/hfsplus/bnode.c b/fs/hfsplus/bnode.c
+index d088fb7eb0df..f185c012d090 100644
+--- a/fs/hfsplus/bnode.c
++++ b/fs/hfsplus/bnode.c
+@@ -352,15 +352,22 @@ void hfs_bnode_dump(struct hfs_bnode *node)
+ 	struct hfs_bnode_desc desc;
+ 	__be32 cnid;
+ 	int i, off, key_off;
++	u16 num_recs;
+ 
+ 	hfs_dbg("node %d\n", node->this);
+ 	hfs_bnode_read(node, &desc, 0, sizeof(desc));
++	num_recs = node->num_recs;
+ 	hfs_dbg("next %d, prev %d, type %d, height %d, num_recs %d\n",
+ 		be32_to_cpu(desc.next), be32_to_cpu(desc.prev),
+ 		desc.type, desc.height, be16_to_cpu(desc.num_recs));
+ 
++	if (!hfs_bnode_num_recs_valid(node)) {
++		hfs_dbg("invalid num_recs %u\n", num_recs);
++		return;
++	}
++
+ 	off = node->tree->node_size - 2;
+-	for (i = be16_to_cpu(desc.num_recs); i >= 0; off -= 2, i--) {
++	for (i = num_recs; i >= 0; off -= 2, i--) {
+ 		key_off = hfs_bnode_read_u16(node, off);
+ 		hfs_dbg(" key_off %d", key_off);
+ 		if (i && node->type == HFS_NODE_INDEX) {
+@@ -579,6 +586,9 @@ struct hfs_bnode *hfs_bnode_find(struct hfs_btree *tree, u32 num)
+ 		goto node_error;
+ 	}
+ 
++	if (!hfs_bnode_num_recs_valid(node))
++		goto node_error;
++
+ 	rec_off = tree->node_size - 2;
+ 	off = hfs_bnode_read_u16(node, rec_off);
+ 	if (off != sizeof(struct hfs_bnode_desc))
+@@ -586,9 +596,7 @@ struct hfs_bnode *hfs_bnode_find(struct hfs_btree *tree, u32 num)
+ 	for (i = 1; i <= node->num_recs; off = next_off, i++) {
+ 		rec_off -= 2;
+ 		next_off = hfs_bnode_read_u16(node, rec_off);
+-		if (next_off <= off ||
+-		    next_off > tree->node_size ||
+-		    next_off & 1)
++		if (!hfs_brec_range_valid(node, off, next_off, rec_off))
+ 			goto node_error;
+ 		entry_size = next_off - off;
+ 		if (node->type != HFS_NODE_INDEX &&
+diff --git a/fs/hfsplus/brec.c b/fs/hfsplus/brec.c
+index e3df89284079..3112c3bcf9cf 100644
+--- a/fs/hfsplus/brec.c
++++ b/fs/hfsplus/brec.c
+@@ -20,35 +20,41 @@ static int hfs_btree_inc_height(struct hfs_btree *);
+ u16 hfs_brec_lenoff(struct hfs_bnode *node, u16 rec, u16 *off)
+ {
+ 	__be16 retval[2];
+-	u16 dataoff;
++	u16 data_off;
++	u16 next_off;
+ 
+-	dataoff = node->tree->node_size - (rec + 2) * 2;
+-	hfs_bnode_read(node, retval, dataoff, 4);
++	if (!hfs_brec_record_valid(node, rec)) {
++		*off = 0;
++		return 0;
++	}
++
++	data_off = node->tree->node_size - (rec + 2) * 2;
++	hfs_bnode_read(node, retval, data_off, 4);
+ 	*off = be16_to_cpu(retval[1]);
+-	return be16_to_cpu(retval[0]) - *off;
++	next_off = be16_to_cpu(retval[0]);
++	if (!hfs_brec_range_valid(node, *off, next_off, data_off))
++		return 0;
++	return next_off - *off;
+ }
+ 
+ /* Get the length of the key from a keyed record */
+ u16 hfs_brec_keylen(struct hfs_bnode *node, u16 rec)
+ {
+-	u16 retval, recoff;
++	u16 retval, recoff, len;
+ 
+ 	if (node->type != HFS_NODE_INDEX && node->type != HFS_NODE_LEAF)
+ 		return 0;
++	if (!hfs_brec_record_valid(node, rec))
++		return 0;
+ 
+ 	if ((node->type == HFS_NODE_INDEX) &&
+ 	   !(node->tree->attributes & HFS_TREE_VARIDXKEYS) &&
+ 	   (node->tree->cnid != HFSPLUS_ATTR_CNID)) {
+ 		retval = node->tree->max_key_len + 2;
+ 	} else {
+-		recoff = hfs_bnode_read_u16(node,
+-			node->tree->node_size - (rec + 1) * 2);
+-		if (!recoff)
+-			return 0;
+-		if (recoff > node->tree->node_size - 2) {
+-			pr_err("recoff %d too large\n", recoff);
++		len = hfs_brec_lenoff(node, rec, &recoff);
++		if (len == 0)
+ 			return 0;
+-		}
+ 
+ 		retval = hfs_bnode_read_u16(node, recoff) + 2;
+ 		if (retval > node->tree->max_key_len + 2) {
+@@ -185,10 +191,15 @@ int hfs_brec_remove(struct hfs_find_data *fd)
+ 	tree = fd->tree;
+ 	node = fd->bnode;
+ again:
++	if (!hfs_brec_record_valid(node, fd->record))
++		return -EIO;
++
+ 	rec_off = tree->node_size - (fd->record + 2) * 2;
+ 	end_off = tree->node_size - (node->num_recs + 1) * 2;
+ 
+ 	if (node->type == HFS_NODE_LEAF) {
++		if (tree->leaf_count == 0)
++			return -EIO;
+ 		tree->leaf_count--;
+ 		mark_inode_dirty(tree->inode);
+ 	}
+diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
+index ec04b82ad927..d87d55a35d25 100644
+--- a/fs/hfsplus/hfsplus_fs.h
++++ b/fs/hfsplus/hfsplus_fs.h
+@@ -587,6 +587,78 @@ bool is_bnode_offset_valid(struct hfs_bnode *node, u32 off)
+ 	return is_valid;
+ }
+ 
++static inline
++bool hfs_bnode_num_recs_valid(struct hfs_bnode *node)
++{
++	u32 node_size;
++	u32 table_size;
++	u32 area_size;
++	u32 rec_size = sizeof(__be16);
++	u32 desc_size = sizeof(struct hfs_bnode_desc);
++
++	if (!node || !node->tree)
++		return false;
++
++	node_size = node->tree->node_size;
++	if (node_size < desc_size)
++		return false;
++
++	area_size = node_size - desc_size;
++	table_size = ((u32)node->num_recs + 1) * rec_size;
++
++	return table_size <= area_size;
++}
++
++static inline
++bool hfs_brec_record_valid(struct hfs_bnode *node, int record)
++{
++	if (!hfs_bnode_num_recs_valid(node))
++		return false;
++	if (record < 0)
++		return false;
++
++	return record < node->num_recs;
++}
++
++static inline
++bool hfs_brec_range_valid(struct hfs_bnode *node, u16 off, u16 next_off,
++			  u16 rec_off)
++{
++	u32 table_size;
++	u32 table_start;
++	u32 rec_size = sizeof(__be16);
++	u32 desc_size = sizeof(struct hfs_bnode_desc);
++
++	if (!node || !node->tree)
++		return false;
++
++	if (off < desc_size || (off & 1))
++		return false;
++
++	if (next_off <= off ||
++		next_off > node->tree->node_size ||
++		next_off > rec_off ||
++		(next_off & 1))
++		return false;
++
++	table_size = ((u32)node->num_recs + 1) * rec_size;
++	table_start = node->tree->node_size - table_size;
++	if (next_off > table_start)
++		return false;
++
++	return true;
++}
++
++static inline
++void hfs_find_reset(struct hfs_find_data *fd)
++{
++	fd->record = -1;
++	fd->keyoffset = -1;
++	fd->keylength = -1;
++	fd->entryoffset = -1;
++	fd->entrylength = -1;
++}
++
+ static inline
+ u32 check_and_correct_requested_length(struct hfs_bnode *node, u32 off, u32 len)
+ {
 -- 
-2.51.2
+2.43.0
 
