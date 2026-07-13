@@ -1,144 +1,180 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5104F3A5E9B
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 08:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5183939099A;
+	Mon, 13 Jul 2026 08:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783930606; cv=none; b=qSYTDfSmRMG8ixB0NnqUmUH/u+1WY2/2UE55VFAgrHKWpw/bTBshDlm2JmjHH+oQXdBSeyYuoNuLoYDseEND4F7iaoKQAHmLxgXK8jAGHvqlyPVrKdqRRibwujg7vjVW/Kuk8y3PDgCyGgRgmGtlMi0UuUEcVqiAH+mSetcUUrY=
+	t=1783930838; cv=none; b=LVAnLTzXQU/UDB7dZ8mrv6NbP/1W6qaJoJB42rbsDqlUHz2qa/99gbplspikXIJrAun1Eb1zws/oMdF+O68ASBAuUDBLtudbBnKnJH6X2+P92RkP+S2LpFLUxVsoSFdJa1Xi/WuHJBMaCbN6jJ5tYBQz4dXX0Qi2fx1GrfmJaCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783930606; c=relaxed/simple;
-	bh=ZtGi/8vtQN7HKCumPKvrusANeC8z6jPebDpLjTiSNQA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PtWf4aTDCSfHiEixfa163pdNCTw98DwyOAeCec6kv9F0ASZTD4RNhnEnANUpsFvuK/OBJASvspHpNUtbXGqgp57MMNcqJ0efWaoP8TTa3colbMuHD/PXyOEj/q+ZDXYzu9Cp/V6HDC2htZbYNx1DF4ijOLTfpSVLQFuLYLuHu3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IjF7/HKC; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ah8VXeeJ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1783930838; c=relaxed/simple;
+	bh=/i2syicifZJ3USjcLrnHL97T2+UWubEpCuWxspQutOo=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=tZ+gI4bTj5ZvYvMIzAt7ARqyD1309RJ2Q9F1bGoHMUKhyv4IR5wnXcQvoRfdS9s076ZAnQE1zHhj5t2XKnnpVXoXT/C/2nZ0A2Qv7i+3Tnj9RK88GaOcrav7a5/wEGvJVqUkFwh2R++d9LOZ/t2utYVk72JpUzof+4wA/ZK1/8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H/i7JmHx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IjF7/HKC";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ah8VXeeJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783930603;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qitVlXfkVbLZ19rYAoRnVT8+321wabtilZzFTJ/EX/8=;
-	b=IjF7/HKCR/qjv96qzWsH/k/tx49fge58hjdVAHConhqrDl86W5cPt2iFUp2k1UE/Qx3yxL
-	xr4vRNSk3dsg4EUn+pXuvRgZVdXwaVC9u2FU/o9w7vDsMy4mxdw7MeYpxBZ9r2ZvUzr5P/
-	lM2yq/fojRNb32FyWCqzGiF1E0S+7Bw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-313-IwnGGLgbNTmpsvoi1163GQ-1; Mon, 13 Jul 2026 04:16:42 -0400
-X-MC-Unique: IwnGGLgbNTmpsvoi1163GQ-1
-X-Mimecast-MFC-AGG-ID: IwnGGLgbNTmpsvoi1163GQ_1783930601
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-4784d0fb9cfso2075908f8f.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 01:16:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1783930601; x=1784535401; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=qitVlXfkVbLZ19rYAoRnVT8+321wabtilZzFTJ/EX/8=;
-        b=Ah8VXeeJGOw0XQVq1ZYidspkmBReREDtx7ohyuKpTgHNqpiSs34MirMgPNHH6u9mqw
-         lfSf6CM22kENUSiZQ+nnW3qnxgDGG0vm1AkxjyqiY7J6+q+reA3muQFD5Lgi4Xg0Yyav
-         hjLknYi2dtuyV1AEE/bPsE4VSTI+1KoqwrIlLzB8YnZgUnFxi9s02xZzP92S/tUTlauj
-         Xla2xojRKzVwhfrM0PennNaaj6KG5z7iKPaWsWe6y0H+aN9YLdd2/PJLTyolSi5870l/
-         fFynCHylBAItWy7/6YBnvgHzsnJ74APtV4B1gICh2LJoGq73HfRUBCII8cwUq6VHsdfx
-         BhZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783930601; x=1784535401;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qitVlXfkVbLZ19rYAoRnVT8+321wabtilZzFTJ/EX/8=;
-        b=Aqdi8ygyEb5y53OSEGOZGqSakLRYc7lL7q1qKS9LcICThuu7k3HnQGlBhA3vJZdnaE
-         I8EPEQqNoZLGWOtF++znUQtk64GYBGkdL5s2dNdqyDHPDlI0365Kcfops0GO07JOppsM
-         Sm3p4b8aNuXukeki0cpzhY3BDpqzKHaAdMwVYXEXnQzhq9eIHpikDW6k2gj+lYBqf3rC
-         zlf+LZzfRj/mTIfTaoDLg3YLmihGJTeirkxoIyUadf1Dwksj/1AGGVjwto45Ovo8dCgY
-         /vfJ9gr09S2gmzNHJP835cE2PPljztp+hJ8n++Mc/zdOys/J8McLrjrv0MsJmC2OcEoD
-         GmjA==
-X-Forwarded-Encrypted: i=1; AHgh+RoBFE1dAdgulv4sxWiqb08Vtfl7OOvbUH4OsybfJjRhaVm/Btoh2bZxpgpIEgxONu7dDKkYVlnLL1oxso9f@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKAcdHVXABjpVLZKt3hoNO+huGa6nATsr21VHKc1AJN1AhbI9z
-	AIdUvu5mwVTp4VIInP6MXCwQFIVP7NnIw1xQGI3r7MtWIzHsgsx37vhSYysNBl4AeV6mP6tqO8k
-	Zyu7fPw1pjJCGdOO6IlK4AQCLj80B/m7/UC7TBzexbN99fd1Tj2HS0qRrGEQkxfo21w==
-X-Gm-Gg: AfdE7ckIEZQBacFD0bjfjqMB5bypOys6CbiAgpuLVJhkwcgOlTaRMffutQjDK8HbeVJ
-	kWbLa0+gb6IT5b9VNeppCrpPWrdE+++tanKw5IwFAtu6abOGRrUCqkttv1xbOAseZg462fo9k1E
-	FlISQH0458JD7Wdr91dfLj12pVrNu95jPnHZ7pFFDbItj2OejCw76gGpItEKTNhXLTMddH3f19Y
-	ub12U2r/RshE+Svg4yjfsQYPnPQMSoPfhyg6IejYDXJJa3tdo50Cc995ziFlY9i2r1utQF0GjDp
-	56h/GE7pFvVggRe7E98p5xkVOaJ9RK6vW+dvqpQ5DUtbeFZ5R4u/eHyqyKI7l6Yj45JsYwPugoE
-	3FMQTa+gJ2AWc58a3DUOz/gm7u2u+SBjBchq0Q4IsiG0nKQ==
-X-Received: by 2002:a05:600c:674a:b0:493:f80c:5455 with SMTP id 5b1f17b1804b1-493f87d85a9mr80792615e9.5.1783930600542;
-        Mon, 13 Jul 2026 01:16:40 -0700 (PDT)
-X-Received: by 2002:a05:600c:674a:b0:493:f80c:5455 with SMTP id 5b1f17b1804b1-493f87d85a9mr80792235e9.5.1783930600066;
-        Mon, 13 Jul 2026 01:16:40 -0700 (PDT)
-Received: from aalbersh-thinkpadx1carbongen13.rmtcz.csb ([217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9de1e785sm82014266f8f.8.2026.07.13.01.16.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 01:16:39 -0700 (PDT)
-Date: Mon, 13 Jul 2026 10:16:39 +0200
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, 
-	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, hch@lst.de, 
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-btrfs@vger.kernel.org, djwong@kernel.org
-Subject: Re: [PATCH v11 06/20] fsverity: don't allow setting DAX file
- attribute on fsverity files
-Message-ID: <alSdUBiA6n40PKim@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-References: <20260710085256.3464201-1-aalbersh@kernel.org>
- <20260710085256.3464201-7-aalbersh@kernel.org>
- <20260710234643.GF1911@quark>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H/i7JmHx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F210D1F000E9;
+	Mon, 13 Jul 2026 08:20:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783930837;
+	bh=AVaWRHxuOp1xucpt25y4qXpngLUErNt80kcT84Gj6Ec=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=H/i7JmHx+nL/+drkYk9FHiWsCAuDyQ/lPRCv3RvInE9zuSQcynJrwktJsvbx35+ap
+	 7xdiCe1oidtsult+mT39XvQW4KYxQ+8Osc4VpdrsvGZJmnuOCI8RonPzzOpzs1+z/r
+	 9AWTVcc+C97niunSyfVT6zPHFenfQnBoI+oD1diAvgemGBA+RAofP5Dz19+v21kVuw
+	 Wq1dv7fruhvIgzxVcUDpcsJVZHLgQg2AOghsPkd0UUKmMUQDoDAGqHOAMfKvt5keEF
+	 ktEC+w2rFmZmbWPccRFgK+9fCpbErPEvtXykxrLMr22psUB7in+u2srp1/DxPqPgZv
+	 UHbIVXfIH5NKg==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260710234643.GF1911@quark>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 0/5] binfmt_misc: bpf-backed binary type handlers
+From: Christian Brauner <brauner@kernel.org>
+To: Farid Zakaria <farid.m.zakaria@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, Shuah Khan <shuah@kernel.org>, 
+ Andrii Nakryiko <andrii@kernel.org>, Kees Cook <kees@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Jonathan Corbet <corbet@lwn.net>, Jann Horn <jannh@google.com>, 
+ John Ericson <mail@johnericson.me>, linux-fsdevel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+In-Reply-To: <DJX4IFO55D9S.3IV3K5XICJAEV@gmail.com>
+References: <20260711-binfmt-misc-bpf-v2-v2-0-d6591ceaf207@gmail.com>
+ <20260712-abluft-brutkasten-aufladen-c8063a4a1a0a@brauner>
+ <DJX4IFO55D9S.3IV3K5XICJAEV@gmail.com>
+Date: Mon, 13 Jul 2026 10:20:02 +0200
+Message-Id: <20260713-unerlaubt-luftkammer-kosmetik-46532d395f9b@brauner>
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5642; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=/i2syicifZJ3USjcLrnHL97T2+UWubEpCuWxspQutOo=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSFzN968Y6VOqPC9JsP9qWHs0noxn0/3R4ZH2xSFH5/T
+ +jLjDjmjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIlEqjL805+XauBhdHPVDt1v
+ W60mzUieca+zv+rN4bQrZutUPzxez8HI0O3Kn/RRkL+DZ7vs7TmH/lrt1betv7l9Ti6nlWDRspV
+ /2AE=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 2026-07-10 19:46:43, Eric Biggers wrote:
-> On Fri, Jul 10, 2026 at 10:52:34AM +0200, Andrey Albershteyn wrote:
-> > When fsverity is enabled on the file, with FS_IOC_ENABLE_VERITY ioctl(),
-> > it checks if file has DAX enabled and fails if that's true. However, the
-> > opposite case is not checked.
-> > 
-> > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-> > ---
-> >  fs/file_attr.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/fs/file_attr.c b/fs/file_attr.c
-> > index bfb00d256dd5..5424ec4e3949 100644
-> > --- a/fs/file_attr.c
-> > +++ b/fs/file_attr.c
-> > @@ -246,6 +246,11 @@ static int fileattr_set_prepare(struct inode *inode,
-> >  	if (fa->fsx_cowextsize == 0)
-> >  		fa->fsx_xflags &= ~FS_XFLAG_COWEXTSIZE;
-> >  
-> > +	/* Can not enable DAX on fsverity file */
-> > +	if ((old_ma->fsx_xflags & FS_XFLAG_VERITY) &&
-> > +			fa->fsx_xflags & FS_XFLAG_DAX)
-> > +		return -EINVAL;
-> > +
+> > - The single sleepable load op is split into two ops:
+> >
+> >       struct binfmt_misc_ops {
+> >       	bool (*match)(struct linux_binprm *bprm);
+> >       	int (*load)(struct linux_binprm *bprm);
+> >       	char name[BINFMT_MISC_OPS_NAME_MAX];
+> >       };
+> >
+> >   The non-sleepable match program runs from the RCU entry lookup
+> >   walk itself, exactly like magic and extension matching: same
+> >   registration order, same first-match-wins semantics, and it can
+> >   only rely on the prefetched bprm->buf. It must be free of side
+> >   effects since the walk may be restarted.
+> >
 > 
-> This sounds like a bug fix.  But actually ext4 already checks this in
-> dax_compatible(), and the other filesystems that already supported
-> fsverity (f2fs and btrfs) don't support DAX.  So I guess this is really
-> lifting that to common code?  
+> Is relying on brpm->buf enough?
+> Right now that's only 256 bytes I think, which is not enough to read
+> segments we might care about. That worked fine when it was just a magic
+> number but the idea with the eBPF program is to make decisions based on
+> more data.
+> 
+> In the selftest I provided, the `PT_INTERP` segment is already at file
+> offset 0x318 (792). I was imaginging NixOS having to support
+> `PT_INTERP_NIX` in order for the produced binaries to be backwards
+> compatible with older kernels.
+> 
+> The other idea would be to make the `match()` broad and select
+> everything but then nearly all ELF64 binaries would match and then pay
+> the price to `load()` and ultimately `-ENOEXEC`. Seems like it would
+> make multiple BPF binfmt programs less useful.
 
-yes
+Ok, so your idea is to have multiple bpf programs that look for
+different interpreters. Yeah, then you have to be able to sleep because
+you need to be able to fault. It makes the code uglier but I can see how
+that's useful. I'll see how nice I can make that.
 
-> But the existing check is still being left
-> in place because it's still needed for ext4 specific flags anyway?
+> >   The sleepable load program runs once the walk has committed to the
+> >   entry and does the file reading and the interpreter selection. Both
+> >   ops are mandatory, the struct_ops plumbing enforces the sleepability
+> >   of each, and since bpf_binprm_set_interp() is KF_SLEEPABLE a match
+> >   program cannot select an interpreter by construction.
+> >
+> > - A match is a commitment. A failing load program fails the exec instead
+> >   of falling through to later entries. -ENOEXEC keeps its usual meaning
+> >   and hands the binary to the remaining binary formats, for a handler
+> >   that discovers it cannot serve the binary after all.
+> >
+> >   This kills the part of v1 I disliked the most: the skip cursor and the
+> >   leave-and-rescan loop in load_misc_binary() are gone. The walk is
+> >   never left and re-entered, and 'B' entries need no special semantics
+> >   against concurrent (un)registration anymore.
+> >
+> >   Your v2 changelog note about keeping the bpf retry loop in the
+> >   __free() style is moot as a consequence. The loop no longer exists.
+> >
+> > - The load return convention flipped: 0 now means success after the
+> >   program called bpf_binprm_set_interp(). Returning 0 without having
+> >   selected an interpreter or returning a positive value is treated as
+> >   -ENOEXEC, other negative errnos fail the exec.
+> >
+> >   So the "return bpf_binprm_set_interp(...) ?: 1" idiom from the v1-era
+> >   programs becomes plain "return bpf_binprm_set_interp(...)".
+> >
+> > - The handler name moved from the offset field to the interpreter field
+> >   that field consistently names whoever supplies the interpreter, a path
+> >   for static entries, a handler for 'B' entries. Offset, magic, and mask
+> >   must be empty:
+> >
+> > 	echo ':nix-origin:B::::nix_origin:' > register
+> >
+> > - 'C' is allowed now, v1 rejected it. It behaves exactly as for a static
+> >    entry. The setuid transition stays gated by vfsuid_has_mapping() in
+> >    the caller's user namespace. Which makes 'B' handlers usable for a
+> >    per-binary loader over setuid binaries. 'F' stays rejected as there
+> >    is no fixed interpreter to pre-open (I have other ideas how we'll do
+> >    something like it later.).
+> >
+> > Nothing changed in the exec patch, the fs kfuncs patch, the kfunc
+> > itself, or the registry/namespacing model.
+> >
+> > I can send v3 in a bit if that's ok.
+> 
+> I don't mind at all you sending v3 and in fact I've been enjoying your
+> involvement. I didn't know what to expect when I offered this idea up to
+> the community. 
+> 
+> I'm happy to keep co-developing this with you within a design you feel
+> acceptable with. Please let me know how I can remain engaged and
+> helpful.
+> 
+> One last thing I was thinking about is that we will also need to support
+> $ORIGIN in the shebang path, however I just tested it and this current broad
+> BPF solution can largely handle it [1], with a small wrinkle.
+> 
+>   $ printf '#!$ORIGIN/interp\n' > /opt/app/greet
+>   $ cp ./interp /opt/app/interp     # any interpreter/loader
+>   $ chmod +x /opt/app/greet /opt/app/interp
+> 
+>   # stock kernel: binfmt_script opens the literal "$ORIGIN/interp"
+>   $ /opt/app/greet
+>   bash: /opt/app/greet: $ORIGIN/interp: bad interpreter: No such file or directory
+> 
+>   # with the handler registered, $ORIGIN resolves to the script's dir
+>   $ bpftool struct_ops register shebang_origin.bpf.o /sys/fs/bpf
+>   $ echo ':shebang-origin:B:shebang_origin::::' > /proc/sys/fs/binfmt_misc/register
+>   $ /opt/app/greet
+>   <runs /opt/app/interp, the loader found next to the script>
+> 
+> The wrinkle is that it can't express today is the single optional argument.
+> (i.e. `#!interp arg" -> argv[1]=arg`). We might ned a way to express
+> that in the load.
 
-The flag mask seems to be used only in dax_compatible(), but I
-suppose this's fine to leave verity flag if EXT4_DAX_MUT_EXCL will
-be used elsewhere in future.
-
--- 
-- Andrey
+Ah, fun. binfmt_misc wasn't able to express this at all. It's good to
+close that gap. This can just be done by adding
+bpf_binprm_set_interp_arg().
 
