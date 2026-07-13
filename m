@@ -1,94 +1,120 @@
-Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
+Received: from SHSQR01.spreadtrum.com (unknown [222.66.158.135])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A2164;
-	Mon, 13 Jul 2026 11:11:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB4D3469EE;
+	Mon, 13 Jul 2026 11:20:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=222.66.158.135
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783941106; cv=none; b=OHH6RadnZtBMfnmF4nklSN03GC8rNjdUgb80Vza7hEWtJAfwEtpU99rxuRCaoWMgIylXN8L2UOLkgT6pP+82oQc7Pv/u8pl7OrwL4VSH27oF22lDMh8JVxDRCYZtDj2T3n0mIiDnpS2mDot5r+mIOfUkhEEriPvXRtVNN9beip0=
+	t=1783941661; cv=none; b=R6Bu8T8tkQlEdukGyamihpXAloEKfA5N7fwyYFDqgAUp6tKIvQ81q3c9YQQzgS4toZpFV88Pza2/WcGXxBVqhEbBchIphSiD14sMc2yq/imp9ere77nlstRzdzMzH4vJDpYHBoa1huLHkozIoHr0VO4RB6EnvTADcVpqvlq65PM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783941106; c=relaxed/simple;
-	bh=2uY/bifyVIWG6RzypKO8iNlG5iP6R6rPqAUQC+Ip1YI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=sRPRGP0M4+yH6FyeTBXLbpby1uxG9Xu8grd5BTLVc3oVVUYY6DylM+suf+rRu7Rl/+B3D+CGzKb34y3Obkxx4CbujR+HcB+JjJozFyEKL8VR8rnZOWVolN2cOFisthZ/JOFQ5FUDqIQIVvsdW5rCy2x/sOyAH7k2v/RCjppsrqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=uirGvzJa; arc=none smtp.client-ip=115.124.30.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1783941661; c=relaxed/simple;
+	bh=CXeFOr08Jr5Y8nqClNDgvfldr8CfaI+Mh/KiIq6dNbQ=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JJ/XSGnyGVh7nW6fEb+uzZMCKZz1Uysj8Xj37zG7LfIdHSPNsDsIHibR+5YLRqKgYq/x7P3eNSp3PpW7/TY4uSBRywM3QWPImmKnnXyp/N2IA0AGlCph7psnLKOCbqCWINMLgjWByeJqtrXzZowHhQN+qXQnTMamQH4XkzOP8AM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=unisoc.com; spf=pass smtp.mailfrom=unisoc.com; dkim=pass (2048-bit key) header.d=unisoc.com header.i=@unisoc.com header.b=hlGi9m2Q; arc=none smtp.client-ip=222.66.158.135
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=unisoc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=unisoc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="uirGvzJa"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1783941094; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	bh=W+vXYTjP4H8eRjjP/emOufHi0JWx5TVft1dc44xReZw=;
-	b=uirGvzJayhPLcHRXlYccCU6wzrqEY6h6h+rLCUJd1hTM+mzQCbaMsao09DqEHf6D4PzEcyNl+8hG9e0K4oOR5x1LpRVYjzj/o0gA6cm+N04wkWzJXbT7XstDvo+40y3QlR7/aPq+iSUdBUAOc5VIjntbXVynKNadnDpQrPi3haU=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=ying.huang@linux.alibaba.com;NM=1;PH=DS;RN=16;SR=0;TI=SMTPD_---0X6ygMa9_1783941063;
-Received: from DESKTOP-5N7EMDA(mailfrom:ying.huang@linux.alibaba.com fp:SMTPD_---0X6ygMa9_1783941063 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 13 Jul 2026 19:11:32 +0800
-From: "Huang, Ying" <ying.huang@linux.alibaba.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: linux-mm@kvack.org,  linux-kernel@vger.kernel.org,
-  linux-fsdevel@vger.kernel.org,  kernel-team@meta.com,
-  willy@infradead.org,  jack@suse.cz,  akpm@linux-foundation.org,
-  david@kernel.org,  ziy@nvidia.com,  matthew.brost@intel.com,
-  joshua.hahnjy@gmail.com,  rakie.kim@sk.com,  byungchul@sk.com,
-  apopple@nvidia.com,  Johannes Weiner <hannes@cmpxchg.org>
-Subject: Re: [PATCH 0/2] mm: don't apply task mempolicy to unmovable kernel
- allocations
-In-Reply-To: <ak_bIlYWJsEWx1P1@gourry-fedora-PF4VCD3F> (Gregory Price's
-	message of "Thu, 9 Jul 2026 13:32:18 -0400")
-References: <20260701222112.2820098-1-gourry@gourry.net>
-	<87echco1w6.fsf@DESKTOP-5N7EMDA>
-	<ak_bIlYWJsEWx1P1@gourry-fedora-PF4VCD3F>
-Date: Mon, 13 Jul 2026 19:11:02 +0800
-Message-ID: <874ii36t6h.fsf@DESKTOP-5N7EMDA>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=unisoc.com header.i=@unisoc.com header.b="hlGi9m2Q"
+Received: from dlp.unisoc.com ([10.29.3.86])
+	by SHSQR01.spreadtrum.com with ESMTPS id 66DBJqWt076499
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Mon, 13 Jul 2026 19:19:53 +0800 (+08)
+	(envelope-from zhaoyang.huang@unisoc.com)
+Received: from SHDLP.spreadtrum.com (BJMBX01.spreadtrum.com [10.0.64.7])
+	by dlp.unisoc.com (SkyGuard) with ESMTPS id 4gzKhW4MCSz2PVB6x;
+	Mon, 13 Jul 2026 19:19:23 +0800 (CST)
+Received: from bj03382pcu03.spreadtrum.com (10.0.73.40) by
+ BJMBX01.spreadtrum.com (10.0.64.7) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.48; Mon, 13 Jul 2026 19:19:51 +0800
+From: "zhaoyang.huang" <zhaoyang.huang@unisoc.com>
+To: Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        <linux-f2fs-devel@lists.sourceforge.net>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Zhaoyang Huang <huangzhaoyang@gmail.com>, <steve.kang@unisoc.com>
+Subject: [PATCH] f2fs: fix folio_nr_pages() race after put in large folio invalidate
+Date: Mon, 13 Jul 2026 19:19:44 +0800
+Message-ID: <20260713111944.924883-1-zhaoyang.huang@unisoc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SHCAS03.spreadtrum.com (10.0.1.207) To
+ BJMBX01.spreadtrum.com (10.0.64.7)
+X-MAIL:SHSQR01.spreadtrum.com 66DBJqWt076499
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=unisoc.com;
+	s=default; t=1783941607;
+	bh=OTbG9KRJKQUT1m+1aLItfEcZaIClgYQ6zYydEWMP5KY=;
+	h=From:To:Subject:Date;
+	b=hlGi9m2QOCE4H+1cFFjooWasyI7EJwZWq6ONg37Ij+CSJKaExyaar+83Bnh6xGFvo
+	 MCMknlveGputAI/kcyH7vCI8FVo9Ws/vsMOkt7c2FSeoF5KZT6vX7KC3xJF1LMOqnq
+	 YyTKUgVNrKVw+V32dE9UQms8ZaWJXFTboCEHPEiqidlFUvBAvfQY1j48gLS0XQG08n
+	 djsllT4Szq9flkf/atWODBwr8CMF/B7uzUeuZw38k9RN7lZapU5/zAT2ptj3iK2LGY
+	 n9XfjVBJaVjVDHUrE04eCd2QCoINl9LqS0YN+Br9+Z/Ghd0xhI4r9HhQ5+61/T62fy
+	 iAGDct3tpnoBA==
 
-Gregory Price <gourry@gourry.net> writes:
+From: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
 
-> On Thu, Jul 09, 2026 at 07:09:29PM +0800, Huang, Ying wrote:
->> Gregory Price <gourry@gourry.net> writes:
->> 
->> > The unmovable unaccounted kernel allocations stop following the
->> > task policy and place node-local. With no policy set, both place
->> > node-local as before.
->> 
->> Personally, I think this should be the right thing to do theoretically.
->> However, you may need to find some practical issues that this resolves.
->> 
->
-> I don't entirely disagree, but there is at least one scenario where this
-> is an obvious improvement:
->
->   BIOS-configured CXL memory brought up in ZONE_NORMAL. 
+Our v6.18 based Android system is continuely suffering livelock and bad
+page stat as shown in[1] which related to broken xarray slot status. By
+investigating big folio operations within f2fs, we find below races and
+fix it by get the nr_pages before drop the refcount and folio_lock.
 
-Per my understanding, kernel configured CXL memory can be in ZONE_NORMAL
-and BIOS-configured one can be in ZONE_MOVABLE.  Right?
+f2fs_get_read_data_folio() calls f2fs_folio_put() before
+folio_nr_pages() when invalidating a large folio from the page cache.
+That unlocks the folio and drops the caller reference, leaving a window
+where a concurrent truncate or folio split can shrink the compound folio
+or free it before the invalidate range is computed. An undersized range
+then leaves split sub-folios in mapping->i_pages, which can later
+interact badly with truncate and reclaim (stale xarray entries and bad
+page state when folio->mapping no longer matches the mapping being
+truncated).
 
-> An task interleave policy on such a system will end up with unaccounted
-> kernel allocations landing on the remote node, which is just not
-> preferable at all (and uncorrectable).
+[1]
+PID: 2594     TASK: ffffff8169b81580  CPU: 7    COMMAND: "Thread-3"
+ #0 [ffffffc08ef2b8a0] xas_load at ffffffe52d1f42a4
+ #1 [ffffffc08ef2b900] find_get_entries at ffffffe52c185798
+ #2 [ffffffc08ef2bb60] truncate_inode_pages_range at ffffffe52c19e83c
+ #3 [ffffffc08ef2bbc0] truncate_inode_pages_final at ffffffe52c19ec2c
+ #4 [ffffffc08ef2bc20] f2fs_evict_inode at ffffffe52c4c8400
+ #5 [ffffffc08ef2bcc0] evict at ffffffe52c2de9f4
+ #6 [ffffffc08ef2bd00] iput at ffffffe52c2db1b4
+ #7 [ffffffc08ef2bd30] dentry_unlink_inode at ffffffe52c2d7204
+ #8 [ffffffc08ef2bd50] __dentry_kill at ffffffe52c2d3dcc
+ #9 [ffffffc08ef2bd80] dput at ffffffe52c2d3c3c
+ #10 [ffffffc08ef2bda0] __fput at ffffffe52c2b0a7c
+ #11 [ffffffc08ef2bde0] ____fput at ffffffe52c2b1034
+ #12 [ffffffc08ef2bdf0] task_work_run at ffffffe52beea200
+ #13 [ffffffc08ef2be20] exit_to_user_mode_loop at ffffffe52bfbc17c
+ #14 [ffffffc08ef2be80] el0_svc at ffffffe52d1f8e54
+ #15 [ffffffc08ef2beb0] el0t_64_sync_handler at ffffffe52d1f8d10
 
-Anyway, some number will be good IMHO.
-
-> It's not a complete fix (fallbacks can still occur under pressure), but
-> it's one piece of the puzzle.
->
-> Forward looking:  This patch makes private-node's with ZONE_NORMAL
-> reliably hot-un-pluggable.  But that improvement is obviously predicated
-> on work that isn't upstream (yet :] ).
->
-> I need to send a v2 of this with SLAB_ACCOUNT fixed up, and some numbers
-> to justify dropping the pagecache fix.  But I will probably sandbag this
-> a bit until i finally send out v5 of private nodes.
-
+Signed-off-by: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
 ---
-Best Regards,
-Huang, Ying
+ fs/f2fs/data.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
+index 8d4f1e75dee3..8a26f2d93c17 100644
+--- a/fs/f2fs/data.c
++++ b/fs/f2fs/data.c
+@@ -1281,10 +1281,11 @@ struct folio *f2fs_get_read_data_folio(struct inode *inode, pgoff_t index,
+ 
+ 	if (folio_test_large(folio)) {
+ 		pgoff_t folio_index = mapping_align_index(mapping, index);
++		unsigned long nr_pages = folio_nr_pages(folio);
+ 
+ 		f2fs_folio_put(folio, true);
+ 		invalidate_inode_pages2_range(mapping, folio_index,
+-				folio_index + folio_nr_pages(folio) - 1);
++				folio_index + nr_pages - 1);
+ 		f2fs_schedule_timeout(DEFAULT_SCHEDULE_TIMEOUT);
+ 		goto retry;
+ 	}
+-- 
+2.25.1
+
