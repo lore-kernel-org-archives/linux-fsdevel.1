@@ -1,241 +1,153 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E93314B9A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 03:29:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26D211C5F27;
+	Mon, 13 Jul 2026 03:36:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783913373; cv=none; b=DM60z3Xf51H0DtM+hdu+jfvIDGBD3V+NHZRBmhoFmpbrwD8+1dZMOFKj10W5iN5QAJ7wQNSVYV6nlLJoWblp/Nu6qQp57PYLIs9s333Hinkx+X+1wldEJDCxTtMmXzLv3p9NkbSanlnRbgt5TbfCejBiHSYXT16bDIZ12YFRWWc=
+	t=1783913801; cv=none; b=Hps71Y7xLQfxf0sQb3B24jDdVu3hMLqVQ+AKbH8FvX38fdPugXLRo1OlfEB3L7Bdxb44XvecA8g4wu7W3uEsuxy/DvuzZ/c8mR6nlFC1y21kKWGG8mPrqj73b+QCqc6Pc3SA6zdR2G8duILZAaRJCyLrMiG1m4XvdJLOzxrLnbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783913373; c=relaxed/simple;
-	bh=yPcb2yhm4K2GOkEJfjvSUv790XphbvJ6WzOdoBRLa/g=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=tPs3RpIyptoqLA+5A/mN6f+TDEEwC/2FwY1zSadXItiovpGciAMoMVg31olwOZ60Z0RDMOGFwoinlVkQcgqZHX+eZYxnA4Iy3qfACzbe+XVj31DM2oixqj+q5WpzSmSz4/UAY5eeaKR/yAV1q/HPnXHY/3iiXoMkG8LLT+GxUt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=abWHddLW; arc=none smtp.client-ip=209.85.215.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="abWHddLW"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c96bfabc8d4so1712689a12.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 12 Jul 2026 20:29:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783913370; x=1784518170; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=N5LwUqjbpPHissd18BCl9UcC6YRNwOX+ZmfwwTb7nug=;
-        b=abWHddLW8gruXrxJtTArQg2G0cJAjmJcTESDjp943KYljubchkU1a9PALBxN50vj69
-         N0u6t3ou/ROShlxyary2jM4S1K9/pdHiVenqpRg52bMx8xlOrT81j2nJNKSLUjH2sekN
-         BMiYLwwJq4Ux45SMyTzvy//pobtLpND14rQmgfKMZZIQ4Y8c4IcVhyo2JjYsP0DJtMHC
-         3lLYqfHAcqtUgSW5XjqGyxGuk6VYXoSyROf7CUduOTo7lt9oUNrQhP4UEkdl7dVnbPrg
-         OZPzuMAqMfcoFyV06J4RaHbb/Ne93xqUJ7hEj0q2+YBzZfMC1ZGTJvxyAce7kCfEQ7qP
-         aEIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783913370; x=1784518170;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=N5LwUqjbpPHissd18BCl9UcC6YRNwOX+ZmfwwTb7nug=;
-        b=lhGBibBUrjvZW0Ynebg9DeHY5mVS3aefEz/CtIS283xv3ZvrKiMvRd5TS8B7cJWsMo
-         yLD2d6xLQgdQ5FfQunLX9/VTek5lSCaMxF++Ji9Lowe1cNGa/7mkXZCkpi2ygxwf+Kdz
-         EhfuTF/z9vKlsvK3x3U10amUsifitba5hEW8X4W5qWK7pqeviW3jV5bX1f7k4HtoC+vz
-         AImgqlWvcoHlUhECvwKZG0GE96sxOPATTixOovKxfyvQ7joKnwIBApqNkkNpxr3geRXC
-         RwLwZW0Qgq85fbsCXNuGLwjEq9cJYDOucrKuuUtG6rE666EgfQif0Qzx1gI6WZlyEiCM
-         1ldg==
-X-Forwarded-Encrypted: i=1; AHgh+Rpo/7p3LDF+MOQS6SO7oCJSookKY/0H0fmthnRWZljZx0iVYQRM2Kc25hHwb7yDejtoGphl0A1IUSkDUON2@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdWWUqCe0ruIS+9GrI4JlV4eBOwjU7EUXO7J1yCBV/vFjnX5DR
-	/wAaCz3U6zQpqrkBnfZKJAgsnaURdJEJRYhVdxjS1zTMSE/Kxvc5EmQ2
-X-Gm-Gg: AfdE7cngOXLPuTDseFOLAC5fjnlhoRE8tJFkhy35zpsTc41qRN6EgvmC0KxWqMygw4R
-	FCqd+efrlkrxOGNjrCFlxIa7bVE2w6mDAiXEsrHnaSz6sNkhSS2EjOQYxqX6FqdGabACP8OwCOe
-	2RrNl3az/aoUfDmvPALcPUrPfZPWlJTrSHyaOIhZXY7Iw8K5ICPksxLIsUozG6MuB7jVWTUuQkY
-	NwLV8z9yCTqkBKVt+CW17tq+DIimH89u7Nqai8ghzSrNUC8NqRoHefD0s0Q9AYy011B6IXFZ4KO
-	BYepK0/gLKq6cTylabe7LAA2nVQDsPNn9F1Ovf55eNVU7k5cZgVsGdsdib7YYcAL5YOmpKiduUw
-	KMGeiebs/+1pfAH5FjmXK8NlnydSBneg7FLlEO0PxkxxVR3HAqCuOMMPLAGWQH63kSiASectskA
-	gSbEyzficAv58hQ6rWJGzENULQ
-X-Received: by 2002:a05:6a21:4d8f:b0:3c0:9c1a:894f with SMTP id adf61e73a8af0-3c110b33403mr8114739637.71.1783913370254;
-        Sun, 12 Jul 2026 20:29:30 -0700 (PDT)
-Received: from localhost ([98.35.8.117])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b84d6ce15sm26187778c88.5.2026.07.12.20.29.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 Jul 2026 20:29:29 -0700 (PDT)
+	s=arc-20240116; t=1783913801; c=relaxed/simple;
+	bh=/M9QIh4BDhVbOh90sNI83T2LK3a7Bga3WuACDOoWjts=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QJdOWW07FlHvhRpYiEK2ytkir90nqsAz1jDXkz/tOiEy8dQCwMZeyCdsZSYOo1xE6QGrWfK46tAOJpTLgNcnFqGPuHYlikcFMkhsTFWMuD8SAGfy5CZev44/9MzoGBKT3eNj+7lJIn+9oMWFeuayvmS4eUBVmjsbRvDGEDf48vI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-c2dff70000001609-f8-6a545d3cfdb0
+Date: Mon, 13 Jul 2026 12:36:23 +0900
+From: Byungchul Park <byungchul@sk.com>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Gary Guo <gary@garyguo.net>, linux-kernel@vger.kernel.org,
+	max.byungchul.park@gmail.com, kernel_team@skhynix.com,
+	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
+	linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
+	will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
+	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
+	duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
+	tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+	amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
+	linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
+	minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
+	sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+	ngupta@vflare.org, linux-block@vger.kernel.org,
+	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+	djwong@kernel.org, dri-devel@lists.freedesktop.org,
+	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+	boqun.feng@gmail.com, longman@redhat.com, yunseong.kim@ericsson.com,
+	ysk@kzalloc.com, yeoreum.yun@arm.com, netdev@vger.kernel.org,
+	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
+	catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org,
+	hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
+	gustavo@padovan.org, christian.koenig@amd.com,
+	andi.shyti@kernel.org, arnd@arndb.de, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, rppt@kernel.org, surenb@google.com,
+	mcgrof@kernel.org, petr.pavlu@suse.com, da.gomez@kernel.org,
+	samitolvanen@google.com, paulmck@kernel.org, frederic@kernel.org,
+	neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
+	josh@joshtriplett.org, urezki@gmail.com,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
+	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
+	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
+	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
+	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
+	yuzhao@google.com, baolin.wang@linux.alibaba.com,
+	usamaarif642@gmail.com, joel.granados@kernel.org,
+	richard.weiyang@gmail.com, geert+renesas@glider.be,
+	tim.c.chen@linux.intel.com, linux@treblig.org,
+	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+	chenhuacai@kernel.org, francesco@valla.it,
+	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
+	masahiroy@kernel.org, brauner@kernel.org,
+	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
+	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, 2407018371@qq.com, dakr@kernel.org,
+	neilb@ownmail.net, bagasdotme@gmail.com,
+	wsa+renesas@sang-engineering.com, dave.hansen@intel.com,
+	geert@linux-m68k.org, ojeda@kernel.org, alex.gaynor@gmail.com,
+	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org,
+	aliceryhl@google.com, tmgross@umich.edu,
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v19 39/40] rust: completion: Add __rust_helper to
+ rust_helper_wait_for_completion()
+Message-ID: <20260713033623.GA79338@system.software.com>
+References: <20260706061928.66713-1-byungchul@sk.com>
+ <20260706061928.66713-40-byungchul@sk.com>
+ <CANiq72kEo=bGcHNaSA9JZhv4iuE+YDvu0kN+Z7aopVp3=2C+Wg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 12 Jul 2026 20:29:27 -0700
-Message-Id: <DJX4IFO55D9S.3IV3K5XICJAEV@gmail.com>
-Cc: "Alexei Starovoitov" <ast@kernel.org>, "Daniel Borkmann"
- <daniel@iogearbox.net>, "Martin KaFai Lau" <martin.lau@linux.dev>, "Shuah
- Khan" <shuah@kernel.org>, "Andrii Nakryiko" <andrii@kernel.org>, "Kees
- Cook" <kees@kernel.org>, "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan
- Kara" <jack@suse.cz>, "Jonathan Corbet" <corbet@lwn.net>, "Jann Horn"
- <jannh@google.com>, "John Ericson" <mail@johnericson.me>,
- <linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
- <linux-kernel@vger.kernel.org>, <bpf@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH v2 0/5] binfmt_misc: bpf-backed binary type handlers
-From: "Farid Zakaria" <farid.m.zakaria@gmail.com>
-To: "Christian Brauner" <brauner@kernel.org>, "Farid Zakaria"
- <farid.m.zakaria@gmail.com>
-X-Mailer: aerc 0.21.0
-References: <20260711-binfmt-misc-bpf-v2-v2-0-d6591ceaf207@gmail.com>
- <20260712-abluft-brutkasten-aufladen-c8063a4a1a0a@brauner>
-In-Reply-To: <20260712-abluft-brutkasten-aufladen-c8063a4a1a0a@brauner>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANiq72kEo=bGcHNaSA9JZhv4iuE+YDvu0kN+Z7aopVp3=2C+Wg@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sb0xTVxyGd+499/ZSrbl0MI82maG4mGhwwzHzM9mIMVlyk2WJ032Zi9Fm
+	3IxiKaxFEKaxTKv1D4huZeMWWaGOoVZtWpwTZDJ0aAOMWh3rnLWgiCOIxD8tAaldW7KMb0+e
+	c877vh8ORysvsIs5rb5ENOg1OjUrx/Lx+U1Z723+uOAt11kVWMy74U5omIHwcwuG+nNOFizu
+	Ogau//kVhlDYgmDyhY0G88UYhuixbhlYKxEEfJdpcLZWUvDM9ZIF69AwC9KITQbjoXYGYsGH
+	FERrt8H3TR4WGoeCNDwdHURwc3gB3ApPsOC1HmLhsYuFG71jCEZud1Cwx3GOhdrjbgw3xmYo
+	OO3+EELNIxhs3/5DgfVMOwVTzadkYOu7ycC9FkkGM0PZELMXQfCIFcPZ8X4GvHcHGAhd28fA
+	BdOgDNx//YbAfT/uGvedwFDXcIeFSx1eDJbo8/iWtnoWDrvOM3DXGWPAZJtkwNfZw4D/tA+D
+	VzqJob/tDANDgwEGPH29NESqVeA7WsVAoOYBWpsnTJqrsWD2R1nB2eBEwovpY0gw18TpyqMJ
+	WtjrKRN+6HnECtPhP1ihI2LHwokD05RwUQrKhL2/3JYJdvd2wdOyXHBcGqXWZ22Sv5sn6rSl
+	ouHN3K3y/MpYNV1swzvu1bmRCTnog4jjCJ9D7FVbDqKUJFp7qlGCMf8Gsfiv4wSz/DISCEzR
+	CU7jV5GBnva4l3M0b32dNE3UJx+8ymvJw5qO5CUFD+TBVCzplfxJRKSxtbM+lXjrhpOhdDx0
+	psGf3EDzKvLjS25WLyF7ztuSMSn8R8TR2ccmOJ3PJJ0/XaMSvYR/nEKavu5mZkcvIr+2BHAN
+	SpXmVEhzKqT/K6Q5FXaETyGlVl9aqNHqclbml+u1O1Z+VlToRvHv3Lxr5tOf0VPfxi7Ec0g9
+	X+EybixQMppSY3lhFyIcrU5TZKviSpGnKa8QDUVbDNt1orELqTisXqhYFSnLU/Kfa0rEbaJY
+	LBr+O6W4lMUmtAneL3M9UQVzoummdb3H/0512D758vB3R7T++zsvL6vYmXsr3dK4prW/YmlV
+	iU8vbthsOLqgMNiqymhsWypkr2jI3Nq36Kp2Te7qgRUbVBnrJ6s4xZPy13Sv7P+9hWROByOR
+	rHmezrRvMlaH5aPdxWFf7RfkHX5Xwf51Sz6Q3hYzkRob8zXZy2mDUfMvWsBm3MoDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTVxjHPffenl6a1VwRw4lkc3bqlhl1bmKeRLJp/MDN3qJjZsuWRTq5
+	WWsBsVUmJoqldtbNNKWm7WgrMBhVsUNWsA6hGYGIVUbkZUNUEFgqjoGACJjyVi81y/hy8j+/
+	839+eT4clo6145WsOvOQoM1UpiuwjJF9vM2wIemrT/e/FR5ZByZjLnT3hiTQqa9nYHLCxID7
+	shfDnOuqFEy+AgkE7+Qx0FpxCUHvpAnBsxkXDcaaCANz1iYpTITvS8GmRxAJNCGwt1lp6Gr9
+	nQZvtZ6Cp5XzGIYaxxHY+kMYHIN6BkY9ZxA4B1xSGLyeDI97ayUQ6XlEwZ2pYQSe0DwFofpT
+	CObsGigqqRLH7WMYZlpu0+CwtSL4qb+HhvHBPgTVTQ8QBC7kYXhouUJDR2gp/Dk5iuGm7QcM
+	j9vcFIxUYijOC0ig7Y8hBOdcVgQD9wIUGEovY7Cf8zFQ03dNCm1DsxR0260UXPJ9BL2eAQaa
+	LSWUuK7Y+jUeXA4DJR7/UGD7pZaCsKdcur0M8c+MZoYvr/JTvLF9DvPeQi/iZ6atiJ8oM9C8
+	0SJeG4dHaf5k1bd8WfMw5qcn/8J8YKqY4W+VEP7n09MUn9+yga9x9kh37fhClpQmpKuzBe2m
+	d1NlKn3ETGe5mCN/F/jQCVRKf49iWMJtIbZmM1rIDLeWmNqDzELG3Oukqysc7cRxb5PO5lqR
+	y1ias71CSkbd0YHlnJo8sgSiJTkH5GE4EuWx3EVEnEPbX/Bl5GZBKCqlRelsYbvYZ8WcQM7P
+	sy/wKmK44opqYrjdpLS+BS/kFdxrpN5/g7Kgpc5FJucik/N/k3ORqRgx5ShOnZmdoVSnJ27U
+	aVQ5meojG/cdyPAh8bd6js3m/4YmOpIbEMcixUvySl3K/liJMluXk9GACEsr4uSbE0QkT1Pm
+	HBW0B/ZqD6cLugaUwDKKePn7nwmpsdw3ykOCRhCyBO1/rxQbs/IECn4i+NHaiuu55j1nD75x
+	xvDBj/1POnFa4a01n+s0I1/Ghf9d0mcz5j5ReOMTHRcHXnWM95UuyavcYZ66sDfl6tfF608X
+	jfEpLTfcSauPyxP9yp1jsxXBdzSdyVtXn7x/+7vhuvOkruNe1ofBs1t1iZ6RIr9K1Z2ldj/N
+	r3j5vWXCg7sKRqdSbn6T1uqUzwG4/G81qQMAAA==
+X-CFilter-Loop: Reflected
 
-On Sun Jul 12, 2026 at 5:32 AM PDT, Christian Brauner wrote:
->> This is a continuation of Christian's bpf-backed binfmt_misc POC [1], wh=
-ich he offered
->> to hand off to me. I am carrying it forward. The kernel design is his an=
-d is
->> unchanged. This series rebases it onto his binfmt_misc locking/cleanup s=
-eries [2]
->> and adds selftests (+ fixed from the one's shared), and therefore does
->> not apply to mainline alone.
->>=20
->> As for motivation for this whole change, Christian did a great VL;MR;
->> write-up [1].
->>=20
->> TL;DR: binfmt_misc can match a binary and hand it to a fixed interpreter=
-,
->> but it can't match programmatically or compute the interpreter per binar=
-y.
->> The Nix community would love to support relocatable binaries, where the
->> correct loader can only be found relative to the binary itself.
->> This adds a 'B' handler type: a binfmt_misc_ops struct_ops program that
->> inspects the binary and picks the interpreter with one new kfunc,
->> bpf_binprm_set_interp().
->>=20
->>   bpftool struct_ops register nix_origin.bpf.o /sys/fs/bpf
->>   echo ':nix-origin:B:nix_origin::::' > /proc/sys/fs/binfmt_misc/registe=
-r
->
-> Thanks! So I've spent some more time working on this because I had some
-> future ideas that I needed to make sure could be accomodated by this
-> (currently on vacation but hey...). So the version I have givex this a
-> better design and has future extensibility in mind:
->
+On Sat, Jul 11, 2026 at 02:13:05PM +0200, Miguel Ojeda wrote:
+> On Mon, Jul 6, 2026 at 8:22 AM Byungchul Park <byungchul@sk.com> wrote:
+> >
+> > This is needed to inline these helpers into Rust code, which is required
+> > for DEPT to play with wait_for_completion().
+> >
+> > Signed-off-by: Byungchul Park <byungchul@sk.com>
+> 
+> Apart from what Gary said -- why did you need to do this in a separate
+> patch in the same series?
 
-I also enjoy hacking over my vacation. I'm often told to take break but
-some of the best ideas come when on vacation :)
+Not necessary.  I will make them into one patch.  Thanks.
 
-> - The single sleepable load op is split into two ops:
->
->       struct binfmt_misc_ops {
->       	bool (*match)(struct linux_binprm *bprm);
->       	int (*load)(struct linux_binprm *bprm);
->       	char name[BINFMT_MISC_OPS_NAME_MAX];
->       };
->
->   The non-sleepable match program runs from the RCU entry lookup
->   walk itself, exactly like magic and extension matching: same
->   registration order, same first-match-wins semantics, and it can
->   only rely on the prefetched bprm->buf. It must be free of side
->   effects since the walk may be restarted.
->
-
-Is relying on brpm->buf enough?
-Right now that's only 256 bytes I think, which is not enough to read
-segments we might care about. That worked fine when it was just a magic
-number but the idea with the eBPF program is to make decisions based on
-more data.
-
-In the selftest I provided, the `PT_INTERP` segment is already at file
-offset 0x318 (792). I was imaginging NixOS having to support
-`PT_INTERP_NIX` in order for the produced binaries to be backwards
-compatible with older kernels.
-
-The other idea would be to make the `match()` broad and select
-everything but then nearly all ELF64 binaries would match and then pay
-the price to `load()` and ultimately `-ENOEXEC`. Seems like it would
-make multiple BPF binfmt programs less useful.
-
-
->   The sleepable load program runs once the walk has committed to the
->   entry and does the file reading and the interpreter selection. Both
->   ops are mandatory, the struct_ops plumbing enforces the sleepability
->   of each, and since bpf_binprm_set_interp() is KF_SLEEPABLE a match
->   program cannot select an interpreter by construction.
->
-> - A match is a commitment. A failing load program fails the exec instead
->   of falling through to later entries. -ENOEXEC keeps its usual meaning
->   and hands the binary to the remaining binary formats, for a handler
->   that discovers it cannot serve the binary after all.
->
->   This kills the part of v1 I disliked the most: the skip cursor and the
->   leave-and-rescan loop in load_misc_binary() are gone. The walk is
->   never left and re-entered, and 'B' entries need no special semantics
->   against concurrent (un)registration anymore.
->
->   Your v2 changelog note about keeping the bpf retry loop in the
->   __free() style is moot as a consequence. The loop no longer exists.
->
-> - The load return convention flipped: 0 now means success after the
->   program called bpf_binprm_set_interp(). Returning 0 without having
->   selected an interpreter or returning a positive value is treated as
->   -ENOEXEC, other negative errnos fail the exec.
->
->   So the "return bpf_binprm_set_interp(...) ?: 1" idiom from the v1-era
->   programs becomes plain "return bpf_binprm_set_interp(...)".
->
-> - The handler name moved from the offset field to the interpreter field
->   that field consistently names whoever supplies the interpreter, a path
->   for static entries, a handler for 'B' entries. Offset, magic, and mask
->   must be empty:
->
-> 	echo ':nix-origin:B::::nix_origin:' > register
->
-> - 'C' is allowed now, v1 rejected it. It behaves exactly as for a static
->    entry. The setuid transition stays gated by vfsuid_has_mapping() in
->    the caller's user namespace. Which makes 'B' handlers usable for a
->    per-binary loader over setuid binaries. 'F' stays rejected as there
->    is no fixed interpreter to pre-open (I have other ideas how we'll do
->    something like it later.).
->
-> Nothing changed in the exec patch, the fs kfuncs patch, the kfunc
-> itself, or the registry/namespacing model.
->
-> I can send v3 in a bit if that's ok.
-
-I don't mind at all you sending v3 and in fact I've been enjoying your
-involvement. I didn't know what to expect when I offered this idea up to
-the community.=20
-
-I'm happy to keep co-developing this with you within a design you feel
-acceptable with. Please let me know how I can remain engaged and
-helpful.
-
-One last thing I was thinking about is that we will also need to support
-$ORIGIN in the shebang path, however I just tested it and this current broa=
-d
-BPF solution can largely handle it [1], with a small wrinkle.
-
-  $ printf '#!$ORIGIN/interp\n' > /opt/app/greet
-  $ cp ./interp /opt/app/interp     # any interpreter/loader
-  $ chmod +x /opt/app/greet /opt/app/interp
-
-  # stock kernel: binfmt_script opens the literal "$ORIGIN/interp"
-  $ /opt/app/greet
-  bash: /opt/app/greet: $ORIGIN/interp: bad interpreter: No such file or di=
-rectory
-
-  # with the handler registered, $ORIGIN resolves to the script's dir
-  $ bpftool struct_ops register shebang_origin.bpf.o /sys/fs/bpf
-  $ echo ':shebang-origin:B:shebang_origin::::' > /proc/sys/fs/binfmt_misc/=
-register
-  $ /opt/app/greet
-  <runs /opt/app/interp, the loader found next to the script>
-
-The wrinkle is that it can't express today is the single optional argument.
-(i.e. `#!interp arg" -> argv[1]=3Darg`). We might ned a way to express
-that in the load.
-
-Anywyas, thanks again. All your ideas made sense modulo I'm unsure if
-`bprm->buf` is enough to make a decision...
-
-[1] https://gist.github.com/fzakaria/2e1e1c44fa488a951674f8761c672366
-
+	Byungchul
+> 
+> Cheers,
+> Miguel
