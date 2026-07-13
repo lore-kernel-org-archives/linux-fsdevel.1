@@ -1,101 +1,94 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7BA377EC3
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 15:23:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4592232FA2C
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 15:35:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783956185; cv=none; b=TNec/j+Nd0cJK5P4McXTZV1vZHEJDSw7JdrAifOPX+NXuQ0IngXMZ56MFuG5ILkl8ekLdOy20guJwS6IcydwKMWkm5LDfy9w9yTuxR4PLx7fzWYpCpvq5EdKn+L9P8TZbZzdq14suFAAFygUpD/JrJafWcMGhpYriZrjxT98JUw=
+	t=1783956913; cv=none; b=c1xYfMcSLBg7C2HbVBIK2fWN5zJY5j1hyAGBZiQgJLjCG7GG6w2nhC8QnhL2mJPB2sE2reAGksYZTOrGksOxE71RYbeK4z492rwAhVw5LBMqx/5PhI9pZRzI38yDRVBlCBwYwyhDWDdrM5BJzj8pDruWOqtTPJupC8It+F6yk9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783956185; c=relaxed/simple;
-	bh=pxO70Oc/7Mk7MUgfChs5VC7q9aAXUGXyF0rwI8TudCM=;
-	h=From:To:cc:Subject:MIME-Version:Content-Type:Date:Message-ID; b=kx6ufWwoI0oJtX/zUfrWIgpYQZZq6GsXztYGFMw6JniAV3o+90au/pUmaH4vdDSvrvEDc5xq+NPNFjH3tBrGSqSpDnoVTjDDEiavJ0b0e+rdYt7maB01P8HT/Knp/xogbAayQJJmZYblx00HiuXhUvGwkkva0x25tGIMsM8oo6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SSR/Ufuh; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1783956913; c=relaxed/simple;
+	bh=QhWbD0mpdRPVffuWg/7EtF1BbJoD3q+2pC44Nk7TpzI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KLKHNx4+sQZmrOgeEJ47HvkEWVhTwLQ/+EpGvjes2a/2QVHNod7VYaqWo0GG6S93rhZWbrikC1YoO1XrK/8uv5wqFDLQK+5hNcVoNgAesFCWrca6bRLiW0mb9Ai/4dUvux9BhmZDUt1yLQjNxjM/sKZMSqZXIsF/PEzKUBCXye4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Wx3B/cbR; arc=none smtp.client-ip=91.218.175.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SSR/Ufuh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783956183;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Wx3B/cbR"
+Message-ID: <a0c0a578-9334-4540-b469-4c368d07953e@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1783956898;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=bRJR2hCY2tQVI4Mc4/g5ZA+qJMCDSGcRxieL1eYGlyg=;
-	b=SSR/UfuhEvT/uUbPozC3Me64/JrL7S32rec/cXNA5oderDS+1LqHPCLL4nfH41dd00+q64
-	lcKbiSMYJ6BdUEYi6+lAwg0nd02dxwSGhGCPay323w4dj9lR4/f5EcIM8GhOqukPhDw5IK
-	LRleGSEUi1dr41tbbj9NMiITM04LRcA=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-654-4riqNSTHM2ONXUBjMHQeZA-1; Mon,
- 13 Jul 2026 11:23:00 -0400
-X-MC-Unique: 4riqNSTHM2ONXUBjMHQeZA-1
-X-Mimecast-MFC-AGG-ID: 4riqNSTHM2ONXUBjMHQeZA_1783956178
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 565541956096;
-	Mon, 13 Jul 2026 15:22:58 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.33.159])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 53017180067D;
-	Mon, 13 Jul 2026 15:22:56 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-To: Christian Brauner <brauner@kernel.org>
-cc: dhowells@redhat.com, Marc Dionne <marc.dionne@auristor.com>,
-    linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-    stable@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] afs: Fix afs_edit_dir_remove() to get, not find, block 0
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b84zbAj0IOT/rrLgo+xScwsyz3Svgs2ZwEIPB28c6z4=;
+	b=Wx3B/cbRzN05smJAh6GSYPpBR4jesd05hADHLSXO/xF0g529OR0897flkhNFWq4Y2Vd3av
+	gjh3BfX3OYXR3quWsagN0aQy3VM21xnbUubOHy/lCfIwLxLDA1S5Yl6ng0j9DToARLgiF3
+	Voq/CzzM0ypaW293o8LK/soo29WJzOM=
+Date: Mon, 13 Jul 2026 16:34:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2380758.1783956175.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 13 Jul 2026 16:22:55 +0100
-Message-ID: <2380759.1783956175@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Subject: Re: [PATCH] fs/super: skip non-memcg-aware nr_cached_objects in memcg
+ slab shrink
+To: Qi Zheng <qi.zheng@linux.dev>, brauner@kernel.org, jack@suse.cz,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Al Viro <viro@zeniv.linux.org.uk>, linux-mm@kvack.org
+Cc: hughd@google.com, boris@bur.io, clm@fb.com, dsterba@suse.com,
+ linux-btrfs@vger.kernel.org, cem@kernel.org, linux-xfs@vger.kernel.org,
+ shakeel.butt@linux.dev, hannes@cmpxchg.org, riel@surriel.com,
+ kernel-team@meta.com
+References: <20260609123047.1948242-1-usama.arif@linux.dev>
+ <4752c658-7b61-4636-ab5b-bd172e11a42c@linux.dev>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Usama Arif <usama.arif@linux.dev>
+In-Reply-To: <4752c658-7b61-4636-ab5b-bd172e11a42c@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Fix afs_edit_dir_remove() to use afs_dir_get_block() to get block 0 rather
-than afs_dir_find_block() as the latter caches the found block in the
-afs_dir_iter and may[*] switch out the page it's on if another
-afs_dir_find_block() is done.  This parallels what afs_edit_dir_add() does=
-.
 
-[*] There's more than one block per page.
 
-Fixes: a5b5beebcf96 ("afs: Use the contained hashtable to search a directo=
-ry")
-Closes: https://sashiko.dev/#/patchset/20260706153408.1231650-1-dhowells%4=
-0redhat.com
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Marc Dionne <marc.dionne@auristor.com>
-cc: linux-afs@lists.infradead.org
-cc: linux-fsdevel@vger.kernel.org
-cc: stable@vger.kernel.org
----
- fs/afs/dir_edit.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 13/07/2026 14:12, Qi Zheng wrote:
+> Hi Usama,
+> 
+> On 6/9/26 8:30 PM, Usama Arif wrote:
+>> The super_block shrinker is registered with SHRINKER_MEMCG_AWARE because its
+>> dentry and inode LRUs are memcg-aware (via list_lru). But the optional
+>> ->nr_cached_objects() hooks that the shrinker also drives are not memcg-aware:
+>> btrfs extent maps and xfs inode reclaim operate on filesystem-global
+>> state, and shmem's unused-huge shrinker walks a per-superblock shrinklist.
+>> None of them filter by sc->memcg.
+> 
+> This makes sense for now, but how should we handle this if these
+> shrinkers are made memcg-aware in the future?
+> 
+> I've recently been working on making the shmem huge shrinker
+> memcg-aware, but noticed my changes broke after rebasing onto the latest
+> tree, which led me to this patch.
+> 
+> As for the shmem huge shrinker, I can work around this limitation by
+> making it a separate shrinker. But this feels more like an overall
+> design decision, effectively meaning that all nr_cached_objects are
+> precluded from being memcg-aware.
+> 
+> Thanks,
+> Qi
+> 
 
-diff --git a/fs/afs/dir_edit.c b/fs/afs/dir_edit.c
-index b3e80c5c434f..01c6265e8865 100644
---- a/fs/afs/dir_edit.c
-+++ b/fs/afs/dir_edit.c
-@@ -411,7 +411,7 @@ void afs_edit_dir_remove(struct afs_vnode *vnode,
- 	if (!afs_dir_init_iter(&iter, name))
- 		return;
- =
 
--	meta =3D afs_dir_find_block(&iter, 0);
-+	meta =3D afs_dir_get_block(&iter, 0);
- 	if (!meta)
- 		return;
- =
+Hi Qi,
 
+Thanks for raising this. I think the alternative is what I mentioned in
+https://lore.kernel.org/all/cfdb8620-ea55-4226-98bf-d006820e6270@linux.dev/
+move this down to the fs own callbacks instead of here. Would that
+be better?
+
+Thanks,
+Usama
