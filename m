@@ -1,235 +1,153 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE743845D3
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 22:18:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783981098; cv=none; b=uwm5erM25xbjdKS3msJ+0LjI9HQuLScjq/jfD12/wxwsjuhvjRujTA0wj/DkIfoj6h6OmBk3AZs/DcMArBolsllIkdiDS9/vUZU0wzQANJdp1eycN6tSREDzila+ZQ7+cJvzme+WsbupT+2p+8NbJEExunoCl2XA9xF2l5DIoHo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783981098; c=relaxed/simple;
-	bh=oeI3Kt/oLN83aiTdZRHAV7sAwB0A30e6bwrN7cjSOrw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mrcX7J+wOONS04evhkuN+mncknPwDqEasxt8uh61kuTl1JBtzrN7NM2DuIIOf1UM2FA41lU7zn33OiSYEMqpcbQn27nqB8IMoOt9rPkXfV+93Rnr9claCdKezwrzAMLPggHAQm5i55SYyF4PqcAZmLDv5CfXfbOiJ4jtb2rBFiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=N9Qz1kWR; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B7538AC92
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 22:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783981677; cv=pass; b=QNbbnAHbMoBC07zOmOaVxqiA0Wy1h3466+rB26J7TOJNWX4fZMJ1t4WCglXf98uMZIbnlbM8CN1cXY4E4yidyaEzy1menWxr5IxNXBA5EiPgW/CC8VQpt1UnDReP86MzRlk9D6wxP/lyPPHo/FYFiMN7ja6T33BmJ1YniWzgTlI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783981677; c=relaxed/simple;
+	bh=fbjane7tfgJKd+yHPImlcewhWxOYomgF7EIsJ/qW25k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sUqre+w1OWwAebjj/8q/8YSKekSFCN9vtUAuOJlqUsbQthfDYNdwsEK9d/qpWDq3U6joquG/m04zbg7giF+2vznGOO/C0gYYpDHn8NaFBXkvmt6LBCaVU3LUNjyVS3nW0jWIRCJjHGpYJQSm/7OHpYxTZroOHCkF7lzfP7IylK8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=q+G678hL; arc=pass smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="N9Qz1kWR"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-81ea9f974ebso3450367b3.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 15:18:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="q+G678hL"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-383b4a3755fso308036a91.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 15:27:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783981676; cv=none;
+        d=google.com; s=arc-20260327;
+        b=eohiIIWSYTSSEIN5RRBoOEPBSokmWVorYFdWiPCAMacaxvtyFm/JV2ht/j6675tfjK
+         ZaKEluXozMY0GbuZ4bLKVzPILElgtaA04ONPv3hqO4BoWJY6M0B+WISrAG6/f9mLiXbo
+         /5t6k6qMJ2At3n553QTdgjjQlaxmrmjQF5JT1dZdRVpgrjlZS8Ob1J0WuuEz2j/v2kLP
+         1ejGz3fzN1IkMdjYUJ/w4mpmeY95LNOvHy4lefvim/AH7ugjz7zGqNvep83BW0/xM3sl
+         lVIDUjm7/bYCMPvEREt1G1Vo8CgI5vk4eR3LJB1j4kOa3O7+oSBKBHBoyizmx+Ue2gGk
+         DQqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=YOd9mExyjtslY9x3KYTXq5oCKN8VGg/406f26GPZg2w=;
+        fh=1DY3kfsdojrCOYTztFkzZHhBZIXpp+FTmSH9nacJXaA=;
+        b=bYn4UjpzOf2crAbMDPFui6BOT21KeJ8xejdEQJBTNZjGWPwTeXTZWI64vd87+iG/wy
+         S0AhP6uR+zSN2sfKX8KHhvx3Us238IBHC2f55UFOdpyN/sEuYxnu3K4/3XDreXEJXCKy
+         U304hqxrnmMkBgF23P7tadVJ7mNqOsKh6Wbbl/2iZltz1RTpvXO+Hjqqx5m0dyp/EeWZ
+         QZBOmLed/pkk4QzUeNkZY8irbAJaSo2djwVcORKs7IooD9ekKvZeRoG9nr2fsq/IWRiR
+         hyuVLAKUeB/YjdKewAdNlgZWq5m294092Wzyn8khBx/OgnJOFly4lAsTov1qGi4nOx8+
+         WteA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1783981095; x=1784585895; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pqaK3Z8YRCEFnaHsTzpcKOTWIVBfZiTGCGeSlpmO3nI=;
-        b=N9Qz1kWRJqMNHM69hE1pd3tGzkqAbu14cXaicuNIODF1ULMmDiN0ahmavyW2hTBkUi
-         zAoCqsZ+KA986UVLIve5sSJQiwVR7jOvXA6YqV73yKt/TkOE383tRfzmHhgzssWPBguE
-         z4TcN5aZWZVs5NTlSTFWtW93oBbm4gzJR5WiTQDH9ZzVkd6H0wjq4/Dvg0Vzblzrq6b8
-         IcpznlbGh3Whniygtd11KMBsx4ywabMBhd5Hl65HDv+j52wxTaCxQzfm5b3JHIbnMF/g
-         YB1l78aP83sNLwHw8BOetC6BbNOA17KZexgHahn5uZsgx1WodSbKHlZPx6OUGHMXSLit
-         IzoQ==
+        d=google.com; s=20251104; t=1783981676; x=1784586476; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YOd9mExyjtslY9x3KYTXq5oCKN8VGg/406f26GPZg2w=;
+        b=q+G678hL15ZjVXp9f6HBc/pHNH/IJOaFEfaBdauvl1HVJTezUCEtOfX+cVeEEE6don
+         qbl0OYt26VQclHrRzR1gzFskvR5o9aRghK09Yr/FYEhMItvHir4scL6+MuywomN+uZd4
+         4gx4a4sIjc0Bh/vMbhyAe+MNrDlR4Px+IBgEfkVDUJa3F8mQNcA3WA3uy82shu1HM+Wy
+         HnRySY4xhJSawlHKKAoEa6aGwiSoV+TYTIkPb7Is57R74q3bLzr7NWa1dBAv3TnERUQu
+         rU5mGmWaZlpJMLa0Ttr8+Q3qL/t8YpyCTc4cytFGjKtpMbKTjhZc/4XmCR1GiJthlJsp
+         34fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783981095; x=1784585895;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=pqaK3Z8YRCEFnaHsTzpcKOTWIVBfZiTGCGeSlpmO3nI=;
-        b=GJyCpVNoMcI3cw6zc/vunhebwRn0mpRZ8O7K+wRv/w+dHnVoqukS6657djTFC76ZN8
-         D6zskRisa6wfVeuQ98FHktVhnLS58XFaWayGTJYxXlUCQ/A7AwCZ1dERjnA8FU3/vLhB
-         qishi1jJh2jgc6PZaxxnbXvhO2zrO0d82LT5tJR+BWfztVTP9FVuHNWG0HHP/oke5ihW
-         YnZRXruuHeZiqkBhTyyJWeL+v+niWwaWG0baOTlFL5ncdu7UhH3s2HrWVmGfEoPonTJ6
-         Axe7+miSXceryTGqyW1YU9sfh9M6pMznG9tmZdifQIHMIaodIGgrswNX+pGfE4bQQBVH
-         Oo7w==
-X-Forwarded-Encrypted: i=1; AHgh+RqZdcsLjBCmnNjeLRrwhLcv2eq86o8v0gNrhDNlTJtOoUhVMuootjciu3ppjkkANXlE0SL582q2PcertA8G@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+Nt4HJYV4BHuAM/fcv0KQkRXKO7XhG5Z/I8x+HMkFVFeP/6oI
-	MevboSTiauWcNWIHTfqOS1DKasO/CxfeQ0anTyn1JjxVnj0PL17iieAy/1RldY86A6s=
-X-Gm-Gg: AfdE7cmLP/jvyYwLC+7kWnhba0pVD3NT3/gsHOo2SJlmfsb4T1v0fWXAOqpVNwW1KVL
-	mPPuX4nISnfNzW4oxSXMxUgOOu3L02gI5iSB/WKL77id6okF16jzXWvmwcwiOhiqdE39YzowwU5
-	9pq3NWqyNkUu8dqvgrfMHaTrcRAmv5imntgGljtm9WoZl+YzHAWl9EcyGnoyvlj348dd0DiIXaQ
-	lmELf4nHRCj/5Jl/B1CefT56Ch6en/oTr3TUxO8Isfs/lbRbwBpYCjZX/EproVywHUsH94yiWku
-	9NpjxZtqh2jBcJkBgSrSUUOJk/MSfqEPelwG5LXeAC+s51ka58XEvoFFSqi16oRwz/nmdyXLt6J
-	Lcd1N8RNQSltvUvZdEbix5ld37m4itGkGA5EhQHUK1/b/wLukH56mJmdYfi3Qbi1m7RDD3LX4nK
-	NIr7gaiOXGbuaD47oIfUmBB255eLut4lQNfRRq60KWwvPu+a2vS7TqxALJpKEYi/vHdxCcXcU+P
-	9BtRHkncLhDj+BtURvNdNQIgnu8KnwKOUAutcsswjLLIXx3OX7rnAl8TwycX59PjpEVwWd70wMi
-	js3MhH3oqpjUgq5t
-X-Received: by 2002:a05:690c:6982:b0:80c:85b6:7651 with SMTP id 00721157ae682-81e902e2eaamr71357287b3.70.1783981095063;
-        Mon, 13 Jul 2026 15:18:15 -0700 (PDT)
-Received: from ?IPv6:2600:1700:6476:1430:e472:ff2d:20b0:742d? ([2600:1700:6476:1430:e472:ff2d:20b0:742d])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6c23939fsm126683337b3.46.2026.07.13.15.18.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 15:18:14 -0700 (PDT)
-Message-ID: <39b2049e2143e72d8b22e3db39a53a4ac1fd88c0.camel@dubeyko.com>
-Subject: Re: [PATCH] ceph: bound copied dentry name length in NFS export
- get_name
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Michael Bommarito <michael.bommarito@gmail.com>, Ilya Dryomov
-	 <idryomov@gmail.com>, Xiubo Li <xiubli@redhat.com>, Alex Markuze
-	 <amarkuze@redhat.com>
-Cc: ceph-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Date: Mon, 13 Jul 2026 15:18:13 -0700
-In-Reply-To: <20260711150706.2915970-1-michael.bommarito@gmail.com>
-References: <20260711150706.2915970-1-michael.bommarito@gmail.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+        d=1e100.net; s=20251104; t=1783981676; x=1784586476;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=YOd9mExyjtslY9x3KYTXq5oCKN8VGg/406f26GPZg2w=;
+        b=cHQgzFOFIpefPJiajz1eKAcsQF1ZPzq3F1n+V928hqn4mzRhO5WR9uRFW6PtyQbXyT
+         5Yvqoff5VW+ED+pg/Wy0O/isg+6+RO9vDIlNqlUHBmePaUEf3C9sdudpK85zNTv7E19f
+         GZfj1NWp+gIIPHrM1ZtqwgqvCiW61iADNNm7UNZrbUy4GFPhjQv7awyoJdKPIuUPN6bp
+         bvmFjJ+aQjk/9W+JQpHmkj7NpU8+zzmZfqLLySQJGVipOI1i3MWh5L1jLTtMwssPJ5qh
+         NyZZBRFTsp+3U3i6PVujGAblr/81hjGRAD++mBbDLntj3DlwFbJEA/O5R2QRQFni3S/R
+         O0nw==
+X-Forwarded-Encrypted: i=1; AHgh+RoRIx0/OBZJ+hOCBS9sCaskxdt1EBvvdUQwQM6PlDI8lWFjl3hCl3jEd1ngdslKjiTfRzf2IcpRWoF4ADxZ@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzviWyHfME8SB4WrPxGD+DLJV8ubDmyk1VlvDtxlYZ1q/xW5/A
+	vk5lozFAWBXDVwnYdHlV5XU2T6KIAagnzIfGaAmanQbR4CkEQAHzdiE2LYCiDtLsksnsU9Fkv1t
+	YNv/ZEEyrm6b8Pb4F2CvU1/QSFOhpWG8dHO4Fm0hu
+X-Gm-Gg: AfdE7ckVC8SEEVhBW11mQpi32Kd9WEMVM++cOe692lWTEAck1JZonivfBp/6YjmhEq2
+	5/IgA/NrkCKVBT+tNkd3Jzmt1RURLKT9c9PKecdTvVj/WT2ck5UnelFLyNM9n8PR0Urs1GMqv9L
+	/g5WYsVWVbHtraRz+DPsWO3mEZwTpeEmmn/NWvyu0D7Mxq7nkecUAIUnjMsuGu6ii+9JXyfjs1z
+	2e1jNjCraOT7ARlHeRbhHr++nG+x8xRTjfrzlYgG9SnFKe9TVwvTkXJP8/PqeZn499zQCUvEPx4
+	ys/T5Yjy/8UsaBZK+74=
+X-Received: by 2002:a05:6a20:734a:b0:3bf:b9de:8570 with SMTP id
+ adf61e73a8af0-3c110160a19mr10849033637.19.1783981675450; Mon, 13 Jul 2026
+ 15:27:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260712165610.366474-1-timday@thelustrecollective.com>
+ <20260712165610.366474-2-timday@thelustrecollective.com> <alT2yHlfzhTZ9n4T@mit.edu>
+ <20260713164417.350710-1-timday@thelustrecollective.com>
+In-Reply-To: <20260713164417.350710-1-timday@thelustrecollective.com>
+From: Marco Elver <elver@google.com>
+Date: Tue, 14 Jul 2026 00:27:18 +0200
+X-Gm-Features: AVVi8CelYR5CFRDO3rcKViR68rwlP0BhhN5oDZiKHJ8mDbFXztNS8i5n-0eRql0
+Message-ID: <CANpmjNMfQT6Z9ke4x49sp6z8+pt_5ZLUoSh0da-99bwos5-8Lw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/9] ext2: fix ext2_xattr_delete_inode() context
+ analysis warning
+To: Timothy Day <timday@thelustrecollective.com>
+Cc: Theodore Tso <tytso@mit.edu>, linux-ext4@vger.kernel.org, Jan Kara <jack@suse.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 2026-07-11 at 11:07 -0400, Michael Bommarito wrote:
-> ceph_get_name() copies the MDS-supplied name into the caller's
-> NAME_MAX-sized buffer with memcpy(name, rinfo->dname, rinfo-
-> >dname_len)
-> and then writes name[rinfo->dname_len] =3D 0, without checking
-> dname_len
-> against NAME_MAX. A malicious or buggy MDS that returns a LOOKUPNAME
-> reply
-> with dname_len > NAME_MAX overflows the buffer. __get_snap_name()
-> copies
-> rde->name / rde->name_len the same unchecked way.
->=20
-> Impact: a malicious or compromised Ceph MDS overflows the NAME_MAX
-> name
-> buffer in a client's NFS-export get_name path, a slab out-of-bounds
-> write
-> reported by KASAN. Reachable when a CephFS mount is re-exported over
-> NFS.
->=20
-> Add ceph_export_copy_name(), which rejects lengths above NAME_MAX
-> with
-> -ENAMETOOLONG before the copy, and use it in both ceph_get_name() and
-> __get_snap_name().
->=20
-> Fixes: 19913b4eac4a ("ceph: add get_name() NFS export callback")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Claude:claude-opus-4-8
-> Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
-> ---
-> =C2=A0fs/ceph/export.c | 26 +++++++++++++++++---------
-> =C2=A01 file changed, 17 insertions(+), 9 deletions(-)
->=20
-> diff --git a/fs/ceph/export.c b/fs/ceph/export.c
-> index b2f2af1046791..debb9634b9e3d 100644
-> --- a/fs/ceph/export.c
-> +++ b/fs/ceph/export.c
-> @@ -442,6 +442,16 @@ static struct dentry *ceph_fh_to_parent(struct
-> super_block *sb,
-> =C2=A0	return dentry;
-> =C2=A0}
-> =C2=A0
-> +static int ceph_export_copy_name(char *name, const char *src, u32
-> len)
-> +{
-> +	if (len > NAME_MAX)
-> +		return -ENAMETOOLONG;
-> +
-> +	memcpy(name, src, len);
-> +	name[len] =3D '\0';
-> +	return 0;
-> +}
-> +
-> =C2=A0static int __get_snap_name(struct dentry *parent, char *name,
-> =C2=A0			=C2=A0=C2=A0 struct dentry *child)
-> =C2=A0{
-> @@ -513,9 +523,8 @@ static int __get_snap_name(struct dentry *parent,
-> char *name,
-> =C2=A0			BUG_ON(!rde->inode.in);
-> =C2=A0			if (ceph_snap(inode) =3D=3D
-> =C2=A0			=C2=A0=C2=A0=C2=A0 le64_to_cpu(rde->inode.in->snapid)) {
-> -				memcpy(name, rde->name, rde-
-> >name_len);
-> -				name[rde->name_len] =3D '\0';
-> -				err =3D 0;
-> +				err =3D ceph_export_copy_name(name,
-> rde->name,
-> +							=C2=A0=C2=A0=C2=A0 rde-
-> >name_len);
-> =C2=A0				goto out;
-> =C2=A0			}
-> =C2=A0		}
-> @@ -580,8 +589,8 @@ static int ceph_get_name(struct dentry *parent,
-> char *name,
-> =C2=A0
-> =C2=A0	rinfo =3D &req->r_reply_info;
-> =C2=A0	if (!IS_ENCRYPTED(dir)) {
-> -		memcpy(name, rinfo->dname, rinfo->dname_len);
-> -		name[rinfo->dname_len] =3D 0;
-> +		err =3D ceph_export_copy_name(name, rinfo->dname,
-> +					=C2=A0=C2=A0=C2=A0 rinfo->dname_len);
-> =C2=A0	} else {
-> =C2=A0		struct fscrypt_str oname =3D FSTR_INIT(NULL, 0);
-> =C2=A0		struct ceph_fname fname =3D { .dir	=3D dir,
-> @@ -595,10 +604,9 @@ static int ceph_get_name(struct dentry *parent,
-> char *name,
-> =C2=A0			goto out;
-> =C2=A0
-> =C2=A0		err =3D ceph_fname_to_usr(&fname, NULL, &oname, NULL);
-> -		if (!err) {
-> -			memcpy(name, oname.name, oname.len);
-> -			name[oname.len] =3D 0;
-> -		}
-> +		if (!err)
-> +			err =3D ceph_export_copy_name(name,
-> oname.name,
-> +						=C2=A0=C2=A0=C2=A0 oname.len);
-> =C2=A0		ceph_fname_free_buffer(dir, &oname);
-> =C2=A0	}
-> =C2=A0out:
+On Mon, 13 Jul 2026 at 18:44, Timothy Day
+<timday@thelustrecollective.com> wrote:
+>
+> On Mon, 13 Jul 2026 10:32:56 -0400, Theodore Tso wrote:
+> > On Sun, Jul 12, 2026 at 12:56:02PM -0500, Timothy Day wrote:
+> > > Clang reports the following warning when context analysis is enabled:
+> > >
+> > > fs/ext2/xattr.c:829:6: error: rw_semaphore 'EXT2_I().xattr_sem' is not \
+> > >   held on every path through here [-Werror,-Wthread-safety-analysis]
+> > >   829 |         if (WARN_ON_ONCE(!down_write_trylock(&EXT2_I(inode)->xattr_sem)))
+> > >       |             ^
+> > >
+> > > When WARN_ON_ONCE() wraps down_write_trylock(), it adds an unlikely()
+> > > annotation which hides the conditional acquire annotation from Clang's
+> > > context analysis. This triggers a false positive. Pull the trylock out
+> > > of the macro to silence this warning.
+> >
+> > Does this mean that using Clang's context analysis means that we can't
+> > use unlikely()?  That seems.... unfortunate.  Is there any other way
+> > we can fix the false positive?
+>
+> We can't wrap a function that acquires a context inside unlikely(). We
+> can use unlikely everywhere else. AFAICS, I think the trylock functions
+> are only problem right now. Grepping for ".*WARN.*trylock.*" and
+> ".*unlikely.*trylock.*" shows a few other examples of code like this.
+> Not a huge amount, but not zero. I looked at a few other
+> series [1][2][3][4], but I haven't seen anyone do a similar conversion.
+>
+> [1] (block) https://lore.kernel.org/all/91cb8c790fc8b26b8aa742569fbf8c2c1d099dac.1780682325.git.bvanassche@acm.org/
+> [2] (drdb) https://lore.kernel.org/all/77d0fd75811d7f604fa80b5c93172b5653b52880.1781042470.git.bvanassche@acm.org/
+> [3] (raid) https://lore.kernel.org/all/20260708090614.1431014-2-hch@lst.de/
+> [4] (nvme) https://lore.kernel.org/all/20260713115444.465704-19-nilay@linux.ibm.com/
+>
+> > Even disabling unlikely() if and only
+> > if Clang context analysis is enabled might be a better choice, since
+> > we don't necessarily need to build with context analysis enabled when
+> > building a production kernel.
+>
+> I don't think we'd want to disable unlikely() globally when context
+> analysis is enabled. Only for cases where it'd conflict with the
+> context analysis annotation. Long term, I think we'd want context
+> analysis enabled by default for Clang builds.
+>
+> I think we have a couple options:
+>
+> a) Current fix - it's okay, but a bit ugly
+> b) Teach LLVM/Clang to handle this better - no idea how practical this is
 
-Looks good from my point of view.
-
-Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
-
-Thanks,
-Slava.
+I'm not quite sure what's going on here yet, but
+__builtin_expect-wrapped trylock function calls are supported by
+Context Analysis (Clang's Thread Safety Analysis). Some of the
+additional layers that WARN_ON_ONCE adds is likely throwing it off.
+I'll take a look, but might be a week or so. We are already bumping
+min Clang version for Context Analysis to Clang 23, so I'm hoping this
+can be fixed in Clang 23 (which is not yet released).
