@@ -1,228 +1,164 @@
-Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171AA86334
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 06:08:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF83C3815FA
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 06:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783922940; cv=none; b=IAGVnadODaTrGUhgQ5K80vlekSKC+vQCJLLusKR9ob0mL1gwbbNoQyie01gqDmXa9Fc6YGK3ka2YntLZJZVeqth9ddoET+jokZpZXWRsON5ulM6QT8/0Vi49LNqHtzIDSeOQua5HJEGiTbpT1gtr/si6k8osohjDkJGWF41CTTc=
+	t=1783924652; cv=none; b=tU1FRj3bW0lSnycR3kgON4qHtDO770eNwOhZF+QXsvdpQV2ogAzSO+uwOVxvc8uWQhQzWsa0AC8CIvREXj1v6BEQBnrtt3Vc/c0wAS67fxMxeW0O4gdFM5fX1LfqtomQp3e1drY+9XHr4cZGV8QMTVmSCwfFpJ1DSPgJgLhhwcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783922940; c=relaxed/simple;
-	bh=J+rCs5ymYJcaQX1tMasTgb8f72PS+0Tz+OMg5FIdiOo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hYzYSwDwWPuwt3V/0OBbhJzFnJvIjmI3TRGppGk8Wi6D34QZAzSPynJj8oaWDV5/tpetdpjV+WPQUbzPh9tsOJq7ov74+68SNFOwAOhQCelk7t8T3ycx/avfj5Jxnxe53d6P1Kn5uibEzp99zHIk7PRizFhh1okfFJLomzgAg/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=V6j4Ak6M; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=C1u/dK5H; arc=none smtp.client-ip=202.12.124.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1783924652; c=relaxed/simple;
+	bh=sDQjdPXx/A4gcsSDwiOadlaj5ExC9fPRLmccZtKqw/g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OE+sApgIFaTES9BeYywykycyy4S3Uo2gDeT8sUfHt6ISn7GijIZoSsstLRQbWnnuJGM9AURCpZrVC7zPr9xkraFoSyu/BG6VbNPH2fnxn69OM+HTrJFy8PoNQnOP6yR6L77dr3D87ig40gfSyFys7kVQQ9ysajPcM2HLhHqelAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mHBL35Gr; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="V6j4Ak6M";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="C1u/dK5H"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id 1AC011D00077;
-	Mon, 13 Jul 2026 02:08:58 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Mon, 13 Jul 2026 02:08:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm2; t=1783922937;
-	 x=1784009337; bh=fu5NHV3BzTrJ2i43ee75MeMsL8QzEtroASsfgOGSLbk=; b=
-	V6j4Ak6M9ggBvnHjOK1zDWmxMFl70TE/EHDX2yO1ghuNoF4SySSuP0j9u4A8BMfu
-	xHV4mdRDMo+7VACsbrGargYa3xZz5yKqpMfLOE/GuDBWRQeXz4RcvHSSBPQHk/3I
-	lmw6K+/lufSNYIOnynYDsm7Vjsduau+2zx9xT08zJr9ACed28iDWKpqdC+NBLW+1
-	4bor6CHCQIX1TZkyE8wwN+/3GWlQqD4YeTQ/NyIte4bSKF2WOUJl+fEtNhk1GJi5
-	JEjSH3wVOrfrxotg0cE5+b/4TIOK6RY9iG0XSLFcjyMwDfdg/vh4smStiBuSLPwU
-	4c1GgQK+tUUKYSVHSz3f/w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1783922937; x=1784009337; bh=f
-	u5NHV3BzTrJ2i43ee75MeMsL8QzEtroASsfgOGSLbk=; b=C1u/dK5H8dF9kLhqg
-	Rv/xkRiASWWd5QiVkkZTYM6Pg2hL1wTR9CIw7aht8Fz7AHCHmvw2U6aSxU2a23bj
-	TGbIhufmPT1eyUdE68bym+Z1oqcywPq5A0s61JsdZFVWcSoK+VI3xUpjFmfdqicU
-	f7JBjkVULqKmzVgkYWxY5Q+D8GobYAPfO9TqwbjUprgvj2bvzjhDicyGVkrDOgis
-	GdeG8wLExuYdVX1aK4qFhnAmh3hvCegS6kKSsdFeSJBvVg49BudfkXTHNgb6CXpJ
-	4RUg30TGHBlsFy8prRIpfpvw6QnQPEjeinPauRdWWoHZkAwOmZuXQLY2peKV/JcF
-	byqog==
-X-ME-Sender: <xms:-YBUanHCdX4GVGOApfBKGONgPDb702GVPNDxWOFM-14_MvYtEde0Xw>
-    <xme:-YBUatSp_eYmqE4U7q2ITjItkkJ6WmgdJdw8I1MC9YoX1LGbSLZ24ZDvpADBJU3WX
-    9bRp7zOYwepxEqdsWGpJKaNaD31ORgqhJzpWNzGmW-ERyvP-A>
-X-ME-Received: <xmr:-YBUaksPP_5mDpD1EGTPuC1vQ3D44k3oWlGykqA4RX2FriMfncU2CxATD649xwlTraS6y1Md3LzI3EGBInPAhi8p-fDERcA>
-X-ME-Proxy-Cause: dmFkZTGJRsxLjx1MEUuqMzUVzH1g3NNJYslwJNWJ6IAZ0OREwQLsFBzBxsIJG7DHnJvgVu
-    5Y4qLcUl4SonhqmAGPTWQtMxbfM5q8+0/3p8/v/vcYyQzpYAZ1Oo1UYnLESyg18Io2458w
-    zQXESz+xZNNiwn5Sps6dmFWEr8MBxIYW1IsrgBHQWAX0gj+/RsrKqwEc1i6XPTwgPlk7t3
-    G72XdtoVsY+wn1L+3hl6ZnwZB6BX676NATTBZaZWgNMHL0UkpnKT7kkp9qqBLgiAhB1nKq
-    ssSMKOSvwEpTSFyxo+5m8qmJ8cVUYeMfgGizLYq2+pmxy9rLWlJSkJi6YrusSBRkZlssQB
-    kA6uGRRwSNxta6PyJOyzRaqRxHZtOWwB8mRrrIVHsbgoVGBmKLvT47ASj87nsMqhmJ//Fr
-    r/WStGbWQyvbMCW5kWzhsc2DJVTjj719fl4h+4CkVTjR1eUHl8OUmwe5A6ukTWYzb4CdVo
-    nSRu/RSI6Jp8hLl+CbJoRiGLdd+6DOALZ/6KK8JJvmTieKZyVTOo/JeOt6Y6/dTMd0URM9
-    VNDBGyF9TOcRqh1yWQ7Ssir3NVHXzuroqHeq91ci3jZkKu8FVJYt4+i524qRwbA6xrkhO3
-    an7scGxe5ZhbSyk/NZq2W8D3cBpGm9djZqhNmdqlHa3P+XafBG5DjY4LKWUQ
-X-ME-Proxy: <xmx:-YBUalImLANqHoZAfJji0ZY_KMMRZ-_4N2vGtizcgN1FpxgCLd2Vzg>
-    <xmx:-YBUaplXlbwwSauoVbVZOqvAlyKokey_AVeaBlTC_TOEFFw4Ejng7g>
-    <xmx:-YBUauIxQ8sFlIuda40O7fd_6zeDnp4vEW2By38gkb9Yo21nZ7DXOQ>
-    <xmx:-YBUam4YO0lY8QNEWdSRz5gFc1d3Grugwau5XtVm-6SYZ-6zt-kz2Q>
-    <xmx:-YBUaqSfNy52I1y-8M0wXZ0t9UuARPQ2S4umErWnlZxfJ4j-ZwceuJjg>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Jul 2026 02:08:56 -0400 (EDT)
-From: NeilBrown <neilb@ownmail.net>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Jori Koolstra <jkoolstra@xs4all.nl>
-Subject: [PATCH v3 3/3] VFS: add vfs_lookup_open() for nfsd
-Date: Mon, 13 Jul 2026 16:05:07 +1000
-Message-ID: <20260713060814.2849-4-neilb@ownmail.net>
-X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
-In-Reply-To: <20260713060814.2849-1-neilb@ownmail.net>
-References: <20260713060814.2849-1-neilb@ownmail.net>
-Reply-To: NeilBrown <neil@brown.name>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mHBL35Gr"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ce7d2adef4so36942965ad.3
+        for <linux-fsdevel@vger.kernel.org>; Sun, 12 Jul 2026 23:37:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783924650; x=1784529450; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6UMocpabDNhUBeWAPvFfR1DoyVH/T9G9hR9WUGxdPt8=;
+        b=mHBL35Gr7VrHp9HikipnkBDhSQetC5jMGuiRrT7qHgLcEmOoeMFaX2TMpHjmgJpfBH
+         9RHW22CrqAWJeetUOs/K9Hzn9IHJMz2qrMJE+upVELJ1gTv2gwJaqJY/PDXKKkFYHdPK
+         tZ7R6x5GyjZ/i08bTKHmyVBuwu3AbwfvAqwQpVEQ+N3Q6tGP0dTRwLLI/uaHukEXcDf4
+         4ctjqRYoO4OGX5MIhUsySOPn6X0ruBeKVcyQl63LUDjgoX02wcoUQVpwjlso4O9T3DyG
+         FrCiljKikFHVZq6qW7Rs+iNAbfvKdM8hqDPXk+W6a4GI4d+Djg/mR1sHyqzonJVYRN0A
+         O23A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783924650; x=1784529450;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6UMocpabDNhUBeWAPvFfR1DoyVH/T9G9hR9WUGxdPt8=;
+        b=mrEsj/EjOpZaQh7lLN7/PWPsawzpW4d+gw4l0g5+0t3964RXUVQ8LLja+jE+wmYrWm
+         j6Rx5io+eZDNCPUN+IfirQr1T2MZ4wfnM0TDyWdzIWVqiZDEMOomcKEUWmpLuKs/9dcy
+         uJDDIk7pN/GqGJvOmo+8xDGoUO3hg53/PvHsb0y35DSL0jQh8GXChL3FpVtPJ6wnuNh+
+         8owkBeM5gADNb9j0cA2yZ8da49M1gM3rGPJ+qcklPOCj721aFBEwtThVgwoswyMloJLk
+         jege/rRSd3oWGu91MaOErDI0DhEZvQ2I74qmGK48ablBRxEzHFQf41bblRLS/lU3Z4O1
+         UJsg==
+X-Forwarded-Encrypted: i=1; AHgh+RoH2pAl1EeAhUQTwpi7/i+UBb2GEa8C9GrfikIv3lLxzdZkdppH9SLLcKmIrUP6ZtqVmuf/4QjXrr+klQSb@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHyABWmrCcap93802BWR3G1xtyx7Y9hfK6Ok8E8HlL2cYf1WIw
+	1eiFTh4Kpj9GecRF8uTVgx5JnNQuT+MPtutUATW4+M81LDKZ7UV0JRCe
+X-Gm-Gg: AfdE7clLivrreEjV9AlbAWMC98c9/wT9VcdC1bWMSai13SB5pCI51Q+DK8UH/hg0W1a
+	AYKLZDgVLrq0M4U8XVOGn+UMMEhZC4ybJAb1nTadunp0MCFUyz9q3cRks1x7MzEESDB6s/92W2v
+	S1I+QAmWt1xeEL4rnF1VekfwHswUJrwrAIw/oP4M2+gdFm+azd4sF9j1jAEujIzBC2GNeglE/LX
+	7NHgv0WQ0b1dByGxu1o74AL/BuAwt/DLmpGj5z8yJ8q0ylqX4PSAYMyryVP9mqXjO0hYu8Pkq6V
+	uK+8bLtYgGrjhkH4jUPjobmlARfwXmKY2dPrUp5uynBnBRkQDBwi7UbaMWdQT2D+jMFJJ+cjhtf
+	XeT6wTO3CGwbdTQFoJnDClxEJDzICPTs5l7ra5rqV5Hebeqcm3hQ7SB3nNsuJHj3L4XaHXae2mg
+	X86SaLwdQWjd9a2gIPvBxfybSYcuV25g4y
+X-Received: by 2002:a17:903:2288:b0:2cc:ee78:3236 with SMTP id d9443c01a7336-2ce9ef17a75mr74745075ad.33.1783924650060;
+        Sun, 12 Jul 2026 23:37:30 -0700 (PDT)
+Received: from [100.125.248.95] ([124.70.231.46])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9c25fccsm93152175ad.35.2026.07.12.23.37.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Jul 2026 23:37:29 -0700 (PDT)
+Message-ID: <efe86dda-96c2-47a4-b9b8-a30584633196@gmail.com>
+Date: Mon, 13 Jul 2026 14:37:17 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/9] ext4: skip tail block zeroing for inline data
+ files
+To: Jan Kara <jack@suse.cz>, Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
+ libaokun@linux.alibaba.com, ojaswin@linux.ibm.com, ritesh.list@gmail.com,
+ yi.zhang@huawei.com, chengzhihao1@huawei.com, yangerkun@huawei.com,
+ yukuai@fnnas.com
+References: <20260708062049.1982410-1-yi.zhang@huaweicloud.com>
+ <20260708062049.1982410-3-yi.zhang@huaweicloud.com>
+ <j5jbhizj5ldw3h5tnplfs23zblhqa7di5occ4zbmd6dsqq5hwl@uznnurl5zljt>
+Content-Language: en-US
+From: Zhang Yi <yizhang089@gmail.com>
+In-Reply-To: <j5jbhizj5ldw3h5tnplfs23zblhqa7di5occ4zbmd6dsqq5hwl@uznnurl5zljt>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: NeilBrown <neil@brown.name>
 
-vfs_lookup_open() is a limited version of lookup_open() which is
-exported for nfsd to use - to replace dentry_create().
 
-It is limited in that no filename is given (thus no auditing) and no
-LOOKUP_ flags are passed.  A few "intent" LOOKUP flags are deduced from
-the open flags.
+On 7/9/2026 9:25 PM, Jan Kara wrote:
+> On Wed 08-07-26 14:20:42, Zhang Yi wrote:
+>> From: Zhang Yi <yi.zhang@huawei.com>
+>>
+>> ext4_block_zero_eof() is called from ext4_write_checks() on every
+>> append write beyond EOF. For inline data files, ext4_get_block()
+>> returns -ERANGE when ext4_load_tail_bh() looks up the tail block.
+>> However, this error is currently ignored because the return value
+>> of ext4_get_block() in ext4_load_tail_bh() is discarded.
+>>
+>> Before we fix ext4_load_tail_bh() to properly propagate the error,
+>> skip the zeroing for inline data inodes to avoid unnecessary
+>> failures or confusion.
+>>
+>> Fixes: 3f60efd65412d ("ext4: zero post-EOF partial block before appending write")
+>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+> 
+> Hum, but this check is racy (inline data can be removed from
+> ext4_page_mkwrite() after this check) so we could in theory miss some
+> zeroing we should do. I didn't put too deep thought to whether it really
+> can do some harm or not but it would at least deserve a comment.
+> 
+> 								Honza
 
-If a non-regular file is found, an O_PATH file is returned.  This allows
-the caller to see what was found and to return an appropriate error
-code.  However if ->atomic_open was used, it may return an error rather
-then provide a dentry.
+You're right, the race does exist. Thank you for pointing this out. Let
+me analyze the scenario precisely.
 
-Signed-off-by: NeilBrown <neil@brown.name>
----
- fs/namei.c            | 89 +++++++++++++++++++++++++++++++++++++++++++
- include/linux/namei.h |  3 ++
- 2 files changed, 92 insertions(+)
+ext4_block_zero_eof() is invoked during a file-extending operation (when
+buffered write with start_pos > old_size) to zero out the contents of
+the old post-EOF block. This zeroing is intended to prevent stale page-
+cache or on-disk data from being exposed.
 
-diff --git a/fs/namei.c b/fs/namei.c
-index cb33a01d16eb..2143f759443a 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -4562,6 +4562,95 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 	goto out;
- }
- 
-+/**
-+ * vfs_lookup_open - open and possibly create a regular file
-+ * @parent: directory to contain file
-+ * @last: final component of file name
-+ * @open_flag: O_flags
-+ * @mode: initial permissions for file
-+ *
-+ * Open a file after lookup and/or create.  This provides similar
-+ * functionality open_last_lookups() for non-VFS users, particularly
-+ * nfsd.
-+ * It uses ->atomic_open or ->lookup / ->create / ->open as appropriate.
-+ *
-+ * If the fs object found is not a regular file then an error is returned.
-+ * In some cases, related errors are repurposed to so that the caller can
-+ * determine the file of file found from the error.
-+ * -EISDIR : a directory was found
-+ * -ELOOP  : a symlink was found
-+ * -ENODEV : a block or character device special file was found
-+ * -EFTYPE : any other non-regular file was found, such as FIFO or SOCK.
-+ *
-+ * Returns: the opened struct file, or an error.
-+ */
-+struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
-+			     int open_flag, umode_t mode)
-+{
-+	struct file *file __free(fput) = NULL;
-+	struct nameidata nd = {};
-+	struct open_flags op = {};
-+	struct dentry *dentry;
-+	int error = 0;
-+
-+	WARN_ONCE(mode & ~S_IALLUGO, "mode must only have permission bits");
-+	error = lookup_noperm_common(last, parent->dentry);
-+	if (error)
-+		return ERR_PTR(error);
-+
-+	file = alloc_empty_file(open_flag, current_cred());
-+	if (IS_ERR(file))
-+		return file;
-+
-+	nd.path = *parent;
-+	nd.last = *last;
-+	nd.flags = LOOKUP_OPEN;
-+	if (open_flag & O_CREAT) {
-+		nd.flags |= LOOKUP_CREATE;
-+		if (open_flag & O_EXCL)
-+			nd.flags |= LOOKUP_EXCL;
-+	}
-+	op.open_flag = open_flag;
-+	op.mode = S_IFREG | mode;
-+	dentry = lookup_open(&nd, file, &op);
-+
-+	if (IS_ERR(dentry))
-+		return ERR_CAST(dentry);
-+
-+	if (d_really_is_negative(dentry)) {
-+		error = -ENOENT;
-+	} else if (!(file->f_mode & FMODE_CREATED) && (open_flag & O_EXCL)) {
-+		error = -EEXIST;
-+	} else if ((dentry->d_inode->i_mode & S_IFMT) != S_IFREG) {
-+		switch (dentry->d_inode->i_mode & S_IFMT) {
-+		case S_IFDIR:
-+			error = -EISDIR;
-+			break;
-+		case S_IFLNK:
-+			error = -ELOOP;
-+			break;
-+		case S_IFBLK:
-+		case S_IFCHR:
-+			error = -ENODEV;
-+			break;
-+		case S_IFIFO:
-+		case S_IFSOCK:
-+		default:
-+			error = -EFTYPE;
-+			break;
-+		}
-+	} else if (!(file->f_mode & FMODE_OPENED)) {
-+		nd.path.dentry = dentry;
-+		error = vfs_open(&nd.path, file);
-+	}
-+	dput(dentry);
-+
-+	if (error)
-+		return ERR_PTR(error);
-+	return no_free_ptr(file);
-+}
-+EXPORT_SYMBOL_FOR_MODULES(vfs_lookup_open, "nfsd");
-+
- static inline bool trailing_slashes(struct nameidata *nd)
- {
- 	return (bool)nd->last.name[nd->last.len];
-diff --git a/include/linux/namei.h b/include/linux/namei.h
-index ebe6e29f7e93..86d657b24fc6 100644
---- a/include/linux/namei.h
-+++ b/include/linux/namei.h
-@@ -97,6 +97,9 @@ struct dentry *start_creating_dentry(struct dentry *parent,
- struct dentry *start_removing_dentry(struct dentry *parent,
- 				     struct dentry *child);
- 
-+struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
-+			     int open_flag, umode_t mode);
-+
- /* end_creating - finish action started with start_creating
-  * @child: dentry returned by start_creating() or vfs_mkdir()
-  *
--- 
-2.50.0.107.gf914562f5916.dirty
+Now consider a race between a file-extending operation and a concurrent
+mmap write. In the mmap path, ext4_page_mkwrite() first converts inline
+data via ext4_convert_inline_data_nolock(). During that conversion, the
+entire block is zeroed with memset() before the inline data is copied
+in. As a result, by the time the conversion completes, any stale post-
+EOF data that ext4_block_zero_eof() would normally guard against has
+already been cleared.
+
+The only remaining concern is a scenario where an mmap write touches the
+old post-EOF block after the conversion but before the file is expanded.
+However, that would constitute undefined behavior regardless of whether
+inline data is involved.
+
+So from a practical standpoint, I do not see a real issue here. I will
+add a comment in the next revision to clarify this reasoning.
+
+Thanks,
+Yi.
+
+> 
+>> ---
+>>   fs/ext4/inode.c | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+>> index 7b2face041ef..a3f7c71b701d 100644
+>> --- a/fs/ext4/inode.c
+>> +++ b/fs/ext4/inode.c
+>> @@ -4218,6 +4218,9 @@ int ext4_block_zero_eof(struct inode *inode, loff_t from, loff_t end)
+>>   	offset = from & (blocksize - 1);
+>>   	if (!offset || from >= end)
+>>   		return 0;
+>> +	/* Inline data has no tail block to zero. */
+>> +	if (ext4_has_inline_data(inode))
+>> +		return 0;
+>>   	/* If we are processing an encrypted inode during orphan list handling */
+>>   	if (IS_ENCRYPTED(inode) && !fscrypt_has_encryption_key(inode))
+>>   		return 0;
+>> -- 
+>> 2.52.0
+>>
 
