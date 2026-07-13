@@ -1,70 +1,347 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 345F93E5ED7;
-	Mon, 13 Jul 2026 10:14:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D9B36A361
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 10:21:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783937701; cv=none; b=iI4JQTqwJSvQtzU4RojMpv4vUgIcgGE2dX1rKgehNbGtbPdjG68G6mbeLKxauBNOiC/1EyJLCu2KuyJdnwuMgeWjBUzqs9YHIbyoRcKtRg4ZJAVAha6LCMlW7Lv4l/SgBQXRwPL5SrPQ97phFR42SM1UmD9M0JL0eMDKo0qjRAQ=
+	t=1783938111; cv=none; b=YmKZ+sXZa9/rnRkw0+hf4M0qE4uSQygE3FP7TMIG1VIPP6EmVJ7lFDI8WNwTJ3AqKNX6yz7Yo80MWc3HVfo4TldJtZgfkRM46vVwaSI4BepjZEtMltQjflNNS+MtRUwDoCzUQDKV/0OUHu6mFEXVpr3c6YGOH3f4wDsHdpXBDvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783937701; c=relaxed/simple;
-	bh=7VwCKc+6gngubshOb69xsa2+5g5oiIokycnL8OO584c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p8xdXoArDYvEaNgDRc6of4dxbcPlmNoiGulMrNgUgNZEXtLCzHEY7ARHrzV14naDNs8LEQ5qh5mf27RN8F7TXgH3bfXpU5G5Ra3iONuzAzueCv/HFS2jXVOgOeWaB78DWgeJVZJcJ53t68Uod61Y7W6A7YW/zr66rEBw1FxDzqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=RTcCxrP5; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1783938111; c=relaxed/simple;
+	bh=ZmKqgPeSTg6Y9eSZa9MnL16DIwG+gwcAmrYCPXV3Qvg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BEEQRMRlXROwHY1MH8V8oLykNHrp8rC14jzFXrl8uu5JRlQ3F9X2XkZnvUWH3bNMjY5+mg2xcaldd6nQUpDfxQybYBwrwCYgcUNp5rzFD5v33JsYxG5rhNEpGDzHzd3kvA6XMZfyhQlukr43U8iq3uX1UbnXkdR839sTSdighB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NT/0noyH; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RTcCxrP5"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Wd5EK7fPsbF7saDZnaT6E+GdQJ31yQMyVH33vqfFEE0=; b=RTcCxrP5jqIPlAGrqZzkl/m4f0
-	1wHzKniwlyX1iyIjAXbeRP9tWGjek9AIG3mHwI3AZ70C8QYsVzGDLpqiKG+HninpPngZnDolKsQPZ
-	p5w6xJdPUkhzJHNb2tWmaOC8yZ7G48qqKrzekbvFmGeMvvj5SgkGUbH210vW20BLWbT8q2ZpnW4dW
-	/7zjeCYb1vM0m6zVPW9IQMZscAZAz/XmgD+0wVL4ij0HMDKO0XLDZcD9jCGpGNRYxzyz3heGoL5LT
-	p8AOqZcyyds1fCy9614PTG4SyLzI3QNxroQX8j98Z9M8ANmKT/DR+3plgB77riqSHcLO3pDGa6Yyy
-	/qD0nbHw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjDgg-00000008r8e-1gc4;
-	Mon, 13 Jul 2026 10:14:58 +0000
-Date: Mon, 13 Jul 2026 03:14:58 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Keith Busch <kbusch@meta.com>
-Cc: linux-block@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
-	axboe@kernel.dk, jack@suse.cz, brauner@kernel.org, cem@kernel.org,
-	jaegeuk@kernel.org, aalbersh@kernel.org, tytso@mit.edu,
-	Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv2 1/5] fs: add direct io attributes to file_getattr
-Message-ID: <alS6oonYUoawuxBy@infradead.org>
-References: <20260710210646.3576365-1-kbusch@meta.com>
- <20260710210646.3576365-2-kbusch@meta.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NT/0noyH"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-381b831d535so3415264a91.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 03:21:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783938109; x=1784542909; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+xza/PD8UkMtS139Jgn1Zcjohy0qVMh1mY86TKWfZ54=;
+        b=NT/0noyHArPyhAr0tPtR/G9L/Fg3uMvhCTLghis2CIQROqmMxTCJR0gVQLri8pxW2C
+         4jxoPaTll5zbTMxum1JkdpRSFd8aWj4yuB98goGAowX+0FtkEVsrIUOxri0Tw0D5xP6f
+         +vHDE3ZtQnC4gdU84I7XfFpYGzfUO27Z1orR8gKQvgMkpfTyAJ3CTQuOgNrSxjgQMl6J
+         /zSWrN6NdtzSrIKVhOfHXxnkP9jRi9aKHaIxms+c/3oIC7WQpwxARNKHwySZGxxV/GuR
+         lv7v2IybKvXeh1gxA3PSgXrZYs1RQb//C3RnyeS0SJcIpqsAGaT7qR7prGGj0ZH0xvUb
+         MjNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783938109; x=1784542909;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+xza/PD8UkMtS139Jgn1Zcjohy0qVMh1mY86TKWfZ54=;
+        b=EA4isBK+g5Oz1Fum4ZX5+PM/TVb7Tkx4obXrSXVH2q7IPsCONpUnElXPTZ465SV9oz
+         wSTHk8We5JE6/hTRo6U3CV3jshbqWNeF0o5vdGes5jiYutGBFYFSY4GbZ/6KYBwgfxwe
+         XKE7NZkcVNJTqMwUcTVCH1ro2NYW4hkdlyUimNpQ5p3DuWP9HZw5kkgC2bxfh1mcYhPw
+         9tZOeTojqK92uCHYLmUfzGdeH8sG/j0VZt9Ih3MA+8k4RIXj+g12M+00Fj+YxM1diHSi
+         GMnFJNvz50imdgOpwtVpZLBAc+e3ERgrtjEN3ICRsQ5y+0gVClaHsDz56Qhz80kaAsFW
+         72IA==
+X-Forwarded-Encrypted: i=1; AHgh+RoKZRmOq/WHQ1oRdNYSedo/pBKB4FM0m0Eg5G5hWVx2clb/9bbHWGemmSK0Ritw98gYCKwZZF8CoNV+s7cN@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZ5LFJtGMst/tBYA8u+lKySSh35j6ujbCOctZRO6Sd/gzqTIiP
+	HMYjO0tyFbY1Qgw9AvqdnY3eX+54m3Ak+Esjh34rqHg45lNE3NhRhVjx
+X-Gm-Gg: AfdE7ck869sE7fvxGSgFY+cwPyIr6N0mKFOZ0+vk7inl7CitU1ye/HTUVB5YSdlnlN8
+	9BsiBAKy1S00VwYv1PFSIpibqYMrtm2NUvmOmtXhRoPGzyHy9gMEQT/BNncoLWa00gZ33eIZ75h
+	Gyu/4/SHzaLjYXAhGwrZcPDKPym2YNFZYwn6/MAjOl3MZrWyVR8Au8l9XWYbTHDNQL0QHxzYjCt
+	03JvIrAyO18A/+n13+0Tt+ZtBIRYyl4HyICRxuv2NwVv1LzEeqrMmL3jBN0Chb6Kf8vto80V0xn
+	wwYgZTJFB1t7YlJyYuYSQ/3SEWQABr0EcRIXER8mB2AWOtDoeQUgrd/bxv3Y+xbEL38GO6dYCwx
+	qS4ozaSu7bvtonZUtGM8TEriLtcwMHUSt3rQ05DurSFoy++HHOiaM0HLbmxuJGsHHFiSWrqwdoG
+	xV00b4iG20JF4zTHoK8aQ0WNOv2abdIw6gfHfbAyCI5QSP+kmHsIvzCEY1HkSPNla200m1vwzKA
+	4Kj0y6tjcev/nwNuv6wUTauELIgpkPDnleIE7Kt4jElVZ1bFkUBj+jaYxnnMKy0y9SWr81SdcwW
+	ps0x/KaG5u3X8/+qiSgrIgMXdsWn6Pc=
+X-Received: by 2002:a17:90b:510f:b0:387:e0db:3faf with SMTP id 98e67ed59e1d1-38dc7793df1mr8286274a91.40.1783938108862;
+        Mon, 13 Jul 2026 03:21:48 -0700 (PDT)
+Received: from cs-1047136853211-default.asia-southeast1-b.c.z168d0f9edf9bc766-tp.internal (54.78.87.34.bc.googleusercontent.com. [34.87.78.54])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-311747f72a6sm81273751eec.1.2026.07.13.03.21.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jul 2026 03:21:48 -0700 (PDT)
+From: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+To: slava@dubeyko.com
+Cc: glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+Subject: [PATCH v3] hfs: port HFS+ b-tree bitmap corruption check
+Date: Mon, 13 Jul 2026 10:21:28 +0000
+Message-ID: <20260713102129.1657-1-aditya.ansh182@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260710210646.3576365-2-kbusch@meta.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 10, 2026 at 02:06:42PM -0700, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
-> 
-> Direct I/O imposes alignment and layout constraints that come from both
-> the filesystem and its backing storage. statx() reports some of these,
-> but not all, and it can no longer be extended.
+In HFS+ filesystems, during b-tree open (hfs_btree_open()), the code
+verifies that the allocation map bit for the tree header (node 0) is
+set. If not, it indicates a corrupted map record/bitmap and mounts
+the volume as read-only (SB_RDONLY) to prevent further damage.
 
-Well, it could be extended.  Although it would require a new flag,
-and there's been a lot of pushback to adding non-fastpath attributes
-to it.   So maybe update this blurb ad bit and also mention which
-attributes are duplicated?
+HFS filesystems share the same b-tree structure but currently lack
+this corruption detection check.
 
-Otherwise looks good:
+Port this check to HFS, aligning its implementation with HFS+ to
+maintain consistent b-tree logic across both filesystems:
+1. Define struct hfs_bmap_ctx, and define HFS_TREE_HEAD and the relevant
+   map record indices in include/linux/hfs_common.h.
+2. Port hfs_bmap_get_map_page() and port the necessary offset and length
+   validation helpers to fs/hfs/btree.h as static inline functions with
+   robust null pointer checks.
+3. Implement hfs_bmap_test_bit() to inspect the B-tree bitmap using the
+   new get_map_page helper.
+4. In hfs_btree_open(), retrieve the header node via hfs_bnode_find(),
+   test its allocation bit with hfs_bmap_test_bit(), and release it
+   using hfs_bnode_put().
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Suggested-by: Viacheslav Dubeyko <slava@dubeyko.com>
+Link: https://lore.kernel.org/all/6a36101b.be22b350.2a3e9.0001.GAE@google.com/T/#r446d0fed2a2900bd805534bbcb799d86619ae2ea
+Signed-off-by: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+---
+ fs/hfs/bnode.c             | 42 -------------------
+ fs/hfs/btree.c             | 84 ++++++++++++++++++++++++++++++++++++++
+ fs/hfs/btree.h             | 41 +++++++++++++++++++
+ include/linux/hfs_common.h |  5 +++
+ 4 files changed, 130 insertions(+), 42 deletions(-)
+
+diff --git a/fs/hfs/bnode.c b/fs/hfs/bnode.c
+index da8e5342c91c..1b331108d9c0 100644
+--- a/fs/hfs/bnode.c
++++ b/fs/hfs/bnode.c
+@@ -15,48 +15,6 @@
+ 
+ #include "btree.h"
+ 
+-static inline
+-bool is_bnode_offset_valid(struct hfs_bnode *node, u32 off)
+-{
+-	bool is_valid = off < node->tree->node_size;
+-
+-	if (!is_valid) {
+-		pr_err("requested invalid offset: "
+-		       "NODE: id %u, type %#x, height %u, "
+-		       "node_size %u, offset %u\n",
+-		       node->this, node->type, node->height,
+-		       node->tree->node_size, off);
+-	}
+-
+-	return is_valid;
+-}
+-
+-static inline
+-u32 check_and_correct_requested_length(struct hfs_bnode *node, u32 off, u32 len)
+-{
+-	unsigned int node_size;
+-
+-	if (!is_bnode_offset_valid(node, off))
+-		return 0;
+-
+-	node_size = node->tree->node_size;
+-
+-	if ((u64)off + len > node_size) {
+-		u32 new_len = node_size - off;
+-
+-		pr_err("requested length has been corrected: "
+-		       "NODE: id %u, type %#x, height %u, "
+-		       "node_size %u, offset %u, "
+-		       "requested_len %u, corrected_len %u\n",
+-		       node->this, node->type, node->height,
+-		       node->tree->node_size, off, len, new_len);
+-
+-		return new_len;
+-	}
+-
+-	return len;
+-}
+-
+ void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32 off, u32 len)
+ {
+ 	struct page *page;
+diff --git a/fs/hfs/btree.c b/fs/hfs/btree.c
+index 2eb37a2f64e8..9f85f679fd47 100644
+--- a/fs/hfs/btree.c
++++ b/fs/hfs/btree.c
+@@ -23,6 +23,7 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id, btree_keycmp ke
+ 	struct address_space *mapping;
+ 	struct folio *folio;
+ 	struct buffer_head *bh;
++	struct hfs_bnode *node;
+ 	unsigned int size;
+ 	u16 dblock;
+ 	sector_t start_block;
+@@ -155,6 +156,20 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id, btree_keycmp ke
+ 	kunmap_local(head);
+ 	folio_unlock(folio);
+ 	folio_put(folio);
++
++	node = hfs_bnode_find(tree, HFS_TREE_HEAD);
++	if (IS_ERR(node))
++		goto free_inode;
++
++	if (!hfs_bmap_test_bit(node, HFS_TREE_HEAD)) {
++		pr_warn("(%s): %s (cnid 0x%x) bitmap corrupted, forcing rdonly\n",
++			sb->s_id, id == HFS_EXT_CNID ? "extents" : "catalog", id);
++		pr_warn("Run fsck.hfs to repair.\n");
++		sb->s_flags |= SB_RDONLY;
++	}
++
++	hfs_bnode_put(node);
++
+ 	return tree;
+ 
+ fail_folio:
+@@ -356,6 +371,75 @@ struct hfs_bnode *hfs_bmap_alloc(struct hfs_btree *tree)
+ 	}
+ }
+ 
++/* Context for iterating b-tree map pages
++ * @page_idx: The index of the page within the b-node's page array
++ * @off: The byte offset within the mapped page
++ * @len: The remaining length of the map record
++ */
++struct hfs_bmap_ctx {
++	unsigned int page_idx;
++	unsigned int off;
++	u16 len;
++};
++
++static struct page *hfs_bmap_get_map_page(struct hfs_bnode *node,
++					  struct hfs_bmap_ctx *ctx,
++					  u32 byte_offset)
++{
++	u16 rec_idx, off16;
++	unsigned int page_off;
++
++	if (node->this == HFS_TREE_HEAD) {
++		if (node->type != HFS_NODE_HEADER) {
++			pr_err("hfs: invalid btree header node\n");
++			return ERR_PTR(-EIO);
++		}
++		rec_idx = HFS_BTREE_HDR_MAP_REC_INDEX;
++	} else {
++		if (node->type != HFS_NODE_MAP) {
++			pr_err("hfs: invalid btree map node\n");
++			return ERR_PTR(-EIO);
++		}
++		rec_idx = HFS_BTREE_MAP_NODE_REC_INDEX;
++	}
++
++	ctx->len = hfs_brec_lenoff(node, rec_idx, &off16);
++	if (!ctx->len)
++		return ERR_PTR(-ENOENT);
++
++	if (!is_bnode_offset_valid(node, off16))
++		return ERR_PTR(-EIO);
++
++	ctx->len = check_and_correct_requested_length(node, off16, ctx->len);
++
++	if (byte_offset >= ctx->len)
++		return ERR_PTR(-EINVAL);
++
++	page_off = (u32)off16 + node->page_offset + byte_offset;
++	ctx->page_idx = page_off >> PAGE_SHIFT;
++	ctx->off = page_off & ~PAGE_MASK;
++
++	return node->page[ctx->page_idx];
++}
++
++bool hfs_bmap_test_bit(struct hfs_bnode *node, u32 node_bit_idx)
++{
++	struct hfs_bmap_ctx ctx;
++	struct page *page;
++	u8 *bmap, byte, mask;
++
++	page = hfs_bmap_get_map_page(node, &ctx, node_bit_idx / BITS_PER_BYTE);
++	if (IS_ERR(page))
++		return false;
++
++	bmap = kmap_local_page(page);
++	byte = bmap[ctx.off];
++	kunmap_local(bmap);
++
++	mask = 1 << (7 - (node_bit_idx % BITS_PER_BYTE));
++	return (byte & mask) != 0;
++}
++
+ void hfs_bmap_free(struct hfs_bnode *node)
+ {
+ 	struct hfs_btree *tree;
+diff --git a/fs/hfs/btree.h b/fs/hfs/btree.h
+index 99be858b2446..7c08765144ff 100644
+--- a/fs/hfs/btree.h
++++ b/fs/hfs/btree.h
+@@ -93,6 +93,7 @@ extern void hfs_btree_write(struct hfs_btree *tree);
+ extern int hfs_bmap_reserve(struct hfs_btree *tree, u32 rsvd_nodes);
+ extern struct hfs_bnode *hfs_bmap_alloc(struct hfs_btree *tree);
+ extern void hfs_bmap_free(struct hfs_bnode *node);
++extern bool hfs_bmap_test_bit(struct hfs_bnode *node, u32 node_bit_idx);
+ 
+ /* bnode.c */
+ extern void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32 off, u32 len);
+@@ -129,3 +130,43 @@ extern int __hfs_brec_find(struct hfs_bnode *bnode, struct hfs_find_data *fd);
+ extern int hfs_brec_find(struct hfs_find_data *fd);
+ extern int hfs_brec_read(struct hfs_find_data *fd, void *rec, u32 rec_len);
+ extern int hfs_brec_goto(struct hfs_find_data *fd, int cnt);
++
++static inline bool is_bnode_offset_valid(struct hfs_bnode *node, u32 off)
++{
++	bool is_valid;
++
++	if (!node || !node->tree)
++		return false;
++
++	is_valid = off < node->tree->node_size;
++
++	if (!is_valid) {
++		pr_err("invalid offset: id %u, type %x, h %u, sz %u, off %u\n",
++		       node->this, node->type, node->height,
++		       node->tree->node_size, off);
++	}
++
++	return is_valid;
++}
++
++static inline u32 check_and_correct_requested_length(struct hfs_bnode *node, u32 off, u32 len)
++{
++	unsigned int node_size;
++
++	if (!is_bnode_offset_valid(node, off))
++		return 0;
++
++	node_size = node->tree->node_size;
++
++	if ((u64)off + len > node_size) {
++		u32 new_len = node_size - off;
++
++		pr_err("corrected len: id %u, type %x, h %u, sz %u, off %u, len %u->%u\n",
++		       node->this, node->type, node->height,
++		       node_size, off, len, new_len);
++
++		return new_len;
++	}
++
++	return len;
++}
+diff --git a/include/linux/hfs_common.h b/include/linux/hfs_common.h
+index 45fb4c9ff9f5..8dc10e0bfa7e 100644
+--- a/include/linux/hfs_common.h
++++ b/include/linux/hfs_common.h
+@@ -510,6 +510,11 @@ struct hfs_btree_header_rec {
+ 						   b-tree but not in extents
+ 						   b-tree (hfsplus). */
+ 
++/* HFS BTree misc info */
++#define HFS_TREE_HEAD				0
++#define HFS_BTREE_HDR_MAP_REC_INDEX		2	/* Map (bitmap) record in Header node */
++#define HFS_BTREE_MAP_NODE_REC_INDEX		0	/* Map record in Map Node */
++
+ /* HFS+ BTree misc info */
+ #define HFSPLUS_TREE_HEAD			0
+ #define HFSPLUS_NODE_MXSZ			32768
+-- 
+2.47.3
+
