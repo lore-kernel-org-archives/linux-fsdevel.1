@@ -1,79 +1,138 @@
-Received: from pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.68.102])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD4E2D47FF;
-	Mon, 13 Jul 2026 14:12:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.68.102
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A6D3D091D
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 14:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783951937; cv=none; b=P68gKiSPKTbsFIEtIGdP1zslzOJpaEFlZovILE3WhpQqwMW41uNe9hh2KD5gucEKb68KcMgMJuv21Yfz6NOe+R6JQNCm5PaO8Sa4KmfJAKWKrP/2IzH1Yfod1GDBGFqfR4aDWT9hd+aHRNm34zWSzgCrYO+PW7ep01jJhGZ4wiI=
+	t=1783952463; cv=none; b=jlQHeNogEiSa2OHfNId/cWpTLdSfxx3fdyIXsdNsoxC6Y0T+HGOkhh2U9pOMbZX+6Q5Topi/CYlbFPy1H/syKiJ+6tp46HLhzLsIlHtjs0gl1pSL9tncDiFehWYFez8Sxp9SPgTEV3LbQQXNFfZMByCwi2ijQUERo/Danv6xG30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783951937; c=relaxed/simple;
-	bh=sVvVU7SZrOByNfcvMhp2k29M+KzZ2+Lij7PMj5z9cbw=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V7E2MwuJxiYIZ8dypVjvZFxd2wPBTddv6Ua1J2BCZirxxHzE2ZCH+4ok06yxDqlFt/RLZtJDcgnUSqX4gyKC1pb3GDKR9tX+FVLvI0XEIXc42Zmlgh3Skd072MdDExBuEOa3OjTbbpKmab2hm4/Vik3x6JOCPN626DfX4UxfstU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=dOk/anWG; arc=none smtp.client-ip=44.246.68.102
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1783952463; c=relaxed/simple;
+	bh=LeLc1llhf0PMlCspoCbrUoXy6+AV0me2TrJmjljyT2s=;
+	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:Content-Type; b=l5qj9wsnY27olCulOIjo0WDw4xFmlIW7f0jJNv/0tQB0XFbObhY0a7HVbpIr6T5xaIHfJ/Xq1a1PNHwQQyZk1dUWT2gUETLaP6bNCv0efV3IaOHDr32POoq7fmUQXBz7SCLerwMO4IhuwbRy3rmQ4RwfDWavRcAXfnCf/meRKbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=aC+I2FN3; arc=none smtp.client-ip=195.121.94.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="dOk/anWG"
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="aC+I2FN3"
+X-KPN-MessageId: 1068b33d-7ec6-11f1-8f54-005056992ed3
+Received: from mta.kpnmail.nl (unknown [10.31.161.188])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 1068b33d-7ec6-11f1-8f54-005056992ed3;
+	Mon, 13 Jul 2026 16:20:56 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 10678412-7ec6-11f1-9b0c-00505699693e;
+	Mon, 13 Jul 2026 16:20:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1783951936; x=1815487936;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=sVvVU7SZrOByNfcvMhp2k29M+KzZ2+Lij7PMj5z9cbw=;
-  b=dOk/anWG/07l8259+PUICxZ8I3KttOuKI9HlDDAs4kD9TgpvRUwanBCA
-   COBdKh8p/5HLFyJQ8kBrjoqoON0TIE/nb1cBkSFO6r935BPqJWQTtdWlJ
-   JkZPEpNs2oXC+fg2g8nukU0qdUsQQBFCXneQqukNETd/z7FS62OEXBVum
-   kjhXfdALFkTx0YEjOgQwQx6jnbvZ3hgk1O+Cx/am1yH5ql4SLEaBP+nGU
-   Bj6HmaiOqf5iz7lH9LMjN1blClq8VBJ54u2erT+u188zeAjJGOu7a+4nI
-   g+0Dh7gkTljDcC5aBk29oRZoYHglOeOUDmjNVV07ByZKKlqKQxM22xyAw
-   w==;
-X-CSE-ConnectionGUID: UFazFn6eR7quOZEhmGcc/Q==
-X-CSE-MsgGUID: r6LDZvdeRWCy1vn7rAru8g==
-X-IronPort-AV: E=Sophos;i="6.25,154,1779148800"; 
-   d="scan'208";a="23589592"
-Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
-  by internal-pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 14:12:15 +0000
-Received: from EX19MTAUWA002.ant.amazon.com [205.251.233.234:6927]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.51.175:2525] with esmtp (Farcaster)
- id 0907596a-dae2-48ee-8b8a-e7f622515fba; Mon, 13 Jul 2026 14:12:15 +0000 (UTC)
-X-Farcaster-Flow-ID: 0907596a-dae2-48ee-8b8a-e7f622515fba
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
- Mon, 13 Jul 2026 14:12:15 +0000
-Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
- by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
- Mon, 13 Jul 2026 14:12:14 +0000
-From: Jimmy Zuber <jamz@amazon.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-CC: <fuse-devel@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-api@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Shuah Khan
-	<shuah@kernel.org>, <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH v2 0/2] fuse: allow FUSE_SYNCFS for privileged userspace servers
-Date: Mon, 13 Jul 2026 14:12:03 +0000
-Message-ID: <20260713141203.2838402-1-jamz@amazon.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260619170251.1154562-1-jamz@amazon.com>
-References: <20260619170251.1154562-1-jamz@amazon.com>
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=bIFnZ3KGdR4CKnyx75LCp3jZBE63H4isY2YjwT3K40E=;
+	b=aC+I2FN3BHeYqiSmNdjSu7P7ZTGylyF2zlsyTaHpcMrxnOQ8LdZLdCbpQohJj4NsK1gm8DaEPRtu8
+	 07RoAADHF+zSHEcJtcJzpxL4aFElCeOupaxGBTxZz5hRdI+cNZLh4W0h5rvMIDtMHrr6xgvhlgWert
+	 bo3pVXzOM27gWjS21C6r7evTzSQ/o0Rfim9dLBpk72rRJSCRarNKcV21tR1aX+JpO17MIzRxfAbWZg
+	 4OiHFSbWthl6YDnYV55dS3CuegD3Rn73pxp5hX+ETn+LTFlVPXIrsmol+i9MgRd8PENcVmfCVDzGq1
+	 kgAF1lOfJZ1pKdDwFQ1qwceg0026EPw==
+X-KPN-MID: 33|fFDYJmCM2JyhhASvSGhTgTleZxTLrdjH0y1cLbO3y2QpbaysJjOai6CaO0r+exD
+ Jruq5D7vLJ0pnZps+8hGyHiHXCGQ51BOu3uWprkjpgkY=
+X-CMASSUN: 33|0RkxCv4tFRlwJdj8l/MBDyA6+HZKOlkOXM/yBWmui5g1GI2jOCjlC9qw9O4V11R
+ YcMTgRjUi0ENp2aD4oW/c9w==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh01 (cpxoxapps-mh01.personalcloud.so.kpn.org [10.128.135.207])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 1059c206-7ec6-11f1-8edb-00505699eff2;
+	Mon, 13 Jul 2026 16:20:56 +0200 (CEST)
+Date: Mon, 13 Jul 2026 16:20:56 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>, linux-mm@kvack.org,
+	Farid Zakaria <farid.m.zakaria@gmail.com>, jannh@google.com,
+	stable@vger.kernel.org
+Message-ID: <479591519.862301.1783952456807@kpc.webmail.kpnmail.nl>
+Subject: Re: [PATCH v3 03/24] binfmt_misc: reject a flag character as the
+ field delimiter
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D032UWB002.ant.amazon.com (10.13.139.190) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-Hi Miklos,
+On Fri, Jul 10, 2026 at 11:33:04AM +0200, Christian Brauner wrote:
+> The registration string starts with a user chosen delimiter that
+> separates the individual fields. So that the field parsers terminate
+> even on a truncated string create_entry() pads the buffer with that
+> same delimiter:
+> 
+> 	memset(buf + count, del, 8);
+> 
+> Most fields are scanned for the delimiter with strchr()/scanarg() and
+> happily stop on the padding. The flags field is different: instead of
+> scanning for the delimiter check_special_flags() consumes the flag
+> characters 'P', 'O', 'C' and 'F' and stops at the first byte that is
+> none of them, relying on the trailing delimiter to end the scan.
+> 
+> If the delimiter is itself a flag character the padding no longer acts
+> as a terminator. The scan swallows all eight padding bytes and keeps
+> reading past the end of the allocation until it hits a byte that is
+> not a flag character. For example registering
+> 
+> 	PaPEPPxPPiP
+> 
+> with 'P' as the delimiter (name "a", type extension, magic "x",
+> interpreter "i", empty flags) leaves the flag scan running off the end
+> of the buffer. The registration is rejected in the end because the
+> parser does not stop exactly at buf + count, but only after the out of
+> bounds read has already happened. With an unlucky allocation layout the
+> scan can walk into an unmapped page; under KASAN it is reported as a
+> slab out of bounds read. binfmt_misc mounts are available to
+> unprivileged users in a user namespace so the read is reachable without
+> privileges.
+> 
+> Reject a delimiter that is one of the flag characters up front. Such a
+> registration was always rejected anyway, only after the out of bounds
+> read, so no valid registration string changes meaning.
 
-Gentle ping on v2 - I've added CAP_SYS_ADMIN checks at /dev/fuse open
-time. I hope this addresses your concerns. Let me know if there's
-anything else you'd like changed.
+Looks good, I see no user visible changes.
 
-Thank you,
-Jimmy
+A general comment on the code that does not affect this change: the
+nesting is awful, it would be great if we could reduce that by moving
+some stuff in separate functions like check_special_flags().
+
+Also, can't we support a less arcane and impenetrable format, like JSON
+or YAML?
+
+Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
+
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  fs/binfmt_misc.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
+> index 24142859658c..b7664d90eb8f 100644
+> --- a/fs/binfmt_misc.c
+> +++ b/fs/binfmt_misc.c
+> @@ -385,6 +385,10 @@ static Node *create_entry(const char __user *buffer, size_t count)
+>  
+>  	pr_debug("register: delim: %#x {%c}\n", del, del);
+>  
+> +	/* A flag-char delimiter runs the flag scan off the buffer. */
+> +	if (del == 'P' || del == 'O' || del == 'C' || del == 'F')
+> +		goto einval;
+> +
+>  	/* Pad the buffer with the delim to simplify parsing below. */
+>  	memset(buf + count, del, 8);
+>  
+> 
+> -- 
+> 2.53.0
+>
