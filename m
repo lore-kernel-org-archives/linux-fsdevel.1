@@ -1,170 +1,64 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E06A3B4EBD
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 08:34:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C936D3BCD20;
+	Mon, 13 Jul 2026 08:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783931651; cv=none; b=scOJyjVZlEnQ0FiDuAL6gd2kpBLjZEtJp2uubYS+S2PW29w9ASb6Z7BMaNBOYJiKUZXWrTsUCqhzwka3R3Y7QaO9UkmZx9i2ZfzLqu/ljKHOi/JoNUmgtDkJvahgP5bLUv6uB8+TAb0T8NhtpP/E7bYpnlaUP7XoHMclfh2BFFo=
+	t=1783932277; cv=none; b=f9/xZcyggYNLYbRLiI/PNXiuWww0gbGc6AjTMWkArLDsL0aMkBMrfROEqm0xDxsQ4azCcnzQGmmKoRm/ygwvc51meErY9UkcZDSjro0thN1wbv2v/I8loSglv29CbD4rB3EHcRF2FXSJUCkEmMbQjm80J9EUpGxqbU7oRywhOGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783931651; c=relaxed/simple;
-	bh=d28CZ1cVkrsXI7imQzUBV8AEfjnOtwP+Q2RNsv9YthY=;
+	s=arc-20240116; t=1783932277; c=relaxed/simple;
+	bh=3U6h5RKT7QOT04j/88jssGr4Kio8LNLTIg2Zynxe97I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NzR52g+rl6XsJTKt3HWTz0Htd2rfCmVX5jJue/vRjUVXG/ftp8E0HP9bL/a6c2rgiFYrGgYdxKbBLgEOKK5m+vP/Yb66UScnuasZWfhBHa9iA/3KP/TFhaFuB4ovRqo4+9eQ9tAsZGOywcR52q39e/7roD9+a2Y8rDUmG2562bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=I5+PyxN8; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=rkDBOtRCRpPm8drm6aHcic8HJhF/PG6TdPH3WVevG6WTJy+GLO/ieJyWAtmDc+eT2ojqFdDVcL3HnSLgFfa3oARxfWbjanIk5SoVBk6y6WO6qXbAXV51vnYIFOQhMWd+45AFEvO3l1iDvGX9JnIyQaG6t3ERJio2126l6O0mWKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=lxSGOa7n; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="I5+PyxN8"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gzG1j24yKz8v1b;
-	Mon, 13 Jul 2026 10:34:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1783931641;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dQrejtZL2XpWthMXrLnlYMslhFK2mQqBx561esiUod8=;
-	b=I5+PyxN82JKgfclxtg+PPrrj2ER91pazH2ZU9kS9r+WEgvik+Ave6jv/pXQYE5Ah8ERFvr
-	1pJZCGAYc+jh/3NtWzZk3Vq6NWTDc1Nt7e86bXaBg4GgYN35HYQTgPfKEGIzDpYKWHeOb7
-	3APQ1MqxrB4IA/j6A2S6mxyegvBO/J7q/vZSgi9aGG3AX/HA5icZqYx+UbnljeChhjP68J
-	XB4Roo7iGoXc6i0txuBdTXMajeriKpAtJTpWySw6io6rjbiFEufNXk4iLOFQ+SufIZRItl
-	eamh5OWddIbwoCuevomiiJ8twimwLTsN/F9oPPosbHmIrnUIEiHML+CCgn0ocA==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of cyphar@cyphar.com designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=cyphar@cyphar.com
-Date: Mon, 13 Jul 2026 18:33:51 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Giuseppe Scrivano <gscrivan@redhat.com>
-Cc: linux-erofs@lists.ozlabs.org, linux-fsdevel@vger.kernel.org, 
-	Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v2] erofs: accept source file descriptor via fsconfig
-Message-ID: <2026-07-13-chief-single-carnival-graders-7dI4ue@cyphar.com>
-References: <20260711071137.4130824-1-gscrivan@redhat.com>
- <2026-07-13-dandy-better-exposure-wager-9hBmfv@cyphar.com>
- <871pd748kh.fsf@redhat.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lxSGOa7n"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=D2dgsAkEEMpIxPn+GH3TMME+xgRgEmfTzzl38skyOh4=; b=lxSGOa7nQahf413yBTW1MDMX0B
+	rO81oUMOpHnfrNv753RAt3GreMzWt2jXXrxolCT1hYGzpu6jYr4+WjBTfKVvKCyVuQZOtZHEbrRxL
+	WQzNyl78vdAwSC5/spe0Q02G7ci4jexs7N6fMUQw278k5M8s+A0TqlkP0vLrc0EATQUw3zh/c5cxo
+	ws0EkBZCM05PS6sL+Hx7zAx1mgJUt7gLyltrcu+iIReZQSGXnJv+d1qyuDML0Rjvzqov0bVhV1jse
+	qyzGfJF6cdcVh+gobzKddTTKdWBi7sPdRW512ZgkjCwreDk2PiTtGCnYMgF7T0unODQqDv0V6ILWB
+	zyiGagJw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wjCGu-00000008czw-3CHt;
+	Mon, 13 Jul 2026 08:44:16 +0000
+Date: Mon, 13 Jul 2026 01:44:16 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org, brauner@kernel.org, djwong@kernel.org,
+	hch@infradead.org, joannelkoong@gmail.com, yi.zhang@huawei.com,
+	yizhang089@gmail.com, chengzhihao1@huawei.com, yangerkun@huawei.com,
+	yukuai@fnnas.com
+Subject: Re: [PATCH] iomap: prevent ioend merge when io_private differs
+Message-ID: <alSlYAelKWwBhMWc@infradead.org>
+References: <20260713074206.1768006-1-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7kt63rygclyrr7ul"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <871pd748kh.fsf@redhat.com>
-X-Rspamd-Queue-Id: 4gzG1j24yKz8v1b
+In-Reply-To: <20260713074206.1768006-1-yi.zhang@huaweicloud.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
+On Mon, Jul 13, 2026 at 03:42:06PM +0800, Zhang Yi wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
+> 
+> Different io_private values indicate distinct completion contexts that
+> must not be merged together, as this could leak or corrupt the private
+> data associated with each ioend.
 
---7kt63rygclyrr7ul
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] erofs: accept source file descriptor via fsconfig
-MIME-Version: 1.0
+Looks sensible and fine to queue up now:
 
-On 2026-07-13, Giuseppe Scrivano <gscrivan@redhat.com> wrote:
-> diff --git a/fs/erofs/super.c b/fs/erofs/super.c
-> index 3040d4cf9b85..7818872ab1e5 100644
-> --- a/fs/erofs/super.c
-> +++ b/fs/erofs/super.c
-> @@ -386,7 +386,6 @@ static void erofs_default_options(struct erofs_sb_inf=
-o *sbi)
->  enum {
->  	Opt_user_xattr, Opt_acl, Opt_cache_strategy, Opt_dax, Opt_dax_enum,
->  	Opt_device, Opt_domain_id, Opt_directio, Opt_fsoffset, Opt_inode_share,
-> -	Opt_source_fd,
->  };
-> =20
->  static const struct constant_table erofs_param_cache_strategy[] =3D {
-> @@ -414,7 +413,6 @@ static const struct fs_parameter_spec erofs_fs_parame=
-ters[] =3D {
->  	fsparam_flag_no("directio",	Opt_directio),
->  	fsparam_u64("fsoffset",		Opt_fsoffset),
->  	fsparam_flag("inode_share",	Opt_inode_share),
-> -	fsparam_fd("source",		Opt_source_fd),
->  	{}
->  };
-> =20
-> @@ -447,6 +445,14 @@ static int erofs_fc_parse_param(struct fs_context *f=
-c,
->  	struct erofs_device_info *dif;
->  	int opt, ret;
-> =20
-> +	if (strcmp(param->key, "source") =3D=3D 0 &&
-> +	    param->type =3D=3D fs_value_is_file) {
-> +		if (sbi->dif0.file || fc->source)
-> +			return -EINVAL;
-> +		sbi->dif0.file =3D get_file(param->file);
-> +		return 0;
-> +	}
-> +
->  	opt =3D fs_parse(fc, erofs_fs_parameters, param, &result);
->  	if (opt < 0)
->  		return opt;
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-Shortcutting parsing this way is not really idiomatic, the better way is
-to create a helper -- in this case you can almost certainly just use
-very similar logic to proc_parse_pidns_param() to get something minimal
-working.
-
-Defining your own version of "source" in fs_parameter_spec is fine, you
-just need to make sure you handle FSCONFIG_SET_STRING properly -- there
-are some other examples in the tree you can look at for inspiration
-(mostly remote filesystems AFAICS). You could even return -ENOPARAM to
-fallback to the basic implementation if that makes it easier for you,
-but it would probably be better to handle it all in one place.
-
-> @@ -526,11 +532,6 @@ static int erofs_fc_parse_param(struct fs_context *f=
-c,
->  		else
->  			set_opt(&sbi->opt, INODE_SHARE);
->  		break;
-> -	case Opt_source_fd:
-> -		if (sbi->dif0.file)
-> -			return -EINVAL;
-> -		sbi->dif0.file =3D get_file(param->file);
-> -		break;
->  	}
->  	return 0;
->  }
-> @@ -779,6 +780,18 @@ static int erofs_fc_get_tree(struct fs_context *fc)
->  			return PTR_ERR(file);
->  		sbi->dif0.file =3D file;
->  	}
-> +	if (!fc->source) {
-> +		char *buf, *p;
-> +
-> +		buf =3D kmalloc(PATH_MAX, GFP_KERNEL);
-> +		if (!buf)
-> +			return -ENOMEM;
-> +		p =3D file_path(file, buf, PATH_MAX);
-> +		fc->source =3D kstrdup(IS_ERR(p) ? "(fd)" : p, GFP_KERNEL);
-> +		kfree(buf);
-> +		if (!fc->source)
-> +			return -ENOMEM;
-> +	}
-
-And this would also live in the parser helper.
-
---=20
-Aleksa Sarai
-Founding Engineer at Amutable
-https://www.cyphar.com/
-
---7kt63rygclyrr7ul
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCalSi7xsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQKJf60rfpRG+vhwEAiFSYqF08CeLLtVUDLjNb
-ncp6rg3QO5mNJp22FzyGYZ8BAL6raaBMvcPxESgSSj//uSKMGbjXxYxTzGzFXiwe
-56UG
-=Qlfm
------END PGP SIGNATURE-----
-
---7kt63rygclyrr7ul--
