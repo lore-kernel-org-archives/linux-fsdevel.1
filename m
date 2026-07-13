@@ -1,71 +1,70 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831863EAC76;
-	Mon, 13 Jul 2026 09:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 345F93E5ED7;
+	Mon, 13 Jul 2026 10:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783936747; cv=none; b=siUjZOl3WbsiX5JL/U0b+3ZpsdaHY5bX/w61h681BZ/APQzBhlSkx/0YNS63Xwj/CAK8JA6kIRIqw1sE3LHAtoDVlcTqxi4ihehAq7LUsexYlcm0DJH5YIM42D2aMfAYYjtg5eIY2sOpgDmWG2qI6jSafkdzUN1wGBP9f9XsjkQ=
+	t=1783937701; cv=none; b=iI4JQTqwJSvQtzU4RojMpv4vUgIcgGE2dX1rKgehNbGtbPdjG68G6mbeLKxauBNOiC/1EyJLCu2KuyJdnwuMgeWjBUzqs9YHIbyoRcKtRg4ZJAVAha6LCMlW7Lv4l/SgBQXRwPL5SrPQ97phFR42SM1UmD9M0JL0eMDKo0qjRAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783936747; c=relaxed/simple;
-	bh=YlBUt7nswou5vInVDSmKtqY9HvPOSjwm7fdwyXD7ni0=;
+	s=arc-20240116; t=1783937701; c=relaxed/simple;
+	bh=7VwCKc+6gngubshOb69xsa2+5g5oiIokycnL8OO584c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BNVQXCijAn3ESbV65SiHnbCv9SoZnj7sXffsyeibZsvmgvaJQjyyCGwdqMxofsEM9rmRPJkefTCaZEcebqQchJNRluqvHWCS3Ij15C5iF901d2c+m6TUeIMfe7rOlsy5PGa8GM2hnZrr7wMrGGTD5GFxAhXlslvAEka6tsdQlqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 05AEC68BFE; Mon, 13 Jul 2026 11:58:58 +0200 (CEST)
-Date: Mon, 13 Jul 2026 11:58:57 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: Christoph Hellwig <hch@lst.de>, David Sterba <dsterba@suse.com>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>, Dave Kleikamp <shaggy@kernel.org>,
-	Jan Kara <jack@suse.com>, Mark Fasheh <mark@fasheh.com>,
-	Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
-	linux-nilfs@vger.kernel.org, ocfs2-devel@lists.linux.dev
-Subject: Re: removing the remaining blockdev_direct_IO users
-Message-ID: <20260713095857.GB10501@lst.de>
-References: <20260710050744.GA6720@lst.de> <fea4c4f25afb7711d1e8fbe6ca5ab654ec522186.camel@dubeyko.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=p8xdXoArDYvEaNgDRc6of4dxbcPlmNoiGulMrNgUgNZEXtLCzHEY7ARHrzV14naDNs8LEQ5qh5mf27RN8F7TXgH3bfXpU5G5Ra3iONuzAzueCv/HFS2jXVOgOeWaB78DWgeJVZJcJ53t68Uod61Y7W6A7YW/zr66rEBw1FxDzqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=RTcCxrP5; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RTcCxrP5"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Wd5EK7fPsbF7saDZnaT6E+GdQJ31yQMyVH33vqfFEE0=; b=RTcCxrP5jqIPlAGrqZzkl/m4f0
+	1wHzKniwlyX1iyIjAXbeRP9tWGjek9AIG3mHwI3AZ70C8QYsVzGDLpqiKG+HninpPngZnDolKsQPZ
+	p5w6xJdPUkhzJHNb2tWmaOC8yZ7G48qqKrzekbvFmGeMvvj5SgkGUbH210vW20BLWbT8q2ZpnW4dW
+	/7zjeCYb1vM0m6zVPW9IQMZscAZAz/XmgD+0wVL4ij0HMDKO0XLDZcD9jCGpGNRYxzyz3heGoL5LT
+	p8AOqZcyyds1fCy9614PTG4SyLzI3QNxroQX8j98Z9M8ANmKT/DR+3plgB77riqSHcLO3pDGa6Yyy
+	/qD0nbHw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wjDgg-00000008r8e-1gc4;
+	Mon, 13 Jul 2026 10:14:58 +0000
+Date: Mon, 13 Jul 2026 03:14:58 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-block@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	axboe@kernel.dk, jack@suse.cz, brauner@kernel.org, cem@kernel.org,
+	jaegeuk@kernel.org, aalbersh@kernel.org, tytso@mit.edu,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv2 1/5] fs: add direct io attributes to file_getattr
+Message-ID: <alS6oonYUoawuxBy@infradead.org>
+References: <20260710210646.3576365-1-kbusch@meta.com>
+ <20260710210646.3576365-2-kbusch@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fea4c4f25afb7711d1e8fbe6ca5ab654ec522186.camel@dubeyko.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20260710210646.3576365-2-kbusch@meta.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Fri, Jul 10, 2026 at 09:51:09AM -0700, Viacheslav Dubeyko wrote:
-> On Fri, 2026-07-10 at 07:07 +0200, Christoph Hellwig wrote:
-> > Hi all,
-> > 
-> > we have 7 users of blockdev_direct_IO and one of the lower-level
-> > __blockdev_direct_IO left, and I'd really like to get rid of them.
-> > 
-> > The filesystems are affs, fat, hfs, hfsplus, jfs, nilfs2, udf and
-> > ocfs2,
-> > and you are the relevant maintainers.  In 7.2 exfat converted
-> > entirely
-> > to iomap, which would be a really good example for a "simple" file
-> > system.  Another options especially for the file systems supporting
-> > foreign formats would be to just drop direct I/O support and reduce
-> > the support burden.
+On Fri, Jul 10, 2026 at 02:06:42PM -0700, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
 > 
-> I like the idea. I think we can try to switch HFS/HFS+ and NILFS2 on
-> iomap approach. Do you have some initial patches for this? Which
-> particular commit(s) converted the exfat to iomap? It will be good to
-> take a deeper look into this conversion to estimate the complexity of
-> HFS/HFS+, NILFS2 modifications.
+> Direct I/O imposes alignment and layout constraints that come from both
+> the filesystem and its backing storage. statx() reports some of these,
+> but not all, and it can no longer be extended.
 
-Almost all commits in fs/exfat/ in 7.2-rc1, starting with
-623f0aa1eca5c2a94ca1e4e5de719d062eac3b6c
+Well, it could be extended.  Although it would require a new flag,
+and there's been a lot of pushback to adding non-fastpath attributes
+to it.   So maybe update this blurb ad bit and also mention which
+attributes are duplicated?
 
+Otherwise looks good:
+
+Reviewed-by: Christoph Hellwig <hch@lst.de>
