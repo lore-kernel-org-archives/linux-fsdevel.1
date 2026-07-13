@@ -1,181 +1,244 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E3F2253EB
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 15:08:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859A1372696
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 15:19:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783955320; cv=none; b=ONRbTUtU53KEWu6QEsLxWTJGQ7KDLPJ2yQQUUjUA6x4+dwPWu7s10wDyihWNlqHDZF2xehgX7nlBjUt6/0U5jTt3Etd1vS7PMVbZuJV6Yvjg4emmL5vqZlf9pxPNDoOA68n0FoE/ut9J1C6f+3Dzk3RpSw6Pv9iwsk24QdIShn4=
+	t=1783955969; cv=none; b=T2YPOaD3K7cb6uF+soW8+I9MPJNvsLWSQUHBoxWcxWQEYWipixi2vXBqDCR5PP4kjZwn+SbVYXkgZA5hfGYSyyCNyWLpLmPlzScnS+dVUW08Ze2bfU/AwXTjGc33zp5xrv4sleqxAIed8YbIGDw9fHTJgHgKeLW7BtsCYnZBZx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783955320; c=relaxed/simple;
-	bh=toBpdXGBHWYpiLujW2oOVAT9P85XBd7XoB8Fs3oiCC0=;
-	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:Content-Type; b=Qwrv6vZ4Z6920UIeJVszjtL6JfvQcK/cTFPy2QGuofdl+sOtNZ0Yx/oBNTpWjRK1MVq+H9J7CBARFbNjOWlg8f0bTMGMG2z8V6ADZBPl0SFzAQjNe+wNvrXk1zoUHXmOn3dTxQ04lAnmVIuqvviaBrrViYWr7xBQoEFbrUeWy9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=QcjuKIwC; arc=none smtp.client-ip=195.121.94.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1783955969; c=relaxed/simple;
+	bh=XgfMyReXk9WbmWlpqj5QpOsH9T7Axa67XF6W7nxC6hw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=V5JLHODvPtKZOQIqld3/BxIOnh/Op2z62FETm6y/9NsbS7ob2qCjFKaLferpvNT8Bx1sb8zrZsvklZZnbmScNykjd42nKOA3T1AmOUq7YIUg7zuexOWvKSzFpPGADR0n4uGgOrL6fk3LCF+H4pObeBzFhimCpxnalUr6Y7NoAcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IE9gFOzQ; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="QcjuKIwC"
-X-KPN-MessageId: b78b5c73-7ecc-11f1-8f54-005056992ed3
-Received: from mta.kpnmail.nl (unknown [10.31.161.188])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id b78b5c73-7ecc-11f1-8f54-005056992ed3;
-	Mon, 13 Jul 2026 17:08:34 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id b78a21c4-7ecc-11f1-9b0c-00505699693e;
-	Mon, 13 Jul 2026 17:08:34 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IE9gFOzQ"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c9c26a5fb98so1988271a12.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 08:19:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=bi9qlU8nFWGfauPcGhxB44CMzNrIyZ7W0UY5AXEndUE=;
-	b=QcjuKIwCfkR8kGJI9lOqksMLoq9Gf2VuRhHwC8hjZQu9rc6LCeHikMd3P7iCVoRtNTa9TbpDlqoVO
-	 NXED7fp/rp6lronYnt57osGKIkZ/bysG1YJyee1Aym4uy7N7q88n60syQ03waWOn7HQsfMx5T3Fpq3
-	 +qW/X7OokLwiGGphAy+VpOxHSdutVlWfJyQ3qWioxNuHJ36T6FUNDFV3h8H+x540b9E2Fqd/ea5h5w
-	 iDo9RoVKgAhBei+jxJkItrmiWIdO2ptUonKC9FVtdwAQKYd0A3gOjnsjUF9aNDgVbGDvEMzolt96IS
-	 72px4S+MdYuLGu0YqrnFWsp5CvxWRhg==
-X-KPN-MID: 33|QzMzZCuH7XDnURVDbtXPDo2/eYn/QpAbfssaKBTu2uFoegWElrXqonjhEpVvLfe
- 7qSUOVleETqYhsYJtg9AjARdNKn2C+inwtqNc+umwohk=
-X-CMASSUN: 33|T1zfVBcLR4FjE4IA5fiWzvAQH62e5E5Yx3CRNRXHwjPo1BIESGBW6fL8TcLCuJO
- QomJbLesE5yAt0cBsMRQjlA==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh04 (cpxoxapps-mh04.personalcloud.so.kpn.org [10.128.135.210])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id b77f2cc1-7ecc-11f1-8edb-00505699eff2;
-	Mon, 13 Jul 2026 17:08:34 +0200 (CEST)
-Date: Mon, 13 Jul 2026 17:08:34 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>, linux-mm@kvack.org,
-	Farid Zakaria <farid.m.zakaria@gmail.com>, jannh@google.com
-Message-ID: <208270655.874218.1783955314215@kpc.webmail.kpnmail.nl>
-Subject: Re: [PATCH v3 11/24] binfmt_misc: use print_hex_dump_debug() for
- the register debug output
+        d=gmail.com; s=20251104; t=1783955967; x=1784560767; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Y+ujhi7qr+5PDvfWnrugr3cptYcf6a5ot8pqDt3RfQQ=;
+        b=IE9gFOzQxBDi0IVIrhm0xXbwtjhN28eJ/IpULeUzVkLrp4WItFQSjycxXQBT8F/RRf
+         ZZDKLuohqee4ndlVWfcJeRLAzaEOAxov7d3xU6on6CPD7dOtfB9dMJ+KpDdJQcax1rPO
+         /iHly/a+oJlxoRMoniQYQ0dRecTsxtPtRRXJ7eCTHymRpN2542pMfENTlXrM17TP0zZr
+         SH2hL9lc9jcxx5xbK9FU8/Rl4hZZGma36UhIX0MwY25wxVho40B2I/jLLdhXeIq4Zxqj
+         /fFquG9TDC48spLnFuf55vNQDeZpXvs1mPYRL/uru0NCAz7cFtsNQF4QoULbvbwe4jj/
+         r0Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783955967; x=1784560767;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Y+ujhi7qr+5PDvfWnrugr3cptYcf6a5ot8pqDt3RfQQ=;
+        b=UFbe6kGcmakEUKL3R3nOYngw9FA4Zlq/DuNhlWsbSNR5kmaG8NFBanRayQis/Putdm
+         ch3VlyFJUpTyoSir/Fi5aQEyXVCsDlrH0xQk7C32txuoKC3P8mrT9uFOrUZIfE2hs7n9
+         Mnq5jV+zjEZFWSW4o22vIzgneqmPEssMU36QPQ91/ZOpPYecVHSTXuwF2wGGpRb/B8c8
+         EUxMO5m3erP1zfHVkV4c+V4l8rzktxgLLtuzAUxbAmwwAZVTFpmEBgVrPLhvh4J9wBYC
+         Z0rdFbNIqlPhgFD4k1TlCZJMQ4pYQKCKh2V7zoFsUKAfzqJpS135YzqQEqrSsYGF1Uj8
+         Mu1w==
+X-Forwarded-Encrypted: i=1; AHgh+RqUeWjbWWrxZSqyNh2C8yz7ECADJs8sDoUlKgALwSt5Kf5AGpnExs62bO5MdRabvBa6YZwg65JWF7QHc9eR@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7CD+94c/hPwgETxRptuWVHriSjGy+GbyESn5BPy/HQW1dZ8X2
+	V2YJ2Bk4iVvn5LnEjiT+ELXocEhixAvIVrOTjUE/n5R6bFoZz5UyJBrZ
+X-Gm-Gg: AfdE7cnZ+oAEaUL2YKlyWLofZWH+J/i63zJSNukpO+tZ+cFUbBZ/jss615OhU6fD96l
+	x3jnyf6+MpRfIOMyx6ZBkzz8EWf+oLSO6E2DrPN9sfuxSmvx50RQdwb8ctcaqYzbMNgKlrsGIBt
+	GG4rQ35ofUYQMipj9xejbrkKwPIxdHbMgN+JdEy660yPB6gOXEaYXqDoJXVg5bM2fX8iVk7hcZT
+	0t8sW0oPrLFR7Iu5Hl5W0cwc0PfOiQJJI69xiPWyVkMXQ9B0tH+F8EW9xlOpXoi/3ChxxOkxitx
+	8DzjU2zGnaHWN415ZEnK2jPC5QtGoTi4uEoUkWK5nQPBYPeP2Y0FolBqSdnFcdE8UtoE2e78wDh
+	aV0M5kKhWJurMtRPsReIJUK5UkR0GB547JBh/7vcy3hIirVtQR/r1N26zAC/65uXw0+39PiS1hM
+	nExAA8n/uS71LY+w==
+X-Received: by 2002:a05:6a20:244b:b0:3a0:c246:bb98 with SMTP id adf61e73a8af0-3c0f0b9158emr16049895637.29.1783955966577;
+        Mon, 13 Jul 2026 08:19:26 -0700 (PDT)
+Received: from localhost ([98.35.8.117])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b924258a2sm54513605c88.1.2026.07.13.08.19.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Jul 2026 08:19:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Date: Mon, 13 Jul 2026 08:19:24 -0700
+Message-Id: <DJXJM0838IJN.3AJ9MMQ89SUUR@gmail.com>
+Cc: "Alexei Starovoitov" <ast@kernel.org>, "Daniel Borkmann"
+ <daniel@iogearbox.net>, "Martin KaFai Lau" <martin.lau@linux.dev>, "Shuah
+ Khan" <shuah@kernel.org>, "Andrii Nakryiko" <andrii@kernel.org>, "Kees
+ Cook" <kees@kernel.org>, "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan
+ Kara" <jack@suse.cz>, "Jonathan Corbet" <corbet@lwn.net>, "Jann Horn"
+ <jannh@google.com>, "John Ericson" <mail@johnericson.me>,
+ <linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-kernel@vger.kernel.org>, <bpf@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v2 0/5] binfmt_misc: bpf-backed binary type handlers
+From: "Farid Zakaria" <farid.m.zakaria@gmail.com>
+To: "Christian Brauner" <brauner@kernel.org>, "Farid Zakaria"
+ <farid.m.zakaria@gmail.com>
+X-Mailer: aerc 0.21.0
+References: <20260711-binfmt-misc-bpf-v2-v2-0-d6591ceaf207@gmail.com>
+ <20260712-abluft-brutkasten-aufladen-c8063a4a1a0a@brauner>
+ <DJX4IFO55D9S.3IV3K5XICJAEV@gmail.com>
+ <20260713-unerlaubt-luftkammer-kosmetik-46532d395f9b@brauner>
+In-Reply-To: <20260713-unerlaubt-luftkammer-kosmetik-46532d395f9b@brauner>
 
-On Fri, Jul 10, 2026 at 11:33:12AM +0200, Christian Brauner wrote:
-> The hex dumps in create_entry() are compiled out unless someone edits
-> the file to define DEBUG while the pr_debug() calls right next to
-> them are dynamic-debug aware. Switch the dumps to
-> print_hex_dump_debug() which follows the same rules as pr_debug() so
-> the register parsing debug output is uniformly controlled through
-> dynamic debug, and remove the USE_DEBUG machinery.
-> 
-> Drop the magic[masked] dump instead of converting it: it printed the
-> bitwise AND of two buffers dumped right above it and required a
-> temporary allocation on every registration just to recompute what
-> the reader can derive from the magic and mask dumps directly.
-> 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->  fs/binfmt_misc.c | 52 +++++++++++++++-------------------------------------
->  1 file changed, 15 insertions(+), 37 deletions(-)
-> 
-> diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
-> index 96f9ac752511..252e1f2a8347 100644
-> --- a/fs/binfmt_misc.c
-> +++ b/fs/binfmt_misc.c
-> @@ -32,12 +32,6 @@
->  
->  #include "internal.h"
->  
-> -#ifdef DEBUG
-> -# define USE_DEBUG 1
-> -#else
-> -# define USE_DEBUG 0
-> -#endif
-> -
->  /* Entry status and match type bit numbers. */
->  enum binfmt_misc_entry_bits {
->  	MISC_FMT_ENABLED_BIT	= 0,
-> @@ -460,10 +454,9 @@ static struct binfmt_misc_entry *create_entry(const char __user *buffer,
->  			goto einval;
->  		if (!e->magic[0])
->  			goto einval;
-> -		if (USE_DEBUG)
-> -			print_hex_dump_bytes(
-> -				KBUILD_MODNAME ": register: magic[raw]: ",
+On Mon Jul 13, 2026 at 1:20 AM PDT, Christian Brauner wrote:
+>> > - The single sleepable load op is split into two ops:
+>> >
+>> >       struct binfmt_misc_ops {
+>> >       	bool (*match)(struct linux_binprm *bprm);
+>> >       	int (*load)(struct linux_binprm *bprm);
+>> >       	char name[BINFMT_MISC_OPS_NAME_MAX];
+>> >       };
+>> >
+>> >   The non-sleepable match program runs from the RCU entry lookup
+>> >   walk itself, exactly like magic and extension matching: same
+>> >   registration order, same first-match-wins semantics, and it can
+>> >   only rely on the prefetched bprm->buf. It must be free of side
+>> >   effects since the walk may be restarted.
+>> >
+>>=20
+>> Is relying on brpm->buf enough?
+>> Right now that's only 256 bytes I think, which is not enough to read
+>> segments we might care about. That worked fine when it was just a magic
+>> number but the idea with the eBPF program is to make decisions based on
+>> more data.
+>>=20
+>> In the selftest I provided, the `PT_INTERP` segment is already at file
+>> offset 0x318 (792). I was imaginging NixOS having to support
+>> `PT_INTERP_NIX` in order for the produced binaries to be backwards
+>> compatible with older kernels.
+>>=20
+>> The other idea would be to make the `match()` broad and select
+>> everything but then nearly all ELF64 binaries would match and then pay
+>> the price to `load()` and ultimately `-ENOEXEC`. Seems like it would
+>> make multiple BPF binfmt programs less useful.
+>
+> Ok, so your idea is to have multiple bpf programs that look for
+> different interpreters. Yeah, then you have to be able to sleep because
+> you need to be able to fault. It makes the code uglier but I can see how
+> that's useful. I'll see how nice I can make that.
+>
 
-You might use pr_fmt() instead of KBUILD_MODNAME to stay consistent, but
-that's a very minor point only.
+I mean... I thought that's the intent to binfmt_misc, to have multiple
+handlers -- with the expressiveness of eBPF vs. the limited
+magic/extension, it seems like a natural extension to support multiple.
+Otherwise anyone on NixOS would be limited to our single handler for all
+binaries which seems not ideal?
 
-> -				DUMP_PREFIX_NONE, e->magic, p - e->magic);
-> +		print_hex_dump_debug(
-> +			KBUILD_MODNAME ": register: magic[raw]: ",
-> +			DUMP_PREFIX_NONE, 16, 1, e->magic, p - e->magic, true);
->  
->  		/* Parse the 'mask' field. */
->  		e->mask = p;
-> @@ -473,10 +466,12 @@ static struct binfmt_misc_entry *create_entry(const char __user *buffer,
->  		if (!e->mask[0]) {
->  			e->mask = NULL;
->  			pr_debug("register:  mask[raw]: none\n");
-> -		} else if (USE_DEBUG)
-> -			print_hex_dump_bytes(
-> +		} else {
-> +			print_hex_dump_debug(
->  				KBUILD_MODNAME ": register:  mask[raw]: ",
-> -				DUMP_PREFIX_NONE, e->mask, p - e->mask);
-> +				DUMP_PREFIX_NONE, 16, 1, e->mask, p - e->mask,
-> +				true);
-> +		}
->  
->  		/*
->  		 * Decode the magic & mask fields.
-> @@ -492,30 +487,13 @@ static struct binfmt_misc_entry *create_entry(const char __user *buffer,
->  		    BINPRM_BUF_SIZE - e->size < e->offset)
->  			goto einval;
->  		pr_debug("register: magic/mask length: %i\n", e->size);
-> -		if (USE_DEBUG) {
-> -			print_hex_dump_bytes(
-> -				KBUILD_MODNAME ": register: magic[decoded]: ",
-> -				DUMP_PREFIX_NONE, e->magic, e->size);
-> -
-> -			if (e->mask) {
-> -				int i;
-> -				char *masked = kmalloc(e->size, GFP_KERNEL_ACCOUNT);
-> -
-> -				print_hex_dump_bytes(
-> -					KBUILD_MODNAME ": register:  mask[decoded]: ",
-> -					DUMP_PREFIX_NONE, e->mask, e->size);
-> -
-> -				if (masked) {
-> -					for (i = 0; i < e->size; ++i)
-> -						masked[i] = e->magic[i] & e->mask[i];
-> -					print_hex_dump_bytes(
-> -						KBUILD_MODNAME ": register:  magic[masked]: ",
-> -						DUMP_PREFIX_NONE, masked, e->size);
-> -
-> -					kfree(masked);
-> -				}
-> -			}
-> -		}
+I'm not knowledgeable enough to comment on the sleep/faulting aspect so
+I leave that to your expertise.
 
-Good, this addresses some of the worst nesting in this function as
-well.
+>> >   The sleepable load program runs once the walk has committed to the
+>> >   entry and does the file reading and the interpreter selection. Both
+>> >   ops are mandatory, the struct_ops plumbing enforces the sleepability
+>> >   of each, and since bpf_binprm_set_interp() is KF_SLEEPABLE a match
+>> >   program cannot select an interpreter by construction.
+>> >
+>> > - A match is a commitment. A failing load program fails the exec inste=
+ad
+>> >   of falling through to later entries. -ENOEXEC keeps its usual meanin=
+g
+>> >   and hands the binary to the remaining binary formats, for a handler
+>> >   that discovers it cannot serve the binary after all.
+>> >
+>> >   This kills the part of v1 I disliked the most: the skip cursor and t=
+he
+>> >   leave-and-rescan loop in load_misc_binary() are gone. The walk is
+>> >   never left and re-entered, and 'B' entries need no special semantics
+>> >   against concurrent (un)registration anymore.
+>> >
+>> >   Your v2 changelog note about keeping the bpf retry loop in the
+>> >   __free() style is moot as a consequence. The loop no longer exists.
+>> >
+>> > - The load return convention flipped: 0 now means success after the
+>> >   program called bpf_binprm_set_interp(). Returning 0 without having
+>> >   selected an interpreter or returning a positive value is treated as
+>> >   -ENOEXEC, other negative errnos fail the exec.
+>> >
+>> >   So the "return bpf_binprm_set_interp(...) ?: 1" idiom from the v1-er=
+a
+>> >   programs becomes plain "return bpf_binprm_set_interp(...)".
+>> >
+>> > - The handler name moved from the offset field to the interpreter fiel=
+d
+>> >   that field consistently names whoever supplies the interpreter, a pa=
+th
+>> >   for static entries, a handler for 'B' entries. Offset, magic, and ma=
+sk
+>> >   must be empty:
+>> >
+>> > 	echo ':nix-origin:B::::nix_origin:' > register
+>> >
+>> > - 'C' is allowed now, v1 rejected it. It behaves exactly as for a stat=
+ic
+>> >    entry. The setuid transition stays gated by vfsuid_has_mapping() in
+>> >    the caller's user namespace. Which makes 'B' handlers usable for a
+>> >    per-binary loader over setuid binaries. 'F' stays rejected as there
+>> >    is no fixed interpreter to pre-open (I have other ideas how we'll d=
+o
+>> >    something like it later.).
+>> >
+>> > Nothing changed in the exec patch, the fs kfuncs patch, the kfunc
+>> > itself, or the registry/namespacing model.
+>> >
+>> > I can send v3 in a bit if that's ok.
+>>=20
+>> I don't mind at all you sending v3 and in fact I've been enjoying your
+>> involvement. I didn't know what to expect when I offered this idea up to
+>> the community.=20
+>>=20
+>> I'm happy to keep co-developing this with you within a design you feel
+>> acceptable with. Please let me know how I can remain engaged and
+>> helpful.
+>>=20
+>> One last thing I was thinking about is that we will also need to support
+>> $ORIGIN in the shebang path, however I just tested it and this current b=
+road
+>> BPF solution can largely handle it [1], with a small wrinkle.
+>>=20
+>>   $ printf '#!$ORIGIN/interp\n' > /opt/app/greet
+>>   $ cp ./interp /opt/app/interp     # any interpreter/loader
+>>   $ chmod +x /opt/app/greet /opt/app/interp
+>>=20
+>>   # stock kernel: binfmt_script opens the literal "$ORIGIN/interp"
+>>   $ /opt/app/greet
+>>   bash: /opt/app/greet: $ORIGIN/interp: bad interpreter: No such file or=
+ directory
+>>=20
+>>   # with the handler registered, $ORIGIN resolves to the script's dir
+>>   $ bpftool struct_ops register shebang_origin.bpf.o /sys/fs/bpf
+>>   $ echo ':shebang-origin:B:shebang_origin::::' > /proc/sys/fs/binfmt_mi=
+sc/register
+>>   $ /opt/app/greet
+>>   <runs /opt/app/interp, the loader found next to the script>
+>>=20
+>> The wrinkle is that it can't express today is the single optional argume=
+nt.
+>> (i.e. `#!interp arg" -> argv[1]=3Darg`). We might ned a way to express
+>> that in the load.
+>
+> Ah, fun. binfmt_misc wasn't able to express this at all. It's good to
+> close that gap. This can just be done by adding
+> bpf_binprm_set_interp_arg().
 
-> +		print_hex_dump_debug(
-> +			KBUILD_MODNAME ": register: magic[decoded]: ",
-> +			DUMP_PREFIX_NONE, 16, 1, e->magic, e->size, true);
-> +		if (e->mask)
-> +			print_hex_dump_debug(
-> +				KBUILD_MODNAME ": register:  mask[decoded]: ",
-> +				DUMP_PREFIX_NONE, 16, 1, e->mask, e->size, true);
->  	} else {
->  		/* Handle the 'E' (extension) format. */
->  
-> 
-> -- 
-> 2.53.0
-> 
+What is "cool" about this is now it's also a net-new feature for shebags
+which the "old" binfmt_misc didn't support. Anyways, I was thining ahead
+about what I would need to support $ORIGIN fully and this was
+a remaining gap. We also explored this idea in a patch pre-BPF [1] but
+now that we've settled on this solution it seems much more natural.
 
-Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
+
+I was recently reached out by some Bazel people who are also interested
+in this $ORIGIN support. Interestingly they let me know that
+IllumOS/Solaris had support for it as well.
+
+[1] https://github.com/alurm/relocatable-shebangs/blob/18db0da6cd69ce19bb02=
+73f2548a2d96bdaa82b1/relocatable-shebangs.patch
