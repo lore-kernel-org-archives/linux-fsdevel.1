@@ -1,75 +1,75 @@
 Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F9935CBCB;
-	Mon, 13 Jul 2026 21:35:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7950529BDB1
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 21:55:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783978540; cv=none; b=B01+eCqw11hS/JeOeAP47lHLZisLIJJPKhf4tKnGBbXg/YIAkF/ev10uYQRwlvvOwG0eb/ovchYZKgAZeXtte9uW626iNaEu//Heml5PI4Ns37wbzqP+BINEhZ0ayFywwhCJwNP9XYY7wfgN60QZBs8kzPmdf3qwl2iXeSAmPjA=
+	t=1783979725; cv=none; b=EDRRO1s+jGzAEdLK3EFJE+vxmz4KY/UAtS66U8asDmrKteE78BgVYqtw3RiLvsLSlE9Ea7gBXmK0jm0khGn7HkJArFSz9OjQbNsC83LYQiXUB+3rUHHX7/5VD1aIJD1poddMKAM7vQPDJny6pGlgM9t+r7HEGZ/ZBdVsnsB3RGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783978540; c=relaxed/simple;
-	bh=AliUxmNyrizUMRRhJy3s7jAwqFR7fHVSuT+vubFa39Q=;
+	s=arc-20240116; t=1783979725; c=relaxed/simple;
+	bh=+bIpv6k9Q8jxPxBQQd5xX8wBHNUgzw5ENcwQsEW0rOg=;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=s4+KWIP6Sk17erMrlTNh9ZFWpFCn5zoPL6s2gbc1Fu2m/f7RSHRtrhPToJzWJ6uQVfiunIORgzFa26Oznd/P2iQ61eklIn70kTMYPjF200vUHeGf9DhuoXBsgrc1HHpJTDwWwrSrnKdrbsL8dX4MAJMi3mcBWwDKfzb5YYCyn70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=C6fdiMUs; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZZQPaU0M; arc=none smtp.client-ip=202.12.124.154
+	 References:Date:Message-id; b=sqhv7lsnkA3tHgzVxsRUpByCJu5qzAkfaOSZVDhJ7bvwXR/bff97jGwF54r5zzyqP7BsqJJANT+RQmDzQFM1dSkNTQIoktwx+zkKDU5pvKJH1rmc+tmOlIA64Cp1FYBvTIUFz7T5HSp8eWxtFrgUb6K1dCROttZpbf+klj7Hps0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=Kv3bWxQN; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gisY2Nf4; arc=none smtp.client-ip=202.12.124.154
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="C6fdiMUs";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZZQPaU0M"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id C714D7A00EC;
-	Mon, 13 Jul 2026 17:35:36 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Mon, 13 Jul 2026 17:35:37 -0400
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="Kv3bWxQN";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gisY2Nf4"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id B71E87A00EC;
+	Mon, 13 Jul 2026 17:55:22 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Mon, 13 Jul 2026 17:55:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
-	1783978536; x=1784064936; bh=0EVvWbVcGBIS6O5UeL0LM+IVNHJIUz2Wbbj
-	blRTNrvE=; b=C6fdiMUsYRAk/hxo6erUEq1Bn1G00o/+GY42vW9lA6ZuSs2Y+OD
-	x+dANJ//dKw+L997jojf8sUsL1yvYzHEzNniYTGceyvZY//0YmuOM1r5jVeiD27k
-	RdVsaU8/dbc2YXTPGAFVi987mWxTvc/16IhAWi/gZ6aCYIpZJU0mAAAWlcKlBauc
-	5VuRbnERN9KVc5uW0JHFLphX2IwDc1WKc7dxVkLOG6ijlHq77CgiLCd1iy+W2Hha
-	3rsQ7qdJAnUFpVYLCmLxuK4Fa7J6Gu2TXawXIR9kl0Qh2zqigh7WfwEW7dCD2QBl
-	G46vOwI7YTm+ijzXseNV+3IpDFw32Grc8VA==
+	1783979722; x=1784066122; bh=gYP2szqcfxjzvBYgERd2uqAN7eFGDxn2M6x
+	g4V5MZ0k=; b=Kv3bWxQNj9SGih1GYFSZvLC2TUpnwp2JtT4nvCqU6072LcAtIjH
+	z+hyPX0YSWb25s+UkqmG3V8hj09183GeelOKR7m3bibeyGVD65pBy+KVAb5hBvYH
+	B650t6hLD9kTHRNO3HDjwk3gGopxwOc7tyuYO4u13G2AxaHWLSdtSJyNtPv+0Rql
+	Ov5dZ7x+rNeYpLysyRItxk+SS0pe1W86HFd1q9pyNjMkxfnjRFa6JPcm22kvgWc8
+	rbMiUkws5I+q6GXimDeSKtGiHBQp6eSCWlGe0xwEREqtB7Yx0a6wmiLLburGXKRg
+	EezK3+hT34Sl2XliielCz6uHUCK+/wA6gHg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1783978536; x=
-	1784064936; bh=0EVvWbVcGBIS6O5UeL0LM+IVNHJIUz2WbbjblRTNrvE=; b=Z
-	ZQPaU0MC5KCVATZEUNY8LehFE0OyMYFlns39ZKrMD/1D2jpuJPsm1ZX8SHKvDzhs
-	mE4GvnC3nq253zKckE6MLiHkUmy17He3QRyRGiJlkyngSrs6WJwKBAqRxneC31R6
-	9Y+ccIujqg1dXLPpRGpYaACLXbXXzVrwF+341nde1QM9OYbf3pIea27k8tdnMK2s
-	Lm0L6ap8Smih1tdgC4FRHXNr8Peeb1XB0ZJkM6quKTUDAi1UA58ZOgiAmRUP57LG
-	PXjSqsCmWZgWFPxdZSOE/nFU7gFSFBh4dSJkooviMqdZ8ifZJMioAcQVHs1R2RS2
-	UoFnPGoXmOVRmpTw9CJ4w==
-X-ME-Sender: <xms:J1pVapmayCf2qF-4fGZnNLkRAfVE-h6WF6i2Cf1gO5zCE9uWLsObDA>
-    <xme:J1pVapOCrCZHzVitIK_fVoO9nSaTa01MCY3onEEE8QbPNW9Fanb_I1bA5tNejNo-d
-    5dHZiKOhuLrZ7izQ5Zghm4GpFE7vdHuIkAjaehBfJPThtrWSNg>
-X-ME-Received: <xmr:J1pVatjn9YAfI4yjXQVxoo3w-_piPP2jaB0EoX6We1m5G_jpapfY8RnkSENg-FlOQbTXsGyU1teWiDvGtPIqOv9ibbvzgF4>
-X-ME-Proxy-Cause: dmFkZTFtVWcyvlj9dX6LbGORFVr9QDTacQt3uZB1gRccUQ2b6/yyi1RVLf7dSyGuwiSUms
-    xl2G16j8fgIZkA4o8hPJQwcAQxuqZ/YOcjmhVVss8/B3D9lUOn7MkIkfuNFXtqsu6qzA+W
-    vv1UjvM6C/KQzfkDlGn5Fjb90odMZWo4bjTfmEK8UJ3uiUGxadSJ9KSnyrwd+02ADhUP61
-    +5ZrMYNURkdKEee3gUCm9P8LW9FxIcmZltm1nUCnQEqmDp4wr9upmPt3VtCmTmSsS3yWal
-    DhaVVagRLw12/KCml/X9+8bJJGaQPLLkYk5OknVMTqZuFbpusBmkJiYR+9QzgB/wgRc9Ls
-    7JUeTat4PkaFwHoM7kBuU904pshF2Vs+uKMSw4PLdAwVIUNXAtyrexrltGMTK7pm7X/Khm
-    FfR+qmHCHUSGplHirIRtSn9LPhrY+FmOxGBhotwTV9B2Sa5v8BWBBmZD7F6SMnEmZ77rAL
-    F4DXLiBNgoxMOQt1Ex/v6KdeOhBCBrBjL8tdCOqbp4O+bKAcmmrfsCkR89ahOG4ZyQQZRG
-    14H4pg3vveO3BmWk62N8gPHVlDMQbcle1moQC31Hc94WSeUGraTk3BCJsgiXviIl1uSTMg
-    dRA4807FeK0V//tbMbF6Xn4nfOkHT5p1YmhzStDO2t+51SrX+r74Lb2kLnMw
-X-ME-Proxy: <xmx:J1pVanhdqig5HTUgYWP0e_huf3n_p0Pn2E_XlFJQwIL8oa6f2XYITw>
-    <xmx:J1pVasJtIsZeCOYa1_1xBkjubQwocTDGypiD-9YyOuL7Z90_J1YgBQ>
-    <xmx:J1pVamkVtn8w8kLDjxII9rZTO8eU9XC96Y96ex9N0dAHpQ4gN9zt8A>
-    <xmx:J1pVakPy-RR9vNZSyyRzONE26-yDlowZ2Mc48tbj_hWZB2P1WRt8RA>
-    <xmx:KFpVaobtj3l1QRVPeE_023hdK3uh6wZ2yeUZ1mGdTLMFjdEqupUInJ6W>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1783979722; x=
+	1784066122; bh=gYP2szqcfxjzvBYgERd2uqAN7eFGDxn2M6xg4V5MZ0k=; b=g
+	isY2Nf48NJpTMPTsDVfV+/Cn7KZEV46q7xiHAQvlwaJJPjuCC+ZuCbr65kSrt5R0
+	7MjbBqjrm9Tbos7bQAZzeG2q/hFbzwy0bEYiGnkOEQigifYbbrpNJL3LXPFI2S52
+	uphjatMetzciqzA1MwhTsBOlktqX5Hzgp2RZh7cXMDmETMmFXnHMlGeskcMB0P/M
+	GvuXe808XOXwgiut3ukPxRQgjV/nU14cziXtXl+5tH/6ar287CLtNE+LgfszaVbn
+	TTRwGrVEa4egUTRqxmkDs01pW9bdLCW1fslyCGakFPCzWzMWKLrRT2CWfS11rfpr
+	qRX7wYMFoTeYmCJpU1pSQ==
+X-ME-Sender: <xms:yV5VaiQBk2bhvVuHZloc8Iv6Vzwm7pJP_JjewqUJFaYxFpc6YL0aqw>
+    <xme:yV5VagsuygiQaeVUbTNDrbkGUvPzqtzmrGEHCrcypbFnLUlNTpAho8hYF71Pr5e_j
+    0elJu7_pFEtZADOEMtdcssVEkpzFQCQWDGkjwsFe2AIjtI3mA>
+X-ME-Received: <xmr:yV5VarbE0LWBSRj-AZzTSlToafT6fA3WE7i6yM7ViJtmDi-zL7_-0rUHYzdrLwAANiOZGlJfSxCmdWqPTwTUKs6nnmMf8GQ>
+X-ME-Proxy-Cause: dmFkZTE/Xb6jgnOYG/CxjGGtFKdJVvbLayntAGX/BCmMCtpnTJkiA6hBknhi939mGvVO47
+    dn45ELHs2VdpU2K2PUUMOqODqJ7WoNuzT4RQ8zY0kiBpvMuloH/IzQf6ek1CdGljjrwF90
+    S8Yl6dgBvZWcSrEFXnplBohh02JXjOEfXm55Tz4JDVScXnODYQlBLp38qUZsGwAYwEHxHd
+    Y7rFtT1aKkTzCnsrbHvoDas9tku3kx6E24x5TOFmoVMDKLkJRNCwzx+6hynesfImNmbJGL
+    YN2480TtSGsKg8MGiyXERdWI+xtCs7dc1Z2FOYBiaH7p/hFH9xuqFufQuJWG4JQBgl/0Yt
+    sN5uGKYbzMoPX7r1sQGMeLbq6f+frXSRygnRkaQlFAi9MQg72T/cRUWryLgHJ7oplpTHBc
+    Bgbc0cljbkRJwuRs4+QXJaByVjJvqrNwfaDFzp5kMF4ESQGWkkvLkVp/MZgzH32mFkIyS6
+    iv6xd7Mr/FpLoIf3bPUDQo6JpMlkh5plONJTSQsM42fosMvRXiFUyJIRjD9rXl1Knp6nUa
+    /6LsmgVVXd8V8iIXZod4ZiHz7+L0u7n6TopFvwJC1TKPfRjmtMkcEWSAgUYqhlKyeS2SkL
+    gMKRsoWMbGscJxPaG3PGCdq30AmNFbB1oCCLNVZnlCB7YiA6UcmJjoU+3cwA
+X-ME-Proxy: <xmx:yV5VauGG2B3CjsLRUnW5t5GZr0vT6bFLHwjemMWGS-QRSJpXiFf6lA>
+    <xmx:yV5Vanzujvz9eh-fDKKorcXJ06lZ2kzvI2hwFqkYGOQ-tYfb2sOIvg>
+    <xmx:yV5VaoliXDmlWun9pjWE8P1Zfzr3bwFcERuWvwhr8EqTXbHf5Mwwog>
+    <xmx:yV5VaonZnncVqhnN19GB-kTme2WdBbjcOHmNyUmPAZXpAEiwmhImCw>
+    <xmx:yl5VajOn4LbNnVssUt7PLtIYMLs0UReSmfp0fd61_LSRO8nK-1PNggcw>
 Feedback-ID: i9d664b8f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Jul 2026 17:35:32 -0400 (EDT)
+ 13 Jul 2026 17:55:19 -0400 (EDT)
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -77,84 +77,187 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 From: NeilBrown <neilb@ownmail.net>
-To: "Christoph Hellwig" <hch@infradead.org>
-Cc: "Christian Brauner" <brauner@kernel.org>,
- "Pedro Falcato" <pfalcato@suse.de>, "Jori Koolstra" <jkoolstra@xs4all.nl>,
- "Jeff Layton" <jlayton@kernel.org>, "Al Viro" <viro@zeniv.linux.org.uk>,
- "Aleksa Sarai" <aleksa@amutable.com>, "Amir Goldstein" <amir73il@gmail.com>,
- "Jan Kara" <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 09/14] vfs: add O_CREAT|O_DIRECTORY to open*(2)
-In-reply-to: <alS10NN_OduZEqvt@infradead.org>
-References: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
-  <20260704164149.3480051-10-jkoolstra@xs4all.nl>
-  <akyyqnv9EpY7xVdC@pedro-suse.lan>
-  <20260707-vorteil-unhaltbar-apotheke-47bb105161ff@brauner>
-  <alS10NN_OduZEqvt@infradead.org>
-Date: Tue, 14 Jul 2026 07:35:28 +1000
-Message-id: <178397852844.3371781.6900199568039042534@noble.neil.brown.name>
+To: "Jori Koolstra" <jkoolstra@xs4all.nl>
+Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] VFS: add vfs_lookup_open() for nfsd
+In-reply-to: <1899194169.820712.1783939194879@kpc.webmail.kpnmail.nl>
+References: <20260713060814.2849-1-neilb@ownmail.net>
+  <20260713060814.2849-4-neilb@ownmail.net>
+  <1899194169.820712.1783939194879@kpc.webmail.kpnmail.nl>
+Date: Tue, 14 Jul 2026 07:55:16 +1000
+Message-id: <178397971669.3371781.14361088370957076736@noble.neil.brown.name>
 Reply-To: NeilBrown <neil@brown.name>
 
-On Mon, 13 Jul 2026, Christoph Hellwig wrote:
-> On Tue, Jul 07, 2026 at 12:04:18PM +0200, Christian Brauner wrote:
-> > I don't think any of this is really an argument worth considering.
-> 
-> It very much is.
-> 
-> > This is a lot of handwaving for the sake of portability and concerns
-> > about past API mistakes. To both: so what. If an API is useful it's
-> > useful, POSIX be damned. We're not going to be fenced in by some
-> > standard.
-> > 
-> > 90% of our interfaces blow way past POSIX already - in most subsystems.
-> > If we'd back down ever time someone shows up with "what about POSIX"
-> > Linux would be irrelevant.
-> 
-> You can totaally ignore posix.  We need an interface that is self
-> discoverable on Linux.  Any combination of flags that was accepted
-> by previous kernels and gave different results than the new interface
-> do not qualify for that.
-> 
-> > It's been years since O_DIRECTORY | O_CREAT has been made consistent
-> > which means all LTS kernels have consistent behavior. We often make flag
-> > combinations work that didn't work or where inconsisent before. Nothing
-> > here is special at all.
-> 
-> No, we can't rely on something being backport to old enterprise/cloud
-> kernel.  Doing so makes the interface unusable for actual applications.
-> 
-> > 
-> > I appreciate the concern but even if this were to fall flat then
-> > worst-case we'd add a new flag and we'd still make that work. But I see
-> > no reason to not try the semantically obvious thing and make
-> > O_DIRECTORY | O_CREAT work.
-> 
-> New flag as in new O_ flag for open does not work because open never
-> checked flag.  Which has always been a giant PITA, but as long as we're
-> dealing with legacy open(2) that is what it is.
-> 
-> 
+On Mon, 13 Jul 2026, Jori Koolstra wrote:
+> > Op 13-07-2026 08:05 CEST schreef NeilBrown <neilb@ownmail.net>:
+> >=20
+> > =20
+> > From: NeilBrown <neil@brown.name>
+> >=20
+> > vfs_lookup_open() is a limited version of lookup_open() which is
+> > exported for nfsd to use - to replace dentry_create().
+> >=20
+> > It is limited in that no filename is given (thus no auditing) and no
+> > LOOKUP_ flags are passed.  A few "intent" LOOKUP flags are deduced from
+> > the open flags.
+> >=20
+> > If a non-regular file is found, an O_PATH file is returned.  This allows
+> > the caller to see what was found and to return an appropriate error
+> > code.  However if ->atomic_open was used, it may return an error rather
+> > then provide a dentry.
+>=20
+> Stale commit paragraph.
 
-So let's add OPENAT2_NEW_COMBINATION which instructs openat2() to reject
-unrecognised combinations.  Old kernels will simply reject that.
-New kernels can start using previously unsupported combinations safely.
-Initially reject
-- O_DIRECTORY with any  O_CREAT O_NOCTTY O_TRUNC O_APPEND O_*SYNC
-        O_DIRECT
-- O_EXCL without O_CREAT
-- O_NOCTTY with O_CREAT O_TRUNC O_APPEND ...
-- O_APPEND without O_WRONLY/O_RDWR
+Thanks :-(
 
-and probably others.  O_TMPFILE woth O_EXCL, O_CREAT with O_EMPTYPATH ....
+>=20
+> >=20
+> > Signed-off-by: NeilBrown <neil@brown.name>
+> > ---
+> >  fs/namei.c            | 89 +++++++++++++++++++++++++++++++++++++++++++
+> >  include/linux/namei.h |  3 ++
+> >  2 files changed, 92 insertions(+)
+> >=20
+> > diff --git a/fs/namei.c b/fs/namei.c
+> > index cb33a01d16eb..2143f759443a 100644
+> > --- a/fs/namei.c
+> > +++ b/fs/namei.c
+> > @@ -4562,6 +4562,95 @@ static struct dentry *lookup_open(struct nameidata=
+ *nd, struct file *file,
+> >  	goto out;
+> >  }
+> > =20
+> > +/**
+> > + * vfs_lookup_open - open and possibly create a regular file
+> > + * @parent: directory to contain file
+> > + * @last: final component of file name
+> > + * @open_flag: O_flags
+> > + * @mode: initial permissions for file
+> > + *
+> > + * Open a file after lookup and/or create.  This provides similar
+> > + * functionality open_last_lookups() for non-VFS users, particularly
+> > + * nfsd.
+> > + * It uses ->atomic_open or ->lookup / ->create / ->open as appropriate.
+> > + *
+> > + * If the fs object found is not a regular file then an error is returne=
+d.
+> > + * In some cases, related errors are repurposed to so that the caller can
+> > + * determine the file of file found from the error.
+> > + * -EISDIR : a directory was found
+> > + * -ELOOP  : a symlink was found
+> > + * -ENODEV : a block or character device special file was found
+> > + * -EFTYPE : any other non-regular file was found, such as FIFO or SOCK.
+> > + *
+> > + * Returns: the opened struct file, or an error.
+> > + */
+> > +struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
+> > +			     int open_flag, umode_t mode)
+> > +{
+> > +	struct file *file __free(fput) =3D NULL;
+> > +	struct nameidata nd =3D {};
+> > +	struct open_flags op =3D {};
+> > +	struct dentry *dentry;
+> > +	int error =3D 0;
+> > +
+> > +	WARN_ONCE(mode & ~S_IALLUGO, "mode must only have permission bits");
+> > +	error =3D lookup_noperm_common(last, parent->dentry);
+> > +	if (error)
+> > +		return ERR_PTR(error);
+> > +
+> > +	file =3D alloc_empty_file(open_flag, current_cred());
+> > +	if (IS_ERR(file))
+> > +		return file;
+> > +
+> > +	nd.path =3D *parent;
+> > +	nd.last =3D *last;
+> > +	nd.flags =3D LOOKUP_OPEN;
+> > +	if (open_flag & O_CREAT) {
+> > +		nd.flags |=3D LOOKUP_CREATE;
+> > +		if (open_flag & O_EXCL)
+> > +			nd.flags |=3D LOOKUP_EXCL;
+> > +	}
+> > +	op.open_flag =3D open_flag;
+> > +	op.mode =3D S_IFREG | mode;
+> > +	dentry =3D lookup_open(&nd, file, &op);
+> > +
+> > +	if (IS_ERR(dentry))
+> > +		return ERR_CAST(dentry);
+> > +
+> > +	if (d_really_is_negative(dentry)) {
+> > +		error =3D -ENOENT;
+> > +	} else if (!(file->f_mode & FMODE_CREATED) && (open_flag & O_EXCL)) {
+> > +		error =3D -EEXIST;
+> > +	} else if ((dentry->d_inode->i_mode & S_IFMT) !=3D S_IFREG) {
+> > +		switch (dentry->d_inode->i_mode & S_IFMT) {
+> > +		case S_IFDIR:
+> > +			error =3D -EISDIR;
+> > +			break;
+> > +		case S_IFLNK:
+> > +			error =3D -ELOOP;
+> > +			break;
+> > +		case S_IFBLK:
+> > +		case S_IFCHR:
+> > +			error =3D -ENODEV;
+> > +			break;
+> > +		case S_IFIFO:
+> > +		case S_IFSOCK:
+> > +		default:
+> > +			error =3D -EFTYPE;
+> > +			break;
+> > +		}
+> > +	} else if (!(file->f_mode & FMODE_OPENED)) {
+> > +		nd.path.dentry =3D dentry;
+> > +		error =3D vfs_open(&nd.path, file);
+> > +	}
+> > +	dput(dentry);
+> > +
+> > +	if (error)
+> > +		return ERR_PTR(error);
+> > +	return no_free_ptr(file);
+> > +}
+> > +EXPORT_SYMBOL_FOR_MODULES(vfs_lookup_open, "nfsd");
+> > +
+> >  static inline bool trailing_slashes(struct nameidata *nd)
+> >  {
+> >  	return (bool)nd->last.name[nd->last.len];
+> > diff --git a/include/linux/namei.h b/include/linux/namei.h
+> > index ebe6e29f7e93..86d657b24fc6 100644
+> > --- a/include/linux/namei.h
+> > +++ b/include/linux/namei.h
+> > @@ -97,6 +97,9 @@ struct dentry *start_creating_dentry(struct dentry *par=
+ent,
+> >  struct dentry *start_removing_dentry(struct dentry *parent,
+> >  				     struct dentry *child);
+> > =20
+> > +struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
+> > +			     int open_flag, umode_t mode);
+> > +
+> >  /* end_creating - finish action started with start_creating
+> >   * @child: dentry returned by start_creating() or vfs_mkdir()
+> >   *
+> > --=20
+> > 2.50.0.107.gf914562f5916.dirty
+>=20
+> I think it would still be sensible to check the O_ flags being allowed to
+> be passed in. I get that nsfd is not going to do weird things, but if this
+> is a helper that may be used by other code too at some point (unaware of the
+> intricacies of lookup_open()) the context could help as we didn't go through
+> all the normal checks in build_open_flags().
 
-Then the O_DIRECTORY|O_CREAT patch set changes that to allow O_DIRECTORY
-with O_CREATE and user-space code that wants to probe attempts to openat2()
-with
+So we allow
 
-  OPENAT2_NEW_COMBINATION|O_DIRECTORY|O_CREATE|O_RDONLY
+ O_ACCMODE|O_CREAT|O_EXCL|O_TRUNC
 
-Maybe OPENAT2_NEW_COMBINATION could just reject *everything* at first,
-then incrementally allow new combinations as they are defined.  Old
-combinations can always be accessed without OPENAT2_NEW_COMBINATION.
+and should assert __O_REGULAR.
 
+Thanks,
 NeilBrown
+
+
+>=20
+> Best,
+> Jori.
+>=20
+
