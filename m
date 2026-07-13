@@ -1,290 +1,219 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8333E5EDC
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 10:24:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F352D3806CE
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 10:39:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783938258; cv=none; b=TG+Qp2fOOVGuf/V5EMeHByh9Qpo+yi4UFh5XS4JIdjZoLs+f8sDU/BPj1/Xc1QA3WYm0ngQkmKi7ybCdjYn5CaZXvSxUug5g++DkDgjHJ23kOkuM8SCGEer0hoAP+K/36OGLHyW+QXAkoN2hsfUu+vToweJ0QwlA4xZO53K7ESM=
+	t=1783939202; cv=none; b=D6Yvv7lgUUGKbhyDM1IdqseocMB/pcnqncXAEwR79jdmuWYWfW7lpfFRK29IpLYmh0FAGs9YSeRc5SLOwkJJEmYiPoYh4IbVwEHBIVOyBS/l2hARSXzQJoqwYXUOmsdb8r+gVecFT9gwr/tjRqBGTNCwyNy9KwZXr/+cN/Ep8XM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783938258; c=relaxed/simple;
-	bh=FxLM1Q/l5nHmcrqI54hsKjBwOYdVjehwZcbOscUYjjg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=mnrPxmgmAan3Eg8XIqhZuaqdUSHeBg6m5cv8z6Eaa4LDF76NRJTvee7Nav2rjBegLDUVLvTEKcU2huxa+85V+t1JkiF7Chq1R5u0SvgFy6j6AXqV2mhKddiOcDrKLl/fG/qUoxXI+OFIL1gR37R5pf0Zyna6y/jtvKYtc6inNpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XRpBEOWS; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1783939202; c=relaxed/simple;
+	bh=I5+cZk95+tYLoObW7aEsDX4hpMr0KPZvgWWJkO8Zylc=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=oeWQcJ8eldQyZuyd9w6c/sEtvB72sPalaQAWnzO1wYtUvWCwyI9hN659TmbQsOAxL3RewLrKZTZk6hnp90jn3mdl1C914cKFKaMqORv1N7VM6BghqmSeH8dP3IpdXkrv69/YHa+lL9GavhsceejZkkltRdRxrm0R35gYKmyjUiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=Tw8OPvaZ; arc=none smtp.client-ip=195.121.94.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XRpBEOWS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783938254;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r4/TX7BTpjZY4DlYI5thl0aKFZApPkQRFTRSMk72/cI=;
-	b=XRpBEOWSIOr+/OX4C8OhXL11IYbAeaOwBfQoKNUcBYeGahalnUu+M2NE/vC2wusD7u+h9L
-	mI/eWtiQv1r1sRvWntjT3ZrIGhNXHh3Tt8RPPFfq9Hn01n3wV4Z4kF29dlbYahCO8w2ElX
-	VYibBTsRxuM3G3eVi2pC1TCRiSKHHmM=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-7-5HXs3xKSOE-PL7mtLAzyDw-1; Mon,
- 13 Jul 2026 06:24:11 -0400
-X-MC-Unique: 5HXs3xKSOE-PL7mtLAzyDw-1
-X-Mimecast-MFC-AGG-ID: 5HXs3xKSOE-PL7mtLAzyDw_1783938250
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E9A421955D5E;
-	Mon, 13 Jul 2026 10:24:09 +0000 (UTC)
-Received: from localhost (unknown [10.44.33.216])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2863830001A1;
-	Mon, 13 Jul 2026 10:24:08 +0000 (UTC)
-From: Giuseppe Scrivano <gscrivan@redhat.com>
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: linux-erofs@lists.ozlabs.org,  linux-fsdevel@vger.kernel.org,  Christian
- Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v2] erofs: accept source file descriptor via fsconfig
-In-Reply-To: <2026-07-13-chief-single-carnival-graders-7dI4ue@cyphar.com>
-	(Aleksa Sarai's message of "Mon, 13 Jul 2026 18:33:51 +1000")
-References: <20260711071137.4130824-1-gscrivan@redhat.com>
-	<2026-07-13-dandy-better-exposure-wager-9hBmfv@cyphar.com>
-	<871pd748kh.fsf@redhat.com>
-	<2026-07-13-chief-single-carnival-graders-7dI4ue@cyphar.com>
-Date: Mon, 13 Jul 2026 12:24:07 +0200
-Message-ID: <87wluz2nnc.fsf@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="Tw8OPvaZ"
+X-KPN-MessageId: 2fb4df2f-7ea7-11f1-8f54-005056992ed3
+Received: from mta.kpnmail.nl (unknown [10.31.161.191])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 2fb4df2f-7ea7-11f1-8f54-005056992ed3;
+	Mon, 13 Jul 2026 12:39:55 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 2fb3297e-7ea7-11f1-91b9-00505699891e;
+	Mon, 13 Jul 2026 12:39:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=33vTLPPrG8fF0B88J4zdQtMq73lLlubGi2ELpke7Xy8=;
+	b=Tw8OPvaZdpQtSpoB8QchyHaJsWEDoWYIux3MEwRFZ+JijhlQ4oq7Lq52ZoJULv/MwtIa+zS+ibUqI
+	 TTHyRGIERZ9u7wryvjrTg48Z+uNAjTjDeiWC9jkUPiKgTDxoqRNELySjK/a7BVUT4oHmje8NcaVwMV
+	 nSEqv5KG/1q+R+e5PP3+u+JBYMSxmnTpW0ukBlSKzwtICGN3XSMmW6No3J+Lt0U0tsAWbw+VFmvt4z
+	 UCZZADSSRoJTcVKJY/gFJW//gdWIXje+8+zhUPal7VMTx6bpp0yl8fCtbTe9EbGMmI/yXoasQoN5kU
+	 xknRTUUNbflnVQNsJ50PkThdzBWP+xg==
+X-KPN-MID: 33|cCC35/FlnPQT+zbdp84LBy85TqHko24yJLoeB8J+g5mfZ0rM4MgVzK6DS964M3P
+ 9UsFDic/64KnPUGvmIX9QnQ==
+X-CMASSUN: 33|ndW5/n1OYZKD/YpnZEb3omSSsbAj+4iczGfk8+/d012a6zma7KPSkiaZUbUl82+
+ mlcykiLZn7OQ0Amy8qINp/A==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh08 (cpxoxapps-mh08.personalcloud.so.kpn.org [10.128.135.214])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 2fa1506a-7ea7-11f1-8edb-00505699eff2;
+	Mon, 13 Jul 2026 12:39:54 +0200 (CEST)
+Date: Mon, 13 Jul 2026 12:39:54 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: NeilBrown <neil@brown.name>, NeilBrown <neilb@ownmail.net>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
+Message-ID: <1899194169.820712.1783939194879@kpc.webmail.kpnmail.nl>
+In-Reply-To: <20260713060814.2849-4-neilb@ownmail.net>
+References: <20260713060814.2849-1-neilb@ownmail.net>
+ <20260713060814.2849-4-neilb@ownmail.net>
+Subject: Re: [PATCH v3 3/3] VFS: add vfs_lookup_open() for nfsd
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-Aleksa Sarai <cyphar@cyphar.com> writes:
 
-> On 2026-07-13, Giuseppe Scrivano <gscrivan@redhat.com> wrote:
->> diff --git a/fs/erofs/super.c b/fs/erofs/super.c
->> index 3040d4cf9b85..7818872ab1e5 100644
->> --- a/fs/erofs/super.c
->> +++ b/fs/erofs/super.c
->> @@ -386,7 +386,6 @@ static void erofs_default_options(struct erofs_sb_info *sbi)
->>  enum {
->>  	Opt_user_xattr, Opt_acl, Opt_cache_strategy, Opt_dax, Opt_dax_enum,
->>  	Opt_device, Opt_domain_id, Opt_directio, Opt_fsoffset, Opt_inode_share,
->> -	Opt_source_fd,
->>  };
->>  
->>  static const struct constant_table erofs_param_cache_strategy[] = {
->> @@ -414,7 +413,6 @@ static const struct fs_parameter_spec erofs_fs_parameters[] = {
->>  	fsparam_flag_no("directio",	Opt_directio),
->>  	fsparam_u64("fsoffset",		Opt_fsoffset),
->>  	fsparam_flag("inode_share",	Opt_inode_share),
->> -	fsparam_fd("source",		Opt_source_fd),
->>  	{}
->>  };
->>  
->> @@ -447,6 +445,14 @@ static int erofs_fc_parse_param(struct fs_context *fc,
->>  	struct erofs_device_info *dif;
->>  	int opt, ret;
->>  
->> +	if (strcmp(param->key, "source") == 0 &&
->> +	    param->type == fs_value_is_file) {
->> +		if (sbi->dif0.file || fc->source)
->> +			return -EINVAL;
->> +		sbi->dif0.file = get_file(param->file);
->> +		return 0;
->> +	}
->> +
->>  	opt = fs_parse(fc, erofs_fs_parameters, param, &result);
->>  	if (opt < 0)
->>  		return opt;
->
-> Shortcutting parsing this way is not really idiomatic, the better way is
-> to create a helper -- in this case you can almost certainly just use
-> very similar logic to proc_parse_pidns_param() to get something minimal
-> working.
->
-> Defining your own version of "source" in fs_parameter_spec is fine, you
-> just need to make sure you handle FSCONFIG_SET_STRING properly -- there
-> are some other examples in the tree you can look at for inspiration
-> (mostly remote filesystems AFAICS). You could even return -ENOPARAM to
-> fallback to the basic implementation if that makes it easier for you,
-> but it would probably be better to handle it all in one place.
->
->> @@ -526,11 +532,6 @@ static int erofs_fc_parse_param(struct fs_context *fc,
->>  		else
->>  			set_opt(&sbi->opt, INODE_SHARE);
->>  		break;
->> -	case Opt_source_fd:
->> -		if (sbi->dif0.file)
->> -			return -EINVAL;
->> -		sbi->dif0.file = get_file(param->file);
->> -		break;
->>  	}
->>  	return 0;
->>  }
->> @@ -779,6 +780,18 @@ static int erofs_fc_get_tree(struct fs_context *fc)
->>  			return PTR_ERR(file);
->>  		sbi->dif0.file = file;
->>  	}
->> +	if (!fc->source) {
->> +		char *buf, *p;
->> +
->> +		buf = kmalloc(PATH_MAX, GFP_KERNEL);
->> +		if (!buf)
->> +			return -ENOMEM;
->> +		p = file_path(file, buf, PATH_MAX);
->> +		fc->source = kstrdup(IS_ERR(p) ? "(fd)" : p, GFP_KERNEL);
->> +		kfree(buf);
->> +		if (!fc->source)
->> +			return -ENOMEM;
->> +	}
->
-> And this would also live in the parser helper.
+> Op 13-07-2026 08:05 CEST schreef NeilBrown <neilb@ownmail.net>:
+> 
+>  
+> From: NeilBrown <neil@brown.name>
+> 
+> vfs_lookup_open() is a limited version of lookup_open() which is
+> exported for nfsd to use - to replace dentry_create().
+> 
+> It is limited in that no filename is given (thus no auditing) and no
+> LOOKUP_ flags are passed.  A few "intent" LOOKUP flags are deduced from
+> the open flags.
+> 
+> If a non-regular file is found, an O_PATH file is returned.  This allows
+> the caller to see what was found and to return an appropriate error
+> code.  However if ->atomic_open was used, it may return an error rather
+> then provide a dentry.
 
-thanks for the hints.
+Stale commit paragraph.
 
-I'll prepare a v3 if you are fine with the version below:
+> 
+> Signed-off-by: NeilBrown <neil@brown.name>
+> ---
+>  fs/namei.c            | 89 +++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/namei.h |  3 ++
+>  2 files changed, 92 insertions(+)
+> 
+> diff --git a/fs/namei.c b/fs/namei.c
+> index cb33a01d16eb..2143f759443a 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -4562,6 +4562,95 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+>  	goto out;
+>  }
+>  
+> +/**
+> + * vfs_lookup_open - open and possibly create a regular file
+> + * @parent: directory to contain file
+> + * @last: final component of file name
+> + * @open_flag: O_flags
+> + * @mode: initial permissions for file
+> + *
+> + * Open a file after lookup and/or create.  This provides similar
+> + * functionality open_last_lookups() for non-VFS users, particularly
+> + * nfsd.
+> + * It uses ->atomic_open or ->lookup / ->create / ->open as appropriate.
+> + *
+> + * If the fs object found is not a regular file then an error is returned.
+> + * In some cases, related errors are repurposed to so that the caller can
+> + * determine the file of file found from the error.
+> + * -EISDIR : a directory was found
+> + * -ELOOP  : a symlink was found
+> + * -ENODEV : a block or character device special file was found
+> + * -EFTYPE : any other non-regular file was found, such as FIFO or SOCK.
+> + *
+> + * Returns: the opened struct file, or an error.
+> + */
+> +struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
+> +			     int open_flag, umode_t mode)
+> +{
+> +	struct file *file __free(fput) = NULL;
+> +	struct nameidata nd = {};
+> +	struct open_flags op = {};
+> +	struct dentry *dentry;
+> +	int error = 0;
+> +
+> +	WARN_ONCE(mode & ~S_IALLUGO, "mode must only have permission bits");
+> +	error = lookup_noperm_common(last, parent->dentry);
+> +	if (error)
+> +		return ERR_PTR(error);
+> +
+> +	file = alloc_empty_file(open_flag, current_cred());
+> +	if (IS_ERR(file))
+> +		return file;
+> +
+> +	nd.path = *parent;
+> +	nd.last = *last;
+> +	nd.flags = LOOKUP_OPEN;
+> +	if (open_flag & O_CREAT) {
+> +		nd.flags |= LOOKUP_CREATE;
+> +		if (open_flag & O_EXCL)
+> +			nd.flags |= LOOKUP_EXCL;
+> +	}
+> +	op.open_flag = open_flag;
+> +	op.mode = S_IFREG | mode;
+> +	dentry = lookup_open(&nd, file, &op);
+> +
+> +	if (IS_ERR(dentry))
+> +		return ERR_CAST(dentry);
+> +
+> +	if (d_really_is_negative(dentry)) {
+> +		error = -ENOENT;
+> +	} else if (!(file->f_mode & FMODE_CREATED) && (open_flag & O_EXCL)) {
+> +		error = -EEXIST;
+> +	} else if ((dentry->d_inode->i_mode & S_IFMT) != S_IFREG) {
+> +		switch (dentry->d_inode->i_mode & S_IFMT) {
+> +		case S_IFDIR:
+> +			error = -EISDIR;
+> +			break;
+> +		case S_IFLNK:
+> +			error = -ELOOP;
+> +			break;
+> +		case S_IFBLK:
+> +		case S_IFCHR:
+> +			error = -ENODEV;
+> +			break;
+> +		case S_IFIFO:
+> +		case S_IFSOCK:
+> +		default:
+> +			error = -EFTYPE;
+> +			break;
+> +		}
+> +	} else if (!(file->f_mode & FMODE_OPENED)) {
+> +		nd.path.dentry = dentry;
+> +		error = vfs_open(&nd.path, file);
+> +	}
+> +	dput(dentry);
+> +
+> +	if (error)
+> +		return ERR_PTR(error);
+> +	return no_free_ptr(file);
+> +}
+> +EXPORT_SYMBOL_FOR_MODULES(vfs_lookup_open, "nfsd");
+> +
+>  static inline bool trailing_slashes(struct nameidata *nd)
+>  {
+>  	return (bool)nd->last.name[nd->last.len];
+> diff --git a/include/linux/namei.h b/include/linux/namei.h
+> index ebe6e29f7e93..86d657b24fc6 100644
+> --- a/include/linux/namei.h
+> +++ b/include/linux/namei.h
+> @@ -97,6 +97,9 @@ struct dentry *start_creating_dentry(struct dentry *parent,
+>  struct dentry *start_removing_dentry(struct dentry *parent,
+>  				     struct dentry *child);
+>  
+> +struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
+> +			     int open_flag, umode_t mode);
+> +
+>  /* end_creating - finish action started with start_creating
+>   * @child: dentry returned by start_creating() or vfs_mkdir()
+>   *
+> -- 
+> 2.50.0.107.gf914562f5916.dirty
 
-diff --git a/fs/erofs/super.c b/fs/erofs/super.c
-index 86fa5c6a0c70..72c85cc53085 100644
---- a/fs/erofs/super.c
-+++ b/fs/erofs/super.c
-@@ -386,6 +386,7 @@ static void erofs_default_options(struct erofs_sb_info *sbi)
- enum {
- 	Opt_user_xattr, Opt_acl, Opt_cache_strategy, Opt_dax, Opt_dax_enum,
- 	Opt_device, Opt_domain_id, Opt_directio, Opt_fsoffset, Opt_inode_share,
-+	Opt_source,
- };
- 
- static const struct constant_table erofs_param_cache_strategy[] = {
-@@ -402,17 +403,18 @@ static const struct constant_table erofs_dax_param_enums[] = {
- };
- 
- static const struct fs_parameter_spec erofs_fs_parameters[] = {
--	fsparam_flag_no("user_xattr",	Opt_user_xattr),
--	fsparam_flag_no("acl",		Opt_acl),
--	fsparam_enum("cache_strategy",	Opt_cache_strategy,
-+	fsparam_flag_no("user_xattr",		Opt_user_xattr),
-+	fsparam_flag_no("acl",			Opt_acl),
-+	fsparam_enum("cache_strategy",		Opt_cache_strategy,
- 		     erofs_param_cache_strategy),
--	fsparam_flag("dax",             Opt_dax),
--	fsparam_enum("dax",		Opt_dax_enum, erofs_dax_param_enums),
--	fsparam_string("device",	Opt_device),
--	fsparam_string("domain_id",	Opt_domain_id),
--	fsparam_flag_no("directio",	Opt_directio),
--	fsparam_u64("fsoffset",		Opt_fsoffset),
--	fsparam_flag("inode_share",	Opt_inode_share),
-+	fsparam_flag("dax",			Opt_dax),
-+	fsparam_enum("dax",			Opt_dax_enum, erofs_dax_param_enums),
-+	fsparam_string("device",		Opt_device),
-+	fsparam_string("domain_id",		Opt_domain_id),
-+	fsparam_flag_no("directio",		Opt_directio),
-+	fsparam_u64("fsoffset",			Opt_fsoffset),
-+	fsparam_flag("inode_share",		Opt_inode_share),
-+	fsparam_file_or_string("source",	Opt_source),
- 	{}
- };
- 
-@@ -437,6 +439,38 @@ static bool erofs_fc_set_dax_mode(struct fs_context *fc, unsigned int mode)
- 	return false;
- }
- 
-+static int erofs_fc_parse_source(struct fs_context *fc,
-+				 struct fs_parameter *param)
-+{
-+	struct erofs_sb_info *sbi = fc->s_fs_info;
-+
-+	if (fc->source || sbi->dif0.file)
-+		return invalf(fc, "Multiple sources");
-+
-+	switch (param->type) {
-+	case fs_value_is_string:
-+		fc->source = param->string;
-+		param->string = NULL;
-+		return 0;
-+	case fs_value_is_file: {
-+		char *buf, *p;
-+
-+		sbi->dif0.file = get_file(param->file);
-+		buf = kmalloc(PATH_MAX, GFP_KERNEL);
-+		if (!buf)
-+			return -ENOMEM;
-+		p = file_path(param->file, buf, PATH_MAX);
-+		fc->source = kstrdup(IS_ERR(p) ? "(fd)" : p, GFP_KERNEL);
-+		kfree(buf);
-+		if (!fc->source)
-+			return -ENOMEM;
-+		return 0;
-+	}
-+	default:
-+		return invalf(fc, "Invalid source type");
-+	}
-+}
-+
- static int erofs_fc_parse_param(struct fs_context *fc,
- 				struct fs_parameter *param)
- {
-@@ -524,6 +558,8 @@ static int erofs_fc_parse_param(struct fs_context *fc,
- 		else
- 			set_opt(&sbi->opt, INODE_SHARE);
- 		break;
-+	case Opt_source:
-+		return erofs_fc_parse_source(fc, param);
- 	}
- 	return 0;
- }
-@@ -752,14 +788,18 @@ static int erofs_fc_fill_super(struct super_block *sb, struct fs_context *fc)
- 
- static int erofs_fc_get_tree(struct fs_context *fc)
- {
--	int ret;
-+	struct erofs_sb_info *sbi = fc->s_fs_info;
-+	struct file *file = sbi->dif0.file;
- 
--	ret = get_tree_bdev_flags(fc, erofs_fc_fill_super,
--		IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) ?
--			GET_TREE_BDEV_QUIET_LOOKUP : 0);
--	if (IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) && ret == -ENOTBLK) {
--		struct erofs_sb_info *sbi = fc->s_fs_info;
--		struct file *file;
-+	if (!IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) || !file) {
-+		int ret;
-+
-+		ret = get_tree_bdev_flags(fc, erofs_fc_fill_super,
-+			IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) ?
-+				GET_TREE_BDEV_QUIET_LOOKUP : 0);
-+		if (!IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) ||
-+		    ret != -ENOTBLK)
-+			return ret;
- 
- 		if (!fc->source)
- 			return invalf(fc, "No source specified");
-@@ -767,12 +807,13 @@ static int erofs_fc_get_tree(struct fs_context *fc)
- 		if (IS_ERR(file))
- 			return PTR_ERR(file);
- 		sbi->dif0.file = file;
--
--		if (S_ISREG(file_inode(sbi->dif0.file)->i_mode) &&
--		    sbi->dif0.file->f_mapping->a_ops->read_folio)
--			return get_tree_nodev(fc, erofs_fc_fill_super);
- 	}
--	return ret;
-+	if (!S_ISREG(file_inode(file)->i_mode) ||
-+	    !file->f_mapping->a_ops->read_folio) {
-+		errorfc(fc, "source is unsupported");
-+		return -EINVAL;
-+	}
-+	return get_tree_nodev(fc, erofs_fc_fill_super);
- }
- 
- static int erofs_fc_reconfigure(struct fs_context *fc)
+I think it would still be sensible to check the O_ flags being allowed to
+be passed in. I get that nsfd is not going to do weird things, but if this
+is a helper that may be used by other code too at some point (unaware of the
+intricacies of lookup_open()) the context could help as we didn't go through
+all the normal checks in build_open_flags().
 
-Regards,
-Giuseppe
-
+Best,
+Jori.
