@@ -1,93 +1,71 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684E6361640;
-	Mon, 13 Jul 2026 09:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831863EAC76;
+	Mon, 13 Jul 2026 09:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783936469; cv=none; b=NZkFdxLu5UetYl77KUDb2y9Ft9ts2CepNOYpQoOXoJohBn+ZYiQmJfpb1l9QPsw/67W1ECRFCkbMlF/tUB0WeLiswJh/I6eHRTjDrg7wfhaPopjWlHIuas8Gry6RWurT9iNFfHM84S7LSKzP+zXESv2qIfT3+S5pE5IsKzCh4ww=
+	t=1783936747; cv=none; b=siUjZOl3WbsiX5JL/U0b+3ZpsdaHY5bX/w61h681BZ/APQzBhlSkx/0YNS63Xwj/CAK8JA6kIRIqw1sE3LHAtoDVlcTqxi4ihehAq7LUsexYlcm0DJH5YIM42D2aMfAYYjtg5eIY2sOpgDmWG2qI6jSafkdzUN1wGBP9f9XsjkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783936469; c=relaxed/simple;
-	bh=26GXNLuPWwm5CbIbNH4q/RXdjx+O3/YkqdBt40TMLWM=;
+	s=arc-20240116; t=1783936747; c=relaxed/simple;
+	bh=YlBUt7nswou5vInVDSmKtqY9HvPOSjwm7fdwyXD7ni0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tg5enJBFYPQEutHZBO5bnkH+In4Gfx9MVKqpnb9mjREw/Ll44dTWLZaLNRFKo0O/IEgdMPESw22/kc6+rDrxw/qQctQXH5pTh4QZEEa5qDMC2llox7XeChFI2TL2y9gofnGIxJPm+e2aexAzltsiCShEoTwR3C3lBUJpNA0a7ZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=E3ApafmT; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="E3ApafmT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=/OWwIwvX/5OZCSXB7kUrsOa32NuFLL4I1A7QqdIigI8=; b=E3ApafmTcZxo9STmkc0/bFGOnS
-	Qut7d4vZs0hTrDdNrzcpumZ2PDGfJbRganBN63AyVM1ptWkcOPYCP79Iox3AS2vm8BxRF7N5XAN+e
-	6ZRVMXgrEi02uOjEfjKjcCwTaAJKCL4O1nChfI6qIDgrM+rzMab8BZ+CIWZ5YXVX+Ood4rH8N6NzP
-	NSSKMgV1KJYuyYC+hb2Ef4BAf4S90QEPOHlURoeN1gXx4zx1aoHzay3A5qKcOsh7o05aJopSQYRhr
-	zymHxwdz+bsi/RXv/zSutZHOdhh83ORpDbnopMFVFkcAhCOVl+kwG00QBpM84bR5eMtQlVnlDU9OG
-	sqZdGstg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjDMm-00000008nQe-1m52;
-	Mon, 13 Jul 2026 09:54:24 +0000
-Date: Mon, 13 Jul 2026 02:54:24 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Pedro Falcato <pfalcato@suse.de>, Jori Koolstra <jkoolstra@xs4all.nl>,
-	Jeff Layton <jlayton@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
-	Aleksa Sarai <aleksa@amutable.com>, NeilBrown <neil@brown.name>,
-	Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 09/14] vfs: add O_CREAT|O_DIRECTORY to open*(2)
-Message-ID: <alS10NN_OduZEqvt@infradead.org>
-References: <20260704164149.3480051-1-jkoolstra@xs4all.nl>
- <20260704164149.3480051-10-jkoolstra@xs4all.nl>
- <akyyqnv9EpY7xVdC@pedro-suse.lan>
- <20260707-vorteil-unhaltbar-apotheke-47bb105161ff@brauner>
+	 Content-Type:Content-Disposition:In-Reply-To; b=BNVQXCijAn3ESbV65SiHnbCv9SoZnj7sXffsyeibZsvmgvaJQjyyCGwdqMxofsEM9rmRPJkefTCaZEcebqQchJNRluqvHWCS3Ij15C5iF901d2c+m6TUeIMfe7rOlsy5PGa8GM2hnZrr7wMrGGTD5GFxAhXlslvAEka6tsdQlqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 05AEC68BFE; Mon, 13 Jul 2026 11:58:58 +0200 (CEST)
+Date: Mon, 13 Jul 2026 11:58:57 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: Christoph Hellwig <hch@lst.de>, David Sterba <dsterba@suse.com>,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>, Dave Kleikamp <shaggy@kernel.org>,
+	Jan Kara <jack@suse.com>, Mark Fasheh <mark@fasheh.com>,
+	Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
+	linux-nilfs@vger.kernel.org, ocfs2-devel@lists.linux.dev
+Subject: Re: removing the remaining blockdev_direct_IO users
+Message-ID: <20260713095857.GB10501@lst.de>
+References: <20260710050744.GA6720@lst.de> <fea4c4f25afb7711d1e8fbe6ca5ab654ec522186.camel@dubeyko.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260707-vorteil-unhaltbar-apotheke-47bb105161ff@brauner>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <fea4c4f25afb7711d1e8fbe6ca5ab654ec522186.camel@dubeyko.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Tue, Jul 07, 2026 at 12:04:18PM +0200, Christian Brauner wrote:
-> I don't think any of this is really an argument worth considering.
-
-It very much is.
-
-> This is a lot of handwaving for the sake of portability and concerns
-> about past API mistakes. To both: so what. If an API is useful it's
-> useful, POSIX be damned. We're not going to be fenced in by some
-> standard.
+On Fri, Jul 10, 2026 at 09:51:09AM -0700, Viacheslav Dubeyko wrote:
+> On Fri, 2026-07-10 at 07:07 +0200, Christoph Hellwig wrote:
+> > Hi all,
+> > 
+> > we have 7 users of blockdev_direct_IO and one of the lower-level
+> > __blockdev_direct_IO left, and I'd really like to get rid of them.
+> > 
+> > The filesystems are affs, fat, hfs, hfsplus, jfs, nilfs2, udf and
+> > ocfs2,
+> > and you are the relevant maintainers.  In 7.2 exfat converted
+> > entirely
+> > to iomap, which would be a really good example for a "simple" file
+> > system.  Another options especially for the file systems supporting
+> > foreign formats would be to just drop direct I/O support and reduce
+> > the support burden.
 > 
-> 90% of our interfaces blow way past POSIX already - in most subsystems.
-> If we'd back down ever time someone shows up with "what about POSIX"
-> Linux would be irrelevant.
+> I like the idea. I think we can try to switch HFS/HFS+ and NILFS2 on
+> iomap approach. Do you have some initial patches for this? Which
+> particular commit(s) converted the exfat to iomap? It will be good to
+> take a deeper look into this conversion to estimate the complexity of
+> HFS/HFS+, NILFS2 modifications.
 
-You can totaally ignore posix.  We need an interface that is self
-discoverable on Linux.  Any combination of flags that was accepted
-by previous kernels and gave different results than the new interface
-do not qualify for that.
-
-> It's been years since O_DIRECTORY | O_CREAT has been made consistent
-> which means all LTS kernels have consistent behavior. We often make flag
-> combinations work that didn't work or where inconsisent before. Nothing
-> here is special at all.
-
-No, we can't rely on something being backport to old enterprise/cloud
-kernel.  Doing so makes the interface unusable for actual applications.
-
-> 
-> I appreciate the concern but even if this were to fall flat then
-> worst-case we'd add a new flag and we'd still make that work. But I see
-> no reason to not try the semantically obvious thing and make
-> O_DIRECTORY | O_CREAT work.
-
-New flag as in new O_ flag for open does not work because open never
-checked flag.  Which has always been a giant PITA, but as long as we're
-dealing with legacy open(2) that is what it is.
+Almost all commits in fs/exfat/ in 7.2-rc1, starting with
+623f0aa1eca5c2a94ca1e4e5de719d062eac3b6c
 
