@@ -1,245 +1,295 @@
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C696B3EBF1A;
-	Mon, 13 Jul 2026 14:22:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF1192652AF
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 14:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783952552; cv=none; b=IsNd2ms1t+DFrXvNgx1wA6lQ89/+mSLlj/QBkZ6non4+o22FawQ6HDW1jrjk5RJDNEB9oj21/2ZeuBLLoDHoxOUyGreR55Z5dWgw6IvD+T5SJCPlm7zH1HsZxKj7uSK5EGuQK9CQYKpywjaxJaPV1zSW3qWIHYQCqYGYfP//dAY=
+	t=1783952838; cv=none; b=eWnLoQWJP5qyHikM+xmckqrq+w70MwHr/UzwQ5yY8SBjF5Z7iZFJ5Rd3OJUKMxvK4dgC8pdAUx/JCT7i2avTEB8ODFUnzFwxqwM7G+1A+inX5MCUOntyZ6723snDaetIubooBiL9ix6xFBvbQ4bXyoHiyQjSCQnz3gq7cbYqpw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783952552; c=relaxed/simple;
-	bh=EI7sexiV/X+UxTd/3TyF/EC4GLNBmSdCjLzN+4m+hOw=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=JHdYtbqhsd9BO9CP71WybrPqbUjxv/8xO1vkISx+elU4MWFlNm9OMo0hPLdnnqOp1VX40OPQ2+lcAlAXHBxUojJ1Sxcvx9HjoL6a0w7bRyo2xCIhXIvkbqjsSfe3Q7VIFUNlKdOl5vhBGOrnQE3IsSiVQ66bvvxaovqaF/f2dGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=L51VZSt3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nqVoMSyD; arc=none smtp.client-ip=202.12.124.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1783952838; c=relaxed/simple;
+	bh=/r2Xi6N18qyCVZAPKCTF82u/kygTPeE7Zl+iMFBUwAo=;
+	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:Content-Type; b=E0FS4g5KJvVN169iGFxKqJvXSRgsVhA4HiW9ymQIQEAOvqoP9qPu2Qrh3QQIMxiefobFb1yP+o2v+FIek9Hs7gus/ACo5ZLO5SUVw9RfbWOk9lmeABzIT2xyRak8HZ2PiuNppWa9oPhN4Ltl9fQVNwAC/TO7S0racTzPX6ZC3yM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=bFnjf3GZ; arc=none smtp.client-ip=195.121.94.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="L51VZSt3";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nqVoMSyD"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 447597A0071;
-	Mon, 13 Jul 2026 10:22:29 -0400 (EDT)
-Received: from phl-imap-05 ([10.202.2.95])
-  by phl-compute-04.internal (MEProxy); Mon, 13 Jul 2026 10:22:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1783952549;
-	 x=1784038949; bh=CU2l/l+grvYULNyVB/JOkonr04ETPKXJ4oV6oaYMGmQ=; b=
-	L51VZSt3D0sQZJ86eoW8TsSiS8ndpbFjh1AzuSbpFef1lFXTImKnhKGwnqu4atjm
-	vD3gpcyxTFIxm3Xqc7LZVle6bYKzTiA5qTv1FXVHHXBi8Pt+8hUDWY0kxrfD3cnb
-	zpIypaARxo0b/yD6XT5RYv4nji6H8Dk8yuvb17833RBryUvU+5mrKZo525IxqkcX
-	waBzznApG32gmMdicRWNraHjfpKGEqh+Nxqw3QXktd4GHQ61X88lLRfYmmGi3b/p
-	FFELTNvB5QomRZzkGouMwCq3PpgpBAOrTcPNgZdF+zWVTM3TnDDc2PcBMPELDhSW
-	LjW3YRpc8Uadb6v8kwkqfA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1783952549; x=
-	1784038949; bh=CU2l/l+grvYULNyVB/JOkonr04ETPKXJ4oV6oaYMGmQ=; b=n
-	qVoMSyDbNfi1FdT/UDr2Pmtq0c4QEagBtoHOn31ROZm3wzlAhgwX/9OK/4j+VYse
-	95mSIso//1Ve6Hhsw+vv/qte/MKWAaknKjjU9+4OR5TgA5i8dCf/sY3f+WzZP9W/
-	2sFYMBj0f7booKL21Zi5CjAGJ71BWPU8FbEGZfFccfDTyJQ9GFeMHoUttMv1ojxE
-	BJ0VWes/Cnly+PkwWN9kOmiI9n2FSPVArbSUJ/S+viJbPr2fwLHik6yAtpkL/5/D
-	g8kfHXEYWCL2Iq9p6QByH0Qq3Nkjlrek09CJCElXk6g19faE0oNOtHTqzuZx66Wy
-	ZQHTkhTBayQKPYDAY6rkw==
-X-ME-Sender: <xms:ovRUajBIsXUgDABx0NEfhe7XgaVGldrd2Ka8482OnxT3TUjXZlfhsg>
-    <xme:ovRUakWwJWs7-0TirTG1dAFOwv1XVAKt4OLw7b1d_zepvDu25PgHBdOQNYAeXNfJc
-    6wLyyIPLvQC3_XNkuXvAmuz7BJezLZAZekhexUWrR99ZsDSqQQ0Bw>
-X-ME-Proxy-Cause: dmFkZTFqcwJE5anyfqiojVjksH5tB/3nDJOMgzaL4MffLvJCdssvyH+hKOtcXcDpBqa4sv
-    cTYGFVIOBQ9UuPNtXjB/V0Zqrjq2GMtsrV6GHk75lf46Ay7h6x7q+TmQuo3PrHDoreROk7
-    Rcv07HJ99rDqBInAKHe1BXoCwJ/z97EBkHOElbk9m5jcVnoI2AuqwN+DxJ8VYZMDJTKbuq
-    M5pgR8hSmdmg78onYSbwY9by5uzfaixHwRa+qRiG31tv9lA6cPC3l1yBm+kPz8idmp7iP9
-    zUWHqoKULz7Tzlx7EPCTQfbjmU4/FQCEi+d6ReWBh5D0rKurgS52grVfEKaF3lHstByRaJ
-    tRJjC5lZYI7v6OxRHVK0FjPjCseguZPND9Q8O6Ey+Z2RrbOA8yFYmFfpixuIaAtbA7jjn7
-    dCMDQMpWFsOI+nUF0+NB+EpLBTqmVXFJ17eEH6JoqDVoxGGDNvXsHvIGsEm26de4dNleKM
-    cjJZYp2Ov8juw5ckS/s8lvL8GH050Q93ZvsHaQpOaHb1EIpwdVN0EZ7sOz4HSRbNIOCFSc
-    /GjrJJJUIincyR2Zr2HVRr9MssT1yPnhNiRJZwybvWfRtNur9hFstqQBWjImsPzEA81ynM
-    DeOv+MiLUy/uRo3eXwLuqJHUFYwqKN4xlwrtnXT7OI0rzXM3VqxQIJO9yr8A
-X-ME-Proxy: <xmx:ovRUatfkPdirTgbKSaNUuFYpZUVi-yf6Jy3zt2hjYoVKF7RQTOzd8g>
-    <xmx:ovRUatCE0Bv0VvBTLq0LIFG-5IA8R6k-PFMd6sSE0NfitEs32Zq8vA>
-    <xmx:ovRUaoSWQJ0la1mNQ3pta5ssq090yuqSHS37h8M_CWd7Ln8wk_EOZA>
-    <xmx:ovRUaoJ4jP15A00r9YjOT0Ixaowe-VBEseQM5fypr7gUM_SB677qSg>
-    <xmx:pfRUanEiFrJI2pBYWuIeiVy1rvQeLM-iFP9W4UBxSWImEVlJkqzN0FjA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id DC870182007E; Mon, 13 Jul 2026 10:22:25 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="bFnjf3GZ"
+X-KPN-MessageId: f0cdd940-7ec6-11f1-8f54-005056992ed3
+Received: from mta.kpnmail.nl (unknown [10.31.161.190])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id f0cdd940-7ec6-11f1-8f54-005056992ed3;
+	Mon, 13 Jul 2026 16:27:13 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id f0cad273-7ec6-11f1-b307-0050569977a2;
+	Mon, 13 Jul 2026 16:27:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=iaLgv2BDveiB9cTDQA1hlKsSjdSyePkmq764Gt+8i9o=;
+	b=bFnjf3GZsDi4jaX0Yga/FoiycnY0KvMHcY7b3zcmxMu1yp4aAOVYsvBjgNxyfEALxLbCP/w61x2q1
+	 FXv/VefpQt0Tg6FIB6iBqusW/4yhYGWMiKH4DlJb6mbGWvpp6WcfvANNVWs5066Ed1iVd40M4Hb/xj
+	 qX+PcgjJPm6j0q4wQgI9pLxFZTEcfNWZBmX0rLxKFS5+fmFDi4nElwv/3GBtkfAsL+qGHM+X6gRkpy
+	 tW2MhxSMZ1vy/7Z5KMpiWhdntEalBXtnnMNdn9LN63kternvYxwph6w2KCzk2rWKS6bgT6JG93Hz1K
+	 gcIIHtB6FTSIG/Ajkn/6tAopCGtel4w==
+X-KPN-MID: 33|qsuEQdNEvuBFtwNk6ROruy+2Y66UI1YowGqXh3sB8ITQXHEKkfDqFoZq6C7U0wp
+ ZHv0edVJqpLD2k5CjKAKM/pxiQOxwcHg2o6whg2OIDXE=
+X-CMASSUN: 33|DKpEomnx7w/OtmUBXF1IrZfKmSs9bQZtxdkKUN35bE7va/CfAKBEMSFCM/wu/BZ
+ Ir3r8nWsNq1pvgX/egS4yNA==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh01 (cpxoxapps-mh01.personalcloud.so.kpn.org [10.128.135.207])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id f0bbb2c8-7ec6-11f1-916a-005056995d6c;
+	Mon, 13 Jul 2026 16:27:13 +0200 (CEST)
+Date: Mon, 13 Jul 2026 16:27:13 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>, linux-mm@kvack.org,
+	Farid Zakaria <farid.m.zakaria@gmail.com>, jannh@google.com
+Message-ID: <299644823.863357.1783952833258@kpc.webmail.kpnmail.nl>
+Subject: Re: [PATCH v3 09/24] binfmt_misc: rename Node to struct
+ binfmt_misc_entry
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: ARmmoW1aQeCk
-Date: Mon, 13 Jul 2026 16:22:05 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Fernando Fernandez Mancera" <fmancera@suse.de>,
- Netdev <netdev@vger.kernel.org>
-Cc: "David S . Miller" <davem@davemloft.net>,
- "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
- "Paolo Abeni" <pabeni@redhat.com>, "David Ahern" <dsahern@kernel.org>,
- "Simon Horman" <horms@kernel.org>, "Ido Schimmel" <idosch@nvidia.com>,
- "Jason Gunthorpe" <jgg@ziepe.ca>, "Leon Romanovsky" <leon@kernel.org>,
- "Andrew Lunn" <andrew+netdev@lunn.ch>,
- "Anthony L Nguyen" <anthony.l.nguyen@intel.com>,
- "Przemek Kitszel" <przemyslaw.kitszel@intel.com>,
- "Elad Nachman" <enachman@marvell.com>,
- "Saeed Mahameed" <saeedm@nvidia.com>, "Tariq Toukan" <tariqt@nvidia.com>,
- "Mark Bloch" <mbloch@nvidia.com>, "Petr Machata" <petrm@nvidia.com>,
- "Edward Cree" <ecree.xilinx@gmail.com>,
- "Maxime Coquelin" <mcoquelin.stm32@gmail.com>,
- "Alexandre Torgue" <alexandre.torgue@foss.st.com>,
- "Arend van Spriel" <arend.vanspriel@broadcom.com>,
- "Miri Korenblit" <miriam.rachel.korenblit@intel.com>,
- "Keith Busch" <kbusch@kernel.org>, "Jens Axboe" <axboe@kernel.dk>,
- "Christoph Hellwig" <hch@lst.de>, "Sagi Grimberg" <sagi@grimberg.me>,
- "Chaitanya Kulkarni" <kch@nvidia.com>,
- "Saurav Kashyap" <skashyap@marvell.com>,
- "Javed Hasan" <jhasan@marvell.com>,
- GR-QLogic-Storage-Upstream@marvell.com,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- "Nilesh Javali" <njavali@marvell.com>,
- "Manish Rangankar" <mrangankar@marvell.com>,
- "Varun Prakash" <varun@chelsio.com>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- "David Howells" <dhowells@redhat.com>,
- "Marc Dionne" <marc.dionne@auristor.com>,
- "Trond Myklebust" <trondmy@kernel.org>,
- "Anna Schumaker" <anna@kernel.org>, "Chuck Lever" <cel@kernel.org>,
- "Jeff Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
- "Olga Kornievskaia" <okorniev@redhat.com>,
- "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
- "Marek Lindner" <marek.lindner@mailbox.org>,
- "Simon Wunderlich" <sw@simonwunderlich.de>,
- "Antonio Quartulli" <antonio@mandelbit.com>,
- "Sven Eckelmann" <sven@narfation.org>,
- "Nikolay Aleksandrov" <razor@blackwall.org>,
- "Pablo Neira Ayuso" <pablo@netfilter.org>,
- "Florian Westphal" <fw@strlen.de>, "Phil Sutter" <phil@nwl.cc>,
- "Johannes Berg" <johannes@sipsolutions.net>,
- "Matthieu Baerts" <matttbe@kernel.org>,
- "Mat Martineau" <martineau@kernel.org>,
- "Geliang Tang" <geliang@kernel.org>, "Julian Anastasov" <ja@ssi.bg>,
- "Aaron Conole" <aconole@redhat.com>,
- "Eelco Chaudron" <echaudro@redhat.com>,
- "Ilya Maximets" <i.maximets@ovn.org>,
- "Allison Henderson" <achender@kernel.org>,
- "Jamal Hadi Salim" <jhs@mojatatu.com>, "Jiri Pirko" <jiri@resnulli.us>,
- "Marcelo Ricardo Leitner" <marcelo.leitner@gmail.com>,
- "Xin Long" <lucien.xin@gmail.com>,
- "D. Wythe" <alibuda@linux.alibaba.com>,
- "Dust Li" <dust.li@linux.alibaba.com>,
- "Sidraya Jayagond" <sidraya@linux.ibm.com>,
- "Wenjia Zhang" <wenjia@linux.ibm.com>,
- "Mahanta Jambigi" <mjambigi@linux.ibm.com>,
- "Tony Lu" <tonylu@linux.alibaba.com>, "Wen Gu" <guwen@linux.alibaba.com>,
- "Jon Maloy" <jmaloy@redhat.com>,
- "Steffen Klassert" <steffen.klassert@secunet.com>,
- "Herbert Xu" <herbert@gondor.apana.org.au>,
- "Vikas Gupta" <vikas.gupta@broadcom.com>,
- "Rajashekar Hudumula" <rajashekar.hudumula@broadcom.com>,
- "Justin Chen" <justin.chen@broadcom.com>,
- "Bhargava Marreddy" <bhargava.marreddy@broadcom.com>,
- "Nicolai Buchwitz" <nb@tipi-net.de>,
- "Florian Fainelli" <florian.fainelli@broadcom.com>,
- "Heiner Kallweit" <hkallweit1@gmail.com>,
- "Krzysztof Kozlowski" <krzk@kernel.org>,
- "Russell King" <rmk+kernel@armlinux.org.uk>, "Yao Zi" <me@ziyao.cc>,
- "Yanteng Si" <siyanteng@cqsoftware.com.cn>,
- "Maxime Chevallier" <maxime.chevallier@bootlin.com>,
- "Julian Braha" <julianbraha@gmail.com>,
- "Joey Lu" <a0987203069@gmail.com>,
- "Shangjuan Wei" <weishangjuan@eswincomputing.com>,
- "Chen-Yu Tsai" <wens@kernel.org>, "Inochi Amaoto" <inochiama@gmail.com>,
- "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "Qingfang Deng" <qingfang.deng@linux.dev>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Eric Biggers" <ebiggers@kernel.org>,
- "Ethan Nelson-Moore" <enelsonmoore@gmail.com>,
- "Ard Biesheuvel" <ardb@kernel.org>,
- "Dmitry Safonov" <0x7f454c46@gmail.com>,
- "Kuniyuki Iwashima" <kuniyu@google.com>, "Alyssa Ross" <hi@alyssa.is>,
- linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org,
- "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
- "open list:NETRONOME ETHERNET DRIVERS" <oss-drivers@corigine.com>,
- linux-net-drivers@amd.com, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-wireless@vger.kernel.org,
- brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
- linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
- b.a.t.m.a.n@lists.open-mesh.org,
- "open list:ETHERNET BRIDGE" <bridge@lists.linux.dev>,
- netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
- mptcp@lists.linux.dev, lvs-devel@vger.kernel.org, dev@openvswitch.org,
- rds-devel@oss.oracle.com, linux-sctp@vger.kernel.org,
- linux-s390@vger.kernel.org,
- "open list:TIPC NETWORK LAYER" <tipc-discussion@lists.sourceforge.net>
-Message-Id: <713178ff-0fb2-4f1b-90bc-9841cd42c20e@app.fastmail.com>
-In-Reply-To: <2256daf4-d03c-4a57-9d72-7a388d823f18@suse.de>
-References: <20260712013941.4570-1-fmancera@suse.de>
- <20260712013941.4570-2-fmancera@suse.de>
- <12ffac6a-649a-4e4a-8d12-0b48171e1d95@app.fastmail.com>
- <2256daf4-d03c-4a57-9d72-7a388d823f18@suse.de>
-Subject: Re: [PATCH 01/13 RFC net-next] net: ipv4: introduce CONFIG_IPV4 to decouple
- the IPv4 stack
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-On Mon, Jul 13, 2026, at 16:00, Fernando Fernandez Mancera wrote:
-> On 7/12/26 1:01 PM, Arnd Bergmann wrote:
->> On Sun, Jul 12, 2026, at 03:38, Fernando Fernandez Mancera wrote:
->>> Historically, the IPv4 protocol has been linked to the core INET
->>> subsystem. Because shared infrastructure like the TCP/UDP engine,
->>> routing or INET hashtables live inside net/ipv4/, it has been impossible
->>> to compile a kernel with only IPv6 support.
->>>
->>> This patch introduces the CONFIG_IPV4 Kconfig symbol, which is set to
->>> 'def_bool y' for now. This does not allow to completely disable the
->>> IPv4 stack yet but it lays the necessary build-system work for that
->>> goal.
->> 
->> I expect this will cause additional (trivial) build regression in the
->> next step when randconfig builds run into obscure corner cases, either
->> with INET=y IPV4=n IPV6=y or with INET=y IPV4=n IPV6=n.
->> 
->> I can probably give your patch (with IPV4 visible or disabled) an
->> early go on the randconfig tree to find these more quickly.
->> If I run into regressions, should I just add more 'depends on IPV4',
->> or do you have other plans?
->> 
->
-> Yes, I have a job running randconfig and verifying nothing breaks. If 
-> something breaks and it isn't core networking stack I would just make 
-> the Kconfig symbol depend on IPv4.
->
-> Then later we will have more time to write a dedicate patch so it does 
-> not depend on IPv4.
+On Fri, Jul 10, 2026 at 11:33:10AM +0200, Christian Brauner wrote:
+> The CamelCase Node typedef is a 1997 leftover and hides that this is
+> a plain struct. Call it what it is: struct binfmt_misc_entry, matching
+> struct binfmt_misc that it hangs off of and the entry bit and flag
+> enums. Drop the typedef, switch the size computations in
+> create_entry() to sizeof(*e) and adjust the comments that still
+> referred to the old name.
+> 
+> No functional change.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  fs/binfmt_misc.c | 60 +++++++++++++++++++++++++++++---------------------------
+>  1 file changed, 31 insertions(+), 29 deletions(-)
+> 
+> diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
+> index 98ad1383ba6b..9be57f387524 100644
+> --- a/fs/binfmt_misc.c
+> +++ b/fs/binfmt_misc.c
+> @@ -56,7 +56,7 @@ enum binfmt_misc_entry_flags {
+>  	MISC_FMT_OPEN_FILE	= (1U << 28),
+>  };
+>  
+> -typedef struct {
+> +struct binfmt_misc_entry {
+>  	struct hlist_node node;
+>  	unsigned long flags;		/* type, status, etc. */
+>  	int offset;			/* offset of magic */
+> @@ -69,7 +69,7 @@ typedef struct {
+>  	struct file *interp_file;
+>  	refcount_t users;		/* sync removal with load_misc_binary() */
+>  	struct rcu_head rcu;
+> -} Node;
+> +};
+>  
+>  static struct file_system_type bm_fs_type;
+>  
+> @@ -84,7 +84,7 @@ static struct file_system_type bm_fs_type;
+>   *  - interp: ~50 bytes
+>   *  - flags:  5 bytes
+>   * Round that up a bit, and then back off to hold the internal data
+> - * (like struct Node).
+> + * (like struct binfmt_misc_entry).
+>   */
+>  #define MAX_REGISTER_LENGTH 1920
+>  
+> @@ -100,11 +100,11 @@ static struct file_system_type bm_fs_type;
+>   *
+>   * Return: binary type list entry on success, NULL on failure
+>   */
+> -static Node *search_binfmt_handler(struct binfmt_misc *misc,
+> -				   struct linux_binprm *bprm)
+> +static struct binfmt_misc_entry *
+> +search_binfmt_handler(struct binfmt_misc *misc, struct linux_binprm *bprm)
+>  {
+>  	char *p = strrchr(bprm->interp, '.');
+> -	Node *e;
+> +	struct binfmt_misc_entry *e;
+>  
+>  	/* Walk all the registered handlers. */
+>  	hlist_for_each_entry_rcu(e, &misc->entries, node) {
+> @@ -153,10 +153,10 @@ static Node *search_binfmt_handler(struct binfmt_misc *misc,
+>   *
+>   * Return: binary type list entry on success, NULL on failure
+>   */
+> -static Node *get_binfmt_handler(struct binfmt_misc *misc,
+> -				struct linux_binprm *bprm)
+> +static struct binfmt_misc_entry *get_binfmt_handler(struct binfmt_misc *misc,
+> +						    struct linux_binprm *bprm)
+>  {
+> -	Node *e;
+> +	struct binfmt_misc_entry *e;
+>  
+>  	guard(rcu)();
+>  	do {
+> @@ -166,14 +166,14 @@ static Node *get_binfmt_handler(struct binfmt_misc *misc,
+>  }
+>  
+>  /**
+> - * put_binfmt_handler - put binary handler node
+> - * @e: node to put
+> + * put_binfmt_handler - put binary handler entry
+> + * @e: entry to put
+>   *
+> - * Free node syncing with load_misc_binary() and defer final free to
+> + * Free entry syncing with load_misc_binary() and defer final free to
+>   * load_misc_binary() in case it is using the binary type handler we were
+>   * requested to remove.
+>   */
+> -static void put_binfmt_handler(Node *e)
+> +static void put_binfmt_handler(struct binfmt_misc_entry *e)
+>  {
+>  	if (refcount_dec_and_test(&e->users)) {
+>  		if (e->flags & MISC_FMT_OPEN_FILE) {
+> @@ -219,7 +219,7 @@ static struct binfmt_misc *load_binfmt_misc(void)
+>   */
+>  static int load_misc_binary(struct linux_binprm *bprm)
+>  {
+> -	Node *fmt;
+> +	struct binfmt_misc_entry *fmt;
+>  	struct file *interp_file = NULL;
+>  	int retval = -ENOEXEC;
+>  	struct binfmt_misc *misc;
+> @@ -290,7 +290,7 @@ static int load_misc_binary(struct linux_binprm *bprm)
+>  ret:
+>  
+>  	/*
+> -	 * If we actually put the node here all concurrent calls to
+> +	 * If we actually put the entry here all concurrent calls to
+>  	 * load_misc_binary() will have finished. We also know
+>  	 * that for the refcount to be zero someone must have concurently
+>  	 * removed the binary type handler from the list and it's our job to
+> @@ -326,7 +326,7 @@ static char *scanarg(char *s, char del)
+>  	return s;
+>  }
+>  
+> -static char *check_special_flags(char *sfs, Node *e)
+> +static char *check_special_flags(char *sfs, struct binfmt_misc_entry *e)
+>  {
+>  	char *p = sfs;
+>  	int cont = 1;
+> @@ -370,9 +370,10 @@ static char *check_special_flags(char *sfs, Node *e)
+>   * ':name:type:offset:magic:mask:interpreter:flags'
+>   * where the ':' is the IFS, that can be chosen with the first char
+>   */
+> -static Node *create_entry(const char __user *buffer, size_t count)
+> +static struct binfmt_misc_entry *create_entry(const char __user *buffer,
+> +					      size_t count)
+>  {
+> -	Node *e;
+> +	struct binfmt_misc_entry *e;
+>  	int memsize, err;
+>  	char *buf, *p;
+>  	char del;
+> @@ -385,14 +386,14 @@ static Node *create_entry(const char __user *buffer, size_t count)
+>  		goto out;
+>  
+>  	err = -ENOMEM;
+> -	memsize = sizeof(Node) + count + 8;
+> +	memsize = sizeof(*e) + count + 8;
+>  	e = kmalloc(memsize, GFP_KERNEL_ACCOUNT);
+>  	if (!e)
+>  		goto out;
+>  
+> -	p = buf = (char *)e + sizeof(Node);
+> +	p = buf = (char *)e + sizeof(*e);
+>  
+> -	memset(e, 0, sizeof(Node));
+> +	memset(e, 0, sizeof(*e));
+>  	if (copy_from_user(buf, buffer, count))
+>  		goto efault;
+>  
+> @@ -602,7 +603,7 @@ static int parse_command(const char __user *buffer, size_t count)
+>  
+>  /* generic stuff */
+>  
+> -static void entry_status(Node *e, char *page)
+> +static void entry_status(struct binfmt_misc_entry *e, char *page)
+>  {
+>  	char *dp = page;
+>  	const char *status = "disabled";
+> @@ -686,7 +687,7 @@ static struct binfmt_misc *i_binfmt_misc(struct inode *inode)
+>  */
+>  static void bm_evict_inode(struct inode *inode)
+>  {
+> -	Node *e = inode->i_private;
+> +	struct binfmt_misc_entry *e = inode->i_private;
+>  
+>  	clear_inode(inode);
+>  
+> @@ -714,7 +715,8 @@ static void bm_evict_inode(struct inode *inode)
+>   * to use writes to files in order to delete binary type handlers. But it has
+>   * worked for so long that it's not a pressing issue.
+>   */
+> -static void remove_binfmt_handler(struct binfmt_misc *misc, Node *e)
+> +static void remove_binfmt_handler(struct binfmt_misc *misc,
+> +				  struct binfmt_misc_entry *e)
+>  {
+>  	spin_lock(&misc->entries_lock);
+>  	hlist_del_init_rcu(&e->node);
+> @@ -727,7 +729,7 @@ static void remove_binfmt_handler(struct binfmt_misc *misc, Node *e)
+>  static ssize_t
+>  bm_entry_read(struct file *file, char __user *buf, size_t nbytes, loff_t *ppos)
+>  {
+> -	Node *e = file_inode(file)->i_private;
+> +	struct binfmt_misc_entry *e = file_inode(file)->i_private;
+>  	ssize_t res;
+>  	char *page;
+>  
+> @@ -747,7 +749,7 @@ static ssize_t bm_entry_write(struct file *file, const char __user *buffer,
+>  				size_t count, loff_t *ppos)
+>  {
+>  	struct inode *inode = file_inode(file);
+> -	Node *e = inode->i_private;
+> +	struct binfmt_misc_entry *e = inode->i_private;
+>  	int res = parse_command(buffer, count);
+>  
+>  	switch (res) {
+> @@ -796,7 +798,7 @@ static const struct file_operations bm_entry_operations = {
+>  /* /register */
+>  
+>  /* add to filesystem */
+> -static int add_entry(Node *e, struct super_block *sb)
+> +static int add_entry(struct binfmt_misc_entry *e, struct super_block *sb)
+>  {
+>  	struct dentry *dentry = simple_start_creating(sb->s_root, e->name);
+>  	struct inode *inode;
+> @@ -828,7 +830,7 @@ static int add_entry(Node *e, struct super_block *sb)
+>  static ssize_t bm_register_write(struct file *file, const char __user *buffer,
+>  			       size_t count, loff_t *ppos)
+>  {
+> -	Node *e;
+> +	struct binfmt_misc_entry *e;
+>  	struct super_block *sb = file_inode(file)->i_sb;
+>  	int err = 0;
+>  	struct file *f = NULL;
+> @@ -894,7 +896,7 @@ static ssize_t bm_status_write(struct file *file, const char __user *buffer,
+>  	int res = parse_command(buffer, count);
+>  	struct hlist_node *next;
+>  	struct inode *inode;
+> -	Node *e;
+> +	struct binfmt_misc_entry *e;
+>  
+>  	misc = i_binfmt_misc(file_inode(file));
+>  	switch (res) {
+> 
+> -- 
+> 2.53.0
+> 
 
-Ok
-
->> Should we have some logic to ensure that at least one of IPV4 or
->> IPV6 is enabled? I think this would work
->> 
->> config IPV4
->>        bool "The IPv4 protocol" if IPV6
->>        default INET
->> 
->> which only allows turning IPV4 off if IPV6 has enabled.
->> 
->
-> I do wonder, should we? I mean, I didn't try it off but I don't see why 
-> we should not allow a pure L2 system..
-
-I expected a pure L2 system to be CONFIG_ETHERNET=y CONFIG_INET=n.
-
-Which user-visible parts of CONFIG_INET would you want keep working
-when both v4 and v6 are disabled?
-
-     Arnd
+Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
