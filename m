@@ -1,93 +1,92 @@
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D96F2745E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 19:18:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8753735674D
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 19:26:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.170
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783970288; cv=pass; b=QSwJK81FuYO5OZI1UVZRqnZF/MMR9Kiiy0InUnD+Nuxs/DWbWkWIlTSH35GaOdQLtS//aZ+poQSejhjafXhAD2uH5wn8N1Ve8bDzuT5vyyIvAt7XF2TzeeUePhJvB0ajflDPUpYiIaihUHCD3aVQSpCG/Pd8ME6dvDUdNVHcdjI=
+	t=1783970800; cv=pass; b=Y8IC+MhCd7hOlxYQqBcq77arkKg6CVQXEiohH56S1AEoJ4eXpPy+jT0GmES3yZCQgjamkyeimdAg2dTvfU0i7+J8qfbMDGy+rapc8dLMjeM9cOqabdZ6N5esgXBFC45KpO4IOGUgM2oHH9KDLm98h03bkkyqng7yuVatQ3TZoZs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783970288; c=relaxed/simple;
-	bh=nd/GbPVhPSqumv/w2cTpkFqLXvGQD8OrGAndVtih/DE=;
+	s=arc-20240116; t=1783970800; c=relaxed/simple;
+	bh=OuiP9HvT6UJwbpWJENJHHusdbFMCy5QRChdJM7Jwsv4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YzE/Aj8GQosSkf7kKbStoWEEF7cgGpIevmrH+GXhA1DxNn3+wwnoNZP8NePH3xKBHTgYQVhIY8+pa790iKXolIdRO6tx2u9YW0EOFr+xjHFoZMVrNnSPdqG7reLi+ruaz8jnCXn6wGv3OmmDllxK1eLpk7sUULqQTMTj4TZMqeE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rS0Ad2Bj; arc=pass smtp.client-ip=209.85.167.179
+	 To:Cc:Content-Type; b=kHP9Zs4oPsJC3mkIUTL7WbZ2qS6xW2cZm0lj2UpBM/DoDkFQexkAYnAKIm4FmIxakfptXgvXjWIHQ84WJM18B77ym83WHv0WOzy4ZPLGSDiy/220byXl/E2130dY4GhXhb+LXv2nCHI7IUR0t08X3yuhgoGphZr9//KqwykipYY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HZKKgJQf; arc=pass smtp.client-ip=209.85.167.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rS0Ad2Bj"
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-492046a3313so166180b6e.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 12:18:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783970286; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HZKKgJQf"
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-49190e20a0cso1793700b6e.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 12:26:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783970798; cv=none;
         d=google.com; s=arc-20260327;
-        b=rICJR6ZXWFfOyMutsr1r9pnz+BTU0nHeYbXUrzf7f2llvjP7SHJW2UQNmmdGOG0VW+
-         3M/ZXc0p54fp3JAy13zlTV9I7nMRPRVktrD1pS3iz8o/DaAloaTIrfoodYoa/ozRdVlZ
-         h2hYWv5ad/4vTA1ykHDxUQEClL31DLAVzoieEwvIg+Wgc+/ivbLS99nx5ApDtJMHmYaM
-         qPv0H67rpiFykpdPehQek/tRKhQhXTZX6NoQ2aOZlPW66jmicUSV8vHpNEj8O07CrvcX
-         Ziu5ISVBw4MNr5x1QCW95a1QQSFG67+X6+ygbTV6Zs+tTROTkHz0b3A90Kxn1Ncm4QIu
-         ObjA==
+        b=fAJ9TOx39Q9M5jfNOuPDWmDY+/HbouDcD5SnKSmXsIvCGbO5Nn0psAHP7aAj0tacDi
+         LR0NGzM7DYl2oB/nc7f7G5Fq6w5rdPl6iwhHshHPe+VQaknBepN47hGcge1bGmByJ9bg
+         QFUQfGJia0N7XNdVQKu8wnhR7sHqxutjaPw66ZVugMArqDvfbZFfkYrnh3QSRJ9XveTc
+         lIaeR8lzLDSg8q9XEdISqd292KteeGM+pCozpNKcO/NgfhSe2WfBFsfnT37Fk0wBq6oX
+         tmvnlOuqRhdMPUmkgJpGVHFzsGgG9j/1yrQ6/1FhO4SLWw9+yI0+qFBA6n6dvjZkcRQs
+         9cVA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=g7oXzbKR+Nla7biREoU4+S80J1Fmi0WpZ2OpnGwsyN8=;
+        bh=2FSH2zFyyZgXJwXjp+sqRDUf0qZ8TzsdIeg6wXJ6Ry4=;
         fh=yOiudSuk+B/rR47n2F7nA/XPr/J7mTeztq57UTMxu4Y=;
-        b=aUVATSSWWx9lXUNcvurCnR8G0t1R/3Po0sWjb2KqnQ3XdNL8bmRt+4yrCYuoD8d4rn
-         pUdyTa3Xtr1vrHdfXWVS8fK54qqo0ek5YIqpZV7l0Ja/cGGNq3CjhupxjA5xgnbOhuQY
-         fcfe/LgUlaXIKkD7zaytUZUCE3HqN6m583NyGmSRri0rbHTwRIRO5pjYo07thAh9JkAN
-         XkqDyM5b5Qhe3ktUiG6EeinTol2UHhdUkSMV0kZCSqr6DCR5t8YfyWb/Db9UY19B9457
-         6ApqVFQsJ9lhs0BHiFeBPNz/+0NJ8nP8tV9Ua2ukb3jjZx657m7LnbS+Z7DJfyEXIZ75
-         57/Q==;
+        b=Slr1UvfSxTY1m3uszILhDDeaId653pPXON3J336PMTGat2cbpqq+ynE9snVXmgrkcR
+         yZqDIA0Z+WlCmNxiFqMN+ItZCaiB3QY6z5XY/sK9hdVJprLWg3aWYVOB+rIwsNBrrCbP
+         v3vcedWN6Pq24yvvoN4p9m8x6kcHYclQun6SBy8UAW+S9M6VfnuhsQ78pZ8Vhz7E6jKl
+         LgnXLlEZBgV4642Svr1lnTAe0uG2L3ZgxqR+ghfwuPXXK3Eu3Gua4B1YVrUL8IKrpl4b
+         bf36JwVtBboVBA+u8oFBdVfJIszR5SogIA3Aw/deVfSNN6vzvaL0Vi0y86CAb9GgCFMF
+         jTXQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783970286; x=1784575086; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783970798; x=1784575598; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=g7oXzbKR+Nla7biREoU4+S80J1Fmi0WpZ2OpnGwsyN8=;
-        b=rS0Ad2Bjri77gjN7FjZlPrIwYutezahaxZlx69KuzoNzxnQwUgHrQ3qSpCwJ6zHUkp
-         F2RQ+LcTuOF4NCICfG0jc689PS0xxSChAVLezoPaDZe2rOtMR8iMqPNKVmBOEuTeT4oy
-         9z/Gpz3vIPJfi/U5dTDot+M8iS9w7DxEOGAA37xEGSb52PpPheLe61i9faMFSK8PTowW
-         4PqCgb1u48TCEZ60CPOD5WXYNu8lVQSc4l6CPRht37ceI8NPaMI1Mvt5wDzdfqqYk8gg
-         cvtOPJ97/XjHQNZKIxWiVSHmcOp8M6bI5IOZLCrNw6LO67IX3ugWOPnjVufImDtoFOaC
-         PivA==
+        bh=2FSH2zFyyZgXJwXjp+sqRDUf0qZ8TzsdIeg6wXJ6Ry4=;
+        b=HZKKgJQfJKg0/FDNMbZ1NuivRgIFLghBzmYJn/esBSzycQn4bZq9vRn7rxco/mO2eB
+         8QGJAR2Ji5135GyCi8fWn8eztZR+WoftCv/VqjzbRky5SnpdkKx617I3sqeXf8Yzmybm
+         h2sE+jVqigUBUGFeUoUxjCFdZdawRiiKYgQpusvI3NZnrpNmx+ul6HYQHGhrAMzOJ0yY
+         XJX+r8ZgDJz65Wp0fNWLNyI7pCG2XbxP/2IkY+LtjX+xwvKi8vG40fOuSxzTlkoIR1lV
+         9dQeqa1qFjsfX5G8G4xLWiGaoB92NJyzUJMCwiwTUeBOeyW5nqVzIfgo+s9MO1r2OVSL
+         vX3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783970286; x=1784575086;
+        d=1e100.net; s=20251104; t=1783970798; x=1784575598;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=g7oXzbKR+Nla7biREoU4+S80J1Fmi0WpZ2OpnGwsyN8=;
-        b=HJtZcwHFNkr92Nf42R0toGhyKFB2v3vlUMsMVgNlG1Y+lfP34VM3a43ZRCk5Z4FFAE
-         r/QgNblCYdvWBa4yo62wPU0LWYgOp8GUXxp0Xmwtin1CxW1yNS8Y7Yjxhgg+TkQWzzEB
-         AT3ykYwfyDMwLQJY63nAlvIoiFgV6GdYDUk8bWb6UvRJPDOAOrjpVQeDcddpnbtq3bbt
-         T2QVzi+Mzr2TnTDgpgEfrFZujTtz0MMr+Nm7Cn485uxOH/8fE2ZkCIvMHdKqyrIMiRUX
-         Ha0KLtD82o4VivUyZp5X3EZjrWUE08u9agKMAa8zZSX/J5gD+nHixSMefjR0n8LhRc/Y
-         ElqQ==
-X-Gm-Message-State: AOJu0Yxz2YJTHOBBQTpJEXTS/CTzbyCfWtr+PDzbSH1R4GTyk0wwrv1+
-	x4wg04RiP22n7GhX3teh73KdX5kGouto5BtKu2NpML08Y/JUQhkAVuyvUUKvWxVlo69z9qGlvBW
-	ErrYMHdkGDi1mhN51sk7rNCfnF6tlSgmd7w==
-X-Gm-Gg: AfdE7cntEW56nLuMr6eyY96/vEEpMmNQNZRQuj4ixhL/FQt01JbqLxhl2FAqf35cXWg
-	SUD+OLYkK/kygfGPdMCxViG8FHKSez+jFUy7yaPssxZw7xCWjoKSjwbfE+aDs8jBKyVQygNyiil
-	jh+4FNztKwMrff7JV+PLpwR8xolEisqWhWvkfysCVv3gYmuMjqbzwWw7YuCxD9Meo5M2cFJwyVY
-	DWc2hX0mTNyMagnCSJqbXA6oe4dduh3kME79dGY5cJxwI0aq4sbCMLOG8DT6QovHxjvA+mM
-X-Received: by 2002:a05:6808:1509:b0:4a2:df67:d08 with SMTP id
- 5614622812f47-4a42b0848e3mr6865361b6e.39.1783970286347; Mon, 13 Jul 2026
- 12:18:06 -0700 (PDT)
+        bh=2FSH2zFyyZgXJwXjp+sqRDUf0qZ8TzsdIeg6wXJ6Ry4=;
+        b=X2+uRF1jZAFoemPwdSQ0sakvxlXSKTEN0dt53hkZnXg2Ef55wD1f+CaG2iQM7dod2o
+         V/ddMSafEbM3+U8e0m92RowGQc/uOURQF3lwWVFJ1QTSfr1xLSu+S9dX3nwsuIZqqPgM
+         1lcOJSzywcsTQ7uJY43ETuFkbBpMlaZeF7ALhMXmXmvh4aZSL1jIGdoPFAevsRVdDjTK
+         bSZoC2bcCUgFUWJP4+SdWlgzutYX3hyw5FKJBi/A020fwGCQoQ8rVTOv1MzcHb3arvn8
+         DH+CL+Tnkol8j9Cos6wcO+CFPgiJ7n8Y/rl9ORAyxagKnnJatljS3cf9KpscKhxCjDAH
+         AN9g==
+X-Gm-Message-State: AOJu0Yzl1/+KX5+D14SnXsKOSqtU1aeY0mMTG2COdKk91J6l7JJOa7IK
+	BkunprB4BTme+CRY8K6VWJv0B5vnSDSnfPju/K2J/d+BE4It1GIOCn67ZFUtyYVyqpDC7t1WuOo
+	XB6R/3FV6l7s6nIVb69mZKzIe0uX+7rHOo5Gw
+X-Gm-Gg: AfdE7cnilkGwm3XViC5dMHv2CTZC0sYWI4ugtw0dC7LfNJWJjrghNaqJ6vdUtTK0rKh
+	2s06XbAp1ZbR/vFcIXp5LvPhyPaQ2eJ20AtIGfhlC6G+WV2jxtT8R51cCA45+kdAX3LO7PDdzBZ
+	7sGjq4co22FKOLLo6DFYfsmY28ABsLLamy6t61HEFBRVas+ka7cjfS+zHjRVZ0Ylrm9PmFt5Xmn
+	HpohUwi1X1vxiS6iGMsUXrYMrMhaI7M5tZZfR9ie8tgcPZO1Hit0iUaGepYTSq2lGM1ZGAl
+X-Received: by 2002:a05:6808:1b2c:b0:495:f79d:b08e with SMTP id
+ 5614622812f47-4a42ae80d43mr6353940b6e.21.1783970798503; Mon, 13 Jul 2026
+ 12:26:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1783707063.git.jbingham@gmail.com> <3f7e48122d2b280de63e7b901c7a1d7a99c0e063.1783707063.git.jbingham@gmail.com>
- <alS0Z_wlS-C-2XxU@infradead.org>
-In-Reply-To: <alS0Z_wlS-C-2XxU@infradead.org>
+References: <cover.1783707063.git.jbingham@gmail.com> <alSwnFoGwVBRVlu0@infradead.org>
+In-Reply-To: <alSwnFoGwVBRVlu0@infradead.org>
 From: Jeremy Bingham <jbingham@gmail.com>
-Date: Mon, 13 Jul 2026 12:17:55 -0700
-X-Gm-Features: AVVi8Ccr7vHfcJOTqB96VjWnIiqDQmPy8ci3vILrTaXHIFLjxJPWf_TG0JGFowQ
-Message-ID: <CAMyBmMBRrqc98v3dnKeOw_VFCDO_p4BjMi05kpYyX52Dn1z7Tg@mail.gmail.com>
-Subject: Re: [PATCH v3 4/5] minix: add file operation functions
+Date: Mon, 13 Jul 2026 12:26:27 -0700
+X-Gm-Features: AVVi8Cd7qcEoaCRtAXMzbgPa3g3h3AfL9IIjkH66QBsZSaiNDfMEGrZrGUj2OWU
+Message-ID: <CAMyBmMDj7e0t8J2rYTw4uBe9SMDx0Jyf1iDbbcKYMdq3zzEEHg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] minix: convert to iomap and add direct I/O
 To: Christoph Hellwig <hch@infradead.org>
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	brauner@kernel.org, jkoolstra@xs4all.nl, jack@suse.cz, djwong@kernel.org, 
@@ -95,53 +94,28 @@ Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 13, 2026 at 2:48=E2=80=AFAM Christoph Hellwig <hch@infradead.or=
+On Mon, Jul 13, 2026 at 2:32=E2=80=AFAM Christoph Hellwig <hch@infradead.or=
 g> wrote:
 >
-> On Sat, Jul 11, 2026 at 01:59:08PM -0700, Jeremy Bingham wrote:
-> > The previously static minix_setattr function is also now exported; it w=
-ill
-> > be used by minix_symlink_inode_operations.
+> On Sat, Jul 11, 2026 at 01:59:04PM -0700, Jeremy Bingham wrote:
 >
-> How does this work without the next patch?
+> There's no point explaining each patch in the over letter, that's
+> what the commit log for each patch are for.
 
-It works as before until the next patch, which is where the symlink functio=
-ns
-are updated to use iomap. I thought it might be better to have it in
-place before
-rolling the symlink changes out. I'll
+Understood. I've also read your other reply about how the cover letter
+and commits need to explain *why* rather than *how* and will fix
+them accordingly.
 
-> > +     struct inode *inode =3D iocb->ki_filp->f_mapping->host;
-> > +     ssize_t ret;
-> > +
-> > +     inode_lock_shared(inode);
-> > +
-> > +     const struct iomap_ops *ops =3D minix_iomap_ops_ver(inode);
->
-> Please keep all variable declarations at the top of the file.
+> How did you test this?  How do the xfstests auto group results look
+> with an without the series for minix?
 
-Missed that, apologies.
+I made a script that exercises about 40 different file and directory
+operations against each version of the minix filesystem. I tried running
+xfstests against minix with and without these patches, but it doesn't
+work under either case because mkfs.minix and fsck.minix don't take
+the expected arguments. I had backed off using xfstests for this
+because of that, but I'll revisit with the next round of changes.
 
-> > +
-> > +     ret =3D iomap_dio_rw(iocb, to, ops, NULL, 0, NULL, 0);
-> > +     inode_unlock_shared(inode);
-> > +     return ret;
-> > +}
->
-> But more importantly please explain the use case for adding direct I/O
-> support to minix, as adding new barely tested code to a legacy file
-> needs a very good justification.  And it really needs to be split into
-> a separate patch.
-
-The direct i/o support was inspired by looking at the exfat and ext4
-file.c code.
-I honestly don't have a strong justification for it beyond that it seemed l=
-ike a
-nice bonus while I was working with the read/write functions. Since
-it's something
-that ought to be a separate patch anyway, I'll redo this to not
-involve direct i/o.
-
-Thank you for your comments on this patch series,
+Thank you again for your comments,
 
 -j
