@@ -1,494 +1,235 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC18389114
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 22:09:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE743845D3
+	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 22:18:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783980579; cv=none; b=rTGIwy8Wnu/GSI4LHy4cUoGgCKJ4inszBfcf6lsC8hjhuruTGs7bpcFdiXYUrpD5ZJLDtpGz8cXgfAu79tf+VzKZFf09fL4PpCmhtmmrKXEfFDHxxnElnxI3nwjVvucBAykR4SNzTujt+IE2R9h9zcdZ+br2TX1NPVnS14npUm4=
+	t=1783981098; cv=none; b=uwm5erM25xbjdKS3msJ+0LjI9HQuLScjq/jfD12/wxwsjuhvjRujTA0wj/DkIfoj6h6OmBk3AZs/DcMArBolsllIkdiDS9/vUZU0wzQANJdp1eycN6tSREDzila+ZQ7+cJvzme+WsbupT+2p+8NbJEExunoCl2XA9xF2l5DIoHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783980579; c=relaxed/simple;
-	bh=hEzuw4pLuzwvPzdnd7w/hOpL5ecfc1KyLK2mbok/gRk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=psIL1bwbZc4EuFBcs/BjzKkR46a9fOE6rj2McvT5//q/wiBaxasU3QFdCJzkDQmM7g60slDExEtNb/vxEt3PWZwmaO9ff1iVHg68Ph5JqYIBLsIh1NEdQHks1S6VyZScgRBJoFlWWp2fGGnTjKRV/Em5/JlCNhT4XxLIyiLN5Ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UUX4BgZb; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783981098; c=relaxed/simple;
+	bh=oeI3Kt/oLN83aiTdZRHAV7sAwB0A30e6bwrN7cjSOrw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=mrcX7J+wOONS04evhkuN+mncknPwDqEasxt8uh61kuTl1JBtzrN7NM2DuIIOf1UM2FA41lU7zn33OiSYEMqpcbQn27nqB8IMoOt9rPkXfV+93Rnr9claCdKezwrzAMLPggHAQm5i55SYyF4PqcAZmLDv5CfXfbOiJ4jtb2rBFiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=N9Qz1kWR; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UUX4BgZb"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-698aa7ba320so934749a12.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 15:09:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="N9Qz1kWR"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-81ea9f974ebso3450367b3.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 15:18:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783980576; x=1784585376; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=lVdoiojYprlk9y5RonKrFJ06gG6DVGc3jz/gFaRGsjU=;
-        b=UUX4BgZbWj+M9S/ni21KnFHjI4Brof7pJn9vQQK8HQ7LbeMS+TPLF5I9BdovaBsIY/
-         V+uj2X3crtshf1kKu4Osh2SQGC6bSIGS0v6ANXC5/7ZH3em9m3icwSxejzDNP8XDAiUf
-         s2t99DhvYWfmCUA7snihQIB1MKVw1KPil32Thhljcf+h7fJcxGmYlegN/G7HRWzCZORy
-         +CpFcZO3HJDPs75XL858EIiu7l0WpK75v1AAU9SJrsUBjlOWrjcNRSxyvs891xoOd/HI
-         jkAnYdsQLs3b5E4KHMK4RHuudPspY6XuT+Zl5Er196pQalB9rzmst6OVamB2XtOKyJ0B
-         CHDA==
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1783981095; x=1784585895; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=pqaK3Z8YRCEFnaHsTzpcKOTWIVBfZiTGCGeSlpmO3nI=;
+        b=N9Qz1kWRJqMNHM69hE1pd3tGzkqAbu14cXaicuNIODF1ULMmDiN0ahmavyW2hTBkUi
+         zAoCqsZ+KA986UVLIve5sSJQiwVR7jOvXA6YqV73yKt/TkOE383tRfzmHhgzssWPBguE
+         z4TcN5aZWZVs5NTlSTFWtW93oBbm4gzJR5WiTQDH9ZzVkd6H0wjq4/Dvg0Vzblzrq6b8
+         IcpznlbGh3Whniygtd11KMBsx4ywabMBhd5Hl65HDv+j52wxTaCxQzfm5b3JHIbnMF/g
+         YB1l78aP83sNLwHw8BOetC6BbNOA17KZexgHahn5uZsgx1WodSbKHlZPx6OUGHMXSLit
+         IzoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783980576; x=1784585376;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=lVdoiojYprlk9y5RonKrFJ06gG6DVGc3jz/gFaRGsjU=;
-        b=hnNEbuBvZpscGlOkOTX5OGPCBnjvVhDeq8eJ6pSLgFY0XCzI066DRoe0ljMAd1M8WT
-         mzagM5Y2dzshz5Kfo4cBQlInruFg3iY9kgJpbF3wP51cYdgw7htz6dADUe27GKQ7Expz
-         2CpfF0jqXyxpqvvMW00/hvmjzJKKoTZ9pTqycqU56HgSPnBZgWgtRpP9YdudtdawYMAX
-         nCMHi0WKZyKcZdzfCED5uEY+BSuF+q8KRmqEqXY9nFppg6LGrS42TIu0VJeC4Snh7c57
-         hu9LRS1Y7Fddw7nuiSXln9nUhxIchMaBVmWkwGJ3TwAjQILH+BfjTgxGVhuVlXsKh9j7
-         +FiA==
-X-Gm-Message-State: AOJu0YyYKCz8jtwTYempRNC4YZ6D4Re5clUxQEulQ4woTAPW+fDjHHbA
-	aLRy3aQIimCEgOSINw8Ibqe4TmyjyJl766yX5N9GOeeMqlSjwxg4bXFj
-X-Gm-Gg: AfdE7ckqMrCMTIFXWaDZNpcHl3jSyQfkuSnQnSVFNOQ4ROsAl2LYFuvPTs3jlv+e/lc
-	/BOIaVTLijQKA9Qd9v7CYLWce+D8d4WJS+J5BEpDFryAdYcb6Pr5nBp8RL2rm8xE7mUc+ASCO9e
-	SssaBSrT7oF2NIUx/UGo/y+FsNhUAm9BcapqAs/3p5rbCcxlR3tp54Yq+Tneosb8dDVU5jcpYjm
-	An/RIcaATLarwdylEiFH4u6HoKq132lp9G+br6ubIRE82eq3nUh/8VWnQeHw7WHqMb16ewwM3pz
-	KwdHB2cYH0UO7CWX4a/OU/6yzjTYyp201gTQE9ojD52mgH5llxLARZUWI1Rm+EbynRumasYpdRe
-	gWUnKAdsnVYM4sMMrxzAu/JkfATlQLjAj5IMIdwWoqwe/QxC5/V33xQo4Z4nHhUFMv4odaMtOZh
-	dPvpzH3n03nnTHl+r3WkTD3e8dX84i9KliD/T9jg==
-X-Received: by 2002:a05:6402:21cd:b0:69c:3966:fdae with SMTP id 4fb4d7f45d1cf-69c3967005emr6742533a12.2.1783980575740;
-        Mon, 13 Jul 2026 15:09:35 -0700 (PDT)
-Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69cd288c93fsm460342a12.8.2026.07.13.15.09.35
+        d=1e100.net; s=20251104; t=1783981095; x=1784585895;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=pqaK3Z8YRCEFnaHsTzpcKOTWIVBfZiTGCGeSlpmO3nI=;
+        b=GJyCpVNoMcI3cw6zc/vunhebwRn0mpRZ8O7K+wRv/w+dHnVoqukS6657djTFC76ZN8
+         D6zskRisa6wfVeuQ98FHktVhnLS58XFaWayGTJYxXlUCQ/A7AwCZ1dERjnA8FU3/vLhB
+         qishi1jJh2jgc6PZaxxnbXvhO2zrO0d82LT5tJR+BWfztVTP9FVuHNWG0HHP/oke5ihW
+         YnZRXruuHeZiqkBhTyyJWeL+v+niWwaWG0baOTlFL5ncdu7UhH3s2HrWVmGfEoPonTJ6
+         Axe7+miSXceryTGqyW1YU9sfh9M6pMznG9tmZdifQIHMIaodIGgrswNX+pGfE4bQQBVH
+         Oo7w==
+X-Forwarded-Encrypted: i=1; AHgh+RqZdcsLjBCmnNjeLRrwhLcv2eq86o8v0gNrhDNlTJtOoUhVMuootjciu3ppjkkANXlE0SL582q2PcertA8G@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+Nt4HJYV4BHuAM/fcv0KQkRXKO7XhG5Z/I8x+HMkFVFeP/6oI
+	MevboSTiauWcNWIHTfqOS1DKasO/CxfeQ0anTyn1JjxVnj0PL17iieAy/1RldY86A6s=
+X-Gm-Gg: AfdE7cmLP/jvyYwLC+7kWnhba0pVD3NT3/gsHOo2SJlmfsb4T1v0fWXAOqpVNwW1KVL
+	mPPuX4nISnfNzW4oxSXMxUgOOu3L02gI5iSB/WKL77id6okF16jzXWvmwcwiOhiqdE39YzowwU5
+	9pq3NWqyNkUu8dqvgrfMHaTrcRAmv5imntgGljtm9WoZl+YzHAWl9EcyGnoyvlj348dd0DiIXaQ
+	lmELf4nHRCj/5Jl/B1CefT56Ch6en/oTr3TUxO8Isfs/lbRbwBpYCjZX/EproVywHUsH94yiWku
+	9NpjxZtqh2jBcJkBgSrSUUOJk/MSfqEPelwG5LXeAC+s51ka58XEvoFFSqi16oRwz/nmdyXLt6J
+	Lcd1N8RNQSltvUvZdEbix5ld37m4itGkGA5EhQHUK1/b/wLukH56mJmdYfi3Qbi1m7RDD3LX4nK
+	NIr7gaiOXGbuaD47oIfUmBB255eLut4lQNfRRq60KWwvPu+a2vS7TqxALJpKEYi/vHdxCcXcU+P
+	9BtRHkncLhDj+BtURvNdNQIgnu8KnwKOUAutcsswjLLIXx3OX7rnAl8TwycX59PjpEVwWd70wMi
+	js3MhH3oqpjUgq5t
+X-Received: by 2002:a05:690c:6982:b0:80c:85b6:7651 with SMTP id 00721157ae682-81e902e2eaamr71357287b3.70.1783981095063;
+        Mon, 13 Jul 2026 15:18:15 -0700 (PDT)
+Received: from ?IPv6:2600:1700:6476:1430:e472:ff2d:20b0:742d? ([2600:1700:6476:1430:e472:ff2d:20b0:742d])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6c23939fsm126683337b3.46.2026.07.13.15.18.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 15:09:35 -0700 (PDT)
-From: Amir Goldstein <amir73il@gmail.com>
-To: Christian Brauner <brauner@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-fsdevel@vger.kernel.org,
-	fuse-devel@lists.linux.dev
-Subject: [PATCH 2/2] selftests/fuse: add ACL_DONT_CACHE regression test
-Date: Tue, 14 Jul 2026 00:09:32 +0200
-Message-ID: <20260713220932.413004-3-amir73il@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260713220932.413004-1-amir73il@gmail.com>
-References: <20260713220932.413004-1-amir73il@gmail.com>
+        Mon, 13 Jul 2026 15:18:14 -0700 (PDT)
+Message-ID: <39b2049e2143e72d8b22e3db39a53a4ac1fd88c0.camel@dubeyko.com>
+Subject: Re: [PATCH] ceph: bound copied dentry name length in NFS export
+ get_name
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Michael Bommarito <michael.bommarito@gmail.com>, Ilya Dryomov
+	 <idryomov@gmail.com>, Xiubo Li <xiubli@redhat.com>, Alex Markuze
+	 <amarkuze@redhat.com>
+Cc: ceph-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Date: Mon, 13 Jul 2026 15:18:13 -0700
+In-Reply-To: <20260711150706.2915970-1-michael.bommarito@gmail.com>
+References: <20260711150706.2915970-1-michael.bommarito@gmail.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Add a test that reproduces the stale ACL bug fixed by:
-  "fs: preserve ACL_DONT_CACHE state in forget_cached_acl()"
+On Sat, 2026-07-11 at 11:07 -0400, Michael Bommarito wrote:
+> ceph_get_name() copies the MDS-supplied name into the caller's
+> NAME_MAX-sized buffer with memcpy(name, rinfo->dname, rinfo-
+> >dname_len)
+> and then writes name[rinfo->dname_len] =3D 0, without checking
+> dname_len
+> against NAME_MAX. A malicious or buggy MDS that returns a LOOKUPNAME
+> reply
+> with dname_len > NAME_MAX overflows the buffer. __get_snap_name()
+> copies
+> rde->name / rde->name_len the same unchecked way.
+>=20
+> Impact: a malicious or compromised Ceph MDS overflows the NAME_MAX
+> name
+> buffer in a client's NFS-export get_name path, a slab out-of-bounds
+> write
+> reported by KASAN. Reachable when a CephFS mount is re-exported over
+> NFS.
+>=20
+> Add ceph_export_copy_name(), which rejects lengths above NAME_MAX
+> with
+> -ENAMETOOLONG before the copy, and use it in both ceph_get_name() and
+> __get_snap_name().
+>=20
+> Fixes: 19913b4eac4a ("ceph: add get_name() NFS export callback")
+> Cc: stable@vger.kernel.org
+> Assisted-by: Claude:claude-opus-4-8
+> Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+> ---
+> =C2=A0fs/ceph/export.c | 26 +++++++++++++++++---------
+> =C2=A01 file changed, 17 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/fs/ceph/export.c b/fs/ceph/export.c
+> index b2f2af1046791..debb9634b9e3d 100644
+> --- a/fs/ceph/export.c
+> +++ b/fs/ceph/export.c
+> @@ -442,6 +442,16 @@ static struct dentry *ceph_fh_to_parent(struct
+> super_block *sb,
+> =C2=A0	return dentry;
+> =C2=A0}
+> =C2=A0
+> +static int ceph_export_copy_name(char *name, const char *src, u32
+> len)
+> +{
+> +	if (len > NAME_MAX)
+> +		return -ENAMETOOLONG;
+> +
+> +	memcpy(name, src, len);
+> +	name[len] =3D '\0';
+> +	return 0;
+> +}
+> +
+> =C2=A0static int __get_snap_name(struct dentry *parent, char *name,
+> =C2=A0			=C2=A0=C2=A0 struct dentry *child)
+> =C2=A0{
+> @@ -513,9 +523,8 @@ static int __get_snap_name(struct dentry *parent,
+> char *name,
+> =C2=A0			BUG_ON(!rde->inode.in);
+> =C2=A0			if (ceph_snap(inode) =3D=3D
+> =C2=A0			=C2=A0=C2=A0=C2=A0 le64_to_cpu(rde->inode.in->snapid)) {
+> -				memcpy(name, rde->name, rde-
+> >name_len);
+> -				name[rde->name_len] =3D '\0';
+> -				err =3D 0;
+> +				err =3D ceph_export_copy_name(name,
+> rde->name,
+> +							=C2=A0=C2=A0=C2=A0 rde-
+> >name_len);
+> =C2=A0				goto out;
+> =C2=A0			}
+> =C2=A0		}
+> @@ -580,8 +589,8 @@ static int ceph_get_name(struct dentry *parent,
+> char *name,
+> =C2=A0
+> =C2=A0	rinfo =3D &req->r_reply_info;
+> =C2=A0	if (!IS_ENCRYPTED(dir)) {
+> -		memcpy(name, rinfo->dname, rinfo->dname_len);
+> -		name[rinfo->dname_len] =3D 0;
+> +		err =3D ceph_export_copy_name(name, rinfo->dname,
+> +					=C2=A0=C2=A0=C2=A0 rinfo->dname_len);
+> =C2=A0	} else {
+> =C2=A0		struct fscrypt_str oname =3D FSTR_INIT(NULL, 0);
+> =C2=A0		struct ceph_fname fname =3D { .dir	=3D dir,
+> @@ -595,10 +604,9 @@ static int ceph_get_name(struct dentry *parent,
+> char *name,
+> =C2=A0			goto out;
+> =C2=A0
+> =C2=A0		err =3D ceph_fname_to_usr(&fname, NULL, &oname, NULL);
+> -		if (!err) {
+> -			memcpy(name, oname.name, oname.len);
+> -			name[oname.len] =3D 0;
+> -		}
+> +		if (!err)
+> +			err =3D ceph_export_copy_name(name,
+> oname.name,
+> +						=C2=A0=C2=A0=C2=A0 oname.len);
+> =C2=A0		ceph_fname_free_buffer(dir, &oname);
+> =C2=A0	}
+> =C2=A0out:
 
-A FUSE mount that does not negotiate FUSE_POSIX_ACL initialises inodes
-with i_acl = ACL_DONT_CACHE.  Before the fix, calling
-forget_all_cached_acls() (e.g. from fuse_update_get_attr() on a
-statx(AT_STATX_FORCE_SYNC)) would silently replace ACL_DONT_CACHE with
-ACL_NOT_CACHED, enabling the kernel ACL cache.  A subsequent getxattr
-would populate the cache, and because fuse_set_acl() skips
-forget_all_cached_acls() for !fc->posix_acl, later ACL changes were
-not visible to callers — getxattr returned stale data.
+Looks good from my point of view.
 
-The test mounts a minimal libfuse3 lowlevel filesystem (no
-FUSE_POSIX_ACL negotiated) and:
-  1. Issues two getxattrs — both must reach the daemon, proving
-     ACL_DONT_CACHE suppresses caching before any trigger.
-  2. Calls statx(AT_STATX_FORCE_SYNC) to trigger forget_all_cached_acls().
-  3. Issues another getxattr (populates the cache on a buggy kernel).
-  4. Switches the daemon to a different-sized ACL (ACL_B).
-  5. Issues a final getxattr — expects ACL_B (44 bytes) and daemon
-     call count 4; a buggy kernel returns stale ACL_A (28 bytes).
+Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
 
-fuse_acl_cache_test is only built when libfuse3 is detected via
-pkg-config.
-
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
----
- .../selftests/filesystems/fuse/Makefile       |  10 +
- .../filesystems/fuse/fuse_acl_cache_test.c    | 348 ++++++++++++++++++
- 2 files changed, 358 insertions(+)
- create mode 100644 tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
-
-diff --git a/tools/testing/selftests/filesystems/fuse/Makefile b/tools/testing/selftests/filesystems/fuse/Makefile
-index 612aad69a93aa..f471414842750 100644
---- a/tools/testing/selftests/filesystems/fuse/Makefile
-+++ b/tools/testing/selftests/filesystems/fuse/Makefile
-@@ -5,6 +5,13 @@ CFLAGS += -Wall -O2 -g $(KHDR_INCLUDES)
- TEST_GEN_PROGS := fusectl_test
- TEST_GEN_FILES := fuse_mnt
- 
-+# fuse_acl_cache_test requires libfuse3; add it only when the library is present.
-+ACL_CFLAGS := $(shell pkg-config fuse3 --cflags 2>/dev/null)
-+ACL_LDLIBS := $(shell pkg-config fuse3 --libs 2>/dev/null)
-+ifneq ($(ACL_CFLAGS),)
-+TEST_GEN_PROGS += fuse_acl_cache_test
-+endif
-+
- include ../../lib.mk
- 
- VAR_CFLAGS := $(shell pkg-config fuse --cflags 2>/dev/null)
-@@ -19,3 +26,6 @@ endif
- 
- $(OUTPUT)/fuse_mnt: CFLAGS += $(VAR_CFLAGS)
- $(OUTPUT)/fuse_mnt: LDLIBS += $(VAR_LDLIBS)
-+
-+$(OUTPUT)/fuse_acl_cache_test: CFLAGS += $(ACL_CFLAGS)
-+$(OUTPUT)/fuse_acl_cache_test: LDLIBS += $(ACL_LDLIBS)
-diff --git a/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c b/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
-new file mode 100644
-index 0000000000000..b2e5db8555040
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
-@@ -0,0 +1,348 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Test: FUSE ACL caching bug triggered by AT_STATX_FORCE_SYNC
-+ *
-+ * A FUSE mount that does not negotiate FUSE_POSIX_ACL initialises every inode
-+ * with i_acl = i_default_acl = ACL_DONT_CACHE.  When a fresh stat is needed
-+ * (e.g. AT_STATX_FORCE_SYNC), fuse_update_get_attr() calls
-+ * forget_all_cached_acls() before issuing FUSE_GETATTR.  On an unfixed kernel,
-+ * __forget_cached_acl() replaces ACL_DONT_CACHE with ACL_NOT_CACHED,
-+ * inadvertently enabling the kernel ACL cache for that inode.  The next
-+ * getxattr populates the cache.  Because fuse_set_acl() skips
-+ * forget_all_cached_acls() for !fc->posix_acl mounts, any subsequent change to
-+ * the ACL leaves the stale kernel entry in place, and the next getxattr returns
-+ * wrong data without ever reaching the FUSE daemon.
-+ *
-+ * Fix (fs/posix_acl.c): __forget_cached_acl() returns early when *p is
-+ * ACL_DONT_CACHE, preserving the "never cache" invariant for the inode's
-+ * lifetime.
-+ *
-+ * Test outline:
-+ *  1. Mount a minimal FUSE fs (no FUSE_POSIX_ACL negotiated).
-+ *  2. lgetxattr -> daemon called, ACL_A returned, NOT cached (ACL_DONT_CACHE).
-+ *  3. statx(AT_STATX_FORCE_SYNC) -> forget_all_cached_acls() called.
-+ *     Buggy:  ACL_DONT_CACHE -> ACL_NOT_CACHED (cache enabled).
-+ *     Fixed:  ACL_DONT_CACHE preserved.
-+ *  4. lgetxattr -> daemon called, ACL_A returned.
-+ *     Buggy:  result now cached (ACL_NOT_CACHED -> cached).
-+ *     Fixed:  result still not cached.
-+ *  5. Daemon switches to ACL_B internally (different size).
-+ *  6. lgetxattr -> should return ACL_B (44 bytes).
-+ *     Buggy:  cache hit, returns stale ACL_A (28 bytes). FAIL.
-+ *     Fixed:  no cache, daemon called, returns ACL_B (44 bytes). PASS.
-+ */
-+
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <linux/limits.h>
-+#include <pthread.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/stat.h>
-+#include <sys/syscall.h>
-+#include <sys/xattr.h>
-+#include <unistd.h>
-+
-+#define FUSE_USE_VERSION 31
-+#include <fuse_lowlevel.h>
-+
-+#include "kselftest_harness.h"
-+
-+/* ---- ACL binary encoding ------------------------------------------------ */
-+/*
-+ * POSIX ACL v2 xattr format (little-endian):
-+ *   header: u32 version (= 0x00000002)
-+ *   entry:  u16 tag | u16 perm | u32 id
-+ *
-+ * Entries must appear in tag-ascending order; named USER/GROUP entries
-+ * require a MASK entry.  Both ACLs pass posix_acl_from_xattr() validation.
-+ */
-+
-+/* ACL_A: 3 entries (USER_OBJ:rwx, GROUP_OBJ:r-x, OTHER:r-x) = 28 bytes */
-+static const uint8_t acl_a[] = {
-+	0x02, 0x00, 0x00, 0x00,                         /* v2 header      */
-+	0x01, 0x00, 0x07, 0x00, 0xff, 0xff, 0xff, 0xff, /* USER_OBJ  rwx  */
-+	0x04, 0x00, 0x05, 0x00, 0xff, 0xff, 0xff, 0xff, /* GROUP_OBJ r-x  */
-+	0x20, 0x00, 0x05, 0x00, 0xff, 0xff, 0xff, 0xff, /* OTHER     r-x  */
-+};
-+
-+/*
-+ * ACL_B: 5 entries — adds USER uid=1 and MASK = 44 bytes.
-+ * A named USER entry requires a MASK; all tags in ascending order.
-+ */
-+static const uint8_t acl_b[] = {
-+	0x02, 0x00, 0x00, 0x00,                         /* v2 header       */
-+	0x01, 0x00, 0x07, 0x00, 0xff, 0xff, 0xff, 0xff, /* USER_OBJ   rwx  */
-+	0x02, 0x00, 0x07, 0x00, 0x01, 0x00, 0x00, 0x00, /* USER uid=1 rwx  */
-+	0x04, 0x00, 0x05, 0x00, 0xff, 0xff, 0xff, 0xff, /* GROUP_OBJ  r-x  */
-+	0x10, 0x00, 0x07, 0x00, 0xff, 0xff, 0xff, 0xff, /* MASK       rwx  */
-+	0x20, 0x00, 0x05, 0x00, 0xff, 0xff, 0xff, 0xff, /* OTHER      r-x  */
-+};
-+
-+/* ---- Shared state (daemon thread <-> test thread) ----------------------- */
-+
-+#define FILE_INO  2
-+#define FILE_NAME "testfile"
-+
-+struct daemon_state {
-+	pthread_mutex_t lock;
-+	const uint8_t  *acl;
-+	size_t          acl_size;
-+	int             getxattr_count;
-+};
-+
-+/*
-+ * Global: callbacks are stateless fns so we use a single global.
-+ * Safe because only one test instance runs at a time.
-+ */
-+static struct daemon_state g_ds = {
-+	.lock = PTHREAD_MUTEX_INITIALIZER,
-+};
-+
-+/* ---- FUSE lowlevel callbacks -------------------------------------------- */
-+
-+static void fs_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
-+{
-+	if (parent != FUSE_ROOT_ID || strcmp(name, FILE_NAME)) {
-+		fuse_reply_err(req, ENOENT);
-+		return;
-+	}
-+	struct fuse_entry_param e = {};
-+
-+	/*
-+	 * Long attr/entry timeouts so that normal stat() calls do not
-+	 * expire and trigger forget_all_cached_acls() on their own;
-+	 * only the explicit AT_STATX_FORCE_SYNC should trigger it.
-+	 */
-+	e.ino             = FILE_INO;
-+	e.generation      = 1;
-+	e.attr_timeout    = 10.0;
-+	e.entry_timeout   = 10.0;
-+	e.attr.st_ino     = FILE_INO;
-+	e.attr.st_mode    = S_IFREG | 0644;
-+	e.attr.st_nlink   = 1;
-+	fuse_reply_entry(req, &e);
-+}
-+
-+static void fs_getattr(fuse_req_t req, fuse_ino_t ino,
-+		       struct fuse_file_info *fi)
-+{
-+	struct stat st = {};
-+
-+	(void)fi;
-+	if (ino == FUSE_ROOT_ID) {
-+		st.st_ino   = FUSE_ROOT_ID;
-+		st.st_mode  = S_IFDIR | 0755;
-+		st.st_nlink = 2;
-+	} else if (ino == FILE_INO) {
-+		st.st_ino   = FILE_INO;
-+		st.st_mode  = S_IFREG | 0644;
-+		st.st_nlink = 1;
-+	} else {
-+		fuse_reply_err(req, ENOENT);
-+		return;
-+	}
-+	fuse_reply_attr(req, &st, 10);
-+}
-+
-+static void fs_getxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
-+			size_t size)
-+{
-+	if (ino != FILE_INO ||
-+	    strcmp(name, "system.posix_acl_access") != 0) {
-+		fuse_reply_err(req, ENODATA);
-+		return;
-+	}
-+
-+	pthread_mutex_lock(&g_ds.lock);
-+	const uint8_t *acl      = g_ds.acl;
-+	size_t         acl_size = g_ds.acl_size;
-+	g_ds.getxattr_count++;
-+	pthread_mutex_unlock(&g_ds.lock);
-+
-+	if (size == 0)
-+		fuse_reply_xattr(req, acl_size);
-+	else if (size < acl_size)
-+		fuse_reply_err(req, ERANGE);
-+	else
-+		fuse_reply_buf(req, (const char *)acl, acl_size);
-+}
-+
-+static const struct fuse_lowlevel_ops fs_ops = {
-+	.lookup   = fs_lookup,
-+	.getattr  = fs_getattr,
-+	.getxattr = fs_getxattr,
-+};
-+
-+/* ---- Daemon thread ------------------------------------------------------- */
-+
-+static void *run_daemon(void *arg)
-+{
-+	fuse_session_loop((struct fuse_session *)arg);
-+	return NULL;
-+}
-+
-+/* ---- kselftest harness --------------------------------------------------- */
-+
-+FIXTURE(acl_cache) {
-+	struct fuse_session *se;
-+	char                 mountpoint[PATH_MAX];
-+	char                 file_path[PATH_MAX];
-+	pthread_t            thread;
-+};
-+
-+FIXTURE_SETUP(acl_cache)
-+{
-+	char *fuse_argv[] = { "fuse_acl_cache_test", NULL };
-+	struct fuse_args args = FUSE_ARGS_INIT(1, fuse_argv);
-+
-+	g_ds.acl            = acl_a;
-+	g_ds.acl_size       = sizeof(acl_a);
-+	g_ds.getxattr_count = 0;
-+
-+	strcpy(self->mountpoint, "/tmp/acl_cache_test_XXXXXX");
-+	if (!mkdtemp(self->mountpoint))
-+		SKIP(return, "mkdtemp: %s", strerror(errno));
-+
-+	snprintf(self->file_path, sizeof(self->file_path),
-+		 "%s/" FILE_NAME, self->mountpoint);
-+
-+	self->se = fuse_session_new(&args, &fs_ops, sizeof(fs_ops), NULL);
-+	if (!self->se) {
-+		rmdir(self->mountpoint);
-+		SKIP(return, "fuse_session_new failed");
-+	}
-+
-+	if (fuse_session_mount(self->se, self->mountpoint)) {
-+		fuse_session_destroy(self->se);
-+		rmdir(self->mountpoint);
-+		SKIP(return, "fuse_session_mount failed "
-+			     "(missing fusermount3 or insufficient privileges)");
-+	}
-+
-+	if (pthread_create(&self->thread, NULL, run_daemon, self->se)) {
-+		fuse_session_unmount(self->se);
-+		fuse_session_destroy(self->se);
-+		rmdir(self->mountpoint);
-+		SKIP(return, "pthread_create: %s", strerror(errno));
-+	}
-+
-+	fuse_opt_free_args(&args);
-+}
-+
-+FIXTURE_TEARDOWN(acl_cache)
-+{
-+	fuse_session_exit(self->se);
-+	fuse_session_unmount(self->se);
-+	pthread_join(self->thread, NULL);
-+	fuse_session_destroy(self->se);
-+	rmdir(self->mountpoint);
-+}
-+
-+static int do_force_statx(const char *path)
-+{
-+	struct statx stx;
-+
-+	return syscall(SYS_statx, AT_FDCWD, path,
-+		       AT_STATX_FORCE_SYNC, STATX_BASIC_STATS, &stx);
-+}
-+
-+TEST_F(acl_cache, stale_after_force_sync)
-+{
-+	char    buf[512];
-+	ssize_t sz;
-+	int     count;
-+
-+	/*
-+	 * Step 1: two getxattr calls before any statx(FORCE_SYNC).
-+	 * i_acl == ACL_DONT_CACHE.  __get_acl's cmpxchg(p, ACL_NOT_CACHED,
-+	 * sentinel) finds *p != ACL_NOT_CACHED on every call, so the sentinel
-+	 * is never placed and the result is never cached.  Both calls must
-+	 * reach the daemon, proving ACL_DONT_CACHE suppresses caching.
-+	 */
-+	sz = lgetxattr(self->file_path, "system.posix_acl_access",
-+		       buf, sizeof(buf));
-+	ASSERT_EQ(sz, (ssize_t)sizeof(acl_a));
-+
-+	sz = lgetxattr(self->file_path, "system.posix_acl_access",
-+		       buf, sizeof(buf));
-+	ASSERT_EQ(sz, (ssize_t)sizeof(acl_a));
-+
-+	pthread_mutex_lock(&g_ds.lock);
-+	count = g_ds.getxattr_count;
-+	pthread_mutex_unlock(&g_ds.lock);
-+
-+	ASSERT_EQ(count, 2);
-+	TH_LOG("step 1 OK: both pre-trigger getxattrs reached daemon (count=%d), "
-+	       "ACL_DONT_CACHE is working", count);
-+
-+	/*
-+	 * Step 2: statx(AT_STATX_FORCE_SYNC).
-+	 * fuse_update_get_attr() calls forget_all_cached_acls() before sending
-+	 * FUSE_GETATTR.
-+	 *   Buggy kernel:  ACL_DONT_CACHE -> ACL_NOT_CACHED  (cache enabled)
-+	 *   Fixed kernel:  ACL_DONT_CACHE preserved           (no effect)
-+	 */
-+	ASSERT_EQ(do_force_statx(self->file_path), 0);
-+	TH_LOG("step 2 OK: statx(AT_STATX_FORCE_SYNC) succeeded");
-+
-+	/*
-+	 * Step 3: getxattr — cache population attempt after the trigger.
-+	 *   Buggy:  *p == ACL_NOT_CACHED -> sentinel placed -> fuse_get_inode_acl
-+	 *           called -> ACL_A parsed and stored in the kernel cache.
-+	 *   Fixed:  *p == ACL_DONT_CACHE -> sentinel placement skipped ->
-+	 *           fuse_get_inode_acl called but result not cached.
-+	 * Either way the correct ACL_A is returned here.
-+	 */
-+	sz = lgetxattr(self->file_path, "system.posix_acl_access",
-+		       buf, sizeof(buf));
-+	ASSERT_EQ(sz, (ssize_t)sizeof(acl_a));
-+
-+	pthread_mutex_lock(&g_ds.lock);
-+	count = g_ds.getxattr_count;
-+	pthread_mutex_unlock(&g_ds.lock);
-+
-+	ASSERT_EQ(count, 3);
-+	TH_LOG("step 3 OK: post-trigger getxattr reached daemon (count=%d), "
-+	       "returned correct ACL_A (%zd bytes)", count, sz);
-+
-+	/*
-+	 * Step 4: switch daemon to ACL_B (different size: 44 vs 28 bytes).
-+	 * Simulates an ACL change that fuse_set_acl() would NOT invalidate for
-+	 * !fc->posix_acl mounts (it skips forget_all_cached_acls in that case).
-+	 * On a fixed kernel the ACL was never cached, so this is moot.
-+	 */
-+	pthread_mutex_lock(&g_ds.lock);
-+	g_ds.acl      = acl_b;
-+	g_ds.acl_size = sizeof(acl_b);
-+	pthread_mutex_unlock(&g_ds.lock);
-+	TH_LOG("step 4: daemon switched to ACL_B (%zu bytes)", sizeof(acl_b));
-+
-+	/*
-+	 * Step 5: getxattr — the decisive check.
-+	 *   Buggy kernel:  cache hit -> stale ACL_A (28 bytes), count stays 3.
-+	 *   Fixed kernel:  no cache -> daemon called -> ACL_B (44 bytes), count 4.
-+	 */
-+	sz = lgetxattr(self->file_path, "system.posix_acl_access",
-+		       buf, sizeof(buf));
-+
-+	pthread_mutex_lock(&g_ds.lock);
-+	count = g_ds.getxattr_count;
-+	pthread_mutex_unlock(&g_ds.lock);
-+
-+	if (sz == (ssize_t)sizeof(acl_a))
-+		TH_LOG("step 5 BUG: stale ACL_A (%zd bytes) from kernel cache "
-+		       "(count=%d); ACL_DONT_CACHE corrupted by "
-+		       "forget_all_cached_acls()", sz, count);
-+	else
-+		TH_LOG("step 5 OK: daemon reached (count=%d), "
-+		       "fresh ACL_B (%zd bytes)", count, sz);
-+
-+	EXPECT_EQ(sz, (ssize_t)sizeof(acl_b));
-+	EXPECT_EQ(count, 4);
-+}
-+
-+TEST_HARNESS_MAIN
--- 
-2.54.0
-
+Thanks,
+Slava.
