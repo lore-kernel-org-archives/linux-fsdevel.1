@@ -1,77 +1,89 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAFBF47DD6B
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Jul 2026 15:03:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32E33B47D7
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Jul 2026 15:09:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784041410; cv=none; b=iNldbVj1srR/sOVyU7KexvVaPekztD03E8m+aUDajonhPJl3YAnX2CL66FrsWL5T4xJltdnlPP3Ad5lTjDYo4dDlziKeAISwWABE/8S+IWgQ8QITU0GeAAk9oEQ2QTm+22LdW97KNDRdnBvn+GT/ZUVA9lSKntDxXtXwiMSjHOQ=
+	t=1784041780; cv=none; b=QR1wLEdU8wNTGKrJI1XE0ZHEhwUsiQKWJ4qdD5i2IDpKNDLmoQCyf5GRuD/U73jRF+AuD8a5AndbziuzajVtzIxN05BmEpWmOtEJvN9UoqjmKxUKrhKvMUenmUzQrf2/me+jPXhyyKByFLEQSBnF5tBasoqRwCmUvzE918YC1hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784041410; c=relaxed/simple;
-	bh=bGpzju0Wl6QxZys7d1brQkY4e8pgn74r5CR2KKkiFts=;
+	s=arc-20240116; t=1784041780; c=relaxed/simple;
+	bh=IE+8ibssRroOqOOGnCp56Nu8l6MLwQ4eWpplkxu7yq4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fVh2oH97gnL3vKz4PL4R55zPglYSuh1z0VitshOHy6rLz6/bcoEciabDOrczMGK01MDH9kluvR/Pqy7QoObH8tW2Ua3PrbatQPaqsqTQL6JHVKFwha8ugxwUeQpzgYfKUajHCcq84ZA3r1rAb6MKCfptevPQbcefK/ryM2VPQ8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=N+G4NzHq; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=VzKlwJWpIOocqO4duMkSnsvueqycRzQOunUh53vWMM419eHrQJCmsXSgLzgurzkEUFkwqaRttQWtOUlQ52dClIKlDFDpzfcrjtQWR0ScR9ANpMmUfyYBtGSxoOY2qnSMS8DSWFifKHTgwz6sY4zxcfr2Gev1c3+x1NdqmCILvzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=S9ZPO8mx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vjk7leWe; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=S9ZPO8mx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vjk7leWe; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="N+G4NzHq"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47de0093c42so903379f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Jul 2026 08:03:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1784041407; x=1784646207; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=lNDNMj1Wt3IAmuou6qZW20cxS6C9Jvx4q6NHbLiZuLU=;
-        b=N+G4NzHqGlf9XWhKbRCucPkpbDw1SqChDfR8hE+Az0G3ycysZY66zKVloZ5k7h73LF
-         /jzY6h3Ul6I7ljrD+rTX3MDO+NK/EJi6G8SdngjCeDzLUkqxaC+EMQ2cJtrO4cbv1rKw
-         ++DSNT6gxm0HPSRxc4YgOXjXZqyAdyVF1d9Tct0bu+E61va20WuKnkxSr5SOpFFbS2Cg
-         quS4GbktzZpWEx9gejqj5cr3Gek3lPwk4wx/o2LMwHFbhCfPkyGYYynfYnvxJL5ShVy6
-         befepvxl762H3eMny0YzM5s0S9FgIPLW+IebxR6pOIfyD2FYYYYRP1yWFpeUIJcL6DD4
-         LDGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784041407; x=1784646207;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=lNDNMj1Wt3IAmuou6qZW20cxS6C9Jvx4q6NHbLiZuLU=;
-        b=hr3CJtoClnITTH3nTmy/wp7/zrI1GBllu0F0M9ezTA6GA+817jnODQJS+7KsehWUwm
-         zRE4g7w4tTUGUf0TmgcddPyxoqnGWFGcb8fZNQVTho7LUEtIzpMqKMUIP9A0GNIf7mBJ
-         BZPq8a5GmbuRdFbapQOrPYWmpmPYymOvFZeAIwGnWupJ0BtD2AlE8feKM+hMro0aVkNV
-         yRULbW32d936GhKN7rumu9vv1I3STQYSFr/ztw9cr8xAHsfnwHTfq6WS+jTD+G6bxLHi
-         4hW7xp9DHej1191DO8cnmq8wnzOK8nTcrh6HKiHHfm9vE052L4hWX2gRY2fsSt9czz+b
-         l9hg==
-X-Forwarded-Encrypted: i=1; AHgh+RocZYV1hIN5E+d9mt4/cTSfJx1x1vC2hZMjFPZzDYVwNLTZS9h/TTnfNs7Uaqsp2lhCk1c7GPJDwFxaQ56O@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyz8jjHLC9eg1qgjEJ8amb2sTizk2oLh4R3AzkYX9Lshq9+sF6y
-	k90JiXwUKAyMq4M2NJZXCYo/DPAbNOO1aR5uA2f+YVIN0iDqQzbXR9m1a0HIkG+WROQ=
-X-Gm-Gg: AfdE7ckBm1JiHxW9L6FDhlQ1t26dpEPTZnHHBtKQuU5iY7XZPOgO8yws/Qt5Kcv+Ryf
-	fT0KlGFqPBWWQIRYYE6pmUC22gaHmF+ccXufv6qtzv3GOLYuXA6LO3w82lbfEPT7UjywsqCGten
-	UCXmzz1IKbJDCuIpEs6E9MCOnU6g63Nyqu/pI3nKRKzaNh5+bqrD29TXup5diRXcbGDcII/bBLr
-	up3lNIuMhD5iR5wFaEZdVygrvWIGjhr9t8hWcRed8qpdsmrU7qut7wHH/PdiS1ZQQmhEsz7lTSQ
-	aJ8zhlNR+j4k20R+Dwo4XmrkKSg89HEp+f0G3NO0+IS/QpHyTxw4zcPwGCekN0ob9sLgSe/+wMq
-	X8vECxB20NQmyDKVIt72Fl7WVM3MYjkgEDGDZ8RDMiZmTW1L+ICtm8e0OBNHW8tb8O0LadLSqPx
-	f7Y2Hti9WlkVxrSIQ=
-X-Received: by 2002:a05:6000:24c2:b0:477:6da:1b83 with SMTP id ffacd0b85a97d-47f2dcc8ab8mr16039571f8f.24.1784041406917;
-        Tue, 14 Jul 2026 08:03:26 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f4634e029sm9612721f8f.3.2026.07.14.08.03.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 08:03:25 -0700 (PDT)
-Date: Tue, 14 Jul 2026 17:03:23 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: John Ogness <john.ogness@linutronix.de>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andrew Murray <amurray@thegoodpenguin.co.uk>,
-	Chris Down <chris@chrisdown.name>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH printk 2/3] proc: Add console sync support for
- /proc/consoles
-Message-ID: <alZPu0-aPCVv1iDG@pathway.suse.cz>
-References: <20260710144609.194487-1-john.ogness@linutronix.de>
- <20260710144609.194487-3-john.ogness@linutronix.de>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="S9ZPO8mx";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vjk7leWe";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="S9ZPO8mx";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vjk7leWe"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B746D77ECA;
+	Tue, 14 Jul 2026 15:09:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1784041776; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZEDraE5TchoTogFB1ypuX46XhqlEYyhY85yNYJQ2bOs=;
+	b=S9ZPO8mxQq6H9EWzgICURi0uA79NezQmKf4ibvr1XPvu9ZdTr7b6ON+VIcPhYGiqFeksJC
+	JQihoApxsqlrfEYTH2iM3sv1AXLZ9wGYuQw1ns1uBRXKNUV0rljBT4E6NwKsbsnCpeQL80
+	YjJsVJviejK9l0GN1N9DTE9BKM4bcS0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1784041776;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZEDraE5TchoTogFB1ypuX46XhqlEYyhY85yNYJQ2bOs=;
+	b=vjk7leWezw+E9oMY+fMeqagkKi0OcrK8vh8D05nc22FOB0sHqUj/Spd5iSawv3n/EEpAI7
+	R+60nIWfJajQX3CA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1784041776; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZEDraE5TchoTogFB1ypuX46XhqlEYyhY85yNYJQ2bOs=;
+	b=S9ZPO8mxQq6H9EWzgICURi0uA79NezQmKf4ibvr1XPvu9ZdTr7b6ON+VIcPhYGiqFeksJC
+	JQihoApxsqlrfEYTH2iM3sv1AXLZ9wGYuQw1ns1uBRXKNUV0rljBT4E6NwKsbsnCpeQL80
+	YjJsVJviejK9l0GN1N9DTE9BKM4bcS0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1784041776;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZEDraE5TchoTogFB1ypuX46XhqlEYyhY85yNYJQ2bOs=;
+	b=vjk7leWezw+E9oMY+fMeqagkKi0OcrK8vh8D05nc22FOB0sHqUj/Spd5iSawv3n/EEpAI7
+	R+60nIWfJajQX3CA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ABAD7779AE;
+	Tue, 14 Jul 2026 15:09:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id g0bjKTBRVmpsRQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 14 Jul 2026 15:09:36 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 599B7A1319; Tue, 14 Jul 2026 17:09:28 +0200 (CEST)
+Date: Tue, 14 Jul 2026 17:09:28 +0200
+From: Jan Kara <jack@suse.cz>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca, 
+	libaokun@linux.alibaba.com, jack@suse.cz, ojaswin@linux.ibm.com, ritesh.list@gmail.com, 
+	yi.zhang@huawei.com, yizhang089@gmail.com, chengzhihao1@huawei.com, 
+	yangerkun@huawei.com, yukuai@fnnas.com
+Subject: Re: [PATCH v4 2/9] ext4: skip tail block zeroing for inline data
+ files
+Message-ID: <kwc7kwmlzba3amcxr3hr3kxlgxmm4a3wo64wwphpkf2wpstyrp@zggr4cs3t46r>
+References: <20260714080044.4038124-1-yi.zhang@huaweicloud.com>
+ <20260714080044.4038124-3-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -80,17 +92,83 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260710144609.194487-3-john.ogness@linutronix.de>
+In-Reply-To: <20260714080044.4038124-3-yi.zhang@huaweicloud.com>
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,mit.edu,dilger.ca,linux.alibaba.com,suse.cz,linux.ibm.com,gmail.com,huawei.com,fnnas.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,huawei.com:email,imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Level: 
 
-On Fri 2026-07-10 16:51:52, John Ogness wrote:
-> Update /proc/consoles output to show 's' if a console is
-> running in sync mode.
+On Tue 14-07-26 16:00:37, Zhang Yi wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
 > 
-> Signed-off-by: John Ogness <john.ogness@linutronix.de>
+> ext4_block_zero_eof() is called from ext4_write_checks() on every
+> append write beyond EOF. For inline data files, ext4_get_block()
+> returns -ERANGE when ext4_load_tail_bh() looks up the tail block.
+> However, this error is currently ignored because the return value
+> of ext4_get_block() in ext4_load_tail_bh() is discarded.
+> 
+> Before we fix ext4_load_tail_bh() to properly propagate the error,
+> skip the zeroing for inline data inodes to avoid unnecessary
+> failures or confusion.
+> 
+> Fixes: 3f60efd65412d ("ext4: zero post-EOF partial block before appending write")
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 
-Looks good to me:
+Looks good. Feel free to add:
 
-Reviewed-by: Petr Mladek <pmladek@suse.com>
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Best Regards,
-Petr
+								Honza
+
+> ---
+>  fs/ext4/inode.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+> index 7b2face041ef..3ce925ca0769 100644
+> --- a/fs/ext4/inode.c
+> +++ b/fs/ext4/inode.c
+> @@ -4218,6 +4218,14 @@ int ext4_block_zero_eof(struct inode *inode, loff_t from, loff_t end)
+>  	offset = from & (blocksize - 1);
+>  	if (!offset || from >= end)
+>  		return 0;
+> +	/*
+> +	 * Inline data has no tail block to zero out.  Note that a race with
+> +	 * ext4_page_mkwrite() converting inline data to an extent without
+> +	 * holding i_rwsem is safe, as that path zeroes the full block before
+> +	 * copying in the inline data.
+> +	 */
+> +	if (ext4_has_inline_data(inode))
+> +		return 0;
+>  	/* If we are processing an encrypted inode during orphan list handling */
+>  	if (IS_ENCRYPTED(inode) && !fscrypt_has_encryption_key(inode))
+>  		return 0;
+> -- 
+> 2.52.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
