@@ -1,156 +1,154 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4887D32B108
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Jul 2026 22:09:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784066959; cv=pass; b=eakpZEizxsk3jV6OjSvpy+KGLUXEIotUSVckbnhKIrpflcIZcdEA0t3b1jy6FM7SBHG4EmRdQckc23nDIxB1R7Rern4o1drwGmTFcALcRNWm8vzSiBPJlufy+CLfy0YNeWv/Nanjf5YU25wNA7G7ivFVD51ABifGXjslty2v54M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784066959; c=relaxed/simple;
-	bh=r2iYkOkZqaZiczZDu8484dwuTk2brepREdMPjm33dmc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NVvmTJmOJrLOGaA76jcED/U3ODReyXlflqDrOSm0tp9OXhncHgcm1LHT88hysmYeEnQEBBEufayZYaBHrodNZCl0BaEfEpg+j6BBzEozrWQiMwyVsGzBH9dkVFqH4f3AxXApXnfIO8W9MCCRFhEG2gSCF5Zwl/SHyRrxliegXEM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jJAqAVc8; arc=pass smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB8742BC54;
+	Tue, 14 Jul 2026 22:22:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784067779; cv=none; b=JH/6S0ex+JJKjW2unrRDIe00SSt6jG4JESalUjFrlI0DxpzJt13bB8YOLfSRZQc9z2xCa5P9xxnEoG1egVQCAt/+3+5rqhDh5YgP1QG020BlmwMJUsPzJQBPoA6Y33CM0Nau+JwK4tIpYd4cUO5UWyEGxGyMfcSXcwvbHeywpgk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784067779; c=relaxed/simple;
+	bh=g66vkgwzdcMtt9TCTAfNwUGZomVfV4ZitLzYFBcrSkw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C7a/rI8ZOM1icYjG8kCNYWRcU/ssB3ioa1a+geU0EQyGUzRyFtrwhMGiEN/s9X+NN5hEtVIiydem06Y9i7oI91H3x8P2H9XKPgVK/MUPvHcbCPkVTFhdNrldXflAEFXanWhVv+auaj9dqXVZhOh+08TwZB208ErNnh2mEoJtUT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kC//weSt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jJAqAVc8"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-385ea3ce80dso4988356a91.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Jul 2026 15:09:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784066957; cv=none;
-        d=google.com; s=arc-20260327;
-        b=JTwQQsNzLziSxxuHmjyQPBEdXiD6JjeLUQtPJBe0iTOoGWaHN6L5+8aaA28R+A0pFp
-         Wd8MIigfTFLFchQHkz/b+lb8Nxv6dpCd0Klg9tTH0Sqr6XSd09mDyLRMpoz0iGo3e+K6
-         KOxRcQ5vH3puxv/UX3PcETkEBo6ZavuwfeaknnSi7VowR0GmuzCYYFVT5nQ4FMFw8IAZ
-         JBqgr368fenP+KcNVObZ7zmnGXwNzkOip1t1cGkbAbxoX6rdccjRDAwouOTf9owXTqM8
-         Zj1OpuwD4/rabcUbUFK4SsC58ooG/LOYiqhVrSKWjXxRg1cRl2CX4OBysXbGX5SiT2e2
-         BaWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=xMAuuyWZB7XoHJOmWQuRMJ1M8biAFJoe1pbNkAJBxPk=;
-        fh=UTtNoi4fun5LHX9lXaf2EJ2YWHnNdJsPnjuZh7l+AE4=;
-        b=g8X9YfEkE0wEeywP2/sVVqJq/anw1GyFyGPyczathU35BezgqstNRA5yjQLOkbC/tV
-         TyaH3cV2Xa2kNyu7gFWHow0bPtLBj2XUErp8BqKtSoQY65uV3HSUU96qTkbgfMhio4ea
-         6hVTZwhFSPJ6+b/+SpvGabXkDJelrPus3m4R4d00IkC7i4IBCAA8ace7CxZgJYAv9j8I
-         wccHi12527w2U/Fst4JAm4+K7iQmmDutlTjh8QyQq/hYjCCGEG0zfrjOCojuvHIJBOOi
-         dBQUZnzS6hozsgK031MGENW636fiLHcATfGexYTA6HEJLK+9AN5AjE9Gp2pnJL69BPIO
-         PrYg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784066957; x=1784671757; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xMAuuyWZB7XoHJOmWQuRMJ1M8biAFJoe1pbNkAJBxPk=;
-        b=jJAqAVc8FKhcaLdtoDsofVWzvn8QRy/q9JG+pnR6ul0l0APtFbtQnw2S98upPKO83A
-         FImUC4Y5PEHkn2ZaDf/DOxsXkA5yZFXC1ChC4AxZnrrxNDrirGLN9KwRrXf+AahOSU5I
-         Sn578VMNvhNl8lNQarlJao+yNodAgJa2n3flLLMt4kgDPgx02zzpGMZ+MX1cbZtmqEXB
-         BeQR7wi9BGvNAKWTE42gVMl8CX43REK5YE4uvIdBIeDKVr+i6fTMBz+srJzOjVHE+ggc
-         KbZ0bt0MjQoJDgVO1T+SEg0A9O0z3VyF371tsK8rpWIi+PSipDoooNmwlq0Ei4Ry0d65
-         Advg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784066957; x=1784671757;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=xMAuuyWZB7XoHJOmWQuRMJ1M8biAFJoe1pbNkAJBxPk=;
-        b=GXmuwEDtPEdJ5WKWA+xzrJlOyW6TcoMURxFi2p4FStUcpERDoW/AZeJl33gEWpOv/1
-         +cw7eow7NsKqejc4KiMUa/AE6a62XrduruU2IjmW1DyVSYnDohx+dxQ/glILbKmdWKM7
-         EyHAXybeq/q7kHm0ewc9wrq2kEWZlMrsMXG+aOKl8aJPntBJ9K6HJ0M3g0qJBCrVapWp
-         yTE5ftS6S53KbRnHfR8HcdFBJgiXQb/d/28myOjkA8g3iGgVVJ3eU4oLbtHta0Mc7lhs
-         22kGUeOEEGXaXGyN3S+j7F52UaatKRFQvaooGEYUuAHsu/w2Q9O73UcwDQ/Re07p0Ych
-         og0A==
-X-Forwarded-Encrypted: i=1; AHgh+RrWVH38M+MsVqDs3ATHllHVqVbjiz/fNP/NSD63l7FKU/BTEhjgL4a5YC5SojnOoiU8M9SJdT7sIJrZhKm/@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJQcsK+vDahgsN4CIRckwZEBtfBoqZ+9qb6uZaIOiF9e5DB3BJ
-	Vfe+FKksofLBzmEsDQoyYPAVxoYhTDgeoIdcRdbbTyhZB0LI1W5TsgT+p5iicV6AACqFBl9GN4r
-	LrUWgMdg8+ozLE6gv7e0+pT5BNObd46mS3PUW4qR4TM4+2pbViM4TXLWgTVA=
-X-Gm-Gg: AfdE7cnEjeg+S5SnXvpit8yWAOoP1Uk/Y5trRitXggB/wR0O9ysb2fLiBjpf06oJlCS
-	lbq7U8IuksEcddg5bMRug3sDsrE5Sz+OYOiCMpyXKWK+AfZgyAVagvLursyhiHOWWCiZzgeB2PM
-	/Xky5C6kdJw1telEsggww7tuXmYV+3CpZ9rSYKoohFDsx9zLUylXTTiglMI3MW9Y8xkAbsEm7er
-	wRHGKREoRVrri6Zvur7daAyKlTFnSTHY/yGkOXuUzL1DjmJOGK1DIxiNjpUYqAx5AI/MqGv17vz
-	bFcoapE=
-X-Received: by 2002:a05:6a20:a10e:b0:3a2:dbaa:82ee with SMTP id
- adf61e73a8af0-3c34d5297f9mr6314687637.9.1784066957186; Tue, 14 Jul 2026
- 15:09:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kC//weSt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D208D1F000E9;
+	Tue, 14 Jul 2026 22:22:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784067777;
+	bh=aW/VhQGKLT7lo4RL60Q9vlfIJhM19IRBW2Xc6k3j5aA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kC//weStXk5f3N6WZzLP0YLgvU9fktRcRiiMLCE5kGshiYa1KIxXg/9Bw7q5Ofqva
+	 3TVgHfl3KPemY8C7xjEeCt8ud9H4K/0IlxLbd3S2qNvBAO//ad8IF/JNSzvvoAmW0p
+	 NBA7wBiag/P4uG8walzTY/9BXlP5CF75pMQ5hA/WLJ8XHETIEjg2nhoAl3ht9BJuDM
+	 eH7f4ZWBfbpn3FC867t2mcdvwML0HaUuyVqAwKnorYZ9K9zrzNvr3U3c+VBB9jqSOz
+	 rdDF1enltkZ2LSSqc+GLIGA71bOdngTjtLiSSapXQ2gJjKNoo5NliTTlPAwt9wy/Ct
+	 ce62BOPi0BRYg==
+Date: Wed, 15 Jul 2026 08:22:36 +1000
+From: Dave Chinner <dgc@kernel.org>
+To: Usama Arif <usama.arif@linux.dev>
+Cc: brauner@kernel.org, qi.zheng@linux.dev, jack@suse.cz,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Al Viro <viro@zeniv.linux.org.uk>, linux-mm@kvack.org,
+	hughd@google.com, boris@bur.io, clm@fb.com, dsterba@suse.com,
+	linux-btrfs@vger.kernel.org, cem@kernel.org,
+	linux-xfs@vger.kernel.org, shakeel.butt@linux.dev,
+	hannes@cmpxchg.org, riel@surriel.com, kernel-team@meta.com
+Subject: Re: [PATCH] fs: push nr_cached_objects memcg gating into individual
+ filesystems
+Message-ID: <ala2rDHrFDjql3Qg@dread>
+References: <20260714101454.1202449-1-usama.arif@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260712165610.366474-1-timday@thelustrecollective.com>
- <20260712165610.366474-2-timday@thelustrecollective.com> <alT2yHlfzhTZ9n4T@mit.edu>
- <20260713164417.350710-1-timday@thelustrecollective.com> <CANpmjNMfQT6Z9ke4x49sp6z8+pt_5ZLUoSh0da-99bwos5-8Lw@mail.gmail.com>
- <CANpmjNM5CmQc_YG_5=zhdLCr7gGL3QYPcd4R4=m2NzwNY03d3Q@mail.gmail.com> <20260714211246.1046948-1-timday@thelustrecollective.com>
-In-Reply-To: <20260714211246.1046948-1-timday@thelustrecollective.com>
-From: Marco Elver <elver@google.com>
-Date: Wed, 15 Jul 2026 00:08:39 +0200
-X-Gm-Features: AUfX_mx1t1iYPhOzdPqbpB7WFQla88w25d073M0qcSXD45eo5bd5Svr3aBYrm4o
-Message-ID: <CANpmjNNU_GiRW6y24hvbUsXze+jf+9ptx8_Acq1Y=mvPSr=wFg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/9] ext2: fix ext2_xattr_delete_inode() context
- analysis warning
-To: Timothy Day <timday@thelustrecollective.com>
-Cc: Theodore Tso <tytso@mit.edu>, linux-ext4@vger.kernel.org, Jan Kara <jack@suse.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260714101454.1202449-1-usama.arif@linux.dev>
 
-On Tue, 14 Jul 2026 at 23:14, Timothy Day
-<timday@thelustrecollective.com> wrote:
->
-> On Tue, 14 Jul 2026 00:56:56 +0200, Marco Elver wrote:
-> > Relatively certain statement expressions were once again the problem -
-> > this should fix it: https://github.com/llvm/llvm-project/pull/209330
-> >
-> > I haven't had time to test the Clang fix on  fs/ext2/xattr.c with
-> > context analysis enabled  (please do so if you already build Clang
-> > yourself, otherwise I might get to it in ~week).
->
-> The fix wasn't enough. The commit message on patch 1/9 omitted another
-> warning. On vanilla Clang 23, I see:
->
-> linux/fs/ext2/xattr.c:829:6: error: rw_semaphore 'EXT2_I().xattr_sem' is \
->   not held on every path through here [-Werror,-Wthread-safety-analysis]
->   829 |         if (WARN_ON_ONCE(!down_write_trylock(&EXT2_I(inode)->xattr_sem)))
->       |             ^
->
-> and:
->
-> linux/fs/ext2/xattr.c:860:2: error: releasing rw_semaphore \
->   'EXT2_I().xattr_sem' that was not held [-Werror,-Wthread-safety-analysis]
->   860 |         up_write(&EXT2_I(inode)->xattr_sem);
->       |         ^
->
-> If I apply your patch, it resolves the second warning but not the first.
-> I tried to generate a fix [1]. That branch has both your patch and my
-> fix applied. Those two changes combined fix both warnings. My fix
-> tries to add some special casing for tracking contexts acquired by
-> trylocks. It works, but I'm not very confident on the correctness.
+On Tue, Jul 14, 2026 at 03:14:54AM -0700, Usama Arif wrote:
+> Commit 0baad6f9b997 ("fs/super: skip non-memcg-aware nr_cached_objects
+> in memcg slab shrink") added a check in fs/super.c that skips the
+> ->nr_cached_objects() hook whenever the shrinker is invoked for a
+> non-root memcg, because none of the current implementations (btrfs,
+> xfs, shmem huge) honour sc->memcg.
 
-Nice, thanks. I'll have a look, but it appears right. Need to get my
-PR merged first (need approval), then please feel free to send yours
-with me as reviewer/approver.
+I don't see that commit in an upstream tree. I'm guessing I wasn't
+cc'd on it, either, because I don't recall seeing that as a patch,
+either.
 
-> About next steps, it seems like everyone is happy with the rest of the
-> series. But the first patch should be dropped in favor of a fix to Clang.
+However, if anything is gating the fs_objects callouts to the fs
+when memcg is being srhunk, then it is fundamentally broken and you
+are correct to fix it.
+
+> 
+> That policy is really a filesystem-owned property: fs/super.c should
+> not encode the assumption that these hooks are never memcg-aware,
+> since a future implementation might legitimately filter by sc->memcg.
+> Move the check into btrfs_nr_cached_objects(), xfs_fs_nr_cached_objects()
+> and shmem_unused_huge_count() so each filesystem can lift the
+> restriction independently once its underlying counters/scans become
+> memcg-aware, without needing a coordinated change to fs/super.c.
+
+However, your assumptions here are incorrect.
+
+That is, the XFS fs_objects implementation is intended to be called
+even when memcg shrinking is occurring. I architected it that way
+all those years ago when I introduced the fs_objects shrinker
+callout. i.e. XFS is not aging reclaimable inodes via this call - it
+is purely an expedite freeing of recently reclaimed VFS inodes when
+there is memory pressure of any kind.
+
+Reclaimable XFS inodes are still charged to memcgs, but we don't
+track them per-memcg because it is extremely inefficient when their
+lifetime after being released by the VFS is usually less than 5
+seconds. Indeed, this low level cache is not for working set
+retention; the VFS inode cache does that. The XFS inodes need to
+through a GC state before they can be freed, this takes a little bit
+of time, so we don't hold up the VFS inode cache shrinker for that.
+
+The VFS inode cache shrinker is memcg aware, so it only pushes
+inodes that are being reclaimed by memcg reclaim into the the
+reclaimable state at the XFS level. Hence we don't need to track
+reclaimable inodes by memcg - we know that memcg owned inodes that
+are to be freed have already been pushed into reclaim by the VFS
+shrinker doing memcg reclaim. Hence all we need to do is sweep them
+and free them.
+
+This is what the XFS fs objects shrinker does.  It needs to run in
+conjunction with -any- shrinker context to immediately free the
+clean inodes that the VFS shrinker released that pass, and to
+release any of the recently released VFS inodes that needed GC and
+are now clean and can be freed.
+
+IOWs, the XFS fs_objects callout is not "memcg-aware" in the classic
+sense of "it tracks objects by their owner memcg". However, the
+-combined superblock shrinker algorithm- is memcg aware and that
+results in XFS only seeing objects from the memcg being reclaimed
+transitioning to RECLAIMABLE state which it then immediately sweeps
+away.
+
+i.e. the architecture of the VFS and XFS inode cache reclaim is
+entirely memcg aware, and that is why I implemented the fs_objects
+callout for XFS all those years ago. It works efficiently, it works
+correctly with memcg based reclaim, and XFS doesn't need to care
+about memcgs in it's low level reclaim code. Win, win, win.
+
+> Behaviour is unchanged: calls into these hooks from shrink_slab_memcg()
+
+Behaviour was broken by the above commit, it needs to change.
+
+> still early-return 0 for non-root memcg contexts, keeping the shrinker
+> bit clearable in each memcg's bitmap; the global (kswapd or root
+> direct reclaim) path still drives them as before.
+> 
+> Signed-off-by: Usama Arif <usama.arif@linux.dev>
 >
-> Should I submit a v2 with 1/9 omitted?
+> @@ -170,19 +169,6 @@ static void super_wake(struct super_block *sb, unsigned int flag)
+>  	wake_up_var(&sb->s_flags);
+>  }
+>  
+> -/*
+> - * The s_op->nr_cached_objects hooks (used for example by btrfs and xfs)
+> - * operate on filesystem-global state and ignore sc->memcg. Driving them
+> - * from per-memcg shrink_slab_memcg() invocations only burns CPU walking
+> - * per-cpu counters and queueing duplicate work: the actual reclaim happens on
+> - * the global path (kswapd or root direct reclaim) regardless. Restrict them
+> - * to that path.
+> - */
+> -static inline bool super_fs_objects_eligible(struct shrink_control *sc)
+> -{
+> -	return !sc->memcg || mem_cgroup_is_root(sc->memcg);
+> -}
 
-I'd wait for the Clang fixes to land. They look relatively
-straightforward, but just to be sure...
+This wrapper should still exist (with a better name) so filesystems
+don't need to open code memcg cruft.
 
-> When would we be safe to merge
-> the series? Once the fix is merged to Clang? Is there some kind of
-> periodic LLVM release we ought to wait for?
-
-https://llvm.org has release schedule. While a release for 23 is not
-yet cut, and we do require the unreleased Clang 23, we can respin the
-series after ~1 week of the Clang fixes being merged. Only some CI
-systems build Clang at head, but it's generally assumed that given
-it's the pre-release, they will catch up with head with some days of
-delay.
-
-Thanks,
--- Marco
+-Dave.
+-- 
+Dave Chinner
+dgc@kernel.org
