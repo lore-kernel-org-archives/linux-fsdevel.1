@@ -1,291 +1,213 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8741D495538
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Jul 2026 15:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A5E5446856
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Jul 2026 15:49:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784042461; cv=none; b=rQxhau23216I9BW/kZq5yuuIL+tK96nmFO+htJ8w9POXiA6/0YtBAJQ3JbKjfgT45bcK4K47y7rbyn4L0Mq7bBHeMSm5ejbRyPwbtLiSuv+as/dojUn0pfZ4KeZ4cH0LyQLzknOFCBa/UNY1CfZJEuSpQ+mstLBMGXBRZvj1Yj4=
+	t=1784044173; cv=none; b=sqCco5SRPkeMp3lj1RbHEP2mPH/tE23AEU+kvyDX8uXJWNmsjByqjcgivOrtESu/FIRBHzR/wtwB64/hoF9my0/24l7jA6iG1zcksUXBDUMpRj5Oo23WthK4v/YEMzkAMEpU/unpaw0f4hUnyYZxTJ/YjNSHX4fH1WbRsyO3oLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784042461; c=relaxed/simple;
-	bh=wqFfTlkEbOdYZZvKD6m8yjmVTIDP1K1kzr/Ncxyd3eI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KzEOBpthiNbQPet60fCDfl1NQX7zHaMPxbrSmKJvGMT2y1d11zkNRh99MfIKa3lyHjzWyEGcqxvaRZS4Xm7NSoUrQLDd4WWGUjrT0hQodUY6u1SeomlwNZyPpoW0Y6/BbKIsphG32Ca5uFojEcPhA11CV58TDywRrhGXhD8XHko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=dASCRtRt; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=xIE1j4Cr; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=dASCRtRt; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=xIE1j4Cr; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1784044173; c=relaxed/simple;
+	bh=5Y93/hK1r/jsBMxpgqE6X+PWTItdNYdRMqTAAbV8LNY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Kqeij92ox8TQfWBEjbQ4AWRe0LNhADXl8xifuS2ZcmwFzRRZG37F5UIxSWprnfeYCm3Ls4Y9tGCeZYiNBoLINAJA2/XNq9wxsCXG0ZHt/RDkfHQ1bzfBjBV/ta/y/I9pdxokpvOk4y40YNhQc6NWl15GlbwR1RxCIVpngAeTMwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eHOQa3Jl; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="dASCRtRt";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="xIE1j4Cr";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="dASCRtRt";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="xIE1j4Cr"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eHOQa3Jl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784044170;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=9TVNAefQIHlIju9nW2K1pjBGhSVRpHAkFR/Z5h4ZMBo=;
+	b=eHOQa3JlHdNg6oCFYHb8Til+iW3KKGA8NRkunX+KoqOXmxkpnXN8sYDv47D6rot1SxkZfK
+	p9ZchsQFC7Znh4zL1tLu2C+QP/jZkxaLSL3ZPLToOi2eB9hwgmyNSuPzJHWlP95IzqBvSh
+	mOPNp/3YFLcXZBQJny/0nyV9sPUL7BI=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-482-guchUtRkMS2J_SbIUgNtjg-1; Tue,
+ 14 Jul 2026 11:49:27 -0400
+X-MC-Unique: guchUtRkMS2J_SbIUgNtjg-1
+X-Mimecast-MFC-AGG-ID: guchUtRkMS2J_SbIUgNtjg_1784044166
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8AB1C3E09;
-	Tue, 14 Jul 2026 15:20:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1784042457; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kptdctJwrqYn1JC5emwU/TK/4EX/o+cOyDQJ6bNpNg8=;
-	b=dASCRtRtL//gOyKnlywttPlWck8xL5wEGvxxYkQp+GLBVb2rYuh+DGwUc2nRYVlZOUDPmm
-	wnFOEOtHrErBl+e8ffFFpOjtMSGZci8GJ4S0j0TKuxldeSqAs5ui1yJbWv5/HCtAhWRDn9
-	z6R5ubb0NJj+8sTlcOmyNdlZO9mw54o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1784042457;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kptdctJwrqYn1JC5emwU/TK/4EX/o+cOyDQJ6bNpNg8=;
-	b=xIE1j4CrqNVRYt8d6Dk4AJ1wPbp4OzW9GO1U+7vd/ZbLByovfW2xse3D6P3ox9jVuQNqoO
-	7bvrJ3ceM2buSsBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1784042457; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kptdctJwrqYn1JC5emwU/TK/4EX/o+cOyDQJ6bNpNg8=;
-	b=dASCRtRtL//gOyKnlywttPlWck8xL5wEGvxxYkQp+GLBVb2rYuh+DGwUc2nRYVlZOUDPmm
-	wnFOEOtHrErBl+e8ffFFpOjtMSGZci8GJ4S0j0TKuxldeSqAs5ui1yJbWv5/HCtAhWRDn9
-	z6R5ubb0NJj+8sTlcOmyNdlZO9mw54o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1784042457;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kptdctJwrqYn1JC5emwU/TK/4EX/o+cOyDQJ6bNpNg8=;
-	b=xIE1j4CrqNVRYt8d6Dk4AJ1wPbp4OzW9GO1U+7vd/ZbLByovfW2xse3D6P3ox9jVuQNqoO
-	7bvrJ3ceM2buSsBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7A0B8779AE;
-	Tue, 14 Jul 2026 15:20:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ZnPZHNlTVmrnUAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 14 Jul 2026 15:20:57 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 22BE9A1319; Tue, 14 Jul 2026 17:20:57 +0200 (CEST)
-Date: Tue, 14 Jul 2026 17:20:57 +0200
-From: Jan Kara <jack@suse.cz>
-To: Usama Arif <usama.arif@linux.dev>
-Cc: brauner@kernel.org, qi.zheng@linux.dev, jack@suse.cz, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>, 
-	linux-mm@kvack.org, hughd@google.com, boris@bur.io, clm@fb.com, dsterba@suse.com, 
-	linux-btrfs@vger.kernel.org, cem@kernel.org, linux-xfs@vger.kernel.org, 
-	shakeel.butt@linux.dev, hannes@cmpxchg.org, riel@surriel.com, kernel-team@meta.com
-Subject: Re: [PATCH] fs: push nr_cached_objects memcg gating into individual
- filesystems
-Message-ID: <7yhd7nfbeukx5ycm4tpk2mc37b6cqpiw4q4gbf3elmtbfaoftb@txp5gavwasxv>
-References: <20260714101454.1202449-1-usama.arif@linux.dev>
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E07631800350;
+	Tue, 14 Jul 2026 15:49:25 +0000 (UTC)
+Received: from oxygen.redhat.com (unknown [10.44.32.17])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id F3048414;
+	Tue, 14 Jul 2026 15:49:23 +0000 (UTC)
+From: Giuseppe Scrivano <gscrivan@redhat.com>
+To: linux-erofs@lists.ozlabs.org
+Cc: cyphar@cyphar.com,
+	hsiangkao@linux.alibaba.com,
+	linux-fsdevel@vger.kernel.org,
+	gscrivan@redhat.com
+Subject: [PATCH v3] erofs: accept source file descriptor via fsconfig
+Date: Tue, 14 Jul 2026 17:48:27 +0200
+Message-ID: <20260714154917.489993-1-gscrivan@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260714101454.1202449-1-usama.arif@linux.dev>
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.996];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_COUNT_THREE(0.00)[3];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.com:email,linux.dev:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Score: -3.80
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-On Tue 14-07-26 03:14:54, Usama Arif wrote:
-> Commit 0baad6f9b997 ("fs/super: skip non-memcg-aware nr_cached_objects
-> in memcg slab shrink") added a check in fs/super.c that skips the
-> ->nr_cached_objects() hook whenever the shrinker is invoked for a
-> non-root memcg, because none of the current implementations (btrfs,
-> xfs, shmem huge) honour sc->memcg.
-> 
-> That policy is really a filesystem-owned property: fs/super.c should
-> not encode the assumption that these hooks are never memcg-aware,
-> since a future implementation might legitimately filter by sc->memcg.
-> Move the check into btrfs_nr_cached_objects(), xfs_fs_nr_cached_objects()
-> and shmem_unused_huge_count() so each filesystem can lift the
-> restriction independently once its underlying counters/scans become
-> memcg-aware, without needing a coordinated change to fs/super.c.
-> 
-> Behaviour is unchanged: calls into these hooks from shrink_slab_memcg()
-> still early-return 0 for non-root memcg contexts, keeping the shrinker
-> bit clearable in each memcg's bitmap; the global (kswapd or root
-> direct reclaim) path still drives them as before.
-> 
-> Signed-off-by: Usama Arif <usama.arif@linux.dev>
+Allow userspace to pass an already-opened file descriptor as the mount
+source instead of a path string.  This is useful for tools that already
+hold an fd to the image, such as composefs reusing an existing erofs
+backing file.
 
-Makes sense to me. Feel free to add:
+Signed-off-by: Giuseppe Scrivano <gscrivan@redhat.com>
+---
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+v2: https://lore.kernel.org/linux-fsdevel/20260711071137.4130824-1-gscrivan@redhat.com/
+v1: https://lore.kernel.org/linux-fsdevel/ak5GfvVfWLJU1EwK@debian/
 
-								Honza
+ fs/erofs/super.c | 87 ++++++++++++++++++++++++++++++++++++------------
+ 1 file changed, 65 insertions(+), 22 deletions(-)
 
-> ---
->  fs/btrfs/super.c   | 11 +++++++++++
->  fs/super.c         | 19 ++-----------------
->  fs/xfs/xfs_super.c | 12 ++++++++++++
->  mm/shmem.c         | 11 +++++++++++
->  4 files changed, 36 insertions(+), 17 deletions(-)
-> 
-> diff --git a/fs/btrfs/super.c b/fs/btrfs/super.c
-> index a7d804219bec..16c24bccc897 100644
-> --- a/fs/btrfs/super.c
-> +++ b/fs/btrfs/super.c
-> @@ -22,6 +22,7 @@
->  #include <linux/namei.h>
->  #include <linux/miscdevice.h>
->  #include <linux/magic.h>
-> +#include <linux/memcontrol.h>
->  #include <linux/slab.h>
->  #include <linux/ratelimit.h>
->  #include <linux/crc32c.h>
-> @@ -2434,6 +2435,16 @@ static long btrfs_nr_cached_objects(struct super_block *sb, struct shrink_contro
->  	struct btrfs_fs_info *fs_info = btrfs_sb(sb);
->  	const s64 nr = percpu_counter_read_positive(&fs_info->evictable_extent_maps);
->  
-> +	/*
-> +	 * The evictable extent map counter is filesystem-global and does not
-> +	 * honour sc->memcg, so it is only meaningful on the global (kswapd or
-> +	 * root direct reclaim) shrink path. Skip the per-memcg iterations of
-> +	 * shrink_slab_memcg() to avoid queueing duplicate global work and
-> +	 * pinning the shrinker bit in every memcg's bitmap.
-> +	 */
-> +	if (sc->memcg && !mem_cgroup_is_root(sc->memcg))
-> +		return 0;
-> +
->  	trace_btrfs_extent_map_shrinker_count(fs_info, nr);
->  
->  	return nr;
-> diff --git a/fs/super.c b/fs/super.c
-> index d2d04a6f4f84..a8fd61136aaf 100644
-> --- a/fs/super.c
-> +++ b/fs/super.c
-> @@ -24,7 +24,6 @@
->  #include <linux/export.h>
->  #include <linux/slab.h>
->  #include <linux/blkdev.h>
-> -#include <linux/memcontrol.h>
->  #include <linux/mount.h>
->  #include <linux/security.h>
->  #include <linux/writeback.h>		/* for the emergency remount stuff */
-> @@ -170,19 +169,6 @@ static void super_wake(struct super_block *sb, unsigned int flag)
->  	wake_up_var(&sb->s_flags);
->  }
->  
-> -/*
-> - * The s_op->nr_cached_objects hooks (used for example by btrfs and xfs)
-> - * operate on filesystem-global state and ignore sc->memcg. Driving them
-> - * from per-memcg shrink_slab_memcg() invocations only burns CPU walking
-> - * per-cpu counters and queueing duplicate work: the actual reclaim happens on
-> - * the global path (kswapd or root direct reclaim) regardless. Restrict them
-> - * to that path.
-> - */
-> -static inline bool super_fs_objects_eligible(struct shrink_control *sc)
-> -{
-> -	return !sc->memcg || mem_cgroup_is_root(sc->memcg);
-> -}
-> -
->  /*
->   * One thing we have to be careful of with a per-sb shrinker is that we don't
->   * drop the last active reference to the superblock from within the shrinker.
-> @@ -212,7 +198,7 @@ static unsigned long super_cache_scan(struct shrinker *shrink,
->  	if (!super_trylock_shared(sb))
->  		return SHRINK_STOP;
->  
-> -	if (sb->s_op->nr_cached_objects && super_fs_objects_eligible(sc))
-> +	if (sb->s_op->nr_cached_objects)
->  		fs_objects = sb->s_op->nr_cached_objects(sb, sc);
->  
->  	inodes = list_lru_shrink_count(&sb->s_inode_lru, sc);
-> @@ -273,8 +259,7 @@ static unsigned long super_cache_count(struct shrinker *shrink,
->  		return 0;
->  	smp_rmb();
->  
-> -	if (sb->s_op && sb->s_op->nr_cached_objects &&
-> -	    super_fs_objects_eligible(sc))
-> +	if (sb->s_op && sb->s_op->nr_cached_objects)
->  		total_objects = sb->s_op->nr_cached_objects(sb, sc);
->  
->  	total_objects += list_lru_shrink_count(&sb->s_dentry_lru, sc);
-> diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
-> index eac7f9503805..f0d8251fad3b 100644
-> --- a/fs/xfs/xfs_super.c
-> +++ b/fs/xfs/xfs_super.c
-> @@ -54,6 +54,7 @@
->  #include "scrub/rcbag_btree.h"
->  
->  #include <linux/magic.h>
-> +#include <linux/memcontrol.h>
->  #include <linux/fs_context.h>
->  #include <linux/fs_parser.h>
->  #include <linux/fserror.h>
-> @@ -1242,6 +1243,17 @@ xfs_fs_nr_cached_objects(
->  	/* Paranoia: catch incorrect calls during mount setup or teardown */
->  	if (WARN_ON_ONCE(!sb->s_fs_info))
->  		return 0;
-> +
-> +	/*
-> +	 * The reclaimable inode count is filesystem-global and does not honour
-> +	 * sc->memcg, so it is only meaningful on the global (kswapd or root
-> +	 * direct reclaim) shrink path. Skip the per-memcg iterations of
-> +	 * shrink_slab_memcg() to avoid queueing duplicate global work and
-> +	 * pinning the shrinker bit in every memcg's bitmap.
-> +	 */
-> +	if (sc->memcg && !mem_cgroup_is_root(sc->memcg))
-> +		return 0;
-> +
->  	return xfs_reclaim_inodes_count(XFS_M(sb));
->  }
->  
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index 5789a0f5a346..3ba812e4f5ba 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -846,6 +846,17 @@ static long shmem_unused_huge_count(struct super_block *sb,
->  		struct shrink_control *sc)
->  {
->  	struct shmem_sb_info *sbinfo = SHMEM_SB(sb);
-> +
-> +	/*
-> +	 * The per-superblock shrinklist is filesystem-global and does not
-> +	 * honour sc->memcg, so it is only meaningful on the global (kswapd or
-> +	 * root direct reclaim) shrink path. Skip the per-memcg iterations of
-> +	 * shrink_slab_memcg() to avoid queueing duplicate global work and
-> +	 * pinning the shrinker bit in every memcg's bitmap.
-> +	 */
-> +	if (sc->memcg && !mem_cgroup_is_root(sc->memcg))
-> +		return 0;
-> +
->  	return READ_ONCE(sbinfo->shrinklist_len);
->  }
->  #else /* !CONFIG_TRANSPARENT_HUGEPAGE */
-> -- 
-> 2.53.0-Meta
-> 
+diff --git a/fs/erofs/super.c b/fs/erofs/super.c
+index 86fa5c6a0c70..d7baf9f34dc0 100644
+--- a/fs/erofs/super.c
++++ b/fs/erofs/super.c
+@@ -386,6 +386,7 @@ static void erofs_default_options(struct erofs_sb_info *sbi)
+ enum {
+ 	Opt_user_xattr, Opt_acl, Opt_cache_strategy, Opt_dax, Opt_dax_enum,
+ 	Opt_device, Opt_domain_id, Opt_directio, Opt_fsoffset, Opt_inode_share,
++	Opt_source,
+ };
+ 
+ static const struct constant_table erofs_param_cache_strategy[] = {
+@@ -402,17 +403,18 @@ static const struct constant_table erofs_dax_param_enums[] = {
+ };
+ 
+ static const struct fs_parameter_spec erofs_fs_parameters[] = {
+-	fsparam_flag_no("user_xattr",	Opt_user_xattr),
+-	fsparam_flag_no("acl",		Opt_acl),
+-	fsparam_enum("cache_strategy",	Opt_cache_strategy,
++	fsparam_flag_no("user_xattr",		Opt_user_xattr),
++	fsparam_flag_no("acl",			Opt_acl),
++	fsparam_enum("cache_strategy",		Opt_cache_strategy,
+ 		     erofs_param_cache_strategy),
+-	fsparam_flag("dax",             Opt_dax),
+-	fsparam_enum("dax",		Opt_dax_enum, erofs_dax_param_enums),
+-	fsparam_string("device",	Opt_device),
+-	fsparam_string("domain_id",	Opt_domain_id),
+-	fsparam_flag_no("directio",	Opt_directio),
+-	fsparam_u64("fsoffset",		Opt_fsoffset),
+-	fsparam_flag("inode_share",	Opt_inode_share),
++	fsparam_flag("dax",			Opt_dax),
++	fsparam_enum("dax",			Opt_dax_enum, erofs_dax_param_enums),
++	fsparam_string("device",		Opt_device),
++	fsparam_string("domain_id",		Opt_domain_id),
++	fsparam_flag_no("directio",		Opt_directio),
++	fsparam_u64("fsoffset",			Opt_fsoffset),
++	fsparam_flag("inode_share",		Opt_inode_share),
++	fsparam_file_or_string("source",	Opt_source),
+ 	{}
+ };
+ 
+@@ -437,6 +439,40 @@ static bool erofs_fc_set_dax_mode(struct fs_context *fc, unsigned int mode)
+ 	return false;
+ }
+ 
++static int erofs_fc_parse_source(struct fs_context *fc,
++				 struct fs_parameter *param)
++{
++	struct erofs_sb_info *sbi = fc->s_fs_info;
++
++	if (fc->source || sbi->dif0.file)
++		return invalf(fc, "Multiple sources");
++
++	switch (param->type) {
++	case fs_value_is_string:
++		fc->source = param->string;
++		param->string = NULL;
++		return 0;
++	case fs_value_is_file: {
++		char *buf __free(kfree) = kmalloc(PATH_MAX, GFP_KERNEL);
++		char *p;
++
++		if (!buf)
++			return -ENOMEM;
++		p = file_path(param->file, buf, PATH_MAX);
++		if (IS_ERR(p))
++			return PTR_ERR(p);
++		fc->source = kstrdup(p, GFP_KERNEL);
++		if (!fc->source)
++			return -ENOMEM;
++		sbi->dif0.file = no_free_ptr(param->file);
++		return 0;
++	}
++	default:
++		WARN_ON_ONCE(true);
++		return -EINVAL;
++	}
++}
++
+ static int erofs_fc_parse_param(struct fs_context *fc,
+ 				struct fs_parameter *param)
+ {
+@@ -524,6 +560,8 @@ static int erofs_fc_parse_param(struct fs_context *fc,
+ 		else
+ 			set_opt(&sbi->opt, INODE_SHARE);
+ 		break;
++	case Opt_source:
++		return erofs_fc_parse_source(fc, param);
+ 	}
+ 	return 0;
+ }
+@@ -752,14 +790,18 @@ static int erofs_fc_fill_super(struct super_block *sb, struct fs_context *fc)
+ 
+ static int erofs_fc_get_tree(struct fs_context *fc)
+ {
+-	int ret;
++	struct erofs_sb_info *sbi = fc->s_fs_info;
++	struct file *file = sbi->dif0.file;
+ 
+-	ret = get_tree_bdev_flags(fc, erofs_fc_fill_super,
+-		IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) ?
+-			GET_TREE_BDEV_QUIET_LOOKUP : 0);
+-	if (IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) && ret == -ENOTBLK) {
+-		struct erofs_sb_info *sbi = fc->s_fs_info;
+-		struct file *file;
++	if (!IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) || !file) {
++		int ret;
++
++		ret = get_tree_bdev_flags(fc, erofs_fc_fill_super,
++			IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) ?
++				GET_TREE_BDEV_QUIET_LOOKUP : 0);
++		if (!IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) ||
++		    ret != -ENOTBLK)
++			return ret;
+ 
+ 		if (!fc->source)
+ 			return invalf(fc, "No source specified");
+@@ -767,12 +809,13 @@ static int erofs_fc_get_tree(struct fs_context *fc)
+ 		if (IS_ERR(file))
+ 			return PTR_ERR(file);
+ 		sbi->dif0.file = file;
+-
+-		if (S_ISREG(file_inode(sbi->dif0.file)->i_mode) &&
+-		    sbi->dif0.file->f_mapping->a_ops->read_folio)
+-			return get_tree_nodev(fc, erofs_fc_fill_super);
+ 	}
+-	return ret;
++	if (!S_ISREG(file_inode(file)->i_mode) ||
++	    !file->f_mapping->a_ops->read_folio) {
++		errorfc(fc, "source is unsupported");
++		return -EINVAL;
++	}
++	return get_tree_nodev(fc, erofs_fc_fill_super);
+ }
+ 
+ static int erofs_fc_reconfigure(struct fs_context *fc)
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.55.0
+
