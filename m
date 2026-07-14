@@ -1,203 +1,193 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB33E3EB0ED;
-	Tue, 14 Jul 2026 09:28:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11213630B5
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Jul 2026 10:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784021300; cv=none; b=p+FX3IOlBf1lmMeCI+hLzsnrR5XlaBfqsAzduUx52SHv37EXsFAWD5NGvufrXaBsUn13O04NUS6trs7YwA6AGC3EEGLUrw1Y+JoPcJ6oupRw9DY2HuiVOc05Fgj/A3EycKki1uVyqzJSAT16TUtBUok2zOsPGqyF2TERF0OUuDE=
+	t=1784023764; cv=none; b=oUkiXYFddzKQz3ODDh8TWwgSW2Ot51vPEsHUNAakX9O8EpAMMjQVUo5jHEUSq6u41aQfiObvFC2eSMA0tVpmUEHuJ7cWUIz2n58YDXK0PQSAGeub0idWkKCcUZw729vpE7up+0suEZ18KEJhijKoblsPVganCafFiFY3dPcOhrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784021300; c=relaxed/simple;
-	bh=U07ydkqMcRM6PYx/K+gMTO0DQy3bVKsl6MnHGw+TjAk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YWTkMM4X0E4243g76q6DDPkcA8zfsKuOelPtdYWKLOoHKdJnq+9nLRELq4I8EDSmRYi09brDC2KL60ZxSv/5XPTURcDesaM+g+UnWPTfyHbHhpeVwfMzCRexkwBdnoVsiHVK7urHjufGflsWpwNy1H8hKudzw9MdwWwH9shy9yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 4f045fba7f6611f1aa26b74ffac11d73-20260714
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:8736ac21-773c-49f6-9a8a-c1cd333a92d5,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:0da4ae78c7b721b123bd192d7981210a,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|136|865|898,TC:nil,Content:0|1
-	5|50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI
-	:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 4f045fba7f6611f1aa26b74ffac11d73-20260714
-X-User: liuxixin@kylinos.cn
-Received: from [127.0.1.1] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <liuxixin@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1263517067; Tue, 14 Jul 2026 17:28:01 +0800
-From: Xixin Liu <liuxixin@kylinos.cn>
-To: linux-fsdevel@vger.kernel.org
-Cc: dsterba@suse.com, brauner@kernel.org, jack@suse.cz, jlayton@kernel.org, chentaotao@didiglobal.com, chuck.lever@oracle.com, dlemoal@kernel.org, liuxixin@kylinos.cn, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 3/3] affs: restore directory entry after failed rename insert
-Date: Tue, 14 Jul 2026 17:05:29 +0800
-Message-ID: <e7143a723ffadee9e62ebbd9bf045a20455c1a56.1784019929.git.kylinos.cn>
-In-Reply-To: <cover.affs-fixes-v1.1784019929.git.kylinos.cn>
-References: <cover.affs-fixes-v1.1784019929.git.kylinos.cn>
+	s=arc-20240116; t=1784023764; c=relaxed/simple;
+	bh=DScqINsgIXlOJrEHRD9F6lR1ra3KG+IyFe5aUHv4mhc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Aamhj6h2S44ZXljNG6ovcDyYVSuDbO/Yq9kVn/3pfynm5iUXJaYWFWoYGXKAQrzNANPXPTj3fnAkoUCV3vbSx0bAlYcbsErsDTaADZseuZxYfn1X70cMR4bmjUR0OPqmuDT6MosZpgOzRJEZMrRFOOrMSZyPIAZiaoy0e5BMaXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fjn/BMM9; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fjn/BMM9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784023761;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MmYNaA+5oKQvi2MwU3Go0Jq3d3s0gwtHKKIHEJ19AnU=;
+	b=fjn/BMM9x6RQQGMfA2f9HGpZj1DlwxWaglASyM6hlrshmAZ9GSCVkjG0aiNvDLtNFShiby
+	Utb/nCA+1Jv0ccUMmMUZwNSHQqUc94LTrleYLEyxQI3kdUteRmAi+PJfjfi1UZ3RMvvgYr
+	UnPaek0780nbY0K413I+8PiTYZ9D3sQ=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-215-QxCFutWdMkyQ192Lumsu-g-1; Tue,
+ 14 Jul 2026 06:09:19 -0400
+X-MC-Unique: QxCFutWdMkyQ192Lumsu-g-1
+X-Mimecast-MFC-AGG-ID: QxCFutWdMkyQ192Lumsu-g_1784023758
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 74B6D1956051;
+	Tue, 14 Jul 2026 10:09:18 +0000 (UTC)
+Received: from localhost (unknown [10.44.32.17])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 79CF31956040;
+	Tue, 14 Jul 2026 10:09:17 +0000 (UTC)
+From: Giuseppe Scrivano <gscrivan@redhat.com>
+To: Gao Xiang <hsiangkao@linux.alibaba.com>
+Cc: Aleksa Sarai <cyphar@cyphar.com>,  Christian Brauner
+ <brauner@kernel.org>,  linux-erofs@lists.ozlabs.org,
+  linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2] erofs: accept source file descriptor via fsconfig
+In-Reply-To: <c812e638-8a66-4dc0-b8d9-c971134bb413@linux.alibaba.com> (Gao
+	Xiang's message of "Tue, 14 Jul 2026 14:45:09 +0800")
+References: <20260711071137.4130824-1-gscrivan@redhat.com>
+	<2026-07-13-dandy-better-exposure-wager-9hBmfv@cyphar.com>
+	<871pd748kh.fsf@redhat.com>
+	<2026-07-13-chief-single-carnival-graders-7dI4ue@cyphar.com>
+	<87wluz2nnc.fsf@redhat.com>
+	<2026-07-14-drafty-folded-woes-volumes-Z93P4V@cyphar.com>
+	<ba9cf493-45c8-45e8-9e21-9731ec492030@linux.alibaba.com>
+	<87pl0q2i2r.fsf@redhat.com>
+	<c812e638-8a66-4dc0-b8d9-c971134bb413@linux.alibaba.com>
+Date: Tue, 14 Jul 2026 12:09:15 +0200
+Message-ID: <87ldbd3mt0.fsf@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailer: affs/send-local.py
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-affs_rename() removes the object from the old directory hash before
-inserting it under the new name. If insert_hash() fails, the object
-keeps the new name but is linked in neither directory.
+Gao Xiang <hsiangkao@linux.alibaba.com> writes:
 
-On failure, restore the original name from old_dentry and re-insert into
-the old directory. Still return the insert error; warn if rollback fails.
-Apply the same best-effort rollback to affs_xrename().
+> On 2026/7/14 14:36, Giuseppe Scrivano wrote:
+>> Gao Xiang <hsiangkao@linux.alibaba.com> writes:
+>> 
+>>> On 2026/7/14 08:49, Aleksa Sarai wrote:
+>>>> On 2026-07-13, Giuseppe Scrivano <gscrivan@redhat.com> wrote:
+>>>>> thanks for the hints.
+>>>>>
+>>>>> I'll prepare a v3 if you are fine with the version below:
+>>>> No worries, and this seems more reasonable at a first glance.
+>>>>
+>>>>> diff --git a/fs/erofs/super.c b/fs/erofs/super.c
+>>>>> index 86fa5c6a0c70..72c85cc53085 100644
+>>>>> --- a/fs/erofs/super.c
+>>>>> +++ b/fs/erofs/super.c
+>>>> ...
+>>>>> @@ -437,6 +439,38 @@ static bool erofs_fc_set_dax_mode(struct fs_context *fc, unsigned int mode)
+>>>>>    	return false;
+>>>>>    }
+>>>>>    +static int erofs_fc_parse_source(struct fs_context *fc,
+>>>>> +				 struct fs_parameter *param)
+>>>>> +{
+>>>>> +	struct erofs_sb_info *sbi = fc->s_fs_info;
+>>>>> +
+>>>>> +	if (fc->source || sbi->dif0.file)
+>>>>> +		return invalf(fc, "Multiple sources");
+>>>>> +
+>>>>> +	switch (param->type) {
+>>>>> +	case fs_value_is_string:
+>>>>> +		fc->source = param->string;
+>>>>> +		param->string = NULL;
+>>>>> +		return 0;
+>>>>> +	case fs_value_is_file: {
+>>>>> +		char *buf, *p;
+>>>>> +
+>>>>> +		sbi->dif0.file = get_file(param->file);
+>>>> A very minor nit, but you can actually steal the file reference here
+>>>> with
+>>>> 		sbi->dif0.file = no_free_ptr(param->file);
+>>>> A few other places do this. (You'll also need to change the
+>>>> param->file
+>>>> reference below.)
+>>>>
+>>>>> +		buf = kmalloc(PATH_MAX, GFP_KERNEL);
+>>>>> +		if (!buf)
+>>>>> +			return -ENOMEM;
+>>>>> +		p = file_path(param->file, buf, PATH_MAX);
+>>>>> +		fc->source = kstrdup(IS_ERR(p) ? "(fd)" : p, GFP_KERNEL);
+>>>> I think that /proc/self/fd/%d would be a more useful name for
+>>>> debugging
+>>>> if file_path() fails (not that it is really possible here AFAICS). But
+>>>> I'm not really too fussed.
+>>>
+>>> Not quite sure if we should get in agreement with the format of this
+>>> one in advance (IOWs, users use source_fd and how fc->source looks like;
+>>> since other fses may follow the same practice if source_fd becomes common
+>>> later) since it's a user-visible field and I believe we shouldn't treat
+>>> this one as a dontcare field as some pseudo fses (since those fses don't
+>>> rely on `fc->source` by design but typically EROFS can rely on.)
+>>>
+>>> I hope Christian and others could share move thought on this part too
+>>> before I land this feature for the next cycle.
+>> would it be better to just return the error from file_path without
+>> any
+>> fallback?
+>
+> I hope Christian or other vfs folks can decide how to handle fc->source
+> string here, since in the long term, how to deal with source_fd should
+> be unique among different fses: just our current short-term
+> implementation lands into erofs directly for file-backed mounts to
+> fulfill composefs needs.
+>
 
-Signed-off-by: Xixin Liu <liuxixin@kylinos.cn>
----
- fs/affs/namei.c | 93 +++++++++++++++++++++++++++++++++++++------------
- 1 file changed, 71 insertions(+), 22 deletions(-)
+overlayfs is already handling such a case, and it resolves the path using d_path:
 
-diff --git a/fs/affs/namei.c b/fs/affs/namei.c
-index c3c6532da4b0..08edfdaeefc3 100644
---- a/fs/affs/namei.c
-+++ b/fs/affs/namei.c
-@@ -401,6 +401,38 @@ affs_link(struct dentry *old_dentry, struct inode *dir, struct dentry *dentry)
- 	return affs_add_entry(dir, inode, dentry, ST_LINKFILE);
- }
- 
-+/* Write dentry name into header and insert into dir (success or rollback). */
-+static int affs_reinsert_with_name(struct inode *dir, struct buffer_head *bh,
-+				   struct dentry *dentry)
-+{
-+	struct super_block *sb = dir->i_sb;
-+	int err;
-+
-+	affs_copy_name(AFFS_TAIL(sb, bh)->name, dentry);
-+	affs_fix_checksum(sb, bh);
-+	affs_lock_dir(dir);
-+	err = affs_insert_hash(dir, bh);
-+	affs_unlock_dir(dir);
-+	return err;
-+}
-+
-+/* Put both exchange objects back under their original names/dirs. */
-+static void affs_xrename_restore(struct inode *old_dir, struct inode *new_dir,
-+				 struct buffer_head *bh_old,
-+				 struct buffer_head *bh_new,
-+				 struct dentry *old_dentry,
-+				 struct dentry *new_dentry)
-+{
-+	if (affs_reinsert_with_name(old_dir, bh_old, old_dentry))
-+		affs_warning(old_dir->i_sb, "xrename",
-+			     "failed to restore inode %lu",
-+			     (unsigned long)bh_old->b_blocknr);
-+	if (affs_reinsert_with_name(new_dir, bh_new, new_dentry))
-+		affs_warning(new_dir->i_sb, "xrename",
-+			     "failed to restore inode %lu",
-+			     (unsigned long)bh_new->b_blocknr);
-+}
-+
- static int
- affs_rename(struct inode *old_dir, struct dentry *old_dentry,
- 	    struct inode *new_dir, struct dentry *new_dentry)
-@@ -434,13 +466,15 @@ affs_rename(struct inode *old_dir, struct dentry *old_dentry,
- 	if (retval)
- 		goto done;
- 
--	/* And insert it into the new directory with the new name. */
--	affs_copy_name(AFFS_TAIL(sb, bh)->name, new_dentry);
--	affs_fix_checksum(sb, bh);
--	affs_lock_dir(new_dir);
--	retval = affs_insert_hash(new_dir, bh);
--	affs_unlock_dir(new_dir);
--	/* TODO: move it back to old_dir, if error? */
-+	/* Insert into the new directory with the new name. */
-+	retval = affs_reinsert_with_name(new_dir, bh, new_dentry);
-+	if (retval) {
-+		/* old_dentry still has the original name; put the object back. */
-+		if (affs_reinsert_with_name(old_dir, bh, old_dentry))
-+			affs_warning(sb, "rename",
-+				     "failed to restore inode %lu",
-+				     (unsigned long)bh->b_blocknr);
-+	}
- 
- done:
- 	mmb_mark_buffer_dirty(bh,
-@@ -453,11 +487,10 @@ static int
- affs_xrename(struct inode *old_dir, struct dentry *old_dentry,
- 	     struct inode *new_dir, struct dentry *new_dentry)
- {
--
- 	struct super_block *sb = old_dir->i_sb;
- 	struct buffer_head *bh_old = NULL;
- 	struct buffer_head *bh_new = NULL;
--	int retval;
-+	int retval, retval2;
- 
- 	bh_old = affs_bread(sb, d_inode(old_dentry)->i_ino);
- 	if (!bh_old)
-@@ -480,25 +513,41 @@ affs_xrename(struct inode *old_dir, struct dentry *old_dentry,
- 	affs_lock_dir(new_dir);
- 	retval = affs_remove_hash(new_dir, bh_new);
- 	affs_unlock_dir(new_dir);
--	if (retval)
-+	if (retval) {
-+		/* Names unchanged; only put old back into old_dir. */
-+		if (affs_reinsert_with_name(old_dir, bh_old, old_dentry))
-+			affs_warning(sb, "xrename",
-+				     "failed to restore inode %lu",
-+				     (unsigned long)bh_old->b_blocknr);
- 		goto done;
-+	}
- 
- 	/* Insert old into the new directory with the new name. */
--	affs_copy_name(AFFS_TAIL(sb, bh_old)->name, new_dentry);
--	affs_fix_checksum(sb, bh_old);
--	affs_lock_dir(new_dir);
--	retval = affs_insert_hash(new_dir, bh_old);
--	affs_unlock_dir(new_dir);
-+	retval = affs_reinsert_with_name(new_dir, bh_old, new_dentry);
-+	if (retval) {
-+		affs_xrename_restore(old_dir, new_dir, bh_old, bh_new,
-+				     old_dentry, new_dentry);
-+		goto done;
-+	}
- 
- 	/* Insert new into the old directory with the old name. */
--	affs_copy_name(AFFS_TAIL(sb, bh_new)->name, old_dentry);
--	affs_fix_checksum(sb, bh_new);
--	affs_lock_dir(old_dir);
--	retval = affs_insert_hash(old_dir, bh_new);
--	affs_unlock_dir(old_dir);
-+	retval = affs_reinsert_with_name(old_dir, bh_new, old_dentry);
-+	if (retval) {
-+		/* Undo the first insert, then restore both originals. */
-+		affs_lock_dir(new_dir);
-+		retval2 = affs_remove_hash(new_dir, bh_old);
-+		affs_unlock_dir(new_dir);
-+		if (retval2)
-+			affs_warning(sb, "xrename",
-+				     "undo insert of inode %lu failed (%d)",
-+				     (unsigned long)bh_old->b_blocknr, retval2);
-+		affs_xrename_restore(old_dir, new_dir, bh_old, bh_new,
-+				     old_dentry, new_dentry);
-+	}
-+
- done:
--	mmb_mark_buffer_dirty(bh_old, &AFFS_I(new_dir)->i_metadata_bhs);
--	mmb_mark_buffer_dirty(bh_new, &AFFS_I(old_dir)->i_metadata_bhs);
-+	mmb_mark_buffer_dirty(bh_old, &AFFS_I(retval ? old_dir : new_dir)->i_metadata_bhs);
-+	mmb_mark_buffer_dirty(bh_new, &AFFS_I(retval ? new_dir : old_dir)->i_metadata_bhs);
- 	affs_brelse(bh_old);
- 	affs_brelse(bh_new);
- 	return retval;
--- 
-2.43.0
+static int ovl_parse_layer(struct fs_context *fc, struct fs_parameter *param,
+			   enum ovl_opt layer)
+{
+	struct path layer_path __free(path_put) = {};
+	int err = 0;
+
+	switch (param->type) {
+	case fs_value_is_string:
+		err = ovl_kern_path(param->string, &layer_path, layer);
+		if (err)
+			return err;
+		err = ovl_do_parse_layer(fc, param->string, &layer_path, layer);
+		break;
+	case fs_value_is_file: {
+		char *buf __free(kfree);
+		char *layer_name;
+
+		buf = kmalloc(PATH_MAX, GFP_KERNEL_ACCOUNT);
+		if (!buf)
+			return -ENOMEM;
+
+		layer_path = param->file->f_path;
+		path_get(&layer_path);
+
+		layer_name = d_path(&layer_path, buf, PATH_MAX);
+		if (IS_ERR(layer_name))
+			return PTR_ERR(layer_name);
+
+		err = ovl_do_parse_layer(fc, layer_name, &layer_path, layer);
+		break;
+	}
+	default:
+		WARN_ON_ONCE(true);
+		err = -EINVAL;
+	}
+
+	return err;
+}
+
+If there are no objections, I'll change the code to match what overlay
+does and return the error instead of using a fallback.
+
+Regards,
+Giuseppe
 
