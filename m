@@ -1,208 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3EA3644CF;
-	Tue, 14 Jul 2026 10:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4202364929;
+	Tue, 14 Jul 2026 10:18:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784024268; cv=none; b=KoARJtzUTnXChmf2Ufmh6BWVO6FMgt/WqrkkainQ9/6YkXo72jB14UASOGPznSGKiNKf08VcP09hEZCQXvPVuTF5gZQKaIYMWMn0Fd2fmP63+SPTkE+54Rg5bmIWrpKrjKMLQTR5FfOtdrPgVhhJkLvWSOpUIxWQMiM/y2seVFc=
+	t=1784024282; cv=none; b=rQfho5L+7D0dS8KDaE6D8LPMcjiV2Ir3U9/0DbgL91OxsMFZd04jLeyzI54XSMfs1PaJxR0Bbt1EiDlyB2OYPwFbo2qKD7rmUZJgwPdQPfqmRSnBYGvys9XTIsagqFIEWm/tWn112wqE6rxGEsCqy3rAXxPPslZ++Qmc099M2l4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784024268; c=relaxed/simple;
-	bh=4DH5a6ve/auP/7V1bjyB0V4QG2dck0UzPWpYqC6/K2k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gLcLeuk+BDUCgI/Utnn9318eE4ks4juatKBtAsY3GwsxdDJJIB9hXvBcw29WAMPdf0cMeZ/V9I45Joos8rwZ9/pQiT2fRKXgox9poFtuzrL+1YB0g85Pt/QWBmivN9agjPbS8XPa+vaIaW6HuPUPUfJgVdQaKE/EsD0EEfaOEmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fy6x3ScG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784024282; c=relaxed/simple;
+	bh=Mc8muXwHgWJ3LP8g1wRWeqXEkFLLP6iDZu3v9ZOHf+A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=bR4CbCIgDjSSWLD08bHgftLxanXf3+Prp2f5mu7LulG/BH8pneJeY7+wR4TdbHGBYSYZ7xvN//Lw/Cb7uHhwG40NG43zot4ejOhxV4ShoPHzqUvjNp33SdMGiLLBNlNFXm1+V/1vlsxpXl9SxwzZsTg0NWY8HdQPNBL1sc+/TLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=YPQmMD0/; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fy6x3ScG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C4FE1F00A3A;
-	Tue, 14 Jul 2026 10:17:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784024267;
-	bh=m1KwIxFOjH59vMqkPqvNJy2V0MLfN207LfncRH5TxDo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Fy6x3ScGp4SvjcLCb2EYasEF7Bg+N3JfXA1S2rYhDdGa8fr4+6eT9Z5sUIb80sT2r
-	 12V6KN+91XeSPeyZyRfBCNnMtsE0Z3zX1AfM0d9+BaPvnE/m8+pkUwQTaWwez7DEAX
-	 40QuoDzKqfzY1GCwuoG58CjBJE29XwBLRxM4TLNdmwQj8Blhck0AkxR92okiojzvMx
-	 WvMiVcF3zrA3KFpoksv9rfWx4gssKNluZWhtd5duC3QeTgeKUloBSHGktJzF0RJITM
-	 VrXH2ihLGQi0Xivwew6+5RuBX85r1ZYghiUkt5mTAu6e5JRNfb657XTWVfzpRGcHfX
-	 762G6nWtq/nvw==
-Date: Tue, 14 Jul 2026 11:17:11 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Jann Horn <jannh@google.com>, Lance Yang <lance.yang@linux.dev>, 
-	Pedro Falcato <pfalcato@suse.de>, Russell King <linux@armlinux.org.uk>, 
-	Dinh Nguyen <dinguyen@kernel.org>, Simon Schuster <schuster.simon@siemens-energy.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Dan Williams <djbw@kernel.org>, Matthew Wilcox <willy@infradead.org>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
-	Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	SJ Park <sj@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Hugh Dickins <hughd@google.com>, Peter Xu <peterx@redhat.com>, 
-	Kees Cook <kees@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Robin Murphy <robin.murphy@arm.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Ian Abbott <abbotti@mev.co.uk>, 
-	H Hartley Sweeten <hsweeten@visionengravers.com>, Lucas Stach <l.stach@pengutronix.de>, 
-	Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Rob Clark <robin.clark@oss.qualcomm.com>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
-	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
-	Marijn Suijten <marijn.suijten@somainline.org>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Thierry Reding <thierry.reding@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Christian Koenig <christian.koenig@amd.com>, 
-	Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>, 
-	Shameer Kolothum <skolothumtho@nvidia.com>, Kevin Tian <kevin.tian@intel.com>, 
-	Ankit Agrawal <ankita@nvidia.com>, Alex Williamson <alex@shazbot.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	nvdimm@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, damon@lists.linux.dev, iommu@lists.linux.dev, 
-	kasan-dev@googlegroups.com, linux-sgx@vger.kernel.org, etnaviv@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
-	linux-tegra@vger.kernel.org, kvm@vger.kernel.org, 
-	Russell King <linux+etnaviv@armlinux.org.uk>
-Subject: Re: [PATCH v2 13/33] mm/vma: introduce and use vmg_pages(),
- vmg_[start, end]_pgoff()
-Message-ID: <alYMZkJKJABhPsa6@lucifer>
-References: <20260710-b4-pre-scalable-cow-v2-0-2a5aa403d977@kernel.org>
- <20260710-b4-pre-scalable-cow-v2-13-2a5aa403d977@kernel.org>
- <508301c5-5460-40e8-bc34-6410be5be40a@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="YPQmMD0/"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784024278;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EDiZS8zttT4a9O025kBB1zOShFsYsLLFK1SisQ6msEY=;
+	b=YPQmMD0/zTCtgtqVy5SDNK+fsg0BTqTsor+JXyoKqwEfTjG7p9IsJgjJNVeLOLicga3pXM
+	gP9//+7EcPmcJzR94Erhzir6snvi2gfkCwv0wOCWnsrLDd1Hd30WV/lxmMJyKojs/BGpkv
+	I7T1czZ32Ibjv2lEpa1TLNGT4zPUUE8=
+From: Usama Arif <usama.arif@linux.dev>
+To: Qi Zheng <qi.zheng@linux.dev>
+Cc: Usama Arif <usama.arif@linux.dev>,
+	brauner@kernel.org,
+	jack@suse.cz,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	linux-mm@kvack.org,
+	hughd@google.com,
+	boris@bur.io,
+	clm@fb.com,
+	dsterba@suse.com,
+	linux-btrfs@vger.kernel.org,
+	cem@kernel.org,
+	linux-xfs@vger.kernel.org,
+	shakeel.butt@linux.dev,
+	hannes@cmpxchg.org,
+	riel@surriel.com,
+	kernel-team@meta.com
+Subject: Re: [PATCH] fs/super: skip non-memcg-aware nr_cached_objects in memcg slab shrink
+Date: Tue, 14 Jul 2026 03:17:38 -0700
+Message-ID: <20260714101740.1270419-1-usama.arif@linux.dev>
+In-Reply-To: <d39f8258-66d5-4ce3-8080-69dc4e2ab197@linux.dev>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <508301c5-5460-40e8-bc34-6410be5be40a@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Jul 13, 2026 at 08:12:24PM +0200, Vlastimil Babka (SUSE) wrote:
-> On 7/10/26 22:16, Lorenzo Stoakes wrote:
-> > In the VMA logic we often need to determine the number of pages in the
-> > specified merge range, as well as the start and end page offsets of that
-> > range.
-> >
-> > Introduce and use helpers for these purposes.
-> >
-> > No functional change intended.
-> >
-> > Reviewed-by: Pedro Falcato <pfalcato@suse.de>
-> > Reviewed-by: Gregory Price <gourry@gourry.net>
-> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
->
-> Uh, the PHYS_PFN() usage here was quite an abuse. Good riddance.
+On Tue, 14 Jul 2026 10:09:26 +0800 Qi Zheng <qi.zheng@linux.dev> wrote:
 
-Yeah and mine :)) but absolutely agree it was wrong and glad to fix my own
-mistake in using that ;)
+> Hi Usama,
+> 
+> On 7/13/26 11:34 PM, Usama Arif wrote:
+> > 
+> > 
+> > On 13/07/2026 14:12, Qi Zheng wrote:
+> >> Hi Usama,
+> >>
+> >> On 6/9/26 8:30 PM, Usama Arif wrote:
+> >>> The super_block shrinker is registered with SHRINKER_MEMCG_AWARE because its
+> >>> dentry and inode LRUs are memcg-aware (via list_lru). But the optional
+> >>> ->nr_cached_objects() hooks that the shrinker also drives are not memcg-aware:
+> >>> btrfs extent maps and xfs inode reclaim operate on filesystem-global
+> >>> state, and shmem's unused-huge shrinker walks a per-superblock shrinklist.
+> >>> None of them filter by sc->memcg.
+> >>
+> >> This makes sense for now, but how should we handle this if these
+> >> shrinkers are made memcg-aware in the future?
+> >>
+> >> I've recently been working on making the shmem huge shrinker
+> >> memcg-aware, but noticed my changes broke after rebasing onto the latest
+> >> tree, which led me to this patch.
+> >>
+> >> As for the shmem huge shrinker, I can work around this limitation by
+> >> making it a separate shrinker. But this feels more like an overall
+> >> design decision, effectively meaning that all nr_cached_objects are
+> >> precluded from being memcg-aware.
+> >>
+> >> Thanks,
+> >> Qi
+> >>
+> > 
+> > 
+> > Hi Qi,
+> > 
+> > Thanks for raising this. I think the alternative is what I mentioned in
+> > https://lore.kernel.org/all/cfdb8620-ea55-4226-98bf-d006820e6270@linux.dev/
+> > move this down to the fs own callbacks instead of here. Would that
+> > be better?
+> 
+> Yes, I think this is a better approach.
+> 
+> Later on, shrinkers that are converted to be memcg-aware can lift this 
+> restriction themselves.
+> 
+> Thanks,
+> Qi
 
-> Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+Thanks Qi, I have sent a patch to push it down to filesystems in [1].
+No functional change inteneded in there. You would have to rebase your
+patch on top of that one and remove my code in shmem specifically.
 
-Thanks!
+[1] https://lore.kernel.org/all/20260714101454.1202449-1-usama.arif@linux.dev/
 
->
-> > ---
-> >  mm/vma.c | 11 ++++-------
-> >  mm/vma.h | 17 +++++++++++++++++
-> >  2 files changed, 21 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/mm/vma.c b/mm/vma.c
-> > index 35ba3475128f..995de8198fbb 100644
-> > --- a/mm/vma.c
-> > +++ b/mm/vma.c
-> > @@ -197,11 +197,9 @@ static void init_multi_vma_prep(struct vma_prepare *vp,
-> >   */
-> >  static bool can_vma_merge_before(struct vma_merge_struct *vmg)
-> >  {
-> > -	pgoff_t pglen = PHYS_PFN(vmg->end - vmg->start);
-> > -
-> >  	if (is_mergeable_vma(vmg, /* merge_next = */ true) &&
-> >  	    is_mergeable_anon_vma(vmg, /* merge_next = */ true)) {
-> > -		if (vmg->next->vm_pgoff == vmg->pgoff + pglen)
-> > +		if (vmg_end_pgoff(vmg) == vma_start_pgoff(vmg->next))
-> >  			return true;
-> >  	}
-> >
-> > @@ -221,7 +219,7 @@ static bool can_vma_merge_after(struct vma_merge_struct *vmg)
-> >  {
-> >  	if (is_mergeable_vma(vmg, /* merge_next = */ false) &&
-> >  	    is_mergeable_anon_vma(vmg, /* merge_next = */ false)) {
-> > -		if (vmg->prev->vm_pgoff + vma_pages(vmg->prev) == vmg->pgoff)
-> > +		if (vma_end_pgoff(vmg->prev) == vmg_start_pgoff(vmg))
-> >  			return true;
-> >  	}
-> >  	return false;
-> > @@ -759,7 +757,7 @@ static int commit_merge(struct vma_merge_struct *vmg)
-> >  	 */
-> >  	vma_adjust_trans_huge(vma, vmg->start, vmg->end,
-> >  			      vmg->__adjust_middle_start ? vmg->middle : NULL);
-> > -	vma_set_range(vma, vmg->start, vmg->end, vmg->pgoff);
-> > +	vma_set_range(vma, vmg->start, vmg->end, vmg_start_pgoff(vmg));
-> >  	vmg_adjust_set_range(vmg);
-> >  	vma_iter_store_overwrite(vmg->vmi, vmg->target);
-> >
-> > @@ -962,8 +960,7 @@ static __must_check struct vm_area_struct *vma_merge_existing_range(
-> >  		 *    middle     next
-> >  		 * shrink/delete extend
-> >  		 */
-> > -
-> > -		pgoff_t pglen = PHYS_PFN(vmg->end - vmg->start);
-> > +		const pgoff_t pglen = vmg_pages(vmg);
-> >
-> >  		VM_WARN_ON_VMG(!merge_right, vmg);
-> >  		/* If we are offset into a VMA, then prev must be middle. */
-> > diff --git a/mm/vma.h b/mm/vma.h
-> > index 8e4b61a7304c..527716c8739d 100644
-> > --- a/mm/vma.h
-> > +++ b/mm/vma.h
-> > @@ -230,6 +230,23 @@ static inline bool vmg_nomem(struct vma_merge_struct *vmg)
-> >  	return vmg->state == VMA_MERGE_ERROR_NOMEM;
-> >  }
-> >
-> > +static inline pgoff_t vmg_start_pgoff(const struct vma_merge_struct *vmg)
-> > +{
-> > +	return vmg->pgoff;
-> > +}
-> > +
-> > +static inline pgoff_t vmg_pages(const struct vma_merge_struct *vmg)
-> > +{
-> > +	const unsigned long size = vmg->end - vmg->start;
-> > +
-> > +	return size >> PAGE_SHIFT;
-> > +}
-> > +
-> > +static inline pgoff_t vmg_end_pgoff(const struct vma_merge_struct *vmg)
-> > +{
-> > +	return vmg_start_pgoff(vmg) + vmg_pages(vmg);
-> > +}
-> > +
-> >  /* Assumes addr >= vma->vm_start. */
-> >  static inline pgoff_t vma_pgoff_offset(struct vm_area_struct *vma,
-> >  				       unsigned long addr)
-> >
->
-
-Cheers, Lorenzo
+> 
+> > 
+> > Thanks,
+> > Usama
+> 
+> 
