@@ -1,443 +1,137 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13D361F09A8
-	for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 23:13:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429E819E7F7
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Jul 2026 00:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783984420; cv=none; b=S1GEibd2xBF84M7KWdh5SOTcACF2U5aHaJoDEi9RfJQMN1+hVbbiYdgNPP+Gw3E0nxW8Gxq2JRsM6mjwiQGoeG0v7mHP7hWMz99QP0mKyEcvcraoLmmTWj+7E1yDPct2TzIQIpKaGhf4fgRebSm8oSIzJBWG3js71RZnFMRhm3I=
+	t=1783990198; cv=none; b=gIAZkfi+Avasp+iAIQQ1mt29ruYfCsvfs4WP45FnknNlEMCxMOSkyTS0S9oOnFHmplpJhxrHqZYn3kRbuAlMbfgOTb3xFb/nTbFD29+ZrIxlHVKJzq73CgYjUwEQHP6TzotMbiZefp2MrN0objOY3+wfG+5o7gkmekg/v0E3Ea8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783984420; c=relaxed/simple;
-	bh=k2f0NqFrsoWRu18EbRORP6sLBXjJqRgVVaWtKmRv/Uc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VTM3vaq49voVolihrEwHPm9RA44P1zyilZaXUlbq/XK7thkts74tCrU4+s605DwF+FfqyiilMLrmgEaJooHkmeImVAA6cKv3ohvlM/DJRiwTSNYAreF+TK4iPr+9ZWjl6BqEnCuRgVqjCns/Rv17j4BoOtUwqCcPt4ylY6e1J2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=aI3anScI; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1783990198; c=relaxed/simple;
+	bh=ChCuycwlWoUe3w1qa2aJ967YI2mQYfU/+Fu5klgdP9k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DtZwivmS3yzfNDSENxBMo6/D3RSSFi3s2PMEsleiFV7iucFouUYZ7YSYulH4egNoTju0MyhCxhcI9ehdfZen6Z/Jc0YKqhrRuq9Rx7g93qIcr6xEGT9A5yaznB1m4sCi8hkuxVT3cD8oKJH00wCREWyra4BBcm0JFK8BX1W6YPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=IGKrcvi8; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="aI3anScI"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-ca2fad0ae38so2771398a12.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 13 Jul 2026 16:13:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1783984418; x=1784589218; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pE/2+u91LFwdKvSC9tBQUWkjcPddxkXY9DVUxhH+8SY=;
-        b=aI3anScIgTfLwrHAuTGTqygX+GT8WADs3/yxkLSM5mkPsRfetaJOpB6p4ViE8Zl4Xy
-         K/m9nl+afyvZhMSdNd9BhDdcsbneJGI1NSlDQmVqscCLdBzEM1/m3XYuMf90OYkJyADu
-         135+XPydruxgN5XBkYvuBxBRQPZK+fjDRV7PqpuMJjGAFCFCZujfwzDHutMqQ9uy+YvU
-         Z1VSYppiQ3BvLhOWuZslK+cCLLOMRdMy36Ic4T991Hi2oUTcg3fjZoUf2XZ1vdxZYm/Z
-         LnqgGROcGBV5iwHqEf3RxTjssM+X6NmuL0iLhiEoobgulg//pVhtEd6PxYfY2U11qnu1
-         pACA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783984418; x=1784589218;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=pE/2+u91LFwdKvSC9tBQUWkjcPddxkXY9DVUxhH+8SY=;
-        b=V5hnUcIjqev4dwWJ6MAwpEs7BGdOeIYq3/eB9BUwByIZkVOPbMOMAj0vuSthAqowWt
-         BwHMNpbQ8cmTjQ9NZU/T+eSQNujmtWOhrTnfu4hJ2xFtt7esOrTxyQedjTvwSBBfuQD7
-         Ri64TZ8oriChRSE1CGs6sbj/KWjQmHnEc0c7HhesTHP9xbpZMkkBzW6IwJlaIwS0+dAD
-         53ymw2PiPOnApfFTzMysUn7m5GhDkkoDXBOWKkC7NgrNWa+jVC1aiXpGbpyv/K7uV4ai
-         zeMBzqK3zZbyqlDALdj4pci2H+ZpgGnsiYRT2x0se596Q9SDYDAFpmE0vUTbtuaIYSzG
-         sS+w==
-X-Forwarded-Encrypted: i=1; AHgh+RpeUm38I8iyGaw8AJJR6kGGfF4uKXGFqBqOmLKg+mu+Vco9uT5KMCF5xMPaORHfEUoDaY2EzgDbgLVrL5Wv@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVeSDakClEeKHJUpmqvdCMf8Oep5As7tjFLWfyVflcu5L5Qhor
-	y5dNjA4SB3ka2nARQqXKTb7o7MKjXb6hYQK0WD9WlbgTb+nmljhY31Gedi2wiHvE2n4=
-X-Gm-Gg: AfdE7cnr2mBfQniLcaWabapozlfNPfEHYwzNOZHX+Gb32IsYNfxXpkU9UoGlAtZrt6L
-	DBSKQDqgdmp8/N4NtnXqCQr771mY2nWz9UNGmivLbNSuKmF0PSXalzP5UhU/fYHFtQ8RgsG1E64
-	i5yROrSlMpODJBoh/kDN0r64xWaJ7P+GhVLa5Y5X5ugjUVe6rfSaElR1zTpweaoOLLS4rnoFAPV
-	qWheMKqw9CcOMNwLIGyTrP3sCrstwMNB9vbRYYTDMFd4c8KhYbQWn0I1uuNQ8bn7qNEwQ6/QwXR
-	S7OIdzBzAl3aqLKbWL+Cp8RjF+jrYmyIm6lss/hDT+E7h0VEnYZcRRsMfxGb005kzNOQisdykdT
-	Qh7XPHlCz6yPwrTULt5qONlUlQxIpFMgGHzCIsFOfh7xzNY/4131acktAri8MnSivZJFxDfYxWa
-	xnuFNf+V/B8tcA7LwCf5Ij0sT/EBf1pw0AO5eATRgti8eaEomIrhHdD6cwdbeL5JDo3EHBJ3Ht1
-	6zbbQpSx+nohcAwdMpiJKESdUNItOekNKobwf99gi6CaH87AC5vNDtL
-X-Received: by 2002:a05:6a21:730e:b0:3c0:9c19:65a9 with SMTP id adf61e73a8af0-3c110a4b111mr11719943637.65.1783984418390;
-        Mon, 13 Jul 2026 16:13:38 -0700 (PDT)
-Received: from pop-os.attlocal.net ([2600:1700:6476:1430:e472:ff2d:20b0:742d])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174ac14f2sm78511792eec.27.2026.07.13.16.13.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 16:13:37 -0700 (PDT)
-Message-ID: <6917a254461b0633159feaf319f5f04a598a1f6a.camel@dubeyko.com>
-Subject: Re: [PATCH v3] hfs: port HFS+ b-tree bitmap corruption check
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
-Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Mon, 13 Jul 2026 16:13:36 -0700
-In-Reply-To: <20260713102129.1657-1-aditya.ansh182@gmail.com>
-References: <20260713102129.1657-1-aditya.ansh182@gmail.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="IGKrcvi8"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gzggf1WJhzMlBb;
+	Tue, 14 Jul 2026 02:49:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1783990190;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pi+aB6YMCYhiJWt1pTb8a7/h/MvI2o3bfTPFrZ8+JGo=;
+	b=IGKrcvi8eH0ST6ZUbo9P6C/vNbv8IDtvnryd9IJarNgZWvLIhwYT9opCPqND/YPvIvynlN
+	HPg7GyryTaIgN1E/00FvtOywg5lzHW6C0hSjivQNLrxmnvQqhvYvlltYqkV41IgLYcDoZE
+	89nOSpUTlTpzMbmXJBOPd7TYcvprJnYDDIrRTCTNI7iopz7qbjahdDgpxBsYrYsx0RTvvZ
+	MXqLxi/rvA3kDXi6wnzPAYW0KML0jdtcK2TOrHmFoZ4xKiDBXG4NKGWNHcnUEUSe550vxi
+	P6iNARi7dQmN1PgyDXNViT0a86PvGvIKPB9vHJn728k44+CAPa2VCrXYd1I1nA==
+Date: Tue, 14 Jul 2026 10:49:40 +1000
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Giuseppe Scrivano <gscrivan@redhat.com>
+Cc: linux-erofs@lists.ozlabs.org, linux-fsdevel@vger.kernel.org, 
+	Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v2] erofs: accept source file descriptor via fsconfig
+Message-ID: <2026-07-14-drafty-folded-woes-volumes-Z93P4V@cyphar.com>
+References: <20260711071137.4130824-1-gscrivan@redhat.com>
+ <2026-07-13-dandy-better-exposure-wager-9hBmfv@cyphar.com>
+ <871pd748kh.fsf@redhat.com>
+ <2026-07-13-chief-single-carnival-graders-7dI4ue@cyphar.com>
+ <87wluz2nnc.fsf@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="aaxxywpo7g3ddiom"
+Content-Disposition: inline
+In-Reply-To: <87wluz2nnc.fsf@redhat.com>
 
-On Mon, 2026-07-13 at 10:21 +0000, Aditya Prakash Srivastava wrote:
-> In HFS+ filesystems, during b-tree open (hfs_btree_open()), the code
-> verifies that the allocation map bit for the tree header (node 0) is
-> set. If not, it indicates a corrupted map record/bitmap and mounts
-> the volume as read-only (SB_RDONLY) to prevent further damage.
->=20
-> HFS filesystems share the same b-tree structure but currently lack
-> this corruption detection check.
->=20
-> Port this check to HFS, aligning its implementation with HFS+ to
-> maintain consistent b-tree logic across both filesystems:
-> 1. Define struct hfs_bmap_ctx, and define HFS_TREE_HEAD and the
-> relevant
-> =C2=A0=C2=A0 map record indices in include/linux/hfs_common.h.
-> 2. Port hfs_bmap_get_map_page() and port the necessary offset and
-> length
-> =C2=A0=C2=A0 validation helpers to fs/hfs/btree.h as static inline functi=
-ons
-> with
-> =C2=A0=C2=A0 robust null pointer checks.
-> 3. Implement hfs_bmap_test_bit() to inspect the B-tree bitmap using
-> the
-> =C2=A0=C2=A0 new get_map_page helper.
-> 4. In hfs_btree_open(), retrieve the header node via
-> hfs_bnode_find(),
-> =C2=A0=C2=A0 test its allocation bit with hfs_bmap_test_bit(), and releas=
-e it
-> =C2=A0=C2=A0 using hfs_bnode_put().
->=20
-> Suggested-by: Viacheslav Dubeyko <slava@dubeyko.com>
-> Link:
-> https://lore.kernel.org/all/6a36101b.be22b350.2a3e9.0001.GAE@google.com/T=
-/#r446d0fed2a2900bd805534bbcb799d86619ae2ea
-> Signed-off-by: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
-> ---
-> =C2=A0fs/hfs/bnode.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 42 -------------------
-> =C2=A0fs/hfs/btree.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 84
-> ++++++++++++++++++++++++++++++++++++++
-> =C2=A0fs/hfs/btree.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 41 +++++++++++++++++++
-> =C2=A0include/linux/hfs_common.h |=C2=A0 5 +++
-> =C2=A04 files changed, 130 insertions(+), 42 deletions(-)
->=20
-> diff --git a/fs/hfs/bnode.c b/fs/hfs/bnode.c
-> index da8e5342c91c..1b331108d9c0 100644
-> --- a/fs/hfs/bnode.c
-> +++ b/fs/hfs/bnode.c
-> @@ -15,48 +15,6 @@
-> =C2=A0
-> =C2=A0#include "btree.h"
-> =C2=A0
-> -static inline
-> -bool is_bnode_offset_valid(struct hfs_bnode *node, u32 off)
-> -{
-> -	bool is_valid =3D off < node->tree->node_size;
-> -
-> -	if (!is_valid) {
-> -		pr_err("requested invalid offset: "
-> -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "NODE: id %u, type %#x, height %u=
-, "
-> -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "node_size %u, offset %u\n",
-> -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 node->this, node->type, node->hei=
-ght,
-> -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 node->tree->node_size, off);
-> -	}
-> -
-> -	return is_valid;
-> -}
-> -
-> -static inline
-> -u32 check_and_correct_requested_length(struct hfs_bnode *node, u32
-> off, u32 len)
-> -{
-> -	unsigned int node_size;
-> -
-> -	if (!is_bnode_offset_valid(node, off))
-> -		return 0;
-> -
-> -	node_size =3D node->tree->node_size;
-> -
-> -	if ((u64)off + len > node_size) {
-> -		u32 new_len =3D node_size - off;
-> -
-> -		pr_err("requested length has been corrected: "
-> -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "NODE: id %u, type %#x, height %u=
-, "
-> -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "node_size %u, offset %u, "
-> -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "requested_len %u, corrected_len =
-%u\n",
-> -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 node->this, node->type, node->hei=
-ght,
-> -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 node->tree->node_size, off, len, =
-new_len);
-> -
-> -		return new_len;
-> -	}
-> -
-> -	return len;
-> -}
-> -
-> =C2=A0void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32 off, u32
-> len)
-> =C2=A0{
-> =C2=A0	struct page *page;
-> diff --git a/fs/hfs/btree.c b/fs/hfs/btree.c
-> index 2eb37a2f64e8..9f85f679fd47 100644
-> --- a/fs/hfs/btree.c
-> +++ b/fs/hfs/btree.c
-> @@ -23,6 +23,7 @@ struct hfs_btree *hfs_btree_open(struct super_block
-> *sb, u32 id, btree_keycmp ke
-> =C2=A0	struct address_space *mapping;
-> =C2=A0	struct folio *folio;
-> =C2=A0	struct buffer_head *bh;
-> +	struct hfs_bnode *node;
-> =C2=A0	unsigned int size;
-> =C2=A0	u16 dblock;
-> =C2=A0	sector_t start_block;
-> @@ -155,6 +156,20 @@ struct hfs_btree *hfs_btree_open(struct
-> super_block *sb, u32 id, btree_keycmp ke
-> =C2=A0	kunmap_local(head);
-> =C2=A0	folio_unlock(folio);
-> =C2=A0	folio_put(folio);
-> +
-> +	node =3D hfs_bnode_find(tree, HFS_TREE_HEAD);
-> +	if (IS_ERR(node))
-> +		goto free_inode;
-> +
-> +	if (!hfs_bmap_test_bit(node, HFS_TREE_HEAD)) {
-> +		pr_warn("(%s): %s (cnid 0x%x) bitmap corrupted,
-> forcing rdonly\n",
-> +			sb->s_id, id =3D=3D HFS_EXT_CNID ? "extents" :
-> "catalog", id);
-> +		pr_warn("Run fsck.hfs to repair.\n");
-> +		sb->s_flags |=3D SB_RDONLY;
-> +	}
-> +
-> +	hfs_bnode_put(node);
-> +
-> =C2=A0	return tree;
-> =C2=A0
-> =C2=A0fail_folio:
-> @@ -356,6 +371,75 @@ struct hfs_bnode *hfs_bmap_alloc(struct
-> hfs_btree *tree)
-> =C2=A0	}
-> =C2=A0}
-> =C2=A0
-> +/* Context for iterating b-tree map pages
-> + * @page_idx: The index of the page within the b-node's page array
-> + * @off: The byte offset within the mapped page
-> + * @len: The remaining length of the map record
-> + */
-> +struct hfs_bmap_ctx {
-> +	unsigned int page_idx;
-> +	unsigned int off;
-> +	u16 len;
-> +};
-> +
-> +static struct page *hfs_bmap_get_map_page(struct hfs_bnode *node,
-> +					=C2=A0 struct hfs_bmap_ctx *ctx,
-> +					=C2=A0 u32 byte_offset)
-> +{
-> +	u16 rec_idx, off16;
-> +	unsigned int page_off;
-> +
-> +	if (node->this =3D=3D HFS_TREE_HEAD) {
-> +		if (node->type !=3D HFS_NODE_HEADER) {
-> +			pr_err("hfs: invalid btree header node\n");
-> +			return ERR_PTR(-EIO);
-> +		}
-> +		rec_idx =3D HFS_BTREE_HDR_MAP_REC_INDEX;
-> +	} else {
-> +		if (node->type !=3D HFS_NODE_MAP) {
-> +			pr_err("hfs: invalid btree map node\n");
-> +			return ERR_PTR(-EIO);
-> +		}
-> +		rec_idx =3D HFS_BTREE_MAP_NODE_REC_INDEX;
-> +	}
-> +
-> +	ctx->len =3D hfs_brec_lenoff(node, rec_idx, &off16);
-> +	if (!ctx->len)
-> +		return ERR_PTR(-ENOENT);
-> +
-> +	if (!is_bnode_offset_valid(node, off16))
-> +		return ERR_PTR(-EIO);
-> +
-> +	ctx->len =3D check_and_correct_requested_length(node, off16,
-> ctx->len);
-> +
-> +	if (byte_offset >=3D ctx->len)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	page_off =3D (u32)off16 + node->page_offset + byte_offset;
-> +	ctx->page_idx =3D page_off >> PAGE_SHIFT;
-> +	ctx->off =3D page_off & ~PAGE_MASK;
-> +
-> +	return node->page[ctx->page_idx];
-> +}
-> +
-> +bool hfs_bmap_test_bit(struct hfs_bnode *node, u32 node_bit_idx)
-> +{
-> +	struct hfs_bmap_ctx ctx;
-> +	struct page *page;
-> +	u8 *bmap, byte, mask;
-> +
-> +	page =3D hfs_bmap_get_map_page(node, &ctx, node_bit_idx /
-> BITS_PER_BYTE);
-> +	if (IS_ERR(page))
-> +		return false;
-> +
-> +	bmap =3D kmap_local_page(page);
-> +	byte =3D bmap[ctx.off];
-> +	kunmap_local(bmap);
-> +
-> +	mask =3D 1 << (7 - (node_bit_idx % BITS_PER_BYTE));
-> +	return (byte & mask) !=3D 0;
-> +}
-> +
-> =C2=A0void hfs_bmap_free(struct hfs_bnode *node)
-> =C2=A0{
-> =C2=A0	struct hfs_btree *tree;
-> diff --git a/fs/hfs/btree.h b/fs/hfs/btree.h
-> index 99be858b2446..7c08765144ff 100644
-> --- a/fs/hfs/btree.h
-> +++ b/fs/hfs/btree.h
-> @@ -93,6 +93,7 @@ extern void hfs_btree_write(struct hfs_btree
-> *tree);
-> =C2=A0extern int hfs_bmap_reserve(struct hfs_btree *tree, u32 rsvd_nodes)=
-;
-> =C2=A0extern struct hfs_bnode *hfs_bmap_alloc(struct hfs_btree *tree);
-> =C2=A0extern void hfs_bmap_free(struct hfs_bnode *node);
-> +extern bool hfs_bmap_test_bit(struct hfs_bnode *node, u32
-> node_bit_idx);
 
-Currently, the hfs_bmap_test_bit() is called only in one place. I don't
-think that it makes sense to declare it in fs/hfs/btree.h. Why have you
-decided to place this function declaration here?
+--aaxxywpo7g3ddiom
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2] erofs: accept source file descriptor via fsconfig
+MIME-Version: 1.0
 
-Thanks,
-Slava.
+On 2026-07-13, Giuseppe Scrivano <gscrivan@redhat.com> wrote:
+> thanks for the hints.
+>=20
+> I'll prepare a v3 if you are fine with the version below:
 
-> =C2=A0
-> =C2=A0/* bnode.c */
-> =C2=A0extern void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32
-> off, u32 len);
-> @@ -129,3 +130,43 @@ extern int __hfs_brec_find(struct hfs_bnode
-> *bnode, struct hfs_find_data *fd);
-> =C2=A0extern int hfs_brec_find(struct hfs_find_data *fd);
-> =C2=A0extern int hfs_brec_read(struct hfs_find_data *fd, void *rec, u32
-> rec_len);
-> =C2=A0extern int hfs_brec_goto(struct hfs_find_data *fd, int cnt);
-> +
-> +static inline bool is_bnode_offset_valid(struct hfs_bnode *node, u32
-> off)
+No worries, and this seems more reasonable at a first glance.
+
+> diff --git a/fs/erofs/super.c b/fs/erofs/super.c
+> index 86fa5c6a0c70..72c85cc53085 100644
+> --- a/fs/erofs/super.c
+> +++ b/fs/erofs/super.c
+=2E..
+> @@ -437,6 +439,38 @@ static bool erofs_fc_set_dax_mode(struct fs_context =
+*fc, unsigned int mode)
+>  	return false;
+>  }
+> =20
+> +static int erofs_fc_parse_source(struct fs_context *fc,
+> +				 struct fs_parameter *param)
 > +{
-> +	bool is_valid;
+> +	struct erofs_sb_info *sbi =3D fc->s_fs_info;
 > +
-> +	if (!node || !node->tree)
-> +		return false;
+> +	if (fc->source || sbi->dif0.file)
+> +		return invalf(fc, "Multiple sources");
 > +
-> +	is_valid =3D off < node->tree->node_size;
-> +
-> +	if (!is_valid) {
-> +		pr_err("invalid offset: id %u, type %x, h %u, sz %u,
-> off %u\n",
-> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 node->this, node->type, node->hei=
-ght,
-> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 node->tree->node_size, off);
-> +	}
-> +
-> +	return is_valid;
-> +}
-> +
-> +static inline u32 check_and_correct_requested_length(struct
-> hfs_bnode *node, u32 off, u32 len)
-> +{
-> +	unsigned int node_size;
-> +
-> +	if (!is_bnode_offset_valid(node, off))
+> +	switch (param->type) {
+> +	case fs_value_is_string:
+> +		fc->source =3D param->string;
+> +		param->string =3D NULL;
 > +		return 0;
+> +	case fs_value_is_file: {
+> +		char *buf, *p;
 > +
-> +	node_size =3D node->tree->node_size;
-> +
-> +	if ((u64)off + len > node_size) {
-> +		u32 new_len =3D node_size - off;
-> +
-> +		pr_err("corrected len: id %u, type %x, h %u, sz %u,
-> off %u, len %u->%u\n",
-> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 node->this, node->type, node->hei=
-ght,
-> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 node_size, off, len, new_len);
-> +
-> +		return new_len;
-> +	}
-> +
-> +	return len;
-> +}
-> diff --git a/include/linux/hfs_common.h b/include/linux/hfs_common.h
-> index 45fb4c9ff9f5..8dc10e0bfa7e 100644
-> --- a/include/linux/hfs_common.h
-> +++ b/include/linux/hfs_common.h
-> @@ -510,6 +510,11 @@ struct hfs_btree_header_rec {
-> =C2=A0						=C2=A0=C2=A0 b-tree but not in
-> extents
-> =C2=A0						=C2=A0=C2=A0 b-tree (hfsplus).
-> */
-> =C2=A0
-> +/* HFS BTree misc info */
-> +#define HFS_TREE_HEAD				0
-> +#define HFS_BTREE_HDR_MAP_REC_INDEX		2	/* Map
-> (bitmap) record in Header node */
-> +#define HFS_BTREE_MAP_NODE_REC_INDEX		0	/* Map
-> record in Map Node */
-> +
-> =C2=A0/* HFS+ BTree misc info */
-> =C2=A0#define HFSPLUS_TREE_HEAD			0
-> =C2=A0#define HFSPLUS_NODE_MXSZ			32768
+> +		sbi->dif0.file =3D get_file(param->file);
+
+A very minor nit, but you can actually steal the file reference here
+with
+
+		sbi->dif0.file =3D no_free_ptr(param->file);
+
+A few other places do this. (You'll also need to change the param->file
+reference below.)
+
+> +		buf =3D kmalloc(PATH_MAX, GFP_KERNEL);
+> +		if (!buf)
+> +			return -ENOMEM;
+> +		p =3D file_path(param->file, buf, PATH_MAX);
+> +		fc->source =3D kstrdup(IS_ERR(p) ? "(fd)" : p, GFP_KERNEL);
+
+I think that /proc/self/fd/%d would be a more useful name for debugging
+if file_path() fails (not that it is really possible here AFAICS). But
+I'm not really too fussed.
+
+--=20
+Aleksa Sarai
+Founding Engineer at Amutable
+https://www.cyphar.com/
+
+--aaxxywpo7g3ddiom
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCalWHpBsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQKJf60rfpRG9cyAEA0mkCZe8zd2ugT6dnuZH7
+QOJsOhGBEvEDsJWFGj/8K7oA/3pYpGWn5E8exPFb5/7UnaBOBC7QE6oul3Fi+q4W
+044N
+=6wik
+-----END PGP SIGNATURE-----
+
+--aaxxywpo7g3ddiom--
