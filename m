@@ -1,161 +1,288 @@
-Received: from pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.26.1.71])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1823C37A83B;
-	Tue, 14 Jul 2026 12:02:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.26.1.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6ED39A7F0
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Jul 2026 12:10:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784030577; cv=none; b=uIoyUo+QweLPMMFEr8Npjs7IU2Q7NSSbQYA1rNBOWdmXUDrteHnlYer8VYLjs2VvmitPlWNTByKdq3Gd7w6EfhZnsm12n34U8vIdIpYAj5KKfRdoO+LNiD4GdddUkcJIoppepcJlxphqBIo/k0ttu/ByEiPQOkb3/RdRZQSOYas=
+	t=1784031008; cv=none; b=N35W5v0L9RiP2vnOD/rT0IQrrZlZhujcSrJwW+aLiGn+csw0boOjySP6RXG1U+QW2FQJprD6Gs80EGe2wnJCD6Enc4hRYr8H0CpXnYyZBkjfi5gIMvAUXEwP7Vjnt+13jEe4b9Mbkq/OVeXpXJ1thL1Dj8LwSQnUerN4ZqLBO1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784030577; c=relaxed/simple;
-	bh=ROrMdPdO6onErXT9M+OlhhdYLJOoqWpGS0WOQwDjFBs=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HazZakktlupnyaL94v49bmcspKzk5/wOp3k4N04v35mIOee+RMxVFvxzKxiqS65coTYe1SWimPhEiafe5nla+bNbHMGKahd4J9rEyw+F9V2CHWnUZh6wU+nbK/sVQIEn5Ip7YPiC37HZliwqs70oYnouRw/uB00MRDsiNcQMkxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it; spf=pass smtp.mailfrom=amazon.it; dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b=S25TugjO; arc=none smtp.client-ip=52.26.1.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.it
+	s=arc-20240116; t=1784031008; c=relaxed/simple;
+	bh=upwvEKsksYLs0Q6nc0qSMMCM5EFGtLUv5dIZP5FlF8c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
+	 In-Reply-To:Content-Type; b=S1gCPujBNWs0lRtPM69DDTE4iXNCXcBBSPjplwM4VQLQ/Adn1Ipmf0QdaOSph81wkROjyXvxk6BBRacTSBLFhP5XFpQVxs7scIMiseHKmIAQAzU8ZS3NIvH94v5KI9DQp97qYruk52QR6FwrIiHWoM8qkwklyZa1fQT066erhxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZoRA5phn; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=VwLLDHHg; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b="S25TugjO"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZoRA5phn";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="VwLLDHHg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784031004;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qVZ9jl+jAJ2eyy0/GUcM+33ePOhEYWYX7xnrqg0O8XY=;
+	b=ZoRA5phnn39l70FCTzg/VcSF7fi1HVQCiSRl73LHn5IIIklFNzmmIGfIeYEfFjqtAcb0dY
+	/o8E0xzVN5FBW9ttHu81o9AcsYQRXTpM3lRS73IP70CnFgJbDVc1JMVSM69C/yBhfqEEjF
+	CBHAUoSjLvph5M8S+OmNQBoCDTSovbs=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-558-JUM2r47JPySmWgZ381qjNw-1; Tue, 14 Jul 2026 08:10:03 -0400
+X-MC-Unique: JUM2r47JPySmWgZ381qjNw-1
+X-Mimecast-MFC-AGG-ID: JUM2r47JPySmWgZ381qjNw_1784031002
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-492488f8583so61655515e9.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Jul 2026 05:10:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.it; i=@amazon.it; q=dns/txt; s=amazoncorp2;
-  t=1784030576; x=1815566576;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Xg7sx8Fcwnz35cM6X5s89ftjr56njrrKRxrcpCwNiT8=;
-  b=S25TugjOgABs8xxtDueQjYFK8MMWr7GZ8FNGFf1Ljhg9JBNvAeXxPprV
-   O4Bsu8ggFsGfsBIJrewQrNqS07g45zegrvVlYZJjVncR5dp7xjv+V3ylN
-   E9M1xAcL1ANTV7qpJomsUXRbO8sbK1nxkupgYk4bpGgtKEuPrJUjdaYU7
-   ty01/vGZZ+oOMuuiAwDF5Ob4R2DrHZgZEu5VGmvqWgw4Cf8Y+uegOowaX
-   285DDdkQXArAlVPzPvr5sEYJWu+D5tX/Y+6L3WTs8z0/sGlM7PMlQtfYS
-   8SbnwhKnQop+rZoxmjXXC4buSQh7zrQZj5pfgy6jKb4xylppws3AQ9Q4C
-   w==;
-X-CSE-ConnectionGUID: BBEVK6/MRkyicl38cs1lxQ==
-X-CSE-MsgGUID: 4tRkKufeQB+DvyJnPm7R1g==
-X-IronPort-AV: E=Sophos;i="6.25,163,1779148800"; 
-   d="scan'208";a="23659306"
-Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
-  by internal-pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 12:02:52 +0000
-Received: from EX19MTAUWA002.ant.amazon.com [205.251.233.234:17218]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.51.175:2525] with esmtp (Farcaster)
- id ac228d5a-c9a9-439a-935a-e5fef6abf6b4; Tue, 14 Jul 2026 12:02:52 +0000 (UTC)
-X-Farcaster-Flow-ID: ac228d5a-c9a9-439a-935a-e5fef6abf6b4
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
- Tue, 14 Jul 2026 12:02:52 +0000
-Received: from cdd-al23.dub2.corp.amazon.com (10.253.66.177) by
- EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
- Tue, 14 Jul 2026 12:02:48 +0000
-From: Salvatore Dipietro <dipiets@amazon.it>
-To: <hannes@cmpxchg.org>, <willy@infradead.org>
-CC: <abuehaze@amazon.com>, <akpm@linux-foundation.org>, <alisaidi@amazon.com>,
-	<blakgeof@amazon.com>, <brauner@kernel.org>, <dgc@kernel.org>,
-	<dipietro.salvatore@gmail.com>, <dipiets@amazon.it>, <djwong@kernel.org>,
-	<hch@infradead.org>, <jackmanb@google.com>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-	<linux-xfs@vger.kernel.org>, <mhocko@suse.com>, <ritesh.list@gmail.com>,
-	<stable@vger.kernel.org>, <surenb@google.com>, <vbabka@kernel.org>,
-	<vbabka@suse.cz>, <ziy@nvidia.com>
-Subject: Re: [PATCH v3] mm/page_alloc: avoid direct compaction for costly __GFP_NORETRY allocations
-Date: Tue, 14 Jul 2026 12:02:04 +0000
-Message-ID: <20260714120204.542300-1-dipiets@amazon.it>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <alEz4Chf7Ibyg-ZG@casper.infradead.org>
-References: <alEz4Chf7Ibyg-ZG@casper.infradead.org>
+        d=redhat.com; s=google; t=1784031002; x=1784635802; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from:cc
+         :references:to:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=qVZ9jl+jAJ2eyy0/GUcM+33ePOhEYWYX7xnrqg0O8XY=;
+        b=VwLLDHHgSkbnRtkZdniHzvD6XSGE+ktwoi6E5RdZqIl9ZDkGV8cyOJnWIYRJ30JWuh
+         OfuWlu2V9MOPqrW+OJUjq225e+lsNIyGCM86q0KC6DYWcaCm3qvlM9Sx7qUAspkVDtIb
+         KrY66u74QBWzWJIfQnGrDKtt40Z1KQjsxSzBB12mgtkbENQys7T4TitcfsHJ884VdQPr
+         7wP6Lgx66+3mMYrsoQe1bf437br0fv+pKi9UtbKCCwlfUwdWo+xXxWbRAuWiElfzAyy2
+         OyxP9nCsed37r1N8Jnli/WuwlE4UtdBTBM15t1YF7bgxzNoVWvUPqRYplBfpTR6NaN38
+         I+4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784031002; x=1784635802;
+        h=content-transfer-encoding:content-type:in-reply-to:from:cc
+         :references:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qVZ9jl+jAJ2eyy0/GUcM+33ePOhEYWYX7xnrqg0O8XY=;
+        b=Z2nFltzQ5e3p+2X1V0fNf6gh0MBRHj74R2All0HNpaZjHwlG09lunMqzlnEoLWJeiv
+         n4gp9T1+nIZeO8JPrZL5mSR597vofete0X2Mcxvan8F0bBjCgKor9+NcmV+jhpxKvSHU
+         POiK4k5pKY2eA9KZHwnkHH1SrhkHGe2ZeewtNaVEEmrruYBIdtNcZv30rr4KArjMjeQz
+         1y5jBES9Twvt04Jy7v8ZtWpX/RmrpeaQ6C0Ua/6ShfKWTRnuX+Hs4c6WtI6Nb7Apc6sU
+         EIwgvSGLuv15Ya7rQN/vgtEGeUEfFBM60kBp5AQRnEpQi7g6v1SiJyJPRUSxOAng9EAE
+         CTiQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrvTjTFlQJvcQBBejmEhuhLlJCkiuZzac1kgalnQZT5BOjt8/mnkyZ1B9Hqi+6IvHW9XL+u3iwWrIkvCYUS@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/n8OkMS/Gb0UylGFTWyeVaVTcgaZ+fZ3/uy4KiKhUKCt+lRId
+	HC/N3eFI0BIoS5Bp+goMCcU9Nz3dlTtweC1LFg5dbPM0wOZa8BL6qa40eIabGliz3sPqxkRLT/r
+	GrbJKXBf2n01horDCNor/A1vObwgP86cmAZ4xCFg9b2IFowRnXGRrDsmJVBJ3GaLzwJk=
+X-Gm-Gg: AfdE7clrGWBIpB1Zlq0B73HIpXas9zk1LEsyI3Jy6PcDbd8UeX/S2t/jtfV4pilWs6s
+	OHiH7UI0veKFzCZHEKugaVG/OPcjaxvaEAezzmN1kQ0G1s8Sm+4T7NDC8k3+qjsNx9Zo7qHOpuK
+	PfqsyWYXvVqUkx4wC8S968T5V7CmmV0n01FDAYwLkIlzSFnhZuThmqQK7XYoH4JKf3yX2MgUJHa
+	Dx+vcSgZdQ5L5oOkM7meNwkZvWuQBPJSSX4gH9hrn1frlIkQRU2CzQfEzUcQtlUJX5rjqtstyoY
+	BZcCdZVn/HUOymqc+MPfjw2pa7CsCVMQuo1eyAtkJtDput2cYu9mG+euvt1HPiu4zL1OdeN5HJl
+	R/8c19hmQzU4c+4HqXaCGj30yn5PM/UX3U6M6yx+1OyERv5fQkK6I1Fe3TLYzdqFFE69omCw=
+X-Received: by 2002:a05:600c:3488:b0:493:d216:ed8a with SMTP id 5b1f17b1804b1-49539651463mr16646185e9.16.1784031001644;
+        Tue, 14 Jul 2026 05:10:01 -0700 (PDT)
+X-Received: by 2002:a05:600c:3488:b0:493:d216:ed8a with SMTP id 5b1f17b1804b1-49539651463mr16645895e9.16.1784031001226;
+        Tue, 14 Jul 2026 05:10:01 -0700 (PDT)
+Received: from [192.168.1.167] (cpc76484-cwma10-2-0-cust967.7-3.cable.virginm.net. [82.31.203.200])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495087366c0sm136502775e9.7.2026.07.14.05.10.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jul 2026 05:10:00 -0700 (PDT)
+Message-ID: <d3f4025b-53a1-4a6b-ae66-31a8e005216e@redhat.com>
+Date: Tue, 14 Jul 2026 13:09:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ClientProxiedBy: EX19D041UWB003.ant.amazon.com (10.13.139.176) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [gfs2?] INFO: task hung in __gfs2_lookup
+Content-Language: en-US
+To: gfs2@lists.linux.dev
+References: <000000000000063e340615e2811c@google.com>
+Cc: agruenba@redhat.com,
+ syzbot <syzbot+8a86bdd8c524e46ff97a@syzkaller.appspotmail.com>,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ syzkaller-bugs@googlegroups.com
+From: Andrew Price <anprice@redhat.com>
+In-Reply-To: <000000000000063e340615e2811c@google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+On 12/04/2024 10:00, syzbot wrote:
+> Hello,
+> 
+> syzbot found the following issue on:
+> 
+> HEAD commit:    4118d9533ff3 Add linux-next specific files for 20240411
+> git tree:       linux-next
+> console+strace: https://syzkaller.appspot.com/x/log.txt?x=101fa5cb180000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=16ca158ef7e08662
+> dashboard link: https://syzkaller.appspot.com/bug?extid=8a86bdd8c524e46ff97a
 
-Hi Johannes, Matthew,
+I took a peek at this one because it's the most regularly reproduced syzkaller issue for gfs2.
 
-Thank you both for the alternative proposals. I've tested both
-approaches on the same test environment used for v3.
+It's essentially just doing a `mount -o meta ...` and then trying to access the contents of the per_node directory, which waits for a glock that is permanently held by the plain gfs2 fs (if I understand correctly). That has always been the case as far as I can remember and the position has been that `-o meta` should only ever be used by tools (gfs2-utils).
 
-Results (4 runs each):
+There might be value in fuzzing the gfs2 'metafs' so I'm not sure if we want to ask the syzkaller devs to disallow the meta mount option for gfs2. For now I'll leave it with
 
-  Config                   Avg TPS      % vs Baseline
-  --------------------------------------------------------
-  baseline (no patch)       70,735       -
-  Johannes' approach       156,908      +121.8%
-  Matthew's approach        70,145       -0.8% (within noise)
+#syz set prio: low
 
-
-Johannes' approach (clearing __GFP_DIRECT_RECLAIM early in the
-slowpath for costly __GFP_NORETRY) delivers the same ~2.2x speedup
-as v3, as expected - it prevents the entire direct reclaim and
-compaction machinery from running for these opportunistic allocations.
-
-Matthew's filemap.c approach does not help in this workload.  The
-reason is that the first allocation attempt at max order still carries
-__GFP_DIRECT_RECLAIM and enters the slowpath with direct compaction
-enabled.  The __GFP_DIRECT_RECLAIM clearing only takes effect for 
-subsequent lower-order attempts in the fallback loop, but the costly 
-compaction has already executed on the first try.
-
-Let me know if you have any other variant you want me to test, 
-or if I should prepare a v4 based on Johannes' suggestion.
-
-This is what I tested for Johannes' approach:
-
-
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index a63733dac659..6e960c969e67 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -4733,10 +4733,10 @@ static inline struct page *
- __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
- 					struct alloc_context *ac)
- {
--	bool can_direct_reclaim = gfp_mask & __GFP_DIRECT_RECLAIM;
--	bool can_compact = can_direct_reclaim && gfp_compaction_allowed(gfp_mask);
--	bool nofail = gfp_mask & __GFP_NOFAIL;
- 	const bool costly_order = order > PAGE_ALLOC_COSTLY_ORDER;
-+	bool can_direct_reclaim;
-+	bool can_compact;
-+	bool nofail;
- 	struct page *page = NULL;
- 	unsigned int alloc_flags;
- 	unsigned long did_some_progress;
-@@ -4751,6 +4751,20 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
- 	bool can_retry_reserves = true;
- 	unsigned long alloc_start_time = jiffies;
- 
-+	/*
-+	 * Costly __GFP_NORETRY allocations are opportunistic: the caller
-+	 * can fall back to smaller orders.  Don't stall on direct reclaim
-+	 * or compaction; clearing __GFP_DIRECT_RECLAIM makes the entire
-+	 * slowpath treat this as a non-blocking request.  kswapd will wake
-+	 * kcompactd as needed for background defragmentation.
-+	 */
-+	if (costly_order && (gfp_mask & __GFP_NORETRY))
-+		gfp_mask &= ~__GFP_DIRECT_RECLAIM;
-+
-+	can_direct_reclaim = gfp_mask & __GFP_DIRECT_RECLAIM;
-+	can_compact = can_direct_reclaim && gfp_compaction_allowed(gfp_mask);
-+	nofail = gfp_mask & __GFP_NOFAIL;
-+
- 	if (unlikely(nofail)) {
- 		/*
- 		 * Also we don't support __GFP_NOFAIL without __GFP_DIRECT_RECLAIM,
-
-
-Thanks,
-Salvatore
-
-
-
-
-
-AMAZON DEVELOPMENT CENTER ITALY SRL, viale Monte Grappa 3/5, 20124 Milano, Italia, Registro delle Imprese di Milano Monza Brianza Lodi REA n. 2504859, Capitale Sociale: 10.000 EUR i.v., Cod. Fisc. e P.IVA 10100050961, Societa con Socio Unico
-
-
+Andy
+ > compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1509eb25180000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12fbeaa3180000
+> 
+> Downloadable assets:
+> disk image: https://storage.googleapis.com/syzbot-assets/1eb8b3998228/disk-4118d953.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/c17244f68cad/vmlinux-4118d953.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/df207f8c8f2a/bzImage-4118d953.xz
+> mounted in repro: https://storage.googleapis.com/syzbot-assets/2b56e1dd3dfb/mount_0.gz
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+8a86bdd8c524e46ff97a@syzkaller.appspotmail.com
+> 
+> INFO: task syz-executor359:5091 blocked for more than 143 seconds.
+>       Not tainted 6.9.0-rc3-next-20240411-syzkaller #0
+> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> task:syz-executor359 state:D stack:24984 pid:5091  tgid:5091  ppid:5088   flags:0x00004002
+> Call Trace:
+>  <TASK>
+>  context_switch kernel/sched/core.c:5409 [inline]
+>  __schedule+0x17e8/0x4a50 kernel/sched/core.c:6746
+>  __schedule_loop kernel/sched/core.c:6823 [inline]
+>  schedule+0x14b/0x320 kernel/sched/core.c:6838
+>  bit_wait+0x12/0xd0 kernel/sched/wait_bit.c:199
+>  __wait_on_bit+0xb0/0x2f0 kernel/sched/wait_bit.c:49
+>  out_of_line_wait_on_bit+0x1d5/0x260 kernel/sched/wait_bit.c:64
+>  wait_on_bit include/linux/wait_bit.h:76 [inline]
+>  gfs2_glock_wait+0xc7/0x2b0 fs/gfs2/glock.c:1344
+>  gfs2_glock_nq_init fs/gfs2/glock.h:238 [inline]
+>  __gfs2_lookup+0x11b/0x280 fs/gfs2/inode.c:905
+>  __lookup_slow+0x28c/0x3f0 fs/namei.c:1692
+>  lookup_slow+0x53/0x70 fs/namei.c:1709
+>  walk_component+0x2e1/0x410 fs/namei.c:2004
+>  lookup_last fs/namei.c:2461 [inline]
+>  path_lookupat+0x16f/0x450 fs/namei.c:2485
+>  filename_lookup+0x256/0x610 fs/namei.c:2514
+>  user_path_at_empty+0x42/0x60 fs/namei.c:2921
+>  user_path_at include/linux/namei.h:57 [inline]
+>  ksys_umount fs/namespace.c:1916 [inline]
+>  __do_sys_umount fs/namespace.c:1924 [inline]
+>  __se_sys_umount fs/namespace.c:1922 [inline]
+>  __x64_sys_umount+0xf4/0x170 fs/namespace.c:1922
+>  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+>  do_syscall_64+0xf5/0x240 arch/x86/entry/common.c:83
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> RIP: 0033:0x7f83e9183587
+> RSP: 002b:00007fffdb5f1f68 EFLAGS: 00000202 ORIG_RAX: 00000000000000a6
+> RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f83e9183587
+> RDX: 0000000000000000 RSI: 0000000000000009 RDI: 00007fffdb5f2020
+> RBP: 00007fffdb5f2020 R08: 0000000000000000 R09: 0000000000000000
+> R10: 00000000ffffffff R11: 0000000000000202 R12: 00007fffdb5f3110
+> R13: 0000555562dbd740 R14: 0000555562dac338 R15: 00007fffdb5f5290
+>  </TASK>
+> 
+> Showing all locks held in the system:
+> 1 lock held by khungtaskd/30:
+>  #0: ffffffff8e335ca0 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:329 [inline]
+>  #0: ffffffff8e335ca0 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:841 [inline]
+>  #0: ffffffff8e335ca0 (rcu_read_lock){....}-{1:2}, at: debug_show_all_locks+0x55/0x2a0 kernel/locking/lockdep.c:6614
+> 2 locks held by getty/4849:
+>  #0: ffff88802ad660a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x25/0x70 drivers/tty/tty_ldisc.c:243
+>  #1: ffffc90002f162f0 (&ldata->atomic_read_lock){+.+.}-{3:3}, at: n_tty_read+0x6b5/0x1e10 drivers/tty/n_tty.c:2201
+> 1 lock held by syz-executor359/5091:
+>  #0: ffff888068e3d1f0 (&type->i_mutex_dir_key#6){.+.+}-{3:3}, at: inode_lock_shared include/linux/fs.h:801 [inline]
+>  #0: ffff888068e3d1f0 (&type->i_mutex_dir_key#6){.+.+}-{3:3}, at: lookup_slow+0x45/0x70 fs/namei.c:1708
+> 
+> =============================================
+> 
+> NMI backtrace for cpu 1
+> CPU: 1 PID: 30 Comm: khungtaskd Not tainted 6.9.0-rc3-next-20240411-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/27/2024
+> Call Trace:
+>  <TASK>
+>  __dump_stack lib/dump_stack.c:88 [inline]
+>  dump_stack_lvl+0x241/0x360 lib/dump_stack.c:114
+>  nmi_cpu_backtrace+0x49c/0x4d0 lib/nmi_backtrace.c:113
+>  nmi_trigger_cpumask_backtrace+0x198/0x320 lib/nmi_backtrace.c:62
+>  trigger_all_cpu_backtrace include/linux/nmi.h:160 [inline]
+>  check_hung_uninterruptible_tasks kernel/hung_task.c:223 [inline]
+>  watchdog+0xfde/0x1020 kernel/hung_task.c:380
+>  kthread+0x2f0/0x390 kernel/kthread.c:389
+>  ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+>  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+>  </TASK>
+> Sending NMI from CPU 1 to CPUs 0:
+> NMI backtrace for cpu 0
+> CPU: 0 PID: 4529 Comm: klogd Not tainted 6.9.0-rc3-next-20240411-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/27/2024
+> RIP: 0010:__rb_insert_augmented+0x9/0x6b0 lib/rbtree.c:458
+> Code: c3 cc cc cc cc 66 2e 0f 1f 84 00 00 00 00 00 66 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 55 41 57 41 56 <41> 55 41 54 53 48 83 ec 38 48 89 54 24 08 48 89 74 24 10 48 89 fd
+> RSP: 0018:ffffc90004a4f518 EFLAGS: 00000086
+> RAX: 000000052ae920a0 RBX: ffff8880b943e6c0 RCX: dffffc0000000000
+> RDX: ffffffff816bbee0 RSI: ffff8880b943e710 RDI: ffff88807d890090
+> RBP: 1ffff1100fb12019 R08: ffff88807d8900a7 R09: 0000000000000000
+> R10: ffff88807d890098 R11: ffffed100fb12015 R12: ffff88802e575b18
+> R13: dffffc0000000000 R14: ffff88807d890080 R15: ffff88807d8900c8
+> FS:  00007ff2573a4380(0000) GS:ffff8880b9400000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00005617143a8600 CR3: 000000002be1e000 CR4: 00000000003506f0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> Call Trace:
+>  <NMI>
+>  </NMI>
+>  <TASK>
+>  put_prev_entity+0x62/0x210 kernel/sched/fair.c:5493
+>  pick_next_task_fair+0x363/0xde0 kernel/sched/fair.c:8535
+>  __pick_next_task+0xb0/0x2c0 kernel/sched/core.c:6030
+>  pick_next_task kernel/sched/core.c:6120 [inline]
+>  __schedule+0x729/0x4a50 kernel/sched/core.c:6702
+>  preempt_schedule_common+0x84/0xd0 kernel/sched/core.c:6925
+>  preempt_schedule+0xe1/0xf0 kernel/sched/core.c:6949
+>  preempt_schedule_thunk+0x1a/0x30 arch/x86/entry/thunk.S:12
+>  __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:152 [inline]
+>  _raw_spin_unlock_irqrestore+0x130/0x140 kernel/locking/spinlock.c:194
+>  spin_unlock_irqrestore include/linux/spinlock.h:406 [inline]
+>  __wake_up_common_lock+0x18c/0x1e0 kernel/sched/wait.c:108
+>  sock_def_readable+0x20f/0x5b0 net/core/sock.c:3353
+>  unix_dgram_sendmsg+0x148e/0x1f80 net/unix/af_unix.c:2113
+>  sock_sendmsg_nosec net/socket.c:730 [inline]
+>  __sock_sendmsg+0x221/0x270 net/socket.c:745
+>  __sys_sendto+0x3a4/0x4f0 net/socket.c:2191
+>  __do_sys_sendto net/socket.c:2203 [inline]
+>  __se_sys_sendto net/socket.c:2199 [inline]
+>  __x64_sys_sendto+0xde/0x100 net/socket.c:2199
+>  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+>  do_syscall_64+0xf5/0x240 arch/x86/entry/common.c:83
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> RIP: 0033:0x7ff2575069b5
+> Code: 8b 44 24 08 48 83 c4 28 48 98 c3 48 98 c3 41 89 ca 64 8b 04 25 18 00 00 00 85 c0 75 26 45 31 c9 45 31 c0 b8 2c 00 00 00 0f 05 <48> 3d 00 f0 ff ff 76 7a 48 8b 15 44 c4 0c 00 f7 d8 64 89 02 48 83
+> RSP: 002b:00007fff461d0318 EFLAGS: 00000246 ORIG_RAX: 000000000000002c
+> RAX: ffffffffffffffda RBX: 0000000000000002 RCX: 00007ff2575069b5
+> RDX: 000000000000004e RSI: 0000556259833d70 RDI: 0000000000000003
+> RBP: 000055625982f910 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000000004000 R11: 0000000000000246 R12: 0000000000000013
+> R13: 00007ff257694212 R14: 00007fff461d0418 R15: 0000000000000000
+>  </TASK>
+> INFO: NMI handler (nmi_cpu_backtrace_handler) took too long to run: 1.937 msecs
+> 
+> 
+> ---
+> This report is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+> 
+> syzbot will keep track of this issue. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> 
+> If the report is already addressed, let syzbot know by replying with:
+> #syz fix: exact-commit-title
+> 
+> If you want syzbot to run the reproducer, reply with:
+> #syz test: git://repo/address.git branch-or-commit-hash
+> If you attach or paste a git patch, syzbot will apply it before testing.
+> 
+> If you want to overwrite report's subsystems, reply with:
+> #syz set subsystems: new-subsystem
+> (See the list of subsystem names on the web dashboard)
+> 
+> If the report is a duplicate of another one, reply with:
+> #syz dup: exact-subject-of-another-report
+> 
+> If you want to undo deduplication, reply with:
+> #syz undup
+> 
 
