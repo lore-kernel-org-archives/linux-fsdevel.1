@@ -1,121 +1,137 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131A733FE02;
-	Tue, 14 Jul 2026 05:37:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7642C2349
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Jul 2026 06:36:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784007452; cv=none; b=ipkDybjiqo0OqQvEWyRJvyxxDT0f8baVIp+S2JggCz5BhmhmmCrplfzuDUg49jq05qyjVgRXvU8AFVz1tIvUng5JIshbi27OJOzX3Q9MxrKxWlFjXA+LthHYGysYEYgoFD7cyk7HEhFckaaJa7BPa/YdgcWq3MDhIn1ByhRv5BU=
+	t=1784011015; cv=none; b=bMo503dJM7gKeUy6twUuHY68xTNaADlAqU1NjwOw5VUrOlEzVTuVVJ271S/NwoxqqNdrDvuQ9Enk4O+ws/+1PjG8WVYVfzn3SnPaxafIRmLTGLFaLZ35EsyAOg0hSk6redaAWsefIiaU+kdGOkCbZYfdAoQ1633W0LXgPNfVAzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784007452; c=relaxed/simple;
-	bh=c88RgtfbO8RbLF3/eduLTgGEzvoOpMopVSwMRXiRL7k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YK588/9yiK/RsmS7tDvz9FVndefNLBCStd0G1qMjYMHCF19cf6kljY2sKzbCE9hBo5BGLOy/ZOqgspjzPe/5jVPmwS6/7MIgsQT/FniNuu1CWP9BXZLgx1HLuJyi9folG/lwjX+XxJlt5qoDZqS5y0vhsj9XJo2RrG8eM4ivrHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 158766bc7f4611f1aa26b74ffac11d73-20260714
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:e07267db-1b95-454e-b833-ad983aad9537,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:e7bac3a,CLOUDID:87092e046cec8ff8298bacc935b18d23,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|865|898,TC:nil,Content:0|15|50
-	,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,O
-	SA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 158766bc7f4611f1aa26b74ffac11d73-20260714
-X-User: liuxixin@kylinos.cn
-Received: from [127.0.1.1] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <liuxixin@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1524279156; Tue, 14 Jul 2026 13:37:21 +0800
-From: Xixin Liu <liuxixin@kylinos.cn>
-To: linux-fsdevel@vger.kernel.org
-Cc: dsterba@suse.com, brauner@kernel.org, jack@suse.cz, jlayton@kernel.org, chentaotao@didiglobal.com, chuck.lever@oracle.com, mjguzik@gmail.com, dlemoal@kernel.org, liuxixin@kylinos.cn, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 1/1] affs: replace get_zeroed_page() with kzalloc()
-Date: Mon, 13 Jul 2026 16:32:57 +0800
-Message-ID: <1691d0f1a05888816815c56d5329892a62df1b2d.1783931577.git.kylinos.cn>
-In-Reply-To: <cover.affs-kzalloc-v1.1783931577.git.kylinos.cn>
-References: <cover.affs-kzalloc-v1.1783931577.git.kylinos.cn>
+	s=arc-20240116; t=1784011015; c=relaxed/simple;
+	bh=p0Mu059sLykEpNnytaisDfYNDevSs0ruVGqMtu0UquA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=BBLqtySY9UCh6op+4mZiCImrAHj1K+kwGztgaP2oD81bANgGh3WYR1Qre5D8cbiS7Ke6j+u4couvwk5+8iTnGQpqyazAslZnne6qxdmXT/bbwFO3bjp9Vm+IggbOGBA7UHCHI6KpH9Al5WgvHBjIvv44qdqOpberKLQix1jX84I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=C1Dlf7m1; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="C1Dlf7m1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784011012;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7Rl9EBcDj5Rw07yZgsZcSBReQweTqcqI79roXrGYq+k=;
+	b=C1Dlf7m1UzKNEw1hWLqBdKX+klVXcnO5RvUmBlMjVAJj8WhR2nvTLav/3OMvDCJlhQzDls
+	x0Jog/UFB7jBijz3QAMD/6AnAU0meMGOspSa9+6NV31pSDdWrUwjjO5IEQ7kCn6As1n5YF
+	56A/vJdVT4OLq7WUrio5cPXgivQfhCA=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-657-OmJJdam5Nn6tvayeIcVZ3w-1; Tue,
+ 14 Jul 2026 02:36:48 -0400
+X-MC-Unique: OmJJdam5Nn6tvayeIcVZ3w-1
+X-Mimecast-MFC-AGG-ID: OmJJdam5Nn6tvayeIcVZ3w_1784011007
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 035C31800366;
+	Tue, 14 Jul 2026 06:36:47 +0000 (UTC)
+Received: from localhost (unknown [10.44.32.95])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 227AC1800676;
+	Tue, 14 Jul 2026 06:36:45 +0000 (UTC)
+From: Giuseppe Scrivano <gscrivan@redhat.com>
+To: Gao Xiang <hsiangkao@linux.alibaba.com>
+Cc: Aleksa Sarai <cyphar@cyphar.com>,  Christian Brauner
+ <brauner@kernel.org>,  linux-erofs@lists.ozlabs.org,
+  linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2] erofs: accept source file descriptor via fsconfig
+In-Reply-To: <ba9cf493-45c8-45e8-9e21-9731ec492030@linux.alibaba.com> (Gao
+	Xiang's message of "Tue, 14 Jul 2026 09:56:57 +0800")
+References: <20260711071137.4130824-1-gscrivan@redhat.com>
+	<2026-07-13-dandy-better-exposure-wager-9hBmfv@cyphar.com>
+	<871pd748kh.fsf@redhat.com>
+	<2026-07-13-chief-single-carnival-graders-7dI4ue@cyphar.com>
+	<87wluz2nnc.fsf@redhat.com>
+	<2026-07-14-drafty-folded-woes-volumes-Z93P4V@cyphar.com>
+	<ba9cf493-45c8-45e8-9e21-9731ec492030@linux.alibaba.com>
+Date: Tue, 14 Jul 2026 08:36:44 +0200
+Message-ID: <87pl0q2i2r.fsf@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailer: affs/send-local.py
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-affs_grow_extcache() allocates the per-inode extent lookup cache with
-get_zeroed_page(); affs_evict_inode() frees it with free_page() through
-an unsigned long cache_page local.
+Gao Xiang <hsiangkao@linux.alibaba.com> writes:
 
-The cache is one zeroed buffer of AFFS_CACHE_SIZE bytes: i_lc and i_ac
-share it in process context, not as a page frame.  Use u32 *lc with
-kzalloc()/kfree() and AFFS_LC_SIZE to split the two tables.
+> On 2026/7/14 08:49, Aleksa Sarai wrote:
+>> On 2026-07-13, Giuseppe Scrivano <gscrivan@redhat.com> wrote:
+>>> thanks for the hints.
+>>>
+>>> I'll prepare a v3 if you are fine with the version below:
+>> No worries, and this seems more reasonable at a first glance.
+>> 
+>>> diff --git a/fs/erofs/super.c b/fs/erofs/super.c
+>>> index 86fa5c6a0c70..72c85cc53085 100644
+>>> --- a/fs/erofs/super.c
+>>> +++ b/fs/erofs/super.c
+>> ...
+>>> @@ -437,6 +439,38 @@ static bool erofs_fc_set_dax_mode(struct fs_context *fc, unsigned int mode)
+>>>   	return false;
+>>>   }
+>>>   +static int erofs_fc_parse_source(struct fs_context *fc,
+>>> +				 struct fs_parameter *param)
+>>> +{
+>>> +	struct erofs_sb_info *sbi = fc->s_fs_info;
+>>> +
+>>> +	if (fc->source || sbi->dif0.file)
+>>> +		return invalf(fc, "Multiple sources");
+>>> +
+>>> +	switch (param->type) {
+>>> +	case fs_value_is_string:
+>>> +		fc->source = param->string;
+>>> +		param->string = NULL;
+>>> +		return 0;
+>>> +	case fs_value_is_file: {
+>>> +		char *buf, *p;
+>>> +
+>>> +		sbi->dif0.file = get_file(param->file);
+>> A very minor nit, but you can actually steal the file reference here
+>> with
+>> 		sbi->dif0.file = no_free_ptr(param->file);
+>> A few other places do this. (You'll also need to change the
+>> param->file
+>> reference below.)
+>> 
+>>> +		buf = kmalloc(PATH_MAX, GFP_KERNEL);
+>>> +		if (!buf)
+>>> +			return -ENOMEM;
+>>> +		p = file_path(param->file, buf, PATH_MAX);
+>>> +		fc->source = kstrdup(IS_ERR(p) ? "(fd)" : p, GFP_KERNEL);
+>> I think that /proc/self/fd/%d would be a more useful name for
+>> debugging
+>> if file_path() fails (not that it is really possible here AFAICS). But
+>> I'm not really too fussed.
+>
+> Not quite sure if we should get in agreement with the format of this
+> one in advance (IOWs, users use source_fd and how fc->source looks like;
+> since other fses may follow the same practice if source_fd becomes common
+> later) since it's a user-visible field and I believe we shouldn't treat
+> this one as a dontcare field as some pseudo fses (since those fses don't
+> rely on `fc->source` by design but typically EROFS can rely on.)
+>
+> I hope Christian and others could share move thought on this part too
+> before I land this feature for the next cycle.
 
-Signed-off-by: Xixin Liu <liuxixin@kylinos.cn>
----
- fs/affs/file.c  | 10 ++++++----
- fs/affs/inode.c |  8 ++++----
- 2 files changed, 10 insertions(+), 8 deletions(-)
+would it be better to just return the error from file_path without any
+fallback?
 
-diff --git a/fs/affs/file.c b/fs/affs/file.c
-index 144b17482d12..b8da8c54e0d7 100644
---- a/fs/affs/file.c
-+++ b/fs/affs/file.c
-@@ -56,11 +56,13 @@ affs_grow_extcache(struct inode *inode, u32 lc_idx)
- 	int i, j, key;
- 
- 	if (!AFFS_I(inode)->i_lc) {
--		char *ptr = (char *)get_zeroed_page(GFP_NOFS);
--		if (!ptr)
-+		u32 *lc;
-+
-+		lc = kzalloc(AFFS_CACHE_SIZE, GFP_NOFS);
-+		if (!lc)
- 			return -ENOMEM;
--		AFFS_I(inode)->i_lc = (u32 *)ptr;
--		AFFS_I(inode)->i_ac = (struct affs_ext_key *)(ptr + AFFS_CACHE_SIZE / 2);
-+		AFFS_I(inode)->i_lc = lc;
-+		AFFS_I(inode)->i_ac = (struct affs_ext_key *)(lc + AFFS_LC_SIZE);
- 	}
- 
- 	lc_max = AFFS_LC_SIZE << AFFS_I(inode)->i_lc_shift;
-diff --git a/fs/affs/inode.c b/fs/affs/inode.c
-index 5dd1b016bcb0..07c3a6376aaa 100644
---- a/fs/affs/inode.c
-+++ b/fs/affs/inode.c
-@@ -258,7 +258,7 @@ affs_setattr(struct mnt_idmap *idmap, struct dentry *dentry, struct iattr *attr)
- void
- affs_evict_inode(struct inode *inode)
- {
--	unsigned long cache_page;
-+	u32 *lc;
- 	pr_debug("evict_inode(ino=%llu, nlink=%u)\n",
- 		 inode->i_ino, inode->i_nlink);
- 	truncate_inode_pages_final(&inode->i_data);
-@@ -273,12 +273,12 @@ affs_evict_inode(struct inode *inode)
- 	mmb_invalidate(&AFFS_I(inode)->i_metadata_bhs);
- 	clear_inode(inode);
- 	affs_free_prealloc(inode);
--	cache_page = (unsigned long)AFFS_I(inode)->i_lc;
--	if (cache_page) {
-+	lc = AFFS_I(inode)->i_lc;
-+	if (lc) {
- 		pr_debug("freeing ext cache\n");
- 		AFFS_I(inode)->i_lc = NULL;
- 		AFFS_I(inode)->i_ac = NULL;
--		free_page(cache_page);
-+		kfree(lc);
- 	}
- 	affs_brelse(AFFS_I(inode)->i_ext_bh);
- 	AFFS_I(inode)->i_ext_last = ~1;
--- 
-2.43.0
+Thanks,
+Giuseppe
 
