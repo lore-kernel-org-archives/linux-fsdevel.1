@@ -1,365 +1,104 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739BD44683D;
-	Tue, 14 Jul 2026 16:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1314D8DAF;
+	Tue, 14 Jul 2026 16:44:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784047217; cv=none; b=NH114uBQdVRvlRSRAN1yLQYy4enWdujFwrQTRV4m+AEWPep8AQd9jw7zzYPuRncXgP9/zvxk6Zg8Ahbvk5gLV9WpxTMwJr+ABKH8ASVGuo1BlMagldLyeIC5NtttCJG1GjHIYuj8idThiEzzGKUfhOcy+OJ8eu7NQnywMHm+s60=
+	t=1784047499; cv=none; b=cpUOxQXaIAQjbEP/Tpaj2Q/Z1zyt972YbX2vjgDU1LUzQ6BiDDl2hPqmapNJIcIBzUW42Mjsdd/FPHrekcR2TVaz/pjU5w0k5ZI6CGc2H+8mRMvZukm5xJQ39mTVLiWl9YFzMpc+4YDIIpepgNIxqNEszB67tLZKW//LEGtNLvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784047217; c=relaxed/simple;
-	bh=0kpiHS21gt9uQfaRwA899Pldq3HylqxldT34Bp2ck3g=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rm5FK4zX+MZF3T30b+yamLXotxXD6YCCsU1AsYPd2/sJf/15tMnRXvcad2jql9KWwxvxaP2x6g9/0mA3DN3lO5pekhAAyh7CpJNzu5pg9l7bxxUK37BgJ3FoxaU33NDK/EDrnlpPxxr5K1sAsPlEtbrkPrmN2cL4AvTlBcnp8K0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=Sc1/a5gX; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1784047499; c=relaxed/simple;
+	bh=DHGm2Qfzwm84OlDLpfh8Xo72wOd3mBg9DrHTldR0aY0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c7bPengixjZCC4omyt8+p4J6KLvhUz3YswLA9ZOh03YY7zIM8Obm0LczNvkoHmvOts4CTW2xnwTVa9M0aU/b2u0L9Gbcz4DzIg2Y2VBw5Oq12XbHIiiQL1JphJVc4wSdC3r04nFWP+6yvKGjFe2/dvLSlBossq2ZoWzZbYVKNTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pe6OXbDR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="Sc1/a5gX"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id AC4CB1D37;
-	Tue, 14 Jul 2026 16:40:22 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=Sc1/a5gX;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 411A11F9F;
-	Tue, 14 Jul 2026 16:40:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1784047212;
-	bh=HEE+ecgOXTcpcYexNAdvZP87CBen8tyuXt9xvtkDW/Y=;
-	h=From:To:CC:Subject:Date;
-	b=Sc1/a5gXbDsPSxhuWHIRiHmYLRLqZapeDsW5FRdPMFlLf1lZLaVb8I0P9/RW6OQmX
-	 M1u6KIXtz6r7wqWh89XWS36ETKfxJr7SfsZAv9BjDaleoVv0gVIzSDeZMZcR57i6il
-	 uRJ44OUMwB4deDpiQUs0pmM3JpgVOZSg90x4xl9g=
-Received: from localhost.localdomain (172.30.20.173) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 14 Jul 2026 19:40:11 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH] fs/ntfs3: cosmetic fixes and improvements
-Date: Tue, 14 Jul 2026 18:40:03 +0200
-Message-ID: <20260714164003.32096-1-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pe6OXbDR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA34C1F000E9;
+	Tue, 14 Jul 2026 16:44:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784047498;
+	bh=J/pSVVQie+9lfBzmScbPH/JsQAlWpVXJTP4uahRa8Fg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Pe6OXbDRkOZfDXqXLft1MgvD+cRopnNfVpDCjCBL0Z+B9ujTdOhDzItc5DbOjkb8I
+	 JfqxxW6bvTKcsDWyw79JurfGZYP+3vtxdF81onojyfHx8fKpjEJ36IbgXhhlok/EPW
+	 KnK7TjskGfVWJ+n9kII4TRCQGHnLaOseBbFRIA/kZoF7AB2s/iCybjUM7CfQn3dvRd
+	 N13xRNAW0r9Nbd8XGn57ju1JEe0p9rRywtZFUsaJ+uU/B38ZXtwTB2ri3P340PTXhG
+	 cYqwppmeBjzMFRPr0uO9RApC5T09hTbXMSIU6hUA2xjqiQVwV4irdNU8gU1//qeBeS
+	 gqo5KzDyH4oOQ==
+Date: Tue, 14 Jul 2026 10:44:56 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Al Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>, Qu Wenruo <wqu@suse.com>,
+	Neptune <z1281552865@gmail.com>, linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 3/3] block,iov_iter: move bio_iov_iter_align_down into
+ iov_iter_extract_bvecs
+Message-ID: <alZniKpsda_UJtj1@kbusch-mbp>
+References: <20260714131318.2670042-1-hch@lst.de>
+ <20260714131318.2670042-4-hch@lst.de>
+ <alZHF1wZY58JSU7N@kbusch-mbp>
+ <20260714145026.GA2213@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260714145026.GA2213@lst.de>
 
-Get rid of unnecessary duplications, improve readability, clang-format
-the code.
+On Tue, Jul 14, 2026 at 04:50:26PM +0200, Christoph Hellwig wrote:
+> Yeah, we need to support that.  Kinda interesting that xfstests did
+> not hit it, though.  So back to the previous version.
 
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Here's a simple test for this case if you want to try. This should work
+for any file or raw disk with nvme backing storage.
+
+It prints "Success" before this series, and "Bad Address" after.
+
+virt-discontig-prp-test.c:
 ---
- fs/ntfs3/dir.c     |  6 +++---
- fs/ntfs3/file.c    |  2 +-
- fs/ntfs3/frecord.c |  1 -
- fs/ntfs3/fslog.c   | 21 ++++++++-------------
- fs/ntfs3/index.c   |  7 +++----
- fs/ntfs3/inode.c   |  4 +++-
- fs/ntfs3/lznt.c    |  4 +++-
- fs/ntfs3/ntfs_fs.h |  6 +++---
- fs/ntfs3/run.c     |  9 +++++----
- fs/ntfs3/super.c   |  9 +++++----
- fs/ntfs3/xattr.c   |  1 -
- 11 files changed, 34 insertions(+), 36 deletions(-)
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
 
-diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
-index 1a96289a1b94..2816490993ec 100644
---- a/fs/ntfs3/dir.c
-+++ b/fs/ntfs3/dir.c
-@@ -305,9 +305,9 @@ static inline bool ntfs_dir_emit(struct ntfs_sb_info *sbi,
- 	if (sbi->options->nohidden && (fname->dup.fa & FILE_ATTRIBUTE_HIDDEN))
- 		return true;
- 
--	if (sizeof(struct NTFS_DE) +
--	    offsetof(struct ATTR_FILE_NAME, name) +
--	    fname->name_len * sizeof(short) > le16_to_cpu(e->size))
-+	if (sizeof(struct NTFS_DE) + offsetof(struct ATTR_FILE_NAME, name) +
-+		    fname->name_len * sizeof(short) >
-+	    le16_to_cpu(e->size))
- 		return true;
- 
- 	name_len = ntfs_utf16_to_nls(sbi, fname->name, fname->name_len, name,
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index d601f088618c..fa8e2e56ff3f 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -894,7 +894,7 @@ static ssize_t ntfs_file_read_iter(struct kiocb *iocb, struct iov_iter *iter)
- 
- out:
- 	inode_unlock_shared(inode);
--	file_accessed(iocb->ki_filp);
-+	file_accessed(file);
- 	return err;
- }
- 
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index 9b979e55adf8..547c8ab1b6b8 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -2919,7 +2919,6 @@ loff_t ni_seek_data_or_hole(struct ntfs_inode *ni, loff_t offset, bool data)
- 				break;
- 			}
- 		}
--
- 	}
- 
- 	vbo = (u64)vcn << cluster_bits;
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index f038c799e7ac..cc24c23e4db9 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -2613,7 +2613,6 @@ bool check_index_header(const struct INDEX_HDR *hdr, size_t bytes)
- 	const bool has_subnode = hdr_has_subnode(hdr);
- 	__le16 mask;
- 	u32 min_de, de_off, used, total;
--	const struct NTFS_DE *e;
- 
- 	if (has_subnode) {
- 		min_de = sizeof(struct NTFS_DE) + sizeof(u64);
-@@ -2632,8 +2631,8 @@ bool check_index_header(const struct INDEX_HDR *hdr, size_t bytes)
- 		return false;
- 	}
- 
--	e = (const struct NTFS_DE *)((const u8 *)hdr + de_off);
- 	for (;;) {
-+		const struct NTFS_DE *e = Add2Ptr(hdr, de_off);
- 		u16 esize = le16_to_cpu(e->size);
- 		u16 key_size = le16_to_cpu(e->key_size);
- 		u16 data_size;
-@@ -2649,7 +2648,6 @@ bool check_index_header(const struct INDEX_HDR *hdr, size_t bytes)
- 		if (de_is_last(e)) {
- 			if (key_size)
- 				return false;
--
- 			break;
- 		}
- 
-@@ -2658,7 +2656,6 @@ bool check_index_header(const struct INDEX_HDR *hdr, size_t bytes)
- 			return false;
- 
- 		de_off += esize;
--		e = (const struct NTFS_DE *)((const u8 *)hdr + de_off);
- 	}
- 
- 	return true;
-@@ -3544,8 +3541,7 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 		 * bound here so the memmove cannot reach past the entry.
- 		 */
- 		if (le16_to_cpu(e->view.data_off) > le16_to_cpu(e->size) ||
--		    le16_to_cpu(e->view.data_off) + dlen >
--			    le16_to_cpu(e->size))
-+		    le16_to_cpu(e->view.data_off) + dlen > le16_to_cpu(e->size))
- 			goto dirty_vol;
- 
- 		memmove(Add2Ptr(e, le16_to_cpu(e->view.data_off)), data, dlen);
-@@ -3756,8 +3752,7 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 
- 		/* See UpdateRecordDataRoot for the rationale. */
- 		if (le16_to_cpu(e->view.data_off) > le16_to_cpu(e->size) ||
--		    le16_to_cpu(e->view.data_off) + dlen >
--			    le16_to_cpu(e->size))
-+		    le16_to_cpu(e->view.data_off) + dlen > le16_to_cpu(e->size))
- 			goto dirty_vol;
- 
- 		memmove(Add2Ptr(e, le16_to_cpu(e->view.data_off)), data, dlen);
-@@ -4653,11 +4648,11 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
- 		}
- 
- 		/*
--         * find_dp() only validates that target_vcn is the first
--         * cluster covered by dp.  The walk through lrh->lcns_follow
--         * further entries must stay within the allocated
--         * dp->page_lcns[] array, which is sized by dp->lcns_follow.
--         */
-+		 * find_dp() only validates that target_vcn is the first
-+		 * cluster covered by dp.  The walk through lrh->lcns_follow
-+		 * further entries must stay within the allocated
-+		 * dp->page_lcns[] array, which is sized by dp->lcns_follow.
-+		 */
- 		if (le64_to_cpu(lrh->target_vcn) - le64_to_cpu(dp->vcn) + t16 >
- 		    le32_to_cpu(dp->lcns_follow)) {
- 			err = -EINVAL;
-diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
-index 2b439ac04356..4afacfc6ff89 100644
---- a/fs/ntfs3/index.c
-+++ b/fs/ntfs3/index.c
-@@ -612,8 +612,8 @@ static const struct NTFS_DE *hdr_insert_head(struct INDEX_HDR *hdr,
- static bool index_hdr_check(const struct INDEX_HDR *hdr, u32 bytes)
- {
- 	const bool has_subnode = hdr_has_subnode(hdr);
--	const u16 min_size = sizeof(struct NTFS_DE) +
--			     (has_subnode ? sizeof(u64) : 0);
-+	const u16 min_size =
-+		sizeof(struct NTFS_DE) + (has_subnode ? sizeof(u64) : 0);
- 	u32 end = le32_to_cpu(hdr->used);
- 	u32 tot = le32_to_cpu(hdr->total);
- 	u32 off = le32_to_cpu(hdr->de_off);
-@@ -2131,8 +2131,7 @@ static struct indx_node *indx_find_buffer(struct ntfs_index *indx,
- 			if (err)
- 				return ERR_PTR(err);
- 
--			r = indx_find_buffer(indx, ni, root, vbn, n,
--					     depth + 1);
-+			r = indx_find_buffer(indx, ni, root, vbn, n, depth + 1);
- 			if (r)
- 				return r;
- 		}
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 666addbd808e..15bf7044e5aa 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -606,7 +606,7 @@ static void ntfs_iomap_read_end_io(struct bio *bio)
- }
- 
- static void ntfs_iomap_bio_submit_read(const struct iomap_iter *iter,
--		struct iomap_read_folio_ctx *ctx)
-+				       struct iomap_read_folio_ctx *ctx)
- {
- 	struct bio *bio = ctx->read_ctx;
- 
-@@ -614,10 +614,12 @@ static void ntfs_iomap_bio_submit_read(const struct iomap_iter *iter,
- 	submit_bio(bio);
- }
- 
-+// clang-format off
- static const struct iomap_read_ops ntfs_iomap_bio_read_ops = {
- 	.read_folio_range	= iomap_bio_read_folio_range,
- 	.submit_read		= ntfs_iomap_bio_submit_read,
- };
-+// clang-format on
- 
- static int ntfs_read_folio(struct file *file, struct folio *folio)
- {
-diff --git a/fs/ntfs3/lznt.c b/fs/ntfs3/lznt.c
-index f818d9785004..5dcb7674790c 100644
---- a/fs/ntfs3/lznt.c
-+++ b/fs/ntfs3/lznt.c
-@@ -240,8 +240,10 @@ static inline ssize_t decompress_chunk(u8 *unc, u8 *unc_end, const u8 *cmpr,
- 		if (up - unc > LZNT_CHUNK_SIZE)
- 			return -EINVAL;
- 		/* Correct index */
--		while (index < ARRAY_SIZE(s_max_off) - 1 && unc + s_max_off[index] < up)
-+		while (index < ARRAY_SIZE(s_max_off) - 1 &&
-+		       unc + s_max_off[index] < up) {
- 			index += 1;
-+		}
- 
- 		/* Check the current flag for zero. */
- 		if (!(ch & (1 << bit))) {
-diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index d98d7e474476..6bd1a439e92f 100644
---- a/fs/ntfs3/ntfs_fs.h
-+++ b/fs/ntfs3/ntfs_fs.h
-@@ -401,7 +401,7 @@ struct ntfs_inode {
- 			struct rw_semaphore run_lock;
- 			/* Unpacked runs from just one record. */
- 			struct runs_tree run;
--			/* 
-+			/*
- 			 * Pairs [vcn, len] for all delay allocated clusters.
- 			 * Normal file always contains delayed clusters in one fragment.
- 			 * TODO: use 2 CLST per pair instead of 3.
-@@ -886,8 +886,8 @@ int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
- #else
- #define run_unpack_ex run_unpack
- #endif
--int run_get_highest_vcn(CLST vcn, const u8 *run_buf, size_t run_buf_size, 
--		       u64 *highest_vcn);
-+int run_get_highest_vcn(CLST vcn, const u8 *run_buf, size_t run_buf_size,
-+			u64 *highest_vcn);
- int run_clone(const struct runs_tree *run, struct runs_tree *new_run);
- bool run_remove_range(struct runs_tree *run, CLST vcn, CLST len, CLST *done);
- CLST run_len(const struct runs_tree *run);
-diff --git a/fs/ntfs3/run.c b/fs/ntfs3/run.c
-index 3ebf0154eda3..6e3ef89fc666 100644
---- a/fs/ntfs3/run.c
-+++ b/fs/ntfs3/run.c
-@@ -1265,8 +1265,8 @@ int run_unpack_ex(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
-  * Return the highest vcn from a mapping pairs array
-  * it used while replaying log file.
-  */
--int run_get_highest_vcn(CLST vcn, const u8 *run_buf, size_t run_buf_size, 
--		       u64 *highest_vcn)
-+int run_get_highest_vcn(CLST vcn, const u8 *run_buf, size_t run_buf_size,
-+			u64 *highest_vcn)
- {
- 	const u8 *run_last = run_buf + run_buf_size;
- 	u64 vcn64 = vcn;
-@@ -1279,7 +1279,7 @@ int run_get_highest_vcn(CLST vcn, const u8 *run_buf, size_t run_buf_size,
- 		if (size_size > 8 || offset_size > 8)
- 			return -EINVAL;
- 
--		if (run_buf + size_size + offset_size > run_last) 
-+		if (run_buf + size_size + offset_size > run_last)
- 			return -EINVAL;
- 
- 		len = run_unpack_s64(run_buf, size_size, 0);
-@@ -1357,7 +1357,8 @@ bool run_remove_range(struct runs_tree *run, CLST vcn, CLST len, CLST *done)
- 		if (r_end > end) {
- 			/* Remove a middle part, split. */
- 			CLST tail_lcn = r->lcn == SPARSE_LCN ?
--					SPARSE_LCN : (r->lcn + (end - r->vcn));
-+						SPARSE_LCN :
-+						(r->lcn + (end - r->vcn));
- 
- 			*done += len;
- 			r->len = d;
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 3305fe406cb2..446b37f0de79 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -1458,7 +1458,10 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 					    Add2Ptr(a, roff),
- 					    le32_to_cpu(a->size) - roff);
- 			if (err < 0) {
--				ntfs_err(sb, "Failed to unpack $MFT bitmap extent (%d).", err);
-+				ntfs_err(
-+					sb,
-+					"Failed to unpack $MFT bitmap extent (%d).",
-+					err);
- 				goto put_inode_out;
- 			}
- 			err = 0;
-@@ -1866,8 +1869,7 @@ static int ntfs_init_fs_context(struct fs_context *fc)
- 	/* Default options. */
- 	opts->fs_uid = current_uid();
- 	opts->fs_gid = current_gid();
--	opts->fs_fmask_inv = ~current_umask();
--	opts->fs_dmask_inv = ~current_umask();
-+	opts->fs_fmask_inv = opts->fs_dmask_inv = ~current_umask();
- 	opts->prealloc = 1;
- 
- #ifdef CONFIG_NTFS3_FS_POSIX_ACL
-@@ -1928,7 +1930,6 @@ static struct file_system_type ntfs_fs_type = {
- 	.kill_sb		= ntfs3_kill_sb,
- 	.fs_flags		= FS_REQUIRES_DEV | FS_ALLOW_IDMAP,
- };
--
- // clang-format on
- 
- static int __init init_ntfs_fs(void)
-diff --git a/fs/ntfs3/xattr.c b/fs/ntfs3/xattr.c
-index 04814dd29375..7a81369a1173 100644
---- a/fs/ntfs3/xattr.c
-+++ b/fs/ntfs3/xattr.c
-@@ -660,7 +660,6 @@ static noinline int ntfs_set_acl_ex(struct mnt_idmap *idmap,
- 			inode->i_mode = old_mode;
- 			goto out;
- 		}
--		inode->i_mode = mode;
- 	}
- 	set_cached_acl(inode, type, acl);
- 	inode_set_ctime_current(inode);
--- 
-2.43.0
+#include <err.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <sys/uio.h>
 
+int main(int argc, char **argv)
+{
+	struct iovec iov[3];
+	void *buf;
+	int fd;
+
+	if (argc < 2)
+		errx(EINVAL, "usage: %s <file>", argv[0]);
+
+	fd = open(argv[1], O_RDWR | O_TRUNC | O_DIRECT);
+	if (fd < 0)
+		err(EXIT_FAILURE, "failed to open %s", argv[1]);
+
+	if (posix_memalign((void **)&buf, 4096, 8 * 4096))
+		err(EXIT_FAILURE, "failed to allocate buffer");
+
+	iov[0].iov_base = buf + (4096 - 256);
+	iov[0].iov_len = 256;
+
+	iov[1].iov_base = buf + 8192;
+	iov[1].iov_len = 8192;
+
+	iov[2].iov_base = buf + 20480;
+	iov[2].iov_len = 4096 - 256;
+
+	preadv(fd, iov, 3, 0);
+	perror("preadv");
+	return errno;
+}
+--
