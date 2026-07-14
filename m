@@ -1,247 +1,268 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FAE044685E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Jul 2026 12:28:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A1344D031
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Jul 2026 12:56:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784032136; cv=none; b=nBMDhYQ4t97tFJ1hlQI79FKulku64BWfXm8nrcrmnCSpT9jOMT1nBMwSneE9HG5Mbpoi9wYc5Bv0+dBCDrw32Q/ccGGCodV3YZf5C2hTEqxQePMeRUJ+3t74AR7Nqc08Rud1DqNUd2/7SHR5L2oCDIW/A/uXHr0lk00HDeLqhzI=
+	t=1784033790; cv=none; b=BWRICYfJyxqjRs76S6b/pOQLPJgRmuyXRpOHQmN+rYT/cBzwQs6AH1YpkvKzy7anwP8Tv5IzX0WbwpgYFU8kxy3TkDcs3iZqrAFpQR3u4v5SOaZHKskQHnlsb0/4/2WOXO6V1x2KCVbLAT67IerOIeU3rw3s44LBxJKhIJwdGlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784032136; c=relaxed/simple;
-	bh=B6dgKwzNx3rWaNOxXsTiZEUVr03spoOo8mp3B1ItcWY=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=qiZsh9FByvKdzLeLartX4jy9OwpZM4LH65o2Pht81Ic4J4PJB3t/mbO6Oz8f5Xh7b/x4XOZUtSFOKk8iABfbjVzYbxlL8mN0/l49oshH2xKyASjzlna4MjQVQoaFvZntngtFzq1ted4ATU3jKdXiBx6DpCREtp6mui5T6tAxZoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=MH/3RHCV; arc=none smtp.client-ip=195.121.94.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1784033790; c=relaxed/simple;
+	bh=JHifkVKVp3e/g6TqfsKYoWJUq6knhLTqWrBcW6jRaug=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IR8AFKadgG3eVQUNFiR3hXZ5tq5EJeIBj0K7jbA5ipHo37G3WInoUxop948S84EFLq3CCTKC0lnYHGdW5qI0uJBB9hl0lJYH+YseKcK9opla91eEcL9/NxJ9j2Gwb1Sq9GfBsm3Bs6mWC2LuOlY1k2jKXFxUJkIkvqI8iNmUU9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ayU/yNqj; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="MH/3RHCV"
-X-KPN-MessageId: 9032a697-7f7f-11f1-bfba-00505699b430
-Received: from mta.kpnmail.nl (unknown [10.31.161.190])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 9032a697-7f7f-11f1-bfba-00505699b430;
-	Tue, 14 Jul 2026 14:28:48 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 90315c0b-7f7f-11f1-b308-0050569977a2;
-	Tue, 14 Jul 2026 14:28:48 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ayU/yNqj"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8487088510aso4108744b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Jul 2026 05:56:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=YfV4LJIsaNH2A+E4UxJEYQ+IXsQ+NBQxN2Osz3jHw40=;
-	b=MH/3RHCV62gbgH9/usPjeWMQZH3UVlpw8Wlj3n+pWdbJEbv3pYAje+tRe1XMIn3Xob3dahNmNSPwX
-	 VEsjlTM1YU0q5aqkYAmXqM5PjhXd7cti/zfXp/RFqo+/TK7FlhRws8akzqvcJ7wvGWVLAYqbpiWTbZ
-	 9vkM7uboUNZkQGHrQnr8pwas71pdSYOQ9QlP8oKQf31pGVoBd6m1lUxqP9f3MTegonCrERXX3kwdhO
-	 n1Y4g5OwcXB32NB0Ohf+v4d1XDa2dq/5cx6OUKBJfrGyRN1NXGx7UC8YCKY3Fw22l8D5whoFf7OY78
-	 jPIzDo1METWCZrGZTVhrn+JYOYDMzww==
-X-KPN-MID: 33|aC4INLl+JSKq5CEUueeg9E9BLYWYGiskHv9uMmmrF7fmYrIfpF2Kky0SPkv9mKQ
- qryjhMPx3yAfQF5s263G7TnnLedRDur+nHpqUf5FY4lw=
-X-CMASSUN: 33|w7yIYsU5l3ylaHWNWH3fX7WznMj5zp6jZl/j1pZS3jNcFVAFKkM50dY5l+rzhij
- C/O/VCTzH3dIUw3uA7VE8Ww==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh06 (cpxoxapps-mh06.personalcloud.so.kpn.org [10.128.135.212])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 90270bad-7f7f-11f1-916a-005056995d6c;
-	Tue, 14 Jul 2026 14:28:48 +0200 (CEST)
-Date: Tue, 14 Jul 2026 14:28:48 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: NeilBrown <neil@brown.name>, NeilBrown <neilb@ownmail.net>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org
-Message-ID: <2091253759.1001623.1784032128121@kpc.webmail.kpnmail.nl>
-In-Reply-To: <178397971669.3371781.14361088370957076736@noble.neil.brown.name>
-References: <20260713060814.2849-1-neilb@ownmail.net>
- <20260713060814.2849-4-neilb@ownmail.net>
- <1899194169.820712.1783939194879@kpc.webmail.kpnmail.nl>
- <178397971669.3371781.14361088370957076736@noble.neil.brown.name>
-Subject: Re: [PATCH v3 3/3] VFS: add vfs_lookup_open() for nfsd
+        d=gmail.com; s=20251104; t=1784033789; x=1784638589; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vvvAjK+VgafLRm2EGvJtPAQqm3Swr3OQi+qwBFRBFJk=;
+        b=ayU/yNqjG6T1WjYKte78aYKRc/App6igvmMxzs6mmkLG/I3Ncs2Gr8GnQpezpyWSln
+         5vwYiqsqP5WeqLw5qJMmhPGIggdyrbzW7a4B7XIIR8K+92rGhDGO4UFBwi14+q9gqvFO
+         3uAAvG47ZhegTfEFGi0rmEqU4NQIwDTNfSSBx9dP7gsK+w+2ecNnYzcQBMZqMHtvW4FR
+         wNP1lPA8HAmkovzZcLCGz8zeNs973WuQVsTvy5iWDD9PnTPUYWJyXeWhbbkuusvM+Zz1
+         zvtjVToLiuyX7zLYKb1XKHhLN0GqX2rVZZy6zEcKlBosw6C8xYtj6LdHzzz50SV/WI2r
+         uQ3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784033789; x=1784638589;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vvvAjK+VgafLRm2EGvJtPAQqm3Swr3OQi+qwBFRBFJk=;
+        b=fz5yJO+aASnrem9oq3FkjA+NYA90mMwoaNg/I2KN9eHOpJRE9viv2gQmh0K1FnkCmv
+         OXeQYPsc570S0HnK5EvpeDcnNhrAKepqkBoJtb6IMHqXeeZJXk3eii7tU4s2Ac5te7VD
+         Vb0RLNpGi2rao0j6paClFtSj4u5nX2UDXAZALJ/snOiG8t83F9geOKQIfAptejy3Irkb
+         +vbOddDxejuaU80C6pzmIC0S7f4LPxNfrqjubBZ+tiezaDSYSIOy8YXhgm92RMSge0sP
+         1aolW2DalB36oT7jnj0Q1ci8EOkGQiZwzcI6eytdb3H7RLwBz0DG1OZS+QxKnKsj33xB
+         z6ig==
+X-Gm-Message-State: AOJu0YyhDNG568VjqHL1KBh1yjhSGbWqHDnWdsgy4jdEDz3gRsUSqGWd
+	Q/zT/iuHPzdygBJlIbBQCrEU82xZ8gDd/s/wZZb7XkUzoAYZPmLtqXlC
+X-Gm-Gg: AfdE7cmZe0rkBas4AJhw0u3Nynq4Kwb90QwlKVOjamDVg4o9p7C0VRXzW7g4ZDcYT6c
+	JpGlS9HT5eAGx1+511f8IgQrSOD938e7X0FL7o13TMh6WjNVh14TILBI1sR8bYZ7iAIK4Z+SBR+
+	og5dtu3PeWuYIYBD/QZW5VcKBlQQhiKrOvWB28rEX2H58sZzjr7e3AGMFgj7Y/j12OVqbWhNHa+
+	CSRNI7ZWj8/0W/6MwbIko97EDdf+yvQj6uWzZbuT8a5KNWxy7gYv0vlumOVJMnR1i5pdEfpaR+8
+	rSgUy9yT/HLUU3/XLAPAoBBV43h51PRAaC8GzgRkU/bFDCuOTeNvM1q+1arwpYXcG1w167JLmES
+	w/0XN7rY12hHQMcC8nu67mfulygsDss8jgjqq9V9L4xmQscK+7zK17i3YsPKtfKceA+RZ3S4v5s
+	ohbn0VTQ6SzExZqVCHp4cF55WRSmjVfMWExLwkFwFN/tuk6vsDfN1YIyyXHmrdHLvSZrkm
+X-Received: by 2002:a05:6a00:1819:b0:848:4742:90a6 with SMTP id d2e1a72fcca58-84a5140d4b5mr3313577b3a.15.1784033788469;
+        Tue, 14 Jul 2026 05:56:28 -0700 (PDT)
+Received: from deepanshu-kernel-hacker.. ([2405:201:682f:383f:c4e6:34d3:11cb:ba2c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84a4f2389e8sm1465042b3a.8.2026.07.14.05.56.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jul 2026 05:56:27 -0700 (PDT)
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+To: slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Deepanshu Kartikey <kartikey406@gmail.com>,
+	syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
+Subject: [PATCH v6] hfsplus: fix null-ptr-deref by creating hidden dir on remount rw
+Date: Tue, 14 Jul 2026 18:26:20 +0530
+Message-ID: <20260714125620.11119-1-kartikey406@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Transfer-Encoding: 8bit
 
+hfsplus_reconfigure() does not create the hidden directory when
+remounting from read-only to read-write, leaving sbi->hidden_dir
+as NULL. This causes a null-ptr-deref when any subsequent
+link/unlink/rename operation dereferences it.
 
-> Op 13-07-2026 23:55 CEST schreef NeilBrown <neilb@ownmail.net>:
-> 
->  
-> On Mon, 13 Jul 2026, Jori Koolstra wrote:
-> > > Op 13-07-2026 08:05 CEST schreef NeilBrown <neilb@ownmail.net>:
-> > > 
-> > >  
-> > > From: NeilBrown <neil@brown.name>
-> > > 
-> > > vfs_lookup_open() is a limited version of lookup_open() which is
-> > > exported for nfsd to use - to replace dentry_create().
-> > > 
-> > > It is limited in that no filename is given (thus no auditing) and no
-> > > LOOKUP_ flags are passed.  A few "intent" LOOKUP flags are deduced from
-> > > the open flags.
-> > > 
-> > > If a non-regular file is found, an O_PATH file is returned.  This allows
-> > > the caller to see what was found and to return an appropriate error
-> > > code.  However if ->atomic_open was used, it may return an error rather
-> > > then provide a dentry.
-> > 
-> > Stale commit paragraph.
-> 
-> Thanks :-(
-> 
-> > 
-> > > 
-> > > Signed-off-by: NeilBrown <neil@brown.name>
-> > > ---
-> > >  fs/namei.c            | 89 +++++++++++++++++++++++++++++++++++++++++++
-> > >  include/linux/namei.h |  3 ++
-> > >  2 files changed, 92 insertions(+)
-> > > 
-> > > diff --git a/fs/namei.c b/fs/namei.c
-> > > index cb33a01d16eb..2143f759443a 100644
-> > > --- a/fs/namei.c
-> > > +++ b/fs/namei.c
-> > > @@ -4562,6 +4562,95 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
-> > >  	goto out;
-> > >  }
-> > >  
-> > > +/**
-> > > + * vfs_lookup_open - open and possibly create a regular file
-> > > + * @parent: directory to contain file
-> > > + * @last: final component of file name
-> > > + * @open_flag: O_flags
-> > > + * @mode: initial permissions for file
-> > > + *
-> > > + * Open a file after lookup and/or create.  This provides similar
-> > > + * functionality open_last_lookups() for non-VFS users, particularly
-> > > + * nfsd.
-> > > + * It uses ->atomic_open or ->lookup / ->create / ->open as appropriate.
-> > > + *
-> > > + * If the fs object found is not a regular file then an error is returned.
-> > > + * In some cases, related errors are repurposed to so that the caller can
-> > > + * determine the file of file found from the error.
-> > > + * -EISDIR : a directory was found
-> > > + * -ELOOP  : a symlink was found
-> > > + * -ENODEV : a block or character device special file was found
-> > > + * -EFTYPE : any other non-regular file was found, such as FIFO or SOCK.
-> > > + *
-> > > + * Returns: the opened struct file, or an error.
-> > > + */
-> > > +struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
-> > > +			     int open_flag, umode_t mode)
-> > > +{
-> > > +	struct file *file __free(fput) = NULL;
-> > > +	struct nameidata nd = {};
-> > > +	struct open_flags op = {};
-> > > +	struct dentry *dentry;
-> > > +	int error = 0;
-> > > +
-> > > +	WARN_ONCE(mode & ~S_IALLUGO, "mode must only have permission bits");
-> > > +	error = lookup_noperm_common(last, parent->dentry);
-> > > +	if (error)
-> > > +		return ERR_PTR(error);
-> > > +
-> > > +	file = alloc_empty_file(open_flag, current_cred());
-> > > +	if (IS_ERR(file))
-> > > +		return file;
-> > > +
-> > > +	nd.path = *parent;
-> > > +	nd.last = *last;
-> > > +	nd.flags = LOOKUP_OPEN;
-> > > +	if (open_flag & O_CREAT) {
-> > > +		nd.flags |= LOOKUP_CREATE;
-> > > +		if (open_flag & O_EXCL)
-> > > +			nd.flags |= LOOKUP_EXCL;
-> > > +	}
-> > > +	op.open_flag = open_flag;
-> > > +	op.mode = S_IFREG | mode;
-> > > +	dentry = lookup_open(&nd, file, &op);
-> > > +
-> > > +	if (IS_ERR(dentry))
-> > > +		return ERR_CAST(dentry);
-> > > +
-> > > +	if (d_really_is_negative(dentry)) {
-> > > +		error = -ENOENT;
-> > > +	} else if (!(file->f_mode & FMODE_CREATED) && (open_flag & O_EXCL)) {
-> > > +		error = -EEXIST;
-> > > +	} else if ((dentry->d_inode->i_mode & S_IFMT) != S_IFREG) {
-> > > +		switch (dentry->d_inode->i_mode & S_IFMT) {
-> > > +		case S_IFDIR:
-> > > +			error = -EISDIR;
-> > > +			break;
-> > > +		case S_IFLNK:
-> > > +			error = -ELOOP;
-> > > +			break;
-> > > +		case S_IFBLK:
-> > > +		case S_IFCHR:
-> > > +			error = -ENODEV;
-> > > +			break;
-> > > +		case S_IFIFO:
-> > > +		case S_IFSOCK:
-> > > +		default:
-> > > +			error = -EFTYPE;
-> > > +			break;
-> > > +		}
-> > > +	} else if (!(file->f_mode & FMODE_OPENED)) {
-> > > +		nd.path.dentry = dentry;
-> > > +		error = vfs_open(&nd.path, file);
-> > > +	}
-> > > +	dput(dentry);
-> > > +
-> > > +	if (error)
-> > > +		return ERR_PTR(error);
-> > > +	return no_free_ptr(file);
-> > > +}
-> > > +EXPORT_SYMBOL_FOR_MODULES(vfs_lookup_open, "nfsd");
-> > > +
-> > >  static inline bool trailing_slashes(struct nameidata *nd)
-> > >  {
-> > >  	return (bool)nd->last.name[nd->last.len];
-> > > diff --git a/include/linux/namei.h b/include/linux/namei.h
-> > > index ebe6e29f7e93..86d657b24fc6 100644
-> > > --- a/include/linux/namei.h
-> > > +++ b/include/linux/namei.h
-> > > @@ -97,6 +97,9 @@ struct dentry *start_creating_dentry(struct dentry *parent,
-> > >  struct dentry *start_removing_dentry(struct dentry *parent,
-> > >  				     struct dentry *child);
-> > >  
-> > > +struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
-> > > +			     int open_flag, umode_t mode);
-> > > +
-> > >  /* end_creating - finish action started with start_creating
-> > >   * @child: dentry returned by start_creating() or vfs_mkdir()
-> > >   *
-> > > -- 
-> > > 2.50.0.107.gf914562f5916.dirty
-> > 
-> > I think it would still be sensible to check the O_ flags being allowed to
-> > be passed in. I get that nsfd is not going to do weird things, but if this
-> > is a helper that may be used by other code too at some point (unaware of the
-> > intricacies of lookup_open()) the context could help as we didn't go through
-> > all the normal checks in build_open_flags().
-> 
-> So we allow
-> 
->  O_ACCMODE|O_CREAT|O_EXCL|O_TRUNC
-> 
-> and should assert __O_REGULAR.
-> 
-> Thanks,
-> NeilBrown
-> 
+Extract hidden directory creation logic from hfsplus_fill_super()
+into a new helper hfsplus_create_hidden_dir() and call it from
+hfsplus_reconfigure() when switching to read-write mode and
+hidden_dir is NULL, ensuring hidden_dir is always valid on any
+read-write mount.
 
-Yes, sounds good. Keep in mind that vfs_open() does not handle truncate, it only
-happens in do_open() in the open(2) path, so you must handle the actual truncation
-back in the nfsd code. You are probably very aware of this, but just in case :)
+Reported-by: syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=c0ba772a362e70937dfb
+Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+---
+Changes in v6:
+  - Use single mutex_unlock() in error path of helper.
+  - Rename label out_put_hidden_dir to out inside helper.
+  - Use QSTR_INIT() in both fill_super and reconfigure.
+  - Add hfsplus_prepare_volume_header_for_commit() and
+    hfsplus_sync_fs() before creating hidden dir in reconfigure
+    to avoid inconsistent state on crash, as suggested by
+    Vyacheslav Dubeyko.
 
-__O_REGULAR is also only handled in do_open(), so it does nothing in namei.c right
-now, still seems good to include it. I don't understand why the __O_REGULAR
-implementation is so convoluted, but I haven't looked into it yet. I plan to do
-that sometime soon.
+Changes in v5:
+  - Pass str as input argument to hfsplus_create_hidden_dir()
+    to avoid duplication, as suggested by Vyacheslav Dubeyko.
+  - Use !(fc->sb_flags & SB_RDONLY) as guard in reconfigure
+    instead of !sb_rdonly(sb).
+  - Restore cancel_delayed_work_sync() in cleanup path.
+  - Restore HFSPLUS_CAT_TREE_I dirty mark.
 
-Thanks,
-Jori.
+Changes in v4:
+  - Correct fix: extract hidden dir creation into helper and call
+    from hfsplus_reconfigure() on remount rw, as suggested by
+    Vyacheslav Dubeyko.
+
+Changes in v3:
+  - Correct fix location: guard sbi->hidden_dir in hfsplus_link()
+    and hfsplus_unlink() in dir.c.
+
+Changes in v2:
+  - Fixed commit message: hfsplus_delete_cat() has multiple callers,
+    not just hfsplus_unlink() as incorrectly stated in v1.
+---
+ fs/hfsplus/super.c | 100 ++++++++++++++++++++++++++++-----------------
+ 1 file changed, 62 insertions(+), 38 deletions(-)
+
+diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
+index 40a0feda716b..56138881c35f 100644
+--- a/fs/hfsplus/super.c
++++ b/fs/hfsplus/super.c
+@@ -375,6 +375,52 @@ static int hfsplus_statfs(struct dentry *dentry, struct kstatfs *buf)
+ 	return 0;
+ }
+ 
++static int hfsplus_create_hidden_dir(struct super_block *sb,
++				     const struct qstr *str)
++{
++	struct hfsplus_sb_info *sbi = HFSPLUS_SB(sb);
++	struct inode *root = d_inode(sb->s_root);
++	int err;
++
++	mutex_lock(&sbi->vh_mutex);
++	sbi->hidden_dir = hfsplus_new_inode(sb, root, S_IFDIR);
++	if (!sbi->hidden_dir) {
++		err = -ENOMEM;
++		goto out;
++	}
++
++	err = hfsplus_create_cat(sbi->hidden_dir->i_ino, root,
++				 str, sbi->hidden_dir);
++	if (err)
++		goto out;
++
++	err = hfsplus_init_security(sbi->hidden_dir, root, str);
++	if (err == -EOPNOTSUPP)
++		err = 0; /* Operation is not supported. */
++	else if (err) {
++		/*
++		 * Try to delete anyway without
++		 * error analysis.
++		 */
++		hfsplus_delete_cat(sbi->hidden_dir->i_ino, root, str);
++		goto out;
++	}
++
++	mutex_unlock(&sbi->vh_mutex);
++	hfsplus_mark_inode_dirty(HFSPLUS_CAT_TREE_I(sb),
++				 HFSPLUS_I_CAT_DIRTY);
++	hfsplus_mark_inode_dirty(sbi->hidden_dir,
++				 HFSPLUS_I_CAT_DIRTY);
++	return 0;
++
++out:
++	mutex_unlock(&sbi->vh_mutex);
++	cancel_delayed_work_sync(&sbi->sync_work);
++	iput(sbi->hidden_dir);
++	sbi->hidden_dir = NULL;
++	return err;
++}
++
+ static int hfsplus_reconfigure(struct fs_context *fc)
+ {
+ 	struct super_block *sb = fc->root->d_sb;
+@@ -403,6 +449,18 @@ static int hfsplus_reconfigure(struct fs_context *fc)
+ 			sb->s_flags |= SB_RDONLY;
+ 			fc->sb_flags |= SB_RDONLY;
+ 		}
++
++		/*
++		 * Create hidden dir if remounting read-write and it
++		 * does not exist - required for link/unlink/rename.
++		 */
++		if (!(fc->sb_flags & SB_RDONLY) && !sbi->hidden_dir) {
++			struct qstr str = QSTR_INIT(HFSP_HIDDENDIR_NAME,
++						    sizeof(HFSP_HIDDENDIR_NAME) - 1);
++			hfsplus_prepare_volume_header_for_commit(vhdr);
++			hfsplus_sync_fs(sb, 1);
++			return hfsplus_create_hidden_dir(sb, &str);
++		}
+ 	}
+ 	return 0;
+ }
+@@ -589,8 +647,8 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
+ 		goto out_put_alloc_file;
+ 	}
+ 
+-	str.len = sizeof(HFSP_HIDDENDIR_NAME) - 1;
+-	str.name = HFSP_HIDDENDIR_NAME;
++	str = (struct qstr)QSTR_INIT(HFSP_HIDDENDIR_NAME,
++				     sizeof(HFSP_HIDDENDIR_NAME) - 1);
+ 	err = hfsplus_get_hidden_dir_entry(sb, &str, &entry);
+ 	if (err == -ENOENT) {
+ 		/*
+@@ -620,40 +678,9 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
+ 		hfsplus_sync_fs(sb, 1);
+ 
+ 		if (!sbi->hidden_dir) {
+-			mutex_lock(&sbi->vh_mutex);
+-			sbi->hidden_dir = hfsplus_new_inode(sb, root, S_IFDIR);
+-			if (!sbi->hidden_dir) {
+-				mutex_unlock(&sbi->vh_mutex);
+-				err = -ENOMEM;
++			err = hfsplus_create_hidden_dir(sb, &str);
++			if (err)
+ 				goto out_put_root;
+-			}
+-			err = hfsplus_create_cat(sbi->hidden_dir->i_ino, root,
+-						 &str, sbi->hidden_dir);
+-			if (err) {
+-				mutex_unlock(&sbi->vh_mutex);
+-				goto out_put_hidden_dir;
+-			}
+-
+-			err = hfsplus_init_security(sbi->hidden_dir,
+-							root, &str);
+-			if (err == -EOPNOTSUPP)
+-				err = 0; /* Operation is not supported. */
+-			else if (err) {
+-				/*
+-				 * Try to delete anyway without
+-				 * error analysis.
+-				 */
+-				hfsplus_delete_cat(sbi->hidden_dir->i_ino,
+-							root, &str);
+-				mutex_unlock(&sbi->vh_mutex);
+-				goto out_put_hidden_dir;
+-			}
+-
+-			mutex_unlock(&sbi->vh_mutex);
+-			hfsplus_mark_inode_dirty(HFSPLUS_CAT_TREE_I(sb),
+-						 HFSPLUS_I_CAT_DIRTY);
+-			hfsplus_mark_inode_dirty(sbi->hidden_dir,
+-						 HFSPLUS_I_CAT_DIRTY);
+ 		}
+ 	}
+ 
+@@ -661,9 +688,6 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	sbi->nls = nls;
+ 	return 0;
+ 
+-out_put_hidden_dir:
+-	cancel_delayed_work_sync(&sbi->sync_work);
+-	iput(sbi->hidden_dir);
+ out_put_root:
+ 	dput(sb->s_root);
+ 	sb->s_root = NULL;
+-- 
+2.43.0
+
