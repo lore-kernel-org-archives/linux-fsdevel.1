@@ -1,86 +1,77 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1794248AE3D
-	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Jul 2026 14:57:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAFBF47DD6B
+	for <linux-fsdevel@vger.kernel.org>; Tue, 14 Jul 2026 15:03:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784041080; cv=none; b=RLNZzpm4qDe4qhlC5t1Aaax79v+HJpNhDVtIEadPnU/kBHpQ3Ar7lqmi0djbAa3JGm/CiBWSYfZjM5d4ob22F8lTrF3RXO+xG5hvYLDAuKnypHH1hpFmFR9ppLkf88C/XQHz0PzgJkK0jstjNuoKOfoYa3tomNBcyxGxRmD+VPE=
+	t=1784041410; cv=none; b=iNldbVj1srR/sOVyU7KexvVaPekztD03E8m+aUDajonhPJl3YAnX2CL66FrsWL5T4xJltdnlPP3Ad5lTjDYo4dDlziKeAISwWABE/8S+IWgQ8QITU0GeAAk9oEQ2QTm+22LdW97KNDRdnBvn+GT/ZUVA9lSKntDxXtXwiMSjHOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784041080; c=relaxed/simple;
-	bh=bbVe9wD7UWq6NP6VCFDXEKyGC1e1v7dziadhfFXrKSA=;
+	s=arc-20240116; t=1784041410; c=relaxed/simple;
+	bh=bGpzju0Wl6QxZys7d1brQkY4e8pgn74r5CR2KKkiFts=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h3IN4N6aY8NnZ8/bjot1VUxY2eK/G6EuCUpMUmdkTOdDeLH3ABy4ZE39Au91myIkwgbhi4LrrGnVtTQSbtDqGcyD28iF97dwPotOLRpKuqRWWfNdFxNgVfLUkuMj4Pz23H4qluVGDf1ngo/kl9U/2/2L3ZTuYL5uRjVvcY6TXsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Q/PVmJCC; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ojgF8NN4; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Q/PVmJCC; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ojgF8NN4; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=fVh2oH97gnL3vKz4PL4R55zPglYSuh1z0VitshOHy6rLz6/bcoEciabDOrczMGK01MDH9kluvR/Pqy7QoObH8tW2Ua3PrbatQPaqsqTQL6JHVKFwha8ugxwUeQpzgYfKUajHCcq84ZA3r1rAb6MKCfptevPQbcefK/ryM2VPQ8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=N+G4NzHq; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Q/PVmJCC";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ojgF8NN4";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Q/PVmJCC";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ojgF8NN4"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0728B77465;
-	Tue, 14 Jul 2026 14:57:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1784041075; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ckvTJAIO5orNWSHDmCafm+BRY3ohuogBVJYxSTGOxzk=;
-	b=Q/PVmJCC6YsBR+YDFgJyUkGt0Wt+75ENtlYahDKLHArnyNVHSfGLRSYgLOskrXmac6h2Vl
-	LH/UtaIXG8P4RVwzlR2uIygL2SXSp7eXHJ5PxSPy6vmpKl6Aih/e7HRglDCaj7Y+dEBrjb
-	sg8o23XqhU/RqfRzMU99OBz+N9DSsnY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1784041075;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ckvTJAIO5orNWSHDmCafm+BRY3ohuogBVJYxSTGOxzk=;
-	b=ojgF8NN4i3OaVbo78BXxy5iRvemtn1cQMeW6pgXJqJVTvRVxAsEWk8Pw99bSCmGK+bUU0z
-	TCpAw/bOOu+AQtBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1784041075; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ckvTJAIO5orNWSHDmCafm+BRY3ohuogBVJYxSTGOxzk=;
-	b=Q/PVmJCC6YsBR+YDFgJyUkGt0Wt+75ENtlYahDKLHArnyNVHSfGLRSYgLOskrXmac6h2Vl
-	LH/UtaIXG8P4RVwzlR2uIygL2SXSp7eXHJ5PxSPy6vmpKl6Aih/e7HRglDCaj7Y+dEBrjb
-	sg8o23XqhU/RqfRzMU99OBz+N9DSsnY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1784041075;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ckvTJAIO5orNWSHDmCafm+BRY3ohuogBVJYxSTGOxzk=;
-	b=ojgF8NN4i3OaVbo78BXxy5iRvemtn1cQMeW6pgXJqJVTvRVxAsEWk8Pw99bSCmGK+bUU0z
-	TCpAw/bOOu+AQtBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F2BBA779AE;
-	Tue, 14 Jul 2026 14:57:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Zy9OO3JOVmo0OgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 14 Jul 2026 14:57:54 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id A0ED9A1319; Tue, 14 Jul 2026 16:57:46 +0200 (CEST)
-Date: Tue, 14 Jul 2026 16:57:46 +0200
-From: Jan Kara <jack@suse.cz>
-To: Jing Wu <realwujing@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Qiliang Yuan <yuanql9@chinatelecom.cn>
-Subject: Re: [PATCH] fs/inode: replace goto-again rescan with cursor in
- evict_inodes()
-Message-ID: <zsvxjqazva2kom7lfdgp7ebzyq46eqzvivwbqkz4llazfqt4dr@a6ecq3b6fuz3>
-References: <20260714-feat-fs-evict-inodes-cursor-v1-1-64818f31020e@gmail.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="N+G4NzHq"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47de0093c42so903379f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 14 Jul 2026 08:03:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1784041407; x=1784646207; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=lNDNMj1Wt3IAmuou6qZW20cxS6C9Jvx4q6NHbLiZuLU=;
+        b=N+G4NzHqGlf9XWhKbRCucPkpbDw1SqChDfR8hE+Az0G3ycysZY66zKVloZ5k7h73LF
+         /jzY6h3Ul6I7ljrD+rTX3MDO+NK/EJi6G8SdngjCeDzLUkqxaC+EMQ2cJtrO4cbv1rKw
+         ++DSNT6gxm0HPSRxc4YgOXjXZqyAdyVF1d9Tct0bu+E61va20WuKnkxSr5SOpFFbS2Cg
+         quS4GbktzZpWEx9gejqj5cr3Gek3lPwk4wx/o2LMwHFbhCfPkyGYYynfYnvxJL5ShVy6
+         befepvxl762H3eMny0YzM5s0S9FgIPLW+IebxR6pOIfyD2FYYYYRP1yWFpeUIJcL6DD4
+         LDGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784041407; x=1784646207;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=lNDNMj1Wt3IAmuou6qZW20cxS6C9Jvx4q6NHbLiZuLU=;
+        b=hr3CJtoClnITTH3nTmy/wp7/zrI1GBllu0F0M9ezTA6GA+817jnODQJS+7KsehWUwm
+         zRE4g7w4tTUGUf0TmgcddPyxoqnGWFGcb8fZNQVTho7LUEtIzpMqKMUIP9A0GNIf7mBJ
+         BZPq8a5GmbuRdFbapQOrPYWmpmPYymOvFZeAIwGnWupJ0BtD2AlE8feKM+hMro0aVkNV
+         yRULbW32d936GhKN7rumu9vv1I3STQYSFr/ztw9cr8xAHsfnwHTfq6WS+jTD+G6bxLHi
+         4hW7xp9DHej1191DO8cnmq8wnzOK8nTcrh6HKiHHfm9vE052L4hWX2gRY2fsSt9czz+b
+         l9hg==
+X-Forwarded-Encrypted: i=1; AHgh+RocZYV1hIN5E+d9mt4/cTSfJx1x1vC2hZMjFPZzDYVwNLTZS9h/TTnfNs7Uaqsp2lhCk1c7GPJDwFxaQ56O@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyz8jjHLC9eg1qgjEJ8amb2sTizk2oLh4R3AzkYX9Lshq9+sF6y
+	k90JiXwUKAyMq4M2NJZXCYo/DPAbNOO1aR5uA2f+YVIN0iDqQzbXR9m1a0HIkG+WROQ=
+X-Gm-Gg: AfdE7ckBm1JiHxW9L6FDhlQ1t26dpEPTZnHHBtKQuU5iY7XZPOgO8yws/Qt5Kcv+Ryf
+	fT0KlGFqPBWWQIRYYE6pmUC22gaHmF+ccXufv6qtzv3GOLYuXA6LO3w82lbfEPT7UjywsqCGten
+	UCXmzz1IKbJDCuIpEs6E9MCOnU6g63Nyqu/pI3nKRKzaNh5+bqrD29TXup5diRXcbGDcII/bBLr
+	up3lNIuMhD5iR5wFaEZdVygrvWIGjhr9t8hWcRed8qpdsmrU7qut7wHH/PdiS1ZQQmhEsz7lTSQ
+	aJ8zhlNR+j4k20R+Dwo4XmrkKSg89HEp+f0G3NO0+IS/QpHyTxw4zcPwGCekN0ob9sLgSe/+wMq
+	X8vECxB20NQmyDKVIt72Fl7WVM3MYjkgEDGDZ8RDMiZmTW1L+ICtm8e0OBNHW8tb8O0LadLSqPx
+	f7Y2Hti9WlkVxrSIQ=
+X-Received: by 2002:a05:6000:24c2:b0:477:6da:1b83 with SMTP id ffacd0b85a97d-47f2dcc8ab8mr16039571f8f.24.1784041406917;
+        Tue, 14 Jul 2026 08:03:26 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f4634e029sm9612721f8f.3.2026.07.14.08.03.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jul 2026 08:03:25 -0700 (PDT)
+Date: Tue, 14 Jul 2026 17:03:23 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: John Ogness <john.ogness@linutronix.de>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andrew Murray <amurray@thegoodpenguin.co.uk>,
+	Chris Down <chris@chrisdown.name>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH printk 2/3] proc: Add console sync support for
+ /proc/consoles
+Message-ID: <alZPu0-aPCVv1iDG@pathway.suse.cz>
+References: <20260710144609.194487-1-john.ogness@linutronix.de>
+ <20260710144609.194487-3-john.ogness@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -89,147 +80,17 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260714-feat-fs-evict-inodes-cursor-v1-1-64818f31020e@gmail.com>
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MISSING_XM_UA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,chinatelecom.cn:email,cursor.next:url,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
+In-Reply-To: <20260710144609.194487-3-john.ogness@linutronix.de>
 
-On Tue 14-07-26 09:14:54, Jing Wu wrote:
-> evict_inodes() traverses sb->s_inodes to reclaim all zero-refcount
-> inodes at unmount time.  When the traversal yields to the scheduler
-> via cond_resched(), the current code jumps back to a "goto again"
-> label and restarts the list_for_each_entry loop from the head.
-> Inodes already marked I_FREEING are skipped cheaply, but the
-> repeated scans make the total work O(n * r) where r is the number
-> of reschedule events -- proportional to O(n^2) in the worst case on
-> systems with many inodes and memory pressure.
+On Fri 2026-07-10 16:51:52, John Ogness wrote:
+> Update /proc/consoles output to show 's' if a console is
+> running in sync mode.
 > 
-> Replace the goto-again pattern with a sentinel cursor node embedded
-> in sb->s_inodes.  list_move() advances the cursor past each visited
-> inode in O(1).  Dropping and reacquiring s_inode_list_lock around
-> cond_resched() leaves the cursor in place, so the loop resumes from
-> exactly the current position rather than the list head, giving O(n)
-> total traversal.
-> 
-> Co-developed-by: Qiliang Yuan <yuanql9@chinatelecom.cn>
-> Signed-off-by: Qiliang Yuan <yuanql9@chinatelecom.cn>
-> Signed-off-by: Jing Wu <realwujing@gmail.com>
+> Signed-off-by: John Ogness <john.ogness@linutronix.de>
 
-Do you observe some real problems with the code in evict_inodes()? If yes,
-they should be mentioned in the changelog. Because we should in fact skip
-very little inodes on s_inodes list (most of them should be readily
-evictable) and thus your worry about quadratic behavior shouldn't apply.
+Looks good to me:
 
-Also your solution with the cursor has the problem that now everybody
-scanning s_inodes list has to be aware of the special cursor node. So your
-patch breaks these other places scanning s_inodes list and if you were to
-fix them, things would get ugly and complex quickly...
+Reviewed-by: Petr Mladek <pmladek@suse.com>
 
-								Honza
-
-> ---
-> evict_inodes() is called at unmount time to reclaim all zero-refcount
-> inodes on a superblock.  Its current implementation uses a "goto again"
-> pattern: after dropping s_inode_list_lock for cond_resched() and
-> dispose_list(), it restarts list_for_each_entry from the list head.
-> 
-> In the common case (clean unmount, all files closed) the goto loop
-> terminates quickly because dispose_list() removes evicted inodes before
-> the restart.  However, when many inodes have a positive refcount and
-> cannot be evicted -- as happens with a force-unmount while file
-> descriptors are still open -- the restarts scan O(n) skippable inodes
-> each time, making total work O(n * r) proportional to O(n^2) in the
-> worst case.
-> 
-> This series replaces the goto-again pattern with a sentinel cursor node
-> embedded in sb->s_inodes, allowing the traversal to resume from its
-> current position after each lock drop.
-> ---
->  fs/inode.c | 24 +++++++++++++++++++++---
->  1 file changed, 21 insertions(+), 3 deletions(-)
-> 
-> diff --git a/fs/inode.c b/fs/inode.c
-> index acf206beb2e03..19197368c6a67 100644
-> --- a/fs/inode.c
-> +++ b/fs/inode.c
-> @@ -880,15 +880,31 @@ static void dispose_list(struct list_head *head)
->   * called by superblock shutdown after having SB_ACTIVE flag removed,
->   * so any inode reaching zero refcount during or after that call will
->   * be immediately evicted.
-> + *
-> + * Use a cursor node embedded in sb->s_inodes to resume traversal after
-> + * dropping s_inode_list_lock for cond_resched() + dispose_list().  This
-> + * avoids restarting the scan from the list head on each reschedule, giving
-> + * O(n) total traversal instead of O(n * r) where r is the reschedule count.
->   */
->  void evict_inodes(struct super_block *sb)
->  {
->  	struct inode *inode;
->  	LIST_HEAD(dispose);
-> +	/*
-> +	 * Embed a cursor node directly in sb->s_inodes.  list_move() advances
-> +	 * it past each visited inode in O(1), so the loop resumes from exactly
-> +	 * the current position after lock drop rather than from the list head.
-> +	 */
-> +	struct list_head cursor;
->  
-> -again:
->  	spin_lock(&sb->s_inode_list_lock);
-> -	list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
-> +	list_add(&cursor, &sb->s_inodes);
-> +
-> +	while (cursor.next != &sb->s_inodes) {
-> +		inode = list_entry(cursor.next, struct inode, i_sb_list);
-> +		/* Leave the cursor immediately after the current inode. */
-> +		list_move(&cursor, &inode->i_sb_list);
-> +
->  		if (icount_read_once(inode))
->  			continue;
->  
-> @@ -916,9 +932,11 @@ void evict_inodes(struct super_block *sb)
->  			spin_unlock(&sb->s_inode_list_lock);
->  			cond_resched();
->  			dispose_list(&dispose);
-> -			goto again;
-> +			spin_lock(&sb->s_inode_list_lock);
->  		}
->  	}
-> +
-> +	list_del(&cursor);
->  	spin_unlock(&sb->s_inode_list_lock);
->  
->  	dispose_list(&dispose);
-> 
-> ---
-> base-commit: 502d801f0ab03e4f32f9a33d203154ce84887921
-> change-id: 20260713-feat-fs-evict-inodes-cursor-c23c9bd3c11f
-> 
-> Best regards,
-> -- 
-> Jing Wu <realwujing@gmail.com>
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Best Regards,
+Petr
