@@ -1,176 +1,523 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA1E2F83A2
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Jul 2026 15:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5088526CE39;
+	Wed, 15 Jul 2026 16:01:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784130709; cv=none; b=VGhxo4m1MiNv69kb8HrxCwWMyEZ+d2VACDQWYDiQyokW2RWIMd3eBZmuY6EjadeaNI5G54audW12FzcE3xZo3jwXGdN8yCmLgDgsAyFxPGKtA5Vvlm4873Qn8fr4B8Bm25ZohBmPCSWsfh/ej6n2kUy9u6I2Bo44dFUJRrTyGJk=
+	t=1784131273; cv=none; b=HQVAldQElUZy3gJFOUsSunQBWP07NqruqGV1qmpC/ds7VcwDErHTr0cU2lTV71FGWL5coUdk+dzeFTeTSr/ubPQVYRz5KLykdQTIiiyHsDPAazDRUohxIGq0FcWYIjwh3NMskBLeDHbzBtxHgBkiMQIs8H4J7pZWd6odqaSVhzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784130709; c=relaxed/simple;
-	bh=LtaH8aaxtBogs32e3wjB7vQiwT321mHwyaAwWFLSBN8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yp6Ytlp7EIyuXGYDQi4MEbLa26H7MX0V0XCBJ5ZY+Zmv4qk45KvrovRTRTq1WLULbqRUWxBVnjQ30uqHaAT4xjD+be4qSmrcGFXt8WtJ4/W1O1pSwwK05VYRbP/ItZgXdwDNsIY9WzaFCgygW1fRjmg8a3AuNycaoZoUGXw0FII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=A3UfDlnX; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=SCypIxmZ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=A3UfDlnX; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=SCypIxmZ; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1784131273; c=relaxed/simple;
+	bh=gSYOOqFoipsQrqV7Y6xWkfdUToGtyze/yxhAfdHs4NA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ZrdeyknVguhHS/LWbbJcoj4HXVDAEdJsU/FysPn+9QFyeoj6zs7TatE5gbJtVZgpT4cbNuVjxtrx6RGt9uwV5ywvu0Stn4qDFCF+xdIzbTwbyRBSFetWZPYB7490AvsIM/zP2Bmi8+tsYrfRQfcDSxwhY/XFN7uPyYF9tASQMxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=FkSTJHoI; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="A3UfDlnX";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="SCypIxmZ";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="A3UfDlnX";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="SCypIxmZ"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 923BC3E2A;
-	Wed, 15 Jul 2026 15:51:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1784130705; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EHL6hMn4ad73wofazcDZIZ5mmujzlvQ21vTZwQoS5Pg=;
-	b=A3UfDlnXAmjdCC/NeSFhqujZYCm0BmMUhIn6TlK5kwuSWbRe0PjNXdKyvfI+GTR2f4ZPs1
-	7NaQ3uwktFsG0XXOsQ6o/eNU90tiLOjfUk7pjFnYLoig+yk73V0hB2CsvOl3+yeQT/9yYc
-	8MUEOvTVvDMeptaQDE7vcngDnShCYDs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1784130705;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EHL6hMn4ad73wofazcDZIZ5mmujzlvQ21vTZwQoS5Pg=;
-	b=SCypIxmZ0L+EZxhxTN9Bj+EOZnEZepsoAbg7qU2mZ1RC6b8mYEXEIJytC7M6Zbe4jLgiIe
-	91gYrrrNXq/Y7sBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1784130705; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EHL6hMn4ad73wofazcDZIZ5mmujzlvQ21vTZwQoS5Pg=;
-	b=A3UfDlnXAmjdCC/NeSFhqujZYCm0BmMUhIn6TlK5kwuSWbRe0PjNXdKyvfI+GTR2f4ZPs1
-	7NaQ3uwktFsG0XXOsQ6o/eNU90tiLOjfUk7pjFnYLoig+yk73V0hB2CsvOl3+yeQT/9yYc
-	8MUEOvTVvDMeptaQDE7vcngDnShCYDs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1784130705;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EHL6hMn4ad73wofazcDZIZ5mmujzlvQ21vTZwQoS5Pg=;
-	b=SCypIxmZ0L+EZxhxTN9Bj+EOZnEZepsoAbg7qU2mZ1RC6b8mYEXEIJytC7M6Zbe4jLgiIe
-	91gYrrrNXq/Y7sBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8933E779AD;
-	Wed, 15 Jul 2026 15:51:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 61N6IZGsV2qvJAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 15 Jul 2026 15:51:45 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 0E040A084D; Wed, 15 Jul 2026 17:51:45 +0200 (CEST)
-Date: Wed, 15 Jul 2026 17:51:45 +0200
-From: Jan Kara <jack@suse.cz>
-To: Ze Tan <tanze@kylinos.cn>
-Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] namei: Use READ_ONCE() for d_flags in
- __follow_mount_rcu()
-Message-ID: <76kfuey4pj2af3zwzbo7a3i63ooxhvzpc5q6k3iyl7mhhfszsa@6vhknryplnto>
-References: <20260715125102.1051791-1-tanze@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="FkSTJHoI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:From:Reply-To;
+	bh=Av9+nZc+12/UYbLbF2QftyCFb+IZMt9kt/pKpwnPHIs=; b=FkSTJHoIvi1+p9uRL21v3g1Iw7
+	n4J628p0mK1F4fZIl6W2HOo+1tnQjpwrxO60ubNeVlG8TrJQmy5gkn15OPu0n4Tn3XayAB+YTsNQC
+	Ucs+JeAFPgF+XRx6ebzPQVPQ9LYqHD0Llnuq+WPtc7FcV6yLYK59zgFNtS302ijumqJXNF4RfE6Ig
+	n78yMuCc72qgR70LrYjqG5F4MeEHkLyOAawtyLrRuPvLvxBSSYggwLH3BOj/A85ToHyvK65WrkRSD
+	764BRzXYuHZRT+DSQAwsLcciphnDAE+VCZ/DRjBjzbtVZqS2vZevAEm/nT0VvhXPRnf1ujI47lyEY
+	gCISntgw==;
+Received: from bl21-120-122.dsl.telepac.pt ([2.82.120.122] helo=localhost)
+	by fanzine2.igalia.com with utf8esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1wk22j-00FXOr-0S; Wed, 15 Jul 2026 18:01:05 +0200
+From: Luis Henriques <luis@igalia.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>,  Miklos Szeredi
+ <miklos@szeredi.hu>,  linux-fsdevel@vger.kernel.org,
+  fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 2/2] selftests/fuse: add ACL_DONT_CACHE regression test
+In-Reply-To: <20260713220932.413004-3-amir73il@gmail.com> (Amir Goldstein's
+	message of "Tue, 14 Jul 2026 00:09:32 +0200")
+References: <20260713220932.413004-1-amir73il@gmail.com>
+	<20260713220932.413004-3-amir73il@gmail.com>
+Date: Wed, 15 Jul 2026 17:01:26 +0100
+Message-ID: <87wluw2qeh.fsf@wotan.olymp>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260715125102.1051791-1-tanze@kylinos.cn>
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_COUNT_THREE(0.00)[3];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed 15-07-26 20:50:57, Ze Tan wrote:
-> __follow_mount_rcu() reads dentry->d_flags without holding d_lock.
-> 
-> Use READ_ONCE() for these reads to make the lockless access clear.
-> 
-> Signed-off-by: Ze Tan <tanze@kylinos.cn>
+Hi Amir,
 
-Hum, so we are somewhat sloppy with the access to d_flags. Strictly
-speaking we should be using WRITE_ONCE when updating them (and we do in
-some places but not in others) and READ_ONCE when accessing them. OTOH the
-only practical problem is KCSAN complaining, the problems that the compiler
-could somehow tear stores to the d_flags are IMHO theoretical.
+On Tue, Jul 14 2026, Amir Goldstein wrote:
 
-Having two accesses without READ_ONCE more or less doesn't really matter in
-my opinion. Cleaning up all the d_flags accesses would make some sense but
-I'm not sure it's worth the churn for mostly theoretical issues (I believe
-Al or Christian was against it if my memory serves well).
+> Add a test that reproduces the stale ACL bug fixed by:
+>   "fs: preserve ACL_DONT_CACHE state in forget_cached_acl()"
+>
+> A FUSE mount that does not negotiate FUSE_POSIX_ACL initialises inodes
+> with i_acl =3D ACL_DONT_CACHE.  Before the fix, calling
+> forget_all_cached_acls() (e.g. from fuse_update_get_attr() on a
+> statx(AT_STATX_FORCE_SYNC)) would silently replace ACL_DONT_CACHE with
+> ACL_NOT_CACHED, enabling the kernel ACL cache.  A subsequent getxattr
+> would populate the cache, and because fuse_set_acl() skips
+> forget_all_cached_acls() for !fc->posix_acl, later ACL changes were
+> not visible to callers =E2=80=94 getxattr returned stale data.
+>
+> The test mounts a minimal libfuse3 lowlevel filesystem (no
+> FUSE_POSIX_ACL negotiated) and:
+>   1. Issues two getxattrs =E2=80=94 both must reach the daemon, proving
+>      ACL_DONT_CACHE suppresses caching before any trigger.
+>   2. Calls statx(AT_STATX_FORCE_SYNC) to trigger forget_all_cached_acls().
+>   3. Issues another getxattr (populates the cache on a buggy kernel).
+>   4. Switches the daemon to a different-sized ACL (ACL_B).
+>   5. Issues a final getxattr =E2=80=94 expects ACL_B (44 bytes) and daemon
+>      call count 4; a buggy kernel returns stale ACL_A (28 bytes).
 
-								Honza
+A question: in my own tests I have been following a different approach,
+where the filesystem is mounted from a shell script that does the actual
+testing.  I wonder if you think your approach (i.e. writing the actual
+test in C, using the kselftest macros) is the preferred one.
 
+Anyway, the test looks good to me, and I just have a few minor comments
+below.
+
+> fuse_acl_cache_test is only built when libfuse3 is detected via
+> pkg-config.
+
+Yeah, I've sent a patch recently converting the only existing test to also
+user fuse3 instead.  Not sure that's acceptable though, since there's a
+chance of breaking some CI.
+
+> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 > ---
->  fs/namei.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/fs/namei.c b/fs/namei.c
-> index 19ce43c9a6e6..cc8e8d961d7e 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -1687,7 +1687,7 @@ EXPORT_SYMBOL(follow_down);
->  static bool __follow_mount_rcu(struct nameidata *nd, struct path *path)
->  {
->  	struct dentry *dentry = path->dentry;
-> -	unsigned int flags = dentry->d_flags;
-> +	unsigned int flags = READ_ONCE(dentry->d_flags);
->  
->  	if (unlikely(nd->flags & LOOKUP_NO_XDEV))
->  		return false;
-> @@ -1701,7 +1701,7 @@ static bool __follow_mount_rcu(struct nameidata *nd, struct path *path)
->  			int res = dentry->d_op->d_manage(path, true);
->  			if (res)
->  				return res == -EISDIR;
-> -			flags = dentry->d_flags;
-> +			flags = READ_ONCE(dentry->d_flags);
->  		}
->  
->  		if (flags & DCACHE_MOUNTED) {
-> @@ -1711,7 +1711,7 @@ static bool __follow_mount_rcu(struct nameidata *nd, struct path *path)
->  				dentry = path->dentry = mounted->mnt.mnt_root;
->  				nd->state |= ND_JUMPED;
->  				nd->next_seq = read_seqcount_begin(&dentry->d_seq);
-> -				flags = dentry->d_flags;
-> +				flags = READ_ONCE(dentry->d_flags);
->  				// makes sure that non-RCU pathwalk could reach
->  				// this state.
->  				if (read_seqretry(&mount_lock, nd->m_seq))
-> -- 
-> 2.43.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+>  .../selftests/filesystems/fuse/Makefile       |  10 +
+>  .../filesystems/fuse/fuse_acl_cache_test.c    | 348 ++++++++++++++++++
+>  2 files changed, 358 insertions(+)
+>  create mode 100644 tools/testing/selftests/filesystems/fuse/fuse_acl_cac=
+he_test.c
+>
+> diff --git a/tools/testing/selftests/filesystems/fuse/Makefile b/tools/te=
+sting/selftests/filesystems/fuse/Makefile
+> index 612aad69a93aa..f471414842750 100644
+> --- a/tools/testing/selftests/filesystems/fuse/Makefile
+> +++ b/tools/testing/selftests/filesystems/fuse/Makefile
+> @@ -5,6 +5,13 @@ CFLAGS +=3D -Wall -O2 -g $(KHDR_INCLUDES)
+>  TEST_GEN_PROGS :=3D fusectl_test
+>  TEST_GEN_FILES :=3D fuse_mnt
+>=20=20
+> +# fuse_acl_cache_test requires libfuse3; add it only when the library is=
+ present.
+> +ACL_CFLAGS :=3D $(shell pkg-config fuse3 --cflags 2>/dev/null)
+> +ACL_LDLIBS :=3D $(shell pkg-config fuse3 --libs 2>/dev/null)
+> +ifneq ($(ACL_CFLAGS),)
+> +TEST_GEN_PROGS +=3D fuse_acl_cache_test
+> +endif
+> +
+>  include ../../lib.mk
+>=20=20
+>  VAR_CFLAGS :=3D $(shell pkg-config fuse --cflags 2>/dev/null)
+> @@ -19,3 +26,6 @@ endif
+>=20=20
+>  $(OUTPUT)/fuse_mnt: CFLAGS +=3D $(VAR_CFLAGS)
+>  $(OUTPUT)/fuse_mnt: LDLIBS +=3D $(VAR_LDLIBS)
+> +
+> +$(OUTPUT)/fuse_acl_cache_test: CFLAGS +=3D $(ACL_CFLAGS)
+> +$(OUTPUT)/fuse_acl_cache_test: LDLIBS +=3D $(ACL_LDLIBS)
+> diff --git a/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test=
+.c b/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
+> new file mode 100644
+> index 0000000000000..b2e5db8555040
+> --- /dev/null
+> +++ b/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
+> @@ -0,0 +1,348 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Test: FUSE ACL caching bug triggered by AT_STATX_FORCE_SYNC
+> + *
+> + * A FUSE mount that does not negotiate FUSE_POSIX_ACL initialises every=
+ inode
+> + * with i_acl =3D i_default_acl =3D ACL_DONT_CACHE.  When a fresh stat i=
+s needed
+> + * (e.g. AT_STATX_FORCE_SYNC), fuse_update_get_attr() calls
+> + * forget_all_cached_acls() before issuing FUSE_GETATTR.  On an unfixed =
+kernel,
+> + * __forget_cached_acl() replaces ACL_DONT_CACHE with ACL_NOT_CACHED,
+> + * inadvertently enabling the kernel ACL cache for that inode.  The next
+> + * getxattr populates the cache.  Because fuse_set_acl() skips
+> + * forget_all_cached_acls() for !fc->posix_acl mounts, any subsequent ch=
+ange to
+> + * the ACL leaves the stale kernel entry in place, and the next getxattr=
+ returns
+> + * wrong data without ever reaching the FUSE daemon.
+> + *
+> + * Fix (fs/posix_acl.c): __forget_cached_acl() returns early when *p is
+> + * ACL_DONT_CACHE, preserving the "never cache" invariant for the inode's
+> + * lifetime.
+> + *
+> + * Test outline:
+> + *  1. Mount a minimal FUSE fs (no FUSE_POSIX_ACL negotiated).
+> + *  2. lgetxattr -> daemon called, ACL_A returned, NOT cached (ACL_DONT_=
+CACHE).
+> + *  3. statx(AT_STATX_FORCE_SYNC) -> forget_all_cached_acls() called.
+> + *     Buggy:  ACL_DONT_CACHE -> ACL_NOT_CACHED (cache enabled).
+> + *     Fixed:  ACL_DONT_CACHE preserved.
+> + *  4. lgetxattr -> daemon called, ACL_A returned.
+> + *     Buggy:  result now cached (ACL_NOT_CACHED -> cached).
+> + *     Fixed:  result still not cached.
+> + *  5. Daemon switches to ACL_B internally (different size).
+> + *  6. lgetxattr -> should return ACL_B (44 bytes).
+> + *     Buggy:  cache hit, returns stale ACL_A (28 bytes). FAIL.
+> + *     Fixed:  no cache, daemon called, returns ACL_B (44 bytes). PASS.
+> + */
+> +
+> +#define _GNU_SOURCE
+> +#include <errno.h>
+> +#include <fcntl.h>
+> +#include <linux/limits.h>
+> +#include <pthread.h>
+> +#include <stdint.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <string.h>
+> +#include <sys/stat.h>
+> +#include <sys/syscall.h>
+> +#include <sys/xattr.h>
+> +#include <unistd.h>
+> +
+> +#define FUSE_USE_VERSION 31
+> +#include <fuse_lowlevel.h>
+> +
+> +#include "kselftest_harness.h"
+> +
+> +/* ---- ACL binary encoding --------------------------------------------=
+---- */
+> +/*
+> + * POSIX ACL v2 xattr format (little-endian):
+> + *   header: u32 version (=3D 0x00000002)
+> + *   entry:  u16 tag | u16 perm | u32 id
+> + *
+> + * Entries must appear in tag-ascending order; named USER/GROUP entries
+> + * require a MASK entry.  Both ACLs pass posix_acl_from_xattr() validati=
+on.
+> + */
+> +
+> +/* ACL_A: 3 entries (USER_OBJ:rwx, GROUP_OBJ:r-x, OTHER:r-x) =3D 28 byte=
+s */
+> +static const uint8_t acl_a[] =3D {
+> +	0x02, 0x00, 0x00, 0x00,                         /* v2 header      */
+> +	0x01, 0x00, 0x07, 0x00, 0xff, 0xff, 0xff, 0xff, /* USER_OBJ  rwx  */
+> +	0x04, 0x00, 0x05, 0x00, 0xff, 0xff, 0xff, 0xff, /* GROUP_OBJ r-x  */
+> +	0x20, 0x00, 0x05, 0x00, 0xff, 0xff, 0xff, 0xff, /* OTHER     r-x  */
+> +};
+
+Wouldn't it be OK to add a dependency on libacl to make this more
+readable?
+
+>=20
+> +
+> +/*
+> + * ACL_B: 5 entries =E2=80=94 adds USER uid=3D1 and MASK =3D 44 bytes.
+> + * A named USER entry requires a MASK; all tags in ascending order.
+> + */
+> +static const uint8_t acl_b[] =3D {
+> +	0x02, 0x00, 0x00, 0x00,                         /* v2 header       */
+> +	0x01, 0x00, 0x07, 0x00, 0xff, 0xff, 0xff, 0xff, /* USER_OBJ   rwx  */
+> +	0x02, 0x00, 0x07, 0x00, 0x01, 0x00, 0x00, 0x00, /* USER uid=3D1 rwx  */
+> +	0x04, 0x00, 0x05, 0x00, 0xff, 0xff, 0xff, 0xff, /* GROUP_OBJ  r-x  */
+> +	0x10, 0x00, 0x07, 0x00, 0xff, 0xff, 0xff, 0xff, /* MASK       rwx  */
+> +	0x20, 0x00, 0x05, 0x00, 0xff, 0xff, 0xff, 0xff, /* OTHER      r-x  */
+> +};
+> +
+> +/* ---- Shared state (daemon thread <-> test thread) -------------------=
+---- */
+> +
+> +#define FILE_INO  2
+> +#define FILE_NAME "testfile"
+> +
+> +struct daemon_state {
+> +	pthread_mutex_t lock;
+> +	const uint8_t  *acl;
+> +	size_t          acl_size;
+> +	int             getxattr_count;
+> +};
+> +
+> +/*
+> + * Global: callbacks are stateless fns so we use a single global.
+> + * Safe because only one test instance runs at a time.
+> + */
+> +static struct daemon_state g_ds =3D {
+> +	.lock =3D PTHREAD_MUTEX_INITIALIZER,
+> +};
+> +
+> +/* ---- FUSE lowlevel callbacks ----------------------------------------=
+---- */
+> +
+> +static void fs_lookup(fuse_req_t req, fuse_ino_t parent, const char *nam=
+e)
+> +{
+> +	if (parent !=3D FUSE_ROOT_ID || strcmp(name, FILE_NAME)) {
+> +		fuse_reply_err(req, ENOENT);
+> +		return;
+> +	}
+> +	struct fuse_entry_param e =3D {};
+> +
+> +	/*
+> +	 * Long attr/entry timeouts so that normal stat() calls do not
+> +	 * expire and trigger forget_all_cached_acls() on their own;
+> +	 * only the explicit AT_STATX_FORCE_SYNC should trigger it.
+> +	 */
+> +	e.ino             =3D FILE_INO;
+> +	e.generation      =3D 1;
+> +	e.attr_timeout    =3D 10.0;
+> +	e.entry_timeout   =3D 10.0;
+> +	e.attr.st_ino     =3D FILE_INO;
+> +	e.attr.st_mode    =3D S_IFREG | 0644;
+> +	e.attr.st_nlink   =3D 1;
+> +	fuse_reply_entry(req, &e);
+> +}
+> +
+> +static void fs_getattr(fuse_req_t req, fuse_ino_t ino,
+> +		       struct fuse_file_info *fi)
+> +{
+> +	struct stat st =3D {};
+> +
+> +	(void)fi;
+> +	if (ino =3D=3D FUSE_ROOT_ID) {
+> +		st.st_ino   =3D FUSE_ROOT_ID;
+> +		st.st_mode  =3D S_IFDIR | 0755;
+> +		st.st_nlink =3D 2;
+> +	} else if (ino =3D=3D FILE_INO) {
+> +		st.st_ino   =3D FILE_INO;
+> +		st.st_mode  =3D S_IFREG | 0644;
+> +		st.st_nlink =3D 1;
+> +	} else {
+> +		fuse_reply_err(req, ENOENT);
+> +		return;
+> +	}
+> +	fuse_reply_attr(req, &st, 10);
+> +}
+> +
+> +static void fs_getxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
+> +			size_t size)
+> +{
+> +	if (ino !=3D FILE_INO ||
+> +	    strcmp(name, "system.posix_acl_access") !=3D 0) {
+> +		fuse_reply_err(req, ENODATA);
+> +		return;
+> +	}
+> +
+> +	pthread_mutex_lock(&g_ds.lock);
+> +	const uint8_t *acl      =3D g_ds.acl;
+> +	size_t         acl_size =3D g_ds.acl_size;
+> +	g_ds.getxattr_count++;
+> +	pthread_mutex_unlock(&g_ds.lock);
+> +
+> +	if (size =3D=3D 0)
+> +		fuse_reply_xattr(req, acl_size);
+> +	else if (size < acl_size)
+> +		fuse_reply_err(req, ERANGE);
+> +	else
+> +		fuse_reply_buf(req, (const char *)acl, acl_size);
+> +}
+> +
+> +static const struct fuse_lowlevel_ops fs_ops =3D {
+> +	.lookup   =3D fs_lookup,
+> +	.getattr  =3D fs_getattr,
+> +	.getxattr =3D fs_getxattr,
+> +};
+> +
+> +/* ---- Daemon thread --------------------------------------------------=
+----- */
+> +
+> +static void *run_daemon(void *arg)
+> +{
+> +	fuse_session_loop((struct fuse_session *)arg);
+> +	return NULL;
+> +}
+> +
+> +/* ---- kselftest harness ----------------------------------------------=
+----- */
+> +
+> +FIXTURE(acl_cache) {
+> +	struct fuse_session *se;
+> +	char                 mountpoint[PATH_MAX];
+> +	char                 file_path[PATH_MAX];
+> +	pthread_t            thread;
+> +};
+> +
+> +FIXTURE_SETUP(acl_cache)
+> +{
+> +	char *fuse_argv[] =3D { "fuse_acl_cache_test", NULL };
+> +	struct fuse_args args =3D FUSE_ARGS_INIT(1, fuse_argv);
+> +
+> +	g_ds.acl            =3D acl_a;
+> +	g_ds.acl_size       =3D sizeof(acl_a);
+> +	g_ds.getxattr_count =3D 0;
+> +
+> +	strcpy(self->mountpoint, "/tmp/acl_cache_test_XXXXXX");
+> +	if (!mkdtemp(self->mountpoint))
+> +		SKIP(return, "mkdtemp: %s", strerror(errno));
+> +
+> +	snprintf(self->file_path, sizeof(self->file_path),
+> +		 "%s/" FILE_NAME, self->mountpoint);
+> +
+> +	self->se =3D fuse_session_new(&args, &fs_ops, sizeof(fs_ops), NULL);
+> +	if (!self->se) {
+> +		rmdir(self->mountpoint);
+> +		SKIP(return, "fuse_session_new failed");
+> +	}
+> +
+> +	if (fuse_session_mount(self->se, self->mountpoint)) {
+> +		fuse_session_destroy(self->se);
+> +		rmdir(self->mountpoint);
+> +		SKIP(return, "fuse_session_mount failed "
+> +			     "(missing fusermount3 or insufficient privileges)");
+> +	}
+> +
+> +	if (pthread_create(&self->thread, NULL, run_daemon, self->se)) {
+> +		fuse_session_unmount(self->se);
+> +		fuse_session_destroy(self->se);
+> +		rmdir(self->mountpoint);
+> +		SKIP(return, "pthread_create: %s", strerror(errno));
+> +	}
+> +
+> +	fuse_opt_free_args(&args);
+> +}
+> +
+> +FIXTURE_TEARDOWN(acl_cache)
+> +{
+> +	fuse_session_exit(self->se);
+> +	fuse_session_unmount(self->se);
+> +	pthread_join(self->thread, NULL);
+> +	fuse_session_destroy(self->se);
+> +	rmdir(self->mountpoint);
+> +}
+> +
+> +static int do_force_statx(const char *path)
+> +{
+> +	struct statx stx;
+> +
+> +	return syscall(SYS_statx, AT_FDCWD, path,
+> +		       AT_STATX_FORCE_SYNC, STATX_BASIC_STATS, &stx);
+> +}
+> +
+> +TEST_F(acl_cache, stale_after_force_sync)
+> +{
+> +	char    buf[512];
+> +	ssize_t sz;
+> +	int     count;
+> +
+> +	/*
+> +	 * Step 1: two getxattr calls before any statx(FORCE_SYNC).
+> +	 * i_acl =3D=3D ACL_DONT_CACHE.  __get_acl's cmpxchg(p, ACL_NOT_CACHED,
+> +	 * sentinel) finds *p !=3D ACL_NOT_CACHED on every call, so the sentinel
+> +	 * is never placed and the result is never cached.  Both calls must
+> +	 * reach the daemon, proving ACL_DONT_CACHE suppresses caching.
+> +	 */
+> +	sz =3D lgetxattr(self->file_path, "system.posix_acl_access",
+> +		       buf, sizeof(buf));
+> +	ASSERT_EQ(sz, (ssize_t)sizeof(acl_a));
+> +
+> +	sz =3D lgetxattr(self->file_path, "system.posix_acl_access",
+> +		       buf, sizeof(buf));
+> +	ASSERT_EQ(sz, (ssize_t)sizeof(acl_a));
+> +
+> +	pthread_mutex_lock(&g_ds.lock);
+> +	count =3D g_ds.getxattr_count;
+> +	pthread_mutex_unlock(&g_ds.lock);
+> +
+> +	ASSERT_EQ(count, 2);
+> +	TH_LOG("step 1 OK: both pre-trigger getxattrs reached daemon (count=3D%=
+d), "
+> +	       "ACL_DONT_CACHE is working", count);
+> +
+> +	/*
+> +	 * Step 2: statx(AT_STATX_FORCE_SYNC).
+> +	 * fuse_update_get_attr() calls forget_all_cached_acls() before sending
+> +	 * FUSE_GETATTR.
+> +	 *   Buggy kernel:  ACL_DONT_CACHE -> ACL_NOT_CACHED  (cache enabled)
+> +	 *   Fixed kernel:  ACL_DONT_CACHE preserved           (no effect)
+> +	 */
+> +	ASSERT_EQ(do_force_statx(self->file_path), 0);
+
+Why not calling statx(2) instead?  Are you using a libc that doesn't
+include a wrapper?
+
+(Also, I wonder if having the global state protected with a mutex is
+really needed in the scope of this test... but yeah, that's the correct
+thing to do, of course.)
+
+Cheers,
+--=20
+Lu=C3=ADs
+
+>=20
+> +	TH_LOG("step 2 OK: statx(AT_STATX_FORCE_SYNC) succeeded");
+> +
+> +	/*
+> +	 * Step 3: getxattr =E2=80=94 cache population attempt after the trigge=
+r.
+> +	 *   Buggy:  *p =3D=3D ACL_NOT_CACHED -> sentinel placed -> fuse_get_in=
+ode_acl
+> +	 *           called -> ACL_A parsed and stored in the kernel cache.
+> +	 *   Fixed:  *p =3D=3D ACL_DONT_CACHE -> sentinel placement skipped ->
+> +	 *           fuse_get_inode_acl called but result not cached.
+> +	 * Either way the correct ACL_A is returned here.
+> +	 */
+> +	sz =3D lgetxattr(self->file_path, "system.posix_acl_access",
+> +		       buf, sizeof(buf));
+> +	ASSERT_EQ(sz, (ssize_t)sizeof(acl_a));
+> +
+> +	pthread_mutex_lock(&g_ds.lock);
+> +	count =3D g_ds.getxattr_count;
+> +	pthread_mutex_unlock(&g_ds.lock);
+> +
+> +	ASSERT_EQ(count, 3);
+> +	TH_LOG("step 3 OK: post-trigger getxattr reached daemon (count=3D%d), "
+> +	       "returned correct ACL_A (%zd bytes)", count, sz);
+> +
+> +	/*
+> +	 * Step 4: switch daemon to ACL_B (different size: 44 vs 28 bytes).
+> +	 * Simulates an ACL change that fuse_set_acl() would NOT invalidate for
+> +	 * !fc->posix_acl mounts (it skips forget_all_cached_acls in that case).
+> +	 * On a fixed kernel the ACL was never cached, so this is moot.
+> +	 */
+> +	pthread_mutex_lock(&g_ds.lock);
+> +	g_ds.acl      =3D acl_b;
+> +	g_ds.acl_size =3D sizeof(acl_b);
+> +	pthread_mutex_unlock(&g_ds.lock);
+> +	TH_LOG("step 4: daemon switched to ACL_B (%zu bytes)", sizeof(acl_b));
+> +
+> +	/*
+> +	 * Step 5: getxattr =E2=80=94 the decisive check.
+> +	 *   Buggy kernel:  cache hit -> stale ACL_A (28 bytes), count stays 3.
+> +	 *   Fixed kernel:  no cache -> daemon called -> ACL_B (44 bytes), coun=
+t 4.
+> +	 */
+> +	sz =3D lgetxattr(self->file_path, "system.posix_acl_access",
+> +		       buf, sizeof(buf));
+> +
+> +	pthread_mutex_lock(&g_ds.lock);
+> +	count =3D g_ds.getxattr_count;
+> +	pthread_mutex_unlock(&g_ds.lock);
+> +
+> +	if (sz =3D=3D (ssize_t)sizeof(acl_a))
+> +		TH_LOG("step 5 BUG: stale ACL_A (%zd bytes) from kernel cache "
+> +		       "(count=3D%d); ACL_DONT_CACHE corrupted by "
+> +		       "forget_all_cached_acls()", sz, count);
+> +	else
+> +		TH_LOG("step 5 OK: daemon reached (count=3D%d), "
+> +		       "fresh ACL_B (%zd bytes)", count, sz);
+> +
+> +	EXPECT_EQ(sz, (ssize_t)sizeof(acl_b));
+> +	EXPECT_EQ(count, 4);
+> +}
+> +
+> +TEST_HARNESS_MAIN
+> --=20
+> 2.54.0
+>
+
