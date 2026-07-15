@@ -1,142 +1,74 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F7F3CB2F8
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Jul 2026 21:06:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784149563; cv=pass; b=UUhiMJwez5/070xbXDBrM0pyQ06LQ07mdmHnrhAPRlvne6lb4ljBAT/2j5FGECgq4N4QTHRc+WLQX7Daspt+h/wwagflawRjX5wPKqdhN0wtRamkvcuObjFTdghTBXWav4AHO3AT10xipNdRm2goBCKZvEXleqxrLHTKHqGjvHA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784149563; c=relaxed/simple;
-	bh=ohcHmnwMMSDmJjfmYivpS1QS5sro1hDQqWxGQZCr6A8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dlk3uPxUFaAjGRVdltkOIWU0SzraJvHNkWQJFJmcXEzZomfuMFCpwflMMVDyuRZTYA5/TGnlvSUHtnBqATOcIzv0WZi3iDU1xjFPcZ/SbP/NjKocmZh5A+J5p4hGnccU1AszM8Yab9DbReUM42SsvYmda+GRdwxvHV694QQQBTk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wOU4GZJt; arc=pass smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F43443F0BC
+	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Jul 2026 21:19:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784150402; cv=none; b=Bbe//zEwNzYiKxk0SxY9LMQ31w8DnI0orpIO3MdU4EllfOpU+fLgmFlrS5unWGSsyuvARQVrCj7oFlu3Dc9aHFw/bX/zVnBDnVVFTAVcGfTNdG4ATN+usXmwyV74q7zrNZKIdItvY4MZGCtKdibYR+Tuek7BGh9KbwjlVRMjnCA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784150402; c=relaxed/simple;
+	bh=BOdZl3cq00AzYeW8z996EYPmcGSofztCT/Ahs+iayr4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kzZbV7eM04xl6fBFoBLUlIa5gYjpt7x8DVr7rS963zgUW/JF7QaWbbJ2RyaD8v+u8LznbSeIWDFaJ9Vq0GuNg1isLtv7zgsVbfmYPk7wfyniTXeyXYxRV1ubh3rCaTyIeR2m7g6aBluIkCZoKY/HVByM7DHnH9kMVfQ0cUt7RuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ndcNodN9; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wOU4GZJt"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-38759bcd877so5177370a91.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Jul 2026 14:06:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784149562; cv=none;
-        d=google.com; s=arc-20260327;
-        b=GnFq7OlQVgC2cMO9d9Ca3+EVXhbMwTEt/gWJuOU27M/GHphomjtJaeBOzTjV3xatoP
-         1qIkh6cH6vl/HCy6Z1wrMuRoXnAKgsKBhyvnusmKXF/KWQGMEbpwnkWItVwcbY2zFCfh
-         3ECdis7f1fdLJtixLiPs0yaYdGV5TnsZ817bwLmkCTYTv4VhdW9S5w+7gGLyEq1PF8Cm
-         WqB0ISQUC+FNKUkLtnkZIYJsTqaGOmBIHy1rywvROvSbITGCb562ZFBhF9NJtHDorZGU
-         0eZxCcNhkTOADlmMkdfdfAkfrt1HPMxFaMlxRoc9RWj+EOfn8aH/pQpu+MZ32Dh/GS33
-         TOJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ohcHmnwMMSDmJjfmYivpS1QS5sro1hDQqWxGQZCr6A8=;
-        fh=3GJUXYmWFZnMcCE/i5oPYJa5JXUazBzy5PjAr1KF+s0=;
-        b=V0KztN1M0dLJJ/vLvlHT0Sh4HvuZ8tAUC4pQRoT5IREEHHA7Uz6CS4PrCmkcEpVfEF
-         90svN3Y9OxxNe5sm17snzoSIlfhM2EoqkV5+ZL4vvME1qvw7fh3UO6xdPWTVkS0D5cX5
-         Kijt1avTg4XKdxRSz6qLL8QO92nuqziZg9ZktBsBhnFkqYu4o/yNnduEECm0MJD9iR4j
-         /Hptypa4arbWngtvKG34+ufGSJrN3hvZ+6Z2KcmckQiq6X1LeLeuRvRNjx+qzk3x5A5M
-         hNc+dRu0bV8QbpQHSk853jGszRCMVXvtnMZSqb2TF4svA4XiOwnXpwWSBcfz9jSVGOAj
-         EL6Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784149562; x=1784754362; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ohcHmnwMMSDmJjfmYivpS1QS5sro1hDQqWxGQZCr6A8=;
-        b=wOU4GZJtSU7Lwga0jExKpSsyOS5owiRux3+9bhSuC5A3nsnBPX69zxGDrIgFa+wLEw
-         xmkJSpoXnsKplAF51qLQ4QIQasfo/qLp3mRAIxTKS0waoIoq0ORGX+RsM2RLqA2TGuLV
-         rfgaEbVK6Qh7yE8yr5oI5ar2kKU4ruwxkmsEq2SkHvqzCEFlMoYY7Wxd7E+tcQLEktMT
-         kWDiRTL6185fjIE9tuuVElTHyHfp7slgZ6sfQ9hsEyjVfYfxnccDKTXfBumVP92YbKub
-         q+OrF4Kq/9BzK+pVaw/vKAawjQTJtBO9U4U8yhl0JuVzzYA7wJzCaa1iT9CCo6mpYr7H
-         B+9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784149562; x=1784754362;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ohcHmnwMMSDmJjfmYivpS1QS5sro1hDQqWxGQZCr6A8=;
-        b=D2AZmbNsy4gbRo8ST3R70Pdrcee7+ThNAxYRXsNuCDT4l8FFwbXUbyAGod/Lgbqf0R
-         2eW5PmDk4uXHUfp25T73LF7fHlT+WXPQciMixvaPMS8iniXRUoH8PpnAE1g8XuV7ProP
-         oAol/oCNToeO6pUH3OsCeefT0E/3jyWOCTtaVlXKNbj/2AIjWpKL74yyNBztZfLIhaOP
-         Z10rNmr3l/t2+2yj0YbDKQeeyPDVT8ocCt0MY0liPleGV4wP0Gz0595pD54MMTRcGdYc
-         s3K8xkrfihCl5MyQxJBjF5lJG370a/2wxq3vARvtmYgArgfZ2N83MrwV76o9XwGRCx52
-         bIEQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpFMjYe4nPCHVfhUw56rH6EwGhnZW/ofeaabkFHh8LvmfY7JohK6l6MLPFNhRlOhsFIcBzSftV3vSjKXMvV@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCcv2eVG1yAf7vDydg3Se7gUfX1F0So8MpHbU1BAAqirN+/Y3N
-	/vupulehkQiwtoiCDLv6eDmOrgghcJ/0IKUUShjsBhPDVaqhGxxVx44L28R9xfdrAotoNIJd2Oy
-	vSsVg//XRuNGeQcO/Xv03j6sQWGAkuxaxDhNBdgdj
-X-Gm-Gg: AfdE7ck4C1FxytiWlqxVNLOcowQlD+pOAphzpCjraaaoiizIBufpSov4f3cdg7FHhCT
-	1VsTS4odM7lvL6H0kMM/7h4L+mrBPNbB4Diy6seUTqrP9phbhu+bJ8VhWKtcyPrnBq8mHAuSNst
-	Dshp3m4y4QgKVmxkkK+91xnYy6vf/T2Hz3M9hogRdZuY2Nd1m9YTwdWbK2HaeiBmE9MPy6goQTf
-	pKTyO44TYjby7IHZejPPmRYCq9YS5LnuEqNKu6J1KZEAoyICwFAnHHmz6uj5g==
-X-Received: by 2002:a05:6a21:68f:b0:3c3:5c54:b841 with SMTP id
- adf61e73a8af0-3c36c1cfa7cmr4647228637.34.1784149561545; Wed, 15 Jul 2026
- 14:06:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ndcNodN9"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=F4Wch7h5bGb2mJ7phUTBuKN4sBgWUpS//Phrn4g4iYY=; b=ndcNodN9bX18zzzSX7ez/6W5VV
+	1L7shNryZ52R9d/L70Yw6Ch+Tw8EN5wFoANpRVRsx05HEhBRTfxfB5q4nWa1z5vacmyLf+ALLcqGV
+	RIIHKiztXxUuABPuQrpmEIZgkLn3xs5LQVHBnAQ47Ma+Ywfu2ZMeqDVq0RGHbdP3oG/mI8h3QJRYI
+	oMb2R9+V91DE4JHARBpdZAmIkDdzNSPsS11wLK+GoGBroEV3jiFvOEpVRYRon+Mp836bRtCW5cr8A
+	KEPylQj2k6ojeeYXQw1geIqsUJZ/FqkDIMDXKtCpbdsveosFLJ8WafOoPX4vH/bFq0vfX3f6d/rPg
+	sy5Yxy9Q==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wk711-00000000yiu-2mZq;
+	Wed, 15 Jul 2026 21:19:39 +0000
+Date: Wed, 15 Jul 2026 22:19:39 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Miaohe Lin <linmiaohe@huawei.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <christian@brauner.io>,
+	Usama Arif <usama.arif@linux.dev>, Jiaqi Yan <jiaqiyan@google.com>,
+	Naoya Horiguchi <naoya.horiguchi@nec.com>
+Subject: Re: [PATCH v2 06/10] memory-failure: Prevent UAF in raw_hwp_page list
+Message-ID: <alf5a0HI-vkEGUEz@casper.infradead.org>
+References: <20260709184740.1286561-7-willy@infradead.org>
+ <20260710150204.1887475-1-usama.arif@linux.dev>
+ <alEpBqExnyvBnnxi@casper.infradead.org>
+ <alZw5EdYVYCRNyj4@casper.infradead.org>
+ <3251bb16-be46-f752-a6ff-a6c3181f49b2@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260712165610.366474-1-timday@thelustrecollective.com>
- <20260712165610.366474-2-timday@thelustrecollective.com> <alT2yHlfzhTZ9n4T@mit.edu>
- <20260713164417.350710-1-timday@thelustrecollective.com> <CANpmjNMfQT6Z9ke4x49sp6z8+pt_5ZLUoSh0da-99bwos5-8Lw@mail.gmail.com>
- <CANpmjNM5CmQc_YG_5=zhdLCr7gGL3QYPcd4R4=m2NzwNY03d3Q@mail.gmail.com>
- <20260714211246.1046948-1-timday@thelustrecollective.com> <CANpmjNNU_GiRW6y24hvbUsXze+jf+9ptx8_Acq1Y=mvPSr=wFg@mail.gmail.com>
- <CANpmjNMgH3sX-RoOjo4Vo2Dqx7=3rov1Mz02u+vKt4WkNuSg3g@mail.gmail.com> <20260715162742.280285-1-timday@thelustrecollective.com>
-In-Reply-To: <20260715162742.280285-1-timday@thelustrecollective.com>
-From: Marco Elver <elver@google.com>
-Date: Wed, 15 Jul 2026 23:05:24 +0200
-X-Gm-Features: AUfX_myRuHlqL0Vte2HOV7aqxou86jIYi-LrBKmgVTBcKZQHoVH6q4rRg3tFW9w
-Message-ID: <CANpmjNPR0kEjBZHkODU-fwjQkue68Xbs890qHnVrZLiDp18Arw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/9] ext2: fix ext2_xattr_delete_inode() context
- analysis warning
-To: Timothy Day <timday@thelustrecollective.com>
-Cc: Theodore Tso <tytso@mit.edu>, linux-ext4@vger.kernel.org, Jan Kara <jack@suse.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Alexander Potapenko <glider@google.com>, Kees Cook <kees@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3251bb16-be46-f752-a6ff-a6c3181f49b2@huawei.com>
 
-On Wed, 15 Jul 2026 at 18:30, Timothy Day
-<timday@thelustrecollective.com> wrote:
-> On Wed, 15 Jul 2026 00:52:07 +0200, Marco Elver wrote:
-> > My Clang PR was merged. Can you rebase and send your Clang fix and add
-> > me as a reviewer? Please add a more elaborate commit description,
-> > because it's a little more intrusive and the problem and your solution
-> > is less obvious.
->
-> I submitted https://github.com/llvm/llvm-project/pull/209796. I tagged
-> you in a comment, since I can't add you as a reviewer myself.
+On Wed, Jul 15, 2026 at 11:19:59AM +0800, Miaohe Lin wrote:
+> > Since we don't have a refcount on the folio, it can be freed at any
+> > time, and the hwpoison list head can be reused for literally anything.
+> 
+> Sorry for late but could we hold hugetlb_lock here so hugetlb folio won't be freed
+> after we fetch the lock? We can recheck that the folio is still hugetlb and hwpoisoned
+> once we've got the hugetlb_lock.
 
-Thanks.
+Hm, but we still take the mf_mutex in is_raw_hwpoison_page_in_hugepage(),
+and we don't usually like to sleep in predicates like this.
 
-> While I work on getting the LLVM change landed, I might try adding some
-> annotations to other drivers. I have a series for infiniband/hw/efa/.
-> And I've been working on Lustre as well, since I want it to enforce
-> context analysis on it once it's accepted upstream.
->
-> Is there a roadmap for future Clang static checks?
-
-There are some ideas around Clang's lifetimebound (+cc Alex looking
-into it) being used in the kernel.
-
-> Other ideas for
-> using context analysis? I'm really interested in using Clang to
-> improve the correctness of kernel code and I'd like to help get this
-> adopted more widely.
-
-As for context analysis, there is still lots to do - mainly, enabling
-more subsystems to use it (which is more incremental vs. the initial
-infrastructure chunk). For context analysis infrastructure, one thing
-on my list is to enable more context lock types, esp. adding support
-for preempt locking (preempt_disable()/preempt_enable()), and IRQ
-locking (disable/enable IRQ and all its variants). Preempt locking and
-IRQ support is likely a relatively big chunk, and I just haven't had
-time to get to it yet (I'm busy with heap partitioning in user space
-and kernel right now). If you are interested in this, please email me
-separately so we can try to coordinate.
-
-Thanks,
--- Marco
+We could introduce a spinlock to protect the raw_hwp_page list.  Any
+objection to that?
