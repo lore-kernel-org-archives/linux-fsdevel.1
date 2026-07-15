@@ -1,104 +1,176 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9CE448A2A8;
-	Wed, 15 Jul 2026 15:43:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA1E2F83A2
+	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Jul 2026 15:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784130198; cv=none; b=pzdVc0jMdzVgKY0a6QOXsi42/HgC7OvJq7e43rEg/A3wjOEI++jC9o/TUK+lsSVzThhyOCChUXAiwB0vuQnMgtno3h9wJIgmBPfgxaFcXHgeq2VFJ0YHeJBXMMLLOkMxkKGtUWxDiDBMvGjJqqqfCkjcnDrkNsMZp5gbBnSAXRo=
+	t=1784130709; cv=none; b=VGhxo4m1MiNv69kb8HrxCwWMyEZ+d2VACDQWYDiQyokW2RWIMd3eBZmuY6EjadeaNI5G54audW12FzcE3xZo3jwXGdN8yCmLgDgsAyFxPGKtA5Vvlm4873Qn8fr4B8Bm25ZohBmPCSWsfh/ej6n2kUy9u6I2Bo44dFUJRrTyGJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784130198; c=relaxed/simple;
-	bh=KTpI4ajP7tZ+58EKrEwmElnfiNgrQmJpX5w9lLsnbVQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Qrho1c77FYVpFEyQKUS5U2UkfroSNkqCfucvgjtMsJuwe8MQ93SzTgj0h2UuX3RRAZCFogGlWbvBI5mzjX86MvGtnsVuRdn6kW7fr6zonA8Uo5H3mG9kFb2UC2CzglgbNeYfaDpH4JWESj/y/0ZKx+OzIacHTsBUtWNfEvSC0R0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=X+7QU0Mh; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1784130709; c=relaxed/simple;
+	bh=LtaH8aaxtBogs32e3wjB7vQiwT321mHwyaAwWFLSBN8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yp6Ytlp7EIyuXGYDQi4MEbLa26H7MX0V0XCBJ5ZY+Zmv4qk45KvrovRTRTq1WLULbqRUWxBVnjQ30uqHaAT4xjD+be4qSmrcGFXt8WtJ4/W1O1pSwwK05VYRbP/ItZgXdwDNsIY9WzaFCgygW1fRjmg8a3AuNycaoZoUGXw0FII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=A3UfDlnX; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=SCypIxmZ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=A3UfDlnX; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=SCypIxmZ; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="X+7QU0Mh"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Date:Subject:Cc:To:From:From:Reply-To;
-	bh=h91dzcGBqh6bO1sKLAZB47WCpn3nyQhlpwOzbbUz0dc=; b=X+7QU0MhROV6xa8PpxNNybvUWY
-	ywGBvxFFqkdz2oju4tkDDiKWZeo/aYqZLHaOBSTScig3nU6rjrQAySJ0160moz+jsZKdrMukX+4z3
-	tOr6TRzZh6V0hFtGSM6CDTVtHuuYpXAUk5y1gaVaS41Ls03LPRIzJUcwf3Si6I628xsqm3LFe51h9
-	0l01KORgxIl5vOdCsk0EGF/85xZwyiy9uiw95m7UZ5Bf57X61O2e+++SMqQfvL870EXXPiysWxUbH
-	efwSGQMPhryXSmEXIcjpbCUP1bvabH+Z1Mc6h3OZhYSE6nIm5Xin14qRlZStlzFNE6fF+ibGtJ131
-	+/7LJfxA==;
-Received: from bl21-120-122.dsl.telepac.pt ([2.82.120.122] helo=localhost)
-	by fanzine2.igalia.com with utf8esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wk1lG-00FWvx-5b; Wed, 15 Jul 2026 17:43:02 +0200
-From: Luis Henriques <luis@igalia.com>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>,  Miklos Szeredi
- <miklos@szeredi.hu>,  linux-fsdevel@vger.kernel.org,
-  fuse-devel@lists.linux.dev,  stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] fs: preserve ACL_DONT_CACHE state in
- forget_cached_acl()
-In-Reply-To: <20260713220932.413004-2-amir73il@gmail.com> (Amir Goldstein's
-	message of "Tue, 14 Jul 2026 00:09:31 +0200")
-References: <20260713220932.413004-1-amir73il@gmail.com>
-	<20260713220932.413004-2-amir73il@gmail.com>
-Date: Wed, 15 Jul 2026 16:43:28 +0100
-Message-ID: <871pd445sv.fsf@wotan.olymp>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="A3UfDlnX";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="SCypIxmZ";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="A3UfDlnX";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="SCypIxmZ"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 923BC3E2A;
+	Wed, 15 Jul 2026 15:51:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1784130705; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EHL6hMn4ad73wofazcDZIZ5mmujzlvQ21vTZwQoS5Pg=;
+	b=A3UfDlnXAmjdCC/NeSFhqujZYCm0BmMUhIn6TlK5kwuSWbRe0PjNXdKyvfI+GTR2f4ZPs1
+	7NaQ3uwktFsG0XXOsQ6o/eNU90tiLOjfUk7pjFnYLoig+yk73V0hB2CsvOl3+yeQT/9yYc
+	8MUEOvTVvDMeptaQDE7vcngDnShCYDs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1784130705;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EHL6hMn4ad73wofazcDZIZ5mmujzlvQ21vTZwQoS5Pg=;
+	b=SCypIxmZ0L+EZxhxTN9Bj+EOZnEZepsoAbg7qU2mZ1RC6b8mYEXEIJytC7M6Zbe4jLgiIe
+	91gYrrrNXq/Y7sBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1784130705; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EHL6hMn4ad73wofazcDZIZ5mmujzlvQ21vTZwQoS5Pg=;
+	b=A3UfDlnXAmjdCC/NeSFhqujZYCm0BmMUhIn6TlK5kwuSWbRe0PjNXdKyvfI+GTR2f4ZPs1
+	7NaQ3uwktFsG0XXOsQ6o/eNU90tiLOjfUk7pjFnYLoig+yk73V0hB2CsvOl3+yeQT/9yYc
+	8MUEOvTVvDMeptaQDE7vcngDnShCYDs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1784130705;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EHL6hMn4ad73wofazcDZIZ5mmujzlvQ21vTZwQoS5Pg=;
+	b=SCypIxmZ0L+EZxhxTN9Bj+EOZnEZepsoAbg7qU2mZ1RC6b8mYEXEIJytC7M6Zbe4jLgiIe
+	91gYrrrNXq/Y7sBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8933E779AD;
+	Wed, 15 Jul 2026 15:51:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 61N6IZGsV2qvJAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 15 Jul 2026 15:51:45 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 0E040A084D; Wed, 15 Jul 2026 17:51:45 +0200 (CEST)
+Date: Wed, 15 Jul 2026 17:51:45 +0200
+From: Jan Kara <jack@suse.cz>
+To: Ze Tan <tanze@kylinos.cn>
+Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] namei: Use READ_ONCE() for d_flags in
+ __follow_mount_rcu()
+Message-ID: <76kfuey4pj2af3zwzbo7a3i63ooxhvzpc5q6k3iyl7mhhfszsa@6vhknryplnto>
+References: <20260715125102.1051791-1-tanze@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260715125102.1051791-1-tanze@kylinos.cn>
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_COUNT_THREE(0.00)[3];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
 
-On Tue, Jul 14 2026, Amir Goldstein wrote:
+On Wed 15-07-26 20:50:57, Ze Tan wrote:
+> __follow_mount_rcu() reads dentry->d_flags without holding d_lock.
+> 
+> Use READ_ONCE() for these reads to make the lockless access clear.
+> 
+> Signed-off-by: Ze Tan <tanze@kylinos.cn>
 
-> The ACL_DONT_CACHE state is meant to be a constant state for the inode
-> for filesystems that want to opt out of posix acl caching.
->
-> Commit facd61053cff1 ("fuse: fixes after adapting to new posix acl api")
-> used this facility to opt out of posix acl caching for fuse inodes with
-> fuse server that does not negotiate FUSE_POSIX_ACL (fc->posix_acl).
->
-> The commit also takes care to gate the forget_all_cached_acls() call in
-> fuse_set_acl() on fc->posix_acl because there is no need for it, but
-> there are other placed in fuse code which call forget_all_cached_acls()
-> unconditional to fc->posix_acl and those cause the loss of the
-> ACL_DONT_CACHE state.
->
-> This is not only a functional bug. Properly timed, a get_acl() from this
-> fuse filesystem can return a stale cached value, as was observed in
-> tests, because set_acl() does not invalidate the unintentional acl
-> cache.
->
-> We could fix this in fuse, but it actually makes no sense for the vfs
-> helper forget_cached_acl() to invalidate the ACL_DONT_CACHE state, so
-> let it not do that to fix fuse and future users of ACL_DONT_CACHE.
->
-> Fixes: facd61053cff1 ("fuse: fixes after adapting to new posix acl api")
-> Cc: stable@vger.kernel.org Signed-off-by: Amir Goldstein
-> <amir73il@gmail.com>
+Hum, so we are somewhat sloppy with the access to d_flags. Strictly
+speaking we should be using WRITE_ONCE when updating them (and we do in
+some places but not in others) and READ_ONCE when accessing them. OTOH the
+only practical problem is KCSAN complaining, the problems that the compiler
+could somehow tear stores to the d_flags are IMHO theoretical.
+
+Having two accesses without READ_ONCE more or less doesn't really matter in
+my opinion. Cleaning up all the d_flags accesses would make some sense but
+I'm not sure it's worth the churn for mostly theoretical issues (I believe
+Al or Christian was against it if my memory serves well).
+
+								Honza
+
 > ---
->  fs/posix_acl.c | 7 +++++++ 1 file changed, 7 insertions(+)
->
-> diff --git a/fs/posix_acl.c b/fs/posix_acl.c index
-> b4bfe4ddf64ea..3dc62c1c27087 100644 --- a/fs/posix_acl.c +++
-> b/fs/posix_acl.c @@ -93,6 +93,13 @@ static void
-> __forget_cached_acl(struct posix_acl **p)
+>  fs/namei.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/fs/namei.c b/fs/namei.c
+> index 19ce43c9a6e6..cc8e8d961d7e 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -1687,7 +1687,7 @@ EXPORT_SYMBOL(follow_down);
+>  static bool __follow_mount_rcu(struct nameidata *nd, struct path *path)
 >  {
->  	struct posix_acl *old;
->=20=20
-> + /* + * ACL_DONT_CACHE is expected to be a "const" value and xchg it
-> with + * ACL_NOT_CACHED would enable acl caching for the inode - + *
-> clearly not what the caller has intended.  + */ + if (READ_ONCE(*p) =3D=3D
-> ACL_DONT_CACHE) + return;
->  	old =3D xchg(p, ACL_NOT_CACHED); if (!is_uncached_acl(old))
->  		posix_acl_release(old);
-
-Nice catch!  FWIW feel free to add my
-
-Reviewed-by: Luis Henriques <luis@igalia.com>
-
-Cheers,
---=20
-Lu=C3=ADs
+>  	struct dentry *dentry = path->dentry;
+> -	unsigned int flags = dentry->d_flags;
+> +	unsigned int flags = READ_ONCE(dentry->d_flags);
+>  
+>  	if (unlikely(nd->flags & LOOKUP_NO_XDEV))
+>  		return false;
+> @@ -1701,7 +1701,7 @@ static bool __follow_mount_rcu(struct nameidata *nd, struct path *path)
+>  			int res = dentry->d_op->d_manage(path, true);
+>  			if (res)
+>  				return res == -EISDIR;
+> -			flags = dentry->d_flags;
+> +			flags = READ_ONCE(dentry->d_flags);
+>  		}
+>  
+>  		if (flags & DCACHE_MOUNTED) {
+> @@ -1711,7 +1711,7 @@ static bool __follow_mount_rcu(struct nameidata *nd, struct path *path)
+>  				dentry = path->dentry = mounted->mnt.mnt_root;
+>  				nd->state |= ND_JUMPED;
+>  				nd->next_seq = read_seqcount_begin(&dentry->d_seq);
+> -				flags = dentry->d_flags;
+> +				flags = READ_ONCE(dentry->d_flags);
+>  				// makes sure that non-RCU pathwalk could reach
+>  				// this state.
+>  				if (read_seqretry(&mount_lock, nd->m_seq))
+> -- 
+> 2.43.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
