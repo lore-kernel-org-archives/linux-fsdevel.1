@@ -1,228 +1,125 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B199E344D91
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Jul 2026 21:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CACDC3921E6;
+	Wed, 15 Jul 2026 22:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784151805; cv=none; b=RQczbEqqUbukvM5GGoWxrWd7gTV8VBDDHCKlj4eo02fYrMGlR92reRI+TBgbwxtZbKcFrWSi7qNOqTK+PY/3W8bX2iRy45YSmvq+5VXEidS0D7c1EFu/rQEz98INwv/KR0BMsGrGNiL27tD2HxYKWbAyJp3BZxjLNHQcx2AtuMo=
+	t=1784153269; cv=none; b=dqWd204rQpf91P0iTCVsJ6UrS50lea1VoqFIIuBDx+qrCblbLhbXXFiOwzBXLTRKMKuWor8ZLotinsc3Gw80tPGZdFKDbpSiqH5dejauTFhh9JFgx1HCVx6/gjNLM7ONw6M0MCsr1ynSJ/fJcM07s7bRjFH48d8411p3S3unwfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784151805; c=relaxed/simple;
-	bh=7u57Gczzlmsak8YtA1QwE3bILuFCgA1G6AheEvWUReY=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=BhZQoiRbOkXCU4nB6YguCA73UOKyTpcnmNG/jh5YB/ghimfOJOCUcvNu9oP4rkWXbEGkEi6rRLrr0PEIeQVvSOcylWwwdvcpgiWUiP8f91ak4CxAt5e4mjpO1Cf0AKCvdWpR8oi0OFTZkHVFSOM568wZPh0lRkEyVrUb88gxP1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=uwkY1MD8; arc=none smtp.client-ip=195.121.94.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1784153269; c=relaxed/simple;
+	bh=QLGENVF/eZztDHEK4iKUim8VCkdPcKMl/dwC08OKrxY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WrYtWdPTHrRhMOC1HQ7sDXzgzdNIyYa8nA7ppbGISA3KfygVl7nt0yoBtjxcFMUWTL6GcBM+hxmCdH5d+JYD8j3+G2LBQht5Xr/gzkQGoxLyzCO9hB7SjBN89p65AXI6YovcnTXTh9XstzNOqTLeyLNflYy+xqs36sgqS0F1diI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=lQXqV2Pz; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=HLeNT+Co; arc=none smtp.client-ip=202.12.124.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="uwkY1MD8"
-X-KPN-MessageId: 322eda85-8096-11f1-8f54-005056992ed3
-Received: from mta.kpnmail.nl (unknown [10.31.161.188])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 322eda85-8096-11f1-8f54-005056992ed3;
-	Wed, 15 Jul 2026 23:43:20 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 322dd654-8096-11f1-9b0c-00505699693e;
-	Wed, 15 Jul 2026 23:43:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=UBEx3/dTZVYIeyYLMEeHLArKqDvp66UAcZ3kOJGs2Ng=;
-	b=uwkY1MD8ZDOOGNL87VSdLVYff9QmUwbGH+aLjuWinX2I7LfF2Z0aA+ESjKTwsbx4qgK9TwAkH26JA
-	 ZHvhlR6C2+PQ+ObCfLuVlG2538abonlwSRKWryX+RTUGFvlc99Zcp0Yt/rut3jLueBeSkts3eghmLr
-	 YFk1yRyzO1d7JDUTPcHq4rFcVfk2d0R13fQgyhb6wlswFmUCmWvVgDRTJLGb5sP2DOuPQGToUAiazT
-	 8qgZAN9Ewnp/sbpADEWnLe37YI3TndJeKeGctxGuxhTlK9oubrqZsjU9A3mlZu4dBaxmj86qLV0ImW
-	 6Bj8BdM3GLOG3jCSOyINfu0cxaZJ22A==
-X-KPN-MID: 33|Gym1H851Eb4Ko2O71k0Pg0YisVLyawvqAm22s+tgQq3GVbyKH9O7ZZhhQTGbIlo
- G3YeYdSv3iDjLlSDcvqPGIUw/yOhljVpdJKnpTIZtEUQ=
-X-CMASSUN: 33|y+ypWrPvWd/5hAFI9rJ52XeABvadprY0ldpGRMZHcrA70yxqgQRl7/m9f0NUvAN
- yqgs5IK5BLx/7de1ZivuWyQ==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh08 (cpxoxapps-mh08.personalcloud.so.kpn.org [10.128.135.214])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 3222e6a7-8096-11f1-916a-005056995d6c;
-	Wed, 15 Jul 2026 23:43:20 +0200 (CEST)
-Date: Wed, 15 Jul 2026 23:43:19 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: NeilBrown <neil@brown.name>, NeilBrown <neilb@ownmail.net>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
-Message-ID: <21817263.1168614.1784151799976@kpc.webmail.kpnmail.nl>
-In-Reply-To: <20260714230534.776886-4-neilb@ownmail.net>
-References: <20260714230534.776886-1-neilb@ownmail.net>
- <20260714230534.776886-4-neilb@ownmail.net>
-Subject: Re: [PATCH v4 3/3] VFS: add vfs_lookup_open() for nfsd
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="lQXqV2Pz";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="HLeNT+Co"
+Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
+	by mailfout.stl.internal (Postfix) with ESMTP id F2B571D000BC;
+	Wed, 15 Jul 2026 18:07:46 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-11.internal (MEProxy); Wed, 15 Jul 2026 18:07:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1784153266;
+	 x=1784239666; bh=rfbd4CBlREu1XZrK+uIN64Z5ylUjpV3mMumvVJN2ijY=; b=
+	lQXqV2Pz/U/NrhqEeZv/ZdJH45ZKZFC/63yYyoBZiYEJbyG9VH+NVL/c5LHY58Qs
+	qjNri3FBVdppSrAXwUm0AWLX+ZdoVWUDJJKNS0RpoC1SpEdZEWFznwsx99MbFwlH
+	euCWq9IjenKOuDYYzPAd5cAPlfZdFvOHfLZKVlNlu+V1+fRiuMNkDBMwtspjFwxS
+	AfYnxqHmOWijqI4v2rgWXZbQ9Bp7DjSzC7CRGDtdpT7aMSxtypnFulrGbmuajjEP
+	k3wBsdpfvVTbtAFcqASjjFso5wePBAWfbXWHYvSqYe2WUG9czt7lgDJFVGAv6uu3
+	2Q4MRRA/aCkcsRWJkRg8Ew==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1784153266; x=
+	1784239666; bh=rfbd4CBlREu1XZrK+uIN64Z5ylUjpV3mMumvVJN2ijY=; b=H
+	LeNT+CoxV+RLjgGO99zQ34amsoGB5gZxsyKxBHs8vr1i2NL4wWIJ2fKvQy+eAwww
+	NrzYNF9SNuZrjeNENRJcnyD4xunHUBsgK0mDxCdrZ06Tz5ssOEBRn9Nq71oZuw+C
+	IWL183kOBeCX/eCV8gAcmA/A+pFShJbfYUR4iZCEe98xtUv2nn4lUzsj9lsO2U+1
+	vgbrKz71zE+eZVn+62Yl3aYGekTyu9OjXCHtc+xNhebD3KEMk/JPFYLQzdG/1Z3k
+	AS32Us/Q05RzEwXZqHtPXJqoZ5X5WNJiAnwfMpM+9FV5e+LUh1zvaTva7L1ZM8bt
+	yXBJ3D7hMCviM6hy9/yxg==
+X-ME-Sender: <xms:sgRYaqi3MgWi-TsDx3jKLLP9grFwo-mKptHz3XqR-3TaT1-EvBIAhw>
+    <xme:sgRYalGCxhgT05gDLfMT1g4g0kCB6-yJcnn8YEIXoIE9VAGX5q7jft3Vg0OV61dFh
+    Yd_OBkiEaJh9MJsV5s91BT4krRWSj3wa1EgaCTp8AcgVbBaM0qT>
+X-ME-Received: <xmr:sgRYah-eILqdF72kJy3PQfcvdDchcjD90fhf_Xu8erzpEnOjeVm3h9oZpCIOKmdzUyhrBbpawzV2V_c5TXRro2k1KeI_ZZmTzH9uyGpeTyM26ei-Ab-2c0efTlTrRwY6pFrwE6eWVKMvUq0tOF4iUqp1Mg>
+X-ME-Proxy-Cause: dmFkZTGLtYiKMwKMi7WNCTmQ48wGGLmlDn0qTiktf1rmbkgXjJPXUSSkLywUNzPeiGoWQa
+    H4PhyF4lnbLj+7icllVuPlcZEmAAXVd17yFqE0RmN+q9/IgftL2JvdnWUrXN/qwFlLdf2p
+    Ewr+xVVTcEdDAzJBvbwLnpzIFBtCRDipeXUqksEF0MLwHsjeLkgFotGxo5zy8l8HKwCAHo
+    jijBoZaz+s/6iCoxSEBKkmuwAwjaJiqcq5H8yOzCFNgd+dGgxnD2O2BVgkdsk/n1sog0x8
+    DBC2Wa1Kv1LzUI3WxtWHzbDxNcuwdDtsVuBRxuuTjWJBBSradnsI42rAcyMvNqkHPftVbl
+    L6S5sulYc3U84fmN59dmrEpDQ31XZQdtEgWT6rQXx5W5xU3S55JxKNAYDBGtNzEkeb/6/u
+    Di2XNfvEXBHcjxOKhksWKG3KYEcZ4180rxyUU+Fn/QT3S9+QfA7iD7TP501bV/ki72L72b
+    Q0Ps4683q/2nLeOzlr01MtlLgVXii24LA6ypP4vFWeXB405bot/3KqE11FWw6c80wC15EK
+    oe6pPbFk1R1Q3WtsiGrxFWM/SWcxuLFZBGTCpC+ioKSAmJpvu6M3Pebb3xaf768bzEnmuV
+    mLFADLIgM5Oxy9kEP3QKHioPy/iEwwMLtZ7M0XogwQKKV6zlr9B7sZaqGPBQ
+X-ME-Proxy: <xmx:sgRYakwo8MJXhCcmniYQvYI-jqID3cE_pvBH6mM9INCXim5KGfapXg>
+    <xmx:sgRYalMuEmbizQKfaCYGxetbNseatZ66mtU08McrhIyt7dIa4Asm4Q>
+    <xmx:sgRYah9pye5xnP_fwsk0gNDwVfd-JeXiG4QeS2CkU23vHoppMbi4Yg>
+    <xmx:sgRYaq4qBpMyCwDfgyEnOtY8ELN5L20ZMvUpe_Q2Jz-uS3g3t56N2w>
+    <xmx:sgRYasilsDucOrHrPIzZ3QtROQ6d55lcTomO2ud0NV5a0lUdTE18aWes>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 15 Jul 2026 18:07:44 -0400 (EDT)
+Message-ID: <1eda9765-67ed-44a3-8127-eba4254502b2@bsbernd.com>
+Date: Thu, 16 Jul 2026 00:07:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fuse: select alternative io_uring queue if local queue is
+ full
+To: Joanne Koong <joannelkoong@gmail.com>, Li Wang <liwang@kylinos.cn>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Jinxu Du <dujinxiu@kylinos.cn>
+References: <20260714073230.4324-1-liwang@kylinos.cn>
+ <CAJnrk1ZGVFJykTmtLr2jbxtvrJqq1P+-T3LgHsyrUQPj5wFxLQ@mail.gmail.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <CAJnrk1ZGVFJykTmtLr2jbxtvrJqq1P+-T3LgHsyrUQPj5wFxLQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Transfer-Encoding: 8bit
 
 
-> Op 15-07-2026 01:04 CEST schreef NeilBrown <neilb@ownmail.net>:
-> 
->  
-> From: NeilBrown <neil@brown.name>
-> 
-> vfs_lookup_open() is a limited version of lookup_open() which is
-> exported for nfsd to use - to replace dentry_create().
-> 
-> It is limited in that no filename is given (thus no auditing) and no
-> LOOKUP_ flags are passed.  A few "intent" LOOKUP flags are deduced from
-> the open flags.
-> 
-> If a non-regular file is found and appropriate error is returned and no
-> file is opened.
-> 
-> Signed-off-by: NeilBrown <neil@brown.name>
-> ---
->  fs/namei.c            | 96 +++++++++++++++++++++++++++++++++++++++++++
->  include/linux/namei.h |  3 ++
->  2 files changed, 99 insertions(+)
-> 
-> diff --git a/fs/namei.c b/fs/namei.c
-> index cb33a01d16eb..630f93608224 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -4562,6 +4562,102 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
->  	goto out;
->  }
->  
-> +/**
-> + * vfs_lookup_open - open and possibly create a regular file
-> + * @parent: directory to contain file
-> + * @last: final component of file name
-> + * @open_flag: O_flags
-> + * @mode: initial permissions for file
-> + *
-> + * Open a file after lookup and/or create.  This provides similar
-> + * functionality open_last_lookups() for non-VFS users, particularly
-> + * nfsd.
-> + * It uses ->atomic_open or ->lookup / ->create / ->open as appropriate.
-> + *
-> + * If the fs object found is not a regular file then an error is returned.
-> + * In some cases, related errors are repurposed so that the caller can
-> + * determine the type of file found from the error.
-> + * -EISDIR : a directory was found
-> + * -ELOOP  : a symlink was found
-> + * -ENODEV : a block or character device special file was found
-> + * -EFTYPE : any other non-regular file was found, such as FIFO or SOCK.
-> + *           or ->atomic_open responded to __O_REGULAR.
-> + *
-> + * Returns: the opened struct file, or an error.
-> + */
-> +struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
-> +			     int open_flag, umode_t mode)
-> +{
-> +	struct file *file __free(fput) = NULL;
-> +	struct nameidata nd = {};
-> +	struct open_flags op = {};
-> +	struct dentry *dentry;
-> +	int error = 0;
-> +
-> +	WARN_ONCE(mode & ~S_IALLUGO, "mode must only have permission bits");
-> +	WARN_ONCE(open_flag & ~(O_ACCMODE|O_CREAT|O_EXCL|O_TRUNC|__O_REGULAR),
-> +		  "open_flag has unsupported flags");
-> +
-> +	mode |= S_IFREG;
-> +	open_flag |= __O_REGULAR;
-> +
-> +	error = lookup_noperm_common(last, parent->dentry);
-> +	if (error)
-> +		return ERR_PTR(error);
-> +
-> +	file = alloc_empty_file(open_flag, current_cred());
-> +	if (IS_ERR(file))
-> +		return file;
-> +
-> +	nd.path = *parent;
-> +	nd.last = *last;
-> +	nd.flags = LOOKUP_OPEN;
-> +	if (open_flag & O_CREAT) {
-> +		nd.flags |= LOOKUP_CREATE;
-> +		if (open_flag & O_EXCL)
-> +			nd.flags |= LOOKUP_EXCL;
-> +	}
-> +	op.open_flag = open_flag;
-> +	op.mode = mode;
-> +	dentry = lookup_open(&nd, file, &op);
-> +
-> +	if (IS_ERR(dentry))
-> +		return ERR_CAST(dentry);
-> +
-> +	if (d_really_is_negative(dentry)) {
-> +		error = -ENOENT;
-> +	} else if (!(file->f_mode & FMODE_CREATED) && (open_flag & O_EXCL)) {
-> +		error = -EEXIST;
-> +	} else if ((dentry->d_inode->i_mode & S_IFMT) != S_IFREG) {
-> +		switch (dentry->d_inode->i_mode & S_IFMT) {
-> +		case S_IFDIR:
-> +			error = -EISDIR;
-> +			break;
-> +		case S_IFLNK:
-> +			error = -ELOOP;
-> +			break;
-> +		case S_IFBLK:
-> +		case S_IFCHR:
-> +			error = -ENODEV;
-> +			break;
-> +		case S_IFIFO:
-> +		case S_IFSOCK:
-> +		default:
-> +			error = -EFTYPE;
-> +			break;
-> +		}
-> +	} else if (!(file->f_mode & FMODE_OPENED)) {
-> +		nd.path.dentry = dentry;
-> +		error = vfs_open(&nd.path, file);
-> +	}
-> +	dput(dentry);
-> +
-> +	if (error)
-> +		return ERR_PTR(error);
-> +	return no_free_ptr(file);
-> +}
-> +EXPORT_SYMBOL_FOR_MODULES(vfs_lookup_open, "nfsd");
-> +
->  static inline bool trailing_slashes(struct nameidata *nd)
->  {
->  	return (bool)nd->last.name[nd->last.len];
-> diff --git a/include/linux/namei.h b/include/linux/namei.h
-> index ebe6e29f7e93..86d657b24fc6 100644
-> --- a/include/linux/namei.h
-> +++ b/include/linux/namei.h
-> @@ -97,6 +97,9 @@ struct dentry *start_creating_dentry(struct dentry *parent,
->  struct dentry *start_removing_dentry(struct dentry *parent,
->  				     struct dentry *child);
->  
-> +struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
-> +			     int open_flag, umode_t mode);
-> +
->  /* end_creating - finish action started with start_creating
->   * @child: dentry returned by start_creating() or vfs_mkdir()
->   *
-> -- 
-> 2.50.0.107.gf914562f5916.dirty
 
-So I am not really familiar with the nsfd backend where this function will be put
-to use, but I imagine you need the fileserver to mirror operations on the client.
-And since from within the kernel we don't do syscalls, we need this function to
-mimic the client syscall path and call into the actual underlying fs. Is that
-more-or-less correct?
+On 7/15/26 19:51, Joanne Koong wrote:
+> On Tue, Jul 14, 2026 at 12:33 AM Li Wang <liwang@kylinos.cn> wrote:
+>>
+>> fuse_uring_task_to_queue() always maps requests to the queue for
+>> task_cpu(current). A single-threaded submitter with high queue depth
+>> could leave other per-CPU queues idle while one queue handles all
+>> traffic.
+>>
+>> Prefer the local queue when it has available ring entries. If the local
+>> queue is full, try other queues on the same NUMA node before falling
+>> back to use the local queue.
+> 
+> Hi Li,
+> 
+> I think this is already covered by Bernd's changes in his reduced
+> queues patchset [1].
+> 
+> Thanks,
+> Joanne
+> 
+> [1] https://lore.kernel.org/fuse-devel/20260529-reduced-nr-ring-queues_3-v5-0-1dc08c2fccf6@bsbernd.com/
 
-So then the rights checking happens on the properly authenticated client-end? Or
-does nsfd have another mechanism for that?
+It is a slightly different approach, but both have the same goal
+to get more balanced queue/core usage.
 
-I just want to ensure that using this function cannot bypass the sticky directory
-semantics, as that now is the task of do_open(), which this skips of course.
-If that is OK, this function LGTM :)
+I will submit a new version once I'm back from vacation.
 
-Best,
-Jori.
+
+Thanks,
+Bernd
