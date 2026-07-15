@@ -1,256 +1,245 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3590370D6E
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Jul 2026 10:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36F83ED5B3
+	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Jul 2026 10:35:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784111527; cv=none; b=MWmx8bjPAU1777+f1BJ7kPjvSDfrnTboMVJyQ82scJD5rxH458Uvj0wjW8mOwuSMcRodmWroO4iV6R9rIg4/hr3lrvZlrBhQRai5zUW2+e9n0EyzKnuHWZEjMLJKPQQ/qGerIGIssydib2Osw+P2EivVoML71tZ2IQEe0iWmryE=
+	t=1784111740; cv=none; b=Ui/wAs0C8uDbTackJXwOqSVvYkzGljKU3VORn448u8h06HBRZ1htUf17wIlwEpGoUFp/hs0q54qQN/Ytjhe/VojJAfvqzjl2w2HdlMV7uZWXeroxiUmmYvHyJwpw9FzRATiQKg+JmvHQPXhCjyx0OBr57g+/YVaEzylqvy99ODE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784111527; c=relaxed/simple;
-	bh=fMhvh+sDkJXZAH2+uvDQf4kpujZF50DvLIyACmmGXXI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WhJhNHXr5lv6iKT7nDZtcCtzI4TKAGbqG60OlVs/MnX+0JB3PPvluhzla7lDIl5z7/na1zrMINhs98L1E4h7Czz7rWN+gMNT3QZy0l+Jpekf5jAwFqSHX5ZgjtSEFSlhB3WwnDltedJi52CiorNu0Pzf1+CdxZ6XwA4LZQpF4rQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=tWZy10/2; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=IsSqAJTH; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=tWZy10/2; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=IsSqAJTH; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1784111740; c=relaxed/simple;
+	bh=SwdezaImxQcMt43h0jRN9TZ6bt6yTKaTU02f07mkxsA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aV40SsjYD8kCCYOA/+iIU7RL1LcZrlvXCufUlU6k5X86u4J+jSWyPaCkfl2M5Ticg1tidZeqxNSXs1qsfrUeVx/65TfdgD/Rc+N7HaTms00gqkUkmrIHR3K1wpgKDnjF8o+Pe9MUsM1zUENajfvgt/07PVX+6E+t4CUTZ4a/TJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lWVjevAk; arc=none smtp.client-ip=91.218.175.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tWZy10/2";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="IsSqAJTH";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tWZy10/2";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="IsSqAJTH"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A412478349;
-	Wed, 15 Jul 2026 10:32:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1784111523; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qu006ZHK9+9+5I7DV7PhNj40UE38tqtHLTPGsQ5G4UM=;
-	b=tWZy10/2or0rb61GJPIdi7qTD4TYuswptY5xX3Cb3Gpq7uJ9azhk4RfkaomKGjzJlWh+Ql
-	rNLplxuEf88mEQzV+hzOUMQ/z4Rm6Kw2y890x58faqqymi4BoMu4zIcVrzESCIQcjcIcjO
-	DE8//TAUD0emAUd4OHk9UnShif6toe8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1784111523;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qu006ZHK9+9+5I7DV7PhNj40UE38tqtHLTPGsQ5G4UM=;
-	b=IsSqAJTHDYay0cs6zmM+kbCdj3BDRed9nbuiBiRlHil+qA/Fqef+oi7ZRcGXPpBY8sAiV0
-	oPDRMYn9Yul7IoDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1784111523; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qu006ZHK9+9+5I7DV7PhNj40UE38tqtHLTPGsQ5G4UM=;
-	b=tWZy10/2or0rb61GJPIdi7qTD4TYuswptY5xX3Cb3Gpq7uJ9azhk4RfkaomKGjzJlWh+Ql
-	rNLplxuEf88mEQzV+hzOUMQ/z4Rm6Kw2y890x58faqqymi4BoMu4zIcVrzESCIQcjcIcjO
-	DE8//TAUD0emAUd4OHk9UnShif6toe8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1784111523;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qu006ZHK9+9+5I7DV7PhNj40UE38tqtHLTPGsQ5G4UM=;
-	b=IsSqAJTHDYay0cs6zmM+kbCdj3BDRed9nbuiBiRlHil+qA/Fqef+oi7ZRcGXPpBY8sAiV0
-	oPDRMYn9Yul7IoDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 993E6779AD;
-	Wed, 15 Jul 2026 10:32:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id os9mJaNhV2q+XQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 15 Jul 2026 10:32:03 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 467D7A1323; Wed, 15 Jul 2026 12:31:59 +0200 (CEST)
-Date: Wed, 15 Jul 2026 12:31:59 +0200
-From: Jan Kara <jack@suse.cz>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Miklos Szeredi <miklos@szeredi.hu>, 
-	linux-fsdevel@vger.kernel.org, kernel-team@meta.com, fuse-devel <fuse-devel@lists.linux.dev>, 
-	Jingbo Xu <jefflexu@linux.alibaba.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>
-Subject: Re: [PATCH] fuse: disable default bdi strictlimiting
-Message-ID: <ue5xd6f4nfggwodfhbqaispmr5aq2dyszezvy26bl4rtsk6xii@uceqazdioj3o>
-References: <CAJfpegsy2XRR6g1J4Mg0MXPckx3NVprW56XvYhEko0=7PcHiQQ@mail.gmail.com>
- <CAJnrk1bZX44HaXmNMxEeEwhuFHgEjxXLnjKy8a-6T6LFuf+K2A@mail.gmail.com>
- <CAJnrk1aJwdY+fphnhHjAXFwjGqWQgVB+sn2Ce0gReein3H8EWQ@mail.gmail.com>
- <s4kv7qep3jlncs67q72xfhserpd66hpbwzkoppiddc5raufyjd@ksuvlfqcrbk2>
- <CAJnrk1bG6ddP6-dgXpGBRGnCH49oTMPwkJmF--+gefmy+zBo-w@mail.gmail.com>
- <oocwnxqgd4klrem6hkya3sddqoxkosml4ysz23if4j7wj2qdwi@5skgc4ftu7io>
- <CAJnrk1ZU40tRDq0z3yM0+yv=KhiZ-fNjUTO=ccv1tuc0xDx2Vg@mail.gmail.com>
- <4fsrafuhoqgoirlt2sy6vk2ljvb3tdps4hqbcrm5qc2pr6tlaf@tboejm2wdq2s>
- <CAJnrk1b65ypz4bdtd1rTQBYOpOEP+DcoZJUSL87jVDssW1A+pw@mail.gmail.com>
- <nv2h2dd2xoj4zjfvnhsxud2p5e2uw3og22ovqureik4pey72qb@i75tn5ttavfo>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lWVjevAk"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784111726;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0PjHU3TbDnfGWF+iD96TKWS2XZ53YHp9da69Ponf0rw=;
+	b=lWVjevAkYZ064aFltJs8lMrrHhbvW3jfDDXTJNUk7br0vYrO703lDuTQkLrrB6DW2oxclA
+	CDTz4ntBIHKH7+v1OXbDtlB7q9AuF4Y9XDGtBTQ8/JYqvFRDPp3/uFjWpytuv6YlkxJ9HI
+	zsJlgnUW59RhgT+41ErbmMD+ZA0Uy4k=
+From: Usama Arif <usama.arif@linux.dev>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	david@fromorbit.com,
+	dgc@kernel.org,
+	qi.zheng@linux.dev,
+	baolin.wang@linux.alibaba.com,
+	brauner@kernel.org,
+	cgroups@vger.kernel.org,
+	clm@fb.com,
+	dsterba@suse.com,
+	hannes@cmpxchg.org,
+	hughd@google.com,
+	jack@suse.cz,
+	linux-btrfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	mhocko@kernel.org,
+	muchun.song@linux.dev,
+	roman.gushchin@linux.dev,
+	shakeel.butt@linux.dev,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	kernel-team@meta.com
+Cc: Usama Arif <usama.arif@linux.dev>
+Subject: [PATCH v2] fs: push nr_cached_objects memcg gating into individual filesystems
+Date: Wed, 15 Jul 2026 03:35:16 -0700
+Message-ID: <20260715103516.2410175-1-usama.arif@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <nv2h2dd2xoj4zjfvnhsxud2p5e2uw3og22ovqureik4pey72qb@i75tn5ttavfo>
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
+X-Migadu-Flow: FLOW_OUT
 
-[resending once more, this time with correct Shakeel's address]
+Commit 0baad6f9b997 ("fs/super: skip non-memcg-aware nr_cached_objects
+in memcg slab shrink") added a check in fs/super.c that skipped every
+->nr_cached_objects() hook whenever the shrinker was invoked for a
+non-root memcg, on the assumption that none of them honour sc->memcg.
 
-On Tue 14-07-26 18:21:57, Joanne Koong wrote:
-> On Tue, Jul 14, 2026 at 10:10 AM Jan Kara <jack@suse.cz> wrote:
-> > On Mon 13-07-26 18:13:29, Joanne Koong wrote:
-> > > On Sat, May 30, 2026 at 4:04 AM Jan Kara <jack@suse.cz> wrote:
-> > > > On Thu 28-05-26 15:11:18, Joanne Koong wrote:
-> > > > > On Thu, May 28, 2026 at 5:34 AM Jan Kara <jack@suse.cz> wrote:
-> > > > > > > I think this is also going to be a problem for cgroups with large
-> > > > > > > folios since they also, as I understand it, are constrained with a
-> > > > > > > limited / tight dirty budget. I ran some initial benchmarks with
-> > > > > > > cgroup memory constraints on NVMe and saw similar instability (a
-> > > > > > > single writer in a 8 GB cgroup had max write latencies of 6 seconds vs
-> > > > > > > 15 ms without the cgroup, with the balance_dirty_pages() throttling
-> > > > > > > oscillating rather than settling near the set point).
-> > > > > >
-> > > > > > Ok, so this is more folios (819) than my 512 gut feeling estimate :) What
-> > > > > > was the write throughput of the NVMe drive? The high drive throughput also
-> > > > > > requires more dirty data to keep the drive saturated so that writeback
-> > > > > > throughput doesn't oscilate too much.
-> > > > >
-> > > > > The write throughput of the NVMe drive I was using was around ~1.1
-> > > > > Gb/s (measured by running direct I/O). I think with the 1.6GB dirty
-> > > > > budget, the math for that ends up being that the device drains it in
-> > > > > ~1.5 secs. The performance I was seeing with the initial cgroup
-> > > > > benchmarks was with 4k pages (no large folios enabled) on btrfs.
-> > > >
-> > > > OK, you might want to experiment with some other filesystem (I suggest xfs
-> > > > or ext4) as well. Btrfs writeback behavior is a bit special with its data
-> > > > checksum computations etc. and thus latency of starting writeback. It could
-> > > > contribute to the erratic behavior with the relatively low dirty limits.
-> > >
-> > > I reran the benchmarks on xfs and ext4 and saw similiar results. The
-> > > max write latency under the memcg were
-> > > xfs        5.1s
-> > > ext4      5.2 s
-> > > btrfs      6.2 s
-> > >
-> > > compared to the non-memcg case (0.4 to 2.0 ms). This didn't affect
-> > > throughput though, just the tail latency. When I ran xfs with large
-> > > folios disabled, I still saw ~4.1s.
-> >
-> > OK, interesting. Thanks for running these tests! Also it is good to know
-> > this is not really related to large folios, that somewhat simplifies
-> > matters.
-> >
-> > > From the balance_dirty_pages() ftrace tracepoints, the dirty_ratelimit
-> > > value is consistently stable / accurate but it looks like what's
-> > > happening is that during freerun, the writer essentially dirties at
-> > > memcpy speed until the freerun ceiling, and then the soft/proportional
-> > > throttling kicks in but doesn't kick in fast or hard enough, which
-> > > allows the number of dirty pages to exceed the hard limit by ~2x, and
-> > > then at that point the writer is forced into the loop where it sleeps
-> > > max_pause (200ms) each iteration until writeback has drained the
-> > > number of dirty pages back under the limit.
-> >
-> > OK, above you mentioned that the dirty limit for the memcgs is set at
-> > 1.6GB. Does that mean that dirty throttling allows memcg to dirty up to
-> > ~3.2GB of pages? I wouldn't have expected that...
-> 
-> On a couple of the runs, I saw it get as high as up to 5GB.
-> 
-> I think this is because the balance_dirty_pages() code uses the memcg
-> stats (NR_FILE_DIRTY) but these stats are only periodically
-> flushed/refreshed when reading it, so the balance dirty code is
-> seeing/using lagging/non-uptodate values.
-> 
-> I'm seeing this in
->   balance_dirty_pages()
->       balance_domain_limits(mdtc,...)
->           domain_dirty_avail()
->                 mem_cgroup_wb_stats()
->                        mem_cgroup_flush_stats_ratelimited()
-> 
-> where mem_cgroup_flush_stats_ratelimted() has this logic:
-> 
-> void mem_cgroup_flush_stats_ratelimited(struct mem_cgroup *memcg)
-> {
->         /* Only flush if the periodic flusher is one full cycle late */
->         if (time_after64(jiffies_64, READ_ONCE(flush_last_time) + 2*FLUSH_TIME))
->                 mem_cgroup_flush_stats(memcg);
-> }
-> 
-> where FLUSH_TIME is defined as 2UL * HZ, which afaict means the
-> flushing can be around 2 seconds stale (accounting for the periodic
-> flusher in flush_memcg_stats_dwork() that flushes every FLUSH_TIME
-> interval).
-> 
-> From what I see, the freerun and hard limit checks use this stale
-> under-reported value (in domain_dirty_freerun() and
-> wb_position_ratio()), which means the writer gets to keep dirtying and
-> blow past the limit for up to 2 extra seconds before the throttling
-> limits it.
+That assumption is wrong for XFS, whose inode-reclaim hook is
+intentionally driven from per-memcg contexts to free memcg-charged
+slab. Encoding a blanket "never memcg-aware" policy in fs/super.c
+short-circuits that path.
 
-I see. That would indeed explain why we can overrun the dirty limit so
-much.
+Push the check down into the callbacks whose counters really are
+irrelevant to per-memcg reclaim - btrfs_nr_cached_objects() and
+shmem_unused_huge_count() - and drop the fs/super.c gate. Each
+filesystem can now lift the restriction independently if its counter
+later grows memcg awareness, without touching fs/super.c.
 
-> Maybe one idea is to in the memcg throttle path do the flush based on
-> how many pages are getting dirtied instead of on how much time has
-> elapsed? It looks like flushing grabs the rstat lock though, so maybe
-> only doing it in the throttled case where it's past freerun would be
-> best. It looks like the logic in the regular non-ratelimited
-> mem_cgroup_flush_stats() call does something similar. I can run some
-> experiments this week with this if you think it could be promising.
+Introduce mem_cgroup_shrink_is_root() in <linux/memcontrol.h> so the
+callbacks don't open-code "sc->memcg is NULL or root".
 
-Checking some git history, this actually seems to be a relatively recent
-change from Shakeel (added to CC) - d9b3ce8769e3 ("mm: writeback: ratelimit
-stat flush from mem_cgroup_wb_stats"). So you can check whether reverting
-that change makes dirty throttling not overshoot so much.
+Fixes: 0baad6f9b997 ("fs/super: skip non-memcg-aware nr_cached_objects in memcg slab shrink")
+Acked-by: Qi Zheng <qi.zheng@linux.dev>
+Reviewed-by: Jan Kara <jack@suse.cz>
+Reviewed-by: Shakeel Butt <shakeel.butt@linux.dev>
+Signed-off-by: Usama Arif <usama.arif@linux.dev>
+---
+v1 -> v2:
+- Do not gate xfs_fs_nr_cached_objects(); XFS's inode reclaim is
+  intentionally driven from per-memcg contexts to free memcg-charged
+  slab (Dave Chinner).
+- Add mem_cgroup_shrink_is_root() helper in <linux/memcontrol.h> so the
+  filesystem callbacks don't open-code "sc->memcg is NULL or root".
+  (Dave Chinner)
+- Add fixes tag (Dave Chinner)
+---
+ fs/btrfs/super.c           | 10 ++++++++++
+ fs/super.c                 | 19 ++-----------------
+ include/linux/memcontrol.h | 21 +++++++++++++++++++++
+ mm/shmem.c                 | 10 ++++++++++
+ 4 files changed, 43 insertions(+), 17 deletions(-)
 
-Shakeel, your change to use mem_cgroup_flush_stats_ratelimited() in
-mem_cgroup_wb_stats() results in applications overshooting memcg dirty
-limits by several gigabytes which for small memcgs (with 8GB memory in this
-case, which means a dirty limit of ~1.5GB) is a considerable issue. I guess
-the ratelimiting should take into account the size of memcg (or ideally the
-dirty limit in the case of mem_cgroup_wb_stats()) as well. Using
-somewhat outdated numbers for dirty throttling is fine but when we can
-overshoot the dirty limit more than three times, it leads to rather long
-stalls in dirty throttling and similar issues...
-
-								Honza
+diff --git a/fs/btrfs/super.c b/fs/btrfs/super.c
+index a7d804219bec..cc4537435399 100644
+--- a/fs/btrfs/super.c
++++ b/fs/btrfs/super.c
+@@ -22,6 +22,7 @@
+ #include <linux/namei.h>
+ #include <linux/miscdevice.h>
+ #include <linux/magic.h>
++#include <linux/memcontrol.h>
+ #include <linux/slab.h>
+ #include <linux/ratelimit.h>
+ #include <linux/crc32c.h>
+@@ -2434,6 +2435,15 @@ static long btrfs_nr_cached_objects(struct super_block *sb, struct shrink_contro
+ 	struct btrfs_fs_info *fs_info = btrfs_sb(sb);
+ 	const s64 nr = percpu_counter_read_positive(&fs_info->evictable_extent_maps);
+ 
++	/*
++	 * The evictable extent map counter is filesystem-global and does not
++	 * honour sc->memcg, so it is only meaningful on the global (kswapd or
++	 * root direct reclaim) shrink path. Skip the per-memcg iterations of
++	 * shrink_slab_memcg() to avoid queueing duplicate global work.
++	 */
++	if (!mem_cgroup_shrink_is_root(sc))
++		return 0;
++
+ 	trace_btrfs_extent_map_shrinker_count(fs_info, nr);
+ 
+ 	return nr;
+diff --git a/fs/super.c b/fs/super.c
+index d2d04a6f4f84..a8fd61136aaf 100644
+--- a/fs/super.c
++++ b/fs/super.c
+@@ -24,7 +24,6 @@
+ #include <linux/export.h>
+ #include <linux/slab.h>
+ #include <linux/blkdev.h>
+-#include <linux/memcontrol.h>
+ #include <linux/mount.h>
+ #include <linux/security.h>
+ #include <linux/writeback.h>		/* for the emergency remount stuff */
+@@ -170,19 +169,6 @@ static void super_wake(struct super_block *sb, unsigned int flag)
+ 	wake_up_var(&sb->s_flags);
+ }
+ 
+-/*
+- * The s_op->nr_cached_objects hooks (used for example by btrfs and xfs)
+- * operate on filesystem-global state and ignore sc->memcg. Driving them
+- * from per-memcg shrink_slab_memcg() invocations only burns CPU walking
+- * per-cpu counters and queueing duplicate work: the actual reclaim happens on
+- * the global path (kswapd or root direct reclaim) regardless. Restrict them
+- * to that path.
+- */
+-static inline bool super_fs_objects_eligible(struct shrink_control *sc)
+-{
+-	return !sc->memcg || mem_cgroup_is_root(sc->memcg);
+-}
+-
+ /*
+  * One thing we have to be careful of with a per-sb shrinker is that we don't
+  * drop the last active reference to the superblock from within the shrinker.
+@@ -212,7 +198,7 @@ static unsigned long super_cache_scan(struct shrinker *shrink,
+ 	if (!super_trylock_shared(sb))
+ 		return SHRINK_STOP;
+ 
+-	if (sb->s_op->nr_cached_objects && super_fs_objects_eligible(sc))
++	if (sb->s_op->nr_cached_objects)
+ 		fs_objects = sb->s_op->nr_cached_objects(sb, sc);
+ 
+ 	inodes = list_lru_shrink_count(&sb->s_inode_lru, sc);
+@@ -273,8 +259,7 @@ static unsigned long super_cache_count(struct shrinker *shrink,
+ 		return 0;
+ 	smp_rmb();
+ 
+-	if (sb->s_op && sb->s_op->nr_cached_objects &&
+-	    super_fs_objects_eligible(sc))
++	if (sb->s_op && sb->s_op->nr_cached_objects)
+ 		total_objects = sb->s_op->nr_cached_objects(sb, sc);
+ 
+ 	total_objects += list_lru_shrink_count(&sb->s_dentry_lru, sc);
+diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+index e1f46a0016fc..5407e4200460 100644
+--- a/include/linux/memcontrol.h
++++ b/include/linux/memcontrol.h
+@@ -520,6 +520,22 @@ static inline bool mem_cgroup_is_root(struct mem_cgroup *memcg)
+ 	return (memcg == root_mem_cgroup);
+ }
+ 
++/**
++ * mem_cgroup_shrink_is_root - is this a global or root-memcg shrink invocation?
++ * @sc: shrink_control describing the current shrinker call
++ *
++ * Returns true when @sc represents a global reclaim shrink (sc->memcg == NULL)
++ * or a root-memcg shrink, i.e. not a per-memcg iteration of
++ * shrink_slab_memcg(). Filesystems whose ->nr_cached_objects()/
++ * ->free_cached_objects() implementations operate on filesystem-global state
++ * and do not honour sc->memcg can use this to early-return 0 in per-memcg
++ * contexts.
++ */
++static inline bool mem_cgroup_shrink_is_root(struct shrink_control *sc)
++{
++	return !sc->memcg || mem_cgroup_is_root(sc->memcg);
++}
++
+ static inline bool obj_cgroup_is_root(const struct obj_cgroup *objcg)
+ {
+ 	return objcg->is_root;
+@@ -1071,6 +1087,11 @@ static inline bool mem_cgroup_is_root(struct mem_cgroup *memcg)
+ 	return true;
+ }
+ 
++static inline bool mem_cgroup_shrink_is_root(struct shrink_control *sc)
++{
++	return true;
++}
++
+ static inline bool obj_cgroup_is_root(const struct obj_cgroup *objcg)
+ {
+ 	return true;
+diff --git a/mm/shmem.c b/mm/shmem.c
+index 5789a0f5a346..dc8cd4f563f4 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -846,6 +846,16 @@ static long shmem_unused_huge_count(struct super_block *sb,
+ 		struct shrink_control *sc)
+ {
+ 	struct shmem_sb_info *sbinfo = SHMEM_SB(sb);
++
++	/*
++	 * The per-superblock shrinklist is filesystem-global and does not
++	 * honour sc->memcg, so it is only meaningful on the global (kswapd or
++	 * root direct reclaim) shrink path. Skip the per-memcg iterations of
++	 * shrink_slab_memcg() to avoid queueing duplicate global work.
++	 */
++	if (!mem_cgroup_shrink_is_root(sc))
++		return 0;
++
+ 	return READ_ONCE(sbinfo->shrinklist_len);
+ }
+ #else /* !CONFIG_TRANSPARENT_HUGEPAGE */
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.53.0-Meta
+
