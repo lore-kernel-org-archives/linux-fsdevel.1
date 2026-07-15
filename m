@@ -1,245 +1,156 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36F83ED5B3
-	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Jul 2026 10:35:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C49B33439A
+	for <linux-fsdevel@vger.kernel.org>; Wed, 15 Jul 2026 11:03:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784111740; cv=none; b=Ui/wAs0C8uDbTackJXwOqSVvYkzGljKU3VORn448u8h06HBRZ1htUf17wIlwEpGoUFp/hs0q54qQN/Ytjhe/VojJAfvqzjl2w2HdlMV7uZWXeroxiUmmYvHyJwpw9FzRATiQKg+JmvHQPXhCjyx0OBr57g+/YVaEzylqvy99ODE=
+	t=1784113397; cv=none; b=CeiV0ggPwJDeYBfi3PAODYKlBNKIjbq5onbLKlzCMKDiFEc0TQb4VGScw3vO/y0YfSWe5ZnUIg7zl9ICTfubKMVKogy1Y1cDlcIN46BabmM+yFisvpDJ0r1bl4Apm2dgdHqxrZB7Wp173Al0xQGwFmQzvM+GnSOd56+WBHpwKYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784111740; c=relaxed/simple;
-	bh=SwdezaImxQcMt43h0jRN9TZ6bt6yTKaTU02f07mkxsA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aV40SsjYD8kCCYOA/+iIU7RL1LcZrlvXCufUlU6k5X86u4J+jSWyPaCkfl2M5Ticg1tidZeqxNSXs1qsfrUeVx/65TfdgD/Rc+N7HaTms00gqkUkmrIHR3K1wpgKDnjF8o+Pe9MUsM1zUENajfvgt/07PVX+6E+t4CUTZ4a/TJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lWVjevAk; arc=none smtp.client-ip=91.218.175.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1784113397; c=relaxed/simple;
+	bh=mkjSaBNlozbOinNvp2aFAUyG+xq5hemqxlmqqF7w+S8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kKyjV0YNxRnKNHfOTNXudDl87Qv5WqZmIDpLujTLeSmWK6rb3If1Btx/wD0oA0lzOgFi7xDdVt43kUwq8S96q9rVVvtT/XpZk+zxp/FPKLP8oe6PLAHuJCVH1fDrkXTiohhSR16wmU/kVWIggMmO/Vt/eP+Jkih6ub2PKefcZ3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zp9S4ker; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DU86yZ9i; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zp9S4ker; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DU86yZ9i; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lWVjevAk"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784111726;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=0PjHU3TbDnfGWF+iD96TKWS2XZ53YHp9da69Ponf0rw=;
-	b=lWVjevAkYZ064aFltJs8lMrrHhbvW3jfDDXTJNUk7br0vYrO703lDuTQkLrrB6DW2oxclA
-	CDTz4ntBIHKH7+v1OXbDtlB7q9AuF4Y9XDGtBTQ8/JYqvFRDPp3/uFjWpytuv6YlkxJ9HI
-	zsJlgnUW59RhgT+41ErbmMD+ZA0Uy4k=
-From: Usama Arif <usama.arif@linux.dev>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	david@fromorbit.com,
-	dgc@kernel.org,
-	qi.zheng@linux.dev,
-	baolin.wang@linux.alibaba.com,
-	brauner@kernel.org,
-	cgroups@vger.kernel.org,
-	clm@fb.com,
-	dsterba@suse.com,
-	hannes@cmpxchg.org,
-	hughd@google.com,
-	jack@suse.cz,
-	linux-btrfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	mhocko@kernel.org,
-	muchun.song@linux.dev,
-	roman.gushchin@linux.dev,
-	shakeel.butt@linux.dev,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	kernel-team@meta.com
-Cc: Usama Arif <usama.arif@linux.dev>
-Subject: [PATCH v2] fs: push nr_cached_objects memcg gating into individual filesystems
-Date: Wed, 15 Jul 2026 03:35:16 -0700
-Message-ID: <20260715103516.2410175-1-usama.arif@linux.dev>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zp9S4ker";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DU86yZ9i";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zp9S4ker";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DU86yZ9i"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6DC773E2C;
+	Wed, 15 Jul 2026 11:03:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1784113394; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y/w0/JofSGuJID6gCR3ETcE1l/O+Ym8fL3mervCh8EY=;
+	b=zp9S4keryKvPSeo6DUINoZiYwFq/YXNK91O7BUc94CKyUaHs54bPkEIeNGlEdMWt51WpGt
+	upkGJ3Vii8D8g1m2E5jrijlbLqewYO2M29/vnyDySzbN30ieZv8VWTrrwWtgomvrV2Ru+b
+	Zp+iuUH9YSnECBdlyCt21KkXPkV1K+I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1784113394;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y/w0/JofSGuJID6gCR3ETcE1l/O+Ym8fL3mervCh8EY=;
+	b=DU86yZ9iikGFjQnG2BvTDTZqu9ae/Nrwml7rvrJ5f1gjjqLgaMZOljkqFv8Yg6EtZZ3S0I
+	04jRuyg7ww8dBECQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1784113394; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y/w0/JofSGuJID6gCR3ETcE1l/O+Ym8fL3mervCh8EY=;
+	b=zp9S4keryKvPSeo6DUINoZiYwFq/YXNK91O7BUc94CKyUaHs54bPkEIeNGlEdMWt51WpGt
+	upkGJ3Vii8D8g1m2E5jrijlbLqewYO2M29/vnyDySzbN30ieZv8VWTrrwWtgomvrV2Ru+b
+	Zp+iuUH9YSnECBdlyCt21KkXPkV1K+I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1784113394;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y/w0/JofSGuJID6gCR3ETcE1l/O+Ym8fL3mervCh8EY=;
+	b=DU86yZ9iikGFjQnG2BvTDTZqu9ae/Nrwml7rvrJ5f1gjjqLgaMZOljkqFv8Yg6EtZZ3S0I
+	04jRuyg7ww8dBECQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0D47F779AD;
+	Wed, 15 Jul 2026 11:03:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Qy1EO/BoV2oOfQAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Wed, 15 Jul 2026 11:03:12 +0000
+Date: Wed, 15 Jul 2026 12:03:11 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Gregg Leventhal <gleventhal@janestreet.com>
+Cc: Matthew Wilcox <willy@infradead.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Nico Pache <npache@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Song Liu <song@kernel.org>, 
+	Eric Hagberg <ehagberg@janestreet.com>, Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH stable] mm/khugepaged: write all dirty file folios when
+ collapsing
+Message-ID: <aldo3HN27b5PoQyz@pedro-suse.lan>
+References: <20260702165409.164568-1-pfalcato@suse.de>
+ <akhYu66GmjyM8l6a@casper.infradead.org>
+ <CAFN_u7HkJry=iFLbZ2vjzv5C=HnrptHfFJBLOqRq2m4LyhqV_w@mail.gmail.com>
+ <ak5g9h3FuVn3bZ1G@pedro-suse>
+ <CAFN_u7ExSnVo=QQBuZvRJkLR3rHo8qN96rDKYu+KNiSjk0FCHQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <CAFN_u7ExSnVo=QQBuZvRJkLR3rHo8qN96rDKYu+KNiSjk0FCHQ@mail.gmail.com>
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pedro-suse.lan:mid,imap1.dmz-prg2.suse.org:helo,suse.de:email]
+X-Spam-Level: 
+X-Spam-Score: -4.30
 
-Commit 0baad6f9b997 ("fs/super: skip non-memcg-aware nr_cached_objects
-in memcg slab shrink") added a check in fs/super.c that skipped every
-->nr_cached_objects() hook whenever the shrinker was invoked for a
-non-root memcg, on the assumption that none of them honour sc->memcg.
+On Thu, Jul 09, 2026 at 08:52:47AM -0400, Gregg Leventhal wrote:
+> Ack thanks for the update and all of your help with this!
 
-That assumption is wrong for XFS, whose inode-reclaim hook is
-intentionally driven from per-memcg contexts to free memcg-charged
-slab. Encoding a blanket "never memcg-aware" policy in fs/super.c
-short-circuits that path.
+You're welcome!
 
-Push the check down into the callbacks whose counters really are
-irrelevant to per-memcg reclaim - btrfs_nr_cached_objects() and
-shmem_unused_huge_count() - and drop the fs/super.c gate. Each
-filesystem can now lift the restriction independently if its counter
-later grows memcg awareness, without touching fs/super.c.
+> Obrigado pra vc (Meu esposa e Brasileira e achei que vc estava
+> Portugues da sua nome/sobrenome)!
 
-Introduce mem_cgroup_shrink_is_root() in <linux/memcontrol.h> so the
-callbacks don't open-code "sc->memcg is NULL or root".
+Hah :D
 
-Fixes: 0baad6f9b997 ("fs/super: skip non-memcg-aware nr_cached_objects in memcg slab shrink")
-Acked-by: Qi Zheng <qi.zheng@linux.dev>
-Reviewed-by: Jan Kara <jack@suse.cz>
-Reviewed-by: Shakeel Butt <shakeel.butt@linux.dev>
-Signed-off-by: Usama Arif <usama.arif@linux.dev>
----
-v1 -> v2:
-- Do not gate xfs_fs_nr_cached_objects(); XFS's inode reclaim is
-  intentionally driven from per-memcg contexts to free memcg-charged
-  slab (Dave Chinner).
-- Add mem_cgroup_shrink_is_root() helper in <linux/memcontrol.h> so the
-  filesystem callbacks don't open-code "sc->memcg is NULL or root".
-  (Dave Chinner)
-- Add fixes tag (Dave Chinner)
----
- fs/btrfs/super.c           | 10 ++++++++++
- fs/super.c                 | 19 ++-----------------
- include/linux/memcontrol.h | 21 +++++++++++++++++++++
- mm/shmem.c                 | 10 ++++++++++
- 4 files changed, 43 insertions(+), 17 deletions(-)
+> 
+> On Wed, Jul 8, 2026 at 10:40 AM Pedro Falcato <pfalcato@suse.de> wrote:
+> >
+> > On Wed, Jul 08, 2026 at 10:05:43AM -0400, Gregg Leventhal wrote:
+> > > Hi there, just checking on the next steps here.
+> > >
+> > > @Pedro Falcato Are you currently working on this patch (mentioned
+> > > above, re: holding invalidate lock), or are we perhaps stalled on
+> > > something?
+> >
+> > I was waiting for some actual tags from people, but given the comments and
+> > no tags, I'll respin a v2 before sending to Greg KH.
+> >
+> > --
+> > Pedro
 
-diff --git a/fs/btrfs/super.c b/fs/btrfs/super.c
-index a7d804219bec..cc4537435399 100644
---- a/fs/btrfs/super.c
-+++ b/fs/btrfs/super.c
-@@ -22,6 +22,7 @@
- #include <linux/namei.h>
- #include <linux/miscdevice.h>
- #include <linux/magic.h>
-+#include <linux/memcontrol.h>
- #include <linux/slab.h>
- #include <linux/ratelimit.h>
- #include <linux/crc32c.h>
-@@ -2434,6 +2435,15 @@ static long btrfs_nr_cached_objects(struct super_block *sb, struct shrink_contro
- 	struct btrfs_fs_info *fs_info = btrfs_sb(sb);
- 	const s64 nr = percpu_counter_read_positive(&fs_info->evictable_extent_maps);
- 
-+	/*
-+	 * The evictable extent map counter is filesystem-global and does not
-+	 * honour sc->memcg, so it is only meaningful on the global (kswapd or
-+	 * root direct reclaim) shrink path. Skip the per-memcg iterations of
-+	 * shrink_slab_memcg() to avoid queueing duplicate global work.
-+	 */
-+	if (!mem_cgroup_shrink_is_root(sc))
-+		return 0;
-+
- 	trace_btrfs_extent_map_shrinker_count(fs_info, nr);
- 
- 	return nr;
-diff --git a/fs/super.c b/fs/super.c
-index d2d04a6f4f84..a8fd61136aaf 100644
---- a/fs/super.c
-+++ b/fs/super.c
-@@ -24,7 +24,6 @@
- #include <linux/export.h>
- #include <linux/slab.h>
- #include <linux/blkdev.h>
--#include <linux/memcontrol.h>
- #include <linux/mount.h>
- #include <linux/security.h>
- #include <linux/writeback.h>		/* for the emergency remount stuff */
-@@ -170,19 +169,6 @@ static void super_wake(struct super_block *sb, unsigned int flag)
- 	wake_up_var(&sb->s_flags);
- }
- 
--/*
-- * The s_op->nr_cached_objects hooks (used for example by btrfs and xfs)
-- * operate on filesystem-global state and ignore sc->memcg. Driving them
-- * from per-memcg shrink_slab_memcg() invocations only burns CPU walking
-- * per-cpu counters and queueing duplicate work: the actual reclaim happens on
-- * the global path (kswapd or root direct reclaim) regardless. Restrict them
-- * to that path.
-- */
--static inline bool super_fs_objects_eligible(struct shrink_control *sc)
--{
--	return !sc->memcg || mem_cgroup_is_root(sc->memcg);
--}
--
- /*
-  * One thing we have to be careful of with a per-sb shrinker is that we don't
-  * drop the last active reference to the superblock from within the shrinker.
-@@ -212,7 +198,7 @@ static unsigned long super_cache_scan(struct shrinker *shrink,
- 	if (!super_trylock_shared(sb))
- 		return SHRINK_STOP;
- 
--	if (sb->s_op->nr_cached_objects && super_fs_objects_eligible(sc))
-+	if (sb->s_op->nr_cached_objects)
- 		fs_objects = sb->s_op->nr_cached_objects(sb, sc);
- 
- 	inodes = list_lru_shrink_count(&sb->s_inode_lru, sc);
-@@ -273,8 +259,7 @@ static unsigned long super_cache_count(struct shrinker *shrink,
- 		return 0;
- 	smp_rmb();
- 
--	if (sb->s_op && sb->s_op->nr_cached_objects &&
--	    super_fs_objects_eligible(sc))
-+	if (sb->s_op && sb->s_op->nr_cached_objects)
- 		total_objects = sb->s_op->nr_cached_objects(sb, sc);
- 
- 	total_objects += list_lru_shrink_count(&sb->s_dentry_lru, sc);
-diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-index e1f46a0016fc..5407e4200460 100644
---- a/include/linux/memcontrol.h
-+++ b/include/linux/memcontrol.h
-@@ -520,6 +520,22 @@ static inline bool mem_cgroup_is_root(struct mem_cgroup *memcg)
- 	return (memcg == root_mem_cgroup);
- }
- 
-+/**
-+ * mem_cgroup_shrink_is_root - is this a global or root-memcg shrink invocation?
-+ * @sc: shrink_control describing the current shrinker call
-+ *
-+ * Returns true when @sc represents a global reclaim shrink (sc->memcg == NULL)
-+ * or a root-memcg shrink, i.e. not a per-memcg iteration of
-+ * shrink_slab_memcg(). Filesystems whose ->nr_cached_objects()/
-+ * ->free_cached_objects() implementations operate on filesystem-global state
-+ * and do not honour sc->memcg can use this to early-return 0 in per-memcg
-+ * contexts.
-+ */
-+static inline bool mem_cgroup_shrink_is_root(struct shrink_control *sc)
-+{
-+	return !sc->memcg || mem_cgroup_is_root(sc->memcg);
-+}
-+
- static inline bool obj_cgroup_is_root(const struct obj_cgroup *objcg)
- {
- 	return objcg->is_root;
-@@ -1071,6 +1087,11 @@ static inline bool mem_cgroup_is_root(struct mem_cgroup *memcg)
- 	return true;
- }
- 
-+static inline bool mem_cgroup_shrink_is_root(struct shrink_control *sc)
-+{
-+	return true;
-+}
-+
- static inline bool obj_cgroup_is_root(const struct obj_cgroup *objcg)
- {
- 	return true;
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 5789a0f5a346..dc8cd4f563f4 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -846,6 +846,16 @@ static long shmem_unused_huge_count(struct super_block *sb,
- 		struct shrink_control *sc)
- {
- 	struct shmem_sb_info *sbinfo = SHMEM_SB(sb);
-+
-+	/*
-+	 * The per-superblock shrinklist is filesystem-global and does not
-+	 * honour sc->memcg, so it is only meaningful on the global (kswapd or
-+	 * root direct reclaim) shrink path. Skip the per-memcg iterations of
-+	 * shrink_slab_memcg() to avoid queueing duplicate global work.
-+	 */
-+	if (!mem_cgroup_shrink_is_root(sc))
-+		return 0;
-+
- 	return READ_ONCE(sbinfo->shrinklist_len);
- }
- #else /* !CONFIG_TRANSPARENT_HUGEPAGE */
 -- 
-2.53.0-Meta
-
+Pedro
