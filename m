@@ -1,285 +1,89 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3C11DD877
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 01:28:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784165311; cv=pass; b=MgdaMwePS9gC2CPpWtKrOf/mtv4kmcQ//P2+DzwVg+/gbZh7mmegF0hhJmtR843am12OSFETVECvg7SWgmJaeoAleRRpWi08Yjh7gMndW93O8k7jZyh5BRzJs7/bjhEHA5yWUbDkzwzGz3ZWwUm/gv9rdXkHH6hhXQo+6+vZR8I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784165311; c=relaxed/simple;
-	bh=Bl6oveVT0QtYGCCQdvAri7/6mNs0UcVQl8/bZCxvyEE=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F891331EA3
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 01:34:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784165688; cv=none; b=JrGBL8nPUh1JZcesjfDGxN98PDwAAjFYLF5mU1BdtPNeiqRuvu7LEgrwtyLvh/ryxqmWDOYDZi8ZFb7zBO2dMTnG1E84ilcbhph87Ld2EnJ9jC9M8OcOjivsxgaSW5BK85H3+OYNGKu5FTPfz9JM+zSLYdB7kyZ3kL5vd9NKVEI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784165688; c=relaxed/simple;
+	bh=DHX+4Wg1e4Qw7ccksMIpKrJjz1QqiF673121nPa7ct4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t6FVXmVXjbAfOz7gpzuBb198YqV0AMGrj3y6D/psrlOnWZfxljTtZWAT+nLmhK3DaW9OO40mHIqsiKtAqjUzw/UVxyYTsN3HxCxKptXu08PUPHLqS7FbHnXrPqx24WX0T4y1hrljLaNtMP0z5ESkNeEDK6ESSfkrDL/EhlJCc5A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X4+RgaUg; arc=pass smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=fHuRuMPj0jQ0L3bEdEBDNXlYV4g4GQ9f5sgq4q0N1hy+rFIyOLhpN2xahznXfiVFO+ve9sHC8+YA4jl7UdX7dgAsIGnsm/HZC4bnS246gTP/Fg/2HWNYa8VdZnFBCn/tUiCGw+6PAbO+xmrXNiak3cr6zjoMQtYYFB6DqSrHhU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MRMxTDuu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X4+RgaUg"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4953e04ef16so8494375e9.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Jul 2026 18:28:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784165308; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ARwovjE0IKR6aUzEKvJ2ltPnhsD6pUAsC8ur378JdWtWNNVKH+wAteiLK/LjMz3aHB
-         8E6Gfcqr1i8AtmqdK8peiPmkFxcYXEerj/CWQ7RSX6De/ItLfvUeywdv5f/Ze/mCnQ78
-         5DEZ58fTYWeaZjbWm1ddrHoa0CSer1HJgujKJoU+INYnwM9KugMBduQnxk0uY6RbmPRK
-         ZoN5v2Hd4vj01BiPf3nvlats0glY7YgkP3XGx/6ud0pCVw1THhPAPP8lR3qJQ+qFBB5j
-         MuWEdp7EdjUcqGWzdiueGIMVrfHJvPXUZ60fKDKbGAQ1DPb4Uskrnizkv5YoefJVVgY3
-         pYmA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=bUBpmH2rKstmNCAt1IVYxPJOJssz+FY4n3xBgHJ0uKA=;
-        fh=g8CaFxWCNLCzyCO7jknQvPwQuJ4DiYw1IUf0Lp4X6a8=;
-        b=VvYStJe4wYee/DLf2UVXGMSIkcgq9vzHlj6bBYt3QkHD2Un8Xtx0M9IIOVBHhte08a
-         oS8Ny3sLJu97xH2zQg6Q9mJVb7h97iQNjyQ91ke7dJc6cYOnDJZT6bK6v3dug8tYCBKg
-         ADhantN6R225o9JYwsIXP3WQolb91OHXB2kCHV+0Vo8kKcE5aUrwMCDbjI+CWUQJKtX/
-         WGHH+lOS5sj8dM322DRvdPgJH0TQBIJgXFez9Vfk1QUt4/FjYVFQSLavCZmP7gmQsmSM
-         jaPm5R1fam9sfeALrTNSuQqsXL8/RFMfBdJz7UHjVocR3LrW35WZbCfjKafg5+zNNjqP
-         0f2g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784165308; x=1784770108; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=bUBpmH2rKstmNCAt1IVYxPJOJssz+FY4n3xBgHJ0uKA=;
-        b=X4+RgaUgkjn4FyrNGLCA++e5TEcEl3h+WXUg8SbvPk98+P+LINnzyXna7h6O2vTnOO
-         1uiYfJnRNb+7IggrNPlkWapEP85mWGoMElQ1KJbIXKwpiH6pHd87TwvbdF8B9RdqbO+p
-         oR+73Q6OgbRBtH16Aw2ebPVD9bbQjKyxdMrdyERyIa212DB1ajT68x4837ANrMG9mgHl
-         jMZnCklaQnC2VvwPRXaAs/hUPRsx9W555dvuawAfjMhwj1Rn7fJGSBliOZQVJPqixLEc
-         mhfdUAdvFgDcb2dC5SwbFY952OVqEeeyNAWL7ghZO3Tu+l7rd/bI0H8X77qwQLeaEiIR
-         M1lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784165308; x=1784770108;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bUBpmH2rKstmNCAt1IVYxPJOJssz+FY4n3xBgHJ0uKA=;
-        b=MBoEy0oxaI3UoDAN5/RMaDyPotRmd7+lMKNkxLySNUEFjyMHfZDIyvbFxEj0sYf/du
-         lSgquRks0wPaK6orER4cGFtjGjGicNebWMiqWfJ3DPX09AVEG7y2fQ/nJDY7gvrVng6q
-         WF25ibXieRbEUdgY1LnPFLG+wHr8L1jqyxoUpYhOuoKjQxhY6fQsma1vv0agflWpwXEY
-         I9igRkNqzQEPOJglnjvqyc5fvR9dpreYS6Mmxz+KNhugJkqht9+ySo2U0rMBzy5UONl4
-         0Y/+pGBBZoe9FEIfD5z8PcR6kN1ckq51Q/xY5TeNx/UmdayCahd28bObEXQDkkii2uWb
-         6knQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rr008U3iltlgfOn2S5aHdyIsw/dITzkvo7iCj3nMO9KWspvvaTN/Pbt30uBhLdEBK/ETqYNU1YIP4dEZ3Ha@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxl+QsqWRC+aVB4yESp38SbaYRMRJ5i0/LaiKfohhouOOBraRi8
-	oha/41Li0PVELGdsCSfCtnu9cBtRJ9yQXztgNNkdxemUClDfQ9S9WlOq0e1tQ5gVRCt/H+E4GE5
-	5sz2ikWCGFR549L76KICGJ4OqLwRrK5Y=
-X-Gm-Gg: AfdE7cmw4IPDcsXkkjM4PQcSl/7I7TkFT9f3ParQ60DLt5Xn7gyqjvAUVaafNFqWFEH
-	0VbISOoK7x1apmqY6YF9zsFfTzqPEPjAkk/yDjhb77k/2BZuVo/7RftpYZ2XHbZU4JUIDJqP4D/
-	sP5v+l+JpAOPKehMxvj+EcdT5WiLI5LXenE7nHs9aBPlWI0tsaGGuZB9mPznodIyERBlXQM93dI
-	NlMYHx1XHzyk1vvMKe8R+7ZXzpHnLRcxyFTSuhGVRDtO8pCHa/346ftRX/zbwkYee8hQr4jVmhY
-	8y+P6qHBV2DYYgH6Bj2KiFHqPkun6WRLgmy7UBJFDQ==
-X-Received: by 2002:a05:600c:674a:b0:490:c6c2:52 with SMTP id
- 5b1f17b1804b1-493f87d8bf5mr203372655e9.3.1784165308098; Wed, 15 Jul 2026
- 18:28:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MRMxTDuu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A12C1F00A3F
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 01:34:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784165687;
+	bh=w6KwiVdJzjeyC88Ywg1fGCHhkNezDjXA+HpFPr5TVXk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=MRMxTDuuQvT49x4fRiEF6gfbhIhI68ho0oMllwyMc5JGJCpyX5/QvzMSX2jCxD64W
+	 3GYNBKOyMW6QjnpDOXkKKG/vQ58kiKTb9lL7sFiZseGMQLtQw4EHYVr8KpDvCbIetx
+	 VTPkTvUZL7jwzk6uHcN5KTyazA3yVZqSMcUaeh/w+pR4Aq6CURMu47Alh6wOxgc8Gs
+	 p7hwwjLAcMvh81+X4FuGSrdHlDi1FI2dc2sw3HJ/OT6adJ17NZa8HVISnNLuCaCybl
+	 pYd2wxnE6svPu+sNGXFn5TdlP3b1vTsfe053MDbhbxnxc64RLt0XC8rcWZjbUl4SAw
+	 3m9Fdv9vSQ/wg==
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-698ab9aae16so2138085a12.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Jul 2026 18:34:47 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yy69IlrJ3Gcq8cpsmRtxu2v0QbdIFlZbuzzg6EIiYl1F+xAhs7B
+	LQN3FIFk1bucbOz7HjCQ783yMGb++UhK94jRclyUm7+ptxhcjpQR0aFROOq50mn2GEV7jy/qbbI
+	O7J/KMA9lSbF1GRkc+2yONkOWE2b8EQA=
+X-Received: by 2002:a17:907:268c:b0:c15:f029:63a5 with SMTP id
+ a640c23a62f3a-c161f393b9emr1059018766b.50.1784165685877; Wed, 15 Jul 2026
+ 18:34:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAJfpegsy2XRR6g1J4Mg0MXPckx3NVprW56XvYhEko0=7PcHiQQ@mail.gmail.com>
- <CAJnrk1bZX44HaXmNMxEeEwhuFHgEjxXLnjKy8a-6T6LFuf+K2A@mail.gmail.com>
- <CAJnrk1aJwdY+fphnhHjAXFwjGqWQgVB+sn2Ce0gReein3H8EWQ@mail.gmail.com>
- <s4kv7qep3jlncs67q72xfhserpd66hpbwzkoppiddc5raufyjd@ksuvlfqcrbk2>
- <CAJnrk1bG6ddP6-dgXpGBRGnCH49oTMPwkJmF--+gefmy+zBo-w@mail.gmail.com>
- <oocwnxqgd4klrem6hkya3sddqoxkosml4ysz23if4j7wj2qdwi@5skgc4ftu7io>
- <CAJnrk1ZU40tRDq0z3yM0+yv=KhiZ-fNjUTO=ccv1tuc0xDx2Vg@mail.gmail.com>
- <4fsrafuhoqgoirlt2sy6vk2ljvb3tdps4hqbcrm5qc2pr6tlaf@tboejm2wdq2s>
- <CAJnrk1b65ypz4bdtd1rTQBYOpOEP+DcoZJUSL87jVDssW1A+pw@mail.gmail.com>
- <nv2h2dd2xoj4zjfvnhsxud2p5e2uw3og22ovqureik4pey72qb@i75tn5ttavfo> <ue5xd6f4nfggwodfhbqaispmr5aq2dyszezvy26bl4rtsk6xii@uceqazdioj3o>
-In-Reply-To: <ue5xd6f4nfggwodfhbqaispmr5aq2dyszezvy26bl4rtsk6xii@uceqazdioj3o>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 15 Jul 2026 18:28:16 -0700
-X-Gm-Features: AUfX_mzzQ27GE88mWZ-hEJWRRr0HsdljimQVbt00i1OttacTJxJWfpOjF03It98
-Message-ID: <CAJnrk1bwabyWY+rzzSKfKWp3rivcQm=zae3xzNSZc2hnLj6-Aw@mail.gmail.com>
-Subject: Re: [PATCH] fuse: disable default bdi strictlimiting
-To: Jan Kara <jack@suse.cz>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
-	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>
+References: <20260715-review-matthew-v2-v3-0-3c996b687a5e@gmail.com>
+In-Reply-To: <20260715-review-matthew-v2-v3-0-3c996b687a5e@gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Thu, 16 Jul 2026 10:34:33 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd9UkYhny_p-_Yv33_mhSC_Kd=bMjRRAOX9God-=LVa3Gg@mail.gmail.com>
+X-Gm-Features: AUfX_mwzw_Si_FVj7HebA9MQongunmyY-btp_8dvG7r3mwmmbFKnkIcrYaFZg4g
+Message-ID: <CAKYAXd9UkYhny_p-_Yv33_mhSC_Kd=bMjRRAOX9God-=LVa3Gg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] ntfs: Remove __folio_index from ntfs
+To: Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, ntfs@lists.linux.dev, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, usama.arif@linux.dev, lance.yang@linux.dev, 
+	Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 15, 2026 at 3:32=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
+On Wed, Jul 15, 2026 at 10:38=E2=80=AFAM Hyunchul Lee <hyc.lee@gmail.com> w=
+rote:
 >
-> [resending once more, this time with correct Shakeel's address]
+> This is a continuation of the NTFS part of Matthew's
+> "Remove __folio_index" patch set [1].
 >
-> On Tue 14-07-26 18:21:57, Joanne Koong wrote:
-> > On Tue, Jul 14, 2026 at 10:10=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
-> > > On Mon 13-07-26 18:13:29, Joanne Koong wrote:
-> > > > On Sat, May 30, 2026 at 4:04=E2=80=AFAM Jan Kara <jack@suse.cz> wro=
-te:
-> > > > > On Thu 28-05-26 15:11:18, Joanne Koong wrote:
-> > > > > > On Thu, May 28, 2026 at 5:34=E2=80=AFAM Jan Kara <jack@suse.cz>=
- wrote:
-> > > > > > > > I think this is also going to be a problem for cgroups with=
- large
-> > > > > > > > folios since they also, as I understand it, are constrained=
- with a
-> > > > > > > > limited / tight dirty budget. I ran some initial benchmarks=
- with
-> > > > > > > > cgroup memory constraints on NVMe and saw similar instabili=
-ty (a
-> > > > > > > > single writer in a 8 GB cgroup had max write latencies of 6=
- seconds vs
-> > > > > > > > 15 ms without the cgroup, with the balance_dirty_pages() th=
-rottling
-> > > > > > > > oscillating rather than settling near the set point).
-> > > > > > >
-> > > > > > > Ok, so this is more folios (819) than my 512 gut feeling esti=
-mate :) What
-> > > > > > > was the write throughput of the NVMe drive? The high drive th=
-roughput also
-> > > > > > > requires more dirty data to keep the drive saturated so that =
-writeback
-> > > > > > > throughput doesn't oscilate too much.
-> > > > > >
-> > > > > > The write throughput of the NVMe drive I was using was around ~=
-1.1
-> > > > > > Gb/s (measured by running direct I/O). I think with the 1.6GB d=
-irty
-> > > > > > budget, the math for that ends up being that the device drains =
-it in
-> > > > > > ~1.5 secs. The performance I was seeing with the initial cgroup
-> > > > > > benchmarks was with 4k pages (no large folios enabled) on btrfs=
-.
-> > > > >
-> > > > > OK, you might want to experiment with some other filesystem (I su=
-ggest xfs
-> > > > > or ext4) as well. Btrfs writeback behavior is a bit special with =
-its data
-> > > > > checksum computations etc. and thus latency of starting writeback=
-. It could
-> > > > > contribute to the erratic behavior with the relatively low dirty =
-limits.
-> > > >
-> > > > I reran the benchmarks on xfs and ext4 and saw similiar results. Th=
-e
-> > > > max write latency under the memcg were
-> > > > xfs        5.1s
-> > > > ext4      5.2 s
-> > > > btrfs      6.2 s
-> > > >
-> > > > compared to the non-memcg case (0.4 to 2.0 ms). This didn't affect
-> > > > throughput though, just the tail latency. When I ran xfs with large
-> > > > folios disabled, I still saw ~4.1s.
-> > >
-> > > OK, interesting. Thanks for running these tests! Also it is good to k=
-now
-> > > this is not really related to large folios, that somewhat simplifies
-> > > matters.
-> > >
-> > > > From the balance_dirty_pages() ftrace tracepoints, the dirty_rateli=
-mit
-> > > > value is consistently stable / accurate but it looks like what's
-> > > > happening is that during freerun, the writer essentially dirties at
-> > > > memcpy speed until the freerun ceiling, and then the soft/proportio=
-nal
-> > > > throttling kicks in but doesn't kick in fast or hard enough, which
-> > > > allows the number of dirty pages to exceed the hard limit by ~2x, a=
-nd
-> > > > then at that point the writer is forced into the loop where it slee=
-ps
-> > > > max_pause (200ms) each iteration until writeback has drained the
-> > > > number of dirty pages back under the limit.
-> > >
-> > > OK, above you mentioned that the dirty limit for the memcgs is set at
-> > > 1.6GB. Does that mean that dirty throttling allows memcg to dirty up =
-to
-> > > ~3.2GB of pages? I wouldn't have expected that...
-> >
-> > On a couple of the runs, I saw it get as high as up to 5GB.
-> >
-> > I think this is because the balance_dirty_pages() code uses the memcg
-> > stats (NR_FILE_DIRTY) but these stats are only periodically
-> > flushed/refreshed when reading it, so the balance dirty code is
-> > seeing/using lagging/non-uptodate values.
-> >
-> > I'm seeing this in
-> >   balance_dirty_pages()
-> >       balance_domain_limits(mdtc,...)
-> >           domain_dirty_avail()
-> >                 mem_cgroup_wb_stats()
-> >                        mem_cgroup_flush_stats_ratelimited()
-> >
-> > where mem_cgroup_flush_stats_ratelimted() has this logic:
-> >
-> > void mem_cgroup_flush_stats_ratelimited(struct mem_cgroup *memcg)
-> > {
-> >         /* Only flush if the periodic flusher is one full cycle late */
-> >         if (time_after64(jiffies_64, READ_ONCE(flush_last_time) + 2*FLU=
-SH_TIME))
-> >                 mem_cgroup_flush_stats(memcg);
-> > }
-> >
-> > where FLUSH_TIME is defined as 2UL * HZ, which afaict means the
-> > flushing can be around 2 seconds stale (accounting for the periodic
-> > flusher in flush_memcg_stats_dwork() that flushes every FLUSH_TIME
-> > interval).
-> >
-> > From what I see, the freerun and hard limit checks use this stale
-> > under-reported value (in domain_dirty_freerun() and
-> > wb_position_ratio()), which means the writer gets to keep dirtying and
-> > blow past the limit for up to 2 extra seconds before the throttling
-> > limits it.
+> [1]: https://lore.kernel.org/all/20260608210618.3437216-1-willy@infradead=
+.org/
 >
-> I see. That would indeed explain why we can overrun the dirty limit so
-> much.
+> To: Namjae Jeon <linkinjeon@kernel.org>
+> Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: ntfs@lists.linux.dev
+> Cc: usama.arif@linux.dev
+> Cc: lance.yang@linux.dev
 >
-> > Maybe one idea is to in the memcg throttle path do the flush based on
-> > how many pages are getting dirtied instead of on how much time has
-> > elapsed? It looks like flushing grabs the rstat lock though, so maybe
-> > only doing it in the throttled case where it's past freerun would be
-> > best. It looks like the logic in the regular non-ratelimited
-> > mem_cgroup_flush_stats() call does something similar. I can run some
-> > experiments this week with this if you think it could be promising.
+> --
+> Changes in v3:
+> - Patch 2: Fixed the boundary check so pages straddling initialized_size
+>   are zeroed(Suggested by Usama).
+> - Patch 3: Rebased on the top of patch 2.
 >
-> Checking some git history, this actually seems to be a relatively recent
-> change from Shakeel (added to CC) - d9b3ce8769e3 ("mm: writeback: ratelim=
-it
-> stat flush from mem_cgroup_wb_stats"). So you can check whether reverting
-> that change makes dirty throttling not overshoot so much.
->
-
-Reverting d9b3ce8769e3 fixes the issue. On xfs, I'm now seeing the
-number of dirty pages stays bounded by the limit instead of going 2x+
-over, and the max latency is now around ~0.33s instead of ~4s.
-
-> Shakeel, your change to use mem_cgroup_flush_stats_ratelimited() in
-> mem_cgroup_wb_stats() results in applications overshooting memcg dirty
-> limits by several gigabytes which for small memcgs (with 8GB memory in th=
-is
-> case, which means a dirty limit of ~1.5GB) is a considerable issue. I gue=
-ss
-> the ratelimiting should take into account the size of memcg (or ideally t=
-he
-> dirty limit in the case of mem_cgroup_wb_stats()) as well. Using
-> somewhat outdated numbers for dirty throttling is fine but when we can
-> overshoot the dirty limit more than three times, it leads to rather long
-> stalls in dirty throttling and similar issues...
-
-It looks like commit d9b3ce8769e3 was landed in Feb 2024 when rstat
-was still using the single global lock. I see commit 748922dcfabd
-("cgroup: use subsystem-specific rstat locks to avoid contention")
-later in the tree, which was landed around May 2025 and reduces that
-global lock contention. That might make the cost of the flush a lot
-lower than what it was when the ratelimit was needed in d9b3ce8769e3,
-so maybe reverting d9b3ce8769e3 wouldn't make much of a difference for
-write-heavy workloads and would be the simplest fix? If it does still
-regress, I'd be happy to look into making the flush based on how many
-pages have been dirtied and scaled to the dirty limit, if that sounds
-like the best way forward. I tried running the sysbench
-oltp_write_only benchmark mentioned in d9b3ce8769e3 on my setup but
-couldn't get the database to dirty pages fast enough to trigger the
-balance dirty pages logic to see how it performs without the
-ratelimiting. If you still have the script for how you ran the test
-back in 2024, I'm happy to give it a go on my local machine.
-
-Thanks,
-Joanne
+> Signed-off-by: Hyunchul Lee <hyc.lee@gmail.com>
+> ---
+> Matthew Wilcox (Oracle) (4):
+>       ntfs: Inline zero_partial_compressed_page()
+>       ntfs: Remove use of __folio_index in handle_bounds_compressed_page(=
+)
+>       ntfs: Use zero_user_segment() in handle_bounds_compressed_page()
+>       ntfs: Remove references to page->__folio_index
+Applied them to #ntfs-next.
+Thanks!
