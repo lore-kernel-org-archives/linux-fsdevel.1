@@ -1,181 +1,541 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F8F13AA2D;
-	Thu, 16 Jul 2026 05:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784180185; cv=fail; b=oiInJhPffAusHWtKOy6o7OfLvDxXWuh9wZ4eRt+hzh1k4jjLQYD03DJVMGlZEwbiv8wcbhMyZpQGFyhQLKVBPJFZccmw251vO7hLYipd//obu112Le4k8x9qHvt8l/JpgkJEh2SJxuKnvU8kxW03Yecf9sFdns2RrTF8VzuYDPY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784180185; c=relaxed/simple;
-	bh=DZ6pVGY89GtAuEQRCk7fXoFAAOK/PjJjAIVI3fELjH8=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ow3Zhy+sLwSDWedncpqISVH/8EVtNeP0dmoPVkwtu20a9a/TeHTG5qy2cwKyZPXRuPcKqh5P01GJtuUuoikE8pKxzITj3ZFmgz+IRsObgu3Ix+iASnpHu9hnI6GjkZiwZUkbLJSL42HYSZddoV3u6rdRJn/RUjiDXz9QMGM4Ftc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a47Iokf6; arc=fail smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DBE236A01D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 07:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784187731; cv=none; b=j+U4laNpA+cPF3hFLYzIRNqxcrrY3830KomnphCdmO+hGpwjs/2GKmRzwtL4TnJ+bGO9A6VMDxtnNOapOJUDg6zyugRNe4xD24CNW6zVYD5oZ8IIti2NmFLwk8LK+XLV+j9LU3WRx61zVCuFePXNViov1/DEmPMrjAmRY8H45hA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784187731; c=relaxed/simple;
+	bh=3738nA6QmXTz1Pk1PrHuRLenW2/isWSknaJ1DgUgg3s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=d7B/rrBUIyVgorYNgLGP7e4JiD4kKqch9IxLBIc5mQS4kDW7bnFxrJQ2rQPWqfBzOYC345pVp7vVM1hM1bTlXFeOE2zA1arRvcpbRBRrS4kzaWs4BMOBfC49AtoQ2pO6isP5kp+yggc+hr0hl4pDHs4c2L0Fi8v5lbKqtqgoOcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YbGJNN6x; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a47Iokf6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784180183; x=1815716183;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=DZ6pVGY89GtAuEQRCk7fXoFAAOK/PjJjAIVI3fELjH8=;
-  b=a47Iokf6iYwTxuYGR4pPtuNJ97jljZ5ssczQQqqlGT7B8oyFMBYan2Ay
-   EyVFm2s6bkPEKiLrKY5XQ1XrxSyOBP3YTrRkgJtXYC8ZMrsvwKtOP1yQT
-   cHRhQ1LzUs15lRHrfExmWHRvtbVpYBU4DxGJhQzyc5ahoOyCv5Nj5wtog
-   UhH2/odPs/VyZNQYgu0sG08I1nsGFywSIzUq1mTUG/oJF8K7zYtKztTgD
-   RvZl9fuKl32EkdJSdRVWhfznomMGlwgh7jviAXnsb/7k3ZDk6eEdJDQoG
-   cFOl6UgH3DzisAwMxaDtcsaWDk+YtXpIdrlPH60kGhR4V8gVHV/f6cNj8
-   A==;
-X-CSE-ConnectionGUID: K+UVPrXgTGyZbp3gV5kUeA==
-X-CSE-MsgGUID: 67ei3O7cT7eUbW3UhvweAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="84791920"
-X-IronPort-AV: E=Sophos;i="6.25,166,1779174000"; 
-   d="scan'208";a="84791920"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 22:36:22 -0700
-X-CSE-ConnectionGUID: AP9avCuzTuONyBSBqaI4uw==
-X-CSE-MsgGUID: uKFH+jUhQxSB3ybGK5/yjg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,166,1779174000"; 
-   d="scan'208";a="260703556"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 22:36:22 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Wed, 15 Jul 2026 22:36:21 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43 via Frontend Transport; Wed, 15 Jul 2026 22:36:21 -0700
-Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.27) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Wed, 15 Jul 2026 22:36:21 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QdzLdRde1ahrcJC/z0NBdalthFcP/jYx130L521F90s8GszNtN3t6P/bq0LN7HtFpZBOv0vl6yAWRwiZSVsOQetvYeAQt0iyfRu1DqVA1u/slx9w0upSrNquJZGwNLb7gYPdelvmED45yMu5UMBU2VNrxINNhXgncVPUMU5zmYWI3PQBEQYdDE+reLc3NCXRCK/rHxmaWEq0whGWW1Gs9y6OfpPwdrRERWfPiSNdNL+vH9tmepIYIXU4EEQjgcZc83Yayu5bEKgZOZ1oKs6VgXatGdfnXdGyWPDMxzgLfNExMxpxxejKDrpnMZbiTOgfG2hrdo94wMve8V3BXxR1+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Pv1XQXhAsKZrJaBfmepqbb6cNiwHWnVZ5QoQsef4Lpk=;
- b=FNHs7Upgudq3Dx2C6sv6KDrHuOXiKWSf2hyGxPIt/nwpqwMay9JfNpMkeWHohwEqF/msP7UIAWIzPyGxIVuQbll2YSbjJm1t1btRfaaoOpIU3FGgocihniY180+qzjGh57cqdsZJAAG88CZoogF+diTRG/ltOfbe9zKWt4W4i3h73qQ/DRrDKyAx8/9EXuoopUFrnVOVc/jrxXOBJizXEuJ6JQIjwjCH4c+YdmoyVuPUjTHdq4opGzLhPmvat8wKHMmBDSFMbTRbrkz2DCrKJ+dzHr0yriUQJQFZpvLOxo9mJE1pfXys9ylzog+hGadH+3wvtjx5weRGLMP9AC53gQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5832.namprd11.prod.outlook.com (2603:10b6:510:141::7)
- by MW4PR11MB7080.namprd11.prod.outlook.com (2603:10b6:303:21a::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.12; Thu, 16 Jul
- 2026 05:36:17 +0000
-Received: from PH0PR11MB5832.namprd11.prod.outlook.com
- ([fe80::106e:78dd:4c96:d707]) by PH0PR11MB5832.namprd11.prod.outlook.com
- ([fe80::106e:78dd:4c96:d707%5]) with mapi id 15.21.0223.008; Thu, 16 Jul 2026
- 05:36:17 +0000
-Date: Thu, 16 Jul 2026 13:36:09 +0800
-From: Oliver Sang <oliver.sang@intel.com>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, <linux-block@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <oliver.sang@intel.com>
-Subject: Re: [linux-next:master] [loop] d908729e74:
- stress-ng.umount.ops_per_sec 100.0% regression
-Message-ID: <alhtyV7wdura5Q9m@xsang-OptiPlex-9020>
-References: <202607151655.9d74999d-lkp@intel.com>
- <564105ec-acee-4178-be9f-077f783c1122@I-love.SAKURA.ne.jp>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <564105ec-acee-4178-be9f-077f783c1122@I-love.SAKURA.ne.jp>
-X-ClientProxiedBy: SI1PR02CA0038.apcprd02.prod.outlook.com
- (2603:1096:4:1f6::15) To PH0PR11MB5832.namprd11.prod.outlook.com
- (2603:10b6:510:141::7)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YbGJNN6x"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c9e0b89e228so1876655a12.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 00:42:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784187729; x=1784792529; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=V9uYwin0WFx1EUW35rOQEQ0AJj52CtdHfuFlypkxxks=;
+        b=YbGJNN6xwkZuInEXUicwNKyr4YJAodv8vBFFSCqh8bU74cWASVAwoZDPglE6orJuAx
+         KjzCwfvuAmG0Q0G+T/3Gv+zNF4O0a457i8W4uO8WjM7Zh/euaBGKaCFZHYQwwb1RplLY
+         zwh5xnMV7xf6O7mIZKzP9F2cMW+Us2UF9EyaBvwmEyPcvGOSmEx9f9hJeSACdMOigWFy
+         lyxCZ9Wglk3uAERQCBvJfP39kxBlIo9jHjPZtcMR0zF9/ShS7VAzyQDYrGxehnxWmr69
+         JN6bb7JtleHyufUfMSIqBIlvo92ahvx9KalNbfN21YxHoMyP8h3L/Rcx2GIirnNmhx5t
+         iS9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784187729; x=1784792529;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=V9uYwin0WFx1EUW35rOQEQ0AJj52CtdHfuFlypkxxks=;
+        b=LidTfVCl+BsIzHpdmcyGJYqUH8gszh0ejh8yOjLl/Z/MNys/yzyOCB6mKj0Ycpl9Uu
+         r0tNXAVmoCKlVynvaBeuuOVZqgh6iefJ5+zYPrkrrmXemRj67ibEgbhPTnZ8Jbl/w9WI
+         9+AE3carMZ9WF7qapB8/jLn8x0AI1pkea3AmwmfrKgRa/Oyusfn4qwp239pB8a92nzLl
+         3FhU1DQZEcdVocK5nYDby+ZOIkgaOtXQ1QN0U/OwZ7bsMuoiY3eqJq0JRhvR22WGOBlj
+         W2dRZVhkH6JoPBsjnlNHXnrKGAv1Yj+Hmh4UNcrZgDr7Sl+uO2IIq1zuLDF+/bLGhc9x
+         J9Rw==
+X-Forwarded-Encrypted: i=1; AHgh+Rpck9Ja50PutfLB+16W0GMTJqgTljkhiLL2B3eh42E4oNFliGm4jbjzv4U2t30LJsH7pu1M+ZqYRrhTB2ed@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy50zZy7qYDpBfnl6yIaJus5XBnszaHF+VQf4oMAo/K8lcrROUi
+	PWCgKHNKClmlEGOmTrX+Jk1HAGvTLEBhl3fACkrB9vTa1f7RwVEFDfT1
+X-Gm-Gg: AfdE7cn6s8odlbND76fkMZLqj70qQh+EQOYMgFXMfqKXRktOg9IckKJInqDxlECuM1U
+	CejtgfX09uNZ6nCW/8VasX3ME5zBBiXH/4tv5e2cgQtMG4eDmqXxQo8fG5F7xocC+hb2oNAMWUL
+	Lwhqk10cc9GDA5i9U/0m+9BsRAx4doK7gJ1oquvHFrvxVIQ1EuwiFEN37HA8ORHpKusEMvEmcSe
+	WBeayyEBzpAW0wNdruzfAC87ZUvFb+De30r+Kzc8dDhq7TTEb1kTsuSfDfI3hq5sDODpkMr4X2Y
+	iyjzitFnXvxTDoaDGT6cTPrumd0QRqzvygBp2grWDV+7KE6S7mL/aw3bg5/0Ub6FszPmHJ/l1YC
+	a4771atEKfYW1vBy5mX+TFI5SDbnLJ69QuFgyJhegtecT+x/vQnLb0hLwQJsiilXfOmnKUW4Fw2
+	TuBLZenBtmXF4yzzacvhWqv+7Phnjnz3XVb0S6aifWnaSSCSgSY5fbvhTn5jK5fsT/ApFOo83nH
+	lDiK+wzYPBt8LPiETJA++vZttIu0h8ZcTrB0HsVBIMCrfPqYAqdwvstU8GlcDcPvAjqQAHqbXpx
+	LV7CH+/Bze3k/d2YUEqOSJTlc36J
+X-Received: by 2002:a05:6a20:4e92:b0:3bf:6c07:b2f0 with SMTP id adf61e73a8af0-3c110ad2d7fmr22287993637.51.1784187728556;
+        Thu, 16 Jul 2026 00:42:08 -0700 (PDT)
+Received: from cs-1047136853211-default.asia-southeast1-a.c.z168d0f9edf9bc766-tp.internal (143.164.142.34.bc.googleusercontent.com. [34.142.164.143])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3140e6c0702sm8697547eec.22.2026.07.16.00.42.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2026 00:42:08 -0700 (PDT)
+From: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+To: slava@dubeyko.com
+Cc: glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+Subject: [PATCH v6] hfs: port HFS+ b-tree bitmap corruption check
+Date: Thu, 16 Jul 2026 07:41:50 +0000
+Message-ID: <20260716074150.1660-1-aditya.ansh182@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5832:EE_|MW4PR11MB7080:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2e6e7a71-cff9-4236-4f69-08dee2fc28b2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|11063799006|4143699003|56012099006|10067099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: +X2Mco40xe/W51tqVL4D2Kuqd+TogfrEdY4MBFjKGY5J850wg75MO8mTcFDpT+Qhi10w+QLfnhJ8+vKmNagh7/jI3GNu2zJ+Yv+Y3JdeK0D9BcvCnh8vPGfBgRp4VajAfrHYUWmVt9wRUJ1M+xl/iVOocsUVV1tQqWdynnXaPTW1/SGK5ls5NIcV+oPbTzvjeUEYvcjRIe4vs5m1xB/n2tFK1T10u/KAaollSl+KxSBRIgyOYI8lrllqw3lbix0X/R/0mb9whcmiUzhMQ/VWi03RqdNI8NULjz26FbNfZBZirkUz9Tzbw6Mgq8eBHZm8I/UEmNucIPwPJevOodf6KVo4msziTprsAJbGz5jiALZoF7j9Ly49Gqaastw+QPmeG0oQAe1fc+EBiUwpXgIeBh+wLU08ZDGV6Uyg82tcWYaxRo94P498yCHLHphzojeBp/l5DVBu6XByjURILAKVnXPM658j30Hb2pNJJyK+7qLFxWcVAKJ8WQqFH8fbWke1nc/A8oFyptYX4BqR2qEEsmk6dYw6UDIvkhDrP1uOsAfHVPkpLMX88Uk9OUGsjX7Mc3M+R59SS2qhwJ+Vw8s0LIn2CY8CU1/75/PYuJIKXHhWwpUXXMqbyRXIZSn0hqxEYV9Xf/Wx7h+kCx3dQd1ueP4ex2BVvFRRqR2e5lS2cu8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5832.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(11063799006)(4143699003)(56012099006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Tmn7B2A085iqJcnYaGWMXJYIRyfwOOpK3o+QpWuG3co/cwP655fH3CdUhWeb?=
- =?us-ascii?Q?9QcSQZrex8sSzKedqqGd7API2atzTBVfL6blIb0rUGSOfsSfVS8BhLCtJU60?=
- =?us-ascii?Q?zi8DHvF2eFec6ZeMiqS4uWgPpXeFTqMXmI6ePRn4x6VZgBc9yMt94N3bw6BM?=
- =?us-ascii?Q?zb7+6umRq+Ru/TLj5qxG+Zvi0Kmh1ppH9CiuUWSlKWk3FYwh7LLgqc2InZH4?=
- =?us-ascii?Q?+wJV/28DR6Ab3H+wPAkkE1ByAhVZBFKdGDq5fJJq+fugVsmwlNbkBSAF8Ms7?=
- =?us-ascii?Q?BMqlaX1yFB90aHBmKgF7Pdf0nCRPDtSc2GdIKSB1vCwaX2exMkocsrSwBDAi?=
- =?us-ascii?Q?CBziGndvsNyjUzwUSUX3Reym0MLMAVEnrmV+Bx0B3j3QTuE+m6yHuGjhqjiM?=
- =?us-ascii?Q?fSFNceuXyMba9EMjwGyvlG3LFnXeAnTORz1Mdhlq4fYwb0mlDXOIELebSyAx?=
- =?us-ascii?Q?bXjms2/DQ5BqPqNcxH6++F5Eebb+cdV05NVTYmp4koCoI8YM4F3YFoQhDYYV?=
- =?us-ascii?Q?gE+NuCmOvVqb5y90QiM5O7ho4TdBR4hDnxi1vUSBVUdfdks6fkWMHqI9aH0k?=
- =?us-ascii?Q?0yWcZ589vpcqOhE+br0B99bXaqNVUT7TcA/zhmdTrZu730om/XRQFAYzTQ/L?=
- =?us-ascii?Q?1NXbRefqs9oiQoKqx83R+OwvZwk8KhCmT/d+57GCcrsqyGHTZa6EGrPuwDds?=
- =?us-ascii?Q?0kwnpgnaGnw2AeYGkzXgfsq2VBAd+bsv9qGZmNz1/8EwuUMtCw0xS/WEglqs?=
- =?us-ascii?Q?Qg/vEUseik4f50cKTXX4z6vOrFEjKplMwuReTiHg0DZ1nki16/jVHBt0kFy0?=
- =?us-ascii?Q?+AB1a57C7tl6kopLtz8fQ8jxEDM10+c90uqOddN5Qyj+h3g474Mm/xHGNVvP?=
- =?us-ascii?Q?zM0fd7ANcWFWHycJ1H1/9VzoG3FJuZy16o0f+P+H2ztJ2jqasUf35Io36m4L?=
- =?us-ascii?Q?Kk5PjGKe8Qumm83k6gdGk9rdyXpiScvdUZOCOC1TGhngwGNpYk2AGNZO2Jvx?=
- =?us-ascii?Q?ue3pOadlq8RSQAzqRAeCTNfiUUJ6Gw6teAzUD1vWUzRlENodPyIAzA4H9ylE?=
- =?us-ascii?Q?Vji1BmrBoy7buuITX8IH09XQrL9uf546OkMSJRmKQ4BC9H1+Ed1SQlpqFndQ?=
- =?us-ascii?Q?aHRUJ8WsmeC75mmdNZ84yweNJ0ouU6EGxkFaf5s7gCX1vCxTr1a9ES8rRqZG?=
- =?us-ascii?Q?Tlo3DKtjPetkRpunTVTbps/rkOQKILSVDA9MimuXupuSepHVboIiQc9uZNpg?=
- =?us-ascii?Q?jWkyN/UM7usoyM6GMiYB7MacVe37a4XIc/GaiI4CzyIErRUXBXF41mMwSD/z?=
- =?us-ascii?Q?nAEfosbu8RAQERIJj1dTlkZ4XCV2RyFC7GJts2k5bXe4JM6jW9psBbYSVKWi?=
- =?us-ascii?Q?zfO8Gga7XYT+F5hW+/fAa5mnrF5+IMqc22bHQNDXtTdtqOYrWjgMM5jfbsDA?=
- =?us-ascii?Q?p/+pS7Do9HFhybYnI1Czm0w2txZmaPx14+LOyW+zIaVsKGmHhdMSr8JWy81d?=
- =?us-ascii?Q?5WdUf7T24aMinuN/AfzK5p7Z//ahmjG8/9yLhj0KdmaCH+JM1EmlNCsMNDoG?=
- =?us-ascii?Q?k9WiseR8eiL5DUnZ87aPXMRdvdr+ZyBauQd//tgvX7umfznY9/WNSaPQHt4+?=
- =?us-ascii?Q?A53meNcDQUg7kQQ1axG+uvUl2Cws+BBhKpDEBxjTOuZ2cp9+n1jzBBK4TJIS?=
- =?us-ascii?Q?ImGFZ/P9uEGgbi6TSj9PLTVlCU9c7XNHRRKzfBnnSO/zL6thTFyviLz+qS7f?=
- =?us-ascii?Q?c9i3Y9/Vkw=3D=3D?=
-X-Exchange-RoutingPolicyChecked: Wz0CMqtwHh+2n4onj5cClsaBijbdinvFam1Vf5gVM3q8faneMZs8td6T2OG1Oh0ehWDVXe28olJ1wCROGs8qgYn5rkkMeA5FWQmZ5VoFSn74mj5XntxSWNGdAZ7zaSWxEY62MkMMPfNqI1zZG3EDGdgLQ5LDhHKUFtWR5YGlhS7aPaNm9jFT1TOTmiKA4Yly03KfQSjsV5QvY2hsHDawkwP9aNMXkibYrWfLSCZHDUyZh6kn2XNqpeBzsyg9MHeXTxItnXz+iSXI3Hd4QdjvXaUcQySsSVyKbVQl96bqQpnn1Hk9HfGlPYpsf7157vyBOEOzrDcycOdFgtQxD2tMwQ==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e6e7a71-cff9-4236-4f69-08dee2fc28b2
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5832.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2026 05:36:17.8051
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fBWkXr2t29knmEv+JZm1ntOsNbhdwvx9P/E19EnZ5EcUv1elHvkCMkQAQ0HQdhHjYqGQ1n6JKRujAmRmbQKAyw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB7080
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-hi, Tetsuo Handa,
+In HFS+ filesystems, during b-tree open (hfs_btree_open()), the code
+verifies that the allocation map bit for the tree header (node 0) is
+set. If not, it indicates a corrupted map record/bitmap and mounts
+the volume as read-only (SB_RDONLY) to prevent further damage.
 
-On Wed, Jul 15, 2026 at 11:25:38PM +0900, Tetsuo Handa wrote:
-> On 2026/07/15 22:55, kernel test robot wrote:
-> > 
-> > hi, Tetsuo Handa,
-> > 
-> > this report is just FYI.
-> > we understand d908729e74 is an experimental patch, and it seems there are lots
-> > of print while running stress-ng.umount tests (one dmesg is attached)
-> > 
-> > [   59.370110][T10457] do_umount: task=stress-ng-umoun[10457] propagate_mount_busy()!=0
-> > [   59.394831][T10476] do_umount: task=stress-ng-umoun[10476] propagate_mount_busy()!=0
-> > [   59.404989][T10477] do_umount: task=stress-ng-umoun[10477] propagate_mount_busy()!=0
-> > [   59.414578][T10473] do_umount: task=stress-ng-umoun[10473] propagate_mount_busy()!=0
-> > [   59.423911][T10460] do_umount: task=stress-ng-umoun[10460] propagate_mount_busy()!=0
-> > 
-> > ....
-> > 
-> > 
-> > so the very slow performance is expected?
-> 
-> Since printk() is a slow operation, stressing umount() operation that fail with -EBUSY
-> can cause significantly slow performance. Can you try without fs/namespace.c changes?
-> 
+HFS filesystems share the same b-tree structure but currently lack
+this corruption detection check.
 
-I saw v5 patch which removes fs/namespace.c changes.
-we won't do manual tests upon it. instead, our bot would automatically bisect
-and report if new version has any performance impacts. thanks
+Port this check to HFS, aligning its implementation with HFS+ to
+maintain consistent b-tree logic across both filesystems:
+1. Define struct hfs_bmap_ctx, and define HFS_TREE_HEAD and the relevant
+   map record indices in include/linux/hfs_common.h.
+2. Port the necessary offset and length validation helpers to
+   fs/hfs/btree.h as static inline functions with robust null pointer
+   checks.
+3. Implement static hfs_bmap_get_map_page() in fs/hfs/btree.c.
+4. Implement static hfs_bmap_test_bit() in fs/hfs/btree.c to inspect
+   the B-tree bitmap using the get_map_page helper.
+5. Implement static hfs_bmap_clear_bit() in fs/hfs/btree.c.
+6. Rewrite hfs_bmap_alloc() in fs/hfs/btree.c to use the unified
+   hfs_bmap_get_map_page() helper, eliminating redundant page and offset
+   calculation code.
+7. Refactor hfs_bmap_free() in fs/hfs/btree.c to use the new
+   hfs_bmap_clear_bit() helper.
+8. In hfs_btree_open(), retrieve the header node via hfs_bnode_find(),
+   test its allocation bit with hfs_bmap_test_bit(), and release it
+   using hfs_bnode_put().
+
+Suggested-by: Viacheslav Dubeyko <slava@dubeyko.com>
+Link: https://lore.kernel.org/all/6a36101b.be22b350.2a3e9.0001.GAE@google.com/T/#r446d0fed2a2900bd805534bbcb799d86619ae2ea
+Signed-off-by: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+---
+ fs/hfs/bnode.c             |  42 --------
+ fs/hfs/btree.c             | 210 +++++++++++++++++++++++++++++--------
+ fs/hfs/btree.h             |  40 +++++++
+ include/linux/hfs_common.h |  13 ++-
+ 4 files changed, 218 insertions(+), 87 deletions(-)
+
+diff --git a/fs/hfs/bnode.c b/fs/hfs/bnode.c
+index da8e5342c91c..1b331108d9c0 100644
+--- a/fs/hfs/bnode.c
++++ b/fs/hfs/bnode.c
+@@ -15,48 +15,6 @@
+ 
+ #include "btree.h"
+ 
+-static inline
+-bool is_bnode_offset_valid(struct hfs_bnode *node, u32 off)
+-{
+-	bool is_valid = off < node->tree->node_size;
+-
+-	if (!is_valid) {
+-		pr_err("requested invalid offset: "
+-		       "NODE: id %u, type %#x, height %u, "
+-		       "node_size %u, offset %u\n",
+-		       node->this, node->type, node->height,
+-		       node->tree->node_size, off);
+-	}
+-
+-	return is_valid;
+-}
+-
+-static inline
+-u32 check_and_correct_requested_length(struct hfs_bnode *node, u32 off, u32 len)
+-{
+-	unsigned int node_size;
+-
+-	if (!is_bnode_offset_valid(node, off))
+-		return 0;
+-
+-	node_size = node->tree->node_size;
+-
+-	if ((u64)off + len > node_size) {
+-		u32 new_len = node_size - off;
+-
+-		pr_err("requested length has been corrected: "
+-		       "NODE: id %u, type %#x, height %u, "
+-		       "node_size %u, offset %u, "
+-		       "requested_len %u, corrected_len %u\n",
+-		       node->this, node->type, node->height,
+-		       node->tree->node_size, off, len, new_len);
+-
+-		return new_len;
+-	}
+-
+-	return len;
+-}
+-
+ void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32 off, u32 len)
+ {
+ 	struct page *page;
+diff --git a/fs/hfs/btree.c b/fs/hfs/btree.c
+index 2eb37a2f64e8..41b4e8fc9463 100644
+--- a/fs/hfs/btree.c
++++ b/fs/hfs/btree.c
+@@ -15,6 +15,121 @@
+ 
+ #include "btree.h"
+ 
++/* Context for iterating b-tree map pages
++ * @page_idx: The index of the page within the b-node's page array
++ * @off: The byte offset within the mapped page
++ * @len: The remaining length of the map record
++ */
++struct hfs_bmap_ctx {
++	unsigned int page_idx;
++	unsigned int off;
++	u16 len;
++};
++
++/*
++ * Finds the specific page containing the requested byte offset within the map
++ * record. Automatically handles the difference between header and map nodes.
++ * Returns the struct page pointer, or an ERR_PTR on failure.
++ * Note: The caller is responsible for mapping/unmapping the returned page.
++ */
++static struct page *hfs_bmap_get_map_page(struct hfs_bnode *node,
++					  struct hfs_bmap_ctx *ctx,
++					  u32 byte_offset)
++{
++	u16 rec_idx, off16;
++	unsigned int page_off;
++
++	if (node->this == HFS_TREE_HEAD) {
++		if (node->type != HFS_NODE_HEADER) {
++			pr_err("hfs: invalid btree header node\n");
++			return ERR_PTR(-EIO);
++		}
++		rec_idx = HFS_BTREE_HDR_MAP_REC_INDEX;
++	} else {
++		if (node->type != HFS_NODE_MAP) {
++			pr_err("hfs: invalid btree map node\n");
++			return ERR_PTR(-EIO);
++		}
++		rec_idx = HFS_BTREE_MAP_NODE_REC_INDEX;
++	}
++
++	ctx->len = hfs_brec_lenoff(node, rec_idx, &off16);
++	if (!ctx->len)
++		return ERR_PTR(-ENOENT);
++
++	if (!is_bnode_offset_valid(node, off16))
++		return ERR_PTR(-EIO);
++
++	ctx->len = check_and_correct_requested_length(node, off16, ctx->len);
++
++	if (byte_offset >= ctx->len)
++		return ERR_PTR(-EINVAL);
++
++	page_off = (u32)off16 + node->page_offset + byte_offset;
++	ctx->page_idx = page_off >> PAGE_SHIFT;
++	ctx->off = page_off & ~PAGE_MASK;
++
++	return node->page[ctx->page_idx];
++}
++
++/**
++ * hfs_bmap_test_bit - test a bit in the b-tree map
++ * @node: the b-tree node containing the map record
++ * @node_bit_idx: the relative bit index within the node's map record
++ *
++ * Returns true if set, false if clear or on failure.
++ */
++static bool hfs_bmap_test_bit(struct hfs_bnode *node, u32 node_bit_idx)
++{
++	struct hfs_bmap_ctx ctx;
++	struct page *page;
++	u8 *bmap, byte, mask;
++
++	page = hfs_bmap_get_map_page(node, &ctx, node_bit_idx / BITS_PER_BYTE);
++	if (IS_ERR(page))
++		return false;
++
++	bmap = kmap_local_page(page);
++	byte = bmap[ctx.off];
++	kunmap_local(bmap);
++
++	mask = 1 << (7 - (node_bit_idx % BITS_PER_BYTE));
++	return (byte & mask) != 0;
++}
++
++/**
++ * hfs_bmap_clear_bit - clear a bit in the b-tree map
++ * @node: the b-tree node containing the map record
++ * @node_bit_idx: the relative bit index within the node's map record
++ *
++ * Returns 0 on success, -EINVAL if already clear, or negative error code.
++ */
++static int hfs_bmap_clear_bit(struct hfs_bnode *node, u32 node_bit_idx)
++{
++	struct hfs_bmap_ctx ctx;
++	struct page *page;
++	u8 *bmap, mask;
++
++	page = hfs_bmap_get_map_page(node, &ctx, node_bit_idx / BITS_PER_BYTE);
++	if (IS_ERR(page))
++		return PTR_ERR(page);
++
++	bmap = kmap_local_page(page);
++
++	mask = 1 << (7 - (node_bit_idx % BITS_PER_BYTE));
++
++	if (!(bmap[ctx.off] & mask)) {
++		kunmap_local(bmap);
++		return -EINVAL;
++	}
++
++	bmap[ctx.off] &= ~mask;
++	set_page_dirty(page);
++	kunmap_local(bmap);
++
++	return 0;
++}
++
+ /* Get a reference to a B*Tree and do some initial checks */
+ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id, btree_keycmp keycmp)
+ {
+@@ -23,6 +138,7 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id, btree_keycmp ke
+ 	struct address_space *mapping;
+ 	struct folio *folio;
+ 	struct buffer_head *bh;
++	struct hfs_bnode *node;
+ 	unsigned int size;
+ 	u16 dblock;
+ 	sector_t start_block;
+@@ -155,6 +271,20 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id, btree_keycmp ke
+ 	kunmap_local(head);
+ 	folio_unlock(folio);
+ 	folio_put(folio);
++
++	node = hfs_bnode_find(tree, HFS_TREE_HEAD);
++	if (IS_ERR(node))
++		goto free_inode;
++
++	if (!hfs_bmap_test_bit(node, HFS_TREE_HEAD)) {
++		pr_warn("(%s): %s (cnid 0x%x) bitmap corrupted, forcing rdonly\n",
++			sb->s_id, id == HFS_EXT_CNID ? "extents" : "catalog", id);
++		pr_warn("Run fsck.hfs to repair.\n");
++		sb->s_flags |= SB_RDONLY;
++	}
++
++	hfs_bnode_put(node);
++
+ 	return tree;
+ 
+ fail_folio:
+@@ -285,11 +415,9 @@ int hfs_bmap_reserve(struct hfs_btree *tree, u32 rsvd_nodes)
+ struct hfs_bnode *hfs_bmap_alloc(struct hfs_btree *tree)
+ {
+ 	struct hfs_bnode *node, *next_node;
+-	struct page **pagep;
++	struct hfs_bmap_ctx ctx;
++	struct page *page;
+ 	u32 nidx, idx;
+-	unsigned off;
+-	u16 off16;
+-	u16 len;
+ 	u8 *data, byte, m;
+ 	int i, res;
+ 
+@@ -301,24 +429,26 @@ struct hfs_bnode *hfs_bmap_alloc(struct hfs_btree *tree)
+ 	node = hfs_bnode_find(tree, nidx);
+ 	if (IS_ERR(node))
+ 		return node;
+-	len = hfs_brec_lenoff(node, 2, &off16);
+-	off = off16;
+ 
+-	off += node->page_offset;
+-	pagep = node->page + (off >> PAGE_SHIFT);
+-	data = kmap_local_page(*pagep);
+-	off &= ~PAGE_MASK;
++	page = hfs_bmap_get_map_page(node, &ctx, 0);
++	if (IS_ERR(page)) {
++		res = PTR_ERR(page);
++		hfs_bnode_put(node);
++		return ERR_PTR(res);
++	}
++
++	data = kmap_local_page(page);
+ 	idx = 0;
+ 
+ 	for (;;) {
+-		while (len) {
+-			byte = data[off];
++		while (ctx.len) {
++			byte = data[ctx.off];
+ 			if (byte != 0xff) {
+ 				for (m = 0x80, i = 0; i < 8; m >>= 1, i++) {
+ 					if (!(byte & m)) {
+ 						idx += i;
+-						data[off] |= m;
+-						set_page_dirty(*pagep);
++						data[ctx.off] |= m;
++						set_page_dirty(page);
+ 						kunmap_local(data);
+ 						tree->free_nodes--;
+ 						mark_inode_dirty(tree->inode);
+@@ -327,13 +457,14 @@ struct hfs_bnode *hfs_bmap_alloc(struct hfs_btree *tree)
+ 					}
+ 				}
+ 			}
+-			if (++off >= PAGE_SIZE) {
++			if (++ctx.off >= PAGE_SIZE) {
+ 				kunmap_local(data);
+-				data = kmap_local_page(*++pagep);
+-				off = 0;
++				page = node->page[++ctx.page_idx];
++				data = kmap_local_page(page);
++				ctx.off = 0;
+ 			}
+ 			idx += 8;
+-			len--;
++			ctx.len--;
+ 		}
+ 		kunmap_local(data);
+ 		nidx = node->next;
+@@ -347,22 +478,22 @@ struct hfs_bnode *hfs_bmap_alloc(struct hfs_btree *tree)
+ 			return next_node;
+ 		node = next_node;
+ 
+-		len = hfs_brec_lenoff(node, 0, &off16);
+-		off = off16;
+-		off += node->page_offset;
+-		pagep = node->page + (off >> PAGE_SHIFT);
+-		data = kmap_local_page(*pagep);
+-		off &= ~PAGE_MASK;
++		page = hfs_bmap_get_map_page(node, &ctx, 0);
++		if (IS_ERR(page)) {
++			res = PTR_ERR(page);
++			hfs_bnode_put(node);
++			return ERR_PTR(res);
++		}
++		data = kmap_local_page(page);
+ 	}
+ }
+ 
+ void hfs_bmap_free(struct hfs_bnode *node)
+ {
+ 	struct hfs_btree *tree;
+-	struct page *page;
+ 	u16 off, len;
+ 	u32 nidx;
+-	u8 *data, byte, m;
++	int res;
+ 
+ 	hfs_dbg("node %u\n", node->this);
+ 	tree = node->tree;
+@@ -396,23 +527,18 @@ void hfs_bmap_free(struct hfs_bnode *node)
+ 		}
+ 		len = hfs_brec_lenoff(node, 0, &off);
+ 	}
+-	off += node->page_offset + nidx / 8;
+-	page = node->page[off >> PAGE_SHIFT];
+-	data = kmap_local_page(page);
+-	off &= ~PAGE_MASK;
+-	m = 1 << (~nidx & 7);
+-	byte = data[off];
+-	if (!(byte & m)) {
++
++	res = hfs_bmap_clear_bit(node, nidx);
++	if (res == -EINVAL) {
+ 		pr_crit("trying to free free bnode %u(%d)\n",
+-			node->this, node->type);
+-		kunmap_local(data);
+-		hfs_bnode_put(node);
+-		return;
++			nidx, node->type);
++	} else if (res) {
++		pr_crit("fail to free bnode %u(%d)\n",
++			nidx, node->type);
++	} else {
++		tree->free_nodes++;
++		mark_inode_dirty(tree->inode);
+ 	}
+-	data[off] = byte & ~m;
+-	set_page_dirty(page);
+-	kunmap_local(data);
++
+ 	hfs_bnode_put(node);
+-	tree->free_nodes++;
+-	mark_inode_dirty(tree->inode);
+ }
+diff --git a/fs/hfs/btree.h b/fs/hfs/btree.h
+index 99be858b2446..b4c3f2a31471 100644
+--- a/fs/hfs/btree.h
++++ b/fs/hfs/btree.h
+@@ -129,3 +129,43 @@ extern int __hfs_brec_find(struct hfs_bnode *bnode, struct hfs_find_data *fd);
+ extern int hfs_brec_find(struct hfs_find_data *fd);
+ extern int hfs_brec_read(struct hfs_find_data *fd, void *rec, u32 rec_len);
+ extern int hfs_brec_goto(struct hfs_find_data *fd, int cnt);
++
++static inline bool is_bnode_offset_valid(struct hfs_bnode *node, u32 off)
++{
++	bool is_valid;
++
++	if (!node || !node->tree)
++		return false;
++
++	is_valid = off < node->tree->node_size;
++
++	if (!is_valid) {
++		pr_err("invalid offset: id %u, type %#x, h %u, sz %u, off %u\n",
++		       node->this, node->type, node->height,
++		       node->tree->node_size, off);
++	}
++
++	return is_valid;
++}
++
++static inline u32 check_and_correct_requested_length(struct hfs_bnode *node, u32 off, u32 len)
++{
++	unsigned int node_size;
++
++	if (!is_bnode_offset_valid(node, off))
++		return 0;
++
++	node_size = node->tree->node_size;
++
++	if ((u64)off + len > node_size) {
++		u32 new_len = node_size - off;
++
++		pr_err("corrected len: id %u, type %#x, h %u, sz %u, off %u, len %u->%u\n",
++		       node->this, node->type, node->height,
++		       node_size, off, len, new_len);
++
++		return new_len;
++	}
++
++	return len;
++}
+diff --git a/include/linux/hfs_common.h b/include/linux/hfs_common.h
+index 45fb4c9ff9f5..d6a615e74b26 100644
+--- a/include/linux/hfs_common.h
++++ b/include/linux/hfs_common.h
+@@ -510,14 +510,21 @@ struct hfs_btree_header_rec {
+ 						   b-tree but not in extents
+ 						   b-tree (hfsplus). */
+ 
++/* HFS BTree misc info */
++#define HFS_TREE_HEAD				0
++#define HFS_BTREE_HDR_MAP_REC_INDEX		2	/* Map (bitmap) record in Header node */
++#define HFS_BTREE_MAP_NODE_REC_INDEX		0	/* Map record in Map Node */
++
+ /* HFS+ BTree misc info */
+-#define HFSPLUS_TREE_HEAD			0
++#define HFSPLUS_TREE_HEAD			HFS_TREE_HEAD
+ #define HFSPLUS_NODE_MXSZ			32768
+ #define HFSPLUS_NODE_MINSZ			512
+ #define HFSPLUS_ATTR_TREE_NODE_SIZE		8192
+ #define HFSPLUS_BTREE_HDR_NODE_RECS_COUNT	3
+-#define HFSPLUS_BTREE_HDR_MAP_REC_INDEX		2	/* Map (bitmap) record in Header node */
+-#define HFSPLUS_BTREE_MAP_NODE_REC_INDEX	0	/* Map record in Map Node */
++/* Map (bitmap) record in Header node */
++#define HFSPLUS_BTREE_HDR_MAP_REC_INDEX		HFS_BTREE_HDR_MAP_REC_INDEX
++/* Map record in Map Node */
++#define HFSPLUS_BTREE_MAP_NODE_REC_INDEX	HFS_BTREE_MAP_NODE_REC_INDEX
+ #define HFSPLUS_BTREE_HDR_USER_BYTES		128
+ #define HFSPLUS_BTREE_MAP_NODE_RECS_COUNT	2
+ #define HFSPLUS_BTREE_MAP_NODE_RESERVED_BYTES	2
+-- 
+2.47.3
+
