@@ -1,100 +1,101 @@
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463B236F42A
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 16:04:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B653D3339
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 16:10:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784217885; cv=none; b=Q8VOvdmEXP3k5trpWlVEOl2kEjyXGbBBrMd5Ta5lUtiCv6UdgIj/4cwTeojNqy3tBbqwY2TBtEvlFvfXFIZmGE4d2hM3RNb+tilRasup2ktSS7eYsS6e2Rh2e/nfOdOu2HN2eigQs+IltVgOJ+9Efi81EsNChYgCYwxzh78171o=
+	t=1784218205; cv=none; b=bCJQP5/YZI6IwTwKwzbxYMG1ZkM+e35wqzvrH476ICO9ZjsCj6QqjFLKs59Wez65r02+x+7dP84m3IaClM4odrbBx58iCdx8hCya/heouXOP7qVZlNu5Ts9yNMOH7mbvHGP7HoMTjn5tn7oQ/pyU0MLCQJ7E8eU59W85hVbvrfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784217885; c=relaxed/simple;
-	bh=Tz9IYBII36hEmZ8WCkdw0Poo/VwDhmKC5JCuOyne4eQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=szrGs6cji5HnjhVm1OBVOSibqVllCh+Qv5sVicgIs6afpYD5nwqMWmcROQ0D8BgJH6GA4skIwOSEOQVCeFh/WQ2gPVxooID/x/BmOsQwJ1XZTM8Jaht6YrOnp5rUe52opYkfpIfW9d8YZDYpY4PbvcPWaqEatWGmAQouRyRycBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Xsgwr6/T; arc=none smtp.client-ip=91.218.175.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1784218205; c=relaxed/simple;
+	bh=UVhKKImv/XnJfr8mwj/45N0a1YY0W55OEUXatiKiLD4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DFIviV1jvaTHCefKJdaxvGKqFW1DNKeckum6wzS+9243Ng7iOWIkG19tkeqBW/kWbrfTjX3oXszZ3bjzd3kM8Mvm0VpOJMowLL/ehdtNrAung3Hz6OAp2F41Ok/+ZXB5PSD6CwSkxspHXj+4HkiNcldbOgCG6vElxqclm2NRXMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=op17IE70; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Xsgwr6/T"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="op17IE70"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3847e8b0f3aso5522081a91.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 09:10:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784218201; x=1784823001; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7GjoJ0D2ln/bYYAD1HiEkGDMJdf9tcDcPqZY9IDoNv4=;
+        b=op17IE705zdlyZbCsG14+l65nI4JdJAj1a0jYI6Oq/fCowlFy4B57Dhrdg40vZpe61
+         lrUwN4BVbRLx1k4cDJ3vMPTrRk8ar6t2pZG93/xKd/lwOG3a1OxsHk/ID9dNvC81FjlI
+         j8Y45hh5CcFPWau4/lX7SOlQQlmwbIWYjUs+ku1FoHPHwCR6AT+foO/Lz29bHykL0wqc
+         nRR6YLv/MUOdQnu9LC0zflEvNz5F+u0xd7CNktEAkhvEgwSAkype+2z2XUyPRvUBtrki
+         Vwe/tOSnquUyBIyL2ZGsCO372JDzswPsToqgsJK80Ad4WlmKpAlFE3eCt1q9wxYeOTCI
+         quwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784218201; x=1784823001;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7GjoJ0D2ln/bYYAD1HiEkGDMJdf9tcDcPqZY9IDoNv4=;
+        b=cnLleUJ387a8zltqXNuj8Z/a3YgR6T9VE7qrebnL42sp+602RVBa+Kqthp9zglFM6i
+         OO1DWu1U7OAAO41SWFC3C5mvldBj314kFmm/v8nS5C7uy/W5OcK0TkXGtAVjx1mKYCk9
+         +OcXz6Ydd3p8IlY7oz3IkHudhP4lli3Z3CV3A6pQwPlPWV5Z77hVzFrro3dF3XLvV99c
+         7Be8/+M2S8RsX40fqKnvGO+wTdU47wqWphFo/GCOv0inTcCqAxIep9pjDp2q+mON79mp
+         0CCiz93ski1R//oTW4HxyAZ85ZrXF6TDWcNNUrPfzlGeRl4pUlM9zEc6FvQb76DBe80h
+         3tPQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpI6pT8pBbR80K+6OwBwMehl4u4Iwx+Nc3dCVWaBaO0twrVN8dbfQb0HLSx4u3uRUgfSeka6l1+x9yMBnTU@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRijiQP0vq+zL/2UA/vuzwMRIHoq26FMXHFKw57rXTkVvDI68x
+	ucPlh10axTDhXwoqp5LUk0CaU6qRj0UkneWS8f4PWxao5LPXtGd/SDhy
+X-Gm-Gg: AfdE7ckzOEabIuwYe8LgIWuD7EWI9ciSuYZgAdTTOeuZ15p/+iPUJPoXwaD95Bl1pav
+	4vBycDOU9HXh4WboJslwqhRATGcWqT6scge9oKieNecFxXLsq+3+Ltf0YQP//3+Um0OJi2Supsn
+	YdYgFqa33evhELD6qrOw0SKiQsBDlbiNfA7QhDwK+S4Ra/qRMAqsV/GiBYvUuTPujyW3qVlZHQ+
+	YTrY2iIOsgFl1x+U49+teclWCd23V4aIIQjuXlcy2CF4HfzjFNA6Y4WbWoOdo8rIGW3Kvt2Z03z
+	J0tL4QSjHXg6Ut0L4FA8j3PKOYoUQM7j4GqQLslspPOl0u3eDhQ0DMgznRwU+KB1d67QHvIFWV6
+	6S6mOa4iFNXAcNkER2EfG+TinGRVMZR4Z7CN37LDmpydZs1jQ9lYhqfYdpuwnGVPMoavr79ZIoZ
+	EpJpKDDaQFSniTva8OtUO8Wep83LUY4/qQ3yRIv8Sn1zlfxwg3YPdxpsY=
+X-Received: by 2002:a17:90b:52cd:b0:38e:bfe:81e9 with SMTP id 98e67ed59e1d1-38e29fad10bmr6467740a91.1.1784218201476;
+        Thu, 16 Jul 2026 09:10:01 -0700 (PDT)
+Received: from fedora ([2405:201:a412:78a0:40cb:342e:9c1b:a9a3])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3140e4fcd26sm12318446eec.5.2026.07.16.09.09.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2026 09:10:00 -0700 (PDT)
+From: Shivank Sharma <shivanksharma2376543@gmail.com>
+To: viro@zeniv.linux.org.uk,
+	brauner@kernel.org
+Cc: jack@suse.cz,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Shivank Sharma <shivanksharma2376543@gmail.com>
+Subject: [PATCH] initramfs: fix typo in reserve_initrd_mem comment
+Date: Thu, 16 Jul 2026 21:39:44 +0530
+Message-ID: <20260716160944.1331096-1-shivanksharma2376543@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784217878;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Tz9IYBII36hEmZ8WCkdw0Poo/VwDhmKC5JCuOyne4eQ=;
-	b=Xsgwr6/T1iv1KWaE1PuNvf4s/O+/mxi0r+dxIsV2UrtO3cqwbAo/F13cifsh5A4y30WL0M
-	OAfBvENtdO2+WNOtB8b1YZ9VkWLo9N61R3G0xE+YVfNijzJSDAweY+G+J3yVeHK+S33Z3J
-	u3V4cUBGDVOKcydQVkb+bPN6FkiL5cw=
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 16 Jul 2026 16:04:30 +0000
-Message-Id: <DK04G61IJ7OP.6MAP7T3WSU2C@linux.dev>
-Cc: <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
- <linux-fsdevel@vger.kernel.org>, <iommu@lists.linux.dev>,
- <loongarch@lists.linux.dev>, <linux-nfs@vger.kernel.org>,
- <netdev@vger.kernel.org>
-Subject: Re: [PATCH 1/3] mm: move internal mempolicy APIs to new internal
- header
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Brendan Jackman" <brendan.jackman@linux.dev>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, "Brendan Jackman"
- <jackmanb@google.com>, "Andrew Morton" <akpm@linux-foundation.org>, "David
- Hildenbrand" <david@kernel.org>, "Lorenzo Stoakes" <ljs@kernel.org>, "Liam
- R. Howlett" <liam@infradead.org>, "Mike Rapoport" <rppt@kernel.org>, "Suren
- Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>,
- "Johannes Weiner" <hannes@cmpxchg.org>, "Zi Yan" <ziy@nvidia.com>, "Matthew
- Wilcox (Oracle)" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>, "Joshua
- Hahn" <joshua.hahnjy@gmail.com>, "Byungchul Park" <byungchul@sk.com>,
- "Gregory Price" <gourry@gourry.net>, "Ying Huang"
- <ying.huang@linux.alibaba.com>, "Alistair Popple" <apopple@nvidia.com>,
- "Hugh Dickins" <hughd@google.com>, "Baolin Wang"
- <baolin.wang@linux.alibaba.com>, "Chris Li" <chrisl@kernel.org>, "Kairui
- Song" <kasong@tencent.com>, "Kemeng Shi" <shikemeng@huaweicloud.com>, "Nhat
- Pham" <nphamcs@gmail.com>, "Baoquan He" <baoquan.he@linux.dev>, "Barry
- Song" <baohua@kernel.org>, "Youngjun Park" <youngjun.park@lge.com>, "Joerg
- Roedel (AMD)" <joro@8bytes.org>, "Will Deacon" <will@kernel.org>, "Robin
- Murphy" <robin.murphy@arm.com>, "Huacai Chen" <chenhuacai@kernel.org>,
- "WANG Xuerui" <kernel@xen0n.name>, "Thomas Gleixner" <tglx@kernel.org>,
- "Chuck Lever" <cel@kernel.org>, "Jeff Layton" <jlayton@kernel.org>,
- "NeilBrown" <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
- "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>, "Trond
- Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>, "David
- S. Miller" <davem@davemloft.net>, "Eric Dumazet" <edumazet@google.com>,
- "Jakub Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>,
- "Simon Horman" <horms@kernel.org>
-References: <20260716-folio-alloc-cleanups-v1-0-5363b8e92d33@google.com>
- <20260716-folio-alloc-cleanups-v1-1-5363b8e92d33@google.com>
- <73d3c545-dd8a-4131-9826-1a7096dd619a@kernel.org>
-In-Reply-To: <73d3c545-dd8a-4131-9826-1a7096dd619a@kernel.org>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu Jul 16, 2026 at 3:22 PM UTC, Vlastimil Babka (SUSE) wrote:
-> On 7/16/26 16:30, Brendan Jackman wrote:
->> There are no external users for this surface, reduce the scope.
->>=20
->> Ulterior motive: a later patch will add an alloc_flags arg to some parts
->> of this.
->>=20
->> Note it might seem like this could just go in internal.h, since it's
->> pretty small, but actually it will eventually need to import
->> page_alloc.h, we don't want to import that from internal.h so best to
->> proactively created this header now.
->
-> Hmm, maybe it could just go to page_alloc.h then? After all this is just
-> bunch of internal page allocation functions, which just take the mempolic=
-y
-> pointer?
+Fix a minor typo in the comment inside reserve_initrd_mem.
+Change "virtul" to "virtual".
 
-That would work AFAICS, but I think it's quite tidy that, currently, all
-functions declared in page_alloc.h are defined in page_alloc.c. This
-would break that.
+Signed-off-by: Shivank Sharma <shivanksharma2376543@gmail.com>
+---
+ init/initramfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If you're certain you don't care about that then I could live with using
-page_alloc.h.
+diff --git a/init/initramfs.c b/init/initramfs.c
+index 20a18fcda..55c17c8f3 100644
+--- a/init/initramfs.c
++++ b/init/initramfs.c
+@@ -618,7 +618,7 @@ void __init reserve_initrd_mem(void)
+ 	phys_addr_t start;
+ 	unsigned long size;
+ 
+-	/* Ignore the virtul address computed during device tree parsing */
++	/* Ignore the virtual address computed during device tree parsing */
+ 	initrd_start = initrd_end = 0;
+ 
+ 	if (!phys_initrd_size)
+-- 
+2.55.0
+
