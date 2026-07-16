@@ -1,101 +1,98 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B653D3339
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 16:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA2B390224;
+	Thu, 16 Jul 2026 16:48:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784218205; cv=none; b=bCJQP5/YZI6IwTwKwzbxYMG1ZkM+e35wqzvrH476ICO9ZjsCj6QqjFLKs59Wez65r02+x+7dP84m3IaClM4odrbBx58iCdx8hCya/heouXOP7qVZlNu5Ts9yNMOH7mbvHGP7HoMTjn5tn7oQ/pyU0MLCQJ7E8eU59W85hVbvrfc=
+	t=1784220548; cv=none; b=ZacKKqFtnjSTyenYemEaC830U0U1Dop2eD8X4Ufsy6zx2gpvGygeLzAuX3w7Bh3HcClxgUm/SeDZsTTi40ghxBMSjeuxJEvQkSApwvaPINMcNjvOd+5ER0QnA1EzmJsj4ggT6DV2nPMs2T7kKGmBbMgbUsemn7PTcL6GwsibH0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784218205; c=relaxed/simple;
-	bh=UVhKKImv/XnJfr8mwj/45N0a1YY0W55OEUXatiKiLD4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DFIviV1jvaTHCefKJdaxvGKqFW1DNKeckum6wzS+9243Ng7iOWIkG19tkeqBW/kWbrfTjX3oXszZ3bjzd3kM8Mvm0VpOJMowLL/ehdtNrAung3Hz6OAp2F41Ok/+ZXB5PSD6CwSkxspHXj+4HkiNcldbOgCG6vElxqclm2NRXMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=op17IE70; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784220548; c=relaxed/simple;
+	bh=aG9c/oIWcQuP25QpQba87EDxqnP1ULgL/edfYWUR0vo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LXfSrRuOnnWlfp26f1wbWvykoTMBUVBWxZmX8LwG/lJBRQdE2SZ1CsCTD1VWAnobgeWZkXD/TLz4lCUHxviRTiBmEC2StHDKtDdGfQtFoLPQo21vzYgpa18xIhm0m5W4NUmAUN7KkhP+DWGV/3YMnIYtHO5xXCTkiKknQybxJU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DmRBhybb; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="op17IE70"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3847e8b0f3aso5522081a91.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 09:10:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784218201; x=1784823001; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7GjoJ0D2ln/bYYAD1HiEkGDMJdf9tcDcPqZY9IDoNv4=;
-        b=op17IE705zdlyZbCsG14+l65nI4JdJAj1a0jYI6Oq/fCowlFy4B57Dhrdg40vZpe61
-         lrUwN4BVbRLx1k4cDJ3vMPTrRk8ar6t2pZG93/xKd/lwOG3a1OxsHk/ID9dNvC81FjlI
-         j8Y45hh5CcFPWau4/lX7SOlQQlmwbIWYjUs+ku1FoHPHwCR6AT+foO/Lz29bHykL0wqc
-         nRR6YLv/MUOdQnu9LC0zflEvNz5F+u0xd7CNktEAkhvEgwSAkype+2z2XUyPRvUBtrki
-         Vwe/tOSnquUyBIyL2ZGsCO372JDzswPsToqgsJK80Ad4WlmKpAlFE3eCt1q9wxYeOTCI
-         quwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784218201; x=1784823001;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7GjoJ0D2ln/bYYAD1HiEkGDMJdf9tcDcPqZY9IDoNv4=;
-        b=cnLleUJ387a8zltqXNuj8Z/a3YgR6T9VE7qrebnL42sp+602RVBa+Kqthp9zglFM6i
-         OO1DWu1U7OAAO41SWFC3C5mvldBj314kFmm/v8nS5C7uy/W5OcK0TkXGtAVjx1mKYCk9
-         +OcXz6Ydd3p8IlY7oz3IkHudhP4lli3Z3CV3A6pQwPlPWV5Z77hVzFrro3dF3XLvV99c
-         7Be8/+M2S8RsX40fqKnvGO+wTdU47wqWphFo/GCOv0inTcCqAxIep9pjDp2q+mON79mp
-         0CCiz93ski1R//oTW4HxyAZ85ZrXF6TDWcNNUrPfzlGeRl4pUlM9zEc6FvQb76DBe80h
-         3tPQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpI6pT8pBbR80K+6OwBwMehl4u4Iwx+Nc3dCVWaBaO0twrVN8dbfQb0HLSx4u3uRUgfSeka6l1+x9yMBnTU@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRijiQP0vq+zL/2UA/vuzwMRIHoq26FMXHFKw57rXTkVvDI68x
-	ucPlh10axTDhXwoqp5LUk0CaU6qRj0UkneWS8f4PWxao5LPXtGd/SDhy
-X-Gm-Gg: AfdE7ckzOEabIuwYe8LgIWuD7EWI9ciSuYZgAdTTOeuZ15p/+iPUJPoXwaD95Bl1pav
-	4vBycDOU9HXh4WboJslwqhRATGcWqT6scge9oKieNecFxXLsq+3+Ltf0YQP//3+Um0OJi2Supsn
-	YdYgFqa33evhELD6qrOw0SKiQsBDlbiNfA7QhDwK+S4Ra/qRMAqsV/GiBYvUuTPujyW3qVlZHQ+
-	YTrY2iIOsgFl1x+U49+teclWCd23V4aIIQjuXlcy2CF4HfzjFNA6Y4WbWoOdo8rIGW3Kvt2Z03z
-	J0tL4QSjHXg6Ut0L4FA8j3PKOYoUQM7j4GqQLslspPOl0u3eDhQ0DMgznRwU+KB1d67QHvIFWV6
-	6S6mOa4iFNXAcNkER2EfG+TinGRVMZR4Z7CN37LDmpydZs1jQ9lYhqfYdpuwnGVPMoavr79ZIoZ
-	EpJpKDDaQFSniTva8OtUO8Wep83LUY4/qQ3yRIv8Sn1zlfxwg3YPdxpsY=
-X-Received: by 2002:a17:90b:52cd:b0:38e:bfe:81e9 with SMTP id 98e67ed59e1d1-38e29fad10bmr6467740a91.1.1784218201476;
-        Thu, 16 Jul 2026 09:10:01 -0700 (PDT)
-Received: from fedora ([2405:201:a412:78a0:40cb:342e:9c1b:a9a3])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3140e4fcd26sm12318446eec.5.2026.07.16.09.09.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2026 09:10:00 -0700 (PDT)
-From: Shivank Sharma <shivanksharma2376543@gmail.com>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org
-Cc: jack@suse.cz,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Shivank Sharma <shivanksharma2376543@gmail.com>
-Subject: [PATCH] initramfs: fix typo in reserve_initrd_mem comment
-Date: Thu, 16 Jul 2026 21:39:44 +0530
-Message-ID: <20260716160944.1331096-1-shivanksharma2376543@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DmRBhybb"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=YolakZC7+j4Triip+5AUHmDQgBfWSYQIrahb3DvaRqQ=; b=DmRBhybbCSzjOTtB6P0D9mXEdU
+	yxc52/21jT9BQH1HCdU0Fxtxppp8xo7Cw8gmaLjV39caaOv/rod9RZJFZ47/ITb+erC8p7J00Soft
+	nwMO9EJQ6eB1liCZiaSV4Jr1z/9H7SMYlyvjtqn4tRmt9MteyMbAIblO8nUf6vEA6etbdfyyaq8Zq
+	39BQuu4wc7kk74TeSYD21Uw5zl0v25dRj69cW7lkeU5WtVK7wQSzBk/8wqzNKS+jgkmvKSBvcrbzM
+	6Mp/lqi2xahBjs3CMQmRzrmZMSsN3onlbw2DQwijz3r5hY3Pi6bRJqBLVSU7Yp7/w6BhOXNNFaRmg
+	bXiXDUiw==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wkPFr-00000002tsW-2hhO;
+	Thu, 16 Jul 2026 16:48:11 +0000
+Date: Thu, 16 Jul 2026 17:48:11 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Brendan Jackman <jackmanb@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+	Jan Kara <jack@suse.cz>, Joshua Hahn <joshua.hahnjy@gmail.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+	Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>, Thomas Gleixner <tglx@kernel.org>,
+	Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+	iommu@lists.linux.dev, loongarch@lists.linux.dev,
+	linux-nfs@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 1/3] mm: move internal mempolicy APIs to new internal
+ header
+Message-ID: <alkLSzQvzT9zJbY1@casper.infradead.org>
+References: <20260716-folio-alloc-cleanups-v1-0-5363b8e92d33@google.com>
+ <20260716-folio-alloc-cleanups-v1-1-5363b8e92d33@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260716-folio-alloc-cleanups-v1-1-5363b8e92d33@google.com>
 
-Fix a minor typo in the comment inside reserve_initrd_mem.
-Change "virtul" to "virtual".
+On Thu, Jul 16, 2026 at 02:30:10PM +0000, Brendan Jackman wrote:
+> There are no external users for this surface, reduce the scope.
+> -struct folio *folio_alloc_mpol_noprof(gfp_t gfp, unsigned int order,
+> -		struct mempolicy *mpol, pgoff_t ilx, int nid);
 
-Signed-off-by: Shivank Sharma <shivanksharma2376543@gmail.com>
----
- init/initramfs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/init/initramfs.c b/init/initramfs.c
-index 20a18fcda..55c17c8f3 100644
---- a/init/initramfs.c
-+++ b/init/initramfs.c
-@@ -618,7 +618,7 @@ void __init reserve_initrd_mem(void)
- 	phys_addr_t start;
- 	unsigned long size;
- 
--	/* Ignore the virtul address computed during device tree parsing */
-+	/* Ignore the virtual address computed during device tree parsing */
- 	initrd_start = initrd_end = 0;
- 
- 	if (!phys_initrd_size)
--- 
-2.55.0
+Hm.  So what we're saying is that allocations which respect mempolicy are
+only for core mm and not for, eg, device drivers to do.  Is that really
+what we want to say?  I don't think so, because that's inconsistent
+with having just widened __filemap_get_folio_mpol to allow guest_memfd
+to specify a mempolicy.
 
