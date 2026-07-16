@@ -1,100 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C0041DDFF;
-	Thu, 16 Jul 2026 12:16:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A92B3EFFCC
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 12:27:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784204205; cv=none; b=d+sVFun6zQrPSp9hfUwipLn+T+PvnwskLqp225CJSqbD1Rx6OU6uRJJIyrum2ZSf4q0crKRG6Bn7Fv9tCTgD7Dw/kX2STRLmYPvIAPgtaCAbx4RqHDuJ9nVJrYHnGdrcxYTvGAeEVnL/c9x+N2ZL7sf9Udpbq20K+9gC+/YmIQg=
+	t=1784204858; cv=none; b=lvDiIM9k7p10swY1Sh0tns2LjvhAVBJuwwsz8gQp03kxVvSyo1wO1b7wiH/i433vtoPpTLKdGOBsh7RwSMi6I+E2KIHrDWHVvUt0C3iRsSCzyrrgW3n8jIXy+dBOXUKWUTGe2F4uq+kx7SXlTem3f1N0TInY1njh5Ik0hRwLmiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784204205; c=relaxed/simple;
-	bh=RHnoUoVVBRHznZDjfg7p1zoSY/QFz6KSM7e+8oRx5t4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T+h6qKBQhqG5/BSeEV/kS/bHC8nWGE6D/B8UUCMxsXb+XcjSImJrTklLmCyK6MtvgXrMJRDGXn2X1NoGWQunGFEb/X0FQS1gxcS8HIq8X/Y3EU2Qy/UDeXlfTCHP/1X31ZV/RAlBKKdZ3JaKT4THvvic/v2MaYa5gavRS+SdNl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C7b+FEw5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784204858; c=relaxed/simple;
+	bh=6a3Myq+YEczHskqy6H5LktCSv/08gjKKFs8PPfwvXO4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=MwqWkaDZvcEsW2yUdpDskWnR0oE9mTNXu+pHFwjlT31HWfYWzhgWL959P3xJRKJIFe8s1WZLTF8Bb3+rJVOMxFSNlTMXo4ODh0IMPoHi5tBLOtwXTSKQpOMBDpjHRI7UShvk2+M9cms+uz31ZWZmovRno5BNr+6M9VHswRhbPss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=lrSMTPsv; arc=none smtp.client-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C7b+FEw5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76C0B1F000E9;
-	Thu, 16 Jul 2026 12:16:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784204185;
-	bh=OeY/RrnCDHeRA7waqEnCw2zQoIH3AdOyPp5nJdiYRUI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=C7b+FEw5oW4E/09NAyQh5OGXjrU634n8rTS8NN5msWGpky97UJYzngQcko/OfNo9H
-	 7MZyCCbaIAEGufoCKyGKIjODfzlMsW6yt1g2rulcjLtl/rlVAWIZvwKTeNC+JssUnT
-	 h0sqMU+7U4g/0sB2w7zjoXg/pFB/PDoIK9T1YUmtoKmfe7eqCmB8I3S+/aPXATfKeG
-	 Q0NNVAWvcK4Qb3QqYudhggsIgxEsf4dd96OQMfBo4oGCVxr7U+aCYGKtWv4gAU0MoG
-	 vCJ3RW6mMd6zZyJ8g79AMwBGhcKW6h/QF6tRBGeSR4F59aqJEEUZzRmlPWM1cCLhEL
-	 D+Z/FYd0Zuvbg==
-Date: Thu, 16 Jul 2026 13:16:19 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Christoph Hellwig <hch@infradead.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: kernel test robot <oliver.sang@intel.com>, oe-lkp@lists.linux.dev,
-	lkp@intel.com, linux-block@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-next@vger.kernel.org,
-	axboe@kernel.dk, Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>
-Subject: Re: [linux-next:master] [loop]  d908729e74:
- stress-ng.umount.ops_per_sec 100.0% regression
-Message-ID: <e75c9a7c-77dd-47aa-949f-27a937a64760@sirena.org.uk>
-References: <202607151655.9d74999d-lkp@intel.com>
- <aleZammRRSVN4dl0@infradead.org>
- <c625eb50-e474-4966-bf3b-e83d7e7d1750@sirena.org.uk>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="lrSMTPsv"
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20260716122732epoutp010c77837a30376b5af7eb8049f43d5c18~CxNwcOeyB3098430984epoutp01b
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 12:27:32 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20260716122732epoutp010c77837a30376b5af7eb8049f43d5c18~CxNwcOeyB3098430984epoutp01b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1784204852;
+	bh=goVpL7phv0f5v85AoAM/QZBOHt0lBeS9xOxdnmRJRho=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=lrSMTPsvhirFZvmuKPdVvZe4wEm9pkIf2FYnRWaB0QlnYRwyxKwqAirvZEPcngvfH
+	 0q+sCKiZArUftASUedHW+jEHhZC3AjeYESMt++ALvLajZXrjAdrRrvtE3TMtNoT78d
+	 jvJV9XKbCbgYDc11CPrd/I7FYgese4lvAZWWBCFQ=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
+	20260716122731epcas5p4b72a6b2d54f87de136569cb57bf22e21~CxNvuHdeA0311403114epcas5p4o;
+	Thu, 16 Jul 2026 12:27:31 +0000 (GMT)
+Received: from epcas5p3.samsung.com (unknown [182.195.38.95]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4h1C3k27Ybz2SSKX; Thu, 16 Jul
+	2026 12:27:30 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20260716122729epcas5p1c1d760a6356d1234e8098d8a4436e541~CxNuCviDN1127111271epcas5p1B;
+	Thu, 16 Jul 2026 12:27:29 +0000 (GMT)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260716122727epsmtip277c923c3033f4e6c4f6432f6195bce6b~CxNsOdiBE0195101951epsmtip2R;
+	Thu, 16 Jul 2026 12:27:27 +0000 (GMT)
+Message-ID: <9cb5024f-7e39-4b02-8720-fb4a76affa60@samsung.com>
+Date: Thu, 16 Jul 2026 17:57:26 +0530
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="61mQimz+8MzkIz9g"
-Content-Disposition: inline
-In-Reply-To: <c625eb50-e474-4966-bf3b-e83d7e7d1750@sirena.org.uk>
-X-Cookie: Celebrity voices impersonated.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/6] iomap: introduce and propagate write_stream
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: brauner@kernel.org, hch@lst.de, dgc@kernel.org, jack@suse.cz,
+	cem@kernel.org, axboe@kernel.dk, kbusch@kernel.org, ritesh.list@gmail.com,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com
+Content-Language: en-US
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20260624181044.GW6078@frogsfrogsfrogs>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260716122729epcas5p1c1d760a6356d1234e8098d8a4436e541
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260616181244epcas5p318804096b125c240c2155e54f76e2e07
+References: <20260616180555.33338-1-joshi.k@samsung.com>
+	<CGME20260616181244epcas5p318804096b125c240c2155e54f76e2e07@epcas5p3.samsung.com>
+	<20260616180555.33338-3-joshi.k@samsung.com>
+	<20260624181044.GW6078@frogsfrogsfrogs>
 
+On 6/24/2026 11:40 PM, Darrick J. Wong wrote:
+>> diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+>> index b36ee619cdcd..455fd5d97d25 100644
+>> --- a/fs/iomap/direct-io.c
+>> +++ b/fs/iomap/direct-io.c
+>> @@ -348,6 +348,7 @@ static ssize_t iomap_dio_bio_iter_one(struct iomap_iter *iter,
+>>   	fscrypt_set_bio_crypt_ctx(bio, iter->inode, pos, GFP_KERNEL);
+>>   	bio->bi_iter.bi_sector = iomap_sector(&iter->iomap, pos);
+>>   	bio->bi_write_hint = iter->inode->i_write_hint;
+>> +	bio->bi_write_stream = iter->iomap.write_stream;
+>>   	bio->bi_ioprio = dio->iocb->ki_ioprio;
+>>   	bio->bi_private = dio;
+>>   	bio->bi_end_io = iomap_dio_bio_end_io;
+>> diff --git a/fs/iomap/ioend.c b/fs/iomap/ioend.c
+>> index acf3cf98b23a..56ed5ba6a421 100644
+>> --- a/fs/iomap/ioend.c
+>> +++ b/fs/iomap/ioend.c
+>> @@ -164,6 +164,7 @@ static struct iomap_ioend *iomap_alloc_ioend(struct iomap_writepage_ctx *wpc,
+>>   			       GFP_NOFS, &iomap_ioend_bioset);
+>>   	bio->bi_iter.bi_sector = iomap_sector(&wpc->iomap, pos);
+>>   	bio->bi_write_hint = wpc->inode->i_write_hint;
+>> +	bio->bi_write_stream = wpc->iomap.write_stream;
+>>   	wbc_init_bio(wpc->wbc, bio);
+>>   	wpc->nr_folios = 0;
+>>   	return iomap_init_ioend(wpc->inode, bio, pos, ioend_flags);
+>> @@ -187,6 +188,8 @@ static bool iomap_can_add_to_ioend(struct iomap_writepage_ctx *wpc, loff_t pos,
+>>   	if (!(wpc->iomap.flags & IOMAP_F_ANON_WRITE) &&
+>>   	    iomap_sector(&wpc->iomap, pos) != bio_end_sector(&ioend->io_bio))
+>>   		return false;
+>> +	if (wpc->iomap.write_stream != ioend->io_bio.bi_write_stream)
+>> +		return false;
+>>   	/*
+>>   	 * Limit ioend bio chain lengths to minimise IO completion latency. This
+>>   	 * also prevents long tight loops ending page writeback on all the
+>> diff --git a/include/linux/iomap.h b/include/linux/iomap.h
+>> index 2c5685adf3a9..44583429ffa4 100644
+>> --- a/include/linux/iomap.h
+>> +++ b/include/linux/iomap.h
+>> @@ -120,6 +120,8 @@ struct iomap {
+>>   	u64			length;	/* length of mapping, bytes */
+>>   	u16			type;	/* type of mapping */
+>>   	u16			flags;	/* flags for mapping */
+>> +	u8			write_stream; /* write stream for I/O */
+> I'm mildly confused by the types here -- the ioctl exposes a u32, iomap
+> has a u8, and xfs seems to use u16.  I gather you want maximum
+> flexibility in the uapi and that's the reason for the u32, but can the
+> internal interfaces be made consistent?
 
---61mQimz+8MzkIz9g
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Yes, using u16 within iomap will make it better.
 
-On Wed, Jul 15, 2026 at 03:57:22PM +0100, Mark Brown wrote:
-> On Wed, Jul 15, 2026 at 07:30:02AM -0700, Christoph Hellwig wrote:
+> I also wonder what happens if the write stream ever becomes persistent,
+> but this patchset doesn't go there, and maybe the programming model is
+> simply that you have to set it every time you open the file?
 
-> point where I think I have to do as Christoph suggests.  Looking at the
-> current contents of the tomoyo tree all I see is:
-
-> Tetsuo Handa (6):
->       lib/Kconfig.debug: add CONFIG_DEBUG_AID_FOR_SYZBOT option
->       net: update dev_put()/dev_hold() debugging
->       net: add "struct dst_entry" debugging
->       loop: Fix NULL pointer dereference in lo_rw_aio()
->       kcov: fix data corruption and race conditions on PREEMPT_RT by moving saved remote state to task_struct
->       apparmor: temporarily disable in syzbot kernels.
-
-> Absolutely none of which are obviously on topic for the tomoyo tree and
-> some of which are patches that people have previously raised concerns
-> with.  This is very disappointing to see.  I will check the status again
-> tomorrow but as things stand I think I need to drop the tomoyo
-> tree from -next.
-
-Looking today I see that all these patches were dropped from the tree so
-I've left tomoyo in place, thanks for taking care of this Tetsuo.
-
---61mQimz+8MzkIz9g
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpYy5IACgkQJNaLcl1U
-h9AWbwf+LalYQS/hl3QxwcQit0fMn8PF/NHQ2mK5pM/8LWvNLQG5laomGTUjblwJ
-CrmU/rP6ODlTiWwPTv5M3t+9lJXtjjrd0d2tOD6IKPZsUmqJzriYVDUpbZW9M/aW
-QD9EkvubuFJW0chc/XHOoK9ciQJSH1kZnThLARHVmqn0A+bBbsw4el4Q1ZNjZ+f9
-Gkrlg66MqX56yPsCkTsX5xjCWwQEqpyM3z1y11H0ZRd5hIFbZohHw5FuQSl3BD2H
-fpuicDvOkg3m1R35bDOuJzoXC/7aB//qf+TL3OsB+o0glhrTD8+BOEdZvwJhNzSK
-wJUkwaQ+vjLP0iumFcjOzHRtsr5DFw==
-=DFfZ
------END PGP SIGNATURE-----
-
---61mQimz+8MzkIz9g--
+Right, not trying to make things persistent.
