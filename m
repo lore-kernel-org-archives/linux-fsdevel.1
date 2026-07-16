@@ -1,190 +1,165 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1AF800
-	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 00:08:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8614204E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 00:10:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784160536; cv=none; b=MCJrutzrdYtuGpn2yB5MWzbWEWKLPQ/bLqteqElskdGh3B5Tob06Rb/5MqFgjG9NHXvtL6K00D4P8kk3uFyWnL66nsZvoE54bfZ0F2lMS7cPcIBHOKkXl9w+V5AzNmAVTtq5kP3n92mo22YUScsTQTVyea0Mk1LXF51Uyf6fhk4=
+	t=1784160641; cv=none; b=PdYHyS21fXO9LhTkVY/vLDnliW6bdaHB1mEydu+NTfuDOvB7jNIdbFKr3pmjCo3TjYOL3Y52LprogLdGjcnCVXhODGDuYEBONYp/FoOTp95Be4khF611byLBMtwwIUODM+nBnw8EV11ek8RFxv3iKuJGeE9i7o1yamKOji1Q4b8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784160536; c=relaxed/simple;
-	bh=edm+o1poLBaX+Zgd7MELrnQcglifvh/n77uGGSvqid0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ETcSnkdTESyakDwcnBaVlprphcFUpxqTlz1avMt60co0MgRUbRLVp1uyC1/l2PY7b/eyDrGehWGnRm0SZMZCLTTOHGjhTpZroV6AMgRe3O4z950ILi5ccVhaWdwYBvmRfLNMaPGLoHL6g3kqA3Hv694Q2Ll2Y8+SyNoCiAFgbl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=e2k0zjvb; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1784160641; c=relaxed/simple;
+	bh=iFLgZLz3ksNBmau+Jra7CtGxgjSGyRGOtEuDc5teeQE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=QC7TJvbQaCL7Ek6HeRuHv4wcKBPxOmOV8SQs1RAz1sFgDksYn33KVv7N2rggn5KOv27ljaM/Duwwhu2/TCeOrxyomY907Pgb5WOKqDDhjtt/OUoJjFj2786SyKuOINrKJwsPVoTBB3LR2qPEhly5TmsvNEFOgcf11qKv/oLY8KA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bGKLgxMZ; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="e2k0zjvb"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-81eb41c1f1aso40358477b3.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Jul 2026 17:08:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bGKLgxMZ"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3811f512167so6611479a91.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 15 Jul 2026 17:10:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1784160534; x=1784765334; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=edm+o1poLBaX+Zgd7MELrnQcglifvh/n77uGGSvqid0=;
-        b=e2k0zjvbcII7uBHfGWN81zogklE6Duk0k7ku5kCoRMykbXxtxYLp+uowv5X/zUqOLk
-         cXzzq3Yi3nruaZn5+Mn04DRBm4zksgv9V3XabMPxUmcyCbXmGuZ1xdBwWyJoMOFcecvg
-         2t6ywh8eCUXLvqwmgoTRAIWZvX7oAJ/KXRtumtFriir0hlbMzUP/S1Flx/PWflgJJCEl
-         1rsViXUcTxugoS0PJp79Awl2K7AWGnUlTFSMNp+o1k97t5IPMCbgDH2zXmoBFpZ+90WA
-         Blb8ebR2BGZK87EDqAIRGHFHrSPwrJsbPrYfc3617NaaObd+W4nwgfTuf/nj7sOQnLdS
-         gagw==
+        d=gmail.com; s=20251104; t=1784160640; x=1784765440; darn=vger.kernel.org;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=P4jDzMSQG0md28knM5bL5uqnp/M0FWc4W2jCI8EKDHM=;
+        b=bGKLgxMZE5H6aZP7O4yGap1QdkUUYV//Y27k5yYIuvArF5V1xSOiYsB3gR0H7hOgk6
+         OkkHNP26vxtH4rzQretMwI+iGUwS2klN/AAxuG1BOw9coSYPhf8RkTGfu2hE9FK8/HGS
+         UJ67DpPTzSVmVO5y5Qb7rvitQcYkYMrokUGNOYRTA8Y7RvwPUTOGev03rUdBtFmh5cdr
+         VuOjMaR7QUQQyxchWwCONEgHhHIjTnyUrP7PYaSvZ2orSeZmEGlAzR6TZzy12L5SmMdd
+         U9HXsObivCqSD5fZmDWjqAuIQnmQFfDjrXPnrlXhufVNeeR6jmaM2DLkMSJjwXf2WA0u
+         +vMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784160534; x=1784765334;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=edm+o1poLBaX+Zgd7MELrnQcglifvh/n77uGGSvqid0=;
-        b=ZxHVaXuc/C9StvgUpoz6mXaO8vzFziSDUBY6BSTMfjnxleTL1uLz6Lmt8QgqhncL2d
-         IhQkEWT1+xMDRy+K5+/onUwg764dNMGERciN8CGcqHPGdoyRSjdVF+UoQB9ZxrtxGcG4
-         KWgpUn5cKBzyAA0SAe14RV+kw1v9bm3mzohVKAiLeYmcIKn8YW/z3ehxj8lde8M8oCeW
-         CAdzDsIewQNdIsdQABMmO8r+aV6RTvlBibAWhhP4e5LNiJUDp+8sRFqQ/QZZpSMaJLbH
-         moHU7SYkYmbc1eeMPW+JYgBGbBjpvqhumgKa6ZcKpHrqCOLwwzbFuAqFFgE8cNIb9D40
-         YArg==
-X-Forwarded-Encrypted: i=1; AHgh+RrZ9xIHCWF82KUjZWmDxmTcD5tDg/Jc6j747aPsl6+LjKRrOmkQBnRWcKCswYRZ+Fe7GB3M5q6pXkstiO2h@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjuFA3SZm6++WC3XNL8Wl9E1DOPEDA6sNAOhP/kDjpUda/NtuP
-	qiCppsQKRfML3QCE/PVOzqL91f663WpgSmHSLPyRYo/7M16Z4o/Ji1SW7H9QNBR2ypE=
-X-Gm-Gg: AfdE7ckOggKSgdhMSnwGm/GYUNis50VGG1AI7Yy8dY1V8OsRJ19oOGQao1pL6sS6/wY
-	CYyAQBumRhhMGGWUQWUCwiRMDh6Q6PThuq/dP6gWrJEy2GhpPbRa0dWH1wvHe/m3SgZHv4wPrYS
-	aQjKqLSv5aH5BLzTAWLyDixGoT99EL11Z7tM3YWK+VGyt8nq0pdbBMiG4dz4KsYKi0qhvk5BcMF
-	hALkHv5JzLhloO9aaIRijqz3Zp+HkUGn1JtXg4IgSMOtfEvsFodExACuoflRIlp/N+sbx77FmBK
-	M58Hs+C4AfvcDgCvrq+izVT1sDqTH0Fhtucg4jgvWOq5YAnUYX64UUUC6aH0oy0wO8ODjHnOpxN
-	cp2nsziikwnyENR0bOjJmz0x3O/CugwY8hC/SURA6Xekny6LD0JZg5D748bMw4Sptx1kXe/Hjxc
-	7udpgV6G4N9wgZ0AslhfmVFPUMcDckL9gVlfXBI6NDLSUkUF7V6AQzmR5PUprJuiqFaDsT8k7At
-	zY+EXEHlhNCWnbIDPOxu0sSB+MCRxLEWvsOk+GR+v1Y0RYTO6ykRGDRIcFIn5jtRSHUfvA=
-X-Received: by 2002:a05:690c:4d0a:b0:80c:85b6:75bd with SMTP id 00721157ae682-81ec00d806fmr58924687b3.70.1784160534106;
-        Wed, 15 Jul 2026 17:08:54 -0700 (PDT)
-Received: from ?IPv6:2600:1700:6476:1430:3081:a422:f6f3:c07c? ([2600:1700:6476:1430:3081:a422:f6f3:c07c])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6c201dc7sm182018617b3.41.2026.07.15.17.08.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 17:08:53 -0700 (PDT)
-Message-ID: <1421ca7e131663e594806f43cdad34f3282bd915.camel@dubeyko.com>
-Subject: Re: removing the remaining blockdev_direct_IO users
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: David Sterba <dsterba@suse.com>, OGAWA Hirofumi	
- <hirofumi@mail.parknet.co.jp>, John Paul Adrian Glaubitz	
- <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>, Dave
- Kleikamp	 <shaggy@kernel.org>, Jan Kara <jack@suse.com>, Mark Fasheh
- <mark@fasheh.com>,  Joel Becker <jlbec@evilplan.org>, Joseph Qi
- <joseph.qi@linux.alibaba.com>, Christian Brauner	 <brauner@kernel.org>,
- linux-fsdevel@vger.kernel.org, 	jfs-discussion@lists.sourceforge.net,
- linux-nilfs@vger.kernel.org, 	ocfs2-devel@lists.linux.dev
-Date: Wed, 15 Jul 2026 17:08:49 -0700
-In-Reply-To: <af41e2dd178bbc4068317f1b9e09401cb49e7228.camel@dubeyko.com>
-References: <20260710050744.GA6720@lst.de>
-		 <fea4c4f25afb7711d1e8fbe6ca5ab654ec522186.camel@dubeyko.com>
-		 <20260713095857.GB10501@lst.de>
-	 <af41e2dd178bbc4068317f1b9e09401cb49e7228.camel@dubeyko.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+        d=1e100.net; s=20251104; t=1784160640; x=1784765440;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=P4jDzMSQG0md28knM5bL5uqnp/M0FWc4W2jCI8EKDHM=;
+        b=XbqlYxRLATTcvuVk3+D2lru3/qeKqkpc5C7MfKOxBd+o+LUY8d2rX74nx1wj1SG+V4
+         0tWbpaDbXWMRD1wYdKICg2pRlWzWzJmtGYyHsHG9czGiV12icFwPY4QLQCtZXtQJjkr5
+         HZPM1lR4gPy0ZTYIfVdJ9oC6a9lr5ySEBOQMA1zyQkepRcGoW+8DRmYndsxxKZE4t6o5
+         TUX9aY/7cihvsPqEblXzXEssViPB7EdjUq2esFNf8HNQU/cT+Nn9ljKi/OrmBWo4AMgI
+         35s87R7xTr7jrLWvhLLAxsmhjqHxnzcSgBPj2F6/7Fc+OxPKTZtujb9Ald2QQvt7xzum
+         9zzQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoVnWw9TkX4ywnEGj1XeY6FhBH5HSweM32TPD0GvgBI+UwxxJa1e7NGTfKFjxev6B+BbQ6CuVm+D9ySRnt5@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZ/ypMUehHnqNXoZrGI8yFC96BMwGJXvzpAec8gONVlBs+sj3m
+	uikkxSHXZtNkKW3Bv0R3+F3I6SPUZHFn2yU1ubTq7XEigS1slptGs7sR
+X-Gm-Gg: AfdE7ckjRarDqTFSCrir9bsTcSv69YVmP1wUJgE6NWhDoW7wN9AtRoxQpHNlcN2w9D0
+	0m3G7UhRskQ7BHDwkl32JmThxKsaP2tDdjNTwwtMd+CZbl351stR3Qmowix73Uh1HehcU7Bb8ri
+	gx4aKOK7d4QWCL/WzkT815xhofa9dikQasBt3nQpazVnvXpcxKg5rhR1aMH39kf6uMI5AfTYWv9
+	e+8vzhUjG0WmVgszq36OT7/u14yuUej45WsIU4BoC8fETk+FMReKIhFp59diHmmnwrFWrod5QRg
+	hYLx0pwYzAhuy/z0fLZAq2jXfAC/SpAg7pRPEwk0zS0Cr4mlRQbzOZ7mZ2UjzTRCmD3RM80J+1e
+	uwLQwzOBEgMNqM88VED4PMWxOTm6jkcAZJMhXMKxlVJK4PdtkTyz6tWjDrfwmRD0cQNZm7yO95l
+	inukQ=
+X-Received: by 2002:a17:90b:2ec7:b0:37c:774c:77ba with SMTP id 98e67ed59e1d1-38e1afbf5abmr8173040a91.21.1784160639936;
+        Wed, 15 Jul 2026 17:10:39 -0700 (PDT)
+Received: from localhost ([98.35.8.117])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3140e6ebe98sm4999273eec.26.2026.07.15.17.10.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Jul 2026 17:10:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 15 Jul 2026 17:10:38 -0700
+Message-Id: <DJZK5TY3IXQC.2XKA1X9IEGJDO@gmail.com>
+To: "Christian Brauner" <brauner@kernel.org>, "Farid Zakaria"
+ <farid.m.zakaria@gmail.com>
+Cc: "Daniel Borkmann" <daniel@iogearbox.net>, "Alexei Starovoitov"
+ <ast@kernel.org>, "Kees Cook" <kees@kernel.org>, "Alexander Viro"
+ <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>, "Jonathan Corbet"
+ <corbet@lwn.net>, <linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <bpf@vger.kernel.org>, <jannh@google.com>, <mail@johnericson.me>
+Subject: Re: [PATCH v2 0/9] binfmt_misc: bpf-backed binary type handlers
+From: "Farid Zakaria" <farid.m.zakaria@gmail.com>
+X-Mailer: aerc 0.21.0
+References: <20260714-work-bpf-binfmt_misc-v2-0-57b7529c002c@kernel.org>
+ <178407531866.2243172.12944140194021045628.b4-review@b4>
+ <20260715-reorganisation-umtausch-radiergummi-8b38ca81ebb0@brauner>
+In-Reply-To: <20260715-reorganisation-umtausch-radiergummi-8b38ca81ebb0@brauner>
 
-Hi Christoph,
+On Wed Jul 15, 2026 at 1:40 AM PDT, Christian Brauner wrote:
+> On 2026-07-14 17:28 -0700, Farid Zakaria wrote:
+>> On Tue, 14 Jul 2026 21:58:05 +0200, Christian Brauner <brauner@kernel.or=
+g> wrote:
+>> > [...]
+>> > 		.load =3D (void *)nix_load,
+>> > 		.name =3D "nix",
+>> > 	};
+>> >=20
+>> > Farid, this should slot underneath your qemu demo from [4] with the
+>> > program ported to struct_ops. Feel free to take it from here.
+>>=20
+>> Thanks for the recent update.
+>> Is it still "take it from here" or was this left-over from the previous
+>> series.
+>
+> Leftover from the previous series. :) Sorry.
+>
 
-On Mon, 2026-07-13 at 15:33 -0700, Viacheslav Dubeyko wrote:
-> On Mon, 2026-07-13 at 11:58 +0200, Christoph Hellwig wrote:
-> > On Fri, Jul 10, 2026 at 09:51:09AM -0700, Viacheslav Dubeyko wrote:
-> > > On Fri, 2026-07-10 at 07:07 +0200, Christoph Hellwig wrote:
-> > > > Hi all,
-> > > >=20
-> > > > we have 7 users of blockdev_direct_IO and one of the lower-
-> > > > level
-> > > > __blockdev_direct_IO left, and I'd really like to get rid of
-> > > > them.
-> > > >=20
-> > > > The filesystems are affs, fat, hfs, hfsplus, jfs, nilfs2, udf
-> > > > and
-> > > > ocfs2,
-> > > > and you are the relevant maintainers.=C2=A0 In 7.2 exfat converted
-> > > > entirely
-> > > > to iomap, which would be a really good example for a "simple"
-> > > > file
-> > > > system.=C2=A0 Another options especially for the file systems
-> > > > supporting
-> > > > foreign formats would be to just drop direct I/O support and
-> > > > reduce
-> > > > the support burden.
-> > >=20
-> > > I like the idea. I think we can try to switch HFS/HFS+ and NILFS2
-> > > on
-> > > iomap approach. Do you have some initial patches for this? Which
-> > > particular commit(s) converted the exfat to iomap? It will be
-> > > good
-> > > to
-> > > take a deeper look into this conversion to estimate the
-> > > complexity
-> > > of
-> > > HFS/HFS+, NILFS2 modifications.
-> >=20
-> > Almost all commits in fs/exfat/ in 7.2-rc1, starting with
-> > 623f0aa1eca5c2a94ca1e4e5de719d062eac3b6c
->=20
-> OK. Thanks for sharing this. :) Let me take a look and spend some
-> time
-> on this. I should have a time for checking commits during this week.
-> I
-> hope so. :)
->=20
+No problem -- just checking.
 
-I have a very initial state of patchset for HFS+ file system. I am
-testing it by xfstests now. As far as I can see, currently, this
-patchset introduced multiple xfstests failures. If you like I can share
-this patchset for discussion and review. Otherwise, let me fix the
-found xfstests failures at first and, then, I'll share the patchset for
-the review.
+>> I think you've done the majority of the work here with the validation of
+>> the few selftests and mentioning the gap for shebangs.
+>
+> It was a nice joint effort imo. I think this is in general an
+> interesting idea. I'm also working on some glibc loader patches. One
+> of the patches in this series allows for "transparent binary execution"
+> if the loader supports it.
+>
+> In this mode you can pass AT_EXECFD to an interpreter and don't change
+> the command line. An exec like this is indistinguishable from a "native"
+> exec.
+>
 
-Thanks,
-Slava.
+This sounds super interesting (orthogonal to binfmt_misc and BPF work right=
+?)
+but a neat feature nonetheless. I wonder if this makes it easier for
+tools like perf to attribute the correct binary or they have already
+handled interpreters in the cmdline well enough.
+
+>> Please let me know what you would like me to do next. I just tested
+>> reviewing the series with b4 + AI -- pretty cool. Was a little clunky to
+>> get it to work but overall a good experience. (I need to tinker with it
+>> a little for NixOS vim setup etc..)
+>>=20
+>> I shared this patch series at my workplace as well.=20
+>> I think there is some interest in the work.
+>> (If you are curious as to why, I can elaborate on that as well).
+>
+> Sure, happy to hear other use-cases. I have a plan to make it possible
+> to pre-open a set of interpreters (pin them essentially) when
+> registering the handler in binfmt_misc and then bpf would be able to
+> select from a set of pre-opened interpreters but that's for the future.
+>
+
+This is assuming that in prior calls to the BPF it returned the path
+string to be pinned?
+
+As for the use case, we use buck2 --
+a build system similar to Google's Bazel and does many things in spirit
+to Nix by leveraging RUN_PATH to create links to the shared-libraries.
+
+We have customized our interpreter however the lack of $ORIGIN means
+that we've had to maintain a single glibc versioning across our machines as
+a platform since glibc has tight coupling between the loader and the
+libc.
+
+This has been a pain point for upgrading. I think the ability for the
+loader to now be relative to $ORIGIN meanst hat each binary could
+diverge glibc/ld.so and not affect the rest of the machines.
+
+tl;dr; ld.so from $ORIGIN itself is not only useful but since it's
+intimately tied to glibc, it allows for more flexibililty across our
+builds (very similar to NixOS in spirit).
+
+>> I hope you are enjoying your vacation.
+>
+> Thanks!
+
