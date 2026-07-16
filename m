@@ -1,131 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E79740A95D;
-	Thu, 16 Jul 2026 11:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D35C41D63A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 11:57:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784201130; cv=none; b=n1A1Jv5jqD28rRyUDfb+0KSmBwsl4QLW0COJMFxxBNkahyp0R9Tln2GLMSATjHeQ8c+V+qy9BifWIAcN8J1s3KVePvYQKVb9XlG0c1PC1EHNSbHDFABx8WDoGzwsXVWnB5Vu2iOuc30WzCOMspfZz7+kISaLLU4WDwUxZw4bh64=
+	t=1784203073; cv=none; b=kQHjm7iL/6tfzG9u4IK/PND+g0URqorMhK/KOCUBdKbGZ9JcFsEojuG1qx7qZ02nUWYYAsoflqmZahfR6psOfEu+crL+VsIQnKLXr+1OzN5tjqmTpkbLAuZzgiEFM+EZsJlX+XX6ATIr++X1JmDoasscb8lc6H1/hz2j/dAGWjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784201130; c=relaxed/simple;
-	bh=iX9DO72Vy8uS4pnyZ8+Xk29zBNTpXjG7/J/bsdFI5CM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lOa68KlheZEOrlb+p03g7FwKWAN9FdQxbjLvHKMdOptKVnUnJWNrD9bttj/Q0gbTXTE835WK/qf41BUjPeSgJ1zbBFbhjebIVYpmN9ssrXZnnTlXbT2JQT1iolnU+Rn/8WtMRaxlOromPISBrYsUBu9e0ffkS4Cm0RlKWZa/Z44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RryvzxVo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784203073; c=relaxed/simple;
+	bh=+GHwzsQ+4i43LI5Xh5tdHnXG/sDaoYxRx5Sy1qBv2Ds=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=CJ/CbVc4/RSC14A8n//ptFBPdcG0TBtnkG1Vlik7ya9r8fjty8lTJCk9V/t+VZQE4IcJ5MMSG1y62xwb1nTynyRHq2gBWsbEhu111DfouUPXqU2ASMgx+qlLi6V0O4Lwk+mVOefKWWa4m251zg+H+p2/5zJmFYYNu2Q4zvPKLDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gQj9JGjL; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RryvzxVo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E81E01F000E9;
-	Thu, 16 Jul 2026 11:25:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784201129;
-	bh=HY5mAISzRjDuaOGCSRr9WBJLo0EMBFc5Iz9GfShRj10=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=RryvzxVodQXnTn9xCQPXMltWlXFJUlt2CgjGTaFdlp3t47wbs06NkPGko17Gn7EwB
-	 inEpa3tjRZt+nKqmvwvEn4W4IOvpPi3ky4isPC0Garl3xZURW0gnMQlH18zP2x4aGL
-	 yfHqHhECqm+Kcs5e2l1vfdvdfcB+7XJG1IK4HylWDb30WtB10Qrfdl0zRId2e59FaA
-	 KaST5P/UgZBvneg1skrfBzPDE8nobSWcxndU+OLP9ccVo0LQ7GLJ6eav3t/6NCYslB
-	 MUlLjJ0z0zYd8A0a5ossTczuz+JyrsCA143s9mbyGmMjwi1gvWhJLrWrtu1b7Smhit
-	 OXfmJyJ7KgTOQ==
-Message-ID: <714bdcbb-92cd-4dde-820c-e3761cbbaf07@kernel.org>
-Date: Thu, 16 Jul 2026 13:25:22 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gQj9JGjL"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-84862b0d5aeso7090931b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 16 Jul 2026 04:57:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784203069; x=1784807869; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:sender:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=crvbQPwYA/dMgK99dNCCjn85E0qewMxmyRRTho2IQ6E=;
+        b=gQj9JGjLqnzBb6FyIV1q/UgbGAUZfFqMXsYeDi5J+1ibSTCjTg2Pj7Gr5Svv2ulIi0
+         OWXu8/MV/IB81Zboqy8vUM06xP9doWZc+nYJGy9ugfLKEwrRSoUp3/iwrbmhLWGqbfB0
+         uAOhxmOeQ9hXYhpRUGlVJga+I4jgD7jn53Z6i75/OtO4joG93PK1no7iZ5ZsdUF0Sy4C
+         WgGax7JOiZ6dbj3a5OWCXau97ziGD6w+UE3LdsIKv+20hOljX3vwYhkJN6/WkSFRcD0M
+         SrLxkm7nVNETeJjzTAnF0wo3SEyBZPJKvZwepivEDOp3X3/77LJ9xiXa3Y1cx0vUf8nc
+         DHPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784203069; x=1784807869;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:sender:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=crvbQPwYA/dMgK99dNCCjn85E0qewMxmyRRTho2IQ6E=;
+        b=MYAnwGtjODdOl7kXw6SIaiaxuOSOpIGuV/l/ta++G8cSK2KNwPqNERuuvUsklPRscs
+         hihvWnnju7265QK12/DRO7RTxymB3xZDQzkSD9MLcdPe7MWEn5N7LnuTS/6332cYSB3V
+         DpBs0z9Qgp5v7SZLbBLOadbUpTLGTNLFMZ0jIzmPhN56NPLbmwJc8PtPry5XmR32QP+W
+         y8vnJMAIwUF3Hk8pzU+RMMnG90oIWOpdDwpNjWqpELRZcuW3s04NMlp9ejAyZQGlnRm5
+         0mHGGB1iwcQliGEd76grCqrbJLVz/GoGqFQuT5gXzcOfRHIW8W1zUykOZkBslbwanqNr
+         gtRQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqW4HMLJ84wOVpJxhb724RUrGsmg5HWdOd1X9KeIwlprs7LM+p1zVtqcpp5IlE3yn3bM7lxkZg+d2ToHdt3@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCuJz2bqICjipoUvoo1cBV/BmFq5hKMZekntVDRKNcmqa3GwUv
+	id1iR6w16CgStsOePUq58vqGJt3ypFglSXiemLa7ZQdpm+m5PaxVCj6ENbfrTVHn
+X-Gm-Gg: AfdE7cnaNFn+FI2wj1AM7IQZ8dM4lIBcRFsVZyiDTEYjzDaQwrEBt2W0JOgPlNK0yFV
+	ukrKxWrY6bLWD3q+5wp3WG3xmDzJ5ksCfVqC09POveDobuy1iJsNCtS/negvme6PkMY8nZbB15P
+	/GXaXEtX7p+0gA3nFXXHII6s+L3A+B4wD++sRkq3LjYr2MrOpOB6gMOrP9Dpw+/3uXAeZfRg0Os
+	JBwFbSMAL6sgOFNVGiZHdwcCTpBMER2VSAG3ygvOUstfH5o2JnRRSmQkDzKf+KNjl2aqjamesY2
+	VIUwOejMZqQdqeIj4u4N/4qqY9IPPhzpBdUgXVBdgb7I+YC5+7e1doM0mZN4F30k1h9v2TA+yoQ
+	xTtLZfBAvFXFVCCD79ZLo0tnRPgjksmpPyMSBxli3E62sUxclvQo6482N78dvN2tsZuLDlez6CU
+	sPWr/cRaChtwx4jRNSOnp8sLTwaA45o0XSHRNdv8tm
+X-Received: by 2002:a05:6a21:329b:b0:3b4:9171:2573 with SMTP id adf61e73a8af0-3c3571d0bf6mr12359951637.37.1784203068527;
+        Thu, 16 Jul 2026 04:57:48 -0700 (PDT)
+Received: from localhost.localdomain ([2406:7400:90:2db1:9c31:f107:8086:4204])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3140e6ebe98sm10920690eec.26.2026.07.16.04.57.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2026 04:57:47 -0700 (PDT)
+Sender: Deepak Rao Gaikwad <deepaksraog@gmail.com>
+From: deepakroag <gaikwad.dcg@gmail.com>
+To: Shuah Khan <shuah@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH v2 2/3] test: expand proc smaps coverage and require TMPFS
+Date: Thu, 16 Jul 2026 17:27:31 +0530
+Message-ID: <20260716115734.80909-3-gaikwad.dcg@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260716115734.80909-1-gaikwad.dcg@gmail.com>
+References: <20260716115734.80909-1-gaikwad.dcg@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/2] selftests/mm: add PAGEMAP_SCAN test for THP PMD
- holes
-To: Kiryl Shutsemau <kirill@shutemov.name>, akpm@linux-foundation.org
-Cc: usama.anjum@arm.com, peterx@redhat.com, liam@infradead.org,
- ljs@kernel.org, vbabka@kernel.org, jannh@google.com, pfalcato@suse.de,
- rppt@kernel.org, surenb@google.com, mhocko@suse.com, zenghui.yu@linux.dev,
- shuah@kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- stable@vger.kernel.org, kernel-team@meta.com
-References: <20260715144234.442721-1-kirill@shutemov.name>
- <20260715144234.442721-3-kirill@shutemov.name>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260715144234.442721-3-kirill@shutemov.name>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Add CONFIG_TMPFS to the selftest config. Assert Private_Clean,
+Private_Dirty, Swap, and SwapPss fields in /proc/$PID/smaps output.
 
-> +	/* Fast path: category_mask == return_mask == PAGE_IS_WRITTEN. */
-> +	ret = pagemap_ioctl(mem, hpage_size, regions, ARRAY_SIZE(regions), 0, 0,
-> +			    PAGE_IS_WRITTEN, 0, 0, PAGE_IS_WRITTEN);
-> +	for (i = 0; ret > 0 && i < ret; i++)
-> +		fast += LEN(regions[i]);
-> +
-> +	/* Generic path: same query expressed via category_anyof_mask. */
-> +	ret = pagemap_ioctl(mem, hpage_size, regions, ARRAY_SIZE(regions), 0, 0,
-> +			    0, PAGE_IS_WRITTEN, 0, PAGE_IS_WRITTEN);
-> +	for (i = 0; ret > 0 && i < ret; i++)
-> +		slow += LEN(regions[i]);
-> +
-> +	ksft_test_result(fast == npages && slow == npages,
-> +			 "%s pmd-hole reported written by both paths (%ld, %ld of %d)\n",
-> +			 __func__, fast, slow, npages);
-> +out:
-> +	wp_free(mem, hpage_size);
-> +	munmap(area, 2 * hpage_size);
-> +}
+Signed-off-by: deepakroag <gaikwad.dcg@gmail.com>
+---
+ tools/testing/selftests/proc/config        | 1 +
+ tools/testing/selftests/proc/proc-pid-vm.c | 5 ++++-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-Sorry if I wasn't clear. I think unpopulated_thp_scan_test() can actually reuse
-bits of unpopulated_scan_test().
-
-Either by having a magical "use_thp" parameter or by factoring stuff out into a
-helper.
-
-Or am I missing an important point why that would not work or be really ugly?
-
+diff --git a/tools/testing/selftests/proc/config b/tools/testing/selftests/proc/config
+index 68fbd2b35..7dfc3d381 100644
+--- a/tools/testing/selftests/proc/config
++++ b/tools/testing/selftests/proc/config
+@@ -1 +1,2 @@
+ CONFIG_PROC_FS=y
++CONFIG_TMPFS=y
+diff --git a/tools/testing/selftests/proc/proc-pid-vm.c b/tools/testing/selftests/proc/proc-pid-vm.c
+index 4e6a3e53f..59535bb3a 100644
+--- a/tools/testing/selftests/proc/proc-pid-vm.c
++++ b/tools/testing/selftests/proc/proc-pid-vm.c
+@@ -20,7 +20,6 @@
+  * Test /proc/$PID/smaps_rollup
+  * Test /proc/$PID/statm
+  *
+- * FIXME require CONFIG_TMPFS which can be disabled
+  * FIXME test other values from "smaps"
+  * FIXME support other archs
+  */
+@@ -409,6 +408,10 @@ int main(void)
+ 			"AnonHugePages:         0 kB\n",
+ 			"Shared_Hugetlb:        0 kB\n",
+ 			"Private_Hugetlb:       0 kB\n",
++			"Private_Clean:         4 kB\n",
++			"Private_Dirty:         0 kB\n",
++			"Swap:                  0 kB\n",
++			"SwapPss:               0 kB\n",
+ 			"Locked:                0 kB\n",
+ 		};
+ 		int i;
 -- 
-Cheers,
+Deepak Rao Gaikwad
 
-David
