@@ -1,40 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E125DC14A;
-	Thu, 16 Jul 2026 02:47:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB42427F19F;
+	Thu, 16 Jul 2026 02:47:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784170052; cv=none; b=PySHGgiKmMomcwBmTVu72r53myOMrkQJx2C6QhgAt5Ojbi2PiqXX0xpZvHJIRmNCUd4equcgeVs4ze0gzRoh39EwTzH72lqhdluFc3q1S1cVm/PQJ53PNAftw/O1OPgv363hKLN3o1mHXfQXRjcV8AKjFhoPmhinS1D5seTgvEE=
+	t=1784170054; cv=none; b=oR4HRdaTJrBV3CQoU5axnbkG4f1hgQ33CUBTgipLWgl/3ijM2Jv/Q1jlmsLXn7NMkC7mvH2LJGtjIUc0AbSHIl79x09FcFWAfSnGQzxYtfstRojRIiPRq10xvpmOfmq+jdyioMQc/UQpoqY+yj2+l4mG5Kdb7h2VINBhtlOCtLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784170052; c=relaxed/simple;
-	bh=bkgGfAtw6Zc0M8STuODUgWOkxj8/LfhGDCMEzmclJuo=;
+	s=arc-20240116; t=1784170054; c=relaxed/simple;
+	bh=EadGsnhomBSrXrwF90IfmoyD/VA8NaiY0HgA6t8iufo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Yx9Gx6u02R6a8RJbuM/E2TYCLaThoDAauuNrZWE5M/v7/WHbK1hTc5rJtFvrLEJ6nzVLUPTuHeW8AbmxaZMzVgslUeCSesFZByzFcEam48eHCQ9MRwIrMHTQSSQ6P+VTEPnAznoXoGZuH9lwwAxf916jhcN/r7yBbt6hK81pC70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LFXiXruh; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=dGeVGw1beo/bGeFhTYH9vOIYAjESTuSSjFdjSptSFXqPICvII/EUt173nbiuNoIkSJnFYJvMfxQQ55rPeDoP3zH+qEE52BQpLCrZM4Zdb4MlaEmwPY3/AlDsvIqoOFj3OmO8Y3jtF8zZN85Mz/cqG8EjWxFEjHC69ZjuBatYh80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=huGEOE8e; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LFXiXruh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E0691F000E9;
-	Thu, 16 Jul 2026 02:47:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="huGEOE8e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F21AF1F00A3A;
+	Thu, 16 Jul 2026 02:47:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784170050;
-	bh=fEqVQAjJdCHcrakS7WTOQ/eOTNMTCg+t4DD8+sZ+i5w=;
+	s=k20260515; t=1784170052;
+	bh=nXkQ4nnihBbhHD8fmJFZ6LxcgaOmCsRqTwnsciJLfhM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=LFXiXruhakqkYFplvHOuxKTjZRCnFTdH1COrQwOnHAZoHMuj3UmwTfzU2ao6vQXSW
-	 rV3XllrDNBKhSDqrgCfPuuJtAINX+uDiuBfGy/7iZMuig/c9my95e4eYEasYd6A5Yz
-	 lqjTVJqwC9L63v0iodR1TAP1G1KkEcovZ5ki76keLtjBJT/SA3Tmy+csDBe0p1dtd1
-	 N0r1Q7hGmWpQXp+3mmQ6Y/ZaGFnUHhml1KxxKzmRt8ADSt8BeTla5jOuhudwebbVd9
-	 K7vbRBoLT2PEautWjfCSXPxJkJ/qtkBDdTfz5RNiPrklBdAZxYU3Qo6k+jZwsYRrP+
-	 6hilbnyZGAv8Q==
+	b=huGEOE8eRdNg7xUDL9E0y4VmqSSFDK8NV7hBxqNE7VGm+kKb2MvaxJiFBeZRTUs0t
+	 SMuo7GWYKyC0Ti1v9j0aTmWiZL8iD4aoEBwcw2zutofSz9BStlNskKMJvI40G94Lds
+	 z2rCtKLxXLx2W+k0WPvW6DLa45rKWbIqsv2gECzZdKtT6cJHNfEPQZIGuQ4F3INlTU
+	 qqOie2ssuVr8JLJh+J8E5jW55uV9kA5hZfge6QkKCEs6/gvt41A79PuRrVhJk2jQcv
+	 f8o2HWtVuBCl2+zF0ZIA+RxBJjZ528lC+he1YjCN9AAquKcZDO9d7Ftt8laiawGaMZ
+	 2d5dCYcnDfaqg==
 From: Namjae Jeon <linkinjeon@kernel.org>
 To: hyc.lee@gmail.com
 Cc: ntfs@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH] ntfs: fix kmap_local_page() usage in compress
-Date: Thu, 16 Jul 2026 11:46:38 +0900
-Message-Id: <20260716024640.13396-4-linkinjeon@kernel.org>
+	Namjae Jeon <linkinjeon@kernel.org>
+Subject: [PATCH] ntfs: file extension before write submission
+Date: Thu, 16 Jul 2026 11:46:39 +0900
+Message-Id: <20260716024640.13396-5-linkinjeon@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260716024640.13396-1-linkinjeon@kernel.org>
 References: <20260716024640.13396-1-linkinjeon@kernel.org>
@@ -46,199 +45,231 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Several compressed I/O paths discard the address returned by
-kmap_local_page() and later access or unmap the page using page_address().
-This is invalid for highmem pages, and local mappings must also be unmapped
-using the address returned by kmap_local_page().
+Prepare non-resident file allocation and initialized-size extension in
+->write_iter() before entering the buffered or direct iomap write paths.
 
-Map each destination page in ntfs_decompress() only while producing the
-current sub-block. Use memcpy_from_page(), memcpy_to_page(), and
-memzero_page() for the other page accesses. Remove unnecessary local
-mappings from ntfs_write_cb(), where pages are accessed through the vmap()
-mapping.
+Previously, the iomap write callback extended initialized_size. When a
+direct write started beyond initialized_size,
+ntfs_extend_initialized_size() used iomap_zero_range() to zero the gap
+through the page cache. This created dirty folios after iomap DIO had
+invalidated its target cache range. The bsync path then had to
+synchronously write back the entire zeroed gap to prevent the post-DIO
+invalidation from encountering a dirty boundary folio.
 
-Fixes: 495e90fa3348 ("ntfs: update attrib operations")
-Reported-by: Matthew Wilcox <willy@infradead.org>
+Move allocation and initialized-size preparation ahead of iomap submission.
+For DIO, kiocb_invalidate_pages() now sees any dirty boundary folio created
+by iomap_zero_range(), writes it back when necessary, and invalidates it
+before the direct I/O is issued. This removes the explicit synchronous
+writeback of the zeroed gap while preserving the required boundary-folio
+ordering.
+
+Keep compressed writes out of the early initialized-size extension so their
+existing write path can zero uninitialized data before compression. Move
+compressed-file allocation expansion to write_iter as well, eliminating the
+now-redundant expansion from ntfs_compress_write().
+
 Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
 ---
- fs/ntfs/compress.c | 38 +++++++++++++++-----------------------
- 1 file changed, 15 insertions(+), 23 deletions(-)
+ fs/ntfs/compress.c | 10 ----------
+ fs/ntfs/file.c     | 43 +++++++++++++++++++++++++++++++++++++++++--
+ fs/ntfs/inode.c    |  6 +-----
+ fs/ntfs/inode.h    |  2 +-
+ fs/ntfs/iomap.c    | 34 +---------------------------------
+ 5 files changed, 44 insertions(+), 51 deletions(-)
 
 diff --git a/fs/ntfs/compress.c b/fs/ntfs/compress.c
-index d83d3e8e06ae..e866f43ca30b 100644
+index e866f43ca30b..fe1877b86f49 100644
 --- a/fs/ntfs/compress.c
 +++ b/fs/ntfs/compress.c
-@@ -177,6 +177,7 @@ static int ntfs_decompress(struct page *dest_pages[], int completed_pages[],
+@@ -1459,16 +1459,6 @@ int ntfs_compress_write(struct ntfs_inode *ni, loff_t pos, size_t count,
+ 	size_t written = 0;
+ 	struct address_space *mapping = VFS_I(ni)->i_mapping;
  
- 	/* Variables for uncompressed data / destination. */
- 	struct page *dp;	/* Current destination page being worked on. */
-+	u8 *dp_kaddr;		/* Local kmap for the current destination page. */
- 	u8 *dp_addr;		/* Current pointer into dp. */
- 	u8 *dp_sb_start;	/* Start of current sub-block in dp. */
- 	u8 *dp_sb_end;		/* End of current sb in dp (dp_sb_start + NTFS_SB_SIZE). */
-@@ -191,6 +192,7 @@ static int ntfs_decompress(struct page *dest_pages[], int completed_pages[],
- 	/* Default error code. */
- 	int err = -EOVERFLOW;
- 
-+	dp_kaddr = NULL;
- 	ntfs_debug("Entering, cb_size = 0x%x.", cb_size);
- do_next_sb:
- 	ntfs_debug("Beginning sub-block at offset = 0x%zx in the cb.",
-@@ -223,7 +225,6 @@ static int ntfs_decompress(struct page *dest_pages[], int completed_pages[],
- 				 */
- 				handle_bounds_compressed_page(dp, i_size,
- 						initialized_size);
--				kunmap_local(page_address(dp));
- 				SetPageUptodate(dp);
- 				unlock_page(dp);
- 				if (di == xpage)
-@@ -269,7 +270,8 @@ static int ntfs_decompress(struct page *dest_pages[], int completed_pages[],
- 	}
- 
- 	/* We have a valid destination page. Setup the destination pointers. */
--	dp_addr = (u8 *)page_address(dp) + do_sb_start;
-+	dp_kaddr = kmap_local_page(dp);
-+	dp_addr = dp_kaddr + do_sb_start;
- 
- 	/* Now, we are ready to process the current sub-block (sb). */
- 	if (!(le16_to_cpup((__le16 *)cb) & NTFS_SB_IS_COMPRESSED)) {
-@@ -290,6 +292,8 @@ static int ntfs_decompress(struct page *dest_pages[], int completed_pages[],
- 		/* Advance destination position to next sub-block. */
- 		*dest_ofs += NTFS_SB_SIZE;
- 		*dest_ofs &= ~PAGE_MASK;
-+		kunmap_local(dp_kaddr);
-+		dp_kaddr = NULL;
- 		if (!(*dest_ofs)) {
- finalize_page:
- 			/*
-@@ -324,6 +328,8 @@ static int ntfs_decompress(struct page *dest_pages[], int completed_pages[],
- 		}
- 		/* We have finished the current sub-block. */
- 		*dest_ofs &= ~PAGE_MASK;
-+		kunmap_local(dp_kaddr);
-+		dp_kaddr = NULL;
- 		if (!(*dest_ofs))
- 			goto finalize_page;
- 		goto do_next_sb;
-@@ -429,6 +435,8 @@ static int ntfs_decompress(struct page *dest_pages[], int completed_pages[],
- 	goto do_next_tag;
- 
- return_overflow:
-+	if (dp_kaddr)
-+		kunmap_local(dp_kaddr);
- 	ntfs_error(NULL, "Failed. Returning -EOVERFLOW.");
- 	goto return_error;
+-	if (NInoCompressed(ni) && pos + count > ni->allocated_size) {
+-		int err;
+-		loff_t end = pos + count;
+-
+-		err = ntfs_attr_expand(ni, end,
+-				round_up(end, ni->itype.compressed.block_size));
+-		if (err)
+-			return err;
+-	}
+-
+ 	pages = kmalloc_array(pages_per_cb, sizeof(struct page *), GFP_NOFS);
+ 	if (!pages)
+ 		return -ENOMEM;
+diff --git a/fs/ntfs/file.c b/fs/ntfs/file.c
+index 6a7b638e523d..9061f8f77f7e 100644
+--- a/fs/ntfs/file.c
++++ b/fs/ntfs/file.c
+@@ -535,6 +535,31 @@ static ssize_t ntfs_dio_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ 	return ret;
  }
-@@ -557,7 +565,6 @@ int ntfs_read_compressed_block(struct folio *folio)
- 			 * least wasting our time.
- 			 */
- 			if (!PageDirty(page) && (!PageUptodate(page))) {
--				kmap_local_page(page);
- 				continue;
- 			}
- 			unlock_page(page);
-@@ -643,8 +650,7 @@ int ntfs_read_compressed_block(struct folio *folio)
- 		}
  
- 		lock_page(lpage);
--		memcpy(cb_pos, page_address(lpage) + page_ofs,
--		       vol->cluster_size);
-+		memcpy_from_page(cb_pos, lpage, page_ofs, vol->cluster_size);
- 		unlock_page(lpage);
- 		put_page(lpage);
- 		cb_pos += vol->cluster_size;
-@@ -683,14 +689,7 @@ int ntfs_read_compressed_block(struct folio *folio)
- 		for (; cur_page < cb_max_page; cur_page++) {
- 			page = pages[cur_page];
- 			if (page) {
--				if (likely(!cur_ofs))
--					clear_page(page_address(page));
--				else
--					memset(page_address(page) + cur_ofs, 0,
--							PAGE_SIZE -
--							cur_ofs);
--				flush_dcache_page(page);
--				kunmap_local(page_address(page));
-+				memzero_page(page, cur_ofs, PAGE_SIZE - cur_ofs);
- 				SetPageUptodate(page);
- 				unlock_page(page);
- 				if (cur_page == xpage)
-@@ -708,8 +707,7 @@ int ntfs_read_compressed_block(struct folio *folio)
- 		if (cb_max_ofs && cb_pos < cb_end) {
- 			page = pages[cur_page];
- 			if (page)
--				memset(page_address(page) + cur_ofs, 0,
--						cb_max_ofs - cur_ofs);
-+				memzero_page(page, cur_ofs, cb_max_ofs - cur_ofs);
- 			/*
- 			 * No need to update cb_pos at this stage:
- 			 *	cb_pos += cb_max_ofs - cur_ofs;
-@@ -730,7 +728,7 @@ int ntfs_read_compressed_block(struct folio *folio)
- 		for (; cur_page < cb_max_page; cur_page++) {
- 			page = pages[cur_page];
- 			if (page)
--				memcpy(page_address(page) + cur_ofs, cb_pos,
-+				memcpy_to_page(page, cur_ofs, cb_pos,
- 						PAGE_SIZE - cur_ofs);
- 			cb_pos += PAGE_SIZE - cur_ofs;
- 			cur_ofs = 0;
-@@ -741,7 +739,7 @@ int ntfs_read_compressed_block(struct folio *folio)
- 		if (cb_max_ofs && cb_pos < cb_end) {
- 			page = pages[cur_page];
- 			if (page)
--				memcpy(page_address(page) + cur_ofs, cb_pos,
-+				memcpy_to_page(page, cur_ofs, cb_pos,
- 						cb_max_ofs - cur_ofs);
- 			cb_pos += cb_max_ofs - cur_ofs;
- 			cur_ofs = cb_max_ofs;
-@@ -758,7 +756,6 @@ int ntfs_read_compressed_block(struct folio *folio)
- 				 */
- 				handle_bounds_compressed_page(page, i_size,
- 						initialized_size);
--				kunmap_local(page_address(page));
- 				SetPageUptodate(page);
- 				unlock_page(page);
- 				if (cur2_page == xpage)
-@@ -794,7 +791,6 @@ int ntfs_read_compressed_block(struct folio *folio)
- 				page = pages[prev_cur_page];
- 				if (page) {
- 					flush_dcache_page(page);
--					kunmap_local(page_address(page));
- 					unlock_page(page);
- 					if (prev_cur_page != xpage)
- 						put_page(page);
-@@ -818,7 +814,6 @@ int ntfs_read_compressed_block(struct folio *folio)
- 				"Still have pages left! Terminating them with extreme prejudice.  Inode 0x%llx, page index 0x%lx.",
- 				ni->mft_no, folio->index);
- 			flush_dcache_folio(folio);
--			kunmap_local(page_address(page));
- 			folio_unlock(folio);
- 			if (cur_page != xpage)
- 				folio_put(folio);
-@@ -856,7 +851,6 @@ int ntfs_read_compressed_block(struct folio *folio)
- 		page = pages[i];
- 		if (page) {
- 			flush_dcache_page(page);
--			kunmap_local(page_address(page));
- 			unlock_page(page);
- 			if (i != xpage)
- 				put_page(page);
-@@ -1308,7 +1302,6 @@ static int ntfs_write_cb(struct ntfs_inode *ni, loff_t pos, struct page **pages,
++static int ntfs_expand_for_write(struct ntfs_inode *ni, loff_t end)
++{
++	struct ntfs_volume *vol = ni->vol;
++	loff_t prealloc_size = 0;
++	int err;
++
++	if (end <= ni->data_size)
++		return 0;
++
++	if (NInoCompressed(ni)) {
++		if (end > ni->allocated_size)
++			prealloc_size = round_up(end,
++						 ni->itype.compressed.block_size);
++	} else if (end > ni->allocated_size &&
++		   end < ni->allocated_size + vol->preallocated_size) {
++		prealloc_size = ni->allocated_size + vol->preallocated_size;
++	}
++
++	mutex_lock(&ni->mrec_lock);
++	err = ntfs_attr_expand(ni, end, prealloc_size);
++	mutex_unlock(&ni->mrec_lock);
++
++	return err;
++}
++
+ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ {
+ 	struct file *file = iocb->ki_filp;
+@@ -543,7 +568,7 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ 	struct ntfs_volume *vol = ni->vol;
+ 	ssize_t ret;
+ 	ssize_t count;
+-	loff_t pos;
++	loff_t pos, end;
+ 	int err;
+ 	loff_t old_data_size, old_init_size;
+ 
+@@ -580,10 +605,24 @@ static ssize_t ntfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ 
+ 	pos = iocb->ki_pos;
+ 	count = ret;
++	end = pos + count;
+ 
+ 	old_data_size = ni->data_size;
+ 	old_init_size = ni->initialized_size;
+ 
++	if (end > old_data_size) {
++		ret = ntfs_expand_for_write(ni, end);
++		if (ret < 0)
++			goto out;
++	}
++
++	if (NInoNonResident(ni) && !NInoCompressed(ni) &&
++	    end > old_init_size) {
++		ret = ntfs_extend_initialized_size(vi, pos, end);
++		if (ret < 0)
++			goto out;
++	}
++
+ 	if (NInoNonResident(ni) && NInoCompressed(ni)) {
+ 		ret = ntfs_compress_write(ni, pos, count, from);
+ 		if (ret > 0)
+@@ -655,7 +694,7 @@ static int ntfs_file_mmap_prepare(struct vm_area_desc *desc)
+ 			   from + desc->end - desc->start);
+ 
+ 		if (NTFS_I(inode)->initialized_size < to) {
+-			err = ntfs_extend_initialized_size(inode, to, to, false);
++			err = ntfs_extend_initialized_size(inode, to, to);
+ 			if (err)
+ 				return err;
  		}
- 		pages_disk[i] = pg;
- 		lock_page(pg);
--		kmap_local_page(pg);
+diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
+index 7381a18cfadd..50e244aa372e 100644
+--- a/fs/ntfs/inode.c
++++ b/fs/ntfs/inode.c
+@@ -2401,7 +2401,7 @@ int ntfs_show_options(struct seq_file *sf, struct dentry *root)
+ }
+ 
+ int ntfs_extend_initialized_size(struct inode *vi, const loff_t offset,
+-				 const loff_t new_size, bool bsync)
++				 const loff_t new_size)
+ {
+ 	struct ntfs_inode *ni = NTFS_I(vi);
+ 	loff_t old_init_size;
+@@ -2428,10 +2428,6 @@ int ntfs_extend_initialized_size(struct inode *vi, const loff_t offset,
+ 				       &ntfs_iomap_folio_ops, NULL);
+ 		if (err)
+ 			return err;
+-		if (bsync)
+-			err = filemap_write_and_wait_range(vi->i_mapping,
+-							   old_init_size,
+-							   offset - 1);
  	}
  
- 	outbuf = vmap(pages_disk, pages_count, VM_MAP, PAGE_KERNEL);
-@@ -1443,7 +1436,6 @@ static int ntfs_write_cb(struct ntfs_inode *ni, loff_t pos, struct page **pages,
- 	for (i = 0; i < pages_count; i++) {
- 		pg = pages_disk[i];
- 		if (pg) {
--			kunmap_local(page_address(pg));
- 			unlock_page(pg);
- 			put_page(pg);
- 		}
+ 
+diff --git a/fs/ntfs/inode.h b/fs/ntfs/inode.h
+index 9aacd5787ffe..c6d065aaecd5 100644
+--- a/fs/ntfs/inode.h
++++ b/fs/ntfs/inode.h
+@@ -352,7 +352,7 @@ static inline void ntfs_commit_inode(struct inode *vi)
+ 
+ int ntfs_inode_sync_filename(struct ntfs_inode *ni);
+ int ntfs_extend_initialized_size(struct inode *vi, const loff_t offset,
+-		const loff_t new_size, bool bsync);
++		const loff_t new_size);
+ void ntfs_set_vfs_operations(struct inode *inode, mode_t mode, dev_t dev);
+ struct folio *ntfs_get_locked_folio(struct address_space *mapping,
+ 		pgoff_t index, pgoff_t end_index, struct file_ra_state *ra);
+diff --git a/fs/ntfs/iomap.c b/fs/ntfs/iomap.c
+index 52eecf5cb256..26a1831a2c18 100644
+--- a/fs/ntfs/iomap.c
++++ b/fs/ntfs/iomap.c
+@@ -675,21 +675,7 @@ static int ntfs_write_iomap_begin_non_resident(struct inode *inode, loff_t offse
+ 					       loff_t length, unsigned int flags,
+ 					       struct iomap *iomap, int ntfs_iomap_flags)
+ {
+-	struct ntfs_inode *ni = NTFS_I(inode);
+-
+-	if (ntfs_iomap_flags & (NTFS_IOMAP_FLAGS_BEGIN | NTFS_IOMAP_FLAGS_DIO) &&
+-	    offset + length > ni->initialized_size) {
+-		int ret;
+-
+-		ret = ntfs_extend_initialized_size(inode, offset,
+-						   offset + length,
+-						   ntfs_iomap_flags &
+-						   NTFS_IOMAP_FLAGS_DIO);
+-		if (ret < 0)
+-			return ret;
+-	}
+-
+-	mutex_lock(&ni->mrec_lock);
++	mutex_lock(&NTFS_I(inode)->mrec_lock);
+ 	if (ntfs_iomap_flags & NTFS_IOMAP_FLAGS_BEGIN)
+ 		return  ntfs_write_simple_iomap_begin_non_resident(inode, offset,
+ 								   length, iomap);
+@@ -705,28 +691,10 @@ static int __ntfs_write_iomap_begin(struct inode *inode, loff_t offset,
+ 				    struct iomap *iomap, int ntfs_iomap_flags)
+ {
+ 	struct ntfs_inode *ni = NTFS_I(inode);
+-	loff_t end = offset + length;
+ 
+ 	if (NVolShutdown(ni->vol))
+ 		return -EIO;
+ 
+-	if (ntfs_iomap_flags & (NTFS_IOMAP_FLAGS_BEGIN | NTFS_IOMAP_FLAGS_DIO) &&
+-	    end > ni->data_size) {
+-		struct ntfs_volume *vol = ni->vol;
+-		int ret;
+-
+-		mutex_lock(&ni->mrec_lock);
+-		if (end > ni->allocated_size &&
+-		    end < ni->allocated_size + vol->preallocated_size)
+-			ret = ntfs_attr_expand(ni, end,
+-					ni->allocated_size + vol->preallocated_size);
+-		else
+-			ret = ntfs_attr_expand(ni, end, 0);
+-		mutex_unlock(&ni->mrec_lock);
+-		if (ret)
+-			return ret;
+-	}
+-
+ 	if (!NInoNonResident(ni)) {
+ 		mutex_lock(&ni->mrec_lock);
+ 		return ntfs_write_iomap_begin_resident(inode, offset, iomap);
 -- 
 2.25.1
 
